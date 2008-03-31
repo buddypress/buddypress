@@ -347,4 +347,278 @@ function bp_get_homeurl()
 	}
 }
 
+// get the IDs of user blogs in a comma-separated list for use in SQL statements
+function bp_get_blog_ids_of_user($id, $all = false)
+{
+	$blogs = get_blogs_of_user($id, $all);
+	$blog_ids = "";
+	if ($blogs && count($blogs) > 0)
+	{
+		foreach($blogs as $blog)
+		{
+			$blog_ids .= $blog->blog_id.",";
+		}
+	}
+	$blog_ids = trim($blog_ids, ",");
+	return $blog_ids;
+}
+
+// return a tick for a checkbox for a true boolean value
+function bp_boolean_ticked($bool)
+{
+	if ($bool)
+	{
+		return " checked=\"checked\"";
+	}
+	return "";
+}
+
+// return a tick for a checkbox for a particular value
+function bp_value_ticked($var, $value)
+{
+	if ($var == $value)
+	{
+		return " checked=\"checked\"";
+	}
+	return "";
+}
+
+// return true for a boolean value from a checkbox
+function bp_boolean($value = 0)
+{
+	if ($value != "")
+	{
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
+// return an integer
+function bp_int($var,$nullToOne=false)
+{
+	if (@$var == "")
+	{
+		if ($nullToOne)
+		{
+			return 1;
+		} else {
+			return 0;
+		}
+	} else {
+		return (int)$var;
+	}
+}
+
+// get the start number for pagination
+function bp_get_page_start($p, $num)
+{
+	$p = bp_int($p);
+	$num = bp_int($num);
+	if ($p == "")
+	{
+		return 0;
+	} else {
+		return ($p*$num)-$num;
+	}
+}
+
+// get the page number from the $_GET["p"] variable
+function bp_get_page()
+{
+	if (isset($_GET["p"]) ? $page = (int)$_GET["p"] : $page = 1);
+	return $page;
+}
+
+// generate page links
+function bp_generate_pages_links($totalRows,$maxPerPage=25,$linktext="",$var,$attributes="")
+{
+    // loop all the pages in the result set
+    for ($i = 1; $i <= ceil($totalRows/$maxPerPage); $i++)
+    {
+		// if the current page is different to this link, create the querystring
+		$page = bp_int(@$var,true);
+		if ($i != $page)
+		{
+			if ($linktext == ""){
+				$link = "?p=" . $i;
+			} else {
+				$link = str_replace("%%", $i, $linktext);
+			}
+			$links["link"][] = $link;
+			$links["text"][] = $i;
+			$links["attributes"][] = str_replace("%%", $i, $attributes);
+			// otherwise make the link empty
+		} else {
+			$links["link"][] = "";
+			$links["text"][] = $i;
+			$links["attributes"][] = str_replace("%%", $i, $attributes);
+		}
+    }
+    // return the links
+    return $links;
+}
+
+// generate page link list
+function bp_paginate($links,$currentPage=1, $firstItem="", $listclass="")
+{
+	$return = "";
+	// check the parameter is an array with more than 1 items in
+	if (is_array($links) && count($links["text"]) > 1)
+	{
+		// get the total number of links
+		$totalPages = count($links["text"]);
+		// set showstart and showend to false
+		$showStart = false;
+		$showEnd = false;
+		// if the total number of pages is greater than 10
+		if ($totalPages > 10)
+		{
+			// if the current page is less than 5 from the start
+			if ($currentPage <= 5)
+			{
+				// set the minimum and maximum pages to show
+				$minimum = 0;
+				$maximum = 9;
+				$showEnd = true;
+			}
+			// if the current page is less than 5 from the end
+			if ($currentPage >= ($totalPages-5))
+			{
+				// set the minumum and maximum pages to show
+				$minimum = $totalPages-9;
+				$maximum = $totalPages;
+				$showStart = true;
+			}
+			// if the current page is somewhere in the middle
+			if ($currentPage > 5 && $currentPage < ($totalPages-5))
+			{
+				$showEnd = true;
+				$showStart = true;
+				$minimum = $currentPage-4;
+				$maximum = $currentPage+4;
+			}
+		} else {
+			$minimum = 0;
+			$maximum = $totalPages;
+		}
+		// print the start of the list
+		$return .= "\n\n<ul class=\"pagelinks";
+		if ($listclass!=""){ $return .= " ".$listclass; }
+		$return .= "\">\n";
+		// print the first item, it if is set
+		if ($firstItem != "")
+		{
+			$return .= "<li>".$firstItem."</li>\n";
+		}
+		// print the page text
+		$return .= "<li>Pages:</li>\n";
+		// if set, show the start
+		if ($showStart){
+			$return .= "<li><a href=\"" . str_replace("&", "&amp;", $links["link"][0]) . "\">" . $links["text"][0] . "...</a></li>\n";
+		}
+		// loop the links
+		for ($i = $minimum; $i < $maximum; $i++)
+		{
+			if ($i == ($currentPage-1))
+			{
+				$url = "<li class=\"current\">" . $links["text"][$i] . "</li>\n";
+			} else {
+				if ($links["attributes"][$i] != "")
+				{
+					$attributes = " ".$links["attributes"][$i];
+				} else {
+					$attributes = "";
+				}
+				$url = "<li><a href=\"" . str_replace("&", "&amp;", $links["link"][$i]) . "\"".$attributes.">" . $links["text"][$i] . "</a></li>\n";
+			}
+			$return .= $url;
+		}
+		// if set, show the end
+		if ($showEnd){
+			$return .= "<li><a href=\"" . str_replace("&", "&amp;", $links["link"][$totalPages-1]) . "\">..." . $links["text"][$totalPages-1] . "</a></li>\n";
+		}
+		$return .= "</ul>\n\n";
+	}
+return $return;
+}
+
+// show a friendly date
+function bp_friendly_date($timestamp)
+{
+	// set the timestamp to now if it hasn't been given
+	if (strlen($timestamp) == 0){ $timestamp = time(); }
+	
+	// create the date string
+	if (date("m", $timestamp)==date("m") && date("d", $timestamp)==date("d")-1 && date("Y", $timestamp)==date("Y")){
+		return "yesterday at ".date("g:i a", $timestamp);
+	} else if (date("m", $timestamp)==date("m") && date("d", $timestamp)==date("d") && date("Y", $timestamp)==date("Y")){
+		return "at ".date("g:i a", $timestamp);
+	} else if (date("m", $timestamp)==date("m") && date("d", $timestamp)>date("d")-5 && date("Y", $timestamp)==date("Y")){
+		return "on ".date("l", $timestamp)." at ".date("g:i a", $timestamp);
+	} else if (date("Y", $timestamp)==date("Y")){
+		return "on ".date("F jS", $timestamp);
+	} else {
+		return "on ".date("F jS Y", $timestamp);
+	}
+}
+
+// search users
+function bp_search_users($q, $start = 0, $num = 10)
+{
+	if (trim($q) != "")
+	{
+		global $wpdb;
+		global $wpmuBaseTablePrefix;
+		global $current_user;
+		$sql = "select SQL_CALC_FOUND_ROWS id, user_login, display_name, user_nicename from ".$wpmuBaseTablePrefix."users
+				where (user_nicename like '%".$wpdb->escape($q)."%'
+				or user_email like '%".$wpdb->escape($q)."%'
+				or display_name like '%".$wpdb->escape($q)."%')
+				and (id <> ".$current_user->ID." and id > 1)
+				limit ".$wpdb->escape($start).", ".$wpdb->escape($num).";";
+				//print $sql;
+		$users = $wpdb->get_results($sql);
+		$rows = $wpdb->get_var("SELECT found_rows() AS found_rows");
+		if (is_array($users) && count($users) >0)
+		{
+			for ($i = 0; $i < count($users); $i++)
+			{
+				$user = $users[$i];
+				$user->siteurl = $user->user_url;
+				$user->blogs = "";
+				$user->blogs = get_blogs_of_user($user->id);
+				$user->rows = $rows;
+			}
+			return $users;
+		} else {
+			return false;
+		}
+	} else {
+		return false;
+	}
+}
+
+// return a ' if the text ends in an "s", or "'s" otherwise
+function bp_end_with_s($string)
+{
+	if (substr(strtolower($string), -1) == "s")
+	{
+		return $string."'";
+	} else {
+		return $string."'s";
+	}
+}
+
+// pluralise a string
+function bp_plural($num, $ifone="", $ifmore="s")
+{
+	if (bp_int($num) <> 1)
+	{
+		return $ifmore;
+	} else {
+		return $ifone;
+	}
+}
+
 ?>
