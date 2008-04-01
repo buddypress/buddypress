@@ -217,7 +217,7 @@ function xprofile_edit()
 		<h2><?php echo $group->name ?> <?php _e("Information") ?></h2>
 
 		<?php
-		
+			
 			if($group->fields)
 			{
 				$errors = null;
@@ -226,56 +226,56 @@ function xprofile_edit()
 				for($j = 0; $j < count($group->fields); $j++)
 				{	
 					$field = new BP_XProfile_Field($group->fields[$j]->id);	
+					$field_ids[] = $group->fields[$j]->id;
 					
 					if(isset($_GET['mode']) && $_GET['mode'] == "save")
 					{
 						$post_field_string = ( $group->fields[$j]->type == 'datebox' ) ? '_day' : null;
-						$current_field = $_POST['field_' . $group->fields[$j]->id . $post_field_string];
-					
-						if(isset($current_field) /*&& ($field->data->value != $current_field)*/)
+						$posted_fields = explode(",", $_POST['field_ids']);
+						$current_field = $_POST['field_' . $posted_fields[$j] . $post_field_string];
+
+						if(($field->is_required && !isset($current_field)) ||
+						   ($field->is_required && $current_field == ''))
 						{
-							if($field->is_required && $current_field == '')
+							// Validate the field.
+							$field->message = __($field->name . ' cannot be left blank.');
+							$errors[] = $field->message . "<br />";
+						}
+						else if(!$field->is_required && $current_field == '')
+						{
+							// data removed, so delete the field data from the DB.								
+							$profile_data = new BP_Xprofile_ProfileData($group->fields[$j]->id);
+							$profile_data->delete();
+							$field->data->value = null;
+						}
+						else
+						{
+							// Field validates, save.
+							$profile_data = new BP_Xprofile_ProfileData;
+							$profile_data->field_id = $group->fields[$j]->id;
+							$profile_data->user_id = $userdata->ID;
+							$profile_data->last_updated = time();
+
+							if($post_field_string != null)
 							{
-								// Validate the field.
-								$field->message = __($field->name . ' cannot be left blank.');
-								$errors[] = $field->message . "<br />";
+								$date_value = $_POST['field_' . $group->fields[$j]->id . '_day'] . 
+										      $_POST['field_' . $group->fields[$j]->id . '_month'] . 
+											  $_POST['field_' . $group->fields[$j]->id . '_year'];
+
+								$profile_data->value = strtotime($date_value);
 							}
-							else if(!$field->is_required && $current_field == '')
+							else 
 							{
-								// data removed, so delete the field data from the DB.								
-								$profile_data = new BP_Xprofile_ProfileData($group->fields[$j]->id);
-								$profile_data->delete();
-								$field->data->value = null;
+								$profile_data->value = $current_field;
+							}
+
+							if(!$profile_data->save())
+							{
+								$field->message = __('There was a problem saving changes to this field, please try again.');
 							}
 							else
 							{
-								// Field validates, save.
-								$profile_data = new BP_Xprofile_ProfileData;
-								$profile_data->field_id = $group->fields[$j]->id;
-								$profile_data->user_id = $userdata->ID;
-								$profile_data->last_updated = time();
-
-								if($post_field_string != null)
-								{
-									$date_value = $_POST['field_' . $group->fields[$j]->id . '_day'] . 
-											      $_POST['field_' . $group->fields[$j]->id . '_month'] . 
-												  $_POST['field_' . $group->fields[$j]->id . '_year'];
-
-									$profile_data->value = strtotime($date_value);
-								}
-								else 
-								{
-									$profile_data->value = $current_field;
-								}
-
-								if(!$profile_data->save())
-								{
-									$field->message = __('There was a problem saving changes to this field, please try again.');
-								}
-								else
-								{
-									$field->data->value = $profile_data->value;
-								}
+								$field->data->value = $profile_data->value;
 							}
 						}
 					}
@@ -321,7 +321,9 @@ function xprofile_edit()
 		<?php } ?>
 
 		<form action="admin.php?page=<?php echo $_GET['page'] ?>&amp;mode=save" method="post">
-
+		<?php $field_ids = implode(",", $field_ids); ?>
+		<input type="hidden" name="field_ids" id="field_ids" value="<?php echo $field_ids; ?>" />
+		
 		<?php echo $list_html; ?>
 
 		</form>

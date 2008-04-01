@@ -610,13 +610,12 @@ Class BP_XProfile_Field
 	function render_admin_form($message = '')
 	{
 		$options = $this->get_children();
+
 	?>
 	
 	<div class="wrap">
 		
 		<h2><?php _e("Profile Settings") ?> &raquo; <?php _e('Add Field') ?></h2>
-					
-		<p>You are adding a new field to the group "<?php echo $this->name; ?>".</p>
 
 		<?php if($message != '') { ?>
 			<div id="message" class="error fade">
