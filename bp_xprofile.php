@@ -226,13 +226,13 @@ function xprofile_edit()
 				for($j = 0; $j < count($group->fields); $j++)
 				{	
 					$field = new BP_XProfile_Field($group->fields[$j]->id);	
-
+					
 					if(isset($_GET['mode']) && $_GET['mode'] == "save")
 					{
-						$post_field_string = ( $group->fields[$j]->field_type == 'datebox' ) ? '_day' : null;
+						$post_field_string = ( $group->fields[$j]->type == 'datebox' ) ? '_day' : null;
 						$current_field = $_POST['field_' . $group->fields[$j]->id . $post_field_string];
-
-						if(isset($current_field) && ($field->data->value != $current_field))
+					
+						if(isset($current_field) /*&& ($field->data->value != $current_field)*/)
 						{
 							if($field->is_required && $current_field == '')
 							{

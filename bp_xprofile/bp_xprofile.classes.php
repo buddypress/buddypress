@@ -881,7 +881,6 @@ Class BP_XProfile_ProfileData
 						'" . $this->value . "',
 						" . $this->last_updated . "
 					)";
-					echo $sql;
 			}
 						
 			if($wpdb->query($sql) === false)
