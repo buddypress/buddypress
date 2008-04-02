@@ -423,6 +423,8 @@ Class BP_XProfile_Field
 	
 	function get_edit_html($value = null)
 	{
+		global $image_base;
+		
 		$asterisk = '';
 		if($this->is_required)
 		{
@@ -481,7 +483,7 @@ Class BP_XProfile_Field
 			case "radio":
 				$options = $this->get_children();
 				
-				$html .= '<div class="radio"><span>' . $asterisk . $this->name . ':</span>' . $this->message;
+				$html .= '<div class="radio" id="field_' . $this->id . '"><span>' . $asterisk . $this->name . ':</span>' . $this->message;
 				for($k = 0; $k < count($options); $k++)
 				{
 					$option_value = BP_XProfile_ProfileData::get_value($options[$k]->parent_id);
@@ -499,6 +501,11 @@ Class BP_XProfile_Field
 				
 				$html .= '<span class="desc">' . $this->desc . '</span>';				
 				$html .= '</div>';
+				
+				if(!$this->is_required) {
+					$html .= '<a href="javascript:clear(\'field_' . $this->id . '\');"><img src="' . $image_base . '/cross.gif" alt="Clear" /> Clear</a>';
+				}
+				
 			break;
 			
 			case "datebox":
