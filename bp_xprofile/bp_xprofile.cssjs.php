@@ -143,7 +143,13 @@ function xprofile_add_css()
 				}
 		
 		p.success { background: green;}
-		p.err { background: red;}
+		p.err { 
+			border-top: 2px solid red;
+			border-bottom: 2px solid red;
+			color: red;
+			padding: 5px 0;
+			width: 40%;
+		}
 		
 		span.desc {
 			display: block;

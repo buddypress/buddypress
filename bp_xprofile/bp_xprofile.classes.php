@@ -509,17 +509,22 @@ Class BP_XProfile_Field
 			break;
 			
 			case "datebox":
-				if($this->data->value != "")
+				if($this->data->value != '')
 				{
 					$day = date("j", $this->data->value);
 					$month = date("F", $this->data->value);
-					$year = date("Y", $this->data->value);	
+					$year = date("Y", $this->data->value);
+					$default_select = ' selected="selected"';
+					
 				}
 				
+				$html .= '<div id="field_' . $this->id . '"';
 				$html .= '<label for="field_' . $this->id . '_day">' . $asterisk . $this->name . ':</label>';
 				
 				$html .= $this->message . '
 				<select name="field_' . $this->id . '_day" id="field_' . $this->id . '_day">';
+				$html .= '<option value=""' . $default_select . '>--</option>';
+				
 				
 				for($i = 1; $i < 32; $i++)
 				{
@@ -541,12 +546,13 @@ Class BP_XProfile_Field
 				
 				$html .= '
 				<select name="field_' . $this->id . '_month" id="field_' . $this->id . '_month">';
+				$html .= '<option value=""' . $default_select . '>------</option>';
 				
 				for($i = 0; $i < 12; $i++)
 				{
 					if($month == $months[$i])
 					{
-						$selected = ' selected = "selected"'; 
+						$selected = ' selected = "selected"';
 					}
 					else
 					{
@@ -555,12 +561,13 @@ Class BP_XProfile_Field
 					
 					$html .= '<option value="' . $months[$i] . '"' . $selected . '>' . $months[$i] . '</option>';
 				}
-				
+
 				$html .= '</select>';
 				
 				$html .= '
 				<select name="field_' . $this->id . '_year" id="field_' . $this->id . '_year">';
-				
+				$html .= '<option value=""' . $default_select . '>----</option>';
+								
 				for($i = date('Y', time()); $i > 1899; $i--)
 				{
 					if($year == $i)
@@ -577,6 +584,8 @@ Class BP_XProfile_Field
 				
 				$html .= '</select>';
 				$html .= '<span class="desc">' . $this->desc . '</span>';
+				$html .= '</div>';
+				
 			break;
 		}
 		
@@ -860,7 +869,7 @@ Class BP_XProfile_ProfileData
 
 		if($this->is_valid_field())
 		{
-			if($this->exists())
+			if($this->exists() && $this->value != '')
 			{
 
 				$sql = "UPDATE " . $this->table_name . "_data
@@ -872,6 +881,11 @@ Class BP_XProfile_ProfileData
 						AND
 							field_id = " . $this->field_id;		
 
+			}
+			else if($this->exists() and $this->value == '')
+			{
+				// Data removed, delete the entry.
+				$this->delete();
 			}
 			else
 			{
@@ -1038,7 +1052,22 @@ Class BP_XProfile_Picture
 	
 	function delete()
 	{
+		$current = $this->get_current();
 		
+		if($this->filename == $current['picture']) {
+			update_option('profile_picture', 'none.gif');
+			update_option('profile_picture_thumbnail', 'none.gif');
+		}
+		
+		if(file_exists($this->path . "/" . $this->filename)) {
+			unlink($this->path . "/" . $this->filename);
+		}
+		
+		if(file_exists($this->path . "/" . $this->thumb_filename)) {
+			unlink($this->path . "/" . $this->thumb_filename);
+		}
+
+		return true;
 	}
 
 	function set($option_name)

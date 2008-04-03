@@ -379,23 +379,15 @@ function xprofile_picture()
 		if(bp_core_clean($_GET['file']))
 		{
 			$picture = new BP_XProfile_Picture($_GET['file']);
-			
+
 			if(!$picture->delete())
 			{
 				$message = __('Profile picture could not be deleted. Please try again.');
 				$type = 'error';
 			}
-			else 
-			{
-				$thumbnail = new BP_XProfile_Picture($picture->thumb_filename);
-				$thumbnail->delete();
-				
-				$message = __('Profile picture deleted.');
-				$type = 'success';
-			}		
 		}
 	}
-	
+
 	$current = BP_XProfile_Picture::get_current();
 	$current_thumbnail = new BP_XProfile_Picture($current['thumbnail']);
 	
