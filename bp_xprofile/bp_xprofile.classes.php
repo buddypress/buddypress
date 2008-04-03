@@ -1005,7 +1005,6 @@ Class BP_XProfile_Picture
 			__( "There was a problem with folder permissions. Please contact the site administrator." ));
 
 		$uploads = array(
-			"path" => $this->path,
 			"url" => trailingslashit(get_option('siteurl')) . 'files/profilepics',
 			"error" => false);
 				
@@ -1026,6 +1025,8 @@ Class BP_XProfile_Picture
 		{
 			$filename = explode("/", $image['file']);
 			$filename = $filename[count($filename) - 1];
+			rename($image['file'], $this->path . "/" . $filename);
+
 			$this->populate($filename);
 		
 			// No error, lets make a thumbnail..

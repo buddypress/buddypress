@@ -10,6 +10,8 @@
  *
  **************************************************/
 
+ini_set("memory_limit","12M");
+
 function setup_tabs() 
 {
 	global $menu, $submenu;
