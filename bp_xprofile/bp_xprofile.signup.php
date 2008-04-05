@@ -89,31 +89,47 @@ function xprofile_validate_signup_fields()
 			if( $active_signup == 'all' || $active_signup == "blog" )
 			{
 				$_POST['blog_id'] = $_POST['user_name'];
-				$_POST['blog_title'] = $_POST['field_1']; // The core 'Full Name' field.
+				$_POST['blog_title'] = $_POST['field_1']; // The core name fields.
 
 				$counter = 0;
 				$hasErrors = false;
+				$prev_field_id = 0;
 				foreach($_POST as $key => $value)
 				{
 					if(strpos($key, "field_") !== false)
 					{
 						$field_id = explode("_", $key);
 						$field_id = $field_id[1];
+						$field_type = BP_XProfile_Field::get_type($field_id);
 						
-						$field = new BP_XProfile_Field($field_id);
-						
-						$bp_xprofile_callback[$counter] = array(
-							"field_id" => $field_id,
-							"value" => $value
-						);
-						
-						if($field->is_required && $_POST[$key] == '')
-						{
-							$bp_xprofile_callback[$counter]["error_msg"] = $field->name . ' cannot be left blank.';
-							$hasErrors = true;
+						// Need to check if the previous field had
+						// the same ID, as to not validate individual
+						// day/month/year dropdowns individually.
+						if($prev_field_id != $field_id) {
+							$field = new BP_XProfile_Field($field_id);
+							
+							if($field_type == "datebox") {
+								$value = strtotime($_POST['field_' . $field_id . '_day'] . " " . 
+									     $_POST['field_' . $field_id . '_month'] . " " .
+									     $_POST['field_' . $field_id . '_year']);
+							}
+							
+							$bp_xprofile_callback[$counter] = array(
+								"field_id" => $field->id,
+								"type" => $field->type,
+								"value" => $value
+							);
+							
+							if($field->is_required && $_POST[$key] == '')
+							{
+								$bp_xprofile_callback[$counter]["error_msg"] = $field->name . ' cannot be left blank.';
+								$hasErrors = true;
+							}	
+							
+							$counter++;
 						}
 						
-						$counter++;
+						$prev_field_id = $field_id;
 					}
 				}
 				
@@ -121,6 +137,7 @@ function xprofile_validate_signup_fields()
 				extract($result);
 				
 				if ( $errors->get_error_code() || $hasErrors ) {
+
 					signup_user($user_name, $user_email, $errors);
 					
 					echo '</div>';
@@ -144,12 +161,12 @@ function xprofile_validate_signup_fields()
 					
 					for($i=0; $i<count($bp_xprofile_callback); $i++)
 					{
-						$meta['field_' . $bp_xprofile_callback[$i]['field_id']] = $bp_xprofile_callback[$i]['value'];
+						$meta['field_' . $bp_xprofile_callback[$i]['field_id']] .= $bp_xprofile_callback[$i]['value'];
 					}
 					
 					$meta['xprofile_field_ids'] = $_POST['xprofile_ids'];
 					$meta = apply_filters( "add_signup_meta", $meta );
-					
+
 					wpmu_signup_blog($domain, $path, $blog_title, $user_name, $user_email, $meta);
 					confirm_blog_signup($domain, $path, $blog_title, $user_name, $user_email, $meta);
 					
@@ -209,17 +226,20 @@ function xprofile_on_activate($blog_id = null, $user_id = null)
 {
 	global $wpdb, $wpmuBaseTablePrefix, $profile_picture_path;
 	
+	// Extract signup meta fields to fill out profile
 	$field_ids = get_blog_option($blog_id, 'xprofile_field_ids');
 	$field_ids = explode(",", $field_ids);
-	
+		
+	// Get the new user ID.
 	$sql = "SELECT u.ID from " . $wpmuBaseTablePrefix . "users u, 
 			" . $wpmuBaseTablePrefix . "usermeta um
 			WHERE u.ID = um.user_id
 			AND um.meta_key = 'primary_blog'
 			AND um.meta_value = " . $blog_id;
-
+			
 	$user_id = $wpdb->get_var($sql); 
-	
+
+	// Loop through each bit of profile data and save it to profile.
 	for($i=0; $i<count($field_ids); $i++)
 	{
 		if(bp_core_validate($field_ids[$i]))
@@ -227,18 +247,18 @@ function xprofile_on_activate($blog_id = null, $user_id = null)
 			$field_value = get_blog_option($blog_id, 'field_' . $field_ids[$i]);
 			
 			$field = new BP_XProfile_ProfileData();
-			
 			$field->user_id = $user_id;
 			$field->value = $field_value;
 			$field->field_id = $field_ids[$i];
-			$field->last_updated = time();			
-
+			$field->last_updated = time();	
+	
 			$field->save();
 			delete_blog_option($blog_id, 'field_' . $field_ids[$i]);
 		}
 	}
 	delete_blog_option($blog_id, 'xprofile_field_ids');	
 	
+	// Set up profile pictures and create a directory to store them for the user.
 	$profile_picture_path = trim(get_blog_option($blog_id, 'upload_path')) . '/profilepics';
 
 	if(!wp_mkdir_p(ABSPATH . $profile_picture_path))
@@ -259,6 +279,7 @@ function xprofile_on_activate($blog_id = null, $user_id = null)
 		update_blog_option($blog_id, "profile_picture_thumbnail", $thumb);		
 		
 	}
+
 }
 
 add_action('wpmu_new_blog', 'xprofile_on_activate');

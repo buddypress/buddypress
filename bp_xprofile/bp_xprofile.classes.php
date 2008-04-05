@@ -518,7 +518,7 @@ Class BP_XProfile_Field
 					
 				}
 				
-				$html .= '<div id="field_' . $this->id . '"';
+				$html .= '<div id="field_' . $this->id . '">';
 				$html .= '<label for="field_' . $this->id . '_day">' . $asterisk . $this->name . ':</label>';
 				
 				$html .= $this->message . '
@@ -779,6 +779,26 @@ Class BP_XProfile_Field
 		}
 	}
 	
+	function get_type($field_id)
+	{
+		global $wpdb, $bp_xprofile_table_name;
+
+		if(bp_core_validate($field_id))
+		{
+			$sql = "SELECT type
+					FROM " . $bp_xprofile_table_name . "_fields
+					WHERE id = " . $field_id;
+
+			if(!$field_type = $wpdb->get_var($sql))
+			{
+				return false;
+			}
+		
+			return $field_type;
+		}
+		
+		return false;
+	}
 }
 
 
