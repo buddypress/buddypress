@@ -89,7 +89,7 @@ function xprofile_validate_signup_fields()
 			if( $active_signup == 'all' || $active_signup == "blog" )
 			{
 				$_POST['blog_id'] = $_POST['user_name'];
-				$_POST['blog_title'] = $_POST['field_1']; // The core name fields.
+				$_POST['blog_title'] = $_POST['field_1'] . " " . $_POST['field_2']; // The core name fields.
 
 				$counter = 0;
 				$hasErrors = false;

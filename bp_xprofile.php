@@ -310,8 +310,7 @@ function xprofile_edit()
 			{
 				$list_html .= '<p>This group is currently empty. Please contact the site admin if this is incorrect.</p>';
 			}
-		
-			echo BP_XProfile_Field::get_type(2);
+
 		?>
 
 		<?php if($message != '') { ?>
