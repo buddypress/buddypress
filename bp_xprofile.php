@@ -101,7 +101,7 @@ function xprofile_add_menu()
 	add_submenu_page('bp_core.php', "Profiles", "Profiles", 1, "xprofile_settings", "xprofile_admin");
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if($wpdb->get_var("show tables like '$bp_xprofile_table_name'") != $bp_xprofile_table_name) xprofile_install();
+	if($wpdb->get_var("show tables like '%" . $bp_xprofile_table_name . "%'") == false) xprofile_install();
 }
 add_action('admin_menu','xprofile_add_menu');
 

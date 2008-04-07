@@ -56,29 +56,12 @@ Class BP_XProfile_Group
 		}
 
 	}
-	
-	function exists()
-	{
-		global $wpdb;
-		
-		// check to see if the current object exists in the DB
-		
-		$sql = "SELECT id FROM " . $this->table_name . "_groups
-				WHERE group_id = " . $this->id;
-		
-		if(!$wpdb->get_row($sql))
-		{
-			return false;
-		}
-		
-		return true;				
-	}
-	
+
 	function save()
 	{
 		global $wpdb;
 		
-		if($this->exists())
+		if($this->id != null)
 		{
 			// Update a group.
 		}
@@ -305,33 +288,20 @@ Class BP_XProfile_Field
 		}
 	}
 
-	function exists()
-	{
-		global $wpdb;
-		
-		// check to see if the current object exists in the DB
-		
-		$sql = "SELECT id FROM " . $this->table_name . "_fields
-				WHERE id = " . $this->id;
-		
-		if(!$wpdb->get_row($sql))
-		{
-			return false;
-		}
-		
-		return true;		
-	}
-
 	function delete() 
 	{
 		global $wpdb;
 		
 		$sql = "DELETE FROM " . $this->table_name . "_fields
-				WHERE id = " . $this->id;
+				WHERE id = " . $this->id . "
+				OR parent_id = " . $this->id;
 
 		if($wpdb->query($sql) === false) {
 			return false;
 		}
+		
+		// delete the data in the DB for this field
+		BP_XProfile_ProfileData::delete_all($this->id);
 		
 		return true;
 		
@@ -341,7 +311,7 @@ Class BP_XProfile_Field
 	{
 		global $wpdb;
 
-		if($this->exists())
+		if($this->id != null)
 		{
 			$sql = "UPDATE " . $this->table_name . "_fields 
 					SET group_id = " . $this->group_id . ", 
@@ -363,16 +333,18 @@ Class BP_XProfile_Field
 
 		if($wpdb->query($sql) !== false) 
 		{
-			// Remove any radio or dropdown options for this
-			// field. They will be re-added if needed.
-			// This stops orphan options if the user changes a
-			// field from a radio button field to a text box. 
-			
-			$this->delete_children();
+			// Only do this if we are editing an existing field
+			if($this->id != null) {
+				
+				// Remove any radio or dropdown options for this
+				// field. They will be re-added if needed.
+				// This stops orphan options if the user changes a
+				// field from a radio button field to a text box. 
+				$this->delete_children();
+			}
 			
 			// Check to see if this is a selectbox or radio button field.
 			// We need to add the options to the db, if it is.
-
 			if($this->type == "radio" || $this->type == "selectbox")
 			{
 				if($this->id) {
@@ -403,7 +375,7 @@ Class BP_XProfile_Field
 						if($wpdb->query($sql) === false)
 						{
 							return false;
-							
+						
 							// Need to go back and reverse what has been entered here.
 						}
 					}						
@@ -625,8 +597,9 @@ Class BP_XProfile_Field
 		
 	function render_admin_form($message = '')
 	{
-		$options = $this->get_children();
-
+		if($this->id != null) {
+			$options = $this->get_children();
+		}
 	?>
 	
 	<div class="wrap">
@@ -641,32 +614,25 @@ Class BP_XProfile_Field
 		
 		<form action="<?php echo $action ?>" method="post">
 
-			<fieldset id="titlediv">
-				<legend><?php _e("Field Title") ?></legend>
+				<label for="title">* <?php _e("Field Title") ?></label>
 				<div>
 					<input type="text" name="title" id="title" value="<?php echo $this->name ?>" style="width:50%" />
 				</div>
-			</fieldset>
-
-			<fieldset id="descriptiondiv">
-				<legend><?php _e("Field Description") ?></legend>
+				<p></p>
+				<label for="description"><?php _e("Field Description") ?></label>
 				<div>
 					<textarea name="description" id="description" rows="5" cols="60"><?php echo $this->desc ?></textarea>
 				</div>
-			</fieldset>
-			
-			<fieldset id="requireddiv">
-				<legend><?php _e("Is This Field Required?") ?></legend>
+				<p></p>
+				<label for="required">* <?php _e("Is This Field Required?") ?></label>
 				<div>
 					<select name="required" id="required">
 						<option value="0"<?php if($this->is_required == '0') {?> selected="selected"<?php } ?>>Not Required</option>
 						<option value="1"<?php if($this->is_required == '1') {?> selected="selected"<?php } ?>>Required</option>
 					</select>
 				</div>
-			</fieldset>
-
-			<fieldset id="typediv">
-				<legend><?php _e("Field Type") ?></legend>
+				<p></p>
+				<label for="fieldtype">* <?php _e("Field Type") ?></label>
 				<div>
 					<select name="fieldtype" id="fieldtype" onchange="show_options(this.value)">
 						<option value="textbox"<?php if($this->type == 'textbox') {?> selected="selected"<?php } ?>>Text Box</option>
@@ -676,7 +642,6 @@ Class BP_XProfile_Field
 						<option value="selectbox"<?php if($this->type == 'selectbox') {?> selected="selected"<?php } ?>>Drop-down Select Box</option>
 					</select>
 				</div>
-			</fieldset>
 			
 			<div id="radio" style="<?php if($this->type != 'radio') {?>display: none;<?php } ?> margin-left: 15px;">
 				<p>Please enter the options for this radio button field</p>
@@ -761,7 +726,7 @@ Class BP_XProfile_Field
 		// Validate Form
 		if($_POST['title'] == '' || $_POST['required'] == '' || $_POST['fieldtype'] == '')
 		{
-			$message = __('Please make sure you fill out the form completely, every field is required.');
+			$message = __('Please make sure you fill out all required fields.');
 			return false;
 		}
 		else if($_POST['fieldtype'] == 'radio' && empty($_POST['radio_option'][0]))
@@ -951,8 +916,6 @@ Class BP_XProfile_ProfileData
 		return true;
 	}
 	
-	
-
 	/** Static Functions **/
 	
 	function get_value($field_id)
@@ -973,6 +936,23 @@ Class BP_XProfile_ProfileData
 			{
 				return false;
 			}
+		}
+	}
+	
+	function delete_all($field_id)
+	{
+		global $wpdb, $userdata;
+		
+		if(bp_core_validate($field_id))
+		{
+			$sql = "DELETE FROM " . $this->table_name . "_data 
+					WHERE field_id = " . $field_id;
+
+			if($wpdb->query($sql) === false) {
+				return false;
+			}
+			
+			return true;
 		}
 	}
 	

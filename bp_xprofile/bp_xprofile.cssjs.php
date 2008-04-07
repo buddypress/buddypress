@@ -156,7 +156,7 @@ function xprofile_add_css()
 			font-size: 11px;
 			color: #555;
 		}
-		
+
 		
 	</style>
 	<?php

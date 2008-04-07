@@ -62,7 +62,7 @@ function friends_add_menu()
 	add_submenu_page('bp_core.php', "Friends", "Friends", 1, basename(__FILE__), "friends_settings");
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if($wpdb->get_var("show tables like '$table_name'") != $table_name) friends_install();
+	if($wpdb->get_var("show tables like '%" . $table_name . "%'") == false) friends_install();
 }
 add_action('admin_menu','friends_add_menu');
 

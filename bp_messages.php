@@ -25,9 +25,10 @@ function messages_install()
 	global $wpdb, $table_name;
 
 	$sql = "CREATE TABLE ". $table_name ." (
-		  id mediumint(9) NOT NULL AUTO_INCREMENT,
-		  sender_id mediumint(9) NOT NULL,
-		  recipient_id mediumint(9) NOT NULL,
+		  id int(11) NOT NULL AUTO_INCREMENT,
+		  sender_id int(11) NOT NULL,
+		  recipient_id int(11) NOT NULL,
+		  folder_id tinyint(1) NOT NULL DEFAULT 1,
 		  subject varchar(200) NOT NULL,
 		  message longtext NOT NULL,
 		  is_read bool DEFAULT 0,
@@ -69,7 +70,7 @@ function messages_add_menu()
 	add_submenu_page('bp_core.php', "Messages", "Messages", 1, basename(__FILE__), "messages_settings");
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if($wpdb->get_var("show tables like '$table_name'") != $table_name) messages_install();
+	if($wpdb->get_var("show tables like '%" . $table_name . "%'") == false) messages_install();
 }
 add_action('admin_menu','messages_add_menu');
 
