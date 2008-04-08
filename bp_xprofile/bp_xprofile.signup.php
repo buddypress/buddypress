@@ -268,15 +268,12 @@ function xprofile_on_activate($blog_id = null, $user_id = null)
 	else
 	{
 		copy(ABSPATH . 'wp-content/mu-plugins/bp_xprofile/images/none.gif', ABSPATH . $profile_picture_path . "/none.gif");
+		copy(ABSPATH . 'wp-content/mu-plugins/bp_xprofile/images/none-thumbnail.gif', ABSPATH . $profile_picture_path . "/none-thumbnail.gif");
+
 		
-		$pic = new BP_XProfile_Picture("none.gif");
-		$pic->create_thumb();
-		
-		$thumb = explode("/", $pic->thumb_filename);
-		$thumb = $thumb[count($thumb)-1];
-		
+		$pic = new BP_XProfile_Picture("none.gif");		
 		update_blog_option($blog_id, "profile_picture", "none.gif");		
-		update_blog_option($blog_id, "profile_picture_thumbnail", $thumb);		
+		update_blog_option($blog_id, "profile_picture_thumbnail", "none-thumbnail.gif");		
 		
 	}
 

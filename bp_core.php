@@ -13,19 +13,27 @@
 function setup_tabs() 
 {
 	global $menu, $submenu;
-
+	
 	/***
 	 * REMOVE tabs we don't want.
 	 */
 	
 	/** Remove Presentation Tab **/		
 	reset($menu); $page = key($menu);
-   	
+   		
 	if(!is_site_admin()) {
+	
+		/***** REMOVING PRESENTATION / DESIGN TABS */
 		while ((__('Presentation') != $menu[$page][0]) && next($menu))
 	           $page = key($menu);
 	   	if (__('Presentation') == $menu[$page][0]) unset($menu[$page]);
 	   		reset($menu); $page = key($menu);
+	
+		while ((__('Design') != $menu[$page][0]) && next($menu))
+	           $page = key($menu);
+	   	if (__('Design') == $menu[$page][0]) unset($menu[$page]);
+	   		reset($menu); $page = key($menu);
+		/*******************************************/
 	
 		/** Remove Plugins Tab **/
 	   	while ((__('Plugins') != $menu[$page][0]) && next($menu))
@@ -44,18 +52,24 @@ function setup_tabs()
 	           $page = key($menu);
 	   	if (__('Options') == $menu[$page][0]) unset($menu[$page]);
 	   		reset($menu); $page = key($menu);
+
+		/** Remove Settings Tab **/
+	   	while ((__('Settings') != $menu[$page][0]) && next($menu))
+	           $page = key($menu);
+	   	if (__('Settings') == $menu[$page][0]) unset($menu[$page]);
+	   		reset($menu); $page = key($menu);
 	}
+
+	/** Remove Comments Tab **/
+   	while ((__('edit-comments.php') != $menu[$page][2]) && next($menu))
+           $page = key($menu);
+   	if (__('edit-comments.php') == $menu[$page][2]) unset($menu[$page]);
+   		reset($menu); $page = key($menu);
 
 	/** Remove Manage Tab **/
    	while ((__('Manage') != $menu[$page][0]) && next($menu))
            $page = key($menu);
    	if (__('Manage') == $menu[$page][0]) unset($menu[$page]);
-   		reset($menu); $page = key($menu);
-
-	/** Remove Comments Tab **/
-   	while ((__('Comments') != $menu[$page][0]) && next($menu))
-           $page = key($menu);
-   	if (__('Comments') == $menu[$page][0]) unset($menu[$page]);
    		reset($menu); $page = key($menu);
 
 	/** Remove Write Tab **/
@@ -85,6 +99,32 @@ function setup_tabs()
 			
 }
 add_action('admin_menu', 'setup_tabs');
+
+function start_buffer()
+{
+	ob_start();
+	add_action('dashmenu', 'stop_buffer');
+} 
+add_action('admin_menu', 'start_buffer');
+
+function stop_buffer()
+{
+	$contents = ob_get_contents();
+	ob_end_clean();
+	add_activity_tab($contents);
+}
+
+function add_activity_tab($contents)
+{
+	if($_SERVER['SCRIPT_NAME'] == '/wp-admin/index.php') $current = ' class="current"';
+
+	$activity_tab = '<ul id="dashmenu"><li><a href="' . get_option('home') . '/wp-admin/"' . $current . '>Activity Feed</a></li>';
+	$filter = preg_split('/\<ul id=\"dashmenu\"\>[\S\s]*/',$contents);
+
+	echo $filter[0];
+	echo $activity_tab;
+}
+
 
 function alter_tab_positions()
 {
@@ -216,9 +256,9 @@ function end_dash()
 function render_dash() {
 	$dash .= '
 		
-		<h2>' . __("BuddyPress Dashboard") . '</h2>
-		<p>' . __("Welcome to your personal dashboard.") . '</p>
-		
+		<h2>' . __("My Activity Feed") . '</h2>
+		<p>' . __("This is where your personal activity feed will go.") . '</p>
+		<p>&nbsp;</p><p>&nbsp;</p>
 	';
 	
 	if(is_site_admin()) {	

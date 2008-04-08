@@ -189,28 +189,32 @@ class BP_Messages
 			<?php } ?>					
 			
 			<form action="admin.php?page=bp_messages.php&amp;mode=send_message" method="post" id="send_message_form">
-			
-				<fieldset id="usernamediv">
-					<legend><?php _e("Send To Username") ?></legend>
-					<div>
-						<input type="text" name="username" id="username" value="<?php echo $username; ?>" style="width:50%" />
-					</div>
-				</fieldset>
 
-				<fieldset id="subjectdiv">
-					<legend><?php _e("Subject") ?></legend>
+				<p>			
+				<div id="usernamediv">
+					<label for="username"><?php _e("Send To Username") ?></label>
 					<div>
-						<input type="text" name="subject" id="subject" value="<?php echo $subject; ?>" />
+						<input type="text" name="username" id="username" value="<?php echo $username; ?>" style="width:30%" />
 					</div>
-				</fieldset>
+				</div>
+				</p>
 
 				<p>
-					<fieldset id="messagediv">
-						<legend><?php _e("Message") ?></legend>
+				<div id="subjectdiv">
+					<label for="subject"><?php _e("Subject") ?></label>
+					<div>
+						<input type="text" name="subject" id="subject" value="<?php echo $subject; ?>" style="width: 75%" />
+					</div>
+				</div>
+				</p>
+				
+				<p>
+					<div id="messagediv">
+						<label for="message_input"><?php _e("Message") ?></label>
 						<div>
 							<textarea name="message_input" id="message_input" rows="15" cols="40"><?php echo $message; ?></textarea>
 						</div>
-					</fieldset>
+					</div>
 				</p>
 				
 				
@@ -911,27 +915,27 @@ class BP_Messages
 						
 						<input type="hidden" name="respond_reply_username" id="respond_reply_username" value="<?php echo bp_core_get_username($message->sender_id) ?>" />
 
-						<fieldset id="recipientdiv"<?php if($show_respond != "forward") { ?>style="display:none;"<?php } ?>>
-							<legend><?php _e("Forward to Username:") ?></legend>
+						<div id="recipientdiv"<?php if($show_respond != "forward") { ?>style="display:none;"<?php } ?>>
+							<label for="respond_forward_username"><?php _e("Forward to Username:") ?></label>
 							<div>
 								<input type="text" name="respond_forward_username" id="respond_forward_username" style="width: 50%;" value="<?php if(isset($callback["forward_username"])) { echo $callback["forward_username"]; } ?>" />
 							</div>
-						</fieldset>
+						</div>
 
-						<fieldset id="subjectdiv">
-							<legend><?php _e("Subject") ?></legend>
+						<div id="subjectdiv">
+							<label for="respond_subject"><?php _e("Subject") ?></label>
 							<div>
 								<input type="text" name="respond_subject" id="respond_subject" value="<?php if(isset($callback["subject"])) { echo $callback["subject"]; } else { echo $subject; } ?>" />
 							</div>
 						</fieldset>
 
 						<p>
-							<fieldset id="messagediv">
-								<legend><?php _e("Message") ?></legend>
+							<div id="messagediv">
+								<label for="respond_message"><?php _e("Message") ?></label>
 								<div>
 									<textarea name="respond_message" id="respond_message" rows="15" cols="40"><?php if(isset($callback["message"])) { echo $callback["message"]; } else { ?><br /><br />-------- Original Message -------------------------------------<br /><br /><?php echo $message->message; ?></fieldset><?php } ?></textarea>
 								</div>
-							</fieldset>
+							</div>
 						</p>
 
 

@@ -215,7 +215,7 @@ function xprofile_edit()
 	<div class="wrap">
 		
 		<h2><?php echo $group->name ?> <?php _e("Information") ?></h2>
-
+		
 		<?php
 			
 			if($group->fields)
@@ -320,13 +320,14 @@ function xprofile_edit()
 			</div>
 		<?php } ?>
 
-		<form action="admin.php?page=<?php echo $_GET['page'] ?>&amp;mode=save" method="post">
+		<p><form action="admin.php?page=<?php echo $_GET['page'] ?>&amp;mode=save" method="post">
 		<?php $field_ids = implode(",", $field_ids); ?>
 		<input type="hidden" name="field_ids" id="field_ids" value="<?php echo $field_ids; ?>" />
 		
 		<?php echo $list_html; ?>
 
 		</form>
+		</p>
 		
 	</div>
 <?php
@@ -404,7 +405,7 @@ function xprofile_picture()
 			<div id="profilePicture">
 			
 				<div id="currentPicture">
-					<h2><?php _e('Current Picture'); ?></h2>
+					<h3><?php _e('Current Picture'); ?></h3>
 					<?php echo $current_thumbnail->html; ?>
 					
 					<p style="text-align: center">[ <a href="admin.php?page=bp_xprofile.php&amp;mode=delete_picture&amp;file=<?php echo $current["picture"]; ?>">delete picture</a> ]</p>
@@ -425,7 +426,7 @@ function xprofile_picture()
 			</div>
 			
 			<div id="otherPictures">
-				<h2><?php _e('Previously Uploaded'); ?></h2>
+				<h3><?php _e('Previously Uploaded'); ?></h3>
 				<?php $pictures = BP_XProfile_Picture::get_all(ABSPATH . $profile_picture_path); ?>
 				<ul>
 				<?php for($i=0; $i<count($pictures); $i++) { ?>

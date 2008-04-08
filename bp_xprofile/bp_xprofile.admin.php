@@ -48,6 +48,7 @@ function xprofile_admin($message = '', $type = 'error')
 	<div class="wrap">
 		
 		<h2><?php _e("Profile Settings") ?></h2>
+		<br />
 		<p><?php _e('Your users will distinguish themselves through their profile page. 
 		   You must give them profile fields that allow them to describe themselves 
 			in a way that is relevant to the theme of your social network.') ?></p>

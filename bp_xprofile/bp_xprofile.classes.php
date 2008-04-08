@@ -25,7 +25,6 @@ Class BP_XProfile_Group
 	{
 		global $bp_xprofile_table_name;
  
-
 		$this->table_name = $bp_xprofile_table_name;
 		
 		if($id)
@@ -156,7 +155,8 @@ Class BP_XProfile_Group
 		<div class="wrap">
 		
 			<h2><?php echo $title; ?></h2>
-
+			<br />
+			
 			<?php if($message != '') { ?>
 				<div id="message" class="error fade">
 					<p><?php echo $message; ?></p>
@@ -165,12 +165,12 @@ Class BP_XProfile_Group
 			
 			<form action="<?php echo $action; ?>" method="post">
 				
-				<fieldset id="titlediv">
-					<legend><?php _e("Group Name") ?></legend>
+				<div id="titlediv">
+					<label for="group_name"><?php _e("Group Name") ?></label>
 					<div>
 						<input type="text" name="group_name" id="group_name" value="<?php echo $this->name ?>" style="width:50%" />
 					</div>
-				</fieldset>
+				</div>
 				
 				<p class="submit" style="text-align: left">
 					<input type="submit" name="saveGroup" value="<?php echo $title; ?> &raquo;" />
@@ -616,7 +616,8 @@ Class BP_XProfile_Field
 	<div class="wrap">
 		
 		<h2><?php echo $title; ?></h2>
-
+		<br />
+		
 		<?php if($message != '') { ?>
 			<div id="message" class="error fade">
 				<p><?php echo $message; ?></p>
@@ -660,7 +661,7 @@ Class BP_XProfile_Field
 				if(!empty($options)) {
 					for($i=0; $i<count($options); $i++) { ?>
 						<p>Option <?php echo $i+1 ?>: 
-						   <input type="text" name="radio_option[]" id="radio_option<?php echo $i+1 ?>" value="<?php echo $options[$i]->field_name ?>" />
+						   <input type="text" name="radio_option[]" id="radio_option<?php echo $i+1 ?>" value="<?php echo $options[$i]->name ?>" />
 						</p>
 				<?php } ?>
 					<input type="hidden" name="radio_option_number" id="radio_option_number" value="<?php echo $i+1 ?>" />
@@ -678,7 +679,7 @@ Class BP_XProfile_Field
 				if(!empty($options)) {
 					for($i=0; $i<count($options); $i++) { ?>
 						<p>Option <?php echo $i+1 ?>: 
-						   <input type="text" name="select_option[]" id="select_option<?php echo $i+1 ?>" value="<?php echo $options[$i]->field_name ?>" />
+						   <input type="text" name="select_option[]" id="select_option<?php echo $i+1 ?>" value="<?php echo $options[$i]->name ?>" />
 						</p>
 				<?php } ?>
 					<input type="hidden" name="select_option_number" id="select_option_number" value="<?php echo $i+1 ?>" />
@@ -692,7 +693,7 @@ Class BP_XProfile_Field
 							
 			<p class="submit" style="float: left;">
 					&nbsp;<input type="submit" value="<?php _e("Save") ?> &raquo;" name="saveField" id="saveField" style="font-weight: bold" />
-					 or <a href="admin.php?page=xprofile_settings">Cancel</a>
+					 or <a href="admin.php?page=xprofile_settings" style="color: red">Cancel</a>
 			</p>
 			
 			<div class="clear"></div>
@@ -1107,7 +1108,11 @@ Class BP_XProfile_Picture
 	
 	function create_thumb()
 	{
-		$thumb = wp_create_thumbnail($this->path . "/" . $this->filename, $this->thumb_max_dimension);
+		//$thumb = wp_create_thumbnail($this->path . "/" . $this->filename, );
+		
+		$thumb = image_resize($this->path . "/" . $this->filename, $this->thumb_max_dimension, '', false, 'thumbnail');
+		$thumb = apply_filters( 'wp_create_thumbnail', $thumb );
+
 		if (!@file_exists($thumb))
 		{
 			$this->error_message = 'There was a problem uploading that image. Please try again.';
@@ -1119,7 +1124,8 @@ Class BP_XProfile_Picture
 		}
 		else
 		{
-			$this->thumb_filename = $thumb;
+			$filename = explode("/", $thumb);
+			$this->thumb_filename = $filename[count($filename)-1];
 		}
 	}
 		
@@ -1153,9 +1159,15 @@ Class BP_XProfile_Picture
 	{
 		if(!strstr($this->filename, 'thumbnail'))
 		{
-			$thumbnail_filename = explode('.', $this->filename);
-			$thumbnail_filename = $thumbnail_filename[0] . '.' . 'thumbnail' . '.' . $thumbnail_filename[1];
-
+			if($this->filename == "none.gif") {
+				$thumbnail_filename = "none.gif";
+			}
+			else
+			{
+				$thumbnail_filename = explode('.', $this->filename);
+				$thumbnail_filename = $thumbnail_filename[0] . '-thumbnail' . '.' . $thumbnail_filename[1];
+			}
+			
 			return $thumbnail_filename;
 		}
 		
@@ -1166,17 +1178,19 @@ Class BP_XProfile_Picture
 	
 	function get_all($folder)
 	{
+		global $profile_picture_path;
+		
 		if(!is_dir($folder)) {
 			return false;
 		}
 		
 		$folder = dir($folder);
-		
+
 		while($file = $folder->read())
 		{
 			if(strpos($file, 'thumbnail'))
 			{
-				$pictures[] = array("thumbnail" => $file, "file" => str_replace('thumbnail.', '', $file));
+				$pictures[] = array("thumbnail" => $file, "file" => str_replace('-thumbnail', '', $file));
 			}
 		}
 
