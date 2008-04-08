@@ -23,9 +23,9 @@ Class BP_XProfile_Group
 	
 	function bp_xprofile_group($id = null) 
 	{
-		global $wpmuBaseTablePrefix, $bp_xprofile_table_name;
+		global $bp_xprofile_table_name;
  
-		$this->base_prefix = $wpmuBaseTablePrefix;
+
 		$this->table_name = $bp_xprofile_table_name;
 		
 		if($id)
@@ -249,13 +249,10 @@ Class BP_XProfile_Field
 	var $message_type = 'err';
 	
 	var $bp_xprofile_table_name;
-	var $base_prefix;
 
 	function bp_xprofile_field($id = null, $user_id = null, $get_data = true) 
 	{
-		global $wpmuBaseTablePrefix, $bp_xprofile_table_name;
-
-		$this->base_prefix = $wpmuBaseTablePrefix;
+		global $bp_xprofile_table_name;
 		$this->table_name = $bp_xprofile_table_name;
 		
 		if($id)
@@ -811,9 +808,8 @@ Class BP_XProfile_ProfileData
 	
 	function bp_xprofile_profiledata($field_id = null, $user_id = null) 
 	{
-		global $wpmuBaseTablePrefix, $bp_xprofile_table_name;
+		global $bp_xprofile_table_name;
 
-		$this->base_prefix = $wpmuBaseTablePrefix;
 		$this->table_name = $bp_xprofile_table_name;
 		
 		if($field_id)

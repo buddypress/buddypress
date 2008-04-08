@@ -47,8 +47,8 @@ function friends_install()
 
 function friends_add_menu() 
 {	
-	global $wpdb, $table_name, $wpmuBaseTablePrefix, $bp_friends;
-	$table_name = $wpmuBaseTablePrefix . "bp_friends";
+	global $wpdb, $table_name, $bp_friends;
+	$table_name = $wpdb->base_prefix . "bp_friends";
 	
 	/* Instantiate bp_Friends class to do the real work. */
 	$bp_friends = new BP_Friends;
@@ -103,11 +103,11 @@ class BP_Friends
  	 **************************************************************************/
 	function bp_friends()
 	{
-		global $wpdb, $wpmuBaseTablePrefix, $userdata, $table_name;
+		global $wpdb, $userdata, $table_name;
 		 
 		$this->wpdb = &$wpdb;
 		$this->userdata = &$userdata;
-		$this->basePrefix = $wpmuBaseTablePrefix;
+		$this->basePrefix = $wpdb->base_prefix;
 		$this->tableName = $table_name; // need a root prefix, not a wp_X_ prefix.
 		$this->imageBase = get_option('siteurl') . '/wp-content/mu-plugins/bp_friends/images/';
 		

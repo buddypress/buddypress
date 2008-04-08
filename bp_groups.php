@@ -15,8 +15,8 @@
  Type: Add-On
  **************************************************************************/
 
-$bp_groups_table_name = $wpmuBaseTablePrefix . "bp_groups";
-$bp_group_members_table_name = $wpmuBaseTablePrefix . "bp_group_members";
+$bp_groups_table_name = $wpdb->base_prefix . "bp_groups";
+$bp_group_members_table_name = $wpdb->base_prefix . "bp_group_members";
 
 include_once('bp_groups/bp_groups.class.php');
 

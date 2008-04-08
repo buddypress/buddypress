@@ -224,15 +224,15 @@ add_action('signup_hidden_fields', 'xprofile_hidden_signup_fields');
 
 function xprofile_on_activate($blog_id = null, $user_id = null)
 {
-	global $wpdb, $wpmuBaseTablePrefix, $profile_picture_path;
+	global $wpdb, $profile_picture_path;
 	
 	// Extract signup meta fields to fill out profile
 	$field_ids = get_blog_option($blog_id, 'xprofile_field_ids');
 	$field_ids = explode(",", $field_ids);
 		
 	// Get the new user ID.
-	$sql = "SELECT u.ID from " . $wpmuBaseTablePrefix . "users u, 
-			" . $wpmuBaseTablePrefix . "usermeta um
+	$sql = "SELECT u.ID from " . $wpdb->base_prefix . "users u, 
+			" . $wpdb->base_prefix . "usermeta um
 			WHERE u.ID = um.user_id
 			AND um.meta_key = 'primary_blog'
 			AND um.meta_value = " . $blog_id;

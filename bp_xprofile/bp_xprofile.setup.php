@@ -33,8 +33,8 @@ function xprofile_install()
 
 function xprofile_add_menu() 
 {
-	global $wpdb, $table_name, $wpmuBaseTablePrefix, $bp_xprofile, $groups;
-	$table_name = $wpmuBaseTablePrefix . "bp_xprofile";
+	global $wpdb, $table_name, $bp_xprofile, $groups;
+	$table_name = $wpdb->base_prefix . "bp_xprofile";
 
 	include_once('bp_xprofile/bp_xprofile.classes.php');
 	include_once('bp_xprofile/bp_xprofile.admin.php');

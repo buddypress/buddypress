@@ -251,9 +251,9 @@ function render_dash() {
 
 function bp_core_get_userid($username)
 {
-	global $wpdb, $wpmuBaseTablePrefix;
+	global $wpdb;
 
-	$sql = "SELECT ID FROM " . $wpmuBaseTablePrefix . "users
+	$sql = "SELECT ID FROM " . $wpdb->base_prefix . "users
 			WHERE user_login = '" . $username . "'";
 
 	if(!$user_id = $wpdb->get_var($sql)) {
@@ -279,9 +279,9 @@ function bp_core_clean($dirty)
 
 function bp_core_get_username($user_id)
 {
-	global $wpdb, $wpmuBaseTablePrefix;
+	global $wpdb;
 
-	$sql = "SELECT user_login FROM " . $wpmuBaseTablePrefix . "users
+	$sql = "SELECT user_login FROM " . $wpdb->base_prefix . "users
 			WHERE ID = " . $user_id;
 
 	if(!$username = $wpdb->get_var($sql)) {
@@ -426,8 +426,14 @@ function bp_get_page_start($p, $num)
 // get the page number from the $_GET["p"] variable
 function bp_get_page()
 {
-	if (isset($_GET["p"]) ? $page = (int)$_GET["p"] : $page = 1);
-	return $page;
+	if ( isset($_GET["p"]) )
+	{
+		return (int) $_GET["p"]; 		
+	}
+	else
+	{
+		return 1;
+	}		
 }
 
 // generate page links
@@ -569,9 +575,8 @@ function bp_search_users($q, $start = 0, $num = 10)
 	if (trim($q) != "")
 	{
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
-		$sql = "select SQL_CALC_FOUND_ROWS id, user_login, display_name, user_nicename from ".$wpmuBaseTablePrefix."users
+		$sql = "select SQL_CALC_FOUND_ROWS id, user_login, display_name, user_nicename from ".$wpdb->base_prefix."users
 				where (user_nicename like '%".$wpdb->escape($q)."%'
 				or user_email like '%".$wpdb->escape($q)."%'
 				or display_name like '%".$wpdb->escape($q)."%')

@@ -15,7 +15,7 @@
  Type: Add-On
  **************************************************************************/
 
-$bp_xprofile_table_name = $wpmuBaseTablePrefix . "bp_xprofile";
+$bp_xprofile_table_name = $wpdb->base_prefix . "bp_xprofile";
 $image_base = get_option('siteurl') . '/wp-content/mu-plugins/bp_xprofile/images';
 $profile_picture_path = trim(get_option('upload_path')) . '/profilepics';
 $profile_picture_base = get_option('site_url') . 'files/profilepics';
@@ -25,6 +25,7 @@ include_once('bp_xprofile/bp_xprofile.admin.php');
 include_once('bp_xprofile/bp_xprofile.signup.php');
 include_once('bp_xprofile/bp_xprofile.cssjs.php');
 
+
 /**************************************************************************
  xprofile_install()
  
@@ -33,7 +34,7 @@ include_once('bp_xprofile/bp_xprofile.cssjs.php');
 
 function xprofile_install()
 {
-	global $wpdb, $bp_xprofile_table_name;
+	global $bp_xprofile_table_name;
 
 	$sql = array();
 	
@@ -83,10 +84,10 @@ function xprofile_install()
 
 function xprofile_add_menu() 
 {
-	global $wpdb, $bp_xprofile_table_name, $wpmuBaseTablePrefix, $bp_xprofile, $groups;
+	global $wpdb, $bp_xprofile_table_name, $bp_xprofile, $groups;
 
-	add_menu_page("Profile", "Profile", 1, basename(__FILE__), "xprofile_picture");
-	add_submenu_page(basename(__FILE__), "Picture", "Picture", 1, basename(__FILE__), "xprofile_picture");		
+	add_menu_page(__("Profile"), __("Profile"), 1, basename(__FILE__), "xprofile_picture");
+	add_submenu_page(basename(__FILE__), __("Picture"), __("Picture"), 1, basename(__FILE__), "xprofile_picture");		
 	
 	$groups = BP_XProfile_Group::get_all();
 
@@ -97,7 +98,7 @@ function xprofile_add_menu()
 	}
 	
 	/* Add the administration tab under the "Site Admin" tab for site administrators */
-	add_submenu_page('bp_core.php', "Profiles", "Profiles", 1, "xprofile_settings", "xprofile_admin");
+	add_submenu_page('bp_core.php', __("Profiles"), __("Profiles"), 1, "xprofile_settings", "xprofile_admin");
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 	if($wpdb->get_var("show tables like '%" . $bp_xprofile_table_name . "%'") == false) xprofile_install();
@@ -114,7 +115,7 @@ add_action('admin_menu','xprofile_add_menu');
 
 function xprofile_setup()
 {
-	global $image_base, $profile_picture_path, $profile_picture_base;
+	global $profile_picture_path;
 	
 	// Check to see if the users profile picture folder exists. If not, make it.
 	if(!is_dir(ABSPATH . $profile_picture_path)) {
@@ -237,7 +238,7 @@ function xprofile_edit()
 						   ($field->is_required && $current_field == ''))
 						{
 							// Validate the field.
-							$field->message = __($field->name . ' cannot be left blank.');
+							$field->message = sprintf(__('%s cannot be left blank.'), $field->name);
 							$errors[] = $field->message . "<br />";
 						}
 						else if(!$field->is_required && $current_field == '')
@@ -285,7 +286,7 @@ function xprofile_edit()
 				$list_html .= '</ul>';
 				
 				$list_html .= '<p class="submit">
-								<input type="submit" name="save" id="save" value="Save Changes &raquo;" />
+								<input type="submit" name="save" id="save" value="'.__('Save Changes &raquo;').'" />
 							   </p>';
 
 				if($errors && isset($_POST['save']))
@@ -307,7 +308,7 @@ function xprofile_edit()
 			}
 			else
 			{
-				$list_html .= '<p>This group is currently empty. Please contact the site admin if this is incorrect.</p>';
+				$list_html .= '<p>'.__('This group is currently empty. Please contact the site admin if this is incorrect.').'</p>';
 			}
 
 		?>
@@ -403,7 +404,7 @@ function xprofile_picture()
 			<div id="profilePicture">
 			
 				<div id="currentPicture">
-					<h2>Current Picture</h2>
+					<h2><?php _e('Current Picture'); ?></h2>
 					<?php echo $current_thumbnail->html; ?>
 					
 					<p style="text-align: center">[ <a href="admin.php?page=bp_xprofile.php&amp;mode=delete_picture&amp;file=<?php echo $current["picture"]; ?>">delete picture</a> ]</p>
@@ -412,8 +413,10 @@ function xprofile_picture()
 						<h3>Upload a Picture</h3>
 
 						<input type="file" name="profile_image" id="profile_image" />
-						<p class="submit" style="text-align: center"><input type="submit" name="submit" value="Upload Picture &raquo;" /></p>
-
+						<p class="submit"> 
+						<input type="submit" name="submit" value="<?php _e('Upload Picture &raquo;'); ?>" /></p>
+						</p>
+						
 						<input type="hidden" name="action" value="save" />
 						<input type="hidden" name="max_file_size" value="1000000" />
 					</form>				
@@ -422,7 +425,7 @@ function xprofile_picture()
 			</div>
 			
 			<div id="otherPictures">
-				<h2>Previously Uploaded</h2>
+				<h2><?php _e('Previously Uploaded'); ?></h2>
 				<?php $pictures = BP_XProfile_Picture::get_all(ABSPATH . $profile_picture_path); ?>
 				<ul>
 				<?php for($i=0; $i<count($pictures); $i++) { ?>

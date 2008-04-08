@@ -48,9 +48,8 @@ class BP_Groups
 		//if (get_site_option("bp_groups_enabled") == "")
 		//{
 		
-			global $wpmuBaseTablePrefix;
-			$this->groups_table = $wpmuBaseTablePrefix."bp_groups";
-			$this->group_members_table = $wpmuBaseTablePrefix."bp_group_members";
+			$this->groups_table = $wpdb->base_prefix."bp_groups";
+			$this->group_members_table = $wpdb->base_prefix."bp_group_members";
 			
 			// check the options exist
 			$this->Check_Options();
@@ -106,7 +105,6 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $myjournal_members;
 		global $current_user;
 
@@ -117,7 +115,7 @@ class BP_Groups
 					count(m.id) as members
 					from ".$this->groups_table." n
 					inner join ".$this->group_members_table." m on m.group_id = n.id and m.status_id = 1
-					inner join ".$wpmuBaseTablePrefix."users b on b.id = m.user_id
+					inner join ".$wpdb->base_prefix."users b on b.id = m.user_id
 					where n.slug = '".$wpdb->escape($this->slug)."'
 					group by n.id;";
 		} 
@@ -127,7 +125,7 @@ class BP_Groups
 					count(m.id) as members
 					from ".$this->groups_table." n
 					inner join ".$this->group_members_table." m on m.group_id = n.id and m.status_id = 1
-					inner join ".$wpmuBaseTablePrefix."users b on b.id = m.user_id
+					inner join ".$wpdb->base_prefix."users b on b.id = m.user_id
 					where n.id = ".$wpdb->escape($this->id)."
 					group by n.id;";
 		}
@@ -160,7 +158,6 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		$sql = "select name, slug from ".$this->groups_table." where id = ".$wpdb->escape($groupid).";";
 		return $wpdb->get_row($sql);
 	}
@@ -170,7 +167,6 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		
 		$sql = "select SQL_CALC_FOUND_ROWS id, name, description, slug
 				from ".$this->groups_table."
@@ -196,7 +192,6 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 	
 		$groups = $wpdb->get_results("select id, slug, name, description, open
 							from ".$this->groups_table."
@@ -213,7 +208,6 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 	
 		$groups = $wpdb->get_results("select n.id, n.slug, n.name, n.description, n.open, count(m.id) as members
 							from ".$this->groups_table." n
@@ -232,7 +226,6 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
 		
 		if ($all)
@@ -276,13 +269,12 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
 	
 		$sql = "select count(n.id)
 				from ".$this->groups_table." n
 				inner join ".$this->group_members_table." m on m.group_id = n.id
-				inner join ".$wpmuBaseTablePrefix."users b on b.id = m.user_id
+				inner join ".$wpdb->base_prefix."users b on b.id = m.user_id
 				where m.user_id = ".$current_user->user_id."
 				and m.status_id = 2
 				limit ".$wpdb->escape($start).", ".$wpdb->escape($num).";";
@@ -298,13 +290,12 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
 		
 		$sql = "select SQL_CALC_FOUND_ROWS n.id, n.name, n.slug, n.description, n.private, n.open, n.type, m.group_admin, m.inviter_id
 				from ".$this->groups_table." n
 				inner join ".$this->group_members_table." m on m.group_id = n.id
-				inner join ".$wpmuBaseTablePrefix."users b on b.id = m.user_id
+				inner join ".$wpdb->base_prefix."users b on b.id = m.user_id
 				where m.user_id = ".$current_user->user_id."
 				and m.status_id = 2
 				limit ".$wpdb->escape($start).", ".$wpdb->escape($num).";";
@@ -331,12 +322,11 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		
 		$sql = "select SQL_CALC_FOUND_ROWS b.user_id, i.user_id as inviter_id, m.group_admin
 			from ".$this->group_members_table." m
-			inner join  ".$wpmuBaseTablePrefix."users b on b.id = m.user_id
-			inner join  ".$wpmuBaseTablePrefix."users i on i.id = m.inviter_id
+			inner join  ".$wpdb->base_prefix."users b on b.id = m.user_id
+			inner join  ".$wpdb->base_prefix."users i on i.id = m.inviter_id
 			where m.group_id = ".$this->current_group->id." 
 			and m.status_id = 2
 			order by m.timestamp desc
@@ -378,11 +368,10 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		
 		$sql = "select SQL_CALC_FOUND_ROWS b.id as user_id, b.user_login, m.group_admin
 			from ".$this->group_members_table." m
-			inner join  ".$wpmuBaseTablePrefix."users b on b.id = m.user_id
+			inner join  ".$wpdb->base_prefix."users b on b.id = m.user_id
 			where m.group_id = ".$this->current_group->id." 
 			and m.status_id = 1
 			order by m.timestamp desc
@@ -413,11 +402,10 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		
 		$sql = "select SQL_CALC_FOUND_ROWS b.id as user_id, b.user_login, m.group_admin
 			from ".$this->group_members_table." m
-			inner join  ".$wpmuBaseTablePrefix."users b on b.id = m.user_id
+			inner join  ".$wpdb->base_prefix."users b on b.id = m.user_id
 			where m.group_id = ".$this->current_group->id." 
 			and m.status_id = 0
 			order by m.timestamp desc
@@ -447,7 +435,6 @@ class BP_Groups
 	function Is_Group_Member($userid = 0)
 	{
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		
 		if ($userid == 0)
 		{
@@ -473,7 +460,6 @@ class BP_Groups
 	function Is_Group_Admin($userid = 0)
 	{
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		
 		if ($userid == 0)
 		{
@@ -500,7 +486,6 @@ class BP_Groups
 	function User_Is_Group_Admin()
 	{
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
 
 		$sql = 	"select count(id) 
@@ -522,7 +507,6 @@ class BP_Groups
 	function Has_Group_Admin_Rights()
 	{
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
 		
 		$sql = 	"select count(id) 
@@ -544,7 +528,6 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
 		
 		$sql = "select SQL_CALC_FOUND_ROWS n.id, n.name, n.slug, n.description, n.private, n.open, n.type, m.group_admin
@@ -569,7 +552,6 @@ class BP_Groups
 	{
 		global $current_user;
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		
 		$sql = 	"select id 
 				from  ".$this->group_members_table." 
@@ -588,10 +570,6 @@ class BP_Groups
 	// show a form to join this group, if allowed
 	function Join_Group_Form($message="")
 	{
-		
-		global $current_user;
-		global $myjournal_members;
-		
 		if ($message == ""){ $message = get_site_option("bp_groups_join_message"); }
 		
 		if ($this->current_group->open == "1")
@@ -621,7 +599,6 @@ class BP_Groups
 			global $wpdb;
 			global $current_site;
 			global $current_user;
-			global $wpmuBaseTablePrefix;
 		
 			$featured_group = get_site_option("bp_featured_group");
 		
@@ -651,7 +628,6 @@ class BP_Groups
 	function Join_Group()
 	{
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
 		global $current_user;
 		
@@ -727,7 +703,6 @@ class BP_Groups
 	function Check_Tables()
 	{
 		require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
-		global $wpmuBaseTablePrefix;
 		global $wpdb;
 		
 		if($wpdb->get_var("SHOW TABLES LIKE '".$this->groups_table."'") != $this->groups_table)
@@ -838,7 +813,6 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $bp_groups;
 		global $current_user;
 		global $current_user;
@@ -885,7 +859,6 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
 		if ($wpdb->query("update  ".$this->group_members_table." set status_id = 0 where user_id=".$current_user->user_id." and group_id = ".$wpdb->escape($_GET["leave"]).";") !== false)
 		{
@@ -900,7 +873,6 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
 		if ($wpdb->query("update ".$this->group_members_table." set status_id = 1 where user_id=".$current_user->user_id." and group_id = ".$wpdb->escape($_GET["undoleave"]).";") !== false)
 		{
@@ -926,7 +898,6 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
 		if ($this->User_Is_Group_Admin())
 		{
@@ -946,7 +917,6 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
 		if ($this->User_Is_Group_Admin())
 		{
@@ -977,7 +947,6 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
 		if ($this->User_Is_Group_Admin())
 		{
@@ -1008,7 +977,6 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
 		if ($this->User_Is_Group_Admin())
 		{
@@ -1045,7 +1013,6 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
 		if ($this->User_Is_Group_Admin())
 		{
@@ -1065,7 +1032,6 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
 		if ($this->User_Is_Group_Admin())
 		{
@@ -1096,7 +1062,6 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
 		if ($this->User_Is_Group_Admin())
 		{
@@ -1116,7 +1081,6 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
 		if ($this->User_Is_Group_Admin())
 		{
@@ -1136,7 +1100,6 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
 		global $current_user;
 		
@@ -1156,7 +1119,6 @@ class BP_Groups
 	{
 		// get the globals
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
 		
 		if ($wpdb->query("update ".$this->group_members_table." set status_id = 0 where user_id=".$current_user->user_id." and group_id = ".$wpdb->escape($_GET["decline"]).";") !== false)
@@ -1171,7 +1133,6 @@ class BP_Groups
 	function Edit_Group()
 	{
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		
 		$this->message = "";
 		
@@ -1200,10 +1161,8 @@ class BP_Groups
 	function Create_Group()
 	{
 		global $wpdb;
-		global $wpmuBaseTablePrefix;
 		global $current_user;
 		global $current_site;
-		global $current_user;
 		
 		$this->message = "";
 
@@ -1275,7 +1234,6 @@ class BP_Groups
 			 );
 		
 			global $wpdb;
-			global $wpmuBaseTablePrefix;
 			global $current_site;
 			global $current_user;
 			$image = new Image();
