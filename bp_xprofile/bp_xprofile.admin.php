@@ -38,7 +38,12 @@ function xprofile_admin($message = '', $type = 'error')
 			xprofile_admin_delete_group($_GET['group_id']); die;
 		}
 	}
-
+	else if(isset($_GET['mode']) && isset($_GET['group_id']) && $_GET['mode'] == "edit_group")
+	{
+		if(bp_core_validate($_GET['group_id'])) {
+			xprofile_admin_manage_group($_GET['group_id']); die;
+		}
+	}
 ?>	
 	<div class="wrap">
 		
@@ -65,8 +70,12 @@ function xprofile_admin($message = '', $type = 'error')
 				<table class="widefat">
 					<thead>
 					    <tr>
-					    	<th scope="col" colspan="6"><?php echo $groups[$i]->name; ?> <?php if($groups[$i]->can_delete) { ?> [<a href="admin.php?page=xprofile_settings&amp;mode=delete_group&amp;group_id=<?php echo $groups[$i]->id; ?>">x</a>] <?php } ?></th>
-					    </tr>
+					    	<th scope="col" colspan="<?php if($groups[$i]->can_delete) { ?>3<?php } else { ?>5<?php } ?>"><?php echo $groups[$i]->name; ?></th>
+							<?php if($groups[$i]->can_delete) { ?>    	
+								<th scope="col"><a class="edit" href="admin.php?page=xprofile_settings&amp;mode=edit_group&amp;group_id=<?php echo $groups[$i]->id; ?>">Edit</a></th>
+					    		<th scope="col"><a class="delete" href="admin.php?page=xprofile_settings&amp;mode=delete_group&amp;group_id=<?php echo $groups[$i]->id; ?>">Delete</a></th>
+							<?php } ?>
+						</tr>
 					</thead>
 					<tbody id="the-list">
 					   <tr class="header">
@@ -136,7 +145,7 @@ function xprofile_admin($message = '', $type = 'error')
 function xprofile_admin_manage_group($group_id = null)
 {
 	global $message, $type;
-	
+
 	$group = new BP_XProfile_Group($group_id);
 
 	if(isset($_POST['saveGroup']))
@@ -211,12 +220,12 @@ function xprofile_admin_manage_field($group_id, $field_id = null)
 	global $message, $groups;
 	
 	$field = new BP_XProfile_Field($field_id);
+	$field->group_id = $group_id;
 
 	if(isset($_POST['saveField']))
 	{
 		if(BP_XProfile_Field::admin_validate($_POST))
 		{
-			$field->group_id = $group_id;
 			$field->name = bp_core_clean($_POST['title']);
 			$field->desc = bp_core_clean($_POST['description']);
 			$field->is_required = bp_core_clean($_POST['required']);

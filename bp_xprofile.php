@@ -72,7 +72,6 @@ function xprofile_install()
 	
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
-		
 }
 
 /**************************************************************************

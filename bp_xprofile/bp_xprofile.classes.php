@@ -60,19 +60,25 @@ Class BP_XProfile_Group
 	function save()
 	{
 		global $wpdb;
-		
+
 		if($this->id != null)
 		{
-			// Update a group.
+			$sql = "UPDATE " . $this->table_name . "_groups 
+					SET
+						name = '" . $this->name . "',
+						description = '" . $this->description . "'
+					WHERE id = " . $this->id;
 		}
 		else
 		{
 			$sql = "INSERT INTO " . $this->table_name . "_groups (
 						name,
-						description
+						description,
+						can_delete
 					) VALUES (
 						'" . $this->name . "',
-						'" . $this->description . "'
+						'" . $this->description . "',
+						1
 					)";			
 		}
 		
@@ -93,27 +99,19 @@ Class BP_XProfile_Group
 		$sql = "DELETE FROM " . $this->table_name . "_groups
 				WHERE id = " . $this->id;
 
-		if($wpdb->query($sql) === false) {
+		if($wpdb->query($sql) === false) 
+		{
 			return false;
 		}
-		else {
+		else 
+		{
 			// Now the group is deleted, remove the group's fields.
-			$sql = "DELETE FROM " . $this->table_name . "_fields
-					WHERE group_id = " . $this->id;
-
- 			if($wpdb->query($sql) === false) {
-				return false;
-			}
-			else
+			if(BP_XProfile_Field::delete_for_group($this->id))
 			{
 				// Now delete all the profile data for the groups fields
-
 				for($i=0; $i<count($this->fields); $i++)
-				{			
-					$sql = "DELETE FROM " . $this->table_name . "_data 
-							WHERE field_id = " . $this->fields[$i]->id;
-					
-					$wpdb->query($sql);
+				{	
+					BP_XProfile_ProfileData::delete_for_field($this->fields[$i]->id);
 				}
 			}
 			
@@ -143,12 +141,21 @@ Class BP_XProfile_Group
 	function render_admin_form()
 	{
 		global $message;
+
+		if($this->id == null) {
+			$title = __('Add Group');
+			$action = "admin.php?page=xprofile_settings&amp;mode=add_group";
+		}
+		else {
+			$title = __('Edit Group');
+			$action = "admin.php?page=xprofile_settings&amp;mode=edit_group&amp;group_id=" . $this->id;			
+		}
 		
 		?>
 		
 		<div class="wrap">
 		
-			<h2><?php _e('Add Group'); ?></h2>
+			<h2><?php echo $title; ?></h2>
 
 			<?php if($message != '') { ?>
 				<div id="message" class="error fade">
@@ -156,7 +163,7 @@ Class BP_XProfile_Group
 				</div>
 			<?php }	?>
 			
-			<form action="admin.php?page=xprofile_settings&amp;mode=add_group" method="post">
+			<form action="<?php echo $action; ?>" method="post">
 				
 				<fieldset id="titlediv">
 					<legend><?php _e("Group Name") ?></legend>
@@ -166,7 +173,7 @@ Class BP_XProfile_Group
 				</fieldset>
 				
 				<p class="submit" style="text-align: left">
-					<input type="submit" name="saveGroup" value="Create Group &raquo;" />
+					<input type="submit" name="saveGroup" value="<?php echo $title; ?> &raquo;" />
 				</p>
 			
 			</form>
@@ -301,7 +308,7 @@ Class BP_XProfile_Field
 		}
 		
 		// delete the data in the DB for this field
-		BP_XProfile_ProfileData::delete_all($this->id);
+		BP_XProfile_ProfileData::delete_for_field($this->id);
 		
 		return true;
 		
@@ -597,14 +604,21 @@ Class BP_XProfile_Field
 		
 	function render_admin_form($message = '')
 	{
-		if($this->id != null) {
+		if($this->id == null) {
+			$title = __('Add Field');
+			$action = "admin.php?page=xprofile_settings&amp;group_id=" . $this->group_id . "&amp;mode=add_field";
+		}
+		else {
+			$title = __('Edit Field');
+			$action = "admin.php?page=xprofile_settings&amp;mode=edit_field&amp;group_id=" . $this->group_id . "&amp;field_id=" . $this->id;			
 			$options = $this->get_children();
 		}
+		
 	?>
 	
 	<div class="wrap">
 		
-		<h2><?php _e("Profile Settings") ?> &raquo; <?php _e('Add Field') ?></h2>
+		<h2><?php echo $title; ?></h2>
 
 		<?php if($message != '') { ?>
 			<div id="message" class="error fade">
@@ -760,6 +774,26 @@ Class BP_XProfile_Field
 			}
 		
 			return $field_type;
+		}
+		
+		return false;
+	}
+	
+	function delete_for_group($group_id)
+	{
+		global $wpdb, $bp_xprofile_table_name;
+
+		if(bp_core_validate($group_id))
+		{
+			$sql = "DELETE FROM " . $bp_xprofile_table_name . "_fields
+					WHERE group_id = " . $group_id;
+
+			if($wpdb->get_var($sql) === false)
+			{
+				return false;
+			}
+			
+			return true;
 		}
 		
 		return false;
@@ -939,7 +973,7 @@ Class BP_XProfile_ProfileData
 		}
 	}
 	
-	function delete_all($field_id)
+	function delete_for_field($field_id)
 	{
 		global $wpdb, $userdata;
 		
