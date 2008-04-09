@@ -5,8 +5,9 @@
 		</div>
 		
 		<ul id="quickLinks">
-			<li>Photos</li>
-			<li>More Options Coming Here</li>
+			<li>My Messages (3)</li>
+			<li>My Friends (210)</li>
+			<li>My Albums (4)</li>
 		</ul>
 
 		<ul id="components">

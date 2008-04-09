@@ -21,7 +21,7 @@
 
 <div id="header">
 
-	<h1><span>Buddy</span>Press</h1>
+	<p><img src="<?php echo get_template_directory_uri(); ?>/images/bp_logo.gif" alt="BuddyPress" /></p>
 	<ul id="menu">
 		<li><a href="<?php echo bp_get_homeurl(); ?>">Home</a></li>
 		<li><a href="<?php echo bloginfo('home'); ?>">My Profile</a></li>
