@@ -23,7 +23,7 @@ function setup_tabs()
    		
 	if(!is_site_admin()) {
 	
-		/***** REMOVING PRESENTATION / DESIGN TABS */
+		/***** REMOVING PRESENTATION / DESIGN TABS 
 		while ((__('Presentation') != $menu[$page][0]) && next($menu))
 	           $page = key($menu);
 	   	if (__('Presentation') == $menu[$page][0]) unset($menu[$page]);
@@ -33,7 +33,7 @@ function setup_tabs()
 	           $page = key($menu);
 	   	if (__('Design') == $menu[$page][0]) unset($menu[$page]);
 	   		reset($menu); $page = key($menu);
-		/*******************************************/
+		*******************************************/
 	
 		/** Remove Plugins Tab **/
 	   	while ((__('Plugins') != $menu[$page][0]) && next($menu))
@@ -47,17 +47,18 @@ function setup_tabs()
 	   	if (__('Users') == $menu[$page][0]) unset($menu[$page]);
 	   		reset($menu); $page = key($menu);
 
-		/** Remove Options Tab **/
+		/** Remove Options Tab & Settings Tab **
 	   	while ((__('Options') != $menu[$page][0]) && next($menu))
 	           $page = key($menu);
 	   	if (__('Options') == $menu[$page][0]) unset($menu[$page]);
 	   		reset($menu); $page = key($menu);
 
-		/** Remove Settings Tab **/
 	   	while ((__('Settings') != $menu[$page][0]) && next($menu))
 	           $page = key($menu);
 	   	if (__('Settings') == $menu[$page][0]) unset($menu[$page]);
 	   		reset($menu); $page = key($menu);
+		****************************************/
+		
 	}
 
 	/** Remove Comments Tab **/
@@ -100,30 +101,6 @@ function setup_tabs()
 }
 add_action('admin_menu', 'setup_tabs');
 
-function start_buffer()
-{
-	ob_start();
-	add_action('dashmenu', 'stop_buffer');
-} 
-add_action('admin_menu', 'start_buffer');
-
-function stop_buffer()
-{
-	$contents = ob_get_contents();
-	ob_end_clean();
-	add_activity_tab($contents);
-}
-
-function add_activity_tab($contents)
-{
-	if($_SERVER['SCRIPT_NAME'] == '/wp-admin/index.php') $current = ' class="current"';
-
-	$activity_tab = '<ul id="dashmenu"><li><a href="' . get_option('home') . '/wp-admin/"' . $current . '>Activity Feed</a></li>';
-	$filter = preg_split('/\<ul id=\"dashmenu\"\>[\S\s]*/',$contents);
-
-	echo $filter[0];
-	echo $activity_tab;
-}
 
 
 function alter_tab_positions()
@@ -196,13 +173,13 @@ function limit_access()
 	global $parent_file;
 	
 	if(!is_site_admin()) {
-		if(strpos($_SERVER['SCRIPT_NAME'],'/themes.php')) header("Location: index.php");
+		//if(strpos($_SERVER['SCRIPT_NAME'],'/themes.php')) header("Location: index.php");
 		if(strpos($_SERVER['SCRIPT_NAME'],'/plugins.php')) header("Location: index.php");
 		if(strpos($_SERVER['SCRIPT_NAME'],'/users.php')) header("Location: index.php");
 		if(strpos($_SERVER['SCRIPT_NAME'],'/profile.php')) header("Location: index.php");
 		if(strpos($_SERVER['SCRIPT_NAME'],'/page-new.php')) header("Location: index.php");
 		if(strpos($_SERVER['SCRIPT_NAME'],'/edit-pages.php')) header("Location: index.php");
-		if(strpos($_SERVER['SCRIPT_NAME'],'/options')) header("Location: index.php");
+		//if(strpos($_SERVER['SCRIPT_NAME'],'/options')) header("Location: index.php");
 		if(strpos($_SERVER['SCRIPT_NAME'],'/admin.php?page=bp_core.php')) header("Location: index.php");
 	}
 }
