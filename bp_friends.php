@@ -47,20 +47,23 @@ function friends_install()
 
 function friends_add_menu() 
 {	
-	global $wpdb, $table_name, $bp_friends;
+	global $wpdb, $table_name, $bp_friends, $userdata;
 	$table_name = $wpdb->base_prefix . "bp_friends";
 	
-	/* Instantiate bp_Friends class to do the real work. */
-	$bp_friends = new BP_Friends;
-	$bp_friends->bp_friends();
+	if($wpdb->blogid == $userdata->primary_blog)
+	{
+		/* Instantiate bp_Friends class to do the real work. */
+		$bp_friends = new BP_Friends;
+		$bp_friends->bp_friends();
 	
-	add_menu_page("Friends", "Friends", 1, basename(__FILE__), "friends_list");
-	add_submenu_page(basename(__FILE__), "My Friends", "My Friends", 1, basename(__FILE__), "friends_list");
-	add_submenu_page(basename(__FILE__), "Friend Finder", "Friend Finder", 1, "friend_finder", "friends_find");	
+		add_menu_page("Friends", "Friends", 1, basename(__FILE__), "friends_list");
+		add_submenu_page(basename(__FILE__), "My Friends", "My Friends", 1, basename(__FILE__), "friends_list");
+		add_submenu_page(basename(__FILE__), "Friend Finder", "Friend Finder", 1, "friend_finder", "friends_find");	
 
-	/* Add the administration tab under the "Site Admin" tab for site administrators */
-	add_submenu_page('bp_core.php', "Friends", "Friends", 1, basename(__FILE__), "friends_settings");
-
+		/* Add the administration tab under the "Site Admin" tab for site administrators */
+		add_submenu_page('wpmu-admin.php', "Friends", "Friends", 1, basename(__FILE__), "friends_settings");
+	}
+	
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 	if($wpdb->get_var("show tables like '%" . $table_name . "%'") == false) friends_install();
 }
