@@ -51,24 +51,28 @@ function messages_install()
 
 function messages_add_menu() 
 {	
-	global $wpdb, $table_name, $wpmuBaseTablePrefix, $bp_messages;
+	global $wpdb, $table_name, $wpmuBaseTablePrefix, $bp_messages, $userdata;
 	$table_name = $wpmuBaseTablePrefix . "bp_messages";
-	
-	/* Instantiate bp_Messages class to do the real work. */
-	$bp_messages = new BP_Messages;
-	$bp_messages->bp_messages();
-	
-	$inbox_count = $bp_messages->get_inbox_count();
-	
-	add_menu_page("Messages", "Messages$inbox_count", 1, basename(__FILE__), "messages_write_new");
-	add_submenu_page(basename(__FILE__), "Write New", "Write New", 1, basename(__FILE__), "messages_write_new");
-	add_submenu_page(basename(__FILE__), "Inbox", "Inbox$inbox_count", 1, "messages_inbox", "messages_inbox");	
-	add_submenu_page(basename(__FILE__), "Sentbox", "Sentbox", 1, "messages_sentbox", "messages_sentbox");
-	add_submenu_page(basename(__FILE__), "Drafts", "Drafts", 1, "messages_drafts", "messages_drafts");
 
-	/* Add the administration tab under the "Site Admin" tab for site administrators */
-	add_submenu_page('bp_core.php', "Messages", "Messages", 1, basename(__FILE__), "messages_settings");
+	if($wpdb->blogid == $userdata->primary_blog)
+	{	
+		/* Instantiate bp_Messages class to do the real work. */
+		$bp_messages = new BP_Messages;
+		$bp_messages->bp_messages();
+	
+		$inbox_count = $bp_messages->get_inbox_count();
+	
+		add_menu_page("Messages", "Messages$inbox_count", 1, basename(__FILE__), "messages_write_new");
+		add_submenu_page(basename(__FILE__), "Write New", "Write New", 1, basename(__FILE__), "messages_write_new");
+		add_submenu_page(basename(__FILE__), "Inbox", "Inbox$inbox_count", 1, "messages_inbox", "messages_inbox");	
+		add_submenu_page(basename(__FILE__), "Sentbox", "Sentbox", 1, "messages_sentbox", "messages_sentbox");
+		add_submenu_page(basename(__FILE__), "Drafts", "Drafts", 1, "messages_drafts", "messages_drafts");
 
+		/* Add the administration tab under the "Site Admin" tab for site administrators */
+		add_submenu_page('wpmu-admin.php', "Messages", "Messages", 1, basename(__FILE__), "messages_settings");
+
+	}
+	
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 	if($wpdb->get_var("show tables like '%" . $table_name . "%'") == false) messages_install();
 }
