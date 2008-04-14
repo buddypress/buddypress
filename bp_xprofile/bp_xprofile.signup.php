@@ -207,8 +207,11 @@ function xprofile_hidden_signup_fields()
 {
 	// Override the stage variable so we can redirect the validation of the form
 	// to our own custom validation function.
+	
+	if( !is_user_logged_in() ) {
 	?>
 	<input type="hidden" name="stage" value="" />
+	<?php } ?>
 	<input type="hidden" name="validate_custom" value="1" />
 	<?php
 }
