@@ -84,22 +84,26 @@ function xprofile_install()
 
 function xprofile_add_menu() 
 {
-	global $wpdb, $bp_xprofile_table_name, $bp_xprofile, $groups;
-
-	add_menu_page(__("Profile"), __("Profile"), 1, basename(__FILE__), "xprofile_picture");
-	add_submenu_page(basename(__FILE__), __("Picture"), __("Picture"), 1, basename(__FILE__), "xprofile_picture");		
+	global $wpdb, $bp_xprofile_table_name, $bp_xprofile, $groups, $userdata;
 	
-	$groups = BP_XProfile_Group::get_all();
+	if($wpdb->blogid == $userdata->primary_blog)
+	{
+		add_menu_page(__("Profile"), __("Profile"), 1, basename(__FILE__), "xprofile_picture");
+		add_submenu_page(basename(__FILE__), __("Picture"), __("Picture"), 1, basename(__FILE__), "xprofile_picture");		
+		add_options_page(__("Profile"), __("Profile"), 1, basename(__FILE__), "xprofile_add_settings");		
+		
+		$groups = BP_XProfile_Group::get_all();
 
-	for($i=0; $i<count($groups); $i++) {
-		if($groups[$i]->fields) {
-			add_submenu_page(basename(__FILE__), $groups[$i]->name, $groups[$i]->name, 1, "xprofile_" . $groups[$i]->name, "xprofile_edit");		
+		for($i=0; $i<count($groups); $i++) {
+			if($groups[$i]->fields) {
+				add_submenu_page(basename(__FILE__), $groups[$i]->name, $groups[$i]->name, 1, "xprofile_" . $groups[$i]->name, "xprofile_edit");		
+			}
 		}
+	
+		/* Add the administration tab under the "Site Admin" tab for site administrators */
+		add_submenu_page('wpmu-admin.php', __("Profiles"), __("Profiles"), 1, "xprofile_settings", "xprofile_admin");
 	}
 	
-	/* Add the administration tab under the "Site Admin" tab for site administrators */
-	add_submenu_page('bp_core.php', __("Profiles"), __("Profiles"), 1, "xprofile_settings", "xprofile_admin");
-
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 	if($wpdb->get_var("show tables like '%" . $bp_xprofile_table_name . "%'") == false) xprofile_install();
 }
@@ -125,6 +129,7 @@ function xprofile_setup()
 	/* Setup CSS and JS */
 	add_action("admin_print_scripts", "xprofile_add_css");
 	add_action("admin_print_scripts", "xprofile_add_js");
+
 }
 add_action('admin_menu','xprofile_setup');
 
@@ -140,7 +145,7 @@ function xprofile_invoke_authordata()
 {
 	query_posts('showposts=1');
 	if (have_posts()) : while (have_posts()) : the_post(); endwhile; endif;
-	global $is_author, $userdata, $authordata;
+	global $is_author, $userdata, $authordata;	
 }
 add_action('wp_head', 'xprofile_invoke_authordata');
 
@@ -445,6 +450,22 @@ function xprofile_picture()
 	<?php	
 }
 
+
+/**************************************************************************
+ xprofile_add_settings()
+ 
+ Renders the profile tab under settings for each member.
+ **************************************************************************/
+
+function xprofile_add_settings()
+{
+?>
+	<div class="wrap">
+		<h2><?php _e('Profile Settings'); ?></h2>
+		<p>Member profile settings will appear here.</p>
+	</div>
+<?php
+}
 
 
 ?>
