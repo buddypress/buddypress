@@ -10,181 +10,178 @@
  *
  **************************************************/
 
-function setup_tabs() 
+include_once(ABSPATH . 'wp-content/mu-plugins/bp_core/bp_core.thirdlevel.php');
+include_once(ABSPATH . 'wp-content/mu-plugins/bp_core/bp_core.settingstab.php');
+
+if(!get_site_option('bp_disable_blog_tab')) {
+	include_once(ABSPATH . 'wp-content/mu-plugins/bp_core/bp_core.blogtab.php');
+}
+
+if(isset($_POST['submit']) && $_POST['save_admin_settings']) {
+	save_admin_settings();
+}
+
+function start_buffer()
 {
-	global $menu, $submenu;
-	
-	/***
-	 * REMOVE tabs we don't want.
-	 */
-	
-	/** Remove Presentation Tab **/		
-	reset($menu); $page = key($menu);
-   		
-	if(!is_site_admin()) {
-	
-		/***** REMOVING PRESENTATION / DESIGN TABS 
-		while ((__('Presentation') != $menu[$page][0]) && next($menu))
-	           $page = key($menu);
-	   	if (__('Presentation') == $menu[$page][0]) unset($menu[$page]);
-	   		reset($menu); $page = key($menu);
-	
-		while ((__('Design') != $menu[$page][0]) && next($menu))
-	           $page = key($menu);
-	   	if (__('Design') == $menu[$page][0]) unset($menu[$page]);
-	   		reset($menu); $page = key($menu);
-		*******************************************/
-	
-		/** Remove Plugins Tab **/
-	   	while ((__('Plugins') != $menu[$page][0]) && next($menu))
-	           $page = key($menu);
-	   	if (__('Plugins') == $menu[$page][0]) unset($menu[$page]);
-	   		reset($menu); $page = key($menu);
-	
-		/** Remove Users Tab **/
-	   	while ((__('Users') != $menu[$page][0]) && next($menu))
-	           $page = key($menu);
-	   	if (__('Users') == $menu[$page][0]) unset($menu[$page]);
-	   		reset($menu); $page = key($menu);
+	ob_start();
+	add_action('dashmenu', 'stop_buffer');
+} 
+add_action('admin_menu', 'start_buffer');
 
-		/** Remove Options Tab & Settings Tab **
-	   	while ((__('Options') != $menu[$page][0]) && next($menu))
-	           $page = key($menu);
-	   	if (__('Options') == $menu[$page][0]) unset($menu[$page]);
-	   		reset($menu); $page = key($menu);
+function stop_buffer()
+{
+	$contents = ob_get_contents();
+	ob_end_clean();
+	buddypress_blog_switcher($contents);
+}
 
-	   	while ((__('Settings') != $menu[$page][0]) && next($menu))
-	           $page = key($menu);
-	   	if (__('Settings') == $menu[$page][0]) unset($menu[$page]);
-	   		reset($menu); $page = key($menu);
-		****************************************/
+function buddypress_blog_switcher($contents)
+{
+	global $current_user, $blog_id; // current blog
+	
+	// This code is duplicated from the MU core so it can
+	// be modified for BuddyPress.
+	
+	$filter = preg_split('/\<ul id=\"dashmenu\"\>[\S\s]/',$contents);
+	echo $filter[0];
+	
+	$list = array();
+	$options = array();
+
+	$primary_blog = get_usermeta( $current_user->ID, 'primary_blog' );
+	
+	foreach ( $blogs = get_blogs_of_user( $current_user->ID ) as $blog ) {
+		if ( !$blog->blogname )
+			continue;
+
+		// Use siteurl for this in case of mapping
+		$parsed = parse_url( $blog->siteurl );
+		$domain = $parsed['host'];
 		
-	}
-
-	/** Remove Comments Tab **/
-   	while ((__('edit-comments.php') != $menu[$page][2]) && next($menu))
-           $page = key($menu);
-   	if (__('edit-comments.php') == $menu[$page][2]) unset($menu[$page]);
-   		reset($menu); $page = key($menu);
-
-	/** Remove Manage Tab **/
-   	while ((__('Manage') != $menu[$page][0]) && next($menu))
-           $page = key($menu);
-   	if (__('Manage') == $menu[$page][0]) unset($menu[$page]);
-   		reset($menu); $page = key($menu);
-
-	/** Remove Write Tab **/
-   	while ((__('Write') != $menu[$page][0]) && next($menu))
-           $page = key($menu);
-   	if (__('Write') == $menu[$page][0]) unset($menu[$page]);
-   		reset($menu); $page = key($menu);
-
-
-	/** Remove Pages Sub Tabs **/
-	unset($submenu["post-new.php"][10]);
-	unset($submenu["edit.php"][10]);
-	reset($submenu);
-
-	/***
-	 * RENAME tabs we want to appear differently.
-	 */	
-	
-	/** Build the Blog Tab and sub menus */
-	add_menu_page('Blog', 'Blog', 1, 'post-new.php');	
-	add_submenu_page('post-new.php', 'Manage Posts', 'Manage Posts', 1, 'edit.php');
-	add_submenu_page('post-new.php', 'Manage Categories', 'Manage Categories', 1, 'categories.php');
-	add_submenu_page('post-new.php', 'Manage Comments', 'Manage Comments', 1, 'edit-comments.php');	
-	add_submenu_page('post-new.php', 'Manage Uploads', 'Manage Uploads', 1, 'upload.php');		
-	add_submenu_page('post-new.php', 'Import', 'Import', 1, 'import.php');	
-	add_submenu_page('post-new.php', 'Export', 'Export', 1, 'export.php');
-			
-}
-add_action('admin_menu', 'setup_tabs');
-
-
-
-function alter_tab_positions()
-{
-	global $parent_file;
-	
-	/** BLOG tab **/
-	if(strpos($_SERVER['SCRIPT_NAME'],'/import.php')) $parent_file = 'post-new.php';
-	if(strpos($_SERVER['SCRIPT_NAME'],'/export.php')) $parent_file = 'post-new.php';
-	if(strpos($_SERVER['SCRIPT_NAME'],'/upload.php')) $parent_file = 'post-new.php';
-	if(strpos($_SERVER['SCRIPT_NAME'],'/edit-comments.php')) $parent_file = 'post-new.php';
-	if(strpos($_SERVER['SCRIPT_NAME'],'/categories.php')) $parent_file = 'post-new.php';
-	if(strpos($_SERVER['SCRIPT_NAME'],'/edit.php')) $parent_file = 'post-new.php';
-}
-add_action('admin_head', 'alter_tab_positions');
-
-function reorder_tabs()
-{
-	global $menu;
-	
-	foreach($menu as $key => $value)
-	{
-		for($j=0; $j<count($menu[$key]); $j++)
+		if($blog->userblog_id == $primary_blog)
 		{
-			if($menu[$key][$j] == "Blogroll" || $menu[$key][$j] == "Links")
-			{
-				$blogroll_key = $key;
-			}
-			else if($menu[$key][$j] == "Options")
-			{
-				$options_key = $key;
-			}
+			$current = ' id="primary_blog"';
+			$image = ' style="background-image: url(' . get_option('home') . '/wp-content/mu-plugins/bp_core/images/member.png);
+							  background-position: 2px 4px;
+							  background-repeat: no-repeat;
+							  padding-left: 22px;"';
 		}
-	}
+		else { 
+			$current = ''; 
+			$image = ' style="background-image: url(' . get_option('home') . '/wp-content/mu-plugins/bp_core/images/blog.png);
+							  background-position: 3px 3px;
+							  background-repeat: no-repeat;
+							  padding-left: 22px;"';; 
+		}
+			
+		if ( $_SERVER['HTTP_HOST'] === $domain ) {
+			$current  .= ' class="current"';
+			$selected = ' selected="selected"';
+		} else {
+			$current  .= '';
+			$selected = '';
+		}
+
+		$url = clean_url( $blog->siteurl ) . '/wp-admin/';
+		$name = wp_specialchars( strip_tags( $blog->blogname ) );
+		
+		$list_item = "<li><a$image href='$url'$current>$name</a></li>";
+		$option_item = "<option value='$url'$selected>$name</option>";
+
+		$list[] = $list_item;
+		$options[] = $option_item; // [sic] don't reorder dropdown based on current blog
 	
-	$new_key = bp_endkey($menu) + 1;
-	$menu[$new_key] = $menu[$blogroll_key];
-	$menu[$new_key+1] = $menu[$options_key];
-	unset($menu[$blogroll_key]);
-	unset($menu[$options_key]);
+	}
+	ksort($list);
+	ksort($options);
+
+	$list = array_slice( $list, 0, 4 ); // First 4
+
+	$select = "\n\t\t<select>\n\t\t\t" . join( "\n\t\t\t", $options ) . "\n\t\t</select>";
+
+	echo "<ul id=\"dashmenu\">\n\t" . join( "\n\t", $list );
+
+	if ( count($list) < count($options) ) :
+?>
+	<li id="all-my-blogs-tab" class="wp-no-js-hidden"><a href="#" class="blog-picker-toggle"><?php _e( 'All my blogs' ); ?></a></li>
+
+	</ul>
+
+	<form id="all-my-blogs" action="" method="get" style="display: none">
+		<p>
+			<?php printf( __( 'Choose a blog: %s' ), $select ); ?>
+
+			<input type="submit" class="button" value="<?php _e( 'Go' ); ?>" />
+			<a href="#" class="blog-picker-toggle"><?php _e( 'Cancel' ); ?></a>
+		</p>
+	</form>
+<?php
+	endif; // counts
 }
-add_action('admin_head', 'reorder_tabs');
 
 function add_settings_tab()
 {
-	if(is_site_admin()) {
-		add_menu_page("BP Settings", "BP Settings", 1, basename(__FILE__), "core_admin_settings");
-		add_submenu_page(basename(__FILE__), "BuddyPress", "BuddyPress", 1, basename(__FILE__), "core_admin_settings");
-	}
+	add_submenu_page('wpmu-admin.php', "BuddyPress", "BuddyPress", 1, basename(__FILE__), "core_admin_settings");
 }
 add_action('admin_menu', 'add_settings_tab');
 
+
 function core_admin_settings()
 {
-
+	if(get_site_option('bp_disable_blog_tab')) {
+		$blog_tab_checked = ' checked="checked"';
+	}
+	
+	if(get_site_option('bp_disable_design_tab')) {
+		$design_tab_checked = ' checked="checked"';		
+	}
+	
 ?>	
 	<div class="wrap">
 		
-		<h2><?php _e("Core Settings") ?></h2>
+		<h2><?php _e("BuddyPress Settings") ?></h2>
 		
-		<p>BuddyPress core settings will be administered from this area.</p>
+		<form action="" method="post">
+			<table class="form-table">
+			<tbody>
+			<tr valign="top">
+			<th scope="row" valign="top">Tabs</th>
+			<td>
+				<input type="checkbox" value="1" name="disable_blog_tab"<?php echo $blog_tab_checked; ?> />
+				<label for="disable_blog_tab"> Disable merging of 'Write', 'Manage' and 'Comments' into one 'Blog' tab.</label>
+				<br />
+				<input type="checkbox" value="1" name="disable_design_tab"<?php echo $design_tab_checked; ?> />
+				<label for="disable_design_tab"> Disable 'Design' tab for all members except site administrators.</label>
+			</td>
+			</tr>
+			</tbody>
+			</table>
+
+			<p class="submit">
+				  <input name="submit" value="Save Changes" type="submit" />
+			</p>
+		
+			<input type="hidden" name="save_admin_settings" value="1" />
+		</form>
 		
 	</div>
 <?php
 }
 
-
-function limit_access()
+function save_admin_settings()
 {
-	global $parent_file;
-	
-	if(!is_site_admin()) {
-		//if(strpos($_SERVER['SCRIPT_NAME'],'/themes.php')) header("Location: index.php");
-		if(strpos($_SERVER['SCRIPT_NAME'],'/plugins.php')) header("Location: index.php");
-		if(strpos($_SERVER['SCRIPT_NAME'],'/users.php')) header("Location: index.php");
-		if(strpos($_SERVER['SCRIPT_NAME'],'/profile.php')) header("Location: index.php");
-		if(strpos($_SERVER['SCRIPT_NAME'],'/page-new.php')) header("Location: index.php");
-		if(strpos($_SERVER['SCRIPT_NAME'],'/edit-pages.php')) header("Location: index.php");
-		//if(strpos($_SERVER['SCRIPT_NAME'],'/options')) header("Location: index.php");
-		if(strpos($_SERVER['SCRIPT_NAME'],'/admin.php?page=bp_core.php')) header("Location: index.php");
+	if(!isset($_POST['disable_blog_tab'])) {
+		$_POST['disable_blog_tab'] = 0;
 	}
-}
-add_action('admin_menu', 'limit_access');
+	else if(!isset($_POST['disable_design_tab']))
+	{
+		$_POST['disable_design_tab'] = 0;
+	}
 
+	// temp code for now, until full settings page is added
+	add_site_option('bp_disable_blog_tab', $_POST['disable_blog_tab']);
+	add_site_option('bp_disable_design_tab', $_POST['disable_design_tab']);
+}
 
 
 
