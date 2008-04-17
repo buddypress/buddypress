@@ -178,7 +178,7 @@ class BP_Messages
 				</div>
 			<?php } ?>					
 			
-			<form action="admin.php?page=bp_messages.php&amp;mode=send_message" method="post" id="send_message_form">
+			<form action="admin.php?page=bp-messages.php&amp;mode=send_message" method="post" id="send_message_form">
 
 				<p>			
 				<div id="usernamediv">

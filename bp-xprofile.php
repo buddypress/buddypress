@@ -362,9 +362,9 @@ function xprofile_picture() {
 					<h3><?php _e('Current Picture'); ?></h3>
 					<?php echo $current_thumbnail->html; ?>
 					
-					<p style="text-align: center">[ <a href="admin.php?page=bp_xprofile.php&amp;mode=delete_picture&amp;file=<?php echo $current["picture"]; ?>">delete picture</a> ]</p>
+					<p style="text-align: center">[ <a href="admin.php?page=bp-xprofile.php&amp;mode=delete_picture&amp;file=<?php echo $current["picture"]; ?>">delete picture</a> ]</p>
 					
-					<form action="admin.php?page=bp_xprofile.php" enctype="multipart/form-data" method="post">
+					<form action="admin.php?page=bp-xprofile.php" enctype="multipart/form-data" method="post">
 						<h3>Upload a Picture</h3>
 
 						<input type="file" name="profile_image" id="profile_image" />
@@ -385,7 +385,7 @@ function xprofile_picture() {
 				<ul>
 				<?php for ( $i = 0; $i < count($pictures); $i++ ) { ?>
 					<li>
-						<a href="admin.php?page=bp_xprofile.php&amp;mode=set_picture&amp;file=<?php echo $pictures[$i]["file"]; ?>">
+						<a href="admin.php?page=bpxprofile.php&amp;mode=set_picture&amp;file=<?php echo $pictures[$i]["file"]; ?>">
 							<img src="<?php echo get_option('site_url') . 'files/profilepics/' . $pictures[$i]["thumbnail"]; ?>" alt="Alternate Pic" style="height: 100px;" /></li>
 						</a>
 					</li>
