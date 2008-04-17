@@ -385,7 +385,7 @@ function xprofile_picture() {
 				<ul>
 				<?php for ( $i = 0; $i < count($pictures); $i++ ) { ?>
 					<li>
-						<a href="admin.php?page=bpxprofile.php&amp;mode=set_picture&amp;file=<?php echo $pictures[$i]["file"]; ?>">
+						<a href="admin.php?page=bp-xprofile.php&amp;mode=set_picture&amp;file=<?php echo $pictures[$i]["file"]; ?>">
 							<img src="<?php echo get_option('site_url') . 'files/profilepics/' . $pictures[$i]["thumbnail"]; ?>" alt="Alternate Pic" style="height: 100px;" /></li>
 						</a>
 					</li>
