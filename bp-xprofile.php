@@ -1,6 +1,9 @@
 <?php
 
-$bp_xprofile_table_name = $wpdb->base_prefix . 'bp_xprofile';
+$bp_xprofile_table_name_groups = $wpdb->base_prefix . 'bp_xprofile_groups';
+$bp_xprofile_table_name_fields = $wpdb->base_prefix . 'bp_xprofile_fields';
+$bp_xprofile_table_name_data   = $wpdb->base_prefix . 'bp_xprofile_data';
+
 $image_base             = get_option('siteurl') . '/wp-content/mu-plugins/bp-xprofile/images';
 $profile_picture_path   = trim( get_option('upload_path') ) . '/profilepics';
 $profile_picture_base   = get_option('site_url') . 'files/profilepics';
@@ -8,6 +11,7 @@ $profile_picture_base   = get_option('site_url') . 'files/profilepics';
 include_once( 'bp-xprofile/bp-xprofile-classes.php' );
 include_once( 'bp-xprofile/bp-xprofile-admin.php' );
 include_once( 'bp-xprofile/bp-xprofile-signup.php' );
+include_once( 'bp-xprofile/bp-xprofile-templatetags.php' );
 include_once( 'bp-xprofile/bp-xprofile-cssjs.php' );
 
 
@@ -176,14 +180,14 @@ function xprofile_get_picture() {
  **************************************************************************/
 
 function xprofile_edit() {
-	global $wpdb, $bp_xprofile_table_name, $userdata;
+	global $wpdb, $bp_xprofile_table_name_groups, $userdata;
 		
 	// Dynamic tabs mean that we have to assign the same function to all
 	// profile group tabs but we still need to distinguish what information 
 	// to display for the current tab. Thankfully the page get var holds the key.
 	$group_name = explode( "_", $_GET['page'] );
 	$group_name = $group_name[1]; // xprofile_XXXX <-- This X bit.
-	$group_id   = $wpdb->get_var( "SELECT id FROM " . $bp_xprofile_table_name . "_groups WHERE name = '" . $group_name . "'" );
+	$group_id   = $wpdb->get_var( $wpdb->prepare("SELECT id FROM $bp_xprofile_table_name_groups WHERE name = %s", $group_name) );
 
 	$group = new BP_XProfile_Group($group_id);
 ?>
