@@ -1,0 +1,182 @@
+<?php
+
+Class BP_XProfile_Template {
+	var $current_group = -1;
+	var $group_count;
+	var $groups;
+	var $group;
+	
+	var $current_field = -1;
+	var $field_count;
+	var $field;
+	
+	var $in_the_loop;
+	var $user_id;
+
+	function bp_xprofile_template() {
+		global $authordata;
+		
+		$this->groups = BP_XProfile_Group::get_all(true);
+		$this->group_count = count($this->groups);
+		$this->user_id = $authordata->ID;
+	}
+	
+	function has_groups() {
+		return true;
+	}
+	
+	function next_group() {
+		$this->current_group++;
+
+		$this->group = $this->groups[$this->current_group];
+		$this->field_count = count($this->group->fields);
+		
+		for ( $i = 0; $i < $this->field_count; $i++ ) {
+			$this->group->fields[$i] = new BP_XProfile_Field( $this->group->fields[$i]->id, $this->user_id );	
+		}
+		
+		return $this->group;
+	}
+	
+	function rewind_groups() {
+		$this->current_group = -1;
+		if ( $this->group_count > 0 ) {
+			$this->group = $this->groups[0];
+		}
+	}
+	
+	function profile_groups() { 
+		if ( $this->current_group + 1 < $this->group_count ) {
+			return true;
+		} elseif ( $this->current_group + 1 == $this->group_count ) {
+			do_action('loop_end');
+			// Do some cleaning up after the loop
+			$this->rewind_groups();
+		}
+
+		$this->in_the_loop = false;
+		return false;
+	}
+	
+	function the_profile_group() {
+		global $group;
+
+		$this->in_the_loop = true;
+		$group = $this->next_group();
+
+		if ( $this->current_group == 0 ) // loop has just started
+			do_action('loop_start');
+	}
+	
+	/**** FIELDS ****/
+	
+	function next_field() {
+		$this->current_field++;
+
+		$this->field = $this->group->fields[$this->current_field];
+		return $this->field;
+	}
+	
+	function rewind_fields() {
+		$this->current_field = -1;
+		if ( $this->field_count > 0 ) {
+			$this->field = $this->group->fields[0];
+		}
+	}	
+	
+	function has_fields() { 
+		$has_data = 0;
+		
+		if ( count($this->group->fields) > 0 ) {
+			for ( $i = 0; $i < count($this->group->fields); $i++ ) { 
+				$field = $this->group->fields[$i];
+
+				if ( $field->data->value != null ) {
+					$has_data = 1;
+				}
+			}
+		}
+		
+		if($has_data)
+			return true;
+		
+		return false;
+	}
+	
+	function profile_fields() {
+		if ( $this->current_field + 1 < $this->field_count ) {
+			return true;
+		} elseif ( $this->current_field + 1 == $this->field_count ) {
+			// Do some cleaning up after the loop
+			$this->rewind_fields();
+		}
+
+		return false;	
+	}
+	
+	function the_profile_field() {
+		global $field;
+
+		$field = $this->next_field();
+	}
+}
+
+$profile_template = new BP_XProfile_Template;
+
+function has_profile() { 
+	global $profile_template;
+	return $profile_template->has_groups();
+}
+
+function profile_groups() { 
+	global $profile_template;
+	return $profile_template->profile_groups();
+}
+
+function the_profile_group() {
+	global $profile_template;
+	return $profile_template->the_profile_group();
+}
+
+function has_fields() {
+	global $profile_template;
+	return $profile_template->has_fields();
+}
+
+function the_profile_group_name() {
+	global $group;
+	echo $group->name;
+}
+
+function the_profile_group_description() {
+	global $group;
+	echo $group->description;
+}
+
+function profile_fields() {
+	global $profile_template;
+	return $profile_template->profile_fields();
+}
+
+function the_profile_field() {
+	global $profile_template;
+	return $profile_template->the_profile_field();
+}
+
+function the_profile_field_name() {
+	global $field;
+	echo $field->name;
+}
+
+function the_profile_field_value() {
+	global $field;
+	echo $field->data->value;
+}
+
+function the_profile_picture() {
+	xprofile_get_picture();
+}
+
+
+
+?>
