@@ -1,5 +1,6 @@
 <?php
 
+$bp_xprofile_table_name        = $wpdb->base_prefix . 'bp_xprofile';
 $bp_xprofile_table_name_groups = $wpdb->base_prefix . 'bp_xprofile_groups';
 $bp_xprofile_table_name_fields = $wpdb->base_prefix . 'bp_xprofile_fields';
 $bp_xprofile_table_name_data   = $wpdb->base_prefix . 'bp_xprofile_data';
@@ -26,7 +27,7 @@ function xprofile_install() {
 
 	$sql = array();
 	
-	$sql[] = "CREATE TABLE `". $bp_xprofile_table_name ."_groups` (
+	$sql[] = "CREATE TABLE `". $bp_xprofile_table_name_groups . "` (
 			  `id` int(11) unsigned NOT NULL auto_increment,
 			  `name` varchar(150) NOT NULL,
 			  `description` mediumtext NOT NULL,
@@ -34,7 +35,7 @@ function xprofile_install() {
 			  PRIMARY KEY  (`id`)
 	);";
 	
-	$sql[] = "CREATE TABLE `". $bp_xprofile_table_name ."_fields` (
+	$sql[] = "CREATE TABLE `". $bp_xprofile_table_name_fields ."` (
 			  `id` int(11) unsigned NOT NULL auto_increment,
 			  `group_id` int(11) unsigned NOT NULL,
 			  `parent_id` int(11) unsigned NOT NULL,
@@ -46,7 +47,7 @@ function xprofile_install() {
 			  PRIMARY KEY  (`id`)
 	);";
 	
-	$sql[] = "CREATE TABLE `". $bp_xprofile_table_name ."_data` (
+	$sql[] = "CREATE TABLE `". $bp_xprofile_table_name_data ."` (
 			  `id` int(11) unsigned NOT NULL auto_increment,
 			  `field_id` int(11) NOT NULL,
 			  `user_id` int(11) NOT NULL,
@@ -55,9 +56,9 @@ function xprofile_install() {
 			  PRIMARY KEY  (`id`)
 	)";
 	
-	$sql[] = "INSERT INTO `". $bp_xprofile_table_name ."_groups` VALUES (1, 'Basic', '', 0);";
-	$sql[] = "INSERT INTO `". $bp_xprofile_table_name ."_fields` VALUES (1, 1, 0, 'textbox', 'First Name', '', 1, 0);";
-	$sql[] = "INSERT INTO `". $bp_xprofile_table_name ."_fields` VALUES (2, 1, 0, 'textbox', 'Last Name', '', 1, 0);";
+	$sql[] = "INSERT INTO `". $bp_xprofile_table_name_groups . "` VALUES (1, 'Basic', '', 0);";
+	$sql[] = "INSERT INTO `". $bp_xprofile_table_name_fields . "` VALUES (1, 1, 0, 'textbox', 'First Name', '', 1, 0);";
+	$sql[] = "INSERT INTO `". $bp_xprofile_table_name_data . "` VALUES (2, 1, 0, 'textbox', 'Last Name', '', 1, 0);";
 	
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 	dbDelta($sql);
