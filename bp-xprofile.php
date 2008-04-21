@@ -23,7 +23,7 @@ include_once( 'bp-xprofile/bp-xprofile-cssjs.php' );
  **************************************************************************/
 
 function xprofile_install() {
-	global $bp_xprofile_table_name;
+	global $bp_xprofile_table_name_groups, $bp_xprofile_table_name_fields, $bp_xprofile_table_name_data;
 
 	$sql = array();
 	
