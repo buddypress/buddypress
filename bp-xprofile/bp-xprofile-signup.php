@@ -60,7 +60,7 @@ add_action( 'signup_extra_fields', 'xprofile_add_signup_fields' );
  fields and custom signup fields at the same time.
 
  I'm basically doing some serious bypassing of the validate_blog_signup
- function to achive this. It saves hacking any of the core.
+ function to achieve this. It saves hacking any of the core.
  **************************************************************************/
 
 function xprofile_validate_signup_fields() {

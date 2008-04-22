@@ -8,6 +8,7 @@ Class BP_XProfile_Template {
 	
 	var $current_field = -1;
 	var $field_count;
+	var $field_has_data;
 	var $field;
 	
 	var $in_the_loop;
@@ -85,14 +86,14 @@ Class BP_XProfile_Template {
 	}	
 	
 	function has_fields() { 
-		$has_data = 0;
+		$has_data = false;
 		
 		if ( count($this->group->fields) > 0 ) {
 			for ( $i = 0; $i < count($this->group->fields); $i++ ) { 
 				$field = $this->group->fields[$i];
 
 				if ( $field->data->value != null ) {
-					$has_data = 1;
+					$has_data = true;
 				}
 			}
 		}
@@ -118,6 +119,13 @@ Class BP_XProfile_Template {
 		global $field;
 
 		$field = $this->next_field();
+		
+		if ( $field->data->value != '' ) {
+			$this->field_has_data = true;
+		}
+		else {
+			$this->field_has_data = false;
+		}
 	}
 }
 
@@ -141,6 +149,11 @@ function the_profile_group() {
 function has_fields() {
 	global $profile_template;
 	return $profile_template->has_fields();
+}
+
+function has_data() {
+	global $profile_template;
+	return $profile_template->field_has_data;
 }
 
 function the_profile_group_name() {
