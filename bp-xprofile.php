@@ -209,7 +209,9 @@ function xprofile_edit() {
 						$post_field_string = ( $group->fields[$j]->type == 'datebox' ) ? '_day' : null;
 						$posted_fields = explode( ",", $_POST['field_ids'] );
 						$current_field = $_POST['field_' . $posted_fields[$j] . $post_field_string];
-
+						
+						var_dump($current_field);
+						
 						if ( ( $field->is_required && !isset($current_field) ) ||
 						     ( $field->is_required && $current_field == '' ) ) {
 							
@@ -217,7 +219,7 @@ function xprofile_edit() {
 							$field->message = sprintf( __('%s cannot be left blank.'), $field->name );
 							$errors[] = $field->message . "<br />";
 						}
-						else if ( !$field->is_required && $current_field == '' ) {
+						else if ( !$field->is_required && ( $current_field == '' || is_null($current_field) ) ) {
 							// data removed, so delete the field data from the DB.								
 							$profile_data = new BP_Xprofile_ProfileData( $group->fields[$j]->id );
 							$profile_data->delete();
