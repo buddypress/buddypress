@@ -238,6 +238,9 @@ function xprofile_edit() {
 								$profile_data->value = strtotime($date_value);
 							}
 							else {
+								if ( is_array($current_field) )
+									$current_field = serialize($current_field);
+									
 								$profile_data->value = $current_field;
 							}
 

@@ -170,6 +170,13 @@ function the_profile_field_name() {
 
 function the_profile_field_value() {
 	global $field;
+	
+	if ( bp_is_serialized($field->data->value) ) {
+		$field_value = unserialize($field->data->value);
+		$field_value = implode( ", ", $field_value );
+		$field->data->value = $field_value;
+	}
+	
 	echo $field->data->value;
 }
 

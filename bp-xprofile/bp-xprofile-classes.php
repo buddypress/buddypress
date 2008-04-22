@@ -269,7 +269,7 @@ Class BP_XProfile_Field {
 			
 			// Check to see if this is a selectbox or radio button field.
 			// We need to add the options to the db, if it is.
-			if ( $this->type == "radio" || $this->type == "selectbox" ) {
+			if ( $this->type == 'radio' || $this->type == 'selectbox' || $this->type == 'checkbox' ) {
 				if ( $this->id ) {
 					$parent_id = $this->id;
 				} else {
@@ -278,10 +278,12 @@ Class BP_XProfile_Field {
 
 				if ( $this->type == "radio" ) {
 					$options = $_POST['radio_option'];
-				} else {
+				} else if ( $this->type == "selectbox" ) {
 					$options = $_POST['select_option'];
+				} else if ( $this->type == "checkbox" ) {
+					$options = $_POST['checkbox_option'];
 				}
-
+				
 				for ( $i = 0; $i < count($options); $i++ ) {
 					$option_value = $options[$i];
 
@@ -328,19 +330,19 @@ Class BP_XProfile_Field {
 		}
 		
 		switch ( $this->type ) {
-			case "textbox":
+			case 'textbox':
 				$html .= '<label for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
 				$html .= $this->message . '<input type="text" name="field_' . $this->id . '" id="field_' . $this->id . '" value="' . $this->data->value . '" />';
 				$html .= '<span class="desc">' . $this->desc . '</span>';
 			break;
 			
-			case "textarea":
+			case 'textarea':
 				$html .= '<label for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
 				$html .= $this->message . '<textarea rows="5" cols="40" name="field_' . $this->id . '" id="field_' . $this->id . '">' . $this->data->value . '</textarea>';
 				$html .= '<span class="desc">' . $this->desc . '</span>';
 			break;
 			
-			case "selectbox":
+			case 'selectbox':
 				$options = $this->get_children();
 
 				$html .= '<label for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
@@ -360,7 +362,7 @@ Class BP_XProfile_Field {
 				$html .= '<span class="desc">' . $this->desc . '</span>';
 			break;
 			
-			case "radio":
+			case 'radio':
 				$options = $this->get_children();
 				
 				$html .= '<div class="radio" id="field_' . $this->id . '"><span>' . $asterisk . $this->name . ':</span>' . $this->message;
@@ -385,7 +387,32 @@ Class BP_XProfile_Field {
 				
 			break;
 			
-			case "datebox":
+			case 'checkbox':
+				$options = $this->get_children();
+				
+				$html .= '<div class="checkbox" id="field_' . $this->id . '"><span>' . $asterisk . $this->name . ':</span>' . $this->message;
+				
+				$option_values = BP_XProfile_ProfileData::get_value($options[0]->parent_id);
+				$option_values = unserialize($option_values);
+				
+				for ( $k = 0; $k < count($options); $k++ ) {	
+					for ( $j = 0; $j < count($option_values); $j++ ) {
+						if ( $option_values[$j] == $options[$k]->name ) {
+							$selected = ' checked="checked"';
+							break;
+						}
+					}
+					
+					$html .= '<label><input' . $selected . ' type="checkbox" name="field_' . $this->id . '[]" id="field_' . $options[$k]->id . '_' . $k . '" value="' . $options[$k]->name . '"> ' . $options[$k]->name . '</label>';
+					$selected = '';
+				}
+				
+				$html .= '<span class="desc">' . $this->desc . '</span>';				
+				$html .= '</div>';
+				
+			break;
+			
+			case 'datebox':
 				if ( $this->data->value != '' ) {
 					$day = date("j", $this->data->value);
 					$month = date("F", $this->data->value);
@@ -530,48 +557,67 @@ Class BP_XProfile_Field {
 						<option value="datebox"<?php if ( $this->type == 'datebox' ) {?> selected="selected"<?php } ?>>Date Selector</option>
 						<option value="radio"<?php if ( $this->type == 'radio' ) {?> selected="selected"<?php } ?>>Radio Buttons</option>
 						<option value="selectbox"<?php if ( $this->type == 'selectbox' ) {?> selected="selected"<?php } ?>>Drop-down Select Box</option>
+						<option value="checkbox"<?php if ( $this->type == 'checkbox' ) {?> selected="selected"<?php } ?>>Checkboxes</option>
 					</select>
 				</div>
 			
 			<div id="radio" style="<?php if ( $this->type != 'radio' ) {?>display: none;<?php } ?> margin-left: 15px;">
-				<p>Please enter the options for this radio button field</p>
+				<p><?php _e('Please enter the options for this radio button field.') ?></p>
 				<?php
 				if ( !empty($options) ) {
 					for ( $i = 0; $i < count($options); $i++ ) { ?>
-						<p>Option <?php echo $i+1 ?>: 
+						<p><?php _e('Option') ?> <?php echo $i+1 ?>: 
 						   <input type="text" name="radio_option[]" id="radio_option<?php echo $i+1 ?>" value="<?php echo $options[$i]->name ?>" />
 						</p>
 				<?php } ?>
 					<input type="hidden" name="radio_option_number" id="radio_option_number" value="<?php echo $i+1 ?>" />
 				<?php } else { ?>
-					<p>Option 1: <input type="text" name="radio_option[]" id="radio_option1" /></p>
+					<p><?php _e('Option') ?> 1: <input type="text" name="radio_option[]" id="radio_option1" /></p>
 					<input type="hidden" name="radio_option_number" id="radio_option_number" value="2" />
 				<?php } ?>
 				<div id="radio_more"></div>
-				<p><a href="javascript:add_option('radio')">Add Another Option</a></p>
+				<p><a href="javascript:add_option('radio')"><?php _e('Add Another Option') ?></a></p>
 			</div>
 			
 			<div id="select" style="<?php if ( $this->type != 'selectbox' ) { ?>display: none;<?php } ?> margin-left: 15px;">
-				<p>Please enter the options for drop-down select box</p>
+				<p><?php _e('Please enter the options for drop-down select box') ?></p>
 				<?php
 				if ( !empty($options) ) {
 					for ( $i = 0; $i < count($options); $i++ ) { ?>
-						<p>Option <?php echo $i + 1 ?>: 
+						<p><?php _e('Option') ?> <?php echo $i + 1 ?>: 
 						   <input type="text" name="select_option[]" id="select_option<?php echo $i+1 ?>" value="<?php echo $options[$i]->name ?>" />
 						</p>
 				<?php } ?>
 					<input type="hidden" name="select_option_number" id="select_option_number" value="<?php echo $i+1 ?>" />
 				<?php } else { ?>
-					<p>Option 1: <input type="text" name="select_option[]" id="select_option1" /></p>
+					<p><?php _e('Option') ?> 1: <input type="text" name="select_option[]" id="select_option1" /></p>
 					<input type="hidden" name="select_option_number" id="select_option_number" value="2" />
 				<?php } ?>
 				<div id="select_more"></div>					
-				<p><a href="javascript:add_option('select')">Add Another Option</a></p>
+				<p><a href="javascript:add_option('select')"><?php _e('Add Another Option') ?></a></p>
+			</div>
+			
+			<div id="checkbox" style="<?php if ( $this->type != 'checkbox' ) { ?>display: none;<?php } ?> margin-left: 15px;">
+				<p><?php _e('Please enter the values for each checkbox.') ?></p>
+				<?php
+				if ( !empty($options) ) {
+					for ( $i = 0; $i < count($options); $i++ ) { ?>
+						<p><?php _e('Option') ?> <?php echo $i + 1 ?>: 
+						   <input type="text" name="checkbox_option[]" id="checkbox_option<?php echo $i+1 ?>" value="<?php echo $options[$i]->name ?>" />
+						</p>
+				<?php } ?>
+					<input type="hidden" name="checkbox_option" id="checkbox_option" value="<?php echo $i+1 ?>" />
+				<?php } else { ?>
+					<p><?php _e('Option') ?> 1: <input type="text" name="checkbox_option[]" id="checkbox_option1" /></p>
+					<input type="hidden" name="checkbox_option_number" id="checkbox_option_number" value="2" />
+				<?php } ?>
+				<div id="checkbox_more"></div>					
+				<p><a href="javascript:add_option('checkbox')"><?php _e('Add Another Option') ?></a></p>
 			</div>		
 							
 			<p class="submit" style="float: left;">
 					&nbsp;<input type="submit" value="<?php _e("Save") ?> &raquo;" name="saveField" id="saveField" style="font-weight: bold" />
-					 or <a href="admin.php?page=xprofile_settings" style="color: red">Cancel</a>
+					 <?php _e('or') ?> <a href="admin.php?page=xprofile_settings" style="color: red"><?php _e('Cancel') ?></a>
 			</p>
 			
 			<div class="clear"></div>
@@ -588,7 +634,7 @@ Class BP_XProfile_Field {
 	function get_signup_fields() {
 		global $wpdb, $bp_xprofile_table_name_fields, $bp_xprofile_table_name_groups;
 		
-		$sql = $wpdb->prepare("SELECT f.id FROM $bp_xprofile_table_name_fields AS f, $bp_xprofile_table_name_groups AS g WHERE g.name = 'Basic'	AND g.id = f.group_id ORDER BY f.id");
+		$sql = $wpdb->prepare("SELECT f.id FROM $bp_xprofile_table_name_fields AS f, $bp_xprofile_table_name_groups AS g WHERE g.name = 'Basic' AND f.parent_id = 0	AND g.id = f.group_id ORDER BY f.id");
 
 		if ( !$temp_fields = $wpdb->get_results($sql) )
 			return false;
@@ -612,7 +658,10 @@ Class BP_XProfile_Field {
 			return false;
 		} else if ( $_POST['fieldtype'] == 'selectbox' && empty($_POST['select_option'][0]) ) {
 			$message = __('Select box field types require at least one option. Please add options below.');	
-			return false;			
+			return false;	
+		} else if ( $_POST['fieldtype'] == 'checkbox' && empty($_POST['checkbox_option'][0]) ) {
+			$message = __('Checkbox field types require at least one option. Please add options below.');	
+			return false;		
 		} else {
 			return true;
 		}
@@ -748,23 +797,21 @@ Class BP_XProfile_ProfileData {
 	/** Static Functions **/
 	
 	function get_value( $field_id ) {
-		global $wpdb, $userdata;
-		
-		if ( $field_id ) {
-			$sql = $wpdb->prepare("SELECT * FROM $this->table_name_data WHERE field_id = %d AND user_id = %d", $field_id, $userdata->ID);
+		global $wpdb, $userdata, $bp_xprofile_table_name_data;
 
-			if ( $profileData = $wpdb->get_row($sql) ) {
-				return $profileData->value;
-			} else {
-				return false;
-			}
+		$sql = $wpdb->prepare("SELECT * FROM $bp_xprofile_table_name_data WHERE field_id = %d AND user_id = %d", $field_id, $userdata->ID);
+
+		if ( $profileData = $wpdb->get_row($sql) ) {
+			return $profileData->value;
+		} else {
+			return false;
 		}
 	}
 	
 	function delete_for_field( $field_id ) {
-		global $wpdb, $userdata;
+		global $wpdb, $userdata, $bp_xprofile_table_name_data;
 
-		$sql = $wpdb->prepare("DELETE FROM $this->table_name_data WHERE field_id = %d", $field_id);
+		$sql = $wpdb->prepare("DELETE FROM $bp_xprofile_table_name_data WHERE field_id = %d", $field_id);
 
 		if ( $wpdb->query($sql) === false )
 			return false;
@@ -859,6 +906,9 @@ Class BP_XProfile_Picture {
 	}
 	
 	function delete() {
+		if($this->filename == 'none.gif')
+			return false;
+			
 		$current = $this->get_current();
 		
 		if ( $this->filename == $current['picture'] ) {

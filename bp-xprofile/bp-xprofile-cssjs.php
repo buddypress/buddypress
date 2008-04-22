@@ -194,6 +194,7 @@ function xprofile_add_js() {
 			function show_options(forWhat) {
 				document.getElementById("radio").style.display = "none";
 				document.getElementById("select").style.display = "none";
+				document.getElementById("checkbox").style.display = "none";
 				
 				if(forWhat == "radio") {
 					document.getElementById("radio").style.display = "";
@@ -201,6 +202,10 @@ function xprofile_add_js() {
 				
 				if(forWhat == "selectbox") {
 					document.getElementById("select").style.display = "";						
+				}
+				
+				if(forWhat == "checkbox") {
+					document.getElementById("checkbox").style.display = "";						
 				}
 			}
 			

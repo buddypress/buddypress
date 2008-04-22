@@ -551,4 +551,16 @@ function bp_plural( $num, $ifone = "", $ifmore = "s" ) {
 	}
 }
 
+function bp_is_serialized( $data ) {
+   if ( trim($data) == "" ) {
+      return false;
+   }
+
+   if ( preg_match( "/^(i|s|a|o|d)(.*);/si", $data ) ) {
+      return true;
+   }
+
+   return false;
+}
+
 ?>
