@@ -623,14 +623,147 @@ Class BP_XProfile_Field {
 			<div class="clear"></div>
 			
 		</form>
-
+		
+		<div class="clear">&nbsp;</div><br />
+		
+		<h2>Add Prebuilt Field</h2>
+		<?php $this->render_prebuilt_fields(); ?>
+		
 	</div>
 	
 	<?php
 	}
 	
 	/** Static Functions **/
+	function render_prebuilt_fields() {
+		$action = "admin.php?page=xprofile_settings&amp;group_id=" . $this->group_id . "&amp;mode=add_field";
+		
+		// Files in wp-content/themes directory and one subdir down
+		$prebuilt_fields_path = ABSPATH . MUPLUGINDIR . '/bp-xprofile/prebuilt-fields';
+		if( !empty( $prebuilt_fields_path ) ){
+			$prebuilt_fields_dir = @opendir($prebuilt_fields_path);		
+			if ( $prebuilt_fields_dir ){ 
+				?><table class="form-table"><?php
+				$counter = 0;
+				while ( ($field_file = readdir( $prebuilt_fields_dir )) !== false ) {
+				
+					if ( $field_file{0} == '.' || $field_file == '..' || $field_file == 'CVS' || $field_file == '.svn' )
+						continue;
+					
+					$field_file_path = $prebuilt_fields_path . '/' . $field_file;
+									
+					if ( is_readable( $field_file_path ) ) {
+						$field_data  = $this->get_prebuilt_field_data( $field_file_path ); ?>
+						<tr>
+							<td style="vertical-align:top;">
+								<h3>
+									<?php echo $field_data['Name'] . $field_data['Version']; ?> by <a href="<?php echo $field_data['URI'];?>"> 
+										<?php echo $field_data['Author'];?></a>
+								</h3>
+							</td>
+							<td>
+								<form action="<?php echo $action ?>" method="post">
+									
+									<label for="title">* <?php _e("Field Title") ?></label>
+									<div>
+										<input type="text" name="title" id="title" value="<?php echo $field_data['Name']; ?>" style="width:50%" />
+									</div>
+									<p></p>
+									<label for="description"><?php _e("Field Description") ?></label>
+									<div>
+										<textarea name="description" id="description" rows="5" cols="60"><?php echo $field_data['Description']; ?></textarea>
+									</div>
+									<p></p>
+									<label for="required">* <?php _e("Is This Field Required?") ?></label>
+									<div>
+										<select name="required" id="required">
+											<option value="0"<?php if ( $this->is_required == '0' ) { ?> selected="selected"<?php } ?>>Not Required</option>
+											<option value="1"<?php if ( $this->is_required == '1' ) { ?> selected="selected"<?php } ?>>Required</option>
+										</select>
+									</div>
+									<p></p>
+									<label for="fieldtype">* <?php _e("Field Type") ?></label>
+									<div>
+										<select name="fieldtype" id="fieldtype" onchange="show_options(this.value)">
+											<?php if (in_array('textbox', $field_data['Types'])) { ?>
+												<option value="textbox"<?php if ( $this->type == 'textbox' ) {?> selected="selected"<?php } ?>>Text Box</option>
+											<?php } if (in_array('textarea', $field_data['Types'])) { ?>
+												<option value="textarea"<?php if ( $this->type == 'textarea' ) {?> selected="selected"<?php } ?>>Multi-line Text Box</option>
+											<?php } if (in_array('datebox', $field_data['Types'])) { ?>
+												<option value="datebox"<?php if ( $this->type == 'datebox' ) {?> selected="selected"<?php } ?>>Date Selector</option>
+											<?php } if (in_array('radio', $field_data['Types'])) { ?>
+												<option value="radio"<?php if ( $this->type == 'radio' ) {?> selected="selected"<?php } ?>>Radio Buttons</option>
+											<?php } if (in_array('selectbox', $field_data['Types'])) { ?>
+												<option value="selectbox"<?php if ( $this->type == 'selectbox' ) {?> selected="selected"<?php } ?>>Drop-down Select Box</option>
+											<?php } ?>
+										</select>
+									</div>
+									
+									<p class="submit">									
+								 	  <input type="submit" value="<?php _e("Add") ?> &raquo;" name="saveField" id="saveField<?php echo $counter;?>" class="button" />
+									  <input type="hidden" name="field_file" value="<?php echo $field_file_path; ?>">
+									</p>
+							  </form>
+							</td>
+						</tr>
+						<?php
+					}
+					$counter++;
+				}
+				?></table><?php
+			} else {
+				?><p>No prebuilt fields available at this time.</p><?php
+			}
+			@closedir( $prebuilt_fields_dir );
+		}
+	}
+	
+	function get_prebuilt_field_data( $field_file ) {
+		$allowed_tags = array(
+			'a' => array(
+				'href' => array(),'title' => array()
+				),
+			'abbr' => array(
+				'title' => array()
+				),
+			'acronym' => array(
+				'title' => array()
+				),
+			'code' => array(),
+			'em' => array(),
+			'strong' => array()
+		);
+		
+		$field_data = implode( '', file( $field_file ) );
+		$field_data = str_replace ( '\r', '\n', $field_data );
+		preg_match( '|Field Name:(.*)$|mi', $field_data, $field_name );
+		preg_match( '|URI:(.*)$|mi', $field_data, $uri );
+		preg_match( '|Description:(.*)$|mi', $field_data, $description );
+		preg_match( '|Types:(.*)$|mi', $field_data, $types );
 
+		if ( preg_match( '|Version:(.*)|i', $field_data, $version ) )
+			$version = wp_kses( trim( $version[1] ), $allowed_tags );
+		else
+			$version = '';
+
+		$name = wp_kses( trim( $field_name[1] ), $allowed_tags );
+		$description = wptexturize( wp_kses( trim( $description[1] ), $allowed_tags ) );
+		$types = split( ",", wptexturize( wp_kses( trim( $types[1] ), $allowed_tags ) ) );
+
+		if ( preg_match( '|Author:(.*)$|mi', $field_data, $author_name ) ) {
+			if ( empty( $author_uri ) ) {
+				$author = wp_kses( trim( $author_name[1] ), $allowed_tags );
+			} else {
+				$author = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $author_uri, __( 'Visit author homepage' ), 
+					wp_kses( trim( $author_name[1] ), $allowed_tags ) );
+			}
+		} else {
+			$author = __('Anonymous');
+		}
+
+		return array( 'Name' => $name, 'URI' => $uri, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Types' => $types);
+	}
+	
 	function get_signup_fields() {
 		global $wpdb, $bp_xprofile_table_name_fields, $bp_xprofile_table_name_groups;
 		
@@ -653,10 +786,10 @@ Class BP_XProfile_Field {
 		if ( $_POST['title'] == '' || $_POST['required'] == '' || $_POST['fieldtype'] == '' ) {
 			$message = __('Please make sure you fill out all required fields.');
 			return false;
-		} else if ($_POST['fieldtype'] == 'radio' && empty($_POST['radio_option'][0]) ) {
+		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'radio' && empty($_POST['radio_option'][0]) ) {
 			$message = __('Radio button field types require at least one option. Please add options below.');	
 			return false;
-		} else if ( $_POST['fieldtype'] == 'selectbox' && empty($_POST['select_option'][0]) ) {
+		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'selectbox' && empty($_POST['select_option'][0]) ) {
 			$message = __('Select box field types require at least one option. Please add options below.');	
 			return false;	
 		} else if ( $_POST['fieldtype'] == 'checkbox' && empty($_POST['checkbox_option'][0]) ) {
