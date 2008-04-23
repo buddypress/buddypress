@@ -58,7 +58,7 @@ function xprofile_install() {
 	
 	$sql[] = "INSERT INTO `". $bp_xprofile_table_name_groups . "` VALUES (1, 'Basic', '', 0);";
 	$sql[] = "INSERT INTO `". $bp_xprofile_table_name_fields . "` VALUES (1, 1, 0, 'textbox', 'First Name', '', 1, 0);";
-	$sql[] = "INSERT INTO `". $bp_xprofile_table_name_data . "` VALUES (2, 1, 0, 'textbox', 'Last Name', '', 1, 0);";
+	$sql[] = "INSERT INTO `". $bp_xprofile_table_name_fields . "` VALUES (2, 1, 0, 'textbox', 'Last Name', '', 1, 0);";
 	
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 	dbDelta($sql);
