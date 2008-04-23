@@ -275,30 +275,61 @@ Class BP_XProfile_Field {
 				} else {
 					$parent_id = $wpdb->insert_id;	
 				}
+				
+				if ( !empty( $_POST['field_file'] ) )	{
+					// Add a prebuilt field from a csv file
+					$field_file = $_POST['field_file'];
+					if ( $fp = fopen($field_file, 'r') ) {
+						$start_reading = false;
+						while ( ! feof($fp) && !$start_reading) {
+							if ( $s = fgets ($fp, 1024) ) {
+								if ( preg_match ( '/\*\//', $s ) ) {
+										$start_reading = true;
+								}
+							}								
+						}
+						
+						while ( ( $data = fgetcsv( $fp ) ) ) {
+							$num = count($data);
+							$name = '';
+							$description = '';
+							if ( $num >= 1 ) { $name = $data[0]; }
+							if ( $num >= 2 ) { $description = $data[1]; }
+							if ( $num > 0 ) {
+								$sql = $wpdb->prepare("INSERT INTO $this->table_name_fields	(group_id, parent_id, type, name, description, is_required)	VALUES (%d, %d, 'option', %s, %s, 0)", $this->group_id, $parent_id, $name, $description);
+								$wpdb->query($sql);
+							}
+						}
+						fclose($fp);
+					}
+						
+				}	else {
+										
+					if ( $this->type == "radio" ) {
+						$options = $_POST['radio_option'];
+					} else if ( $this->type == "selectbox" ) {
+						$options = $_POST['select_option'];
+					} else if ( $this->type == "checkbox" ) {
+						$options = $_POST['checkbox_option'];
+					}
+				
+					for ( $i = 0; $i < count($options); $i++ ) {
+						$option_value = $options[$i];
 
-				if ( $this->type == "radio" ) {
-					$options = $_POST['radio_option'];
-				} else if ( $this->type == "selectbox" ) {
-					$options = $_POST['select_option'];
-				} else if ( $this->type == "checkbox" ) {
-					$options = $_POST['checkbox_option'];
+						if ( $option_value != "" ) { 
+							// don't insert an empty option.
+							$sql = $wpdb->prepare("INSERT INTO $this->table_name_fields	(group_id, parent_id, type, name, description, is_required)	VALUES (%d, %d, 'option', %s, '', 0)", $this->group_id, $parent_id, $option_value);
+
+							if ( $wpdb->query($sql) === false ) {
+								return false;
+							
+								// @TODO 
+								// Need to go back and reverse what has been entered here.
+							}
+						}	
+					}					
 				}
 				
-				for ( $i = 0; $i < count($options); $i++ ) {
-					$option_value = $options[$i];
-
-					if ( $option_value != "" ) { 
-						// don't insert an empty option.
-						$sql = $wpdb->prepare("INSERT INTO $this->table_name_fields	(group_id, parent_id, type, name, description, is_required)	VALUES (%d, %d, 'option', %s, '', 0)", $this->group_id, $parent_id, $option_value);
-
-						if ( $wpdb->query($sql) === false ) {
-							return false;
-							
-							// @TODO 
-							// Need to go back and reverse what has been entered here.
-						}
-					}						
-				}
 				return true;
 			
 			} else {

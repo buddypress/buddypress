@@ -210,8 +210,6 @@ function xprofile_edit() {
 						$posted_fields = explode( ",", $_POST['field_ids'] );
 						$current_field = $_POST['field_' . $posted_fields[$j] . $post_field_string];
 						
-						var_dump($current_field);
-						
 						if ( ( $field->is_required && !isset($current_field) ) ||
 						     ( $field->is_required && $current_field == '' ) ) {
 							
