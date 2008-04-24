@@ -1,0 +1,156 @@
+﻿/*
+Field Name: Language
+Description: Select Your Primary Language
+Author: Justin Ball
+URI: http://www.justinball.com
+Version: 1.0
+Types: radio,selectbox
+*/
+English,English
+магIарул мацI,Afar
+бызшәа,Abkhazian
+Afrikaans,Afrikaans
+አማርኛ,Amharic
+العربية,Arabic
+অসমিয়া,Assamese
+Aymara,Aymara
+Azəri Türkçəsi,Azerbaijani
+Bashkir,Bashkir
+Беларускі,Belarussian
+Български,Bulgarian
+Bihari,Bihari
+Bislama,Bislama
+বাংলা,Bengali
+བོད་སྐད་,Tibetan
+Bosanski,Bosnian
+Brezhoneg,Breton
+Català,Catalan
+Corsu,Corsican
+Čeština,Czech
+Cymraeg,Welsh
+Dansk,Danish
+Deutsch,German
+Bhutani,Indian Bhutani
+Ελληνικά,Greek
+Esperanto,Esperanto
+Español,Spanish
+Eesti,Estonian
+Euskara,Basque
+فارسی,Persian
+Suomi,Finnish
+Fiji,Fiji
+Føroyska,Faroese
+Français,French
+Frysk,Frisian
+Gaeilge,Irish Gaelic
+Gàidhlig,Scottish Gaelic
+Galego,Galician
+Guarani,Guarani
+ગુજરાતી,Gujarati
+Gaelg,Manx Gaelic
+هَوُس,Hausa
+עברית,Hebrew
+हिंदी,Hindi
+Hrvatski,Croatian
+Magyar,Hungarian
+Հայերէն,Armenian
+Interlingua,Interlingua
+Bahasa Indonesia,Indonesian
+Interlingue,Interlingue
+Inupiak,Inupiak
+Íslenska,Icelandic
+Italiano,Italian
+ᐃᓄᒃᑎᑐᑦ,Inuktitut
+日本語,Japanese
+Javanese,Javanese
+ქართული,Georgian
+ﻗﺎﺯﺍﻗﺸﺎ,Kazakh
+Greenlandic,Greenlandic
+ខ្មែរ,Cambodian/Khmer
+ಕನ್ನಡ,Kannada
+한국어,Korean
+काऽशुर,Kashmiri
+Kurdí,Kurdish
+Kernewek,Cornish
+Кыргыз,Kirghiz
+Latin,Latin
+Lëtzebuergesch,Luxemburgish
+Limburgs,Limburgish
+Lingala,Lingala
+ພາສາລາວ,Laotian
+Lietuviskai,Lithuanian
+Latviešu,Latvian
+Malagasy,Madagascarian
+Maori,Maori
+Македонски,Macedonian
+മലയാളം,Malayalam
+Монгол,Mongolian
+Moldavian,Moldavian
+मराठी,Marathi
+Bahasa Melayu,Malay
+Malti,Maltese
+Burmese,Burmese
+Nauru,Nauruan
+नेपाली,Nepali
+Nederlands,Dutch
+Norsk,Norwegian
+Nynorsk,Nynorsk
+Occitan,Occitan
+Oromo,Oromo
+ଓଡ଼ିଆ,Oriya
+ਪੰਜਾਬੀ,Punjabi
+Polski,Polish
+پښتو,Pashto
+Português,Portuguese
+Quechua,Quechua
+Rhaeto-Romance,Rhaeto-Romance
+Kirundi,Kirundi
+Română,Romanian
+Русский,Russian
+Kiyarwanda,Kiyarwanda
+संस्कृत,Sanskrit
+Sindhi,Sindhi
+Northern Sámi,Northern Sámi
+Sangho,Sangho
+Serbo-Croatian,Serbo-Croatian
+Singhalese,Singhalese
+Slovenčina,Slovak
+Slovenščina,Slovenian
+Samoan,Samoan
+Shona,Shona
+Somali,Somali
+Shqip,Albanian
+српски,Serbian
+Siswati,Siswati
+Sesotho,Sesotho
+Sudanese,Sudanese
+Svenska,Swedish
+Swahili,Swahili
+தமிழ,Tamil
+తెలుగు,Telugu
+Тоҷики,Tadjik
+ไทย,Thai
+ትግርኛ,Tigrinya
+түркmенче,Turkmen
+Tagalog,Tagalog
+Setswana,Setswana
+Tonga,Tonga
+Türkçe,Turkish
+Tsonga,Tsonga
+татарча,Tatar
+Twi,Twi
+Uigur,Uigur
+Українська,Ukrainian
+اردو,Urdu
+Ўзбекча,Uzbek
+Tiếng Việt,Vietnamese
+Volapük,Volapük
+Walon,Walloon
+Wolof,Wolof
+isiXhosa,Xhosa
+ײִדיש,Yiddish
+Yorùbá,Yorouba
+Zhuang,Zhuang
+zh-HK,簡體中文,Chinese - Traditional
+zh-CN,简体中文,Chinese - Simplified
+isiZulu,Zulu
