@@ -7,12 +7,12 @@ $bp_xprofile_table_name_data   = $wpdb->base_prefix . 'bp_xprofile_data';
 
 $image_base             = get_option('siteurl') . '/wp-content/mu-plugins/bp-xprofile/images';
 
-include_once( 'bp-xprofile/bp-xprofile-classes.php' );
-include_once( 'bp-xprofile/bp-xprofile-admin.php' );
-include_once( 'bp-xprofile/bp-xprofile-signup.php' );
-include_once( 'bp-xprofile/bp-xprofile-templatetags.php' );
-include_once( 'bp-xprofile/bp-xprofile-avatars.php' );
-include_once( 'bp-xprofile/bp-xprofile-cssjs.php' );
+require_once( 'bp-xprofile/bp-xprofile-classes.php' );
+require_once( 'bp-xprofile/bp-xprofile-admin.php' );
+require_once( 'bp-xprofile/bp-xprofile-signup.php' );
+require_once( 'bp-xprofile/bp-xprofile-templatetags.php' );
+require_once( 'bp-xprofile/bp-xprofile-avatars.php' );
+require_once( 'bp-xprofile/bp-xprofile-cssjs.php' );
 
 
 /**************************************************************************
@@ -111,21 +111,21 @@ add_action( 'admin_menu', 'xprofile_setup' );
 
 
 /**************************************************************************
- xprofile_invoke_authordata()
+ xprofile_profile_template()
  
- Set up access to authordata so that profile data can be pulled without
- being logged in.
+ Set up access to authordata and then set up template tags for use in
+ templates.
  **************************************************************************/
 
-function xprofile_invoke_authordata() {
-	global $authordata;
+function xprofile_profile_template() {	
+	global $is_author, $userdata, $authordata, $profile_template;
 	
 	query_posts('showposts=1');
 	if ( have_posts() ) : while ( have_posts() ) : the_post(); endwhile; endif;
 	
-	global $is_author, $userdata, $authordata;	
+	$profile_template = new BP_XProfile_Template;
 }
-add_action( 'wp_head', 'xprofile_invoke_authordata' );
+add_action( 'wp_head', 'xprofile_profile_template' );
 
 /**************************************************************************
  xprofile_edit()

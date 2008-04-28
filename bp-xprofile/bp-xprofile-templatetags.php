@@ -16,7 +16,7 @@ Class BP_XProfile_Template {
 
 	function bp_xprofile_template() {
 		global $authordata;
-		
+
 		$this->groups = BP_XProfile_Group::get_all(true);
 		$this->group_count = count($this->groups);
 		$this->user_id = $authordata->ID;
@@ -87,7 +87,7 @@ Class BP_XProfile_Template {
 	
 	function has_fields() { 
 		$has_data = false;
-		
+
 		if ( count($this->group->fields) > 0 ) {
 			for ( $i = 0; $i < count($this->group->fields); $i++ ) { 
 				$field = $this->group->fields[$i];
@@ -97,7 +97,7 @@ Class BP_XProfile_Template {
 				}
 			}
 		}
-		
+
 		if($has_data)
 			return true;
 		
@@ -128,8 +128,6 @@ Class BP_XProfile_Template {
 		}
 	}
 }
-
-$profile_template = new BP_XProfile_Template;
 
 function has_profile() { 
 	global $profile_template;
