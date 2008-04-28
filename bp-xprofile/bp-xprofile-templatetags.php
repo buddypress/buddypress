@@ -146,12 +146,12 @@ function the_profile_group() {
 	return $profile_template->the_profile_group();
 }
 
-function has_fields() {
+function group_has_fields() {
 	global $profile_template;
 	return $profile_template->has_fields();
 }
 
-function has_data() {
+function field_has_data() {
 	global $profile_template;
 	return $profile_template->field_has_data;
 }
@@ -194,7 +194,9 @@ function the_profile_field_value() {
 }
 
 function the_profile_picture() {
-	xprofile_get_picture();
+	global $authordata;
+
+	echo xprofile_get_avatar($authordata->ID, 2);
 }
 
 

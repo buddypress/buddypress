@@ -237,21 +237,6 @@ function xprofile_on_activate( $blog_id = null, $user_id = null ) {
 		delete_blog_option( $blog_id, 'field_' . $field_ids[$i] );
 	}
 	delete_blog_option( $blog_id, 'xprofile_field_ids' );	
-	
-	// Set up profile pictures and create a directory to store them for the user.
-	$profile_picture_path = trim( get_blog_option( $blog_id, 'upload_path' ) ) . '/profilepics';
-
-	if ( !wp_mkdir_p( ABSPATH . $profile_picture_path ) ) {
-		_e("The profile picture directory could not be created. Please contact the administrator.");
-	} else {
-		copy( ABSPATH . 'wp-content/mu-plugins/bp-xprofile/images/none.gif', ABSPATH . $profile_picture_path . "/none.gif" );
-		copy( ABSPATH . 'wp-content/mu-plugins/bp-xprofile/images/none-thumbnail.gif', ABSPATH . $profile_picture_path . "/none-thumbnail.gif" );
-
-		$pic = new BP_XProfile_Picture( "none.gif" );		
-		update_blog_option( $blog_id, "profile_picture", "none.gif" );		
-		update_blog_option( $blog_id, "profile_picture_thumbnail", "none-thumbnail.gif" );		
-	}
-
 }
 
 add_action( 'wpmu_new_blog', 'xprofile_on_activate' );

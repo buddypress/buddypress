@@ -3,6 +3,8 @@
 include_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-thirdlevel.php' );
 include_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-settingstab.php' );
 
+
+
 if ( !get_site_option('bp_disable_blog_tab') ) {
 	include_once(ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-blogtab.php');
 }
@@ -216,15 +218,36 @@ function render_dash() {
 
 function bp_core_get_userid( $username ) {
 	global $wpdb;
-
+	
 	$sql = "SELECT ID FROM " . $wpdb->base_prefix . "users
 			WHERE user_login = '" . $username . "'";
 
-	if ( !$user_id = $wpdb->get_var($sql) ) {
-		return 0;
-	}
+	$user_id = $wpdb->get_var($sql);
 	
-	return $user_id;	
+	return $user_id;
+}
+
+function bp_core_get_username( $uid ) {
+	global $userdata;
+	
+	if ( $uid == $userdata->ID )
+		return 'You';
+	
+	$ud = get_userdata($uid);
+	return $ud->user_login;	
+}
+
+function bp_core_get_userlink( $uid ) {
+	global $userdata;
+	
+	$ud = get_userdata($uid);
+	$display_name = $ud->display_name;
+	
+	if ( $uid == $userdata->ID )
+		$display_name = 'You';
+
+	return '<a href="http://' . $ud->source_domain . '">' . $display_name . '</a>';
+	
 }
 
 function bp_core_clean( $dirty ) {
@@ -235,19 +258,6 @@ function bp_core_clean( $dirty ) {
 	}
 	
 	return $clean;
-}
-
-function bp_core_get_username( $user_id ) {
-	global $wpdb;
-
-	$sql = "SELECT user_login FROM " . $wpdb->base_prefix . "users
-			WHERE ID = " . $user_id;
-
-	if ( !$username = $wpdb->get_var($sql) ) {
-		return false;
-	}
-	
-	return $username;	
 }
 
 function bp_core_truncate( $text, $numb ) {
@@ -274,7 +284,7 @@ function bp_core_validate( $num ) {
 }
 
 function bp_format_time( $time ) {
-	return date( "F j, Y - g:iA", $time );
+	return date( "F j, Y ", $time ) . __('at') . date( ' g:iA', $time );
 }
 
 function bp_endkey( $array ) {
@@ -285,6 +295,20 @@ function bp_endkey( $array ) {
 function bp_get_homeurl() {
 	return get_blogaddress_by_id( 0 );
 }
+
+function bp_create_excerpt( $text, $excerpt_length = 55 ) { // Fakes an excerpt if needed
+	$text = str_replace(']]>', ']]&gt;', $text);
+	$text = strip_tags($text);
+	$words = explode(' ', $text, $excerpt_length + 1);
+	if (count($words) > $excerpt_length) {
+		array_pop($words);
+		array_push($words, '[...]');
+		$text = implode(' ', $words);
+	}
+	
+	return $text;
+}
+
 
 // get the IDs of user blogs in a comma-separated list for use in SQL statements
 function bp_get_blog_ids_of_user( $id, $all = false ) {

@@ -6,13 +6,12 @@ $bp_xprofile_table_name_fields = $wpdb->base_prefix . 'bp_xprofile_fields';
 $bp_xprofile_table_name_data   = $wpdb->base_prefix . 'bp_xprofile_data';
 
 $image_base             = get_option('siteurl') . '/wp-content/mu-plugins/bp-xprofile/images';
-$profile_picture_path   = trim( get_option('upload_path') ) . '/profilepics';
-$profile_picture_base   = get_option('site_url') . 'files/profilepics';
 
 include_once( 'bp-xprofile/bp-xprofile-classes.php' );
 include_once( 'bp-xprofile/bp-xprofile-admin.php' );
 include_once( 'bp-xprofile/bp-xprofile-signup.php' );
 include_once( 'bp-xprofile/bp-xprofile-templatetags.php' );
+include_once( 'bp-xprofile/bp-xprofile-avatars.php' );
 include_once( 'bp-xprofile/bp-xprofile-cssjs.php' );
 
 
@@ -75,15 +74,15 @@ function xprofile_add_menu() {
 	global $wpdb, $bp_xprofile_table_name, $bp_xprofile, $groups, $userdata;
 	
 	if ( $wpdb->blogid == $userdata->primary_blog ) {
-		add_menu_page( __("Profile"), __("Profile"), 1, basename(__FILE__), "xprofile_picture" );
-		add_submenu_page( basename(__FILE__), __("Picture"), __("Picture"), 1, basename(__FILE__), "xprofile_picture" );		
-		add_options_page( __("Profile"), __("Profile"), 1, basename(__FILE__), "xprofile_add_settings" );		
+		add_menu_page( __('Profile'), __('Profile'), 1, basename(__FILE__), 'xprofile_avatar_admin' );
+		add_submenu_page( basename(__FILE__), __('Profile &rsaquo; Avatar'), __('Avatar'), 1, basename(__FILE__), 'xprofile_avatar_admin' );		
+		add_options_page( __('Profile'), __('Profile'), 1, basename(__FILE__), 'xprofile_add_settings' );		
 		
 		$groups = BP_XProfile_Group::get_all();
 
 		for ( $i=0; $i < count($groups); $i++ ) {
 			if ( $groups[$i]->fields ) {
-				add_submenu_page( basename(__FILE__), $groups[$i]->name, $groups[$i]->name, 1, "xprofile_" . $groups[$i]->name, "xprofile_edit" );		
+				add_submenu_page( basename(__FILE__), __('Profile') . '  &rsaquo; ' . $groups[$i]->name, $groups[$i]->name, 1, "xprofile_" . $groups[$i]->name, "xprofile_edit" );		
 			}
 		}
 	
@@ -101,24 +100,14 @@ add_action( 'admin_menu', 'xprofile_add_menu' );
 /**************************************************************************
  xprofile_setup()
  
- Setups up the plugin's global variables, sets the profile picture upload
- directory as well as adding actions for CSS and JS rendering.
- **************************************************************************/
+ Setup CSS, JS and other things needed for the xprofile component.
+**************************************************************************/
 
 function xprofile_setup() {
-	global $profile_picture_path;
-	
-	// Check to see if the users profile picture folder exists. If not, make it.
-	if ( !is_dir(ABSPATH . $profile_picture_path) ) {
-		wp_mkdir_p(ABSPATH . $profile_picture_path);
-	}
-			
-	/* Setup CSS and JS */
 	add_action( 'admin_print_scripts', 'xprofile_add_css' );
 	add_action( 'admin_print_scripts', 'xprofile_add_js' );
-
 }
-add_action( 'admin_menu','xprofile_setup' );
+add_action( 'admin_menu', 'xprofile_setup' );
 
 
 /**************************************************************************
@@ -129,49 +118,14 @@ add_action( 'admin_menu','xprofile_setup' );
  **************************************************************************/
 
 function xprofile_invoke_authordata() {
+	global $authordata;
+	
 	query_posts('showposts=1');
-	if (have_posts()) : while (have_posts()) : the_post(); endwhile; endif;
+	if ( have_posts() ) : while ( have_posts() ) : the_post(); endwhile; endif;
 	
 	global $is_author, $userdata, $authordata;	
 }
 add_action( 'wp_head', 'xprofile_invoke_authordata' );
-
-
-/**************************************************************************
- xprofile_get_data()
- 
- Returns the users profile data ready to render on their profile page.
- **************************************************************************/
-
-function xprofile_get_data( $user_id ) {
-	$groups = BP_XProfile_Group::get_all(true);
-
-	for ( $i = 0; $i < count($groups); $i++ ) {
-		$group_has_data = 0;
-		
-		if ( $groups[$i]->fields )  {
-			for ( $j = 0; $j < count($groups[$i]->fields); $j++ ) {
-				$groups[$i]->fields[$j] = new BP_XProfile_Field( $groups[$i]->fields[$j]->id, $user_id );
-				
-				if ( !is_null($groups[$i]->fields[$j]->data->id) ) {
-					$group_has_data = 1;
-				}
-			}
-		}
-		
-		if ( !$group_has_data ) {
-			unset($groups[$i]);
-		}
-		
-	}
-	return $groups;
-}
-
-function xprofile_get_picture() {
-	$current = BP_XProfile_Picture::get_current();
-	$pic     = new BP_XProfile_Picture( $current['thumbnail'] );
-	echo $pic->get_html();
-}
 
 /**************************************************************************
  xprofile_edit()
@@ -302,109 +256,6 @@ function xprofile_edit() {
 		
 	</div>
 <?php
-}
-
-/**************************************************************************
- xprofile_picture()
- 
- Handles all actions to do with editing, adding and deleting a profile
- picture.
- **************************************************************************/
-
-function xprofile_picture() {
-	global $profile_picture_path;
-	
-	if ( $_FILES['profile_image'] ) {	
-		$picture = new BP_XProfile_Picture($_FILES['profile_image']);
-
-		if ( !$picture->upload() ) {
-			$message = $picture->error_message;
-			$type = 'error';
-		} else {
-			$message = __('Image uploaded successfully!');
-			$type = 'success';
-		}
-	} else if ( isset($_GET['mode']) && isset($_GET['file']) && $_GET['mode'] == 'set_picture' ) {
-		if ( bp_core_clean($_GET['file']) ) {
-			$selected_picture = new BP_XProfile_Picture($_GET['file']);
-			$selected_picture->set('profile_picture');
-		
-			$thumbnail = new BP_XProfile_Picture($selected_picture->thumb_filename);
-			
-			$thumbnail->set('profile_picture_thumbnail');
-			
-			$message = __('Profile picture set.');
-			$type = 'success';
-		}
-	} else if ( isset($_GET['mode']) && isset($_GET['file']) && $_GET['mode'] == 'delete_picture' ) {
-		if ( bp_core_clean($_GET['file']) ) {
-			$picture = new BP_XProfile_Picture($_GET['file']);
-
-			if ( !$picture->delete() ) {
-				$message = __('Profile picture could not be deleted. Please try again.');
-				$type = 'error';
-			}
-		}
-	}
-
-	$current = BP_XProfile_Picture::get_current();
-	$current_thumbnail = new BP_XProfile_Picture($current['thumbnail']);
-	
-	?>
-		<div class="wrap">
-			
-			<h2>Profile Picture</h2>
-			
-			<?php
-				if ( $message != '' ) {
-					$type = ( $type == 'error' ) ? 'error' : 'updated';
-			?>
-				<div id="message" class="<?php echo $type; ?> fade">
-					<p><?php echo $message; ?></p>
-				</div>
-			<?php } ?>
-			
-			<div id="profilePicture">
-			
-				<div id="currentPicture">
-					<h3><?php _e('Current Picture'); ?></h3>
-					<?php echo $current_thumbnail->html; ?>
-					
-					<p style="text-align: center">[ <a href="admin.php?page=bp-xprofile.php&amp;mode=delete_picture&amp;file=<?php echo $current["picture"]; ?>">delete picture</a> ]</p>
-					
-					<form action="admin.php?page=bp-xprofile.php" enctype="multipart/form-data" method="post">
-						<h3>Upload a Picture</h3>
-
-						<input type="file" name="profile_image" id="profile_image" />
-						<p class="submit"> 
-						<input type="submit" name="submit" value="<?php _e('Upload Picture &raquo;'); ?>" /></p>
-						</p>
-						
-						<input type="hidden" name="action" value="save" />
-						<input type="hidden" name="max_file_size" value="1000000" />
-					</form>				
-				</div>
-				
-			</div>
-			
-			<div id="otherPictures">
-				<h3><?php _e('Previously Uploaded'); ?></h3>
-				<?php $pictures = BP_XProfile_Picture::get_all(ABSPATH . $profile_picture_path); ?>
-				<ul>
-				<?php for ( $i = 0; $i < count($pictures); $i++ ) { ?>
-					<li>
-						<a href="admin.php?page=bp-xprofile.php&amp;mode=set_picture&amp;file=<?php echo $pictures[$i]["file"]; ?>">
-							<img src="<?php echo get_option('site_url') . 'files/profilepics/' . $pictures[$i]["thumbnail"]; ?>" alt="Alternate Pic" style="height: 100px;" /></li>
-						</a>
-					</li>
-				<?php } ?>
-				</ul>
-			</div>
-			
-			<div class="clear"></div>
-			
-		</div>
-	<?php	
 }
 
 
