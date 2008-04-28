@@ -164,7 +164,7 @@ function xprofile_add_css() {
 			background: url(<?php echo xprofile_get_avatar($userdata->ID, 1, true) ?>) center left no-repeat !important;
 			padding: 20px 0 20px 65px;
 			margin-left: 18px;
-		}*/
+		}*/Å
 	<?php } ?>
 
 	</style>
