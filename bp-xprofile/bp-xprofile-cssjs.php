@@ -160,11 +160,11 @@ function xprofile_add_css() {
 		.submit { clear: left; }
 
 	<?php if ( $wpdb->blogid == $userdata->primary_blog ) {	?>
-		body.wp-admin #wphead h1 {
+		/*body.wp-admin #wphead h1 {
 			background: url(<?php echo xprofile_get_avatar($userdata->ID, 1, true) ?>) center left no-repeat !important;
 			padding: 20px 0 20px 65px;
 			margin-left: 18px;
-		}
+		}*/
 	<?php } ?>
 
 	</style>
