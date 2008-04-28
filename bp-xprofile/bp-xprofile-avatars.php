@@ -91,8 +91,8 @@ function xprofile_avatar_admin() {
 		$str = xprofile_get_avatar( get_current_user_id(), 1 );
 		if ( strlen($str) ) {
 			echo '<h3>' . __('This is your current avatar') . '</h3>';
-			echo '<span class="crop-img">' . xprofile_get_avatar(get_current_user_id(), 1) . '</span>';
-			echo '<span class="crop-img">' . xprofile_get_avatar(get_current_user_id(), 2) . '</span>';
+			echo '<span class="crop-img avatar">' . xprofile_get_avatar(get_current_user_id(), 1) . '</span>';
+			echo '<span class="crop-img avatar">' . xprofile_get_avatar(get_current_user_id(), 2) . '</span>';
 		}
 	} else if ( isset($_POST['slick_avatars_action']) && $_POST['slick_avatars_action'] == 'upload' ) {
 		// Handling the upload of the original photo
