@@ -10,12 +10,14 @@
 			
 			<?php while ( profile_groups() ) : the_profile_group(); ?>
 
-				<?php if ( has_fields() ) : ?>
+				<?php if ( group_has_fields() ) : ?>
 					<div class="profile-group">
 						<h3><?php the_profile_group_name() ?></h3>
-					
+						
 						<table class="profile-fields">
 						<?php while ( profile_fields() ) : the_profile_field(); ?>
+							
+							<?php if ( field_has_data() ) : ?>
 							<tr>
 								<td class="label">
 									<?php the_profile_field_name() ?>
@@ -24,6 +26,8 @@
 									<?php the_profile_field_value() ?>
 								</td>
 							</tr>
+							<?php endif; ?>
+							
 						<?php endwhile; ?>
 						</table>
 					</div>
