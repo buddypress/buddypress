@@ -5,7 +5,7 @@ $bp_xprofile_table_name_groups = $wpdb->base_prefix . 'bp_xprofile_groups';
 $bp_xprofile_table_name_fields = $wpdb->base_prefix . 'bp_xprofile_fields';
 $bp_xprofile_table_name_data   = $wpdb->base_prefix . 'bp_xprofile_data';
 
-$image_base             = get_option('siteurl') . '/wp-content/mu-plugins/bp-xprofile/images';
+$image_base = get_option('siteurl') . '/wp-content/mu-plugins/bp-xprofile/images';
 
 require_once( 'bp-xprofile/bp-xprofile-classes.php' );
 require_once( 'bp-xprofile/bp-xprofile-admin.php' );
