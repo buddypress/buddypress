@@ -18,10 +18,10 @@ include_once( 'bp-messages/bp-messages-templatetags.php' );
  Sets up the database tables ready for use on a site installation.
  **************************************************************************/
 
-function messages_install() {
+function messages_install( $version ) {
 	global $wpdb, $bp_messages_table_name, $bp_messages_table_name_deleted;
 
-	$sql[0] = "CREATE TABLE ". $bp_messages_table_name ." (
+	$sql[] = "CREATE TABLE ". $bp_messages_table_name ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT,
 		  		sender_id int(11) NOT NULL,
 		  		recipient_id int(11) NOT NULL,
@@ -33,7 +33,7 @@ function messages_install() {
 		  		PRIMARY KEY id (id)
 		 	   );";
 	
-	$sql[1] = "CREATE TABLE ". $bp_messages_table_name_deleted ." (
+	$sql[] = "CREATE TABLE ". $bp_messages_table_name_deleted ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT,
 		  		thread_id int(11) NOT NULL,
 		  		user_id int(11) NOT NULL,
@@ -43,6 +43,8 @@ function messages_install() {
 
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 	dbDelta($sql);
+	
+	add_site_option('bp-messages-version', $version);
 }
 
 
@@ -71,8 +73,8 @@ function messages_add_menu() {
 	}
 	
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( $wpdb->get_var( "show tables like '%" . $bp_messages_table_name . "%'" ) == false )
-		messages_install();
+	if ( ( $wpdb->get_var( "show tables like '%" . $bp_messages_table_name . "%'" ) == false ) || ( get_site_option('bp-messages-version') < '0.2' ) )
+		messages_install('0.2');
 }
 add_action( 'admin_menu', 'messages_add_menu' );
 

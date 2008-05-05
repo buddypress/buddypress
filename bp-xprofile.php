@@ -21,7 +21,7 @@ require_once( 'bp-xprofile/bp-xprofile-cssjs.php' );
  Sets up the database tables ready for use on a site installation.
  **************************************************************************/
 
-function xprofile_install() {
+function xprofile_install( $version ) {
 	global $bp_xprofile_table_name_groups, $bp_xprofile_table_name_fields, $bp_xprofile_table_name_data;
 
 	$sql = array();
@@ -61,6 +61,8 @@ function xprofile_install() {
 	
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 	dbDelta($sql);
+
+	add_site_option('bp-xprofile-version', $version);
 }
 
 /**************************************************************************
@@ -91,8 +93,8 @@ function xprofile_add_menu() {
 	}
 	
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( $wpdb->get_var("show tables like '%" . $bp_xprofile_table_name . "%'") == false )
-		xprofile_install();
+	if ( ( $wpdb->get_var("show tables like '%" . $bp_xprofile_table_name . "%'") == false ) || ( get_site_option('bp-xprofile-version') < '0.2' )  )
+		xprofile_install('0.2');
 }
 add_action( 'admin_menu', 'xprofile_add_menu' );
 

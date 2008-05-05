@@ -1,5 +1,7 @@
 <?php
 
+add_site_option('bp-groups-version', '0.1');
+
 $bp_groups_table_name = $wpdb->base_prefix . "bp_groups";
 $bp_group_members_table_name = $wpdb->base_prefix . "bp_group_members";
 
