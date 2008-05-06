@@ -5,6 +5,7 @@ $bp_messages_table_name_deleted = $bp_messages_table_name . '_deleted';
 $bp_messages_image_base = get_option('siteurl') . '/wp-content/mu-plugins/bp-messages/images';
 
 include_once( 'bp-messages/bp-messages-classes.php' );
+include_once( 'bp-messages/bp-messages-ajax.php' );
 include_once( 'bp-messages/bp-messages-cssjs.php' );
 
 /*
@@ -112,29 +113,29 @@ function messages_write_new( $username = '', $subject = '', $content = '', $type
 		<?php } ?>
 						
 		<form action="admin.php?page=bp-messages.php&amp;mode=send" method="post" id="send_message_form">
-
+		<div id="poststuff">
 			<p>			
-			<div id="usernamediv">
-				<label for="send_to"><?php _e("Send To Username") ?></label>
-				<div>
-					<input type="text" name="send_to" id="send_to" value="<?php echo $username; ?>" style="width:30%" />
+			<div id="titlediv">
+				<h3><?php _e("Send To") ?> <small>(Use username - autocomplete coming soon)</small></h3>
+				<div id="titlewrap">
+					<input type="text" name="send_to" id="send_to" value="<?php echo $username; ?>" style="border: none; width: 99%" />
 				</div>
 			</div>
 			</p>
 
 			<p>
-			<div id="subjectdiv">
-				<label for="subject"><?php _e("Subject") ?></label>
-				<div>
-					<input type="text" name="subject" id="subject" value="<?php echo $subject; ?>" style="width: 75%" />
+			<div id="titlediv">
+				<h3><?php _e("Subject") ?></h3>
+				<div id="titlewrap">
+					<input type="text" name="subject" id="subject" value="<?php echo $subject; ?>" style="border: none; width: 99%;font-size:1.7em;" />
 				</div>
 			</div>
 			</p>
 			
 			<p>
-				<div id="messagediv">
-					<label for="content"><?php _e("Message") ?></label>
-					<div>
+				<div id="postdivrich" class="postarea">
+					<h3 style="margin-bottom: 1px;"><?php _e("Message") ?></h3>
+					<div id="editorcontainer" style="padding: 0px;">
 						<textarea name="content" id="content" rows="15" cols="40"><?php echo $content; ?></textarea>
 					</div>
 				</div>
@@ -145,10 +146,11 @@ function messages_write_new( $username = '', $subject = '', $content = '', $type
 			</p>
 			
 			<input type="hidden" name="thread_id" id="thread_id" value="<?php BP_Messages_Thread::get_new_thread_id() ?>" />
-			
+		
+		</div>
 		</form>
 		<script type="text/javascript">
-			$("username").focus();
+			$("send_to").focus();
 		</script>
 		
 	</div>
@@ -237,7 +239,7 @@ function messages_box( $box = 'inbox', $display_name = 'Inbox', $message = '', $
 							</td>
 							<td width="50"><a href="admin.php?page=bp-messages.php&amp;mode=view&amp;thread_id=<?php echo $thread->thread_id ?>">View</a></td>
 							<td width="50"><a href="admin.php?page=bp-messages.php&amp;mode=delete&amp;thread_id=<?php echo $thread->thread_id ?>">Delete</a></td>
-							<td width="25"><input type="checkbox" name="message_ids[]" value="<?php echo $thread->thread_id ?>" /></td>
+							<td width="25"><input type="checkbox" name="thread_ids[]" value="<?php echo $thread->thread_id ?>" /></td>
 						</tr>
 					<?php
 		
@@ -273,9 +275,9 @@ function messages_box( $box = 'inbox', $display_name = 'Inbox', $message = '', $
  Send a message.
  **************************************************************************/
 
-function messages_send_message($to_user, $subject, $content, $thread_id) {
+function messages_send_message($to_user, $subject, $content, $thread_id, $from_ajax = false) {
 	global $userdata;
-	
+
 	if ( is_numeric($to_user) ) {
 		$to_username = bp_core_get_username($to_user);
 	} else {
@@ -284,9 +286,17 @@ function messages_send_message($to_user, $subject, $content, $thread_id) {
 	}
 
 	if ( is_null($to_user) ) {
-		messages_write_new( '', $subject, $content, 'error', __('The username you provided was invalid.') );
+		if ( !$from_ajax ) {
+			messages_write_new( '', $subject, $content, 'error', __('The username you provided was invalid.') );
+		} else {
+			return array('status' => 0, 'message' => __('There was an error sending the reply, please try again.'));
+		}
 	} else if ( $subject == '' || $content == '' || $thread_id == '' ) {
-		messages_write_new( $to_user, $subject, $content, 'error', __('Please make sure you fill in all the fields.') );
+		if ( !$from_ajax ) {
+			messages_write_new( $to_user, $subject, $content, 'error', __('Please make sure you fill in all the fields.') );
+		} else {
+			return array('status' => 0, 'message' => __('Please make sure you have typed a message before sending a reply.'));
+		}
 	} else {
 		$message = new BP_Messages_Message;
 		$message->recipient_id = $to_user;
@@ -297,12 +307,19 @@ function messages_send_message($to_user, $subject, $content, $thread_id) {
 		$message->thread_id = $thread_id;
 		
 		unset($_GET['mode']);
-		
+
 		if ( !$message->send() ) {
-			// Could not send, try saving as draft.
-			messages_box( 'inbox', __('Inbox'), __('Message could not be sent, please try again.'), 'error' );
+			if ( !$from_ajax ) {
+				messages_box( 'inbox', __('Inbox'), __('Message could not be sent, please try again.'), 'error' );
+			} else {
+				return array('status' => 0, 'message' => __('Message could not be sent, please try again.'));
+			}
 		} else {
-			messages_box( 'inbox', __('Inbox'), __('Message sent successfully!'), 'success' );
+			if ( !$from_ajax ) {
+				messages_box( 'inbox', __('Inbox'), __('Message sent successfully!'), 'success' );
+			} else {
+				return array('status' => 1, 'message' => __('Message sent successfully!'), 'reply' => $message);
+			}
 		}
 	}
 }
@@ -322,7 +339,7 @@ function messages_delete_thread( $thread_ids, $box, $display_name ) {
 		$message = __('Messages deleted successfully!');
 		
 		for ( $i = 0; $i < count($thread_ids); $i++ ) {
-			if ( !$status = BP_Messages_Thread::delete($thread_ids) ) {
+			if ( !$status = BP_Messages_Thread::delete($thread_ids[$i]) ) {
 				$message = __('There was an error when deleting messages. Please try again.');
 				$type = 'error';
 			}
@@ -402,9 +419,12 @@ function messages_view_thread( $thread_id ) {
 								</div>
 							</div>
 							<p class="submit">
-								<input type="submit" name="send" value="Send Reply &raquo;" id="send" />
+								<input type="submit" name="send" value="Send Reply &raquo;" id="send_reply_button" />
 							</p>
 					</div>
+					<?php if ( function_exists('wp_nonce_field') )
+						wp_nonce_field('messages_sendreply');
+					?>
 					<input type="hidden" name="thread_id" id="thread_id" value="<?php echo $thread->thread_id ?>" />
 					<input type="hidden" name="send_to" id="send_to" value="<?php echo $thread->creator_id ?>" />
 					<input type="hidden" name="subject" id="subject" value="<?php _e('Re: '); echo $thread->subject; ?>" />
