@@ -86,47 +86,47 @@ function xprofile_validate_signup_fields() {
 
 				$counter = 0;
 				$hasErrors = false;
-				$prev_field_id = 0;
+				$prev_field_id = -1;
 				
-				foreach ( $_POST as $key => $value ) {
-					if ( strpos( $key, "field_" ) !== false ) {
-						$field_id = explode("_", $key);
-						$field_id = $field_id[1];
-						$field_type = BP_XProfile_Field::get_type($field_id);
+				// Validate all sign up fields
+				$fields = BP_XProfile_Field::get_signup_fields();
+				foreach ( $fields as $field ) {
+					
+					$value = $_POST['field_' . $field->id];
+					
+					// Need to check if the previous field had
+					// the same ID, as to not validate individual
+					// day/month/year dropdowns individually.
+					if ( $prev_field_id != $field->id ) {
+						$field = new BP_XProfile_Field($field->id);
 						
-						// Need to check if the previous field had
-						// the same ID, as to not validate individual
-						// day/month/year dropdowns individually.
-						if ( $prev_field_id != $field_id ) {
-							$field = new BP_XProfile_Field($field_id);
-							
-							if ( $field_type == "datebox" ) {
-								$value = strtotime( $_POST['field_' . $field_id . '_day'] . " " . 
-									     			$_POST['field_' . $field_id . '_month'] . " " .
-									     			$_POST['field_' . $field_id . '_year']);
-							}
-							
-							if (is_array($value)) {
-								$value = join(",",$value);
-							}
-							$bp_xprofile_callback[$counter] = array(
-								"field_id" => $field->id,
-								"type" => $field->type,
-								"value" => $value
-							);
-							
-							if ( $field->is_required && $_POST[$key] == '' ) {
-								$bp_xprofile_callback[$counter]["error_msg"] = $field->name . ' cannot be left blank.';
-								$hasErrors = true;
-							}	
-							
-							$counter++;
+						if ( $field_type == "datebox" ) {
+							$value = strtotime( $_POST['field_' . $field->id . '_day'] . " " . 
+								     			$_POST['field_' . $field->id . '_month'] . " " .
+								     			$_POST['field_' . $field->id . '_year']);
 						}
 						
-						$prev_field_id = $field_id;
+						if (is_array($value)) {
+							$value = join(",",$value);
+						}
+						$bp_xprofile_callback[$counter] = array(
+							"field_id" => $field->id,
+							"type" => $field->type,
+							"value" => $value
+						);
+						
+						if ( $field->is_required && $value == '' ) {
+							$bp_xprofile_callback[$counter]["error_msg"] = $field->name . ' cannot be left blank.';
+							$hasErrors = true;
+						}
+						
+						$prev_field_id = $field->id;
+						$counter++;
 					}
+					
+					
 				}
-				
+								
 				$result = wpmu_validate_user_signup( $_POST['user_name'], $_POST['user_email'] );
 				extract($result);
 				
