@@ -4,7 +4,7 @@ Description: Select Your Home State
 Author: Justin Ball
 URI: http://www.justinball.com
 Version: 1.0
-Types: radio,selectbox
+Types: multicheckbox,radio,selectbox,multiselectbox
 */
 ALASKA,AK
 ALABAMA,AL

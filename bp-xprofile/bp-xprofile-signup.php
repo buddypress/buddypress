@@ -87,6 +87,7 @@ function xprofile_validate_signup_fields() {
 				$counter = 0;
 				$hasErrors = false;
 				$prev_field_id = 0;
+				
 				foreach ( $_POST as $key => $value ) {
 					if ( strpos( $key, "field_" ) !== false ) {
 						$field_id = explode("_", $key);
@@ -105,6 +106,9 @@ function xprofile_validate_signup_fields() {
 									     			$_POST['field_' . $field_id . '_year']);
 							}
 							
+							if (is_array($value)) {
+								$value = join(",",$value);
+							}
 							$bp_xprofile_callback[$counter] = array(
 								"field_id" => $field->id,
 								"type" => $field->type,

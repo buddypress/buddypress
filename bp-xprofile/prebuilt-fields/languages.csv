@@ -4,153 +4,153 @@ Description: Select Your Primary Language
 Author: Justin Ball
 URI: http://www.justinball.com
 Version: 1.0
-Types: radio,selectbox
+Types: multicheckbox,radio,selectbox,multiselectbox
 */
 English,English
-магIарул мацI,Afar
-бызшәа,Abkhazian
+Afar,магIарул мацI
+Abkhazian,бызшәа
 Afrikaans,Afrikaans
-አማርኛ,Amharic
-العربية,Arabic
-অসমিয়া,Assamese
+Amharic,አማርኛ
+Arabic,العربية
+Assamese,অসমিয়া
 Aymara,Aymara
-Azəri Türkçəsi,Azerbaijani
+Azerbaijani,Azəri Türkçəsi
 Bashkir,Bashkir
-Беларускі,Belarussian
-Български,Bulgarian
+Belarussian,Беларускі
+Bulgarian,Български
 Bihari,Bihari
 Bislama,Bislama
-বাংলা,Bengali
-བོད་སྐད་,Tibetan
-Bosanski,Bosnian
-Brezhoneg,Breton
-Català,Catalan
-Corsu,Corsican
-Čeština,Czech
-Cymraeg,Welsh
-Dansk,Danish
-Deutsch,German
-Bhutani,Indian Bhutani
-Ελληνικά,Greek
+Bengali,বাংলা
+Tibetan,བོད་སྐད་
+Bosnian,Bosanski
+Breton,Brezhoneg
+Catalan,Català
+Corsican,Corsu
+Czech,Čeština
+Welsh,Cymraeg
+Danish,Dansk
+German,Deutsch
+Indian Bhutani,Bhutani
+Greek,Ελληνικά
 Esperanto,Esperanto
-Español,Spanish
-Eesti,Estonian
-Euskara,Basque
-فارسی,Persian
-Suomi,Finnish
+Spanish,Español
+Estonian,Eesti
+Basque,Euskara
+Persian,فارسی
+Finnish,Suomi
 Fiji,Fiji
-Føroyska,Faroese
-Français,French
-Frysk,Frisian
-Gaeilge,Irish Gaelic
-Gàidhlig,Scottish Gaelic
-Galego,Galician
+Faroese,Føroyska
+French,Français
+Frisian,Frysk
+Irish Gaelic,Gaeilge
+Scottish Gaelic,Gàidhlig
+Galician,Galego
 Guarani,Guarani
-ગુજરાતી,Gujarati
-Gaelg,Manx Gaelic
-هَوُس,Hausa
-עברית,Hebrew
-हिंदी,Hindi
-Hrvatski,Croatian
-Magyar,Hungarian
-Հայերէն,Armenian
+Gujarati,ગુજરાતી
+Manx Gaelic,Gaelg
+Hausa,هَوُس
+Hebrew,עברית
+Hindi,हिंदी
+Croatian,Hrvatski
+Hungarian,Magyar
+Armenian,Հայերէն
 Interlingua,Interlingua
-Bahasa Indonesia,Indonesian
+Indonesian,Bahasa Indonesia
 Interlingue,Interlingue
 Inupiak,Inupiak
-Íslenska,Icelandic
-Italiano,Italian
-ᐃᓄᒃᑎᑐᑦ,Inuktitut
-日本語,Japanese
+Icelandic,Íslenska
+Italian,Italiano
+Inuktitut,ᐃᓄᒃᑎᑐᑦ
+Japanese,日本語
 Javanese,Javanese
-ქართული,Georgian
-ﻗﺎﺯﺍﻗﺸﺎ,Kazakh
+Georgian,ქართული
+Kazakh,ﻗﺎﺯﺍﻗﺸﺎ
 Greenlandic,Greenlandic
-ខ្មែរ,Cambodian/Khmer
-ಕನ್ನಡ,Kannada
-한국어,Korean
-काऽशुर,Kashmiri
-Kurdí,Kurdish
-Kernewek,Cornish
-Кыргыз,Kirghiz
+Cambodian/Khmer,ខ្មែរ
+Kannada,ಕನ್ನಡ
+Korean,한국어
+Kashmiri,काऽशुर
+Kurdish,Kurdí
+Cornish,Kernewek
+Kirghiz,Кыргыз
 Latin,Latin
-Lëtzebuergesch,Luxemburgish
-Limburgs,Limburgish
+Luxemburgish,Lëtzebuergesch
+Limburgish,Limburgs
 Lingala,Lingala
-ພາສາລາວ,Laotian
-Lietuviskai,Lithuanian
-Latviešu,Latvian
-Malagasy,Madagascarian
+Laotian,ພາສາລາວ
+Lithuanian,Lietuviskai
+Latvian,Latviešu
+Madagascarian,Malagasy
 Maori,Maori
-Македонски,Macedonian
-മലയാളം,Malayalam
-Монгол,Mongolian
+Macedonian,Македонски
+Malayalam,മലയാളം
+Mongolian,Монгол
 Moldavian,Moldavian
-मराठी,Marathi
-Bahasa Melayu,Malay
-Malti,Maltese
+Marathi,मराठी
+Malay,Bahasa Melayu
+Maltese,Malti
 Burmese,Burmese
-Nauru,Nauruan
-नेपाली,Nepali
-Nederlands,Dutch
-Norsk,Norwegian
+Nauruan,Nauru
+Nepali,नेपाली
+Dutch,Nederlands
+Norwegian,Norsk
 Nynorsk,Nynorsk
 Occitan,Occitan
 Oromo,Oromo
-ଓଡ଼ିଆ,Oriya
-ਪੰਜਾਬੀ,Punjabi
-Polski,Polish
-پښتو,Pashto
-Português,Portuguese
+Oriya,ଓଡ଼ିଆ
+Punjabi,ਪੰਜਾਬੀ
+Polish,Polski
+Pashto,پښتو
+Portuguese,Português
 Quechua,Quechua
 Rhaeto-Romance,Rhaeto-Romance
 Kirundi,Kirundi
-Română,Romanian
-Русский,Russian
+Romanian,Română
+Russian,Русский
 Kiyarwanda,Kiyarwanda
-संस्कृत,Sanskrit
+Sanskrit,संस्कृत
 Sindhi,Sindhi
 Northern Sámi,Northern Sámi
 Sangho,Sangho
 Serbo-Croatian,Serbo-Croatian
 Singhalese,Singhalese
-Slovenčina,Slovak
-Slovenščina,Slovenian
+Slovak,Slovenčina
+Slovenian,Slovenščina
 Samoan,Samoan
 Shona,Shona
 Somali,Somali
-Shqip,Albanian
-српски,Serbian
+Albanian,Shqip
+Serbian,српски
 Siswati,Siswati
 Sesotho,Sesotho
 Sudanese,Sudanese
-Svenska,Swedish
+Swedish,Svenska
 Swahili,Swahili
-தமிழ,Tamil
-తెలుగు,Telugu
-Тоҷики,Tadjik
-ไทย,Thai
-ትግርኛ,Tigrinya
-түркmенче,Turkmen
+Tamil,தமிழ
+Telugu,తెలుగు
+Tadjik,Тоҷики
+Thai,ไทย
+Tigrinya,ትግርኛ
+Turkmen,түркmенче
 Tagalog,Tagalog
 Setswana,Setswana
 Tonga,Tonga
-Türkçe,Turkish
+Turkish,Türkçe
 Tsonga,Tsonga
-татарча,Tatar
+Tatar,татарча
 Twi,Twi
 Uigur,Uigur
-Українська,Ukrainian
-اردو,Urdu
-Ўзбекча,Uzbek
-Tiếng Việt,Vietnamese
+Ukrainian,Українська
+Urdu,اردو
+Uzbek,Ўзбекча
+Vietnamese,Tiếng Việt
 Volapük,Volapük
-Walon,Walloon
+Walloon,Walon
 Wolof,Wolof
-isiXhosa,Xhosa
-ײִדיש,Yiddish
-Yorùbá,Yorouba
+Xhosa,isiXhosa
+Yiddish,ײִדיש
+Yorouba,Yorùbá
 Zhuang,Zhuang
-zh-HK,簡體中文,Chinese - Traditional
-zh-CN,简体中文,Chinese - Simplified
-isiZulu,Zulu
+Chinese - Traditional,zh-HK,簡體中文
+Chinese - Simplified,zh-CN,简体中文
+Zulu,isiZulu
