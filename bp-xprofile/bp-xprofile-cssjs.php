@@ -159,6 +159,26 @@ function xprofile_add_css() {
 		.crop-img { float: left; margin: 0 20px 15px 0; }
 		.submit { clear: left; }
 
+		select.multi-select{
+		    width:90%;
+        height:10em !important;
+    }
+
+    ul.multi-checkbox {
+        margin: 0 5px 0 0px;
+        padding: .5em .9em;
+        height: 10em;
+        overflow: auto;
+        list-style: none;
+        border: solid 1px #ccc;
+        width:90%;           
+    }
+
+    ul.multi-checkbox li{
+        padding: 0;
+        margin: 0;
+    }
+
 	<?php if ( $wpdb->blogid == $userdata->primary_blog ) {	?>
 		/*body.wp-admin #wphead h1 {
 			background: url(<?php echo xprofile_get_avatar($userdata->ID, 1, true) ?>) center left no-repeat !important;

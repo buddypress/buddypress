@@ -442,6 +442,54 @@ Class BP_XProfile_Field {
 				
 			break;
 			
+			case 'multiselectbox':
+				$options = $this->get_children();
+
+				$html .= '<label for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
+				$html .= $this->message . '<select class="multi-select" multiple="multiple" name="field_' . $this->id . '[]" id="field_' . $this->id . '">';
+					for ( $k = 0; $k < count($options); $k++ ) {
+						$option_value = BP_XProfile_ProfileData::get_value($options[$k]->parent_id);
+	
+						if ( $option_value == $options[$k]->name ) {
+							$selected = ' selected="selected"';
+						} else {
+							$selected = '';
+						}
+						
+						$html .= '<option' . $selected . ' value="' . $options[$k]->name . '">' . $options[$k]->name . '</option>';
+					}
+				$html .= '</select>';
+				$html .= '<span class="desc">' . $this->desc . '</span>';
+			break;
+			
+			case 'multicheckbox':
+				$options = $this->get_children();
+				
+				$html .= '<div id="field_' . $this->id . '[]"><span>' . $asterisk . $this->name . ':</span>' . $this->message;
+				$html .= '<ul class="multi-checkbox">';
+				
+				$option_values = BP_XProfile_ProfileData::get_value($options[0]->parent_id);
+				$option_values = unserialize($option_values);
+				
+				for ( $k = 0; $k < count($options); $k++ ) {	
+					for ( $j = 0; $j < count($option_values); $j++ ) {
+						if ( $option_values[$j] == $options[$k]->name ) {
+							$selected = ' checked="checked"';
+							break;
+						}
+					}
+										
+					$html .= '<li><label><input' . $selected . ' type="checkbox" name="field_' . $this->id . '[]" id="field_' . $options[$k]->id . '_' . $k . '" value="' . $options[$k]->name . '"> ' . $options[$k]->name . '</label></li>';
+					
+					$selected = '';
+				}
+				
+				$html .= '</ul>';
+				$html .= '<span class="desc">' . $this->desc . '</span>';				
+				$html .= '</div>';
+				
+			break;
+			
 			case 'datebox':
 				if ( $this->data->value != '' ) {
 					$day = date("j", $this->data->value);
