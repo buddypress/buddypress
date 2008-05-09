@@ -25,6 +25,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 	} else if ( isset($_GET['mode']) && isset($_GET['group_id']) && $_GET['mode'] == "edit_group" ) {
 		xprofile_admin_manage_group($_GET['group_id']); die;
 	}
+	
 ?>	
 	<div class="wrap">
 		
@@ -48,10 +49,19 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 		if ( $groups ) {
 			for ( $i = 0; $i < count($groups); $i++ ) {
 			?>
-				<p>
-				<table class="widefat">
+				<script type="text/javascript" charset="utf-8">
+					jQuery(document).ready(function(){
+						jQuery('#<?php echo $groups[$i]->name;?>').tableDnD({
+							onDrop: function(table, row) {
+				      	var order = jQuery.tableDnD.serialize();
+					    }
+				    });
+					});					
+				</script>
+			 	<p>
+				<table id="<?php echo $groups[$i]->name; ?>" class="widefat">
 					<thead>
-					    <tr>
+					    <tr class="nodrag">
 					    	<th scope="col" colspan="<?php if ( $groups[$i]->can_delete ) { ?>3<?php } else { ?>5<?php } ?>"><?php echo $groups[$i]->name; ?></th>
 							<?php if ( $groups[$i]->can_delete ) { ?>    	
 								<th scope="col"><a class="edit" href="admin.php?page=xprofile_settings&amp;mode=edit_group&amp;group_id=<?php echo $groups[$i]->id; ?>">Edit</a></th>
@@ -60,28 +70,27 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 						</tr>
 					</thead>
 					<tbody id="the-list">
-					   <tr class="header">
+					   <tr class="header nodrag">
 					    	<td>Field Name</td>
 					    	<td width="10%">Field Type</td>
 					    	<td width="6%">Required?</td>
 					    	<td colspan="2" width="15%" style="text-align:center;">Action</td>
 					    </tr>
 
-						<?php if ( $groups[$i]->fields ) { ?>
+						  <?php if ( $groups[$i]->fields ) { ?>
 					    	<?php for ( $j = 0; $j < count($groups[$i]->fields); $j++ ) { ?>
-								<?php if ( $j % 2 == 0 ) { $class = ""; } else { $class = "alternate"; } ?>
-				
+									<?php if ( $j % 2 == 0 ) { $class = ""; } else { $class = "alternate"; } ?>
 							    <?php $field = new BP_XProfile_Field($groups[$i]->fields[$j]->id); ?>
 							    <?php if ( !$field->can_delete ) { $class .= ' core'; } ?>
 							
-								<tr<?php echo ' class="' . $class . '"'; ?>>
+									<tr<?php echo ' class="' . $class . '"'; ?>>
 							    	<td><span title="<?php echo $field->desc; ?>"><?php echo $field->name; ?> <?php if(!$field->can_delete) { ?>(Core)<?php } ?></span></td>
 							    	<td><?php echo $field->type; ?></td>
 							    	<td style="text-align:center;"><?php if ( $field->is_required ) { echo '<img src="' . $image_base . '/tick.gif" alt="Yes" />'; } else { ?>--<?php } ?></td>
 							    	<td style="text-align:center;"><?php if ( !$field->can_delete ) { ?><strike>Edit</strike><?php } else { ?><a class="edit" href="admin.php?page=xprofile_settings&amp;group_id=<?php echo $groups[$i]->id; ?>&amp;field_id=<?php echo $field->id; ?>&amp;mode=edit_field">Edit</a><?php } ?></td>
 							    	<td style="text-align:center;"><?php if ( !$field->can_delete ) { ?><strike>Delete</strike><?php } else { ?><a class="delete" href="admin.php?page=xprofile_settings&amp;field_id=<?php echo $field->id; ?>&amp;mode=delete_field">Delete</a><?php } ?></td>
 							    </tr>
-
+							
 							<?php } ?>
 						<?php } else { ?>
 							<tr>

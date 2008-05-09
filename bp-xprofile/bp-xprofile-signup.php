@@ -123,12 +123,11 @@ function xprofile_validate_signup_fields() {
 						$prev_field_id = $field->id;
 						$counter++;
 					}
-					
-					
 				}
 								
 				$result = wpmu_validate_user_signup( $_POST['user_name'], $_POST['user_email'] );
 				extract($result);
+	
 				
 				if ( $errors->get_error_code() || $hasErrors ) {
 					signup_user($user_name, $user_email, $errors);
