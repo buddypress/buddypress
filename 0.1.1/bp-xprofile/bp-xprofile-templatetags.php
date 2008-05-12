@@ -188,6 +188,10 @@ function the_profile_field_value() {
 		$field->data->value = $field_value;
 	}
 	
+	if ( $field->type == "datebox" ) {
+		$field->data->value = bp_format_time( $field->data->value, true );
+	}
+	
 	echo $field->data->value;
 }
 

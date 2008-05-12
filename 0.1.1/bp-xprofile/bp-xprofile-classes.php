@@ -223,7 +223,7 @@ Class BP_XProfile_Field {
 			$this->parent_id = $field->parent_id;
 			$this->type = $field->type;
 			$this->name = $field->name;
-			$this->desc = $field->description;
+			$this->desc = stripslashes($field->description);
 			$this->is_required = $field->is_required;
 			$this->can_delete = $field->can_delete;
 			
@@ -384,26 +384,7 @@ Class BP_XProfile_Field {
 					for ( $k = 0; $k < count($options); $k++ ) {
 						$option_value = BP_XProfile_ProfileData::get_value($options[$k]->parent_id);
 	
-						if ( $option_value == $options[$k]->name ) {
-							$selected = ' selected="selected"';
-						} else {
-							$selected = '';
-						}
-						
-						$html .= '<option' . $selected . ' value="' . $options[$k]->name . '">' . $options[$k]->name . '</option>';
-					}
-				$html .= '</select>';
-				$html .= '<span class="desc">' . $this->desc . '</span>';
-			break;
-			case 'multiselectbox':
-				$options = $this->get_children();
-
-				$html .= '<label for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
-				$html .= $this->message . '<select class="multi-select" multiple="multiple" name="field_' . $this->id . '[]" id="field_' . $this->id . '">';
-					for ( $k = 0; $k < count($options); $k++ ) {
-						$option_value = BP_XProfile_ProfileData::get_value($options[$k]->parent_id);
-	
-						if ( $option_value == $options[$k]->name ) {
+						if ( $option_value == $options[$k]->name || $value == $options[$k]->name ) {
 							$selected = ' selected="selected"';
 						} else {
 							$selected = '';
@@ -441,6 +422,8 @@ Class BP_XProfile_Field {
 			break;
 			
 			case 'checkbox':
+				$value = explode( ",", $value );
+			
 				$options = $this->get_children();
 				
 				$html .= '<div class="checkbox" id="field_' . $this->id . '"><span>' . $asterisk . $this->name . ':</span>' . $this->message;
@@ -450,7 +433,7 @@ Class BP_XProfile_Field {
 				
 				for ( $k = 0; $k < count($options); $k++ ) {	
 					for ( $j = 0; $j < count($option_values); $j++ ) {
-						if ( $option_values[$j] == $options[$k]->name ) {
+						if ( $option_values[$j] == $options[$k]->name || @in_array( $options[$k]->name, $value ) ) {
 							$selected = ' checked="checked"';
 							break;
 						}
@@ -464,35 +447,9 @@ Class BP_XProfile_Field {
 				$html .= '</div>';
 				
 			break;
-			case 'multicheckbox':
-				$options = $this->get_children();
-				
-				$html .= '<div id="field_' . $this->id . '[]"><span>' . $asterisk . $this->name . ':</span>' . $this->message;
-				$html .= '<ul class="multi-checkbox">';
-				
-				$option_values = BP_XProfile_ProfileData::get_value($options[0]->parent_id);
-				$option_values = unserialize($option_values);
-				
-				for ( $k = 0; $k < count($options); $k++ ) {	
-					for ( $j = 0; $j < count($option_values); $j++ ) {
-						if ( $option_values[$j] == $options[$k]->name ) {
-							$selected = ' checked="checked"';
-							break;
-						}
-					}
-										
-					$html .= '<li><label><input' . $selected . ' type="checkbox" name="field_' . $this->id . '[]" id="field_' . $options[$k]->id . '_' . $k . '" value="' . $options[$k]->name . '"> ' . $options[$k]->name . '</label></li>';
-					
-					$selected = '';
-				}
-				
-				$html .= '</ul>';
-				$html .= '<span class="desc">' . $this->desc . '</span>';				
-				$html .= '</div>';
-				
-			break;
 			
 			case 'datebox':
+				echo $value;
 				if ( $this->data->value != '' ) {
 					$day = date("j", $this->data->value);
 					$month = date("F", $this->data->value);
@@ -500,7 +457,7 @@ Class BP_XProfile_Field {
 					$default_select = ' selected="selected"';
 				}
 				
-				$html .= '<div id="field_' . $this->id . '">';
+				$html .= '<div id="field_' . $this->id . '" class="datefield">';
 				$html .= '<label for="field_' . $this->id . '_day">' . $asterisk . $this->name . ':</label>';
 				
 				$html .= $this->message . '
@@ -638,9 +595,7 @@ Class BP_XProfile_Field {
 						<option value="datebox"<?php if ( $this->type == 'datebox' ) {?> selected="selected"<?php } ?>>Date Selector</option>
 						<option value="radio"<?php if ( $this->type == 'radio' ) {?> selected="selected"<?php } ?>>Radio Buttons</option>
 						<option value="selectbox"<?php if ( $this->type == 'selectbox' ) {?> selected="selected"<?php } ?>>Drop-down Select Box</option>
-						<option value="multiselectbox"<?php if ( $this->type == 'multiselectbox' ) {?> selected="selected"<?php } ?>>Multi Select Box</option>
 						<option value="checkbox"<?php if ( $this->type == 'checkbox' ) {?> selected="selected"<?php } ?>>Checkboxes</option>
-						<option value="multicheckbox"<?php if ( $this->type == 'multicheckbox' ) {?> selected="selected"<?php } ?>>Multi Checkboxes</option>
 					</select>
 				</div>
 			
@@ -679,24 +634,7 @@ Class BP_XProfile_Field {
 				<div id="select_more"></div>					
 				<p><a href="javascript:add_option('select')"><?php _e('Add Another Option') ?></a></p>
 			</div>
-			<div id="multiselectbox" style="<?php if ( $this->type != 'multiselectbox' ) { ?>display: none;<?php } ?> margin-left: 15px;">
-				<p><?php _e('Please enter the options for drop-down multi-select box') ?></p>
-				<?php
-				if ( !empty($options) ) {
-					for ( $i = 0; $i < count($options); $i++ ) { ?>
-						<p><?php _e('Option') ?> <?php echo $i + 1 ?>: 
-						   <input type="text" name="multiselectbox_option[]" id="multiselectbox_option<?php echo $i+1 ?>" value="<?php echo $options[$i]->name ?>" />
-						</p>
-				<?php } ?>
-					<input type="hidden" name="multiselectbox_option_number" id="multiselectbox_option_number" value="<?php echo $i+1 ?>" />
-				<?php } else { ?>
-					<p><?php _e('Option') ?> 1: <input type="text" name="multiselectbox_option[]" id="multiselectbox_option1" /></p>
-					<input type="hidden" name="multiselectbox_option_number" id="multiselectbox_option_number" value="2" />
-				<?php } ?>
-				<div id="multiselectbox_more"></div>					
-				<p><a href="javascript:add_option('multiselectbox')"><?php _e('Add Another Option') ?></a></p>
-			</div>
-			
+
 			<div id="checkbox" style="<?php if ( $this->type != 'checkbox' ) { ?>display: none;<?php } ?> margin-left: 15px;">
 				<p><?php _e('Please enter the values for each checkbox.') ?></p>
 				<?php
@@ -713,23 +651,6 @@ Class BP_XProfile_Field {
 				<?php } ?>
 				<div id="checkbox_more"></div>					
 				<p><a href="javascript:add_option('checkbox')"><?php _e('Add Another Option') ?></a></p>
-			</div>		
-			<div id="multicheckbox" style="<?php if ( $this->type != 'multicheckbox' ) { ?>display: none;<?php } ?> margin-left: 15px;">
-				<p><?php _e('Please enter the values for each checkbox.') ?></p>
-				<?php
-				if ( !empty($options) ) {
-					for ( $i = 0; $i < count($options); $i++ ) { ?>
-						<p><?php _e('Option') ?> <?php echo $i + 1 ?>: 
-						   <input type="text" name="multicheckbox_option[]" id="multicheckbox_option<?php echo $i+1 ?>" value="<?php echo $options[$i]->name ?>" />
-						</p>
-				<?php } ?>
-					<input type="hidden" name="multicheckbox_option" id="multicheckbox_option" value="<?php echo $i+1 ?>" />
-				<?php } else { ?>
-					<p><?php _e('Option') ?> 1: <input type="text" name="multicheckbox_option[]" id="multicheckbox_option1" /></p>
-					<input type="hidden" name="multicheckbox_option_number" id="multicheckbox_option_number" value="2" />
-				<?php } ?>
-				<div id="multicheckbox_more"></div>					
-				<p><a href="javascript:add_option('multicheckbox')"><?php _e('Add Another Option') ?></a></p>
 			</div>		
 							
 			<p class="submit" style="float: left;">
@@ -812,10 +733,6 @@ Class BP_XProfile_Field {
 												<option value="radio"<?php if ( $this->type == 'radio' ) {?> selected="selected"<?php } ?>>Radio Buttons</option>
 											<?php } if (in_array('selectbox', $field_data['Types'])) { ?>
 												<option value="selectbox"<?php if ( $this->type == 'selectbox' ) {?> selected="selected"<?php } ?>>Drop-down Select Box</option>
-											<?php } if (in_array('multiselectbox', $field_data['Types'])) { ?>
-												<option value="multiselectbox"<?php if ( $this->type == 'multiselectbox' ) {?> selected="selected"<?php } ?>>Multi Select Box</option>
-											<?php } if (in_array('multicheckbox', $field_data['Types'])) { ?>
-												<option value="multicheckbox"<?php if ( $this->type == 'multicheckbox' ) {?> selected="selected"<?php } ?>>Multi Checkboxes</option>
 											<?php } ?>
 										</select>
 									</div>
@@ -915,10 +832,7 @@ Class BP_XProfile_Field {
 			return false;	
 		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'checkbox' && empty($_POST['checkbox_option'][0]) ) {
 			$message = __('Checkbox field types require at least one option. Please add options below.');	
-			return false;		
-		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'multicheckbox' && empty($_POST['multicheckbox_option'][0]) ) {
-			$message = __('Multi Checkbox field types require at least one option. Please add options below.');	
-			return false;		
+			return false;			
 		} else {
 			return true;
 		}

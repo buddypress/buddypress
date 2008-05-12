@@ -78,7 +78,7 @@ function xprofile_avatar_admin() {
 		<p><?php _e('Your avatar will be used on your profile and throughout the site.') ?></p>
 		<p><?php _e('Click below to select a JPG, GIF or PNG format photo from your computer and then click \'Upload Photo\' to proceed.') ?></p>
 		
-		<form method="post" action="<?php echo $_SERVER['PHP_SELF'] . '?' . $_SERVER['QUERY_STRING']; ?>" enctype="multipart/form-data">
+		<form method="post" action="<?php echo get_option('home') ?>/wp-admin/admin.php?page=bp-xprofile.php" enctype="multipart/form-data">
 			<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo xprofile_MAX_FILE_SIZE; ?>" />
 			<input type="hidden" name="slick_avatars_action" value="upload" />
 			<input type="hidden" name="action" value="slick_avatars" />
@@ -105,7 +105,7 @@ function xprofile_avatar_admin() {
 		if ( !isset($_FILES['file']) ) {
 			xprofile_ap_die('Your upload failed, please try again.');
 		}
-
+		
 		// Confirm size
 		if ( $_FILES['file']['size'] > XPROFILE_MAX_FILE_SIZE ) {
 			xprofile_ap_die( 'The file you uploaded is too big. Please upload a file under ' . size_format(1024 * xprofile_MAX_FILE_SIZE) );
@@ -125,22 +125,31 @@ function xprofile_avatar_admin() {
 			$str = stripos( $res['error'], 'MAX_FILE_SIZE' ) ? 'Your file is too big, please use a smaller photo.' : $res['error'];
 			xprofile_ap_die( 'Upload Failed! ' . $str );
 		}
-
+		
+		$size = getimagesize($original);
+		
+		if ( $size[0] < XPROFILE_AVATAR_V2_W || $size[1] < XPROFILE_CROPPING_CANVAS_MAX ) {
+			xprofile_ap_die( 'The image you upload must have dimensions of ' . XPROFILE_CROPPING_CANVAS_MAX . " x " . XPROFILE_CROPPING_CANVAS_MAX . " pixels or larger." );
+		}
+		
 		// Resize down to something we can display on the page
 		$canvas = wp_create_thumbnail( $original, XPROFILE_CROPPING_CANVAS_MAX );
+		
 		if ( xprofile_thumb_error($canvas) ) {
 			xprofile_ap_die('Could not create thumbnail.');
 		}
+		
 		$canvas = str_replace( '//', '/', $canvas );
 		$size = getimagesize($canvas);
 		
+
 		// Get the URL to access the uploaded file
 		$src = str_replace( array(ABSPATH), array(get_option('home') . '/'), $canvas );
 		
 		// Load cropper details
 		
 		// V1 UI
-		echo '<form action="' . $_SERVER['PHP_SELF'] . '?' . $_SERVER['QUERY_STRING'] . '" method="post">';
+		echo '<form action="' . get_option('home') .'/wp-admin/admin.php?page=bp-xprofile.php" method="post">';
 		echo '<input type="hidden" name="slick_avatars_action" value="crop" />';
 		echo '<input type="hidden" name="action" value="slick_avatars" />';
 		echo '<input type="hidden" name="nonce" value="' . wp_create_nonce('slick_avatars') . '" />';
@@ -268,7 +277,7 @@ function xprofile_avatar_admin() {
 
 function xprofile_ap_die( $msg ) {
 	echo '<p><strong>' . $msg . '</strong></p>';
-	echo '<p><a href="' . $_SERVER['PHP_SELF'] . '?' . $_SERVER['QUERY_STRING'] . '">' . __('Try Again') . '</a></p>';
+	echo '<p><a href="' . get_option('home') .'/wp-admin/admin.php?page=bp-xprofile.php">' . __('Try Again') . '</a></p>';
 	echo '</div>';
 	exit;
 }
