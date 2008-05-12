@@ -26,38 +26,38 @@ function xprofile_install( $version ) {
 
 	$sql = array();
 	
-	$sql[] = "CREATE TABLE `". $bp_xprofile_table_name_groups . "` (
-			  `id` int(11) unsigned NOT NULL auto_increment,
-			  `name` varchar(150) NOT NULL,
-			  `description` mediumtext NOT NULL,
-			  `can_delete` tinyint(1) NOT NULL,
-			  PRIMARY KEY  (`id`)
+	$sql[] = "CREATE TABLE ". $bp_xprofile_table_name_groups . " (
+			  id int(11) unsigned NOT NULL auto_increment,
+			  name varchar(150) NOT NULL,
+			  description mediumtext NOT NULL,
+			  can_delete tinyint(1) NOT NULL,
+			  PRIMARY KEY  (id)
 	);";
 	
-	$sql[] = "CREATE TABLE `". $bp_xprofile_table_name_fields ."` (
-			  `id` int(11) unsigned NOT NULL auto_increment,
-			  `group_id` int(11) unsigned NOT NULL,
-			  `parent_id` int(11) unsigned NOT NULL,
-			  `type` varchar(150) NOT NULL,
-			  `name` varchar(150) NOT NULL,
-			  `description` longtext NOT NULL,
-			  `is_required` tinyint(1) NOT NULL,
-			  `can_delete` tinyint(1) NOT NULL default '1',
-			  PRIMARY KEY  (`id`)
+	$sql[] = "CREATE TABLE ". $bp_xprofile_table_name_fields ." (
+			  id int(11) unsigned NOT NULL auto_increment,
+			  group_id int(11) unsigned NOT NULL,
+			  parent_id int(11) unsigned NOT NULL,
+			  type varchar(150) NOT NULL,
+			  name varchar(150) NOT NULL,
+			  description longtext NOT NULL,
+			  is_required tinyint(1) NOT NULL,
+			  can_delete tinyint(1) NOT NULL default '1',
+			  PRIMARY KEY  (id)
 	);";
 	
-	$sql[] = "CREATE TABLE `". $bp_xprofile_table_name_data ."` (
-			  `id` int(11) unsigned NOT NULL auto_increment,
-			  `field_id` int(11) NOT NULL,
-			  `user_id` int(11) NOT NULL,
-			  `value` longtext NOT NULL,
-			  `last_updated` datetime NOT NULL,
-			  PRIMARY KEY  (`id`)
+	$sql[] = "CREATE TABLE ". $bp_xprofile_table_name_data ." (
+			  id int(11) unsigned NOT NULL auto_increment,
+			  field_id int(11) NOT NULL,
+			  user_id int(11) NOT NULL,
+			  value longtext NOT NULL,
+			  last_updated datetime NOT NULL,
+			  PRIMARY KEY  (id)
 	)";
 	
-	$sql[] = "INSERT INTO `". $bp_xprofile_table_name_groups . "` VALUES (1, 'Basic', '', 0);";
-	$sql[] = "INSERT INTO `". $bp_xprofile_table_name_fields . "` VALUES (1, 1, 0, 'textbox', 'First Name', '', 1, 0);";
-	$sql[] = "INSERT INTO `". $bp_xprofile_table_name_fields . "` VALUES (2, 1, 0, 'textbox', 'Last Name', '', 1, 0);";
+	$sql[] = "INSERT INTO ". $bp_xprofile_table_name_groups . " VALUES (1, 'Basic', '', 0);";
+	$sql[] = "INSERT INTO ". $bp_xprofile_table_name_fields . " VALUES (1, 1, 0, 'textbox', 'First Name', '', 1, 0);";
+	$sql[] = "INSERT INTO ". $bp_xprofile_table_name_fields . " VALUES (2, 1, 0, 'textbox', 'Last Name', '', 1, 0);";
 	
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 	dbDelta($sql);
@@ -126,6 +126,8 @@ function xprofile_profile_template() {
 	if ( have_posts() ) : while ( have_posts() ) : the_post(); endwhile; endif;
 	
 	$profile_template = new BP_XProfile_Template;
+	
+	rewind_posts();
 }
 add_action( 'wp_head', 'xprofile_profile_template' );
 
