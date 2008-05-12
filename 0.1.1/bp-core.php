@@ -58,16 +58,30 @@ function buddypress_blog_switcher( $contents ) {
 			$image   = ' style="background-image: url(' . get_option('home') . '/wp-content/mu-plugins/bp-core/images/blog.png);
 							  background-position: 3px 3px;
 							  background-repeat: no-repeat;
-							  padding-left: 22px;"';; 
+							  padding-left: 22px;"'; 
 		}
-			
-		if ( $_SERVER['HTTP_HOST'] === $domain ) {
-			$current  .= ' class="current"';
-			$selected  = ' selected="selected"';
+		
+		if ( VHOST == 'yes' ) {
+			if ( $_SERVER['HTTP_HOST'] === $domain ) {
+				$current  .= ' class="current"';
+				$selected  = ' selected="selected"';
+			} else {
+				$current  .= '';
+				$selected  = '';
+			}			
 		} else {
-			$current  .= '';
-			$selected  = '';
+			$path = explode( '/', str_replace( '/wp-admin', '', $_SERVER['REQUEST_URI'] ) );
+
+			if ( $path[1] == str_replace( '/', '', $blog->path ) ) {
+				$current  .= ' class="current"';
+				$selected  = ' selected="selected"';
+			} else {
+				$current  .= '';
+				$selected  = '';
+			}
 		}
+		
+	
 
 		$url = clean_url( $blog->siteurl ) . '/wp-admin/';
 		$name = wp_specialchars( strip_tags( $blog->blogname ) );
@@ -283,8 +297,14 @@ function bp_core_validate( $num ) {
 	return true;
 }
 
-function bp_format_time( $time ) {
-	return date( "F j, Y ", $time ) . __('at') . date( ' g:iA', $time );
+function bp_format_time( $time, $just_date = false ) {
+	$date = date( "F j, Y ", $time );
+	
+	if ( !$just_date ) {
+		$date .= __('at') . date( ' g:iA', $time );
+	}
+	
+	return $date;
 }
 
 function bp_endkey( $array ) {
