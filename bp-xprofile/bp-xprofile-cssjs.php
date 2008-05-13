@@ -377,7 +377,7 @@ function xprofile_add_js() {
 					'field_ids': field_ids
 					},
 					function(response) {
-						alert(response);
+						
 					}, 
 					1250
 				);
