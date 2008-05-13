@@ -216,18 +216,56 @@ function xprofile_add_js() {
 				var newOption = document.createElement('input');
 				newOption.setAttribute('type', 'text');
 				newOption.setAttribute('name', forWhat + '_option[]');
-				newOption.setAttribute('id', forWhat + '_option' + theId);								
+				newOption.setAttribute('id', forWhat + '_option' + theId);
 			
 				var label = document.createElement('label');
 				label.setAttribute('for', forWhat + '_option' + theId);
 				
 				var txt = document.createTextNode("Option " + theId + ": ");
 				label.appendChild(txt);
-			
-				newDiv.appendChild(label);
-				 
+				
+				var isDefault = document.createElement('input');
+				
+				isDefault.setAttribute('type', 'checkbox');
+				isDefault.setAttribute('name', 'isDefault_' + forWhat + '_option[]');
+				isDefault.setAttribute('id', 'isDefault_' + forWhat + '_option' + theId);									
+
+				var label1 = document.createElement('label');
+				var txt1 = document.createTextNode(" is default ");
+				label1.appendChild(txt1);
+				label1.setAttribute('for', 'isDefault_' + forWhat + '_option[]');
+
+
+				/* var toDelete= document.createElement('input');
+				
+				toDelete.setAttribute('type', 'checkbox');
+				toDelete.setAttribute('name', 'toDelete_' + forWhat + '_option[]');
+				isDefault.setAttribute('id', 'toDelete_' + forWhat + '_option' + theId);									
+
+				var label2 = document.createElement('label');
+				var txt2 = document.createTextNode(' <?php _e("Delete Option") ?>');
+				label2.appendChild(txt2);
+				label2.setAttribute('for', 'toDelete_' + forWhat + '_option[]'); */
+				
+				toDelete=document.createElement('a');
+				//var toDelete = createTextNode('<a href="www.google.com> <?php _e("Delete") ?> </a>')
+				toDeleteText=document.createTextNode('<?php _e("Delete") ?> ');
+				toDelete.setAttribute('href','admin.php?page=xprofile_settings&amp;mode=delete_item&amp;item_id=-1');
+				//http://social.localhost/wp-admin/admin.php?page=xprofile_settings&field_id=27&mode=delete_field
+				toDelete.setAttribute('class','delete');
+
+				toDelete.appendChild(toDeleteText);
+	
+				//var txt = document.createTextNode("Option " + theId + ": ");
+				//label.appendChild(txt);
+				
+				newDiv.appendChild(label); 
 				newDiv.appendChild(newOption);
+				newDiv.appendChild(label1);	
+				newDiv.appendChild(isDefault);	
+				newDiv.appendChild(toDelete);	
 				holder.appendChild(newDiv);
+				
 				
 				theId++
 				document.getElementById(forWhat + "_option_number").value = theId;
@@ -235,7 +273,9 @@ function xprofile_add_js() {
 			
 			function show_options(forWhat) {
 				document.getElementById("radio").style.display = "none";
-				document.getElementById("select").style.display = "none";
+				document.getElementById("selectbox").style.display = "none";
+				document.getElementById("multiselectbox").style.display = "none";
+				document.getElementById("multicheckbox").style.display = "none";
 				document.getElementById("checkbox").style.display = "none";
 				
 				if(forWhat == "radio") {
@@ -243,11 +283,17 @@ function xprofile_add_js() {
 				}
 				
 				if(forWhat == "selectbox") {
-					document.getElementById("select").style.display = "";						
+					document.getElementById("selectbox").style.display = "";						
+				}
+				if(forWhat == "multiselectbox") {
+					document.getElementById("multiselectbox").style.display = "";						
 				}
 				
 				if(forWhat == "checkbox") {
 					document.getElementById("checkbox").style.display = "";						
+				}
+				if(forWhat == "multicheckbox") {
+					document.getElementById("multicheckbox").style.display = "";						
 				}
 			}
 			

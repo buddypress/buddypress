@@ -18,6 +18,8 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 		xprofile_admin_manage_field($_GET['group_id'], $_GET['field_id']); die;
 	} else if ( isset($_GET['mode']) && isset($_GET['field_id']) && $_GET['mode'] == "delete_field" ) {
 		xprofile_admin_delete_field($_GET['field_id']); die;
+	} else if ( isset($_GET['mode']) && isset($_GET['item_id']) && $_GET['mode'] == "delete_item" ) {
+		xprofile_admin_delete_item($_GET['item_id']); die;
 	} else if ( isset($_GET['mode']) && $_GET['mode'] == "add_group" ) {
 		xprofile_admin_manage_group(); die;
 	} else if ( isset($_GET['mode']) && isset($_GET['group_id']) && $_GET['mode'] == "delete_group" ) {
@@ -197,11 +199,15 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 	$field->group_id = $group_id;
 
 	if ( isset($_POST['saveField']) ) {
+		//print_r($_POST);
 		if ( BP_XProfile_Field::admin_validate($_POST) ) {
 			$field->name = $_POST['title'];
 			$field->desc = $_POST['description'];
 			$field->is_required = $_POST['required'];
 			$field->type = $_POST['fieldtype'];
+			//This may be confusing but we are dynamically figuring out the variable name and getting its value
+			$sort_variable_name = "sort_order_".$field->type;
+			$field->sort_order = $_POST[$sort_variable_name];
 			
 			if ( !$field->save() ) {
 				$message = __('There was an error saving the field. Please try again');
@@ -249,6 +255,28 @@ function xprofile_admin_delete_field( $field_id ) {
 	xprofile_admin($message, $type);
 }
 
+/**************************************************************************
+ xprofile_admin_delete_item()
+ 
+ Handles the deletion of profile field item data for a user.
+**************************************************************************/
+
+function xprofile_admin_delete_item( $item_id ) {
+	global $message, $type;
+	
+	//$field = new BP_XProfile_Field($field_id);
+	
+	if ( !BP_XProfile_Field::delete_item($item_id) ) {
+		$message = __('There was an error deleting the field. Please try again');
+		$type = 'error';
+	} else {
+		$message = __('The field was deleted successfully.');
+		$type = 'success';
+	}
+	
+	unset($_GET['mode']);
+	xprofile_admin($message, $type);
+}
 
 
 ?>

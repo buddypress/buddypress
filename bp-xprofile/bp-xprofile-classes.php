@@ -189,6 +189,7 @@ Class BP_XProfile_Field {
 	var $desc;
 	var $is_required;
 	var $can_delete;
+	var $sort_order;
 	
 	var $data;
 	var $message = null;
@@ -226,6 +227,8 @@ Class BP_XProfile_Field {
 			$this->desc = stripslashes($field->description);
 			$this->is_required = $field->is_required;
 			$this->can_delete = $field->can_delete;
+			$this->sort_order = $field->sort_order;
+
 			
 			if ( $get_data ) {
 				$this->data = $this->get_field_data($user_id);
@@ -246,16 +249,27 @@ Class BP_XProfile_Field {
 		
 		return true;
 	}
+	public static function delete_item($item_id) {
+		global $wpdb;
+		global $bp_xprofile_table_name_groups, $bp_xprofile_table_name_fields;
+
+		$sql = $wpdb->prepare("DELETE FROM $bp_xprofile_table_name_fields WHERE id = %d ", $item_id);
+		if ( $wpdb->query($sql) === false )
+			return false;
+		
+		
+		return true;
+	}
 	
 	function save() {
 		global $wpdb;
-
-		if ( $this->id != null ) {
-			$sql = $wpdb->prepare("UPDATE $this->table_name_fields SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d WHERE id = %d", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->id);
-		} else {
-			$sql = $wpdb->prepare("INSERT INTO $this->table_name_fields	(group_id, parent_id, type, name, description, is_required) VALUES (%d, 0, %s, %s, %s, %d)", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required);
-		}
 		
+		
+		if ( $this->id != null ) {
+			$sql = $wpdb->prepare("UPDATE $this->table_name_fields SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d, sort_order = %s WHERE id = %d", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->sort_order,$this->id);
+		} else {
+			$sql = $wpdb->prepare("INSERT INTO $this->table_name_fields	(group_id, parent_id, type, name, description, is_required, sort_order) VALUES (%d, 0, %s, %s, %s, %d, %s)", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->sort_order);
+		}
 		if ( $wpdb->query($sql) !== false ) {
 			// Only do this if we are editing an existing field
 			if ( $this->id != null ) {
@@ -307,7 +321,7 @@ Class BP_XProfile_Field {
 					if ( $this->type == "radio" ) {
 						$options = $_POST['radio_option'];
 					} else if ( $this->type == "selectbox" ) {
-						$options = $_POST['select_option'];
+						$options = $_POST['selectbox_option'];
 					} else if ( $this->type == "multiselectbox" ) {
 						$options = $_POST['multiselectbox_option'];
 					} else if ( $this->type == "checkbox" ) {
@@ -315,7 +329,7 @@ Class BP_XProfile_Field {
 					} else if ( $this->type == "multicheckbox" ) {
 						$options = $_POST['multicheckbox_option'];
 					}
-				
+					
 					for ( $i = 0; $i < count($options); $i++ ) {
 						$option_value = $options[$i];
 
@@ -377,7 +391,7 @@ Class BP_XProfile_Field {
 			break;
 			
 			case 'selectbox':
-				$options = $this->get_children();
+				$options = $this->get_children($this->sort_order);
 
 				$html .= '<label for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
 				$html .= $this->message . '<select name="field_' . $this->id . '" id="field_' . $this->id . '">';
@@ -396,7 +410,7 @@ Class BP_XProfile_Field {
 				$html .= '<span class="desc">' . $this->desc . '</span>';
 			break;
 			case 'multiselectbox':
-				$options = $this->get_children();
+				$options = $this->get_children($this->sort_order);
 
 				$html .= '<label for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
 				$html .= $this->message . '<select class="multi-select" multiple="multiple" name="field_' . $this->id . '[]" id="field_' . $this->id . '">';
@@ -567,9 +581,15 @@ Class BP_XProfile_Field {
 		return new BP_XProfile_ProfileData($this->id, $user_id);
 	}
 	
-	function get_children($sort_sql="") {
+	 function get_children($sort_sql="") {
 		global $wpdb;
 		//$sort_sql = "order by name asc";
+		if ($sort_sql == 'asc') {
+			$sort_sql = "order by name asc";
+		}
+		if ($sort_sql == 'desc') {
+			$sort_sql = "order by name desc";
+		}
 		$sql = $wpdb->prepare("SELECT * FROM $this->table_name_fields WHERE parent_id = %d AND group_id = %d", $this->id, $this->group_id );
 		$sql = $sql." ".$sort_sql;
 
@@ -577,7 +597,7 @@ Class BP_XProfile_Field {
 			return false;
 		
 		return $children;
-	}
+	} 
 	
 	function delete_children() {
 		global $wpdb;
@@ -585,6 +605,42 @@ Class BP_XProfile_Field {
 		$sql = $wpdb->prepare("DELETE FROM $this->table_name_fields	WHERE parent_id = %d", $this->id);
 
 		$wpdb->query($sql);
+	}
+	function render_admin_form_children() {
+		//This function populates the items for radio buttons checkboxes and drop down boxes
+		$input_types = array ("checkbox","multicheckbox","selectbox","multiselectbox","radio");	
+		
+		foreach ($input_types as $type) { 
+		 ?>
+			<div id="<?php echo($type) ?>" style="<?php if ( $this->type != $type ) { ?>display: none;<?php } ?> margin-left: 15px;">
+				<p><?php _e('Please enter the options for field') ?></p>
+				<p>Please set the sort order<select name="sort_order_<?php echo($type) ?>" id="sort_order_<?php echo($type) ?>" >
+						<option value="default" >default ordering</option>
+						<option value="asc" <?php if ( $this->sort_order == 'asc' ) {?> selected="selected"<?php } ?> >Ascending by name</option>
+						<option value="desc" <?php if ( $this->sort_order == 'desc' ) {?> selected="selected"<?php } ?> >Descending by name</option>
+					</select>
+	
+				<?php
+				$options = $this->get_children($this->sort_order);
+				if ( !empty($options) ) {
+					for ( $i = 0; $i < count($options); $i++ ) { ?>
+						<p><?php _e('Option') ?> <?php echo $i + 1 ?>: 
+						   <input type="text" name="<?php echo($type) ?>_option[]" id="<?php echo($type) ?>_option<?php echo $i+1 ?>" value="<?php echo $options[$i]->name ?>" />
+						is default <input type="checkbox" name="isDefault_<?php echo($type) ?>_option[]" id="isDefault_<?php echo($type) ?>_option<?php echo $i +1 ?>" /> 
+						<a href =admin.php?page=xprofile_settings&amp;mode=delete_item&amp;item_id=<?php echo $options[$i]->id ?> >Delete</a></p>
+						</p>
+				<?php } ?>
+					<input type="hidden" name="<?php echo($type) ?>_option_number" id="<?php echo($type) ?>_option_number" value="<?php echo $i+1 ?>" />
+				<?php } else { ?>
+					<p><?php _e('Option') ?> 1: <input type="text" name="<?php echo($type) ?>_option[]" id="<?php echo($type) ?>_option1" />
+					is default <input type="checkbox" name="isDefault_<?php echo($type) ?>_option[]" id="isDefault_<?php echo($type) ?>_option1" /> </p>
+					<input type="hidden" name="<?php echo($type) ?>_option_number" id="<?php echo($type) ?>_option_number" value="2" />
+				<?php } ?>
+				<div id="<?php echo($type) ?>_more"></div>					
+				<p><a href="javascript:add_option('<?php echo($type) ?>')"><?php _e('Add Another Option') ?></a></p>
+			</div>
+
+		<?php } 
 	}
 		
 	function render_admin_form( $message = '' ) {
@@ -596,6 +652,7 @@ Class BP_XProfile_Field {
 			$action = "admin.php?page=xprofile_settings&amp;mode=edit_field&amp;group_id=" . $this->group_id . "&amp;field_id=" . $this->id;			
 			$options = $this->get_children();
 		}
+	
 		
 	?>
 	
@@ -645,94 +702,8 @@ Class BP_XProfile_Field {
 						<option value="multicheckbox"<?php if ( $this->type == 'multicheckbox' ) {?> selected="selected"<?php } ?>>Multi Checkboxes</option>
 					</select>
 				</div>
+				<?php $this->render_admin_form_children() ?>
 			
-			<div id="radio" style="<?php if ( $this->type != 'radio' ) {?>display: none;<?php } ?> margin-left: 15px;">
-				<p><?php _e('Please enter the options for this radio button field.') ?></p>
-				<?php
-				if ( !empty($options) ) {
-					for ( $i = 0; $i < count($options); $i++ ) { ?>
-						<p><?php _e('Option') ?> <?php echo $i+1 ?>: 
-						   <input type="text" name="radio_option[]" id="radio_option<?php echo $i+1 ?>" value="<?php echo $options[$i]->name ?>" />
-						</p>
-				<?php } ?>
-					<input type="hidden" name="radio_option_number" id="radio_option_number" value="<?php echo $i+1 ?>" />
-				<?php } else { ?>
-					<p><?php _e('Option') ?> 1: <input type="text" name="radio_option[]" id="radio_option1" /></p>
-					<input type="hidden" name="radio_option_number" id="radio_option_number" value="2" />
-				<?php } ?>
-				<div id="radio_more"></div>
-				<p><a href="javascript:add_option('radio')"><?php _e('Add Another Option') ?></a></p>
-			</div>
-			
-			<div id="select" style="<?php if ( $this->type != 'selectbox' ) { ?>display: none;<?php } ?> margin-left: 15px;">
-				<p><?php _e('Please enter the options for drop-down select box') ?></p>
-				<?php
-				if ( !empty($options) ) {
-					for ( $i = 0; $i < count($options); $i++ ) { ?>
-						<p><?php _e('Option') ?> <?php echo $i + 1 ?>: 
-						   <input type="text" name="select_option[]" id="select_option<?php echo $i+1 ?>" value="<?php echo $options[$i]->name ?>" />
-						</p>
-				<?php } ?>
-					<input type="hidden" name="select_option_number" id="select_option_number" value="<?php echo $i+1 ?>" />
-				<?php } else { ?>
-					<p><?php _e('Option') ?> 1: <input type="text" name="select_option[]" id="select_option1" /></p>
-					<input type="hidden" name="select_option_number" id="select_option_number" value="2" />
-				<?php } ?>
-				<div id="select_more"></div>					
-				<p><a href="javascript:add_option('select')"><?php _e('Add Another Option') ?></a></p>
-			</div>
-			<div id="multiselectbox" style="<?php if ( $this->type != 'multiselectbox' ) { ?>display: none;<?php } ?> margin-left: 15px;">
-				<p><?php _e('Please enter the options for drop-down multi-select box') ?></p>
-				<?php
-				if ( !empty($options) ) {
-					for ( $i = 0; $i < count($options); $i++ ) { ?>
-						<p><?php _e('Option') ?> <?php echo $i + 1 ?>: 
-						   <input type="text" name="multiselectbox_option[]" id="multiselectbox_option<?php echo $i+1 ?>" value="<?php echo $options[$i]->name ?>" />
-						</p>
-				<?php } ?>
-					<input type="hidden" name="multiselectbox_option_number" id="multiselectbox_option_number" value="<?php echo $i+1 ?>" />
-				<?php } else { ?>
-					<p><?php _e('Option') ?> 1: <input type="text" name="multiselectbox_option[]" id="multiselectbox_option1" /></p>
-					<input type="hidden" name="multiselectbox_option_number" id="multiselectbox_option_number" value="2" />
-				<?php } ?>
-				<div id="multiselectbox_more"></div>					
-				<p><a href="javascript:add_option('multiselectbox')"><?php _e('Add Another Option') ?></a></p>
-			</div>
-			
-			<div id="checkbox" style="<?php if ( $this->type != 'checkbox' ) { ?>display: none;<?php } ?> margin-left: 15px;">
-				<p><?php _e('Please enter the values for each checkbox.') ?></p>
-				<?php
-				if ( !empty($options) ) {
-					for ( $i = 0; $i < count($options); $i++ ) { ?>
-						<p><?php _e('Option') ?> <?php echo $i + 1 ?>: 
-						   <input type="text" name="checkbox_option[]" id="checkbox_option<?php echo $i+1 ?>" value="<?php echo $options[$i]->name ?>" />
-						</p>
-				<?php } ?>
-					<input type="hidden" name="checkbox_option" id="checkbox_option" value="<?php echo $i+1 ?>" />
-				<?php } else { ?>
-					<p><?php _e('Option') ?> 1: <input type="text" name="checkbox_option[]" id="checkbox_option1" /></p>
-					<input type="hidden" name="checkbox_option_number" id="checkbox_option_number" value="2" />
-				<?php } ?>
-				<div id="checkbox_more"></div>					
-				<p><a href="javascript:add_option('checkbox')"><?php _e('Add Another Option') ?></a></p>
-			</div>		
-			<div id="multicheckbox" style="<?php if ( $this->type != 'multicheckbox' ) { ?>display: none;<?php } ?> margin-left: 15px;">
-				<p><?php _e('Please enter the values for each checkbox.') ?></p>
-				<?php
-				if ( !empty($options) ) {
-					for ( $i = 0; $i < count($options); $i++ ) { ?>
-						<p><?php _e('Option') ?> <?php echo $i + 1 ?>: 
-						   <input type="text" name="multicheckbox_option[]" id="multicheckbox_option<?php echo $i+1 ?>" value="<?php echo $options[$i]->name ?>" />
-						</p>
-				<?php } ?>
-					<input type="hidden" name="multicheckbox_option" id="multicheckbox_option" value="<?php echo $i+1 ?>" />
-				<?php } else { ?>
-					<p><?php _e('Option') ?> 1: <input type="text" name="multicheckbox_option[]" id="multicheckbox_option1" /></p>
-					<input type="hidden" name="multicheckbox_option_number" id="multicheckbox_option_number" value="2" />
-				<?php } ?>
-				<div id="multicheckbox_more"></div>					
-				<p><a href="javascript:add_option('multicheckbox')"><?php _e('Add Another Option') ?></a></p>
-			</div>		
 							
 			<p class="submit" style="float: left;">
 					&nbsp;<input type="submit" value="<?php _e("Save") ?> &raquo;" name="saveField" id="saveField" style="font-weight: bold" />
@@ -912,7 +883,10 @@ Class BP_XProfile_Field {
 		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'radio' && empty($_POST['radio_option'][0]) ) {
 			$message = __('Radio button field types require at least one option. Please add options below.');	
 			return false;
-		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'selectbox' && empty($_POST['select_option'][0]) ) {
+		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'selectbox' && empty($_POST['selectbox_option'][0]) ) {
+			$message = __('Select box field types require at least one option. Please add options below.');	
+			return false;	
+		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'multiselectbox' && empty($_POST['multiselectbox_option'][0]) ) {
 			$message = __('Select box field types require at least one option. Please add options below.');	
 			return false;	
 		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'checkbox' && empty($_POST['checkbox_option'][0]) ) {
@@ -1073,9 +1047,10 @@ Class BP_XProfile_ProfileData {
 		$sql = $wpdb->prepare("DELETE FROM $bp_xprofile_table_name_data WHERE field_id = %d", $field_id);
 
 		if ( $wpdb->query($sql) === false )
-			return false;
+			$message="could not delete";
+		$message="Deletion was sucessfull";
+	        $this->render_admin_form($message);
 		
-		return true;
 	}
 	
 }
