@@ -209,7 +209,6 @@ Class BP_XProfile_Field {
 		} else {
 			$this->id = $wpdb->insert_id;
 		}
-		echo "The id is ".$this->id;
 	}
 	
 	function populate( $id, $user_id, $get_data ) {
