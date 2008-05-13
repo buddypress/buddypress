@@ -48,20 +48,27 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 			</div>
 		<?php }
 		
-		if ( $groups ) {
+		if ( $groups ) { ?>
+			<script type="text/javascript" charset="utf-8">
+				jQuery(document).ready(function(){ <?php
+				for ( $i = 0; $i < count($groups); $i++ ) { ?>
+					jQuery('#group_<?php echo $groups[$i]->id;?>').tableDnD( {
+							onDrop: function(table, row) {
+				      	var field_ids = jQuery.tableDnD.serialize();
+								reorderFields(table, row, field_ids);
+					    }
+				  });
+				<?php } ?>
+				});					
+			</script>
+			
+			<?php if ( function_exists('wp_nonce_field') )
+				wp_nonce_field('xprofile_reorder_fields');
+			
 			for ( $i = 0; $i < count($groups); $i++ ) {
 			?>
-				<script type="text/javascript" charset="utf-8">
-					jQuery(document).ready(function(){
-						jQuery('#<?php echo $groups[$i]->name;?>').tableDnD({
-							onDrop: function(table, row) {
-				      	var order = jQuery.tableDnD.serialize();
-					    }
-				    });
-					});					
-				</script>
-			 	<p>
-				<table id="<?php echo $groups[$i]->name; ?>" class="widefat">
+				<p>
+				<table id="group_<?php echo $groups[$i]->id;?>" class="widefat">
 					<thead>
 					    <tr class="nodrag">
 					    	<th scope="col" colspan="<?php if ( $groups[$i]->can_delete ) { ?>3<?php } else { ?>5<?php } ?>"><?php echo $groups[$i]->name; ?></th>
@@ -85,7 +92,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 							    <?php $field = new BP_XProfile_Field($groups[$i]->fields[$j]->id); ?>
 							    <?php if ( !$field->can_delete ) { $class .= ' core'; } ?>
 							
-									<tr<?php echo ' class="' . $class . '"'; ?>>
+									<tr id="field_<?php echo $field->id; ?>" <?php if ( $class ) { echo 'class="' . $class . '"'; } ?>>
 							    	<td><span title="<?php echo $field->desc; ?>"><?php echo $field->name; ?> <?php if(!$field->can_delete) { ?>(Core)<?php } ?></span></td>
 							    	<td><?php echo $field->type; ?></td>
 							    	<td style="text-align:center;"><?php if ( $field->is_required ) { echo '<img src="' . $image_base . '/tick.gif" alt="Yes" />'; } else { ?>--<?php } ?></td>
@@ -99,7 +106,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 								<td colspan="6">There are no fields in this group.</td>
 							</tr>
 						<?php } ?>
-							<tr>
+							<tr class="nodrag">
 								<td colspan="6"><a href="admin.php?page=xprofile_settings&amp;group_id=<?php echo $groups[$i]->id; ?>&amp;mode=add_field">Add New Field</a></td>
 							</tr>
 					</tbody>

@@ -1,27 +1,31 @@
 <?php
-
-add_site_option('bp-friends-version', '0.1');
-
+$bp_friends_table_name = $wpdb->base_prefix . 'bp_friends';
+define('BP_FRIENDS_VERSION', '0.2');
+	
 /**************************************************************************
  friends_install()
  
  Sets up the database tables ready for use on a site installation.
  **************************************************************************/
 
-function friends_install() {
-	global $wpdb, $table_name;
+function friends_install( $version ) {
+	global $wpdb, $bp_friends_table_name;
 
-	$sql = "CREATE TABLE ". $table_name ." (
-		  		id mediumint(9) NOT NULL AUTO_INCREMENT,
-		  		initiator_user_id mediumint(9) NOT NULL,
-		  		friend_user_id mediumint(9) NOT NULL,
-		  		is_confirmed bool DEFAULT 0,
-		  		date_created int(11) NOT NULL,
-		    UNIQUE KEY id (id)
+	$sql = array();			
+			
+	$sql[] = "CREATE TABLE `". $bp_friends_table_name ."` (
+		  		`id` mediumint(9) NOT NULL AUTO_INCREMENT,
+		  		`initiator_user_id` mediumint(9) NOT NULL,
+		  		`friend_user_id` mediumint(9) NOT NULL,
+		  		`is_confirmed` bool DEFAULT 0,
+		  		`date_created` int(11) NOT NULL,
+		    UNIQUE KEY id (`id`)
 		 );";
 
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
+	
+	add_site_option('bp-friends-version', $version);
 }
 
 
@@ -33,25 +37,25 @@ function friends_install() {
  **************************************************************************/
 
 function friends_add_menu() {	
-	global $wpdb, $table_name, $bp_friends, $userdata;
-	$table_name = $wpdb->base_prefix . "bp_friends";
+	global $wpdb, $bp_friends_table_name, $bp_friends, $userdata;
 	
 	if ( $wpdb->blogid == $userdata->primary_blog ) {
-		/* Instantiate bp_Friends class to do the real work. */
-		$bp_friends = new BP_Friends;
-		$bp_friends->bp_friends();
-	
 		add_menu_page( __("Friends"), __("Friends"), 1, basename(__FILE__), "friends_list" );
 		add_submenu_page( basename(__FILE__), __("My Friends"), __("My Friends"), 1, basename(__FILE__), "friends_list" );
 		add_submenu_page( basename(__FILE__), __("Friend Finder"), __("Friend Finder"), 1, "friend_finder", "friends_find" );	
 
+		/* Instantiate bp_Friends class to do the real work. */
+		$bp_friends = new BP_Friends;
+		$bp_friends->bp_friends();
+		
 		/* Add the administration tab under the "Site Admin" tab for site administrators */
 		add_submenu_page( 'wpmu-admin.php', __("Friends"), __("Friends"), 1, basename(__FILE__), "friends_settings" );
 	}
-	
+
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( $wpdb->get_var("show tables like '%" . $table_name . "%'") == false )
-		friends_install();
+	if ( ( $wpdb->get_var("show tables like '%" . $bp_friends_table_name . "%'") == false ) || ( get_site_option('bp-friends-version') < BP_FRIENDS_VERSION )  )
+		friends_install(BP_FRIENDS_VERSION);
+		
 }
 add_action( 'admin_menu','friends_add_menu' );
 
@@ -92,12 +96,11 @@ class BP_Friends
  	 **************************************************************************/
 	function bp_friends()
 	{
-		global $wpdb, $userdata, $table_name;
+		global $wpdb, $userdata, $bp_friends_table_name;
 		 
 		$this->wpdb = &$wpdb;
 		$this->userdata = &$userdata;
 		$this->basePrefix = $wpdb->base_prefix;
-		$this->tableName = $table_name; // need a root prefix, not a wp_X_ prefix.
 		$this->imageBase = get_option('siteurl') . '/wp-content/mu-plugins/bp_friends/images/';
 		
 		/* Setup CSS and JS */
@@ -219,15 +222,30 @@ class BP_Friends
 	/**************************************************************************
  	 get_friends()
  	  
+	 Get a list of friends for the current user using the current, internal
+	 user id.
+ 	 **************************************************************************/	
+ 	 
+	function get_friend_list() 
+	{
+		return $this->get_friends($this->userdata->ID);
+	}
+	
+	
+	/**************************************************************************
+ 	 get_friends()
+ 	  
 	 Get a list of friends for the current user.
  	 **************************************************************************/	
 		
 	function get_friends($id)
 	{
+		global $bp_friends_table_name;
+		
 		if(bp_core_validate($id))
 		{
 			$sql = "SELECT initiator_user_id, friend_user_id
-			 		FROM " . $this->tableName . "
+			 		FROM " . $bp_friends_table_name . "
 					WHERE initiator_user_id = " . $id . "
 					OR friend_user_id = " . $id . " 
 					AND is_confirmed = 1";

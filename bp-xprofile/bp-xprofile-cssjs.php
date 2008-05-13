@@ -365,6 +365,24 @@ function xprofile_add_js() {
 				jQuery('#v2_w').val(dimensions.width);
 				jQuery('#v2_h').val(dimensions.height);
 			}
+			
+			function reorderFields(table, row, field_ids) {
+				var ajaxurl = '<?php echo get_option('siteurl') . "/wp-admin/admin-ajax.php"; ?>';
+				jQuery.post( ajaxurl, {
+					action: 'xprofile_reorder_fields',
+					'cookie': encodeURIComponent(document.cookie),
+					'_wpnonce': jQuery("input#_wpnonce").val(),
+					'group': table.id.split('_')[1],
+					'row': row,
+					'field_ids': field_ids
+					},
+					function(response) {
+						alert(response);
+					}, 
+					1250
+				);
+			}
+			
 			<?php } ?>
 		</script>
 		
