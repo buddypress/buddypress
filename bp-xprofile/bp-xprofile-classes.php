@@ -249,15 +249,15 @@ Class BP_XProfile_Field {
 		
 		return true;
 	}
-	public static function delete_item($item_id) {
+	
+	function delete_item( $item_id ) {
 		global $wpdb;
 		global $bp_xprofile_table_name_groups, $bp_xprofile_table_name_fields;
 
-		$sql = $wpdb->prepare("DELETE FROM $bp_xprofile_table_name_fields WHERE id = %d ", $item_id);
+		$sql = $wpdb->prepare("DELETE FROM $bp_xprofile_table_name_fields WHERE id = %d", $item_id);
 		if ( $wpdb->query($sql) === false )
 			return false;
-		
-		
+
 		return true;
 	}
 	
