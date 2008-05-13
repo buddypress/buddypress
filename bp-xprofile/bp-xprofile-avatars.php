@@ -125,7 +125,13 @@ function xprofile_avatar_admin() {
 			$str = stripos( $res['error'], 'MAX_FILE_SIZE' ) ? 'Your file is too big, please use a smaller photo.' : $res['error'];
 			xprofile_ap_die( 'Upload Failed! ' . $str );
 		}
+		
+		$size = getimagesize($original);
 
+		if ( $size[0] < XPROFILE_AVATAR_V2_W || $size[1] < XPROFILE_CROPPING_CANVAS_MAX ) {
+			xprofile_ap_die( 'The image you upload must have dimensions of ' . XPROFILE_CROPPING_CANVAS_MAX . " x " . XPROFILE_CROPPING_CANVAS_MAX . " pixels or larger." );
+		}
+		
 		// Resize down to something we can display on the page
 		$canvas = wp_create_thumbnail( $original, XPROFILE_CROPPING_CANVAS_MAX );
 		if ( xprofile_thumb_error($canvas) ) {

@@ -100,15 +100,18 @@ function xprofile_validate_signup_fields() {
 					if ( $prev_field_id != $field->id ) {
 						$field = new BP_XProfile_Field($field->id);
 						
-						if ( $field_type == "datebox" ) {
-							$value = strtotime( $_POST['field_' . $field->id . '_day'] . " " . 
-								     			$_POST['field_' . $field->id . '_month'] . " " .
-								     			$_POST['field_' . $field->id . '_year']);
+ 						if ( $field->type == "datebox" ) {
+ 							if ( $_POST['field_' . $field->id . '_day'] != "" && $_POST['field_' . $field->id . '_month'] != "" && $_POST['field_' . $field->id . '_year'] != "") {
+ 								$value = strtotime( $_POST['field_' . $field->id . '_day'] . " " . 
+ 									     			$_POST['field_' . $field->id . '_month'] . " " .
+ 									     			$_POST['field_' . $field->id . '_year']);								
+ 							}
 						}
 						
 						if (is_array($value)) {
 							$value = join(",",$value);
 						}
+						
 						$bp_xprofile_callback[$counter] = array(
 							"field_id" => $field->id,
 							"type" => $field->type,
@@ -120,9 +123,10 @@ function xprofile_validate_signup_fields() {
 							$hasErrors = true;
 						}
 						
-						$prev_field_id = $field->id;
 						$counter++;
 					}
+					
+					$prev_field_id = $field->id;
 				}
 								
 				$result = wpmu_validate_user_signup( $_POST['user_name'], $_POST['user_email'] );

@@ -128,6 +128,8 @@ function xprofile_profile_template() {
 	if ( have_posts() ) : while ( have_posts() ) : the_post(); endwhile; endif;
 	
 	$profile_template = new BP_XProfile_Template;
+	
+	rewind_posts();
 }
 add_action( 'wp_head', 'xprofile_profile_template' );
 

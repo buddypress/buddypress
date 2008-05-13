@@ -3,49 +3,58 @@
 function xprofile_add_signup_css() {
 	if ( $_SERVER['SCRIPT_NAME'] == '/wp-signup.php' ) {
 	?>
-		<style type="text/css">
-			
-			table#extraFields td label, div.radio span {
-				font-weight: bold;
-				display: block;
-				float: left;
-				width: 115px;
-			}
-			
-			table#extraFields td input {
-				font-size: 24px;
-				width: 280px;
-			}
-			
-			table#extraFields td textarea {
-				width: 280px;
-				height: 120px;
-			}
-			
-			table#extraFields td select {
-				width: auto;
-			}
-			
-			table#extraFields td div.radio label {
-				display: inline;
-				font-weight: normal;
-				float: none;
-			}
-			
-			table#extraFields td div.radio input {
-				width: auto;
-			}
-			
-			span.desc {
-				margin-left: 115px;
-			}
-			
-			div.error {
-				font-weight: bold;
-				margin: 10px 0 10px 113px;
-			}
-			
-		</style>
+	<style type="text/css">
+		
+		table#extraFields td label, 
+		div.radio span, 
+		div.checkbox span {
+			font-weight: bold;
+			display: block;
+			float: left;
+			width: 115px;
+		}
+		
+		table#extraFields td input {
+			font-size: 24px;
+			width: 280px;
+		}
+		
+		table#extraFields td textarea {
+			width: 280px;
+			height: 120px;
+		}
+		
+		table#extraFields td select {
+			width: 280px;
+		}
+		
+		table#extraFields td div.datefield select {
+			width: auto;
+		}
+		
+		table#extraFields td div.radio label,
+		table#extraFields td div.checkbox label {
+			display: inline;
+			font-weight: normal;
+			float: none;
+		}
+		
+		table#extraFields td div.radio input,
+		table#extraFields td div.checkbox input {
+			width: auto;
+		}
+		
+		span.desc {
+			margin-left: 115px;
+			font-weight: normal;
+		}
+		
+		div.error {
+			font-weight: bold;
+			margin: 10px 0 10px 113px;
+		}
+		
+	</style>
 		<?php		
 	}
 }

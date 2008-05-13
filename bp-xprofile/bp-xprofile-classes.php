@@ -223,7 +223,7 @@ Class BP_XProfile_Field {
 			$this->parent_id = $field->parent_id;
 			$this->type = $field->type;
 			$this->name = $field->name;
-			$this->desc = $field->description;
+			$this->desc = stripslashes($field->description);
 			$this->is_required = $field->is_required;
 			$this->can_delete = $field->can_delete;
 			
@@ -384,7 +384,7 @@ Class BP_XProfile_Field {
 					for ( $k = 0; $k < count($options); $k++ ) {
 						$option_value = BP_XProfile_ProfileData::get_value($options[$k]->parent_id);
 	
-						if ( $option_value == $options[$k]->name ) {
+						if ( $option_value == $options[$k]->name || $value == $options[$k]->name ) {
 							$selected = ' selected="selected"';
 						} else {
 							$selected = '';
@@ -403,7 +403,7 @@ Class BP_XProfile_Field {
 					for ( $k = 0; $k < count($options); $k++ ) {
 						$option_value = BP_XProfile_ProfileData::get_value($options[$k]->parent_id);
 	
-						if ( $option_value == $options[$k]->name ) {
+						if ( $option_value == $options[$k]->name || $value == $options[$k]->name ) {
 							$selected = ' selected="selected"';
 						} else {
 							$selected = '';
@@ -422,7 +422,7 @@ Class BP_XProfile_Field {
 				for ( $k = 0; $k < count($options); $k++ ) {
 					$option_value = BP_XProfile_ProfileData::get_value($options[$k]->parent_id);
 
-					if ( $option_value == $options[$k]->name ) {
+					if ( $option_value == $options[$k]->name || $value == $options[$k]->name ) {
 						$selected = ' checked="checked"';
 					} else {
 						$selected = '';
@@ -441,6 +441,8 @@ Class BP_XProfile_Field {
 			break;
 			
 			case 'checkbox':
+				$value = explode( ",", $value );
+				
 				$options = $this->get_children();
 				
 				$html .= '<div class="checkbox" id="field_' . $this->id . '"><span>' . $asterisk . $this->name . ':</span>' . $this->message;
@@ -450,7 +452,7 @@ Class BP_XProfile_Field {
 				
 				for ( $k = 0; $k < count($options); $k++ ) {	
 					for ( $j = 0; $j < count($option_values); $j++ ) {
-						if ( $option_values[$j] == $options[$k]->name ) {
+						if ( $option_values[$j] == $options[$k]->name || @in_array( $options[$k]->name, $value ) ) {
 							$selected = ' checked="checked"';
 							break;
 						}
@@ -500,7 +502,7 @@ Class BP_XProfile_Field {
 					$default_select = ' selected="selected"';
 				}
 				
-				$html .= '<div id="field_' . $this->id . '">';
+				$html .= '<div id="field_' . $this->id . '" class="datefield">';
 				$html .= '<label for="field_' . $this->id . '_day">' . $asterisk . $this->name . ':</label>';
 				
 				$html .= $this->message . '
