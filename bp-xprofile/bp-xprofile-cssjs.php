@@ -1,70 +1,8 @@
 <?php
 
-function xprofile_add_signup_css() {
-	if ( $_SERVER['SCRIPT_NAME'] == '/wp-signup.php' ) {
-	?>
-	<style type="text/css">
-		
-		table#extraFields td label, 
-		div.radio span, 
-		div.checkbox span {
-			font-weight: bold;
-			display: block;
-			float: left;
-			width: 115px;
-		}
-		
-		table#extraFields td input[type="text"] {
-			font-size: 24px;
-			width: 280px;
-		}
-		
-		table#extraFields td textarea {
-			width: 280px;
-			height: 120px;
-		}
-		
-		table#extraFields td select {
-			width: 280px;
-		}
-		
-		table#extraFields td div.datefield select {
-			width: auto;
-		}
-		
-		table#extraFields td div.radio label,
-		table#extraFields td div.checkbox label {
-			display: inline;
-			font-weight: normal;
-			float: none;
-		}
-		
-		table#extraFields td div.radio input,
-		table#extraFields td div.checkbox input {
-			width: auto;
-		}
-		
-		span.desc {
-			margin-left: 115px;
-			font-weight: normal;
-		}
-		
-		div.error {
-			font-weight: bold;
-			margin: 10px 0 10px 113px;
-		}
-		
-	</style>
-		<?php		
-	}
-}
-add_action( 'wp_head', 'xprofile_add_signup_css' );
-
-
 function xprofile_add_css() {
 	global $userdata, $wpdb;
 	
-	//if ( strpos( $_GET['page'], 'xprofile' ) !== false ) {
 	?>
 	<style type="text/css">
 
@@ -188,19 +126,10 @@ function xprofile_add_css() {
         margin: 0;
     }
 
-	<?php if ( $wpdb->blogid == $userdata->primary_blog ) {	?>
-		/*body.wp-admin #wphead h1 {
-			background: url(<?php echo xprofile_get_avatar($userdata->ID, 1, true) ?>) center left no-repeat !important;
-			padding: 20px 0 20px 65px;
-			margin-left: 18px;
-		}*/Å
-	<?php } ?>
-
 	</style>
 	<?php
 	//}
 }
-do_action( 'signup_header', 'xprofile_add_css' );
 
 function xprofile_add_js() {
 	if ( strpos( $_GET['page'], 'xprofile' ) !== false ) {

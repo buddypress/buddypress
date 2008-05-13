@@ -1,6 +1,12 @@
 <?php
+
 $bp_friends_table_name = $wpdb->base_prefix . 'bp_friends';
+$bp_friends_image_base = get_option('siteurl') . '/wp-content/mu-plugins/bp-friends/images';
 define('BP_FRIENDS_VERSION', '0.2');
+
+require_once( 'bp-friends/bp-friends-classes.php' );
+require_once( 'bp-friends/bp-friends-templatetags.php' );
+require_once( 'bp-friends/bp-friends-cssjs.php' );
 	
 /**************************************************************************
  friends_install()
@@ -27,8 +33,8 @@ function friends_install( $version ) {
 	
 	add_site_option('bp-friends-version', $version);
 }
-
-
+		
+		
 /**************************************************************************
  friends_add_menu()
  
@@ -43,13 +49,9 @@ function friends_add_menu() {
 		add_menu_page( __("Friends"), __("Friends"), 1, basename(__FILE__), "friends_list" );
 		add_submenu_page( basename(__FILE__), __("My Friends"), __("My Friends"), 1, basename(__FILE__), "friends_list" );
 		add_submenu_page( basename(__FILE__), __("Friend Finder"), __("Friend Finder"), 1, "friend_finder", "friends_find" );	
-
-		/* Instantiate bp_Friends class to do the real work. */
-		$bp_friends = new BP_Friends;
-		$bp_friends->bp_friends();
 		
 		/* Add the administration tab under the "Site Admin" tab for site administrators */
-		add_submenu_page( 'wpmu-admin.php', __("Friends"), __("Friends"), 1, basename(__FILE__), "friends_settings" );
+		//add_submenu_page( 'wpmu-admin.php', __("Friends"), __("Friends"), 1, basename(__FILE__), "friends_settings" );
 	}
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
@@ -61,306 +63,143 @@ add_action( 'admin_menu','friends_add_menu' );
 
 
 /**************************************************************************
- messages_write_new(), messages_inbox(), messages_sentbox(), 
- messages_drafts(), messages_add_js(), messages_add_css()
+ friends_setup()
  
- These are all wrapper functions used in Wordpress hooks to pass through to 
- correct functions within the bp_messages object. Seems the only way
- Wordpress will handle this.
- **************************************************************************/
+ Setup CSS, JS and other things needed for the xprofile component.
+**************************************************************************/
 
-function friends_list() 	{ global $bp_friends; $bp_friends->list_friends(); }
-function friends_find()		{ global $bp_friends; $bp_friends->find_friends(); }
-function friends_add_css()	{ global $bp_friends; $bp_friends->add_css(); }
-function friends_add_js()	{ global $bp_friends; $bp_friends->add_js(); }
+function friends_setup() {
+	add_action( 'admin_print_scripts', 'friends_add_css' );
+	add_action( 'admin_print_scripts', 'friends_add_js' );
+}
+add_action( 'admin_menu', 'friends_setup' );
+
 
 /**************************************************************************
- bp_Friends [Class]
+ friends_profile_template()
  
- Where all the magic happens.
+ Set up access to authordata and then set up template tags for use in
+ templates.
  **************************************************************************/
- 
-class BP_Friends
+
+function friends_template() {	
+	global $is_author, $userdata, $authordata, $friends_template;
+	
+	$friends_template = new BP_Friends_Template;
+	
+}
+add_action( 'wp_head', 'friends_template' );
+
+
+/**************************************************************************
+ friends_list()
+  
+ Creates a nice list of all the current users friends. Gives the user
+ options to filter the list.
+ **************************************************************************/	
+
+function friends_list()
 {
-	var $wpdb;
-	var $tableName;
-	var $basePrefix;
-	var $userdata;
-	var $imageBase;
-
-
-	/**************************************************************************
- 	 bp_friends()
- 	  
- 	 Contructor function.
- 	 **************************************************************************/
-	function bp_friends()
-	{
-		global $wpdb, $userdata, $bp_friends_table_name;
-		 
-		$this->wpdb = &$wpdb;
-		$this->userdata = &$userdata;
-		$this->basePrefix = $wpdb->base_prefix;
-		$this->imageBase = get_option('siteurl') . '/wp-content/mu-plugins/bp_friends/images/';
+		$bp_friends = new BP_Friends();
+		$friends = $bp_friends->get_friends();
+?>	
+	<div class="wrap">
 		
-		/* Setup CSS and JS */
-		add_action("admin_print_scripts", "friends_add_css");
-		add_action("admin_print_scripts", "friends_add_js");
-	}
-
-	
-	/**************************************************************************
- 	 list_friends()
- 	  
-	 Creates a nice list of all the current users friends. Gives the user
-	 options to filter the list.
- 	 **************************************************************************/	
- 	 
-	function list_friends() 
-	{
-		$friends = $this->get_friends($this->userdata->ID);
-	?>	
-		<div class="wrap">
-			
-			<h2><?php _e("My Friends") ?></h2>
-			
-			<?php if(!$friends) { ?>
-				<div id="message" class="error fade">
-					<p><?php _e("There was an error getting your list of friends, please try again.") ?></p>
-				</div>
-			<?php } else { ?>					
-				
-				<?php if(count($friends) < 1) { ?>
-					<div id="message" class="updated fade">
-						<p><?php _e("Looks like you don't have any friends. Why not <a href=\"admin.php?page=friend_finder\" title=\"Friend Finder\">find some</a>?"); ?></p>
-					</div>
-				<?php } else { ?>
-					<ul id="friends-list">
-						<?php for($i=0; $i<count($friends); $i++) { ?>
-						<li><?php echo '<a href="http://' . $friends[$i][3]->meta_value . '">' . $friends[$i][0]->meta_value . '</a>'; ?></li>
-						
-						<?php } ?>
-					</ul>
-				<?php } ?>
-				
-			<?php } ?>
-			
-		</div>
-	<?php
-	}
-	
-
-	/**************************************************************************
- 	 find_friends()
- 	  
-	 Shows the find friend interface, allowing users to search for friends in
-	 the system.
- 	 **************************************************************************/	
+		<h2><?php _e("My Friends") ?></h2>
 		
-	function find_friends($type = "error", $message = "")
-	{
-		if(isset($_POST['searchterm']) && isset($_POST['search']))
-		{
-			if($_POST['searchterm'] == "")
-			{
-				$message = __("Please make sure you enter something to search for.");
-			}
-			else if(strlen($_POST['searchterm']) < 3)
-			{
-				$message = __("Your search term must be longer than 3 letters otherwise you'll be here for years.");
-			}
-			else {
-				// The search term is okay, let's get it movin'
-				$results = $this->search($_POST['searchterm']);			
-			}
-		}
-		
-	?>
-
-		<div class="wrap">
-			<h2><?php _e('Friend Finder'); ?></h2>
-		
-		<?php if($message != '') { ?>
-			<?php if($type == 'error') { $type = "error"; } else { $type = "updated"; } ?>
-			<div id="message" class="<?php echo $type; ?> fade">
-				<p><?php echo $message; ?></p>
+		<?php if(!$friends) { ?>
+			<div id="message" class="error fade">
+				<p><?php _e("There was an error getting your list of friends, please try again.") ?></p>
 			</div>
-		<?php } ?>
+		<?php } else { ?>					
 			
-			<form action="admin.php?page=friend_finder" method="post">
-				
-				<fieldset id="searchtermdiv">
-					<legend><?php _e("Friends name, username or email address:") ?></legend>
-					<div>
-						<input type="text" name="searchterm" id="searchterm" value="<?php echo $_POST['searchterm'] ?>" />
-					</div>
-				</fieldset>
-				
-				<p>
-					<input type="submit" value="<?php _e("Search") ?> &raquo;" name="search" id="search" style="font-weight: bold" />
-				</p>
-				
-			</form>
-			
-			<?php if(isset($results)) { ?>
-				<?php if(!$results) { ?>
-					<p>Nothing Found!</p>
-				<?php } else { ?>
-					<ul id="friend_results">
-						<?php for($i=0; $i<count($results); $i++) { ?>
-							<li><?php echo $results[$i]->display_name; ?></li>
-						<?php } ?>
-					</ul>
-				<?php } ?>
+			<?php if(count($friends) < 1) { ?>
+				<div id="message" class="updated fade">
+					<p><?php _e("Looks like you don't have any friends. Why not <a href=\"admin.php?page=friend_finder\" title=\"Friend Finder\">find some</a>?"); ?></p>
+				</div>
+			<?php } else { ?>
+				<ul id="friends-list">
+					<?php for($i=0; $i<count($friends); $i++) { ?>
+					<li><?php echo '<a href="http://' . $friends[$i][3]->meta_value . '">' . $friends[$i][0]->meta_value . '</a>'; ?></li>
+					
+					<?php } ?>
+				</ul>
 			<?php } ?>
-		</div>
+			
+		<?php } ?>
 		
-	<?php
-	}
+	</div>
+<?php
+}
 
 
-	/**************************************************************************
- 	 get_friends()
- 	  
-	 Get a list of friends for the current user using the current, internal
-	 user id.
- 	 **************************************************************************/	
- 	 
-	function get_friend_list() 
-	{
-		return $this->get_friends($this->userdata->ID);
-	}
+/**************************************************************************
+ friends_find()
+  
+ Shows the find friend interface, allowing users to search for friends in
+ the system.
+ **************************************************************************/	
 	
-	
-	/**************************************************************************
- 	 get_friends()
- 	  
-	 Get a list of friends for the current user.
- 	 **************************************************************************/	
-		
-	function get_friends($id)
+function friends_find($type = "error", $message = "")
+{
+	if(isset($_POST['searchterm']) && isset($_POST['search']))
 	{
-		global $bp_friends_table_name;
-		
-		if(bp_core_validate($id))
+		if($_POST['searchterm'] == "")
 		{
-			$sql = "SELECT initiator_user_id, friend_user_id
-			 		FROM " . $bp_friends_table_name . "
-					WHERE initiator_user_id = " . $id . "
-					OR friend_user_id = " . $id . " 
-					AND is_confirmed = 1";
-
-			if(!$friends = $this->wpdb->get_results($sql))
-			{
-				return false;
-			}
-			
-			for($i=0; $i<count($friends); $i++)
-			{
-				if($friends[$i]->initiator_user_id != $id)
-				{
-					$friend_id = $friends[$i]->initiator_user_id;
-				}
-				else
-				{
-					$friend_id = $friends[$i]->friend_user_id;
-				}
-				
-				$sql = "SELECT meta_key, meta_value FROM " . $this->basePrefix . "usermeta 
-						WHERE user_id = " . $friend_id;
-
-				$friends_details[] = $this->wpdb->get_results($sql);
-			
-			}
-			
-			return $friends_details;
+			$message = __("Please make sure you enter something to search for.");
+		}
+		else if(strlen($_POST['searchterm']) < 3)
+		{
+			$message = __("Your search term must be longer than 3 letters otherwise you'll be here for years.");
 		}
 		else {
-			return false;
+			// The search term is okay, let's get it movin'
+			$bp_friends = new BP_Friends();
+			$results = $bp_friends->search($_POST['searchterm']);			
 		}
 	}
-
 	
-	/**************************************************************************
- 	 search()
- 	  
-	 Find a user on the site based on someone entering search terms such as
-	 a name, username or email address.
- 	 **************************************************************************/	
- 	 
-	function search($terms) 
-	{
-		$terms = bp_core_clean($terms);
+?>
+
+	<div class="wrap">
+		<h2><?php _e('Friend Finder'); ?></h2>
+	
+	<?php if($message != '') { ?>
+		<?php if($type == 'error') { $type = "error"; } else { $type = "updated"; } ?>
+		<div id="message" class="<?php echo $type; ?> fade">
+			<p><?php echo $message; ?></p>
+		</div>
+	<?php } ?>
 		
-		$sql = "SELECT ID, display_name FROM " . $this->basePrefix . "users 
-				WHERE user_login LIKE '%" . $terms . "%'
-				OR user_nicename LIKE '%" . $terms . "%'
-				OR user_email LIKE '%" . $terms . "%'
-				ORDER BY user_nicename ASC";
+		<form action="admin.php?page=friend_finder" method="post">
+			
+			<fieldset id="searchtermdiv">
+				<legend><?php _e("Friends name, username or email address:") ?></legend>
+				<div>
+					<input type="text" name="searchterm" id="searchterm" value="<?php echo $_POST['searchterm'] ?>" />
+				</div>
+			</fieldset>
+			
+			<p>
+				<input type="submit" value="<?php _e("Search") ?> &raquo;" name="search" id="search" style="font-weight: bold" />
+			</p>
+			
+		</form>
 		
-		return $this->wpdb->get_results($sql);
-
-	}
-
-	/**************************************************************************
- 	 callback()
- 	  
-	 Callback to specfic functions - this keeps correct tabs selected.
- 	 **************************************************************************/	
+		<?php if(isset($results)) { ?>
+			<?php if(!$results) { ?>
+				<p>Nothing Found!</p>
+			<?php } else { ?>
+				<ul id="friend_results">
+					<?php for($i=0; $i<count($results); $i++) { ?>
+						<li><?php echo $results[$i]->display_name; ?></li>
+					<?php } ?>
+				</ul>
+			<?php } ?>
+		<?php } ?>
+	</div>
 	
-	function callback($message, $type = 'error', $callback) 
-	{
-
-		switch($callback)
-		{
-
-		}
-	}
-	
-	/**************************************************************************
- 	 add_js()
- 	  
-	 Inserts the TinyMCE Js that's needed for the WYSIWYG message editor.
- 	 **************************************************************************/	
-	
-	function add_js()
-	{
-		if(isset($_GET['page']))
-		{
-			?>
-			<?php
-		}
-	}
-	
-
-	/**************************************************************************
- 	 add_css()
- 	  
-	 Inserts the CSS needed to style the messages pages.
- 	 **************************************************************************/	
-	
-	function add_css()
-	{
-		?>
-		<style type="text/css">
-			.unread td { 
-				font-weight: bold; 
-				background: #ffffec;
-			}
-			
-			#send_message_form fieldset input {
-				width: 98%;
-				font-size: 1.7em;
-				padding: 4px 3px;
-			}
-			
-			
-		</style>
-		<?php
-	}
-
-} // End Class
-
-
+<?php
+}
 
 ?>
