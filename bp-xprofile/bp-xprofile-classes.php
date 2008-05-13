@@ -207,7 +207,7 @@ Class BP_XProfile_Field {
 		if ( $id ) {
 			$this->populate( $id, $user_id, $get_data );
 		} else {
-			$this->id = -1;
+			$this->id = $wpdb->insert_id;
 		}
 	}
 	
@@ -312,6 +312,7 @@ Class BP_XProfile_Field {
 							if ( $num >= 2 ) { $description = $data[1]; }
 							if ( $num > 0 ) {
 								$sql = $wpdb->prepare("INSERT INTO $this->table_name_fields	(group_id, parent_id, type, name, description, is_required)	VALUES (%d, %d, 'option', %s, %s, 0)", $this->group_id, $parent_id, $name, $description);
+								echo $sql."<br><br>";
 								$wpdb->query($sql);
 							}
 						}
