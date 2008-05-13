@@ -97,7 +97,7 @@ function xprofile_add_menu() {
 	}
 	
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( ( $wpdb->get_var("show tables like '%" . $bp_xprofile_table_name . "%'") == false ) || ( get_site_option('bp-xprofile-version') < '0.7' )  )
+	if ( ( $wpdb->get_var("show tables like '%" . $bp_xprofile_table_name . "%'") == false ) || ( get_site_option('bp-xprofile-version') < '0.4' )  )
 		xprofile_install('0.4');
 }
 add_action( 'admin_menu', 'xprofile_add_menu' );
