@@ -4,7 +4,6 @@ include_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-thirdlevel.php' )
 include_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-settingstab.php' );
 
 
-
 if ( !get_site_option('bp_disable_blog_tab') ) {
 	include_once(ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-blogtab.php');
 }

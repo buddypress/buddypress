@@ -1,5 +1,7 @@
 <?php
 
+define ( 'BP_XPROFILE_VERSION', '0.4' );
+
 $bp_xprofile_table_name        = $wpdb->base_prefix . 'bp_xprofile';
 $bp_xprofile_table_name_groups = $wpdb->base_prefix . 'bp_xprofile_groups';
 $bp_xprofile_table_name_fields = $wpdb->base_prefix . 'bp_xprofile_fields';
@@ -97,8 +99,8 @@ function xprofile_add_menu() {
 	}
 	
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( ( $wpdb->get_var("show tables like '%" . $bp_xprofile_table_name . "%'") == false ) || ( get_site_option('bp-xprofile-version') < '0.4' )  )
-		xprofile_install('0.4');
+	if ( ( $wpdb->get_var("show tables like '%" . $bp_xprofile_table_name . "%'") == false ) || ( get_site_option('bp-xprofile-version') < BP_XPROFILE_VERSION )  )
+		xprofile_install(BP_XPROFILE_VERSION);
 }
 add_action( 'admin_menu', 'xprofile_add_menu' );
 

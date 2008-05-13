@@ -1,5 +1,7 @@
 <?php
 
+define ( 'BP_MESSAGES_VERSION', '0.2' );
+
 $bp_messages_table_name = $wpdb->base_prefix . 'bp_messages';
 $bp_messages_table_name_deleted = $bp_messages_table_name . '_deleted';
 $bp_messages_image_base = get_option('siteurl') . '/wp-content/mu-plugins/bp-messages/images';
@@ -74,8 +76,8 @@ function messages_add_menu() {
 	}
 	
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( ( $wpdb->get_var( "show tables like '%" . $bp_messages_table_name . "%'" ) == false ) || ( get_site_option('bp-messages-version') < '0.2' ) )
-		messages_install('0.2');
+	if ( ( $wpdb->get_var( "show tables like '%" . $bp_messages_table_name . "%'" ) == false ) || ( get_site_option('bp-messages-version') < BP_MESSAGES_VERSION ) )
+		messages_install(BP_MESSAGES_VERSION);
 }
 add_action( 'admin_menu', 'messages_add_menu' );
 
