@@ -206,6 +206,8 @@ Class BP_XProfile_Field {
 		
 		if ( $id ) {
 			$this->populate( $id, $user_id, $get_data );
+		} else {
+			$this->id = -1;
 		}
 	}
 	
@@ -587,15 +589,16 @@ Class BP_XProfile_Field {
 		if ($sort_sql == 'asc') {
 			$sort_sql = "order by name asc";
 		}
-		if ($sort_sql == 'desc') {
+		elseif ($sort_sql == 'desc') {
 			$sort_sql = "order by name desc";
+		} else {
+			$sort_sql = '';
 		}
 		$sql = $wpdb->prepare("SELECT * FROM $this->table_name_fields WHERE parent_id = %d AND group_id = %d", $this->id, $this->group_id );
 		$sql = $sql." ".$sort_sql;
-
 		if ( !$children = $wpdb->get_results($sql) )
 			return false;
-		
+		//print_r($children);
 		return $children;
 	} 
 	
