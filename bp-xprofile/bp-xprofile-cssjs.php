@@ -14,7 +14,7 @@ function xprofile_add_signup_css() {
 			width: 115px;
 		}
 		
-		table#extraFields td input {
+		table#extraFields td input[type="text"] {
 			font-size: 24px;
 			width: 280px;
 		}

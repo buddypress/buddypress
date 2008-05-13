@@ -199,7 +199,7 @@ Class BP_XProfile_Field {
 	var $table_name_fields;
 
 	function bp_xprofile_field( $id = null, $user_id = null, $get_data = true ) {
-		global $bp_xprofile_table_name_groups, $bp_xprofile_table_name_fields;
+		global $bp_xprofile_table_name_groups, $bp_xprofile_table_name_fields,$wpdb;
 		
 		$this->table_name_groups = $bp_xprofile_table_name_groups;
 		$this->table_name_fields = $bp_xprofile_table_name_fields;	
@@ -209,6 +209,7 @@ Class BP_XProfile_Field {
 		} else {
 			$this->id = $wpdb->insert_id;
 		}
+		echo "The id is ".$this->id;
 	}
 	
 	function populate( $id, $user_id, $get_data ) {
