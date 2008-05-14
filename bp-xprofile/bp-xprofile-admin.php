@@ -206,11 +206,11 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 	$field->group_id = $group_id;
 
 	if ( isset($_POST['saveField']) ) {
-		//print_r($_POST);
 		if ( BP_XProfile_Field::admin_validate($_POST) ) {
 			$field->name = $_POST['title'];
 			$field->desc = $_POST['description'];
 			$field->is_required = $_POST['required'];
+			$field->is_public= $_POST['public'];
 			$field->type = $_POST['fieldtype'];
 			//This may be confusing but we are dynamically figuring out the variable name and getting its value
 			$sort_variable_name = "sort_order_".$field->type;

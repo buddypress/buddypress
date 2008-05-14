@@ -156,7 +156,7 @@ function xprofile_add_js() {
 				var isDefault = document.createElement('input');
 				
 				isDefault.setAttribute('type', 'checkbox');
-				isDefault.setAttribute('name', 'isDefault_' + forWhat + '_option[]');
+				isDefault.setAttribute('name', 'isDefault_' + forWhat + '_option' + theId);
 				isDefault.setAttribute('id', 'isDefault_' + forWhat + '_option' + theId);									
 
 				var label1 = document.createElement('label');

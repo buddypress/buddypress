@@ -227,6 +227,7 @@ Class BP_XProfile_Field {
 			$this->name = $field->name;
 			$this->desc = stripslashes($field->description);
 			$this->is_required = $field->is_required;
+			$this->is_public= $field->is_public;
 			$this->can_delete = $field->can_delete;
 			$this->sort_order = $field->sort_order;
 
@@ -267,9 +268,9 @@ Class BP_XProfile_Field {
 		
 		
 		if ( $this->id != null ) {
-			$sql = $wpdb->prepare("UPDATE $this->table_name_fields SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d, sort_order = %s WHERE id = %d", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->sort_order,$this->id);
+			$sql = $wpdb->prepare("UPDATE $this->table_name_fields SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d,is_public = %d, sort_order = %s WHERE id = %d", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->is_public,$this->sort_order,$this->id);
 		} else {
-			$sql = $wpdb->prepare("INSERT INTO $this->table_name_fields	(group_id, parent_id, type, name, description, is_required, sort_order) VALUES (%d, 0, %s, %s, %s, %d, %s)", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->sort_order);
+			$sql = $wpdb->prepare("INSERT INTO $this->table_name_fields	(group_id, parent_id, type, name, description, is_required, is_public, sort_order) VALUES (%d, 0, %s, %s, %s, %d, %d, %s)", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->is_public, $this->sort_order);
 		}
 		if ( $wpdb->query($sql) !== false ) {
 			// Only do this if we are editing an existing field
@@ -330,13 +331,19 @@ Class BP_XProfile_Field {
 					} else if ( $this->type == "multicheckbox" ) {
 						$options = $_POST['multicheckbox_option'];
 					}
+					$default_array = $_POST['isDefault_selectbox_option'];
 					
 					for ( $i = 0; $i < count($options); $i++ ) {
 						$option_value = $options[$i];
+						$j = $i + 1;
+						$is_default_name = "isDefault_".$this->type."_option".$j;
+						$is_default_value = $_POST[$is_default_name];
 
+						if ($is_default_value) { $is_default = "CHECKED"; } else { $is_default="";}
 						if ( $option_value != "" ) { 
+							
 							// don't insert an empty option.
-							$sql = $wpdb->prepare("INSERT INTO $this->table_name_fields	(group_id, parent_id, type, name, description, is_required)	VALUES (%d, %d, 'option', %s, '', 0)", $this->group_id, $parent_id, $option_value);
+							$sql = $wpdb->prepare("INSERT INTO $this->table_name_fields	(group_id, parent_id, type, name, description, is_required,sort_order)	VALUES (%d, %d, 'option', %s, '', 0,%s)", $this->group_id, $parent_id, $option_value, $is_default);
 
 							if ( $wpdb->query($sql) === false ) {
 								return false;
@@ -586,10 +593,10 @@ Class BP_XProfile_Field {
 		global $wpdb;
 		//This is done here so we don't have problems with sql injection
 		if ($sort_sql == 'asc') {
-			$sort_sql = "order by name asc";
+			$sort_sql = "order by sort_order desc, name asc";
 		}
 		elseif ($sort_sql == 'desc') {
-			$sort_sql = "order by name desc";
+			$sort_sql = "order by sort_order desc, name desc";
 		} else {
 			$sort_sql = '';
 		}
@@ -634,14 +641,14 @@ Class BP_XProfile_Field {
 					for ( $i = 0; $i < count($options); $i++ ) { ?>
 						<p><?php _e('Option') ?> <?php echo $i + 1 ?>: 
 						   <input type="text" name="<?php echo($type) ?>_option[]" id="<?php echo($type) ?>_option<?php echo $i+1 ?>" value="<?php echo $options[$i]->name ?>" />
-						is default <input type="checkbox" name="isDefault_<?php echo($type) ?>_option[]" id="isDefault_<?php echo($type) ?>_option<?php echo $i +1 ?>" /> 
+						is default <input type="checkbox" name="isDefault_<?php echo($type) ?>_option<?php echo $i +1 ?>" id="isDefault_<?php echo($type) ?>_option<?php echo $i +1 ?>   <?php if ( $options[$i]->sort_order == 'CHECKED' ) {?> checked="checked"<?php } ?> " /> 
 						<a href =admin.php?page=xprofile_settings&amp;mode=delete_item&amp;item_id=<?php echo $options[$i]->id ?> >Delete</a></p>
 						</p>
 				<?php } ?>
 					<input type="hidden" name="<?php echo($type) ?>_option_number" id="<?php echo($type) ?>_option_number" value="<?php echo $i+1 ?>" />
 				<?php } else { ?>
 					<p><?php _e('Option') ?> 1: <input type="text" name="<?php echo($type) ?>_option[]" id="<?php echo($type) ?>_option1" />
-					is default <input type="checkbox" name="isDefault_<?php echo($type) ?>_option[]" id="isDefault_<?php echo($type) ?>_option1" /> </p>
+					is default <input type="checkbox" name="isDefault_<?php echo($type) ?>_option<?php echo $i +1 ?>" id="isDefault_<?php echo($type) ?>_option1" /> </p>
 					<input type="hidden" name="<?php echo($type) ?>_option_number" id="<?php echo($type) ?>_option_number" value="2" />
 				<?php } ?>
 				<div id="<?php echo($type) ?>_more"></div>					
@@ -694,6 +701,13 @@ Class BP_XProfile_Field {
 					<select name="required" id="required">
 						<option value="0"<?php if ( $this->is_required == '0' ) { ?> selected="selected"<?php } ?>>Not Required</option>
 						<option value="1"<?php if ( $this->is_required == '1' ) { ?> selected="selected"<?php } ?>>Required</option>
+					</select>
+				</div>
+				<label for="public">* <?php _e("Is This Field public information?") ?></label>
+				<div>
+					<select name="public" id="public">
+						<option value="1"<?php if ( $this->is_public== '1' ) { ?> selected="selected"<?php } ?>>Public</option>
+						<option value="0"<?php if ( $this->is_public== '0' ) { ?> selected="selected"<?php } ?>>Private</option>
 					</select>
 				</div>
 				<p></p>
