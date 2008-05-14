@@ -207,7 +207,6 @@ Class BP_XProfile_Field {
 		if ( $id ) {
 			$this->populate( $id, $user_id, $get_data );
 		} else {
-			$this->id = $wpdb->insert_id;
 		}
 	}
 	
@@ -585,7 +584,7 @@ Class BP_XProfile_Field {
 	
 	 function get_children($sort_sql="") {
 		global $wpdb;
-		//$sort_sql = "order by name asc";
+		//This is done here so we don't have problems with sql injection
 		if ($sort_sql == 'asc') {
 			$sort_sql = "order by name asc";
 		}
@@ -594,11 +593,17 @@ Class BP_XProfile_Field {
 		} else {
 			$sort_sql = '';
 		}
-		$sql = $wpdb->prepare("SELECT * FROM $this->table_name_fields WHERE parent_id = %d AND group_id = %d", $this->id, $this->group_id );
+		//This eliminates a problem with getting all fields when there is no id for the object
+		if (!$this->id) {
+			$parent_id=-1;
+		
+		} else {
+			$parent_id=$this->id;
+		}
+		$sql = $wpdb->prepare("SELECT * FROM $this->table_name_fields WHERE parent_id = %d AND group_id = %d", $parent_id, $this->group_id );
 		$sql = $sql." ".$sort_sql;
 		if ( !$children = $wpdb->get_results($sql) )
 			return false;
-		//print_r($children);
 		return $children;
 	} 
 	
