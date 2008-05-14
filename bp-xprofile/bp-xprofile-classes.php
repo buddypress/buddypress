@@ -598,7 +598,7 @@ Class BP_XProfile_Field {
 		elseif ($sort_sql == 'desc') {
 			$sort_sql = "order by sort_order desc, name desc";
 		} else {
-			$sort_sql = '';
+			$sort_sql = 'order by sort_order desc';
 		}
 		//This eliminates a problem with getting all fields when there is no id for the object
 		if (!$this->id) {
