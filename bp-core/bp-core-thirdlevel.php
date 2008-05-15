@@ -56,16 +56,16 @@ function add_thirdlevel_css() {
 					z-index: 999;
 				}
 			
-			#submenu li a #awaiting-mod {
+			#awaiting-mod {
 				background-image: url(<?php bloginfo('home'); ?>/wp-admin/images/comment-stalk-classic.gif);
 			}
 
-			#submenu li a #awaiting-mod span {
+			#awaiting-mod span {
 				background-color: #d54e21;
 				color: #fff;
 			}
 			
-			#submenu li a #awaiting-mod {
+			a #awaiting-mod {
 				position: absolute;
 				margin-left: -0.4em;
 				margin-top: 0.2em;
@@ -75,16 +75,17 @@ function add_thirdlevel_css() {
 				height: 0.9em;
 				width: 1em;
 			}
+				td a #awaiting-mod { font-size: 0.8em; margin-top: -0.2em; }
 
-			#submenu li a .count-0 {
+			a .count-0 {
 				display: none;
 			}
 			
-			#submenu li a:hover #awaiting-mod {
+			a:hover #awaiting-mod {
 				background-position: -80px bottom;
 			}
 
-			#submenu li a #awaiting-mod span {
+			a #awaiting-mod span {
 				top: -0.9em;
 				right: 0;
 				position: absolute;
@@ -98,12 +99,12 @@ function add_thirdlevel_css() {
 				border-radius: 3px;
 			}
 			
-			#submenu li a #awaiting-mod span, #rightnow .reallynow {
+			a #awaiting-mod span, #rightnow .reallynow {
 				background-color: #d54e21;
 				color: #fff;
 			}
 
-			#submenu li a:hover #awaiting-mod span {
+			a:hover #awaiting-mod span {
 				background-color: #264761;
 			}
 
