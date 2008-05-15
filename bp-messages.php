@@ -62,7 +62,7 @@ function messages_add_menu() {
 	global $wpdb, $bp_messages_table_name, $bp_messages, $userdata;
 
 	if ( $wpdb->blogid == $userdata->primary_blog ) {	
-		if ( $inbox_count = BP_Messages_Message::get_inbox_count() ) {
+		if ( $inbox_count = BP_Messages_Thread::get_inbox_count() ) {
 			$count_indicator = ' <span id="awaiting-mod" class="count-1"><span class="message-count">' . $inbox_count . '</span></span>';
 		}
 		
@@ -211,7 +211,7 @@ function messages_box( $box = 'inbox', $display_name = 'Inbox', $message = '', $
 			foreach ( $threads as $thread ) {
 				if ( $thread->messages ) {
 					if ( $thread->unread_count ) { 
-						$is_read = '<img src="' . $bp_messages_image_base .'/email.gif" alt="New Message" />';
+						$is_read = '<img src="' . $bp_messages_image_base .'/email.gif" alt="New Message" /><a href="admin.php?page=bp-messages.php&amp;mode=view&amp;thread_id=' . $thread->thread_id . '"><span id="awaiting-mod" class="count-1"><span class="message-count">' . $thread->unread_count . '</span></span></a>';
 						$new = " unread";
 					} else { 
 						$is_read = '<img src="' . $bp_messages_image_base .'/email_open.gif" alt="Older Message" />'; 
@@ -231,7 +231,7 @@ function messages_box( $box = 'inbox', $display_name = 'Inbox', $message = '', $
 								<?php if ( $box == 'sentbox') { ?>
 									<h3>To: <?php echo $thread->recipients ?></h3>
 								<?php } else { ?>
-									<h3><?php echo bp_core_get_userlink($thread->creator_id) ?></h3>
+									<h3>From: <?php echo bp_core_get_userlink($thread->creator_id) ?></h3>
 								<?php } ?>
 								<?php echo bp_format_time($thread->last_post_date) ?>
 							</td>
@@ -379,7 +379,7 @@ function messages_view_thread( $thread_id ) {
 								<img src="<?php echo $bp_messages_image_base ?>/email_open.gif" alt="Message" style="vertical-align: top;" /> &nbsp;
 								<?php _e('Sent by') ?> <?php echo bp_core_get_userlink($thread->creator_id) ?>
 								<?php _e('to') ?> <?php echo $thread->recipients ?>. 
-								<?php _e('Started on') ?> <?php echo bp_format_time($thread->last_post_date) ?>
+								<?php _e('Most recently on') ?> <?php echo bp_format_time($thread->last_post_date) ?>
 							</td>
 						</tr>
 					</tbody>
