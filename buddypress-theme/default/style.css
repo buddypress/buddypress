@@ -191,26 +191,76 @@ div#sidebar {
 		padding: 0;
 	}
 	
-		ul#quickLinks li {
-			border-bottom: 1px solid #ccc;
-			padding: 0.3em 0;
-		}
+	ul#quickLinks li {
+		border-bottom: 1px solid #ccc;
+		padding: 0.3em 0;
+	}
 
 	ul#components li {
 		margin: 2em 0 0 0;
 		border-bottom: 2px solid #ccc;
 	}
-		ul#components li ul li {
-			border: none;
-			margin: 0;
-			padding: 0.3em 0;
-		}
-		
-		ul#components li h2 {
-			margin: 0;
-			font-family: georgia, times, serif;
-			font-weight: normal;
-			font-size: 1.4em;
-			border-bottom: 1px solid #ccc;
-			padding: 0 0 0.2em 0;
-		}
+	ul#components li ul li {
+		border: none;
+		margin: 0;
+		padding: 0.3em 0;
+	}
+
+	ul#components li h2 {
+		margin: 0;
+		font-family: georgia, times, serif;
+		font-weight: normal;
+		font-size: 1.4em;
+		border-bottom: 1px solid #ccc;
+		padding: 0 0 0.2em 0;
+	}
+
+/** SIGNUP FORM **/
+table#extraFields td label, 
+div.radio span, 
+div.checkbox span {
+	font-weight: bold;
+	display: block;
+	float: left;
+	width: 115px;
+}
+
+table#extraFields td input[type="text"] {
+	font-size: 24px;
+	width: 280px;
+}
+
+table#extraFields td textarea {
+	width: 280px;
+	height: 120px;
+}
+
+table#extraFields td select {
+	width: 280px;
+}
+
+table#extraFields td div.datefield select {
+	width: auto;
+}
+
+table#extraFields td div.radio label,
+table#extraFields td div.checkbox label {
+	display: inline;
+	font-weight: normal;
+	float: none;
+}
+
+table#extraFields td div.radio input,
+table#extraFields td div.checkbox input {
+	width: auto;
+}
+
+span.desc {
+	margin-left: 115px;
+	font-weight: normal;
+}
+
+div.error {
+	font-weight: bold;
+	margin: 10px 0 10px 113px;
+}
