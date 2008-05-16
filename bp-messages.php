@@ -251,6 +251,16 @@ function messages_box( $box = 'inbox', $display_name = 'Inbox', $message = '', $
 					unset($is_read);
 				}
 			}
+			
+			echo '
+				</tbody>
+				</table>
+				<p class="submit">
+					<input id="deletebookmarks" class="button" type="submit" onclick="return confirm(\'You are about to delete these messages permanently.\n[Cancel] to stop, [OK] to delete.\')" value="Delete Checked Messages &raquo;" name="deletebookmarks"/>
+				</p>
+				</form>	
+			</div>';
+			
 		} else {
 			?>
 				<tr class="alternate">
@@ -260,14 +270,6 @@ function messages_box( $box = 'inbox', $display_name = 'Inbox', $message = '', $
 				</tr>
 			<?php
 		}
-		echo '
-			</tbody>
-			</table>
-			<p class="submit">
-				<input id="deletebookmarks" class="button" type="submit" onclick="return confirm(\'You are about to delete these messages permanently.\n[Cancel] to stop, [OK] to delete.\')" value="Delete Checked Messages &raquo;" name="deletebookmarks"/>
-			</p>
-			</form>	
-		</div>';
 	}
 }
 
