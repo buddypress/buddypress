@@ -387,20 +387,25 @@ Class BP_XProfile_Field {
 		
 		switch ( $this->type ) {
 			case 'textbox':
-				$html .= '<label for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
+				$html .= '<div class="signup-field">';
+				$html .= '<label class="signup-label" for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
 				$html .= $this->message . '<input type="text" name="field_' . $this->id . '" id="field_' . $this->id . '" value="' . $this->data->value . '" />';
-				$html .= '<span class="desc">' . $this->desc . '</span>';
+				$html .= '<span class="signup-description">' . $this->desc . '</span>';
+				$html .= '</div>';
 			break;
 			
 			case 'textarea':
-				$html .= '<label for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
+				$html .= '<div class="signup-field">';
+				$html .= '<label class="signup-label" for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
 				$html .= $this->message . '<textarea rows="5" cols="40" name="field_' . $this->id . '" id="field_' . $this->id . '">' . $this->data->value . '</textarea>';
-				$html .= '<span class="desc">' . $this->desc . '</span>';
+				$html .= '<span class="signup-description">' . $this->desc . '</span>';
+				$html .= '</div>';
 			break;
 			
 			case 'selectbox':
 				$options = $this->get_children($this->sort_order);
-				$html .= '<label for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
+				$html .= '<div class="signup-field">';
+				$html .= '<label class="signup-label" for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
 				$html .= $this->message . '<select name="field_' . $this->id . '" id="field_' . $this->id . '">';
 					for ( $k = 0; $k < count($options); $k++ ) {
 						$option_value = BP_XProfile_ProfileData::get_value($options[$k]->parent_id);
@@ -415,12 +420,13 @@ Class BP_XProfile_Field {
 						$html .= '<option' . $selected . ' value="' . $options[$k]->name . '">' . $options[$k]->name . '</option>';
 					}
 				$html .= '</select>';
-				$html .= '<span class="desc">' . $this->desc . '</span>';
+				$html .= '<span class="signup-description">' . $this->desc . '</span>';
+				$html .= '</div>';
 			break;
 			case 'multiselectbox':
 				$options = $this->get_children($this->sort_order);
-				
-				$html .= '<label for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
+				$html .= '<div class="signup-field">';
+				$html .= '<label class="signup-label" for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
 				$html .= $this->message . '<select class="multi-select" multiple="multiple" name="field_' . $this->id . '[]" id="field_' . $this->id . '">';
 					for ( $k = 0; $k < count($options); $k++ ) {
 						$option_value = BP_XProfile_ProfileData::get_value($options[$k]->parent_id);
@@ -434,13 +440,14 @@ Class BP_XProfile_Field {
 						$html .= '<option' . $selected . ' value="' . $options[$k]->name . '">' . $options[$k]->name . '</option>';
 					}
 				$html .= '</select>';
-				$html .= '<span class="desc">' . $this->desc . '</span>';
+				$html .= '<span class="signup-description">' . $this->desc . '</span>';
+				$html .= '</div>';
 			break;
 			
 			case 'radio':
 				$options = $this->get_children();
 				
-				$html .= '<div class="radio" id="field_' . $this->id . '"><span>' . $asterisk . $this->name . ':</span>' . $this->message;
+				$html .= '<div class="radio signup-field" id="field_' . $this->id . '"><span class="signup-label">' . $asterisk . $this->name . ':</span>' . $this->message;
 				for ( $k = 0; $k < count($options); $k++ ) {
 					$option_value = BP_XProfile_ProfileData::get_value($options[$k]->parent_id);
 				
@@ -453,7 +460,7 @@ Class BP_XProfile_Field {
 					$html .= '<label><input' . $selected . ' type="radio" name="field_' . $this->id . '" id="option_' . $options[$k]->id . '" value="' . $options[$k]->name . '"> ' . $options[$k]->name . '</label>';
 				}
 				
-				$html .= '<span class="desc">' . $this->desc . '</span>';				
+				$html .= '<span class="signup-description">' . $this->desc . '</span>';				
 				$html .= '</div>';
 				
 				if ( !$this->is_required ) {
@@ -467,7 +474,7 @@ Class BP_XProfile_Field {
 				
 				$options = $this->get_children();
 				
-				$html .= '<div class="checkbox" id="field_' . $this->id . '"><span>' . $asterisk . $this->name . ':</span>' . $this->message;
+				$html .= '<div class="checkbox signup-field" id="field_' . $this->id . '"><span class="signup-label">' . $asterisk . $this->name . ':</span>' . $this->message;
 				
 				$option_values = BP_XProfile_ProfileData::get_value($options[0]->parent_id);
 				$option_values = unserialize($option_values);
@@ -484,14 +491,13 @@ Class BP_XProfile_Field {
 					$selected = '';
 				}
 				
-				$html .= '<span class="desc">' . $this->desc . '</span>';				
+				$html .= '<span class="signup-description">' . $this->desc . '</span>';				
 				$html .= '</div>';
 				
 			break;
 			case 'multicheckbox':
 				$options = $this->get_children();
-				
-				$html .= '<div id="field_' . $this->id . '[]"><span>' . $asterisk . $this->name . ':</span>' . $this->message;
+				$html .= '<div class="signup-field" id="field_' . $this->id . '[]"><span class="signup-label">' . $asterisk . $this->name . ':</span>' . $this->message;
 				$html .= '<ul class="multi-checkbox">';
 				
 				$option_values = BP_XProfile_ProfileData::get_value($options[0]->parent_id);
@@ -511,7 +517,7 @@ Class BP_XProfile_Field {
 				}
 				
 				$html .= '</ul>';
-				$html .= '<span class="desc">' . $this->desc . '</span>';				
+				$html .= '<span class="signup-description">' . $this->desc . '</span>';				
 				$html .= '</div>';
 				
 			break;
@@ -524,8 +530,8 @@ Class BP_XProfile_Field {
 					$default_select = ' selected="selected"';
 				}
 				
-				$html .= '<div id="field_' . $this->id . '" class="datefield">';
-				$html .= '<label for="field_' . $this->id . '_day">' . $asterisk . $this->name . ':</label>';
+				$html .= '<div id="field_' . $this->id . '" class="datefield signup-field">';
+				$html .= '<label class="signup-label" for="field_' . $this->id . '_day">' . $asterisk . $this->name . ':</label>';
 				
 				$html .= $this->message . '
 				<select name="field_' . $this->id . '_day" id="field_' . $this->id . '_day">';
@@ -576,7 +582,7 @@ Class BP_XProfile_Field {
 				}
 				
 				$html .= '</select>';
-				$html .= '<span class="desc">' . $this->desc . '</span>';
+				$html .= '<span class="signup-description">' . $this->desc . '</span>';
 				$html .= '</div>';
 				
 			break;
