@@ -10,6 +10,7 @@ Class BP_XProfile_Template {
 	var $field_count;
 	var $field_has_data;
 	var $field;
+	var $is_public;
 	
 	var $in_the_loop;
 	var $user_id;
@@ -119,7 +120,7 @@ Class BP_XProfile_Template {
 		global $field;
 
 		$field = $this->next_field();
-		
+		$this->is_public = $field->is_public;	
 		if ( $field->data->value != '' ) {
 			$this->field_has_data = true;
 		}
@@ -152,6 +153,13 @@ function group_has_fields() {
 function field_has_data() {
 	global $profile_template;
 	return $profile_template->field_has_data;
+}
+function field_has_public_data() {
+	global $profile_template;
+	if ($profile_template->field_has_data && $profile_template->is_public== 1) {
+		return true;
+	}
+	return false;
 }
 
 function the_profile_group_name() {

@@ -203,7 +203,8 @@ function xprofile_edit() {
 							}
 							else {
 								if ( is_array($current_field) )
-									$current_field = serialize($current_field);
+									//$current_field = serialize($current_field);
+									$current_field = join(",",$current_field);
 									
 								$profile_data->value = $current_field;
 							}

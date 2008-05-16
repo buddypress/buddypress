@@ -400,11 +400,11 @@ Class BP_XProfile_Field {
 			
 			case 'selectbox':
 				$options = $this->get_children($this->sort_order);
-
 				$html .= '<label for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
 				$html .= $this->message . '<select name="field_' . $this->id . '" id="field_' . $this->id . '">';
 					for ( $k = 0; $k < count($options); $k++ ) {
 						$option_value = BP_XProfile_ProfileData::get_value($options[$k]->parent_id);
+
 	
 						if ( $option_value == $options[$k]->name || $value == $options[$k]->name ) {
 							$selected = ' selected="selected"';
@@ -419,13 +419,13 @@ Class BP_XProfile_Field {
 			break;
 			case 'multiselectbox':
 				$options = $this->get_children($this->sort_order);
-
+				
 				$html .= '<label for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
 				$html .= $this->message . '<select class="multi-select" multiple="multiple" name="field_' . $this->id . '[]" id="field_' . $this->id . '">';
 					for ( $k = 0; $k < count($options); $k++ ) {
 						$option_value = BP_XProfile_ProfileData::get_value($options[$k]->parent_id);
-	
-						if ( $option_value == $options[$k]->name || $value == $options[$k]->name ) {
+						$values = explode(",",$option_value);
+						if ( $option_value == $options[$k]->name || $value == $options[$k]->name || in_array($options[$k]->name,$values ) ) {
 							$selected = ' selected="selected"';
 						} else {
 							$selected = '';
@@ -443,7 +443,7 @@ Class BP_XProfile_Field {
 				$html .= '<div class="radio" id="field_' . $this->id . '"><span>' . $asterisk . $this->name . ':</span>' . $this->message;
 				for ( $k = 0; $k < count($options); $k++ ) {
 					$option_value = BP_XProfile_ProfileData::get_value($options[$k]->parent_id);
-
+				
 					if ( $option_value == $options[$k]->name || $value == $options[$k]->name ) {
 						$selected = ' checked="checked"';
 					} else {
@@ -495,11 +495,11 @@ Class BP_XProfile_Field {
 				$html .= '<ul class="multi-checkbox">';
 				
 				$option_values = BP_XProfile_ProfileData::get_value($options[0]->parent_id);
-				$option_values = unserialize($option_values);
-				
+				//$option_values = unserialize($option_values);
+				$values = explode(",",$option_values);
 				for ( $k = 0; $k < count($options); $k++ ) {	
 					for ( $j = 0; $j < count($option_values); $j++ ) {
-						if ( $option_values[$j] == $options[$k]->name ) {
+						if ( $option_values[$j] == $options[$k]->name || in_array($options[$k]->name,$values )) {
 							$selected = ' checked="checked"';
 							break;
 						}

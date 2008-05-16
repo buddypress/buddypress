@@ -17,7 +17,7 @@
 						<table class="profile-fields">
 						<?php while ( profile_fields() ) : the_profile_field(); ?>
 							
-							<?php if ( field_has_data() ) : ?>
+							<?php if ( field_has_public_data() ) : ?>
 							<tr>
 								<td class="label">
 									<?php the_profile_field_name() ?>
