@@ -26,9 +26,7 @@ require_once( 'bp-xprofile/bp-xprofile-cssjs.php' );
 function xprofile_install( $version ) {
 	global $bp_xprofile_table_name_groups, $bp_xprofile_table_name_fields, $bp_xprofile_table_name_data;
 	$sql = array();
-	
-	echo "test";
-	
+
 	$sql[] = "CREATE TABLE " . $bp_xprofile_table_name_groups . " (
 			  id int(11) unsigned NOT NULL auto_increment,
 			  name varchar(150) NOT NULL,
