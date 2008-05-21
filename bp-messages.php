@@ -270,6 +270,12 @@ function messages_box( $box = 'inbox', $display_name = 'Inbox', $message = '', $
 				</tr>
 			<?php
 		}
+		?>
+			</tbody>
+			</table>
+			</form>	
+		</div>
+		<?php
 	}
 }
 
