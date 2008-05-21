@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_XPROFILE_VERSION', '0.4' );
+define ( 'BP_XPROFILE_VERSION', '0.6' );
 
 $bp_xprofile_table_name        = $wpdb->base_prefix . 'bp_xprofile';
 $bp_xprofile_table_name_groups = $wpdb->base_prefix . 'bp_xprofile_groups';
@@ -26,6 +26,8 @@ require_once( 'bp-xprofile/bp-xprofile-cssjs.php' );
 function xprofile_install( $version ) {
 	global $bp_xprofile_table_name_groups, $bp_xprofile_table_name_fields, $bp_xprofile_table_name_data;
 	$sql = array();
+	
+	echo "test";
 	
 	$sql[] = "CREATE TABLE " . $bp_xprofile_table_name_groups . " (
 			  id int(11) unsigned NOT NULL auto_increment,
@@ -61,8 +63,18 @@ function xprofile_install( $version ) {
 	);";
 	
 	$sql[] = "INSERT INTO ". $bp_xprofile_table_name_groups . " VALUES (1, 'Basic', '', 0);";
-	$sql[] = "INSERT INTO ". $bp_xprofile_table_name_fields . " VALUES (1, 1, 0, 'textbox', 'First Name', '', 1, 0);";
-	$sql[] = "INSERT INTO ". $bp_xprofile_table_name_fields . " VALUES (2, 1, 0, 'textbox', 'Last Name', '', 1, 0);";
+	
+	$sql[] = "INSERT INTO ". $bp_xprofile_table_name_fields . " ( 
+				id, group_id, parent_id, type, name, description, is_required, order_id, sort_order, is_public
+			  ) VALUES (
+				1, 1, 0, 'textbox', 'First Name', '', 1, 1, 1, 0
+			  );";
+			
+	$sql[] = "INSERT INTO ". $bp_xprofile_table_name_fields . " ( 
+				id, group_id, parent_id, type, name, description, is_required, order_id, sort_order, is_public
+			  ) VALUES (
+				2, 1, 0, 'textbox', 'Last Name', '', 1, 1, 2, 0
+			  );";
 	
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 	dbDelta($sql);
@@ -97,7 +109,7 @@ function xprofile_add_menu() {
 		/* Add the administration tab under the "Site Admin" tab for site administrators */
 		add_submenu_page( 'wpmu-admin.php', __("Profiles"), __("Profiles"), 1, "xprofile_settings", "xprofile_admin" );
 	}
-	
+
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 	if ( ( $wpdb->get_var("show tables like '%" . $bp_xprofile_table_name . "%'") == false ) || ( get_site_option('bp-xprofile-version') < BP_XPROFILE_VERSION )  )
 		xprofile_install(BP_XPROFILE_VERSION);
@@ -125,15 +137,19 @@ add_action( 'admin_menu', 'xprofile_setup' );
  templates.
  **************************************************************************/
 
-function xprofile_profile_template() {	
-	global $is_author, $userdata, $authordata, $profile_template;
-	
-	query_posts('showposts=1');
-	if ( have_posts() ) : while ( have_posts() ) : the_post(); endwhile; endif;
-	
-	$profile_template = new BP_XProfile_Template;
-	
-	rewind_posts();
+function xprofile_profile_template() {
+	global $current_blog, $profile_template, $coreuser_id;
+
+	if ( VHOST == 'yes' ) {
+		$siteuser = explode('.', $current_blog->domain);
+		$siteuser = $siteuser[0];
+	} else {
+		$siteuser = str_replace('/', '', $current_blog->path);
+	}
+
+	$coreuser_id = bp_core_get_userid($siteuser);
+	$profile_template = new BP_XProfile_Template($coreuser_id);
+
 }
 add_action( 'wp_head', 'xprofile_profile_template' );
 

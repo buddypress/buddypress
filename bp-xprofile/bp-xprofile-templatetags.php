@@ -15,12 +15,10 @@ Class BP_XProfile_Template {
 	var $in_the_loop;
 	var $user_id;
 
-	function bp_xprofile_template() {
-		global $authordata;
-
+	function bp_xprofile_template($user_id) {
 		$this->groups = BP_XProfile_Group::get_all(true);
 		$this->group_count = count($this->groups);
-		$this->user_id = $authordata->ID;
+		$this->user_id = $user_id;
 	}
 	
 	function has_groups() {
@@ -204,9 +202,8 @@ function the_profile_field_value() {
 }
 
 function the_profile_picture() {
-	global $authordata;
-
-	echo xprofile_get_avatar($authordata->ID, 2);
+	global $coreuser_id;
+	echo xprofile_get_avatar($coreuser_id, 2);
 }
 
 
