@@ -206,7 +206,6 @@ Class BP_XProfile_Field {
 		
 		if ( $id ) {
 			$this->populate( $id, $user_id, $get_data );
-		} else {
 		}
 	}
 	
@@ -231,7 +230,6 @@ Class BP_XProfile_Field {
 			$this->can_delete = $field->can_delete;
 			$this->sort_order = $field->sort_order;
 
-			
 			if ( $get_data ) {
 				$this->data = $this->get_field_data($user_id);
 			}
@@ -241,6 +239,9 @@ Class BP_XProfile_Field {
 	function delete() {
 		global $wpdb;
 		
+		if ( !$this->id )
+			return false;
+			
 		$sql = $wpdb->prepare("DELETE FROM $this->table_name_fields WHERE id = %d OR parent_id = %d", $this->id, $this->id);
 
 		if ( $wpdb->query($sql) === false )
@@ -252,20 +253,8 @@ Class BP_XProfile_Field {
 		return true;
 	}
 	
-	function delete_item( $item_id ) {
-		global $wpdb;
-		global $bp_xprofile_table_name_groups, $bp_xprofile_table_name_fields;
-
-		$sql = $wpdb->prepare("DELETE FROM $bp_xprofile_table_name_fields WHERE id = %d", $item_id);
-		if ( $wpdb->query($sql) === false )
-			return false;
-
-		return true;
-	}
-	
 	function save() {
 		global $wpdb;
-		
 		
 		if ( $this->id != null ) {
 			$sql = $wpdb->prepare("UPDATE $this->table_name_fields SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d,is_public = %d, sort_order = %s WHERE id = %d", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->is_public,$this->sort_order,$this->id);
@@ -282,20 +271,24 @@ Class BP_XProfile_Field {
 				$this->delete_children();
 			}
 			
-			// Check to see if this is a selectbox or radio button field.
+			// Check to see if this is a field with child options.
 			// We need to add the options to the db, if it is.
-			if ( $this->type == 'radio' || $this->type == 'selectbox' || $this->type == 'checkbox' || $this->type == 'multicheckbox' || $this->type == 'multiselectbox' ) {
+			if ( $this->type == 'radio' || $this->type == 'selectbox' || $this->type == 'checkbox' || $this->type == 'multiselectbox' ) {
 				if ( $this->id ) {
 					$parent_id = $this->id;
 				} else {
 					$parent_id = $wpdb->insert_id;	
 				}
 				
-				if ( !empty( $_POST['field_file'] ) )	{
+				if ( !empty( $_POST['field_file'] ) ) {
 					// Add a prebuilt field from a csv file
 					$field_file = $_POST['field_file'];
+					
 					if ( $fp = fopen($field_file, 'r') ) {
 						$start_reading = false;
+						
+					
+						
 						while ( ! feof($fp) && !$start_reading) {
 							if ( $s = fgets ($fp, 1024) ) {
 								if ( preg_match ( '/\*\//', $s ) ) {
@@ -303,7 +296,7 @@ Class BP_XProfile_Field {
 								}
 							}								
 						}
-						
+
 						while ( ( $data = fgetcsv( $fp ) ) ) {
 							$num = count($data);
 							$name = '';
@@ -317,9 +310,7 @@ Class BP_XProfile_Field {
 						}
 						fclose($fp);
 					}
-						
-				}	else {
-										
+				} else {	
 					if ( $this->type == "radio" ) {
 						$options = $_POST['radio_option'];
 					} else if ( $this->type == "selectbox" ) {
@@ -328,8 +319,6 @@ Class BP_XProfile_Field {
 						$options = $_POST['multiselectbox_option'];
 					} else if ( $this->type == "checkbox" ) {
 						$options = $_POST['checkbox_option'];
-					} else if ( $this->type == "multicheckbox" ) {
-						$options = $_POST['multicheckbox_option'];
 					}
 					$default_array = $_POST['isDefault_selectbox_option'];
 					
@@ -423,6 +412,7 @@ Class BP_XProfile_Field {
 				$html .= '<span class="signup-description">' . $this->desc . '</span>';
 				$html .= '</div>';
 			break;
+			
 			case 'multiselectbox':
 				$options = $this->get_children($this->sort_order);
 				$html .= '<div class="signup-field">';
@@ -491,32 +481,6 @@ Class BP_XProfile_Field {
 					$selected = '';
 				}
 				
-				$html .= '<span class="signup-description">' . $this->desc . '</span>';				
-				$html .= '</div>';
-				
-			break;
-			case 'multicheckbox':
-				$options = $this->get_children();
-				$html .= '<div class="signup-field" id="field_' . $this->id . '[]"><span class="signup-label">' . $asterisk . $this->name . ':</span>' . $this->message;
-				$html .= '<ul class="multi-checkbox">';
-				
-				$option_values = BP_XProfile_ProfileData::get_value($options[0]->parent_id);
-				//$option_values = unserialize($option_values);
-				$values = explode(",",$option_values);
-				for ( $k = 0; $k < count($options); $k++ ) {	
-					for ( $j = 0; $j < count($option_values); $j++ ) {
-						if ( $option_values[$j] == $options[$k]->name || in_array($options[$k]->name,$values )) {
-							$selected = ' checked="checked"';
-							break;
-						}
-					}
-										
-					$html .= '<li><label><input' . $selected . ' type="checkbox" name="field_' . $this->id . '[]" id="field_' . $options[$k]->id . '_' . $k . '" value="' . $options[$k]->name . '"> ' . $options[$k]->name . '</label></li>';
-					
-					$selected = '';
-				}
-				
-				$html .= '</ul>';
 				$html .= '<span class="signup-description">' . $this->desc . '</span>';				
 				$html .= '</div>';
 				
@@ -615,8 +579,10 @@ Class BP_XProfile_Field {
 		}
 		$sql = $wpdb->prepare("SELECT * FROM $this->table_name_fields WHERE parent_id = %d AND group_id = %d", $parent_id, $this->group_id );
 		$sql = $sql." ".$sort_sql;
+		
 		if ( !$children = $wpdb->get_results($sql) )
 			return false;
+			
 		return $children;
 	} 
 	
@@ -629,16 +595,18 @@ Class BP_XProfile_Field {
 	}
 	function render_admin_form_children() {
 		//This function populates the items for radio buttons checkboxes and drop down boxes
-		$input_types = array ("checkbox","multicheckbox","selectbox","multiselectbox","radio");	
+		$input_types = array( 'checkbox', 'selectbox', 'multiselectbox', 'radio' );	
 		
 		foreach ($input_types as $type) { 
 		 ?>
-			<div id="<?php echo($type) ?>" style="<?php if ( $this->type != $type ) { ?>display: none;<?php } ?> margin-left: 15px;">
-				<p><?php _e('Please enter the options for field') ?></p>
-				<p>Please set the sort order<select name="sort_order_<?php echo($type) ?>" id="sort_order_<?php echo($type) ?>" >
-						<option value="default" >default ordering</option>
-						<option value="asc" <?php if ( $this->sort_order == 'asc' ) {?> selected="selected"<?php } ?> >Ascending by name</option>
-						<option value="desc" <?php if ( $this->sort_order == 'desc' ) {?> selected="selected"<?php } ?> >Descending by name</option>
+			<div id="<?php echo($type) ?>" class="options-box" style="<?php if ( $this->type != $type ) { ?>display: none;<?php } ?> margin-left: 15px;">
+				<h4><?php _e('Please enter options for this Field:') ?></h4>
+				<p>Order By: 
+					
+					<select name="sort_order_<?php echo($type) ?>" id="sort_order_<?php echo($type) ?>" >
+						<option value="default" >Order Entered</option>
+						<option value="asc" <?php if ( $this->sort_order == 'asc' ) {?> selected="selected"<?php } ?> >Name - Ascending</option>
+						<option value="desc" <?php if ( $this->sort_order == 'desc' ) {?> selected="selected"<?php } ?> >Name - Descending</option>
 					</select>
 	
 				<?php
@@ -647,14 +615,14 @@ Class BP_XProfile_Field {
 					for ( $i = 0; $i < count($options); $i++ ) { ?>
 						<p><?php _e('Option') ?> <?php echo $i + 1 ?>: 
 						   <input type="text" name="<?php echo($type) ?>_option[]" id="<?php echo($type) ?>_option<?php echo $i+1 ?>" value="<?php echo $options[$i]->name ?>" />
-						is default <input type="checkbox" name="isDefault_<?php echo($type) ?>_option<?php echo $i +1 ?>" id="isDefault_<?php echo($type) ?>_option<?php echo $i +1 ?>   <?php if ( $options[$i]->sort_order == 'CHECKED' ) {?> checked="checked"<?php } ?> " /> 
-						<a href =admin.php?page=xprofile_settings&amp;mode=delete_item&amp;item_id=<?php echo $options[$i]->id ?> >Delete</a></p>
+						   <input type="radio" name="isDefault_<?php echo($type) ?>_option" <?php if ( $options[$i]->sort_order == 'CHECKED' ) {?> checked="checked"<?php } ?> " /> Default Value 
+						<a href="admin.php?page=xprofile_settings&amp;mode=delete_option&amp;option_id=<?php echo $options[$i]->id ?>" class="ajax-option-delete" id="delete-<?php echo $options[$i]->id ?>">[x]</a></p>
 						</p>
 				<?php } ?>
 					<input type="hidden" name="<?php echo($type) ?>_option_number" id="<?php echo($type) ?>_option_number" value="<?php echo $i+1 ?>" />
 				<?php } else { ?>
 					<p><?php _e('Option') ?> 1: <input type="text" name="<?php echo($type) ?>_option[]" id="<?php echo($type) ?>_option1" />
-					is default <input type="checkbox" name="isDefault_<?php echo($type) ?>_option<?php echo $i +1 ?>" id="isDefault_<?php echo($type) ?>_option1" /> </p>
+					<input type="radio" name="isDefault_<?php echo($type) ?>_option" id="isDefault_<?php echo($type) ?>_option" <?php if ( $options[$i]->sort_order == 'CHECKED' ) {?> checked="checked"<?php } ?>" /> Default Value
 					<input type="hidden" name="<?php echo($type) ?>_option_number" id="<?php echo($type) ?>_option_number" value="2" />
 				<?php } ?>
 				<div id="<?php echo($type) ?>_more"></div>					
@@ -691,35 +659,40 @@ Class BP_XProfile_Field {
 		<?php } ?>
 		
 		<form action="<?php echo $action ?>" method="post">
-
-				<label for="title">* <?php _e("Field Title") ?></label>
-				<div>
-					<input type="text" name="title" id="title" value="<?php echo $this->name ?>" style="width:50%" />
+			<div id="poststuff">		
+				<div id="titlediv">
+					<h3><label for="title"><?php _e("Field Title") ?> *</label></h3>
+					<div id="titlewrap">
+						<input type="text" name="title" id="title" value="<?php echo $this->name ?>" style="width:50%" />
+					</div>
 				</div>
-				<p></p>
-				<label for="description"><?php _e("Field Description") ?></label>
-				<div>
-					<textarea name="description" id="description" rows="5" cols="60"><?php echo $this->desc ?></textarea>
+			
+				<div id="titlediv">
+					<h3><label for="description"><?php _e("Field Description") ?></label></h3>
+					<div id="titlewrap">
+						<textarea name="description" id="description" rows="8" cols="60" style="border: none; width: 99%;"><?php echo $this->desc ?></textarea>
+					</div>
 				</div>
-				<p></p>
-				<label for="required">* <?php _e("Is This Field Required?") ?></label>
-				<div>
-					<select name="required" id="required">
+	
+				<div id="titlediv">
+					<h3><label for="required"><?php _e("Is This Field Required?") ?> *</label></h3>
+					<select name="required" id="required" style="width: 30%">
 						<option value="0"<?php if ( $this->is_required == '0' ) { ?> selected="selected"<?php } ?>>Not Required</option>
 						<option value="1"<?php if ( $this->is_required == '1' ) { ?> selected="selected"<?php } ?>>Required</option>
 					</select>
 				</div>
-				<label for="public">* <?php _e("Is This Field public information?") ?></label>
-				<div>
-					<select name="public" id="public">
-						<option value="1"<?php if ( $this->is_public== '1' ) { ?> selected="selected"<?php } ?>>Public</option>
-						<option value="0"<?php if ( $this->is_public== '0' ) { ?> selected="selected"<?php } ?>>Private</option>
+
+				<div id="titlediv">
+					<h3><label for="public"><?php _e("Default Field Privacy Settings") ?> *</label></h3>
+					<select name="public" id="public" style="width: 30%">
+						<option value="1"<?php if ( $this->is_public== '1' ) { ?> selected="selected"<?php } ?>>Viewable by everyone</option>
+						<option value="0"<?php if ( $this->is_public== '0' ) { ?> selected="selected"<?php } ?>>Viewable only by member</option>
 					</select>
 				</div>
-				<p></p>
-				<label for="fieldtype">* <?php _e("Field Type") ?></label>
-				<div>
-					<select name="fieldtype" id="fieldtype" onchange="show_options(this.value)">
+
+				<div id="titlediv">
+					<h3><label for="fieldtype"><?php _e("Field Type") ?> *</label></h3>
+					<select name="fieldtype" id="fieldtype" onchange="show_options(this.value)" style="width: 30%">
 						<option value="textbox"<?php if ( $this->type == 'textbox' ) {?> selected="selected"<?php } ?>>Text Box</option>
 						<option value="textarea"<?php if ( $this->type == 'textarea' ) {?> selected="selected"<?php } ?>>Multi-line Text Box</option>
 						<option value="datebox"<?php if ( $this->type == 'datebox' ) {?> selected="selected"<?php } ?>>Date Selector</option>
@@ -727,18 +700,21 @@ Class BP_XProfile_Field {
 						<option value="selectbox"<?php if ( $this->type == 'selectbox' ) {?> selected="selected"<?php } ?>>Drop-down Select Box</option>
 						<option value="multiselectbox"<?php if ( $this->type == 'multiselectbox' ) {?> selected="selected"<?php } ?>>Multi Select Box</option>
 						<option value="checkbox"<?php if ( $this->type == 'checkbox' ) {?> selected="selected"<?php } ?>>Checkboxes</option>
-						<option value="multicheckbox"<?php if ( $this->type == 'multicheckbox' ) {?> selected="selected"<?php } ?>>Multi Checkboxes</option>
 					</select>
 				</div>
-				<?php $this->render_admin_form_children() ?>
-			
-							
-			<p class="submit" style="float: left;">
-					&nbsp;<input type="submit" value="<?php _e("Save") ?> &raquo;" name="saveField" id="saveField" style="font-weight: bold" />
-					 <?php _e('or') ?> <a href="admin.php?page=xprofile_settings" style="color: red"><?php _e('Cancel') ?></a>
-			</p>
+
+				<?php $this->render_admin_form_children() ?>				
+	
+				<p class="submit">
+						&nbsp;<input type="submit" value="<?php _e("Save") ?> &raquo;" name="saveField" id="saveField" style="font-weight: bold" />
+						 <?php _e('or') ?> <a href="admin.php?page=xprofile_settings" style="color: red"><?php _e('Cancel') ?></a>
+				</p>
 			
 			<div class="clear"></div>
+			
+			<?php if ( function_exists('wp_nonce_field') )
+				wp_nonce_field('xprofile_delete_option');
+			?>
 			
 		</form>
 		
@@ -815,8 +791,6 @@ Class BP_XProfile_Field {
 												<option value="selectbox"<?php if ( $this->type == 'selectbox' ) {?> selected="selected"<?php } ?>>Drop-down Select Box</option>
 											<?php } if (in_array('multiselectbox', $field_data['Types'])) { ?>
 												<option value="multiselectbox"<?php if ( $this->type == 'multiselectbox' ) {?> selected="selected"<?php } ?>>Multi Select Box</option>
-											<?php } if (in_array('multicheckbox', $field_data['Types'])) { ?>
-												<option value="multicheckbox"<?php if ( $this->type == 'multicheckbox' ) {?> selected="selected"<?php } ?>>Multi Checkboxes</option>
 											<?php } ?>
 										</select>
 									</div>
@@ -919,9 +893,6 @@ Class BP_XProfile_Field {
 			return false;	
 		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'checkbox' && empty($_POST['checkbox_option'][0]) ) {
 			$message = __('Checkbox field types require at least one option. Please add options below.');	
-			return false;		
-		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'multicheckbox' && empty($_POST['multicheckbox_option'][0]) ) {
-			$message = __('Multi Checkbox field types require at least one option. Please add options below.');	
 			return false;		
 		} else {
 			return true;
@@ -1075,10 +1046,9 @@ Class BP_XProfile_ProfileData {
 		$sql = $wpdb->prepare("DELETE FROM $bp_xprofile_table_name_data WHERE field_id = %d", $field_id);
 
 		if ( $wpdb->query($sql) === false )
-			$message="could not delete";
-		$message="Deletion was sucessfull";
-	        $this->render_admin_form($message);
+			return false;
 		
+		return true;
 	}
 	
 }

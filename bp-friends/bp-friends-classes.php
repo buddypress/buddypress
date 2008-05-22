@@ -6,72 +6,41 @@
 	model representing a user's friends
  **************************************************************************/
  
-class BP_Friends
-{
+class BP_Friends {
+	var $table_name;
 
-	/**************************************************************************
- 	 bp_friends()
- 	  
- 	 Contructor function.
- 	 **************************************************************************/
-	function bp_friends()
-	{
-		global $wpdb, $userdata, $bp_friends_table_name;
-		 
-		$this->wpdb = &$wpdb;
-		$this->userdata = &$userdata;
-		$this->basePrefix = $wpdb->base_prefix;	
-	}
-
-
-	/**************************************************************************
- 	 get_friends()
- 	  
-	 Get a list of friends for the current user.
- 	 **************************************************************************/	
-		
-	function get_friends()
-	{
-		$id = $this->userdata->ID;
-		
+	function bp_friends() {
 		global $bp_friends_table_name;
 		
-		if(bp_core_validate($id))
-		{
-			$sql = "SELECT initiator_user_id, friend_user_id
-			 		FROM " . $bp_friends_table_name . "
-					WHERE initiator_user_id = " . $id . "
-					OR friend_user_id = " . $id . " 
-					AND is_confirmed = 1";
+		$this->table_name = $bp_friends_table_name;
+	}
 
-			if(!$friends = $this->wpdb->get_results($sql))
-			{
-				return false;
-			}
-			
-			for($i=0; $i<count($friends); $i++)
-			{
-				if($friends[$i]->initiator_user_id != $id)
-				{
-					$friend_id = $friends[$i]->initiator_user_id;
-				}
-				else
-				{
-					$friend_id = $friends[$i]->friend_user_id;
-				}
-				
-				$sql = "SELECT meta_key, meta_value FROM " . $this->basePrefix . "usermeta 
-						WHERE user_id = " . $friend_id;
+	function get_friends() {
+		global $wpdb, $userdata;
+		
+		$id = $userdata->ID;
+		
+		$sql = $wpdb->prepare("SELECT initiator_user_id, friend_user_id	FROM $this->table_name	WHERE initiator_user_id = %d OR friend_user_id = %d	AND is_confirmed = 1", $id, $id);
 
-				$friends_details[] = $this->wpdb->get_results($sql);
-			
-			}
-			
-			return $friends_details;
-		}
-		else {
+		if ( !$friends = $wpdb->get_results($sql) )
 			return false;
+		
+		for ( $i = 0; $i < count($friends); $i++ ) {
+			if ( $friends[$i]->initiator_user_id != $id ) {
+				$friend_id = $friends[$i]->initiator_user_id;
+			} else {
+				$friend_id = $friends[$i]->friend_user_id;
+			}
+			
+			$table_name = $wpdb->base_prefix . 'usermeta';
+			
+			$sql = $wpdb->prepare("SELECT meta_key, meta_value FROM $table_name WHERE user_id = %d", $friend_id);
+
+			$friends_details[] = $wpdb->get_results($sql);
+		
 		}
+		
+		return $friends_details;
 	}
 
 	
@@ -82,17 +51,15 @@ class BP_Friends
 	 a name, username or email address.
  	 **************************************************************************/	
  	 
-	function search($terms) 
-	{
+	function search($terms) {
+		global $wpdb;
+		
 		$terms = bp_core_clean($terms);
+		$table_name = $wpdb->base_prefix . 'users';
 		
-		$sql = "SELECT ID, display_name FROM " . $this->basePrefix . "users 
-				WHERE user_login LIKE '%" . $terms . "%'
-				OR user_nicename LIKE '%" . $terms . "%'
-				OR user_email LIKE '%" . $terms . "%'
-				ORDER BY user_nicename ASC";
+		$sql = $wpdb->prepare("SELECT ID, display_name FROM $table_name WHERE user_login LIKE '%%s%' OR user_nicename LIKE '%%s%' OR user_email LIKE '%%s%' ORDER BY user_nicename ASC", $terms, $terms, $terms);
 		
-		return $this->wpdb->get_results($sql);
+		return $wpdb->get_results($sql);
 
 	}
 

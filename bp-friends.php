@@ -2,12 +2,12 @@
 
 $bp_friends_table_name = $wpdb->base_prefix . 'bp_friends';
 $bp_friends_image_base = get_option('siteurl') . '/wp-content/mu-plugins/bp-friends/images';
-define('BP_FRIENDS_VERSION', '0.2');
+define( 'BP_FRIENDS_VERSION', '0.2' );
 
 require_once( 'bp-friends/bp-friends-classes.php' );
 require_once( 'bp-friends/bp-friends-templatetags.php' );
 require_once( 'bp-friends/bp-friends-cssjs.php' );
-	
+
 /**************************************************************************
  friends_install()
  
@@ -17,21 +17,21 @@ require_once( 'bp-friends/bp-friends-cssjs.php' );
 function friends_install( $version ) {
 	global $wpdb, $bp_friends_table_name;
 
-	$sql = array();			
+	$sql = array();
 			
-	$sql[] = "CREATE TABLE `". $bp_friends_table_name ."` (
-		  		`id` mediumint(9) NOT NULL AUTO_INCREMENT,
-		  		`initiator_user_id` mediumint(9) NOT NULL,
-		  		`friend_user_id` mediumint(9) NOT NULL,
-		  		`is_confirmed` bool DEFAULT 0,
-		  		`date_created` int(11) NOT NULL,
-		    UNIQUE KEY id (`id`)
+	$sql[] = "CREATE TABLE ". $bp_friends_table_name ." (
+		  		id mediumint(9) NOT NULL AUTO_INCREMENT,
+		  		initiator_user_id mediumint(9) NOT NULL,
+		  		friend_user_id mediumint(9) NOT NULL,
+		  		is_confirmed bool DEFAULT 0,
+		  		date_created int(11) NOT NULL,
+		    UNIQUE KEY id (id)
 		 );";
 
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
 	
-	add_site_option('bp-friends-version', $version);
+	add_site_option( 'bp-friends-version', $version );
 }
 		
 		
@@ -86,7 +86,6 @@ function friends_template() {
 	global $is_author, $userdata, $authordata, $friends_template;
 	
 	$friends_template = new BP_Friends_Template;
-	
 }
 add_action( 'wp_head', 'friends_template' );
 
@@ -98,8 +97,7 @@ add_action( 'wp_head', 'friends_template' );
  options to filter the list.
  **************************************************************************/	
 
-function friends_list()
-{
+function friends_list() {
 		$bp_friends = new BP_Friends();
 		$friends = $bp_friends->get_friends();
 ?>	
@@ -107,19 +105,18 @@ function friends_list()
 		
 		<h2><?php _e("My Friends") ?></h2>
 		
-		<?php if(!$friends) { ?>
+		<?php if ( !$friends ) { ?>
 			<div id="message" class="error fade">
 				<p><?php _e("There was an error getting your list of friends, please try again.") ?></p>
 			</div>
 		<?php } else { ?>					
-			
-			<?php if(count($friends) < 1) { ?>
+			<?php if ( count($friends) < 1 ) { ?>
 				<div id="message" class="updated fade">
 					<p><?php _e("Looks like you don't have any friends. Why not <a href=\"admin.php?page=friend_finder\" title=\"Friend Finder\">find some</a>?"); ?></p>
 				</div>
 			<?php } else { ?>
 				<ul id="friends-list">
-					<?php for($i=0; $i<count($friends); $i++) { ?>
+					<?php for ( $i = 0; $i < count($friends); $i++ ) { ?>
 					<li><?php echo '<a href="http://' . $friends[$i][3]->meta_value . '">' . $friends[$i][0]->meta_value . '</a>'; ?></li>
 					
 					<?php } ?>
@@ -140,19 +137,13 @@ function friends_list()
  the system.
  **************************************************************************/	
 	
-function friends_find($type = "error", $message = "")
-{
-	if(isset($_POST['searchterm']) && isset($_POST['search']))
-	{
-		if($_POST['searchterm'] == "")
-		{
+function friends_find( $type = "error", $message = "" ) {
+	if ( isset($_POST['searchterm']) && isset($_POST['search']) ) {
+		if ( $_POST['searchterm'] == "" ) {
 			$message = __("Please make sure you enter something to search for.");
-		}
-		else if(strlen($_POST['searchterm']) < 3)
-		{
+		} else if ( strlen($_POST['searchterm']) < 3 ) {
 			$message = __("Your search term must be longer than 3 letters otherwise you'll be here for years.");
-		}
-		else {
+		} else {
 			// The search term is okay, let's get it movin'
 			$bp_friends = new BP_Friends();
 			$results = $bp_friends->search($_POST['searchterm']);			
@@ -164,12 +155,14 @@ function friends_find($type = "error", $message = "")
 	<div class="wrap">
 		<h2><?php _e('Friend Finder'); ?></h2>
 	
-	<?php if($message != '') { ?>
-		<?php if($type == 'error') { $type = "error"; } else { $type = "updated"; } ?>
-		<div id="message" class="<?php echo $type; ?> fade">
-			<p><?php echo $message; ?></p>
-		</div>
-	<?php } ?>
+		<?php
+			if ( $message != '' ) {
+				$type = ( $type == 'error' ) ? 'error' : 'updated';
+		?>
+			<div id="message" class="<?php echo $type; ?> fade">
+				<p><?php echo $message; ?></p>
+			</div>
+		<?php } ?>
 		
 		<form action="admin.php?page=friend_finder" method="post">
 			
@@ -186,12 +179,12 @@ function friends_find($type = "error", $message = "")
 			
 		</form>
 		
-		<?php if(isset($results)) { ?>
-			<?php if(!$results) { ?>
+		<?php if ( isset($results) ) { ?>
+			<?php if (!$results) { ?>
 				<p>Nothing Found!</p>
 			<?php } else { ?>
 				<ul id="friend_results">
-					<?php for($i=0; $i<count($results); $i++) { ?>
+					<?php for ( $i = 0; $i < count($results); $i++ ) { ?>
 						<li><?php echo $results[$i]->display_name; ?></li>
 					<?php } ?>
 				</ul>

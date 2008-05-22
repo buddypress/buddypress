@@ -13,21 +13,20 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 	$groups = BP_XProfile_Group::get_all();
 	
 	if ( isset($_GET['mode']) && isset($_GET['group_id']) && $_GET['mode'] == "add_field" ) {
-		xprofile_admin_manage_field($_GET['group_id']); die;
+		xprofile_admin_manage_field($_GET['group_id']);
 	} else if ( isset($_GET['mode']) && isset($_GET['group_id']) && isset($_GET['field_id']) && $_GET['mode'] == "edit_field" ) {
-		xprofile_admin_manage_field($_GET['group_id'], $_GET['field_id']); die;
+		xprofile_admin_manage_field($_GET['group_id'], $_GET['field_id']);
 	} else if ( isset($_GET['mode']) && isset($_GET['field_id']) && $_GET['mode'] == "delete_field" ) {
-		xprofile_admin_delete_field($_GET['field_id']); die;
-	} else if ( isset($_GET['mode']) && isset($_GET['item_id']) && $_GET['mode'] == "delete_item" ) {
-		xprofile_admin_delete_item($_GET['item_id']); die;
+		xprofile_admin_delete_field($_GET['field_id']);
+	} else if ( isset($_GET['mode']) && isset($_GET['option_id']) && $_GET['mode'] == "delete_option" ) {
+		xprofile_admin_delete_field($_GET['option_id']);
 	} else if ( isset($_GET['mode']) && $_GET['mode'] == "add_group" ) {
-		xprofile_admin_manage_group(); die;
+		xprofile_admin_manage_group();
 	} else if ( isset($_GET['mode']) && isset($_GET['group_id']) && $_GET['mode'] == "delete_group" ) {
-		xprofile_admin_delete_group($_GET['group_id']); die;
+		xprofile_admin_delete_group($_GET['group_id']);
 	} else if ( isset($_GET['mode']) && isset($_GET['group_id']) && $_GET['mode'] == "edit_group" ) {
-		xprofile_admin_manage_group($_GET['group_id']); die;
-	}
-	
+		xprofile_admin_manage_group($_GET['group_id']);
+	} else {
 ?>	
 	<div class="wrap">
 		
@@ -73,17 +72,17 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 					    <tr class="nodrag">
 					    	<th scope="col" colspan="<?php if ( $groups[$i]->can_delete ) { ?>3<?php } else { ?>5<?php } ?>"><?php echo $groups[$i]->name; ?></th>
 							<?php if ( $groups[$i]->can_delete ) { ?>    	
-								<th scope="col"><a class="edit" href="admin.php?page=xprofile_settings&amp;mode=edit_group&amp;group_id=<?php echo $groups[$i]->id; ?>">Edit</a></th>
-					    		<th scope="col"><a class="delete" href="admin.php?page=xprofile_settings&amp;mode=delete_group&amp;group_id=<?php echo $groups[$i]->id; ?>">Delete</a></th>
+								<th scope="col" width="5%"><a class="edit" href="admin.php?page=xprofile_settings&amp;mode=edit_group&amp;group_id=<?php echo $groups[$i]->id; ?>">Edit</a></th>
+					    		<th scope="col" width="5%"><a class="delete" href="admin.php?page=xprofile_settings&amp;mode=delete_group&amp;group_id=<?php echo $groups[$i]->id; ?>">Delete</a></th>
 							<?php } ?>
 						</tr>
 					</thead>
 					<tbody id="the-list">
 					   <tr class="header nodrag">
 					    	<td>Field Name</td>
-					    	<td width="10%">Field Type</td>
+					    	<td width="14%">Field Type</td>
 					    	<td width="6%">Required?</td>
-					    	<td colspan="2" width="15%" style="text-align:center;">Action</td>
+					    	<td colspan="2" width="10%" style="text-align:center;">Action</td>
 					    </tr>
 
 						  <?php if ( $groups[$i]->fields ) { ?>
@@ -102,7 +101,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 							
 							<?php } ?>
 						<?php } else { ?>
-							<tr>
+							<tr class="nodrag">
 								<td colspan="6">There are no fields in this group.</td>
 							</tr>
 						<?php } ?>
@@ -116,13 +115,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 			<?php } /* End For */ ?>
 			
 				<p>
-				<table class="widefat">
-					<thead>
-					    <tr>
-					    	<th scope="col" colspan="6"><a href="admin.php?page=xprofile_settings&amp;mode=add_group">Add New Group</th>
-					    </tr>
-					</thead>
-				</table>
+					<a href="admin.php?page=xprofile_settings&amp;mode=add_group">Add New Group</a>
 				</p>
 				
 		<?php } else { ?>
@@ -131,6 +124,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 		<?php } ?>
 	</div>
 <?php
+	}
 }
 
 
@@ -242,48 +236,30 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 /**************************************************************************
  xprofile_admin_delete_field()
  
- Handles the deletion of profile field data for a user.
+ Handles the deletion of a profile field [or option].
 **************************************************************************/
 
-function xprofile_admin_delete_field( $field_id ) {
+function xprofile_admin_delete_field( $field_id, $type = 'field' ) {
 	global $message, $type;
+	
+	if ( $type == 'field' ) {
+		$type = __('field');
+	} else {
+		$type = __('option');
+	}
 	
 	$field = new BP_XProfile_Field($field_id);
-	
+
 	if ( !$field->delete() ) {
-		$message = __('There was an error deleting the field. Please try again');
+		$message = sprintf( __('There was an error deleting the %s. Please try again'), $type);
 		$type = 'error';
 	} else {
-		$message = __('The field was deleted successfully.');
+		$message = sprintf( __('The %s was deleted successfully!'), $type);
 		$type = 'success';
 	}
 	
 	unset($_GET['mode']);
 	xprofile_admin($message, $type);
 }
-
-/**************************************************************************
- xprofile_admin_delete_item()
- 
- Handles the deletion of profile field item data for a user.
-**************************************************************************/
-
-function xprofile_admin_delete_item( $item_id ) {
-	global $message, $type;
-	
-	//$field = new BP_XProfile_Field($field_id);
-	
-	if ( !BP_XProfile_Field::delete_item($item_id) ) {
-		$message = __('There was an error deleting the field. Please try again');
-		$type = 'error';
-	} else {
-		$message = __('The field was deleted successfully.');
-		$type = 'success';
-	}
-	
-	unset($_GET['mode']);
-	xprofile_admin($message, $type);
-}
-
 
 ?>

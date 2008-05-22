@@ -1,5 +1,66 @@
 <?php
 
+function xprofile_add_signup_css() {
+	if ( $_SERVER['SCRIPT_NAME'] == '/wp-signup.php' ) {
+	?>
+		<style type="text/css">
+			
+			table#extraFields td label, 
+			div.radio span, 
+			div.checkbox span {
+				font-weight: bold;
+				display: block;
+				float: left;
+				width: 115px;
+			}
+			
+			table#extraFields td input {
+				font-size: 24px;
+				width: 280px;
+			}
+			
+			table#extraFields td textarea {
+				width: 280px;
+				height: 120px;
+			}
+			
+			table#extraFields td select {
+				width: 280px;
+			}
+			
+			table#extraFields td div.datefield select {
+				width: auto;
+			}
+			
+			table#extraFields td div.radio label,
+			table#extraFields td div.checkbox label {
+				display: inline;
+				font-weight: normal;
+				float: none;
+			}
+			
+			table#extraFields td div.radio input,
+			table#extraFields td div.checkbox input {
+				width: auto;
+			}
+			
+			span.desc {
+				margin-left: 115px;
+				font-weight: normal;
+			}
+			
+			div.error {
+				font-weight: bold;
+				margin: 10px 0 10px 113px;
+			}
+			
+		</style>
+		<?php		
+	}
+}
+add_action( 'wp_head', 'xprofile_add_signup_css' );
+
+
 function xprofile_add_css() {
 	global $userdata, $wpdb;
 	
@@ -96,7 +157,7 @@ function xprofile_add_css() {
 			width: 40%;
 		}
 		
-		span.desc {
+		span.desc, span.signup-description {
 			display: block;
 			font-size: 11px;
 			color: #555;
@@ -126,6 +187,23 @@ function xprofile_add_css() {
         margin: 0;
     }
 
+	div.options-box {
+		margin-left: 20px !important;
+		margin-right: 10px !important;
+		border-left: 4px solid #EAF3FA;
+		padding-left: 15px;
+	}
+
+	th a {
+		background: #fff;
+		padding: 2px 5px;
+		-moz-border-radius: 3px;
+		-khtml-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		top: -2px;
+	}
+
 	</style>
 	<?php
 	//}
@@ -135,6 +213,8 @@ function xprofile_add_js() {
 	if ( strpos( $_GET['page'], 'xprofile' ) !== false ) {
 	?>
 		<script type="text/javascript">
+			var ajaxurl = '<?php echo get_option('siteurl') . "/wp-admin/admin-ajax.php"; ?>';
+		
 			function add_option(forWhat) {
 				var holder = document.getElementById(forWhat + "_more");
 				var theId = document.getElementById(forWhat + '_option_number').value;
@@ -155,43 +235,30 @@ function xprofile_add_js() {
 				
 				var isDefault = document.createElement('input');
 				
-				isDefault.setAttribute('type', 'checkbox');
-				isDefault.setAttribute('name', 'isDefault_' + forWhat + '_option' + theId);
-				isDefault.setAttribute('id', 'isDefault_' + forWhat + '_option' + theId);									
+				isDefault.setAttribute('type', 'radio');
+				isDefault.setAttribute('name', 'isDefault_' + forWhat + '_option');
+				isDefault.setAttribute('value', theId);
+				//isDefault.setAttribute('id', 'isDefault_' + forWhat + '_option' + theId);									
 
 				var label1 = document.createElement('label');
-				var txt1 = document.createTextNode(" is default ");
+				var txt1 = document.createTextNode(" Default Value ");
+				
 				label1.appendChild(txt1);
 				label1.setAttribute('for', 'isDefault_' + forWhat + '_option[]');
-
-
-				/* var toDelete= document.createElement('input');
+				toDelete = document.createElement('a');
 				
-				toDelete.setAttribute('type', 'checkbox');
-				toDelete.setAttribute('name', 'toDelete_' + forWhat + '_option[]');
-				isDefault.setAttribute('id', 'toDelete_' + forWhat + '_option' + theId);									
-
-				var label2 = document.createElement('label');
-				var txt2 = document.createTextNode(' <?php _e("Delete Option") ?>');
-				label2.appendChild(txt2);
-				label2.setAttribute('for', 'toDelete_' + forWhat + '_option[]'); */
+				toDeleteText = document.createTextNode('[x]');
+				toDelete.setAttribute('href',"javascript:hide('" + forWhat + '_div' + theId + "')");
 				
-				toDelete=document.createElement('a');
-				//var toDelete = createTextNode('<a href="www.google.com> <?php _e("Delete") ?> </a>')
-				toDeleteText=document.createTextNode('<?php _e("Delete") ?> ');
-				toDelete.setAttribute('href','admin.php?page=xprofile_settings&amp;mode=delete_item&amp;item_id=-1');
-				//http://social.localhost/wp-admin/admin.php?page=xprofile_settings&field_id=27&mode=delete_field
 				toDelete.setAttribute('class','delete');
 
 				toDelete.appendChild(toDeleteText);
 	
-				//var txt = document.createTextNode("Option " + theId + ": ");
-				//label.appendChild(txt);
-				
-				newDiv.appendChild(label); 
+				newDiv.appendChild(label);
 				newDiv.appendChild(newOption);
+				newDiv.appendChild(document.createTextNode(" "));
+				newDiv.appendChild(isDefault);
 				newDiv.appendChild(label1);	
-				newDiv.appendChild(isDefault);	
 				newDiv.appendChild(toDelete);	
 				holder.appendChild(newDiv);
 				
@@ -204,7 +271,6 @@ function xprofile_add_js() {
 				document.getElementById("radio").style.display = "none";
 				document.getElementById("selectbox").style.display = "none";
 				document.getElementById("multiselectbox").style.display = "none";
-				document.getElementById("multicheckbox").style.display = "none";
 				document.getElementById("checkbox").style.display = "none";
 				
 				if(forWhat == "radio") {
@@ -214,15 +280,13 @@ function xprofile_add_js() {
 				if(forWhat == "selectbox") {
 					document.getElementById("selectbox").style.display = "";						
 				}
+				
 				if(forWhat == "multiselectbox") {
 					document.getElementById("multiselectbox").style.display = "";						
 				}
 				
 				if(forWhat == "checkbox") {
 					document.getElementById("checkbox").style.display = "";						
-				}
-				if(forWhat == "multicheckbox") {
-					document.getElementById("multicheckbox").style.display = "";						
 				}
 			}
 			
@@ -296,7 +360,6 @@ function xprofile_add_js() {
 			}
 			
 			function reorderFields(table, row, field_ids) {
-				var ajaxurl = '<?php echo get_option('siteurl') . "/wp-admin/admin-ajax.php"; ?>';
 				jQuery.post( ajaxurl, {
 					action: 'xprofile_reorder_fields',
 					'cookie': encodeURIComponent(document.cookie),
@@ -311,6 +374,51 @@ function xprofile_add_js() {
 					1250
 				);
 			}
+			
+			function hide(id) {
+				if ( !document.getElementById(id) ) return false;
+				
+				document.getElementById(id).style.display = "none";
+				document.getElementById(id).value = '';
+			}
+			
+			// Set up deleting options ajax
+			jQuery(document).ready( function() {
+				var links = jQuery("a.ajax-option-delete");
+				
+				jQuery.each(links,
+					function(link, val) {
+						link.click(
+							function() {
+							}
+						);
+					}
+				);
+				
+				jQuery("a.ajax-option-delete").click( 
+					function() {
+						alert(ajaxUrl);
+						alert("test");
+						return false;
+						var theId = this.id.split('-');
+						theId = theId[1];
+						
+						jQuery.post( ajaxurl, {
+							action: 'xprofile_delete_option',
+							'cookie': encodeURIComponent(document.cookie),
+							'_wpnonce': jQuery("input#_wpnonce").val(),
+							
+							'option_id': theId
+						},
+						function(response)
+						{
+							alert(response);
+						});
+					
+						
+					}
+				);				
+			});
 			
 			<?php } ?>
 		</script>

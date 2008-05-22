@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_XPROFILE_VERSION', '0.6' );
+define ( 'BP_XPROFILE_VERSION', '0.9' );
 
 $bp_xprofile_table_name        = $wpdb->base_prefix . 'bp_xprofile';
 $bp_xprofile_table_name_groups = $wpdb->base_prefix . 'bp_xprofile_groups';
@@ -122,8 +122,8 @@ add_action( 'admin_menu', 'xprofile_add_menu' );
 **************************************************************************/
 
 function xprofile_setup() {
-	add_action( 'admin_print_scripts', 'xprofile_add_css' );
-	add_action( 'admin_print_scripts', 'xprofile_add_js' );
+	add_action( 'admin_head', 'xprofile_add_css' );
+	add_action( 'admin_head', 'xprofile_add_js' );
 }
 add_action( 'admin_menu', 'xprofile_setup' );
 
@@ -147,7 +147,6 @@ function xprofile_profile_template() {
 
 	$coreuser_id = bp_core_get_userid($siteuser);
 	$profile_template = new BP_XProfile_Template($coreuser_id);
-
 }
 add_action( 'wp_head', 'xprofile_profile_template' );
 
@@ -253,7 +252,6 @@ function xprofile_edit() {
 					$type = 'success';
 					$message = __('Changes saved.');
 				}
-				
 			}
 			else {
 				$list_html .= '<p>' . __('This group is currently empty. Please contact the site admin if this is incorrect.') . '</p>';

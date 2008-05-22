@@ -4,7 +4,7 @@ Description: Select Your Primary Language
 Author: Justin Ball
 URI: http://www.justinball.com
 Version: 1.0
-Types: multicheckbox,radio,selectbox,multiselectbox
+Types: checkbox,radio,selectbox,multiselectbox
 */
 English,English
 Afar,магIарул мацI

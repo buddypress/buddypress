@@ -4,7 +4,7 @@ Description: Select Your Country
 Author: Justin Ball
 URI: http://www.justinball.com
 Version: 1.0
-Types: multicheckbox,radio,selectbox,multiselectbox
+Types: checkbox,radio,selectbox,multiselectbox
 */
 Andorra,AD
 United Arab Emirates,AE
