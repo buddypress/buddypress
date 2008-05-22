@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_XPROFILE_VERSION', '0.9' );
+define ( 'BP_XPROFILE_VERSION', '0.2' );
 
 $bp_xprofile_table_name        = $wpdb->base_prefix . 'bp_xprofile';
 $bp_xprofile_table_name_groups = $wpdb->base_prefix . 'bp_xprofile_groups';
@@ -43,35 +43,35 @@ function xprofile_install( $version ) {
 			  name varchar(150) NOT NULL,
 			  description longtext NOT NULL,
 			  is_required tinyint(1) NOT NULL,
-			  order_id int(11) ,
-			  sort_order varchar(100) ,
-			  is_public int(11) DEFAULT '1',
-			  PRIMARY KEY  (id)
+			  field_order int(11),
+			  option_order int(11),
+			  order_by varchar(15),
+			  is_public int(2) DEFAULT '1',
+			  can_delete tinyint(1) DEFAULT '1',
+			  PRIMARY KEY (id)
 	);";
-	
 	
 	$sql[] = "CREATE TABLE " . $bp_xprofile_table_name_data . " (
 			  id int(11) unsigned NOT NULL auto_increment,
 			  field_id int(11) NOT NULL,
-			  field_id1 int(11) ,
 			  user_id int(11) NOT NULL,
 			  value longtext NOT NULL,
 			  last_updated datetime NOT NULL,
-			  PRIMARY KEY  (id)
+			  PRIMARY KEY (id)
 	);";
 	
 	$sql[] = "INSERT INTO ". $bp_xprofile_table_name_groups . " VALUES (1, 'Basic', '', 0);";
 	
 	$sql[] = "INSERT INTO ". $bp_xprofile_table_name_fields . " ( 
-				id, group_id, parent_id, type, name, description, is_required, order_id, sort_order, is_public
+				id, group_id, parent_id, type, name, description, is_required, field_order, option_order, order_by, is_public, can_delete
 			  ) VALUES (
-				1, 1, 0, 'textbox', 'First Name', '', 1, 1, 1, 0
+				1, 1, 0, 'textbox', 'First Name', '', 1, 1, 0, '', 1, 0
 			  );";
 			
 	$sql[] = "INSERT INTO ". $bp_xprofile_table_name_fields . " ( 
-				id, group_id, parent_id, type, name, description, is_required, order_id, sort_order, is_public
+				id, group_id, parent_id, type, name, description, is_required, field_order, option_order, order_by, is_public, can_delete
 			  ) VALUES (
-				2, 1, 0, 'textbox', 'Last Name', '', 1, 1, 2, 0
+				2, 1, 0, 'textbox', 'Last Name', '', 1, 2, 0, '', 1, 0
 			  );";
 	
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
@@ -216,8 +216,7 @@ function xprofile_edit() {
 							}
 							else {
 								if ( is_array($current_field) )
-									//$current_field = serialize($current_field);
-									$current_field = join(",",$current_field);
+									$current_field = serialize($current_field);
 									
 								$profile_data->value = $current_field;
 							}

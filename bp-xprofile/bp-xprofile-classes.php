@@ -189,7 +189,9 @@ Class BP_XProfile_Field {
 	var $desc;
 	var $is_required;
 	var $can_delete;
-	var $sort_order;
+	var $field_order;
+	var $option_order;
+	var $order_by;
 	
 	var $data;
 	var $message = null;
@@ -228,7 +230,9 @@ Class BP_XProfile_Field {
 			$this->is_required = $field->is_required;
 			$this->is_public= $field->is_public;
 			$this->can_delete = $field->can_delete;
-			$this->sort_order = $field->sort_order;
+			$this->field_order = $field->field_order;
+			$this->option_order = $field->option_order;
+			$this->order_by = $field->order_by;
 
 			if ( $get_data ) {
 				$this->data = $this->get_field_data($user_id);
@@ -257,9 +261,9 @@ Class BP_XProfile_Field {
 		global $wpdb;
 		
 		if ( $this->id != null ) {
-			$sql = $wpdb->prepare("UPDATE $this->table_name_fields SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d,is_public = %d, sort_order = %s WHERE id = %d", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->is_public,$this->sort_order,$this->id);
+			$sql = $wpdb->prepare("UPDATE $this->table_name_fields SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d, is_public = %d, order_by = %s WHERE id = %d", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->is_public, $this->order_by, $this->id);
 		} else {
-			$sql = $wpdb->prepare("INSERT INTO $this->table_name_fields	(group_id, parent_id, type, name, description, is_required, is_public, sort_order) VALUES (%d, 0, %s, %s, %s, %d, %d, %s)", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->is_public, $this->sort_order);
+			$sql = $wpdb->prepare("INSERT INTO $this->table_name_fields	(group_id, parent_id, type, name, description, is_required, is_public, order_by) VALUES (%d, 0, %s, %s, %s, %d, %d, %s)", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->is_public, $this->order_by);
 		}
 		if ( $wpdb->query($sql) !== false ) {
 			// Only do this if we are editing an existing field
@@ -286,9 +290,7 @@ Class BP_XProfile_Field {
 					
 					if ( $fp = fopen($field_file, 'r') ) {
 						$start_reading = false;
-						
-					
-						
+
 						while ( ! feof($fp) && !$start_reading) {
 							if ( $s = fgets ($fp, 1024) ) {
 								if ( preg_match ( '/\*\//', $s ) ) {
@@ -310,40 +312,34 @@ Class BP_XProfile_Field {
 						}
 						fclose($fp);
 					}
-				} else {	
+				} else {
 					if ( $this->type == "radio" ) {
 						$options = $_POST['radio_option'];
 					} else if ( $this->type == "selectbox" ) {
-						$options = $_POST['selectbox_option'];
+						$options = $_POST['select_option'];
 					} else if ( $this->type == "multiselectbox" ) {
 						$options = $_POST['multiselectbox_option'];
 					} else if ( $this->type == "checkbox" ) {
 						$options = $_POST['checkbox_option'];
 					}
-					$default_array = $_POST['isDefault_selectbox_option'];
-					
+
 					for ( $i = 0; $i < count($options); $i++ ) {
 						$option_value = $options[$i];
-						$j = $i + 1;
-						$is_default_name = "isDefault_".$this->type."_option".$j;
-						$is_default_value = $_POST[$is_default_name];
 
-						if ($is_default_value) { $is_default = "CHECKED"; } else { $is_default="";}
 						if ( $option_value != "" ) { 
-							
 							// don't insert an empty option.
-							$sql = $wpdb->prepare("INSERT INTO $this->table_name_fields	(group_id, parent_id, type, name, description, is_required,sort_order)	VALUES (%d, %d, 'option', %s, '', 0,%s)", $this->group_id, $parent_id, $option_value, $is_default);
+							$sql = $wpdb->prepare("INSERT INTO $this->table_name_fields	(group_id, parent_id, type, name, description, is_required)	VALUES (%d, %d, 'option', %s, '', 0)", $this->group_id, $parent_id, $option_value);
 
 							if ( $wpdb->query($sql) === false ) {
 								return false;
-							
+
 								// @TODO 
 								// Need to go back and reverse what has been entered here.
 							}
 						}	
 					}					
 				}
-				
+
 				return true;
 			
 			} else {
@@ -392,7 +388,8 @@ Class BP_XProfile_Field {
 			break;
 			
 			case 'selectbox':
-				$options = $this->get_children($this->sort_order);
+				$options = $this->get_children();
+				
 				$html .= '<div class="signup-field">';
 				$html .= '<label class="signup-label" for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
 				$html .= $this->message . '<select name="field_' . $this->id . '" id="field_' . $this->id . '">';
@@ -414,7 +411,8 @@ Class BP_XProfile_Field {
 			break;
 			
 			case 'multiselectbox':
-				$options = $this->get_children($this->sort_order);
+				$options = $this->get_children();
+				
 				$html .= '<div class="signup-field">';
 				$html .= '<label class="signup-label" for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
 				$html .= $this->message . '<select class="multi-select" multiple="multiple" name="field_' . $this->id . '[]" id="field_' . $this->id . '">';
@@ -559,27 +557,27 @@ Class BP_XProfile_Field {
 		return new BP_XProfile_ProfileData($this->id, $user_id);
 	}
 	
-	 function get_children($sort_sql="") {
+	 function get_children() {
 		global $wpdb;
+		
 		//This is done here so we don't have problems with sql injection
-		if ($sort_sql == 'asc') {
-			$sort_sql = "order by sort_order desc, name asc";
-		}
-		elseif ($sort_sql == 'desc') {
-			$sort_sql = "order by sort_order desc, name desc";
+		if ( $this->order_by == 'asc' ) {
+			$sort_sql = 'ORDER BY name ASC';
+		} else if ( $order_by == 'desc' ) {
+			$sort_sql = 'ORDER BY name DESC';
 		} else {
-			$sort_sql = 'order by sort_order desc';
+			$sort_sql = 'ORDER BY option_order ASC';
 		}
+		
 		//This eliminates a problem with getting all fields when there is no id for the object
-		if (!$this->id) {
-			$parent_id=-1;
-		
+		if ( !$this->id ) {
+			$parent_id = -1;
 		} else {
-			$parent_id=$this->id;
+			$parent_id = $this->id;
 		}
-		$sql = $wpdb->prepare("SELECT * FROM $this->table_name_fields WHERE parent_id = %d AND group_id = %d", $parent_id, $this->group_id );
-		$sql = $sql." ".$sort_sql;
 		
+		$sql = $wpdb->prepare( "SELECT * FROM $this->table_name_fields WHERE parent_id = %d AND group_id = %d $sort_sql", $parent_id, $this->group_id );
+
 		if ( !$children = $wpdb->get_results($sql) )
 			return false;
 			
@@ -610,7 +608,8 @@ Class BP_XProfile_Field {
 					</select>
 	
 				<?php
-				$options = $this->get_children($this->sort_order);
+				$options = $this->get_children();
+				
 				if ( !empty($options) ) {
 					for ( $i = 0; $i < count($options); $i++ ) { ?>
 						<p><?php _e('Option') ?> <?php echo $i + 1 ?>: 

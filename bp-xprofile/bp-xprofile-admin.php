@@ -17,9 +17,9 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 	} else if ( isset($_GET['mode']) && isset($_GET['group_id']) && isset($_GET['field_id']) && $_GET['mode'] == "edit_field" ) {
 		xprofile_admin_manage_field($_GET['group_id'], $_GET['field_id']);
 	} else if ( isset($_GET['mode']) && isset($_GET['field_id']) && $_GET['mode'] == "delete_field" ) {
-		xprofile_admin_delete_field($_GET['field_id']);
+		xprofile_admin_delete_field($_GET['field_id'], 'field');
 	} else if ( isset($_GET['mode']) && isset($_GET['option_id']) && $_GET['mode'] == "delete_option" ) {
-		xprofile_admin_delete_field($_GET['option_id']);
+		xprofile_admin_delete_field($_GET['option_id'], 'option');
 	} else if ( isset($_GET['mode']) && $_GET['mode'] == "add_group" ) {
 		xprofile_admin_manage_group();
 	} else if ( isset($_GET['mode']) && isset($_GET['group_id']) && $_GET['mode'] == "delete_group" ) {
@@ -206,9 +206,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 			$field->is_required = $_POST['required'];
 			$field->is_public= $_POST['public'];
 			$field->type = $_POST['fieldtype'];
-			//This may be confusing but we are dynamically figuring out the variable name and getting its value
-			$sort_variable_name = "sort_order_".$field->type;
-			$field->sort_order = $_POST[$sort_variable_name];
+			$field->order_by = $_POST["sort_order_$field->type"];
 			
 			if ( !$field->save() ) {
 				$message = __('There was an error saving the field. Please try again');
