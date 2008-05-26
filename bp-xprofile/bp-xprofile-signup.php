@@ -14,7 +14,7 @@ function xprofile_add_signup_fields() {
 	
 	if ( $fields ) {
 	?>
-	<table border="0" id="extraFields">
+	<table border="0" id="extraFields" width="100%">
 		<tbody>
 			<tr>
 				<td>

@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_XPROFILE_VERSION', '0.2' );
+define ( 'BP_XPROFILE_VERSION', '0.2.3' );
 
 $bp_xprofile_table_name        = $wpdb->base_prefix . 'bp_xprofile';
 $bp_xprofile_table_name_groups = $wpdb->base_prefix . 'bp_xprofile_groups';
@@ -42,19 +42,20 @@ function xprofile_install( $version ) {
 			  type varchar(150) NOT NULL,
 			  name varchar(150) NOT NULL,
 			  description longtext NOT NULL,
-			  is_required tinyint(1) NOT NULL,
-			  field_order int(11),
-			  option_order int(11),
-			  order_by varchar(15),
-			  is_public int(2) DEFAULT '1',
-			  can_delete tinyint(1) DEFAULT '1',
+			  is_required tinyint(1) NOT NULL DEFAULT '0',
+			  is_default_option tinyint(1) NOT NULL DEFAULT '0',
+			  field_order int(11) NOT NULL DEFAULT '0',
+			  option_order int(11) NOT NULL DEFAULT '0',
+			  order_by varchar(15) NOT NULL,
+			  is_public int(2) NOT NULL DEFAULT '1',
+			  can_delete tinyint(1) NOT NULL DEFAULT '1',
 			  PRIMARY KEY (id)
 	);";
 	
 	$sql[] = "CREATE TABLE " . $bp_xprofile_table_name_data . " (
 			  id int(11) unsigned NOT NULL auto_increment,
-			  field_id int(11) NOT NULL,
-			  user_id int(11) NOT NULL,
+			  field_id int(11) unsigned NOT NULL,
+			  user_id int(11) unsigned NOT NULL,
 			  value longtext NOT NULL,
 			  last_updated datetime NOT NULL,
 			  PRIMARY KEY (id)

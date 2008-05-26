@@ -192,6 +192,7 @@ Class BP_XProfile_Field {
 	var $field_order;
 	var $option_order;
 	var $order_by;
+	var $is_default_option;
 	
 	var $data;
 	var $message = null;
@@ -233,6 +234,7 @@ Class BP_XProfile_Field {
 			$this->field_order = $field->field_order;
 			$this->option_order = $field->option_order;
 			$this->order_by = $field->order_by;
+			$this->is_default_option = $field->is_default_option;
 
 			if ( $get_data ) {
 				$this->data = $this->get_field_data($user_id);
@@ -303,10 +305,15 @@ Class BP_XProfile_Field {
 							$num = count($data);
 							$name = '';
 							$description = '';
-							if ( $num >= 1 ) { $name = $data[0]; }
-							if ( $num >= 2 ) { $description = $data[1]; }
+							
+							if ( $num >= 1 )
+								$name = $data[0];
+							
+							if ( $num >= 2 )
+								$description = $data[1];
+								
 							if ( $num > 0 ) {
-								$sql = $wpdb->prepare("INSERT INTO $this->table_name_fields	(group_id, parent_id, type, name, description, is_required)	VALUES (%d, %d, 'option', %s, %s, 0)", $this->group_id, $parent_id, $name, $description);
+								$sql = $wpdb->prepare( "INSERT INTO $this->table_name_fields (group_id, parent_id, type, name, description, is_required, option_order) VALUES (%d, %d, 'option', %s, %s, 0, %d)", $this->group_id, $parent_id, $name, $description, $option_order);
 								$wpdb->query($sql);
 							}
 						}
@@ -315,29 +322,46 @@ Class BP_XProfile_Field {
 				} else {
 					if ( $this->type == "radio" ) {
 						$options = $_POST['radio_option'];
+						$defaults = $_POST['isDefault_radio_option'];
 					} else if ( $this->type == "selectbox" ) {
-						$options = $_POST['select_option'];
+						$options = $_POST['selectbox_option'];
+						$defaults = $_POST['isDefault_selectbox_option'];
 					} else if ( $this->type == "multiselectbox" ) {
 						$options = $_POST['multiselectbox_option'];
+						$defaults = $_POST['isDefault_multiselectbox_option'];
 					} else if ( $this->type == "checkbox" ) {
 						$options = $_POST['checkbox_option'];
+						$defaults = $_POST['isDefault_checkbox_option'];
 					}
+					
+					$counter = 1;
+					if ( count($options) > 0 ) {
+						foreach ( $options as $option_key => $option_value ) {
+							$is_default = 0;
 
-					for ( $i = 0; $i < count($options); $i++ ) {
-						$option_value = $options[$i];
-
-						if ( $option_value != "" ) { 
-							// don't insert an empty option.
-							$sql = $wpdb->prepare("INSERT INTO $this->table_name_fields	(group_id, parent_id, type, name, description, is_required)	VALUES (%d, %d, 'option', %s, '', 0)", $this->group_id, $parent_id, $option_value);
-
-							if ( $wpdb->query($sql) === false ) {
-								return false;
-
-								// @TODO 
-								// Need to go back and reverse what has been entered here.
+							if ( is_array($defaults) ) {
+								if ( isset($defaults[$option_key]) )
+									$is_default = 1;
+							} else {
+								if ( $defaults == $option_key )
+									$is_default = 1;
 							}
-						}	
-					}					
+
+							if ( $option_value != "" ) { 
+								// don't insert an empty option.
+								$sql = $wpdb->prepare("INSERT INTO $this->table_name_fields	(group_id, parent_id, type, name, description, is_required, option_order, is_default_option) VALUES (%d, %d, 'option', %s, '', 0, %d, %d)", $this->group_id, $parent_id, $option_value, $counter, $is_default);
+
+								if ( $wpdb->query($sql) === false ) {
+									return false;
+
+									// @TODO 
+									// Need to go back and reverse what has been entered here.
+								}
+							}
+						
+							$counter++;
+						}					
+					}
 				}
 
 				return true;
@@ -393,18 +417,20 @@ Class BP_XProfile_Field {
 				$html .= '<div class="signup-field">';
 				$html .= '<label class="signup-label" for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
 				$html .= $this->message . '<select name="field_' . $this->id . '" id="field_' . $this->id . '">';
-					for ( $k = 0; $k < count($options); $k++ ) {
-						$option_value = BP_XProfile_ProfileData::get_value($options[$k]->parent_id);
+				
+				$html .= '<option value="">--------</option>';	
+				for ( $k = 0; $k < count($options); $k++ ) {
+					$option_value = BP_XProfile_ProfileData::get_value($options[$k]->parent_id);
 
-	
-						if ( $option_value == $options[$k]->name || $value == $options[$k]->name ) {
-							$selected = ' selected="selected"';
-						} else {
-							$selected = '';
-						}
-						
-						$html .= '<option' . $selected . ' value="' . $options[$k]->name . '">' . $options[$k]->name . '</option>';
+					if ( $option_value == $options[$k]->name || $value == $options[$k]->name || $options[$k]->is_default_option ) {
+						$selected = ' selected="selected"';
+					} else {
+						$selected = '';
 					}
+					
+					$html .= '<option' . $selected . ' value="' . $options[$k]->name . '">' . $options[$k]->name . '</option>';
+				}
+				
 				$html .= '</select>';
 				$html .= '<span class="signup-description">' . $this->desc . '</span>';
 				$html .= '</div>';
@@ -418,8 +444,9 @@ Class BP_XProfile_Field {
 				$html .= $this->message . '<select class="multi-select" multiple="multiple" name="field_' . $this->id . '[]" id="field_' . $this->id . '">';
 					for ( $k = 0; $k < count($options); $k++ ) {
 						$option_value = BP_XProfile_ProfileData::get_value($options[$k]->parent_id);
-						$values = explode(",",$option_value);
-						if ( $option_value == $options[$k]->name || $value == $options[$k]->name || in_array($options[$k]->name,$values ) ) {
+						$values = explode( ',', $option_value );
+						
+						if ( $option_value == $options[$k]->name || $value == $options[$k]->name || in_array( $options[$k]->name, $values ) || ( $options[$k]->is_default_option ) ) {
 							$selected = ' selected="selected"';
 						} else {
 							$selected = '';
@@ -437,15 +464,16 @@ Class BP_XProfile_Field {
 				
 				$html .= '<div class="radio signup-field" id="field_' . $this->id . '"><span class="signup-label">' . $asterisk . $this->name . ':</span>' . $this->message;
 				for ( $k = 0; $k < count($options); $k++ ) {
+					
 					$option_value = BP_XProfile_ProfileData::get_value($options[$k]->parent_id);
 				
-					if ( $option_value == $options[$k]->name || $value == $options[$k]->name ) {
+					if ( $option_value == $options[$k]->name || $value == $options[$k]->name || $options[$k]->is_default_option ) {
 						$selected = ' checked="checked"';
 					} else {
 						$selected = '';
 					}
 					
-					$html .= '<label><input' . $selected . ' type="radio" name="field_' . $this->id . '" id="option_' . $options[$k]->id . '" value="' . $options[$k]->name . '"> ' . $options[$k]->name . '</label>';
+					$html .= '<label>' . $options[$k]->is_default_option .'<input' . $selected . ' type="radio" name="field_' . $this->id . '" id="option_' . $options[$k]->id . '" value="' . $options[$k]->name . '"> ' . $options[$k]->name . '</label>';
 				}
 				
 				$html .= '<span class="signup-description">' . $this->desc . '</span>';				
@@ -469,7 +497,7 @@ Class BP_XProfile_Field {
 				
 				for ( $k = 0; $k < count($options); $k++ ) {	
 					for ( $j = 0; $j < count($option_values); $j++ ) {
-						if ( $option_values[$j] == $options[$k]->name || @in_array( $options[$k]->name, $value ) ) {
+						if ( $option_values[$j] == $options[$k]->name || @in_array( $options[$k]->name, $value ) || $options[$k]->is_default_option ) {
 							$selected = ' checked="checked"';
 							break;
 						}
@@ -557,13 +585,13 @@ Class BP_XProfile_Field {
 		return new BP_XProfile_ProfileData($this->id, $user_id);
 	}
 	
-	 function get_children() {
+	 function get_children($for_editing = false) {
 		global $wpdb;
 		
 		//This is done here so we don't have problems with sql injection
-		if ( $this->order_by == 'asc' ) {
+		if ( $this->order_by == 'asc' && !$for_editing ) {
 			$sort_sql = 'ORDER BY name ASC';
-		} else if ( $order_by == 'desc' ) {
+		} else if ( $this->order_by == 'desc' && !$for_editing ) {
 			$sort_sql = 'ORDER BY name DESC';
 		} else {
 			$sort_sql = 'ORDER BY option_order ASC';
@@ -591,41 +619,61 @@ Class BP_XProfile_Field {
 
 		$wpdb->query($sql);
 	}
+	
 	function render_admin_form_children() {
 		//This function populates the items for radio buttons checkboxes and drop down boxes
 		$input_types = array( 'checkbox', 'selectbox', 'multiselectbox', 'radio' );	
 		
 		foreach ($input_types as $type) { 
-		 ?>
-			<div id="<?php echo($type) ?>" class="options-box" style="<?php if ( $this->type != $type ) { ?>display: none;<?php } ?> margin-left: 15px;">
+			$default_name = '';
+			
+			if ( $type == 'multiselectbox' || $type == 'checkbox' ) {
+				$default_input = 'checkbox';
+			} else {
+				$default_input = 'radio';
+			}
+		?>
+			<div id="<?php echo $type ?>" class="options-box" style="<?php if ( $this->type != $type ) { ?>display: none;<?php } ?> margin-left: 15px;">
 				<h4><?php _e('Please enter options for this Field:') ?></h4>
 				<p>Order By: 
 					
-					<select name="sort_order_<?php echo($type) ?>" id="sort_order_<?php echo($type) ?>" >
-						<option value="default" >Order Entered</option>
-						<option value="asc" <?php if ( $this->sort_order == 'asc' ) {?> selected="selected"<?php } ?> >Name - Ascending</option>
-						<option value="desc" <?php if ( $this->sort_order == 'desc' ) {?> selected="selected"<?php } ?> >Name - Descending</option>
+					<select name="sort_order_<?php echo $type ?>" id="sort_order_<?php echo $type ?>" >
+						<option value="default" <?php if ( $this->order_by == 'default' ) {?> selected="selected"<?php } ?> >Order Entered</option>
+						<option value="asc" <?php if ( $this->order_by == 'asc' ) {?> selected="selected"<?php } ?>>Name - Ascending</option>
+						<option value="desc" <?php if ( $this->order_by == 'desc' ) {?> selected="selected"<?php } ?>>Name - Descending</option>
 					</select>
 	
 				<?php
-				$options = $this->get_children();
+				$options = $this->get_children(true);
 				
 				if ( !empty($options) ) {
-					for ( $i = 0; $i < count($options); $i++ ) { ?>
-						<p><?php _e('Option') ?> <?php echo $i + 1 ?>: 
-						   <input type="text" name="<?php echo($type) ?>_option[]" id="<?php echo($type) ?>_option<?php echo $i+1 ?>" value="<?php echo $options[$i]->name ?>" />
-						   <input type="radio" name="isDefault_<?php echo($type) ?>_option" <?php if ( $options[$i]->sort_order == 'CHECKED' ) {?> checked="checked"<?php } ?> " /> Default Value 
+					for ( $i = 0; $i < count($options); $i++ ) { 
+						$j = $i + 1;
+						
+						if ( $type == 'multiselectbox' || $type == 'checkbox' )
+							$default_name = '[' . $j . ']';
+					?>
+						<p><?php _e('Option') ?> <?php echo $j ?>: 
+						   <input type="text" name="<?php echo $type ?>_option[<?php echo $j ?>]" id="<?php echo $type ?>_option<?php echo $j ?>" value="<?php echo $options[$i]->name ?>" />
+						   <input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" <?php if ( $options[$i]->sort_order == 'CHECKED' ) {?> checked="checked"<?php } ?> " /> Default Value 
 						<a href="admin.php?page=xprofile_settings&amp;mode=delete_option&amp;option_id=<?php echo $options[$i]->id ?>" class="ajax-option-delete" id="delete-<?php echo $options[$i]->id ?>">[x]</a></p>
 						</p>
-				<?php } ?>
-					<input type="hidden" name="<?php echo($type) ?>_option_number" id="<?php echo($type) ?>_option_number" value="<?php echo $i+1 ?>" />
-				<?php } else { ?>
-					<p><?php _e('Option') ?> 1: <input type="text" name="<?php echo($type) ?>_option[]" id="<?php echo($type) ?>_option1" />
-					<input type="radio" name="isDefault_<?php echo($type) ?>_option" id="isDefault_<?php echo($type) ?>_option" <?php if ( $options[$i]->sort_order == 'CHECKED' ) {?> checked="checked"<?php } ?>" /> Default Value
-					<input type="hidden" name="<?php echo($type) ?>_option_number" id="<?php echo($type) ?>_option_number" value="2" />
-				<?php } ?>
-				<div id="<?php echo($type) ?>_more"></div>					
-				<p><a href="javascript:add_option('<?php echo($type) ?>')"><?php _e('Add Another Option') ?></a></p>
+					<?php } // end for ?>
+					<input type="hidden" name="<?php echo $type ?>_option_number" id="<?php echo $type ?>_option_number" value="<?php echo $j ?>" />
+				
+				<?php 
+				} else { 
+					if ( $type == 'multiselectbox' || $type == 'checkbox' )
+						$default_name = '[1]';
+				?>
+					
+					<p><?php _e('Option') ?> 1: <input type="text" name="<?php echo $type ?>_option[1]" id="<?php echo $type ?>_option1" />
+					<input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" id="isDefault_<?php echo $type ?>_option" <?php if ( $options[$i]->sort_order == 'CHECKED' ) {?> checked="checked"<?php } ?>" value="1" /> Default Value
+					<input type="hidden" name="<?php echo $type ?>_option_number" id="<?php echo $type ?>_option_number" value="2" />
+				
+				<?php } // end if ?>
+				<div id="<?php echo $type ?>_more"></div>					
+				<p><a href="javascript:add_option('<?php echo $type ?>')"><?php _e('Add Another Option') ?></a></p>
 			</div>
 
 		<?php } 
@@ -881,16 +929,16 @@ Class BP_XProfile_Field {
 		if ( $_POST['title'] == '' || $_POST['required'] == '' || $_POST['fieldtype'] == '' ) {
 			$message = __('Please make sure you fill out all required fields.');
 			return false;
-		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'radio' && empty($_POST['radio_option'][0]) ) {
+		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'radio' && empty($_POST['radio_option'][1]) ) {
 			$message = __('Radio button field types require at least one option. Please add options below.');	
 			return false;
-		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'selectbox' && empty($_POST['selectbox_option'][0]) ) {
+		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'selectbox' && empty($_POST['selectbox_option'][1]) ) {
 			$message = __('Select box field types require at least one option. Please add options below.');	
 			return false;	
-		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'multiselectbox' && empty($_POST['multiselectbox_option'][0]) ) {
+		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'multiselectbox' && empty($_POST['multiselectbox_option'][1]) ) {
 			$message = __('Select box field types require at least one option. Please add options below.');	
 			return false;	
-		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'checkbox' && empty($_POST['checkbox_option'][0]) ) {
+		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'checkbox' && empty($_POST['checkbox_option'][1]) ) {
 			$message = __('Checkbox field types require at least one option. Please add options below.');	
 			return false;		
 		} else {

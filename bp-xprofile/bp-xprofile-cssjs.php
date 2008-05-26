@@ -4,7 +4,7 @@ function xprofile_add_signup_css() {
 	if ( $_SERVER['SCRIPT_NAME'] == '/wp-signup.php' ) {
 	?>
 		<style type="text/css">
-			
+		
 			table#extraFields td label, 
 			div.radio span, 
 			div.checkbox span {
@@ -224,7 +224,7 @@ function xprofile_add_js() {
 			
 				var newOption = document.createElement('input');
 				newOption.setAttribute('type', 'text');
-				newOption.setAttribute('name', forWhat + '_option[]');
+				newOption.setAttribute('name', forWhat + '_option[' + theId + ']');
 				newOption.setAttribute('id', forWhat + '_option' + theId);
 			
 				var label = document.createElement('label');
@@ -235,11 +235,16 @@ function xprofile_add_js() {
 				
 				var isDefault = document.createElement('input');
 				
-				isDefault.setAttribute('type', 'radio');
-				isDefault.setAttribute('name', 'isDefault_' + forWhat + '_option');
+				if(forWhat == 'checkbox' || forWhat == 'multiselectbox') {
+					isDefault.setAttribute('type', 'checkbox');
+					isDefault.setAttribute('name', 'isDefault_' + forWhat + '_option[' + theId + ']');
+				} else {
+					isDefault.setAttribute('type', 'radio');
+					isDefault.setAttribute('name', 'isDefault_' + forWhat + '_option');					
+				}
+				
 				isDefault.setAttribute('value', theId);
-				//isDefault.setAttribute('id', 'isDefault_' + forWhat + '_option' + theId);									
-
+			
 				var label1 = document.createElement('label');
 				var txt1 = document.createTextNode(" Default Value ");
 				
