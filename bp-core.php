@@ -335,7 +335,7 @@ function bp_create_excerpt( $text, $excerpt_length = 55 ) { // Fakes an excerpt 
 		$text = implode(' ', $words);
 	}
 	
-	return $text;
+	return stripslashes($text);
 }
 
 
