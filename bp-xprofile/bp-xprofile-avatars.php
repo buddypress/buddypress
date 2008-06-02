@@ -69,12 +69,19 @@ function xprofile_get_avatar_filter( $avatar, $id_or_email, $size, $default ) {
 add_filter( 'get_avatar', 'xprofile_get_avatar_filter', 10, 4 );
 
 // Main UI Rendering
-function xprofile_avatar_admin() {
-	?>
+function xprofile_avatar_admin($message = null) {
+	?>	
+	<?php if ( !isset($_POST['slick_avatars_action']) && !isset($_GET['slick_avatars_action']) ) { ?>
 	<div class="wrap">
 		<h2><?php _e('Your Avatar') ?></h2>
-	
-	<?php if (!isset($_POST['slick_avatars_action'])) { ?>
+		
+		<?php if ( $message ) { ?>
+			<br />
+			<div id="message" class="updated fade">
+				<p><?php echo $message; ?></p>
+			</div>
+		<?php } ?>
+
 		<p><?php _e('Your avatar will be used on your profile and throughout the site.') ?></p>
 		<p><?php _e('Click below to select a JPG, GIF or PNG format photo from your computer and then click \'Upload Photo\' to proceed.') ?></p>
 		
@@ -93,8 +100,15 @@ function xprofile_avatar_admin() {
 			echo '<h3>' . __('This is your current avatar') . '</h3>';
 			echo '<span class="crop-img avatar">' . xprofile_get_avatar(get_current_user_id(), 1) . '</span>';
 			echo '<span class="crop-img avatar">' . xprofile_get_avatar(get_current_user_id(), 2) . '</span>';
+			echo '<a href="' .  get_option('siteurl') . '/wp-admin/admin.php?page=bp-xprofile.php&slick_avatars_action=delete">Delete</a>';
 		}
+		
+		echo '</div>';
 	} else if ( isset($_POST['slick_avatars_action']) && $_POST['slick_avatars_action'] == 'upload' ) {
+		echo '<div class="wrap"><h2>';
+		_e('Your Avatar');
+		echo '</h2>';
+		
 		// Handling the upload of the original photo
 		// Confirm that the nonce is valid
 		if ( !isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'slick_avatars') ) {
@@ -214,6 +228,8 @@ function xprofile_avatar_admin() {
 			});
 		</script>
 		<?php
+		echo '</div>';
+		
 	} else if ( isset($_POST['slick_avatars_action']) && $_POST['slick_avatars_action'] == 'crop' ) {
 		// Crop, save, store
 		if ( is_file($_POST['orig']) && is_readable($_POST['orig']) && is_file($_POST['canvas']) && is_readable($_POST['canvas']) ) {
@@ -230,7 +246,7 @@ function xprofile_avatar_admin() {
 			$v1_out = wp_crop_image( $source, ($_POST['v1_x1'] * $multi), ($_POST['v1_y1'] * $multi), ($_POST['v1_w'] * $multi), ($_POST['v1_h'] * $multi), XPROFILE_AVATAR_V1_W, XPROFILE_AVATAR_V1_H, false, $v1_dest );
 	
 			// Perform v2 crop
-			if (XPROFILE_AVATAR_V2_W !== false && XPROFILE_AVATAR_V2_H !== false) {
+			if ( XPROFILE_AVATAR_V2_W !== false && XPROFILE_AVATAR_V2_H !== false ) {
 				$v2_dest = dirname($source) . '/' . preg_replace('!(\.[^.]+)?$!', '-avatar2' . '$1', basename($source), 1);
 				$v2_out = wp_crop_image( $source, ($_POST['v2_x1'] * $multi), ($_POST['v2_y1'] * $multi), ($_POST['v2_w'] * $multi), ($_POST['v2_h'] * $multi), XPROFILE_AVATAR_V2_W, XPROFILE_AVATAR_V2_H, false, $v2_dest );
 			}
@@ -248,6 +264,10 @@ function xprofile_avatar_admin() {
 			} while ( substr_count($dir, '/') >= 2 && stristr($dir, ABSPATH) );
 			
 			// Store details to the DB and we're done
+			echo '<div class="wrap"><h2>';
+			_e('Your Avatar');
+			echo '</h2>';
+			
 			echo '<p>' . __('Your new avatar was successfully created!') . '</p>';
 			
 			$old = get_usermeta( get_current_user_id(), 'xprofile_avatar_v1_path' );
@@ -265,10 +285,30 @@ function xprofile_avatar_admin() {
 				@unlink($old); // Removing old avatar
 				echo '<span class="crop-img">' . xprofile_get_avatar( get_current_user_id(), 2 ) . '</span>';
 			}
+			
+			echo '</div>';
 		}
+	} else if ( isset($_GET['slick_avatars_action']) && $_GET['slick_avatars_action'] == 'delete' ) {
+		// Delete an avatar
+		$old_v1 = get_usermeta( get_current_user_id(), 'xprofile_avatar_v1_path' );
+		$old_v2 = get_usermeta( get_current_user_id(), 'xprofile_avatar_v2_path' );
+		
+		delete_usermeta( get_current_user_id(), 'xprofile_avatar_v1_path' );
+		delete_usermeta( get_current_user_id(), 'xprofile_avatar_v2_path' );
+		
+		delete_usermeta( get_current_user_id(), 'xprofile_avatar_v1' );
+		delete_usermeta( get_current_user_id(), 'xprofile_avatar_v2' );
+		
+		// Remove the actual images
+		@unlink($old_v1);
+		@unlink($old_v2);
+		
+		unset($_GET['slick_avatars_action']);
+		$message = __('Avatar successfully removed.');
+		xprofile_avatar_admin($message);
+		
 	}
 	?>
-	</div>
 	<?php
 }
 

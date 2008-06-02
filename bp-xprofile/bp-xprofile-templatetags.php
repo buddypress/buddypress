@@ -22,7 +22,10 @@ Class BP_XProfile_Template {
 	}
 	
 	function has_groups() {
-		return true;
+		if ( $this->group_count )
+			return true;
+		
+		return false;
 	}
 	
 	function next_group() {
@@ -204,6 +207,11 @@ function the_profile_field_value() {
 function the_profile_picture() {
 	global $coreuser_id;
 	echo xprofile_get_avatar($coreuser_id, 2);
+}
+
+function the_profile_picture_thumbnail() {
+	global $coreuser_id;
+	echo xprofile_get_avatar($coreuser_id, 1);
 }
 
 
