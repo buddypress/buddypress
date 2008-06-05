@@ -68,6 +68,7 @@ function xprofile_get_avatar_filter( $avatar, $id_or_email, $size, $default ) {
 }
 add_filter( 'get_avatar', 'xprofile_get_avatar_filter', 10, 4 );
 
+
 // Main UI Rendering
 function xprofile_avatar_admin($message = null) {
 	?>	
@@ -85,16 +86,10 @@ function xprofile_avatar_admin($message = null) {
 		<p><?php _e('Your avatar will be used on your profile and throughout the site.') ?></p>
 		<p><?php _e('Click below to select a JPG, GIF or PNG format photo from your computer and then click \'Upload Photo\' to proceed.') ?></p>
 		
-		<form method="post" action="<?php echo get_option('home') ?>/wp-admin/admin.php?page=bp-xprofile.php" enctype="multipart/form-data">
-			<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo xprofile_MAX_FILE_SIZE; ?>" />
-			<input type="hidden" name="slick_avatars_action" value="upload" />
-			<input type="hidden" name="action" value="slick_avatars" />
-			<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('slick_avatars'); ?>" />
-			<input type="file" name="file" id="file" />
-			<input type="submit" name="upload" id="upload" value="Upload Photo" />
-		</form>
-		
 		<?php
+		$action = get_option('home') . '/wp-admin/admin.php?page=bp-xprofile.php';
+		xprofile_render_avatar_upload_form($action);
+
 		$str = xprofile_get_avatar( get_current_user_id(), 1 );
 		if ( strlen($str) ) {
 			echo '<h3>' . __('This is your current avatar') . '</h3>';
@@ -104,204 +99,71 @@ function xprofile_avatar_admin($message = null) {
 		}
 		
 		echo '</div>';
+	
 	} else if ( isset($_POST['slick_avatars_action']) && $_POST['slick_avatars_action'] == 'upload' ) {
+	
 		echo '<div class="wrap"><h2>';
 		_e('Your Avatar');
 		echo '</h2>';
 		
-		// Handling the upload of the original photo
 		// Confirm that the nonce is valid
-		if ( !isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'slick_avatars') ) {
-			xprofile_ap_die('Security error.');
-		}
+		if ( !isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'slick_avatars') )
+			xprofile_ap_die( 'Security error.' );
 		
-		// Check upload details exist
-		if ( !isset($_FILES['file']) ) {
-			xprofile_ap_die('Your upload failed, please try again.');
-		}
-
-		// Confirm size
-		if ( $_FILES['file']['size'] > XPROFILE_MAX_FILE_SIZE ) {
+		if ( !xprofile_check_avatar_upload($_FILES) )
+			xprofile_ap_die( 'Your upload failed, please try again.' );
+		
+		if ( !xprofile_check_avatar_size($_FILES) )
 			xprofile_ap_die( 'The file you uploaded is too big. Please upload a file under ' . size_format(1024 * xprofile_MAX_FILE_SIZE) );
-		}
-		
-		// Confirm type
-		if ( ( strlen($_FILES['file']['type']) && !preg_match('/(jpe?g|gif|png)$/', $_FILES['file']['type'] ) ) &&
-			!preg_match( '/(jpe?g|gif|png)$/', $_FILES['file']['name'] ) ) {
-			xprofile_ap_die('Please upload only JPG, GIF or PNG photos.');
-		}
+
+		if ( !xprofile_check_avatar_type($_FILES) )
+			xprofile_ap_die( 'Please upload only JPG, GIF or PNG photos.' );
 		
 		// "Handle" upload into temporary location
-		$res = wp_handle_upload( $_FILES['file'], array('action'=>'slick_avatars') );
-		if ( !in_array('error', array_keys($res) ) ) {
-			$original = $res['file'];
-		} else {
-			$str = stripos( $res['error'], 'MAX_FILE_SIZE' ) ? 'Your file is too big, please use a smaller photo.' : $res['error'];
-			xprofile_ap_die( 'Upload Failed! ' . $str );
-		}
+		if ( !$original = xprofile_handle_avatar_upload($_FILES) )
+			xprofile_ap_die( 'Upload Failed! Your image is likely too big.' );
 		
-		$size = getimagesize($original);
-
-		if ( $size[0] < XPROFILE_AVATAR_V2_W || $size[1] < XPROFILE_CROPPING_CANVAS_MAX ) {
+		if ( !xprofile_check_avatar_dimensions($original) )
 			xprofile_ap_die( 'The image you upload must have dimensions of ' . XPROFILE_CROPPING_CANVAS_MAX . " x " . XPROFILE_CROPPING_CANVAS_MAX . " pixels or larger." );
-		}
 		
 		// Resize down to something we can display on the page
-		$canvas = wp_create_thumbnail( $original, XPROFILE_CROPPING_CANVAS_MAX );
-		if ( xprofile_thumb_error($canvas) ) {
+		if ( !$canvas = xprofile_resize_avatar($original) )
 			xprofile_ap_die('Could not create thumbnail.');
-		}
-		$canvas = str_replace( '//', '/', $canvas );
-		$size = getimagesize($canvas);
 		
-		// Get the URL to access the uploaded file
-		$src = str_replace( array(ABSPATH), array(get_option('home') . '/'), $canvas );
+		// Render the cropper UI
+		xprofile_render_avatar_cropper($original, $canvas);
 		
-		// Load cropper details
-		
-		// V1 UI
-		echo '<form action="' . get_option('home') .'/wp-admin/admin.php?page=bp-xprofile.php" method="post">';
-		echo '<input type="hidden" name="slick_avatars_action" value="crop" />';
-		echo '<input type="hidden" name="action" value="slick_avatars" />';
-		echo '<input type="hidden" name="nonce" value="' . wp_create_nonce('slick_avatars') . '" />';
-		echo '<input type="hidden" name="orig" value="' . $original . '" />';
-		echo '<input type="hidden" name="canvas" value="' . $canvas . '" />';
-		
-		echo '<div id="avatar_v1">';
-		echo '<h3>' . __('Main Avatar') . '</h3>';
-		echo '<p>' . __('Please select the area of your photo you would like to use for your avatar') . '(' . XPROFILE_AVATAR_V1_W . 'px x ' . XPROFILE_AVATAR_V1_H . 'px).</p>';
-		
-		// Canvas
-		echo '<div id="crop-v1" class="crop-img"><img src="' . $src . '" ' . $size[3] . ' border="0" alt="Select the area to crop" id="crop-v1-img" /></div>';
-		
-		// Preview
-		echo '<p><strong>' . __('Crop Preview') . '</strong></p>';
-		echo '<div id="crop-preview-v1" class="crop-preview"></div>';
-		
-		// Hidden form fields
-		echo '<input type="hidden" id="v1_x1" name="v1_x1" value="" />';
-		echo '<input type="hidden" id="v1_y1" name="v1_y1" value="" />';
-		echo '<input type="hidden" id="v1_x2" name="v1_x2" value="" />';
-		echo '<input type="hidden" id="v1_y2" name="v1_y2" value="" />';
-		echo '<input type="hidden" id="v1_w" name="v1_w" value="" />';
-		echo '<input type="hidden" id="v1_h" name="v1_h" value="" />';
-		
-		// V2 UI (optional)
-		if (XPROFILE_AVATAR_V2_W !== false && XPROFILE_AVATAR_V2_H !== false) {
-			// Continue button (v1 => v2)
-			echo '<p class="submit"><input type="button" name="avatar_continue" value="' . __('Crop &amp; Continue') . '" onclick="cropAndContinue();" /></p>';
-			echo '</div>';
-			
-			echo '<div id="avatar_v2">';
-			echo '<h3>' . __('Alternate Avatar') . '</h3>';
-			echo '<p>' . __('Please select the area of your photo you would like to use for an alternate version') . '(' . XPROFILE_AVATAR_V2_W . 'px x ' . XPROFILE_AVATAR_V2_H . 'px).</p>';
-			
-			// Canvas
-			echo '<div id="crop-v2" class="crop-img"><img src="' . $src . '" ' . $size[3] . ' border="0" alt="Select the area to crop" id="crop-v2-img" /></div>';
-
-			// Preview
-			echo '<p><strong>' . __('Crop Preview') . '</strong></p>';
-			echo '<div id="crop-preview-v2" class="crop-preview"></div>';
-
-			// Hidden form fields
-			echo '<input type="hidden" id="v2_x1" name="v2_x1" value="" />';
-			echo '<input type="hidden" id="v2_y1" name="v2_y1" value="" />';
-			echo '<input type="hidden" id="v2_x2"name="v2_x2" value="" />';
-			echo '<input type="hidden" id="v2_y2"name="v2_y2" value="" />';
-			echo '<input type="hidden" id="v2_w" name="v2_w" value="" />';
-			echo '<input type="hidden" id="v2_h" name="v2_h" value="" />';
-			
-			// Final button to process everything
-			echo '<p class="submit"><input type="submit" name="submit" value="' . __('Crop &amp; Save') . '" /></p>';
-			echo '</div>';
-		} else {
-			// Close out v1 DIV
-			echo '</div>';
-			
-			// Final button to process everything
-			echo '<p class="submit"><input type="submit" name="submit" value="' . __('Crop &amp; Save') . '" /></p>';
-		}
-		?>
-		<script type="text/javascript" charset="utf-8">
-			jQuery(document).ready(function(){
-				v1Cropper();
-			});
-		</script>
-		<?php
 		echo '</div>';
 		
 	} else if ( isset($_POST['slick_avatars_action']) && $_POST['slick_avatars_action'] == 'crop' ) {
 		// Crop, save, store
-		if ( is_file($_POST['orig']) && is_readable($_POST['orig']) && is_file($_POST['canvas']) && is_readable($_POST['canvas']) ) {
-			$source = $_POST['orig'];
-			$size = getimagesize($source);
-			$canvas = $_POST['canvas'];
-			$dims = getimagesize($canvas);
 		
-			// Figure out multiplier for scaling
-			$multi = $size[0] / $dims[0];
-			
-			// Perform v1 crop
-			$v1_dest = dirname($source) . '/' . preg_replace('!(\.[^.]+)?$!', '-avatar1' . '$1', basename($source), 1);
-			$v1_out = wp_crop_image( $source, ($_POST['v1_x1'] * $multi), ($_POST['v1_y1'] * $multi), ($_POST['v1_w'] * $multi), ($_POST['v1_h'] * $multi), XPROFILE_AVATAR_V1_W, XPROFILE_AVATAR_V1_H, false, $v1_dest );
-	
-			// Perform v2 crop
-			if ( XPROFILE_AVATAR_V2_W !== false && XPROFILE_AVATAR_V2_H !== false ) {
-				$v2_dest = dirname($source) . '/' . preg_replace('!(\.[^.]+)?$!', '-avatar2' . '$1', basename($source), 1);
-				$v2_out = wp_crop_image( $source, ($_POST['v2_x1'] * $multi), ($_POST['v2_y1'] * $multi), ($_POST['v2_w'] * $multi), ($_POST['v2_h'] * $multi), XPROFILE_AVATAR_V2_W, XPROFILE_AVATAR_V2_H, false, $v2_dest );
-			}
+		if ( !xprofile_check_crop( $_POST['orig'], $_POST['canvas'] ) )
+			xprofile_ap_die('Error when cropping, please go back and try again');
 		
-			// Clean up canvas and original images used during cropping
-			foreach ( array( str_replace( '..', '', $source ), str_replace( '..', '', $_POST['canvas']) ) as $f ) {
-				@unlink($f);
-			}
-			
-			$dir = $source;
-			
-			do {
-				$dir = dirname($dir);
-				@rmdir($dir); // will fail on non-empty directories
-			} while ( substr_count($dir, '/') >= 2 && stristr($dir, ABSPATH) );
-			
-			// Store details to the DB and we're done
-			echo '<div class="wrap"><h2>';
-			_e('Your Avatar');
-			echo '</h2>';
-			
-			echo '<p>' . __('Your new avatar was successfully created!') . '</p>';
-			
-			$old = get_usermeta( get_current_user_id(), 'xprofile_avatar_v1_path' );
-			$v1_href = str_replace( array(ABSPATH), array( get_option('home') . '/' ), $v1_out );
-			update_usermeta( get_current_user_id(), 'xprofile_avatar_v1', $v1_href );
-			update_usermeta( get_current_user_id(), 'xprofile_avatar_v1_path', $v1_out );
-			@unlink($old); // Removing old avatar
-			echo '<span class="crop-img">' . xprofile_get_avatar( get_current_user_id(), 1 ) . '</span>';
-			
-			if ( XPROFILE_AVATAR_V2_W !== false && XPROFILE_AVATAR_V2_H !== false ) {
-				$old = get_usermeta( get_current_user_id(), 'xprofile_avatar_v2_path' );
-				$v2_href = str_replace( array(ABSPATH), array(get_option('home') . '/'), $v2_out );
-				update_usermeta( get_current_user_id(), 'xprofile_avatar_v2', $v2_href );
-				update_usermeta( get_current_user_id(), 'xprofile_avatar_v2_path', $v2_out );
-				@unlink($old); // Removing old avatar
-				echo '<span class="crop-img">' . xprofile_get_avatar( get_current_user_id(), 2 ) . '</span>';
-			}
-			
-			echo '</div>';
+		if ( !$result = xprofile_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_x2'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_x2'], $_POST['v2_w'], $_POST['v2_h'] ) )
+			xprofile_ap_die('Error when saving avatars, please go back and try again.');
+		
+		// Store details to the DB and we're done
+		echo '<div class="wrap"><h2>';
+		_e('Your Avatar');
+		echo '</h2>';
+		
+		echo '<p>' . __('Your new avatar was successfully created!') . '</p>';
+		
+		xprofile_avatar_save($result);
+		
+		echo '<span class="crop-img">' . xprofile_get_avatar( get_current_user_id(), 1 ) . '</span>';
+		
+		if ( XPROFILE_AVATAR_V2_W !== false && XPROFILE_AVATAR_V2_H !== false ) {
+			echo '<span class="crop-img">' . xprofile_get_avatar( get_current_user_id(), 2 ) . '</span>';
 		}
+		
+		echo '</div>';
 	} else if ( isset($_GET['slick_avatars_action']) && $_GET['slick_avatars_action'] == 'delete' ) {
 		// Delete an avatar
-		$old_v1 = get_usermeta( get_current_user_id(), 'xprofile_avatar_v1_path' );
-		$old_v2 = get_usermeta( get_current_user_id(), 'xprofile_avatar_v2_path' );
-		
-		delete_usermeta( get_current_user_id(), 'xprofile_avatar_v1_path' );
-		delete_usermeta( get_current_user_id(), 'xprofile_avatar_v2_path' );
-		
-		delete_usermeta( get_current_user_id(), 'xprofile_avatar_v1' );
-		delete_usermeta( get_current_user_id(), 'xprofile_avatar_v2' );
-		
-		// Remove the actual images
-		@unlink($old_v1);
-		@unlink($old_v2);
+
+		xprofile_delete_avatar();
 		
 		unset($_GET['slick_avatars_action']);
 		$message = __('Avatar successfully removed.');
@@ -310,6 +172,216 @@ function xprofile_avatar_admin($message = null) {
 	}
 	?>
 	<?php
+}
+
+function xprofile_check_avatar_upload($file) {
+	if ( !isset($file['file']) )
+		return false;
+	
+	return true;
+}
+
+function xprofile_check_avatar_size($file) {
+	if ( $file['file']['size'] > XPROFILE_MAX_FILE_SIZE )
+		return false;
+	
+	return true;
+}
+
+function xprofile_check_avatar_type($file) {
+	if ( ( strlen($file['file']['type']) && !preg_match('/(jpe?g|gif|png)$/', $file['file']['type'] ) ) && !preg_match( '/(jpe?g|gif|png)$/', $file['file']['name'] ) )
+		return false;
+	
+	return true;
+}
+
+function xprofile_handle_avatar_upload($file) {
+	$res = wp_handle_upload( $file['file'], array('action'=>'slick_avatars') );
+	if ( !in_array('error', array_keys($res) ) ) {
+		return $res['file'];
+	} else {
+		return false;
+	}
+}
+
+function xprofile_check_avatar_dimensions($file) {
+	$size = getimagesize($file);
+	
+	if ( $size[0] < XPROFILE_AVATAR_V2_W || $size[1] < XPROFILE_CROPPING_CANVAS_MAX )
+		return false;
+	
+	return true;
+}
+
+function xprofile_resize_avatar($file) {
+	$canvas = wp_create_thumbnail( $file, XPROFILE_CROPPING_CANVAS_MAX );
+	
+	if ( xprofile_thumb_error($canvas) )
+		return false;
+	
+	return $canvas = str_replace( '//', '/', $canvas );
+}
+
+function xprofile_render_avatar_cropper($original, $new) {
+	$size = getimagesize($new);
+	
+	// Get the URL to access the uploaded file
+	$src = str_replace( array(ABSPATH), array(get_option('home') . '/'), $new );
+	
+	// Load cropper details
+	
+	// V1 UI
+	echo '<form action="' . get_option('home') .'/wp-admin/admin.php?page=bp-xprofile.php" method="post">';
+	echo '<input type="hidden" name="slick_avatars_action" value="crop" />';
+	echo '<input type="hidden" name="action" value="slick_avatars" />';
+	echo '<input type="hidden" name="nonce" value="' . wp_create_nonce('slick_avatars') . '" />';
+	echo '<input type="hidden" name="orig" value="' . $original . '" />';
+	echo '<input type="hidden" name="canvas" value="' . $new . '" />';
+	
+	echo '<div id="avatar_v1">';
+	echo '<h3>' . __('Main Avatar') . '</h3>';
+	echo '<p>' . __('Please select the area of your photo you would like to use for your avatar') . '(' . XPROFILE_AVATAR_V1_W . 'px x ' . XPROFILE_AVATAR_V1_H . 'px).</p>';
+	
+	// Canvas
+	echo '<div id="crop-v1" class="crop-img"><img src="' . $src . '" ' . $size[3] . ' border="0" alt="Select the area to crop" id="crop-v1-img" /></div>';
+	
+	// Preview
+	echo '<p><strong>' . __('Crop Preview') . '</strong></p>';
+	echo '<div id="crop-preview-v1" class="crop-preview"></div>';
+	
+	// Hidden form fields
+	echo '<input type="hidden" id="v1_x1" name="v1_x1" value="" />';
+	echo '<input type="hidden" id="v1_y1" name="v1_y1" value="" />';
+	echo '<input type="hidden" id="v1_x2" name="v1_x2" value="" />';
+	echo '<input type="hidden" id="v1_y2" name="v1_y2" value="" />';
+	echo '<input type="hidden" id="v1_w" name="v1_w" value="" />';
+	echo '<input type="hidden" id="v1_h" name="v1_h" value="" />';
+	
+	// V2 UI (optional)
+	if (XPROFILE_AVATAR_V2_W !== false && XPROFILE_AVATAR_V2_H !== false) {
+		// Continue button (v1 => v2)
+		echo '<p class="submit"><input type="button" name="avatar_continue" value="' . __('Crop &amp; Continue') . '" onclick="cropAndContinue();" /></p>';
+		echo '</div>';
+		
+		echo '<div id="avatar_v2">';
+		echo '<h3>' . __('Alternate Avatar') . '</h3>';
+		echo '<p>' . __('Please select the area of your photo you would like to use for an alternate version') . '(' . XPROFILE_AVATAR_V2_W . 'px x ' . XPROFILE_AVATAR_V2_H . 'px).</p>';
+		
+		// Canvas
+		echo '<div id="crop-v2" class="crop-img"><img src="' . $src . '" ' . $size[3] . ' border="0" alt="Select the area to crop" id="crop-v2-img" /></div>';
+
+		// Preview
+		echo '<p><strong>' . __('Crop Preview') . '</strong></p>';
+		echo '<div id="crop-preview-v2" class="crop-preview"></div>';
+
+		// Hidden form fields
+		echo '<input type="hidden" id="v2_x1" name="v2_x1" value="" />';
+		echo '<input type="hidden" id="v2_y1" name="v2_y1" value="" />';
+		echo '<input type="hidden" id="v2_x2"name="v2_x2" value="" />';
+		echo '<input type="hidden" id="v2_y2"name="v2_y2" value="" />';
+		echo '<input type="hidden" id="v2_w" name="v2_w" value="" />';
+		echo '<input type="hidden" id="v2_h" name="v2_h" value="" />';
+		
+		// Final button to process everything
+		echo '<p class="submit"><input type="submit" name="submit" value="' . __('Crop &amp; Save') . '" /></p>';
+		echo '</div>';
+	} else {
+		// Close out v1 DIV
+		echo '</div>';
+		
+		// Final button to process everything
+		echo '<p class="submit"><input type="submit" name="submit" value="' . __('Crop &amp; Save') . '" /></p>';
+	}
+	?>
+	<script type="text/javascript" charset="utf-8">
+		jQuery(document).ready(function(){
+			v1Cropper();
+		});
+	</script>
+	<?php
+}
+
+function xprofile_check_crop( $original, $canvas ) {
+	if ( is_file($original) && is_readable($original) && is_file($canvas) && is_readable($canvas) )
+		return true;
+	
+	return false;
+}
+
+function xprofile_avatar_cropstore( $source, $canvas, $v1_x1, $v1_x2, $v1_w, $v1_h, $v2_x1, $v2_x2, $v2_w, $v2_h ) {
+	$size = getimagesize($source);
+	$dims = getimagesize($canvas);
+
+	// Figure out multiplier for scaling
+	$multi = $size[0] / $dims[0];
+	
+	// Perform v1 crop
+	$v1_dest = dirname($source) . '/' . preg_replace('!(\.[^.]+)?$!', '-avatar1' . '$1', basename($source), 1);
+	$v1_out = wp_crop_image( $source, ($v1_x1 * $multi), ($v1_y1 * $multi), ($v1_w * $multi), ($v1_h * $multi), XPROFILE_AVATAR_V1_W, XPROFILE_AVATAR_V1_H, false, $v1_dest );
+
+	// Perform v2 crop
+	if ( XPROFILE_AVATAR_V2_W !== false && XPROFILE_AVATAR_V2_H !== false ) {
+		$v2_dest = dirname($source) . '/' . preg_replace('!(\.[^.]+)?$!', '-avatar2' . '$1', basename($source), 1);
+		$v2_out = wp_crop_image( $source, ($v2_x1 * $multi), ($v2_y1 * $multi), ($v2_w * $multi), ($v2_h * $multi), XPROFILE_AVATAR_V2_W, XPROFILE_AVATAR_V2_H, false, $v2_dest );
+	}
+
+	// Clean up canvas and original images used during cropping
+	foreach ( array( str_replace( '..', '', $source ), str_replace( '..', '', $canvas) ) as $f ) {
+		@unlink($f);
+	}
+	
+	$dir = $source;
+	
+	do {
+		$dir = dirname($dir);
+		@rmdir($dir); // will fail on non-empty directories
+	} while ( substr_count($dir, '/') >= 2 && stristr($dir, ABSPATH) );
+	
+	return array('v1_out' => $v1_out, 'v2_out' => $v2_out);
+}
+
+function xprofile_avatar_save( $vars ) {
+	$old = get_usermeta( get_current_user_id(), 'xprofile_avatar_v1_path' );
+	$v1_href = str_replace( array(ABSPATH), array( get_option('home') . '/' ), $vars['v1_out'] );
+	update_usermeta( get_current_user_id(), 'xprofile_avatar_v1', $v1_href );
+	update_usermeta( get_current_user_id(), 'xprofile_avatar_v1_path', $vars['v1_out'] );
+	@unlink($old); // Removing old avatar
+	
+	if ( XPROFILE_AVATAR_V2_W !== false && XPROFILE_AVATAR_V2_H !== false ) {
+		$old = get_usermeta( get_current_user_id(), 'xprofile_avatar_v2_path' );
+		$v2_href = str_replace( array(ABSPATH), array(get_option('home') . '/'), $vars['v2_out'] );
+		update_usermeta( get_current_user_id(), 'xprofile_avatar_v2', $v2_href );
+		update_usermeta( get_current_user_id(), 'xprofile_avatar_v2_path', $vars['v2_out'] );
+		@unlink($old); // Removing old avatar
+	}
+}
+
+function xprofile_render_avatar_upload_form($action) {
+?>
+	<form method="post" action="<?php echo $action ?>" enctype="multipart/form-data">
+		<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo XPROFILE_MAX_FILE_SIZE; ?>" />
+		<input type="hidden" name="slick_avatars_action" value="upload" />
+		<input type="hidden" name="action" value="slick_avatars" />
+		<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('slick_avatars'); ?>" />
+		<input type="file" name="file" id="file" />
+		<input type="submit" name="upload" id="upload" value="Upload Photo" />
+	</form>
+<?php
+}
+
+function xprofile_delete_avatar() {
+	$old_v1 = get_usermeta( get_current_user_id(), 'xprofile_avatar_v1_path' );
+	$old_v2 = get_usermeta( get_current_user_id(), 'xprofile_avatar_v2_path' );
+	
+	delete_usermeta( get_current_user_id(), 'xprofile_avatar_v1_path' );
+	delete_usermeta( get_current_user_id(), 'xprofile_avatar_v2_path' );
+	
+	delete_usermeta( get_current_user_id(), 'xprofile_avatar_v1' );
+	delete_usermeta( get_current_user_id(), 'xprofile_avatar_v2' );
+	
+	// Remove the actual images
+	@unlink($old_v1);
+	@unlink($old_v2);
 }
 
 function xprofile_ap_die( $msg ) {
