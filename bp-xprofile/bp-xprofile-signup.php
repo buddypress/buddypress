@@ -197,7 +197,6 @@ function xprofile_validate_signup_fields() {
 					}
 					
 					if ( !$canvas = xprofile_resize_avatar($original) ) {
-						xprofile_ap_die('Could not create thumbnail.');
 						$avatar_error = true;
 						$avatar_error_msg = __('Could not create thumbnail, try another photo.');
 					}
