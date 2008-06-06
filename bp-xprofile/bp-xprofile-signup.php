@@ -7,7 +7,7 @@
  **************************************************************************/
 
 function xprofile_add_signup_fields() {
-	global $bp_xprofile_callback;
+	global $bp_xprofile_callback, $avatar_error, $avatar_error_msg;
 
 	/* Fetch the fields needed for the signup form */
 	$fields = BP_XProfile_Field::get_signup_fields();
@@ -50,6 +50,42 @@ function xprofile_add_signup_fields() {
 	<input type="hidden" name="xprofile_ids" value="<?php echo $field_ids; ?>" />	
 	<?php
 	}
+	
+	?>
+	<table border="0" id="extraFields" width="100%">
+		<tbody>
+			<tr>
+				<td>
+				<div id="breaker">
+					<h3><?php _e('Profile Picture (Avatar)'); ?></h3>
+					<p><?php _e('You can upload an image from your computer to use as an avatar. This avatar will appear on your profile page.'); ?></p>
+				</div>
+				</td>
+			</tr>
+			<?php
+			if ( $avatar_error ) {
+				$css_class = ' class="error"';
+			} else {
+				$css_class = '';
+			}
+			?>
+			
+			<tr<?php echo $css_class; ?>
+				<td>
+					<?php if ( $css_class != '' ) { echo '<div class="error">' . $avatar_error_msg . '</div>'; } ?>
+					
+					<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo get_site_option('fileupload_maxk') * 1024; ?>" />
+					<input type="hidden" name="slick_avatars_action" value="upload" />
+					<input type="hidden" name="action" value="slick_avatars" />
+					<input type="file" name="file" id="file" />
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<script type="text/javascript">
+		document.getElementById('setupform').setAttribute('enctype', 'multipart/form-data');
+	</script>
+	<?php
 }
 add_action( 'signup_extra_fields', 'xprofile_add_signup_fields' );
 
@@ -64,7 +100,7 @@ add_action( 'signup_extra_fields', 'xprofile_add_signup_fields' );
  **************************************************************************/
 
 function xprofile_validate_signup_fields() {
-	global $bp_xprofile_callback;
+	global $bp_xprofile_callback, $avatar_error, $avatar_error_msg;
 	
 	if ( isset( $_POST['validate_custom'] ) ) {
 		// form has been submitted, let's validate the form
@@ -85,7 +121,7 @@ function xprofile_validate_signup_fields() {
 				$_POST['blog_title'] = $_POST['field_1'] . " " . $_POST['field_2']; // The core name fields.
 
 				$counter = 0;
-				$hasErrors = false;
+				$has_errors = false;
 				$prev_field_id = -1;
 				
 				// Validate all sign up fields
@@ -108,8 +144,8 @@ function xprofile_validate_signup_fields() {
  							}
 						}
 						
-						if (is_array($value)) {
-							$value = join(",",$value);
+						if ( is_array($value) ) {
+							$value = serialize( $value );
 						}
 						
 						$bp_xprofile_callback[$counter] = array(
@@ -120,7 +156,7 @@ function xprofile_validate_signup_fields() {
 						
 						if ( $field->is_required && $value == '' ) {
 							$bp_xprofile_callback[$counter]["error_msg"] = $field->name . ' cannot be left blank.';
-							$hasErrors = true;
+							$has_errors = true;
 						}
 						
 						$counter++;
@@ -128,26 +164,63 @@ function xprofile_validate_signup_fields() {
 					
 					$prev_field_id = $field->id;
 				}
-								
+				
+				// validate the avatar upload if there is one.
+				$avatar_error = false;
+				
+				if ( xprofile_check_avatar_upload($_FILES) ) {
+					if ( !xprofile_check_avatar_upload($_FILES) ) {
+						$avatar_error = true;
+						$avatar_error_msg = __('Your avatar upload failed, please try again.');
+					}
+
+					if ( !xprofile_check_avatar_size($_FILES) ) {
+						$avatar_error = true;
+						$avatar_size = size_format(1024 * XPROFILE_MAX_FILE_SIZE);
+						$avatar_error_msg = sprintf( __('The file you uploaded is too big. Please upload a file under %d'), $avatar_size);
+					}
+
+					if ( !xprofile_check_avatar_type($_FILES) ) {
+						$avatar_error = true;
+						$avatar_error_msg = __('Please upload only JPG, GIF or PNG photos.');		
+					}
+
+					// "Handle" upload into temporary location
+					if ( !$original = xprofile_handle_avatar_upload($_FILES) ) {
+						$avatar_error = true;
+						$avatar_error_msg = __('Upload Failed! Your photo dimensions are likely too big.');						
+					}
+
+					if ( !xprofile_check_avatar_dimensions($original) ) {
+						$avatar_error = true;
+						$avatar_error_msg = sprintf( __('The image you upload must have dimensions of %d x %d pixels or larger.'), XPROFILE_CROPPING_CANVAS_MAX, XPROFILE_CROPPING_CANVAS_MAX );
+					}
+					
+					if ( !$canvas = xprofile_resize_avatar($original) ) {
+						xprofile_ap_die('Could not create thumbnail.');
+						$avatar_error = true;
+						$avatar_error_msg = __('Could not create thumbnail, try another photo.');
+					}
+					
+				}
+				
 				$result = wpmu_validate_user_signup( $_POST['user_name'], $_POST['user_email'] );
 				extract($result);
-	
 				
-				if ( $errors->get_error_code() || $hasErrors ) {
+				if ( $errors->get_error_code() || $has_errors || $avatar_error ) {
 					signup_user($user_name, $user_email, $errors);
 					
 					echo '</div>';
 					get_footer();
 					die;
 				}
-
-				if ( !$has_errors ) {
+				
+				if ( !$hasErrors ) {
 					$result = wpmu_validate_blog_signup( $_POST['blog_id'], $_POST['blog_title'] );
 					extract($result);
 
 					if ( $errors->get_error_code() ) {
 						signup_user( $user_name, $user_email, $errors );
-						//signup_blog($user_name, $user_email, $blog_id, $blog_title, $errors);
 						return;
 					}
 
@@ -159,6 +232,9 @@ function xprofile_validate_signup_fields() {
 					}
 					
 					$meta['xprofile_field_ids'] = $_POST['xprofile_ids'];
+					$meta['avatar_image_resized'] = $canvas;
+					$meta['avatar_image_original'] = $original;
+					
 					$meta = apply_filters( "add_signup_meta", $meta );
 
 					wpmu_signup_blog( $domain, $path, $blog_title, $user_name, $user_email, $meta );
@@ -179,7 +255,6 @@ function xprofile_validate_signup_fields() {
 				_e( "Registration has been disabled." );
 			}
 		}
-
 	}	
 }
 
@@ -243,10 +318,97 @@ function xprofile_on_activate( $blog_id = null, $user_id = null ) {
 		$field->save();
 		delete_blog_option( $blog_id, 'field_' . $field_ids[$i] );
 	}
-	delete_blog_option( $blog_id, 'xprofile_field_ids' );	
+	delete_blog_option( $blog_id, 'xprofile_field_ids' );
+	
+	// move and set the avatar if one has been provided.
+	$resized = get_blog_option( $blog_id, 'avatar_image_resized' );
+	$original = get_blog_option( $blog_id, 'avatar_image_original' );	
+	
+	if ( $resized && $original ) {
+		$upload_dir = bp_upload_dir(NULL, $user_id);
+		
+		if ( $upload_dir ) {
+			$resized_strip_path = explode( '/', $resized );
+			$original_strip_path = explode( '/', $original );
+
+			$resized_filename = $resized_strip_path[count($resized_strip_path) - 1];
+			$original_filename = $original_strip_path[count($original_strip_path) - 1];
+
+			$resized_new = $upload_dir['path'] . '/' . $resized_filename;
+			$original_new = $upload_dir['path'] . '/' . $original_filename;
+
+			@copy( $resized, $resized_new );
+			@copy( $original, $original_new );
+
+			@unlink($resized);
+			@unlink($original);
+
+			$resized = $resized_new;
+			$original = $original_new;
+		}
+		
+		// Render the cropper UI
+		$action = get_option('home') . '/wp-activate.php?key=' . $_GET['key'] . '&amp;cropped=true';
+		xprofile_render_avatar_cropper($original, $resized, $action);	
+		
+		//$result = xprofile_avatar_cropstore( $image, $image, $v1_x, $v1_y, XPROFILE_AVATAR_V1_W, XPROFILE_AVATAR_V1_H, $v2_x, $v2_y, XPROFILE_AVATAR_V2_W, XPROFILE_AVATAR_V2_H, true );
+		//xprofile_avatar_save( $result, $user_id, $upload_dir );
+	}
+	
+}
+add_action( 'wpmu_new_blog', 'xprofile_on_activate' );
+
+
+function xprofile_catch_activate_crop() {
+	if ( isset( $_GET['cropped'] ) ) {
+		// The user has cropped their avatar after activating account
+		
+		// Confirm that the nonce is valid
+		if ( !isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'slick_avatars') )
+			header('Location:' . get_option('home'));
+		
+		$user_id = xprofile_get_user_by_key($_GET['key']);
+		
+		if ( $user_id && isset($_POST['orig']) && isset($_POST['canvas']) ) {
+			xprofile_check_crop( $_POST['orig'], $_POST['canvas'] );
+			$result = xprofile_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'] );
+			xprofile_avatar_save($result, $user_id);
+		}
+		
+		header('Location:' . get_option('home'));
+	}
+}
+add_action( 'activate_header', 'xprofile_catch_activate_crop' );
+
+
+function xprofile_get_user_by_key($key) {
+	global $wpdb;
+	
+	$users_table = $wpdb->base_prefix . 'users';
+	$signup_table = $wpdb->base_prefix . 'signups';
+	
+	$sql = $wpdb->prepare("SELECT ID FROM $users_table u, $signup_table s WHERE u.user_login = s.user_login AND s.activation_key = %s", $key);
+
+	$user_id = $wpdb->get_var($sql);
+
+	return $user_id;
 }
 
-add_action( 'wpmu_new_blog', 'xprofile_on_activate' );
+
+function xprofile_add_jquery() {
+	if ( $_SERVER['SCRIPT_NAME'] == '/wp-activate.php' ) {
+		echo '<script type="text/javascript" src="' . get_option('home') . '/wp-includes/js/prototype.js"></script>';
+		echo '<script type="text/javascript" src="' . get_option('home') . '/wp-includes/js/scriptaculous/scriptaculous.js"></script>';
+		echo '<script type="text/javascript" src="' . get_option('home') . '/wp-includes/js/scriptaculous/dragdrop.js"></script>';
+		echo '<script type="text/javascript" src="' . get_option('home') . '/wp-includes/js/crop/cropper.js"></script>';
+		echo '<script type="text/javascript" src="' . get_option('home') . '/wp-includes/js/jquery/jquery.js"></script>';
+	}
+	
+	xprofile_add_cropper_js();
+}
+add_action( 'wp_head', 'xprofile_add_jquery' );
+
+
 
 
 ?>

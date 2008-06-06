@@ -131,17 +131,22 @@ function xprofile_avatar_admin($message = null) {
 			xprofile_ap_die('Could not create thumbnail.');
 		
 		// Render the cropper UI
-		xprofile_render_avatar_cropper($original, $canvas);
+		$action = get_option('home') .'/wp-admin/admin.php?page=bp-xprofile.php';
+		xprofile_render_avatar_cropper($original, $canvas, $action);
 		
 		echo '</div>';
 		
 	} else if ( isset($_POST['slick_avatars_action']) && $_POST['slick_avatars_action'] == 'crop' ) {
 		// Crop, save, store
 		
+		// Confirm that the nonce is valid
+		if ( !isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'slick_avatars') )
+			xprofile_ap_die( 'Security error.' );
+		
 		if ( !xprofile_check_crop( $_POST['orig'], $_POST['canvas'] ) )
 			xprofile_ap_die('Error when cropping, please go back and try again');
 		
-		if ( !$result = xprofile_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_x2'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_x2'], $_POST['v2_w'], $_POST['v2_h'] ) )
+		if ( !$result = xprofile_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'] ) )
 			xprofile_ap_die('Error when saving avatars, please go back and try again.');
 		
 		// Store details to the DB and we're done
@@ -175,7 +180,7 @@ function xprofile_avatar_admin($message = null) {
 }
 
 function xprofile_check_avatar_upload($file) {
-	if ( !isset($file['file']) )
+	if ( !isset($file['file']) || $file['file']['size'] == 0 )
 		return false;
 	
 	return true;
@@ -213,8 +218,8 @@ function xprofile_check_avatar_dimensions($file) {
 	return true;
 }
 
-function xprofile_resize_avatar($file) {
-	$canvas = wp_create_thumbnail( $file, XPROFILE_CROPPING_CANVAS_MAX );
+function xprofile_resize_avatar($file, $size = XPROFILE_CROPPING_CANVAS_MAX) {
+	$canvas = wp_create_thumbnail( $file, $size);
 	
 	if ( xprofile_thumb_error($canvas) )
 		return false;
@@ -222,7 +227,7 @@ function xprofile_resize_avatar($file) {
 	return $canvas = str_replace( '//', '/', $canvas );
 }
 
-function xprofile_render_avatar_cropper($original, $new) {
+function xprofile_render_avatar_cropper($original, $new, $action) {
 	$size = getimagesize($new);
 	
 	// Get the URL to access the uploaded file
@@ -231,7 +236,7 @@ function xprofile_render_avatar_cropper($original, $new) {
 	// Load cropper details
 	
 	// V1 UI
-	echo '<form action="' . get_option('home') .'/wp-admin/admin.php?page=bp-xprofile.php" method="post">';
+	echo '<form action="' . $action . '" method="post">';
 	echo '<input type="hidden" name="slick_avatars_action" value="crop" />';
 	echo '<input type="hidden" name="action" value="slick_avatars" />';
 	echo '<input type="hidden" name="nonce" value="' . wp_create_nonce('slick_avatars') . '" />';
@@ -308,7 +313,7 @@ function xprofile_check_crop( $original, $canvas ) {
 	return false;
 }
 
-function xprofile_avatar_cropstore( $source, $canvas, $v1_x1, $v1_x2, $v1_w, $v1_h, $v2_x1, $v2_x2, $v2_w, $v2_h ) {
+function xprofile_avatar_cropstore( $source, $canvas, $v1_x1, $v1_y1, $v1_w, $v1_h, $v2_x1, $v2_y1, $v2_w, $v2_h, $from_signup = false ) {
 	$size = getimagesize($source);
 	$dims = getimagesize($canvas);
 
@@ -317,12 +322,20 @@ function xprofile_avatar_cropstore( $source, $canvas, $v1_x1, $v1_x2, $v1_w, $v1
 	
 	// Perform v1 crop
 	$v1_dest = dirname($source) . '/' . preg_replace('!(\.[^.]+)?$!', '-avatar1' . '$1', basename($source), 1);
-	$v1_out = wp_crop_image( $source, ($v1_x1 * $multi), ($v1_y1 * $multi), ($v1_w * $multi), ($v1_h * $multi), XPROFILE_AVATAR_V1_W, XPROFILE_AVATAR_V1_H, false, $v1_dest );
-
+	
+	if ( $from_signup )
+		$v1_out = wp_crop_image( $source, $v1_x1, $v1_y1, $v1_w, $v1_h, XPROFILE_AVATAR_V1_W, XPROFILE_AVATAR_V1_H, false, $v1_dest );
+	else
+		$v1_out = wp_crop_image( $source, ($v1_x1 * $multi), ($v1_y1 * $multi), ($v1_w * $multi), ($v1_h * $multi), XPROFILE_AVATAR_V1_W, XPROFILE_AVATAR_V1_H, false, $v1_dest );
+		
 	// Perform v2 crop
 	if ( XPROFILE_AVATAR_V2_W !== false && XPROFILE_AVATAR_V2_H !== false ) {
 		$v2_dest = dirname($source) . '/' . preg_replace('!(\.[^.]+)?$!', '-avatar2' . '$1', basename($source), 1);
-		$v2_out = wp_crop_image( $source, ($v2_x1 * $multi), ($v2_y1 * $multi), ($v2_w * $multi), ($v2_h * $multi), XPROFILE_AVATAR_V2_W, XPROFILE_AVATAR_V2_H, false, $v2_dest );
+
+		if ( $from_signup )
+			$v2_out = wp_crop_image( $source, $v2_x1, $v2_y1, $v2_w, $v2_h, XPROFILE_AVATAR_V2_W, XPROFILE_AVATAR_V2_H, false, $v2_dest );
+		else
+			$v2_out = wp_crop_image( $source, ($v2_x1 * $multi), ($v2_y1 * $multi), ($v2_w * $multi), ($v2_h * $multi), XPROFILE_AVATAR_V2_W, XPROFILE_AVATAR_V2_H, false, $v2_dest );
 	}
 
 	// Clean up canvas and original images used during cropping
@@ -331,7 +344,7 @@ function xprofile_avatar_cropstore( $source, $canvas, $v1_x1, $v1_x2, $v1_w, $v1
 	}
 	
 	$dir = $source;
-	
+
 	do {
 		$dir = dirname($dir);
 		@rmdir($dir); // will fail on non-empty directories
@@ -340,18 +353,21 @@ function xprofile_avatar_cropstore( $source, $canvas, $v1_x1, $v1_x2, $v1_w, $v1
 	return array('v1_out' => $v1_out, 'v2_out' => $v2_out);
 }
 
-function xprofile_avatar_save( $vars ) {
-	$old = get_usermeta( get_current_user_id(), 'xprofile_avatar_v1_path' );
+function xprofile_avatar_save( $vars, $user_id = false, $upload_dir = false ) {
+	if ( !$user_id )
+		$user_id = get_current_user_id();
+	
+	$old = get_usermeta( $user_id, 'xprofile_avatar_v1_path' );
 	$v1_href = str_replace( array(ABSPATH), array( get_option('home') . '/' ), $vars['v1_out'] );
-	update_usermeta( get_current_user_id(), 'xprofile_avatar_v1', $v1_href );
-	update_usermeta( get_current_user_id(), 'xprofile_avatar_v1_path', $vars['v1_out'] );
+	update_usermeta( $user_id, 'xprofile_avatar_v1', $v1_href );
+	update_usermeta( $user_id, 'xprofile_avatar_v1_path', $vars['v1_out'] );
 	@unlink($old); // Removing old avatar
 	
 	if ( XPROFILE_AVATAR_V2_W !== false && XPROFILE_AVATAR_V2_H !== false ) {
-		$old = get_usermeta( get_current_user_id(), 'xprofile_avatar_v2_path' );
+		$old = get_usermeta( $user_id, 'xprofile_avatar_v2_path' );
 		$v2_href = str_replace( array(ABSPATH), array(get_option('home') . '/'), $vars['v2_out'] );
-		update_usermeta( get_current_user_id(), 'xprofile_avatar_v2', $v2_href );
-		update_usermeta( get_current_user_id(), 'xprofile_avatar_v2_path', $vars['v2_out'] );
+		update_usermeta( $user_id, 'xprofile_avatar_v2', $v2_href );
+		update_usermeta( $user_id, 'xprofile_avatar_v2_path', $vars['v2_out'] );
 		@unlink($old); // Removing old avatar
 	}
 }

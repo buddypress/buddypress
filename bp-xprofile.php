@@ -125,6 +125,7 @@ add_action( 'admin_menu', 'xprofile_add_menu' );
 function xprofile_setup() {
 	add_action( 'admin_head', 'xprofile_add_css' );
 	add_action( 'admin_head', 'xprofile_add_js' );
+	add_action( 'admin_head', 'xprofile_add_cropper_js' );
 }
 add_action( 'admin_menu', 'xprofile_setup' );
 

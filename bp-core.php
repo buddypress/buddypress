@@ -479,4 +479,52 @@ function bp_is_serialized( $data ) {
    return false;
 }
 
+function bp_upload_dir( $time = NULL, $user_id ) {
+	// copied from wordpress, need to be able to create a users
+	// upload dir on activation, before 'upload_path' is
+	// placed into options table.
+	// Fix for this would be adding a hook for 'activate_footer'
+	// in wp-activate.php
+
+	$siteurl = get_option( 'siteurl' );
+	$upload_path = 'wp-content/blogs.dir/' . $user_id . '/files';
+	if ( trim($upload_path) === '' )
+		$upload_path = 'wp-content/uploads';
+	$dir = $upload_path;
+	
+	// $dir is absolute, $path is (maybe) relative to ABSPATH
+	$dir = path_join( ABSPATH, $upload_path );
+	$path = str_replace( ABSPATH, '', trim( $upload_path ) );
+
+	if ( !$url = get_option( 'upload_url_path' ) )
+		$url = trailingslashit( $siteurl ) . $path;
+
+	if ( defined('UPLOADS') ) {
+		$url = trailingslashit( $siteurl ) . UPLOADS;
+	}
+
+	$subdir = '';
+	if ( get_option( 'uploads_use_yearmonth_folders' ) ) {
+		// Generate the yearly and monthly dirs
+		if ( !$time )
+			$time = current_time( 'mysql' );
+		$y = substr( $time, 0, 4 );
+		$m = substr( $time, 5, 2 );
+		$subdir = "/$y/$m";
+	}
+
+	$dir .= $subdir;
+	$url .= $subdir;
+	
+	// Make sure we have an uploads dir
+	if ( ! wp_mkdir_p( $dir ) ) {
+		$message = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), $dir );
+		return array( 'error' => $message );
+	}
+
+	$uploads = array( 'path' => $dir, 'url' => $url, 'subdir' => $subdir, 'error' => false );
+	return apply_filters( 'upload_dir', $uploads );
+}
+
+
 ?>
