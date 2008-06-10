@@ -231,7 +231,8 @@ function xprofile_render_avatar_cropper($original, $new, $action) {
 	$size = getimagesize($new);
 	
 	// Get the URL to access the uploaded file
-	$src = str_replace( array(ABSPATH), array(get_option('home') . '/'), $new );
+	$url = get_usermeta( get_current_user_id(), 'source_domain' );
+	$src = str_replace( array(ABSPATH), array($url . '/'), $new );
 	
 	// Load cropper details
 	
@@ -358,14 +359,14 @@ function xprofile_avatar_save( $vars, $user_id = false, $upload_dir = false ) {
 		$user_id = get_current_user_id();
 	
 	$old = get_usermeta( $user_id, 'xprofile_avatar_v1_path' );
-	$v1_href = str_replace( array(ABSPATH), array( get_option('home') . '/' ), $vars['v1_out'] );
+	$v1_href = str_replace( array(ABSPATH), array( get_usermeta( get_current_user_id(), 'source_domain' ) . '/' ), $vars['v1_out'] );
 	update_usermeta( $user_id, 'xprofile_avatar_v1', $v1_href );
 	update_usermeta( $user_id, 'xprofile_avatar_v1_path', $vars['v1_out'] );
 	@unlink($old); // Removing old avatar
 	
 	if ( XPROFILE_AVATAR_V2_W !== false && XPROFILE_AVATAR_V2_H !== false ) {
 		$old = get_usermeta( $user_id, 'xprofile_avatar_v2_path' );
-		$v2_href = str_replace( array(ABSPATH), array(get_option('home') . '/'), $vars['v2_out'] );
+		$v2_href = str_replace( array(ABSPATH), array( get_usermeta( get_current_user_id(), 'source_domain' ) . '/' ), $vars['v2_out'] );
 		update_usermeta( $user_id, 'xprofile_avatar_v2', $v2_href );
 		update_usermeta( $user_id, 'xprofile_avatar_v2_path', $vars['v2_out'] );
 		@unlink($old); // Removing old avatar

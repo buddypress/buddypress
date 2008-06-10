@@ -324,7 +324,7 @@ function xprofile_on_activate( $blog_id = null, $user_id = null ) {
 	$original = get_blog_option( $blog_id, 'avatar_image_original' );	
 	
 	if ( $resized && $original ) {
-		$upload_dir = bp_upload_dir(NULL, $user_id);
+		$upload_dir = bp_upload_dir(NULL, $blog_id);
 		
 		if ( $upload_dir ) {
 			$resized_strip_path = explode( '/', $resized );
@@ -347,8 +347,8 @@ function xprofile_on_activate( $blog_id = null, $user_id = null ) {
 		}
 		
 		// Render the cropper UI
-		$action = get_option('home') . '/wp-activate.php?key=' . $_GET['key'] . '&amp;cropped=true';
-		xprofile_render_avatar_cropper($original, $resized, $action);	
+		$action = 'http://' . get_usermeta( $user_id, 'source_domain' ) . '/wp-activate.php?key=' . $_GET['key'] . '&amp;cropped=true';
+		xprofile_render_avatar_cropper($original, $resized, $action);
 		
 		//$result = xprofile_avatar_cropstore( $image, $image, $v1_x, $v1_y, XPROFILE_AVATAR_V1_W, XPROFILE_AVATAR_V1_H, $v2_x, $v2_y, XPROFILE_AVATAR_V2_W, XPROFILE_AVATAR_V2_H, true );
 		//xprofile_avatar_save( $result, $user_id, $upload_dir );
@@ -373,8 +373,13 @@ function xprofile_catch_activate_crop() {
 			$result = xprofile_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'] );
 			xprofile_avatar_save($result, $user_id);
 		}
-		
-		header('Location:' . get_option('home'));
+
+		if ( VHOST == 'yes' ) {
+			header('Location: http://' . $_SERVER['HTTP_HOST']);
+		} else {
+			$path = explode( '/', $_SERVER['REQUEST_URI'] );
+			header( 'Location:' . $path[0] . $path[1] . $path[2] );
+		}
 	}
 }
 add_action( 'activate_header', 'xprofile_catch_activate_crop' );

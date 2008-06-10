@@ -479,7 +479,7 @@ function bp_is_serialized( $data ) {
    return false;
 }
 
-function bp_upload_dir( $time = NULL, $user_id ) {
+function bp_upload_dir( $time = NULL, $blog_id ) {
 	// copied from wordpress, need to be able to create a users
 	// upload dir on activation, before 'upload_path' is
 	// placed into options table.
@@ -487,7 +487,7 @@ function bp_upload_dir( $time = NULL, $user_id ) {
 	// in wp-activate.php
 
 	$siteurl = get_option( 'siteurl' );
-	$upload_path = 'wp-content/blogs.dir/' . $user_id . '/files';
+	$upload_path = 'wp-content/blogs.dir/' . $blog_id . '/files';
 	if ( trim($upload_path) === '' )
 		$upload_path = 'wp-content/uploads';
 	$dir = $upload_path;
