@@ -2,9 +2,20 @@
 
 define ( 'BP_MESSAGES_VERSION', '0.2' );
 
-$bp_messages_table_name = $wpdb->base_prefix . 'bp_messages';
+$bp_messages_table_name 		= $wpdb->base_prefix . 'bp_messages';
 $bp_messages_table_name_deleted = $bp_messages_table_name . '_deleted';
-$bp_messages_image_base = get_option('siteurl') . '/wp-content/mu-plugins/bp-messages/images';
+$bp_messages_image_base 		= get_option('siteurl') . '/wp-content/mu-plugins/bp-messages/images';
+$bp_messages_slug 				= 'messages';
+
+$bp_nav[2] = array(
+	'id'	=> $bp_messages_slug,
+	'name'  => 'Messages', 
+	'link'  => get_usermeta( get_current_user_id(), 'source_domain' ) . '/' . $bp_messages_slug
+);
+
+if ( $bp_uri[$bp_uri_count] == "messages" && $current_blog->blog_id > 1 ) {
+	bp_catch_uri( "messages" );
+}
 
 include_once( 'bp-messages/bp-messages-classes.php' );
 include_once( 'bp-messages/bp-messages-ajax.php' );

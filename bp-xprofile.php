@@ -6,8 +6,18 @@ $bp_xprofile_table_name        = $wpdb->base_prefix . 'bp_xprofile';
 $bp_xprofile_table_name_groups = $wpdb->base_prefix . 'bp_xprofile_groups';
 $bp_xprofile_table_name_fields = $wpdb->base_prefix . 'bp_xprofile_fields';
 $bp_xprofile_table_name_data   = $wpdb->base_prefix . 'bp_xprofile_data';
+$bp_xprofile_image_base 	   = get_option('siteurl') . '/wp-content/mu-plugins/bp-xprofile/images';
+$bp_xprofile_slug 			   = 'profile';
 
-$image_base = get_option('siteurl') . '/wp-content/mu-plugins/bp-xprofile/images';
+$bp_nav[0] = array(
+	'id'	=> $bp_xprofile_slug,
+	'name'  => 'Profile', 
+	'link'  => get_usermeta( get_current_user_id(), 'source_domain' ) . '/' . $bp_xprofile_slug
+);
+
+if ( $bp_uri[$bp_uri_count] == "profile" && $current_blog->blog_id > 1 ) {
+	bp_catch_uri( "profile" );
+}
 
 require_once( 'bp-xprofile/bp-xprofile-classes.php' );
 require_once( 'bp-xprofile/bp-xprofile-admin.php' );
@@ -119,13 +129,16 @@ add_action( 'admin_menu', 'xprofile_add_menu' );
 /**************************************************************************
  xprofile_setup()
  
- Setup CSS, JS and other things needed for the xprofile component.
+ Setup CSS, JS and other things needed for the admin area of the xprofile component.
 **************************************************************************/
 
 function xprofile_setup() {
+
+	
 	add_action( 'admin_head', 'xprofile_add_css' );
 	add_action( 'admin_head', 'xprofile_add_js' );
 	add_action( 'admin_head', 'xprofile_add_cropper_js' );
+	
 }
 add_action( 'admin_menu', 'xprofile_setup' );
 
@@ -281,7 +294,6 @@ function xprofile_edit() {
 	</div>
 <?php
 }
-
 
 /**************************************************************************
  xprofile_add_settings()

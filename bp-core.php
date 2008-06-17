@@ -1,9 +1,16 @@
 <?php
 
+$bp_nav[1] = array(
+	'id'	=> 'blog',
+	'name'  => 'Blog', 
+	'link'  => get_usermeta( get_current_user_id(), 'source_domain' ) . '/blog'
+);
+
+require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-catchuri.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-thirdlevel.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-settingstab.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-pagination.php' );
-
+require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-templatetags.php' );
 
 if ( !get_site_option('bp_disable_blog_tab') ) {
 	include_once(ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-blogtab.php');

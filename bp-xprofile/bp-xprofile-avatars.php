@@ -9,8 +9,8 @@ require_once( ABSPATH . '/wp-admin/includes/file.php' );
 
 define( 'XPROFILE_AVATAR_V1_W', 50 );
 define( 'XPROFILE_AVATAR_V1_H', 50 );
-define( 'XPROFILE_AVATAR_V2_W', 220 );
-define( 'XPROFILE_AVATAR_V2_H', 220 );
+define( 'XPROFILE_AVATAR_V2_W', 150 );
+define( 'XPROFILE_AVATAR_V2_H', 150 );
 define( 'XPROFILE_CROPPING_CANVAS_MAX', 450 );
 define( 'XPROFILE_MAX_FILE_SIZE', get_site_option('fileupload_maxk') * 1024 );
 define( 'XPROFILE_DEFAULT_AVATAR', get_option('siteurl') . '/wp-content/mu-plugins/bp-xprofile/images/none.gif' );

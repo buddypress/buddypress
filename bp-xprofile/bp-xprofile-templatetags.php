@@ -131,64 +131,68 @@ Class BP_XProfile_Template {
 	}
 }
 
-function has_profile() { 
+// Begin template tags:
+
+function bp_has_profile() { 
 	global $profile_template;
 	return $profile_template->has_groups();
 }
 
-function profile_groups() { 
+function bp_profile_groups() { 
 	global $profile_template;
 	return $profile_template->profile_groups();
 }
 
-function the_profile_group() {
+function bp_the_profile_group() {
 	global $profile_template;
 	return $profile_template->the_profile_group();
 }
 
-function group_has_fields() {
+function bp_group_has_fields() {
 	global $profile_template;
 	return $profile_template->has_fields();
 }
 
-function field_has_data() {
+function bp_field_has_data() {
 	global $profile_template;
 	return $profile_template->field_has_data;
 }
-function field_has_public_data() {
+
+function bp_field_has_public_data() {
 	global $profile_template;
-	if ($profile_template->field_has_data && $profile_template->is_public== 1) {
+	
+	if ( $profile_template->field_has_data && $profile_template->is_public == 1 )
 		return true;
-	}
+	
 	return false;
 }
 
-function the_profile_group_name() {
+function bp_the_profile_group_name() {
 	global $group;
 	echo $group->name;
 }
 
-function the_profile_group_description() {
+function bp_the_profile_group_description() {
 	global $group;
 	echo $group->description;
 }
 
-function profile_fields() {
+function bp_profile_fields() {
 	global $profile_template;
 	return $profile_template->profile_fields();
 }
 
-function the_profile_field() {
+function bp_the_profile_field() {
 	global $profile_template;
 	return $profile_template->the_profile_field();
 }
 
-function the_profile_field_name() {
+function bp_the_profile_field_name() {
 	global $field;
 	echo $field->name;
 }
 
-function the_profile_field_value() {
+function bp_the_profile_field_value() {
 	global $field;
 	
 	if ( bp_is_serialized($field->data->value) ) {
@@ -204,15 +208,39 @@ function the_profile_field_value() {
 	echo $field->data->value;
 }
 
-function the_profile_picture() {
+function bp_the_profile_picture() {
 	global $coreuser_id;
 	echo xprofile_get_avatar($coreuser_id, 2);
 }
 
-function the_profile_picture_thumbnail() {
+function bp_the_profile_picture_thumbnail() {
 	global $coreuser_id;
 	echo xprofile_get_avatar($coreuser_id, 1);
 }
+
+function bp_user_fullname($user_id = false) {
+	global $coreuser_id;
+	
+	if ( !$user_id )
+		$user_id = $coreuser_id;
+	
+	$data = bp_get_field_data( array( 'First Name', 'Last Name' ) );
+	echo  $data['First Name'] . ' ' . $data['Last Name']; 
+}
+
+function bp_get_field_data( $field, $user_id = null ) {
+	return BP_XProfile_ProfileData::get_value_byfieldname( $field, $user_id );
+}
+
+function bp_user_link() {
+	echo '';
+}
+
+function bp_user_status() {
+	// TODO: dummy function now, until status component is developed.
+	echo '[ TODO: Status Updates ]';
+}
+
 
 
 

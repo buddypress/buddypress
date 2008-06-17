@@ -420,7 +420,7 @@ Class BP_XProfile_Field {
 				
 				$html .= '<option value="">--------</option>';	
 				for ( $k = 0; $k < count($options); $k++ ) {
-					$option_value = BP_XProfile_ProfileData::get_value($options[$k]->parent_id);
+					$option_value = BP_XProfile_ProfileData::get_value_byid($options[$k]->parent_id);
 
 					if ( $option_value == $options[$k]->name || $value == $options[$k]->name || $options[$k]->is_default_option ) {
 						$selected = ' selected="selected"';
@@ -443,7 +443,7 @@ Class BP_XProfile_Field {
 				$html .= '<label class="signup-label" for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
 				$html .= $this->message . '<select class="multi-select" multiple="multiple" name="field_' . $this->id . '[]" id="field_' . $this->id . '">';
 					for ( $k = 0; $k < count($options); $k++ ) {
-						$option_value = BP_XProfile_ProfileData::get_value($options[$k]->parent_id);
+						$option_value = BP_XProfile_ProfileData::get_value_byid($options[$k]->parent_id);
 						$values = explode( ',', $option_value );
 						
 						if ( $option_value == $options[$k]->name || $value == $options[$k]->name || in_array( $options[$k]->name, $values ) || ( $options[$k]->is_default_option ) ) {
@@ -465,7 +465,7 @@ Class BP_XProfile_Field {
 				$html .= '<div class="radio signup-field" id="field_' . $this->id . '"><span class="signup-label">' . $asterisk . $this->name . ':</span>' . $this->message;
 				for ( $k = 0; $k < count($options); $k++ ) {
 					
-					$option_value = BP_XProfile_ProfileData::get_value($options[$k]->parent_id);
+					$option_value = BP_XProfile_ProfileData::get_value_byid($options[$k]->parent_id);
 				
 					if ( $option_value == $options[$k]->name || $value == $options[$k]->name || $options[$k]->is_default_option ) {
 						$selected = ' checked="checked"';
@@ -492,7 +492,7 @@ Class BP_XProfile_Field {
 				
 				$html .= '<div class="checkbox signup-field" id="field_' . $this->id . '"><span class="signup-label">' . $asterisk . $this->name . ':</span>' . $this->message;
 				
-				$option_values = BP_XProfile_ProfileData::get_value($options[0]->parent_id);
+				$option_values = BP_XProfile_ProfileData::get_value_byid($options[0]->parent_id);
 				$option_values = unserialize($option_values);
 				
 				for ( $k = 0; $k < count($options); $k++ ) {	
@@ -1075,16 +1075,65 @@ Class BP_XProfile_ProfileData {
 	
 	/** Static Functions **/
 	
-	function get_value( $field_id ) {
-		global $wpdb, $userdata, $bp_xprofile_table_name_data;
+	function get_value_byid( $field_id, $user_id = null ) {
+		global $wpdb, $coreuser_id, $bp_xprofile_table_name_data;
 
-		$sql = $wpdb->prepare("SELECT * FROM $bp_xprofile_table_name_data WHERE field_id = %d AND user_id = %d", $field_id, $userdata->ID);
+		if ( !$user_id )
+			$user_id = $coreuser_id;
+
+		$sql = $wpdb->prepare("SELECT * FROM $bp_xprofile_table_name_data WHERE field_id = %d AND user_id = %d", $field_id, $user_id );
 
 		if ( $profileData = $wpdb->get_row($sql) ) {
 			return $profileData->value;
 		} else {
 			return false;
 		}
+	}
+	
+	function get_value_byfieldname( $fields, $user_id = null ) {
+		global $coreuser_id, $wpdb, $bp_xprofile_table_name_fields, $bp_xprofile_table_name_data;
+
+		if ( !$fields )
+			return false;
+
+		if ( !$user_id )
+			$user_id = $coreuser_id;
+
+		if ( is_array($fields) ) {
+			for ( $i = 0; $i < count($fields); $i++ ) {
+				if ( $i == 0 )
+					$field_sql .= $wpdb->prepare( "AND ( f.name = %s ", $fields[$i] );
+				else 
+					$field_sql .= $wpdb->prepare( "OR f.name = %s ", $fields[$i] );
+			}
+			
+			$field_sql .= ')';
+		} else {
+			$field_sql .= $wpdb->prepare( "AND f.name = %s", $fields );
+		}
+
+		$sql = $wpdb->prepare( "SELECT d.value, f.name FROM $bp_xprofile_table_name_data d, $bp_xprofile_table_name_fields f WHERE d.field_id = f.id AND d.user_id = %d AND f.parent_id = 0 $field_sql", $user_id );
+	
+		if ( !$values = $wpdb->get_results($sql) )
+			return false;
+		
+		$new_values = array();
+		
+		if ( is_array($fields) ) {
+			for ( $i = 0; $i < count($values); $i++ ) {
+				for ( $j = 0; $j < count($fields); $j++ ) {
+					if ( $values[$i]->name == $fields[$j] ) {
+						$new_values[$fields[$j]] = $values[$i]->value;
+					} else if ( !array_key_exists( $fields[$j], $new_values ) ) {
+						$new_values[$fields[$j]] = NULL;
+					}
+				}
+			}
+		} else {
+			$new_values = $values[0]->value;
+		}
+		
+		return $new_values;
 	}
 	
 	function delete_for_field( $field_id ) {
