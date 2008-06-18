@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_XPROFILE_VERSION', '0.2.3' );
+define ( 'BP_XPROFILE_VERSION', '0.3.3' );
 
 $bp_xprofile_table_name        = $wpdb->base_prefix . 'bp_xprofile';
 $bp_xprofile_table_name_groups = $wpdb->base_prefix . 'bp_xprofile_groups';
@@ -9,23 +9,12 @@ $bp_xprofile_table_name_data   = $wpdb->base_prefix . 'bp_xprofile_data';
 $bp_xprofile_image_base 	   = get_option('siteurl') . '/wp-content/mu-plugins/bp-xprofile/images';
 $bp_xprofile_slug 			   = 'profile';
 
-$bp_nav[0] = array(
-	'id'	=> $bp_xprofile_slug,
-	'name'  => 'Profile', 
-	'link'  => get_usermeta( get_current_user_id(), 'source_domain' ) . '/' . $bp_xprofile_slug
-);
-
-if ( $bp_uri[$bp_uri_count] == "profile" && $current_blog->blog_id > 1 ) {
-	bp_catch_uri( "profile" );
-}
-
 require_once( 'bp-xprofile/bp-xprofile-classes.php' );
 require_once( 'bp-xprofile/bp-xprofile-admin.php' );
 require_once( 'bp-xprofile/bp-xprofile-signup.php' );
 require_once( 'bp-xprofile/bp-xprofile-templatetags.php' );
 require_once( 'bp-xprofile/bp-xprofile-avatars.php' );
 require_once( 'bp-xprofile/bp-xprofile-cssjs.php' );
-
 
 /**************************************************************************
  xprofile_install()
@@ -91,13 +80,13 @@ function xprofile_install( $version ) {
 }
 
 /**************************************************************************
- xprofile_add_menu()
+ xprofile_add_admin_menu()
  
  Creates the administration interface menus and checks to see if the DB
  tables are set up.
  **************************************************************************/
 
-function xprofile_add_menu() {
+function xprofile_add_admin_menu() {
 	global $wpdb, $bp_xprofile_table_name, $bp_xprofile, $groups, $userdata;
 	
 	if ( $wpdb->blogid == $userdata->primary_blog ) {
@@ -123,24 +112,73 @@ function xprofile_add_menu() {
 	if ( ( $wpdb->get_var("show tables like '%" . $bp_xprofile_table_name . "%'") == false ) || ( get_site_option('bp-xprofile-version') < BP_XPROFILE_VERSION )  )
 		xprofile_install(BP_XPROFILE_VERSION);
 }
-add_action( 'admin_menu', 'xprofile_add_menu' );
+add_action( 'admin_menu', 'xprofile_add_admin_menu' );
 
 
 /**************************************************************************
- xprofile_setup()
+ xprofile_admin_setup()
  
  Setup CSS, JS and other things needed for the admin area of the xprofile component.
 **************************************************************************/
 
-function xprofile_setup() {
-
-	
+function xprofile_admin_setup() {
 	add_action( 'admin_head', 'xprofile_add_css' );
 	add_action( 'admin_head', 'xprofile_add_js' );
 	add_action( 'admin_head', 'xprofile_add_cropper_js' );
-	
 }
-add_action( 'admin_menu', 'xprofile_setup' );
+add_action( 'admin_menu', 'xprofile_admin_setup' );
+
+/**************************************************************************
+ xprofile_setup_nav()
+ 
+ Set up front end navigation.
+ **************************************************************************/
+
+function xprofile_setup_nav() {
+	global $source_domain, $bp_nav, $bp_options_nav, $bp_xprofile_slug;
+
+	$bp_nav[0] = array(
+		'id'	=> $bp_xprofile_slug,
+		'name'  => 'Profile', 
+		'link'  => $source_domain . $bp_xprofile_slug
+	);
+
+	$bp_options_nav[$bp_xprofile_slug] = array(
+		''		   => array( 
+			'name' => __('Publically Viewable'),
+			'link' => $source_domain . $bp_xprofile_slug . '/' ),
+		'edit'	  		=> array(
+			'name' => __('Edit Profile'),
+			'link' => $source_domain . $bp_xprofile_slug . '/edit' ),
+		'change-avatar' => array( 
+			'name' => __('Change Avatar'),
+			'link' => $source_domain . $bp_xprofile_slug . '/change-avatar' )
+	);
+}
+add_action( 'wp', 'xprofile_setup_nav' );
+
+
+/**************************************************************************
+ xprofile_catch_action()
+ 
+ Catch actions via pretty urls.
+ **************************************************************************/
+
+function xprofile_catch_action() {
+	global $bp_xprofile_slug, $current_component, $current_blog, $current_action;
+
+	if ( $current_component == $bp_xprofile_slug && $current_blog->blog_id > 1 ) {
+		if ( !$current_action )
+			bp_catch_uri( 'profile/index' );
+
+		if ( $current_action == 'edit' && !$action_variables )
+			bp_catch_uri( 'profile/edit' );
+
+		if ( $current_action == 'change-avatar' )
+			bp_catch_uri( 'profile/change-avatar' );
+	}
+}
+add_action( 'wp', 'xprofile_catch_action' );
 
 
 /**************************************************************************
@@ -172,17 +210,21 @@ add_action( 'wp_head', 'xprofile_profile_template' );
  handling the save action.
  **************************************************************************/
 
-function xprofile_edit() {
-	global $wpdb, $bp_xprofile_table_name_groups, $userdata;
-		
-	// Dynamic tabs mean that we have to assign the same function to all
-	// profile group tabs but we still need to distinguish what information 
-	// to display for the current tab. Thankfully the page get var holds the key.
-	$group_name = explode( "_", $_GET['page'] );
-	$group_name = $group_name[1]; // xprofile_XXXX <-- This X bit.
-	$group_id   = $wpdb->get_var( $wpdb->prepare("SELECT id FROM $bp_xprofile_table_name_groups WHERE name = %s", $group_name) );
-
+function xprofile_edit( $group_id = null, $action = null ) {
+	global $wpdb, $bp_xprofile_table_name_groups, $userdata, $source_domain;
+	
+	if ( !$group_id ) {	
+		// Dynamic tabs mean that we have to assign the same function to all
+		// profile group tabs but we still need to distinguish what information 
+		// to display for the current tab. Thankfully the page get var holds the key.
+		$group_name = explode( "_", $_GET['page'] );
+		$group_name = $group_name[1]; // xprofile_XXXX <-- This X bit.
+		$group_id   = $wpdb->get_var( $wpdb->prepare("SELECT id FROM $bp_xprofile_table_name_groups WHERE name = %s", $group_name) );
+	}
 	$group = new BP_XProfile_Group($group_id);
+	
+	if ( !$action )
+		$action = $source_domain . 'wp-admin/admin.php?page=xprofile_' . $group->name . '&amp;mode=save';
 ?>
 	<div class="wrap">
 		
@@ -197,9 +239,9 @@ function xprofile_edit() {
 					$field = new BP_XProfile_Field( $group->fields[$j]->id );	
 					$field_ids[] = $group->fields[$j]->id;
 					
-					if ( isset($_GET['mode']) && $_GET['mode'] == "save" ) {
+					if ( isset($_GET['mode']) && $_GET['mode'] == 'save' ) {
 						$post_field_string = ( $group->fields[$j]->type == 'datebox' ) ? '_day' : null;
-						$posted_fields = explode( ",", $_POST['field_ids'] );
+						$posted_fields = explode( ',', $_POST['field_ids'] );
 						$current_field = $_POST['field_' . $posted_fields[$j] . $post_field_string];
 						
 						if ( ( $field->is_required && !isset($current_field) ) ||
@@ -267,8 +309,11 @@ function xprofile_edit() {
 					$message = __('Changes saved.');
 				}
 			}
-			else {
-				$list_html .= '<p>' . __('This group is currently empty. Please contact the site admin if this is incorrect.') . '</p>';
+			else { ?>
+				<div id="message" class="error fade">
+					<p><?php _e('That group does not exist.'); ?></p>
+				</div>
+			<?php
 			}
 
 		?>
@@ -282,8 +327,11 @@ function xprofile_edit() {
 			</div>
 		<?php } ?>
 
-		<p><form action="admin.php?page=<?php echo $_GET['page'] ?>&amp;mode=save" method="post">
-		<?php $field_ids = implode( ",", $field_ids ); ?>
+		<p><form action="<?php echo $action ?>" method="post">
+		<?php 
+			if ( $field_ids )
+				$field_ids = implode( ",", $field_ids );
+		?>
 		<input type="hidden" name="field_ids" id="field_ids" value="<?php echo $field_ids; ?>" />
 		
 		<?php echo $list_html; ?>

@@ -1,11 +1,5 @@
 <?php
 
-$bp_nav[1] = array(
-	'id'	=> 'blog',
-	'name'  => 'Blog', 
-	'link'  => get_usermeta( get_current_user_id(), 'source_domain' ) . '/blog'
-);
-
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-catchuri.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-thirdlevel.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-settingstab.php' );
@@ -19,6 +13,19 @@ if ( !get_site_option('bp_disable_blog_tab') ) {
 if ( isset($_POST['submit']) && $_POST['save_admin_settings'] ) {
 	save_admin_settings();
 }
+
+function bpcore_setup() {
+	global $current_user, $source_domain, $bp_nav;
+	
+	$source_domain = 'http://' . get_usermeta( $current_user->ID, 'source_domain' ) . '/';
+	
+	$bp_nav[1] = array(
+		'id'	=> 'blog',
+		'name'  => 'Blog', 
+		'link'  => $source_domain . 'blog'
+	);
+}
+add_action( 'wp', 'bpcore_setup' );
 
 function start_buffer() {
 	ob_start();

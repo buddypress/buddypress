@@ -1,10 +1,10 @@
 <?php
 
 function bp_get_nav() {
-	global $bp_nav, $bp_uri, $bp_uri_count;
+	global $bp_nav, $current_component;
 	
 	for ( $i = 0; $i < count($bp_nav); $i++ ) {
-		if ( $bp_uri[$bp_uri_count] == $bp_nav[$i]['id'] ) {
+		if ( $current_component == $bp_nav[$i]['id'] ) {
 			$selected = ' class="current"';
 		} else {
 			$selected = '';
@@ -22,16 +22,26 @@ function bp_get_options_avatar() {
 	if ( $bp_options_avatar == '' )
 		return false;
 		
-	echo '<img src="" />';
+	echo 'no avatar function';
 }
 
 function bp_get_options_nav() {
-	global $bp_options_nav, $bp_uri, $bp_uri_count;
+	global $bp_options_nav, $current_component, $current_action;
 
-	if ( $bp_uri[$bp_uri_count] == 'blog' ) {
-		get_sidebar();
-	} else {
-		echo $bp_options_nav;
+	if ( count( $bp_options_nav[$current_component] ) < 1 )
+		return false;
+	
+	foreach ( $bp_options_nav[$current_component] as $slug => $values ) {
+		$title = $values['name'];
+		$link = $values['link'];
+
+		if ( $slug == $current_action ) {
+			$selected = ' class="current"';
+		} else {
+			$selected = '';
+		}
+		
+		echo '<li' . $selected . '><a href="' . $link . '">' . $title . '</a></li>';		
 	}
 }
 

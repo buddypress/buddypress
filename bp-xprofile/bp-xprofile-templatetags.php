@@ -208,14 +208,19 @@ function bp_the_profile_field_value() {
 	echo $field->data->value;
 }
 
-function bp_the_profile_picture() {
+function bp_the_avatar() {
 	global $coreuser_id;
-	echo xprofile_get_avatar($coreuser_id, 2);
+	echo xprofile_get_avatar( $coreuser_id, 2 );
 }
 
-function bp_the_profile_picture_thumbnail() {
+function bp_the_avatar_thumbnail() {
 	global $coreuser_id;
-	echo xprofile_get_avatar($coreuser_id, 1);
+	echo xprofile_get_avatar( $coreuser_id, 1 );
+}
+
+function bp_loggedinuser_avatar_thumbnail() {
+	global $current_user;
+	echo xprofile_get_avatar( $current_user->ID, 1 );
 }
 
 function bp_user_fullname($user_id = false) {
@@ -239,6 +244,53 @@ function bp_user_link() {
 function bp_user_status() {
 	// TODO: dummy function now, until status component is developed.
 	echo '[ TODO: Status Updates ]';
+}
+
+function bp_profile_group_tabs() {
+	global $source_domain, $bp_xprofile_slug, $group_name;
+	
+	$groups = BP_XProfile_Group::get_all();
+	
+	if ( $group_name == '' )
+		$group_name = bp_profile_group_name(false);
+	
+	for ( $i = 0; $i < count($groups); $i++ ) {
+		if ( $group_name == $groups[$i]->name ) {
+			$selected = ' class="current"';
+		} else {
+			$selected = '';
+		}
+
+		echo '<li' . $selected . '><a href="' . $source_domain . $bp_xprofile_slug . '/edit/group/' . $groups[$i]->id . '">' . $groups[$i]->name . '</a></li>';
+	}
+}
+
+function bp_profile_group_name( $echo = true ) {
+	global $action_variables;
+	
+	$group_id = $action_variables[1];
+	
+	if ( !is_numeric( $group_id ) )
+		$group_id = 1;
+	
+	$group = new BP_XProfile_Group($group_id);
+	
+	if ( $echo ) {
+		echo $group->name;
+	} else {
+		return $group->name;
+	}
+}
+
+function bp_edit_profile_form() {
+	global $action_variables, $source_domain, $bp_xprofile_slug;
+
+	$group_id = $action_variables[1];
+
+	if ( !is_numeric( $group_id ) )
+		$group_id = 1; // 'Basic' group.
+	
+	xprofile_edit( $group_id, $source_domain . $bp_xprofile_slug . '/edit/group/' . $group_id . '/?mode=save' );
 }
 
 

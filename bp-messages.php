@@ -7,22 +7,13 @@ $bp_messages_table_name_deleted = $bp_messages_table_name . '_deleted';
 $bp_messages_image_base 		= get_option('siteurl') . '/wp-content/mu-plugins/bp-messages/images';
 $bp_messages_slug 				= 'messages';
 
-$bp_nav[2] = array(
-	'id'	=> $bp_messages_slug,
-	'name'  => 'Messages', 
-	'link'  => get_usermeta( get_current_user_id(), 'source_domain' ) . '/' . $bp_messages_slug
-);
-
-if ( $bp_uri[$bp_uri_count] == "messages" && $current_blog->blog_id > 1 ) {
-	bp_catch_uri( "messages" );
-}
 
 include_once( 'bp-messages/bp-messages-classes.php' );
 include_once( 'bp-messages/bp-messages-ajax.php' );
 include_once( 'bp-messages/bp-messages-cssjs.php' );
+include_once( 'bp-messages/bp-messages-admin.php' );
 
 /*
-include_once( 'bp-messages/bp-messages-admin.php' );
 include_once( 'bp-messages/bp-messages-templatetags.php' );
 */
 
@@ -61,49 +52,51 @@ function messages_install( $version ) {
 	add_site_option('bp-messages-version', $version);
 }
 
-
 /**************************************************************************
- messages_add_menu()
+ messages_setup_nav()
  
- Creates the administration interface menus and checks to see if the DB
- tables are set up.
+ Set up front end navigation.
  **************************************************************************/
 
-function messages_add_menu() {	
-	global $wpdb, $bp_messages_table_name, $bp_messages, $userdata;
-
-	if ( $wpdb->blogid == $userdata->primary_blog ) {	
-		if ( $inbox_count = BP_Messages_Thread::get_inbox_count() ) {
-			$count_indicator = ' <span id="awaiting-mod" class="count-1"><span class="message-count">' . $inbox_count . '</span></span>';
-		}
-		
-		add_menu_page    ( __('Messages'), sprintf( __('Messages%s'), $count_indicator ), 1, basename(__FILE__), "messages_inbox" );
-		add_submenu_page ( basename(__FILE__), __('Messages &rsaquo; Inbox'), __('Inbox'), 1, basename(__FILE__), "messages_inbox" );	
-		add_submenu_page ( basename(__FILE__), __('Messages &rsaquo; Sent Messages'), __('Sent Messages'), 1, "messages_sentbox", "messages_sentbox" );	
-		add_submenu_page ( basename(__FILE__), __('Messages &rsaquo; Compose'), __('Compose'), 1, "messages_write_new", "messages_write_new" );
-
-		// Add the administration tab under the "Site Admin" tab for site administrators
-		add_submenu_page ( 'wpmu-admin.php', __('Messages'), __('Messages'), 1, basename(__FILE__), "messages_settings" );
-	}
+function messages_setup_nav() {
+	global $source_domain, $bp_nav, $bp_options_nav, $bp_messages_slug;
 	
-	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( ( $wpdb->get_var( "show tables like '%" . $bp_messages_table_name . "%'" ) == false ) || ( get_site_option('bp-messages-version') < BP_MESSAGES_VERSION ) )
-		messages_install(BP_MESSAGES_VERSION);
+	$bp_nav[2] = array(
+		'id'	=> $bp_messages_slug,
+		'name'  => 'Messages', 
+		'link'  => $source_domain . $bp_messages_slug
+	);
+
+	$bp_options_nav[$bp_messages_slug] = array(
+		''		   => array( 
+			'name' => __('Inbox'),
+			'link' => $source_domain . $bp_xprofile_slug . '/' ),
+		'sentbox'  => array(
+			'name' => __('Sent Messages'),
+			'link' => $source_domain . $bp_xprofile_slug . '/sentbox' ),
+		'compose' => array( 
+			'name' => __('Compose Message'),
+			'link' => $source_domain . $bp_xprofile_slug . '/compose' )
+	);
 }
-add_action( 'admin_menu', 'messages_add_menu' );
+add_action( 'wp_head', 'messages_setup_nav' );
 
 
 /**************************************************************************
- messages_setup()
+ messages_catch_action()
  
- Setup CSS, JS and other things needed for the messaging component.
+ Catch actions via pretty urls.
  **************************************************************************/
 
-function messages_setup() {		
-	add_action( 'admin_head', 'messages_add_css' );
-	add_action( 'admin_head', 'messages_add_js' );
+function messages_catch_action() {
+	global $current_component, $current_blog, $current_action;
+	
+	if ( $current_component == $bp_messages_slug && $current_blog->blog_id > 1 ) {
+		if ( !$current_action )
+			bp_catch_uri( $bp_messages_slug . '/index' );
+	}
 }
-add_action( 'admin_menu', 'messages_setup' );
+add_action( 'wp_head', 'messages_catch_action' );
 
 
 /**************************************************************************

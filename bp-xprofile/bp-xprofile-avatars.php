@@ -38,10 +38,6 @@ function xprofile_get_avatar( $user, $version = 1, $in_css = false ) {
 	}
 }
 
-function get_avatar( $user, $version = 1 ) {
-	echo xprofile_get_avatar( $user, $version );
-}
-
 // Load the cropper etc if we're on the right page
 if ( isset($_REQUEST['page']) && $_REQUEST['page'] == 'bp-xprofile.php' ) {
 	wp_enqueue_script('cropper');
@@ -359,14 +355,14 @@ function xprofile_avatar_save( $vars, $user_id = false, $upload_dir = false ) {
 		$user_id = get_current_user_id();
 	
 	$old = get_usermeta( $user_id, 'xprofile_avatar_v1_path' );
-	$v1_href = str_replace( array(ABSPATH), array( get_usermeta( get_current_user_id(), 'source_domain' ) . '/' ), $vars['v1_out'] );
+	$v1_href = str_replace( array(ABSPATH), array( 'http://' . get_usermeta( get_current_user_id(), 'source_domain' ) . '/' ), $vars['v1_out'] );
 	update_usermeta( $user_id, 'xprofile_avatar_v1', $v1_href );
 	update_usermeta( $user_id, 'xprofile_avatar_v1_path', $vars['v1_out'] );
 	@unlink($old); // Removing old avatar
 	
 	if ( XPROFILE_AVATAR_V2_W !== false && XPROFILE_AVATAR_V2_H !== false ) {
 		$old = get_usermeta( $user_id, 'xprofile_avatar_v2_path' );
-		$v2_href = str_replace( array(ABSPATH), array( get_usermeta( get_current_user_id(), 'source_domain' ) . '/' ), $vars['v2_out'] );
+		$v2_href = str_replace( array(ABSPATH), array( 'http://' . get_usermeta( get_current_user_id(), 'source_domain' ) . '/' ), $vars['v2_out'] );
 		update_usermeta( $user_id, 'xprofile_avatar_v2', $v2_href );
 		update_usermeta( $user_id, 'xprofile_avatar_v2_path', $vars['v2_out'] );
 		@unlink($old); // Removing old avatar
