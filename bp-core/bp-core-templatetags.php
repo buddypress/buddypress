@@ -1,10 +1,10 @@
 <?php
 
 function bp_get_nav() {
-	global $bp_nav, $current_component;
+	global $bp_nav, $current_component, $current_userid, $loggedin_userid;
 	
 	for ( $i = 0; $i < count($bp_nav); $i++ ) {
-		if ( $current_component == $bp_nav[$i]['id'] ) {
+		if ( $current_component == $bp_nav[$i]['id'] && $current_userid == $loggedin_userid ) {
 			$selected = ' class="current"';
 		} else {
 			$selected = '';

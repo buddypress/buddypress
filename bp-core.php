@@ -14,18 +14,67 @@ if ( isset($_POST['submit']) && $_POST['save_admin_settings'] ) {
 	save_admin_settings();
 }
 
-function bpcore_setup() {
-	global $current_user, $source_domain, $bp_nav;
+function bp_core_setup() {
+	global $current_user, $loggedin_domain, $loggedin_userid;
+	global $current_domain, $current_userid, $bp_nav;
 	
-	$source_domain = 'http://' . get_usermeta( $current_user->ID, 'source_domain' ) . '/';
+	$loggedin_domain = bp_core_get_loggedin_domain();
+	$loggedin_userid = $current_user->ID;
+	
+	$current_domain = bp_core_get_current_domain();
+	$current_userid = bp_core_get_current_userid();
 	
 	$bp_nav[1] = array(
 		'id'	=> 'blog',
 		'name'  => 'Blog', 
-		'link'  => $source_domain . 'blog'
+		'link'  => $loggedin_domain . 'blog'
 	);
 }
-add_action( 'wp', 'bpcore_setup' );
+add_action( 'wp', 'bp_core_setup' );
+
+function bp_core_get_loggedin_domain() {
+	global $current_user;
+	
+	if ( VHOST == 'yes' ) {
+		$loggedin_domain = 'http://' . get_usermeta( $current_user->ID, 'source_domain' ) . '/';
+	} else {
+		$loggedin_domain = 'http://' . get_usermeta( $current_user->ID, 'source_domain' ) . '/' . get_usermeta( $current_user->ID, 'user_login' ) . '/';
+	}
+
+	return $loggedin_domain;
+}
+
+function bp_core_get_current_domain() {
+	global $current_blog;
+	
+	if ( VHOST == 'yes' ) {
+		$current_domain = 'http://' . $current_blog->domain . '/';
+	} else {
+		$current_domain = get_bloginfo('wpurl') . '/';
+	}
+	
+	return $current_domain;
+}
+
+function bp_core_get_current_userid() {
+	$siteuser = bp_core_get_primary_username();
+	$current_userid = bp_core_get_userid($siteuser);
+	
+	return $current_userid;
+}
+
+function bp_core_get_primary_username() {
+	global $current_blog;
+	
+	if ( VHOST == 'yes' ) {
+		$siteuser = explode('.', $current_blog->domain);
+		$siteuser = $siteuser[0];
+	} else {
+		$siteuser = str_replace('/', '', $current_blog->path);
+	}
+	
+	return $siteuser;
+}
 
 function start_buffer() {
 	ob_start();
@@ -350,135 +399,6 @@ function bp_create_excerpt( $text, $excerpt_length = 55 ) { // Fakes an excerpt 
 	}
 	
 	return stripslashes($text);
-}
-
-
-// get the IDs of user blogs in a comma-separated list for use in SQL statements
-function bp_get_blog_ids_of_user( $id, $all = false ) {
-	$blogs = get_blogs_of_user( $id, $all );
-	$blog_ids = "";
-	
-	if ( $blogs && count($blogs) > 0 ){
-		foreach( $blogs as $blog ) {
-			$blog_ids .= $blog->blog_id.",";
-		}
-	}
-	$blog_ids = trim( $blog_ids, "," );
-	return $blog_ids;
-}
-
-// return a tick for a checkbox for a true boolean value
-function bp_boolean_ticked($bool) {
-	if ( $bool ) {
-		return " checked=\"checked\"";
-	}
-	return "";
-}
-
-// return a tick for a checkbox for a particular value
-function bp_value_ticked( $var, $value ) {
-	if ( $var == $value ) {
-		return " checked=\"checked\"";
-	}
-	return "";
-}
-
-// return true for a boolean value from a checkbox
-function bp_boolean( $value = 0 ) {
-	if ( $value != "" ) {
-		return 1;
-	} else {
-		return 0;
-	}
-}
-
-// return an integer
-function bp_int( $var, $nullToOne=false ) {
-	if ( @$var == "" ) {
-		if ( $nullToOne ) {
-			return 1;
-		} else {
-			return 0;
-		}
-	} else {
-		return (int)$var;
-	}
-}
-
-
-// show a friendly date
-function bp_friendly_date($timestamp) {
-	// set the timestamp to now if it hasn't been given
-	if ( strlen($timestamp) == 0 )
-		$timestamp = time();
-	
-	// create the date string
-	if ( date( "m", $timestamp ) == date("m") && date( "d", $timestamp ) == date("d") - 1 && date( "Y", $timestamp ) == date("Y") ) {
-		return "yesterday at " . date( "g:i a", $timestamp );
-	} else if ( date( "m", $timestamp ) == date("m") && date( "d", $timestamp ) == date("d") && date( "Y", $timestamp ) == date("Y") ) {
-		return "at " . date( "g:i a", $timestamp );
-	} else if ( date( "m", $timestamp) == date("m") && date( "d", $timestamp ) > date("d") - 5 && date( "Y", $timestamp ) == date("Y") ) {
-		return "on " . date( "l", $timestamp ) . " at " . date( "g:i a", $timestamp );
-	} else if ( date( "Y", $timestamp) == date("Y") ) {
-		return "on " . date( "F jS", $timestamp );
-	} else {
-		return "on " . date( "F jS Y", $timestamp );
-	}
-}
-
-// search users
-function bp_search_users( $q, $start = 0, $num = 10 ) {
-	if ( trim($q) != "" ) {
-		global $wpdb;
-		global $current_user;
-		
-		$sql = "SELECT SQL_CALC_FOUND_ROWS id, user_login, display_name, user_nicename
-		 		FROM " . $wpdb->base_prefix . "users
-				WHERE (user_nicename like '%" . $wpdb->escape($q) . "%'
-				OR user_email like '%" . $wpdb->escape($q) . "%'
-				OR display_name like '%" . $wpdb->escape($q) . "%')
-				AND (id <> " . $current_user->ID . " and id > 1)
-				LIMIT " . $wpdb->escape($start) . ", " . $wpdb->escape($num) . ";";
-
-		if ( !$users = $wpdb->get_results($sql) ) {
-			return false;
-		}
-		
-		$rows = $wpdb->get_var( "SELECT found_rows() AS found_rows" );
-		
-		if ( is_array($users) && count($users) > 0 ) {
-			for ( $i = 0; $i < count($users); $i++ ) {
-				$user          = $users[$i];
-				$user->siteurl = $user->user_url;
-				$user->blogs   = "";
-				$user->blogs   = get_blogs_of_user($user->id);
-				$user->rows    = $rows;
-			}
-			return $users;
-		} else {
-			return false;
-		}
-	} else {
-		return false;
-	}
-}
-
-// return a ' if the text ends in an "s", or "'s" otherwise
-function bp_end_with_s( $string ) {
-	if ( substr( strtolower($string), - 1 ) == "s" ) {
-		return $string . "'";
-	} else {
-		return $string . "'s";
-	}
-}
-
-// pluralise a string
-function bp_plural( $num, $ifone = "", $ifmore = "s" ) {
-	if ( bp_int($num) != 1 ) {
-		return $ifmore;
-	} else {
-		return $ifone;
-	}
 }
 
 function bp_is_serialized( $data ) {

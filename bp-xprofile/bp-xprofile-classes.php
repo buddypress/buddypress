@@ -1076,10 +1076,10 @@ Class BP_XProfile_ProfileData {
 	/** Static Functions **/
 	
 	function get_value_byid( $field_id, $user_id = null ) {
-		global $wpdb, $coreuser_id, $bp_xprofile_table_name_data;
+		global $wpdb, $current_userid, $bp_xprofile_table_name_data;
 
 		if ( !$user_id )
-			$user_id = $coreuser_id;
+			$user_id = $current_userid;
 
 		$sql = $wpdb->prepare("SELECT * FROM $bp_xprofile_table_name_data WHERE field_id = %d AND user_id = %d", $field_id, $user_id );
 
@@ -1091,13 +1091,13 @@ Class BP_XProfile_ProfileData {
 	}
 	
 	function get_value_byfieldname( $fields, $user_id = null ) {
-		global $coreuser_id, $wpdb, $bp_xprofile_table_name_fields, $bp_xprofile_table_name_data;
+		global $current_userid, $wpdb, $bp_xprofile_table_name_fields, $bp_xprofile_table_name_data;
 
 		if ( !$fields )
 			return false;
 
 		if ( !$user_id )
-			$user_id = $coreuser_id;
+			$user_id = $current_userid;
 
 		if ( is_array($fields) ) {
 			for ( $i = 0; $i < count($fields); $i++ ) {

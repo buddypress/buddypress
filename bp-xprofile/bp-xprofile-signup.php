@@ -290,18 +290,18 @@ add_action( 'signup_hidden_fields', 'xprofile_hidden_signup_fields' );
 
 function xprofile_on_activate( $blog_id = null, $user_id = null ) {
 	global $wpdb, $profile_picture_path;
-	
+
 	// Extract signup meta fields to fill out profile
 	$field_ids = get_blog_option( $blog_id, 'xprofile_field_ids' );
 	$field_ids = explode( ",", $field_ids );
-		
+			
 	// Get the new user ID.
 	$sql = "SELECT u.ID from " . $wpdb->base_prefix . "users u, 
 			" . $wpdb->base_prefix . "usermeta um
 			WHERE u.ID = um.user_id
 			AND um.meta_key = 'primary_blog'
 			AND um.meta_value = " . $blog_id;
-			
+
 	$user_id = $wpdb->get_var($sql); 
 
 	// Loop through each bit of profile data and save it to profile.
@@ -325,7 +325,7 @@ function xprofile_on_activate( $blog_id = null, $user_id = null ) {
 	
 	if ( $resized && $original ) {
 		$upload_dir = bp_upload_dir(NULL, $blog_id);
-		
+
 		if ( $upload_dir ) {
 			$resized_strip_path = explode( '/', $resized );
 			$original_strip_path = explode( '/', $original );
@@ -348,7 +348,7 @@ function xprofile_on_activate( $blog_id = null, $user_id = null ) {
 		
 		// Render the cropper UI
 		$action = 'http://' . get_usermeta( $user_id, 'source_domain' ) . '/wp-activate.php?key=' . $_GET['key'] . '&amp;cropped=true';
-		xprofile_render_avatar_cropper($original, $resized, $action);
+		xprofile_render_avatar_cropper($original, $resized, $action, $user_id);
 		
 		//$result = xprofile_avatar_cropstore( $image, $image, $v1_x, $v1_y, XPROFILE_AVATAR_V1_W, XPROFILE_AVATAR_V1_H, $v2_x, $v2_y, XPROFILE_AVATAR_V2_W, XPROFILE_AVATAR_V2_H, true );
 		//xprofile_avatar_save( $result, $user_id, $upload_dir );
@@ -367,19 +367,21 @@ function xprofile_catch_activate_crop() {
 			header('Location:' . get_option('home'));
 		
 		$user_id = xprofile_get_user_by_key($_GET['key']);
-		
+
 		if ( $user_id && isset($_POST['orig']) && isset($_POST['canvas']) ) {
+			echo "test is in here";
 			xprofile_check_crop( $_POST['orig'], $_POST['canvas'] );
 			$result = xprofile_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'] );
 			xprofile_avatar_save($result, $user_id);
 		}
-
+		
 		if ( VHOST == 'yes' ) {
-			header('Location: http://' . $_SERVER['HTTP_HOST']);
+			$url = 'http://' . get_usermeta( $user_id, 'source_domain' ) . '/';
 		} else {
-			$path = explode( '/', $_SERVER['REQUEST_URI'] );
-			header( 'Location:' . $path[0] . $path[1] . $path[2] );
+			$url = 'http://' . get_usermeta( $user_id, 'source_domain' ) . '/' . get_usermeta( $user_id, 'nickname' );
 		}
+		
+		header("Location: $url");
 	}
 }
 add_action( 'activate_header', 'xprofile_catch_activate_crop' );

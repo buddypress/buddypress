@@ -209,25 +209,25 @@ function bp_the_profile_field_value() {
 }
 
 function bp_the_avatar() {
-	global $coreuser_id;
-	echo xprofile_get_avatar( $coreuser_id, 2 );
+	global $current_userid;
+	echo xprofile_get_avatar( $current_userid, 2 );
 }
 
 function bp_the_avatar_thumbnail() {
-	global $coreuser_id;
-	echo xprofile_get_avatar( $coreuser_id, 1 );
+	global $current_userid;
+	echo xprofile_get_avatar( $current_userid, 1 );
 }
 
 function bp_loggedinuser_avatar_thumbnail() {
-	global $current_user;
-	echo xprofile_get_avatar( $current_user->ID, 1 );
+	global $loggedin_userid;
+	echo xprofile_get_avatar( $loggedin_userid, 1 );
 }
 
 function bp_user_fullname($user_id = false) {
-	global $coreuser_id;
+	global $current_userid;
 	
 	if ( !$user_id )
-		$user_id = $coreuser_id;
+		$user_id = $current_userid;
 	
 	$data = bp_get_field_data( array( 'First Name', 'Last Name' ) );
 	echo  $data['First Name'] . ' ' . $data['Last Name']; 
@@ -247,7 +247,7 @@ function bp_user_status() {
 }
 
 function bp_profile_group_tabs() {
-	global $source_domain, $bp_xprofile_slug, $group_name;
+	global $loggedin_domain, $bp_xprofile_slug, $group_name;
 	
 	$groups = BP_XProfile_Group::get_all();
 	
@@ -261,7 +261,7 @@ function bp_profile_group_tabs() {
 			$selected = '';
 		}
 
-		echo '<li' . $selected . '><a href="' . $source_domain . $bp_xprofile_slug . '/edit/group/' . $groups[$i]->id . '">' . $groups[$i]->name . '</a></li>';
+		echo '<li' . $selected . '><a href="' . $loggedin_domain . $bp_xprofile_slug . '/edit/group/' . $groups[$i]->id . '">' . $groups[$i]->name . '</a></li>';
 	}
 }
 
@@ -283,17 +283,21 @@ function bp_profile_group_name( $echo = true ) {
 }
 
 function bp_edit_profile_form() {
-	global $action_variables, $source_domain, $bp_xprofile_slug;
+	global $action_variables, $loggedin_domain, $bp_xprofile_slug;
 
 	$group_id = $action_variables[1];
 
 	if ( !is_numeric( $group_id ) )
 		$group_id = 1; // 'Basic' group.
 	
-	xprofile_edit( $group_id, $source_domain . $bp_xprofile_slug . '/edit/group/' . $group_id . '/?mode=save' );
+	xprofile_edit( $group_id, $loggedin_domain . $bp_xprofile_slug . '/edit/group/' . $group_id . '/?mode=save' );
 }
 
-
+function bp_avatar_upload_form() {
+	global $loggedin_domain, $bp_xprofile_slug;
+	 
+	xprofile_avatar_admin(null, $loggedin_domain . $bp_xprofile_slug . '/change-avatar/');
+}
 
 
 ?>

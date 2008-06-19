@@ -135,25 +135,28 @@ add_action( 'admin_menu', 'xprofile_admin_setup' );
  **************************************************************************/
 
 function xprofile_setup_nav() {
-	global $source_domain, $bp_nav, $bp_options_nav, $bp_xprofile_slug;
-
+	global $loggedin_domain, $bp_nav, $bp_options_nav;
+	global $loggedin_userid, $current_userid, $bp_xprofile_slug;
+	
 	$bp_nav[0] = array(
 		'id'	=> $bp_xprofile_slug,
 		'name'  => 'Profile', 
-		'link'  => $source_domain . $bp_xprofile_slug
+		'link'  => $loggedin_domain . $bp_xprofile_slug
 	);
 
-	$bp_options_nav[$bp_xprofile_slug] = array(
-		''		   => array( 
-			'name' => __('Publically Viewable'),
-			'link' => $source_domain . $bp_xprofile_slug . '/' ),
-		'edit'	  		=> array(
-			'name' => __('Edit Profile'),
-			'link' => $source_domain . $bp_xprofile_slug . '/edit' ),
-		'change-avatar' => array( 
-			'name' => __('Change Avatar'),
-			'link' => $source_domain . $bp_xprofile_slug . '/change-avatar' )
-	);
+	if ( $loggedin_userid == $current_userid ) {
+		$bp_options_nav[$bp_xprofile_slug] = array(
+			''		   => array( 
+				'name' => __('Publically Viewable'),
+				'link' => $loggedin_domain . $bp_xprofile_slug . '/' ),
+			'edit'	  		=> array(
+				'name' => __('Edit Profile'),
+				'link' => $loggedin_domain . $bp_xprofile_slug . '/edit' ),
+			'change-avatar' => array( 
+				'name' => __('Change Avatar'),
+				'link' => $loggedin_domain . $bp_xprofile_slug . '/change-avatar' )
+		);
+	}
 }
 add_action( 'wp', 'xprofile_setup_nav' );
 
@@ -165,17 +168,19 @@ add_action( 'wp', 'xprofile_setup_nav' );
  **************************************************************************/
 
 function xprofile_catch_action() {
-	global $bp_xprofile_slug, $current_component, $current_blog, $current_action;
+	global $bp_xprofile_slug, $current_component, $current_blog;
+	global $loggedin_userid, $current_userid, $current_action;
 
 	if ( $current_component == $bp_xprofile_slug && $current_blog->blog_id > 1 ) {
-		if ( !$current_action )
+		if ( !$current_action ) {
 			bp_catch_uri( 'profile/index' );
-
-		if ( $current_action == 'edit' && !$action_variables )
+		} else if ( $current_action == 'edit' && !$action_variables && $loggedin_userid == $current_userid ) {
 			bp_catch_uri( 'profile/edit' );
-
-		if ( $current_action == 'change-avatar' )
+		} else if ( $current_action == 'change-avatar' && $loggedin_userid == $current_userid ) {
 			bp_catch_uri( 'profile/change-avatar' );
+		} else {
+			bp_catch_uri( 'profile/index' );
+		}
 	}
 }
 add_action( 'wp', 'xprofile_catch_action' );
@@ -189,17 +194,9 @@ add_action( 'wp', 'xprofile_catch_action' );
  **************************************************************************/
 
 function xprofile_profile_template() {
-	global $current_blog, $profile_template, $coreuser_id;
+	global $profile_template, $current_userid;
 
-	if ( VHOST == 'yes' ) {
-		$siteuser = explode('.', $current_blog->domain);
-		$siteuser = $siteuser[0];
-	} else {
-		$siteuser = str_replace('/', '', $current_blog->path);
-	}
-
-	$coreuser_id = bp_core_get_userid($siteuser);
-	$profile_template = new BP_XProfile_Template($coreuser_id);
+	$profile_template = new BP_XProfile_Template($current_userid);
 }
 add_action( 'wp_head', 'xprofile_profile_template' );
 
@@ -211,7 +208,7 @@ add_action( 'wp_head', 'xprofile_profile_template' );
  **************************************************************************/
 
 function xprofile_edit( $group_id = null, $action = null ) {
-	global $wpdb, $bp_xprofile_table_name_groups, $userdata, $source_domain;
+	global $wpdb, $bp_xprofile_table_name_groups, $userdata, $loggedin_domain;
 	
 	if ( !$group_id ) {	
 		// Dynamic tabs mean that we have to assign the same function to all
@@ -224,7 +221,7 @@ function xprofile_edit( $group_id = null, $action = null ) {
 	$group = new BP_XProfile_Group($group_id);
 	
 	if ( !$action )
-		$action = $source_domain . 'wp-admin/admin.php?page=xprofile_' . $group->name . '&amp;mode=save';
+		$action = $loggedin_domain . 'wp-admin/admin.php?page=xprofile_' . $group->name . '&amp;mode=save';
 ?>
 	<div class="wrap">
 		
