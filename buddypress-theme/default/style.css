@@ -1,0 +1,388 @@
+/*  
+Theme Name: BuddyPress Default
+Theme URI: http://buddypress.org
+Description: The default theme for BuddyPress
+Version: 0.2
+Author: Andy Peatling
+Author URI: http://andyinlife.com
+*/
+
+/***********************************************************
+ Global Reset
+************************************************************/
+
+*, html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, label, fieldset, input, p, blockquote, th, td { margin:0; padding:0 }
+table { border-collapse:collapse; border-spacing:0 }
+fieldset, img { border:0 }
+address, caption, cite, code, dfn, em, strong, th, var { font-style:normal; font-weight:normal }
+ol, ul, li { list-style:none }
+caption, th { text-align:left }
+h1, h2, h3, h4, h5, h6 { font-size:100% }
+q:before, q:after { content:''}
+a { text-decoration:none }
+strong { font-weight:bold }
+em { font-style:italic }
+* a { position:relative }
+a img { border:none }
+
+/***********************************************************
+ Let the games begin...
+************************************************************/
+
+html {
+	background: #fff;
+	font: 62.5% normal "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, Verdana, Arial, sans-serif;
+	border-top: 10px solid #f7740a;
+}
+
+body {
+	background: #fff;
+	font-size: 1.2em;
+	color: #555;
+	width: 960px;
+	background: url(images/background.gif) top left repeat-y;
+	margin: 0 auto;
+}
+
+p { margin: 0 0 1em 0; }
+
+a { color: #e36600; }
+	a:hover { text-decoration: underline; }
+
+/**************************
+ HEADER
+***************************/
+
+#header {
+	position: relative;
+	padding: 1.8em 1.5em;
+	background: #fff;
+}
+
+	#header h1 {
+		background: url(images/logo.gif) top left no-repeat;
+		overflow: hidden;
+		text-indent: -999em;
+		width: 149px;
+		height: 35px;
+	}
+
+	#header .search {
+		position: absolute;
+		top: 2.0em;
+		right: 1.5em;
+	}
+
+
+/**************************
+ USER BAR
+***************************/
+
+#userbar {
+	width: 138px;
+	float: left;
+	position: relative;
+}
+	#userbar h3 {
+		font: normal 1em "Georgia", Times, serif;
+		text-transform: uppercase;
+		text-align: center;
+		background: url(images/userbar_header.gif) top left no-repeat;
+		width: 138px;
+		height: 24px;
+		padding: 8px 0 8px 0;
+	}
+
+	#userbar p.avatar, #userbar p#login-text {
+		text-align: center;
+		margin: 0.75em 0;
+	}	
+	
+	#userbar p#login-text {
+		padding: 0.5em 1em 0 1em;
+	}
+	
+		#userbar p.avatar img {
+			border: 4px solid #fff;
+		}
+	
+	#userbar form {
+		padding: 1em 1.5em 1em 1em;
+	}
+		#userbar form input {
+			width: 100%;
+		}
+	
+	#userbar ul#bp-nav {
+		width: 149px;
+		margin: 1.75em 0 0 0;
+		z-index: 999 !important;
+		position: relative;
+	}
+		#userbar ul#bp-nav li.current {
+			background: url(images/navitem_selected_back.gif) top right repeat-x;
+		}
+			#userbar ul#bp-nav li a {
+				font-size: 1.1em;
+				color: #555;
+				padding: 0.75em 3em 0.75em 0;
+				display: block;
+				text-align: right;
+				margin-right: 0.85em;
+			}
+				#userbar ul#bp-nav li.current a {
+					color: #fff;
+				}
+			
+				li a#profile {
+					background: url(../../mu-plugins/bp-xprofile/images/nav_bullet.gif) 88% 52% no-repeat;
+				}
+
+				li a#messages {
+					background: url(../../mu-plugins/bp-messages/images/nav_bullet.gif) 88% 52% no-repeat;
+				}			
+				
+				li a#blog {
+					background: url(../../mu-plugins/bp-core/images/nav_bullet.gif) 86% 52% no-repeat;
+				}	
+				
+				li a#wp-logout {
+					background: url(../../mu-plugins/bp-core/images/logout_bullet.gif) 87% 52% no-repeat;
+				}	
+
+
+/**************************
+ OPTIONS BAR
+***************************/
+
+#optionsbar {
+	width: 201px;
+	float: left;
+	position: relative;
+}
+	#optionsbar h3 {
+		font: normal 1em "Georgia", Times, serif;
+		text-transform: uppercase;
+		text-align: center;
+		background: url(images/optionsbar_header_noarrow.gif) top left repeat-x;
+		width: 201px;
+		height: 24px;
+		padding: 8px 0 8px 0;
+	}
+	
+	#optionsbar ul#options-nav {
+		width: 211px;
+		margin: 1.75em 0 0 0;
+		position: relative;
+		z-index: 1;
+	}
+		#optionsbar ul#options-nav li.current {
+			background: #fff url(images/optionnavitem_selected_back.gif) top right repeat-x;
+		}
+			#optionsbar ul#options-nav li a {
+				font-size: 1.1em;
+				color: #555;
+				padding: 0.75em 2.5em 0.75em 0;
+				display: block;
+				text-align: right;
+			}
+
+/**************************
+ CONTENT HEADER NAVIGATION
+***************************/
+
+ul.content-header-nav {
+	margin: -8px 0 0 1.5em;
+}
+	ul.content-header-nav li {
+		float: left;
+		padding: 8px 1.5em;
+		height: 30px;
+	}
+		ul.content-header-nav li a {
+			color: #555;
+		}
+	
+	ul.content-header-nav li.current {
+		background: url(images/topoption_selected_back.gif) top center no-repeat;
+	}
+
+
+/**************************
+ MAIN CONTENT
+***************************/
+
+#main {
+	width: 621px;
+	float: left;
+	background: #fff url(images/content_back.gif) top left repeat-x;
+}
+	#main div.content-header {
+		font: normal 1em "Georgia", Times, serif;
+		text-transform: uppercase;
+		text-align: center;
+		background: url(images/content_header.gif) top left repeat-x;
+		height: 24px;
+		padding: 8px 0 8px 0;
+	}
+
+	#main #content {
+		padding: 2em 3em;
+	}
+		#main #content h2 {
+			font: normal 1.6em Georgia, Times, serif;
+			padding-bottom: 0.25em;
+			border-bottom: 1px solid #ccc;
+			margin-bottom: 1em;
+		}
+		
+		#main #content h3 {
+			font: normal 1.3em Georgia, Times, serif;
+			padding-bottom: 0.25em;
+			margin: 1em 0;	
+		}
+		
+		#main #content .left-menu {
+			float: left;
+			width: 172px;
+			margin: 0 1.8em 1em 0;
+		}
+	
+		#main img.avatar {
+			border: 4px solid #f0f0f0;
+			padding: 2px;
+		}
+	
+		.main-column {
+			float: left;
+		}
+		
+		.main-column h1 {
+			font: normal 3.2em "Georgia", Times, serif !important;
+		}
+			.main-column h1 a {
+				color: #646464;
+			}
+			
+			.main-column p.status {
+				color: #f7740a;
+				font: normal 1.4em "Georgia", Times, serif;
+				font-style: italic;
+				margin: 0.3em 0 1.2em 0;
+			}
+
+		/**** Profiles ****/
+		
+		div.profile-group h4 {
+			background: url(images/group_header.gif) top left no-repeat;
+			height: 24px;
+			color: #fff;
+			padding: 6px 10px;
+			font-size: 1.1em;
+		}
+		
+		table.profile-fields {
+			width: 354px;
+			font-size: 1em;
+			margin: 0.5em 0 2em 0;
+		}
+			table.profile-fields tr td {
+				padding: 0.75em 1em;
+			}
+			
+			table.profile-fields tr td.label {
+				border-right: 1px solid #dadada;
+				width: 70px;
+				font-weight: bold;
+			}
+			
+			table.profile-fields tr td.data {
+				width: 120px;
+			}
+		
+		/*** Profile Edit Form ***/
+		
+		.signup-label {
+			display: block;
+			padding: 0 0 0.3em 0;
+			margin: 1em 0 0 0;
+		}
+		
+		.signup-field input, .signup-field select, .signup-field textarea {
+			font-size: 1.3em;
+			font-family: inherit;
+			color: #777;
+			width: 65%;
+			padding: 0.2em;
+		}
+		
+		.signup-description {
+			display: block;
+			color: #888;
+			font-size: 0.9em;
+		}
+		
+		input#save {
+			width: auto;
+			margin: 1.5em 0 0 0;
+		}
+		
+		.checkbox label input, .radio label input {
+			width: auto;
+			display: inline;
+		}
+		
+		.checkbox label, .checkbox input {
+			display: block;
+			padding: 0 0 0.2em 0;
+		}
+		
+		.wrap h2 { display: none; }
+	
+		#message {
+			background: url(images/updated_back.gif) top left repeat-x #ddffc4;
+			margin: 0 0 2em 0;
+		}
+			#message p {
+				color: #357c00;
+				padding: 1em 2.75em;
+				background: url(images/updated_icon.gif) 1em 1.1em no-repeat;
+			}
+		
+		#message.error {
+			background-image: url(images/error_back.gif);
+			background-color: #ff3a3a;
+			color: #fff;
+		}
+			#message.error p {
+				background-image: url(images/error_icon.gif);
+				color: #fff;
+			}
+			
+			p.err { display: none; }
+		
+
+/**************************
+ FOOTER
+***************************/
+
+#footer {
+	clear: both;
+	background: #fff;
+	text-align: center;
+	padding: 2em;
+}
+
+	#footer p {
+		margin: 0;
+	}
+
+	#footer code {
+		font-size: 1.1em;
+		color: #ccc;
+	}
+
+
+
+
+
