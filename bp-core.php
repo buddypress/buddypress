@@ -15,9 +15,12 @@ if ( isset($_POST['submit']) && $_POST['save_admin_settings'] ) {
 }
 
 function bp_core_setup() {
-	global $current_user, $loggedin_domain, $loggedin_userid;
-	global $current_domain, $current_userid, $bp_nav;
-	
+	global $loggedin_userid, $loggedin_domain;
+	global $current_userid, $current_domain;
+	global $bp_nav, $bp_options_nav, $bp_users_nav;
+	global $current_user, $current_component;
+	global $bp_options_avatar, $bp_options_title;
+
 	$loggedin_domain = bp_core_get_loggedin_domain();
 	$loggedin_userid = $current_user->ID;
 	
@@ -29,6 +32,36 @@ function bp_core_setup() {
 		'name'  => 'Blog', 
 		'link'  => $loggedin_domain . 'blog'
 	);
+	
+	$bp_users_nav[1] = array(
+		'id'	=> 'blog',
+		'name'  => 'Blog', 
+		'link'  => $current_domain . 'blog'
+	);
+	
+	// This will be a check to see if profile or blog is
+	// set as the default component.
+	if ( $current_component == '' ) {
+		if ( function_exists('xprofile_setup_nav') ) {
+			$current_component = 'profile';
+		} else {
+			$current_componet = 'blog';
+		}
+	}
+	
+	if ( $current_component == 'blog' ) {
+		if ( !bp_is_home() ) {	
+			if ( function_exists('xprofile_setup_nav') ) {
+				$bp_options_avatar = xprofile_get_avatar( $current_userid, 1 );
+				$bp_options_title = bp_get_field_data('First Name') . __('\'s Blog'); 
+			}
+		} else {
+			if ( function_exists('xprofile_setup_nav') ) {
+				unset($bp_options_avatar);
+				$bp_options_title = __('My Blog'); 
+			}
+		}
+	}
 }
 add_action( 'wp', 'bp_core_setup' );
 

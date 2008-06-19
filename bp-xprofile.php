@@ -135,27 +135,42 @@ add_action( 'admin_menu', 'xprofile_admin_setup' );
  **************************************************************************/
 
 function xprofile_setup_nav() {
-	global $loggedin_domain, $bp_nav, $bp_options_nav;
-	global $loggedin_userid, $current_userid, $bp_xprofile_slug;
-	
+	global $loggedin_userid, $loggedin_domain;
+	global $current_userid, $current_domain;
+	global $bp_nav, $bp_options_nav, $bp_users_nav;
+	global $bp_xprofile_slug, $bp_options_avatar, $bp_options_title;
+	global $current_component;
+
 	$bp_nav[0] = array(
 		'id'	=> $bp_xprofile_slug,
 		'name'  => 'Profile', 
 		'link'  => $loggedin_domain . $bp_xprofile_slug
 	);
 
-	if ( $loggedin_userid == $current_userid ) {
-		$bp_options_nav[$bp_xprofile_slug] = array(
-			''		   => array( 
-				'name' => __('Publically Viewable'),
-				'link' => $loggedin_domain . $bp_xprofile_slug . '/' ),
-			'edit'	  		=> array(
-				'name' => __('Edit Profile'),
-				'link' => $loggedin_domain . $bp_xprofile_slug . '/edit' ),
-			'change-avatar' => array( 
-				'name' => __('Change Avatar'),
-				'link' => $loggedin_domain . $bp_xprofile_slug . '/change-avatar' )
-		);
+	$bp_users_nav[0] = array(
+		'id'	=> $bp_xprofile_slug,
+		'name'  => 'Profile', 
+		'link'  => $current_domain . $bp_xprofile_slug
+	);
+
+	if ( $current_component == 'profile' ) {
+		if ( bp_is_home() ) {
+			$bp_options_title = __('My Profile');
+			$bp_options_nav[$bp_xprofile_slug] = array(
+				''		   => array( 
+					'name' => __('Publically Viewable'),
+					'link' => $loggedin_domain . $bp_xprofile_slug . '/' ),
+				'edit'	  		=> array(
+					'name' => __('Edit Profile'),
+					'link' => $loggedin_domain . $bp_xprofile_slug . '/edit' ),
+				'change-avatar' => array( 
+					'name' => __('Change Avatar'),
+					'link' => $loggedin_domain . $bp_xprofile_slug . '/change-avatar' )
+			);
+		} else {
+			$bp_options_avatar = xprofile_get_avatar( $current_userid, 1 );
+			$bp_options_title = bp_user_fullname( $current_userid, false ); 
+		}
 	}
 }
 add_action( 'wp', 'xprofile_setup_nav' );

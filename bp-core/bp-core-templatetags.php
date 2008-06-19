@@ -16,33 +16,91 @@ function bp_get_nav() {
 	echo '<li><a id="wp-logout" href="http://' . get_usermeta( get_current_user_id(), 'source_domain' ) . '/wp-login.php?action=logout">Log Out</a><li>';
 }
 
+function bp_has_options_nav() {
+	global $bp_options_nav, $current_component;
+
+	if ( $current_component == 'blog' )
+		return false;
+	
+	return true;
+}
+
+function bp_get_options_nav() {
+	global $bp_options_nav, $current_component, $current_action;
+	global $loggedin_userid, $current_userid, $bp_users_nav;
+
+	if ( $loggedin_userid == $current_userid ) {
+		if ( count( $bp_options_nav[$current_component] ) < 1 )
+			return false;
+	
+		foreach ( $bp_options_nav[$current_component] as $slug => $values ) {
+			$title = $values['name'];
+			$link = $values['link'];
+
+			if ( $slug == $current_action ) {
+				$selected = ' class="current"';
+			} else {
+				$selected = '';
+			}
+		
+			echo '<li' . $selected . '><a href="' . $link . '">' . $title . '</a></li>';		
+		}
+	} else {
+		if ( count( $bp_users_nav ) < 1 )
+			return false;
+
+		bp_get_user_nav();
+	}
+}
+
+function bp_get_user_nav() {
+	global $bp_users_nav, $current_component;
+	
+	for ( $i = 0; $i < count($bp_users_nav); $i++ ) {
+		if ( $current_component == $bp_users_nav[$i]['id'] ) {
+			$selected = ' class="current"';
+		} else {
+			$selected = '';
+		}
+		
+		echo '<li' . $selected . '><a id="' . $bp_users_nav[$i]['id'] . '" href="' . $bp_users_nav[$i]['link'] . '">' . $bp_users_nav[$i]['name'] . '</a></li>';
+	}	
+}
+
+function bp_has_options_avatar() {
+	global $bp_options_avatar;
+	
+	if ( $bp_options_avatar == '' )
+		return false;
+	
+	return true;
+}
+
 function bp_get_options_avatar() {
 	global $bp_options_avatar;
 	
 	if ( $bp_options_avatar == '' )
 		return false;
 		
-	echo 'no avatar function';
+	echo $bp_options_avatar;
 }
 
-function bp_get_options_nav() {
-	global $bp_options_nav, $current_component, $current_action;
-
-	if ( count( $bp_options_nav[$current_component] ) < 1 )
-		return false;
+function bp_get_options_title() {
+	global $bp_options_title;
 	
-	foreach ( $bp_options_nav[$current_component] as $slug => $values ) {
-		$title = $values['name'];
-		$link = $values['link'];
+	if ( $bp_options_title == '' )
+		$bp_options_title = __('Options');
+	
+	echo $bp_options_title;
+}
 
-		if ( $slug == $current_action ) {
-			$selected = ' class="current"';
-		} else {
-			$selected = '';
-		}
-		
-		echo '<li' . $selected . '><a href="' . $link . '">' . $title . '</a></li>';		
-	}
+function bp_is_home() {
+	global $loggedin_userid, $current_userid;
+	
+	if ( $loggedin_userid == $current_userid )
+		return true;
+	
+	return false;
 }
 
 ?>

@@ -59,25 +59,30 @@ function messages_install( $version ) {
  **************************************************************************/
 
 function messages_setup_nav() {
-	global $source_domain, $bp_nav, $bp_options_nav, $bp_messages_slug;
-	
+	global $loggedin_userid, $loggedin_domain;
+	global $current_userid, $current_domain;
+	global $bp_nav, $bp_options_nav, $bp_users_nav;
+	global $bp_messages_slug;
+
 	$bp_nav[2] = array(
 		'id'	=> $bp_messages_slug,
 		'name'  => 'Messages', 
-		'link'  => $source_domain . $bp_messages_slug
+		'link'  => $loggedin_domain . $bp_messages_slug
 	);
-
-	$bp_options_nav[$bp_messages_slug] = array(
-		''		   => array( 
-			'name' => __('Inbox'),
-			'link' => $source_domain . $bp_xprofile_slug . '/' ),
-		'sentbox'  => array(
-			'name' => __('Sent Messages'),
-			'link' => $source_domain . $bp_xprofile_slug . '/sentbox' ),
-		'compose' => array( 
-			'name' => __('Compose Message'),
-			'link' => $source_domain . $bp_xprofile_slug . '/compose' )
-	);
+	
+	if ( $loggedin_userid == $current_userid ) {
+		$bp_options_nav[$bp_messages_slug] = array(
+			''		   => array( 
+				'name' => __('Inbox'),
+				'link' => $loggedin_domain . $bp_messages_slug . '/' ),
+			'sentbox'  => array(
+				'name' => __('Sent Messages'),
+				'link' => $loggedin_domain . $bp_messages_slug . '/sentbox' ),
+			'compose' => array( 
+				'name' => __('Compose Message'),
+				'link' => $loggedin_domain . $bp_messages_slug . '/compose' )
+		);
+	}
 }
 add_action( 'wp_head', 'messages_setup_nav' );
 

@@ -223,14 +223,18 @@ function bp_loggedinuser_avatar_thumbnail() {
 	echo xprofile_get_avatar( $loggedin_userid, 1 );
 }
 
-function bp_user_fullname($user_id = false) {
+function bp_user_fullname($user_id = false, $echo = true) {
 	global $current_userid;
 	
 	if ( !$user_id )
 		$user_id = $current_userid;
 	
 	$data = bp_get_field_data( array( 'First Name', 'Last Name' ) );
-	echo  $data['First Name'] . ' ' . $data['Last Name']; 
+	
+	if ( $echo )
+		echo $data['First Name'] . ' ' . $data['Last Name']; 
+	else
+		return $data['First Name'] . ' ' . $data['Last Name'];
 }
 
 function bp_get_field_data( $field, $user_id = null ) {
