@@ -32,7 +32,7 @@
 			<p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" /> <?php _e('Remember Me'); ?></label></p>
 			<p class="submit">
 				<input type="submit" name="wp-submit" id="wp-submit" value="<?php _e('Log In'); ?>" tabindex="100" />
-				<input type="hidden" name="redirect_to" value="<?php echo $_SERVER['HTTP_REFERRER'] ?>" />
+				<input type="hidden" name="redirect_to" value="<?php echo $_SERVER['PHP_SELF'] ?>" />
 				<input type="hidden" name="testcookie" value="1" />
 			</p>
 		</form>

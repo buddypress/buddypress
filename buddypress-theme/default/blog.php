@@ -3,11 +3,16 @@
 
 
 	<div class="content-header">
-		Header Content
+		Last Updated: [date]
 	</div>
 
 	<div id="content">
-
+		
+		<div id="blog-info">
+			<h1><a href="<?php echo bp_core_get_current_domain() ?>blog"><?php bloginfo('name'); ?></a></h1>
+			<p class="desc"><?php bloginfo('description'); ?></p>
+		</div>
+		
 		<?php if (have_posts()) : ?>
 
 			<?php while (have_posts()) : the_post(); ?>

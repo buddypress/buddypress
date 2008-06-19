@@ -86,4 +86,25 @@ function bp_add_avatar_cssjs() {
 	}	
 }
 add_action( 'wp_head', 'bp_add_avatar_cssjs' );
+
+function get_options_class() {
+	global $current_component;
+	global $current_userid, $loggedin_userid;
+	
+	if ( $current_component == 'profile' || $current_component == 'groups'
+	  || $current_component == 'blog' ) {
+		if ( $current_userid != $loggedin_userid )
+			echo ' class="arrow"';
+	}
+}
+
+function has_icons() {
+	global $current_component;
+	global $current_userid, $loggedin_userid;
+	
+	if ( $current_component == 'profile' ) {
+		if ( $current_userid != $loggedin_userid )
+			echo ' class="icons"';
+	}
+}
 ?>
