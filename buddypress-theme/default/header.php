@@ -13,7 +13,7 @@
 	
 </head>
 
-<body>
+<body<?php if ( bp_is_blog() ) : ?> class="in-blog"<?php endif; ?>>
 
 <div id="header">
 	<h1><a href="<?php echo get_option('home'); ?>/">BuddyPress</a></h1>
@@ -25,5 +25,9 @@
 
 <?php include_once (TEMPLATEPATH . '/userbar.php'); ?>
 <?php include_once (TEMPLATEPATH . '/optionsbar.php'); ?>
+
+<?php if ( bp_is_blog() ) : ?>
+	<?php get_sidebar() ?>
+<?php endif; ?>
 
 <div id="main">

@@ -16,15 +16,6 @@ function bp_get_nav() {
 	echo '<li><a id="wp-logout" href="http://' . get_usermeta( get_current_user_id(), 'source_domain' ) . '/wp-login.php?action=logout">Log Out</a><li>';
 }
 
-function bp_has_options_nav() {
-	global $bp_options_nav, $current_component;
-
-	if ( $current_component == 'blog' )
-		return false;
-	
-	return true;
-}
-
 function bp_get_options_nav() {
 	global $bp_options_nav, $current_component, $current_action;
 	global $loggedin_userid, $current_userid, $bp_users_nav;
@@ -37,7 +28,7 @@ function bp_get_options_nav() {
 			$title = $values['name'];
 			$link = $values['link'];
 
-			if ( $slug == $current_action ) {
+			if ( $slug == $current_action || ( $slug == '' && ( $current_component == 'blog' && bp_is_blog() ) ) ) {
 				$selected = ' class="current"';
 			} else {
 				$selected = '';
@@ -55,7 +46,7 @@ function bp_get_options_nav() {
 
 function bp_get_user_nav() {
 	global $bp_users_nav, $current_component;
-	
+
 	for ( $i = 0; $i < count($bp_users_nav); $i++ ) {
 		if ( $current_component == $bp_users_nav[$i]['id'] ) {
 			$selected = ' class="current"';
@@ -101,6 +92,16 @@ function bp_is_home() {
 		return true;
 	
 	return false;
+}
+
+function bp_comment_author_avatar() {
+	global $comment;
+	
+	if ( function_exists('xprofile_get_avatar') ) {
+		echo xprofile_get_avatar( $comment->user_id, 1 );	
+	} else if ( function_exists('get_avatar') ) {
+		get_avatar();
+	}
 }
 
 ?>

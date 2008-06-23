@@ -47,19 +47,26 @@ function bp_core_setup() {
 		} else {
 			$current_componet = 'blog';
 		}
+	} else if ( bp_is_blog() ) {
+		$current_component = 'blog';
 	}
 	
 	if ( $current_component == 'blog' ) {
-		if ( !bp_is_home() ) {	
+		if ( bp_is_home() ) {
 			if ( function_exists('xprofile_setup_nav') ) {
-				$bp_options_avatar = xprofile_get_avatar( $current_userid, 1 );
-				$bp_options_title = bp_get_field_data('First Name') . __('\'s Blog'); 
+				$bp_options_title = __('My Blog'); 
+				$bp_options_nav['blog'] = array(
+					''   => array(
+						'name' => __('Public'),
+						'link' => $loggedin_domain . 'blog/' ),
+					'admin'	   => array( 
+						'name' => __('Blog Admin'),
+						'link' => $loggedin_domain . 'wp-admin/' )
+				);
 			}
 		} else {
-			if ( function_exists('xprofile_setup_nav') ) {
-				unset($bp_options_avatar);
-				$bp_options_title = __('My Blog'); 
-			}
+			$bp_options_avatar = xprofile_get_avatar( $current_userid, 1 );
+			$bp_options_title = bp_user_fullname( $current_userid, false ); 
 		}
 	}
 }
@@ -491,6 +498,34 @@ function bp_upload_dir( $time = NULL, $blog_id ) {
 
 	$uploads = array( 'path' => $dir, 'url' => $url, 'subdir' => $subdir, 'error' => false );
 	return apply_filters( 'upload_dir', $uploads );
+}
+
+function bp_get_page_id($page_title, $output = object) {
+	global $wpdb;
+	
+	$sql = $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type = 'page'", $page_title);
+	$page = $wpdb->get_var($sql);
+	
+	if ( $page )
+		return $page;
+
+	return null;
+}
+
+function bp_is_blog() {
+	global $wp_query, $cached_page_id, $current_component;
+	
+	$blog_page_id = bp_get_page_id('Blog');
+	if ( is_tag() || is_category() || is_day() || is_month() || is_year() || is_paged() || is_single() )
+		return true;
+	if ( isset($cached_page_id) && ($blog_page_id == $cached_page_id ) )
+		return true;
+	if ( is_page('Blog') )
+		return true;
+	if ( $current_component == 'blog' )
+		return true;
+		
+	return false;
 }
 
 

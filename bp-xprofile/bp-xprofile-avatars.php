@@ -43,26 +43,26 @@ if ( isset($_REQUEST['page']) && $_REQUEST['page'] == 'bp-xprofile.php' ) {
 	wp_enqueue_script('cropper');
 }
 
-// Override internal "get_avatar()" function to use our own where possible
-// WARNING: Does NOT apply size restrictions
-function xprofile_get_avatar_filter( $avatar, $id_or_email, $size, $default ) {
-	$str = '';
-	$ver = ( $size == 1 || $size == 2 ) ? $size : 1;
-	
-	if ( XPROFILE_AVATAR_V2_W == false && XPROFILE_AVATAR_V2_H == false )
-		$ver = 1;
-		
-	if ( is_numeric($id_or_email) ) {
-		$str = xprofile_get_avatar( $id_or_email, $ver );
-	} elseif ( is_object($id_or_email) ) {
-		if ( !empty($id_or_email->user_id) ) {
-			$str = xprofile_get_avatar( $id_or_email->user_id, $ver );
-		}
-	}
-
-	return empty($str) ? $avatar : $str;
-}
-add_filter( 'get_avatar', 'xprofile_get_avatar_filter', 10, 4 );
+// // Override internal "get_avatar()" function to use our own where possible
+// // WARNING: Does NOT apply size restrictions
+// function xprofile_get_avatar_filter( $avatar, $id_or_email, $size, $default ) {
+// 	$str = '';
+// 	$ver = ( $size == 1 || $size == 2 ) ? $size : 1;
+// 	
+// 	if ( XPROFILE_AVATAR_V2_W == false && XPROFILE_AVATAR_V2_H == false )
+// 		$ver = 1;
+// 		
+// 	if ( is_numeric($id_or_email) ) {
+// 		$str = xprofile_get_avatar( $id_or_email, $ver );
+// 	} elseif ( is_object($id_or_email) ) {
+// 		if ( !empty($id_or_email->user_id) ) {
+// 			$str = xprofile_get_avatar( $id_or_email->user_id, $ver );
+// 		}
+// 	}
+// 
+// 	return empty($str) ? $avatar : $str;
+// }
+// add_filter( 'get_avatar', 'xprofile_get_avatar_filter', 10, 4 );
 
 
 // Main UI Rendering

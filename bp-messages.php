@@ -79,7 +79,7 @@ function messages_setup_nav() {
 				'name' => __('Sent Messages'),
 				'link' => $loggedin_domain . $bp_messages_slug . '/sentbox' ),
 			'compose' => array( 
-				'name' => __('Compose Message'),
+				'name' => __('Compose'),
 				'link' => $loggedin_domain . $bp_messages_slug . '/compose' )
 		);
 	}

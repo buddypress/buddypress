@@ -158,7 +158,7 @@ function xprofile_setup_nav() {
 			$bp_options_title = __('My Profile');
 			$bp_options_nav[$bp_xprofile_slug] = array(
 				''		   => array( 
-					'name' => __('Publically Viewable'),
+					'name' => __('Public'),
 					'link' => $loggedin_domain . $bp_xprofile_slug . '/' ),
 				'edit'	  		=> array(
 					'name' => __('Edit Profile'),
@@ -172,6 +172,7 @@ function xprofile_setup_nav() {
 			$bp_options_title = bp_user_fullname( $current_userid, false ); 
 		}
 	}
+	
 }
 add_action( 'wp', 'xprofile_setup_nav' );
 

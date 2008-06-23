@@ -9,16 +9,8 @@
 
 	<?php endif; ?>
 
-	<?php if ( bp_has_options_nav() ) : ?>
+	<ul id="options-nav"<?php has_icons() ?>>
+		<?php bp_get_options_nav() ?>
+	</ul>
 
-		<ul id="options-nav"<?php has_icons() ?>>
-			<?php bp_get_options_nav() ?>
-		</ul>
-
-	<?php else : ?>
-
-		<?php get_sidebar() ?>
-
-	<?php endif; ?>
-	
 </div>

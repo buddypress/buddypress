@@ -1,7 +1,11 @@
 <?php get_header(); ?>
 
-	<h2>Error 404 - Not Found</h2>
+<div class="content-header">
+	Oops!
+</div>
 
-<?php get_sidebar(); ?>
+<div id="content">
+	<h2>Error 404 - Not Found</h2>
+</div>
 
 <?php get_footer(); ?>

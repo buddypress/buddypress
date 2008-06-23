@@ -19,9 +19,10 @@
 
 				<div class="post" id="post-<?php the_ID(); ?>">
 					<h2><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
-					<p><?php the_time('F jS, Y') ?> <!-- by <?php the_author() ?> --></p>
+					<p class="date"><?php the_time('F jS, Y') ?> <em>in <?php the_category(', ') ?> by <?php the_author() ?></em><?php edit_post_link('Edit', ' [ ', ' ]'); ?></p>
 					<?php the_content('Read the rest of this entry &raquo;'); ?>
-					<p class="postmetadata"><?php the_tags('Tags: ', ', ', '<br />'); ?> Posted in <?php the_category(', ') ?> | <?php edit_post_link('Edit', '', ' | '); ?>  <?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></p>
+					<p class="postmetadata"><?php the_tags('<span class="tags">', ', ', '</span>'); ?>  <span class="comments"><?php comments_popup_link('No Comments', '1 Comment', '% Comments'); ?></span></p>
+					<hr />
 				</div>
 
 			<?php endwhile; ?>

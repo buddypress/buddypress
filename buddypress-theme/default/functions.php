@@ -99,12 +99,9 @@ function get_options_class() {
 }
 
 function has_icons() {
-	global $current_component;
 	global $current_userid, $loggedin_userid;
-	
-	if ( $current_component == 'profile' ) {
-		if ( $current_userid != $loggedin_userid )
-			echo ' class="icons"';
-	}
+
+	if ( $current_userid != $loggedin_userid )
+		echo ' class="icons"';
 }
 ?>
