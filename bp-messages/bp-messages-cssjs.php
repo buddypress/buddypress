@@ -2,8 +2,10 @@
 
 function messages_add_js() {
 	global $bp_messages_image_base;
+	global $current_action, $current_component;
+	global $bp_messages_slug;
 	
-	if ( strpos( $_GET['page'], 'messages' ) !== false ) { ?>
+	if ( strpos( $_GET['page'], 'messages' ) !== false || ( $current_component == $bp_messages_slug && $current_action == $bp_messages_slug ) || ( $current_component == $bp_messages_slug && $current_action == 'compose') ) { ?>
 		<script type="text/javascript">
 			var ajaxurl = '<?php echo get_option('siteurl') . "/wp-admin/admin-ajax.php"; ?>';
 		
@@ -36,7 +38,7 @@ function messages_add_js() {
 							'cookie': encodeURIComponent(document.cookie),
 							'_wpnonce': jQuery("input#_wpnonce").val(),
 							
-							'content': jQuery("#content").val(),
+							'content': jQuery("#message_content").val(),
 							'send_to': jQuery("input#send_to").val(),
 							'subject': jQuery("input#subject").val(),
 							'thread_id': jQuery("input#thread_id").val()
@@ -69,7 +71,7 @@ function messages_add_js() {
 
 			
 		</script>
-		<script type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce.js"></script>
+		<script type="text/javascript" src="<?php echo get_option('siteurl') . '/wp-includes/js/tinymce/tiny_mce.js'; ?>"></script>
 		<script type="text/javascript">
 			<!--
 			tinyMCE.init({
@@ -84,7 +86,7 @@ function messages_add_js() {
 			theme_advanced_buttons1:"bold,italic,strikethrough,|,bullist,numlist,blockquote,|,justifyleft,justifycenter,justifyright,|,link,unlink,image,wp_more,|,fullscreen,wp_adv",theme_advanced_buttons2:"formatselect,underline,justifyfull,forecolor,|,pastetext,pasteword,removeformat,|,media,charmap,|,outdent,indent,|,undo,redo,wp_help",theme_advanced_buttons3:"",
 			content_css : "<?php echo get_option('siteurl') . '/wp-includes/js/tinymce/plugins/wordpress/wordpress.css'; ?>",
 			mode : "exact",
-			elements : "content",
+			elements : "message_content",
 			width : "100%",
 			height : "250",
 			plugins:"safari,inlinepopups,autosave,paste,wordpress,media,fullscreen"

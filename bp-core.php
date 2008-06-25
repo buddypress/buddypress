@@ -363,7 +363,7 @@ function bp_core_get_blogdetails( $domain ) {
 	return $blog;
 }
 
-function bp_core_get_userlink( $uid ) {
+function bp_core_get_userlink( $uid, $no_anchor = false ) {
 	global $userdata;
 	
 	$ud = get_userdata($uid);
@@ -372,7 +372,10 @@ function bp_core_get_userlink( $uid ) {
 	if ( $uid == $userdata->ID )
 		$display_name = 'You';
 
-	return '<a href="http://' . $ud->source_domain . '">' . $display_name . '</a>';
+	if ( $no_anchor )
+		return $display_name;
+
+	return '<a href="http://' . $ud->source_domain . $ud->path . '">' . $display_name . '</a>';
 	
 }
 

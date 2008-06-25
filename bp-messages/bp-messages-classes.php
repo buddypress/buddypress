@@ -72,6 +72,7 @@ Class BP_Messages_Thread {
 	function get_messages( $get_all_messages, $exclude_user_id) {
 		global $wpdb, $userdata;
 		
+		// This needs to be fixed and re-enabled
 		// if ( !$get_all_messages )
 		// 		$limit = $wpdb->prepare(" ORDER BY date_sent DESC LIMIT 1");
 		
@@ -201,6 +202,32 @@ Class BP_Messages_Thread {
 		$thread_id = $wpdb->get_var($sql);
 		
 		echo $thread_id + 1;
+	}
+	
+	function check_access($thread_id) {
+		global $wpdb, $bp_messages_table_name;
+		global $loggedin_userid;
+		
+		$sql = $wpdb->prepare("SELECT thread_id FROM $bp_messages_table_name WHERE thread_id = %d AND (recipient_id = %d OR sender_id = %d)", $thread_id, $loggedin_userid, $loggedin_userid);
+
+		$result = $wpdb->query($sql);
+		
+		if ( !$result )
+			return false;
+		
+		return true;
+	}
+	
+	function get_sender($thread_id) {
+		global $wpdb, $bp_messages_table_name;
+		global $loggedin_userid;
+
+		$sql = $wpdb->prepare("SELECT sender_id FROM $bp_messages_table_name WHERE thread_id = %d", $thread_id);
+		
+		if ( !$sender_id = $wpdb->get_var($sql) )
+			return false;
+		
+		return bp_core_get_userlink( $sender_id, true );
 	}
 	
 	function delete($thread_id) {

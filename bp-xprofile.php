@@ -153,7 +153,7 @@ function xprofile_setup_nav() {
 		'link'  => $current_domain . $bp_xprofile_slug
 	);
 
-	if ( $current_component == 'profile' ) {
+	if ( $current_component == $bp_xprofile_slug ) {
 		if ( bp_is_home() ) {
 			$bp_options_title = __('My Profile');
 			$bp_options_nav[$bp_xprofile_slug] = array(
@@ -205,14 +205,16 @@ add_action( 'wp', 'xprofile_catch_action' );
 /**************************************************************************
  xprofile_profile_template()
  
- Set up access to authordata and then set up template tags for use in
- templates.
+ Set up template tags for use in templates.
  **************************************************************************/
 
 function xprofile_profile_template() {
 	global $profile_template, $current_userid;
-
-	$profile_template = new BP_XProfile_Template($current_userid);
+	global $current_component, $bp_xprofile_slug;
+	
+	if ( $current_component == $bp_xprofile_slug ) {
+		$profile_template = new BP_XProfile_Template($current_userid);
+	}
 }
 add_action( 'wp_head', 'xprofile_profile_template' );
 

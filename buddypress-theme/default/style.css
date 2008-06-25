@@ -52,7 +52,7 @@ p { margin: 0 0 1em 0; }
 a { color: #f7740a; }
 	a:hover { text-decoration: underline; }
 	
-hr {
+hr, div.clear {
 	visibility: hidden;
 	clear: both;
 }
@@ -271,7 +271,6 @@ ul.content-header-nav {
 	
 		#main img.avatar {
 			border: 4px solid #f0f0f0;
-			padding: 2px;
 		}
 	
 		.main-column {
@@ -469,6 +468,105 @@ ul.content-header-nav {
 			padding-bottom: 0.5em;
 			margin: -1em 0 1em 0;
 		}
+
+/**** MESSAGING *****************/
+
+	table#message-threads {
+		width: 100%;
+	}
+		table#message-threads tr, .message-box {
+			background: url(images/message_thread_back.gif) top left repeat-x;
+		}
+		
+		table#message-threads tr.unread {
+			background-image: url(images/message_thread_unread_back.gif);
+		}
+			table#message-threads tr td, .message-box {
+				padding: 1em;
+			}
+				table#message-threads tr td p {
+					margin: 0;
+				}
+					td p.date {
+						color: #888;
+						font-size: 0.95em;
+					}
+					
+	.form-table { display: none; } 
+	
+	.avatar-box { 
+		float: left;
+		border: none !important;
+	}
+	
+	.message-box {
+		padding: 15px 10px;
+		padding-left: 135px;
+	}
+		.message-box .avatar-box {
+			float: left;
+			width: 110px;
+			margin: 0 0 0 -125px;
+		}
+			#main #content .avatar-box h3 {
+				margin: 1em 0 0 0;
+				font: bold 1em "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, Verdana, Arial, sans-serif;;
+			}
+			
+			.avatar-box small {
+				line-height: 1.5;
+				font-size: 0.9em;
+				color: #888;
+			}
+			
+		#message_content_tbl { border: 1px solid #ddd; }
+		.mceToolbar, .mceStatusbar { background: #eee; }
+		.mceToolbar a { color: #bbb !important; }
+		
+		#send_reply_button { margin: 1.5em 0 0 0;}
+		
+		div.ajax_reply, div.error-box {
+			text-align: center;
+			padding: 15px;
+			background: #EAF3FA;
+			color: #2583AD;
+		}
+		
+		div.error-box {
+			background-image: url(images/error_back.gif);
+			background-color: #ff3a3a;
+			color: #fff;
+		}
+			div.div.ajax_reply img, div.error-box img { vertical-align: middle; }
+		
+		#send_message_form {
+			margin-top: -1em;
+		}
+		#main #content #send_message_form h3 {
+			margin: 0;
+			font-size: 1.1em;
+		}
+		
+		#send_message_form input {
+			width: 45%;
+			font-size: 1.4em;
+			border: 1px solid #cdcdcd;
+			padding: 0.2em;
+			margin: 0 0 0.5em 0;
+		}
+		
+		#send_message_form textarea {
+			width: 100%;
+			border: 1px solid #cdcdcd;
+			padding: 0.2em;	
+		}
+		
+		#send_message_form input#send {
+			width: auto;
+			font: normal 1em inherit;
+			margin-top: 1.5em;
+		}
+		
 /**************************
  BLOG SIDEBAR
 ***************************/

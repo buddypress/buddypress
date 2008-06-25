@@ -7,15 +7,11 @@ $bp_messages_table_name_deleted = $bp_messages_table_name . '_deleted';
 $bp_messages_image_base 		= get_option('siteurl') . '/wp-content/mu-plugins/bp-messages/images';
 $bp_messages_slug 				= 'messages';
 
-
 include_once( 'bp-messages/bp-messages-classes.php' );
 include_once( 'bp-messages/bp-messages-ajax.php' );
 include_once( 'bp-messages/bp-messages-cssjs.php' );
 include_once( 'bp-messages/bp-messages-admin.php' );
-
-/*
 include_once( 'bp-messages/bp-messages-templatetags.php' );
-*/
 
 /**************************************************************************
  messages_install()
@@ -53,6 +49,51 @@ function messages_install( $version ) {
 }
 
 /**************************************************************************
+ messages_add_admin_menu()
+ 
+ Creates the administration interface menus and checks to see if the DB
+ tables are set up.
+ **************************************************************************/
+
+function messages_add_admin_menu() {	
+	global $wpdb, $bp_messages_table_name, $bp_messages, $userdata;
+
+	if ( $wpdb->blogid == $userdata->primary_blog ) {	
+		if ( $inbox_count = BP_Messages_Thread::get_inbox_count() ) {
+			$count_indicator = ' <span id="awaiting-mod" class="count-1"><span class="message-count">' . $inbox_count . '</span></span>';
+		}
+		
+		add_menu_page    ( __('Messages'), sprintf( __('Messages%s'), $count_indicator ), 1, basename(__FILE__), "messages_inbox" );
+		add_submenu_page ( basename(__FILE__), __('Messages &rsaquo; Inbox'), __('Inbox'), 1, basename(__FILE__), "messages_inbox" );	
+		add_submenu_page ( basename(__FILE__), __('Messages &rsaquo; Sent Messages'), __('Sent Messages'), 1, "messages_sentbox", "messages_sentbox" );	
+		add_submenu_page ( basename(__FILE__), __('Messages &rsaquo; Compose'), __('Compose'), 1, "messages_write_new", "messages_write_new" );
+
+		// Add the administration tab under the "Site Admin" tab for site administrators
+		add_submenu_page ( 'wpmu-admin.php', __('Messages'), __('Messages'), 1, basename(__FILE__), "messages_settings" );
+	}
+	
+	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
+	if ( ( $wpdb->get_var( "show tables like '%" . $bp_messages_table_name . "%'" ) == false ) || ( get_site_option('bp-messages-version') < BP_MESSAGES_VERSION ) )
+		messages_install(BP_MESSAGES_VERSION);
+}
+add_action( 'admin_menu', 'messages_add_admin_menu' );
+
+
+/**************************************************************************
+ messages_admin_setup()
+ 
+ Setup CSS, JS and other things needed for the admin side
+ of the messaging component.
+ **************************************************************************/
+
+function messages_admin_setup() {		
+	add_action( 'admin_head', 'messages_add_css' );
+	add_action( 'admin_head', 'messages_add_js' );
+}
+add_action( 'admin_menu', 'messages_admin_setup' );
+
+
+/**************************************************************************
  messages_setup_nav()
  
  Set up front end navigation.
@@ -62,29 +103,36 @@ function messages_setup_nav() {
 	global $loggedin_userid, $loggedin_domain;
 	global $current_userid, $current_domain;
 	global $bp_nav, $bp_options_nav, $bp_users_nav;
-	global $bp_messages_slug;
+	global $bp_messages_slug, $bp_options_avatar, $bp_options_title;
+	global $current_component;
 
 	$bp_nav[2] = array(
 		'id'	=> $bp_messages_slug,
 		'name'  => 'Messages', 
 		'link'  => $loggedin_domain . $bp_messages_slug
 	);
-	
-	if ( $loggedin_userid == $current_userid ) {
-		$bp_options_nav[$bp_messages_slug] = array(
-			''		   => array( 
-				'name' => __('Inbox'),
-				'link' => $loggedin_domain . $bp_messages_slug . '/' ),
-			'sentbox'  => array(
-				'name' => __('Sent Messages'),
-				'link' => $loggedin_domain . $bp_messages_slug . '/sentbox' ),
-			'compose' => array( 
-				'name' => __('Compose'),
-				'link' => $loggedin_domain . $bp_messages_slug . '/compose' )
-		);
+
+	if ( $current_component == $bp_messages_slug ) {
+		if ( bp_is_home() ) {
+			$bp_options_title = __('My Messages');
+			$bp_options_nav[$bp_messages_slug] = array(
+				'inbox'	   => array( 
+					'name' => __('Inbox'),
+					'link' => $loggedin_domain . $bp_messages_slug . '/' ),
+				'sentbox'  => array(
+					'name' => __('Sent Messages'),
+					'link' => $loggedin_domain . $bp_messages_slug . '/sentbox' ),
+				'compose' => array( 
+					'name' => __('Compose'),
+					'link' => $loggedin_domain . $bp_messages_slug . '/compose' )
+			);
+		} else {
+			$bp_options_avatar = xprofile_get_avatar( $current_userid, 1 );
+			$bp_options_title = bp_user_fullname( $current_userid, false ); 
+		}
 	}
 }
-add_action( 'wp_head', 'messages_setup_nav' );
+add_action( 'wp', 'messages_setup_nav' );
 
 
 /**************************************************************************
@@ -94,14 +142,65 @@ add_action( 'wp_head', 'messages_setup_nav' );
  **************************************************************************/
 
 function messages_catch_action() {
-	global $current_component, $current_blog, $current_action;
-	
-	if ( $current_component == $bp_messages_slug && $current_blog->blog_id > 1 ) {
-		if ( !$current_action )
-			bp_catch_uri( $bp_messages_slug . '/index' );
+	global $bp_messages_slug, $current_component, $current_blog;
+	global $loggedin_userid, $current_userid, $current_action;
+	global $bp_options_nav, $action_variables, $thread_id;
+
+	if ( $current_component == $bp_messages_slug && $current_blog->blog_id > 1 && $loggedin_userid == $current_userid ) {
+		if ( $current_action == '' )
+			$current_action = 'inbox';
+		
+		if ( $current_action == 'inbox' ) {
+			bp_catch_uri( 'messages/index' );
+		} else if ( $current_action == 'sentbox' ) {
+			bp_catch_uri( 'messages/sentbox' );
+		} else if ( $current_action == 'compose' ) {
+			bp_catch_uri( 'messages/compose' );
+		} else if ( $current_action == 'view' && !empty($action_variables) ) {
+			$thread_id = $action_variables[0];
+		
+			if ( !$thread_id || !is_numeric($thread_id) || !BP_Messages_Thread::check_access($thread_id) ) {
+				$current_action = 'inbox';
+				bp_catch_uri( 'messages/index' );
+			} else {
+				$bp_options_nav[$bp_messages_slug]['view'] = array(
+					'name' => __('From: ' . BP_Messages_Thread::get_sender($thread_id)),
+					'link' => $loggedin_domain . $bp_messages_slug . '/'			
+				);
+			
+				bp_catch_uri( 'messages/view' );
+			}
+		} else {
+			$current_action = 'inbox';
+			bp_catch_uri( 'messages/index' );
+		}
 	}
 }
-add_action( 'wp_head', 'messages_catch_action' );
+add_action( 'wp', 'messages_catch_action' );
+
+/**************************************************************************
+ messages_template()
+ 
+ Set up template tags for use in templates.
+ **************************************************************************/
+
+function messages_template() {
+	global $messages_template, $current_userid;
+	global $current_component, $bp_messages_slug;
+	global $current_action, $loggedin_domain;
+	
+	if ( $current_component == $bp_messages_slug ) {
+		if ( $current_action == 'inbox' || $current_action == 'sentbox' )
+			$messages_template = new BP_Messages_Template($current_action, $current_userid);
+		
+		if ( $current_action == 'view' || $current_action == 'compose' ) {
+			echo "<script type='text/javascript' src='" . $loggedin_domain . "wp-includes/js/jquery/jquery.js?ver=1.2.3'></script>";
+			messages_add_js();
+		}
+	}
+	
+}
+add_action( 'wp_head', 'messages_template' );
 
 
 /**************************************************************************
@@ -111,6 +210,13 @@ add_action( 'wp_head', 'messages_catch_action' );
  **************************************************************************/
 
 function messages_write_new( $username = '', $subject = '', $content = '', $type = '', $message = '' ) { ?>
+	<?php
+	global $messages_write_new_action;
+	
+	if ( $messages_write_new_action == '' )
+		$messages_write_new_action = 'admin.php?page=bp-messages.php&amp;mode=send';
+	?>
+	
 	<div class="wrap">
 		<h2><?php _e('Compose Message') ?></h2>
 		
@@ -123,13 +229,13 @@ function messages_write_new( $username = '', $subject = '', $content = '', $type
 			</div>
 		<?php } ?>
 						
-		<form action="admin.php?page=bp-messages.php&amp;mode=send" method="post" id="send_message_form">
+		<form action="<?php echo $messages_write_new_action ?>" method="post" id="send_message_form">
 		<div id="poststuff">
 			<p>			
 			<div id="titlediv">
 				<h3><?php _e("Send To") ?> <small>(Use username - autocomplete coming soon)</small></h3>
 				<div id="titlewrap">
-					<input type="text" name="send_to" id="send_to" value="<?php echo $username; ?>" style="border: none; width: 99%" />
+					<input type="text" name="send_to" id="send_to" value="<?php echo $username; ?>" />
 				</div>
 			</div>
 			</p>
@@ -138,16 +244,16 @@ function messages_write_new( $username = '', $subject = '', $content = '', $type
 			<div id="titlediv">
 				<h3><?php _e("Subject") ?></h3>
 				<div id="titlewrap">
-					<input type="text" name="subject" id="subject" value="<?php echo $subject; ?>" style="border: none; width: 99%;font-size:1.7em;" />
+					<input type="text" name="subject" id="subject" value="<?php echo $subject; ?>" />
 				</div>
 			</div>
 			</p>
 			
 			<p>
 				<div id="postdivrich" class="postarea">
-					<h3 style="margin-bottom: 1px;"><?php _e("Message") ?></h3>
-					<div id="editorcontainer" style="padding: 0px;">
-						<textarea name="content" id="content" rows="15" cols="40"><?php echo $content; ?></textarea>
+					<h3><?php _e("Message") ?></h3>
+					<div id="editorcontainer">
+						<textarea name="content" id="message_content" rows="15" cols="40"><?php echo $content; ?></textarea>
 					</div>
 				</div>
 			</p>
@@ -161,7 +267,7 @@ function messages_write_new( $username = '', $subject = '', $content = '', $type
 		</div>
 		</form>
 		<script type="text/javascript">
-			$("send_to").focus();
+			document.getElementById("send_to").focus();
 		</script>
 		
 	</div>
@@ -199,7 +305,7 @@ function messages_box( $box = 'inbox', $display_name = 'Inbox', $message = '', $
 		<div class="wrap">
 			<h2><?php echo $display_name ?></h2>
 			<form action="admin.php?page=bp-messages.php&amp;mode=delete_bulk" method="post">
-	
+
 			<?php
 				if ( $message != '' ) {
 					$type = ( $type == 'error' ) ? 'error' : 'updated';
@@ -289,13 +395,15 @@ function messages_box( $box = 'inbox', $display_name = 'Inbox', $message = '', $
 }
 
 /**************************************************************************
- messages_send()
+ messages_send_message()
   
  Send a message.
  **************************************************************************/
 
-function messages_send_message($to_user, $subject, $content, $thread_id, $from_ajax = false) {
+function messages_send_message($to_user, $subject, $content, $thread_id, $from_ajax = false, $from_template = false) {
 	global $userdata;
+	global $messages_write_new_action;
+	global $message, $type;
 
 	if ( is_numeric($to_user) ) {
 		$to_username = bp_core_get_username($to_user);
@@ -306,13 +414,13 @@ function messages_send_message($to_user, $subject, $content, $thread_id, $from_a
 
 	if ( is_null($to_user) ) {
 		if ( !$from_ajax ) {
-			messages_write_new( '', $subject, $content, 'error', __('The username you provided was invalid.') );
+			messages_write_new( '', $subject, $content, 'error', __('The username you provided was invalid.'), $messages_write_new_action );
 		} else {
 			return array('status' => 0, 'message' => __('There was an error sending the reply, please try again.'));
 		}
 	} else if ( $subject == '' || $content == '' || $thread_id == '' ) {
 		if ( !$from_ajax ) {
-			messages_write_new( $to_user, $subject, $content, 'error', __('Please make sure you fill in all the fields.') );
+			messages_write_new( $to_user, $subject, $content, 'error', __('Please make sure you fill in all the fields.'), $messages_write_new_action );
 		} else {
 			return array('status' => 0, 'message' => __('Please make sure you have typed a message before sending a reply.'));
 		}
@@ -324,20 +432,26 @@ function messages_send_message($to_user, $subject, $content, $thread_id, $from_a
 		$message->message = $content;
 		$message->is_read = 0;
 		$message->thread_id = $thread_id;
-		
+
 		unset($_GET['mode']);
 
 		if ( !$message->send() ) {
-			if ( !$from_ajax ) {
-				messages_box( 'inbox', __('Inbox'), __('Message could not be sent, please try again.'), 'error' );
-			} else {
+			if ( $from_ajax ) {
 				return array('status' => 0, 'message' => __('Message could not be sent, please try again.'));
+			} else if ( $from_template ) {
+				// TODO
+				echo 'Message could not be sent, please try again.';
+			} else {
+				messages_box( 'inbox', __('Inbox'), __('Message could not be sent, please try again.'), 'error' );	
 			}
 		} else {
-			if ( !$from_ajax ) {
-				messages_box( 'inbox', __('Inbox'), __('Message sent successfully!'), 'success' );
-			} else {
+			if ( $from_ajax ) {
 				return array('status' => 1, 'message' => __('Message sent successfully!'), 'reply' => $message);
+			} else if ( $from_template ) {
+				// TODO
+				echo 'Message sent successfully!';
+			} else {
+				messages_box( 'inbox', __('Inbox'), __('Message sent successfully!'), 'success' );
 			}
 		}
 	}
@@ -415,14 +529,14 @@ function messages_view_thread( $thread_id ) {
 							<h3><?php echo bp_core_get_userlink($message->sender_id) ?></h3>
 							<small><?php echo bp_format_time($message->date_sent) ?></small>
 						</div>
-						<?php echo $message->message; ?>
+						<?php echo stripslashes($message->message); ?>
 						<div class="clear"></div>
 					</div>
 				<?php
 			}
 		
 			?>
-				<form id="send-reply" action="admin.php?page=bp-messages.php&amp;mode=send" method="post">
+				<form id="send-reply" action="<?php echo get_option('home'); ?>/wp-admin/admin.php?page=bp-messages.php&amp;mode=send" method="post">
 					<div class="message-box">
 							<div id="messagediv">
 								<div class="avatar-box">
@@ -434,7 +548,7 @@ function messages_view_thread( $thread_id ) {
 								</div>
 								<label for="reply"></label>
 								<div>
-									<textarea name="content" id="content" rows="15" cols="40"><?php echo $content; ?></textarea>
+									<textarea name="content" id="message_content" rows="15" cols="40"><?php echo $content; ?></textarea>
 								</div>
 							</div>
 							<p class="submit">
