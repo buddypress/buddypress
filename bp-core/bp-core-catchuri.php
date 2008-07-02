@@ -28,6 +28,10 @@ $current_component = $bp_uri[$component_index];
 $current_action = $bp_uri[$action_index];
 
 $action_variables = $bp_uri;
+
+if ( VHOST == 'no' )
+	unset($action_variables[0]);
+	
 unset($action_variables[$component_index]);
 unset($action_variables[$action_index]);
 $action_variables = array_merge( array(), $action_variables );
