@@ -2,371 +2,524 @@
 
 Class BP_Messages_Thread { 
 	var $thread_id;
-	var $subject;
-	var $sender_id;
-	var $recipients;
-	var $last_post_date;
-	var $messages;
+	var $message_ids;
+	var $first_post_date;
 	
-	var $has_access;
-	var $unread_count;
-	var $is_deleted = false;
+	var $last_post_date;
+	var $last_sender_id;
+	var $last_message_id;
+	var $last_message_subject;
+	var $last_message_message;
+	var $last_message_date_sent;
+	
+	var $messages = null;
+	var $has_access = false;
+	var $unread_count = 0;
+	var $recipients = null;
 	
 	var $box;
-	var $last_sent_by_user;
-	var $last_received_by_user;
-	
-	var $table_name;
 
-	function bp_messages_thread( $id = null, $get_all_messages = false, $exclude_user_id = null, $box = 'inbox' ) {
-		global $bp_messages_table_name;
-
-		$this->table_name = $bp_messages_table_name;
+	function bp_messages_thread( $id = null, $get_all_messages = false, $box = 'inbox' ) {
 		$this->box = $box;
 		
 		if ( $id ) {
 			$this->populate( $id, $box );
 		}
+		
+		if ( $get_all_messages ) {
+			$this->messages = $this->get_messages();
+			$this->recipients = $this->get_recipients();
+		}
 	}
 	
-	function populate( $id ) {		
-		$this->thread_id = $id;
+	function populate( $id ) {	
+		global $wpdb, $bp_messages_table_name_threads, $bp_messages_table_name_messages;
+		global $userdata;
 
-		// Check to make sure the user hasn't deleted this thread.
-		$this->check_status();
+		$sql = $wpdb->prepare( "SELECT * FROM $bp_messages_table_name_threads WHERE id = %d", $id );
+		$thread = $wpdb->get_row($sql);
 		
-		if ( !$this->is_deleted ) { 
-			$this->messages = $this->get_messages($get_all_messages, $exclude_user_id);
-			$this->has_access = $this->get_access();
-			$this->unread_count = $this->get_unread();
+		if ( $thread ) {
+			
+			// If we're only viewing a thread in a list of threads, don't bother using
+			// up resources checking if we have access. Only check if we're viewing the full
+			// thread.
+			if ( $get_all_messages )
+				$this->has_access = $this->check_access($id);
+			else
+				$this->has_access = true;
 
-			if ( $this->messages ) {
-				$thread_msg_id = ( $this->box == 'sentbox' ) ? $this->last_sent_by_user : $this->last_received_by_user;
+			if ( $this->has_access ) {
+				$this->thread_id = $thread->id;
+				$this->message_ids = unserialize($thread->message_ids);
+				$this->message_ids = implode( ',', $this->message_ids );
+				$this->first_post_date = $thread->first_post_date;
+				$this->last_post_date = $thread->last_post_date;
+				$this->last_message_id = $thread->last_message_id;
+				$this->last_sender_id = $thread->last_sender_id;
+				$this->unread_count = $this->get_unread();
+				
+				// If this is for the sentbox, we need to use the message id of the last
+				// sent message for the current user, if it is not the last one set for this thread.
 
-				for ( $i = 0; $i < count($this->messages); $i++ ) {
-					if ( $this->messages[$i]->id == $thread_msg_id ) {
-						// Set thread details to the details of the last sent or received message in the thread.
-						$this->subject = $this->messages[$i]->subject;
-						$this->last_post_date = $this->messages[$i]->date_sent;
-						$this->creator_id = $this->messages[$i]->sender_id;
-						$this->message = $this->messages[$i]->message;
-						$this->recipients = $this->get_recipients();
+				if ( $this->box == 'sentbox' ) {
+					$this->recipients = $this->get_recipients();
+					
+					if ( $this->last_sender_id != $userdata->ID ) {
+						$this->last_message_id = BP_Messages_Message::get_last_sent_for_user($this->thread_id);
+						$this->last_sender_id = $userdata->ID;
 					}
 				}
+				
+				$sql = $wpdb->prepare( "SELECT * FROM $bp_messages_table_name_messages WHERE id = %d", $this->last_message_id );	
+				$last_message = $wpdb->get_row($sql);
+				
+				if ( $last_message ) {
+					$this->last_message_subject = $last_message->subject;
+					$this->last_message_message = $last_message->message;
+					$this->last_message_date_sent = $last_message->date_sent;
+				}
 			}
-		} else {
-			$this->has_access = false;
 		}
 	}
 	
-	function check_status() {
-		global $wpdb, $userdata, $bp_messages_table_name_deleted;
-		
-		$sql = $wpdb->prepare("SELECT is_deleted FROM $bp_messages_table_name_deleted WHERE thread_id = %d AND user_id = %d", $this->thread_id, $userdata->ID);
-		$is_deleted = $wpdb->get_var($sql);
-		
-		if ( $is_deleted )
-			$this->is_deleted = true;
-	}
-	
-	function get_messages( $get_all_messages, $exclude_user_id) {
+	function get_messages() {
 		global $wpdb, $userdata;
-		
-		// This needs to be fixed and re-enabled
-		// if ( !$get_all_messages )
-		// 		$limit = $wpdb->prepare(" ORDER BY date_sent DESC LIMIT 1");
-		
-		switch ( $this->box ) {
-			case 'inbox':
-				$boxclause = $wpdb->prepare(" AND recipient_id = %d", $userdata->ID);
-			break;
-			case 'sentbox':
-				$boxclause = $wpdb->prepare(" AND sender_id = %d", $userdata->ID);
-				$exclude_user_id = null;
-			break;
-			default:
-				$boxclause = '';
-			break;
-		}
+		global $bp_messages_table_name_messages;
 			
-		$sql = $wpdb->prepare( "SELECT id, sender_id, recipient_id FROM $this->table_name WHERE thread_id = %d$boxclause$limit", $this->thread_id);
-
-		if ( !$results = $wpdb->get_results($sql) )
+		$sql = "SELECT * FROM $bp_messages_table_name_messages WHERE id IN (" . $wpdb->escape($this->message_ids) . ")";
+		
+		if ( !$messages = $wpdb->get_results($sql) )
 			return false;
-		
-		for ( $i = 0; $i < count($results); $i++ ) {
-			if ( $results[$i]->sender_id == $userdata->ID )
-				$this->last_sent_by_user = $results[$i]->id;
-			
-			if ( $results[$i]->recipient_id == $userdata->ID )
-				$this->last_received_by_user = $results[$i]->id;
-			
-			if ( $results[$i]->sender_id != $exclude_user_id ) {
-				$messages[] = new BP_Messages_Message( $results[$i]->id );
-			} else if ( $results[$i]->sender_id == $results[$i]->recipient_id ) {
-				$messages[] = new BP_Messages_Message($results[$i]->id);				
-			}
-		}
-		
+
 		return $messages;
 	}
-	
-	function get_access() {
-		global $userdata;
-		
-		$has_access = true;
-		
-		for ( $i = 0; $i < count($this->messages); $i++ ) {
-			$message = $this->messages[$i];
-			
-			if ( !( $message->sender_id == $userdata->ID || $message->recipient_id == $userdata->ID ) )
-				$has_access = false;
-		}
-		
-		return $has_access;
-	}
-	
+
 	function get_unread() {
-		$unread_count = 0;
-		
-		for ( $i = 0; $i < count($this->messages); $i++ ) {
-			$message = $this->messages[$i];
-			
-			if ( $message->is_read == 0 )
-				$unread_count++;
-		}
+		global $wpdb, $bp_messages_table_name_recipients, $userdata;
+
+		$sql = $wpdb->prepare( "SELECT unread_count FROM $bp_messages_table_name_recipients WHERE thread_id = %d AND user_id = %d", $this->thread_id, $userdata->ID );
+		$unread_count = $wpdb->get_var($sql);
 		
 		return $unread_count;
 	}
 	
+	function mark_read() {
+		BP_Messages_Thread::mark_as_read($this->thread_id);
+	}
+	
+	function mark_unread() {
+		BP_Messages_Thread::mark_as_unread($this->thread_id);
+	}
+	
 	function get_recipients() {
-		$recipients = array();
-		
-		for ( $i = 0; $i < count($this->messages); $i++ ) {
-			$message = $this->messages[$i];
-			
-			if ( !in_array($message->recipient_id, $recipients) && $message->recipient_id != $this->sender_id ) 
-				$recipients[] = $message->recipient_id;
-		}
-		
+		global $wpdb, $userdata;
+		global $bp_messages_table_name_recipients;
+
+		$recipients = $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM $bp_messages_table_name_recipients WHERE thread_id = %d", $this->thread_id ) );
+
 		for ( $i = 0; $i < count($recipients); $i++ ) {
-			$recipients[$i] = bp_core_get_userlink($recipients[$i]);
+			$recipient = $recipients[$i]->user_id;
+			
+			if ( count($recipients) == 1 ||$recipient != $userdata->ID )
+				$recipient_ids[] = $recipient;
 		}
 		
-		return implode( ', ', $recipients);
+		return $recipient_ids;
 	}
 	
 	/** Static Functions **/
 	
-	function get_threads_for_user( $box, $user_id, $get_all_messages, $exclude_user_id ) {
-		global $wpdb, $bp_messages_table_name, $bp_messages_table_name_deleted, $userdata;
+	function get_current_threads_for_user( $user_id, $box = 'inbox', $limit = null, $page = null ) {
+		global $wpdb, $userdata;
+		global $bp_messages_table_name_recipients;
+		global $bp_messages_table_name_threads;
+
+		$exclude_sender = '';
+		if ( $box != 'sentbox' )
+			$exclude_sender = ' AND sender_only != 1';
 		
-		switch ( $box ) {
-			case 'inbox':
-			default:
-				$whereclause = $wpdb->prepare("ON t.recipient_id = td.user_id AND t.thread_id = td.thread_id WHERE t.recipient_id = %d", $user_id);
-			break;
-			case 'sentbox':
-				$whereclause = $wpdb->prepare("ON t.sender_id = td.user_id AND t.thread_id = td.thread_id WHERE t.sender_id = %d", $user_id);
-				$exclude_user_id = null;
-			break;
-		}
-		
-		$sql = $wpdb->prepare("SELECT DISTINCT t.thread_id, td.is_deleted FROM $bp_messages_table_name t LEFT JOIN $bp_messages_table_name_deleted td $whereclause ORDER BY t.date_sent DESC");
+		// If we have pagination values set we want to pass those to the query
+		if ( $limit && $page )
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+			
+		$sql = $wpdb->prepare( "SELECT r.thread_id FROM $bp_messages_table_name_recipients r, $bp_messages_table_name_threads t WHERE t.id = r.thread_id AND r.user_id = %d$exclude_sender ORDER BY t.last_post_date DESC$pag_sql", $userdata->ID);
 
 		if ( !$thread_ids = $wpdb->get_results($sql) )
 			return false;
-
-		for ( $i = 0; $i < count($thread_ids); $i++ ) {
-			if ( !$thread_ids[$i]->is_deleted )
-				$threads[] = new BP_Messages_Thread( $thread_ids[$i]->thread_id, $get_all_messages, $exclude_user_id, $box );
-		}
 		
-		$have_messages = 0;
-		for ( $i = 0; $i < count($threads); $i++ ) {
-			if ( $threads[$i]->messages ) {
-				$have_messages = 1;
+		for ( $i = 0; $i < count($thread_ids); $i++ ) {
+			if ( $box == 'sentbox' ) {
+				if ( BP_Messages_Thread::user_is_sender($thread_ids[$i]->thread_id) )
+					$threads[] = new BP_Messages_Thread( $thread_ids[$i]->thread_id, false, $box );	
+			} else {
+				$threads[] = new BP_Messages_Thread( $thread_ids[$i]->thread_id, false, $box );
 			}
 		}
 		
-		$threads['have_messages'] = $have_messages;
-
 		return $threads;
 	}
 	
-	function get_new_thread_id() {
-		global $wpdb, $bp_messages_table_name;
+	function mark_as_read( $thread_id ) {
+		global $wpdb, $userdata;
+		global $bp_messages_table_name_recipients;
 		
-		$sql = $wpdb->prepare("SELECT MAX(thread_id) FROM $bp_messages_table_name");
-		
-		$thread_id = $wpdb->get_var($sql);
-		
-		echo $thread_id + 1;
+		$sql = $wpdb->prepare( "UPDATE $bp_messages_table_name_recipients SET unread_count = 0 WHERE user_id = %d AND thread_id = %d", $userdata->ID, $thread_id );
+		$wpdb->query($sql);
 	}
 	
-	function check_access($thread_id) {
-		global $wpdb, $bp_messages_table_name;
-		global $loggedin_userid;
+	function mark_as_unread( $thread_id ) {
+		global $wpdb, $userdata;
+		global $bp_messages_table_name_recipients;
 		
-		$sql = $wpdb->prepare("SELECT thread_id FROM $bp_messages_table_name WHERE thread_id = %d AND (recipient_id = %d OR sender_id = %d)", $thread_id, $loggedin_userid, $loggedin_userid);
+		$sql = $wpdb->prepare( "UPDATE $bp_messages_table_name_recipients SET unread_count = 1 WHERE user_id = %d AND thread_id = %d", $userdata->ID, $thread_id );
+		$wpdb->query($sql);
+	}
+	
+	function get_total_threads_for_user( $user_id, $box = 'inbox' ) {
+		global $wpdb, $userdata;
+		global $bp_messages_table_name_recipients;
+		global $bp_messages_table_name_threads;
 
-		$result = $wpdb->query($sql);
+		$exclude_sender = '';
+		if ( $box != 'sentbox' )
+			$exclude_sender = ' AND sender_only != 1';
+
+		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT count(thread_id) FROM $bp_messages_table_name_recipients WHERE user_id = %d$exclude_sender", $user_id ) );
+	}
+	
+	function user_is_sender($thread_id) {
+		global $wpdb, $bp_messages_table_name_threads;
+		global $userdata;
 		
-		if ( !$result )
+		$sender_ids = $wpdb->get_var( $wpdb->prepare( "SELECT sender_ids FROM $bp_messages_table_name_threads WHERE id = %d", $thread_id ) );	
+		
+		if ( !$sender_ids )
 			return false;
+			
+		$sender_ids = unserialize($sender_ids);
 		
-		return true;
+		return in_array( $userdata->ID, $sender_ids );
 	}
-	
-	function get_sender($thread_id) {
-		global $wpdb, $bp_messages_table_name;
-		global $loggedin_userid;
 
-		$sql = $wpdb->prepare("SELECT sender_id FROM $bp_messages_table_name WHERE thread_id = %d", $thread_id);
-		
+	function get_last_sender($thread_id) {
+		global $wpdb, $bp_messages_table_name_threads;
+		global $userdata;
+
+		$sql = $wpdb->prepare("SELECT last_sender_id FROM $bp_messages_table_name_threads WHERE id = %d", $thread_id);
+
 		if ( !$sender_id = $wpdb->get_var($sql) )
 			return false;
-		
+
 		return bp_core_get_userlink( $sender_id, true );
 	}
 	
 	function delete($thread_id) {
-		global $wpdb, $bp_messages_table_name_deleted, $userdata;	
+		global $wpdb, $userdata;
+		global $bp_messages_table_name_recipients, $bp_messages_table_name_messages, $bp_messages_table_name_threads;	
 		
-		$sql = $wpdb->prepare("INSERT INTO $bp_messages_table_name_deleted ( thread_id, user_id, is_deleted ) VALUES ( %d, %d, 1 )", $thread_id, $userdata->ID);
+		$sql = $wpdb->prepare( "DELETE FROM $bp_messages_table_name_recipients WHERE thread_id = %d AND user_id = %d", $thread_id, $userdata->ID);
 		
 		if ( !$result = $wpdb->query($sql) )
 			return false;
-		
+			
+		// Check to see if any more recipients remain for this message
+		// if not, then delete the message from the database.
+		$recipients =  $wpdb->get_results( $wpdb->prepare( "SELECT id FROM $bp_messages_table_name_recipients WHERE thread_id = %d", $thread_id ) );
+
+		if ( !$recipients ) {
+			// Get message ids:
+			$message_ids = $wpdb->get_var( $wpdb->prepare( "SELECT message_ids FROM $bp_messages_table_name_threads WHERE id = %d", $thread_id ) );
+			$message_ids = unserialize($message_ids);
+			
+			// delete thread:
+			$wpdb->query( $wpdb->prepare( "DELETE FROM $bp_messages_table_name_threads WHERE id = %d", $thread_id ) );
+			
+			// delete messages:
+			for ( $i = 0; $i < count($message_ids); $i++ ) {
+				$wpdb->query( $wpdb->prepare( "DELETE FROM $bp_messages_table_name_messages WHERE id = %d", $message_ids[$i] ) );
+			}
+		}
 		return true;
 	}
 	
 	function get_inbox_count() {
-		global $wpdb, $bp_messages_table_name, $bp_messages_table_name_deleted, $userdata;
+		global $wpdb, $bp_messages_table_name_recipients, $userdata;
 
-		$count = 0;
-		$sql = $wpdb->prepare( "SELECT t.id, td.is_deleted FROM $bp_messages_table_name t LEFT JOIN $bp_messages_table_name_deleted td ON t.recipient_id = td.user_id AND t.thread_id = td.thread_id WHERE t.recipient_id = %d AND t.is_read = 0", $userdata->ID);
+		$sql = $wpdb->prepare( "SELECT unread_count FROM $bp_messages_table_name_recipients WHERE user_id = %d", $userdata->ID);
 
-		if ( !$messages = $wpdb->get_results($sql) )
+		if ( !$unread_counts = $wpdb->get_results($sql) )
 			return false;
 		
-		for ( $i = 0; $i < count($messages); $i++ ) {
-			if ( !$messages[$i]->is_deleted ) {
-				$count++;
-			}
+		$count = 0;
+		for ( $i = 0; $i < count($unread_counts); $i++ ) {
+			$count += $unread_counts[$i]->unread_count;
 		}
 		
 		return $count;
+	}
+	
+	function check_access($id) {
+		global $wpdb, $bp_messages_table_name_recipients, $userdata;
+		
+		$sql = $wpdb->prepare("SELECT id FROM $bp_messages_table_name_recipients WHERE thread_id = %d AND user_id = %d", $id, $userdata->ID );
+		$has_access = $wpdb->get_var($sql);
+		
+		if ( $has_access )
+			return true;
+
+		return false;
+	}
+	
+	function get_recipient_links($recipients) {
+		if ( count($recipients) >= 5 )
+			return count($recipients) . __(' Recipients');
+			
+		for ( $i = 0; $i < count($recipients); $i++ ) {
+			$recipient_links[] = bp_core_get_userlink( $recipients[$i] );
+		}
+
+		return implode( ', ', $recipient_links);
 	}
 }
 
 Class BP_Messages_Message {
 	var $id = null;
 	var $sender_id;
-	var $recipient_id;
-	var $thread_id;
 	var $subject;
 	var $message;
-	var $is_read;
 	var $date_sent;
+	var $message_order;
+	var $sender_is_group;
 	
-	var $recipient_username;
-	var $table_name;
-	
+	var $thread_id;
+	var $recipients;
 
 	function bp_messages_message( $id = null ) {
-		global $bp_messages_table_name, $userdata;
- 
-		$this->table_name = $bp_messages_table_name;
+		global $userdata;
+
 		$this->date_sent = time();
 		$this->sender_id = $userdata->ID;
 
 		if ( $id ) {
-			if ( bp_core_validate($id) ) {
-				$this->populate($id);
-			}
+			$this->populate($id);
 		}
 	}
 	
 	function populate( $id ) {
-		global $wpdb;
+		global $wpdb, $bp_messages_table_name_messages;
 		
-		$sql = $wpdb->prepare("SELECT * FROM $this->table_name WHERE id = %d", $id);
+		$sql = $wpdb->prepare("SELECT * FROM $bp_messages_table_name_messages WHERE id = %d", $id);
 
 		if ( $message = $wpdb->get_row($sql) ) {
 			$this->id = $message->id;
 			$this->sender_id = $message->sender_id;
-			$this->recipient_id = $message->recipient_id;
-			$this->thread_id = $message->thread_id;
 			$this->subject = $message->subject;
 			$this->message = $message->message;
-			$this->is_read = $message->is_read;
 			$this->date_sent = $message->date_sent;
-			
-			$this->recipient_username = bp_core_get_username($this->recipient_id);
+			$this->message_order = $message->message_order;
+			$this->sender_is_group = $message->sender_is_group;
 		}
 
 	}
 	
 	function send() {	
 		global $wpdb, $userdata;
+		global $bp_messages_table_name_threads;
+		global $bp_messages_table_name_messages;
+		global $bp_messages_table_name_recipients;
 
-		$sql = $wpdb->prepare("INSERT INTO $this->table_name ( sender_id, recipient_id, thread_id, subject, message, date_sent ) VALUES ( %d, %d, %d, %s, %s, %d )", $userdata->ID, $this->recipient_id, $this->thread_id, $this->subject, $this->message, $this->date_sent);
+		// First insert the message into the messages table
+		$sql = $wpdb->prepare( "INSERT INTO $bp_messages_table_name_messages ( sender_id, subject, message, date_sent, message_order, sender_is_group ) VALUES ( %d, %s, %s, FROM_UNIXTIME(%d), %d, %d )", $userdata->ID, $this->subject, $this->message, $this->date_sent, $this->message_order, $this->sender_is_group );
 
 		if ( $wpdb->query($sql) === false )
+			return false;
+
+		// Next, if thread_id is set, we are adding to an existing thread, if not, start a new one.
+		if ( $this->thread_id ) {
+			// Select and update the current message ids for the thread.
+			$the_ids = $wpdb->get_row( $wpdb->prepare( "SELECT message_ids, sender_ids FROM $bp_messages_table_name_threads WHERE id = %d", $this->thread_id ) );
+			$message_ids = unserialize($the_ids->message_ids);
+			$message_ids[] = $wpdb->insert_id;
+			$message_ids = serialize($message_ids);
+			
+			// Update the sender ids for the thread
+			$sender_ids = unserialize($the_ids->sender_ids);
+
+			if ( !in_array( $userdata->ID, $sender_ids ) || !$sender_ids )
+				$sender_ids[] = $userdata->ID;
+				
+			$sender_ids = serialize($sender_ids);			
+			
+			$sql = $wpdb->prepare( "UPDATE $bp_messages_table_name_threads SET message_ids = %s, sender_ids = %s, last_message_id = %d, last_sender_id = %d WHERE id = %d", $message_ids, $sender_ids, $wpdb->insert_id, $this->sender_id, $this->thread_id );
+
+			if ( $wpdb->query($sql) === false )
+				return false;
+			
+			// Find the recipients and update the unread counts for each
+			$recipients = $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM $bp_messages_table_name_recipients WHERE thread_id = %d", $this->thread_id ) );
+			
+			for ( $i = 0; $i < count($recipients); $i++ ) {
+				if ( $recipients[$i]->user_id != $userdata->ID )
+					$wpdb->query( $wpdb->prepare( "UPDATE $bp_messages_table_name_recipients SET unread_count = unread_count + 1, sender_only = 0 WHERE thread_id = %d AND user_id = %d", $this->thread_id, $recipients[$i]->user_id ) );
+			}
+		} else {
+			// Create a new thread.
+			$message_id = $wpdb->insert_id;
+			$serialized_message_id = serialize( array( $message_id ) );
+			$serialized_sender_id = serialize( array( $userdata->ID ) );
+			
+			$sql = $wpdb->prepare( "INSERT INTO $bp_messages_table_name_threads ( message_ids, sender_ids, first_post_date, last_post_date, last_message_id, last_sender_id ) VALUES ( %s, %s, FROM_UNIXTIME(%d), FROM_UNIXTIME(%d), %d, %d )", $serialized_message_id, $serialized_sender_id, $this->date_sent, $this->date_sent, $message_id, $this->sender_id ); 
+			
+			if ( $wpdb->query($sql) === false )
+				return false;
+			
+			$this->thread_id = $wpdb->insert_id;
+			
+			// Add a new entry for each recipient;
+			for ( $i = 0; $i < count($this->recipients); $i++ ) {
+				$wpdb->query( $wpdb->prepare( "INSERT INTO $bp_messages_table_name_recipients ( user_id, thread_id, unread_count ) VALUES ( %d, %d, 1 )", $this->recipients[$i], $this->thread_id ) );
+			}
+			
+			if ( !in_array( $this->sender_id, $this->recipients ) ) {
+				// Finally, add a recipient entry for the sender, as replies need to go to this person too.
+				$wpdb->query( $wpdb->prepare( "INSERT INTO $bp_messages_table_name_recipients ( user_id, thread_id, unread_count, sender_only ) VALUES ( %d, %d, 0, 1 )", $this->sender_id, $this->thread_id ) );
+			}
+		}
+		
+		return true;
+	}
+	
+	// Static Functions
+	
+	function get_recipient_ids( $recipient_usernames ) {
+		if ( !$recipient_usernames )
+			return false;
+	
+		if ( is_array($recipient_usernames) ) {
+			for ( $i = 0; $i < count($recipient_usernames); $i++ ) {
+				if ( $rid = bp_core_get_userid( trim($recipient_usernames[$i]) ) )
+					if ( $i ) {
+						if ( !in_array( $rid, $recipient_ids ) )
+							$recipient_ids[] = $rid;
+					} else {
+						$recipient_ids[] = $rid;	
+					}
+			}
+		}
+		
+		return $recipient_ids;
+	}
+	
+	function get_last_sent_for_user( $thread_id ) {
+		global $wpdb, $userdata;
+		global $bp_messages_table_name_messages, $bp_messages_table_name_threads;
+		
+		$message_ids = $wpdb->get_var( $wpdb->prepare( "SELECT message_ids FROM $bp_messages_table_name_threads WHERE id = %d", $thread_id ) );
+		$message_ids = implode( ',', unserialize($message_ids));
+
+		$sql = "SELECT id FROM $bp_messages_table_name_messages WHERE sender_id = $userdata->ID AND id IN ($message_ids) ORDER BY date_sent DESC LIMIT 1";
+		return $wpdb->get_var($sql);
+	}
+	
+}
+
+Class BP_Messages_Notice {
+	var $id = null;
+	var $subject;
+	var $message;
+	var $date_sent;
+	var $is_active;
+	
+	function bp_messages_notice($id = null) {
+		if ( $id ) {
+			$this->id = $id;
+			$this->populate($id);
+		}
+	}
+	
+	function populate() {
+		global $wpdb, $bp_messages_table_name_notices;
+		
+		$notice = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $bp_messages_table_name_notices WHERE id = %d", $this->id ) );
+		
+		if ( $notice ) {
+			$this->subject = $notice->subject;
+			$this->message = $notice->message;
+			$this->date_sent = $notice->date_sent;
+			$this->is_active = $notice->is_active;
+		}
+	}
+	
+	function save() {
+		global $wpdb, $bp_messages_table_name_notices;
+		
+		if ( !$this->id ) {
+			$sql = $wpdb->prepare( "INSERT INTO $bp_messages_table_name_notices (subject, message, date_sent, is_active) VALUES (%s, %s, FROM_UNIXTIME(%d), %d)", $this->subject, $this->message, $this->date_sent, $this->is_active );	
+		} else {
+			$sql = $wpdb->prepare( "UPDATE $bp_messages_table_name_notices SET subject = %s, message = %s, date_sent = FROM_UNIXTIME(%d), is_active = %d WHERE id = %d", $this->subject, $this->message, $this->date_sent, $this->is_active, $this->id );				
+		}
+	
+		if ( !$wpdb->query($sql) )
+			return false;
+		
+		if ( !$id = $this->id )
+			$id = $wpdb->insert_id;
+			
+		// Now deactivate all notices apart from the new one.
+		$wpdb->query( $wpdb->prepare( "UPDATE $bp_messages_table_name_notices SET is_active = 0 WHERE id != %d", $id ) );
+		
+		return true;
+	}
+	
+	function activate() {
+		$this->is_active = 1;
+		if ( !$this->save() )
+			return false;
+			
+		return true;
+	}
+	
+	function deactivate() {
+		$this->is_active = 0;
+		if ( !$this->save() )
 			return false;
 		
 		return true;
 	}
 	
 	function delete() {
-		global $wpdb;
+		global $wpdb, $bp_messages_table_name_notices;
 		
-		$sql = $wpdb->prepare("DELETE FROM $this->table_name WHERE id = %d LIMIT 1", $message_id);
+		$sql = $wpdb->prepare( "DELETE FROM $bp_messages_table_name_notices WHERE id = %d", $this->id );
 		
-		if($this->wpdb->query($sql) == false)
+		if ( !$wpdb->query($sql) )
 			return false;
-			
-		return true;
-	}
-	
-	function archive() {
 		
-	}
-	
-	function mark_as_read() {
-		global $wpdb;
-		
-		$sql = $wpdb->prepare( "UPDATE $this->table_name SET is_read = 1 WHERE id = %d", $this->id );		
-		$wpdb->query($sql);
-	}
-	
-	function user_can_view() {
-		global $wpdb, $userdata;
-		
-		$sql = $wpdb->prepare( "SELECT id FROM $this->table_name WHERE id = %d AND ( recipient_id = %d OR sender_id = %d ) LIMIT 1", $this->id, $userdata->ID, $userdata->ID);
-		return $wpdb->get_row($sql);
+		return true;	
 	}
 	
 	// Static Functions
 	
-	function get_messages() {
-		global $wpdb, $bp_messages_table_name, $userdata;
+	function get_notices() {
+		global $wpdb, $bp_messages_table_name_notices;
 		
-		$sql = $wpdb->prepare( "SELECT * FROM $bp_messages_table_name WHERE recipient_id = %d ORDER BY date_sent DESC", $userdata->ID );			
-
-		$messages = $wpdb->get_results($sql);
-		
-		return $messages;
+		$notices = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $bp_messages_table_name_notices ORDER BY date_sent DESC" ) );
+		return $notices;
 	}
 	
-	function get_message_ids( $thread_id ) {
-		global $wpdb, $bp_messages_table_name;
+	function get_total_notice_count() {
+		global $wpdb, $bp_messages_table_name_notices;
 		
-		$sql = $wpdb->prepare( "SELECT id FROM $bp_messages_table_name WHERE thread_id = %d", $thread_id);
+		$notice_count = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM $bp_messages_table_name_notices" ) );
+		return $notice_count;
+	}
+	
+	function get_active() {
+		global $wpdb, $bp_messages_table_name_notices;
 		
-		return $wpdb->get_results($sql);
+		$notice_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $bp_messages_table_name_notices WHERE is_active = 1") );
+		return new BP_Messages_Notice($notice_id);
 	}
 }
-
 ?>

@@ -229,7 +229,7 @@ function bp_user_fullname($user_id = false, $echo = true) {
 	if ( !$user_id )
 		$user_id = $current_userid;
 	
-	$data = bp_get_field_data( array( 'First Name', 'Last Name' ) );
+	$data = bp_get_field_data( array( 'First Name', 'Last Name' ), $user_id );
 	
 	if ( $echo )
 		echo $data['First Name'] . ' ' . $data['Last Name']; 

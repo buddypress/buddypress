@@ -369,7 +369,6 @@ function xprofile_catch_activate_crop() {
 		$user_id = xprofile_get_user_by_key($_GET['key']);
 
 		if ( $user_id && isset($_POST['orig']) && isset($_POST['canvas']) ) {
-			echo "test is in here";
 			xprofile_check_crop( $_POST['orig'], $_POST['canvas'] );
 			$result = xprofile_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'] );
 			xprofile_avatar_save($result, $user_id);

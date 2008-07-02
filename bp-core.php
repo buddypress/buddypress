@@ -333,13 +333,8 @@ function render_dash() {
 
 function bp_core_get_userid( $username ) {
 	global $wpdb;
-	
-	$sql = "SELECT ID FROM " . $wpdb->base_prefix . "users
-			WHERE user_login = '" . $username . "'";
-
-	$user_id = $wpdb->get_var($sql);
-	
-	return $user_id;
+	$sql = $wpdb->prepare( "SELECT ID FROM " . $wpdb->base_prefix . "users WHERE user_login = %s", $username );
+	return $wpdb->get_var($sql);
 }
 
 function bp_core_get_username( $uid ) {
@@ -354,20 +349,18 @@ function bp_core_get_username( $uid ) {
 
 function bp_core_get_blogdetails( $domain ) {
 	global $wpdb;
-	
-	$sql = $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s", $domain);
-	
-	if ( !$blog = $wpdb->get_row($sql) )
-		return false;
-	
-	return $blog;
+	return $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s", $domain) );
 }
 
 function bp_core_get_userlink( $uid, $no_anchor = false ) {
 	global $userdata;
 	
 	$ud = get_userdata($uid);
-	$display_name = $ud->display_name;
+	
+	if ( function_exists('bp_user_fullname') )
+		$display_name = bp_user_fullname($uid, false);
+	else
+		$display_name = $ud->display_name;
 	
 	if ( $uid == $userdata->ID )
 		$display_name = 'You';
@@ -529,6 +522,19 @@ function bp_is_blog() {
 		return true;
 		
 	return false;
+}
+
+function bp_render_notice( ) {
+	global $message, $type;
+
+	if ( $message != '' ) {
+		$type = ( $type == 'success' ) ? 'updated' : 'error';
+	?>
+		<div id="message" class="<?php echo $type; ?>">
+			<p><?php echo $message; ?></p>
+		</div>
+	<?php 
+	}
 }
 
 
