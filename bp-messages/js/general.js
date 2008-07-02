@@ -26,7 +26,7 @@ jQuery(document).ready( function() {
 			tinyMCE.triggerSave(true, true);
 			
 			var rand = Math.floor(Math.random()*100001);
-			jQuery("form#send-reply").before('<div style="display:none;" class="ajax_reply" id="' + rand + '"><img src="<?php echo $bp_messages_image_base; ?>/loading.gif" alt="Loading" /> &nbsp;Sending Message...</div>');
+			jQuery("form#send-reply").before('<div style="display:none;" class="ajax_reply" id="' + rand + '"><img src="/wp-admin/mu-plugins/bp-messages/images/loading.gif" alt="Loading" /> &nbsp;Sending Message...</div>');
 			jQuery("div#" + rand).fadeIn();
 		
 			jQuery.post( ajaxurl, {

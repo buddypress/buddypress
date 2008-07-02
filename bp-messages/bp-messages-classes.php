@@ -366,8 +366,8 @@ Class BP_Messages_Message {
 		} else {
 			// Create a new thread.
 			$message_id = $wpdb->insert_id;
-			$serialized_message_id = serialize( array( $message_id ) );
-			$serialized_sender_id = serialize( array( $userdata->ID ) );
+			$serialized_message_id = serialize( array( (int)$message_id ) );
+			$serialized_sender_id = serialize( array( (int)$userdata->ID ) );
 			
 			$sql = $wpdb->prepare( "INSERT INTO $bp_messages_table_name_threads ( message_ids, sender_ids, first_post_date, last_post_date, last_message_id, last_sender_id ) VALUES ( %s, %s, FROM_UNIXTIME(%d), FROM_UNIXTIME(%d), %d, %d )", $serialized_message_id, $serialized_sender_id, $this->date_sent, $this->date_sent, $message_id, $this->sender_id ); 
 			

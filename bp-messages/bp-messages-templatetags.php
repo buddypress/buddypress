@@ -285,8 +285,8 @@ function bp_message_get_notices() {
 		if ( !in_array( $notice->id, $closed_notices ) ) {
 			?>
 			<div class="notice" id="<?php echo $notice->id ?>">
-				<h5><?php echo $notice->subject ?></h5>
-				<?php echo $notice->message ?>
+				<h5><?php echo stripslashes($notice->subject) ?></h5>
+				<?php echo stripslashes($notice->message) ?>
 				<a href="#" id="close-notice">Close</a>
 			</div>
 			<?php
