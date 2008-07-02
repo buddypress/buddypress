@@ -492,8 +492,6 @@ ul.content-header-nav {
 						font-size: 0.95em;
 					}
 					
-	.form-table { display: none; } 
-	
 	.avatar-box { 
 		float: left;
 		border: none !important;
@@ -566,6 +564,73 @@ ul.content-header-nav {
 			font: normal 1em inherit;
 			margin-top: 1.5em;
 		}
+		
+		a.delete {
+			overflow: hidden;
+			text-indent: -999px;
+			display: block;
+			float: left;
+			margin-top: 2px;
+			background: url(images/error_icon.gif) top left no-repeat;
+			width: 12px;
+			height: 13px;
+		}
+		
+		span.unread-count {
+			background: #c2582b;
+			border: 2px solid #c2582b;
+			padding: 0 0.5em;
+			color: #fff;
+			font-size: 0.8em;
+			font-weight: bold;
+			-moz-border-radius: 3px;
+			-webkit-border-radius: 3px;
+		}
+			.read .unread-count { display: none; }
+		
+		.pagination-links {
+			float: left;
+			padding: 0 0 0 3em;
+		}
+			.pagination-links .page-numbers {
+				padding: 0.65em 0.7em;
+				height: 24px;
+			}
+				a.page-numbers:hover { background: #e1e1e1; }
+			
+			.pagination-links .current {
+				background: #d5d5d5;
+				border-bottom: 2px solid #f28935;
+				padding: 0.5em 0.7em !important;
+			}
+		
+		.messages-options {
+			float: right;
+			padding: 0 3em 0 0;
+			font: normal 0.9em "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif !important;
+			text-transform: none;
+			color: #888;
+			margin-top: -2px;
+		}
+			.messages-options a { color: #888; }
+		
+		.notices td { vertical-align: top; }
+		.notice {
+			position: relative;
+			background: url(images/notice_back.gif) top left repeat-x;
+			padding: 1.2em;		
+		}
+		.notice a#close-notice {
+			position: absolute;
+			top: 1em;
+			right: 1.2em;
+		}
+		.notice h5 {
+			font: normal 1.4em Georgia, Times, serif;
+			margin: 0 0 0.8em 0;
+		}
+		.notice a { color: #0051FF;}
+		
 		
 /**************************
  BLOG SIDEBAR

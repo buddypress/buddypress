@@ -96,7 +96,7 @@
 
 <!--<p><strong>XHTML:</strong> You can use these tags: <code><?php echo allowed_tags(); ?></code></p>-->
 
-<p><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></p>
+<p><textarea name="comment" id="comment" cols="38" rows="10" tabindex="4"></textarea></p>
 
 <p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" />
 <input type="hidden" name="comment_post_ID" value="<?php echo $id; ?>" />

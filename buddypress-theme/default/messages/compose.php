@@ -5,7 +5,8 @@
 	</div>
 
 	<div id="content">
-		<?php bp_get_callback_message() ?>
+		<?php do_action( 'template_notices' ) ?>
+
 		<?php bp_compose_message_form() ?>
 	</div>
 	
