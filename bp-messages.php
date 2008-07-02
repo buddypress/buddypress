@@ -508,7 +508,7 @@ function messages_box( $box = 'inbox', $display_name = 'Inbox', $message = '', $
  Send a message.
  **************************************************************************/
 
-function messages_send_message($recipients, $subject, $content, $thread_id, $from_ajax = false, $from_template = false) {
+function messages_send_message( $recipients, $subject, $content, $thread_id, $from_ajax = false, $from_template = false, $is_reply = false ) {
 	global $userdata;
 	global $messages_write_new_action;
 	global $pmessage;
@@ -540,8 +540,14 @@ function messages_send_message($recipients, $subject, $content, $thread_id, $fro
 			$pmessage->date_sent = time();
 			$pmessage->message_order = 0; // TODO
 			$pmessage->sender_is_group = 0;
-			$pmessage->recipients = BP_Messages_Message::get_recipient_ids( explode( ',', $recipients ) );
-
+			
+			if ( $is_reply ) {
+				$thread = new BP_Messages_Thread($thread_id);
+				$pmessage->recipients = $thread->get_recipients();
+			} else {
+				$pmessage->recipients = BP_Messages_Message::get_recipient_ids( explode( ',', $recipients ) );
+			}
+			
 			unset($_GET['mode']);
 
 			if ( !is_null( $pmessage->recipients ) ) {

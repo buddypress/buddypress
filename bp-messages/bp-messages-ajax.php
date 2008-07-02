@@ -5,7 +5,7 @@ function messages_ajax_send_reply() {
 	
 	check_ajax_referer('messages_sendreply');
 
-	$result = messages_send_message($_REQUEST['send_to'], $_REQUEST['subject'], $_REQUEST['content'], $_REQUEST['thread_id'], true); 
+	$result = messages_send_message($_REQUEST['send_to'], $_REQUEST['subject'], $_REQUEST['content'], $_REQUEST['thread_id'], true, false, true); 
 
 	if ( $result['status'] ) { ?>
 			<div class="avatar-box">
