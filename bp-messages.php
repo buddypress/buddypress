@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_MESSAGES_VERSION', '0.2.9.9.3' );
+define ( 'BP_MESSAGES_VERSION', '0.3' );
 
 $bp_messages_table_name 			= $wpdb->base_prefix . 'bp_messages';
 $bp_messages_table_name_threads 	= $bp_messages_table_name . '_threads';
