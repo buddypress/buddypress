@@ -32,7 +32,7 @@ function messages_install( $version ) {
 	$sql[] = "CREATE TABLE ". $bp_messages_table_name_threads ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT,
 		  		message_ids varchar(150) NOT NULL,
-				sender_ids varchat(150) NOT NULL,
+				sender_ids varchar(150) NOT NULL,
 		  		first_post_date datetime NOT NULL,
 		  		last_post_date datetime NOT NULL,
 		  		last_message_id int(11) NOT NULL,
