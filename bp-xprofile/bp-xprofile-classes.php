@@ -377,7 +377,7 @@ Class BP_XProfile_Field {
 	}
 	
 	function get_edit_html( $value = null ) {
-		global $image_base;
+		global $bp_xprofile_image_base;
 		
 		$asterisk = '';
 		if ( $this->is_required ) {
@@ -473,14 +473,14 @@ Class BP_XProfile_Field {
 						$selected = '';
 					}
 					
-					$html .= '<label>' . $options[$k]->is_default_option .'<input' . $selected . ' type="radio" name="field_' . $this->id . '" id="option_' . $options[$k]->id . '" value="' . $options[$k]->name . '"> ' . $options[$k]->name . '</label>';
+					$html .= '<label><input' . $selected . ' type="radio" name="field_' . $this->id . '" id="option_' . $options[$k]->id . '" value="' . $options[$k]->name . '"> ' . $options[$k]->name . '</label>';
 				}
 				
 				$html .= '<span class="signup-description">' . $this->desc . '</span>';				
 				$html .= '</div>';
 				
 				if ( !$this->is_required ) {
-					$html .= '<a href="javascript:clear(\'field_' . $this->id . '\');"><img src="' . $image_base . '/cross.gif" alt="Clear" /> Clear</a>';
+					$html .= '<a href="javascript:clear(\'field_' . $this->id . '\');"><img src="' . $bp_xprofile_image_base . '/cross.gif" alt="Clear" /> Clear</a>';
 				}
 				
 			break;
