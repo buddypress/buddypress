@@ -215,15 +215,17 @@ ul.content-header-nav {
 }
 	ul.content-header-nav li {
 		float: left;
-		padding: 8px 1.5em;
+		padding: 8px 1em;
 		height: 30px;
+		font: normal 0.9em "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif !important;
+		text-transform: none;
 	}
 		ul.content-header-nav li a {
 			color: #555;
 		}
 	
 	ul.content-header-nav li.current {
-		background: url(images/topoption_selected_back.gif) top center no-repeat;
+		background: url(images/topoption_selected_back.gif) 49% 0 no-repeat;
 	}
 
 
@@ -336,6 +338,8 @@ ul.content-header-nav {
 			padding: 0.2em;
 		}
 		
+		.datefield select { width: auto; }
+		
 		.signup-description {
 			display: block;
 			color: #888;
@@ -352,7 +356,7 @@ ul.content-header-nav {
 			display: inline;
 		}
 		
-		.checkbox label, .checkbox input {
+		.checkbox label, .checkbox input, .radio label, .radio input {
 			display: block;
 			padding: 0 0 0.2em 0;
 		}
