@@ -352,7 +352,7 @@ function bp_core_get_blogdetails( $domain ) {
 	return $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s", $domain) );
 }
 
-function bp_core_get_userlink( $uid, $no_anchor = false ) {
+function bp_core_get_userlink( $uid, $no_anchor = false, $just_link = false ) {
 	global $userdata;
 	
 	$ud = get_userdata($uid);
@@ -367,9 +367,14 @@ function bp_core_get_userlink( $uid, $no_anchor = false ) {
 
 	if ( $no_anchor )
 		return $display_name;
-
-	return '<a href="http://' . $ud->source_domain . $ud->path . '">' . $display_name . '</a>';
+		
+	if ( VHOST == 'no' )
+		$ud->path = $ud->user_login;
 	
+	if ( $just_link )
+		return 'http://' . $ud->source_domain . '/' . $ud->path;
+
+	return '<a href="http://' . $ud->source_domain . $ud->path . '">' . $display_name . '</a>';	
 }
 
 function bp_core_clean( $dirty ) {
@@ -536,6 +541,57 @@ function bp_render_notice( ) {
 	<?php 
 	}
 }
+
+function bp_time_since( $older_date, $newer_date = false ) {
+	// array of time period chunks
+	$chunks = array(
+	array( 60 * 60 * 24 * 365 , 'year' ),
+	array( 60 * 60 * 24 * 30 , 'month' ),
+	array( 60 * 60 * 24 * 7, 'week' ),
+	array( 60 * 60 * 24 , 'day' ),
+	array( 60 * 60 , 'hour' ),
+	array( 60 , 'minute' ),
+	);
+
+	// $newer_date will equal false if we want to know the time elapsed between a date and the current time
+	// $newer_date will have a value if we want to work out time elapsed between two known dates
+	$newer_date = ( $newer_date == false ) ? ( time() + ( 60*60*0 ) ) : $newer_date;
+
+	// difference in seconds
+	$since = $newer_date - $older_date;
+
+	// we only want to output two chunks of time here, eg:
+	// x years, xx months
+	// x days, xx hours
+	// so there's only two bits of calculation below:
+
+	// step one: the first chunk
+	for ( $i = 0, $j = count($chunks); $i < $j; $i++) {
+		$seconds = $chunks[$i][0];
+		$name = $chunks[$i][1];
+
+		// finding the biggest chunk (if the chunk fits, break)
+		if ( ( $count = floor($since / $seconds) ) != 0 )
+			break;
+	}
+
+	// set output var
+	$output = ( $count == 1 ) ? '1 '. $name : "$count {$name}s";
+
+	// step two: the second chunk
+	if ( $i + 1 < $j ) {
+		$seconds2 = $chunks[$i + 1][0];
+		$name2 = $chunks[$i + 1][1];
+	
+		if ( ( $count2 = floor( ( $since - ( $seconds * $count ) ) / $seconds2 ) ) != 0 ) {
+			// add to output var
+			$output .= ($count2 == 1) ? ', 1 '.$name2 : ", $count2 {$name2}s";
+		}
+	}
+
+	return $output;
+}
+
 
 
 ?>
