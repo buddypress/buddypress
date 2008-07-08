@@ -240,6 +240,8 @@ Class BP_Messages_Thread {
 				$wpdb->query( $wpdb->prepare( "DELETE FROM $bp_messages_table_name_messages WHERE id = %d", $message_ids[$i] ) );
 			}
 		}
+		update_usermeta( $userdata->ID, 'last_activity', date( 'Y-m-d H:i:s' ) ); 
+		
 		return true;
 	}
 	
@@ -386,6 +388,7 @@ Class BP_Messages_Message {
 				$wpdb->query( $wpdb->prepare( "INSERT INTO $bp_messages_table_name_recipients ( user_id, thread_id, unread_count, sender_only ) VALUES ( %d, %d, 0, 1 )", $this->sender_id, $this->thread_id ) );
 			}
 		}
+		update_usermeta( $userdata->ID, 'last_activity', date( 'Y-m-d H:i:s' ) ); 
 		
 		return true;
 	}
@@ -468,6 +471,8 @@ Class BP_Messages_Notice {
 			
 		// Now deactivate all notices apart from the new one.
 		$wpdb->query( $wpdb->prepare( "UPDATE $bp_messages_table_name_notices SET is_active = 0 WHERE id != %d", $id ) );
+		
+		update_usermeta( $userdata->ID, 'last_activity', date( 'Y-m-d H:i:s' ) ); 
 		
 		return true;
 	}

@@ -1,5 +1,6 @@
 <?php
 
+define ( 'BP_MESSAGES_IS_INSTALLED', 1 );
 define ( 'BP_MESSAGES_VERSION', '0.3' );
 
 $bp_messages_table_name 			= $wpdb->base_prefix . 'bp_messages';
@@ -176,113 +177,132 @@ function messages_catch_action() {
 	global $message, $type;
 
 	if ( $current_component == $bp_messages_slug && $current_blog->blog_id > 1 && $loggedin_userid == $current_userid ) {
-		if ( $current_action == '' )
-			$current_action = 'inbox';
-		
-		if ( $current_action == 'inbox' ) {
-			bp_catch_uri( 'messages/index' );
-		} else if ( $current_action == 'sentbox' ) {
-			bp_catch_uri( 'messages/sentbox' );
-		} else if ( $current_action == 'compose' ) {
-			bp_catch_uri( 'messages/compose' );
-		} else if ( $current_action == 'view' && !empty($action_variables) ) {
-			$thread_id = $action_variables[0];
-		
-			if ( !$thread_id || !is_numeric($thread_id) || !BP_Messages_Thread::check_access($thread_id) ) {
-				$current_action = 'inbox';
+		switch ( $current_action ) {
+			case 'inbox':
 				bp_catch_uri( 'messages/index' );
-			} else {
-				$bp_options_nav[$bp_messages_slug]['view'] = array(
-					'name' => __('From: ' . BP_Messages_Thread::get_last_sender($thread_id)),
-					'link' => $loggedin_domain . $bp_messages_slug . '/'			
-				);
+			break;
 			
-				bp_catch_uri( 'messages/view' );
-			}
-		} else if ( $current_action == 'delete' && !empty($action_variables) ) {
-			$thread_id = $action_variables[0];
-
-			if ( !$thread_id || !is_numeric($thread_id) || !BP_Messages_Thread::check_access($thread_id) ) {
-				$current_action = 'inbox';
-				bp_catch_uri( 'messages/index' );
-			} else {
-				// delete message
-				if ( !BP_Messages_Thread::delete($thread_id) ) {
-					$message = __('There was an error deleting that message.');
-					add_action( 'template_notices', 'bp_render_notice' );
-					
-					$current_action = 'inbox';
-					bp_catch_uri( 'messages/index' );
-				} else {
-					$message = __('Message deleted.');
-					$type = 'success';
-					add_action( 'template_notices', 'bp_render_notice' );
-					
-					$current_action = 'inbox';
-					bp_catch_uri( 'messages/index' );
-				}
-			}
-		} else if ( $current_action == 'bulk-delete' ) {
-			$thread_ids = $_POST['thread_ids'];
+			case 'sentbox':
+				bp_catch_uri( 'messages/sentbox' );
+			break;
 			
-			if ( !$thread_ids || !BP_Messages_Thread::check_access($thread_ids) ) {
-				$current_action = 'inbox';
-				bp_catch_uri( 'messages/index' );				
-			} else {
-				if ( !BP_Messages_Thread::delete( explode(',', $thread_ids ) ) ) {
-					$message = __('There was an error deleting messages.');
-					add_action( 'template_notices', 'bp_render_notice' );
-					
-					$current_action = 'inbox';
-					bp_catch_uri( 'messages/index' );
-				} else {
-					$message = __('Messages deleted.');
-					$type = 'success';
-					add_action( 'template_notices', 'bp_render_notice' );
-					
-					$current_action = 'inbox';
-					bp_catch_uri( 'messages/index' );
-				}
-			}
-		} else if ( $current_action == 'notices' && is_site_admin() ) {
-			if ( isset($action_variables) ) {
-				$notice_id = $action_variables[1];
+			case 'compose':
+				bp_catch_uri( 'messages/compose' );
+			break;
+			
+			case 'view':
+				if ( !empty($action_variables) ) {
+					$thread_id = $action_variables[0];
 
-				if ( !$notice_id || !is_numeric($notice_id) ) {
-					$current_action = 'notices';
-					bp_catch_uri( 'messages/notices' );
-				} else {
-					$notice = new BP_Messages_Notice($notice_id);
-					
-					if ( $action_variables[0] == 'deactivate' ) {
-						if ( !$notice->deactivate() ) {
-							$message = __('There was a problem deactivating that notice.');	
+					if ( !$thread_id || !is_numeric($thread_id) || !BP_Messages_Thread::check_access($thread_id) ) {
+						$current_action = 'inbox';
+						bp_catch_uri( 'messages/index' );
+					} else {
+						$bp_options_nav[$bp_messages_slug]['view'] = array(
+							'name' => __('From: ' . BP_Messages_Thread::get_last_sender($thread_id)),
+							'link' => $loggedin_domain . $bp_messages_slug . '/'			
+						);
+
+						bp_catch_uri( 'messages/view' );
+					}
+				}
+			break;
+			
+			case 'delete':
+				if ( !empty($action_variables) ) {
+					$thread_id = $action_variables[0];
+
+					if ( !$thread_id || !is_numeric($thread_id) || !BP_Messages_Thread::check_access($thread_id) ) {
+						$current_action = 'inbox';
+						bp_catch_uri( 'messages/index' );
+					} else {
+						// delete message
+						if ( !BP_Messages_Thread::delete($thread_id) ) {
+							$message = __('There was an error deleting that message.');
+							add_action( 'template_notices', 'bp_render_notice' );
+
+							$current_action = 'inbox';
+							bp_catch_uri( 'messages/index' );
 						} else {
-							$message = __('Notice deactivated.');
+							$message = __('Message deleted.');
 							$type = 'success';
-						}
-					} else if ( $action_variables[0] == 'activate' ) {
-						if ( !$notice->activate() ) {
-							$message = __('There was a problem activating that notice.');
-						} else {
-							$message = __('Notice activated.');
-							$type = 'success';
-						}
-					} else if ( $action_variables[0] == 'delete' ) {
-						if ( !$notice->delete() ) {
-							$message = __('There was a problem deleting that notice.');
-						} else {
-							$message = __('Notice deleted.');
-							$type = 'success';
+							add_action( 'template_notices', 'bp_render_notice' );
+
+							$current_action = 'inbox';
+							bp_catch_uri( 'messages/index' );
 						}
 					}
 				}
-			}
-			add_action( 'template_notices', 'bp_render_notice' );
-			bp_catch_uri( 'messages/notices' );
-		} else {
-			$current_action = 'inbox';
-			bp_catch_uri( 'messages/index' );
+			break;
+			
+			case 'bulk-delete':
+				$thread_ids = $_POST['thread_ids'];
+
+				if ( !$thread_ids || !BP_Messages_Thread::check_access($thread_ids) ) {
+					$current_action = 'inbox';
+					bp_catch_uri( 'messages/index' );				
+				} else {
+					if ( !BP_Messages_Thread::delete( explode(',', $thread_ids ) ) ) {
+						$message = __('There was an error deleting messages.');
+						add_action( 'template_notices', 'bp_render_notice' );
+
+						$current_action = 'inbox';
+						bp_catch_uri( 'messages/index' );
+					} else {
+						$message = __('Messages deleted.');
+						$type = 'success';
+						add_action( 'template_notices', 'bp_render_notice' );
+
+						$current_action = 'inbox';
+						bp_catch_uri( 'messages/index' );
+					}
+				}
+			break;
+			
+			case 'notices':
+				if ( is_site_admin() ) {
+					if ( isset($action_variables) ) {
+						$notice_id = $action_variables[1];
+
+						if ( !$notice_id || !is_numeric($notice_id) ) {
+							$current_action = 'notices';
+							bp_catch_uri( 'messages/notices' );
+						} else {
+							$notice = new BP_Messages_Notice($notice_id);
+
+							if ( $action_variables[0] == 'deactivate' ) {
+								if ( !$notice->deactivate() ) {
+									$message = __('There was a problem deactivating that notice.');	
+								} else {
+									$message = __('Notice deactivated.');
+									$type = 'success';
+								}
+							} else if ( $action_variables[0] == 'activate' ) {
+								if ( !$notice->activate() ) {
+									$message = __('There was a problem activating that notice.');
+								} else {
+									$message = __('Notice activated.');
+									$type = 'success';
+								}
+							} else if ( $action_variables[0] == 'delete' ) {
+								if ( !$notice->delete() ) {
+									$message = __('There was a problem deleting that notice.');
+								} else {
+									$message = __('Notice deleted.');
+									$type = 'success';
+								}
+							}
+						}
+					}
+					add_action( 'template_notices', 'bp_render_notice' );
+					bp_catch_uri( 'messages/notices' );	
+				}
+			break;
+			
+			default:
+				$current_action = 'inbox';
+				bp_catch_uri( 'messages/index' );				
+			break;
 		}
 	}
 }

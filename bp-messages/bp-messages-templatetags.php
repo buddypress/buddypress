@@ -292,8 +292,6 @@ function bp_message_get_notices() {
 			<?php
 		}	
 	}
-	
-
 }
 
 ?>
