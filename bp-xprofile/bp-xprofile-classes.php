@@ -1042,19 +1042,25 @@ Class BP_XProfile_ProfileData {
 
 	function save() {
 		global $wpdb, $userdata;
+		
+		$this->last_updated = date( 'Y-m-d H:i:s' );
 
 		if ( $this->is_valid_field() ) {
 			if ( $this->exists() && $this->value != '' ) {
-				$sql = $wpdb->prepare("UPDATE $this->table_name_data SET value = %s, last_updated = %d WHERE user_id = %d AND field_id = %d", $this->value, $this->last_updated, $this->user_id, $this->field_id);
+				$sql = $wpdb->prepare("UPDATE $this->table_name_data SET value = %s, last_updated = %s WHERE user_id = %d AND field_id = %d", $this->value, $this->last_updated, $this->user_id, $this->field_id);
+				echo $sql;
 			} else if ( $this->exists() and $this->value == '' ) {
 				// Data removed, delete the entry.
 				$this->delete();
 			} else {
-				$sql = $wpdb->prepare("INSERT INTO $this->table_name_data (user_id, field_id, value, last_updated) VALUES (%d, %d, %s, %d)", $this->user_id, $this->field_id, $this->value, $this->last_updated);
+				$sql = $wpdb->prepare("INSERT INTO $this->table_name_data (user_id, field_id, value, last_updated) VALUES (%d, %d, %s, %s)", $this->user_id, $this->field_id, $this->value, $this->last_updated);
 			}
 						
 			if ( $wpdb->query($sql) === false )
 				return false;
+			
+			// Updated last site activity for this user.
+			update_usermeta( $userdata->ID, 'last_activity', $this->last_updated ); 
 			
 			return true;
 		} else {
@@ -1145,6 +1151,14 @@ Class BP_XProfile_ProfileData {
 			return false;
 		
 		return true;
+	}
+	
+	function get_last_updated( $user_id ) {
+		global $wpdb, $bp_xprofile_table_name_data;
+		
+		$last_updated = $wpdb->get_var( $wpdb->prepare( "SELECT last_updated FROM $bp_xprofile_table_name_data WHERE user_id = %d ORDER BY last_updated LIMIT 1", $user_id ) );
+		
+		return $last_updated;
 	}
 	
 }

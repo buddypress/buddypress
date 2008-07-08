@@ -1,6 +1,7 @@
 <?php
 
-define ( 'BP_XPROFILE_VERSION', '0.3.3' );
+define ( 'BP_XPROFILE_IS_INSTALLED', 1 );
+define ( 'BP_XPROFILE_VERSION', '0.3.4' );
 
 $bp_xprofile_table_name        = $wpdb->base_prefix . 'bp_xprofile';
 $bp_xprofile_table_name_groups = $wpdb->base_prefix . 'bp_xprofile_groups';

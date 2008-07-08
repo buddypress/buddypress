@@ -303,5 +303,18 @@ function bp_avatar_upload_form() {
 	xprofile_avatar_admin(null, $loggedin_domain . $bp_xprofile_slug . '/change-avatar/');
 }
 
+function bp_profile_last_updated_date( $user_id = false, $echo = true ) {
+	global $current_userid;
+	
+	if ( !$user_id )
+		$user_id = $current_userid;
+	
+	$last_updated = BP_XProfile_ProfileData::get_last_updated( $user_id );
+
+	if ( $echo )
+		echo $last_updated;
+	else
+		return $last_updated;
+}
 
 ?>
