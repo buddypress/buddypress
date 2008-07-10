@@ -1,5 +1,8 @@
 <?php
 
+define ( 'PROTOCOL', 'http://' );
+define ( 'BP_CORE_VERSION', '0.3' );
+
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-catchuri.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-thirdlevel.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-settingstab.php' );
@@ -76,9 +79,9 @@ function bp_core_get_loggedin_domain() {
 	global $current_user;
 	
 	if ( VHOST == 'yes' ) {
-		$loggedin_domain = 'http://' . get_usermeta( $current_user->ID, 'source_domain' ) . '/';
+		$loggedin_domain = PROTOCOL . get_usermeta( $current_user->ID, 'source_domain' ) . '/';
 	} else {
-		$loggedin_domain = 'http://' . get_usermeta( $current_user->ID, 'source_domain' ) . '/' . get_usermeta( $current_user->ID, 'user_login' ) . '/';
+		$loggedin_domain = PROTOCOL . get_usermeta( $current_user->ID, 'source_domain' ) . '/' . get_usermeta( $current_user->ID, 'user_login' ) . '/';
 	}
 
 	return $loggedin_domain;
@@ -88,7 +91,7 @@ function bp_core_get_current_domain() {
 	global $current_blog;
 	
 	if ( VHOST == 'yes' ) {
-		$current_domain = 'http://' . $current_blog->domain . '/';
+		$current_domain = PROTOCOL . $current_blog->domain . '/';
 	} else {
 		$current_domain = get_bloginfo('wpurl') . '/';
 	}
@@ -372,9 +375,9 @@ function bp_core_get_userlink( $uid, $no_anchor = false, $just_link = false ) {
 		$ud->path = $ud->user_login;
 	
 	if ( $just_link )
-		return 'http://' . $ud->source_domain . '/' . $ud->path;
+		return PROTOCOL . $ud->source_domain . '/' . $ud->path;
 
-	return '<a href="http://' . $ud->source_domain . $ud->path . '">' . $display_name . '</a>';	
+	return '<a href="' . PROTOCOL . $ud->source_domain . $ud->path . '">' . $display_name . '</a>';	
 }
 
 function bp_core_clean( $dirty ) {

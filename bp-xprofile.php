@@ -1,4 +1,5 @@
 <?php
+require_once( 'bp-core.php' );
 
 define ( 'BP_XPROFILE_IS_INSTALLED', 1 );
 define ( 'BP_XPROFILE_VERSION', '0.3.4' );

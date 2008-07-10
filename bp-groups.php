@@ -1,4 +1,5 @@
 <?php
+require_once( 'bp-core.php' );
 
 add_site_option('bp-groups-version', '0.1');
 

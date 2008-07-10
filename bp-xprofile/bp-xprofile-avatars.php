@@ -234,9 +234,9 @@ function xprofile_render_avatar_cropper($original, $new, $action, $user_id = nul
 		$user_id = get_current_user_id();
 	
 	if ( VHOST == 'yes' ) {
-		$url = 'http://' . get_usermeta( $user_id, 'source_domain' ) . '/';
+		$url = PROTOCOL . get_usermeta( $user_id, 'source_domain' ) . '/';
 	} else {
-		$url = 'http://' . get_usermeta( $user_id, 'source_domain' ) . '/' . get_usermeta( $user_id, 'nickname' ) . '/';
+		$url = PROTOCOL . get_usermeta( $user_id, 'source_domain' ) . '/' . get_usermeta( $user_id, 'nickname' ) . '/';
 	}
 
 	$src = str_replace( array(ABSPATH), array($url . '/'), $new );
@@ -366,9 +366,9 @@ function xprofile_avatar_save( $vars, $user_id = false, $upload_dir = false ) {
 		$user_id = get_current_user_id();
 		
 	if ( VHOST == 'yes' ) {
-		$src = 'http://' . get_usermeta( $user_id, 'source_domain' ) . '/';
+		$src = PROTOCOL . get_usermeta( $user_id, 'source_domain' ) . '/';
 	} else {
-		$src = 'http://' . get_usermeta( $user_id, 'source_domain' ) . '/' . get_usermeta( $user_id, 'nickname' ) . '/';
+		$src = PROTOCOL . get_usermeta( $user_id, 'source_domain' ) . '/' . get_usermeta( $user_id, 'nickname' ) . '/';
 	}
 	
 	$old = get_usermeta( $user_id, 'xprofile_avatar_v1_path' );

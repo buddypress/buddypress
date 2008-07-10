@@ -347,7 +347,7 @@ function xprofile_on_activate( $blog_id = null, $user_id = null ) {
 		}
 		
 		// Render the cropper UI
-		$action = 'http://' . get_usermeta( $user_id, 'source_domain' ) . '/wp-activate.php?key=' . $_GET['key'] . '&amp;cropped=true';
+		$action = PROTOCOL . get_usermeta( $user_id, 'source_domain' ) . '/wp-activate.php?key=' . $_GET['key'] . '&amp;cropped=true';
 		xprofile_render_avatar_cropper($original, $resized, $action, $user_id);
 		
 		//$result = xprofile_avatar_cropstore( $image, $image, $v1_x, $v1_y, XPROFILE_AVATAR_V1_W, XPROFILE_AVATAR_V1_H, $v2_x, $v2_y, XPROFILE_AVATAR_V2_W, XPROFILE_AVATAR_V2_H, true );
@@ -375,9 +375,9 @@ function xprofile_catch_activate_crop() {
 		}
 		
 		if ( VHOST == 'yes' ) {
-			$url = 'http://' . get_usermeta( $user_id, 'source_domain' ) . '/';
+			$url = PROTOCOL . get_usermeta( $user_id, 'source_domain' ) . '/';
 		} else {
-			$url = 'http://' . get_usermeta( $user_id, 'source_domain' ) . '/' . get_usermeta( $user_id, 'nickname' );
+			$url = PROTOCOL . get_usermeta( $user_id, 'source_domain' ) . '/' . get_usermeta( $user_id, 'nickname' );
 		}
 		
 		header("Location: $url");
