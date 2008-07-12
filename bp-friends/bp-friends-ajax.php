@@ -22,11 +22,6 @@ function friends_ajax_friends_search() {
 	}
 	
 	if ( $total_friend_count ) {
-		
-		var_dump($pag_num);
-		var_dump($pag_page);
-		var_dump($total_friend_count);
-		
 		$pag_links = paginate_links( array(
 			'base' => $current_domain . $bp_friends_slug . add_query_arg( 'mpage', '%#%' ),
 			'format' => '',
