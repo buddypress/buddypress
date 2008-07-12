@@ -24,12 +24,12 @@ function bp_core_setup() {
 	global $current_user, $current_component;
 	global $bp_options_avatar, $bp_options_title;
 
-	$loggedin_domain = bp_core_get_loggedin_domain();
+    $loggedin_domain = bp_core_get_loggedin_domain();
 	$loggedin_userid = $current_user->ID;
 	
 	$current_domain = bp_core_get_current_domain();
 	$current_userid = bp_core_get_current_userid();
-	
+
 	$bp_nav[1] = array(
 		'id'	=> 'blog',
 		'name'  => 'Blog', 
@@ -74,6 +74,17 @@ function bp_core_setup() {
 	}
 }
 add_action( 'wp', 'bp_core_setup' );
+
+function bp_core_user_creds() {
+	global $loggedin_domain, $loggedin_userid;
+	global $current_domain, $current_userid;
+	
+	$loggedin_domain = bp_core_get_loggedin_domain();
+	$loggedin_userid = $current_user->ID;
+	
+	$current_domain = bp_core_get_current_domain();
+	$current_userid = bp_core_get_current_userid();
+}
 
 function bp_core_get_loggedin_domain() {
 	global $current_user;
@@ -594,6 +605,7 @@ function bp_time_since( $older_date, $newer_date = false ) {
 
 	return $output;
 }
+
 
 
 

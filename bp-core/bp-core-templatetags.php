@@ -104,4 +104,11 @@ function bp_comment_author_avatar() {
 	}
 }
 
+function bp_exists($function) {
+	if ( function_exists($function) )
+		return true;
+	
+	return false;
+}
+
 ?>
