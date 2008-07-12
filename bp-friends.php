@@ -1,12 +1,19 @@
 <?php
+require_once( 'bp-core.php' );
 
-$bp_friends_table_name = $wpdb->base_prefix . 'bp_friends';
-$bp_friends_image_base = get_option('siteurl') . '/wp-content/mu-plugins/bp-friends/images';
-define( 'BP_FRIENDS_VERSION', '0.2' );
+define ( 'BP_FRIENDS_IS_INSTALLED', 1 );
+define ( 'BP_FRIENDS_VERSION', '0.1.1' );
 
-require_once( 'bp-friends/bp-friends-classes.php' );
-require_once( 'bp-friends/bp-friends-templatetags.php' );
-require_once( 'bp-friends/bp-friends-cssjs.php' );
+$bp_friends_table_name 			= $wpdb->base_prefix . 'bp_friends';
+$bp_friends_image_base 			= get_option('siteurl') . '/wp-content/mu-plugins/bp-friends/images';
+$bp_friends_slug 				= 'friends';
+
+include_once( 'bp-friends/bp-friends-classes.php' );
+include_once( 'bp-friends/bp-friends-ajax.php' );
+include_once( 'bp-friends/bp-friends-cssjs.php' );
+/*include_once( 'bp-messages/bp-friends-admin.php' );*/
+include_once( 'bp-friends/bp-friends-templatetags.php' );
+
 
 /**************************************************************************
  friends_install()
@@ -16,17 +23,16 @@ require_once( 'bp-friends/bp-friends-cssjs.php' );
 
 function friends_install( $version ) {
 	global $wpdb, $bp_friends_table_name;
-
-	$sql = array();
-			
+	
 	$sql[] = "CREATE TABLE ". $bp_friends_table_name ." (
-		  		id mediumint(9) NOT NULL AUTO_INCREMENT,
-		  		initiator_user_id mediumint(9) NOT NULL,
-		  		friend_user_id mediumint(9) NOT NULL,
+		  		id int(11) NOT NULL AUTO_INCREMENT,
+		  		initiator_user_id int(11) NOT NULL,
+		  		friend_user_id int(11) NOT NULL,
 		  		is_confirmed bool DEFAULT 0,
-		  		date_created int(11) NOT NULL,
-		    UNIQUE KEY id (id)
-		 );";
+				is_limited bool DEFAULT 0,
+		  		date_created datetime NOT NULL,
+		    	PRIMARY KEY id (id)
+		 	   );";
 
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
@@ -36,15 +42,15 @@ function friends_install( $version ) {
 		
 		
 /**************************************************************************
- friends_add_menu()
+ friends_add_admin_menu()
  
  Creates the administration interface menus and checks to see if the DB
  tables are set up.
  **************************************************************************/
 
-function friends_add_menu() {	
-	global $wpdb, $bp_friends_table_name, $bp_friends, $userdata;
-	
+function friends_add_admin_menu() {	
+	global $wpdb, $bp_friends_table_name, $userdata;
+
 	if ( $wpdb->blogid == $userdata->primary_blog ) {
 		add_menu_page( __("Friends"), __("Friends"), 1, basename(__FILE__), "friends_list" );
 		add_submenu_page( basename(__FILE__), __("My Friends"), __("My Friends"), 1, basename(__FILE__), "friends_list" );
@@ -59,140 +65,158 @@ function friends_add_menu() {
 		friends_install(BP_FRIENDS_VERSION);
 		
 }
-add_action( 'admin_menu','friends_add_menu' );
-
-
-/**************************************************************************
- friends_setup()
- 
- Setup CSS, JS and other things needed for the xprofile component.
-**************************************************************************/
-
-function friends_setup() {
-	add_action( 'admin_print_scripts', 'friends_add_css' );
-	add_action( 'admin_print_scripts', 'friends_add_js' );
-}
-add_action( 'admin_menu', 'friends_setup' );
-
+add_action( 'admin_menu', 'friends_add_admin_menu' );
 
 /**************************************************************************
- friends_profile_template()
+ friends_setup_nav()
  
- Set up access to authordata and then set up template tags for use in
- templates.
+ Set up front end navigation.
  **************************************************************************/
 
-function friends_template() {	
-	global $is_author, $userdata, $authordata, $friends_template;
+function friends_setup_nav() {
+	global $loggedin_userid, $loggedin_domain;
+	global $current_userid, $current_domain;
+	global $bp_nav, $bp_options_nav, $bp_users_nav;
+	global $bp_friends_slug;
+	global $current_component, $action_variables;
+
+	$bp_nav[3] = array(
+		'id'	=> $bp_friends_slug,
+		'name'  => 'Friends', 
+		'link'  => $loggedin_domain . $bp_friends_slug . '/'
+	);
 	
-	$friends_template = new BP_Friends_Template;
+	if ( $current_component == $bp_friends_slug ) {
+		if ( bp_is_home() ) {
+			$bp_options_title = __('My Friends');
+			$bp_options_nav[$bp_friends_slug] = array(
+				''	   => array( 
+					'name' => __('My Friends'),
+					'link' => $loggedin_domain . $bp_friends_slug . '/my-friends' ),
+				'friend-finder' => array( 
+					'name' => __('Friend Finder'),
+					'link' => $loggedin_domain . $bp_friends_slug . '/friend-finder' ),
+				'invite-friend'=> array( 
+					'name' => __('Invite Friends'),
+					'link' => $loggedin_domain . $bp_friends_slug . '/invite-friend' )
+			);		
+		}
+	}
+}
+add_action( 'wp', 'friends_setup_nav' );
+
+
+/**************************************************************************
+ friends_catch_action()
+ 
+ Catch actions via pretty urls.
+ **************************************************************************/
+
+function friends_catch_action() {
+	global $bp_friends_slug, $current_component, $current_blog;
+	global $loggedin_userid, $current_userid, $current_action;
+	global $bp_options_nav, $action_variables, $thread_id;
+	global $message, $type;
+	
+	var_dump($current_action);
+
+	if ( $current_component == $bp_friends_slug && $current_blog->blog_id > 1 ) {
+
+		switch ( $current_action ) {
+			case 'friend-finder':
+				bp_catch_uri( 'friends/friend-finder' );
+			break;
+			
+			case 'my-friends':
+				bp_catch_uri( 'friends/index' );
+			break;
+			
+			default:
+				$current_action = '';
+				bp_catch_uri( 'friends/index' );				
+			break;
+		}
+	}
+}
+add_action( 'wp', 'friends_catch_action' );
+
+/**************************************************************************
+ friends_template()
+ 
+ Set up template tags for use in templates.
+ **************************************************************************/
+
+function friends_template() {
+	global $friends_template, $loggedin_userid;
+	global $current_component, $bp_friends_slug;
+	global $current_action, $loggedin_domain;
+	
+	if ( $current_component == $bp_friends_slug ) {
+		if ( $current_action == 'my-friends' || !$current_action )
+			$friends_template = new BP_Friendship_Template( $current_userid );
+	}
+	
 }
 add_action( 'wp_head', 'friends_template' );
 
 
 /**************************************************************************
- friends_list()
-  
- Creates a nice list of all the current users friends. Gives the user
- options to filter the list.
- **************************************************************************/	
+ friends_admin_setup()
+ 
+ Setup CSS, JS and other things needed for the xprofile component.
+**************************************************************************/
 
-function friends_list() {
-		$bp_friends = new BP_Friends();
-		$friends = $bp_friends->get_friends();
-?>	
-	<div class="wrap">
+function friends_admin_setup() {
+}
+add_action( 'admin_menu', 'friends_admin_setup' );
+
+
+/**************************************************************************
+ friends_get_friends()
+ 
+ Return an array of friend objects for the current user.
+**************************************************************************/
+
+function friends_get_friendships( $user_id = false, $friendship_ids = false, $pag_num = 5, $pag_page = 1 ) {
+	global $current_userid;
+	
+	if ( !$user_id )
+		$user_id = $current_userid;
+	
+	if ( !$friendship_ids )
+		$friendship_ids = BP_Friends_Friendship::get_friendship_ids( $user_id, true, false, $pag_num, $pag_page );
+
+	if ( $friendship_ids[0]->id == 0 )
+		return false;
 		
-		<h2><?php _e("My Friends") ?></h2>
+	for ( $i = 0; $i < count($friendship_ids); $i++ ) {
+		$friends[] = new BP_Friends_Friendship($friendship_ids[$i]->id);
+	}
 		
-		<?php if ( !$friends ) { ?>
-			<div id="message" class="error fade">
-				<p><?php _e("There was an error getting your list of friends, please try again.") ?></p>
-			</div>
-		<?php } else { ?>					
-			<?php if ( count($friends) < 1 ) { ?>
-				<div id="message" class="updated fade">
-					<p><?php _e("Looks like you don't have any friends. Why not <a href=\"admin.php?page=friend_finder\" title=\"Friend Finder\">find some</a>?"); ?></p>
-				</div>
-			<?php } else { ?>
-				<ul id="friends-list">
-					<?php for ( $i = 0; $i < count($friends); $i++ ) { ?>
-					<li><?php echo '<a href="http://' . $friends[$i][3]->meta_value . '">' . $friends[$i][0]->meta_value . '</a>'; ?></li>
-					
-					<?php } ?>
-				</ul>
-			<?php } ?>
-			
-		<?php } ?>
-		
-	</div>
-<?php
+	return array( 'friendships' => $friends, 'count' => BP_Friends_Friendship::total_friend_count($user_id) );
 }
 
 
 /**************************************************************************
- friends_find()
-  
- Shows the find friend interface, allowing users to search for friends in
- the system.
- **************************************************************************/	
-	
-function friends_find( $type = "error", $message = "" ) {
-	if ( isset($_POST['searchterm']) && isset($_POST['search']) ) {
-		if ( $_POST['searchterm'] == "" ) {
-			$message = __("Please make sure you enter something to search for.");
-		} else if ( strlen($_POST['searchterm']) < 3 ) {
-			$message = __("Your search term must be longer than 3 letters otherwise you'll be here for years.");
-		} else {
-			// The search term is okay, let's get it movin'
-			$bp_friends = new BP_Friends();
-			$results = $bp_friends->search($_POST['searchterm']);			
-		}
-	}
-	
-?>
+ friends_add_friend()
+ 
+ Create a new friend relationship
+**************************************************************************/
 
-	<div class="wrap">
-		<h2><?php _e('Friend Finder'); ?></h2>
+function friends_add_friend() {
+	$friendship = new BP_Friends_Friendship;
 	
-		<?php
-			if ( $message != '' ) {
-				$type = ( $type == 'error' ) ? 'error' : 'updated';
-		?>
-			<div id="message" class="<?php echo $type; ?> fade">
-				<p><?php echo $message; ?></p>
-			</div>
-		<?php } ?>
-		
-		<form action="admin.php?page=friend_finder" method="post">
-			
-			<fieldset id="searchtermdiv">
-				<legend><?php _e("Friends name, username or email address:") ?></legend>
-				<div>
-					<input type="text" name="searchterm" id="searchterm" value="<?php echo $_POST['searchterm'] ?>" />
-				</div>
-			</fieldset>
-			
-			<p>
-				<input type="submit" value="<?php _e("Search") ?> &raquo;" name="search" id="search" style="font-weight: bold" />
-			</p>
-			
-		</form>
-		
-		<?php if ( isset($results) ) { ?>
-			<?php if (!$results) { ?>
-				<p>Nothing Found!</p>
-			<?php } else { ?>
-				<ul id="friend_results">
-					<?php for ( $i = 0; $i < count($results); $i++ ) { ?>
-						<li><?php echo $results[$i]->display_name; ?></li>
-					<?php } ?>
-				</ul>
-			<?php } ?>
-		<?php } ?>
-	</div>
+	$friendship->initiator_user_id = $loggedin_userid;
+	$friendship->friend_user_id = $current_userid;
+	$friendship->is_confirmed = 0;
+	$friendship->is_limited = 0;
+	$friendship->date_created = time();
 	
-<?php
+	if ( !$friendship->save() )
+		return false;
+	
+	return true;
 }
+
 
 ?>
