@@ -118,8 +118,6 @@ function friends_catch_action() {
 	global $bp_options_nav, $action_variables, $thread_id;
 	global $message, $type;
 	
-	var_dump($current_action);
-
 	if ( $current_component == $bp_friends_slug && $current_blog->blog_id > 1 ) {
 
 		switch ( $current_action ) {
