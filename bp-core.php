@@ -7,6 +7,7 @@ require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-catchuri.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-thirdlevel.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-settingstab.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-pagination.php' );
+require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-cssjs.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-templatetags.php' );
 
 if ( !get_site_option('bp_disable_blog_tab') ) {
@@ -76,14 +77,18 @@ function bp_core_setup() {
 add_action( 'wp', 'bp_core_setup' );
 
 function bp_core_user_creds() {
-	global $loggedin_domain, $loggedin_userid;
-	global $current_domain, $current_userid;
+	global $current_user;
 	
+	// Get user creds when calling functions via ajax.
 	$loggedin_domain = bp_core_get_loggedin_domain();
 	$loggedin_userid = $current_user->ID;
 	
 	$current_domain = bp_core_get_current_domain();
 	$current_userid = bp_core_get_current_userid();
+	
+	return array( 'loggedin_domain' => $loggedin_domain, 'loggedin_userid' => $loggedin_userid,
+				   'current_domain' => $current_domain, 'current_userid' => $current_userid
+				);
 }
 
 function bp_core_get_loggedin_domain() {

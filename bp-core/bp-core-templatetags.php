@@ -2,12 +2,23 @@
 
 function bp_get_nav() {
 	global $bp_nav, $current_component, $current_userid, $loggedin_userid;
+	global $bp_friends_slug;
 	
 	for ( $i = 0; $i < count($bp_nav); $i++ ) {
 		if ( $current_component == $bp_nav[$i]['id'] && $current_userid == $loggedin_userid ) {
 			$selected = ' class="current"';
 		} else {
 			$selected = '';
+		}
+		
+		if ( $current_userid != $loggedin_userid ) {
+			if ( function_exists('friends_check_friendship') ) {
+				if ( friends_check_friendship($current_userid) && $bp_nav[$i]['id'] == $bp_friends_slug ) {
+					$selected = ' class="current"';
+				} else {
+					$selected = '';
+				}
+			}
 		}
 		
 		echo '<li' . $selected . '><a id="' . $bp_nav[$i]['id'] . '" href="' . $bp_nav[$i]['link'] . '">' . $bp_nav[$i]['name'] . '</a></li>';

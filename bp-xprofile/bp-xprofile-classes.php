@@ -1048,7 +1048,6 @@ Class BP_XProfile_ProfileData {
 		if ( $this->is_valid_field() ) {
 			if ( $this->exists() && $this->value != '' ) {
 				$sql = $wpdb->prepare("UPDATE $this->table_name_data SET value = %s, last_updated = %s WHERE user_id = %d AND field_id = %d", $this->value, $this->last_updated, $this->user_id, $this->field_id);
-				echo $sql;
 			} else if ( $this->exists() and $this->value == '' ) {
 				// Data removed, delete the entry.
 				$this->delete();

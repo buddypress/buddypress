@@ -33,12 +33,6 @@ function messages_add_js() {
 	
 	if ( strpos( $_GET['page'], 'messages' ) !== false || $current_component == $bp_messages_slug ) {
 		echo '
-			<script type="text/javascript">var ajaxurl = "' . get_option('siteurl') . '/wp-admin/admin-ajax.php";</script>';
-		
-		echo "
-			<script type='text/javascript' src='" . get_option('siteurl') . "/wp-includes/js/jquery/jquery.js?ver=1.2.3'></script>";
-		
-		echo '
 			<script src="' . get_option('siteurl') . '/wp-content/mu-plugins/bp-messages/js/general.js" type="text/javascript"></script>';
 	}
 }
