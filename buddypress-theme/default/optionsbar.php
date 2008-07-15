@@ -12,5 +12,4 @@
 	<ul id="options-nav"<?php has_icons() ?>>
 		<?php bp_get_options_nav() ?>
 	</ul>
-
 </div>

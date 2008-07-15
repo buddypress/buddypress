@@ -1,12 +1,14 @@
 <?php get_header(); ?>
 
 	<div class="content-header">
-		<div class="pagination-links">
-			<?php bp_messages_pagination() ?>
-		</div>
 	</div>
 
 	<div id="content">
+		<div class="pagination-links">
+			<?php bp_messages_pagination() ?>
+		</div>
+		
+		<h2>Sent Messages</h2>
 		<?php do_action( 'template_notices' ) ?>
 	
 		<?php if ( bp_has_message_threads() ) : ?>
@@ -35,7 +37,7 @@
 			
 		<?php else: ?>
 			
-			<div id="message" class="error">
+			<div id="message" class="info">
 				<p>You have no sent messages.</p>
 			</div>	
 

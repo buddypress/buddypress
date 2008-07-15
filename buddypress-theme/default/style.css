@@ -18,7 +18,7 @@ address, caption, cite, code, dfn, em, strong, th, var { font-style:normal; font
 ol, ul, li { list-style:none }
 caption, th { text-align:left }
 h1, h2, h3, h4, h5, h6 { font-size:100% }
-q:before, q:after { content:''}
+q:before, q:after { content:'' }
 a { text-decoration:none }
 strong { font-weight:bold }
 em { font-style:italic }
@@ -142,19 +142,23 @@ hr, div.clear {
 				}
 			
 				li a#profile {
-					background: url(../../mu-plugins/bp-xprofile/images/nav_bullet.gif) 88% 52% no-repeat;
+					background: url(images/profile_bullet.gif) 88% 52% no-repeat;
 				}
 
 				li a#messages {
-					background: url(../../mu-plugins/bp-messages/images/nav_bullet.gif) 88% 52% no-repeat;
+					background: url(images/messages_bullet.gif) 88% 52% no-repeat;
 				}			
 				
 				li a#blog {
-					background: url(../../mu-plugins/bp-core/images/nav_bullet.gif) 86% 52% no-repeat;
-				}	
+					background: url(images/blog_bullet.gif) 86% 52% no-repeat;
+				}
+				
+				li a#friends {
+					background: url(images/friends_bullet.gif) 87% 52% no-repeat;
+				}
 				
 				li a#wp-logout {
-					background: url(../../mu-plugins/bp-core/images/logout_bullet.gif) 87% 52% no-repeat;
+					background: url(images/logout_bullet.gif) 87% 52% no-repeat;
 				}	
 
 
@@ -255,7 +259,7 @@ ul.content-header-nav {
 		#main #content h2, h3#respond, h3#responses {
 			font: normal 1.6em Georgia, Times, serif;
 			padding-bottom: 0.25em;
-			border-bottom: 1px solid #ccc;
+			border-bottom: 1px solid #ddd;
 			margin-bottom: 1em;
 		}
 		
@@ -291,6 +295,21 @@ ul.content-header-nav {
 				font: normal 1.4em "Georgia", Times, serif;
 				font-style: italic;
 				margin: 0.3em 0 1.2em 0;
+			}
+		
+		.pagination-links {
+			float: right;
+		}
+			.pagination-links .page-numbers {
+				padding: 0.65em 0.7em;
+				height: 24px;
+			}
+				a.page-numbers:hover { background: #e1e1e1; }
+
+			.pagination-links .current {
+				background: #d5d5d5;
+				border-bottom: 2px solid #f28935;
+				padding: 0.5em 0.7em !important;
 			}
 
 /**** Profiles ************************/
@@ -381,6 +400,17 @@ ul.content-header-nav {
 			#message.error p {
 				background-image: url(images/error_icon.gif);
 				color: #fff;
+			}
+		
+		#message.info {
+			background-image: none;
+			background-color: #fcfcd0;
+			color: inherit;
+		}
+			#message.info p {
+				background-image: url(images/info_icon.gif);
+				color: inherit;
+				padding-left: 3.3em;
 			}
 			
 			p.err { display: none; }
@@ -592,22 +622,6 @@ ul.content-header-nav {
 		}
 			.read .unread-count { display: none; }
 		
-		.pagination-links {
-			float: left;
-			padding: 0 0 0 3em;
-		}
-			.pagination-links .page-numbers {
-				padding: 0.65em 0.7em;
-				height: 24px;
-			}
-				a.page-numbers:hover { background: #e1e1e1; }
-			
-			.pagination-links .current {
-				background: #d5d5d5;
-				border-bottom: 2px solid #f28935;
-				padding: 0.5em 0.7em !important;
-			}
-		
 		.messages-options {
 			float: right;
 			padding: 0 3em 0 0;
@@ -634,7 +648,82 @@ ul.content-header-nav {
 			margin: 0 0 0.8em 0;
 		}
 		.notice a { color: #0051FF;}
+
+/**** FRIENDS *****************/
+	
+	#friend-list {
+		width: 410px;
+		margin-top: -1em;
+	}
+		ul#friend-list li {
+			position: relative;
+			border-bottom: 1px solid #eee;
+			padding: 1em 0;
+		}
 		
+	#friend-list li img.avatar {
+		float: left;
+		margin: 0 1em 0 0;
+	}
+		#friend-list li span.activity {
+			position: relative;
+			color: #888;
+			font-size: 0.9em;
+			background: #FFF9DB;
+			padding: 4px 6px;
+			border-right: 1px solid #FFE8C4;
+			border-bottom: 1px solid #FFE8C4;
+			top: 2px;
+		}
+		
+		#friend-list .action {
+			position: absolute;
+			top: 40%;
+			right: 1em;
+		}
+	
+	#predefined-lists {
+		margin: 1em 1.2em 0 0;
+	}
+	
+	#predefined-lists li {
+		text-align: right;
+		padding: 0.25em 0;
+	}
+	
+	#friend-search-form { position: relative; }
+	
+	#friend-search-form img#ajax-loader {
+		position: absolute;
+		right: 17px;
+		top: 7px;
+	}
+	
+	a#addremove-friend {
+		padding: 1em 1.7em 1em 1em;
+		text-align: right;
+		display: block;
+		margin-right: 1.1em;
+		margin-top: -1em;
+		font-size: 1.1em;
+	}
+	
+	a#addremove-friend {
+		background: url(images/add_friend_icon.gif) center right no-repeat;
+	}
+		a.remove {
+			background-image: url(images/error_icon.gif) !important;
+		}
+	
+	#friendship-button {
+		text-align: center;
+		color: #888;
+		padding-top: 1em;
+	}
+	
+	label#friend-search-label {
+		font-size: 0.9em;
+	}
 		
 /**************************
  BLOG SIDEBAR

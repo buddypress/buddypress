@@ -9,6 +9,10 @@
 		<div class="left-menu">
 			<?php bp_the_avatar() ?>
 			
+			<?php if ( bp_exists('bp_add_friend_button') ) : ?>
+				<?php bp_add_friend_button() ?>
+			<?php endif; ?>
+			
 			<?php //bp_user_groups() ?>
 		</div>
 	

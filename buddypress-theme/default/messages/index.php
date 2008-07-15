@@ -3,19 +3,20 @@
 	<form action="<?php bp_messages_form_action() ?>" method="post" id="messages-form">
 
 	<div class="content-header">
-		<div class="pagination-links">
-			<?php bp_messages_pagination() ?>
-		</div>
-		
 		<div class="messages-options">	
 			<?php bp_messages_options() ?>
 		</div>
 	</div>
 
 	<div id="content">
-		<?php do_action( 'template_notices' ) ?>
+		<div class="pagination-links">
+			<?php bp_messages_pagination() ?>
+		</div>
 		
-		<?php bp_message_get_notices(); ?>
+		<h2>Inbox</h2>
+		<?php do_action( 'template_notices' ) // (error/success feedback) ?>
+		
+		<?php bp_message_get_notices(); // (admin created site wide notices) ?>
 	
 		<?php if ( bp_has_message_threads() ) : ?>
 			
@@ -44,7 +45,7 @@
 			
 		<?php else: ?>
 			
-			<div id="message" class="error">
+			<div id="message" class="info">
 				<p>You have no messages in your inbox.</p>
 			</div>	
 			
