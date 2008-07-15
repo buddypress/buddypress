@@ -52,9 +52,9 @@ function friends_add_admin_menu() {
 	global $wpdb, $bp_friends_table_name, $userdata;
 
 	if ( $wpdb->blogid == $userdata->primary_blog ) {
-		add_menu_page( __("Friends"), __("Friends"), 1, basename(__FILE__), "friends_list" );
-		add_submenu_page( basename(__FILE__), __("My Friends"), __("My Friends"), 1, basename(__FILE__), "friends_list" );
-		add_submenu_page( basename(__FILE__), __("Friend Finder"), __("Friend Finder"), 1, "friend_finder", "friends_find" );	
+		//add_menu_page( __("Friends"), __("Friends"), 1, basename(__FILE__), "friends_list" );
+		//add_submenu_page( basename(__FILE__), __("My Friends"), __("My Friends"), 1, basename(__FILE__), "friends_list" );
+		//add_submenu_page( basename(__FILE__), __("Friend Finder"), __("Friend Finder"), 1, "friend_finder", "friends_find" );	
 		
 		/* Add the administration tab under the "Site Admin" tab for site administrators */
 		//add_submenu_page( 'wpmu-admin.php', __("Friends"), __("Friends"), 1, basename(__FILE__), "friends_settings" );
