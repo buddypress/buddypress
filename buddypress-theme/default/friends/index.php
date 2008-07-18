@@ -11,7 +11,7 @@
 		<h2>My Friends</h2>
 		
 		<div class="left-menu">
-			<?php bp_friend_search_form() ?>
+			<?php bp_friend_search_form('Search Friends') ?>
 		</div>
 		
 		<div class="main-column">
@@ -23,7 +23,7 @@
 					<li>
 						<?php bp_friend_avatar_thumb() ?>
 						<h4><?php bp_friend_link() ?></h4>
-						<span class="activity">active <?php bp_friend_last_active() ?> ago.</span>
+						<span class="activity"><?php bp_friend_last_active() ?></span>
 						<hr />
 					</li>
 				<?php endwhile; ?>

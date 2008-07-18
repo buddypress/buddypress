@@ -17,7 +17,7 @@
 				<li>
 					<?php bp_friend_avatar_thumb() ?>
 					<h4><?php bp_friend_link() ?></h4>
-					<span class="activity">requested <?php bp_friend_time_since_requested() ?> ago.</span>
+					<span class="activity"><?php bp_friend_time_since_requested() ?></span>
 					<div class="action">
 						<a href="<?php bp_friend_accept_request_link() ?>">Accept</a> 
 						<a href="<?php bp_friend_reject_request_link() ?>">Reject</a> 

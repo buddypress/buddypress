@@ -57,6 +57,8 @@ hr, div.clear {
 	clear: both;
 }
 
+input, select, textarea { width: 100%; }
+
 /**************************
  HEADER
 ***************************/
@@ -271,8 +273,8 @@ ul.content-header-nav {
 		
 		#main #content .left-menu {
 			float: left;
-			width: 172px;
-			margin: 0 1.8em 1em 0;
+			width: 140px;
+			margin-bottom: 1em;
 		}
 	
 		#main img.avatar {
@@ -280,7 +282,7 @@ ul.content-header-nav {
 		}
 	
 		.main-column {
-			float: left;
+			margin-left: 190px;
 		}
 		
 		.main-column h1, #blog-info h1 {
@@ -323,9 +325,9 @@ ul.content-header-nav {
 		}
 		
 		table.profile-fields {
-			width: 410px;
 			font-size: 1em;
 			margin: 0.5em 0 2em 0;
+			width: 100%;
 		}
 			table.profile-fields tr td {
 				padding: 0.5em 1em;
@@ -333,7 +335,7 @@ ul.content-header-nav {
 			
 			table.profile-fields tr td.label {
 				border-right: 1px solid #dadada;
-				width: 60px;
+				width: 40px !important;
 				font-weight: bold;
 			}
 			
@@ -631,6 +633,7 @@ ul.content-header-nav {
 			margin-top: -2px;
 		}
 			.messages-options a { color: #888; }
+			.messages-options select { width: auto; }
 		
 		.notices td { vertical-align: top; }
 		.notice {
@@ -695,11 +698,11 @@ ul.content-header-nav {
 	
 	#friend-search-form img#ajax-loader {
 		position: absolute;
-		right: 17px;
+		right: 0;
 		top: 7px;
 	}
 	
-	a#addremove-friend {
+	div.friendship-button a {
 		padding: 1em 1.7em 1em 1em;
 		text-align: right;
 		display: block;
@@ -707,19 +710,29 @@ ul.content-header-nav {
 		margin-top: -1em;
 		font-size: 1.1em;
 	}
+		#friend-list div.friendship-button a {
+			padding: 0 1.7em 0 0;
+			margin: 0;
+		}
 	
-	a#addremove-friend {
+	div.friendship-button a {
 		background: url(images/add_friend_icon.gif) center right no-repeat;
 	}
-		a.remove {
+		div.friendship-button a.remove {
 			background-image: url(images/error_icon.gif) !important;
 		}
 	
-	#friendship-button {
+	.friendship-button {
 		text-align: center;
 		color: #888;
 		padding-top: 1em;
 	}
+	
+		#friend-list .friendship-button {
+			text-align: right;
+			padding: 0;
+			margin-top: -2em;
+		}
 	
 	label#friend-search-label {
 		font-size: 0.9em;
