@@ -233,6 +233,34 @@ function friends_get_friendships( $user_id = false, $friendship_ids = false, $pa
 }
 
 /**************************************************************************
+ friends_search_users()
+ 
+ Return an array of user objects based on the users search terms
+**************************************************************************/
+
+function friends_search_users( $search_terms, $user_id, $pag_num = 5, $pag_page = 1 ) {
+	global $loggedin_userid;
+	
+	if ( !$user_id )
+		$user_id = $loggedin_userid;
+
+	echo "testasdasd";
+
+	$user_ids = BP_Friends_Friendship::search_users( $search_terms, $user_id, $pag_num, $pag_page );
+	
+	var_dump($user_ids);
+	
+	if ( !$user_ids )
+		return false;
+
+	for ( $i = 0; $i < count($user_ids); $i++ ) {
+		$users[] = new BP_Friends_Friend($user_ids[$i]);
+	}
+	
+	return array( 'users' => $users, 'count' => BP_Friends_Friendship::search_users_count($search_terms) );
+}
+
+/**************************************************************************
  friends_check_friendship()
  
  Check to see if the user is already a confirmed friend with this user.

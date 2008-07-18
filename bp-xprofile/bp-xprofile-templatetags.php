@@ -193,7 +193,7 @@ function bp_the_profile_field_name() {
 }
 
 function bp_the_profile_field_value() {
-	global $field;
+	global $field, $loggedin_domain, $bp_friends_slug;
 	
 	if ( bp_is_serialized($field->data->value) ) {
 		$field_value = unserialize($field->data->value);
@@ -205,7 +205,10 @@ function bp_the_profile_field_value() {
 		$field->data->value = bp_format_time( $field->data->value, true );
 	}
 	
-	echo $field->data->value;
+	if ( BP_FRIENDS_IS_INSTALLED )
+		echo $field->data->value;
+	else
+		echo $field->data->value;
 }
 
 function bp_the_avatar() {

@@ -371,6 +371,22 @@ function bp_core_get_blogdetails( $domain ) {
 	return $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s", $domain) );
 }
 
+function bp_core_get_userurl( $uid ) {
+	global $userdata;
+	
+	$ud = get_userdata($uid);
+	
+	if ( VHOST == 'no' )
+		$ud->path = $ud->user_login;
+
+	$url = PROTOCOL . $ud->source_domain . '/' . $ud->path;
+	
+	if ( $url == PROTOCOL . '/' )
+		return false;
+	
+	return $url;
+}
+
 function bp_core_get_userlink( $uid, $no_anchor = false, $just_link = false ) {
 	global $userdata;
 	
@@ -611,7 +627,13 @@ function bp_time_since( $older_date, $newer_date = false ) {
 	return $output;
 }
 
-
+function bp_core_record_activity() {
+	global $userdata;
+	
+	// Updated last site activity for this user.
+	update_usermeta( $userdata->ID, 'last_activity', time() ); 
+}
+add_action( 'login_head', 'bp_core_record_activity' );
 
 
 ?>

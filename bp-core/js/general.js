@@ -1,32 +1,40 @@
 jQuery(document).ready( function() {
-	jQuery("a#addremove-friend").click(
+	jQuery("div.friendship-button a").livequery('click',
 		function(e) {
+			jQuery(this).toggle();
+			jQuery(this).before('<span id="working">Working...</span>');
+		
+			var fid = jQuery(this).attr('id');
+			fid = fid.split('-');
+			fid = fid[1];
+			
+			var link = jQuery(this);
+		
 			jQuery.post( ajaxurl, {
 				action: 'addremove_friend',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce").val()
+				'fid': fid
 			},
 			function(response)
 			{
 				console.log(response);
 				response = response.substr(0, response.length-1);
 				response = response.split('[[SPLIT]]');
-				
+			
 				if ( response[0] != "-1" ) {
-					var action = jQuery("a#addremove-friend").attr('rel');
-					
+					var action = link.attr('rel');
+				
 					if ( action == 'add' ) {
-						jQuery("#friendship-button").html(response[0]);
+						jQuery("#working").html(response[0]);
 					} else {
-						jQuery("a#addremove-friend").html(response[0]);
-						jQuery("a#addremove-friend").attr('rel', 'add');
-						jQuery("a#addremove-friend").removeClass('remove');
+						jQuery("#working").toggle();
+						link.html(response[0]);
+						link.attr('rel', 'add');
+						link.removeClass('remove');
+						link.toggle();
 					}
 				}
-				
-				
 			});
-
 			return false;
 		}
 	);
