@@ -24,7 +24,6 @@ jQuery(document).ready( function() {
 				if ( action == 'add' ) {
 					jQuery("#working").html(response);
 				} else {
-					alert('test2');
 					jQuery("#working").toggle();
 					thelink.html(response);
 					thelink.attr('rel', 'add');
