@@ -409,7 +409,7 @@ function bp_core_get_userlink( $uid, $no_anchor = false, $just_link = false ) {
 	if ( $just_link )
 		return PROTOCOL . $ud->source_domain . '/' . $ud->path;
 
-	return '<a href="' . PROTOCOL . $ud->source_domain . $ud->path . '">' . $display_name . '</a>';	
+	return '<a href="' . PROTOCOL . $ud->source_domain . '/' . $ud->path . '">' . $display_name . '</a>';	
 }
 
 function bp_core_clean( $dirty ) {

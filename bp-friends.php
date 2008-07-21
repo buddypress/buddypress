@@ -244,11 +244,7 @@ function friends_search_users( $search_terms, $user_id, $pag_num = 5, $pag_page 
 	if ( !$user_id )
 		$user_id = $loggedin_userid;
 
-	echo "testasdasd";
-
 	$user_ids = BP_Friends_Friendship::search_users( $search_terms, $user_id, $pag_num, $pag_page );
-	
-	var_dump($user_ids);
 	
 	if ( !$user_ids )
 		return false;
