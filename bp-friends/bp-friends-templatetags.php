@@ -233,8 +233,8 @@ function bp_friend_last_content_update( $template = false ) {
 function bp_friend_time_since_requested() {
 	global $friends_template;
 	
-	if ( $friends_template->friendship->friend->date_created != "0000-00-00 00:00:00" ) {
-		echo __('requested') . ' ' . bp_time_since( strtotime( $friends_template->friendship->friend->date_created ) ) . ' ' . __('ago');
+	if ( $friends_template->friendship->date_created != "0000-00-00 00:00:00" ) {
+		echo __('requested') . ' ' . bp_time_since( strtotime( $friends_template->friendship->date_created ) ) . ' ' . __('ago');
 	}
 }
 
