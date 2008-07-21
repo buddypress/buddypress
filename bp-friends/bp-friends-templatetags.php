@@ -131,7 +131,7 @@ function bp_user_friendships() {
 		bp_friends_user_friendships();
 	}
 
-function bp_friend_avatar_thumb( &$template = false ) {
+function bp_friend_avatar_thumb( $template = false ) {
 	global $friends_template;
 	
 	if ( !$template )
@@ -144,7 +144,7 @@ function bp_friend_avatar_thumb( &$template = false ) {
 		bp_friend_avatar_thumb( $friends_template->friendship );
 	}
 
-function bp_friend_status( &$template = false ) {
+function bp_friend_status( $template = false ) {
 	global $friends_template;
 	
 	if ( !$template )
@@ -158,7 +158,7 @@ function bp_friend_status( &$template = false ) {
 		bp_friend_status( $friends_template->friendship );
 	}
 
-function bp_friend_link( &$template = false ) {
+function bp_friend_link( $template = false ) {
 	global $friends_template;
 	
 	if ( !$template )
@@ -171,7 +171,7 @@ function bp_friend_link( &$template = false ) {
 		bp_friend_link( $friends_template->friendship );
 	}
 
-function bp_friend_last_active( $time = false, &$template = false ) {
+function bp_friend_last_active( $time = false, $template = false ) {
 	global $friends_template;
 	
 	if ( !$time )
@@ -186,12 +186,12 @@ function bp_friend_last_active( $time = false, &$template = false ) {
 		echo __('active') . ' ' . bp_time_since( strtotime( $time ) ) . ' ' . __('ago');
 	}
 }
-	function bp_user_last_active( &$time = false ) {
+	function bp_user_last_active( $time = false ) {
 		global $friends_template;
 		bp_friend_last_active( $time, $friends_template->friendship );
 	}
 
-function bp_friend_last_profile_update( &$template = false ) {
+function bp_friend_last_profile_update( $template = false ) {
 	global $friends_template;
 
 	if ( !$template )
@@ -204,7 +204,7 @@ function bp_friend_last_profile_update( &$template = false ) {
 		bp_friend_last_profile_update( $friends_template->friendship );
 	}
 
-function bp_friend_last_status_update( &$template = false ) {
+function bp_friend_last_status_update( $template = false ) {
 	global $friends_template;
 
 	if ( !$template )
@@ -217,7 +217,7 @@ function bp_friend_last_status_update( &$template = false ) {
 		bp_friend_last_status_update( $friends_template->friendship );
 	}
 
-function bp_friend_last_content_update( &$template = false ) {
+function bp_friend_last_content_update( $template = false ) {
 	global $friends_template;
 	
 	if ( !$template )

@@ -8,8 +8,8 @@ jQuery(document).ready( function() {
 			fid = fid.split('-');
 			fid = fid[1];
 			
-			var link = jQuery(this);
-		
+			var thelink = jQuery(this);
+
 			jQuery.post( ajaxurl, {
 				action: 'addremove_friend',
 				'cookie': encodeURIComponent(document.cookie),
@@ -17,23 +17,21 @@ jQuery(document).ready( function() {
 			},
 			function(response)
 			{
-				console.log(response);
 				response = response.substr(0, response.length-1);
-				response = response.split('[[SPLIT]]');
 			
-				if ( response[0] != "-1" ) {
-					var action = link.attr('rel');
-				
-					if ( action == 'add' ) {
-						jQuery("#working").html(response[0]);
-					} else {
-						jQuery("#working").toggle();
-						link.html(response[0]);
-						link.attr('rel', 'add');
-						link.removeClass('remove');
-						link.toggle();
-					}
+				var action = thelink.attr('rel');
+			
+				if ( action == 'add' ) {
+					jQuery("#working").html(response);
+				} else {
+					alert('test2');
+					jQuery("#working").toggle();
+					thelink.html(response);
+					thelink.attr('rel', 'add');
+					thelink.removeClass('remove');
+					thelink.toggle();
 				}
+
 			});
 			return false;
 		}
