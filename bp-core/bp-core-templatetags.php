@@ -24,7 +24,7 @@ function bp_get_nav() {
 		echo '<li' . $selected . '><a id="' . $bp_nav[$i]['id'] . '" href="' . $bp_nav[$i]['link'] . '">' . $bp_nav[$i]['name'] . '</a></li>';
 	}
 	
-	echo '<li><a id="wp-logout" href="' . PROTOCOL . get_usermeta( get_current_user_id(), 'source_domain' ) . '/wp-login.php?action=logout">Log Out</a><li>';
+	echo '<li><a id="wp-logout" href="' . get_option('home') . '/wp-login.php?action=logout">Log Out</a><li>';
 }
 
 function bp_get_options_nav() {
