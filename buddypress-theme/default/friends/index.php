@@ -30,7 +30,7 @@
 			<?php else: ?>
 
 				<div id="message" class="info">
-					<p><?php _e('You have no friends.'); ?></p>
+					<p><?php _e('Your friends list is currently empty.'); ?></p>
 				</div>
 
 			<?php endif;?>
