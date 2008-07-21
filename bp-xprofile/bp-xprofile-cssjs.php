@@ -291,19 +291,6 @@ function xprofile_add_js() {
 				}
 			}
 			
-			function clear(container) {
-				if(!document.getElementById(container)) return false;
-				
-				var container = document.getElementById(container);
-				
-				radioButtons = container.getElementsByTagName('INPUT');
-
-				for(var i=0; i<radioButtons.length; i++) {
-					radioButtons[i].checked = false;
-				}
-				
-			}
-			
 			function reorderFields(table, row, field_ids) {
 				jQuery.post( ajaxurl, {
 					action: 'xprofile_reorder_fields',

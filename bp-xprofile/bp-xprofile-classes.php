@@ -226,7 +226,7 @@ Class BP_XProfile_Field {
 			$this->group_id = $field->group_id;
 			$this->parent_id = $field->parent_id;
 			$this->type = $field->type;
-			$this->name = $field->name;
+			$this->name = stripslashes($field->name);
 			$this->desc = stripslashes($field->description);
 			$this->is_required = $field->is_required;
 			$this->is_public= $field->is_public;
