@@ -25,7 +25,7 @@ jQuery(document).ready( function() {
 			},
 			function(response)
 			{	
-				console.log(response);
+				
 				render_friend_search_response(response);
 			});
 			
@@ -51,7 +51,7 @@ jQuery(document).ready( function() {
 			},
 			function(response)
 			{	
-				console.log(response);
+				
 				render_finder_search_response(response);
 			});
 			
@@ -72,7 +72,7 @@ jQuery(document).ready( function() {
 				},
 				function(response)
 				{
-					console.log(response);
+					
 					render_friend_search_response(response);
 				});
 
@@ -95,7 +95,6 @@ jQuery(document).ready( function() {
 				},
 				function(response)
 				{
-					console.log(response);
 					render_finder_search_response(response);
 				});
 
