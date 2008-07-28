@@ -358,6 +358,9 @@ function xprofile_add_js() {
 }
 
 function xprofile_add_cropper_js() {
+	if ( !isset($_REQUEST['page']) )
+		$_REQUEST['page'] = null;	
+	
 	if ( $_REQUEST['page'] == 'bp-xprofile.php' || $_SERVER['SCRIPT_NAME'] == '/wp-activate.php' ) {
 ?>
 	<style type="text/css">

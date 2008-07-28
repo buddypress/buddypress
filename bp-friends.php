@@ -250,7 +250,7 @@ function friends_search_users( $search_terms, $user_id, $pag_num = 5, $pag_page 
 		return false;
 
 	for ( $i = 0; $i < count($user_ids); $i++ ) {
-		$users[] = new BP_Friends_Friend($user_ids[$i]);
+		$users[] = new BP_Core_User($user_ids[$i]);
 	}
 	
 	return array( 'users' => $users, 'count' => BP_Friends_Friendship::search_users_count($search_terms) );

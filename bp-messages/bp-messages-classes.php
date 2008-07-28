@@ -23,7 +23,7 @@ Class BP_Messages_Thread {
 		$this->box = $box;
 		
 		if ( $id ) {
-			$this->populate( $id, $box );
+			$this->populate( $id );
 		}
 		
 		if ( $get_all_messages ) {

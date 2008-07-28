@@ -46,9 +46,9 @@ class BP_Friends_Friendship {
 			$current_userid = $creds['current_userid'];
 			
 		if ( $this->friend_user_id == $current_userid ) {
-			$this->friend = new BP_Friends_Friend( $this->initiator_user_id );
+			$this->friend = new BP_Core_User( $this->initiator_user_id );
 		} else {
-			$this->friend = new BP_Friends_Friend( $this->friend_user_id );
+			$this->friend = new BP_Core_User( $this->friend_user_id );
 		}
 	}
 	
@@ -130,7 +130,7 @@ class BP_Friends_Friendship {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		
 		// Get all the user ids for the current user's friends.
-		$fids = implode( ',', BP_Friends_Friend::get_friend_ids( $user_id ) );
+		$fids = implode( ',', BP_Friends_Friendship::get_friend_ids( $user_id ) );
 
 		// filter the user_ids based on the search criteria.
 		if ( BP_XPROFILE_IS_INSTALLED ) {
@@ -230,48 +230,6 @@ class BP_Friends_Friendship {
 
 		return $user_count[0];
 	}
-}
-
-class BP_Friends_Friend {
-	var $id;
-	var $avatar;
-	var $user_url;
-	var $user_link;
-	
-	var $last_active;
-	var $profile_last_updated;
-	
-	var $status;
-	var $status_last_updated;
-	
-	var $content_last_updated;
-	
-	function bp_friends_friend( $user_id ) {
-		if ( $user_id ) {
-			$this->id = $user_id;
-			$this->populate( $this->id );
-		}
-	}
-	
-	function populate() {
-		global $userdata;
-
-		$this->user_url = bp_core_get_userurl( $this->id );
-		$this->user_link = bp_core_get_userlink( $this->id );
-		$this->last_active = get_usermeta( $this->id, 'last_activity' ); 
-
-		if ( BP_XPROFILE_IS_INSTALLED ) {
-			$this->avatar = xprofile_get_avatar( $this->id, 1 );
-			$this->profile_last_updated = bp_profile_last_updated_date( $this->id, false );
-		}
-		
-		if ( BP_STATUSES_IS_INSTALLED ) {
-			$this->status = null; // TODO: Fetch status updates.
-			$this->status_last_updated = null;
-		}
-	}
-	
-	/* Static functions */
 	
 	function get_friend_ids( $user_id ) {
 		global $wpdb, $bp_friends_table_name;

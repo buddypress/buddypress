@@ -422,7 +422,12 @@ function xprofile_ap_die( $msg ) {
 }
 
 function xprofile_thumb_error( $str ) {
-	return preg_match( '/(filetype|invalid|not found)/is', $str );
+	if ( !is_string($str) ) {
+		var_dump($str);
+		return false;
+	} else {
+		return preg_match( '/(filetype|invalid|not found)/is', $str );
+	}
 }
 
 ?>

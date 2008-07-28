@@ -9,6 +9,9 @@ function friends_add_js() {
 	global $bp_friends_image_base;
 	global $current_action, $current_component;
 	global $bp_friends_slug;
+	
+	if ( !isset($_GET['page']) )
+		$_GET['page'] = null;
 
 	if ( strpos( $_GET['page'], 'friends' ) !== false || $current_component == $bp_friends_slug ) {
 		echo '

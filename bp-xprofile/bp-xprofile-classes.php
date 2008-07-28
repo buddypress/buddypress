@@ -1103,6 +1103,8 @@ Class BP_XProfile_ProfileData {
 
 		if ( !$user_id )
 			$user_id = $current_userid;
+		
+		$field_sql = '';
 
 		if ( is_array($fields) ) {
 			for ( $i = 0; $i < count($fields); $i++ ) {

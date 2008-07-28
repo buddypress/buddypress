@@ -1,4 +1,5 @@
 <?php
+
 require_once( 'bp-core.php' );
 
 define ( 'BP_XPROFILE_IS_INSTALLED', 1 );
@@ -92,18 +93,18 @@ function xprofile_add_admin_menu() {
 	global $wpdb, $bp_xprofile_table_name, $bp_xprofile, $groups, $userdata;
 	
 	if ( $wpdb->blogid == $userdata->primary_blog ) {
-		add_menu_page( __('Profile'), __('Profile'), 1, basename(__FILE__), 'xprofile_avatar_admin' );
-		add_submenu_page( basename(__FILE__), __('Profile &rsaquo; Avatar'), __('Avatar'), 1, basename(__FILE__), 'xprofile_avatar_admin' );		
-		add_options_page( __('Profile'), __('Profile'), 1, basename(__FILE__), 'xprofile_add_settings' );		
+		//add_menu_page( __('Profile'), __('Profile'), 1, basename(__FILE__), 'xprofile_avatar_admin' );
+		//add_submenu_page( basename(__FILE__), __('Profile &rsaquo; Avatar'), __('Avatar'), 1, basename(__FILE__), 'xprofile_avatar_admin' );		
+		//add_options_page( __('Profile'), __('Profile'), 1, basename(__FILE__), 'xprofile_add_settings' );		
 		
-		$groups = BP_XProfile_Group::get_all();
+		//$groups = BP_XProfile_Group::get_all();
 
-		for ( $i=0; $i < count($groups); $i++ ) {
-			if ( $groups[$i]->fields ) {
-				add_submenu_page( basename(__FILE__), __('Profile') . '  &rsaquo; ' . $groups[$i]->name, $groups[$i]->name, 1, "xprofile_" . $groups[$i]->name, "xprofile_edit" );		
-			}
-		}
-	
+		// for ( $i=0; $i < count($groups); $i++ ) {
+		// 			if ( $groups[$i]->fields ) {
+		// 				add_submenu_page( basename(__FILE__), __('Profile') . '  &rsaquo; ' . $groups[$i]->name, $groups[$i]->name, 1, "xprofile_" . $groups[$i]->name, "xprofile_edit" );		
+		// 			}
+		// 		}
+		// 	
 		wp_enqueue_script( 'jquery.tablednd', '/wp-content/mu-plugins/bp-core/js/jquery/jquery.tablednd.js', array( 'jquery' ), '0.4' );
 		
 		/* Add the administration tab under the "Site Admin" tab for site administrators */

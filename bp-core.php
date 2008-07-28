@@ -4,10 +4,10 @@ define ( 'PROTOCOL', 'http://' );
 define ( 'BP_CORE_VERSION', '0.3' );
 
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-catchuri.php' );
+require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-classes.php' );
+require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-cssjs.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-thirdlevel.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-settingstab.php' );
-require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-pagination.php' );
-require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-cssjs.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-templatetags.php' );
 
 if ( !get_site_option('bp_disable_blog_tab') ) {
@@ -301,54 +301,55 @@ function save_admin_settings() {
 	add_site_option( 'bp_disable_design_tab', $_POST['disable_design_tab'] );
 }
 
+// Commenting out dashboard replacement for now, until more is implemented.
 
-/* Are we viewing the dashboard? */
-if ( strpos( $_SERVER['SCRIPT_NAME'],'/index.php') ) {
-	add_action( 'admin_head', 'start_dash' );
-}
+// /* Are we viewing the dashboard? */
+// if ( strpos( $_SERVER['SCRIPT_NAME'],'/index.php') ) {
+// 	add_action( 'admin_head', 'start_dash' );
+// }
 
-function start_dash($dash_contents) {	
-	ob_start();
-	add_action('admin_footer', 'end_dash');
-}
-
-function replace_dash($dash_contents) {
-	$filter = preg_split( '/\<div class=\"wrap\"\>[\S\s]*\<div id=\"footer\"\>/', $dash_contents );
-	$filter[0] .= '<div class="wrap">';
-	$filter[1] .= '</div>';
-	
-	echo $filter[0];
-	echo render_dash();
-	echo '<div style="clear: both">&nbsp;<br clear="all" /></div></div><div id="footer">';
-	echo $filter[1];
-}
-
-function end_dash() {
-	$dash_contents = ob_get_contents();
-	ob_end_clean();
-	replace_dash($dash_contents);
-}
-
-function render_dash() {
-	$dash .= '
-		
-		<h2>' . __("My Activity Feed") . '</h2>
-		<p>' . __("This is where your personal activity feed will go.") . '</p>
-		<p>&nbsp;</p><p>&nbsp;</p>
-	';
-	
-	if ( is_site_admin() ) {	
-		$dash .= '
-			
-			<h4>Admin Options</h4>
-			<ul>
-				<li><a href="wpmu-blogs.php">' . __("Manage Site Members") . '</a></li>
-				<li><a href="wpmu-options.php">' . __("Manage Site Options") . '</a></li>
-		';
-		
-	}
-	return $dash;	
-}
+// function start_dash($dash_contents) {	
+// 	ob_start();
+// 	add_action('admin_footer', 'end_dash');
+// }
+// 
+// function replace_dash($dash_contents) {
+// 	$filter = preg_split( '/\<div class=\"wrap\"\>[\S\s]*\<div id=\"footer\"\>/', $dash_contents );
+// 	$filter[0] .= '<div class="wrap">';
+// 	$filter[1] .= '</div>';
+// 	
+// 	echo $filter[0];
+// 	echo render_dash();
+// 	echo '<div style="clear: both">&nbsp;<br clear="all" /></div></div><div id="footer">';
+// 	echo $filter[1];
+// }
+// 
+// function end_dash() {
+// 	$dash_contents = ob_get_contents();
+// 	ob_end_clean();
+// 	replace_dash($dash_contents);
+// }
+// 
+// function render_dash() {
+// 	$dash .= '
+// 		
+// 		<h2>' . __("My Activity Feed") . '</h2>
+// 		<p>' . __("This is where your personal activity feed will go.") . '</p>
+// 		<p>&nbsp;</p><p>&nbsp;</p>
+// 	';
+// 	
+// 	if ( is_site_admin() ) {	
+// 		$dash .= '
+// 			
+// 			<h4>Admin Options</h4>
+// 			<ul>
+// 				<li><a href="wpmu-blogs.php">' . __("Manage Site Members") . '</a></li>
+// 				<li><a href="wpmu-options.php">' . __("Manage Site Options") . '</a></li>
+// 		';
+// 		
+// 	}
+// 	return $dash;	
+// }
 
 function bp_core_get_userid( $username ) {
 	global $wpdb;
@@ -378,7 +379,9 @@ function bp_core_get_userurl( $uid ) {
 	
 	if ( VHOST == 'no' )
 		$ud->path = $ud->user_login;
-
+	else
+		$ud->path = null;
+		
 	$url = PROTOCOL . $ud->source_domain . '/' . $ud->path;
 	
 	if ( $url == PROTOCOL . '/' )
@@ -405,6 +408,8 @@ function bp_core_get_userlink( $uid, $no_anchor = false, $just_link = false ) {
 		
 	if ( VHOST == 'no' )
 		$ud->path = $ud->user_login;
+	else
+		$ud->path = null;
 	
 	if ( $just_link )
 		return PROTOCOL . $ud->source_domain . '/' . $ud->path;
