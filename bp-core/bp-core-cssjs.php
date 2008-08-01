@@ -9,4 +9,3 @@ function core_add_js() {
 }
 add_action( 'wp_head', 'core_add_js' );
 //add_action( 'admin_menu', 'core_add_js' );
-?>

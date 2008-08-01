@@ -1,11 +1,9 @@
 <?php
 
 function messages_add_js() {
-	global $bp_messages_image_base;
-	global $current_action, $current_component;
-	global $bp_messages_slug;
+	global $bp;
 	
-	if ( ( $current_component == $bp_messages_slug && $current_action == 'compose' ) || ( $current_component == $bp_messages_slug && $current_action == 'view' ) ) {
+	if ( ( $bp['current_component'] == $bp['messages']['slug'] && $bp['current_action'] == 'compose' ) || ( $bp['current_component'] == $bp['messages']['slug'] && $bp['current_action'] == 'view' ) ) {
 		echo '
 			<script type="text/javascript" src="' . get_option('siteurl') . '/wp-includes/js/tinymce/tiny_mce.js"></script>
 				<script type="text/javascript">
@@ -31,7 +29,7 @@ function messages_add_js() {
 				</script>';
 	}
 	
-	if ( strpos( $_GET['page'], 'messages' ) !== false || $current_component == $bp_messages_slug ) {
+	if ( strpos( $_GET['page'], 'messages' ) !== false || $bp['current_component'] == $bp['messages']['slug'] ) {
 		echo '
 			<script src="' . get_option('siteurl') . '/wp-content/mu-plugins/bp-messages/js/general.js" type="text/javascript"></script>';
 	}

@@ -409,7 +409,7 @@ function xprofile_add_jquery() {
 		echo '<script type="text/javascript" src="' . get_option('home') . '/wp-includes/js/jquery/jquery.js"></script>';
 	}
 	
-	xprofile_add_cropper_js();
+	core_add_cropper_js();
 }
 add_action( 'wp_head', 'xprofile_add_jquery' );
 

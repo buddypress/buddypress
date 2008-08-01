@@ -1,19 +1,20 @@
 <?php
 
 function bp_get_nav() {
-	global $bp_nav, $current_component, $current_userid, $loggedin_userid;
-	global $bp_friends_slug;
+	global $bp;
+
+	ksort($bp['bp_nav']);
 	
-	for ( $i = 0; $i < count($bp_nav); $i++ ) {
-		if ( $current_component == $bp_nav[$i]['id'] && $current_userid == $loggedin_userid ) {
+	foreach( $bp['bp_nav'] as $nav_item ) {
+		if ( $bp['current_component'] == $nav_item['id'] && $bp['current_userid'] == $bp['loggedin_userid'] ) {
 			$selected = ' class="current"';
 		} else {
 			$selected = '';
 		}
 		
-		if ( $current_userid != $loggedin_userid ) {
+		if ( $bp['current_userid'] != $bp['loggedin_userid'] ) {
 			if ( function_exists('friends_check_friendship') ) {
-				if ( friends_check_friendship($current_userid) && $bp_nav[$i]['id'] == $bp_friends_slug ) {
+				if ( friends_check_friendship($bp['current_userid']) && $nav_item['id'] == $bp['friends']['bp_friends_slug'] ) {
 					$selected = ' class="current"';
 				} else {
 					$selected = '';
@@ -21,25 +22,24 @@ function bp_get_nav() {
 			}
 		}
 		
-		echo '<li' . $selected . '><a id="' . $bp_nav[$i]['id'] . '" href="' . $bp_nav[$i]['link'] . '">' . $bp_nav[$i]['name'] . '</a></li>';
+		echo '<li' . $selected . '><a id="' . $nav_item['id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a></li>';
 	}
 	
 	echo '<li><a id="wp-logout" href="' . get_option('home') . '/wp-login.php?action=logout">Log Out</a><li>';
 }
 
 function bp_get_options_nav() {
-	global $bp_options_nav, $current_component, $current_action;
-	global $loggedin_userid, $current_userid, $bp_users_nav;
+	global $bp;
 
-	if ( $loggedin_userid == $current_userid ) {
-		if ( count( $bp_options_nav[$current_component] ) < 1 )
+	if ( $bp['loggedin_userid'] == $bp['current_userid'] ) {
+		if ( count( $bp['bp_options_nav'][$bp['current_component']] ) < 1 )
 			return false;
 	
-		foreach ( $bp_options_nav[$current_component] as $slug => $values ) {
+		foreach ( $bp['bp_options_nav'][$bp['current_component']] as $slug => $values ) {
 			$title = $values['name'];
 			$link = $values['link'];
 
-			if ( $slug == $current_action || ( $slug == '' && ( $current_component == 'blog' && bp_is_blog() ) ) ) {
+			if ( $slug == $bp['current_action'] || ( $slug == '' && ( $bp['current_component'] == 'blog' && bp_is_blog() ) ) ) {
 				$selected = ' class="current"';
 			} else {
 				$selected = '';
@@ -48,7 +48,7 @@ function bp_get_options_nav() {
 			echo '<li' . $selected . '><a href="' . $link . '">' . $title . '</a></li>';		
 		}
 	} else {
-		if ( count( $bp_users_nav ) < 1 )
+		if ( count( $bp['bp_users_nav'] ) < 1 )
 			return false;
 
 		bp_get_user_nav();
@@ -56,50 +56,50 @@ function bp_get_options_nav() {
 }
 
 function bp_get_user_nav() {
-	global $bp_users_nav, $current_component;
+	global $bp;
 
-	for ( $i = 0; $i < count($bp_users_nav); $i++ ) {
-		if ( $current_component == $bp_users_nav[$i]['id'] ) {
+	foreach ( $bp['bp_users_nav'] as $user_nav_item ) {
+		if ( $bp['current_component'] == $user_nav_item['id'] ) {
 			$selected = ' class="current"';
 		} else {
 			$selected = '';
 		}
 		
-		echo '<li' . $selected . '><a id="' . $bp_users_nav[$i]['id'] . '" href="' . $bp_users_nav[$i]['link'] . '">' . $bp_users_nav[$i]['name'] . '</a></li>';
+		echo '<li' . $selected . '><a id="' . $user_nav_item['id'] . '" href="' . $user_nav_item['link'] . '">' . $user_nav_item['name'] . '</a></li>';
 	}	
 }
 
 function bp_has_options_avatar() {
-	global $bp_options_avatar;
+	global $bp;
 	
-	if ( $bp_options_avatar == '' )
+	if ( $bp['bp_options_avatar'] == '' )
 		return false;
 	
 	return true;
 }
 
 function bp_get_options_avatar() {
-	global $bp_options_avatar;
+	global $bp;
 	
-	if ( $bp_options_avatar == '' )
+	if ( $bp['bp_options_avatar'] == '' )
 		return false;
 		
-	echo $bp_options_avatar;
+	echo $bp['bp_options_avatar'];
 }
 
 function bp_get_options_title() {
-	global $bp_options_title;
+	global $bp;
 	
-	if ( $bp_options_title == '' )
-		$bp_options_title = __('Options');
+	if ( $bp['bp_options_title'] == '' )
+		$bp['bp_options_title'] = __('Options');
 	
-	echo $bp_options_title;
+	echo $bp['bp_options_title'];
 }
 
 function bp_is_home() {
-	global $loggedin_userid, $current_userid;
+	global $bp;
 	
-	if ( $loggedin_userid == $current_userid )
+	if ( $bp['loggedin_userid'] == $bp['current_userid'] )
 		return true;
 	
 	return false;
@@ -108,8 +108,8 @@ function bp_is_home() {
 function bp_comment_author_avatar() {
 	global $comment;
 	
-	if ( function_exists('xprofile_get_avatar') ) {
-		echo xprofile_get_avatar( $comment->user_id, 1 );	
+	if ( function_exists('core_get_avatar') ) {
+		echo core_get_avatar( $comment->user_id, 1 );	
 	} else if ( function_exists('get_avatar') ) {
 		get_avatar();
 	}

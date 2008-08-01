@@ -1,13 +1,14 @@
 <?php
 
 define ( 'PROTOCOL', 'http://' );
-define ( 'BP_CORE_VERSION', '0.3' );
+define ( 'BP_CORE_VERSION', '0.2.3' );
 
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-catchuri.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-classes.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-cssjs.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-thirdlevel.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-settingstab.php' );
+require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-avatars.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-templatetags.php' );
 
 if ( !get_site_option('bp_disable_blog_tab') ) {
@@ -18,63 +19,78 @@ if ( isset($_POST['submit']) && $_POST['save_admin_settings'] ) {
 	save_admin_settings();
 }
 
-function bp_core_setup() {
-	global $loggedin_userid, $loggedin_domain;
-	global $current_userid, $current_domain;
-	global $bp_nav, $bp_options_nav, $bp_users_nav;
-	global $current_user, $current_component;
-	global $bp_options_avatar, $bp_options_title;
-
-    $loggedin_domain = bp_core_get_loggedin_domain();
-	$loggedin_userid = $current_user->ID;
+function bp_core_setup_globals() {
+	global $bp;
+	global $current_user, $current_component, $current_action;
+	global $action_variables;
 	
-	$current_domain = bp_core_get_current_domain();
-	$current_userid = bp_core_get_current_userid();
+	// Set up the global vars used throughout BuddyPress.
+	$bp = array(
+		'loggedin_userid' 	=> $current_user->ID,
+		'loggedin_domain' 	=> bp_core_get_loggedin_domain(),
+		'current_domain'  	=> bp_core_get_current_domain(),
+		'current_userid'  	=> bp_core_get_current_userid(),
+		'current_component' => $current_component,
+		'current_action'	=> $current_action,
+		'action_variables'	=> $action_variables,
+		'bp_nav'		  	=> array(),
+		'bp_users_nav'	  	=> array(),
+		'bp_options_nav'	=> array(),
+		'bp_options_title'	=> '',
+		'bp_options_avatar'	=> '',
+		'message'			=> '',
+		'message_type'		=> ''
+	);
+}
+add_action( 'wp', 'bp_core_setup_globals' );
 
-	$bp_nav[1] = array(
+function bp_core_setup_nav() {
+	global $bp;
+	
+	$bp['bp_nav'][1] = array(
 		'id'	=> 'blog',
 		'name'  => 'Blog', 
-		'link'  => $loggedin_domain . 'blog'
+		'link'  => $bp['loggedin_domain'] . 'blog'
 	);
 	
-	$bp_users_nav[1] = array(
+	$bp['bp_users_nav'][1] = array(
 		'id'	=> 'blog',
 		'name'  => 'Blog', 
-		'link'  => $current_domain . 'blog'
+		'link'  => $bp['current_domain'] . 'blog'
 	);
 	
 	// This will be a check to see if profile or blog is
 	// set as the default component.
-	if ( $current_component == '' ) {
+	if ( $bp['current_component'] == '' ) {
 		if ( function_exists('xprofile_setup_nav') ) {
-			$current_component = 'profile';
+			$bp['current_component'] = 'profile';
 		} else {
-			$current_componet = 'blog';
+			$bp['current_component'] = 'blog';
 		}
 	} else if ( bp_is_blog() ) {
-		$current_component = 'blog';
+		$bp['current_component'] = 'blog';
 	}
 	
-	if ( $current_component == 'blog' ) {
+	if ( $bp['current_component'] == 'blog' ) {
 		if ( bp_is_home() ) {
 			if ( function_exists('xprofile_setup_nav') ) {
-				$bp_options_title = __('My Blog'); 
-				$bp_options_nav['blog'] = array(
+				$bp['bp_options_title'] = __('My Blog'); 
+				$bp['bp_options_nav']['blog'] = array(
 					''   => array(
 						'name' => __('Public'),
-						'link' => $loggedin_domain . 'blog/' ),
+						'link' => $bp['loggedin_domain'] . 'blog/' ),
 					'admin'	   => array( 
 						'name' => __('Blog Admin'),
-						'link' => $loggedin_domain . 'wp-admin/' )
+						'link' => $bp['loggedin_domain'] . 'wp-admin/' )
 				);
 			}
 		} else {
-			$bp_options_avatar = xprofile_get_avatar( $current_userid, 1 );
-			$bp_options_title = bp_user_fullname( $current_userid, false ); 
+			$bp['bp_options_avatar'] = core_get_avatar( $bp['current_userid'], 1 );
+			$bp['bp_options_title'] = bp_user_fullname( $bp['current_userid'], false ); 
 		}
 	}
 }
-add_action( 'wp', 'bp_core_setup' );
+add_action( 'wp', 'bp_core_setup_nav' );
 
 function bp_core_user_creds() {
 	global $current_user;
@@ -554,7 +570,7 @@ function bp_get_page_id($page_title, $output = object) {
 }
 
 function bp_is_blog() {
-	global $wp_query, $cached_page_id, $current_component;
+	global $bp, $wp_query, $cached_page_id;
 	
 	$blog_page_id = bp_get_page_id('Blog');
 	if ( is_tag() || is_category() || is_day() || is_month() || is_year() || is_paged() || is_single() )
@@ -563,20 +579,20 @@ function bp_is_blog() {
 		return true;
 	if ( is_page('Blog') )
 		return true;
-	if ( $current_component == 'blog' )
+	if ( $bp['current_component'] == 'blog' )
 		return true;
 		
 	return false;
 }
 
 function bp_render_notice( ) {
-	global $message, $type;
+	global $bp;
 
-	if ( $message != '' ) {
-		$type = ( $type == 'success' ) ? 'updated' : 'error';
+	if ( $bp['message'] != '' ) {
+		$type = ( $bp['message_type'] == 'success' ) ? 'updated' : 'error';
 	?>
 		<div id="message" class="<?php echo $type; ?>">
-			<p><?php echo $message; ?></p>
+			<p><?php echo $bp['message']; ?></p>
 		</div>
 	<?php 
 	}

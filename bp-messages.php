@@ -2,15 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_MESSAGES_IS_INSTALLED', 1 );
-define ( 'BP_MESSAGES_VERSION', '0.3.4' );
-
-$bp_messages_table_name 			= $wpdb->base_prefix . 'bp_messages';
-$bp_messages_table_name_threads 	= $bp_messages_table_name . '_threads';
-$bp_messages_table_name_messages	= $bp_messages_table_name . '_messages';
-$bp_messages_table_name_recipients	= $bp_messages_table_name . '_recipients';
-$bp_messages_table_name_notices		= $bp_messages_table_name . '_notices';
-$bp_messages_image_base 			= get_option('siteurl') . '/wp-content/mu-plugins/bp-messages/images';
-$bp_messages_slug 					= 'messages';
+define ( 'BP_MESSAGES_VERSION', '0.3.3' );
 
 include_once( 'bp-messages/bp-messages-classes.php' );
 include_once( 'bp-messages/bp-messages-ajax.php' );
@@ -25,13 +17,9 @@ include_once( 'bp-messages/bp-messages-templatetags.php' );
  **************************************************************************/
 
 function messages_install( $version ) {
-	global $wpdb;
-	global $bp_messages_table_name_threads;
-	global $bp_messages_table_name_messages;
-	global $bp_messages_table_name_recipients;
-	global $bp_messages_table_name_notices;
+	global $wpdb, $bp;
 	
-	$sql[] = "CREATE TABLE ". $bp_messages_table_name_threads ." (
+	$sql[] = "CREATE TABLE ". $bp['messages']['table_name_threads'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT,
 		  		message_ids varchar(150) NOT NULL,
 				sender_ids varchar(150) NOT NULL,
@@ -42,7 +30,7 @@ function messages_install( $version ) {
 		  		PRIMARY KEY id (id)
 		 	   );";
 	
-	$sql[] = "CREATE TABLE ". $bp_messages_table_name_recipients ." (
+	$sql[] = "CREATE TABLE ". $bp['messages']['table_name_recipients'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT,
 		  		user_id int(11) NOT NULL,
 		  		thread_id int(11) NOT NULL,
@@ -51,7 +39,7 @@ function messages_install( $version ) {
 		  		PRIMARY KEY id (id)
 		 	   );";
 
-	$sql[] = "CREATE TABLE ". $bp_messages_table_name_messages ." (
+	$sql[] = "CREATE TABLE ". $bp['messages']['table_name_messages'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT,
 		  		sender_id int(11) NOT NULL,
 		  		subject varchar(200) NOT NULL,
@@ -62,7 +50,7 @@ function messages_install( $version ) {
 		  		PRIMARY KEY id (id)
 		 	   );";
 	
-	$sql[] = "CREATE TABLE ". $bp_messages_table_name_notices ." (
+	$sql[] = "CREATE TABLE ". $bp['messages']['table_name_notices'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT,
 		  		subject varchar(200) NOT NULL,
 		  		message longtext NOT NULL,
@@ -80,6 +68,30 @@ function messages_install( $version ) {
 	
 	add_site_option( 'bp-messages-version', $version );
 }
+
+
+/**************************************************************************
+ messages_setup_globals()
+ 
+ Set up and add all global variables for this component, and add them to 
+ the $bp global variable array.
+ **************************************************************************/
+
+function messages_setup_globals() {
+	global $bp, $wpdb;
+	
+	$bp['messages'] = array(
+		'table_name' 		    => $wpdb->base_prefix . 'bp_messages',
+		'table_name_threads'    => $wpdb->base_prefix . 'bp_messages_threads',
+		'table_name_messages'   => $wpdb->base_prefix . 'bp_messages_messages',
+		'table_name_recipients' => $wpdb->base_prefix . 'bp_messages_recipients',
+		'table_name_notices' 	=> $wpdb->base_prefix . 'bp_messages_notices',
+		'image_base' 		 	=> get_option('siteurl') . '/wp-content/mu-plugins/bp-messages/images',
+		'slug'		 		 	=> 'messages'
+	);
+}
+add_action( 'wp', 'messages_setup_globals' );	
+
 
 /**************************************************************************
  messages_add_admin_menu()
@@ -118,47 +130,43 @@ add_action( 'admin_menu', 'messages_add_admin_menu' );
  **************************************************************************/
 
 function messages_setup_nav() {
-	global $loggedin_userid, $loggedin_domain;
-	global $current_userid, $current_domain;
-	global $bp_nav, $bp_options_nav, $bp_users_nav;
-	global $bp_messages_slug, $bp_options_avatar, $bp_options_title;
-	global $current_component;
+	global $bp;
 
-	$bp_nav[2] = array(
-		'id'	=> $bp_messages_slug,
+	$bp['bp_nav'][2] = array(
+		'id'	=> $bp['messages']['slug'],
 		'name'  => 'Messages', 
-		'link'  => $loggedin_domain . $bp_messages_slug . '/'
+		'link'  => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/'
 	);
 	
 	$inbox_count = BP_Messages_Thread::get_inbox_count();
 	$inbox_display = ( $inbox_count ) ? ' style="display:inline;"' : ' style="display:none;"';
 	$count_indicator = '&nbsp; <span' . $inbox_display . ' class="unread-count inbox-count">' . BP_Messages_Thread::get_inbox_count() . '</span>';
 
-	if ( $current_component == $bp_messages_slug ) {
+	if ( $bp['current_component'] == $bp['messages']['slug'] ) {
 		if ( bp_is_home() ) {
-			$bp_options_title = __('My Messages');
-			$bp_options_nav[$bp_messages_slug] = array(
+			$bp['bp_options_title'] = __('My Messages');
+			$bp['bp_options_nav'][$bp['messages']['slug']] = array(
 				'inbox'	   => array( 
 					'name' => __('Inbox') . $count_indicator,
-					'link' => $loggedin_domain . $bp_messages_slug . '/' ),
+					'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/' ),
 				'sentbox'  => array(
 					'name' => __('Sent Messages'),
-					'link' => $loggedin_domain . $bp_messages_slug . '/sentbox' ),
+					'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/sentbox' ),
 				'compose' => array( 
 					'name' => __('Compose'),
-					'link' => $loggedin_domain . $bp_messages_slug . '/compose' )
+					'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/compose' )
 			);
 			
 			if ( is_site_admin() ) {
-				$bp_options_nav[$bp_messages_slug]['notices'] = array(
+				$bp['bp_options_nav'][$bp['messages']['slug']]['notices'] = array(
 					'name' => __('Sent Notices'),
-					'link' => $loggedin_domain . $bp_messages_slug . '/notices'
+					'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/notices'
 				);
 			}
 			
 		} else {
-			$bp_options_avatar = xprofile_get_avatar( $current_userid, 1 );
-			$bp_options_title = bp_user_fullname( $current_userid, false ); 
+			$bp_options_avatar = core_get_avatar( $bp['current_userid'], 1 );
+			$bp['bp_options_title'] = bp_user_fullname( $bp['current_userid'], false ); 
 		}
 	}
 }
@@ -172,13 +180,10 @@ add_action( 'wp', 'messages_setup_nav' );
  **************************************************************************/
 
 function messages_catch_action() {
-	global $bp_messages_slug, $current_component, $current_blog;
-	global $loggedin_userid, $current_userid, $current_action;
-	global $bp_options_nav, $action_variables, $thread_id;
-	global $message, $type;
+	global $current_blog, $bp, $thread_id;
 
-	if ( $current_component == $bp_messages_slug && $current_blog->blog_id > 1 && $loggedin_userid == $current_userid ) {
-		switch ( $current_action ) {
+	if ( $bp['current_component'] == $bp['messages']['slug'] && $current_blog->blog_id > 1 && $bp['loggedin_userid'] == $bp['current_userid'] ) {
+		switch ( $bp['current_action'] ) {
 			case 'inbox':
 				bp_catch_uri( 'messages/index' );
 			break;
@@ -192,16 +197,16 @@ function messages_catch_action() {
 			break;
 			
 			case 'view':
-				if ( !empty($action_variables) ) {
-					$thread_id = $action_variables[0];
+				if ( !empty($bp['action_variables']) ) {
+					$thread_id = $bp['action_variables'][0];
 
 					if ( !$thread_id || !is_numeric($thread_id) || !BP_Messages_Thread::check_access($thread_id) ) {
-						$current_action = 'inbox';
+						$bp['current_action'] = 'inbox';
 						bp_catch_uri( 'messages/index' );
 					} else {
-						$bp_options_nav[$bp_messages_slug]['view'] = array(
+						$bp['bp_options_nav'][$bp['messages']['slug']]['view'] = array(
 							'name' => __('From: ' . BP_Messages_Thread::get_last_sender($thread_id)),
-							'link' => $loggedin_domain . $bp_messages_slug . '/'			
+							'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/'			
 						);
 
 						bp_catch_uri( 'messages/view' );
@@ -210,26 +215,26 @@ function messages_catch_action() {
 			break;
 			
 			case 'delete':
-				if ( !empty($action_variables) ) {
-					$thread_id = $action_variables[0];
+				if ( !empty($bp['action_variables']) ) {
+					$thread_id = $bp['action_variables'][0];
 
 					if ( !$thread_id || !is_numeric($thread_id) || !BP_Messages_Thread::check_access($thread_id) ) {
-						$current_action = 'inbox';
+						$bp['current_action'] = 'inbox';
 						bp_catch_uri( 'messages/index' );
 					} else {
 						// delete message
 						if ( !BP_Messages_Thread::delete($thread_id) ) {
-							$message = __('There was an error deleting that message.');
+							$bp['message'] = __('There was an error deleting that message.');
 							add_action( 'template_notices', 'bp_render_notice' );
 
-							$current_action = 'inbox';
+							$bp['current_action'] = 'inbox';
 							bp_catch_uri( 'messages/index' );
 						} else {
-							$message = __('Message deleted.');
-							$type = 'success';
+							$bp['message'] = __('Message deleted.');
+							$bp['message_type'] = 'success';
 							add_action( 'template_notices', 'bp_render_notice' );
 
-							$current_action = 'inbox';
+							$bp['current_action'] = 'inbox';
 							bp_catch_uri( 'messages/index' );
 						}
 					}
@@ -240,21 +245,21 @@ function messages_catch_action() {
 				$thread_ids = $_POST['thread_ids'];
 
 				if ( !$thread_ids || !BP_Messages_Thread::check_access($thread_ids) ) {
-					$current_action = 'inbox';
+					$bp['current_action'] = 'inbox';
 					bp_catch_uri( 'messages/index' );				
 				} else {
 					if ( !BP_Messages_Thread::delete( explode(',', $thread_ids ) ) ) {
 						$message = __('There was an error deleting messages.');
 						add_action( 'template_notices', 'bp_render_notice' );
 
-						$current_action = 'inbox';
+						$bp['current_action'] = 'inbox';
 						bp_catch_uri( 'messages/index' );
 					} else {
-						$message = __('Messages deleted.');
-						$type = 'success';
+						$bp['message'] = __('Messages deleted.');
+						$bp['message_type'] = 'success';
 						add_action( 'template_notices', 'bp_render_notice' );
 
-						$current_action = 'inbox';
+						$bp['current_action'] = 'inbox';
 						bp_catch_uri( 'messages/index' );
 					}
 				}
@@ -262,35 +267,35 @@ function messages_catch_action() {
 			
 			case 'notices':
 				if ( is_site_admin() ) {
-					if ( isset($action_variables) ) {
-						$notice_id = $action_variables[1];
+					if ( isset($bp['action_variables']) ) {
+						$notice_id = $bp['action_variables'][1];
 
 						if ( !$notice_id || !is_numeric($notice_id) ) {
-							$current_action = 'notices';
+							$bp['current_action'] = 'notices';
 							bp_catch_uri( 'messages/notices' );
 						} else {
 							$notice = new BP_Messages_Notice($notice_id);
 
-							if ( $action_variables[0] == 'deactivate' ) {
+							if ( $bp['action_variables'][0] == 'deactivate' ) {
 								if ( !$notice->deactivate() ) {
-									$message = __('There was a problem deactivating that notice.');	
+									$bp['message'] = __('There was a problem deactivating that notice.');	
 								} else {
-									$message = __('Notice deactivated.');
-									$type = 'success';
+									$bp['message'] = __('Notice deactivated.');
+									$bp['message_type'] = 'success';
 								}
-							} else if ( $action_variables[0] == 'activate' ) {
+							} else if ( $bp['action_variables'][0] == 'activate' ) {
 								if ( !$notice->activate() ) {
-									$message = __('There was a problem activating that notice.');
+									$bp['message'] = __('There was a problem activating that notice.');
 								} else {
-									$message = __('Notice activated.');
-									$type = 'success';
+									$bp['message'] = __('Notice activated.');
+									$bp['message_type'] = 'success';
 								}
-							} else if ( $action_variables[0] == 'delete' ) {
+							} else if ( $bp['action_variables'][0] == 'delete' ) {
 								if ( !$notice->delete() ) {
-									$message = __('There was a problem deleting that notice.');
+									$bp['message'] = __('There was a problem deleting that notice.');
 								} else {
-									$message = __('Notice deleted.');
-									$type = 'success';
+									$bp['message'] = __('Notice deleted.');
+									$bp['message_type'] = 'success';
 								}
 							}
 						}
@@ -301,7 +306,7 @@ function messages_catch_action() {
 			break;
 			
 			default:
-				$current_action = 'inbox';
+				$bp['current_action'] = 'inbox';
 				bp_catch_uri( 'messages/index' );				
 			break;
 		}
@@ -316,13 +321,11 @@ add_action( 'wp', 'messages_catch_action' );
  **************************************************************************/
 
 function messages_template() {
-	global $messages_template, $loggedin_userid;
-	global $current_component, $bp_messages_slug;
-	global $current_action, $loggedin_domain;
+	global $messages_template, $bp;
 	
-	if ( $current_component == $bp_messages_slug ) {
-		if ( $current_action == 'inbox' || $current_action == 'sentbox' || ( $current_action == 'notices' && is_site_admin() ) )
-			$messages_template = new BP_Messages_Template( $loggedin_userid, $current_action );
+	if ( $bp['current_component'] == $bp['messages']['slug'] ) {
+		if ( $bp['current_action'] == 'inbox' || $bp['current_action'] == 'sentbox' || ( $bp['current_action'] == 'notices' && is_site_admin() ) )
+			$messages_template = new BP_Messages_Template( $bp['loggedin_userid'], $bp['current_action'] );
 	}
 	
 }
@@ -414,7 +417,7 @@ function messages_sentbox() {
  **************************************************************************/
 
 function messages_box( $box = 'inbox', $display_name = 'Inbox', $message = '', $type = '' ) {
-	global $bp_messages_image_base, $userdata;
+	global $bp, $userdata;
 	
 	if ( isset($_GET['mode']) && isset($_GET['thread_id']) && $_GET['mode'] == 'view' ) {
 		messages_view_thread( $_GET['thread_id'], 'inbox' );
@@ -457,10 +460,10 @@ function messages_box( $box = 'inbox', $display_name = 'Inbox', $message = '', $
 			$counter = 0;
 			foreach ( $threads as $thread ) {
 				if ( $thread->unread_count ) { 
-					$is_read = '<img src="' . $bp_messages_image_base .'/email.gif" alt="New Message" /><a href="admin.php?page=bp-messages.php&amp;mode=view&amp;thread_id=' . $thread->thread_id . '"><span id="awaiting-mod" class="count-1"><span class="message-count">' . $thread->unread_count . '</span></span></a>';
+					$is_read = '<img src="' . $bp['messages']['image_base'] .'/email.gif" alt="New Message" /><a href="admin.php?page=bp-messages.php&amp;mode=view&amp;thread_id=' . $thread->thread_id . '"><span id="awaiting-mod" class="count-1"><span class="message-count">' . $thread->unread_count . '</span></span></a>';
 					$new = " unread";
 				} else { 
-					$is_read = '<img src="' . $bp_messages_image_base .'/email_open.gif" alt="Older Message" />'; 
+					$is_read = '<img src="' . $bp['messages']['image_base'] .'/email_open.gif" alt="Older Message" />'; 
 					$new = " read";
 				}
 				
@@ -470,8 +473,8 @@ function messages_box( $box = 'inbox', $display_name = 'Inbox', $message = '', $
 					<tr class="<?php echo $class . $new ?>" id="m-<?php echo $message->id ?>">
 						<td class="is-read" width="1%"><?php echo $is_read ?></td>
 						<td class="avatar" width="1%">
-							<?php if ( function_exists('xprofile_get_avatar') )
-									echo xprofile_get_avatar($thread->last_sender_id, 1);
+							<?php if ( function_exists('core_get_avatar') )
+									echo core_get_avatar($thread->last_sender_id, 1);
 							?>
 						</td>
 						<td class="sender-details" width="20%">
@@ -534,7 +537,7 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 	global $messages_write_new_action;
 	global $pmessage;
 	global $message, $type;
-	global $loggedin_domain, $bp_messages_slug;
+	global $bp;
 
 	if ( isset( $_POST['send-notice'] ) ) {
 		messages_send_notice( $subject, $content, $from_template );
@@ -580,19 +583,25 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 						return array('status' => 0, 'message' => $message);
 					} else if ( $from_template ) {
 						unset($_POST['send_to']);
+						$bp['message'] = $message;
+						$bp['message_type'] = $type;
+						
 						bp_render_notice();
 						messages_write_new();
 					} else {
 						messages_box( 'inbox', __('Inbox'), $message, $type );	
 					}
 				} else {
-					$message = __('Message sent successfully!') . ' <a href="' . $loggedin_domain . $bp_messages_slug . '/view/' . $pmessage->thread_id . '">' . __('View Message') . '</a> &raquo;';
+					$message = __('Message sent successfully!') . ' <a href="' . $bp['loggedin_domain'] . $bp['messages']['slug'] . '/view/' . $pmessage->thread_id . '">' . __('View Message') . '</a> &raquo;';
 					$type = 'success';
 			
 					if ( $from_ajax ) {
 						return array('status' => 1, 'message' => $message, 'reply' => $pmessage);
 					} else if ( $from_template ) {
 						unset($_POST['send_to']);
+						$bp['message'] = $message;
+						$bp['message_type'] = $type;
+						
 						bp_render_notice();
 						messages_write_new();
 					} else {
@@ -609,6 +618,9 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 				if ( $from_ajax ) {
 					return array('status' => 0, 'message' => $message);
 				} else if ( $from_template ) {
+					$bp['message'] = $message;
+					$bp['message_type'] = $type;
+					
 					bp_render_notice();
 					messages_write_new();
 				} else {
@@ -715,8 +727,8 @@ function messages_view_thread( $thread_id ) {
 					<a name="<?php echo 'm-' . $message->id ?>"></a>
 					<div class="message-box">
 						<div class="avatar-box">
-							<?php if ( function_exists('xprofile_get_avatar') ) 
-								echo xprofile_get_avatar($message->sender_id, 1);
+							<?php if ( function_exists('core_get_avatar') ) 
+								echo core_get_avatar($message->sender_id, 1);
 							?>
 				
 							<h3><?php echo bp_core_get_userlink($message->sender_id) ?></h3>
@@ -733,8 +745,8 @@ function messages_view_thread( $thread_id ) {
 					<div class="message-box">
 							<div id="messagediv">
 								<div class="avatar-box">
-									<?php if ( function_exists('xprofile_get_avatar') ) 
-										echo xprofile_get_avatar($userdata->ID, 1);
+									<?php if ( function_exists('core_get_avatar') ) 
+										echo core_get_avatar($userdata->ID, 1);
 									?>
 					
 									<h3><?php _e("Reply: ") ?></h3>

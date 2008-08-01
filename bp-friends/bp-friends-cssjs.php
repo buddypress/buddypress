@@ -6,14 +6,12 @@
  **************************************************************************/	
 
 function friends_add_js() {
-	global $bp_friends_image_base;
-	global $current_action, $current_component;
-	global $bp_friends_slug;
+	global $bp;
 	
 	if ( !isset($_GET['page']) )
 		$_GET['page'] = null;
 
-	if ( strpos( $_GET['page'], 'friends' ) !== false || $current_component == $bp_friends_slug ) {
+	if ( strpos( $_GET['page'], 'friends' ) !== false || $bp['current_component'] == $bp['friends']['slug'] ) {
 		echo '
 			<script src="' . get_option('siteurl') . '/wp-content/mu-plugins/bp-friends/js/general.js" type="text/javascript"></script>';
 	}

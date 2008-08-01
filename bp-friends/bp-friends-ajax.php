@@ -1,29 +1,33 @@
 <?php
 
 function friends_ajax_friends_search() {
-	global $bp_friends_image_base;
-	global $current_domain, $bp_friends_slug;
-	global $current_userid, $creds;
+	global $bp;
 
 	check_ajax_referer('friend_search');
 
-	$creds = bp_core_user_creds();
+	if ( !$bp ) {
+		bp_core_setup_globals();
+		friends_setup_globals();
+		
+		if ( function_exists('xprofile_setup_globals') )
+			xprofile_setup_globals();
+	}
 	
 	$pag_page = isset( $_POST['fpage'] ) ? intval( $_POST['fpage'] ) : 1;
 	$pag_num = isset( $_POST['num'] ) ? intval( $_POST['num'] ) : 5;
 	$total_friend_count = 0;
 
 	if ( $_POST['friend-search-box'] == "" ) {
-		$friendships = friends_get_friendships( $creds['current_userid'], false, $pag_num, $pag_page, false );
+		$friendships = friends_get_friendships( $bp['current_userid'], false, $pag_num, $pag_page, false );
 	} else {
-		$friendships = BP_Friends_Friendship::search_friends( $_POST['friend-search-box'], $creds['current_userid'], $pag_num, $pag_page );
+		$friendships = BP_Friends_Friendship::search_friends( $_POST['friend-search-box'], $bp['current_userid'], $pag_num, $pag_page );
 	}
 	
 	$total_friend_count = (int)$friendships['count'];
 
 	if ( $total_friend_count ) {
 		$pag_links = paginate_links( array(
-			'base' => $current_domain . $bp_friends_slug . add_query_arg( 'mpage', '%#%' ),
+			'base' => $current_domain . $bp['friends']['slug'] . add_query_arg( 'mpage', '%#%' ),
 			'format' => '',
 			'total' => ceil($total_friend_count / $pag_num),
 			'current' => $pag_page,
@@ -49,21 +53,24 @@ function friends_ajax_friends_search() {
 		}
 		echo '[[SPLIT]]' . $pag_links;
 	} else {
-		$result['message'] = '<img src="' . $bp_friends_image_base . '/warning.gif" alt="Warning" /> &nbsp;' . $result['message'];
+		$result['message'] = '<img src="' . $bp['friends']['image_base'] . '/warning.gif" alt="Warning" /> &nbsp;' . $result['message'];
 		echo "-1[[SPLIT]]" . __("No friends matched your search.");
 	}
 }
 add_action( 'wp_ajax_friends_search', 'friends_ajax_friends_search' );
 
 function friends_ajax_finder_search() {
-	global $bp_friends_image_base;
-	global $current_domain, $bp_friends_slug;
-	global $loggedin_domain;
-	global $current_userid, $creds;
+	global $bp;
 	
 	check_ajax_referer('finder_search');
-	
-	$creds = bp_core_user_creds();
+
+	if ( !$bp ) {
+		bp_core_setup_globals();
+		friends_setup_globals();
+		
+		if ( function_exists('xprofile_setup_globals') )
+			xprofile_setup_globals();
+	}
 		
 	$pag_page = isset( $_POST['fpage'] ) ? intval( $_POST['fpage'] ) : 1;
 	$pag_num = isset( $_POST['num'] ) ? intval( $_POST['num'] ) : 5;
@@ -74,13 +81,13 @@ function friends_ajax_finder_search() {
 		return;
 	}
 	
-	$users = friends_search_users( $_POST['finder-search-box'], $creds['loggedin_userid'], $pag_num, $pag_page );
+	$users = friends_search_users( $_POST['finder-search-box'], $bp['loggedin_userid'], $pag_num, $pag_page );
 
 	$total_user_count = (int)$users['count'];
 
 	if ( $total_user_count ) {
 		$pag_links = paginate_links( array(
-			'base' => $current_domain . $bp_friends_slug . add_query_arg( 'mpage', '%#%' ),
+			'base' => $bp['current_domain'] . $bp['friends']['slug'] . add_query_arg( 'mpage', '%#%' ),
 			'format' => '',
 			'total' => ceil($total_user_count / $pag_num),
 			'current' => $pag_page,
@@ -100,35 +107,36 @@ function friends_ajax_finder_search() {
 					<?php echo $user->avatar ?>
 					<h4><?php echo $user->user_link ?></h4>
 					<span class="activity"><?php bp_friend_last_active( $user->last_active ) ?></span>
-					<?php bp_add_friend_button( $user->id, $creds ) ?>
+					<?php bp_add_friend_button( $user->id ) ?>
 					<hr />
 				</li>
 			<?php	
 		}
 		echo '[[SPLIT]]' . $pag_links;
 	} else {
-		$result['message'] = '<img src="' . $bp_friends_image_base . '/warning.gif" alt="Warning" /> &nbsp;' . $result['message'];
-		echo "-1[[SPLIT]]" . __("No friends matched your search.");
+		$result['message'] = '<img src="' . $bp['friends']['image_base'] . '/warning.gif" alt="Warning" /> &nbsp;' . $result['message'];
+		echo "-1[[SPLIT]]" . __("No site users matched your search.");
 	}
 }
 add_action( 'wp_ajax_finder_search', 'friends_ajax_finder_search' );
 
 
 function friends_ajax_addremove_friend() {
-	global $bp_friends_image_base;
-	global $current_domain, $bp_friends_slug;
-	global $current_userid, $loggedin_userid;
+	global $bp;
+	
+	if ( !$bp ) {
+		bp_core_setup_globals();
+		friends_setup_globals();
+	}
 
-	$creds = bp_core_user_creds();
-
-	if ( BP_Friends_Friendship::check_is_friend( $creds['loggedin_userid'], $_POST['fid'] ) == 'is_friend' ) {
-		if ( !friends_remove_friend( $creds['loggedin_userid'], $creds['current_userid'] ) ) {
+	if ( BP_Friends_Friendship::check_is_friend( $bp['loggedin_userid'], $_POST['fid'] ) == 'is_friend' ) {
+		if ( !friends_remove_friend( $bp['loggedin_userid'], $bp['current_userid'] ) ) {
 			echo "-1[[SPLIT]]" . __("Friendship could not be canceled.");
 		} else {
 			echo __('Add Friend');
 		}
-	} else if ( BP_Friends_Friendship::check_is_friend( $creds['loggedin_userid'], $_POST['fid'] ) == 'not_friends' ) {
-		if ( !friends_add_friend( $creds['loggedin_userid'], $_POST['fid'] ) ) {
+	} else if ( BP_Friends_Friendship::check_is_friend( $bp['loggedin_userid'], $_POST['fid'] ) == 'not_friends' ) {
+		if ( !friends_add_friend( $bp['loggedin_userid'], $_POST['fid'] ) ) {
 			echo "-1[[SPLIT]]" . __("Friend could not be added.");
 		} else {
 			echo __('Friendship Requested');

@@ -29,7 +29,7 @@ class BP_Core_User {
 		$this->last_active = get_usermeta( $this->id, 'last_activity' ); 
 
 		if ( BP_XPROFILE_IS_INSTALLED ) {
-			$this->avatar = xprofile_get_avatar( $this->id, 1 );
+			$this->avatar = core_get_avatar( $this->id, 1 );
 			$this->profile_last_updated = bp_profile_last_updated_date( $this->id, false );
 		}
 		

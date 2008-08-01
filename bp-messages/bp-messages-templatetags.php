@@ -136,15 +136,13 @@ function bp_message_thread_to() {
 }
 
 function bp_message_thread_view_link() {
-	global $messages_template;
-	global $loggedin_domain, $bp_messages_slug;
-	echo $loggedin_domain . $bp_messages_slug . '/view/' . $messages_template->thread->thread_id;
+	global $messages_template, $bp;
+	echo $bp['loggedin_domain'] . $bp['messages']['slug'] . '/view/' . $messages_template->thread->thread_id;
 }
 
 function bp_message_thread_delete_link() {
-	global $messages_template;
-	global $loggedin_domain, $bp_messages_slug;
-	echo $loggedin_domain . $bp_messages_slug . '/delete/' . $messages_template->thread->thread_id;
+	global $messages_template, $bp;
+	echo $bp['loggedin_domain'] . $bp['messages']['slug'] . '/delete/' . $messages_template->thread->thread_id;
 }
 
 function bp_message_thread_has_unread() {
@@ -168,8 +166,8 @@ function bp_message_thread_last_post_date() {
 
 function bp_message_thread_avatar() {
 	global $messages_template;
-	if ( function_exists('xprofile_get_avatar') )
-		echo xprofile_get_avatar($messages_template->thread->last_sender_id, 1);
+	if ( function_exists('core_get_avatar') )
+		echo core_get_avatar($messages_template->thread->last_sender_id, 1);
 }
 
 function bp_message_thread_view() {
@@ -183,10 +181,10 @@ function bp_total_unread_messages_count() {
 }
 
 function bp_compose_message_form() {
-	global $loggedin_domain, $bp_messages_slug;
+	global $bp;
 	global $messages_write_new_action;
 		
-	$messages_write_new_action = $loggedin_domain . $bp_messages_slug . '/compose/';
+	$messages_write_new_action = $bp['loggedin_domain'] . $bp['messages']['slug'] . '/compose/';
 	
 	if ( isset($_POST['send_to']) || ( isset($_POST['send-notice']) && is_site_admin() ) ) {
 		messages_send_message( $_POST['send_to'], $_POST['subject'], $_POST['content'], $_POST['thread_id'], false, true );
@@ -201,9 +199,9 @@ function bp_messages_pagination() {
 }
 
 function bp_messages_form_action() {
-	global $loggedin_domain, $bp_messages_slug, $current_action;
+	global $bp;
 	
-	echo $loggedin_domain . $bp_messages_slug . '/' . $current_action;
+	echo $bp['loggedin_domain'] . $bp['messages']['slug'] . '/' . $bp['current_action'];
 }
 
 function bp_messages_options() {
@@ -245,24 +243,24 @@ function bp_message_notice_text() {
 }
 
 function bp_message_notice_delete_link() {
-	global $messages_template, $loggedin_domain, $bp_messages_slug;
+	global $messages_template, $bp;
 	
-	echo $loggedin_domain . $bp_messages_slug . '/notices/delete/' . $messages_template->thread->id;
+	echo $bp['loggedin_domain'] . $bp['messages']['slug'] . '/notices/delete/' . $messages_template->thread->id;
 }
 
 function bp_message_activate_deactivate_link() {
-	global $messages_template, $loggedin_domain, $bp_messages_slug;
+	global $messages_template, $bp;
 
 	if ( $messages_template->thread->is_active == "1" ) {
-		$link = $loggedin_domain . $bp_messages_slug . '/notices/deactivate/' . $messages_template->thread->id;
+		$link = $bp['loggedin_domain'] . $bp['messages']['slug'] . '/notices/deactivate/' . $messages_template->thread->id;
 	} else {
-		$link = $loggedin_domain . $bp_messages_slug . '/notices/activate/' . $messages_template->thread->id;		
+		$link = $bp['loggedin_domain'] . $bp['bp_messages_slug'] . '/notices/activate/' . $messages_template->thread->id;		
 	}
 	echo $link;
 }
 
 function bp_message_activate_deactivate_text() {
-	global $messages_template, $loggedin_domain, $bp_messages_slug;
+	global $messages_template;
 	
 	if ( $messages_template->thread->is_active == "1" ) {
 		$text = __('Deactivate');
@@ -280,7 +278,7 @@ function bp_message_get_notices() {
 
 	if ( !$closed_notices )
 		$closed_notices = array();
-		
+
 	if ( is_array($closed_notices) ) {
 		if ( !in_array( $notice->id, $closed_notices ) ) {
 			?>

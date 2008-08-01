@@ -189,11 +189,11 @@ function bp_the_profile_field() {
 
 function bp_the_profile_field_name() {
 	global $field;
-	echo $field->name;
+	echo stripslashes($field->name);
 }
 
 function bp_the_profile_field_value() {
-	global $field, $loggedin_domain, $bp_friends_slug;
+	global $field;
 	
 	if ( bp_is_serialized($field->data->value) ) {
 		$field_value = unserialize($field->data->value);
@@ -206,31 +206,31 @@ function bp_the_profile_field_value() {
 	}
 	
 	if ( BP_FRIENDS_IS_INSTALLED )
-		echo $field->data->value;
+		echo stripslashes($field->data->value);
 	else
-		echo $field->data->value;
+		echo stripslashes($field->data->value);
 }
 
 function bp_the_avatar() {
-	global $current_userid;
-	echo xprofile_get_avatar( $current_userid, 2 );
+	global $bp;
+	echo core_get_avatar( $bp['current_userid'], 2 );
 }
 
 function bp_the_avatar_thumbnail() {
-	global $current_userid;
-	echo xprofile_get_avatar( $current_userid, 1 );
+	global $bp;
+	echo core_get_avatar( $bp['current_userid'], 1 );
 }
 
 function bp_loggedinuser_avatar_thumbnail() {
-	global $loggedin_userid;
-	echo xprofile_get_avatar( $loggedin_userid, 1 );
+	global $bp;
+	echo core_get_avatar( $bp['loggedin_userid'], 1 );
 }
 
 function bp_user_fullname($user_id = false, $echo = true) {
-	global $current_userid;
+	global $bp;
 	
 	if ( !$user_id )
-		$user_id = $current_userid;
+		$user_id = $bp['current_userid'];
 	
 	$data = bp_get_field_data( array( 'First Name', 'Last Name' ), $user_id );
 	
@@ -254,7 +254,7 @@ function bp_user_status() {
 }
 
 function bp_profile_group_tabs() {
-	global $loggedin_domain, $bp_xprofile_slug, $group_name;
+	global $bp, $group_name;
 	
 	$groups = BP_XProfile_Group::get_all();
 	
@@ -268,14 +268,14 @@ function bp_profile_group_tabs() {
 			$selected = '';
 		}
 
-		echo '<li' . $selected . '><a href="' . $loggedin_domain . $bp_xprofile_slug . '/edit/group/' . $groups[$i]->id . '">' . $groups[$i]->name . '</a></li>';
+		echo '<li' . $selected . '><a href="' . $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/edit/group/' . $groups[$i]->id . '">' . $groups[$i]->name . '</a></li>';
 	}
 }
 
 function bp_profile_group_name( $echo = true ) {
-	global $action_variables;
+	global $bp;
 	
-	$group_id = $action_variables[1];
+	$group_id = $bp['action_variables'][1];
 	
 	if ( !is_numeric( $group_id ) )
 		$group_id = 1;
@@ -290,27 +290,27 @@ function bp_profile_group_name( $echo = true ) {
 }
 
 function bp_edit_profile_form() {
-	global $action_variables, $loggedin_domain, $bp_xprofile_slug;
+	global $bp;
 
-	$group_id = $action_variables[1];
+	$group_id = $bp['action_variables'][1];
 
 	if ( !is_numeric( $group_id ) )
 		$group_id = 1; // 'Basic' group.
 	
-	xprofile_edit( $group_id, $loggedin_domain . $bp_xprofile_slug . '/edit/group/' . $group_id . '/?mode=save' );
+	xprofile_edit( $group_id, $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/edit/group/' . $group_id . '/?mode=save' );
 }
 
 function bp_avatar_upload_form() {
-	global $loggedin_domain, $bp_xprofile_slug;
+	global $bp;
 	 
-	xprofile_avatar_admin(null, $loggedin_domain . $bp_xprofile_slug . '/change-avatar/');
+	core_avatar_admin(null, $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/change-avatar/');
 }
 
 function bp_profile_last_updated_date( $user_id = false, $echo = true ) {
-	global $current_userid;
+	global $bp;
 	
 	if ( !$user_id )
-		$user_id = $current_userid;
+		$user_id = $bp['current_userid'];
 	
 	$last_updated = BP_XProfile_ProfileData::get_last_updated( $user_id );
 
