@@ -1,7 +1,7 @@
 <?php
 
-define ( 'PROTOCOL', 'http://' );
-define ( 'BP_CORE_VERSION', '0.2.3' );
+define( 'PROTOCOL', 'http://' );
+define( 'BP_CORE_VERSION', '0.2.3' );
 
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-catchuri.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-classes.php' );
@@ -19,58 +19,117 @@ if ( isset($_POST['submit']) && $_POST['save_admin_settings'] ) {
 	save_admin_settings();
 }
 
+/**
+ * bp_core_setup_globals()
+ *
+ * Sets up default global BuddyPress configuration settings and stores
+ * them in a $bp variable.
+ *
+ * @package BuddyPress
+ * @uses $current_user A WordPress global containing current user information
+ * @uses $current_component Which is set up in /bp-core/bp-core-catch-uri.php
+ * @uses $current_action Which is set up in /bp-core/bp-core-catch-uri.php
+ * @uses $action_variables Which is set up in /bp-core/bp-core-catch-uri.php
+ * @uses bp_core_get_loggedin_domain() Returns the domain for the logged in user
+ * @uses bp_core_get_current_domain() Returns the domain for the current user being viewed
+ * @uses bp_core_get_current_userid() Returns the user id for the current user being viewed
+ * @uses bp_core_get_loggedin_userid() Returns the user id for the logged in user
+ */
 function bp_core_setup_globals() {
 	global $bp;
 	global $current_user, $current_component, $current_action;
 	global $action_variables;
 	
-	// Set up the global vars used throughout BuddyPress.
 	$bp = array(
+		/* The user ID of the user who is currently logged in. */
 		'loggedin_userid' 	=> $current_user->ID,
+		
+		/* The domain for the user currently logged in. eg: http://andy.domain.com/ */
 		'loggedin_domain' 	=> bp_core_get_loggedin_domain(),
+		
+		/* The domain for the user currently being viewed */
 		'current_domain'  	=> bp_core_get_current_domain(),
+		
+		/* The user id of the user currently being viewed */
 		'current_userid'  	=> bp_core_get_current_userid(),
-		'current_component' => $current_component,
-		'current_action'	=> $current_action,
-		'action_variables'	=> $action_variables,
+		
+		/* The component being used eg: http://andy.domain.com/ [profile] */
+		'current_component' => $current_component, // type: string
+		
+		/* The current action for the component eg: http://andy.domain.com/profile/ [edit] */
+		'current_action'	=> $current_action, // type: string
+		
+		/* The action variables for the current action eg: http://andy.domain.com/profile/edit/ [group] / [6] */
+		'action_variables'	=> $action_variables, // type: array
+		
+		/* Sets up the array container for the component navigation rendered by bp_get_nav() */
 		'bp_nav'		  	=> array(),
+		
+		/* Sets up the array container for the user navigation rendered by bp_get_user_nav() */
 		'bp_users_nav'	  	=> array(),
+		
+		/* Sets up the array container for the component options navigation rendered by bp_get_options_nav() */
 		'bp_options_nav'	=> array(),
+		
+		/* Sets up container used for the title of the current component option and rendered by bp_get_options_title() */
 		'bp_options_title'	=> '',
+		
+		/* Sets up container used for the avatar of the current component being viewed. Rendered by bp_get_options_avatar() */
 		'bp_options_avatar'	=> '',
+		
+		/* Sets up container for callback messages rendered by bp_render_notice() */
 		'message'			=> '',
-		'message_type'		=> ''
+		
+		/* Sets up container for callback message type rendered by bp_render_notice() */
+		'message_type'		=> '' // error/success
 	);
 }
-add_action( 'wp', 'bp_core_setup_globals' );
+add_action( 'wp', 'bp_core_setup_globals', 1 );
+add_action( 'admin_menu', 'bp_core_setup_globals' );
 
+/**
+ * bp_core_setup_nav()
+ *
+ * Adds "Blog" to the navigation arrays for the current and logged in user.
+ * $bp['bp_nav'] represents the main component navigation 
+ * $bp['bp_users_nav'] represents the sub navigation when viewing a users
+ * profile other than that of the current logged in user.
+ * 
+ * @package BuddyPress
+ * @uses $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @uses bp_is_blog() Checks to see current page is a blog page eg: /blog/ or /archives/2008/09/01/
+ * @uses bp_is_home() Checks to see if the current user being viewed is the logged in user
+ */
 function bp_core_setup_nav() {
 	global $bp;
 	
+	/* Add "Blog" to the main component navigation */
 	$bp['bp_nav'][1] = array(
 		'id'	=> 'blog',
 		'name'  => 'Blog', 
 		'link'  => $bp['loggedin_domain'] . 'blog'
 	);
 	
+	/* Add "Blog" to the sub nav for a current user */
 	$bp['bp_users_nav'][1] = array(
 		'id'	=> 'blog',
 		'name'  => 'Blog', 
 		'link'  => $bp['current_domain'] . 'blog'
 	);
 	
-	// This will be a check to see if profile or blog is
-	// set as the default component.
+	/* This will be a check to see if profile or blog is set as the default component. */
 	if ( $bp['current_component'] == '' ) {
 		if ( function_exists('xprofile_setup_nav') ) {
 			$bp['current_component'] = 'profile';
 		} else {
 			$bp['current_component'] = 'blog';
 		}
+	/* If we are on a blog specific page, always set the current component to Blog */
 	} else if ( bp_is_blog() ) {
 		$bp['current_component'] = 'blog';
 	}
 	
+	/* Set up the component options navigation for Blog */
 	if ( $bp['current_component'] == 'blog' ) {
 		if ( bp_is_home() ) {
 			if ( function_exists('xprofile_setup_nav') ) {
@@ -85,28 +144,25 @@ function bp_core_setup_nav() {
 				);
 			}
 		} else {
+			/* If we are not viewing the logged in user, set up the current users avatar and name */
 			$bp['bp_options_avatar'] = core_get_avatar( $bp['current_userid'], 1 );
 			$bp['bp_options_title'] = bp_user_fullname( $bp['current_userid'], false ); 
 		}
 	}
 }
-add_action( 'wp', 'bp_core_setup_nav' );
+add_action( 'wp', 'bp_core_setup_nav', 2 );
 
-function bp_core_user_creds() {
-	global $current_user;
-	
-	// Get user creds when calling functions via ajax.
-	$loggedin_domain = bp_core_get_loggedin_domain();
-	$loggedin_userid = $current_user->ID;
-	
-	$current_domain = bp_core_get_current_domain();
-	$current_userid = bp_core_get_current_userid();
-	
-	return array( 'loggedin_domain' => $loggedin_domain, 'loggedin_userid' => $loggedin_userid,
-				   'current_domain' => $current_domain, 'current_userid' => $current_userid
-				);
-}
-
+/**
+ * bp_core_get_loggedin_domain()
+ *
+ * Returns the domain for the user that is currently logged in.
+ * eg: http://andy.domain.com/ or http://domain.com/andy/
+ * 
+ * @package BuddyPress
+ * @uses $current_user WordPress global variable containing current logged in user information
+ * @uses bp_is_blog() Checks to see current page is a blog page eg: /blog/ or /archives/2008/09/01/
+ * @uses bp_is_home() Checks to see if the current user being viewed is the logged in user
+ */
 function bp_core_get_loggedin_domain() {
 	global $current_user;
 	
@@ -119,6 +175,16 @@ function bp_core_get_loggedin_domain() {
 	return $loggedin_domain;
 }
 
+/**
+ * bp_core_get_current_domain()
+ *
+ * Returns the domain for the user that is currently being viewed.
+ * eg: http://andy.domain.com/ or http://domain.com/andy/
+ * 
+ * @package BuddyPress
+ * @uses $current_blog WordPress global variable containing information for the current blog being viewed.
+ * @uses get_bloginfo() WordPress function to return the value of a blog setting based on param passed
+ */
 function bp_core_get_current_domain() {
 	global $current_blog;
 	
@@ -406,17 +472,22 @@ function bp_core_get_userurl( $uid ) {
 	return $url;
 }
 
-function bp_core_get_userlink( $uid, $no_anchor = false, $just_link = false ) {
+function bp_core_get_user_email( $uid ) {
+	$ud = get_userdata($uid);
+	return $ud->user_email;
+}
+
+function bp_core_get_userlink( $uid, $no_anchor = false, $just_link = false, $no_you = false ) {
 	global $userdata;
 	
 	$ud = get_userdata($uid);
-	
+
 	if ( function_exists('bp_user_fullname') )
 		$display_name = bp_user_fullname($uid, false);
 	else
 		$display_name = $ud->display_name;
 	
-	if ( $uid == $userdata->ID )
+	if ( $uid == $userdata->ID && !$no_you )
 		$display_name = 'You';
 
 	if ( $no_anchor )

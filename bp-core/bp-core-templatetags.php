@@ -38,14 +38,15 @@ function bp_get_options_nav() {
 		foreach ( $bp['bp_options_nav'][$bp['current_component']] as $slug => $values ) {
 			$title = $values['name'];
 			$link = $values['link'];
+			$id = $values['id'];
 
-			if ( $slug == $bp['current_action'] || ( $slug == '' && ( $bp['current_component'] == 'blog' && bp_is_blog() ) ) ) {
+			if ( $slug == $bp['current_action'] || $slug == $bp['action_variables'][0] || ( $slug == '' && ( $bp['current_component'] == 'blog' && bp_is_blog() ) ) ) {
 				$selected = ' class="current"';
 			} else {
 				$selected = '';
 			}
 		
-			echo '<li' . $selected . '><a href="' . $link . '">' . $title . '</a></li>';		
+			echo '<li' . $selected . '><a id="' . $id . '" href="' . $link . '">' . $title . '</a></li>';		
 		}
 	} else {
 		if ( count( $bp['bp_users_nav'] ) < 1 )
@@ -115,8 +116,8 @@ function bp_comment_author_avatar() {
 	}
 }
 
-function bp_exists($function) {
-	if ( function_exists($function) )
+function bp_exists( $component_name ) {
+	if ( function_exists($component_name . '_install') )
 		return true;
 	
 	return false;

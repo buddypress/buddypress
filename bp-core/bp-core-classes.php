@@ -3,6 +3,9 @@
 class BP_Core_User {
 	var $id;
 	var $avatar;
+	var $fullname;
+	var $email;
+	
 	var $user_url;
 	var $user_link;
 	
@@ -26,7 +29,11 @@ class BP_Core_User {
 
 		$this->user_url = bp_core_get_userurl( $this->id );
 		$this->user_link = bp_core_get_userlink( $this->id );
-		$this->last_active = get_usermeta( $this->id, 'last_activity' ); 
+		
+		$this->fullname = bp_core_get_userlink( $this->id, true );
+		$this->email = bp_core_get_user_email( $this->id );
+		
+		$this->last_active = bp_time_since( strtotime(get_usermeta( $this->id, 'last_activity' ) ) ); 
 
 		if ( BP_XPROFILE_IS_INSTALLED ) {
 			$this->avatar = core_get_avatar( $this->id, 1 );

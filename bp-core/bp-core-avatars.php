@@ -260,7 +260,7 @@ function core_render_avatar_cropper($original, $new, $action, $user_id = null, $
 	echo '<div id="crop-v1" class="crop-img"><img src="' . $src . '" ' . $size[3] . ' border="0" alt="Select the area to crop" id="crop-v1-img" /></div>';
 	
 	// Preview
-	echo '<p><strong>' . __('Crop Preview') . '</strong></p>';
+	echo '<p class="crop-preview"><strong>' . __('Crop Preview') . '</strong></p>';
 	echo '<div id="crop-preview-v1" class="crop-preview"></div>';
 	
 	// Hidden form fields
@@ -285,7 +285,7 @@ function core_render_avatar_cropper($original, $new, $action, $user_id = null, $
 		echo '<div id="crop-v2" class="crop-img"><img src="' . $src . '" ' . $size[3] . ' border="0" alt="Select the area to crop" id="crop-v2-img" /></div>';
 
 		// Preview
-		echo '<p><strong>' . __('Crop Preview') . '</strong></p>';
+		echo '<p class="crop-preview"><strong>' . __('Crop Preview') . '</strong></p>';
 		echo '<div id="crop-preview-v2" class="crop-preview"></div>';
 
 		// Hidden form fields
@@ -297,14 +297,14 @@ function core_render_avatar_cropper($original, $new, $action, $user_id = null, $
 		echo '<input type="hidden" id="v2_h" name="v2_h" value="" />';
 		
 		// Final button to process everything
-		echo '<p class="submit"><input type="submit" name="submit" value="' . __('Crop &amp; Save') . '" /></p>';
+		echo '<p class="submit"><input type="submit" name="save" value="' . __('Crop &amp; Save') . '" /></p>';
 		echo '</div>';
 	} else {
 		// Close out v1 DIV
 		echo '</div>';
 		
 		// Final button to process everything
-		echo '<p class="submit"><input type="submit" name="submit" value="' . __('Crop &amp; Save') . '" /></p>';
+		echo '<p class="submit"><input type="submit" name="save" value="' . __('Crop &amp; Save') . '" /></p>';
 	}
 	
 	if ( !$no_form_tag )
