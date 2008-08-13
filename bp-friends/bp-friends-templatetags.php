@@ -189,11 +189,7 @@ function bp_friend_last_active( $time = false, $template = false ) {
 	if ( !$template )
 		$template = &$friends_template->friendship->friend;
 
-	if ( $time == "0000-00-00 00:00:00" || $time == NULL ) {
-		_e('not recently active');
-	} else {
-		echo __('active') . ' ' . $time . ' ' . __('ago');
-	}
+	echo $time;
 }
 	function bp_user_last_active( $time = false ) {
 		global $friends_template;

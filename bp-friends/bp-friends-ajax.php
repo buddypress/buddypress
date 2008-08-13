@@ -46,7 +46,9 @@ function friends_ajax_friends_search() {
 			<li>
 				<?php echo $friend->avatar ?>
 				<h4><?php echo $friend->user_link ?></h4>
-				<span class="activity">active <?php echo bp_time_since( strtotime( $friend->last_active ) ) ?> ago.</span>
+				<?php if ( $friend->last_active ) { ?>
+					<span class="activity"><?php echo $friend->last_active ?></span>
+				<?php } ?>
 				<hr />
 			</li>
 			<?php	
@@ -106,7 +108,9 @@ function friends_ajax_finder_search() {
 				<li>
 					<?php echo $user->avatar ?>
 					<h4><?php echo $user->user_link ?></h4>
-					<span class="activity"><?php bp_friend_last_active( $user->last_active ) ?></span>
+					<?php if ( $user->last_active ) { ?>
+						<span class="activity"><?php echo $user->last_active ?></span>
+					<?php } ?>
 					<?php bp_add_friend_button( $user->id ) ?>
 					<hr />
 				</li>

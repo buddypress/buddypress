@@ -33,7 +33,21 @@ class BP_Core_User {
 		$this->fullname = bp_core_get_userlink( $this->id, true );
 		$this->email = bp_core_get_user_email( $this->id );
 		
-		$this->last_active = bp_time_since( strtotime(get_usermeta( $this->id, 'last_activity' ) ) ); 
+		$last_activity = get_usermeta( $this->id, 'last_activity' );
+
+		if ( !$last_activity || $last_activity == '' ) {
+			$this->last_active = __('not recently active');
+		} else {
+			$this->last_active = __('active ');
+			
+			if ( strstr( $last_activity, '-' ) ) {
+				$this->last_active .= bp_time_since( strtotime(get_usermeta( $this->id, 'last_activity' ) ) ); 
+			} else {
+				$this->last_active .= bp_time_since( get_usermeta( $this->id, 'last_activity' ) ); 
+			}
+			
+			$this->last_active .= __(' ago');
+		}
 
 		if ( BP_XPROFILE_IS_INSTALLED ) {
 			$this->avatar = core_get_avatar( $this->id, 1 );
