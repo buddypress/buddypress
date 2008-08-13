@@ -90,7 +90,8 @@ function messages_setup_globals() {
 		'slug'		 		 	=> 'messages'
 	);
 }
-add_action( 'wp', 'messages_setup_globals' );	
+add_action( 'wp', 'messages_setup_globals', 1 );	
+add_action( 'admin_menu', 'messages_setup_globals' );
 
 
 /**************************************************************************
@@ -101,7 +102,7 @@ add_action( 'wp', 'messages_setup_globals' );
  **************************************************************************/
 
 function messages_add_admin_menu() {	
-	global $wpdb, $bp_messages_table_name, $bp_messages, $userdata;
+	global $wpdb, $bp, $userdata;
 
 	if ( $wpdb->blogid == $userdata->primary_blog ) {	
 		if ( $inbox_count = BP_Messages_Thread::get_inbox_count() ) {
@@ -118,7 +119,7 @@ function messages_add_admin_menu() {
 	}
 	
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( ( $wpdb->get_var( "show tables like '%" . $bp_messages_table_name . "%'" ) == false ) || ( get_site_option('bp-messages-version') < BP_MESSAGES_VERSION ) )
+	if ( ( $wpdb->get_var( "show tables like '%" . $bp['messages']['table_name'] . "%'" ) == false ) || ( get_site_option('bp-messages-version') < BP_MESSAGES_VERSION ) )
 		messages_install(BP_MESSAGES_VERSION);
 }
 add_action( 'admin_menu', 'messages_add_admin_menu' );
@@ -170,7 +171,7 @@ function messages_setup_nav() {
 		}
 	}
 }
-add_action( 'wp', 'messages_setup_nav' );
+add_action( 'wp', 'messages_setup_nav', 2 );
 
 
 /**************************************************************************
@@ -312,7 +313,7 @@ function messages_catch_action() {
 		}
 	}
 }
-add_action( 'wp', 'messages_catch_action' );
+add_action( 'wp', 'messages_catch_action', 3 );
 
 /**************************************************************************
  messages_template()
