@@ -144,7 +144,8 @@ function xprofile_setup_globals() {
 		'slug'		 		=> 'profile'
 	);
 }
-add_action( 'wp', 'xprofile_setup_globals' );	
+add_action( 'wp', 'xprofile_setup_globals', 1 );	
+add_action( 'admin_menu', 'xprofile_setup_globals' );
 
 /**************************************************************************
  xprofile_setup_nav()
@@ -188,7 +189,7 @@ function xprofile_setup_nav() {
 	}
 	
 }
-add_action( 'wp', 'xprofile_setup_nav' );
+add_action( 'wp', 'xprofile_setup_nav', 2 );
 
 
 /**************************************************************************
@@ -213,7 +214,7 @@ function xprofile_catch_action() {
 		}
 	}
 }
-add_action( 'wp', 'xprofile_catch_action' );
+add_action( 'wp', 'xprofile_catch_action', 3 );
 
 
 /**************************************************************************
