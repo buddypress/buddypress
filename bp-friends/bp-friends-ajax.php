@@ -27,7 +27,7 @@ function friends_ajax_friends_search() {
 
 	if ( $total_friend_count ) {
 		$pag_links = paginate_links( array(
-			'base' => $current_domain . $bp['friends']['slug'] . add_query_arg( 'mpage', '%#%' ),
+			'base' => $bp['current_domain'] . $bp['friends']['slug'] . add_query_arg( 'mpage', '%#%' ),
 			'format' => '',
 			'total' => ceil($total_friend_count / $pag_num),
 			'current' => $pag_page,

@@ -20,29 +20,40 @@ class BP_Friendship_Template {
 		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 5;
 
 		if ( $bp['current_action'] == 'my-friends' && in_array( 'search', $bp['action_variables']) && $_POST['friend-search-box'] != '' ) {
+			
 			// Search results
 			$this->friendships = BP_Friends_Friendship::search_friends( $_POST['friend-search-box'], $bp['current_userid'], $this->pag_num, $this->pag_page );
 			$this->total_friend_count = (int)$this->friendships['count'];
 			$this->friendships = $this->friendships['friendships'];
+		
 		} else if ( $bp['current_action'] == 'requests' ) {
+		
 			// Friendship Requests
 			$this->friendships = friends_get_friendships( $bp['current_userid'], false, $this->pag_num, $this->pag_page, true );
 			$this->total_friend_count = (int)$this->friendships['count'];
 			$this->friendships = $this->friendships['friendships'];
+		
 		} else if ( $bp['current_action'] == 'friend-finder' ) {
+		
 			if ( $bp['action_variables'] && $bp['action_variables'][0] == 'search' ) {
+			
 				$this->friendships = friends_search_users( $bp['action_variables'][1], false, $this->pag_num, $this->pag_page );
 				$this->total_friend_count = (int)$this->friendships['count'];
 				$this->friendships = $this->friendships['users'];
+			
 			} else {
+			
 				$this->friendships = null;
 				$this->total_friend_count = 0;
+				
 			}
 		} else {
+		
 			// All confirmed friendships
 			$this->friendships = friends_get_friendships( $bp['current_userid'], false, $this->pag_num, $this->pag_page, false );
 			$this->total_friend_count = (int)$this->friendships['count'];
 			$this->friendships = $this->friendships['friendships'];
+		
 		}
 
 		$this->friendship_count = count($this->friendships);
@@ -181,7 +192,7 @@ function bp_friend_last_active( $time = false, $template = false ) {
 	if ( $time == "0000-00-00 00:00:00" || $time == NULL ) {
 		_e('not recently active');
 	} else {
-		echo __('active') . ' ' . bp_time_since( strtotime( $time ) ) . ' ' . __('ago');
+		echo __('active') . ' ' . $time . ' ' . __('ago');
 	}
 }
 	function bp_user_last_active( $time = false ) {
@@ -258,7 +269,7 @@ function bp_friend_search_form() {
 
 	if ( $bp['current_action'] == 'my-friends' || !$bp['current_action'] ) {
 		$action = $bp['current_domain'] . $bp['friends']['slug'] . '/my-friends/search/';
-		$label = __('Search Friends');
+		$label = __('Filter Friends');
 		$type = 'friend';
 	} else {
 		$action = $bp['current_domain'] . $bp['friends']['slug'] . '/friend-finder/search/';
