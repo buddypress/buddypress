@@ -27,6 +27,7 @@
 						<hr />
 					</li>
 				<?php endwhile; ?>
+				</ul>
 			<?php else: ?>
 
 				<div id="finder-message">

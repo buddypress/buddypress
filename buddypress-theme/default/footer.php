@@ -12,7 +12,6 @@
 	<p><code><?php echo get_num_queries(); ?> queries / <?php timer_stop(1); ?> seconds.</code></p>
 </div>
 
-
 </body>
 
 </html>

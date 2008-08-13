@@ -17,7 +17,7 @@ fieldset, img { border:0 }
 address, caption, cite, code, dfn, em, strong, th, var { font-style:normal; font-weight:normal }
 ol, ul, li { list-style:none }
 caption, th { text-align:left }
-h1, h2, h3, h4, h5, h6 { font-size:100% }
+h1, h2, h3, h4, h5, h6 { font-size:100%; font-weight: normal; }
 q:before, q:after { content:'' }
 a { text-decoration:none }
 strong { font-weight:bold }
@@ -159,10 +159,36 @@ input, select, textarea { width: 100%; }
 					background: url(images/friends_bullet.gif) 87% 52% no-repeat;
 				}
 				
+				li a#groups {
+					background: url(images/groups_bullet.gif) 88% 52% no-repeat;
+				}
+				
 				li a#wp-logout {
 					background: url(images/logout_bullet.gif) 87% 52% no-repeat;
-				}	
+				}
+				
+				li a#group-home, li a#group-wire, li a#group-photos, li a#group-forum,
+				li a#group-members, li a#group-invite, li a#group-leave {
+					background: url(images/groups_bullet.gif) 88% 52% no-repeat;
+					padding: 0.55em 3.1em 0.55em 0 !important;
+					display: block;
+					margin-right: 0.85em;
+				}
+					li a#group-forum {
+						background: url(images/forum_bullet.gif) 88% 52% no-repeat;	
+					}
 
+					li a#group-members {
+						background: url(images/friends_bullet.gif) 87% 52% no-repeat;	
+					}
+					
+					li a#group-invite {
+						background: url(images/invite_bullet.gif) 89% 52% no-repeat;	
+					}
+
+					li a#group-leave {
+						background: url(images/cross_bullet.gif) 88% 52% no-repeat;	
+					}				
 
 /**************************
  OPTIONS BAR
@@ -229,6 +255,10 @@ ul.content-header-nav {
 		ul.content-header-nav li a {
 			color: #555;
 		}
+		
+		ul.content-header-nav li span {
+			color: #999;
+		}
 	
 	ul.content-header-nav li.current {
 		background: url(images/topoption_selected_back.gif) 49% 0 no-repeat;
@@ -272,8 +302,9 @@ ul.content-header-nav {
 		}
 		
 		#main #content .left-menu {
+			position: relative;
 			float: left;
-			width: 140px;
+			width: 158px;
 			margin-bottom: 1em;
 		}
 	
@@ -282,7 +313,7 @@ ul.content-header-nav {
 		}
 	
 		.main-column {
-			margin-left: 190px;
+			margin-left: 200px;
 		}
 		
 		.main-column h1, #blog-info h1 {
@@ -298,7 +329,7 @@ ul.content-header-nav {
 				font-style: italic;
 				margin: 0.3em 0 1.2em 0;
 			}
-		
+				
 		.pagination-links {
 			float: right;
 		}
@@ -313,20 +344,68 @@ ul.content-header-nav {
 				border-bottom: 2px solid #f28935;
 				padding: 0.5em 0.7em !important;
 			}
+	
+		div.info-group {
+			margin-bottom: 2em;
+		}	
+			div.info-group h4 {
+				background: url(images/group_header.gif) top left no-repeat;
+				height: 30px;
+				color: #fff;
+				padding: 3px 10px;
+				font-size: 1em;
+				margin-bottom: 0.5em;
+				font-weight: bold;
+				position: relative;
+			}
+				.left-menu div.info-group {
+					margin-top: 1.5em;
+				}
+				
+				.left-menu div.info-group h4 {
+					background: url(images/leftmenu_group_header.gif) top left no-repeat;
+					color: #555;				
+				}
+				
+				div.info-group h4 a {
+					position: absolute;
+					top: 0.31em;
+					right: 2.8em;
+					color: #fff;
+					font-weight: normal;
+				}
+				
+				.left-menu div.info-group img.avatar {
+					float: left;
+					margin-right: 1em;
+				}
+
+			.horiz-gallery li {
+				float: left;
+				margin: 0 1.5em 0 0;
+				width: 15%;
+				text-align: center;
+			}
+			
+		a#accept, a#reject {
+			background: url(images/accept_button.gif) top left no-repeat;
+			text-indent: -999em;
+			display: block;
+			overflow: hidden;
+			width: 80px;
+			height: 19px;
+			float: right;
+			margin-left: 10px;
+		}
+			a#reject {
+				background: url(images/reject_button.gif) top left no-repeat;
+				width: 78px;		
+			}
 
 /**** Profiles ************************/
-		
-		div.profile-group h4 {
-			background: url(images/group_header.gif) top left no-repeat;
-			height: 30px;
-			color: #fff;
-			padding: 3px 10px;
-			font-size: 1.1em;
-		}
-		
+			
 		table.profile-fields {
 			font-size: 1em;
-			margin: 0.5em 0 2em 0;
 			width: 100%;
 		}
 			table.profile-fields tr td {
@@ -359,7 +438,7 @@ ul.content-header-nav {
 			padding: 0.2em;
 		}
 		
-		.datefield select { width: auto; }
+		.datefield select, #searchform input, input#upload { width: auto !important; }
 		
 		.signup-description {
 			display: block;
@@ -440,7 +519,7 @@ ul.content-header-nav {
 				color: #555;
 			}
 		
-		.post p.date {
+		.post p.date, .small, h2 span {
 			color: #888;
 			font-size: 0.95em;
 		}
@@ -653,22 +732,19 @@ ul.content-header-nav {
 		.notice a { color: #0051FF;}
 
 /**** FRIENDS *****************/
-	
-	#friend-list {
-		width: 410px;
-		margin-top: -1em;
+
+	ul#friend-list li {
+		position: relative;
+		background: url(images/message_thread_back.gif) top left repeat-x;
+		padding: 1em;
+		min-height: 60px;
 	}
-		ul#friend-list li {
-			position: relative;
-			border-bottom: 1px solid #eee;
-			padding: 1em 0;
-		}
 		
 	#friend-list li img.avatar {
 		float: left;
 		margin: 0 1em 0 0;
 	}
-		#friend-list li span.activity {
+		span.activity {
 			position: relative;
 			color: #888;
 			font-size: 0.9em;
@@ -693,10 +769,8 @@ ul.content-header-nav {
 		text-align: right;
 		padding: 0.25em 0;
 	}
-	
-	#friend-search-form { position: relative; }
-	
-	#friend-search-form img#ajax-loader {
+		
+	.left-menu img#ajax-loader {
 		position: absolute;
 		right: 0;
 		top: 7px;
@@ -736,6 +810,98 @@ ul.content-header-nav {
 	
 	label#friend-search-label {
 		font-size: 0.9em;
+	}
+
+
+/**** GROUPS *****************/
+
+	#group-name h1 {
+		margin-bottom: 0.5em;
+	}
+
+	.main-column #group-name p.status {
+		margin-top: -0.8em !important;
+	}
+	
+	#create-group-form label {
+		display: block;
+		padding: 0 0 0.3em 0;
+		margin: 1em 0 0 0;
+	}
+
+	#create-group-form input, #create-group-form select, #create-group-form textarea {
+		font-size: 1.3em;
+		font-family: inherit;
+		color: #777;
+		width: 65%;
+		padding: 0.2em;
+	}
+	
+	#create-group-form textarea {
+		height: 100px;
+	}
+	
+	div.sub-options {
+		margin-left: 1.5em;
+		border-left: 8px solid #eee;
+		padding-left: 1em;
+	}
+	
+	div#invite-list {
+		height: 225px;
+		overflow: auto;
+		padding-top: 0.5em;
+	}
+	
+	div#skip-continue {
+		margin-top: 2em;
+		border-top: 1px solid #ddd;
+		padding-top: 2em;
+	}
+		div#skip-continue input {
+			float: right;
+			width: 70px;
+			font-size: 1em;
+		}
+
+	#create-group-form .crop-preview { display: none; }
+	#create-group-form #file {
+		width: auto !important;
+		margin-bottom: 1em;
+	}
+
+	ul#group-list li, ul#member-list li {
+		position: relative;
+		background: url(images/message_thread_back.gif) top left repeat-x;
+		padding: 1em;
+		min-height: 60px;
+	}
+		
+	#group-list li img.avatar, #member-list li img.avatar {
+		float: left;
+		margin: 0 1em 0 0;
+	}
+		#group-list li span.small, #member-list li span.small {
+			font-size: 0.95em;
+			color: #888;
+		}
+		
+		#group-list p.desc {
+			margin-left: 70px;
+			font-size: 0.9em;
+		}
+			.invites p.desc { width: 45%; }
+		
+		#group-list .action, #member-list .action {
+			position: absolute;
+			top: 30%;
+			right: 1em;
+		}
+		
+	#group-admins img.avatar {
+		width: 38px;
+		height: 38px;
+		border-width: 3px;
 	}
 		
 /**************************
