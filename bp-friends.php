@@ -53,7 +53,7 @@ function friends_setup_globals() {
 		'slug'		 => 'friends'
 	);
 }
-add_action( 'wp', 'friends_setup_globals' );	
+add_action( 'wp', 'friends_setup_globals', 1 );	
 
 
 /**************************************************************************
@@ -126,7 +126,7 @@ function friends_setup_nav() {
 		}
 	}
 }
-add_action( 'wp', 'friends_setup_nav' );
+add_action( 'wp', 'friends_setup_nav', 2 );
 
 
 /**************************************************************************
@@ -178,7 +178,7 @@ function friends_catch_action() {
 		}
 	}
 }
-add_action( 'wp', 'friends_catch_action' );
+add_action( 'wp', 'friends_catch_action', 3 );
 
 /**************************************************************************
  friends_template()
@@ -237,6 +237,38 @@ function friends_get_friendships( $user_id = false, $friendship_ids = false, $pa
 	return array( 'friendships' => $friends, 'count' => $count );
 }
 
+function friends_get_friends_list( $user_id = false ) {
+	global $bp;
+
+	if ( !$user_id )
+		$user_id = $bp['current_userid'];
+	
+	$friend_ids = BP_Friends_Friendship::get_friend_ids( $user_id );
+
+	for ( $i = 0; $i < count($friend_ids); $i++ ) {
+		if ( function_exists('bp_user_fullname') )
+			$display_name = bp_user_fullname($friend_ids[$i], false);
+		
+		if ( $display_name != ' ' ) {
+			$friends[] = array(
+				'id' => $friend_ids[$i],
+				'full_name' => $display_name
+			);
+		}
+	}
+
+	usort($friends, 'friends_sort_by_name');
+
+	if ( !$friends )
+		return false;
+
+	return $friends;
+}
+
+	function friends_sort_by_name($a, $b) {  
+	    return strcasecmp($a['full_name'], $b['full_name']);
+	}
+
 /**************************************************************************
  friends_search_users()
  
@@ -267,10 +299,16 @@ function friends_search_users( $search_terms, $user_id, $pag_num = 5, $pag_page 
  Check to see if the user is already a confirmed friend with this user.
 **************************************************************************/
 
-function friends_check_friendship() {
+function friends_check_friendship( $user_id = null, $possible_friend_id = null ) {
 	global $bp;
 	
-	if ( BP_Friends_Friendship::check_is_friend( $bp['loggedin_userid'], $bp['current_userid'] ) )
+	if ( !$user_id )
+		$user_id = $bp['loggedin_userid'];
+	
+	if ( !$possible_friend_id )
+		$possible_friend_id = $bp['current_userid'];
+		
+	if ( BP_Friends_Friendship::check_is_friend( $user_id, $possible_friend_id ) )
 		return true;
 	
 	return false;
