@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_GROUPS_IS_INSTALLED', 1 );
-define ( 'BP_GROUPS_VERSION', '0.1' );
+define ( 'BP_GROUPS_VERSION', '0.1.1' );
 
 include_once( 'bp-groups/bp-groups-classes.php' );
 include_once( 'bp-groups/bp-groups-ajax.php' );
