@@ -12,6 +12,8 @@
 		<div class="left-menu">
 			<?php bp_group_avatar() ?>
 			
+			<?php bp_group_join_button() ?>
+			
 			<div class="info-group">
 				<h4>Admins</h4>
 				<?php bp_group_list_admins() ?>
