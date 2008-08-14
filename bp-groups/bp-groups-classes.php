@@ -282,6 +282,12 @@ Class BP_Groups_Group {
 		return $wpdb->get_var( $wpdb->prepare( "SELECT slug FROM " . $bp['groups']['table_name'] . " WHERE slug = %s", $slug ) );		
 	}
 	
+	function get_slug( $group_id ) {
+		global $wpdb, $bp;
+		
+		return $wpdb->get_var( $wpdb->prepare( "SELECT slug FROM " . $bp['groups']['table_name'] . " WHERE id = %d", $group_id ) );		
+	}
+	
 }
 
 Class BP_Groups_Member {

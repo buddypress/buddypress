@@ -525,4 +525,12 @@ function bp_group_send_invite_form_action() {
 	echo $bp['loggedin_domain'] . $bp['groups']['slug'] . '/' . $groups_template->group->slug . '/send-invites/send';
 }
 
+function bp_group_join_button() {
+	global $bp, $groups_template;
+	
+	if ( is_user_logged_in() && !BP_Groups_Member::check_is_member( $bp['loggedin_userid'], $groups_template->group->id ) ) {
+		echo '<a class="join-group" href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '/' . $groups_template->group->slug . '/join">' . __('Join Group') . '</a>';
+	}
+}
+
 ?>

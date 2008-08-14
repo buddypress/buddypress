@@ -301,7 +301,7 @@ function groups_catch_action() {
 
 				bp_catch_uri( 'groups/create' );			
 			break;
-
+			
 			default:
 				if ( $bp['current_action'] != '' ) {
 					if ( $group_id = BP_Groups_Group::group_exists($bp['current_action']) ) {
@@ -341,6 +341,23 @@ function groups_catch_action() {
 									// Show send invite page
 									bp_catch_uri( 'groups/send-invite' );	
 								}
+							break;
+							case 'join':
+								// user wants to join a group
+								
+								if ( !BP_Groups_Member::check_is_member( $bp['loggedin_userid'], $group_obj->id ) ) {
+									if ( !groups_join_group($group_obj->id) ) {
+										$bp['message'] = __('There was an error joining the group. Please try again.');
+										$bp['message_type'] = 'error';
+									} else {
+										$bp['message'] = __('You joined the group! <a');
+										$bp['message_type'] = 'success';						
+									}
+
+									add_action( 'template_notices', 'bp_render_notice' );
+								}
+								
+								bp_catch_uri( 'groups/group-home' );
 							break;
 							case 'leave-group':
 								if ( isset($bp['action_variables']) && $bp['action_variables'][1] == 'yes' ) {
@@ -724,4 +741,21 @@ function groups_send_invites( $group_obj ) {
 	}
 }
 
+function groups_join_group( $group_id ) {
+	global $bp;
+	
+	$new_member = new BP_Groups_Member;
+	$new_member->group_id = $group_id;
+	$new_member->user_id = $bp['loggedin_userid'];
+	$new_member->inviter_id = 0;
+	$new_member->is_admin = 0;
+	$new_member->user_title = '';
+	$new_member->date_modified = time();
+	$new_member->is_confirmed = 1;
+	
+	if ( !$new_member->save() )
+		return false;
+	
+	return true;
+}
 ?>
