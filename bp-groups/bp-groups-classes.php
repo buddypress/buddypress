@@ -165,10 +165,6 @@ Class BP_Groups_Group {
 		return $result;
 	}
 	
-	function delete() {
-		
-	}
-	
 	function make_private() {
 		
 	}
@@ -288,6 +284,26 @@ Class BP_Groups_Group {
 		return $wpdb->get_var( $wpdb->prepare( "SELECT slug FROM " . $bp['groups']['table_name'] . " WHERE id = %d", $group_id ) );		
 	}
 	
+	function has_members( $group_id ) {
+		global $wpdb, $bp;
+		
+		$members = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d", $group_id ) );						
+		
+		if ( $members < 1 )
+			return false;
+		
+		return true;
+	}
+	
+	function delete( $group_id ) {
+		global $wpdb, $bp;
+		
+		if ( $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['groups']['table_name'] . " WHERE id = %d", $group_id ) ) )
+			return false;
+		
+		return true;
+	}
+	
 }
 
 Class BP_Groups_Member {
@@ -393,7 +409,14 @@ Class BP_Groups_Member {
 	function delete( $user_id, $group_id ) {
 		global $wpdb, $bp;
 		
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );
+		$delete_result = $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );
+	
+		// Check to see if there are any members left for the group, if not, delete it.
+		if ( !BP_Groups_Group::has_members( $group_id ) ) {
+			BP_Groups_Group::delete( $group_id );
+		}
+		
+		return $delete_result;
 	}
 	
 	function check_is_admin( $user_id, $group_id ) {
