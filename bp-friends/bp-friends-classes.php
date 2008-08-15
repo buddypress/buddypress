@@ -20,7 +20,7 @@ class BP_Friends_Friendship {
 			$this->populate( $this->id );
 		}
 	}
-	
+
 	function populate() {
 		global $wpdb, $bp, $creds;
 		
@@ -150,7 +150,7 @@ class BP_Friends_Friendship {
 		// Get the total number of friendships
 		$fs_count = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM " . $bp['friends']['table_name'] . " WHERE (friend_user_id IN ($filtered_fids) AND initiator_user_id = %d) OR (initiator_user_id IN ($filtered_fids) AND friend_user_id = %d)", $user_id, $user_id ) );
 		
-		$friendships = friends_get_friendships( $user_id, &$fs_ids, 5, 1, false, $fs_count );
+		$friendships = friends_get_friendships( $user_id, $fs_ids, 5, 1, false, $fs_count );
 
 		return $friendships;
 	}
