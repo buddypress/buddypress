@@ -240,7 +240,8 @@ class BP_Friends_Friendship {
 		}
 		
 		// remove duplicates
-		return array_flip(array_flip($fids));
+		if ( count($fids) > 0 )
+			return array_flip(array_flip($fids));
 	}
 }
 	

@@ -54,6 +54,7 @@ function friends_setup_globals() {
 	);
 }
 add_action( 'wp', 'friends_setup_globals', 1 );	
+add_action( 'admin_menu', 'friends_setup_globals' );
 
 
 /**************************************************************************
@@ -256,8 +257,9 @@ function friends_get_friends_list( $user_id = false ) {
 			);
 		}
 	}
-
-	usort($friends, 'friends_sort_by_name');
+	
+	if ( $friends && is_array($friends) )
+		usort($friends, 'friends_sort_by_name');
 
 	if ( !$friends )
 		return false;

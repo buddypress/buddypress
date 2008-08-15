@@ -71,9 +71,33 @@ function xprofile_install( $version ) {
 			  );";
 	
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
+
 	dbDelta($sql);
 	add_site_option('bp-xprofile-version', $version);
 }
+
+
+/**************************************************************************
+ xprofile_setup_globals()
+ 
+ Set up and add all global variables for this component, and add them to 
+ the $bp global variable array.
+ **************************************************************************/
+
+function xprofile_setup_globals() {
+	global $bp, $wpdb;
+	
+	$bp['xprofile'] = array(
+		'table_name_groups' => $wpdb->base_prefix . 'bp_xprofile_groups',
+		'table_name_fields' => $wpdb->base_prefix . 'bp_xprofile_fields',
+		'table_name_data' 	=> $wpdb->base_prefix . 'bp_xprofile_data',
+		'image_base' 		=> get_option('siteurl') . '/wp-content/mu-plugins/bp-xprofile/images',
+		'slug'		 		=> 'profile'
+	);
+}
+add_action( 'wp', 'xprofile_setup_globals', 1 );	
+add_action( 'admin_menu', 'xprofile_setup_globals' );
+
 
 /**************************************************************************
  xprofile_add_admin_menu()
@@ -103,10 +127,11 @@ function xprofile_add_admin_menu() {
 		/* Add the administration tab under the "Site Admin" tab for site administrators */
 		add_submenu_page( 'wpmu-admin.php', __("Profiles"), __("Profiles"), 1, "xprofile_settings", "xprofile_admin" );
 	}
-
+	
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( ( $wpdb->get_var("show tables like '%" . $bp['xprofile']['table_name'] . "%'") == false ) || ( get_site_option('bp-xprofile-version') < BP_XPROFILE_VERSION )  )
+	if ( ( $wpdb->get_var("show tables like '%" . $bp['xprofile']['table_name_groups'] . "%'") == false ) || ( get_site_option('bp-xprofile-version') < BP_XPROFILE_VERSION )  )
 		xprofile_install(BP_XPROFILE_VERSION);
+	
 }
 add_action( 'admin_menu', 'xprofile_add_admin_menu' );
 
@@ -124,28 +149,6 @@ function xprofile_admin_setup() {
 }
 add_action( 'admin_menu', 'xprofile_admin_setup' );
 
-
-/**************************************************************************
- xprofile_setup_globals()
- 
- Set up and add all global variables for this component, and add them to 
- the $bp global variable array.
- **************************************************************************/
-
-function xprofile_setup_globals() {
-	global $bp, $wpdb;
-	
-	$bp['xprofile'] = array(
-		'table_name' 		=> $wpdb->base_prefix . 'bp_xprofile',
-		'table_name_groups' => $wpdb->base_prefix . 'bp_xprofile_groups',
-		'table_name_fields' => $wpdb->base_prefix . 'bp_xprofile_fields',
-		'table_name_data' 	=> $wpdb->base_prefix . 'bp_xprofile_data',
-		'image_base' 		=> get_option('siteurl') . '/wp-content/mu-plugins/bp-xprofile/images',
-		'slug'		 		=> 'profile'
-	);
-}
-add_action( 'wp', 'xprofile_setup_globals', 1 );	
-add_action( 'admin_menu', 'xprofile_setup_globals' );
 
 /**************************************************************************
  xprofile_setup_nav()
