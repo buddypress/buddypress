@@ -6,7 +6,7 @@
 <p>You can: 
 	<ul>
 		<li> <h4><a href="wp-login.php">Login</a></h4> </li>
-		<li> <h4><a href="signup.php">Register</a></h4></li>
+		<li> <h4><a href="wp-signup.php">Register</a></h4></li>
 	</ul>
 </p>
 <hr />
