@@ -145,7 +145,7 @@ add_action( 'admin_menu', 'xprofile_add_admin_menu' );
 function xprofile_admin_setup() {
 	add_action( 'admin_head', 'xprofile_add_css' );
 	add_action( 'admin_head', 'xprofile_add_js' );
-	add_action( 'admin_head', 'core_add_cropper_js' );
+	add_action( 'admin_head', 'bp_core_add_cropper_js' );
 }
 add_action( 'admin_menu', 'xprofile_admin_setup' );
 
@@ -186,7 +186,7 @@ function xprofile_setup_nav() {
 					'link' => $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/change-avatar' )
 			);
 		} else {
-			$bp['bp_options_avatar'] = core_get_avatar( $bp['current_userid'], 1 );
+			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
 			$bp['bp_options_title'] = bp_user_fullname( $bp['current_userid'], false ); 
 		}
 	}
@@ -210,7 +210,7 @@ function xprofile_catch_action() {
 		} else if ( $bp['current_action'] == 'edit' && $bp['loggedin_userid'] == $bp['current_userid'] ) {
 			bp_catch_uri( 'profile/edit' );
 		} else if ( $bp['current_action'] == 'change-avatar' && $bp['loggedin_userid'] == $bp['current_userid'] ) {
-			add_action( 'wp_head', 'core_add_cropper_js' );
+			add_action( 'wp_head', 'bp_core_add_cropper_js' );
 			bp_catch_uri( 'profile/change-avatar' );
 		} else {
 			bp_catch_uri( 'profile/index' );

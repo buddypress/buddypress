@@ -244,7 +244,7 @@ function groups_catch_action() {
 						$bp['message'] = __('Group invite could not be accepted');
 						$bp['message_type'] = 'error';					
 					}
-					add_action( 'template_notices', 'bp_render_notice' );
+					add_action( 'template_notices', 'bp_core_render_notice' );
 				} else if ( isset($bp['action_variables']) && in_array( 'reject', $bp['action_variables'] ) && is_numeric($bp['action_variables'][1]) ) {
 					if ( BP_Groups_Member::delete( $bp['loggedin_userid'], $bp['action_variables'][1] ) ) {
 						$bp['message'] = __('Group invite rejected');
@@ -253,7 +253,7 @@ function groups_catch_action() {
 						$bp['message'] = __('Group invite could not be rejected');
 						$bp['message_type'] = 'error';				
 					}
-					add_action( 'template_notices', 'bp_render_notice' );
+					add_action( 'template_notices', 'bp_core_render_notice' );
 				}
 				bp_catch_uri( 'groups/list-invites' );
 			break; 
@@ -285,7 +285,7 @@ function groups_catch_action() {
 							$bp['message'] = __('There was an error saving group details. Please try again.');
 							$bp['message_type'] = 'error';
 					
-							add_action( 'template_notices', 'bp_render_notice' );
+							add_action( 'template_notices', 'bp_core_render_notice' );
 						} else {
 							$create_group_step++;
 							$completed_to_step++;
@@ -335,7 +335,7 @@ function groups_catch_action() {
 									$bp['message'] = __('Group invites sent.');
 									$bp['message_type'] = 'success';
 									
-									add_action( 'template_notices', 'bp_render_notice' );
+									add_action( 'template_notices', 'bp_core_render_notice' );
 									bp_catch_uri( 'groups/group-home' );
 								} else {
 									// Show send invite page
@@ -354,7 +354,7 @@ function groups_catch_action() {
 										$bp['message_type'] = 'success';						
 									}
 
-									add_action( 'template_notices', 'bp_render_notice' );
+									add_action( 'template_notices', 'bp_core_render_notice' );
 								}
 								
 								bp_catch_uri( 'groups/group-home' );
@@ -369,7 +369,7 @@ function groups_catch_action() {
 										$bp['message'] = __('You left the group successfully.');
 										$bp['message_type'] = 'success';									
 									}
-									add_action( 'template_notices', 'bp_render_notice' );
+									add_action( 'template_notices', 'bp_core_render_notice' );
 									
 									$is_single_group = false;
 									$bp['current_action'] = 'group-finder';
@@ -535,7 +535,7 @@ function groups_manage_group( $step, $group_id ) {
 	if ( is_numeric( $step ) && ( $step == '1' || $step == '2' || $step == '3' || $step == '4' ) ) {
 		// If this is the group avatar step, load in the JS.
 		if ( $create_group_step == '3' )
-			add_action( 'wp_head', 'core_add_cropper_js' );
+			add_action( 'wp_head', 'bp_core_add_cropper_js' );
 		
 		$group = new BP_Groups_Group( $group_id );		
 		

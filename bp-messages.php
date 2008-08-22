@@ -226,14 +226,14 @@ function messages_catch_action() {
 						// delete message
 						if ( !BP_Messages_Thread::delete($thread_id) ) {
 							$bp['message'] = __('There was an error deleting that message.');
-							add_action( 'template_notices', 'bp_render_notice' );
+							add_action( 'template_notices', 'bp_core_render_notice' );
 
 							$bp['current_action'] = 'inbox';
 							bp_catch_uri( 'messages/index' );
 						} else {
 							$bp['message'] = __('Message deleted.');
 							$bp['message_type'] = 'success';
-							add_action( 'template_notices', 'bp_render_notice' );
+							add_action( 'template_notices', 'bp_core_render_notice' );
 
 							$bp['current_action'] = 'inbox';
 							bp_catch_uri( 'messages/index' );
@@ -251,14 +251,14 @@ function messages_catch_action() {
 				} else {
 					if ( !BP_Messages_Thread::delete( explode(',', $thread_ids ) ) ) {
 						$message = __('There was an error deleting messages.');
-						add_action( 'template_notices', 'bp_render_notice' );
+						add_action( 'template_notices', 'bp_core_render_notice' );
 
 						$bp['current_action'] = 'inbox';
 						bp_catch_uri( 'messages/index' );
 					} else {
 						$bp['message'] = __('Messages deleted.');
 						$bp['message_type'] = 'success';
-						add_action( 'template_notices', 'bp_render_notice' );
+						add_action( 'template_notices', 'bp_core_render_notice' );
 
 						$bp['current_action'] = 'inbox';
 						bp_catch_uri( 'messages/index' );
@@ -301,7 +301,7 @@ function messages_catch_action() {
 							}
 						}
 					}
-					add_action( 'template_notices', 'bp_render_notice' );
+					add_action( 'template_notices', 'bp_core_render_notice' );
 					bp_catch_uri( 'messages/notices' );	
 				}
 			break;
@@ -474,8 +474,8 @@ function messages_box( $box = 'inbox', $display_name = 'Inbox', $message = '', $
 					<tr class="<?php echo $class . $new ?>" id="m-<?php echo $message->id ?>">
 						<td class="is-read" width="1%"><?php echo $is_read ?></td>
 						<td class="avatar" width="1%">
-							<?php if ( function_exists('core_get_avatar') )
-									echo core_get_avatar($thread->last_sender_id, 1);
+							<?php if ( function_exists('bp_core_get_avatar') )
+									echo bp_core_get_avatar($thread->last_sender_id, 1);
 							?>
 						</td>
 						<td class="sender-details" width="20%">
@@ -587,7 +587,7 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 						$bp['message'] = $message;
 						$bp['message_type'] = $type;
 						
-						bp_render_notice();
+						bp_core_render_notice();
 						messages_write_new();
 					} else {
 						messages_box( 'inbox', __('Inbox'), $message, $type );	
@@ -603,7 +603,7 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 						$bp['message'] = $message;
 						$bp['message_type'] = $type;
 						
-						bp_render_notice();
+						bp_core_render_notice();
 						messages_write_new();
 					} else {
 						messages_box( 'inbox', __('Inbox'), $message, $type );
@@ -622,7 +622,7 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 					$bp['message'] = $message;
 					$bp['message_type'] = $type;
 					
-					bp_render_notice();
+					bp_core_render_notice();
 					messages_write_new();
 				} else {
 					messages_box( 'inbox', __('Inbox'), $message, $type );	
@@ -647,7 +647,7 @@ function messages_send_notice( $subject, $message, $from_template ) {
 		$type = 'error';
 	
 		if ( $from_template ) {
-			bp_render_notice();
+			bp_core_render_notice();
 			messages_write_new();
 		} else {
 			messages_box( 'inbox', __('Inbox'), $message, $type );	
@@ -728,8 +728,8 @@ function messages_view_thread( $thread_id ) {
 					<a name="<?php echo 'm-' . $message->id ?>"></a>
 					<div class="message-box">
 						<div class="avatar-box">
-							<?php if ( function_exists('core_get_avatar') ) 
-								echo core_get_avatar($message->sender_id, 1);
+							<?php if ( function_exists('bp_core_get_avatar') ) 
+								echo bp_core_get_avatar($message->sender_id, 1);
 							?>
 				
 							<h3><?php echo bp_core_get_userlink($message->sender_id) ?></h3>
@@ -746,8 +746,8 @@ function messages_view_thread( $thread_id ) {
 					<div class="message-box">
 							<div id="messagediv">
 								<div class="avatar-box">
-									<?php if ( function_exists('core_get_avatar') ) 
-										echo core_get_avatar($userdata->ID, 1);
+									<?php if ( function_exists('bp_core_get_avatar') ) 
+										echo bp_core_get_avatar($userdata->ID, 1);
 									?>
 					
 									<h3><?php _e("Reply: ") ?></h3>

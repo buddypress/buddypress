@@ -1,22 +1,38 @@
 <?php
 
-function setup_blog_tab()  {
+/**
+ * bp_core_setup_blog_tab()
+ *
+ * Combines the "Write", "Manage", and "Comments" admin tabs into one "Blog" tab.
+ *
+ * @package BuddyPress Core
+ * @global $menu WordPress admin navigation array global
+ * @global $submenu WordPress admin sub navigation array global
+ * @global $thirdlevel BuddyPress admin third level navigation
+ * @uses add_menu_page() WordPress function to add a new top level admin navigation tab
+ */
+function bp_core_setup_blog_tab()  {
 	global $menu, $submenu, $thirdlevel;
 
+	/* Unset the default secondary level tabs for the top level nav tabs */
 	unset($submenu['post-new.php']);
 	unset($submenu['edit.php']);
 	unset($submenu['edit-comments.php']);
 
+	/* Move the top level tabs into the sub menu array */
 	$submenu['post-new.php'][20] = $menu[5]; // Write
 	$submenu['post-new.php'][25] = $menu[10]; // Manage
 	$submenu['post-new.php'][35] = $menu[20]; // Comments
 
+	/* Unset the top level tabs */
 	unset($menu[5]); // Write
 	unset($menu[10]); // Manage
 	unset($menu[20]); // Comments
 
+	/* Add a blog tab to the top level nav */
 	add_menu_page( 'Blog', 'Blog', 1, 'post-new.php' );
 
+	/* Move the blog tab so it is the first tab in the top level nav */
 	foreach ( $menu as $key => $value ) {
 		if ( $menu[$key][0] == 'Blog' ) {
 			$menu[5] = $menu[$key];
@@ -26,6 +42,7 @@ function setup_blog_tab()  {
 	ksort($menu);
 	array_pop($menu);
 
+	/* Bump secondary level nav for the old top level tabs down to a new third level navigation */
 	if ( strpos( $_SERVER['SCRIPT_NAME'], '/post-new.php' ) ||
 	     strpos( $_SERVER['SCRIPT_NAME'], '/page-new.php' ) ||
 	     strpos( $_SERVER['SCRIPT_NAME'], '/link-add.php' ) ) 
@@ -58,9 +75,18 @@ function setup_blog_tab()  {
 
 	
 }
-add_action( '_admin_menu', 'setup_blog_tab' );
+add_action( '_admin_menu', 'bp_core_setup_blog_tab' );
 
-function alter_blog_tab_positions() {
+/**
+ * bp_core_alter_blog_tab_positions()
+ *
+ * Keeps a tab highlighted when selected and under the "Blog" tab.
+ *
+ * @package BuddyPress Core
+ * @global $parent_file WordPress global for the name of the file controlling the parent tab
+ * @global $submenu_file WordPress global for the name of the file controlling the sub parent tab
+ */
+function bp_core_alter_blog_tab_positions() {
 	global $parent_file, $submenu_file;
 	
 	if ( strpos($_SERVER['SCRIPT_NAME'], '/edit.php' ) ) {
@@ -89,7 +115,7 @@ function alter_blog_tab_positions() {
 		unset($submenu_file);
 	}
 }
-add_action('admin_head', 'alter_blog_tab_positions');
+add_action('admin_head', 'bp_core_alter_blog_tab_positions');
 
 
 ?>

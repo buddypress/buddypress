@@ -166,8 +166,8 @@ function bp_message_thread_last_post_date() {
 
 function bp_message_thread_avatar() {
 	global $messages_template;
-	if ( function_exists('core_get_avatar') )
-		echo core_get_avatar($messages_template->thread->last_sender_id, 1);
+	if ( function_exists('bp_core_get_avatar') )
+		echo bp_core_get_avatar($messages_template->thread->last_sender_id, 1);
 }
 
 function bp_message_thread_view() {

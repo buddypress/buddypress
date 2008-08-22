@@ -14,8 +14,8 @@ function messages_ajax_send_reply() {
 
 	if ( $result['status'] ) { ?>
 			<div class="avatar-box">
-				<?php if ( function_exists('core_get_avatar') ) 
-					echo core_get_avatar($result['reply']->sender_id, 1);
+				<?php if ( function_exists('bp_core_get_avatar') ) 
+					echo bp_core_get_avatar($result['reply']->sender_id, 1);
 				?>
 	
 				<h3><?php echo bp_core_get_userlink($result['reply']->sender_id) ?></h3>

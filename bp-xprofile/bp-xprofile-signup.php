@@ -168,35 +168,35 @@ function xprofile_validate_signup_fields() {
 				// validate the avatar upload if there is one.
 				$avatar_error = false;
 				
-				if ( core_check_avatar_upload($_FILES) ) {
-					if ( !core_check_avatar_upload($_FILES) ) {
+				if ( bp_core_check_avatar_upload($_FILES) ) {
+					if ( !bp_core_check_avatar_upload($_FILES) ) {
 						$avatar_error = true;
 						$avatar_error_msg = __('Your avatar upload failed, please try again.');
 					}
 
-					if ( !core_check_avatar_size($_FILES) ) {
+					if ( !bp_core_check_avatar_size($_FILES) ) {
 						$avatar_error = true;
 						$avatar_size = size_format(1024 * XPROFILE_MAX_FILE_SIZE);
 						$avatar_error_msg = sprintf( __('The file you uploaded is too big. Please upload a file under %d'), $avatar_size);
 					}
 
-					if ( !core_check_avatar_type($_FILES) ) {
+					if ( !bp_core_check_avatar_type($_FILES) ) {
 						$avatar_error = true;
 						$avatar_error_msg = __('Please upload only JPG, GIF or PNG photos.');		
 					}
 
 					// "Handle" upload into temporary location
-					if ( !$original = core_handle_avatar_upload($_FILES) ) {
+					if ( !$original = bp_core_handle_avatar_upload($_FILES) ) {
 						$avatar_error = true;
 						$avatar_error_msg = __('Upload Failed! Your photo dimensions are likely too big.');						
 					}
 
-					if ( !core_check_avatar_dimensions($original) ) {
+					if ( !bp_core_check_avatar_dimensions($original) ) {
 						$avatar_error = true;
 						$avatar_error_msg = sprintf( __('The image you upload must have dimensions of %d x %d pixels or larger.'), XPROFILE_CROPPING_CANVAS_MAX, XPROFILE_CROPPING_CANVAS_MAX );
 					}
 					
-					if ( !$canvas = core_resize_avatar($original) ) {
+					if ( !$canvas = bp_core_resize_avatar($original) ) {
 						$avatar_error = true;
 						$avatar_error_msg = __('Could not create thumbnail, try another photo.');
 					}
@@ -348,10 +348,10 @@ function xprofile_on_activate( $blog_id = null, $user_id = null ) {
 		
 		// Render the cropper UI
 		$action = PROTOCOL . get_usermeta( $user_id, 'source_domain' ) . '/wp-activate.php?key=' . $_GET['key'] . '&amp;cropped=true';
-		core_render_avatar_cropper($original, $resized, $action, $user_id);
+		bp_core_render_avatar_cropper($original, $resized, $action, $user_id);
 		
-		//$result = core_avatar_cropstore( $image, $image, $v1_x, $v1_y, XPROFILE_AVATAR_V1_W, XPROFILE_AVATAR_V1_H, $v2_x, $v2_y, XPROFILE_AVATAR_V2_W, XPROFILE_AVATAR_V2_H, true );
-		//core_avatar_save( $result, $user_id, $upload_dir );
+		//$result = bp_core_avatar_cropstore( $image, $image, $v1_x, $v1_y, XPROFILE_AVATAR_V1_W, XPROFILE_AVATAR_V1_H, $v2_x, $v2_y, XPROFILE_AVATAR_V2_W, XPROFILE_AVATAR_V2_H, true );
+		//bp_core_avatar_save( $result, $user_id, $upload_dir );
 	}
 	
 }
@@ -369,9 +369,9 @@ function xprofile_catch_activate_crop() {
 		$user_id = xprofile_get_user_by_key($_GET['key']);
 
 		if ( $user_id && isset($_POST['orig']) && isset($_POST['canvas']) ) {
-			core_check_crop( $_POST['orig'], $_POST['canvas'] );
-			$result = core_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'] );
-			core_avatar_save($result, $user_id);
+			bp_core_check_crop( $_POST['orig'], $_POST['canvas'] );
+			$result = bp_core_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'] );
+			bp_core_avatar_save($result, $user_id);
 		}
 		
 		if ( VHOST == 'yes' ) {
@@ -409,7 +409,7 @@ function xprofile_add_jquery() {
 		echo '<script type="text/javascript" src="' . get_option('home') . '/wp-includes/js/jquery/jquery.js"></script>';
 	}
 	
-	core_add_cropper_js();
+	bp_core_add_cropper_js();
 }
 add_action( 'wp_head', 'xprofile_add_jquery' );
 

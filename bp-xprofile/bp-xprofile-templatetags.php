@@ -213,17 +213,17 @@ function bp_the_profile_field_value() {
 
 function bp_the_avatar() {
 	global $bp;
-	echo core_get_avatar( $bp['current_userid'], 2 );
+	echo bp_core_get_avatar( $bp['current_userid'], 2 );
 }
 
 function bp_the_avatar_thumbnail() {
 	global $bp;
-	echo core_get_avatar( $bp['current_userid'], 1 );
+	echo bp_core_get_avatar( $bp['current_userid'], 1 );
 }
 
 function bp_loggedinuser_avatar_thumbnail() {
 	global $bp;
-	echo core_get_avatar( $bp['loggedin_userid'], 1 );
+	echo bp_core_get_avatar( $bp['loggedin_userid'], 1 );
 }
 
 function bp_user_fullname($user_id = false, $echo = true) {
@@ -303,7 +303,7 @@ function bp_edit_profile_form() {
 function bp_avatar_upload_form() {
 	global $bp;
 	 
-	core_avatar_admin(null, $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/change-avatar/');
+	bp_core_avatar_admin(null, $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/change-avatar/');
 }
 
 function bp_profile_last_updated_date( $user_id = false, $echo = true ) {

@@ -122,7 +122,7 @@ function friends_setup_nav() {
 					'link'      => $bp['loggedin_domain'] . $bp['friends']['slug'] . '/invite-friend' )
 			);		
 		} else {
-			$bp['bp_options_avatar'] = core_get_avatar( $bp['current_userid'], 1 );
+			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
 			$bp['bp_options_title'] = bp_user_fullname( $bp['current_userid'], false ); 
 		}
 	}
@@ -158,7 +158,7 @@ function friends_catch_action() {
 						$bp['message'] = __('Friendship could not be accepted');
 						$bp['message_type'] = 'error';					
 					}
-					add_action( 'template_notices', 'bp_render_notice' );
+					add_action( 'template_notices', 'bp_core_render_notice' );
 				} else if ( isset($bp['action_variables']) && in_array( 'reject', $bp['action_variables'] ) && is_numeric($bp['action_variables'][1]) ) {
 					if ( BP_Friends_Friendship::reject( $bp['action_variables'][1] ) ) {
 						$bp['message'] = __('Friendship rejected');
@@ -167,7 +167,7 @@ function friends_catch_action() {
 						$bp['message'] = __('Friendship could not be rejected');
 						$bp['message_type'] = 'error';				
 					}
-					add_action( 'template_notices', 'bp_render_notice' );
+					add_action( 'template_notices', 'bp_core_render_notice' );
 				}
 				bp_catch_uri( 'friends/requests' );
 			break; 

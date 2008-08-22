@@ -1,8 +1,12 @@
 <?php
 
+/* Define the protocol to be used, change to https:// if on secure server. */
 define( 'PROTOCOL', 'http://' );
+
+/* Define the current version number for checking if DB tables are up to date. */
 define( 'BP_CORE_VERSION', '0.2.3' );
 
+/* Require all needed files */
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-catchuri.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-classes.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-cssjs.php' );
@@ -11,12 +15,14 @@ require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-settingstab.php' 
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-avatars.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-templatetags.php' );
 
+/* If disable blog tab option is set, don't combine blog tabs by skipping blogtab file */
 if ( !get_site_option('bp_disable_blog_tab') ) {
 	include_once(ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-blogtab.php');
 }
 
-if ( isset($_POST['submit']) && $_POST['save_admin_settings'] ) {
-	save_admin_settings();
+/* If admin settings have been posted, redirect to correct function to save settings */
+if ( isset($_POST['submit']) && $_POST['save_admin_settings'] && is_site_admin() ) {
+	bp_core_save_admin_settings();
 }
 
 /**
@@ -25,11 +31,11 @@ if ( isset($_POST['submit']) && $_POST['save_admin_settings'] ) {
  * Sets up default global BuddyPress configuration settings and stores
  * them in a $bp variable.
  *
- * @package BuddyPress
- * @uses $current_user A WordPress global containing current user information
- * @uses $current_component Which is set up in /bp-core/bp-core-catch-uri.php
- * @uses $current_action Which is set up in /bp-core/bp-core-catch-uri.php
- * @uses $action_variables Which is set up in /bp-core/bp-core-catch-uri.php
+ * @package BuddyPress Core Core
+ * @global $current_user A WordPress global containing current user information
+ * @global $current_component Which is set up in /bp-core/bp-core-catch-uri.php
+ * @global $current_action Which is set up in /bp-core/bp-core-catch-uri.php
+ * @global $action_variables Which is set up in /bp-core/bp-core-catch-uri.php
  * @uses bp_core_get_loggedin_domain() Returns the domain for the logged in user
  * @uses bp_core_get_current_domain() Returns the domain for the current user being viewed
  * @uses bp_core_get_current_userid() Returns the user id for the current user being viewed
@@ -77,10 +83,10 @@ function bp_core_setup_globals() {
 		/* Sets up container used for the avatar of the current component being viewed. Rendered by bp_get_options_avatar() */
 		'bp_options_avatar'	=> '',
 		
-		/* Sets up container for callback messages rendered by bp_render_notice() */
+		/* Sets up container for callback messages rendered by bp_core_render_notice() */
 		'message'			=> '',
 		
-		/* Sets up container for callback message type rendered by bp_render_notice() */
+		/* Sets up container for callback message type rendered by bp_core_render_notice() */
 		'message_type'		=> '' // error/success
 	);
 }
@@ -95,9 +101,9 @@ add_action( 'admin_menu', 'bp_core_setup_globals' );
  * $bp['bp_users_nav'] represents the sub navigation when viewing a users
  * profile other than that of the current logged in user.
  * 
- * @package BuddyPress
- * @uses $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @uses bp_is_blog() Checks to see current page is a blog page eg: /blog/ or /archives/2008/09/01/
+ * @package BuddyPress Core
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @uses bp_core_is_blog() Checks to see current page is a blog page eg: /blog/ or /archives/2008/09/01/
  * @uses bp_is_home() Checks to see if the current user being viewed is the logged in user
  */
 function bp_core_setup_nav() {
@@ -125,7 +131,7 @@ function bp_core_setup_nav() {
 			$bp['current_component'] = 'blog';
 		}
 	/* If we are on a blog specific page, always set the current component to Blog */
-	} else if ( bp_is_blog() ) {
+	} else if ( bp_core_is_blog() ) {
 		$bp['current_component'] = 'blog';
 	}
 	
@@ -145,7 +151,7 @@ function bp_core_setup_nav() {
 			}
 		} else {
 			/* If we are not viewing the logged in user, set up the current users avatar and name */
-			$bp['bp_options_avatar'] = core_get_avatar( $bp['current_userid'], 1 );
+			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
 			$bp['bp_options_title'] = bp_user_fullname( $bp['current_userid'], false ); 
 		}
 	}
@@ -158,9 +164,9 @@ add_action( 'wp', 'bp_core_setup_nav', 2 );
  * Returns the domain for the user that is currently logged in.
  * eg: http://andy.domain.com/ or http://domain.com/andy/
  * 
- * @package BuddyPress
- * @uses $current_user WordPress global variable containing current logged in user information
- * @uses bp_is_blog() Checks to see current page is a blog page eg: /blog/ or /archives/2008/09/01/
+ * @package BuddyPress Core
+ * @global $current_user WordPress global variable containing current logged in user information
+ * @uses bp_core_is_blog() Checks to see current page is a blog page eg: /blog/ or /archives/2008/09/01/
  * @uses bp_is_home() Checks to see if the current user being viewed is the logged in user
  */
 function bp_core_get_loggedin_domain() {
@@ -181,9 +187,10 @@ function bp_core_get_loggedin_domain() {
  * Returns the domain for the user that is currently being viewed.
  * eg: http://andy.domain.com/ or http://domain.com/andy/
  * 
- * @package BuddyPress
- * @uses $current_blog WordPress global variable containing information for the current blog being viewed.
+ * @package BuddyPress Core
+ * @global $current_blog WordPress global variable containing information for the current blog being viewed.
  * @uses get_bloginfo() WordPress function to return the value of a blog setting based on param passed
+ * @return $current_domain The domain for the user that is currently being viewed.
  */
 function bp_core_get_current_domain() {
 	global $current_blog;
@@ -197,6 +204,17 @@ function bp_core_get_current_domain() {
 	return $current_domain;
 }
 
+/**
+ * bp_core_get_current_userid()
+ *
+ * Returns the user id for the user that is currently being viewed.
+ * eg: http://andy.domain.com/ or http://domain.com/andy/
+ * 
+ * @package BuddyPress Core
+ * @uses bp_core_get_primary_username() Returns the username based on http:// [username] .site.com OR http://site.com/ [username]
+ * @uses bp_core_get_userid() Returns the user id for the username given.
+ * @return $current_userid The user id for the user that is currently being viewed.
+ */
 function bp_core_get_current_userid() {
 	$siteuser = bp_core_get_primary_username();
 	$current_userid = bp_core_get_userid($siteuser);
@@ -204,6 +222,15 @@ function bp_core_get_current_userid() {
 	return $current_userid;
 }
 
+/**
+ * bp_core_get_primary_username()
+ *
+ * Returns the username based on http:// [username] .site.com OR http://site.com/ [username]
+ * 
+ * @package BuddyPress Core
+ * @global $current_blog WordPress global containing information and settings for the current blog
+ * @return $siteuser Username for current blog or user home.
+ */
 function bp_core_get_primary_username() {
 	global $current_blog;
 	
@@ -217,23 +244,51 @@ function bp_core_get_primary_username() {
 	return $siteuser;
 }
 
-function start_buffer() {
+/**
+ * bp_core_start_buffer()
+ *
+ * Start the output buffer to replace content not easily accessible.
+ * 
+ * @package BuddyPress Core
+ */
+function bp_core_start_buffer() {
 	ob_start();
-	add_action( 'dashmenu', 'stop_buffer' );
+	add_action( 'dashmenu', 'bp_core_stop_buffer' );
 } 
-add_action( 'admin_menu', 'start_buffer' );
+add_action( 'admin_menu', 'bp_core_start_buffer' );
 
-function stop_buffer() {
+/**
+ * bp_core_stop_buffer()
+ *
+ * Stop the output buffer to replace content not easily accessible.
+ * 
+ * @package BuddyPress Core
+ */
+function bp_core_stop_buffer() {
 	$contents = ob_get_contents();
 	ob_end_clean();
-	buddypress_blog_switcher( $contents );
+	bp_core__blog_switcher( $contents );
 }
 
-function buddypress_blog_switcher( $contents ) {
+/**
+ * bp_core_blog_switcher()
+ *
+ * Replaces the standard blog switcher included in the WordPress core so that
+ * BuddyPress specific icons can be used in tabs and the order can be changed.
+ * An output buffer is used, as the function cannot be overridden or replaced
+ * any other way.
+ * 
+ * @package BuddyPress Core
+ * @param $contents str The contents of the buffer.
+ * @global $current_user obj WordPress global containing information and settings for the current user
+ * @global $blog_id int WordPress global containing the current blog id
+ * @return $siteuser Username for current blog or user home.
+ */
+function bp_core_blog_switcher( $contents ) {
 	global $current_user, $blog_id; // current blog
 	
-	// This code is duplicated from the MU core so it can
-	// be modified for BuddyPress.
+	/* Code duplicated from wp-admin/includes/mu.php */
+	/* function blogswitch_markup() */
 	
 	$filter = preg_split( '/\<ul id=\"dashmenu\"\>[\S\s]/', $contents );
 	echo $filter[0];
@@ -322,13 +377,29 @@ function buddypress_blog_switcher( $contents ) {
 	endif; // counts
 }
 
-function add_settings_tab() {
-	add_submenu_page( 'wpmu-admin.php', "BuddyPress", "BuddyPress", 1, basename(__FILE__), "core_admin_settings" );
+/**
+ * bp_core_add_settings_tab()
+ *
+ * Adds a new submenu page under the Admin Settings tab for BuddyPress specific settings.
+ * 
+ * @package BuddyPress Core
+ * @param $add_submenu_pag str The contents of the buffer.
+ * @uses add_submenu_page() WordPress function for adding submenu pages to existing admin area menus.
+ */
+function bp_core_add_settings_tab() {
+	add_submenu_page( 'wpmu-admin.php', "BuddyPress", "BuddyPress", 1, basename(__FILE__), "bp_core_admin_settings" );
 }
-add_action( 'admin_menu', 'add_settings_tab' );
+add_action( 'admin_menu', 'bp_core_add_settings_tab' );
 
-
-function core_admin_settings() {
+/**
+ * bp_core_admin_settings()
+ *
+ * Renders the admin area settings for BuddyPress
+ * 
+ * @package BuddyPress Core
+ * @uses get_site_option() Fetches sitemeta based on setting name passed
+ */
+function bp_core_admin_settings() {
 	if ( get_site_option('bp_disable_blog_tab') ) {
 		$blog_tab_checked = ' checked="checked"';
 	}
@@ -369,7 +440,21 @@ function core_admin_settings() {
 <?php
 }
 
-function save_admin_settings() {
+/**
+ * bp_core_save_admin_settings()
+ *
+ * Saves the administration settings once the admin settings form has been posted.
+ * Checks first to see if the current user is a site administrator.
+ * 
+ * @package BuddyPress Core
+ * @param $contents str The contents of the buffer.
+ * @uses is_site_admin() WordPress function to check if current user has site admin privileges.
+ * @uses add_site_option() WordPress function to add or update sitemeta based on passed meta name.
+ */
+function bp_core_save_admin_settings() {
+	if ( !is_site_admin() )
+		return false;
+
 	if ( !isset($_POST['disable_blog_tab']) ) {
 		$_POST['disable_blog_tab'] = 0;
 	}
@@ -433,27 +518,60 @@ function save_admin_settings() {
 // 	return $dash;	
 // }
 
+/**
+ * bp_core_get_userid()
+ *
+ * Returns the user_id for a user based on their username.
+ * 
+ * @package BuddyPress Core
+ * @param $username str Username to check.
+ * @global $wpdb WordPress DB access object.
+ * @return false on no match
+ * @return int the user ID of the matched user.
+ */
 function bp_core_get_userid( $username ) {
 	global $wpdb;
+	
 	$sql = $wpdb->prepare( "SELECT ID FROM " . $wpdb->base_prefix . "users WHERE user_login = %s", $username );
 	return $wpdb->get_var($sql);
 }
 
+/**
+ * bp_core_get_username()
+ *
+ * Returns the username for a user based on their user id.
+ * 
+ * @package BuddyPress Core
+ * @param $uid int User ID to check.
+ * @global $userdata WordPress user data for the current logged in user.
+ * @uses get_userdata() WordPress function to fetch the userdata for a user ID
+ * @return false on no match
+ * @return str the username of the matched user.
+ */
 function bp_core_get_username( $uid ) {
 	global $userdata;
 	
 	if ( $uid == $userdata->ID )
 		return 'You';
 	
-	$ud = get_userdata($uid);
+	if ( !$ud = get_userdata($uid) )
+		return false;
+		
 	return $ud->user_login;	
 }
 
-function bp_core_get_blogdetails( $domain ) {
-	global $wpdb;
-	return $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s", $domain) );
-}
-
+/**
+ * bp_core_get_userurl()
+ *
+ * Returns the URL with no HTML markup for a user based on their user id.
+ * 
+ * @package BuddyPress Core
+ * @param $uid int User ID to check.
+ * @global $userdata WordPress user data for the current logged in user.
+ * @uses get_userdata() WordPress function to fetch the userdata for a user ID
+ * @return false on no match
+ * @return str The URL for the user with no HTML formatting.
+ */
 function bp_core_get_userurl( $uid ) {
 	global $userdata;
 	
@@ -466,21 +584,56 @@ function bp_core_get_userurl( $uid ) {
 		
 	$url = PROTOCOL . $ud->source_domain . '/' . $ud->path;
 	
-	if ( $url == PROTOCOL . '/' )
+	if ( !$ud )
 		return false;
 	
 	return $url;
 }
 
+/**
+ * bp_core_get_user_email()
+ *
+ * Returns the email address for the user based on user ID
+ * 
+ * @package BuddyPress Core
+ * @param $uid int User ID to check.
+ * @uses get_userdata() WordPress function to fetch the userdata for a user ID
+ * @return false on no match
+ * @return str The email for the matched user.
+ */
 function bp_core_get_user_email( $uid ) {
 	$ud = get_userdata($uid);
 	return $ud->user_email;
 }
 
+/**
+ * bp_core_get_userlink()
+ *
+ * Returns a HTML formatted link for a user with the user's full name as the link text.
+ * eg: <a href="http://andy.domain.com/">Andy Peatling</a>
+ * Optional parameters will return just the name, or just the URL, or disable "You" text when
+ * user matches the logged in user. 
+ *
+ * [NOTES: This function needs to be cleaned up or split into separate functions]
+ * 
+ * @package BuddyPress Core
+ * @param $uid int User ID to check.
+ * @param $no_anchor bool Disable URL and HTML and just return full name. Default false.
+ * @param $just_link bool Disable full name and HTML and just return the URL text. Default false.
+ * @param $no_you bool Disable replacing full name with "You" when logged in user is equal to the current user. Default false.
+ * @global $userdata WordPress user data for the current logged in user.
+ * @uses get_userdata() WordPress function to fetch the userdata for a user ID
+ * @uses bp_user_fullname() Returns the full name for a user based on user ID.
+ * @return false on no match
+ * @return str The link text based on passed parameters.
+ */
 function bp_core_get_userlink( $uid, $no_anchor = false, $just_link = false, $no_you = false ) {
 	global $userdata;
 	
 	$ud = get_userdata($uid);
+	
+	if ( !$ud )
+		return false;
 
 	if ( function_exists('bp_user_fullname') )
 		$display_name = bp_user_fullname($uid, false);
@@ -504,40 +657,18 @@ function bp_core_get_userlink( $uid, $no_anchor = false, $just_link = false, $no
 	return '<a href="' . PROTOCOL . $ud->source_domain . '/' . $ud->path . '">' . $display_name . '</a>';	
 }
 
-function bp_core_clean( $dirty ) {
-	if ( get_magic_quotes_gpc() ) {
-		$clean = mysql_real_escape_string( stripslashes( $dirty ) );
-	} else {
-		$clean = mysql_real_escape_string( $dirty );
-	}
-	
-	return $clean;
-}
-
-function bp_core_truncate( $text, $numb ) {
-	$text = html_entity_decode( $text, ENT_QUOTES );
-	
-	if ( strlen($text) > $numb ) {
-		$text = substr( $text, 0, $numb );
-		$text = substr( $text, 0, strrpos( $text, " " ) );
-		$etc  = " ..."; 
-		$text = $text . $etc;
-	}
-	
-	$text = htmlentities( $text, ENT_QUOTES ); 
-	
-	return $text;
-}
-
-function bp_core_validate( $num ) {	
-	if( !is_numeric($num) ) {
-		return false;
-	}
-	
-	return true;
-}
-
-function bp_format_time( $time, $just_date = false ) {
+/**
+ * bp_core_get_user_email()
+ *
+ * Returns the email address for the user based on user ID
+ * 
+ * @package BuddyPress Core
+ * @param $uid int User ID to check.
+ * @uses get_userdata() WordPress function to fetch the userdata for a user ID
+ * @return false on no match
+ * @return str The email for the matched user.
+ */
+function bp_core_format_time( $time, $just_date = false ) {
 	$date = date( "F j, Y ", $time );
 	
 	if ( !$just_date ) {
@@ -547,15 +678,16 @@ function bp_format_time( $time, $just_date = false ) {
 	return $date;
 }
 
-function bp_endkey( $array ) {
-	end( $array );
-	return key( $array );
-}
-
-function bp_get_homeurl() {
-	return get_blogaddress_by_id( 0 );
-}
-
+/**
+ * bp_create_excerpt()
+ *
+ * Fakes an excerpt on any content. Will not truncate words.
+ * 
+ * @package BuddyPress Core
+ * @param $text str The text to create the excerpt from
+ * @uses $excerpt_length The maximum length in characters of the excerpt.
+ * @return str The excerpt text
+ */
 function bp_create_excerpt( $text, $excerpt_length = 55 ) { // Fakes an excerpt if needed
 	$text = str_replace(']]>', ']]&gt;', $text);
 	$text = strip_tags($text);
@@ -569,6 +701,16 @@ function bp_create_excerpt( $text, $excerpt_length = 55 ) { // Fakes an excerpt 
 	return stripslashes($text);
 }
 
+/**
+ * bp_is_serialized()
+ *
+ * Checks to see if the data passed has been serialized.
+ * 
+ * @package BuddyPress Core
+ * @param $data str The data that will be checked
+ * @return bool false if the data is not serialized
+ * @return bool true if the data is serialized
+ */
 function bp_is_serialized( $data ) {
    if ( trim($data) == "" ) {
       return false;
@@ -581,13 +723,23 @@ function bp_is_serialized( $data ) {
    return false;
 }
 
+/**
+ * bp_upload_dir()
+ *
+ * This function will create an upload directory for a new user.
+ * This is directly copied from WordPress so that the code can be
+ * accessed on user activation *before* 'upload_path' is placed
+ * into the options table for the user.
+ *
+ * FIX: A fix for this would be to add a hook for 'activate_footer'
+ * in wp-activate.php
+ * 
+ * @package BuddyPress Core
+ * @param $time str? The time so that upload folders can be created for month and day.
+ * @param $blog_id int The ID of the blog (or user in BP) to create the upload dir for.
+ * @return array Containing path, url, subdirectory and error message (if applicable).
+ */
 function bp_upload_dir( $time = NULL, $blog_id ) {
-	// copied from wordpress, need to be able to create a users
-	// upload dir on activation, before 'upload_path' is
-	// placed into options table.
-	// Fix for this would be adding a hook for 'activate_footer'
-	// in wp-activate.php
-
 	$siteurl = get_option( 'siteurl' );
 	$upload_path = 'wp-content/blogs.dir/' . $blog_id . '/files';
 	if ( trim($upload_path) === '' )
@@ -628,25 +780,50 @@ function bp_upload_dir( $time = NULL, $blog_id ) {
 	return apply_filters( 'upload_dir', $uploads );
 }
 
-function bp_get_page_id($page_title, $output = object) {
+/**
+ * bp_get_page_id()
+ *
+ * This function will return the ID of a page based on the page title.
+ * 
+ * @package BuddyPress Core
+ * @param $page_title str Title of the page
+ * @global $wpdb WordPress DB access object
+ * @return int The page ID
+ * @return bool false on no match.
+ */
+function bp_get_page_id($page_title) {
 	global $wpdb;
-	
-	$sql = $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type = 'page'", $page_title);
-	$page = $wpdb->get_var($sql);
-	
-	if ( $page )
-		return $page;
 
-	return null;
+	return $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type = 'page'", $page_title) );
 }
 
-function bp_is_blog() {
-	global $bp, $wp_query, $cached_page_id;
+/**
+ * bp_core_is_blog()
+ *
+ * Checks to see if the current page is part of the blog.
+ * Some example blog pages:
+ *   - Single post, Archives, Categories, Tags, Pages, Blog Home, Search Results ...
+ * 
+ * @package BuddyPress Core
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global $cached_page_id The page id of the current page if cached
+ * @uses is_tag() WordPress function to check if on tags page
+ * @uses is_category() WordPress function to check if on category page
+ * @uses is_day() WordPress function to check if on day page
+ * @uses is_month() WordPress function to check if on month page
+ * @uses is_year() WordPress function to check if on year page
+ * @uses is_paged() WordPress function to check if on page
+ * @uses is_single() WordPress function to check if on single post page
+ * @return bool true if 
+ * @return bool false on no match.
+ */
+function bp_core_is_blog() {
+	global $bp, $cached_page_id;
 	
 	$blog_page_id = bp_get_page_id('Blog');
 	if ( is_tag() || is_category() || is_day() || is_month() || is_year() || is_paged() || is_single() )
 		return true;
-	if ( isset($cached_page_id) && ($blog_page_id == $cached_page_id ) )
+	if ( isset($cached_page_id) && ( $blog_page_id == $cached_page_id ) )
 		return true;
 	if ( is_page('Blog') )
 		return true;
@@ -656,7 +833,18 @@ function bp_is_blog() {
 	return false;
 }
 
-function bp_render_notice( ) {
+/**
+ * bp_core_render_notice()
+ *
+ * Renders a feedback notice (either error or success message) to the theme template.
+ * The hook action 'template_notices' is used to call this function, it is not called directly.
+ * The message and message type are stored in the $bp global, and are set up right before
+ * the add_action( 'template_notices', 'bp_core_render_notice' ); is called where needed. 
+ * 
+ * @package BuddyPress Core
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ */
+function bp_core_render_notice() {
 	global $bp;
 
 	if ( $bp['message'] != '' ) {
@@ -669,7 +857,23 @@ function bp_render_notice( ) {
 	}
 }
 
-function bp_time_since( $older_date, $newer_date = false ) {
+/**
+ * bp_core_time_since()
+ *
+ * Based on function created by Dunstan Orchard - http://1976design.com
+ * 
+ * This function will return an English representation of the time elapsed
+ * since a given date.
+ * eg: 2 hours and 50 minutes
+ * eg: 4 days
+ * eg: 4 weeks and 6 days
+ * 
+ * @package BuddyPress Core
+ * @param $older_date int Unix timestamp of date you want to calculate the time since for
+ * @param $newer_date int Unix timestamp of date to compare older date to. Default false (current time).
+ * @return str The time since.
+ */
+function bp_core_time_since( $older_date, $newer_date = false ) {
 	// array of time period chunks
 	$chunks = array(
 	array( 60 * 60 * 24 * 365 , 'year' ),
@@ -680,38 +884,40 @@ function bp_time_since( $older_date, $newer_date = false ) {
 	array( 60 , 'minute' ),
 	);
 
-	// $newer_date will equal false if we want to know the time elapsed between a date and the current time
-	// $newer_date will have a value if we want to work out time elapsed between two known dates
+	/* $newer_date will equal false if we want to know the time elapsed between a date and the current time */
+	/* $newer_date will have a value if we want to work out time elapsed between two known dates */
 	$newer_date = ( $newer_date == false ) ? ( time() + ( 60*60*0 ) ) : $newer_date;
 
-	// difference in seconds
+	/* Difference in seconds */
 	$since = $newer_date - $older_date;
 
-	// we only want to output two chunks of time here, eg:
-	// x years, xx months
-	// x days, xx hours
-	// so there's only two bits of calculation below:
+	/**
+	 * We only want to output two chunks of time here, eg:
+	 * x years, xx months
+	 * x days, xx hours
+	 * so there's only two bits of calculation below:
+	 */
 
-	// step one: the first chunk
+	/* Step one: the first chunk */
 	for ( $i = 0, $j = count($chunks); $i < $j; $i++) {
 		$seconds = $chunks[$i][0];
 		$name = $chunks[$i][1];
 
-		// finding the biggest chunk (if the chunk fits, break)
+		/* Finding the biggest chunk (if the chunk fits, break) */
 		if ( ( $count = floor($since / $seconds) ) != 0 )
 			break;
 	}
 
-	// set output var
+	/* Set output var */
 	$output = ( $count == 1 ) ? '1 '. $name : "$count {$name}s";
 
-	// step two: the second chunk
+	/* Step two: the second chunk */
 	if ( $i + 1 < $j ) {
 		$seconds2 = $chunks[$i + 1][0];
 		$name2 = $chunks[$i + 1][1];
 	
 		if ( ( $count2 = floor( ( $since - ( $seconds * $count ) ) / $seconds2 ) ) != 0 ) {
-			// add to output var
+			/* Add to output var */
 			$output .= ($count2 == 1) ? ', 1 '.$name2 : ", $count2 {$name2}s";
 		}
 	}
@@ -719,6 +925,17 @@ function bp_time_since( $older_date, $newer_date = false ) {
 	return $output;
 }
 
+/**
+ * bp_core_record_activity()
+ *
+ * Record user activity to the database. Many functions use a "last active" feature to
+ * show the length of time since the user was last active.
+ * This function will update that time as a usermeta setting for the user.
+ * 
+ * @package BuddyPress Core
+ * @global $userdata WordPress user data for the current logged in user.
+ * @uses update_usermeta() WordPress function to update user metadata in the usermeta table.
+ */
 function bp_core_record_activity() {
 	global $userdata;
 	

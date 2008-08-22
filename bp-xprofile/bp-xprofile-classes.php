@@ -21,9 +21,7 @@ Class BP_XProfile_Group {
 		global $bp, $wpdb;
 
 		if ( $id ) {
-			if ( bp_core_validate($id) ) {
-				$this->populate($id);
-			}
+			$this->populate($id);
 		}
 	}
 	

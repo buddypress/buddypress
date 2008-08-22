@@ -239,7 +239,7 @@ function bp_friend_time_since_requested() {
 	global $friends_template;
 	
 	if ( $friends_template->friendship->date_created != "0000-00-00 00:00:00" ) {
-		echo __('requested') . ' ' . bp_time_since( strtotime( $friends_template->friendship->date_created ) ) . ' ' . __('ago');
+		echo __('requested') . ' ' . bp_core_time_since( strtotime( $friends_template->friendship->date_created ) ) . ' ' . __('ago');
 	}
 }
 

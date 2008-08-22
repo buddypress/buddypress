@@ -441,7 +441,7 @@ function bp_group_list_members() {
 		?><li id="uid-<?php echo $user->id ?>">
 			<?php echo $member->user->avatar ?>
 			<h4><?php echo $member->user->user_link ?> <?php if ( $member->user_title ) { ?><?php echo '<span class="small">- ' . $member->user_title . '</span>' ?><?php } ?></h4>
-			<span class="activity">joined <?php echo bp_time_since( strtotime($member->date_modified) ) ?> ago</span>
+			<span class="activity">joined <?php echo bp_core_time_since( strtotime($member->date_modified) ) ?> ago</span>
 	<?php if ( bp_exists('friends') && function_exists('bp_add_friend_button') ) { ?>
 			<div class="action">
 				<?php bp_add_friend_button( $member->user->id ) ?>
