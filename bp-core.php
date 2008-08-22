@@ -267,7 +267,7 @@ add_action( 'admin_menu', 'bp_core_start_buffer' );
 function bp_core_stop_buffer() {
 	$contents = ob_get_contents();
 	ob_end_clean();
-	bp_core__blog_switcher( $contents );
+	bp_core_blog_switcher( $contents );
 }
 
 /**
