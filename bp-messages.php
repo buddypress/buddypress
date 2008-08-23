@@ -166,7 +166,7 @@ function messages_setup_nav() {
 			}
 			
 		} else {
-			$bp_options_avatar = core_get_avatar( $bp['current_userid'], 1 );
+			$bp_options_avatar = bp_core_get_avatar( $bp['current_userid'], 1 );
 			$bp['bp_options_title'] = bp_user_fullname( $bp['current_userid'], false ); 
 		}
 	}
