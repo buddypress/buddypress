@@ -1,7 +1,7 @@
 /*  
-Theme Name: BuddyPress Profile Default
+Theme Name: BuddyPress Home Theme
 Theme URI: http://buddypress.com/
-Description: The default profile theme for BuddyPress
+Description: The theme for the home of an install
 Version: 0.1
 Author: Andy Peatling
 Author URI: http://blazenewmedia.com/
@@ -220,60 +220,62 @@ div#sidebar {
 			border-bottom: 1px solid #ccc;
 			padding: 0 0 0.2em 0;
 		}
-/** TEMP **/
+
+/** SIGNUP FIELDS CSS **/
 
 table#extraFields td label, 
-			div.radio span, 
-			div.checkbox span {
-				font-weight: bold;
-				display: block;
-				float: left;
-				width: 115px;
-			}
-			
-			table#extraFields td input {
-				font-size: 24px;
-				width: 280px;
-			}
-			
-			table#extraFields td textarea {
-				width: 280px;
-				height: 120px;
-			}
-			
-			table#extraFields td select {
-				width: 280px;
-			}
-			
-			table#extraFields td div.datefield select {
-				width: auto;
-			}
-			
-			table#extraFields td div.radio label,
-			table#extraFields td div.checkbox label {
-				display: inline;
-				font-weight: normal;
-				float: none;
-			}
-			
-			table#extraFields td div.radio input,
-			table#extraFields td div.checkbox input {
-				width: auto;
-			}
-			
-			span.desc {
-				margin-left: 115px;
-				font-weight: normal;
-			}
-			
-			div.error {
-				font-weight: bold;
-				margin: 10px 0 10px 113px;
-			}
+div.radio span.signup-label, 
+div.checkbox span.signup-label {
+	font-weight: bold;
+	margin-top: 25px;
+	margin-bottom: 10px;
+	font-size: 1.2em;
+	display: block;
+}
 
+table#extraFields td input {
+	font-size: 24px;
+	width: 100%;
+}
 
-.signup-field { padding: 0.6em 0 !important;}
-.signup-field label { padding: 1em 2em !important;}
-.signup-field input[type='text'], .signup-field textarea { width: 55% !important;}
-.signup-description { display: block; color: #888; font-size: 10px; padding: 0.5em 0 0 16.3em;}
-.error { padding-left: 4.2em !important;}
+table#extraFields td textarea {
+	width: 80%;
+	height: 120px;
+}
+
+table#extraFields td select {
+	width: 280px;
+	font-size: 1.4em;
+}
+
+table#extraFields td div.datefield select {
+	width: auto;
+}
+
+table#extraFields td div.radio label,
+table#extraFields td div.checkbox label {
+	display: inline;
+	font-weight: normal;
+	float: none;
+	padding: 0 !important;
+	margin-right: 15px;
+}
+
+table#extraFields td div.radio input,
+table#extraFields td div.checkbox input {
+	width: auto;
+}
+
+span.desc {
+	margin-left: 115px;
+	font-weight: normal;
+}
+
+div.error {
+	font-weight: bold;
+}
+
+span.signup-description {
+	display: block;
+	margin: 5px 0 0 0;
+}

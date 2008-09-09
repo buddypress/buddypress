@@ -17,7 +17,7 @@ function groups_add_js() {
 	}
 }
 add_action( 'wp_head', 'groups_add_js' );
-add_action( 'admin_menu', 'groups_add_js' );
+add_action( 'admin_head', 'groups_add_js' );
 
 /**************************************************************************
  add_css()

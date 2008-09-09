@@ -98,7 +98,15 @@ class BP_Groups_Template {
 }
 
 function bp_has_groups() {
-	global $groups_template;
+	global $groups_template, $bp;
+	global $is_single_group;
+		
+	if ( !$is_single_group ) {
+		$groups_template = new BP_Groups_Template( $bp['current_userid'] );
+	} else {
+		$groups_template = new BP_Groups_Template( $bp['current_userid'], $bp['current_action'] );		
+	}
+	
 	return $groups_template->has_groups();
 }
 
@@ -380,7 +388,7 @@ function bp_group_create_form() {
 					if ( !empty($_FILES) || ( isset($_POST['orig']) && isset($_POST['canvas']) ) ) {
 						groups_avatar_upload($_FILES);
 					} else {
-						core_render_avatar_upload_form( '', true );		
+						bp_core_render_avatar_upload_form( '', true );		
 					}
 					?>
 					

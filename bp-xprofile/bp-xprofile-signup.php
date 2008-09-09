@@ -11,7 +11,7 @@ function xprofile_add_signup_fields() {
 
 	/* Fetch the fields needed for the signup form */
 	$fields = BP_XProfile_Field::get_signup_fields();
-	
+
 	if ( $fields ) {
 	?>
 	<table border="0" id="extraFields" width="100%">
@@ -100,8 +100,9 @@ add_action( 'signup_extra_fields', 'xprofile_add_signup_fields' );
  **************************************************************************/
 
 function xprofile_validate_signup_fields() {
-	global $bp_xprofile_callback, $avatar_error, $avatar_error_msg;
-	
+	global $bp_xprofile_callback, $avatar_error, $avatar_error_msg, $has_errors;
+	global $canvas, $original;
+
 	if ( isset( $_POST['validate_custom'] ) ) {
 		// form has been submitted, let's validate the form
 		// using the built in Wordpress functions and our own.
@@ -164,7 +165,7 @@ function xprofile_validate_signup_fields() {
 					
 					$prev_field_id = $field->id;
 				}
-				
+
 				// validate the avatar upload if there is one.
 				$avatar_error = false;
 				
@@ -203,51 +204,62 @@ function xprofile_validate_signup_fields() {
 					
 				}
 				
-				$result = wpmu_validate_user_signup( $_POST['user_name'], $_POST['user_email'] );
-				extract($result);
+				if ( !is_user_logged_in() ) {
+					$result = wpmu_validate_user_signup( $_POST['user_name'], $_POST['user_email'] );
+					extract($result);
 				
-				if ( $errors->get_error_code() || $has_errors || $avatar_error ) {
-					signup_user($user_name, $user_email, $errors);
+					if ( $errors->get_error_code() || $has_errors || $avatar_error ) {
+						signup_user($user_name, $user_email, $errors);
 					
-					echo '</div>';
-					get_footer();
-					die;
+						echo '</div>';
+						get_footer();
+						die;
+					}
 				}
 				
-				if ( !$hasErrors ) {
-					$result = wpmu_validate_blog_signup( $_POST['blog_id'], $_POST['blog_title'] );
-					extract($result);
+				if ( !$has_errors ) {
+					if ( !is_user_logged_in() ) {
+						// This is a new user signing up, not an existing user creating a home base.
+						$result = wpmu_validate_blog_signup( $_POST['blog_id'], $_POST['blog_title'] );
+						extract($result);
 
-					if ( $errors->get_error_code() ) {
-						signup_user( $user_name, $user_email, $errors );
-						return;
+						if ( $errors->get_error_code() ) {
+							signup_user( $user_name, $user_email, $errors );
+							return;
+						}
+						
+						$public = (int) $_POST['blog_public'];
+						$meta = array( 'lang_id' => 1, 'public' => $public );
+
+						for ( $i = 0; $i < count($bp_xprofile_callback); $i++ ) {
+							$meta['field_' . $bp_xprofile_callback[$i]['field_id']] .= $bp_xprofile_callback[$i]['value'];
+						}
+
+						$meta['xprofile_field_ids'] = $_POST['xprofile_ids'];
+						$meta['avatar_image_resized'] = $canvas;
+						$meta['avatar_image_original'] = $original;
+
+						$meta = apply_filters( "add_signup_meta", $meta );
+
+						wpmu_signup_blog( $domain, $path, $blog_title, $user_name, $user_email, $meta );
+						confirm_blog_signup( $domain, $path, $blog_title, $user_name, $user_email, $meta );
+
+						echo '</div>';
+						get_footer();
+						die;
+					} else {
+						bp_core_validate_homebase_form_secondary();
 					}
-
-					$public = (int) $_POST['blog_public'];
-					$meta = array( 'lang_id' => 1, 'public' => $public );
-					
-					for ( $i = 0; $i < count($bp_xprofile_callback); $i++ ) {
-						$meta['field_' . $bp_xprofile_callback[$i]['field_id']] .= $bp_xprofile_callback[$i]['value'];
-					}
-					
-					$meta['xprofile_field_ids'] = $_POST['xprofile_ids'];
-					$meta['avatar_image_resized'] = $canvas;
-					$meta['avatar_image_original'] = $original;
-					
-					$meta = apply_filters( "add_signup_meta", $meta );
-
-					wpmu_signup_blog( $domain, $path, $blog_title, $user_name, $user_email, $meta );
-					confirm_blog_signup( $domain, $path, $blog_title, $user_name, $user_email, $meta );
-					
-					echo '</div>';
-					get_footer();
-					die;
 				} else {
-					signup_user( $user_name, $user_email, $errors );
+					if ( !is_user_logged_in() ) {
+						signup_user( $user_name, $user_email, $errors );
 					
-					echo '</div>';
-					get_footer();
-					die;
+						echo '</div>';
+						get_footer();
+						die;
+					} else {
+						bp_core_validate_homebase_form_secondary( $user_name, $user_email, $errors );
+					}
 				}
 
 			} else {
@@ -290,68 +302,76 @@ add_action( 'signup_hidden_fields', 'xprofile_hidden_signup_fields' );
 
 function xprofile_on_activate( $blog_id = null, $user_id = null ) {
 	global $wpdb, $profile_picture_path;
+	
+	/* Only do this if this is a new user, and not a user creating a home base */
+	if ( !is_user_logged_in() ) {
 
-	// Extract signup meta fields to fill out profile
-	$field_ids = get_blog_option( $blog_id, 'xprofile_field_ids' );
-	$field_ids = explode( ",", $field_ids );
+		// Extract signup meta fields to fill out profile
+		$field_ids = get_blog_option( $blog_id, 'xprofile_field_ids' );
+		$field_ids = explode( ",", $field_ids );
 			
-	// Get the new user ID.
-	$sql = "SELECT u.ID from " . $wpdb->base_prefix . "users u, 
-			" . $wpdb->base_prefix . "usermeta um
-			WHERE u.ID = um.user_id
-			AND um.meta_key = 'primary_blog'
-			AND um.meta_value = " . $blog_id;
+		// Get the new user ID.
+		$sql = "SELECT u.ID from " . $wpdb->base_prefix . "users u, 
+				" . $wpdb->base_prefix . "usermeta um
+				WHERE u.ID = um.user_id
+				AND um.meta_key = 'primary_blog'
+				AND um.meta_value = " . $blog_id;
 
-	$user_id = $wpdb->get_var($sql); 
+		$user_id = $wpdb->get_var($sql); 
 
-	// Loop through each bit of profile data and save it to profile.
-	for ( $i = 0; $i < count($field_ids); $i++ ) {
-		$field_value = get_blog_option( $blog_id, 'field_' . $field_ids[$i] );
+		// Loop through each bit of profile data and save it to profile.
+		for ( $i = 0; $i < count($field_ids); $i++ ) {
+			$field_value = get_blog_option( $blog_id, 'field_' . $field_ids[$i] );
 		
-		$field 				 = new BP_XProfile_ProfileData();
-		$field->user_id      = $user_id;
-		$field->value        = $field_value;
-		$field->field_id     = $field_ids[$i];
-		$field->last_updated = time();	
+			$field 				 = new BP_XProfile_ProfileData();
+			$field->user_id      = $user_id;
+			$field->value        = $field_value;
+			$field->field_id     = $field_ids[$i];
+			$field->last_updated = time();	
 
-		$field->save();
-		delete_blog_option( $blog_id, 'field_' . $field_ids[$i] );
-	}
-	delete_blog_option( $blog_id, 'xprofile_field_ids' );
-	
-	// move and set the avatar if one has been provided.
-	$resized = get_blog_option( $blog_id, 'avatar_image_resized' );
-	$original = get_blog_option( $blog_id, 'avatar_image_original' );	
-	
-	if ( $resized && $original ) {
-		$upload_dir = bp_upload_dir(NULL, $blog_id);
-
-		if ( $upload_dir ) {
-			$resized_strip_path = explode( '/', $resized );
-			$original_strip_path = explode( '/', $original );
-
-			$resized_filename = $resized_strip_path[count($resized_strip_path) - 1];
-			$original_filename = $original_strip_path[count($original_strip_path) - 1];
-
-			$resized_new = $upload_dir['path'] . '/' . $resized_filename;
-			$original_new = $upload_dir['path'] . '/' . $original_filename;
-
-			@copy( $resized, $resized_new );
-			@copy( $original, $original_new );
-
-			@unlink($resized);
-			@unlink($original);
-
-			$resized = $resized_new;
-			$original = $original_new;
+			$field->save();
+			delete_blog_option( $blog_id, 'field_' . $field_ids[$i] );
 		}
+		delete_blog_option( $blog_id, 'xprofile_field_ids' );
 		
-		// Render the cropper UI
-		$action = PROTOCOL . get_usermeta( $user_id, 'source_domain' ) . '/wp-activate.php?key=' . $_GET['key'] . '&amp;cropped=true';
-		bp_core_render_avatar_cropper($original, $resized, $action, $user_id);
+		/* Make this blog the "home base" for the new user */
+		update_usermeta( $user_id, 'home_base', $blog_id );
 		
-		//$result = bp_core_avatar_cropstore( $image, $image, $v1_x, $v1_y, XPROFILE_AVATAR_V1_W, XPROFILE_AVATAR_V1_H, $v2_x, $v2_y, XPROFILE_AVATAR_V2_W, XPROFILE_AVATAR_V2_H, true );
-		//bp_core_avatar_save( $result, $user_id, $upload_dir );
+		/* Set the BuddyPress theme as the theme for this blog */
+		$wpdb->set_blog_id($blog_id);		
+		switch_theme( 'buddypress', 'buddypress' );
+		
+		// move and set the avatar if one has been provided.
+		$resized = get_blog_option( $blog_id, 'avatar_image_resized' );
+		$original = get_blog_option( $blog_id, 'avatar_image_original' );	
+	
+		if ( $resized && $original ) {
+			$upload_dir = bp_upload_dir(NULL, $blog_id);
+
+			if ( $upload_dir ) {
+				$resized_strip_path = explode( '/', $resized );
+				$original_strip_path = explode( '/', $original );
+
+				$resized_filename = $resized_strip_path[count($resized_strip_path) - 1];
+				$original_filename = $original_strip_path[count($original_strip_path) - 1];
+
+				$resized_new = $upload_dir['path'] . '/' . $resized_filename;
+				$original_new = $upload_dir['path'] . '/' . $original_filename;
+
+				@copy( $resized, $resized_new );
+				@copy( $original, $original_new );
+
+				@unlink($resized);
+				@unlink($original);
+
+				$resized = $resized_new;
+				$original = $original_new;
+			}
+		
+			// Render the cropper UI
+			$action = get_blog_option( $blog_id, 'siteurl' ) . '/wp-activate.php?key=' . $_GET['key'] . '&amp;cropped=true';
+			bp_core_render_avatar_cropper($original, $resized, $action, $user_id);
+		}
 	}
 	
 }
@@ -363,24 +383,21 @@ function xprofile_catch_activate_crop() {
 		// The user has cropped their avatar after activating account
 		
 		// Confirm that the nonce is valid
-		if ( !isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'slick_avatars') )
-			header('Location:' . get_option('home'));
+		if ( !isset( $_POST['nonce'] ) || !wp_verify_nonce( $_POST['nonce'], 'slick_avatars' ) )
+			wp_redirect( get_option('home') );
 		
 		$user_id = xprofile_get_user_by_key($_GET['key']);
 
-		if ( $user_id && isset($_POST['orig']) && isset($_POST['canvas']) ) {
+		if ( $user_id && isset( $_POST['orig'] ) && isset( $_POST['canvas'] ) ) {
 			bp_core_check_crop( $_POST['orig'], $_POST['canvas'] );
 			$result = bp_core_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'] );
-			bp_core_avatar_save($result, $user_id);
+			bp_core_avatar_save( $result, $user_id );
 		}
 		
-		if ( VHOST == 'yes' ) {
-			$url = PROTOCOL . get_usermeta( $user_id, 'source_domain' ) . '/';
-		} else {
-			$url = PROTOCOL . get_usermeta( $user_id, 'source_domain' ) . '/' . get_usermeta( $user_id, 'nickname' );
-		}
+		$blog_id = get_usermeta( $user_id, 'home_base' );
+		$url = get_blog_option( $blog_id, 'siteurl' );
 		
-		header("Location: $url");
+		wp_redirect( $url );
 	}
 }
 add_action( 'activate_header', 'xprofile_catch_activate_crop' );

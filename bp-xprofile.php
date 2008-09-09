@@ -96,7 +96,7 @@ function xprofile_setup_globals() {
 	);
 }
 add_action( 'wp', 'xprofile_setup_globals', 1 );	
-add_action( 'admin_menu', 'xprofile_setup_globals' );
+add_action( '_admin_menu', 'xprofile_setup_globals', 1 );
 
 
 /**************************************************************************
@@ -109,45 +109,33 @@ add_action( 'admin_menu', 'xprofile_setup_globals' );
 function xprofile_add_admin_menu() {
 	global $wpdb, $bp, $groups, $userdata;
 	
-	if ( $wpdb->blogid == $userdata->primary_blog ) {
-		//add_menu_page( __('Profile'), __('Profile'), 1, basename(__FILE__), 'xprofile_avatar_admin' );
-		//add_submenu_page( basename(__FILE__), __('Profile &rsaquo; Avatar'), __('Avatar'), 1, basename(__FILE__), 'xprofile_avatar_admin' );		
-		//add_options_page( __('Profile'), __('Profile'), 1, basename(__FILE__), 'xprofile_add_settings' );		
+	if ( $wpdb->blogid == get_usermeta( $bp['current_userid'], 'home_base' ) ) {
+		add_menu_page( __('Profile'), __('Profile'), 1, basename(__FILE__), 'bp_core_avatar_admin' );
+		add_submenu_page( basename(__FILE__), __('Profile &rsaquo; Avatar'), __('Avatar'), 1, basename(__FILE__), 'xprofile_avatar_admin' );		
+		add_options_page( __('Profile'), __('Profile'), 1, basename(__FILE__), 'xprofile_add_settings' );		
 		
-		//$groups = BP_XProfile_Group::get_all();
+		$groups = BP_XProfile_Group::get_all();
 
-		// for ( $i=0; $i < count($groups); $i++ ) {
-		// 			if ( $groups[$i]->fields ) {
-		// 				add_submenu_page( basename(__FILE__), __('Profile') . '  &rsaquo; ' . $groups[$i]->name, $groups[$i]->name, 1, "xprofile_" . $groups[$i]->name, "xprofile_edit" );		
-		// 			}
-		// 		}
-		// 	
+		for ( $i=0; $i < count($groups); $i++ ) {
+			if ( $groups[$i]->fields ) {
+				add_submenu_page( basename(__FILE__), __('Profile') . '  &rsaquo; ' . $groups[$i]->name, $groups[$i]->name, 1, "xprofile_" . $groups[$i]->name, "xprofile_edit" );		
+			}
+		}
+	}				
+
+	if ( is_site_admin() ) {
 		wp_enqueue_script( 'jquery.tablednd', '/wp-content/mu-plugins/bp-core/js/jquery/jquery.tablednd.js', array( 'jquery' ), '0.4' );
-		
+	
 		/* Add the administration tab under the "Site Admin" tab for site administrators */
 		add_submenu_page( 'wpmu-admin.php', __("Profiles"), __("Profiles"), 1, "xprofile_settings", "xprofile_admin" );
 	}
-	
+
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 	if ( ( $wpdb->get_var("show tables like '%" . $bp['xprofile']['table_name_groups'] . "%'") == false ) || ( get_site_option('bp-xprofile-version') < BP_XPROFILE_VERSION )  )
 		xprofile_install(BP_XPROFILE_VERSION);
 	
 }
 add_action( 'admin_menu', 'xprofile_add_admin_menu' );
-
-
-/**************************************************************************
- xprofile_admin_setup()
- 
- Setup CSS, JS and other things needed for the admin area of the xprofile component.
-**************************************************************************/
-
-function xprofile_admin_setup() {
-	add_action( 'admin_head', 'xprofile_add_css' );
-	add_action( 'admin_head', 'xprofile_add_js' );
-	add_action( 'admin_head', 'bp_core_add_cropper_js' );
-}
-add_action( 'admin_menu', 'xprofile_admin_setup' );
 
 
 /**************************************************************************
@@ -170,21 +158,22 @@ function xprofile_setup_nav() {
 		'name'  => 'Profile', 
 		'link'  => $bp['current_domain'] . $bp['xprofile']['slug']
 	);
-
+	
+	$bp['bp_options_nav'][$bp['xprofile']['slug']] = array(
+		'public'    	=> array( 
+			'name' => __('Public'),
+			'link' => $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/' ),
+		'edit'	  		=> array(
+			'name' => __('Edit Profile'),
+			'link' => $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/edit' ),
+		'change-avatar' => array( 
+			'name' => __('Change Avatar'),
+			'link' => $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/change-avatar' )
+	);
+	
 	if ( $bp['current_component'] == $bp['xprofile']['slug'] ) {
 		if ( bp_is_home() ) {
 			$bp['bp_options_title'] = __('My Profile');
-			$bp['bp_options_nav'][$bp['xprofile']['slug']] = array(
-				''		   => array( 
-					'name' => __('Public'),
-					'link' => $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/' ),
-				'edit'	  		=> array(
-					'name' => __('Edit Profile'),
-					'link' => $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/edit' ),
-				'change-avatar' => array( 
-					'name' => __('Change Avatar'),
-					'link' => $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/change-avatar' )
-			);
 		} else {
 			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
 			$bp['bp_options_title'] = bp_user_fullname( $bp['current_userid'], false ); 
@@ -205,35 +194,25 @@ function xprofile_catch_action() {
 	global $current_blog, $bp;
 	
 	if ( $bp['current_component'] == $bp['xprofile']['slug'] && $current_blog->blog_id > 1 ) {
-		if ( !$bp['current_action'] ) {
+
+		if ( $bp['current_action'] == 'public' ) {
 			bp_catch_uri( 'profile/index' );
 		} else if ( $bp['current_action'] == 'edit' && $bp['loggedin_userid'] == $bp['current_userid'] ) {
 			bp_catch_uri( 'profile/edit' );
 		} else if ( $bp['current_action'] == 'change-avatar' && $bp['loggedin_userid'] == $bp['current_userid'] ) {
 			add_action( 'wp_head', 'bp_core_add_cropper_js' );
 			bp_catch_uri( 'profile/change-avatar' );
+		} else if ( $bp['current_action'] == 'delete-avatar' && $bp['loggedin_userid'] == $bp['current_userid'] ) {
+			bp_core_delete_avatar();
+			add_action( 'wp_head', 'bp_core_add_cropper_js' );
+			bp_catch_uri( 'profile/change-avatar' );
 		} else {
+			$bp['current_action'] = 'public';
 			bp_catch_uri( 'profile/index' );
 		}
 	}
 }
 add_action( 'wp', 'xprofile_catch_action', 3 );
-
-
-/**************************************************************************
- xprofile_profile_template()
- 
- Set up template tags for use in templates.
- **************************************************************************/
-
-function xprofile_profile_template() {
-	global $profile_template, $bp;
-	
-	if ( $bp['current_component'] == $bp['xprofile']['slug'] ) {
-		$profile_template = new BP_XProfile_Template($bp['current_userid']);
-	}
-}
-add_action( 'wp_head', 'xprofile_profile_template' );
 
 /**************************************************************************
  xprofile_edit()
@@ -371,7 +350,7 @@ function xprofile_edit( $group_id = null, $action = null ) {
 		</form>
 		</p>
 		
-	</div>
+	</div> 
 <?php
 }
 
@@ -390,5 +369,30 @@ function xprofile_add_settings() {
 <?php
 }
 
+/**************************************************************************
+ xprofile_remove_data_on_blog_deletion()
+ 
+ Removes all profile data from the DB if the admin deletes a Home Base.
+ **************************************************************************/
+
+function xprofile_remove_data_on_blog_deletion( $blog_id ) {
+	global $wpdb, $bp;
+
+	/* Only delete profile data if we are removing a home base */
+	if ( $user_id = bp_core_get_homebase_userid( $blog_id ) ) {
+		BP_XProfile_ProfileData::delete_data_for_user( $user_id );
+		
+		// delete any avatar files.
+		@unlink( get_usermeta( $user_id, 'bp_core_avatar_v1_path' ) );
+		@unlink( get_usermeta( $user_id, 'bp_core_avatar_v2_path' ) );
+		
+		// unset the usermeta for avatars from the usermeta table.
+		delete_usermeta( $user_id, 'bp_core_avatar_v1' );
+		delete_usermeta( $user_id, 'bp_core_avatar_v1_path' );
+		delete_usermeta( $user_id, 'bp_core_avatar_v2' );
+		delete_usermeta( $user_id, 'bp_core_avatar_v2_path' );
+	}
+}
+add_action( 'delete_blog', 'xprofile_remove_data_on_blog_deletion', 1 );
 
 ?>

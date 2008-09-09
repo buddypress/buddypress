@@ -134,7 +134,10 @@ Class BP_XProfile_Template {
 // Begin template tags:
 
 function bp_has_profile() { 
-	global $profile_template;
+	global $bp, $profile_template;
+	
+	$profile_template = new BP_XProfile_Template($bp['current_userid']);
+	
 	return $profile_template->has_groups();
 }
 
@@ -250,7 +253,7 @@ function bp_user_link() {
 
 function bp_user_status() {
 	// TODO: dummy function now, until status component is developed.
-	echo '[ TODO: Status Updates ]';
+	return false;
 }
 
 function bp_profile_group_tabs() {
@@ -303,7 +306,7 @@ function bp_edit_profile_form() {
 function bp_avatar_upload_form() {
 	global $bp;
 	 
-	bp_core_avatar_admin(null, $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/change-avatar/');
+	bp_core_avatar_admin( null, $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/change-avatar/', $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/delete-avatar/' );
 }
 
 function bp_profile_last_updated_date( $user_id = false, $echo = true ) {

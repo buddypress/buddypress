@@ -75,9 +75,6 @@ function bp_core_set_uri_globals() {
 	/* Reset the keys by merging with an empty array */
 	$action_variables = array_merge( array(), $action_variables );
 
-	/* catch 'blog' */
-	if ( $current_component == 'blog' )
-		bp_catch_uri( 'blog' );
 }
 add_action( 'wp', 'bp_core_set_uri_globals', 0 );
 
@@ -109,22 +106,34 @@ function bp_catch_uri( $pages ) {
  * @global $bp_path BuddyPress global containing the template file names to use.
  */
 function bp_core_do_catch_uri() {
-	global $bp_path;
+	global $bp_path, $bp, $wpdb;
 
 	$pages = $bp_path;
+	
+	if ( $wpdb->blogid == get_usermeta( $bp['current_userid'], 'home_base' ) ) {
+		if ( !file_exists( TEMPLATEPATH . "/header.php" ) || !file_exists( TEMPLATEPATH . "/footer.php" ) )
+			wp_die( 'Please make sure your BuddyPress enabled theme includes a header.php and footer.php file.');
 
-	if ( is_array( $pages ) ) {
-		foreach( $pages as $page ) {
-			if ( file_exists( TEMPLATEPATH . "/" . $page . ".php" ) ) {
-				require( TEMPLATEPATH . "/" . $page . ".php" ); die;
+		do_action( 'get_header' );
+		load_template( TEMPLATEPATH . "/header.php" );
+	
+		if ( is_array( $pages ) ) {
+			foreach( $pages as $page ) {
+				if ( file_exists( TEMPLATEPATH . "/" . $page . ".php" ) ) {
+					load_template( TEMPLATEPATH . "/" . $page . ".php" );
+				}
+			}
+		} else {
+			if ( file_exists( TEMPLATEPATH . "/" . $pages . ".php" ) ) {
+				load_template( TEMPLATEPATH . "/" . $pages . ".php" );
+			} else {
+				load_template( TEMPLATEPATH . "/index.php" );
 			}
 		}
-	} else {
-		if ( file_exists( TEMPLATEPATH . "/" . $pages . ".php" ) ) {
-			require( TEMPLATEPATH . "/" . $pages . ".php" ); die;
-		} else {
-			require( TEMPLATEPATH . "/index.php" ); die;
-		}
+	
+		do_action( 'get_footer' );
+		load_template( TEMPLATEPATH . "/footer.php" );
+		die;
 	}
 }
 ?>

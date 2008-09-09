@@ -115,7 +115,9 @@ class BP_Friendship_Template {
 }
 
 function bp_has_friendships() {
-	global $friends_template;
+	global $bp, $friends_template;
+
+	$friends_template = new BP_Friendship_Template( $bp['current_userid'] );
 	
 	return $friends_template->has_friendships();
 }
@@ -146,7 +148,7 @@ function bp_friend_avatar_thumb( $template = false ) {
 	if ( !$template )
 		$template = &$friends_template->friendship->friend;
 	
-	echo $template->avatar;
+	echo $template->avatar_thumb;
 }
 	function bp_friends_user_avatar_thumb() {
 		global $friends_template;
@@ -312,26 +314,28 @@ function bp_friend_recent_status_link() {
 function bp_add_friend_button( $potential_friend_id = false ) {
 	global $bp;
 	
-	if ( !$potential_friend_id )
-		$potential_friend_id = $bp['current_userid'];
+	if ( is_user_logged_in() ) {
+		if ( !$potential_friend_id )
+			$potential_friend_id = $bp['current_userid'];
 	
-	if ( $bp['loggedin_userid'] == $potential_friend_id )
-		return false;
+		if ( $bp['loggedin_userid'] == $potential_friend_id )
+			return false;
 	
-	$friend_status = BP_Friends_Friendship::check_is_friend( $bp['loggedin_userid'], $potential_friend_id );
+		$friend_status = BP_Friends_Friendship::check_is_friend( $bp['loggedin_userid'], $potential_friend_id );
 	
-	echo '<div class="friendship-button" id="friendship-button-' . $potential_friend_id . '">';
-	if ( $friend_status == 'pending' ) {
-		_e('Friendship Requested');
-	} else if ( $friend_status == 'is_friend') {
-		echo '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/remove-friend/' . $potential_friend_id . '" title="' . __('Cancel Friendship') . '" id="friend-' . $potential_friend_id . '" rel="remove" class="remove">' . __('Cancel Friendship') . '</a>';
-	} else {
-		echo '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/add-friend/' . $potential_friend_id . '" title="' . __('Add Friend') . '" id="friend-' . $potential_friend_id . '" rel="add">' . __('Add Friend') . '</a>';
+		echo '<div class="friendship-button" id="friendship-button-' . $potential_friend_id . '">';
+		if ( $friend_status == 'pending' ) {
+			_e('Friendship Requested');
+		} else if ( $friend_status == 'is_friend') {
+			echo '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/remove-friend/' . $potential_friend_id . '" title="' . __('Cancel Friendship') . '" id="friend-' . $potential_friend_id . '" rel="remove" class="remove">' . __('Cancel Friendship') . '</a>';
+		} else {
+			echo '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/add-friend/' . $potential_friend_id . '" title="' . __('Add Friend') . '" id="friend-' . $potential_friend_id . '" rel="add">' . __('Add Friend') . '</a>';
+		}
+		echo '</div>';
+	
+		if ( function_exists('wp_nonce_field') )
+			wp_nonce_field('addremove_friend');
 	}
-	echo '</div>';
-	
-	if ( function_exists('wp_nonce_field') )
-		wp_nonce_field('addremove_friend');
 }
 
 ?>

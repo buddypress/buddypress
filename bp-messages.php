@@ -91,7 +91,7 @@ function messages_setup_globals() {
 	);
 }
 add_action( 'wp', 'messages_setup_globals', 1 );	
-add_action( 'admin_menu', 'messages_setup_globals' );
+add_action( '_admin_menu', 'messages_setup_globals', 1 );
 
 
 /**************************************************************************
@@ -104,17 +104,8 @@ add_action( 'admin_menu', 'messages_setup_globals' );
 function messages_add_admin_menu() {	
 	global $wpdb, $bp, $userdata;
 
-	if ( $wpdb->blogid == $userdata->primary_blog ) {	
-		if ( $inbox_count = BP_Messages_Thread::get_inbox_count() ) {
-			$count_indicator = ' <span id="awaiting-mod" class="count-1"><span class="message-count">' . $inbox_count . '</span></span>';
-		}
-		
-		//add_menu_page    ( __('Messages'), sprintf( __('Messages%s'), $count_indicator ), 1, basename(__FILE__), "messages_inbox" );
-		//add_submenu_page ( basename(__FILE__), __('Messages &rsaquo; Inbox'), __('Inbox'), 1, basename(__FILE__), "messages_inbox" );	
-		//add_submenu_page ( basename(__FILE__), __('Messages &rsaquo; Sent Messages'), __('Sent Messages'), 1, "messages_sentbox", "messages_sentbox" );	
-		//add_submenu_page ( basename(__FILE__), __('Messages &rsaquo; Compose'), __('Compose'), 1, "messages_write_new", "messages_write_new" );
-
-		// Add the administration tab under the "Site Admin" tab for site administrators
+	if ( $wpdb->blogid == get_usermeta( $bp['current_userid'], 'home_base' ) ) {	
+		//Add the administration tab under the "Site Admin" tab for site administrators
 		//add_submenu_page ( 'wpmu-admin.php', __('Messages'), __('Messages'), 1, basename(__FILE__), "messages_settings" );
 	}
 	
@@ -139,32 +130,32 @@ function messages_setup_nav() {
 		'link'  => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/'
 	);
 	
+	$bp['bp_options_nav'][$bp['messages']['slug']] = array(
+		'inbox'	   => array( 
+			'name' => __('Inbox') . $count_indicator,
+			'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/' ),
+		'sentbox'  => array(
+			'name' => __('Sent Messages'),
+			'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/sentbox' ),
+		'compose' => array( 
+			'name' => __('Compose'),
+			'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/compose' )
+	);
+	
+	if ( is_site_admin() ) {
+		$bp['bp_options_nav'][$bp['messages']['slug']]['notices'] = array(
+			'name' => __('Sent Notices'),
+			'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/notices'
+		);
+	}
+	
 	$inbox_count = BP_Messages_Thread::get_inbox_count();
 	$inbox_display = ( $inbox_count ) ? ' style="display:inline;"' : ' style="display:none;"';
 	$count_indicator = '&nbsp; <span' . $inbox_display . ' class="unread-count inbox-count">' . BP_Messages_Thread::get_inbox_count() . '</span>';
 
 	if ( $bp['current_component'] == $bp['messages']['slug'] ) {
 		if ( bp_is_home() ) {
-			$bp['bp_options_title'] = __('My Messages');
-			$bp['bp_options_nav'][$bp['messages']['slug']] = array(
-				'inbox'	   => array( 
-					'name' => __('Inbox') . $count_indicator,
-					'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/' ),
-				'sentbox'  => array(
-					'name' => __('Sent Messages'),
-					'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/sentbox' ),
-				'compose' => array( 
-					'name' => __('Compose'),
-					'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/compose' )
-			);
-			
-			if ( is_site_admin() ) {
-				$bp['bp_options_nav'][$bp['messages']['slug']]['notices'] = array(
-					'name' => __('Sent Notices'),
-					'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/notices'
-				);
-			}
-			
+			$bp['bp_options_title'] = __('My Messages');			
 		} else {
 			$bp_options_avatar = bp_core_get_avatar( $bp['current_userid'], 1 );
 			$bp['bp_options_title'] = bp_user_fullname( $bp['current_userid'], false ); 
@@ -314,24 +305,6 @@ function messages_catch_action() {
 	}
 }
 add_action( 'wp', 'messages_catch_action', 3 );
-
-/**************************************************************************
- messages_template()
- 
- Set up template tags for use in templates.
- **************************************************************************/
-
-function messages_template() {
-	global $messages_template, $bp;
-	
-	if ( $bp['current_component'] == $bp['messages']['slug'] ) {
-		if ( $bp['current_action'] == 'inbox' || $bp['current_action'] == 'sentbox' || ( $bp['current_action'] == 'notices' && is_site_admin() ) )
-			$messages_template = new BP_Messages_Template( $bp['loggedin_userid'], $bp['current_action'] );
-	}
-	
-}
-add_action( 'wp_head', 'messages_template' );
-
 
 /**************************************************************************
  messages_write_new()

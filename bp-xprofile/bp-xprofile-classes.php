@@ -460,25 +460,27 @@ Class BP_XProfile_Field {
 					$html .= '<label><input' . $selected . ' type="radio" name="field_' . $this->id . '" id="option_' . $options[$k]->id . '" value="' . $options[$k]->name . '"> ' . $options[$k]->name . '</label>';
 				}
 				
-				$html .= '<span class="signup-description">' . $this->desc . '</span>';				
-				$html .= '</div>';
-				
 				if ( !$this->is_required ) {
-					$html .= '<a href="javascript:clear(\'field_' . $this->id . '\');"><img src="' . $bp['xprofile']['image_base'] . '/cross.gif" alt="Clear" /> Clear</a>';
+					$html .= '<a class="clear-value" style="text-decoration: none;" href="javascript:clear(\'field_' . $this->id . '\');"><img src="' . $bp['xprofile']['image_base'] . '/cross.gif" alt="Clear" /> Clear</a>';
 				}
+				
+				$html .= '<span class="signup-description">' . $this->desc . '</span>';	
+				$html .= '<div class="clear"></div></div>';
 				
 			break;
 			
 			case 'checkbox':
-				$value = explode( ",", $value );
-				
 				$options = $this->get_children();
-				
+		
 				$html .= '<div class="checkbox signup-field" id="field_' . $this->id . '"><span class="signup-label">' . $asterisk . $this->name . ':</span>' . $this->message;
 				
-				$option_values = BP_XProfile_ProfileData::get_value_byid($options[0]->parent_id);
-				$option_values = unserialize($option_values);
-				
+				if ( $value ) {
+					$option_values = unserialize($value);
+				} else {
+					$option_values = BP_XProfile_ProfileData::get_value_byid($options[0]->parent_id);
+					$option_values = unserialize($option_values);
+				}
+
 				for ( $k = 0; $k < count($options); $k++ ) {	
 					for ( $j = 0; $j < count($option_values); $j++ ) {
 						if ( $option_values[$j] == $options[$k]->name || @in_array( $options[$k]->name, $value ) || $options[$k]->is_default_option ) {
@@ -492,7 +494,7 @@ Class BP_XProfile_Field {
 				}
 				
 				$html .= '<span class="signup-description">' . $this->desc . '</span>';				
-				$html .= '</div>';
+				$html .= '<div class="clear"></div></div>';
 				
 			break;
 			
@@ -1137,6 +1139,13 @@ Class BP_XProfile_ProfileData {
 		$last_updated = $wpdb->get_var( $wpdb->prepare( "SELECT last_updated FROM " . $bp['xprofile']['table_name_data'] . " WHERE user_id = %d ORDER BY last_updated LIMIT 1", $user_id ) );
 		
 		return $last_updated;
+	}
+	
+	function delete_data_for_user( $user_id ) {
+		global $wpdb, $bp;
+		
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['xprofile']['table_name_data'] . " WHERE user_id = %d", $user_id ) );
+		
 	}
 }
 ?>

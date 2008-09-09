@@ -54,7 +54,7 @@ function friends_setup_globals() {
 	);
 }
 add_action( 'wp', 'friends_setup_globals', 1 );	
-add_action( 'admin_menu', 'friends_setup_globals' );
+add_action( '_admin_menu', 'friends_setup_globals', 1 );
 
 
 /**************************************************************************
@@ -67,11 +67,7 @@ add_action( 'admin_menu', 'friends_setup_globals' );
 function friends_add_admin_menu() {	
 	global $wpdb, $bp, $userdata;
 
-	if ( $wpdb->blogid == $userdata->primary_blog ) {
-		//add_menu_page( __("Friends"), __("Friends"), 1, basename(__FILE__), "friends_list" );
-		//add_submenu_page( basename(__FILE__), __("My Friends"), __("My Friends"), 1, basename(__FILE__), "friends_list" );
-		//add_submenu_page( basename(__FILE__), __("Friend Finder"), __("Friend Finder"), 1, "friend_finder", "friends_find" );	
-		
+	if ( $wpdb->blogid == get_usermeta( $bp['current_userid'], 'home_base' ) ) {
 		/* Add the administration tab under the "Site Admin" tab for site administrators */
 		//add_submenu_page( 'wpmu-admin.php', __("Friends"), __("Friends"), 1, basename(__FILE__), "friends_settings" );
 	}
@@ -79,7 +75,6 @@ function friends_add_admin_menu() {
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 	if ( ( $wpdb->get_var("show tables like '%" . $bp['friends']['table_name'] . "%'") == false ) || ( get_site_option('bp-friends-version') < BP_FRIENDS_VERSION )  )
 		friends_install(BP_FRIENDS_VERSION);
-		
 }
 add_action( 'admin_menu', 'friends_add_admin_menu' );
 
@@ -103,24 +98,25 @@ function friends_setup_nav() {
 		'name'  => __('Friends'), 
 		'link'  => $bp['current_domain'] . $bp['friends']['slug'] . '/'
 	);
+
+	$bp['bp_options_nav'][$bp['friends']['slug']] = array(
+		'my-friends'    => array( 
+			'name'      => __('My Friends'),
+			'link'      => $bp['loggedin_domain'] . $bp['friends']['slug'] . '/my-friends' ),
+		'requests'      => array(
+			'name'      => __('Requests'),
+			'link'      => $bp['loggedin_domain'] . $bp['friends']['slug'] . '/requests' ),
+		'friend-finder' => array( 
+			'name'      => __('Friend Finder'),
+			'link'      => $bp['loggedin_domain'] . $bp['friends']['slug'] . '/friend-finder' ),
+		'invite-friend' => array( 
+			'name'      => __('Invite Friends'),
+			'link'      => $bp['loggedin_domain'] . $bp['friends']['slug'] . '/invite-friend' )
+	);		
 	
 	if ( $bp['current_component'] == $bp['friends']['slug'] ) {
 		if ( bp_is_home() ) {
 			$bp['bp_options_title'] = __('My Friends');
-			$bp['bp_options_nav'][$bp['friends']['slug']] = array(
-				'my-friends'    => array( 
-					'name'      => __('My Friends'),
-					'link'      => $bp['loggedin_domain'] . $bp['friends']['slug'] . '/my-friends' ),
-				'requests'      => array(
-					'name'      => __('Requests'),
-					'link'      => $bp['loggedin_domain'] . $bp['friends']['slug'] . '/requests' ),
-				'friend-finder' => array( 
-					'name'      => __('Friend Finder'),
-					'link'      => $bp['loggedin_domain'] . $bp['friends']['slug'] . '/friend-finder' ),
-				'invite-friend' => array( 
-					'name'      => __('Invite Friends'),
-					'link'      => $bp['loggedin_domain'] . $bp['friends']['slug'] . '/invite-friend' )
-			);		
 		} else {
 			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
 			$bp['bp_options_title'] = bp_user_fullname( $bp['current_userid'], false ); 
@@ -140,6 +136,10 @@ function friends_catch_action() {
 	global $bp, $thread_id, $current_blog;
 	
 	if ( $bp['current_component'] == $bp['friends']['slug'] && $current_blog->blog_id > 1 ) {
+		
+		if ( $bp['current_action'] == '' )
+			$bp['current_action'] = 'my-friends';
+		
 		switch ( $bp['current_action'] ) {
 			case 'my-friends':
 				bp_catch_uri( 'friends/index' );
@@ -180,23 +180,6 @@ function friends_catch_action() {
 	}
 }
 add_action( 'wp', 'friends_catch_action', 3 );
-
-/**************************************************************************
- friends_template()
- 
- Set up template tags for use in templates.
- **************************************************************************/
-
-function friends_template() {
-	global $bp, $friends_template;
-	
-	if ( $bp['current_component'] == $bp['friends']['slug'] ) {
-		if ( $bp['current_action'] != 'friend-finder' || $bp['current_action'] != 'invite-friends' )
-			$friends_template = new BP_Friendship_Template( $bp['current_userid'] );
-	}
-	
-}
-add_action( 'wp_head', 'friends_template' );
 
 
 /**************************************************************************

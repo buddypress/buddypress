@@ -96,7 +96,14 @@ Class BP_Messages_Template {
 }
 
 function bp_has_message_threads() {
-	global $messages_template;
+	global $bp, $messages_template;
+
+	if ( $bp['current_action'] == 'notices' && !is_site_admin() ) {
+		wp_die('No Access');
+	} else {
+		$messages_template = new BP_Messages_Template( $bp['loggedin_userid'], $bp['current_action'] );
+	}
+	
 	return $messages_template->has_threads();
 }
 
@@ -209,13 +216,13 @@ function bp_messages_options() {
 	Select: 
 		<select name="message-type-select" id="message-type-select">
 			<option value=""></option>
-			<option value="read">Read</option>
-			<option value="unread">Unread</option>
-			<option value="all">All</option>
+			<option value="read"><?php _e('Read') ?></option>
+			<option value="unread"><?php _e('Unread') ?></option>
+			<option value="all"><?php _e('All') ?></option>
 		</select> &nbsp;
-		<a href="#" id="mark_as_read">Mark as Read</a> &nbsp;
-		<a href="#" id="mark_as_unread">Mark as Unread</a> &nbsp;
-		<a href="#" id="delete_messages">Delete</a> &nbsp;
+		<a href="#" id="mark_as_read"><?php _e('Mark as Read') ?></a> &nbsp;
+		<a href="#" id="mark_as_unread"><?php _e('Mark as Unread') ?></a> &nbsp;
+		<a href="#" id="delete_messages"><?php _e('Delete') ?></a> &nbsp;
 <?php	
 }
 
@@ -223,7 +230,9 @@ function bp_message_is_active_notice() {
 	global $messages_template;
 	
 	if ( $messages_template->thread->is_active ) {
-		echo "<strong>Currently Active</strong>";
+		echo "<strong>";
+		_e('Currently Active');
+		echo "</strong>";
 	}
 }
 
@@ -280,7 +289,7 @@ function bp_message_get_notices() {
 		$closed_notices = array();
 
 	if ( is_array($closed_notices) ) {
-		if ( !in_array( $notice->id, $closed_notices ) ) {
+		if ( !in_array( $notice->id, $closed_notices ) && $notice->id ) {
 			?>
 			<div class="notice" id="<?php echo $notice->id ?>">
 				<h5><?php echo stripslashes($notice->subject) ?></h5>

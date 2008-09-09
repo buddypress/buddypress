@@ -16,72 +16,63 @@ define( 'CORE_AVATAR_V2_H', 150 );
 define( 'CORE_CROPPING_CANVAS_MAX', 450 );
 define( 'CORE_MAX_FILE_SIZE', get_site_option('fileupload_maxk') * 1024 );
 define( 'CORE_DEFAULT_AVATAR', get_option('siteurl') . '/wp-content/mu-plugins/bp-xprofile/images/none.gif' );
+define( 'CORE_DEFAULT_AVATAR_THUMB', get_option('siteurl') . '/wp-content/mu-plugins/bp-xprofile/images/none-thumbnail.gif' );
 
-/**
- * bp_core_blog_switcher()
- *
- * Replaces the standard blog switcher included in the WordPress core so that
- * BuddyPress specific icons can be used in tabs and the order can be changed.
- * An output buffer is used, as the function cannot be overridden or replaced
- * any other way.
- * 
- * @package BuddyPress Core
- * @param $contents str The contents of the buffer.
- * @global $current_user obj WordPress global containing information and settings for the current user
- * @global $blog_id int WordPress global containing the current blog id
- * @return $siteuser Username for current blog or user home.
- */
-function bp_core_get_avatar( $user, $version = 1, $in_css = false ) {
+function bp_core_get_avatar( $user, $version = 1, $no_tag = false, $width = null, $height = null ) {
 	if ( !is_int($version) )
 		$version = (int) $version;
 		
 	if ( CORE_AVATAR_V2_W == false && CORE_AVATAR_V2_H == false )
 		$version = 1;
 	
+	$home_base_id = get_usermeta( $user, 'home_base' );
+	$url = get_blog_option($home_base_id, 'siteurl');
+	
+	if ( !$width )
+		$width = constant('CORE_AVATAR_V' . $version . '_W');
+	
+	if ( !$height )
+		$width = constant('CORE_AVATAR_V' . $version . '_H');		
+	
 	$str = get_usermeta( $user, "bp_core_avatar_v$version" );
 	
 	if ( strlen($str) ) {
-		if ( $in_css )
+		if ( $no_tag )
 			return $str;
 		else
-			return '<img src="' . $str . '" alt="" class="avatar" width="' . constant('CORE_AVATAR_V' . $version . '_W') . '" height="' . constant('CORE_AVATAR_V' . $version . '_H') . '" />';
+			return '<img src="' . $url . '/' . $str . '" alt="" class="avatar" width="' . $width . '" height="' . $height . '" />';
 	} else {
-		if ( $in_css )
-			return CORE_DEFAULT_AVATAR;
+		if ( $no_tag )
+			return CORE_DEFAULT_AVATAR_THUMB;
 		else
-			return '<img src="' . CORE_DEFAULT_AVATAR . '" alt="" class="avatar" width="' . constant('CORE_AVATAR_V' . $version . '_W') . '" height="' . constant('CORE_AVATAR_V' . $version . '_H') . '" />';
+			return '<img src="' . CORE_DEFAULT_AVATAR . '" alt="" class="avatar" width="' . $width . '" height="' . $height . '" />';
 	}
 }
 
-// Load the cropper etc if we're on the right page
-if ( isset($_REQUEST['page']) && $_REQUEST['page'] == 'bp-xprofile.php' ) {
-	wp_enqueue_script('cropper');
-}
+// Override internal "get_avatar()" function to use our own where possible
+// WARNING: Does NOT apply size restrictions
+function bp_core_get_avatar_filter( $avatar, $id_or_email, $size, $default ) {
+	$str = '';
+	$ver = ( $size == 1 || $size == 2 ) ? $size : 1;
+	
+	if ( CORE_AVATAR_V2_W == false && CORE_AVATAR_V2_H == false )
+		$ver = 1;
+		
+	if ( is_numeric($id_or_email) ) {
+		$str = bp_core_get_avatar( $id_or_email, $ver );
+	} elseif ( is_object($id_or_email) ) {
+		if ( !empty($id_or_email->user_id) ) {
+			$str = bp_core_get_avatar( $id_or_email->user_id, $ver );
+		}
+	}
 
-// // Override internal "get_avatar()" function to use our own where possible
-// // WARNING: Does NOT apply size restrictions
-// function bp_core_get_avatar_filter( $avatar, $id_or_email, $size, $default ) {
-// 	$str = '';
-// 	$ver = ( $size == 1 || $size == 2 ) ? $size : 1;
-// 	
-// 	if ( CORE_AVATAR_V2_W == false && CORE_AVATAR_V2_H == false )
-// 		$ver = 1;
-// 		
-// 	if ( is_numeric($id_or_email) ) {
-// 		$str = bp_core_get_avatar( $id_or_email, $ver );
-// 	} elseif ( is_object($id_or_email) ) {
-// 		if ( !empty($id_or_email->user_id) ) {
-// 			$str = bp_core_get_avatar( $id_or_email->user_id, $ver );
-// 		}
-// 	}
-// 
-// 	return empty($str) ? $avatar : $str;
-// }
-// add_filter( 'get_avatar', 'bp_core_get_avatar_filter', 10, 4 );
+	return empty($str) ? $avatar : $str;
+}
+add_filter( 'get_avatar', 'bp_core_get_avatar_filter', 10, 4 );
 
 
 // Main UI Rendering
-function bp_core_avatar_admin($message = null, $action = null) {
+function bp_core_avatar_admin( $message = null, $action = null, $delete_action = null ) {
 	?>	
 	<?php if ( !isset($_POST['slick_avatars_action']) && !isset($_GET['slick_avatars_action']) ) { ?>
 	<div class="wrap">
@@ -99,7 +90,10 @@ function bp_core_avatar_admin($message = null, $action = null) {
 		
 		<?php
 		if ( !$action )
-			$action = get_option('home') . '/wp-admin/admin.php?page=bp-xprofile.php';
+			$action = get_option('siteurl') . '/wp-admin/admin.php?page=bp-xprofile.php';
+		
+		if ( !$delete_action )
+			$delete_action = get_option('siteurl') . '/wp-admin/admin.php?page=bp-xprofile.php&slick_avatars_action=delete';
 		
 		bp_core_render_avatar_upload_form($action);
 
@@ -108,7 +102,7 @@ function bp_core_avatar_admin($message = null, $action = null) {
 			echo '<h3>' . __('This is your current avatar') . '</h3>';
 			echo '<span class="crop-img avatar">' . bp_core_get_avatar(get_current_user_id(), 1) . '</span>';
 			echo '<span class="crop-img avatar">' . bp_core_get_avatar(get_current_user_id(), 2) . '</span>';
-			echo '<a href="' .  get_option('siteurl') . '/wp-admin/admin.php?page=bp-xprofile.php&slick_avatars_action=delete">Delete</a>';
+			echo '<a href="' .  $delete_action . '">Delete</a>';
 		}
 		
 		echo '</div>';
@@ -242,16 +236,15 @@ function bp_core_resize_avatar($file, $size = CORE_CROPPING_CANVAS_MAX) {
 	return $canvas = str_replace( '//', '/', $canvas );
 }
 
-function bp_core_render_avatar_cropper($original, $new, $action, $user_id = null, $no_form_tag = false) {
+function bp_core_render_avatar_cropper($original, $new, $action, $user_id = null, $no_form_tag = false, $url = false) {
 	$size = getimagesize($new);
 	
 	if ( !$user_id )
 		$user_id = get_current_user_id();
-	
-	if ( VHOST == 'yes' ) {
-		$url = PROTOCOL . get_usermeta( $user_id, 'source_domain' ) . '/';
-	} else {
-		$url = PROTOCOL . get_usermeta( $user_id, 'source_domain' ) . '/' . get_usermeta( $user_id, 'nickname' ) . '/';
+
+	if ( !$url ) {
+		$home_base_id = get_usermeta( $user_id, 'home_base' );
+		$url = get_blog_option($home_base_id, 'siteurl');
 	}
 
 	$src = str_replace( array(ABSPATH), array($url . '/'), $new );
@@ -260,7 +253,7 @@ function bp_core_render_avatar_cropper($original, $new, $action, $user_id = null
 	
 	// V1 UI
 	if ( !$no_form_tag )
-		echo '<form action="' . $action . '" method="post">';
+		echo '<form action="' . $action . '" method="post" id="avatar-cropper">';
 
 	echo '<input type="hidden" name="slick_avatars_action" value="crop" />';
 	echo '<input type="hidden" name="action" value="slick_avatars" />';
@@ -392,14 +385,13 @@ function bp_core_avatar_cropstore( $source, $canvas, $v1_x1, $v1_y1, $v1_w, $v1_
 	return array('v1_out' => $v1_out, 'v2_out' => $v2_out);
 }
 
-function bp_core_avatar_save( $vars, $user_id = false, $upload_dir = false ) {
+function bp_core_avatar_save( $vars, $user_id = false, $upload_dir = false, $url = false ) {
 	if ( !$user_id )
 		$user_id = get_current_user_id();
 		
-	if ( VHOST == 'yes' ) {
-		$src = PROTOCOL . get_usermeta( $user_id, 'source_domain' ) . '/';
-	} else {
-		$src = PROTOCOL . get_usermeta( $user_id, 'source_domain' ) . '/' . get_usermeta( $user_id, 'nickname' ) . '/';
+	if ( !$url ) {
+		$home_base_id = get_usermeta( $user_id, 'home_base' );
+		$url = get_blog_option($home_base_id, 'siteurl');
 	}
 	
 	$old = get_usermeta( $user_id, 'bp_core_avatar_v1_path' );
@@ -419,7 +411,7 @@ function bp_core_avatar_save( $vars, $user_id = false, $upload_dir = false ) {
 
 function bp_core_render_avatar_upload_form($action, $no_form_tag = false) {
 	if ( !$no_form_tag ) { ?>
-	<form method="post" action="<?php echo $action ?>" enctype="multipart/form-data">
+	<form method="post" action="<?php echo $action ?>" enctype="multipart/form-data" id="avatar-upload">
 <?php } ?>
 		<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo CORE_MAX_FILE_SIZE; ?>" />
 		<input type="hidden" name="slick_avatars_action" value="upload" />

@@ -78,7 +78,7 @@ function groups_setup_globals() {
 	$bp['groups']['forbidden_names'] = array( 'my-groups', 'group-finder', 'create', 'invites', 'delete', 'add' );
 }
 add_action( 'wp', 'groups_setup_globals', 1 );	
-add_action( 'admin_menu', 'groups_setup_globals' );
+add_action( '_admin_menu', 'groups_setup_globals', 1 );
 
 
 /**************************************************************************
@@ -91,8 +91,9 @@ add_action( 'admin_menu', 'groups_setup_globals' );
 function groups_add_admin_menu() {	
 	global $wpdb, $bp, $userdata;
 	
-	if ( $wpdb->blogid == $userdata->primary_blog ) {
-		//add_menu_page( __("Groups"), __("Groups"), 1, basename(__FILE__), "" );
+	if ( $wpdb->blogid == get_usermeta( $bp['current_userid'], 'home_base' ) ) {
+		/* Add the administration tab under the "Site Admin" tab for site administrators */
+		//add_submenu_page( 'wpmu-admin.php', __("Friends"), __("Friends"), 1, basename(__FILE__), "friends_settings" );
 	}
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
@@ -121,7 +122,22 @@ function groups_setup_nav() {
 	$bp['bp_users_nav'][3] = array(
 		'id'	=> $bp['groups']['slug'],
 		'name'  => __('Groups'), 
-		'link'  => $current_domain . $bp['groups']['slug'] . '/'
+		'link'  => $bp['current_domain'] . $bp['groups']['slug'] . '/'
+	);
+	
+	$bp['bp_options_nav'][$bp['groups']['slug']] = array(
+		'my-groups'    => array( 
+			'name'      => __('My Groups'),
+			'link'      => $bp['loggedin_domain'] . $bp['groups']['slug'] . '/my-groups' ),
+		'group-finder' 	=> array(
+			'name'      => __('Group Finder'),
+			'link'      => $bp['loggedin_domain'] . $bp['groups']['slug'] . '/group-finder' ),
+		'create' => array( 
+			'name'      => __('Create a Group'),
+			'link'      => $bp['loggedin_domain'] . $bp['groups']['slug'] . '/create' ),
+		'invites' => array( 
+			'name'      => __('Invites'),
+			'link'      => $bp['loggedin_domain'] . $bp['groups']['slug'] . '/invites' )
 	);
 	
 	if ( $bp['current_component'] == $bp['groups']['slug'] ) {
@@ -129,21 +145,12 @@ function groups_setup_nav() {
 		if ( bp_is_home() && !$is_single_group ) {
 			
 			$bp['bp_options_title'] = __('My Groups');
-			$bp['bp_options_nav'][$bp['groups']['slug']] = array(
-				'my-groups'    => array( 
-					'name'      => __('My Groups'),
-					'link'      => $bp['loggedin_domain'] . $bp['groups']['slug'] . '/my-groups' ),
-				'group-finder' 	=> array(
-					'name'      => __('Group Finder'),
-					'link'      => $bp['loggedin_domain'] . $bp['groups']['slug'] . '/group-finder' ),
-				'create' => array( 
-					'name'      => __('Create a Group'),
-					'link'      => $bp['loggedin_domain'] . $bp['groups']['slug'] . '/create' ),
-				'invites' => array( 
-					'name'      => __('Invites'),
-					'link'      => $bp['loggedin_domain'] . $bp['groups']['slug'] . '/invites' )
-			);	
-				
+			
+		} else if ( !bp_is_home() && !$is_single_group ) {
+			
+			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
+			$bp['bp_options_title'] = bp_user_fullname( $bp['current_userid'], false );
+			
 		} else if ( $is_single_group ) {
 			
 			// We are viewing a single group, so set up the
@@ -400,25 +407,6 @@ function groups_catch_action() {
 }
 add_action( 'wp', 'groups_catch_action', 3 );
 
-/**************************************************************************
- groups_template()
- 
- Set up template tags for use in templates.
- **************************************************************************/
-
-function groups_template() {
-	global $groups_template, $bp;
-	global $is_single_group;
-	
-	if ( $bp['current_component'] == $bp['groups']['slug'] && !$is_single_group ) {
-		$groups_template = new BP_Groups_Template( $bp['current_userid'] );
-	} else if ( $bp['current_component'] == $bp['groups']['slug'] && $is_single_group ) {
-		$groups_template = new BP_Groups_Template( $bp['current_userid'], $bp['current_action'] );		
-	}
-	
-}
-add_action( 'wp_head', 'groups_template' );
-
 
 /**************************************************************************
  groups_admin_setup()
@@ -455,35 +443,35 @@ function groups_avatar_upload( $file ) {
 	// validate the group avatar upload if there is one.
 	$avatar_error = false;
 
-	if ( bp_core_check_avatar_upload($file) ) {
-		if ( !bp_core_check_avatar_upload($file) ) {
+	if ( core_check_avatar_upload($file) ) {
+		if ( !core_check_avatar_upload($file) ) {
 			$avatar_error = true;
 			$avatar_error_msg = __('Your group avatar upload failed, please try again.');
 		}
 
-		if ( !bp_core_check_avatar_size($file) ) {
+		if ( !core_check_avatar_size($file) ) {
 			$avatar_error = true;
 			$avatar_size = size_format(1024 * CORE_MAX_FILE_SIZE);
 			$avatar_error_msg = sprintf( __('The file you uploaded is too big. Please upload a file under %d'), $avatar_size);
 		}
 
-		if ( !bp_core_check_avatar_type($file) ) {
+		if ( !core_check_avatar_type($file) ) {
 			$avatar_error = true;
 			$avatar_error_msg = __('Please upload only JPG, GIF or PNG photos.');		
 		}
 
 		// "Handle" upload into temporary location
-		if ( !$original = bp_core_handle_avatar_upload($file) ) {
+		if ( !$original = core_handle_avatar_upload($file) ) {
 			$avatar_error = true;
 			$avatar_error_msg = __('Upload Failed! Your photo dimensions are likely too big.');						
 		}
 
-		if ( !bp_core_check_avatar_dimensions($original) ) {
+		if ( !core_check_avatar_dimensions($original) ) {
 			$avatar_error = true;
 			$avatar_error_msg = sprintf( __('The image you upload must have dimensions of %d x %d pixels or larger.'), CORE_CROPPING_CANVAS_MAX, CORE_CROPPING_CANVAS_MAX );
 		}
 		
-		if ( !$canvas = bp_core_resize_avatar($original) ) {
+		if ( !$canvas = core_resize_avatar($original) ) {
 			$avatar_error = true;
 			$avatar_error_msg = __('Could not create thumbnail, try another photo.');
 		}
@@ -611,7 +599,7 @@ function groups_manage_group( $step, $group_id ) {
 			
 			case '3':
 				// Image already cropped and uploaded, lets store a reference in the DB.
-				if ( !wp_verify_nonce($_POST['nonce'], 'slick_avatars') || !$result = bp_core_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'], false, 'groupavatar', $group_id ) )
+				if ( !wp_verify_nonce($_POST['nonce'], 'slick_avatars') || !$result = core_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'], false, 'groupavatar', $group_id ) )
 					return false;
 
 				// Success on group avatar cropping, now save the results.

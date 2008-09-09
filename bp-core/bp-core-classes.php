@@ -15,6 +15,8 @@
 class BP_Core_User {
 	var $id;
 	var $avatar;
+	var $avatar_thumb;
+	var $avatar_mini;
 	var $fullname;
 	var $email;
 	
@@ -76,7 +78,10 @@ class BP_Core_User {
 		}
 
 		if ( BP_XPROFILE_IS_INSTALLED ) {
-			$this->avatar = bp_core_get_avatar( $this->id, 1 );
+			$this->avatar = bp_core_get_avatar( $this->id, 2 );
+			$this->avatar_thumb = bp_core_get_avatar( $this->id, 1 );
+			$this->avatar_mini = bp_core_get_avatar( $this->id, 1, false, 25, 25 );
+			
 			$this->profile_last_updated = bp_profile_last_updated_date( $this->id, false );
 		}
 		

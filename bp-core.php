@@ -4,26 +4,18 @@
 define( 'PROTOCOL', 'http://' );
 
 /* Define the current version number for checking if DB tables are up to date. */
-define( 'BP_CORE_VERSION', '0.2.3' );
+define( 'BP_CORE_VERSION', '0.2.4' );
 
 /* Require all needed files */
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-catchuri.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-classes.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-cssjs.php' );
-require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-thirdlevel.php' );
-require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-settingstab.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-avatars.php' );
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-templatetags.php' );
-
-/* If disable blog tab option is set, don't combine blog tabs by skipping blogtab file */
-if ( !get_site_option('bp_disable_blog_tab') ) {
-	include_once(ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-blogtab.php');
-}
-
-/* If admin settings have been posted, redirect to correct function to save settings */
-if ( isset($_POST['submit']) && $_POST['save_admin_settings'] && is_site_admin() ) {
-	bp_core_save_admin_settings();
-}
+require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-adminbar.php' );
+require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/admin-mods/bp-core-remove-blogtabs.php' );
+require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/admin-mods/bp-core-admin-styles.php' );
+require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/homebase-creation/bp-core-homebase-functions.php' );
 
 /**
  * bp_core_setup_globals()
@@ -32,6 +24,7 @@ if ( isset($_POST['submit']) && $_POST['save_admin_settings'] && is_site_admin()
  * them in a $bp variable.
  *
  * @package BuddyPress Core Core
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  * @global $current_user A WordPress global containing current user information
  * @global $current_component Which is set up in /bp-core/bp-core-catch-uri.php
  * @global $current_action Which is set up in /bp-core/bp-core-catch-uri.php
@@ -45,7 +38,7 @@ function bp_core_setup_globals() {
 	global $bp;
 	global $current_user, $current_component, $current_action;
 	global $action_variables;
-	
+
 	$bp = array(
 		/* The user ID of the user who is currently logged in. */
 		'loggedin_userid' 	=> $current_user->ID,
@@ -67,6 +60,9 @@ function bp_core_setup_globals() {
 		
 		/* The action variables for the current action eg: http://andy.domain.com/profile/edit/ [group] / [6] */
 		'action_variables'	=> $action_variables, // type: array
+
+		/* The default component to use if none are set and someone visits: http://andy.domain.com/ */
+		'default_component'	=> 'profile',
 		
 		/* Sets up the array container for the component navigation rendered by bp_get_nav() */
 		'bp_nav'		  	=> array(),
@@ -89,74 +85,62 @@ function bp_core_setup_globals() {
 		/* Sets up container for callback message type rendered by bp_core_render_notice() */
 		'message_type'		=> '' // error/success
 	);
+	
+	if ( !$bp['current_component'] )
+		$bp['current_component'] = $bp['default_component'];
 }
 add_action( 'wp', 'bp_core_setup_globals', 1 );
-add_action( 'admin_menu', 'bp_core_setup_globals' );
+add_action( '_admin_menu', 'bp_core_setup_globals', 1 ); // must be _admin_menu hook.
 
 /**
- * bp_core_setup_nav()
+ * bp_core_component_exists()
  *
- * Adds "Blog" to the navigation arrays for the current and logged in user.
- * $bp['bp_nav'] represents the main component navigation 
- * $bp['bp_users_nav'] represents the sub navigation when viewing a users
- * profile other than that of the current logged in user.
+ * Check to see if a component with the given name actually exists.
+ * If not, redirect to the 404.
  * 
  * @package BuddyPress Core
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @uses bp_core_is_blog() Checks to see current page is a blog page eg: /blog/ or /archives/2008/09/01/
- * @uses bp_is_home() Checks to see if the current user being viewed is the logged in user
+ * @return false if no, or true if yes.
  */
-function bp_core_setup_nav() {
-	global $bp;
-	
-	/* Add "Blog" to the main component navigation */
-	$bp['bp_nav'][1] = array(
-		'id'	=> 'blog',
-		'name'  => 'Blog', 
-		'link'  => $bp['loggedin_domain'] . 'blog'
-	);
-	
-	/* Add "Blog" to the sub nav for a current user */
-	$bp['bp_users_nav'][1] = array(
-		'id'	=> 'blog',
-		'name'  => 'Blog', 
-		'link'  => $bp['current_domain'] . 'blog'
-	);
-	
-	/* This will be a check to see if profile or blog is set as the default component. */
-	if ( $bp['current_component'] == '' ) {
-		if ( function_exists('xprofile_setup_nav') ) {
-			$bp['current_component'] = 'profile';
-		} else {
-			$bp['current_component'] = 'blog';
-		}
-	/* If we are on a blog specific page, always set the current component to Blog */
-	} else if ( bp_core_is_blog() ) {
-		$bp['current_component'] = 'blog';
-	}
-	
-	/* Set up the component options navigation for Blog */
-	if ( $bp['current_component'] == 'blog' ) {
-		if ( bp_is_home() ) {
-			if ( function_exists('xprofile_setup_nav') ) {
-				$bp['bp_options_title'] = __('My Blog'); 
-				$bp['bp_options_nav']['blog'] = array(
-					''   => array(
-						'name' => __('Public'),
-						'link' => $bp['loggedin_domain'] . 'blog/' ),
-					'admin'	   => array( 
-						'name' => __('Blog Admin'),
-						'link' => $bp['loggedin_domain'] . 'wp-admin/' )
-				);
-			}
-		} else {
-			/* If we are not viewing the logged in user, set up the current users avatar and name */
-			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
-			$bp['bp_options_title'] = bp_user_fullname( $bp['current_userid'], false ); 
+function bp_core_component_exists() {
+	global $bp, $wpdb;
+
+	if ( $wpdb->blogid == get_usermeta( $bp['current_userid'], 'home_base' ) ) {
+		$component_check = $bp['current_component'];
+
+		if ( strpos( $component_check, 'activate.php' ) )
+			return true;
+
+		if ( $component_check == 'profile' )
+			$component_check = 'xprofile';
+
+		if ( empty($bp[$component_check]) ) {
+			status_header('404');
+			load_template( TEMPLATEPATH . '/header.php'); 
+			load_template( TEMPLATEPATH . '/404.php');
+			load_template( TEMPLATEPATH . '/footer.php');
+			die;
 		}
 	}
 }
-add_action( 'wp', 'bp_core_setup_nav', 2 );
+add_action( 'wp', 'bp_core_component_exists', 10 );
+
+
+/**
+ * bp_core_add_settings_tab()
+ *
+ * Adds a custom settings tab to the home base for the user
+ * in the admin area.
+ * 
+ * @package BuddyPress Core
+ * @global $menu The global WordPress admin navigation menu.
+ */
+function bp_core_add_settings_tab() {
+	global $menu;
+	
+	$account_settings_tab = add_menu_page( __('Account'), __('Account'), 10, 'bp-core/admin-mods/bp-core-account-tab.php' );
+}
+add_action( 'admin_menu', 'bp_core_add_settings_tab' );
 
 /**
  * bp_core_get_loggedin_domain()
@@ -166,19 +150,19 @@ add_action( 'wp', 'bp_core_setup_nav', 2 );
  * 
  * @package BuddyPress Core
  * @global $current_user WordPress global variable containing current logged in user information
- * @uses bp_core_is_blog() Checks to see current page is a blog page eg: /blog/ or /archives/2008/09/01/
- * @uses bp_is_home() Checks to see if the current user being viewed is the logged in user
+ * @param optional user_id
+ * @uses get_usermeta() WordPress function to get the usermeta for a current user.
  */
-function bp_core_get_loggedin_domain() {
+function bp_core_get_loggedin_domain( $user_id = null ) {
 	global $current_user;
 	
-	if ( VHOST == 'yes' ) {
-		$loggedin_domain = PROTOCOL . get_usermeta( $current_user->ID, 'source_domain' ) . '/';
-	} else {
-		$loggedin_domain = PROTOCOL . get_usermeta( $current_user->ID, 'source_domain' ) . '/' . get_usermeta( $current_user->ID, 'user_login' ) . '/';
-	}
-
-	return $loggedin_domain;
+	if ( !$user_id )
+		$user_id = $current_user->ID;
+	
+	/* Get the ID of the home base blog */
+	$home_base_id = get_usermeta( $user_id, 'home_base' );
+	
+	return get_blog_option( $home_base_id, 'siteurl' ) . '/';
 }
 
 /**
@@ -211,15 +195,76 @@ function bp_core_get_current_domain() {
  * eg: http://andy.domain.com/ or http://domain.com/andy/
  * 
  * @package BuddyPress Core
- * @uses bp_core_get_primary_username() Returns the username based on http:// [username] .site.com OR http://site.com/ [username]
- * @uses bp_core_get_userid() Returns the user id for the username given.
- * @return $current_userid The user id for the user that is currently being viewed.
+ * @global $current_blog WordPress global containing information and settings for the current blog being viewed.
+ * @uses bp_core_get_user_home_userid() Checks to see if there is user_home usermeta set for the current_blog.
+ * @return $current_userid The user id for the user that is currently being viewed, return zero if this is not a user home and just a normal blog.
  */
 function bp_core_get_current_userid() {
-	$siteuser = bp_core_get_primary_username();
-	$current_userid = bp_core_get_userid($siteuser);
+	global $current_blog;
+	
+	/* Get the ID of the current blog being viewed. */
+	$blog_id = $current_blog->blog_id;
+	
+	/* Check to see if this is a user home, and if it is, get the user id */
+	if ( !$current_userid = bp_core_get_homebase_userid( $blog_id ) )
+		return false; // return 0 if this is a normal blog, and not a user home.
 	
 	return $current_userid;
+}
+
+/**
+ * bp_core_get_user_home_userid()
+ *
+ * Checks to see if there is user_home usermeta set for the current_blog.
+ * If it is set, return the user_id, if not, return false.
+ * 
+ * @package BuddyPress Core
+ * @param $blog_id The ID of the blog to check user_home metadata for.
+ * @global $wpdb WordPress DB access object.
+ * @return $current_userid The user id for the home base.
+ */
+function bp_core_get_homebase_userid( $blog_id ) {
+	global $wpdb;
+	
+	return $wpdb->get_var( $wpdb->prepare( "SELECT user_id FROM " . $wpdb->base_prefix . "usermeta WHERE meta_key = 'home_base' AND meta_value = %d", $blog_id ) );
+}
+
+/**
+ * bp_core_is_home_base()
+ *
+ * Checks a blog id to see if it is a home base or not.
+ * 
+ * @package BuddyPress Core
+ * @param $blog_id The ID of the blog to check user_home metadata for.
+ * @global $wpdb WordPress DB access object.
+ * @return $current_userid The user id for the home base.
+ */
+function bp_core_is_home_base( $blog_id ) {
+	global $wpdb;
+	
+ 	if ( $wpdb->get_var( $wpdb->prepare( "SELECT umeta_id FROM " . $wpdb->base_prefix . "usermeta WHERE meta_key = 'home_base' AND meta_value = %d", $blog_id ) ) )
+		return true;
+	
+	return false;
+}
+
+/**
+ * bp_core_user_has_home()
+ *
+ * Checks to see if a user has assigned a blog as their user_home.
+ * 
+ * @package BuddyPress Core
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @uses get_usermeta() WordPress function to get the usermeta for a current user.
+ * @return false if no, or true if yes.
+ */
+function bp_core_user_has_home() {
+	global $bp;
+
+	if ( get_usermeta( $bp['loggedin_userid'], 'home_base' ) == '' )
+		return false;
+	
+	return true;
 }
 
 /**
@@ -296,7 +341,7 @@ function bp_core_blog_switcher( $contents ) {
 	$list = array();
 	$options = array();
 
-	$primary_blog = get_usermeta( $current_user->ID, 'primary_blog' );
+	$home_base = get_usermeta( $current_user->ID, 'home_base' );
 	
 	foreach ( $blogs = get_blogs_of_user( $current_user->ID ) as $blog ) {
 		if ( !$blog->blogname )
@@ -306,7 +351,7 @@ function bp_core_blog_switcher( $contents ) {
 		$parsed = parse_url( $blog->siteurl );
 		$domain = $parsed['host'];
 		
-		if ( $blog->userblog_id == $primary_blog ) {
+		if ( $blog->userblog_id == $home_base ) {
 			$current = ' id="primary_blog"';
 			$image   = ' style="background-image: url(' . get_option('home') . '/wp-content/mu-plugins/bp-core/images/member.png);
 							  background-position: 2px 4px;
@@ -377,146 +422,40 @@ function bp_core_blog_switcher( $contents ) {
 	endif; // counts
 }
 
-/**
- * bp_core_add_settings_tab()
- *
- * Adds a new submenu page under the Admin Settings tab for BuddyPress specific settings.
- * 
- * @package BuddyPress Core
- * @param $add_submenu_pag str The contents of the buffer.
- * @uses add_submenu_page() WordPress function for adding submenu pages to existing admin area menus.
- */
-function bp_core_add_settings_tab() {
-	add_submenu_page( 'wpmu-admin.php', "BuddyPress", "BuddyPress", 1, basename(__FILE__), "bp_core_admin_settings" );
-}
-add_action( 'admin_menu', 'bp_core_add_settings_tab' );
-
-/**
- * bp_core_admin_settings()
- *
- * Renders the admin area settings for BuddyPress
- * 
- * @package BuddyPress Core
- * @uses get_site_option() Fetches sitemeta based on setting name passed
- */
-function bp_core_admin_settings() {
-	if ( get_site_option('bp_disable_blog_tab') ) {
-		$blog_tab_checked = ' checked="checked"';
-	}
+function bp_core_replace_home_base_dashboard() {
+	global $wpdb, $bp;
 	
-	if ( get_site_option('bp_disable_design_tab') ) {
-		$design_tab_checked = ' checked="checked"';		
-	}
+	if ( strpos( $_SERVER['SCRIPT_NAME'], '/index.php' ) && $wpdb->blogid == get_usermeta( $bp['current_userid'], 'home_base' ) ) {
+		add_action( 'admin_head', 'bp_core_start_dash_replacement' );
+	}	
+}
+add_action( 'admin_menu', 'bp_core_replace_home_base_dashboard' );
+
+function bp_core_start_dash_replacement( $dash_contents ) {	
+	ob_start();
+	add_action('admin_footer', 'bp_core_end_dash_replacement');
+}
+
+function bp_core_insert_new_dashboard( $dash_contents ) {
+	global $bp;
 	
-?>	
-	<div class="wrap">
-		
-		<h2><?php _e("BuddyPress Settings") ?></h2>
-		
-		<form action="" method="post">
-			<table class="form-table">
-			<tbody>
-			<tr valign="top">
-			<th scope="row" valign="top">Tabs</th>
-			<td>
-				<input type="checkbox" value="1" name="disable_blog_tab"<?php echo $blog_tab_checked; ?> />
-				<label for="disable_blog_tab"> Disable merging of 'Write', 'Manage' and 'Comments' into one 'Blog' tab.</label>
-				<br />
-				<input type="checkbox" value="1" name="disable_design_tab"<?php echo $design_tab_checked; ?> />
-				<label for="disable_design_tab"> Disable 'Design' tab for all members except site administrators.</label>
-			</td>
-			</tr>
-			</tbody>
-			</table>
-
-			<p class="submit">
-				  <input name="submit" value="Save Changes" type="submit" />
-			</p>
-		
-			<input type="hidden" name="save_admin_settings" value="1" />
-		</form>
-		
-	</div>
-<?php
+	$filter = preg_split( '/\<div class=\"wrap\"\>[\S\s]*\<div id=\"footer\"\>/', $dash_contents );
+	$filter[0] .= '<div class="wrap">';
+	$filter[1] .= '</div>';
+	
+	echo $filter[0];
+	
+	require_once( ABSPATH . '/wp-content/mu-plugins/bp-core/admin-mods/bp-core-homebase-dashboard.php' );
+	
+	echo '<div style="clear: both">&nbsp;<br clear="all" /></div></div><div id="footer">';
+	echo $filter[1];
 }
 
-/**
- * bp_core_save_admin_settings()
- *
- * Saves the administration settings once the admin settings form has been posted.
- * Checks first to see if the current user is a site administrator.
- * 
- * @package BuddyPress Core
- * @param $contents str The contents of the buffer.
- * @uses is_site_admin() WordPress function to check if current user has site admin privileges.
- * @uses add_site_option() WordPress function to add or update sitemeta based on passed meta name.
- */
-function bp_core_save_admin_settings() {
-	if ( !is_site_admin() )
-		return false;
-
-	if ( !isset($_POST['disable_blog_tab']) ) {
-		$_POST['disable_blog_tab'] = 0;
-	}
-	else if ( !isset($_POST['disable_design_tab']) )
-	{
-		$_POST['disable_design_tab'] = 0;
-	}
-
-	// temp code for now, until full settings page is added
-	add_site_option( 'bp_disable_blog_tab', $_POST['disable_blog_tab'] );
-	add_site_option( 'bp_disable_design_tab', $_POST['disable_design_tab'] );
+function bp_core_end_dash_replacement() {
+	$dash_contents = ob_get_contents();
+	ob_end_clean();
+	bp_core_insert_new_dashboard($dash_contents);
 }
-
-// Commenting out dashboard replacement for now, until more is implemented.
-
-// /* Are we viewing the dashboard? */
-// if ( strpos( $_SERVER['SCRIPT_NAME'],'/index.php') ) {
-// 	add_action( 'admin_head', 'start_dash' );
-// }
-
-// function start_dash($dash_contents) {	
-// 	ob_start();
-// 	add_action('admin_footer', 'end_dash');
-// }
-// 
-// function replace_dash($dash_contents) {
-// 	$filter = preg_split( '/\<div class=\"wrap\"\>[\S\s]*\<div id=\"footer\"\>/', $dash_contents );
-// 	$filter[0] .= '<div class="wrap">';
-// 	$filter[1] .= '</div>';
-// 	
-// 	echo $filter[0];
-// 	echo render_dash();
-// 	echo '<div style="clear: both">&nbsp;<br clear="all" /></div></div><div id="footer">';
-// 	echo $filter[1];
-// }
-// 
-// function end_dash() {
-// 	$dash_contents = ob_get_contents();
-// 	ob_end_clean();
-// 	replace_dash($dash_contents);
-// }
-// 
-// function render_dash() {
-// 	$dash .= '
-// 		
-// 		<h2>' . __("My Activity Feed") . '</h2>
-// 		<p>' . __("This is where your personal activity feed will go.") . '</p>
-// 		<p>&nbsp;</p><p>&nbsp;</p>
-// 	';
-// 	
-// 	if ( is_site_admin() ) {	
-// 		$dash .= '
-// 			
-// 			<h4>Admin Options</h4>
-// 			<ul>
-// 				<li><a href="wpmu-blogs.php">' . __("Manage Site Members") . '</a></li>
-// 				<li><a href="wpmu-options.php">' . __("Manage Site Options") . '</a></li>
-// 		';
-// 		
-// 	}
-// 	return $dash;	
-// }
 
 /**
  * bp_core_get_userid()
@@ -573,21 +512,10 @@ function bp_core_get_username( $uid ) {
  * @return str The URL for the user with no HTML formatting.
  */
 function bp_core_get_userurl( $uid ) {
-	global $userdata;
-	
-	$ud = get_userdata($uid);
-	
-	if ( VHOST == 'no' )
-		$ud->path = $ud->user_login;
-	else
-		$ud->path = null;
-		
-	$url = PROTOCOL . $ud->source_domain . '/' . $ud->path;
-	
-	if ( !$ud )
-		return false;
-	
-	return $url;
+	$home_base_id = get_usermeta( $uid, 'home_base' );
+	$home_base_url = get_blog_option( $home_base_id, 'siteurl' ) . '/';
+
+	return $home_base_url;
 }
 
 /**
@@ -636,7 +564,7 @@ function bp_core_get_userlink( $uid, $no_anchor = false, $just_link = false, $no
 		return false;
 
 	if ( function_exists('bp_user_fullname') )
-		$display_name = bp_user_fullname($uid, false);
+		$display_name = bp_user_fullname( $uid, false );
 	else
 		$display_name = $ud->display_name;
 	
@@ -645,16 +573,34 @@ function bp_core_get_userlink( $uid, $no_anchor = false, $just_link = false, $no
 
 	if ( $no_anchor )
 		return $display_name;
+
+	$home_base_id = get_usermeta( $uid, 'home_base' );
+	
+	if ( !$home_base_id )
+		return false;
 		
-	if ( VHOST == 'no' )
-		$ud->path = $ud->user_login;
-	else
-		$ud->path = null;
+	$home_base_url = get_blog_option( $home_base_id, 'siteurl' ) . '/';
 	
 	if ( $just_link )
-		return PROTOCOL . $ud->source_domain . '/' . $ud->path;
+		return $home_base_url;
 
-	return '<a href="' . PROTOCOL . $ud->source_domain . '/' . $ud->path . '">' . $display_name . '</a>';	
+	return '<a href="' . $home_base_url . '">' . $display_name . '</a>';	
+}
+
+/**
+ * bp_core_get_userlink_by_email()
+ *
+ * Returns the email address for the user based on user ID
+ * 
+ * @package BuddyPress Core
+ * @param $email str The email address for the user.
+ * @uses bp_core_get_userlink() BuddyPress function to get a userlink by user ID.
+ * @uses get_user_by_email() WordPress function to get userdata via an email address
+ * @return str The link to the users home base. False on no match.
+ */
+function bp_core_get_userlink_by_email( $email ) {
+	$user = get_user_by_email( $email );
+	return bp_core_get_userlink( $user->ID, false, false, true );
 }
 
 /**
@@ -798,42 +744,6 @@ function bp_get_page_id($page_title) {
 }
 
 /**
- * bp_core_is_blog()
- *
- * Checks to see if the current page is part of the blog.
- * Some example blog pages:
- *   - Single post, Archives, Categories, Tags, Pages, Blog Home, Search Results ...
- * 
- * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @global $cached_page_id The page id of the current page if cached
- * @uses is_tag() WordPress function to check if on tags page
- * @uses is_category() WordPress function to check if on category page
- * @uses is_day() WordPress function to check if on day page
- * @uses is_month() WordPress function to check if on month page
- * @uses is_year() WordPress function to check if on year page
- * @uses is_paged() WordPress function to check if on page
- * @uses is_single() WordPress function to check if on single post page
- * @return bool true if 
- * @return bool false on no match.
- */
-function bp_core_is_blog() {
-	global $bp, $cached_page_id;
-	
-	$blog_page_id = bp_get_page_id('Blog');
-	if ( is_tag() || is_category() || is_day() || is_month() || is_year() || is_paged() || is_single() )
-		return true;
-	if ( isset($cached_page_id) && ( $blog_page_id == $cached_page_id ) )
-		return true;
-	if ( is_page('Blog') )
-		return true;
-	if ( $bp['current_component'] == 'blog' )
-		return true;
-		
-	return false;
-}
-
-/**
  * bp_core_render_notice()
  *
  * Renders a feedback notice (either error or success message) to the theme template.
@@ -943,6 +853,43 @@ function bp_core_record_activity() {
 	update_usermeta( $userdata->ID, 'last_activity', time() ); 
 }
 add_action( 'login_head', 'bp_core_record_activity' );
+
+/**
+ * bp_core_get_all_posts_for_user()
+ *
+ * Fetch every post that is authored by the given user for the current blog.
+ * 
+ * @package BuddyPress Core
+ * @global $bp WordPress user data for the current logged in user.
+ * @global $wpdb WordPress user data for the current logged in user.
+ * @return array of post ids.
+ */
+function bp_core_get_all_posts_for_user( $user_id = null ) {
+	global $bp, $wpdb;
+	
+	if ( !$user_id )
+		$user_id = $bp['current_userid'];
+	
+	return $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM $wpdb->posts WHERE post_author = %d AND post_status = 'publish' AND post_type = 'post'", $user_id ) );
+}
+
+/**
+ * bp_core_replace_comment_author_link()
+ *
+ * Replace the author link on comments to point to a user home base.
+ * 
+ * @package BuddyPress Core
+ * @global $comment WordPress comment global for the current comment.
+ * @uses bp_core_get_userlink_by_email() Fetches a userlink via email address.
+ */
+function bp_core_replace_comment_author_link( $author ) {
+	global $comment;
+
+	$bp_author_link = bp_core_get_userlink_by_email( $comment->comment_author_email );
+	
+	echo ( !$bp_author_link ) ? $author : $bp_author_link; 
+}
+add_action( 'get_comment_author_link', 'bp_core_replace_comment_author_link', 10, 4 );
 
 
 ?>

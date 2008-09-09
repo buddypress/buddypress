@@ -40,7 +40,7 @@ function bp_get_nav() {
 		   to the friends nav item if it exists. */
 		if ( $bp['current_userid'] != $bp['loggedin_userid'] ) {
 			if ( function_exists('friends_check_friendship') ) {
-				if ( friends_check_friendship($bp['current_userid']) && $nav_item['id'] == $bp['friends']['bp_friends_slug'] ) {
+				if ( friends_check_friendship( $bp['current_userid'] ) == 'is_friend' && $nav_item['id'] == $bp['friends']['slug'] ) {
 					$selected = ' class="current"';
 				} else {
 					$selected = '';
@@ -88,7 +88,7 @@ function bp_get_options_nav() {
 			$id = $values['id'];
 			
 			/* If the current action or an action variable matches the nav item id, then add a highlight CSS class. */
-			if ( $slug == $bp['current_action'] || $slug == $bp['action_variables'][0] || ( $slug == '' && ( $bp['current_component'] == 'blog' && bp_is_blog() ) ) ) {
+			if ( $slug == $bp['current_action'] || $slug == $bp['action_variables'][0] ) {
 				$selected = ' class="current"';
 			} else {
 				$selected = '';
@@ -118,7 +118,10 @@ function bp_get_options_nav() {
 function bp_get_user_nav() {
 	global $bp;
 
-	foreach ( $bp['bp_users_nav'] as $user_nav_item ) {
+	/* Sort the nav by key as the array has been put together in different locations */	
+	ksort($bp['bp_users_nav']);
+
+	foreach ( $bp['bp_users_nav'] as $user_nav_item ) {	
 		if ( $bp['current_component'] == $user_nav_item['id'] ) {
 			$selected = ' class="current"';
 		} else {
@@ -209,8 +212,34 @@ function bp_format_time( $time, $just_date = false ) {
 	return $date;
 }
 
-function bp_is_blog() {
-	return bp_core_is_blog();
+function bp_my_or_name() {
+	global $bp;
+	
+	if ( $bp['current_userid'] == $bp['loggedin_userid'] ) {
+		_e('My');
+	} else {
+		echo $bp['bp_options_title'] . "'s";
+	}
+}
+
+function bp_you_or_name() {
+	global $bp;
+	
+	if ( $bp['current_userid'] == $bp['loggedin_userid'] ) {
+		_e('You haven\'t');
+	} else {
+		echo $bp['bp_options_title'] . " hasn't";
+	}
+}
+
+function bp_your_or_name() {
+	global $bp;
+	
+	if ( $bp['current_userid'] == $bp['loggedin_userid'] ) {
+		_e('Your');
+	} else {
+		echo $bp['bp_options_title'] . "'s";
+	}
 }
 
 ?>

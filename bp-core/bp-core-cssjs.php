@@ -17,4 +17,42 @@ function bp_core_add_js() {
 	echo '<script src="' . get_option('siteurl') . '/wp-content/mu-plugins/bp-core/js/general.js" type="text/javascript"></script>';
 }
 add_action( 'wp_head', 'bp_core_add_js' );
-//add_action( 'admin_menu', 'core_add_js' );x
+
+/**
+ * bp_core_add_css()
+ *
+ * Add the CSS required by all BP components, regardless of the current theme.
+ * 
+ * @package BuddyPress Core
+ * @uses get_option() Selects a site setting from the DB.
+ */
+function bp_core_add_css() {
+	if ( bp_core_user_has_home() && is_user_logged_in() )
+		echo '<link rel="stylesheet" href="' . get_option('siteurl') . '/wp-content/mu-plugins/bp-core/css/admin-bar.css" type="text/css" />';
+}
+add_action( 'wp_head', 'bp_core_add_css' );
+
+function bp_core_add_admin_js() {
+	if ( strpos( $_GET['page'], 'bp-core' ) !== false ) {
+		wp_enqueue_script( 'bp-account-admin-js', get_option('siteurl') . '/wp-content/mu-plugins/bp-core/js/account-admin.js' );
+	}
+}
+add_action( 'admin_menu', 'bp_core_add_admin_js' );
+
+function bp_core_enqueue_admin_js() {
+	if ( strpos( $_GET['page'], 'bp-core/admin-mods' ) !== false ) {
+		wp_enqueue_script('password-strength-meter');
+	}
+
+	if ( strpos( $_GET['page'], 'bp-core/homebase-creation' ) !== false ) {
+		add_action( 'admin_head', 'bp_core_add_cropper_js' );
+	}
+}
+add_action( 'admin_menu', 'bp_core_enqueue_admin_js' );
+
+function bp_core_enqueue_admin_css() {
+	if ( strpos( $_GET['page'], 'bp-core/homebase-creation' ) !== false ) {
+		wp_enqueue_style( 'bp-core-home-base-css', get_option('siteurl') . '/wp-content/mu-plugins/bp-core/css/home-base.css' );
+	}
+}
+add_action( 'admin_menu', 'bp_core_enqueue_admin_css' );
