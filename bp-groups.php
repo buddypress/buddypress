@@ -443,35 +443,35 @@ function groups_avatar_upload( $file ) {
 	// validate the group avatar upload if there is one.
 	$avatar_error = false;
 
-	if ( core_check_avatar_upload($file) ) {
-		if ( !core_check_avatar_upload($file) ) {
+	if ( bp_core_check_avatar_upload($file) ) {
+		if ( !bp_core_check_avatar_upload($file) ) {
 			$avatar_error = true;
 			$avatar_error_msg = __('Your group avatar upload failed, please try again.');
 		}
 
-		if ( !core_check_avatar_size($file) ) {
+		if ( !bp_core_check_avatar_size($file) ) {
 			$avatar_error = true;
 			$avatar_size = size_format(1024 * CORE_MAX_FILE_SIZE);
 			$avatar_error_msg = sprintf( __('The file you uploaded is too big. Please upload a file under %d'), $avatar_size);
 		}
 
-		if ( !core_check_avatar_type($file) ) {
+		if ( !bp_core_check_avatar_type($file) ) {
 			$avatar_error = true;
 			$avatar_error_msg = __('Please upload only JPG, GIF or PNG photos.');		
 		}
 
 		// "Handle" upload into temporary location
-		if ( !$original = core_handle_avatar_upload($file) ) {
+		if ( !$original = bp_core_handle_avatar_upload($file) ) {
 			$avatar_error = true;
 			$avatar_error_msg = __('Upload Failed! Your photo dimensions are likely too big.');						
 		}
 
-		if ( !core_check_avatar_dimensions($original) ) {
+		if ( !bp_core_check_avatar_dimensions($original) ) {
 			$avatar_error = true;
 			$avatar_error_msg = sprintf( __('The image you upload must have dimensions of %d x %d pixels or larger.'), CORE_CROPPING_CANVAS_MAX, CORE_CROPPING_CANVAS_MAX );
 		}
 		
-		if ( !$canvas = core_resize_avatar($original) ) {
+		if ( !$canvas = bp_core_resize_avatar($original) ) {
 			$avatar_error = true;
 			$avatar_error_msg = __('Could not create thumbnail, try another photo.');
 		}
@@ -483,7 +483,7 @@ function groups_avatar_upload( $file ) {
 			<?php
 			bp_core_render_avatar_upload_form( '', true );
 		} else {
-			bp_core_render_avatar_cropper($original, $canvas, null, null, false);
+			bp_core_render_avatar_cropper( $original, $canvas, null, null, false, $bp['loggedin_domain'] );
 		}
 	}
 }
@@ -498,11 +498,7 @@ function groups_avatar_upload( $file ) {
 function groups_get_avatar_hrefs( $avatars ) {
 	global $bp;
 	
-	if ( VHOST == 'yes' ) {
-		$src = PROTOCOL . get_usermeta( $bp['loggedin_userid'], 'source_domain' ) . '/';
-	} else {
-		$src = PROTOCOL . get_usermeta( $bp['loggedin_userid'], 'source_domain' ) . '/' . get_usermeta( $bp['loggedin_userid'], 'nickname' ) . '/';
-	}
+	$src = $bp['loggedin_domain'];
 
 	$thumb_href = str_replace( ABSPATH, $src, $avatars['v1_out'] );
 	$full_href = str_replace( ABSPATH, $src, $avatars['v2_out'] );
@@ -599,7 +595,7 @@ function groups_manage_group( $step, $group_id ) {
 			
 			case '3':
 				// Image already cropped and uploaded, lets store a reference in the DB.
-				if ( !wp_verify_nonce($_POST['nonce'], 'slick_avatars') || !$result = core_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'], false, 'groupavatar', $group_id ) )
+				if ( !wp_verify_nonce($_POST['nonce'], 'slick_avatars') || !$result = bp_core_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'], false, 'groupavatar', $group_id ) )
 					return false;
 
 				// Success on group avatar cropping, now save the results.

@@ -237,10 +237,12 @@ function bp_core_resize_avatar($file, $size = CORE_CROPPING_CANVAS_MAX) {
 }
 
 function bp_core_render_avatar_cropper($original, $new, $action, $user_id = null, $no_form_tag = false, $url = false) {
+	global $bp;
+	
 	$size = getimagesize($new);
 	
 	if ( !$user_id )
-		$user_id = get_current_user_id();
+		$user_id = $bp['loggedin_userid'];
 
 	if ( !$url ) {
 		$home_base_id = get_usermeta( $user_id, 'home_base' );

@@ -150,7 +150,7 @@ function bp_friend_avatar_thumb( $template = false ) {
 	
 	echo $template->avatar_thumb;
 }
-	function bp_friends_user_avatar_thumb() {
+	function bp_user_avatar_thumb() {
 		global $friends_template;
 		bp_friend_avatar_thumb( $friends_template->friendship );
 	}

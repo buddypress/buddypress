@@ -31,7 +31,7 @@ function groups_ajax_invite_user() {
 		$user = new BP_Core_User( $_POST['friend_id'] );
 		
 		echo '<li id="uid-' . $user->id . '">';
-		echo $user->avatar;
+		echo $user->avatar_thumb;
 		echo '<h4>' . $user->user_link . '</h4>';
 		echo '<span class="activity">active ' . $user->last_active . ' ago</span>';
 		echo '<div class="action">

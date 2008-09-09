@@ -210,7 +210,7 @@ function bp_group_list_admins() {
 	<ul id="group-admins">
 	<?php for ( $i = 0; $i < count($admins); $i++ ) { ?>
 		<li>
-			<?php echo $admins[$i]->user->avatar ?>
+			<?php echo $admins[$i]->user->avatar_thumb ?>
 			<h5><?php echo $admins[$i]->user->user_link ?></h5>
 			<span class="activity"><?php echo $admins[$i]->user_title ?></span>
 			<hr />
@@ -233,7 +233,7 @@ function bp_group_random_members() {
 	<ul class="horiz-gallery">
 	<?php for ( $i = 0; $i < count( $members ); $i++ ) { ?>
 		<li>
-			<a href="<?php echo $members[$i]->user->user_url ?>"><?php echo $members[$i]->user->avatar ?></a>
+			<a href="<?php echo $members[$i]->user->user_url ?>"><?php echo $members[$i]->user->avatar_thumb ?></a>
 			<h5><?php echo $members[$i]->user->user_link ?></h5>
 		</li>
 	<?php } ?>
@@ -447,7 +447,7 @@ function bp_group_list_members() {
 		$member = new BP_Groups_Member( $groups_template->group->user_dataset[$i]->user_id, $groups_template->group->id );
 
 		?><li id="uid-<?php echo $user->id ?>">
-			<?php echo $member->user->avatar ?>
+			<?php echo $member->user->avatar_thumb ?>
 			<h4><?php echo $member->user->user_link ?> <?php if ( $member->user_title ) { ?><?php echo '<span class="small">- ' . $member->user_title . '</span>' ?><?php } ?></h4>
 			<span class="activity">joined <?php echo bp_core_time_since( strtotime($member->date_modified) ) ?> ago</span>
 	<?php if ( bp_exists('friends') && function_exists('bp_add_friend_button') ) { ?>
@@ -511,7 +511,7 @@ function bp_group_send_invite_form( $group_obj = null ) {
 				$user = new BP_Core_User( $invites[$i] ); ?>
 		
 				<li id="uid-<?php echo $user->id ?>">
-					<?php echo $user->avatar ?>
+					<?php echo $user->avatar_thumb ?>
 					<h4><?php echo $user->user_link ?></h4>
 					<span class="activity">active <?php echo $user->last_active ?> ago</span>
 					<div class="action">

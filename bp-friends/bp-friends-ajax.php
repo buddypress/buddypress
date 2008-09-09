@@ -44,7 +44,7 @@ function friends_ajax_friends_search() {
 			$friend = $friendships['friendships'][$i]->friend;
 			?>
 			<li>
-				<?php echo $friend->avatar ?>
+				<?php echo $friend->avatar_thumb ?>
 				<h4><?php echo $friend->user_link ?></h4>
 				<?php if ( $friend->last_active ) { ?>
 					<span class="activity"><?php echo $friend->last_active ?></span>
@@ -106,7 +106,7 @@ function friends_ajax_finder_search() {
 			$user = $users['users'][$i];
 			?>
 				<li>
-					<?php echo $user->avatar ?>
+					<?php echo $user->avatar_thumb ?>
 					<h4><?php echo $user->user_link ?></h4>
 					<?php if ( $user->last_active ) { ?>
 						<span class="activity"><?php echo $user->last_active ?></span>
