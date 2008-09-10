@@ -280,6 +280,8 @@ add_action( 'preprocess_signup_form', 'xprofile_validate_signup_fields' );
  **************************************************************************/
 
 function xprofile_hidden_signup_fields() {
+	global $active_signup;
+	
 	// Override the stage variable so we can redirect the validation of the form
 	// to our own custom validation function.
 	
@@ -289,6 +291,9 @@ function xprofile_hidden_signup_fields() {
 	<?php } ?>
 	<input type="hidden" name="validate_custom" value="1" />
 	<?php
+	
+	if ( $active_signup != 'none' )
+		$active_signup = 'blog';
 }
 add_action( 'signup_hidden_fields', 'xprofile_hidden_signup_fields' );
 
@@ -430,6 +435,27 @@ function xprofile_add_jquery() {
 }
 add_action( 'wp_head', 'xprofile_add_jquery' );
 
+function xprofile_replace_blog_references() {
+	if ( strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php' ) ) {
+		add_action( 'wp_head', 'xprofile_start_blog_reference_replacement' );
+	}	
+}
+add_action( 'wp', 'xprofile_replace_blog_references' );
+
+function xprofile_start_blog_reference_replacement( $contents ) {	
+	ob_start();
+	add_action('wp_footer', 'xprofile_end_blog_reference_replacement');
+}
+
+function xprofile_blog_reference_replacement( $contents ) {
+	echo str_replace( 'blog', 'account', $contents );
+}
+
+function xprofile_end_blog_reference_replacement() {
+	$contents = ob_get_contents();
+	ob_end_clean();
+	xprofile_blog_reference_replacement($contents);
+}
 
 
 
