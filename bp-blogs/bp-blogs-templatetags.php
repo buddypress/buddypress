@@ -732,10 +732,10 @@ function bp_blogs_validate_blog_signup() {
 	/* If this is a VHOST install, remove the username from the domain as we are setting this blog
 	   up inside a user domain, not the root domain. */
 	
-	if ( constant( "VHOST" ) == 'yes' ) {
-		$domain = str_replace( $current_user->user_login . '.', '', $domain );
+	if ( VHOST == 'yes' ) {
+		$domain = str_replace( bp_core_get_primary_username() . '.', '', $domain );
 	}
-	
+
 	wpmu_create_blog( $domain, $path, $blog_title, $current_user->id, $meta, $wpdb->siteid );
 	bp_blogs_confirm_blog_signup($domain, $path, $blog_title, $current_user->user_login, $current_user->user_email, $meta);
 	return true;
