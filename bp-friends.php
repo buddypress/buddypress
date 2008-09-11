@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_FRIENDS_IS_INSTALLED', 1 );
-define ( 'BP_FRIENDS_VERSION', '0.1.2' );
+define ( 'BP_FRIENDS_VERSION', '0.1.4' );
 
 include_once( 'bp-friends/bp-friends-classes.php' );
 include_once( 'bp-friends/bp-friends-ajax.php' );
