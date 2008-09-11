@@ -370,22 +370,21 @@ function bp_blogs_remove_all_data_for_user( $blog_id ) {
 add_action( 'delete_blog', 'bp_blogs_remove_all_data_for_user', 1 );
 
 function bp_blogs_register_existing_content( $blog_id ) {
-	global $wpdb;
+	global $wpdb, $bp;
 	
-	if ( $user_id = bp_core_get_homebase_userid( $blog_id ) ) {
-		$blogs = get_blogs_of_user($user_id);
+	$user_id = $bp['loggedin_userid'];
+	$blogs = get_blogs_of_user($user_id);
 
-		if ( is_array($blogs) ) {
-			foreach ( $blogs as $blog ) {
-				if ( (int)$blog->userblog_id != (int)get_usermeta( $user_id, 'home_base' ) ) {
-					bp_blogs_record_blog( (int)$blog->userblog_id, (int)$user_id );
-					
-					$wpdb->set_blog_id( $blog->userblog_id );
-					$posts_for_blog = bp_core_get_all_posts_for_user( $user_id );
-				
-					for ( $i = 0; $i < count($posts); $i++ ) {
-						bp_blogs_record_post( $posts[$i] );
-					}
+	if ( is_array($blogs) ) {
+		foreach ( $blogs as $blog ) {
+			if ( (int)$blog->userblog_id != (int)get_usermeta( $user_id, 'home_base' ) ) {
+				bp_blogs_record_blog( (int)$blog->userblog_id, (int)$user_id );
+
+				$wpdb->set_blog_id( $blog->userblog_id );
+				$posts_for_blog = bp_core_get_all_posts_for_user( $user_id );
+			
+				for ( $i = 0; $i < count($posts); $i++ ) {
+					bp_blogs_record_post( $posts[$i] );
 				}
 			}
 		}
