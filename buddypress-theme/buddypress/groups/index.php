@@ -3,10 +3,6 @@
 </div>
 
 <div id="content">
-	<div class="pagination-links" id="pag">
-		<?php bp_group_pagination() ?>
-	</div>
-	
 	<h2><?php bp_my_or_name() ?> <?php _e('Groups') ?></h2>
 	
 	<div class="left-menu">
@@ -17,6 +13,10 @@
 		<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 	
 		<?php if ( bp_has_groups() ) : ?>
+			<div class="pagination-links" id="pag">
+				<?php bp_group_pagination() ?>
+			</div>
+			
 			<ul id="group-list">
 			<?php while ( bp_groups() ) : bp_the_group(); ?>
 				<li>

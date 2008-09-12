@@ -332,6 +332,7 @@ ul.content-header-nav {
 			}
 				
 		.pagination-links {
+			margin-top: -3.7em;
 			float: right;
 		}
 			.pagination-links .page-numbers {
