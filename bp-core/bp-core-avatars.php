@@ -32,7 +32,7 @@ function bp_core_get_avatar( $user, $version = 1, $no_tag = false, $width = null
 		$width = constant('CORE_AVATAR_V' . $version . '_W');
 	
 	if ( !$height )
-		$width = constant('CORE_AVATAR_V' . $version . '_H');		
+		$height = constant('CORE_AVATAR_V' . $version . '_H');		
 	
 	$str = get_usermeta( $user, "bp_core_avatar_v$version" );
 	
