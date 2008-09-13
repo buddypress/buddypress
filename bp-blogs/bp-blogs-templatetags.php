@@ -341,7 +341,7 @@ function bp_post_blog_permalink() {
 	echo $posts_template->post->blog_id;	
 }
 
-function bp_post_get_permalink( &$post = null, $blog_id = null ) {
+function bp_post_get_permalink( $post = null, $blog_id = null ) {
 	global $current_blog, $posts_template;
 
 	if ( !$post )
