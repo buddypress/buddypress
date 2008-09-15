@@ -14,8 +14,8 @@ Please test your installation first. Make sure you can register and activate
 new blogs. Make sure you can post and leave comments on blogs. Make sure you
 are not getting blank screens or 404's anywhere on the install.
 
-To use BuddyPress, your WPMU installation **MUST BE A ROOT INSTALL**.
-BuddyPress will not currently work within a subdirectory or subdomain.
+To use BuddyPress, your WPMU installation **MUST BE INSTALLED IN THE ROOT**.
+BuddyPress will not currently work when WPMU is installed a sub directory.
 
 
 ***************************************
