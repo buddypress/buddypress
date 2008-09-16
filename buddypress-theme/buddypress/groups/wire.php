@@ -3,6 +3,8 @@
 </div>
 
 <div id="content">	
+	<?php do_action( 'template_notices' ) // (error/success feedback) ?>
+	
 	<?php if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group(); ?>
 	
 	<div class="left-menu">
@@ -24,14 +26,13 @@
 		</div>
 
 		<div class="info-group">
-			<h4>Group Members</h4>
-
-			<ul id="member-list">
-				<?php bp_group_list_members() // [TODO] this will be replaced with a proper template loop. ?>
-			</ul>
+			<?php if ( function_exists('bp_wire_get_post_list') ) : ?>
+				<?php bp_wire_get_post_list( bp_group_id(false), 'Group Wire', 'The are no wire posts for ' . bp_group_name(false) ) ?>
+			<?php endif; ?>
 		</div>
 	
 	</div>
 	
 	<?php endwhile; endif; ?>
+
 </div>

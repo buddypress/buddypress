@@ -28,7 +28,7 @@ Class BP_XProfile_Group {
 	function populate( $id ) {
 		global $wpdb, $bp;
 		
-		$sql = $wpdb->prepare("SELECT * FROM " . $bp['xprofile']['table_name_groups'] . " WHERE id = %d", $id);
+		$sql = $wpdb->prepare("SELECT * FROM " . $bp['profile']['table_name_groups'] . " WHERE id = %d", $id);
 
 		if ( $group = $wpdb->get_row($sql) ) {
 			$this->id = $group->id;
@@ -46,9 +46,9 @@ Class BP_XProfile_Group {
 		global $wpdb, $bp;
 
 		if ( $this->id != null ) {
-			$sql = $wpdb->prepare("UPDATE " . $bp['xprofile']['table_name_groups'] . " SET name = %s, description = %s WHERE id = %d", $this->name, $this->description, $this->id);
+			$sql = $wpdb->prepare("UPDATE " . $bp['profile']['table_name_groups'] . " SET name = %s, description = %s WHERE id = %d", $this->name, $this->description, $this->id);
 		} else {
-			$sql = $wpdb->prepare("INSERT INTO " . $bp['xprofile']['table_name_groups'] . " (name, description, can_delete) VALUES (%s, %s, 1)", $this->name, $this->description);		
+			$sql = $wpdb->prepare("INSERT INTO " . $bp['profile']['table_name_groups'] . " (name, description, can_delete) VALUES (%s, %s, 1)", $this->name, $this->description);		
 		}
 		
 		if ( $wpdb->query($sql) === false )
@@ -63,7 +63,7 @@ Class BP_XProfile_Group {
 		if ( !$this->can_delete )
 			return false;
 		
-		$sql = $wpdb->prepare("DELETE FROM " . $bp['xprofile']['table_name_groups'] . " WHERE id = %d", $this->id);
+		$sql = $wpdb->prepare("DELETE FROM " . $bp['profile']['table_name_groups'] . " WHERE id = %d", $this->id);
 
 		if ( $wpdb->query($sql) === false) {
 			return false;
@@ -84,7 +84,7 @@ Class BP_XProfile_Group {
 		global $wpdb, $bp;
 
 		// Get field ids for the current group.
-		$sql = $wpdb->prepare("SELECT id, type FROM " . $bp['xprofile']['table_name_fields'] . " WHERE group_id = %d AND parent_id = 0 ORDER BY id", $this->id);
+		$sql = $wpdb->prepare("SELECT id, type FROM " . $bp['profile']['table_name_fields'] . " WHERE group_id = %d AND parent_id = 0 ORDER BY id", $this->id);
 
 		if(!$fields = $wpdb->get_results($sql))			
 			return false;
@@ -142,9 +142,9 @@ Class BP_XProfile_Group {
 		global $wpdb, $bp;
 
 		if ( $hide_empty ) {
-			$sql = $wpdb->prepare("SELECT DISTINCT g.* FROM " . $bp['xprofile']['table_name_groups'] . " g INNER JOIN " . $bp['xprofile']['table_name_fields'] . " f ON g.id = f.group_id ORDER BY g.id ASC");
+			$sql = $wpdb->prepare("SELECT DISTINCT g.* FROM " . $bp['profile']['table_name_groups'] . " g INNER JOIN " . $bp['profile']['table_name_fields'] . " f ON g.id = f.group_id ORDER BY g.id ASC");
 		} else {
-			$sql = $wpdb->prepare("SELECT * FROM " . $bp['xprofile']['table_name_groups'] . " ORDER BY id ASC");
+			$sql = $wpdb->prepare("SELECT * FROM " . $bp['profile']['table_name_groups'] . " ORDER BY id ASC");
 		}
 
 		if ( !$groups_temp = $wpdb->get_results($sql) )
@@ -203,7 +203,7 @@ Class BP_XProfile_Field {
 			$user_id = $userdata->ID;
 		}
 		
-		$sql = $wpdb->prepare("SELECT * FROM " . $bp['xprofile']['table_name_fields'] . " WHERE id = %d", $id);
+		$sql = $wpdb->prepare("SELECT * FROM " . $bp['profile']['table_name_fields'] . " WHERE id = %d", $id);
 	
 		if ( $field = $wpdb->get_row($sql) ) {
 			$this->id = $field->id;
@@ -232,7 +232,7 @@ Class BP_XProfile_Field {
 		if ( !$this->id )
 			return false;
 			
-		$sql = $wpdb->prepare("DELETE FROM " . $bp['xprofile']['table_name_fields'] . " WHERE id = %d OR parent_id = %d", $this->id, $this->id);
+		$sql = $wpdb->prepare("DELETE FROM " . $bp['profile']['table_name_fields'] . " WHERE id = %d OR parent_id = %d", $this->id, $this->id);
 
 		if ( $wpdb->query($sql) === false )
 			return false;
@@ -247,9 +247,9 @@ Class BP_XProfile_Field {
 		global $wpdb, $bp;
 		
 		if ( $this->id != null ) {
-			$sql = $wpdb->prepare("UPDATE " . $bp['xprofile']['table_name_fields'] . " SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d, is_public = %d, order_by = %s WHERE id = %d", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->is_public, $this->order_by, $this->id);
+			$sql = $wpdb->prepare("UPDATE " . $bp['profile']['table_name_fields'] . " SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d, is_public = %d, order_by = %s WHERE id = %d", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->is_public, $this->order_by, $this->id);
 		} else {
-			$sql = $wpdb->prepare("INSERT INTO " . $bp['xprofile']['table_name_fields'] . " (group_id, parent_id, type, name, description, is_required, is_public, order_by) VALUES (%d, 0, %s, %s, %s, %d, %d, %s)", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->is_public, $this->order_by);
+			$sql = $wpdb->prepare("INSERT INTO " . $bp['profile']['table_name_fields'] . " (group_id, parent_id, type, name, description, is_required, is_public, order_by) VALUES (%d, 0, %s, %s, %s, %d, %d, %s)", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->is_public, $this->order_by);
 		}
 		if ( $wpdb->query($sql) !== false ) {
 			// Only do this if we are editing an existing field
@@ -297,7 +297,7 @@ Class BP_XProfile_Field {
 								$description = $data[1];
 								
 							if ( $num > 0 ) {
-								$sql = $wpdb->prepare( "INSERT INTO " . $bp['xprofile']['table_name_fields'] . " (group_id, parent_id, type, name, description, is_required, option_order) VALUES (%d, %d, 'option', %s, %s, 0, %d)", $this->group_id, $parent_id, $name, $description, $option_order);
+								$sql = $wpdb->prepare( "INSERT INTO " . $bp['profile']['table_name_fields'] . " (group_id, parent_id, type, name, description, is_required, option_order) VALUES (%d, %d, 'option', %s, %s, 0, %d)", $this->group_id, $parent_id, $name, $description, $option_order);
 								$wpdb->query($sql);
 							}
 						}
@@ -333,7 +333,7 @@ Class BP_XProfile_Field {
 
 							if ( $option_value != "" ) { 
 								// don't insert an empty option.
-								$sql = $wpdb->prepare("INSERT INTO " . $bp['xprofile']['table_name_fields'] . " (group_id, parent_id, type, name, description, is_required, option_order, is_default_option) VALUES (%d, %d, 'option', %s, '', 0, %d, %d)", $this->group_id, $parent_id, $option_value, $counter, $is_default);
+								$sql = $wpdb->prepare("INSERT INTO " . $bp['profile']['table_name_fields'] . " (group_id, parent_id, type, name, description, is_required, option_order, is_default_option) VALUES (%d, %d, 'option', %s, '', 0, %d, %d)", $this->group_id, $parent_id, $option_value, $counter, $is_default);
 
 								if ( $wpdb->query($sql) === false ) {
 									return false;
@@ -461,7 +461,7 @@ Class BP_XProfile_Field {
 				}
 				
 				if ( !$this->is_required ) {
-					$html .= '<a class="clear-value" style="text-decoration: none;" href="javascript:clear(\'field_' . $this->id . '\');"><img src="' . $bp['xprofile']['image_base'] . '/cross.gif" alt="Clear" /> Clear</a>';
+					$html .= '<a class="clear-value" style="text-decoration: none;" href="javascript:clear(\'field_' . $this->id . '\');"><img src="' . $bp['profile']['image_base'] . '/cross.gif" alt="Clear" /> Clear</a>';
 				}
 				
 				$html .= '<span class="signup-description">' . $this->desc . '</span>';	
@@ -590,7 +590,7 @@ Class BP_XProfile_Field {
 			$parent_id = $this->id;
 		}
 		
-		$sql = $wpdb->prepare( "SELECT * FROM " . $bp['xprofile']['table_name_fields'] . " WHERE parent_id = %d AND group_id = %d $sort_sql", $parent_id, $this->group_id );
+		$sql = $wpdb->prepare( "SELECT * FROM " . $bp['profile']['table_name_fields'] . " WHERE parent_id = %d AND group_id = %d $sort_sql", $parent_id, $this->group_id );
 
 		if ( !$children = $wpdb->get_results($sql) )
 			return false;
@@ -601,7 +601,7 @@ Class BP_XProfile_Field {
 	function delete_children() {
 		global $wpdb, $bp;
 
-		$sql = $wpdb->prepare("DELETE FROM " . $bp['xprofile']['table_name_fields'] . " WHERE parent_id = %d", $this->id);
+		$sql = $wpdb->prepare("DELETE FROM " . $bp['profile']['table_name_fields'] . " WHERE parent_id = %d", $this->id);
 
 		$wpdb->query($sql);
 	}
@@ -896,7 +896,7 @@ Class BP_XProfile_Field {
 	function get_signup_fields() {
 		global $wpdb, $bp;
 		
-		$sql = $wpdb->prepare("SELECT f.id FROM " . $bp['xprofile']['table_name_fields'] . " AS f, " . $bp['xprofile']['table_name_groups'] . " AS g WHERE g.name = 'Basic' AND f.parent_id = 0	AND g.id = f.group_id ORDER BY f.id");
+		$sql = $wpdb->prepare("SELECT f.id FROM " . $bp['profile']['table_name_fields'] . " AS f, " . $bp['profile']['table_name_groups'] . " AS g WHERE g.name = 'Basic' AND f.parent_id = 0	AND g.id = f.group_id ORDER BY f.id");
 
 		if ( !$temp_fields = $wpdb->get_results($sql) )
 			return false;
@@ -936,7 +936,7 @@ Class BP_XProfile_Field {
 		global $wpdb, $bp;
 
 		if ( $field_id ) {
-			$sql = $wpdb->prepare("SELECT type FROM " . $bp['xprofile']['table_name_fields'] . " WHERE id = %d", $field_id);
+			$sql = $wpdb->prepare("SELECT type FROM " . $bp['profile']['table_name_fields'] . " WHERE id = %d", $field_id);
 
 			if ( !$field_type = $wpdb->get_var($sql) )
 				return false;
@@ -951,7 +951,7 @@ Class BP_XProfile_Field {
 		global $wpdb, $bp;
 
 		if ( $group_id ) {
-			$sql = $wpdb->prepare("DELETE FROM " . $bp['xprofile']['table_name_fields'] . " WHERE group_id = %d", $group_id);
+			$sql = $wpdb->prepare("DELETE FROM " . $bp['profile']['table_name_fields'] . " WHERE group_id = %d", $group_id);
 
 			if ( $wpdb->get_var($sql) === false ) {
 				return false;
@@ -984,7 +984,7 @@ Class BP_XProfile_ProfileData {
 		if ( is_null($user_id) )
 			$user_id = $userdata->ID;
 		
-		$sql = $wpdb->prepare("SELECT * FROM " . $bp['xprofile']['table_name_data'] . " WHERE field_id = %d AND user_id = %d", $field_id, $user_id);
+		$sql = $wpdb->prepare("SELECT * FROM " . $bp['profile']['table_name_data'] . " WHERE field_id = %d AND user_id = %d", $field_id, $user_id);
 
 		if ( $profiledata = $wpdb->get_row($sql) ) {
 			$this->id = $profiledata->id;
@@ -999,7 +999,7 @@ Class BP_XProfile_ProfileData {
 		global $wpdb, $userdata, $bp;
 		
 		// check to see if there is data already for the user.
-		$sql = $wpdb->prepare("SELECT id FROM " . $bp['xprofile']['table_name_data'] . " WHERE user_id = %d AND field_id = %d", $userdata->ID, $this->field_id);
+		$sql = $wpdb->prepare("SELECT id FROM " . $bp['profile']['table_name_data'] . " WHERE user_id = %d AND field_id = %d", $userdata->ID, $this->field_id);
 
 		if ( !$wpdb->get_row($sql) ) 
 			return false;
@@ -1011,7 +1011,7 @@ Class BP_XProfile_ProfileData {
 		global $wpdb, $bp;
 		
 		// check to see if this data is actually for a valid field.
-		$sql = $wpdb->prepare("SELECT id FROM " . $bp['xprofile']['table_name_fields'] . " WHERE id = %d", $this->field_id);
+		$sql = $wpdb->prepare("SELECT id FROM " . $bp['profile']['table_name_fields'] . " WHERE id = %d", $this->field_id);
 
 		if ( !$wpdb->get_row($sql) ) 
 			return false;
@@ -1026,12 +1026,12 @@ Class BP_XProfile_ProfileData {
 
 		if ( $this->is_valid_field() ) {
 			if ( $this->exists() && $this->value != '' ) {
-				$sql = $wpdb->prepare("UPDATE " . $bp['xprofile']['table_name_data'] . " SET value = %s, last_updated = %s WHERE user_id = %d AND field_id = %d", $this->value, $this->last_updated, $this->user_id, $this->field_id);
+				$sql = $wpdb->prepare("UPDATE " . $bp['profile']['table_name_data'] . " SET value = %s, last_updated = %s WHERE user_id = %d AND field_id = %d", $this->value, $this->last_updated, $this->user_id, $this->field_id);
 			} else if ( $this->exists() and $this->value == '' ) {
 				// Data removed, delete the entry.
 				$this->delete();
 			} else {
-				$sql = $wpdb->prepare("INSERT INTO " . $bp['xprofile']['table_name_data'] . " (user_id, field_id, value, last_updated) VALUES (%d, %d, %s, %s)", $this->user_id, $this->field_id, $this->value, $this->last_updated);
+				$sql = $wpdb->prepare("INSERT INTO " . $bp['profile']['table_name_data'] . " (user_id, field_id, value, last_updated) VALUES (%d, %d, %s, %s)", $this->user_id, $this->field_id, $this->value, $this->last_updated);
 			}
 						
 			if ( $wpdb->query($sql) === false )
@@ -1049,7 +1049,7 @@ Class BP_XProfile_ProfileData {
 	function delete() {
 		global $wpdb, $bp;
 		
-		$sql = $wpdb->prepare("DELETE FROM " . $bp['xprofile']['table_name_data'] . " WHERE field_id = %d AND user_id = %d", $this->field_id, $this->user_id);
+		$sql = $wpdb->prepare("DELETE FROM " . $bp['profile']['table_name_data'] . " WHERE field_id = %d AND user_id = %d", $this->field_id, $this->user_id);
 
 		if ( $wpdb->query($sql) === false )
 			return false;
@@ -1065,7 +1065,7 @@ Class BP_XProfile_ProfileData {
 		if ( !$user_id )
 			$user_id = $bp['current_userid'];
 
-		$sql = $wpdb->prepare("SELECT * FROM " . $bp['xprofile']['table_name_data'] . " WHERE field_id = %d AND user_id = %d", $field_id, $user_id );
+		$sql = $wpdb->prepare("SELECT * FROM " . $bp['profile']['table_name_data'] . " WHERE field_id = %d AND user_id = %d", $field_id, $user_id );
 
 		if ( $profile_data = $wpdb->get_row($sql) ) {
 			return $profile_data->value;
@@ -1098,7 +1098,7 @@ Class BP_XProfile_ProfileData {
 			$field_sql .= $wpdb->prepare( "AND f.name = %s", $fields );
 		}
 
-		$sql = $wpdb->prepare( "SELECT d.value, f.name FROM " . $bp['xprofile']['table_name_data'] . " d, " . $bp['xprofile']['table_name_fields'] . " f WHERE d.field_id = f.id AND d.user_id = %d AND f.parent_id = 0 $field_sql", $user_id );
+		$sql = $wpdb->prepare( "SELECT d.value, f.name FROM " . $bp['profile']['table_name_data'] . " d, " . $bp['profile']['table_name_fields'] . " f WHERE d.field_id = f.id AND d.user_id = %d AND f.parent_id = 0 $field_sql", $user_id );
 	
 		if ( !$values = $wpdb->get_results($sql) )
 			return false;
@@ -1125,7 +1125,7 @@ Class BP_XProfile_ProfileData {
 	function delete_for_field( $field_id ) {
 		global $wpdb, $userdata, $bp;
 
-		$sql = $wpdb->prepare("DELETE FROM " . $bp['xprofile']['table_name_data'] . " WHERE field_id = %d", $field_id);
+		$sql = $wpdb->prepare("DELETE FROM " . $bp['profile']['table_name_data'] . " WHERE field_id = %d", $field_id);
 
 		if ( $wpdb->query($sql) === false )
 			return false;
@@ -1136,7 +1136,7 @@ Class BP_XProfile_ProfileData {
 	function get_last_updated( $user_id ) {
 		global $wpdb, $bp;
 		
-		$last_updated = $wpdb->get_var( $wpdb->prepare( "SELECT last_updated FROM " . $bp['xprofile']['table_name_data'] . " WHERE user_id = %d ORDER BY last_updated LIMIT 1", $user_id ) );
+		$last_updated = $wpdb->get_var( $wpdb->prepare( "SELECT last_updated FROM " . $bp['profile']['table_name_data'] . " WHERE user_id = %d ORDER BY last_updated LIMIT 1", $user_id ) );
 		
 		return $last_updated;
 	}
@@ -1144,7 +1144,7 @@ Class BP_XProfile_ProfileData {
 	function delete_data_for_user( $user_id ) {
 		global $wpdb, $bp;
 		
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['xprofile']['table_name_data'] . " WHERE user_id = %d", $user_id ) );
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['profile']['table_name_data'] . " WHERE user_id = %d", $user_id ) );
 		
 	}
 }

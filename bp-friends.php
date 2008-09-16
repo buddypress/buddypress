@@ -2,13 +2,14 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_FRIENDS_IS_INSTALLED', 1 );
-define ( 'BP_FRIENDS_VERSION', '0.1.4' );
+define ( 'BP_FRIENDS_VERSION', '0.1.2' );
 
 include_once( 'bp-friends/bp-friends-classes.php' );
 include_once( 'bp-friends/bp-friends-ajax.php' );
 include_once( 'bp-friends/bp-friends-cssjs.php' );
 /*include_once( 'bp-messages/bp-friends-admin.php' );*/
 include_once( 'bp-friends/bp-friends-templatetags.php' );
+
 
 
 /**************************************************************************
@@ -27,7 +28,9 @@ function friends_install( $version ) {
 		  		is_confirmed bool DEFAULT 0,
 				is_limited bool DEFAULT 0,
 		  		date_created datetime NOT NULL,
-		    	PRIMARY KEY id (id)
+		    	PRIMARY KEY id (id),
+			    KEY initiator_user_id (initiator_user_id),
+			    KEY friend_user_id (friend_user_id)
 		 	   );";
 
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
@@ -86,14 +89,17 @@ add_action( 'admin_menu', 'friends_add_admin_menu' );
 
 function friends_setup_nav() {
 	global $bp;
-
-	$bp['bp_nav'][3] = array(
+	
+	$nav_key = count($bp['bp_nav']) + 1;
+	$user_nav_key = count($bp['bp_users_nav']) + 1;
+	
+	$bp['bp_nav'][$nav_key] = array(
 		'id'	=> $bp['friends']['slug'],
 		'name'  => __('Friends'), 
 		'link'  => $bp['loggedin_domain'] . $bp['friends']['slug'] . '/'
 	);
 	
-	$bp['bp_users_nav'][2] = array(
+	$bp['bp_users_nav'][$user_nav_key] = array(
 		'id'	=> $bp['friends']['slug'],
 		'name'  => __('Friends'), 
 		'link'  => $bp['current_domain'] . $bp['friends']['slug'] . '/'
@@ -122,6 +128,7 @@ function friends_setup_nav() {
 			$bp['bp_options_title'] = bp_user_fullname( $bp['current_userid'], false ); 
 		}
 	}
+
 }
 add_action( 'wp', 'friends_setup_nav', 2 );
 

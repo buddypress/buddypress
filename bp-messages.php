@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_MESSAGES_IS_INSTALLED', 1 );
-define ( 'BP_MESSAGES_VERSION', '0.3.4' );
+define ( 'BP_MESSAGES_VERSION', '0.3.3' );
 
 include_once( 'bp-messages/bp-messages-classes.php' );
 include_once( 'bp-messages/bp-messages-ajax.php' );
@@ -27,7 +27,11 @@ function messages_install( $version ) {
 		  		last_post_date datetime NOT NULL,
 		  		last_message_id int(11) NOT NULL,
 				last_sender_id int(11) NOT NULL,
-		  		PRIMARY KEY id (id)
+			    PRIMARY KEY  (id),
+			    KEY message_ids (message_ids),
+			    KEY sender_ids (sender_ids),
+			    KEY last_message_id (last_message_id),
+			    KEY last_sender_id (last_sender_id)
 		 	   );";
 	
 	$sql[] = "CREATE TABLE ". $bp['messages']['table_name_recipients'] ." (
@@ -36,7 +40,11 @@ function messages_install( $version ) {
 		  		thread_id int(11) NOT NULL,
 				sender_only tinyint(1) NOT NULL DEFAULT '0',
 		  		unread_count int(10) NOT NULL DEFAULT '0',
-		  		PRIMARY KEY id (id)
+			    PRIMARY KEY  (id),
+			    KEY user_id (user_id),
+			    KEY thread_id (thread_id),
+			    KEY sender_only (sender_only),
+			    KEY unread_count (unread_count)
 		 	   );";
 
 	$sql[] = "CREATE TABLE ". $bp['messages']['table_name_messages'] ." (
@@ -47,7 +55,10 @@ function messages_install( $version ) {
 		  		date_sent datetime NOT NULL,
 				message_order int(10) NOT NULL,
 				sender_is_group tinyint(1) NOT NULL DEFAULT '0',
-		  		PRIMARY KEY id (id)
+			    PRIMARY KEY  (id),
+			    KEY sender_id (sender_id),
+			    KEY message_order (message_order),
+			    KEY sender_is_group (sender_is_group)
 		 	   );";
 	
 	$sql[] = "CREATE TABLE ". $bp['messages']['table_name_notices'] ." (
@@ -56,7 +67,8 @@ function messages_install( $version ) {
 		  		message longtext NOT NULL,
 		  		date_sent datetime NOT NULL,
 				is_active tinyint(1) NOT NULL DEFAULT '0',
-		  		PRIMARY KEY id (id)
+			    PRIMARY KEY  (id),
+			    KEY is_active (is_active)
 		 	   );";
 	
 	/* DELETE PREVIOUS TABLES (TEMP) */
@@ -123,8 +135,10 @@ add_action( 'admin_menu', 'messages_add_admin_menu' );
 
 function messages_setup_nav() {
 	global $bp;
+	
+	$nav_key = count($bp['bp_nav']) + 1;
 
-	$bp['bp_nav'][2] = array(
+	$bp['bp_nav'][$nav_key] = array(
 		'id'	=> $bp['messages']['slug'],
 		'name'  => 'Messages', 
 		'link'  => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/'

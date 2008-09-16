@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_GROUPS_IS_INSTALLED', 1 );
-define ( 'BP_GROUPS_VERSION', '0.1.2' );
+define ( 'BP_GROUPS_VERSION', '0.1.4' );
 
 include_once( 'bp-groups/bp-groups-classes.php' );
 include_once( 'bp-groups/bp-groups-ajax.php' );
@@ -36,7 +36,10 @@ function groups_install( $version ) {
 			date_created datetime NOT NULL,
 			avatar_thumb varchar(150) NOT NULL,
 			avatar_full varchar(150) NOT NULL,
-	    	PRIMARY KEY id (id)
+	    	PRIMARY KEY id (id),
+		    KEY creator_id (creator_id),
+		    KEY status (status),
+		    KEY is_invitation_only (is_invitation_only)
 	 	   );";
 	
 	$sql[] = "CREATE TABLE ". $bp['groups']['table_name_members'] ." (
@@ -48,8 +51,25 @@ function groups_install( $version ) {
 			user_title varchar(100) NOT NULL,
 			date_modified datetime NOT NULL,
 			is_confirmed tinyint(1) NOT NULL DEFAULT '0',
-	    	PRIMARY KEY id (id)
+			PRIMARY KEY  (id),
+			KEY group_id (group_id),
+		 	KEY user_id (user_id),
+			KEY inviter_id (inviter_id),
+			KEY is_confirmed (is_confirmed)
 	 	   );";
+	
+	if ( function_exists('bp_wire_install') ) {
+		$sql[] = "CREATE TABLE ". $bp['groups']['table_name_wire'] ." (
+		  		id int(11) NOT NULL AUTO_INCREMENT,
+				item_id int(11) NOT NULL,
+				user_id int(11) NOT NULL,
+				content longtext NOT NULL,
+				date_posted datetime NOT NULL,
+				PRIMARY KEY id (id),
+				KEY item_id (item_id),
+				KEY user_id (user_id)
+		 	   );";		
+	}
 
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
@@ -74,6 +94,9 @@ function groups_setup_globals() {
 		'image_base' => get_option('siteurl') . '/wp-content/mu-plugins/bp-groups/images',
 		'slug'		 => 'groups'
 	);
+	
+	if ( function_exists('bp_wire_install') )
+		$bp['groups']['table_name_wire'] = $wpdb->base_prefix . 'bp_groups_wire';
 	
 	$bp['groups']['forbidden_names'] = array( 'my-groups', 'group-finder', 'create', 'invites', 'delete', 'add' );
 }
@@ -112,14 +135,17 @@ add_action( 'admin_menu', 'groups_add_admin_menu' );
 function groups_setup_nav() {
 	global $bp;
 	global $group_obj, $is_single_group;
+	
+	$nav_key = count($bp['bp_nav']) + 1;
+	$user_nav_key = count($bp['bp_users_nav']) + 1;
 
-	$bp['bp_nav'][4] = array(
+	$bp['bp_nav'][$nav_key] = array(
 		'id'	=> $bp['groups']['slug'],
 		'name'  => __('Groups'), 
 		'link'  => $bp['loggedin_domain'] . $bp['groups']['slug'] . '/'
 	);
 	
-	$bp['bp_users_nav'][3] = array(
+	$bp['bp_users_nav'][$user_nav_key] = array(
 		'id'	=> $bp['groups']['slug'],
 		'name'  => __('Groups'), 
 		'link'  => $bp['current_domain'] . $bp['groups']['slug'] . '/'
@@ -170,7 +196,7 @@ function groups_setup_nav() {
 					'link'      => $bp['loggedin_domain'] . $bp['groups']['slug'] . '/' . $group_obj->slug . '/forum' )
 			);
 			
-			if ( bp_exists('wire') ) {
+			if ( function_exists('bp_wire_install') ) {
 				$wire = array(
 					'wire' => array(
 						'id'		=> 'group-wire',
@@ -180,7 +206,7 @@ function groups_setup_nav() {
 				$bp['bp_options_nav'][$bp['groups']['slug']] = array_merge( $bp['bp_options_nav'][$bp['groups']['slug']], $wire );
 			}
 			
-			if ( bp_exists('gallery') ) {
+			if ( function_exists('bp_gallery_install') ) {
 				$photos = array(
 					'photos' => array( 
 						'id'		=> 'group-photos',
@@ -225,20 +251,24 @@ add_action( 'wp', 'groups_setup_nav', 4 );
 
 function groups_catch_action() {
 	global $bp, $current_blog;
-	global $is_single_group;
+	global $is_single_group, $is_item_admin;
 	global $create_group_step, $group_obj, $completed_to_step;
 	
 	if ( $bp['current_component'] == $bp['groups']['slug'] && $current_blog->blog_id > 1 ) {
 
 		switch ( $bp['current_action'] ) {
+			
+			/**** My Groups ****************************/
 			case 'my-groups':
 				bp_catch_uri( 'groups/index' );
 			break;
 			
+			/**** Group Finder ****************************/
 			case 'group-finder':
 				bp_catch_uri( 'groups/group-finder' );
 			break;
 			
+			/**** Group Invites ****************************/
 			case 'invites':
 				if ( isset($bp['action_variables']) && in_array( 'accept', $bp['action_variables'] ) && is_numeric($bp['action_variables'][1]) ) {
 					$member = new BP_Groups_Member( $bp['loggedin_userid'], $bp['action_variables'][1] );
@@ -265,6 +295,7 @@ function groups_catch_action() {
 				bp_catch_uri( 'groups/list-invites' );
 			break; 
 
+			/**** Create Group ****************************/
 			case 'create':
 				if ( !$create_group_step = $bp['action_variables'][1] ) {
 					$create_group_step = '1';
@@ -309,6 +340,7 @@ function groups_catch_action() {
 				bp_catch_uri( 'groups/create' );			
 			break;
 			
+			/**** Default / Single Group ****************************/
 			default:
 				if ( $bp['current_action'] != '' ) {
 					if ( $group_id = BP_Groups_Group::group_exists($bp['current_action']) ) {
@@ -317,23 +349,79 @@ function groups_catch_action() {
 						$is_single_group = true;
 						$group_obj = new BP_Groups_Group( $group_id );
 						
+						/* Using "item" not "group" for generic support in other components. */
+						$is_item_admin = groups_is_user_admin( $bp['loggedin_userid'], $group_obj->id );
+						
 						switch ( $bp['action_variables'][0] ) {
+							
+							/**** Group Forum ****************************/
 							case 'forum':
 								// Not implemented yet.
 								bp_catch_uri( 'groups/forum' );
 							break;
+							
+							/**** Group Wire ****************************/
 							case 'wire':
+								if ( $bp['action_variables'][1] == 'post' && BP_Groups_Member::check_is_member( $bp['loggedin_userid'], $group_obj->id ) ) {
+									
+									if ( !bp_wire_new_post( $group_obj->id, $_POST['wire-post-textarea'] ) ) {
+										bp_catch_uri( 'groups/group-home' );
+									} else {
+										$bp['message'] = __('Wire message successfully posted.');
+										$bp['message_type'] = 'success';
+
+										add_action( 'template_notices', 'bp_core_render_notice' );
+										
+										if ( !strpos( $_SERVER['HTTP_REFERER'], 'wire' ) ) {
+											unset($bp['action_variables'][0]);
+											bp_catch_uri( 'groups/group-home' );
+										} else {
+											bp_catch_uri( 'groups/wire' );
+										}
+									}
+									
+								} else if ( $bp['action_variables'][1] == 'delete' && BP_Groups_Member::check_is_member( $bp['loggedin_userid'], $group_obj->id ) ) {
+																		
+									if ( !bp_wire_delete_post( $bp['action_variables'][2], $is_item_admin ) ) {
+										bp_catch_uri( 'groups/group-home' );
+									} else {
+										$bp['message'] = __('Wire message successfully deleted.');
+										$bp['message_type'] = 'success';
+
+										add_action( 'template_notices', 'bp_core_render_notice' );
+
+										if ( !strpos( $_SERVER['HTTP_REFERER'], 'wire' ) ) {
+											unset($bp['action_variables'][0]);
+											bp_catch_uri( 'groups/group-home' );
+										} else {
+											bp_catch_uri( 'groups/wire' );
+										}									
+									}
+									
+								} else if ( ( !$bp['action_variables'][1] || $bp['action_variables'][1] == 'latest' ) && BP_Groups_Member::check_is_member( $bp['loggedin_userid'], $group_obj->id ) ) {
+									
+									bp_catch_uri( 'groups/wire' );
+									
+								} else {
+								
+									bp_catch_uri( 'groups/group-home' );
+									
+								}
+							break;
+							
+							/**** Group Photo Gallery ****************************/
+							case 'gallery':
 								// Not implemented yet.
 								bp_catch_uri( 'groups/group-home' );
 							break;
-							case 'photos':
-								// Not implemented yet.
-								bp_catch_uri( 'groups/group-home' );
-							break;
+							
+							/**** Group Member List ****************************/
 							case 'members':
 								// List group members
 								bp_catch_uri( 'groups/list-members' );
 							break;
+							
+							/**** Send Group Invites ****************************/
 							case 'send-invites':
 								if ( isset($bp['action_variables']) && $bp['action_variables'][1] == 'send' ) {
 									// Send the invites.
@@ -349,6 +437,8 @@ function groups_catch_action() {
 									bp_catch_uri( 'groups/send-invite' );	
 								}
 							break;
+							
+							/**** Join Group ****************************/
 							case 'join':
 								// user wants to join a group
 								
@@ -366,6 +456,8 @@ function groups_catch_action() {
 								
 								bp_catch_uri( 'groups/group-home' );
 							break;
+							
+							/**** Leave Group ****************************/
 							case 'leave-group':
 								if ( isset($bp['action_variables']) && $bp['action_variables'][1] == 'yes' ) {
 									// remove the user from the group.
@@ -389,6 +481,8 @@ function groups_catch_action() {
 									bp_catch_uri( 'groups/leave-group-confirm' );
 								}
 							break;
+							
+							/**** Default ****************************/
 							default:
 								bp_catch_uri( 'groups/group-home' );
 							break;

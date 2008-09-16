@@ -4,12 +4,31 @@
 
 <div id="content">	
 	<?php if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group(); ?>
-		
-	<h2><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a> &raquo; Forum</h2>
 	
-	<h3>A bbPress forum for the group will go here in the next version.</h3>
+	<div class="left-menu">
+		<?php bp_group_avatar() ?>
+
+		<?php bp_group_join_button() ?>
+
+		<div class="info-group">
+			<h4>Admins</h4>
+			<?php bp_group_list_admins() ?>
+		</div>
+	</div>
+
+	<div class="main-column">
+
+		<div id="group-name">
+			<h1><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a></h1>
+			<p class="status"><?php bp_group_type() ?></p>
+		</div>
+
+		<div class="info-group">
+			<h4>Forum</h4>
+			<h3>A bbPress forum for the group will go here in the next version.</h3>
+		</div>
+		
+	</div>
 	
 	<?php endwhile; endif; ?>
-	
-	</div>
 </div>

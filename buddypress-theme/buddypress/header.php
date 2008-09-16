@@ -16,7 +16,7 @@
 <body>
 
 <div id="header">
-	<h1><a href="<?php echo get_option('home'); ?>/">BuddyPress</a></h1>
+	<h1><a href="<?php echo get_option('home'); ?>/"><?php _e('BuddyPress') ?></a></h1>
 	
 	<div class="search">
 		<?php // include_once (TEMPLATEPATH . '/searchform.php'); ?>

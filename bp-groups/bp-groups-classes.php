@@ -26,10 +26,10 @@ Class BP_Groups_Group {
 	var $latest_wire_posts;
 	var $random_photos;	
 	
-	function bp_groups_group( $id = null, $single = false ) {
+	function bp_groups_group( $id = null, $single = false, $get_user_dataset = true ) {
 		if ( $id ) {
 			$this->id = $id;
-			$this->populate();
+			$this->populate( $get_user_dataset );
 		}
 		
 		if ( $single ) {
@@ -37,7 +37,7 @@ Class BP_Groups_Group {
 		}
 	}
 	
-	function populate() {
+	function populate( $get_user_dataset ) {
 		global $wpdb, $bp;
 
 		$sql = $wpdb->prepare( "SELECT * FROM " . $bp['groups']['table_name'] . " WHERE id = %d", $this->id );
@@ -67,8 +67,10 @@ Class BP_Groups_Group {
 			else
 				$this->avatar_full = $group->avatar_full;
 			
-			$this->user_dataset = $this->get_user_dataset();
-			$this->total_member_count = count( $this->user_dataset );
+			if ( $get_user_dataset ) {
+				$this->user_dataset = $this->get_user_dataset();
+				$this->total_member_count = count( $this->user_dataset );
+			}
 		}	
 	}
 	
@@ -234,7 +236,7 @@ Class BP_Groups_Group {
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		
-		// Get all the user ids for the current user's friends.
+		// Get all the group ids for the current user's groups.
 		$gids = BP_Groups_Member::get_group_ids( $user_id );
 		$gids = implode( ',', $gids['ids'] );
 
@@ -302,8 +304,7 @@ Class BP_Groups_Group {
 			return false;
 		
 		return true;
-	}
-	
+	}	
 }
 
 Class BP_Groups_Member {
@@ -380,18 +381,22 @@ Class BP_Groups_Member {
 	function get_group_ids( $user_id, $page = false, $limit = false ) {
 		global $wpdb, $bp;
 		
-		if ( !$user_id )
-			$user_id = $bp['current_userid'];
-		
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		$group_ids = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT group_id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND is_confirmed = 1$pag_sql", $user_id ) );
-		$group_count = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(group_id) FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND is_confirmed = 1", $user_id ) );
-		
-		
+		$group_count = BP_Groups_Member::total_group_count( $user_id );
+	
 		return array( 'ids' => $group_ids, 'count' => $group_count );
+	}
+	
+	function total_group_count( $user_id = false ) {
+		global $bp, $wpdb;
 		
+		if ( !$user_id )
+			$user_id = $bp['current_userid'];
+			
+		return $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(group_id) FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND is_confirmed = 1", $user_id ) );
 	}
 	
 	function get_invites( $user_id ) {
@@ -429,6 +434,12 @@ Class BP_Groups_Member {
 		global $wpdb, $bp;
 		
 		return $wpdb->query( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );	
+	}
+	
+	function get_random_groups( $user_id, $total_groups = 5 ) {
+		global $wpdb, $bp;
+
+		return $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT group_id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND is_confirmed = 1 ORDER BY rand() LIMIT $total_groups", $user_id ) );
 	}
 }
 

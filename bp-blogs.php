@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_BLOGS_IS_INSTALLED', 1 );
-define ( 'BP_BLOGS_VERSION', '0.1' );
+define ( 'BP_BLOGS_VERSION', '0.1.3' );
 
 /* These will be moved into admin configurable settings */
 define ( 'TOTAL_RECORDED_POSTS', 10 );
@@ -28,7 +28,9 @@ function bp_blogs_install( $version ) {
 		  		id int(11) NOT NULL AUTO_INCREMENT,
 				user_id int(11) NOT NULL,
 				blog_id int(11) NOT NULL,
-		    	PRIMARY KEY id (id)
+		    	PRIMARY KEY id (id),
+				KEY user_id (user_id),
+				KEY blog_id (blog_id)
 			 );";
 
 	$sql[] = "CREATE TABLE ". $bp['blogs']['table_name_blog_posts'] ." (
@@ -37,7 +39,10 @@ function bp_blogs_install( $version ) {
 				blog_id int(11) NOT NULL,
 				post_id int(11) NOT NULL,
 				date_created datetime NOT NULL,
-		    	PRIMARY KEY id (id)
+		    	PRIMARY KEY id (id),
+				KEY user_id (user_id),
+				KEY blog_id (blog_id),
+				KEY post_id (post_id)
 			 );";
 
 	$sql[] = "CREATE TABLE ". $bp['blogs']['table_name_blog_comments'] ." (
@@ -47,7 +52,11 @@ function bp_blogs_install( $version ) {
 				comment_id int(11) NOT NULL,
 				comment_post_id int(11) NOT NULL,
 				date_created datetime NOT NULL,
-		    	PRIMARY KEY id (id)
+		    	PRIMARY KEY id (id),
+				KEY user_id (user_id),
+				KEY blog_id (blog_id),
+				KEY comment_id (comment_id),
+				KEY comment_post_id (comment_post_id)
 			 );";
 			
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
@@ -170,27 +179,31 @@ add_action( 'wp', 'bp_blogs_setup_nav', 2 );
  **************************************************************************/
 
 function bp_blogs_catch_action() {
-	global $bp;
-	
-	if ( $bp['current_action'] == '' )
-		$bp['current_action'] = 'my-blogs';
+	global $bp, $current_blog;
 
-	switch ( $bp['current_action'] ) {
-		case 'my-blogs':
-			bp_catch_uri( 'blogs/my-blogs' );
-		break;
+	if ( $bp['current_component'] == $bp['blogs']['slug'] && $current_blog->blog_id > 1 ) {
+		switch ( $bp['current_action'] ) {
+			case 'my-blogs':
+				bp_catch_uri( 'blogs/my-blogs' );
+			break;
 		
-		case 'recent-posts':
-			bp_catch_uri( 'blogs/recent-posts' );
-		break;
+			case 'recent-posts':
+				bp_catch_uri( 'blogs/recent-posts' );
+			break;
 		
-		case 'recent-comments':
-			bp_catch_uri( 'blogs/recent-comments' );
-		break; 
+			case 'recent-comments':
+				bp_catch_uri( 'blogs/recent-comments' );
+			break; 
 		
-		case 'create-a-blog':
-			bp_catch_uri( 'blogs/create' );
-		break; 
+			case 'create-a-blog':
+				bp_catch_uri( 'blogs/create' );
+			break;
+		
+			default:
+				$bp['current_action'] = 'my-blogs';
+				bp_catch_uri( 'blogs/my-blogs' );
+			break;
+		}
 	}
 }
 add_action( 'wp', 'bp_blogs_catch_action', 3 );

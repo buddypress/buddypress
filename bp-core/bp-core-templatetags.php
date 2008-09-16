@@ -212,33 +212,66 @@ function bp_format_time( $time, $just_date = false ) {
 	return $date;
 }
 
-function bp_my_or_name() {
+function bp_my_or_name( $capitalize = true, $echo = true ) {
 	global $bp;
 	
+	$my = __('my');
+	
+	if ( $capitalize )
+		$my = ucfirst($my);
+	
 	if ( $bp['current_userid'] == $bp['loggedin_userid'] ) {
-		_e('My');
+		if ( $echo )
+			echo $my;
+		else
+			return $my;
 	} else {
-		echo $bp['bp_options_title'] . "'s";
+		if ( $echo )
+			echo $bp['bp_options_title'] . "'s";
+		else
+			return $bp['bp_options_title'] . "'s";
 	}
 }
 
-function bp_you_or_name() {
+function bp_you_or_name( $capitalize = true, $echo = true ) {
 	global $bp;
 	
+	$you = __('you haven\'t');
+	
+	if ( $capitalize )
+		$you = ucfirst($you);
+	
 	if ( $bp['current_userid'] == $bp['loggedin_userid'] ) {
-		_e('You haven\'t');
+		if ( $echo )
+			echo $you;
+		else
+			return $you;
 	} else {
-		echo $bp['bp_options_title'] . " hasn't";
+		if ( $echo )
+			echo $bp['bp_options_title'] . " hasn't";
+		else
+			return $bp['bp_options_title'] . " hasn't";
 	}
 }
 
-function bp_your_or_name() {
+function bp_your_or_name( $capitalize = true, $echo = true ) {
 	global $bp;
 	
+	$your = __('your');
+	
+	if ( $capitalize )
+		$your = ucfirst($your);
+	
 	if ( $bp['current_userid'] == $bp['loggedin_userid'] ) {
-		_e('Your');
+		if ( $echo )
+			echo $your;
+		else
+			return $your;
 	} else {
-		echo $bp['bp_options_title'] . "'s";
+		if ( $echo )
+			echo $bp['bp_options_title'] . "'s";
+		else
+			return $bp['bp_options_title'] . "'s";
 	}
 }
 

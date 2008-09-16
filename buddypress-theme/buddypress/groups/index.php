@@ -25,7 +25,6 @@
 					<p class="desc">
 						<?php bp_group_description_excerpt() ?>
 					</p>
-					<hr />
 				</li>
 			<?php endwhile; ?>
 			</ul>

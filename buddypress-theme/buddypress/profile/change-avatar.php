@@ -1,5 +1,5 @@
 <div class="content-header">
-	Change Avatar
+
 </div>
 
 <div id="content">

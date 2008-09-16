@@ -41,10 +41,10 @@ body {
 	background: #fff;
 	font-size: 1.2em;
 	color: #555;
-	width: 960px;
 	background: url(images/background.gif) top left repeat-y;
-	margin: 0 auto;
 	line-height: 170%;
+	min-width: 960px;
+	max-width: 1300px;
 }
 	body.in-blog { background-image: url(images/background_blog.gif); }
 
@@ -164,6 +164,10 @@ input, select, textarea { width: 100%; }
 					background: url(images/groups_bullet.gif) 88% 52% no-repeat;
 				}
 				
+				li a#wire {
+					background: url(images/wire_bullet.gif) 88% 52% no-repeat;
+				}
+				
 				li a#wp-logout {
 					background: url(images/logout_bullet.gif) 87% 52% no-repeat;
 				}
@@ -189,7 +193,11 @@ input, select, textarea { width: 100%; }
 
 					li a#group-leave {
 						background: url(images/cross_bullet.gif) 88% 52% no-repeat;	
-					}				
+					}
+					
+					li a#group-wire {
+						background: url(images/wire_bullet.gif) 88% 52% no-repeat;
+					}			
 
 /**************************
  OPTIONS BAR
@@ -271,12 +279,11 @@ ul.content-header-nav {
 ***************************/
 
 #main {
-	width: 684px;
-	float: right;
+	margin-left: 276px;
 	background: #fff url(images/content_back.gif) top left repeat-x;
+	width: auto;
+	min-width: 680px;
 }
-	.in-blog #main { width: 499px; }
-
 	#main div.content-header {
 		font: normal 1em "Georgia", Times, serif;
 		text-transform: uppercase;
@@ -351,7 +358,7 @@ ul.content-header-nav {
 			margin-bottom: 2em;
 		}	
 			div.info-group h4 {
-				background: url(images/group_header.gif) top left no-repeat;
+				background: url(images/group_header.gif) top left;
 				height: 30px;
 				color: #fff;
 				padding: 3px 10px;
@@ -372,7 +379,7 @@ ul.content-header-nav {
 				div.info-group h4 a {
 					position: absolute;
 					top: 0.31em;
-					right: 2.8em;
+					right: 1em;
 					color: #fff;
 					font-weight: normal;
 				}
@@ -570,6 +577,7 @@ ul.content-header-nav {
 			padding-bottom: 0.5em;
 			margin: -1em 0 1em 0;
 		}
+		
 	
 /**** BLOG SIGNUP FORM **********/
 
@@ -937,64 +945,44 @@ ul.content-header-nav {
 		margin-top: 0.5em;
 	}
 		
-/**************************
- BLOG SIDEBAR
-***************************/
+		
+/**** WIRE ***********************/
 
-#sidebar {
-	width: 185px;
-	float: left;
-	background: #f6f6f6;
+.comment-details { float: left; width: 20%; }
+.comment-content { float: right; width: 80%; }
+
+#wire-post-list li, #wire-post-new {
+	position: relative;
+	background: url(images/message_thread_back.gif) top left repeat-x;
+	padding: 1em;
+	min-height: 60px;
 }
-	#sidebar h3 {
-		font: normal 1em "Georgia", Times, serif;
-		text-transform: uppercase;
-		text-align: center;
-		background: url(images/sidebar_header.gif) top left repeat-x;
-		height: 24px;
-		padding: 8px 0 8px 0;
-		letter-spacing: 0.5px;
+
+	.wire-post-metadata, #wire-post-new-metadata {
+		color: #888;
+		font-size: 0.9em;
+	}
+	
+	.wire-post-metadata img.avatar, #wire-post-new img.avatar {
+		float: left;
+		margin: 0 12px 12px 0;
+	}
+	
+	.wire-post-content, #wire-post-new-input {
+		margin-left: 70px;
 	}
 
-	#sidebar .widget {
-		border-bottom: 1px solid #d9d9d9;
-		padding-top: 1.5em;
-	}
+#wire-post-new textarea {
+	height: 100px;
+	font: normal 1em "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, sans-serif;
+	margin: 5px 0;
+}
 
-	#sidebar h2 {
-		font: normal 1em "Georgia", Times, serif;
-		text-transform: uppercase;
-		text-align: right;	
-		margin-bottom: 0.5em;
-		letter-spacing: 0.5px;
-	}
-	
-	#sidebar ul#sidebar-widgets {
-		padding: 0 1.5em;
-		margin: 0;
-	}
-	
-	#sidebar ul, form#searchform {
-		margin: 1em 0 1.5em 0;
-	}
-
-	#sidebar ul li {
-		text-align: right;
-	}
-	
-	#sidebar a#adminarea, #sidebar a#backhome {
-		display: block;
-		margin: -0.7em 0 1.5em 0;
-		background: url(images/blogadmin_icon.gif) center right no-repeat;
-		color: #555;
-		font-size: 1.1em;
-		padding: 0 1.5em 0 0;
-	}
-	
-	#sidebar a#backhome {
-		background: url(images/arrowback_icon.gif) center right no-repeat;
-		margin-top: -0.3em;
-	}
+#wire-post-submit {
+	width: auto;
+	margin: 5px 0;
+	font-size: 1.4em;
+}
 
 /**************************
  FOOTER
@@ -1002,9 +990,9 @@ ul.content-header-nav {
 
 #footer {
 	clear: both;
-	background: #fff;
+	background: url(images/content_header.gif) repeat-x #eee;
 	text-align: center;
-	padding: 2em;
+	height: 35px;
 }
 
 	#footer p {

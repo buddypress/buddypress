@@ -2,7 +2,7 @@
 </div>
 
 <div id="content">
-	<h2><?php bp_my_or_name() ?> <?php _e('Friends') ?></h2>
+	<h2><?php bp_my_or_name() ?> Friends</h2>
 	
 	<div class="left-menu">
 		<?php bp_friend_search_form('Search Friends') ?>
@@ -29,7 +29,7 @@
 		<?php else: ?>
 
 			<div id="message" class="info">
-				<p><?php bp_your_or_name() ?> <?php _e('friends list is currently empty.'); ?></p>
+				<p><?php bp_your_or_name() ?> friends list is currently empty.</p>
 			</div>
 
 		<?php endif;?>

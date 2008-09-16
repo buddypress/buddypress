@@ -3,7 +3,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_XPROFILE_IS_INSTALLED', 1 );
-define ( 'BP_XPROFILE_VERSION', '0.3.7' );
+define ( 'BP_XPROFILE_VERSION', '0.3.8' );
 
 require_once( 'bp-xprofile/bp-xprofile-classes.php' );
 require_once( 'bp-xprofile/bp-xprofile-admin.php' );
@@ -22,15 +22,16 @@ function xprofile_install( $version ) {
 	
 	$sql = array();
 
-	$sql[] = "CREATE TABLE " . $bp['xprofile']['table_name_groups'] . " (
+	$sql[] = "CREATE TABLE " . $bp['profile']['table_name_groups'] . " (
 			  id int(11) unsigned NOT NULL auto_increment,
 			  name varchar(150) NOT NULL,
 			  description mediumtext NOT NULL,
 			  can_delete tinyint(1) NOT NULL,
-			  PRIMARY KEY  (id)
+			  PRIMARY KEY  (id),
+			  KEY can_delete (can_delete)
 	);";
 	
-	$sql[] = "CREATE TABLE " . $bp['xprofile']['table_name_fields'] . " (
+	$sql[] = "CREATE TABLE " . $bp['profile']['table_name_fields'] . " (
 			  id int(11) unsigned NOT NULL auto_increment,
 			  group_id int(11) unsigned NOT NULL,
 			  parent_id int(11) unsigned NOT NULL,
@@ -44,31 +45,51 @@ function xprofile_install( $version ) {
 			  order_by varchar(15) NOT NULL,
 			  is_public int(2) NOT NULL DEFAULT '1',
 			  can_delete tinyint(1) NOT NULL DEFAULT '1',
-			  PRIMARY KEY (id)
+			  PRIMARY KEY (id),
+			  KEY group_id (group_id),
+			  KEY parent_id (parent_id),
+			  KEY is_public (is_public),
+			  KEY can_delete (can_delete),
+			  KEY is_required (is_required)
 	);";
 	
-	$sql[] = "CREATE TABLE " . $bp['xprofile']['table_name_data'] . " (
+	$sql[] = "CREATE TABLE " . $bp['profile']['table_name_data'] . " (
 			  id int(11) unsigned NOT NULL auto_increment,
 			  field_id int(11) unsigned NOT NULL,
 			  user_id int(11) unsigned NOT NULL,
 			  value longtext NOT NULL,
 			  last_updated datetime NOT NULL,
-			  PRIMARY KEY (id)
+			  PRIMARY KEY (id),
+			  KEY field_id (field_id),
+			  KEY user_id (user_id)
 	);";
 	
-	$sql[] = "INSERT INTO ". $bp['xprofile']['table_name_groups'] . " VALUES (1, 'Basic', '', 0);";
+	$sql[] = "INSERT INTO ". $bp['profile']['table_name_groups'] . " VALUES (1, 'Basic', '', 0);";
 	
-	$sql[] = "INSERT INTO ". $bp['xprofile']['table_name_fields'] . " ( 
+	$sql[] = "INSERT INTO ". $bp['profile']['table_name_fields'] . " ( 
 				id, group_id, parent_id, type, name, description, is_required, field_order, option_order, order_by, is_public, can_delete
 			  ) VALUES (
 				1, 1, 0, 'textbox', 'First Name', '', 1, 1, 0, '', 1, 0
 			  );";
 			
-	$sql[] = "INSERT INTO ". $bp['xprofile']['table_name_fields'] . " ( 
+	$sql[] = "INSERT INTO ". $bp['profile']['table_name_fields'] . " ( 
 				id, group_id, parent_id, type, name, description, is_required, field_order, option_order, order_by, is_public, can_delete
 			  ) VALUES (
 				2, 1, 0, 'textbox', 'Last Name', '', 1, 2, 0, '', 1, 0
 			  );";
+	
+	if ( function_exists('bp_wire_install') ) {
+		$sql[] = "CREATE TABLE ". $bp['profile']['table_name_wire'] ." (
+		  		id int(11) NOT NULL AUTO_INCREMENT,
+				item_id int(11) NOT NULL,
+				user_id int(11) NOT NULL,
+				content longtext NOT NULL,
+				date_posted datetime NOT NULL,
+				PRIMARY KEY id (id),
+				KEY item_id (item_id),
+			    KEY user_id (user_id)
+		 	   );";
+	}
 	
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 
@@ -87,13 +108,16 @@ function xprofile_install( $version ) {
 function xprofile_setup_globals() {
 	global $bp, $wpdb;
 	
-	$bp['xprofile'] = array(
+	$bp['profile'] = array(
 		'table_name_groups' => $wpdb->base_prefix . 'bp_xprofile_groups',
 		'table_name_fields' => $wpdb->base_prefix . 'bp_xprofile_fields',
 		'table_name_data' 	=> $wpdb->base_prefix . 'bp_xprofile_data',
 		'image_base' 		=> get_option('siteurl') . '/wp-content/mu-plugins/bp-xprofile/images',
 		'slug'		 		=> 'profile'
 	);
+	
+	if ( function_exists('bp_wire_install') )
+		$bp['profile']['table_name_wire'] = $wpdb->base_prefix . 'bp_xprofile_wire';
 }
 add_action( 'wp', 'xprofile_setup_globals', 1 );	
 add_action( '_admin_menu', 'xprofile_setup_globals', 1 );
@@ -131,7 +155,7 @@ function xprofile_add_admin_menu() {
 	}
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( ( $wpdb->get_var("show tables like '%" . $bp['xprofile']['table_name_groups'] . "%'") == false ) || ( get_site_option('bp-xprofile-version') < BP_XPROFILE_VERSION )  )
+	if ( ( $wpdb->get_var("show tables like '%" . $bp['profile']['table_name_groups'] . "%'") == false ) || ( get_site_option('bp-xprofile-version') < BP_XPROFILE_VERSION )  )
 		xprofile_install(BP_XPROFILE_VERSION);
 	
 }
@@ -146,32 +170,35 @@ add_action( 'admin_menu', 'xprofile_add_admin_menu' );
 
 function xprofile_setup_nav() {
 	global $bp;
+	
+	$nav_key = count($bp['bp_nav']) + 1;
+	$user_nav_key = count($bp['bp_users_nav']) + 1;
 
-	$bp['bp_nav'][0] = array(
-		'id'	=> $bp['xprofile']['slug'],
+	$bp['bp_nav'][$nav_key] = array(
+		'id'	=> $bp['profile']['slug'],
 		'name'  => 'Profile', 
-		'link'  => $bp['loggedin_domain'] . $bp['xprofile']['slug']
+		'link'  => $bp['loggedin_domain'] . $bp['profile']['slug']
 	);
 
-	$bp['bp_users_nav'][0] = array(
-		'id'	=> $bp['xprofile']['slug'],
+	$bp['bp_users_nav'][$user_nav_key] = array(
+		'id'	=> $bp['profile']['slug'],
 		'name'  => 'Profile', 
-		'link'  => $bp['current_domain'] . $bp['xprofile']['slug']
+		'link'  => $bp['current_domain'] . $bp['profile']['slug']
 	);
 	
-	$bp['bp_options_nav'][$bp['xprofile']['slug']] = array(
+	$bp['bp_options_nav'][$bp['profile']['slug']] = array(
 		'public'    	=> array( 
 			'name' => __('Public'),
-			'link' => $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/' ),
+			'link' => $bp['loggedin_domain'] . $bp['profile']['slug'] . '/' ),
 		'edit'	  		=> array(
 			'name' => __('Edit Profile'),
-			'link' => $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/edit' ),
+			'link' => $bp['loggedin_domain'] . $bp['profile']['slug'] . '/edit' ),
 		'change-avatar' => array( 
 			'name' => __('Change Avatar'),
-			'link' => $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/change-avatar' )
+			'link' => $bp['loggedin_domain'] . $bp['profile']['slug'] . '/change-avatar' )
 	);
 	
-	if ( $bp['current_component'] == $bp['xprofile']['slug'] ) {
+	if ( $bp['current_component'] == $bp['profile']['slug'] ) {
 		if ( bp_is_home() ) {
 			$bp['bp_options_title'] = __('My Profile');
 		} else {
@@ -191,9 +218,12 @@ add_action( 'wp', 'xprofile_setup_nav', 2 );
  **************************************************************************/
 
 function xprofile_catch_action() {
-	global $current_blog, $bp;
+	global $current_blog, $bp, $is_item_admin;
 	
-	if ( $bp['current_component'] == $bp['xprofile']['slug'] && $current_blog->blog_id > 1 ) {
+	/* Using "item" not "profile" for generic support in other components. */
+	$is_item_admin = ( $bp['current_userid'] == $bp['loggedin_userid'] ) ? 1 : 0 ;
+	
+	if ( $bp['current_component'] == $bp['profile']['slug'] && $current_blog->blog_id > 1 ) {
 
 		if ( $bp['current_action'] == 'public' ) {
 			bp_catch_uri( 'profile/index' );
@@ -230,7 +260,7 @@ function xprofile_edit( $group_id = null, $action = null ) {
 		// to display for the current tab. Thankfully the page get var holds the key.
 		$group_name = explode( "_", $_GET['page'] );
 		$group_name = $group_name[1]; // xprofile_XXXX <-- This X bit.
-		$group_id   = $wpdb->get_var( $wpdb->prepare("SELECT id FROM " . $bp['xprofile']['table_name_groups'] . " WHERE name = %s", $group_name) );
+		$group_id   = $wpdb->get_var( $wpdb->prepare("SELECT id FROM " . $bp['profile']['table_name_groups'] . " WHERE name = %s", $group_name) );
 	}
 	$group = new BP_XProfile_Group($group_id);
 	
@@ -318,6 +348,8 @@ function xprofile_edit( $group_id = null, $action = null ) {
 				else if ( !$errors && isset($_POST['save'] ) ) {
 					$type = 'success';
 					$message = __('Changes saved.');
+					
+					update_usermeta( $bp['loggedin_userid'], 'profile_last_updated', date("Y-m-d H:i:s") );
 				}
 			}
 			else { ?>

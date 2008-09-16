@@ -238,9 +238,9 @@ function bp_user_fullname($user_id = false, $echo = true) {
 	$data = bp_get_field_data( array( 'First Name', 'Last Name' ), $user_id );
 	
 	if ( $echo )
-		echo $data['First Name'] . ' ' . $data['Last Name']; 
+		echo ucfirst($data['First Name']) . ' ' . ucfirst($data['Last Name']); 
 	else
-		return $data['First Name'] . ' ' . $data['Last Name'];
+		return ucfirst($data['First Name']) . ' ' . ucfirst($data['Last Name']);
 }
 
 function bp_get_field_data( $field, $user_id = null ) {
@@ -271,7 +271,7 @@ function bp_profile_group_tabs() {
 			$selected = '';
 		}
 
-		echo '<li' . $selected . '><a href="' . $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/edit/group/' . $groups[$i]->id . '">' . $groups[$i]->name . '</a></li>';
+		echo '<li' . $selected . '><a href="' . $bp['loggedin_domain'] . $bp['profile']['slug'] . '/edit/group/' . $groups[$i]->id . '">' . $groups[$i]->name . '</a></li>';
 	}
 }
 
@@ -300,13 +300,13 @@ function bp_edit_profile_form() {
 	if ( !is_numeric( $group_id ) )
 		$group_id = 1; // 'Basic' group.
 	
-	xprofile_edit( $group_id, $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/edit/group/' . $group_id . '/?mode=save' );
+	xprofile_edit( $group_id, $bp['loggedin_domain'] . $bp['profile']['slug'] . '/edit/group/' . $group_id . '/?mode=save' );
 }
 
 function bp_avatar_upload_form() {
 	global $bp;
 	 
-	bp_core_avatar_admin( null, $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/change-avatar/', $bp['loggedin_domain'] . $bp['xprofile']['slug'] . '/delete-avatar/' );
+	bp_core_avatar_admin( null, $bp['loggedin_domain'] . $bp['profile']['slug'] . '/change-avatar/', $bp['loggedin_domain'] . $bp['profile']['slug'] . '/delete-avatar/' );
 }
 
 function bp_profile_last_updated_date( $user_id = false, $echo = true ) {
@@ -321,6 +321,18 @@ function bp_profile_last_updated_date( $user_id = false, $echo = true ) {
 		echo $last_updated;
 	else
 		return $last_updated;
+}
+
+function bp_profile_last_updated() {
+	global $bp;
+	
+	$last_updated = get_usermeta( $bp['current_userid'], 'profile_last_updated' );
+
+	if ( !$last_updated ) {
+		_e('Profile not recently updated') . '.';
+	} else {
+		echo __('Profile updated ') . bp_core_time_since( strtotime( $last_updated ) ) . __(' ago'); 
+	}
 }
 
 ?>

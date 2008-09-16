@@ -120,9 +120,22 @@ function bp_the_group() {
 	return $groups_template->the_group();
 }
 
-function bp_group_name() {
+function bp_group_id( $echo = true ) {
 	global $groups_template;
-	echo $groups_template->group->name;
+	
+	if ( $echo )
+		echo $groups_template->group->id;
+	else
+		return $groups_template->group->id;
+}
+
+function bp_group_name( $echo = true ) {
+	global $groups_template;
+	
+	if ( $echo )
+		echo $groups_template->group->name;
+	else
+		return $groups_template->group->name; 
 }
 
 function bp_group_type() {
@@ -155,7 +168,11 @@ function bp_group_slug() {
 
 function bp_group_description() {
 	global $groups_template;
-	echo $groups_template->group->description;
+	
+	$content = $groups_template->group->description;
+	$content = apply_filters('the_content', $content);
+	$content = str_replace(']]>', ']]&gt;', $content);
+	echo $content;
 }
 
 function bp_group_description_excerpt() {
@@ -165,7 +182,11 @@ function bp_group_description_excerpt() {
 
 function bp_group_news() {
 	global $groups_template;
-	echo $groups_template->group->news;
+
+	$content = $groups_template->group->news;
+	$content = apply_filters('the_content', $content);
+	$content = str_replace(']]>', ']]&gt;', $content);
+	echo $content;
 }
 
 function bp_group_public_status() {
@@ -238,7 +259,7 @@ function bp_group_random_members() {
 		</li>
 	<?php } ?>
 	</ul>
-	</div>
+	<div class="clear"></div>
 <?php
 }
 
@@ -448,14 +469,13 @@ function bp_group_list_members() {
 
 		?><li id="uid-<?php echo $user->id ?>">
 			<?php echo $member->user->avatar_thumb ?>
-			<h4><?php echo $member->user->user_link ?> <?php if ( $member->user_title ) { ?><?php echo '<span class="small">- ' . $member->user_title . '</span>' ?><?php } ?></h4>
+			<p><?php echo $member->user->user_link ?> <?php if ( $member->user_title ) { ?><?php echo '<span class="small">- ' . $member->user_title . '</span>' ?><?php } ?></p>
 			<span class="activity">joined <?php echo bp_core_time_since( strtotime($member->date_modified) ) ?> ago</span>
 	<?php if ( bp_exists('friends') && function_exists('bp_add_friend_button') ) { ?>
 			<div class="action">
 				<?php bp_add_friend_button( $member->user->id ) ?>
 			</div>
 	<?php } ?>
-			<hr />
 		   </li>
 		<?php
 	}
@@ -539,6 +559,27 @@ function bp_group_join_button() {
 	if ( is_user_logged_in() && !BP_Groups_Member::check_is_member( $bp['loggedin_userid'], $groups_template->group->id ) ) {
 		echo '<a class="join-group" href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '/' . $groups_template->group->slug . '/join">' . __('Join Group') . '</a>';
 	}
+}
+
+function bp_groups_random_groups() {
+	global $bp;
+	
+	$group_ids = BP_Groups_Member::get_random_groups( $bp['current_userid'] );
+?>	
+	<div class="info-group">
+		<h4><?php bp_my_or_name() ?> <?php _e('Groups') ?> (<?php echo BP_Groups_Member::total_group_count() ?>) <a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] ?>"><?php _e('See All') ?> &raquo;</a></h4>
+		<ul class="horiz-gallery">
+		<?php for ( $i = 0; $i < count( $group_ids ); $i++ ) { ?>
+			<?php $group = new BP_Groups_Group( $group_ids[$i], false, false ); ?>
+			<li>
+				<a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] . '/' . $group->slug ?>"><img src="<?php echo $group->avatar_thumb; ?>" class="avatar" alt="Group Avatar" /></a>
+				<h5><a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] . '/' . $group->slug ?>"><?php echo $group->name ?></a></h5>
+			</li>
+		<?php } ?>
+		</ul>
+		<div class="clear"></div>
+	</div>
+<?php
 }
 
 ?>

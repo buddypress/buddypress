@@ -37,12 +37,16 @@
 		
 		<div class="info-group">
 			<h4>Members <a href="<?php bp_group_all_members_permalink() ?>">See All &raquo;</a></h4>
-			<p><?php bp_group_random_members() ?></p>
-		</div>				
+			<?php bp_group_random_members() ?>
+		</div>
+		
+		<?php if ( function_exists('bp_wire_get_post_list') ) : ?>
+			<?php bp_wire_get_post_list( bp_group_id(false), 'Group Wire', 'The are no wire posts for ' . bp_group_name(false) ) ?>
+		<?php endif; ?>
 		
 	<?php endwhile; else: ?>
 		<div id="message" class="error">
-			<p><?php _e('Sorry, the group does not exist.'); ?></p>
+			<p>Sorry, the group does not exist.</p>
 		</div>
 	<?php endif;?>
 	

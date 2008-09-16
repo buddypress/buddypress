@@ -338,4 +338,24 @@ function bp_add_friend_button( $potential_friend_id = false ) {
 	}
 }
 
+function bp_friends_random_friends() {
+	global $bp;
+	
+	$friend_ids = BP_Friends_Friendship::get_random_friends( $bp['current_userid'] );
+?>	
+	<div class="info-group">
+		<h4><?php bp_my_or_name() ?> <?php _e('Friends') ?> (<?php echo BP_Friends_Friendship::total_friend_count() ?>)  <a href="<?php echo $bp['current_domain'] . $bp['friends']['slug'] ?>"><?php _e('See All') ?> &raquo;</a></h4>
+		<ul class="horiz-gallery">
+		<?php for ( $i = 0; $i < count( $friend_ids ); $i++ ) { ?>
+			<li>
+				<a href="<?php echo bp_core_get_userurl( $friend_ids[$i] ) ?>"><?php echo bp_core_get_avatar( $friend_ids[$i], 1 ) ?></a>
+				<h5><?php echo bp_core_get_userlink($friend_ids[$i]) ?></h5>
+			</li>
+		<?php } ?>
+		</ul>
+		<div class="clear"></div>
+	</div>
+<?php
+}
+
 ?>

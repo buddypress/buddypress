@@ -27,7 +27,7 @@
 	<?php else: ?>
 
 		<div id="message" class="info">
-			<p><?php _e('You have no pending friendship requests.'); ?></p>
+			<p>You have no pending friendship requests.</p>
 		</div>
 
 	<?php endif;?>

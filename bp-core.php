@@ -111,9 +111,6 @@ function bp_core_component_exists() {
 		if ( strpos( $component_check, 'activate.php' ) )
 			return true;
 
-		if ( $component_check == 'profile' )
-			$component_check = 'xprofile';
-
 		if ( empty($bp[$component_check]) ) {
 			status_header('404');
 			load_template( TEMPLATEPATH . '/header.php'); 

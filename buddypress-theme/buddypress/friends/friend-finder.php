@@ -21,7 +21,7 @@
 				<li>
 					<?php bp_user_avatar_thumb() ?>
 					<h4><?php bp_user_url() ?></h4>
-					<span class="activity">active <?php bp_user_last_active() ?> ago.</span>
+					<span class="activity"><?php bp_user_last_active() ?></span>
 					<hr />
 				</li>
 			<?php endwhile; ?>

@@ -132,7 +132,7 @@ class BP_Friends_Friendship {
 
 		// filter the user_ids based on the search criteria.
 		if ( BP_XPROFILE_IS_INSTALLED ) {
-			$sql = $wpdb->prepare( "SELECT DISTINCT user_id as id FROM " . $bp['xprofile']['table_name_data'] . " WHERE user_id IN ($fids) AND value LIKE '$filter%%'" );
+			$sql = $wpdb->prepare( "SELECT DISTINCT user_id as id FROM " . $bp['profile']['table_name_data'] . " WHERE user_id IN ($fids) AND value LIKE '$filter%%'" );
 		} else {
 			$sql = $wpdb->prepare( "SELECT DISTINCT user_id as id FROM $usermeta_table WHERE user_id IN ($fids) AND meta_key = 'nickname' AND meta_value LIKE '$filter%%'" );
 		}
@@ -194,7 +194,7 @@ class BP_Friends_Friendship {
 		
 		// filter the user_ids based on the search criteria.
 		if ( BP_XPROFILE_IS_INSTALLED ) {
-			$sql = $wpdb->prepare( "SELECT DISTINCT d.user_id as id FROM " . $bp['xprofile']['table_name_data'] . " d, $users_table u WHERE d.user_id = u.id AND d.value LIKE '$filter%%' ORDER BY d.value DESC $pag_sql" );
+			$sql = $wpdb->prepare( "SELECT DISTINCT d.user_id as id FROM " . $bp['profile']['table_name_data'] . " d, $users_table u WHERE d.user_id = u.id AND d.value LIKE '$filter%%' ORDER BY d.value DESC $pag_sql" );
 		} else {
 			$sql = $wpdb->prepare( "SELECT DISTINCT user_id as id FROM $usermeta_table WHERE meta_value LIKE '$filter%%' ORDER BY d.value DESC $pag_sql" );
 		}
@@ -216,7 +216,7 @@ class BP_Friends_Friendship {
 		
 		// filter the user_ids based on the search criteria.
 		if ( BP_XPROFILE_IS_INSTALLED ) {
-			$sql = $wpdb->prepare( "SELECT DISTINCT count(d.user_id) FROM " . $bp['xprofile']['table_name_data'] . " d, $users_table u WHERE d.user_id = u.id AND d.value LIKE '$filter%%'" );
+			$sql = $wpdb->prepare( "SELECT DISTINCT count(d.user_id) FROM " . $bp['profile']['table_name_data'] . " d, $users_table u WHERE d.user_id = u.id AND d.value LIKE '$filter%%'" );
 		} else {
 			$sql = $wpdb->prepare( "SELECT DISTINCT count(user_id) FROM $usermeta_table WHERE meta_value LIKE '$filter%%'" );
 		}
@@ -242,6 +242,23 @@ class BP_Friends_Friendship {
 		// remove duplicates
 		if ( count($fids) > 0 )
 			return array_flip(array_flip($fids));
+	}
+	
+	function get_random_friends( $user_id, $total_friends = 5 ) {
+		global $wpdb, $bp;
+
+		$sql = $wpdb->prepare( "SELECT friend_user_id, initiator_user_id FROM " . $bp['friends']['table_name'] . " WHERE (friend_user_id = %d || initiator_user_id = %d) && is_confirmed = 1 ORDER BY rand() LIMIT %d", $user_id, $user_id, $total_friends );
+		$results = $wpdb->get_results($sql);
+
+		for ( $i = 0; $i < count($results); $i++ ) {
+			$fids[] = ( $results[$i]->friend_user_id == $user_id ) ? $results[$i]->initiator_user_id : $results[$i]->friend_user_id;
+		}
+		
+		// remove duplicates
+		if ( count($fids) > 0 )
+			return array_flip(array_flip($fids));
+		else
+			return false;
 	}
 }
 	

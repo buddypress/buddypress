@@ -1,9 +1,10 @@
 <div class="content-header">
-	Header Content
+	<?php bp_profile_last_updated() ?>
 </div>
 
 <div id="content">
-
+	<?php do_action( 'template_notices' ) // (error/success feedback) ?>
+	
 	<div class="left-menu">
 		<?php bp_the_avatar() ?>
 		
@@ -48,9 +49,23 @@
 			
 		<?php endwhile; ?>
 		
+		<?php if ( function_exists('bp_groups_random_groups') ) : ?>
+			<?php bp_groups_random_groups() ?>
+		<?php endif; ?>
+		
+		<?php if ( function_exists('bp_friends_random_friends') ) : ?>
+			<?php bp_friends_random_friends() ?>
+		<?php endif; ?>
+
+		<?php if ( function_exists('bp_wire_get_post_list') ) : ?>
+			<?php bp_wire_get_post_list( bp_core_get_current_userid(), bp_my_or_name( true, false ) . ' Wire', 'No one has posted to ' . bp_your_or_name( false, false ) . ' wire yet.' ) ?>
+		<?php endif; ?>
+		
 	<?php else: ?>
 		
-		<p><?php _e('Sorry, this person does not have a public profile.'); ?></p>
+		<div id="message" class="info">
+			<p>Sorry, this person does not have a public profile.</p>
+		</div>
 		
 	<?php endif;?>
 	</div>
