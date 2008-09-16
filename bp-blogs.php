@@ -126,15 +126,18 @@ add_action( '_admin_menu', 'bp_blogs_setup_globals', 1 );
 function bp_blogs_setup_nav() {
 	global $bp;
 	
+	$nav_key = count($bp['bp_nav']) + 1;
+	$user_nav_key = count($bp['bp_users_nav']) + 1;
+
 	/* Add "Blogs" to the main component navigation */
-	$bp['bp_nav'][1] = array(
+	$bp['bp_nav'][$nav_key] = array(
 		'id'	=> 'blogs',
 		'name'  => 'Blogs', 
 		'link'  => $bp['loggedin_domain'] . $bp['blogs']['slug']
 	);
 	
 	/* Add "Blogs" to the sub nav for a current user */
-	$bp['bp_users_nav'][1] = array(
+	$bp['bp_users_nav'][$user_nav_key] = array(
 		'id'	=> 'blogs',
 		'name'  => 'Blogs', 
 		'link'  => $bp['current_domain'] . 'blogs'

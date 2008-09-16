@@ -49,7 +49,6 @@ function friends_ajax_friends_search() {
 				<?php if ( $friend->last_active ) { ?>
 					<span class="activity"><?php echo $friend->last_active ?></span>
 				<?php } ?>
-				<hr />
 			</li>
 			<?php	
 		}
@@ -112,7 +111,6 @@ function friends_ajax_finder_search() {
 						<span class="activity"><?php echo $user->last_active ?></span>
 					<?php } ?>
 					<?php bp_add_friend_button( $user->id ) ?>
-					<hr />
 				</li>
 			<?php	
 		}

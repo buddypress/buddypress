@@ -24,8 +24,8 @@ function bp_get_nav() {
 	global $bp;
 	
 	/* Sort the nav by key as the array has been put together in different locations */
-	ksort($bp['bp_nav']);
-	
+	$bp['bp_nav'] = bp_core_sort_nav_items( $bp['bp_nav'] );
+
 	/* Loop through each navigation item */
 	foreach( $bp['bp_nav'] as $nav_item ) {
 		/* If the current component matches the nav item id, then add a highlight CSS class. */
@@ -119,7 +119,7 @@ function bp_get_user_nav() {
 	global $bp;
 
 	/* Sort the nav by key as the array has been put together in different locations */	
-	ksort($bp['bp_users_nav']);
+	$bp['bp_users_nav'] = bp_core_sort_nav_items( $bp['bp_users_nav'] );
 
 	foreach ( $bp['bp_users_nav'] as $user_nav_item ) {	
 		if ( $bp['current_component'] == $user_nav_item['id'] ) {

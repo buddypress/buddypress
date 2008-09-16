@@ -4,7 +4,7 @@
 define( 'PROTOCOL', 'http://' );
 
 /* Define the current version number for checking if DB tables are up to date. */
-define( 'BP_CORE_VERSION', '0.2.5' );
+define( 'BP_CORE_VERSION', '0.2.4' );
 
 /* Require all needed files */
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-catchuri.php' );
@@ -857,7 +857,7 @@ add_action( 'login_head', 'bp_core_record_activity' );
  * Fetch every post that is authored by the given user for the current blog.
  * 
  * @package BuddyPress Core
- * @global $bp WordPress user data for the current logged in user.
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  * @global $wpdb WordPress user data for the current logged in user.
  * @return array of post ids.
  */
@@ -889,4 +889,50 @@ function bp_core_replace_comment_author_link( $author ) {
 add_action( 'get_comment_author_link', 'bp_core_replace_comment_author_link', 10, 4 );
 
 
+/**
+ * bp_core_sort_nav_items()
+ *
+ * Reorder the core component navigation array items into the desired order.
+ * 
+ * @package BuddyPress Core
+ * @param $nav_array the navigation array variable
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @uses ksort() Sort an array by key
+ * @return $new_nav array reordered navigation array
+ */
+function bp_core_sort_nav_items( $nav_array ) {
+	global $bp;
+	
+	foreach ( (array)$nav_array as $nav_item ) {
+		switch ( $nav_item['id'] ) {
+			case $bp['profile']['slug']:
+				$new_nav[0] = $nav_item;
+			break;
+			case $bp['blogs']['slug']:
+				$new_nav[1] = $nav_item;
+			break;
+			case $bp['wire']['slug']:
+				$new_nav[2] = $nav_item;
+			break;
+			case $bp['messages']['slug']:
+				$new_nav[3] = $nav_item;
+			break;
+			case $bp['friends']['slug']:
+				$new_nav[4] = $nav_item;
+			break;
+			case $bp['groups']['slug']:
+				$new_nav[5] = $nav_item;
+			break;
+			case $bp['gallery']['slug']:
+				$new_nav[6] = $nav_item;
+			break;
+			case $bp['account']['slug']:
+				$new_nav[7] = $nav_item;
+			break;
+		}
+	}
+	
+	ksort($new_nav);
+	return $new_nav;
+}
 ?>

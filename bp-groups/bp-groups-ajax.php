@@ -97,7 +97,6 @@ function groups_ajax_group_search() {
 					<span class="small"> - <?php echo count($group->user_dataset) ?> members</span>
 				</h4>
 				<p class="desc"><?php echo bp_create_excerpt( $group->description, 20 ) ?></p>
-				<hr/>
 			</li>
 			<?php	
 		}
@@ -154,7 +153,6 @@ function groups_ajax_group_finder_search() {
 					<span class="small"> - <?php echo count($group->user_dataset) ?> members</span>
 				</h4>
 				<p class="desc"><?php echo bp_create_excerpt( $group->description, 20 ) ?></p>
-				<hr/>
 			</li>
 			<?php	
 		}
