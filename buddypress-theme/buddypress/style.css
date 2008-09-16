@@ -595,6 +595,14 @@ ul.content-header-nav {
 		display: inline;
 	}
 	
+	#setupform p.error {
+		padding: 5px 10px;
+		background-image: url(images/error_back.gif);
+		background-color: #ff3a3a;
+		color: #fff;
+		width: 40%;
+	}
+	
 	.suffix_address, .prefix_address {
 		font-size: 1.4em;
 	}

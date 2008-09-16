@@ -433,7 +433,7 @@ Class BP_Groups_Member {
 	function check_is_member( $user_id, $group_id ) {
 		global $wpdb, $bp;
 		
-		return $wpdb->query( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );	
+		return $wpdb->query( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d AND is_confirmed = 1", $user_id, $group_id ) );	
 	}
 	
 	function get_random_groups( $user_id, $total_groups = 5 ) {

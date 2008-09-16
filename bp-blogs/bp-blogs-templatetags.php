@@ -617,7 +617,7 @@ function bp_blog_signup_enabled() {
 function bp_show_blog_signup_form($blogname = '', $blog_title = '', $errors = '') {
 	global $current_user, $current_site;
 	global $bp;
-	
+		
 	require_once( ABSPATH . WPINC . '/registration.php' );
 
 	if ( isset($_POST['submit']) ) {
@@ -712,6 +712,10 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 function bp_blogs_validate_blog_signup() {
 	global $wpdb, $current_user, $blogname, $blog_title, $errors, $domain, $path;
 	
+	if ( VHOST == 'yes' ) {
+		$domain = str_replace( bp_core_get_primary_username() . '.', '', $domain );
+	}
+	
 	$current_user = wp_get_current_user();
 	
 	if( !is_user_logged_in() )
@@ -721,6 +725,7 @@ function bp_blogs_validate_blog_signup() {
 	extract($result);
 
 	if ( $errors->get_error_code() ) {
+		unset($_POST['submit']);
 		bp_show_blog_signup_form( $blogname, $blog_title, $errors );
 		return false;
 	}
@@ -732,10 +737,6 @@ function bp_blogs_validate_blog_signup() {
 	/* If this is a VHOST install, remove the username from the domain as we are setting this blog
 	   up inside a user domain, not the root domain. */
 	
-	if ( VHOST == 'yes' ) {
-		$domain = str_replace( bp_core_get_primary_username() . '.', '', $domain );
-	}
-
 	wpmu_create_blog( $domain, $path, $blog_title, $current_user->id, $meta, $wpdb->siteid );
 	bp_blogs_confirm_blog_signup($domain, $path, $blog_title, $current_user->user_login, $current_user->user_email, $meta);
 	return true;
