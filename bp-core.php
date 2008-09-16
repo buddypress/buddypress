@@ -4,7 +4,7 @@
 define( 'PROTOCOL', 'http://' );
 
 /* Define the current version number for checking if DB tables are up to date. */
-define( 'BP_CORE_VERSION', '0.2.4' );
+define( 'BP_CORE_VERSION', '0.2.5' );
 
 /* Require all needed files */
 require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-catchuri.php' );

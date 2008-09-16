@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_BLOGS_IS_INSTALLED', 1 );
-define ( 'BP_BLOGS_VERSION', '0.1.3' );
+define ( 'BP_BLOGS_VERSION', '0.1.1' );
 
 /* These will be moved into admin configurable settings */
 define ( 'TOTAL_RECORDED_POSTS', 10 );

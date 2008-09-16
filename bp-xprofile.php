@@ -3,7 +3,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_XPROFILE_IS_INSTALLED', 1 );
-define ( 'BP_XPROFILE_VERSION', '0.3.8' );
+define ( 'BP_XPROFILE_VERSION', '0.3.9' );
 
 require_once( 'bp-xprofile/bp-xprofile-classes.php' );
 require_once( 'bp-xprofile/bp-xprofile-admin.php' );
