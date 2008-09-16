@@ -22,7 +22,6 @@
 					<?php bp_friend_avatar_thumb() ?>
 					<h4><?php bp_friend_link() ?></h4>
 					<span class="activity"><?php bp_friend_last_active() ?></span>
-					<hr />
 				</li>
 			<?php endwhile; ?>
 			</ul>

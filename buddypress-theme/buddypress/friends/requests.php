@@ -20,7 +20,6 @@
 					<a href="<?php bp_friend_accept_request_link() ?>" id="accept">Accept</a> 
 					<a href="<?php bp_friend_reject_request_link() ?>" id="reject">Reject</a> 
 				</div>
-				<hr />
 			</li>
 		<?php endwhile; ?>
 		</ul>
