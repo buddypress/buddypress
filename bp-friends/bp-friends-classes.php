@@ -113,8 +113,11 @@ class BP_Friends_Friendship {
 		$sql = $wpdb->prepare( "SELECT count(id) FROM " . $bp['friends']['table_name'] . " WHERE (initiator_user_id = %d OR friend_user_id = %d) AND is_confirmed = 1", $user_id, $user_id );
 
 		if ( !$friend_count = $wpdb->get_var( $sql ) )
-			return false;
+			return 0;
 		
+		if ( !$friend_count )
+			return 0;
+			
 		return $friend_count;
 	}
 	

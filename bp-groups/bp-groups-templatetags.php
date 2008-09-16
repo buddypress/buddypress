@@ -568,15 +568,21 @@ function bp_groups_random_groups() {
 ?>	
 	<div class="info-group">
 		<h4><?php bp_my_or_name() ?> <?php _e('Groups') ?> (<?php echo BP_Groups_Member::total_group_count() ?>) <a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] ?>"><?php _e('See All') ?> &raquo;</a></h4>
-		<ul class="horiz-gallery">
-		<?php for ( $i = 0; $i < count( $group_ids ); $i++ ) { ?>
-			<?php $group = new BP_Groups_Group( $group_ids[$i], false, false ); ?>
-			<li>
-				<a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] . '/' . $group->slug ?>"><img src="<?php echo $group->avatar_thumb; ?>" class="avatar" alt="Group Avatar" /></a>
-				<h5><a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] . '/' . $group->slug ?>"><?php echo $group->name ?></a></h5>
-			</li>
+		<?php if ( $group_ids ) { ?>
+			<ul class="horiz-gallery">
+			<?php for ( $i = 0; $i < count( $group_ids ); $i++ ) { ?>
+				<?php $group = new BP_Groups_Group( $group_ids[$i], false, false ); ?>
+				<li>
+					<a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] . '/' . $group->slug ?>"><img src="<?php echo $group->avatar_thumb; ?>" class="avatar" alt="Group Avatar" /></a>
+					<h5><a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] . '/' . $group->slug ?>"><?php echo $group->name ?></a></h5>
+				</li>
+			<?php } ?>
+			</ul>
+		<?php } else { ?>
+			<div id="message" class="info">
+				<p><?php bp_you_or_name() ?> <?php _e('joined any groups yet.') ?></p>
+			</div>
 		<?php } ?>
-		</ul>
 		<div class="clear"></div>
 	</div>
 <?php
