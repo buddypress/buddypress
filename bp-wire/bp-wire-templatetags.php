@@ -221,9 +221,9 @@ function bp_wire_poster_date( $date_format = null ) {
 }
 
 function bp_wire_delete_link() {
-	global $wire_posts_template, $bp, $is_item_admin;
-	
-	if ( $wire_posts_template->wire_post->user_id == $bp['loggedin_userid'] || $is_item_admin ) {
+	global $wire_posts_template, $bp;
+
+	if ( ( $wire_posts_template->wire_post->user_id == $bp['loggedin_userid'] ) || $bp['is_item_admin'] ) {
 		if ( $bp['current_component'] == 'wire' || $bp['current_component'] == 'profile' ) {
 			echo '<a href="' . $bp['current_domain'] . $bp['wire']['slug'] . '/delete/' . $wire_posts_template->wire_post->id . '">[' . __('Delete') . ']</a>';
 		} else {

@@ -218,10 +218,7 @@ add_action( 'wp', 'xprofile_setup_nav', 2 );
  **************************************************************************/
 
 function xprofile_catch_action() {
-	global $current_blog, $bp, $is_item_admin;
-	
-	/* Using "item" not "profile" for generic support in other components. */
-	$is_item_admin = ( $bp['current_userid'] == $bp['loggedin_userid'] ) ? 1 : 0 ;
+	global $current_blog, $bp;
 	
 	if ( $bp['current_component'] == $bp['profile']['slug'] && $current_blog->blog_id > 1 ) {
 

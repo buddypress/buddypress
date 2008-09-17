@@ -120,8 +120,8 @@ function bp_wire_catch_action() {
 						
 			break;
 			
-			case 'delete':	
-				if ( bp_wire_delete_post( $bp['action_variables'][0], $is_item_admin, $bp['profile']['table_name_wire'] ) ) {
+			case 'delete':
+				if ( bp_wire_delete_post( $bp['action_variables'][0], $bp['profile']['table_name_wire'] ) ) {
 					$bp['message'] = __('Wire message successfully deleted.');
 					$bp['message_type'] = 'success';
 
@@ -171,9 +171,9 @@ function bp_wire_new_post( $item_id, $message, $table_name = null ) {
 	return true;
 }
 
-function bp_wire_delete_post( $wire_post_id, $is_item_admin = false, $table_name = null ) {
+function bp_wire_delete_post( $wire_post_id, $table_name = null ) {
 	global $bp;
-	
+
 	if ( !is_user_logged_in() )
 		return false;
 
@@ -181,8 +181,8 @@ function bp_wire_delete_post( $wire_post_id, $is_item_admin = false, $table_name
 		$table_name = $bp[$bp['current_component']]['table_name_wire'];
 	
 	$wire_post = new BP_Wire_Post( $table_name, $wire_post_id );
-
-	if ( !$is_item_admin ) {
+	
+	if ( !$bp['is_item_admin'] ) {
 		if ( $wire_post->user_id != $bp['loggedin_userid'] )
 			return false;
 	}

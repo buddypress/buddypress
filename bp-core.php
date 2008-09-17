@@ -83,7 +83,13 @@ function bp_core_setup_globals() {
 		'message'			=> '',
 		
 		/* Sets up container for callback message type rendered by bp_core_render_notice() */
-		'message_type'		=> '' // error/success
+		'message_type'		=> '', // error/success,
+		
+		/* Used to determine if user has admin rights on current content. If the logged in user is viewing
+		   their own profile and wants to delete a post on their wire, is_item_admin is used. This is a
+		   generic variable so it can be used in other components. It can also be modified, so when viewing a group
+		   'is_item_admin' would be 1 if they are a group admin, 0 if they are not. */
+		'is_item_admin'		=> bp_is_home()
 	);
 	
 	if ( !$bp['current_component'] )

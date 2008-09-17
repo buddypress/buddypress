@@ -251,7 +251,7 @@ add_action( 'wp', 'groups_setup_nav', 4 );
 
 function groups_catch_action() {
 	global $bp, $current_blog;
-	global $is_single_group, $is_item_admin;
+	global $is_single_group;
 	global $create_group_step, $group_obj, $completed_to_step;
 	
 	if ( $bp['current_component'] == $bp['groups']['slug'] && $current_blog->blog_id > 1 ) {
@@ -350,7 +350,7 @@ function groups_catch_action() {
 						$group_obj = new BP_Groups_Group( $group_id );
 						
 						/* Using "item" not "group" for generic support in other components. */
-						$is_item_admin = groups_is_user_admin( $bp['loggedin_userid'], $group_obj->id );
+						$bp['is_item_admin'] = groups_is_user_admin( $bp['loggedin_userid'], $group_obj->id );
 						
 						switch ( $bp['action_variables'][0] ) {
 							
@@ -382,7 +382,7 @@ function groups_catch_action() {
 									
 								} else if ( $bp['action_variables'][1] == 'delete' && BP_Groups_Member::check_is_member( $bp['loggedin_userid'], $group_obj->id ) ) {
 																		
-									if ( !bp_wire_delete_post( $bp['action_variables'][2], $is_item_admin ) ) {
+									if ( !bp_wire_delete_post( $bp['action_variables'][2], $bp['groups']['table_name_wire'] ) ) {
 										bp_catch_uri( 'groups/group-home' );
 									} else {
 										$bp['message'] = __('Wire message successfully deleted.');
