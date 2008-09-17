@@ -179,6 +179,9 @@ function bp_get_options_title() {
 function bp_is_home() {
 	global $bp;
 	
+	if ( !is_user_logged_in() )
+		return false;
+	
 	if ( $bp['loggedin_userid'] == $bp['current_userid'] )
 		return true;
 	
