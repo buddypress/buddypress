@@ -442,20 +442,20 @@ function xprofile_replace_blog_references() {
 }
 add_action( 'wp', 'xprofile_replace_blog_references' );
 
-function xprofile_start_blog_reference_replacement( $contents ) {	
-	ob_start();
-	add_action('wp_footer', 'xprofile_end_blog_reference_replacement');
-}
-
-function xprofile_blog_reference_replacement( $contents ) {
-	echo str_replace( 'blog', 'account', $contents );
-}
-
-function xprofile_end_blog_reference_replacement() {
-	$contents = ob_get_contents();
-	ob_end_clean();
-	xprofile_blog_reference_replacement($contents);
-}
+// function xprofile_start_blog_reference_replacement( $contents ) {	
+// 	ob_start();
+// 	add_action('wp_footer', 'xprofile_end_blog_reference_replacement');
+// }
+// 
+// function xprofile_blog_reference_replacement( $contents ) {
+// 	echo str_replace( 'blog', 'account', $contents );
+// }
+// 
+// function xprofile_end_blog_reference_replacement() {
+// 	$contents = ob_get_contents();
+// 	ob_end_clean();
+// 	xprofile_blog_reference_replacement($contents);
+// }
 
 
 
