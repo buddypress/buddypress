@@ -22,7 +22,7 @@
 		</div>
 		
 		<?php if ( function_exists('bp_wire_get_post_list') ) : ?>
-			<?php bp_wire_get_post_list( bp_core_get_current_userid(), bp_my_or_name( true, false ) . ' Wire', 'No one has posted to ' . bp_your_or_name( false, false ) . ' wire yet.' ) ?>
+			<?php bp_wire_get_post_list( bp_current_user_id(), bp_my_or_name( true, false ) . ' Wire', 'No one has posted to ' . bp_your_or_name( false, false ) . ' wire yet.' ) ?>
 		<?php endif; ?>
 		
 	</div>
