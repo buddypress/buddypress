@@ -193,7 +193,8 @@ Class BP_Activity_Activity {
 				}
 			}
 		
-			usort( $activities_formatted, 'bp_activity_order_by_date' );
+			if ( is_array($activities_formatted) )
+				usort( $activities_formatted, 'bp_activity_order_by_date' );
 			
 			if ( count($activities_formatted) )
 				BP_Activity_Activity::cache_friends_activities( $activities_formatted );
