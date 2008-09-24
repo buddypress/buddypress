@@ -1,11 +1,4 @@
-<?php
-
-$name = bp_user_fullname( $bp['current_userid'], false );
-
-
-?>
-
-<h2><?php echo $name ?>'s Dashboard</h2>
+<h2><?php echo $bp['current_fullname'] ?>'s Dashboard</h2>
 
 <div id="rightnow">
 	<h3 class="reallynow" style="background: #2093D6">

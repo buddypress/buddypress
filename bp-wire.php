@@ -57,93 +57,79 @@ add_action( '_admin_menu', 'bp_wire_setup_globals', 1 );
 function bp_wire_setup_nav() {
 	global $bp;
 
-	$nav_key = count($bp['bp_nav']) + 1;
-	$user_nav_key = count($bp['bp_users_nav']) + 1;
+	/* Add 'Wire' to the main navigation */
+	bp_core_add_nav_item( __('Wire'), $bp['wire']['slug'] );
+	bp_core_add_nav_default( $bp['wire']['slug'], 'bp_wire_screen_latest', 'all-posts' );
 
-	$bp['bp_nav'][$nav_key] = array(
-		'id'	=> $bp['wire']['slug'],
-		'name'  => __('Wire'), 
-		'link'  => $bp['loggedin_domain'] . $bp['wire']['slug'] . '/'
-	);
-	
-	$bp['bp_users_nav'][$user_nav_key] = array(
-		'id'	=> $bp['wire']['slug'],
-		'name'  => __('Wire'), 
-		'link'  => $bp['current_domain'] . $bp['wire']['slug'] . '/'
-	);
-
-	$bp['bp_options_nav'][$bp['wire']['slug']] = array(
-		''    => array( 
-			'name'      => __('All Posts'),
-			'link'      => $bp['loggedin_domain'] . $bp['wire']['slug'] . '/all-posts' ),
-	);
+	/* Add the subnav items to the wire nav */
+ 	bp_core_add_subnav_item( $bp['wire']['slug'], 'all-posts', __('All Posts'), $bp['loggedin_domain'] . $bp['wire']['slug'] . '/', 'bp_wire_screen_latest' );
 	
 	if ( $bp['current_component'] == $bp['wire']['slug'] ) {
 		if ( bp_is_home() ) {
 			$bp['bp_options_title'] = __('My Wire');
 		} else {
 			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
-			$bp['bp_options_title'] = bp_user_fullname( $bp['current_userid'], false ); 
+			$bp['bp_options_title'] = $bp['current_fullname']; 
 		}
 	}
-
 }
 add_action( 'wp', 'bp_wire_setup_nav', 2 );
 
+/***** Screens **********/
 
-/**************************************************************************
- bp_wire_catch_action()
- 
- Catch actions via pretty urls.
- **************************************************************************/
+function bp_wire_screen_latest() {
+	bp_catch_uri( 'wire/latest' );	
+}
 
-function bp_wire_catch_action() {
-	global $bp, $current_blog;
+/***** Actions **********/
+
+function bp_wire_action_post() {
+	global $bp;
 	
-	if ( $bp['current_component'] == $bp['wire']['slug'] && $current_blog->blog_id > 1 ) {
-		switch ( $bp['current_action'] ) {
-			case 'post':
-				if ( bp_wire_new_post( $bp['current_userid'], $_POST['wire-post-textarea'], $bp['profile']['table_name_wire'] ) ) {
-					$bp['message'] = __('Wire message successfully posted.');
-					$bp['message_type'] = 'success';
+	if ( $bp['current_action'] != 'post' )
+		return false;
+	
+	if ( $wire_post_id = bp_wire_new_post( $bp['current_userid'], $_POST['wire-post-textarea'], $bp['profile']['table_name_wire'] ) ) {
+		$bp['message'] = __('Wire message successfully posted.');
+		$bp['message_type'] = 'success';
 
-					add_action( 'template_notices', 'bp_core_render_notice' );
-				}
-				
-				if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
-					$bp['current_component'] = $bp['profile']['slug'];
-					$bp['current_action'] = 'public';
-					bp_catch_uri( 'profile/index' );
-				} else {
-					bp_catch_uri( 'wire/latest' );
-				}
-						
-			break;
-			
-			case 'delete':
-				if ( bp_wire_delete_post( $bp['action_variables'][0], $bp['profile']['table_name_wire'] ) ) {
-					$bp['message'] = __('Wire message successfully deleted.');
-					$bp['message_type'] = 'success';
+		do_action( 'bp_xprofile_new_wire_post', array( 'item_id' => $wire_post_id, 'component_name' => 'profile', 'component_action' => 'new_wire_post', 'is_private' => 0 ) );
+		add_action( 'template_notices', 'bp_core_render_notice' );
+	}
+	
+	if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
+		$bp['current_component'] = $bp['profile']['slug'];
+		$bp['current_action'] = 'public';
+		bp_catch_uri( 'profile/index' );
+	} else {
+		bp_catch_uri( 'wire/latest' );
+	}	
+}
+add_action( 'wp', 'bp_wire_action_post', 3 );
 
-					add_action( 'template_notices', 'bp_core_render_notice' );									
-				}
-				
-				if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
-					$bp['current_component'] = $bp['profile']['slug'];
-					$bp['current_action'] = 'public';
-					bp_catch_uri( 'profile/index' );
-				} else {
-					bp_catch_uri( 'wire/latest' );
-				}			
-			break;
-			
-			default:
-				bp_catch_uri( 'wire/latest' );		
-			break;
-		}
+function bp_wire_action_delete() {
+	global $bp;
+	
+	if ( $bp['current_action'] != 'delete' )
+		return false;
+	
+	if ( bp_wire_delete_post( $bp['action_variables'][0], $bp['profile']['table_name_wire'] ) ) {
+		$bp['message'] = __('Wire message successfully deleted.');
+		$bp['message_type'] = 'success';
+		
+		do_action( 'bp_xprofile_delete_wire_post' );
+		add_action( 'template_notices', 'bp_core_render_notice' );									
+	}
+	
+	if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
+		$bp['current_component'] = $bp['profile']['slug'];
+		$bp['current_action'] = 'public';
+		bp_catch_uri( 'profile/index' );
+	} else {
+		bp_catch_uri( 'wire/latest' );
 	}
 }
-add_action( 'wp', 'bp_wire_catch_action', 3 );
+add_action( 'wp', 'bp_wire_action_delete', 3 );
 
 
 function bp_wire_new_post( $item_id, $message, $table_name = null ) {
@@ -168,8 +154,9 @@ function bp_wire_new_post( $item_id, $message, $table_name = null ) {
 	
 	do_action( 'bp_wire_post_posted', $wire_post->id, $wire_post->item_id, $wire_post->user_id );
 	
-	return true;
+	return $wire_post->id;
 }
+add_action( 'wp', 'bp_wire_action_delete', 3 );
 
 function bp_wire_delete_post( $wire_post_id, $table_name = null ) {
 	global $bp;

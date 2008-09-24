@@ -53,6 +53,7 @@ function friends_setup_globals() {
 	$bp['friends'] = array(
 		'table_name' => $wpdb->base_prefix . 'bp_friends',
 		'image_base' => get_option('siteurl') . '/wp-content/mu-plugins/bp-friends/images',
+		'format_activity_function' => 'friends_format_activity',
 		'slug'		 => 'friends'
 	);
 }
@@ -70,7 +71,7 @@ add_action( '_admin_menu', 'friends_setup_globals', 1 );
 function friends_add_admin_menu() {	
 	global $wpdb, $bp, $userdata;
 
-	if ( $wpdb->blogid == get_usermeta( $bp['current_userid'], 'home_base' ) ) {
+	if ( $wpdb->blogid == $bp['current_homebase_id'] ) {
 		/* Add the administration tab under the "Site Admin" tab for site administrators */
 		//add_submenu_page( 'wpmu-admin.php', __("Friends"), __("Friends"), 1, basename(__FILE__), "friends_settings" );
 	}
@@ -90,114 +91,122 @@ add_action( 'admin_menu', 'friends_add_admin_menu' );
 function friends_setup_nav() {
 	global $bp;
 	
-	$nav_key = count($bp['bp_nav']) + 1;
-	$user_nav_key = count($bp['bp_users_nav']) + 1;
+	/* Add 'Friends' to the main navigation */
+	bp_core_add_nav_item( __('Friends'), $bp['friends']['slug'] );
+	bp_core_add_nav_default( $bp['friends']['slug'], 'friends_screen_my_friends', 'my-friends' );
 	
-	$bp['bp_nav'][$nav_key] = array(
-		'id'	=> $bp['friends']['slug'],
-		'name'  => __('Friends'), 
-		'link'  => $bp['loggedin_domain'] . $bp['friends']['slug'] . '/'
-	);
+	$friends_link = $bp['loggedin_domain'] . $bp['friends']['slug'] . '/';
 	
-	$bp['bp_users_nav'][$user_nav_key] = array(
-		'id'	=> $bp['friends']['slug'],
-		'name'  => __('Friends'), 
-		'link'  => $bp['current_domain'] . $bp['friends']['slug'] . '/'
-	);
-
-	$bp['bp_options_nav'][$bp['friends']['slug']] = array(
-		'my-friends'    => array( 
-			'name'      => __('My Friends'),
-			'link'      => $bp['loggedin_domain'] . $bp['friends']['slug'] . '/my-friends' ),
-		'requests'      => array(
-			'name'      => __('Requests'),
-			'link'      => $bp['loggedin_domain'] . $bp['friends']['slug'] . '/requests' ),
-		'friend-finder' => array( 
-			'name'      => __('Friend Finder'),
-			'link'      => $bp['loggedin_domain'] . $bp['friends']['slug'] . '/friend-finder' ),
-		'invite-friend' => array( 
-			'name'      => __('Invite Friends'),
-			'link'      => $bp['loggedin_domain'] . $bp['friends']['slug'] . '/invite-friend' )
-	);		
+	/* Add the subnav items to the friends nav item */
+	bp_core_add_subnav_item( $bp['friends']['slug'], 'my-friends', __('My Friends'), $friends_link, 'friends_screen_my_friends' );
+	bp_core_add_subnav_item( $bp['friends']['slug'], 'requests', __('Requests'), $friends_link, 'friends_screen_requests' );
+	bp_core_add_subnav_item( $bp['friends']['slug'], 'friend-finder', __('Friend Finder'), $friends_link, 'friends_screen_friend_finder' );
+	bp_core_add_subnav_item( $bp['friends']['slug'], 'invite-friend', __('Invite Friends'), $friends_link, 'friends_screen_invite_friends' );
 	
 	if ( $bp['current_component'] == $bp['friends']['slug'] ) {
 		if ( bp_is_home() ) {
 			$bp['bp_options_title'] = __('My Friends');
 		} else {
 			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
-			$bp['bp_options_title'] = bp_user_fullname( $bp['current_userid'], false ); 
+			$bp['bp_options_title'] = $bp['current_fullname']; 
 		}
 	}
-
 }
 add_action( 'wp', 'friends_setup_nav', 2 );
 
+/***** Screens **********/
+
+function friends_screen_my_friends() {
+	bp_catch_uri( 'friends/index' );	
+}
+
+function friends_screen_requests() {
+	global $bp;
+	
+	if ( isset($bp['action_variables']) && in_array( 'accept', $bp['action_variables'] ) && is_numeric($bp['action_variables'][1]) ) {
+		
+		if ( friends_accept_friendship( $bp['action_variables'][1] ) ) {
+			$bp['message'] = __('Friendship accepted');
+			$bp['message_type'] = 'success';
+		} else {
+			$bp['message'] = __('Friendship could not be accepted');
+			$bp['message_type'] = 'error';					
+		}
+		add_action( 'template_notices', 'bp_core_render_notice' );
+		
+	} else if ( isset($bp['action_variables']) && in_array( 'reject', $bp['action_variables'] ) && is_numeric($bp['action_variables'][1]) ) {
+		
+		if ( friends_reject_friendship( $bp['action_variables'][1] ) ) {
+			$bp['message'] = __('Friendship rejected');
+			$bp['message_type'] = 'success';
+		} else {
+			$bp['message'] = __('Friendship could not be rejected');
+			$bp['message_type'] = 'error';				
+		}
+		add_action( 'template_notices', 'bp_core_render_notice' );
+		
+	}
+	bp_catch_uri( 'friends/requests' );
+}
+
+function friends_screen_friend_finder() {
+	bp_catch_uri( 'friends/friend-finder' );
+}
+
+function friends_screen_invite_friends() {
+	global $bp;
+	$bp['current_action'] = 'my-friends';
+	
+	// Not implemented yet.
+	bp_catch_uri( 'friends/index' );	
+}
+
 
 /**************************************************************************
- friends_catch_action()
+ friends_record_activity()
  
- Catch actions via pretty urls.
+ Records activity for the logged in user within the friends component so that
+ it will show in the users activity stream (if installed)
  **************************************************************************/
 
-function friends_catch_action() {
-	global $bp, $thread_id, $current_blog;
-	
-	if ( $bp['current_component'] == $bp['friends']['slug'] && $current_blog->blog_id > 1 ) {
-		
-		if ( $bp['current_action'] == '' )
-			$bp['current_action'] = 'my-friends';
-		
-		switch ( $bp['current_action'] ) {
-			case 'my-friends':
-				bp_catch_uri( 'friends/index' );
-			break;
-			
-			case 'friend-finder':
-				bp_catch_uri( 'friends/friend-finder' );
-			break;
-			
-			case 'requests':
-				if ( isset($bp['action_variables']) && in_array( 'accept', $bp['action_variables'] ) && is_numeric($bp['action_variables'][1]) ) {
-					if ( BP_Friends_Friendship::accept( $bp['action_variables'][1] ) ) {
-						$bp['message'] = __('Friendship accepted');
-						$bp['message_type'] = 'success';
-					} else {
-						$bp['message'] = __('Friendship could not be accepted');
-						$bp['message_type'] = 'error';					
-					}
-					add_action( 'template_notices', 'bp_core_render_notice' );
-				} else if ( isset($bp['action_variables']) && in_array( 'reject', $bp['action_variables'] ) && is_numeric($bp['action_variables'][1]) ) {
-					if ( BP_Friends_Friendship::reject( $bp['action_variables'][1] ) ) {
-						$bp['message'] = __('Friendship rejected');
-						$bp['message_type'] = 'success';
-					} else {
-						$bp['message'] = __('Friendship could not be rejected');
-						$bp['message_type'] = 'error';				
-					}
-					add_action( 'template_notices', 'bp_core_render_notice' );
-				}
-				bp_catch_uri( 'friends/requests' );
-			break; 
-			
-			default:
-				$bp['current_action'] = 'my-friends';
-				bp_catch_uri( 'friends/index' );				
-			break;
-		}
-	}
+function friends_record_activity( $args = true ) {
+	if ( function_exists('bp_activity_record') ) {
+		extract($args);
+		bp_activity_record( $item_id, $component_name, $component_action, $is_private, $dual_record, $secondary_user_homebase_id );
+	} 
 }
-add_action( 'wp', 'friends_catch_action', 3 );
+add_action( 'bp_friends_friendship_accepted', 'friends_record_activity' );
 
 
 /**************************************************************************
- friends_admin_setup()
+ friends_format_activity()
  
- Setup CSS, JS and other things needed for the xprofile component.
-**************************************************************************/
+ Selects and formats recorded friends component activity.
+ Example: Selects the friend details for an added connection, then
+          formats it to read "Andy Peatling & John Smith are now friends"
+ **************************************************************************/
 
-function friends_admin_setup() {
+function friends_format_activity( $friendship_id, $action, $for_secondary_user = false ) {
+	global $bp;
+	
+	switch( $action ) {
+		case 'friendship_accepted':
+			$friendship = new BP_Friends_Friendship( $friendship_id, false, false );
+
+			if ( !$friendship )
+				return false;
+			
+			if ( $for_secondary_user ) {
+				return bp_core_get_userlink( $friendship->initiator_user_id ) . ' ' . __('and') . ' ' . bp_core_get_userlink($friendship->friend_user_id, false, false, true) . ' ' . __('are now friends') . '. <span class="time-since">%s</span>';				
+			} else {
+				return bp_core_get_userlink( $friendship->friend_user_id ) . ' ' . __('and') . ' ' . bp_core_get_userlink($friendship->initiator_user_id) . ' ' . __('are now friends') . '. <span class="time-since">%s</span>';								
+			}
+
+		break;
+	}
+	
+	return false;
 }
-add_action( 'admin_menu', 'friends_admin_setup' );
 
 
 /**************************************************************************
@@ -238,7 +247,7 @@ function friends_get_friends_list( $user_id = false ) {
 
 	for ( $i = 0; $i < count($friend_ids); $i++ ) {
 		if ( function_exists('bp_user_fullname') )
-			$display_name = bp_user_fullname($friend_ids[$i], false);
+			$display_name = bp_fetch_user_fullname($friend_ids[$i], false);
 		
 		if ( $display_name != ' ' ) {
 			$friends[] = array(
@@ -260,6 +269,11 @@ function friends_get_friends_list( $user_id = false ) {
 	function friends_sort_by_name($a, $b) {  
 	    return strcasecmp($a['full_name'], $b['full_name']);
 	}
+
+
+function friends_get_friend_ids_for_user( $user_id ) {
+	return BP_Friends_Friendship::get_friend_ids( $user_id );
+}
 
 /**************************************************************************
  friends_search_users()
@@ -348,10 +362,30 @@ function friends_remove_friend( $initiator_userid = null, $friend_userid = null,
 		$friend_userid = $bp['current_userid'];
 		
 	$friendship_id = BP_Friends_Friendship::get_friendship_ids( $initiator_userid, $only_confirmed, false, null, null, $friend_userid );
-
 	$friendship = new BP_Friends_Friendship( $friendship_id[0]->id );
 	
 	return $friendship->delete();
+}
+
+function friends_accept_friendship( $friendship_id ) {
+	$friendship = new BP_Friends_Friendship( $friendship_id, true, false );
+	$secondary_user_homebase_id = get_usermeta( $friendship->friend_user_id, 'home_base' );
+	
+	if ( BP_Friends_Friendship::accept( $friendship_id ) ) {
+		do_action( 'bp_friends_friendship_accepted', array( 'item_id' => $friendship_id, 'component_name' => 'friends', 'component_action' => 'friendship_accepted', 'is_private' => 0, 'dual_record' => true, 'secondary_user_homebase_id' => $secondary_user_homebase_id ) );
+		return true;
+	}
+	
+	return false;
+}
+
+function friends_reject_friendship( $friendship_id ) {
+	if ( BP_Friends_Friendship::reject( $friendship_id ) ) {
+		do_action( 'bp_friends_friendship_rejected' );
+		return true;
+	}
+	
+	return false;
 }
 
 

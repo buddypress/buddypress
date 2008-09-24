@@ -466,7 +466,6 @@ function bp_core_add_cropper_js() {
 	<style type="text/css">
 		#avatar_v2 { display: none; }
 		.crop-img { float: left; margin: 0 20px 15px 0; }
-		.submit { clear: left; }
 	</style>
 
 	<script type="text/javascript">

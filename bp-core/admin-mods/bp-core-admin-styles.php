@@ -2,7 +2,7 @@
 function bp_core_admin_add_avatar() {
 	global $bp, $wpdb;
 	
-	if ( function_exists('xprofile_install') && $wpdb->blogid == get_usermeta( $bp['loggedin_userid'], 'home_base' ) ) {
+	if ( function_exists('xprofile_install') && $wpdb->blogid == $bp['loggedin_homebase_id'] ) {
 		$avatar_href = bp_core_get_avatar( $bp['loggedin_userid'], 1, true );
 		
 		if ( $avatar_href != '' ) {

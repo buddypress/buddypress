@@ -9,14 +9,16 @@ class BP_Friends_Friendship {
 	var $date_created;
 	
 	var $is_request;
+	var $populate_friend_details;
 	
 	var $friend;
 	
-	function bp_friends_friendship( $id = null, $is_request = false ) {
+	function bp_friends_friendship( $id = null, $is_request = false, $populate_friend_details = true ) {
 		$this->is_request = $is_request;
 		
 		if ( $id ) {
 			$this->id = $id;
+			$this->populate_friend_details = $populate_friend_details;
 			$this->populate( $this->id );
 		}
 	}
@@ -44,11 +46,13 @@ class BP_Friends_Friendship {
 		// if running from ajax.
 		if ( !$bp['current_userid'] )
 			$bp['current_userid'] = $creds['current_userid'];
-			
-		if ( $this->friend_user_id == $bp['current_userid'] ) {
-			$this->friend = new BP_Core_User( $this->initiator_user_id );
-		} else {
-			$this->friend = new BP_Core_User( $this->friend_user_id );
+		
+		if ( $this->populate_friend_details ) {
+			if ( $this->friend_user_id == $bp['current_userid'] ) {
+				$this->friend = new BP_Core_User( $this->initiator_user_id );
+			} else {
+				$this->friend = new BP_Core_User( $this->friend_user_id );
+			}
 		}
 	}
 	
@@ -174,15 +178,16 @@ class BP_Friends_Friendship {
 		}
 	}
 	
-	function accept($friend_userid) {
+	function accept($friendship_id) {
 		global $wpdb, $bp;
-		return $wpdb->query( $wpdb->prepare( "UPDATE " . $bp['friends']['table_name'] . " SET is_confirmed = 1, date_created = FROM_UNIXTIME(%d) WHERE initiator_user_id = %d AND friend_user_id = %d", time(), $friend_userid, $bp['loggedin_userid'] ) );
+
+	 	return $wpdb->query( $wpdb->prepare( "UPDATE " . $bp['friends']['table_name'] . " SET is_confirmed = 1, date_created = FROM_UNIXTIME(%d) WHERE id = %d AND friend_user_id = %d", time(), $friendship_id, $bp['loggedin_userid'] ) );
 	}
 	
-	function reject($friend_userid) {
+	function reject($friendship_id) {
 		global $wpdb, $bp;
 		
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['friends']['table_name'] . " WHERE initiator_user_id = %d AND friend_user_id = %d", $friend_userid, $bp['loggedin_userid'] ) );
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['friends']['table_name'] . " WHERE id = %d AND friend_user_id = %d", $friendship_id, $bp['loggedin_userid'] ) );
 	}
 	
 	function search_users( $filter, $user_id, $limit = null, $page = null ) {
@@ -196,7 +201,7 @@ class BP_Friends_Friendship {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		
 		// filter the user_ids based on the search criteria.
-		if ( BP_XPROFILE_IS_INSTALLED ) {
+		if ( function_exists('xprofile_install') ) {
 			$sql = $wpdb->prepare( "SELECT DISTINCT d.user_id as id FROM " . $bp['profile']['table_name_data'] . " d, $users_table u WHERE d.user_id = u.id AND d.value LIKE '$filter%%' ORDER BY d.value DESC $pag_sql" );
 		} else {
 			$sql = $wpdb->prepare( "SELECT DISTINCT user_id as id FROM $usermeta_table WHERE meta_value LIKE '$filter%%' ORDER BY d.value DESC $pag_sql" );
@@ -218,7 +223,7 @@ class BP_Friends_Friendship {
 		$users_table = $wpdb->base_prefix . 'users';
 		
 		// filter the user_ids based on the search criteria.
-		if ( BP_XPROFILE_IS_INSTALLED ) {
+		if ( function_exists('xprofile_install') ) {
 			$sql = $wpdb->prepare( "SELECT DISTINCT count(d.user_id) FROM " . $bp['profile']['table_name_data'] . " d, $users_table u WHERE d.user_id = u.id AND d.value LIKE '$filter%%'" );
 		} else {
 			$sql = $wpdb->prepare( "SELECT DISTINCT count(user_id) FROM $usermeta_table WHERE meta_value LIKE '$filter%%'" );
@@ -262,6 +267,12 @@ class BP_Friends_Friendship {
 			return array_flip(array_flip($fids));
 		else
 			return false;
+	}
+	
+	function get_user_ids_for_friendship( $friendship_id ) {
+		global $wpdb, $bp;
+
+		return $wpdb->get_row( $wpdb->prepare( "SELECT friend_user_id, initiator_user_id FROM " . $bp['friends']['table_name'] . " WHERE id = %d", $friendship_id ) );
 	}
 }
 	

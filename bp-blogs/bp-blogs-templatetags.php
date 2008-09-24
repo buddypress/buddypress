@@ -311,7 +311,7 @@ function bp_post_id() {
 
 function bp_post_category( $separator = '', $parents='', $post_id = false ) {
 	global $posts_template;
-	echo get_the_category_list($separator, $parents, $posts_template->post->ID);	
+	echo get_the_category_list($separator, $parents, $posts_template->post->ID );	
 }
 
 function bp_post_tags( $before = '', $sep = ', ', $after = '' ) {

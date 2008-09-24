@@ -93,13 +93,14 @@ function messages_setup_globals() {
 	global $bp, $wpdb;
 	
 	$bp['messages'] = array(
-		'table_name' 		    => $wpdb->base_prefix . 'bp_messages',
-		'table_name_threads'    => $wpdb->base_prefix . 'bp_messages_threads',
-		'table_name_messages'   => $wpdb->base_prefix . 'bp_messages_messages',
-		'table_name_recipients' => $wpdb->base_prefix . 'bp_messages_recipients',
-		'table_name_notices' 	=> $wpdb->base_prefix . 'bp_messages_notices',
-		'image_base' 		 	=> get_option('siteurl') . '/wp-content/mu-plugins/bp-messages/images',
-		'slug'		 		 	=> 'messages'
+		'table_name' 		       => $wpdb->base_prefix . 'bp_messages',
+		'table_name_threads'       => $wpdb->base_prefix . 'bp_messages_threads',
+		'table_name_messages'      => $wpdb->base_prefix . 'bp_messages_messages',
+		'table_name_recipients'    => $wpdb->base_prefix . 'bp_messages_recipients',
+		'table_name_notices' 	   => $wpdb->base_prefix . 'bp_messages_notices',
+		'format_activity_function' => 'messages_format_activity',
+		'image_base' 		 	   => get_option('siteurl') . '/wp-content/mu-plugins/bp-messages/images',
+		'slug'		 		 	   => 'messages'
 	);
 }
 add_action( 'wp', 'messages_setup_globals', 1 );	
@@ -116,7 +117,7 @@ add_action( '_admin_menu', 'messages_setup_globals', 1 );
 function messages_add_admin_menu() {	
 	global $wpdb, $bp, $userdata;
 
-	if ( $wpdb->blogid == get_usermeta( $bp['current_userid'], 'home_base' ) ) {	
+	if ( $wpdb->blogid == $bp['current_homebase_id'] ) {	
 		//Add the administration tab under the "Site Admin" tab for site administrators
 		//add_submenu_page ( 'wpmu-admin.php', __('Messages'), __('Messages'), 1, basename(__FILE__), "messages_settings" );
 	}
@@ -135,190 +136,208 @@ add_action( 'admin_menu', 'messages_add_admin_menu' );
 
 function messages_setup_nav() {
 	global $bp;
-	
-	$nav_key = count($bp['bp_nav']) + 1;
 
-	$bp['bp_nav'][$nav_key] = array(
-		'id'	=> $bp['messages']['slug'],
-		'name'  => 'Messages', 
-		'link'  => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/'
-	);
-	
-	$bp['bp_options_nav'][$bp['messages']['slug']] = array(
-		'inbox'	   => array( 
-			'name' => __('Inbox') . $count_indicator,
-			'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/' ),
-		'sentbox'  => array(
-			'name' => __('Sent Messages'),
-			'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/sentbox' ),
-		'compose' => array( 
-			'name' => __('Compose'),
-			'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/compose' )
-	);
-	
-	if ( is_site_admin() ) {
-		$bp['bp_options_nav'][$bp['messages']['slug']]['notices'] = array(
-			'name' => __('Sent Notices'),
-			'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/notices'
-		);
-	}
-	
 	$inbox_count = BP_Messages_Thread::get_inbox_count();
 	$inbox_display = ( $inbox_count ) ? ' style="display:inline;"' : ' style="display:none;"';
 	$count_indicator = '&nbsp; <span' . $inbox_display . ' class="unread-count inbox-count">' . BP_Messages_Thread::get_inbox_count() . '</span>';
+	
+	/* Add 'Profile' to the main navigation */
+	bp_core_add_nav_item( __('Messages'), $bp['messages']['slug'], false, false );
+	bp_core_add_nav_default( $bp['messages']['slug'], 'messages_screen_inbox', 'inbox' );
+	
+	$messages_link = $bp['loggedin_domain'] . $bp['messages']['slug'] . '/';
+	
+	/* Add the subnav items to the profile */
+	bp_core_add_subnav_item( $bp['messages']['slug'], 'inbox', __('Inbox') . $count_indicator, $messages_link, 'messages_screen_inbox' );
+	bp_core_add_subnav_item( $bp['messages']['slug'], 'sentbox', __('Sent Messages'), $messages_link, 'messages_screen_sentbox' );
+	bp_core_add_subnav_item( $bp['messages']['slug'], 'compose', __('Compose'), $messages_link, 'messages_screen_compose' );
+	bp_core_add_subnav_item( $bp['messages']['slug'], 'notices', __('Notices'), $messages_link, 'messages_screen_notices', false, true, true );
 
 	if ( $bp['current_component'] == $bp['messages']['slug'] ) {
 		if ( bp_is_home() ) {
 			$bp['bp_options_title'] = __('My Messages');			
 		} else {
 			$bp_options_avatar = bp_core_get_avatar( $bp['current_userid'], 1 );
-			$bp['bp_options_title'] = bp_user_fullname( $bp['current_userid'], false ); 
+			$bp['bp_options_title'] = $bp['current_fullname']; 
 		}
 	}
 }
 add_action( 'wp', 'messages_setup_nav', 2 );
 
+/***** Screens **********/
 
-/**************************************************************************
- messages_catch_action()
- 
- Catch actions via pretty urls.
- **************************************************************************/
+function messages_screen_inbox() {
+	bp_catch_uri( 'messages/index' );	
+}
 
-function messages_catch_action() {
-	global $current_blog, $bp, $thread_id;
+function messages_screen_sentbox() {
+	bp_catch_uri( 'messages/sentbox' );
+}
 
-	if ( $bp['current_component'] == $bp['messages']['slug'] && $current_blog->blog_id > 1 && $bp['loggedin_userid'] == $bp['current_userid'] ) {
-		switch ( $bp['current_action'] ) {
-			case 'inbox':
-				bp_catch_uri( 'messages/index' );
-			break;
-			
-			case 'sentbox':
-				bp_catch_uri( 'messages/sentbox' );
-			break;
-			
-			case 'compose':
-				bp_catch_uri( 'messages/compose' );
-			break;
-			
-			case 'view':
-				if ( !empty($bp['action_variables']) ) {
-					$thread_id = $bp['action_variables'][0];
+function messages_screen_compose() {
+	bp_catch_uri( 'messages/compose' );
+}
 
-					if ( !$thread_id || !is_numeric($thread_id) || !BP_Messages_Thread::check_access($thread_id) ) {
-						$bp['current_action'] = 'inbox';
-						bp_catch_uri( 'messages/index' );
-					} else {
-						$bp['bp_options_nav'][$bp['messages']['slug']]['view'] = array(
-							'name' => __('From: ' . BP_Messages_Thread::get_last_sender($thread_id)),
-							'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/'			
-						);
+function messages_screen_notices() {
+	global $bp, $notice_id;
+	
+	if ( !is_site_admin() )
+		return false;
+		
+	$notice_id = $bp['action_variables'][1];
 
-						bp_catch_uri( 'messages/view' );
-					}
-				}
-			break;
-			
-			case 'delete':
-				if ( !empty($bp['action_variables']) ) {
-					$thread_id = $bp['action_variables'][0];
+	if ( !$notice_id || !is_numeric($notice_id) ) {
+		$bp['current_action'] = 'notices';
+		bp_catch_uri( 'messages/notices' );
+	} else {
+		$notice = new BP_Messages_Notice($notice_id);
 
-					if ( !$thread_id || !is_numeric($thread_id) || !BP_Messages_Thread::check_access($thread_id) ) {
-						$bp['current_action'] = 'inbox';
-						bp_catch_uri( 'messages/index' );
-					} else {
-						// delete message
-						if ( !BP_Messages_Thread::delete($thread_id) ) {
-							$bp['message'] = __('There was an error deleting that message.');
-							add_action( 'template_notices', 'bp_core_render_notice' );
+		if ( $bp['action_variables'][0] == 'deactivate' ) {
+			if ( !$notice->deactivate() ) {
+				$bp['message'] = __('There was a problem deactivating that notice.');	
+			} else {
+				$bp['message'] = __('Notice deactivated.');
+				$bp['message_type'] = 'success';
+			}
+		} else if ( $bp['action_variables'][0] == 'activate' ) {
+			if ( !$notice->activate() ) {
+				$bp['message'] = __('There was a problem activating that notice.');
+			} else {
+				$bp['message'] = __('Notice activated.');
+				$bp['message_type'] = 'success';
+			}
+		} else if ( $bp['action_variables'][0] == 'delete' ) {
+			if ( !$notice->delete() ) {
+				$bp['message'] = __('There was a problem deleting that notice.');
+			} else {
+				$bp['message'] = __('Notice deleted.');
+				$bp['message_type'] = 'success';
+			}
+		}
+	}
+		
+	add_action( 'template_notices', 'bp_core_render_notice' );
+	bp_catch_uri( 'messages/notices' );	
+}
 
-							$bp['current_action'] = 'inbox';
-							bp_catch_uri( 'messages/index' );
-						} else {
-							$bp['message'] = __('Message deleted.');
-							$bp['message_type'] = 'success';
-							add_action( 'template_notices', 'bp_core_render_notice' );
+/***** Actions **********/
 
-							$bp['current_action'] = 'inbox';
-							bp_catch_uri( 'messages/index' );
-						}
-					}
-				}
-			break;
-			
-			case 'bulk-delete':
-				$thread_ids = $_POST['thread_ids'];
+function messages_action_view_message() {
+	global $bp, $thread_id;
+	
+	if ( $bp['current_component'] != $bp['messages']['slug'] || $bp['current_action'] != 'view' )
+		return false;
+		
+	$thread_id = $bp['action_variables'][0];
 
-				if ( !$thread_ids || !BP_Messages_Thread::check_access($thread_ids) ) {
-					$bp['current_action'] = 'inbox';
-					bp_catch_uri( 'messages/index' );				
-				} else {
-					if ( !BP_Messages_Thread::delete( explode(',', $thread_ids ) ) ) {
-						$message = __('There was an error deleting messages.');
-						add_action( 'template_notices', 'bp_core_render_notice' );
+	if ( !$thread_id || !is_numeric($thread_id) || !BP_Messages_Thread::check_access($thread_id) ) {
+		$bp['current_action'] = 'inbox';
+		bp_catch_uri( 'messages/index' );
+	} else {
+		$bp['bp_options_nav'][$bp['messages']['slug']]['view'] = array(
+			'name' => __('From: ' . BP_Messages_Thread::get_last_sender($thread_id)),
+			'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/'			
+		);
 
-						$bp['current_action'] = 'inbox';
-						bp_catch_uri( 'messages/index' );
-					} else {
-						$bp['message'] = __('Messages deleted.');
-						$bp['message_type'] = 'success';
-						add_action( 'template_notices', 'bp_core_render_notice' );
+		bp_catch_uri( 'messages/view' );
+	}
+}
+add_action( 'wp', 'messages_action_view_message', 3 );
 
-						$bp['current_action'] = 'inbox';
-						bp_catch_uri( 'messages/index' );
-					}
-				}
-			break;
-			
-			case 'notices':
-				if ( is_site_admin() ) {
-					if ( isset($bp['action_variables']) ) {
-						$notice_id = $bp['action_variables'][1];
 
-						if ( !$notice_id || !is_numeric($notice_id) ) {
-							$bp['current_action'] = 'notices';
-							bp_catch_uri( 'messages/notices' );
-						} else {
-							$notice = new BP_Messages_Notice($notice_id);
+function messages_action_delete_message() {
+	global $bp, $thread_id;
+	
+	if ( $bp['current_component'] != $bp['messages']['slug'] || $bp['current_action'] != 'delete' )
+		return false;
+	
+	$thread_id = $bp['action_variables'][0];
 
-							if ( $bp['action_variables'][0] == 'deactivate' ) {
-								if ( !$notice->deactivate() ) {
-									$bp['message'] = __('There was a problem deactivating that notice.');	
-								} else {
-									$bp['message'] = __('Notice deactivated.');
-									$bp['message_type'] = 'success';
-								}
-							} else if ( $bp['action_variables'][0] == 'activate' ) {
-								if ( !$notice->activate() ) {
-									$bp['message'] = __('There was a problem activating that notice.');
-								} else {
-									$bp['message'] = __('Notice activated.');
-									$bp['message_type'] = 'success';
-								}
-							} else if ( $bp['action_variables'][0] == 'delete' ) {
-								if ( !$notice->delete() ) {
-									$bp['message'] = __('There was a problem deleting that notice.');
-								} else {
-									$bp['message'] = __('Notice deleted.');
-									$bp['message_type'] = 'success';
-								}
-							}
-						}
-					}
-					add_action( 'template_notices', 'bp_core_render_notice' );
-					bp_catch_uri( 'messages/notices' );	
-				}
-			break;
-			
-			default:
-				$bp['current_action'] = 'inbox';
-				bp_catch_uri( 'messages/index' );				
-			break;
+	if ( !$thread_id || !is_numeric($thread_id) || !BP_Messages_Thread::check_access($thread_id) ) {
+		$bp['current_action'] = 'inbox';
+		bp_catch_uri( 'messages/index' );
+	} else {
+		// delete message
+		if ( !BP_Messages_Thread::delete($thread_id) ) {
+			$bp['message'] = __('There was an error deleting that message.');
+			add_action( 'template_notices', 'bp_core_render_notice' );
+
+			$bp['current_action'] = 'inbox';
+			bp_catch_uri( 'messages/index' );
+		} else {
+			$bp['message'] = __('Message deleted.');
+			$bp['message_type'] = 'success';
+			add_action( 'template_notices', 'bp_core_render_notice' );
+
+			$bp['current_action'] = 'inbox';
+			bp_catch_uri( 'messages/index' );
 		}
 	}
 }
-add_action( 'wp', 'messages_catch_action', 3 );
+add_action( 'wp', 'messages_action_delete_message', 3 );
+
+
+function messages_action_bulk_delete() {
+	global $bp, $thread_ids;
+	
+	if ( $bp['current_component'] != $bp['messages']['slug'] || $bp['current_action'] != 'bulk-delete' )
+		return false;
+	
+	$thread_ids = $_POST['thread_ids'];
+
+	if ( !$thread_ids || !BP_Messages_Thread::check_access($thread_ids) ) {
+		$bp['current_action'] = 'inbox';
+		bp_catch_uri( 'messages/index' );				
+	} else {
+		if ( !BP_Messages_Thread::delete( explode(',', $thread_ids ) ) ) {
+			$message = __('There was an error deleting messages.');
+			add_action( 'template_notices', 'bp_core_render_notice' );
+
+			$bp['current_action'] = 'inbox';
+			bp_catch_uri( 'messages/index' );
+		} else {
+			$bp['message'] = __('Messages deleted.');
+			$bp['message_type'] = 'success';
+			add_action( 'template_notices', 'bp_core_render_notice' );
+
+			$bp['current_action'] = 'inbox';
+			bp_catch_uri( 'messages/index' );
+		}
+	}
+}
+add_action( 'wp', 'messages_action_bulk_delete', 3 );
+
+
+/**************************************************************************
+ messages_record_activity()
+ 
+ Records activity for the logged in user within the friends component so that
+ it will show in the users activity stream (if installed)
+ **************************************************************************/
+
+function messages_record_activity( $args = true ) {
+	if ( function_exists('bp_activity_record') ) {
+		extract($args);
+		bp_activity_record( $item_id, $component_name, $component_action, $is_private );
+	} 
+}
+
+
+/**************************************************************************
+ messages_format_activity()
+ 
+ Selects and formats recorded messages component activity.
+ **************************************************************************/
+
+function messages_format_activity( $friendship_id, $action, $for_secondary_user = false  ) {
+	global $bp;
+	
+	switch( $action ) {
+		// no actions set yet.
+	}
+	
+	return false;
+}
 
 /**************************************************************************
  messages_write_new()
@@ -582,6 +601,8 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 				} else {
 					$message = __('Message sent successfully!') . ' <a href="' . $bp['loggedin_domain'] . $bp['messages']['slug'] . '/view/' . $pmessage->thread_id . '">' . __('View Message') . '</a> &raquo;';
 					$type = 'success';
+					
+					do_action( 'bp_messages_message_sent', array( 'item_id' => $pmessage->id, 'component_name' => 'messages', 'component_action' => 'message_sent', 'is_private' => 1 ) );
 			
 					if ( $from_ajax ) {
 						return array('status' => 1, 'message' => $message, 'reply' => $pmessage);
@@ -676,6 +697,9 @@ function messages_delete_thread( $thread_ids, $box, $display_name ) {
 			$message = __('There was an error when deleting that message. Please try again.');
 			$type = 'error';
 		}
+		
+		do_action( 'bp_messages_message_deleted' );
+		
 	}
 	
 	unset($_GET['mode']);
@@ -683,8 +707,14 @@ function messages_delete_thread( $thread_ids, $box, $display_name ) {
 }
 
 
+/**************************************************************************
+ messages_view_thread()
+  
+ Displays a message thread.
+ **************************************************************************/
+
 function messages_view_thread( $thread_id ) {
-	global $bp_messages_image_base, $userdata;
+	global $userdata;
 
 	$thread = new BP_Messages_Thread( $thread_id, true );
 	

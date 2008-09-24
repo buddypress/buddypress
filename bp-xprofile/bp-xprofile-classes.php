@@ -1083,6 +1083,9 @@ Class BP_XProfile_ProfileData {
 		if ( !$user_id )
 			$user_id = $bp['current_userid'];
 		
+		if ( !$bp['profile'] )
+			xprofile_setup_globals();
+		
 		$field_sql = '';
 
 		if ( is_array($fields) ) {
@@ -1099,7 +1102,7 @@ Class BP_XProfile_ProfileData {
 		}
 
 		$sql = $wpdb->prepare( "SELECT d.value, f.name FROM " . $bp['profile']['table_name_data'] . " d, " . $bp['profile']['table_name_fields'] . " f WHERE d.field_id = f.id AND d.user_id = %d AND f.parent_id = 0 $field_sql", $user_id );
-	
+
 		if ( !$values = $wpdb->get_results($sql) )
 			return false;
 		
@@ -1144,8 +1147,18 @@ Class BP_XProfile_ProfileData {
 	function delete_data_for_user( $user_id ) {
 		global $wpdb, $bp;
 		
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['profile']['table_name_data'] . " WHERE user_id = %d", $user_id ) );
-		
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['profile']['table_name_data'] . " WHERE user_id = %d", $user_id ) );	
+	}
+	
+	function get_fullname( $user_id = false ) {
+		global $bp;
+
+		if ( !$user_id )
+			$user_id = $bp['current_userid'];
+
+		$data = bp_get_field_data( array( 'First Name', 'Last Name' ), $user_id );
+
+		return ucfirst($data['First Name']) . ' ' . ucfirst($data['Last Name']);		
 	}
 }
 ?>

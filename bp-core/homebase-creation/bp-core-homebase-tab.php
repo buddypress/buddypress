@@ -1,6 +1,6 @@
 <?php
 
-if ( get_usermeta( $bp['loggedin_userid'], 'home_base' ) && !wp_verify_nonce($_POST['nonce'], 'slick_avatars') )
+if ( $bp['loggedin_homebase_id'] && !wp_verify_nonce($_POST['nonce'], 'slick_avatars') )
 	wp_die('Home Base already created.');
 	
 require_once( ABSPATH . WPINC . '/registration.php' );

@@ -74,9 +74,8 @@ function bp_core_set_uri_globals() {
 	
 	/* Reset the keys by merging with an empty array */
 	$action_variables = array_merge( array(), $action_variables );
-
 }
-add_action( 'wp', 'bp_core_set_uri_globals', 0 );
+add_action( 'wp', 'bp_core_set_uri_globals', 1 );
 
 /**
  * bp_catch_uri()
@@ -110,7 +109,7 @@ function bp_core_do_catch_uri() {
 
 	$pages = $bp_path;
 	
-	if ( $wpdb->blogid == get_usermeta( $bp['current_userid'], 'home_base' ) ) {
+	if ( $wpdb->blogid == $bp['current_homebase_id'] ) {
 		if ( !file_exists( TEMPLATEPATH . "/header.php" ) || !file_exists( TEMPLATEPATH . "/footer.php" ) )
 			wp_die( 'Please make sure your BuddyPress enabled theme includes a header.php and footer.php file.');
 

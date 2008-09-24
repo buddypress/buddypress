@@ -248,13 +248,13 @@ function bp_friend_time_since_requested() {
 function bp_friend_accept_request_link() {
 	global $friends_template, $bp;
 	
-	echo $bp['loggedin_domain'] . $bp['friends']['slug'] . '/requests/accept/' . $friends_template->friendship->friend->id;
+	echo $bp['loggedin_domain'] . $bp['friends']['slug'] . '/requests/accept/' . $friends_template->friendship->id;
 }
 
 function bp_friend_reject_request_link() {
 	global $friends_template, $bp;
 	
-	echo $bp['loggedin_domain'] . $bp['friends']['slug'] . '/requests/reject/' . $friends_template->friendship->friend->id;	
+	echo $bp['loggedin_domain'] . $bp['friends']['slug'] . '/requests/reject/' . $friends_template->friendship->id;	
 }
 
 function bp_friend_pagination() {

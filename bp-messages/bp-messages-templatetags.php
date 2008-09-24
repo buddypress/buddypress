@@ -173,13 +173,12 @@ function bp_message_thread_last_post_date() {
 
 function bp_message_thread_avatar() {
 	global $messages_template;
-	if ( function_exists('bp_core_get_avatar') )
-		echo bp_core_get_avatar($messages_template->thread->last_sender_id, 1);
+	echo bp_core_get_avatar($messages_template->thread->last_sender_id, 1);
 }
 
 function bp_message_thread_view() {
 	global $thread_id;
-	
+
 	messages_view_thread($thread_id);
 }
 

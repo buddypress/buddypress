@@ -112,12 +112,15 @@ function xprofile_setup_globals() {
 		'table_name_groups' => $wpdb->base_prefix . 'bp_xprofile_groups',
 		'table_name_fields' => $wpdb->base_prefix . 'bp_xprofile_fields',
 		'table_name_data' 	=> $wpdb->base_prefix . 'bp_xprofile_data',
+		'format_activity_function' => 'xprofile_format_activity',
 		'image_base' 		=> get_option('siteurl') . '/wp-content/mu-plugins/bp-xprofile/images',
 		'slug'		 		=> 'profile'
 	);
 	
 	if ( function_exists('bp_wire_install') )
 		$bp['profile']['table_name_wire'] = $wpdb->base_prefix . 'bp_xprofile_wire';
+	
+	
 }
 add_action( 'wp', 'xprofile_setup_globals', 1 );	
 add_action( '_admin_menu', 'xprofile_setup_globals', 1 );
@@ -133,10 +136,9 @@ add_action( '_admin_menu', 'xprofile_setup_globals', 1 );
 function xprofile_add_admin_menu() {
 	global $wpdb, $bp, $groups, $userdata;
 	
-	if ( $wpdb->blogid == get_usermeta( $bp['current_userid'], 'home_base' ) ) {
+	if ( $wpdb->blogid == $bp['current_homebase_id'] ) {
 		add_menu_page( __('Profile'), __('Profile'), 1, basename(__FILE__), 'bp_core_avatar_admin' );
 		add_submenu_page( basename(__FILE__), __('Profile &rsaquo; Avatar'), __('Avatar'), 1, basename(__FILE__), 'xprofile_avatar_admin' );		
-		add_options_page( __('Profile'), __('Profile'), 1, basename(__FILE__), 'xprofile_add_settings' );		
 		
 		$groups = BP_XProfile_Group::get_all();
 
@@ -171,75 +173,119 @@ add_action( 'admin_menu', 'xprofile_add_admin_menu' );
 function xprofile_setup_nav() {
 	global $bp;
 	
-	$nav_key = count($bp['bp_nav']) + 1;
-	$user_nav_key = count($bp['bp_users_nav']) + 1;
-
-	$bp['bp_nav'][$nav_key] = array(
-		'id'	=> $bp['profile']['slug'],
-		'name'  => 'Profile', 
-		'link'  => $bp['loggedin_domain'] . $bp['profile']['slug']
-	);
-
-	$bp['bp_users_nav'][$user_nav_key] = array(
-		'id'	=> $bp['profile']['slug'],
-		'name'  => 'Profile', 
-		'link'  => $bp['current_domain'] . $bp['profile']['slug']
-	);
+	/* Add 'Profile' to the main navigation */
+	bp_core_add_nav_item( __('Profile'), $bp['profile']['slug'] );
+	bp_core_add_nav_default( $bp['profile']['slug'], 'xprofile_screen_display_profile', 'public' );
 	
-	$bp['bp_options_nav'][$bp['profile']['slug']] = array(
-		'public'    	=> array( 
-			'name' => __('Public'),
-			'link' => $bp['loggedin_domain'] . $bp['profile']['slug'] . '/' ),
-		'edit'	  		=> array(
-			'name' => __('Edit Profile'),
-			'link' => $bp['loggedin_domain'] . $bp['profile']['slug'] . '/edit' ),
-		'change-avatar' => array( 
-			'name' => __('Change Avatar'),
-			'link' => $bp['loggedin_domain'] . $bp['profile']['slug'] . '/change-avatar' )
-	);
+	$profile_link = $bp['loggedin_domain'] . $bp['profile']['slug'] . '/';
 	
+	/* Add the subnav items to the profile */
+	bp_core_add_subnav_item( $bp['profile']['slug'], 'public', __('Public'), $profile_link, 'xprofile_screen_display_profile' );
+	bp_core_add_subnav_item( $bp['profile']['slug'], 'edit', __('Edit Profile'), $profile_link, 'xprofile_screen_edit_profile' );
+	bp_core_add_subnav_item( $bp['profile']['slug'], 'change-avatar', __('Change Avatar'), $profile_link, 'xprofile_screen_change_avatar' );
+
 	if ( $bp['current_component'] == $bp['profile']['slug'] ) {
 		if ( bp_is_home() ) {
 			$bp['bp_options_title'] = __('My Profile');
 		} else {
 			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
-			$bp['bp_options_title'] = bp_user_fullname( $bp['current_userid'], false ); 
+			$bp['bp_options_title'] = $bp['current_fullname']; 
 		}
 	}
-	
 }
 add_action( 'wp', 'xprofile_setup_nav', 2 );
 
+/***** Screens **********/
 
-/**************************************************************************
- xprofile_catch_action()
- 
- Catch actions via pretty urls.
- **************************************************************************/
+function xprofile_screen_display_profile() {
+	bp_catch_uri( 'profile/index' );
+}
 
-function xprofile_catch_action() {
-	global $current_blog, $bp;
-	
-	if ( $bp['current_component'] == $bp['profile']['slug'] && $current_blog->blog_id > 1 ) {
+function xprofile_screen_edit_profile() {
+	if ( bp_is_home() )
+		bp_catch_uri( 'profile/edit' );
+}
 
-		if ( $bp['current_action'] == 'public' ) {
-			bp_catch_uri( 'profile/index' );
-		} else if ( $bp['current_action'] == 'edit' && $bp['loggedin_userid'] == $bp['current_userid'] ) {
-			bp_catch_uri( 'profile/edit' );
-		} else if ( $bp['current_action'] == 'change-avatar' && $bp['loggedin_userid'] == $bp['current_userid'] ) {
-			add_action( 'wp_head', 'bp_core_add_cropper_js' );
-			bp_catch_uri( 'profile/change-avatar' );
-		} else if ( $bp['current_action'] == 'delete-avatar' && $bp['loggedin_userid'] == $bp['current_userid'] ) {
-			bp_core_delete_avatar();
-			add_action( 'wp_head', 'bp_core_add_cropper_js' );
-			bp_catch_uri( 'profile/change-avatar' );
-		} else {
-			$bp['current_action'] = 'public';
-			bp_catch_uri( 'profile/index' );
-		}
+function xprofile_screen_change_avatar() {
+	if ( bp_is_home() ) {
+		add_action( 'wp_head', 'bp_core_add_cropper_js' );
+		bp_catch_uri( 'profile/change-avatar' );
 	}
 }
-add_action( 'wp', 'xprofile_catch_action', 3 );
+
+/***** Actions **********/
+
+function xprofile_action_delete_avatar() {
+	global $bp;
+	
+	if ( $bp['current_action'] != 'delete-avatar' )
+		return false;
+	
+	if ( bp_is_home() ) {
+		bp_core_delete_avatar();
+		add_action( 'wp_head', 'bp_core_add_cropper_js' );
+		bp_catch_uri( 'profile/change-avatar' );
+	}
+}
+add_action( 'wp', 'xprofile_action_delete_avatar', 3 );
+
+
+/**************************************************************************
+ xprofile_record_activity()
+ 
+ Records activity for the logged in user within the profile component so that
+ it will show in the users activity stream (if installed)
+ **************************************************************************/
+
+function xprofile_record_activity( $args = true ) {
+	global $bp;
+
+	if ( function_exists('bp_activity_record') ) {
+		extract($args);
+		bp_activity_record( $item_id, $component_name, $component_action, $is_private );
+	}
+}
+add_action( 'bp_xprofile_new_wire_post', 'xprofile_record_activity' );
+add_action( 'bp_xprofile_updated_profile', 'xprofile_record_activity' );
+
+
+/**************************************************************************
+ xprofile_format_activity()
+ 
+ Selects and formats recorded xprofile component activity.
+ **************************************************************************/
+
+function xprofile_format_activity( $item_id, $action, $for_secondary_user = false  ) {
+	global $bp;
+	
+	switch( $action ) {
+		case 'new_wire_post':
+			$wire_post = new BP_Wire_Post( $bp['profile']['table_name_wire'], $item_id );
+			
+			if ( !$wire_post )
+				return false;
+
+			if ( $wire_post->item_id == $bp['loggedin_userid'] && $wire_post->user_id == $bp['loggedin_userid'] ) {
+				$content = bp_core_get_userlink($wire_post->user_id) . ' ' . __('wrote on') . ' ' . bp_your_or_their() . ' ' . __('own wire') . ': <span class="time-since">%s</span>';				
+			} else if ( $wire_post->item_id != $bp['loggedin_userid'] && $wire_post->user_id == $bp['loggedin_userid'] ) {
+				$content = bp_core_get_userlink($wire_post->user_id) . ' ' . __('wrote on ') . bp_core_get_userlink( $wire_post->item_id, false, false, true, true ) . ' wire: <span class="time-since">%s</span>';				
+			}
+			
+			$content .= '<blockquote>' . bp_create_excerpt($wire_post->content) . '</blockquote>';
+			return $content;
+		break;
+		case 'updated_profile':
+			$profile_group = new BP_XProfile_Group( $item_id );
+			
+			if ( !$profile_group )
+				return false;
+				
+			return bp_core_get_userlink($bp['current_userid']) . ' ' . __('updated the') . ' "<a href="' . $bp['current_domain'] . $bp['profile']['slug'] . '">' . $profile_group->name . '</a>" ' . __('information on') . ' ' . bp_your_or_their() . ' ' . __('profile') . '. <span class="time-since">%s</span>';
+		break;
+	}
+	
+	return false;
+}
 
 /**************************************************************************
  xprofile_edit()
@@ -288,38 +334,34 @@ function xprofile_edit( $group_id = null, $action = null ) {
 							// Validate the field.
 							$field->message = sprintf( __('%s cannot be left blank.'), $field->name );
 							$errors[] = $field->message . "<br />";
-						}
-						else if ( !$field->is_required && ( $current_field == '' || is_null($current_field) ) ) {
+						} else if ( !$field->is_required && ( $current_field == '' || is_null($current_field) ) ) {
 							// data removed, so delete the field data from the DB.								
 							$profile_data = new BP_Xprofile_ProfileData( $group->fields[$j]->id );
 							$profile_data->delete();
 							$field->data->value = null;
-						}
-						else {
+						} else {
 							// Field validates, save.
 							$profile_data = new BP_Xprofile_ProfileData;
 							$profile_data->field_id = $group->fields[$j]->id;
 							$profile_data->user_id = $userdata->ID;
 							$profile_data->last_updated = time();
 
-							if($post_field_string != null) {
+							if ( $post_field_string != null ) {
 								$date_value = $_POST['field_' . $group->fields[$j]->id . '_day'] . 
 										      $_POST['field_' . $group->fields[$j]->id . '_month'] . 
 											  $_POST['field_' . $group->fields[$j]->id . '_year'];
 
 								$profile_data->value = strtotime($date_value);
-							}
-							else {
+							} else {
 								if ( is_array($current_field) )
 									$current_field = serialize($current_field);
 									
 								$profile_data->value = $current_field;
 							}
 
-							if(!$profile_data->save()) {
+							if( !$profile_data->save() ) {
 								$field->message = __('There was a problem saving changes to this field, please try again.');
-							}
-							else {
+							} else {
 								$field->data->value = $profile_data->value;
 							}
 						}
@@ -341,11 +383,11 @@ function xprofile_edit( $group_id = null, $action = null ) {
 					for ( $i = 0; $i < count($errors); $i++ ) {
 						$message .= $errors[$i];
 					}
-				}
-				else if ( !$errors && isset($_POST['save'] ) ) {
+				} else if ( !$errors && isset($_POST['save'] ) ) {
 					$type = 'success';
 					$message = __('Changes saved.');
 					
+					do_action( 'bp_xprofile_updated_profile', array( 'item_id' => $group->id, 'component_name' => 'profile', 'component_action' => 'updated_profile', 'is_private' => 0 ) );
 					update_usermeta( $bp['loggedin_userid'], 'profile_last_updated', date("Y-m-d H:i:s") );
 				}
 			}

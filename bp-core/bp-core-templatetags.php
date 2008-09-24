@@ -27,9 +27,9 @@ function bp_get_nav() {
 	$bp['bp_nav'] = bp_core_sort_nav_items( $bp['bp_nav'] );
 
 	/* Loop through each navigation item */
-	foreach( $bp['bp_nav'] as $nav_item ) {
+	foreach( (array) $bp['bp_nav'] as $nav_item ) {
 		/* If the current component matches the nav item id, then add a highlight CSS class. */
-		if ( $bp['current_component'] == $nav_item['id'] && $bp['current_userid'] == $bp['loggedin_userid'] ) {
+		if ( $bp['current_component'] == $nav_item['css_id'] && $bp['current_userid'] == $bp['loggedin_userid'] ) {
 			$selected = ' class="current"';
 		} else {
 			$selected = '';
@@ -40,7 +40,7 @@ function bp_get_nav() {
 		   to the friends nav item if it exists. */
 		if ( $bp['current_userid'] != $bp['loggedin_userid'] ) {
 			if ( function_exists('friends_check_friendship') ) {
-				if ( friends_check_friendship( $bp['current_userid'] ) == 'is_friend' && $nav_item['id'] == $bp['friends']['slug'] ) {
+				if ( friends_check_friendship( $bp['current_userid'] ) == 'is_friend' && $nav_item['css_id'] == $bp['friends']['slug'] ) {
 					$selected = ' class="current"';
 				} else {
 					$selected = '';
@@ -49,7 +49,7 @@ function bp_get_nav() {
 		}
 		
 		/* echo out the final list item */
-		echo '<li' . $selected . '><a id="' . $nav_item['id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a></li>';
+		echo '<li' . $selected . '><a id="' . $nav_item['css_id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a></li>';
 	}
 	
 	/* Always add a log out list item to the end of the navigation */
@@ -74,10 +74,10 @@ function bp_get_nav() {
  * @uses bp_get_user_nav() Renders the navigation for a profile of a currently viewed user.
  */
 function bp_get_options_nav() {
-	global $bp;
+	global $bp, $is_single_group;
 
 	/* Only render this navigation when the logged in user is looking at one of their own pages. */
-	if ( $bp['loggedin_userid'] == $bp['current_userid'] ) {
+	if ( bp_is_home() || $is_single_group ) {
 		if ( count( $bp['bp_options_nav'][$bp['current_component']] ) < 1 )
 			return false;
 	
@@ -85,20 +85,20 @@ function bp_get_options_nav() {
 		foreach ( $bp['bp_options_nav'][$bp['current_component']] as $slug => $values ) {
 			$title = $values['name'];
 			$link = $values['link'];
-			$id = $values['id'];
+			$css_id = $values['css_id'];
 			
 			/* If the current action or an action variable matches the nav item id, then add a highlight CSS class. */
-			if ( $slug == $bp['current_action'] || $slug == $bp['action_variables'][0] ) {
+			if ( $slug == $bp['current_action'] || in_array( $slug, $bp['action_variables'] ) ) {
 				$selected = ' class="current"';
 			} else {
 				$selected = '';
 			}
 			
 			/* echo out the final list item */
-			echo '<li' . $selected . '><a id="' . $id . '" href="' . $link . '">' . $title . '</a></li>';		
+			echo '<li' . $selected . '><a id="' . $css_id . '" href="' . $link . '">' . $title . '</a></li>';		
 		}
 	} else {
-		if ( count( $bp['bp_users_nav'] ) < 1 )
+		if ( !$bp['bp_users_nav'] )
 			return false;
 
 		bp_get_user_nav();
@@ -122,13 +122,13 @@ function bp_get_user_nav() {
 	$bp['bp_users_nav'] = bp_core_sort_nav_items( $bp['bp_users_nav'] );
 
 	foreach ( $bp['bp_users_nav'] as $user_nav_item ) {	
-		if ( $bp['current_component'] == $user_nav_item['id'] ) {
+		if ( $bp['current_component'] == $user_nav_item['css_id'] ) {
 			$selected = ' class="current"';
 		} else {
 			$selected = '';
 		}
 		
-		echo '<li' . $selected . '><a id="' . $user_nav_item['id'] . '" href="' . $user_nav_item['link'] . '">' . $user_nav_item['name'] . '</a></li>';
+		echo '<li' . $selected . '><a id="' . $user_nav_item['css_id'] . '" href="' . $user_nav_item['link'] . '">' . $user_nav_item['name'] . '</a></li>';
 	}	
 }
 
@@ -179,12 +179,12 @@ function bp_get_options_title() {
 function bp_is_home() {
 	global $bp;
 	
-	if ( !is_user_logged_in() )
+	if ( !is_user_logged_in() || is_null($bp['loggedin_userid']) || is_null($bp['current_userid']) )
 		return false;
 	
 	if ( $bp['loggedin_userid'] == $bp['current_userid'] )
 		return true;
-	
+
 	return false;
 }
 
@@ -230,9 +230,9 @@ function bp_my_or_name( $capitalize = true, $echo = true ) {
 			return $my;
 	} else {
 		if ( $echo )
-			echo $bp['bp_options_title'] . "'s";
+			echo $bp['current_fullname'] . "'s";
 		else
-			return $bp['bp_options_title'] . "'s";
+			return $bp['current_fullname'] . "'s";
 	}
 }
 
@@ -251,9 +251,9 @@ function bp_you_or_name( $capitalize = true, $echo = true ) {
 			return $you;
 	} else {
 		if ( $echo )
-			echo $bp['bp_options_title'] . " hasn't";
+			echo $bp['current_fullname'] . " hasn't";
 		else
-			return $bp['bp_options_title'] . " hasn't";
+			return $bp['current_fullname'] . " hasn't";
 	}
 }
 
@@ -272,10 +272,45 @@ function bp_your_or_name( $capitalize = true, $echo = true ) {
 			return $your;
 	} else {
 		if ( $echo )
-			echo $bp['bp_options_title'] . "'s";
+			echo $bp['current_fullname'] . "'s";
 		else
-			return $bp['bp_options_title'] . "'s";
+			return $bp['current_fullname'] . "'s";
 	}
+}
+
+function bp_your_or_their( $capitalize = false, $echo = false ) {
+	global $bp;
+	
+	$your = __('your');
+	$their = __('their');
+	
+	if ( $capitalize )
+		$your = ucfirst($your);
+	
+	if ( $bp['current_userid'] == $bp['loggedin_userid'] ) {
+		if ( $echo )
+			echo $your;
+		else
+			return $your;
+	} else {
+		if ( $echo )
+			echo $their;
+		else
+			return $their;
+	}
+}
+
+/* Template functions for fetching globals, without querying the DB again
+   also means we dont have to use the $bp variable in the template (looks messy) */
+
+function bp_current_user_id() {
+	global $bp;
+	return $bp['current_userid'];
+}
+
+function bp_user_fullname() {
+	global $bp;
+	echo $bp['current_fullname'];
 }
 
 ?>

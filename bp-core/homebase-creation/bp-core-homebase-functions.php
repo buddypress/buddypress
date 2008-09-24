@@ -24,7 +24,7 @@ add_action( 'admin_head', 'bp_core_add_createhomebase_tab' );
 function bp_core_notify_admin_of_homebase() {
 	global $wpdb, $bp;
 	
-	if ( ( is_site_admin() && $bp['current_userid'] != $bp['loggedin_userid'] ) && ( $wpdb->blogid == get_usermeta( $bp['current_userid'], 'home_base' ) ) ) { ?>
+	if ( ( is_site_admin() && $bp['current_userid'] != $bp['loggedin_userid'] ) && ( $wpdb->blogid == $bp['current_homebase_id'] ) ) { ?>
 		<div id="update-nag">
 			<p><strong><?php _e('Administrator Notice:') ?></strong> <?php _e('This is a user home base, not a blog.') ?></p>
 		</div>	

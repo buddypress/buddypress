@@ -5,23 +5,23 @@ Class BP_Blogs_Blog {
 	var $user_id;
 	var $blog_id;
 	
-	function bp_blogs_blog( $blog_id = null, $user_id = null ) {
+	function bp_blogs_blog( $id = null ) {
 		global $bp, $wpdb;
 		
 		if ( !$user_id )
 			$user_id = $bp['current_userid'];
 
-		if ( $blog_id && $user_id ) {
-			$this->populate( $blog_id, $user_id );
+		if ( $id ) {
+			$this->id = $id;
+			$this->populate();
 		}
 	}
 	
-	function populate( $blog_id, $user_id ) {
+	function populate() {
 		global $wpdb, $bp;
 		
-		$blog = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp['blogs']['table_name'] . " WHERE blog_id = %d AND user_id = %d", $blog_id, $user_id ) );
-	
-		$this->id = $blog->id;
+		$blog = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp['blogs']['table_name'] . " WHERE id = %d", $this->id ) );
+
 		$this->user_id = $blog->user_id;
 		$this->blog_id = $blog->blog_id;
 	}
@@ -40,7 +40,13 @@ Class BP_Blogs_Blog {
 			$sql = $wpdb->prepare( "INSERT INTO " . $bp['blogs']['table_name'] . " ( user_id, blog_id ) VALUES ( %d, %d )", $this->user_id, $this->blog_id );
 		}
 		
-		return $wpdb->query($sql);		
+		if ( !$wpdb->query($sql) )
+			return false;
+		
+		if ( $this->id )
+			return $this->id;
+		else
+			return $wpdb->insert_id;
 	}
 	
 	/* Static Functions */
@@ -98,23 +104,23 @@ Class BP_Blogs_Post {
 	var $post_id;
 	var $date_created;
 	
-	function bp_blogs_post( $post_id = null, $blog_id = null, $user_id = null ) {
+	function bp_blogs_post( $id = null ) {
 		global $bp, $wpdb;
 
 		if ( !$user_id )
 			$user_id = $bp['current_userid'];
 
-		if ( $post_id && $blog_id && $user_id ) {
-			$this->populate( $post_id, $blog_id, $user_id );
+		if ( $id ) {
+			$this->id = $id;
+			$this->populate();
 		}
 	}
 
-	function populate( $post_id, $blog_id, $user_id ) {
+	function populate() {
 		global $wpdb, $bp;
 		
-		$post = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp['blogs']['table_name_blog_posts'] . " WHERE post_id = %d AND blog_id = %d AND user_id = %d", $post_id, $blog_id, $user_id ) );
-	
-		$this->id = $post->id;
+		$post = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp['blogs']['table_name_blog_posts'] . " WHERE id = %d", $this->id ) );
+
 		$this->user_id = $post->user_id;
 		$this->blog_id = $post->blog_id;
 		$this->post_id = $post->post_id;
@@ -132,7 +138,13 @@ Class BP_Blogs_Post {
 			$sql = $wpdb->prepare( "INSERT INTO " . $bp['blogs']['table_name_blog_posts'] . " ( post_id, blog_id, user_id, date_created ) VALUES ( %d, %d, %d, FROM_UNIXTIME(%d) )", $this->post_id, $this->blog_id, $this->user_id, $this->date_created );
 		}
 		
-		return $wpdb->query($sql);		
+		if ( !$wpdb->query($sql) )
+			return false;
+		
+		if ( $this->id )
+			return $this->id;
+		else
+			return $wpdb->insert_id;	
 	}
 	
 	/* Static Functions */
@@ -164,6 +176,12 @@ Class BP_Blogs_Post {
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['blogs']['table_name_blog_posts'] . " WHERE user_id = %d", $user_id ) );
 	}
 	
+	function delete_posts_for_blog( $blog_id ) {
+		global $wpdb, $bp;
+		
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['blogs']['table_name_blog_posts'] . " WHERE blog_id = %d", $blog_id ) );
+	}
+	
 	function get_posts_for_user( $user_id = null ) {
 		global $bp, $wpdb;
 		
@@ -174,12 +192,18 @@ Class BP_Blogs_Post {
 		$total_post_count = $wpdb->get_var( $wpdb->prepare( "SELECT count(post_id) FROM " . $bp['blogs']['table_name_blog_posts'] . " WHERE user_id = %d", $user_id) );
 		
 		for ( $i = 0; $i < count($post_ids); $i++ ) {
-			switch_to_blog($post_ids[$i]->blog_id);
-			$posts[$i] = get_post($post_ids[$i]->post_id);
-			$posts[$i]->blog_id = $post_ids[$i]->blog_id;
+			$posts[$i] = BP_Blogs_Post::fetch_post_content($post_ids[$i]);
 		}
 
 		return array( 'posts' => $posts, 'count' => $total_post_count );
+	}
+	
+	function fetch_post_content( $post_object ) {
+		switch_to_blog( $post_object->blog_id );
+		$post = get_post($post_object->post_id);
+		$post->blog_id = $post_object->blog_id;
+		
+		return $post;
 	}
 	
 	function get_total_recorded_for_user( $user_id = null ) {
@@ -209,23 +233,23 @@ Class BP_Blogs_Comment {
 	var $comment_post_id;
 	var $date_created;
 	
-	function bp_blogs_comment( $comment_id = null, $comment_post_id = null, $blog_id = null, $user_id = null ) {
+	function bp_blogs_comment( $id = null ) {
 		global $bp, $wpdb;
 
 		if ( !$user_id )
 			$user_id = $bp['current_userid'];
 			
-		if ( $comment_id && $comment_post_id && $blog_id && $user_id) {
-			$this->populate( $comment_id, $comment_post_id, $blog_id, $user_id );
+		if ( $id ) {
+			$this->id = $id;
+			$this->populate( $id );
 		}
 	}
 
-	function populate( $comment_id, $comment_post_id, $blog_id, $user_id ) {
+	function populate( $id ) {
 		global $wpdb, $bp;
 		
-		$comment = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp['blogs']['table_name_blog_comments'] . " WHERE comment_id = %d AND commment_post_id = %d AND blog_id = %d AND user_id = %d", $comment_id, $comment_post_id, $blog_id, $user_id ) );
-	
-		$this->id = $comment->id;
+		$comment = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp['blogs']['table_name_blog_comments'] . " WHERE id = %d", $this->id ) );
+
 		$this->comment_id = $comment->comment_id;
 		$this->user_id = $comment->user_id;
 		$this->blog_id = $comment->blog_id;
@@ -244,7 +268,13 @@ Class BP_Blogs_Comment {
 			$sql = $wpdb->prepare( "INSERT INTO " . $bp['blogs']['table_name_blog_comments'] . " ( comment_id, comment_post_id, blog_id, user_id, date_created ) VALUES ( %d, %d, %d, %d, FROM_UNIXTIME(%d) )", $this->comment_id, $this->comment_post_id, $this->blog_id, $this->user_id, $this->date_created );
 		}
 
-		return $wpdb->query($sql);		
+		if ( !$wpdb->query($sql) )
+			return false;
+		
+		if ( $this->id )
+			return $this->id;
+		else
+			return $wpdb->insert_id;	
 	}
 
 	/* Static Functions */
@@ -276,6 +306,12 @@ Class BP_Blogs_Comment {
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['blogs']['table_name_blog_comments'] . " WHERE user_id = %d", $user_id ) );
 	}
 	
+	function delete_comments_for_blog( $blog_id ) {
+		global $wpdb, $bp;
+		
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['blogs']['table_name_blog_comments'] . " WHERE blog_id = %d", $blog_id ) );
+	}
+	
 	function get_comments_for_user( $user_id = null ) {
 		global $bp, $wpdb;
 
@@ -286,13 +322,19 @@ Class BP_Blogs_Comment {
 		$total_comment_count = $wpdb->get_var( $wpdb->prepare( "SELECT count(comment_id) FROM " . $bp['blogs']['table_name_blog_comments'] . " WHERE user_id = %d", $user_id) );
 		
 		for ( $i = 0; $i < count($comment_ids); $i++ ) {
-			switch_to_blog($comment_ids[$i]->blog_id);
-			$comments[$i] = get_comment($comment_ids[$i]->comment_id);
-			$comments[$i]->blog_id = $comment_ids[$i]->blog_id;
-			$comments[$i]->post = &get_post( $comments[$i]->comment_post_ID );
+			$comments[$i] = BP_Blogs_Comment::fetch_comment_content($comment_ids[$i]);
 		}
 
 		return array( 'comments' => $comments, 'count' => $total_comment_count );
+	}
+	
+	function fetch_comment_content( $comment_object ) {
+		switch_to_blog($comment_object->blog_id);
+		$comment = get_comment($comment_object->comment_id);
+		$comment->blog_id = $comment_object->blog_id;
+		$comment->post = &get_post( $comment->comment_post_ID );
+		
+		return $comment;
 	}
 	
 	function get_total_recorded_for_user( $user_id = null ) {

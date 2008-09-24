@@ -19,7 +19,7 @@ class BP_Groups_Template {
 		$this->pag_page = isset( $_GET['fpage'] ) ? intval( $_GET['fpage'] ) : 1;
 		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 5;
 
-		if ( $bp['current_action'] == 'my-groups') {
+		if ( $bp['current_action'] == 'my-groups' || !$bp['current_action'] ) {
 		
 			$this->groups = groups_get_user_groups( $this->pag_page, $this->pag_num );
 			$this->total_group_count = (int)$this->groups['count'];
@@ -99,12 +99,12 @@ class BP_Groups_Template {
 
 function bp_has_groups() {
 	global $groups_template, $bp;
-	global $is_single_group;
+	global $is_single_group, $group_obj;
 		
 	if ( !$is_single_group ) {
 		$groups_template = new BP_Groups_Template( $bp['current_userid'] );
 	} else {
-		$groups_template = new BP_Groups_Template( $bp['current_userid'], $bp['current_action'] );		
+		$groups_template = new BP_Groups_Template( $bp['current_userid'], $group_obj->slug );		
 	}
 	
 	return $groups_template->has_groups();

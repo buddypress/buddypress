@@ -39,61 +39,71 @@ function bp_core_setup_globals() {
 	global $current_user, $current_component, $current_action;
 	global $action_variables;
 
-	$bp = array(
-		/* The user ID of the user who is currently logged in. */
-		'loggedin_userid' 	=> $current_user->ID,
-		
-		/* The domain for the user currently logged in. eg: http://andy.domain.com/ */
-		'loggedin_domain' 	=> bp_core_get_loggedin_domain(),
-		
-		/* The domain for the user currently being viewed */
-		'current_domain'  	=> bp_core_get_current_domain(),
-		
-		/* The user id of the user currently being viewed */
-		'current_userid'  	=> bp_core_get_current_userid(),
-		
-		/* The component being used eg: http://andy.domain.com/ [profile] */
-		'current_component' => $current_component, // type: string
-		
-		/* The current action for the component eg: http://andy.domain.com/profile/ [edit] */
-		'current_action'	=> $current_action, // type: string
-		
-		/* The action variables for the current action eg: http://andy.domain.com/profile/edit/ [group] / [6] */
-		'action_variables'	=> $action_variables, // type: array
-
-		/* The default component to use if none are set and someone visits: http://andy.domain.com/ */
-		'default_component'	=> 'profile',
-		
-		/* Sets up the array container for the component navigation rendered by bp_get_nav() */
-		'bp_nav'		  	=> array(),
-		
-		/* Sets up the array container for the user navigation rendered by bp_get_user_nav() */
-		'bp_users_nav'	  	=> array(),
-		
-		/* Sets up the array container for the component options navigation rendered by bp_get_options_nav() */
-		'bp_options_nav'	=> array(),
-		
-		/* Sets up container used for the title of the current component option and rendered by bp_get_options_title() */
-		'bp_options_title'	=> '',
-		
-		/* Sets up container used for the avatar of the current component being viewed. Rendered by bp_get_options_avatar() */
-		'bp_options_avatar'	=> '',
-		
-		/* Sets up container for callback messages rendered by bp_core_render_notice() */
-		'message'			=> '',
-		
-		/* Sets up container for callback message type rendered by bp_core_render_notice() */
-		'message_type'		=> '', // error/success,
-		
-		/* Used to determine if user has admin rights on current content. If the logged in user is viewing
-		   their own profile and wants to delete a post on their wire, is_item_admin is used. This is a
-		   generic variable so it can be used in other components. It can also be modified, so when viewing a group
-		   'is_item_admin' would be 1 if they are a group admin, 0 if they are not. */
-		'is_item_admin'		=> bp_is_home()
-	);
+	/* The user ID of the user who is currently logged in. */
+	$bp['loggedin_userid'] = $current_user->ID;
 	
+	/* The domain for the user currently logged in. eg: http://andy.domain.com/ */
+	$bp['loggedin_domain'] = bp_core_get_loggedin_domain();
+	
+	/* The domain for the user currently being viewed */
+	$bp['current_domain'] = bp_core_get_current_domain();
+	
+	/* The user id of the user currently being viewed */
+	$bp['current_userid'] = bp_core_get_current_userid();
+	
+	/* The component being used eg: http://andy.domain.com/ [profile] */
+	$bp['current_component'] = $current_component; // type: string
+	
+	/* The current action for the component eg: http://andy.domain.com/profile/ [edit] */
+	$bp['current_action'] = $current_action; // type: string
+	
+	/* The action variables for the current action eg: http://andy.domain.com/profile/edit/ [group] / [6] */
+	$bp['action_variables']	= $action_variables; // type: array
+	
+	/* Only used where a component has a sub item, e.g. groups: http://andy.domain.com/groups/ [my-group] / home - manipulated in the actual component not in catch uri code.*/
+	$bp['current_item'] = ''; // type: string
+
+	/* The default component to use if none are set and someone visits: http://andy.domain.com/ */
+	$bp['default_component'] = 'profile';
+	
+	/* Sets up the array container for the component navigation rendered by bp_get_nav() */
+	$bp['bp_nav'] = array();
+
+	/* Sets up the array container for the user navigation rendered by bp_get_user_nav() */
+	$bp['bp_users_nav'] = array();
+	
+	/* Sets up the array container for the component options navigation rendered by bp_get_options_nav() */
+	$bp['bp_options_nav'] = array();
+	
+	/* Sets up container used for the title of the current component option and rendered by bp_get_options_title() */
+	$bp['bp_options_title']	= '';
+	
+	/* Sets up container used for the avatar of the current component being viewed. Rendered by bp_get_options_avatar() */
+	$bp['bp_options_avatar'] = '';
+	
+	/* Sets up container for callback messages rendered by bp_core_render_notice() */
+	$bp['message'] = '';
+	
+	/* Sets up container for callback message type rendered by bp_core_render_notice() */
+	$bp['message_type'] = ''; // error/success
+	
+	/* Fetch the home base blog id for the logged in and current user */
+	$bp['loggedin_homebase_id'] = get_usermeta( $bp['loggedin_userid'], 'home_base' );
+	$bp['current_homebase_id'] = get_usermeta( $bp['current_userid'], 'home_base' );
+	
+	/* Fetch the full name for the logged in and current user */
+	$bp['loggedin_fullname'] = bp_core_global_user_fullname( $bp['loggedin_userid'] );
+	$bp['current_fullname'] = bp_core_global_user_fullname( $bp['current_userid'] );
+
+	/* Used to determine if user has admin rights on current content. If the logged in user is viewing
+	   their own profile and wants to delete a post on their wire, is_item_admin is used. This is a
+	   generic variable so it can be used in other components. It can also be modified, so when viewing a group
+	   'is_item_admin' would be 1 if they are a group admin, 0 if they are not. */
+	$bp['is_item_admin'] = bp_is_home();
+
 	if ( !$bp['current_component'] )
 		$bp['current_component'] = $bp['default_component'];
+
 }
 add_action( 'wp', 'bp_core_setup_globals', 1 );
 add_action( '_admin_menu', 'bp_core_setup_globals', 1 ); // must be _admin_menu hook.
@@ -111,7 +121,7 @@ add_action( '_admin_menu', 'bp_core_setup_globals', 1 ); // must be _admin_menu 
 function bp_core_component_exists() {
 	global $bp, $wpdb;
 
-	if ( $wpdb->blogid == get_usermeta( $bp['current_userid'], 'home_base' ) ) {
+	if ( $wpdb->blogid == $bp['current_homebase_id'] ) {
 		$component_check = $bp['current_component'];
 
 		if ( strpos( $component_check, 'activate.php' ) )
@@ -264,7 +274,7 @@ function bp_core_is_home_base( $blog_id ) {
 function bp_core_user_has_home() {
 	global $bp;
 
-	if ( get_usermeta( $bp['loggedin_userid'], 'home_base' ) == '' )
+	if ( $bp['loggedin_homebase_id'] == '' )
 		return false;
 	
 	return true;
@@ -425,39 +435,190 @@ function bp_core_blog_switcher( $contents ) {
 	endif; // counts
 }
 
+/**
+ * bp_core_replace_home_base_dashboard()
+ *
+ * Sets up the hook to start replacement of the dashboard on the users home base.
+ * 
+ * @package BuddyPress Core
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global $wpdb WordPress DB access object.
+ * @uses add_action() Hooks a function on to a specific action.
+ */
 function bp_core_replace_home_base_dashboard() {
 	global $wpdb, $bp;
-	
-	if ( strpos( $_SERVER['SCRIPT_NAME'], '/index.php' ) && $wpdb->blogid == get_usermeta( $bp['current_userid'], 'home_base' ) ) {
+
+	if ( strpos( $_SERVER['SCRIPT_NAME'], '/index.php' ) && $wpdb->blogid == $bp['current_homebase_id'] ) {
 		add_action( 'admin_head', 'bp_core_start_dash_replacement' );
 	}	
 }
 add_action( 'admin_menu', 'bp_core_replace_home_base_dashboard' );
 
+/**
+ * bp_core_start_dash_replacement()
+ *
+ * Starts the output buffer.
+ * 
+ * @package BuddyPress Core
+ * @uses add_action() Hooks a function on to a specific action.
+ */
 function bp_core_start_dash_replacement( $dash_contents ) {	
 	ob_start();
 	add_action('admin_footer', 'bp_core_end_dash_replacement');
 }
 
+/**
+ * bp_core_insert_new_dashboard()
+ *
+ * Inserts the new dashboard content.
+ * 
+ * @package BuddyPress Core
+ * @uses add_action() Hooks a function on to a specific action.
+ */
 function bp_core_insert_new_dashboard( $dash_contents ) {
 	global $bp;
 	
 	$filter = preg_split( '/\<div class=\"wrap\"\>[\S\s]*\<div id=\"footer\"\>/', $dash_contents );
+
 	$filter[0] .= '<div class="wrap">';
 	$filter[1] .= '</div>';
 	
 	echo $filter[0];
-	
+	//echo ABSPATH . 'wp-content/mu-plugins/bp-core/admin-mods/bp-core-homebase-dashboard.php';
 	require_once( ABSPATH . '/wp-content/mu-plugins/bp-core/admin-mods/bp-core-homebase-dashboard.php' );
 	
 	echo '<div style="clear: both">&nbsp;<br clear="all" /></div></div><div id="footer">';
 	echo $filter[1];
 }
 
+/**
+ * bp_core_end_dash_replacement()
+ *
+ * Gets output buffer contents and stops the output buffer.
+ * 
+ * @package BuddyPress Core
+ * @uses bp_core_insert_new_dashboard() Inserts the new dashboard content.
+ */
 function bp_core_end_dash_replacement() {
 	$dash_contents = ob_get_contents();
 	ob_end_clean();
 	bp_core_insert_new_dashboard($dash_contents);
+}
+
+/**
+ * bp_core_add_nav_item()
+ *
+ * Adds a navigation item to the main navigation array used in BuddyPress themes.
+ * 
+ * @package BuddyPress Core
+ * @param $id A unique id for the navigation item.
+ * @param $name The display name for the navigation item, e.g. 'Profile' or 'Messages'
+ * @param $slug The slug for the navigation item, e.g. 'profile' or 'messages'
+ * @param $function The function to run when this sub nav item is selected.
+ * @param $css_id The id to give the nav item in the HTML (for css highlighting)
+ * @param $add_to_usernav Should this navigation item show up on the users home when not logged in? Or when another user views the user's page?
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ */
+function bp_core_add_nav_item( $name, $slug, $css_id = false, $add_to_usernav = true ) {
+	global $bp;
+	
+	$nav_key = count($bp['bp_nav']) + 1;
+	$user_nav_key = count($bp['bp_users_nav']) + 1;
+	
+	if ( !$css_id )
+		$css_id = $slug;
+
+	$bp['bp_nav'][$nav_key] = array(
+		'name'   => $name, 
+		'link'   => $bp['loggedin_domain'] . $slug,
+		'css_id' => $css_id
+	);
+	
+	if ( $add_to_usernav ) {
+		$bp['bp_users_nav'][$user_nav_key] = array(
+			'name'   => $name, 
+			'link'   => $bp['current_domain'] . $slug,
+			'css_id' => $css_id
+		);
+	}
+}
+
+/**
+ * bp_core_add_subnav_item()
+ *
+ * Adds a navigation item to the sub navigation array used in BuddyPress themes.
+ * 
+ * @package BuddyPress Core
+ * @param $parent_id The id of the parent navigation item.
+ * @param $id A unique id for the sub navigation item.
+ * @param $name The display name for the sub navigation item, e.g. 'Public' or 'Change Avatar'
+ * @param $link The url for the sub navigation item.
+ * @param $function The function to run when this sub nav item is selected.
+ * @param $css_id The id to give the nav item in the HTML (for css highlighting)
+ * @param $loggedin_user_only Should only the logged in user be able to access this page?
+ * @param $admin_only Should this sub nav item only be visible/accessible to the site admin?
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ */
+function bp_core_add_subnav_item( $parent_id, $slug, $name, $link, $function, $css_id = false, $loggedin_user_only = true, $admin_only = false ) {
+	global $bp;
+	
+	if ( $admin_only && !is_site_admin() )
+		return false;
+	
+	if ( !$css_id )
+		$css_id = $slug;
+
+	$bp['bp_options_nav'][$parent_id][$slug] = array(
+		'name' => $name,
+		'link' => $link . $slug,
+		'css_id' => $css_id
+	);
+	
+	if ( $loggedin_user_only && !bp_is_home() )
+		return false;
+	
+	if ( function_exists($function) && $bp['current_action'] == $slug && $bp['current_component'] == $parent_id )
+		add_action( 'wp', $function, 3 );
+}
+
+
+/**
+ * bp_core_reset_subnav_items()
+ *
+ * Clear the subnav items for a specific nav item.
+ * 
+ * @package BuddyPress Core
+ * @param $parent_id The id of the parent navigation item.
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ */
+function bp_core_reset_subnav_items($parent_id) {
+	global $bp;
+
+	unset($bp['bp_options_nav'][$parent_id]);
+}
+
+/**
+ * bp_core_add_nav_default()
+ *
+ * Set a default action for a nav item, when a sub nav item has not yet been selected.
+ * 
+ * @package BuddyPress Core
+ * @param $parent_id The id of the parent navigation item.
+ * @param $function The function to run when this sub nav item is selected.
+ * @param $slug The slug of the sub nav item to highlight.
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ */
+function bp_core_add_nav_default( $parent_id, $function, $slug = false ) {
+	global $bp;
+		
+	if ( $bp['current_component'] == $parent_id && !$bp['current_action'] ) {
+		if ( function_exists($function) ) {
+			add_action( 'wp', $function, 3 );
+		}
+		
+		if ( $slug )
+			$bp['current_action'] = $slug;
+	}
 }
 
 /**
@@ -558,36 +719,50 @@ function bp_core_get_user_email( $uid ) {
  * @return false on no match
  * @return str The link text based on passed parameters.
  */
-function bp_core_get_userlink( $uid, $no_anchor = false, $just_link = false, $no_you = false ) {
+function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false, $no_you = false, $with_s = false ) {
 	global $userdata;
 	
-	$ud = get_userdata($uid);
+	$ud = get_userdata($user_id);
 	
 	if ( !$ud )
 		return false;
 
-	if ( function_exists('bp_user_fullname') )
-		$display_name = bp_user_fullname( $uid, false );
-	else
+	if ( function_exists('bp_fetch_user_fullname') ) { 
+		$display_name = bp_fetch_user_fullname( $user_id, false );
+		
+		if ( $with_s )
+			$display_name .= "'s";
+			
+	} else {
 		$display_name = $ud->display_name;
+	}
 	
-	if ( $uid == $userdata->ID && !$no_you )
+	if ( $user_id == $userdata->ID && !$no_you )
 		$display_name = 'You';
-
+	
 	if ( $no_anchor )
 		return $display_name;
 
-	$home_base_id = get_usermeta( $uid, 'home_base' );
+	$home_base_id = get_usermeta( $user_id, 'home_base' );
 	
 	if ( !$home_base_id )
 		return false;
 		
 	$home_base_url = get_blog_option( $home_base_id, 'siteurl' ) . '/';
-	
+
 	if ( $just_link )
 		return $home_base_url;
 
 	return '<a href="' . $home_base_url . '">' . $display_name . '</a>';	
+}
+
+function bp_core_global_user_fullname( $user_id ) {
+	if ( function_exists('bp_user_fullname') ) {
+		return bp_fetch_user_fullname( $user_id, false );
+	} else {
+		$ud = get_userdata($user_id);
+		return $current_user->display_name;
+	}
 }
 
 /**
@@ -909,36 +1084,50 @@ add_action( 'get_comment_author_link', 'bp_core_replace_comment_author_link', 10
 function bp_core_sort_nav_items( $nav_array ) {
 	global $bp;
 	
-	foreach ( (array)$nav_array as $nav_item ) {
-		switch ( $nav_item['id'] ) {
+	foreach ( (array)$nav_array as $key => $value ) {
+		switch ( $nav_array[$key]['css_id'] ) {
+			case $bp['activity']['slug']:
+				$new_nav[0] = $nav_array[$key];
+				unset($nav_array[$key]);
+			break;
 			case $bp['profile']['slug']:
-				$new_nav[0] = $nav_item;
+				$new_nav[1] = $nav_array[$key];
+				unset($nav_array[$key]);
 			break;
 			case $bp['blogs']['slug']:
-				$new_nav[1] = $nav_item;
+				$new_nav[2] = $nav_array[$key];
+				unset($nav_array[$key]);
 			break;
 			case $bp['wire']['slug']:
-				$new_nav[2] = $nav_item;
+				$new_nav[3] = $nav_array[$key];
+				unset($nav_array[$key]);
 			break;
 			case $bp['messages']['slug']:
-				$new_nav[3] = $nav_item;
+				$new_nav[4] = $nav_array[$key];
+				unset($nav_array[$key]);
 			break;
 			case $bp['friends']['slug']:
-				$new_nav[4] = $nav_item;
+				$new_nav[5] = $nav_array[$key];
+				unset($nav_array[$key]);
 			break;
 			case $bp['groups']['slug']:
-				$new_nav[5] = $nav_item;
+				$new_nav[6] = $nav_array[$key];
+				unset($nav_array[$key]);
 			break;
 			case $bp['gallery']['slug']:
-				$new_nav[6] = $nav_item;
+				$new_nav[7] = $nav_array[$key];
+				unset($nav_array[$key]);
 			break;
 			case $bp['account']['slug']:
-				$new_nav[7] = $nav_item;
+				$new_nav[8] = $nav_array[$key];
+				unset($nav_array[$key]);
 			break;
 		}
 	}
 	
 	ksort($new_nav);
+	
+	array_merge( $new_nav, $nav_array );
 	return $new_nav;
 }
 ?>

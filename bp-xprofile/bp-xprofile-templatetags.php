@@ -156,6 +156,13 @@ function bp_group_has_fields() {
 	return $profile_template->has_fields();
 }
 
+function bp_field_css_class() {
+	global $profile_template;
+	
+	if ( $profile_template->current_field % 2 )
+		echo ' class="alt"';
+}
+
 function bp_field_has_data() {
 	global $profile_template;
 	return $profile_template->field_has_data;
@@ -229,7 +236,7 @@ function bp_loggedinuser_avatar_thumbnail() {
 	echo bp_core_get_avatar( $bp['loggedin_userid'], 1 );
 }
 
-function bp_user_fullname($user_id = false, $echo = true) {
+function bp_fetch_user_fullname( $user_id = false, $echo = true ) {
 	global $bp;
 	
 	if ( !$user_id )
@@ -238,9 +245,9 @@ function bp_user_fullname($user_id = false, $echo = true) {
 	$data = bp_get_field_data( array( 'First Name', 'Last Name' ), $user_id );
 	
 	if ( $echo )
-		echo ucfirst($data['First Name']) . ' ' . ucfirst($data['Last Name']); 
+		echo ucfirst($data['First Name']) . ' ' . ucfirst($data['Last Name']);
 	else
-		return ucfirst($data['First Name']) . ' ' . ucfirst($data['Last Name']);
+		return ucfirst($data['First Name']) . ' ' . ucfirst($data['Last Name']);		
 }
 
 function bp_get_field_data( $field, $user_id = null ) {

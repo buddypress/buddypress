@@ -194,10 +194,15 @@ function bp_wire_get_post_form() {
 function bp_wire_get_action() {
 	global $bp;
 	
+	if ( $bp['current_item'] == '')
+		$uri = $bp['current_action'];
+	else
+		$uri = $bp['current_item'];
+	
 	if ( $bp['current_component'] == 'wire' || $bp['current_component'] == 'profile' ) {
 		echo $bp['current_domain'] . $bp['wire']['slug'] . '/post/';
 	} else {
-		echo $bp['current_domain'] . $bp[$bp['current_component']]['slug'] . '/' . $bp['current_action'] . '/wire/post/';
+		echo $bp['current_domain'] . $bp[$bp['current_component']]['slug'] . '/' . $uri . '/wire/post/';
 	}
 }
 
@@ -223,11 +228,16 @@ function bp_wire_poster_date( $date_format = null ) {
 function bp_wire_delete_link() {
 	global $wire_posts_template, $bp;
 
+	if ( $bp['current_item'] == '')
+		$uri = $bp['current_action'];
+	else
+		$uri = $bp['current_item'];
+		
 	if ( ( $wire_posts_template->wire_post->user_id == $bp['loggedin_userid'] ) || $bp['is_item_admin'] ) {
 		if ( $bp['current_component'] == 'wire' || $bp['current_component'] == 'profile' ) {
 			echo '<a href="' . $bp['current_domain'] . $bp['wire']['slug'] . '/delete/' . $wire_posts_template->wire_post->id . '">[' . __('Delete') . ']</a>';
 		} else {
-			echo '<a href="' . $bp['current_domain'] . $bp[$bp['current_component']]['slug'] . '/' . $bp['current_action'] . '/wire/delete/' . $wire_posts_template->wire_post->id . '">[' . __('Delete') . ']</a>';
+			echo '<a href="' . $bp['current_domain'] . $bp[$bp['current_component']]['slug'] . '/' . $uri . '/wire/delete/' . $wire_posts_template->wire_post->id . '">[' . __('Delete') . ']</a>';
 		}
 	}
 }
@@ -235,10 +245,15 @@ function bp_wire_delete_link() {
 function bp_wire_see_all_link() {
 	global $bp;
 	
+	if ( $bp['current_item'] == '')
+		$uri = $bp['current_action'];
+	else
+		$uri = $bp['current_item'];
+	
 	if ( $bp['current_component'] == 'wire' || $bp['current_component'] == 'profile') {
 		echo $bp['current_domain'] . $bp['wire']['slug'];
 	} else if ( $bp['current_component'] == 'groups' ) {
-		echo $bp['current_domain'] . $bp['groups']['slug'] . '/' . $bp['current_action'] . '/wire';
+		echo $bp['current_domain'] . $bp['groups']['slug'] . '/' . $uri . '/wire';
 	} else {
 		echo $bp['current_domain'] . $bp[$bp['current_component']]['slug'] . '/wire';
 	}

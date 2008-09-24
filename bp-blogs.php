@@ -75,7 +75,7 @@ function bp_blogs_install( $version ) {
 function bp_blogs_add_admin_menu() {	
 	global $wpdb, $bp, $userdata;
 
-	if ( $wpdb->blogid == get_usermeta( $bp['current_userid'], 'home_base' ) ) {
+	if ( $wpdb->blogid == $bp['current_homebase_id'] ) {
 		add_menu_page( __("Blogs"), __("Blogs"), 10, 'bp-blogs/admin-tabs/bp-blogs-tab.php' );
 		add_submenu_page( 'bp-blogs/admin-tabs/bp-blogs-tab.php', __("My Blogs"), __("My Blogs"), 10, 'bp-blogs/admin-tabs/bp-blogs-tab.php' );
 		add_submenu_page( 'bp-blogs/admin-tabs/bp-blogs-tab.php', __('Recent Posts'), __('Recent Posts'), 10, 'bp-blogs/admin-tabs/bp-blogs-posts-tab.php' );		
@@ -103,6 +103,7 @@ function bp_blogs_setup_globals() {
 		'table_name' => $wpdb->base_prefix . 'bp_user_blogs',
 		'table_name_blog_posts' => $wpdb->base_prefix . 'bp_user_blogs_posts',
 		'table_name_blog_comments' => $wpdb->base_prefix . 'bp_user_blogs_comments',
+		'format_activity_function' => 'bp_blogs_format_activity',
 		'image_base' => get_option('siteurl') . '/wp-content/mu-plugins/bp-groups/images',
 		'slug'		 => 'blogs'
 	);
@@ -126,38 +127,17 @@ add_action( '_admin_menu', 'bp_blogs_setup_globals', 1 );
 function bp_blogs_setup_nav() {
 	global $bp;
 	
-	$nav_key = count($bp['bp_nav']) + 1;
-	$user_nav_key = count($bp['bp_users_nav']) + 1;
-
-	/* Add "Blogs" to the main component navigation */
-	$bp['bp_nav'][$nav_key] = array(
-		'id'	=> 'blogs',
-		'name'  => 'Blogs', 
-		'link'  => $bp['loggedin_domain'] . $bp['blogs']['slug']
-	);
+	/* Add 'Blogs' to the main navigation */
+	bp_core_add_nav_item( __('Blogs'), $bp['blogs']['slug'] );
+	bp_core_add_nav_default( $bp['blogs']['slug'], 'bp_blogs_screen_my_blogs', 'my-blogs' );
 	
-	/* Add "Blogs" to the sub nav for a current user */
-	$bp['bp_users_nav'][$user_nav_key] = array(
-		'id'	=> 'blogs',
-		'name'  => 'Blogs', 
-		'link'  => $bp['current_domain'] . 'blogs'
-	);
+	$blogs_link = $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/';
 	
-	/* Add blog options to the sub nav for the logged in user */
-	$bp['bp_options_nav']['blogs'] = array(
-		'my-blogs'   => array(
-			'name' => __('My Blogs'),
-			'link' => $bp['loggedin_domain']  . $bp['blogs']['slug'] . '/my-blogs/' ),
-		'recent-posts'   => array(
-			'name' => __('Recent Posts'),
-			'link' => $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/recent-posts/' ),
-		'recent-comments'   => array(
-			'name' => __('Recent Comments'),
-			'link' => $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/recent-comments/' ),
-		'create-a-blog'   => array( 
-			'name' => __('Create a Blog'),
-			'link' => $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/create-a-blog/' )
-	);
+	/* Add the subnav items to the blogs nav item */
+	bp_core_add_subnav_item( $bp['blogs']['slug'], 'my-blogs', __('My Blogs'), $blogs_link, 'bp_blogs_screen_my_blogs' );
+	bp_core_add_subnav_item( $bp['blogs']['slug'], 'recent-posts', __('Recent Posts'), $blogs_link, 'bp_blogs_screen_recent_posts' );
+	bp_core_add_subnav_item( $bp['blogs']['slug'], 'recent-comments', __('Recent Comments'), $blogs_link, 'bp_blogs_screen_recent_comments' );
+	bp_core_add_subnav_item( $bp['blogs']['slug'], 'create-a-blog', __('Create a Blog'), $blogs_link, 'bp_blogs_screen_create_a_blog' );
 	
 	/* Set up the component options navigation for Blog */
 	if ( $bp['current_component'] == 'blogs' ) {
@@ -168,48 +148,105 @@ function bp_blogs_setup_nav() {
 		} else {
 			/* If we are not viewing the logged in user, set up the current users avatar and name */
 			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
-			$bp['bp_options_title'] = bp_user_fullname( $bp['current_userid'], false ); 
+			$bp['bp_options_title'] = $bp['current_fullname']; 
 		}
 	}
 }
 add_action( 'wp', 'bp_blogs_setup_nav', 2 );
 
+/***** Screens **********/
+
+function bp_blogs_screen_my_blogs() {
+	bp_catch_uri( 'blogs/my-blogs' );	
+}
+
+function bp_blogs_screen_recent_posts() {
+	bp_catch_uri( 'blogs/recent-posts' );
+}
+
+function bp_blogs_screen_recent_comments() {
+	bp_catch_uri( 'blogs/recent-comments' );
+}
+
+function bp_blogs_screen_create_a_blog() {
+	bp_catch_uri( 'blogs/create' );
+}
+
 
 /**************************************************************************
- bp_blogs_catch_action()
+ bp_blogs_record_activity()
  
- Catch actions via pretty urls.
+ Records activity for the logged in user within the friends component so that
+ it will show in the users activity stream (if installed)
  **************************************************************************/
 
-function bp_blogs_catch_action() {
-	global $bp, $current_blog;
-
-	if ( $bp['current_component'] == $bp['blogs']['slug'] && $current_blog->blog_id > 1 ) {
-		switch ( $bp['current_action'] ) {
-			case 'my-blogs':
-				bp_catch_uri( 'blogs/my-blogs' );
-			break;
-		
-			case 'recent-posts':
-				bp_catch_uri( 'blogs/recent-posts' );
-			break;
-		
-			case 'recent-comments':
-				bp_catch_uri( 'blogs/recent-comments' );
-			break; 
-		
-			case 'create-a-blog':
-				bp_catch_uri( 'blogs/create' );
-			break;
-		
-			default:
-				$bp['current_action'] = 'my-blogs';
-				bp_catch_uri( 'blogs/my-blogs' );
-			break;
-		}
+function bp_blogs_record_activity( $args = true ) {
+	global $bp;
+	
+	/* Because blog, comment, and blog post code execution happens before anything else
+	   we need to manually instantiate the activity component globals */
+	if ( !$bp['activity'] && function_exists('bp_activity_setup_globals') )
+		bp_activity_setup_globals();
+	
+	if ( function_exists('bp_activity_record') ) {
+		extract($args);
+		bp_activity_record( $item_id, $component_name, $component_action, $is_private );
 	}
 }
-add_action( 'wp', 'bp_blogs_catch_action', 3 );
+add_action( 'bp_blogs_new_blog', 'bp_blogs_record_activity' );
+add_action( 'bp_blogs_new_blog_post', 'bp_blogs_record_activity' );
+add_action( 'bp_blogs_new_blog_comment', 'bp_blogs_record_activity' );
+
+/**************************************************************************
+ bp_blogs_format_activity()
+ 
+ Selects and formats recorded blogs component activity.
+ **************************************************************************/
+
+function bp_blogs_format_activity( $item_id, $action, $for_secondary_user = false  ) {
+	global $bp;
+	
+	switch( $action ) {
+		case 'new_blog':
+			$blog = new BP_Blogs_Blog($item_id);
+			
+			if ( !$blog )
+				return false;
+				
+			return bp_core_get_userlink($bp['loggedin_userid']) . ' ' . __('created a new blog:') . ' <a href="' . get_blog_option( $blog->blog_id, 'siteurl' ) . '">' . get_blog_option( $blog->blog_id, 'blogname' ) . '</a> <span class="time-since">%s</span>';		
+		break;
+		case 'new_blog_post':
+			$post = new BP_Blogs_Post($item_id);
+			
+			if ( !$post )
+				return false;
+			
+			$post = BP_Blogs_Post::fetch_post_content($post);
+
+			$content = bp_core_get_userlink($bp['loggedin_userid']) . ' ' . __('wrote a new blog post') . ' <a href="' . bp_post_get_permalink( $post, $post->blog_id ) . '">' . $post->post_title . '</a> <span class="time-since">%s</span>';		
+			$content .= '<blockquote>' . bp_create_excerpt($post->post_content) . '</blockquote>';
+			return $content;
+		break;
+		case 'new_blog_comment':
+		
+			if ( !is_user_logged_in() )
+				return false;
+
+			$comment = new BP_Blogs_Comment($item_id);
+			
+			if ( !$comment )
+				return false;
+
+			$comment = BP_Blogs_Comment::fetch_comment_content($comment);
+			$content = bp_core_get_userlink($bp['loggedin_userid']) . ' ' . __('commented on the blog post ') . ' <a href="' . bp_post_get_permalink( $comment->post, $comment->blog_id ) . '#comment-' . $comment->comment_ID . '">' . $comment->post->post_title . '</a> <span class="time-since">%s</span>';		
+			$content .= '<blockquote>' . bp_create_excerpt($comment->comment_content) . '</blockquote>';
+			return $content;
+		break;
+	}
+	
+	return false;
+}
+
 
 function bp_blogs_record_blog( $blog_id = '', $user_id = '' ) {
 	global $bp;
@@ -225,7 +262,9 @@ function bp_blogs_record_blog( $blog_id = '', $user_id = '' ) {
 		$recorded_blog->user_id = $user_id;
 		$recorded_blog->blog_id = $blog_id;
 
-		$recorded_blog->save();
+		$recorded_blog_id = $recorded_blog->save();
+		
+		do_action( 'bp_blogs_new_blog', array( 'item_id' => $recorded_blog_id, 'component_name' => 'blogs', 'component_action' => 'new_blog', 'is_private' => 0 ) );
 	}
 }
 add_action( 'wpmu_new_blog', 'bp_blogs_record_blog', 10 );
@@ -254,7 +293,9 @@ function bp_blogs_record_post($post_id = '') {
 			$recorded_post->post_id = $post_id;
 			$recorded_post->date_created = strtotime( $post->post_date );
 			
-			$recorded_post->save();
+			$recorded_post_id = $recorded_post->save();
+			
+			do_action( 'bp_blogs_new_blog_post', array( 'item_id' => $recorded_post_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'is_private' => 0 ) );
 		}
 	} else {
 		/** 
@@ -304,7 +345,9 @@ function bp_blogs_record_comment( $comment_id = '', $from_ajax = false ) {
 				$recorded_comment->comment_post_id = $post_id;
 				$recorded_comment->date_created = strtotime( $comment->comment_date );
 					
-				$recorded_comment->save();
+				$recorded_commment_id = $recorded_comment->save();
+
+				do_action( 'bp_blogs_new_blog_comment', array( 'item_id' => $recorded_commment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'is_private' => 0 ) );
 			}
 		} else {
 			/** 
@@ -375,15 +418,22 @@ function bp_blogs_remove_comment( $comment_id = '' ) {
 }
 add_action( 'delete_comment', 'bp_blogs_remove_comment' );
 
-function bp_blogs_remove_all_data_for_user( $blog_id ) {
-	/* Only delete profile data if we are removing a home base */
+function bp_blogs_remove_data( $blog_id ) {
+
 	if ( $user_id = bp_core_get_homebase_userid( $blog_id ) ) {
+		/* If this is a home base, delete everything for that user. */
 		BP_Blogs_Blog::delete_blogs_for_user( $user_id );
 		BP_Blogs_Post::delete_posts_for_user( $user_id );
 		BP_Blogs_Comment::delete_comments_for_user( $user_id );
+	} else {
+		/* If this is regular blog, delete all data for that blog. */
+		BP_Blogs_Blog::delete_blog_for_all( $blog_id );
+		BP_Blogs_Post::delete_posts_for_blog( $blog_id );		
+		BP_Blogs_Comment::delete_comments_for_blog( $blog_id );
 	}
+	
 }
-add_action( 'delete_blog', 'bp_blogs_remove_all_data_for_user', 1 );
+add_action( 'delete_blog', 'bp_blogs_remove_data', 1 );
 
 function bp_blogs_register_existing_content( $blog_id ) {
 	global $wpdb, $bp;

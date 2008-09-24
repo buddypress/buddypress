@@ -5,7 +5,7 @@ function bp_core_disable_homebase_blog_tabs() {
 	global $parent_file, $submenu_file;
 	
 	/* Unset all blog tabs if this is the home base for the user */
-	if ( $wpdb->blogid == get_usermeta( $bp['current_userid'], 'home_base' ) ) {
+	if ( $wpdb->blogid == $bp['current_homebase_id'] ) {
 		unset($menu[5]);
 		unset($menu[10]);
 		unset($menu[15]);
@@ -32,7 +32,7 @@ function bp_core_disable_homebase_blog_tabs() {
 	if ( $submenu_file == 'profile.php' ) { die; }
 	
 	/* Reorder the 'Account' tab so it appears as a small right tab */
-	if ( $wpdb->blogid != get_usermeta( $bp['current_userid'], 'home_base' ) ) {
+	if ( $wpdb->blogid != $bp['current_homebase_id'] ) {
 		$menu[27] = $menu[41];
 		unset($menu[41]);
 	}
