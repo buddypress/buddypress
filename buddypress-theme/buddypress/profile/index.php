@@ -32,7 +32,7 @@
 					<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
 
 						<?php if ( bp_field_has_data() ) : ?>
-						<tr>
+						<tr<?php bp_field_css_class() ?>>
 							<td class="label">
 								<?php bp_the_profile_field_name() ?>
 							</td>
@@ -49,6 +49,10 @@
 			
 		<?php endwhile; ?>
 		
+		<?php if ( function_exists('bp_activity_get_list') ) : ?>
+			<?php bp_activity_get_list( bp_current_user_id(), bp_my_or_name( true, false ) . __(' Activity'), 5 ) ?>
+		<?php endif; ?>
+		
 		<?php if ( function_exists('bp_groups_random_groups') ) : ?>
 			<?php bp_groups_random_groups() ?>
 		<?php endif; ?>
@@ -58,7 +62,7 @@
 		<?php endif; ?>
 
 		<?php if ( function_exists('bp_wire_get_post_list') ) : ?>
-			<?php bp_wire_get_post_list( bp_core_get_current_userid(), bp_my_or_name( true, false ) . ' Wire', 'No one has posted to ' . bp_your_or_name( false, false ) . ' wire yet.' ) ?>
+			<?php bp_wire_get_post_list( bp_current_user_id(), bp_my_or_name( true, false ) . ' Wire', 'No one has posted to ' . bp_your_or_name( false, false ) . ' wire yet.' ) ?>
 		<?php endif; ?>
 		
 	<?php else: ?>

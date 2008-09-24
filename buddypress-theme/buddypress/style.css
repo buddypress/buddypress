@@ -55,8 +55,11 @@ a { color: #f7740a; }
 	
 hr, div.clear {
 	visibility: hidden;
-	clear: both;
+	clear: right;
 }
+	.info-group div.clear {
+		clear: left;
+	}
 
 input, select, textarea { width: 100%; }
 
@@ -149,11 +152,11 @@ input, select, textarea { width: 100%; }
 				}
 
 				li a#messages {
-					background: url(images/messages_bullet.gif) 88% 52% no-repeat;
+					background: url(images/messages_bullet.gif) 89% 52% no-repeat;
 				}			
 				
 				li a#blogs {
-					background: url(images/blog_bullet.gif) 86% 52% no-repeat;
+					background: url(images/blog_bullet.gif) 87% 52% no-repeat;
 				}
 				
 				li a#friends {
@@ -166,6 +169,10 @@ input, select, textarea { width: 100%; }
 				
 				li a#wire {
 					background: url(images/wire_bullet.gif) 88% 52% no-repeat;
+				}
+
+				li a#activity {
+					background: url(images/activity_bullet.gif) 88% 52% no-repeat;
 				}
 				
 				li a#wp-logout {
@@ -281,7 +288,6 @@ ul.content-header-nav {
 #main {
 	margin-left: 276px;
 	background: #fff url(images/content_back.gif) top left repeat-x;
-	width: auto;
 	min-width: 680px;
 }
 	#main div.content-header {
@@ -417,19 +423,20 @@ ul.content-header-nav {
 			font-size: 1em;
 			width: 100%;
 		}
+			table.profile-fields tr.alt {
+				background: #f0f0f0;
+			}
+			
 			table.profile-fields tr td {
 				padding: 0.5em 1em;
 			}
 			
 			table.profile-fields tr td.label {
 				border-right: 1px solid #dadada;
-				width: 40px !important;
+				width: 130px !important;
 				font-weight: bold;
 			}
-			
-			table.profile-fields tr td.data {
-				width: 120px;
-			}
+
 		
 /**** Profile Edit Form ********************/
 		
@@ -527,6 +534,8 @@ ul.content-header-nav {
 			border-bottom: 1px solid #e1e1e1;
 			padding-bottom: 2em;
 			margin-bottom: 2em;
+			float: left;
+			width: 100%;
 		}
 		
 		#main #content .post h2 {
@@ -660,6 +669,7 @@ ul.content-header-nav {
 	.message-box {
 		padding: 15px 10px;
 		padding-left: 135px;
+		min-height: 140px;
 	}
 		.message-box .avatar-box {
 			float: left;
@@ -990,6 +1000,44 @@ ul.content-header-nav {
 	width: auto;
 	margin: 5px 0;
 	font-size: 1.4em;
+}
+
+/**** ACTIVITY FEED ***************************/
+
+#activity-list li {
+	margin: 15px 0;
+	padding-left: 21px;
+}
+	#activity-list li.blogs {
+		background: url(images/blog_bullet.gif) 0 4px no-repeat;		
+	}
+	
+	#activity-list li.profile {
+		background: url(images/profile_bullet.gif) 0 4px no-repeat;
+	}
+
+	#activity-list li.friends {
+		background: url(images/friends_bullet.gif) 0 4px no-repeat;
+	}
+	
+	#activity-list li.groups {
+		background: url(images/groups_bullet.gif) 0 4px no-repeat;
+	}
+	
+	#activity-list li.wire {
+		background: url(images/wire_bullet.gif) 0 4px no-repeat;
+	}
+
+
+#activity-list li blockquote {
+	padding: 7px 15px 7px 40px;
+	background: url(images/quotes_background.gif) 10px 9px no-repeat #eee;
+	margin: 5px 0;
+}
+
+#activity-list li span.time-since {
+	font-size: 0.8em;
+	color: #999;
 }
 
 /**************************
