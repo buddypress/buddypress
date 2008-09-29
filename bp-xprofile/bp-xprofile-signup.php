@@ -177,7 +177,7 @@ function xprofile_validate_signup_fields() {
 
 					if ( !bp_core_check_avatar_size($_FILES) ) {
 						$avatar_error = true;
-						$avatar_size = size_format(1024 * XPROFILE_MAX_FILE_SIZE);
+						$avatar_size = size_format(1024 * CORE_MAX_FILE_SIZE);
 						$avatar_error_msg = sprintf( __('The file you uploaded is too big. Please upload a file under %d'), $avatar_size);
 					}
 
@@ -194,14 +194,11 @@ function xprofile_validate_signup_fields() {
 
 					if ( !bp_core_check_avatar_dimensions($original) ) {
 						$avatar_error = true;
-						$avatar_error_msg = sprintf( __('The image you upload must have dimensions of %d x %d pixels or larger.'), XPROFILE_CROPPING_CANVAS_MAX, XPROFILE_CROPPING_CANVAS_MAX );
+						$avatar_error_msg = sprintf( __('The image you upload must have dimensions of %d x %d pixels or larger.'), CORE_AVATAR_V2_W, CORE_AVATAR_V2_W );
 					}
 					
-					if ( !$canvas = bp_core_resize_avatar($original) ) {
-						$avatar_error = true;
-						$avatar_error_msg = __('Could not create thumbnail, try another photo.');
-					}
-					
+					if ( !$canvas = bp_core_resize_avatar($original) )
+						$canvas = $original;
 				}
 				
 				if ( !is_user_logged_in() ) {

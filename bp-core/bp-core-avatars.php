@@ -13,7 +13,6 @@ define( 'CORE_AVATAR_V1_W', 50 );
 define( 'CORE_AVATAR_V1_H', 50 );
 define( 'CORE_AVATAR_V2_W', 150 );
 define( 'CORE_AVATAR_V2_H', 150 );
-define( 'CORE_CROPPING_CANVAS_MAX', 450 );
 define( 'CORE_MAX_FILE_SIZE', get_site_option('fileupload_maxk') * 1024 );
 define( 'CORE_DEFAULT_AVATAR', get_option('siteurl') . '/wp-content/mu-plugins/bp-xprofile/images/none.gif' );
 define( 'CORE_DEFAULT_AVATAR_THUMB', get_option('siteurl') . '/wp-content/mu-plugins/bp-xprofile/images/none-thumbnail.gif' );
@@ -131,11 +130,11 @@ function bp_core_avatar_admin( $message = null, $action = null, $delete_action =
 			bp_core_ap_die( 'Upload Failed! Your image is likely too big.' );
 		
 		if ( !bp_core_check_avatar_dimensions($original) )
-			bp_core_ap_die( 'The image you upload must have dimensions of ' . CORE_CROPPING_CANVAS_MAX . " x " . CORE_CROPPING_CANVAS_MAX . " pixels or larger." );
+			bp_core_ap_die( 'The image you upload must have dimensions of ' . CORE_AVATAR_V2_W . " x " . CORE_AVATAR_V2_H . " pixels or larger." );
 		
-		// Resize down to something we can display on the page
+		// Resize down to something we can display on the page or use original if its small enough already.
 		if ( !$canvas = bp_core_resize_avatar($original) )
-			bp_core_ap_die('Could not create thumbnail.');
+			$canvas = $original;
 		
 		// Render the cropper UI
 		if ( !$action )
@@ -220,8 +219,8 @@ function bp_core_handle_avatar_upload($file) {
 
 function bp_core_check_avatar_dimensions($file) {
 	$size = getimagesize($file);
-	
-	if ( $size[0] < CORE_AVATAR_V2_W || $size[1] < CORE_CROPPING_CANVAS_MAX )
+
+	if ( $size[0] < (int)CORE_AVATAR_V2_W || $size[1] < (int)CORE_CROPPING_CANVAS_MAX )
 		return false;
 	
 	return true;
