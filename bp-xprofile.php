@@ -195,8 +195,6 @@ function xprofile_setup_nav() {
 }
 add_action( 'wp', 'xprofile_setup_nav', 2 );
 
-/***** Screens **********/
-
 function xprofile_screen_display_profile() {
 	bp_catch_uri( 'profile/index' );
 }
@@ -212,8 +210,6 @@ function xprofile_screen_change_avatar() {
 		bp_catch_uri( 'profile/change-avatar' );
 	}
 }
-
-/***** Actions **********/
 
 function xprofile_action_delete_avatar() {
 	global $bp;
@@ -265,11 +261,11 @@ function xprofile_format_activity( $item_id, $action, $for_secondary_user = fals
 			if ( !$wire_post )
 				return false;
 
-			if ( $wire_post->item_id == $bp['loggedin_userid'] && $wire_post->user_id == $bp['loggedin_userid'] ) {
+			if ( ( $wire_post->item_id == $bp['loggedin_userid'] && $wire_post->user_id == $bp['loggedin_userid'] ) || ( $wire_post->item_id == $bp['current_userid'] && $wire_post->user_id == $bp['current_userid'] ) ) {
 				$content = bp_core_get_userlink($wire_post->user_id) . ' ' . __('wrote on') . ' ' . bp_your_or_their() . ' ' . __('own wire') . ': <span class="time-since">%s</span>';				
-			} else if ( $wire_post->item_id != $bp['loggedin_userid'] && $wire_post->user_id == $bp['loggedin_userid'] ) {
+			} else if ( ( $wire_post->item_id != $bp['loggedin_userid'] && $wire_post->user_id == $bp['loggedin_userid'] ) || ( $wire_post->item_id != $bp['current_userid'] && $wire_post->user_id == $bp['current_userid'] ) ) {
 				$content = bp_core_get_userlink($wire_post->user_id) . ' ' . __('wrote on ') . bp_core_get_userlink( $wire_post->item_id, false, false, true, true ) . ' wire: <span class="time-since">%s</span>';				
-			}
+			} 
 			
 			$content .= '<blockquote>' . bp_create_excerpt($wire_post->content) . '</blockquote>';
 			return $content;

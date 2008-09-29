@@ -737,8 +737,8 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false,
 		$display_name = $ud->display_name;
 	}
 	
-	if ( $user_id == $userdata->ID && !$no_you )
-		$display_name = 'You';
+	// if ( $user_id == $userdata->ID && !$no_you )
+	// 	$display_name = 'You';
 	
 	if ( $no_anchor )
 		return $display_name;

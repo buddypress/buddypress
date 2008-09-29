@@ -58,8 +58,10 @@ Class BP_Activity_Activity {
 			$activity = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $this->table_name . " ( item_id, component_name, component_action, date_recorded, is_private ) VALUES ( %d, %s, %s, FROM_UNIXTIME(%d), %d )", $this->item_id, $this->component_name, $this->component_action, $this->date_recorded, $this->is_private ) );
 	
 			// Fetch the formatted activity content so we can add it to the cache.
-			if ( function_exists( $bp[$this->component_name]['format_activity_function'] ) )
-				$activity_content = call_user_func($bp[$this->component_name]['format_activity_function'], $this->item_id, $this->component_action, $this->for_secondary_user );
+			if ( function_exists( $bp[$this->component_name]['format_activity_function'] ) ) {
+				if ( !$activity_content = call_user_func($bp[$this->component_name]['format_activity_function'], $this->item_id, $this->component_action, $this->for_secondary_user ) )
+					return false;
+			}
 			
 			// Add the cached version of the activity to the cached activity table.
 			$activity_cached = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $this->table_name_cached . " ( content, component_name, date_cached, date_recorded, is_private ) VALUES ( %s, %s, FROM_UNIXTIME(%d), FROM_UNIXTIME(%d), %d )", $activity_content, $this->component_name, time(), $this->date_recorded, $this->is_private ) );
@@ -124,7 +126,10 @@ Class BP_Activity_Activity {
 
 			for ( $i = 0; $i < count( $activities ); $i++ ) {
 				if ( function_exists( $bp[$activities[$i]->component_name]['format_activity_function'] ) ) {
-					$activities_formatted[$i]['content'] = call_user_func($bp[$activities[$i]->component_name]['format_activity_function'], $activities[$i]->item_id, $activities[$i]->component_action );
+					if ( !$content = call_user_func($bp[$activities[$i]->component_name]['format_activity_function'], $activities[$i]->item_id, $activities[$i]->component_action ) )
+						continue;
+						
+					$activities_formatted[$i]['content'] = $content;
 					$activities_formatted[$i]['date_recorded'] = $activities[$i]->date_recorded;
 					$activities_formatted[$i]['component_name'] = $activities[$i]->component_name;
 					$activities_formatted[$i]['is_private'] = $activities[$i]->is_private;

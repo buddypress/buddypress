@@ -145,10 +145,7 @@ function bp_activity_content_filter( $content, $date_recorded, $full_name, $inse
 		$content[0] = bp_activity_insert_time_since( $content[0], $date_recorded );
 	
 	/* Switch 'their/your' and 'Name/You' depending on whether the user is logged in or not and viewing their profile */
-	if ( !$is_home ) {
-		$content[0] = str_replace( __('your'), __('their'), $content[0] );
-		$content[0] = str_replace( __('You'), $full_name, $content[0] );
-	} else {
+	if ( $is_home ) {
 		$content[0] = str_replace( __('their'), __('your'), $content[0] );
 		$content[0] = str_replace( $full_name, __('You'), $content[0] );		
 	}
