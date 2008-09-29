@@ -154,8 +154,6 @@ function bp_blogs_setup_nav() {
 }
 add_action( 'wp', 'bp_blogs_setup_nav', 2 );
 
-/***** Screens **********/
-
 function bp_blogs_screen_my_blogs() {
 	bp_catch_uri( 'blogs/my-blogs' );	
 }
@@ -213,7 +211,7 @@ function bp_blogs_format_activity( $item_id, $action, $for_secondary_user = fals
 			if ( !$blog )
 				return false;
 				
-			return bp_core_get_userlink($bp['loggedin_userid']) . ' ' . __('created a new blog:') . ' <a href="' . get_blog_option( $blog->blog_id, 'siteurl' ) . '">' . get_blog_option( $blog->blog_id, 'blogname' ) . '</a> <span class="time-since">%s</span>';		
+			return bp_core_get_userlink($blog->user_id) . ' ' . __('created a new blog:') . ' <a href="' . get_blog_option( $blog->blog_id, 'siteurl' ) . '">' . get_blog_option( $blog->blog_id, 'blogname' ) . '</a> <span class="time-since">%s</span>';		
 		break;
 		case 'new_blog_post':
 			$post = new BP_Blogs_Post($item_id);
@@ -223,7 +221,7 @@ function bp_blogs_format_activity( $item_id, $action, $for_secondary_user = fals
 			
 			$post = BP_Blogs_Post::fetch_post_content($post);
 
-			$content = bp_core_get_userlink($bp['loggedin_userid']) . ' ' . __('wrote a new blog post') . ' <a href="' . bp_post_get_permalink( $post, $post->blog_id ) . '">' . $post->post_title . '</a> <span class="time-since">%s</span>';		
+			$content = bp_core_get_userlink($post->user_id) . ' ' . __('wrote a new blog post') . ' <a href="' . bp_post_get_permalink( $post, $post->blog_id ) . '">' . $post->post_title . '</a> <span class="time-since">%s</span>';		
 			$content .= '<blockquote>' . bp_create_excerpt($post->post_content) . '</blockquote>';
 			return $content;
 		break;
@@ -238,7 +236,7 @@ function bp_blogs_format_activity( $item_id, $action, $for_secondary_user = fals
 				return false;
 
 			$comment = BP_Blogs_Comment::fetch_comment_content($comment);
-			$content = bp_core_get_userlink($bp['loggedin_userid']) . ' ' . __('commented on the blog post ') . ' <a href="' . bp_post_get_permalink( $comment->post, $comment->blog_id ) . '#comment-' . $comment->comment_ID . '">' . $comment->post->post_title . '</a> <span class="time-since">%s</span>';		
+			$content = bp_core_get_userlink($comment->user_id) . ' ' . __('commented on the blog post ') . ' <a href="' . bp_post_get_permalink( $comment->post, $comment->blog_id ) . '#comment-' . $comment->comment_ID . '">' . $comment->post->post_title . '</a> <span class="time-since">%s</span>';		
 			$content .= '<blockquote>' . bp_create_excerpt($comment->comment_content) . '</blockquote>';
 			return $content;
 		break;
