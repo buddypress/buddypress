@@ -10,12 +10,12 @@
 	
 	<div class="main-column">
 		<?php do_action( 'template_notices' ) // (error/success feedback) ?>
+
+		<div class="pagination-links" id="finder-pag">
+			<?php bp_friend_pagination() ?>
+		</div>
 		
 		<?php if ( bp_has_users() ) : ?>
-			<div class="pagination-links" id="finder-pag">
-				<?php bp_friend_pagination() ?>
-			</div>
-			
 			<ul id="friend-list">
 			<?php while ( bp_user_users() ) : bp_the_user(); ?>
 				<li>
