@@ -460,6 +460,14 @@ function bp_group_list_friends() {
 	}
 }
 
+function bp_group_is_member() {
+	global $bp, $groups_template;
+	
+	if ( BP_Groups_Member::check_is_member( $bp['loggedin_userid'], $groups_template->group->id ) )
+		return true;
+	
+	return false;
+}
 
 function bp_group_list_members() {
 	global $groups_template, $bp;

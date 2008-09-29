@@ -13,9 +13,11 @@ class BP_Wire_Posts_Template {
 	var $pag_links;
 	var $total_wire_post_count;
 	
+	var $can_post;
+	
 	var $table_name;
 	
-	function bp_wire_posts_template( $item_id ) {
+	function bp_wire_posts_template( $item_id, $can_post ) {
 		global $bp;
 		
 		if ( $bp['current_component'] == $bp['wire']['slug'] ) {
@@ -32,6 +34,8 @@ class BP_Wire_Posts_Template {
 		
 		$this->wire_posts = $this->wire_posts['wire_posts'];
 		$this->wire_post_count = count($this->wire_posts);
+		
+		$this->can_post = $can_post;
 		
 		$this->pag_links = paginate_links( array(
 			'base' => add_query_arg( 'fpage', '%#%' ),
@@ -90,13 +94,13 @@ class BP_Wire_Posts_Template {
 	}
 }
 
-function bp_has_wire_posts( $item_id = null ) {
+function bp_has_wire_posts( $item_id = null, $can_post = true ) {
 	global $wire_posts_template, $bp;
 	
 	if ( !$item_id )
 		return false;
 		
-	$wire_posts_template = new BP_Wire_Posts_Template( $item_id );		
+	$wire_posts_template = new BP_Wire_Posts_Template( $item_id, $can_post );		
 	return $wire_posts_template->has_wire_posts();
 }
 
@@ -110,22 +114,23 @@ function bp_the_wire_post() {
 	return $wire_posts_template->the_wire_post();
 }
 
-function bp_wire_get_post_list( $bp_wire_item_id = null, $bp_wire_title = null, $bp_wire_empty_message = null ) {
-	global $bp_item_id, $bp_wire_header, $bp_wire_msg;
+function bp_wire_get_post_list( $item_id = null, $title = null, $empty_message = null, $can_post = true ) {
+	global $bp_item_id, $bp_wire_header, $bp_wire_msg, $bp_wire_can_post;
 
-	if ( !$bp_wire_item_id )
+	if ( !$item_id )
 		return false;
 	
-	if ( !$bp_wire_empty_message )
-		$bp_wire_empty_message = __("There are currently no wire posts.");
+	if ( !$message )
+		$empty_message = __("There are currently no wire posts.");
 	
-	if ( !$bp_wire_title )
-		$bp_wire_title = __('Wire');
+	if ( !$title )
+		$title = __('Wire');
 	
 	/* Pass them as globals, using the same name doesn't work. */
-	$bp_item_id = $bp_wire_item_id;
-	$bp_wire_header = $bp_wire_title;
-	$bp_wire_msg = $bp_wire_empty_message;
+	$bp_item_id = $item_id;
+	$bp_wire_header = $title;
+	$bp_wire_msg = $empty_message;
+	$bp_wire_can_post = $can_post;
 	
 	load_template( TEMPLATEPATH . '/wire/post-list.php' );
 }
@@ -143,6 +148,11 @@ function bp_wire_item_id() {
 function bp_wire_no_posts_message() {
 	global $bp_wire_msg;
 	echo $bp_wire_msg;
+}
+
+function bp_wire_can_post() {
+	global $bp_wire_can_post;
+	return $bp_wire_can_post;
 }
 
 function bp_wire_post_id( $echo = true ) {
@@ -187,7 +197,9 @@ function bp_wire_post_author_avatar() {
 }
 
 function bp_wire_get_post_form() {
-	if ( is_user_logged_in() )
+	global $wire_posts_template;
+	
+	if ( is_user_logged_in() && $wire_posts_template->can_post )
 		load_template( TEMPLATEPATH . '/wire/post-form.php' );		
 }
 
