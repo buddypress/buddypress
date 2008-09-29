@@ -1,7 +1,7 @@
 <div class="info-group">
 	<h4><?php bp_wire_title() ?> <a href="<?php bp_wire_see_all_link() ?>">See All &raquo;</a></h4>
 
-	<?php if ( bp_has_wire_posts( bp_wire_item_id() ) ) : ?>
+	<?php if ( bp_has_wire_posts( bp_wire_item_id(), bp_wire_can_post() ) ) : ?>
 	
 		<ul id="wire-post-list">
 		<?php while ( bp_wire_posts() ) : bp_the_wire_post(); ?>
