@@ -72,6 +72,7 @@ add_filter( 'get_avatar', 'bp_core_get_avatar_filter', 10, 4 );
 
 // Main UI Rendering
 function bp_core_avatar_admin( $message = null, $action = null, $delete_action = null ) {
+	global $wp_upload_error;
 	?>	
 	<?php if ( !isset($_POST['slick_avatars_action']) && !isset($_GET['slick_avatars_action']) ) { ?>
 	<div class="wrap">
@@ -116,8 +117,18 @@ function bp_core_avatar_admin( $message = null, $action = null, $delete_action =
 		if ( !isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'slick_avatars') )
 			bp_core_ap_die( 'Security error.' );
 		
+		// Set friendly error feedback.
+		$uploadErrors = array(
+		        0 => __("There is no error, the file uploaded with success"), 
+		        1 => __("The uploaded file exceeds the upload_max_filesize directive in php.ini"), 
+		        2 => __("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form"),
+		        3 => __("The uploaded file was only partially uploaded"),
+		        4 => __("No file was uploaded"),
+		        6 => __("Missing a temporary folder")
+		);
+
 		if ( !bp_core_check_avatar_upload($_FILES) )
-			bp_core_ap_die( 'Your upload failed, please try again.' );
+			bp_core_ap_die( 'Your upload failed, please try again. Error was: ' . $uploadErrors[$_FILES['file']['error']] );
 		
 		if ( !bp_core_check_avatar_size($_FILES) )
 			bp_core_ap_die( 'The file you uploaded is too big. Please upload a file under ' . size_format(1024 * CORE_MAX_FILE_SIZE) );
@@ -127,7 +138,7 @@ function bp_core_avatar_admin( $message = null, $action = null, $delete_action =
 		
 		// "Handle" upload into temporary location
 		if ( !$original = bp_core_handle_avatar_upload($_FILES) )
-			bp_core_ap_die( 'Upload Failed! Your image is likely too big.' );
+			bp_core_ap_die( 'Upload Failed! Error was: ' . $wp_upload_error );
 		
 		if ( !bp_core_check_avatar_dimensions($original) )
 			bp_core_ap_die( 'The image you upload must have dimensions of ' . CORE_AVATAR_V2_W . " x " . CORE_AVATAR_V2_H . " pixels or larger." );
@@ -209,10 +220,13 @@ function bp_core_check_avatar_type($file) {
 }
 
 function bp_core_handle_avatar_upload($file) {
+	global $wp_upload_error;
+	
 	$res = wp_handle_upload( $file['file'], array('action'=>'slick_avatars') );
 	if ( !in_array('error', array_keys($res) ) ) {
 		return $res['file'];
 	} else {
+		$wp_upload_error = $res['error'];
 		return false;
 	}
 }
