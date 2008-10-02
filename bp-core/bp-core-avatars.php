@@ -24,9 +24,9 @@ function bp_core_get_avatar( $user, $version = 1, $no_tag = false, $width = null
 	if ( CORE_AVATAR_V2_W == false && CORE_AVATAR_V2_H == false )
 		$version = 1;
 	
-	$home_base_id = get_usermeta( $user, 'home_base' );
-	$url = get_blog_option($home_base_id, 'siteurl');
-	
+	if ( $home_base_id = get_usermeta( $user, 'home_base' ) )
+		$url = get_blog_option($home_base_id, 'siteurl');
+		
 	if ( !$width )
 		$width = constant('CORE_AVATAR_V' . $version . '_W');
 	
