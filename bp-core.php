@@ -221,7 +221,7 @@ function bp_core_get_current_userid() {
 	
 	/* Check to see if this is a user home, and if it is, get the user id */
 	if ( !$current_userid = bp_core_get_homebase_userid( $blog_id ) )
-		return false; // return 0 if this is a normal blog, and not a user home.
+		return false; // return false if this is a normal blog, and not a user home.
 	
 	return $current_userid;
 }

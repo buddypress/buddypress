@@ -150,10 +150,10 @@ Class BP_Blogs_Post {
 	/* Static Functions */
 	
 	function delete( $post_id, $blog_id, $user_id = null ) {
-		global $wpdb, $bp;
+		global $wpdb, $bp, $current_user;
 		
 		if ( !$user_id )
-			$user_id = $bp['loggedin_userid'];
+			$user_id = $current_user->ID;
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['blogs']['table_name_blog_posts'] . " WHERE user_id = %d AND blog_id = %d AND post_id = %d", $user_id, $blog_id, $post_id ) );
 	}

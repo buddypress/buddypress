@@ -249,6 +249,11 @@ function bp_blogs_format_activity( $item_id, $action, $for_secondary_user = fals
 function bp_blogs_record_blog( $blog_id = '', $user_id = '' ) {
 	global $bp;
 	
+	if ( !$bp ) {
+		bp_core_setup_globals();
+		bp_blogs_setup_globals();
+	}
+	
 	if ( !$user_id )
 		$user_id = $bp['loggedin_userid'];
 	
@@ -269,6 +274,11 @@ add_action( 'wpmu_new_blog', 'bp_blogs_record_blog', 10 );
 
 function bp_blogs_record_post($post_id = '') {
 	global $bp, $current_blog;
+	
+	if ( !$bp ) {
+		bp_core_setup_globals();
+		bp_blogs_setup_globals();
+	}
 	
 	$post_id = (int)$post_id;
 	$user_id = (int)$bp['loggedin_userid'];
@@ -397,22 +407,32 @@ function bp_blogs_remove_blog_for_user( $user_id = '', $blog_id = '' ) {
 add_action( 'remove_user_from_blog', 'bp_blogs_remove_blog' );
 
 function bp_blogs_remove_post( $post_id = '' ) {
-	global $current_blog;
+	global $current_blog, $bp;
+	
+	if ( !$bp ) {
+		bp_core_setup_globals();
+		bp_blogs_setup_globals();
+	}
 	
 	$post_id = (int)$post_id;
 	$blog_id = (int)$current_blog->blog_id;
 
-	BP_Blogs_Post::delete( $post_id, $blog_id );
+	BP_Blogs_Post::delete( $post_id, $blog_id, $bp['loggedin_userid'] );
 }
 add_action( 'delete_post', 'bp_blogs_remove_post' );
 
 function bp_blogs_remove_comment( $comment_id = '' ) {
-	global $current_blog;
+	global $current_blog, $bp;
+	
+	if ( !$bp ) {
+		bp_core_setup_globals();
+		bp_blogs_setup_globals();
+	}
 	
 	$comment_id = (int)$comment_id;
 	$blog_id = (int)$current_blog->blog_id;
 	
-	BP_Blogs_Comment::delete( $comment_id, $blog_id );	
+	BP_Blogs_Comment::delete( $comment_id, $blog_id, $bp['loggedin_userid'] );	
 }
 add_action( 'delete_comment', 'bp_blogs_remove_comment' );
 
@@ -435,6 +455,11 @@ add_action( 'delete_blog', 'bp_blogs_remove_data', 1 );
 
 function bp_blogs_register_existing_content( $blog_id ) {
 	global $wpdb, $bp;
+	
+	if ( !$bp ) {
+		bp_core_setup_globals();
+		bp_blogs_setup_globals();
+	}	
 	
 	$user_id = $bp['loggedin_userid'];
 	$blogs = get_blogs_of_user($user_id);
