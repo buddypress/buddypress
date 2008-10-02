@@ -173,9 +173,10 @@ function bp_core_get_loggedin_domain( $user_id = null ) {
 		$user_id = $current_user->ID;
 	
 	/* Get the ID of the home base blog */
-	$home_base_id = get_usermeta( $user_id, 'home_base' );
-	
-	return get_blog_option( $home_base_id, 'siteurl' ) . '/';
+	if ( $home_base_id = get_usermeta( $user_id, 'home_base' ) )
+		return get_blog_option( $home_base_id, 'siteurl' ) . '/';
+	else
+		return false;
 }
 
 /**
@@ -676,10 +677,10 @@ function bp_core_get_username( $uid ) {
  * @return str The URL for the user with no HTML formatting.
  */
 function bp_core_get_userurl( $uid ) {
-	$home_base_id = get_usermeta( $uid, 'home_base' );
-	$home_base_url = get_blog_option( $home_base_id, 'siteurl' ) . '/';
-
-	return $home_base_url;
+	if ( $home_base_id = get_usermeta( $uid, 'home_base' ) )
+		return get_blog_option( $home_base_id, 'siteurl' ) . '/';
+	else
+		return false;
 }
 
 /**
@@ -743,13 +744,11 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false,
 	if ( $no_anchor )
 		return $display_name;
 
-	$home_base_id = get_usermeta( $user_id, 'home_base' );
-	
-	if ( !$home_base_id )
+	if ( $home_base_id = get_usermeta( $user_id, 'home_base' ) )
+		$home_base_url = get_blog_option( $home_base_id, 'siteurl' ) . '/';
+	else
 		return false;
 		
-	$home_base_url = get_blog_option( $home_base_id, 'siteurl' ) . '/';
-
 	if ( $just_link )
 		return $home_base_url;
 
