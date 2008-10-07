@@ -5,7 +5,7 @@ function bp_core_admin_bar() {
 
 	if ( is_user_logged_in() && bp_core_user_has_home() ) {
 		echo '<div id="wp-admin-bar">';
-		echo '<a href="' . get_blog_option( 1, 'siteurl' ) . '"><img id="admin-bar-logo" src="' . get_option('siteurl') . '/wp-content/mu-plugins/bp-core/images/admin_bar_logo.gif" alt="BuddyPress" /></a>';
+		echo '<a href="' . get_blog_option( 1, 'siteurl' ) . '"><img id="admin-bar-logo" src="' . site_url() . '/wp-content/mu-plugins/bp-core/images/admin_bar_logo.gif" alt="BuddyPress" /></a>';
 		echo '<ul class="main-nav">';
 		
 		echo '<li><a href="">';
@@ -31,7 +31,7 @@ function bp_core_admin_bar() {
 			
 			echo '</li>';
 		}
-		echo '<li><a id="logout" href="' . get_option('siteurl') . '/wp-login.php?action=logout">' . __('Log Out') . '</a></li>';
+		echo '<li><a id="logout" href="' . site_url() . '/wp-login.php?action=logout">' . __('Log Out') . '</a></li>';
 		echo '</ul>';
 		echo '</li>';
 		

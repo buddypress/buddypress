@@ -214,6 +214,15 @@ Class BP_Groups_Group {
 
 	/* Static Functions */
 	
+	function delete( $group_id ) {
+		global $wpdb, $bp;
+		
+		if ( $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['groups']['table_name'] . " WHERE id = %d", $group_id ) ) )
+			return false;
+		
+		return true;
+	}
+	
 	function group_exists( $slug ) {
 		global $wpdb, $bp;
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name'] . " WHERE slug = %s", $slug ) );
@@ -297,14 +306,14 @@ Class BP_Groups_Group {
 		return true;
 	}
 	
-	function delete( $group_id ) {
+	function get_newest( $limit = 5 ) {
 		global $wpdb, $bp;
 		
-		if ( $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['groups']['table_name'] . " WHERE id = %d", $group_id ) ) )
-			return false;
-		
-		return true;
-	}	
+		if ( !$limit )
+			$limit = 5;
+
+		return $wpdb->get_results( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name'] . " ORDER BY date_created DESC LIMIT %d", $limit ) ); 
+	}
 }
 
 Class BP_Groups_Member {
@@ -440,6 +449,12 @@ Class BP_Groups_Member {
 		global $wpdb, $bp;
 
 		return $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT group_id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND is_confirmed = 1 ORDER BY rand() LIMIT $total_groups", $user_id ) );
+	}
+	
+	function delete_all_for_user( $user_id ) {
+		global $wpdb, $bp;
+		
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d", $user_id ) ); 		
 	}
 }
 

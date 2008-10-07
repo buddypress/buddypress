@@ -349,13 +349,13 @@ function bp_group_create_form() {
 	<?php switch( $create_group_step ) {
 		case '1': ?>
 			<label for="group-name">* <?php _e('Group Name') ?></label>
-			<input type="text" name="group-name" id="group-name" value="<?php echo $group_obj->name ?>" />
+			<input type="text" name="group-name" id="group-name" value="<?php echo ( $group_obj ) ? $group_obj->name : $_POST['group-name']; ?>" />
 		
 			<label for="group-desc">* <?php _e('Group Description') ?></label>
-			<textarea name="group-desc" id="group-desc"><?php echo $group_obj->description ?></textarea>
+			<textarea name="group-desc" id="group-desc"><?php echo ( $group_obj ) ? $group_obj->description : $_POST['group-desc']; ?></textarea>
 		
 			<label for="group-news">* <?php _e('Recent News') ?></label>
-			<textarea name="group-news" id="group-news"><?php echo $group_obj->news ?></textarea>
+			<textarea name="group-news" id="group-news"><?php echo ( $group_obj ) ? $group_obj->news : $_POST['group-news']; ?></textarea>
 			
 			<input type="submit" value="<?php _e('Save and Continue') ?> &raquo;" id="save" name="save" />
 		<?php break; ?>

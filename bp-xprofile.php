@@ -3,7 +3,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_XPROFILE_IS_INSTALLED', 1 );
-define ( 'BP_XPROFILE_VERSION', '0.3.9' );
+define ( 'BP_XPROFILE_VERSION', '0.3.10' );
 
 require_once( 'bp-xprofile/bp-xprofile-classes.php' );
 require_once( 'bp-xprofile/bp-xprofile-admin.php' );
@@ -113,7 +113,7 @@ function xprofile_setup_globals() {
 		'table_name_fields' => $wpdb->base_prefix . 'bp_xprofile_fields',
 		'table_name_data' 	=> $wpdb->base_prefix . 'bp_xprofile_data',
 		'format_activity_function' => 'xprofile_format_activity',
-		'image_base' 		=> get_option('siteurl') . '/wp-content/mu-plugins/bp-xprofile/images',
+		'image_base' 		=> site_url() . '/wp-content/mu-plugins/bp-xprofile/images',
 		'slug'		 		=> 'profile'
 	);
 	

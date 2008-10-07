@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_ACTIVITY_IS_INSTALLED', 1 );
-define ( 'BP_ACTIVITY_VERSION', '0.1.7' );
+define ( 'BP_ACTIVITY_VERSION', '0.1.8' );
 
 /* Use english formatted times - e.g. 6 hours / 8 hours / 1 day / 15 minutes */
 define ( 'BP_ACTIVITY_CACHE_LENGTH', '6 hours' );
@@ -89,7 +89,7 @@ function bp_activity_setup_globals() {
 		
 		'table_name_loggedin_user_friends_cached' => $wpdb->base_prefix . $bp['loggedin_homebase_id'] . '_friends_activity_cached',
 		
-		'image_base' => get_option('siteurl') . '/wp-content/mu-plugins/bp-activity/images',
+		'image_base' => site_url() . '/wp-content/mu-plugins/bp-activity/images',
 		'slug'		 => 'activity'
 	);
 	

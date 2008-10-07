@@ -113,15 +113,21 @@ class BP_Friends_Friendship {
 		
 		if ( !$user_id )
 			$user_id = $bp['current_userid'];
-
-		$sql = $wpdb->prepare( "SELECT count(id) FROM " . $bp['friends']['table_name'] . " WHERE (initiator_user_id = %d OR friend_user_id = %d) AND is_confirmed = 1", $user_id, $user_id );
-
-		if ( !$friend_count = $wpdb->get_var( $sql ) )
-			return 0;
-		
-		if ( !$friend_count )
-			return 0;
 			
+		if ( !$friend_count = get_usermeta( $user_id, 'total_friend_count') ) {
+			update_usermeta( $user_id, 'total_friend_count', 0 );
+			
+			$sql = $wpdb->prepare( "SELECT count(id) FROM " . $bp['friends']['table_name'] . " WHERE (initiator_user_id = %d OR friend_user_id = %d) AND is_confirmed = 1", $user_id, $user_id );
+
+			if ( !$friend_count = $wpdb->get_var( $sql ) )
+				return 0;
+		
+			if ( !$friend_count )
+				return 0;
+			
+			update_usermeta( $user_id, 'total_friend_count', $friend_count );
+		}
+		
 		return $friend_count;
 	}
 	
@@ -273,6 +279,12 @@ class BP_Friends_Friendship {
 		global $wpdb, $bp;
 
 		return $wpdb->get_row( $wpdb->prepare( "SELECT friend_user_id, initiator_user_id FROM " . $bp['friends']['table_name'] . " WHERE id = %d", $friendship_id ) );
+	}
+	
+	function delete_all_for_user( $user_id ) {
+		global $wpdb, $bp;
+		
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['friends']['table_name'] . " WHERE friend_user_id = %d OR initiator_user_id = %d", $user_id, $user_id ) ); 		
 	}
 }
 	

@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_WIRE_IS_INSTALLED', 1 );
-define ( 'BP_WIRE_VERSION', '0.1' );
+define ( 'BP_WIRE_VERSION', '0.1.1' );
 
 include_once( 'bp-wire/bp-wire-classes.php' );
 //include_once( 'bp-wire/bp-wire-ajax.php' );
@@ -41,7 +41,7 @@ function bp_wire_setup_globals() {
 	}
 	
 	$bp['wire'] = array(
-		'image_base' => get_option('siteurl') . '/wp-content/mu-plugins/bp-wire/images',
+		'image_base' => site_url() . '/wp-content/mu-plugins/bp-wire/images',
 		'slug'		 => 'wire'
 	);
 }

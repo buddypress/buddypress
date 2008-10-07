@@ -14,8 +14,8 @@ define( 'CORE_AVATAR_V1_H', 50 );
 define( 'CORE_AVATAR_V2_W', 150 );
 define( 'CORE_AVATAR_V2_H', 150 );
 define( 'CORE_MAX_FILE_SIZE', get_site_option('fileupload_maxk') * 1024 );
-define( 'CORE_DEFAULT_AVATAR', get_option('siteurl') . '/wp-content/mu-plugins/bp-xprofile/images/none.gif' );
-define( 'CORE_DEFAULT_AVATAR_THUMB', get_option('siteurl') . '/wp-content/mu-plugins/bp-xprofile/images/none-thumbnail.gif' );
+define( 'CORE_DEFAULT_AVATAR', site_url() . '/wp-content/mu-plugins/bp-xprofile/images/none.gif' );
+define( 'CORE_DEFAULT_AVATAR_THUMB', site_url() . '/wp-content/mu-plugins/bp-xprofile/images/none-thumbnail.gif' );
 
 function bp_core_get_avatar( $user, $version = 1, $no_tag = false, $width = null, $height = null ) {
 	if ( !is_int($version) )
@@ -90,10 +90,10 @@ function bp_core_avatar_admin( $message = null, $action = null, $delete_action =
 		
 		<?php
 		if ( !$action )
-			$action = get_option('siteurl') . '/wp-admin/admin.php?page=bp-xprofile.php';
+			$action = site_url() . '/wp-admin/admin.php?page=bp-xprofile.php';
 		
 		if ( !$delete_action )
-			$delete_action = get_option('siteurl') . '/wp-admin/admin.php?page=bp-xprofile.php&slick_avatars_action=delete';
+			$delete_action = site_url() . '/wp-admin/admin.php?page=bp-xprofile.php&slick_avatars_action=delete';
 		
 		bp_core_render_avatar_upload_form($action);
 
@@ -241,9 +241,9 @@ function bp_core_check_avatar_dimensions($file) {
 }
 
 function bp_core_resize_avatar($file, $size = CORE_CROPPING_CANVAS_MAX) {
-	$canvas = wp_create_thumbnail( $file, $size);
+	$canvas = wp_create_thumbnail( $file, $size );
 	
-	if ( bp_core_thumb_error($canvas) )
+	if ( $canvas->errors )
 		return false;
 	
 	return $canvas = str_replace( '//', '/', $canvas );
@@ -301,7 +301,7 @@ function bp_core_render_avatar_cropper($original, $new, $action, $user_id = null
 		echo '<p class="submit"><input type="button" name="avatar_continue" value="' . __('Crop &amp; Continue') . '" onclick="cropAndContinue();" /></p>';
 		echo '</div>';
 		
-		echo '<div id="avatar_v2">';
+		echo '<div id="avatar_v2" style="display: none">';
 		echo '<h3>' . __('Alternate Avatar') . '</h3>';
 		echo '<p>' . __('Please select the area of your photo you would like to use for an alternate version') . '(' . CORE_AVATAR_V2_W . 'px x ' . CORE_AVATAR_V2_H . 'px).</p>';
 		
@@ -468,78 +468,6 @@ function bp_core_thumb_error( $str ) {
 	} else {
 		return preg_match( '/(filetype|invalid|not found)/is', $str );
 	}
-}
-
-function bp_core_add_cropper_js() {
-	echo '<script type="text/javascript" src="' . get_option('home') . '/wp-includes/js/prototype.js"></script>';
-	echo '<script type="text/javascript" src="' . get_option('home') . '/wp-includes/js/scriptaculous/scriptaculous.js"></script>';
-	echo '<script type="text/javascript" src="' . get_option('home') . '/wp-includes/js/scriptaculous/dragdrop.js"></script>';
-	echo '<script type="text/javascript" src="' . get_option('home') . '/wp-includes/js/crop/cropper.js"></script>';		
-?>
-	<style type="text/css">
-		#avatar_v2 { display: none; }
-		.crop-img { float: left; margin: 0 20px 15px 0; }
-	</style>
-
-	<script type="text/javascript">
-	function cropAndContinue() {
-		jQuery('#avatar_v1').slideUp();
-		jQuery('#avatar_v2').slideDown('normal', function(){
-			v2Cropper();
-		});
-	}
-
-	function v1Cropper() {
-		v1Crop = new Cropper.ImgWithPreview( 
-			'crop-v1-img',
-			{ 
-				ratioDim: { x: <?php echo round(CORE_AVATAR_V1_W / CORE_AVATAR_V1_H, 5); ?>, y: 1 },
-				minWidth:   <?php echo CORE_AVATAR_V1_W; ?>,
-				minHeight:  <?php echo CORE_AVATAR_V1_H; ?>,
-				prevWidth:  <?php echo CORE_AVATAR_V1_W; ?>,
-				prevHeight: <?php echo CORE_AVATAR_V1_H; ?>,
-				onEndCrop: onEndCropv1,
-				previewWrap: 'crop-preview-v1'
-			}
-		);
-	}
-
-	function onEndCropv1(coords, dimensions) {
-		jQuery('#v1_x1').val(coords.x1);
-		jQuery('#v1_y1').val(coords.y1);
-		jQuery('#v1_x2').val(coords.x2);
-		jQuery('#v1_y2').val(coords.y2);
-		jQuery('#v1_w').val(dimensions.width);
-		jQuery('#v1_h').val(dimensions.height);
-	}
-
-	<?php if (CORE_AVATAR_V2_W !== false && CORE_AVATAR_V2_H !== false) { ?>
-	function v2Cropper() {
-		v1Crop = new Cropper.ImgWithPreview( 
-			'crop-v2-img',
-			{ 
-				ratioDim: { x: <?php echo round(CORE_AVATAR_V2_W / CORE_AVATAR_V2_H, 5); ?>, y: 1 },
-				minWidth:   <?php echo CORE_AVATAR_V2_W; ?>,
-				minHeight:  <?php echo CORE_AVATAR_V2_H; ?>,
-				prevWidth:  <?php echo CORE_AVATAR_V2_W; ?>,
-				prevHeight: <?php echo CORE_AVATAR_V2_H; ?>,
-				onEndCrop: onEndCropv2,
-				previewWrap: 'crop-preview-v2'
-			}
-		);
-	}
-	<?php } ?>
-
-	function onEndCropv2(coords, dimensions) {
-		jQuery('#v2_x1').val(coords.x1);
-		jQuery('#v2_y1').val(coords.y1);
-		jQuery('#v2_x2').val(coords.x2);
-		jQuery('#v2_y2').val(coords.y2);
-		jQuery('#v2_w').val(dimensions.width);
-		jQuery('#v2_h').val(dimensions.height);
-	}
-	</script>
-	<?php
 }
 
 ?>

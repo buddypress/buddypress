@@ -2,14 +2,14 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_GROUPS_IS_INSTALLED', 1 );
-define ( 'BP_GROUPS_VERSION', '0.1.5' );
+define ( 'BP_GROUPS_VERSION', '0.1.6' );
 
 include_once( 'bp-groups/bp-groups-classes.php' );
 include_once( 'bp-groups/bp-groups-ajax.php' );
 include_once( 'bp-groups/bp-groups-cssjs.php' );
-/*include_once( 'bp-messages/bp-groups-admin.php' );*/
 include_once( 'bp-groups/bp-groups-templatetags.php' );
-
+include_once( 'bp-groups/bp-groups-widgets.php' );
+/*include_once( 'bp-messages/bp-groups-admin.php' );*/
 
 /**************************************************************************
  groups_install()
@@ -91,7 +91,7 @@ function groups_setup_globals() {
 	$bp['groups'] = array(
 		'table_name' => $wpdb->base_prefix . 'bp_groups',
 		'table_name_members' => $wpdb->base_prefix . 'bp_groups_members',
-		'image_base' => get_option('siteurl') . '/wp-content/mu-plugins/bp-groups/images',
+		'image_base' => site_url() . '/wp-content/mu-plugins/bp-groups/images',
 		'format_activity_function' => 'groups_format_activity',
 		'slug'		 => 'groups'
 	);
@@ -551,48 +551,54 @@ function groups_avatar_upload( $file ) {
 	// validate the group avatar upload if there is one.
 	$avatar_error = false;
 
-	if ( bp_core_check_avatar_upload($file) ) {
-		if ( !bp_core_check_avatar_upload($file) ) {
-			$avatar_error = true;
-			$avatar_error_msg = __('Your group avatar upload failed, please try again.');
-		}
+	// Set friendly error feedback.
+	$uploadErrors = array(
+	        0 => __("There is no error, the file uploaded with success"), 
+	        1 => __("The uploaded file exceeds the upload_max_filesize directive in php.ini"), 
+	        2 => __("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form"),
+	        3 => __("The uploaded file was only partially uploaded"),
+	        4 => __("No file was uploaded"),
+	        6 => __("Missing a temporary folder")
+	);
 
-		if ( !bp_core_check_avatar_size($file) ) {
-			$avatar_error = true;
-			$avatar_size = size_format(1024 * CORE_MAX_FILE_SIZE);
-			$avatar_error_msg = sprintf( __('The file you uploaded is too big. Please upload a file under %d'), $avatar_size);
-		}
+	if ( !bp_core_check_avatar_upload($file) ) {
+		$avatar_error = true;
+		$avatar_error_msg = __('Your group avatar upload failed, please try again. Error was: ' . $uploadErrors[$file['file']['error']] );
+	}
 
-		if ( !bp_core_check_avatar_type($file) ) {
-			$avatar_error = true;
-			$avatar_error_msg = __('Please upload only JPG, GIF or PNG photos.');		
-		}
+	else if ( !bp_core_check_avatar_size($file) ) {
+		$avatar_error = true;
+		$avatar_size = size_format(1024 * CORE_MAX_FILE_SIZE);
+		$avatar_error_msg = __('The file you uploaded is too big. Please upload a file under') . size_format(1024 * CORE_MAX_FILE_SIZE);
+	}
+	
+	else if ( !bp_core_check_avatar_type($file) ) {
+		$avatar_error = true;
+		$avatar_error_msg = __('Please upload only JPG, GIF or PNG photos.');		
+	}
 
-		// "Handle" upload into temporary location
-		if ( !$original = bp_core_handle_avatar_upload($file) ) {
-			$avatar_error = true;
-			$avatar_error_msg = __('Upload Failed! Your photo dimensions are likely too big.');						
-		}
+	// "Handle" upload into temporary location
+	else if ( !$original = bp_core_handle_avatar_upload($file) ) {
+		$avatar_error = true;
+		$avatar_error_msg = __('Upload Failed! Your photo dimensions are likely too big.');						
+	}
 
-		if ( !bp_core_check_avatar_dimensions($original) ) {
-			$avatar_error = true;
-			$avatar_error_msg = sprintf( __('The image you upload must have dimensions of %d x %d pixels or larger.'), CORE_CROPPING_CANVAS_MAX, CORE_CROPPING_CANVAS_MAX );
-		}
-		
-		if ( !$canvas = bp_core_resize_avatar($original) ) {
-			$avatar_error = true;
-			$avatar_error_msg = __('Could not create thumbnail, try another photo.');
-		}
-		
-		if ( $avatar_error ) { ?>
-			<div id="message" class="error">
-				<p><?php echo $avatar_error_msg ?></p>
-			</div>
-			<?php
-			bp_core_render_avatar_upload_form( '', true );
-		} else {
-			bp_core_render_avatar_cropper( $original, $canvas, null, null, false, $bp['loggedin_domain'] );
-		}
+	else if ( !bp_core_check_avatar_dimensions($original) ) {
+		$avatar_error = true;
+		$avatar_error_msg = sprintf( __('The image you upload must have dimensions of %d x %d pixels or larger.'), CORE_CROPPING_CANVAS_MAX, CORE_CROPPING_CANVAS_MAX );
+	}
+	
+	if ( !$canvas = bp_core_resize_avatar($original) )
+		$canvas = $original;
+	
+	if ( $avatar_error ) { ?>
+		<div id="message" class="error">
+			<p><?php echo $avatar_error_msg ?></p>
+		</div>
+		<?php
+		bp_core_render_avatar_upload_form( '', true );
+	} else {
+		bp_core_render_avatar_cropper( $original, $canvas, null, null, false, $bp['loggedin_domain'] );
 	}
 }
 
@@ -622,18 +628,14 @@ function groups_get_avatar_hrefs( $avatars ) {
 **************************************************************************/
 
 function groups_manage_group( $step, $group_id ) {
-	global $bp;
+	global $bp, $create_group_step;
 	
 	if ( is_numeric( $step ) && ( $step == '1' || $step == '2' || $step == '3' || $step == '4' ) ) {
-		// If this is the group avatar step, load in the JS.
-		if ( $create_group_step == '3' )
-			add_action( 'wp_head', 'bp_core_add_cropper_js' );
-		
 		$group = new BP_Groups_Group( $group_id );		
 		
 		switch ( $step ) {
 			case '1':
-				if ( isset($_POST['group-name']) && isset($_POST['group-desc']) ) {
+				if ( $_POST['group-name'] != '' && $_POST['group-desc'] != '' && $_POST['group-news'] != '' ) {
 					$group->creator_id = $bp['loggedin_userid'];
 					$group->name = stripslashes($_POST['group-name']);
 					$group->description = stripslashes($_POST['group-desc']);
@@ -666,6 +668,8 @@ function groups_manage_group( $step, $group_id ) {
 						
 					return $group->id;
 				}
+				
+				return false;
 			break;
 			
 			case '2':
@@ -702,6 +706,7 @@ function groups_manage_group( $step, $group_id ) {
 			break;
 			
 			case '3':
+								
 				// Image already cropped and uploaded, lets store a reference in the DB.
 				if ( !wp_verify_nonce($_POST['nonce'], 'slick_avatars') || !$result = bp_core_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'], false, 'groupavatar', $group_id ) )
 					return false;
@@ -867,6 +872,12 @@ function groups_delete_wire_post( $wire_post_id, $table_name ) {
 	
 	return false;
 }
+
+function groups_remove_data( $user_id ) {
+	BP_Groups_Member::delete_all_for_user($user_id);
+}
+add_action( 'wpmu_delete_user', 'bp_core_remove_data', 1 );
+add_action( 'delete_user', 'bp_core_remove_data', 1 );
 
 
 ?>

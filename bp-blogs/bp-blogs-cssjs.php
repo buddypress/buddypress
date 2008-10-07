@@ -5,7 +5,7 @@ function bp_blogs_add_admin_css() {
 
 	if ( $wpdb->blogid == $bp['current_homebase_id'] ) {
 		if ( strpos( $_GET['page'], 'bp-blogs' ) !== false ) {
-			wp_enqueue_style('bp-blogs-admin-css', get_option('siteurl') . '/wp-content/mu-plugins/bp-blogs/admin-tabs/admin.css'); 
+			wp_enqueue_style('bp-blogs-admin-css', site_url() . '/wp-content/mu-plugins/bp-blogs/admin-tabs/admin.css'); 
 		}
 	}
 }

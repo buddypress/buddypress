@@ -1,21 +1,20 @@
 <?php
-
-/* Define the protocol to be used, change to https:// if on secure server. */
-define( 'PROTOCOL', 'http://' );
-
 /* Define the current version number for checking if DB tables are up to date. */
-define( 'BP_CORE_VERSION', '0.2.4' );
+define( 'BP_CORE_VERSION', '0.2.5' );
 
 /* Require all needed files */
-require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-catchuri.php' );
-require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-classes.php' );
-require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-cssjs.php' );
-require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-avatars.php' );
-require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-templatetags.php' );
-require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/bp-core-adminbar.php' );
-require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/admin-mods/bp-core-remove-blogtabs.php' );
-require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/admin-mods/bp-core-admin-styles.php' );
-require_once( ABSPATH . 'wp-content/mu-plugins/bp-core/homebase-creation/bp-core-homebase-functions.php' );
+require_once( 'bp-core/bp-core-catchuri.php' );
+require_once( 'bp-core/bp-core-classes.php' );
+require_once( 'bp-core/bp-core-cssjs.php' );
+require_once( 'bp-core/bp-core-avatars.php' );
+require_once( 'bp-core/bp-core-templatetags.php' );
+require_once( 'bp-core/bp-core-adminbar.php' );
+require_once( 'bp-core/bp-core-widgets.php' );
+require_once( 'bp-core/bp-core-ajax.php' );
+require_once( 'bp-core/admin-mods/bp-core-remove-blogtabs.php' );
+require_once( 'bp-core/admin-mods/bp-core-admin-styles.php' );
+require_once( 'bp-core/homebase-creation/bp-core-homebase-functions.php' );
+
 
 /**
  * bp_core_setup_globals()
@@ -100,6 +99,11 @@ function bp_core_setup_globals() {
 	   generic variable so it can be used in other components. It can also be modified, so when viewing a group
 	   'is_item_admin' would be 1 if they are a group admin, 0 if they are not. */
 	$bp['is_item_admin'] = bp_is_home();
+
+	$bp['core'] = array(
+		'image_base' => site_url() . '/wp-content/mu-plugins/bp-core/images',
+	);
+
 
 	if ( !$bp['current_component'] )
 		$bp['current_component'] = $bp['default_component'];
@@ -193,13 +197,7 @@ function bp_core_get_loggedin_domain( $user_id = null ) {
 function bp_core_get_current_domain() {
 	global $current_blog;
 	
-	if ( VHOST == 'yes' ) {
-		$current_domain = PROTOCOL . $current_blog->domain . '/';
-	} else {
-		$current_domain = get_bloginfo('wpurl') . '/';
-	}
-	
-	return $current_domain;
+	return get_blog_option( $current_blog->blog_id, 'siteurl' ) . '/';
 }
 
 /**
@@ -272,13 +270,17 @@ function bp_core_is_home_base( $blog_id ) {
  * @uses get_usermeta() WordPress function to get the usermeta for a current user.
  * @return false if no, or true if yes.
  */
-function bp_core_user_has_home() {
+function bp_core_user_has_home( $user_id = false ) {
 	global $bp;
 
-	if ( $bp['loggedin_homebase_id'] == '' )
-		return false;
-	
-	return true;
+	if ( !$user_id ) {
+		if ( $bp['loggedin_homebase_id'] == '' )
+			return false;
+
+		return $bp['loggedin_homebase_id'];
+	} else {
+		return get_usermeta( $user_id, 'home_base' );
+	}
 }
 
 /**
@@ -963,12 +965,13 @@ function bp_core_render_notice() {
 function bp_core_time_since( $older_date, $newer_date = false ) {
 	// array of time period chunks
 	$chunks = array(
-	array( 60 * 60 * 24 * 365 , 'year' ),
-	array( 60 * 60 * 24 * 30 , 'month' ),
-	array( 60 * 60 * 24 * 7, 'week' ),
-	array( 60 * 60 * 24 , 'day' ),
-	array( 60 * 60 , 'hour' ),
-	array( 60 , 'minute' ),
+	array( 60 * 60 * 24 * 365 , __('year') ),
+	array( 60 * 60 * 24 * 30 , __('month') ),
+	array( 60 * 60 * 24 * 7, __('week') ),
+	array( 60 * 60 * 24 , __('day') ),
+	array( 60 * 60 , __('hour') ),
+	array( 60 , __('minute') ),
+	array( 1, __('second') )
 	);
 
 	/* $newer_date will equal false if we want to know the time elapsed between a date and the current time */
@@ -1002,6 +1005,8 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	if ( $i + 1 < $j ) {
 		$seconds2 = $chunks[$i + 1][0];
 		$name2 = $chunks[$i + 1][1];
+		
+		if ( $name2 == __('second') ) return $output;
 	
 		if ( ( $count2 = floor( ( $since - ( $seconds * $count ) ) / $seconds2 ) ) != 0 ) {
 			/* Add to output var */
@@ -1017,19 +1022,54 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
  *
  * Record user activity to the database. Many functions use a "last active" feature to
  * show the length of time since the user was last active.
- * This function will update that time as a usermeta setting for the user.
+ * This function will update that time as a usermeta setting for the user every 5 minutes.
  * 
  * @package BuddyPress Core
  * @global $userdata WordPress user data for the current logged in user.
  * @uses update_usermeta() WordPress function to update user metadata in the usermeta table.
  */
 function bp_core_record_activity() {
-	global $userdata;
+	global $bp;
 	
-	// Updated last site activity for this user.
-	update_usermeta( $userdata->ID, 'last_activity', time() ); 
+	if ( !is_user_logged_in() )
+		return false;
+	
+	if ( time() >= strtotime('+5 minutes', get_usermeta( $bp['loggedin_userid'], 'last_activity') ) || get_usermeta( $bp['loggedin_userid'], 'last_activity') == '' ) {
+		// Updated last site activity for this user.
+		update_usermeta( $bp['loggedin_userid'], 'last_activity', time() );
+	}
 }
-add_action( 'login_head', 'bp_core_record_activity' );
+add_action( 'wp_head', 'bp_core_record_activity' );
+
+
+/**
+ * bp_core_get_last_activity()
+ *
+ * Formats last activity based on time since date given.
+ * 
+ * @package BuddyPress Core
+ * @param last_activity_date The date of last activity.
+ * @param $before The text to prepend to the activity time since figure.
+ * @param $after The text to append to the activity time since figure.
+ * @uses bp_core_time_since() This function will return an English representation of the time elapsed.
+ */
+function bp_core_get_last_activity( $last_activity_date, $before, $after ) {
+	if ( !$last_activity_date || $last_activity_date == '' ) {
+		$last_active = __('not recently active');
+	} else {
+		$last_active = $before;
+		
+		if ( strstr( $last_activity_date, '-' ) ) {
+			$last_active .= bp_core_time_since( strtotime( $last_activity_date ) ); 
+		} else {
+			$last_active .= bp_core_time_since( $last_activity_date ); 
+		}
+		
+		$last_active .= $after;
+	}
+	
+	return $last_active;
+}
 
 /**
  * bp_core_get_all_posts_for_user()
@@ -1129,4 +1169,17 @@ function bp_core_sort_nav_items( $nav_array ) {
 	array_merge( $new_nav, $nav_array );
 	return $new_nav;
 }
+
+function bp_core_remove_data( $user_id ) {
+	/* When the user is deleted, we must automatically delete their home base blog */
+	if ( $home_base_id = bp_core_user_has_home($user_id) )
+		wpmu_delete_blog( $home_base_id, true );
+	
+	/* Remove usermeta */
+	delete_usermeta( $user_id, 'home_base' );
+	delete_usermeta( $user_id, 'last_activity' );
+}
+add_action( 'wpmu_delete_user', 'bp_core_remove_data', 1 );
+add_action( 'delete_user', 'bp_core_remove_data', 1 );
+
 ?>

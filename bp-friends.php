@@ -2,14 +2,14 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_FRIENDS_IS_INSTALLED', 1 );
-define ( 'BP_FRIENDS_VERSION', '0.1.3' );
+define ( 'BP_FRIENDS_VERSION', '0.1.4' );
 
 include_once( 'bp-friends/bp-friends-classes.php' );
 include_once( 'bp-friends/bp-friends-ajax.php' );
 include_once( 'bp-friends/bp-friends-cssjs.php' );
-/*include_once( 'bp-messages/bp-friends-admin.php' );*/
 include_once( 'bp-friends/bp-friends-templatetags.php' );
-
+include_once( 'bp-friends/bp-friends-widgets.php' );
+/*include_once( 'bp-messages/bp-friends-admin.php' );*/
 
 
 /**************************************************************************
@@ -52,7 +52,7 @@ function friends_setup_globals() {
 	
 	$bp['friends'] = array(
 		'table_name' => $wpdb->base_prefix . 'bp_friends',
-		'image_base' => get_option('siteurl') . '/wp-content/mu-plugins/bp-friends/images',
+		'image_base' => site_url() . '/wp-content/mu-plugins/bp-friends/images',
 		'format_activity_function' => 'friends_format_activity',
 		'slug'		 => 'friends'
 	);
@@ -372,6 +372,8 @@ function friends_accept_friendship( $friendship_id ) {
 	$secondary_user_homebase_id = get_usermeta( $friendship->friend_user_id, 'home_base' );
 	
 	if ( BP_Friends_Friendship::accept( $friendship_id ) ) {
+		friends_update_friend_totals( $friendship->initiator_user_id, $friendship->friend_user_id );
+		
 		do_action( 'bp_friends_friendship_accepted', array( 'item_id' => $friendship_id, 'component_name' => 'friends', 'component_action' => 'friendship_accepted', 'is_private' => 0, 'dual_record' => true, 'secondary_user_homebase_id' => $secondary_user_homebase_id ) );
 		return true;
 	}
@@ -387,6 +389,25 @@ function friends_reject_friendship( $friendship_id ) {
 	
 	return false;
 }
+
+function friends_update_friend_totals( $initiator_user_id, $friend_user_id, $status = 'add' ) {
+	if ( $status == 'add' ) {
+		update_usermeta( $initiator_user_id, 'total_friend_count', (int)get_usermeta( $initiator_user_id, 'total_friend_count' ) + 1 );
+		update_usermeta( $friend_user_id, 'total_friend_count', (int)get_usermeta( $friend_user_id, 'total_friend_count' ) + 1 );
+	} else {
+		update_usermeta( $initiator_user_id, 'total_friend_count', (int)get_usermeta( $initiator_user_id, 'total_friend_count' ) - 1 );
+		update_usermeta( $friend_user_id, 'total_friend_count', (int)get_usermeta( $friend_user_id, 'total_friend_count' ) - 1 );		
+	}
+}
+
+function friends_remove_data( $user_id ) {
+	BP_Friends_Friendship::delete_all_for_user($user_id);
+	
+	/* Remove usermeta */
+	delete_usermeta( $user_id, 'total_friend_count' );
+}
+add_action( 'wpmu_delete_user', 'bp_core_remove_data', 1 );
+add_action( 'delete_user', 'bp_core_remove_data', 1 );
 
 
 ?>

@@ -338,6 +338,7 @@ function xprofile_on_activate( $blog_id = null, $user_id = null ) {
 		
 		/* Make this blog the "home base" for the new user */
 		update_usermeta( $user_id, 'home_base', $blog_id );
+		update_usermeta( $user_id, 'last_activity', time() );
 		
 		/* Set the BuddyPress theme as the theme for this blog */
 		$wpdb->set_blog_id($blog_id);		
@@ -418,19 +419,6 @@ function xprofile_get_user_by_key($key) {
 	return $user_id;
 }
 
-
-function xprofile_add_jquery() {
-	if ( $_SERVER['SCRIPT_NAME'] == '/wp-activate.php' ) {
-		echo '<script type="text/javascript" src="' . get_option('home') . '/wp-includes/js/prototype.js"></script>';
-		echo '<script type="text/javascript" src="' . get_option('home') . '/wp-includes/js/scriptaculous/scriptaculous.js"></script>';
-		echo '<script type="text/javascript" src="' . get_option('home') . '/wp-includes/js/scriptaculous/dragdrop.js"></script>';
-		echo '<script type="text/javascript" src="' . get_option('home') . '/wp-includes/js/crop/cropper.js"></script>';
-		echo '<script type="text/javascript" src="' . get_option('home') . '/wp-includes/js/jquery/jquery.js"></script>';
-	}
-	
-	bp_core_add_cropper_js();
-}
-add_action( 'wp_head', 'xprofile_add_jquery' );
 
 // function xprofile_replace_blog_references() {
 // 	if ( strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php' ) ) {

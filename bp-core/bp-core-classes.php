@@ -60,24 +60,9 @@ class BP_Core_User {
 		
 		$this->fullname = bp_core_get_userlink( $this->id, true );
 		$this->email = bp_core_get_user_email( $this->id );
+		$this->last_active = bp_core_get_last_activity( get_usermeta( $this->id, 'last_activity' ), __('active '), __(' ago') );
 		
-		$last_activity = get_usermeta( $this->id, 'last_activity' );
-
-		if ( !$last_activity || $last_activity == '' ) {
-			$this->last_active = __('not recently active');
-		} else {
-			$this->last_active = __('active ');
-			
-			if ( strstr( $last_activity, '-' ) ) {
-				$this->last_active .= bp_core_time_since( strtotime( get_usermeta( $this->id, 'last_activity' ) ) ); 
-			} else {
-				$this->last_active .= bp_core_time_since( get_usermeta( $this->id, 'last_activity' ) ); 
-			}
-			
-			$this->last_active .= __(' ago');
-		}
-
-		if ( BP_XPROFILE_IS_INSTALLED ) {
+		if ( function_exists('xprofile_install') ) {
 			$this->avatar = bp_core_get_avatar( $this->id, 2 );
 			$this->avatar_thumb = bp_core_get_avatar( $this->id, 1 );
 			$this->avatar_mini = bp_core_get_avatar( $this->id, 1, false, 25, 25 );
@@ -85,11 +70,45 @@ class BP_Core_User {
 			$this->profile_last_updated = bp_profile_last_updated_date( $this->id, false );
 		}
 		
-		if ( BP_STATUSES_IS_INSTALLED ) {
+		if ( function_exists('bp_statuses_install') ) {
 			$this->status = null; // TODO: Fetch status updates.
 			$this->status_last_updated = null;
 		}
 	}
+	
+	/* Static Functions */
+	
+	function get_newest_users( $limit = 5 ) {
+		global $wpdb;
+		
+		if ( !$limit )
+			$limit = 5;
+			
+		return $wpdb->get_results( $wpdb->prepare( "SELECT ID as user_id, user_registered FROM {$wpdb->base_prefix}users WHERE spam = 0 AND deleted = 0 AND user_status = 0 ORDER BY user_registered DESC LIMIT %d", $limit ) );
+	}
+	
+	function get_active_users( $limit = 5 ) {
+		global $wpdb;
+		
+		if ( !$limit )
+			$limit = 5;
+			
+		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'last_activity' ORDER BY meta_value ASC LIMIT %d", $limit ) );
+	}
+
+	function get_popular_users( $limit = 5 ) {
+		global $wpdb;
+				
+		if ( !function_exists('friends_install') )
+			return false;
+		
+		if ( !$limit )
+			$limit = 5;
+
+		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'total_friend_count' ORDER BY meta_value DESC LIMIT %d", $limit ) );
+		
+	}
+
 }
 
 ?>

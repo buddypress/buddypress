@@ -7,29 +7,24 @@
 
 function groups_add_js() {
 	global $bp;
-	
-	if ( !isset($_GET['page']) )
-		$_GET['page'] = null;
 
-	if ( strpos( $_GET['page'], 'groups' ) !== false || $bp['current_component'] == $bp['groups']['slug'] ) {
-		echo '
-			<script src="' . get_option('siteurl') . '/wp-content/mu-plugins/bp-groups/js/general.js" type="text/javascript"></script>';
+	if ( $bp['current_component'] == $bp['groups']['slug'] )
+		wp_enqueue_script( 'bp-groups-js', site_url() . '/wp-content/mu-plugins/bp-groups/js/general.js' );
+}
+add_action( 'template_redirect', 'groups_add_js' );
+
+function groups_add_cropper_js() {
+	global $create_group_step;
+	
+	if ( $create_group_step == '3' ) {
+		wp_enqueue_script('jquery');
+		wp_enqueue_script('prototype');
+		wp_enqueue_script('scriptaculous-root');
+		wp_enqueue_script('cropper');
+		add_action( 'wp_head', 'bp_core_add_cropper_js' );
 	}
 }
-add_action( 'wp_head', 'groups_add_js' );
-add_action( 'admin_head', 'groups_add_js' );
+add_action( 'template_redirect', 'groups_add_cropper_js' );
 
-/**************************************************************************
- add_css()
-  
- Inserts the CSS needed to style the groups pages.
- **************************************************************************/	
-
-function groups_add_css()
-{
-	?>
-	
-	<?php
-}
 
 ?>

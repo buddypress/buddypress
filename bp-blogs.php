@@ -2,18 +2,18 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_BLOGS_IS_INSTALLED', 1 );
-define ( 'BP_BLOGS_VERSION', '0.1.1' );
+define ( 'BP_BLOGS_VERSION', '0.1.2' );
 
 /* These will be moved into admin configurable settings */
 define ( 'TOTAL_RECORDED_POSTS', 10 );
 define ( 'TOTAL_RECORDED_COMMENTS', 25 );
 
 include_once( 'bp-blogs/bp-blogs-classes.php' );
-//include_once( 'bp-blogs/bp-blogs-ajax.php' );
 include_once( 'bp-blogs/bp-blogs-cssjs.php' );
-/*include_once( 'bp-blogs/bp-blogs-admin.php' );*/
 include_once( 'bp-blogs/bp-blogs-templatetags.php' );
-
+include_once( 'bp-blogs/bp-blogs-widgets.php' );
+//include_once( 'bp-blogs/bp-blogs-ajax.php' );
+//include_once( 'bp-blogs/bp-blogs-admin.php' );
 
 /**************************************************************************
  bp_blogs_install()
@@ -104,7 +104,7 @@ function bp_blogs_setup_globals() {
 		'table_name_blog_posts' => $wpdb->base_prefix . 'bp_user_blogs_posts',
 		'table_name_blog_comments' => $wpdb->base_prefix . 'bp_user_blogs_comments',
 		'format_activity_function' => 'bp_blogs_format_activity',
-		'image_base' => get_option('siteurl') . '/wp-content/mu-plugins/bp-groups/images',
+		'image_base' => site_url() . '/wp-content/mu-plugins/bp-groups/images',
 		'slug'		 => 'blogs'
 	);
 }
@@ -454,7 +454,7 @@ function bp_blogs_remove_data( $blog_id ) {
 add_action( 'delete_blog', 'bp_blogs_remove_data', 1 );
 
 function bp_blogs_register_existing_content( $blog_id ) {
-	global $wpdb, $bp;
+	global $bp, $current_blog;
 	
 	if ( !$bp ) {
 		bp_core_setup_globals();
@@ -469,7 +469,7 @@ function bp_blogs_register_existing_content( $blog_id ) {
 			if ( (int)$blog->userblog_id != (int)get_usermeta( $user_id, 'home_base' ) ) {
 				bp_blogs_record_blog( (int)$blog->userblog_id, (int)$user_id );
 
-				$wpdb->set_blog_id( $blog->userblog_id );
+				switch_to_blog( $blog->userblog_id );
 				$posts_for_blog = bp_core_get_all_posts_for_user( $user_id );
 			
 				for ( $i = 0; $i < count($posts); $i++ ) {
@@ -478,8 +478,19 @@ function bp_blogs_register_existing_content( $blog_id ) {
 			}
 		}
 	}	
+	
+	switch_to_blog( $current_blog->blog_id );
 }
 add_action( 'bp_homebase_signup_completed', 'bp_blogs_register_existing_content', 10 );
+
+function bp_blogs_get_latest_posts( $blog_id = null, $limit = 5 ) {
+	global $bp;
+	
+	if ( !is_numeric( $limit ) )
+		$limit = 5;
+	
+	return BP_Blogs_Post::get_latest_posts( $blog_id, $limit );
+}
 
 
 ?>

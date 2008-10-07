@@ -83,7 +83,7 @@ Class BP_Blogs_Blog {
 			
 		$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM " . $bp['blogs']['table_name'] . " WHERE user_id = %d", $user_id) );
 		$total_blog_count = $wpdb->get_var( $wpdb->prepare( "SELECT count(blog_id) FROM " . $bp['blogs']['table_name'] . " WHERE user_id = %d", $user_id) );
-	
+		
 		for ( $i = 0; $i < count($blog_ids); $i++ ) {
 			$blogs[] = array(
 				'id' => $blog_ids[$i],
@@ -180,6 +180,21 @@ Class BP_Blogs_Post {
 		global $wpdb, $bp;
 		
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['blogs']['table_name_blog_posts'] . " WHERE blog_id = %d", $blog_id ) );
+	}
+	
+	function get_latest_posts( $blog_id = null, $limit = 5 ) {
+		global $wpdb, $bp;
+		
+		if ( $blog_id )
+			$blog_sql = $wpdb->prepare( " WHERE blog_id = %d", $blog_id );
+		
+		$post_ids = $wpdb->get_results( $wpdb->prepare( "SELECT post_id, blog_id FROM " . $bp['blogs']['table_name_blog_posts'] . "$blog_sql ORDER BY date_created DESC LIMIT $limit" ) );
+
+		for ( $i = 0; $i < count($post_ids); $i++ ) {
+			$posts[$i] = BP_Blogs_Post::fetch_post_content($post_ids[$i]);
+		}
+		
+		return $posts;
 	}
 	
 	function get_posts_for_user( $user_id = null ) {

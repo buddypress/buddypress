@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_MESSAGES_IS_INSTALLED', 1 );
-define ( 'BP_MESSAGES_VERSION', '0.3.4' );
+define ( 'BP_MESSAGES_VERSION', '0.3.5' );
 
 include_once( 'bp-messages/bp-messages-classes.php' );
 include_once( 'bp-messages/bp-messages-ajax.php' );
@@ -99,7 +99,7 @@ function messages_setup_globals() {
 		'table_name_recipients'    => $wpdb->base_prefix . 'bp_messages_recipients',
 		'table_name_notices' 	   => $wpdb->base_prefix . 'bp_messages_notices',
 		'format_activity_function' => 'messages_format_activity',
-		'image_base' 		 	   => get_option('siteurl') . '/wp-content/mu-plugins/bp-messages/images',
+		'image_base' 		 	   => site_url() . '/wp-content/mu-plugins/bp-messages/images',
 		'slug'		 		 	   => 'messages'
 	);
 }
