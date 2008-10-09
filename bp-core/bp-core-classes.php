@@ -84,14 +84,12 @@ class BP_Core_User {
 		if ( !$limit )
 			$limit = 5;
 			
-		return $wpdb->get_results( $wpdb->prepare( "SELECT ID as user_id, user_registered FROM {$wpdb->base_prefix}users WHERE spam = 0 AND deleted = 0 AND user_status = 0 ORDER BY CONVERT(user_registered, DATETIME) DESC LIMIT %d", $limit ) );
+		return $wpdb->get_results( $wpdb->prepare( "SELECT ID as user_id, DATE_ADD( user_registered, INTERVAL " . get_option('gmt_offset') . " HOUR ) as user_registered FROM {$wpdb->base_prefix}users WHERE spam = 0 AND deleted = 0 AND user_status = 0 ORDER BY user_registered DESC LIMIT %d", $limit ) );
 	}
 	
 	function get_active_users( $limit = 5 ) {
 		global $wpdb;
-		
-		var_dump($limit);
-		
+
 		if ( !$limit )
 			$limit = 5;
 			
