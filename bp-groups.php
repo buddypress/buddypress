@@ -80,7 +80,7 @@ function groups_install( $version ) {
 				KEY user_id (user_id)
 		 	   );";		
 	}
-
+	
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
 	
