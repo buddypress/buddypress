@@ -2,224 +2,271 @@
 Theme Name: BuddyPress Home Theme
 Theme URI: http://buddypress.com/
 Description: The theme for the home of an install
-Version: 0.1
+Version: 0.2
 Author: Andy Peatling
 Author URI: http://blazenewmedia.com/
-
 */
 
+/***********************************************************
+ Global Reset
+************************************************************/
+
+*, html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, label, fieldset, input, p, blockquote, th, td { margin:0; padding:0 }
+table { border-collapse:collapse; border-spacing:0 }
+fieldset, img { border:0 }
+address, caption, cite, code, dfn, em, strong, th, var { font-style:normal; font-weight:normal }
+ol, ul, li { list-style:none }
+caption, th { text-align:left }
+h1, h2, h3, h4, h5, h6 { font-size:100%; font-weight: normal; }
+q:before, q:after { content:'' }
+a { text-decoration:none }
+strong { font-weight:bold }
+em { font-style:italic }
+* a { position:relative }
+a img { border:none }
+* { outline: none; }
+
+/***********************************************************
+ Let the games begin...
+************************************************************/
+
 html {
-	font-size: 62.5%;
-	font-family: "Lucida Grande", "Lucida Sans", Tahoma, Verdana, Arial, sans-serif;
+	background: #fff;
+	font: 62.5% normal "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, Verdana, Arial, sans-serif;
 }
 
 body {
+	background: #fff;
 	font-size: 1.2em;
-	color: #333;
-	width: 760px;
+	color: #555;
+	background: url(images/background.gif) top left repeat-y;
+	line-height: 170%;
+	min-width: 960px;
+	max-width: 1300px;
 	margin: 0 auto;
-	padding: 0.5em;
-	line-height: 155%;
 }
 
-hr {
+div.clear {
 	clear: both;
-	margin: 0;
-	padding: 0;
-	visibility: hidden;
 }
 
-a {
-	color: #1c56ab;
+a { color: #f7740a; text-decoration: underline; }
+a:hover { color: #555; text-decoration: none; }
+a.selected { color: #555; text-decoration: none; }
+
+/*** SEARCH / LOGIN BAR **********/
+
+#search-login-bar {
+	border-top: 10px solid #f7740a;
+	background: #fff9df;
+	padding: 7px 20px;
 }
-	a:hover {
-		background: #1c56ab;
+	#search-login-bar #search-form {
+		float: left;
+	}
+	
+	#search-login-bar #login-form, #logout-link {
+		float: right;
+	}
+	
+	#logout-link img {
+		vertical-align: middle;
+	}
+
+
+/*** HEADER **********/
+
+#header {
+	padding: 25px 20px;
+}
+	#header h1 {
+		width: 214px;
+		height: 29px;
+		overflow: hidden;
+		text-indent: -999px;
+		background: url(images/logo.gif) top left no-repeat;
+		float: left;
+	}
+	
+	#header ul {
+		float: right;
+		margin: 7px 0 0 0;
+	}
+		#header ul li {
+			float: left;
+			margin: 0 0 0 18px;
+		}
+			#header ul li a {
+				background: #f0f0f0;
+				color: #555;
+				display: block;
+				padding: 2px 15px;
+				-moz-border-radius: 3px;
+				-webkit-border-radius: 3px;
+				text-decoration: none;
+			}
+
+
+/*** CONTENT **********/
+
+#content {
+	padding: 0 20px;
+}
+
+h3 {
+	font: normal 1.6em "Georgia", Times, serif;
+	margin: 0 0 10px 0;
+}
+
+p.create-account {
+	margin: 10px 0;
+	text-align: right;
+}
+
+/*** WIDGETS **********/
+
+li.widget {
+	margin: 0 0 25px 0;
+}
+
+li.widget h2 {
+	padding: 3px 8px;
+	margin-bottom: 5px;
+	height: 36px;
+	font-weight: bold;
+}
+	li.bp_core_widget_welcome h2 {
+		background: url(images/welcome_header_back.gif) top left no-repeat !important;
+		color: #fff !important;
+	}
+
+li.widget ul.item-list li {
+	background: url(images/item_list_back.gif) top left repeat-x;
+	padding: 15px;
+}
+
+	li.widget ul.item-list li .item-avatar, .avatar-block img.avatar {
+		float: left;
+		margin: 0 15px 0 0;
+	}
+	
+	li.widget ul.item-list li .item-avatar img, img.avatar {
+		border: 3px solid #ddd;
+	}
+	
+	li.widget ul.item-list li h4.item-title {
+		font: normal 1.4em "Georgia", Times, serif;
+		margin: 0 0 7px 0;	
+	}
+		
+	li.widget ul.item-list li .item {
+		margin-left: 71px;
+	}
+	
+	li.widget ul.item-list li .item-meta {
+		font: normal 1em "Georgia", Times, serif;
+		margin: 10px 0;
+	}
+	
+	li.widget .item-options {
+		text-align: right;
+		font-size: 0.9em;
+		margin: -15px 0 5px 0;
+	}
+	
+.widget-error {
+	padding: 10px;
+	background: #fff9df;
+}
+
+span.activity {
+	color: #888;
+	background: #FFF9DB;
+	padding: 4px 6px;
+	border-right: 1px solid #FFE8C4;
+	border-bottom: 1px solid #FFE8C4;
+	display: inline-block;
+	font: 0.9em normal "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, Verdana, Arial, sans-serif;
+	margin: -5px 0 0 0;
+}
+
+div.avatar-block {
+	padding: 0 15px;
+}
+
+
+/** ACTIVITY FEED **********/
+
+.activity-list {
+	padding: 0 5px;
+}
+
+.activity-list li {
+	margin: 15px 0;
+	padding-left: 21px;
+}
+	.activity-list li.blogs {
+		background: url(images/blog_bullet.gif) 0 4px no-repeat;		
+	}
+	
+	.activity-list li.profile {
+		background: url(images/profile_bullet.gif) 0 4px no-repeat;
+	}
+
+	.activity-list li.friends {
+		background: url(images/friends_bullet.gif) 0 4px no-repeat;
+	}
+	
+	.activity-list li.groups {
+		background: url(images/groups_bullet.gif) 0 4px no-repeat;
+	}
+	
+	.activity-list li.wire {
+		background: url(images/wire_bullet.gif) 0 4px no-repeat;
+	}
+
+.activity-list li blockquote {
+	padding: 7px 15px 7px 40px;
+	background: url(images/quotes_background.gif) 10px 9px no-repeat #eee;
+	margin: 5px 0;
+}
+
+.activity-list li span.time-since {
+	font-size: 0.8em;
+	color: #999;
+}
+
+
+/*** LEFT COLUMN **********/
+
+#left-column {
+	margin-right: 560px;
+}
+
+	#left-column li.widget h2 {
+		background: url(images/leftcol_header_back.gif) top left no-repeat;
+	}
+	
+#center-column {
+	float: right;
+	width: 260px;
+	margin-right: 20px;
+}
+
+	#center-column li.widget h2 {
+		background: url(images/centercol_header_back.gif) top left no-repeat;
 		color: #fff;
 	}
 
-/** HEADER **/
-
-#header h1 {
-	font-size: 3em;
-	font-family: georgia, times, serif;
-	font-weight: normal;
-	margin: 0.5em 0 0.1em 0;
-	border-bottom: 1px solid #ddd;
-	padding-bottom: 0.5em;
-}
-	#header h1 span {
-		color: #1c56ab;
-	}
-
-#header ul#menu {
-	float: left;
-	border-bottom: 1px solid #ddd;
-	width: 100%;
-	margin: 0 0 1.5em 0;
-	padding: 0 0 0.3em 0;
-	list-style: none;
+#right-column {
+	float: right;
+	width: 260px;
 }
 
-	#header ul#menu li {
-		float: left;
-		margin: 0 0.75em 0 0;
-		font-family: georgia, times, serif;
-		text-transform: uppercase;
-		font-size: 1.1em;
+	#right-column li.widget h2 {
+		background: url(images/rightcol_header_back.gif) top left no-repeat;
+		color: #fff;
 	}
-		#header ul#menu li a {
-			color: #555;
-			text-decoration: none;
-			display: block;
-			padding: 0.4em 0.8em;
-			background: #fafafa;
-		}
-			#header ul#menu li a:hover {
-				background: #f3f3f3;
-			}
-
-/** CONTENT **/
-
-#content {
-	margin: 0 auto;
-}
-
-#profile-name {
-	font-size: 1.6em;
-	font-family: georgia, times, serif;
-	margin-bottom: 1px;
-	padding: 0 0 0.75em 0;
-	border-bottom: 1px solid #ccc;
-}
-
-	#profile-name h2 {
-		font-size: 1.6em;
-		font-weight: normal;
-		margin: 0;
-		padding: 0.2em 0 0.4em 0;
-	}
-		#profile-name h2 a {
-			text-decoration: none;
-			color: #555;
-		}
-		
-	#profile-name div.description {
-		font-size: 0.8em;
-	}
-	
-.profile-group h3, h3.page-title {
-	background: #8b919a;
-	color: #fff;
-	padding: 0.25em 0.5em;
-	margin: 0 0 0.75em 0;
-	font-family: georgia, times, serif;
-	font-weight: normal;
-	font-size: 1.4em;
-}
-
-.profile-group table {
-	padding-bottom: 0.75em;
-}
-
-.profile-group table td {
-	padding: 0 0 1em 0;
-	vertical-align: top;
-}
-	.profile-group table td.label {
-		width: 150px;
-		color: #555;
-	}
-	
-	.profile-group table td.data {
-		padding-left: 0.5em;
-	}
-	
-h2, h3 {
-	border-bottom: 1px solid #ccc;
-	font-family: georgia, times, serif;
-	font-size: 20px;
-	padding-bottom: 8px;
-	font-weight: normal;
-}
-/** BLOG **/
-
-.blog h2 {
-	font-family: georgia, times, serif;
-	font-weight: normal;
-	font-size: 1.6em;	
-	margin-bottom: 0.2em;
-}
-	.blog h2 a {
-
-	}
-	
-	.blog small {
-		font-family: georgia, times, serif;
-		font-weight: normal;
-		font-size: 1em;
-		color: #666;
-		padding-bottom: 0.5em;
-		display: block;
-	}
-	
-	.post {
-		border-bottom: 1px solid #ccc;
-		padding: 0 0.5em 1em 0.5em;
-	}
-
-	textarea#comment {
-		width: 100%;
-	}
-
-/** SIDEBAR **/
-
-div#sidebar {
-	float: left;
-	width: 250px;
-	overflow: hidden;
-	margin: 0 1.5em 0 0;
-}
-	
-	#profilePic {
-		text-align: center;
-		margin-bottom: 1.5em;
-	}
-	
-	#profilePic img {
-		padding: 5px;
-		border: 1px solid #ccc;
-		background: #f3f3f3;
-	}
-
-	ul#quickLinks, ul#components {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-	}
-	
-		ul#quickLinks li {
-			border-bottom: 1px solid #ccc;
-			padding: 0.3em 0;
-		}
-
-	ul#components li {
-		margin: 2em 0 0 0;
-		border-bottom: 2px solid #ccc;
-	}
-		ul#components li ul li {
-			border: none;
-			margin: 0;
-			padding: 0.3em 0;
-		}
-		
-		ul#components li h2 {
-			margin: 0;
-			font-family: georgia, times, serif;
-			font-weight: normal;
-			font-size: 1.4em;
-			border-bottom: 1px solid #ccc;
-			padding: 0 0 0.2em 0;
-		}
 
 /** SIGNUP FIELDS CSS **/
 
@@ -279,3 +326,6 @@ span.signup-description {
 	display: block;
 	margin: 5px 0 0 0;
 }
+
+/*** IMPORT CUSTOM STYLES ************/
+@import url(custom-styles.css);

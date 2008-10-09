@@ -2,22 +2,38 @@
 
 <div id="content" class="widecolumn">
 
-<p>This is a <a href="http://mu.wordpress.org/">WordPress Mu</a> + <a href="http://buddypress.org">BuddyPress</a> powered site.</p>
-<p>You can: 
-	<ul>
-		<li> <h4><a href="wp-login.php">Login</a></h4> </li>
-		<li> <h4><a href="wp-signup.php">Register</a></h4></li>
-	</ul>
-</p>
-<hr />
-<h4>Site News:</h4>
-<ul>
-<?php 
-query_posts('showposts=7');
-if (have_posts()) : ?><?php while (have_posts()) : the_post(); ?>
-<li><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title(); ?>"><?php the_title();?> </a></li>
-<?php endwhile; ?><?php endif; ?>
-</ul>
+	<div id="right-column">
+		<?php if ( !function_exists('dynamic_sidebar')
+		        || !dynamic_sidebar('right-column') ) : ?>
+		
+		<div class="widget-error">
+			Please log in and <a href="<?php echo get_option('siteurl') ?>/wp-admin/widgets.php?s=&amp;show=&amp;sidebar=sidebar-1">add widgets to this column</a>.
+		</div>
+		
+		<?php endif; ?>
+	</div>
+
+	<div id="center-column">
+		<?php if ( !function_exists('dynamic_sidebar')
+		        || !dynamic_sidebar('center-column') ) : ?>
+		
+		<div class="widget-error">
+			Please log in and <a href="<?php echo get_option('siteurl') ?>/wp-admin/widgets.php?s=&amp;show=&amp;sidebar=sidebar-2">add widgets to this column</a>.
+		</div>
+		
+		<?php endif; ?>
+	</div>
+
+	<div id="left-column">
+		<?php if ( !function_exists('dynamic_sidebar')
+		        || !dynamic_sidebar('left-column') ) : ?>
+
+		<div class="widget-error">
+			Please log in and <a href="<?php echo get_option('siteurl') ?>/wp-admin/widgets.php?s=&amp;show=&amp;sidebar=sidebar-3">add widgets to this column</a>.
+		</div>		
+		
+		<?php endif; ?>
+	</div>
 
 </div>
 
