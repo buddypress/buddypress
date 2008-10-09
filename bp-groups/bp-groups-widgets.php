@@ -32,14 +32,14 @@ function groups_widget_groups_list($args) {
 		. $widget_name 
 		. $after_title; ?>
 	
-	<?php $groups = BP_Groups_Group::get_newest( $options['max_groups'] ); ?>
+	<?php $groups = groups_get_popular( $options['max_groups'] ); ?>
 	
 	<?php if ( $groups ) : ?>
 		<div class="item-options" id="groups-list-options">
 			<img id="ajax-loader-groups" src="<?php echo $bp['groups']['image_base'] ?>/ajax-loader.gif" height="7" alt="Loading" style="display: none;" /> &nbsp;
-			<a href="<?php echo site_url() . '/groups' ?>" id="newest-groups" class="selected"><?php _e("Newest") ?></a> | 
+			<a href="<?php echo site_url() . '/groups' ?>" id="newest-groups"><?php _e("Newest") ?></a> | 
 			<a href="<?php echo site_url() . '/groups' ?>" id="recently-active-groups"><?php _e("Active") ?></a> | 
-			<a href="<?php echo site_url() . '/groups' ?>" id="popular-groups"><?php _e("Popular") ?></a>
+			<a href="<?php echo site_url() . '/groups' ?>" id="popular-groups" class="selected"><?php _e("Popular") ?></a>
 		</div>
 		<ul id="groups-list" class="item-list">
 			<?php foreach ( $groups as $group ) : ?>
@@ -51,7 +51,15 @@ function groups_widget_groups_list($args) {
 
 					<div class="item">
 						<div class="item-title"><a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><?php echo $group->name ?></a></div>
-						<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( $group->date_created, __('created '), __(' ago') ) ?></span></div>
+						<div class="item-meta">
+						<span class="activity">
+							<?php 
+							if ( $group->total_member_count == 1 )
+								echo $group->total_member_count . __(' member');
+							else
+								echo $group->total_member_count . __(' members');
+							?>
+						</span></div>
 					</div>
 				</li>
 				<?php $counter++; ?>	

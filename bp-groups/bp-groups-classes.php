@@ -333,7 +333,7 @@ Class BP_Groups_Group {
 		if ( !$limit )
 			$limit = 5;
 
-		return $wpdb->get_results( $wpdb->prepare( "SELECT group_id FROM " . $bp['groups']['table_name_groupmeta'] . " WHERE meta_key = 'last_activity' ORDER BY meta_value DESC LIMIT %d", $limit ) ); 
+		return $wpdb->get_results( $wpdb->prepare( "SELECT group_id FROM " . $bp['groups']['table_name_groupmeta'] . " WHERE meta_key = 'last_activity' ORDER BY CONVERT(meta_value, SIGNED) DESC LIMIT %d", $limit ) ); 
 	}
 	
 	function get_popular( $limit = 5 ) {
@@ -342,7 +342,7 @@ Class BP_Groups_Group {
 		if ( !$limit )
 			$limit = 5;
 
-		return $wpdb->get_results( $wpdb->prepare( "SELECT group_id FROM " . $bp['groups']['table_name_groupmeta'] . " WHERE meta_key = 'total_member_count' ORDER BY meta_value DESC LIMIT %d", $limit ) ); 
+		return $wpdb->get_results( $wpdb->prepare( "SELECT group_id FROM " . $bp['groups']['table_name_groupmeta'] . " WHERE meta_key = 'total_member_count' ORDER BY CONVERT(meta_value, SIGNED) DESC LIMIT %d", $limit ) ); 
 	}
 }
 

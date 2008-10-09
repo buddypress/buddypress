@@ -84,16 +84,18 @@ class BP_Core_User {
 		if ( !$limit )
 			$limit = 5;
 			
-		return $wpdb->get_results( $wpdb->prepare( "SELECT ID as user_id, user_registered FROM {$wpdb->base_prefix}users WHERE spam = 0 AND deleted = 0 AND user_status = 0 ORDER BY user_registered DESC LIMIT %d", $limit ) );
+		return $wpdb->get_results( $wpdb->prepare( "SELECT ID as user_id, user_registered FROM {$wpdb->base_prefix}users WHERE spam = 0 AND deleted = 0 AND user_status = 0 ORDER BY CONVERT(user_registered, DATETIME) DESC LIMIT %d", $limit ) );
 	}
 	
 	function get_active_users( $limit = 5 ) {
 		global $wpdb;
 		
+		var_dump($limit);
+		
 		if ( !$limit )
 			$limit = 5;
 			
-		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'last_activity' ORDER BY meta_value DESC LIMIT %d", $limit ) );
+		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'last_activity' ORDER BY FROM_UNIXTIME(meta_value) DESC LIMIT %d", $limit ) );
 	}
 
 	function get_popular_users( $limit = 5 ) {
@@ -105,7 +107,7 @@ class BP_Core_User {
 		if ( !$limit )
 			$limit = 5;
 
-		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'total_friend_count' ORDER BY meta_value DESC LIMIT %d", $limit ) );
+		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'total_friend_count' ORDER BY CONVERT(meta_value, SIGNED) DESC LIMIT %d", $limit ) );
 	}
 	
 	function get_online_users( $limit = 5 ) {
@@ -114,7 +116,7 @@ class BP_Core_User {
 		if ( !$limit )
 			$limit = 5;
 
-		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'last_activity' AND DATE_ADD( FROM_UNIXTIME(meta_value), INTERVAL 5 MINUTE ) >= NOW() ORDER BY meta_value DESC LIMIT %d", $limit ) );		
+		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'last_activity' AND DATE_ADD( FROM_UNIXTIME(meta_value), INTERVAL 5 MINUTE ) >= NOW() ORDER BY FROM_UNIXTIME(meta_value) DESC LIMIT %d", $limit ) );		
 	}
 }
 

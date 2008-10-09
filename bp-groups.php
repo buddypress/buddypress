@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_GROUPS_IS_INSTALLED', 1 );
-define ( 'BP_GROUPS_VERSION', '0.1.9' );
+define ( 'BP_GROUPS_VERSION', '0.1.9.1' );
 
 include_once( 'bp-groups/bp-groups-classes.php' );
 include_once( 'bp-groups/bp-groups-ajax.php' );
@@ -95,10 +95,10 @@ function groups_install( $version ) {
  the $bp global variable array.
  **************************************************************************/
 
-function groups_setup_globals( $global = true ) {
+function groups_setup_globals( $no_global = false ) {
 	global $wpdb;
 	
-	if ( $global )
+	if ( !$no_global )
 		global $bp;
 	
 	$bp['groups'] = array(
@@ -117,8 +117,8 @@ function groups_setup_globals( $global = true ) {
 
 	return $bp;
 }
-add_action( 'wp', 'groups_setup_globals', 1 );	
-add_action( '_admin_menu', 'groups_setup_globals', 1 );
+add_action( 'wp', 'groups_setup_globals', 1, false );	
+add_action( '_admin_menu', 'groups_setup_globals', 1, false );
 
 
 /**************************************************************************
@@ -235,7 +235,7 @@ function groups_get_group_theme() {
 	// The theme filter does not recognize any globals, where as the stylesheet filter does.
 	// We have to set up the globals to use manually.
 	bp_core_set_uri_globals();
-	$groups_bp = groups_setup_globals(false);
+	$groups_bp = groups_setup_globals(true);
 	
 	if ( $current_component == $groups_bp['groups']['slug'] )
 		$is_single_group = BP_Groups_Group::group_exists( $current_action, $groups_bp['groups']['table_name'] );
