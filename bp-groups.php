@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_GROUPS_IS_INSTALLED', 1 );
-define ( 'BP_GROUPS_VERSION', '0.1.6' );
+define ( 'BP_GROUPS_VERSION', '0.1.9' );
 
 include_once( 'bp-groups/bp-groups-classes.php' );
 include_once( 'bp-groups/bp-groups-ajax.php' );
@@ -57,6 +57,16 @@ function groups_install( $version ) {
 			KEY inviter_id (inviter_id),
 			KEY is_confirmed (is_confirmed)
 	 	   );";
+
+	$sql[] = "CREATE TABLE ". $bp['groups']['table_name_groupmeta'] ." (
+			id int(11) NOT NULL AUTO_INCREMENT,
+			group_id int(11) NOT NULL,
+			meta_key varchar(255) DEFAULT NULL,
+			meta_value longtext DEFAULT NULL,
+			PRIMARY KEY (id),
+			KEY group_id (group_id),
+			KEY meta_key (meta_key)
+		   );";
 	
 	if ( function_exists('bp_wire_install') ) {
 		$sql[] = "CREATE TABLE ". $bp['groups']['table_name_wire'] ." (
@@ -85,12 +95,16 @@ function groups_install( $version ) {
  the $bp global variable array.
  **************************************************************************/
 
-function groups_setup_globals() {
-	global $bp, $wpdb;
-
+function groups_setup_globals( $global = true ) {
+	global $wpdb;
+	
+	if ( $global )
+		global $bp;
+	
 	$bp['groups'] = array(
 		'table_name' => $wpdb->base_prefix . 'bp_groups',
 		'table_name_members' => $wpdb->base_prefix . 'bp_groups_members',
+		'table_name_groupmeta' => $wpdb->base_prefix . 'bp_groups_groupmeta',
 		'image_base' => site_url() . '/wp-content/mu-plugins/bp-groups/images',
 		'format_activity_function' => 'groups_format_activity',
 		'slug'		 => 'groups'
@@ -100,6 +114,8 @@ function groups_setup_globals() {
 		$bp['groups']['table_name_wire'] = $wpdb->base_prefix . 'bp_groups_wire';
 	
 	$bp['groups']['forbidden_names'] = array( 'my-groups', 'group-finder', 'create', 'invites', 'delete', 'add' );
+
+	return $bp;
 }
 add_action( 'wp', 'groups_setup_globals', 1 );	
 add_action( '_admin_menu', 'groups_setup_globals', 1 );
@@ -123,7 +139,7 @@ function groups_add_admin_menu() {
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 	if ( ( $wpdb->get_var("show tables like '%" . $bp['groups']['table_name'] . "%'") == false ) || ( get_site_option('bp-groups-version') < BP_GROUPS_VERSION )  )
 		groups_install(BP_GROUPS_VERSION);
-		
+	
 }
 add_action( 'admin_menu', 'groups_add_admin_menu' );
 
@@ -134,7 +150,7 @@ add_action( 'admin_menu', 'groups_add_admin_menu' );
  **************************************************************************/
 
 function groups_setup_nav() {
-	global $bp;
+	global $bp, $current_blog;
 	global $group_obj, $is_single_group;
 	
 	if ( $group_id = BP_Groups_Group::group_exists($bp['current_action']) ) {
@@ -150,7 +166,7 @@ function groups_setup_nav() {
 	bp_core_add_nav_item( __('Groups'), $bp['groups']['slug'] );
 	bp_core_add_nav_default( $bp['groups']['slug'], 'groups_screen_my_groups', 'my-groups' );
 		
-	$groups_link = $group_link = $bp['loggedin_domain'] . $bp['groups']['slug'] . '/';
+	$groups_link = $bp['loggedin_domain'] . $bp['groups']['slug'] . '/';
 	
 	/* Add the subnav items to the groups nav item */
 	bp_core_add_subnav_item( $bp['groups']['slug'], 'my-groups', __('My Groups'), $groups_link, 'groups_screen_my_groups' );
@@ -169,7 +185,7 @@ function groups_setup_nav() {
 			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
 			$bp['bp_options_title'] = $bp['current_fullname'];
 			
-		} else if ( $is_single_group ) {
+		} else if ( $is_single_group ) {		
 			// We are viewing a single group, so set up the
 			// group navigation menu using the $group_obj global.
 			
@@ -182,7 +198,9 @@ function groups_setup_nav() {
 			$bp['bp_options_title'] = bp_create_excerpt( $group_obj->name, 1 );
 			$bp['bp_options_avatar'] = '<img src="' . $group_obj->avatar_thumb . '" alt="Group Avatar Thumbnail" />';
 			
-			$group_link = $bp['loggedin_domain'] . $bp['groups']['slug'] . '/' . $group_obj->slug . '/';
+			switch_to_blog(1);
+			$group_link = site_url() . '/' . $bp['groups']['slug'] . '/' . $group_obj->slug . '/';
+			switch_to_blog($current_blog->blog_id);
 			
 			// Reset the existing subnav items
 			bp_core_reset_subnav_items($bp['groups']['slug']);
@@ -201,15 +219,46 @@ function groups_setup_nav() {
 			}
 			
 			bp_core_add_subnav_item( $bp['groups']['slug'], 'members', __('Members'), $group_link, 'groups_screen_group_members', 'group-members' );
-			bp_core_add_subnav_item( $bp['groups']['slug'], 'send-invites', __('Send Invites'), $group_link, 'groups_screen_group_invite', 'group-invite' );
 			
 			if ( is_user_logged_in() && groups_is_user_member( $bp['loggedin_userid'], $group_obj->id ) ) {
+				bp_core_add_subnav_item( $bp['groups']['slug'], 'send-invites', __('Send Invites'), $group_link, 'groups_screen_group_invite', 'group-invite' );
 				bp_core_add_subnav_item( $bp['groups']['slug'], 'leave-group', __('Leave Group'), $group_link, 'groups_screen_group_leave', 'group-leave' );
 			}
 		}
 	}
 }
 add_action( 'wp', 'groups_setup_nav', 2 );
+
+function groups_get_group_theme() {
+	global $current_component, $current_action, $is_single_group;
+	
+	// The theme filter does not recognize any globals, where as the stylesheet filter does.
+	// We have to set up the globals to use manually.
+	bp_core_set_uri_globals();
+	$groups_bp = groups_setup_globals(false);
+	
+	if ( $current_component == $groups_bp['groups']['slug'] )
+		$is_single_group = BP_Groups_Group::group_exists( $current_action, $groups_bp['groups']['table_name'] );
+
+	if ( $current_component == $groups_bp['groups']['slug'] && $is_single_group )
+		$theme = 'buddypress';
+	else
+		$theme = get_option('template');
+	
+	return $theme;
+}
+add_filter( 'template', 'groups_get_group_theme' );
+
+function groups_get_group_stylesheet() {
+	global $bp, $is_single_group;
+	
+	if ( $bp['current_component'] == $bp['groups']['slug'] && $is_single_group )	
+		return 'buddypress';
+	else
+		return get_option('stylesheet');	
+}
+add_filter( 'stylesheet', 'groups_get_group_stylesheet' );
+
 
 /***** Screens **********/
 
@@ -333,10 +382,11 @@ function groups_screen_group_wire() {
 					bp_catch_uri( 'groups/wire' );
 				}
 			}
-		
+	
 		} else if ( $bp['action_variables'][1] == 'delete' && BP_Groups_Member::check_is_member( $bp['loggedin_userid'], $group_obj->id ) ) {
-											
-			if ( !groups_delete_wire_post( $bp['action_variables'][2], $bp['groups']['table_name_wire'] ) ) {
+			$wire_message_id = $bp['action_variables'][2];
+								
+			if ( !groups_delete_wire_post( $wire_message_id, $bp['groups']['table_name_wire'] ) ) {
 				bp_catch_uri( 'groups/group-home' );
 			} else {
 				$bp['message'] = __('Wire message successfully deleted.');
@@ -411,13 +461,12 @@ function groups_screen_group_leave() {
 				$bp['message_type'] = 'error';										
 			} else {
 				$bp['message'] = __('You left the group successfully.');
-				$bp['message_type'] = 'success';									
+				$bp['message_type'] = 'success';	
 			}
 			add_action( 'template_notices', 'bp_core_render_notice' );
 		
-			$is_single_group = false;
-			$bp['current_action'] = 'group-finder';
-			bp_catch_uri( 'groups/group-finder' );
+			$bp['current_action'] = 'group-home';
+			bp_catch_uri( 'groups/group-home' );
 		
 		} else if ( isset($bp['action_variables']) && $bp['action_variables'][1] == 'no' ) {
 			bp_catch_uri( 'groups/group-home' );
@@ -444,7 +493,7 @@ function groups_action_join_group() {
 			$bp['message_type'] = 'error';
 		} else {
 			$bp['message'] = __('You joined the group!');
-			$bp['message_type'] = 'success';						
+			$bp['message_type'] = 'success';	
 		}
 
 		add_action( 'template_notices', 'bp_core_render_notice' );
@@ -468,9 +517,9 @@ function groups_record_activity( $args = true ) {
 		bp_activity_record( $item_id, $component_name, $component_action, $is_private );
 	} 
 }
-add_action( 'bp_groups_joined_group', 'groups_record_activity' );
-add_action( 'bp_groups_created_group', 'groups_record_activity' );
-add_action( 'bp_groups_new_wire_post', 'groups_record_activity' );
+add_action( 'activity_groups_joined_group', 'groups_record_activity' );
+add_action( 'activity_groups_created_group', 'groups_record_activity' );
+add_action( 'activity_groups_new_wire_post', 'groups_record_activity' );
 
 /**************************************************************************
  groups_format_activity()
@@ -517,15 +566,29 @@ function groups_format_activity( $item_id, $action, $for_secondary_user = false 
 }
 
 /**************************************************************************
- groups_admin_setup()
+ groups_update_last_activity()
  
- Setup CSS, JS and other things needed for the xprofile component.
-**************************************************************************/
+ Sets groupmeta for the group with the last activity date for the group based
+ on specific group activities.
+ **************************************************************************/
 
-function groups_admin_setup() {
+function groups_update_last_activity( $args = true ) {
+	extract($args);
+
+	groups_update_groupmeta( $group_id, 'last_activity', time() );
 }
-add_action( 'admin_menu', 'groups_admin_setup' );
+add_action( 'groups_deleted_wire_post', 'groups_update_last_activity' );
+add_action( 'groups_new_wire_post', 'groups_update_last_activity' );
+add_action( 'groups_joined_group', 'groups_update_last_activity' );
+add_action( 'groups_leave_group', 'groups_update_last_activity' );
+add_action( 'groups_created_group', 'groups_update_last_activity' );
 
+
+/**************************************************************************
+ groups_get_user_groups()
+ 
+ Fetch the groups the current user is a member of.
+ **************************************************************************/
 
 function groups_get_user_groups( $pag_page, $pag_num ) {
 	global $bp;
@@ -654,7 +717,7 @@ function groups_manage_group( $step, $group_id ) {
 					
 					if ( !$group->save() )
 						return false;
-					
+										
 					// Save the creator as the group administrator
 					$admin = new BP_Groups_Member( $bp['loggedin_userid'], $group->id );
 					$admin->is_admin = 1;
@@ -662,10 +725,15 @@ function groups_manage_group( $step, $group_id ) {
 					$admin->date_modified = time();
 					$admin->inviter_id = 0;
 					$admin->is_confirmed = 1;
-									
+
 					if ( !$admin->save() )
 						return false;
-						
+					
+					/* Set groupmeta */
+					groups_update_groupmeta( $group->id, 'total_member_count', 1 );
+					groups_update_groupmeta( $group->id, 'theme', 'buddypress' );
+					groups_update_groupmeta( $group->id, 'stylesheet', 'buddypress' );
+					
 					return $group->id;
 				}
 				
@@ -679,7 +747,6 @@ function groups_manage_group( $step, $group_id ) {
 				$group->enable_forum = 1;
 				$group->enable_photos = 1;
 				$group->photos_admin_only = 0;
-				$group->date_created = time();
 				
 				if ( !isset($_POST['group-show-wire']) )
 					$group->enable_wire = 0;
@@ -726,7 +793,11 @@ function groups_manage_group( $step, $group_id ) {
 			case '4':
 				groups_send_invites($group);
 				
-				do_action( 'bp_groups_created_group', array( 'item_id' => $group->id, 'component_name' => 'groups', 'component_action' => 'created_group', 'is_private' => 0 ) );
+				/* activity stream recording action */
+				do_action( 'activity_groups_created_group', array( 'item_id' => $group->id, 'component_name' => 'groups', 'component_action' => 'created_group', 'is_private' => 0 ) );
+				
+				/* regular action */
+				do_action( 'groups_created_group', array( 'group_id' => $group->id ) );
 				
 				header( "Location: " . $bp['loggedin_domain'] . $bp['groups']['slug'] . "/" . $group->slug );
 				
@@ -773,6 +844,8 @@ function groups_invite_user( $user_id, $group_id ) {
 	if ( !$invite->save() )
 		return false;
 	
+	do_action( 'groups_invite_user', array( 'group_id' => $group_id, 'user_id' => $user_id ) );
+		
 	return true;
 }
 
@@ -781,7 +854,9 @@ function groups_uninvite_user( $user_id, $group_id ) {
 
 	if ( !BP_Groups_Member::delete( $user_id, $group_id ) )
 		return false;
-	
+
+	do_action( 'groups_uninvite_user', array( 'group_id' => $group_id, 'user_id' => $user_id ) );
+
 	return true;
 }
 
@@ -823,6 +898,8 @@ function groups_send_invites( $group_obj ) {
 
 		wp_mail( $invited_user->email, __("New Group Invitation:") . $group_obj->name, $message, "From: noreply@" . $_SERVER[ 'HTTP_HOST' ]  );
 	}
+
+	do_action( 'groups_send_invites', array( 'group_id' => $group_obj->id, 'invited_users' => $invited_users ) );
 }
 
 function groups_leave_group( $group_id ) {
@@ -831,6 +908,11 @@ function groups_leave_group( $group_id ) {
 	// This is exactly the same as deleting and invite, just is_confirmed = 1 NOT 0.
 	if ( !groups_uninvite_user( $bp['loggedin_userid'], $group_id ) )
 		return false;
+
+	do_action( 'groups_leave_group', array( 'group_id' => $group_id, 'user_id' => $bp['loggedin_userid'] ) );
+
+	/* Modify group member count */
+	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') - 1 );
 	
 	return true;
 }
@@ -849,15 +931,28 @@ function groups_join_group( $group_id ) {
 	
 	if ( !$new_member->save() )
 		return false;
+
+	/* activity stream recording action */
+	do_action( 'activity_groups_joined_group', array( 'item_id' => $new_member->group_id, 'component_name' => 'groups', 'component_action' => 'joined_group', 'is_private' => 0 ) );
 	
-	do_action( 'bp_groups_joined_group', array( 'item_id' => $new_member->group_id, 'component_name' => 'groups', 'component_action' => 'joined_group', 'is_private' => 0 ) );
+	/* regular action */
+	do_action( 'groups_joined_group', array( 'group_id' => $group_id, 'user_id' => $bp['loggedin_userid'] ) );
+	
+	/* Modify group member count */
+	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') + 1 );
 	
 	return true;
 }
 
 function groups_new_wire_post( $group_id, $content ) {
 	if ( $wire_post_id = bp_wire_new_post( $group_id, $content ) ) {
-		do_action( 'bp_groups_new_wire_post', array( 'item_id' => $wire_post_id, 'component_name' => 'groups', 'component_action' => 'new_wire_post', 'is_private' => 0 ) );
+		
+		/* activity stream recording action */
+		do_action( 'activity_groups_new_wire_post', array( 'item_id' => $wire_post_id, 'component_name' => 'groups', 'component_action' => 'new_wire_post', 'is_private' => 0 ) );
+		
+		/* regular action */
+		do_action( 'groups_new_wire_post', array( 'group_id' => $group_id, 'wire_post_id' => $wire_post_id ) );
+		
 		return true;
 	}
 	
@@ -866,12 +961,125 @@ function groups_new_wire_post( $group_id, $content ) {
 
 function groups_delete_wire_post( $wire_post_id, $table_name ) {
 	if ( bp_wire_delete_post( $wire_post_id, $table_name ) ) {
-		do_action( 'bp_groups_deleted_wire_post', array( 'wire_post_id' => $wire_post_id ) );
+		do_action( 'groups_deleted_wire_post', array( 'wire_post_id' => $wire_post_id ) );
 		return true;
 	}
 	
 	return false;
 }
+
+function groups_get_newest( $limit = 5 ) {
+	return BP_Groups_Group::get_newest($limit);
+}
+
+function groups_get_active( $limit = 5 ) {
+	return BP_Groups_Group::get_active($limit);
+}
+
+function groups_get_popular( $limit = 5 ) {
+	return BP_Groups_Group::get_popular($limit);
+}
+
+
+//
+// Group meta functions
+//
+
+function groups_delete_groupmeta( $group_id, $meta_key, $meta_value = '' ) {
+	global $wpdb, $bp;
+	
+	if ( !is_numeric( $group_id ) )
+		return false;
+		
+	$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
+
+	if ( is_array($meta_value) || is_object($meta_value) )
+		$meta_value = serialize($meta_value);
+		
+	$meta_value = trim( $meta_value );
+
+	if ( !empty($meta_value) )
+		$wpdb->query( $wpdb->prepare("DELETE FROM " . $bp['groups']['table_name_groupmeta'] . " WHERE groups_id = %d AND meta_key = %s AND meta_value = %s", $group_id, $meta_key, $meta_value) );
+	else
+		$wpdb->query( $wpdb->prepare("DELETE FROM " . $bp['groups']['table_name_groupmeta'] . " WHERE group_id = %d AND meta_key = %s", $group_id, $meta_key) );
+
+	// TODO need to look into using this.
+	// wp_cache_delete($group_id, 'groups');
+
+	return true;
+}
+
+function groups_get_groupmeta( $group_id, $meta_key = '') {
+	global $wpdb, $bp;
+	
+	$group_id = (int) $group_id;
+
+	if ( !$group_id )
+		return false;
+
+	if ( !empty($meta_key) ) {
+		$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
+		
+		// TODO need to look into using this.
+		//$user = wp_cache_get($user_id, 'users');
+		
+		// Check the cached user object
+		//if ( false !== $user && isset($user->$meta_key) )
+		//	$metas = array($user->$meta_key);
+		//else
+		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM " . $bp['groups']['table_name_groupmeta'] . " WHERE group_id = %d AND meta_key = %s", $group_id, $meta_key) );
+	} else {
+		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM " . $bp['groups']['table_name_groupmeta'] . " WHERE group_id = %d", $group_id) );
+	}
+
+	if ( empty($metas) ) {
+		if ( empty($meta_key) )
+			return array();
+		else
+			return '';
+	}
+
+	$metas = array_map('maybe_unserialize', $metas);
+
+	if ( count($metas) == 1 )
+		return $metas[0];
+	else
+		return $metas;
+}
+
+function groups_update_groupmeta( $group_id, $meta_key, $meta_value ) {
+	global $wpdb, $bp;
+	
+	if ( !is_numeric( $group_id ) )
+		return false;
+	
+	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
+
+	if ( is_string($meta_value) )
+		$meta_value = stripslashes($wpdb->escape($meta_value));
+		
+	$meta_value = maybe_serialize($meta_value);
+
+	if (empty($meta_value)) {
+		return groups_delete_groupmeta( $group_id, $meta_key );
+	}
+
+	$cur = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp['groups']['table_name_groupmeta'] . " WHERE group_id = %d AND meta_key = %s", $group_id, $meta_key ) );
+	
+	if ( !$cur ) {
+		$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['groups']['table_name_groupmeta'] . " ( group_id, meta_key, meta_value ) VALUES ( %d, %s, %s )", $group_id, $meta_key, $meta_value ) );
+	} else if ( $cur->meta_value != $meta_value ) {
+		$wpdb->query( $wpdb->prepare( "UPDATE " . $bp['groups']['table_name_groupmeta'] . " SET meta_value = %s WHERE group_id = %d AND meta_key = %s", $meta_value, $group_id, $meta_key ) );
+	} else {
+		return false;
+	}
+
+	// TODO need to look into using this.
+	// wp_cache_delete($user_id, 'users');
+
+	return true;
+}
+
 
 function groups_remove_data( $user_id ) {
 	BP_Groups_Member::delete_all_for_user($user_id);

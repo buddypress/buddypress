@@ -107,7 +107,6 @@ function bp_core_setup_globals() {
 
 	if ( !$bp['current_component'] )
 		$bp['current_component'] = $bp['default_component'];
-
 }
 add_action( 'wp', 'bp_core_setup_globals', 1 );
 add_action( '_admin_menu', 'bp_core_setup_globals', 1 ); // must be _admin_menu hook.
@@ -212,13 +211,13 @@ function bp_core_get_current_domain() {
  * @return $current_userid The user id for the user that is currently being viewed, return zero if this is not a user home and just a normal blog.
  */
 function bp_core_get_current_userid() {
-	global $current_blog;
+	global $current_blog, $current_user;
 	
-	/* Get the ID of the current blog being viewed. */
-	$blog_id = $current_blog->blog_id;
-	
+	if ( $current_blog->blog_id == 1 )
+		return $current_user->ID;
+		
 	/* Check to see if this is a user home, and if it is, get the user id */
-	if ( !$current_userid = bp_core_get_homebase_userid( $blog_id ) )
+	if ( !$current_userid = bp_core_get_homebase_userid( $current_blog->blog_id ) )
 		return false; // return false if this is a normal blog, and not a user home.
 	
 	return $current_userid;

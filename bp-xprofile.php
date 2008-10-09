@@ -262,7 +262,7 @@ function xprofile_format_activity( $item_id, $action, $for_secondary_user = fals
 				return false;
 
 			if ( ( $wire_post->item_id == $bp['loggedin_userid'] && $wire_post->user_id == $bp['loggedin_userid'] ) || ( $wire_post->item_id == $bp['current_userid'] && $wire_post->user_id == $bp['current_userid'] ) ) {
-				$content = bp_core_get_userlink($wire_post->user_id) . ' ' . __('wrote on') . ' ' . bp_your_or_their() . ' ' . __('own wire') . ': <span class="time-since">%s</span>';				
+				$content = bp_core_get_userlink($wire_post->user_id) . ' ' . __('wrote on their own wire') . ': <span class="time-since">%s</span>';				
 			} else if ( ( $wire_post->item_id != $bp['loggedin_userid'] && $wire_post->user_id == $bp['loggedin_userid'] ) || ( $wire_post->item_id != $bp['current_userid'] && $wire_post->user_id == $bp['current_userid'] ) ) {
 				$content = bp_core_get_userlink($wire_post->user_id) . ' ' . __('wrote on ') . bp_core_get_userlink( $wire_post->item_id, false, false, true, true ) . ' wire: <span class="time-since">%s</span>';				
 			} 

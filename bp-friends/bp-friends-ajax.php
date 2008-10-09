@@ -133,14 +133,14 @@ function friends_ajax_addremove_friend() {
 
 	if ( BP_Friends_Friendship::check_is_friend( $bp['loggedin_userid'], $_POST['fid'] ) == 'is_friend' ) {
 		if ( !friends_remove_friend( $bp['loggedin_userid'], $bp['current_userid'] ) ) {
-			echo "-1[[SPLIT]]" . __("Friendship could not be canceled.");
+			echo __("Friendship could not be canceled.");
 		} else {
 			friends_update_friend_totals( $bp['loggedin_userid'], $bp['current_userid'], 'remove' );
 			echo __('Add Friend');
 		}
 	} else if ( BP_Friends_Friendship::check_is_friend( $bp['loggedin_userid'], $_POST['fid'] ) == 'not_friends' ) {
 		if ( !friends_add_friend( $bp['loggedin_userid'], $_POST['fid'] ) ) {
-			echo "-1[[SPLIT]]" . __("Friend could not be added.");
+			echo __("Friendship could not be requested.");
 		} else {
 			echo __('Friendship Requested');
 		}

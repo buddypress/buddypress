@@ -146,19 +146,30 @@ function bp_group_type() {
 function bp_group_avatar() {
 	global $groups_template;
 	
-	?><img src="<?php echo $groups_template->group->avatar_full ?>" class="avatar" alt="Group Avatar" /><?php
+	?><img src="<?php echo $groups_template->group->avatar_full ?>" class="avatar" alt="<?php echo $groups_template->group->name ?> Avatar" /><?php
 }
 
 function bp_group_avatar_thumb() {
 	global $groups_template;
 	
-	?><img src="<?php echo $groups_template->group->avatar_thumb ?>" class="avatar" alt="Group Avatar" /><?php
+	?><img src="<?php echo $groups_template->group->avatar_thumb ?>" class="avatar" alt="<?php echo $groups_template->group->name ?> Avatar" /><?php
 }
 
 
-function bp_group_permalink() {
-	global $groups_template, $bp;
-	echo $bp['current_domain'] . $bp['groups']['slug'] . '/' . $groups_template->group->slug;
+function bp_group_permalink( $group_obj = false, $echo = true ) {
+	global $groups_template, $bp, $current_blog;
+
+	if ( !$group_obj )
+		$group_obj = $groups_template->group;
+	
+	switch_to_blog(1);
+	
+	if ( $echo )
+		echo site_url() . '/' . $bp['groups']['slug'] . '/' . $group_obj->slug;
+	else
+		return site_url() . '/' . $bp['groups']['slug'] . '/' . $group_obj->slug;
+		
+	switch_to_blog($current_blog->blog_id);
 }
 
 function bp_group_slug() {
@@ -243,7 +254,7 @@ function bp_group_list_admins() {
 
 function bp_group_all_members_permalink() {
 	global $groups_template, $bp;
-	echo $bp['current_domain'] . $bp['groups']['slug'] . '/' . $groups_template->group->slug . '/members';
+	echo bp_group_permalink( false, true ) . '/members';
 }
 
 function bp_group_random_members() {
@@ -267,11 +278,11 @@ function bp_group_search_form() {
 	global $groups_template, $bp;
 
 	if ( $bp['current_action'] == 'my-groups' || !$bp['current_action'] ) {
-		$action = $bp['current_domain'] . $bp['groups']['slug'] . '/my-groups/search/';
+		$action = $bp['loggedin_domain'] . $bp['groups']['slug'] . '/my-groups/search/';
 		$label = __('Filter Groups');
 		$type = 'group';
 	} else {
-		$action = $bp['current_domain'] . $bp['groups']['slug'] . '/group-finder/search/';
+		$action = $bp['loggedin_domain'] . $bp['groups']['slug'] . '/group-finder/search/';
 		$label = __('Find a Group');
 		$type = 'groupfinder';
 		$value = $bp['action_variables'][1];
@@ -504,13 +515,13 @@ function bp_group_reject_invite_link() {
 function bp_group_leave_confirm_link() {
 	global $groups_template, $bp;
 	
-	echo $bp['loggedin_domain'] . $bp['groups']['slug'] . '/' . $groups_template->group->slug . '/leave-group/yes';	
+	echo bp_group_permalink( false, true ) . '/leave-group/yes';	
 }
 
 function bp_group_leave_reject_link() {
 	global $groups_template, $bp;
 	
-	echo $bp['loggedin_domain'] . $bp['groups']['slug'] . '/' . $groups_template->group->slug . '/leave-group/no';
+	echo bp_group_permalink( false, true );
 }
 
 function bp_group_send_invite_form( $group_obj = null ) {
@@ -558,14 +569,14 @@ function bp_group_send_invite_form( $group_obj = null ) {
 function bp_group_send_invite_form_action() {
 	global $groups_template, $bp;
 	
-	echo $bp['loggedin_domain'] . $bp['groups']['slug'] . '/' . $groups_template->group->slug . '/send-invites/send';
+	echo bp_group_permalink( false, true ) . '/send-invites/send';
 }
 
 function bp_group_join_button() {
 	global $bp, $groups_template;
 	
 	if ( is_user_logged_in() && !BP_Groups_Member::check_is_member( $bp['loggedin_userid'], $groups_template->group->id ) ) {
-		echo '<a class="join-group" href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '/' . $groups_template->group->slug . '/join">' . __('Join Group') . '</a>';
+		echo '<a class="join-group" href="' . bp_group_permalink( false, false ) . '/join">' . __('Join Group') . '</a>';
 	}
 }
 
@@ -581,8 +592,8 @@ function bp_groups_random_groups() {
 			<?php for ( $i = 0; $i < count( $group_ids ); $i++ ) { ?>
 				<?php $group = new BP_Groups_Group( $group_ids[$i], false, false ); ?>
 				<li>
-					<a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] . '/' . $group->slug ?>"><img src="<?php echo $group->avatar_thumb; ?>" class="avatar" alt="Group Avatar" /></a>
-					<h5><a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] . '/' . $group->slug ?>"><?php echo $group->name ?></a></h5>
+					<a href="<?php echo bp_group_permalink( $group, false ) ?>"><img src="<?php echo $group->avatar_thumb; ?>" class="avatar" alt="Group Avatar" /></a>
+					<h5><a href="<?php echo bp_group_permalink( $group, false ) ?>"><?php echo $group->name ?></a></h5>
 				</li>
 			<?php } ?>
 			</ul>

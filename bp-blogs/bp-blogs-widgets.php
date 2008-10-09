@@ -46,7 +46,7 @@ function bp_blogs_widget_recent_posts($args) {
 						<div class="item">
 							<h4 class="item-title"><a href="<?php echo bp_post_get_permalink( $post, $post->blog_id ) ?>" title="<?php echo apply_filters( 'the_title', $post->post_title ) ?>"><?php echo apply_filters( 'the_title', $post->post_title ) ?></a></h4>
 							<?php if ( !$counter ) : ?>
-								<div class="item-content"><?php echo apply_filters( 'the_excerpt', $post->post_content ) ?></div>
+								<div class="item-content"><?php echo bp_create_excerpt($post->post_content) ?></div>
 							<?php endif; ?>
 							<div class="item-meta"><em>by <?php echo bp_core_get_userlink($post->post_author) ?> from the blog "<a href="<?php echo get_blog_option($post->blog_id, 'siteurl') ?>"><?php echo get_blog_option($post->blog_id, 'blogname') ?></a>"</em></div>
 						</div>

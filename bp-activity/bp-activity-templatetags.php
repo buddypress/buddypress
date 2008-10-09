@@ -133,7 +133,9 @@ function bp_activity_content() {
 }
 
 function bp_activity_content_filter( $content, $date_recorded, $full_name, $insert_time = true, $is_home = true ) {
-
+	if ( !$content )
+		return false;
+		
 	/* Split the content so we don't evaluate and replace text on content we don't want to */
 	$content = explode( '%s', $content );
 

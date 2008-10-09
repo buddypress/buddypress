@@ -109,30 +109,31 @@ function bp_core_do_catch_uri() {
 
 	$pages = $bp_path;
 	
-	if ( $wpdb->blogid == $bp['current_homebase_id'] ) {
-		if ( !file_exists( TEMPLATEPATH . "/header.php" ) || !file_exists( TEMPLATEPATH . "/footer.php" ) )
-			wp_die( 'Please make sure your BuddyPress enabled theme includes a header.php and footer.php file.');
+	if ( !file_exists( TEMPLATEPATH . "/header.php" ) || !file_exists( TEMPLATEPATH . "/footer.php" ) )
+		wp_die( 'Please make sure your BuddyPress enabled theme includes a header.php and footer.php file.');
 
-		do_action( 'get_header' );
-		load_template( TEMPLATEPATH . "/header.php" );
-	
-		if ( is_array( $pages ) ) {
-			foreach( $pages as $page ) {
-				if ( file_exists( TEMPLATEPATH . "/" . $page . ".php" ) ) {
-					load_template( TEMPLATEPATH . "/" . $page . ".php" );
-				}
-			}
-		} else {
-			if ( file_exists( TEMPLATEPATH . "/" . $pages . ".php" ) ) {
-				load_template( TEMPLATEPATH . "/" . $pages . ".php" );
-			} else {
-				load_template( TEMPLATEPATH . "/index.php" );
+	do_action( 'get_header' );
+	load_template( TEMPLATEPATH . "/header.php" );
+
+	if ( is_array( $pages ) ) {
+		foreach( $pages as $page ) {
+			if ( file_exists( TEMPLATEPATH . "/" . $page . ".php" ) ) {
+				load_template( TEMPLATEPATH . "/" . $page . ".php" );
 			}
 		}
-	
-		do_action( 'get_footer' );
-		load_template( TEMPLATEPATH . "/footer.php" );
-		die;
+	} else {
+		if ( file_exists( TEMPLATEPATH . "/" . $pages . ".php" ) ) {
+			load_template( TEMPLATEPATH . "/" . $pages . ".php" );
+		} else {
+			if ( file_exists( TEMPLATEPATH . "/home.php" ) )
+				load_template( TEMPLATEPATH . "/home.php" );
+			else
+				load_template( TEMPLATEPATH . "/index.php" );	
+		}
 	}
+
+	do_action( 'get_footer' );
+	load_template( TEMPLATEPATH . "/footer.php" );
+	die;
 }
 ?>

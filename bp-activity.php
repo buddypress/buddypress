@@ -2,17 +2,17 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_ACTIVITY_IS_INSTALLED', 1 );
-define ( 'BP_ACTIVITY_VERSION', '0.1.8' );
+define ( 'BP_ACTIVITY_VERSION', '0.1.9' );
 
-/* Use english formatted times - e.g. 6 hours / 8 hours / 1 day / 15 minutes */
-define ( 'BP_ACTIVITY_CACHE_LENGTH', '6 hours' );
+/* How long before activity items in streams are re-cached? */
+define ( 'BP_ACTIVITY_CACHE_LENGTH', '6 HOURS' );
 
 include_once( 'bp-activity/bp-activity-classes.php' );
+include_once( 'bp-activity/bp-activity-templatetags.php' );
+include_once( 'bp-activity/bp-activity-widgets.php' );
 //include_once( 'bp-activity/bp-activity-ajax.php' );
 //include_once( 'bp-activity/bp-activity-cssjs.php' );
-/*include_once( 'bp-messages/bp-activity-admin.php' );*/
-include_once( 'bp-activity/bp-activity-templatetags.php' );
-
+//include_once( 'bp-activity/bp-activity-admin.php' );
 
 /**************************************************************************
  bp_bp_activity_install()
@@ -63,6 +63,20 @@ function bp_activity_install( $version ) {
 				KEY user_id (user_id),
 				KEY component_name (component_name)
 		 	   );";
+
+	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_sitewide'] ." (
+		  		id int(11) NOT NULL AUTO_INCREMENT,
+				user_id int(11) NOT NULL,
+		  		content longtext NOT NULL,
+				component_name varchar(75) NOT NULL,
+				date_cached datetime NOT NULL,
+				date_recorded datetime NOT NULL,
+		    	PRIMARY KEY id (id),
+				KEY date_cached (date_cached),
+				KEY date_recorded (date_recorded),
+				KEY user_id (user_id),
+				KEY component_name (component_name)
+		 	   );";
 	
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
@@ -88,6 +102,7 @@ function bp_activity_setup_globals() {
 		'table_name_current_user_cached' => $wpdb->base_prefix . $bp['current_homebase_id'] . '_activity_cached',
 		
 		'table_name_loggedin_user_friends_cached' => $wpdb->base_prefix . $bp['loggedin_homebase_id'] . '_friends_activity_cached',
+		'table_name_sitewide' => $wpdb->base_prefix . 'bp_activity_sitewide',
 		
 		'image_base' => site_url() . '/wp-content/mu-plugins/bp-activity/images',
 		'slug'		 => 'activity'

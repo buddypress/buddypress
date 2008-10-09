@@ -93,7 +93,7 @@ class BP_Core_User {
 		if ( !$limit )
 			$limit = 5;
 			
-		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'last_activity' ORDER BY meta_value ASC LIMIT %d", $limit ) );
+		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'last_activity' ORDER BY meta_value DESC LIMIT %d", $limit ) );
 	}
 
 	function get_popular_users( $limit = 5 ) {
@@ -106,9 +106,16 @@ class BP_Core_User {
 			$limit = 5;
 
 		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'total_friend_count' ORDER BY meta_value DESC LIMIT %d", $limit ) );
-		
 	}
+	
+	function get_online_users( $limit = 5 ) {
+		global $wpdb;
+		
+		if ( !$limit )
+			$limit = 5;
 
+		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'last_activity' AND DATE_ADD( FROM_UNIXTIME(meta_value), INTERVAL 5 MINUTE ) >= NOW() ORDER BY meta_value DESC LIMIT %d", $limit ) );		
+	}
 }
 
 ?>

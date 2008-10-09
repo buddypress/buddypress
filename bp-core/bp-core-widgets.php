@@ -18,7 +18,16 @@ function bp_core_register_widgets() {
 		/* Include the javascript needed for activated widgets only */
 		if ( is_active_widget( 'bp_core_widget_members' ) )
 			wp_enqueue_script( 'bp_core_widget_members-js', site_url() . '/wp-content/mu-plugins/bp-core/js/widget-members.js', array('jquery', 'jquery-livequery-pack') );		
+	} else {
+		
+		/* Widgets we specifically only want on member home bases, or blogs and not the main home blog */
+
 	}
+	
+	/* Widgets that can be enabled anywhere */
+	register_sidebar_widget( __('Who\'s Online'), 'bp_core_widget_whos_online');
+	register_widget_control( __('Who\'s Online'), 'bp_core_widget_whos_online_control' );	
+
 }
 add_action( 'plugins_loaded', 'bp_core_register_widgets' );
 
@@ -90,7 +99,7 @@ function bp_core_widget_members($args) {
 	
 	<?php if ( $users ) : ?>
 		<div class="item-options" id="members-list-options">
-			<img id="ajax-loader-members" src="<?php echo $bp['core']['image_base'] ?>/ajax-loader.gif" height="7" alt="Loading" style="display: none;" />
+			<img id="ajax-loader-members" src="<?php echo $bp['core']['image_base'] ?>/ajax-loader.gif" height="7" alt="Loading" style="display: none;" /> &nbsp;
 			<a href="<?php echo site_url() . '/members' ?>" id="newest-members" class="selected"><?php _e("Newest") ?></a> | 
 			<a href="<?php echo site_url() . '/members' ?>" id="recently-active-members"><?php _e("Active") ?></a> | 
 			<a href="<?php echo site_url() . '/members' ?>" id="popular-members"><?php _e("Popular") ?></a>
@@ -147,5 +156,69 @@ function bp_core_widget_members_control() {
 ?>
 		<p><label for="bp-core-widget-members-max"><?php _e('Max Members to show:'); ?> <input class="widefat" id="bp-core-widget-members-max" name="bp-core-widget-members-max" type="text" value="<?php echo $max_members; ?>" style="width: 30%" /></label></p>
 		<input type="hidden" id="bp-core-widget-members-submit" name="bp-core-widget-members-submit" value="1" />
+<?php
+}
+
+/*** WHO'S ONLINE WIDGET *****************/
+
+function bp_core_widget_whos_online($args) {
+	global $current_blog;
+	
+    extract($args);
+	$options = get_blog_option( $current_blog->blog_id, 'bp_core_widget_whos_online' );
+?>
+	<?php echo $before_widget; ?>
+	<?php echo $before_title
+		. $widget_name
+		. $after_title; ?>
+
+	<?php $users = BP_Core_User::get_online_users($options['max_members']) ?>
+
+	<?php if ( $users ) : ?>
+			<div class="avatar-block">
+			<?php foreach ( (array) $users as $user ) : ?>
+				<?php if ( !bp_core_user_has_home($user->user_id) || !$user->user_id ) continue; ?>
+				<div class="item-avatar">
+					<a href="<?php echo bp_core_get_userurl($user->user_id) ?>" title="<?php bp_fetch_user_fullname( $user->user_id, true ) ?>"><?php echo bp_core_get_avatar( $user->user_id, 1 ) ?></a>
+				</div>
+			<?php endforeach; ?>
+			</div>
+		</ul>
+
+		<?php 
+		if ( function_exists('wp_nonce_field') )
+			wp_nonce_field( 'bp_core_widget_members', '_wpnonce-members' );
+		?>
+
+		<input type="hidden" name="bp_core_widget_members_max" id="bp_core_widget_members_max" value="<?php echo $options['max_members'] ?>" />
+
+	<?php else: ?>
+		<div class="widget-error">
+			<?php _e('There are no users currently online.') ?>
+		</div>
+	<?php endif; ?>
+
+	<?php echo $after_widget; ?>
+<?php
+}
+
+function bp_core_widget_whos_online_control() {
+	global $current_blog;
+	
+	$options = $newoptions = get_blog_option( $current_blog->blog_id, 'bp_core_widget_whos_online' );
+
+	if ( $_POST['bp-widget-whos-online-submit'] ) {
+		$newoptions['max_members'] = strip_tags( stripslashes( $_POST['bp-widget-whos-online-max-members'] ) );
+	}
+	
+	if ( $options != $newoptions ) {
+		$options = $newoptions;
+		update_blog_option( $current_blog->blog_id, 'bp_core_widget_whos_online', $options );
+	}
+	
+	$max_members = attribute_escape( $options['max_members'] );
+?>
+		<p><label for="bp-widget-whos-online-max-members"><?php _e('Maximum number of members to show:'); ?><br /><input class="widefat" id="bp-widget-whos-online-max-members" name="bp-widget-whos-online-max-members" type="text" value="<?php echo $max_members; ?>" style="width: 30%" /></label></p>
+		<input type="hidden" id="bp-widget-whos-online-submit" name="bp-widget-whos-online-submit" value="1" />
 <?php
 }

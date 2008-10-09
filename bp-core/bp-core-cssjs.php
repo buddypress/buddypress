@@ -24,7 +24,7 @@ add_action( 'template_redirect', 'bp_core_add_js' );
  * @uses get_option() Selects a site setting from the DB.
  */
 function bp_core_add_ajax_js() {
-	echo '<script type="text/javascript">var ajaxurl = "' . site_url() . '/wp-admin/admin-ajax.php";</script>';
+	echo '<script type="text/javascript">var ajaxurl = "' . site_url() . '/wp-content/mu-plugins/bp-core/bp-core-ajax-handler.php";</script>';
 }
 add_action( 'wp_head', 'bp_core_add_ajax_js' );
 

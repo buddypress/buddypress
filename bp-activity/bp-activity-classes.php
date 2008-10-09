@@ -66,6 +66,9 @@ Class BP_Activity_Activity {
 			// Add the cached version of the activity to the cached activity table.
 			$activity_cached = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $this->table_name_cached . " ( content, component_name, date_cached, date_recorded, is_private ) VALUES ( %s, %s, FROM_UNIXTIME(%d), FROM_UNIXTIME(%d), %d )", $activity_content, $this->component_name, time(), $this->date_recorded, $this->is_private ) );
 		
+			// Add the cached version of the activity to the cached activity table.
+			$sitewide_cached = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_sitewide'] . " ( user_id, content, component_name, date_cached, date_recorded ) VALUES ( %d, %s, %s, FROM_UNIXTIME(%d), FROM_UNIXTIME(%d) )", $bp['loggedin_userid'], $activity_content, $this->component_name, time(), $this->date_recorded ) );
+			
 			if ( $activity && $activity_cached )
 				return true;
 			
@@ -103,7 +106,7 @@ Class BP_Activity_Activity {
 		/* Determine whether or not to use the cached activity stream, or re-select and cache a new stream */
 		$last_cached = get_usermeta( $bp['current_userid'], 'bp_activity_last_cached' );
 		
-		if ( strtotime( BP_ACTIVITY_CACHE_LENGTH, (int)$last_cached ) >= time() ) {
+		if ( strtotime( BP_ACTIVITY_CACHE_LENGTH, (int)$last_cached ) <= time() ) {
 			
 			//echo '<small style="color: green">** Debug: Using Cache **</small>';
 			
@@ -139,9 +142,9 @@ Class BP_Activity_Activity {
 				if ( !$activities_formatted[$i]['content'] )
 					unset($activities_formatted[$i]);
 			}
-			
+		
 			if ( count($activities_formatted) )
-				BP_Activity_Activity::cache_activities( $activities_formatted );
+				BP_Activity_Activity::cache_activities( $activities_formatted, $user_id );
 		}
 		
 		return $activities_formatted;
@@ -208,6 +211,26 @@ Class BP_Activity_Activity {
 		return $activities_formatted;
 	}
 	
+	function get_sitewide_activity( $limit = 15 ) {
+		global $wpdb, $bp;
+		
+		if ( $limit )
+			$limit_sql = $wpdb->prepare( " LIMIT %d", $limit );
+		
+		/* Remove entries that are older than 1 week */
+		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['activity']['table_name_sitewide'] . " WHERE DATE_ADD(date_recorded, INTERVAL 1 WEEK) <= NOW()" ) );
+		
+		$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $bp['activity']['table_name_sitewide'] . " ORDER BY date_recorded DESC $limit_sql" ) );
+		
+		for ( $i = 0; $i < count( $activities ); $i++ ) {
+			$activities_formatted[$i]['content'] = $activities[$i]->content;
+			$activities_formatted[$i]['date_recorded'] = $activities[$i]->date_recorded;
+			$activities_formatted[$i]['component_name'] = $activities[$i]->component_name;
+		}
+		
+		return $activities_formatted;
+	}
+	
 	function cache_friends_activities( $activity_array ) {
 		global $wpdb, $bp;
 		
@@ -222,15 +245,24 @@ Class BP_Activity_Activity {
 		update_usermeta( $bp['loggedin_userid'], 'bp_activity_friends_last_cached', time() );
 	}
 	
-	function cache_activities( $activity_array ) {
+	function cache_activities( $activity_array, $user_id ) {
 		global $wpdb, $bp;
 		
 		/* Empty the cache */
 		$wpdb->query( "TRUNCATE TABLE " . $bp['activity']['table_name_current_user_cached'] );
 		
+		/* Empty user's activities from the sitewide stream */
+		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['activity']['table_name_sitewide'] . " WHERE user_id = %d", $user_id ) );
+		
 		for ( $i = 0; $i < count($activity_array); $i++ ) {
+			if ( $activity_array[$i]['content'] == '' ) continue;
+			
 			// Cache that sucka...
 			$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_current_user_cached'] . " ( content, component_name, date_cached, date_recorded, is_private ) VALUES ( %s, %s, FROM_UNIXTIME(%d), %s, %d )", $activity_array[$i]['content'], $activity_array[$i]['component_name'], time(), $activity_array[$i]['date_recorded'], $activity_array[$i]['is_private'] ) );
+			
+			// Add to the sitewide activity stream
+			if ( !$activity_array[$i]['is_private'] )
+				$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_sitewide'] . " ( user_id, content, component_name, date_cached, date_recorded ) VALUES ( %d, %s, %s, FROM_UNIXTIME(%d), %s )", $user_id, $activity_array[$i]['content'], $activity_array[$i]['component_name'], time(), $activity_array[$i]['date_recorded'] ) );
 		}
 		
 		update_usermeta( $bp['current_userid'], 'bp_activity_last_cached', time() );

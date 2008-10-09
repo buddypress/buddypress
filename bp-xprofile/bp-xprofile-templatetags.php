@@ -231,9 +231,13 @@ function bp_the_avatar_thumbnail() {
 	echo bp_core_get_avatar( $bp['current_userid'], 1 );
 }
 
-function bp_loggedinuser_avatar_thumbnail() {
+function bp_loggedinuser_avatar_thumbnail( $width = false, $height = false ) {
 	global $bp;
-	echo bp_core_get_avatar( $bp['loggedin_userid'], 1 );
+	
+	if ( $width && $height )
+		echo bp_core_get_avatar( $bp['loggedin_userid'], 1, false, $width, $height );
+	else
+		echo bp_core_get_avatar( $bp['loggedin_userid'], 1 );
 }
 
 function bp_fetch_user_fullname( $user_id = false, $echo = true ) {

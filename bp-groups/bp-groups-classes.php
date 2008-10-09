@@ -55,7 +55,8 @@ Class BP_Groups_Group {
 			$this->enable_forum = $group->enable_forum;
 			$this->enable_photos = $group->enable_photos;
 			$this->photos_admin_only = $group->photos_admin_only;
-			$this->date_created = $group->date_created;
+			$this->date_created = strtotime($group->date_created);
+			$this->total_member_count = groups_get_groupmeta( $this->id, 'total_member_count' );
 			
 			if ( !$group->avatar_thumb )
 				$this->avatar_thumb = $bp['groups']['image_base'] . '/none-thumbnail.gif';
@@ -69,7 +70,11 @@ Class BP_Groups_Group {
 			
 			if ( $get_user_dataset ) {
 				$this->user_dataset = $this->get_user_dataset();
-				$this->total_member_count = count( $this->user_dataset );
+				
+				if ( !$this->total_member_count ) {
+					$this->total_member_count = count( $this->user_dataset );
+					groups_update_groupmeta( $this->id, 'total_member_count', $this->total_member_count );
+				}
 			}
 		}	
 	}
@@ -158,7 +163,7 @@ Class BP_Groups_Group {
 					$this->avatar_full 
 			);
 		}
-
+		
 		$result = $wpdb->query($sql);
 		
 		if ( $wpdb->insert_id )
@@ -220,12 +225,19 @@ Class BP_Groups_Group {
 		if ( $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['groups']['table_name'] . " WHERE id = %d", $group_id ) ) )
 			return false;
 		
+		/* Remove groupmeta */
+		groups_delete_groupmeta( $group_id );
+		
 		return true;
 	}
 	
-	function group_exists( $slug ) {
+	function group_exists( $slug, $table_name = false ) {
 		global $wpdb, $bp;
-		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name'] . " WHERE slug = %s", $slug ) );
+		
+		if ( !$table_name )
+			$table_name = $bp['groups']['table_name'];
+			
+		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $table_name WHERE slug = %s", $slug ) );
 	}
 
 	function get_id_from_slug( $slug ) {
@@ -312,7 +324,25 @@ Class BP_Groups_Group {
 		if ( !$limit )
 			$limit = 5;
 
-		return $wpdb->get_results( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name'] . " ORDER BY date_created DESC LIMIT %d", $limit ) ); 
+		return $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM " . $bp['groups']['table_name'] . " ORDER BY date_created DESC LIMIT %d", $limit ) ); 
+	}
+	
+	function get_active( $limit = 5 ) {
+		global $wpdb, $bp;
+		
+		if ( !$limit )
+			$limit = 5;
+
+		return $wpdb->get_results( $wpdb->prepare( "SELECT group_id FROM " . $bp['groups']['table_name_groupmeta'] . " WHERE meta_key = 'last_activity' ORDER BY meta_value DESC LIMIT %d", $limit ) ); 
+	}
+	
+	function get_popular( $limit = 5 ) {
+		global $wpdb, $bp;
+		
+		if ( !$limit )
+			$limit = 5;
+
+		return $wpdb->get_results( $wpdb->prepare( "SELECT group_id FROM " . $bp['groups']['table_name_groupmeta'] . " WHERE meta_key = 'total_member_count' ORDER BY meta_value DESC LIMIT %d", $limit ) ); 
 	}
 }
 

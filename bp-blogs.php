@@ -221,7 +221,7 @@ function bp_blogs_format_activity( $item_id, $action, $for_secondary_user = fals
 			
 			$post = BP_Blogs_Post::fetch_post_content($post);
 
-			$content = bp_core_get_userlink($post->user_id) . ' ' . __('wrote a new blog post') . ' <a href="' . bp_post_get_permalink( $post, $post->blog_id ) . '">' . $post->post_title . '</a> <span class="time-since">%s</span>';		
+			$content = bp_core_get_userlink($post->post_author_id) . ' ' . __('wrote a new blog post') . ' <a href="' . bp_post_get_permalink( $post, $post->blog_id ) . '">' . $post->post_title . '</a> <span class="time-since">%s</span>';		
 			$content .= '<blockquote>' . bp_create_excerpt($post->post_content) . '</blockquote>';
 			return $content;
 		break;

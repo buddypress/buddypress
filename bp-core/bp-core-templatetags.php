@@ -21,7 +21,7 @@
  * @uses friends_check_friendship() Checks to see if the logged in user is a friend of the currently viewed user.
  */
 function bp_get_nav() {
-	global $bp;
+	global $bp, $current_blog;
 	
 	/* Sort the nav by key as the array has been put together in different locations */
 	$bp['bp_nav'] = bp_core_sort_nav_items( $bp['bp_nav'] );
@@ -29,7 +29,7 @@ function bp_get_nav() {
 	/* Loop through each navigation item */
 	foreach( (array) $bp['bp_nav'] as $nav_item ) {
 		/* If the current component matches the nav item id, then add a highlight CSS class. */
-		if ( $bp['current_component'] == $nav_item['css_id'] && $bp['current_userid'] == $bp['loggedin_userid'] ) {
+		if ( $bp['current_component'] == $nav_item['css_id'] && bp_is_home() ) {
 			$selected = ' class="current"';
 		} else {
 			$selected = '';
@@ -38,7 +38,7 @@ function bp_get_nav() {
 		/* If we are viewing another person (current_userid does not equal loggedin_userid)
 		   then check to see if the two users are friends. if they are, add a highligh CSS class
 		   to the friends nav item if it exists. */
-		if ( $bp['current_userid'] != $bp['loggedin_userid'] ) {
+		if ( !bp_is_home() ) {
 			if ( function_exists('friends_check_friendship') ) {
 				if ( friends_check_friendship( $bp['current_userid'] ) == 'is_friend' && $nav_item['css_id'] == $bp['friends']['slug'] ) {
 					$selected = ' class="current"';
@@ -53,7 +53,7 @@ function bp_get_nav() {
 	}
 	
 	/* Always add a log out list item to the end of the navigation */
-	echo '<li><a id="wp-logout" href="' . get_option('home') . '/wp-login.php?action=logout">Log Out</a><li>';
+	echo '<li><a id="wp-logout" href="' . site_url() . '/wp-login.php?action=logout">Log Out</a><li>';
 }
 
 /**
@@ -298,6 +298,11 @@ function bp_your_or_their( $capitalize = false, $echo = false ) {
 		else
 			return $their;
 	}
+}
+
+function bp_loggedinuser_link() {
+	global $bp;
+	echo bp_core_get_userlink( $bp['loggedin_userid'] );
 }
 
 /* Template functions for fetching globals, without querying the DB again

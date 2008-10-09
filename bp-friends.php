@@ -193,7 +193,7 @@ function friends_format_activity( $friendship_id, $action, $for_secondary_user =
 		case 'friendship_accepted':
 			$friendship = new BP_Friends_Friendship( $friendship_id, false, false );
 
-			if ( !$friendship )
+			if ( !$friendship->initiator_user_id || !$friendship->friend_user_id )
 				return false;
 			
 			if ( $for_secondary_user ) {

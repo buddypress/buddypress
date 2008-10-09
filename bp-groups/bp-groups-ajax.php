@@ -93,8 +93,8 @@ function groups_ajax_group_search() {
 			<li>
 				<img class="avatar" alt="Group Avatar" src="<?php echo $group->avatar_thumb ?>"/>
 				<h4>
-					<a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] . '/' . $group->slug ?>"><?php echo $group->name ?></a>
-					<span class="small"> - <?php echo count($group->user_dataset) ?> members</span>
+					<a href="<?php bp_group_permalink( $group ) ?>"><?php echo $group->name ?></a>
+					<span class="small"> - <?php echo $group->total_member_count . ' ' . __('members') ?></span>
 				</h4>
 				<p class="desc"><?php echo bp_create_excerpt( $group->description, 20 ) ?></p>
 			</li>
@@ -149,8 +149,8 @@ function groups_ajax_group_finder_search() {
 			<li>
 				<img class="avatar" alt="Group Avatar" src="<?php echo $group->avatar_thumb ?>"/>
 				<h4>
-					<a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] . '/' . $group->slug ?>"><?php echo $group->name ?></a>
-					<span class="small"> - <?php echo count($group->user_dataset) ?> members</span>
+					<a href="<?php bp_group_permalink( $group ) ?>"><?php echo $group->name ?></a>
+					<span class="small"> - <?php echo $group->total_member_count . ' ' . __('members') ?></span>
 				</h4>
 				<p class="desc"><?php echo bp_create_excerpt( $group->description, 20 ) ?></p>
 			</li>
@@ -163,4 +163,67 @@ function groups_ajax_group_finder_search() {
 	}
 }
 add_action( 'wp_ajax_group_finder_search', 'groups_ajax_group_finder_search' );
+
+
+function groups_ajax_widget_groups_list() {
+	global $bp;
+
+	check_ajax_referer('groups_widget_groups_list');
+
+	if ( !$bp ) {
+		bp_core_setup_globals();
+		groups_setup_globals();
+	}
+	
+	switch ( $_POST['filter'] ) {
+		case 'newest-groups':
+			$groups = groups_get_newest($_POST['max-groups']);
+		break;
+		case 'recently-active-groups':
+			$groups = groups_get_active($_POST['max-groups']);
+		break;
+		case 'popular-groups':
+			$groups = groups_get_popular($_POST['max-groups']);
+		break;
+	}
+
+	if ( $groups ) {
+		echo '0[[SPLIT]]'; // return valid result.
+	
+		foreach ( (array) $groups as $group ) {
+			$group = new BP_Groups_Group( $group->group_id, false );
+		?>
+			<li>
+				<div class="item-avatar">
+					<img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php echo $group->name ?> Avatar" />
+				</div>
+
+				<div class="item">
+					<div class="item-title"><a href="<?php echo bp_group_permalink( $group, true ) ?>" title="<?php echo $group->name ?>"><?php echo $group->name ?></a></div>
+					<div class="item-meta">
+						<span class="activity">
+							<?php 
+							if ( $_POST['filter'] == 'newest-groups') {
+								echo bp_core_get_last_activity( $group->date_created, __('created '), __(' ago') );
+							} else if ( $_POST['filter'] == 'recently-active-groups') {
+								echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __('active '), __(' ago') );
+							} else if ( $_POST['filter'] == 'popular-groups') {
+								if ( $group->total_member_count == 1 )
+									echo $group->total_member_count . __(' member');
+								else
+									echo $group->total_member_count . __(' members');
+							}
+							?>
+						</span>
+					</div>	
+				</div>
+			</li>
+			<?php	
+		}
+	} else {
+		echo "-1[[SPLIT]]<li>" . __("No groups matched the current filter.");
+	}
+}
+add_action( 'wp_ajax_widget_groups_list', 'groups_ajax_widget_groups_list' );
+
 ?>

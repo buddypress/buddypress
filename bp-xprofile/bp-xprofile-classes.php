@@ -990,7 +990,7 @@ Class BP_XProfile_ProfileData {
 			$this->id = $profiledata->id;
 			$this->user_id = $profiledata->user_id;
 			$this->field_id = $profiledata->field_id;
-			$this->value = $profiledata->value;
+			$this->value = stripslashes($profiledata->value);
 			$this->last_updated = $profiledata->last_updated;
 		}
 	}
