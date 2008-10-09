@@ -106,7 +106,7 @@ Class BP_Activity_Activity {
 		/* Determine whether or not to use the cached activity stream, or re-select and cache a new stream */
 		$last_cached = get_usermeta( $bp['current_userid'], 'bp_activity_last_cached' );
 		
-		if ( strtotime( BP_ACTIVITY_CACHE_LENGTH, (int)$last_cached ) <= time() ) {
+		if ( strtotime( BP_ACTIVITY_CACHE_LENGTH, (int)$last_cached ) >= time() ) {
 			
 			//echo '<small style="color: green">** Debug: Using Cache **</small>';
 			

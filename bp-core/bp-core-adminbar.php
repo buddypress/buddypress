@@ -1,7 +1,7 @@
 <?php
 
 function bp_core_admin_bar() {
-	global $bp, $wpdb;
+	global $bp, $wpdb, $current_blog;
 
 	if ( is_user_logged_in() && bp_core_user_has_home() ) {
 		echo '<div id="wp-admin-bar">';
@@ -70,36 +70,38 @@ function bp_core_admin_bar() {
 			echo '</ul>';
 			echo '</li>';
 		}
-
-		if ( bp_core_is_home_base( $wpdb->blogid ) ) {
-			// TODO: possible menu for current group/user/photo etc
-		} else {
-			$authors = get_users_of_blog(); 
+		
+		if ( $current_blog->blog_id > 1 ) {
+			if ( bp_core_is_home_base( $current_blog->blog_id ) ) {
+				// TODO: possible menu for current group/user/photo etc
+			} else {
+				$authors = get_users_of_blog(); 
 			
-			if ( is_array( $authors ) ) {
-				/* This is a blog, render a menu with links to all authors */
-				echo '<li><a href="/">';
-				_e('Blog Authors');
-				echo '</a>';
-				
-				echo '<ul class="author-list">';
-				foreach( $authors as $author ) {
-					$author = new BP_Core_User( $author->user_id );
-					echo '<li>';
-
-					echo '<div class="admin-bar-clear"><a href="' . $author->user_url . '">';
-					echo $author->avatar_mini;
-					echo ' ' . $author->fullname;
-					echo '<span class="activity">' . $author->last_active . '</span>';
+				if ( is_array( $authors ) ) {
+					/* This is a blog, render a menu with links to all authors */
+					echo '<li><a href="/">';
+					_e('Blog Authors');
 					echo '</a>';
-					echo '</div>';
+				
+					echo '<ul class="author-list">';
+					foreach( $authors as $author ) {
+						$author = new BP_Core_User( $author->user_id );
+						echo '<li>';
+
+						echo '<div class="admin-bar-clear"><a href="' . $author->user_url . '">';
+						echo $author->avatar_mini;
+						echo ' ' . $author->fullname;
+						echo '<span class="activity">' . $author->last_active . '</span>';
+						echo '</a>';
+						echo '</div>';
+						echo '</li>';
+					}
+					echo '</ul>';
 					echo '</li>';
 				}
-				echo '</ul>';
-				echo '</li>';
 			}
 		}
-				
+			
 		echo '</ul>';
 		echo '</div>';
 	}
