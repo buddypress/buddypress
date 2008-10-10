@@ -220,8 +220,11 @@ function bp_blogs_format_activity( $item_id, $action, $for_secondary_user = fals
 				return false;
 			
 			$post = BP_Blogs_Post::fetch_post_content($post);
+			
+			if ( $post->post_type != 'post' || $post->post_status != 'publish' || $post->post_password != '' )
+				return false;
 
-			$content = bp_core_get_userlink($post->post_author_id) . ' ' . __('wrote a new blog post') . ' <a href="' . bp_post_get_permalink( $post, $post->blog_id ) . '">' . $post->post_title . '</a> <span class="time-since">%s</span>';		
+			$content = bp_core_get_userlink($post->post_author) . ' ' . __('wrote a new blog post') . ' <a href="' . bp_post_get_permalink( $post, $post->blog_id ) . '">' . $post->post_title . '</a> <span class="time-since">%s</span>';		
 			$content .= '<blockquote>' . bp_create_excerpt($post->post_content) . '</blockquote>';
 			return $content;
 		break;
