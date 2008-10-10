@@ -714,7 +714,7 @@ function messages_delete_thread( $thread_ids, $box, $display_name ) {
  **************************************************************************/
 
 function messages_view_thread( $thread_id ) {
-	global $userdata;
+	global $userdata, $bp;
 
 	$thread = new BP_Messages_Thread( $thread_id, true );
 	
@@ -731,7 +731,7 @@ function messages_view_thread( $thread_id ) {
 					<tbody>
 						<tr>
 							<td>
-								<img src="<?php echo $bp_messages_image_base ?>/email_open.gif" alt="Message" style="vertical-align: top;" /> &nbsp;
+								<img src="<?php echo $bp['messages']['image_base'] ?>/email_open.gif" alt="Message" style="vertical-align: top;" /> &nbsp;
 								<?php _e('Sent between ') ?> <?php echo BP_Messages_Thread::get_recipient_links($thread->recipients) ?> 
 								<?php _e('and') ?> <?php echo bp_core_get_userlink($userdata->ID) ?>. 
 							</td>
