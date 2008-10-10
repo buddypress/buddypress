@@ -2,6 +2,10 @@
 /* Define the current version number for checking if DB tables are up to date. */
 define( 'BP_CORE_VERSION', '0.2.5' );
 
+/* These components are accessed via the root, and not under a blog name or home base.
+   e.g Groups is accessed via: http://domain.com/groups/group-name NOT http://domain.com.andy/groups/group-name */
+define( 'BP_CORE_ROOT_COMPONENTS', 'groups' );
+
 /* Require all needed files */
 require_once( 'bp-core/bp-core-catchuri.php' );
 require_once( 'bp-core/bp-core-classes.php' );
@@ -103,8 +107,7 @@ function bp_core_setup_globals() {
 	$bp['core'] = array(
 		'image_base' => site_url() . '/wp-content/mu-plugins/bp-core/images',
 	);
-
-
+	
 	if ( !$bp['current_component'] )
 		$bp['current_component'] = $bp['default_component'];
 }

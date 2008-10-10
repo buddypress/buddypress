@@ -231,7 +231,7 @@ add_action( 'wp', 'groups_setup_nav', 2 );
 
 function groups_get_group_theme() {
 	global $current_component, $current_action, $is_single_group;
-	
+		
 	// The theme filter does not recognize any globals, where as the stylesheet filter does.
 	// We have to set up the globals to use manually.
 	bp_core_set_uri_globals();
@@ -799,7 +799,7 @@ function groups_manage_group( $step, $group_id ) {
 				/* regular action */
 				do_action( 'groups_created_group', array( 'group_id' => $group->id ) );
 				
-				header( "Location: " . $bp['loggedin_domain'] . $bp['groups']['slug'] . "/" . $group->slug );
+				header( "Location: " . bp_group_permalink( $group, false ) );
 				
 			break;
 		}

@@ -24,25 +24,25 @@ Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/
  *    - $action_variables: array ['group', 5]
  * 
  * @package BuddyPress Core
- * @global $menu WordPress admin navigation array global
- * @global $submenu WordPress admin sub navigation array global
- * @global $thirdlevel BuddyPress admin third level navigation
- * @uses add_menu_page() WordPress function to add a new top level admin navigation tab
  */
 function bp_core_set_uri_globals() {
 	global $current_component, $current_action, $action_variables;
+	
+	/* Fetch the current URI and explode each part seperated by '/' into an array */
+	$bp_uri = explode( "/", $_SERVER['REQUEST_URI'] );
+
+	/* This is used to determine where the component and action indexes should start */
+	$root_components = explode( ',', BP_CORE_ROOT_COMPONENTS );
+	$is_root_component = in_array( $bp_uri[1], $root_components );
 	
 	/* Set the indexes, these are incresed by one if we are not on a VHOST install */
 	$component_index = 0;
 	$action_index = 1;
 
-	if ( VHOST == 'no' ) {
+	if ( VHOST == 'no' && !$is_root_component ) {
 		$component_index++;
 		$action_index++;
 	}
-
-	/* Fetch the current URI and explode each part seperated by '/' into an array */
-	$bp_uri = explode( "/", $_SERVER['REQUEST_URI'] );
 
 	/* Take empties off the end */
 	if ( $bp_uri[count($bp_uri) - 1] == "" )
