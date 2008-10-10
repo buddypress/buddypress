@@ -241,7 +241,7 @@ function xprofile_validate_signup_fields() {
 						wpmu_signup_blog( $domain, $path, $blog_title, $user_name, $user_email, $meta );
 						confirm_blog_signup( $domain, $path, $blog_title, $user_name, $user_email, $meta );
 
-						echo '</div>';
+						echo '</div></div>';
 						get_footer();
 						die;
 					} else {
