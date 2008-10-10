@@ -289,6 +289,10 @@ function bp_blogs_record_post($post_id = '') {
 	
 	$post = get_post($post_id);
 	
+	/* Don't record this if it's not a post, not published, or password protected */
+	if ( $post->post_type != 'post' || $post->post_status != 'publish' || $post->post_password != '' )
+		return false;
+	
 	/** 
 	 * Check how many recorded posts there are for the user. If we are
 	 * at the max, then delete the oldest recorded post first.

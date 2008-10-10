@@ -203,7 +203,7 @@ Class BP_Blogs_Post {
 		if ( !$user_id )
 			$user_id = $bp['current_userid'];
 			
-		$post_ids = $wpdb->get_results( $wpdb->prepare( "SELECT post_id, blog_id FROM " . $bp['blogs']['table_name_blog_posts'] . " WHERE user_id = %d ORDER BY date_created ASC", $user_id) );
+		$post_ids = $wpdb->get_results( $wpdb->prepare( "SELECT post_id, blog_id FROM " . $bp['blogs']['table_name_blog_posts'] . " WHERE user_id = %d ORDER BY date_created DESC", $user_id) );
 		$total_post_count = $wpdb->get_var( $wpdb->prepare( "SELECT count(post_id) FROM " . $bp['blogs']['table_name_blog_posts'] . " WHERE user_id = %d", $user_id) );
 		
 		for ( $i = 0; $i < count($post_ids); $i++ ) {
