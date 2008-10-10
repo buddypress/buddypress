@@ -14,18 +14,12 @@ function xprofile_add_signup_fields() {
 
 	if ( $fields ) {
 	?>
-	<table border="0" id="extraFields" width="100%">
-		<tbody>
-			<tr>
-				<td>
-				<div id="breaker">
-					<h3><?php _e('Additional Information'); ?></h3>
-					<p><?php _e('Please fill in the following fields to start up your member profile. Fields
-						marked with a star are required.'); ?></p>
-				</div>
-				</td>
-			</tr>
-			
+	<div id="extraFields">
+		<div id="breaker">
+			<h3><?php _e('Additional Information'); ?></h3>
+			<p><?php _e('Please fill in the following fields to start up your member profile. Fields
+				marked with a star are required.'); ?></p>
+		</div>
 			<?php
 			for ( $i = 0; $i < count($fields); $i++ ) {
 				if ( $bp_xprofile_callback[$i]['field_id'] == $fields[$i]->id && isset($bp_xprofile_callback[$i]['error_msg']) ) {
@@ -34,34 +28,23 @@ function xprofile_add_signup_fields() {
 					$css_class = '';
 				}
 				?>
-				<tr<?php echo $css_class; ?>>
-					<td>
+				<div>
 					<?php if ( $css_class != '' ) { echo '<div class="error">' . $bp_xprofile_callback[$i]['error_msg'] . '</div>'; } ?>
 					<?php echo $fields[$i]->get_edit_html($bp_xprofile_callback[$i]['value']); ?>
-					</td>
-				</tr>
+				</div>
 				<?php
 				$field_ids .= $fields[$i]->id . ",";
 			}
 			?>
-				
-		</tbody>
-	</table>
 	<input type="hidden" name="xprofile_ids" value="<?php echo $field_ids; ?>" />	
 	<?php
 	}
 	
 	?>
-	<table border="0" id="extraFields" width="100%">
-		<tbody>
-			<tr>
-				<td>
-				<div id="breaker">
-					<h3><?php _e('Profile Picture (Avatar)'); ?></h3>
-					<p><?php _e('You can upload an image from your computer to use as an avatar. This avatar will appear on your profile page.'); ?></p>
-				</div>
-				</td>
-			</tr>
+		<div id="breaker">
+			<h3><?php _e('Profile Picture (Avatar)'); ?></h3>
+			<p><?php _e('You can upload an image from your computer to use as an avatar. This avatar will appear on your profile page.'); ?></p>
+		</div>
 			<?php
 			if ( $avatar_error ) {
 				$css_class = ' class="error"';
@@ -70,21 +53,18 @@ function xprofile_add_signup_fields() {
 			}
 			?>
 			
-			<tr<?php echo $css_class; ?>
-				<td>
-					<?php if ( $css_class != '' ) { echo '<div class="error">' . $avatar_error_msg . '</div>'; } ?>
-					
-					<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo get_site_option('fileupload_maxk') * 1024; ?>" />
-					<input type="hidden" name="slick_avatars_action" value="upload" />
-					<input type="hidden" name="action" value="slick_avatars" />
-					<input type="file" name="file" id="file" />
-				</td>
-			</tr>
-		</tbody>
-	</table>
+			<div<?php echo $css_class; ?>
+				<?php if ( $css_class != '' ) { echo '<div class="error">' . $avatar_error_msg . '</div>'; } ?>
+				
+				<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo get_site_option('fileupload_maxk') * 1024; ?>" />
+				<input type="hidden" name="slick_avatars_action" value="upload" />
+				<input type="hidden" name="action" value="slick_avatars" />
+				<input type="file" name="file" id="file" />
+			</div>
 	<script type="text/javascript">
 		document.getElementById('setupform').setAttribute('enctype', 'multipart/form-data');
 	</script>
+	</div>
 	<?php
 }
 add_action( 'signup_extra_fields', 'xprofile_add_signup_fields' );
