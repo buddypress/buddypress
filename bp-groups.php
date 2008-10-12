@@ -236,7 +236,7 @@ function groups_get_group_theme() {
 	// We have to set up the globals to use manually.
 	bp_core_set_uri_globals();
 	$groups_bp = groups_setup_globals(true);
-	
+
 	if ( $current_component == $groups_bp['groups']['slug'] )
 		$is_single_group = BP_Groups_Group::group_exists( $current_action, $groups_bp['groups']['table_name'] );
 
@@ -341,7 +341,7 @@ function groups_screen_create_group() {
 
 	if ( isset($_COOKIE['group_obj_id']) && !$group_obj && !$no_instantiate )
 		$group_obj = new BP_Groups_Group( (int)$_COOKIE['group_obj_id'] );
-
+	
 	bp_catch_uri( 'groups/create' );
 }
 

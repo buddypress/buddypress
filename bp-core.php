@@ -41,7 +41,7 @@ function bp_core_setup_globals() {
 	global $bp;
 	global $current_user, $current_component, $current_action;
 	global $action_variables;
-
+	
 	/* The user ID of the user who is currently logged in. */
 	$bp['loggedin_userid'] = $current_user->ID;
 	
@@ -1033,7 +1033,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 function bp_core_record_activity() {
 	global $bp;
 	
-	if ( !is_user_logged_in() )
+	if ( !is_user_logged_in() || !get_usermeta( $bp['loggedin_userid'], 'last_activity') )
 		return false;
 	
 	if ( time() >= strtotime('+5 minutes', get_usermeta( $bp['loggedin_userid'], 'last_activity') ) || get_usermeta( $bp['loggedin_userid'], 'last_activity') == '' ) {
@@ -1110,6 +1110,20 @@ function bp_core_replace_comment_author_link( $author ) {
 }
 add_action( 'get_comment_author_link', 'bp_core_replace_comment_author_link', 10, 4 );
 
+/**
+ * bp_core_get_site_path()
+ *
+ * Get the path of of the current site.
+ * 
+ * @package BuddyPress Core
+ * @global $comment WordPress comment global for the current comment.
+ * @uses bp_core_get_userlink_by_email() Fetches a userlink via email address.
+ */
+function bp_core_get_site_path() {
+	global $wpdb;
+	
+	return $wpdb->get_var( $wpdb->prepare( "SELECT path FROM {$wpdb->base_prefix}site WHERE id = 1") );
+}
 
 /**
  * bp_core_sort_nav_items()

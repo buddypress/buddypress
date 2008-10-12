@@ -16,8 +16,9 @@ Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/
  * The URI's are broken down as follows:
  *   - VHOST: http:// andy.domain.com / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
  *   - NO VHOST: http:// domain.com / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
+ *   - OUTSIDE ROOT: http:// domain.com / sites / buddypress / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
  * 
- * Example:
+ *	Example:
  *    - http://andy.domain.com/profile/edit/group/5/
  *    - $current_component: string 'profile'
  *    - $current_action: string 'edit'
@@ -27,23 +28,25 @@ Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/
  */
 function bp_core_set_uri_globals() {
 	global $current_component, $current_action, $action_variables;
-	
+
 	/* Fetch the current URI and explode each part seperated by '/' into an array */
 	$bp_uri = explode( "/", $_SERVER['REQUEST_URI'] );
-
-	/* This is used to determine where the component and action indexes should start */
-	$root_components = explode( ',', BP_CORE_ROOT_COMPONENTS );
-	$is_root_component = in_array( $bp_uri[1], $root_components );
 	
 	/* Set the indexes, these are incresed by one if we are not on a VHOST install */
 	$component_index = 0;
-	$action_index = 1;
+	$action_index = $component_index + 1;
+	
+	/* Get site path items */
+	$paths = explode( '/', bp_core_get_site_path() );
 
-	if ( VHOST == 'no' && !$is_root_component ) {
-		$component_index++;
-		$action_index++;
-	}
+	/* Take empties off the end */
+	if ( $paths[count($paths) - 1] == "" )
+		array_pop( $paths );
 
+	/* Take empties off the start */
+	if ( $paths[0] == "" )
+		array_shift( $paths );
+	
 	/* Take empties off the end */
 	if ( $bp_uri[count($bp_uri) - 1] == "" )
 		array_pop( $bp_uri );
@@ -51,10 +54,28 @@ function bp_core_set_uri_globals() {
 	/* Take empties off the start */
 	if ( $bp_uri[0] == "" )
 		array_shift( $bp_uri );
-
+		
 	/* Get total URI segment count */
 	$bp_uri_count = count( $bp_uri ) - 1;
+
+	for ( $i = 0; $i < $bp_uri_count; $i++ ) {
+		if ( in_array( $bp_uri[$i], $paths )) {
+			unset( $bp_uri[$i] );
+		}
+	}
 	
+	/* Reset the keys by merging with an empty array */
+	$bp_uri = array_merge( array(), $bp_uri );
+	
+	/* This is used to determine where the component and action indexes should start */
+	$root_components = explode( ',', BP_CORE_ROOT_COMPONENTS );
+	$is_root_component = in_array( $bp_uri[0], $root_components );
+	
+	if ( VHOST == 'no' && !$is_root_component ) {
+		$component_index++;
+		$action_index++;
+	}
+
 	/* Set the current component */
 	$current_component = $bp_uri[$component_index];
 	
@@ -64,13 +85,13 @@ function bp_core_set_uri_globals() {
 	/* Set the entire URI as the action variables, we will unset the current_component and action in a second */
 	$action_variables = $bp_uri;
 
-	/* Remove the username from action variables if this is not a VHOST install */
-	if ( VHOST == 'no' )
-		unset($action_variables[0]);
-
 	/* Unset the current_component and action from action_variables */
 	unset($action_variables[$component_index]);
 	unset($action_variables[$action_index]);
+
+	/* Remove the username from action variables if this is not a VHOST install */
+	if ( VHOST == 'no' && !$is_root_component )
+		array_shift($action_variables);
 	
 	/* Reset the keys by merging with an empty array */
 	$action_variables = array_merge( array(), $action_variables );

@@ -37,7 +37,7 @@ add_action( 'wp_head', 'bp_core_add_ajax_js' );
  * @uses get_option() Selects a site setting from the DB.
  */
 function bp_core_add_css() {
-	if ( is_user_logged_in() ) {
+	if ( is_user_logged_in() && bp_core_user_has_home() ) {
 		wp_enqueue_style( 'bp-admin-bar', site_url() . '/wp-content/mu-plugins/bp-core/css/admin-bar.css' );
 		wp_print_styles();
 	}

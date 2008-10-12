@@ -301,8 +301,14 @@ function bp_your_or_their( $capitalize = false, $echo = false ) {
 }
 
 function bp_loggedinuser_link() {
-	global $bp;
-	echo bp_core_get_userlink( $bp['loggedin_userid'] );
+	global $bp, $current_user;
+	
+	if ( $link = bp_core_get_userlink( $bp['loggedin_userid'] ) ) {
+		echo $link;
+	} else {
+		$ud = get_userdata($current_user->ID);
+		echo $ud->user_login;
+	}
 }
 
 /* Template functions for fetching globals, without querying the DB again
