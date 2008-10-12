@@ -285,6 +285,9 @@ add_action( 'signup_hidden_fields', 'xprofile_hidden_signup_fields' );
 function xprofile_on_activate( $blog_id = null, $user_id = null ) {
 	global $wpdb, $profile_picture_path;
 	
+	if ( WP_INSTALLING )
+		return false;
+	
 	/* Only do this if this is a new user, and not a user creating a home base */
 	if ( !is_user_logged_in() ) {
 
