@@ -96,10 +96,10 @@ Class BP_XProfile_Group {
 		global $message;
 
 		if ( $this->id == null ) {
-			$title = __('Add Group');
+			$title = __('Add Group', 'buddypress');
 			$action = "admin.php?page=xprofile_settings&amp;mode=add_group";
 		} else {
-			$title = __('Edit Group');
+			$title = __('Edit Group', 'buddypress');
 			$action = "admin.php?page=xprofile_settings&amp;mode=edit_group&amp;group_id=" . $this->id;			
 		}
 	?>
@@ -120,7 +120,7 @@ Class BP_XProfile_Group {
 			<form action="<?php echo $action; ?>" method="post">
 				
 				<div id="titlediv">
-					<label for="group_name"><?php _e("Group Name") ?></label>
+					<label for="group_name"><?php _e("Group Name", 'buddypress') ?></label>
 					<div>
 						<input type="text" name="group_name" id="group_name" value="<?php echo $this->name ?>" style="width:50%" />
 					</div>
@@ -163,7 +163,7 @@ Class BP_XProfile_Group {
 		
 		// Validate Form
 		if ( $_POST['group_name'] == '' ) {
-			$message = __('Please make sure you give the group a name.');
+			$message = __('Please make sure you give the group a name.', 'buddypress');
 			return false;
 		} else {
 			return true;
@@ -620,7 +620,7 @@ Class BP_XProfile_Field {
 			}
 		?>
 			<div id="<?php echo $type ?>" class="options-box" style="<?php if ( $this->type != $type ) { ?>display: none;<?php } ?> margin-left: 15px;">
-				<h4><?php _e('Please enter options for this Field:') ?></h4>
+				<h4><?php _e('Please enter options for this Field:', 'buddypress') ?></h4>
 				<p>Order By: 
 					
 					<select name="sort_order_<?php echo $type ?>" id="sort_order_<?php echo $type ?>" >
@@ -639,7 +639,7 @@ Class BP_XProfile_Field {
 						if ( $type == 'multiselectbox' || $type == 'checkbox' )
 							$default_name = '[' . $j . ']';
 					?>
-						<p><?php _e('Option') ?> <?php echo $j ?>: 
+						<p><?php _e('Option', 'buddypress') ?> <?php echo $j ?>: 
 						   <input type="text" name="<?php echo $type ?>_option[<?php echo $j ?>]" id="<?php echo $type ?>_option<?php echo $j ?>" value="<?php echo $options[$i]->name ?>" />
 						   <input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" <?php if ( $options[$i]->sort_order == 'CHECKED' ) {?> checked="checked"<?php } ?> " /> Default Value 
 						<a href="admin.php?page=xprofile_settings&amp;mode=delete_option&amp;option_id=<?php echo $options[$i]->id ?>" class="ajax-option-delete" id="delete-<?php echo $options[$i]->id ?>">[x]</a></p>
@@ -653,13 +653,13 @@ Class BP_XProfile_Field {
 						$default_name = '[1]';
 				?>
 					
-					<p><?php _e('Option') ?> 1: <input type="text" name="<?php echo $type ?>_option[1]" id="<?php echo $type ?>_option1" />
+					<p><?php _e('Option', 'buddypress') ?> 1: <input type="text" name="<?php echo $type ?>_option[1]" id="<?php echo $type ?>_option1" />
 					<input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" id="isDefault_<?php echo $type ?>_option" <?php if ( $options[$i]->sort_order == 'CHECKED' ) {?> checked="checked"<?php } ?>" value="1" /> Default Value
 					<input type="hidden" name="<?php echo $type ?>_option_number" id="<?php echo $type ?>_option_number" value="2" />
 				
 				<?php } // end if ?>
 				<div id="<?php echo $type ?>_more"></div>					
-				<p><a href="javascript:add_option('<?php echo $type ?>')"><?php _e('Add Another Option') ?></a></p>
+				<p><a href="javascript:add_option('<?php echo $type ?>')"><?php _e('Add Another Option', 'buddypress') ?></a></p>
 			</div>
 
 		<?php } 
@@ -667,10 +667,10 @@ Class BP_XProfile_Field {
 		
 	function render_admin_form( $message = '' ) {
 		if ( $this->id == null ) {
-			$title = __('Add Field');
+			$title = __('Add Field', 'buddypress');
 			$action = "admin.php?page=xprofile_settings&amp;group_id=" . $this->group_id . "&amp;mode=add_field";
 		} else {
-			$title = __('Edit Field');
+			$title = __('Edit Field', 'buddypress');
 			$action = "admin.php?page=xprofile_settings&amp;mode=edit_field&amp;group_id=" . $this->group_id . "&amp;field_id=" . $this->id;			
 			$options = $this->get_children();
 		}
@@ -694,21 +694,21 @@ Class BP_XProfile_Field {
 		<form action="<?php echo $action ?>" method="post">
 			<div id="poststuff">		
 				<div id="titlediv">
-					<h3><label for="title"><?php _e("Field Title") ?> *</label></h3>
+					<h3><label for="title"><?php _e("Field Title", 'buddypress') ?> *</label></h3>
 					<div id="titlewrap">
 						<input type="text" name="title" id="title" value="<?php echo $this->name ?>" style="width:50%" />
 					</div>
 				</div>
 			
 				<div id="titlediv">
-					<h3><label for="description"><?php _e("Field Description") ?></label></h3>
+					<h3><label for="description"><?php _e("Field Description", 'buddypress') ?></label></h3>
 					<div id="titlewrap">
 						<textarea name="description" id="description" rows="8" cols="60" style="border: none; width: 99%;"><?php echo $this->desc ?></textarea>
 					</div>
 				</div>
 	
 				<div id="titlediv">
-					<h3><label for="required"><?php _e("Is This Field Required?") ?> *</label></h3>
+					<h3><label for="required"><?php _e("Is This Field Required?", 'buddypress') ?> *</label></h3>
 					<select name="required" id="required" style="width: 30%">
 						<option value="0"<?php if ( $this->is_required == '0' ) { ?> selected="selected"<?php } ?>>Not Required</option>
 						<option value="1"<?php if ( $this->is_required == '1' ) { ?> selected="selected"<?php } ?>>Required</option>
@@ -716,7 +716,7 @@ Class BP_XProfile_Field {
 				</div>
 
 				<div id="titlediv">
-					<h3><label for="public"><?php _e("Default Field Privacy Settings") ?> *</label></h3>
+					<h3><label for="public"><?php _e("Default Field Privacy Settings", 'buddypress') ?> *</label></h3>
 					<select name="public" id="public" style="width: 30%">
 						<option value="1"<?php if ( $this->is_public== '1' ) { ?> selected="selected"<?php } ?>>Viewable by everyone</option>
 						<option value="0"<?php if ( $this->is_public== '0' ) { ?> selected="selected"<?php } ?>>Viewable only by member</option>
@@ -724,7 +724,7 @@ Class BP_XProfile_Field {
 				</div>
 
 				<div id="titlediv">
-					<h3><label for="fieldtype"><?php _e("Field Type") ?> *</label></h3>
+					<h3><label for="fieldtype"><?php _e("Field Type", 'buddypress') ?> *</label></h3>
 					<select name="fieldtype" id="fieldtype" onchange="show_options(this.value)" style="width: 30%">
 						<option value="textbox"<?php if ( $this->type == 'textbox' ) {?> selected="selected"<?php } ?>>Text Box</option>
 						<option value="textarea"<?php if ( $this->type == 'textarea' ) {?> selected="selected"<?php } ?>>Multi-line Text Box</option>
@@ -739,8 +739,8 @@ Class BP_XProfile_Field {
 				<?php $this->render_admin_form_children() ?>				
 	
 				<p class="submit">
-						&nbsp;<input type="submit" value="<?php _e("Save") ?> &raquo;" name="saveField" id="saveField" style="font-weight: bold" />
-						 <?php _e('or') ?> <a href="admin.php?page=xprofile_settings" style="color: red"><?php _e('Cancel') ?></a>
+						&nbsp;<input type="submit" value="<?php _e("Save", 'buddypress') ?> &raquo;" name="saveField" id="saveField" style="font-weight: bold" />
+						 <?php _e('or', 'buddypress') ?> <a href="admin.php?page=xprofile_settings" style="color: red"><?php _e('Cancel', 'buddypress') ?></a>
 				</p>
 			
 			<div class="clear"></div>
@@ -791,17 +791,17 @@ Class BP_XProfile_Field {
 							<td>
 								<form action="<?php echo $action ?>" method="post">
 									
-									<label for="title">* <?php _e("Field Title") ?></label>
+									<label for="title">* <?php _e("Field Title", 'buddypress') ?></label>
 									<div>
 										<input type="text" name="title" id="title" value="<?php echo $field_data['Name']; ?>" style="width:50%" />
 									</div>
 									<p></p>
-									<label for="description"><?php _e("Field Description") ?></label>
+									<label for="description"><?php _e("Field Description", 'buddypress') ?></label>
 									<div>
 										<textarea name="description" id="description" rows="5" cols="60"><?php echo $field_data['Description']; ?></textarea>
 									</div>
 									<p></p>
-									<label for="required">* <?php _e("Is This Field Required?") ?></label>
+									<label for="required">* <?php _e("Is This Field Required?", 'buddypress') ?></label>
 									<div>
 										<select name="required" id="required">
 											<option value="0"<?php if ( $this->is_required == '0' ) { ?> selected="selected"<?php } ?>>Not Required</option>
@@ -809,7 +809,7 @@ Class BP_XProfile_Field {
 										</select>
 									</div>
 									<p></p>
-									<label for="fieldtype">* <?php _e("Field Type") ?></label>
+									<label for="fieldtype">* <?php _e("Field Type", 'buddypress') ?></label>
 									<div>
 										<select name="fieldtype" id="fieldtype" onchange="show_options(this.value)">
 											<?php if (in_array('textbox', $field_data['Types'])) { ?>
@@ -829,7 +829,7 @@ Class BP_XProfile_Field {
 									</div>
 									
 									<p class="submit">									
-								 	  <input type="submit" value="<?php _e("Add") ?> &raquo;" name="saveField" id="saveField<?php echo $counter;?>" class="button" />
+								 	  <input type="submit" value="<?php _e("Add", 'buddypress') ?> &raquo;" name="saveField" id="saveField<?php echo $counter;?>" class="button" />
 									  <input type="hidden" name="field_file" value="<?php echo $field_file_path; ?>">
 									</p>
 							  </form>
@@ -841,7 +841,7 @@ Class BP_XProfile_Field {
 				}
 				?></table><?php
 			} else {
-				?><p><?php _e('No prebuilt fields available at this time.') ?></p><?php
+				?><p><?php _e('No prebuilt fields available at this time.', 'buddypress') ?></p><?php
 			}
 			@closedir( $prebuilt_fields_dir );
 		}
@@ -883,11 +883,11 @@ Class BP_XProfile_Field {
 			if ( empty( $author_uri ) ) {
 				$author = wp_kses( trim( $author_name[1] ), $allowed_tags );
 			} else {
-				$author = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $author_uri, __( 'Visit author homepage' ), 
+				$author = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $author_uri, __( 'Visit author homepage' , 'buddypress'), 
 					wp_kses( trim( $author_name[1] ), $allowed_tags ) );
 			}
 		} else {
-			$author = __('Anonymous');
+			$author = __('Anonymous', 'buddypress');
 		}
 
 		return array( 'Name' => $name, 'URI' => $uri, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Types' => $types);
@@ -913,19 +913,19 @@ Class BP_XProfile_Field {
 		
 		// Validate Form
 		if ( $_POST['title'] == '' || $_POST['required'] == '' || $_POST['fieldtype'] == '' ) {
-			$message = __('Please make sure you fill out all required fields.');
+			$message = __('Please make sure you fill out all required fields.', 'buddypress');
 			return false;
 		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'radio' && empty($_POST['radio_option'][1]) ) {
-			$message = __('Radio button field types require at least one option. Please add options below.');	
+			$message = __('Radio button field types require at least one option. Please add options below.', 'buddypress');	
 			return false;
 		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'selectbox' && empty($_POST['selectbox_option'][1]) ) {
-			$message = __('Select box field types require at least one option. Please add options below.');	
+			$message = __('Select box field types require at least one option. Please add options below.', 'buddypress');	
 			return false;	
 		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'multiselectbox' && empty($_POST['multiselectbox_option'][1]) ) {
-			$message = __('Select box field types require at least one option. Please add options below.');	
+			$message = __('Select box field types require at least one option. Please add options below.', 'buddypress');	
 			return false;	
 		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'checkbox' && empty($_POST['checkbox_option'][1]) ) {
-			$message = __('Checkbox field types require at least one option. Please add options below.');	
+			$message = __('Checkbox field types require at least one option. Please add options below.', 'buddypress');	
 			return false;		
 		} else {
 			return true;

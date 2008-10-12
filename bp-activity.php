@@ -144,18 +144,18 @@ function bp_activity_setup_nav() {
 	global $bp;
 	
 	/* Add 'Activity' to the main navigation */
-	bp_core_add_nav_item( __('Activity'), $bp['activity']['slug'] );
+	bp_core_add_nav_item( __('Activity', 'buddypress'), $bp['activity']['slug'] );
 	bp_core_add_nav_default( $bp['activity']['slug'], 'bp_activity_screen_my_activity', 'just-me' );
 		
 	$activity_link = $bp['loggedin_domain'] . $bp['activity']['slug'] . '/';
 	
 	/* Add the subnav items to the activity nav item */
-	bp_core_add_subnav_item( $bp['activity']['slug'], 'just-me', __('Just Me'), $activity_link, 'bp_activity_screen_my_activity' );
-	bp_core_add_subnav_item( $bp['activity']['slug'], 'my-friends', __('My Friends'), $activity_link, 'bp_activity_screen_friends_activity' );
+	bp_core_add_subnav_item( $bp['activity']['slug'], 'just-me', __('Just Me', 'buddypress'), $activity_link, 'bp_activity_screen_my_activity' );
+	bp_core_add_subnav_item( $bp['activity']['slug'], 'my-friends', __('My Friends', 'buddypress'), $activity_link, 'bp_activity_screen_friends_activity' );
 	
 	if ( $bp['current_component'] == $bp['activity']['slug'] ) {
 		if ( bp_is_home() ) {
-			$bp['bp_options_title'] = __('My Activity');
+			$bp['bp_options_title'] = __('My Activity', 'buddypress');
 		} else {
 			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
 			$bp['bp_options_title'] = $bp['current_fullname']; 

@@ -76,7 +76,7 @@ function bp_core_avatar_admin( $message = null, $action = null, $delete_action =
 	?>	
 	<?php if ( !isset($_POST['slick_avatars_action']) && !isset($_GET['slick_avatars_action']) ) { ?>
 	<div class="wrap">
-		<h2><?php _e('Your Avatar') ?></h2>
+		<h2><?php _e('Your Avatar', 'buddypress') ?></h2>
 		
 		<?php if ( $message ) { ?>
 			<br />
@@ -85,8 +85,8 @@ function bp_core_avatar_admin( $message = null, $action = null, $delete_action =
 			</div>
 		<?php } ?>
 
-		<p><?php _e('Your avatar will be used on your profile and throughout the site.') ?></p>
-		<p><?php _e('Click below to select a JPG, GIF or PNG format photo from your computer and then click \'Upload Photo\' to proceed.') ?></p>
+		<p><?php _e('Your avatar will be used on your profile and throughout the site.', 'buddypress') ?></p>
+		<p><?php _e('Click below to select a JPG, GIF or PNG format photo from your computer and then click \'Upload Photo\' to proceed.', 'buddypress') ?></p>
 		
 		<?php
 		if ( !$action )
@@ -99,7 +99,7 @@ function bp_core_avatar_admin( $message = null, $action = null, $delete_action =
 
 		$str = bp_core_get_avatar( get_current_user_id(), 1 );
 		if ( strlen($str) ) {
-			echo '<h3>' . __('This is your current avatar') . '</h3>';
+			echo '<h3>' . __('This is your current avatar', 'buddypress') . '</h3>';
 			echo '<span class="crop-img avatar">' . bp_core_get_avatar(get_current_user_id(), 1) . '</span>';
 			echo '<span class="crop-img avatar">' . bp_core_get_avatar(get_current_user_id(), 2) . '</span>';
 			echo '<a href="' .  $delete_action . '">Delete</a>';
@@ -110,7 +110,7 @@ function bp_core_avatar_admin( $message = null, $action = null, $delete_action =
 	} else if ( isset($_POST['slick_avatars_action']) && $_POST['slick_avatars_action'] == 'upload' ) {
 	
 		echo '<div class="wrap"><h2>';
-		_e('Your Avatar');
+		_e('Your Avatar', 'buddypress');
 		echo '</h2>';
 		
 		// Confirm that the nonce is valid
@@ -119,12 +119,12 @@ function bp_core_avatar_admin( $message = null, $action = null, $delete_action =
 		
 		// Set friendly error feedback.
 		$uploadErrors = array(
-		        0 => __("There is no error, the file uploaded with success"), 
-		        1 => __("The uploaded file exceeds the upload_max_filesize directive in php.ini"), 
-		        2 => __("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form"),
-		        3 => __("The uploaded file was only partially uploaded"),
-		        4 => __("No file was uploaded"),
-		        6 => __("Missing a temporary folder")
+		        0 => __("There is no error, the file uploaded with success", 'buddypress'), 
+		        1 => __("The uploaded file exceeds the upload_max_filesize directive in php.ini", 'buddypress'), 
+		        2 => __("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form", 'buddypress'),
+		        3 => __("The uploaded file was only partially uploaded", 'buddypress'),
+		        4 => __("No file was uploaded", 'buddypress'),
+		        6 => __("Missing a temporary folder", 'buddypress')
 		);
 
 		if ( !bp_core_check_avatar_upload($_FILES) )
@@ -170,10 +170,10 @@ function bp_core_avatar_admin( $message = null, $action = null, $delete_action =
 		
 		// Store details to the DB and we're done
 		echo '<div class="wrap"><h2>';
-		_e('Your Avatar');
+		_e('Your Avatar', 'buddypress');
 		echo '</h2>';
 		
-		echo '<p>' . __('Your new avatar was successfully created!') . '</p>';
+		echo '<p>' . __('Your new avatar was successfully created!', 'buddypress') . '</p>';
 		
 		bp_core_avatar_save($result);
 		
@@ -190,7 +190,7 @@ function bp_core_avatar_admin( $message = null, $action = null, $delete_action =
 		bp_core_delete_avatar();
 		
 		unset($_GET['slick_avatars_action']);
-		$message = __('Avatar successfully removed.');
+		$message = __('Avatar successfully removed.', 'buddypress');
 		bp_core_avatar_admin($message);
 		
 	}
@@ -277,14 +277,14 @@ function bp_core_render_avatar_cropper($original, $new, $action, $user_id = null
 	echo '<input type="hidden" name="canvas" value="' . $new . '" />';
 	
 	echo '<div id="avatar_v1">';
-	echo '<h3>' . __('Main Avatar') . '</h3>';
-	echo '<p>' . __('Please select the area of your photo you would like to use for your avatar') . '(' . CORE_AVATAR_V1_W . 'px x ' . CORE_AVATAR_V1_H . 'px).</p>';
+	echo '<h3>' . __('Main Avatar', 'buddypress') . '</h3>';
+	echo '<p>' . __('Please select the area of your photo you would like to use for your avatar', 'buddypress') . '(' . CORE_AVATAR_V1_W . 'px x ' . CORE_AVATAR_V1_H . 'px).</p>';
 	
 	// Canvas
 	echo '<div id="crop-v1" class="crop-img"><img src="' . $src . '" ' . $size[3] . ' border="0" alt="Select the area to crop" id="crop-v1-img" /></div>';
 	
 	// Preview
-	echo '<p class="crop-preview"><strong>' . __('Crop Preview') . '</strong></p>';
+	echo '<p class="crop-preview"><strong>' . __('Crop Preview', 'buddypress') . '</strong></p>';
 	echo '<div id="crop-preview-v1" class="crop-preview"></div>';
 	
 	// Hidden form fields
@@ -298,18 +298,18 @@ function bp_core_render_avatar_cropper($original, $new, $action, $user_id = null
 	// V2 UI (optional)
 	if (CORE_AVATAR_V2_W !== false && CORE_AVATAR_V2_H !== false) {
 		// Continue button (v1 => v2)
-		echo '<p class="submit"><input type="button" name="avatar_continue" value="' . __('Crop &amp; Continue') . '" onclick="cropAndContinue();" /></p>';
+		echo '<p class="submit"><input type="button" name="avatar_continue" value="' . __('Crop &amp; Continue', 'buddypress') . '" onclick="cropAndContinue();" /></p>';
 		echo '</div>';
 		
 		echo '<div id="avatar_v2" style="display: none">';
-		echo '<h3>' . __('Alternate Avatar') . '</h3>';
-		echo '<p>' . __('Please select the area of your photo you would like to use for an alternate version') . '(' . CORE_AVATAR_V2_W . 'px x ' . CORE_AVATAR_V2_H . 'px).</p>';
+		echo '<h3>' . __('Alternate Avatar', 'buddypress') . '</h3>';
+		echo '<p>' . __('Please select the area of your photo you would like to use for an alternate version', 'buddypress') . '(' . CORE_AVATAR_V2_W . 'px x ' . CORE_AVATAR_V2_H . 'px).</p>';
 		
 		// Canvas
 		echo '<div id="crop-v2" class="crop-img"><img src="' . $src . '" ' . $size[3] . ' border="0" alt="Select the area to crop" id="crop-v2-img" /></div>';
 
 		// Preview
-		echo '<p class="crop-preview"><strong>' . __('Crop Preview') . '</strong></p>';
+		echo '<p class="crop-preview"><strong>' . __('Crop Preview', 'buddypress') . '</strong></p>';
 		echo '<div id="crop-preview-v2" class="crop-preview"></div>';
 
 		// Hidden form fields
@@ -321,14 +321,14 @@ function bp_core_render_avatar_cropper($original, $new, $action, $user_id = null
 		echo '<input type="hidden" id="v2_h" name="v2_h" value="" />';
 		
 		// Final button to process everything
-		echo '<p class="submit"><input type="submit" name="save" value="' . __('Crop &amp; Save') . '" /></p>';
+		echo '<p class="submit"><input type="submit" name="save" value="' . __('Crop &amp; Save', 'buddypress') . '" /></p>';
 		echo '</div>';
 	} else {
 		// Close out v1 DIV
 		echo '</div>';
 		
 		// Final button to process everything
-		echo '<p class="submit"><input type="submit" name="save" value="' . __('Crop &amp; Save') . '" /></p>';
+		echo '<p class="submit"><input type="submit" name="save" value="' . __('Crop &amp; Save', 'buddypress') . '" /></p>';
 	}
 	
 	if ( !$no_form_tag )
@@ -457,7 +457,7 @@ function bp_core_delete_avatar() {
 
 function bp_core_ap_die( $msg ) {
 	echo '<p><strong>' . $msg . '</strong></p>';
-	echo '<p><a href="' . get_option('home') .'/wp-admin/admin.php?page=bp-xprofile.php">' . __('Try Again') . '</a></p>';
+	echo '<p><a href="' . get_option('home') .'/wp-admin/admin.php?page=bp-xprofile.php">' . __('Try Again', 'buddypress') . '</a></p>';
 	echo '</div>';
 	exit;
 }

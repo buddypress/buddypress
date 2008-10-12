@@ -13,7 +13,7 @@ function bp_core_admin_bar() {
 		if ( function_exists('bp_core_get_avatar') )
 		 	bp_core_get_avatar( $bp['loggedin_userid'], 1 );
 		
-		echo __('My Account') . '</a>';
+		echo __('My Account', 'buddypress') . '</a>';
 		echo '<ul>';
 		
 		/* Loop through each navigation item */
@@ -31,7 +31,7 @@ function bp_core_admin_bar() {
 			
 			echo '</li>';
 		}
-		echo '<li><a id="logout" href="' . site_url() . '/wp-login.php?action=logout">' . __('Log Out') . '</a></li>';
+		echo '<li><a id="logout" href="' . site_url() . '/wp-login.php?action=logout">' . __('Log Out', 'buddypress') . '</a></li>';
 		echo '</ul>';
 		echo '</li>';
 		
@@ -41,7 +41,7 @@ function bp_core_admin_bar() {
 			$blogs = BP_Blogs_Blog::get_blogs_for_user( $bp['loggedin_userid'] );
 
 			echo '<li><a href="' . $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/my-blogs">';
-			_e('My Blogs');
+			_e('My Blogs', 'buddypress');
 			echo '</a>';
 
 			echo '<ul>';			
@@ -53,18 +53,18 @@ function bp_core_admin_bar() {
 					echo '</div>';
 					
 					echo '<ul>';
-					echo '<li><a href="' . $blog['siteurl']  . '/wp-admin/">' . __('Dashboard') . '</a></li>';
-					echo '<li><a href="' . $blog['siteurl']  . '/wp-admin/post-new.php">' . __('New Post') . '</a></li>';
-					echo '<li><a href="' . $blog['siteurl']  . '/wp-admin/post-new.php">' . __('Manage Posts') . '</a></li>';
-					echo '<li><a href="' . $blog['siteurl']  . '/wp-admin/themes.php">' . __('Switch Theme') . '</a></li>';					
-					echo '<li><a href="' . $blog['siteurl']  . '/wp-admin/edit-comments.php">' . __('Manage Comments') . '</a></li>';					
+					echo '<li><a href="' . $blog['siteurl']  . '/wp-admin/">' . __('Dashboard', 'buddypress') . '</a></li>';
+					echo '<li><a href="' . $blog['siteurl']  . '/wp-admin/post-new.php">' . __('New Post', 'buddypress') . '</a></li>';
+					echo '<li><a href="' . $blog['siteurl']  . '/wp-admin/post-new.php">' . __('Manage Posts', 'buddypress') . '</a></li>';
+					echo '<li><a href="' . $blog['siteurl']  . '/wp-admin/themes.php">' . __('Switch Theme', 'buddypress') . '</a></li>';					
+					echo '<li><a href="' . $blog['siteurl']  . '/wp-admin/edit-comments.php">' . __('Manage Comments', 'buddypress') . '</a></li>';					
 					echo '</ul>';
 					
 					echo '</li>';
 				}
 			} else {
 				echo '<li>';
-				echo '<a href="' . $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/create-a-blog">' . __('Create a Blog!') . '</a>';
+				echo '<a href="' . $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/create-a-blog">' . __('Create a Blog!', 'buddypress') . '</a>';
 				echo '</li>';
 			}
 			echo '</ul>';
@@ -80,7 +80,7 @@ function bp_core_admin_bar() {
 				if ( is_array( $authors ) ) {
 					/* This is a blog, render a menu with links to all authors */
 					echo '<li><a href="/">';
-					_e('Blog Authors');
+					_e('Blog Authors', 'buddypress');
 					echo '</a>';
 				
 					echo '<ul class="author-list">';

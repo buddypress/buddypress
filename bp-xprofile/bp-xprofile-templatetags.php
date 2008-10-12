@@ -340,9 +340,9 @@ function bp_profile_last_updated() {
 	$last_updated = get_usermeta( $bp['current_userid'], 'profile_last_updated' );
 
 	if ( !$last_updated ) {
-		_e('Profile not recently updated') . '.';
+		_e('Profile not recently updated', 'buddypress') . '.';
 	} else {
-		echo __('Profile updated ') . bp_core_time_since( strtotime( $last_updated ) ) . __(' ago'); 
+		echo __('Profile updated ', 'buddypress') . bp_core_time_since( strtotime( $last_updated ) ) . __(' ago', 'buddypress'); 
 	}
 }
 

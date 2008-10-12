@@ -41,14 +41,14 @@ function bp_core_ajax_widget_members() {
 						<span class="activity">
 							<?php 
 							if ( $_POST['filter'] == 'newest-members') {
-								echo bp_core_get_last_activity( $user->user_registered, __('registered '), __(' ago') );
+								echo bp_core_get_last_activity( $user->user_registered, __('registered ', 'buddypress'), __(' ago', 'buddypress') );
 							} else if ( $_POST['filter'] == 'recently-active-members') {
-								echo bp_core_get_last_activity( get_usermeta( $user->user_id, 'last_activity' ), __('active '), __(' ago') );
+								echo bp_core_get_last_activity( get_usermeta( $user->user_id, 'last_activity' ), __('active ', 'buddypress'), __(' ago', 'buddypress') );
 							} else if ( $_POST['filter'] == 'popular-members') {
 								if ( get_usermeta( $user->user_id, 'total_friend_count' ) == 1 )
-									echo get_usermeta( $user->user_id, 'total_friend_count' ) . __(' friend');
+									echo get_usermeta( $user->user_id, 'total_friend_count' ) . __(' friend', 'buddypress');
 								else
-									echo get_usermeta( $user->user_id, 'total_friend_count' ) . __(' friends');
+									echo get_usermeta( $user->user_id, 'total_friend_count' ) . __(' friends', 'buddypress');
 							}
 							?>
 						</span>
@@ -58,7 +58,7 @@ function bp_core_ajax_widget_members() {
 			<?php	
 		}
 	} else {
-		echo "-1[[SPLIT]]<li>" . __("No members matched the current filter.");
+		echo "-1[[SPLIT]]<li>" . __("No members matched the current filter.", 'buddypress');
 	}
 }
 add_action( 'wp_ajax_widget_members', 'bp_core_ajax_widget_members' );

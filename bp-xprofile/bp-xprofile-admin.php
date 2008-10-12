@@ -31,13 +31,13 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 ?>	
 	<div class="wrap">
 		
-		<h2><?php _e("Profile Settings") ?></h2>
+		<h2><?php _e("Profile Settings", 'buddypress') ?></h2>
 		<br />
 		<p><?php _e('Your users will distinguish themselves through their profile page. 
 		   You must give them profile fields that allow them to describe themselves 
-			in a way that is relevant to the theme of your social network.') ?></p>
+			in a way that is relevant to the theme of your social network.', 'buddypress') ?></p>
 			
-		<p><?php _e('NOTE: Fields in the \'Basic\' group appear on the signup page.'); ?></p>
+		<p><?php _e('NOTE: Fields in the \'Basic\' group appear on the signup page.', 'buddypress'); ?></p>
 		
 		<?php
 			if ( $message != '' ) {
@@ -146,10 +146,10 @@ function xprofile_admin_manage_group( $group_id = null ) {
 			$group->description = $_POST['group_desc'];
 			
 			if ( !$group->save() ) {
-				$message = __('There was an error saving the group. Please try again');
+				$message = __('There was an error saving the group. Please try again', 'buddypress');
 				$type = 'error';
 			} else {
-				$message = __('The group was saved successfully.');
+				$message = __('The group was saved successfully.', 'buddypress');
 				$type = 'success';
 			}
 			
@@ -176,10 +176,10 @@ function xprofile_admin_delete_group( $group_id ) {
 	$group = new BP_XProfile_Group($group_id);
 	
 	if ( !$group->delete() ) {
-		$message = __('There was an error deleting the group. Please try again');
+		$message = __('There was an error deleting the group. Please try again', 'buddypress');
 		$type = 'error';
 	} else {
-		$message = __('The group was deleted successfully.');
+		$message = __('The group was deleted successfully.', 'buddypress');
 		$type = 'success';
 	}
 	
@@ -210,13 +210,13 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 			$field->order_by = $_POST["sort_order_$field->type"];
 			
 			if ( !$field->save() ) {
-				$message = __('There was an error saving the field. Please try again');
+				$message = __('There was an error saving the field. Please try again', 'buddypress');
 				$type = 'error';
 				
 				unset($_GET['mode']);
 				xprofile_admin($message, $type);
 			} else {
-				$message = __('The field was saved successfully.');
+				$message = __('The field was saved successfully.', 'buddypress');
 				$type = 'success';
 				
 				unset($_GET['mode']);
@@ -242,18 +242,18 @@ function xprofile_admin_delete_field( $field_id, $type = 'field' ) {
 	global $message, $type;
 	
 	if ( $type == 'field' ) {
-		$type = __('field');
+		$type = __('field', 'buddypress');
 	} else {
-		$type = __('option');
+		$type = __('option', 'buddypress');
 	}
 	
 	$field = new BP_XProfile_Field($field_id);
 
 	if ( !$field->delete() ) {
-		$message = sprintf( __('There was an error deleting the %s. Please try again'), $type);
+		$message = sprintf( __('There was an error deleting the %s. Please try again', 'buddypress'), $type);
 		$type = 'error';
 	} else {
-		$message = sprintf( __('The %s was deleted successfully!'), $type);
+		$message = sprintf( __('The %s was deleted successfully!', 'buddypress'), $type);
 		$type = 'success';
 	}
 	

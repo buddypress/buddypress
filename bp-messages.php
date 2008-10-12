@@ -142,20 +142,20 @@ function messages_setup_nav() {
 	$count_indicator = '&nbsp; <span' . $inbox_display . ' class="unread-count inbox-count">' . BP_Messages_Thread::get_inbox_count() . '</span>';
 	
 	/* Add 'Profile' to the main navigation */
-	bp_core_add_nav_item( __('Messages'), $bp['messages']['slug'], false, false );
+	bp_core_add_nav_item( __('Messages', 'buddypress'), $bp['messages']['slug'], false, false );
 	bp_core_add_nav_default( $bp['messages']['slug'], 'messages_screen_inbox', 'inbox' );
 	
 	$messages_link = $bp['loggedin_domain'] . $bp['messages']['slug'] . '/';
 	
 	/* Add the subnav items to the profile */
-	bp_core_add_subnav_item( $bp['messages']['slug'], 'inbox', __('Inbox') . $count_indicator, $messages_link, 'messages_screen_inbox' );
-	bp_core_add_subnav_item( $bp['messages']['slug'], 'sentbox', __('Sent Messages'), $messages_link, 'messages_screen_sentbox' );
-	bp_core_add_subnav_item( $bp['messages']['slug'], 'compose', __('Compose'), $messages_link, 'messages_screen_compose' );
-	bp_core_add_subnav_item( $bp['messages']['slug'], 'notices', __('Notices'), $messages_link, 'messages_screen_notices', false, true, true );
+	bp_core_add_subnav_item( $bp['messages']['slug'], 'inbox', __('Inbox', 'buddypress') . $count_indicator, $messages_link, 'messages_screen_inbox' );
+	bp_core_add_subnav_item( $bp['messages']['slug'], 'sentbox', __('Sent Messages', 'buddypress'), $messages_link, 'messages_screen_sentbox' );
+	bp_core_add_subnav_item( $bp['messages']['slug'], 'compose', __('Compose', 'buddypress'), $messages_link, 'messages_screen_compose' );
+	bp_core_add_subnav_item( $bp['messages']['slug'], 'notices', __('Notices', 'buddypress'), $messages_link, 'messages_screen_notices', false, true, true );
 
 	if ( $bp['current_component'] == $bp['messages']['slug'] ) {
 		if ( bp_is_home() ) {
-			$bp['bp_options_title'] = __('My Messages');			
+			$bp['bp_options_title'] = __('My Messages', 'buddypress');			
 		} else {
 			$bp_options_avatar = bp_core_get_avatar( $bp['current_userid'], 1 );
 			$bp['bp_options_title'] = $bp['current_fullname']; 
@@ -194,23 +194,23 @@ function messages_screen_notices() {
 
 		if ( $bp['action_variables'][0] == 'deactivate' ) {
 			if ( !$notice->deactivate() ) {
-				$bp['message'] = __('There was a problem deactivating that notice.');	
+				$bp['message'] = __('There was a problem deactivating that notice.', 'buddypress');	
 			} else {
-				$bp['message'] = __('Notice deactivated.');
+				$bp['message'] = __('Notice deactivated.', 'buddypress');
 				$bp['message_type'] = 'success';
 			}
 		} else if ( $bp['action_variables'][0] == 'activate' ) {
 			if ( !$notice->activate() ) {
-				$bp['message'] = __('There was a problem activating that notice.');
+				$bp['message'] = __('There was a problem activating that notice.', 'buddypress');
 			} else {
-				$bp['message'] = __('Notice activated.');
+				$bp['message'] = __('Notice activated.', 'buddypress');
 				$bp['message_type'] = 'success';
 			}
 		} else if ( $bp['action_variables'][0] == 'delete' ) {
 			if ( !$notice->delete() ) {
-				$bp['message'] = __('There was a problem deleting that notice.');
+				$bp['message'] = __('There was a problem deleting that notice.', 'buddypress');
 			} else {
-				$bp['message'] = __('Notice deleted.');
+				$bp['message'] = __('Notice deleted.', 'buddypress');
 				$bp['message_type'] = 'success';
 			}
 		}
@@ -235,7 +235,7 @@ function messages_action_view_message() {
 		bp_catch_uri( 'messages/index' );
 	} else {
 		$bp['bp_options_nav'][$bp['messages']['slug']]['view'] = array(
-			'name' => __('From: ' . BP_Messages_Thread::get_last_sender($thread_id)),
+			'name' => __('From: ' . BP_Messages_Thread::get_last_sender($thread_id), 'buddypress'),
 			'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/'			
 		);
 
@@ -259,13 +259,13 @@ function messages_action_delete_message() {
 	} else {
 		// delete message
 		if ( !BP_Messages_Thread::delete($thread_id) ) {
-			$bp['message'] = __('There was an error deleting that message.');
+			$bp['message'] = __('There was an error deleting that message.', 'buddypress');
 			add_action( 'template_notices', 'bp_core_render_notice' );
 
 			$bp['current_action'] = 'inbox';
 			bp_catch_uri( 'messages/index' );
 		} else {
-			$bp['message'] = __('Message deleted.');
+			$bp['message'] = __('Message deleted.', 'buddypress');
 			$bp['message_type'] = 'success';
 			add_action( 'template_notices', 'bp_core_render_notice' );
 
@@ -290,13 +290,13 @@ function messages_action_bulk_delete() {
 		bp_catch_uri( 'messages/index' );				
 	} else {
 		if ( !BP_Messages_Thread::delete( explode(',', $thread_ids ) ) ) {
-			$message = __('There was an error deleting messages.');
+			$message = __('There was an error deleting messages.', 'buddypress');
 			add_action( 'template_notices', 'bp_core_render_notice' );
 
 			$bp['current_action'] = 'inbox';
 			bp_catch_uri( 'messages/index' );
 		} else {
-			$bp['message'] = __('Messages deleted.');
+			$bp['message'] = __('Messages deleted.', 'buddypress');
 			$bp['message_type'] = 'success';
 			add_action( 'template_notices', 'bp_core_render_notice' );
 
@@ -354,7 +354,7 @@ function messages_write_new( $username = '', $subject = '', $content = '', $type
 	?>
 	
 	<div class="wrap">
-		<h2><?php _e('Compose Message') ?></h2>
+		<h2><?php _e('Compose Message', 'buddypress') ?></h2>
 		
 		<?php
 			if ( $message != '' ) {
@@ -369,7 +369,7 @@ function messages_write_new( $username = '', $subject = '', $content = '', $type
 		<div id="poststuff">
 			<p>			
 			<div id="titlediv">
-				<h3><?php _e("Send To") ?> <small>(Use username - autocomplete coming soon)</small></h3>
+				<h3><?php _e("Send To", 'buddypress') ?> <small>(Use username - autocomplete coming soon)</small></h3>
 				<div id="titlewrap">
 					<input type="text" name="send_to" id="send_to" value="<?php echo $username; ?>" />
 					<?php if ( is_site_admin() ) : ?><br /><input type="checkbox" id="send-notice" name="send-notice" value="1" /> This is a notice to all users.<?php endif; ?>
@@ -379,7 +379,7 @@ function messages_write_new( $username = '', $subject = '', $content = '', $type
 
 			<p>
 			<div id="titlediv">
-				<h3><?php _e("Subject") ?></h3>
+				<h3><?php _e("Subject", 'buddypress') ?></h3>
 				<div id="titlewrap">
 					<input type="text" name="subject" id="subject" value="<?php echo $subject; ?>" />
 				</div>
@@ -388,7 +388,7 @@ function messages_write_new( $username = '', $subject = '', $content = '', $type
 			
 			<p>
 				<div id="postdivrich" class="postarea">
-					<h3><?php _e("Message") ?></h3>
+					<h3><?php _e("Message", 'buddypress') ?></h3>
 					<div id="editorcontainer">
 						<textarea name="content" id="message_content" rows="15" cols="40"><?php echo $content; ?></textarea>
 					</div>
@@ -396,7 +396,7 @@ function messages_write_new( $username = '', $subject = '', $content = '', $type
 			</p>
 			
 			<p class="submit">
-					<input type="submit" value="<?php _e("Send") ?> &raquo;" name="send" id="send" style="font-weight: bold" />
+					<input type="submit" value="<?php _e("Send", 'buddypress') ?> &raquo;" name="send" id="send" style="font-weight: bold" />
 			</p>
 		</div>
 		</form>
@@ -409,11 +409,11 @@ function messages_write_new( $username = '', $subject = '', $content = '', $type
 }
 
 function messages_inbox() {
-	messages_box( 'inbox', __('Inbox') );
+	messages_box( 'inbox', __('Inbox', 'buddypress') );
 }
 
 function messages_sentbox() {
-	messages_box( 'sentbox', __('Sent Messages') );
+	messages_box( 'sentbox', __('Sent Messages', 'buddypress') );
 }
 
 
@@ -519,7 +519,7 @@ function messages_box( $box = 'inbox', $display_name = 'Inbox', $message = '', $
 			?>
 				<tr class="alternate">
 				<td colspan="7" style="text-align: center; padding: 15px 0;">
-					<?php _e('You have no messages in your'); echo ' ' . $display_name . '.'; ?>
+					<?php _e('You have no messages in your', 'buddypress'); echo ' ' . $display_name . '.'; ?>
 				</td>
 				</tr>
 			<?php
@@ -551,15 +551,15 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 	} else {
 		if ( $recipients == '' ) {
 			if ( !$from_ajax ) {
-				messages_write_new( '', $subject, $content, 'error', __('Please enter at least one valid user to send this message to.'), $messages_write_new_action );
+				messages_write_new( '', $subject, $content, 'error', __('Please enter at least one valid user to send this message to.', 'buddypress'), $messages_write_new_action );
 			} else {
-				return array('status' => 0, 'message' => __('There was an error sending the reply, please try again.'));
+				return array('status' => 0, 'message' => __('There was an error sending the reply, please try again.', 'buddypress'));
 			}
 		} else if ( $subject == '' || $content == '' ) {
 			if ( !$from_ajax ) {
-				messages_write_new( $to_user, $subject, $content, 'error', __('Please make sure you fill in all the fields.'), $messages_write_new_action );
+				messages_write_new( $to_user, $subject, $content, 'error', __('Please make sure you fill in all the fields.', 'buddypress'), $messages_write_new_action );
 			} else {
-				return array('status' => 0, 'message' => __('Please make sure you have typed a message before sending a reply.'));
+				return array('status' => 0, 'message' => __('Please make sure you have typed a message before sending a reply.', 'buddypress'));
 			}
 		} else {
 			$pmessage = new BP_Messages_Message;
@@ -583,7 +583,7 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 
 			if ( !is_null( $pmessage->recipients ) ) {
 				if ( !$pmessage->send() ) {
-					$message = __('Message could not be sent, please try again.');
+					$message = __('Message could not be sent, please try again.', 'buddypress');
 					$type = 'error';
 			
 					if ( $from_ajax ) {
@@ -596,10 +596,10 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 						bp_core_render_notice();
 						messages_write_new();
 					} else {
-						messages_box( 'inbox', __('Inbox'), $message, $type );	
+						messages_box( 'inbox', __('Inbox', 'buddypress'), $message, $type );	
 					}
 				} else {
-					$message = __('Message sent successfully!') . ' <a href="' . $bp['loggedin_domain'] . $bp['messages']['slug'] . '/view/' . $pmessage->thread_id . '">' . __('View Message') . '</a> &raquo;';
+					$message = __('Message sent successfully!', 'buddypress') . ' <a href="' . $bp['loggedin_domain'] . $bp['messages']['slug'] . '/view/' . $pmessage->thread_id . '">' . __('View Message', 'buddypress') . '</a> &raquo;';
 					$type = 'success';
 					
 					do_action( 'bp_messages_message_sent', array( 'item_id' => $pmessage->id, 'component_name' => 'messages', 'component_action' => 'message_sent', 'is_private' => 1 ) );
@@ -614,14 +614,14 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 						bp_core_render_notice();
 						messages_write_new();
 					} else {
-						messages_box( 'inbox', __('Inbox'), $message, $type );
+						messages_box( 'inbox', __('Inbox', 'buddypress'), $message, $type );
 					}
 				}
 			} else {
 				unset($_POST['send_to']);
 				unset($_POST['send-notice']);
 			
-				$message = __('Message could not be sent, please try again.');
+				$message = __('Message could not be sent, please try again.', 'buddypress');
 				$type = 'error';
 			
 				if ( $from_ajax ) {
@@ -633,7 +633,7 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 					bp_core_render_notice();
 					messages_write_new();
 				} else {
-					messages_box( 'inbox', __('Inbox'), $message, $type );	
+					messages_box( 'inbox', __('Inbox', 'buddypress'), $message, $type );	
 				}
 			}
 		}
@@ -651,14 +651,14 @@ function messages_send_notice( $subject, $message, $from_template ) {
 		unset($_POST['send_to']);
 		unset($_POST['send-notice']);
 		
-		$message = __('Notice could not be sent, please try again.');
+		$message = __('Notice could not be sent, please try again.', 'buddypress');
 		$type = 'error';
 	
 		if ( $from_template ) {
 			bp_core_render_notice();
 			messages_write_new();
 		} else {
-			messages_box( 'inbox', __('Inbox'), $message, $type );	
+			messages_box( 'inbox', __('Inbox', 'buddypress'), $message, $type );	
 		}
 	} else {
 		// Has access to send notices, lets do it.
@@ -682,19 +682,19 @@ function messages_delete_thread( $thread_ids, $box, $display_name ) {
 	$type = 'success';
 	
 	if ( is_array($thread_ids) ) {
-		$message = __('Messages deleted successfully!');
+		$message = __('Messages deleted successfully!', 'buddypress');
 		
 		for ( $i = 0; $i < count($thread_ids); $i++ ) {
 			if ( !$status = BP_Messages_Thread::delete($thread_ids[$i]) ) {
-				$message = __('There was an error when deleting messages. Please try again.');
+				$message = __('There was an error when deleting messages. Please try again.', 'buddypress');
 				$type = 'error';
 			}
 		}
 	} else {
-		$message = __('Message deleted successfully!');
+		$message = __('Message deleted successfully!', 'buddypress');
 		
 		if ( !$status = BP_Messages_Thread::delete($thread_ids) ) {
-			$message = __('There was an error when deleting that message. Please try again.');
+			$message = __('There was an error when deleting that message. Please try again.', 'buddypress');
 			$type = 'error';
 		}
 		
@@ -720,7 +720,7 @@ function messages_view_thread( $thread_id ) {
 	
 	if ( !$thread->has_access ) {
 		unset($_GET['mode']);
-		messages_inbox( __('There was an error viewing this message, please try again.'), 'error' );
+		messages_inbox( __('There was an error viewing this message, please try again.', 'buddypress'), 'error' );
 	} else {
 		if ( $thread->messages ) { ?>
 			<?php $thread->mark_read() ?>
@@ -732,8 +732,8 @@ function messages_view_thread( $thread_id ) {
 						<tr>
 							<td>
 								<img src="<?php echo $bp['messages']['image_base'] ?>/email_open.gif" alt="Message" style="vertical-align: top;" /> &nbsp;
-								<?php _e('Sent between ') ?> <?php echo BP_Messages_Thread::get_recipient_links($thread->recipients) ?> 
-								<?php _e('and') ?> <?php echo bp_core_get_userlink($userdata->ID) ?>. 
+								<?php _e('Sent between ', 'buddypress') ?> <?php echo BP_Messages_Thread::get_recipient_links($thread->recipients) ?> 
+								<?php _e('and', 'buddypress') ?> <?php echo bp_core_get_userlink($userdata->ID) ?>. 
 							</td>
 						</tr>
 					</tbody>
@@ -767,7 +767,7 @@ function messages_view_thread( $thread_id ) {
 										echo bp_core_get_avatar($userdata->ID, 1);
 									?>
 					
-									<h3><?php _e("Reply: ") ?></h3>
+									<h3><?php _e("Reply: ", 'buddypress') ?></h3>
 								</div>
 								<label for="reply"></label>
 								<div>
@@ -778,7 +778,7 @@ function messages_view_thread( $thread_id ) {
 								<input type="submit" name="send" value="Send Reply &raquo;" id="send_reply_button" />
 							</p>
 							<input type="hidden" id="thread_id" name="thread_id" value="<?php echo $thread->thread_id ?>" />
-							<input type="hidden" name="subject" id="subject" value="<?php _e('Re: '); echo str_replace( 'Re: ', '', $thread->last_message_subject); ?>" />
+							<input type="hidden" name="subject" id="subject" value="<?php _e('Re: ', 'buddypress'); echo str_replace( 'Re: ', '', $thread->last_message_subject); ?>" />
 					</div>
 					<?php if ( function_exists('wp_nonce_field') )
 						wp_nonce_field('messages_sendreply');

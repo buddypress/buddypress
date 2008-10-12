@@ -55,7 +55,7 @@ function friends_ajax_friends_search() {
 		echo '[[SPLIT]]' . $pag_links;
 	} else {
 		$result['message'] = '<img src="' . $bp['friends']['image_base'] . '/warning.gif" alt="Warning" /> &nbsp;' . $result['message'];
-		echo "-1[[SPLIT]]" . __("No friends matched your search.");
+		echo "-1[[SPLIT]]" . __("No friends matched your search.", 'buddypress');
 	}
 }
 add_action( 'wp_ajax_friends_search', 'friends_ajax_friends_search' );
@@ -78,7 +78,7 @@ function friends_ajax_finder_search() {
 	$total_user_count = 0;
 
 	if ( $_POST['finder-search-box'] == "" ) {
-		echo "-1[[SPLIT]]" . __("Please enter something to search for.");
+		echo "-1[[SPLIT]]" . __("Please enter something to search for.", 'buddypress');
 		return;
 	}
 	
@@ -117,7 +117,7 @@ function friends_ajax_finder_search() {
 		echo '[[SPLIT]]' . $pag_links;
 	} else {
 		$result['message'] = '<img src="' . $bp['friends']['image_base'] . '/warning.gif" alt="Warning" /> &nbsp;' . $result['message'];
-		echo "-1[[SPLIT]]" . __("No site users matched your search.");
+		echo "-1[[SPLIT]]" . __("No site users matched your search.", 'buddypress');
 	}
 }
 add_action( 'wp_ajax_finder_search', 'friends_ajax_finder_search' );
@@ -133,19 +133,19 @@ function friends_ajax_addremove_friend() {
 
 	if ( BP_Friends_Friendship::check_is_friend( $bp['loggedin_userid'], $_POST['fid'] ) == 'is_friend' ) {
 		if ( !friends_remove_friend( $bp['loggedin_userid'], $bp['current_userid'] ) ) {
-			echo __("Friendship could not be canceled.");
+			echo __("Friendship could not be canceled.", 'buddypress');
 		} else {
 			friends_update_friend_totals( $bp['loggedin_userid'], $bp['current_userid'], 'remove' );
-			echo __('Add Friend');
+			echo __('Add Friend', 'buddypress');
 		}
 	} else if ( BP_Friends_Friendship::check_is_friend( $bp['loggedin_userid'], $_POST['fid'] ) == 'not_friends' ) {
 		if ( !friends_add_friend( $bp['loggedin_userid'], $_POST['fid'] ) ) {
-			echo __("Friendship could not be requested.");
+			echo __("Friendship could not be requested.", 'buddypress');
 		} else {
-			echo __('Friendship Requested');
+			echo __('Friendship Requested', 'buddypress');
 		}
 	} else {
-		echo __('Request Pending');
+		echo __('Request Pending', 'buddypress');
 	}
 	
 	return false;

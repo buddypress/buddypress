@@ -58,15 +58,15 @@ function bp_wire_setup_nav() {
 	global $bp;
 
 	/* Add 'Wire' to the main navigation */
-	bp_core_add_nav_item( __('Wire'), $bp['wire']['slug'] );
+	bp_core_add_nav_item( __('Wire', 'buddypress'), $bp['wire']['slug'] );
 	bp_core_add_nav_default( $bp['wire']['slug'], 'bp_wire_screen_latest', 'all-posts' );
 
 	/* Add the subnav items to the wire nav */
- 	bp_core_add_subnav_item( $bp['wire']['slug'], 'all-posts', __('All Posts'), $bp['loggedin_domain'] . $bp['wire']['slug'] . '/', 'bp_wire_screen_latest' );
+ 	bp_core_add_subnav_item( $bp['wire']['slug'], 'all-posts', __('All Posts', 'buddypress'), $bp['loggedin_domain'] . $bp['wire']['slug'] . '/', 'bp_wire_screen_latest' );
 	
 	if ( $bp['current_component'] == $bp['wire']['slug'] ) {
 		if ( bp_is_home() ) {
-			$bp['bp_options_title'] = __('My Wire');
+			$bp['bp_options_title'] = __('My Wire', 'buddypress');
 		} else {
 			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
 			$bp['bp_options_title'] = $bp['current_fullname']; 
@@ -90,7 +90,7 @@ function bp_wire_action_post() {
 		return false;
 	
 	if ( $wire_post_id = bp_wire_new_post( $bp['current_userid'], $_POST['wire-post-textarea'], $bp['profile']['table_name_wire'] ) ) {
-		$bp['message'] = __('Wire message successfully posted.');
+		$bp['message'] = __('Wire message successfully posted.', 'buddypress');
 		$bp['message_type'] = 'success';
 
 		do_action( 'bp_xprofile_new_wire_post', array( 'item_id' => $wire_post_id, 'component_name' => 'profile', 'component_action' => 'new_wire_post', 'is_private' => 0 ) );
@@ -114,7 +114,7 @@ function bp_wire_action_delete() {
 		return false;
 	
 	if ( bp_wire_delete_post( $bp['action_variables'][0], $bp['profile']['table_name_wire'] ) ) {
-		$bp['message'] = __('Wire message successfully deleted.');
+		$bp['message'] = __('Wire message successfully deleted.', 'buddypress');
 		$bp['message_type'] = 'success';
 		
 		do_action( 'bp_xprofile_delete_wire_post' );

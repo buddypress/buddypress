@@ -2,7 +2,7 @@
 
 $is_profile_page = true;
 
-$title = $is_profile_page? __('Profile') : __('Edit User');
+$title = $is_profile_page? __('Profile', 'buddypress') : __('Edit User', 'buddypress');
 if ( current_user_can('edit_users') && !$is_profile_page )
 	$submenu_file = 'users.php';
 else
@@ -20,7 +20,7 @@ if ( !$user_id )
 		$current_user = wp_get_current_user();
 		$user_id = $current_user->ID;
 	} else {
-		wp_die(__('Invalid user ID.'));
+		wp_die(__('Invalid user ID.', 'buddypress'));
 	}
 
 // Only allow site admins to edit every user. 
@@ -41,7 +41,7 @@ case 'update':
 check_admin_referer('update-user_' . $user_id);
 
 if ( !current_user_can('edit_user', $user_id) )
-	wp_die(__('You do not have permission to edit this user.'));
+	wp_die(__('You do not have permission to edit this user.', 'buddypress'));
 
 if ( $is_profile_page ) {
 	do_action('personal_options_update');
@@ -63,15 +63,15 @@ default:
 $profileuser = get_user_to_edit($user_id);
 
 if ( !current_user_can('edit_user', $user_id) )
-		wp_die(__('You do not have permission to edit this user.'));
+		wp_die(__('You do not have permission to edit this user.', 'buddypress'));
 
 ?>
 
 <?php if ( isset($_GET['updated']) ) : ?>
 <div id="message" class="updated fade">
-	<p><strong><?php _e('User updated.') ?></strong></p>
+	<p><strong><?php _e('User updated.', 'buddypress') ?></strong></p>
 	<?php if ( $wp_http_referer && !$is_profile_page ) : ?>
-	<p><a href="users.php"><?php _e('&laquo; Back to Authors and Users'); ?></a></p>
+	<p><a href="users.php"><?php _e('&laquo; Back to Authors and Users', 'buddypress'); ?></a></p>
 	<?php endif; ?>
 </div>
 <?php endif; ?>
@@ -87,7 +87,7 @@ if ( !current_user_can('edit_user', $user_id) )
 <?php } else { ?>
 
 <div class="wrap" id="profile-page">
-<h2><?php $is_profile_page? _e('Account Settings') : _e('Edit User Account Settings'); ?></h2>
+<h2><?php $is_profile_page? _e('Account Settings', 'buddypress') : _e('Edit User Account Settings', 'buddypress'); ?></h2>
 
 <form name="profile" id="your-profile" action="admin.php?page=bp-core/admin-mods/bp-core-account-tab.php" method="post">
 <?php wp_nonce_field('update-user_' . $user_id) ?>
@@ -100,18 +100,18 @@ if ( !current_user_can('edit_user', $user_id) )
 <input type="hidden" name="user_login" id="user_login" value="<?php echo $profileuser->user_login; ?>" disabled="disabled" />
 </p>
 
-<h3><?php _e('Personal Options'); ?></h3>
+<h3><?php _e('Personal Options', 'buddypress'); ?></h3>
 
 <table class="form-table">
 <?php if ( rich_edit_exists() ) : // don't bother showing the option if the editor has been removed ?>
 	<tr>
-		<th scope="row"><?php _e('Visual Editor')?></th>
-		<td><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="true" <?php checked('true', $profileuser->rich_editing); ?> /> <?php _e('Use the visual editor when writing'); ?></label></td>
+		<th scope="row"><?php _e('Visual Editor', 'buddypress')?></th>
+		<td><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="true" <?php checked('true', $profileuser->rich_editing); ?> /> <?php _e('Use the visual editor when writing', 'buddypress'); ?></label></td>
 	</tr>
 <?php endif; ?>
 <tr>
-<th scope="row"><?php _e('Admin Color Scheme')?></th>
-<td><fieldset><legend class="hidden"><?php _e('Admin Color Scheme')?></legend>
+<th scope="row"><?php _e('Admin Color Scheme', 'buddypress')?></th>
+<td><fieldset><legend class="hidden"><?php _e('Admin Color Scheme', 'buddypress')?></legend>
 <?php
 $current_color = get_user_option('admin_color', $user_id);
 if ( empty($current_color) )
@@ -134,24 +134,24 @@ foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
 </tr>
 </table>
 
-<h3><?php $is_profile_page? _e('Your Account Details') : _e('User Account Details'); ?></h3>
+<h3><?php $is_profile_page? _e('Your Account Details', 'buddypress') : _e('User Account Details', 'buddypress'); ?></h3>
 
 <table class="form-table">
 <tr>
-	<th><label for="email">* <?php _e('Account Email') ?></label></th>
-	<td><input type="text" name="email" id="email" value="<?php echo $profileuser->user_email ?>" /> (<?php _e('Required'); ?>)</td>
+	<th><label for="email">* <?php _e('Account Email', 'buddypress') ?></label></th>
+	<td><input type="text" name="email" id="email" value="<?php echo $profileuser->user_email ?>" /> (<?php _e('Required', 'buddypress'); ?>)</td>
 </tr>
 <?php
 $show_password_fields = apply_filters('show_password_fields', true);
 if ( $show_password_fields ) :
 ?>
 <tr>
-	<th><label for="pass1"><?php _e('New Password'); ?></label></th>
-	<td><input type="password" name="pass1" id="pass1" size="16" value="" /> <?php _e("If you would like to change the password type a new one. Otherwise leave this blank."); ?><br />
-		<input type="password" name="pass2" id="pass2" size="16" value="" /> <?php _e("Type your new password again."); ?><br />
+	<th><label for="pass1"><?php _e('New Password', 'buddypress'); ?></label></th>
+	<td><input type="password" name="pass1" id="pass1" size="16" value="" /> <?php _e("If you would like to change the password type a new one. Otherwise leave this blank.", 'buddypress'); ?><br />
+		<input type="password" name="pass2" id="pass2" size="16" value="" /> <?php _e("Type your new password again.", 'buddypress'); ?><br />
 		<?php if ( $is_profile_page ): ?>
-		<p><strong><?php _e('Password Strength'); ?></strong></p>
-		<div id="pass-strength-result"><?php _e('Too short'); ?></div> <?php _e('Hint: Use upper and lower case characters, numbers and symbols like !"?$%^&amp;( in your password.'); ?>
+		<p><strong><?php _e('Password Strength', 'buddypress'); ?></strong></p>
+		<div id="pass-strength-result"><?php _e('Too short', 'buddypress'); ?></div> <?php _e('Hint: Use upper and lower case characters, numbers and symbols like !"?$%^&amp;( in your password.', 'buddypress'); ?>
 		<?php endif; ?>
 	</td>
 </tr>
@@ -170,7 +170,7 @@ if ( $show_password_fields ) :
 <br class="clear" />
 	<table width="99%" style="border: none;" cellspacing="2" cellpadding="3" class="editform">
 		<tr>
-			<th scope="row"><?php _e('Additional Capabilities') ?></th>
+			<th scope="row"><?php _e('Additional Capabilities', 'buddypress') ?></th>
 			<td><?php
 			$output = '';
 			foreach($profileuser->caps as $cap => $value) {
@@ -188,7 +188,7 @@ if ( $show_password_fields ) :
 <p class="submit">
 	<input type="hidden" name="action" value="update" />
 	<input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id; ?>" />
-	<input type="submit" value="<?php $is_profile_page? _e('Update Profile') : _e('Update User') ?>" name="submit" />
+	<input type="submit" value="<?php $is_profile_page? _e('Update Profile', 'buddypress') : _e('Update User', 'buddypress') ?>" name="submit" />
  </p>
 </form>
 </div>

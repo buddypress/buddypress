@@ -76,10 +76,10 @@ function bp_blogs_add_admin_menu() {
 	global $wpdb, $bp, $userdata;
 
 	if ( $wpdb->blogid == $bp['current_homebase_id'] ) {
-		add_menu_page( __("Blogs"), __("Blogs"), 10, 'bp-blogs/admin-tabs/bp-blogs-tab.php' );
-		add_submenu_page( 'bp-blogs/admin-tabs/bp-blogs-tab.php', __("My Blogs"), __("My Blogs"), 10, 'bp-blogs/admin-tabs/bp-blogs-tab.php' );
-		add_submenu_page( 'bp-blogs/admin-tabs/bp-blogs-tab.php', __('Recent Posts'), __('Recent Posts'), 10, 'bp-blogs/admin-tabs/bp-blogs-posts-tab.php' );		
-		add_submenu_page( 'bp-blogs/admin-tabs/bp-blogs-tab.php', __('Recent Comments'), __('Recent Comments'), 10, 'bp-blogs/admin-tabs/bp-blogs-comments-tab.php' );		
+		add_menu_page( __("Blogs", 'buddypress'), __("Blogs", 'buddypress'), 10, 'bp-blogs/admin-tabs/bp-blogs-tab.php' );
+		add_submenu_page( 'bp-blogs/admin-tabs/bp-blogs-tab.php', __("My Blogs", 'buddypress'), __("My Blogs", 'buddypress'), 10, 'bp-blogs/admin-tabs/bp-blogs-tab.php' );
+		add_submenu_page( 'bp-blogs/admin-tabs/bp-blogs-tab.php', __('Recent Posts', 'buddypress'), __('Recent Posts', 'buddypress'), 10, 'bp-blogs/admin-tabs/bp-blogs-posts-tab.php' );		
+		add_submenu_page( 'bp-blogs/admin-tabs/bp-blogs-tab.php', __('Recent Comments', 'buddypress'), __('Recent Comments', 'buddypress'), 10, 'bp-blogs/admin-tabs/bp-blogs-comments-tab.php' );		
 	}
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
@@ -128,22 +128,22 @@ function bp_blogs_setup_nav() {
 	global $bp;
 	
 	/* Add 'Blogs' to the main navigation */
-	bp_core_add_nav_item( __('Blogs'), $bp['blogs']['slug'] );
+	bp_core_add_nav_item( __('Blogs', 'buddypress'), $bp['blogs']['slug'] );
 	bp_core_add_nav_default( $bp['blogs']['slug'], 'bp_blogs_screen_my_blogs', 'my-blogs' );
 	
 	$blogs_link = $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/';
 	
 	/* Add the subnav items to the blogs nav item */
-	bp_core_add_subnav_item( $bp['blogs']['slug'], 'my-blogs', __('My Blogs'), $blogs_link, 'bp_blogs_screen_my_blogs' );
-	bp_core_add_subnav_item( $bp['blogs']['slug'], 'recent-posts', __('Recent Posts'), $blogs_link, 'bp_blogs_screen_recent_posts' );
-	bp_core_add_subnav_item( $bp['blogs']['slug'], 'recent-comments', __('Recent Comments'), $blogs_link, 'bp_blogs_screen_recent_comments' );
-	bp_core_add_subnav_item( $bp['blogs']['slug'], 'create-a-blog', __('Create a Blog'), $blogs_link, 'bp_blogs_screen_create_a_blog' );
+	bp_core_add_subnav_item( $bp['blogs']['slug'], 'my-blogs', __('My Blogs', 'buddypress'), $blogs_link, 'bp_blogs_screen_my_blogs' );
+	bp_core_add_subnav_item( $bp['blogs']['slug'], 'recent-posts', __('Recent Posts', 'buddypress'), $blogs_link, 'bp_blogs_screen_recent_posts' );
+	bp_core_add_subnav_item( $bp['blogs']['slug'], 'recent-comments', __('Recent Comments', 'buddypress'), $blogs_link, 'bp_blogs_screen_recent_comments' );
+	bp_core_add_subnav_item( $bp['blogs']['slug'], 'create-a-blog', __('Create a Blog', 'buddypress'), $blogs_link, 'bp_blogs_screen_create_a_blog' );
 	
 	/* Set up the component options navigation for Blog */
 	if ( $bp['current_component'] == 'blogs' ) {
 		if ( bp_is_home() ) {
 			if ( function_exists('xprofile_setup_nav') ) {
-				$bp['bp_options_title'] = __('My Blogs'); 
+				$bp['bp_options_title'] = __('My Blogs', 'buddypress'); 
 			}
 		} else {
 			/* If we are not viewing the logged in user, set up the current users avatar and name */
@@ -211,7 +211,7 @@ function bp_blogs_format_activity( $item_id, $action, $for_secondary_user = fals
 			if ( !$blog )
 				return false;
 				
-			return bp_core_get_userlink($blog->user_id) . ' ' . __('created a new blog:') . ' <a href="' . get_blog_option( $blog->blog_id, 'siteurl' ) . '">' . get_blog_option( $blog->blog_id, 'blogname' ) . '</a> <span class="time-since">%s</span>';		
+			return bp_core_get_userlink($blog->user_id) . ' ' . __('created a new blog:', 'buddypress') . ' <a href="' . get_blog_option( $blog->blog_id, 'siteurl' ) . '">' . get_blog_option( $blog->blog_id, 'blogname' ) . '</a> <span class="time-since">%s</span>';		
 		break;
 		case 'new_blog_post':
 			$post = new BP_Blogs_Post($item_id);
@@ -224,7 +224,7 @@ function bp_blogs_format_activity( $item_id, $action, $for_secondary_user = fals
 			if ( $post->post_type != 'post' || $post->post_status != 'publish' || $post->post_password != '' )
 				return false;
 
-			$content = bp_core_get_userlink($post->post_author) . ' ' . __('wrote a new blog post') . ' <a href="' . bp_post_get_permalink( $post, $post->blog_id ) . '">' . $post->post_title . '</a> <span class="time-since">%s</span>';		
+			$content = bp_core_get_userlink($post->post_author) . ' ' . __('wrote a new blog post', 'buddypress') . ' <a href="' . bp_post_get_permalink( $post, $post->blog_id ) . '">' . $post->post_title . '</a> <span class="time-since">%s</span>';		
 			$content .= '<blockquote>' . bp_create_excerpt($post->post_content) . '</blockquote>';
 			return $content;
 		break;
@@ -239,7 +239,7 @@ function bp_blogs_format_activity( $item_id, $action, $for_secondary_user = fals
 				return false;
 
 			$comment = BP_Blogs_Comment::fetch_comment_content($comment);
-			$content = bp_core_get_userlink($comment->user_id) . ' ' . __('commented on the blog post ') . ' <a href="' . bp_post_get_permalink( $comment->post, $comment->blog_id ) . '#comment-' . $comment->comment_ID . '">' . $comment->post->post_title . '</a> <span class="time-since">%s</span>';		
+			$content = bp_core_get_userlink($comment->user_id) . ' ' . __('commented on the blog post ', 'buddypress') . ' <a href="' . bp_post_get_permalink( $comment->post, $comment->blog_id ) . '#comment-' . $comment->comment_ID . '">' . $comment->post->post_title . '</a> <span class="time-since">%s</span>';		
 			$content .= '<blockquote>' . bp_create_excerpt($comment->comment_content) . '</blockquote>';
 			return $content;
 		break;

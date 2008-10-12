@@ -94,7 +94,7 @@ function groups_ajax_group_search() {
 				<img class="avatar" alt="Group Avatar" src="<?php echo $group->avatar_thumb ?>"/>
 				<h4>
 					<a href="<?php bp_group_permalink( $group ) ?>"><?php echo $group->name ?></a>
-					<span class="small"> - <?php echo $group->total_member_count . ' ' . __('members') ?></span>
+					<span class="small"> - <?php echo $group->total_member_count . ' ' . __('members', 'buddypress') ?></span>
 				</h4>
 				<p class="desc"><?php echo bp_create_excerpt( $group->description, 20 ) ?></p>
 			</li>
@@ -103,7 +103,7 @@ function groups_ajax_group_search() {
 		echo '[[SPLIT]]' . $pag_links;
 	} else {
 		$result['message'] = '<img src="' . $bp['groups']['image_base'] . '/warning.gif" alt="Warning" /> &nbsp;' . $result['message'];
-		echo "-1[[SPLIT]]" . __("No groups matched your search.");
+		echo "-1[[SPLIT]]" . __("No groups matched your search.", 'buddypress');
 	}
 }
 add_action( 'wp_ajax_group_search', 'groups_ajax_group_search' );
@@ -150,7 +150,7 @@ function groups_ajax_group_finder_search() {
 				<img class="avatar" alt="Group Avatar" src="<?php echo $group->avatar_thumb ?>"/>
 				<h4>
 					<a href="<?php bp_group_permalink( $group ) ?>"><?php echo $group->name ?></a>
-					<span class="small"> - <?php echo $group->total_member_count . ' ' . __('members') ?></span>
+					<span class="small"> - <?php echo $group->total_member_count . ' ' . __('members', 'buddypress') ?></span>
 				</h4>
 				<p class="desc"><?php echo bp_create_excerpt( $group->description, 20 ) ?></p>
 			</li>
@@ -159,7 +159,7 @@ function groups_ajax_group_finder_search() {
 		echo '[[SPLIT]]' . $pag_links;
 	} else {
 		$result['message'] = '<img src="' . $bp['groups']['image_base'] . '/warning.gif" alt="Warning" /> &nbsp;' . $result['message'];
-		echo "-1[[SPLIT]]" . __("No groups matched your search.");
+		echo "-1[[SPLIT]]" . __("No groups matched your search.", 'buddypress');
 	}
 }
 add_action( 'wp_ajax_group_finder_search', 'groups_ajax_group_finder_search' );
@@ -204,14 +204,14 @@ function groups_ajax_widget_groups_list() {
 						<span class="activity">
 							<?php 
 							if ( $_POST['filter'] == 'newest-groups') {
-								echo bp_core_get_last_activity( $group->date_created, __('created '), __(' ago') );
+								echo bp_core_get_last_activity( $group->date_created, __('created ', 'buddypress'), __(' ago', 'buddypress') );
 							} else if ( $_POST['filter'] == 'recently-active-groups') {
-								echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __('active '), __(' ago') );
+								echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __('active ', 'buddypress'), __(' ago', 'buddypress') );
 							} else if ( $_POST['filter'] == 'popular-groups') {
 								if ( $group->total_member_count == 1 )
-									echo $group->total_member_count . __(' member');
+									echo $group->total_member_count . __(' member', 'buddypress');
 								else
-									echo $group->total_member_count . __(' members');
+									echo $group->total_member_count . __(' members', 'buddypress');
 							}
 							?>
 						</span>
@@ -221,7 +221,7 @@ function groups_ajax_widget_groups_list() {
 			<?php	
 		}
 	} else {
-		echo "-1[[SPLIT]]<li>" . __("No groups matched the current filter.");
+		echo "-1[[SPLIT]]<li>" . __("No groups matched the current filter.", 'buddypress');
 	}
 }
 add_action( 'wp_ajax_widget_groups_list', 'groups_ajax_widget_groups_list' );

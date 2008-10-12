@@ -163,22 +163,22 @@ function groups_setup_nav() {
 	}
 
 	/* Add 'Groups' to the main navigation */
-	bp_core_add_nav_item( __('Groups'), $bp['groups']['slug'] );
+	bp_core_add_nav_item( __('Groups', 'buddypress'), $bp['groups']['slug'] );
 	bp_core_add_nav_default( $bp['groups']['slug'], 'groups_screen_my_groups', 'my-groups' );
 		
 	$groups_link = $bp['loggedin_domain'] . $bp['groups']['slug'] . '/';
 	
 	/* Add the subnav items to the groups nav item */
-	bp_core_add_subnav_item( $bp['groups']['slug'], 'my-groups', __('My Groups'), $groups_link, 'groups_screen_my_groups' );
-	bp_core_add_subnav_item( $bp['groups']['slug'], 'group-finder', __('Group Finder'), $groups_link, 'groups_screen_group_finder' );
-	bp_core_add_subnav_item( $bp['groups']['slug'], 'create', __('Create a Group'), $groups_link, 'groups_screen_create_group' );
-	bp_core_add_subnav_item( $bp['groups']['slug'], 'invites', __('Invites'), $groups_link, 'groups_screen_group_invites' );
+	bp_core_add_subnav_item( $bp['groups']['slug'], 'my-groups', __('My Groups', 'buddypress'), $groups_link, 'groups_screen_my_groups' );
+	bp_core_add_subnav_item( $bp['groups']['slug'], 'group-finder', __('Group Finder', 'buddypress'), $groups_link, 'groups_screen_group_finder' );
+	bp_core_add_subnav_item( $bp['groups']['slug'], 'create', __('Create a Group', 'buddypress'), $groups_link, 'groups_screen_create_group' );
+	bp_core_add_subnav_item( $bp['groups']['slug'], 'invites', __('Invites', 'buddypress'), $groups_link, 'groups_screen_group_invites' );
 	
 	if ( $bp['current_component'] == $bp['groups']['slug'] ) {
 		
 		if ( bp_is_home() && !$is_single_group ) {
 			
-			$bp['bp_options_title'] = __('My Groups');
+			$bp['bp_options_title'] = __('My Groups', 'buddypress');
 			
 		} else if ( !bp_is_home() && !$is_single_group ) {
 
@@ -207,22 +207,22 @@ function groups_setup_nav() {
 			
 			bp_core_add_nav_default( $bp['groups']['slug'], 'groups_screen_group_home', 'home' );
 			
-			bp_core_add_subnav_item( $bp['groups']['slug'], 'home', __('Home'), $group_link, 'groups_screen_group_home', 'group-home' );
-			bp_core_add_subnav_item( $bp['groups']['slug'], 'forum', __('Forum'), $group_link , 'groups_screen_group_forum', 'group-forum');
+			bp_core_add_subnav_item( $bp['groups']['slug'], 'home', __('Home', 'buddypress'), $group_link, 'groups_screen_group_home', 'group-home' );
+			bp_core_add_subnav_item( $bp['groups']['slug'], 'forum', __('Forum', 'buddypress'), $group_link , 'groups_screen_group_forum', 'group-forum');
 			
 			if ( function_exists('bp_wire_install') ) {
-				bp_core_add_subnav_item( $bp['groups']['slug'], 'wire', __('Wire'), $group_link, 'groups_screen_group_wire', 'group-wire' );
+				bp_core_add_subnav_item( $bp['groups']['slug'], 'wire', __('Wire', 'buddypress'), $group_link, 'groups_screen_group_wire', 'group-wire' );
 			}
 			
 			if ( function_exists('bp_gallery_install') ) {
-				bp_core_add_subnav_item( $bp['groups']['slug'], 'photos', __('Photos'), $group_link, 'groups_screen_group_photos', 'group-photos' );
+				bp_core_add_subnav_item( $bp['groups']['slug'], 'photos', __('Photos', 'buddypress'), $group_link, 'groups_screen_group_photos', 'group-photos' );
 			}
 			
-			bp_core_add_subnav_item( $bp['groups']['slug'], 'members', __('Members'), $group_link, 'groups_screen_group_members', 'group-members' );
+			bp_core_add_subnav_item( $bp['groups']['slug'], 'members', __('Members', 'buddypress'), $group_link, 'groups_screen_group_members', 'group-members' );
 			
 			if ( is_user_logged_in() && groups_is_user_member( $bp['loggedin_userid'], $group_obj->id ) ) {
-				bp_core_add_subnav_item( $bp['groups']['slug'], 'send-invites', __('Send Invites'), $group_link, 'groups_screen_group_invite', 'group-invite' );
-				bp_core_add_subnav_item( $bp['groups']['slug'], 'leave-group', __('Leave Group'), $group_link, 'groups_screen_group_leave', 'group-leave' );
+				bp_core_add_subnav_item( $bp['groups']['slug'], 'send-invites', __('Send Invites', 'buddypress'), $group_link, 'groups_screen_group_invite', 'group-invite' );
+				bp_core_add_subnav_item( $bp['groups']['slug'], 'leave-group', __('Leave Group', 'buddypress'), $group_link, 'groups_screen_group_leave', 'group-leave' );
 			}
 		}
 	}
@@ -278,19 +278,19 @@ function groups_screen_group_invites() {
 		$member->accept_invite();
 
 		if ( $member->save() ) {
-			$bp['message'] = __('Group invite accepted');
+			$bp['message'] = __('Group invite accepted', 'buddypress');
 			$bp['message_type'] = 'success';
 		} else {
-			$bp['message'] = __('Group invite could not be accepted');
+			$bp['message'] = __('Group invite could not be accepted', 'buddypress');
 			$bp['message_type'] = 'error';					
 		}
 		add_action( 'template_notices', 'bp_core_render_notice' );
 	} else if ( isset($bp['action_variables']) && in_array( 'reject', $bp['action_variables'] ) && is_numeric($bp['action_variables'][1]) ) {
 		if ( BP_Groups_Member::delete( $bp['loggedin_userid'], $bp['action_variables'][1] ) ) {
-			$bp['message'] = __('Group invite rejected');
+			$bp['message'] = __('Group invite rejected', 'buddypress');
 			$bp['message_type'] = 'success';
 		} else {
-			$bp['message'] = __('Group invite could not be rejected');
+			$bp['message'] = __('Group invite could not be rejected', 'buddypress');
 			$bp['message_type'] = 'error';				
 		}
 		add_action( 'template_notices', 'bp_core_render_notice' );
@@ -325,7 +325,7 @@ function groups_screen_create_group() {
 			$group_obj = new BP_Groups_Group( $_COOKIE['group_obj_id'] );
 		} else {
 			if ( !$group_obj_id = &groups_manage_group( $create_group_step, $_COOKIE['group_obj_id'] ) ) {
-				$bp['message'] = __('There was an error saving group details. Please try again.');
+				$bp['message'] = __('There was an error saving group details. Please try again.', 'buddypress');
 				$bp['message_type'] = 'error';
 		
 				add_action( 'template_notices', 'bp_core_render_notice' );
@@ -372,7 +372,7 @@ function groups_screen_group_wire() {
 			if ( !groups_new_wire_post( $group_obj->id, $_POST['wire-post-textarea'] ) ) {
 				bp_catch_uri( 'groups/group-home' );
 			} else {
-				$bp['message'] = __('Wire message successfully posted.');
+				$bp['message'] = __('Wire message successfully posted.', 'buddypress');
 				$bp['message_type'] = 'success';
 
 				add_action( 'template_notices', 'bp_core_render_notice' );
@@ -389,7 +389,7 @@ function groups_screen_group_wire() {
 			if ( !groups_delete_wire_post( $wire_message_id, $bp['groups']['table_name_wire'] ) ) {
 				bp_catch_uri( 'groups/group-home' );
 			} else {
-				$bp['message'] = __('Wire message successfully deleted.');
+				$bp['message'] = __('Wire message successfully deleted.', 'buddypress');
 				$bp['message_type'] = 'success';
 
 				add_action( 'template_notices', 'bp_core_render_notice' );
@@ -437,7 +437,7 @@ function groups_screen_group_invite() {
 			// Send the invites.
 			groups_send_invites($group_obj);
 			
-			$bp['message'] = __('Group invites sent.');
+			$bp['message'] = __('Group invites sent.', 'buddypress');
 			$bp['message_type'] = 'success';
 			
 			add_action( 'template_notices', 'bp_core_render_notice' );
@@ -457,10 +457,10 @@ function groups_screen_group_leave() {
 		if ( isset($bp['action_variables']) && $bp['action_variables'][1] == 'yes' ) {
 			// remove the user from the group.
 			if ( !groups_leave_group( $group_obj->id ) ) {
-				$bp['message'] = __('There was an error leaving the group. Please try again.');
+				$bp['message'] = __('There was an error leaving the group. Please try again.', 'buddypress');
 				$bp['message_type'] = 'error';										
 			} else {
-				$bp['message'] = __('You left the group successfully.');
+				$bp['message'] = __('You left the group successfully.', 'buddypress');
 				$bp['message_type'] = 'success';	
 			}
 			add_action( 'template_notices', 'bp_core_render_notice' );
@@ -489,10 +489,10 @@ function groups_action_join_group() {
 	// user wants to join a group
 	if ( !BP_Groups_Member::check_is_member( $bp['loggedin_userid'], $group_obj->id ) ) {
 		if ( !groups_join_group($group_obj->id) ) {
-			$bp['message'] = __('There was an error joining the group. Please try again.');
+			$bp['message'] = __('There was an error joining the group. Please try again.', 'buddypress');
 			$bp['message_type'] = 'error';
 		} else {
-			$bp['message'] = __('You joined the group!');
+			$bp['message'] = __('You joined the group!', 'buddypress');
 			$bp['message_type'] = 'success';	
 		}
 
@@ -539,7 +539,7 @@ function groups_format_activity( $item_id, $action, $for_secondary_user = false 
 			if ( !$group )
 				return false;
 				
-			return bp_core_get_userlink($bp['current_userid']) . ' ' . __('joined the group') . ' ' . '<a href="' . $bp['current_domain'] . $bp['groups']['slug'] . '/' . $group->slug . '">' . $group->name . '</a>. <span class="time-since">%s</span>';
+			return bp_core_get_userlink($bp['current_userid']) . ' ' . __('joined the group', 'buddypress') . ' ' . '<a href="' . $bp['current_domain'] . $bp['groups']['slug'] . '/' . $group->slug . '">' . $group->name . '</a>. <span class="time-since">%s</span>';
 		break;
 		case 'created_group':
 			$group = new BP_Groups_Group( $item_id );
@@ -547,7 +547,7 @@ function groups_format_activity( $item_id, $action, $for_secondary_user = false 
 			if ( !$group )
 				return false;
 				
-			return bp_core_get_userlink($bp['current_userid']) . ' ' . __('created the group') . ' ' . '<a href="' . $bp['current_domain'] . $bp['groups']['slug'] . '/' . $group->slug . '">' . $group->name . '</a>. <span class="time-since">%s</span>';
+			return bp_core_get_userlink($bp['current_userid']) . ' ' . __('created the group', 'buddypress') . ' ' . '<a href="' . $bp['current_domain'] . $bp['groups']['slug'] . '/' . $group->slug . '">' . $group->name . '</a>. <span class="time-since">%s</span>';
 		break;
 		case 'new_wire_post':
 			$wire_post = new BP_Wire_Post( $bp['groups']['table_name_wire'], $item_id );
@@ -556,7 +556,7 @@ function groups_format_activity( $item_id, $action, $for_secondary_user = false 
 			if ( !$group || !$wire_post )
 				return false;		
 					
-			$content = bp_core_get_userlink($bp['current_userid']) . ' ' . __('wrote on the wire of the group') . ' ' . '<a href="' . $bp['current_domain'] . $bp['groups']['slug'] . '/' . $group->slug . '">' . $group->name . '</a>: <span class="time-since">%s</span>';			
+			$content = bp_core_get_userlink($bp['current_userid']) . ' ' . __('wrote on the wire of the group', 'buddypress') . ' ' . '<a href="' . $bp['current_domain'] . $bp['groups']['slug'] . '/' . $group->slug . '">' . $group->name . '</a>: <span class="time-since">%s</span>';			
 			$content .= '<blockquote>' . bp_create_excerpt($wire_post->content) . '</blockquote>';
 			return $content;
 		break;
@@ -616,39 +616,39 @@ function groups_avatar_upload( $file ) {
 
 	// Set friendly error feedback.
 	$uploadErrors = array(
-	        0 => __("There is no error, the file uploaded with success"), 
-	        1 => __("The uploaded file exceeds the upload_max_filesize directive in php.ini"), 
-	        2 => __("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form"),
-	        3 => __("The uploaded file was only partially uploaded"),
-	        4 => __("No file was uploaded"),
-	        6 => __("Missing a temporary folder")
+	        0 => __("There is no error, the file uploaded with success", 'buddypress'), 
+	        1 => __("The uploaded file exceeds the upload_max_filesize directive in php.ini", 'buddypress'), 
+	        2 => __("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form", 'buddypress'),
+	        3 => __("The uploaded file was only partially uploaded", 'buddypress'),
+	        4 => __("No file was uploaded", 'buddypress'),
+	        6 => __("Missing a temporary folder", 'buddypress')
 	);
 
 	if ( !bp_core_check_avatar_upload($file) ) {
 		$avatar_error = true;
-		$avatar_error_msg = __('Your group avatar upload failed, please try again. Error was: ' . $uploadErrors[$file['file']['error']] );
+		$avatar_error_msg = __('Your group avatar upload failed, please try again. Error was: ' . $uploadErrors[$file['file']['error']] , 'buddypress');
 	}
 
 	else if ( !bp_core_check_avatar_size($file) ) {
 		$avatar_error = true;
 		$avatar_size = size_format(1024 * CORE_MAX_FILE_SIZE);
-		$avatar_error_msg = __('The file you uploaded is too big. Please upload a file under') . size_format(1024 * CORE_MAX_FILE_SIZE);
+		$avatar_error_msg = __('The file you uploaded is too big. Please upload a file under', 'buddypress') . size_format(1024 * CORE_MAX_FILE_SIZE);
 	}
 	
 	else if ( !bp_core_check_avatar_type($file) ) {
 		$avatar_error = true;
-		$avatar_error_msg = __('Please upload only JPG, GIF or PNG photos.');		
+		$avatar_error_msg = __('Please upload only JPG, GIF or PNG photos.', 'buddypress');		
 	}
 
 	// "Handle" upload into temporary location
 	else if ( !$original = bp_core_handle_avatar_upload($file) ) {
 		$avatar_error = true;
-		$avatar_error_msg = __('Upload Failed! Your photo dimensions are likely too big.');						
+		$avatar_error_msg = __('Upload Failed! Your photo dimensions are likely too big.', 'buddypress');						
 	}
 
 	else if ( !bp_core_check_avatar_dimensions($original) ) {
 		$avatar_error = true;
-		$avatar_error_msg = sprintf( __('The image you upload must have dimensions of %d x %d pixels or larger.'), CORE_CROPPING_CANVAS_MAX, CORE_CROPPING_CANVAS_MAX );
+		$avatar_error_msg = sprintf( __('The image you upload must have dimensions of %d x %d pixels or larger.', 'buddypress'), CORE_CROPPING_CANVAS_MAX, CORE_CROPPING_CANVAS_MAX );
 	}
 	
 	if ( !$canvas = bp_core_resize_avatar($original) )
@@ -721,7 +721,7 @@ function groups_manage_group( $step, $group_id ) {
 					// Save the creator as the group administrator
 					$admin = new BP_Groups_Member( $bp['loggedin_userid'], $group->id );
 					$admin->is_admin = 1;
-					$admin->user_title = __('Group Admin');
+					$admin->user_title = __('Group Admin', 'buddypress');
 					$admin->date_modified = time();
 					$admin->inviter_id = 0;
 					$admin->is_confirmed = 1;
@@ -896,7 +896,7 @@ function groups_send_invites( $group_obj ) {
 		$message .= "Accept the invite: " . $invited_user->user_url . $bp['groups']['slug'] . "/invites/accept/" . $group_obj->id . "\n";
 		$message .= "Reject the invite: " . $invited_user->user_url . $bp['groups']['slug'] . "/invites/reject/" . $group_obj->id . "\n";
 
-		wp_mail( $invited_user->email, __("New Group Invitation:") . $group_obj->name, $message, "From: noreply@" . $_SERVER[ 'HTTP_HOST' ]  );
+		wp_mail( $invited_user->email, __("New Group Invitation:", 'buddypress') . $group_obj->name, $message, "From: noreply@" . $_SERVER[ 'HTTP_HOST' ]  );
 	}
 
 	do_action( 'groups_send_invites', array( 'group_id' => $group_obj->id, 'invited_users' => $invited_users ) );

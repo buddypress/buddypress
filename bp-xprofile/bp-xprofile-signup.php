@@ -16,9 +16,9 @@ function xprofile_add_signup_fields() {
 	?>
 	<div id="extraFields">
 		<div id="breaker">
-			<h3><?php _e('Additional Information'); ?></h3>
+			<h3><?php _e('Additional Information', 'buddypress'); ?></h3>
 			<p><?php _e('Please fill in the following fields to start up your member profile. Fields
-				marked with a star are required.'); ?></p>
+				marked with a star are required.', 'buddypress'); ?></p>
 		</div>
 			<?php
 			for ( $i = 0; $i < count($fields); $i++ ) {
@@ -42,8 +42,8 @@ function xprofile_add_signup_fields() {
 	
 	?>
 		<div id="breaker">
-			<h3><?php _e('Profile Picture (Avatar)'); ?></h3>
-			<p><?php _e('You can upload an image from your computer to use as an avatar. This avatar will appear on your profile page.'); ?></p>
+			<h3><?php _e('Profile Picture (Avatar)', 'buddypress'); ?></h3>
+			<p><?php _e('You can upload an image from your computer to use as an avatar. This avatar will appear on your profile page.', 'buddypress'); ?></p>
 		</div>
 			<?php
 			if ( $avatar_error ) {
@@ -95,7 +95,7 @@ function xprofile_validate_signup_fields() {
 			$_POST['blog_public'] = 0;
 
 		if ( $active_signup == "none" ) {
-			_e( "Registration has been disabled." );
+			_e( "Registration has been disabled." , 'buddypress');
 		} else {
 			if ( $active_signup == 'all' || $active_signup == "blog" ) {
 				$_POST['blog_id'] = $_POST['user_name'];
@@ -152,29 +152,29 @@ function xprofile_validate_signup_fields() {
 				if ( bp_core_check_avatar_upload($_FILES) ) {
 					if ( !bp_core_check_avatar_upload($_FILES) ) {
 						$avatar_error = true;
-						$avatar_error_msg = __('Your avatar upload failed, please try again.');
+						$avatar_error_msg = __('Your avatar upload failed, please try again.', 'buddypress');
 					}
 
 					if ( !bp_core_check_avatar_size($_FILES) ) {
 						$avatar_error = true;
 						$avatar_size = size_format(1024 * CORE_MAX_FILE_SIZE);
-						$avatar_error_msg = sprintf( __('The file you uploaded is too big. Please upload a file under %d'), $avatar_size);
+						$avatar_error_msg = sprintf( __('The file you uploaded is too big. Please upload a file under %d', 'buddypress'), $avatar_size);
 					}
 
 					if ( !bp_core_check_avatar_type($_FILES) ) {
 						$avatar_error = true;
-						$avatar_error_msg = __('Please upload only JPG, GIF or PNG photos.');		
+						$avatar_error_msg = __('Please upload only JPG, GIF or PNG photos.', 'buddypress');		
 					}
 
 					// "Handle" upload into temporary location
 					if ( !$original = bp_core_handle_avatar_upload($_FILES) ) {
 						$avatar_error = true;
-						$avatar_error_msg = __('Upload Failed! Your photo dimensions are likely too big.');						
+						$avatar_error_msg = __('Upload Failed! Your photo dimensions are likely too big.', 'buddypress');						
 					}
 
 					if ( !bp_core_check_avatar_dimensions($original) ) {
 						$avatar_error = true;
-						$avatar_error_msg = sprintf( __('The image you upload must have dimensions of %d x %d pixels or larger.'), CORE_AVATAR_V2_W, CORE_AVATAR_V2_W );
+						$avatar_error_msg = sprintf( __('The image you upload must have dimensions of %d x %d pixels or larger.', 'buddypress'), CORE_AVATAR_V2_W, CORE_AVATAR_V2_W );
 					}
 					
 					if ( !$canvas = bp_core_resize_avatar($original) )
@@ -240,7 +240,7 @@ function xprofile_validate_signup_fields() {
 				}
 
 			} else {
-				_e( "Registration has been disabled." );
+				_e( "Registration has been disabled." , 'buddypress');
 			}
 		}
 	}	

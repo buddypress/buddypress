@@ -8,8 +8,8 @@ function groups_register_widgets() {
 	if ( (int)$current_blog->blog_id == 1 ) {
 		
 		/* Site welcome widget */
-		register_sidebar_widget( __('Groups'), 'groups_widget_groups_list');
-		register_widget_control( __('Groups'), 'groups_widget_groups_list_control' );
+		register_sidebar_widget( __('Groups', 'buddypress'), 'groups_widget_groups_list');
+		register_widget_control( __('Groups', 'buddypress'), 'groups_widget_groups_list_control' );
 		
 		/* Include the javascript needed for activated widgets only */
 		if ( is_active_widget( 'groups_widget_groups_list' ) )
@@ -37,9 +37,9 @@ function groups_widget_groups_list($args) {
 	<?php if ( $groups ) : ?>
 		<div class="item-options" id="groups-list-options">
 			<img id="ajax-loader-groups" src="<?php echo $bp['groups']['image_base'] ?>/ajax-loader.gif" height="7" alt="Loading" style="display: none;" /> &nbsp;
-			<a href="<?php echo site_url() . '/groups' ?>" id="newest-groups"><?php _e("Newest") ?></a> | 
-			<a href="<?php echo site_url() . '/groups' ?>" id="recently-active-groups"><?php _e("Active") ?></a> | 
-			<a href="<?php echo site_url() . '/groups' ?>" id="popular-groups" class="selected"><?php _e("Popular") ?></a>
+			<a href="<?php echo site_url() . '/groups' ?>" id="newest-groups"><?php _e("Newest", 'buddypress') ?></a> | 
+			<a href="<?php echo site_url() . '/groups' ?>" id="recently-active-groups"><?php _e("Active", 'buddypress') ?></a> | 
+			<a href="<?php echo site_url() . '/groups' ?>" id="popular-groups" class="selected"><?php _e("Popular", 'buddypress') ?></a>
 		</div>
 		<ul id="groups-list" class="item-list">
 			<?php foreach ( $groups as $group ) : ?>
@@ -55,9 +55,9 @@ function groups_widget_groups_list($args) {
 						<span class="activity">
 							<?php 
 							if ( $group->total_member_count == 1 )
-								echo $group->total_member_count . __(' member');
+								echo $group->total_member_count . __(' member', 'buddypress');
 							else
-								echo $group->total_member_count . __(' members');
+								echo $group->total_member_count . __(' members', 'buddypress');
 							?>
 						</span></div>
 					</div>
@@ -75,7 +75,7 @@ function groups_widget_groups_list($args) {
 		
 	<?php else: ?>
 		<div class="widget-error">
-			<?php _e('There are no groups to display.') ?>
+			<?php _e('There are no groups to display.', 'buddypress') ?>
 		</div>
 	<?php endif; ?>
 	
@@ -99,7 +99,7 @@ function groups_widget_groups_list_control() {
 
 	$max_groups = attribute_escape( $options['max_groups'] );
 ?>
-		<p><label for="groups-widget-groups-list-max"><?php _e('Maximum number of groups to show:'); ?><br /> <input class="widefat" id="groups-widget-groups-list-max" name="groups-widget-groups-list-max" type="text" value="<?php echo $max_groups; ?>" style="width: 30%" /></label></p>
+		<p><label for="groups-widget-groups-list-max"><?php _e('Maximum number of groups to show:', 'buddypress'); ?><br /> <input class="widefat" id="groups-widget-groups-list-max" name="groups-widget-groups-list-max" type="text" value="<?php echo $max_groups; ?>" style="width: 30%" /></label></p>
 		<input type="hidden" id="groups-widget-groups-list-submit" name="groups-widget-groups-list-submit" value="1" />
 <?php
 }

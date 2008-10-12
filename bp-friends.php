@@ -92,20 +92,20 @@ function friends_setup_nav() {
 	global $bp;
 	
 	/* Add 'Friends' to the main navigation */
-	bp_core_add_nav_item( __('Friends'), $bp['friends']['slug'] );
+	bp_core_add_nav_item( __('Friends', 'buddypress'), $bp['friends']['slug'] );
 	bp_core_add_nav_default( $bp['friends']['slug'], 'friends_screen_my_friends', 'my-friends' );
 	
 	$friends_link = $bp['loggedin_domain'] . $bp['friends']['slug'] . '/';
 	
 	/* Add the subnav items to the friends nav item */
-	bp_core_add_subnav_item( $bp['friends']['slug'], 'my-friends', __('My Friends'), $friends_link, 'friends_screen_my_friends' );
-	bp_core_add_subnav_item( $bp['friends']['slug'], 'requests', __('Requests'), $friends_link, 'friends_screen_requests' );
-	bp_core_add_subnav_item( $bp['friends']['slug'], 'friend-finder', __('Friend Finder'), $friends_link, 'friends_screen_friend_finder' );
-	bp_core_add_subnav_item( $bp['friends']['slug'], 'invite-friend', __('Invite Friends'), $friends_link, 'friends_screen_invite_friends' );
+	bp_core_add_subnav_item( $bp['friends']['slug'], 'my-friends', __('My Friends', 'buddypress'), $friends_link, 'friends_screen_my_friends' );
+	bp_core_add_subnav_item( $bp['friends']['slug'], 'requests', __('Requests', 'buddypress'), $friends_link, 'friends_screen_requests' );
+	bp_core_add_subnav_item( $bp['friends']['slug'], 'friend-finder', __('Friend Finder', 'buddypress'), $friends_link, 'friends_screen_friend_finder' );
+	bp_core_add_subnav_item( $bp['friends']['slug'], 'invite-friend', __('Invite Friends', 'buddypress'), $friends_link, 'friends_screen_invite_friends' );
 	
 	if ( $bp['current_component'] == $bp['friends']['slug'] ) {
 		if ( bp_is_home() ) {
-			$bp['bp_options_title'] = __('My Friends');
+			$bp['bp_options_title'] = __('My Friends', 'buddypress');
 		} else {
 			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
 			$bp['bp_options_title'] = $bp['current_fullname']; 
@@ -126,10 +126,10 @@ function friends_screen_requests() {
 	if ( isset($bp['action_variables']) && in_array( 'accept', $bp['action_variables'] ) && is_numeric($bp['action_variables'][1]) ) {
 		
 		if ( friends_accept_friendship( $bp['action_variables'][1] ) ) {
-			$bp['message'] = __('Friendship accepted');
+			$bp['message'] = __('Friendship accepted', 'buddypress');
 			$bp['message_type'] = 'success';
 		} else {
-			$bp['message'] = __('Friendship could not be accepted');
+			$bp['message'] = __('Friendship could not be accepted', 'buddypress');
 			$bp['message_type'] = 'error';					
 		}
 		add_action( 'template_notices', 'bp_core_render_notice' );
@@ -137,10 +137,10 @@ function friends_screen_requests() {
 	} else if ( isset($bp['action_variables']) && in_array( 'reject', $bp['action_variables'] ) && is_numeric($bp['action_variables'][1]) ) {
 		
 		if ( friends_reject_friendship( $bp['action_variables'][1] ) ) {
-			$bp['message'] = __('Friendship rejected');
+			$bp['message'] = __('Friendship rejected', 'buddypress');
 			$bp['message_type'] = 'success';
 		} else {
-			$bp['message'] = __('Friendship could not be rejected');
+			$bp['message'] = __('Friendship could not be rejected', 'buddypress');
 			$bp['message_type'] = 'error';				
 		}
 		add_action( 'template_notices', 'bp_core_render_notice' );
@@ -197,9 +197,9 @@ function friends_format_activity( $friendship_id, $action, $for_secondary_user =
 				return false;
 			
 			if ( $for_secondary_user ) {
-				return bp_core_get_userlink( $friendship->initiator_user_id ) . ' ' . __('and') . ' ' . bp_core_get_userlink($friendship->friend_user_id, false, false, true) . ' ' . __('are now friends') . '. <span class="time-since">%s</span>';				
+				return bp_core_get_userlink( $friendship->initiator_user_id ) . ' ' . __('and', 'buddypress') . ' ' . bp_core_get_userlink($friendship->friend_user_id, false, false, true) . ' ' . __('are now friends', 'buddypress') . '. <span class="time-since">%s</span>';				
 			} else {
-				return bp_core_get_userlink( $friendship->friend_user_id ) . ' ' . __('and') . ' ' . bp_core_get_userlink($friendship->initiator_user_id) . ' ' . __('are now friends') . '. <span class="time-since">%s</span>';								
+				return bp_core_get_userlink( $friendship->friend_user_id ) . ' ' . __('and', 'buddypress') . ' ' . bp_core_get_userlink($friendship->initiator_user_id) . ' ' . __('are now friends', 'buddypress') . '. <span class="time-since">%s</span>';								
 			}
 
 		break;

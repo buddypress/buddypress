@@ -20,7 +20,7 @@ $newblogname = isset($_GET['new']) ? strtolower(preg_replace('/^-|-$|[^-a-zA-Z0-
 
 $current_user = wp_get_current_user();
 if( $active_signup == "none" ) {
-	_e( "Registration has been disabled." );
+	_e( "Registration has been disabled." , 'buddypress');
 } else {
 	if( $active_signup == 'blog' && !is_user_logged_in() )
 		wp_die( 'You must be logged in to register a blog.' );
@@ -44,9 +44,9 @@ if( $active_signup == "none" ) {
 				if ( is_user_logged_in() && ( $active_signup == 'all' || $active_signup == 'blog' ) ) {
 					bp_core_homebase_signup_form($newblogname);
 				} elseif( is_user_logged_in() == false && ( $active_signup == 'blog' ) ) {
-					_e( "I'm sorry. We're not accepting new registrations at this time." );
+					_e( "I'm sorry. We're not accepting new registrations at this time." , 'buddypress');
 				} else {
-					_e( "You're logged in already. No need to register again!" );
+					_e( "You're logged in already. No need to register again!" , 'buddypress');
 				}
 			}
 		break;

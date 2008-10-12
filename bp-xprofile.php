@@ -69,13 +69,13 @@ function xprofile_install( $version ) {
 	$sql[] = "INSERT INTO ". $bp['profile']['table_name_fields'] . " ( 
 				id, group_id, parent_id, type, name, description, is_required, field_order, option_order, order_by, is_public, can_delete
 			  ) VALUES (
-				1, 1, 0, 'textbox', 'First Name', '', 1, 1, 0, '', 1, 0
+				1, 1, 0, 'textbox', '" . __( 'First Name', 'buddypress') . "', '', 1, 1, 0, '', 1, 0
 			  );";
 			
 	$sql[] = "INSERT INTO ". $bp['profile']['table_name_fields'] . " ( 
 				id, group_id, parent_id, type, name, description, is_required, field_order, option_order, order_by, is_public, can_delete
 			  ) VALUES (
-				2, 1, 0, 'textbox', 'Last Name', '', 1, 2, 0, '', 1, 0
+				2, 1, 0, 'textbox', '" . __( 'Last Name', 'buddypress') . "', '', 1, 2, 0, '', 1, 0
 			  );";
 	
 	if ( function_exists('bp_wire_install') ) {
@@ -137,14 +137,14 @@ function xprofile_add_admin_menu() {
 	global $wpdb, $bp, $groups, $userdata;
 	
 	if ( $wpdb->blogid == $bp['current_homebase_id'] ) {
-		add_menu_page( __('Profile'), __('Profile'), 1, basename(__FILE__), 'bp_core_avatar_admin' );
-		add_submenu_page( basename(__FILE__), __('Profile &rsaquo; Avatar'), __('Avatar'), 1, basename(__FILE__), 'xprofile_avatar_admin' );		
+		add_menu_page( __('Profile', 'buddypress'), __('Profile', 'buddypress'), 1, basename(__FILE__), 'bp_core_avatar_admin' );
+		add_submenu_page( basename(__FILE__), __('Profile &rsaquo; Avatar', 'buddypress'), __('Avatar', 'buddypress'), 1, basename(__FILE__), 'xprofile_avatar_admin' );		
 		
 		$groups = BP_XProfile_Group::get_all();
 
 		for ( $i=0; $i < count($groups); $i++ ) {
 			if ( $groups[$i]->fields ) {
-				add_submenu_page( basename(__FILE__), __('Profile') . '  &rsaquo; ' . $groups[$i]->name, $groups[$i]->name, 1, "xprofile_" . $groups[$i]->name, "xprofile_edit" );		
+				add_submenu_page( basename(__FILE__), __('Profile', 'buddypress') . '  &rsaquo; ' . $groups[$i]->name, $groups[$i]->name, 1, "xprofile_" . $groups[$i]->name, "xprofile_edit" );		
 			}
 		}
 	}				
@@ -153,7 +153,7 @@ function xprofile_add_admin_menu() {
 		wp_enqueue_script( 'jquery.tablednd', '/wp-content/mu-plugins/bp-core/js/jquery/jquery.tablednd.js', array( 'jquery' ), '0.4' );
 	
 		/* Add the administration tab under the "Site Admin" tab for site administrators */
-		add_submenu_page( 'wpmu-admin.php', __("Profiles"), __("Profiles"), 1, "xprofile_settings", "xprofile_admin" );
+		add_submenu_page( 'wpmu-admin.php', __("Profiles", 'buddypress'), __("Profiles", 'buddypress'), 1, "xprofile_settings", "xprofile_admin" );
 	}
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
@@ -174,19 +174,19 @@ function xprofile_setup_nav() {
 	global $bp;
 	
 	/* Add 'Profile' to the main navigation */
-	bp_core_add_nav_item( __('Profile'), $bp['profile']['slug'] );
+	bp_core_add_nav_item( __('Profile', 'buddypress'), $bp['profile']['slug'] );
 	bp_core_add_nav_default( $bp['profile']['slug'], 'xprofile_screen_display_profile', 'public' );
 	
 	$profile_link = $bp['loggedin_domain'] . $bp['profile']['slug'] . '/';
 	
 	/* Add the subnav items to the profile */
-	bp_core_add_subnav_item( $bp['profile']['slug'], 'public', __('Public'), $profile_link, 'xprofile_screen_display_profile' );
-	bp_core_add_subnav_item( $bp['profile']['slug'], 'edit', __('Edit Profile'), $profile_link, 'xprofile_screen_edit_profile' );
-	bp_core_add_subnav_item( $bp['profile']['slug'], 'change-avatar', __('Change Avatar'), $profile_link, 'xprofile_screen_change_avatar' );
+	bp_core_add_subnav_item( $bp['profile']['slug'], 'public', __('Public', 'buddypress'), $profile_link, 'xprofile_screen_display_profile' );
+	bp_core_add_subnav_item( $bp['profile']['slug'], 'edit', __('Edit Profile', 'buddypress'), $profile_link, 'xprofile_screen_edit_profile' );
+	bp_core_add_subnav_item( $bp['profile']['slug'], 'change-avatar', __('Change Avatar', 'buddypress'), $profile_link, 'xprofile_screen_change_avatar' );
 
 	if ( $bp['current_component'] == $bp['profile']['slug'] ) {
 		if ( bp_is_home() ) {
-			$bp['bp_options_title'] = __('My Profile');
+			$bp['bp_options_title'] = __('My Profile', 'buddypress');
 		} else {
 			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
 			$bp['bp_options_title'] = $bp['current_fullname']; 
@@ -262,9 +262,9 @@ function xprofile_format_activity( $item_id, $action, $for_secondary_user = fals
 				return false;
 
 			if ( ( $wire_post->item_id == $bp['loggedin_userid'] && $wire_post->user_id == $bp['loggedin_userid'] ) || ( $wire_post->item_id == $bp['current_userid'] && $wire_post->user_id == $bp['current_userid'] ) ) {
-				$content = bp_core_get_userlink($wire_post->user_id) . ' ' . __('wrote on their own wire') . ': <span class="time-since">%s</span>';				
+				$content = bp_core_get_userlink($wire_post->user_id) . ' ' . __('wrote on their own wire', 'buddypress') . ': <span class="time-since">%s</span>';				
 			} else if ( ( $wire_post->item_id != $bp['loggedin_userid'] && $wire_post->user_id == $bp['loggedin_userid'] ) || ( $wire_post->item_id != $bp['current_userid'] && $wire_post->user_id == $bp['current_userid'] ) ) {
-				$content = bp_core_get_userlink($wire_post->user_id) . ' ' . __('wrote on ') . bp_core_get_userlink( $wire_post->item_id, false, false, true, true ) . ' wire: <span class="time-since">%s</span>';				
+				$content = bp_core_get_userlink($wire_post->user_id) . ' ' . __('wrote on ', 'buddypress') . bp_core_get_userlink( $wire_post->item_id, false, false, true, true ) . ' wire: <span class="time-since">%s</span>';				
 			} 
 			
 			$content .= '<blockquote>' . bp_create_excerpt($wire_post->content) . '</blockquote>';
@@ -276,7 +276,7 @@ function xprofile_format_activity( $item_id, $action, $for_secondary_user = fals
 			if ( !$profile_group )
 				return false;
 				
-			return bp_core_get_userlink($bp['current_userid']) . ' ' . __('updated the') . ' "<a href="' . $bp['current_domain'] . $bp['profile']['slug'] . '">' . $profile_group->name . '</a>" ' . __('information on') . ' ' . bp_your_or_their() . ' ' . __('profile') . '. <span class="time-since">%s</span>';
+			return bp_core_get_userlink($bp['current_userid']) . ' ' . __('updated the', 'buddypress') . ' "<a href="' . $bp['current_domain'] . $bp['profile']['slug'] . '">' . $profile_group->name . '</a>" ' . __('information on', 'buddypress') . ' ' . bp_your_or_their() . ' ' . __('profile', 'buddypress') . '. <span class="time-since">%s</span>';
 		break;
 	}
 	
@@ -308,7 +308,7 @@ function xprofile_edit( $group_id = null, $action = null ) {
 ?>
 	<div class="wrap">
 		
-		<h2><?php echo $group->name ?> <?php _e("Information") ?></h2>
+		<h2><?php echo $group->name ?> <?php _e("Information", 'buddypress') ?></h2>
 		
 		<?php
 			if ( $group->fields ) {
@@ -328,7 +328,7 @@ function xprofile_edit( $group_id = null, $action = null ) {
 						     ( $field->is_required && $current_field == '' ) ) {
 							
 							// Validate the field.
-							$field->message = sprintf( __('%s cannot be left blank.'), $field->name );
+							$field->message = sprintf( __('%s cannot be left blank.', 'buddypress'), $field->name );
 							$errors[] = $field->message . "<br />";
 						} else if ( !$field->is_required && ( $current_field == '' || is_null($current_field) ) ) {
 							// data removed, so delete the field data from the DB.								
@@ -356,7 +356,7 @@ function xprofile_edit( $group_id = null, $action = null ) {
 							}
 
 							if( !$profile_data->save() ) {
-								$field->message = __('There was a problem saving changes to this field, please try again.');
+								$field->message = __('There was a problem saving changes to this field, please try again.', 'buddypress');
 							} else {
 								$field->data->value = $profile_data->value;
 							}
@@ -369,19 +369,19 @@ function xprofile_edit( $group_id = null, $action = null ) {
 				$list_html .= '</ul>';
 				
 				$list_html .= '<p class="submit">
-								<input type="submit" name="save" id="save" value="'.__('Save Changes &raquo;').'" />
+								<input type="submit" name="save" id="save" value="'.__('Save Changes &raquo;', 'buddypress').'" />
 							   </p>';
 
 				if ( $errors && isset($_POST['save']) ) {
 					$type = 'error';
-					$message = __('There were problems saving your information. Please fix the following:<br />');
+					$message = __('There were problems saving your information. Please fix the following:<br />', 'buddypress');
 					
 					for ( $i = 0; $i < count($errors); $i++ ) {
 						$message .= $errors[$i];
 					}
 				} else if ( !$errors && isset($_POST['save'] ) ) {
 					$type = 'success';
-					$message = __('Changes saved.');
+					$message = __('Changes saved.', 'buddypress');
 					
 					do_action( 'bp_xprofile_updated_profile', array( 'item_id' => $group->id, 'component_name' => 'profile', 'component_action' => 'updated_profile', 'is_private' => 0 ) );
 					update_usermeta( $bp['loggedin_userid'], 'profile_last_updated', date("Y-m-d H:i:s") );
@@ -389,7 +389,7 @@ function xprofile_edit( $group_id = null, $action = null ) {
 			}
 			else { ?>
 				<div id="message" class="error fade">
-					<p><?php _e('That group does not exist.'); ?></p>
+					<p><?php _e('That group does not exist.', 'buddypress'); ?></p>
 				</div>
 			<?php
 			}
@@ -430,7 +430,7 @@ function xprofile_edit( $group_id = null, $action = null ) {
 function xprofile_add_settings() {
 ?>
 	<div class="wrap">
-		<h2><?php _e('Profile Settings'); ?></h2>
+		<h2><?php _e('Profile Settings', 'buddypress'); ?></h2>
 		<p>Member profile settings will appear here.</p>
 	</div>
 <?php

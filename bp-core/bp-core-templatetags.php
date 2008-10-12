@@ -171,7 +171,7 @@ function bp_get_options_title() {
 	global $bp;
 	
 	if ( $bp['bp_options_title'] == '' )
-		$bp['bp_options_title'] = __('Options');
+		$bp['bp_options_title'] = __('Options', 'buddypress');
 	
 	echo $bp['bp_options_title'];
 }
@@ -209,7 +209,7 @@ function bp_format_time( $time, $just_date = false ) {
 	$date = date( "F j, Y ", $time );
 	
 	if ( !$just_date ) {
-		$date .= __('at') . date( ' g:iA', $time );
+		$date .= __('at', 'buddypress') . date( ' g:iA', $time );
 	}
 	
 	return $date;
@@ -218,7 +218,7 @@ function bp_format_time( $time, $just_date = false ) {
 function bp_my_or_name( $capitalize = true, $echo = true ) {
 	global $bp;
 	
-	$my = __('my');
+	$my = __('my', 'buddypress');
 	
 	if ( $capitalize )
 		$my = ucfirst($my);
@@ -239,7 +239,7 @@ function bp_my_or_name( $capitalize = true, $echo = true ) {
 function bp_you_or_name( $capitalize = true, $echo = true ) {
 	global $bp;
 	
-	$you = __('you haven\'t');
+	$you = __('you haven\'t', 'buddypress');
 	
 	if ( $capitalize )
 		$you = ucfirst($you);
@@ -260,7 +260,7 @@ function bp_you_or_name( $capitalize = true, $echo = true ) {
 function bp_your_or_name( $capitalize = true, $echo = true ) {
 	global $bp;
 	
-	$your = __('your');
+	$your = __('your', 'buddypress');
 	
 	if ( $capitalize )
 		$your = ucfirst($your);
@@ -281,8 +281,8 @@ function bp_your_or_name( $capitalize = true, $echo = true ) {
 function bp_your_or_their( $capitalize = false, $echo = false ) {
 	global $bp;
 	
-	$your = __('your');
-	$their = __('their');
+	$your = __('your', 'buddypress');
+	$their = __('their', 'buddypress');
 	
 	if ( $capitalize )
 		$your = ucfirst($your);

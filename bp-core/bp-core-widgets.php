@@ -8,12 +8,12 @@ function bp_core_register_widgets() {
 	if ( (int)$current_blog->blog_id == 1 ) {
 		
 		/* Site welcome widget */
-		register_sidebar_widget( __('Welcome'), 'bp_core_widget_welcome');
-		register_widget_control( __('Welcome'), 'bp_core_widget_welcome_control' );
+		register_sidebar_widget( __('Welcome', 'buddypress'), 'bp_core_widget_welcome');
+		register_widget_control( __('Welcome', 'buddypress'), 'bp_core_widget_welcome_control' );
 		
 		/* Site members widget */
-		register_sidebar_widget( __('Members'), 'bp_core_widget_members');
-		register_widget_control( __('Members'), 'bp_core_widget_members_control' );
+		register_sidebar_widget( __('Members', 'buddypress'), 'bp_core_widget_members');
+		register_widget_control( __('Members', 'buddypress'), 'bp_core_widget_members_control' );
 		
 		/* Include the javascript needed for activated widgets only */
 		if ( is_active_widget( 'bp_core_widget_members' ) )
@@ -25,8 +25,8 @@ function bp_core_register_widgets() {
 	}
 	
 	/* Widgets that can be enabled anywhere */
-	register_sidebar_widget( __('Who\'s Online'), 'bp_core_widget_whos_online');
-	register_widget_control( __('Who\'s Online'), 'bp_core_widget_whos_online_control' );	
+	register_sidebar_widget( __('Who\'s Online', 'buddypress'), 'bp_core_widget_whos_online');
+	register_widget_control( __('Who\'s Online', 'buddypress'), 'bp_core_widget_whos_online_control' );	
 
 }
 add_action( 'plugins_loaded', 'bp_core_register_widgets' );
@@ -48,7 +48,7 @@ function bp_core_widget_welcome($args) {
 	<h3><?php echo $options['title'] ?></h3>
 	<p><?php echo $options['text'] ?></p>
 
-	<p class="create-account"><a href="<?php echo site_url() ?>/wp-signup.php" title="<?php _e('Create Account') ?>"><img src="<?php echo get_template_directory_uri() ?>/images/create_account_button.gif" alt="<?php _e('Create Account') ?>" /></a></p>
+	<p class="create-account"><a href="<?php echo site_url() ?>/wp-signup.php" title="<?php _e('Create Account', 'buddypress') ?>"><img src="<?php echo get_template_directory_uri() ?>/images/create_account_button.gif" alt="<?php _e('Create Account', 'buddypress') ?>" /></a></p>
 
 	<?php echo $after_widget; ?>
 <?php
@@ -72,9 +72,9 @@ function bp_core_widget_welcome_control() {
 	$title = attribute_escape( $options['title'] );
 	$text = attribute_escape( $options['text'] );
 ?>
-		<p><label for="bp-widget-welcome-title"><?php _e('Title:'); ?> <input class="widefat" id="bp-widget-welcome-title" name="bp-widget-welcome-title" type="text" value="<?php echo $title; ?>" /></label></p>
+		<p><label for="bp-widget-welcome-title"><?php _e('Title:', 'buddypress'); ?> <input class="widefat" id="bp-widget-welcome-title" name="bp-widget-welcome-title" type="text" value="<?php echo $title; ?>" /></label></p>
 		<p>
-			<label for="bp-widget-welcome-text"><?php _e( 'Welcome Text:' ); ?>
+			<label for="bp-widget-welcome-text"><?php _e( 'Welcome Text:' , 'buddypress'); ?>
 				<textarea id="bp-widget-welcome-text" name="bp-widget-welcome-text" class="widefat" style="height: 100px"><?php echo $text; ?></textarea>
 			</label>
 		</p>
@@ -100,9 +100,9 @@ function bp_core_widget_members($args) {
 	<?php if ( $users ) : ?>
 		<div class="item-options" id="members-list-options">
 			<img id="ajax-loader-members" src="<?php echo $bp['core']['image_base'] ?>/ajax-loader.gif" height="7" alt="Loading" style="display: none;" /> &nbsp;
-			<a href="<?php echo site_url() . '/members' ?>" id="newest-members" class="selected"><?php _e("Newest") ?></a> | 
-			<a href="<?php echo site_url() . '/members' ?>" id="recently-active-members"><?php _e("Active") ?></a> | 
-			<a href="<?php echo site_url() . '/members' ?>" id="popular-members"><?php _e("Popular") ?></a>
+			<a href="<?php echo site_url() . '/members' ?>" id="newest-members" class="selected"><?php _e("Newest", 'buddypress') ?></a> | 
+			<a href="<?php echo site_url() . '/members' ?>" id="recently-active-members"><?php _e("Active", 'buddypress') ?></a> | 
+			<a href="<?php echo site_url() . '/members' ?>" id="popular-members"><?php _e("Popular", 'buddypress') ?></a>
 		</div>
 		<ul id="members-list" class="item-list">
 			<?php foreach ( (array) $users as $user ) : ?>
@@ -114,7 +114,7 @@ function bp_core_widget_members($args) {
 
 					<div class="item">
 						<div class="item-title"><?php echo bp_core_get_userlink( $user->user_id ) ?></div>
-						<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( $user->user_registered, __('registered '), __(' ago') ) ?></span></div>
+						<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( $user->user_registered, __('registered ', 'buddypress'), __(' ago', 'buddypress') ) ?></span></div>
 					</div>
 				</li>
 				<?php $counter++; ?>	
@@ -130,7 +130,7 @@ function bp_core_widget_members($args) {
 		
 	<?php else: ?>
 		<div class="widget-error">
-			<?php _e('No one has signed up yet!') ?>
+			<?php _e('No one has signed up yet!', 'buddypress') ?>
 		</div>
 	<?php endif; ?>
 	
@@ -154,7 +154,7 @@ function bp_core_widget_members_control() {
 
 	$max_members = attribute_escape( $options['max_members'] );
 ?>
-		<p><label for="bp-core-widget-members-max"><?php _e('Max Members to show:'); ?> <input class="widefat" id="bp-core-widget-members-max" name="bp-core-widget-members-max" type="text" value="<?php echo $max_members; ?>" style="width: 30%" /></label></p>
+		<p><label for="bp-core-widget-members-max"><?php _e('Max Members to show:', 'buddypress'); ?> <input class="widefat" id="bp-core-widget-members-max" name="bp-core-widget-members-max" type="text" value="<?php echo $max_members; ?>" style="width: 30%" /></label></p>
 		<input type="hidden" id="bp-core-widget-members-submit" name="bp-core-widget-members-submit" value="1" />
 <?php
 }
@@ -194,7 +194,7 @@ function bp_core_widget_whos_online($args) {
 
 	<?php else: ?>
 		<div class="widget-error">
-			<?php _e('There are no users currently online.') ?>
+			<?php _e('There are no users currently online.', 'buddypress') ?>
 		</div>
 	<?php endif; ?>
 
@@ -218,7 +218,7 @@ function bp_core_widget_whos_online_control() {
 	
 	$max_members = attribute_escape( $options['max_members'] );
 ?>
-		<p><label for="bp-widget-whos-online-max-members"><?php _e('Maximum number of members to show:'); ?><br /><input class="widefat" id="bp-widget-whos-online-max-members" name="bp-widget-whos-online-max-members" type="text" value="<?php echo $max_members; ?>" style="width: 30%" /></label></p>
+		<p><label for="bp-widget-whos-online-max-members"><?php _e('Maximum number of members to show:', 'buddypress'); ?><br /><input class="widefat" id="bp-widget-whos-online-max-members" name="bp-widget-whos-online-max-members" type="text" value="<?php echo $max_members; ?>" style="width: 30%" /></label></p>
 		<input type="hidden" id="bp-widget-whos-online-submit" name="bp-widget-whos-online-submit" value="1" />
 <?php
 }

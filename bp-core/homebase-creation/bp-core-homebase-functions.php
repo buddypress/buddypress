@@ -6,8 +6,8 @@ function bp_core_add_homebase_notice() {
 		   prompt them to do that, so they can use the BuddyPress features. */
 		?>
 		<div id="update-nag">
-			<p><a href="admin.php?page=bp-core/homebase-creation/bp-core-homebase-tab.php"><?php _e('Create a Home Base!') ?></a><br />
-			<?php _e('Create your home base and start using all the new social networking features') ?></p>
+			<p><a href="admin.php?page=bp-core/homebase-creation/bp-core-homebase-tab.php"><?php _e('Create a Home Base!', 'buddypress') ?></a><br />
+			<?php _e('Create your home base and start using all the new social networking features', 'buddypress') ?></p>
 		</div>
 		<?php
 	}
@@ -16,7 +16,7 @@ add_action('admin_notices', 'bp_core_add_homebase_notice');
 
 function bp_core_add_createhomebase_tab() {
 	if ( !bp_core_user_has_home() )	{
-		add_menu_page( __('Create Home Base'), __('Create Home Base'), 1, 'bp-core/homebase-creation/bp-core-homebase-tab.php');
+		add_menu_page( __('Create Home Base', 'buddypress'), __('Create Home Base', 'buddypress'), 1, 'bp-core/homebase-creation/bp-core-homebase-tab.php');
 	}
 }
 add_action( 'admin_head', 'bp_core_add_createhomebase_tab' );
@@ -26,7 +26,7 @@ function bp_core_notify_admin_of_homebase() {
 	
 	if ( ( is_site_admin() && $bp['current_userid'] != $bp['loggedin_userid'] ) && ( $wpdb->blogid == $bp['current_homebase_id'] ) ) { ?>
 		<div id="update-nag">
-			<p><strong><?php _e('Administrator Notice:') ?></strong> <?php _e('This is a user home base, not a blog.') ?></p>
+			<p><strong><?php _e('Administrator Notice:', 'buddypress') ?></strong> <?php _e('This is a user home base, not a blog.', 'buddypress') ?></p>
 		</div>	
 	<?php	
 	}		
@@ -57,16 +57,16 @@ function bp_core_homebase_signup_form($blogname = '', $blog_title = '', $errors 
 	$errors = $filtered_results['errors'];
 
 	if ( $errors->get_error_code() ) {
-		echo "<p>" . __('There was a problem, please correct the form below and try again.') . "</p>";
+		echo "<p>" . __('There was a problem, please correct the form below and try again.', 'buddypress') . "</p>";
 	}
 	?>
 	
 	<div class="wrap">
-		<p><h2><?php _e('Create Your Home Base') ?></h2></p>
+		<p><h2><?php _e('Create Your Home Base', 'buddypress') ?></h2></p>
 		<div>
-			<h3><?php _e('What\'s a home base and how do I make one?') ?></h3>
-			<p><?php _e('Your home base will be where you and other members go to view your profile, groups, friends and more.') ?></p>
-			<p><?php _e('Creating a home base is easy, all you have to do is fill in the form below. Once your home base is created, you can start using all the new features. Any existing blogs will be linked with your home base.') ?></p>
+			<h3><?php _e('What\'s a home base and how do I make one?', 'buddypress') ?></h3>
+			<p><?php _e('Your home base will be where you and other members go to view your profile, groups, friends and more.', 'buddypress') ?></p>
+			<p><?php _e('Creating a home base is easy, all you have to do is fill in the form below. Once your home base is created, you can start using all the new features. Any existing blogs will be linked with your home base.', 'buddypress') ?></p>
 
 			<form id="setupform" method="post" action="admin.php?page=bp-core/homebase-creation/bp-core-homebase-tab.php">
 				<input type="hidden" name="stage" value="gimmeanotherblog" />
@@ -74,7 +74,7 @@ function bp_core_homebase_signup_form($blogname = '', $blog_title = '', $errors 
 				<?php bp_core_show_homebase_form($blogname, $blog_title, $errors); ?>
 				<?php do_action( 'signup_extra_fields', $errors ); ?>
 				<p>
-					<input id="submit" type="submit" name="submit" value="<?php _e('Create Home Base &raquo;') ?>" /></p>
+					<input id="submit" type="submit" name="submit" value="<?php _e('Create Home Base &raquo;', 'buddypress') ?>" /></p>
 			</form>
 		</div>
 	</div>
@@ -87,7 +87,7 @@ function bp_core_show_homebase_form($blogname = '', $blog_title = '', $errors = 
 	<table class="form-table">
 	<tbody>
 		<tr>
-			<th scope="row"><?php _e('Username') ?></th>
+			<th scope="row"><?php _e('Username', 'buddypress') ?></th>
 			<td>
 			<?php
 			
@@ -111,7 +111,7 @@ function bp_core_show_homebase_form($blogname = '', $blog_title = '', $errors = 
 	// Blog Title
 	?>
 	<?php if ( !function_exists('xprofile_install') ) { ?>
-		<label for="blog_title"><?php _e('Full Name:') ?></label>	
+		<label for="blog_title"><?php _e('Full Name:', 'buddypress') ?></label>	
 		<?php if ( $errmsg = $errors->get_error_message('blog_title') ) { ?>
 			<p class="error"><?php echo $errmsg ?></p>
 		<?php }

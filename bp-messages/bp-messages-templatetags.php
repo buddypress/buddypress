@@ -215,13 +215,13 @@ function bp_messages_options() {
 	Select: 
 		<select name="message-type-select" id="message-type-select">
 			<option value=""></option>
-			<option value="read"><?php _e('Read') ?></option>
-			<option value="unread"><?php _e('Unread') ?></option>
-			<option value="all"><?php _e('All') ?></option>
+			<option value="read"><?php _e('Read', 'buddypress') ?></option>
+			<option value="unread"><?php _e('Unread', 'buddypress') ?></option>
+			<option value="all"><?php _e('All', 'buddypress') ?></option>
 		</select> &nbsp;
-		<a href="#" id="mark_as_read"><?php _e('Mark as Read') ?></a> &nbsp;
-		<a href="#" id="mark_as_unread"><?php _e('Mark as Unread') ?></a> &nbsp;
-		<a href="#" id="delete_messages"><?php _e('Delete') ?></a> &nbsp;
+		<a href="#" id="mark_as_read"><?php _e('Mark as Read', 'buddypress') ?></a> &nbsp;
+		<a href="#" id="mark_as_unread"><?php _e('Mark as Unread', 'buddypress') ?></a> &nbsp;
+		<a href="#" id="delete_messages"><?php _e('Delete', 'buddypress') ?></a> &nbsp;
 <?php	
 }
 
@@ -230,7 +230,7 @@ function bp_message_is_active_notice() {
 	
 	if ( $messages_template->thread->is_active ) {
 		echo "<strong>";
-		_e('Currently Active');
+		_e('Currently Active', 'buddypress');
 		echo "</strong>";
 	}
 }
@@ -271,9 +271,9 @@ function bp_message_activate_deactivate_text() {
 	global $messages_template;
 	
 	if ( $messages_template->thread->is_active == "1" ) {
-		$text = __('Deactivate');
+		$text = __('Deactivate', 'buddypress');
 	} else {
-		$text = __('Activate');		
+		$text = __('Activate', 'buddypress');		
 	}
 	echo $text;
 }

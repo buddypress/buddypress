@@ -8,8 +8,8 @@ function bp_blogs_register_widgets() {
 	if ( (int)$current_blog->blog_id == 1 ) {
 
 		/* Latest Posts Widget */
-		register_sidebar_widget( __('Recent Blog Posts'), 'bp_blogs_widget_recent_posts');
-		register_widget_control( __('Recent Blog Posts'), 'bp_blogs_widget_recent_posts_control' );
+		register_sidebar_widget( __('Recent Blog Posts', 'buddypress'), 'bp_blogs_widget_recent_posts');
+		register_widget_control( __('Recent Blog Posts', 'buddypress'), 'bp_blogs_widget_recent_posts_control' );
 		
 	}
 }
@@ -34,7 +34,7 @@ function bp_blogs_widget_recent_posts($args) {
 		
 		<?php if ( $posts ) : ?>
 			<div class="item-options" id="recent-posts-options">
-				<?php _e("Site Wide") ?>
+				<?php _e("Site Wide", 'buddypress') ?>
 			</div>
 			<ul id="recent-posts" class="item-list">
 				<?php foreach ( $posts as $post ) : ?>
@@ -56,7 +56,7 @@ function bp_blogs_widget_recent_posts($args) {
 			</ul>
 		<?php else: ?>
 			<div class="widget-error">
-				<?php _e('There are no recent blog posts, why not write one?') ?>
+				<?php _e('There are no recent blog posts, why not write one?', 'buddypress') ?>
 			</div>
 		<?php endif; ?>
 	<?php endif; ?>
@@ -81,7 +81,7 @@ function bp_blogs_widget_recent_posts_control() {
 
 	$max_posts = attribute_escape( $options['max_posts'] );
 ?>
-		<p><label for="bp-blogs-widget-recent-posts-max"><?php _e('Max Number of Posts:'); ?> <input class="widefat" id="bp-blogs-widget-recent-posts-max" name="bp-blogs-widget-recent-posts-max" type="text" value="<?php echo $max_posts; ?>" style="width: 30%" /></label></p>
+		<p><label for="bp-blogs-widget-recent-posts-max"><?php _e('Max Number of Posts:', 'buddypress'); ?> <input class="widefat" id="bp-blogs-widget-recent-posts-max" name="bp-blogs-widget-recent-posts-max" type="text" value="<?php echo $max_posts; ?>" style="width: 30%" /></label></p>
 		<input type="hidden" id="bp-blogs-widget-recent-posts-submit" name="bp-blogs-widget-recent-posts-submit" value="1" />
 <?php
 }

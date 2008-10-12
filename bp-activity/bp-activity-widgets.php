@@ -8,8 +8,8 @@ function bp_activity_register_widgets() {
 	if ( (int)$current_blog->blog_id == 1 ) {
 
 		/* Site Wide Activity Widget */
-		register_sidebar_widget( __('Site Wide Activity'), 'bp_activity_widget_sitewide_activity');
-		register_widget_control( __('Site Wide Activity'), 'bp_activity_widget_sitewide_activity_control' );
+		register_sidebar_widget( __('Site Wide Activity', 'buddypress'), 'bp_activity_widget_sitewide_activity');
+		register_widget_control( __('Site Wide Activity', 'buddypress'), 'bp_activity_widget_sitewide_activity_control' );
 		
 	}
 }
@@ -40,7 +40,7 @@ function bp_activity_widget_sitewide_activity($args) {
 			</ul>
 		<?php else: ?>
 			<div class="widget-error">
-				<?php _e('There has been no recent site activity.') ?>
+				<?php _e('There has been no recent site activity.', 'buddypress') ?>
 			</div>
 		<?php endif; ?>
 	<?php endif; ?>
@@ -65,7 +65,7 @@ function bp_activity_widget_sitewide_activity_control() {
 
 	$max_items = attribute_escape( $options['max_items'] );
 ?>
-		<p><label for="bp-activity-widget-sitewide-items-max"><?php _e('Max Number of Items:'); ?> <input class="widefat" id="bp-activity-widget-sitewide-items-max" name="bp-activity-widget-sitewide-items-max" type="text" value="<?php echo $max_items; ?>" style="width: 30%" /></label></p>
+		<p><label for="bp-activity-widget-sitewide-items-max"><?php _e('Max Number of Items:', 'buddypress'); ?> <input class="widefat" id="bp-activity-widget-sitewide-items-max" name="bp-activity-widget-sitewide-items-max" type="text" value="<?php echo $max_items; ?>" style="width: 30%" /></label></p>
 		<input type="hidden" id="bp-activity-widget-sitewide-submit" name="bp-activity-widget-sitewide-submit" value="1" />
 <?php
 }

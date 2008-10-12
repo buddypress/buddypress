@@ -157,7 +157,7 @@ add_action( 'wp', 'bp_core_component_exists', 10 );
 function bp_core_add_settings_tab() {
 	global $menu;
 	
-	$account_settings_tab = add_menu_page( __('Account'), __('Account'), 10, 'bp-core/admin-mods/bp-core-account-tab.php' );
+	$account_settings_tab = add_menu_page( __('Account', 'buddypress'), __('Account', 'buddypress'), 10, 'bp-core/admin-mods/bp-core-account-tab.php' );
 }
 add_action( 'admin_menu', 'bp_core_add_settings_tab' );
 
@@ -424,16 +424,16 @@ function bp_core_blog_switcher( $contents ) {
 
 	if ( count($list) < count($options) ) :
 ?>
-	<li id="all-my-blogs-tab" class="wp-no-js-hidden"><a href="#" class="blog-picker-toggle"><?php _e( 'All my blogs' ); ?></a></li>
+	<li id="all-my-blogs-tab" class="wp-no-js-hidden"><a href="#" class="blog-picker-toggle"><?php _e( 'All my blogs' , 'buddypress'); ?></a></li>
 
 	</ul>
 
 	<form id="all-my-blogs" action="" method="get" style="display: none">
 		<p>
-			<?php printf( __( 'Choose a blog: %s' ), $select ); ?>
+			<?php printf( __( 'Choose a blog: %s' , 'buddypress'), $select ); ?>
 
-			<input type="submit" class="button" value="<?php _e( 'Go' ); ?>" />
-			<a href="#" class="blog-picker-toggle"><?php _e( 'Cancel' ); ?></a>
+			<input type="submit" class="button" value="<?php _e( 'Go' , 'buddypress'); ?>" />
+			<a href="#" class="blog-picker-toggle"><?php _e( 'Cancel' , 'buddypress'); ?></a>
 		</p>
 	</form>
 <?php
@@ -799,7 +799,7 @@ function bp_core_format_time( $time, $just_date = false ) {
 	$date = date( "F j, Y ", $time );
 	
 	if ( !$just_date ) {
-		$date .= __('at') . date( ' g:iA', $time );
+		$date .= __('at', 'buddypress') . date( ' g:iA', $time );
 	}
 	
 	return $date;
@@ -899,7 +899,7 @@ function bp_upload_dir( $time = NULL, $blog_id ) {
 	
 	// Make sure we have an uploads dir
 	if ( ! wp_mkdir_p( $dir ) ) {
-		$message = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), $dir );
+		$message = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' , 'buddypress'), $dir );
 		return array( 'error' => $message );
 	}
 
@@ -967,13 +967,13 @@ function bp_core_render_notice() {
 function bp_core_time_since( $older_date, $newer_date = false ) {
 	// array of time period chunks
 	$chunks = array(
-	array( 60 * 60 * 24 * 365 , __('year') ),
-	array( 60 * 60 * 24 * 30 , __('month') ),
-	array( 60 * 60 * 24 * 7, __('week') ),
-	array( 60 * 60 * 24 , __('day') ),
-	array( 60 * 60 , __('hour') ),
-	array( 60 , __('minute') ),
-	array( 1, __('second') )
+	array( 60 * 60 * 24 * 365 , __('year', 'buddypress') ),
+	array( 60 * 60 * 24 * 30 , __('month', 'buddypress') ),
+	array( 60 * 60 * 24 * 7, __('week', 'buddypress') ),
+	array( 60 * 60 * 24 , __('day', 'buddypress') ),
+	array( 60 * 60 , __('hour', 'buddypress') ),
+	array( 60 , __('minute', 'buddypress') ),
+	array( 1, __('second', 'buddypress') )
 	);
 
 	/* $newer_date will equal false if we want to know the time elapsed between a date and the current time */
@@ -1008,7 +1008,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 		$seconds2 = $chunks[$i + 1][0];
 		$name2 = $chunks[$i + 1][1];
 		
-		if ( $name2 == __('second') ) return $output;
+		if ( $name2 == __('second', 'buddypress') ) return $output;
 	
 		if ( ( $count2 = floor( ( $since - ( $seconds * $count ) ) / $seconds2 ) ) != 0 ) {
 			/* Add to output var */
@@ -1057,7 +1057,7 @@ add_action( 'wp_head', 'bp_core_record_activity' );
  */
 function bp_core_get_last_activity( $last_activity_date, $before, $after ) {
 	if ( !$last_activity_date || $last_activity_date == '' ) {
-		$last_active = __('not recently active');
+		$last_active = __('not recently active', 'buddypress');
 	} else {
 		$last_active = $before;
 		

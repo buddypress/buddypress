@@ -148,8 +148,8 @@ function bp_activity_content_filter( $content, $date_recorded, $full_name, $inse
 	
 	/* Switch 'their/your' and 'Name/You' depending on whether the user is logged in or not and viewing their profile */
 	if ( $is_home ) {
-		$content[0] = str_replace( __('their'), __('your'), $content[0] );
-		$content[0] = str_replace( $full_name, __('You'), $content[0] );		
+		$content[0] = str_replace( __('their', 'buddypress'), __('your', 'buddypress'), $content[0] );
+		$content[0] = str_replace( $full_name, __('You', 'buddypress'), $content[0] );		
 	}
 	
 	for ( $i = 0; $i < count($content); $i++ )
@@ -159,7 +159,7 @@ function bp_activity_content_filter( $content, $date_recorded, $full_name, $inse
 }
 
 function bp_activity_insert_time_since( $content, $date ) {
-	return sprintf( $content, '&nbsp; ' . bp_core_time_since( strtotime( $date ) ) . ' ' . __('ago') );
+	return sprintf( $content, '&nbsp; ' . bp_core_time_since( strtotime( $date ) ) . ' ' . __('ago', 'buddypress') );
 }
 
 function bp_activity_css_class() {

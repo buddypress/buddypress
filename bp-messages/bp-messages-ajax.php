@@ -40,7 +40,7 @@ function messages_ajax_markunread() {
 	}
 	
 	if ( !isset($_POST['thread_ids']) ) {
-		echo "-1|" . __('There was a problem marking messages as unread.');
+		echo "-1|" . __('There was a problem marking messages as unread.', 'buddypress');
 	} else {
 		$thread_ids = explode( ',', $_POST['thread_ids'] );
 		
@@ -60,7 +60,7 @@ function messages_ajax_markread() {
 	}
 	
 	if ( !isset($_POST['thread_ids']) ) {
-		echo "-1|" . __('There was a problem marking messages as read.');
+		echo "-1|" . __('There was a problem marking messages as read.', 'buddypress');
 	} else {
 		$thread_ids = explode( ',', $_POST['thread_ids'] );
 
@@ -80,7 +80,7 @@ function messages_ajax_delete() {
 	}
 	
 	if ( !isset($_POST['thread_ids']) ) {
-		echo "-1|" . __('There was a problem deleting messages.');
+		echo "-1|" . __('There was a problem deleting messages.', 'buddypress');
 	} else {
 		$thread_ids = explode( ',', $_POST['thread_ids'] );
 
@@ -88,7 +88,7 @@ function messages_ajax_delete() {
 			BP_Messages_Thread::delete($thread_ids[$i]);
 		}
 		
-		echo __('Messages deleted.');
+		echo __('Messages deleted.', 'buddypress');
 	}
 }
 add_action( 'wp_ajax_messages_delete', 'messages_ajax_delete' );
@@ -97,7 +97,7 @@ function messages_ajax_close_notice() {
 	global $userdata;
 
 	if ( !isset($_POST['notice_id']) ) {
-		echo "-1|" . __('There was a problem closing the notice.');
+		echo "-1|" . __('There was a problem closing the notice.', 'buddypress');
 	} else {
 		$notice_ids = get_usermeta( $userdata->ID, 'closed_notices' );
 	

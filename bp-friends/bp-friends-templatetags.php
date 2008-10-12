@@ -241,7 +241,7 @@ function bp_friend_time_since_requested() {
 	global $friends_template;
 	
 	if ( $friends_template->friendship->date_created != "0000-00-00 00:00:00" ) {
-		echo __('requested') . ' ' . bp_core_time_since( strtotime( $friends_template->friendship->date_created ) ) . ' ' . __('ago');
+		echo __('requested', 'buddypress') . ' ' . bp_core_time_since( strtotime( $friends_template->friendship->date_created ) ) . ' ' . __('ago', 'buddypress');
 	}
 }
 
@@ -267,11 +267,11 @@ function bp_friend_search_form() {
 
 	if ( $bp['current_action'] == 'my-friends' || !$bp['current_action'] ) {
 		$action = $bp['current_domain'] . $bp['friends']['slug'] . '/my-friends/search/';
-		$label = __('Filter Friends');
+		$label = __('Filter Friends', 'buddypress');
 		$type = 'friend';
 	} else {
 		$action = $bp['current_domain'] . $bp['friends']['slug'] . '/friend-finder/search/';
-		$label = __('Find Friends');
+		$label = __('Find Friends', 'buddypress');
 		$type = 'finder';
 		$value = $bp['action_variables'][1];
 	}
@@ -325,11 +325,11 @@ function bp_add_friend_button( $potential_friend_id = false ) {
 	
 		echo '<div class="friendship-button" id="friendship-button-' . $potential_friend_id . '">';
 		if ( $friend_status == 'pending' ) {
-			_e('Friendship Requested');
+			_e('Friendship Requested', 'buddypress');
 		} else if ( $friend_status == 'is_friend') {
-			echo '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/remove-friend/' . $potential_friend_id . '" title="' . __('Cancel Friendship') . '" id="friend-' . $potential_friend_id . '" rel="remove" class="remove">' . __('Cancel Friendship') . '</a>';
+			echo '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/remove-friend/' . $potential_friend_id . '" title="' . __('Cancel Friendship', 'buddypress') . '" id="friend-' . $potential_friend_id . '" rel="remove" class="remove">' . __('Cancel Friendship', 'buddypress') . '</a>';
 		} else {
-			echo '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/add-friend/' . $potential_friend_id . '" title="' . __('Add Friend') . '" id="friend-' . $potential_friend_id . '" rel="add">' . __('Add Friend') . '</a>';
+			echo '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/add-friend/' . $potential_friend_id . '" title="' . __('Add Friend', 'buddypress') . '" id="friend-' . $potential_friend_id . '" rel="add">' . __('Add Friend', 'buddypress') . '</a>';
 		}
 		echo '</div>';
 	
@@ -344,7 +344,7 @@ function bp_friends_random_friends() {
 	$friend_ids = BP_Friends_Friendship::get_random_friends( $bp['current_userid'] );
 ?>	
 	<div class="info-group">
-		<h4><?php bp_my_or_name() ?> <?php _e('Friends') ?> (<?php echo BP_Friends_Friendship::total_friend_count() ?>)  <a href="<?php echo $bp['current_domain'] . $bp['friends']['slug'] ?>"><?php _e('See All') ?> &raquo;</a></h4>
+		<h4><?php bp_my_or_name() ?> <?php _e('Friends', 'buddypress') ?> (<?php echo BP_Friends_Friendship::total_friend_count() ?>)  <a href="<?php echo $bp['current_domain'] . $bp['friends']['slug'] ?>"><?php _e('See All', 'buddypress') ?> &raquo;</a></h4>
 		
 		<?php if ( $friend_ids ) { ?>
 			<ul class="horiz-gallery">
@@ -357,7 +357,7 @@ function bp_friends_random_friends() {
 			</ul>
 		<?php } else { ?>
 			<div id="message" class="info">
-				<p><?php bp_you_or_name() ?> <?php _e('added any friend connections yet.') ?></p>
+				<p><?php bp_you_or_name() ?> <?php _e('added any friend connections yet.', 'buddypress') ?></p>
 			</div>
 		<?php } ?>
 		<div class="clear"></div>
