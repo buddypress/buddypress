@@ -7,7 +7,7 @@
 		        || !dynamic_sidebar('right-column') ) : ?>
 		
 		<div class="widget-error">
-			Please log in and <a href="<?php echo get_option('siteurl') ?>/wp-admin/widgets.php?s=&amp;show=&amp;sidebar=sidebar-1">add widgets to this column</a>.
+			Please log in and <a href="<?php echo get_option('siteurl') ?>/wp-admin/widgets.php?s=&amp;show=&amp;sidebar=sidebar-3">add widgets to this column</a>.
 		</div>
 		
 		<?php endif; ?>
@@ -29,7 +29,7 @@
 		        || !dynamic_sidebar('left-column') ) : ?>
 
 		<div class="widget-error">
-			Please log in and <a href="<?php echo get_option('siteurl') ?>/wp-admin/widgets.php?s=&amp;show=&amp;sidebar=sidebar-3">add widgets to this column</a>.
+			Please log in and <a href="<?php echo get_option('siteurl') ?>/wp-admin/widgets.php?s=&amp;show=&amp;sidebar=sidebar-1">add widgets to this column</a>.
 		</div>		
 		
 		<?php endif; ?>
