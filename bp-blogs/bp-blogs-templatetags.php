@@ -711,11 +711,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 
 function bp_blogs_validate_blog_signup() {
 	global $wpdb, $current_user, $blogname, $blog_title, $errors, $domain, $path;
-	
-	if ( VHOST == 'yes' ) {
-		$domain = str_replace( bp_core_get_primary_username() . '.', '', $domain );
-	}
-	
+
 	$current_user = wp_get_current_user();
 	
 	if( !is_user_logged_in() )
