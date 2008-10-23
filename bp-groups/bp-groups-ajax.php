@@ -4,17 +4,6 @@ function groups_ajax_invite_user() {
 
 	check_ajax_referer('invite_user');
 
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		groups_setup_globals();
-		
-		if ( function_exists('friends_setup_globals') )
-			friends_setup_globals();
-		
-		if ( function_exists('xprofile_setup_globals') )
-			xprofile_setup_globals();
-	}
-
 	if ( !$_POST['friend_id'] || !$_POST['friend_action'] || !$_POST['group_id'] )
 		return false;
 	
@@ -55,11 +44,6 @@ function groups_ajax_group_search() {
 
 	check_ajax_referer('group_search');
 
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		groups_setup_globals();
-	}
-	
 	$pag_page = isset( $_POST['fpage'] ) ? intval( $_POST['fpage'] ) : 1;
 	$pag_num = isset( $_POST['num'] ) ? intval( $_POST['num'] ) : 5;
 	$total_group_count = 0;
@@ -113,11 +97,6 @@ function groups_ajax_group_finder_search() {
 
 	check_ajax_referer('groupfinder_search');
 
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		groups_setup_globals();
-	}
-	
 	$pag_page = isset( $_POST['fpage'] ) ? intval( $_POST['fpage'] ) : 1;
 	$pag_num = isset( $_POST['num'] ) ? intval( $_POST['num'] ) : 5;
 	$total_group_count = 0;
@@ -170,11 +149,6 @@ function groups_ajax_widget_groups_list() {
 
 	check_ajax_referer('groups_widget_groups_list');
 
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		groups_setup_globals();
-	}
-	
 	switch ( $_POST['filter'] ) {
 		case 'newest-groups':
 			$groups = groups_get_newest($_POST['max-groups']);

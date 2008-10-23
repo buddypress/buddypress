@@ -30,8 +30,10 @@ function bp_core_set_uri_globals() {
 	global $current_userid;
 	global $is_member_page;
 	
+	$path = apply_filters( 'bp_uri', $_SERVER['REQUEST_URI'] );
+	
 	/* Fetch the current URI and explode each part seperated by '/' into an array */
-	$bp_uri = explode( "/", $_SERVER['REQUEST_URI'] );
+	$bp_uri = explode( "/", $path );
 	
 	/* Take empties off the end of complete URI */
 	if ( $bp_uri[count($bp_uri) - 1] == "" )
@@ -68,7 +70,7 @@ function bp_core_set_uri_globals() {
 	
 	/* Reset the keys by merging with an empty array */
 	$bp_uri = array_merge( array(), $bp_uri );	
-	
+
 	if ( $bp_uri[0] == 'members' && $bp_uri[1] != '' ) {
 		$is_member_page = true;
 		$is_root_component = true;

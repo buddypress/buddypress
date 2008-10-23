@@ -4,13 +4,6 @@ function bp_core_ajax_widget_members() {
 	global $bp;
 
 	check_ajax_referer('bp_core_widget_members');
-
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		
-		if ( function_exists('friends_install') )
-			friends_setup_globals();
-	}
 	
 	switch ( $_POST['filter'] ) {
 		case 'newest-members':
@@ -67,13 +60,6 @@ function bp_core_ajax_directory_members() {
 	global $bp;
 
 	check_ajax_referer('directory_members');
-
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		
-		if ( function_exists('friends_install') )
-			friends_setup_globals();
-	}
 	
 	$users = BP_Core_User::get_users_by_letter( $_POST['letter'] );
 

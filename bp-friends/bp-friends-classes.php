@@ -111,22 +111,21 @@ class BP_Friends_Friendship {
 	function total_friend_count( $user_id = false ) {
 		global $wpdb, $bp;
 		
+		/* This is stored in 'total_friend_count' usermeta. 
+		   This function will recalculate, update and return. */
+		
 		if ( !$user_id )
 			$user_id = $bp['current_userid'];
-			
-		if ( !$friend_count = get_usermeta( $user_id, 'total_friend_count') ) {
-			update_usermeta( $user_id, 'total_friend_count', 0 );
-			
-			$sql = $wpdb->prepare( "SELECT count(id) FROM " . $bp['friends']['table_name'] . " WHERE (initiator_user_id = %d OR friend_user_id = %d) AND is_confirmed = 1", $user_id, $user_id );
-
-			if ( !$friend_count = $wpdb->get_var( $sql ) )
-				return 0;
 		
-			if ( !$friend_count )
-				return 0;
-			
-			update_usermeta( $user_id, 'total_friend_count', $friend_count );
-		}
+		$sql = $wpdb->prepare( "SELECT count(id) FROM " . $bp['friends']['table_name'] . " WHERE (initiator_user_id = %d OR friend_user_id = %d) AND is_confirmed = 1", $user_id, $user_id );
+
+		if ( !$friend_count = $wpdb->get_var( $sql ) )
+			return 0;
+	
+		if ( !$friend_count )
+			return 0;
+		
+		update_usermeta( $user_id, 'total_friend_count', $friend_count );
 		
 		return $friend_count;
 	}
@@ -144,7 +143,7 @@ class BP_Friends_Friendship {
 		$fids = implode( ',', BP_Friends_Friendship::get_friend_ids( $user_id ) );
 
 		// filter the user_ids based on the search criteria.
-		if ( BP_XPROFILE_IS_INSTALLED ) {
+		if ( function_exists('xprofile_install') ) {
 			$sql = $wpdb->prepare( "SELECT DISTINCT user_id as id FROM " . $bp['profile']['table_name_data'] . " WHERE user_id IN ($fids) AND value LIKE '$filter%%'" );
 		} else {
 			$sql = $wpdb->prepare( "SELECT DISTINCT user_id as id FROM $usermeta_table WHERE user_id IN ($fids) AND meta_key = 'nickname' AND meta_value LIKE '$filter%%'" );

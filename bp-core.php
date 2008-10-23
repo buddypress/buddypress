@@ -1,4 +1,5 @@
 <?php
+
 /* Define the current version number for checking if DB tables are up to date. */
 define( 'BP_CORE_VERSION', '0.2.6.1' );
 
@@ -63,7 +64,7 @@ function bp_core_setup_globals() {
 	global $current_user, $current_component, $current_action, $current_blog;
 	global $current_userid;
 	global $action_variables;
-
+	
 	/* The domain for the root of the site where the main blog resides */	
 	$bp['root_domain'] = bp_core_get_root_domain();
 	
@@ -921,6 +922,12 @@ function bp_core_sort_nav_items( $nav_array ) {
 	
 	array_merge( $new_nav, $nav_array );
 	return $new_nav;
+}
+
+function bp_core_referer() {
+	$referer = explode( '/', $_SERVER['HTTP_REFERER'] );
+	unset( $referer[0], $referer[1], $referer[2] );
+	return implode( '/', $referer );
 }
 
 function bp_core_remove_data( $user_id ) {

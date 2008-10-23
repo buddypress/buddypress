@@ -5,14 +5,6 @@ function friends_ajax_friends_search() {
 
 	check_ajax_referer('friend_search');
 
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		friends_setup_globals();
-		
-		if ( function_exists('xprofile_setup_globals') )
-			xprofile_setup_globals();
-	}
-	
 	$pag_page = isset( $_POST['fpage'] ) ? intval( $_POST['fpage'] ) : 1;
 	$pag_num = isset( $_POST['num'] ) ? intval( $_POST['num'] ) : 5;
 	$total_friend_count = 0;
@@ -64,14 +56,6 @@ function friends_ajax_finder_search() {
 	global $bp;
 	
 	check_ajax_referer('finder_search');
-
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		friends_setup_globals();
-		
-		if ( function_exists('xprofile_setup_globals') )
-			xprofile_setup_globals();
-	}
 		
 	$pag_page = isset( $_POST['fpage'] ) ? intval( $_POST['fpage'] ) : 1;
 	$pag_num = isset( $_POST['num'] ) ? intval( $_POST['num'] ) : 5;
@@ -125,11 +109,6 @@ add_action( 'wp_ajax_finder_search', 'friends_ajax_finder_search' );
 
 function friends_ajax_addremove_friend() {
 	global $bp;
-	
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		friends_setup_globals();
-	}
 
 	if ( BP_Friends_Friendship::check_is_friend( $bp['loggedin_userid'], $_POST['fid'] ) == 'is_friend' ) {
 		if ( !friends_remove_friend( $bp['loggedin_userid'], $bp['current_userid'] ) ) {

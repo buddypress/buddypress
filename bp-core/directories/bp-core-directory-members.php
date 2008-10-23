@@ -1,21 +1,21 @@
 <?
-function bp_core_directoy_members_setup() {
+function bp_core_directory_members_setup() {
 	global $bp, $current_blog;
 	
-	// if ( $bp['current_component'] == 'members' && $current_blog->blog_id == 1 ) {
-	// 		add_action( 'bp_template_content', 'bp_core_directory_members_content' );
-	// 		add_action( 'bp_template_sidebar', 'bp_core_directory_members_sidebar' );
-	// 		
-	// 		wp_enqueue_script( 'bp-core-directory-members', site_url() . '/wp-content/mu-plugins/bp-core/js/directory-members.js', array( 'jquery', 'jquery-livequery-pack' ) );
-	// 		wp_enqueue_style( 'bp-core-directory-members', site_url() . '/wp-content/mu-plugins/bp-core/css/directory-members.css' );
-	// 		
-	// 		if ( file_exists( TEMPLATEPATH . '/plugin-template.php' ) )
-	// 			bp_catch_uri('plugin-template');
-	// 		else
-	// 			wp_die( __( 'To enable the member directory you must drop the "plugin-template.php and plugin-sidebar.php" files into your theme directory.', 'buddypress' ) );
-	// 	}
+	if ( $bp['current_component'] == 'members' && $bp['current_action'] == '' ) {
+		add_action( 'bp_template_content', 'bp_core_directory_members_content' );
+		add_action( 'bp_template_sidebar', 'bp_core_directory_members_sidebar' );
+		
+		wp_enqueue_script( 'bp-core-directory-members', site_url() . '/wp-content/mu-plugins/bp-core/js/directory-members.js', array( 'jquery', 'jquery-livequery-pack' ) );
+		wp_enqueue_style( 'bp-core-directory-members', site_url() . '/wp-content/mu-plugins/bp-core/css/directory-members.css' );
+		
+		if ( file_exists( TEMPLATEPATH . '/plugin-template.php' ) )
+			bp_catch_uri('plugin-template');
+		else
+			wp_die( __( 'To enable the member directory you must drop the "plugin-template.php and plugin-sidebar.php" files into your theme directory.', 'buddypress' ) );
+	}
 }
-add_action( 'wp', 'bp_core_directoy_members_setup', 5 );
+add_action( 'wp', 'bp_core_directory_members_setup', 5 );
 
 function bp_core_directory_members_content() {
 	global $bp;
@@ -65,14 +65,22 @@ function bp_core_directory_members_content() {
 			</div>
 			<ul id="members-list" class="item-list">
 			<?php foreach ( $users as $user ) : ?>
+				<?php $user_obj = new BP_Core_User( $user->user_id, true ); ?>
 				<li>
 					<div class="item-avatar">
-						<?php echo bp_core_get_avatar( $user->user_id, 1 ) ?>
+						<?php echo $user_obj->avatar_thumb ?>
 					</div>
 
 					<div class="item">
-						<div class="item-title"><?php echo bp_core_get_userlink( $user->user_id ) ?></div>
-						<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( get_usermeta( $user->user_id, 'last_activity' ), __('registered '), __(' ago') ) ?></span></div>
+						<div class="item-title"><?php echo $user_obj->user_link ?></div>
+						<div class="item-meta"><span class="activity"><?php echo $user_obj->last_active ?></span></div>
+					</div>
+					
+					<div class="action">
+						<?php bp_add_friend_button( $user_obj->id ) ?>
+						<?php if ( $user_obj->total_friends ) echo $user_obj->total_friends ?>
+						<?php if ( $user_obj->total_blogs ) echo $user_obj->total_blogs ?>
+						<?php if ( $user_obj->total_groups ) echo $user_obj->total_groups ?>
 					</div>
 					
 					<div class="clear"></div>

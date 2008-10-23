@@ -5,11 +5,6 @@ function messages_ajax_send_reply() {
 	
 	check_ajax_referer('messages_sendreply');
 	
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		messages_setup_globals();
-	}
-
 	$result = messages_send_message($_REQUEST['send_to'], $_REQUEST['subject'], $_REQUEST['content'], $_REQUEST['thread_id'], true, false, true); 
 
 	if ( $result['status'] ) { ?>
@@ -33,12 +28,7 @@ add_action( 'wp_ajax_messages_send_reply', 'messages_ajax_send_reply' );
 
 function messages_ajax_markunread() {
 	global $bp;
-	
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		messages_setup_globals();
-	}
-	
+
 	if ( !isset($_POST['thread_ids']) ) {
 		echo "-1|" . __('There was a problem marking messages as unread.', 'buddypress');
 	} else {
@@ -54,11 +44,6 @@ add_action( 'wp_ajax_messages_markunread', 'messages_ajax_markunread' );
 function messages_ajax_markread() {
 	global $bp;
 	
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		messages_setup_globals();
-	}
-	
 	if ( !isset($_POST['thread_ids']) ) {
 		echo "-1|" . __('There was a problem marking messages as read.', 'buddypress');
 	} else {
@@ -73,12 +58,7 @@ add_action( 'wp_ajax_messages_markread', 'messages_ajax_markread' );
 
 function messages_ajax_delete() {
 	global $bp;
-	
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		messages_setup_globals();
-	}
-	
+
 	if ( !isset($_POST['thread_ids']) ) {
 		echo "-1|" . __('There was a problem deleting messages.', 'buddypress');
 	} else {

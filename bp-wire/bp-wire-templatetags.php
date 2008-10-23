@@ -212,9 +212,9 @@ function bp_wire_get_action() {
 		$uri = $bp['current_item'];
 	
 	if ( $bp['current_component'] == 'wire' || $bp['current_component'] == 'profile' ) {
-		echo $bp['current_domain'] . $bp['wire']['slug'] . '/post/';
+		echo site_url() . '/' . $bp['wire']['slug'] . '/post/';
 	} else {
-		echo $bp['current_domain'] . $bp[$bp['current_component']]['slug'] . '/' . $uri . '/wire/post/';
+		echo site_url() . '/' . $bp[$bp['current_component']]['slug'] . '/' . $uri . '/wire/post/';
 	}
 }
 
