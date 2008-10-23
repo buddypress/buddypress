@@ -1,6 +1,6 @@
 <?php
 /* Define the current version number for checking if DB tables are up to date. */
-define( 'BP_CORE_VERSION', '0.2.6' );
+define( 'BP_CORE_VERSION', '0.2.6.1' );
 
 /* These components are accessed via the root, and not under a blog name or home base.
    e.g Groups is accessed via: http://domain.com/groups/group-name NOT http://domain.com.andy/groups/group-name */
