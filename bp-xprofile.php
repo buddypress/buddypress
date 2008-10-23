@@ -5,11 +5,13 @@ require_once( 'bp-core.php' );
 define ( 'BP_XPROFILE_IS_INSTALLED', 1 );
 define ( 'BP_XPROFILE_VERSION', '0.3.10' );
 
+require_once( 'bp-xprofile/admin-mods/bp-xprofile-admin-mods.php' );
 require_once( 'bp-xprofile/bp-xprofile-classes.php' );
 require_once( 'bp-xprofile/bp-xprofile-admin.php' );
 require_once( 'bp-xprofile/bp-xprofile-signup.php' );
 require_once( 'bp-xprofile/bp-xprofile-templatetags.php' );
 require_once( 'bp-xprofile/bp-xprofile-cssjs.php' );
+
 
 /**************************************************************************
  xprofile_install()
@@ -107,6 +109,9 @@ function xprofile_install( $version ) {
 
 function xprofile_setup_globals() {
 	global $bp, $wpdb;
+	
+	/* Need to start a session for signup metadata purposes */
+	session_start();
 	
 	$bp['profile'] = array(
 		'table_name_groups' => $wpdb->base_prefix . 'bp_xprofile_groups',
@@ -422,44 +427,24 @@ function xprofile_edit( $group_id = null, $action = null ) {
 }
 
 /**************************************************************************
- xprofile_add_settings()
- 
- Renders the profile tab under settings for each member.
- **************************************************************************/
-
-function xprofile_add_settings() {
-?>
-	<div class="wrap">
-		<h2><?php _e('Profile Settings', 'buddypress'); ?></h2>
-		<p>Member profile settings will appear here.</p>
-	</div>
-<?php
-}
-
-/**************************************************************************
  xprofile_remove_data_on_blog_deletion()
  
  Removes all profile data from the DB if the admin deletes a Home Base.
  **************************************************************************/
 
-function xprofile_remove_data_on_blog_deletion( $blog_id ) {
-	global $wpdb, $bp;
-
-	/* Only delete profile data if we are removing a home base */
-	if ( $user_id = bp_core_get_homebase_userid( $blog_id ) ) {
-		BP_XProfile_ProfileData::delete_data_for_user( $user_id );
-		
-		// delete any avatar files.
-		@unlink( get_usermeta( $user_id, 'bp_core_avatar_v1_path' ) );
-		@unlink( get_usermeta( $user_id, 'bp_core_avatar_v2_path' ) );
-		
-		// unset the usermeta for avatars from the usermeta table.
-		delete_usermeta( $user_id, 'bp_core_avatar_v1' );
-		delete_usermeta( $user_id, 'bp_core_avatar_v1_path' );
-		delete_usermeta( $user_id, 'bp_core_avatar_v2' );
-		delete_usermeta( $user_id, 'bp_core_avatar_v2_path' );
-	}
+function xprofile_remove_data_on_user_deletion( $user_id ) {
+	BP_XProfile_ProfileData::delete_data_for_user( $user_id );
+	
+	// delete any avatar files.
+	@unlink( get_usermeta( $user_id, 'bp_core_avatar_v1_path' ) );
+	@unlink( get_usermeta( $user_id, 'bp_core_avatar_v2_path' ) );
+	
+	// unset the usermeta for avatars from the usermeta table.
+	delete_usermeta( $user_id, 'bp_core_avatar_v1' );
+	delete_usermeta( $user_id, 'bp_core_avatar_v1_path' );
+	delete_usermeta( $user_id, 'bp_core_avatar_v2' );
+	delete_usermeta( $user_id, 'bp_core_avatar_v2_path' );
 }
-add_action( 'delete_blog', 'xprofile_remove_data_on_blog_deletion', 1 );
+add_action( 'delete_user', 'xprofile_remove_data_on_user_deletion', 1 );
 
 ?>

@@ -28,7 +28,6 @@ function bp_core_ajax_widget_members() {
 		echo '0[[SPLIT]]'; // return valid result.
 	
 		foreach ( (array) $users as $user ) {
-			if ( !bp_core_user_has_home($user->user_id) || !$user->user_id ) continue;
 		?>
 			<li>
 				<div class="item-avatar">
@@ -62,5 +61,48 @@ function bp_core_ajax_widget_members() {
 	}
 }
 add_action( 'wp_ajax_widget_members', 'bp_core_ajax_widget_members' );
+
+
+function bp_core_ajax_directory_members() {
+	global $bp;
+
+	check_ajax_referer('directory_members');
+
+	if ( !$bp ) {
+		bp_core_setup_globals();
+		
+		if ( function_exists('friends_install') )
+			friends_setup_globals();
+	}
+	
+	$users = BP_Core_User::get_users_by_letter( $_POST['letter'] );
+
+	if ( $users ) {
+		echo '0[[SPLIT]]'; // return valid result.
+	
+		foreach ( (array) $users as $user ) {
+		?>
+			<li>
+				<div class="item-avatar">
+					<?php echo bp_core_get_avatar( $user->user_id, 1 ) ?>
+				</div>
+
+				<div class="item">
+					<div class="item-title"><?php echo bp_core_get_userlink( $user->user_id ) ?></div>
+					<div class="item-meta">
+						<span class="activity">
+							<?php echo bp_core_get_last_activity( get_usermeta( $user->user_id, 'last_activity' ), __('active '), __(' ago') ); ?>
+						</span>
+					</div>
+				</div>
+			</li>
+			<?php	
+		}
+	} else {
+		echo "-1[[SPLIT]]<li>" . __("No members matched the current filter.");
+	}
+}
+add_action( 'wp_ajax_directory_members', 'bp_core_ajax_directory_members' );
+
 
 ?>

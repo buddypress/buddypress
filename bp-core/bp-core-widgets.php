@@ -106,7 +106,6 @@ function bp_core_widget_members($args) {
 		</div>
 		<ul id="members-list" class="item-list">
 			<?php foreach ( (array) $users as $user ) : ?>
-				<?php if ( !bp_core_user_has_home($user->user_id) ) continue; ?>
 				<li>
 					<div class="item-avatar">
 						<?php echo bp_core_get_avatar( $user->user_id, 1 ) ?>
@@ -177,7 +176,6 @@ function bp_core_widget_whos_online($args) {
 	<?php if ( $users ) : ?>
 			<div class="avatar-block">
 			<?php foreach ( (array) $users as $user ) : ?>
-				<?php if ( !bp_core_user_has_home($user->user_id) || !$user->user_id ) continue; ?>
 				<div class="item-avatar">
 					<a href="<?php echo bp_core_get_userurl($user->user_id) ?>" title="<?php bp_fetch_user_fullname( $user->user_id, true ) ?>"><?php echo bp_core_get_avatar( $user->user_id, 1 ) ?></a>
 				</div>

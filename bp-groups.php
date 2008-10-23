@@ -160,6 +160,12 @@ function groups_setup_nav() {
 	
 		/* Using "item" not "group" for generic support in other components. */
 		$bp['is_item_admin'] = groups_is_user_admin( $bp['loggedin_userid'], $group_obj->id );
+		
+		/* Is the logged in user a member of the group? */
+		$is_member = ( BP_Groups_Member::check_is_member( $bp['loggedin_userid'], $group_obj->id ) ) ? true : false;
+	
+		/* Should this group be visible to the logged in user? */
+		$is_visible = ( $group_obj->status == 'public' || $is_member ) ? true : false;
 	}
 
 	/* Add 'Groups' to the main navigation */
@@ -185,7 +191,7 @@ function groups_setup_nav() {
 			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
 			$bp['bp_options_title'] = $bp['current_fullname'];
 			
-		} else if ( $is_single_group ) {		
+		} else if ( $is_single_group ) {
 			// We are viewing a single group, so set up the
 			// group navigation menu using the $group_obj global.
 			
@@ -207,57 +213,27 @@ function groups_setup_nav() {
 			
 			bp_core_add_nav_default( $bp['groups']['slug'], 'groups_screen_group_home', 'home' );
 			
-			bp_core_add_subnav_item( $bp['groups']['slug'], 'home', __('Home', 'buddypress'), $group_link, 'groups_screen_group_home', 'group-home' );
-			bp_core_add_subnav_item( $bp['groups']['slug'], 'forum', __('Forum', 'buddypress'), $group_link , 'groups_screen_group_forum', 'group-forum');
+			bp_core_add_subnav_item( $bp['groups']['slug'], 'home', __('Home', 'buddypress'), $group_link, 'groups_screen_group_home', 'group-home', $is_visible );
+			bp_core_add_subnav_item( $bp['groups']['slug'], 'forum', __('Forum', 'buddypress'), $group_link , 'groups_screen_group_forum', 'group-forum', $is_visible);
 			
 			if ( function_exists('bp_wire_install') ) {
-				bp_core_add_subnav_item( $bp['groups']['slug'], 'wire', __('Wire', 'buddypress'), $group_link, 'groups_screen_group_wire', 'group-wire' );
+				bp_core_add_subnav_item( $bp['groups']['slug'], 'wire', __('Wire', 'buddypress'), $group_link, 'groups_screen_group_wire', 'group-wire', $is_visible );
 			}
 			
 			if ( function_exists('bp_gallery_install') ) {
-				bp_core_add_subnav_item( $bp['groups']['slug'], 'photos', __('Photos', 'buddypress'), $group_link, 'groups_screen_group_photos', 'group-photos' );
+				bp_core_add_subnav_item( $bp['groups']['slug'], 'photos', __('Photos', 'buddypress'), $group_link, 'groups_screen_group_photos', 'group-photos', $is_visible );
 			}
 			
-			bp_core_add_subnav_item( $bp['groups']['slug'], 'members', __('Members', 'buddypress'), $group_link, 'groups_screen_group_members', 'group-members' );
+			bp_core_add_subnav_item( $bp['groups']['slug'], 'members', __('Members', 'buddypress'), $group_link, 'groups_screen_group_members', 'group-members', $is_visible );
 			
 			if ( is_user_logged_in() && groups_is_user_member( $bp['loggedin_userid'], $group_obj->id ) ) {
-				bp_core_add_subnav_item( $bp['groups']['slug'], 'send-invites', __('Send Invites', 'buddypress'), $group_link, 'groups_screen_group_invite', 'group-invite' );
-				bp_core_add_subnav_item( $bp['groups']['slug'], 'leave-group', __('Leave Group', 'buddypress'), $group_link, 'groups_screen_group_leave', 'group-leave' );
+				bp_core_add_subnav_item( $bp['groups']['slug'], 'send-invites', __('Send Invites', 'buddypress'), $group_link, 'groups_screen_group_invite', 'group-invite', $is_member );
+				bp_core_add_subnav_item( $bp['groups']['slug'], 'leave-group', __('Leave Group', 'buddypress'), $group_link, 'groups_screen_group_leave', 'group-leave', $is_member );
 			}
 		}
 	}
 }
 add_action( 'wp', 'groups_setup_nav', 2 );
-
-function groups_get_group_theme() {
-	global $current_component, $current_action, $is_single_group;
-		
-	// The theme filter does not recognize any globals, where as the stylesheet filter does.
-	// We have to set up the globals to use manually.
-	bp_core_set_uri_globals();
-	$groups_bp = groups_setup_globals(true);
-
-	if ( $current_component == $groups_bp['groups']['slug'] )
-		$is_single_group = BP_Groups_Group::group_exists( $current_action, $groups_bp['groups']['table_name'] );
-
-	if ( $current_component == $groups_bp['groups']['slug'] && $is_single_group )
-		$theme = 'buddypress';
-	else
-		$theme = get_option('template');
-	
-	return $theme;
-}
-add_filter( 'template', 'groups_get_group_theme' );
-
-function groups_get_group_stylesheet() {
-	global $bp, $is_single_group;
-	
-	if ( $bp['current_component'] == $bp['groups']['slug'] && $is_single_group )	
-		return 'buddypress';
-	else
-		return get_option('stylesheet');	
-}
-add_filter( 'stylesheet', 'groups_get_group_stylesheet' );
 
 
 /***** Screens **********/
@@ -632,7 +608,7 @@ function groups_avatar_upload( $file ) {
 	else if ( !bp_core_check_avatar_size($file) ) {
 		$avatar_error = true;
 		$avatar_size = size_format(1024 * CORE_MAX_FILE_SIZE);
-		$avatar_error_msg = __('The file you uploaded is too big. Please upload a file under', 'buddypress') . size_format(1024 * CORE_MAX_FILE_SIZE);
+		$avatar_error_msg = __('The file you uploaded is too big. Please upload a file under', 'buddypress') . size_format(CORE_MAX_FILE_SIZE);
 	}
 	
 	else if ( !bp_core_check_avatar_type($file) ) {

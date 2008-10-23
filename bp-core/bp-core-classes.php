@@ -60,14 +60,12 @@ class BP_Core_User {
 		
 		$this->fullname = bp_core_get_userlink( $this->id, true );
 		$this->email = bp_core_get_user_email( $this->id );
-		$this->last_active = bp_core_get_last_activity( get_usermeta( $this->id, 'last_activity' ), __('active ', 'buddypress'), __(' ago', 'buddypress') );
+		$this->last_active = bp_core_get_last_activity( get_usermeta( $this->id, 'last_activity' ), __('active '), __(' ago') );
 		
 		if ( function_exists('xprofile_install') ) {
 			$this->avatar = bp_core_get_avatar( $this->id, 2 );
 			$this->avatar_thumb = bp_core_get_avatar( $this->id, 1 );
 			$this->avatar_mini = bp_core_get_avatar( $this->id, 1, false, 25, 25 );
-			
-			$this->profile_last_updated = bp_profile_last_updated_date( $this->id, false );
 		}
 		
 		if ( function_exists('bp_statuses_install') ) {
@@ -115,6 +113,28 @@ class BP_Core_User {
 			$limit = 5;
 
 		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'last_activity' AND DATE_ADD( FROM_UNIXTIME(meta_value), INTERVAL 5 MINUTE ) >= NOW() ORDER BY FROM_UNIXTIME(meta_value) DESC LIMIT %d", $limit ) );		
+	}
+	
+	function get_users_by_letter( $letter, $limit = 5 ) {
+		global $wpdb, $bp;
+		
+		if ( !function_exists('xprofile_install') )
+			return false;
+		
+		if ( !$bp ) {
+			bp_core_setup_globals();
+			xprofile_setup_globals();
+		}
+		
+		if ( !$limit )
+			$limit = 5;
+		
+		if ( strlen($letter) > 1 || is_numeric($letter) || !$letter )
+			return false;
+		
+		like_escape($letter);
+		
+		return $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT um.user_id FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$bp['profile']['table_name_data']} pd ON um.user_id = pd.user_id LEFT JOIN {$bp['profile']['table_name_fields']} pf ON pd.field_id = pf.id WHERE pf.name = 'First Name' AND pd.value LIKE '$letter%%' ORDER BY pf.name DESC" ) ); 
 	}
 }
 

@@ -4,20 +4,37 @@ define( 'BP_CORE_VERSION', '0.2.5' );
 
 /* These components are accessed via the root, and not under a blog name or home base.
    e.g Groups is accessed via: http://domain.com/groups/group-name NOT http://domain.com.andy/groups/group-name */
-define( 'BP_CORE_ROOT_COMPONENTS', 'groups' );
+define( 'BP_CORE_ROOT_COMPONENTS', 'groups,members' );
 
-/* Require all needed files */
+/* Functions to handle pretty URLs and breaking them down into usable variables */
 require_once( 'bp-core/bp-core-catchuri.php' );
+
+/* Database access classes */
 require_once( 'bp-core/bp-core-classes.php' );
+
+/* Functions to control the inclusion of CSS and JS files */
 require_once( 'bp-core/bp-core-cssjs.php' );
+
+/* Functions that handle the uploading, cropping, validation and storing of avatars */
 require_once( 'bp-core/bp-core-avatars.php' );
+
+/* Template functions/tags that can be used in template files */
 require_once( 'bp-core/bp-core-templatetags.php' );
+
+/* Functions to enable the site wide administration bar */
 require_once( 'bp-core/bp-core-adminbar.php' );
+
+/* Bundled core widgets that can be dropped into themes */
 require_once( 'bp-core/bp-core-widgets.php' );
+
+/* AJAX functionality */
 require_once( 'bp-core/bp-core-ajax.php' );
-require_once( 'bp-core/admin-mods/bp-core-remove-blogtabs.php' );
-require_once( 'bp-core/admin-mods/bp-core-admin-styles.php' );
-require_once( 'bp-core/homebase-creation/bp-core-homebase-functions.php' );
+
+/* Functions to handle and display the member and blog directory pages */
+require_once( 'bp-core/directories/bp-core-directory-members.php' );
+
+
+/* "And now for something completely different" .... */
 
 
 /**
@@ -39,20 +56,24 @@ require_once( 'bp-core/homebase-creation/bp-core-homebase-functions.php' );
  */
 function bp_core_setup_globals() {
 	global $bp;
-	global $current_user, $current_component, $current_action;
+	global $current_user, $current_component, $current_action, $current_blog;
+	global $current_userid;
 	global $action_variables;
+
+	/* The domain for the root of the site where the main blog resides */	
+	$bp['root_domain'] = bp_core_get_root_domain();
 	
 	/* The user ID of the user who is currently logged in. */
 	$bp['loggedin_userid'] = $current_user->ID;
 	
-	/* The domain for the user currently logged in. eg: http://andy.domain.com/ */
-	$bp['loggedin_domain'] = bp_core_get_loggedin_domain();
+	/* The user id of the user currently being viewed */
+	$bp['current_userid'] = $current_userid;
+	
+	/* The domain for the user currently logged in. eg: http://domain.com/members/andy */
+	$bp['loggedin_domain'] = bp_core_get_user_domain($current_user->ID);
 	
 	/* The domain for the user currently being viewed */
-	$bp['current_domain'] = bp_core_get_current_domain();
-	
-	/* The user id of the user currently being viewed */
-	$bp['current_userid'] = bp_core_get_current_userid();
+	$bp['current_domain'] = bp_core_get_user_domain($current_userid);
 	
 	/* The component being used eg: http://andy.domain.com/ [profile] */
 	$bp['current_component'] = $current_component; // type: string
@@ -89,11 +110,7 @@ function bp_core_setup_globals() {
 	
 	/* Sets up container for callback message type rendered by bp_core_render_notice() */
 	$bp['message_type'] = ''; // error/success
-	
-	/* Fetch the home base blog id for the logged in and current user */
-	$bp['loggedin_homebase_id'] = get_usermeta( $bp['loggedin_userid'], 'home_base' );
-	$bp['current_homebase_id'] = get_usermeta( $bp['current_userid'], 'home_base' );
-	
+
 	/* Fetch the full name for the logged in and current user */
 	$bp['loggedin_fullname'] = bp_core_global_user_fullname( $bp['loggedin_userid'] );
 	$bp['current_fullname'] = bp_core_global_user_fullname( $bp['current_userid'] );
@@ -114,92 +131,72 @@ function bp_core_setup_globals() {
 add_action( 'wp', 'bp_core_setup_globals', 1 );
 add_action( '_admin_menu', 'bp_core_setup_globals', 1 ); // must be _admin_menu hook.
 
-/**
- * bp_core_component_exists()
- *
- * Check to see if a component with the given name actually exists.
- * If not, redirect to the 404.
- * 
- * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @return false if no, or true if yes.
- */
-function bp_core_component_exists() {
-	global $bp, $wpdb;
+function bp_core_setup_nav() {
+	global $bp;
+	
+	if ( !function_exists('xprofile_install') ) {
+		/* Add 'Profile' to the main navigation */
+		bp_core_add_nav_item( __('Profile', 'buddypress'), 'profile' );
+		bp_core_add_nav_default( 'profile', 'bp_core_catch_profile_uri', 'public' );
 
-	if ( $wpdb->blogid == $bp['current_homebase_id'] ) {
-		$component_check = $bp['current_component'];
+		$profile_link = $bp['loggedin_domain'] . '/profile/';
 
-		if ( strpos( $component_check, 'activate.php' ) )
-			return true;
+		/* Add the subnav items to the profile */
+		bp_core_add_subnav_item( 'profile', 'public', __('Public', 'buddypress'), $profile_link, 'xprofile_screen_display_profile' );
 
-		if ( empty($bp[$component_check]) ) {
-			status_header('404');
-			load_template( TEMPLATEPATH . '/header.php'); 
-			load_template( TEMPLATEPATH . '/404.php');
-			load_template( TEMPLATEPATH . '/footer.php');
-			die;
+		if ( $bp['current_component'] == 'profile' ) {
+			if ( bp_is_home() ) {
+				$bp['bp_options_title'] = __('My Profile', 'buddypress');
+			} else {
+				$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
+				$bp['bp_options_title'] = $bp['current_fullname']; 
+			}
 		}
 	}
 }
-add_action( 'wp', 'bp_core_component_exists', 10 );
-
-
-/**
- * bp_core_add_settings_tab()
- *
- * Adds a custom settings tab to the home base for the user
- * in the admin area.
- * 
- * @package BuddyPress Core
- * @global $menu The global WordPress admin navigation menu.
- */
-function bp_core_add_settings_tab() {
-	global $menu;
-	
-	$account_settings_tab = add_menu_page( __('Account', 'buddypress'), __('Account', 'buddypress'), 10, 'bp-core/admin-mods/bp-core-account-tab.php' );
-}
-add_action( 'admin_menu', 'bp_core_add_settings_tab' );
+add_action( 'wp', 'bp_core_setup_nav', 2 );
 
 /**
- * bp_core_get_loggedin_domain()
+ * bp_core_get_user_domain()
  *
- * Returns the domain for the user that is currently logged in.
- * eg: http://andy.domain.com/ or http://domain.com/andy/
+ * Returns the domain for the passed user:
+ * e.g. http://domain.com/members/andy/
  * 
  * @package BuddyPress Core
  * @global $current_user WordPress global variable containing current logged in user information
- * @param optional user_id
- * @uses get_usermeta() WordPress function to get the usermeta for a current user.
+ * @param user_id The ID of the user.
+ * @uses get_usermeta() WordPress function to get the usermeta for a user.
  */
-function bp_core_get_loggedin_domain( $user_id = null ) {
-	global $current_user;
+function bp_core_get_user_domain( $user_id ) {
+	global $bp;
 	
-	if ( !$user_id )
-		$user_id = $current_user->ID;
+	if ( !$user_id ) return;
 	
-	/* Get the ID of the home base blog */
-	if ( $home_base_id = get_usermeta( $user_id, 'home_base' ) )
-		return get_blog_option( $home_base_id, 'siteurl' ) . '/';
-	else
-		return false;
+	$ud = get_userdata($user_id);
+	
+	return $bp['root_domain'] . '/members/' . $ud->user_login . '/';
 }
 
 /**
- * bp_core_get_current_domain()
+ * bp_core_get_root_domain()
  *
- * Returns the domain for the user that is currently being viewed.
- * eg: http://andy.domain.com/ or http://domain.com/andy/
+ * Returns the domain for the root blog.
+ * eg: http://domain.com/ OR https://domain.com
  * 
  * @package BuddyPress Core
  * @global $current_blog WordPress global variable containing information for the current blog being viewed.
- * @uses get_bloginfo() WordPress function to return the value of a blog setting based on param passed
- * @return $current_domain The domain for the user that is currently being viewed.
+ * @uses switch_to_blog() WordPress function to switch to a blog of the given ID.
+ * @uses site_url() WordPress function to return the current site url.
+ * @return $domain The domain URL for the blog.
  */
-function bp_core_get_current_domain() {
+function bp_core_get_root_domain() {
 	global $current_blog;
 	
-	return get_blog_option( $current_blog->blog_id, 'siteurl' ) . '/';
+	switch_to_blog(1);
+	$domain = site_url();
+	switch_to_blog($current_blog->blog_id);
+	
+	return $domain;
 }
 
 /**
@@ -213,301 +210,8 @@ function bp_core_get_current_domain() {
  * @uses bp_core_get_user_home_userid() Checks to see if there is user_home usermeta set for the current_blog.
  * @return $current_userid The user id for the user that is currently being viewed, return zero if this is not a user home and just a normal blog.
  */
-function bp_core_get_current_userid() {
-	global $current_blog, $current_user;
-	
-	if ( $current_blog->blog_id == 1 )
-		return $current_user->ID;
-		
-	/* Check to see if this is a user home, and if it is, get the user id */
-	if ( !$current_userid = bp_core_get_homebase_userid( $current_blog->blog_id ) )
-		return false; // return false if this is a normal blog, and not a user home.
-	
-	return $current_userid;
-}
-
-/**
- * bp_core_get_user_home_userid()
- *
- * Checks to see if there is user_home usermeta set for the current_blog.
- * If it is set, return the user_id, if not, return false.
- * 
- * @package BuddyPress Core
- * @param $blog_id The ID of the blog to check user_home metadata for.
- * @global $wpdb WordPress DB access object.
- * @return $current_userid The user id for the home base.
- */
-function bp_core_get_homebase_userid( $blog_id ) {
-	global $wpdb;
-	
-	return $wpdb->get_var( $wpdb->prepare( "SELECT user_id FROM " . $wpdb->base_prefix . "usermeta WHERE meta_key = 'home_base' AND meta_value = %d", $blog_id ) );
-}
-
-/**
- * bp_core_is_home_base()
- *
- * Checks a blog id to see if it is a home base or not.
- * 
- * @package BuddyPress Core
- * @param $blog_id The ID of the blog to check user_home metadata for.
- * @global $wpdb WordPress DB access object.
- * @return $current_userid The user id for the home base.
- */
-function bp_core_is_home_base( $blog_id ) {
-	global $wpdb;
-	
- 	if ( $wpdb->get_var( $wpdb->prepare( "SELECT umeta_id FROM " . $wpdb->base_prefix . "usermeta WHERE meta_key = 'home_base' AND meta_value = %d", $blog_id ) ) )
-		return true;
-	
-	return false;
-}
-
-/**
- * bp_core_user_has_home()
- *
- * Checks to see if a user has assigned a blog as their user_home.
- * 
- * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @uses get_usermeta() WordPress function to get the usermeta for a current user.
- * @return false if no, or true if yes.
- */
-function bp_core_user_has_home( $user_id = false ) {
-	global $bp;
-
-	if ( !$user_id ) {
-		if ( $bp['loggedin_homebase_id'] == '' )
-			return false;
-
-		return $bp['loggedin_homebase_id'];
-	} else {
-		return get_usermeta( $user_id, 'home_base' );
-	}
-}
-
-/**
- * bp_core_get_primary_username()
- *
- * Returns the username based on http:// [username] .site.com OR http://site.com/ [username]
- * 
- * @package BuddyPress Core
- * @global $current_blog WordPress global containing information and settings for the current blog
- * @return $siteuser Username for current blog or user home.
- */
-function bp_core_get_primary_username() {
-	global $current_blog;
-	
-	if ( VHOST == 'yes' ) {
-		$siteuser = explode('.', $current_blog->domain);
-		$siteuser = $siteuser[0];
-	} else {
-		$siteuser = str_replace('/', '', $current_blog->path);
-	}
-	
-	return $siteuser;
-}
-
-/**
- * bp_core_start_buffer()
- *
- * Start the output buffer to replace content not easily accessible.
- * 
- * @package BuddyPress Core
- */
-function bp_core_start_buffer() {
-	ob_start();
-	add_action( 'dashmenu', 'bp_core_stop_buffer' );
-} 
-add_action( 'admin_menu', 'bp_core_start_buffer' );
-
-/**
- * bp_core_stop_buffer()
- *
- * Stop the output buffer to replace content not easily accessible.
- * 
- * @package BuddyPress Core
- */
-function bp_core_stop_buffer() {
-	$contents = ob_get_contents();
-	ob_end_clean();
-	bp_core_blog_switcher( $contents );
-}
-
-/**
- * bp_core_blog_switcher()
- *
- * Replaces the standard blog switcher included in the WordPress core so that
- * BuddyPress specific icons can be used in tabs and the order can be changed.
- * An output buffer is used, as the function cannot be overridden or replaced
- * any other way.
- * 
- * @package BuddyPress Core
- * @param $contents str The contents of the buffer.
- * @global $current_user obj WordPress global containing information and settings for the current user
- * @global $blog_id int WordPress global containing the current blog id
- * @return $siteuser Username for current blog or user home.
- */
-function bp_core_blog_switcher( $contents ) {
-	global $current_user, $blog_id; // current blog
-	
-	/* Code duplicated from wp-admin/includes/mu.php */
-	/* function blogswitch_markup() */
-	
-	$filter = preg_split( '/\<ul id=\"dashmenu\"\>[\S\s]/', $contents );
-	echo $filter[0];
-	
-	$list = array();
-	$options = array();
-
-	$home_base = get_usermeta( $current_user->ID, 'home_base' );
-	
-	foreach ( $blogs = get_blogs_of_user( $current_user->ID ) as $blog ) {
-		if ( !$blog->blogname )
-			continue;
-
-		// Use siteurl for this in case of mapping
-		$parsed = parse_url( $blog->siteurl );
-		$domain = $parsed['host'];
-		
-		if ( $blog->userblog_id == $home_base ) {
-			$current = ' id="primary_blog"';
-			$image   = ' style="background-image: url(' . get_option('home') . '/wp-content/mu-plugins/bp-core/images/member.png);
-							  background-position: 2px 4px;
-							  background-repeat: no-repeat;
-							  padding-left: 22px;"';
-		} else { 
-			$current = ''; 
-			$image   = ' style="background-image: url(' . get_option('home') . '/wp-content/mu-plugins/bp-core/images/blog.png);
-							  background-position: 3px 3px;
-							  background-repeat: no-repeat;
-							  padding-left: 22px;"';; 
-		}
-			
-		if ( VHOST == 'yes' ) {
-			if ( $_SERVER['HTTP_HOST'] === $domain ) {
-				$current  .= ' class="current"';
-				$selected  = ' selected="selected"';
-			} else {
-				$current  .= '';
-				$selected  = '';
-			}			
-		} else {
-			$path = explode( '/', str_replace( '/wp-admin', '', $_SERVER['REQUEST_URI'] ) );
-
-			if ( $path[1] == str_replace( '/', '', $blog->path ) ) {
-				$current  .= ' class="current"';
-				$selected  = ' selected="selected"';
-			} else {
-				$current  .= '';
-				$selected  = '';
-			}
-		}
-
-		$url = clean_url( $blog->siteurl ) . '/wp-admin/';
-		$name = wp_specialchars( strip_tags( $blog->blogname ) );
-		
-		$list_item   = "<li><a$image href='$url'$current>$name</a></li>";
-		$option_item = "<option value='$url'$selected>$name</option>";
-
-		$list[]    = $list_item;
-		$options[] = $option_item; // [sic] don't reorder dropdown based on current blog
-	
-	}
-	ksort($list);
-	ksort($options);
-
-	$list = array_slice( $list, 0, 4 ); // First 4
-
-	$select = "\n\t\t<select>\n\t\t\t" . join( "\n\t\t\t", $options ) . "\n\t\t</select>";
-
-	echo "<ul id=\"dashmenu\">\n\t" . join( "\n\t", $list );
-
-	if ( count($list) < count($options) ) :
-?>
-	<li id="all-my-blogs-tab" class="wp-no-js-hidden"><a href="#" class="blog-picker-toggle"><?php _e( 'All my blogs' , 'buddypress'); ?></a></li>
-
-	</ul>
-
-	<form id="all-my-blogs" action="" method="get" style="display: none">
-		<p>
-			<?php printf( __( 'Choose a blog: %s' , 'buddypress'), $select ); ?>
-
-			<input type="submit" class="button" value="<?php _e( 'Go' , 'buddypress'); ?>" />
-			<a href="#" class="blog-picker-toggle"><?php _e( 'Cancel' , 'buddypress'); ?></a>
-		</p>
-	</form>
-<?php
-	endif; // counts
-}
-
-/**
- * bp_core_replace_home_base_dashboard()
- *
- * Sets up the hook to start replacement of the dashboard on the users home base.
- * 
- * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @global $wpdb WordPress DB access object.
- * @uses add_action() Hooks a function on to a specific action.
- */
-function bp_core_replace_home_base_dashboard() {
-	global $wpdb, $bp;
-
-	if ( strpos( $_SERVER['SCRIPT_NAME'], '/index.php' ) && $wpdb->blogid == $bp['current_homebase_id'] ) {
-		add_action( 'admin_head', 'bp_core_start_dash_replacement' );
-	}	
-}
-add_action( 'admin_menu', 'bp_core_replace_home_base_dashboard' );
-
-/**
- * bp_core_start_dash_replacement()
- *
- * Starts the output buffer.
- * 
- * @package BuddyPress Core
- * @uses add_action() Hooks a function on to a specific action.
- */
-function bp_core_start_dash_replacement( $dash_contents ) {	
-	ob_start();
-	add_action('admin_footer', 'bp_core_end_dash_replacement');
-}
-
-/**
- * bp_core_insert_new_dashboard()
- *
- * Inserts the new dashboard content.
- * 
- * @package BuddyPress Core
- * @uses add_action() Hooks a function on to a specific action.
- */
-function bp_core_insert_new_dashboard( $dash_contents ) {
-	global $bp;
-	
-	$filter = preg_split( '/\<div class=\"wrap\"\>[\S\s]*\<div id=\"footer\"\>/', $dash_contents );
-
-	$filter[0] .= '<div class="wrap">';
-	$filter[1] .= '</div>';
-	
-	echo $filter[0];
-	//echo ABSPATH . 'wp-content/mu-plugins/bp-core/admin-mods/bp-core-homebase-dashboard.php';
-	require_once( ABSPATH . '/wp-content/mu-plugins/bp-core/admin-mods/bp-core-homebase-dashboard.php' );
-	
-	echo '<div style="clear: both">&nbsp;<br clear="all" /></div></div><div id="footer">';
-	echo $filter[1];
-}
-
-/**
- * bp_core_end_dash_replacement()
- *
- * Gets output buffer contents and stops the output buffer.
- * 
- * @package BuddyPress Core
- * @uses bp_core_insert_new_dashboard() Inserts the new dashboard content.
- */
-function bp_core_end_dash_replacement() {
-	$dash_contents = ob_get_contents();
-	ob_end_clean();
-	bp_core_insert_new_dashboard($dash_contents);
+function bp_core_get_current_userid( $user_login ) {
+	return bp_core_get_userid_from_user_login( $user_login );
 }
 
 /**
@@ -564,9 +268,12 @@ function bp_core_add_nav_item( $name, $slug, $css_id = false, $add_to_usernav = 
  * @param $admin_only Should this sub nav item only be visible/accessible to the site admin?
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
-function bp_core_add_subnav_item( $parent_id, $slug, $name, $link, $function, $css_id = false, $loggedin_user_only = true, $admin_only = false ) {
+function bp_core_add_subnav_item( $parent_id, $slug, $name, $link, $function, $css_id = false, $user_has_access = true, $admin_only = false ) {
 	global $bp;
 	
+	if ( !$user_has_access && !bp_core_is_home() )
+		return false;
+		
 	if ( $admin_only && !is_site_admin() )
 		return false;
 	
@@ -578,9 +285,6 @@ function bp_core_add_subnav_item( $parent_id, $slug, $name, $link, $function, $c
 		'link' => $link . $slug,
 		'css_id' => $css_id
 	);
-	
-	if ( $loggedin_user_only && !bp_is_home() )
-		return false;
 	
 	if ( function_exists($function) && $bp['current_action'] == $slug && $bp['current_component'] == $parent_id )
 		add_action( 'wp', $function, 3 );
@@ -615,7 +319,7 @@ function bp_core_reset_subnav_items($parent_id) {
  */
 function bp_core_add_nav_default( $parent_id, $function, $slug = false ) {
 	global $bp;
-		
+	
 	if ( $bp['current_component'] == $parent_id && !$bp['current_action'] ) {
 		if ( function_exists($function) ) {
 			add_action( 'wp', $function, 3 );
@@ -642,6 +346,22 @@ function bp_core_get_userid( $username ) {
 	
 	$sql = $wpdb->prepare( "SELECT ID FROM " . $wpdb->base_prefix . "users WHERE user_login = %s", $username );
 	return $wpdb->get_var($sql);
+}
+
+/**
+ * bp_core_get_userid_from_user_login()
+ *
+ * Returns the user_id from a user login
+ * @package BuddyPress Core
+ * @param $path str Path to check.
+ * @global $wpdb WordPress DB access object.
+ * @return false on no match
+ * @return int the user ID of the matched user.
+ */
+function bp_core_get_userid_from_user_login( $user_login ) {
+	global $wpdb;
+
+	return $wpdb->get_var( $wpdb->prepare( "SELECT ID from {$wpdb->base_prefix}users WHERE user_login = %s", $user_login ) );
 }
 
 /**
@@ -681,10 +401,14 @@ function bp_core_get_username( $uid ) {
  * @return str The URL for the user with no HTML formatting.
  */
 function bp_core_get_userurl( $uid ) {
-	if ( $home_base_id = get_usermeta( $uid, 'home_base' ) )
-		return get_blog_option( $home_base_id, 'siteurl' ) . '/';
-	else
+	global $bp;
+	
+	if ( !is_numeric($uid) )
 		return false;
+	
+	$ud = get_userdata($uid);
+		
+	return $bp['root_domain'] . '/members/' . $ud->user_login . '/';
 }
 
 /**
@@ -748,19 +472,17 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false,
 	if ( $no_anchor )
 		return $display_name;
 
-	if ( $home_base_id = get_usermeta( $user_id, 'home_base' ) )
-		$home_base_url = get_blog_option( $home_base_id, 'siteurl' ) . '/';
-	else
+	if ( !$url = bp_core_get_userurl($user_id) )
 		return false;
 		
 	if ( $just_link )
-		return $home_base_url;
+		return $url;
 
-	return '<a href="' . $home_base_url . '">' . $display_name . '</a>';	
+	return '<a href="' . $url . '">' . $display_name . '</a>';	
 }
 
 function bp_core_global_user_fullname( $user_id ) {
-	if ( function_exists('bp_user_fullname') ) {
+	if ( function_exists('bp_fetch_user_fullname') ) {
 		return bp_fetch_user_fullname( $user_id, false );
 	} else {
 		$ud = get_userdata($user_id);
@@ -771,7 +493,7 @@ function bp_core_global_user_fullname( $user_id ) {
 /**
  * bp_core_get_userlink_by_email()
  *
- * Returns the email address for the user based on user ID
+ * Returns the user link for the user based on user email address
  * 
  * @package BuddyPress Core
  * @param $email str The email address for the user.
@@ -782,6 +504,23 @@ function bp_core_global_user_fullname( $user_id ) {
 function bp_core_get_userlink_by_email( $email ) {
 	$user = get_user_by_email( $email );
 	return bp_core_get_userlink( $user->ID, false, false, true );
+}
+
+/**
+ * bp_core_get_userlink_by_username()
+ *
+ * Returns the user link for the user based on user's username
+ * 
+ * @package BuddyPress Core
+ * @param $username str The username for the user.
+ * @uses bp_core_get_userlink() BuddyPress function to get a userlink by user ID.
+ * @return str The link to the users home base. False on no match.
+ */
+function bp_core_get_userlink_by_username( $username ) {
+	global $wpdb;
+	
+	$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->base_prefix}users WHERE user_login = %s", $username ) ); 
+	return bp_core_get_userlink( $user_id, false, false, true );
 }
 
 /**
@@ -851,9 +590,9 @@ function bp_is_serialized( $data ) {
 }
 
 /**
- * bp_upload_dir()
+ * bp_avatar_upload_dir()
  *
- * This function will create an upload directory for a new user.
+ * This function will create an avatar upload directory for a new user.
  * This is directly copied from WordPress so that the code can be
  * accessed on user activation *before* 'upload_path' is placed
  * into the options table for the user.
@@ -862,13 +601,11 @@ function bp_is_serialized( $data ) {
  * in wp-activate.php
  * 
  * @package BuddyPress Core
- * @param $time str? The time so that upload folders can be created for month and day.
- * @param $blog_id int The ID of the blog (or user in BP) to create the upload dir for.
  * @return array Containing path, url, subdirectory and error message (if applicable).
  */
-function bp_upload_dir( $time = NULL, $blog_id ) {
-	$siteurl = get_option( 'siteurl' );
-	$upload_path = 'wp-content/blogs.dir/' . $blog_id . '/files';
+function bp_avatar_upload_dir( $user_id, $path = '/avatars' ) {
+	$siteurl = site_url();
+	$upload_path = 'wp-content/blogs.dir/1/files' . $path . '/' . $user_id;
 	if ( trim($upload_path) === '' )
 		$upload_path = 'wp-content/uploads';
 	$dir = $upload_path;
@@ -884,21 +621,9 @@ function bp_upload_dir( $time = NULL, $blog_id ) {
 		$url = trailingslashit( $siteurl ) . UPLOADS;
 	}
 
-	$subdir = '';
-	if ( get_option( 'uploads_use_yearmonth_folders' ) ) {
-		// Generate the yearly and monthly dirs
-		if ( !$time )
-			$time = current_time( 'mysql' );
-		$y = substr( $time, 0, 4 );
-		$m = substr( $time, 5, 2 );
-		$subdir = "/$y/$m";
-	}
-
-	$dir .= $subdir;
-	$url .= $subdir;
-	
 	// Make sure we have an uploads dir
 	if ( ! wp_mkdir_p( $dir ) ) {
+		echo "no dir"; die;
 		$message = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' , 'buddypress'), $dir );
 		return array( 'error' => $message );
 	}
@@ -1104,11 +829,15 @@ function bp_core_get_all_posts_for_user( $user_id = null ) {
 function bp_core_replace_comment_author_link( $author ) {
 	global $comment;
 
-	$bp_author_link = bp_core_get_userlink_by_email( $comment->comment_author_email );
+	if ( !$comment->comment_author_email ) {
+		$bp_author_link = bp_core_get_userlink_by_username( $comment->comment_author );
+	} else {
+		$bp_author_link = bp_core_get_userlink_by_email( $comment->comment_author_email );	
+	}
 	
-	echo ( !$bp_author_link ) ? $author : $bp_author_link; 
+	return ( !$bp_author_link ) ? $author : $bp_author_link; 
 }
-add_action( 'get_comment_author_link', 'bp_core_replace_comment_author_link', 10, 4 );
+add_filter( 'get_comment_author_link', 'bp_core_replace_comment_author_link', 10, 4 );
 
 /**
  * bp_core_get_site_path()
@@ -1146,6 +875,10 @@ function bp_core_sort_nav_items( $nav_array ) {
 				unset($nav_array[$key]);
 			break;
 			case $bp['profile']['slug']:
+				$new_nav[1] = $nav_array[$key];
+				unset($nav_array[$key]);
+			break;
+			case 'profile':
 				$new_nav[1] = $nav_array[$key];
 				unset($nav_array[$key]);
 			break;
@@ -1187,12 +920,7 @@ function bp_core_sort_nav_items( $nav_array ) {
 }
 
 function bp_core_remove_data( $user_id ) {
-	/* When the user is deleted, we must automatically delete their home base blog */
-	if ( $home_base_id = bp_core_user_has_home($user_id) )
-		wpmu_delete_blog( $home_base_id, true );
-	
 	/* Remove usermeta */
-	delete_usermeta( $user_id, 'home_base' );
 	delete_usermeta( $user_id, 'last_activity' );
 }
 add_action( 'wpmu_delete_user', 'bp_core_remove_data', 1 );

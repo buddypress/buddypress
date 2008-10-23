@@ -58,13 +58,13 @@ Class BP_Groups_Group {
 			$this->date_created = strtotime($group->date_created);
 			$this->total_member_count = groups_get_groupmeta( $this->id, 'total_member_count' );
 			
-			if ( !$group->avatar_thumb )
-				$this->avatar_thumb = $bp['groups']['image_base'] . '/none-thumbnail.gif';
+			if ( !$group->avatar_thumb || strpos( $group->avatar_thumb, 'none-thumbnail' ) )
+				$this->avatar_thumb = 'http://www.gravatar.com/avatar/' . md5( $this->id . '@buddypress.org') . '?d=identicon&amp;s=50';
 			else
 				$this->avatar_thumb = $group->avatar_thumb;
 			
-			if ( !$group->avatar_full )
-				$this->avatar_full = $bp['groups']['image_base'] . '/none.gif';
+			if ( !$group->avatar_full || strpos( $group->avatar_thumb, 'none-' ) )
+				$this->avatar_full = 'http://www.gravatar.com/avatar/' . md5( $this->id . '@buddypress.org') . '?d=identicon&amp;s=150';
 			else
 				$this->avatar_full = $group->avatar_full;
 			
@@ -416,6 +416,19 @@ Class BP_Groups_Member {
 	}
 		
 	/* Static Functions */
+
+	function delete( $user_id, $group_id ) {
+		global $wpdb, $bp;
+		
+		$delete_result = $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );
+	
+		// Check to see if there are any members left for the group, if not, delete it.
+		if ( !BP_Groups_Group::has_members( $group_id ) ) {
+			BP_Groups_Group::delete( $group_id );
+		}
+		
+		return $delete_result;
+	}
 	
 	function get_group_ids( $user_id, $page = false, $limit = false ) {
 		global $wpdb, $bp;
@@ -448,19 +461,6 @@ Class BP_Groups_Member {
 		}
 		
 		return $groups;
-	}
-	
-	function delete( $user_id, $group_id ) {
-		global $wpdb, $bp;
-		
-		$delete_result = $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );
-	
-		// Check to see if there are any members left for the group, if not, delete it.
-		if ( !BP_Groups_Group::has_members( $group_id ) ) {
-			BP_Groups_Group::delete( $group_id );
-		}
-		
-		return $delete_result;
 	}
 	
 	function check_is_admin( $user_id, $group_id ) {

@@ -18,33 +18,35 @@ define( 'CORE_DEFAULT_AVATAR', site_url() . '/wp-content/mu-plugins/bp-xprofile/
 define( 'CORE_DEFAULT_AVATAR_THUMB', site_url() . '/wp-content/mu-plugins/bp-xprofile/images/none-thumbnail.gif' );
 
 function bp_core_get_avatar( $user, $version = 1, $no_tag = false, $width = null, $height = null ) {
+	global $bp, $current_blog;
+	
 	if ( !is_int($version) )
 		$version = (int) $version;
 		
 	if ( CORE_AVATAR_V2_W == false && CORE_AVATAR_V2_H == false )
 		$version = 1;
 	
-	if ( $home_base_id = get_usermeta( $user, 'home_base' ) )
-		$url = get_blog_option($home_base_id, 'siteurl');
-		
 	if ( !$width )
 		$width = constant('CORE_AVATAR_V' . $version . '_W');
 	
 	if ( !$height )
 		$height = constant('CORE_AVATAR_V' . $version . '_H');		
 	
-	$str = get_usermeta( $user, "bp_core_avatar_v$version" );
+
+	$avatar_file = get_usermeta( $user, "bp_core_avatar_v$version" );
+	$url = $bp['root_domain'] . '/' . $avatar_file;
 	
-	if ( strlen($str) ) {
+	if ( strlen($avatar_file) ) {
 		if ( $no_tag )
-			return $str;
+			return $url;
 		else
-			return '<img src="' . $url . '/' . $str . '" alt="" class="avatar" width="' . $width . '" height="' . $height . '" />';
+			return '<img src="' . $url . '" alt="" class="avatar" width="' . $width . '" height="' . $height . '" />';
 	} else {
+		$identicon = 'http://www.gravatar.com/avatar/' . md5( $user . '@buddypress.org') . '?d=wavatar&amp;s=';
 		if ( $no_tag )
-			return CORE_DEFAULT_AVATAR_THUMB;
+			return $identicon . constant('CORE_AVATAR_V' . $version . '_W');
 		else
-			return '<img src="' . CORE_DEFAULT_AVATAR . '" alt="" class="avatar" width="' . $width . '" height="' . $height . '" />';
+			return '<img src="' . $identicon . constant('CORE_AVATAR_V' . $version . '_W') . '" alt="" class="avatar" width="' . $width . '" height="' . $height . '" />';
 	}
 }
 
@@ -71,7 +73,7 @@ add_filter( 'get_avatar', 'bp_core_get_avatar_filter', 10, 4 );
 
 
 // Main UI Rendering
-function bp_core_avatar_admin( $message = null, $action = null, $delete_action = null ) {
+function bp_core_avatar_admin( $message = null ) {
 	global $wp_upload_error;
 	?>	
 	<?php if ( !isset($_POST['slick_avatars_action']) && !isset($_GET['slick_avatars_action']) ) { ?>
@@ -89,12 +91,7 @@ function bp_core_avatar_admin( $message = null, $action = null, $delete_action =
 		<p><?php _e('Click below to select a JPG, GIF or PNG format photo from your computer and then click \'Upload Photo\' to proceed.', 'buddypress') ?></p>
 		
 		<?php
-		if ( !$action )
-			$action = site_url() . '/wp-admin/admin.php?page=bp-xprofile.php';
-		
-		if ( !$delete_action )
-			$delete_action = site_url() . '/wp-admin/admin.php?page=bp-xprofile.php&slick_avatars_action=delete';
-		
+
 		bp_core_render_avatar_upload_form($action);
 
 		$str = bp_core_get_avatar( get_current_user_id(), 1 );
@@ -131,7 +128,7 @@ function bp_core_avatar_admin( $message = null, $action = null, $delete_action =
 			bp_core_ap_die( 'Your upload failed, please try again. Error was: ' . $uploadErrors[$_FILES['file']['error']] );
 		
 		if ( !bp_core_check_avatar_size($_FILES) )
-			bp_core_ap_die( 'The file you uploaded is too big. Please upload a file under ' . size_format(1024 * CORE_MAX_FILE_SIZE) );
+			bp_core_ap_die( 'The file you uploaded is too big. Please upload a file under ' . size_format(CORE_MAX_FILE_SIZE) );
 
 		if ( !bp_core_check_avatar_type($_FILES) )
 			bp_core_ap_die( 'Please upload only JPG, GIF or PNG photos.' );
@@ -147,10 +144,7 @@ function bp_core_avatar_admin( $message = null, $action = null, $delete_action =
 		if ( !$canvas = bp_core_resize_avatar($original) )
 			$canvas = $original;
 		
-		// Render the cropper UI
-		if ( !$action )
-			$action = get_option('home') .'/wp-admin/admin.php?page=bp-xprofile.php';
-		
+		// Render the cropper UI		
 		bp_core_render_avatar_cropper($original, $canvas, $action);
 		
 		echo '</div>';
@@ -257,12 +251,7 @@ function bp_core_render_avatar_cropper($original, $new, $action, $user_id = null
 	if ( !$user_id )
 		$user_id = $bp['loggedin_userid'];
 
-	if ( !$url ) {
-		$home_base_id = get_usermeta( $user_id, 'home_base' );
-		$url = get_blog_option($home_base_id, 'siteurl');
-	}
-
-	$src = str_replace( array(ABSPATH), array($url . '/'), $new );
+	$src = str_replace( array(ABSPATH), array(site_url() . '/'), $new );
 
 	// Load cropper details
 	
@@ -400,14 +389,9 @@ function bp_core_avatar_cropstore( $source, $canvas, $v1_x1, $v1_y1, $v1_w, $v1_
 	return array('v1_out' => $v1_out, 'v2_out' => $v2_out);
 }
 
-function bp_core_avatar_save( $vars, $user_id = false, $upload_dir = false, $url = false ) {
+function bp_core_avatar_save( $vars, $user_id = false ) {
 	if ( !$user_id )
 		$user_id = get_current_user_id();
-		
-	if ( !$url ) {
-		$home_base_id = get_usermeta( $user_id, 'home_base' );
-		$url = get_blog_option($home_base_id, 'siteurl');
-	}
 	
 	$old = get_usermeta( $user_id, 'bp_core_avatar_v1_path' );
 	$v1_href = str_replace( array(ABSPATH), array($src), $vars['v1_out'] );
@@ -457,7 +441,7 @@ function bp_core_delete_avatar() {
 
 function bp_core_ap_die( $msg ) {
 	echo '<p><strong>' . $msg . '</strong></p>';
-	echo '<p><a href="' . get_option('home') .'/wp-admin/admin.php?page=bp-xprofile.php">' . __('Try Again', 'buddypress') . '</a></p>';
+	echo '<p><a href="' . $bp['loggedin_domain'] . '/' . $bp['profile']['slug'] . '/change-avatar">' . __('Try Again', 'buddypress') . '</a></p>';
 	echo '</div>';
 	exit;
 }

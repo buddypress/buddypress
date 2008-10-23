@@ -132,10 +132,13 @@ Class BP_XProfile_Template {
 }
 
 // Begin template tags:
+function xprofile_get_profile() {
+	load_template( TEMPLATEPATH . '/profile/profile-loop.php');
+}
 
 function bp_has_profile() { 
 	global $bp, $profile_template;
-	
+
 	$profile_template = new BP_XProfile_Template($bp['current_userid']);
 	
 	return $profile_template->has_groups();
@@ -221,50 +224,8 @@ function bp_the_profile_field_value() {
 		echo stripslashes($field->data->value);
 }
 
-function bp_the_avatar() {
-	global $bp;
-	echo bp_core_get_avatar( $bp['current_userid'], 2 );
-}
-
-function bp_the_avatar_thumbnail() {
-	global $bp;
-	echo bp_core_get_avatar( $bp['current_userid'], 1 );
-}
-
-function bp_loggedinuser_avatar_thumbnail( $width = false, $height = false ) {
-	global $bp;
-	
-	if ( $width && $height )
-		echo bp_core_get_avatar( $bp['loggedin_userid'], 1, false, $width, $height );
-	else
-		echo bp_core_get_avatar( $bp['loggedin_userid'], 1 );
-}
-
-function bp_fetch_user_fullname( $user_id = false, $echo = true ) {
-	global $bp;
-	
-	if ( !$user_id )
-		$user_id = $bp['current_userid'];
-	
-	$data = bp_get_field_data( array( 'First Name', 'Last Name' ), $user_id );
-	
-	if ( $echo )
-		echo ucfirst($data['First Name']) . ' ' . ucfirst($data['Last Name']);
-	else
-		return ucfirst($data['First Name']) . ' ' . ucfirst($data['Last Name']);		
-}
-
 function bp_get_field_data( $field, $user_id = null ) {
 	return BP_XProfile_ProfileData::get_value_byfieldname( $field, $user_id );
-}
-
-function bp_user_link() {
-	echo '';
-}
-
-function bp_user_status() {
-	// TODO: dummy function now, until status component is developed.
-	return false;
 }
 
 function bp_profile_group_tabs() {
@@ -318,20 +279,6 @@ function bp_avatar_upload_form() {
 	global $bp;
 	 
 	bp_core_avatar_admin( null, $bp['loggedin_domain'] . $bp['profile']['slug'] . '/change-avatar/', $bp['loggedin_domain'] . $bp['profile']['slug'] . '/delete-avatar/' );
-}
-
-function bp_profile_last_updated_date( $user_id = false, $echo = true ) {
-	global $bp;
-	
-	if ( !$user_id )
-		$user_id = $bp['current_userid'];
-	
-	$last_updated = BP_XProfile_ProfileData::get_last_updated( $user_id );
-
-	if ( $echo )
-		echo $last_updated;
-	else
-		return $last_updated;
 }
 
 function bp_profile_last_updated() {

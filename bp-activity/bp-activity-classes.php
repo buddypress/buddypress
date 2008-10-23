@@ -185,8 +185,7 @@ Class BP_Activity_Activity {
 			$friend_ids = friends_get_friend_ids_for_user( $user_id );
 		
 			for ( $i = 0; $i < count($friend_ids); $i++ ) {
-				$homebase_id = get_usermeta( $friend_ids[$i], 'home_base' );
-				$table_name = $wpdb->base_prefix . $homebase_id . '_activity_cached';
+				$table_name = $wpdb->base_prefix . $field_ids[$i] . '_activity_cached';
 			
 				$activities[$i]['activity'] = $wpdb->get_results( $wpdb->prepare( "SELECT content, date_recorded, component_name FROM " . $table_name . " WHERE is_private = 0 ORDER BY date_recorded LIMIT 5" ) );
 				$activities[$i]['full_name'] = bp_fetch_user_fullname( $friend_ids[$i], false );

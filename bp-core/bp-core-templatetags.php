@@ -181,7 +181,7 @@ function bp_is_home() {
 	
 	if ( !is_user_logged_in() || is_null($bp['loggedin_userid']) || is_null($bp['current_userid']) )
 		return false;
-	
+		
 	if ( $bp['loggedin_userid'] == $bp['current_userid'] )
 		return true;
 
@@ -196,6 +196,78 @@ function bp_comment_author_avatar() {
 	} else if ( function_exists('get_avatar') ) {
 		get_avatar();
 	}
+}
+
+function bp_loggedinuser_avatar_thumbnail( $width = false, $height = false ) {
+	global $bp;
+	
+	if ( $width && $height )
+		echo bp_core_get_avatar( $bp['loggedin_userid'], 1, false, $width, $height );
+	else
+		echo bp_core_get_avatar( $bp['loggedin_userid'], 1 );
+}
+
+function bp_fetch_user_fullname( $user_id = false, $echo = true ) {
+	global $bp;
+	
+	if ( !$user_id )
+		$user_id = $bp['current_userid'];
+	
+	if ( function_exists('xprofile_install') ) {
+		$data = bp_get_field_data( array( 'First Name', 'Last Name' ), $user_id );
+		
+		if ( empty($data['First Name']) && empty($data['Last Name']) ) {
+			$ud = get_userdata($user_id);
+			$data = $ud->display_name;
+		} else {
+			$data = ucfirst($data['First Name']) . ' ' . ucfirst($data['Last Name']);
+		}
+	} else {
+		$ud = get_userdata($user_id);
+		$data = $ud->display_name;
+	}
+	
+	if ( $echo )
+		echo $data;
+	else
+		return $data;
+	
+}
+
+function bp_last_activity( $user_id = false, $echo = true ) {
+	global $bp;
+	
+	if ( !$user_id )
+		$user_id = $bp['current_userid'];
+	
+	$last_activity = bp_core_get_last_activity( get_usermeta( $user_id, 'last_activity' ), __('active ', 'buddypress'), __(' ago', 'buddypress') );
+
+	if ( $echo )
+		echo $last_activity;
+	else
+		return $last_activity;
+}
+
+function bp_the_avatar() {
+	global $bp;
+	echo bp_core_get_avatar( $bp['current_userid'], 2 );
+}
+
+function bp_the_avatar_thumbnail() {
+	global $bp;
+	echo bp_core_get_avatar( $bp['current_userid'], 1 );
+}
+
+function bp_user_link() {
+	echo '';
+}
+
+function bp_core_get_wp_profile() {
+	
+}
+
+function bp_get_profile_header() {
+	load_template( TEMPLATEPATH . '/profile/profile-header.php' );
 }
 
 function bp_exists( $component_name ) {
@@ -309,6 +381,11 @@ function bp_loggedinuser_link() {
 		$ud = get_userdata($current_user->ID);
 		echo $ud->user_login;
 	}
+}
+
+function bp_get_plugin_sidebar() {
+	if ( file_exists(TEMPLATEPATH . '/plugin-sidebar.php') )
+		load_template( TEMPLATEPATH . '/plugin-sidebar.php' );
 }
 
 /* Template functions for fetching globals, without querying the DB again

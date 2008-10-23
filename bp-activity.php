@@ -95,13 +95,13 @@ function bp_activity_setup_globals() {
 	global $bp, $wpdb, $current_blog;
 	
 	$bp['activity'] = array(
-		'table_name_loggedin_user' => $wpdb->base_prefix . $bp['loggedin_homebase_id'] . '_activity',
-		'table_name_loggedin_user_cached' => $wpdb->base_prefix . $bp['loggedin_homebase_id'] . '_activity_cached',
+		'table_name_loggedin_user' => $wpdb->base_prefix . 'user_' . $bp['loggedin_userid'] . '_activity',
+		'table_name_loggedin_user_cached' => $wpdb->base_prefix . 'user_' . $bp['loggedin_userid'] . '_activity_cached',
 		
-		'table_name_current_user' => $wpdb->base_prefix . $bp['current_homebase_id'] . '_activity',
-		'table_name_current_user_cached' => $wpdb->base_prefix . $bp['current_homebase_id'] . '_activity_cached',
+		'table_name_current_user' => $wpdb->base_prefix . 'user_' . $bp['current_userid'] . '_activity',
+		'table_name_current_user_cached' => $wpdb->base_prefix . 'user_' . $bp['current_userid'] . '_activity_cached',
 		
-		'table_name_loggedin_user_friends_cached' => $wpdb->base_prefix . $bp['loggedin_homebase_id'] . '_friends_activity_cached',
+		'table_name_loggedin_user_friends_cached' => $wpdb->base_prefix . 'user_' . $bp['loggedin_userid'] . '_friends_activity_cached',
 		'table_name_sitewide' => $wpdb->base_prefix . 'bp_activity_sitewide',
 		
 		'image_base' => site_url() . '/wp-content/mu-plugins/bp-activity/images',
@@ -114,7 +114,7 @@ function bp_activity_setup_globals() {
 			bp_activity_install(BP_ACTIVITY_VERSION);
 	}
 }
-add_action( 'wp', 'bp_activity_setup_globals', 1 );	
+add_action( 'wp', 'bp_activity_setup_globals', 1 );
 add_action( '_admin_menu', 'bp_activity_setup_globals', 1 );
 
 /**************************************************************************
@@ -179,7 +179,7 @@ function bp_activity_screen_friends_activity() {
 
 /***** Actions **********/
 
-function bp_activity_record( $item_id, $component_name, $component_action, $is_private, $dual_record = false, $secondary_user_homebase_id = false ) {
+function bp_activity_record( $item_id, $component_name, $component_action, $is_private, $dual_record = false ) {
 	global $bp, $wpdb;
 
 	$recorded_time = time();
@@ -195,7 +195,7 @@ function bp_activity_record( $item_id, $component_name, $component_action, $is_p
 	
 	/* Save an activity entry for both logged in and secondary user. For example for a new friend connection
 	   you would want to show "X and Y are now friends" on both users activity stream */
-	if ( $dual_record && $secondary_user_homebase_id ) {
+	if ( $dual_record  ) {
 		$table_name = $wpdb->base_prefix . $secondary_user_homebase_id . '_activity';
 		$table_name_cached = $wpdb->base_prefix . $secondary_user_homebase_id . '_activity_cached';
 		

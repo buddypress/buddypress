@@ -172,7 +172,7 @@ function friends_screen_invite_friends() {
 function friends_record_activity( $args = true ) {
 	if ( function_exists('bp_activity_record') ) {
 		extract($args);
-		bp_activity_record( $item_id, $component_name, $component_action, $is_private, $dual_record, $secondary_user_homebase_id );
+		bp_activity_record( $item_id, $component_name, $component_action, $is_private, $dual_record );
 	} 
 }
 add_action( 'bp_friends_friendship_accepted', 'friends_record_activity' );
@@ -369,12 +369,11 @@ function friends_remove_friend( $initiator_userid = null, $friend_userid = null,
 
 function friends_accept_friendship( $friendship_id ) {
 	$friendship = new BP_Friends_Friendship( $friendship_id, true, false );
-	$secondary_user_homebase_id = get_usermeta( $friendship->friend_user_id, 'home_base' );
 	
 	if ( BP_Friends_Friendship::accept( $friendship_id ) ) {
 		friends_update_friend_totals( $friendship->initiator_user_id, $friendship->friend_user_id );
 		
-		do_action( 'bp_friends_friendship_accepted', array( 'item_id' => $friendship_id, 'component_name' => 'friends', 'component_action' => 'friendship_accepted', 'is_private' => 0, 'dual_record' => true, 'secondary_user_homebase_id' => $secondary_user_homebase_id ) );
+		do_action( 'bp_friends_friendship_accepted', array( 'item_id' => $friendship_id, 'component_name' => 'friends', 'component_action' => 'friendship_accepted', 'is_private' => 0, 'dual_record' => true ) );
 		return true;
 	}
 	

@@ -24,7 +24,9 @@ add_action( 'template_redirect', 'bp_core_add_js' );
  * @uses get_option() Selects a site setting from the DB.
  */
 function bp_core_add_ajax_js() {
-	echo '<script type="text/javascript">var ajaxurl = "' . site_url() . '/wp-content/mu-plugins/bp-core/bp-core-ajax-handler.php";</script>';
+	echo 
+'<script type="text/javascript">var ajaxurl = "' . site_url() . '/wp-content/mu-plugins/bp-core/bp-core-ajax-handler.php";</script>
+';
 }
 add_action( 'wp_head', 'bp_core_add_ajax_js' );
 
@@ -37,10 +39,10 @@ add_action( 'wp_head', 'bp_core_add_ajax_js' );
  * @uses get_option() Selects a site setting from the DB.
  */
 function bp_core_add_css() {
-	if ( is_user_logged_in() && bp_core_user_has_home() ) {
+	if ( is_user_logged_in() ) {
 		wp_enqueue_style( 'bp-admin-bar', site_url() . '/wp-content/mu-plugins/bp-core/css/admin-bar.css' );
-		wp_print_styles();
 	}
+	wp_print_styles();
 }
 add_action( 'wp_head', 'bp_core_add_css' );
 
