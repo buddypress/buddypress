@@ -2,7 +2,7 @@
 </div>
 
 <div id="content">
-	<h2><?php bp_my_or_name() ?> Friends</h2>
+	<h2><?php bp_word_or_name( __( "My Friends", 'buddypress' ), __( "%s's Friends", 'buddypress' ) ) ?></h2>
 	
 	<div class="left-menu">
 		<?php bp_friend_search_form('Search Friends') ?>
@@ -28,7 +28,7 @@
 		<?php else: ?>
 
 			<div id="message" class="info">
-				<p><?php bp_your_or_name() ?> friends list is currently empty.</p>
+				<p><?php bp_word_or_name( __( "Your friends list is currently empty", 'buddypress' ), __( "%s's friends list is currently empty", 'buddypress' ) ) ?></p>
 			</div>
 
 		<?php endif;?>

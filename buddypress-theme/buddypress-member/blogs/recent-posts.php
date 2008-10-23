@@ -18,7 +18,7 @@
 	<?php else: ?>
 
 		<div id="message" class="info">
-			<p><?php bp_you_or_name() ?> <?php _e('made any posts yet!'); ?></p>
+			<p><?php bp_word_or_name( __( "You haven't made any posts yet.", 'buddypress' ), __( "%s hasn't made any posts yet.", 'buddypress' ) ) ?></p>
 		</div>
 
 	<?php endif;?>

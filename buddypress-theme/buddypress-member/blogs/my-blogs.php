@@ -2,7 +2,7 @@
 </div>
 
 <div id="content">
-	<h2><?php bp_my_or_name() ?> <?php _e('Blogs') ?></h2>
+	<h2><?php bp_word_or_name( __( "My Blogs", 'buddypress' ), __( "%s's Blogs", 'buddypress' ) ) ?></h2>
 	<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 
 	<?php if ( bp_has_blogs() ) : ?>
@@ -17,7 +17,7 @@
 	<?php else: ?>
 
 		<div id="message" class="info">
-			<p><?php bp_you_or_name() ?> <?php _e('created any blogs yet.'); ?> <?php bp_create_blog_link() ?> </p>
+			<p><?php bp_word_or_name( __( "You haven't created any blogs yet.", 'buddypress' ), __( "%s hasn't created any blogs yet.", 'buddypress' ) ) ?> <?php bp_create_blog_link() ?> </p>
 		</div>
 
 	<?php endif;?>

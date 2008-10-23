@@ -3,7 +3,7 @@
 </div>
 
 <div id="content">
-	<h2><?php bp_my_or_name() ?> <?php _e('Groups') ?></h2>
+	<h2><?php bp_word_or_name( __( "My Groups", 'buddypress' ), __( "%s's Groups", 'buddypress' ) ) ?></h2>
 	
 	<div class="left-menu">
 		<?php bp_group_search_form() ?>
@@ -31,7 +31,7 @@
 		<?php else: ?>
 
 			<div id="message" class="info">
-				<p><?php bp_you_or_name() ?> <?php _e('joined any groups yet.'); ?></p>
+				<p><?php bp_word_or_name( __( "You haven't joined any groups yet.", 'buddypress' ), __( "%s hasn't joined any groups yet.", 'buddypress' ) ) ?></p>
 			</div>
 
 		<?php endif;?>

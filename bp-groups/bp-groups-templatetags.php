@@ -586,7 +586,7 @@ function bp_groups_random_groups() {
 	$group_ids = BP_Groups_Member::get_random_groups( $bp['current_userid'] );
 ?>	
 	<div class="info-group">
-		<h4><?php bp_my_or_name() ?> <?php _e('Groups', 'buddypress') ?> (<?php echo BP_Groups_Member::total_group_count() ?>) <a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] ?>"><?php _e('See All', 'buddypress') ?> &raquo;</a></h4>
+		<h4><?php bp_word_or_name( __( "My Groups", 'buddypress' ), __( "%s's Groups", 'buddypress' ) ) ?> (<?php echo BP_Groups_Member::total_group_count() ?>) <a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] ?>"><?php _e('See All', 'buddypress') ?> &raquo;</a></h4>
 		<?php if ( $group_ids ) { ?>
 			<ul class="horiz-gallery">
 			<?php for ( $i = 0; $i < count( $group_ids ); $i++ ) { ?>
@@ -599,7 +599,7 @@ function bp_groups_random_groups() {
 			</ul>
 		<?php } else { ?>
 			<div id="message" class="info">
-				<p><?php bp_you_or_name() ?> <?php _e('joined any groups yet.', 'buddypress') ?></p>
+				<p><?php bp_word_or_name( __( "You haven't oined any groups yet.", 'buddypress' ), __( "%s hasn't joined any groups yet.", 'buddypress' ) ) ?></p>
 			</div>
 		<?php } ?>
 		<div class="clear"></div>

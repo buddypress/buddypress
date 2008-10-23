@@ -19,7 +19,7 @@
 		<?php bp_get_profile_header() ?>
 
 		<?php if ( function_exists('bp_activity_get_list') ) : ?>
-			<?php bp_activity_get_list( bp_current_user_id(), bp_my_or_name( true, false ) . __(' Activity') ) ?>
+			<?php bp_activity_get_list( bp_current_user_id(), bp_word_or_name( __( "My Activity", 'buddypress' ), __( "%s's Activity", 'buddypress' ), true, false ) ) ?>
 		<?php endif; ?>
 		
 	</div>

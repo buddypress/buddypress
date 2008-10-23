@@ -344,7 +344,7 @@ function bp_friends_random_friends() {
 	$friend_ids = BP_Friends_Friendship::get_random_friends( $bp['current_userid'] );
 ?>	
 	<div class="info-group">
-		<h4><?php bp_my_or_name() ?> <?php _e('Friends', 'buddypress') ?> (<?php echo BP_Friends_Friendship::total_friend_count() ?>)  <a href="<?php echo $bp['current_domain'] . $bp['friends']['slug'] ?>"><?php _e('See All', 'buddypress') ?> &raquo;</a></h4>
+		<h4><?php bp_word_or_name( __( "My Friends", 'buddypress' ), __( "%s's Friends", 'buddypress' ) ) ?>  (<?php echo BP_Friends_Friendship::total_friend_count() ?>)  <a href="<?php echo $bp['current_domain'] . $bp['friends']['slug'] ?>"><?php _e('See All', 'buddypress') ?> &raquo;</a></h4>
 		
 		<?php if ( $friend_ids ) { ?>
 			<ul class="horiz-gallery">
@@ -357,7 +357,7 @@ function bp_friends_random_friends() {
 			</ul>
 		<?php } else { ?>
 			<div id="message" class="info">
-				<p><?php bp_you_or_name() ?> <?php _e('added any friend connections yet.', 'buddypress') ?></p>
+				<p><?php bp_word_or_name( __( "You haven't added any friend connections yet.", 'buddypress' ), __( "%s hasn't created any friend connections yet.", 'buddypress' ) ) ?></p>
 			</div>
 		<?php } ?>
 		<div class="clear"></div>
