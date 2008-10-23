@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_MESSAGES_IS_INSTALLED', 1 );
-define ( 'BP_MESSAGES_VERSION', '0.3.5' );
+define ( 'BP_MESSAGES_VERSION', '0.3.6' );
 
 include_once( 'bp-messages/bp-messages-classes.php' );
 include_once( 'bp-messages/bp-messages-ajax.php' );
