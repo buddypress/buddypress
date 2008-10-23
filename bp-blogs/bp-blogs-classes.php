@@ -82,7 +82,7 @@ Class BP_Blogs_Blog {
 			$user_id = $bp['current_userid'];
 			
 		$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM " . $bp['blogs']['table_name'] . " WHERE user_id = %d", $user_id) );
-		$total_blog_count = $wpdb->get_var( $wpdb->prepare( "SELECT count(blog_id) FROM " . $bp['blogs']['table_name'] . " WHERE user_id = %d", $user_id) );
+		$total_blog_count = BP_Blogs_Blog::total_blog_count( $user_id );
 		
 		for ( $i = 0; $i < count($blog_ids); $i++ ) {
 			$blogs[] = array(
@@ -94,6 +94,15 @@ Class BP_Blogs_Blog {
 		}
 
 		return array( 'blogs' => $blogs, 'count' => $total_blog_count );
+	}
+	
+	function total_blog_count( $user_id = null ) {
+		global $bp, $wpdb;
+		
+		if ( !$user_id )
+			$user_id = $bp['current_userid'];
+		
+		return $wpdb->get_var( $wpdb->prepare( "SELECT count(blog_id) FROM " . $bp['blogs']['table_name'] . " WHERE user_id = %d", $user_id) );
 	}
 }
 

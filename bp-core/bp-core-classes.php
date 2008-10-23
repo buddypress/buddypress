@@ -29,12 +29,18 @@ class BP_Core_User {
 	var $status;
 	var $status_last_updated;
 	
-	var $content_last_updated;
+	/* Extras */
+	var $total_friends;
+	var $total_blogs;
+	var $total_groups;
 	
-	function bp_core_user( $user_id ) {
+	function bp_core_user( $user_id, $populate_extras = false ) {
 		if ( $user_id ) {
 			$this->id = $user_id;
-			$this->populate( $this->id );
+			$this->populate();
+			
+			if ( $populate_extras )
+				$this->populate_extras();
 		}
 	}
 	
@@ -53,8 +59,6 @@ class BP_Core_User {
 	 * @uses bp_profile_last_updated_date() Returns the last updated date for a user.
 	 */
 	function populate() {
-		global $userdata;
-
 		$this->user_url = bp_core_get_userurl( $this->id );
 		$this->user_link = bp_core_get_userlink( $this->id );
 		
@@ -71,6 +75,35 @@ class BP_Core_User {
 		if ( function_exists('bp_statuses_install') ) {
 			$this->status = null; // TODO: Fetch status updates.
 			$this->status_last_updated = null;
+		}
+	}
+	
+	function populate_extras() {
+		$this->total_friends = BP_Friends_Friendship::total_friend_count( $this->id );
+
+		if ( $this->total_friends ) {
+			if ( $this->total_friends == 1 )
+				$this->total_friends .= ' ' . __( 'friend', 'buddypress' );
+			else
+				$this->total_friends .= ' ' . __( 'friends', 'buddypress' );
+		}
+		
+		if ( $this->total_blogs ) {
+			if ( $this->total_blogs == 1 )
+				$this->total_blogs .= ' ' . __( 'blog', 'buddypress' );
+			else
+				$this->total_blogs .= ' ' . __( 'blogs', 'buddypress' );			
+		}
+	
+		if ( function_exists('groups_install') ) {
+			$this->total_groups = BP_Groups_Member::total_group_count( $this->id );
+			
+			if ( $this->total_groups ) {
+				if ( $this->total_groups == 1 )
+					$this->total_groups .= ' ' . __( 'group', 'buddypress' );
+				else
+					$this->total_groups .= ' ' . __( 'groups', 'buddypress' );
+			}
 		}
 	}
 	
