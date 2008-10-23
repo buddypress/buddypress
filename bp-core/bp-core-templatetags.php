@@ -287,6 +287,7 @@ function bp_format_time( $time, $just_date = false ) {
 	return $date;
 }
 
+
 function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true ) {
 	global $bp;
 	
@@ -304,6 +305,25 @@ function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true 
 			echo $nametext;
 		else
 			return $nametext;
+	}
+}
+
+function bp_your_or_their( $capitalize = true, $echo = true ) {
+	global $bp;
+	
+	if ( $capitalize )
+		$yourtext = ucfirst($yourtext);
+	
+	if ( $bp['current_userid'] == $bp['loggedin_userid'] ) {
+		if ( $echo )
+			echo $yourtext;
+		else
+			return $yourtext;
+	} else {
+		if ( $echo )
+			echo $theirtext;
+		else
+			return $theirtext;
 	}
 }
 
