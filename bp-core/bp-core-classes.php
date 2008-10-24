@@ -79,6 +79,8 @@ class BP_Core_User {
 	}
 	
 	function populate_extras() {
+		global $bp;
+		
 		$this->total_friends = BP_Friends_Friendship::total_friend_count( $this->id );
 
 		if ( $this->total_friends ) {
@@ -86,6 +88,8 @@ class BP_Core_User {
 				$this->total_friends .= ' ' . __( 'friend', 'buddypress' );
 			else
 				$this->total_friends .= ' ' . __( 'friends', 'buddypress' );
+			
+			$this->total_friends = '<a href="' . $this->user_url . $bp['friends']['slug'] . '" title="' . sprintf( __( "%s's friend list", 'buddypress' ), $this->fullname ) . '">' . $this->total_friends . '</a>';
 		}
 		
 		if ( $this->total_blogs ) {
@@ -93,6 +97,8 @@ class BP_Core_User {
 				$this->total_blogs .= ' ' . __( 'blog', 'buddypress' );
 			else
 				$this->total_blogs .= ' ' . __( 'blogs', 'buddypress' );			
+				
+			$this->total_blogs = '<a href="' . $this->user_url . $bp['blogs']['slug'] . '" title="' . sprintf( __( "%s's blog list", 'buddypress' ), $this->fullname ) . '">' . $this->total_blogs . '</a>';
 		}
 	
 		if ( function_exists('groups_install') ) {
@@ -103,6 +109,8 @@ class BP_Core_User {
 					$this->total_groups .= ' ' . __( 'group', 'buddypress' );
 				else
 					$this->total_groups .= ' ' . __( 'groups', 'buddypress' );
+
+				$this->total_groups = '<a href="' . $this->user_url . $bp['groups']['slug'] . '" title="' . sprintf( __( "%s's group list", 'buddypress' ), $this->fullname ) . '">' . $this->total_groups . '</a>';
 			}
 		}
 	}

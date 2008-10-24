@@ -2,7 +2,7 @@
 function bp_core_directory_members_setup() {
 	global $bp, $current_blog;
 	
-	if ( $bp['current_component'] == 'members' && $bp['current_action'] == '' ) {
+	if ( $bp['current_component'] == MEMBERS_SLUG && $bp['current_action'] == '' ) {
 		add_action( 'bp_template_content', 'bp_core_directory_members_content' );
 		add_action( 'bp_template_sidebar', 'bp_core_directory_members_sidebar' );
 		
@@ -78,9 +78,9 @@ function bp_core_directory_members_content() {
 					
 					<div class="action">
 						<?php bp_add_friend_button( $user_obj->id ) ?>
-						<?php if ( $user_obj->total_friends ) echo $user_obj->total_friends ?>
-						<?php if ( $user_obj->total_blogs ) echo $user_obj->total_blogs ?>
-						<?php if ( $user_obj->total_groups ) echo $user_obj->total_groups ?>
+						<div class="meta">
+							<?php if ( $user_obj->total_friends ) echo $user_obj->total_friends ?><?php if ( $user_obj->total_blogs ) echo ', ' . $user_obj->total_blogs ?><?php if ( $user_obj->total_groups ) echo ', ' . $user_obj->total_groups ?>
+						</div>
 					</div>
 					
 					<div class="clear"></div>
@@ -89,10 +89,8 @@ function bp_core_directory_members_content() {
 			</ul>	
 		<?php endif; ?>
 	</div>
-	<?php wp_nonce_field('directory_members') ?>
+	<?php wp_nonce_field('directory_members', '_wpnonce-member-filter' ) ?>
 	</form>
-	
-	
 <?php
 }
 
@@ -101,7 +99,7 @@ function bp_core_directory_members_sidebar() {
 ?>	
 	<div class="widget">
 		<h2 class="widgettitle"><?php _e('Search Members') ?></h2>
-		<form action="<?php echo site_url() . '/members/search/' ?>" method="post" id="search-members-form">
+		<form action="<?php echo site_url() . '/' . MEMBERS_SLUG  . '/search/' ?>" method="post" id="search-members-form">
 			<label><input type="text" name="members_search" id="members_search" value="" /></label>
 			<input type="submit" id="members_search_submit" name="members_search_submit" value="Search" />
 		</form>

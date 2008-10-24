@@ -84,12 +84,13 @@ class BP_Activity_Template {
 	}
 }
 
-function bp_activity_get_list( $user_id, $title, $limit = false ) {
-	global $bp_activity_user_id, $bp_activity_limit, $bp_activity_title;
+function bp_activity_get_list( $user_id, $title, $no_activity, $limit = false ) {
+	global $bp_activity_user_id, $bp_activity_limit, $bp_activity_title, $bp_activity_no_activity;
 	
 	$bp_activity_user_id = $user_id;
 	$bp_activity_limit = $limit;
 	$bp_activity_title = $title;
+	$bp_activity_no_activity = $no_activity;
 	
 	load_template( TEMPLATEPATH . '/activity/activity-list.php' );
 }
@@ -121,6 +122,11 @@ function bp_activities_title() {
 	echo $bp_activity_title;
 }
 
+function bp_activities_no_activity() {
+	global $bp_activity_no_activity;
+	echo $bp_activity_no_activity;
+}
+
 function bp_activity_content() {
 	global $activities_template;
 	
@@ -132,7 +138,7 @@ function bp_activity_content() {
 	}
 }
 
-function bp_activity_content_filter( $content, $date_recorded, $full_name, $insert_time = true, $is_home = true ) {
+function bp_activity_content_filter( $content, $date_recorded, $full_name, $insert_time = true, $filter_words = true, $filter_you = true ) {
 	if ( !$content )
 		return false;
 		
@@ -145,11 +151,15 @@ function bp_activity_content_filter( $content, $date_recorded, $full_name, $inse
 	/* Insert the time since */
 	if ( $insert_time )
 		$content[0] = bp_activity_insert_time_since( $content[0], $date_recorded );
-	
-	/* Switch 'their/your' and 'Name/You' depending on whether the user is logged in or not and viewing their profile */
-	if ( $is_home ) {
+
+	/* Switch 'their/your' depending on whether the user is logged in or not and viewing their profile */
+	if ( $filter_words ) {
 		$content[0] = str_replace( __('their', 'buddypress'), __('your', 'buddypress'), $content[0] );
-		$content[0] = str_replace( $full_name, __('You', 'buddypress'), $content[0] );		
+	}
+	
+	/* Remove the 'You' and replace if with the persons name */
+	if ( $filter_you ) {
+		$content[0] = str_replace( $full_name, __('You', 'buddypress'), $content[0] );				
 	}
 	
 	for ( $i = 0; $i < count($content); $i++ )
@@ -166,6 +176,7 @@ function bp_activity_css_class() {
 	global $activities_template;
 	echo $activities_template->activity['component_name'];
 }
+
 
 
 ?>

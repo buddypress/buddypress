@@ -323,13 +323,13 @@ function bp_add_friend_button( $potential_friend_id = false ) {
 	
 		$friend_status = BP_Friends_Friendship::check_is_friend( $bp['loggedin_userid'], $potential_friend_id );
 	
-		echo '<div class="friendship-button" id="friendship-button-' . $potential_friend_id . '">';
+		echo '<div class="friendship-button ' . $friend_status . '" id="friendship-button-' . $potential_friend_id . '">';
 		if ( $friend_status == 'pending' ) {
 			_e('Friendship Requested', 'buddypress');
 		} else if ( $friend_status == 'is_friend') {
 			echo '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/remove-friend/' . $potential_friend_id . '" title="' . __('Cancel Friendship', 'buddypress') . '" id="friend-' . $potential_friend_id . '" rel="remove" class="remove">' . __('Cancel Friendship', 'buddypress') . '</a>';
 		} else {
-			echo '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/add-friend/' . $potential_friend_id . '" title="' . __('Add Friend', 'buddypress') . '" id="friend-' . $potential_friend_id . '" rel="add">' . __('Add Friend', 'buddypress') . '</a>';
+			echo '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/add-friend/' . $potential_friend_id . '" title="' . __('Add Friend', 'buddypress') . '" id="friend-' . $potential_friend_id . '" rel="add" class="add">' . __('Add Friend', 'buddypress') . '</a>';
 		}
 		echo '</div>';
 	

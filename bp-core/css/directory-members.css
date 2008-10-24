@@ -5,13 +5,12 @@ ul#letter-list, ul#members-list {
 }
 	ul#letter-list li {
 		float: left;
-		margin: 0 14px 14px 0;
+		margin: 0 4px 3px 0;
 	}
 		ul#letter-list li a {
 			display: block;
 			background: #eee;
-			padding: 5px;
-			width: 22px;
+			width: 20px;
 			text-align: center;
 			text-decoration: none;
 			font-size: 12px;
@@ -23,6 +22,10 @@ ul#letter-list, ul#members-list {
 			background: #fff9df;
 			color: #f7740a;
 		}
+
+ul#members-list li {
+	position: relative;
+}
 
 	ul#members-list li .item-avatar, .avatar-block img.avatar {
 		float: left;
@@ -50,3 +53,40 @@ ul#letter-list, ul#members-list {
 		font-size: 0.9em;
 		margin: -15px 0 5px 0;
 	}
+	
+	ul#members-list li div.action {
+		position: absolute;
+		top: 20%;
+		right: 1em;
+		text-align: right;
+	}
+		div.action div.friendship-button {
+			margin-bottom: 5px;
+		}
+		
+		div.action div.meta {
+			font-size: 0.9em;
+		}
+	
+	ul#members-list li a.add, ul#members-list li a.remove, ul#members-list li div.pending {
+		background: url(../images/add_friend_button.gif) top left no-repeat;
+		text-indent: -999em;
+		display: block;
+		overflow: hidden;
+		width: 102px;
+		text-align: left;
+	}
+	
+	ul#members-list li a.remove {
+		background: url(../images/remove_friend_button.gif) top left no-repeat;
+		width: 121px;
+	}
+
+	ul#members-list li div.pending {
+		background: url(../images/requested_friend_button.gif) top left no-repeat;
+		width: 136px;
+	}
+	
+	
+	
+	

@@ -194,7 +194,7 @@ function bp_core_avatar_admin( $message = null ) {
 }
 
 function bp_core_check_avatar_upload($file) {
-	if ( !isset($file['file']) || $file['file']['size'] == 0 )
+	if ( $file['error'] )
 		return false;
 	
 	return true;
@@ -445,8 +445,9 @@ function bp_core_delete_avatar() {
 }
 
 function bp_core_ap_die( $msg ) {
+	global $bp;
 	echo '<p><strong>' . $msg . '</strong></p>';
-	echo '<p><a href="' . $bp['loggedin_domain'] . '/' . $bp['profile']['slug'] . '/change-avatar">' . __('Try Again', 'buddypress') . '</a></p>';
+	echo '<p><a href="' . site_url() . '/' . $bp['profile']['slug'] . '/change-avatar">' . __('Try Again', 'buddypress') . '</a></p>';
 	echo '</div>';
 	exit;
 }

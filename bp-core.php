@@ -3,13 +3,16 @@
 /* Define the current version number for checking if DB tables are up to date. */
 define( 'BP_CORE_VERSION', '0.2.6.1' );
 
-/* Load the language file */
-if ( file_exists(ABSPATH . 'wp-content/mu-plugins/bp-languages/buddypress-' . get_locale() . '.mo') )
-	load_textdomain( 'buddypress', ABSPATH . 'wp-content/mu-plugins/bp-languages/buddypress-' . get_locale() . '.mo' );
+/* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
+define( 'MEMBERS_SLUG', 'members' );
 
 /* These components are accessed via the root, and not under a blog name or home base.
    e.g Groups is accessed via: http://domain.com/groups/group-name NOT http://domain.com.andy/groups/group-name */
-define( 'BP_CORE_ROOT_COMPONENTS', 'groups,members' );
+define( 'BP_CORE_ROOT_COMPONENTS', MEMBERS_SLUG . ',groups' );
+
+/* Load the language file */
+if ( file_exists(ABSPATH . 'wp-content/mu-plugins/bp-languages/buddypress-' . get_locale() . '.mo') )
+	load_textdomain( 'buddypress', ABSPATH . 'wp-content/mu-plugins/bp-languages/buddypress-' . get_locale() . '.mo' );
 
 /* Functions to handle pretty URLs and breaking them down into usable variables */
 require_once( 'bp-core/bp-core-catchuri.php' );
@@ -179,7 +182,7 @@ function bp_core_get_user_domain( $user_id ) {
 	
 	$ud = get_userdata($user_id);
 	
-	return $bp['root_domain'] . '/members/' . $ud->user_login . '/';
+	return $bp['root_domain'] . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/';
 }
 
 /**
@@ -413,7 +416,7 @@ function bp_core_get_userurl( $uid ) {
 	
 	$ud = get_userdata($uid);
 		
-	return $bp['root_domain'] . '/members/' . $ud->user_login . '/';
+	return $bp['root_domain'] . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/';
 }
 
 /**

@@ -42,6 +42,11 @@ function bp_core_add_css() {
 	if ( is_user_logged_in() ) {
 		wp_enqueue_style( 'bp-admin-bar', site_url() . '/wp-content/mu-plugins/bp-core/css/admin-bar.css' );
 	}
+	
+	/* If you want custom css styles, include a custom-styles.css file in /bp-core/css/custom-styles.css */
+	if ( file_exists(ABSPATH . MUPLUGINDIR . '/bp-core/css/custom-styles.css') )
+		wp_enqueue_style( 'bp-core-custom-styles', site_url() . MUPLUGINDIR . '/bp-core/css/custom-styles.css' );		
+	
 	wp_print_styles();
 }
 add_action( 'wp_head', 'bp_core_add_css' );

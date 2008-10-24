@@ -12,7 +12,7 @@ jQuery(document).ready( function() {
 			jQuery.post( ajaxurl, {
 				action: 'directory_members',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce").val(),
+				'_wpnonce': jQuery("input#_wpnonce-member-filter").val(),
 				'letter': letter[1],
 			},
 			function(response)

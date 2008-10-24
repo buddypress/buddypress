@@ -100,9 +100,9 @@ function bp_core_widget_members($args) {
 	<?php if ( $users ) : ?>
 		<div class="item-options" id="members-list-options">
 			<img id="ajax-loader-members" src="<?php echo $bp['core']['image_base'] ?>/ajax-loader.gif" height="7" alt="Loading" style="display: none;" /> &nbsp;
-			<a href="<?php echo site_url() . '/members' ?>" id="newest-members" class="selected"><?php _e("Newest", 'buddypress') ?></a> | 
-			<a href="<?php echo site_url() . '/members' ?>" id="recently-active-members"><?php _e("Active", 'buddypress') ?></a> | 
-			<a href="<?php echo site_url() . '/members' ?>" id="popular-members"><?php _e("Popular", 'buddypress') ?></a>
+			<a href="<?php echo site_url() . '/' . MEMBERS_SLUG ?>" id="newest-members" class="selected"><?php _e("Newest", 'buddypress') ?></a> | 
+			<a href="<?php echo site_url() . '/' . MEMBERS_SLUG ?>" id="recently-active-members"><?php _e("Active", 'buddypress') ?></a> | 
+			<a href="<?php echo site_url() . '/' . MEMBERS_SLUG ?>" id="popular-members"><?php _e("Popular", 'buddypress') ?></a>
 		</div>
 		<ul id="members-list" class="item-list">
 			<?php foreach ( (array) $users as $user ) : ?>

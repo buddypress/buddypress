@@ -254,7 +254,7 @@ function bp_group_list_admins() {
 
 function bp_group_all_members_permalink() {
 	global $groups_template, $bp;
-	echo bp_group_permalink( false, true ) . '/members';
+	echo bp_group_permalink( false, true ) . '/' . MEMBERS_SLUG ;
 }
 
 function bp_group_random_members() {
@@ -599,7 +599,7 @@ function bp_groups_random_groups() {
 			</ul>
 		<?php } else { ?>
 			<div id="message" class="info">
-				<p><?php bp_word_or_name( __( "You haven't oined any groups yet.", 'buddypress' ), __( "%s hasn't joined any groups yet.", 'buddypress' ) ) ?></p>
+				<p><?php bp_word_or_name( __( "You haven't joined any groups yet.", 'buddypress' ), __( "%s hasn't joined any groups yet.", 'buddypress' ) ) ?></p>
 			</div>
 		<?php } ?>
 		<div class="clear"></div>

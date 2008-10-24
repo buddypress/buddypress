@@ -71,7 +71,7 @@ function bp_core_set_uri_globals() {
 	/* Reset the keys by merging with an empty array */
 	$bp_uri = array_merge( array(), $bp_uri );	
 
-	if ( $bp_uri[0] == 'members' && $bp_uri[1] != '' ) {
+	if ( $bp_uri[0] == MEMBERS_SLUG && $bp_uri[1] != '' ) {
 		$is_member_page = true;
 		$is_root_component = true;
 		

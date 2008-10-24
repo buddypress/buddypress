@@ -151,40 +151,41 @@ function xprofile_validate_signup_fields( $result ) {
 	        1 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format(CORE_MAX_FILE_SIZE), 
 	        2 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format(CORE_MAX_FILE_SIZE),
 	        3 => __("The uploaded file was only partially uploaded", 'buddypress'),
-	        4 => __("No file was uploaded", 'buddypress'),
 	        6 => __("Missing a temporary folder", 'buddypress')
 	);
 
-	if ( !$checked_upload = bp_core_check_avatar_upload($_FILES) ) {
-		$avatar_error = true;
-		$avatar_error_msg = $uploadErrors[$_FILES['file']['error']];
-	}
+	if ( $_FILES['file']['error'] !== 4 ) {
+		if ( !$checked_upload = bp_core_check_avatar_upload($_FILES) ) {
+			$avatar_error = true;
+			$avatar_error_msg = $uploadErrors[$_FILES['file']['error']];
+		}
 
-	if ( $checked_upload && !$checked_size = bp_core_check_avatar_size($_FILES) ) {
-		$avatar_error = true;
-		$avatar_size = size_format(CORE_MAX_FILE_SIZE);
-		$avatar_error_msg = sprintf( __('The file you uploaded is too big. Please upload a file under %s', 'buddypress'), $avatar_size);
-	}
+		if ( $checked_upload && !$checked_size = bp_core_check_avatar_size($_FILES) ) {
+			$avatar_error = true;
+			$avatar_size = size_format(CORE_MAX_FILE_SIZE);
+			$avatar_error_msg = sprintf( __('The file you uploaded is too big. Please upload a file under %s', 'buddypress'), $avatar_size);
+		}
 
-	if ( $checked_upload && $checked_size && !$checked_type = bp_core_check_avatar_type($_FILES) ) {
-		$avatar_error = true;
-		$avatar_error_msg = __('Please upload only JPG, GIF or PNG photos.', 'buddypress');		
-	}
+		if ( $checked_upload && $checked_size && !$checked_type = bp_core_check_avatar_type($_FILES) ) {
+			$avatar_error = true;
+			$avatar_error_msg = __('Please upload only JPG, GIF or PNG photos.', 'buddypress');		
+		}
 
-	// "Handle" upload into temporary location
-	if ( $checked_upload && $checked_size && $checked_type && !$original = bp_core_handle_avatar_upload($_FILES) ) {
-		$avatar_error = true;
-		$avatar_error_msg = __('Upload Failed! Your photo dimensions are likely too big.', 'buddypress');						
-	}
+		// "Handle" upload into temporary location
+		if ( $checked_upload && $checked_size && $checked_type && !$original = bp_core_handle_avatar_upload($_FILES) ) {
+			$avatar_error = true;
+			$avatar_error_msg = __('Upload Failed! Your photo dimensions are likely too big.', 'buddypress');						
+		}
 
-	if ( $checked_upload && $checked_size && $checked_type && $original && !$checked_dims = bp_core_check_avatar_dimensions($original) ) {
-		$avatar_error = true;
-		$avatar_error_msg = sprintf( __('The image you upload must have dimensions of %d x %d pixels or larger.', 'buddypress'), CORE_AVATAR_V2_W, CORE_AVATAR_V2_W );
+		if ( $checked_upload && $checked_size && $checked_type && $original && !$checked_dims = bp_core_check_avatar_dimensions($original) ) {
+			$avatar_error = true;
+			$avatar_error_msg = sprintf( __('The image you upload must have dimensions of %d x %d pixels or larger.', 'buddypress'), CORE_AVATAR_V2_W, CORE_AVATAR_V2_W );
+		}
+	
+		if ( $checked_upload && $checked_size && $checked_type && $original && $checked_dims && !$canvas = bp_core_resize_avatar($original) )
+			$canvas = $original;
 	}
 	
-	if ( $checked_upload && $checked_size && $checked_type && $original && $checked_dims && !$canvas = bp_core_resize_avatar($original) )
-		$canvas = $original;
-
 	if ( !$has_errors && !$avatar_error ) {
 		$public = (int) $_POST['blog_public'];
 		

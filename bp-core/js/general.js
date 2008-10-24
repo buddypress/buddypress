@@ -1,9 +1,6 @@
 jQuery(document).ready( function() {
 	jQuery("div.friendship-button a").livequery('click',
 		function(e) {
-			jQuery(this).toggle();
-			jQuery(this).before('<span id="working">Working...</span>');
-		
 			var fid = jQuery(this).attr('id');
 			fid = fid.split('-');
 			fid = fid[1];
@@ -20,17 +17,26 @@ jQuery(document).ready( function() {
 				response = response.substr(0, response.length-1);
 			
 				var action = thelink.attr('rel');
-			
+				var parentdiv = thelink.parent();
+				
 				if ( action == 'add' ) {
-					jQuery("#working").html(response);
-				} else {
-					jQuery("#working").toggle();
-					thelink.html(response);
-					thelink.attr('rel', 'add');
-					thelink.removeClass('remove');
-					thelink.toggle();
-				}
+					jQuery(parentdiv).fadeOut(200, 
+						function() {
+							parentdiv.removeClass('add_friend');
+							parentdiv.addClass('pending');
+							parentdiv.fadeIn(200).html(response);
+						}
+					);
 
+				} else if ( action == 'remove' ) {
+					jQuery(parentdiv).fadeOut(200, 
+						function() {
+							parentdiv.removeClass('remove_friend');
+							parentdiv.addClass('add');
+							parentdiv.fadeIn(200).html(response);
+						}
+					);				
+				}
 			});
 			return false;
 		}

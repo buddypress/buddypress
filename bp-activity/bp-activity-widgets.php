@@ -34,7 +34,7 @@ function bp_activity_widget_sitewide_activity($args) {
 			<ul id="site-wide-stream" class="activity-list">
 			<?php foreach( $activity as $item ) : ?>
 				<li class="<?php echo $item['component_name'] ?>">
-					<?php echo bp_activity_content_filter( $item['content'], $item['date_recorded'], false );?>
+					<?php echo bp_activity_content_filter( $item['content'], $item['date_recorded'], '', true, false, true );?>
 				</li>
 			<?php endforeach; ?>
 			</ul>
