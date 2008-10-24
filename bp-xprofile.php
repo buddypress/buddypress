@@ -281,7 +281,7 @@ function xprofile_format_activity( $item_id, $action, $for_secondary_user = fals
 			if ( !$profile_group )
 				return false;
 				
-			return bp_core_get_userlink($bp['current_userid']) . ' ' . __('updated the', 'buddypress') . ' "<a href="' . $bp['current_domain'] . $bp['profile']['slug'] . '">' . $profile_group->name . '</a>" ' . __('information on', 'buddypress') . ' ' . bp_your_or_their() . ' ' . __('profile', 'buddypress') . '. <span class="time-since">%s</span>';
+			return bp_core_get_userlink($bp['current_userid']) . ' ' . __('updated the', 'buddypress') . ' "<a href="' . $bp['current_domain'] . $bp['profile']['slug'] . '">' . $profile_group->name . '</a>" ' . __('information on your profile', 'buddypress') . '. <span class="time-since">%s</span>';
 		break;
 	}
 	

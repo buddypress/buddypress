@@ -131,7 +131,11 @@ function bp_activity_content() {
 	global $activities_template;
 	
 	if ( $activities_template->filter_content ) {
-		echo bp_activity_content_filter( $activities_template->activity['content'], $activities_template->activity['date_recorded'], $activities_template->full_name, true, $activities_template->is_home );			
+		if ( $activities_template->is_home ) {
+			echo bp_activity_content_filter( $activities_template->activity['content'], $activities_template->activity['date_recorded'], $activities_template->full_name );						
+		} else {
+			echo bp_activity_content_filter( $activities_template->activity['content'], $activities_template->activity['date_recorded'], $activities_template->full_name, true, false, false );									
+		}
 	} else {
 		$activities_template->activity['content'] = bp_activity_insert_time_since( $activities_template->activity['content'], $activities_template->activity['date_recorded'] );
 		echo $activities_template->activity['content'];
