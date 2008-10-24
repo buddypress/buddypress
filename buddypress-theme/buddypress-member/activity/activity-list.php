@@ -14,7 +14,7 @@
 	<?php else: ?>
 
 		<div id="message" class="info">
-			<p><?php bp_word_or_name( __( "You haven't done anything recently.", 'buddypress' ), __( "%s hasn't done anything recently.", 'buddypress' ) ) ?></p>
+			<p><?php bp_activities_no_activity() ?></p>
 		</div>
 
 	<?php endif;?>

@@ -51,7 +51,7 @@
 		<ul id="nav">
 			<li<?php if(bp_is_page('home')) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>" title="Home">Home</a></li>
 			<li<?php if(bp_is_page('news')) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/news" title="News">News</a></li>
-			<li<?php if(bp_is_page('members')) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/members" title="Members">Members</a></li>
+			<li<?php if(bp_is_page(MEMBERS_SLUG)) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/<?php echo MEMBERS_SLUG ?>" title="Members">Members</a></li>
 			<!--
 			<li><a href="<?php echo get_option('home') ?>/groups" title="Groups">Groups</a></li>
 			<li><a href="<?php echo get_option('home') ?>/blogs" title="Blogs">Blogs</a></li>
