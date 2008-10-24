@@ -54,23 +54,7 @@ ignore this bit.
 Step 4: Place the BuddyPress themes in the correct location
 ***********************************************************
 
-Head to /wp-content/themes/ and backup the existing /home/ directory. Once you have it 
-backed up remove the /home/ directory from /wp-content/themes/
-
-If you download the tagged version of the themes, they will download as:
-
-  - /tags/buddypress-theme/[version]/buddypress-theme/buddypress/
-  - /tags/buddypress-theme/[version]/buddypress-theme/home/
-
-Next move the /buddypress/ and /home/ directories from the above locations and move 
-them into /wp-content/themes/ so that you have the following:
-
-  - /wp-content/themes/buddypress/
-  - /wp-content/themes/home/
-
-DO NOT rename the /buddypress/ directory or change the theme name. This will be relaxed 
-in a later version.
-
+ - Please follow the instructions in the /buddypress-theme/readme.txt file
 
 ************************************************************
 Step 5: Log in as an administrator and create profile fields
@@ -88,23 +72,7 @@ to the "Basic" group will appear on the signup form along with an avatar upload 
  - Site Admin > Options
 
 Check the "Enabled" radio button under "Allow new registrations" and hit the update 
-options button.
-
-
-************************************************
-Step 6: Create a home base for the administrator
-************************************************
-
-When you're logged in as an administrator, you won't have access to any BuddyPress features 
-until you create a home base.
-
-You'll notice a "Create Home Base" tab. Hit this tab and fill out the form to create a home 
-base. A new dashboard tab will be added to the top of your admin area with a "user" icon. 
-This is your new home base, where you can use all the BuddyPress features.
-
-Almost all interaction with BuddyPress features is done via the theme and the front end. Hit 
-the "View Site" button when you are viewing your home base dashboard. You should see your 
-new profile and menu items for all BuddyPress features.
+options button. You can enable/disable blog registrations if you wish.
 
 
 *******************************************
