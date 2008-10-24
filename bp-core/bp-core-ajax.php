@@ -60,7 +60,7 @@ function bp_core_ajax_directory_members() {
 	global $bp;
 
 	check_ajax_referer('directory_members');
-	
+
 	$users = BP_Core_User::get_users_by_letter( $_POST['letter'] );
 
 	if ( $users ) {

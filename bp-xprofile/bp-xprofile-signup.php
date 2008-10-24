@@ -84,110 +84,124 @@ function xprofile_validate_signup_fields( $result ) {
 	global $canvas, $original;
 	global $current_site, $active_signup;
 	
-	if ( isset( $_POST['validate_custom'] ) ) {
-		// form has been submitted, let's validate the form
-		// using the built in Wordpress functions and our own.
+	if ( $_POST['stage'] != 'validate-user-signup' ) return $result;
+	
+	// form has been submitted, let's validate the form
+	// using the built in Wordpress functions and our own.
 
-		extract($result);
+	extract($result);
+	
+	$counter = 0;
+	$has_errors = false;
+	$prev_field_id = -1;
+	
+	// Validate all sign up fields
+	$fields = BP_XProfile_Field::get_signup_fields();
+	foreach ( $fields as $field ) {
 		
-		$counter = 0;
-		$has_errors = false;
-		$prev_field_id = -1;
+		$value = $_POST['field_' . $field->id];
 		
-		// Validate all sign up fields
-		$fields = BP_XProfile_Field::get_signup_fields();
-		foreach ( $fields as $field ) {
+		// Need to check if the previous field had
+		// the same ID, as to not validate individual
+		// day/month/year dropdowns individually.
+		if ( $prev_field_id != $field->id ) {
+			$field = new BP_XProfile_Field($field->id);
 			
-			$value = $_POST['field_' . $field->id];
-			
-			// Need to check if the previous field had
-			// the same ID, as to not validate individual
-			// day/month/year dropdowns individually.
-			if ( $prev_field_id != $field->id ) {
-				$field = new BP_XProfile_Field($field->id);
-				
-					if ( $field->type == "datebox" ) {
-						if ( $_POST['field_' . $field->id . '_day'] != "" && $_POST['field_' . $field->id . '_month'] != "" && $_POST['field_' . $field->id . '_year'] != "") {
-							$value = strtotime( $_POST['field_' . $field->id . '_day'] . " " . 
-								     			$_POST['field_' . $field->id . '_month'] . " " .
-								     			$_POST['field_' . $field->id . '_year']);								
-						}
+			if ( $field->type == "datebox" ) {
+				if ( $_POST['field_' . $field->id . '_day'] != "" && $_POST['field_' . $field->id . '_month'] != "" && $_POST['field_' . $field->id . '_year'] != "") {
+					$value = strtotime( $_POST['field_' . $field->id . '_day'] . " " . 
+						     			$_POST['field_' . $field->id . '_month'] . " " .
+						     			$_POST['field_' . $field->id . '_year']);								
 				}
-				
-				if ( is_array($value) ) {
-					$value = serialize( $value );
-				}
-				
-				$bp_xprofile_callback[$counter] = array(
-					"field_id" => $field->id,
-					"type" => $field->type,
-					"value" => $value
-				);
-				
-				if ( $field->is_required && $value == '' ) {
-					$bp_xprofile_callback[$counter]["error_msg"] = $field->name . ' cannot be left blank.';
-					$has_errors = true;
-				}
-				
-				$counter++;
 			}
 			
-			$prev_field_id = $field->id;
-		}
-
-		// validate the avatar upload if there is one.
-		$avatar_error = false;
-		
-		if ( bp_core_check_avatar_upload($_FILES) ) {
-			if ( !bp_core_check_avatar_upload($_FILES) ) {
-				$avatar_error = true;
-				$avatar_error_msg = __('Your avatar upload failed, please try again.', 'buddypress');
-			}
-
-			if ( !bp_core_check_avatar_size($_FILES) ) {
-				$avatar_error = true;
-				$avatar_size = size_format(CORE_MAX_FILE_SIZE);
-				$avatar_error_msg = sprintf( __('The file you uploaded is too big. Please upload a file under %s', 'buddypress'), $avatar_size);
-			}
-
-			if ( !bp_core_check_avatar_type($_FILES) ) {
-				$avatar_error = true;
-				$avatar_error_msg = __('Please upload only JPG, GIF or PNG photos.', 'buddypress');		
-			}
-
-			// "Handle" upload into temporary location
-			if ( !$original = bp_core_handle_avatar_upload($_FILES) ) {
-				$avatar_error = true;
-				$avatar_error_msg = __('Upload Failed! Your photo dimensions are likely too big.', 'buddypress');						
-			}
-
-			if ( !bp_core_check_avatar_dimensions($original) ) {
-				$avatar_error = true;
-				$avatar_error_msg = sprintf( __('The image you upload must have dimensions of %d x %d pixels or larger.', 'buddypress'), CORE_AVATAR_V2_W, CORE_AVATAR_V2_W );
+			if ( is_array($value) ) {
+				$value = serialize( $value );
 			}
 			
-			if ( !$canvas = bp_core_resize_avatar($original) )
-				$canvas = $original;
+			$bp_xprofile_callback[$counter] = array(
+				"field_id" => $field->id,
+				"type" => $field->type,
+				"value" => $value
+			);
+			
+			if ( $field->is_required && $value == '' ) {
+				$bp_xprofile_callback[$counter]["error_msg"] = $field->name . ' cannot be left blank.';
+				$has_errors = true;
+			}
+			
+			$counter++;
 		}
 		
-		if ( !$has_errors && !$avatar_error ) {
-			$public = (int) $_POST['blog_public'];
-			
-			// put the user profile meta in a session ready to store.
-			for ( $i = 0; $i < count($bp_xprofile_callback); $i++ ) {
-				$meta['field_' . $bp_xprofile_callback[$i]['field_id']] .= $bp_xprofile_callback[$i]['value'];
-			}
+		$prev_field_id = $field->id;
+	}
 
-			$meta['xprofile_field_ids'] = $_POST['xprofile_ids'];
-			$meta['avatar_image_resized'] = $canvas;
-			$meta['avatar_image_original'] = $original;
-			$meta['public'] = $public;
-			$meta['lang_id'] = 1;
-			
-			$_SESSION['xprofile_meta'] = $meta;
-		} else {
-			$errors->add( 'bp_xprofile_errors', '' );
+	// validate the avatar upload if there is one.
+	$avatar_error = false;
+	$checked_upload = false;
+	$checked_size = false;
+	$checked_type = false;
+	$original = false;
+	$checked_dims = false;
+	$canvas = false;
+	
+	// Set friendly error feedback.
+	$uploadErrors = array(
+	        0 => __("There is no error, the file uploaded with success", 'buddypress'), 
+	        1 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format(CORE_MAX_FILE_SIZE), 
+	        2 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format(CORE_MAX_FILE_SIZE),
+	        3 => __("The uploaded file was only partially uploaded", 'buddypress'),
+	        4 => __("No file was uploaded", 'buddypress'),
+	        6 => __("Missing a temporary folder", 'buddypress')
+	);
+
+	if ( !$checked_upload = bp_core_check_avatar_upload($_FILES) ) {
+		$avatar_error = true;
+		$avatar_error_msg = $uploadErrors[$_FILES['file']['error']];
+	}
+
+	if ( $checked_upload && !$checked_size = bp_core_check_avatar_size($_FILES) ) {
+		$avatar_error = true;
+		$avatar_size = size_format(CORE_MAX_FILE_SIZE);
+		$avatar_error_msg = sprintf( __('The file you uploaded is too big. Please upload a file under %s', 'buddypress'), $avatar_size);
+	}
+
+	if ( $checked_upload && $checked_size && !$checked_type = bp_core_check_avatar_type($_FILES) ) {
+		$avatar_error = true;
+		$avatar_error_msg = __('Please upload only JPG, GIF or PNG photos.', 'buddypress');		
+	}
+
+	// "Handle" upload into temporary location
+	if ( $checked_upload && $checked_size && $checked_type && !$original = bp_core_handle_avatar_upload($_FILES) ) {
+		$avatar_error = true;
+		$avatar_error_msg = __('Upload Failed! Your photo dimensions are likely too big.', 'buddypress');						
+	}
+
+	if ( $checked_upload && $checked_size && $checked_type && $original && !$checked_dims = bp_core_check_avatar_dimensions($original) ) {
+		$avatar_error = true;
+		$avatar_error_msg = sprintf( __('The image you upload must have dimensions of %d x %d pixels or larger.', 'buddypress'), CORE_AVATAR_V2_W, CORE_AVATAR_V2_W );
+	}
+	
+	if ( $checked_upload && $checked_size && $checked_type && $original && $checked_dims && !$canvas = bp_core_resize_avatar($original) )
+		$canvas = $original;
+
+	if ( !$has_errors && !$avatar_error ) {
+		$public = (int) $_POST['blog_public'];
+		
+		// put the user profile meta in a session ready to store.
+		for ( $i = 0; $i < count($bp_xprofile_callback); $i++ ) {
+			$meta['field_' . $bp_xprofile_callback[$i]['field_id']] .= $bp_xprofile_callback[$i]['value'];
 		}
+
+		$meta['xprofile_field_ids'] = $_POST['xprofile_ids'];
+		$meta['avatar_image_resized'] = $canvas;
+		$meta['avatar_image_original'] = $original;
+		$meta['public'] = $public;
+		$meta['lang_id'] = 1;
+		
+		$_SESSION['xprofile_meta'] = $meta;
+	} else {
+		$errors->add( 'bp_xprofile_errors', '' );
 	}
 	
 	return array('user_name' => $user_name, 'user_email' => $user_email, 'errors' => $errors);
@@ -199,19 +213,6 @@ function xprofile_add_profile_meta( $meta ) {
 	return $_SESSION['xprofile_meta'];
 }
 add_filter( 'add_signup_meta', 'xprofile_add_profile_meta' );
-
-/**************************************************************************
- xprofile_hidden_signup_fields()
- 
- Adds hidden fields to the signup page to bypass the built in Wordpress
- validation functionality.
- **************************************************************************/
-
-function xprofile_hidden_signup_fields() {
-	?><input type="hidden" name="validate_custom" value="1" /><?php
-}
-add_action( 'signup_hidden_fields', 'xprofile_hidden_signup_fields' );
-
 
 /**************************************************************************
  xprofile_on_activate_user()

@@ -13,6 +13,7 @@ define( 'CORE_AVATAR_V1_W', 50 );
 define( 'CORE_AVATAR_V1_H', 50 );
 define( 'CORE_AVATAR_V2_W', 150 );
 define( 'CORE_AVATAR_V2_H', 150 );
+define( 'CORE_CROPPING_CANVAS_MAX', 450 );
 define( 'CORE_MAX_FILE_SIZE', get_site_option('fileupload_maxk') * 1024 );
 define( 'CORE_DEFAULT_AVATAR', site_url() . '/wp-content/mu-plugins/bp-xprofile/images/none.gif' );
 define( 'CORE_DEFAULT_AVATAR_THUMB', site_url() . '/wp-content/mu-plugins/bp-xprofile/images/none-thumbnail.gif' );
@@ -117,8 +118,8 @@ function bp_core_avatar_admin( $message = null ) {
 		// Set friendly error feedback.
 		$uploadErrors = array(
 		        0 => __("There is no error, the file uploaded with success", 'buddypress'), 
-		        1 => __("The uploaded file exceeds the upload_max_filesize directive in php.ini", 'buddypress'), 
-		        2 => __("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form", 'buddypress'),
+		        1 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format(CORE_MAX_FILE_SIZE), 
+		        2 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format(CORE_MAX_FILE_SIZE),
 		        3 => __("The uploaded file was only partially uploaded", 'buddypress'),
 		        4 => __("No file was uploaded", 'buddypress'),
 		        6 => __("Missing a temporary folder", 'buddypress')
@@ -234,7 +235,11 @@ function bp_core_check_avatar_dimensions($file) {
 	return true;
 }
 
-function bp_core_resize_avatar($file, $size = CORE_CROPPING_CANVAS_MAX) {
+function bp_core_resize_avatar( $file, $size = false ) {
+	
+	if ( !$size )
+		$size = CORE_CROPPING_CANVAS_MAX;
+
 	$canvas = wp_create_thumbnail( $file, $size );
 	
 	if ( $canvas->errors )
