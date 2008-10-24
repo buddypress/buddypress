@@ -76,7 +76,7 @@ options button. You can enable/disable blog registrations if you wish.
 
 
 *******************************************
-Step 7: Up and running and useful resources
+Step 6: Up and running and useful resources
 *******************************************
 
 You should now be up and running with BuddyPress. If you are experiencing 404's or blank 
