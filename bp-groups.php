@@ -610,11 +610,6 @@ function groups_avatar_upload( $file ) {
 		$avatar_error = true;
 		$avatar_error_msg = __('Upload Failed! Your photo dimensions are likely too big.', 'buddypress');						
 	}
-
-	else if ( !bp_core_check_avatar_dimensions($original) ) {
-		$avatar_error = true;
-		$avatar_error_msg = sprintf( __('The image you upload must have dimensions of %d x %d pixels or larger.', 'buddypress'), CORE_CROPPING_CANVAS_MAX, CORE_CROPPING_CANVAS_MAX );
-	}
 	
 	if ( !$canvas = bp_core_resize_avatar($original) )
 		$canvas = $original;

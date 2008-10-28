@@ -138,9 +138,6 @@ function bp_core_avatar_admin( $message = null ) {
 		if ( !$original = bp_core_handle_avatar_upload($_FILES) )
 			bp_core_ap_die( 'Upload Failed! Error was: ' . $wp_upload_error );
 		
-		if ( !bp_core_check_avatar_dimensions($original) )
-			bp_core_ap_die( 'The image you upload must have dimensions of ' . CORE_AVATAR_V2_W . " x " . CORE_AVATAR_V2_H . " pixels or larger." );
-		
 		// Resize down to something we can display on the page or use original if its small enough already.
 		if ( !$canvas = bp_core_resize_avatar($original) )
 			$canvas = $original;

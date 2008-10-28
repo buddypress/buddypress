@@ -32,6 +32,9 @@ require_once( 'bp-core/bp-core-templatetags.php' );
 /* Functions to enable the site wide administration bar */
 require_once( 'bp-core/bp-core-adminbar.php' );
 
+/* Functions to handle the display and saving of account settings for members */
+require_once( 'bp-core/bp-core-settings.php' );
+
 /* Bundled core widgets that can be dropped into themes */
 require_once( 'bp-core/bp-core-widgets.php' );
 
@@ -322,7 +325,7 @@ function bp_core_add_nav_item( $name, $slug, $css_id = false, $add_to_usernav = 
 function bp_core_add_subnav_item( $parent_id, $slug, $name, $link, $function, $css_id = false, $user_has_access = true, $admin_only = false ) {
 	global $bp;
 	
-	if ( !$user_has_access && !bp_core_is_home() )
+	if ( !$user_has_access && !bp_is_home() )
 		return false;
 		
 	if ( $admin_only && !is_site_admin() )
@@ -368,9 +371,15 @@ function bp_core_reset_subnav_items($parent_id) {
  * @param $slug The slug of the sub nav item to highlight.
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
-function bp_core_add_nav_default( $parent_id, $function, $slug = false ) {
+function bp_core_add_nav_default( $parent_id, $function, $slug = false, $user_has_access = true, $admin_only = false ) {
 	global $bp;
 	
+	if ( !$user_has_access && !bp_is_home() )
+		return false;
+		
+	if ( $admin_only && !is_site_admin() )
+		return false;
+
 	if ( $bp['current_component'] == $parent_id && !$bp['current_action'] ) {
 		if ( function_exists($function) ) {
 			add_action( 'wp', $function, 3 );

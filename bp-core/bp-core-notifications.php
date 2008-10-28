@@ -77,8 +77,4 @@ function bp_core_check_notification_access( $user_id, $notification_id ) {
 	return true;
 }
 
-function bp_core_get_notification_details( $id, $count ) {
-	// return the readable notification text for this notification item.
-} 
-
 ?>

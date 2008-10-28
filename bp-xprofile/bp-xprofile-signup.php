@@ -142,7 +142,6 @@ function xprofile_validate_signup_fields( $result ) {
 	$checked_size = false;
 	$checked_type = false;
 	$original = false;
-	$checked_dims = false;
 	$canvas = false;
 	
 	// Set friendly error feedback.
@@ -176,13 +175,8 @@ function xprofile_validate_signup_fields( $result ) {
 			$avatar_error = true;
 			$avatar_error_msg = __('Upload Failed! Your photo dimensions are likely too big.', 'buddypress');						
 		}
-
-		if ( $checked_upload && $checked_size && $checked_type && $original && !$checked_dims = bp_core_check_avatar_dimensions($original) ) {
-			$avatar_error = true;
-			$avatar_error_msg = sprintf( __('The image you upload must have dimensions of %d x %d pixels or larger.', 'buddypress'), CORE_AVATAR_V2_W, CORE_AVATAR_V2_W );
-		}
 	
-		if ( $checked_upload && $checked_size && $checked_type && $original && $checked_dims && !$canvas = bp_core_resize_avatar($original) )
+		if ( $checked_upload && $checked_size && $checked_type && $original && !$canvas = bp_core_resize_avatar($original) )
 			$canvas = $original;
 	}
 	
