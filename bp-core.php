@@ -203,7 +203,7 @@ function bp_core_setup_nav() {
 				$bp['bp_options_title'] = $bp['current_fullname']; 
 			}
 		}
-	}
+	}	
 }
 add_action( 'wp', 'bp_core_setup_nav', 2 );
 
@@ -964,9 +964,12 @@ function bp_core_sort_nav_items( $nav_array ) {
 		}
 	}
 	
+	/* Sort the navigation array by key */
 	ksort($new_nav);
 	
-	array_merge( $new_nav, $nav_array );
+	/* Merge the remaining nav items, so they can be appended on the end */
+	$new_nav = array_merge( $new_nav, $nav_array );
+	
 	return $new_nav;
 }
 
