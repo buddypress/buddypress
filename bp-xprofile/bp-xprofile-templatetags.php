@@ -208,9 +208,9 @@ function bp_the_profile_field_name() {
 function bp_the_profile_field_value() {
 	global $field;
 	
-	if ( bp_is_serialized($field->data->value) ) {
-		$field_value = unserialize($field->data->value);
-		$field_value = implode( ", ", $field_value );
+	if ( is_serialized($field->data->value) ) {
+		$field_value = maybe_unserialize($field->data->value);
+		$field_value = implode( ', ', $field_value );
 		$field->data->value = $field_value;
 	}
 	
