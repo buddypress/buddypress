@@ -72,6 +72,10 @@ function bp_core_set_uri_globals() {
 	$bp_uri = array_merge( array(), $bp_uri );	
 
 	if ( $bp_uri[0] == MEMBERS_SLUG && $bp_uri[1] != '' ) {
+		
+		/* Make sure this is not reported as a 404 */
+		header("Status: 200 OK", true, 200);
+		
 		$is_member_page = true;
 		$is_root_component = true;
 		
