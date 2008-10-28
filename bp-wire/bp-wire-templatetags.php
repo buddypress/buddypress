@@ -22,6 +22,12 @@ class BP_Wire_Posts_Template {
 		
 		if ( $bp['current_component'] == $bp['wire']['slug'] ) {
 			$this->table_name = $bp['profile']['table_name_wire'];
+			
+			// Seeing as we're viewing a users wire, lets remove any new wire
+			// post notifications
+			if ( $bp['current_action'] == 'all-posts' )
+				bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'xprofile', 'new_wire_post' );
+			
 		} else {
 			$this->table_name = $bp[$bp['current_component']]['table_name_wire'];
 		}

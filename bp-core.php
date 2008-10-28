@@ -1,7 +1,7 @@
 <?php
 
 /* Define the current version number for checking if DB tables are up to date. */
-define( 'BP_CORE_VERSION', '0.2.6.1' );
+define( 'BP_CORE_VERSION', '0.2.7' );
 
 /* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
 define( 'MEMBERS_SLUG', 'members' );
@@ -38,6 +38,9 @@ require_once( 'bp-core/bp-core-widgets.php' );
 /* AJAX functionality */
 require_once( 'bp-core/bp-core-ajax.php' );
 
+/* Functions to handle the calculations and display of notifications for a user */
+require_once( 'bp-core/bp-core-notifications.php' );
+
 /* Functions to handle and display the member and blog directory pages */
 require_once( 'bp-core/directories/bp-core-directory-members.php' );
 
@@ -63,7 +66,7 @@ require_once( 'bp-core/directories/bp-core-directory-members.php' );
  * @uses bp_core_get_loggedin_userid() Returns the user id for the logged in user
  */
 function bp_core_setup_globals() {
-	global $bp;
+	global $bp, $wpdb;
 	global $current_user, $current_component, $current_action, $current_blog;
 	global $current_userid;
 	global $action_variables;
@@ -131,6 +134,7 @@ function bp_core_setup_globals() {
 
 	$bp['core'] = array(
 		'image_base' => site_url() . '/wp-content/mu-plugins/bp-core/images',
+		'table_name_notifications' => $wpdb->base_prefix . 'bp_notifications'
 	);
 	
 	if ( !$bp['current_component'] )
@@ -138,6 +142,45 @@ function bp_core_setup_globals() {
 }
 add_action( 'wp', 'bp_core_setup_globals', 1 );
 add_action( '_admin_menu', 'bp_core_setup_globals', 1 ); // must be _admin_menu hook.
+
+
+function bp_core_install() {
+	global $wpdb, $bp;
+	
+	$sql[] = "CREATE TABLE ". $bp['core']['table_name_notifications'] ." (
+		  		id int(11) NOT NULL AUTO_INCREMENT,
+				user_id int(11) NOT NULL,
+				item_id int(11) NOT NULL,
+		  		component_name varchar(75) NOT NULL,
+				component_action varchar(75) NOT NULL,
+		  		date_notified datetime NOT NULL,
+				is_new tinyint(1) NOT NULL,
+		    	PRIMARY KEY id (id),
+			    KEY item_id (item_id),
+				KEY user_id (user_id),
+			    KEY is_new (is_new),
+				KEY component_name (component_name),
+		 	   	KEY component_action (component_action)
+			   );";
+
+	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
+	dbDelta($sql);
+	
+	add_site_option( 'bp-core-version', BP_CORE_VERSION );
+}
+
+
+function bp_core_check_installed() {
+	global $wpdb, $bp;
+
+	if ( is_site_admin() ) {
+		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
+		if ( ( $wpdb->get_var("show tables like '%" . $bp['core']['table_name_notifications'] . "%'") == false ) || ( get_site_option('bp-core-version') < BP_CORE_VERSION )  )
+			bp_core_install();
+	}
+}
+add_action( 'admin_menu', 'bp_core_check_installed' );
+
 
 function bp_core_setup_nav() {
 	global $bp;

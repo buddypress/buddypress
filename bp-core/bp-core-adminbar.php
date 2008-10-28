@@ -17,19 +17,25 @@ function bp_core_admin_bar() {
 		echo '<ul>';
 		
 		/* Loop through each navigation item */
+		$counter = 0;
 		foreach( $bp['bp_nav'] as $nav_item ) {
-			echo '<li>';
-			echo '<a id="' . $nav_item['id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a>';
+			$alt = ( $counter % 2 == 0 ) ? ' class="alt"' : '';
+			echo '<li' . $alt . '>';
+			echo '<a id="' . $nav_item['css_id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a>';
 
-			if ( is_array( $bp['bp_options_nav'][$nav_item['id']] ) ) {
+			if ( is_array( $bp['bp_options_nav'][$nav_item['css_id']] ) ) {
 				echo '<ul>';
-				foreach( $bp['bp_options_nav'][$nav_item['id']] as $subnav_item ) {
-					echo '<li><a id="' . $subnav_item['id'] . '" href="' . $subnav_item['link'] . '">' . $subnav_item['name'] . '</a></li>';				
+				$sub_counter = 0;
+				foreach( $bp['bp_options_nav'][$nav_item['css_id']] as $subnav_item ) {
+					$alt = ( $sub_counter % 2 == 0 ) ? ' class="alt"' : '';
+					echo '<li' . $alt . '><a id="' . $subnav_item['css_id'] . '" href="' . $subnav_item['link'] . '">' . $subnav_item['name'] . '</a></li>';				
+					$sub_counter++;
 				}
 				echo '</ul>';
 			}
 			
 			echo '</li>';
+			$counter++;
 		}
 		echo '<li><a id="logout" href="' . site_url() . '/wp-login.php?action=logout">' . __('Log Out', 'buddypress') . '</a></li>';
 		echo '</ul>';
@@ -43,24 +49,27 @@ function bp_core_admin_bar() {
 			echo '<li><a href="' . $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/my-blogs">';
 			_e('My Blogs', 'buddypress');
 			echo '</a>';
-
+			
 			echo '<ul>';			
 			if ( is_array( $blogs['blogs'] ) ) {
-
+				
+				$counter = 0;
 				foreach( $blogs['blogs'] as $blog ) {
-					echo '<li>';
+					$alt = ( $counter % 2 == 0 ) ? ' class="alt"' : '';
+					echo '<li' . $alt . '>';
 					echo '<div class="admin-bar-clear"><a href="' . $blog['siteurl'] . '">' . $blog['title'] . '</a>';
 					echo '</div>';
 					
 					echo '<ul>';
-					echo '<li><a href="' . $blog['siteurl']  . '/wp-admin/">' . __('Dashboard', 'buddypress') . '</a></li>';
+					echo '<li class="alt"><a href="' . $blog['siteurl']  . '/wp-admin/">' . __('Dashboard', 'buddypress') . '</a></li>';
 					echo '<li><a href="' . $blog['siteurl']  . '/wp-admin/post-new.php">' . __('New Post', 'buddypress') . '</a></li>';
-					echo '<li><a href="' . $blog['siteurl']  . '/wp-admin/post-new.php">' . __('Manage Posts', 'buddypress') . '</a></li>';
+					echo '<li class="alt"><a href="' . $blog['siteurl']  . '/wp-admin/post-new.php">' . __('Manage Posts', 'buddypress') . '</a></li>';
 					echo '<li><a href="' . $blog['siteurl']  . '/wp-admin/themes.php">' . __('Switch Theme', 'buddypress') . '</a></li>';					
-					echo '<li><a href="' . $blog['siteurl']  . '/wp-admin/edit-comments.php">' . __('Manage Comments', 'buddypress') . '</a></li>';					
+					echo '<li class="alt"><a href="' . $blog['siteurl']  . '/wp-admin/edit-comments.php">' . __('Manage Comments', 'buddypress') . '</a></li>';					
 					echo '</ul>';
 					
 					echo '</li>';
+					$counter++;
 				}
 			} else {
 				echo '<li>';
@@ -70,6 +79,30 @@ function bp_core_admin_bar() {
 			echo '</ul>';
 			echo '</li>';
 		}
+		
+		/* Show notifications for this user */
+		echo '<li id="notifications_menu"><a href="' . $bp['loggedin_domain'] . '">';
+		_e('Notifications', 'buddypress');
+		
+		if ( $notifications = bp_core_get_notifications_for_user( $bp['loggedin_userid']) ) { ?>
+			<span><?php echo count($notifications) ?></span>
+		<?php
+		}
+		echo '</a>';
+		echo '<ul>';
+		if ( $notifications ) { ?>
+			<?php $counter = 0; ?>
+			<?php for ( $i = 0; $i < count($notifications); $i++ ) { ?>
+				<?php $alt = ( $counter % 2 == 0 ) ? ' class="alt"' : ''; ?>
+				<li<?php echo $alt ?>><?php echo $notifications[$i] ?></li>
+				<?php $counter++; ?>
+			<?php } ?>
+		<?php } else { ?>
+			<li><a href="<?php echo $bp['loggedin_domain'] ?>"><?php _e( 'No new notifications.', 'buddypress' ); ?></a></li>
+		<?php
+		}
+		echo '</ul>';
+		echo '</li>';
 		
 		if ( $current_blog->blog_id > 1 ) {
 			$authors = get_users_of_blog(); 

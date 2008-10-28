@@ -26,18 +26,9 @@ class BP_Friends_Friendship {
 	function populate() {
 		global $wpdb, $bp, $creds;
 		
-		$sql = $wpdb->prepare( "SELECT * FROM " . $bp['friends']['table_name'] . " WHERE id = %d", $this->id );
-		$friendship = $wpdb->get_row($sql);
-		
-		if ( $friendship ) {
-			if ( !$this->is_request ) {
-				$this->initiator_user_id = $friendship->initiator_user_id;
-				$this->friend_user_id = $friendship->friend_user_id;
-			} else {
-				$this->initiator_user_id = $friendship->friend_user_id;
-				$this->friend_user_id = $friendship->initiator_user_id;		
-			}
-
+		if ( $friendship = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp['friends']['table_name'] . " WHERE id = %d", $this->id ) ) ) {
+			$this->initiator_user_id = $friendship->initiator_user_id;
+			$this->friend_user_id = $friendship->friend_user_id;
 			$this->is_confirmed = $friendship->is_confirmed;
 			$this->is_limited = $friendship->is_limited;
 			$this->date_created = $friendship->date_created;

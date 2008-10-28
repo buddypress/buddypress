@@ -17,7 +17,7 @@ include_once( 'bp-groups/bp-groups-widgets.php' );
  Sets up the database tables ready for use on a site installation.
  **************************************************************************/
 
-function groups_install( $version ) {
+function groups_install() {
 	global $wpdb, $bp;
 	
 	$sql[] = "CREATE TABLE ". $bp['groups']['table_name'] ." (
@@ -84,7 +84,7 @@ function groups_install( $version ) {
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
 	
-	add_site_option( 'bp-groups-version', $version );
+	add_site_option( 'bp-groups-version', BP_GROUPS_VERSION );
 }
 
 
@@ -121,27 +121,16 @@ add_action( 'wp', 'groups_setup_globals', 1, false );
 add_action( '_admin_menu', 'groups_setup_globals', 1, false );
 
 
-/**************************************************************************
- groups_add_admin_menu()
- 
- Creates the administration interface menus and checks to see if the DB
- tables are set up.
- **************************************************************************/
-
-function groups_add_admin_menu() {	
-	global $wpdb, $bp, $userdata;
+function groups_check_installed() {	
+	global $wpdb, $bp;
 	
-	if ( $wpdb->blogid == $bp['current_homebase_id'] ) {
-		/* Add the administration tab under the "Site Admin" tab for site administrators */
-		//add_submenu_page( 'wpmu-admin.php', __("Friends"), __("Friends"), 1, basename(__FILE__), "friends_settings" );
+	if ( is_site_admin() ) {
+		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
+		if ( ( $wpdb->get_var("show tables like '%" . $bp['groups']['table_name'] . "%'") == false ) || ( get_site_option('bp-groups-version') < BP_GROUPS_VERSION )  )
+			groups_install();
 	}
-
-	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( ( $wpdb->get_var("show tables like '%" . $bp['groups']['table_name'] . "%'") == false ) || ( get_site_option('bp-groups-version') < BP_GROUPS_VERSION )  )
-		groups_install(BP_GROUPS_VERSION);
-	
 }
-add_action( 'admin_menu', 'groups_add_admin_menu' );
+add_action( 'admin_menu', 'groups_check_installed' );
 
 /**************************************************************************
  groups_setup_nav()

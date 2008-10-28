@@ -16,7 +16,7 @@ include_once( 'bp-messages/bp-messages-templatetags.php' );
  Sets up the database tables ready for use on a site installation.
  **************************************************************************/
 
-function messages_install( $version ) {
+function messages_install() {
 	global $wpdb, $bp;
 	
 	$sql[] = "CREATE TABLE ". $bp['messages']['table_name_threads'] ." (
@@ -78,7 +78,7 @@ function messages_install( $version ) {
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 	dbDelta($sql);
 	
-	add_site_option( 'bp-messages-version', $version );
+	add_site_option( 'bp-messages-version', BP_MESSAGES_VERSION );
 }
 
 
@@ -114,19 +114,16 @@ add_action( '_admin_menu', 'messages_setup_globals', 1 );
  tables are set up.
  **************************************************************************/
 
-function messages_add_admin_menu() {	
+function messages_check_installed() {	
 	global $wpdb, $bp, $userdata;
 
-	if ( $wpdb->blogid == $bp['current_homebase_id'] ) {	
-		//Add the administration tab under the "Site Admin" tab for site administrators
-		//add_submenu_page ( 'wpmu-admin.php', __('Messages'), __('Messages'), 1, basename(__FILE__), "messages_settings" );
+	if ( is_site_admin() ) {
+		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
+		if ( ( $wpdb->get_var( "show tables like '%" . $bp['messages']['table_name'] . "%'" ) == false ) || ( get_site_option('bp-messages-version') < BP_MESSAGES_VERSION ) )
+			messages_install();
 	}
-	
-	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( ( $wpdb->get_var( "show tables like '%" . $bp['messages']['table_name'] . "%'" ) == false ) || ( get_site_option('bp-messages-version') < BP_MESSAGES_VERSION ) )
-		messages_install(BP_MESSAGES_VERSION);
 }
-add_action( 'admin_menu', 'messages_add_admin_menu' );
+add_action( 'admin_menu', 'messages_check_installed' );
 
 /**************************************************************************
  messages_setup_nav()
@@ -339,6 +336,18 @@ function messages_format_activity( $friendship_id, $action, $for_secondary_user 
 	return false;
 }
 
+function messages_format_notifications( $action, $item_id, $total_items ) {
+	global $bp;
+	
+	if ( $action == 'new_message') {
+		if ( (int)$total_items > 1 )
+			return '<a href="' . $bp['loggedin_domain'] . $bp['messages']['slug'] . '/inbox" title="Inbox">' . sprintf( __('You have %d new messages'), (int)$total_items ) . '</a>';		
+		else
+			return '<a href="' . $bp['loggedin_domain'] . $bp['messages']['slug'] . '/inbox" title="Inbox">' . sprintf( __('You have %d new message'), (int)$total_items ) . '</a>';
+	}
+}
+
+
 /**************************************************************************
  messages_write_new()
  
@@ -348,9 +357,6 @@ function messages_format_activity( $friendship_id, $action, $for_secondary_user 
 function messages_write_new( $username = '', $subject = '', $content = '', $type = '', $message = '' ) { ?>
 	<?php
 	global $messages_write_new_action;
-	
-	if ( $messages_write_new_action == '' )
-		$messages_write_new_action = 'admin.php?page=bp-messages.php&amp;mode=send';
 	?>
 	
 	<div class="wrap">
@@ -406,131 +412,6 @@ function messages_write_new( $username = '', $subject = '', $content = '', $type
 		
 	</div>
 	<?php
-}
-
-function messages_inbox() {
-	messages_box( 'inbox', __('Inbox', 'buddypress') );
-}
-
-function messages_sentbox() {
-	messages_box( 'sentbox', __('Sent Messages', 'buddypress') );
-}
-
-
-/**************************************************************************
- messages_box()
-  
- Handles and displays the messages in a particular box for the current user.
- **************************************************************************/
-
-function messages_box( $box = 'inbox', $display_name = 'Inbox', $message = '', $type = '' ) {
-	global $bp, $userdata;
-	
-	if ( isset($_GET['mode']) && isset($_GET['thread_id']) && $_GET['mode'] == 'view' ) {
-		messages_view_thread( $_GET['thread_id'], 'inbox' );
-	} else if ( isset($_GET['mode']) && isset($_GET['thread_id']) && $_GET['mode'] == 'delete' ) {
-		messages_delete_thread( $_GET['thread_id'], $box, $display_name );
-	} else if ( isset($_GET['mode']) && isset($_POST['thread_ids']) && $_GET['mode'] == 'delete_bulk' ) {
-		messages_delete_thread( $_POST['thread_ids'], $box, $display_name );
-	} else if ( isset($_GET['mode']) && $_GET['mode'] == 'send' ) {
-		messages_send_message( $_POST['send_to'], $_POST['subject'], $_POST['content'], $_POST['thread_id'] );
-	} else {
-	?>
-	
-		<div class="wrap">
-			<h2><?php echo $display_name ?></h2>
-			<form action="admin.php?page=bp-messages.php&amp;mode=delete_bulk" method="post">
-
-			<?php
-				if ( $message != '' ) {
-					$type = ( $type == 'error' ) ? 'error' : 'updated';
-			?>
-				<div id="message" class="<?php echo $type; ?> fade">
-					<p><?php echo $message; ?></p>
-				</div>
-			<?php } ?>
-			
-			<?php if ( $box == 'inbox' ) { ?>
-				<div class="messages-options">	
-					<?php bp_messages_options() ?>
-				</div>
-				
-				<?php bp_message_get_notices(); ?>
-			<?php } ?>
-	
-			<table class="widefat" id="message-threads" style="margin-top: 10px;">
-				<tbody id="the-list">
-		<?php
-		$threads = BP_Messages_Thread::get_current_threads_for_user( $userdata->ID, $box );
-		
-		if ( $threads ) {
-			$counter = 0;
-			foreach ( $threads as $thread ) {
-				if ( $thread->unread_count ) { 
-					$is_read = '<img src="' . $bp['messages']['image_base'] .'/email.gif" alt="New Message" /><a href="admin.php?page=bp-messages.php&amp;mode=view&amp;thread_id=' . $thread->thread_id . '"><span id="awaiting-mod" class="count-1"><span class="message-count">' . $thread->unread_count . '</span></span></a>';
-					$new = " unread";
-				} else { 
-					$is_read = '<img src="' . $bp['messages']['image_base'] .'/email_open.gif" alt="Older Message" />'; 
-					$new = " read";
-				}
-				
-				if ( $counter % 2 == 0 ) 
-					$class = "alternate";
-				?>
-					<tr class="<?php echo $class . $new ?>" id="m-<?php echo $message->id ?>">
-						<td class="is-read" width="1%"><?php echo $is_read ?></td>
-						<td class="avatar" width="1%">
-							<?php if ( function_exists('bp_core_get_avatar') )
-									echo bp_core_get_avatar($thread->last_sender_id, 1);
-							?>
-						</td>
-						<td class="sender-details" width="20%">
-							<?php if ( $box == 'sentbox') { ?>
-								<h3>To: <?php echo BP_Messages_Thread::get_recipient_links($thread->recipients); ?></h3>
-							<?php } else { ?>
-								<h3>From: <?php echo bp_core_get_userlink($thread->last_sender_id) ?></h3>
-							<?php } ?>
-							<?php echo bp_format_time(strtotime($thread->last_post_date)) ?>
-						</td>
-						<td class="message-details" width="40%">
-							<h4><a href="admin.php?page=bp-messages.php&amp;mode=view&amp;thread_id=<?php echo $thread->thread_id ?>"><?php echo stripslashes($thread->last_message_subject) ?></a></h4>
-							<?php echo bp_create_excerpt($thread->last_message_message, 20); ?>
-						</td>
-						<td width="10%"><a href="admin.php?page=bp-messages.php&amp;mode=delete&amp;thread_id=<?php echo $thread->thread_id ?>">Delete</a> <input type="checkbox" name="message_ids[]" value="<?php echo $thread->thread_id ?>" /></td>
-					</tr>
-				<?php
-	
-				$counter++;
-				unset($class);
-				unset($new);
-				unset($is_read);
-			}
-			
-			echo '
-				</tbody>
-				</table>
-				<p class="submit">
-					<input id="deletebookmarks" class="button" type="submit" onclick="return confirm(\'You are about to delete these messages permanently.\n[Cancel] to stop, [OK] to delete.\')" value="Delete Checked Messages &raquo;" name="deletebookmarks"/>
-				</p>
-				</form>	
-			</div>';
-			
-		} else {
-			?>
-				<tr class="alternate">
-				<td colspan="7" style="text-align: center; padding: 15px 0;">
-					<?php _e('You have no messages in your', 'buddypress'); echo ' ' . $display_name . '.'; ?>
-				</td>
-				</tr>
-			<?php
-		}
-		?>
-			</tbody>
-			</table>
-			</form>	
-		</div>
-		<?php
-	}
 }
 
 /**************************************************************************
@@ -602,7 +483,13 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 					$message = __('Message sent successfully!', 'buddypress') . ' <a href="' . $bp['loggedin_domain'] . $bp['messages']['slug'] . '/view/' . $pmessage->thread_id . '">' . __('View Message', 'buddypress') . '</a> &raquo;';
 					$type = 'success';
 					
-					do_action( 'bp_messages_message_sent', array( 'item_id' => $pmessage->id, 'component_name' => 'messages', 'component_action' => 'message_sent', 'is_private' => 1 ) );
+					// Send notices to the recipients
+					for ( $i = 0; $i < count($pmessage->recipients); $i++ ) {
+						if ( $pmessage->recipients[$i] != $bp['loggedin_userid'] )
+							bp_core_add_notification( $pmessage->id, $pmessage->recipients[$i], 'messages', 'new_message' );	
+					}
+					
+					do_action( 'bp_messages_message_sent', array( 'item_id' => $pmessage->id, 'recipient_ids' => $pmessage->recipients, 'component_name' => 'messages', 'component_action' => 'message_sent', 'is_private' => 1 ) );
 			
 					if ( $from_ajax ) {
 						return array('status' => 1, 'message' => $message, 'reply' => $pmessage);

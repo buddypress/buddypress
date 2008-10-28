@@ -17,13 +17,12 @@ include_once( 'bp-wire/bp-wire-templatetags.php' );
  Sets up the component ready for use on a site installation.
  **************************************************************************/
 
-function bp_wire_install( $version ) {
+function bp_wire_install() {
 	global $wpdb, $bp;
 	
 	// No DB tables need to be installed, DB tables for each component wire
 	// are set up within that component *if* this component is installed.
-	
-	add_site_option( 'bp-wire-version', $version );
+	add_site_option( 'bp-wire-version', BP_WIRE_VERSION );
 }
 
 /**************************************************************************
@@ -37,7 +36,7 @@ function bp_wire_setup_globals() {
 	global $bp, $wpdb;
 	
 	if ( get_site_option('bp-wire-version') < BP_WIRE_VERSION ) {
-		bp_wire_install(BP_WIRE_VERSION);
+		bp_wire_install();
 	}
 	
 	$bp['wire'] = array(
@@ -181,5 +180,6 @@ function bp_wire_delete_post( $wire_post_id, $table_name = null ) {
 	
 	return true;
 }
+
 
 ?>

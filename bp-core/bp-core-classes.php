@@ -179,4 +179,87 @@ class BP_Core_User {
 	}
 }
 
+
+/**
+ * BP_Core_Notification class can be used by any component.
+ * It will handle the fetching, saving and deleting of a user notification.
+ * 
+ * @package BuddyPress Core
+ */
+
+class BP_Core_Notification {
+	var $id;
+	var $user_id;
+	var $component_name;
+	var $component_action;
+	var $date_notified;
+	var $is_new;
+	
+	function bp_core_notification( $id = false ) {
+		if ( $id ) {
+			$this->id = $id;
+			$this->populate();
+		}
+	}
+	
+	function populate() {
+		global $wpdb, $bp;
+		
+		if ( $notification = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp['core']['table_name_notifications'] . " WHERE id = %d", $this->id ) ) ) {
+			$this->user_id = $notification->user_id;
+			$this->component_name = $notification->component_name;
+			$this->component_action = $notification->component_action;
+			$this->date_notified = $notification->date_notified;
+			$this->is_new = $notification->is_new;
+		}
+	}	
+	
+	function save() {
+		global $wpdb, $bp;
+		
+		if ( $this->id ) {
+			// Update
+			$sql = $wpdb->prepare( "UPDATE " . $bp['core']['table_name_notifications'] . " SET item_id = %d, user_id = %d, component_name = %s, component_action = %d, date_notified = FROM_UNIXTIME(%d), is_new = %d ) WHERE id = %d", $this->item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new, $this->id );
+		} else {
+			// Save
+			$sql = $wpdb->prepare( "INSERT INTO " . $bp['core']['table_name_notifications'] . " ( item_id, user_id, component_name, component_action, date_notified, is_new ) VALUES ( %d, %d, %s, %s, FROM_UNIXTIME(%d), %d )", $this->item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new );
+		}
+
+		return $wpdb->query( $sql );
+	}
+
+	/* Static functions */
+	
+	function delete( $id ) {
+		global $wpdb, $bp;
+		
+		
+	}
+	
+	function check_access( $user_id, $notification_id ) {
+		global $wpdb, $bp;
+		
+		return $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM " . $bp['core']['table_name_notifications'] . " WHERE id = %d AND user_id = %d", $notification_id, $user_id ) );
+	}
+	
+	function total_notification_count( $user_id ) {
+		
+	}
+	
+	function get_all_for_user( $user_id ) {
+		global $wpdb, $bp;
+		
+ 		return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $bp['core']['table_name_notifications'] . " WHERE user_id = %d AND is_new = 1", $user_id ) );
+	}
+	
+	function delete_for_user_by_type( $user_id, $component_name, $component_action ) {
+		global $wpdb, $bp;
+		
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['core']['table_name_notifications'] . " WHERE user_id = %d AND component_name = %s AND component_action = %s", $user_id, $component_name, $component_action ) );
+	}
+	
+	
+}	
+
+
 ?>

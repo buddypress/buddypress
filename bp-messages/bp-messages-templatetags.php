@@ -101,6 +101,9 @@ function bp_has_message_threads() {
 	if ( $bp['current_action'] == 'notices' && !is_site_admin() ) {
 		wp_die('No Access');
 	} else {
+		if ( $bp['current_action'] == 'inbox' )
+			bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'messages', 'new_message' );
+	
 		$messages_template = new BP_Messages_Template( $bp['loggedin_userid'], $bp['current_action'] );
 	}
 	

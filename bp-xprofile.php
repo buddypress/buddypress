@@ -19,7 +19,7 @@ require_once( 'bp-xprofile/bp-xprofile-cssjs.php' );
  Sets up the database tables ready for use on a site installation.
  **************************************************************************/
 
-function xprofile_install( $version ) {
+function xprofile_install() {
 	global $bp;
 	
 	$sql = array();
@@ -96,7 +96,7 @@ function xprofile_install( $version ) {
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 
 	dbDelta($sql);
-	add_site_option('bp-xprofile-version', $version);
+	add_site_option('bp-xprofile-version', BP_XPROFILE_VERSION);
 }
 
 
@@ -141,30 +141,16 @@ add_action( '_admin_menu', 'xprofile_setup_globals', 1 );
 function xprofile_add_admin_menu() {
 	global $wpdb, $bp, $groups, $userdata;
 	
-	if ( $wpdb->blogid == $bp['current_homebase_id'] ) {
-		add_menu_page( __('Profile', 'buddypress'), __('Profile', 'buddypress'), 1, basename(__FILE__), 'bp_core_avatar_admin' );
-		add_submenu_page( basename(__FILE__), __('Profile &rsaquo; Avatar', 'buddypress'), __('Avatar', 'buddypress'), 1, basename(__FILE__), 'xprofile_avatar_admin' );		
-		
-		$groups = BP_XProfile_Group::get_all();
-
-		for ( $i=0; $i < count($groups); $i++ ) {
-			if ( $groups[$i]->fields ) {
-				add_submenu_page( basename(__FILE__), __('Profile', 'buddypress') . '  &rsaquo; ' . $groups[$i]->name, $groups[$i]->name, 1, "xprofile_" . $groups[$i]->name, "xprofile_edit" );		
-			}
-		}
-	}				
-
 	if ( is_site_admin() ) {
 		wp_enqueue_script( 'jquery.tablednd', '/wp-content/mu-plugins/bp-core/js/jquery/jquery.tablednd.js', array( 'jquery' ), '0.4' );
 	
 		/* Add the administration tab under the "Site Admin" tab for site administrators */
 		add_submenu_page( 'wpmu-admin.php', __("Profiles", 'buddypress'), __("Profiles", 'buddypress'), 1, "xprofile_settings", "xprofile_admin" );
-	}
 
-	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( ( $wpdb->get_var("show tables like '%" . $bp['profile']['table_name_groups'] . "%'") == false ) || ( get_site_option('bp-xprofile-version') < BP_XPROFILE_VERSION )  )
-		xprofile_install(BP_XPROFILE_VERSION);
-	
+		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
+		if ( ( $wpdb->get_var("show tables like '%" . $bp['profile']['table_name_groups'] . "%'") == false ) || ( get_site_option('bp-xprofile-version') < BP_XPROFILE_VERSION )  )
+			xprofile_install();
+	}
 }
 add_action( 'admin_menu', 'xprofile_add_admin_menu' );
 
@@ -281,12 +267,35 @@ function xprofile_format_activity( $item_id, $action, $for_secondary_user = fals
 			if ( !$profile_group )
 				return false;
 				
-			return bp_core_get_userlink($bp['current_userid']) . ' ' . __('updated the', 'buddypress') . ' "<a href="' . $bp['current_domain'] . $bp['profile']['slug'] . '">' . $profile_group->name . '</a>" ' . __('information on your profile', 'buddypress') . '. <span class="time-since">%s</span>';
+			return bp_core_get_userlink($bp['current_userid']) . ' ' . __('updated the', 'buddypress') . ' "<a href="' . $bp['current_domain'] . $bp['profile']['slug'] . '">' . $profile_group->name . '</a>" ' . __('information on their profile', 'buddypress') . '. <span class="time-since">%s</span>';
 		break;
 	}
 	
 	return false;
 }
+
+function xprofile_format_notifications( $action, $item_id, $total_items ) {
+	global $bp;
+
+	if ( $action == 'new_wire_post') {
+		if ( (int)$total_items > 1 ) {
+			return '<a href="' . $bp['loggedin_domain'] . $bp['wire']['slug'] . '" title="Wire">' . sprintf( __('You have %d new posts on your wire'), (int)$total_items ) . '</a>';		
+		} else {
+			$user_fullname = bp_core_global_user_fullname( $item_id );
+			return '<a href="' . $bp['loggedin_domain'] . $bp['wire']['slug'] . '" title="Wire">' . sprintf( __('%s posted on your wire'), $user_fullname ) . '</a>';
+		}
+	}
+	
+	return false;
+}
+
+function xprofile_record_wire_post_notification( $wire_post_id, $user_id, $poster_id ) {
+	global $bp;
+	
+	if ( $bp['current_component'] == $bp['wire']['slug'] && !bp_is_home() )
+		bp_core_add_notification( $poster_id, $user_id, 'xprofile', 'new_wire_post' );
+}
+add_action( 'bp_wire_post_posted', 'xprofile_record_wire_post_notification', 10, 3 );
 
 /**************************************************************************
  xprofile_edit()

@@ -65,28 +65,17 @@ function bp_blogs_install( $version ) {
 	add_site_option( 'bp-blogs-version', $version );
 }
 
-/**************************************************************************
- bp_blogs_add_admin_menu()
- 
- Creates the administration interface menus and checks to see if the DB
- tables are set up.
- **************************************************************************/
 
-function bp_blogs_add_admin_menu() {	
+function bp_blogs_check_installed() {	
 	global $wpdb, $bp, $userdata;
-
-	if ( $wpdb->blogid == $bp['current_homebase_id'] ) {
-		add_menu_page( __("Blogs", 'buddypress'), __("Blogs", 'buddypress'), 10, 'bp-blogs/admin-tabs/bp-blogs-tab.php' );
-		add_submenu_page( 'bp-blogs/admin-tabs/bp-blogs-tab.php', __("My Blogs", 'buddypress'), __("My Blogs", 'buddypress'), 10, 'bp-blogs/admin-tabs/bp-blogs-tab.php' );
-		add_submenu_page( 'bp-blogs/admin-tabs/bp-blogs-tab.php', __('Recent Posts', 'buddypress'), __('Recent Posts', 'buddypress'), 10, 'bp-blogs/admin-tabs/bp-blogs-posts-tab.php' );		
-		add_submenu_page( 'bp-blogs/admin-tabs/bp-blogs-tab.php', __('Recent Comments', 'buddypress'), __('Recent Comments', 'buddypress'), 10, 'bp-blogs/admin-tabs/bp-blogs-comments-tab.php' );		
+	
+	if ( is_site_admin() ) {
+		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
+		if ( ( $wpdb->get_var("show tables like '%" . $bp['blogs']['table_name'] . "%'") == false ) || ( get_site_option('bp-blogs-version') < BP_BLOGS_VERSION )  )
+			bp_blogs_install(BP_BLOGS_VERSION);
 	}
-
-	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( ( $wpdb->get_var("show tables like '%" . $bp['blogs']['table_name'] . "%'") == false ) || ( get_site_option('bp-blogs-version') < BP_BLOGS_VERSION )  )
-		bp_blogs_install(BP_BLOGS_VERSION);
 }
-add_action( 'admin_menu', 'bp_blogs_add_admin_menu' );
+add_action( 'admin_menu', 'bp_blogs_check_installed' );
 
 
 /**************************************************************************

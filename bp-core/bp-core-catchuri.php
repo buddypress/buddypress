@@ -153,8 +153,8 @@ function bp_core_do_catch_uri() {
 	$pages = $bp_path;
 
 	if ( !file_exists( TEMPLATEPATH . "/header.php" ) || !file_exists( TEMPLATEPATH . "/footer.php" ) )
-		wp_die( 'Please make sure your BuddyPress enabled theme includes a header.php and footer.php file.');
-
+		wp_redirect( $bp['root_domain'] );
+		
 	do_action( 'get_header' );
 	load_template( TEMPLATEPATH . "/header.php" );
 
@@ -194,6 +194,20 @@ function bp_core_catch_profile_uri() {
 	if ( !function_exists('xprofile_install') )
 		bp_catch_uri( 'profile/index' );
 }
+
+// This function will remove home bases and redirect users to their new member page.
+function bp_core_homebase_redirect() {
+	global $current_user, $current_blog;
+	
+	if ( get_usermeta( $current_user->id, 'home_base' ) == $current_blog->blog_id ) {
+		if ( delete_blog( $current_blog->blog_id ) ) {
+			delete_usermeta( $current_user->id, 'home_base' );
+			header('Location: ' . site_url() . MEMBERS_SLUG . '/' . $current_user->user_login . '/' );
+		}
+	}
+}
+add_action( 'wp', 'bp_core_set_uri_globals', 0 );
+
 
 function bp_core_force_buddypress_theme() {
 	global $current_component, $current_action;

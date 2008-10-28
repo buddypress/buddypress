@@ -117,22 +117,6 @@ function bp_activity_setup_globals() {
 add_action( 'wp', 'bp_activity_setup_globals', 1 );
 add_action( '_admin_menu', 'bp_activity_setup_globals', 1 );
 
-/**************************************************************************
- bp_activity_add_admin_menu()
- 
- Creates the administration interface menus and checks to see if the DB
- tables are set up.
- **************************************************************************/
-
-function bp_activity_add_admin_menu() {	
-	global $wpdb, $bp, $userdata;
-
-	if ( $wpdb->blogid == $bp['current_homebase_id'] ) {
-		/* Add the administration tab under the "Site Admin" tab for site administrators */
-		//add_submenu_page( 'wpmu-admin.php', __("Activity"), __("Activity"), 1, basename(__FILE__), "bp_activity_settings" );
-	}
-}
-add_action( 'admin_menu', 'bp_activity_add_admin_menu' );
 
 /**************************************************************************
  bp_activity_setup_nav()

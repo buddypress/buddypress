@@ -18,7 +18,7 @@ include_once( 'bp-friends/bp-friends-widgets.php' );
  Sets up the database tables ready for use on a site installation.
  **************************************************************************/
 
-function friends_install( $version ) {
+function friends_install() {
 	global $wpdb, $bp;
 	
 	$sql[] = "CREATE TABLE ". $bp['friends']['table_name'] ." (
@@ -36,7 +36,7 @@ function friends_install( $version ) {
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
 	
-	add_site_option( 'bp-friends-version', $version );
+	add_site_option( 'bp-friends-version', BP_FRIENDS_VERSION );
 }
 	
 	
@@ -60,27 +60,16 @@ function friends_setup_globals() {
 add_action( 'wp', 'friends_setup_globals', 1 );	
 add_action( '_admin_menu', 'friends_setup_globals', 1 );
 
+function friends_check_installed() {	
+	global $wpdb, $bp;
 
-/**************************************************************************
- friends_add_admin_menu()
- 
- Creates the administration interface menus and checks to see if the DB
- tables are set up.
- **************************************************************************/
-
-function friends_add_admin_menu() {	
-	global $wpdb, $bp, $userdata;
-
-	if ( $wpdb->blogid == $bp['current_homebase_id'] ) {
-		/* Add the administration tab under the "Site Admin" tab for site administrators */
-		//add_submenu_page( 'wpmu-admin.php', __("Friends"), __("Friends"), 1, basename(__FILE__), "friends_settings" );
+	if ( is_site_admin() ) {
+		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
+		if ( ( $wpdb->get_var("show tables like '%" . $bp['friends']['table_name'] . "%'") == false ) || ( get_site_option('bp-friends-version') < BP_FRIENDS_VERSION )  )
+			friends_install();
 	}
-
-	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( ( $wpdb->get_var("show tables like '%" . $bp['friends']['table_name'] . "%'") == false ) || ( get_site_option('bp-friends-version') < BP_FRIENDS_VERSION )  )
-		friends_install(BP_FRIENDS_VERSION);
 }
-add_action( 'admin_menu', 'friends_add_admin_menu' );
+add_action( 'admin_menu', 'friends_check_installed' );
 
 /**************************************************************************
  friends_setup_nav()
@@ -101,7 +90,7 @@ function friends_setup_nav() {
 	bp_core_add_subnav_item( $bp['friends']['slug'], 'my-friends', __('My Friends', 'buddypress'), $friends_link, 'friends_screen_my_friends' );
 	bp_core_add_subnav_item( $bp['friends']['slug'], 'requests', __('Requests', 'buddypress'), $friends_link, 'friends_screen_requests' );
 	bp_core_add_subnav_item( $bp['friends']['slug'], 'friend-finder', __('Friend Finder', 'buddypress'), $friends_link, 'friends_screen_friend_finder' );
-	bp_core_add_subnav_item( $bp['friends']['slug'], 'invite-friend', __('Invite Friends', 'buddypress'), $friends_link, 'friends_screen_invite_friends' );
+	//bp_core_add_subnav_item( $bp['friends']['slug'], 'invite-friend', __('Invite Friends', 'buddypress'), $friends_link, 'friends_screen_invite_friends' );
 	
 	if ( $bp['current_component'] == $bp['friends']['slug'] ) {
 		if ( bp_is_home() ) {
@@ -117,12 +106,22 @@ add_action( 'wp', 'friends_setup_nav', 2 );
 /***** Screens **********/
 
 function friends_screen_my_friends() {
+	global $bp;
+	
+	// Remove any notifications of new friend requests as we are viewing the
+	// friend request page
+	bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'friends', 'friendship_accepted' );
+	
 	bp_catch_uri( 'friends/index' );	
 }
 
 function friends_screen_requests() {
 	global $bp;
 	
+	// Remove any notifications of new friend requests as we are viewing the
+	// friend request page
+	bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'friends', 'friendship_request' );
+		
 	if ( isset($bp['action_variables']) && in_array( 'accept', $bp['action_variables'] ) && is_numeric($bp['action_variables'][1]) ) {
 		
 		if ( friends_accept_friendship( $bp['action_variables'][1] ) ) {
@@ -208,6 +207,42 @@ function friends_format_activity( $friendship_id, $action, $for_secondary_user =
 	return false;
 }
 
+function friends_format_notifications( $action, $item_id, $total_items ) {
+	global $bp;
+	
+	switch ( $action ) {
+		case 'friendship_accepted':
+			if ( (int)$total_items > 1 ) {
+				return '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '" title="' . __( 'My Friends', 'buddypress' ) . '">' . sprintf( __('%d friends accepted your friendship requests'), (int)$total_items ) . '</a>';		
+			} else {
+				$user_fullname = bp_core_global_user_fullname( $item_id );
+				$user_url = bp_core_get_userurl( $item_id );
+				return '<a href="' . $user_url . '" title="' . $user_fullname .'\'s profile">' . sprintf( __('%s accepted your friendship request'), $user_fullname ) . '</a>';
+			}	
+		break;
+		
+		case 'friendship_request':
+			if ( (int)$total_items > 1 ) {
+				return '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/requests" title="' . __( 'Friendship requests', 'buddypress' ) . '">' . sprintf( __('You have %d pending friendship requests'), (int)$total_items ) . '</a>';		
+			} else {
+				$user_fullname = bp_core_global_user_fullname( $item_id );
+				$user_url = bp_core_get_userurl( $item_id );
+				return '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/requests" title="' . __( 'Friendship requests', 'buddypress' ) . '">' . sprintf( __('You have a friendship request from %s'), $user_fullname ) . '</a>';
+			}	
+		break;
+	}
+	if ( $action == 'friendship_accepted') {
+		if ( (int)$total_items > 1 ) {
+			return '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '" title="' . __( 'My Friends', 'buddypress' ) . '">' . sprintf( __('%d friends accepted your friendship requests'), (int)$total_items ) . '</a>';		
+		} else {
+			$user_fullname = bp_core_global_user_fullname( $item_id );
+			$user_url = bp_core_get_userurl( $item_id );
+			return '<a href="' . $user_url . '" title="' . $user_fullname .'\'s profile">' . sprintf( __('%s accepted your friendship request'), $user_fullname ) . '</a>';
+		}
+	}
+	
+	return false;
+}
 
 /**************************************************************************
  friends_get_friends()
@@ -372,6 +407,7 @@ function friends_accept_friendship( $friendship_id ) {
 	
 	if ( BP_Friends_Friendship::accept( $friendship_id ) ) {
 		friends_update_friend_totals( $friendship->initiator_user_id, $friendship->friend_user_id );
+		bp_core_add_notification( $friendship->friend_user_id, $friendship->initiator_user_id, 'friends', 'friendship_accepted' );
 		
 		do_action( 'bp_friends_friendship_accepted', array( 'item_id' => $friendship_id, 'component_name' => 'friends', 'component_action' => 'friendship_accepted', 'is_private' => 0, 'dual_record' => true ) );
 		return true;
