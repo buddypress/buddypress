@@ -33,7 +33,7 @@ require_once( 'bp-core/bp-core-templatetags.php' );
 require_once( 'bp-core/bp-core-adminbar.php' );
 
 /* Functions to handle the display and saving of account settings for members */
-require_once( 'bp-core/bp-core-settings.php' );
+//require_once( 'bp-core/bp-core-settings.php' );
 
 /* Bundled core widgets that can be dropped into themes */
 require_once( 'bp-core/bp-core-widgets.php' );
