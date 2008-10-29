@@ -7,8 +7,8 @@ define( 'BP_CORE_VERSION', '0.2.7' );
 define( 'MEMBERS_SLUG', 'members' );
 
 /* These components are accessed via the root, and not under a blog name or home base.
-   e.g Groups is accessed via: http://domain.com/groups/group-name NOT http://domain.com.andy/groups/group-name */
-define( 'BP_CORE_ROOT_COMPONENTS', MEMBERS_SLUG . ',groups' );
+   e.g Groups is accessed via: http://domain.com/groups/group-name NOT http://domain.com/andy/groups/group-name */
+define( 'BP_CORE_ROOT_COMPONENTS', 'groups' . ',' . MEMBERS_SLUG );
 
 /* Load the language file */
 if ( file_exists(ABSPATH . 'wp-content/mu-plugins/bp-languages/buddypress-' . get_locale() . '.mo') )
@@ -987,6 +987,17 @@ function bp_core_referer() {
 	unset( $referer[0], $referer[1], $referer[2] );
 	return implode( '/', $referer );
 }
+
+function bp_core_email_from_name_filter() {
+	return get_blog_option( 1, 'blogname' );
+}
+add_filter( 'wp_mail_from_name', 'bp_core_email_from_name_filter' );
+
+function bp_core_email_from_address_filter() {
+	global $current_site;
+	return 'noreply@' . $current_site->domain;
+}
+add_filter( 'wp_mail_from', 'bp_core_email_from_address_filter' );
 
 function bp_core_remove_data( $user_id ) {
 	/* Remove usermeta */
