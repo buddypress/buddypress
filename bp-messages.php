@@ -229,14 +229,14 @@ function messages_screen_notification_settings() {
 		<tr>
 			<td></td>
 			<td><?php _e( 'A member sends you a new message', 'buddypress' ) ?></td>
-			<td class="yes"><input type="radio" name="notifications[notification_messages_new_message]" value="1" <?php if ( (int)get_usermeta( $current_user->id, 'notification_messages_new_message' ) ) { ?>checked="checked" <?php } ?>/></td>
-			<td class="no"><input type="radio" name="notifications[notification_messages_new_message]" value="0" <?php if ( !(int)get_usermeta( $current_user->id, 'notification_messages_new_message' ) ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="yes"><input type="radio" name="notifications[notification_messages_new_message]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_messages_new_message' ) || get_usermeta( $current_user->id, 'notification_messages_new_message' ) == 'yes' ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_messages_new_message]" value="no" <?php if ( get_usermeta( $current_user->id, 'notification_messages_new_message' ) == 'no' ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
 		<tr>
 			<td></td>
 			<td><?php _e( 'A new site notice is posted', 'buddypress' ) ?></td>
-			<td class="yes"><input type="radio" name="notifications[notification_messages_new_notice]" value="1" <?php if ( (int)get_usermeta( $current_user->id, 'notification_messages_new_notice' ) ) { ?>checked="checked" <?php } ?>/></td>
-			<td class="no"><input type="radio" name="notifications[notification_messages_new_notice]" value="0" <?php if ( !(int)get_usermeta( $current_user->id, 'notification_messages_new_notice' ) ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="yes"><input type="radio" name="notifications[notification_messages_new_notice]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_messages_new_notice' ) || get_usermeta( $current_user->id, 'notification_messages_new_notice' ) == 'yes' ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_messages_new_notice]" value="no" <?php if ( get_usermeta( $current_user->id, 'notification_messages_new_notice' ) == 'no' ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
 	</table>
 <?php	

@@ -215,8 +215,8 @@ function xprofile_screen_notification_settings() {
 		<tr>
 			<td></td>
 			<td><?php _e( 'A member posts on your wire', 'buddypress' ) ?></td>
-			<td class="yes"><input type="radio" name="notifications[notification_profile_wire_post]" value="1" <?php if ( (int)get_usermeta( $current_user->id, 'notification_profile_wire_post' ) ) { ?>checked="checked" <?php } ?>/></td>
-			<td class="no"><input type="radio" name="notifications[notification_profile_wire_post]" value="0" <?php if ( !(int)get_usermeta( $current_user->id, 'notification_profile_wire_post' ) ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="yes"><input type="radio" name="notifications[notification_profile_wire_post]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_profile_wire_post' ) || get_usermeta( $current_user->id, 'notification_profile_wire_post' ) == 'yes' ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_profile_wire_post]" value="no" <?php if ( get_usermeta( $current_user->id, 'notification_profile_wire_post' ) == 'no' ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
 		<?php } ?>
 	</table>
