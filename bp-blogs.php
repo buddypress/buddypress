@@ -396,7 +396,7 @@ function bp_blogs_remove_blog_for_user( $user_id, $blog_id ) {
 
 	BP_Blogs_Blog::delete_blog_for_user( $blog_id, $user_id );
 }
-add_action( 'remove_user_from_blog', 'bp_blogs_remove_blog', 10, 2 );
+add_action( 'remove_user_from_blog', 'bp_blogs_remove_blog_for_user', 10, 2 );
 
 function bp_blogs_remove_post( $post_id ) {
 	global $current_blog, $bp;
