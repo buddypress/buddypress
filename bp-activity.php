@@ -108,11 +108,9 @@ function bp_activity_setup_globals() {
 		'slug'		 => 'activity'
 	);
 	
-	/* Check to see if the logged in user has their activity table set up. If not, set it up. */
-	if ( bp_is_home() ) {
-		if ( ( $wpdb->get_var("show tables like '%" . $bp['activity']['table_name_loggedin_user'] . "%'") == false ) || ( get_usermeta( $bp['loggedin_userid'], 'bp-activity-version' ) < BP_ACTIVITY_VERSION )  )
-			bp_activity_install(BP_ACTIVITY_VERSION);
-	}
+	/* Check to see if the current user has their activity table set up. If not, set them up. */
+	if ( ( $wpdb->get_var("show tables like '%" . $bp['activity']['table_name_current_user'] . "%'") == false ) || ( get_usermeta( $bp['current_userid'], 'bp-activity-version' ) < BP_ACTIVITY_VERSION )  )
+		bp_activity_install(BP_ACTIVITY_VERSION);
 }
 add_action( 'wp', 'bp_activity_setup_globals', 1 );
 add_action( '_admin_menu', 'bp_activity_setup_globals', 1 );
