@@ -40,7 +40,7 @@ function bp_get_nav() {
 		   to the friends nav item if it exists. */
 		if ( !bp_is_home() ) {
 			if ( function_exists('friends_check_friendship') ) {
-				if ( friends_check_friendship( $bp['current_userid'] ) == 'is_friend' && $nav_item['css_id'] == $bp['friends']['slug'] ) {
+				if ( friends_check_friendship( $bp['loggedin_userid'], $bp['current_userid'] ) && $nav_item['css_id'] == $bp['friends']['slug'] ) {
 					$selected = ' class="current"';
 				} else {
 					$selected = '';

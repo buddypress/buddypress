@@ -160,6 +160,32 @@ function friends_screen_invite_friends() {
 	bp_catch_uri( 'friends/index' );	
 }
 
+function friends_screen_notification_settings() { 
+	global $current_user; ?>
+	<table class="notification-settings" id="friends-notification-settings">
+		<tr>
+			<th class="icon"></th>
+			<th class="title"><?php _e( 'Friends', 'buddypress' ) ?></th>
+			<th class="yes"><?php _e( 'Yes', 'buddypress' ) ?></th>
+			<th class="no"><?php _e( 'No', 'buddypress' )?></th>
+		</tr>
+		<tr>
+			<td></td>
+			<td><?php _e( 'A member sends you a friendship request', 'buddypress' ) ?></td>
+			<td class="yes"><input type="radio" name="notifications[notification_friends_friendship_request]" value="1" <?php if ( (int)get_usermeta( $current_user->id,'notification_friends_friendship_request') ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_friends_friendship_request]" value="0" <?php if ( !(int)get_usermeta( $current_user->id,'notification_friends_friendship_request') ) { ?>checked="checked" <?php } ?>/></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><?php _e( 'A member accepts your friendship request', 'buddypress' ) ?></td>
+			<td class="yes"><input type="radio" name="notifications[notification_friends_friendship_accepted]" value="1" <?php if ( (int)get_usermeta( $current_user->id,'notification_friends_friendship_accepted') ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_friends_friendship_accepted]" value="0" <?php if ( !(int)get_usermeta( $current_user->id,'notification_friends_friendship_accepted') ) { ?>checked="checked" <?php } ?>/></td>
+		</tr>
+	</table>
+<?php	
+}
+add_action( 'bp_notification_settings', 'friends_screen_notification_settings' );
+
 
 /**************************************************************************
  friends_record_activity()
@@ -243,6 +269,7 @@ function friends_format_notifications( $action, $item_id, $total_items ) {
 	
 	return false;
 }
+
 
 /**************************************************************************
  friends_get_friends()
@@ -349,7 +376,7 @@ function friends_check_friendship( $user_id = null, $possible_friend_id = null )
 	if ( !$possible_friend_id )
 		$possible_friend_id = $bp['current_userid'];
 		
-	if ( BP_Friends_Friendship::check_is_friend( $user_id, $possible_friend_id ) )
+	if ( BP_Friends_Friendship::check_is_friend( $user_id, $possible_friend_id ) == 'is_friend' )
 		return true;
 	
 	return false;

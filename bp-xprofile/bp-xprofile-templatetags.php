@@ -293,4 +293,17 @@ function bp_profile_last_updated() {
 	}
 }
 
+function bp_profile_wire_can_post() {
+	global $bp;
+	
+	if ( function_exists('friends_install') ) {
+		if ( friends_check_friendship( $bp['loggedin_userid'], $bp['current_userid'] ) )
+			return true;
+		else
+			return false;
+	} 
+	
+	return true;
+}
+
 ?>

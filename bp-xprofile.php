@@ -202,6 +202,28 @@ function xprofile_screen_change_avatar() {
 	}
 }
 
+function xprofile_screen_notification_settings() { 
+	global $current_user; ?>
+	<table class="notification-settings" id="profile-notification-settings">
+		<tr>
+			<th class="icon"></th>
+			<th class="title"><?php _e( 'Profile', 'buddypress' ) ?></th>
+			<th class="yes"><?php _e( 'Yes', 'buddypress' ) ?></th>
+			<th class="no"><?php _e( 'No', 'buddypress' )?></th>
+		</tr>
+		<?php if ( function_exists('bp_wire_install') ) { ?>
+		<tr>
+			<td></td>
+			<td><?php _e( 'A member posts on your wire', 'buddypress' ) ?></td>
+			<td class="yes"><input type="radio" name="notifications[notification_profile_wire_post]" value="1" <?php if ( (int)get_usermeta( $current_user->id, 'notification_profile_wire_post' ) ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_profile_wire_post]" value="0" <?php if ( !(int)get_usermeta( $current_user->id, 'notification_profile_wire_post' ) ) { ?>checked="checked" <?php } ?>/></td>
+		</tr>
+		<?php } ?>
+	</table>
+<?php	
+}
+add_action( 'bp_notification_settings', 'xprofile_screen_notification_settings', 1 );
+
 function xprofile_action_delete_avatar() {
 	global $bp;
 	

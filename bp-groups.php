@@ -442,6 +442,53 @@ function groups_screen_group_leave() {
 	}
 }
 
+function groups_screen_notification_settings() { 
+	global $current_user; ?>
+	<table class="notification-settings" id="groups-notification-settings">
+		<tr>
+			<th class="icon"></th>
+			<th class="title"><?php _e( 'Groups', 'buddypress' ) ?></th>
+			<th class="yes"><?php _e( 'Yes', 'buddypress' ) ?></th>
+			<th class="no"><?php _e( 'No', 'buddypress' )?></th>
+		</tr>
+		<tr>
+			<td></td>
+			<td><?php _e( 'A member invites you to join a group', 'buddypress' ) ?></td>
+			<td class="yes"><input type="radio" name="notifications[notification_groups_invite]" value="1" <?php if ( (int)get_usermeta( $current_user->id, 'notification_groups_invite') ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_groups_invite]" value="0" <?php if ( !(int)get_usermeta( $current_user->id, 'notification_groups_invite') ) { ?>checked="checked" <?php } ?>/></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><?php _e( 'Group news is updated', 'buddypress' ) ?></td>
+			<td class="yes"><input type="radio" name="notifications[notification_groups_new_news]" value="1" <?php if ( (int)get_usermeta( $current_user->id, 'notification_groups_new_news') ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_groups_new_news]" value="0" <?php if ( !(int)get_usermeta( $current_user->id, 'notification_groups_new_news') ) { ?>checked="checked" <?php } ?>/></td>
+		</tr>
+		<?php if ( function_exists('bp_wire_install') ) { ?>
+		<tr>
+			<td></td>
+			<td><?php _e( 'A member posts on the wire of a group you belong to', 'buddypress' ) ?></td>
+			<td class="yes"><input type="radio" name="notifications[notification_groups_wire_post]" value="1" <?php if ( (int)get_usermeta( $current_user->id, 'notification_groups_wire_post') ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_groups_wire_post]" value="0" <?php if ( !(int)get_usermeta( $current_user->id, 'notification_groups_wire_post') ) { ?>checked="checked" <?php } ?>/></td>
+		</tr>
+		<?php } ?>
+		<tr>
+			<td></td>
+			<td><?php _e( 'You are promoted to a group administrator', 'buddypress' ) ?></td>
+			<td class="yes"><input type="radio" name="notifications[notification_groups_admin_promotion]" value="1" <?php if ( (int)get_usermeta( $current_user->id, 'notification_groups_admin_promotion') ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_groups_admin_promotion]" value="0" <?php if ( !(int)get_usermeta( $current_user->id, 'notification_groups_admin_promotion') ) { ?>checked="checked" <?php } ?>/></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><?php _e( 'A member requests to join a closed group for which you are an admin', 'buddypress' ) ?></td>
+			<td class="yes"><input type="radio" name="notifications[notification_groups_membership_request]" value="1" <?php if ( (int)get_usermeta( $current_user->id, 'notification_groups_membership_request') ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_groups_membership_request]" value="0" <?php if ( !(int)get_usermeta( $current_user->id, 'notification_groups_membership_request') ) { ?>checked="checked" <?php } ?>/></td>
+		</tr>
+	</table>
+<?php	
+}
+add_action( 'bp_notification_settings', 'groups_screen_notification_settings' );
+
+
 /***** Actions **********/
 
 function groups_action_join_group() {

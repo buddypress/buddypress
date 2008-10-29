@@ -217,6 +217,32 @@ function messages_screen_notices() {
 	bp_catch_uri( 'messages/notices' );	
 }
 
+function messages_screen_notification_settings() { 
+	global $current_user; ?>
+	<table class="notification-settings" id="messages-notification-settings">
+		<tr>
+			<th class="icon"></th>
+			<th class="title"><?php _e( 'Messages', 'buddypress' ) ?></th>
+			<th class="yes"><?php _e( 'Yes', 'buddypress' ) ?></th>
+			<th class="no"><?php _e( 'No', 'buddypress' )?></th>
+		</tr>
+		<tr>
+			<td></td>
+			<td><?php _e( 'A member sends you a new message', 'buddypress' ) ?></td>
+			<td class="yes"><input type="radio" name="notifications[notification_messages_new_message]" value="1" <?php if ( (int)get_usermeta( $current_user->id, 'notification_messages_new_message' ) ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_messages_new_message]" value="0" <?php if ( !(int)get_usermeta( $current_user->id, 'notification_messages_new_message' ) ) { ?>checked="checked" <?php } ?>/></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><?php _e( 'A new site notice is posted', 'buddypress' ) ?></td>
+			<td class="yes"><input type="radio" name="notifications[notification_messages_new_notice]" value="1" <?php if ( (int)get_usermeta( $current_user->id, 'notification_messages_new_notice' ) ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_messages_new_notice]" value="0" <?php if ( !(int)get_usermeta( $current_user->id, 'notification_messages_new_notice' ) ) { ?>checked="checked" <?php } ?>/></td>
+		</tr>
+	</table>
+<?php	
+}
+add_action( 'bp_notification_settings', 'messages_screen_notification_settings', 2 );
+
 /***** Actions **********/
 
 function messages_action_view_message() {
