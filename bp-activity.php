@@ -20,10 +20,10 @@ include_once( 'bp-activity/bp-activity-widgets.php' );
  Sets up the component ready for use on a site installation.
  **************************************************************************/
 
-function bp_activity_install( $version ) {
+function bp_activity_user_install() {
 	global $wpdb, $bp;
 	
-	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_loggedin_user'] ." (
+	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_current_user'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT,
 		  		item_id int(11) NOT NULL,
 		  		component_name varchar(75) NOT NULL,
@@ -36,7 +36,7 @@ function bp_activity_install( $version ) {
 				KEY component_name (component_name)
 		 	   );";
 
-	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_loggedin_user_cached'] ." (
+	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_current_user_cached'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT,
 		  		content longtext NOT NULL,
 				component_name varchar(75) NOT NULL,
@@ -50,7 +50,7 @@ function bp_activity_install( $version ) {
 				KEY component_name (component_name)
 		 	   );";
 	
-	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_loggedin_user_friends_cached'] ." (
+	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_current_user_friends_cached'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT,
 				user_id int(11) NOT NULL,
 		  		content longtext NOT NULL,
@@ -64,6 +64,15 @@ function bp_activity_install( $version ) {
 				KEY component_name (component_name)
 		 	   );";
 
+	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
+	dbDelta($sql);
+	
+	update_usermeta( $bp['current_userid'], 'bp-activity-version', BP_ACTIVITY_VERSION );
+}
+
+function bp_activity_sitewide_install() {
+	global $wpdb, $bp;
+	
 	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_sitewide'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT,
 				user_id int(11) NOT NULL,
@@ -80,8 +89,8 @@ function bp_activity_install( $version ) {
 	
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
-	
-	update_usermeta( $bp['loggedin_userid'], 'bp-activity-version', BP_ACTIVITY_VERSION );
+
+	update_site_option( 'bp-activity-version', BP_ACTIVITY_VERSION );
 }
 
 /**************************************************************************
@@ -93,7 +102,7 @@ function bp_activity_install( $version ) {
 
 function bp_activity_setup_globals() {
 	global $bp, $wpdb, $current_blog;
-	
+
 	$bp['activity'] = array(
 		'table_name_loggedin_user' => $wpdb->base_prefix . 'user_' . $bp['loggedin_userid'] . '_activity',
 		'table_name_loggedin_user_cached' => $wpdb->base_prefix . 'user_' . $bp['loggedin_userid'] . '_activity_cached',
@@ -102,15 +111,25 @@ function bp_activity_setup_globals() {
 		'table_name_current_user_cached' => $wpdb->base_prefix . 'user_' . $bp['current_userid'] . '_activity_cached',
 		
 		'table_name_loggedin_user_friends_cached' => $wpdb->base_prefix . 'user_' . $bp['loggedin_userid'] . '_friends_activity_cached',
+		'table_name_current_user_friends_cached' => $wpdb->base_prefix . 'user_' . $bp['current_userid'] . '_friends_activity_cached',
+		
 		'table_name_sitewide' => $wpdb->base_prefix . 'bp_activity_sitewide',
 		
 		'image_base' => site_url() . '/wp-content/mu-plugins/bp-activity/images',
 		'slug'		 => 'activity'
 	);
 	
-	/* Check to see if the current user has their activity table set up. If not, set them up. */
-	if ( ( $wpdb->get_var("show tables like '%" . $bp['activity']['table_name_current_user'] . "%'") == false ) || ( get_usermeta( $bp['current_userid'], 'bp-activity-version' ) < BP_ACTIVITY_VERSION )  )
-		bp_activity_install(BP_ACTIVITY_VERSION);
+	if ( $bp['current_userid'] ) {
+		/* Check to see if the current user has their activity table set up. If not, set them up. */
+		if ( !$wpdb->get_var("show tables like '%" . $bp['activity']['table_name_current_user'] . "%'") || get_usermeta( $bp['current_userid'], 'bp-activity-version' ) < BP_ACTIVITY_VERSION  )
+			bp_activity_user_install();
+	}
+	
+	if ( is_site_admin() && $current_blog->blog_id == 1 ) {
+		/* Check to see if the site wide activity table is set up. */
+		if ( !$wpdb->get_var("show tables like '%" . $bp['activity']['table_name_sitewide'] . "%'") || get_site_option( 'bp-activity-version' ) < BP_ACTIVITY_VERSION  )
+			bp_activity_sitewide_install();
+	}
 }
 add_action( 'wp', 'bp_activity_setup_globals', 1 );
 add_action( '_admin_menu', 'bp_activity_setup_globals', 1 );
