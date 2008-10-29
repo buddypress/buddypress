@@ -326,7 +326,7 @@ function xprofile_record_wire_post_notification( $wire_post_id, $user_id, $poste
 			$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
 			
 			// Set up and send the message
-			$to = $current_user->user_email;
+			$to = $ud->user_email;
 			$subject = sprintf( __( '%s posted on your wire.', 'buddypress' ), $poster_name );
 
 $message = sprintf( __( 
