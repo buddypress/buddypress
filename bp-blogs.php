@@ -271,6 +271,10 @@ function bp_blogs_record_post($post_id) {
 	$post_id = (int)$post_id;
 	$user_id = (int)$bp['loggedin_userid'];
 	$blog_id = (int)$current_blog->blog_id;
+
+	/* This is to stop infinate loops with Donncha's sitewide tags plugin */
+	if ( get_site_option('tags_blog_id') == $blog_id )
+		return false;
 	
 	$post = get_post($post_id);
 	
