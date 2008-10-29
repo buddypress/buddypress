@@ -72,8 +72,8 @@ function bp_core_screen_general_settings_content() {
 		<input type="text" name="email" id="email" value="<?php echo $current_user->user_email ?>" class="settings-input" />
 			
 		<label for="pass1">Change Password <span>(leave blank for no change)</span></label>
-		<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small" /> &nbsp;Old Password
-		<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small" /> &nbsp;New Password
+		<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small" /> &nbsp;New Password
+		<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small" /> &nbsp;Repeat New Password
 	
 		<p><input type="submit" name="submit" value="Save Changes" id="submit" class="auto" /></p>
 		<?php wp_nonce_field('bp_settings_general') ?>
