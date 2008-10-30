@@ -1,24 +1,35 @@
 <?php
-
 require_once( 'bp-core.php' );
-
-define ( 'BP_XPROFILE_IS_INSTALLED', 1 );
 define ( 'BP_XPROFILE_VERSION', '0.3.9.1' );
 
+/* Functions to handle the removing of the profile tab and replacement with an account tab */
 require_once( 'bp-xprofile/admin-mods/bp-xprofile-admin-mods.php' );
+
+/* Database access classes and functions */
 require_once( 'bp-xprofile/bp-xprofile-classes.php' );
+
+/* Functions for handling the admin area tabs for administrators */
 require_once( 'bp-xprofile/bp-xprofile-admin.php' );
+
+/* Functions to handle the modification and saving of signup pages */
 require_once( 'bp-xprofile/bp-xprofile-signup.php' );
+
+/* Template tag functions that can be used in theme template files */
 require_once( 'bp-xprofile/bp-xprofile-templatetags.php' );
+
+/* Functions to handle the selective inclusion of CSS and JS files */
 require_once( 'bp-xprofile/bp-xprofile-cssjs.php' );
 
-
-/**************************************************************************
- xprofile_install()
- 
- Sets up the database tables ready for use on a site installation.
- **************************************************************************/
-
+/**
+ * xprofile_install()
+ *
+ * Set up the database tables needed for the xprofile component.
+ * 
+ * @package BuddyPress XProfile
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @uses dbDelta() Takes SQL statements and compares them to any existing tables and creates/updates them.
+ * @uses add_site_option() adds a value for a meta_key into the wp_sitemeta table
+ */
 function xprofile_install() {
 	global $bp;
 	
@@ -99,14 +110,16 @@ function xprofile_install() {
 	add_site_option('bp-xprofile-version', BP_XPROFILE_VERSION);
 }
 
-
-/**************************************************************************
- xprofile_setup_globals()
- 
- Set up and add all global variables for this component, and add them to 
- the $bp global variable array.
- **************************************************************************/
-
+/**
+ * xprofile_setup_globals()
+ *
+ * Add the profile globals to the $bp global for use across the installation
+ * 
+ * @package BuddyPress XProfile
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global $wpdb WordPress DB access object.
+ * @uses site_url() Returns the site URL
+ */
 function xprofile_setup_globals() {
 	global $bp, $wpdb;
 	
@@ -130,16 +143,24 @@ function xprofile_setup_globals() {
 add_action( 'wp', 'xprofile_setup_globals', 1 );	
 add_action( '_admin_menu', 'xprofile_setup_globals', 1 );
 
-
-/**************************************************************************
- xprofile_add_admin_menu()
- 
- Creates the administration interface menus and checks to see if the DB
- tables are set up.
- **************************************************************************/
-
+/**
+ * xprofile_add_admin_menu()
+ *
+ * Creates the administration interface menus and checks to see if the DB
+ * tables are set up.
+ * 
+ * @package BuddyPress XProfile
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global $wpdb WordPress DB access object.
+ * @uses is_site_admin() returns true if the current user is a site admin, false if not
+ * @uses bp_xprofile_install() runs the installation of DB tables for the xprofile component
+ * @uses wp_enqueue_script() Adds a JS file to the JS queue ready for output
+ * @uses add_submenu_page() Adds a submenu tab to a top level tab in the admin area
+ * @uses xprofile_install() Runs the DB table installation function
+ * @return 
+ */
 function xprofile_add_admin_menu() {
-	global $wpdb, $bp, $groups, $userdata;
+	global $wpdb, $bp;
 	
 	if ( is_site_admin() ) {
 		wp_enqueue_script( 'jquery.tablednd', '/wp-content/mu-plugins/bp-core/js/jquery/jquery.tablednd.js', array( 'jquery' ), '0.4' );
@@ -154,13 +175,19 @@ function xprofile_add_admin_menu() {
 }
 add_action( 'admin_menu', 'xprofile_add_admin_menu' );
 
-
-/**************************************************************************
- xprofile_setup_nav()
- 
- Set up front end navigation.
- **************************************************************************/
-
+/**
+ * xprofile_setup_nav()
+ *
+ * Sets up the navigation items for the xprofile component
+ * 
+ * @package BuddyPress XProfile
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @uses bp_core_add_nav_item() Adds a navigation item to the top level buddypress navigation
+ * @uses bp_core_add_nav_default() Sets which sub navigation item is selected by default
+ * @uses bp_core_add_subnav_item() Adds a sub navigation item to a nav item
+ * @uses bp_is_home() Returns true if the current user being viewed is equal the logged in user
+ * @uses bp_core_get_avatar() Returns the either the thumb (1) or full (2) avatar URL for the user_id passed
+ */
 function xprofile_setup_nav() {
 	global $bp;
 	
@@ -186,15 +213,47 @@ function xprofile_setup_nav() {
 }
 add_action( 'wp', 'xprofile_setup_nav', 2 );
 
+/********
+ * Functions to handle screens and URL based actions
+ */
+
+/**
+ * xprofile_screen_display_profile()
+ *
+ * Handles the display of the profile page by loading the correct template file.
+ * 
+ * @package BuddyPress Xprofile
+ * @uses bp_catch_uri() Looks for and loads a template file within the current member theme (folder/filename)
+ */
 function xprofile_screen_display_profile() {
 	bp_catch_uri( 'profile/index' );
 }
 
+/**
+ * xprofile_screen_edit_profile()
+ *
+ * Handles the display of the profile edit page by loading the correct template file.
+ * Also checks to make sure this can only be accessed for the logged in users profile.
+ * 
+ * @package BuddyPress Xprofile
+ * @uses bp_is_home() Checks to make sure the current user being viewed equals the logged in user
+ * @uses bp_catch_uri() Looks for and loads a template file within the current member theme (folder/filename)
+ */
 function xprofile_screen_edit_profile() {
 	if ( bp_is_home() )
 		bp_catch_uri( 'profile/edit' );
 }
 
+/**
+ * xprofile_screen_change_avatar()
+ *
+ * Handles the display of the change avatar page by loading the correct template file.
+ * Also checks to make sure this can only be accessed for the logged in users profile.
+ * 
+ * @package BuddyPress Xprofile
+ * @uses bp_is_home() Checks to make sure the current user being viewed equals the logged in user
+ * @uses bp_catch_uri() Looks for and loads a template file within the current member theme (folder/filename)
+ */
 function xprofile_screen_change_avatar() {
 	if ( bp_is_home() ) {
 		add_action( 'wp_head', 'bp_core_add_cropper_js' );
@@ -202,6 +261,16 @@ function xprofile_screen_change_avatar() {
 	}
 }
 
+/**
+ * xprofile_screen_notification_settings()
+ *
+ * Loads the notification settings for the xprofile component.
+ * Settings are hooked into the function: bp_core_screen_notification_settings_content()
+ * in bp-core/bp-core-settings.php
+ * 
+ * @package BuddyPress Xprofile
+ * @global $current_user WordPress global variable containing current logged in user information
+ */
 function xprofile_screen_notification_settings() { 
 	global $current_user; ?>
 	<table class="notification-settings" id="profile-notification-settings">
@@ -224,6 +293,20 @@ function xprofile_screen_notification_settings() {
 }
 add_action( 'bp_notification_settings', 'xprofile_screen_notification_settings', 1 );
 
+/**
+ * xprofile_action_delete_avatar()
+ *
+ * This function runs when an action is set for a screen:
+ * domain.com/members/andy/profile/change-avatar/ [delete-avatar]
+ *
+ * The function will delete the active avatar for a user.
+ * 
+ * @package BuddyPress Xprofile
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @uses bp_core_delete_avatar() Deletes the active avatar for the logged in user.
+ * @uses add_action() Runs a specific function for an action when it fires.
+ * @uses bp_catch_uri() Looks for and loads a template file within the current member theme (folder/filename)
+ */
 function xprofile_action_delete_avatar() {
 	global $bp;
 	
@@ -239,13 +322,22 @@ function xprofile_action_delete_avatar() {
 add_action( 'wp', 'xprofile_action_delete_avatar', 3 );
 
 
-/**************************************************************************
- xprofile_record_activity()
- 
- Records activity for the logged in user within the profile component so that
- it will show in the users activity stream (if installed)
- **************************************************************************/
+/********
+ * Activity and notification recording functions
+ */
 
+
+/**
+ * xprofile_record_activity()
+ *
+ * Records activity for the logged in user within the profile component so that
+ * it will show in the users activity stream (if installed)
+ * 
+ * @package BuddyPress XProfile
+ * @param $args Array containing all variables used after extract() call
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @uses bp_activity_record() Adds an entry to the activity component tables for a specific activity
+ */
 function xprofile_record_activity( $args = true ) {
 	global $bp;
 
@@ -257,14 +349,27 @@ function xprofile_record_activity( $args = true ) {
 add_action( 'bp_xprofile_new_wire_post', 'xprofile_record_activity' );
 add_action( 'bp_xprofile_updated_profile', 'xprofile_record_activity' );
 
-
-/**************************************************************************
- xprofile_format_activity()
- 
- Selects and formats recorded xprofile component activity.
- **************************************************************************/
-
-function xprofile_format_activity( $item_id, $action, $for_secondary_user = false  ) {
+/**
+ * xprofile_format_activity()
+ *
+ * The function xprofile_record_activity() simply records ID's, which component and action, and dates into
+ * the database. These variables need to be formatted into something that can be read and displayed to
+ * the user.
+ *
+ * This function will format an activity item based on the component action and return it for saving
+ * in the activity cache database tables. It can then be selected and displayed with far less load on
+ * the server.
+ * 
+ * @package BuddyPress Xprofile
+ * @param $item_id The ID of the specific item for which the activity is recorded (could be a wire post id, user id etc)
+ * @param $action The component action name e.g. 'new_wire_post' or 'updated_profile'
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global $current_user WordPress global variable containing current logged in user information
+ * @uses BP_Wire_Post Class Creates a new wire post object based on the table name and ID.
+ * @uses BP_XProfile_Group Class Creates a new group object based on the group ID.
+ * @return The readable activity item
+ */
+function xprofile_format_activity( $item_id, $action ) {
 	global $bp, $current_user;
 	
 	switch( $action ) {
@@ -296,6 +401,19 @@ function xprofile_format_activity( $item_id, $action, $for_secondary_user = fals
 	return false;
 }
 
+/**
+ * xprofile_format_notifications()
+ *
+ * Format notifications into something that can be read and displayed
+ * 
+ * @package BuddyPress Xprofile
+ * @param $item_id The ID of the specific item for which the activity is recorded (could be a wire post id, user id etc)
+ * @param $action The component action name e.g. 'new_wire_post' or 'updated_profile'
+ * @param $total_items The total number of identical notification items (used for grouping)
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @uses bp_core_global_user_fullname() Returns the display name for the user
+ * @return The readable notification item
+ */
 function xprofile_format_notifications( $action, $item_id, $total_items ) {
 	global $bp;
 
@@ -311,6 +429,24 @@ function xprofile_format_notifications( $action, $item_id, $total_items ) {
 	return false;
 }
 
+/**
+ * xprofile_record_wire_post_notification()
+ *
+ * Records a notification for a new profile wire post to the database and sends out a notification
+ * email if the user has this setting enabled.
+ * 
+ * @package BuddyPress XProfile
+ * @param $wire_post_id The ID of the wire post
+ * @param $user_id The id of the user that the wire post was sent to
+ * @param $poster_id The id of the user who wrote the wire post
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global $current_user WordPress global variable containing current logged in user information
+ * @uses bp_is_home() Returns true if the current user being viewed is equal the logged in user
+ * @uses get_usermeta() Get a user meta value based on meta key from wp_usermeta
+ * @uses BP_Wire_Post Class Creates a new wire post object based on ID.
+ * @uses site_url Returns the site URL
+ * @uses wp_mail Sends an email
+ */
 function xprofile_record_wire_post_notification( $wire_post_id, $user_id, $poster_id ) {
 	global $bp, $current_user;
 	
@@ -349,78 +485,114 @@ To view your wire: %s
 }
 add_action( 'bp_wire_post_posted', 'xprofile_record_wire_post_notification', 10, 3 );
 
-/**************************************************************************
- xprofile_edit()
- 
- Renders the edit form for the profile fields within a group as well as
- handling the save action.
- **************************************************************************/
-
-function xprofile_edit( $group_id = null, $action = null ) {
+/**
+ * xprofile_edit()
+ *
+ * Renders the edit form for the profile fields within a group as well as
+ * handling the save action.
+ *
+ * [NOTE] This is old code that was written when support for the admin area was also
+ * available. It is big and clunky and needs to be broken up.
+ * 
+ * @package BuddyPress XProfile
+ * @param $group_id The ID of the group of fields to edit
+ * @param $action The HTML form action
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global $wpdb WordPress DB access object.
+ * @global $userdata WordPress global object containing current logged in user userdata
+ */
+function xprofile_edit( $group_id, $action ) {
 	global $wpdb, $userdata, $bp;
-	
-	if ( !$group_id ) {	
-		// Dynamic tabs mean that we have to assign the same function to all
-		// profile group tabs but we still need to distinguish what information 
-		// to display for the current tab. Thankfully the page get var holds the key.
-		$group_name = explode( "_", $_GET['page'] );
-		$group_name = $group_name[1]; // xprofile_XXXX <-- This X bit.
-		$group_id   = $wpdb->get_var( $wpdb->prepare("SELECT id FROM " . $bp['profile']['table_name_groups'] . " WHERE name = %s", $group_name) );
-	}
+
+	// Create a new group object based on the group ID.
 	$group = new BP_XProfile_Group($group_id);
-	
-	if ( !$action )
-		$action = $bp['loggedin_domain'] . 'wp-admin/admin.php?page=xprofile_' . $group->name . '&amp;mode=save';
 ?>
 	<div class="wrap">
 		
 		<h2><?php echo $group->name ?> <?php _e("Information", 'buddypress') ?></h2>
 		
 		<?php
+			// If this group has fields then continue
 			if ( $group->fields ) {
 				$errors    = null;
 				$list_html = '<ul class="forTab" id="' . strtolower($group_name) . '">';
+				
+				// Loop through each field in the group
+				for ( $j = 0; $j < count($group->fields); $j++ ) {
 					
-				for ( $j = 0; $j < count($group->fields); $j++ ) {	
-					$field = new BP_XProfile_Field( $group->fields[$j]->id );	
+					// Create a new field object for this field based on the field ID.
+					$field = new BP_XProfile_Field( $group->fields[$j]->id );
+					
+					// Add the ID for this field to the field_ids array	
 					$field_ids[] = $group->fields[$j]->id;
 					
+					// If the user has submitted the form - validate and save the new value for this field
 					if ( isset($_GET['mode']) && $_GET['mode'] == 'save' ) {
+						
+						// If the current field is a datebox, we need to append '_day' to the end of the field name
+						// otherwise the field name will not exist
 						$post_field_string = ( $group->fields[$j]->type == 'datebox' ) ? '_day' : null;
+						
+						// Explode the posted field IDs into an array so we know which fields have been submitted
 						$posted_fields = explode( ',', $_POST['field_ids'] );
+						
+						// Fetch the current field from the _POST array based on field ID. 
 						$current_field = $_POST['field_' . $posted_fields[$j] . $post_field_string];
 						
+						// If the field is required and has been left blank then we need to add a callback error.
 						if ( ( $field->is_required && !isset($current_field) ) ||
 						     ( $field->is_required && $current_field == '' ) ) {
 							
-							// Validate the field.
+							// Add the error message to the errors array
 							$field->message = sprintf( __('%s cannot be left blank.', 'buddypress'), $field->name );
 							$errors[] = $field->message . "<br />";
+						
+						// If the field is not required and the field has been left blank, delete any values for the
+						// field from the database.
 						} else if ( !$field->is_required && ( $current_field == '' || is_null($current_field) ) ) {
-							// data removed, so delete the field data from the DB.								
+							
+							// Create a new profile data object for the logged in user based on field ID.								
 							$profile_data = new BP_Xprofile_ProfileData( $group->fields[$j]->id );
+							
+							// Delete any data
 							$profile_data->delete();
+							
+							// Also remove any selected profile field data from the $field object.
 							$field->data->value = null;
+						
+						// If we get to this point then the field validates ok and we have new data.
 						} else {
-							// Field validates, save.
+							
+							// Create an empty profile data object and populate it with new data
 							$profile_data = new BP_Xprofile_ProfileData;
 							$profile_data->field_id = $group->fields[$j]->id;
 							$profile_data->user_id = $userdata->ID;
 							$profile_data->last_updated = time();
-
+							
+							// If the $post_field_string we set up earlier is not null, then this is a datebox
+							// we need to concatenate each of the three select boxes for day, month and year into
+							// one value.
 							if ( $post_field_string != null ) {
+								
+								// Concatenate the values.
 								$date_value = $_POST['field_' . $group->fields[$j]->id . '_day'] . 
 										      $_POST['field_' . $group->fields[$j]->id . '_month'] . 
 											  $_POST['field_' . $group->fields[$j]->id . '_year'];
-
+								
+								// Turn the concatenated value into a timestamp
 								$profile_data->value = strtotime($date_value);
+								
 							} else {
+								
+								// Checkbox and multi select box fields will submit an array as their value
+								// so we need to serialize them before saving to the DB.
 								if ( is_array($current_field) )
 									$current_field = serialize($current_field);
 									
 								$profile_data->value = $current_field;
 							}
-
+							
+							// Finally save the value to the database.
 							if( !$profile_data->save() ) {
 								$field->message = __('There was a problem saving changes to this field, please try again.', 'buddypress');
 							} else {
@@ -429,15 +601,20 @@ function xprofile_edit( $group_id = null, $action = null ) {
 						}
 					}
 					
+					// Each field object comes with HTML that can be rendered to edit that field.
+					// We just need to render that to the page by adding it to the $list_html variable
+					// that will be rendered when the field loop has finished.
 					$list_html .= '<li>' . $field->get_edit_html() . '</li>';
 				}
 				
+				// Now that the loop has finished put the final touches on the HTML including the submit button.
 				$list_html .= '</ul>';
 				
 				$list_html .= '<p class="submit">
 								<input type="submit" name="save" id="save" value="'.__('Save Changes &raquo;', 'buddypress').'" />
 							   </p>';
 
+				// If the user submitted the form to save new values, and there were errors, make sure we display them.
 				if ( $errors && isset($_POST['save']) ) {
 					$type = 'error';
 					$message = __('There were problems saving your information. Please fix the following:<br />', 'buddypress');
@@ -445,6 +622,8 @@ function xprofile_edit( $group_id = null, $action = null ) {
 					for ( $i = 0; $i < count($errors); $i++ ) {
 						$message .= $errors[$i];
 					}
+					
+				// If there were no errors then we can display a nice "Changes saved." message.
 				} else if ( !$errors && isset($_POST['save'] ) ) {
 					$type = 'success';
 					$message = __('Changes saved.', 'buddypress');
@@ -453,6 +632,7 @@ function xprofile_edit( $group_id = null, $action = null ) {
 					update_usermeta( $bp['loggedin_userid'], 'profile_last_updated', date("Y-m-d H:i:s") );
 				}
 			}
+			// If this is an invalid group, then display an error.
 			else { ?>
 				<div id="message" class="error fade">
 					<p><?php _e('That group does not exist.', 'buddypress'); ?></p>
@@ -461,7 +641,9 @@ function xprofile_edit( $group_id = null, $action = null ) {
 			}
 
 		?>
-
+		
+		<?php // Finally, we can now render everything to the screen. ?>
+		
 		<?php
 			if ( $message != '' ) {
 				$type = ( $type == 'error' ) ? 'error' : 'updated';
@@ -487,12 +669,19 @@ function xprofile_edit( $group_id = null, $action = null ) {
 <?php
 }
 
-/**************************************************************************
- xprofile_remove_data_on_blog_deletion()
- 
- Removes all profile data from the DB if the admin deletes a Home Base.
- **************************************************************************/
-
+/**
+ * xprofile_remove_data_on_user_deletion()
+ *
+ * When a user is deleted, we need to clean up the database and remove all the
+ * profile data from each table. Also we need to clean anything up in the usermeta table
+ * that this component uses.
+ * 
+ * @package BuddyPress XProfile
+ * @param $user_id The ID of the deleted user
+ * @uses get_usermeta() Get a user meta value based on meta key from wp_usermeta
+ * @uses delete_usermeta() Delete user meta value based on meta key from wp_usermeta
+ * @uses delete_data_for_user() Removes all profile data from the xprofile tables for the user
+ */
 function xprofile_remove_data_on_user_deletion( $user_id ) {
 	BP_XProfile_ProfileData::delete_data_for_user( $user_id );
 	
