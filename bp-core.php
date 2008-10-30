@@ -172,7 +172,19 @@ function bp_core_install() {
 	add_site_option( 'bp-core-version', BP_CORE_VERSION );
 }
 
-
+/**
+ * bp_core_check_installed()
+ *
+ * Checks to make sure the database tables are set up for the core component.
+ * 
+ * @package BuddyPress Core
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global $wpdb WordPress DB access object.
+ * @global $current_user WordPress global variable containing current logged in user information
+ * @uses is_site_admin() returns true if the current user is a site admin, false if not
+ * @uses get_site_option() fetches the value for a meta_key in the wp_sitemeta table
+ * @uses bp_core_install() runs the installation of DB tables for the core component
+ */
 function bp_core_check_installed() {
 	global $wpdb, $bp;
 
@@ -184,7 +196,20 @@ function bp_core_check_installed() {
 }
 add_action( 'admin_menu', 'bp_core_check_installed' );
 
-
+/**
+ * bp_core_setup_nav()
+ *
+ * Sets up the profile navigation item if the Xprofile component is not installed.
+ * 
+ * @package BuddyPress Core
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @uses bp_core_add_nav_item() Adds a navigation item to the top level buddypress navigation
+ * @uses bp_core_add_nav_default() Sets which sub navigation item is selected by default
+ * @uses bp_core_add_subnav_item() Adds a sub navigation item to a nav item
+ * @uses bp_is_home() Returns true if the current user being viewed is equal the logged in user
+ * @uses bp_core_get_avatar() Returns the either the thumb (1) or full (2) avatar URL for the user_id passed
+ * @return 
+ */
 function bp_core_setup_nav() {
 	global $bp;
 	
@@ -261,7 +286,7 @@ function bp_core_get_root_domain() {
  * 
  * @package BuddyPress Core
  * @global $current_blog WordPress global containing information and settings for the current blog being viewed.
- * @uses bp_core_get_user_home_userid() Checks to see if there is user_home usermeta set for the current_blog.
+ * @uses bp_core_get_userid_from_user_login() Returns the user id for the username passed
  * @return $current_userid The user id for the user that is currently being viewed, return zero if this is not a user home and just a normal blog.
  */
 function bp_core_get_current_userid( $user_login ) {
@@ -369,6 +394,8 @@ function bp_core_reset_subnav_items($parent_id) {
  * @param $parent_id The id of the parent navigation item.
  * @param $function The function to run when this sub nav item is selected.
  * @param $slug The slug of the sub nav item to highlight.
+ * @uses is_site_admin() returns true if the current user is a site admin, false if not
+ * @uses bp_is_home() Returns true if the current user being viewed is equal the logged in user
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
 function bp_core_add_nav_default( $parent_id, $function, $slug = false, $user_has_access = true, $admin_only = false ) {
@@ -504,7 +531,8 @@ function bp_core_get_user_email( $uid ) {
  * @param $no_you bool Disable replacing full name with "You" when logged in user is equal to the current user. Default false.
  * @global $userdata WordPress user data for the current logged in user.
  * @uses get_userdata() WordPress function to fetch the userdata for a user ID
- * @uses bp_user_fullname() Returns the full name for a user based on user ID.
+ * @uses bp_fetch_user_fullname() Returns the full name for a user based on user ID.
+ * @uses bp_core_get_userurl() Returns the URL for the user with no anchor tag based on user ID
  * @return false on no match
  * @return str The link text based on passed parameters.
  */
@@ -541,6 +569,18 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false,
 	return '<a href="' . $url . '">' . $display_name . '</a>';	
 }
 
+/**
+ * bp_core_global_user_fullname()
+ *
+ * Returns the full name for the user, or the display name if Xprofile component is not installed.
+ * 
+ * @package BuddyPress Core
+ * @param $user_id string The user ID of the user.
+ * @param
+ * @uses bp_fetch_user_fullname() Returns the full name for a user based on user ID.
+ * @uses get_userdata() Fetches a new userdata object for the user ID passed.
+ * @return Either the users full name, or the display name.
+ */
 function bp_core_global_user_fullname( $user_id ) {
 	if ( function_exists('bp_fetch_user_fullname') ) {
 		return bp_fetch_user_fullname( $user_id, false );
@@ -980,23 +1020,58 @@ function bp_core_sort_nav_items( $nav_array ) {
 	return $new_nav;
 }
 
-function bp_core_referer() {
+/**
+ * bp_core_referrer()
+ *
+ * Returns the referrer URL without the http(s)://
+ * 
+ * @package BuddyPress Core
+ * @return The referrer URL
+ */
+function bp_core_referrer() {
 	$referer = explode( '/', $_SERVER['HTTP_REFERER'] );
 	unset( $referer[0], $referer[1], $referer[2] );
 	return implode( '/', $referer );
 }
 
+/**
+ * bp_core_email_from_name_filter()
+ *
+ * Sets the "From" name in emails sent to the name of the site and not "WordPress"
+ * 
+ * @package BuddyPress Core
+ * @uses get_blog_option() fetches the value for a meta_key in the wp_X_options table
+ * @return The blog name for the root blog
+ */
 function bp_core_email_from_name_filter() {
 	return get_blog_option( 1, 'blogname' );
 }
 add_filter( 'wp_mail_from_name', 'bp_core_email_from_name_filter' );
 
+/**
+ * bp_core_email_from_name_filter()
+ *
+ * Sets the "From" address in emails sent
+ * 
+ * @package BuddyPress Core
+ * @global $current_site Object containing current site metadata
+ * @return noreply@sitedomain email address
+ */
 function bp_core_email_from_address_filter() {
 	global $current_site;
 	return 'noreply@' . $current_site->domain;
 }
 add_filter( 'wp_mail_from', 'bp_core_email_from_address_filter' );
 
+/**
+ * bp_core_remove_data()
+ *
+ * Deletes usermeta for the user when the user is deleted.
+ * 
+ * @package BuddyPress Core
+ * @param $user_id The user id for the user to delete usermeta for
+ * @uses delete_usermeta() deletes a row from the wp_usermeta table based on meta_key
+ */
 function bp_core_remove_data( $user_id ) {
 	/* Remove usermeta */
 	delete_usermeta( $user_id, 'last_activity' );
