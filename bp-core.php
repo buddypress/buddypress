@@ -208,7 +208,6 @@ add_action( 'admin_menu', 'bp_core_check_installed' );
  * @uses bp_core_add_subnav_item() Adds a sub navigation item to a nav item
  * @uses bp_is_home() Returns true if the current user being viewed is equal the logged in user
  * @uses bp_core_get_avatar() Returns the either the thumb (1) or full (2) avatar URL for the user_id passed
- * @return 
  */
 function bp_core_setup_nav() {
 	global $bp;

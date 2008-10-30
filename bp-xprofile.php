@@ -226,6 +226,13 @@ add_action( 'wp', 'xprofile_setup_nav', 2 );
  * @uses bp_catch_uri() Looks for and loads a template file within the current member theme (folder/filename)
  */
 function xprofile_screen_display_profile() {
+	global $bp, $is_new_friend;
+	
+	// If this is a first visit to a new friends profile, delete the friend accepted notifications for the
+	// logged in user. $is_new_friend is set in bp-core/bp-core-catchuri.php in bp_core_set_uri_globals()
+	if ( $is_new_friend )
+		bp_core_delete_notifications_for_user_by_item_id( $bp['loggedin_userid'], $bp['current_userid'], 'friends', 'friendship_accepted' );
+	
 	bp_catch_uri( 'profile/index' );
 }
 
@@ -484,6 +491,11 @@ To view your wire: %s
 		
 }
 add_action( 'bp_wire_post_posted', 'xprofile_record_wire_post_notification', 10, 3 );
+
+
+/********
+ * Core action functions
+ */
 
 /**
  * xprofile_edit()

@@ -28,7 +28,7 @@ Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/
 function bp_core_set_uri_globals() {
 	global $current_component, $current_action, $action_variables;
 	global $current_userid;
-	global $is_member_page;
+	global $is_member_page, $is_new_friend;
 	
 	$path = apply_filters( 'bp_uri', $_SERVER['REQUEST_URI'] );
 	
@@ -81,9 +81,16 @@ function bp_core_set_uri_globals() {
 		
 		// We are within a member home base, set up user id globals
 		$current_userid = bp_core_get_current_userid( $bp_uri[1] );
-		
+				
 		unset($bp_uri[0]);
 		unset($bp_uri[1]);
+		
+		// if the get variable 'new' is set this the first visit to a new friends profile.
+		// this means we need to delete friend acceptance notifications, so we set a flag of is_new_friend.
+		if ( isset($_GET['new']) ) {
+			$is_new_friend = 1;
+			unset($bp_uri[2]);
+		}
 		
 		/* Reset the keys by merging with an empty array */
 		$bp_uri = array_merge( array(), $bp_uri );

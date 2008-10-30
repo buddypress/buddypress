@@ -9,6 +9,7 @@ include_once( 'bp-friends/bp-friends-ajax.php' );
 include_once( 'bp-friends/bp-friends-cssjs.php' );
 include_once( 'bp-friends/bp-friends-templatetags.php' );
 include_once( 'bp-friends/bp-friends-widgets.php' );
+include_once( 'bp-friends/bp-friends-notifications.php' );
 /*include_once( 'bp-messages/bp-friends-admin.php' );*/
 
 
@@ -107,11 +108,10 @@ add_action( 'wp', 'friends_setup_nav', 2 );
 
 function friends_screen_my_friends() {
 	global $bp;
-	
-	// Remove any notifications of new friend requests as we are viewing the
-	// friend request page
+
+	// Delete any friendship acceptance notifications for the user when viewing a profile
 	bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'friends', 'friendship_accepted' );
-	
+
 	bp_catch_uri( 'friends/index' );	
 }
 
@@ -121,8 +121,6 @@ function friends_screen_requests() {
 	if ( isset($bp['action_variables']) && in_array( 'accept', $bp['action_variables'] ) && is_numeric($bp['action_variables'][1]) ) {
 		
 		if ( friends_accept_friendship( $bp['action_variables'][1] ) ) {
-			//bp_core_delete_notification( $bp['loggedin_userid'], 'friends', 'friendship_request' );
-			
 			$bp['message'] = __('Friendship accepted', 'buddypress');
 			$bp['message_type'] = 'success';
 		} else {
@@ -241,7 +239,7 @@ function friends_format_notifications( $action, $item_id, $total_items ) {
 			} else {
 				$user_fullname = bp_core_global_user_fullname( $item_id );
 				$user_url = bp_core_get_userurl( $item_id );
-				return '<a href="' . $user_url . '" title="' . $user_fullname .'\'s profile">' . sprintf( __('%s accepted your friendship request'), $user_fullname ) . '</a>';
+				return '<a href="' . $user_url . '?new" title="' . $user_fullname .'\'s profile">' . sprintf( __('%s accepted your friendship request'), $user_fullname ) . '</a>';
 			}	
 		break;
 		
@@ -254,15 +252,6 @@ function friends_format_notifications( $action, $item_id, $total_items ) {
 				return '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/requests" title="' . __( 'Friendship requests', 'buddypress' ) . '">' . sprintf( __('You have a friendship request from %s'), $user_fullname ) . '</a>';
 			}	
 		break;
-	}
-	if ( $action == 'friendship_accepted') {
-		if ( (int)$total_items > 1 ) {
-			return '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '" title="' . __( 'My Friends', 'buddypress' ) . '">' . sprintf( __('%d friends accepted your friendship requests'), (int)$total_items ) . '</a>';		
-		} else {
-			$user_fullname = bp_core_global_user_fullname( $item_id );
-			$user_url = bp_core_get_userurl( $item_id );
-			return '<a href="' . $user_url . '" title="' . $user_fullname .'\'s profile">' . sprintf( __('%s accepted your friendship request'), $user_fullname ) . '</a>';
-		}
 	}
 	
 	return false;
@@ -402,8 +391,15 @@ function friends_add_friend( $initiator_userid = null, $friend_userid = null ) {
 	$friendship->is_confirmed = 0;
 	$friendship->is_limited = 0;
 	$friendship->date_created = time();
-
-	return $friendship->save();
+	
+	if ( $friendship->save() ) {
+		bp_core_add_notification( $friendship->initiator_user_id, $friendship->friend_user_id, 'friends', 'friendship_request' );	
+		do_action( 'bp_friends_friendship_requested', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );	
+		
+		return true;
+	}
+	
+	return false;
 }
 
 /**************************************************************************
@@ -424,6 +420,8 @@ function friends_remove_friend( $initiator_userid = null, $friend_userid = null,
 	$friendship_id = BP_Friends_Friendship::get_friendship_ids( $initiator_userid, $only_confirmed, false, null, null, $friend_userid );
 	$friendship = new BP_Friends_Friendship( $friendship_id[0]->id );
 	
+	do_action( 'bp_friends_friendship_deleted', $friendship_id, $initiator_userid, $friend_userid );
+	
 	return $friendship->delete();
 }
 
@@ -432,9 +430,18 @@ function friends_accept_friendship( $friendship_id ) {
 	
 	if ( BP_Friends_Friendship::accept( $friendship_id ) ) {
 		friends_update_friend_totals( $friendship->initiator_user_id, $friendship->friend_user_id );
+		
+		// Remove the friend request notice
+		bp_core_delete_notifications_for_user_by_item_id( $friendship->friend_user_id, $friendship->initiator_user_id, 'friends', 'friendship_request' );	
+		
+		// Add a friend accepted notice for the initiating user
 		bp_core_add_notification( $friendship->friend_user_id, $friendship->initiator_user_id, 'friends', 'friendship_accepted' );
 		
+		do_action( 'friends_friendship_accepted', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
+		
+		// notification action
 		do_action( 'bp_friends_friendship_accepted', array( 'item_id' => $friendship_id, 'component_name' => 'friends', 'component_action' => 'friendship_accepted', 'is_private' => 0, 'dual_record' => true ) );
+		
 		return true;
 	}
 	
@@ -442,8 +449,13 @@ function friends_accept_friendship( $friendship_id ) {
 }
 
 function friends_reject_friendship( $friendship_id ) {
+	$friendship = new BP_Friends_Friendship( $friendship_id, true, false );
+	
 	if ( BP_Friends_Friendship::reject( $friendship_id ) ) {
-		do_action( 'bp_friends_friendship_rejected' );
+		// Remove the friend request notice
+		bp_core_delete_notifications_for_user_by_item_id( $friendship->friend_user_id, $friendship->initiator_user_id, 'friends', 'friendship_request' );	
+		
+		do_action( 'bp_friends_friendship_rejected', $friendship_id );
 		return true;
 	}
 	

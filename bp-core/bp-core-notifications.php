@@ -70,6 +70,10 @@ function bp_core_get_notifications_for_user( $user_id ) {
 	return $renderable;
 }
 
+function bp_core_delete_notifications_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action ) {
+	return BP_Core_Notification::delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action );
+}
+
 function bp_core_check_notification_access( $user_id, $notification_id ) {
 	if ( !BP_Core_Notification::check_access( $user_id, $notification_id ) )
 		return false;
