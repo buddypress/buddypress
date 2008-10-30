@@ -220,9 +220,9 @@ function friends_format_activity( $friendship_id, $action, $for_secondary_user =
 				return false;
 			
 			if ( $for_secondary_user ) {
-				return bp_core_get_userlink( $friendship->initiator_user_id ) . ' ' . __('and', 'buddypress') . ' ' . bp_core_get_userlink($friendship->friend_user_id, false, false, true) . ' ' . __('are now friends', 'buddypress') . '. <span class="time-since">%s</span>';				
+				return sprintf( __( '%s and %s are now friends', 'buddypress' ), bp_core_get_userlink( $friendship->initiator_user_id ), bp_core_get_userlink($friendship->friend_user_id, false, false, true) ) . ' <span class="time-since">%s</span>';				
 			} else {
-				return bp_core_get_userlink( $friendship->friend_user_id ) . ' ' . __('and', 'buddypress') . ' ' . bp_core_get_userlink($friendship->initiator_user_id) . ' ' . __('are now friends', 'buddypress') . '. <span class="time-since">%s</span>';								
+				return sprintf( __( '%s and %s are now friends', 'buddypress' ), bp_core_get_userlink( $friendship->friend_user_id ), bp_core_get_userlink($friendship->initiator_user_id) ) . ' <span class="time-since">%s</span>';								
 			}
 
 		break;

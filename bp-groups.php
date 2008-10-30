@@ -542,7 +542,7 @@ add_action( 'activity_groups_new_wire_post', 'groups_record_activity' );
  **************************************************************************/
 
 function groups_format_activity( $item_id, $action, $for_secondary_user = false  ) {
-	global $bp;
+	global $bp, $current_user;
 	
 	switch( $action ) {
 		case 'joined_group':
@@ -551,7 +551,7 @@ function groups_format_activity( $item_id, $action, $for_secondary_user = false 
 			if ( !$group )
 				return false;
 				
-			return bp_core_get_userlink($bp['current_userid']) . ' ' . __('joined the group', 'buddypress') . ' ' . '<a href="' . $bp['current_domain'] . $bp['groups']['slug'] . '/' . $group->slug . '">' . $group->name . '</a>. <span class="time-since">%s</span>';
+			return sprintf( __('%s joined the group %s', 'buddypress'), bp_core_get_userlink($current_user->id),  '<a href="' . site_url() . $bp['groups']['slug'] . '/' . $group->slug . '">' . $group->name . '</a>' ) . ' <span class="time-since">%s</span>';
 		break;
 		case 'created_group':
 			$group = new BP_Groups_Group( $item_id );
@@ -559,16 +559,16 @@ function groups_format_activity( $item_id, $action, $for_secondary_user = false 
 			if ( !$group )
 				return false;
 				
-			return bp_core_get_userlink($bp['current_userid']) . ' ' . __('created the group', 'buddypress') . ' ' . '<a href="' . $bp['current_domain'] . $bp['groups']['slug'] . '/' . $group->slug . '">' . $group->name . '</a>. <span class="time-since">%s</span>';
+			return sprintf( __('%s created the group %s', 'buddypress'), bp_core_get_userlink($current_user->id), '<a href="' . site_url() . $bp['groups']['slug'] . '/' . $group->slug . '">' . $group->name . '</a>') . ' <span class="time-since">%s</span>';
 		break;
 		case 'new_wire_post':
 			$wire_post = new BP_Wire_Post( $bp['groups']['table_name_wire'], $item_id );
 			$group = new BP_Groups_Group( $wire_post->item_id );
 			
-			if ( !$group || !$wire_post )
+			if ( !$group || !$wire_post || !$wire_post->content )
 				return false;		
 					
-			$content = bp_core_get_userlink($bp['current_userid']) . ' ' . __('wrote on the wire of the group', 'buddypress') . ' ' . '<a href="' . $bp['current_domain'] . $bp['groups']['slug'] . '/' . $group->slug . '">' . $group->name . '</a>: <span class="time-since">%s</span>';			
+			$content = sprintf ( __('%s wrote on the wire of the group %s', 'buddypress'), bp_core_get_userlink($current_user->id), '<a href="' . site_url() . $bp['groups']['slug'] . '/' . $group->slug . '">' . $group->name . '</a>' ) . ' <span class="time-since">%s</span>';			
 			$content .= '<blockquote>' . bp_create_excerpt($wire_post->content) . '</blockquote>';
 			return $content;
 		break;

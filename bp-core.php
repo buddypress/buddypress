@@ -840,19 +840,17 @@ add_action( 'wp_head', 'bp_core_record_activity' );
  * @param $after The text to append to the activity time since figure.
  * @uses bp_core_time_since() This function will return an English representation of the time elapsed.
  */
-function bp_core_get_last_activity( $last_activity_date, $before, $after ) {
+function bp_core_get_last_activity( $last_activity_date, $string ) {
 	if ( !$last_activity_date || $last_activity_date == '' ) {
 		$last_active = __('not recently active', 'buddypress');
 	} else {
-		$last_active = $before;
-		
 		if ( strstr( $last_activity_date, '-' ) ) {
-			$last_active .= bp_core_time_since( strtotime( $last_activity_date ) ); 
+			$last_active = bp_core_time_since( strtotime( $last_activity_date ) ); 
 		} else {
-			$last_active .= bp_core_time_since( $last_activity_date ); 
+			$last_active = bp_core_time_since( $last_activity_date ); 
 		}
 		
-		$last_active .= $after;
+		$last_active = sprintf( $string, $last_active );
 	}
 	
 	return $last_active;

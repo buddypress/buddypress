@@ -64,7 +64,7 @@ class BP_Core_User {
 		
 		$this->fullname = bp_core_get_userlink( $this->id, true );
 		$this->email = bp_core_get_user_email( $this->id );
-		$this->last_active = bp_core_get_last_activity( get_usermeta( $this->id, 'last_activity' ), __('active '), __(' ago') );
+		$this->last_active = bp_core_get_last_activity( get_usermeta( $this->id, 'last_activity' ), __('active %s ago') );
 		
 		if ( function_exists('xprofile_install') ) {
 			$this->avatar = bp_core_get_avatar( $this->id, 2 );

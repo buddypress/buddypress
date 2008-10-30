@@ -113,7 +113,7 @@ function bp_core_widget_members($args) {
 
 					<div class="item">
 						<div class="item-title"><?php echo bp_core_get_userlink( $user->user_id ) ?></div>
-						<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( $user->user_registered, __('registered ', 'buddypress'), __(' ago', 'buddypress') ) ?></span></div>
+						<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( $user->user_registered, __('registered %s ago', 'buddypress') ) ?></span></div>
 					</div>
 				</li>
 				<?php $counter++; ?>	

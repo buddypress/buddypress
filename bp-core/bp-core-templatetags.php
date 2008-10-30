@@ -240,7 +240,7 @@ function bp_last_activity( $user_id = false, $echo = true ) {
 	if ( !$user_id )
 		$user_id = $bp['current_userid'];
 	
-	$last_activity = bp_core_get_last_activity( get_usermeta( $user_id, 'last_activity' ), __('active ', 'buddypress'), __(' ago', 'buddypress') );
+	$last_activity = bp_core_get_last_activity( get_usermeta( $user_id, 'last_activity' ), __('active %s ago', 'buddypress') );
 
 	if ( $echo )
 		echo $last_activity;

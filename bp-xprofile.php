@@ -265,7 +265,7 @@ add_action( 'bp_xprofile_updated_profile', 'xprofile_record_activity' );
  **************************************************************************/
 
 function xprofile_format_activity( $item_id, $action, $for_secondary_user = false  ) {
-	global $bp;
+	global $bp, $current_user;
 	
 	switch( $action ) {
 		case 'new_wire_post':
@@ -275,9 +275,9 @@ function xprofile_format_activity( $item_id, $action, $for_secondary_user = fals
 				return false;
 
 			if ( ( $wire_post->item_id == $bp['loggedin_userid'] && $wire_post->user_id == $bp['loggedin_userid'] ) || ( $wire_post->item_id == $bp['current_userid'] && $wire_post->user_id == $bp['current_userid'] ) ) {
-				$content = bp_core_get_userlink($wire_post->user_id) . ' ' . __('wrote on their own wire', 'buddypress') . ': <span class="time-since">%s</span>';				
+				$content = sprintf( __('%s wrote on their own wire', 'buddypress'), bp_core_get_userlink($wire_post->user_id) ) . ': <span class="time-since">%s</span>';				
 			} else if ( ( $wire_post->item_id != $bp['loggedin_userid'] && $wire_post->user_id == $bp['loggedin_userid'] ) || ( $wire_post->item_id != $bp['current_userid'] && $wire_post->user_id == $bp['current_userid'] ) ) {
-				$content = bp_core_get_userlink($wire_post->user_id) . ' ' . __('wrote on ', 'buddypress') . bp_core_get_userlink( $wire_post->item_id, false, false, true, true ) . ' wire: <span class="time-since">%s</span>';				
+				$content = sprintf( __('%s wrote on %s wire', 'buddypress'), bp_core_get_userlink($wire_post->user_id), bp_core_get_userlink( $wire_post->item_id, false, false, true, true ) ) . ': <span class="time-since">%s</span>';				
 			} 
 			
 			$content .= '<blockquote>' . bp_create_excerpt($wire_post->content) . '</blockquote>';
@@ -289,7 +289,7 @@ function xprofile_format_activity( $item_id, $action, $for_secondary_user = fals
 			if ( !$profile_group )
 				return false;
 				
-			return bp_core_get_userlink($bp['current_userid']) . ' ' . __('updated the', 'buddypress') . ' "<a href="' . $bp['current_domain'] . $bp['profile']['slug'] . '">' . $profile_group->name . '</a>" ' . __('information on their profile', 'buddypress') . '. <span class="time-since">%s</span>';
+			return sprintf( __('%s updated the "%s" information on their profile', 'buddypress'), bp_core_get_userlink($current_user->id), '<a href="' . $bp['current_domain'] . $bp['profile']['slug'] . '">' . $profile_group->name . '</a>' ) . ' <span class="time-since">%s</span>';
 		break;
 	}
 	

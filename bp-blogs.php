@@ -200,7 +200,7 @@ function bp_blogs_format_activity( $item_id, $action, $for_secondary_user = fals
 			if ( !$blog )
 				return false;
 				
-			return bp_core_get_userlink($blog->user_id) . ' ' . __('created a new blog:', 'buddypress') . ' <a href="' . get_blog_option( $blog->blog_id, 'siteurl' ) . '">' . get_blog_option( $blog->blog_id, 'blogname' ) . '</a> <span class="time-since">%s</span>';		
+			return sprintf( __( '%s created a new blog: %s', 'buddypress' ), bp_core_get_userlink($blog->user_id), '<a href="' . get_blog_option( $blog->blog_id, 'siteurl' ) . '">' . get_blog_option( $blog->blog_id, 'blogname' ) . '</a>' ) . ' <span class="time-since">%s</span>';		
 		break;
 		case 'new_blog_post':
 			$post = new BP_Blogs_Post($item_id);
@@ -213,7 +213,7 @@ function bp_blogs_format_activity( $item_id, $action, $for_secondary_user = fals
 			if ( $post->post_type != 'post' || $post->post_status != 'publish' || $post->post_password != '' )
 				return false;
 
-			$content = bp_core_get_userlink($post->post_author) . ' ' . __('wrote a new blog post', 'buddypress') . ' <a href="' . bp_post_get_permalink( $post, $post->blog_id ) . '">' . $post->post_title . '</a> <span class="time-since">%s</span>';		
+			$content = sprintf( __( '%s wrote a new blog post:', 'buddypress' ), bp_core_get_userlink($post->post_author), '<a href="' . bp_post_get_permalink( $post, $post->blog_id ) . '">' . $post->post_title . '</a>' ) . ' <span class="time-since">%s</span>';		
 			$content .= '<blockquote>' . bp_create_excerpt($post->post_content) . '</blockquote>';
 			return $content;
 		break;
@@ -228,7 +228,7 @@ function bp_blogs_format_activity( $item_id, $action, $for_secondary_user = fals
 				return false;
 
 			$comment = BP_Blogs_Comment::fetch_comment_content($comment);
-			$content = bp_core_get_userlink($comment->user_id) . ' ' . __('commented on the blog post ', 'buddypress') . ' <a href="' . bp_post_get_permalink( $comment->post, $comment->blog_id ) . '#comment-' . $comment->comment_ID . '">' . $comment->post->post_title . '</a> <span class="time-since">%s</span>';		
+			$content = sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink($comment->user_id), '<a href="' . bp_post_get_permalink( $comment->post, $comment->blog_id ) . '#comment-' . $comment->comment_ID . '">' . $comment->post->post_title . '</a>' ) . ' <span class="time-since">%s</span>';		
 			$content .= '<blockquote>' . bp_create_excerpt($comment->comment_content) . '</blockquote>';
 			return $content;
 		break;

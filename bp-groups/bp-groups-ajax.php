@@ -178,9 +178,9 @@ function groups_ajax_widget_groups_list() {
 						<span class="activity">
 							<?php 
 							if ( $_POST['filter'] == 'newest-groups') {
-								echo bp_core_get_last_activity( $group->date_created, __('created ', 'buddypress'), __(' ago', 'buddypress') );
+								echo bp_core_get_last_activity( $group->date_created, __('created %s ago', 'buddypress') );
 							} else if ( $_POST['filter'] == 'recently-active-groups') {
-								echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __('active ', 'buddypress'), __(' ago', 'buddypress') );
+								echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __('active %s ago', 'buddypress') );
 							} else if ( $_POST['filter'] == 'popular-groups') {
 								if ( $group->total_member_count == 1 )
 									echo $group->total_member_count . __(' member', 'buddypress');
