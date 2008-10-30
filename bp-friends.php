@@ -117,14 +117,12 @@ function friends_screen_my_friends() {
 
 function friends_screen_requests() {
 	global $bp;
-	
-	// Remove any notifications of new friend requests as we are viewing the
-	// friend request page
-	bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'friends', 'friendship_request' );
-		
+			
 	if ( isset($bp['action_variables']) && in_array( 'accept', $bp['action_variables'] ) && is_numeric($bp['action_variables'][1]) ) {
 		
 		if ( friends_accept_friendship( $bp['action_variables'][1] ) ) {
+			//bp_core_delete_notification( $bp['loggedin_userid'], 'friends', 'friendship_request' );
+			
 			$bp['message'] = __('Friendship accepted', 'buddypress');
 			$bp['message_type'] = 'success';
 		} else {

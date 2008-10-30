@@ -9,6 +9,7 @@ include_once( 'bp-messages/bp-messages-ajax.php' );
 include_once( 'bp-messages/bp-messages-cssjs.php' );
 include_once( 'bp-messages/bp-messages-admin.php' );
 include_once( 'bp-messages/bp-messages-templatetags.php' );
+include_once( 'bp-messages/bp-messages-notifications.php' );
 
 /**************************************************************************
  messages_install()
@@ -345,23 +346,6 @@ function messages_record_activity( $args = true ) {
 	} 
 }
 
-
-/**************************************************************************
- messages_format_activity()
- 
- Selects and formats recorded messages component activity.
- **************************************************************************/
-
-function messages_format_activity( $friendship_id, $action, $for_secondary_user = false  ) {
-	global $bp;
-	
-	switch( $action ) {
-		// no actions set yet.
-	}
-	
-	return false;
-}
-
 function messages_format_notifications( $action, $item_id, $total_items ) {
 	global $bp;
 	
@@ -511,11 +495,12 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 					
 					// Send notices to the recipients
 					for ( $i = 0; $i < count($pmessage->recipients); $i++ ) {
-						if ( $pmessage->recipients[$i] != $bp['loggedin_userid'] )
+						if ( $pmessage->recipients[$i] != $bp['loggedin_userid'] ) {
 							bp_core_add_notification( $pmessage->id, $pmessage->recipients[$i], 'messages', 'new_message' );	
+						}
 					}
 					
-					do_action( 'bp_messages_message_sent', array( 'item_id' => $pmessage->id, 'recipient_ids' => $pmessage->recipients, 'component_name' => 'messages', 'component_action' => 'message_sent', 'is_private' => 1 ) );
+					do_action( 'bp_messages_message_sent', array( 'item_id' => $pmessage->id, 'recipient_ids' => $pmessage->recipients, 'thread_id' => $pmessage->thread_id, 'component_name' => 'messages', 'component_action' => 'message_sent', 'is_private' => 1 ) );
 			
 					if ( $from_ajax ) {
 						return array('status' => 1, 'message' => $message, 'reply' => $pmessage);
@@ -581,6 +566,8 @@ function messages_send_notice( $subject, $message, $from_template ) {
 		$notice->date_sent = time();
 		$notice->is_active = 1;
 		$notice->save(); // send it.
+		
+		do_action( 'bp_messages_notice_sent', $subject, $message );
 	}
 		
 }

@@ -337,7 +337,7 @@ $message = sprintf( __(
 To view your wire: %s
 
 ---------------------
-', 'buddypress' ), $poster_name, $wire_post->content, $wire_link );
+', 'buddypress' ), $poster_name, stripslashes($wire_post->content), $wire_link );
 
 			$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 			
