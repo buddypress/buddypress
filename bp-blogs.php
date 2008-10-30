@@ -213,7 +213,7 @@ function bp_blogs_format_activity( $item_id, $action, $for_secondary_user = fals
 			if ( $post->post_type != 'post' || $post->post_status != 'publish' || $post->post_password != '' )
 				return false;
 
-			$content = sprintf( __( '%s wrote a new blog post:', 'buddypress' ), bp_core_get_userlink($post->post_author), '<a href="' . bp_post_get_permalink( $post, $post->blog_id ) . '">' . $post->post_title . '</a>' ) . ' <span class="time-since">%s</span>';		
+			$content = sprintf( __( '%s wrote a new blog post: %s', 'buddypress' ), bp_core_get_userlink($post->post_author), '<a href="' . bp_post_get_permalink( $post, $post->blog_id ) . '">' . $post->post_title . '</a>' ) . ' <span class="time-since">%s</span>';		
 			$content .= '<blockquote>' . bp_create_excerpt($post->post_content) . '</blockquote>';
 			return $content;
 		break;
