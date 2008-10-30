@@ -255,7 +255,7 @@ function bp_wire_delete_link() {
 		if ( $bp['current_component'] == 'wire' || $bp['current_component'] == 'profile' ) {
 			echo '<a href="' . $bp['current_domain'] . $bp['wire']['slug'] . '/delete/' . $wire_posts_template->wire_post->id . '">[' . __('Delete', 'buddypress') . ']</a>';
 		} else {
-			echo '<a href="' . $bp['current_domain'] . $bp[$bp['current_component']]['slug'] . '/' . $uri . '/wire/delete/' . $wire_posts_template->wire_post->id . '">[' . __('Delete', 'buddypress') . ']</a>';
+			echo '<a href="' . site_url() . '/' . $bp[$bp['current_component']]['slug'] . '/' . $uri . '/wire/delete/' . $wire_posts_template->wire_post->id . '">[' . __('Delete', 'buddypress') . ']</a>';
 		}
 	}
 }
