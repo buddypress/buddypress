@@ -145,7 +145,7 @@ function bp_wire_new_post( $item_id, $message, $table_name = null ) {
 	$wire_post->user_id = $bp['loggedin_userid'];
 	$wire_post->date_posted = time();
 	
-	$message = strip_tags( $message );
+	$message = strip_tags( $message, '<a>,<b>,<strong>,<i>,<em>,<img>' );
 	$wire_post->content = $message;
 	
 	if ( !$wire_post->save() )
