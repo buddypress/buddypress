@@ -215,7 +215,9 @@ function bp_fetch_user_fullname( $user_id = false, $echo = true ) {
 	
 	if ( function_exists('xprofile_install') ) {
 		// First check the usermeta table for a easily fetchable value
-		if ( !$data = get_usermeta( $user_id, 'bp_display_name' ) ) {
+		$data = get_usermeta( $user_id, 'bp_display_name' );
+
+		if ( $data == '' ) {
 			$data = bp_get_field_data( array( 'First Name', 'Last Name' ), $user_id );
 
 			if ( empty($data['First Name']) && empty($data['Last Name']) ) {
