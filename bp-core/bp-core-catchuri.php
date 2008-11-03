@@ -170,12 +170,12 @@ function bp_catch_uri( $pages ) {
  */
 function bp_core_do_catch_uri() {
 	global $bp_path, $bp, $wpdb;
-	global $is_member_page;
+	global $current_blog;
 
 	$pages = $bp_path;
 	
 	/* Don't hijack any URLs on blog pages */
-	if ( bp_is_blog_page() )
+	if ( bp_is_blog_page() && $current_blog->blog_id > 1 )
 		return false;
 
 	if ( !file_exists( TEMPLATEPATH . "/header.php" ) || !file_exists( TEMPLATEPATH . "/footer.php" ) )
