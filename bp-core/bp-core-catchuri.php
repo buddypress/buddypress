@@ -136,7 +136,7 @@ function bp_core_set_uri_globals() {
 	
 	/* Reset the keys by merging with an empty array */
 	$action_variables = array_merge( array(), $action_variables );
-	
+
 	//var_dump($current_component, $current_action, $action_variables);
 }
 add_action( 'wp', 'bp_core_set_uri_globals', 1 );
@@ -170,8 +170,13 @@ function bp_catch_uri( $pages ) {
  */
 function bp_core_do_catch_uri() {
 	global $bp_path, $bp, $wpdb;
+	global $is_member_page;
 
 	$pages = $bp_path;
+	
+	/* Don't hijack any URLs on blog pages */
+	if ( bp_is_blog_page() )
+		return false;
 
 	if ( !file_exists( TEMPLATEPATH . "/header.php" ) || !file_exists( TEMPLATEPATH . "/footer.php" ) )
 		wp_redirect( $bp['root_domain'] );
@@ -215,20 +220,6 @@ function bp_core_catch_profile_uri() {
 	if ( !function_exists('xprofile_install') )
 		bp_catch_uri( 'profile/index' );
 }
-
-// This function will remove home bases and redirect users to their new member page.
-function bp_core_homebase_redirect() {
-	global $current_user, $current_blog;
-	
-	if ( get_usermeta( $current_user->id, 'home_base' ) == $current_blog->blog_id ) {
-		if ( delete_blog( $current_blog->blog_id ) ) {
-			delete_usermeta( $current_user->id, 'home_base' );
-			header('Location: ' . site_url() . MEMBERS_SLUG . '/' . $current_user->user_login . '/' );
-		}
-	}
-}
-add_action( 'wp', 'bp_core_set_uri_globals', 0 );
-
 
 function bp_core_force_buddypress_theme() {
 	global $current_component, $current_action;

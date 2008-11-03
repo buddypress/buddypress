@@ -350,6 +350,18 @@ function bp_get_plugin_sidebar() {
 		load_template( TEMPLATEPATH . '/plugin-sidebar.php' );
 }
 
+function bp_is_blog_page() {
+	global $bp, $is_member_page;
+	
+	$root_components = explode( ',', BP_CORE_ROOT_COMPONENTS );
+
+	if ( !$is_member_page && !in_array( $bp['current_component'], $root_components ) )
+		return true;
+	
+	return false;
+}
+
+
 /* Template functions for fetching globals, without querying the DB again
    also means we dont have to use the $bp variable in the template (looks messy) */
 
@@ -362,5 +374,7 @@ function bp_user_fullname() {
 	global $bp;
 	echo $bp['current_fullname'];
 }
+
+
 
 ?>
