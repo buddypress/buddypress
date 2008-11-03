@@ -365,6 +365,18 @@ ul.content-header-nav {
 				border-bottom: 2px solid #f28935;
 				padding: 0.5em 0.7em !important;
 			}
+			
+			div.info-group .pagination-links {
+				margin: 0 0 5px 0;
+				float: none;
+				text-align: right;
+			}
+			
+		.pag-count {
+			font-size: 0.9em;
+			color: #888;
+			margin-bottom: -20px;
+		}
 	
 		div.info-group {
 			margin-bottom: 2em;
