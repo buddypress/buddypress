@@ -43,6 +43,40 @@ jQuery(document).ready( function() {
 	);
 });
 
+jQuery("div#wire-pagination a").livequery('click',
+	function() { 
+		jQuery('#ajax-loader').toggle();
+
+		var fpage = jQuery(this).attr('href');
+		fpage = fpage.split('=');
+
+		jQuery.post( ajaxurl, {
+			action: 'get_wire_posts',
+			'cookie': encodeURIComponent(document.cookie),
+			'_wpnonce': jQuery("input#_wpnonce").val(),
+			'wpage': fpage[1],
+			'bp_wire_item_id': jQuery("input#bp_wire_item_id").val(),
+			'num': 5,
+		},
+		function(response)
+		{	
+			response = response.substr(0, response.length-1);
+
+			jQuery("form#wire-post-list-form").fadeOut(200, 
+				function() {
+					jQuery("form#wire-post-list-form").html(response);
+					jQuery("form#wire-post-list-form").fadeIn(200);
+				}
+			);
+
+			return false;
+		});
+		
+		return false;
+	}
+);
+
+
 function clear(container) {
 	if(!document.getElementById(container)) return false;
 	

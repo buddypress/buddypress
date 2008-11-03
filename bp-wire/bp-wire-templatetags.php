@@ -32,9 +32,9 @@ class BP_Wire_Posts_Template {
 			$this->table_name = $bp[$bp['current_component']]['table_name_wire'];
 		}
 		
-		$this->pag_page = isset( $_GET['fpage'] ) ? intval( $_GET['fpage'] ) : 1;
-		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 5;
-		
+		$this->pag_page = isset( $_REQUEST['wpage'] ) ? intval( $_REQUEST['wpage'] ) : 1;
+		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : 5;
+
 		$this->wire_posts = BP_Wire_Post::get_all_for_item( $item_id, $this->table_name, $this->pag_page, $this->pag_num );
 		$this->total_wire_post_count = (int)$this->wire_posts['count'];
 		
@@ -44,7 +44,7 @@ class BP_Wire_Posts_Template {
 		$this->can_post = $can_post;
 		
 		$this->pag_links = paginate_links( array(
-			'base' => add_query_arg( 'fpage', '%#%' ),
+			'base' => add_query_arg( 'wpage', '%#%', $bp['current_domain'] ),
 			'format' => '',
 			'total' => ceil($this->total_wire_post_count / $this->pag_num),
 			'current' => $this->pag_page,
@@ -146,9 +146,13 @@ function bp_wire_title() {
 	echo $bp_wire_header;
 }
 
-function bp_wire_item_id() {
+function bp_wire_item_id( $echo = false ) {
 	global $bp_item_id;
-	return $bp_item_id;
+	
+	if ( $echo )
+		echo $bp_item_id;
+	else
+		return $bp_item_id;
 }
 
 function bp_wire_no_posts_message() {
@@ -179,6 +183,21 @@ function bp_wire_post_content() {
 	$content = stripslashes( $content );
 	
 	echo $content;
+}
+
+function bp_wire_pagination() {
+	global $wire_posts_template;
+	echo $wire_posts_template->pag_links;
+	wp_nonce_field( 'get_wire_posts' );
+}
+
+function bp_wire_pagination_count() {
+	global $wire_posts_template;
+	
+	$from_num = intval( ( $wire_posts_template->pag_page - 1 ) * $wire_posts_template->pag_num ) + 1;
+	$to_num = ( $from_num + 4 > $wire_posts_template->total_wire_post_count ) ? $wire_posts_template->total_wire_post_count : $from_num + 4; 
+	
+	echo sprintf( __( 'Viewing post %d to %d (%d total posts)', 'buddypress' ), $from_num, $to_num, $wire_posts_template->total_wire_post_count );  
 }
 
 function bp_wire_post_date( $date_format = null ) {

@@ -5,11 +5,10 @@ define ( 'BP_WIRE_IS_INSTALLED', 1 );
 define ( 'BP_WIRE_VERSION', '0.1.2' );
 
 include_once( 'bp-wire/bp-wire-classes.php' );
-//include_once( 'bp-wire/bp-wire-ajax.php' );
-//include_once( 'bp-wire/bp-wire-cssjs.php' );
-/*include_once( 'bp-messages/bp-wire-admin.php' );*/
+include_once( 'bp-wire/bp-wire-ajax.php' );
 include_once( 'bp-wire/bp-wire-templatetags.php' );
-
+//include_once( 'bp-wire/bp-wire-cssjs.php' );
+//include_once( 'bp-wire/bp-wire-admin.php' );
 
 /**************************************************************************
  bp_bp_wire_install()

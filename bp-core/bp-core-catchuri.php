@@ -32,6 +32,11 @@ function bp_core_set_uri_globals() {
 	
 	$path = apply_filters( 'bp_uri', $_SERVER['REQUEST_URI'] );
 	
+	// Firstly, take GET variables off the URL to avoid problems,
+	// they are still registered in the global $_GET variable */
+	$noget = substr( $path, 0, strpos( $path, '?' ) );
+	if ( $noget != '' ) $path = $noget;
+	
 	/* Fetch the current URI and explode each part seperated by '/' into an array */
 	$bp_uri = explode( "/", $path );
 	
@@ -50,6 +55,10 @@ function bp_core_set_uri_globals() {
 	/* Set the indexes, these are incresed by one if we are not on a VHOST install */
 	$component_index = 0;
 	$action_index = $component_index + 1;
+	
+	// If this is a WordPress page, return from the function.
+	if ( is_page( $bp_uri[$component_index] ) )
+		return false;
 	
 	/* Get site path items */
 	$paths = explode( '/', bp_core_get_site_path() );
@@ -71,6 +80,7 @@ function bp_core_set_uri_globals() {
 	/* Reset the keys by merging with an empty array */
 	$bp_uri = array_merge( array(), $bp_uri );	
 
+	/* Catch a member page and set the current member ID */
 	if ( $bp_uri[0] == MEMBERS_SLUG && $bp_uri[1] != '' ) {
 		
 		/* Make sure this is not reported as a 404 */
@@ -79,7 +89,7 @@ function bp_core_set_uri_globals() {
 		$is_member_page = true;
 		$is_root_component = true;
 		
-		// We are within a member home base, set up user id globals
+		// We are within a member page, set up user id globals
 		$current_userid = bp_core_get_current_userid( $bp_uri[1] );
 				
 		unset($bp_uri[0]);
@@ -182,7 +192,7 @@ function bp_core_do_catch_uri() {
 			if ( file_exists( TEMPLATEPATH . "/home.php" ) )
 				load_template( TEMPLATEPATH . "/home.php" );
 			else
-				load_template( TEMPLATEPATH . "/index.php" );	
+				load_template( TEMPLATEPATH . "/404.php" );	
 		}
 	}
 
