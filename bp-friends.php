@@ -89,8 +89,8 @@ function friends_setup_nav() {
 	
 	/* Add the subnav items to the friends nav item */
 	bp_core_add_subnav_item( $bp['friends']['slug'], 'my-friends', __('My Friends', 'buddypress'), $friends_link, 'friends_screen_my_friends' );
-	bp_core_add_subnav_item( $bp['friends']['slug'], 'requests', __('Requests', 'buddypress'), $friends_link, 'friends_screen_requests' );
-	bp_core_add_subnav_item( $bp['friends']['slug'], 'friend-finder', __('Friend Finder', 'buddypress'), $friends_link, 'friends_screen_friend_finder' );
+	bp_core_add_subnav_item( $bp['friends']['slug'], 'requests', __('Requests', 'buddypress'), $friends_link, 'friends_screen_requests', false, bp_is_home() );
+	bp_core_add_subnav_item( $bp['friends']['slug'], 'friend-finder', __('Friend Finder', 'buddypress'), $friends_link, 'friends_screen_friend_finder', false, bp_is_home() );
 	//bp_core_add_subnav_item( $bp['friends']['slug'], 'invite-friend', __('Invite Friends', 'buddypress'), $friends_link, 'friends_screen_invite_friends' );
 	
 	if ( $bp['current_component'] == $bp['friends']['slug'] ) {
