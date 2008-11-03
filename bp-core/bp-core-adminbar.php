@@ -63,7 +63,7 @@ function bp_core_admin_bar() {
 					echo '<ul>';
 					echo '<li class="alt"><a href="' . $blog['siteurl']  . '/wp-admin/">' . __('Dashboard', 'buddypress') . '</a></li>';
 					echo '<li><a href="' . $blog['siteurl']  . '/wp-admin/post-new.php">' . __('New Post', 'buddypress') . '</a></li>';
-					echo '<li class="alt"><a href="' . $blog['siteurl']  . '/wp-admin/post-new.php">' . __('Manage Posts', 'buddypress') . '</a></li>';
+					echo '<li class="alt"><a href="' . $blog['siteurl']  . '/wp-admin/edit.php">' . __('Manage Posts', 'buddypress') . '</a></li>';
 					echo '<li><a href="' . $blog['siteurl']  . '/wp-admin/themes.php">' . __('Switch Theme', 'buddypress') . '</a></li>';					
 					echo '<li class="alt"><a href="' . $blog['siteurl']  . '/wp-admin/edit-comments.php">' . __('Manage Comments', 'buddypress') . '</a></li>';					
 					echo '</ul>';
