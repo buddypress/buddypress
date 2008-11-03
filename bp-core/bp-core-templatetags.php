@@ -53,7 +53,7 @@ function bp_get_nav() {
 	}
 	
 	/* Always add a log out list item to the end of the navigation */
-	echo '<li><a id="wp-logout" href="' . site_url() . '/wp-login.php?action=logout">Log Out</a><li>';
+	echo '<li><a id="wp-logout" href="' . site_url() . '/wp-login.php?action=logout&amp;redirect_to=' . site_url() . '">Log Out</a><li>';
 }
 
 /**
@@ -214,13 +214,19 @@ function bp_fetch_user_fullname( $user_id = false, $echo = true ) {
 		$user_id = $bp['current_userid'];
 	
 	if ( function_exists('xprofile_install') ) {
-		$data = bp_get_field_data( array( 'First Name', 'Last Name' ), $user_id );
-		
-		if ( empty($data['First Name']) && empty($data['Last Name']) ) {
-			$ud = get_userdata($user_id);
-			$data = $ud->display_name;
-		} else {
-			$data = ucfirst($data['First Name']) . ' ' . ucfirst($data['Last Name']);
+		// First check the usermeta table for a easily fetchable value
+		if ( !$data = get_usermeta( $user_id, 'bp_display_name' ) ) {
+			$data = bp_get_field_data( array( 'First Name', 'Last Name' ), $user_id );
+
+			if ( empty($data['First Name']) && empty($data['Last Name']) ) {
+				$ud = get_userdata($user_id);
+				$data = $ud->display_name;
+			} else {
+				$data = ucfirst($data['First Name']) . ' ' . ucfirst($data['Last Name']);
+			}
+			
+			// store this in usermeta for less expensive fetching.
+			update_usermeta( $user_id, 'bp_display_name', $data );
 		}
 	} else {
 		$ud = get_userdata($user_id);
@@ -231,7 +237,6 @@ function bp_fetch_user_fullname( $user_id = false, $echo = true ) {
 		echo $data;
 	else
 		return $data;
-	
 }
 
 function bp_last_activity( $user_id = false, $echo = true ) {
