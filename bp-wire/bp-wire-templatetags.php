@@ -120,8 +120,8 @@ function bp_the_wire_post() {
 	return $wire_posts_template->the_wire_post();
 }
 
-function bp_wire_get_post_list( $item_id = null, $title = null, $empty_message = null, $can_post = true ) {
-	global $bp_item_id, $bp_wire_header, $bp_wire_msg, $bp_wire_can_post;
+function bp_wire_get_post_list( $item_id = null, $title = null, $empty_message = null, $can_post = true, $show_email_notify = false ) {
+	global $bp_item_id, $bp_wire_header, $bp_wire_msg, $bp_wire_can_post, $bp_wire_show_email_notify;
 
 	if ( !$item_id )
 		return false;
@@ -131,12 +131,13 @@ function bp_wire_get_post_list( $item_id = null, $title = null, $empty_message =
 	
 	if ( !$title )
 		$title = __('Wire', 'buddypress');
-	
+
 	/* Pass them as globals, using the same name doesn't work. */
 	$bp_item_id = $item_id;
 	$bp_wire_header = $title;
 	$bp_wire_msg = $empty_message;
 	$bp_wire_can_post = $can_post;
+	$bp_wire_show_email_notify = $show_email_notify;
 	
 	load_template( TEMPLATEPATH . '/wire/post-list.php' );
 }
@@ -163,6 +164,11 @@ function bp_wire_no_posts_message() {
 function bp_wire_can_post() {
 	global $bp_wire_can_post;
 	return $bp_wire_can_post;
+}
+
+function bp_wire_show_email_notify() {
+	global $bp_wire_show_email_notify;
+	return $bp_wire_show_email_notify;
 }
 
 function bp_wire_post_id( $echo = true ) {
@@ -293,5 +299,6 @@ function bp_wire_see_all_link() {
 		echo $bp['root_domain'] . '/' . $bp['groups']['slug'] . '/' . $uri . '/wire';
 	}
 }
+
 
 ?>

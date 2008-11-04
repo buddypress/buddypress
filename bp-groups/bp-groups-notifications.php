@@ -3,6 +3,9 @@
 function groups_notification_new_wire_post( $group_id, $wire_post_id ) {
 	global $bp;
 	
+	if ( !isset( $_POST['wire-post-email-notify'] ) )
+		return false;
+	
 	$wire_post = new BP_Wire_Post( $bp['groups']['table_name_wire'], $wire_post_id );
 	$group = new BP_Groups_Group( $group_id, false, true );
 	
