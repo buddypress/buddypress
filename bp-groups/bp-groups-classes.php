@@ -236,6 +236,9 @@ Class BP_Groups_Group {
 		
 		if ( !$table_name )
 			$table_name = $bp['groups']['table_name'];
+		
+		if ( !$slug )
+			return false;
 			
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $table_name WHERE slug = %s", $slug ) );
 	}

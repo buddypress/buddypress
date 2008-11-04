@@ -162,14 +162,22 @@ function bp_group_permalink( $group_obj = false, $echo = true ) {
 	if ( !$group_obj )
 		$group_obj = $groups_template->group;
 	
-	switch_to_blog(1);
+	if ( $echo )
+		echo $bp['root_domain'] . '/' . $bp['groups']['slug'] . '/' . $group_obj->slug;
+	else
+		return $bp['root_domain'] . '/' . $bp['groups']['slug'] . '/' . $group_obj->slug;
+}
+
+function bp_group_admin_permalink( $group_obj = false, $echo = true ) {
+	global $groups_template, $bp, $current_blog;
+
+	if ( !$group_obj )
+		$group_obj = $groups_template->group;
 	
 	if ( $echo )
-		echo site_url() . '/' . $bp['groups']['slug'] . '/' . $group_obj->slug;
+		echo $bp['root_domain'] . '/' . $bp['groups']['slug'] . '/' . $group_obj->slug . '/admin';
 	else
-		return site_url() . '/' . $bp['groups']['slug'] . '/' . $group_obj->slug;
-		
-	switch_to_blog($current_blog->blog_id);
+		return $bp['root_domain'] . '/' . $bp['groups']['slug'] . '/' . $group_obj->slug . '/admin';	
 }
 
 function bp_group_slug() {
@@ -186,6 +194,12 @@ function bp_group_description() {
 	echo $content;
 }
 
+function bp_group_description_editable() {
+	global $groups_template;
+	
+	echo $groups_template->group->description;
+}
+
 function bp_group_description_excerpt() {
 	global $groups_template;
 	echo bp_create_excerpt( $groups_template->group->description, 20 );	
@@ -198,6 +212,12 @@ function bp_group_news() {
 	$content = apply_filters('the_content', $content);
 	$content = str_replace(']]>', ']]&gt;', $content);
 	echo $content;
+}
+
+function bp_group_news_editable() {
+	global $groups_template;
+
+	echo $groups_template->group->news;
 }
 
 function bp_group_public_status() {
@@ -319,6 +339,72 @@ function bp_group_total_members() {
 	echo $groups_template->group->total_member_count;
 }
 
+function bp_group_photos_enabled() {
+	global $groups_template;
+	
+	if ( $groups_template->group->enable_photos )
+		return true;
+	
+	return false;
+}
+
+function bp_group_show_wire_setting() {
+	global $groups_template;
+	
+	if ( $groups_template->group->enable_wire )
+		echo ' checked="checked"';
+}
+
+function bp_group_show_forum_setting() {
+	global $groups_template;
+	
+	if ( $groups_template->group->enable_forum )
+		echo ' checked="checked"';
+}
+
+function bp_group_show_photos_setting() {
+	global $groups_template;
+	
+	if ( $groups_template->group->enable_photos )
+		echo ' checked="checked"';	
+}
+
+function bp_group_show_photos_upload_setting( $permission ) {
+	global $groups_template;
+	
+	if ( $permission == 'admin' && $groups_template->group->photos_admin_only )
+		echo ' checked="checked"';
+	
+	if ( $permission == 'member' && !$groups_template->group->photos_admin_only )
+		echo ' checked="checked"';
+}
+
+function bp_group_show_status_setting( $setting ) {
+	global $groups_template;
+	
+	if ( $setting == $groups_template->group->status )
+		echo ' checked="checked"';
+}
+
+function bp_group_admin_tabs() {
+	global $bp, $groups_template;
+	
+	$current_tab = $bp['action_variables'][0];
+?>
+	<li<?php if ( $current_tab == 'edit-details' || $current_tab == '' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['root_domain'] . '/' . $bp['groups']['slug'] ?>/<?php echo $groups_template->group->slug ?>/admin/edit-details"><?php _e('Edit Details', 'buddypress') ?></a></li>
+	<li<?php if ( $current_tab == 'group-settings' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['root_domain'] . '/' . $bp['groups']['slug'] ?>/<?php echo $groups_template->group->slug ?>/admin/group-settings"><?php _e('Group Settings', 'buddypress') ?></a></li>
+	<!--<li<?php if ( $current_tab == 'manage-members' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['root_domain'] . '/' . $bp['groups']['slug'] ?>/<?php echo $groups_template->group->slug ?>/admin/manage-members"><?php _e('Manage Members', 'buddypress') ?></a></li>-->
+	<!--<li<?php if ( $current_tab == 'delete-group' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['root_domain'] . '/' . $bp['groups']['slug'] ?>/<?php echo $groups_template->group->slug ?>/admin/delete-group"><?php _e('Delete Group', 'buddypress') ?></a></li>-->
+<?php
+	do_action( 'bp_groups_admin_tabs' );
+}
+
+function bp_group_admin_form_action( $page ) {
+	global $bp, $groups_template;
+	
+	echo bp_group_permalink( $group, false ) . '/admin/' . $page;
+}
+
 function bp_group_creation_tabs() {
 	global $bp, $create_group_step, $completed_to_step;
 ?>
@@ -327,6 +413,7 @@ function bp_group_creation_tabs() {
 	<li<?php if ( $create_group_step == '3' ) : ?> class="current"<?php endif; ?>><?php if ( $completed_to_step > 1 ) { ?><a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] ?>/create/step/3">3. <?php _e('Group Avatar', 'buddypress') ?></a><?php } else { ?><span>3. <?php _e('Group Avatar', 'buddypress') ?></span><?php } ?></li>
 	<li<?php if ( $create_group_step == '4' ) : ?> class="current"<?php endif; ?>><?php if ( $completed_to_step > 2 ) { ?><a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] ?>/create/step/4">4. <?php _e('Invite Members', 'buddypress') ?></a><?php } else { ?><span>4. <?php _e('Invite Members', 'buddypress') ?></span><?php } ?></li>
 <?php
+	do_action( 'bp_groups_creation_tabs' );
 }
 
 function bp_group_creation_stage_title() {
@@ -356,7 +443,7 @@ function bp_group_create_form() {
 	global $group_obj, $invites;
 
 ?>
-	<form action="<?php echo $bp['current_domain'] . $bp['groups']['slug'] ?>/create/step/<?php echo $create_group_step ?>" method="post" id="create-group-form" enctype="multipart/form-data">
+	<form action="<?php echo $bp['current_domain'] . $bp['groups']['slug'] ?>/create/step/<?php echo $create_group_step ?>" method="post" id="create-group-form" class="standard-form" enctype="multipart/form-data">
 	<?php switch( $create_group_step ) {
 		case '1': ?>
 			<label for="group-name">* <?php _e('Group Name', 'buddypress') ?></label>
@@ -368,7 +455,7 @@ function bp_group_create_form() {
 			<label for="group-news">* <?php _e('Recent News', 'buddypress') ?></label>
 			<textarea name="group-news" id="group-news"><?php echo ( $group_obj ) ? $group_obj->news : $_POST['group-news']; ?></textarea>
 			
-			<input type="submit" value="<?php _e('Save and Continue', 'buddypress') ?> &raquo;" id="save" name="save" />
+			<p><input type="submit" value="<?php _e('Create Group and Continue', 'buddypress') ?> &raquo;" id="save" name="save" /></p>
 		<?php break; ?>
 		
 		<?php case '2': ?>
@@ -395,7 +482,7 @@ function bp_group_create_form() {
 					<label><input type="radio" name="group-status" value="hidden"<?php if ( $group_obj->status == 'hidden' ) { ?> checked="checked"<?php } ?> /> <strong><?php _e('This is a hidden group', 'buddypress') ?></strong><br /><?php _e('This group will require an invite to join and will only be visible to invited members. It will not appear in search results or on member profiles.', 'buddypress'); ?></label>
 				</div>
 
-				<input type="submit" value="<?php _e('Save and Continue', 'buddypress') ?> &raquo;" id="save" name="save" />
+				<p><input type="submit" value="<?php _e('Save and Continue', 'buddypress') ?> &raquo;" id="save" name="save" /></p>
 			<?php } else { ?>
 				<div id="message" class="info">
 					<p>Please complete all previous steps first.</p>
@@ -435,13 +522,26 @@ function bp_group_create_form() {
 			<?php } ?>
 		<?php break; ?>
 		<?php case '4': ?>
-			<?php if ( $completed_to_step > 2 ) { ?>
-				<?php bp_group_send_invite_form( $group_obj ) ?>
-			<?php } else { ?>
+			<?php 
+			if ( $completed_to_step > 2 ) {
+				if ( function_exists('friends_install') ) {
+					if ( friends_get_friend_count_for_user( $bp['loggedin_userid'] ) ) {
+						bp_group_send_invite_form( $group_obj );
+					} else {
+						$group_link = bp_group_permalink( $group, false );
+						?>
+						<div id="message" class="info">
+							<p><?php _e( 'Once you build up your friends list you will be able to invite friends to join your group.', 'buddypress' ) ?></p>
+						</div>
+						<p><input type="button" value="<?php _e('Finish', 'buddypress') ?> &raquo;" id="save" name="save" onclick="location.href='<?php echo $group_link ?>'" /></p>
+						<?php
+					}
+				}
+			} else { ?>
 				<div id="message" class="info">
 					<p>Please complete all previous steps first.</p>
 				</div>
-			<?php } ?>
+		<?php } ?>
 		<?php break; ?>
 	<?php } ?>
 	</form>
@@ -554,13 +654,13 @@ function bp_group_send_invite_form( $group_obj = null ) {
 					<h4><?php echo $user->user_link ?></h4>
 					<span class="activity">active <?php echo $user->last_active ?> ago</span>
 					<div class="action">
-						<a class="remove" href="<?php echo $bp['loggedin_domain'] . $bp['groups']['slug'] . '/' . $group_obj->id . '/invites/remove/' . $user->id ?>" id="uid-<?php echo $user->id ?>">Remove Invite</a> 
+						<a class="remove" href="<?php echo site_url() . $bp['groups']['slug'] . '/' . $group_obj->id . '/invites/remove/' . $user->id ?>" id="uid-<?php echo $user->id ?>">Remove Invite</a> 
 					</div>
 				</li>
 			<?php } // end for ?>
 		</ul>
 
-		<input type="submit" value="<?php _e('Finish &amp; Send Invites', 'buddypress') ?> &raquo;" id="save" name="save" />
+		<input type="submit" value="<?php _e('Finish', 'buddypress') ?> &raquo;" id="save" name="save" />
 
 	</div>
 <?php

@@ -82,10 +82,6 @@ function bp_core_set_uri_globals() {
 
 	/* Catch a member page and set the current member ID */
 	if ( $bp_uri[0] == MEMBERS_SLUG && $bp_uri[1] != '' ) {
-		
-		/* Make sure this is not reported as a 404 */
-		header("Status: 200 OK", true, 200);
-		
 		$is_member_page = true;
 		$is_root_component = true;
 		
@@ -180,6 +176,10 @@ function bp_core_do_catch_uri() {
 
 	if ( !file_exists( TEMPLATEPATH . "/header.php" ) || !file_exists( TEMPLATEPATH . "/footer.php" ) )
 		wp_redirect( $bp['root_domain'] );
+
+	/* Make sure this is not reported as a 404 */
+	// This is causing too many problems right now.
+	//header( "Status: 200 OK", true, 200 );
 		
 	do_action( 'get_header' );
 	load_template( TEMPLATEPATH . "/header.php" );

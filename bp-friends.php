@@ -324,6 +324,10 @@ function friends_get_friend_ids_for_user( $user_id ) {
 	return BP_Friends_Friendship::get_friend_ids( $user_id );
 }
 
+function friends_get_friend_count_for_user( $user_id ) {
+	return BP_Friends_Friendship::total_friend_count( $user_id );
+}
+
 /**************************************************************************
  friends_search_users()
  

@@ -289,12 +289,9 @@ function bp_wire_see_all_link() {
 	
 	if ( $bp['current_component'] == 'wire' || $bp['current_component'] == 'profile') {
 		echo $bp['current_domain'] . $bp['wire']['slug'];
-	} else if ( $bp['current_component'] == 'groups' ) {
-		echo $bp['current_domain'] . $bp['groups']['slug'] . '/' . $uri . '/wire';
 	} else {
-		echo $bp['current_domain'] . $bp[$bp['current_component']]['slug'] . '/wire';
+		echo $bp['root_domain'] . '/' . $bp['groups']['slug'] . '/' . $uri . '/wire';
 	}
-	
 }
 
 ?>
