@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_ACTIVITY_IS_INSTALLED', 1 );
-define ( 'BP_ACTIVITY_VERSION', '0.2' );
+define ( 'BP_ACTIVITY_VERSION', '0.2.1' );
 
 /* How long before activity items in streams are re-cached? */
 define ( 'BP_ACTIVITY_CACHE_LENGTH', '6 HOURS' );
@@ -26,12 +26,14 @@ function bp_activity_user_install() {
 	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_current_user'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT,
 		  		item_id int(11) NOT NULL,
+				user_id int(11) NOT NULL,
 		  		component_name varchar(75) NOT NULL,
 				component_action varchar(75) NOT NULL,
 		  		date_recorded datetime NOT NULL,
 				is_private tinyint(1) NOT NULL,
 		    	PRIMARY KEY id (id),
 			    KEY item_id (item_id),
+				KEY user_id (user_id),
 			    KEY is_private (is_private),
 				KEY component_name (component_name)
 		 	   );";
@@ -187,6 +189,7 @@ function bp_activity_record( $item_id, $component_name, $component_action, $is_p
 	
 	$activity = new BP_Activity_Activity;
 	$activity->item_id = $item_id;
+	$activity->user_id = $bp['loggedin_userid'];
 	$activity->component_name = $component_name;
 	$activity->component_action = $component_action;
 	$activity->date_recorded = $recorded_time;
@@ -202,6 +205,7 @@ function bp_activity_record( $item_id, $component_name, $component_action, $is_p
 		
 		$activity = new BP_Activity_Activity( null, true, $table_name, $table_name_cached );
 		$activity->item_id = $item_id;
+		$activity->user_id = $secondary_user_homebase_id;
 		$activity->component_name = $component_name;
 		$activity->component_action = $component_action;
 		$activity->date_recorded = $recorded_time;
@@ -210,14 +214,11 @@ function bp_activity_record( $item_id, $component_name, $component_action, $is_p
 		$secondary_user_save = $activity->save();
 	}
 	
-	if ( $secondary_user_save && $loggedin_user_save )
-		return true;
-	
-	return false;
+	return true;
 }
 
-function bp_activity_delete( $item_id, $component_name ) {
-	return BP_Activity_Activity::delete( $item_id, $component_name );
+function bp_activity_delete( $item_id, $user_id, $component_name ) {
+	return BP_Activity_Activity::delete( $item_id, $user_id, $component_name );
 }
 
 function bp_activity_order_by_date( $a, $b ) {

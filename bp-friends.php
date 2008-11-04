@@ -207,7 +207,7 @@ add_action( 'bp_friends_friendship_accepted', 'friends_record_activity' );
           formats it to read "Andy Peatling & John Smith are now friends"
  **************************************************************************/
 
-function friends_format_activity( $friendship_id, $action, $for_secondary_user = false ) {
+function friends_format_activity( $friendship_id, $user_id, $action, $for_secondary_user = false ) {
 	global $bp;
 	
 	switch( $action ) {

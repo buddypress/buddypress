@@ -379,8 +379,8 @@ add_action( 'bp_xprofile_updated_profile', 'xprofile_record_activity' );
  * @uses BP_XProfile_Group Class Creates a new group object based on the group ID.
  * @return The readable activity item
  */
-function xprofile_format_activity( $item_id, $action ) {
-	global $bp, $current_user;
+function xprofile_format_activity( $item_id, $user_id, $action ) {
+	global $bp;
 	
 	switch( $action ) {
 		case 'new_wire_post':
@@ -404,7 +404,7 @@ function xprofile_format_activity( $item_id, $action ) {
 			if ( !$profile_group )
 				return false;
 				
-			return sprintf( __('%s updated the "%s" information on their profile', 'buddypress'), bp_core_get_userlink($current_user->id), '<a href="' . $bp['current_domain'] . $bp['profile']['slug'] . '">' . $profile_group->name . '</a>' ) . ' <span class="time-since">%s</span>';
+			return sprintf( __('%s updated the "%s" information on their profile', 'buddypress'), bp_core_get_userlink($user_id), '<a href="' . $bp['current_domain'] . $bp['profile']['slug'] . '">' . $profile_group->name . '</a>' ) . ' <span class="time-since">%s</span>';
 		break;
 	}
 	

@@ -3,6 +3,7 @@
 Class BP_Activity_Activity {
 	var $id;
 	var $item_id;
+	var $user_id;
 	var $component_name;
 	var $component_action;
 	var $date_recorded;
@@ -41,6 +42,7 @@ Class BP_Activity_Activity {
 		$activity = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $this->table_name . " WHERE id = %d", $this->id ) );
 
 		$this->item_id = $activity->item_id;
+		$this->user_od = $activity->user_id;
 		$this->component_name = $activity->component_name;
 		$this->component_action = $activity->component_action;
 		$this->date_recorded = $activity->date_recorded;
@@ -48,18 +50,18 @@ Class BP_Activity_Activity {
 	}
 	
 	function save() {
-		global $wpdb, $bp;
-		
+		global $wpdb, $bp, $current_user;
+
 		if ( !$this->item_id )
 			return false;
 
 		if ( !$this->exists() ) {
 			// Insert the new activity into the activity table.
-			$activity = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $this->table_name . " ( item_id, component_name, component_action, date_recorded, is_private ) VALUES ( %d, %s, %s, FROM_UNIXTIME(%d), %d )", $this->item_id, $this->component_name, $this->component_action, $this->date_recorded, $this->is_private ) );
-	
+			$activity = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $this->table_name . " ( item_id, user_id, component_name, component_action, date_recorded, is_private ) VALUES ( %d, %d, %s, %s, FROM_UNIXTIME(%d), %d )", $this->item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_recorded, $this->is_private ) );
+
 			// Fetch the formatted activity content so we can add it to the cache.
 			if ( function_exists( $bp[$this->component_name]['format_activity_function'] ) ) {
-				if ( !$activity_content = call_user_func($bp[$this->component_name]['format_activity_function'], $this->item_id, $this->component_action, $this->for_secondary_user ) )
+				if ( !$activity_content = call_user_func($bp[$this->component_name]['format_activity_function'], $this->item_id, $this->user_id, $this->component_action, $this->for_secondary_user ) )
 					return false;
 			}
 			
@@ -78,15 +80,15 @@ Class BP_Activity_Activity {
 	
 	function exists() {
 		global $wpdb, $bp;
-		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM " . $this->table_name . " WHERE item_id = %d AND component_name = %s AND component_action = %s", $this->item_id, $this->component_name, $this->component_action ) );		
+		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM " . $this->table_name . " WHERE item_id = %d AND user_id = %d AND component_name = %s AND component_action = %s", $this->item_id, $this->user_id, $this->component_name, $this->component_action ) );		
 	}
 	
 	/* Static Functions */ 
 
-	function delete( $item_id, $component_name, $component_action ) {
+	function delete( $item_id, $user_id, $component_name, $component_action ) {
 		global $wpdb, $bp;
 			
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['activity']['table_name_loggedin_user'] . " WHERE item_id = %d AND component_name = %s AND component_action = %s", $item_id, $component_name, $component_action ) );
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['activity']['table_name_loggedin_user'] . " WHERE item_id = %d AND user_id = %d AND component_name = %s AND component_action = %s", $item_id, $user_id, $component_name, $component_action ) );
 	}
 	
 	function get_activity_for_user( $user_id = null, $limit = 30, $since = '-1 week' ) {
@@ -129,7 +131,7 @@ Class BP_Activity_Activity {
 
 			for ( $i = 0; $i < count( $activities ); $i++ ) {
 				if ( function_exists( $bp[$activities[$i]->component_name]['format_activity_function'] ) ) {
-					if ( !$content = call_user_func($bp[$activities[$i]->component_name]['format_activity_function'], $activities[$i]->item_id, $activities[$i]->component_action ) )
+					if ( !$content = call_user_func($bp[$activities[$i]->component_name]['format_activity_function'], $activities[$i]->item_id, $activities[$i]->user_id, $activities[$i]->component_action ) )
 						continue;
 						
 					$activities_formatted[$i]['content'] = $content;
