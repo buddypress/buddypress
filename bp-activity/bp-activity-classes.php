@@ -42,7 +42,7 @@ Class BP_Activity_Activity {
 		$activity = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $this->table_name . " WHERE id = %d", $this->id ) );
 
 		$this->item_id = $activity->item_id;
-		$this->user_od = $activity->user_id;
+		$this->user_id = $activity->user_id;
 		$this->component_name = $activity->component_name;
 		$this->component_action = $activity->component_action;
 		$this->date_recorded = $activity->date_recorded;
