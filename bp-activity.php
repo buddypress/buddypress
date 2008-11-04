@@ -24,14 +24,13 @@ function bp_activity_user_install() {
 	global $wpdb, $bp;
 	
 	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_current_user'] ." (
-		  		id int(11) NOT NULL AUTO_INCREMENT,
+		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  		item_id int(11) NOT NULL,
 				user_id int(11) NOT NULL,
 		  		component_name varchar(75) NOT NULL,
 				component_action varchar(75) NOT NULL,
 		  		date_recorded datetime NOT NULL,
 				is_private tinyint(1) NOT NULL,
-		    	PRIMARY KEY id (id),
 			    KEY item_id (item_id),
 				KEY user_id (user_id),
 			    KEY is_private (is_private),
@@ -39,13 +38,12 @@ function bp_activity_user_install() {
 		 	   );";
 
 	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_current_user_cached'] ." (
-		  		id int(11) NOT NULL AUTO_INCREMENT,
+		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  		content longtext NOT NULL,
 				component_name varchar(75) NOT NULL,
 				date_cached datetime NOT NULL,
 				date_recorded datetime NOT NULL,
 				is_private tinyint(1) NOT NULL,
-		    	PRIMARY KEY id (id),
 				KEY date_cached (date_cached),
 				KEY date_recorded (date_recorded),
 			    KEY is_private (is_private),
@@ -53,13 +51,12 @@ function bp_activity_user_install() {
 		 	   );";
 	
 	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_current_user_friends_cached'] ." (
-		  		id int(11) NOT NULL AUTO_INCREMENT,
+		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id int(11) NOT NULL,
 		  		content longtext NOT NULL,
 				component_name varchar(75) NOT NULL,
 				date_cached datetime NOT NULL,
 				date_recorded datetime NOT NULL,
-		    	PRIMARY KEY id (id),
 				KEY date_cached (date_cached),
 				KEY date_recorded (date_recorded),
 				KEY user_id (user_id),
@@ -76,13 +73,12 @@ function bp_activity_sitewide_install() {
 	global $wpdb, $bp;
 	
 	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_sitewide'] ." (
-		  		id int(11) NOT NULL AUTO_INCREMENT,
+		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id int(11) NOT NULL,
 		  		content longtext NOT NULL,
 				component_name varchar(75) NOT NULL,
 				date_cached datetime NOT NULL,
 				date_recorded datetime NOT NULL,
-		    	PRIMARY KEY id (id),
 				KEY date_cached (date_cached),
 				KEY date_recorded (date_recorded),
 				KEY user_id (user_id),
