@@ -16,7 +16,7 @@ function groups_notification_new_wire_post( $group_id, $wire_post_id ) {
 	$subject = sprintf( __( 'New wire post on group: %s', 'buddypress' ), stripslashes($group->name) );
 
 	foreach ( $group->user_dataset as $user ) {
-		if ( get_userdata( $user->user_id, 'notification_groups_wire_post' ) == 'no' ) continue;
+		if ( get_usermeta( $user->user_id, 'notification_groups_wire_post' ) == 'no' ) continue;
 		
 		$ud = get_userdata( $user->user_id );
 		
@@ -57,7 +57,7 @@ function groups_notification_group_updated( $group_id ) {
 	$subject = __( 'Group Details Updated', 'buddypress' );
 
 	foreach ( $group->user_dataset as $user ) {
-		if ( get_userdata( $user->user_id, 'notification_groups_group_updated' ) == 'no' ) continue;
+		if ( get_usermeta( $user->user_id, 'notification_groups_group_updated' ) == 'no' ) continue;
 		
 		$ud = get_userdata( $user->user_id );
 		
