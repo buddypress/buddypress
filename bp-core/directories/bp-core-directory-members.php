@@ -1,4 +1,4 @@
-<?
+<?php
 function bp_core_directory_members_setup() {
 	global $bp, $current_blog;
 	
