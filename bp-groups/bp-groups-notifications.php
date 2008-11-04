@@ -36,6 +36,8 @@ To view the group home: %s
 
 		// Send it
 		wp_mail( $to, $subject, $message );
+		
+		unset( $message, $to, $subject );
 	}
 }
 add_action( 'groups_new_wire_post', 'groups_notification_new_wire_post', 10, 2 );
@@ -70,6 +72,8 @@ To view the group: %s
 
 		// Send it
 		wp_mail( $to, $subject, $message );
+
+		unset( $message, $to, $subject );
 	}
 }
 
