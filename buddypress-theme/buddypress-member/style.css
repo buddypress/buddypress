@@ -185,7 +185,7 @@ input, select, textarea { width: 100%; }
 				}
 				
 				li a#group-home, li a#group-wire, li a#group-photos, li a#group-forum,
-				li a#group-members, li a#group-invite, li a#group-leave {
+				li a#group-members, li a#group-invite, li a#group-leave, li a#group-admin {
 					background: url(images/groups_bullet.gif) 88% 52% no-repeat;
 					padding: 0.55em 3.1em 0.55em 0 !important;
 					display: block;
@@ -209,7 +209,11 @@ input, select, textarea { width: 100%; }
 					
 					li a#group-wire {
 						background: url(images/wire_bullet.gif) 88% 52% no-repeat;
-					}			
+					}	
+					
+					li a#group-admin {
+						background: url(images/blogadmin_icon.gif) 87% 52% no-repeat;
+					}		
 
 /**************************
  OPTIONS BAR
@@ -275,15 +279,25 @@ ul.content-header-nav {
 	}
 		ul.content-header-nav li a {
 			color: #555;
+			text-decoration: underline;
 		}
+			ul.content-header-nav li a:hover {
+				color: #555;
+				text-decoration: none;
+			}
 		
 		ul.content-header-nav li span {
 			color: #999;
 		}
 	
 	ul.content-header-nav li.current {
-		background: url(images/topoption_selected_back.gif) 49% 0 no-repeat;
+		background: url(images/topoption_selected_back.gif) top center no-repeat;
 	}
+		ul.content-header-nav li.current a {
+			text-decoration: none;
+		}
+		
+
 
 
 /**************************
@@ -434,6 +448,24 @@ ul.content-header-nav {
 				background: url(images/reject_button.gif) top left no-repeat;
 				width: 78px;		
 			}
+
+ 	.standard-form label {
+		display: block;
+		padding: 0 0 0.3em 0;
+		margin: 1em 0 0 0;
+	}
+
+	.standard-form input, .standard-form select, .standard-form textarea {
+		font-size: 1.3em;
+		font-family: inherit;
+		color: #777;
+		width: 65%;
+		padding: 0.2em;
+	}
+
+	.standard-form textarea {
+		height: 100px;
+	}
 
 /**** Profiles ************************/
 			
@@ -897,24 +929,6 @@ ul.content-header-nav {
 
 	.main-column #group-name p.status {
 		margin-top: -0.8em !important;
-	}
-	
-	#create-group-form label {
-		display: block;
-		padding: 0 0 0.3em 0;
-		margin: 1em 0 0 0;
-	}
-
-	#create-group-form input, #create-group-form select, #create-group-form textarea {
-		font-size: 1.3em;
-		font-family: inherit;
-		color: #777;
-		width: 65%;
-		padding: 0.2em;
-	}
-	
-	#create-group-form textarea {
-		height: 100px;
 	}
 	
 	div.sub-options {
