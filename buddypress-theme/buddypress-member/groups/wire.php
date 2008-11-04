@@ -27,7 +27,7 @@
 
 		<div class="info-group">
 			<?php if ( function_exists('bp_wire_get_post_list') ) : ?>
-				<?php bp_wire_get_post_list( bp_group_id(false), 'Group Wire', 'The are no wire posts for ' . bp_group_name(false), bp_group_is_member() ) ?>
+				<?php bp_wire_get_post_list( bp_group_id(false), 'Group Wire', 'The are no wire posts for ' . bp_group_name(false), bp_group_is_member(), true ) ?>
 			<?php endif; ?>
 		</div>
 	
