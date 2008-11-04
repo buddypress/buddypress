@@ -31,7 +31,8 @@ To view the group home: %s
 ---------------------
 		', 'buddypress' ), $poster_name, stripslashes($group->name), stripslashes($wire_post->content), $wire_link, $group_link );
 
-		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+		$message .= sprintf( __( 
+'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
 		// Send it
 		wp_mail( $to, $subject, $message );
@@ -64,7 +65,8 @@ To view the group: %s
 ---------------------
 		', 'buddypress' ), stripslashes($group->name), $group_link );
 
-		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+		$message .= sprintf( __( 
+'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
 		// Send it
 		wp_mail( $to, $subject, $message );

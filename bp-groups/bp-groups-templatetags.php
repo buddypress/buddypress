@@ -191,7 +191,7 @@ function bp_group_description() {
 	$content = $groups_template->group->description;
 	$content = apply_filters('the_content', $content);
 	$content = str_replace(']]>', ']]&gt;', $content);
-	echo $content;
+	echo stripslashes($content);
 }
 
 function bp_group_description_editable() {
@@ -211,7 +211,7 @@ function bp_group_news() {
 	$content = $groups_template->group->news;
 	$content = apply_filters('the_content', $content);
 	$content = str_replace(']]>', ']]&gt;', $content);
-	echo $content;
+	echo stripslashes($content);
 }
 
 function bp_group_news_editable() {
