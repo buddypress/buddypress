@@ -11,6 +11,9 @@
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 	<?php wp_head(); ?>
 	
+	<!--[if IE 6]>
+	<link rel="stylesheet" href="<?php echo bloginfo('template_url') . '/css/ie/ie6.css' ?>" type="text/css" media="screen" />	
+	<![endif]-->
 </head>
 
 <body>

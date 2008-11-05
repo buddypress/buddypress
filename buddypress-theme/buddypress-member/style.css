@@ -35,7 +35,6 @@ a img { border:none }
 html {
 	background: #fff;
 	font: 62.5% normal "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, Verdana, Arial, sans-serif;
-	border-top: 10px solid #f7740a;
 }
 
 body {
@@ -185,7 +184,8 @@ input, select, textarea { width: 100%; }
 				}
 				
 				li a#group-home, li a#group-wire, li a#group-photos, li a#group-forum,
-				li a#group-members, li a#group-invite, li a#group-leave, li a#group-admin {
+				li a#group-members, li a#group-invite, li a#group-leave, li a#group-admin
+				li a#request-membership {
 					background: url(images/groups_bullet.gif) 88% 52% no-repeat;
 					padding: 0.55em 3.1em 0.55em 0 !important;
 					display: block;
@@ -213,7 +213,11 @@ input, select, textarea { width: 100%; }
 					
 					li a#group-admin {
 						background: url(images/blogadmin_icon.gif) 87% 52% no-repeat;
-					}		
+					}
+					
+					li a#request-membership {
+						background: url(images/request_bullet.gif) 87% 25% no-repeat;
+					}
 
 /**************************
  OPTIONS BAR
@@ -512,7 +516,7 @@ ul.content-header-nav {
 			font-size: 0.9em;
 		}
 		
-		input#save {
+		input#save, .standard-form input[type="submit"] {
 			width: auto;
 			margin: 1.5em 0 0 0;
 			font-size: 1.4em;

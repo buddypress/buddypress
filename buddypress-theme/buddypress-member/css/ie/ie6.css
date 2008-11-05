@@ -1,0 +1,64 @@
+#optionsbar {
+	margin-left: -11px
+}
+
+#main {
+	background: none;
+}
+
+table {
+	float: left;
+	width: 100%;
+}
+	table *, .avatar, div.pagination-links * {
+		position: relative;
+	}
+
+table#message-threads {
+	width: 95%;
+}
+
+img#admin-bar-logo {
+	left: -70px !important;
+}
+
+ul#group-list li, ul#wire-post-list li, ul#friend-list li {
+	background-position: 0 2px;
+	position: relative;
+}
+	ul#group-list li h4, ul#friend-list li h4 {
+		margin-top: -12px;
+	}
+
+div#message {
+	border: 1px solid #fff;
+}
+	div#message p {
+		padding-bottom: 5px;
+	}
+	
+	div#message.info {
+		background: #fcfcd0;
+	}
+
+p.submit {
+	clear: both;
+}
+	p.submit input {
+		width: auto;
+	}
+	
+form#avatar-upload {
+	position: relative;
+}
+	form#avatar-upload input {
+		width: 300px;
+	}
+
+	input#upload {
+		display: block;
+	}
+
+input#wire-post-email-notify {
+	width: auto;
+}
