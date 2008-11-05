@@ -77,10 +77,7 @@ add_filter( 'get_avatar', 'bp_core_get_avatar_filter', 10, 4 );
 function bp_core_avatar_admin( $message = null ) {
 	global $wp_upload_error;
 	?>	
-	<?php if ( !isset($_POST['slick_avatars_action']) && !isset($_GET['slick_avatars_action']) ) { ?>
-	<div class="wrap">
-		<h2><?php _e('Your Avatar', 'buddypress') ?></h2>
-		
+	<?php if ( !isset($_POST['slick_avatars_action']) && !isset($_GET['slick_avatars_action']) ) { ?>		
 		<?php if ( $message ) { ?>
 			<br />
 			<div id="message" class="updated fade">
@@ -102,15 +99,9 @@ function bp_core_avatar_admin( $message = null ) {
 			echo '<span class="crop-img avatar">' . bp_core_get_avatar(get_current_user_id(), 2) . '</span>';
 			echo '<a href="' .  $delete_action . '">Delete</a>';
 		}
-		
-		echo '</div>';
-	
+
 	} else if ( isset($_POST['slick_avatars_action']) && $_POST['slick_avatars_action'] == 'upload' ) {
 	
-		echo '<div class="wrap"><h2>';
-		_e('Your Avatar', 'buddypress');
-		echo '</h2>';
-		
 		// Confirm that the nonce is valid
 		if ( !isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'slick_avatars') )
 			bp_core_ap_die( 'Security error.' );
@@ -144,9 +135,7 @@ function bp_core_avatar_admin( $message = null ) {
 		
 		// Render the cropper UI		
 		bp_core_render_avatar_cropper($original, $canvas, $action);
-		
-		echo '</div>';
-		
+
 	} else if ( isset($_POST['slick_avatars_action']) && $_POST['slick_avatars_action'] == 'crop' ) {
 		// Crop, save, store
 		
@@ -160,11 +149,7 @@ function bp_core_avatar_admin( $message = null ) {
 		if ( !$result = bp_core_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'] ) )
 			bp_core_ap_die('Error when saving avatars, please go back and try again.');
 		
-		// Store details to the DB and we're done
-		echo '<div class="wrap"><h2>';
-		_e('Your Avatar', 'buddypress');
-		echo '</h2>';
-		
+		// Store details to the DB and we're done		
 		echo '<p>' . __('Your new avatar was successfully created!', 'buddypress') . '</p>';
 		
 		bp_core_avatar_save($result);
@@ -174,8 +159,7 @@ function bp_core_avatar_admin( $message = null ) {
 		if ( CORE_AVATAR_V2_W !== false && CORE_AVATAR_V2_H !== false ) {
 			echo '<span class="crop-img">' . bp_core_get_avatar( get_current_user_id(), 2 ) . '</span>';
 		}
-		
-		echo '</div>';
+
 	} else if ( isset($_GET['slick_avatars_action']) && $_GET['slick_avatars_action'] == 'delete' ) {
 		// Delete an avatar
 

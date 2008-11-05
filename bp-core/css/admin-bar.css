@@ -11,6 +11,7 @@ body { padding-top: 28px !important; }
 	text-align: left;
 	background:url(../images/admin_bar_back.gif) #818181 repeat-x;
 }
+	#wp-admin-bar * { z-index: 999; }
 
 	#wp-admin-bar img#admin-bar-logo {
 		position: absolute;
@@ -75,12 +76,14 @@ body { padding-top: 28px !important; }
 		float: none;
 		margin: 0;
 		border: none;
+		border-bottom: 1px solid #f4f4f4;
 		background: #f4f4f4 !important;
 		border-left: 1px solid #ccc;
 		border-right: 1px solid #ccc;
 	} 
 		#wp-admin-bar ul li ul li.alt {
 			background: #fafafa !important;
+			border-bottom: 1px solid #fafafa;
 		}
 		
 		#wp-admin-bar ul li ul li:last-child {
@@ -115,12 +118,12 @@ body { padding-top: 28px !important; }
 	margin: -28px 0 0 183px;
 }
 
-#wp-admin-bar ul li:hover ul ul, #wp-admin-bar li.sfhover ul ul {
-	left: -999em;
+#wp-admin-bar ul li:hover ul, #wp-admin-bar ul li li:hover ul, #wp-admin-bar ul li.sfhover ul, #wp-admin-bar ul li ul li.sfhover ul { /* lists nested under hovered list items */
+	left: auto;
 }
 
-#wp-admin-bar ul li:hover ul, #wp-admin-bar ul li li:hover ul, #wp-admin-bar ul li.sfhover ul, #wp-admin-bar ul li li.sfhover ul { /* lists nested under hovered list items */
-	left: auto;
+#wp-admin-bar ul li:hover ul ul, #wp-admin-bar li.sfhover ul li ul {
+	left: -999em;
 }
 
 #wp-admin-bar ul.main-nav li ul li:hover {

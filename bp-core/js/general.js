@@ -1,6 +1,6 @@
 jQuery(document).ready( function() {
 	jQuery("div.friendship-button a").livequery('click',
-		function(e) {
+		function() {
 			var fid = jQuery(this).attr('id');
 			fid = fid.split('-');
 			fid = fid[1];
@@ -56,7 +56,7 @@ jQuery("div#wire-pagination a").livequery('click',
 			'_wpnonce': jQuery("input#_wpnonce").val(),
 			'wpage': fpage[1],
 			'bp_wire_item_id': jQuery("input#bp_wire_item_id").val(),
-			'num': 5,
+			'num': 5
 		},
 		function(response)
 		{	
@@ -90,15 +90,12 @@ function clear(container) {
 }
 
 /* For admin-bar */
-sfHover = function() {
-	var sfEls = document.getElementById("nav").getElementsByTagName("LI");
-	for (var i=0; i<sfEls.length; i++) {
-		sfEls[i].onmouseover=function() {
-			this.className+=" sfhover";
-		}
-		sfEls[i].onmouseout=function() {
-			this.className=this.className.replace(new RegExp(" sfhover\\b"), "");
-		}
-	}
-}
-if (window.attachEvent) window.attachEvent("onload", sfHover);
+jQuery(document).ready( function() {
+	jQuery("#wp-admin-bar ul.main-nav li").mouseover( function() {
+		jQuery(this).addClass('sfhover');
+	});
+	
+	jQuery("#wp-admin-bar ul.main-nav li").mouseout( function() {
+		jQuery(this).removeClass('sfhover');
+	});
+});
