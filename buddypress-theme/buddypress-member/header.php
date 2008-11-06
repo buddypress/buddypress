@@ -14,6 +14,10 @@
 	<!--[if IE 6]>
 	<link rel="stylesheet" href="<?php echo bloginfo('template_url') . '/css/ie/ie6.css' ?>" type="text/css" media="screen" />	
 	<![endif]-->
+	
+	<!--[if IE 7]>
+	<link rel="stylesheet" href="<?php echo bloginfo('template_url') . '/css/ie/ie7.css' ?>" type="text/css" media="screen" />	
+	<![endif]-->
 </head>
 
 <body>

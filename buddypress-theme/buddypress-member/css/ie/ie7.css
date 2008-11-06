@@ -1,0 +1,7 @@
+img#admin-bar-logo {
+	left: -70px !important;
+}
+
+input#wire-post-email-notify, input[type='radio'], input[type='checkbox'], input[type='submit'] {
+	width: auto;
+}
