@@ -14,6 +14,11 @@
 
 <?php wp_head(); ?>
 
+<!--[if IE]>
+<link rel="stylesheet" href="<?php echo bloginfo('template_url') . '/css/ie/ie.css' ?>" type="text/css" media="screen" />	
+<![endif]-->
+
+
 </head>
 <body>
 	
@@ -39,7 +44,7 @@
 			<div id="logout-link">
 				<?php bp_loggedinuser_avatar_thumbnail( 20, 20 ) ?> &nbsp;
 				<?php bp_loggedinuser_link() ?> 
-				/ <a href="<?php echo site_url() . '/wp-login.php?action=logout' ?>">Log Out</a>
+				/ <a href="<?php echo site_url() . '/wp-login.php?action=logout&amp;redirect_to=' . site_url() ?>">Log Out</a>
 			</div>
 		<?php endif; ?>
 		<div class="clear"></div>
