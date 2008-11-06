@@ -123,7 +123,7 @@ function bp_core_screen_notification_settings_content() {
 		
 		<?php do_action( 'bp_notification_settings' ) ?>
 		
-		<p><input type="submit" name="submit" value="Save Changes" id="submit" class="auto" /></p>		
+		<p class="submit"><input type="submit" name="submit" value="Save Changes" id="submit" class="auto" /></p>		
 		
 		<?php wp_nonce_field('bp_settings_notifications') ?>
 		

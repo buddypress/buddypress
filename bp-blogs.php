@@ -199,6 +199,9 @@ function bp_blogs_format_activity( $item_id, $user_id, $action, $for_secondary_u
 			
 			if ( !$blog )
 				return false;
+			
+			if ( !$user_id )
+				return false;
 				
 			return sprintf( __( '%s created a new blog: %s', 'buddypress' ), bp_core_get_userlink($user_id), '<a href="' . get_blog_option( $blog->blog_id, 'siteurl' ) . '">' . get_blog_option( $blog->blog_id, 'blogname' ) . '</a>' ) . ' <span class="time-since">%s</span>';		
 		break;

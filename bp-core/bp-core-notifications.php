@@ -1,6 +1,6 @@
 <?php
 
-function bp_core_add_notification( $item_id, $user_id, $component_name, $component_action, $date_notified = false ) {
+function bp_core_add_notification( $item_id, $user_id, $component_name, $component_action, $secondary_item_id = false, $date_notified = false ) {
 	global $bp;
 	
 	if ( !$date_notified )
@@ -13,7 +13,10 @@ function bp_core_add_notification( $item_id, $user_id, $component_name, $compone
 	$notification->component_action = $component_action;
 	$notification->date_notified = $date_notified;
 	$notification->is_new = 1;
-
+	
+	if ( $secondary_item_id )
+		$notification->secondary_item_id = $secondary_item_id;
+	
 	if ( !$notification->save() )
 		return false;
 	
@@ -60,9 +63,10 @@ function bp_core_get_notifications_for_user( $user_id ) {
 				continue;
 			
 			$item_id = ( $action_item_count == 1 ) ? $component_action_items[0]->item_id : false;
+			$secondary_item_id = ( $action_item_count == 1 ) ? $component_action_items[0]->secondary_item_id : false;
 			
 			if ( function_exists( $component_name . '_format_notifications' ) ) {
-				$renderable[] = call_user_func( $component_name . '_format_notifications', $component_action_name, $item_id, $action_item_count );
+				$renderable[] = call_user_func( $component_name . '_format_notifications', $component_action_name, $item_id, $secondary_item_id, $action_item_count );
 			}
 		}
 	} 	
@@ -70,8 +74,8 @@ function bp_core_get_notifications_for_user( $user_id ) {
 	return $renderable;
 }
 
-function bp_core_delete_notifications_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action ) {
-	return BP_Core_Notification::delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action );
+function bp_core_delete_notifications_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
+	return BP_Core_Notification::delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id );
 }
 
 function bp_core_check_notification_access( $user_id, $notification_id ) {

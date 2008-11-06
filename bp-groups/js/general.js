@@ -77,17 +77,25 @@ jQuery(document).ready( function() {
 			fpage = fpage.split('=');
 
 			jQuery.post( ajaxurl, {
-				action: 'group_search',
+				action: 'group_filter',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce").val(),
 				'fpage': fpage[1],
 				'num': 5,
 
-				'group-search-box': jQuery("#group-search-box").val()
+				'group-filter-box': jQuery("#group-filter-box").val()
 			},
 			function(response)
 			{	
-				render_group_search_response(response);
+				response = response.substr( 0, response.length - 1 );
+				
+				jQuery("div#group-loop").fadeOut(200, 
+					function() {
+						jQuery('#ajax-loader').toggle();
+						jQuery("div#group-loop").html(response);
+						jQuery("div#group-loop").fadeIn(200);
+					}
+				);
 			});
 			
 			return false;
@@ -112,28 +120,44 @@ jQuery(document).ready( function() {
 			},
 			function(response)
 			{	
-				render_group_finder_search_response(response);
+				response = response.substr( 0, response.length - 1 );
+
+				jQuery("div#group-loop").fadeOut(200, 
+					function() {
+						jQuery('#ajax-loader').toggle();
+						jQuery("div#group-loop").html(response);
+						jQuery("div#group-loop").fadeIn(200);
+					}
+				);
 			});
 			
 			return false;
 		}
 	);
 
-	jQuery("input#group-search-box").keyup(	
+	jQuery("input#group-filter-box").keyup(	
 		function(e) {
 			if ( e.which == 13 ) {
 				jQuery('#ajax-loader').toggle();
 				
 				jQuery.post( ajaxurl, {
-					action: 'group_search',
+					action: 'group_filter',
 					'cookie': encodeURIComponent(document.cookie),
 					'_wpnonce': jQuery("input#_wpnonce").val(),
 
-					'group-search-box': jQuery("#group-search-box").val()
+					'group-filter-box': jQuery("#group-filter-box").val()
 				},
 				function(response)
 				{
-					render_group_search_response(response);
+					response = response.substr( 0, response.length - 1 );
+
+					jQuery("div#group-loop").fadeOut(200, 
+						function() {
+							jQuery('#ajax-loader').toggle();
+							jQuery("div#group-loop").html(response);
+							jQuery("div#group-loop").fadeIn(200);
+						}
+					);
 				});
 
 				return false;
@@ -144,8 +168,11 @@ jQuery(document).ready( function() {
 	jQuery("input#groupfinder-search-box").keyup(	
 		function(e) {
 			if ( e.which == 13 ) {
+				if ( jQuery("#groupfinder-search-box").val() == '' )
+					return false;
+					
 				jQuery('#ajax-loader').toggle();
-				
+					
 				jQuery.post( ajaxurl, {
 					action: 'group_finder_search',
 					'cookie': encodeURIComponent(document.cookie),
@@ -155,7 +182,16 @@ jQuery(document).ready( function() {
 				},
 				function(response)
 				{
-					render_group_finder_search_response(response);
+					response = response.substr( 0, response.length - 1 );
+
+					jQuery("div#finder-message").fadeOut(200);
+					jQuery("div#group-loop").fadeOut(200, 
+						function() {
+							jQuery('#ajax-loader').toggle();
+							jQuery("div#group-loop").html(response);
+							jQuery("div#group-loop").fadeIn(200);
+						}
+					);
 				});
 
 				return false;
@@ -163,81 +199,3 @@ jQuery(document).ready( function() {
 		}
 	);
 });
-
-function render_group_search_response(response) {
-	response = response.substr(0, response.length-1);
-	response = response.split('[[SPLIT]]');
-
-	if ( response[0] != "-1" ) {
-		jQuery("ul#group-list").fadeOut(200, 
-			function() {
-				jQuery('#ajax-loader').toggle();
-				jQuery("ul#group-list").html(response[1]);
-				jQuery("ul#group-list").fadeIn(200);
-			}
-		);
-		
-		jQuery("div#pag").fadeOut(200, 
-			function() {
-				jQuery("div#pag").html(response[2]);
-				jQuery("div#pag").fadeIn(200);
-			}
-		);
-		
-	} else {
-		jQuery("ul#group-list").fadeOut(200, 
-			function() {
-				jQuery('#ajax-loader').toggle();
-				jQuery("div#pag").fadeOut(200);
-				var message = '<p><div id="message" class="error"><p>' + response[1] + '</p></div></p>';
-				jQuery("ul#group-list").html(message);
-				jQuery("ul#group-list").fadeIn(200);
-			}
-		);
-	}
-			
-	return false;
-}
-
-function render_group_finder_search_response(response) {
-	response = response.substr(0, response.length-1);
-	response = response.split('[[SPLIT]]');
-	
-	console.log(response);
-
-	jQuery('#finder-message').before('<ul id="friend-list"></ul>');
-	
-	if ( jQuery('#finder-message') ) {
-		jQuery('#finder-message').fadeOut(200);
-	}
-	
-	if ( response[0] != "-1" ) {
-		jQuery("ul#friend-list").fadeOut(200, 
-			function() {
-				jQuery('#ajax-loader').toggle();
-				jQuery("ul#friend-list").html(response[1]);
-				jQuery("ul#friend-list").fadeIn(200);
-			}
-		);
-
-		jQuery("div#groupfinder-pag").fadeOut(200, 
-			function() {
-				jQuery("div#groupfinder-pag").html(response[2]);
-				jQuery("div#groupfinder-pag").fadeIn(200);
-			}
-		);
-
-	} else {					
-		jQuery("ul#friend-list").fadeOut(200, 
-			function() {
-				jQuery('#ajax-loader').toggle();
-				jQuery("div#groupfinder-pag").fadeOut(200);
-				var message = '<p><div id="message" class="error"><p>' + response[1] + '</p></div></p>';
-				jQuery("ul#friend-list").html(message);
-				jQuery("ul#friend-list").fadeIn(200);
-			}
-		);
-	}
-	
-	return false;
-}

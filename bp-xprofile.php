@@ -424,7 +424,7 @@ function xprofile_format_activity( $item_id, $user_id, $action ) {
  * @uses bp_core_global_user_fullname() Returns the display name for the user
  * @return The readable notification item
  */
-function xprofile_format_notifications( $action, $item_id, $total_items ) {
+function xprofile_format_notifications( $action, $item_id, $secondary_item_id, $total_items ) {
 	global $bp;
 
 	if ( $action == 'new_wire_post') {

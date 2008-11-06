@@ -189,6 +189,8 @@ class BP_Core_User {
 
 class BP_Core_Notification {
 	var $id;
+	var $item_id;
+	var $secondary_item_id = null;
 	var $user_id;
 	var $component_name;
 	var $component_action;
@@ -206,6 +208,8 @@ class BP_Core_Notification {
 		global $wpdb, $bp;
 		
 		if ( $notification = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp['core']['table_name_notifications'] . " WHERE id = %d", $this->id ) ) ) {
+			$this->item_id = $notification->item_id;
+			$this->secondary_item_id = $notification->secondary_item_id;
 			$this->user_id = $notification->user_id;
 			$this->component_name = $notification->component_name;
 			$this->component_action = $notification->component_action;
@@ -219,13 +223,17 @@ class BP_Core_Notification {
 		
 		if ( $this->id ) {
 			// Update
-			$sql = $wpdb->prepare( "UPDATE " . $bp['core']['table_name_notifications'] . " SET item_id = %d, user_id = %d, component_name = %s, component_action = %d, date_notified = FROM_UNIXTIME(%d), is_new = %d ) WHERE id = %d", $this->item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new, $this->id );
+			$sql = $wpdb->prepare( "UPDATE " . $bp['core']['table_name_notifications'] . " SET item_id = %d, secondary_item_id = %d, user_id = %d, component_name = %s, component_action = %d, date_notified = FROM_UNIXTIME(%d), is_new = %d ) WHERE id = %d", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new, $this->id );
 		} else {
 			// Save
-			$sql = $wpdb->prepare( "INSERT INTO " . $bp['core']['table_name_notifications'] . " ( item_id, user_id, component_name, component_action, date_notified, is_new ) VALUES ( %d, %d, %s, %s, FROM_UNIXTIME(%d), %d )", $this->item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new );
+			$sql = $wpdb->prepare( "INSERT INTO " . $bp['core']['table_name_notifications'] . " ( item_id, secondary_item_id, user_id, component_name, component_action, date_notified, is_new ) VALUES ( %d, %d, %d, %s, %s, FROM_UNIXTIME(%d), %d )", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new );
 		}
 
-		return $wpdb->query( $sql );
+		if ( !$result = $wpdb->query( $sql ) )
+			return false;
+
+		$this->id = $wpdb->insert_id;
+		return true;
 	}
 
 	/* Static functions */
@@ -258,10 +266,13 @@ class BP_Core_Notification {
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['core']['table_name_notifications'] . " WHERE user_id = %d AND component_name = %s AND component_action = %s", $user_id, $component_name, $component_action ) );
 	}
 	
-	function delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action ) {
+	function delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id ) {
 		global $wpdb, $bp;
 		
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['core']['table_name_notifications'] . " WHERE user_id = %d AND item_id = %d AND component_name = %s AND component_action = %s", $user_id, $item_id, $component_name, $component_action ) );
+		if ( $secondary_item_id )
+			$secondary_item_sql = $wpdb->prepare( " AND secondary_item_id = %d", $secondary_item_id );
+		
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['core']['table_name_notifications'] . " WHERE user_id = %d AND item_id = %d AND component_name = %s AND component_action = %s{$secondary_item_sql}", $user_id, $item_id, $component_name, $component_action ) );
 	}
 	
 }	

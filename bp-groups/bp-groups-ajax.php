@@ -39,107 +39,21 @@ function groups_ajax_invite_user() {
 }
 add_action( 'wp_ajax_groups_invite_user', 'groups_ajax_invite_user' );
 
-function groups_ajax_group_search() {
+function groups_ajax_group_filter() {
 	global $bp;
 
-	check_ajax_referer('group_search');
-
-	$pag_page = isset( $_POST['fpage'] ) ? intval( $_POST['fpage'] ) : 1;
-	$pag_num = isset( $_POST['num'] ) ? intval( $_POST['num'] ) : 5;
-	$total_group_count = 0;
-
-	if ( $_POST['group-search-box'] == "" ) {
-		$groups = groups_get_user_groups( $pag_page, $pag_num );
-	} else {
-		$groups = BP_Groups_Group::search_user_groups( $_POST['group-search-box'], $pag_num, $pag_page );
-	}
+	check_ajax_referer('group-filter-box');
 	
-	$total_group_count = (int)$groups['count'];
-
-	if ( $total_group_count ) {
-		$pag_links = paginate_links( array(
-			'base' => $bp['current_domain'] . $bp['groups']['slug'] . add_query_arg( 'mpage', '%#%' ),
-			'format' => '',
-			'total' => ceil($total_group_count / $pag_num),
-			'current' => $pag_page,
-			'prev_text' => '&laquo;',
-			'next_text' => '&raquo;',
-			'mid_size' => 1
-		));
-	}
-	
-	if ( $groups['groups'] ) {
-		echo '0[[SPLIT]]'; // return valid result.
-	
-		for ( $i = 0; $i < count($groups['groups']); $i++ ) {
-			$group = $groups['groups'][$i];
-			?>
-			<li>
-				<img class="avatar" alt="Group Avatar" src="<?php echo $group->avatar_thumb ?>"/>
-				<h4>
-					<a href="<?php bp_group_permalink( $group ) ?>"><?php echo $group->name ?></a>
-					<span class="small"> - <?php echo $group->total_member_count . ' ' . __('members', 'buddypress') ?></span>
-				</h4>
-				<p class="desc"><?php echo bp_create_excerpt( $group->description, 20 ) ?></p>
-			</li>
-			<?php	
-		}
-		echo '[[SPLIT]]' . $pag_links;
-	} else {
-		$result['message'] = '<img src="' . $bp['groups']['image_base'] . '/warning.gif" alt="Warning" /> &nbsp;' . $result['message'];
-		echo "-1[[SPLIT]]" . __("No groups matched your search.", 'buddypress');
-	}
+	load_template( get_template_directory() . '/groups/group-loop.php' );
 }
-add_action( 'wp_ajax_group_search', 'groups_ajax_group_search' );
+add_action( 'wp_ajax_group_filter', 'groups_ajax_group_filter' );
 
 function groups_ajax_group_finder_search() {
 	global $bp;
 
-	check_ajax_referer('groupfinder_search');
+	check_ajax_referer('groupfinder-search-box');
 
-	$pag_page = isset( $_POST['fpage'] ) ? intval( $_POST['fpage'] ) : 1;
-	$pag_num = isset( $_POST['num'] ) ? intval( $_POST['num'] ) : 5;
-	$total_group_count = 0;
-
-	if ( $_POST['groupfinder-search-box'] != "" ) {
-		$groups = BP_Groups_Group::search_groups( $_POST['groupfinder-search-box'], $pag_num, $pag_page );
-	}
-	
-	$total_group_count = (int)$groups['count'];
-
-	if ( $total_group_count ) {
-		$pag_links = paginate_links( array(
-			'base' => $bp['current_domain'] . $bp['groups']['slug'] . add_query_arg( 'mpage', '%#%' ),
-			'format' => '',
-			'total' => ceil($total_group_count / $pag_num),
-			'current' => $pag_page,
-			'prev_text' => '&laquo;',
-			'next_text' => '&raquo;',
-			'mid_size' => 1
-		));
-	}
-	
-	if ( $groups['groups'] ) {
-		echo '0[[SPLIT]]'; // return valid result.
-	
-		for ( $i = 0; $i < count($groups['groups']); $i++ ) {
-			$group = $groups['groups'][$i];
-			?>
-			<li>
-				<img class="avatar" alt="Group Avatar" src="<?php echo $group->avatar_thumb ?>"/>
-				<h4>
-					<a href="<?php bp_group_permalink( $group ) ?>"><?php echo $group->name ?></a>
-					<span class="small"> - <?php echo $group->total_member_count . ' ' . __('members', 'buddypress') ?></span>
-				</h4>
-				<p class="desc"><?php echo bp_create_excerpt( $group->description, 20 ) ?></p>
-			</li>
-			<?php	
-		}
-		echo '[[SPLIT]]' . $pag_links;
-	} else {
-		$result['message'] = '<img src="' . $bp['groups']['image_base'] . '/warning.gif" alt="Warning" /> &nbsp;' . $result['message'];
-		echo "-1[[SPLIT]]" . __("No groups matched your search.", 'buddypress');
-	}
+	load_template( get_template_directory() . '/groups/group-loop.php' );
 }
 add_action( 'wp_ajax_group_finder_search', 'groups_ajax_group_finder_search' );
 

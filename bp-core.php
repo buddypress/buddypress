@@ -1,7 +1,7 @@
 <?php
 
 /* Define the current version number for checking if DB tables are up to date. */
-define( 'BP_CORE_VERSION', '0.2.7' );
+define( 'BP_CORE_VERSION', '0.2.8' );
 
 /* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
 define( 'MEMBERS_SLUG', 'members' );
@@ -73,7 +73,7 @@ function bp_core_setup_globals() {
 	global $current_user, $current_component, $current_action, $current_blog;
 	global $current_userid;
 	global $action_variables;
-	
+
 	/* The domain for the root of the site where the main blog resides */	
 	$bp['root_domain'] = bp_core_get_root_domain();
 	
@@ -154,12 +154,14 @@ function bp_core_install() {
 		  		id int(11) NOT NULL AUTO_INCREMENT,
 				user_id int(11) NOT NULL,
 				item_id int(11) NOT NULL,
+				secondary_item_id int(11),
 		  		component_name varchar(75) NOT NULL,
 				component_action varchar(75) NOT NULL,
 		  		date_notified datetime NOT NULL,
 				is_new tinyint(1) NOT NULL,
 		    	PRIMARY KEY id (id),
 			    KEY item_id (item_id),
+				KEY secondary_item_id (secondary_item_id),
 				KEY user_id (user_id),
 			    KEY is_new (is_new),
 				KEY component_name (component_name),

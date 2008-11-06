@@ -13,7 +13,7 @@ function bp_core_add_js() {
 	wp_enqueue_script( 'jquery-livequery-pack', site_url() . "/wp-content/mu-plugins/bp-core/js/jquery/jquery.livequery.pack.js", 'jquery' );
 	wp_enqueue_script( 'bp-general-js', site_url() . '/wp-content/mu-plugins/bp-core/js/general.js' );
 }
-add_action( 'template_redirect', 'bp_core_add_js' );
+add_action( 'wp', 'bp_core_add_js' );
 
 /**
  * bp_core_add_ajax_js()

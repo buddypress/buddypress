@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_GROUPS_IS_INSTALLED', 1 );
-define ( 'BP_GROUPS_VERSION', '0.1.4' );
+define ( 'BP_GROUPS_VERSION', '0.2.1' );
 
 include_once( 'bp-groups/bp-groups-classes.php' );
 include_once( 'bp-groups/bp-groups-ajax.php' );
@@ -51,6 +51,7 @@ function groups_install() {
 			is_admin tinyint(1) NOT NULL DEFAULT '0',
 			user_title varchar(100) NOT NULL,
 			date_modified datetime NOT NULL,
+			comments longtext NOT NULL,
 			is_confirmed tinyint(1) NOT NULL DEFAULT '0',
 			PRIMARY KEY  (id),
 			KEY group_id (group_id),
@@ -114,7 +115,7 @@ function groups_setup_globals( $no_global = false ) {
 	if ( function_exists('bp_wire_install') )
 		$bp['groups']['table_name_wire'] = $wpdb->base_prefix . 'bp_groups_wire';
 	
-	$bp['groups']['forbidden_names'] = array( 'my-groups', 'group-finder', 'create', 'invites', 'delete', 'add' );
+	$bp['groups']['forbidden_names'] = array( 'my-groups', 'group-finder', 'create', 'invites', 'delete', 'add', 'admin', 'request-membership' );
 
 	return $bp;
 }
@@ -152,7 +153,7 @@ function groups_setup_nav() {
 		$bp['is_item_admin'] = groups_is_user_admin( $bp['loggedin_userid'], $group_obj->id );
 		
 		/* Is the logged in user a member of the group? */
-		$is_member = ( BP_Groups_Member::check_is_member( $bp['loggedin_userid'], $group_obj->id ) ) ? true : false;
+		$is_member = ( groups_is_user_member( $bp['loggedin_userid'], $group_obj->id ) ) ? true : false;
 	
 		/* Should this group be visible to the logged in user? */
 		$is_visible = ( $group_obj->status == 'public' || $is_member ) ? true : false;
@@ -200,12 +201,16 @@ function groups_setup_nav() {
 			bp_core_reset_subnav_items($bp['groups']['slug']);
 			
 			bp_core_add_nav_default( $bp['groups']['slug'], 'groups_screen_group_home', 'home' );
-			bp_core_add_subnav_item( $bp['groups']['slug'], 'home', __('Home', 'buddypress'), $group_link, 'groups_screen_group_home', 'group-home', $is_visible );
+			bp_core_add_subnav_item( $bp['groups']['slug'], 'home', __('Home', 'buddypress'), $group_link, 'groups_screen_group_home', 'group-home' );
 			
 			// If the user is a group administrator, then show the group admin nav item */
 			if ( $bp['is_item_admin'] )
 				bp_core_add_subnav_item( $bp['groups']['slug'], 'admin', __('Admin', 'buddypress'), $group_link , 'groups_screen_group_admin', 'group-admin', $bp['is_item_admin'] );
 			
+			// If this is a closed group, and the user is not a member, show a "Request Membership" nav item.
+			if ( $group_obj->status == 'private' && ( !groups_is_user_member( $bp['loggedin_userid'], $group_obj->id ) && !groups_check_for_membership_request( $bp['loggedin_userid'], $group_obj->id ) ) )
+				bp_core_add_subnav_item( $bp['groups']['slug'], 'request-membership', __('Request Membership', 'buddypress'), $group_link , 'groups_screen_group_request_membership', 'request-membership' );
+				
 			bp_core_add_subnav_item( $bp['groups']['slug'], 'forum', __('Forum', 'buddypress'), $group_link , 'groups_screen_group_forum', 'group-forum', $is_visible);
 			
 			if ( function_exists('bp_wire_install') ) {
@@ -219,7 +224,9 @@ function groups_setup_nav() {
 			bp_core_add_subnav_item( $bp['groups']['slug'], 'members', __('Members', 'buddypress'), $group_link, 'groups_screen_group_members', 'group-members', $is_visible );
 			
 			if ( is_user_logged_in() && groups_is_user_member( $bp['loggedin_userid'], $group_obj->id ) ) {
-				bp_core_add_subnav_item( $bp['groups']['slug'], 'send-invites', __('Send Invites', 'buddypress'), $group_link, 'groups_screen_group_invite', 'group-invite', $is_member );
+				if ( function_exists('friends_install') )
+					bp_core_add_subnav_item( $bp['groups']['slug'], 'send-invites', __('Send Invites', 'buddypress'), $group_link, 'groups_screen_group_invite', 'group-invite', $is_member );
+				
 				bp_core_add_subnav_item( $bp['groups']['slug'], 'leave-group', __('Leave Group', 'buddypress'), $group_link, 'groups_screen_group_leave', 'group-leave', $is_member );
 			}
 		}
@@ -425,7 +432,7 @@ function groups_screen_group_leave() {
 	global $is_single_group, $group_obj;
 	
 	if ( $is_single_group ) {
-		if ( isset($bp['action_variables']) && $bp['action_variables'][1] == 'yes' ) {
+		if ( isset($bp['action_variables']) && $bp['action_variables'][0] == 'yes' ) {
 			// remove the user from the group.
 			if ( !groups_leave_group( $group_obj->id ) ) {
 				$bp['message'] = __('There was an error leaving the group. Please try again.', 'buddypress');
@@ -439,12 +446,33 @@ function groups_screen_group_leave() {
 			$bp['current_action'] = 'group-home';
 			bp_catch_uri( 'groups/group-home' );
 		
-		} else if ( isset($bp['action_variables']) && $bp['action_variables'][1] == 'no' ) {
+		} else if ( isset($bp['action_variables']) && $bp['action_variables'][0] == 'no' ) {
 			bp_catch_uri( 'groups/group-home' );
 		} else {
 			// Show leave group page
 			bp_catch_uri( 'groups/leave-group-confirm' );
 		}
+	}
+}
+
+function groups_screen_group_request_membership() {
+	global $bp, $group_obj;
+	
+	if ( $group_obj->status == 'private' ) {
+		
+		// If the user has submitted a request, send it.
+		if ( isset( $_POST['group-request-send']) ) {
+			if ( !groups_send_membership_request( $bp['loggedin_userid'], $group_obj->id ) ) {
+				$bp['message'] = __( 'There was an error sending your group membership request, please try again.', 'buddypress' );
+				$bp['message_type'] = 'error';
+			} else {
+				$bp['message'] = __( 'Your membership request was sent to the group administrator successfully. You will be notified when the group administrator responds to your request.', 'buddypress' );
+				$bp['message_type'] = 'success';
+			}
+			add_action( 'template_notices', 'bp_core_render_notice' );
+
+		}
+		bp_catch_uri( 'groups/request-membership' );
 	}
 }
 
@@ -513,6 +541,49 @@ function groups_screen_group_admin_settings() {
 add_action( 'wp', 'groups_screen_group_admin_settings', 3 );
 
 
+function groups_screen_group_admin_requests() {
+	global $bp;
+	
+	if ( $bp['current_component'] == $bp['groups']['slug'] && $bp['action_variables'][0] == 'membership-requests' ) {
+		
+		if ( !$bp['is_item_admin'] )
+			return false;
+			
+		// Remove any screen notifications
+		bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'new_membership_request' );
+		
+		$request_action = $bp['action_variables'][1];
+		$membership_id = $bp['action_variables'][2];
+
+		if ( isset($request_action) && isset($membership_id) ) {
+			if ( $request_action == 'accept' && is_numeric($membership_id) ) {
+				// Accept the membership request
+				if ( !groups_accept_membership_request( $membership_id ) ) {
+					$bp['message'] = __( 'There was an error accepting the membership request, please try again.', 'buddypress' );
+					$bp['message_type'] = 'error';
+				} else {
+					$bp['message'] = __( 'Group membership request accepted', 'buddypress' );
+					$bp['message_type'] = 'success';
+				}
+			} else if ( $request_action == 'reject' && is_numeric($membership_id) ) {
+				// Reject the membership request
+				if ( !groups_reject_membership_request( $membership_id ) ) {
+					$bp['message'] = __( 'There was an error rejecting the membership request, please try again.', 'buddypress' );
+					$bp['message_type'] = 'error';
+				} else {
+					$bp['message'] = __( 'Group membership request rejected', 'buddypress' );
+					$bp['message_type'] = 'success';
+				}	
+			}
+			add_action( 'template_notices', 'bp_core_render_notice' );
+		}
+		
+		bp_catch_uri( 'groups/admin/membership-requests' );
+	}
+}
+add_action( 'wp', 'groups_screen_group_admin_requests', 3 );
+
+
 function groups_screen_notification_settings() { 
 	global $current_user; ?>
 	<table class="notification-settings" id="groups-notification-settings">
@@ -570,7 +641,7 @@ function groups_action_join_group() {
 		return false;
 		
 	// user wants to join a group
-	if ( !BP_Groups_Member::check_is_member( $bp['loggedin_userid'], $group_obj->id ) ) {
+	if ( !groups_is_user_member( $bp['loggedin_userid'], $group_obj->id ) ) {
 		if ( !groups_join_group($group_obj->id) ) {
 			$bp['message'] = __('There was an error joining the group. Please try again.', 'buddypress');
 			$bp['message_type'] = 'error';
@@ -597,7 +668,14 @@ add_action( 'wp', 'groups_action_join_group', 3 );
 function groups_record_activity( $args = true ) {
 	if ( function_exists('bp_activity_record') ) {
 		extract($args);
-		bp_activity_record( $item_id, $component_name, $component_action, $is_private );
+		
+		if ( !isset($group_id) )
+			$group_id = $item_id;
+		
+		$group = new BP_Groups_Group( $group_id, false, false );
+		
+		if ( $group->status == 'public' )
+			bp_activity_record( $item_id, $component_name, $component_action, $is_private );
 	} 
 }
 add_action( 'activity_groups_joined_group', 'groups_record_activity' );
@@ -648,6 +726,29 @@ function groups_format_activity( $item_id, $user_id, $action, $for_secondary_use
 	return false;
 }
 
+function groups_format_notifications( $action, $item_id, $secondary_item_id, $total_items ) {
+	global $bp;
+	
+	switch ( $action ) {
+		case 'new_membership_request':
+			$group_id = $secondary_item_id;
+			$requesting_user_id = $item_id;
+			
+			$group = new BP_Groups_Group( $group_id, false, false );
+			
+			if ( (int)$total_items > 1 ) {
+				return '<a href="' . bp_group_permalink( $group, false ) . '/admin/membership-requests/" title="' . __( 'Group Membership Requests', 'buddypress' ) . '">' . sprintf( __('%d new membership requests for the group "%s"'), (int)$total_items, $group->name ) . '</a>';		
+			} else {
+				$user_fullname = bp_core_global_user_fullname( $requesting_user_id );
+				$user_url = bp_core_get_userurl( $requesting_user_id );
+				return '<a href="' . bp_group_permalink( $group, false ) . '/admin/membership-requests/" title="' . $user_fullname .' requests group membership">' . sprintf( __('%s requests membership for the group "%s"'), $user_fullname, $group->name ) . '</a>';
+			}	
+		break;
+	}
+	
+	return false;
+}
+
 /**************************************************************************
  groups_update_last_activity()
  
@@ -671,7 +772,7 @@ add_action( 'groups_created_group', 'groups_update_last_activity' );
  Fetch the groups the current user is a member of.
  **************************************************************************/
 
-function groups_get_user_groups( $pag_page, $pag_num ) {
+function groups_get_user_groups( $pag_num, $pag_page ) {
 	global $bp;
 	
 	$group_ids = BP_Groups_Member::get_group_ids( $bp['current_userid'], $pag_page, $pag_num );
@@ -759,6 +860,14 @@ function groups_get_avatar_hrefs( $avatars ) {
 	return array( 'thumb_href' => $thumb_href, 'full_href' => $full_href );
 }
 
+
+function groups_search_groups( $search_terms, $pag_num_per_page = 5, $pag_page = 1 ) {
+	return BP_Groups_Group::search_groups( $search_terms, $pag_num_per_page, $pag_page );
+}
+
+function groups_filter_user_groups( $filter, $pag_num_per_page = 5, $pag_page = 1 ) {
+	return BP_Groups_Group::filter_user_groups( $filter, $pag_num_per_page, $pag_page );
+}
 
 /**************************************************************************
  groups_manage_group()
@@ -985,11 +1094,18 @@ function groups_send_invites( $group_obj ) {
 	do_action( 'groups_send_invites', $group_obj->id, $invited_users );
 }
 
-function groups_leave_group( $group_id ) {
+function groups_check_group_exists( $group_id ) {
+	return BP_Groups_Group::group_exists( $group_id );
+}
+
+function groups_leave_group( $group_id, $user_id = false ) {
 	global $bp;
 	
+	if ( !$user_id )
+		$user_id = $bp['loggedin_userid'];
+		
 	// This is exactly the same as deleting and invite, just is_confirmed = 1 NOT 0.
-	if ( !groups_uninvite_user( $bp['loggedin_userid'], $group_id ) )
+	if ( !groups_uninvite_user( $user_id, $group_id ) )
 		return false;
 
 	do_action( 'groups_leave_group', $group_id, $bp['loggedin_userid'] );
@@ -1000,12 +1116,15 @@ function groups_leave_group( $group_id ) {
 	return true;
 }
 
-function groups_join_group( $group_id ) {
+function groups_join_group( $group_id, $user_id = false ) {
 	global $bp;
+	
+	if ( !$user_id )
+		$user_id = $bp['loggedin_userid'];
 	
 	$new_member = new BP_Groups_Member;
 	$new_member->group_id = $group_id;
-	$new_member->user_id = $bp['loggedin_userid'];
+	$new_member->user_id = $user_id;
 	$new_member->inviter_id = 0;
 	$new_member->is_admin = 0;
 	$new_member->user_title = '';
@@ -1027,11 +1146,15 @@ function groups_join_group( $group_id ) {
 	return true;
 }
 
+function groups_get_group_admin( $group_id ) {
+	return BP_Groups_Member::get_group_administrator_id( $group_id );
+}
+
 function groups_new_wire_post( $group_id, $content ) {
 	if ( $wire_post_id = bp_wire_new_post( $group_id, $content ) ) {
 		
 		/* activity stream recording action */
-		do_action( 'activity_groups_new_wire_post', array( 'item_id' => $wire_post_id, 'component_name' => 'groups', 'component_action' => 'new_wire_post', 'is_private' => 0 ) );
+		do_action( 'activity_groups_new_wire_post', array( 'item_id' => $wire_post_id, 'group_id' => $group_id, 'component_name' => 'groups', 'component_action' => 'new_wire_post', 'is_private' => 0 ) );
 		
 		/* regular action */
 		do_action( 'groups_new_wire_post', $group_id, $wire_post_id );
@@ -1067,6 +1190,8 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $g
 	
 	if ( $notify_members )
 		groups_notification_group_updated( $group->id );
+
+	do_action( 'bp_groups_details_updated', $group->id );
 	
 	return true;
 }
@@ -1084,7 +1209,59 @@ function groups_edit_group_settings( $group_id, $enable_wire, $enable_forum, $en
 	if ( !$group->save() )
 		return false;
 	
+	do_action( 'bp_groups_settings_updated', $group->id );
+	
 	return true;
+}
+
+function groups_send_membership_request( $requesting_user_id, $group_id ) {
+	global $bp;
+
+	$requesting_user = new BP_Groups_Member;
+	$requesting_user->group_id = $group_id;
+	$requesting_user->user_id = $requesting_user_id;
+	$requesting_user->inviter_id = 0;
+	$requesting_user->is_admin = 0;
+	$requesting_user->user_title = '';
+	$requesting_user->date_modified = time();
+	$requesting_user->is_confirmed = 0;
+	$requesting_user->comments = $_POST['group-request-membership-comments'];
+	
+	if ( $requesting_user->save() ) {
+		$admin = groups_get_group_admin( $group_id );
+		
+		// Saved okay, now send the email notification
+		groups_notification_new_membership_request( $requesting_user_id, $admin->user_id, $group_id, $requesting_user->id );
+		
+		do_action( 'bp_groups_group_membership_requested', $requesting_user_id, $admin->user_id, $group_id, $requesting_user->id );
+	
+		return true;
+	}
+	
+	return false;
+}
+
+function groups_accept_membership_request( $membership_id ) {
+	$membership = new BP_Groups_Member( false, false, $membership_id );
+	$membership->accept_request();
+	
+	if ( !$membership->save() )
+		return false;
+	
+	return true;
+}
+
+function groups_reject_membership_request( $membership_id ) {
+	$membership = new BP_Groups_Member( false, false, $membership_id );
+	
+	if ( !BP_Groups_Member::delete( $membership->user_id, $membership->group_id ) )
+		return false;
+	
+	return true;
+}
+
+function groups_check_for_membership_request( $user_id, $group_id ) {
+	return BP_Groups_Member::check_for_membership_request( $user_id, $group_id );
 }
 
 function groups_get_newest( $limit = 5 ) {

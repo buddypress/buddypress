@@ -1,20 +1,20 @@
 body { padding-top: 28px !important; }
 
 #wp-admin-bar {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	z-index: 1001;
-	height: 28px;
-	color: #fff;
-	text-align: left;
-	background:url(../images/admin_bar_back.gif) #818181 repeat-x;
+	position: absolute !important;
+	top: 0 !important;
+	left: 0 !important;
+	width: 100% !important;
+	z-index: 1001 !important;
+	height: 28px !important;
+	color: #fff !important;
+	text-align: left !important;
+	background:url(../images/admin_bar_back.gif) #818181 repeat-x !important;
 }
-	#wp-admin-bar * { z-index: 999; }
+	#wp-admin-bar * { z-index: 999 !important; }
 
 	#wp-admin-bar img#admin-bar-logo {
-		position: absolute;
+		position: absolute !important;
 		top: 8px;
 		left: 10px;
 	}
@@ -36,66 +36,68 @@ body { padding-top: 28px !important; }
 /*******************/
 
 #wp-admin-bar ul { /* all lists */
-	margin: 0;
-	list-style: none;
-	line-height: 1;
-	cursor: pointer;
-	height: 30px;
-	padding: 0;
+	margin: 0 !important;
+	list-style: none !important;
+	line-height: 1 !important;
+	cursor: pointer !important;
+	height: 30px !important;
+	padding: 0 !important;
 }
 	#wp-admin-bar ul {
-		margin-left: 80px;
+		margin-left: 80px !important;
 	}
 		#wp-admin-bar ul li { /* all list items */
-			padding: 0;
+			padding: 0 !important;
 			/*height: 30px;*/
-			float: left;
+			float: left !important;
 		}
 			#wp-admin-bar ul li a {
-				display: block;
-				font-size: 1.1em;
+				display: block !important;
+				font-size: 1em !important;
+				font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, Verdana, Arial, sans-serif !important;
 				text-decoration: none !important;
 				color: #fff !important;
 			}
 			
 			#wp-admin-bar ul.main-nav li a:hover, #wp-admin-bar ul.main-nav li:hover {
-				background: #777;
+				background: #777 !important;
 				color: #fff !important;
 			}
 
 /* second-level lists */
 
 #wp-admin-bar ul li ul { 
-	position: absolute;
-	width: 185px;
-	left: -999em; /* using left instead of display to hide menus because display: none isn't read by screen readers */
-	height: auto;
-	margin-left: 0;
+	position: absolute !important;
+	width: 185px !important;
+	left: -999em !important; /* using left instead of display to hide menus because display: none isn't read by screen readers */
+	height: auto !important;
+	margin-left: 0 !important;
 }
 	#wp-admin-bar ul li ul li {
-		float: none;
-		margin: 0;
-		border: none;
-		border-bottom: 1px solid #f4f4f4;
+		float: none !important;
+		margin: 0 !important;
+		border: none !important;
+		border-bottom: 1px solid #f4f4f4 !important;
 		background: #f4f4f4 !important;
-		border-left: 1px solid #ccc;
-		border-right: 1px solid #ccc;
+		border-left: 1px solid #ccc !important;
+		border-right: 1px solid #ccc !important;
+		margin-bottom: -1px !important;
 	} 
 		#wp-admin-bar ul li ul li.alt {
 			background: #fafafa !important;
-			border-bottom: 1px solid #fafafa;
+			border-bottom: 1px solid #fafafa !important;
 		}
 		
 		#wp-admin-bar ul li ul li:last-child {
-			border-bottom: 1px solid #ccc;
-			-moz-border-radius-bottomleft: 4px;
-			-khtml-border-bottom-left-radius: 4px;
-			-webkit-border-bottom-left-radius: 4px;
-			border-bottom-left-radius: 4px;
-			-moz-border-radius-bottomright: 4px;
-			-khtml-border-bottom-right-radius: 4px;
-			-webkit-border-bottom-right-radius: 4px;
-			border-bottom-right-radius: 4px;
+			border-bottom: 1px solid #ccc !important;
+			-moz-border-radius-bottomleft: 4px !important;
+			-khtml-border-bottom-left-radius: 4px !important;
+			-webkit-border-bottom-left-radius: 4px !important;
+			border-bottom-left-radius: 4px !important;
+			-moz-border-radius-bottomright: 4px !important;
+			-khtml-border-bottom-right-radius: 4px !important;
+			-webkit-border-bottom-right-radius: 4px !important;
+			border-bottom-right-radius: 4px !important;
 		}
 		
 	#wp-admin-bar ul li ul a {
@@ -103,53 +105,53 @@ body { padding-top: 28px !important; }
 	}
 	
 	#wp-admin-bar ul.main-nav li ul li a:hover {
-		background: #888;
+		background: #888 !important;
 	}
 	
 	#wp-admin-bar ul li div.admin-bar-clear {
-		clear: both;
+		clear: both !important;
 		background: #eee !important;
-		border-bottom: 3px solid #eee;
+		border-bottom: 3px solid #eee !important;
 	}
 
 /* third-and-above-level lists */
 
 #wp-admin-bar ul li ul ul { 
-	margin: -28px 0 0 183px;
+	margin: -28px 0 0 183px !important;
 }
 
 #wp-admin-bar ul li:hover ul, #wp-admin-bar ul li li:hover ul, #wp-admin-bar ul li.sfhover ul, #wp-admin-bar ul li ul li.sfhover ul { /* lists nested under hovered list items */
-	left: auto;
+	left: auto !important;
 }
 
 #wp-admin-bar ul li:hover ul ul, #wp-admin-bar li.sfhover ul li ul {
-	left: -999em;
+	left: -999em !important;
 }
 
 #wp-admin-bar ul.main-nav li ul li:hover {
-	background: #555;
+	background: #555 !important;
 }
 
 #wp-admin-bar ul li ul li ul li:first-child {
-	border-top: 1px solid #ccc;
-	-moz-border-radius-topright: 4px;
-	-khtml-border-top-right-radius: 4px;
-	-webkit-border-top-right-radius: 4px;
-	border-top-right-radius: 4px;
+	border-top: 1px solid #ccc !important;
+	-moz-border-radius-topright: 4px !important;
+	-khtml-border-top-right-radius: 4px !important;
+	-webkit-border-top-right-radius: 4px !important;
+	border-top-right-radius: 4px !important;
 }
 
 /* Menu item css */
 
 #wp-admin-bar img.avatar {
-	float: left;
-	border: 2px solid #fff !important;
-	margin-right: 8px;
+	float: left !important;
+	border: 2px solid #fff !important !important;
+	margin-right: 8px !important;
 }
 
 #wp-admin-bar span.activity {
-	display: block;
-	color: #888;
-	margin-left: 34px;
+	display: block !important;
+	color: #888 !important;
+	margin-left: 34px !important;
 	font-size: 10px !important;
 	background: none !important;
 	border: none !important;
@@ -157,21 +159,21 @@ body { padding-top: 28px !important; }
 }
 
 #wp-admin-bar li a:hover span.activity {
-	color: #ccc;
+	color: #ccc !important;
 }
 
 #wp-admin-bar ul.author-list li {
-	height: 55px;
+	height: 55px !important;
 }
 
 #wp-admin-bar ul li#notifications_menu a span {
-	background: #fff;
-	padding: 0 6px;
-	color: #555;
+	background: #fff !important;
+	padding: 0 6px !important;
+	color: #555 !important;
 	font-weight: bold !important;
 	font-size: 0.8em !important;
-	-moz-border-radius: 2px;
-	-khtml-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	margin-left: 2px;
+	-moz-border-radius: 2px !important;
+	-khtml-border-radius: 2px !important;
+	-webkit-border-radius: 2px !important;
+	margin-left: 2px !important;
 }

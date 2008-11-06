@@ -229,7 +229,7 @@ function friends_format_activity( $friendship_id, $user_id, $action, $for_second
 	return false;
 }
 
-function friends_format_notifications( $action, $item_id, $total_items ) {
+function friends_format_notifications( $action, $item_id, $secondary_item_id, $total_items ) {
 	global $bp;
 	
 	switch ( $action ) {
