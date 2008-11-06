@@ -457,6 +457,7 @@ Class BP_Groups_Member {
 	}
 	
 	function accept_invite() {
+		$this->inviter_id = 0;
 		$this->is_confirmed = 1;
 		$this->date_modified = time();
 	}
@@ -489,9 +490,9 @@ Class BP_Groups_Member {
 		
 		// If the user is logged in and viewing their own groups, we can show hidden and closed groups
 		if ( bp_is_home() ) {
-			$group_ids = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT group_id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d $pag_sql", $user_id ) );	
+			$group_ids = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT group_id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND inviter_id = 0$pag_sql", $user_id ) );	
 		} else {
-			$group_ids = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT m.group_id FROM " . $bp['groups']['table_name_members'] . " m, " . $bp['groups']['table_name'] . " g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d$pag_sql", $user_id ) );	
+			$group_ids = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT m.group_id FROM " . $bp['groups']['table_name_members'] . " m, " . $bp['groups']['table_name'] . " g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.inviter_id = 0$pag_sql", $user_id ) );	
 		}
 		
 		if ( $get_total )
@@ -507,16 +508,16 @@ Class BP_Groups_Member {
 			$user_id = $bp['current_userid'];
 			
 		if ( bp_is_home() ) {
-			return $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(group_id) FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND is_confirmed = 1", $user_id ) );			
+			return $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(group_id) FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND inviter_id = 0", $user_id ) );			
 		} else {
-			return $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(m.group_id) FROM " . $bp['groups']['table_name_members'] . " m, " . $bp['groups']['table_name'] . " g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.is_confirmed = 1", $user_id ) );			
+			return $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(m.group_id) FROM " . $bp['groups']['table_name_members'] . " m, " . $bp['groups']['table_name'] . " g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.inviter_id = 0", $user_id ) );			
 		}
 	}
 	
 	function get_invites( $user_id ) {
 		global $wpdb, $bp;
 		
-		$group_ids = $wpdb->get_col( $wpdb->prepare( "SELECT group_id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d and is_confirmed = 0", $user_id ) );
+		$group_ids = $wpdb->get_col( $wpdb->prepare( "SELECT group_id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d and is_confirmed = 0 AND inviter_id != 0", $user_id ) );
 		
 		for ( $i = 0; $i < count($group_ids); $i++ ) {
 			$groups[] = new BP_Groups_Group($group_ids[$i]);

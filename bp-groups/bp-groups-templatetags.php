@@ -524,7 +524,7 @@ function bp_group_create_form() {
 			
 				<div class="radio">
 					<label><input type="radio" name="group-status" value="public"<?php if ( $group_obj->status == 'public' ) { ?> checked="checked"<?php } ?> /> <strong><?php _e('This is an open group', 'buddypress') ?></strong><br /><?php _e('This group will be free to join and will appear in group search results.', 'buddypress'); ?></label>
-					<label><input type="radio" name="group-status" value="private"<?php if ( $group_obj->status == 'private' ) { ?> checked="checked"<?php } ?> /> <strong><?php _e('you must reques group', 'buddypress') ?></strong><br /><?php _e('This group will require an invite to join but will still appear in group search results.', 'buddypress'); ?></label>
+					<label><input type="radio" name="group-status" value="private"<?php if ( $group_obj->status == 'private' ) { ?> checked="checked"<?php } ?> /> <strong><?php _e('This is an private group', 'buddypress') ?></strong><br /><?php _e('This group will require an invite to join but will still appear in group search results.', 'buddypress'); ?></label>
 					<label><input type="radio" name="group-status" value="hidden"<?php if ( $group_obj->status == 'hidden' ) { ?> checked="checked"<?php } ?> /> <strong><?php _e('This is a hidden group', 'buddypress') ?></strong><br /><?php _e('This group will require an invite to join and will only be visible to invited members. It will not appear in search results or on member profiles.', 'buddypress'); ?></label>
 				</div>
 
