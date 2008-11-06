@@ -127,41 +127,50 @@ To view %s\'s profile: %s
 
 function groups_notification_membership_request_completed( $requesting_user_id, $group_id, $accepted = true ) {
 	global $bp, $current_user;
-
 	
-	bp_core_add_notification( $group_id, $requesting_user_id, 'groups', 'new_membership_request', $group_id );
-
-	if ( get_usermeta( $admin_id, 'notification_new_membership_request' ) == 'no' )
+	// Post a screen notification first.
+	if ( $accepted )
+		bp_core_add_notification( $group_id, $requesting_user_id, 'groups', 'membership_request_accepted' );
+	else
+		bp_core_add_notification( $group_id, $requesting_user_id, 'groups', 'membership_request_rejected' );
+	
+	if ( get_usermeta( $requesting_user_id, 'notification_membership_request_completed' ) == 'no' )
 		return false;
 		
-	$requesting_user_name = bp_fetch_user_fullname( $requesting_user_id, false );
 	$group = new BP_Groups_Group( $group_id, false, false );
 	
-	$ud = get_userdata($admin_id);
-	$requesting_ud = get_userdata($requesting_user_id);
+	$ud = get_userdata($requesting_user_id);
 
-	$group_request_accept = bp_group_permalink( $group, false ) . '/admin/membership-requests/accept/' . $membership_id;
-	$group_request_reject = bp_group_permalink( $group, false ) . '/admin/membership-requests/reject/' . $membership_id;
-	$profile_link = site_url() . '/' . MEMBERS_SLUG . '/' . $requesting_ud->user_login . '/profile';
+	$group_link = bp_group_permalink( $group, false );
 	$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
 
 	// Set up and send the message
 	$to = $ud->user_email;
-	$subject = sprintf( __( 'Membership request for group: %s', 'buddypress' ), stripslashes($group->name) );
+	
+	if ( $accepted ) {
+		$subject = sprintf( __( 'Membership request for group "%s" accepted', 'buddypress' ), stripslashes($group->name) );
+		$message = sprintf( __( 
+'Your membership request for the group "%s" has been accepted.
 
-$message = sprintf( __( 
-'%s wants to join the group "%s".
-
-Because you are the administrator of this group, you must either accept or reject the membership request.
-
-To accept the membership request: %s
-To reject the membership request: %s
-To view %s\'s profile: %s
+To view the group please login and visit: %s
 
 ---------------------
-', 'buddypress' ), $requesting_user_name, stripslashes($group->name), $group_request_accept, $group_request_reject, $requesting_user_name, $profile_link );
+', 'buddypress' ), stripslashes($group->name), $group_link );
+		
+	} else {
+		$subject = sprintf( __( 'Membership request for group "%s" rejected', 'buddypress' ), stripslashes($group->name) );
+		$message = sprintf( __( 
+'Your membership request for the group "%s" has been rejected.
 
+To submit another request please log in and visit: %s
+
+---------------------
+', 'buddypress' ), stripslashes($group->name), $group_link );
+	}
+	
 	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+
+	var_dump($subject, $message); die;
 
 	// Send it
 	wp_mail( $to, $subject, $message );	

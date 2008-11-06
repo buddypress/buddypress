@@ -1251,6 +1251,11 @@ function groups_accept_membership_request( $membership_id ) {
 	if ( !$membership->save() )
 		return false;
 	
+	// Send a notification to the user.
+	groups_notification_membership_request_completed( $membership->user_id, $membership->group_id, true );
+	
+	do_action( 'bp_groups_membership_accepted', $membership->user_id, $membership->group_id );
+	
 	return true;
 }
 
@@ -1259,6 +1264,11 @@ function groups_reject_membership_request( $membership_id ) {
 	
 	if ( !BP_Groups_Member::delete( $membership->user_id, $membership->group_id ) )
 		return false;
+	
+	// Send a notification to the user.
+	groups_notification_membership_request_completed( $membership->user_id, $membership->group_id, false );
+	
+	do_action( 'bp_groups_membership_rejected', $membership->user_id, $membership->group_id );
 	
 	return true;
 }
