@@ -238,6 +238,12 @@ add_action( 'wp', 'groups_setup_nav', 2 );
 /***** Screens **********/
 
 function groups_screen_my_groups() {
+	global $bp;
+	
+	// Delete group request notifications for the user
+	bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'membership_request_accepted' );
+	bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'membership_request_rejected' );
+	
 	bp_catch_uri( 'groups/index' );
 }
 
@@ -322,9 +328,16 @@ function groups_screen_create_group() {
 }
 
 function groups_screen_group_home() {
-	global $is_single_group;
+	global $is_single_group, $bp;
 	
-	if ( $is_single_group ) {		
+	if ( $is_single_group ) {
+		
+		if ( isset($_GET['new']) ) {
+			// Delete group request notifications for the user
+			bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'membership_request_accepted' );
+			bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'membership_request_rejected' );
+		}	
+		
 		bp_catch_uri( 'groups/group-home' );		
 	}
 }
@@ -746,6 +759,31 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$user_url = bp_core_get_userurl( $requesting_user_id );
 				return '<a href="' . bp_group_permalink( $group, false ) . '/admin/membership-requests/" title="' . $user_fullname .' requests group membership">' . sprintf( __('%s requests membership for the group "%s"'), $user_fullname, $group->name ) . '</a>';
 			}	
+		break;
+		
+		case 'membership_request_accepted':
+			$group_id = $item_id;
+			
+			$group = new BP_Groups_Group( $group_id, false, false );
+			
+			if ( (int)$total_items > 1 ) {
+				return '<a href="' . site_url() . '/' . MEMBERS_SLUG . '/' . $bp['groups']['slug'] . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('%d accepted group membership requests'), (int)$total_items, $group->name ) . '</a>';		
+			} else {
+				return '<a href="' . bp_group_permalink( $group, false ) . '/?new">' . sprintf( __('Membership for group "%s" accepted'), $group->name ) . '</a>';
+			}	
+		break;
+		
+		case 'membership_request_rejected':
+			$group_id = $item_id;
+			
+			$group = new BP_Groups_Group( $group_id, false, false );
+
+			if ( (int)$total_items > 1 ) {
+				return '<a href="' . site_url() . '/' . MEMBERS_SLUG . '/' . $bp['groups']['slug'] . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('%d rejected group membership requests'), (int)$total_items, $group->name ) . '</a>';		
+			} else {
+				return '<a href="' . bp_group_permalink( $group, false ) . '/?new">' . sprintf( __('Membership for group "%s" rejected'), $group->name ) . '</a>';
+			}	
+		
 		break;
 	}
 	
