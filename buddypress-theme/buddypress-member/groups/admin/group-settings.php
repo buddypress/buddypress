@@ -8,18 +8,25 @@
 
 <div id="content">	
 	
-		<h2><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a> &raquo; <a href="<?php bp_group_admin_permalink() ?>">Group Admin</a> &raquo; Group Settings</h2>
+		<h2>Group Settings</h2>
 		
 		<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 		
 		<form action="<?php bp_group_admin_form_action('group-settings') ?>" name="group-settings-form" id="group-settings-form" class="standard-form" method="post">
 			
+			<?php if ( function_exists('bp_wire_install') ) : ?>
 			<div class="checkbox">
 				<label><input type="checkbox" name="group-show-wire" id="group-show-wire" value="1"<?php bp_group_show_wire_setting() ?>/> <?php _e('Enable comment wire', 'buddypress') ?></label>
 			</div>
+			<?php endif; ?>
+			
+			<?php if ( function_exists('bp_forums_install') ) : ?>
 			<div class="checkbox">
 				<label><input type="checkbox" name="group-show-forum" id="group-show-forum" value="1"<?php bp_group_show_forum_setting() ?> /> <?php _e('Enable discussion forum', 'buddypress') ?></label>
 			</div>
+			<?php endif; ?>
+			
+			<?php if ( function_exists('bp_albums_install') ) : ?>
 			<div class="checkbox with-suboptions">
 				<label><input type="checkbox" name="group-show-photos" id="group-show-photos" value="1"<?php bp_group_show_photos_setting() ?> /> <?php _e('Enable photo gallery', 'buddypress') ?></label>
 				
@@ -30,7 +37,8 @@
 				</div>
 				<?php endif; ?>
 			</div>
-		
+			<?php endif; ?>
+			
 			<h3><?php _e('Privacy Options', 'buddypress'); ?></h3>
 		
 			<div class="radio">

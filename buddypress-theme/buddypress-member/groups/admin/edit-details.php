@@ -8,7 +8,7 @@
 
 <div id="content">	
 	
-		<h2><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a> &raquo; <a href="<?php bp_group_admin_permalink() ?>">Group Admin</a> &raquo; Edit Details</h2>
+		<h2>Edit Details</h2>
 		
 		<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 		

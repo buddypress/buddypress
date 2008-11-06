@@ -516,10 +516,14 @@ ul.content-header-nav {
 			font-size: 0.9em;
 		}
 		
-		input#save, .standard-form input[type="submit"] {
+		input#save, .standard-form input[type='submit'] {
 			width: auto;
 			margin: 1.5em 0 0 0;
 			font-size: 1.4em;
+		}
+		
+		input[type='radio'], input[type='checkbox'] {
+			width: auto !important;
 		}
 		
 		.checkbox label input, .radio label input {
@@ -1000,6 +1004,13 @@ ul.content-header-nav {
 	
 	a.join-group {
 		margin-top: 0.5em;
+	}
+	
+	.request-pending {
+		text-transform: uppercase;
+		font: normal 0.9em Georgia, Times, serif;
+		color: #888;
+		letter-spacing: 0.5px;
 	}
 		
 		
