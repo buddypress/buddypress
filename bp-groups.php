@@ -208,7 +208,7 @@ function groups_setup_nav() {
 				bp_core_add_subnav_item( $bp['groups']['slug'], 'admin', __('Admin', 'buddypress'), $group_link , 'groups_screen_group_admin', 'group-admin', $bp['is_item_admin'] );
 			
 			// If this is a closed group, and the user is not a member, show a "Request Membership" nav item.
-			if ( $group_obj->status == 'private' && ( !groups_is_user_member( $bp['loggedin_userid'], $group_obj->id ) && !groups_check_for_membership_request( $bp['loggedin_userid'], $group_obj->id ) ) )
+			if ( $group_obj->status == 'private' && ( !groups_is_user_member( $bp['loggedin_userid'], $group_obj->id ) && !groups_check_for_membership_request( $bp['loggedin_userid'], $group_obj->id ) ) && is_user_logged_in() )
 				bp_core_add_subnav_item( $bp['groups']['slug'], 'request-membership', __('Request Membership', 'buddypress'), $group_link , 'groups_screen_group_request_membership', 'request-membership' );
 				
 			bp_core_add_subnav_item( $bp['groups']['slug'], 'forum', __('Forum', 'buddypress'), $group_link , 'groups_screen_group_forum', 'group-forum', $is_visible);
@@ -457,6 +457,9 @@ function groups_screen_group_leave() {
 
 function groups_screen_group_request_membership() {
 	global $bp, $group_obj;
+	
+	if ( !is_user_logged_in() )
+		return false;
 	
 	if ( $group_obj->status == 'private' ) {
 		
@@ -910,17 +913,17 @@ function groups_manage_group( $step, $group_id ) {
 					$admin->date_modified = time();
 					$admin->inviter_id = 0;
 					$admin->is_confirmed = 1;
-
+					
 					if ( !$admin->save() )
 						return false;
-						
+					
 					do_action( 'bp_groups_step1_save' );
 					
 					/* Set groupmeta */
 					groups_update_groupmeta( $group->id, 'total_member_count', 1 );
 					groups_update_groupmeta( $group->id, 'theme', 'buddypress' );
 					groups_update_groupmeta( $group->id, 'stylesheet', 'buddypress' );
-					
+				
 					return $group->id;
 				}
 				
@@ -958,7 +961,7 @@ function groups_manage_group( $step, $group_id ) {
 					
 				do_action( 'bp_groups_step2_save' );
 					
-				return $group->id;
+				return $group_id;
 			break;
 			
 			case '3':
@@ -978,7 +981,7 @@ function groups_manage_group( $step, $group_id ) {
 				
 				do_action( 'bp_groups_step3_save' );
 				
-				return $group->id;
+				return $group_id;
 			break;
 			
 			case '4':

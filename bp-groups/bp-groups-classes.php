@@ -163,7 +163,7 @@ Class BP_Groups_Group {
 					$this->avatar_full 
 			);
 		}
-		
+
 		if ( !$result = $wpdb->query($sql) )
 			return false;
 		
