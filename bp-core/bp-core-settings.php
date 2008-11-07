@@ -24,18 +24,20 @@ function bp_core_screen_general_settings() {
 		
 		// Form has been submitted and nonce checks out, lets do it.
 		
-		if ( !empty($_POST['email']) ) {
+		if ( $_POST['email'] != '' ) {
 			$current_user->user_email = wp_specialchars( trim( $_POST['email'] ));
 		}
-		
-		if ( !empty($_POST['pass1']) && !empty($_POST['pass2']) ) {
+
+		if ( $_POST['pass1'] != '' && $_POST['pass2'] != '' ) {
 			if ( $_POST['pass1'] == $_POST['pass2'] && !strpos( " " . $_POST['pass1'], "\\" ) ) {
 				$current_user->user_pass = $_POST['pass1'];
 			} else {
 				$pass_error = true;
 			}
-		} else if ( empty($_POST['pass1']) && !empty($_POST['pass2']) || !empty($_POST['pass1']) && empty($_POST['pass2']) ) {
+		} else if ( $_POST['pass1'] == '' && $_POST['pass2'] != '' || $_POST['pass1'] != '' && $_POST['pass2'] == '' ) {
 			$pass_error = true;
+		} else {
+			unset( $current_user->user_pass );
 		}
 		
 		if ( !$pass_error && wp_update_user( get_object_vars( $current_user ) ) )
