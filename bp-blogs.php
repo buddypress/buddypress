@@ -484,20 +484,24 @@ function bp_blogs_get_all_blogs() {
 	return BP_Blogs_Blog::get_all();
 }
 
+function bp_blogs_get_random_blog() {
+	return BP_Blogs_Blog::get_random();
+}
+
 function bp_blogs_get_all_posts() {
 	return BP_Blogs_Post::get_all();
 }
 
-function bp_blogs_get_random_blog() {
+function bp_blogs_redirect_to_random_blog() {
 	global $bp, $wpdb;
 	
 	if ( $bp['current_component'] == $bp['blogs']['slug'] && isset( $_GET['random-blog'] ) ) {
-		$blogs = bp_blogs_get_all_blogs();
+		$blog_id = bp_blogs_get_random_blog();
 
-		wp_redirect( get_blog_option( $blogs[rand( 0, count($blogs) - 1)], 'siteurl') );
+		wp_redirect( get_blog_option( $blog_id, 'siteurl') );
 	}
 }
-add_action( 'wp', 'bp_blogs_get_random_blog', 6 );
+add_action( 'wp', 'bp_blogs_redirect_to_random_blog', 6 );
 
 
 ?>

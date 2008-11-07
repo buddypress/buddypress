@@ -99,6 +99,12 @@ class BP_Wire_Post {
 		
 		return array( 'wire_posts' => $wire_posts, 'count' => $count );
 	}
+	
+	function delete_all_for_item( $item_id, $table_name ) {
+		global $wpdb, $bp;
+		
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$table_name} WHERE item_id = %d", $item_id ) );
+	}
 }
 
 ?>

@@ -121,26 +121,22 @@ function friends_screen_requests() {
 	if ( isset($bp['action_variables']) && in_array( 'accept', $bp['action_variables'] ) && is_numeric($bp['action_variables'][1]) ) {
 		
 		if ( friends_accept_friendship( $bp['action_variables'][1] ) ) {
-			$bp['message'] = __('Friendship accepted', 'buddypress');
-			$bp['message_type'] = 'success';
+			bp_core_add_message( __('Friendship accepted', 'buddypress') );
 		} else {
-			$bp['message'] = __('Friendship could not be accepted', 'buddypress');
-			$bp['message_type'] = 'error';					
+			bp_core_add_message( __('Friendship could not be accepted', 'buddypress'), 'error' );
 		}
-		add_action( 'template_notices', 'bp_core_render_notice' );
+		wp_redirect( $_SERVER['HTTP_REFERER'] );
 		
 	} else if ( isset($bp['action_variables']) && in_array( 'reject', $bp['action_variables'] ) && is_numeric($bp['action_variables'][1]) ) {
 		
 		if ( friends_reject_friendship( $bp['action_variables'][1] ) ) {
-			$bp['message'] = __('Friendship rejected', 'buddypress');
-			$bp['message_type'] = 'success';
+			bp_core_add_message( __('Friendship rejected', 'buddypress') );
 		} else {
-			$bp['message'] = __('Friendship could not be rejected', 'buddypress');
-			$bp['message_type'] = 'error';				
-		}
-		add_action( 'template_notices', 'bp_core_render_notice' );
-		
+			bp_core_add_message( __('Friendship could not be rejected', 'buddypress'), 'error' );
+		}	
+		wp_redirect( $_SERVER['HTTP_REFERER'] );	
 	}
+	
 	bp_catch_uri( 'friends/requests' );
 }
 

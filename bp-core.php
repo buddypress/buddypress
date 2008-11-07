@@ -6,7 +6,7 @@ define( 'BP_CORE_VERSION', '0.2.8' );
 /* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
 define( 'MEMBERS_SLUG', 'members' );
 
-/* These components are accessed via the root, and not under a blog name or home base.
+/* These components are accessed via the root, and not under a blog name or member home.
    e.g Groups is accessed via: http://domain.com/groups/group-name NOT http://domain.com/andy/groups/group-name */
 define( 'BP_CORE_ROOT_COMPONENTS', 'groups' . ',' . MEMBERS_SLUG );
 
@@ -118,12 +118,6 @@ function bp_core_setup_globals() {
 	
 	/* Sets up container used for the avatar of the current component being viewed. Rendered by bp_get_options_avatar() */
 	$bp['bp_options_avatar'] = '';
-	
-	/* Sets up container for callback messages rendered by bp_core_render_notice() */
-	$bp['message'] = '';
-	
-	/* Sets up container for callback message type rendered by bp_core_render_notice() */
-	$bp['message_type'] = ''; // error/success
 
 	/* Fetch the full name for the logged in and current user */
 	$bp['loggedin_fullname'] = bp_core_global_user_fullname( $bp['loggedin_userid'] );
@@ -145,6 +139,17 @@ function bp_core_setup_globals() {
 }
 add_action( 'wp', 'bp_core_setup_globals', 1 );
 add_action( '_admin_menu', 'bp_core_setup_globals', 1 ); // must be _admin_menu hook.
+
+
+function bp_core_setup_session() {
+	// Start a session for error/success feedback on redirect and for signup functions.
+	session_start();
+	
+	// Render any error/success feedback on the template
+	if ( $_SESSION['message'] != '' )
+		add_action( 'template_notices', 'bp_core_render_notice' );
+}
+add_action( 'wp', 'bp_core_setup_session', 3 );
 
 
 function bp_core_install() {
@@ -422,9 +427,9 @@ function bp_core_get_random_member() {
 	global $bp, $wpdb;
 	
 	if ( $bp['current_component'] == MEMBERS_SLUG && isset( $_GET['random'] ) ) {
-		$users = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM " . $wpdb->base_prefix . "users WHERE user_status = 0 AND spam = 0 AND deleted = 0" ) );
+		$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . $wpdb->base_prefix . "users WHERE user_status = 0 AND spam = 0 AND deleted = 0 ORDER BY rand() LIMIT 1" ) );
 
-		$ud = get_userdata( $users[rand( 0, count($users) - 1)] );
+		$ud = get_userdata( $user_id );
 		wp_redirect( $bp['root_domain'] . '/' . MEMBERS_SLUG . '/' . $ud->user_login );
 	}
 }
@@ -762,27 +767,33 @@ function bp_get_page_id($page_title) {
 	return $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type = 'page'", $page_title) );
 }
 
+function bp_core_add_message( $message, $type = false ) {
+	if ( !$type )
+		$type = 'success';
+	
+	$_SESSION['message'] = $message;
+	$_SESSION['message_type'] = $type;
+}
+
 /**
  * bp_core_render_notice()
  *
  * Renders a feedback notice (either error or success message) to the theme template.
  * The hook action 'template_notices' is used to call this function, it is not called directly.
- * The message and message type are stored in the $bp global, and are set up right before
- * the add_action( 'template_notices', 'bp_core_render_notice' ); is called where needed. 
  * 
  * @package BuddyPress Core
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
 function bp_core_render_notice() {
-	global $bp;
-
-	if ( $bp['message'] != '' ) {
-		$type = ( $bp['message_type'] == 'success' ) ? 'updated' : 'error';
+	if ( $_SESSION['message'] ) {
+		$type = ( $_SESSION['message_type'] == 'success' ) ? 'updated' : 'error';
 	?>
 		<div id="message" class="<?php echo $type; ?>">
-			<p><?php echo $bp['message']; ?></p>
+			<p><?php echo $_SESSION['message']; ?></p>
 		</div>
 	<?php 
+		unset( $_SESSION['message'] );
+		unset( $_SESSION['message_type'] );
 	}
 }
 

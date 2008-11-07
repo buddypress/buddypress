@@ -163,8 +163,8 @@ Class BP_Groups_Group {
 					$this->avatar_full 
 			);
 		}
-
-		if ( !$result = $wpdb->query($sql) )
+		
+		if ( $wpdb->query($sql) === false )
 			return false;
 		
 		$this->id = $wpdb->insert_id;
@@ -227,21 +227,42 @@ Class BP_Groups_Group {
 		
 		return false;
 	}
-
-	/* Static Functions */
 	
-	function delete( $group_id ) {
+	function delete() {
 		global $wpdb, $bp;
 		
-		if ( $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['groups']['table_name'] . " WHERE id = %d", $group_id ) ) )
+		// Delete groupmeta for the group
+		groups_delete_groupmeta( $this->id );
+
+		// Modify group count usermeta for members
+		for ( $i = 0; $i < count($this->user_dataset); $i++ ) {
+			$user = $this->user_dataset[$i];
+
+			if ( $total_count = get_usermeta( $user->user_id, 'total_group_count' ) != '' ) {
+				update_usermeta( $user->user_id, 'total_group_count', (int)$total_count - 1 );
+			}
+			
+			// Now delete the group member record
+			BP_Groups_Member::delete( $user->user_id, $this->id, false );
+		}
+		
+		// Delete the wire posts for this group if the wire is installed
+		if ( function_exists('bp_wire_install') ) {
+			BP_Wire_Post::delete_all_for_item( $this->id, $bp['groups']['table_name_wire'] );
+		}
+		
+		do_action( 'bp_groups_delete_group_content', $this->id );
+		
+		// Finally remove the group entry from the DB
+		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['groups']['table_name'] . " WHERE id = %d", $this->id ) ) )
 			return false;
-		
-		/* Remove groupmeta */
-		groups_delete_groupmeta( $group_id );
-		
+
 		return true;
 	}
 	
+
+	/* Static Functions */
+		
 	function group_exists( $slug, $table_name = false ) {
 		global $wpdb, $bp;
 		
@@ -379,6 +400,12 @@ Class BP_Groups_Group {
 		
 		return $wpdb->get_results( $wpdb->prepare( "SELECT id, slug FROM " . $bp['groups']['table_name'] . " WHERE status = 'public'" ) ); 
 	}
+	
+	function get_random() {
+		global $wpdb, $bp;
+		
+		return $wpdb->get_row( $wpdb->prepare( "SELECT id, slug FROM " . $bp['groups']['table_name'] . " WHERE status = 'public' ORDER BY rand() LIMIT 1" ) ); 		
+	}
 }
 
 Class BP_Groups_Member {
@@ -475,16 +502,11 @@ Class BP_Groups_Member {
 		
 	/* Static Functions */
 
-	function delete( $user_id, $group_id ) {
+	function delete( $user_id, $group_id, $check_empty = true ) {
 		global $wpdb, $bp;
 		
 		$delete_result = $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );
-	
-		// Check to see if there are any members left for the group, if not, delete it.
-		if ( !BP_Groups_Group::has_members( $group_id ) ) {
-			BP_Groups_Group::delete( $group_id );
-		}
-		
+
 		return $delete_result;
 	}
 	

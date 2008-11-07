@@ -189,19 +189,6 @@ function bp_total_unread_messages_count() {
 	echo BP_Messages_Thread::get_inbox_count();
 }
 
-function bp_compose_message_form() {
-	global $bp;
-	global $messages_write_new_action;
-		
-	$messages_write_new_action = $bp['loggedin_domain'] . $bp['messages']['slug'] . '/compose/';
-	
-	if ( isset($_POST['send_to']) || ( isset($_POST['send-notice']) && is_site_admin() ) ) {
-		messages_send_message( $_POST['send_to'], $_POST['subject'], $_POST['content'], $_POST['thread_id'], false, true );
-	} else {
-		messages_write_new();
-	}
-}
-
 function bp_messages_pagination() {
 	global $messages_template;
 	echo $messages_template->pag_links;
@@ -211,6 +198,18 @@ function bp_messages_form_action() {
 	global $bp;
 	
 	echo $bp['loggedin_domain'] . $bp['messages']['slug'] . '/' . $bp['current_action'];
+}
+
+function bp_messages_username_value() {
+	echo $_SESSION['send_to'];
+}
+
+function bp_messages_subject_value() {
+	echo $_SESSION['subject'];
+}
+
+function bp_messages_content_value() {
+	echo $_SESSION['content'];
 }
 
 function bp_messages_options() {

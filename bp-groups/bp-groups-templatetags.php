@@ -413,11 +413,14 @@ function bp_group_admin_tabs() {
 ?>
 	<li<?php if ( $current_tab == 'edit-details' || $current_tab == '' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['root_domain'] . '/' . $bp['groups']['slug'] ?>/<?php echo $groups_template->group->slug ?>/admin/edit-details"><?php _e('Edit Details', 'buddypress') ?></a></li>
 	<li<?php if ( $current_tab == 'group-settings' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['root_domain'] . '/' . $bp['groups']['slug'] ?>/<?php echo $groups_template->group->slug ?>/admin/group-settings"><?php _e('Group Settings', 'buddypress') ?></a></li>
-	<!--<li<?php if ( $current_tab == 'manage-members' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['root_domain'] . '/' . $bp['groups']['slug'] ?>/<?php echo $groups_template->group->slug ?>/admin/manage-members"><?php _e('Manage Members', 'buddypress') ?></a></li>-->
-	<!--<li<?php if ( $current_tab == 'delete-group' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['root_domain'] . '/' . $bp['groups']['slug'] ?>/<?php echo $groups_template->group->slug ?>/admin/delete-group"><?php _e('Delete Group', 'buddypress') ?></a></li>-->
+	<li<?php if ( $current_tab == 'manage-members' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['root_domain'] . '/' . $bp['groups']['slug'] ?>/<?php echo $groups_template->group->slug ?>/admin/manage-members"><?php _e('Manage Members', 'buddypress') ?></a></li>
+	
 	<?php if ( $groups_template->group->status == 'private' ) : ?>
 	<li<?php if ( $current_tab == 'membership-requests' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['root_domain'] . '/' . $bp['groups']['slug'] ?>/<?php echo $groups_template->group->slug ?>/admin/membership-requests"><?php _e('Membership Requests', 'buddypress') ?></a></li>
 	<?php endif; ?>
+	
+	<li<?php if ( $current_tab == 'delete-group' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['root_domain'] . '/' . $bp['groups']['slug'] ?>/<?php echo $groups_template->group->slug ?>/admin/delete-group"><?php _e('Delete Group', 'buddypress') ?></a></li>
+	
 <?php
 	do_action( 'bp_groups_admin_tabs' );
 }
@@ -574,7 +577,7 @@ function bp_group_create_form() {
 					if ( friends_get_friend_count_for_user( $bp['loggedin_userid'] ) ) {
 						bp_group_send_invite_form( $group_obj );
 					} else {
-						$group_link = bp_group_permalink( $group, false );
+						$group_link = bp_group_permalink( $group_obj, false );
 						?>
 						<div id="message" class="info">
 							<p><?php _e( 'Once you build up your friends list you will be able to invite friends to join your group.', 'buddypress' ) ?></p>

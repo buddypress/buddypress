@@ -110,6 +110,13 @@ Class BP_Blogs_Blog {
 		
 		return $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM " . $bp['blogs']['table_name'] ) );
 	}
+	
+	function get_random() {
+		global $bp, $wpdb;
+		
+		return $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM " . $bp['blogs']['table_name'] . " ORDER BY rand() LIMIT 1" ) );
+	}
+	
 }
 
 Class BP_Blogs_Post {

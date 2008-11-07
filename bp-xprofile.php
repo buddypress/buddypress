@@ -126,9 +126,6 @@ function xprofile_install() {
 function xprofile_setup_globals() {
 	global $bp, $wpdb;
 	
-	/* Need to start a session for signup metadata purposes */
-	session_start();
-	
 	$bp['profile'] = array(
 		'table_name_groups' => $wpdb->base_prefix . 'bp_xprofile_groups',
 		'table_name_fields' => $wpdb->base_prefix . 'bp_xprofile_fields',

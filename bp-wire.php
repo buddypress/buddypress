@@ -84,47 +84,39 @@ function bp_wire_screen_latest() {
 function bp_wire_action_post() {
 	global $bp;
 	
-	if ( $bp['current_action'] != 'post' )
+	if ( $bp['current_component'] != $bp['xprofile']['slug'] && $bp['current_action'] != 'post' )
 		return false;
 	
-	if ( $wire_post_id = bp_wire_new_post( $bp['current_userid'], $_POST['wire-post-textarea'], $bp['profile']['table_name_wire'] ) ) {
-		$bp['message'] = __('Wire message successfully posted.', 'buddypress');
-		$bp['message_type'] = 'success';
-
-		do_action( 'bp_xprofile_new_wire_post', array( 'item_id' => $wire_post_id, 'component_name' => 'profile', 'component_action' => 'new_wire_post', 'is_private' => 0 ) );
-		add_action( 'template_notices', 'bp_core_render_notice' );
+	if ( !$wire_post_id = bp_wire_new_post( $bp['current_userid'], $_POST['wire-post-textarea'], $bp['profile']['table_name_wire'] ) ) {
+		bp_core_add_message( __('Wire message could not be posted. Please try again.', 'buddypress'), 'error' );
+	} else {
+		bp_core_add_message( __('Wire message successfully posted.', 'buddypress') );
+		do_action( 'bp_xprofile_new_wire_post', array( 'item_id' => $wire_post_id, 'component_name' => 'profile', 'component_action' => 'new_wire_post', 'is_private' => 0 ) );	
 	}
 	
 	if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
-		$bp['current_component'] = $bp['profile']['slug'];
-		$bp['current_action'] = 'public';
-		bp_catch_uri( 'profile/index' );
+		wp_redirect( $bp['current_domain'] );
 	} else {
-		bp_catch_uri( 'wire/latest' );
-	}	
+		wp_redirect( $bp['current_domain']. $bp['wire']['slug'] );
+	}
 }
 add_action( 'wp', 'bp_wire_action_post', 3 );
 
 function bp_wire_action_delete() {
 	global $bp;
 	
-	if ( $bp['current_action'] != 'delete' )
+	if ( $bp['current_component'] != $bp['xprofile']['slug'] && $bp['current_action'] != 'delete' )
 		return false;
 	
 	if ( bp_wire_delete_post( $bp['action_variables'][0], $bp['profile']['table_name_wire'] ) ) {
-		$bp['message'] = __('Wire message successfully deleted.', 'buddypress');
-		$bp['message_type'] = 'success';
-		
-		do_action( 'bp_xprofile_delete_wire_post' );
-		add_action( 'template_notices', 'bp_core_render_notice' );									
+		bp_core_add_message( __('Wire message successfully deleted.', 'buddypress'), false, true );
+		do_action( 'bp_xprofile_delete_wire_post' );						
 	}
 	
 	if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
-		$bp['current_component'] = $bp['profile']['slug'];
-		$bp['current_action'] = 'public';
-		bp_catch_uri( 'profile/index' );
+		wp_redirect( $bp['current_domain'] );
 	} else {
-		bp_catch_uri( 'wire/latest' );
+		wp_redirect( $bp['current_domain']. $bp['wire']['slug'] );
 	}
 }
 add_action( 'wp', 'bp_wire_action_delete', 3 );
