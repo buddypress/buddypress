@@ -39,10 +39,8 @@ add_action( 'wp_head', 'bp_core_add_ajax_js' );
  * @uses get_option() Selects a site setting from the DB.
  */
 function bp_core_add_css() {
-	if ( is_user_logged_in() ) {
-		wp_enqueue_style( 'bp-admin-bar', site_url() . '/wp-content/mu-plugins/bp-core/css/admin-bar.css' );
-	}
-	
+	wp_enqueue_style( 'bp-admin-bar', site_url() . '/wp-content/mu-plugins/bp-core/css/admin-bar.css' );
+
 	/* If you want custom css styles, include a custom-styles.css file in /bp-core/css/custom-styles.css */
 	if ( file_exists(ABSPATH . MUPLUGINDIR . '/bp-core/css/custom-styles.css') )
 		wp_enqueue_style( 'bp-core-custom-styles', site_url() . MUPLUGINDIR . '/bp-core/css/custom-styles.css' );		
@@ -77,23 +75,6 @@ function bp_core_add_admin_js() {
 	}
 }
 add_action( 'admin_menu', 'bp_core_add_admin_js' );
-
-
-/**
- * bp_core_add_admin_css()
- *
- * Add the CSS needed for all components in the admin area.
- * 
- * @package BuddyPress Core
- * @uses get_option() Selects a site setting from the DB.
- */
-function bp_core_add_admin_css() {
-	if ( strpos( $_GET['page'], 'bp-core/homebase-creation' ) !== false ) {
-		wp_enqueue_style( 'bp-core-home-base-css', site_url() . '/wp-content/mu-plugins/bp-core/css/home-base.css' );
-	}
-}
-add_action( 'admin_menu', 'bp_core_add_admin_css' );
-
 
 /**
  * bp_core_add_cropper_js()

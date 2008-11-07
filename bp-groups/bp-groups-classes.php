@@ -373,6 +373,12 @@ Class BP_Groups_Group {
 
 		return $wpdb->get_results( $wpdb->prepare( "SELECT gm.group_id FROM " . $bp['groups']['table_name_groupmeta'] . " gm, " . $bp['groups']['table_name'] . " g WHERE g.id = gm.group_id AND g.status != 'hidden' AND meta_key = 'total_member_count' ORDER BY CONVERT(meta_value, SIGNED) DESC LIMIT %d", $limit ) ); 
 	}
+	
+	function get_all() {
+		global $wpdb, $bp;
+		
+		return $wpdb->get_results( $wpdb->prepare( "SELECT id, slug FROM " . $bp['groups']['table_name'] . " WHERE status = 'public'" ) ); 
+	}
 }
 
 Class BP_Groups_Member {

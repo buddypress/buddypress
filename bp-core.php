@@ -418,6 +418,18 @@ function bp_core_add_nav_default( $parent_id, $function, $slug = false, $user_ha
 	}
 }
 
+function bp_core_get_random_member() {
+	global $bp, $wpdb;
+	
+	if ( $bp['current_component'] == MEMBERS_SLUG && isset( $_GET['random'] ) ) {
+		$users = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM " . $wpdb->base_prefix . "users WHERE user_status = 0 AND spam = 0 AND deleted = 0" ) );
+
+		$ud = get_userdata( $users[rand( 0, count($users) - 1)] );
+		wp_redirect( $bp['root_domain'] . '/' . MEMBERS_SLUG . '/' . $ud->user_login );
+	}
+}
+add_action( 'wp', 'bp_core_get_random_member', 6 );
+
 /**
  * bp_core_get_userid()
  *

@@ -104,6 +104,12 @@ Class BP_Blogs_Blog {
 		
 		return $wpdb->get_var( $wpdb->prepare( "SELECT count(blog_id) FROM " . $bp['blogs']['table_name'] . " WHERE user_id = %d", $user_id) );
 	}
+	
+	function get_all() {
+		global $bp, $wpdb;
+		
+		return $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM " . $bp['blogs']['table_name'] ) );
+	}
 }
 
 Class BP_Blogs_Post {
@@ -247,6 +253,13 @@ Class BP_Blogs_Post {
 		
 		return $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM " . $bp['blogs']['table_name_blog_posts'] . " WHERE post_id = %d AND blog_id = %d AND user_id = %d", $post_id, $blog_id, $user_id ) );
 	}
+	
+	function get_all() {
+		global $bp, $wpdb;
+		
+		return $wpdb->get_col( $wpdb->prepare( "SELECT post_id, blog_id FROM " . $bp['blogs']['table_name_blog_posts'] ) );
+	}
+	
 }
 
 Class BP_Blogs_Comment {

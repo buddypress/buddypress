@@ -1311,6 +1311,17 @@ function groups_reject_membership_request( $membership_id ) {
 	return true;
 }
 
+function groups_get_random_group() {
+	global $bp, $wpdb;
+	
+	if ( $bp['current_component'] == $bp['groups']['slug'] && isset( $_GET['random'] ) ) {
+		$groups = groups_get_all();
+
+		wp_redirect( $bp['root_domain'] . '/' . $bp['groups']['slug'] . '/' . $groups[rand( 0, count($groups) - 1)]->slug );
+	}
+}
+add_action( 'wp', 'groups_get_random_group', 6 );
+
 function groups_check_for_membership_request( $user_id, $group_id ) {
 	return BP_Groups_Member::check_for_membership_request( $user_id, $group_id );
 }
@@ -1325,6 +1336,10 @@ function groups_get_active( $limit = 5 ) {
 
 function groups_get_popular( $limit = 5 ) {
 	return BP_Groups_Group::get_popular($limit);
+}
+
+function groups_get_all() {
+	return BP_Groups_Group::get_all();
 }
 
 
