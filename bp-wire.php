@@ -109,8 +109,11 @@ function bp_wire_action_delete() {
 		return false;
 	
 	if ( bp_wire_delete_post( $bp['action_variables'][0], $bp['profile']['table_name_wire'] ) ) {
-		bp_core_add_message( __('Wire message successfully deleted.', 'buddypress'), false, true );
+		bp_core_add_message( __('Wire message successfully deleted.', 'buddypress') );
 		do_action( 'bp_xprofile_delete_wire_post' );						
+	} else {
+		bp_core_add_message( __('Wire post could not be deleted, please try again.', 'buddypress'), 'error' );
+		do_action( 'bp_xprofile_delete_wire_post' );		
 	}
 	
 	if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {

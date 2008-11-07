@@ -357,30 +357,30 @@ function groups_screen_group_wire() {
 		if ( $wire_action == 'post' && BP_Groups_Member::check_is_member( $bp['loggedin_userid'], $group_obj->id ) ) {
 
 			if ( !groups_new_wire_post( $group_obj->id, $_POST['wire-post-textarea'] ) ) {
-				bp_catch_uri( 'groups/group-home' );
+				bp_core_add_message( __('Wire message could not be posted.', 'buddypress'), 'error' );
 			} else {
 				bp_core_add_message( __('Wire message successfully posted.', 'buddypress') );
-				
-				if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
-					wp_redirect( bp_group_permalink( $group_obj, false ) );
-				} else {
-					wp_redirect( bp_group_permalink( $group_obj, false ) . '/' . $bp['wire']['slug'] );
-				}
+			}
+			
+			if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
+				wp_redirect( bp_group_permalink( $group_obj, false ) );
+			} else {
+				wp_redirect( bp_group_permalink( $group_obj, false ) . '/' . $bp['wire']['slug'] );
 			}
 	
 		} else if ( $wire_action == 'delete' && BP_Groups_Member::check_is_member( $bp['loggedin_userid'], $group_obj->id ) ) {
-			$wire_message_id = $bp['action_variables'][2];
-								
+			$wire_message_id = $bp['action_variables'][1];
+
 			if ( !groups_delete_wire_post( $wire_message_id, $bp['groups']['table_name_wire'] ) ) {
-				bp_catch_uri( 'groups/group-home' );
+				bp_core_add_message( __('There was an error deleting the wire message.', 'buddypress'), 'error' );
 			} else {
 				bp_core_add_message( __('Wire message successfully deleted.', 'buddypress') );
-				
-				if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
-					wp_redirect( bp_group_permalink( $group_obj, false ) );
-				} else {
-					wp_redirect( bp_group_permalink( $group_obj, false ) . '/' . $bp['wire']['slug'] );
-				}
+			}
+			
+			if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
+				wp_redirect( bp_group_permalink( $group_obj, false ) );
+			} else {
+				wp_redirect( bp_group_permalink( $group_obj, false ) . '/' . $bp['wire']['slug'] );
 			}
 		
 		} else if ( ( !$wire_action || $bp['action_variables'][1] == 'latest' ) ) {
