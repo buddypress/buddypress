@@ -170,8 +170,6 @@ To submit another request please log in and visit: %s
 	
 	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
-	var_dump($subject, $message); die;
-
 	// Send it
 	wp_mail( $to, $subject, $message );	
 }
