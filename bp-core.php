@@ -1,7 +1,7 @@
 <?php
 
 /* Define the current version number for checking if DB tables are up to date. */
-define( 'BP_CORE_VERSION', '0.2.8' );
+define( 'BP_CORE_VERSION', '0.2.9.8' );
 
 /* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
 define( 'MEMBERS_SLUG', 'members' );
@@ -158,8 +158,11 @@ add_action( 'wp', 'bp_core_setup_session', 3 );
 function bp_core_install() {
 	global $wpdb, $bp;
 	
+	if ( !empty($wpdb->charset) )
+		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+	
 	$sql[] = "CREATE TABLE ". $bp['core']['table_name_notifications'] ." (
-		  		id int(11) NOT NULL AUTO_INCREMENT,
+		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id int(11) NOT NULL,
 				item_id int(11) NOT NULL,
 				secondary_item_id int(11),
@@ -167,17 +170,20 @@ function bp_core_install() {
 				component_action varchar(75) NOT NULL,
 		  		date_notified datetime NOT NULL,
 				is_new tinyint(1) NOT NULL,
-		    	PRIMARY KEY id (id),
 			    KEY item_id (item_id),
 				KEY secondary_item_id (secondary_item_id),
 				KEY user_id (user_id),
 			    KEY is_new (is_new),
 				KEY component_name (component_name),
 		 	   	KEY component_action (component_action)
-			   );";
+			   ) {$charset_collate};";
 
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
+	
+	// dbDelta won't change character sets, so we need to do this seperately.
+	// This will only be in here pre v1.0
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['core']['table_name_notifications'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
 	
 	add_site_option( 'bp-core-version', BP_CORE_VERSION );
 }

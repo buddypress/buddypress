@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_BLOGS_IS_INSTALLED', 1 );
-define ( 'BP_BLOGS_VERSION', '0.1.3.1' );
+define ( 'BP_BLOGS_VERSION', '0.1.3.3' );
 
 /* These will be moved into admin configurable settings */
 define ( 'TOTAL_RECORDED_POSTS', 10 );
@@ -24,44 +24,51 @@ include_once( 'bp-blogs/bp-blogs-widgets.php' );
 function bp_blogs_install( $version ) {
 	global $wpdb, $bp;
 	
+	if ( !empty($wpdb->charset) )
+		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+	
 	$sql[] = "CREATE TABLE ". $bp['blogs']['table_name'] ." (
-		  		id int(11) NOT NULL AUTO_INCREMENT,
+		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id int(11) NOT NULL,
 				blog_id int(11) NOT NULL,
-		    	PRIMARY KEY id (id),
 				KEY user_id (user_id),
 				KEY blog_id (blog_id)
-			 );";
+			 ) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE ". $bp['blogs']['table_name_blog_posts'] ." (
-		  		id int(11) NOT NULL AUTO_INCREMENT,
+		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id int(11) NOT NULL,
 				blog_id int(11) NOT NULL,
 				post_id int(11) NOT NULL,
 				date_created datetime NOT NULL,
-		    	PRIMARY KEY id (id),
 				KEY user_id (user_id),
 				KEY blog_id (blog_id),
 				KEY post_id (post_id)
-			 );";
+			 ) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE ". $bp['blogs']['table_name_blog_comments'] ." (
-		  		id int(11) NOT NULL AUTO_INCREMENT,
+		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id int(11) NOT NULL,
 				blog_id int(11) NOT NULL,
 				comment_id int(11) NOT NULL,
 				comment_post_id int(11) NOT NULL,
 				date_created datetime NOT NULL,
-		    	PRIMARY KEY id (id),
 				KEY user_id (user_id),
 				KEY blog_id (blog_id),
 				KEY comment_id (comment_id),
 				KEY comment_post_id (comment_post_id)
-			 );";
+			 ) {$charset_collate};";
 			
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 
 	dbDelta($sql);
+	
+	// dbDelta won't change character sets, so we need to do this seperately.
+	// This will only be in here pre v1.0
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['blogs']['table_name'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['blogs']['table_name_blog_posts'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['blogs']['table_name_blog_comments'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
+	
 	add_site_option( 'bp-blogs-version', $version );
 }
 

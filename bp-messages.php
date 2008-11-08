@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_MESSAGES_IS_INSTALLED', 1 );
-define ( 'BP_MESSAGES_VERSION', '0.3.6' );
+define ( 'BP_MESSAGES_VERSION', '0.3.8' );
 
 include_once( 'bp-messages/bp-messages-classes.php' );
 include_once( 'bp-messages/bp-messages-ajax.php' );
@@ -20,64 +20,66 @@ include_once( 'bp-messages/bp-messages-notifications.php' );
 function messages_install() {
 	global $wpdb, $bp;
 	
+	if ( !empty($wpdb->charset) )
+		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+	
 	$sql[] = "CREATE TABLE ". $bp['messages']['table_name_threads'] ." (
-		  		id int(11) NOT NULL AUTO_INCREMENT,
+		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  		message_ids varchar(150) NOT NULL,
 				sender_ids varchar(150) NOT NULL,
 		  		first_post_date datetime NOT NULL,
 		  		last_post_date datetime NOT NULL,
 		  		last_message_id int(11) NOT NULL,
 				last_sender_id int(11) NOT NULL,
-			    PRIMARY KEY  (id),
 			    KEY message_ids (message_ids),
 			    KEY sender_ids (sender_ids),
 			    KEY last_message_id (last_message_id),
 			    KEY last_sender_id (last_sender_id)
-		 	   );";
+		 	   ) {$charset_collate};";
 	
 	$sql[] = "CREATE TABLE ". $bp['messages']['table_name_recipients'] ." (
-		  		id int(11) NOT NULL AUTO_INCREMENT,
+		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  		user_id int(11) NOT NULL,
 		  		thread_id int(11) NOT NULL,
 				sender_only tinyint(1) NOT NULL DEFAULT '0',
 		  		unread_count int(10) NOT NULL DEFAULT '0',
-			    PRIMARY KEY  (id),
 			    KEY user_id (user_id),
 			    KEY thread_id (thread_id),
 			    KEY sender_only (sender_only),
 			    KEY unread_count (unread_count)
-		 	   );";
+		 	   ) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE ". $bp['messages']['table_name_messages'] ." (
-		  		id int(11) NOT NULL AUTO_INCREMENT,
+		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  		sender_id int(11) NOT NULL,
 		  		subject varchar(200) NOT NULL,
 		  		message longtext NOT NULL,
 		  		date_sent datetime NOT NULL,
 				message_order int(10) NOT NULL,
 				sender_is_group tinyint(1) NOT NULL DEFAULT '0',
-			    PRIMARY KEY  (id),
 			    KEY sender_id (sender_id),
 			    KEY message_order (message_order),
 			    KEY sender_is_group (sender_is_group)
-		 	   );";
+		 	   ) {$charset_collate};";
 	
 	$sql[] = "CREATE TABLE ". $bp['messages']['table_name_notices'] ." (
-		  		id int(11) NOT NULL AUTO_INCREMENT,
+		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  		subject varchar(200) NOT NULL,
 		  		message longtext NOT NULL,
 		  		date_sent datetime NOT NULL,
 				is_active tinyint(1) NOT NULL DEFAULT '0',
-			    PRIMARY KEY  (id),
 			    KEY is_active (is_active)
-		 	   );";
-	
-	/* DELETE PREVIOUS TABLES (TEMP) */
-	//$sql[] = "DROP TABLE wp_bp_messages";
-	//$sql[] = "DROP TABLE wp_bp_messages_deleted";
+		 	   ) {$charset_collate};";
 	
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 	dbDelta($sql);
+	
+	// dbDelta won't change character sets, so we need to do this seperately.
+	// This will only be in here pre v1.0
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['messages']['table_name_threads'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['messages']['table_name_recipients'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['messages']['table_name_messages'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['messages']['table_name_notices'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
 	
 	add_site_option( 'bp-messages-version', BP_MESSAGES_VERSION );
 }

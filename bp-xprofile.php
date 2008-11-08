@@ -1,6 +1,6 @@
 <?php
 require_once( 'bp-core.php' );
-define ( 'BP_XPROFILE_VERSION', '0.3.9.1' );
+define ( 'BP_XPROFILE_VERSION', '0.3.9.3' );
 
 /* Functions to handle the removing of the profile tab and replacement with an account tab */
 require_once( 'bp-xprofile/admin-mods/bp-xprofile-admin-mods.php' );
@@ -34,21 +34,21 @@ require_once( 'bp-xprofile/bp-xprofile-cssjs.php' );
  * @uses add_site_option() adds a value for a meta_key into the wp_sitemeta table
  */
 function xprofile_install() {
-	global $bp;
-	
-	$sql = array();
+	global $bp, $wpdb;
 
+	if ( !empty($wpdb->charset) )
+		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+	
 	$sql[] = "CREATE TABLE " . $bp['profile']['table_name_groups'] . " (
-			  id int(11) unsigned NOT NULL auto_increment,
+			  id int(11) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			  name varchar(150) NOT NULL,
 			  description mediumtext NOT NULL,
 			  can_delete tinyint(1) NOT NULL,
-			  PRIMARY KEY  (id),
 			  KEY can_delete (can_delete)
-	);";
+	) {$charset_collate};";
 	
 	$sql[] = "CREATE TABLE " . $bp['profile']['table_name_fields'] . " (
-			  id int(11) unsigned NOT NULL auto_increment,
+			  id int(11) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			  group_id int(11) unsigned NOT NULL,
 			  parent_id int(11) unsigned NOT NULL,
 			  type varchar(150) NOT NULL,
@@ -61,24 +61,22 @@ function xprofile_install() {
 			  order_by varchar(15) NOT NULL,
 			  is_public int(2) NOT NULL DEFAULT '1',
 			  can_delete tinyint(1) NOT NULL DEFAULT '1',
-			  PRIMARY KEY (id),
 			  KEY group_id (group_id),
 			  KEY parent_id (parent_id),
 			  KEY is_public (is_public),
 			  KEY can_delete (can_delete),
 			  KEY is_required (is_required)
-	);";
+	) {$charset_collate};";
 	
 	$sql[] = "CREATE TABLE " . $bp['profile']['table_name_data'] . " (
-			  id int(11) unsigned NOT NULL auto_increment,
+			  id int(11) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			  field_id int(11) unsigned NOT NULL,
 			  user_id int(11) unsigned NOT NULL,
 			  value longtext NOT NULL,
 			  last_updated datetime NOT NULL,
-			  PRIMARY KEY (id),
 			  KEY field_id (field_id),
 			  KEY user_id (user_id)
-	);";
+	) {$charset_collate};";
 	
 	$sql[] = "INSERT INTO ". $bp['profile']['table_name_groups'] . " VALUES (1, 'Basic', '', 0);";
 	
@@ -104,12 +102,22 @@ function xprofile_install() {
 				PRIMARY KEY id (id),
 				KEY item_id (item_id),
 			    KEY user_id (user_id)
-		 	   );";
+		 	   ) {$charset_collate};";
 	}
 	
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 
 	dbDelta($sql);
+	
+	// dbDelta won't change character sets, so we need to do this seperately.
+	// This will only be in here pre v1.0
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['profile']['table_name_groups'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['profile']['table_name_fields'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['profile']['table_name_data'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
+	
+	if ( function_exists('bp_wire_install') )
+		$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['profile']['table_name_wire'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
+
 	add_site_option('bp-xprofile-version', BP_XPROFILE_VERSION);
 }
 

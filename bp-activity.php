@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_ACTIVITY_IS_INSTALLED', 1 );
-define ( 'BP_ACTIVITY_VERSION', '0.2.1' );
+define ( 'BP_ACTIVITY_VERSION', '0.2.4' );
 
 /* How long before activity items in streams are re-cached? */
 define ( 'BP_ACTIVITY_CACHE_LENGTH', '6 HOURS' );
@@ -23,6 +23,9 @@ include_once( 'bp-activity/bp-activity-widgets.php' );
 function bp_activity_user_install() {
 	global $wpdb, $bp;
 	
+	if ( !empty($wpdb->charset) )
+		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+	
 	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_current_user'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  		item_id int(11) NOT NULL,
@@ -35,7 +38,7 @@ function bp_activity_user_install() {
 				KEY user_id (user_id),
 			    KEY is_private (is_private),
 				KEY component_name (component_name)
-		 	   );";
+		 	   ) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_current_user_cached'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -48,7 +51,7 @@ function bp_activity_user_install() {
 				KEY date_recorded (date_recorded),
 			    KEY is_private (is_private),
 				KEY component_name (component_name)
-		 	   );";
+		 	   ) {$charset_collate};";
 	
 	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_current_user_friends_cached'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -61,16 +64,25 @@ function bp_activity_user_install() {
 				KEY date_recorded (date_recorded),
 				KEY user_id (user_id),
 				KEY component_name (component_name)
-		 	   );";
+		 	   ) {$charset_collate};";
 
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
+
+	// dbDelta won't change character sets, so we need to do this seperately.
+	// This will only be in here pre v1.0
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['activity']['table_name_current_user'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['activity']['table_name_current_user_cached'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['activity']['table_name_current_user_friends_cached'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
 	
 	update_usermeta( $bp['current_userid'], 'bp-activity-version', BP_ACTIVITY_VERSION );
 }
 
 function bp_activity_sitewide_install() {
 	global $wpdb, $bp;
+
+	if ( !empty($wpdb->charset) )
+		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 	
 	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_sitewide'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -83,10 +95,14 @@ function bp_activity_sitewide_install() {
 				KEY date_recorded (date_recorded),
 				KEY user_id (user_id),
 				KEY component_name (component_name)
-		 	   );";
+		 	   ) {$charset_collate};";
 	
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
+	
+	// dbDelta won't change character sets, so we need to do this seperately.
+	// This will only be in here pre v1.0
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['activity']['table_name_sitewide'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
 
 	update_site_option( 'bp-activity-version', BP_ACTIVITY_VERSION );
 }

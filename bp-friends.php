@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_FRIENDS_IS_INSTALLED', 1 );
-define ( 'BP_FRIENDS_VERSION', '0.1.5' );
+define ( 'BP_FRIENDS_VERSION', '0.1.7' );
 
 include_once( 'bp-friends/bp-friends-classes.php' );
 include_once( 'bp-friends/bp-friends-ajax.php' );
@@ -22,20 +22,26 @@ include_once( 'bp-friends/bp-friends-notifications.php' );
 function friends_install() {
 	global $wpdb, $bp;
 	
+	if ( !empty($wpdb->charset) )
+		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+		
 	$sql[] = "CREATE TABLE ". $bp['friends']['table_name'] ." (
-		  		id int(11) NOT NULL AUTO_INCREMENT,
+		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  		initiator_user_id int(11) NOT NULL,
 		  		friend_user_id int(11) NOT NULL,
 		  		is_confirmed bool DEFAULT 0,
 				is_limited bool DEFAULT 0,
 		  		date_created datetime NOT NULL,
-		    	PRIMARY KEY id (id),
 			    KEY initiator_user_id (initiator_user_id),
 			    KEY friend_user_id (friend_user_id)
-		 	   );";
+		 	   ) {$charset_collate};";
 
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
+	
+	// dbDelta won't change character sets, so we need to do this seperately.
+	// This will only be in here pre v1.0
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['friends']['table_name'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
 	
 	add_site_option( 'bp-friends-version', BP_FRIENDS_VERSION );
 }

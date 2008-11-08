@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_WIRE_IS_INSTALLED', 1 );
-define ( 'BP_WIRE_VERSION', '0.1.2' );
+define ( 'BP_WIRE_VERSION', '0.1.3' );
 
 include_once( 'bp-wire/bp-wire-classes.php' );
 include_once( 'bp-wire/bp-wire-ajax.php' );

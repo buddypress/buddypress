@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_GROUPS_IS_INSTALLED', 1 );
-define ( 'BP_GROUPS_VERSION', '0.2.1' );
+define ( 'BP_GROUPS_VERSION', '0.2.3' );
 
 include_once( 'bp-groups/bp-groups-classes.php' );
 include_once( 'bp-groups/bp-groups-ajax.php' );
@@ -21,8 +21,11 @@ include_once( 'bp-groups/bp-groups-notifications.php' );
 function groups_install() {
 	global $wpdb, $bp;
 	
+	if ( !empty($wpdb->charset) )
+		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+	
 	$sql[] = "CREATE TABLE ". $bp['groups']['table_name'] ." (
-	  		id int(11) NOT NULL AUTO_INCREMENT,
+	  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			creator_id int(11) NOT NULL,
 	  		name varchar(100) NOT NULL,
 	  		slug varchar(100) NOT NULL,
@@ -37,14 +40,13 @@ function groups_install() {
 			date_created datetime NOT NULL,
 			avatar_thumb varchar(150) NOT NULL,
 			avatar_full varchar(150) NOT NULL,
-	    	PRIMARY KEY id (id),
 		    KEY creator_id (creator_id),
 		    KEY status (status),
 		    KEY is_invitation_only (is_invitation_only)
-	 	   );";
+	 	   ) {$charset_collate};";
 	
 	$sql[] = "CREATE TABLE ". $bp['groups']['table_name_members'] ." (
-	  		id int(11) NOT NULL AUTO_INCREMENT,
+	  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			group_id int(11) NOT NULL,
 			user_id int(11) NOT NULL,
 			inviter_id int(11) NOT NULL,
@@ -53,38 +55,44 @@ function groups_install() {
 			date_modified datetime NOT NULL,
 			comments longtext NOT NULL,
 			is_confirmed tinyint(1) NOT NULL DEFAULT '0',
-			PRIMARY KEY  (id),
 			KEY group_id (group_id),
 		 	KEY user_id (user_id),
 			KEY inviter_id (inviter_id),
 			KEY is_confirmed (is_confirmed)
-	 	   );";
+	 	   ) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE ". $bp['groups']['table_name_groupmeta'] ." (
-			id int(11) NOT NULL AUTO_INCREMENT,
+			id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			group_id int(11) NOT NULL,
 			meta_key varchar(255) DEFAULT NULL,
 			meta_value longtext DEFAULT NULL,
-			PRIMARY KEY (id),
 			KEY group_id (group_id),
 			KEY meta_key (meta_key)
-		   );";
+		   ) {$charset_collate};";
 	
 	if ( function_exists('bp_wire_install') ) {
 		$sql[] = "CREATE TABLE ". $bp['groups']['table_name_wire'] ." (
-		  		id int(11) NOT NULL AUTO_INCREMENT,
+		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				item_id int(11) NOT NULL,
 				user_id int(11) NOT NULL,
 				content longtext NOT NULL,
 				date_posted datetime NOT NULL,
-				PRIMARY KEY id (id),
 				KEY item_id (item_id),
 				KEY user_id (user_id)
-		 	   );";		
+		 	   ) {$charset_collate};";		
 	}
 	
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
+	
+	// dbDelta won't change character sets, so we need to do this seperately.
+	// This will only be in here pre v1.0
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['groups']['table_name'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['groups']['table_name_members'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['groups']['table_name_groupmeta'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
+	
+	if ( function_exists('bp_wire_install') )
+		$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['groups']['table_name_wire'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );		
 	
 	add_site_option( 'bp-groups-version', BP_GROUPS_VERSION );
 }
@@ -465,6 +473,7 @@ function groups_screen_group_request_membership() {
 			} else {
 				bp_core_add_message( __( 'Your membership request was sent to the group administrator successfully. You will be notified when the group administrator responds to your request.', 'buddypress' ) );
 			}
+			wp_redirect( bp_group_permalink( $group_obj, false ) );
 		}
 		bp_catch_uri( 'groups/request-membership' );
 	}
