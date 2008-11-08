@@ -200,8 +200,8 @@ function bp_core_do_catch_uri() {
 		} else {
 			if ( file_exists( TEMPLATEPATH . "/404.php" ) ) {
 				load_template( TEMPLATEPATH . "/404.php" );
-			} else if ( file_exists( TEMPLATEPATH . "/404.php" ) ) {
-				load_template( TEMPLATEPATH . "/404.php" );
+			} else if ( file_exists( TEMPLATEPATH . "/home.php" ) ) {
+				load_template( TEMPLATEPATH . "/home.php" );
 			} else {
 				load_template( TEMPLATEPATH . "/index.php" );
 			}	
