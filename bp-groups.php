@@ -866,7 +866,7 @@ function groups_avatar_upload( $file ) {
 	// "Handle" upload into temporary location
 	else if ( !$original = bp_core_handle_avatar_upload($file) ) {
 		$avatar_error = true;
-		$avatar_error_msg = __('Upload Failed! Your photo dimensions are likely too big.', 'buddypress');						
+		$avatar_error_msg = __('Upload Failed! Please check the permissions on the group avatar upload directory.', 'buddypress');						
 	}
 	
 	if ( !$canvas = bp_core_resize_avatar($original) )

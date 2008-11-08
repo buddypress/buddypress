@@ -728,48 +728,6 @@ function bp_is_serialized( $data ) {
    return false;
 }
 
-/**
- * bp_avatar_upload_dir()
- *
- * This function will create an avatar upload directory for a new user.
- * This is directly copied from WordPress so that the code can be
- * accessed on user activation *before* 'upload_path' is placed
- * into the options table for the user.
- *
- * FIX: A fix for this would be to add a hook for 'activate_footer'
- * in wp-activate.php
- * 
- * @package BuddyPress Core
- * @return array Containing path, url, subdirectory and error message (if applicable).
- */
-function bp_avatar_upload_dir( $user_id, $path = '/avatars' ) {
-	$siteurl = site_url();
-	$upload_path = 'wp-content/blogs.dir/1/files' . $path . '/' . $user_id;
-	if ( trim($upload_path) === '' )
-		$upload_path = 'wp-content/uploads';
-	$dir = $upload_path;
-	
-	// $dir is absolute, $path is (maybe) relative to ABSPATH
-	$dir = path_join( ABSPATH, $upload_path );
-	$path = str_replace( ABSPATH, '', trim( $upload_path ) );
-
-	if ( !$url = get_option( 'upload_url_path' ) )
-		$url = trailingslashit( $siteurl ) . $path;
-
-	if ( defined('UPLOADS') ) {
-		$url = trailingslashit( $siteurl ) . UPLOADS;
-	}
-
-	// Make sure we have an uploads dir
-	if ( ! wp_mkdir_p( $dir ) ) {
-		echo "no dir"; die;
-		$message = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' , 'buddypress'), $dir );
-		return array( 'error' => $message );
-	}
-
-	$uploads = array( 'path' => $dir, 'url' => $url, 'subdir' => $subdir, 'error' => false );
-	return apply_filters( 'upload_dir', $uploads );
-}
 
 /**
  * bp_get_page_id()

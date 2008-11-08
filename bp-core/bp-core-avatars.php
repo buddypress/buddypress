@@ -198,13 +198,44 @@ function bp_core_check_avatar_type($file) {
 function bp_core_handle_avatar_upload($file) {
 	global $wp_upload_error;
 	
+	// Change the upload file location to /avatars/user_id
+	add_filter( 'upload_dir', 'bp_core_avatar_upload_dir' );
+	
 	$res = wp_handle_upload( $file['file'], array('action'=>'slick_avatars') );
+		
 	if ( !in_array('error', array_keys($res) ) ) {
 		return $res['file'];
 	} else {
 		$wp_upload_error = $res['error'];
 		return false;
 	}
+}
+
+function bp_core_avatar_upload_dir( $upload, $user_id = false ) {
+	global $bp, $current_blog;
+
+	if ( !$user_id )
+		$user_id = $bp['loggedin_userid'];
+	
+	// Switch to the root blog, so all avatars are stored in the root blog upload dir.
+	switch_to_blog(1);
+	
+	$path  = get_option('upload_path');
+	$newdir = path_join( ABSPATH, $path );
+	$newdir .= '/avatars/' . $user_id . '/';
+
+	$newbdir = $newdir;
+	
+	@wp_mkdir_p( $newdir );
+
+	$newurl = trailingslashit( get_option('siteurl') ) . '/avatars/' . $user_id . '/';
+	$newburl = $newurl;
+	$newsubdir = '/avatars/' . $user_id . '/';
+	
+	// Switch back to the current blog
+	switch_to_blog($current_blog->blog_id);	
+
+	return array( 'path' => $newdir, 'url' => $newurl, 'subdir' => $newsubdir, 'basedir' => $newbdir, 'baseurl' => $newburl, 'error' => false );
 }
 
 function bp_core_check_avatar_dimensions($file) {

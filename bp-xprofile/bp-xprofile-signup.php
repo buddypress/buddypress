@@ -268,27 +268,26 @@ function xprofile_handle_signup_avatar( $user_id, $meta ) {
 	$original = $meta['avatar_image_original'];	
 	
 	if ( !empty($resized) && !empty($original) ) {
-		$upload_dir = bp_avatar_upload_dir( $user_id );
+		// Create and set up the upload dir first.
+		$upload_dir = bp_core_avatar_upload_dir( false, $user_id );
 		
-		if ( $upload_dir ) {
-			$resized_strip_path = explode( '/', $resized );
-			$original_strip_path = explode( '/', $original );
+		$resized_strip_path = explode( '/', $resized );
+		$original_strip_path = explode( '/', $original );
 
-			$resized_filename = $resized_strip_path[count($resized_strip_path) - 1];
-			$original_filename = $original_strip_path[count($original_strip_path) - 1];
+		$resized_filename = $resized_strip_path[count($resized_strip_path) - 1];
+		$original_filename = $original_strip_path[count($original_strip_path) - 1];
 
-			$resized_new = $upload_dir['path'] . '/' . $resized_filename;
-			$original_new = $upload_dir['path'] . '/' . $original_filename;
+		$resized_new = $upload_dir['path'] . '/' . $resized_filename;
+		$original_new = $upload_dir['path'] . '/' . $original_filename;
 
-			@copy( $resized, $resized_new );
-			@copy( $original, $original_new );
+		@copy( $resized, $resized_new );
+		@copy( $original, $original_new );
 
-			@unlink($resized);
-			@unlink($original);
+		@unlink($resized);
+		@unlink($original);
 
-			$resized = $resized_new;
-			$original = $original_new;
-		}
+		$resized = $resized_new;
+		$original = $original_new;
 	
 		// Render the cropper UI
 		$action = site_url() . '/wp-activate.php?key=' . $_GET['key'] . '&amp;cropped=true';
