@@ -48,7 +48,7 @@ function bp_home_theme_catch_urls() {
 
 	if ( $bp['current_component'] == 'news' && $bp['current_action'] == '' ) {
 		query_posts('showposts=15');
-		bp_catch_uri('index');
+		bp_catch_uri('index', true );
 	}
 }
 add_action('wp', 'bp_home_theme_catch_urls', 1 );
@@ -56,7 +56,7 @@ add_action('wp', 'bp_home_theme_catch_urls', 1 );
 function bp_is_page($page) {
 	global $bp;
 
-	if ( $page == $bp['current_component'] || $page == 'home' && $bp['current_component'] == '' )
+	if ( $page == $bp['current_component'] || $page == 'home' && $bp['current_component'] == $bp['default_component'] )
 		return true;
 	
 	return false;
