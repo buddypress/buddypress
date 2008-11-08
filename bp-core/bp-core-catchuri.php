@@ -148,8 +148,10 @@ add_action( 'wp', 'bp_core_set_uri_globals', 1 );
  * @param $pages Template file names to use.
  * @uses add_action() Hooks a function on to a specific action
  */
-function bp_catch_uri( $pages ) {
-	global $bp_path;
+function bp_catch_uri( $pages, $skip_blog_check = false ) {
+	global $bp_path, $bp_skip_blog_check;
+	
+	$bp_skip_blog_check = $skip_blog_check;
 
 	$bp_path = $pages;
 
@@ -166,14 +168,16 @@ function bp_catch_uri( $pages ) {
  */
 function bp_core_do_catch_uri() {
 	global $bp_path, $bp, $wpdb;
-	global $current_blog;
+	global $current_blog, $bp_skip_blog_check;
 
 	$pages = $bp_path;
-	
-	/* Don't hijack any URLs on blog pages */
-	if ( bp_is_blog_page() && $current_blog->blog_id > 1 )
-		return false;
 
+	/* Don't hijack any URLs on blog pages */
+	if ( !$bp_skip_blog_check ) {
+		if ( bp_is_blog_page() )
+			return false;
+	}
+	
 	if ( !file_exists( TEMPLATEPATH . "/header.php" ) || !file_exists( TEMPLATEPATH . "/footer.php" ) )
 		wp_redirect( $bp['root_domain'] );
 
@@ -194,10 +198,13 @@ function bp_core_do_catch_uri() {
 		if ( file_exists( TEMPLATEPATH . "/" . $pages . ".php" ) ) {
 			load_template( TEMPLATEPATH . "/" . $pages . ".php" );
 		} else {
-			if ( file_exists( TEMPLATEPATH . "/home.php" ) )
-				load_template( TEMPLATEPATH . "/home.php" );
-			else
-				load_template( TEMPLATEPATH . "/404.php" );	
+			if ( file_exists( TEMPLATEPATH . "/404.php" ) ) {
+				load_template( TEMPLATEPATH . "/404.php" );
+			} else if ( file_exists( TEMPLATEPATH . "/404.php" ) ) {
+				load_template( TEMPLATEPATH . "/404.php" );
+			} else {
+				load_template( TEMPLATEPATH . "/index.php" );
+			}	
 		}
 	}
 
