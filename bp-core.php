@@ -47,6 +47,9 @@ require_once( 'bp-core/bp-core-notifications.php' );
 /* Functions to handle and display the member and blog directory pages */
 require_once( 'bp-core/directories/bp-core-directory-members.php' );
 
+/* Functions to handle and display BuddyPress administration menus */
+require_once( 'bp-core/bp-core-admin.php' );
+
 
 /* "And now for something completely different" .... */
 
@@ -202,6 +205,18 @@ function bp_core_check_installed() {
 	}
 }
 add_action( 'admin_menu', 'bp_core_check_installed' );
+
+
+function bp_core_add_admin_menu() {
+	global $wpdb, $bp;
+	
+	if ( is_site_admin() ) {
+		/* Add the administration tab under the "Site Admin" tab for site administrators */
+		add_submenu_page( 'wpmu-admin.php', __("BuddyPress", 'buddypress'), __("BuddyPress", 'buddypress'), 1, "bp_core_admin_settings", "bp_core_admin_settings" );
+	}
+}
+add_action( 'admin_menu', 'bp_core_add_admin_menu' );
+
 
 /**
  * bp_core_setup_nav()

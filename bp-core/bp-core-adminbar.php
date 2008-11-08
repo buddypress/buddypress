@@ -2,6 +2,9 @@
 
 function bp_core_admin_bar() {
 	global $bp, $wpdb, $current_blog;
+	
+	if ( !(int)get_site_option( 'show-loggedout-adminbar' ) && !is_user_logged_in() )
+		return false;
 
 	echo '<div id="wp-admin-bar">';
 	echo '<a href="' . get_blog_option( 1, 'siteurl' ) . '"><img id="admin-bar-logo" src="' . site_url() . '/wp-content/mu-plugins/bp-core/images/admin_bar_logo.gif" alt="BuddyPress" /></a>';

@@ -53,7 +53,7 @@ function bp_get_nav() {
 	}
 	
 	/* Always add a log out list item to the end of the navigation */
-	echo '<li><a id="wp-logout" href="' . site_url() . '/wp-login.php?action=logout&amp;redirect_to=' . site_url() . '">Log Out</a><li>';
+	echo '<li><a id="wp-logout" href="' . site_url() . '/wp-login.php?action=logout&amp;redirect_to=' . site_url() . $_SERVER['REQUEST_URI'] . '">Log Out</a><li>';
 }
 
 /**
