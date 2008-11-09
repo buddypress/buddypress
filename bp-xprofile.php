@@ -174,7 +174,7 @@ function xprofile_add_admin_menu() {
 		wp_enqueue_script( 'jquery.tablednd', '/wp-content/mu-plugins/bp-core/js/jquery/jquery.tablednd.js', array( 'jquery' ), '0.4' );
 	
 		/* Add the administration tab under the "Site Admin" tab for site administrators */
-		add_submenu_page( 'wpmu-admin.php', __("Profiles", 'buddypress'), __("Profiles", 'buddypress'), 1, "xprofile_settings", "xprofile_admin" );
+		add_submenu_page( 'wpmu-admin.php', __("Profile Fields", 'buddypress'), __("Profile Fields", 'buddypress'), 1, "xprofile_settings", "xprofile_admin" );
 
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 		if ( ( $wpdb->get_var("show tables like '%" . $bp['profile']['table_name_groups'] . "%'") == false ) || ( get_site_option('bp-xprofile-version') < BP_XPROFILE_VERSION )  )

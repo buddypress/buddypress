@@ -312,16 +312,22 @@ Class BP_Groups_Group {
 		return array( 'groups' => $groups, 'count' => $total_groups );
 	}
 	
-	function search_groups( $filter, $limit = null, $page = null ) {
+	function search_groups( $filter, $limit = null, $page = null, $sort_by = false, $order = false ) {
 		global $wpdb, $bp;
 		
 		like_escape($filter);
 		
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+
+		if ( $sort_by && $order ) {
+			$sort_by = $wpdb->escape( $sort_by );
+			$order = $wpdb->escape( $order );
+			$order_sql = "ORDER BY $sort_by $order";
+		}
 		
-		$sql = $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name'] . " WHERE status != 'hidden' AND name LIKE '%%$filter%%' OR description LIKE '$filter%%'$pag_sql" );
-		$count_sql = $wpdb->prepare( "SELECT count(id) FROM " . $bp['groups']['table_name'] . " WHERE status != 'hidden' AND name LIKE '%%$filter%%' OR description LIKE '$filter%%'" );
+		$sql = $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name'] . " WHERE status != 'hidden' AND name LIKE '%%$filter%%' OR description LIKE '%%$filter%%'{$order_sql}{$pag_sql}" );
+		$count_sql = $wpdb->prepare( "SELECT count(id) FROM " . $bp['groups']['table_name'] . " WHERE status != 'hidden' AND name LIKE '%%$filter%%' OR description LIKE '%%$filter%%'" );
 		
 		$group_ids = $wpdb->get_col($sql);
 		$total_groups = $wpdb->get_var($count_sql);
@@ -386,7 +392,7 @@ Class BP_Groups_Group {
 		if ( !$limit )
 			$limit = 5;
 
-		return $wpdb->get_results( $wpdb->prepare( "SELECT group_id FROM " . $bp['groups']['table_name_groupmeta'] . " gm, " . $bp['groups']['table_name'] . " g WHERE g.id = gm.group_id AND g.status != 'hidden' AND meta_key = 'last_activity' ORDER BY CONVERT(meta_value, SIGNED) DESC LIMIT %d", $limit ) ); 
+		return $wpdb->get_results( $wpdb->prepare( "SELECT group_id FROM " . $bp['groups']['table_name_groupmeta'] . " gm, " . $bp['groups']['table_name'] . " g WHERE g.id = gm.group_id AND g.status != 'hidden' AND gm.meta_key = 'last_activity' ORDER BY CONVERT(gm.meta_value, SIGNED) DESC LIMIT %d", $limit ) ); 
 	}
 	
 	function get_popular( $limit = 5 ) {
@@ -395,10 +401,10 @@ Class BP_Groups_Group {
 		if ( !$limit )
 			$limit = 5;
 
-		return $wpdb->get_results( $wpdb->prepare( "SELECT gm.group_id FROM " . $bp['groups']['table_name_groupmeta'] . " gm, " . $bp['groups']['table_name'] . " g WHERE g.id = gm.group_id AND g.status != 'hidden' AND meta_key = 'total_member_count' ORDER BY CONVERT(meta_value, SIGNED) DESC LIMIT %d", $limit ) ); 
+		return $wpdb->get_results( $wpdb->prepare( "SELECT gm.group_id FROM " . $bp['groups']['table_name_groupmeta'] . " gm, " . $bp['groups']['table_name'] . " g WHERE g.id = gm.group_id AND g.status != 'hidden' AND gm.meta_key = 'total_member_count' ORDER BY CONVERT(gm.meta_value, SIGNED) DESC LIMIT %d", $limit ) ); 
 	}
 	
-	function get_all( $only_public = true, $limit = null, $page = null, $instantiate = false ) {
+	function get_all( $only_public = true, $limit = null, $page = null, $sort_by = false, $order = false, $instantiate = false ) {
 		global $wpdb, $bp;
 		
 		if ( $only_public )
@@ -406,8 +412,28 @@ Class BP_Groups_Group {
 		
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
-
-		$groups = $wpdb->get_results( $wpdb->prepare( "SELECT id, slug FROM " . $bp['groups']['table_name'] . " {$public_sql} {$pag_sql}" ) ); 
+		
+		if ( $sort_by && $order ) {
+			$sort_by = $wpdb->escape( $sort_by );
+			$order = $wpdb->escape( $order );
+			$order_sql = "ORDER BY $sort_by $order";
+			
+			switch ( $sort_by ) {
+				default:
+					$sql = $wpdb->prepare( "SELECT id, slug FROM " . $bp['groups']['table_name'] . " {$public_sql} {$order_sql} {$pag_sql}" ); 	
+					break;
+				case 'members':
+					$sql = $wpdb->prepare( "SELECT g.id, g.slug FROM " . $bp['groups']['table_name'] . " g, " . $bp['groups']['table_name_groupmeta'] . " gm WHERE g.id = gm.group_id AND gm.meta_key = 'total_member_count' ORDER BY CONVERT(gm.meta_value, SIGNED) {$order} {$pag_sql}" ); 
+					break;
+				case 'last_active':
+					$sql = $wpdb->prepare( "SELECT g.id, g.slug FROM " . $bp['groups']['table_name'] . " g, " . $bp['groups']['table_name_groupmeta'] . " gm WHERE g.id = gm.group_id AND gm.meta_key = 'last_activity' ORDER BY CONVERT(gm.meta_value, SIGNED) {$order} {$pag_sql}" ); 
+					break;
+			}
+		} else {
+			$sql = $wpdb->prepare( "SELECT id, slug FROM " . $bp['groups']['table_name'] . " {$public_sql} {$order_sql} {$pag_sql}" ); 	
+		}
+		
+		$groups = $wpdb->get_results($sql);
 		
 		if ( !$instantiate )
 			return $groups;

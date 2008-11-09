@@ -56,6 +56,14 @@ function groups_admin_settings() {
 					<p><?php echo sprintf( __( 'Groups matching: "%s"', 'buddypress' ), $_REQUEST['s'] ) ?></p>
 				<?php } ?>
 				
+				<?php 
+				if ( !isset($_REQUEST['order']) || $_REQUEST['order'] == 'ASC' ) {
+					$order = 'DESC';
+				} else {
+					$order = 'ASC';
+				}
+				?>
+				
 				<table class="widefat" cellspacing="3" cellpadding="3">
 					<thead>
 						<tr>
@@ -65,28 +73,41 @@ function groups_admin_settings() {
 							<th scope="col">
 							</th>
 							<th scope="col">
-								<a href="wpmu-users.php?sortby=id&order=DESC&apage=1">ID</a>
+								<a href="<?php echo site_url() . $_SERVER['SCRIPT_NAME'] ?>?page=groups_admin_settings&amp;sortby=id&amp;order=<?php echo $order ?><?php if ( isset( $_REQUEST['s'] ) ) { ?>&amp;s=<?php echo $_REQUEST['s'] ?> <?php } ?>">
+									ID
+								</a>
 							</th>
 							<th scope="col">
-								<?php _e( 'Name', 'buddypress' ) ?>
+								<a href="<?php echo site_url() . $_SERVER['SCRIPT_NAME'] ?>?page=groups_admin_settings&amp;sortby=name&amp;order=<?php echo $order ?><?php if ( isset( $_REQUEST['s'] ) ) { ?>&amp;s=<?php echo $_REQUEST['s'] ?> <?php } ?>">
+									<?php _e( 'Name', 'buddypress' ) ?>
+								</a>
 							</th>
 							<th scope="col">
-								<?php _e( 'Description', 'buddypress' ) ?>
+								<a href="<?php echo site_url() . $_SERVER['SCRIPT_NAME'] ?>?page=groups_admin_settings&amp;sortby=description&amp;order=<?php echo $order ?><?php if ( isset( $_REQUEST['s'] ) ) { ?>&amp;s=<?php echo $_REQUEST['s'] ?> <?php } ?>">
+									<?php _e( 'Description', 'buddypress' ) ?>
+								</a>
 							</th>
 							<th scope="col">
-								<?php _e( 'Type', 'buddypress' ) ?>
+								<a href="<?php echo site_url() . $_SERVER['SCRIPT_NAME'] ?>?page=groups_admin_settings&amp;sortby=status&amp;order=<?php echo $order ?><?php if ( isset( $_REQUEST['s'] ) ) { ?>&amp;s=<?php echo $_REQUEST['s'] ?> <?php } ?>">
+									<?php _e( 'Type', 'buddypress' ) ?>
+								</a>
 							</th>
 							<th scope="col">
-								<?php _e( 'Members', 'buddypress' ) ?>
+								<a href="<?php echo site_url() . $_SERVER['SCRIPT_NAME'] ?>?page=groups_admin_settings&amp;sortby=members&amp;order=<?php echo $order ?><?php if ( isset( $_REQUEST['s'] ) ) { ?>&amp;s=<?php echo $_REQUEST['s'] ?> <?php } ?>">
+									<?php _e( 'Members', 'buddypress' ) ?>
+								</a>
 							</th>
 							<th scope="col">
-								<?php _e( 'Creator', 'buddypress' ) ?>
+								<a href="<?php echo site_url() . $_SERVER['SCRIPT_NAME'] ?>?page=groups_admin_settings&amp;sortby=date_created&amp;order=<?php echo $order ?><?php if ( isset( $_REQUEST['s'] ) ) { ?>&amp;s=<?php echo $_REQUEST['s'] ?> <?php } ?>">
+									<?php _e( 'Created', 'buddypress' ) ?></a>
 							</th>
 							<th scope="col">
-								<?php _e( 'Created', 'buddypress' ) ?>
+								<a href="<?php echo site_url() . $_SERVER['SCRIPT_NAME'] ?>?page=groups_admin_settings&amp;sortby=last_active&amp;order=<?php echo $order ?><?php if ( isset( $_REQUEST['s'] ) ) { ?>&amp;s=<?php echo $_REQUEST['s'] ?> <?php } ?>">
+									<?php _e( 'Last Active', 'buddypress' ) ?>
+								</a>
 							</th>
 							<th scope="col">
-								<?php _e( 'Last Active', 'buddypress' ) ?>
+									<?php _e( 'Admins', 'buddypress' ) ?>
 							</th>
 						</tr>
 					</thead>
@@ -102,9 +123,9 @@ function groups_admin_settings() {
 								<td><?php bp_group_description_excerpt() ?></td>
 								<td><?php bp_group_type() ?></td>
 								<td><?php bp_group_total_members() ?></td>
-								<td><?php bp_group_list_admins(false) ?></td>
 								<td><?php bp_group_date_created() ?></td>
 								<td><?php bp_group_last_active() ?></td>
+								<td><?php bp_group_list_admins(false) ?></td>
 							</tr>
 						<?php endwhile; ?>
 					</tbody>

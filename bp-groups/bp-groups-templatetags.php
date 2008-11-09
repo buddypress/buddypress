@@ -13,6 +13,9 @@ class BP_Groups_Template {
 	var $pag_links;
 	var $total_group_count;
 	
+	var $sort_by;
+	var $order;
+	
 	function bp_groups_template( $user_id = null, $group_slug = null, $groups_per_page = 5 ) {
 		global $bp, $current_user;
 		
@@ -51,13 +54,16 @@ class BP_Groups_Template {
 		
 		} else if ( isset( $_REQUEST['page'] ) && $_REQUEST['page'] == 'groups_admin_settings' ) {
 			
+			$this->sort_by = $_REQUEST['sortby'];
+			$this->order = ( isset( $_REQUEST['order'] ) ) ? $_REQUEST['order'] : 'ASC';
+			
 			if ( isset( $_REQUEST['s'] ) && $_REQUEST['s'] != '' ) {
-				$this->groups = groups_search_groups( $_REQUEST['s'], $this->pag_num, $this->pag_page );
+				$this->groups = groups_search_groups( $_REQUEST['s'], $this->pag_num, $this->pag_page, $this->sort_by, $this->order );
 				$this->total_group_count = (int)$this->groups['count'];
 				$this->groups = $this->groups['groups'];
 				$this->group_count = count($this->groups);
 			} else {
-				$this->groups = BP_Groups_Group::get_all( false, $this->pag_num, $this->pag_page, true );
+				$this->groups = BP_Groups_Group::get_all( false, $this->pag_num, $this->pag_page, $this->sort_by, $this->order, true );
 				$this->total_group_count = count(BP_Groups_Group::get_all( false )); // TODO: not ideal
 				$this->group_count = count($this->groups);
 			}
@@ -71,7 +77,7 @@ class BP_Groups_Template {
 		}
 
 		$this->pag_links = paginate_links( array(
-			'base' => add_query_arg( array( 'fpage' => '%#%', 'num' => $this->pag_num, 's' => $_REQUEST['s'] ) ),
+			'base' => add_query_arg( array( 'fpage' => '%#%', 'num' => $this->pag_num, 's' => $_REQUEST['s'], 'sortby' => $this->sort_by, 'order' => $this->order ) ),
 			'format' => '',
 			'total' => ceil($this->total_group_count / $this->pag_num),
 			'current' => $this->pag_page,
