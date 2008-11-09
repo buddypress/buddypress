@@ -167,7 +167,10 @@ Class BP_Groups_Group {
 		if ( $wpdb->query($sql) === false )
 			return false;
 		
-		$this->id = $wpdb->insert_id;
+		if ( !$this->id ) {
+			$this->id = $wpdb->insert_id;
+		}
+		
 		return true;
 	}
 	
@@ -317,8 +320,8 @@ Class BP_Groups_Group {
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		
-		$sql = $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name'] . " WHERE status != 'hidden' AND name LIKE '$filter%%' OR description LIKE '$filter%%'$pag_sql" );
-		$count_sql = $wpdb->prepare( "SELECT count(id) FROM " . $bp['groups']['table_name'] . " WHERE status != 'hidden' AND name LIKE '$filter%%' OR description LIKE '$filter%%'" );
+		$sql = $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name'] . " WHERE status != 'hidden' AND name LIKE '%%$filter%%' OR description LIKE '$filter%%'$pag_sql" );
+		$count_sql = $wpdb->prepare( "SELECT count(id) FROM " . $bp['groups']['table_name'] . " WHERE status != 'hidden' AND name LIKE '%%$filter%%' OR description LIKE '$filter%%'" );
 		
 		$group_ids = $wpdb->get_col($sql);
 		$total_groups = $wpdb->get_var($count_sql);
@@ -395,10 +398,25 @@ Class BP_Groups_Group {
 		return $wpdb->get_results( $wpdb->prepare( "SELECT gm.group_id FROM " . $bp['groups']['table_name_groupmeta'] . " gm, " . $bp['groups']['table_name'] . " g WHERE g.id = gm.group_id AND g.status != 'hidden' AND meta_key = 'total_member_count' ORDER BY CONVERT(meta_value, SIGNED) DESC LIMIT %d", $limit ) ); 
 	}
 	
-	function get_all() {
+	function get_all( $only_public = true, $limit = null, $page = null, $instantiate = false ) {
 		global $wpdb, $bp;
 		
-		return $wpdb->get_results( $wpdb->prepare( "SELECT id, slug FROM " . $bp['groups']['table_name'] . " WHERE status = 'public'" ) ); 
+		if ( $only_public )
+			$public_sql = $wpdb->prepare( " WHERE status = 'public'" );
+		
+		if ( $limit && $page )
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+
+		$groups = $wpdb->get_results( $wpdb->prepare( "SELECT id, slug FROM " . $bp['groups']['table_name'] . " {$public_sql} {$pag_sql}" ) ); 
+		
+		if ( !$instantiate )
+			return $groups;
+		
+		for ( $i = 0; $i < count($groups); $i++ ) {
+			$group_objs[] = new BP_Groups_Group( $groups[$i]->id ); 
+		}
+		
+		return $group_objs;
 	}
 	
 	function get_random() {
