@@ -11,14 +11,14 @@
 		
 		<h2><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a> &raquo; Send Invites</h2>
 	
-		<?php if ( bp_has_friends() ) : ?>
+		<?php //if ( //bp_has_friends() ) : ?>
 			<form action="<?php bp_group_send_invite_form_action() ?>" method="post" id="send-invite-form">
 				<?php bp_group_send_invite_form() ?>
 			</form>
-		<?php else : ?>
-			<div id="message" class="info">
+		<?php //else : ?>
+			<!-- <div id="message" class="info">
 				<p>No friends!</p>
-			</div>
-		<?php endif; ?>
+			</div> -->
+		<?php //endif; ?>
 	<?php endwhile; endif; ?>
 </div>
