@@ -216,12 +216,13 @@ function bp_the_profile_field_value() {
 	
 	if ( $field->type == "datebox" ) {
 		$field->data->value = bp_format_time( $field->data->value, true );
+	} else {
+		$content = $field->data->value;
+		$content = apply_filters('the_content', $content);
+		$field->data->value = str_replace(']]>', ']]&gt;', $content);
 	}
 	
-	if ( BP_FRIENDS_IS_INSTALLED )
-		echo stripslashes($field->data->value);
-	else
-		echo stripslashes($field->data->value);
+	echo stripslashes($field->data->value);
 }
 
 function bp_get_field_data( $field, $user_id = null ) {
