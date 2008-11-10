@@ -109,11 +109,14 @@ function groups_admin_settings() {
 							<th scope="col">
 									<?php _e( 'Admins', 'buddypress' ) ?>
 							</th>
+							<th scope="col">
+							</th>
 						</tr>
 					</thead>
 					<tbody id="group-list" class="list:groups group-list">
+						<?php $counter = 0 ?>
 						<?php while ( bp_groups() ) : bp_the_group(); ?>
-							<tr class="alternate">
+							<tr<?php if ( $counter % 2 == 1 ) { ?> class="alternate"<?php }?>>
 								<th class="check-column" scope="row">
 									<input id="group_<?php bp_group_id() ?>" type="checkbox" value="<?php bp_group_id() ?>" name="allgroups[<?php bp_group_id() ?>]" />
 								</th>
@@ -126,7 +129,9 @@ function groups_admin_settings() {
 								<td><?php bp_group_date_created() ?></td>
 								<td><?php bp_group_last_active() ?></td>
 								<td><?php bp_group_list_admins(false) ?></td>
+								<td><a href="<?php bp_group_permalink() ?>/admin"><?php _e( 'Edit', 'buddypress') ?></a></td>
 							</tr>
+							<?php $counter++ ?>
 						<?php endwhile; ?>
 					</tbody>
 				</table>

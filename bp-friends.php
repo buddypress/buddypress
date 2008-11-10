@@ -392,6 +392,9 @@ function friends_add_friend( $initiator_userid = null, $friend_userid = null ) {
 	
 	$friendship = new BP_Friends_Friendship;
 	
+	if ( (int)$friendship->is_confirmed )
+		return true;
+		
 	$friendship->initiator_user_id = $initiator_userid;
 	$friendship->friend_user_id = $friend_userid;
 	$friendship->is_confirmed = 0;
