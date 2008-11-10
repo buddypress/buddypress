@@ -42,9 +42,6 @@ function friends_notification_accepted_request( $friendship_id, $initiator_id, $
 	
 	$friendship = new BP_Friends_Friendship( $friendship_id, false, false );
 	
-	if ( (int)$friendship->is_confirmed )
-		return true;
-	
 	$friend_name = bp_fetch_user_fullname( $friend_id, false );
 
 	if ( get_usermeta( $initiator_id, 'notification_friends_accepted_request' ) == 'no' )
