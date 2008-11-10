@@ -3,13 +3,17 @@
 
 	<form name="wire-post-list-form" id="wire-post-list-form" action="" method="post">
 	<?php if ( bp_has_wire_posts( bp_wire_item_id(), bp_wire_can_post() ) ) : ?>
-		<div id="wire-count" class="pag-count">
-			<?php bp_wire_pagination_count() ?>
-		</div>
 		
-		<div id="wire-pagination" class="pagination-links">
-			<?php bp_wire_pagination() ?>
-		</div>
+		<?php if ( bp_wire_needs_pagination() ) : ?>
+			<div id="wire-count" class="pag-count">
+				<?php bp_wire_pagination_count() ?> &nbsp;
+				<img id="ajax-loader" src="<?php bp_wire_ajax_loader_src() ?>" height="7" alt="Loading" style="display: none;" />
+			</div>
+		
+			<div id="wire-pagination" class="pagination-links">
+				<?php bp_wire_pagination() ?>
+			</div>
+		<?php endif; ?>
 		
 		<ul id="wire-post-list">
 		<?php while ( bp_wire_posts() ) : bp_the_wire_post(); ?>

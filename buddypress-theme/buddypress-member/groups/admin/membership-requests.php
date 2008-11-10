@@ -13,7 +13,7 @@
 		<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 		
 		<?php if ( bp_group_has_membership_requests() ) : ?>
-			<ul id="friend-list">
+			<ul id="request-list" class="item-list">
 			<?php while ( bp_group_membership_requests() ) : bp_group_the_membership_request(); ?>
 				<li>
 					<?php bp_group_request_user_avatar_thumb() ?>
