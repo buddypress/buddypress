@@ -212,7 +212,17 @@ function bp_core_check_installed() {
 }
 add_action( 'admin_menu', 'bp_core_check_installed' );
 
-
+/**
+ * bp_core_add_admin_menu()
+ *
+ * Adds the "BuddyPress" admin submenu item to the Site Admin tab.
+ * 
+ * @package BuddyPress Core
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global $wpdb WordPress DB access object.
+ * @uses is_site_admin() returns true if the current user is a site admin, false if not
+ * @uses add_submenu_page() WP function to add a submenu item
+ */
 function bp_core_add_admin_menu() {
 	global $wpdb, $bp;
 	
@@ -223,6 +233,47 @@ function bp_core_add_admin_menu() {
 }
 add_action( 'admin_menu', 'bp_core_add_admin_menu' );
 
+/**
+ * bp_core_redirect()
+ *
+ * Perform a safe wp_redirect without causing redirect loops due to confirmation redirects.
+ * 
+ * @package BuddyPress Core
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global $wpdb WordPress DB access object.
+ * @uses bp_core_is_root_component() checks if a component sits in the root of the site
+ * @uses site_url() Returns the site url including protocol
+ */
+function bp_core_redirect( $url ) {
+	global $bp;
+	
+	if ( isset( $_GET['nr'] ) ) {
+		if ( bp_core_is_root_component( $bp['current_component'] ) ) {
+			if ( $bp['current_item'] != '' )
+				$url = site_url() . '/' . $bp[$bp['current_component']]['slug'] . '/' . $bp['current_item'] . '/' . $bp['current_action'] . '/' . $bp['action_variables'][0];
+			else
+				$url = site_url() . '/' . $bp[$bp['current_component']]['slug'] . '/' . $bp['current_action'] . '/' . $bp['action_variables'][0];
+		} else {
+			$url = $bp['loggedin_domain'] . $bp[$bp['current_component']]['slug'] . '/' . $bp['current_action'];
+		}
+	}
+
+	wp_redirect( $url );
+}
+
+/**
+ * bp_core_is_root_component()
+ *
+ * Checks to see if a component's URL should be in the root, not under a member page:
+ * eg: http://domain.com/groups/the-group NOT http://domain.com/members/andy/groups/the-group
+ * 
+ * @package BuddyPress Core
+ * @return true if root component, else false.
+ */
+function bp_core_is_root_component( $component_name ) {
+	$root_components = explode( ',', BP_CORE_ROOT_COMPONENTS );	
+	return in_array( $component_name, $root_components );
+}
 
 /**
  * bp_core_setup_nav()
