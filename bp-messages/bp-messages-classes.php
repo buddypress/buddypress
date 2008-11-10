@@ -50,8 +50,11 @@ Class BP_Messages_Thread {
 
 			if ( $this->has_access ) {
 				$this->thread_id = $thread->id;
-				$this->message_ids = unserialize($thread->message_ids);
-				$this->message_ids = implode( ',', $this->message_ids );
+				$this->message_ids = maybe_unserialize($thread->message_ids);
+				
+				if ( is_array($this->message_ids) )
+					$this->message_ids = implode( ',', $this->message_ids );
+				
 				$this->first_post_date = $thread->first_post_date;
 				$this->last_post_date = $thread->last_post_date;
 				$this->last_message_id = $thread->last_message_id;
@@ -396,12 +399,7 @@ Class BP_Messages_Message {
 		if ( is_array($recipient_usernames) ) {
 			for ( $i = 0; $i < count($recipient_usernames); $i++ ) {
 				if ( $rid = bp_core_get_userid( trim($recipient_usernames[$i]) ) )
-					if ( $i ) {
-						if ( !in_array( $rid, $recipient_ids ) )
-							$recipient_ids[] = $rid;
-					} else {
-						$recipient_ids[] = $rid;	
-					}
+					$recipient_ids[] = $rid;
 			}
 		}
 		
