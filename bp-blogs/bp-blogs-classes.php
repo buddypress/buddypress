@@ -29,9 +29,14 @@ Class BP_Blogs_Blog {
 	function save() {
 		global $wpdb, $bp;
 		
-		if ( !$this->user_id )
+		// Don't try and save if there is no user ID or blog ID set.
+		if ( !$this->user_id || !$this->blog_id )
 			return false;
 			
+		// Don't save if this blog has already been recorded for the user.
+		if ( !$this->id && $this->exists() )
+			return false;
+		
 		if ( $this->id ) {
 			// Update
 			$sql = $wpdb->prepare( "UPDATE " . $bp['blogs']['table_name'] . " SET user_id = %d, blog_id = %d WHERE id = %d", $this->user_id, $this->blog_id, $this->id );
@@ -47,6 +52,12 @@ Class BP_Blogs_Blog {
 			return $this->id;
 		else
 			return $wpdb->insert_id;
+	}
+	
+	function exists() {
+		global $bp, $wpdb;
+		
+		return $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM " . $bp['blogs']['table_name'] . " WHERE user_id = %d AND blog_id = %d", $this->user_id, $this->blog_id ) );
 	}
 	
 	/* Static Functions */

@@ -69,6 +69,12 @@ function bp_blogs_install( $version ) {
 	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['blogs']['table_name_blog_posts'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
 	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['blogs']['table_name_blog_comments'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
 	
+	// On first installation - record all existing blogs in the system.
+	if ( !(int)get_site_option( 'bp-blogs-first-install') ) {
+		bp_blogs_record_existing_blogs();
+		add_site_option( 'bp-blogs-first-install', 1 );
+	}
+	
 	add_site_option( 'bp-blogs-version', $version );
 }
 
@@ -245,6 +251,27 @@ function bp_blogs_format_activity( $item_id, $user_id, $action, $for_secondary_u
 	}
 	
 	return false;
+}
+
+function bp_blogs_record_existing_blogs() {
+	global $wpdb;
+
+	$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->base_prefix}blogs WHERE public = 1 AND mature = 0 AND spam = 0 AND deleted = 0" ) );
+	
+	if ( $blog_ids ) {
+		foreach( $blog_ids as $blog_id ) {
+			$users = get_users_of_blog( $blog_id );
+
+			if ( $users ) {
+				foreach ( $users as $user ) {
+					$role = unserialize( $user->meta_value );
+
+					if ( !isset( $role['subscriber'] ) )
+						bp_blogs_record_blog( $blog_id, $user->user_id );
+				}
+			}
+		}
+	}
 }
 
 
