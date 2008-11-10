@@ -60,6 +60,8 @@ jQuery("div#wire-pagination a").livequery('click',
 		},
 		function(response)
 		{	
+			jQuery('#ajax-loader').toggle();
+			
 			response = response.substr(0, response.length-1);
 
 			jQuery("form#wire-post-list-form").fadeOut(200, 

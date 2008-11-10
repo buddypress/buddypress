@@ -194,6 +194,15 @@ function bp_wire_post_content() {
 	echo $content;
 }
 
+function bp_wire_needs_pagination() {
+	global $wire_posts_template;
+
+	if ( $wire_posts_template->total_wire_post_count > $wire_posts_template->pag_num )
+		return true;
+	
+	return false;
+}
+
 function bp_wire_pagination() {
 	global $wire_posts_template;
 	echo $wire_posts_template->pag_links;
@@ -207,6 +216,12 @@ function bp_wire_pagination_count() {
 	$to_num = ( $from_num + 4 > $wire_posts_template->total_wire_post_count ) ? $wire_posts_template->total_wire_post_count : $from_num + 4; 
 	
 	echo sprintf( __( 'Viewing post %d to %d (%d total posts)', 'buddypress' ), $from_num, $to_num, $wire_posts_template->total_wire_post_count );  
+}
+
+function bp_wire_ajax_loader_src() {
+	global $bp;
+	
+	echo $bp['wire']['image_base'] . '/ajax-loader.gif';
 }
 
 function bp_wire_post_date( $date_format = null ) {

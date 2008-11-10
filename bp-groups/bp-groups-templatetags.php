@@ -835,6 +835,165 @@ function bp_groups_random_groups() {
 }
 
 /****
+ * Group Members Template Tags
+ **/
+
+class BP_Groups_Group_Members_Template {
+	var $current_member = -1;
+	var $member_count;
+	var $members;
+	var $member;
+	
+	var $in_the_loop;
+	
+	var $pag_page;
+	var $pag_num;
+	var $pag_links;
+	var $total_member_count;
+	
+	function bp_groups_group_members_template( $group_id ) {
+		global $bp;
+		
+		$this->pag_page = isset( $_REQUEST['mlpage'] ) ? intval( $_REQUEST['mlpage'] ) : 1;
+		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : 5;
+		
+		$members = BP_Groups_Member::get_all_for_group( $group_id, $this->pag_num, $this->pag_page );
+		
+		$this->total_member_count = $members['count'];
+		$this->members = $members['members'];
+		
+		$this->member_count = count($this->members);
+		
+		$this->pag_links = paginate_links( array(
+			'base' => add_query_arg( 'mlpage', '%#%' ),
+			'format' => '',
+			'total' => ceil( $this->total_member_count / $this->pag_num ),
+			'current' => $this->pag_page,
+			'prev_text' => '&laquo;',
+			'next_text' => '&raquo;',
+			'mid_size' => 1
+		));
+		
+	}
+	
+	function has_members() {
+		if ( $this->member_count )
+			return true;
+		
+		return false;
+	}
+	
+	function next_member() {
+		$this->current_member++;
+		$this->member = $this->members[$this->current_member];
+		
+		return $this->member;
+	}
+	
+	function rewind_members() {
+		$this->current_member = -1;
+		if ( $this->member_count > 0 ) {
+			$this->member = $this->members[0];
+		}
+	}
+	
+	function members() { 
+		if ( $this->current_member + 1 < $this->member_count ) {
+			return true;
+		} elseif ( $this->current_member + 1 == $this->member_count ) {
+			do_action('loop_end');
+			// Do some cleaning up after the loop
+			$this->rewind_members();
+		}
+
+		$this->in_the_loop = false;
+		return false;
+	}
+	
+	function the_member() {
+		global $member;
+
+		$this->in_the_loop = true;
+		$this->member = $this->next_member();
+
+		if ( $this->current_member == 0 ) // loop has just started
+			do_action('loop_start');
+	}
+}
+
+function bp_group_has_members( $group_id = false ) {
+	global $members_template, $groups_template;
+	
+	if ( !$group_id )
+		$group_id = $groups_template->group->id;
+
+	$members_template = new BP_Groups_Group_Members_Template( $group_id );
+
+	return $members_template->has_members();
+}
+
+function bp_group_members() {
+	global $members_template;
+	
+	return $members_template->members();
+}
+
+function bp_group_the_member() {
+	global $members_template;
+	
+	return $members_template->the_member();
+}
+
+function bp_group_member_avatar() {
+	global $members_template;
+	
+	echo bp_core_get_avatar( $members_template->member->user_id, 1 );
+}
+
+function bp_group_member_link() {
+	global $members_template;
+	
+	echo bp_core_get_userlink( $members_template->member->user_id );
+}
+
+function bp_group_member_joined_since() {
+	global $members_template;
+	
+	echo bp_core_get_last_activity( strtotime( $members_template->member->date_modified ), __( 'joined %s ago', 'buddypress') );
+}
+
+function bp_group_member_id() {
+	global $members_template;
+	return $members_template->member->user_id;
+}
+
+function bp_group_member_needs_pagination() {
+	global $members_template;
+
+	if ( $members_template->total_member_count > $members_template->pag_num )
+		return true;
+	
+	return false;
+}
+
+
+function bp_group_member_pagination() {
+	global $members_template;
+	echo $members_template->pag_links;
+	wp_nonce_field( 'bp_groups_member_list' );
+}
+
+function bp_group_member_pagination_count() {
+	global $members_template;
+	
+	$from_num = intval( ( $members_template->pag_page - 1 ) * $members_template->pag_num ) + 1;
+	$to_num = ( $from_num + 4 > $members_template->total_member_count ) ? $members_template->total_member_count : $from_num + 4; 
+
+	echo sprintf( __( 'Viewing members %d to %d (%d total members)', 'buddypress' ), $from_num, $to_num, $members_template->total_member_count );  
+}
+
+
+/****
  * Membership Requests Template Tags
  **/
 
@@ -851,7 +1010,7 @@ class BP_Groups_Membership_Requests_Template {
 	var $pag_links;
 	var $total_request_count;
 	
-	function bp_groups_membership_requests_template( $group_id = null ) {
+	function bp_groups_membership_requests_template( $group_id ) {
 		global $bp;
 		
 		$this->pag_page = isset( $_REQUEST['mrpage'] ) ? intval( $_REQUEST['mrpage'] ) : 1;

@@ -633,6 +633,25 @@ Class BP_Groups_Member {
 		return $wpdb->get_row( $wpdb->prepare( "SELECT user_id FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d AND is_admin = 1", $group_id ) );
 	}
 	
+	function get_all_for_group( $group_id, $limit = false, $page = false ) {
+		global $bp, $wpdb;
+		
+		if ( $limit && $page )
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+		
+		$members = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, date_modified FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d AND is_confirmed = 1 {$pag_sql}", $group_id ) );
+		
+		if ( !$members )
+			return false;
+		
+		if ( !isset($pag_sql) ) 
+			$total_member_count = count($members);
+		else
+			$total_member_count = $wpdb->get_var( $wpdb->prepare( "SELECT count(user_id) FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d AND is_confirmed = 1", $group_id ) );
+	
+		return array( 'members' => $members, 'count' => $total_member_count );
+	}
+	
 	function delete_all_for_user( $user_id ) {
 		global $wpdb, $bp;
 		

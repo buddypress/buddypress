@@ -8,7 +8,8 @@ function bp_wire_ajax_get_wire_posts() {
 
 	<?php if ( bp_has_wire_posts( $_POST['bp_wire_item_id'], 1 ) ) : ?>
 		<div id="wire-count" class="pag-count">
-			<?php bp_wire_pagination_count() ?>
+			<?php bp_wire_pagination_count() ?> &nbsp;
+			<img id="ajax-loader" src="<?php bp_wire_ajax_loader_src() ?>" height="7" alt="Loading" style="display: none;" />
 		</div>
 			
 		<div id="wire-pagination" class="pagination-links">
