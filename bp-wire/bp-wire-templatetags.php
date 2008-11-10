@@ -41,7 +41,10 @@ class BP_Wire_Posts_Template {
 		$this->wire_posts = $this->wire_posts['wire_posts'];
 		$this->wire_post_count = count($this->wire_posts);
 		
-		$this->can_post = $can_post;
+		if ( (int)get_site_option('non-friend-wire-posting') && ( $bp['current_component'] == $bp['profile']['slug'] || $bp['current_component'] == $bp['wire']['slug'] ) )
+			$this->can_post = 1;
+		else
+			$this->can_post = $can_post;
 		
 		$this->pag_links = paginate_links( array(
 			'base' => add_query_arg( 'wpage', '%#%', $bp['current_domain'] ),
