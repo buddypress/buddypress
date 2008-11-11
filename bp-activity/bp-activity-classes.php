@@ -157,7 +157,7 @@ Class BP_Activity_Activity {
 		
 		if ( !function_exists('friends_get_friend_ids_for_user') )
 			return false;
-		
+
 		$since = strtotime($since);
 		
 		if ( $limit )
@@ -172,7 +172,7 @@ Class BP_Activity_Activity {
 			
 			// Use the cached activity stream.
 			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $bp['activity']['table_name_loggedin_user_friends_cached'] . " WHERE date_recorded >= FROM_UNIXTIME(%d) ORDER BY date_recorded DESC $limit_sql", $since ) );
-			
+
 			for ( $i = 0; $i < count( $activities ); $i++ ) {
 				$activities_formatted[$i]['content'] = $activities[$i]->content;
 				$activities_formatted[$i]['date_recorded'] = $activities[$i]->date_recorded;
@@ -185,10 +185,10 @@ Class BP_Activity_Activity {
 			//echo '<small style="color: red">** Debug: Not Using Cache **</small>';
 			
 			$friend_ids = friends_get_friend_ids_for_user( $user_id );
-		
+
 			for ( $i = 0; $i < count($friend_ids); $i++ ) {
-				$table_name = $wpdb->base_prefix . $field_ids[$i] . '_activity_cached';
-			
+				$table_name = $wpdb->base_prefix . 'user_' . $friend_ids[$i] . '_activity_cached';
+
 				$activities[$i]['activity'] = $wpdb->get_results( $wpdb->prepare( "SELECT content, date_recorded, component_name FROM " . $table_name . " WHERE is_private = 0 ORDER BY date_recorded LIMIT 5" ) );
 				$activities[$i]['full_name'] = bp_fetch_user_fullname( $friend_ids[$i], false );
 			}
@@ -197,7 +197,7 @@ Class BP_Activity_Activity {
 			
 				/* Filter activities for friends to remove 'You' and 'your' */
 				for ( $j = 0; $j < count( $activities[$i]['activity']); $j++ ) {
-					$activities[$i]['activity'][$j]->content = bp_activity_content_filter( $activities[$i]['activity'][$j]->content, $activities[$i]['activity'][$j]->date_recorded, $activities[$i]['full_name'], false, false );
+					$activities[$i]['activity'][$j]->content = bp_activity_content_filter( $activities[$i]['activity'][$j]->content, $activities[$i]['activity'][$j]->date_recorded, $activities[$i]['full_name'], false, false, false );
 					$activities_formatted[] = array( 'user_id' => $friend_ids[$i], 'content' => $activities[$i]['activity'][$j]->content, 'date_recorded' => $activities[$i]['activity'][$j]->date_recorded, 'component_name' => $activities[$i]['activity'][$j]->component_name );
 				}
 			}

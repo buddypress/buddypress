@@ -11,7 +11,7 @@ define( 'MEMBERS_SLUG', 'members' );
 define( 'BP_CORE_ROOT_COMPONENTS', 'groups' . ',' . MEMBERS_SLUG );
 
 /* Load the language file */
-if ( file_exists(ABSPATH . 'wp-content/mu-plugins/bp-languages/buddypress-' . get_locale() . '.mo') )
+if ( file_exists( ABSPATH . 'wp-content/mu-plugins/bp-languages/buddypress-' . get_locale() . '.mo' ) )
 	load_textdomain( 'buddypress', ABSPATH . 'wp-content/mu-plugins/bp-languages/buddypress-' . get_locale() . '.mo' );
 
 /* Functions to handle pretty URLs and breaking them down into usable variables */
