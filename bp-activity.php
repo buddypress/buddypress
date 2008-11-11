@@ -187,8 +187,6 @@ function bp_activity_screen_my_activity() {
 
 function bp_activity_screen_friends_activity() {
 	global $bp;
-	
-	$friend_activity = BP_Activity_Activity::get_activity_for_friends( $bp['loggedin_userid'] );
 
 	bp_catch_uri( 'activity/my-friends' );	
 }
