@@ -11,10 +11,6 @@
 	<div class="main-column">
 		<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 
-		<div class="pagination-links" id="groupfinder-pag">
-			<?php bp_group_pagination() ?>
-		</div>
-		
 		<div id="finder-message">
 			<div id="message" class="info">
 				<p>

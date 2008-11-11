@@ -1,6 +1,5 @@
-<div id="group-loop">
 <?php if ( bp_has_groups() ) : ?>
-	<div class="pagination-links" id="pag">
+	<div class="pagination-links" id="<?php bp_group_pag_id() ?>">
 		<?php bp_group_pagination() ?>
 	</div>
 	
@@ -29,4 +28,3 @@
 	<?php endif; ?>
 
 <?php endif;?>
-</div>
