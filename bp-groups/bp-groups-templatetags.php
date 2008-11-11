@@ -976,6 +976,15 @@ function bp_group_member_needs_pagination() {
 	return false;
 }
 
+function bp_group_pag_id() {
+	global $bp;
+	
+	if ( $bp['current_action'] == 'group-finder' )
+		echo 'groupfinder-pag';
+	else
+		echo 'pag';
+}
+
 
 function bp_group_member_pagination() {
 	global $members_template;
