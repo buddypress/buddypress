@@ -58,10 +58,15 @@ hr, div.clear {
 	clear: right;
 }
 	.info-group div.clear {
-		clear: left;
+		clear: both;
 	}
 
 input, select, textarea { width: 100%; }
+
+.inner-tube {
+	float: right;
+	width: 100%;
+}
 
 /**************************
  HEADER
@@ -323,6 +328,7 @@ ul.content-header-nav {
 	}
 
 	#main #content {
+		position: relative;
 		padding: 2em 3em;
 	}
 		#main #content h2, h3#respond, h3#responses {
@@ -342,7 +348,6 @@ ul.content-header-nav {
 			position: relative;
 			float: left;
 			width: 158px;
-			margin-bottom: 1em;
 		}
 	
 		#main img.avatar {
@@ -968,33 +973,44 @@ ul.content-header-nav {
 		margin-bottom: 1em;
 	}
 
-	ul#group-list li, ul#member-list li, ul#blog-list li, ul#comment-list li {
+	ul#group-list li, ul#member-list li, ul#blog-list li, ul#comment-list li, ul.item-list li {
 		position: relative;
 		background: url(images/message_thread_back.gif) top left repeat-x;
 		padding: 1em;
 		min-height: 60px;
 	}
+		ul.item-list li.banned-user img.avatar {
+			border-color: red !important;
+		}
+			ul.item-list li.banned-user a { color: red; }
 		
-	#group-list li img.avatar, #member-list li img.avatar {
+	#group-list li img.avatar, #member-list li img.avatar, ul.item-list li img.avatar {
 		float: left;
 		margin: 0 1em 0 0;
 	}
-		#group-list li span.small, #member-list li span.small, #comment-list li span.small {
+		#group-list li span.small, #member-list li span.small, #comment-list li span.small, ul.item-list li span.small {
 			font-size: 0.95em;
 			color: #888;
 		}
+			h5 span.small a { color: #888; text-decoration: underline; }
 		
-		#group-list p.desc {
+		#group-list p.desc, ul.item-list p.desc {
 			margin-left: 70px;
 			font-size: 0.9em;
 		}
 			.invites p.desc { width: 45%; }
 		
-		#group-list .action, #member-list .action {
+		#group-list .action, #member-list .action, .item-list .action {
 			position: absolute;
 			top: 30%;
 			right: 1em;
 		}
+	
+	
+	
+	.single-line li {
+		min-height: 35px !important;	
+	}
 		
 	#group-admins img.avatar {
 		width: 38px;
@@ -1012,7 +1028,10 @@ ul.content-header-nav {
 		color: #888;
 		letter-spacing: 0.5px;
 	}
-		
+	
+	.mods-list li {
+		padding-bottom: 15px;
+	}
 		
 /**** WIRE ***********************/
 

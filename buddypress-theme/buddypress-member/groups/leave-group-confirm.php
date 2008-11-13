@@ -9,30 +9,39 @@
 		<?php bp_group_avatar() ?>
 
 		<?php bp_group_join_button() ?>
-
+		
 		<div class="info-group">
 			<h4>Admins</h4>
 			<?php bp_group_list_admins() ?>
 		</div>
+		
+		<?php if ( bp_group_has_moderators() ) : ?>
+		<div class="info-group">
+			<h4>Mods</h4>
+			<?php bp_group_list_mods() ?>
+		</div>
+		<?php endif; ?>
 	</div>
 
 	<div class="main-column">
+		<div class="inner-tube">
 
-		<div id="group-name">
-			<h1><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a></h1>
-			<p class="status"><?php bp_group_type() ?></p>
-		</div>
+			<div id="group-name">
+				<h1><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a></h1>
+				<p class="status"><?php bp_group_type() ?></p>
+			</div>
 
-		<div class="info-group">
-			<h4>Confirm Leave Group</h4>
-			<h3>Are you sure you want to leave this group?</h3>
+			<div class="info-group">
+				<h4>Confirm Leave Group</h4>
+				<h3>Are you sure you want to leave this group?</h3>
 	
-			<p>
-				<a href="<?php bp_group_leave_confirm_link() ?>">Yes, I'd like to leave this group.</a> | 
-				<a href="<?php bp_group_leave_reject_link() ?>">No, I'll stay!</a>
-			</p>
-		</div>
+				<p>
+					<a href="<?php bp_group_leave_confirm_link() ?>">Yes, I'd like to leave this group.</a> | 
+					<a href="<?php bp_group_leave_reject_link() ?>">No, I'll stay!</a>
+				</p>
+			</div>
 		
+		</div>
 	</div>
 	
 	<?php endwhile; endif; ?>

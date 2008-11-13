@@ -22,9 +22,7 @@
 			</div>
 		</div>
 		
-		<div id="group-loop">
 		<?php load_template( TEMPLATEPATH . '/groups/group-loop.php') ?>
-		</div>
 		
 	</div>
 	
