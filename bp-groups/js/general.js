@@ -245,7 +245,7 @@ jQuery(document).ready( function() {
 				'_wpnonce': jQuery("input#_member_admin_pag_nonce").val(),
 				'group_id': jQuery("#group_id").val(),
 				'mlpage': mlpage[1],
-				'num': 5
+				'num': 15
 			},
 			function(response)
 			{	

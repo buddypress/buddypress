@@ -178,10 +178,10 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 	global $bp, $current_user;
 
 	if ( groups_is_user_admin( $user_id, $group_id ) ) {
-		$promoted_to = 'admin';
+		$promoted_to = __( 'an administrator', 'buddypress' );
 		$type = 'member_promoted_to_admin';
 	} else {
-		$promoted_to = 'mod';
+		$promoted_to = __( 'a moderator', 'buddypress' );
 		$type = 'member_promoted_to_mod';
 	}
 	
@@ -208,7 +208,7 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 To view the group please visit: %s
 
 ---------------------
-', 'buddypress' ), stripslashes($group->name), $group_link );
+', 'buddypress' ), $promoted_to, stripslashes($group->name), $group_link );
 
 	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
