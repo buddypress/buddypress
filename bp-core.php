@@ -131,6 +131,9 @@ function bp_core_setup_globals() {
 	   generic variable so it can be used in other components. It can also be modified, so when viewing a group
 	   'is_item_admin' would be 1 if they are a group admin, 0 if they are not. */
 	$bp['is_item_admin'] = bp_is_home();
+	
+	/* Used to determine if the logged in user is a moderator for the current content. */
+	$bp['is_item_mod'] = false;
 
 	$bp['core'] = array(
 		'image_base' => site_url() . '/wp-content/mu-plugins/bp-core/images',

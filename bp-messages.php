@@ -333,7 +333,7 @@ function messages_record_activity( $args = true ) {
 	} 
 }
 
-function messages_format_notifications( $action, $item_id, $total_items ) {
+function messages_format_notifications( $action, $item_id, $secondary_item_id, $total_items ) {
 	global $bp;
 	
 	if ( $action == 'new_message') {

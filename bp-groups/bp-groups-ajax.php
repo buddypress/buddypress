@@ -158,4 +158,52 @@ function groups_ajax_member_list() {
 }
 add_action( 'wp_ajax_get_group_members', 'groups_ajax_member_list' );
 
+
+function groups_ajax_member_admin_list() {
+	global $bp;
+
+	check_ajax_referer('bp_groups_member_admin_list'); ?>
+	
+	<?php if ( bp_group_has_members( $_REQUEST['group_id'], $_REQUEST['num'] ) ) : ?>
+	
+		<?php if ( bp_group_member_needs_pagination() ) : ?>
+			<div id="member-count" class="pag-count">
+				<?php bp_group_member_pagination_count() ?>
+			</div>
+
+			<div id="member-admin-pagination" class="pagination-links">
+				<?php bp_group_member_admin_pagination() ?>
+			</div>
+		<?php endif; ?>
+	
+		<ul id="members-list" class="item-list single-line">
+		<?php while ( bp_group_members() ) : bp_group_the_member(); ?>
+			<?php if ( bp_group_member_is_banned() ) : ?>
+				<li class="banned-user">
+					<?php bp_group_member_avatar_mini() ?>
+
+					<h5><?php bp_group_member_link() ?> (banned) <span class="small"> &mdash; <a href="<?php bp_group_member_unban_link() ?>" title="Kick and ban this member">Remove Ban</a> </h5>
+			<?php else : ?>
+				<li>
+					<?php bp_group_member_avatar_mini() ?>
+					<h5><?php bp_group_member_link() ?>  <span class="small"> &mdash; <a href="<?php bp_group_member_ban_link() ?>" title="Kick and ban this member">Kick &amp; Ban</a> | <a href="<?php bp_group_member_promote_link() ?>" title="Promote this member">Promote to Moderator</a></span></h5>
+
+			<?php endif; ?>
+				</li>
+		<?php endwhile; ?>
+		</ul>
+	<?php else: ?>
+
+		<div id="message" class="info">
+			<p>This group has no members.</p>
+		</div>
+
+	<?php endif;?>
+	<input type="hidden" name="group_id" id="group_id" value="<?php echo $_REQUEST['group_id'] ?>" />
+<?php
+}
+add_action( 'wp_ajax_get_group_members_admin', 'groups_ajax_member_admin_list' );
+
+fuction 
+
 ?>

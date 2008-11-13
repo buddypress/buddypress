@@ -29,20 +29,20 @@ function bp_get_nav() {
 	/* Loop through each navigation item */
 	foreach( (array) $bp['bp_nav'] as $nav_item ) {
 		/* If the current component matches the nav item id, then add a highlight CSS class. */
-		if ( $bp['current_component'] == $nav_item['css_id'] && bp_is_home() ) {
+		if ( $bp['current_component'] == $nav_item['css_id'] ) {
 			$selected = ' class="current"';
 		} else {
 			$selected = '';
 		}
 		
 		/* If we are viewing another person (current_userid does not equal loggedin_userid)
-		   then check to see if the two users are friends. if they are, add a highligh CSS class
+		   then check to see if the two users are friends. if they are, add a highlight CSS class
 		   to the friends nav item if it exists. */
-		if ( !bp_is_home() ) {
-			if ( function_exists('friends_check_friendship') ) {
+		if ( !bp_is_home() && $bp['current_userid'] ) {
+			if ( function_exists('friends_install') ) {
 				if ( friends_check_friendship( $bp['loggedin_userid'], $bp['current_userid'] ) && $nav_item['css_id'] == $bp['friends']['slug'] ) {
 					$selected = ' class="current"';
-				} else {
+				} else { 
 					$selected = '';
 				}
 			}

@@ -185,14 +185,13 @@ Class BP_Groups_Group {
 	function get_user_dataset() {
 		global $wpdb, $bp;
 		
-		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id, is_admin, inviter_id, user_title FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d AND is_confirmed = 1 ORDER BY rand()", $this->id ) );
+		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id, is_admin, inviter_id, user_title, is_mod FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d AND is_confirmed = 1 AND is_banned = 0 ORDER BY rand()", $this->id ) );
 	}
 		
 	function get_administrators() {
 		for ( $i = 0; $i < count($this->user_dataset); $i++ ) {
-			if ( $this->user_dataset[$i]->is_admin ) {
+			if ( $this->user_dataset[$i]->is_admin )
 				$admins[] = new BP_Groups_Member( $this->user_dataset[$i]->user_id, $this->id );
-			}
 		}	
 		
 		return $admins;
@@ -202,7 +201,8 @@ Class BP_Groups_Group {
 		$total_randoms = ( $this->total_member_count > 5 ) ? 5 : $this->total_member_count;
 		
 		for ( $i = 0; $i < $total_randoms; $i++ ) {
-			$users[] = new BP_Groups_Member( $this->user_dataset[$i]->user_id, $this->id );
+			if ( !(int)$this->user_dataset[$i]->is_banned )
+				$users[] = new BP_Groups_Member( $this->user_dataset[$i]->user_id, $this->id );
 		}
 		return $users;
 	}
@@ -458,6 +458,8 @@ Class BP_Groups_Member {
 	var $user_id;
 	var $inviter_id;
 	var $is_admin;
+	var $is_mod;
+	var $is_banned;
 	var $user_title;
 	var $date_modified;
 	var $is_confirmed;
@@ -499,8 +501,10 @@ Class BP_Groups_Member {
 			$this->user_id = $member->user_id;
 			$this->inviter_id = $member->inviter_id;
 			$this->is_admin = $member->is_admin;
+			$this->is_mod = $member->is_mod;
+			$this->is_banned = $member->is_banned;
 			$this->user_title = $member->user_title;
-			$this->date_modified = $member->date_modified;
+			$this->date_modified = strtotime($member->date_modified);
 			$this->is_confirmed = $member->is_confirmed;
 			$this->comments = $member->comments;
 			
@@ -512,10 +516,9 @@ Class BP_Groups_Member {
 		global $wpdb, $bp;
 		
 		if ( $this->id ) {
-			$sql = $wpdb->prepare( "UPDATE " . $bp['groups']['table_name_members'] . " SET inviter_id = %d, is_admin = %d, user_title = %s, date_modified = FROM_UNIXTIME(%d), is_confirmed = %d, comments = %s WHERE id = %d", $this->inviter_id, $this->is_admin, $this->user_title, $this->date_modified, $this->is_confirmed, $this->comments, $this->id );
-		
+			$sql = $wpdb->prepare( "UPDATE " . $bp['groups']['table_name_members'] . " SET inviter_id = %d, is_admin = %d, is_mod = %d, is_banned = %d, user_title = %s, date_modified = FROM_UNIXTIME(%d), is_confirmed = %d, comments = %s WHERE id = %d", $this->inviter_id, $this->is_admin, $this->is_mod, $this->is_banned, $this->user_title, $this->date_modified, $this->is_confirmed, $this->comments, $this->id );
 		} else {
-			$sql = $wpdb->prepare( "INSERT INTO " . $bp['groups']['table_name_members'] . " ( user_id, group_id, inviter_id, is_admin, user_title, date_modified, is_confirmed, comments ) VALUES ( %d, %d, %d, %d, %s, FROM_UNIXTIME(%d), %d, %s )", $this->user_id, $this->group_id, $this->inviter_id, $this->is_admin, $this->user_title, $this->date_modified, $this->is_confirmed, $this->comments );
+			$sql = $wpdb->prepare( "INSERT INTO " . $bp['groups']['table_name_members'] . " ( user_id, group_id, inviter_id, is_admin, is_mod, is_banned, user_title, date_modified, is_confirmed, comments ) VALUES ( %d, %d, %d, %d, %d, %d, %s, FROM_UNIXTIME(%d), %d, %s )", $this->user_id, $this->group_id, $this->inviter_id, $this->is_admin, $this->is_mod, $this->is_banned, $this->user_title, $this->date_modified, $this->is_confirmed, $this->comments );
 		}
 
 		if ( !$wpdb->query($sql) )
@@ -526,11 +529,48 @@ Class BP_Groups_Member {
 	}
 	
 	function promote() {
+		// Check the users current status
 		
+		// Not letting mods be promoted to admins right now. In the future though yes.
+		if ( $this->is_admin || $this->is_mod )
+			return false;
+		
+		$this->is_mod = 1;
+		return $this->save();
 	}
 	
 	function demote() {
+		if ( $this->is_admin ) 
+			return false;
 		
+		if ( !$this->is_mod )
+			return false;
+		
+		$this->is_mod = 0;
+		return $this->save();		
+	}
+	
+	function ban() {
+		if ( $this->is_admin ) 
+			return false;
+		
+		$this->is_mod = 0;
+		$this->is_banned = 1;
+		
+		groups_update_groupmeta( $this->group_id, 'total_member_count', ( (int) groups_get_groupmeta( $this->group_id, 'total_member_count' ) - 1 ) );
+		
+		return $this->save();		
+	}
+	
+	function unban() {
+		if ( $this->is_admin ) 
+			return false;
+		
+		$this->is_banned = 0;
+
+		groups_update_groupmeta( $this->group_id, 'total_member_count', ( (int) groups_get_groupmeta( $this->group_id, 'total_member_count' ) + 1 ) );
+		
+		return $this->save();		
 	}
 	
 	function accept_invite() {
@@ -550,7 +590,7 @@ Class BP_Groups_Member {
 		global $wpdb, $bp;
 		
 		$delete_result = $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );
-
+		
 		return $delete_result;
 	}
 	
@@ -562,9 +602,9 @@ Class BP_Groups_Member {
 		
 		// If the user is logged in and viewing their own groups, we can show hidden and closed groups
 		if ( bp_is_home() ) {
-			$group_ids = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT group_id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND inviter_id = 0$pag_sql", $user_id ) );	
+			$group_ids = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT group_id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND inviter_id = 0 AND is_banned = 0{$pag_sql}", $user_id ) );	
 		} else {
-			$group_ids = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT m.group_id FROM " . $bp['groups']['table_name_members'] . " m, " . $bp['groups']['table_name'] . " g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.inviter_id = 0$pag_sql", $user_id ) );	
+			$group_ids = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT m.group_id FROM " . $bp['groups']['table_name_members'] . " m, " . $bp['groups']['table_name'] . " g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.inviter_id = 0 AND m.is_banned = 0{$pag_sql}", $user_id ) );	
 		}
 		
 		if ( $get_total )
@@ -580,9 +620,9 @@ Class BP_Groups_Member {
 			$user_id = $bp['current_userid'];
 			
 		if ( bp_is_home() ) {
-			return $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(group_id) FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND inviter_id = 0", $user_id ) );			
+			return $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(group_id) FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND inviter_id = 0 AND is_banned = 0", $user_id ) );			
 		} else {
-			return $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(m.group_id) FROM " . $bp['groups']['table_name_members'] . " m, " . $bp['groups']['table_name'] . " g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.inviter_id = 0", $user_id ) );			
+			return $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(m.group_id) FROM " . $bp['groups']['table_name_members'] . " m, " . $bp['groups']['table_name'] . " g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.inviter_id = 0 m.is_banned = 0", $user_id ) );			
 		}
 	}
 	
@@ -601,19 +641,31 @@ Class BP_Groups_Member {
 	function check_is_admin( $user_id, $group_id ) {
 		global $wpdb, $bp;
 		
-		return $wpdb->query( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d AND is_admin = 1", $user_id, $group_id ) );
+		return $wpdb->query( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d AND is_admin = 1 AND is_banned = 0", $user_id, $group_id ) );
+	}
+	
+	function check_is_mod( $user_id, $group_id ) {
+		global $wpdb, $bp;
+		
+		return $wpdb->query( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d AND is_mod = 1 AND is_banned = 0", $user_id, $group_id ) );
 	}
 	
 	function check_is_member( $user_id, $group_id ) {
 		global $wpdb, $bp;
 		
-		return $wpdb->query( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d AND is_confirmed = 1", $user_id, $group_id ) );	
+		return $wpdb->query( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d AND is_confirmed = 1 AND is_banned = 0", $user_id, $group_id ) );	
+	}
+	
+	function check_is_banned( $user_id, $group_id ) {
+		global $wpdb, $bp;
+		
+		return $wpdb->get_var( $wpdb->prepare( "SELECT is_banned FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );
 	}
 	
 	function check_for_membership_request( $user_id, $group_id ) {
 		global $wpdb, $bp;
 		
-		return $wpdb->query( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d AND is_confirmed = 0", $user_id, $group_id ) );	
+		return $wpdb->query( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND is_banned = 0", $user_id, $group_id ) );	
 	}
 	
 	function get_random_groups( $user_id, $total_groups = 5 ) {
@@ -621,25 +673,37 @@ Class BP_Groups_Member {
 		
 		// If the user is logged in and viewing their random groups, we can show hidden and closed groups
 		if ( bp_is_home() ) {
-			return $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT group_id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND is_confirmed = 1 ORDER BY rand() LIMIT $total_groups", $user_id ) );
+			return $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT group_id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND is_confirmed = 1 AND is_banned = 0 ORDER BY rand() LIMIT $total_groups", $user_id ) );
 		} else {
-			return $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT m.group_id FROM " . $bp['groups']['table_name_members'] . " m, " . $bp['groups']['table_name'] . " g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.is_confirmed = 1 ORDER BY rand() LIMIT $total_groups", $user_id ) );			
+			return $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT m.group_id FROM " . $bp['groups']['table_name_members'] . " m, " . $bp['groups']['table_name'] . " g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0 ORDER BY rand() LIMIT $total_groups", $user_id ) );			
 		}
 	}
 	
-	function get_group_administrator_id( $group_id ) {
+	function get_group_administrator_ids( $group_id ) {
 		global $bp, $wpdb;
 		
-		return $wpdb->get_row( $wpdb->prepare( "SELECT user_id FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d AND is_admin = 1", $group_id ) );
+		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id, date_modified FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d AND is_admin = 1 AND is_banned = 0", $group_id ) );
 	}
 	
-	function get_all_for_group( $group_id, $limit = false, $page = false ) {
+	function get_group_moderator_ids( $group_id ) {
+		global $bp, $wpdb;
+		
+		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id, date_modified FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d AND is_mod = 1 AND is_banned = 0", $group_id ) );
+	}
+	
+	function get_all_for_group( $group_id, $limit = false, $page = false, $exclude_admins_mods = true, $exclude_banned = true ) {
 		global $bp, $wpdb;
 		
 		if ( $limit && $page )
-			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		
-		$members = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, date_modified FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d AND is_confirmed = 1 {$pag_sql}", $group_id ) );
+		if ( $exclude_admins_mods )
+			$exclude_sql = $wpdb->prepare( "AND is_admin = 0 AND is_mod = 0" );
+		
+		if ( $exclude_banned )
+			$banned_sql = $wpdb->prepare( " AND is_banned = 0" );
+		
+		$members = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, date_modified FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_sql} {$pag_sql}", $group_id ) );
 		
 		if ( !$members )
 			return false;
@@ -647,7 +711,7 @@ Class BP_Groups_Member {
 		if ( !isset($pag_sql) ) 
 			$total_member_count = count($members);
 		else
-			$total_member_count = $wpdb->get_var( $wpdb->prepare( "SELECT count(user_id) FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d AND is_confirmed = 1", $group_id ) );
+			$total_member_count = $wpdb->get_var( $wpdb->prepare( "SELECT count(user_id) FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_sql}", $group_id ) );
 	
 		return array( 'members' => $members, 'count' => $total_member_count );
 	}

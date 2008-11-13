@@ -209,7 +209,40 @@ jQuery(document).ready( function() {
 			jQuery.post( ajaxurl, {
 				action: 'get_group_members',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce").val(),
+				'_wpnonce': jQuery("input#_member_pag_nonce").val(),
+				'group_id': jQuery("#group_id").val(),
+				'mlpage': mlpage[1],
+				'num': 5
+			},
+			function(response)
+			{	
+				response = response.substr(0, response.length-1);
+
+				jQuery("form#group-members-form").fadeOut(200, 
+					function() {
+						jQuery("form#group-members-form").html(response);
+						jQuery("form#group-members-form").fadeIn(200);
+					}
+				);
+
+				return false;
+			});
+
+			return false;
+		}
+	);
+	
+	jQuery("div#member-admin-pagination a").livequery('click',
+		function() { 
+			jQuery('#ajax-loader').toggle();
+
+			var mlpage = jQuery(this).attr('href');
+			mlpage = mlpage.split('=');
+
+			jQuery.post( ajaxurl, {
+				action: 'get_group_members_admin',
+				'cookie': encodeURIComponent(document.cookie),
+				'_wpnonce': jQuery("input#_member_admin_pag_nonce").val(),
 				'group_id': jQuery("#group_id").val(),
 				'mlpage': mlpage[1],
 				'num': 5

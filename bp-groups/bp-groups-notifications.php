@@ -174,4 +174,47 @@ To submit another request please log in and visit: %s
 	wp_mail( $to, $subject, $message );	
 }
 
+function groups_notification_promoted_member( $user_id, $group_id ) {
+	global $bp, $current_user;
+
+	if ( groups_is_user_admin( $user_id, $group_id ) ) {
+		$promoted_to = 'admin';
+		$type = 'member_promoted_to_admin';
+	} else {
+		$promoted_to = 'mod';
+		$type = 'member_promoted_to_mod';
+	}
+	
+	// Post a screen notification first.
+	bp_core_add_notification( $group_id, $user_id, 'groups', $type );
+
+	if ( get_usermeta( $user_id, 'notification_group_promotion' ) == 'no' )
+		return false;
+
+	$group = new BP_Groups_Group( $group_id, false, false );
+	$ud = get_userdata($user_id);
+
+	$group_link = bp_group_permalink( $group, false );
+	$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
+
+	// Set up and send the message
+	$to = $ud->user_email;
+
+	$subject = sprintf( __( 'You have been promoted in the group: "%s"', 'buddypress' ), stripslashes($group->name) );
+
+		$message = sprintf( __( 
+'You have been promoted to % for the group: "%s".
+
+To view the group please visit: %s
+
+---------------------
+', 'buddypress' ), stripslashes($group->name), $group_link );
+
+	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+
+	// Send it
+	wp_mail( $to, $subject, $message );
+}
+add_action( 'bp_groups_promoted_member', 'groups_notification_promoted_member', 10, 2 );
+
 ?>
