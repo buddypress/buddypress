@@ -413,10 +413,19 @@ function bp_group_search_form() {
 function bp_group_show_no_groups_message() {
 	global $bp;
 	
-	if ( $bp['current_action'] == 'group-finder' )
+	if ( $bp['current_action'] == 'my-groups' && $_POST['group-filter-box'] == '' )
+		return true;
+	
+	return false;
+}
+
+function bp_group_show_no_results_message() {
+	global $bp;
+	
+	if ( ( $bp['current_action'] == 'my-groups' && $_POST['group-filter-box'] == '' ) || ( $bp['current_action'] == 'group-finder' && $_POST['groupfinder-search-box'] == '' ) )
 		return false;
 	
-	return true;
+	return true;	
 }
 
 function bp_group_pagination() {
@@ -998,7 +1007,7 @@ class BP_Groups_Group_Members_Template {
 	function has_members() {
 		if ( $this->member_count )
 			return true;
-		
+
 		return false;
 	}
 	
@@ -1046,7 +1055,6 @@ function bp_group_has_members( $group_id = false, $num_per_page = 5, $exclude_ad
 	if ( !$groups_template )
 		$groups_template->group = new BP_Groups_Group( $group_id );
 	
-
 	$members_template = new BP_Groups_Group_Members_Template( $groups_template->group->id, $num_per_page, $exclude_admins_mods, $exclude_banned );
 
 	return $members_template->has_members();

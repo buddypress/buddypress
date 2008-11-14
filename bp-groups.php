@@ -525,20 +525,21 @@ function groups_screen_group_admin_edit_details() {
 	
 	if ( $bp['current_component'] == $bp['groups']['slug'] && $bp['action_variables'][0] == 'edit-details' ) {
 	
-		if ( !$bp['is_item_mod'] )
-			return false;
+		if ( $bp['is_item_admin'] || $bp['is_item_mod']  ) {
 		
-		// If the edit form has been submitted, save the edited details
-		if ( isset( $_POST['save'] ) ) {
-			if ( !groups_edit_base_group_details( $_POST['group-id'], $_POST['group-name'], $_POST['group-desc'], $_POST['group-news'], (int)$_POST['group-notify-members'] ) ) {
-				bp_core_add_message( __( 'There was an error updating group details, please try again.', 'buddypress' ), 'error' );
-			} else {
-				bp_core_add_message( __( 'Group details were successfully updated.', 'buddypress' ) );
+			// If the edit form has been submitted, save the edited details
+			if ( isset( $_POST['save'] ) ) {
+				if ( !groups_edit_base_group_details( $_POST['group-id'], $_POST['group-name'], $_POST['group-desc'], $_POST['group-news'], (int)$_POST['group-notify-members'] ) ) {
+					bp_core_add_message( __( 'There was an error updating group details, please try again.', 'buddypress' ), 'error' );
+				} else {
+					bp_core_add_message( __( 'Group details were successfully updated.', 'buddypress' ) );
+				}
+				bp_core_redirect( $_SERVER['HTTP_REFERER'] );
 			}
-			bp_core_redirect( $_SERVER['HTTP_REFERER'] );
-		}
 
-		bp_catch_uri( 'groups/admin/edit-details' );
+			bp_catch_uri( 'groups/admin/edit-details' );
+			
+		}
 	}
 }
 add_action( 'wp', 'groups_screen_group_admin_edit_details', 4 );
