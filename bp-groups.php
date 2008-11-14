@@ -273,6 +273,10 @@ function groups_screen_my_groups() {
 	// Delete group request notifications for the user
 	bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'membership_request_accepted' );
 	bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'membership_request_rejected' );
+	bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'member_promoted_to_mod' );
+	bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'member_promoted_to_admin' );
+	
+	do_action( 'bp_groups_my_groups' );
 	
 	bp_catch_uri( 'groups/index' );
 }
@@ -887,6 +891,30 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				return '<a href="' . bp_group_permalink( $group, false ) . '/?new">' . sprintf( __('Membership for group "%s" rejected'), $group->name ) . '</a>';
 			}	
 		
+		break;
+		
+		case 'member_promoted_to_admin':
+			$group_id = $item_id;
+		
+			$group = new BP_Groups_Group( $group_id, false, false );
+
+			if ( (int)$total_items > 1 ) {
+				return '<a href="' . site_url() . '/' . MEMBERS_SLUG . '/' . $bp['groups']['slug'] . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('You were promoted to an admin in %d groups'), (int)$total_items ) . '</a>';		
+			} else {
+				return '<a href="' . bp_group_permalink( $group, false ) . '/?new">' . sprintf( __('You were promoted to an admin in the group %s'), $group->name ) . '</a>';
+			}	
+		break;
+		
+		case 'member_promoted_to_mod':
+			$group_id = $item_id;
+	
+			$group = new BP_Groups_Group( $group_id, false, false );
+
+			if ( (int)$total_items > 1 ) {
+				return '<a href="' . site_url() . '/' . MEMBERS_SLUG . '/' . $bp['groups']['slug'] . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('You were promoted to a mod in %d groups'), (int)$total_items ) . '</a>';		
+			} else {
+				return '<a href="' . bp_group_permalink( $group, false ) . '/?new">' . sprintf( __('You were promoted to a mod in the group %s'), $group->name ) . '</a>';
+			}	
 		break;
 	}
 	
