@@ -364,7 +364,11 @@ function bp_is_blog_page() {
 function bp_page_title() {
 	global $bp;
 	
- 	echo $bp['current_fullname'] . ' &raquo; ' . ucwords($bp['current_component']);
+	if ( $bp['current_fullname'] != '' ) {
+	 	echo $bp['current_fullname'] . ' &raquo; ' . ucwords($bp['current_component']) . ' &raquo; ' . $bp['bp_options_nav'][$bp['current_component']][$bp['current_action']]['name'];
+	} else {
+		echo ucwords($bp['current_component']) . ' &raquo; ' . ucwords($bp['bp_options_title']) . ' &raquo; ' . ucwords($bp['current_action']);
+	}
 }
 
 /* Template functions for fetching globals, without querying the DB again
