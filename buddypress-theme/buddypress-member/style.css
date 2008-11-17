@@ -138,7 +138,7 @@ input, select, textarea { width: 100%; }
 		position: relative;
 	}
 		#userbar ul#bp-nav li.current {
-			background: url(images/navitem_selected_back.gif) top right repeat-x;
+			background: url(images/navitem_selected_back.gif) 100% -1px repeat-x;
 		}
 			#userbar ul#bp-nav li a {
 				font-size: 1em;
@@ -253,7 +253,7 @@ input, select, textarea { width: 100%; }
 		z-index: 1;
 	}
 		#optionsbar ul#options-nav li.current {
-			background: url(images/optionnavitem_selected_back.gif) top right repeat-x;
+			background: url(images/optionnavitem_selected_back.gif) 100% -1px repeat-x;
 		}
 			#optionsbar ul#options-nav li a {
 				font-size: 1em;
