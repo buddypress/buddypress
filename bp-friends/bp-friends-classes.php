@@ -237,8 +237,7 @@ class BP_Friends_Friendship {
 	function get_friend_ids( $user_id ) {
 		global $wpdb, $bp;
 		
-		$sql = $wpdb->prepare( "SELECT friend_user_id, initiator_user_id FROM " . $bp['friends']['table_name'] . " WHERE (friend_user_id = %d || initiator_user_id = %d) && is_confirmed = 1", $user_id, $user_id );
-		$results = $wpdb->get_results($sql);
+		$results = $wpdb->get_results( $wpdb->prepare( "SELECT friend_user_id, initiator_user_id FROM " . $bp['friends']['table_name'] . " WHERE (friend_user_id = %d || initiator_user_id = %d) && is_confirmed = 1", $user_id, $user_id ) );
 		
 		for ( $i = 0; $i < count($results); $i++ ) {
 			$fids[] = ( $results[$i]->friend_user_id == $user_id ) ? $results[$i]->initiator_user_id : $results[$i]->friend_user_id;
@@ -264,6 +263,26 @@ class BP_Friends_Friendship {
 			return array_flip(array_flip($fids));
 		else
 			return false;
+	}
+	
+	function get_invitable_friend_count( $user_id, $group_id ) {
+		global $wpdb, $bp;
+
+		$friend_ids = BP_Friends_Friendship::get_friend_ids( $user_id );
+		
+		$invitable_count = 0;
+		for ( $i = 0; $i < count($friend_ids); $i++ ) {
+			
+			if ( BP_Groups_Member::check_is_member( (int)$friend_ids[$i], $group_id ) )
+				continue;
+			
+			if ( BP_Groups_Member::check_has_invite( (int)$friend_ids[$i], $group_id )  )
+				continue;
+				
+			$invitable_count++;
+		}
+
+		return $invitable_count;
 	}
 	
 	function get_user_ids_for_friendship( $friendship_id ) {

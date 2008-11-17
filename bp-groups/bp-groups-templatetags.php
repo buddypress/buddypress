@@ -794,28 +794,39 @@ function bp_group_create_form() {
 	</form>
 <?php
 }
-function bp_group_list_friends() {
+function bp_group_list_invite_friends() {
 	global $bp, $group_obj, $invites;
 	
-	if ( bp_exists('friends') ) {
-		$friends = friends_get_friends_list( $bp['loggedin_userid'] );	
-		$invites = groups_get_invites_for_group($group_obj->id);
-?>
-		<div id="invite-list">
-			<ul>
-				<?php for ( $i = 0; $i < count( $friends ); $i++ ) {
-					if ( in_array( $friends[$i]['id'], $invites ) ) {
-						$checked = ' checked="checked"';
-					} else {
-						$checked = '';
-					} ?>
+	if ( !function_exists('friends_install') )
+		return false;
+
+		$friends = friends_get_friends_invite_list( $bp['loggedin_userid'], $group_obj->id );
+
+		if ( $friends ) {
+			$invites = groups_get_invites_for_group( $bp['loggedin_userid'], $group_obj->id );
+
+	?>
+			<div id="invite-list">
+				<ul>
+					<?php 
+						for ( $i = 0; $i < count( $friends ); $i++ ) {
+							if ( $invites ) { 
+								if ( in_array( $friends[$i]['id'], $invites ) ) {
+									$checked = ' checked="checked"';
+								} else {
+									$checked = '';
+								} 
+							}
+					?>
 					
-				<li><input<?php echo $checked ?> type="checkbox" name="friends[]" id="f-<?php echo $friends[$i]['id'] ?>" value="<?php echo $friends[$i]['id'] ?>" /> <?php echo $friends[$i]['full_name']; ?></li>
-				<?php } ?>
-			</ul>
-		</div>
-<?php
-	}
+					<li><input<?php echo $checked ?> type="checkbox" name="friends[]" id="f-<?php echo $friends[$i]['id'] ?>" value="<?php echo $friends[$i]['id'] ?>" /> <?php echo $friends[$i]['full_name']; ?></li>
+					<?php } ?>
+				</ul>
+			</div>
+	<?php
+		} else {
+			_e( 'No friends to invite.', 'buddypress' );
+		}
 }
 
 function bp_group_is_member() {
@@ -839,6 +850,18 @@ function bp_group_reject_invite_link() {
 	echo $bp['loggedin_domain'] . $bp['groups']['slug'] . '/invites/reject/' . $groups_template->group->id;
 }
 
+function bp_has_friends_to_invite() {
+	global $groups_template, $bp;
+	
+	if ( !function_exists('friends_install') )
+		return false;
+	
+	if ( !friends_check_user_has_friends( $bp['loggedin_userid'] ) || !friends_count_invitable_friends( $bp['loggedin_userid'], $groups_template->group->id ) )
+		return false;
+	
+	return true;
+}
+
 function bp_group_leave_confirm_link() {
 	global $groups_template, $bp;
 	
@@ -859,7 +882,7 @@ function bp_group_send_invite_form( $group_obj = null ) {
 ?>
 	<div class="left-menu">
 		<h4>Select Friends <img id="ajax-loader" src="<?php echo $bp['groups']['image_base'] ?>/ajax-loader.gif" height="7" alt="Loading" style="display: none;" /></h4>
-		<?php bp_group_list_friends() ?>
+		<?php bp_group_list_invite_friends() ?>
 		<?php if ( function_exists('wp_nonce_field') )
 			wp_nonce_field( 'invite_user' );
 		?>

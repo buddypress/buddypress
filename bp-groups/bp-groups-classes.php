@@ -282,9 +282,9 @@ Class BP_Groups_Group {
 		return BP_Groups_Group::group_exists( $slug );
 	}
 
-	function get_invites( $group_id ) {
+	function get_invites( $user_id, $group_id ) {
 		global $wpdb, $bp;
-		return $wpdb->get_col( $wpdb->prepare( "SELECT user_id FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d and is_confirmed = 0", $group_id ) );
+		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d and is_confirmed = 0 AND inviter_id = %d", $group_id, $user_id ), ARRAY_A );
 	}
 	
 	function filter_user_groups( $filter, $limit = null, $page = null ) {
@@ -464,6 +464,7 @@ Class BP_Groups_Member {
 	var $date_modified;
 	var $is_confirmed;
 	var $comments;
+	var $invite_sent;
 	
 	var $user;
 	
@@ -507,6 +508,7 @@ Class BP_Groups_Member {
 			$this->date_modified = strtotime($member->date_modified);
 			$this->is_confirmed = $member->is_confirmed;
 			$this->comments = $member->comments;
+			$this->invite_sent = $member->invite_sent;
 			
 			$this->user = new BP_Core_User( $this->user_id );
 		}
@@ -516,9 +518,9 @@ Class BP_Groups_Member {
 		global $wpdb, $bp;
 		
 		if ( $this->id ) {
-			$sql = $wpdb->prepare( "UPDATE " . $bp['groups']['table_name_members'] . " SET inviter_id = %d, is_admin = %d, is_mod = %d, is_banned = %d, user_title = %s, date_modified = FROM_UNIXTIME(%d), is_confirmed = %d, comments = %s WHERE id = %d", $this->inviter_id, $this->is_admin, $this->is_mod, $this->is_banned, $this->user_title, $this->date_modified, $this->is_confirmed, $this->comments, $this->id );
+			$sql = $wpdb->prepare( "UPDATE " . $bp['groups']['table_name_members'] . " SET inviter_id = %d, is_admin = %d, is_mod = %d, is_banned = %d, user_title = %s, date_modified = FROM_UNIXTIME(%d), is_confirmed = %d, comments = %s, invite_sent = %d WHERE id = %d", $this->inviter_id, $this->is_admin, $this->is_mod, $this->is_banned, $this->user_title, $this->date_modified, $this->is_confirmed, $this->comments, $this->invite_sent, $this->id );
 		} else {
-			$sql = $wpdb->prepare( "INSERT INTO " . $bp['groups']['table_name_members'] . " ( user_id, group_id, inviter_id, is_admin, is_mod, is_banned, user_title, date_modified, is_confirmed, comments ) VALUES ( %d, %d, %d, %d, %d, %d, %s, FROM_UNIXTIME(%d), %d, %s )", $this->user_id, $this->group_id, $this->inviter_id, $this->is_admin, $this->is_mod, $this->is_banned, $this->user_title, $this->date_modified, $this->is_confirmed, $this->comments );
+			$sql = $wpdb->prepare( "INSERT INTO " . $bp['groups']['table_name_members'] . " ( user_id, group_id, inviter_id, is_admin, is_mod, is_banned, user_title, date_modified, is_confirmed, comments, invite_sent ) VALUES ( %d, %d, %d, %d, %d, %d, %s, FROM_UNIXTIME(%d), %d, %s, %d )", $this->user_id, $this->group_id, $this->inviter_id, $this->is_admin, $this->is_mod, $this->is_banned, $this->user_title, $this->date_modified, $this->is_confirmed, $this->comments, $this->invite_sent );
 		}
 
 		if ( !$wpdb->query($sql) )
@@ -622,20 +624,26 @@ Class BP_Groups_Member {
 		if ( bp_is_home() ) {
 			return $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(group_id) FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND inviter_id = 0 AND is_banned = 0", $user_id ) );			
 		} else {
-			return $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(m.group_id) FROM " . $bp['groups']['table_name_members'] . " m, " . $bp['groups']['table_name'] . " g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.inviter_id = 0 m.is_banned = 0", $user_id ) );			
+			return $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(m.group_id) FROM " . $bp['groups']['table_name_members'] . " m, " . $bp['groups']['table_name'] . " g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.inviter_id = 0 AND m.is_banned = 0", $user_id ) );			
 		}
 	}
 	
 	function get_invites( $user_id ) {
 		global $wpdb, $bp;
 		
-		$group_ids = $wpdb->get_col( $wpdb->prepare( "SELECT group_id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d and is_confirmed = 0 AND inviter_id != 0", $user_id ) );
+		$group_ids = $wpdb->get_col( $wpdb->prepare( "SELECT group_id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d and is_confirmed = 0 AND inviter_id != 0 AND invite_sent = 1", $user_id ) );
 		
 		for ( $i = 0; $i < count($group_ids); $i++ ) {
 			$groups[] = new BP_Groups_Group($group_ids[$i]);
 		}
 		
 		return $groups;
+	}
+	
+	function check_has_invite( $user_id, $group_id ) {
+		global $wpdb, $bp;
+		
+		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND inviter_id != 0 AND invite_sent = 1", $user_id, $group_id ) );		
 	}
 	
 	function check_is_admin( $user_id, $group_id ) {
@@ -665,7 +673,7 @@ Class BP_Groups_Member {
 	function check_for_membership_request( $user_id, $group_id ) {
 		global $wpdb, $bp;
 		
-		return $wpdb->query( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND is_banned = 0", $user_id, $group_id ) );	
+		return $wpdb->query( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND is_banned = 0 AND inviter_id = 0", $user_id, $group_id ) );	
 	}
 	
 	function get_random_groups( $user_id, $total_groups = 5 ) {

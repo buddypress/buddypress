@@ -266,6 +266,21 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
  Return an array of friend objects for the current user.
 **************************************************************************/
 
+function friends_check_user_has_friends( $user_id = false ) {
+	if ( !$user_id )
+		$user_id = $bp['current_userid'];
+		
+	$friend_count = get_usermeta( $user_id, 'total_friend_count');
+		
+	if ( $friend_count == '' )
+		return false;
+	
+	if ( !(int)$friend_count )
+		return false;
+	
+	return true;
+}
+
 function friends_get_friendships( $user_id = false, $friendship_ids = false, $pag_num = 5, $pag_page = 1, $get_requests = false, $count = false ) {
 	global $bp;
 
@@ -321,6 +336,41 @@ function friends_get_friends_list( $user_id = false ) {
 	    return strcasecmp($a['full_name'], $b['full_name']);
 	}
 
+function friends_get_friends_invite_list( $user_id = false, $group_id ) {
+	global $bp;
+	
+	if ( !$user_id )
+		$user_id = $bp['loggedin_userid'];
+	
+	$friend_ids = BP_Friends_Friendship::get_friend_ids( $user_id );
+
+	for ( $i = 0; $i < count($friend_ids); $i++ ) {
+		if ( groups_check_user_has_invite( $friend_ids[$i], $group_id ) || groups_is_user_member( $friend_ids[$i], $group_id ) )
+			continue;
+			
+		$display_name = bp_fetch_user_fullname($friend_ids[$i], false);
+		
+		if ( $display_name != ' ' ) {
+			$friends[] = array(
+				'id' => $friend_ids[$i],
+				'full_name' => $display_name
+			);
+		}
+	}
+	
+	if ( $friends && is_array($friends) )
+		usort($friends, 'friends_sort_by_name');
+
+	if ( !$friends )
+		return false;
+
+	return $friends;
+	
+}
+
+function friends_count_invitable_friends( $user_id, $group_id ) {
+	return BP_Friends_Friendship::get_invitable_friend_count( $user_id, $group_id );
+}
 
 function friends_get_friend_ids_for_user( $user_id ) {
 	return BP_Friends_Friendship::get_friend_ids( $user_id );

@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_GROUPS_IS_INSTALLED', 1 );
-define ( 'BP_GROUPS_VERSION', '0.2.5' );
+define ( 'BP_GROUPS_VERSION', '0.2.6' );
 
 include_once( 'bp-groups/bp-groups-classes.php' );
 include_once( 'bp-groups/bp-groups-ajax.php' );
@@ -57,6 +57,7 @@ function groups_install() {
 			comments longtext NOT NULL,
 			is_confirmed tinyint(1) NOT NULL DEFAULT '0',
 			is_banned tinyint(1) NOT NULL DEFAULT '0',
+			invite_sent tinyint(1) NOT NULL DEFAULT '0',
 			KEY group_id (group_id),
 			KEY is_admin (is_admin),
 			KEY is_mod (is_mod),
@@ -308,6 +309,9 @@ function groups_screen_group_invites() {
 		bp_core_redirect( $_SERVER['HTTP_REFERER'] );
 	}
 	
+	// Remove notifications
+	bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'group_invite' );
+	
 	bp_catch_uri( 'groups/list-invites' );	
 }
 
@@ -457,7 +461,7 @@ function groups_screen_group_invite() {
 	global $is_single_group, $group_obj;
 	
 	if ( $is_single_group ) {
-		if ( isset($bp['action_variables']) && $bp['action_variables'][1] == 'send' ) {
+		if ( isset($bp['action_variables']) && $bp['action_variables'][0] == 'send' ) {
 			// Send the invites.
 			groups_send_invites($group_obj);
 			
@@ -864,7 +868,6 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				return '<a href="' . bp_group_permalink( $group, false ) . '/admin/membership-requests/" title="' . __( 'Group Membership Requests', 'buddypress' ) . '">' . sprintf( __('%d new membership requests for the group "%s"'), (int)$total_items, $group->name ) . '</a>';		
 			} else {
 				$user_fullname = bp_core_global_user_fullname( $requesting_user_id );
-				$user_url = bp_core_get_userurl( $requesting_user_id );
 				return '<a href="' . bp_group_permalink( $group, false ) . '/admin/membership-requests/" title="' . $user_fullname .' requests group membership">' . sprintf( __('%s requests membership for the group "%s"'), $user_fullname, $group->name ) . '</a>';
 			}	
 		break;
@@ -875,7 +878,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group = new BP_Groups_Group( $group_id, false, false );
 			
 			if ( (int)$total_items > 1 ) {
-				return '<a href="' . site_url() . '/' . MEMBERS_SLUG . '/' . $bp['groups']['slug'] . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('%d accepted group membership requests'), (int)$total_items, $group->name ) . '</a>';		
+				return '<a href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('%d accepted group membership requests'), (int)$total_items, $group->name ) . '</a>';		
 			} else {
 				return '<a href="' . bp_group_permalink( $group, false ) . '/?new">' . sprintf( __('Membership for group "%s" accepted'), $group->name ) . '</a>';
 			}	
@@ -885,7 +888,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_id = $item_id;
 			
 			$group = new BP_Groups_Group( $group_id, false, false );
-
+			
 			if ( (int)$total_items > 1 ) {
 				return '<a href="' . site_url() . '/' . MEMBERS_SLUG . '/' . $bp['groups']['slug'] . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('%d rejected group membership requests'), (int)$total_items, $group->name ) . '</a>';		
 			} else {
@@ -900,7 +903,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group = new BP_Groups_Group( $group_id, false, false );
 
 			if ( (int)$total_items > 1 ) {
-				return '<a href="' . site_url() . '/' . MEMBERS_SLUG . '/' . $bp['groups']['slug'] . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('You were promoted to an admin in %d groups'), (int)$total_items ) . '</a>';		
+				return '<a href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('You were promoted to an admin in %d groups'), (int)$total_items ) . '</a>';		
 			} else {
 				return '<a href="' . bp_group_permalink( $group, false ) . '/?new">' . sprintf( __('You were promoted to an admin in the group %s'), $group->name ) . '</a>';
 			}	
@@ -912,9 +915,22 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group = new BP_Groups_Group( $group_id, false, false );
 
 			if ( (int)$total_items > 1 ) {
-				return '<a href="' . site_url() . '/' . MEMBERS_SLUG . '/' . $bp['groups']['slug'] . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('You were promoted to a mod in %d groups'), (int)$total_items ) . '</a>';		
+				return '<a href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('You were promoted to a mod in %d groups'), (int)$total_items ) . '</a>';		
 			} else {
 				return '<a href="' . bp_group_permalink( $group, false ) . '/?new">' . sprintf( __('You were promoted to a mod in the group %s'), $group->name ) . '</a>';
+			}	
+		break;
+		
+		case 'group_invite':
+			$group_id = $item_id;
+
+			$group = new BP_Groups_Group( $group_id, false, false );
+			$user_url = bp_core_get_userurl( $user_id );
+			
+			if ( (int)$total_items > 1 ) {
+				return '<a href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '/invites" title="' . __( 'Group Invites', 'buddypress' ) . '">' . sprintf( __('You have %d new group invitations'), (int)$total_items ) . '</a>';		
+			} else {
+				return '<a href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '/invites" title="' . __( 'Group Invites', 'buddypress' ) . '">' . sprintf( __('You have an invitation to the group: %s'), $group->name ) . '</a>';
 			}	
 		break;
 	}
@@ -1241,18 +1257,21 @@ function groups_uninvite_user( $user_id, $group_id ) {
 }
 
 
-function groups_get_invites_for_group( $group_id ) {
-	return BP_Groups_Group::get_invites( $group_id );
+function groups_get_invites_for_group( $user_id, $group_id ) {
+	return BP_Groups_Group::get_invites( $user_id, $group_id );
 }
 
+function groups_check_user_has_invite( $user_id, $group_id ) {
+	BP_Groups_Member::check_has_invite( $user_id, $group_id );
+}
 
-function groups_get_invites_for_user( $user_id = false ) {
+function groups_get_invites_for_user( $user_id = false, $group_id = false ) {
 	global $bp;
 	
 	if ( !$user_id )
 		$user_id = $bp['loggedin_userid'];
 	
-	return BP_Groups_Member::get_invites($user_id);
+	return BP_Groups_Member::get_invites( $user_id, $group_id );
 }
 
 
@@ -1260,25 +1279,16 @@ function groups_send_invites( $group_obj ) {
 	global $bp;
 	
 	// Send friend invites.
-	$invited_users = groups_get_invites_for_group( $group_obj->id ); 
-	
-	for ( $i = 0; $i < count( $invited_users); $i++ ) {
-		$user_id = $invited_users[$i];
+	$invited_users = groups_get_invites_for_group( $bp['loggedin_userid'], $group_obj->id );
 
-		// Send the email
-
-		$invited_user = new BP_Core_User( $user_id );
-		$inviter_name = bp_core_get_userlink( $bp['loggedin_userid'], true, false, true );
-		
-		$message = "You have been invited to join the group '" . $group_obj->name . "' by " . $inviter_name . '.';
-		$message .= "\n\n";
-		$message .= "View the group: " . $invited_user->user_url . $bp['groups']['slug'] . "/" . $group_obj->slug . "\n";
-		$message .= "Accept the invite: " . $invited_user->user_url . $bp['groups']['slug'] . "/invites/accept/" . $group_obj->id . "\n";
-		$message .= "Reject the invite: " . $invited_user->user_url . $bp['groups']['slug'] . "/invites/reject/" . $group_obj->id . "\n";
-
-		wp_mail( $invited_user->email, __("New Group Invitation:", 'buddypress') . $group_obj->name, $message, "From: noreply@" . $_SERVER[ 'HTTP_HOST' ]  );
+	for ( $i = 0; $i < count( $invited_users ); $i++ ) {
+		$member = new BP_Groups_Member( $invited_users[$i], $group_obj->id );
+		$member->invite_sent = 1;
+		$member->save();
 	}
-
+	
+	groups_notification_group_invites( $group_obj->id, $invited_users, $bp['loggedin_userid'] );
+	
 	do_action( 'groups_send_invites', $group_obj->id, $invited_users );
 }
 

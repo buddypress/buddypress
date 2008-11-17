@@ -85,7 +85,7 @@ To view the group: %s
 }
 
 function groups_notification_new_membership_request( $requesting_user_id, $admin_id, $group_id, $membership_id ) {
-	global $bp, $current_user;
+	global $bp;
 
 	bp_core_add_notification( $requesting_user_id, $admin_id, 'groups', 'new_membership_request', $group_id );
 
@@ -126,7 +126,7 @@ To view %s\'s profile: %s
 }
 
 function groups_notification_membership_request_completed( $requesting_user_id, $group_id, $accepted = true ) {
-	global $bp, $current_user;
+	global $bp;
 	
 	// Post a screen notification first.
 	if ( $accepted )
@@ -175,7 +175,7 @@ To submit another request please log in and visit: %s
 }
 
 function groups_notification_promoted_member( $user_id, $group_id ) {
-	global $bp, $current_user;
+	global $bp;
 
 	if ( groups_is_user_admin( $user_id, $group_id ) ) {
 		$promoted_to = __( 'an administrator', 'buddypress' );
@@ -216,5 +216,49 @@ To view the group please visit: %s
 	wp_mail( $to, $subject, $message );
 }
 add_action( 'bp_groups_promoted_member', 'groups_notification_promoted_member', 10, 2 );
+
+function groups_notification_group_invites( $group_id, $invited_user_ids, $inviter_user_id ) {
+	global $bp;
+	
+	$inviter_ud = get_userdata($inviter_user_id);
+	$inviter_name = bp_core_get_userlink( $inviter_user_id, true, false, true );
+	$inviter_link = site_url() . '/' . MEMBERS_SLUG . '/' . $inviter_ud->user_login;
+	
+	$group = new BP_Groups_Group( $group_id, false, false );
+	$group_link = bp_group_permalink( $group, false );
+	$invites_link = $inviter_link . '/' . $bp['groups']['slug'] . '/invites';
+		
+	for ( $i = 0; $i < count( $invited_user_ids ); $i++ ) {
+		$invited_user_id = $invited_user_ids[$i];
+
+		// Post a screen notification first.
+		bp_core_add_notification( $group_id, $invited_user_id, 'groups', 'group_invite' );
+
+		if ( get_usermeta( $invited_user_id, 'notification_group_invitation' ) == 'no' ) continue;
+
+		$invited_ud = get_userdata($invited_user_id);
+		$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
+		
+		// Set up and send the message
+		$to = $invited_ud->user_email;
+
+		$subject = sprintf( __( 'You have an invitation to the group: "%s"', 'buddypress' ), stripslashes($group->name) );
+
+		$message = sprintf( __( 
+'One of your friends %s has invited you to the group: "%s".
+
+To view your group invites visit: %s
+To view the group visit: %s
+To view %s\'s profile visit: %s
+
+---------------------
+', 'buddypress' ), $inviter_name, stripslashes($group->name), $invites_link, $group_link, $inviter_name, $inviter_link );
+
+		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+
+		// Send it
+		wp_mail( $to, $subject, $message );
+	}
+}
 
 ?>
