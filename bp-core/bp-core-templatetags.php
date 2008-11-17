@@ -361,6 +361,11 @@ function bp_is_blog_page() {
 	return false;
 }
 
+function bp_page_title() {
+	global $bp;
+	
+ 	echo $bp['current_fullname'] . ' &raquo; ' . ucwords($bp['current_component']);
+}
 
 /* Template functions for fetching globals, without querying the DB again
    also means we dont have to use the $bp variable in the template (looks messy) */
