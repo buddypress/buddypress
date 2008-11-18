@@ -183,7 +183,7 @@ function bp_core_do_catch_uri() {
 
 	/* Make sure this is not reported as a 404 */
 	// This is causing too many problems right now.
-	//header( "Status: 200 OK", true, 200 );
+	header( "Status: 200 OK", true, 200 );
 		
 	do_action( 'get_header' );
 	load_template( TEMPLATEPATH . "/header.php" );
