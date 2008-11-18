@@ -11,15 +11,15 @@
 		<?php bp_group_avatar() ?>
 
 		<?php bp_group_join_button() ?>
-		
+
 		<div class="info-group">
-			<h4>Admins</h4>
+			<h4><?php _e( 'Admins', 'buddypress' ) ?></h4>
 			<?php bp_group_list_admins() ?>
 		</div>
-		
+
 		<?php if ( bp_group_has_moderators() ) : ?>
 		<div class="info-group">
-			<h4>Mods</h4>
+			<h4><?php _e( 'Mods' , 'buddypress' ) ?></h4>
 			<?php bp_group_list_mods() ?>
 		</div>
 		<?php endif; ?>
@@ -35,7 +35,7 @@
 
 			<div class="info-group">
 				<?php if ( function_exists('bp_wire_get_post_list') ) : ?>
-					<?php bp_wire_get_post_list( bp_group_id(false), 'Group Wire', 'The are no wire posts for ' . bp_group_name(false), bp_group_is_member(), true ) ?>
+					<?php bp_wire_get_post_list( bp_group_id(false), __( 'Group Wire', 'buddypress' ), sprintf( __( 'The are no wire posts for %s', 'buddypress' ), bp_group_name(false) ), bp_group_is_member(), true ) ?>
 				<?php endif; ?>
 			</div>
 			

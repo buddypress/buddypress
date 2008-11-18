@@ -28,7 +28,7 @@
 <?php else: ?>
 	
 	<div id="message" class="info">
-		<p>Sorry, this person does not have a public profile.</p>
+		<p><?php _e( 'Sorry, this person does not have a public profile.', 'buddypress' ) ?></p>
 	</div>
 	
 <?php endif;?>

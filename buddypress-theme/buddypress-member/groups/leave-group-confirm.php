@@ -11,13 +11,13 @@
 		<?php bp_group_join_button() ?>
 		
 		<div class="info-group">
-			<h4>Admins</h4>
+			<h4><?php _e( 'Admins', 'buddypress' ) ?></h4>
 			<?php bp_group_list_admins() ?>
 		</div>
 		
 		<?php if ( bp_group_has_moderators() ) : ?>
 		<div class="info-group">
-			<h4>Mods</h4>
+			<h4><?php _e( 'Mods', 'buddypress' ) ?></h4>
 			<?php bp_group_list_mods() ?>
 		</div>
 		<?php endif; ?>
@@ -32,12 +32,12 @@
 			</div>
 
 			<div class="info-group">
-				<h4>Confirm Leave Group</h4>
-				<h3>Are you sure you want to leave this group?</h3>
+				<h4><?php _e( 'Confirm Leave Group', 'buddypress' ); ?></h4>
+				<h3><?php _e( 'Are you sure you want to leave this group?', 'buddypress' ); ?></h3>
 	
 				<p>
-					<a href="<?php bp_group_leave_confirm_link() ?>">Yes, I'd like to leave this group.</a> | 
-					<a href="<?php bp_group_leave_reject_link() ?>">No, I'll stay!</a>
+					<a href="<?php bp_group_leave_confirm_link() ?>"><?php _e( "Yes, I'd like to leave this group.", 'buddypress' ) ?></a> | 
+					<a href="<?php bp_group_leave_reject_link() ?>"><?php _e( "No, I'll stay!", 'buddypress' ) ?></a>
 				</p>
 			</div>
 		

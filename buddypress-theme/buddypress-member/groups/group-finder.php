@@ -14,10 +14,8 @@
 		<div id="finder-message">
 			<div id="message" class="info">
 				<p>
-				   <strong>Find Groups Using the Group Finder!</strong><br />
-				   Use the search box to find groups on the site. 
-				   Enter anything you want, currently only group titles will
-				   be searched.
+				   <strong><?php _e( 'Find Groups Using the Group Finder!', 'buddypress' ); ?></strong><br />
+				   <?php _e( 'Use the search box to find groups on the site. Enter anything you want, currently only group titles will be searched.', 'buddypress' ); ?>
 				</p>
 			</div>
 		</div>

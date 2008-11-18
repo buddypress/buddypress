@@ -3,7 +3,7 @@
 </div>
 
 <div id="content">
-	<h2>Compose Message</h2>
+	<h2><?php _e("Compose Message", "buddypress"); ?></h2>
 	
 	<?php do_action( 'template_notices' ) ?>
 
@@ -11,10 +11,10 @@
 	<div id="poststuff">
 		<p>			
 		<div id="titlediv">
-			<h3><?php _e("Send To", 'buddypress') ?> <small>(Use username - autocomplete coming soon)</small></h3>
+			<h3><?php _e("Send To", 'buddypress') ?> <small><?php _e("(Use username - autocomplete coming soon)", "buddypress"); ?></small></h3>
 			<div id="titlewrap">
 				<input type="text" name="send_to" id="send_to" value="<?php bp_messages_username_value() ?>" />
-				<?php if ( is_site_admin() ) : ?><br /><input type="checkbox" id="send-notice" name="send-notice" value="1" /> This is a notice to all users.<?php endif; ?>
+				<?php if ( is_site_admin() ) : ?><br /><input type="checkbox" id="send-notice" name="send-notice" value="1" /> <?php _e("This is a notice to all users.", "buddypress"); ?><?php endif; ?>
 			</div>
 		</div>
 		</p>

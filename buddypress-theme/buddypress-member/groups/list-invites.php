@@ -6,7 +6,7 @@
 		
 	</div>
 	
-	<h2>Group Invites</h2>
+	<h2><?php _e( 'Group Invites', 'buddypress' ) ?></h2>
 	<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 
 	<?php if ( bp_has_groups() ) : ?>
@@ -14,13 +14,13 @@
 		<?php while ( bp_groups() ) : bp_the_group(); ?>
 			<li>
 				<?php bp_group_avatar_thumb() ?>
-				<h4><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a><span class="small"> - <?php bp_group_total_members() ?> members</span></h4>
+				<h4><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a><span class="small"> - <?php printf( __( '%s members', 'buddypress' ), bp_group_total_members( false ) ) ?></span></h4>
 				<p class="desc">
 					<?php bp_group_description_excerpt() ?>
 				</p>
 				<div class="action">
-					<a href="<?php bp_group_accept_invite_link() ?>" id="accept">Accept</a> 
-					<a href="<?php bp_group_reject_invite_link() ?>" id="reject">Reject</a> 
+					<a href="<?php bp_group_accept_invite_link() ?>" id="accept"><?php _e( 'Accept', 'buddypress' ) ?></a> 
+					<a href="<?php bp_group_reject_invite_link() ?>" id="reject"><?php _e( 'Reject', 'buddypress' ) ?></a> 
 				</div>
 				<hr />
 			</li>
@@ -29,7 +29,7 @@
 	<?php else: ?>
 
 		<div id="message" class="info">
-			<p><?php _e('You have no outstanding group invites.'); ?></p>
+			<p><?php _e( 'You have no outstanding group invites.', 'buddypress' ) ?></p>
 		</div>
 
 	<?php endif;?>

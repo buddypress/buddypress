@@ -2,16 +2,16 @@
 </div>
 
 <div id="content">
-	<h2>Recent Comments</h2>
+	<h2><?php _e("Recent Comments", "buddypress"); ?></h2>
 	<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 
 	<?php if ( bp_has_comments() ) : ?>
 		<ul id="comment-list">
 		<?php while ( bp_comments() ) : bp_the_comment(); ?>
 			<li id="comment-<?php bp_comment_id() ?>">
-				<span class="small">On <?php bp_comment_date('F jS, Y') ?> <?php bp_comment_author() ?> said:</span>
+				<span class="small"><?php printf( __( 'On %1$s %2$s said:', 'buddypress' ), bp_comment_date( __( 'F jS, Y', 'buddypress' ), false ), bp_comment_author( false ) ); ?></span>
 				<p><?php bp_comment_content() ?></p>
-				<span class="small">Commented on the post <a href="<?php bp_comment_post_permalink() ?>"><?php bp_comment_post_title() ?></a> on the blog <a href="<?php bp_comment_blog_permalink() ?>"><?php bp_comment_blog_name() ?></a>.</span>
+				<span class="small"><?php printf( __( 'Commented on the post <a href="%1$s">%2$s</a> on the blog <a href="%3$s">%4$s</a>.', 'buddypress' ), bp_comment_post_permalink( false ), bp_comment_post_title( false ), bp_comment_blog_permalink( false ), bp_comment_blog_name( false ) ); ?></span>
 			</li>
 		<?php endwhile; ?>
 		</ul>

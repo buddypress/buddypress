@@ -11,13 +11,13 @@
 		<?php bp_group_join_button() ?>
 		
 		<div class="info-group">
-			<h4>Admins</h4>
+			<h4><?php _e( 'Admins', 'buddypress' ) ?></h4>
 			<?php bp_group_list_admins() ?>
 		</div>
 		
 		<?php if ( bp_group_has_moderators() ) : ?>
 		<div class="info-group">
-			<h4>Mods</h4>
+			<h4><?php _e( 'Mods', 'buddypress' ) ?></h4>
 			<?php bp_group_list_mods() ?>
 		</div>
 		<?php endif; ?>
@@ -32,19 +32,19 @@
 			</div>
 		
 			<div class="info-group">
-				<h4>Administrators</h4>
+				<h4><?php _e( 'Administrators', 'buddypress' ); ?></h4>
 				<?php bp_group_admin_memberlist() ?>
 			</div>
 		
 			<?php if ( bp_group_has_moderators() ) : ?>
 			<div class="info-group">
-				<h4>Moderators</h4>
+				<h4><?php _e( 'Moderators', 'buddypress' ); ?></h4>
 				<?php bp_group_mod_memberlist() ?>
 			</div>
 			<?php endif; ?>
 
 			<div class="info-group">
-				<h4>Group Members</h4>
+				<h4><?php _e( 'Group Members', 'buddypress' ); ?></h4>
 			
 				<form action="<?php bp_group_form_action('members') ?>" method="post" id="group-members-form">
 				<?php if ( bp_group_has_members() ) : ?>
@@ -77,7 +77,7 @@
 				<?php else: ?>
 
 					<div id="message" class="info">
-						<p>This group has no members.</p>
+						<p><?php _e( 'This group has no members.', 'buddypress' ); ?></p>
 					</div>
 
 				<?php endif;?>

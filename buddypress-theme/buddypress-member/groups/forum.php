@@ -11,13 +11,13 @@
 		<?php bp_group_join_button() ?>
 		
 		<div class="info-group">
-			<h4>Admins</h4>
+			<h4><?php _e( 'Admins', 'buddypress' ); ?></h4>
 			<?php bp_group_list_admins() ?>
 		</div>
 		
 		<?php if ( bp_group_has_moderators() ) : ?>
 		<div class="info-group">
-			<h4>Mods</h4>
+			<h4><?php _e( 'Mods', 'buddypress' ); ?></h4>
 			<?php bp_group_list_mods() ?>
 		</div>
 		<?php endif; ?>
@@ -32,8 +32,8 @@
 			</div>
 
 			<div class="info-group">
-				<h4>Forum</h4>
-				<h3>A bbPress forum for the group will go here in the next version.</h3>
+				<h4><?php _e( 'Forum', 'buddypress' ); ?></h4>
+				<h3>[Placeholder]</h3>
 			</div>
 		
 		</div>

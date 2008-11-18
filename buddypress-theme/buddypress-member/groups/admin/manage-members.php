@@ -8,24 +8,24 @@
 
 <div id="content">	
 	
-		<h2>Manage Members</h2>
+		<h2><?php _e( 'Manage Members', 'buddypress' ); ?></h2>
 		
 		<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 			
 			<div class="info-group">
-				<h4>Administrators</h4>
+				<h4><?php _e( 'Administrators', 'buddypress' ); ?></h4>
 				<?php bp_group_admin_memberlist( true ) ?>
 			</div>
 			
 			<?php if ( bp_group_has_moderators() ) : ?>
 			<div class="info-group">
-				<h4>Moderators</h4>
+				<h4><?php _e( 'Moderators', 'buddypress' ) ?></h4>
 				<?php bp_group_mod_memberlist( true ) ?>
 			</div>
 			<?php endif; ?>
 			
 			<div class="info-group">
-				<h4>Members</h4>
+				<h4><?php _e("Members", "buddypress"); ?></h4>
 				
 				<form action="<?php bp_group_admin_form_action('manage-members') ?>" name="group-members-form" id="group-members-form" class="standard-form" method="post">
 				<?php if ( bp_group_has_members( false, 15, true, false ) ) : ?>
@@ -46,11 +46,11 @@
 							<li class="banned-user">
 								<?php bp_group_member_avatar_mini() ?>
 
-								<h5><?php bp_group_member_link() ?> (banned) <span class="small"> &mdash; <a href="<?php bp_group_member_unban_link() ?>" title="Kick and ban this member">Remove Ban</a> </h5>
+								<h5><?php bp_group_member_link() ?> <?php _e( '(banned)', 'buddypress') ?> <span class="small"> &mdash; <a href="<?php bp_group_member_unban_link() ?>" title="<?php _e( 'Kick and ban this member', 'buddypress' ) ?>"><?php _e( 'Remove Ban', 'buddypress' ); ?></a> </h5>
 						<?php else : ?>
 							<li>
 								<?php bp_group_member_avatar_mini() ?>
-								<h5><?php bp_group_member_link() ?>  <span class="small"> &mdash; <a href="<?php bp_group_member_ban_link() ?>" title="Kick and ban this member">Kick &amp; Ban</a> | <a href="<?php bp_group_member_promote_link() ?>" title="Promote this member">Promote to Moderator</a></span></h5>
+								<h5><?php bp_group_member_link() ?>  <span class="small"> &mdash; <a href="<?php bp_group_member_ban_link() ?>" title="<?php _e( 'Kick and ban this member', 'buddypress' ); ?>"><?php _e( 'Kick &amp; Ban', 'buddypress' ); ?></a> | <a href="<?php bp_group_member_promote_link() ?>" title="<?php _e( 'Promote this member', 'buddypress' ); ?>"><?php _e( 'Promote to Moderator', 'buddypress' ); ?></a></span></h5>
 
 						<?php endif; ?>
 							</li>
@@ -59,7 +59,7 @@
 				<?php else: ?>
 
 					<div id="message" class="info">
-						<p>This group has no members.</p>
+						<p><?php _e( 'This group has no members.', 'buddypress' ); ?></p>
 					</div>
 
 				<?php endif;?>

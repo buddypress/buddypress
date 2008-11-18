@@ -8,10 +8,10 @@
 	<?php while ( bp_groups() ) : bp_the_group(); ?>
 		<li>
 			<?php bp_group_avatar_thumb() ?>
-			<h4><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a><span class="small"> - <?php bp_group_total_members() ?> members</span></h4>
+			<h4><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a><span class="small"> - <?php printf( __( '%s members', 'buddypress' ), bp_group_total_members( false ) ) ?></span></h4>
 			
 			<?php if ( bp_group_has_requested_membership() ) : ?>
-				<p class="request-pending">Membership Pending Approval</p>
+				<p class="request-pending"><?php _e( 'Membership Pending Approval', 'buddypress' ); ?></p>
 			<?php endif; ?>
 			
 			<p class="desc">

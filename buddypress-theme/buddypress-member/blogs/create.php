@@ -12,7 +12,7 @@
 	<?php else: ?>
 
 		<div id="message" class="info">
-			<p>Blog registration is currently disabled</p>
+			<p><?php _e( 'Blog registration is currently disabled', 'buddypress' ); ?></p>
 		</div>
 
 	<?php endif; ?>

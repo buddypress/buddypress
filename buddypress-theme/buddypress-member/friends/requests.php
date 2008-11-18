@@ -6,7 +6,7 @@
 		<?php bp_friend_pagination() ?>
 	</div>
 	
-	<h2>Friendship Requests</h2>
+	<h2><?php _e( 'Friendship Requests', 'buddypress' ); ?></h2>
 	<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 	
 	<?php if ( bp_has_friendships() ) : ?>
@@ -17,8 +17,8 @@
 				<h4><?php bp_friend_link() ?></h4>
 				<span class="activity"><?php bp_friend_time_since_requested() ?></span>
 				<div class="action">
-					<a href="<?php bp_friend_accept_request_link() ?>" id="accept">Accept</a> 
-					<a href="<?php bp_friend_reject_request_link() ?>" id="reject">Reject</a> 
+					<a href="<?php bp_friend_accept_request_link() ?>" id="accept"><?php _e( 'Accept', 'buddypress' ); ?></a> 
+					<a href="<?php bp_friend_reject_request_link() ?>" id="reject"><?php _e( 'Reject', 'buddypress' ); ?></a> 
 				</div>
 			</li>
 		<?php endwhile; ?>
@@ -26,7 +26,7 @@
 	<?php else: ?>
 
 		<div id="message" class="info">
-			<p>You have no pending friendship requests.</p>
+			<p><?php _e( 'You have no pending friendship requests.', 'buddypress' ); ?></p>
 		</div>
 
 	<?php endif;?>

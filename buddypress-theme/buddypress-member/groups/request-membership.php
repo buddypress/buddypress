@@ -11,9 +11,16 @@
 		<?php bp_group_join_button() ?>
 
 		<div class="info-group">
-			<h4>Admins</h4>
+			<h4><?php _e( 'Admins', 'buddypress' ) ?></h4>
 			<?php bp_group_list_admins() ?>
 		</div>
+		
+		<?php if ( bp_group_has_moderators() ) : ?>
+		<div class="info-group">
+			<h4><?php _e( 'Mods' , 'buddypress' ) ?></h4>
+			<?php bp_group_list_mods() ?>
+		</div>
+		<?php endif; ?>
 	</div>
 
 	<div class="main-column">
@@ -24,15 +31,15 @@
 		</div>
 
 		<div class="info-group">
-			<h4>Request Membership</h4>
+			<h4><?php _e( 'Request Membership', 'buddypress' ); ?></h4>
 			
 			<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 
 			<?php if ( !bp_group_has_requested_membership() ) : ?>
-				<p>You are requesting to become a member of the group '<?php bp_group_name() ?>'.</p>
+				<p><?php printf( __( "You are requesting to become a member of the group '%s'.", "buddypress" ), bp_group_name( false ) ); ?></p>
 
 				<form action="<?php bp_group_form_action('request-membership') ?>" method="post" name="request-membership-form" id="request-membership-form" class="standard-form">
-					<label for="group-request-membership-comments">Comments (optional)</label>
+					<label for="group-request-membership-comments"><?php _e( 'Comments (optional)', 'buddypress' ); ?></label>
 					<textarea name="group-request-membership-comments" id="group-request-membership-comments"></textarea>
 
 					<p><input type="submit" name="group-request-send" id="group-request-send" value="<?php _e( 'Send Request', 'buddypress' ) ?> &raquo;" />

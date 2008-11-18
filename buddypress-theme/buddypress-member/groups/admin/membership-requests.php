@@ -8,7 +8,7 @@
 
 <div id="content">	
 	
-		<h2>Membership Requests</h2>
+		<h2><?php _e( 'Membership Requests', 'buddypress' ); ?></h2>
 		
 		<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 		
@@ -20,8 +20,8 @@
 					<h4><?php bp_group_request_user_link() ?> <span class="comments"><?php bp_group_request_comment() ?></span></h4>
 					<span class="activity"><?php bp_group_request_time_since_requested() ?></span>
 					<div class="action">
-						<a href="<?php bp_group_request_accept_link() ?>" id="accept">Accept</a> 
-						<a href="<?php bp_group_request_reject_link() ?>" id="reject">Reject</a> 
+						<a href="<?php bp_group_request_accept_link() ?>" id="accept"><?php _e( 'Accept', 'buddypress' ); ?></a> 
+						<a href="<?php bp_group_request_reject_link() ?>" id="reject"><?php _e( 'Reject', 'buddypress' ); ?></a> 
 					</div>
 				</li>
 			<?php endwhile; ?>
@@ -29,7 +29,7 @@
 		<?php else: ?>
 
 			<div id="message" class="info">
-				<p>There are no pending membership requests.</p>
+				<p><?php _e( 'There are no pending membership requests.', 'buddypress' ); ?></p>
 			</div>
 
 		<?php endif;?>

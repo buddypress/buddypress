@@ -2,7 +2,7 @@
 </div>
 
 <div id="content">
-	<h2>Friend Finder</h2>
+	<h2><?php _e( 'Friend Finder', 'buddypress' ); ?></h2>
 	
 	<div class="left-menu">
 		<?php bp_friend_search_form('Find Friends') ?>
@@ -30,11 +30,8 @@
 			<div id="finder-message">
 				<div id="message" class="info">
 					<p>
-					   <strong>Find your Friends using Friend Finder!</strong><br />
-					   Use the search box to find friends on the site. 
-					   You can enter any type of information you want, a first or last name, 
-					   email address or any specific interesting information.
-					</p>
+					   <strong><?php _e( 'Find your Friends using Friend Finder!', 'buddypress' ); ?></strong><br />
+					   <?php _e( 'Use the search box to find friends on the site. You can enter any type of information you want, a first or last name, email address or any specific interesting information.', 'buddypress' ); ?></p>
 				</div>
 			</div>
 			
