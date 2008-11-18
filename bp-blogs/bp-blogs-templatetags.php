@@ -220,9 +220,13 @@ function bp_the_post() {
 	return $posts_template->the_post();
 }
 
-function bp_post_title() {
+function bp_post_title( $echo = true ) {
 	global $posts_template;
-	echo $posts_template->post->post_title;
+	
+	if ( $echo )
+		echo $posts_template->post->post_title;
+	else
+		return $posts_template->post->post_title;
 }
 
 function bp_post_permalink() {
@@ -248,13 +252,16 @@ function bp_post_status() {
 	echo $posts_template->post->post_status;	
 }
 
-function bp_post_date( $date_format = null ) {
+function bp_post_date( $date_format = null, $echo = true ) {
 	global $posts_template;
 	
 	if ( !$date_format )
 		$date_format = get_option('date_format');
 		
-	echo mysql2date( $date_format, $posts_template->post->post_date );
+	if ( $echo )
+		echo mysql2date( $date_format, $posts_template->post->post_date );
+	else
+		return mysql2date( $date_format, $posts_template->post->post_date );
 }
 
 function bp_post_comment_count() {
@@ -299,9 +306,13 @@ function bp_post_comments( $zero = 'No Comments', $one = '1 Comment', $more = '%
 	echo '</a>';
 }
 
-function bp_post_author() {
+function bp_post_author( $echo = true ) {
 	global $posts_template;
-	echo bp_core_get_userlink( $posts_template->post->post_author );	
+	
+	if ( $echo )
+		echo bp_core_get_userlink( $posts_template->post->post_author );
+	else
+		return bp_core_get_userlink( $posts_template->post->post_author );
 }
 
 function bp_post_id() {
@@ -309,9 +320,13 @@ function bp_post_id() {
 	echo $posts_template->post->ID;	
 }
 
-function bp_post_category( $separator = '', $parents='', $post_id = false ) {
+function bp_post_category( $separator = '', $parents='', $post_id = false, $echo = true ) {
 	global $posts_template;
-	echo get_the_category_list($separator, $parents, $posts_template->post->ID );	
+	
+	if ( $echo )
+		echo get_the_category_list( $separator, $parents, $posts_template->post->ID );
+	else
+		return get_the_category_list( $separator, $parents, $posts_template->post->ID );
 }
 
 function bp_post_tags( $before = '', $sep = ', ', $after = '' ) {
@@ -555,19 +570,31 @@ function bp_comment_id() {
 	echo $comments_template->comment->comment_ID;
 }
 
-function bp_comment_post_permalink() {
+function bp_comment_post_permalink( $echo = true ) {
 	global $comments_template;
-	echo bp_post_get_permalink( $comments_template->comment->post, $comments_template->comment->blog_id ) . '#comment-' . $comments_template->comment->comment_ID;
+	
+	if ( $echo )
+		echo bp_post_get_permalink( $comments_template->comment->post, $comments_template->comment->blog_id ) . '#comment-' . $comments_template->comment->comment_ID;
+	else
+		return bp_post_get_permalink( $comments_template->comment->post, $comments_template->comment->blog_id ) . '#comment-' . $comments_template->comment->comment_ID;
 }
 
-function bp_comment_post_title() {
+function bp_comment_post_title( $echo = true ) {
 	global $comments_template;
-	echo $comments_template->comment->post->post_title;
+	
+	if ( $echo )
+		echo $comments_template->comment->post->post_title;
+	else
+		return $comments_template->comment->post->post_title;
 }
 
-function bp_comment_author() {
-	global $comments_template;	
-	echo bp_core_get_userlink( $comments_template->comment->user_id );
+function bp_comment_author( $echo = true ) {
+	global $comments_template;
+	
+	if ( $echo )
+		echo bp_core_get_userlink( $comments_template->comment->user_id );
+	else
+		return bp_core_get_userlink( $comments_template->comment->user_id );
 }
 
 function bp_comment_content() {
@@ -578,23 +605,34 @@ function bp_comment_content() {
 	echo $content;
 }
 
-function bp_comment_date( $date_format = null ) {
+function bp_comment_date( $date_format = null, $echo = true ) {
 	global $comments_template;
 	
 	if ( !$date_format )
 		$date_format = get_option('date_format');
 		
-	echo mysql2date( $date_format, $comments_template->comment->post->post_date );
+	if ( $echo == true )
+		echo mysql2date( $date_format, $comments_template->comment->post->post_date );
+	else 
+		return mysql2date( $date_format, $comments_template->comment->post->post_date );
 }
 
-function bp_comment_blog_permalink() {
+function bp_comment_blog_permalink( $echo = true ) {
 	global $comments_template;
-	echo get_blog_option( $comments_template->comment->blog_id, 'siteurl' );
+	
+	if ( $echo )
+		echo get_blog_option( $comments_template->comment->blog_id, 'siteurl' );
+	else
+		return get_blog_option( $comments_template->comment->blog_id, 'siteurl' );
 }
 
-function bp_comment_blog_name() {
+function bp_comment_blog_name( $echo = true ) {
 	global $comments_template;
-	echo get_blog_option( $comments_template->comment->blog_id, 'blogname' );
+	
+	if ( $echo )
+		echo get_blog_option( $comments_template->comment->blog_id, 'blogname' );
+	else
+		return get_blog_option( $comments_template->comment->blog_id, 'blogname' );
 }
 
 

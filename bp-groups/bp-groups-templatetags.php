@@ -364,9 +364,13 @@ function bp_group_list_mods( $full_list = true ) {
 <?php
 }
 
-function bp_group_all_members_permalink() {
+function bp_group_all_members_permalink( $echo = true ) {
 	global $groups_template, $bp;
-	echo bp_group_permalink( false, true ) . '/' . MEMBERS_SLUG ;
+	
+	if ( $echo )
+		echo bp_group_permalink( false, true ) . '/' . MEMBERS_SLUG ;
+	else
+		return bp_group_permalink( false, false ) . '/' . MEMBERS_SLUG ;
 }
 
 function bp_group_random_members() {
@@ -439,10 +443,13 @@ function bp_total_group_count() {
 	echo $groups_template->total_group_count;
 }
 
-function bp_group_total_members() {
+function bp_group_total_members( $echo = true ) {
 	global $groups_template;
 	
-	echo $groups_template->group->total_member_count;
+	if ( $echo )
+		echo $groups_template->group->total_member_count;
+	else
+		return $groups_template->group->total_member_count;
 }
 
 function bp_group_photos_enabled() {
