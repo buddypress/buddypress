@@ -247,10 +247,14 @@ Class BP_Blogs_Post {
 	}
 	
 	function fetch_post_content( $post_object ) {
+		global $current_blog;
+		
+		// TODO: switch_to_blog() calls are expensive and this needs to be changed.
 		switch_to_blog( $post_object->blog_id );
 		$post = get_post($post_object->post_id);
 		$post->blog_id = $post_object->blog_id;
-		
+		switch_to_blog( $current_blog->blog_id );
+
 		return $post;
 	}
 	
