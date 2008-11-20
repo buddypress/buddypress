@@ -48,8 +48,10 @@ function bp_core_widget_welcome($args) {
 	<h3><?php echo $options['title'] ?></h3>
 	<p><?php echo $options['text'] ?></p>
 
+	<?php if ( !is_user_logged_in() ) { ?>
 	<p class="create-account"><a href="<?php echo site_url() ?>/wp-signup.php" title="<?php _e('Create Account', 'buddypress') ?>"><img src="<?php echo get_template_directory_uri() ?>/images/create_account_button.gif" alt="<?php _e('Create Account', 'buddypress') ?>" /></a></p>
-
+	<?php } ?>
+	
 	<?php echo $after_widget; ?>
 <?php
 }
