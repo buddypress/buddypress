@@ -30,24 +30,9 @@ so you'll be able to pick and choose which components to enable.
 Step 3: Make sure you are adding the correct directories to /wp-content/mu-plugins
 **********************************************************************************
 
-If you are using tagged components and downloading them via zip files this is even more
-important.
-
-When you download a tagged component, using the core v0.2.3 component as an example,
-the zip file will extract as:
-
-  - /tags/core/0.2.3/bp-core/
-  - /tags/core/0.2.3/bp-core/bp-core.php
-
-You will need to copy the /bp-core/ and /bp-core/bp-core.php dir and file into your 
-MU-plugin directory, so you have:
-
-  - /wp-content/mu-plugins/bp-core/
-  - /wp-content/mu-plugins/bp-core.php
-
-If you are using the trunk version of the components, you should just be able to copy 
-everything into /wp-content/mu-plugins/ If you don't know what the trunk version is, 
-ignore this bit.
+Once you get hold of the trunk version of BuddyPress you must make sure all the files are
+in the root of the /wp-content/mu-plugins/ directory and not in a /trunk/ or /buddypress/
+subdirectory.
 
 
 ***********************************************************
@@ -85,6 +70,9 @@ perfectly before you installed BuddyPress, ask for help on the mailing list.
 
 Here are some links to useful resources:
 
+ - BuddyPress Forums:
+   http://buddypress.org/forums
+
  - BuddyPress FAQ's
    http://codex.buddypress.org/faqs
 
@@ -92,7 +80,7 @@ Here are some links to useful resources:
    http://lists.automattic.com/mailman/listinfo/buddypress-dev
 
  - BuddyPress Testdrive:
-   http://testdrivewpmu.com
+   http://testbp.org
 
  - BuddyPress Trac server (code repo and install links)
    http://trac.buddypress.org
