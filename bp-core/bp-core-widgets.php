@@ -200,6 +200,8 @@ function bp_core_widget_whos_online($args) {
 
 	<?php echo $after_widget; ?>
 	
+	<div class="clear" style="margin-bottom: 25px"></div>
+	
 <?php
 }
 
