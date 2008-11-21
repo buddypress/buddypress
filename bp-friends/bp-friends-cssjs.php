@@ -13,4 +13,10 @@ function friends_add_js() {
 }
 add_action( 'template_redirect', 'friends_add_js' );
 
+function friends_add_structure_css() {
+	/* Enqueue the structure CSS file to give basic positional formatting for components */
+	wp_enqueue_style( 'bp-friends-structure', site_url() . '/wp-content/mu-plugins/bp-friends/css/structure.css' );	
+}
+add_action( 'bp_styles', 'friends_add_structure_css' );
+
 ?>

@@ -10,8 +10,8 @@ define ( 'BP_ACTIVITY_CACHE_LENGTH', '6 HOURS' );
 include_once( 'bp-activity/bp-activity-classes.php' );
 include_once( 'bp-activity/bp-activity-templatetags.php' );
 include_once( 'bp-activity/bp-activity-widgets.php' );
+include_once( 'bp-activity/bp-activity-cssjs.php' );
 //include_once( 'bp-activity/bp-activity-ajax.php' );
-//include_once( 'bp-activity/bp-activity-cssjs.php' );
 //include_once( 'bp-activity/bp-activity-admin.php' );
 
 /**************************************************************************

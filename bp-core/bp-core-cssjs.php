@@ -39,17 +39,30 @@ add_action( 'wp_head', 'bp_core_add_ajax_js' );
  * @uses get_option() Selects a site setting from the DB.
  */
 function bp_core_add_css() {
-	if ( is_user_logged_in() || ( (int)get_site_option( 'show-loggedout-adminbar' ) && !is_user_logged_in() ) )
+	if ( is_user_logged_in() || ( (int)get_site_option( 'show-loggedout-adminbar' ) && !is_user_logged_in() ) ) {
 		wp_enqueue_style( 'bp-admin-bar', site_url() . '/wp-content/mu-plugins/bp-core/css/admin-bar.css' );
-
-	/* If you want custom css styles, include a custom-styles.css file in /bp-core/css/custom-styles.css */
-	if ( file_exists(ABSPATH . MUPLUGINDIR . '/bp-core/css/custom-styles.css') )
-		wp_enqueue_style( 'bp-core-custom-styles', site_url() . MUPLUGINDIR . '/bp-core/css/custom-styles.css' );		
+		
+		if ( get_bloginfo('text_direction') == 'rtl' && file_exists( ABSPATH . MUPLUGINDIR . '/bp-core/css/admin-bar-rtl.css' ) )
+			wp_enqueue_style( 'bp-admin-bar-rtl', site_url() . '/wp-content/mu-plugins/bp-core/css/admin-bar-rtl.css' );	
+	}
 	
 	wp_print_styles();
 }
 add_action( 'wp_head', 'bp_core_add_css' );
 
+/**
+ * bp_core_add_structure_css()
+ *
+ * Add the CSS to add layout structure to BP pages in any WordPress theme.
+ * 
+ * @package BuddyPress Core
+ * @uses get_option() Selects a site setting from the DB.
+ */
+function bp_core_add_structure_css() {
+	/* Enqueue the structure CSS file to give basic positional formatting for components */
+	wp_enqueue_style( 'bp-core-structure', site_url() . '/wp-content/mu-plugins/bp-core/css/structure.css' );	
+}
+add_action( 'bp_styles', 'bp_core_add_structure_css' );
 
 /**
  * bp_core_add_admin_js()
@@ -66,13 +79,6 @@ function bp_core_add_admin_js() {
 	
 	if ( strpos( $_GET['page'], 'bp-core/admin-mods' ) !== false ) {
 		wp_enqueue_script('password-strength-meter');
-	}
-
-	if ( strpos( $_GET['page'], 'bp-core/homebase-creation' ) !== false ) {
-		wp_enqueue_script('prototype');
-		wp_enqueue_script('scriptaculous-root');
-		wp_enqueue_script('cropper');
-		add_action( 'admin_head', 'bp_core_add_cropper_js' );
 	}
 }
 add_action( 'admin_menu', 'bp_core_add_admin_js' );

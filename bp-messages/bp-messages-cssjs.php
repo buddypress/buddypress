@@ -40,4 +40,11 @@ function messages_add_js() {
 }
 add_action( 'template_redirect', 'messages_add_js' );
 
+function messages_add_structure_css() {
+	/* Enqueue the structure CSS file to give basic positional formatting for components */
+	wp_enqueue_style( 'bp-messages-structure', site_url() . '/wp-content/mu-plugins/bp-messages/css/structure.css' );	
+}
+add_action( 'bp_styles', 'messages_add_structure_css' );
+
+
 ?>

@@ -1,0 +1,36 @@
+/* 
+Basic layout structure styles for BuddyPress Friends. Formats BuddyPress friend pages within any WordPress theme.
+No colors, fonts or pretty stuff. 
+
+These structure styles can be overridden by the theme CSS file if needed.
+*/
+
+#predefined-lists {
+	margin: 1em 1.2em 0 0;
+}
+
+#predefined-lists li {
+	padding: 0.25em 0;
+}
+	
+.left-menu img#ajax-loader {
+	position: absolute;
+	right: 0;
+	top: 7px;
+}
+
+a.join-group {
+	padding: 1em 1.7em 1em 1em;
+	text-align: right;
+	display: block;
+	margin-right: 1.1em;
+	margin-top: -1em;
+}
+
+#friend-list .friendship-button {
+	margin-top: -1.5em;
+}
+
+.left-menu a.add, .left-menu a.remove, .left-menu div.pending {
+	margin: 1.5em auto;
+}

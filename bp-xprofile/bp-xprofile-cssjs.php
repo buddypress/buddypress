@@ -1,16 +1,24 @@
 <?php
 
-function xprofile_add_signup_css() {
-	if ( $_SERVER['SCRIPT_NAME'] == '/wp-signup.php' )
-		echo '<link rel="stylesheet" href="' . site_url() . '/wp-content/mu-plugins/bp-xprofile/css/signup.css" type="text/css" />';
-}
-add_action( 'wp_head', 'xprofile_add_signup_css' );
-
-function xprofile_add_signup_js() {
+function xprofile_add_js() {
 	if ( $_SERVER['SCRIPT_NAME'] == '/wp-signup.php' )
 		wp_enqueue_script( 'jquery' );
 }
-add_action( 'wp', 'xprofile_add_signup_js' );
+add_action( 'wp', 'xprofile_add_js' );
+
+function xprofile_add_css() {
+	if ( $_SERVER['SCRIPT_NAME'] == '/wp-signup.php' )
+		wp_enqueue_style( 'bp-xprofile-signup', site_url() . '/wp-content/mu-plugins/bp-xprofile/css/signup.css' );	
+	
+	wp_print_styles();
+}
+add_action( 'wp_head', 'xprofile_add_css' );
+
+function xprofile_add_structure_css() {
+	/* Enqueue the structure CSS file to give basic positional formatting for xprofile pages */
+	wp_enqueue_style( 'bp-xprofile-structure', site_url() . '/wp-content/mu-plugins/bp-xprofile/css/structure.css' );	
+}
+add_action( 'bp_styles', 'xprofile_add_structure_css' );
 
 function xprofile_add_admin_css() {
 	if ( strpos( $_GET['page'], 'xprofile' ) !== false ) {

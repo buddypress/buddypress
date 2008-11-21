@@ -1,0 +1,245 @@
+/* 
+Basic layout structure styles for BuddyPress. Formats BuddyPress pages within any WordPress theme.
+No colors, fonts or pretty stuff. 
+
+These structure styles can be overridden by the theme CSS file if needed.
+*/
+
+/***
+ * Mini reset
+ */
+
+#main #content { background: none; }
+
+.main-column ul, .left-menu ul, #userbar ul, #optionsbar ul, #wrap ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+/***
+ * Userbar
+ */
+
+#userbar {
+	margin-bottom: 15px;
+}
+	#userbar ul li {
+		float: left;
+		margin-right: 10px;
+	}
+
+	#userbar .avatar {
+		float: left;
+		margin-right: 8px;
+		margin-top: 2px;
+	}
+
+/***
+ * Options bar
+ */
+
+#optionsbar {
+	margin-bottom: 15px;
+}
+	#optionsbar ul li {
+		float: left;
+		margin-right: 10px;
+	}
+
+	#optionsbar .avatar {
+		float: left;
+		margin-right: 8px;
+		margin-top: 2px;
+	}
+
+	#userbar li.current a, #optionsbar li.current a, .content-header-nav li.current a {
+		font-weight: bold;
+	}
+
+/***
+ * Main Column & Info Groups
+ */
+
+.main-column {
+	margin-left: 200px;
+}
+	.main-column h1, #blog-info h1 {
+		margin-bottom: 0.3em;
+	}
+		.main-column p.status, #blog-info p.desc {
+			margin: 0 0 1.2em 0;
+		}
+
+	div.info-group {
+		margin-bottom: 2em;
+	}	
+		div.info-group h4 {
+			height: 30px;
+			padding: 3px 10px;
+			margin-bottom: 0.5em;
+			position: relative;
+		}
+			.left-menu div.info-group {
+				margin-top: 1.5em;
+			}
+
+			div.info-group h4 a {
+				position: absolute;
+				top: 0.31em;
+				right: 1em;
+				font-weight: normal;
+			}
+
+			.left-menu div.info-group img.avatar {
+				float: left;
+				margin-right: 1em;
+			}
+
+		.horiz-gallery li {
+			float: left;
+			margin: 0 1.5em 0 0;
+			width: 15%;
+			text-align: center;
+		}
+
+/***
+ * Left Menu
+ */			
+
+.left-menu {
+	position: relative;
+	float: left;
+	width: 158px;
+}	
+	
+/***
+ * Pagination
+ */	
+	
+.pagination-links {
+	margin-top: -3.7em;
+	float: right;
+}
+	.pagination-links .page-numbers {
+		padding: 0.65em 0.7em;
+		height: 24px;
+	}
+	.pagination-links .current {
+		padding: 0.5em 0.7em;
+	}
+	
+	div.info-group .pagination-links {
+		margin: 0 0 5px 0;
+		float: none;
+		text-align: right;
+	}
+	
+.pag-count {
+	margin-bottom: -20px;
+}
+
+
+/***
+ * Item lists
+ */
+
+ul.item-list li {
+	position: relative;
+	padding: 1em;
+	min-height: 60px;
+}
+	
+ul.item-list li img.avatar {
+	float: left;
+	margin: 0 1em 0 0;
+}
+	
+	ul.item-list p.desc {
+		margin-left: 70px;
+	}
+
+	.item-list .action {
+		position: absolute;
+		top: 30%;
+		right: 1em;
+	}
+	
+/***
+ * Form Styles & Misc
+ */	
+
+.standard-form label {
+	display: block;
+	padding: 0 0 0.3em 0;
+	margin: 1em 0 0 0;
+}
+
+.standard-form input, .standard-form select, .standard-form textarea {
+	font-size: 1.3em;
+	font-family: inherit;
+	width: 65%;
+	padding: 0.2em;
+}
+
+.standard-form textarea {
+	height: 100px;
+}
+
+.standard-form input[type="submit"], .standard-form input#save {
+	width: auto;
+}
+
+a#accept, a#reject {
+	float: right;
+	margin-left: 10px;
+}
+
+
+form#settings-form h3 {
+	margin-bottom: 10px !important;
+}
+
+form#settings-form label {
+	display: block;
+	margin-bottom: 3px;
+}
+	form#settings-form label span {
+		color: #888;
+		font-size: 0.9em;
+	}
+
+
+/***
+ * Settings Screens
+ */
+
+input.settings-input {
+	padding: 0.2em;
+	width: 65%;
+	margin-bottom: 15px;
+}
+	input.small { width: 45%; }
+	input.auto { width: auto; }
+
+table.notification-settings {
+	width: 80%;
+	margin-bottom: 20px;
+}
+	table.notification-settings td {
+		padding: 3px 0;
+	}
+	
+	table.notification-settings th.icon {
+		width: 35px;
+	}
+	
+	table.notification-settings th.title {
+		width: 80%;
+	}
+	
+	table.notification-settings .yes, table.notification-settings .no {
+		width: 40px;
+	}
+
+	

@@ -1,0 +1,77 @@
+/* 
+Basic layout structure styles for BuddyPress Profiles. Formats BuddyPress pages within any WordPress theme.
+No colors, fonts or pretty stuff. 
+
+These structure styles can be overridden by the theme CSS file if needed.
+*/
+
+/***
+ * Profile Field Display
+ */
+
+table.profile-fields {
+	width: 100%;
+}
+	table.profile-fields tr td {
+		padding: 0.5em 1em;
+	}
+	
+	table.profile-fields tr td.label {
+		width: 130px;
+	}
+
+/***
+ * Profile Field Editing
+ */
+
+.signup-label {
+	display: block;
+	padding: 0 0 0.3em 0;
+	margin: 1em 0 0 0;
+}
+
+.signup-field input, .signup-field select, .signup-field textarea {
+	width: 65%;
+	padding: 0.2em;
+}
+
+.datefield select, #searchform input, input#upload { width: auto !important; }
+
+.signup-description {
+	display: block;
+}
+
+input#save, .standard-form input[type='submit'] {
+	width: auto;
+	margin: 1.5em 0 0 0;
+	font-size: 1.4em;
+}
+
+input[type='radio'], input[type='checkbox'] {
+	width: auto !important;
+}
+
+.checkbox label input, .radio label input {
+	width: auto;
+	display: inline;
+}
+
+.checkbox label, .checkbox input, .radio label, .radio input {
+	display: block;
+	padding: 0 0 0.2em 0;
+}
+
+.wrap h2 { display: none; }
+
+#message {
+	margin: 0 0 2em 0;
+}
+	#message p {
+		padding: 1em 2.75em;
+	}
+
+	#message.info p {
+		padding-left: 3.3em;
+	}
+	
+	p.err { display: none; }

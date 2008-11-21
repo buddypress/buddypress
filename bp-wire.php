@@ -7,7 +7,7 @@ define ( 'BP_WIRE_VERSION', '0.1.3' );
 include_once( 'bp-wire/bp-wire-classes.php' );
 include_once( 'bp-wire/bp-wire-ajax.php' );
 include_once( 'bp-wire/bp-wire-templatetags.php' );
-//include_once( 'bp-wire/bp-wire-cssjs.php' );
+include_once( 'bp-wire/bp-wire-cssjs.php' );
 //include_once( 'bp-wire/bp-wire-admin.php' );
 
 /**************************************************************************

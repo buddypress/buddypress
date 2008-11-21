@@ -371,6 +371,11 @@ function bp_page_title() {
 	}
 }
 
+function bp_styles() {
+	do_action( 'bp_styles' );
+	wp_print_styles();
+}
+
 /* Template functions for fetching globals, without querying the DB again
    also means we dont have to use the $bp variable in the template (looks messy) */
 
