@@ -8,7 +8,7 @@
 
 <div id="content">
 	
-	<h2><?php _e( 'Editing', 'buddypress' ) ?> '<?php bp_profile_group_name() ?>'</h2>
+	<h2><?php printf( __( "Editing '%s'", "buddypress" ), bp_profile_group_name(false) ); ?></h2>
 	
 	<?php bp_edit_profile_form() ?>
 

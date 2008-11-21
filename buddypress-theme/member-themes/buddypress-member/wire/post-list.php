@@ -1,5 +1,5 @@
 <div class="info-group">
-	<h4><?php bp_wire_title() ?> <a href="<?php bp_wire_see_all_link() ?>">See All &raquo;</a></h4>
+	<h4><?php bp_wire_title() ?> <a href="<?php bp_wire_see_all_link() ?>"><?php _e( "See All &raquo;", "buddypress" ) ?></a></h4>
 
 	<form name="wire-post-list-form" id="wire-post-list-form" action="" method="post">
 	<?php if ( bp_has_wire_posts( bp_wire_item_id(), bp_wire_can_post() ) ) : ?>
@@ -7,7 +7,7 @@
 		<?php if ( bp_wire_needs_pagination() ) : ?>
 			<div id="wire-count" class="pag-count">
 				<?php bp_wire_pagination_count() ?> &nbsp;
-				<img id="ajax-loader" src="<?php bp_wire_ajax_loader_src() ?>" height="7" alt="Loading" style="display: none;" />
+				<img id="ajax-loader" src="<?php bp_wire_ajax_loader_src() ?>" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" />
 			</div>
 		
 			<div id="wire-pagination" class="pagination-links">
@@ -20,8 +20,7 @@
 			<li>
 				<div class="wire-post-metadata">
 					<?php bp_wire_post_author_avatar() ?>
-					On <?php bp_wire_post_date() ?> 
-					<?php bp_wire_post_author_name() ?> said:
+					<?php printf ( __( 'On %1$s %2$s said:', "buddypress" ), bp_wire_post_date( null, false ), bp_wire_post_author_name( false ) ) ?>
 					<?php bp_wire_delete_link() ?>
 				</div>
 				
