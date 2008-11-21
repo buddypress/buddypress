@@ -10,7 +10,7 @@
 	<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 
 	<?php if ( bp_has_groups() ) : ?>
-		<ul id="group-list" class="invites">
+		<ul id="group-list" class="invites item-list">
 		<?php while ( bp_groups() ) : bp_the_group(); ?>
 			<li>
 				<?php bp_group_avatar_thumb() ?>

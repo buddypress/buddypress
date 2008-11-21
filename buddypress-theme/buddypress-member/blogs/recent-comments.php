@@ -6,7 +6,7 @@
 	<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 
 	<?php if ( bp_has_comments() ) : ?>
-		<ul id="comment-list">
+		<ul id="comment-list" class="item-list">
 		<?php while ( bp_comments() ) : bp_the_comment(); ?>
 			<li id="comment-<?php bp_comment_id() ?>">
 				<span class="small"><?php printf( __( 'On %1$s %2$s said:', 'buddypress' ), bp_comment_date( __( 'F jS, Y', 'buddypress' ), false ), bp_comment_author( false ) ); ?></span>

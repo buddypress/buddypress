@@ -1,0 +1,446 @@
+/***********************************************************
+ Global Reset
+************************************************************/
+
+*, html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, label, fieldset, input, p, blockquote, th, td { margin:0; padding:0 }
+table { border-collapse:collapse; border-spacing:0 }
+fieldset, img { border:0 }
+address, caption, cite, code, dfn, em, strong, th, var { font-style:normal; font-weight:normal }
+ol, ul, li { list-style:none }
+caption, th { text-align:left }
+h1, h2, h3, h4, h5, h6 { font-size:100%; font-weight: normal; }
+q:before, q:after { content:'' }
+a { text-decoration:none }
+strong { font-weight:bold }
+em { font-style:italic }
+* a { position:relative }
+a img { border:none }
+* { outline: none; }
+
+/***********************************************************
+ Let the games begin...
+************************************************************/
+
+html {
+	background: #fff;
+	font: 62.5% normal "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, Verdana, Arial, sans-serif;
+}
+
+body {
+	background: #fff;
+	font-size: 1.2em;
+	color: #555;
+	background: url(../images/background.gif) top left repeat-y;
+	line-height: 170%;
+	min-width: 960px;
+	max-width: 1300px;
+}
+	body.in-blog { background-image: url(../images/background_blog.gif); }
+
+p { margin: 0 0 1em 0; }
+
+a { color: #f7740a; }
+	a:hover { text-decoration: underline; }
+	
+hr, div.clear {
+	visibility: hidden;
+	clear: right;
+}
+	.info-group div.clear {
+		clear: both;
+	}
+
+input, select, textarea { width: 100%; }
+
+.inner-tube {
+	float: right;
+	width: 100%;
+}
+
+/**************************
+ HEADER
+***************************/
+
+#header {
+	position: relative;
+	padding: 1.8em 1.5em;
+	background: #fff;
+}
+
+	#header h1 {
+		background: url(../images/logo.gif) top left no-repeat;
+		overflow: hidden;
+		text-indent: -999em;
+		width: 149px;
+		height: 35px;
+	}
+
+	#header .search {
+		position: absolute;
+		top: 1.2em;
+		right: 1.5em;
+	}
+
+
+/**************************
+ USER BAR
+***************************/
+
+#userbar {
+	width: 138px;
+	float: left;
+	position: relative;
+}
+	#userbar ul li {
+		float: none;
+		margin-right: 0;
+	}
+	
+	#userbar h3 {
+		font: normal 1em "Georgia", Times, serif;
+		text-transform: uppercase;
+		text-align: center;
+		background: url(../images/userbar_header.gif) top left no-repeat;
+		height: 24px;
+		padding: 8px 0 8px 0;
+	}
+
+	#userbar .avatar, #userbar p#login-text {
+		text-align: center;
+		margin: 0.4em 0;
+		float: none;
+	}	
+	
+	#userbar p#login-text {
+		padding: 0.5em 1em 0 1em;
+	}
+	
+		p.avatar img {
+			border: 4px solid #fff;
+		}
+	
+	#userbar form {
+		padding: 1em 1.5em 1em 1em;
+	}
+		#userbar form input {
+			width: 100%;
+		}
+	
+	#userbar ul#bp-nav {
+		width: 149px;
+		margin: 1.75em 0 0 0;
+		z-index: 999 !important;
+		position: relative;
+	}
+		#userbar ul#bp-nav li.current {
+			background: url(../images/navitem_selected_back.gif) 100% -1px repeat-x;
+		}
+			#userbar ul#bp-nav li a {
+				font-size: 1em;
+				color: #555;
+				padding: 0.55em 3em 0.55em 0;
+				display: block;
+				text-align: right;
+				margin-right: 0.85em;
+			}
+				#userbar ul#bp-nav li.current a {
+					color: #fff;
+				}
+			
+				li a#profile {
+					background: url(../images/profile_bullet.gif) 88% 52% no-repeat;
+				}
+
+				li a#messages {
+					background: url(../images/messages_bullet.gif) 89% 52% no-repeat;
+				}			
+				
+				li a#blogs {
+					background: url(../images/blog_bullet.gif) 87% 52% no-repeat;
+				}
+				
+				li a#friends {
+					background: url(../images/friends_bullet.gif) 87% 52% no-repeat;
+				}
+				
+				li a#groups {
+					background: url(../images/groups_bullet.gif) 88% 52% no-repeat;
+				}
+				
+				li a#wire {
+					background: url(../images/wire_bullet.gif) 88% 52% no-repeat;
+				}
+
+				li a#activity {
+					background: url(../images/activity_bullet.gif) 88% 52% no-repeat;
+				}
+				
+				li a#settings {
+					background: url(../images/settings_bullet.gif) 88% 52% no-repeat;					
+				}
+				
+				li a#wp-logout {
+					background: url(../images/logout_bullet.gif) 87% 52% no-repeat;
+				}
+				
+				li a#group-home, li a#group-wire, li a#group-photos, li a#group-forum,
+				li a#group-members, li a#group-invite, li a#group-leave, li a#group-admin
+				li a#request-membership {
+					background: url(../images/groups_bullet.gif) 88% 52% no-repeat;
+					padding: 0.55em 3.1em 0.55em 0 !important;
+					display: block;
+					margin-right: 0.85em;
+				}
+					li a#group-forum {
+						background: url(../images/forum_bullet.gif) 88% 52% no-repeat;	
+					}
+
+					li a#group-members {
+						background: url(../images/friends_bullet.gif) 87% 52% no-repeat;	
+					}
+					
+					li a#group-invite {
+						background: url(../images/invite_bullet.gif) 89% 52% no-repeat;	
+					}
+
+					li a#group-leave {
+						background: url(../images/cross_bullet.gif) 88% 52% no-repeat;	
+					}
+					
+					li a#group-wire {
+						background: url(../images/wire_bullet.gif) 88% 52% no-repeat;
+					}	
+					
+					li a#group-admin {
+						background: url(../images/blogadmin_icon.gif) 87% 52% no-repeat;
+					}
+					
+					li a#request-membership {
+						background: url(../images/request_bullet.gif) 87% 25% no-repeat;
+					}
+
+/**************************
+ OPTIONS BAR
+***************************/
+
+#optionsbar {
+	width: 138px;
+	float: left;
+	position: relative;
+}
+	#optionsbar ul li {
+		float: none;
+		margin-right: 0;
+	}
+
+	#optionsbar .avatar {
+		text-align: center;
+		margin-top: 0.4em 0 !important;
+		float: none;
+	}
+	
+	#optionsbar h3 {
+		font: normal 1em "Georgia", Times, serif;
+		text-transform: uppercase;
+		text-align: center;
+		background: url(../images/optionsbar_header_noarrow.gif) top left repeat-x;
+		height: 24px;
+		padding: 8px 0 8px 0;
+		letter-spacing: 0.5px;
+	}
+		#optionsbar.arrow h3 {
+			background: url(../images/optionsbar_header_arrow.gif) top center no-repeat;
+		}
+	
+	#optionsbar ul#options-nav {
+		width: 148px;
+		margin: 1.75em 0 0 0;
+		position: relative;
+		z-index: 1;
+	}
+		#optionsbar ul#options-nav li.current {
+			background: url(../images/optionnavitem_selected_back.gif) 100% -1px repeat-x;
+		}
+			#optionsbar ul#options-nav li a {
+				font-size: 1em;
+				color: #555;
+				padding: 0.55em 2.5em 0.55em 0;
+				display: block;
+				text-align: right;
+			}
+			
+			#optionsbar ul.icons li a {
+				padding-right: 3.1em !important;
+				margin-right: 0.7em;
+			}
+
+/**************************
+ CONTENT HEADER NAVIGATION
+***************************/
+
+.content-header a {
+	color: #555;
+}
+
+ul.content-header-nav {
+	margin: -8px 0 0 1.5em;
+}
+	ul.content-header-nav li {
+		float: left;
+		padding: 8px 1em;
+		height: 30px;
+		font: normal 0.9em "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif !important;
+		text-transform: none;
+	}
+		ul.content-header-nav li a {
+			color: #555;
+			text-decoration: underline;
+		}
+			ul.content-header-nav li a:hover {
+				color: #555;
+				text-decoration: none;
+			}
+		
+		ul.content-header-nav li span {
+			color: #999;
+		}
+	
+	ul.content-header-nav li.current {
+		background: url(../images/topoption_selected_back.gif) top center no-repeat;
+	}
+		ul.content-header-nav li.current a {
+			text-decoration: none;
+		}
+		
+
+
+
+/**************************
+ MAIN CONTENT
+***************************/
+
+#main {
+	margin-left: 276px;
+	background: #fff url(../images/content_back.gif) top left repeat-x;
+	min-width: 680px;
+}
+	#main div.content-header {
+		font: normal 1em "Georgia", Times, serif;
+		text-transform: uppercase;
+		text-align: center;
+		background: url(../images/content_header.gif) top left repeat-x;
+		height: 24px;
+		padding: 8px 0 8px 0;
+	}
+
+	#main #content {
+		position: relative;
+		padding: 2em 3em;
+	}
+		#main #content h2, h3#respond, h3#responses {
+			font: normal 1.6em Georgia, Times, serif;
+			padding-bottom: 0.25em;
+			border-bottom: 1px solid #ddd;
+			margin-bottom: 1em;
+		}
+		
+		#main #content h3 {
+			font: normal 1.3em Georgia, Times, serif;
+			padding-bottom: 0.25em;
+			margin: 1em 0;	
+		}
+		
+		#main #content .left-menu {
+			position: relative;
+			float: left;
+			width: 158px;
+		}
+	
+		#main img.avatar {
+			border: 4px solid #f0f0f0;
+		}
+	
+		
+		.main-column h1, #blog-info h1 {
+			font: normal 3.2em "Georgia", Times, serif !important;
+		}
+			.main-column h1 a, #blog-info h1 a {
+				color: #646464;
+			}
+			
+			.main-column p.status, #blog-info p.desc {
+				color: #f7740a;
+				font: normal 1.4em "Georgia", Times, serif;
+				font-style: italic;
+			}
+				
+		a.page-numbers:hover { background: #e1e1e1; }
+
+			.pagination-links .current {
+				background: #d5d5d5;
+				border-bottom: 2px solid #f28935;
+			}
+				
+		.pag-count {
+			font-size: 0.9em;
+			color: #888;
+		}
+	
+			div.info-group h4 {
+				background: url(../images/group_header.gif) top left;
+				color: #fff;
+				font-size: 1em;
+				margin-bottom: 0.5em;
+				font-weight: bold;
+			}
+				.left-menu div.info-group h4 {
+					background: url(../images/leftmenu_group_header.gif) top left no-repeat;
+					color: #555;				
+				}
+				
+				div.info-group h4 a {
+					color: #fff;
+					font-weight: normal;
+				}
+
+		a#accept, a#reject {
+			background: url(../images/accept_button.gif) top left no-repeat;
+			text-indent: -999em;
+			display: block;
+			overflow: hidden;
+			width: 80px;
+			height: 19px;
+			float: right;
+			margin-left: 10px;
+		}
+			a#reject {
+				background: url(../images/reject_button.gif) top left no-repeat;
+				width: 78px;		
+			}
+
+	.standard-form input, .standard-form select, .standard-form textarea {
+		font-size: 1.3em;
+		font-family: inherit;
+		color: #777;
+	}
+
+/**************************
+ FOOTER
+***************************/
+
+#footer {
+	clear: both;
+	background: url(../images/content_header.gif) repeat-x #eee;
+	text-align: center;
+	height: 35px;
+}
+
+	#footer p {
+		margin: 0;
+	}
+
+	#footer code {
+		font-size: 1.1em;
+		color: #ccc;
+	}
+

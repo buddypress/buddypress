@@ -6,7 +6,7 @@
 	<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 
 	<?php if ( bp_has_blogs() ) : ?>
-		<ul id="blog-list">
+		<ul id="blog-list" class="item-list">
 		<?php while ( bp_blogs() ) : bp_the_blog(); ?>
 			<li>
 				<h4><a href="<?php bp_blog_permalink() ?>"><?php bp_blog_title() ?></a></h4>

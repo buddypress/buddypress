@@ -7,7 +7,7 @@ if ( function_exists('register_sidebar') )
         'after_title' => '</h2>',
     ));
 
-function get_options_class() {
+function bp_get_options_class() {
 	global $bp, $is_single_group;
 
 	if ( !bp_is_home() && $bp['current_component'] == 'profile' || 
@@ -22,7 +22,7 @@ function get_options_class() {
 		echo ' class="arrow"';	
 }
 
-function has_icons() {
+function bp_has_icons() {
 	global $bp;
 
 	if ( ($bp['current_userid'] != $bp['loggedin_userid']) )

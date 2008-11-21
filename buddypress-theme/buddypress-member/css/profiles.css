@@ -1,0 +1,68 @@
+/**** Profiles ************************/
+			
+	table.profile-fields tr.alt {
+		background: #f0f0f0;
+	}
+	
+	table.profile-fields tr td.label {
+		border-right: 1px solid #dadada;
+		font-weight: bold;
+	}
+
+		
+/**** Profile Edit Form ********************/
+		
+		.signup-field input, .signup-field select, .signup-field textarea {
+			font-size: 1.3em;
+			font-family: inherit;
+			color: #777;
+		}
+		
+		.signup-description {
+			color: #888;
+			font-size: 0.9em;
+		}
+		
+		input#save, .standard-form input[type='submit'] {
+			font-size: 1.4em;
+		}
+				
+		#message {
+			background: url(../images/updated_back.gif) top left repeat-x #ddffc4;
+			margin: 0 0 2em 0;
+		}
+			#message p {
+				color: #357c00;
+				padding: 1em 2.75em;
+				background: url(../images/updated_icon.gif) 1em 1.1em no-repeat;
+			}
+		
+		#message.error {
+			background-image: url(../images/error_back.gif);
+			background-color: #ff3a3a;
+			color: #fff;
+		}
+			#message.error p {
+				background-image: url(../images/error_icon.gif);
+				color: #fff;
+			}
+		
+		#message.info {
+			background-image: none;
+			background-color: #fcfcd0;
+			color: inherit;
+		}
+			#message.info p {
+				background-image: url(../images/info_icon.gif);
+				color: inherit;
+				padding-left: 3.3em;
+			}
+			
+
+/**** Avatar Upload Form ********************/
+
+#avatar-upload #upload {
+	margin-top: 1em;
+	margin-bottom: 1em;
+	font-size: 1.4em;
+}

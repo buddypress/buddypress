@@ -1,0 +1,34 @@
+/**** ACTIVITY FEED ***************************/
+
+#activity-list li {
+	padding-left: 21px;
+}
+	#activity-list li.blogs {
+		background: url(../images/blog_bullet.gif) 0 4px no-repeat;		
+	}
+	
+	#activity-list li.profile {
+		background: url(../images/profile_bullet.gif) 0 4px no-repeat;
+	}
+
+	#activity-list li.friends {
+		background: url(../images/friends_bullet.gif) 0 4px no-repeat;
+	}
+	
+	#activity-list li.groups {
+		background: url(../images/groups_bullet.gif) 0 4px no-repeat;
+	}
+	
+	#activity-list li.wire {
+		background: url(../images/wire_bullet.gif) 0 4px no-repeat;
+	}
+
+
+#activity-list li blockquote {
+	background: url(../images/quotes_background.gif) 10px 9px no-repeat #eee;
+}
+
+#activity-list li span.time-since {
+	font-size: 0.8em;
+	color: #999;
+}

@@ -16,7 +16,7 @@
 		</div>
 		
 		<?php if ( bp_has_users() ) : ?>
-			<ul id="friend-list">
+			<ul id="friend-list" class="item-list">
 			<?php while ( bp_user_users() ) : bp_the_user(); ?>
 				<li>
 					<?php bp_user_avatar_thumb() ?>

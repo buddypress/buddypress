@@ -10,7 +10,7 @@
 	<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 	
 	<?php if ( bp_has_friendships() ) : ?>
-		<ul id="friend-list">
+		<ul id="friend-list" class="item-list">
 		<?php while ( bp_user_friendships() ) : bp_the_friendship(); ?>
 			<li>
 				<?php bp_friend_avatar_thumb() ?>

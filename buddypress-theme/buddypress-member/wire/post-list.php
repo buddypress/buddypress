@@ -15,7 +15,7 @@
 			</div>
 		<?php endif; ?>
 		
-		<ul id="wire-post-list">
+		<ul id="wire-post-list" class="item-list">
 		<?php while ( bp_wire_posts() ) : bp_the_wire_post(); ?>
 			<li>
 				<div class="wire-post-metadata">

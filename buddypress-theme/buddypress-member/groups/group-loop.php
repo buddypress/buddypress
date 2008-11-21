@@ -4,7 +4,7 @@
 		<?php bp_group_pagination() ?>
 	</div>
 	
-	<ul id="group-list">
+	<ul id="group-list" class="item-list">
 	<?php while ( bp_groups() ) : bp_the_group(); ?>
 		<li>
 			<?php bp_group_avatar_thumb() ?>
