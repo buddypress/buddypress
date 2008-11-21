@@ -224,16 +224,19 @@ function bp_wire_ajax_loader_src() {
 	echo $bp['wire']['image_base'] . '/ajax-loader.gif';
 }
 
-function bp_wire_post_date( $date_format = null ) {
+function bp_wire_post_date( $date_format = null, $echo = true ) {
 	global $wire_posts_template;
 
 	if ( !$date_format )
 		$date_format = get_option('date_format');
 		
-	echo mysql2date( $date_format, $wire_posts_template->wire_post->date_posted );	
+	if ( $echo )
+		echo mysql2date( $date_format, $wire_posts_template->wire_post->date_posted );
+	else
+		return mysql2date( $date_format, $wire_posts_template->wire_post->date_posted );
 }
 
-function bp_wire_post_author_name() {
+function bp_wire_post_author_name( $echo = true ) {
 	global $wire_posts_template;
 	
 	echo bp_core_get_userlink( $wire_posts_template->wire_post->user_id );
@@ -273,17 +276,23 @@ function bp_wire_poster_avatar() {
 	echo bp_core_get_avatar( $bp['loggedin_userid'], 1 );
 }
 
-function bp_wire_poster_name() {
+function bp_wire_poster_name( $echo = true ) {
 	global $bp;
 	
-	echo '<a href="' . $bp['loggedin_domain'] . $bp['profile']['slug'] . '">' . __('You', 'buddypress') . '</a>';
+	if ( $echo )
+		echo '<a href="' . $bp['loggedin_domain'] . $bp['profile']['slug'] . '">' . __('You', 'buddypress') . '</a>';
+	else
+		return '<a href="' . $bp['loggedin_domain'] . $bp['profile']['slug'] . '">' . __('You', 'buddypress') . '</a>';
 }
 
-function bp_wire_poster_date( $date_format = null ) {
+function bp_wire_poster_date( $date_format = null, $echo = true ) {
 	if ( !$date_format )
 		$date_format = get_option('date_format');
 
-	echo mysql2date( $date_format, date("Y-m-d H:i:s") );	
+	if ( $echo )
+		echo mysql2date( $date_format, date("Y-m-d H:i:s") );
+	else
+		return mysql2date( $date_format, date("Y-m-d H:i:s") );	
 }
 
 function bp_wire_delete_link() {
