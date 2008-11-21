@@ -21,18 +21,18 @@ class BP_Groups_Template {
 		
 		if ( !$user_id )
 			$user_id = $current_user->id;
-
+		
 		$this->pag_page = isset( $_REQUEST['fpage'] ) ? intval( $_REQUEST['fpage'] ) : 1;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $groups_per_page;
 		
-		if ( ( $bp['current_action'] == 'my-groups' && $_REQUEST['group-filter-box'] == '' ) || ( !$bp['current_action'] && $_REQUEST['group-filter-box'] == '' ) ) {
+		if ( ( $bp['current_action'] == 'my-groups' && $_REQUEST['group-filter-box'] == '' ) || ( !$bp['current_action'] && !isset($_REQUEST['page']) && $_REQUEST['group-filter-box'] == '' ) ) {
 			
 			$this->groups = groups_get_user_groups( $this->pag_num, $this->pag_page );
 			$this->total_group_count = (int)$this->groups['count'];
 			$this->groups = $this->groups['groups'];
 			$this->group_count = count($this->groups);
 		
-		} else if ( ( $bp['current_action'] == 'my-groups' && $_REQUEST['group-filter-box'] != '' ) || ( !$bp['current_action'] && $_REQUEST['group-filter-box'] != '' ) ) {
+		} else if ( ( $bp['current_action'] == 'my-groups' && $_REQUEST['group-filter-box'] != '' ) || ( !$bp['current_action'] && !isset($_REQUEST['page']) && $_REQUEST['group-filter-box'] != '' ) ) {
 
 			$this->groups = groups_filter_user_groups( $_REQUEST['group-filter-box'], $this->pag_num, $this->pag_page );
 			$this->total_group_count = (int)$this->groups['count'];
@@ -75,7 +75,7 @@ class BP_Groups_Template {
 			$this->group_count = 1;
 		
 		}
-
+		
 		$this->pag_links = paginate_links( array(
 			'base' => add_query_arg( array( 'fpage' => '%#%', 'num' => $this->pag_num, 's' => $_REQUEST['s'], 'sortby' => $this->sort_by, 'order' => $this->order ) ),
 			'format' => '',

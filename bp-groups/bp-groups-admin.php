@@ -36,7 +36,7 @@ function groups_admin_settings() {
 			<input type="text" size="17" value="<?php echo $_REQUEST['s'] ?>" name="s" />
 			<input id="post-query-submit" class="button" type="submit" value="Search Groups"/>
 		</form>
-	
+		
 		<?php if ( bp_has_groups('15') ) : ?>
 			<form id="bp-group-admin-list" method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
 				<div class="tablenav">
@@ -138,11 +138,9 @@ function groups_admin_settings() {
 				
 			<?php else: ?>
 
-				<?php if ( bp_group_show_no_groups_message() ) : ?>
 				<div id="message" class="info">
 					<p><?php _e( 'No groups to display', 'buddypress' ) ?></p>
 				</div>
-				<?php endif; ?>
 
 			<?php endif;?>
 			</form>
