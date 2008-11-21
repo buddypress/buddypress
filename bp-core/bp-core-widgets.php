@@ -199,6 +199,7 @@ function bp_core_widget_whos_online($args) {
 	<?php endif; ?>
 
 	<?php echo $after_widget; ?>
+	
 <?php
 }
 

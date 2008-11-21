@@ -388,10 +388,13 @@ Class BP_Blogs_Comment {
 	}
 	
 	function fetch_comment_content( $comment_object ) {
+		global $current_blog;
+		
 		switch_to_blog($comment_object->blog_id);
 		$comment = get_comment($comment_object->comment_id);
 		$comment->blog_id = $comment_object->blog_id;
 		$comment->post = &get_post( $comment->comment_post_ID );
+		switch_to_blog($current_blog->blog_id);
 		
 		return $comment;
 	}
