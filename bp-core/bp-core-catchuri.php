@@ -232,6 +232,11 @@ function bp_core_force_buddypress_theme() {
 	global $current_component, $current_action;
 	global $is_member_page;
 	
+	$member_theme = get_site_option('active-member-theme');
+	
+	if ( $member_theme == '' )
+		$member_theme = 'buddypress-member';
+	
 	// The theme filter does not recognize any globals, where as the stylesheet filter does.
 	// We have to set up the globals to use manually.
 	bp_core_set_uri_globals();
@@ -242,12 +247,14 @@ function bp_core_force_buddypress_theme() {
 	if ( $current_component == $groups_bp['groups']['slug'] )
 		$is_single_group = BP_Groups_Group::group_exists( $current_action, $groups_bp['groups']['table_name'] );
 	
-	if ( $is_member_page )
-		$theme = 'buddypress-member';
-	else if ( $current_component == $groups_bp['groups']['slug'] && $is_single_group )
-		$theme = 'buddypress-member';
-	else
-		$theme = get_option('template');
+	if ( $is_member_page || ( $current_component == $groups_bp['groups']['slug'] && $is_single_group ) ) {
+		add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
+		add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
+
+		return $member_theme;
+	} else {
+		return get_option('template');
+	}
 	
 	return $theme;
 }
@@ -255,13 +262,20 @@ add_filter( 'template', 'bp_core_force_buddypress_theme' );
 
 function bp_core_force_buddypress_stylesheet() {
 	global $bp, $is_single_group, $is_member_page;
+
+	$member_theme = get_site_option('active-member-theme');
 	
-	if ( $is_member_page )
-		return 'buddypress-member';
-	else if ( $bp['current_component'] == $bp['groups']['slug'] && $is_single_group )	
-		return 'buddypress-member';
-	else
+	if ( $member_theme == '' )
+		$member_theme = 'buddypress-member';
+	
+	if ( $is_member_page || ( $bp['current_component'] == $bp['groups']['slug'] && $is_single_group ) ) {
+		add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
+		add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
+		
+		return $member_theme;
+	} else {
 		return get_option('stylesheet');	
+	}
 }
 add_filter( 'stylesheet', 'bp_core_force_buddypress_stylesheet' );
 

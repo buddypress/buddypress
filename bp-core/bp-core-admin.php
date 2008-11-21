@@ -16,7 +16,7 @@ function bp_core_admin_settings() { ?>
 	
 	<div class="wrap">
 		
-		<h2>BuddyPress Settings</h2>
+		<h2><?php _e( 'BuddyPress Settings', 'buddypress' ) ?></h2>
 	
 		<form action="<?php $_SERVER['PHPSELF'] ?>" method="post" id="bp-admin-form">
 		
@@ -38,6 +38,29 @@ function bp_core_admin_settings() { ?>
 					</td>			
 				</tr>
 				<?php } ?>
+				<tr>
+					<th scope="row"><?php _e('Select theme to use for member pages', 'buddypress') ?>:</th>
+					<td>
+						<select name="bp-admin[active-member-theme]" id="active-member-theme">
+							<?php $themes = bp_core_get_member_themes() ?>
+							<?php 
+								if ( $themes ) { 
+									for ( $i = 0; $i < count($themes); $i++ ) { 
+										if ( $themes[$i]['template'] == get_site_option( 'active-member-theme' ) ) {
+											$selected = ' selected="selected"';
+										} else {
+											$selected = '';
+										}
+							?>
+										<option<?php echo $selected ?> value="<?php echo $themes[$i]['template'] ?>"><?php echo $themes[$i]['name'] ?></option>
+							<?php	
+									}
+								}
+							?>
+
+						</select>
+					</td>			
+				</tr>
 			</tbody>
 			</table>
 	

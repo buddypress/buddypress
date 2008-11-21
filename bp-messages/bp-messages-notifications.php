@@ -17,7 +17,7 @@ function messages_notification_new_message( $args ) {
 		
 		// Set up and send the message
 		$to = $ud->user_email;
-		$subject = sprintf( __( 'New message from %s', 'buddypress' ), $sender_name );
+		$subject = sprintf( __( 'New message from %s', 'buddypress' ), stripslashes($sender_name) );
 
 		$message = sprintf( __( 
 '%s sent you a new message:

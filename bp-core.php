@@ -1091,6 +1091,31 @@ function bp_core_referrer() {
 	return implode( '/', $referer );
 }
 
+function bp_core_get_member_themes() {
+	add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
+	$themes = get_themes();
+
+	if ( $themes ) {
+		foreach ( $themes as $name => $values ) {
+			$member_themes[] = array(
+				'name' => $name,
+				'template' => $values['Template']
+			);
+		}
+	}
+	
+	return $member_themes;
+}
+
+function bp_core_set_member_theme_root() {
+	return WP_CONTENT_DIR . "/member-themes";
+}
+
+function bp_core_set_member_theme_root_uri() {
+	return WP_CONTENT_URL . '/member-themes';
+}
+
+
 /**
  * bp_core_email_from_name_filter()
  *
