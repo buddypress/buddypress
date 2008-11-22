@@ -155,7 +155,8 @@ function bp_catch_uri( $pages, $skip_blog_check = false ) {
 
 	$bp_path = $pages;
 
-	add_action( "template_redirect", "bp_core_do_catch_uri", 10, 1 );
+	remove_action( 'template_redirect', 'redirect_canonical' );
+	add_action( 'template_redirect', 'bp_core_do_catch_uri' );
 }
 
 /**
@@ -171,7 +172,7 @@ function bp_core_do_catch_uri() {
 	global $current_blog, $bp_skip_blog_check;
 
 	$pages = $bp_path;
-
+	
 	/* Don't hijack any URLs on blog pages */
 	if ( !$bp_skip_blog_check ) {
 		if ( bp_is_blog_page() )
