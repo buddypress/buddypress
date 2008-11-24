@@ -82,7 +82,7 @@ function xprofile_install() {
 			  KEY user_id (user_id)
 	) {$charset_collate};";
 	
-	$sql[] = "INSERT INTO ". $bp['profile']['table_name_groups'] . " VALUES ( 'Basic', '', 0 );";
+	$sql[] = "INSERT INTO ". $bp['profile']['table_name_groups'] . " VALUES ( 1, 'Basic', '', 0 );";
 	
 	$sql[] = "INSERT INTO ". $bp['profile']['table_name_fields'] . " ( 
 				id, group_id, parent_id, type, name, description, is_required, field_order, option_order, order_by, is_public, can_delete
