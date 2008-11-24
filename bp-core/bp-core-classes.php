@@ -162,11 +162,6 @@ class BP_Core_User {
 		if ( !function_exists('xprofile_install') )
 			return false;
 		
-		if ( !$bp ) {
-			bp_core_setup_globals();
-			xprofile_setup_globals();
-		}
-		
 		if ( !$limit )
 			$limit = 5;
 		
@@ -175,7 +170,21 @@ class BP_Core_User {
 		
 		like_escape($letter);
 		
-		return $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT um.user_id FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$bp['profile']['table_name_data']} pd ON um.user_id = pd.user_id LEFT JOIN {$bp['profile']['table_name_fields']} pf ON pd.field_id = pf.id WHERE pf.name = 'First Name' AND pd.value LIKE '$letter%%' ORDER BY pf.name DESC" ) ); 
+		return $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT um.user_id FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$bp['profile']['table_name_data']} pd ON um.user_id = pd.user_id LEFT JOIN {$bp['profile']['table_name_fields']} pf ON pd.field_id = pf.id WHERE pf.name = %s AND pd.value LIKE '$letter%%' ORDER BY pf.name DESC", BP_XPROFILE_FULLNAME_FIELD_NAME ) ); 
+	}
+	
+	function search_users( $search_terms, $limit = 5 ) {
+		global $wpdb, $bp;
+		
+		if ( !function_exists('xprofile_install') )
+			return false;
+		
+		if ( !$limit )
+			$limit = 5;
+		
+		like_escape($search_terms);	
+		
+		return $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT um.user_id FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$bp['profile']['table_name_data']} pd ON um.user_id = pd.user_id LEFT JOIN {$bp['profile']['table_name_fields']} pf ON pd.field_id = pf.id WHERE pd.value LIKE '%%$search_terms%%' ORDER BY pf.name DESC" ) );	
 	}
 }
 

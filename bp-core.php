@@ -142,6 +142,7 @@ function bp_core_setup_globals() {
 	
 	if ( !$bp['current_component'] )
 		$bp['current_component'] = $bp['default_component'];
+
 }
 add_action( 'wp', 'bp_core_setup_globals', 1 );
 add_action( '_admin_menu', 'bp_core_setup_globals', 1 ); // must be _admin_menu hook.

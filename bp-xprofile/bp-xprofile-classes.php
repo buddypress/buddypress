@@ -1156,9 +1156,9 @@ Class BP_XProfile_ProfileData {
 		if ( !$user_id )
 			$user_id = $bp['current_userid'];
 
-		$data = bp_get_field_data( array( 'First Name', 'Last Name' ), $user_id );
+		$data = bp_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id );
 
-		return ucfirst($data['First Name']) . ' ' . ucfirst($data['Last Name']);		
+		return $data[BP_XPROFILE_FULLNAME_FIELD_NAME];		
 	}
 }
 ?>
