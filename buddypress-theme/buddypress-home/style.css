@@ -279,6 +279,9 @@ div.avatar-block {
 #sidebar .widget ul {
 	padding-left: 15px;
 }
+	#sidebar .widget ul.item-list {
+		padding: 0;
+	}
 
 	#sidebar .widget li {
 		list-style-type: square;
@@ -286,6 +289,11 @@ div.avatar-block {
 		padding-left: 5px;
 		margin-bottom: 5px;
 	}
+		#sidebar .widget ul.item-list li {
+			list-style-type: none;
+			margin: 0;
+			padding: 15px;
+		}
 
 
 /** NEWS BLOG STYLES *********/
@@ -464,3 +472,46 @@ span.signup-description {
 	display: block;
 	margin: 5px 0 0 0;
 }
+
+a.page-numbers:hover { background: #e1e1e1; }
+
+	.pagination-links .current {
+		background: #d5d5d5;
+		border-bottom: 2px solid #f28935;
+	}
+		
+.pag-count {
+	font-size: 0.9em;
+	color: #888;
+}
+
+#message {
+	background: url(../images/updated_back.gif) top left repeat-x #ddffc4;
+	margin: 0 0 2em 0;
+}
+	#message p {
+		color: #357c00;
+		padding: 1em 2.75em;
+		background: url(../images/updated_icon.gif) 1em 1.1em no-repeat;
+	}
+
+#message.error {
+	background-image: url(../images/error_back.gif);
+	background-color: #ff3a3a;
+	color: #fff;
+}
+	#message.error p {
+		background-image: url(../images/error_icon.gif);
+		color: #fff;
+	}
+
+#message.info {
+	background-image: none;
+	background-color: #fcfcd0;
+	color: inherit;
+}
+	#message.info p {
+		background-image: url(../images/info_icon.gif);
+		color: inherit;
+		padding-left: 3.3em;
+	}

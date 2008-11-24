@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="<?php echo bloginfo('template_url') . '/css/ie/ie.css' ?>" type="text/css" media="screen" />	
 <![endif]-->
 
+<?php signup_headers() ?>
 
 </head>
 <body>
