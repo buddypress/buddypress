@@ -97,9 +97,9 @@ function bp_core_widget_members($args) {
 		. $widget_name 
 		. $after_title; ?>
 	
-	<?php $users = BP_Core_User::get_newest_users($options['max_members']) ?>
+	<?php $users = BP_Core_User::get_newest_users( $options['max_members'] ) ?>
 	
-	<?php if ( $users ) : ?>
+	<?php if ( $users['users'] ) : ?>
 		<div class="item-options" id="members-list-options">
 			<img id="ajax-loader-members" src="<?php echo $bp['core']['image_base'] ?>/ajax-loader.gif" height="7" alt="Loading" style="display: none;" /> &nbsp;
 			<a href="<?php echo site_url() . '/' . MEMBERS_SLUG ?>" id="newest-members" class="selected"><?php _e("Newest", 'buddypress') ?></a> | 
@@ -107,7 +107,7 @@ function bp_core_widget_members($args) {
 			<a href="<?php echo site_url() . '/' . MEMBERS_SLUG ?>" id="popular-members"><?php _e("Popular", 'buddypress') ?></a>
 		</div>
 		<ul id="members-list" class="item-list">
-			<?php foreach ( (array) $users as $user ) : ?>
+			<?php foreach ( (array) $users['users'] as $user ) : ?>
 				<li>
 					<div class="item-avatar">
 						<?php echo bp_core_get_avatar( $user->user_id, 1 ) ?>
@@ -175,9 +175,9 @@ function bp_core_widget_whos_online($args) {
 
 	<?php $users = BP_Core_User::get_online_users($options['max_members']) ?>
 
-	<?php if ( $users ) : ?>
+	<?php if ( $users['users'] ) : ?>
 			<div class="avatar-block">
-			<?php foreach ( (array) $users as $user ) : ?>
+			<?php foreach ( (array) $users['users'] as $user ) : ?>
 				<div class="item-avatar">
 					<a href="<?php echo bp_core_get_userurl($user->user_id) ?>" title="<?php bp_fetch_user_fullname( $user->user_id, true ) ?>"><?php echo bp_core_get_avatar( $user->user_id, 1 ) ?></a>
 				</div>

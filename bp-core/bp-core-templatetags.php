@@ -218,13 +218,13 @@ function bp_fetch_user_fullname( $user_id = false, $echo = true ) {
 		//$data = get_usermeta( $user_id, 'bp_display_name' );
 
 		//if ( $data == '' ) {
-			$data = bp_get_field_data( array( 'First Name', 'Last Name' ), $user_id );
+			$data = bp_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id );
 
-			if ( empty($data['First Name']) && empty($data['Last Name']) ) {
+			if ( empty($data) ) {
 				$ud = get_userdata($user_id);
 				$data = $ud->display_name;
 			} else {
-				$data = ucfirst($data['First Name']) . ' ' . ucfirst($data['Last Name']);
+				$data = ucfirst($data);
 			}
 			
 			// store this in usermeta for less expensive fetching.

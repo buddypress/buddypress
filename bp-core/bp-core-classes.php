@@ -117,74 +117,104 @@ class BP_Core_User {
 	
 	/* Static Functions */
 	
-	function get_newest_users( $limit = 5 ) {
+	function get_newest_users( $limit = null, $page = 1 ) {
 		global $wpdb;
 		
-		if ( !$limit )
-			$limit = 5;
+		if ( $limit && $page )
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 			
-		return $wpdb->get_results( $wpdb->prepare( "SELECT ID as user_id, DATE_ADD( user_registered, INTERVAL " . get_option('gmt_offset') . " HOUR ) as user_registered FROM {$wpdb->base_prefix}users WHERE spam = 0 AND deleted = 0 AND user_status = 0 ORDER BY user_registered DESC LIMIT %d", $limit ) );
+		$total_users = $wpdb->get_var( $wpdb->prepare("SELECT count(ID) FROM {$wpdb->base_prefix}users WHERE spam = 0 AND deleted = 0 AND user_status = 0 ORDER BY user_registered DESC" ) );
+		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT ID as user_id, DATE_ADD( user_registered, INTERVAL " . get_option('gmt_offset') . " HOUR ) as user_registered FROM {$wpdb->base_prefix}users WHERE spam = 0 AND deleted = 0 AND user_status = 0 ORDER BY user_registered DESC{$pag_sql}" ) );
+		
+		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
 	
-	function get_active_users( $limit = 5 ) {
+	function get_active_users( $limit = null, $page = 1 ) {
 		global $wpdb;
 
-		if ( !$limit )
-			$limit = 5;
-			
-		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'last_activity' ORDER BY FROM_UNIXTIME(meta_value) DESC LIMIT %d", $limit ) );
+		if ( $limit && $page )
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+		
+		$total_users = $wpdb->get_var( $wpdb->prepare( "SELECT count(user_id) FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'last_activity' ORDER BY FROM_UNIXTIME(meta_value) DESC" ) );
+		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'last_activity' ORDER BY FROM_UNIXTIME(meta_value) DESC{$pag_sql}" ) );
+		
+		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
 
-	function get_popular_users( $limit = 5 ) {
+	function get_popular_users( $limit = null, $page = 1 ) {
 		global $wpdb;
 				
 		if ( !function_exists('friends_install') )
 			return false;
 		
-		if ( !$limit )
-			$limit = 5;
+		if ( $limit && $page )
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
-		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'total_friend_count' ORDER BY CONVERT(meta_value, SIGNED) DESC LIMIT %d", $limit ) );
+		$total_users = $wpdb->get_var( $wpdb->prepare( "SELECT count(user_id) FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'total_friend_count' ORDER BY CONVERT(meta_value, SIGNED) DESC" ) );
+		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'total_friend_count' ORDER BY CONVERT(meta_value, SIGNED) DESC{$pag_sql}" ) );
+		
+		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
 	
-	function get_online_users( $limit = 5 ) {
+	function get_random_users( $limit = null, $page = 1 ) {
 		global $wpdb;
 		
-		if ( !$limit )
-			$limit = 5;
+		if ( $limit && $page )
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
-		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'last_activity' AND DATE_ADD( FROM_UNIXTIME(meta_value), INTERVAL 5 MINUTE ) >= NOW() ORDER BY FROM_UNIXTIME(meta_value) DESC LIMIT %d", $limit ) );		
+		$total_users = $wpdb->get_var( $wpdb->prepare( "SELECT count(user_id) FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'total_friend_count' ORDER BY RAND() DESC" ) );
+		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'total_friend_count' ORDER BY RAND(){$pag_sql}" ) );
+		
+		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
 	
-	function get_users_by_letter( $letter, $limit = 5 ) {
+	function get_online_users( $limit = null, $page = 1 ) {
+		global $wpdb;
+		
+		if ( $limit && $page )
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+
+		$total_users = $wpdb->get_var( $wpdb->prepare( "SELECT count(user_id) FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'last_activity' AND DATE_ADD( FROM_UNIXTIME(meta_value), INTERVAL 5 MINUTE ) >= NOW() ORDER BY FROM_UNIXTIME(meta_value) DESC" ) );
+		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'last_activity' AND DATE_ADD( FROM_UNIXTIME(meta_value), INTERVAL 5 MINUTE ) >= NOW() ORDER BY FROM_UNIXTIME(meta_value) DESC{$pag_sql}" ) );
+		
+		return array( 'users' => $paged_users, 'total' => $total_users );
+	}
+	
+	function get_users_by_letter( $letter, $limit = null, $page = 1 ) {
 		global $wpdb, $bp;
 		
 		if ( !function_exists('xprofile_install') )
 			return false;
 		
-		if ( !$limit )
-			$limit = 5;
+		if ( $limit && $page )
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		
 		if ( strlen($letter) > 1 || is_numeric($letter) || !$letter )
 			return false;
 		
 		like_escape($letter);
+
+		$total_users = count( $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT um.user_id FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$bp['profile']['table_name_data']} pd ON um.user_id = pd.user_id LEFT JOIN {$bp['profile']['table_name_fields']} pf ON pd.field_id = pf.id WHERE pf.name = %s AND pd.value LIKE '$letter%%' ORDER BY pf.name DESC", BP_XPROFILE_FULLNAME_FIELD_NAME ) ) );
+		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT um.user_id FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$bp['profile']['table_name_data']} pd ON um.user_id = pd.user_id LEFT JOIN {$bp['profile']['table_name_fields']} pf ON pd.field_id = pf.id WHERE pf.name = %s AND pd.value LIKE '$letter%%' ORDER BY pf.name DESC{$pag_sql}", BP_XPROFILE_FULLNAME_FIELD_NAME ) );
 		
-		return $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT um.user_id FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$bp['profile']['table_name_data']} pd ON um.user_id = pd.user_id LEFT JOIN {$bp['profile']['table_name_fields']} pf ON pd.field_id = pf.id WHERE pf.name = %s AND pd.value LIKE '$letter%%' ORDER BY pf.name DESC", BP_XPROFILE_FULLNAME_FIELD_NAME ) ); 
+		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
 	
-	function search_users( $search_terms, $limit = 5 ) {
+	function search_users( $search_terms, $limit = null, $page = 1 ) {
 		global $wpdb, $bp;
 		
 		if ( !function_exists('xprofile_install') )
 			return false;
 		
-		if ( !$limit )
-			$limit = 5;
+		if ( $limit && $page )
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		
 		like_escape($search_terms);	
+
+		$total_users = $wpdb->get_var( $wpdb->prepare( "SELECT count(user_id) FROM {$bp['profile']['table_name_data']} WHERE value LIKE '%%$search_terms%%' ORDER BY id DESC" ) );
+		$paged_users = $wpdb->get_results( "SELECT user_id FROM {$bp['profile']['table_name_data']} WHERE value LIKE '%%$search_terms%%' ORDER BY id DESC{$pag_sql}" );
 		
-		return $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT um.user_id FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$bp['profile']['table_name_data']} pd ON um.user_id = pd.user_id LEFT JOIN {$bp['profile']['table_name_fields']} pf ON pd.field_id = pf.id WHERE pd.value LIKE '%%$search_terms%%' ORDER BY pf.name DESC" ) );	
+		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
 }
 

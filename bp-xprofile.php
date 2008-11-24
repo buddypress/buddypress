@@ -658,6 +658,31 @@ function xprofile_edit( $group_id, $action ) {
 <?php
 }
 
+function xprofile_get_random_profile_data( $user_id, $exclude_fullname = true ) {
+	$field_data = BP_XProfile_ProfileData::get_random( $user_id, $exclude_fullname );
+	$field_data[0]->value = xprofile_format_profile_field( $field_data[0]->type, $field_data[0]->value );
+	
+	if ( !$field_data[0]->value || $field_data[0]->value == '' )
+		return false;
+	
+	return $field_data;
+}
+
+function xprofile_format_profile_field( $field_type, $field_value ) {
+	if ( !isset($field_value) || $field_value == '' )
+		return false;
+	
+	if ( $field_type == "datebox" ) {
+		$field_value = bp_format_time( $field_value, true );
+	} else {
+		$content = $field_value;
+		$content = apply_filters('the_content', $content);
+		$field_value = str_replace(']]>', ']]&gt;', $content);
+	}
+	
+	return stripslashes( stripslashes( $field_value ) );
+}
+
 /**
  * xprofile_remove_data_on_user_deletion()
  *

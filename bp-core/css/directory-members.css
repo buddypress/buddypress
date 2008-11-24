@@ -2,19 +2,21 @@ ul#letter-list, ul#members-list {
 	margin: 0;
 	padding: 0;
 	list-style: none;
+	width: 100%;
 }
 	ul#letter-list li {
 		float: left;
 		margin: 0 4px 3px 0;
+		width: 3.2%;
 	}
 		ul#letter-list li a {
 			display: block;
 			background: #eee;
-			width: 20px;
 			text-align: center;
 			text-decoration: none;
 			font-size: 12px;
 			color: inherit;
+			font-family: Georgia, Times, serif;
 		}
 		
 		ul#letter-list li a:hover {
@@ -22,6 +24,10 @@ ul#letter-list, ul#members-list {
 			background: #fff9df;
 			color: #f7740a;
 		}
+
+ul#members-list {
+	margin: 18px 0 0 0;
+}
 
 ul#members-list li {
 	position: relative;
@@ -87,6 +93,51 @@ ul#members-list li {
 		width: 136px;
 	}
 	
+/* Search Form */
+
+#search-members-form input {
+	width: 72%;
+	padding: 0.3em 0.3em;
+	font-size: 1.1em;
+	font-family: Georgia, Times, serif;
+}
+	#search-members-form #members_search_submit {
+		width: auto;
+		font-size: 1.1em;
+	}
+
+	.profile-data {
+		font-size: 0.9em;
+		color: #777;
+	}
 	
+	.profile-data .field-name {
+		font-weight: bold;
+	}
+	
+/* Pag Links */
+
+.pagination-links {
+	margin-top: -0.7em;
+	float: right;
+}
+	.pagination-links .page-numbers {
+		padding: 0.65em 0.7em;
+		height: 24px;
+	}
+	.pagination-links .current {
+		padding: 0.5em 0.7em;
+	}
+	
+	div.info-group .pagination-links {
+		margin: 0 0 5px 0;
+		float: none;
+		text-align: right;
+	}
+	
+.pag-count {
+	margin-bottom: -12px;
+}
+
 	
 	

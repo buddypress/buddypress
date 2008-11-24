@@ -214,13 +214,7 @@ function bp_the_profile_field_value() {
 		$field->data->value = $field_value;
 	}
 	
-	if ( $field->type == "datebox" ) {
-		$field->data->value = bp_format_time( $field->data->value, true );
-	} else {
-		$content = $field->data->value;
-		$content = apply_filters('the_content', $content);
-		$field->data->value = str_replace(']]>', ']]&gt;', $content);
-	}
+	$field->data->value = xprofile_format_profile_field( $field->type, $field->data->value );
 	
 	echo stripslashes($field->data->value);
 }
