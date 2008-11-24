@@ -95,9 +95,9 @@ function bp_wire_action_post() {
 	}
 	
 	if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
-		bp_core_redirect( $bp['current_domain'] );
+		wp_redirect( $bp['current_domain'] );
 	} else {
-		bp_core_redirect( $bp['current_domain']. $bp['wire']['slug'] );
+		wp_redirect( $bp['current_domain']. $bp['wire']['slug'] );
 	}
 }
 add_action( 'wp', 'bp_wire_action_post', 3 );
@@ -117,9 +117,9 @@ function bp_wire_action_delete() {
 	}
 	
 	if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
-		bp_core_redirect( $bp['current_domain'] );
+		wp_redirect( $bp['current_domain'] );
 	} else {
-		bp_core_redirect( $bp['current_domain']. $bp['wire']['slug'] );
+		wp_redirect( $bp['current_domain']. $bp['wire']['slug'] );
 	}
 }
 add_action( 'wp', 'bp_wire_action_delete', 3 );

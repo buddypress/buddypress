@@ -194,8 +194,8 @@ class BP_Core_User {
 		
 		like_escape($letter);
 
-		$total_users = count( $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT um.user_id FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$bp['profile']['table_name_data']} pd ON um.user_id = pd.user_id LEFT JOIN {$bp['profile']['table_name_fields']} pf ON pd.field_id = pf.id WHERE pf.name = %s AND pd.value LIKE '$letter%%' ORDER BY pf.name DESC", BP_XPROFILE_FULLNAME_FIELD_NAME ) ) );
-		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT um.user_id FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$bp['profile']['table_name_data']} pd ON um.user_id = pd.user_id LEFT JOIN {$bp['profile']['table_name_fields']} pf ON pd.field_id = pf.id WHERE pf.name = %s AND pd.value LIKE '$letter%%' ORDER BY pf.name DESC{$pag_sql}", BP_XPROFILE_FULLNAME_FIELD_NAME ) );
+		$total_users = count( $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT um.user_id FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$bp['profile']['table_name_data']} pd ON um.user_id = pd.user_id LEFT JOIN {$bp['profile']['table_name_fields']} pf ON pd.field_id = pf.id WHERE pf.name = %s AND pd.value LIKE '$letter%%' ORDER BY pd.value ASC", BP_XPROFILE_FULLNAME_FIELD_NAME ) ) );
+		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT um.user_id FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$bp['profile']['table_name_data']} pd ON um.user_id = pd.user_id LEFT JOIN {$bp['profile']['table_name_fields']} pf ON pd.field_id = pf.id WHERE pf.name = %s AND pd.value LIKE '$letter%%' ORDER BY pd.value ASC{$pag_sql}", BP_XPROFILE_FULLNAME_FIELD_NAME ) );
 		
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
@@ -211,8 +211,8 @@ class BP_Core_User {
 		
 		like_escape($search_terms);	
 
-		$total_users = $wpdb->get_var( $wpdb->prepare( "SELECT count(user_id) FROM {$bp['profile']['table_name_data']} WHERE value LIKE '%%$search_terms%%' ORDER BY id DESC" ) );
-		$paged_users = $wpdb->get_results( "SELECT user_id FROM {$bp['profile']['table_name_data']} WHERE value LIKE '%%$search_terms%%' ORDER BY id DESC{$pag_sql}" );
+		$total_users = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(user_id) FROM {$bp['profile']['table_name_data']} WHERE value LIKE '%%$search_terms%%' ORDER BY value ASC" ) );
+		$paged_users = $wpdb->get_results( "SELECT DISTINCT user_id FROM {$bp['profile']['table_name_data']} WHERE value LIKE '%%$search_terms%%' ORDER BY value ASC{$pag_sql}" );
 		
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}

@@ -298,7 +298,7 @@ function groups_screen_group_invites() {
 		} else {
 			bp_core_add_message( __('Group invite could not be accepted', 'buddypress'), 'error' );			
 		}
-		bp_core_redirect( $_SERVER['HTTP_REFERER'] );
+		wp_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );
 		
 	} else if ( isset($bp['action_variables']) && in_array( 'reject', $bp['action_variables'] ) && is_numeric($bp['action_variables'][1]) ) {
 		if ( BP_Groups_Member::delete( $bp['loggedin_userid'], $bp['action_variables'][1] ) ) {
@@ -306,7 +306,7 @@ function groups_screen_group_invites() {
 		} else {
 			bp_core_add_message( __('Group invite could not be rejected', 'buddypress'), 'error' );			
 		}
-		bp_core_redirect( $_SERVER['HTTP_REFERER'] );
+		wp_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );
 	}
 	
 	// Remove notifications
@@ -349,11 +349,11 @@ function groups_screen_create_group() {
 			
 			// We're done.
 			if ( $create_group_step == 4 )
-				bp_core_redirect( bp_group_permalink( $group_obj, false ) );
+				wp_redirect( bp_group_permalink( $group_obj, false ) );
 
 			if ( !$group_id = groups_manage_group( $create_group_step, $_SESSION['group_obj_id'] ) ) {
 				bp_core_add_message( __('There was an error saving group details. Please try again.', 'buddypress'), 'error' );
-				bp_core_redirect( $bp['loggedin_domain'] . $bp['groups']['slug'] . '/create/step/' . $create_group_step );
+				wp_redirect( $bp['loggedin_domain'] . $bp['groups']['slug'] . '/create/step/' . $create_group_step );
 			} else {
 				$create_group_step++;
 				$completed_to_step++;
@@ -409,9 +409,9 @@ function groups_screen_group_wire() {
 			}
 			
 			if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
-				bp_core_redirect( bp_group_permalink( $group_obj, false ) );
+				wp_redirect( bp_group_permalink( $group_obj, false ) );
 			} else {
-				bp_core_redirect( bp_group_permalink( $group_obj, false ) . '/' . $bp['wire']['slug'] );
+				wp_redirect( bp_group_permalink( $group_obj, false ) . '/' . $bp['wire']['slug'] );
 			}
 	
 		} else if ( $wire_action == 'delete' && BP_Groups_Member::check_is_member( $bp['loggedin_userid'], $group_obj->id ) ) {
@@ -424,9 +424,9 @@ function groups_screen_group_wire() {
 			}
 			
 			if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
-				bp_core_redirect( bp_group_permalink( $group_obj, false ) );
+				wp_redirect( bp_group_permalink( $group_obj, false ) );
 			} else {
-				bp_core_redirect( bp_group_permalink( $group_obj, false ) . '/' . $bp['wire']['slug'] );
+				wp_redirect( bp_group_permalink( $group_obj, false ) . '/' . $bp['wire']['slug'] );
 			}
 		
 		} else if ( ( !$wire_action || $bp['action_variables'][1] == 'latest' ) ) {
@@ -466,7 +466,7 @@ function groups_screen_group_invite() {
 			groups_send_invites($group_obj);
 			
 			bp_core_add_message( __('Group invites sent.', 'buddypress') );
-			bp_core_redirect( bp_group_permalink( $group_obj, false ) );
+			wp_redirect( bp_group_permalink( $group_obj, false ) );
 		} else {
 			// Show send invite page
 			bp_catch_uri( 'groups/send-invite' );	
@@ -483,13 +483,13 @@ function groups_screen_group_leave() {
 			// remove the user from the group.
 			if ( !groups_leave_group( $group_obj->id ) ) {
 				bp_core_add_message(  __('There was an error leaving the group. Please try again.', 'buddypress'), 'error' );
-				bp_core_redirect( bp_group_permalink( $group_obj, false) );
+				wp_redirect( bp_group_permalink( $group_obj, false) );
 			} else {
 				bp_core_add_message( __('You left the group successfully.', 'buddypress') );
-				bp_core_redirect( $bp['loggedin_domain'] . $bp['groups']['slug'] );
+				wp_redirect( $bp['loggedin_domain'] . $bp['groups']['slug'] );
 			}
 		} else if ( isset($bp['action_variables']) && $bp['action_variables'][0] == 'no' ) {
-			bp_core_redirect( bp_group_permalink( $group_obj, false) );
+			wp_redirect( bp_group_permalink( $group_obj, false) );
 		} else {
 			// Show leave group page
 			bp_catch_uri( 'groups/leave-group-confirm' );
@@ -511,7 +511,7 @@ function groups_screen_group_request_membership() {
 			} else {
 				bp_core_add_message( __( 'Your membership request was sent to the group administrator successfully. You will be notified when the group administrator responds to your request.', 'buddypress' ) );
 			}
-			bp_core_redirect( bp_group_permalink( $group_obj, false ) );
+			wp_redirect( bp_group_permalink( $group_obj, false ) );
 		}
 		bp_catch_uri( 'groups/request-membership' );
 	}
@@ -538,7 +538,7 @@ function groups_screen_group_admin_edit_details() {
 				} else {
 					bp_core_add_message( __( 'Group details were successfully updated.', 'buddypress' ) );
 				}
-				bp_core_redirect( $_SERVER['HTTP_REFERER'] );
+				wp_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/edit-details' );
 			}
 
 			bp_catch_uri( 'groups/admin/edit-details' );
@@ -571,7 +571,7 @@ function groups_screen_group_admin_settings() {
 				bp_core_add_message( __( 'Group settings were successfully updated.', 'buddypress' ) );
 			}
 			
-			bp_core_redirect( $_SERVER['HTTP_REFERER'] );
+			wp_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/group-settings' );
 		}
 		
 		bp_catch_uri( 'groups/admin/group-settings' );
@@ -599,7 +599,7 @@ function groups_screen_group_admin_manage_members() {
 			
 			do_action( 'bp_groups_promoted_member', $user_id, $group_obj->id );
 			
-			bp_core_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/manage-members' );
+			wp_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/manage-members' );
 		}
 		
 		if ( $bp['action_variables'][1] == 'demote' && is_numeric( $bp['action_variables'][2] ) ) {
@@ -614,7 +614,7 @@ function groups_screen_group_admin_manage_members() {
 
 			do_action( 'bp_groups_demoted_member', $user_id, $group_obj->id );
 			
-			bp_core_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/manage-members' );
+			wp_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/manage-members' );
 		}
 		
 		if ( $bp['action_variables'][1] == 'ban' && is_numeric( $bp['action_variables'][2] ) ) {
@@ -629,7 +629,7 @@ function groups_screen_group_admin_manage_members() {
 
 			do_action( 'bp_groups_banned_member', $user_id, $group_obj->id );
 			
-			bp_core_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/manage-members' );
+			wp_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/manage-members' );
 		}
 		
 		if ( $bp['action_variables'][1] == 'unban' && is_numeric( $bp['action_variables'][2] ) ) {
@@ -644,7 +644,7 @@ function groups_screen_group_admin_manage_members() {
 
 			do_action( 'bp_groups_unbanned_member', $user_id, $group_obj->id );
 			
-			bp_core_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/manage-members' );
+			wp_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/manage-members' );
 		}
 		
 		bp_catch_uri( 'groups/admin/manage-members' );
@@ -683,7 +683,7 @@ function groups_screen_group_admin_requests() {
 					bp_core_add_message( __( 'Group membership request rejected', 'buddypress' ) );
 				}	
 			}
-			bp_core_redirect( $_SERVER['HTTP_REFERER'] );
+			wp_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/membership-requests' );
 		}
 		
 		bp_catch_uri( 'groups/admin/membership-requests' );
@@ -705,9 +705,9 @@ function groups_screen_group_admin_delete_group() {
 				bp_core_add_message( __( 'There was an error deleting the group, please try again.', 'buddypress' ), 'error' );
 			} else {
 				bp_core_add_message( __( 'The group was deleted successfully', 'buddypress' ) );
-				bp_core_redirect( site_url() . '/' . $bp['groups']['slug'] . '/' );
+				wp_redirect( site_url() . '/' . $bp['groups']['slug'] . '/' );
 			}
-			bp_core_redirect( $_SERVER['HTTP_REFERER'] );
+			wp_redirect( $bp['loggedin_domain'] . $bp['current_component'] );
 		} else {
 			bp_catch_uri( 'groups/admin/delete-group' );
 		}
@@ -778,7 +778,7 @@ function groups_action_join_group() {
 		} else {
 			bp_core_add_message( __('You joined the group!', 'buddypress') );
 		}
-		bp_core_redirect( $_SERVER['HTTP_REFERER'] );
+		wp_redirect( bp_group_permalink( $group_obj, false ) );
 	}
 
 	bp_catch_uri( 'groups/group-home' );

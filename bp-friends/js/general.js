@@ -144,7 +144,7 @@ function render_finder_search_response(response) {
 	response = response.substr(0, response.length-1);
 	response = response.split('[[SPLIT]]');
 
-	jQuery('#finder-message').before('<ul id="friend-list"></ul>');
+	jQuery('#finder-message').before('<ul id="friend-list" class="item-list"></ul>');
 	
 	if ( jQuery('#finder-message') ) {
 		jQuery('#finder-message').fadeOut(200);
