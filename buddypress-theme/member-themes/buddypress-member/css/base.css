@@ -423,6 +423,39 @@ ul.content-header-nav {
 		font-family: inherit;
 		color: #777;
 	}
+	
+	
+	#message {
+		background: url(../images/updated_back.gif) top left repeat-x #ddffc4;
+		margin: 0 0 2em 0;
+	}
+		#message p {
+			color: #357c00;
+			padding: 1em 2.75em;
+			background: url(../images/updated_icon.gif) 1em 1.1em no-repeat;
+		}
+	
+	#message.error {
+		background-image: url(../images/error_back.gif);
+		background-color: #ff3a3a;
+		color: #fff;
+	}
+		#message.error p {
+			background-image: url(../images/error_icon.gif);
+			color: #fff;
+		}
+	
+	#message.info {
+		background-image: none;
+		background-color: #fcfcd0;
+		color: inherit;
+	}
+		#message.info p {
+			background-image: url(../images/info_icon.gif);
+			color: inherit;
+			padding-left: 3.3em;
+		}
+	
 
 /**************************
  FOOTER

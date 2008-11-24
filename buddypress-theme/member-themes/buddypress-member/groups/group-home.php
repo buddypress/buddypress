@@ -53,7 +53,7 @@
 		
 			<?php if ( bp_group_is_visible() ) : ?>
 				<div class="info-group">
-					<h4><?php printf( __( 'Members <a href="%s">See All &raquo;</a>', 'buddypress' ), bp_group_all_members_permalink( false ) ); ?></h4>
+					<h4><?php printf( __( 'Members (%d) <a href="%s">See All &raquo;</a>', 'buddypress' ), bp_group_total_members( false ), bp_group_all_members_permalink( false ) ); ?></h4>
 					<?php bp_group_random_members() ?>
 				</div>
 			<?php endif; ?>
