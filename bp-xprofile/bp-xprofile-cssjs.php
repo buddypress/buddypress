@@ -27,6 +27,12 @@ function xprofile_add_admin_css() {
 }
 add_action( 'admin_head', 'xprofile_add_admin_css' );
 
+function xprofile_add_admin_js() {
+	if ( strpos( $_GET['page'], 'xprofile' ) !== false )
+		echo '<script type="text/javascript" src="' . site_url() . '/wp-content/mu-plugins/bp-xprofile/js/admin.js"></script>';
+}
+add_action( 'admin_head', 'xprofile_add_admin_js' );
+
 function xprofile_add_cropper_js() {
 	global $bp;
 
