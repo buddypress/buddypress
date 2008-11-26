@@ -104,7 +104,13 @@ function groups_directory_groups_content() {
 					<div class="action">
 						<?php bp_group_join_button( $group ) ?>
 						<div class="meta">
-							<?php echo ucwords($group->status) ?> <?php _e( 'Group', 'buddypress' ) ?> / <?php _e( sprintf( '%d members', groups_get_groupmeta( $group->id, 'total_member_count' ) ), 'buddypress' ) ?>
+							<?php $member_count = groups_get_groupmeta( $group->id, 'total_member_count' ) ?>
+							<?php echo ucwords($group->status) ?> <?php _e( 'Group', 'buddypress' ) ?> / 
+							<?php if ( $member_count == 1 ) : ?>
+								<?php _e( sprintf( '%d member', $member_count ), 'buddypress' ) ?>
+							<?php else : ?>
+								<?php _e( sprintf( '%d members', $member_count ), 'buddypress' ) ?>
+							<?php endif; ?>
 						</div>
 					</div>
 					

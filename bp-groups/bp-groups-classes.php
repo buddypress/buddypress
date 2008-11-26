@@ -666,11 +666,17 @@ Class BP_Groups_Member {
 	function check_has_invite( $user_id, $group_id ) {
 		global $wpdb, $bp;
 		
+		if ( !$user_id )
+			return false;
+		
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND inviter_id != 0 AND invite_sent = 1", $user_id, $group_id ) );		
 	}
 	
 	function check_is_admin( $user_id, $group_id ) {
 		global $wpdb, $bp;
+		
+		if ( !$user_id )
+			return false;
 		
 		return $wpdb->query( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d AND is_admin = 1 AND is_banned = 0", $user_id, $group_id ) );
 	}
@@ -678,11 +684,17 @@ Class BP_Groups_Member {
 	function check_is_mod( $user_id, $group_id ) {
 		global $wpdb, $bp;
 		
+		if ( !$user_id )
+			return false;
+		
 		return $wpdb->query( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d AND is_mod = 1 AND is_banned = 0", $user_id, $group_id ) );
 	}
 	
 	function check_is_member( $user_id, $group_id ) {
 		global $wpdb, $bp;
+		
+		if ( !$user_id )
+			return false;
 		
 		return $wpdb->query( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d AND is_confirmed = 1 AND is_banned = 0", $user_id, $group_id ) );	
 	}
@@ -690,11 +702,17 @@ Class BP_Groups_Member {
 	function check_is_banned( $user_id, $group_id ) {
 		global $wpdb, $bp;
 		
+		if ( !$user_id )
+			return false;
+		
 		return $wpdb->get_var( $wpdb->prepare( "SELECT is_banned FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );
 	}
 	
 	function check_for_membership_request( $user_id, $group_id ) {
 		global $wpdb, $bp;
+		
+		if ( !$user_id )
+			return false;
 		
 		return $wpdb->query( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND is_banned = 0 AND inviter_id = 0", $user_id, $group_id ) );	
 	}
