@@ -5,7 +5,7 @@
 
 <?php wp_footer(); ?>
 
-<!-- Generated in: <?php timer_stop(1); ?> seconds -->
+	<!-- <?php echo get_num_queries(); ?> queries / <?php timer_stop(1); ?> seconds -->
 </body>
 
 </html>

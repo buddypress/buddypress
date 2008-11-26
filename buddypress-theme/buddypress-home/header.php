@@ -18,7 +18,6 @@
 <link rel="stylesheet" href="<?php echo bloginfo('template_url') . '/css/ie/ie.css' ?>" type="text/css" media="screen" />	
 <![endif]-->
 
-<?php signup_headers() ?>
 
 </head>
 <body>
@@ -58,8 +57,8 @@
 			<li<?php if(bp_is_page('home')) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>" title="Home">Home</a></li>
 			<li<?php if(bp_is_page('news')) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/news" title="News">News</a></li>
 			<li<?php if(bp_is_page(MEMBERS_SLUG)) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/<?php echo MEMBERS_SLUG ?>" title="Members">Members</a></li>
+			<li<?php if(bp_is_page('groups')) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/groups" title="Groups">Groups</a></li>
 			<!--
-			<li><a href="<?php echo get_option('home') ?>/groups" title="Groups">Groups</a></li>
 			<li><a href="<?php echo get_option('home') ?>/blogs" title="Blogs">Blogs</a></li>
 			<li><a href="<?php echo get_option('home') ?>/forum" title="Forum">Forum</a></li>
 			-->

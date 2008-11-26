@@ -312,6 +312,16 @@ div.avatar-block {
 		background: none;
 	}
 
+.post p {
+	margin-top: 15px;
+}
+
+.post ul {
+	list-style-type: disc;
+	padding-left: 15px;
+	margin-top: 15px;
+}
+
 #sidebar {
 	margin-left: 70%;
 	margin-right: 20px;
