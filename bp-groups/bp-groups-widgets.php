@@ -32,9 +32,9 @@ function groups_widget_groups_list($args) {
 		. $widget_name 
 		. $after_title; ?>
 	
-	<?php $groups = groups_get_popular( $options['max_groups'] ); ?>
+	<?php $groups = groups_get_popular( $options['max_groups'], 1 ); ?>
 	
-	<?php if ( $groups ) : ?>
+	<?php if ( $groups['groups'] ) : ?>
 		<div class="item-options" id="groups-list-options">
 			<img id="ajax-loader-groups" src="<?php echo $bp['groups']['image_base'] ?>/ajax-loader.gif" height="7" alt="Loading" style="display: none;" /> &nbsp;
 			<a href="<?php echo site_url() . '/groups' ?>" id="newest-groups"><?php _e("Newest", 'buddypress') ?></a> | 
@@ -42,7 +42,7 @@ function groups_widget_groups_list($args) {
 			<a href="<?php echo site_url() . '/groups' ?>" id="popular-groups" class="selected"><?php _e("Popular", 'buddypress') ?></a>
 		</div>
 		<ul id="groups-list" class="item-list">
-			<?php foreach ( $groups as $group ) : ?>
+			<?php foreach ( $groups['groups'] as $group ) : ?>
 				<?php $group = new BP_Groups_Group( $group->group_id, false ) ?>
 				<li>
 					<div class="item-avatar">

@@ -131,7 +131,7 @@ function friends_screen_requests() {
 		} else {
 			bp_core_add_message( __('Friendship could not be accepted', 'buddypress'), 'error' );
 		}
-		wp_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );
+		bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );
 		
 	} else if ( isset($bp['action_variables']) && $bp['action_variables'][0] == 'reject' && is_numeric($bp['action_variables'][1]) ) {
 		
@@ -140,7 +140,7 @@ function friends_screen_requests() {
 		} else {
 			bp_core_add_message( __('Friendship could not be rejected', 'buddypress'), 'error' );
 		}	
-		wp_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );
+		bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );
 	}
 	
 	bp_catch_uri( 'friends/requests' );
@@ -481,7 +481,12 @@ function friends_remove_friend( $initiator_userid = null, $friend_userid = null,
 	
 	do_action( 'bp_friends_friendship_deleted', $friendship_id, $initiator_userid, $friend_userid );
 	
-	return $friendship->delete();
+	if ( $friendship->delete() ) {
+		friends_update_friend_totals( $initiator_userid, $friend_userid, 'remove' );
+		return true;
+	} else {
+		return false;
+	}
 }
 
 function friends_accept_friendship( $friendship_id ) {

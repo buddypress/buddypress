@@ -170,7 +170,8 @@ function bp_catch_uri( $pages, $skip_blog_check = false ) {
 function bp_core_do_catch_uri() {
 	global $bp_path, $bp, $wpdb;
 	global $current_blog, $bp_skip_blog_check;
-
+	global $bp_no_status_set;
+	
 	$pages = $bp_path;
 	
 	/* Don't hijack any URLs on blog pages */
@@ -179,16 +180,11 @@ function bp_core_do_catch_uri() {
 			return false;
 	}
 	
-	if ( !file_exists( TEMPLATEPATH . "/header.php" ) || !file_exists( TEMPLATEPATH . "/footer.php" ) )
-		wp_redirect( $bp['root_domain'] );
-
 	/* Make sure this is not reported as a 404 */
-	// This is causing too many problems right now.
-	header( "Status: 200 OK", true, 200 );
-		
-	do_action( 'get_header' );
-	load_template( TEMPLATEPATH . "/header.php" );
-
+	if ( !$bp_no_status_set ) {
+		status_header( 200 );
+	}
+	
 	if ( is_array( $pages ) ) {
 		foreach( $pages as $page ) {
 			if ( file_exists( TEMPLATEPATH . "/" . $page . ".php" ) ) {
@@ -200,17 +196,15 @@ function bp_core_do_catch_uri() {
 			load_template( TEMPLATEPATH . "/" . $pages . ".php" );
 		} else {
 			if ( file_exists( TEMPLATEPATH . "/404.php" ) ) {
+				status_header( 404 );
 				load_template( TEMPLATEPATH . "/404.php" );
 			} else if ( file_exists( TEMPLATEPATH . "/home.php" ) ) {
 				load_template( TEMPLATEPATH . "/home.php" );
 			} else {
 				load_template( TEMPLATEPATH . "/index.php" );
-			}	
+			}
 		}
 	}
-
-	do_action( 'get_footer' );
-	load_template( TEMPLATEPATH . "/footer.php" );
 	die;
 }
 

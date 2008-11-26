@@ -280,15 +280,15 @@ function messages_action_delete_message() {
 	$thread_id = $bp['action_variables'][0];
 
 	if ( !$thread_id || !is_numeric($thread_id) || !BP_Messages_Thread::check_access($thread_id) ) {
-		wp_redirect( $bp['loggedin_domain'] . $bp['current_component'] );
+		bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] );
 	} else {
 		// delete message
 		if ( !BP_Messages_Thread::delete($thread_id) ) {
 			bp_core_add_message( __('There was an error deleting that message.', 'buddypress'), 'error' );
-			wp_redirect( $bp['loggedin_domain'] . $bp['current_component'] );
+			bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] );
 		} else {
 			bp_core_add_message( __('Message deleted.', 'buddypress') );
-			wp_redirect( $bp['loggedin_domain'] . $bp['current_component'] );
+			bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] );
 		}
 	}
 }
@@ -309,10 +309,10 @@ function messages_action_bulk_delete() {
 	} else {
 		if ( !BP_Messages_Thread::delete( explode(',', $thread_ids ) ) ) {
 			bp_core_add_message( __('There was an error deleting messages.', 'buddypress'), 'error' );
-			wp_redirect( $bp['loggedin_domain'] . $bp['current_component'] );
+			bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] );
 		} else {
 			bp_core_add_message( __('Messages deleted.', 'buddypress') );
-			wp_redirect( $bp['loggedin_domain'] . $bp['current_component'] );
+			bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] );
 		}
 	}
 }
@@ -366,14 +366,14 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 	if ( $recipients == '' ) {
 		if ( !$from_ajax ) {	
 			bp_core_add_message( __('Please enter at least one valid user to send this message to.', 'buddypress'), 'error' );
-			wp_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/compose' );
+			bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/compose' );
 		} else {
 			return array('status' => 0, 'message' => __('There was an error sending the reply, please try again.', 'buddypress'));
 		}
 	} else if ( $subject == '' || $content == '' ) {
 		if ( !$from_ajax ) {
 			bp_core_add_message( __('Please make sure you fill in all the fields.', 'buddypress'), 'error' );
-			wp_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/compose' );
+			bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/compose' );
 		} else {
 			return array('status' => 0, 'message' => __('Please make sure you have typed a message before sending a reply.', 'buddypress'));
 		}
@@ -404,7 +404,7 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 					return array('status' => 0, 'message' => $message);
 				} else {
 					bp_core_add_message( $message, $type );
-					wp_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/compose' );
+					bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/compose' );
 				} 
 			} else {
 				$message = __('Message sent successfully!', 'buddypress') . ' <a href="' . $bp['loggedin_domain'] . $bp['messages']['slug'] . '/view/' . $pmessage->thread_id . '">' . __('View Message', 'buddypress') . '</a> &raquo;';
@@ -423,7 +423,7 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 					return array('status' => 1, 'message' => $message, 'reply' => $pmessage);
 				} else {
 					bp_core_add_message( $message );
-					wp_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/inbox' );
+					bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/inbox' );
 				}
 			}
 		} else {
@@ -434,7 +434,7 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 				return array('status' => 0, 'message' => $message);
 			} else {
 				bp_core_add_message( $message, $type );
-				wp_redirect( $bp['loggedin_domain'] . $bp['messages']['slug'] . '/compose' );
+				bp_core_redirect( $bp['loggedin_domain'] . $bp['messages']['slug'] . '/compose' );
 			}
 		}
 	}

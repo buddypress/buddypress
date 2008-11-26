@@ -1,0 +1,38 @@
+/* 
+Basic layout structure styles for BuddyPress Friends. Formats BuddyPress friend pages within any WordPress theme.
+No colors, fonts or pretty stuff. The only exception is buttons.
+
+These structure styles can be overridden by the theme CSS file if needed.
+*/
+
+.group-button {
+	background: url(../../bp-core/images/button_back.gif) top left no-repeat;
+	display: inline-block;
+	margin: 10px 0;
+}
+
+.group-button a {
+	display: block;
+	height: 19px;
+	color: #777;
+	font-size: 11px;
+	padding: 0 33px 0 11px;
+	margin-right: -7px;
+	text-shadow: 0 1px 0 #fff;
+}
+	.group-button a:hover {
+		color: #555;
+		text-decoration: none;
+	}
+
+	.group-button a.join-group {
+		background: url(../../bp-core/images/add_button_side.gif) top right no-repeat;
+	}
+	
+	.group-button a.leave-group {
+		background: url(../../bp-core/images/remove_button_side.gif) top right no-repeat;
+	}
+	
+	.group-button a.request-membership {
+		background: url(../../bp-core/images/check_button_side.gif) top right no-repeat;
+	}

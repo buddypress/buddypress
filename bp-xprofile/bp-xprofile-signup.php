@@ -301,7 +301,7 @@ function xprofile_catch_activate_crop() {
 		
 		// Confirm that the nonce is valid
 		if ( !isset( $_POST['nonce'] ) || !wp_verify_nonce( $_POST['nonce'], 'slick_avatars' ) )
-			wp_redirect( get_option('home') );
+			bp_core_redirect( get_option('home') );
 		
 		$user_id = xprofile_get_user_by_key($_GET['key']);
 
@@ -314,7 +314,7 @@ function xprofile_catch_activate_crop() {
 		$ud = get_userdata($user_id);
 		$url = site_url() . '/members/' . $ud->user_login;
 		
-		wp_redirect( $url );
+		bp_core_redirect( $url );
 	}
 }
 add_action( 'activate_header', 'xprofile_catch_activate_crop' );

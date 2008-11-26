@@ -239,7 +239,10 @@ function bp_wire_post_date( $date_format = null, $echo = true ) {
 function bp_wire_post_author_name( $echo = true ) {
 	global $wire_posts_template;
 	
-	echo bp_core_get_userlink( $wire_posts_template->wire_post->user_id );
+	if ( $echo )
+		echo bp_core_get_userlink( $wire_posts_template->wire_post->user_id );
+	else
+		return bp_core_get_userlink( $wire_posts_template->wire_post->user_id );
 }
 
 function bp_wire_post_author_avatar() {

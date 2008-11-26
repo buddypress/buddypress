@@ -108,13 +108,13 @@ function bp_core_widget_members($args) {
 		</div>
 		<ul id="members-list" class="item-list">
 			<?php foreach ( (array) $users['users'] as $user ) : ?>
-				<li>
+				<li class="vcard">
 					<div class="item-avatar">
 						<?php echo bp_core_get_avatar( $user->user_id, 1 ) ?>
 					</div>
 
 					<div class="item">
-						<div class="item-title"><?php echo bp_core_get_userlink( $user->user_id ) ?></div>
+						<div class="item-title fn"><?php echo bp_core_get_userlink( $user->user_id ) ?></div>
 						<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( $user->user_registered, __('registered %s ago', 'buddypress') ) ?></span></div>
 					</div>
 				</li>

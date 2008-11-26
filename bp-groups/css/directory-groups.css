@@ -1,4 +1,4 @@
-ul#letter-list, ul#members-list {
+ul#letter-list, ul#groups-list {
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -25,48 +25,48 @@ ul#letter-list, ul#members-list {
 			color: #f7740a;
 		}
 
-ul#members-list {
+ul#groups-list {
 	margin: 18px 0 0 0;
 }
 
-ul#members-list li {
+ul#groups-list li {
 	position: relative;
 }
 
-	ul#members-list li .item-avatar, .avatar-block img.avatar {
+	ul#groups-list li .item-avatar, .avatar-block img.avatar {
 		float: left;
 		margin: 0 15px 0 0;
 	}
 	
-	ul#members-list li .item-avatar img, img.avatar {
+	ul#groups-list li .item-avatar img, img.avatar {
 		border: 3px solid #ddd;
 	}
 	
-	ul#members-list li h4.item-title {
+	ul#groups-list li h4.item-title {
 		margin: 0 0 7px 0;	
 	}
 		
-	ul#members-list li .item {
+	ul#groups-list li .item {
 		margin-left: 71px;
 	}
 	
-	ul#members-list li .item-meta {
+	ul#groups-list li .item-meta {
 		margin: 10px 0;
 	}
 	
-	ul#members-list .item-options {
+	ul#groups-list .item-options {
 		text-align: right;
 		font-size: 0.9em;
 		margin: -15px 0 5px 0;
 	}
 	
-	ul#members-list li div.action {
+	ul#groups-list li div.action {
 		position: absolute;
 		top: 20%;
 		right: 1em;
 		text-align: right;
 	}
-		div.action div.friendship-button {
+		div.action div.join-button {
 			margin-bottom: 5px;
 		}
 		
@@ -74,27 +74,49 @@ ul#members-list li {
 			font-size: 0.9em;
 		}
 	
+	ul#groups-list li a.add, ul#groups-list li a.remove, ul#groups-list li div.pending {
+		background: url(../images/add_friend_button.gif) top left no-repeat;
+		text-indent: -999em;
+		display: block;
+		overflow: hidden;
+		width: 102px;
+		text-align: left;
+	}
+	
+	ul#groups-list li a.remove {
+		background: url(../images/remove_friend_button.gif) top left no-repeat;
+		width: 121px;
+	}
+
+	ul#groups-list li div.pending {
+		background: url(../images/requested_friend_button.gif) top left no-repeat;
+		width: 136px;
+	}
+	
 /* Search Form */
 
-#search-members-form input {
+#search-groups-form input {
 	width: 72%;
 	padding: 0.3em 0.3em;
 	font-size: 1.1em;
 	font-family: Georgia, Times, serif;
 }
-	#search-members-form #members_search_submit {
+	#search-groups-form #groups_search_submit {
 		width: auto;
 		font-size: 1.1em;
 	}
 
-	.profile-data {
+	.group-data {
 		font-size: 0.9em;
 		color: #777;
 	}
 	
-	.profile-data .field-name {
+	.group-data .field-name {
 		font-weight: bold;
 	}
+		.group-data .field-name span {
+			font-weight: normal;
+		}
 	
 /* Pag Links */
 
@@ -122,13 +144,13 @@ ul#members-list li {
 
 /* Buttons */
 
-.friendship-button {
+.group-button {
 	background: url(../../bp-core/images/button_back.gif) top left no-repeat;
 	display: inline-block;
 	margin-bottom: 10px;
 }
 
-.friendship-button a {
+.group-button a {
 	display: block;
 	height: 19px;
 	color: #777;
@@ -138,20 +160,22 @@ ul#members-list li {
 	text-shadow: 0 1px 0 #fff;
 	text-decoration: none;
 }
-	.friendship-button a:hover {
+	.group-button a:hover {
 		color: #555;
 	}
 
-	.friendship-button a.add {
+	.group-button a.join-group, .group-button a.request-membership {
 		background: url(../../bp-core/images/add_button_side.gif) top right no-repeat;
 	}
 
-	.friendship-button a.remove {
+	.group-button a.leave-group {
 		background: url(../../bp-core/images/remove_button_side.gif) top right no-repeat;
 	}
 
-	.friendship-button a.requested {
+	.group-button a.membership-requested {
 		background: url(../../bp-core/images/check_button_side.gif) top right no-repeat;
 	}
-	
-	
+
+.meta {
+	color: #888;
+}

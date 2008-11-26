@@ -19,18 +19,10 @@ These structure styles can be overridden by the theme CSS file if needed.
 	top: 7px;
 }
 
-a.join-group {
-	padding: 1em 1.7em 1em 1em;
-	text-align: right;
-	display: block;
-	margin-right: 1.1em;
-	margin-top: -1em;
-}
-
 #friend-list .friendship-button {
 	margin-top: -1.5em;
 }
 
-.left-menu a.add, .left-menu a.remove, .left-menu div.pending {
-	margin: 1.5em auto;
+.left-menu .friendship-button {
+	margin-top: 1em;
 }

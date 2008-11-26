@@ -317,24 +317,25 @@ function bp_add_friend_button( $potential_friend_id = false ) {
 	if ( is_user_logged_in() ) {
 		if ( !$potential_friend_id )
 			$potential_friend_id = $bp['current_userid'];
-	
+
 		if ( $bp['loggedin_userid'] == $potential_friend_id )
 			return false;
-	
+
 		$friend_status = BP_Friends_Friendship::check_is_friend( $bp['loggedin_userid'], $potential_friend_id );
-	
+
 		echo '<div class="friendship-button ' . $friend_status . '" id="friendship-button-' . $potential_friend_id . '">';
 		if ( $friend_status == 'pending' ) {
-			_e('Friendship Requested', 'buddypress');
+			echo '<a class="requested" href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '">' . __( 'Friendship Requested', 'buddypress' ) . '</a>';
 		} else if ( $friend_status == 'is_friend') {
 			echo '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/remove-friend/' . $potential_friend_id . '" title="' . __('Cancel Friendship', 'buddypress') . '" id="friend-' . $potential_friend_id . '" rel="remove" class="remove">' . __('Cancel Friendship', 'buddypress') . '</a>';
 		} else {
 			echo '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/add-friend/' . $potential_friend_id . '" title="' . __('Add Friend', 'buddypress') . '" id="friend-' . $potential_friend_id . '" rel="add" class="add">' . __('Add Friend', 'buddypress') . '</a>';
 		}
 		echo '</div>';
-	
-		if ( function_exists('wp_nonce_field') )
-			wp_nonce_field('addremove_friend');
+
+		// This causes duplicates, so it's not feasible as is.
+		// if ( function_exists('wp_nonce_field') )
+		//	wp_nonce_field('addremove_friend');
 	}
 }
 

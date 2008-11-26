@@ -478,7 +478,7 @@ function bp_core_get_random_member() {
 		$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . $wpdb->base_prefix . "users WHERE user_status = 0 AND spam = 0 AND deleted = 0 ORDER BY rand() LIMIT 1" ) );
 
 		$ud = get_userdata( $user_id );
-		wp_redirect( $bp['root_domain'] . '/' . MEMBERS_SLUG . '/' . $ud->user_login );
+		bp_core_redirect( $bp['root_domain'] . '/' . MEMBERS_SLUG . '/' . $ud->user_login );
 	}
 }
 add_action( 'wp', 'bp_core_get_random_member', 6 );
@@ -980,6 +980,17 @@ function bp_core_get_site_path() {
 	global $wpdb;
 	
 	return $wpdb->get_var( $wpdb->prepare( "SELECT path FROM {$wpdb->base_prefix}site WHERE id = 1") );
+}
+
+
+function bp_core_redirect( $location, $status = 302 ) {
+	global $bp_no_status_set;
+	
+	// Make sure we don't call status_header() in bp_core_do_catch_uri() 
+    // as this conflicts with wp_redirect()
+	$bp_no_status_set = true;
+	
+	wp_redirect( $location, $status );
 }
 
 /**

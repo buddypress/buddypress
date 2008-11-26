@@ -242,4 +242,38 @@ table.notification-settings {
 		width: 40px;
 	}
 
+/* Buttons */
+
+.friendship-button {
+	background: url(../../bp-core/images/button_back.gif) top left no-repeat;
+	display: inline-block;
+	margin-bottom: 10px;
+}
+
+.friendship-button a {
+	display: block;
+	height: 19px;
+	color: #777;
+	font-size: 11px;
+	padding: 0 33px 0 11px;
+	margin-right: -7px;
+	text-shadow: 0 1px 0 #fff;
+	text-decoration: none;
+}
+	.friendship-button a:hover {
+		color: #555;
+	}
+
+	.friendship-button a.add {
+		background: url(../../bp-core/images/add_button_side.gif) top right no-repeat;
+	}
+
+	.friendship-button a.remove {
+		background: url(../../bp-core/images/remove_button_side.gif) top right no-repeat;
+	}
+
+	.friendship-button a.requested {
+		background: url(../../bp-core/images/check_button_side.gif) top right no-repeat;
+	}
+
 	

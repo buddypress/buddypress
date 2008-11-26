@@ -83,7 +83,6 @@ Class BP_Groups_Group {
 		if ( $this->id ) {
 			$this->admins = $this->get_administrators();
 			$this->random_members = $this->get_random_members();
-			$this->latest_wire_posts = $this->get_latest_wire_posts();
 			$this->random_photos = $this->get_random_photos();
 		}
 	}
@@ -206,13 +205,7 @@ Class BP_Groups_Group {
 		}
 		return $users;
 	}
-	
-	function get_latest_wire_posts() {
-		global $wpdb, $bp;
-		
-		
-	}
-	
+
 	function get_random_photos() {
 		global $wpdb, $bp;
 		
@@ -240,8 +233,10 @@ Class BP_Groups_Group {
 		// Modify group count usermeta for members
 		for ( $i = 0; $i < count($this->user_dataset); $i++ ) {
 			$user = $this->user_dataset[$i];
-
-			if ( $total_count = get_usermeta( $user->user_id, 'total_group_count' ) != '' ) {
+			
+			$total_count = get_usermeta( $user->user_id, 'total_group_count' );
+			
+			if ( $total_count != '' ) {
 				update_usermeta( $user->user_id, 'total_group_count', (int)$total_count - 1 );
 			}
 			
@@ -299,17 +294,10 @@ Class BP_Groups_Group {
 		$gids = BP_Groups_Member::get_group_ids( $bp['current_userid'], false, false, false );
 		$gids = implode( ',', $gids['ids'] );
 
-		$sql = $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name'] . " WHERE id IN ($gids) AND name LIKE '$filter%%' OR description LIKE '$filter%%'$pag_sql" );
-		$count_sql = $wpdb->prepare( "SELECT count(id) FROM " . $bp['groups']['table_name'] . " WHERE id IN ($gids) AND name LIKE '$filter%%' OR description LIKE '$filter%%'" );
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM " . $bp['groups']['table_name'] . " WHERE id IN ({$gids}) AND name LIKE '{$filter}%%' OR description LIKE '{$filter}%%'{$pag_sql}" ) );
+		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM " . $bp['groups']['table_name'] . " WHERE id IN ({$gids}) AND name LIKE '{$filter}%%' OR description LIKE '{$filter}%%'" ) );
 		
-		$group_ids = $wpdb->get_col($sql);
-		$total_groups = $wpdb->get_var($count_sql);
-
-		for ( $i = 0; $i < count($group_ids); $i++ ) {
-			$groups[] = new BP_Groups_Group( (int)$group_ids[$i] );
-		}
-
-		return array( 'groups' => $groups, 'count' => $total_groups );
+		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 	
 	function search_groups( $filter, $limit = null, $page = null, $sort_by = false, $order = false ) {
@@ -326,17 +314,10 @@ Class BP_Groups_Group {
 			$order_sql = "ORDER BY $sort_by $order";
 		}
 		
-		$sql = $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name'] . " WHERE status != 'hidden' AND name LIKE '%%$filter%%' OR description LIKE '%%$filter%%'{$order_sql}{$pag_sql}" );
-		$count_sql = $wpdb->prepare( "SELECT count(id) FROM " . $bp['groups']['table_name'] . " WHERE status != 'hidden' AND name LIKE '%%$filter%%' OR description LIKE '%%$filter%%'" );
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM " . $bp['groups']['table_name'] . " WHERE status != 'hidden' AND name LIKE '%%$filter%%' OR description LIKE '%%$filter%%'{$order_sql}{$pag_sql}" ) );
+		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM " . $bp['groups']['table_name'] . " WHERE status != 'hidden' AND name LIKE '%%$filter%%' OR description LIKE '%%$filter%%'" ) );
 		
-		$group_ids = $wpdb->get_col($sql);
-		$total_groups = $wpdb->get_var($count_sql);
-		
-		for ( $i = 0; $i < count($group_ids); $i++ ) {
-			$groups[] = new BP_Groups_Group( (int)$group_ids[$i] );
-		}
-
-		return array( 'groups' => $groups, 'count' => $total_groups );
+		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 	
 	function check_slug( $slug ) {
@@ -371,40 +352,56 @@ Class BP_Groups_Group {
 	function get_membership_requests( $group_id, $limit = null, $page = null ) {
 		global $wpdb, $bp;
 		
-		if ( $limit && $page )
+		if ( $limit && $page ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+			$total_requests = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d AND is_confirmed = 0", $group_id ) );
+		}
 		
-		return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d AND is_confirmed = 0{$pag_sql}", $group_id ) );			
+		$paged_requests = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d AND is_confirmed = 0{$pag_sql}", $group_id ) );
+
+		return array( 'requests' => $paged_requests, 'total' => $total_requests );
 	}
 	
-	function get_newest( $limit = 5 ) {
+	function get_newest( $limit = null, $page = null ) {
 		global $wpdb, $bp;
 		
-		if ( !$limit )
-			$limit = 5;
+		if ( $limit && $page ) {
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM " . $bp['groups']['table_name'] . " WHERE status != 'hidden' ORDER BY date_created DESC LIMIT %d", $limit ) );
+		}
+		
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM " . $bp['groups']['table_name'] . " WHERE status != 'hidden' ORDER BY date_created DESC {$pag_sq}", $limit ) );
 
-		return $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM " . $bp['groups']['table_name'] . " WHERE status != 'hidden' ORDER BY date_created DESC LIMIT %d", $limit ) ); 
+		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 	
-	function get_active( $limit = 5 ) {
+	function get_active( $limit = null, $page = null ) {
 		global $wpdb, $bp;
 		
-		if ( !$limit )
-			$limit = 5;
+		if ( $limit && $page ) {
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+			$total_groups = count( $wpdb->get_results( $wpdb->prepare( "SELECT group_id FROM " . $bp['groups']['table_name_groupmeta'] . " gm, " . $bp['groups']['table_name'] . " g WHERE g.id = gm.group_id AND g.status != 'hidden' AND gm.meta_key = 'last_activity' ORDER BY CONVERT(gm.meta_value, SIGNED) DESC", $limit ) ) );
+		}
+		
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT group_id FROM " . $bp['groups']['table_name_groupmeta'] . " gm, " . $bp['groups']['table_name'] . " g WHERE g.id = gm.group_id AND g.status != 'hidden' AND gm.meta_key = 'last_activity' ORDER BY CONVERT(gm.meta_value, SIGNED) DESC {$pag_sql}", $limit ) );
 
-		return $wpdb->get_results( $wpdb->prepare( "SELECT group_id FROM " . $bp['groups']['table_name_groupmeta'] . " gm, " . $bp['groups']['table_name'] . " g WHERE g.id = gm.group_id AND g.status != 'hidden' AND gm.meta_key = 'last_activity' ORDER BY CONVERT(gm.meta_value, SIGNED) DESC LIMIT %d", $limit ) ); 
+		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 	
-	function get_popular( $limit = 5 ) {
+	function get_popular( $limit = null, $page = null ) {
 		global $wpdb, $bp;
 		
-		if ( !$limit )
-			$limit = 5;
+		if ( $limit && $page ) {
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+			$total_groups = count( $wpdb->get_results( $wpdb->prepare( "SELECT gm.group_id FROM " . $bp['groups']['table_name_groupmeta'] . " gm, " . $bp['groups']['table_name'] . " g WHERE g.id = gm.group_id AND g.status != 'hidden' AND gm.meta_key = 'total_member_count' ORDER BY CONVERT(gm.meta_value, SIGNED) DESC", $limit ) ) );
+		}
+			
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT gm.group_id FROM " . $bp['groups']['table_name_groupmeta'] . " gm, " . $bp['groups']['table_name'] . " g WHERE g.id = gm.group_id AND g.status != 'hidden' AND gm.meta_key = 'total_member_count' ORDER BY CONVERT(gm.meta_value, SIGNED) DESC {$pag_sql}", $limit ) );
 
-		return $wpdb->get_results( $wpdb->prepare( "SELECT gm.group_id FROM " . $bp['groups']['table_name_groupmeta'] . " gm, " . $bp['groups']['table_name'] . " g WHERE g.id = gm.group_id AND g.status != 'hidden' AND gm.meta_key = 'total_member_count' ORDER BY CONVERT(gm.meta_value, SIGNED) DESC LIMIT %d", $limit ) ); 
+		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 	
-	function get_all( $only_public = true, $limit = null, $page = null, $sort_by = false, $order = false, $instantiate = false ) {
+	function get_all( $limit = null, $page = null, $only_public = true, $sort_by = false, $order = false, $instantiate = false ) {
 		global $wpdb, $bp;
 		
 		if ( $only_public )
@@ -445,10 +442,36 @@ Class BP_Groups_Group {
 		return $group_objs;
 	}
 	
-	function get_random() {
+	function get_by_letter( $letter, $limit = null, $page = null ) {
 		global $wpdb, $bp;
 		
-		return $wpdb->get_row( $wpdb->prepare( "SELECT id, slug FROM " . $bp['groups']['table_name'] . " WHERE status = 'public' ORDER BY rand() LIMIT 1" ) ); 		
+		if ( strlen($letter) > 1 || is_numeric($letter) || !$letter )
+			return false;
+		
+		like_escape($letter);
+				
+		if ( $limit && $page ) {
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp['groups']['table_name']} WHERE name LIKE '$letter%%' ORDER BY name ASC" ) );
+		}
+				
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM {$bp['groups']['table_name']} WHERE name LIKE '$letter%%' ORDER BY name ASC" ) );
+		
+		return array( 'groups' => $paged_groups, 'total' => $total_groups );
+	}
+	
+	
+	function get_random( $limit = null, $page = null ) {
+		global $wpdb, $bp;
+
+		if ( $limit && $page ) {
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT id as group_id, slug FROM " . $bp['groups']['table_name'] . " WHERE status = 'public' ORDER BY rand()" ) );
+		}
+		
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id, slug FROM " . $bp['groups']['table_name'] . " WHERE status = 'public' ORDER BY rand() {$pag_sql}" ) ); 		
+		
+		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 }
 
@@ -604,9 +627,9 @@ Class BP_Groups_Member {
 		
 		// If the user is logged in and viewing their own groups, we can show hidden and closed groups
 		if ( bp_is_home() ) {
-			$group_ids = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT group_id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND inviter_id = 0 AND is_banned = 0{$pag_sql}", $user_id ) );	
+			$group_ids = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT group_id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND inviter_id = 0 AND is_banned = 0{$pag_sql}", $user_id ) );	
 		} else {
-			$group_ids = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT m.group_id FROM " . $bp['groups']['table_name_members'] . " m, " . $bp['groups']['table_name'] . " g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.inviter_id = 0 AND m.is_banned = 0{$pag_sql}", $user_id ) );	
+			$group_ids = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT m.group_id FROM " . $bp['groups']['table_name_members'] . " m, " . $bp['groups']['table_name'] . " g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.inviter_id = 0 AND m.is_banned = 0{$pag_sql}", $user_id ) );	
 		}
 		
 		if ( $get_total )

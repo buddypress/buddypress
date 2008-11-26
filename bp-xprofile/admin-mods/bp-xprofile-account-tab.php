@@ -55,7 +55,7 @@ if( $cap == null ) // stops users being added to current blog when they are edit
 if( !is_wp_error( $errors ) ) {
 	$redirect = ($is_profile_page? "admin.php?page=bp-xprofile/admin-mods/bp-xprofile-account-tab.php&" : "admin.php?page=bp-xprofile/admin-mods/bp-xprofile-settings-tab.php&user_id=$user_id&"). "updated=true";
 	$redirect = add_query_arg('wp_http_referer', urlencode($wp_http_referer), $redirect);
-	wp_redirect($redirect);
+	bp_core_redirect($redirect);
 	exit;
 }
 

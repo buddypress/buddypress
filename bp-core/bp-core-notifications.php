@@ -13,7 +13,7 @@ function bp_core_add_notification( $item_id, $user_id, $component_name, $compone
 	$notification->component_action = $component_action;
 	$notification->date_notified = $date_notified;
 	$notification->is_new = 1;
-	
+
 	if ( $secondary_item_id )
 		$notification->secondary_item_id = $secondary_item_id;
 	

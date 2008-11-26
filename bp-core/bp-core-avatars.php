@@ -40,7 +40,7 @@ function bp_core_get_avatar( $user, $version = 1, $no_tag = false, $width = null
 		if ( $no_tag )
 			return $url;
 		else
-			return '<img src="' . $url . '" alt="" class="avatar" width="' . $width . '" height="' . $height . '" />';
+			return '<img src="' . $url . '" alt="" class="avatar photo" width="' . $width . '" height="' . $height . '" />';
 	} else {
 		$identicon = 'http://www.gravatar.com/avatar/' . md5( $user . '@buddypress.org') . '?d=wavatar&amp;s=';
 		if ( $no_tag )

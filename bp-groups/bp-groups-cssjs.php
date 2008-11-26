@@ -13,6 +13,12 @@ function groups_add_js() {
 }
 add_action( 'template_redirect', 'groups_add_js' );
 
+function groups_add_structure_css() {
+	/* Enqueue the structure CSS file to give basic positional formatting for components */
+	wp_enqueue_style( 'bp-groups-structure', site_url() . '/wp-content/mu-plugins/bp-groups/css/structure.css' );	
+}
+add_action( 'bp_styles', 'groups_add_structure_css' );
+
 function groups_add_cropper_js() {
 	global $create_group_step;
 	

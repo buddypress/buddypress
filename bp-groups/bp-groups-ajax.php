@@ -65,20 +65,20 @@ function groups_ajax_widget_groups_list() {
 
 	switch ( $_POST['filter'] ) {
 		case 'newest-groups':
-			$groups = groups_get_newest($_POST['max-groups']);
+			$groups = groups_get_newest( $_POST['max-groups'], 1 );
 		break;
 		case 'recently-active-groups':
-			$groups = groups_get_active($_POST['max-groups']);
+			$groups = groups_get_active( $_POST['max-groups'], 1 );
 		break;
 		case 'popular-groups':
-			$groups = groups_get_popular($_POST['max-groups']);
+			$groups = groups_get_popular( $_POST['max-groups'], 1 );
 		break;
 	}
 
-	if ( $groups ) {
+	if ( $groups['groups'] ) {
 		echo '0[[SPLIT]]'; // return valid result.
 	
-		foreach ( (array) $groups as $group ) {
+		foreach ( (array) $groups['groups'] as $group ) {
 			$group = new BP_Groups_Group( $group->group_id, false );
 		?>
 			<li>
@@ -204,6 +204,130 @@ function groups_ajax_member_admin_list() {
 }
 add_action( 'wp_ajax_get_group_members_admin', 'groups_ajax_member_admin_list' );
 
-fuction 
+function bp_core_ajax_directory_groups() {
+	global $bp;
+
+	check_ajax_referer('directory_groups');
+	
+	$pag_page = isset( $_POST['page'] ) ? intval( $_POST['page'] ) : 1;
+	$pag_num = isset( $_POST['num'] ) ? intval( $_POST['num'] ) : 10;
+	
+	if ( isset( $_POST['letter'] ) && $_POST['letter'] != '' ) {
+		$groups = BP_Groups_Group::get_by_letter( $_POST['letter'], $pag_num, $pag_page );
+	} else if ( isset ( $_POST['groups_search'] ) && $_POST['groups_search'] != '' ) {
+		$groups = BP_Groups_Group::search_groups( $_POST['groups_search'], $pag_num, $pag_page );
+	} else {
+		$groups = BP_Groups_Group::get_active( $pag_num, $pag_page );
+	}
+	
+	$pag_links = paginate_links( array(
+		'base' => add_query_arg( 'page', '%#%' ),
+		'format' => '',
+		'total' => ceil( $groups['total'] / $pag_num ),
+		'current' => $pag_page,
+		'prev_text' => '&laquo;',
+		'next_text' => '&raquo;',
+		'mid_size' => 1
+	));
+	
+	$from_num = intval( ( $pag_page - 1 ) * $pag_num ) + 1;
+	$to_num = ( $from_num + 9 > $users['total'] ) ? $groups['total'] : $from_num + 9; 
+	
+	echo '<div id="group-dir-list">';
+	if ( $groups['groups'] ) {
+		echo '0[[SPLIT]]'; // return valid result.
+		
+		?>
+		<div id="group-dir-count" class="pag-count">
+			<?php echo sprintf( __( 'Viewing group %d to %d (%d total active groups)', 'buddypress' ), $from_num, $to_num, $groups['total'] ); ?> &nbsp;
+			<img id="ajax-loader-groups" src="<?php echo $bp['core']['image_base'] ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" />
+		</div>
+	
+		<div class="pagination-links" id="group-dir-pag">
+			<?php echo $pag_links ?>
+		</div>
+
+		<ul id="groups-list" class="item-list">
+		<?php foreach ( $groups['groups'] as $group ) : ?>
+			<?php $group = new BP_Groups_Group( $group->group_id, false, false ); ?>
+			<li>
+				<div class="item-avatar">
+					<img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php echo $group->name ?> Avatar" />
+				</div>
+
+				<div class="item">
+					<div class="item-title"><a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><?php echo $group->name ?></a></div>
+					<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __('active %s ago') ) ?></span></div>
+				</div>
+			
+				<div class="action">
+					<?php bp_group_join_button( $group ) ?>
+					<div class="meta">
+						<?php _e( sprintf( '%d members', groups_get_groupmeta( $group->id, 'total_member_count' ) ), 'buddypress' ) ?>
+					</div>
+				</div>
+			
+				<div class="clear"></div>
+			</li>
+		<?php endforeach; ?>
+		</ul>	
+	<?php
+	} else {
+		echo "-1[[SPLIT]]<div id='message' class='error'><p>" . __("No groups matched the current filter.", 'buddypress') . '</p></div>';
+	}
+	
+	if ( isset( $_POST['letter'] ) ) {
+		echo '<input type="hidden" id="selected_letter" value="' . $_POST['letter'] . '" name="selected_letter" />';
+	}
+	
+	if ( isset( $_POST['groups_search'] ) ) {
+		echo '<input type="hidden" id="search_terms" value="' . $_POST['groups_search'] . '" name="search_terms" />';
+	}
+	
+	echo '</div>';
+}
+add_action( 'wp_ajax_directory_groups', 'bp_core_ajax_directory_groups' );
+
+function groups_ajax_joinleave_group() {
+	global $bp;
+
+	if ( groups_is_user_banned( $bp['loggedin_userid'], $_POST['gid'] ) )
+		return false;
+	
+	if ( !$group = new BP_Groups_Group( $_POST['gid'], false, false ) )
+		return false;
+	
+	if ( $group->status == 'hidden' )
+		return false;
+	
+	if ( !groups_is_user_member( $bp['loggedin_userid'], $group->id ) ) {
+	
+		if ( $group->status == 'public' ) {
+			if ( !groups_join_group( $group->id ) ) {
+				_e( 'Error joining group', 'buddypress' );
+			} else {
+				echo '<a id="group-' . $group->id . '" class="leave-group" rel="leave" title="' . __( 'Leave Group', 'buddypress' ) . '" href="' . bp_group_permalink( $group, false ) . '/leave-group">' . __( 'Leave Group', 'buddypress' ) . '</a>';
+			}			
+		} else if ( $group->status == 'private' ) {
+			if ( !groups_send_membership_request( $bp['loggedin_userid'], $group->id ) ) {
+				_e( 'Error requesting membership', 'buddypress' );	
+			} else {
+				echo '<a id="group-' . $group->id . '" class="membership-requested" rel="membership-requested" title="' . __( 'Membership Requested', 'buddypress' ) . '" href="' . bp_group_permalink( $group, false ) . '">' . __( 'Membership Requested', 'buddypress' ) . '</a>';				
+			}		
+		}
+		
+	} else {
+		if ( !groups_leave_group( $group->id ) ) {
+			_e( 'Error leaving group', 'buddypress' );
+		} else {
+			if ( $group->status == 'public' ) {
+				echo '<a id="group-' . $group->id . '" class="join-group" rel="join" title="' . __( 'Join Group', 'buddypress' ) . '" href="' . bp_group_permalink( $group, false ) . '/join">' . __( 'Join Group', 'buddypress' ) . '</a>';				
+			} else if ( $group->status == 'private' ) {
+				echo '<a id="group-' . $group->id . '" class="request-membership" rel="join" title="' . __( 'Request Membership', 'buddypress' ) . '" href="' . bp_group_permalink( $group, false ) . '/request-membership">' . __( 'Request Membership', 'buddypress' ) . '</a>';
+			}
+		}
+	}
+}
+add_action( 'wp_ajax_joinleave_group', 'groups_ajax_joinleave_group' );
 
 ?>

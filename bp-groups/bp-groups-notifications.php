@@ -226,7 +226,6 @@ function groups_notification_group_invites( $group_id, $invited_user_ids, $invit
 	
 	$group = new BP_Groups_Group( $group_id, false, false );
 	$group_link = bp_group_permalink( $group, false );
-	$invites_link = $inviter_link . '/' . $bp['groups']['slug'] . '/invites';
 		
 	for ( $i = 0; $i < count( $invited_user_ids ); $i++ ) {
 		$invited_user_id = $invited_user_ids[$i];
@@ -238,6 +237,8 @@ function groups_notification_group_invites( $group_id, $invited_user_ids, $invit
 
 		$invited_ud = get_userdata($invited_user_id);
 		$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
+		$invited_link = site_url() . '/' . MEMBERS_SLUG . '/' . $invited_ud->user_login;
+		$invites_link = $invited_link . '/' . $bp['groups']['slug'] . '/invites';
 		
 		// Set up and send the message
 		$to = $invited_ud->user_email;
