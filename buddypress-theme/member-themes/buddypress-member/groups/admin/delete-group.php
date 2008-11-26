@@ -1,3 +1,5 @@
+<?php get_header() ?>
+
 <?php if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group(); ?>
 
 <div class="content-header">
@@ -26,3 +28,5 @@
 </div>
 
 <?php endwhile; endif; ?>
+
+<?php get_footer() ?>

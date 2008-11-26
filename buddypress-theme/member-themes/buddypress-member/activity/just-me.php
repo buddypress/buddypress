@@ -1,3 +1,5 @@
+<?php get_header() ?>
+
 <div class="content-header">
 
 </div>
@@ -25,3 +27,5 @@
 	</div>
 
 </div>
+
+<?php get_footer() ?>

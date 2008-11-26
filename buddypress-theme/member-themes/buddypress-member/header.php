@@ -26,6 +26,34 @@
 
 <body>
 
+<div id="search-login-bar">
+	<!--
+	<form action="" method="post" id="search-form">
+		<input type="text" id="search-terms" name="search-terms" value="Search everything" />
+		<input type="submit" name="search-submit" id="search-submit" value="Search" />
+	</form>
+	-->
+
+	<?php if ( !is_user_logged_in() ) : ?>
+		<form name="login-form" id="login-form" action="<?php get_option('home') ?>/wp-login.php" method="post">
+			<input type="text" name="log" id="user_login" value="Username" onfocus="if (this.value == 'Username') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Username';}" />
+			<input type="password" name="pwd" id="user_pass" class="input" value="" />
+			<!--<input name="rememberme" type="checkbox" id="rememberme" value="forever" />-->
+			<input type="submit" name="wp-submit" id="wp-submit" value="Log In" />				
+			<input type="button" name="signup-submit" id="signup-submit" value="Signup" onclick="location.href='<?php echo site_url() . '/wp-signup.php' ?>'" />
+			<input type="hidden" name="redirect_to" value="http://<?php echo $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] ?>" />
+			<input type="hidden" name="testcookie" value="1" />
+		</form>
+	<?php else : ?>
+		<div id="logout-link">
+			<?php bp_loggedinuser_avatar_thumbnail( 20, 20 ) ?> &nbsp;
+			<?php bp_loggedinuser_link() ?> 
+			/ <a href="<?php echo site_url() . '/wp-login.php?action=logout&amp;redirect_to=' . site_url() ?>">Log Out</a>
+		</div>
+	<?php endif; ?>
+	<div class="clear"></div>
+</div>
+
 <div id="header">
 	<h1><a href="<?php echo get_option('home'); ?>/"><?php _e( 'Social Network', 'buddypress' ) ?></a></h1>
 	

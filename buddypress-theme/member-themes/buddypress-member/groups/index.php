@@ -1,3 +1,5 @@
+<?php get_header() ?>
+
 <div class="content-header">
 	You belong to <?php bp_total_group_count() ?> groups.
 </div>
@@ -16,3 +18,5 @@
 	
 	</div>
 </div>
+
+<?php get_footer() ?>

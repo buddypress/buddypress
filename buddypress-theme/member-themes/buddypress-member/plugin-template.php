@@ -1,3 +1,5 @@
+<?php get_header() ?>
+
 <div class="content-header">
 	<?php do_action('bp_template_content_header') ?>
 </div>
@@ -7,3 +9,5 @@
 	
 	<?php do_action('bp_template_content') ?>
 </div>
+
+<?php get_footer() ?>

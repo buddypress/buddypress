@@ -1,4 +1,7 @@
+<?php get_header() ?>
+
 <div class="content-header">
+	
 </div>
 
 <div id="content">
@@ -34,3 +37,5 @@
 		<?php endif;?>
 	</div>
 </div>
+
+<?php get_footer() ?>

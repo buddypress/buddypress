@@ -1,3 +1,5 @@
+<?php get_header() ?>
+
 <div class="content-header">
 	<ul class="content-header-nav">
 		<?php bp_group_creation_tabs(); ?>
@@ -11,3 +13,5 @@
 	<?php bp_group_create_form() ?>
 	
 </div>
+
+<?php get_footer() ?>

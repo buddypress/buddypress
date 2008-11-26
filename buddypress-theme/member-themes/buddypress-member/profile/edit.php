@@ -1,3 +1,5 @@
+<?php get_header() ?>
+
 <div class="content-header">
 	
 	<ul class="content-header-nav">
@@ -13,3 +15,5 @@
 	<?php bp_edit_profile_form() ?>
 
 </div>
+
+<?php get_footer() ?>

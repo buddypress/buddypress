@@ -81,6 +81,34 @@ input, select, textarea { width: 100%; }
 		right: 1.5em;
 	}
 
+	/*** SEARCH / LOGIN BAR **********/
+
+	#search-login-bar {
+		border-top: 10px solid #f7740a;
+		background: #fff9df;
+		padding: 7px 20px;
+	}
+		#search-login-bar #search-form {
+			float: left;
+		}
+		
+		#search-login-bar a {
+			text-decoration: underline;
+		}
+		
+			#search-login-bar input {
+				width: auto;
+			}
+
+		#search-login-bar #login-form, #logout-link {
+			float: right;
+		}
+
+		#logout-link img {
+			vertical-align: middle;
+			border: 3px solid #ddd;
+		}
+
 
 /**************************
  USER BAR

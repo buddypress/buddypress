@@ -18,35 +18,7 @@
 	#predefined-lists li {
 		padding: 0.25em 0;
 	}
-			
-	a.join-group {
-		padding: 1em 1.7em 1em 1em;
-		text-align: right;
-		display: block;
-		margin-right: 1.1em;
-		margin-top: -1em;
-		font-size: 1.1em;
-	}
 
 	label#friend-search-label {
 		font-size: 0.9em;
-	}
-
-	a.add, a.remove, div.pending {
-		background: url(../images/add_friend_button.gif) top center no-repeat;
-		text-indent: -999em;
-		display: block;
-		overflow: hidden;
-		width: 102px;
-		text-align: left;
-	}
-	
-	a.remove {
-		background-image: url(../images/remove_friend_button.gif);
-		width: 121px;
-	}
-
-	div.pending {
-		background-image: url(../images/requested_friend_button.gif);
-		width: 136px;
 	}

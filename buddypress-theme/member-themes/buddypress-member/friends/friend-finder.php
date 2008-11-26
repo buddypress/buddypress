@@ -1,4 +1,7 @@
+<?php get_header() ?>
+
 <div class="content-header">
+
 </div>
 
 <div id="content">
@@ -18,9 +21,9 @@
 		<?php if ( bp_has_users() ) : ?>
 			<ul id="friend-list" class="item-list">
 			<?php while ( bp_user_users() ) : bp_the_user(); ?>
-				<li>
+				<li class="hcard">
 					<?php bp_user_avatar_thumb() ?>
-					<h4><?php bp_user_url() ?></h4>
+					<h4 class="fn"><?php bp_user_url() ?></h4>
 					<span class="activity"><?php bp_user_last_active() ?></span>
 				</li>
 			<?php endwhile; ?>
@@ -38,3 +41,5 @@
 		<?php endif;?>
 	</div>
 </div>
+
+<?php get_footer() ?>

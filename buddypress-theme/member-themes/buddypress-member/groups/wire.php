@@ -1,3 +1,5 @@
+<?php get_header() ?>
+
 <div class="content-header">
 	
 </div>
@@ -45,3 +47,5 @@
 	<?php endwhile; endif; ?>
 
 </div>
+
+<?php get_footer() ?>

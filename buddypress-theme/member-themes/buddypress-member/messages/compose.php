@@ -1,3 +1,5 @@
+<?php get_header() ?>
+
 <div class="content-header">
 
 </div>
@@ -44,4 +46,8 @@
 	</form>
 	<script type="text/javascript">
 		document.getElementById("send_to").focus();
-	</script></div>
+	</script>
+</div>
+
+<?php get_footer() ?>
+

@@ -1,3 +1,5 @@
+<?php get_header() ?>
+
 <div class="content-header">
 	
 </div>
@@ -7,3 +9,5 @@
 
 	<?php bp_message_thread_view() ?>
 </div>
+
+<?php get_footer() ?>

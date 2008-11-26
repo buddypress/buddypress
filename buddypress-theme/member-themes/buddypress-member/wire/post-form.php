@@ -1,6 +1,7 @@
 <div id="wire-post-new">
 	<form action="<?php bp_wire_get_action() ?>" id="wire-post-new-form" method="post">
 		<div id="wire-post-new-metadata">
+			<?php bp_wire_poster_avatar() ?>
 			<?php printf ( __( 'On %1$s %2$s said:', "buddypress" ), bp_wire_poster_date( null, false ), bp_wire_poster_name( false ) ) ?>
 		</div>
 	

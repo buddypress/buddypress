@@ -1,3 +1,5 @@
+<?php get_header() ?>
+
 <div class="content-header">
 
 </div>
@@ -9,3 +11,5 @@
 	<?php bp_avatar_upload_form() ?>
 
 </div>
+
+<?php get_footer() ?>

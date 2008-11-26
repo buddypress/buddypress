@@ -1,13 +1,15 @@
+<?php get_header() ?>
+
 <div class="content-header">
 	<?php bp_last_activity() ?>
 </div>
 
-<div id="content">
+<div id="content" class="vcard">
 	<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 	
 	<div class="left-menu">
 		<?php bp_the_avatar() ?>
-		
+
 		<?php if ( function_exists('bp_add_friend_button') ) : ?>
 			<?php bp_add_friend_button() ?>
 		<?php endif; ?>
@@ -42,3 +44,5 @@
 	</div>
 
 </div>
+
+<?php get_footer() ?>

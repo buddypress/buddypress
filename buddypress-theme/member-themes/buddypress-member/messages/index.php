@@ -1,3 +1,5 @@
+<?php get_header() ?>
+
 <form action="<?php bp_messages_form_action() ?>" method="post" id="messages-form">
 
 <div class="content-header">
@@ -52,3 +54,5 @@
 </div>
 
 </form>
+
+<?php get_footer() ?>
