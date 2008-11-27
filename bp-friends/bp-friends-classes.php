@@ -162,7 +162,7 @@ class BP_Friends_Friendship {
 	function check_is_friend( $loggedin_userid, $possible_friend_userid ) {
 		global $wpdb, $bp;
 		
-		if ( !$loggedin_userid || !$possible_friendi_userid )
+		if ( !$loggedin_userid || !$possible_friend_userid )
 			return false;
 			
 		$result = $wpdb->get_results( $wpdb->prepare( "SELECT id, is_confirmed FROM " . $bp['friends']['table_name'] . " WHERE (initiator_user_id = %d AND friend_user_id = %d) OR (initiator_user_id = %d AND friend_user_id = %d)", $loggedin_userid, $possible_friend_userid, $possible_friend_userid, $loggedin_userid ) );
