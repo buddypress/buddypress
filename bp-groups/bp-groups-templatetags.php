@@ -65,7 +65,7 @@ class BP_Groups_Template {
 				$this->groups = $this->groups['groups'];
 				$this->group_count = count($this->groups);
 			} else {
-				$this->groups = BP_Groups_Group::get_all( $this->pag_num, $this->pag_page, false, $this->sort_by, $this->order, true );
+				$this->groups = BP_Groups_Group::get_all( $this->pag_num, $this->pag_page, false, $this->sort_by, $this->order );
 				$this->total_group_count = count(BP_Groups_Group::get_all( false )); // TODO: not ideal
 				$this->group_count = count($this->groups);
 			}

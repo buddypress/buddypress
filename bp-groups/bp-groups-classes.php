@@ -401,7 +401,7 @@ Class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 	
-	function get_all( $limit = null, $page = null, $only_public = true, $sort_by = false, $order = false, $instantiate = false ) {
+	function get_all( $limit = null, $page = null, $only_public = true, $sort_by = false, $order = false ) {
 		global $wpdb, $bp;
 		
 		if ( $only_public )
@@ -417,29 +417,20 @@ Class BP_Groups_Group {
 			
 			switch ( $sort_by ) {
 				default:
-					$sql = $wpdb->prepare( "SELECT id, slug FROM " . $bp['groups']['table_name'] . " {$public_sql} {$order_sql} {$pag_sql}" ); 	
+					$sql = $wpdb->prepare( "SELECT id as group_id, slug FROM " . $bp['groups']['table_name'] . " {$public_sql} {$order_sql} {$pag_sql}" ); 	
 					break;
 				case 'members':
-					$sql = $wpdb->prepare( "SELECT g.id, g.slug FROM " . $bp['groups']['table_name'] . " g, " . $bp['groups']['table_name_groupmeta'] . " gm WHERE g.id = gm.group_id AND gm.meta_key = 'total_member_count' ORDER BY CONVERT(gm.meta_value, SIGNED) {$order} {$pag_sql}" ); 
+					$sql = $wpdb->prepare( "SELECT g.id as group_id, g.slug FROM " . $bp['groups']['table_name'] . " g, " . $bp['groups']['table_name_groupmeta'] . " gm WHERE g.id = gm.group_id AND gm.meta_key = 'total_member_count' ORDER BY CONVERT(gm.meta_value, SIGNED) {$order} {$pag_sql}" ); 
 					break;
 				case 'last_active':
-					$sql = $wpdb->prepare( "SELECT g.id, g.slug FROM " . $bp['groups']['table_name'] . " g, " . $bp['groups']['table_name_groupmeta'] . " gm WHERE g.id = gm.group_id AND gm.meta_key = 'last_activity' ORDER BY CONVERT(gm.meta_value, SIGNED) {$order} {$pag_sql}" ); 
+					$sql = $wpdb->prepare( "SELECT g.id as group_id, g.slug FROM " . $bp['groups']['table_name'] . " g, " . $bp['groups']['table_name_groupmeta'] . " gm WHERE g.id = gm.group_id AND gm.meta_key = 'last_activity' ORDER BY CONVERT(gm.meta_value, SIGNED) {$order} {$pag_sql}" ); 
 					break;
 			}
 		} else {
-			$sql = $wpdb->prepare( "SELECT id, slug FROM " . $bp['groups']['table_name'] . " {$public_sql} {$order_sql} {$pag_sql}" ); 	
+			$sql = $wpdb->prepare( "SELECT id as group_id, slug FROM " . $bp['groups']['table_name'] . " {$public_sql} {$order_sql} {$pag_sql}" ); 	
 		}
-		
-		$groups = $wpdb->get_results($sql);
-		
-		if ( !$instantiate )
-			return $groups;
-		
-		for ( $i = 0; $i < count($groups); $i++ ) {
-			$group_objs[] = new BP_Groups_Group( $groups[$i]->id ); 
-		}
-		
-		return $group_objs;
+
+		return $wpdb->get_results($sql);
 	}
 	
 	function get_by_letter( $letter, $limit = null, $page = null ) {
