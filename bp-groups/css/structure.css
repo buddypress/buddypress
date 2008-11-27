@@ -25,7 +25,7 @@ These structure styles can be overridden by the theme CSS file if needed.
 		text-decoration: none;
 	}
 
-	.group-button a.join-group {
+	.group-button a.join-group, .group-button a.request-membership {
 		background: url(../../bp-core/images/add_button_side.gif) top right no-repeat;
 	}
 	
@@ -33,6 +33,6 @@ These structure styles can be overridden by the theme CSS file if needed.
 		background: url(../../bp-core/images/remove_button_side.gif) top right no-repeat;
 	}
 	
-	.group-button a.request-membership {
+	.group-button a.membership-requested {
 		background: url(../../bp-core/images/check_button_side.gif) top right no-repeat;
 	}
