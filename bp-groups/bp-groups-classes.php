@@ -455,7 +455,7 @@ Class BP_Groups_Group {
 			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp['groups']['table_name']} WHERE name LIKE '$letter%%' ORDER BY name ASC" ) );
 		}
 				
-		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM {$bp['groups']['table_name']} WHERE name LIKE '$letter%%' ORDER BY name ASC" ) );
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM {$bp['groups']['table_name']} WHERE name LIKE '$letter%%' ORDER BY name ASC {$pag_sql}" ) );
 		
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
