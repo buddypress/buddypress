@@ -71,10 +71,10 @@ Class BP_Groups_Group {
 			if ( $get_user_dataset ) {
 				$this->user_dataset = $this->get_user_dataset();
 				
-				if ( !$this->total_member_count ) {
-					$this->total_member_count = count( $this->user_dataset );
-					groups_update_groupmeta( $this->id, 'total_member_count', $this->total_member_count );
-				}
+				//if ( !$this->total_member_count ) {
+				$this->total_member_count = count( $this->user_dataset );
+				groups_update_groupmeta( $this->id, 'total_member_count', $this->total_member_count );
+				//}
 			}
 		}	
 	}

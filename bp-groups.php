@@ -1513,7 +1513,10 @@ function groups_accept_membership_request( $membership_id ) {
 	
 	if ( !$membership->save() )
 		return false;
-	
+		
+	/* Modify group member count */
+	groups_update_groupmeta( $membership->group_id, 'total_member_count', (int) groups_get_groupmeta( $membership->group_id, 'total_member_count') + 1 );
+
 	// Send a notification to the user.
 	groups_notification_membership_request_completed( $membership->user_id, $membership->group_id, true );
 	

@@ -1231,10 +1231,11 @@ class BP_Groups_Membership_Requests_Template {
 		$this->pag_page = isset( $_REQUEST['mrpage'] ) ? intval( $_REQUEST['mrpage'] ) : 1;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $num_per_page;
 		
-		$this->requests = BP_Groups_Group::get_membership_requests( $group_id, $this->pag_num, $this->pag_page );
+		$this->requests = BP_Groups_Group::get_membership_requests( $group_id, $this->pag_num, $this->pag_page );		
+
+		$this->total_request_count = $this->requests['total'];
+		$this->requests = $this->requests['requests'];
 		$this->request_count = count($this->requests);
-		
-		$this->total_request_count = (int) BP_Groups_Group::has_membership_requests( $group_id );
 
 		$this->pag_links = paginate_links( array(
 			'base' => add_query_arg( 'mrpage', '%#%' ),
