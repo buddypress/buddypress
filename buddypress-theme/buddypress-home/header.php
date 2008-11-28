@@ -4,7 +4,7 @@
 <head profile="http://gmpg.org/xfn/11">
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 
-<title><?php bloginfo('name'); ?> <?php if ( is_single() ) { ?> &raquo; Blog Archive <?php } ?> <?php wp_title(); ?></title>
+<title><?php bloginfo('name'); ?></title>
 
 <meta name="generator" content="WordPress <?php bloginfo('version'); ?>" /> <!-- leave this for stats -->
 
@@ -32,10 +32,10 @@
 		
 		<?php if ( !is_user_logged_in() ) : ?>
 			<form name="login-form" id="login-form" action="<?php get_option('home') ?>/wp-login.php" method="post">
-				<input type="text" name="log" id="user_login" value="Username" onfocus="if (this.value == 'Username') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Username';}" />
+				<input type="text" name="log" id="user_login" value="<?php _e( 'Username', 'buddypress' ) ?>" onfocus="if (this.value == '<?php _e( 'Username', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Username', 'buddypress' ) ?>';}" />
 				<input type="password" name="pwd" id="user_pass" class="input" value="" />
 				<!--<input name="rememberme" type="checkbox" id="rememberme" value="forever" />-->
-				<input type="submit" name="wp-submit" id="wp-submit" value="Log In" />				
+				<input type="submit" name="wp-submit" id="wp-submit" value="<?php _e( 'Log In', 'buddypress' ) ?>" />				
 				<input type="button" name="signup-submit" id="signup-submit" value="Signup" onclick="location.href='<?php echo site_url() . '/wp-signup.php' ?>'" />
 				<input type="hidden" name="redirect_to" value="http://<?php echo $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] ?>" />
 				<input type="hidden" name="testcookie" value="1" />
@@ -44,23 +44,30 @@
 			<div id="logout-link">
 				<?php bp_loggedinuser_avatar_thumbnail( 20, 20 ) ?> &nbsp;
 				<?php bp_loggedinuser_link() ?> 
-				/ <a href="<?php echo site_url() . '/wp-login.php?action=logout&amp;redirect_to=' . site_url() ?>">Log Out</a>
+				/ <a href="<?php echo site_url() . '/wp-login.php?action=logout&amp;redirect_to=' . site_url() ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>
 			</div>
 		<?php endif; ?>
 		<div class="clear"></div>
 	</div>
 
 	<div id="header">		
-		<h1 id="logo">Social Network</h1>
+		<h1 id="logo"><?php _e( 'Social Network', 'buddypress' ) ?></h1>
 		
 		<ul id="nav">
-			<li<?php if(bp_is_page('home')) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>" title="Home">Home</a></li>
-			<li<?php if(bp_is_page('news')) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/news" title="News">News</a></li>
-			<li<?php if(bp_is_page(MEMBERS_SLUG)) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/<?php echo MEMBERS_SLUG ?>" title="Members">Members</a></li>
-			<li<?php if(bp_is_page('groups')) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/groups" title="Groups">Groups</a></li>
+			<li<?php if(bp_is_page('home')) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a></li>
+			<li<?php if(bp_is_page('news')) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/news" title="<?php _e( 'News', 'buddypress' ) ?>"><?php _e( 'News', 'buddypress' ) ?></a></li>
+			<li<?php if(bp_is_page(MEMBERS_SLUG)) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/<?php echo MEMBERS_SLUG ?>" title="<?php _e( 'Members', 'buddypress' ) ?>"><?php _e( 'Members', 'buddypress' ) ?></a></li>
+			
+			<?php if ( function_exists('groups_install') ) { ?>
+				<li<?php if(bp_is_page('groups')) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/groups" title="<?php _e( 'Groups', 'buddypress' ) ?>"><?php _e( 'Groups', 'buddypress' ) ?></a></li>
+			<?php } ?>
+			
+			<?php if ( function_exists('bp_blogs_install') ) { ?>
+				<li<?php if(bp_is_page('blogs')) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/blogs" title="<?php _e( 'Blogs', 'buddypress' ) ?>"><?php _e( 'Blogs', 'buddypress' ) ?></a></li>
+			<?php } ?>
+			
 			<!--
-			<li><a href="<?php echo get_option('home') ?>/blogs" title="Blogs">Blogs</a></li>
-			<li><a href="<?php echo get_option('home') ?>/forum" title="Forum">Forum</a></li>
+			<li><a href="<?php echo get_option('home') ?>/forum" title="<?php _e( 'Forums', 'buddypress' ) ?>"><?php _e( 'Forums', 'buddypress' ) ?></a></li>
 			-->
 		</ul>
 		
