@@ -13,7 +13,7 @@ Class BP_Activity_Activity {
 	var $table_name_cached;
 	var $for_secondary_user = false;
 	
-	function bp_activity_activity( $id = null, $populate = true, $table_name = false, $table_name_cached = false ) {
+	function bp_activity_activity( $id = null, $populate = true ) {
 		global $bp;
 		
 		if ( $id ) {
@@ -22,18 +22,6 @@ Class BP_Activity_Activity {
 			if ( $populate )
 				$this->populate();
 		}
-		
-		if ( !$table_name ) {
-			$table_name = $bp['activity']['table_name_loggedin_user'];
-		} else {
-			$this->for_secondary_user = true;
-		}
-			
-		if ( !$table_name_cached )
-			$table_name_cached = $bp['activity']['table_name_loggedin_user_cached'];
-		
-		$this->table_name = $table_name;
-		$this->table_name_cached = $table_name_cached;
 	}
 	
 	function populate() {
@@ -52,8 +40,12 @@ Class BP_Activity_Activity {
 	function save() {
 		global $wpdb, $bp, $current_user;
 
-		if ( !$this->item_id )
+		if ( !$this->item_id || !$this->user_id )
 			return false;
+			
+		// Set the table names
+		$this->table_name = $wpdb->base_prefix . 'user_' . $this->user_id . '_activity';
+		$this->table_name_cached = $wpdb->base_prefix . 'user_' . $this->user_id . '_activity_cached';
 
 		if ( !$this->exists() ) {
 			// Insert the new activity into the activity table.

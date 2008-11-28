@@ -193,14 +193,17 @@ function bp_activity_screen_friends_activity() {
 
 /***** Actions **********/
 
-function bp_activity_record( $item_id, $component_name, $component_action, $is_private, $dual_record = false ) {
+function bp_activity_record( $item_id, $component_name, $component_action, $is_private, $user_id = false, $secondary_user_id = false ) {
 	global $bp, $wpdb;
+
+	if ( !$user_id )
+		$user_id = $bp['loggedin_userid'];
 
 	$recorded_time = time();
 	
 	$activity = new BP_Activity_Activity;
 	$activity->item_id = $item_id;
-	$activity->user_id = $bp['loggedin_userid'];
+	$activity->user_id = $user_id;
 	$activity->component_name = $component_name;
 	$activity->component_action = $component_action;
 	$activity->date_recorded = $recorded_time;
@@ -210,13 +213,10 @@ function bp_activity_record( $item_id, $component_name, $component_action, $is_p
 	
 	/* Save an activity entry for both logged in and secondary user. For example for a new friend connection
 	   you would want to show "X and Y are now friends" on both users activity stream */
-	if ( $dual_record  ) {
-		$table_name = $wpdb->base_prefix . $secondary_user_homebase_id . '_activity';
-		$table_name_cached = $wpdb->base_prefix . $secondary_user_homebase_id . '_activity_cached';
-		
-		$activity = new BP_Activity_Activity( null, true, $table_name, $table_name_cached );
+	if ( $secondary_user_id  ) {
+		$activity = new BP_Activity_Activity;
 		$activity->item_id = $item_id;
-		$activity->user_id = $secondary_user_homebase_id;
+		$activity->user_id = $secondary_user_id;
 		$activity->component_name = $component_name;
 		$activity->component_action = $component_action;
 		$activity->date_recorded = $recorded_time;
