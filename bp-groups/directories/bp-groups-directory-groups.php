@@ -6,8 +6,8 @@ function groups_directory_groups_setup() {
 		add_action( 'bp_template_content', 'groups_directory_groups_content' );
 		add_action( 'bp_template_sidebar', 'groups_directory_groups_sidebar' );
 		
-		wp_enqueue_script( 'bp-core-directory-groups', site_url() . '/wp-content/mu-plugins/bp-groups/js/directory-groups.js', array( 'jquery', 'jquery-livequery-pack' ) );
-		wp_enqueue_style( 'bp-core-directory-groups', site_url() . '/wp-content/mu-plugins/bp-groups/css/directory-groups.css' );
+		wp_enqueue_script( 'bp-groups-directory-groups', site_url() . '/wp-content/mu-plugins/bp-groups/js/directory-groups.js', array( 'jquery', 'jquery-livequery-pack' ) );
+		wp_enqueue_style( 'bp-groups-directory-groups', site_url() . '/wp-content/mu-plugins/bp-groups/css/directory-groups.css' );
 		
 		if ( file_exists( TEMPLATEPATH . '/plugin-template.php' ) )
 			bp_catch_uri('plugin-template');
@@ -132,7 +132,7 @@ function groups_directory_groups_sidebar() {
 ?>	
 	<div class="widget">
 		<h2 class="widgettitle"><?php _e( 'Find Groups', 'buddypress' ) ?></h2>
-		<form action="<?php echo site_url() . '/' . MEMBERS_SLUG  . '/search/' ?>" method="post" id="search-groups-form">
+		<form action="<?php echo site_url() . '/' . $bp['groups']['slug']  . '/search/' ?>" method="post" id="search-groups-form">
 			<label><input type="text" name="groups_search" id="groups_search" value="<?php _e('Search anything...', 'buddypress' ) ?>"  onfocus="if (this.value == '<?php _e('Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e('Search anything...', 'buddypress' ) ?>';}" /></label>
 			<input type="submit" id="groups_search_submit" name="groups_search_submit" value="Search" />
 		</form>
@@ -144,7 +144,7 @@ function groups_directory_groups_sidebar() {
 		<?php $groups = BP_Groups_Group::get_random( 3, 1 ) ?>
 		
 		<?php if ( $groups['groups'] ) { ?>
-			<ul id="featured-member-list" class="item-list">
+			<ul id="featured-group-list" class="item-list">
 				<?php foreach( $groups['groups'] as $group ) : ?>
 					<?php $group = new BP_Groups_Group( $group->group_id, false, false ); ?>
 					<li>

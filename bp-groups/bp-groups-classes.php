@@ -405,7 +405,10 @@ Class BP_Groups_Group {
 		global $wpdb, $bp;
 		
 		if ( $only_public )
-			$public_sql = $wpdb->prepare( " WHERE status = 'public'" );
+			$public_sql = $wpdb->prepare( " WHERE g.status = 'public'" );
+		
+		if ( !is_site_admin() )
+			$hidden_sql = $wpdb->prepare( " AND g.status != 'hidden'");
 		
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
@@ -417,17 +420,17 @@ Class BP_Groups_Group {
 			
 			switch ( $sort_by ) {
 				default:
-					$sql = $wpdb->prepare( "SELECT id as group_id, slug FROM " . $bp['groups']['table_name'] . " {$public_sql} {$order_sql} {$pag_sql}" ); 	
+					$sql = $wpdb->prepare( "SELECT id as group_id, slug FROM " . $bp['groups']['table_name'] . " {$public_sql} {$hidden_sql} {$order_sql} {$pag_sql}" ); 	
 					break;
 				case 'members':
-					$sql = $wpdb->prepare( "SELECT g.id as group_id, g.slug FROM " . $bp['groups']['table_name'] . " g, " . $bp['groups']['table_name_groupmeta'] . " gm WHERE g.id = gm.group_id AND gm.meta_key = 'total_member_count' ORDER BY CONVERT(gm.meta_value, SIGNED) {$order} {$pag_sql}" ); 
+					$sql = $wpdb->prepare( "SELECT g.id as group_id, g.slug FROM " . $bp['groups']['table_name'] . " g, " . $bp['groups']['table_name_groupmeta'] . " gm WHERE g.id = gm.group_id AND gm.meta_key = 'total_member_count' {$hidden_sql} {$public_sql} ORDER BY CONVERT(gm.meta_value, SIGNED) {$order} {$pag_sql}" ); 
 					break;
 				case 'last_active':
-					$sql = $wpdb->prepare( "SELECT g.id as group_id, g.slug FROM " . $bp['groups']['table_name'] . " g, " . $bp['groups']['table_name_groupmeta'] . " gm WHERE g.id = gm.group_id AND gm.meta_key = 'last_activity' ORDER BY CONVERT(gm.meta_value, SIGNED) {$order} {$pag_sql}" ); 
+					$sql = $wpdb->prepare( "SELECT g.id as group_id, g.slug FROM " . $bp['groups']['table_name'] . " g, " . $bp['groups']['table_name_groupmeta'] . " gm WHERE g.id = gm.group_id AND gm.meta_key = 'last_activity' {$hidden_sql} {$public_sql} ORDER BY CONVERT(gm.meta_value, SIGNED) {$order} {$pag_sql}" ); 
 					break;
 			}
 		} else {
-			$sql = $wpdb->prepare( "SELECT id as group_id, slug FROM " . $bp['groups']['table_name'] . " {$public_sql} {$order_sql} {$pag_sql}" ); 	
+			$sql = $wpdb->prepare( "SELECT id as group_id, slug FROM " . $bp['groups']['table_name'] . " {$public_sql} {$hidden_sql} {$order_sql} {$pag_sql}" ); 	
 		}
 
 		return $wpdb->get_results($sql);
@@ -439,14 +442,17 @@ Class BP_Groups_Group {
 		if ( strlen($letter) > 1 || is_numeric($letter) || !$letter )
 			return false;
 		
+		if ( !is_site_admin() )
+			$hidden_sql = $wpdb->prepare( " AND status != 'hidden'");
+		
 		like_escape($letter);
 				
 		if ( $limit && $page ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
-			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp['groups']['table_name']} WHERE name LIKE '$letter%%' ORDER BY name ASC" ) );
+			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp['groups']['table_name']} WHERE name LIKE '$letter%%' {$hidden_sql} ORDER BY name ASC" ) );
 		}
 				
-		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM {$bp['groups']['table_name']} WHERE name LIKE '$letter%%' ORDER BY name ASC {$pag_sql}" ) );
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM {$bp['groups']['table_name']} WHERE name LIKE '$letter%%' {$hidden_sql} ORDER BY name ASC {$pag_sql}" ) );
 		
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
@@ -455,12 +461,15 @@ Class BP_Groups_Group {
 	function get_random( $limit = null, $page = null ) {
 		global $wpdb, $bp;
 
+		if ( !is_site_admin() )
+			$hidden_sql = $wpdb->prepare( " AND status != 'hidden'");
+
 		if ( $limit && $page ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
-			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT id as group_id, slug FROM " . $bp['groups']['table_name'] . " WHERE status = 'public' ORDER BY rand()" ) );
+			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT id as group_id, slug FROM " . $bp['groups']['table_name'] . " WHERE status = 'public' {$hidden_sql} ORDER BY rand()" ) );
 		}
 		
-		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id, slug FROM " . $bp['groups']['table_name'] . " WHERE status = 'public' ORDER BY rand() {$pag_sql}" ) ); 		
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id, slug FROM " . $bp['groups']['table_name'] . " WHERE status = 'public' {$hidden_sql} ORDER BY rand() {$pag_sql}" ) ); 		
 		
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}

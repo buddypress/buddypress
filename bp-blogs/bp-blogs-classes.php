@@ -65,6 +65,8 @@ Class BP_Blogs_Blog {
 	function delete_blog_for_all( $blog_id ) {
 		global $wpdb, $bp;
 		
+		bp_blogs_delete_blogmeta( $blog_id );
+
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['blogs']['table_name'] . " WHERE blog_id = %d", $blog_id ) );
 	}
 	
@@ -116,16 +118,60 @@ Class BP_Blogs_Blog {
 		return $wpdb->get_var( $wpdb->prepare( "SELECT count(blog_id) FROM " . $bp['blogs']['table_name'] . " WHERE user_id = %d", $user_id) );
 	}
 	
-	function get_all() {
+	function get_all( $limit = null, $page = null ) {
 		global $bp, $wpdb;
 		
-		return $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM " . $bp['blogs']['table_name'] ) );
+		if ( $limit && $page ) {
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT count(b.blog_id) FROM " . $bp['blogs']['table_name'] . " b, " . $bp['blogs']['table_name_blogmeta'] . " bm WHERE b.blog_id = bm.blog_id AND bm.meta_key = 'last_activity' ORDER BY CONVERT(bm.meta_value, SIGNED)" ) );
+		}
+			
+		$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT b.blog_id FROM " . $bp['blogs']['table_name']. " b, " . $bp['blogs']['table_name_blogmeta'] . " bm WHERE b.blog_id = bm.blog_id AND bm.meta_key = 'last_activity' ORDER BY CONVERT(bm.meta_value, SIGNED) {$pag_sql}" ) );
+
+		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
 	}
 	
-	function get_random() {
+	function get_by_letter( $letter, $limit = null, $page = null ) {
 		global $bp, $wpdb;
 		
-		return $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM " . $bp['blogs']['table_name'] . " ORDER BY rand() LIMIT 1" ) );
+		like_escape($letter);
+				
+		if ( $limit && $page ) {
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT count(blog_id) FROM {$bp['blogs']['table_name_blogmeta']} WHERE meta_key = 'name' AND meta_value LIKE '$letter%%' ORDER BY meta_value ASC" ) );
+		}
+	
+		$paged_blogs = $wpdb->get_results(  $wpdb->prepare( "SELECT blog_id FROM {$bp['blogs']['table_name_blogmeta']} WHERE meta_key = 'name' AND meta_value LIKE '$letter%%' ORDER BY meta_value ASC{$pag_sql}" ) );
+		
+		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );		
+	}
+	
+	function search_blogs( $filter, $limit = null, $page = null ) {
+		global $wpdb, $bp;
+		
+		like_escape($filter);
+		
+		if ( $limit && $page ) {
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(blog_id) FROM {$bp['blogs']['table_name_blogmeta']} WHERE ( meta_key = 'name' OR meta_key = 'description' ) AND meta_value LIKE '%%$filter%%' ORDER BY meta_value ASC" ) );
+		}
+
+		$paged_blogs = $wpdb->get_results(  $wpdb->prepare( "SELECT DISTINCT blog_id FROM {$bp['blogs']['table_name_blogmeta']} WHERE ( meta_key = 'name' OR meta_key = 'description' ) AND meta_value LIKE '%%$filter%%' ORDER BY meta_value ASC{$pag_sql}" ) );
+		
+		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );		
+	}
+	
+	function get_random( $limit = null, $page = null ) {
+		global $bp, $wpdb;
+		
+		if ( $limit && $page ) {
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT count(blog_id) FROM " . $bp['blogs']['table_name'] . " ORDER BY rand()" ) );
+		}
+		
+		$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT blog_id FROM " . $bp['blogs']['table_name'] . " ORDER BY rand() {$pag_sql}" ) ); 		
+		
+		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
 	}
 	
 }
@@ -276,6 +322,15 @@ Class BP_Blogs_Post {
 		return $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM " . $bp['blogs']['table_name_blog_posts'] . " WHERE post_id = %d AND blog_id = %d AND user_id = %d", $post_id, $blog_id, $user_id ) );
 	}
 	
+	function total_post_count( $blog_id ) {
+		global $bp, $wpdb;
+		
+		if ( !$blog_id )
+			return false;
+			
+		return $wpdb->get_var( $wpdb->prepare( "SELECT count(post_id) FROM " . $bp['blogs']['table_name_blog_posts'] . " WHERE blog_id = %d", $blog_id ) );		
+	}
+	
 	function get_all() {
 		global $bp, $wpdb;
 		
@@ -407,6 +462,16 @@ Class BP_Blogs_Comment {
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT count(comment_id) FROM " . $bp['blogs']['table_name_blog_comments'] . " WHERE user_id = %d", $user_id ) );
 	}
+	
+	function total_comment_count( $blog_id, $post_id ) {
+		global $bp, $wpdb;
+		
+		if ( $post_id )
+			$post_sql = $wpdb->prepare( " AND comment_post_id = %d", $post_id );
+
+		return $wpdb->get_var( $wpdb->prepare( "SELECT count(comment_id) WHERE blog_id = %d{$post_sql}", $blog_id ) );
+	}
+	
 	
 	function is_recorded( $comment_id, $comment_post_id, $blog_id, $user_id = null ) {
 		global $bp, $wpdb, $current_user;

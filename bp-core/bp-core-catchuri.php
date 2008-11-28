@@ -154,7 +154,7 @@ function bp_catch_uri( $pages, $skip_blog_check = false ) {
 	$bp_skip_blog_check = $skip_blog_check;
 
 	$bp_path = $pages;
-
+	
 	remove_action( 'template_redirect', 'redirect_canonical' );
 	add_action( 'template_redirect', 'bp_core_do_catch_uri' );
 }
@@ -184,7 +184,7 @@ function bp_core_do_catch_uri() {
 	if ( !$bp_no_status_set ) {
 		status_header( 200 );
 	}
-	
+
 	if ( is_array( $pages ) ) {
 		foreach( $pages as $page ) {
 			if ( file_exists( TEMPLATEPATH . "/" . $page . ".php" ) ) {

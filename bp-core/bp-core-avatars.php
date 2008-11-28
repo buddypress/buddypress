@@ -42,7 +42,7 @@ function bp_core_get_avatar( $user, $version = 1, $no_tag = false, $width = null
 		else
 			return '<img src="' . $url . '" alt="" class="avatar photo" width="' . $width . '" height="' . $height . '" />';
 	} else {
-		$identicon = 'http://www.gravatar.com/avatar/' . md5( $user . '@buddypress.org') . '?d=wavatar&amp;s=';
+		$identicon = 'http://www.gravatar.com/avatar/' . md5( $user . '@' . get_option('siteurl') ) . '?d=wavatar&amp;s=';
 		if ( $no_tag )
 			return $identicon . constant('CORE_AVATAR_V' . $version . '_W');
 		else

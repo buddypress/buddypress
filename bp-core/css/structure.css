@@ -275,5 +275,9 @@ table.notification-settings {
 	.friendship-button a.requested {
 		background: url(../../bp-core/images/check_button_side.gif) top right no-repeat;
 	}
+	
+	.loading a {
+		background: url(../../bp-core/images/loading_button_side.gif) top right no-repeat !important;		
+	}
 
 	

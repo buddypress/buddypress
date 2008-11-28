@@ -1,6 +1,8 @@
 jQuery(document).ready( function() {
 	jQuery("div.friendship-button a").livequery('click',
 		function() {
+			jQuery(this).parent().addClass('loading');
+			
 			var fid = jQuery(this).attr('id');
 			fid = fid.split('-');
 			fid = fid[1];
@@ -15,7 +17,7 @@ jQuery(document).ready( function() {
 			function(response)
 			{
 				response = response.substr(0, response.length-1);
-			
+
 				var action = thelink.attr('rel');
 				var parentdiv = thelink.parent();
 				
@@ -23,6 +25,7 @@ jQuery(document).ready( function() {
 					jQuery(parentdiv).fadeOut(200, 
 						function() {
 							parentdiv.removeClass('add_friend');
+							parentdiv.removeClass('loading');
 							parentdiv.addClass('pending');
 							parentdiv.fadeIn(200).html(response);
 						}
@@ -32,6 +35,7 @@ jQuery(document).ready( function() {
 					jQuery(parentdiv).fadeOut(200, 
 						function() {
 							parentdiv.removeClass('remove_friend');
+							parentdiv.removeClass('loading');
 							parentdiv.addClass('add');
 							parentdiv.fadeIn(200).html(response);
 						}

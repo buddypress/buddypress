@@ -3,7 +3,7 @@ jQuery(document).ready( function() {
 		function() { 
 			jQuery('#ajax-loader-groups').toggle();
 
-			jQuery("div#members-list-options a").removeClass("selected");
+			jQuery("div#groups-list-options a").removeClass("selected");
 			jQuery(this).addClass('selected');
 
 			var letter = jQuery(this).attr('id')

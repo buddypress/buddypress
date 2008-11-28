@@ -236,9 +236,9 @@ function bp_fetch_user_fullname( $user_id = false, $echo = true ) {
 	}
 	
 	if ( $echo )
-		echo $data;
+		echo stripslashes( trim( $data ) );
 	else
-		return $data;
+		return stripslashes ( trim ( $data ) );
 }
 
 function bp_last_activity( $user_id = false, $echo = true ) {
