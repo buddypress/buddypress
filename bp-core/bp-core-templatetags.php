@@ -198,6 +198,15 @@ function bp_comment_author_avatar() {
 	}
 }
 
+function bp_loggedinuser_avatar( $width = false, $height = false ) {
+	global $bp;
+	
+	if ( $width && $height )
+		echo bp_core_get_avatar( $bp['loggedin_userid'], 2, $width, $height );
+	else
+		echo bp_core_get_avatar( $bp['loggedin_userid'], 2 );
+}
+
 function bp_loggedinuser_avatar_thumbnail( $width = false, $height = false ) {
 	global $bp;
 	
@@ -205,15 +214,6 @@ function bp_loggedinuser_avatar_thumbnail( $width = false, $height = false ) {
 		echo bp_core_get_avatar( $bp['loggedin_userid'], 1, $width, $height );
 	else
 		echo bp_core_get_avatar( $bp['loggedin_userid'], 1 );
-}
-
-function bp_loggedinuser_avatar_full( $width = false, $height = false ) {
-	global $bp;
-	
-	if ( $width && $height )
-		echo bp_core_get_avatar( $bp['loggedin_userid'], 2, $width, $height );
-	else
-		echo bp_core_get_avatar( $bp['loggedin_userid'], 2 );
 }
 
 function bp_fetch_user_fullname( $user_id = false, $echo = true ) {
