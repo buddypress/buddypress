@@ -521,7 +521,7 @@ function bp_group_admin_memberlist( $admin_list = false ) {
 		<?php foreach ( $admins as $admin ) { ?>
 			<?php if ( $admin_list ) { ?>
 			<li>
-				<?php echo bp_core_get_avatar( $admin->user_id, 1, false, 30, 30 ) ?>
+				<?php echo bp_core_get_avatar( $admin->user_id, 1, 30, 30 ) ?>
 				<h5><?php echo bp_core_get_userlink( $admin->user_id ) ?></h5>
 			</li>
 			<?php } else { ?>
@@ -554,7 +554,7 @@ function bp_group_mod_memberlist( $admin_list = false ) {
 			<?php foreach ( $group_mods as $mod ) { ?>
 				<?php if ( $admin_list ) { ?>
 				<li>
-					<?php echo bp_core_get_avatar( $mod->user_id, 1, false, 30, 30 ) ?>
+					<?php echo bp_core_get_avatar( $mod->user_id, 1, 30, 30 ) ?>
 					<h5><?php echo bp_core_get_userlink( $mod->user_id ) ?>  <span class="small"> &mdash; <a href="<?php bp_group_member_ban_link() ?>"><?php _e( 'Kick &amp; Ban', 'buddypress' ) ?></a> | <a href="<?php bp_group_member_demote_link($mod->user_id) ?>"><?php _e( 'Demote to Member', 'buddypress' ) ?></a></span></h5>
 				</li>
 				<?php } else { ?>
@@ -1141,7 +1141,7 @@ function bp_group_member_avatar() {
 function bp_group_member_avatar_mini( $width = 30, $height = 30 ) {
 	global $members_template;
 	
-	echo bp_core_get_avatar( $members_template->member->user_id, 1, false, $width, $height );
+	echo bp_core_get_avatar( $members_template->member->user_id, 1, $width, $height );
 }
 
 function bp_group_member_link() {

@@ -202,7 +202,7 @@ function bp_loggedinuser_avatar_thumbnail( $width = false, $height = false ) {
 	global $bp;
 	
 	if ( $width && $height )
-		echo bp_core_get_avatar( $bp['loggedin_userid'], 1, false, $width, $height );
+		echo bp_core_get_avatar( $bp['loggedin_userid'], 1, $width, $height );
 	else
 		echo bp_core_get_avatar( $bp['loggedin_userid'], 1 );
 }

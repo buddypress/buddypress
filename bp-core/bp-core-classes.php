@@ -69,7 +69,7 @@ class BP_Core_User {
 		if ( function_exists('xprofile_install') ) {
 			$this->avatar = bp_core_get_avatar( $this->id, 2 );
 			$this->avatar_thumb = bp_core_get_avatar( $this->id, 1 );
-			$this->avatar_mini = bp_core_get_avatar( $this->id, 1, false, 25, 25 );
+			$this->avatar_mini = bp_core_get_avatar( $this->id, 1, 25, 25, false );
 		}
 		
 		if ( function_exists('bp_statuses_install') ) {

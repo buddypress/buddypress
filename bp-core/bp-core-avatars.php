@@ -18,7 +18,7 @@ define( 'CORE_MAX_FILE_SIZE', get_site_option('fileupload_maxk') * 1024 );
 define( 'CORE_DEFAULT_AVATAR', site_url() . '/wp-content/mu-plugins/bp-xprofile/images/none.gif' );
 define( 'CORE_DEFAULT_AVATAR_THUMB', site_url() . '/wp-content/mu-plugins/bp-xprofile/images/none-thumbnail.gif' );
 
-function bp_core_get_avatar( $user, $version = 1, $no_tag = false, $width = null, $height = null ) {
+function bp_core_get_avatar( $user, $version = 1, $width = null, $height = null, $no_tag = false ) {
 	global $bp, $current_blog;
 	
 	if ( !is_int($version) )
