@@ -1,8 +1,7 @@
 <?php
 require_once( 'bp-core.php' );
 
-define ( 'BP_BLOGS_IS_INSTALLED', 1 );
-define ( 'BP_BLOGS_VERSION', '0.1.3.3' );
+define ( 'BP_BLOGS_VERSION', '0.1.5' );
 
 /* These will be moved into admin configurable settings */
 define ( 'TOTAL_RECORDED_POSTS', 10 );
@@ -12,7 +11,8 @@ include_once( 'bp-blogs/bp-blogs-classes.php' );
 include_once( 'bp-blogs/bp-blogs-cssjs.php' );
 include_once( 'bp-blogs/bp-blogs-templatetags.php' );
 include_once( 'bp-blogs/bp-blogs-widgets.php' );
-//include_once( 'bp-blogs/bp-blogs-ajax.php' );
+include_once( 'bp-blogs/bp-blogs-ajax.php' );
+include_once( 'bp-blogs/directories/bp-blogs-directory-blogs.php' );
 //include_once( 'bp-blogs/bp-blogs-admin.php' );
 
 /**************************************************************************
@@ -30,7 +30,7 @@ function bp_blogs_install( $version ) {
 	$sql[] = "CREATE TABLE ". $bp['blogs']['table_name'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id int(11) NOT NULL,
-				blog_id int(11) NOT NULL,
+				blog_id int(11) NOT NULL
 				KEY user_id (user_id),
 				KEY blog_id (blog_id)
 			 ) {$charset_collate};";
@@ -58,7 +58,17 @@ function bp_blogs_install( $version ) {
 				KEY comment_id (comment_id),
 				KEY comment_post_id (comment_post_id)
 			 ) {$charset_collate};";
-			
+	
+	$sql[] = "CREATE TABLE ". $bp['blogs']['table_name_blogmeta'] ." (
+			id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+			blog_id int(11) NOT NULL,
+			meta_key varchar(255) DEFAULT NULL,
+			meta_value longtext DEFAULT NULL,
+			KEY blog_id (blog_id),
+			KEY meta_key (meta_key)
+		   ) {$charset_collate};";
+		
+	
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 
 	dbDelta($sql);
@@ -71,8 +81,26 @@ function bp_blogs_install( $version ) {
 	
 	// On first installation - record all existing blogs in the system.
 	if ( !(int)get_site_option( 'bp-blogs-first-install') ) {
+		
 		bp_blogs_record_existing_blogs();
 		add_site_option( 'bp-blogs-first-install', 1 );
+		
+	} else {
+		
+		// Import blog titles and descriptions into the blogmeta table 	
+		if ( get_site_option( 'bp-blogs-version' ) <= '0.1.5' ) {
+			$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM " . $bp['blogs']['table_name'] ) );
+
+			for ( $i = 0; $i < count($blog_ids); $i++ ) {
+				$name = get_blog_option( $blog_ids[$i], 'blogname' );
+				$desc = get_blog_option( $blog_ids[$i], 'blogdescription' );
+				
+				bp_blogs_update_blogmeta( $blog_ids[$i], 'name', $name );
+				bp_blogs_update_blogmeta( $blog_ids[$i], 'description', $desc );
+				bp_blogs_update_blogmeta( $blog_ids[$i], 'last_activity', time() );
+			}
+		}
+		
 	}
 	
 	add_site_option( 'bp-blogs-version', $version );
@@ -105,6 +133,7 @@ function bp_blogs_setup_globals() {
 		'table_name' => $wpdb->base_prefix . 'bp_user_blogs',
 		'table_name_blog_posts' => $wpdb->base_prefix . 'bp_user_blogs_posts',
 		'table_name_blog_comments' => $wpdb->base_prefix . 'bp_user_blogs_comments',
+		'table_name_blogmeta' => $wpdb->base_prefix . 'bp_user_blogs_blogmeta',
 		'format_activity_function' => 'bp_blogs_format_activity',
 		'image_base' => site_url() . '/wp-content/mu-plugins/bp-groups/images',
 		'slug'		 => 'blogs'
@@ -131,7 +160,9 @@ function bp_blogs_setup_nav() {
 	
 	/* Add 'Blogs' to the main navigation */
 	bp_core_add_nav_item( __('Blogs', 'buddypress'), $bp['blogs']['slug'] );
-	bp_core_add_nav_default( $bp['blogs']['slug'], 'bp_blogs_screen_my_blogs', 'my-blogs' );
+
+	if ( $bp['current_userid'] )
+		bp_core_add_nav_default( $bp['blogs']['slug'], 'bp_blogs_screen_my_blogs', 'my-blogs' );
 	
 	$blogs_link = $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/';
 	
@@ -190,7 +221,8 @@ function bp_blogs_record_activity( $args = true ) {
 	
 	if ( function_exists('bp_activity_record') ) {
 		extract($args);
-		bp_activity_record( $item_id, $component_name, $component_action, $is_private );
+				
+		bp_activity_record( $item_id, $component_name, $component_action, $is_private, $user_id );
 	}
 }
 add_action( 'bp_blogs_new_blog', 'bp_blogs_record_activity' );
@@ -285,12 +317,19 @@ function bp_blogs_record_blog( $blog_id, $user_id ) {
 	
 	if ( !$user_id )
 		$user_id = $bp['loggedin_userid'];
+		
+	$name = get_blog_option( $blog_id, 'blogname' );
+	$description = get_blog_option( $blog_id, 'blogdescription' );
 	
 	$recorded_blog = new BP_Blogs_Blog;
 	$recorded_blog->user_id = $user_id;
 	$recorded_blog->blog_id = $blog_id;
 	
 	$recorded_blog_id = $recorded_blog->save();
+	
+	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'name', $name );
+	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'description', $description );
+	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'last_activity', time() );
 	
 	do_action( 'bp_blogs_new_blog', array( 'item_id' => $recorded_blog_id, 'component_name' => 'blogs', 'component_action' => 'new_blog', 'is_private' => 0 ) );
 }
@@ -336,7 +375,9 @@ function bp_blogs_record_post($post_id) {
 			
 			$recorded_post_id = $recorded_post->save();
 			
-			do_action( 'bp_blogs_new_blog_post', array( 'item_id' => $recorded_post_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'is_private' => 0 ) );
+			bp_blogs_update_blogmeta( $recorded_post->blog_id, 'last_activity', time() );
+			
+			do_action( 'bp_blogs_new_blog_post', array( 'item_id' => $recorded_post_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'is_private' => 0, 'user_id' => $recorded_post->user_id ) );
 		}
 	} else {
 		/** 
@@ -387,8 +428,10 @@ function bp_blogs_record_comment( $comment_id, $from_ajax = false ) {
 				$recorded_comment->date_created = strtotime( $comment->comment_date );
 					
 				$recorded_commment_id = $recorded_comment->save();
-
-				do_action( 'bp_blogs_new_blog_comment', array( 'item_id' => $recorded_commment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'is_private' => 0 ) );
+				
+				bp_blogs_update_blogmeta( $recorded_comment->blog_id, 'last_activity', time() );
+				
+				do_action( 'bp_blogs_new_blog_comment', array( 'item_id' => $recorded_commment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'is_private' => 0, 'user_id' => $user_id ) );
 			}
 		} else {
 			/** 
@@ -514,17 +557,26 @@ function bp_blogs_get_latest_posts( $blog_id = null, $limit = 5 ) {
 	return BP_Blogs_Post::get_latest_posts( $blog_id, $limit );
 }
 
-function bp_blogs_get_all_blogs() {
-	return BP_Blogs_Blog::get_all();
+function bp_blogs_get_all_blogs( $limit = null, $page = null ) {
+	return BP_Blogs_Blog::get_all( $limit, $page );
 }
 
-function bp_blogs_get_random_blog() {
-	return BP_Blogs_Blog::get_random();
+function bp_blogs_get_random_blog( $limit = null, $page = null ) {
+	return BP_Blogs_Blog::get_random( $limit, $page );
 }
 
-function bp_blogs_get_all_posts() {
-	return BP_Blogs_Post::get_all();
+function bp_blogs_get_all_posts( $limit = null, $page = null ) {
+	return BP_Blogs_Post::get_all( $limit, $page );
 }
+
+function bp_blogs_total_post_count( $blog_id ) {
+	return BP_Blogs_Post::total_post_count( $blog_id );
+} 
+
+function bp_blogs_total_comment_count( $blog_id, $post_id = false ) {
+	return BP_Blogs_Post::total_comment_count( $blog_id, $post_id );
+} 
+
 
 function bp_blogs_redirect_to_random_blog() {
 	global $bp, $wpdb;
@@ -536,6 +588,110 @@ function bp_blogs_redirect_to_random_blog() {
 	}
 }
 add_action( 'wp', 'bp_blogs_redirect_to_random_blog', 6 );
+
+
+//
+// Blog meta functions
+//
+
+function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = false ) {
+	global $wpdb, $bp;
+	
+	if ( !is_numeric( $blog_id ) )
+		return false;
+		
+	$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
+
+	if ( is_array($meta_value) || is_object($meta_value) )
+		$meta_value = serialize($meta_value);
+		
+	$meta_value = trim( $meta_value );
+
+	if ( !$meta_key ) {
+		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['blogs']['table_name_blogpmeta'] . " WHERE blog_id = %d", $blog_id ) );		
+	} else if ( !$meta_value ) {
+		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['blogs']['table_name_blogmeta'] . " WHERE blog_id = %d AND meta_key = %s AND meta_value = %s", $blog_id, $meta_key, $meta_value ) );
+	} else {
+		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['blogs']['table_name_blogmeta'] . " WHERE blog_id = %d AND meta_key = %s", $blog_id, $meta_key ) );
+	}
+	
+	// TODO need to look into using this.
+	// wp_cache_delete($group_id, 'groups');
+
+	return true;
+}
+
+function bp_blogs_get_blogmeta( $blog_id, $meta_key = '') {
+	global $wpdb, $bp;
+	
+	$blog_id = (int) $blog_id;
+
+	if ( !$blog_id )
+		return false;
+
+	if ( !empty($meta_key) ) {
+		$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
+		
+		// TODO need to look into using this.
+		//$user = wp_cache_get($user_id, 'users');
+		
+		// Check the cached user object
+		//if ( false !== $user && isset($user->$meta_key) )
+		//	$metas = array($user->$meta_key);
+		//else
+		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM " . $bp['blogs']['table_name_blogmeta'] . " WHERE blog_id = %d AND meta_key = %s", $blog_id, $meta_key) );
+	} else {
+		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM " . $bp['blogs']['table_name_blogmeta'] . " WHERE blog_id = %d", $blog_id) );
+	}
+
+	if ( empty($metas) ) {
+		if ( empty($meta_key) )
+			return array();
+		else
+			return '';
+	}
+
+	$metas = array_map('maybe_unserialize', $metas);
+
+	if ( count($metas) == 1 )
+		return $metas[0];
+	else
+		return $metas;
+}
+
+function bp_blogs_update_blogmeta( $blog_id, $meta_key, $meta_value ) {
+	global $wpdb, $bp;
+	
+	if ( !is_numeric( $blog_id ) )
+		return false;
+	
+	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
+
+	if ( is_string($meta_value) )
+		$meta_value = stripslashes($wpdb->escape($meta_value));
+		
+	$meta_value = maybe_serialize($meta_value);
+
+	if (empty($meta_value)) {
+		return bp_blogs_delete_blogmeta( $blog_id, $meta_key );
+	}
+
+	$cur = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp['blogs']['table_name_blogmeta'] . " WHERE blog_id = %d AND meta_key = %s", $blog_id, $meta_key ) );
+	
+	if ( !$cur ) {
+		$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['blogs']['table_name_blogmeta'] . " ( blog_id, meta_key, meta_value ) VALUES ( %d, %s, %s )", $blog_id, $meta_key, $meta_value ) );
+	} else if ( $cur->meta_value != $meta_value ) {
+		$wpdb->query( $wpdb->prepare( "UPDATE " . $bp['blogs']['table_name_blogmeta'] . " SET meta_value = %s WHERE blog_id = %d AND meta_key = %s", $meta_value, $blog_id, $meta_key ) );
+	} else {
+		return false;
+	}
+
+	// TODO need to look into using this.
+	// wp_cache_delete($user_id, 'users');
+
+	return true;
+}
+
 
 
 ?>
