@@ -31,7 +31,7 @@
 		-->
 		
 		<?php if ( !is_user_logged_in() ) : ?>
-			<form name="login-form" id="login-form" action="<?php get_option('home') ?>/wp-login.php" method="post">
+			<form name="login-form" id="login-form" action="<?php echo site_url() ?>/wp-login.php" method="post">
 				<input type="text" name="log" id="user_login" value="<?php _e( 'Username', 'buddypress' ) ?>" onfocus="if (this.value == '<?php _e( 'Username', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Username', 'buddypress' ) ?>';}" />
 				<input type="password" name="pwd" id="user_pass" class="input" value="" />
 				<!--<input name="rememberme" type="checkbox" id="rememberme" value="forever" />-->
