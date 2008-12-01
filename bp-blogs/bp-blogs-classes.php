@@ -123,10 +123,10 @@ Class BP_Blogs_Blog {
 		
 		if ( $limit && $page ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
-			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT count(b.blog_id) FROM " . $bp['blogs']['table_name'] . " b, " . $bp['blogs']['table_name_blogmeta'] . " bm WHERE b.blog_id = bm.blog_id AND bm.meta_key = 'last_activity' ORDER BY CONVERT(bm.meta_value, SIGNED)" ) );
+			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT count(b.blog_id) FROM " . $bp['blogs']['table_name'] . " b, " . $bp['blogs']['table_name_blogmeta'] . " bm WHERE b.blog_id = bm.blog_id AND bm.meta_key = 'last_activity' ORDER BY CONVERT(bm.meta_value, SIGNED) DESC" ) );
 		}
 			
-		$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT b.blog_id FROM " . $bp['blogs']['table_name']. " b, " . $bp['blogs']['table_name_blogmeta'] . " bm WHERE b.blog_id = bm.blog_id AND bm.meta_key = 'last_activity' ORDER BY CONVERT(bm.meta_value, SIGNED) {$pag_sql}" ) );
+		$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT b.blog_id FROM " . $bp['blogs']['table_name']. " b, " . $bp['blogs']['table_name_blogmeta'] . " bm WHERE b.blog_id = bm.blog_id AND bm.meta_key = 'last_activity' ORDER BY CONVERT(bm.meta_value, SIGNED) DESC {$pag_sql}" ) );
 
 		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
 	}
