@@ -364,13 +364,13 @@ Class BP_Groups_Group {
 	
 	function get_newest( $limit = null, $page = null ) {
 		global $wpdb, $bp;
-		
+				
 		if ( $limit && $page ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
-			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM " . $bp['groups']['table_name'] . " WHERE status != 'hidden' ORDER BY date_created DESC LIMIT %d", $limit ) );
+			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM " . $bp['groups']['table_name'] . " WHERE status != 'hidden' ORDER BY date_created DESC", $limit ) );
 		}
 		
-		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM " . $bp['groups']['table_name'] . " WHERE status != 'hidden' ORDER BY date_created DESC {$pag_sq}", $limit ) );
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM " . $bp['groups']['table_name'] . " WHERE status != 'hidden' ORDER BY date_created DESC {$pag_sql}" ) );
 
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
