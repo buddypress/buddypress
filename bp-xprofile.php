@@ -15,6 +15,9 @@ require_once( 'bp-xprofile/bp-xprofile-classes.php' );
 /* Functions for handling the admin area tabs for administrators */
 require_once( 'bp-xprofile/bp-xprofile-admin.php' );
 
+/* Functions for applying filters to Xprofile specfic output */
+require_once( 'bp-xprofile/bp-xprofile-filters.php' );
+
 /* Functions to handle the modification and saving of signup pages */
 require_once( 'bp-xprofile/bp-xprofile-signup.php' );
 
@@ -420,21 +423,32 @@ function xprofile_format_activity( $item_id, $user_id, $action ) {
 				return false;
 
 			if ( ( $wire_post->item_id == $bp['loggedin_userid'] && $wire_post->user_id == $bp['loggedin_userid'] ) || ( $wire_post->item_id == $bp['current_userid'] && $wire_post->user_id == $bp['current_userid'] ) ) {
+				
 				$content = sprintf( __('%s wrote on their own wire', 'buddypress'), bp_core_get_userlink($wire_post->user_id) ) . ': <span class="time-since">%s</span>';				
+				$return_values['primary_link'] = bp_core_get_userlink( $wire_post->user_id, false, true );
+			
 			} else if ( ( $wire_post->item_id != $bp['loggedin_userid'] && $wire_post->user_id == $bp['loggedin_userid'] ) || ( $wire_post->item_id != $bp['current_userid'] && $wire_post->user_id == $bp['current_userid'] ) ) {
-				$content = sprintf( __('%s wrote on %s wire', 'buddypress'), bp_core_get_userlink($wire_post->user_id), bp_core_get_userlink( $wire_post->item_id, false, false, true, true ) ) . ': <span class="time-since">%s</span>';				
+			
+				$content = sprintf( __('%s wrote on %s wire', 'buddypress'), bp_core_get_userlink($wire_post->user_id), bp_core_get_userlink( $wire_post->item_id, false, false, true, true ) ) . ': <span class="time-since">%s</span>';			
+				$return_values['primary_link'] = bp_core_get_userlink( $wire_post->item_id, false, true );
+			
 			} 
 			
 			$content .= '<blockquote>' . bp_create_excerpt($wire_post->content) . '</blockquote>';
-			return $content;
+			$return_values['content'] = $content;
+			
+			return $return_values;
 		break;
 		case 'updated_profile':
 			$profile_group = new BP_XProfile_Group( $item_id );
 			
 			if ( !$profile_group )
 				return false;
-				
-			return sprintf( __('%s updated the "%s" information on their profile', 'buddypress'), bp_core_get_userlink($user_id), '<a href="' . $bp['current_domain'] . $bp['profile']['slug'] . '">' . $profile_group->name . '</a>' ) . ' <span class="time-since">%s</span>';
+			
+			return array( 
+				'primary_link' => bp_core_get_userlink( $user_id, false, true ),
+				'content' => sprintf( __('%s updated the "%s" information on their profile', 'buddypress'), bp_core_get_userlink($user_id), '<a href="' . $bp['current_domain'] . $bp['profile']['slug'] . '">' . $profile_group->name . '</a>' ) . ' <span class="time-since">%s</span>'
+			);
 		break;
 	}
 	

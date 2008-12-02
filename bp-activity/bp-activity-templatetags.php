@@ -24,8 +24,8 @@ class BP_Activity_Template {
 		
 		if ( !$user_id )
 			$user_id = $bp['current_userid'];
-			
-		if ( $bp['current_component'] != $bp['activity']['slug'] || ( $bp['current_component'] == $bp['activity']['slug'] && $bp['current_action'] == 'just-me' ) ) {
+
+		if ( $bp['current_component'] != $bp['activity']['slug'] || ( $bp['current_component'] == $bp['activity']['slug'] && $bp['current_action'] == 'just-me' || $bp['current_action'] == 'feed' ) ) {
 			$this->activities = BP_Activity_Activity::get_activity_for_user( $user_id, $limit );
 		} else {
 			$this->activities = BP_Activity_Activity::get_activity_for_friends( $user_id, $limit );
@@ -103,6 +103,12 @@ function bp_has_activities() {
 	else
 		$filter_content = true;
 	
+	if ( !$bp_activity_user_id )
+		$bp_activity_user_id = $bp['current_userid'];
+	
+	if ( !$bp_activity_limit )
+		$bp_activity_limit = 35;
+		
 	$activities_template = new BP_Activity_Template( $bp_activity_user_id, $bp_activity_limit, $filter_content );		
 	return $activities_template->has_activities();
 }
@@ -182,6 +188,48 @@ function bp_activity_insert_time_since( $content, $date ) {
 function bp_activity_css_class() {
 	global $activities_template;
 	echo $activities_template->activity['component_name'];
+}
+
+function bp_sitewide_activity_feed_link() {
+	global $bp;
+	
+	echo site_url() . '/' . $bp['activity']['slug'] . '/feed';
+}
+
+function bp_activities_member_rss_link() {
+	global $bp;
+	
+	if ( ( $bp['current_component'] == $bp['profile']['slug'] ) || $bp['current_action'] == 'just-me' )
+		echo $bp['current_domain'] . $bp['activity']['slug'] . '/feed';
+	else
+		echo $bp['current_domain'] . $bp['activity']['slug'] . '/my-friends/feed';		
+}
+
+/* Template tags for RSS feed output */
+
+function bp_activity_feed_item_title() {
+	global $activities_template;
+
+	$title = explode( '<span', $activities_template->activity['content'] );
+	echo trim( strip_tags( $title[0] ) );
+}
+
+function bp_activity_feed_item_link() {
+	global $activities_template;
+
+	echo $activities_template->activity['primary_link'];
+}
+
+function bp_activity_feed_item_date() {
+	global $activities_template;
+
+	echo $activities_template->activity['date_recorded'];
+}
+
+function bp_activity_feed_item_description() {
+	global $activities_template;
+
+	echo sprintf( $activities_template->activity['content'], '' );	
 }
 
 

@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_ACTIVITY_IS_INSTALLED', 1 );
-define ( 'BP_ACTIVITY_VERSION', '0.2.4' );
+define ( 'BP_ACTIVITY_VERSION', '0.2.6' );
 
 /* How long before activity items in streams are re-cached? */
 define ( 'BP_ACTIVITY_CACHE_LENGTH', '6 HOURS' );
@@ -43,6 +43,7 @@ function bp_activity_user_install() {
 	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_current_user_cached'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  		content longtext NOT NULL,
+				primary_link varchar(150) NOT NULL,
 				component_name varchar(75) NOT NULL,
 				date_cached datetime NOT NULL,
 				date_recorded datetime NOT NULL,
@@ -57,6 +58,7 @@ function bp_activity_user_install() {
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id int(11) NOT NULL,
 		  		content longtext NOT NULL,
+				primary_link varchar(150) NOT NULL,
 				component_name varchar(75) NOT NULL,
 				date_cached datetime NOT NULL,
 				date_recorded datetime NOT NULL,
@@ -88,6 +90,7 @@ function bp_activity_sitewide_install() {
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id int(11) NOT NULL,
 		  		content longtext NOT NULL,
+				primary_link varchar(150) NOT NULL,
 				component_name varchar(75) NOT NULL,
 				date_cached datetime NOT NULL,
 				date_recorded datetime NOT NULL,
@@ -226,6 +229,47 @@ function bp_activity_record( $item_id, $component_name, $component_action, $is_p
 	}
 	
 	return true;
+}
+
+function bp_activity_action_sitewide_feed() {
+	global $bp;
+
+	if ( $bp['current_component'] != $bp['activity']['slug'] || $bp['current_action'] != 'feed' || $bp['current_userid'] )
+		return false;
+
+	include_once( 'bp-activity/feeds/bp-activity-sitewide-feed.php' );
+	die;
+}
+add_action( 'wp', 'bp_activity_action_sitewide_feed', 3 );
+
+function bp_activity_action_personal_feed() {
+	global $bp;	
+
+	if ( $bp['current_component'] != $bp['activity']['slug'] || !$bp['current_userid'] || $bp['current_action'] != 'feed' )
+		return false;
+
+	include_once( 'bp-activity/feeds/bp-activity-personal-feed.php' );
+	die;
+}
+add_action( 'wp', 'bp_activity_action_personal_feed', 3 );
+
+function bp_activity_action_friends_feed() {
+	global $bp;
+
+	if ( $bp['current_component'] != $bp['activity']['slug'] || !$bp['current_userid'] || $bp['current_action'] != 'my-friends' || $bp['action_variables'][0] != 'feed' )
+		return false;
+	
+	include_once( 'bp-activity/feeds/bp-activity-friends-feed.php' );
+	die;	
+}
+add_action( 'wp', 'bp_activity_action_friends_feed', 3 );
+
+function bp_activity_get_last_updated() {
+	return BP_Activity_Activity::get_last_updated();
+}
+
+function bp_activity_get_sitewide_activity( $max_items ) {
+	return BP_Activity_Activity::get_sitewide_activity( $max_items );
 }
 
 function bp_activity_delete( $item_id, $user_id, $component_name ) {

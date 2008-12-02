@@ -202,7 +202,7 @@ function bp_the_profile_field() {
 
 function bp_the_profile_field_name() {
 	global $field;
-	echo stripslashes($field->name);
+	echo apply_filters( 'bp_the_profile_field_name', $field->name );
 }
 
 function bp_the_profile_field_value() {
@@ -213,10 +213,8 @@ function bp_the_profile_field_value() {
 		$field_value = implode( ', ', $field_value );
 		$field->data->value = $field_value;
 	}
-	
-	$field->data->value = xprofile_format_profile_field( $field->type, $field->data->value );
-	
-	echo stripslashes($field->data->value);
+
+	echo apply_filters( 'bp_the_profile_field_value', $field->data->value, $field->type, $field->id );
 }
 
 function bp_get_field_data( $field, $user_id = null ) {
@@ -240,6 +238,8 @@ function bp_profile_group_tabs() {
 
 		echo '<li' . $selected . '><a href="' . $bp['loggedin_domain'] . $bp['profile']['slug'] . '/edit/group/' . $groups[$i]->id . '">' . $groups[$i]->name . '</a></li>';
 	}
+	
+	do_action( 'bp_xprofile_profile_group_tabs' );
 }
 
 function bp_profile_group_name( $echo = true ) {
@@ -253,9 +253,9 @@ function bp_profile_group_name( $echo = true ) {
 	$group = new BP_XProfile_Group($group_id);
 	
 	if ( $echo ) {
-		echo $group->name;
+		echo apply_filters( 'bp_xprofile_profile_group_name', $group->name );
 	} else {
-		return $group->name;
+		return apply_filters( 'bp_xprofile_profile_group_name', $group->name );
 	}
 }
 

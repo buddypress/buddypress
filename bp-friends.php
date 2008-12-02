@@ -220,11 +220,17 @@ function friends_format_activity( $friendship_id, $user_id, $action, $for_second
 				return false;
 			
 			if ( $for_secondary_user ) {
-				return sprintf( __( '%s and %s are now friends', 'buddypress' ), bp_core_get_userlink( $friendship->initiator_user_id ), bp_core_get_userlink($friendship->friend_user_id, false, false, true) ) . ' <span class="time-since">%s</span>';				
+				return array( 
+					'primary_link' => bp_core_get_userlink( $friendship->friend_user_id, false, true ),
+					'content' => sprintf( __( '%s and %s are now friends', 'buddypress' ), bp_core_get_userlink( $friendship->initiator_user_id ), bp_core_get_userlink($friendship->friend_user_id, false, false, true) ) . ' <span class="time-since">%s</span>'
+				);				
 			} else {
-				return sprintf( __( '%s and %s are now friends', 'buddypress' ), bp_core_get_userlink( $friendship->friend_user_id ), bp_core_get_userlink($friendship->initiator_user_id) ) . ' <span class="time-since">%s</span>';								
+				return array( 
+					'primary_link' => bp_core_get_userlink( $friendship->friend_user_id, false, true ),
+					'content' => sprintf( __( '%s and %s are now friends', 'buddypress' ), bp_core_get_userlink( $friendship->friend_user_id ), bp_core_get_userlink($friendship->initiator_user_id) ) . ' <span class="time-since">%s</span>'
+				);				
 			}
-
+			
 		break;
 	}
 	

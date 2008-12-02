@@ -23,7 +23,10 @@ function bp_core_directory_members_content() {
 	$pag_page = isset( $_GET['page'] ) ? intval( $_GET['page'] ) : 1;
 	$pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 10;
 	
-	$users = BP_Core_User::get_active_users( $pag_num, $pag_page );
+	if ( isset( $_GET['s'] ) )
+		$users = BP_Core_User::search_users( $_GET['s'], $pag_num, $pag_page );
+	else
+		$users = BP_Core_User::get_active_users( $pag_num, $pag_page );
 
 	$pag_links = paginate_links( array(
 		'base' => add_query_arg( 'page', '%#%' ),
@@ -128,7 +131,7 @@ function bp_core_directory_members_sidebar() {
 	<div class="widget">
 		<h2 class="widgettitle"><?php _e( 'Find Members', 'buddypress' ) ?></h2>
 		<form action="<?php echo site_url() . '/' . MEMBERS_SLUG  . '/search/' ?>" method="post" id="search-members-form">
-			<label><input type="text" name="members_search" id="members_search" value="<?php _e('Search anything...', 'buddypress' ) ?>"  onfocus="if (this.value == '<?php _e('Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e('Search anything...', 'buddypress' ) ?>';}" /></label>
+			<label><input type="text" name="members_search" id="members_search" value="<?php if ( isset( $_GET['s'] ) ) { echo $_GET['s']; } else { _e('Search anything...', 'buddypress' ); } ?>"  onfocus="if (this.value == '<?php _e('Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e('Search anything...', 'buddypress' ) ?>';}" /></label>
 			<input type="submit" id="members_search_submit" name="members_search_submit" value="Search" />
 		</form>
 	</div>

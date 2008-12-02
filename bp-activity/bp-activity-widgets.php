@@ -17,7 +17,7 @@ add_action( 'plugins_loaded', 'bp_activity_register_widgets' );
 
 
 function bp_activity_widget_sitewide_activity($args) {
-	global $current_blog;
+	global $bp, $current_blog;
 	
     extract($args);
 	$options = get_blog_option( $current_blog->blog_id, 'bp_activity_widget_sitewide_activity' );
@@ -28,9 +28,12 @@ function bp_activity_widget_sitewide_activity($args) {
 		. $after_title; ?>
 
 	<?php if ( (int)$current_blog->blog_id == 1 ) : ?>
-		<?php $activity = BP_Activity_Activity::get_sitewide_activity( $options['max_items'] ) ?>
+		<?php $activity = bp_activity_get_sitewide_activity( $options['max_items'] ) ?>
 		
 		<?php if ( $activity ) : ?>
+			<div class="item-options" id="activity-list-options">
+				<img src="<?php echo $bp['activity']['image_base'] ?>/rss.png" alt="<?php _e( 'RSS Feed', 'buddypress' ) ?>" /> <a href="<?php bp_sitewide_activity_feed_link() ?>" title="<?php _e( 'Site Wide Activity RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a>
+			</div>
 			<ul id="site-wide-stream" class="activity-list">
 			<?php foreach( $activity as $item ) : ?>
 				<li class="<?php echo $item['component_name'] ?>">

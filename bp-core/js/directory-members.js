@@ -5,7 +5,7 @@ jQuery(document).ready( function() {
 
 			jQuery("div#members-list-options a").removeClass("selected");
 			jQuery(this).addClass('selected');
-
+			
 			var letter = jQuery(this).attr('id')
 			letter = letter.split('-');
 
