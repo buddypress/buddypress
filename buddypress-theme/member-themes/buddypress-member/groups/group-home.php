@@ -8,7 +8,7 @@
 	<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 	
 	<?php if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group(); ?>
-		
+	
 	<div class="left-menu">
 		<?php bp_group_avatar() ?>
 		
