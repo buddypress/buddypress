@@ -9,7 +9,7 @@
 <meta name="generator" content="WordPress <?php bloginfo('version'); ?>" /> <!-- leave this for stats -->
 
 <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" media="screen" />
-<link rel="alternate" type="application/rss+xml" title="<?php bloginfo('name'); ?> RSS Feed" href="<?php bloginfo('rss2_url'); ?>" />
+<link rel="alternate" type="application/rss+xml" title="<?php bloginfo('name'); ?> <?php _e('Site Wide Activity RSS Feed', 'buddypress' ) ?>" href="<?php bp_sitewide_activity_feed_link() ?>" />
 <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 
 <?php wp_head(); ?>
@@ -65,10 +65,12 @@
 			<?php if ( function_exists('bp_blogs_install') ) { ?>
 				<li<?php if(bp_is_page('blogs')) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/blogs" title="<?php _e( 'Blogs', 'buddypress' ) ?>"><?php _e( 'Blogs', 'buddypress' ) ?></a></li>
 			<?php } ?>
-			
+
 			<!--
 			<li><a href="<?php echo get_option('home') ?>/forum" title="<?php _e( 'Forums', 'buddypress' ) ?>"><?php _e( 'Forums', 'buddypress' ) ?></a></li>
 			-->
+			
+			<?php do_action( 'bp_nav_items' ) ?>
 		</ul>
 		
 		<div class="clear"></div>

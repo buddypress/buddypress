@@ -148,10 +148,11 @@ h2.widgettitle {
 		color: #fff !important;
 	}
 
-.widget ul.item-list li {
+.widget ul.item-list li, .activity-list {
 	background: url(images/item_list_back.gif) top left repeat-x;
 	padding: 15px;
 }
+	.activity-list { padding: 0; border: 1px solid #fff; margin-top: -1px; }
 
 	.widget ul.item-list li .item-avatar, .avatar-block img.avatar {
 		float: left;
