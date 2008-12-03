@@ -272,11 +272,14 @@ Class BP_Activity_Activity {
 			if ( $activity_array[$i]['content'] == '' ) continue;
 			
 			// Cache that sucka...
-			$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_current_user_cached'] . " ( content, primary_link, component_name, date_cached, date_recorded, is_private ) VALUES ( %s, %s, FROM_UNIXTIME(%d), %s, %d )", $activity_array[$i]['content'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], time(), $activity_array[$i]['date_recorded'], $activity_array[$i]['is_private'] ) );
+			
+			//echo $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_current_user_cached'] . " ( content, primary_link, component_name, date_cached, date_recorded, is_private ) VALUES ( %s, %s, FROM_UNIXTIME(%d), %s, %d )", $activity_array[$i]['content'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], time(), $activity_array[$i]['date_recorded'], $activity_array[$i]['is_private'] );
+			
+			$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_current_user_cached'] . " ( content, primary_link, component_name, date_cached, date_recorded, is_private ) VALUES ( %s, %s, %s, FROM_UNIXTIME(%d), %s, %d )", $activity_array[$i]['content'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], time(), $activity_array[$i]['date_recorded'], $activity_array[$i]['is_private'] ) );
 			
 			// Add to the sitewide activity stream
 			if ( !$activity_array[$i]['is_private'] )
-				$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_sitewide'] . " ( user_id, content, primary_link, component_name, date_cached, date_recorded ) VALUES ( %d, %s, %s, FROM_UNIXTIME(%d), %s )", $user_id, $activity_array[$i]['content'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], time(), $activity_array[$i]['date_recorded'] ) );
+				$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_sitewide'] . " ( user_id, content, primary_link, component_name, date_cached, date_recorded ) VALUES ( %d, %s, %s, %s, FROM_UNIXTIME(%d), %s )", $user_id, $activity_array[$i]['content'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], time(), $activity_array[$i]['date_recorded'] ) );
 		}
 		
 		update_usermeta( $bp['current_userid'], 'bp_activity_last_cached', time() );
