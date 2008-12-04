@@ -56,15 +56,6 @@ function bp_home_theme_catch_urls() {
 }
 add_action('wp', 'bp_home_theme_catch_urls', 1 );
 
-function bp_is_page($page) {
-	global $bp;
-
-	if ( $page == $bp['current_component'] || $page == 'home' && $bp['current_component'] == $bp['default_component'] )
-		return true;
-	
-	return false;
-}
-
 function bp_show_register_page() {
 	global $bp, $current_blog;
 	
