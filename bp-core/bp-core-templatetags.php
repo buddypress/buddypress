@@ -198,6 +198,18 @@ function bp_comment_author_avatar() {
 	}
 }
 
+function bp_post_author_avatar() {
+	global $post;
+	
+	var_dump($post);
+	
+	if ( function_exists('bp_core_get_avatar') ) {
+		echo bp_core_get_avatar( $post->post_author, 1 );	
+	} else if ( function_exists('get_avatar') ) {
+		get_avatar();
+	}
+}
+
 function bp_loggedinuser_avatar( $width = false, $height = false ) {
 	global $bp;
 	
@@ -383,6 +395,18 @@ function bp_page_title() {
 function bp_styles() {
 	do_action( 'bp_styles' );
 	wp_print_styles();
+}
+
+function bp_is_page($page) {
+	global $bp;
+
+	if ( $bp['current_userid'] )
+		return false;
+
+	if ( $page == $bp['current_component'] || $page == 'home' && $bp['current_component'] == $bp['default_component'] )
+		return true;
+	
+	return false;
 }
 
 /* Template functions for fetching globals, without querying the DB again
