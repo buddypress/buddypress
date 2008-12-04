@@ -30,7 +30,7 @@ function bp_blogs_install( $version ) {
 	$sql[] = "CREATE TABLE ". $bp['blogs']['table_name'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id int(11) NOT NULL,
-				blog_id int(11) NOT NULL
+				blog_id int(11) NOT NULL,
 				KEY user_id (user_id),
 				KEY blog_id (blog_id)
 			 ) {$charset_collate};";
