@@ -108,6 +108,33 @@ input, select, textarea { width: 100%; }
 			vertical-align: middle;
 			border: 3px solid #ddd;
 		}
+	
+	/** NAV ************/
+	
+	#header ul#nav {
+		float: right;
+		margin: -28px 0 0 0;
+	}
+		#header ul#nav li {
+			float: left;
+			margin: 0 0 0 18px;
+		}
+			#header ul#nav li a {
+				background: #f0f0f0;
+				color: #555;
+				display: block;
+				padding: 2px 15px;
+				-moz-border-radius: 3px;
+				-webkit-border-radius: 3px;
+				text-decoration: none;
+			}
+			
+			#header ul#nav li.selected a {
+				background: #fff9df;
+				color: #ff7900;
+				font-weight: bold;
+			}
+	
 
 
 /**************************
