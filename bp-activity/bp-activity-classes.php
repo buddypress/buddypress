@@ -150,7 +150,7 @@ Class BP_Activity_Activity {
 	function get_activity_for_friends( $user_id = null, $limit = 30, $since = '-3 days' ) {
 		global $wpdb, $bp;
 		
-		if ( !function_exists('friends_get_friend_ids_for_user') )
+		if ( !function_exists('friends_get_friend_user_ids') )
 			return false;
 
 		$since = strtotime($since);
@@ -180,7 +180,7 @@ Class BP_Activity_Activity {
 			
 			//echo '<small style="color: red">** Debug: Not Using Cache **</small>';
 			
-			$friend_ids = friends_get_friend_ids_for_user( $user_id );
+			$friend_ids = friends_get_friend_user_ids( $user_id );
 
 			for ( $i = 0; $i < count($friend_ids); $i++ ) {
 				$table_name = $wpdb->base_prefix . 'user_' . $friend_ids[$i] . '_activity_cached';

@@ -201,7 +201,6 @@ function groups_setup_nav() {
 	
 	/* Add the subnav items to the groups nav item */
 	bp_core_add_subnav_item( $bp['groups']['slug'], 'my-groups', __('My Groups', 'buddypress'), $groups_link, 'groups_screen_my_groups' );
-	bp_core_add_subnav_item( $bp['groups']['slug'], 'group-finder', __('Group Finder', 'buddypress'), $groups_link, 'groups_screen_group_finder', false, bp_is_home() );
 	bp_core_add_subnav_item( $bp['groups']['slug'], 'create', __('Create a Group', 'buddypress'), $groups_link, 'groups_screen_create_group', false, bp_is_home() );
 	bp_core_add_subnav_item( $bp['groups']['slug'], 'invites', __('Invites', 'buddypress'), $groups_link, 'groups_screen_group_invites', false, bp_is_home() );
 	
@@ -950,6 +949,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 	
 	return false;
 }
+
 
 /**************************************************************************
  groups_update_last_activity()

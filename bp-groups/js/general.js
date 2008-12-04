@@ -102,39 +102,6 @@ jQuery(document).ready( function() {
 		}
 	);
 	
-	jQuery("div#groupfinder-pag a").livequery('click',
-		function() { 
-			jQuery('#ajax-loader').toggle();
-
-			var fpage = jQuery(this).attr('href');
-			fpage = fpage.split('=');
-
-			jQuery.post( ajaxurl, {
-				action: 'group_finder_search',
-				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce").val(),
-				'fpage': fpage[1],
-				'num': 5,
-
-				'groupfinder-search-box': jQuery("#groupfinder-search-box").val()
-			},
-			function(response)
-			{	
-				response = response.substr( 0, response.length - 1 );
-
-				jQuery("div#group-loop").fadeOut(200, 
-					function() {
-						jQuery('#ajax-loader').toggle();
-						jQuery("div#group-loop").html(response);
-						jQuery("div#group-loop").fadeIn(200);
-					}
-				);
-			});
-			
-			return false;
-		}
-	);
-
 	jQuery("input#group-filter-box").keyup(	
 		function(e) {
 			if ( e.which == 13 ) {
@@ -164,41 +131,7 @@ jQuery(document).ready( function() {
 			}
 		}
 	);
-	
-	jQuery("input#groupfinder-search-box").keyup(	
-		function(e) {
-			if ( e.which == 13 ) {
-				if ( jQuery("#groupfinder-search-box").val() == '' )
-					return false;
-					
-				jQuery('#ajax-loader').toggle();
-					
-				jQuery.post( ajaxurl, {
-					action: 'group_finder_search',
-					'cookie': encodeURIComponent(document.cookie),
-					'_wpnonce': jQuery("input#_wpnonce").val(),
-
-					'groupfinder-search-box': jQuery("#groupfinder-search-box").val()
-				},
-				function(response)
-				{
-					response = response.substr( 0, response.length - 1 );
-
-					jQuery("div#finder-message").fadeOut(200);
-					jQuery("div#group-loop").fadeOut(200, 
-						function() {
-							jQuery('#ajax-loader').toggle();
-							jQuery("div#group-loop").html(response);
-							jQuery("div#group-loop").fadeIn(200);
-						}
-					);
-				});
-
-				return false;
-			}
-		}
-	);
-	
+		
 	jQuery("div#member-pagination a").livequery('click',
 		function() { 
 			jQuery('#ajax-loader').toggle();

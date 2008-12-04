@@ -291,11 +291,11 @@ Class BP_Groups_Group {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		
 		// Get all the group ids for the current user's groups.
-		$gids = BP_Groups_Member::get_group_ids( $bp['current_userid'], false, false, false );
+		$gids = BP_Groups_Member::get_group_ids( $bp['current_userid'], false, false, false, true );
 		$gids = implode( ',', $gids['ids'] );
 
-		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM " . $bp['groups']['table_name'] . " WHERE id IN ({$gids}) AND name LIKE '{$filter}%%' OR description LIKE '{$filter}%%'{$pag_sql}" ) );
-		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM " . $bp['groups']['table_name'] . " WHERE id IN ({$gids}) AND name LIKE '{$filter}%%' OR description LIKE '{$filter}%%'" ) );
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM " . $bp['groups']['table_name'] . " WHERE ( name LIKE '{$filter}%%' OR description LIKE '{$filter}%%' ) AND id IN ({$gids}) {$pag_sql}" ) );
+		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM " . $bp['groups']['table_name'] . " WHERE ( name LIKE '{$filter}%%' OR description LIKE '{$filter}%%' ) AND id IN ({$gids})" ) );
 		
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
@@ -619,22 +619,27 @@ Class BP_Groups_Member {
 		return $delete_result;
 	}
 	
-	function get_group_ids( $user_id, $page = false, $limit = false, $get_total = true ) {
+	function get_group_ids( $user_id, $page = false, $limit = false, $get_total = true, $as_col = false ) {
 		global $wpdb, $bp;
-		
+
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		
 		// If the user is logged in and viewing their own groups, we can show hidden and closed groups
 		if ( bp_is_home() ) {
-			$group_ids = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT group_id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND inviter_id = 0 AND is_banned = 0{$pag_sql}", $user_id ) );	
+			$group_sql = $wpdb->prepare( "SELECT DISTINCT group_id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND inviter_id = 0 AND is_banned = 0{$pag_sql}", $user_id );	
 		} else {
-			$group_ids = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT m.group_id FROM " . $bp['groups']['table_name_members'] . " m, " . $bp['groups']['table_name'] . " g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.inviter_id = 0 AND m.is_banned = 0{$pag_sql}", $user_id ) );	
+			$group_sql = $wpdb->prepare( "SELECT DISTINCT m.group_id FROM " . $bp['groups']['table_name_members'] . " m, " . $bp['groups']['table_name'] . " g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.inviter_id = 0 AND m.is_banned = 0{$pag_sql}", $user_id );	
 		}
+		
+		if ( $as_col )
+			$group_ids = $wpdb->get_col( $group_sql );
+		else
+			$group_ids = $wpdb->get_results( $group_sql );
 		
 		if ( $get_total )
 			$group_count = BP_Groups_Member::total_group_count( $user_id );
-	
+
 		return array( 'ids' => $group_ids, 'count' => $group_count );
 	}
 	

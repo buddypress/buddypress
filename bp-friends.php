@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_FRIENDS_IS_INSTALLED', 1 );
-define ( 'BP_FRIENDS_VERSION', '0.1.7' );
+define ( 'BP_FRIENDS_VERSION', '0.2' );
 
 include_once( 'bp-friends/bp-friends-classes.php' );
 include_once( 'bp-friends/bp-friends-ajax.php' );
@@ -96,7 +96,6 @@ function friends_setup_nav() {
 	/* Add the subnav items to the friends nav item */
 	bp_core_add_subnav_item( $bp['friends']['slug'], 'my-friends', __('My Friends', 'buddypress'), $friends_link, 'friends_screen_my_friends' );
 	bp_core_add_subnav_item( $bp['friends']['slug'], 'requests', __('Requests', 'buddypress'), $friends_link, 'friends_screen_requests', false, bp_is_home() );
-	bp_core_add_subnav_item( $bp['friends']['slug'], 'friend-finder', __('Friend Finder', 'buddypress'), $friends_link, 'friends_screen_friend_finder', false, bp_is_home() );
 	//bp_core_add_subnav_item( $bp['friends']['slug'], 'invite-friend', __('Invite Friends', 'buddypress'), $friends_link, 'friends_screen_invite_friends' );
 	
 	if ( $bp['current_component'] == $bp['friends']['slug'] ) {
@@ -265,17 +264,7 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 	return false;
 }
 
-
-/**************************************************************************
- friends_get_friends()
- 
- Return an array of friend objects for the current user.
-**************************************************************************/
-
-function friends_check_user_has_friends( $user_id = false ) {
-	if ( !$user_id )
-		$user_id = $bp['current_userid'];
-		
+function friends_check_user_has_friends() {
 	$friend_count = get_usermeta( $user_id, 'total_friend_count');
 		
 	if ( $friend_count == '' )
@@ -287,35 +276,64 @@ function friends_check_user_has_friends( $user_id = false ) {
 	return true;
 }
 
-function friends_get_friendships( $user_id = false, $friendship_ids = false, $pag_num = 5, $pag_page = 1, $get_requests = false, $count = false ) {
-	global $bp;
-
-	if ( !$user_id )
-		$user_id = $bp['current_userid'];
-	
-	if ( !$friendship_ids )
-		$friendship_ids = BP_Friends_Friendship::get_friendship_ids( $user_id, false, $pag_num, $pag_page, $get_requests );
-
-	if ( $friendship_ids[0]->id == 0 )
-		return false;
-
-	for ( $i = 0; $i < count($friendship_ids); $i++ ) {
-		$friends[] = new BP_Friends_Friendship( $friendship_ids[$i]->id, $get_requests );
-	}
-	
-	if ( !$count )
-		$count = BP_Friends_Friendship::total_friend_count($user_id);
-		
-	return array( 'friendships' => $friends, 'count' => $count );
+function friends_get_friend_user_ids( $user_id, $friend_requests_only = false, $assoc_arr = false ) {
+	return BP_Friends_Friendship::get_friend_user_ids( $user_id, $friend_requests_only, $assoc_arr );
 }
 
-function friends_get_friends_list( $user_id = false ) {
-	global $bp;
+function friends_get_friendship_ids( $user_id, $friend_requests_only = false ) {
+	return BP_Friends_Friendship::get_friendship_ids( $user_id, $friend_requests_only );
+}
 
-	if ( !$user_id )
-		$user_id = $bp['current_userid'];
+function friends_search_friends( $search_terms, $user_id, $pag_num = 10, $pag_page = 1 ) {
+	return BP_Friends_Friendship::search_friends( $search_terms, $user_id, $pag_num, $pag_page );
+}
+
+function friends_get_friendship_requests( $user_id ) {
+	$fship_ids = friends_get_friendship_ids( $user_id, true );
 	
-	$friend_ids = BP_Friends_Friendship::get_friend_ids( $user_id );
+	return array( 'requests' => $fship_ids, 'total' => count($requests) );
+}
+
+function friends_get_recently_active( $user_id, $pag_num = 10, $pag_page = 1 ) {
+	$friend_ids = friends_get_friend_user_ids( $user_id );
+	$ids_and_activity = friends_get_bulk_last_active( implode( ',', $friend_ids ) );
+	
+	if ( !$ids_and_activity )
+		return false;
+	
+	$total_friends = count( $ids_and_activity );
+		
+	return array( 'friends' => array_slice( $ids_and_activity, intval( ( $pag_page - 1 ) * $pag_num), intval( $pag_num ) ), 'total' => $total_friends );
+}
+
+function friends_get_alphabetically( $user_id, $pag_num = 10, $pag_page = 1 ) {
+	$friend_ids = friends_get_friend_user_ids( $user_id );
+	$sorted_ids = BP_Friends_Friendship::sort_by_name( implode( ',', $friend_ids ) );
+	
+	if ( !$sorted_ids )
+		return false;
+	
+	$total_friends = count( $sorted_ids );
+	
+	return array( 'friends' => array_slice( $sorted_ids, intval( ( $pag_page - 1 ) * $pag_num), intval( $pag_num ) ), 'total' => $total_friends );
+}
+
+function friends_get_newest( $user_id, $pag_num = 10, $pag_page = 1 ) {
+	$friend_ids = friends_get_friend_user_ids( $user_id, false, true );
+
+	$total_friends = count( $sorted_ids );
+	
+	return array( 'friends' => array_slice( $friend_ids, intval( ( $pag_page - 1 ) * $pag_num), intval( $pag_num ) ), 'total' => $total_friends );	
+}
+	
+function friends_get_bulk_last_active( $friend_ids ) {
+	return BP_Friends_Friendship::get_bulk_last_active( $friend_ids );
+}
+
+function friends_get_friends_list( $user_id ) {
+	global $bp;
+	
+	$friend_ids = BP_Friends_Friendship::get_friend_user_ids( $user_id );
 
 	for ( $i = 0; $i < count($friend_ids); $i++ ) {
 		if ( function_exists('bp_user_fullname') )
@@ -348,7 +366,7 @@ function friends_get_friends_invite_list( $user_id = false, $group_id ) {
 	if ( !$user_id )
 		$user_id = $bp['loggedin_userid'];
 	
-	$friend_ids = BP_Friends_Friendship::get_friend_ids( $user_id );
+	$friend_ids = BP_Friends_Friendship::get_friend_user_ids( $user_id );
 
 	for ( $i = 0; $i < count($friend_ids); $i++ ) {
 		if ( groups_check_user_has_invite( $friend_ids[$i], $group_id ) || groups_is_user_member( $friend_ids[$i], $group_id ) )
@@ -378,10 +396,6 @@ function friends_count_invitable_friends( $user_id, $group_id ) {
 	return BP_Friends_Friendship::get_invitable_friend_count( $user_id, $group_id );
 }
 
-function friends_get_friend_ids_for_user( $user_id ) {
-	return BP_Friends_Friendship::get_friend_ids( $user_id );
-}
-
 function friends_get_friend_count_for_user( $user_id ) {
 	return BP_Friends_Friendship::total_friend_count( $user_id );
 }
@@ -392,11 +406,8 @@ function friends_get_friend_count_for_user( $user_id ) {
  Return an array of user objects based on the users search terms
 **************************************************************************/
 
-function friends_search_users( $search_terms, $user_id, $pag_num = 5, $pag_page = 1 ) {
+function friends_search_users( $search_terms, $user_id, $pag_num = 10, $pag_page = 1 ) {
 	global $bp;
-	
-	if ( !$user_id )
-		$user_id = $bp['loggedin_userid'];
 
 	$user_ids = BP_Friends_Friendship::search_users( $search_terms, $user_id, $pag_num, $pag_page );
 	
@@ -416,14 +427,8 @@ function friends_search_users( $search_terms, $user_id, $pag_num = 5, $pag_page 
  Check to see if the user is already a confirmed friend with this user.
 **************************************************************************/
 
-function friends_check_friendship( $user_id = null, $possible_friend_id = null ) {
+function friends_check_friendship( $user_id, $possible_friend_id ) {
 	global $bp;
-	
-	if ( !$user_id )
-		$user_id = $bp['loggedin_userid'];
-	
-	if ( !$possible_friend_id )
-		$possible_friend_id = $bp['current_userid'];
 		
 	if ( BP_Friends_Friendship::check_is_friend( $user_id, $possible_friend_id ) == 'is_friend' )
 		return true;
@@ -437,14 +442,8 @@ function friends_check_friendship( $user_id = null, $possible_friend_id = null )
  Create a new friend relationship
 **************************************************************************/
 
-function friends_add_friend( $initiator_userid = null, $friend_userid = null ) {
+function friends_add_friend( $initiator_userid, $friend_userid ) {
 	global $bp;
-	
-	if ( !$initiator_userid )
-		$initiator_userid = $bp['loggedin_userid'];
-	
-	if ( !$friend_userid )
-		$friend_userid = $bp['current_userid'];
 	
 	$friendship = new BP_Friends_Friendship;
 	
@@ -473,14 +472,8 @@ function friends_add_friend( $initiator_userid = null, $friend_userid = null ) {
  Remove a friend relationship
 **************************************************************************/
 
-function friends_remove_friend( $initiator_userid = null, $friend_userid = null, $only_confirmed = false ) {
+function friends_remove_friend( $initiator_userid, $friend_userid, $only_confirmed = false ) {
 	global $bp;
-
-	if ( !$initiator_userid )
-		$initiator_userid = $bp['loggedin_userid'];
-	
-	if ( !$friend_userid )
-		$friend_userid = $bp['current_userid'];
 		
 	$friendship_id = BP_Friends_Friendship::get_friendship_ids( $initiator_userid, $only_confirmed, false, null, null, $friend_userid );
 	$friendship = new BP_Friends_Friendship( $friendship_id[0]->id );

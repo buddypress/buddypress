@@ -18,7 +18,7 @@ class BP_Groups_Template {
 	var $sort_by;
 	var $order;
 	
-	function bp_groups_template( $user_id = null, $group_slug = null, $groups_per_page = 5 ) {
+	function bp_groups_template( $user_id = null, $group_slug = null, $groups_per_page = 10 ) {
 		global $bp, $current_user;
 		
 		if ( !$user_id )
@@ -41,13 +41,6 @@ class BP_Groups_Template {
 			$this->groups = $this->groups['groups'];
 			$this->group_count = count($this->groups);
 		
-		} else if ( $bp['current_action'] == 'group-finder' && $_REQUEST['groupfinder-search-box'] != '' ) {
-
-			$this->groups = groups_search_groups( $_REQUEST['groupfinder-search-box'], $this->pag_num, $this->pag_page );
-			$this->total_group_count = (int)$this->groups['total'];
-			$this->groups = $this->groups['groups'];
-			$this->group_count = count($this->groups);
-			
 		} else if ( $bp['current_action'] == 'invites' ) {
 		
 			$this->groups = groups_get_invites_for_user();
@@ -104,12 +97,6 @@ class BP_Groups_Template {
 	function next_group() {
 		$this->current_group++;
 		$this->group = $this->groups[$this->current_group];
-		
-		// If this is a single group then instantiate group meta when creating the object.
-		if ( $this->single_group )
-			$this->group = new BP_Groups_Group( $this->group->group_id, true );
-		else
-			$this->group = new BP_Groups_Group( $this->group->group_id, false );
 			
 		return $this->group;
 	}
@@ -139,6 +126,12 @@ class BP_Groups_Template {
 
 		$this->in_the_loop = true;
 		$this->group = $this->next_group();
+		
+		// If this is a single group then instantiate group meta when creating the object.
+		if ( $this->single_group )
+			$this->group = new BP_Groups_Group( $this->group->group_id, true );
+		else
+			$this->group = new BP_Groups_Group( $this->group->group_id, false );
 
 		if ( $this->current_group == 0 ) // loop has just started
 			do_action('loop_start');

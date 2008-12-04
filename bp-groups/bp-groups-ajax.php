@@ -48,16 +48,6 @@ function groups_ajax_group_filter() {
 }
 add_action( 'wp_ajax_group_filter', 'groups_ajax_group_filter' );
 
-function groups_ajax_group_finder_search() {
-	global $bp;
-
-	check_ajax_referer('groupfinder-search-box');
-
-	load_template( get_template_directory() . '/groups/group-loop.php' );
-}
-add_action( 'wp_ajax_group_finder_search', 'groups_ajax_group_finder_search' );
-
-
 function groups_ajax_widget_groups_list() {
 	global $bp;
 

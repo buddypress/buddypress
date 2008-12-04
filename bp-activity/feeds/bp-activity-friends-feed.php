@@ -19,10 +19,10 @@ header('Status: 200 OK');
 >
 
 <channel>
-	<title><?php echo get_site_option( 'site_name' ); ?> - <?php _e( 'Site Wide Activity', 'buddypress' ) ?></title>
+	<title><?php echo $bp['current_fullname']; ?> - <?php _e( 'Friends Activity', 'buddypress' ) ?></title>
 	<atom:link href="<?php self_link(); ?>" rel="self" type="application/rss+xml" />
-	<link><?php site_url() . '/' . $bp['activity']['slug'] . '/feed' ?></link>
-	<description><?php _e( 'Site Wide Activity Feed', 'buddypress' ) ?></description>
+	<link><?php $bp['current_domain'] . '/' . $bp['activity']['slug'] . '/my-friends/feed' ?></link>
+	<description><?php _e( sprintf( '%s - Friends Activity Feed', $bp['current_fullname'] ), 'buddypress' ) ?></description>
 	<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', bp_activity_get_last_updated(), false); ?></pubDate>
 	<generator>http://buddypress.org/?bp-activity-version=<?php echo BP_ACTIVITY_VERSION ?></generator>
 	<language><?php echo get_option('rss_language'); ?></language>
