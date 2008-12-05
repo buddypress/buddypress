@@ -497,22 +497,22 @@ a.page-numbers:hover { background: #e1e1e1; }
 }
 
 #message {
-	background: url(../images/updated_back.gif) top left repeat-x #ddffc4;
+	background: #ddffc4;
 	margin: 0 0 2em 0;
 }
 	#message p {
 		color: #357c00;
 		padding: 1em 2.75em;
-		background: url(../images/updated_icon.gif) 1em 1.1em no-repeat;
+		background: url(images/info_icon.gif) 1em 1.1em no-repeat;
 	}
 
 #message.error {
-	background-image: url(../images/error_back.gif);
+	background-image: url(images/error_back.gif);
 	background-color: #ff3a3a;
 	color: #fff;
 }
 	#message.error p {
-		background-image: url(../images/error_icon.gif);
+		background-image: url(images/error_icon.gif);
 		color: #fff;
 	}
 
@@ -522,7 +522,7 @@ a.page-numbers:hover { background: #e1e1e1; }
 	color: inherit;
 }
 	#message.info p {
-		background-image: url(../images/info_icon.gif);
+		background-image: url(images/info_icon.gif);
 		color: inherit;
 		padding-left: 3.3em;
 	}
