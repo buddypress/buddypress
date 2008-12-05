@@ -40,7 +40,7 @@ function groups_wiget_response(response) {
 		jQuery("ul#groups-list").fadeOut(200, 
 			function() {
 				jQuery('#ajax-loader-groups').toggle();
-				var message = '<p><div id="message" class="error"><p>' + response[1] + '</p></div></p>';
+				var message = '<p>' + response[1] + '</p>';
 				jQuery("ul#groups-list").html(message);
 				jQuery("ul#groups-list").fadeIn(200);
 			}
