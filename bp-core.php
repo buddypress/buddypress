@@ -8,7 +8,7 @@ define( 'MEMBERS_SLUG', 'members' );
 
 /* These components are accessed via the root, and not under a blog name or member home.
    e.g Groups is accessed via: http://domain.com/groups/group-name NOT http://domain.com/andy/groups/group-name */
-define( 'BP_CORE_ROOT_COMPONENTS', 'groups' . ',' . MEMBERS_SLUG );
+define( 'BP_CORE_ROOT_COMPONENTS', 'groups,news,blogs' . ',' . MEMBERS_SLUG );
 
 /* Load the language file */
 if ( file_exists( ABSPATH . 'wp-content/mu-plugins/bp-languages/buddypress-' . get_locale() . '.mo' ) )
