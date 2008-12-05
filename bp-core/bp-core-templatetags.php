@@ -53,7 +53,11 @@ function bp_get_nav() {
 	}
 	
 	/* Always add a log out list item to the end of the navigation */
-	echo '<li><a id="wp-logout" href="' .  wp_logout_url( site_url() . $_SERVER['REQUEST_URI'] ) . '">Log Out</a><li>';
+	if ( function_exists( 'wp_logout_url' ) ) {
+		echo '<li><a id="wp-logout" href="' .  wp_logout_url( site_url() . $_SERVER['REQUEST_URI'] ) . '">' . __( 'Log Out', 'buddypress' ) . '</a><li>';		
+	} else {
+		echo '<li><a id="wp-logout" href="' . site_url() . '/wp-login.php?action=logout&amp;redirect_to=' . site_url() . $_SERVER['REQUEST_URI'] . '">' . __( 'Log Out', 'buddypress' ) . '</a><li>';
+	}
 }
 
 /**
