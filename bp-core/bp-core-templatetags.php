@@ -201,8 +201,6 @@ function bp_comment_author_avatar() {
 function bp_post_author_avatar() {
 	global $post;
 	
-	var_dump($post);
-	
 	if ( function_exists('bp_core_get_avatar') ) {
 		echo bp_core_get_avatar( $post->post_author, 1 );	
 	} else if ( function_exists('get_avatar') ) {
