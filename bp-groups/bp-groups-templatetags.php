@@ -28,8 +28,23 @@ class BP_Groups_Template {
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $groups_per_page;
 		
 		if ( ( $bp['current_action'] == 'my-groups' && $_REQUEST['group-filter-box'] == '' ) || ( !$bp['current_action'] && !isset($_REQUEST['page']) && $_REQUEST['group-filter-box'] == '' ) ) {
+
+			$order = $bp['action_variables'][0];
 			
-			$this->groups = groups_get_user_groups( $this->pag_num, $this->pag_page );
+			if ( $order == 'recently-joined' ) {
+				$this->groups = groups_get_recently_joined_for_user( $bp['current_userid'], $this->pag_num, $this->pag_page );
+			} else if ( $order == 'most-popular' ) {
+				$this->groups = groups_get_most_popular_for_user( $bp['current_userid'], $this->pag_num, $this->pag_page );				
+			} else if ( $order == 'admin-of' ) {
+				$this->groups = groups_get_user_is_admin_of( $bp['current_userid'], $this->pag_num, $this->pag_page );				
+			} else if ( $order == 'mod-of' ) {
+				$this->groups = groups_get_user_is_mod_of( $bp['current_userid'], $this->pag_num, $this->pag_page );				
+			} else if ( $order == 'alphabetically' ) {
+				$this->groups = groups_get_alphabetically_for_user( $bp['current_userid'], $this->pag_num, $this->pag_page );	
+			} else {
+				$this->groups = groups_get_recently_active_for_user( $bp['current_userid'], $this->pag_num, $this->pag_page );
+			}
+
 			$this->total_group_count = (int)$this->groups['total'];
 			$this->groups = $this->groups['groups'];
 			$this->group_count = count($this->groups);
@@ -64,6 +79,7 @@ class BP_Groups_Template {
 			}
 			
 		} else if ( $group_slug ) {
+			
 			$this->single_group = true;
 			
 			$group = new stdClass();
@@ -73,6 +89,13 @@ class BP_Groups_Template {
 			$this->total_group_count = 1;
 			$this->group_count = 1;
 		
+		} else {
+			
+			$this->groups = groups_get_user_groups( $bp['current_userid'], $this->pag_num, $this->pag_page );
+			$this->total_group_count = (int)$this->groups['total'];
+			$this->groups = $this->groups['groups'];
+			$this->group_count = count($this->groups);	
+					
 		}
 		
 		$this->pag_links = paginate_links( array(
@@ -138,7 +161,7 @@ class BP_Groups_Template {
 	}
 }
 
-function bp_has_groups( $groups_per_page = 5 ) {
+function bp_has_groups( $groups_per_page = 10 ) {
 	global $groups_template, $bp;
 	global $is_single_group, $group_obj;
 	
@@ -422,19 +445,10 @@ function bp_group_search_form() {
 function bp_group_show_no_groups_message() {
 	global $bp;
 	
-	if ( $bp['current_action'] == 'my-groups' && $_POST['group-filter-box'] == '' )
+	if ( !groups_total_groups_for_user( $bp['current_userid'] ) )
 		return true;
-	
+		
 	return false;
-}
-
-function bp_group_show_no_results_message() {
-	global $bp;
-	
-	if ( ( $bp['current_action'] == 'my-groups' && $_POST['group-filter-box'] == '' ) || ( $bp['current_action'] == 'group-finder' && $_POST['groupfinder-search-box'] == '' ) )
-		return false;
-	
-	return true;	
 }
 
 function bp_group_pagination() {
@@ -842,6 +856,47 @@ function bp_group_list_invite_friends() {
 		} else {
 			_e( 'No friends to invite.', 'buddypress' );
 		}
+}
+
+function bp_groups_header_tabs() {
+	global $bp, $create_group_step, $completed_to_step;
+?>
+	<li<?php if ( !isset($bp['action_variables'][0]) || $bp['action_variables'][0] == 'recently-active' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] ?>/my-groups/recently-active"><?php _e( 'Recently Active', 'buddypress' ) ?></a></li>
+	<li<?php if ( $bp['action_variables'][0] == 'recently-joined' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] ?>/my-groups/recently-joined"><?php _e( 'Recently Joined', 'buddypress' ) ?></a></li>
+	<li<?php if ( $bp['action_variables'][0] == 'most-popular' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] ?>/my-groups/most-popular""><?php _e( 'Most Popular', 'buddypress' ) ?></a></li>
+	<li<?php if ( $bp['action_variables'][0] == 'admin-of' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] ?>/my-groups/admin-of""><?php _e( 'Administrator Of', 'buddypress' ) ?></a></li>
+	<li<?php if ( $bp['action_variables'][0] == 'mod-of' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] ?>/my-groups/mod-of""><?php _e( 'Moderator Of', 'buddypress' ) ?></a></li>
+	<li<?php if ( $bp['action_variables'][0] == 'alphabetically' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] ?>/my-groups/alphabetically""><?php _e( 'Alphabetically', 'buddypress' ) ?></a></li>
+		
+<?php
+	do_action( 'bp_friends_header_tabs' );
+}
+
+function bp_groups_filter_title() {
+	global $bp;
+	
+	$current_filter = $bp['action_variables'][0];
+	
+	switch ( $current_filter ) {
+		case 'recently-active': default:
+			_e( 'Recently Active', 'buddypress' );
+			break;
+		case 'recently-joined':
+			_e( 'Recently Joined', 'buddypress' );
+			break;
+		case 'most-popular':
+			_e( 'Most Popular', 'buddypress' );
+			break;
+		case 'admin-of':
+			_e( 'Administrator Of', 'buddypress' );
+			break;
+		case 'mod-of':
+			_e( 'Moderator Of', 'buddypress' );
+			break;
+		case 'alphabetically':
+			_e( 'Alphabetically', 'buddypress' );
+		break;
+	}
 }
 
 function bp_group_is_member() {

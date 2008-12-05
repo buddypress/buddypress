@@ -294,8 +294,12 @@ function friends_get_friendship_requests( $user_id ) {
 	return array( 'requests' => $fship_ids, 'total' => count($requests) );
 }
 
-function friends_get_recently_active( $user_id, $pag_num = 10, $pag_page = 1 ) {
+function friends_get_recently_active( $user_id, $pag_num = false, $pag_page = false ) {
 	$friend_ids = friends_get_friend_user_ids( $user_id );
+	
+	if ( !$friend_ids )
+		return false;
+		
 	$ids_and_activity = friends_get_bulk_last_active( implode( ',', $friend_ids ) );
 	
 	if ( !$ids_and_activity )
@@ -306,8 +310,12 @@ function friends_get_recently_active( $user_id, $pag_num = 10, $pag_page = 1 ) {
 	return array( 'friends' => array_slice( $ids_and_activity, intval( ( $pag_page - 1 ) * $pag_num), intval( $pag_num ) ), 'total' => $total_friends );
 }
 
-function friends_get_alphabetically( $user_id, $pag_num = 10, $pag_page = 1 ) {
+function friends_get_alphabetically( $user_id, $pag_num = false, $pag_page = false ) {
 	$friend_ids = friends_get_friend_user_ids( $user_id );
+	
+	if ( !$friend_ids )
+		return false;
+		
 	$sorted_ids = BP_Friends_Friendship::sort_by_name( implode( ',', $friend_ids ) );
 	
 	if ( !$sorted_ids )
@@ -318,8 +326,11 @@ function friends_get_alphabetically( $user_id, $pag_num = 10, $pag_page = 1 ) {
 	return array( 'friends' => array_slice( $sorted_ids, intval( ( $pag_page - 1 ) * $pag_num), intval( $pag_num ) ), 'total' => $total_friends );
 }
 
-function friends_get_newest( $user_id, $pag_num = 10, $pag_page = 1 ) {
+function friends_get_newest( $user_id, $pag_num = false, $pag_page = false ) {
 	$friend_ids = friends_get_friend_user_ids( $user_id, false, true );
+	
+	if ( !$friend_ids )
+		return false;	
 
 	$total_friends = count( $sorted_ids );
 	
@@ -334,6 +345,9 @@ function friends_get_friends_list( $user_id ) {
 	global $bp;
 	
 	$friend_ids = BP_Friends_Friendship::get_friend_user_ids( $user_id );
+
+	if ( !$friend_ids )
+		return false;
 
 	for ( $i = 0; $i < count($friend_ids); $i++ ) {
 		if ( function_exists('bp_user_fullname') )
@@ -367,6 +381,9 @@ function friends_get_friends_invite_list( $user_id = false, $group_id ) {
 		$user_id = $bp['loggedin_userid'];
 	
 	$friend_ids = BP_Friends_Friendship::get_friend_user_ids( $user_id );
+
+	if ( !$friend_ids )
+		return false;
 
 	for ( $i = 0; $i < count($friend_ids); $i++ ) {
 		if ( groups_check_user_has_invite( $friend_ids[$i], $group_id ) || groups_is_user_member( $friend_ids[$i], $group_id ) )
@@ -406,7 +423,7 @@ function friends_get_friend_count_for_user( $user_id ) {
  Return an array of user objects based on the users search terms
 **************************************************************************/
 
-function friends_search_users( $search_terms, $user_id, $pag_num = 10, $pag_page = 1 ) {
+function friends_search_users( $search_terms, $user_id, $pag_num = false, $pag_page = false ) {
 	global $bp;
 
 	$user_ids = BP_Friends_Friendship::search_users( $search_terms, $user_id, $pag_num, $pag_page );

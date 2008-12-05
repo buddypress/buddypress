@@ -81,7 +81,7 @@ jQuery(document).ready( function() {
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce").val(),
 				'fpage': fpage[1],
-				'num': 5,
+				'num': 10,
 
 				'group-filter-box': jQuery("#group-filter-box").val()
 			},
@@ -145,7 +145,7 @@ jQuery(document).ready( function() {
 				'_wpnonce': jQuery("input#_member_pag_nonce").val(),
 				'group_id': jQuery("#group_id").val(),
 				'mlpage': mlpage[1],
-				'num': 5
+				'num': 10
 			},
 			function(response)
 			{	

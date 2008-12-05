@@ -99,6 +99,7 @@ function groups_directory_groups_content() {
 					<div class="item">
 						<div class="item-title"><a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><?php echo $group->name ?></a></div>
 						<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __('active %s ago') ) ?></span></div>
+						<div class="item-meta desc"><?php echo bp_create_excerpt( $group->description ) ?></div>
 					</div>
 					
 					<div class="action">
@@ -159,7 +160,7 @@ function groups_directory_groups_sidebar() {
 							<div class="item-title group-data">
 								<p class="field-name"><?php _e( 'Members', 'buddypress' ) ?>: <span><?php echo groups_get_groupmeta( $group->id, 'total_member_count' ) ?></span></p>
 								<p class="field-name"><?php _e( 'Description', 'buddypress' ) ?>:</p>
-								<?php echo $group->description ?>
+								<?php echo bp_create_excerpt( $group->description ) ?>
 							</div>
 						</div>
 					</li>

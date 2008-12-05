@@ -363,7 +363,7 @@ function bp_friends_random_friends() {
 	$friend_ids = BP_Friends_Friendship::get_random_friends( $bp['current_userid'] );
 ?>	
 	<div class="info-group">
-		<h4><?php bp_word_or_name( __( "My Friends", 'buddypress' ), __( "%s's Friends", 'buddypress' ) ) ?>  (<?php echo BP_Friends_Friendship::total_friend_count() ?>)  <a href="<?php echo $bp['current_domain'] . $bp['friends']['slug'] ?>"><?php _e('See All', 'buddypress') ?> &raquo;</a></h4>
+		<h4><?php bp_word_or_name( __( "My Friends", 'buddypress' ), __( "%s's Friends", 'buddypress' ) ) ?>  (<?php echo BP_Friends_Friendship::total_friend_count( $bp['current_userid'] ) ?>)  <a href="<?php echo $bp['current_domain'] . $bp['friends']['slug'] ?>"><?php _e('See All', 'buddypress') ?> &raquo;</a></h4>
 		
 		<?php if ( $friend_ids ) { ?>
 			<ul class="horiz-gallery">

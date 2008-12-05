@@ -977,11 +977,38 @@ add_action( 'groups_created_group', 'groups_update_last_activity' );
 function groups_get_user_groups( $pag_num, $pag_page ) {
 	global $bp;
 	
-	$groups = BP_Groups_Member::get_group_ids( $bp['current_userid'], $pag_page, $pag_num );
+	$groups = BP_Groups_Member::get_group_ids( $bp['current_userid'], $pag_num, $pag_page );
 
 	return array( 'groups' => $groups['ids'], 'total' => $groups['total'] );
 }
 
+function groups_get_recently_joined_for_user( $user_id, $pag_num = false, $pag_page = false ) {
+	return BP_Groups_Member::get_recently_joined( $user_id, $pag_num, $pag_page );
+}
+
+function groups_get_most_popular_for_user( $user_id, $pag_num = false, $pag_page = false ) {
+	return BP_Groups_Member::get_most_popular( $user_id, $pag_num, $pag_page );	
+}
+
+function groups_get_recently_active_for_user( $user_id, $pag_num = false, $pag_page = false ) {
+	return BP_Groups_Member::get_recently_active( $user_id, $pag_num, $pag_page );
+}
+
+function groups_get_alphabetically_for_user( $user_id, $pag_num = false, $pag_page = false ) {
+	return BP_Groups_Member::get_alphabetically( $user_id, $pag_num, $pag_page );	
+}
+
+function groups_get_user_is_admin_of( $user_id, $pag_num = false, $pag_page = false ) {
+	return BP_Groups_Member::get_is_admin_of( $user_id, $pag_num, $pag_page );	
+}
+
+function groups_get_user_is_mod_of( $user_id, $pag_num = false, $pag_page = false ) {
+	return BP_Groups_Member::get_is_mod_of( $user_id, $pag_num, $pag_page );	
+}
+
+function groups_total_groups_for_user( $user_id ) {
+	return BP_Groups_Member::total_group_count( $user_id );
+}
 
 /**************************************************************************
  groups_avatar_upload()

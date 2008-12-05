@@ -52,6 +52,9 @@ ul#groups-list li {
 	
 	ul#groups-list li .item-meta {
 		margin: 10px 0;
+		width: 60%;
+		font: normal 0.9em "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, Arial, sans-serif;
+		line-height: 180%;
 	}
 	
 	ul#groups-list .item-options {

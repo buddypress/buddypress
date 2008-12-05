@@ -135,8 +135,11 @@ class BP_Friends_Friendship {
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		
+		if ( !$friend_ids = BP_Friends_Friendship::get_friend_user_ids( $user_id ) )
+			return false;
+			
 		// Get all the user ids for the current user's friends.
-		$fids = implode( ',', BP_Friends_Friendship::get_friend_user_ids( $user_id ) );
+		$fids = implode( ',', $friend_ids );
 
 		// filter the user_ids based on the search criteria.
 		if ( function_exists('xprofile_install') ) {
