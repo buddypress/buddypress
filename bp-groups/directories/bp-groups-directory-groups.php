@@ -119,6 +119,10 @@ function groups_directory_groups_content() {
 				</li>
 			<?php endforeach; ?>
 			</ul>	
+		<?php else: ?>
+			<div id="message" class="info">
+				<p><?php _e( 'No groups found.', 'buddypress' ) ?></p>
+			</div>
 		<?php endif; ?>
 		</div>
 		
@@ -166,6 +170,10 @@ function groups_directory_groups_sidebar() {
 					</li>
 				<?php endforeach; ?>
 			</ul>
+		<?php } else { ?>
+			<div id="message" class="info">
+				<p><?php _e( 'There are no groups to feature.', 'buddypress' ) ?></p>
+			</div>
 		<?php } ?>
 	</div>
 <?php

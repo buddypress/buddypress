@@ -116,6 +116,10 @@ function bp_core_directory_members_content() {
 				</li>
 			<?php endforeach; ?>
 			</ul>	
+		<?php else: ?>
+			<div id="message" class="info">
+				<p><?php _e( 'No members found. Members must fill in at least one piece of profile data to show in member lists.', 'buddypress' ) ?></p>
+			</div>
 		<?php endif; ?>
 		</div>
 		
@@ -164,6 +168,10 @@ function bp_core_directory_members_sidebar() {
 				</li>
 				<?php endforeach; ?>
 			</ul>
+		<?php } else { ?>
+			<div id="message" class="info">
+				<p><?php _e( 'There are no members to feature.', 'buddypress' ) ?></p>
+			</div>
 		<?php } ?>
 	</div>
 <?php

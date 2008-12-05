@@ -117,6 +117,10 @@ function bp_blogs_directory_blogs_content() {
 				</li>
 			<?php endforeach; ?>
 			</ul>	
+		<?php else: ?>
+			<div id="message" class="info">
+				<p><?php _e( 'No blogs found.', 'buddypress' ) ?></p>
+			</div>
 		<?php endif; ?>
 		</div>
 		
@@ -169,6 +173,10 @@ function bp_blogs_directory_blogs_sidebar() {
 					</li>
 				<?php endforeach; ?>
 			</ul>
+		<?php } else { ?>
+			<div id="message" class="info">
+				<p><?php _e( 'There are no blogs to feature.', 'buddypress' ) ?></p>
+			</div>
 		<?php } ?>
 	</div>
 <?php
