@@ -821,14 +821,15 @@ function bp_core_render_notice() {
  */
 function bp_core_time_since( $older_date, $newer_date = false ) {
 	// array of time period chunks
+
 	$chunks = array(
-	array( 60 * 60 * 24 * 365 , __('year', 'buddypress') ),
-	array( 60 * 60 * 24 * 30 , __('month', 'buddypress') ),
-	array( 60 * 60 * 24 * 7, __('week', 'buddypress') ),
-	array( 60 * 60 * 24 , __('day', 'buddypress') ),
-	array( 60 * 60 , __('hour', 'buddypress') ),
-	array( 60 , __('minute', 'buddypress') ),
-	array( 1, __('second', 'buddypress') )
+	array( 60 * 60 * 24 * 365 , __( 'year', 'buddypress' ), __( 'years', 'buddypress' ) ),
+	array( 60 * 60 * 24 * 30 , __( 'month', 'buddypress' ), __( 'months', 'buddypress' ) ),
+	array( 60 * 60 * 24 * 7, __( 'week', 'buddypress' ), __( 'weeks', 'buddypress' ) ),
+	array( 60 * 60 * 24 , __( 'day', 'buddypress' ), __( 'days', 'buddypress' ) ),
+	array( 60 * 60 , __( 'hour', 'buddypress' ), __( 'hours', 'buddypress' ) ),
+	array( 60 , __( 'minute', 'buddypress' ), __( 'minutes', 'buddypress' ) ),
+	array( 1, __( 'second', 'buddypress' ), __( 'seconds', 'buddypress' ) )
 	);
 
 	/* $newer_date will equal false if we want to know the time elapsed between a date and the current time */
@@ -848,7 +849,6 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	/* Step one: the first chunk */
 	for ( $i = 0, $j = count($chunks); $i < $j; $i++) {
 		$seconds = $chunks[$i][0];
-		$name = $chunks[$i][1];
 
 		/* Finding the biggest chunk (if the chunk fits, break) */
 		if ( ( $count = floor($since / $seconds) ) != 0 )
@@ -856,18 +856,18 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	}
 
 	/* Set output var */
-	$output = ( $count == 1 ) ? '1 '. $name : "$count {$name}s";
+	$output = ( $count == 1 ) ? '1 '. $chunks[$i][1] : $count . ' ' . $chunks[$i][2];
 
 	/* Step two: the second chunk */
 	if ( $i + 1 < $j ) {
 		$seconds2 = $chunks[$i + 1][0];
 		$name2 = $chunks[$i + 1][1];
 		
-		if ( $name2 == __('second', 'buddypress') ) return $output;
+		if ( $chunks[$i + 1][1] == __( 'second', 'buddypress' ) ) return $output;
 	
 		if ( ( $count2 = floor( ( $since - ( $seconds * $count ) ) / $seconds2 ) ) != 0 ) {
 			/* Add to output var */
-			$output .= ($count2 == 1) ? ', 1 '.$name2 : ", $count2 {$name2}s";
+			$output .= ($count2 == 1) ? ', 1 '. $chunks[$i + 1][1] : ", " . $count2 . ' ' . $chunks[$i + 1][2];
 		}
 	}
 
