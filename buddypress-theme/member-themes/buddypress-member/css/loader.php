@@ -1,7 +1,7 @@
 <?php 
 
 /* Load the WP environment */
-require_once( dirname( dirname( dirname( dirname( dirname ( __FILE__ ) ) ) ) ) . '/wp-load.php' );
+require_once( preg_replace('/(.*)\/wp-content\/.*/', '\1', dirname( __FILE__ ) ) . '/wp-load.php' );
 
 /* Set the content type to CSS */
 header('Content-type: text/css'); 

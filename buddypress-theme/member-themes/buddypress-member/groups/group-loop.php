@@ -23,7 +23,7 @@
 <?php else: ?>
 
 	<?php if ( bp_group_show_no_groups_message() ) : ?>
-	<div id="message" class="error">
+	<div id="message" class="info">
 		<p><?php bp_word_or_name( __( "You haven't joined any groups yet.", 'buddypress' ), __( "%s hasn't joined any groups yet.", 'buddypress' ) ) ?></p>
 	</div>
 	<?php else: ?>
