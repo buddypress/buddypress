@@ -9,22 +9,51 @@ function bp_core_admin_bar() {
 		return false;
 
 	echo '<div id="wp-admin-bar">';
-	echo '<a href="' . get_blog_option( 1, 'siteurl' ) . '"><img id="admin-bar-logo" src="' . site_url() . '/wp-content/mu-plugins/bp-core/images/admin_bar_logo.gif" alt="BuddyPress" /></a>';
+
+	// **** Do bp-adminbar-logo Actions ********
+	do_action( 'bp-adminbar-logo' );
+
 	echo '<ul class="main-nav">';
 	
-	// **** "My Account" Menu ******
-	
+	// **** Do bp-adminbar-menus Actions ********
+	do_action( 'bp-adminbar-menus' );
+
+	echo '</ul>';
+	echo '</div>';
+}
+
+// **** Default BuddyPress admin bar logo ********
+function bp_adminbar_logo() {
+	echo '<a href="' . get_blog_option( 1, 'siteurl' ) . '"><img id="admin-bar-logo" src="' . apply_filters( 'bp_admin_bar_logo_src', site_url() . '/wp-content/mu-plugins/bp-core/images/admin_bar_logo.gif' ) . '" alt="' . apply_filters( 'bp_admin_bar_logo_alt_text', __( 'BuddyPress', 'buddypress' ) ) . '" /></a>';
+}
+
+// **** "Log In" and "Sign Up" links (Visible when not logged in) ********
+function bp_adminbar_login_menu() {
+	if ( !is_user_logged_in() ) {	
+		echo '<li class="bp-login no-arrow"><a href="' . site_url() . '/wp-login.php?redirect_to=' . urlencode(get_bloginfo('siteurl') . $_SERVER['REQUEST_URI']) . '">' . __( 'Log In', 'buddypress' ) . '</a></li>';
+		
+		// Show "Sign Up" link if registrations are allowed
+		if ( get_site_option( 'registration' ) != 'none' ) {
+			echo '<li class="bp-signup no-arrow"><a href="' . site_url() . '/wp-signup.php">' . __( 'Create Account', 'buddypress' ) . '</a></li>';
+		}
+	}
+}
+
+// **** "My Account" Menu ******
+function bp_adminbar_account_menu() {
 	if ( is_user_logged_in() ) {
-	
+		global $bp;
+		
 		echo '<li><a href="">';
 	
-		echo __('My Account', 'buddypress') . '</a>';
+		echo __( 'My Account', 'buddypress' ) . '</a>';
 		echo '<ul>';
 	
 		/* Loop through each navigation item */
 		$counter = 0;
 		foreach( $bp['bp_nav'] as $nav_item ) {
 			$alt = ( $counter % 2 == 0 ) ? ' class="alt"' : '';
+			
 			echo '<li' . $alt . '>';
 			echo '<a id="' . $nav_item['css_id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a>';
 
@@ -40,6 +69,7 @@ function bp_core_admin_bar() {
 			}
 		
 			echo '</li>';
+			
 			$counter++;
 		}
 	
@@ -49,62 +79,96 @@ function bp_core_admin_bar() {
 		echo '</ul>';
 		echo '</li>';
 	}
+}
+
+// return a string indicating user's role in that blog
+function get_blog_role_for_user( $user, $blog ) {
+	$roles = get_usermeta( $user, 'wp_' . $blog . '_capabilities' );
+
+	if ( isset( $roles['subscriber'] ) )
+		$role = __( 'Subscriber', 'buddypress' ); 
+	elseif	( isset( $roles['contributor'] ) )
+		$role = __( 'Contributor', 'buddypress' );
+	elseif	( isset( $roles['author'] ) )
+		$role = __( 'Author', 'buddypress' );
+	elseif ( isset( $roles['editor'] ) )
+		$role = __( 'Editor', 'buddypress' );
+	elseif ( isset( $roles['administrator'] ) )
+		$role = __( 'Admin', 'buddypress' );
+	else
+		return false;
 	
-	// *** "My Blogs" Menu ********
-	
+	return $role;
+}
+
+// *** "My Blogs" Menu ********
+function bp_adminbar_blogs_menu() {
 	if ( is_user_logged_in() ) {
+		global $bp; 
+	
 		if ( function_exists('bp_blogs_install') ) {
-			$blogs = BP_Blogs_Blog::get_blogs_for_user( $bp['loggedin_userid'] );
+			$blogs = get_blogs_of_user( $bp['loggedin_userid'] ); // find *all* blogs with any kind of role
 
 			echo '<li><a href="' . $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/my-blogs">';
-			_e('My Blogs', 'buddypress');
-			echo '</a>';
-		
-			echo '<ul>';			
-			if ( is_array( $blogs['blogs'] ) ) {
 			
+			_e( 'My Blogs', 'buddypress' );
+			
+			echo '</a>';
+	
+			echo '<ul>';			
+			if ( is_array( $blogs )) {
+		
 				$counter = 0;
-				foreach( $blogs['blogs'] as $blog ) {
+				foreach( $blogs as $blog ) {
+					$role = get_blog_role_for_user( $bp['loggedin_userid'], $blog->userblog_id );
+
 					$alt = ( $counter % 2 == 0 ) ? ' class="alt"' : '';
 					echo '<li' . $alt . '>';
-					echo '<a href="' . $blog['siteurl'] . '">' . $blog['title'] . '</a>';
-				
-					echo '<ul>';
-					echo '<li class="alt"><a href="' . $blog['siteurl']  . '/wp-admin/">' . __('Dashboard', 'buddypress') . '</a></li>';
-					echo '<li><a href="' . $blog['siteurl']  . '/wp-admin/post-new.php">' . __('New Post', 'buddypress') . '</a></li>';
-					echo '<li class="alt"><a href="' . $blog['siteurl']  . '/wp-admin/edit.php">' . __('Manage Posts', 'buddypress') . '</a></li>';
-					echo '<li><a href="' . $blog['siteurl']  . '/wp-admin/themes.php">' . __('Switch Theme', 'buddypress') . '</a></li>';					
-					echo '<li class="alt"><a href="' . $blog['siteurl']  . '/wp-admin/edit-comments.php">' . __('Manage Comments', 'buddypress') . '</a></li>';					
-					echo '</ul>';
-				
+					echo '<a href="' . $blog->siteurl . '">' . $blog->blogname . '</a>';
+					if (!('Subscriber' == $role)) { // then they have something to display on the flyout menu
+						echo '<ul>';
+						echo '<li class="alt"><a href="' . $blog->siteurl  . '/wp-admin/">' . __('Dashboard', 'buddypress') . '</a></li>';
+						echo '<li><a href="' . $blog->siteurl  . '/wp-admin/post-new.php">' . __('New Post', 'buddypress') . '</a></li>';
+						echo '<li class="alt"><a href="' . $blog->siteurl  . '/wp-admin/edit.php">' . __('Manage Posts', 'buddypress') . '</a></li>';
+						echo '<li class="alt"><a href="' . $blog->siteurl  . '/wp-admin/edit-comments.php">' . __('Manage Comments', 'buddypress') . '</a></li>';					
+						if ('Admin' == $role) {	
+							echo '<li><a href="' . $blog->siteurl  . '/wp-admin/themes.php">' . __('Switch Theme', 'buddypress') . '</a></li>'; 
+						}					
+						echo '</ul>';					
+					}
 					echo '</li>';
 					$counter++;
 				}
 			}
-		
+	
 			$alt = ( $counter % 2 == 0 ) ? ' class="alt"' : '';
 
 			echo '<li' . $alt . '>';
 			echo '<a href="' . $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/create-a-blog">' . __('Create a Blog!', 'buddypress') . '</a>';
 			echo '</li>';
-		
+	
 			echo '</ul>';
 			echo '</li>';
 		}
 	}
-	
-	// **** "Notifications" Menu *********
-	
+}	
+
+// **** "Notifications" Menu *********
+function bp_adminbar_notifications_menu() {	
 	if ( is_user_logged_in() ) {
+		global $bp;
+		
 		echo '<li id="notifications_menu"><a href="' . $bp['loggedin_domain'] . '">';
-		_e('Notifications', 'buddypress');
+		_e( 'Notifications', 'buddypress' );
 	
 		if ( $notifications = bp_core_get_notifications_for_user( $bp['loggedin_userid']) ) { ?>
 			<span><?php echo count($notifications) ?></span>
 		<?php
 		}
+		
 		echo '</a>';
 		echo '<ul>';
+		
 		if ( $notifications ) { ?>
 			<?php $counter = 0; ?>
 			<?php for ( $i = 0; $i < count($notifications); $i++ ) { ?>
@@ -116,11 +180,15 @@ function bp_core_admin_bar() {
 			<li><a href="<?php echo $bp['loggedin_domain'] ?>"><?php _e( 'No new notifications.', 'buddypress' ); ?></a></li>
 		<?php
 		}
+		
 		echo '</ul>';
 		echo '</li>';
 	}
-	
-	// **** "Blog Authors" Menu (visible when not logged in) ********
+}
+
+// **** "Blog Authors" Menu (visible when not logged in) ********
+function bp_adminbar_authors_menu() {
+	global $current_blog;
 	
 	if ( $current_blog->blog_id > 1 ) {
 		$authors = get_users_of_blog(); 
@@ -148,9 +216,11 @@ function bp_core_admin_bar() {
 			echo '</li>';
 		}
 	}
+}
 	
-	// **** "Random" Menu (visible when not logged in) ********
-	?>
+// **** "Random" Menu (visible when not logged in) ********
+function bp_adminbar_random_menu() { 
+	global $bp; ?>
 	<li class="align-right">
 		<a href="#"><?php _e( 'Visit', 'buddypress' ) ?></a>
 		<ul class="random-list">
@@ -174,7 +244,14 @@ function bp_core_admin_bar() {
 	$doing_admin_bar = false;
 }
 
+add_action( 'bp-adminbar-logo', 'bp_adminbar_logo' );
+add_action( 'bp-adminbar-menus', 'bp_adminbar_login_menu', 2 );
+add_action( 'bp-adminbar-menus', 'bp_adminbar_account_menu', 4 );
+add_action( 'bp-adminbar-menus', 'bp_adminbar_blogs_menu', 6 );
+add_action( 'bp-adminbar-menus', 'bp_adminbar_notifications_menu', 8 );
+add_action( 'bp-adminbar-menus', 'bp_adminbar_authors_menu', 12 );
+add_action( 'bp-adminbar-menus', 'bp_adminbar_random_menu', 100 );
+
 add_action( 'wp_footer', 'bp_core_admin_bar' );
-//add_action( 'admin_footer', 'bp_core_admin_bar' )
 
 ?>
