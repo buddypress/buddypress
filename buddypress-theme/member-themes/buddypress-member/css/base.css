@@ -34,6 +34,7 @@ body {
 	line-height: 170%;
 	min-width: 960px;
 	max-width: 1300px;
+	margin: 0 auto;
 }
 	body.in-blog { background-image: url(../images/background_blog.gif); }
 
