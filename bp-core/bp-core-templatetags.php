@@ -374,7 +374,10 @@ function bp_is_blog_page() {
 	global $bp, $is_member_page;
 	
 	$root_components = explode( ',', BP_CORE_ROOT_COMPONENTS );
-
+	
+	if ( $bp['current_component'] == 'news')
+		return true;
+		
 	if ( !$is_member_page && !in_array( $bp['current_component'], $root_components ) )
 		return true;
 	
