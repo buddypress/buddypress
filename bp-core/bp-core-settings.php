@@ -6,8 +6,8 @@ function bp_core_add_settings_nav() {
 	bp_core_add_nav_item( __('Settings', 'buddypress'), 'settings', false, false );
 	bp_core_add_nav_default( 'settings', 'bp_core_screen_general_settings', 'general', false );
 	
-	bp_core_add_subnav_item( 'settings', 'general', __('General', 'buddypress'), $bp['loggedin_domain'] . 'settings/', 'bp_core_screen_general_settings', false, false );
-	bp_core_add_subnav_item( 'settings', 'notifications', __('Notifications', 'buddypress'), $bp['loggedin_domain'] . 'settings/', 'bp_core_screen_notification_settings', false, false );
+	bp_core_add_subnav_item( 'settings', 'general', __('General', 'buddypress'), $bp['loggedin_domain'] . 'settings/', 'bp_core_screen_general_settings', false, bp_is_home() );
+	bp_core_add_subnav_item( 'settings', 'notifications', __('Notifications', 'buddypress'), $bp['loggedin_domain'] . 'settings/', 'bp_core_screen_notification_settings', false, bp_is_home() );
 }
 add_action( 'wp', 'bp_core_add_settings_nav', 2 );
 

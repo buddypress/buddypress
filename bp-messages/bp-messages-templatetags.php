@@ -309,7 +309,7 @@ function bp_message_get_notices() {
 function bp_send_message_button() {
 	global $bp;
 	
-	if ( bp_is_home() )
+	if ( bp_is_home() || !is_user_logged_in() )
 		return false;
 	
 	$ud = get_userdata( $bp['current_userid'] ); 
