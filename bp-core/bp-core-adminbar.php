@@ -124,7 +124,7 @@ function bp_adminbar_blogs_menu() {
 
 					$alt = ( $counter % 2 == 0 ) ? ' class="alt"' : '';
 					echo '<li' . $alt . '>';
-					echo '<a href="' . $blog->siteurl . '">' . $blog->blogname . '</a>';
+					echo '<a href="' . $blog->siteurl . '">' . $blog->blogname . ' (' . $role . ')</a>';
 					if (!('Subscriber' == $role)) { // then they have something to display on the flyout menu
 						echo '<ul>';
 						echo '<li class="alt"><a href="' . $blog->siteurl  . '/wp-admin/">' . __('Dashboard', 'buddypress') . '</a></li>';
