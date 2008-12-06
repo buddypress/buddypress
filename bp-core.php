@@ -83,7 +83,7 @@ function bp_core_setup_globals() {
 	/* The user ID of the user who is currently logged in. */
 	$bp['loggedin_userid'] = $current_user->ID;
 	
-	/* The user id of the user currently being viewed */
+	/* The user id of the user currently being viewed, set in /bp-core/bp-core-catchuri.php */
 	$bp['current_userid'] = $current_userid;
 	
 	/* The domain for the user currently logged in. eg: http://domain.com/members/andy */

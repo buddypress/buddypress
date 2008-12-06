@@ -29,7 +29,7 @@ These structure styles can be overridden by the theme CSS file if needed.
 		margin-right: 10px;
 	}
 
-	#userbar .avatar {
+	#userbar img.avatar {
 		float: left;
 		margin-right: 8px;
 		margin-top: 2px;
@@ -248,6 +248,8 @@ table.notification-settings {
 	background: url(../../bp-core/images/button_back.gif) top left no-repeat;
 	display: inline-block;
 	margin-bottom: 10px;
+	margin-left: -6px;
+	margin-right: 5px;
 }
 
 .friendship-button a {
@@ -256,12 +258,13 @@ table.notification-settings {
 	color: #777;
 	font-size: 11px;
 	padding: 0 33px 0 11px;
-	margin-right: -7px;
 	text-shadow: 0 1px 0 #fff;
 	text-decoration: none;
+	margin-right: -7px;
 }
 	.friendship-button a:hover {
 		color: #555;
+		text-decoration: none;
 	}
 
 	.friendship-button a.add {
@@ -279,5 +282,37 @@ table.notification-settings {
 	.loading a {
 		background: url(../../bp-core/images/loading_button_side.gif) top right no-repeat !important;		
 	}
+
+.button-block {
+	text-align: right;
+	margin: 1em 2px;
+}
+
+.generic-button {
+	background: url(../../bp-core/images/button_back.gif) top left no-repeat;
+	display: inline-block;
+	margin: 0 5px 8px 0;
+}
+
+.generic-button a {
+	display: block;
+	height: 19px;
+	color: #777;
+	font-size: 11px;
+	padding: 0 33px 0 11px;
+	margin-right: -7px;
+	text-shadow: 0 1px 0 #fff;
+	text-decoration: none;
+	background: url(../../bp-core/images/view_button_side.gif) top right no-repeat;
+}
+	.generic-button a:hover {
+		color: #555;
+		text-decoration: none;
+	}
+
+	.button-block div {
+		margin-bottom: 15px;
+	}
+
 
 	

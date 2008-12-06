@@ -304,4 +304,14 @@ function bp_profile_wire_can_post() {
 	return true;
 }
 
+function bp_edit_profile_button() {
+	global $bp;
+	
+	?>
+	<div class="generic-button">
+		<a class="edit" title="<?php _e( 'Edit Profile', 'buddypress' ) ?>" href="<?php echo $bp['loggedin_domain'] . $bp['profile']['slug'] ?>/edit"><?php _e( 'Edit Profile', 'buddypress' ) ?></a>
+	</div>
+	<?php
+}
+
 ?>

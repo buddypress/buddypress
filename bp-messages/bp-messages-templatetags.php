@@ -201,7 +201,11 @@ function bp_messages_form_action() {
 }
 
 function bp_messages_username_value() {
-	echo $_SESSION['send_to'];
+	if ( isset( $_SESSION['send_to'] ) ) {
+		echo $_SESSION['send_to'];
+	} else if ( isset( $_GET['r'] ) && !isset( $_SESSION['send_to'] ) ) {
+		echo $_GET['r'];
+	}
 }
 
 function bp_messages_subject_value() {
@@ -214,7 +218,7 @@ function bp_messages_content_value() {
 
 function bp_messages_options() {
 ?>
-	Select: 
+	<?php _e( 'Select:', 'buddypress' ) ?> 
 		<select name="message-type-select" id="message-type-select">
 			<option value=""></option>
 			<option value="read"><?php _e('Read', 'buddypress') ?></option>
@@ -300,6 +304,20 @@ function bp_message_get_notices() {
 			<?php
 		}	
 	}
+}
+
+function bp_send_message_button() {
+	global $bp;
+	
+	if ( bp_is_home() )
+		return false;
+	
+	$ud = get_userdata( $bp['current_userid'] ); 
+	?>
+	<div class="generic-button">
+		<a class="send-message" title="<?php _e( 'Send Message', 'buddypress' ) ?>" href="<?php echo $bp['loggedin_domain'] . $bp['messages']['slug'] ?>/compose/?r=<?php echo $ud->user_login ?>"><?php _e( 'Send Message', 'buddypress' ) ?></a>
+	</div>
+	<?php
 }
 
 ?>

@@ -765,8 +765,9 @@ function bp_blogs_validate_blog_signup() {
 	}
 
 	$public = (int) $_POST['blog_public'];
-	$meta = apply_filters('signup_create_blog_meta', array ('lang_id' => 1, 'public' => $public)); // depreciated
-	$meta = apply_filters( "add_signup_meta", $meta );
+	
+	$meta = apply_filters( 'signup_create_blog_meta', array( 'lang_id' => 1, 'public' => $public ) ); // depreciated
+	$meta = apply_filters( 'add_signup_meta', $meta );
 	
 	/* If this is a VHOST install, remove the username from the domain as we are setting this blog
 	   up inside a user domain, not the root domain. */

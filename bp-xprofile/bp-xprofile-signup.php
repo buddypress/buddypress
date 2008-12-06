@@ -211,7 +211,12 @@ add_filter( 'wpmu_validate_user_signup', 'xprofile_validate_signup_fields', 10, 
 
 
 function xprofile_add_profile_meta( $meta ) {
-	return $_SESSION['xprofile_meta'];
+	global $bp;
+	
+	if ( $bp['current_component'] != $bp['blogs']['slug'] )
+		return $_SESSION['xprofile_meta'];
+	else
+		return $meta;
 }
 add_filter( 'add_signup_meta', 'xprofile_add_profile_meta' );
 
