@@ -161,7 +161,18 @@ input, select, textarea { width: 100%; }
 		padding: 8px 0 8px 0;
 	}
 
-	#userbar .avatar, #userbar p#login-text {
+	#userbar p.avatar {
+		text-align: center !important;
+		float: none;
+		margin: 1em 0 0 0;
+	}
+
+	#userbar img.avatar {
+		margin: 0;
+		float: none;
+	}
+
+	#userbar p#login-text {
 		text-align: center;
 		margin: 0.4em 0;
 		float: none;
@@ -288,10 +299,15 @@ input, select, textarea { width: 100%; }
 		float: none;
 		margin-right: 0;
 	}
+	
+	#optionsbar p.avatar {
+		text-align: center !important;
+		float: none;
+		margin: 1em 0 0 0;
+	}
 
-	#optionsbar .avatar {
-		text-align: center;
-		margin-top: 0.4em 0 !important;
+	#optionsbar img.avatar {
+		margin: 0;
 		float: none;
 	}
 	
@@ -368,9 +384,7 @@ ul.content-header-nav {
 			text-decoration: none;
 		}
 		
-
-
-
+		
 /**************************
  MAIN CONTENT
 ***************************/
@@ -511,7 +525,6 @@ ul.content-header-nav {
 			color: inherit;
 			padding-left: 3.3em;
 		}
-	
 
 /**************************
  FOOTER

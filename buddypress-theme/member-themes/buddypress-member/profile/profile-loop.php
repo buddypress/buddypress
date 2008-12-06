@@ -25,6 +25,13 @@
 		<?php endif; ?>	
 		
 	<?php endwhile; ?>
+	
+	<div class="button-block">
+		<?php if ( bp_is_home() ) : ?>
+			<?php bp_edit_profile_button() ?>
+		<?php endif; ?>
+	</div>
+	
 <?php else: ?>
 	
 	<div id="message" class="info">
