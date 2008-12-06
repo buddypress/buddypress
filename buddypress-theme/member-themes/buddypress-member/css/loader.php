@@ -44,7 +44,7 @@ if ( function_exists('xprofile_install') && file_exists('profiles.css') )
 	echo "@import url(profiles.css);\n";
 
 /* If the root blog is set up for right to left reading, include the rtl.css file */
-if ( get_blog_option( 1, 'text_direction' ) == 'rtl' && file_exists( 'rtl.css' ) )
+if ( get_bloginfo( 1, 'text_direction' ) == 'rtl' && file_exists( 'rtl.css' ) )
 	echo "@import url(rtl.css);\n";
 	
 /* If there are any custom component css files inside the /custom/ dir, load them. */
