@@ -182,7 +182,7 @@ function bp_activity_insert_time_since( $content, $date ) {
 	if ( !$content || !$date )
 		return false;
 		
-	return @sprintf( $content, '&nbsp; ' . bp_core_time_since( strtotime( $date ) ) . ' ' . __('ago', 'buddypress') );
+	return @sprintf( $content, @sprintf( __( '&nbsp; %s ago', 'buddypress' ), bp_core_time_since( strtotime( $date ) ) ) );
 }
 
 function bp_activity_css_class() {
