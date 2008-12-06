@@ -221,7 +221,7 @@ Class BP_Activity_Activity {
 			$limit_sql = $wpdb->prepare( " LIMIT %d", $limit );
 		
 		/* Remove entries that are older than 6 months */
-		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['activity']['table_name_sitewide'] . " WHERE DATE_ADD(date_recorded, INTERVAL 6 MONTHS) <= NOW()" ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['activity']['table_name_sitewide'] . " WHERE DATE_ADD(date_recorded, INTERVAL 6 MONTH) <= NOW()" ) );
 		
 		$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $bp['activity']['table_name_sitewide'] . " ORDER BY date_recorded DESC $limit_sql" ) );
 		
