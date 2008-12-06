@@ -93,8 +93,13 @@ Class BP_Blogs_Blog {
 		
 		if ( !$user_id )
 			$user_id = $bp['current_userid'];
+		
+		// Show logged in users their hidden blogs.
+		if ( !bp_is_home() )
+			$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT b.blog_id FROM " . $bp['blogs']['table_name'] . " b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.public = 1 AND wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND b.user_id = %d ", $user_id) );
+		else
+			$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT b.blog_id FROM " . $bp['blogs']['table_name'] . " b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND b.user_id = %d ", $user_id) );
 			
-		$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM " . $bp['blogs']['table_name'] . " WHERE user_id = %d", $user_id) );
 		$total_blog_count = BP_Blogs_Blog::total_blog_count( $user_id );
 		
 		for ( $i = 0; $i < count($blog_ids); $i++ ) {
@@ -114,8 +119,12 @@ Class BP_Blogs_Blog {
 		
 		if ( !$user_id )
 			$user_id = $bp['current_userid'];
-		
-		return $wpdb->get_var( $wpdb->prepare( "SELECT count(blog_id) FROM " . $bp['blogs']['table_name'] . " WHERE user_id = %d", $user_id) );
+
+		// If the user is logged in return the blog count including their hidden blogs.
+		if ( !bp_is_home() )
+			return $wpdb->get_var( $wpdb->prepare( "SELECT count(b.blog_id) FROM " . $bp['blogs']['table_name'] . " b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.public = 1 AND wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND user_id = %d", $user_id) );
+		else
+			return $wpdb->get_var( $wpdb->prepare( "SELECT count(b.blog_id) FROM " . $bp['blogs']['table_name'] . " b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND user_id = %d", $user_id) );			
 	}
 	
 	function get_all( $limit = null, $page = null ) {
@@ -123,10 +132,10 @@ Class BP_Blogs_Blog {
 		
 		if ( $limit && $page ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
-			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT count(b.blog_id) FROM " . $bp['blogs']['table_name'] . " b, " . $bp['blogs']['table_name_blogmeta'] . " bm WHERE b.blog_id = bm.blog_id AND bm.meta_key = 'last_activity' ORDER BY CONVERT(bm.meta_value, SIGNED) DESC" ) );
+			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT count(b.blog_id) FROM " . $bp['blogs']['table_name'] . " b LEFT JOIN " . $bp['blogs']['table_name_blogmeta'] . " bm ON b.blog_id = bm.blog_id LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.public = 1 AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 AND bm.meta_key = 'last_activity' ORDER BY CONVERT(bm.meta_value, SIGNED) DESC" ) );
 		}
 			
-		$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT b.blog_id FROM " . $bp['blogs']['table_name']. " b, " . $bp['blogs']['table_name_blogmeta'] . " bm WHERE b.blog_id = bm.blog_id AND bm.meta_key = 'last_activity' ORDER BY CONVERT(bm.meta_value, SIGNED) DESC {$pag_sql}" ) );
+		$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT b.blog_id FROM " . $bp['blogs']['table_name'] . " b LEFT JOIN " . $bp['blogs']['table_name_blogmeta'] . " bm ON b.blog_id = bm.blog_id LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.public = 1 AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 AND bm.meta_key = 'last_activity' ORDER BY CONVERT(bm.meta_value, SIGNED) DESC {$pag_sql}" ) );
 
 		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
 	}
@@ -166,12 +175,21 @@ Class BP_Blogs_Blog {
 		
 		if ( $limit && $page ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
-			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT count(blog_id) FROM " . $bp['blogs']['table_name'] . " ORDER BY rand()" ) );
+			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT count(b.blog_id) FROM " . $bp['blogs']['table_name'] . " b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.public = 1 AND wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 ORDER BY rand()" ) );
 		}
 		
-		$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT blog_id FROM " . $bp['blogs']['table_name'] . " ORDER BY rand() {$pag_sql}" ) ); 		
+		$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT b.blog_id FROM " . $bp['blogs']['table_name'] . " b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.public = 1 AND wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 {$pag_sql}" ) ); 		
 		
 		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
+	}
+	
+	function is_hidden( $blog_id ) {
+		global $wpdb;
+		
+		if ( $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->base_prefix}blogs WHERE blog_id = %d AND public = 1 AND archived = '0' AND spam = 0 AND mature = 0 AND deleted = 0", $blog_id ) ) )
+			return false;
+		
+		return true;
 	}
 	
 }
@@ -265,9 +283,9 @@ Class BP_Blogs_Post {
 		global $wpdb, $bp;
 		
 		if ( $blog_id )
-			$blog_sql = $wpdb->prepare( " WHERE blog_id = %d", $blog_id );
+			$blog_sql = $wpdb->prepare( " AND p.blog_id = %d", $blog_id );
 		
-		$post_ids = $wpdb->get_results( $wpdb->prepare( "SELECT post_id, blog_id FROM " . $bp['blogs']['table_name_blog_posts'] . "$blog_sql ORDER BY date_created DESC LIMIT $limit" ) );
+		$post_ids = $wpdb->get_results( $wpdb->prepare( "SELECT p.post_id, p.blog_id FROM " . $bp['blogs']['table_name_blog_posts'] . " p LEFT JOIN {$wpdb->base_prefix}blogs b ON p.blog_id = b.blog_id WHERE b.public = 1 AND b.deleted = 0 AND b.archived = '0' AND b.spam = 0 AND b.mature = 0 $blog_sql ORDER BY p.date_created DESC LIMIT $limit" ) );
 
 		for ( $i = 0; $i < count($post_ids); $i++ ) {
 			$posts[$i] = BP_Blogs_Post::fetch_post_content($post_ids[$i]);
@@ -281,10 +299,17 @@ Class BP_Blogs_Post {
 		
 		if ( !$user_id )
 			$user_id = $bp['current_userid'];
-			
-		$post_ids = $wpdb->get_results( $wpdb->prepare( "SELECT post_id, blog_id FROM " . $bp['blogs']['table_name_blog_posts'] . " WHERE user_id = %d ORDER BY date_created DESC", $user_id) );
-		$total_post_count = $wpdb->get_var( $wpdb->prepare( "SELECT count(post_id) FROM " . $bp['blogs']['table_name_blog_posts'] . " WHERE user_id = %d", $user_id) );
 		
+		// Show a logged in user their posts on private blogs, but not anyone else.
+		if ( !bp_is_home() ) {
+			$post_ids = $wpdb->get_results( $wpdb->prepare( "SELECT p.post_id, p.blog_id FROM " . $bp['blogs']['table_name_blog_posts'] . " p LEFT JOIN {$wpdb->base_prefix}blogs b ON p.blog_id = b.blog_id WHERE b.public = 1 AND b.deleted = 0 AND b.archived = '0' AND b.spam = 0 AND b.mature = 0 AND p.user_id = %d ORDER BY p.date_created DESC", $user_id) );
+			$total_post_count = $wpdb->get_var( $wpdb->prepare( "SELECT count(p.post_id) FROM " . $bp['blogs']['table_name_blog_posts'] . " p LEFT JOIN {$wpdb->base_prefix}blogs b ON p.blog_id = b.blog_id WHERE b.public = 1 AND b.deleted = 0 AND b.archived = '0' AND b.spam = 0 AND b.mature = 0 p.user_id = %d", $user_id) );
+		} else {
+			$post_ids = $wpdb->get_results( $wpdb->prepare( "SELECT p.post_id, p.blog_id FROM " . $bp['blogs']['table_name_blog_posts'] . " p LEFT JOIN {$wpdb->base_prefix}blogs b ON p.blog_id = b.blog_id WHERE b.deleted = 0 AND b.archived = '0' AND b.spam = 0 AND b.mature = 0 AND p.user_id = %d ORDER BY p.date_created DESC", $user_id) );
+			$total_post_count = $wpdb->get_var( $wpdb->prepare( "SELECT count(p.post_id) FROM " . $bp['blogs']['table_name_blog_posts'] . " p LEFT JOIN {$wpdb->base_prefix}blogs b ON p.blog_id = b.blog_id WHERE b.deleted = 0 AND b.archived = '0' AND b.spam = 0 AND b.mature = 0 p.user_id = %d", $user_id) );			
+		}
+			
+			
 		for ( $i = 0; $i < count($post_ids); $i++ ) {
 			$posts[$i] = BP_Blogs_Post::fetch_post_content($post_ids[$i]);
 		}
@@ -432,8 +457,14 @@ Class BP_Blogs_Comment {
 		if ( !$user_id )
 			$user_id = $bp['current_userid'];
 			
-		$comment_ids = $wpdb->get_results( $wpdb->prepare( "SELECT comment_id, blog_id FROM " . $bp['blogs']['table_name_blog_comments'] . " WHERE user_id = %d ORDER BY date_created ASC", $user_id) );
-		$total_comment_count = $wpdb->get_var( $wpdb->prepare( "SELECT count(comment_id) FROM " . $bp['blogs']['table_name_blog_comments'] . " WHERE user_id = %d", $user_id) );
+		// Show the logged in user their comments on hidden blogs, but not to anyone else.
+		if ( !bp_is_home() ) {
+			$comment_ids = $wpdb->get_results( $wpdb->prepare( "SELECT c.comment_id, c.blog_id FROM " . $bp['blogs']['table_name_blog_comments'] . " c LEFT JOIN {$wpdb->base_prefix}blogs b ON c.blog_id = b.blog_id WHERE b.public = 1 AND b.deleted = 0 AND b.archived = '0' AND b.spam = 0 AND b.mature = 0 AND c.user_id = %d ORDER BY c.date_created ASC", $user_id) );
+			$total_comment_count = $wpdb->get_var( $wpdb->prepare( "SELECT count(c.comment_id) FROM " . $bp['blogs']['table_name_blog_comments'] . " c LEFT JOIN {$wpdb->base_prefix}blogs b ON c.blog_id = b.blog_id WHERE b.public = 1 AND b.deleted = 0 AND b.archived = '0' AND b.spam = 0 AND b.mature = 0 AND c.user_id = %d", $user_id) );
+		} else {
+			$comment_ids = $wpdb->get_results( $wpdb->prepare( "SELECT c.comment_id, c.blog_id FROM " . $bp['blogs']['table_name_blog_comments'] . " c LEFT JOIN {$wpdb->base_prefix}blogs b ON c.blog_id = b.blog_id WHERE b.deleted = 0 AND b.archived = '0' AND b.spam = 0 AND b.mature = 0 AND c.user_id = %d ORDER BY c.date_created ASC", $user_id) );
+			$total_comment_count = $wpdb->get_var( $wpdb->prepare( "SELECT count(c.comment_id) FROM " . $bp['blogs']['table_name_blog_comments'] . " c LEFT JOIN {$wpdb->base_prefix}blogs b ON c.blog_id = b.blog_id WHERE b.deleted = 0 AND b.archived = '0' AND b.spam = 0 AND b.mature = 0 AND c.user_id = %d", $user_id) );			
+		}
 		
 		for ( $i = 0; $i < count($comment_ids); $i++ ) {
 			$comments[$i] = BP_Blogs_Comment::fetch_comment_content($comment_ids[$i]);

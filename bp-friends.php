@@ -508,7 +508,7 @@ function friends_remove_friend( $initiator_userid, $friend_userid, $only_confirm
 function friends_accept_friendship( $friendship_id ) {
 	$friendship = new BP_Friends_Friendship( $friendship_id, true, false );
 	
-	if ( BP_Friends_Friendship::accept( $friendship_id ) ) {
+	if ( !$friendship->is_confirmed && BP_Friends_Friendship::accept( $friendship_id ) ) {
 		friends_update_friend_totals( $friendship->initiator_user_id, $friendship->friend_user_id );
 		
 		// Remove the friend request notice
@@ -530,8 +530,8 @@ function friends_accept_friendship( $friendship_id ) {
 
 function friends_reject_friendship( $friendship_id ) {
 	$friendship = new BP_Friends_Friendship( $friendship_id, true, false );
-	
-	if ( BP_Friends_Friendship::reject( $friendship_id ) ) {
+
+	if ( !$friendship->is_confirmed && BP_Friends_Friendship::reject( $friendship_id ) ) {
 		// Remove the friend request notice
 		bp_core_delete_notifications_for_user_by_item_id( $friendship->friend_user_id, $friendship->initiator_user_id, 'friends', 'friendship_request' );	
 		
@@ -540,6 +540,11 @@ function friends_reject_friendship( $friendship_id ) {
 	}
 	
 	return false;
+}
+
+function friends_is_friendship_confirmed( $friendship_id ) {
+	$friendship = new BP_Friends_Friendship( $friendship_id );
+	return $friendship->is_confirmed;
 }
 
 function friends_update_friend_totals( $initiator_user_id, $friend_user_id, $status = 'add' ) {

@@ -1,7 +1,9 @@
 <?php
 
 function bp_core_admin_bar() {
-	global $bp, $wpdb, $current_blog;
+	global $bp, $wpdb, $current_blog, $doing_admin_bar;
+	
+	$doing_admin_bar = true;
 	
 	if ( !(int)get_site_option( 'show-loggedout-adminbar' ) && !is_user_logged_in() )
 		return false;
@@ -168,6 +170,8 @@ function bp_core_admin_bar() {
 	
 	echo '</ul>';
 	echo '</div>';
+
+	$doing_admin_bar = false;
 }
 
 add_action( 'wp_footer', 'bp_core_admin_bar' );

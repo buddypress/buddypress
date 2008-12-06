@@ -181,14 +181,11 @@ function bp_get_options_title() {
 }
 
 function bp_is_home() {
-	global $bp;
+	global $bp, $current_blog, $doing_admin_bar;
 	
-	if ( !is_user_logged_in() || is_null($bp['loggedin_userid']) || is_null($bp['current_userid']) )
-		return false;
-		
-	if ( $bp['loggedin_userid'] == $bp['current_userid'] )
+	if ( is_user_logged_in() && $bp['loggedin_userid'] == $bp['current_userid'] )
 		return true;
-
+		
 	return false;
 }
 

@@ -1,7 +1,7 @@
 <?php
 
 /* Define the current version number for checking if DB tables are up to date. */
-define( 'BP_CORE_VERSION', '0.2.9.8' );
+define( 'BP_CORE_VERSION', '0.3' );
 
 /* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
 define( 'MEMBERS_SLUG', 'members' );
@@ -184,6 +184,9 @@ function bp_core_install() {
 
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
+	
+	/* Add names of root components to the banned blog list to avoid conflicts */
+	bp_core_add_illegal_names();
 	
 	// dbDelta won't change character sets, so we need to do this seperately.
 	// This will only be in here pre v1.0
@@ -397,16 +400,13 @@ function bp_core_add_nav_item( $name, $slug, $css_id = false, $add_to_usernav = 
  * @param $link The url for the sub navigation item.
  * @param $function The function to run when this sub nav item is selected.
  * @param $css_id The id to give the nav item in the HTML (for css highlighting)
- * @param $loggedin_user_only Should only the logged in user be able to access this page?
+ * @param $user_has_access Should the logged in user be able to access this page?
  * @param $admin_only Should this sub nav item only be visible/accessible to the site admin?
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
 function bp_core_add_subnav_item( $parent_id, $slug, $name, $link, $function, $css_id = false, $user_has_access = true, $admin_only = false ) {
 	global $bp;
-	
-	if ( !$user_has_access && !bp_is_home() )
-		return false;
-		
+
 	if ( $admin_only && !is_site_admin() )
 		return false;
 	
@@ -419,7 +419,7 @@ function bp_core_add_subnav_item( $parent_id, $slug, $name, $link, $function, $c
 		'css_id' => $css_id
 	);
 	
-	if ( function_exists($function) && $bp['current_action'] == $slug && $bp['current_component'] == $parent_id )
+	if ( function_exists($function) && $user_has_access && $bp['current_action'] == $slug && $bp['current_component'] == $parent_id )
 		add_action( 'wp', $function, 3 );
 }
 
@@ -997,6 +997,7 @@ function bp_core_redirect( $location, $status = 302 ) {
  * bp_core_sort_nav_items()
  *
  * Reorder the core component navigation array items into the desired order.
+ * This is done this way because we cannot assume that any one component is present.
  * 
  * @package BuddyPress Core
  * @param $nav_array the navigation array variable
@@ -1017,7 +1018,7 @@ function bp_core_sort_nav_items( $nav_array ) {
 				$new_nav[1] = $nav_array[$key];
 				unset($nav_array[$key]);
 			break;
-			case 'profile':
+			case 'profile': // For profiles without bp-xprofile installed
 				$new_nav[1] = $nav_array[$key];
 				unset($nav_array[$key]);
 			break;
@@ -1041,7 +1042,7 @@ function bp_core_sort_nav_items( $nav_array ) {
 				$new_nav[6] = $nav_array[$key];
 				unset($nav_array[$key]);
 			break;
-			case $bp['gallery']['slug']:
+			case $bp['photos']['slug']:
 				$new_nav[7] = $nav_array[$key];
 				unset($nav_array[$key]);
 			break;
@@ -1097,6 +1098,24 @@ function bp_core_set_member_theme_root() {
 
 function bp_core_set_member_theme_root_uri() {
 	return WP_CONTENT_URL . '/member-themes';
+}
+
+function bp_core_add_illegal_names() {
+	$current = maybe_unserialize( get_site_option( 'illegal_names' ) );
+	$bp_illegal_names = explode( ',', BP_CORE_ROOT_COMPONENTS );
+	
+	if ( is_array( $current ) ) {
+		foreach( $bp_illegal_names as $bp_illegal_name ) {
+			if ( !in_array( $bp_illegal_name, $current ) )
+				$current[] = $bp_illegal_name;
+		}
+		$new = $current;
+	} else {
+		$bp_illegal_names[] = $current;
+		$new = $bp_illegal_names;
+	}
+
+	update_site_option( 'illegal_names', $new );
 }
 
 

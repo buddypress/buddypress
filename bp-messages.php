@@ -148,9 +148,9 @@ function messages_setup_nav() {
 	$messages_link = $bp['loggedin_domain'] . $bp['messages']['slug'] . '/';
 	
 	/* Add the subnav items to the profile */
-	bp_core_add_subnav_item( $bp['messages']['slug'], 'inbox', __('Inbox', 'buddypress') . $count_indicator, $messages_link, 'messages_screen_inbox' );
-	bp_core_add_subnav_item( $bp['messages']['slug'], 'sentbox', __('Sent Messages', 'buddypress'), $messages_link, 'messages_screen_sentbox' );
-	bp_core_add_subnav_item( $bp['messages']['slug'], 'compose', __('Compose', 'buddypress'), $messages_link, 'messages_screen_compose' );
+	bp_core_add_subnav_item( $bp['messages']['slug'], 'inbox', __('Inbox', 'buddypress') . $count_indicator, $messages_link, 'messages_screen_inbox', false, bp_is_home() );
+	bp_core_add_subnav_item( $bp['messages']['slug'], 'sentbox', __('Sent Messages', 'buddypress'), $messages_link, 'messages_screen_sentbox', false, bp_is_home() );
+	bp_core_add_subnav_item( $bp['messages']['slug'], 'compose', __('Compose', 'buddypress'), $messages_link, 'messages_screen_compose', false, bp_is_home() );
 	bp_core_add_subnav_item( $bp['messages']['slug'], 'notices', __('Notices', 'buddypress'), $messages_link, 'messages_screen_notices', false, true, true );
 
 	if ( $bp['current_component'] == $bp['messages']['slug'] ) {

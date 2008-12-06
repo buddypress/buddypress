@@ -41,7 +41,7 @@ Class BP_Activity_Activity {
 	function save() {
 		global $wpdb, $bp, $current_user;
 
-		if ( !$this->item_id || !$this->user_id )
+		if ( !$this->item_id || !$this->user_id || $this->is_private )
 			return false;
 			
 		// Set the table names
@@ -109,11 +109,13 @@ Class BP_Activity_Activity {
 			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $bp['activity']['table_name_current_user_cached'] . " WHERE date_recorded >= FROM_UNIXTIME(%d) $privacy_sql ORDER BY date_recorded DESC $limit_sql", $since ) );
 			
 			for ( $i = 0; $i < count( $activities ); $i++ ) {
-				$activities_formatted[$i]['content'] = $activities[$i]->content;
-				$activities_formatted[$i]['primary_link'] = $activities[$i]->primary_link;
-				$activities_formatted[$i]['date_recorded'] = $activities[$i]->date_recorded;
-				$activities_formatted[$i]['component_name'] = $activities[$i]->component_name;
-				$activities_formatted[$i]['is_private'] = $activities[$i]->is_private;
+				if ( !$activities[$i]->is_private ) {
+					$activities_formatted[$i]['content'] = $activities[$i]->content;
+					$activities_formatted[$i]['primary_link'] = $activities[$i]->primary_link;
+					$activities_formatted[$i]['date_recorded'] = $activities[$i]->date_recorded;
+					$activities_formatted[$i]['component_name'] = $activities[$i]->component_name;
+					$activities_formatted[$i]['is_private'] = $activities[$i]->is_private;
+				}
 			}
 							
 		} else {
@@ -127,12 +129,14 @@ Class BP_Activity_Activity {
 				if ( function_exists( $bp[$activities[$i]->component_name]['format_activity_function'] ) ) {
 					if ( !$content = call_user_func($bp[$activities[$i]->component_name]['format_activity_function'], $activities[$i]->item_id, $activities[$i]->user_id, $activities[$i]->component_action ) )
 						continue;
-						
-					$activities_formatted[$i]['content'] = $content['content'];
-					$activities_formatted[$i]['primary_link'] = $content['primary_link'];
-					$activities_formatted[$i]['date_recorded'] = $activities[$i]->date_recorded;
-					$activities_formatted[$i]['component_name'] = $activities[$i]->component_name;
-					$activities_formatted[$i]['is_private'] = $activities[$i]->is_private;
+					
+					if ( !$activities[$i]->is_private ) {
+						$activities_formatted[$i]['content'] = $content['content'];
+						$activities_formatted[$i]['primary_link'] = $content['primary_link'];
+						$activities_formatted[$i]['date_recorded'] = $activities[$i]->date_recorded;
+						$activities_formatted[$i]['component_name'] = $activities[$i]->component_name;
+						$activities_formatted[$i]['is_private'] = $activities[$i]->is_private;
+					}
 				}
 				
 				/* Remove empty activity items so they are not cached. */
@@ -169,11 +173,13 @@ Class BP_Activity_Activity {
 			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $bp['activity']['table_name_loggedin_user_friends_cached'] . " WHERE date_recorded >= FROM_UNIXTIME(%d) ORDER BY date_recorded DESC $limit_sql", $since ) );
 
 			for ( $i = 0; $i < count( $activities ); $i++ ) {
-				$activities_formatted[$i]['content'] = $activities[$i]->content;
-				$activities_formatted[$i]['primary_link'] = $activities[$i]->primary_link;
-				$activities_formatted[$i]['date_recorded'] = $activities[$i]->date_recorded;
-				$activities_formatted[$i]['component_name'] = $activities[$i]->component_name;
-				$activities_formatted[$i]['is_private'] = $activities[$i]->is_private;
+				if ( !$activities[$i]->is_private ) {
+					$activities_formatted[$i]['content'] = $activities[$i]->content;
+					$activities_formatted[$i]['primary_link'] = $activities[$i]->primary_link;
+					$activities_formatted[$i]['date_recorded'] = $activities[$i]->date_recorded;
+					$activities_formatted[$i]['component_name'] = $activities[$i]->component_name;
+					$activities_formatted[$i]['is_private'] = $activities[$i]->is_private;
+				}
 			}
 		
 		} else {
@@ -215,7 +221,7 @@ Class BP_Activity_Activity {
 			$limit_sql = $wpdb->prepare( " LIMIT %d", $limit );
 		
 		/* Remove entries that are older than 6 months */
-		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['activity']['table_name_sitewide'] . " WHERE DATE_ADD(date_recorded, INTERVAL 6 MONTH) <= NOW()" ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['activity']['table_name_sitewide'] . " WHERE DATE_ADD(date_recorded, INTERVAL 6 MONTHS) <= NOW()" ) );
 		
 		$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $bp['activity']['table_name_sitewide'] . " ORDER BY date_recorded DESC $limit_sql" ) );
 		

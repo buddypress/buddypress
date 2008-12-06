@@ -23,7 +23,7 @@ class BP_Blogs_Blog_Template {
 		$this->pag_page = isset( $_GET['fpage'] ) ? intval( $_GET['fpage'] ) : 1;
 		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 5;
 
-		$this->blogs = BP_Blogs_Blog::get_blogs_for_user( $user_id );
+		$this->blogs = bp_blogs_get_blogs_for_user( $user_id );
 		$this->total_blog_count = (int)$this->blogs['count'];
 		$this->blogs = $this->blogs['blogs'];
 		$this->blog_count = count($this->blogs);
@@ -141,7 +141,7 @@ class BP_Blogs_Blog_Post_Template {
 		$this->pag_page = isset( $_GET['fpage'] ) ? intval( $_GET['fpage'] ) : 1;
 		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 5;
 
-		$this->posts = BP_Blogs_Post::get_posts_for_user( $user_id );
+		$this->posts = bp_blogs_get_posts_for_user( $user_id );
 		$this->total_post_count = (int)$this->posts['count'];
 		$this->posts = $this->posts['posts'];
 		$this->post_count = count($this->posts);
@@ -485,7 +485,7 @@ class BP_Blogs_Post_Comment_Template {
 		$this->pag_page = isset( $_GET['fpage'] ) ? intval( $_GET['fpage'] ) : 1;
 		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 5;
 
-		$this->comments = BP_Blogs_Comment::get_comments_for_user( $user_id );
+		$this->comments = bp_blogs_get_comments_for_user( $user_id );
 		$this->total_comment_count = (int)$this->comments['count'];
 		$this->comments = $this->comments['comments'];
 		$this->comment_count = count($this->comments);
