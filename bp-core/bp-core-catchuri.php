@@ -208,6 +208,18 @@ function bp_core_do_catch_uri() {
 	die;
 }
 
+function bp_core_catch_no_access() {
+	global $bp, $bp_path;
+
+	if ( !$bp_path && !bp_is_blog_page() ) {
+		if ( is_user_logged_in() ) {
+			wp_redirect( $bp['loggedin_domain'] );
+		} else {
+			wp_redirect( site_url( 'wp-login.php?redirect_to=' . site_url() . $_SERVER['REQUEST_URI'] ) );
+		}
+	}
+}
+add_action( 'template_redirect', 'bp_core_catch_no_access', 10 );
 
 /**
  * bp_core_catch_profile_uri()

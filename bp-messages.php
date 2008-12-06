@@ -143,7 +143,7 @@ function messages_setup_nav() {
 	
 	/* Add 'Profile' to the main navigation */
 	bp_core_add_nav_item( __('Messages', 'buddypress'), $bp['messages']['slug'], false, false );
-	bp_core_add_nav_default( $bp['messages']['slug'], 'messages_screen_inbox', 'inbox' );
+	bp_core_add_nav_default( $bp['messages']['slug'], 'messages_screen_inbox', 'inbox', bp_is_home() );
 	
 	$messages_link = $bp['loggedin_domain'] . $bp['messages']['slug'] . '/';
 	
