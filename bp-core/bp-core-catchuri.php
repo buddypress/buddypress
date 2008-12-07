@@ -209,8 +209,13 @@ function bp_core_do_catch_uri() {
 }
 
 function bp_core_catch_no_access() {
-	global $bp, $bp_path;
-
+	global $bp, $bp_path, $bp_no_status_set;
+	
+	// If bp_core_redirect() and $bp_no_status_set is true,
+	// we are redirecting to an accessable page, so skip this check.
+	if ( $bp_no_status_set )
+		return false;
+		
 	if ( !$bp_path && !bp_is_blog_page() ) {
 		if ( is_user_logged_in() ) {
 			wp_redirect( $bp['loggedin_domain'] );
@@ -219,7 +224,7 @@ function bp_core_catch_no_access() {
 		}
 	}
 }
-add_action( 'template_redirect', 'bp_core_catch_no_access', 10 );
+add_action( 'wp', 'bp_core_catch_no_access', 10 );
 
 /**
  * bp_core_catch_profile_uri()
