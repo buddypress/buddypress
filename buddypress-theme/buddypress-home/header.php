@@ -44,7 +44,11 @@
 			<div id="logout-link">
 				<?php bp_loggedinuser_avatar_thumbnail( 20, 20 ) ?> &nbsp;
 				<?php bp_loggedinuser_link() ?> 
-				/ <a href="<?php echo site_url() . '/wp-login.php?action=logout&amp;redirect_to=' . site_url() ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>
+				<?php if ( function_exists('wp_logout_url') ) : ?>
+					/ <a href="<?php echo wp_logout_url(site_url()) ?>" alt="<?php _e( 'Log Out', 'buddypress' ) ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>			
+				<?php else : ?>
+					/ <a href="<?php echo site_url() . '/wp-login.php?action=logout&amp;redirect_to=' . site_url() ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>
+				<?php endif; ?>
 			</div>
 		<?php endif; ?>
 		<div class="clear"></div>
