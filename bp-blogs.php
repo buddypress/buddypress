@@ -222,7 +222,7 @@ function bp_blogs_record_activity( $args = true ) {
 	if ( function_exists('bp_activity_record') ) {
 		extract($args);
 				
-		bp_activity_record( $item_id, $component_name, $component_action, $is_private, $user_id );
+		bp_activity_record( $item_id, $component_name, $component_action, $is_private, false, $user_id );
 	}
 }
 add_action( 'bp_blogs_new_blog', 'bp_blogs_record_activity' );
@@ -235,7 +235,7 @@ add_action( 'bp_blogs_new_blog_comment', 'bp_blogs_record_activity' );
  Selects and formats recorded blogs component activity.
  **************************************************************************/
 
-function bp_blogs_format_activity( $item_id, $user_id, $action, $for_secondary_user = false  ) {
+function bp_blogs_format_activity( $item_id, $user_id, $action, $secondary_item_id = false, $for_secondary_user = false  ) {
 	global $bp;
 	
 	switch( $action ) {

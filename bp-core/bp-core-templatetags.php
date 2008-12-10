@@ -168,7 +168,7 @@ function bp_has_options_avatar() {
 function bp_get_options_avatar() {
 	global $bp;
 
-	echo $bp['bp_options_avatar'];
+	echo apply_filters( 'bp_get_options_avatar', $bp['bp_options_avatar'] );
 }
 
 function bp_get_options_title() {
@@ -177,7 +177,7 @@ function bp_get_options_title() {
 	if ( $bp['bp_options_title'] == '' )
 		$bp['bp_options_title'] = __('Options', 'buddypress');
 	
-	echo $bp['bp_options_title'];
+	echo apply_filters( 'bp_get_options_avatar', $bp['bp_options_title'] );
 }
 
 function bp_is_home() {
@@ -193,7 +193,7 @@ function bp_comment_author_avatar() {
 	global $comment;
 	
 	if ( function_exists('bp_core_get_avatar') ) {
-		echo bp_core_get_avatar( $comment->user_id, 1 );	
+		echo apply_filters( 'bp_comment_author_avatar', bp_core_get_avatar( $comment->user_id, 1 ) );	
 	} else if ( function_exists('get_avatar') ) {
 		get_avatar();
 	}
@@ -203,7 +203,7 @@ function bp_post_author_avatar() {
 	global $post;
 	
 	if ( function_exists('bp_core_get_avatar') ) {
-		echo bp_core_get_avatar( $post->post_author, 1 );	
+		echo apply_filters( 'bp_post_author_avatar', bp_core_get_avatar( $post->post_author, 1 ) );	
 	} else if ( function_exists('get_avatar') ) {
 		get_avatar();
 	}
@@ -213,18 +213,18 @@ function bp_loggedinuser_avatar( $width = false, $height = false ) {
 	global $bp;
 	
 	if ( $width && $height )
-		echo bp_core_get_avatar( $bp['loggedin_userid'], 2, $width, $height );
+		echo apply_filters( 'bp_loggedinuser_avatar', bp_core_get_avatar( $bp['loggedin_userid'], 2, $width, $height ) );
 	else
-		echo bp_core_get_avatar( $bp['loggedin_userid'], 2 );
+		echo apply_filters( 'bp_loggedinuser_avatar', bp_core_get_avatar( $bp['loggedin_userid'], 2 ) );
 }
 
 function bp_loggedinuser_avatar_thumbnail( $width = false, $height = false ) {
 	global $bp;
 	
 	if ( $width && $height )
-		echo bp_core_get_avatar( $bp['loggedin_userid'], 1, $width, $height );
+		echo apply_filters( 'bp_get_options_avatar', bp_core_get_avatar( $bp['loggedin_userid'], 1, $width, $height ) );
 	else
-		echo bp_core_get_avatar( $bp['loggedin_userid'], 1 );
+		echo apply_filters( 'bp_get_options_avatar', bp_core_get_avatar( $bp['loggedin_userid'], 1 ) );
 }
 
 function bp_fetch_user_fullname( $user_id = false, $echo = true ) {
@@ -256,9 +256,9 @@ function bp_fetch_user_fullname( $user_id = false, $echo = true ) {
 	}
 	
 	if ( $echo )
-		echo stripslashes( trim( $data ) );
+		echo apply_filters( 'bp_fetch_user_fullname', stripslashes( trim( $data ) ) );
 	else
-		return stripslashes ( trim ( $data ) );
+		return apply_filters( 'bp_fetch_user_fullname', stripslashes ( trim ( $data ) ) );
 }
 
 function bp_last_activity( $user_id = false, $echo = true ) {
@@ -270,23 +270,25 @@ function bp_last_activity( $user_id = false, $echo = true ) {
 	$last_activity = bp_core_get_last_activity( get_usermeta( $user_id, 'last_activity' ), __('active %s ago', 'buddypress') );
 
 	if ( $echo )
-		echo $last_activity;
+		echo apply_filters( 'bp_last_activity', $last_activity );
 	else
-		return $last_activity;
+		return apply_filters( 'bp_last_activity', $last_activity );
 }
 
 function bp_the_avatar() {
 	global $bp;
-	echo bp_core_get_avatar( $bp['current_userid'], 2 );
+	echo apply_filters( 'bp_the_avatar', bp_core_get_avatar( $bp['current_userid'], 2 ) );
 }
 
 function bp_the_avatar_thumbnail() {
 	global $bp;
-	echo bp_core_get_avatar( $bp['current_userid'], 1 );
+	echo apply_filters( 'bp_the_avatar_thumbnail', bp_core_get_avatar( $bp['current_userid'], 1 ) );
 }
 
 function bp_user_link() {
-	echo '';
+	global $bp;
+	
+	echo apply_filters( 'bp_the_avatar_thumbnail', $bp['current_domain'] );
 }
 
 function bp_core_get_wp_profile() {
@@ -311,7 +313,7 @@ function bp_format_time( $time, $just_date = false ) {
 		$date .= __('at', 'buddypress') . date( ' g:iA', $time );
 	}
 	
-	return $date;
+	return apply_filters( 'bp_format_time', $date );
 }
 
 
@@ -323,15 +325,15 @@ function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true 
 	
 	if ( $bp['current_userid'] == $bp['loggedin_userid'] ) {
 		if ( $echo )
-			echo $youtext;
+			echo apply_filters( 'bp_word_or_name', $youtext );
 		else
-			return $youtext;
+			return apply_filters( 'bp_word_or_name', $youtext );
 	} else {
 		$nametext = sprintf($nametext, $bp['current_fullname']);
 		if ( $echo )
-			echo $nametext;
+			echo apply_filters( 'bp_word_or_name', $nametext );
 		else
-			return $nametext;
+			return apply_filters( 'bp_word_or_name', $nametext );
 	}
 }
 
@@ -343,14 +345,14 @@ function bp_your_or_their( $capitalize = true, $echo = true ) {
 	
 	if ( $bp['current_userid'] == $bp['loggedin_userid'] ) {
 		if ( $echo )
-			echo $yourtext;
+			echo apply_filters( 'bp_your_or_their', $yourtext );
 		else
-			return $yourtext;
+			return apply_filters( 'bp_your_or_their', $yourtext );
 	} else {
 		if ( $echo )
-			echo $theirtext;
+			echo apply_filters( 'bp_your_or_their', $theirtext );
 		else
-			return $theirtext;
+			return apply_filters( 'bp_your_or_their', $theirtext );
 	}
 }
 
@@ -358,10 +360,10 @@ function bp_loggedinuser_link() {
 	global $bp, $current_user;
 	
 	if ( $link = bp_core_get_userlink( $bp['loggedin_userid'] ) ) {
-		echo $link;
+		echo apply_filters( 'bp_loggedinuser_link', $link );
 	} else {
 		$ud = get_userdata($current_user->ID);
-		echo $ud->user_login;
+		echo apply_filters( 'bp_loggedinuser_link', $ud->user_login );
 	}
 }
 
@@ -388,9 +390,9 @@ function bp_page_title() {
 	global $bp;
 	
 	if ( $bp['current_fullname'] != '' ) {
-	 	echo $bp['current_fullname'] . ' &raquo; ' . ucwords($bp['current_component']) . ' &raquo; ' . $bp['bp_options_nav'][$bp['current_component']][$bp['current_action']]['name'];
+	 	echo apply_filters( 'bp_page_title', $bp['current_fullname'] . ' &raquo; ' . ucwords($bp['current_component']) . ' &raquo; ' . $bp['bp_options_nav'][$bp['current_component']][$bp['current_action']]['name'] );
 	} else {
-		echo ucwords($bp['current_component']) . ' &raquo; ' . ucwords($bp['bp_options_title']) . ' &raquo; ' . ucwords($bp['current_action']);
+		echo apply_filters( 'bp_page_title', ucwords($bp['current_component']) . ' &raquo; ' . ucwords($bp['bp_options_title']) . ' &raquo; ' . ucwords($bp['current_action']) );
 	}
 }
 
@@ -416,12 +418,12 @@ function bp_is_page($page) {
 
 function bp_current_user_id() {
 	global $bp;
-	return $bp['current_userid'];
+	return apply_filters( 'bp_current_user_id', $bp['current_userid'] );
 }
 
 function bp_user_fullname() {
 	global $bp;
-	echo $bp['current_fullname'];
+	echo apply_filters( 'bp_user_fullname', $bp['current_fullname'] );
 }
 
 

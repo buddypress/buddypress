@@ -147,51 +147,46 @@ function bp_wire_get_post_list( $item_id = null, $title = null, $empty_message =
 
 function bp_wire_title() {
 	global $bp_wire_header;
-	echo $bp_wire_header;
+	echo apply_filters( 'bp_group_reject_invite_link', $bp_wire_header );
 }
 
 function bp_wire_item_id( $echo = false ) {
 	global $bp_item_id;
 	
 	if ( $echo )
-		echo $bp_item_id;
+		echo apply_filters( 'bp_wire_item_id', $bp_item_id );
 	else
-		return $bp_item_id;
+		return apply_filters( 'bp_wire_item_id', $bp_item_id );
 }
 
 function bp_wire_no_posts_message() {
 	global $bp_wire_msg;
-	echo $bp_wire_msg;
+	echo apply_filters( 'bp_wire_no_posts_message', $bp_wire_msg );
 }
 
 function bp_wire_can_post() {
 	global $bp_wire_can_post;
-	return $bp_wire_can_post;
+	return apply_filters( 'bp_wire_can_post', $bp_wire_can_post );
 }
 
 function bp_wire_show_email_notify() {
 	global $bp_wire_show_email_notify;
-	return $bp_wire_show_email_notify;
+	return apply_filters( 'bp_wire_show_email_notify', $bp_wire_show_email_notify );
 }
 
 function bp_wire_post_id( $echo = true ) {
 	global $wire_posts_template;
 	
 	if ( $echo )
-		echo $wire_posts_template->wire_post->id;
+		echo apply_filters( 'bp_wire_post_id', $wire_posts_template->wire_post->id );
 	else
-		return $wire_posts_template->wire_post->id;
+		return apply_filters( 'bp_wire_post_id', $wire_posts_template->wire_post->id );
 }
 
 function bp_wire_post_content() {
 	global $wire_posts_template;
-	
-	$content = $wire_posts_template->wire_post->content;
-	$content = apply_filters('the_content', $content);
-	$content = str_replace(']]>', ']]&gt;', $content);
-	$content = stripslashes( $content );
-	
-	echo $content;
+
+	echo apply_filters( 'bp_wire_post_content', $wire_posts_template->wire_post->content );
 }
 
 function bp_wire_needs_pagination() {
@@ -215,13 +210,13 @@ function bp_wire_pagination_count() {
 	$from_num = intval( ( $wire_posts_template->pag_page - 1 ) * $wire_posts_template->pag_num ) + 1;
 	$to_num = ( $from_num + 4 > $wire_posts_template->total_wire_post_count ) ? $wire_posts_template->total_wire_post_count : $from_num + 4; 
 	
-	echo sprintf( __( 'Viewing post %d to %d (%d total posts)', 'buddypress' ), $from_num, $to_num, $wire_posts_template->total_wire_post_count );  
+	echo apply_filters( 'bp_wire_pagination_count', sprintf( __( 'Viewing post %d to %d (%d total posts)', 'buddypress' ), $from_num, $to_num, $wire_posts_template->total_wire_post_count ) );  
 }
 
 function bp_wire_ajax_loader_src() {
 	global $bp;
 	
-	echo $bp['wire']['image_base'] . '/ajax-loader.gif';
+	echo apply_filters( 'bp_wire_ajax_loader_src', $bp['wire']['image_base'] . '/ajax-loader.gif' );
 }
 
 function bp_wire_post_date( $date_format = null, $echo = true ) {
@@ -231,24 +226,24 @@ function bp_wire_post_date( $date_format = null, $echo = true ) {
 		$date_format = get_option('date_format');
 		
 	if ( $echo )
-		echo mysql2date( $date_format, $wire_posts_template->wire_post->date_posted );
+		echo apply_filters( 'bp_wire_post_date', mysql2date( $date_format, $wire_posts_template->wire_post->date_posted ) );
 	else
-		return mysql2date( $date_format, $wire_posts_template->wire_post->date_posted );
+		return apply_filters( 'bp_wire_post_date', mysql2date( $date_format, $wire_posts_template->wire_post->date_posted ) );
 }
 
 function bp_wire_post_author_name( $echo = true ) {
 	global $wire_posts_template;
 	
 	if ( $echo )
-		echo bp_core_get_userlink( $wire_posts_template->wire_post->user_id );
+		echo apply_filters( 'bp_wire_post_author_name', bp_core_get_userlink( $wire_posts_template->wire_post->user_id ) );
 	else
-		return bp_core_get_userlink( $wire_posts_template->wire_post->user_id );
+		return apply_filters( 'bp_wire_post_author_name', bp_core_get_userlink( $wire_posts_template->wire_post->user_id ) );
 }
 
 function bp_wire_post_author_avatar() {
 	global $wire_posts_template;
 	
-	echo bp_core_get_avatar( $wire_posts_template->wire_post->user_id, 1 );
+	echo apply_filters( 'bp_wire_post_author_avatar', bp_core_get_avatar( $wire_posts_template->wire_post->user_id, 1 ) );
 }
 
 function bp_wire_get_post_form() {
@@ -267,25 +262,25 @@ function bp_wire_get_action() {
 		$uri = $bp['current_item'];
 	
 	if ( $bp['current_component'] == 'wire' || $bp['current_component'] == 'profile' ) {
-		echo $bp['current_domain'] . $bp['wire']['slug'] . '/post/';
+		echo apply_filters( 'bp_wire_get_action', $bp['current_domain'] . $bp['wire']['slug'] . '/post/' );
 	} else {
-		echo site_url() . '/' . $bp[$bp['current_component']]['slug'] . '/' . $uri . '/wire/post/';
+		echo apply_filters( 'bp_wire_get_action', site_url() . '/' . $bp[$bp['current_component']]['slug'] . '/' . $uri . '/wire/post/' );
 	}
 }
 
 function bp_wire_poster_avatar() {
 	global $bp;
 	
-	echo bp_core_get_avatar( $bp['loggedin_userid'], 1 );
+	echo apply_filters( 'bp_wire_poster_avatar', bp_core_get_avatar( $bp['loggedin_userid'], 1 ) );
 }
 
 function bp_wire_poster_name( $echo = true ) {
 	global $bp;
 	
 	if ( $echo )
-		echo '<a href="' . $bp['loggedin_domain'] . $bp['profile']['slug'] . '">' . __('You', 'buddypress') . '</a>';
+		echo apply_filters( 'bp_wire_poster_name', '<a href="' . $bp['loggedin_domain'] . $bp['profile']['slug'] . '">' . __('You', 'buddypress') . '</a>' );
 	else
-		return '<a href="' . $bp['loggedin_domain'] . $bp['profile']['slug'] . '">' . __('You', 'buddypress') . '</a>';
+		return apply_filters( 'bp_wire_poster_name', '<a href="' . $bp['loggedin_domain'] . $bp['profile']['slug'] . '">' . __('You', 'buddypress') . '</a>' );
 }
 
 function bp_wire_poster_date( $date_format = null, $echo = true ) {
@@ -293,9 +288,9 @@ function bp_wire_poster_date( $date_format = null, $echo = true ) {
 		$date_format = get_option('date_format');
 
 	if ( $echo )
-		echo mysql2date( $date_format, date("Y-m-d H:i:s") );
+		echo apply_filters( 'bp_wire_poster_date', mysql2date( $date_format, date("Y-m-d H:i:s") ) );
 	else
-		return mysql2date( $date_format, date("Y-m-d H:i:s") );	
+		return apply_filters( 'bp_wire_poster_date', mysql2date( $date_format, date("Y-m-d H:i:s") ) );	
 }
 
 function bp_wire_delete_link() {
@@ -308,9 +303,9 @@ function bp_wire_delete_link() {
 		
 	if ( ( $wire_posts_template->wire_post->user_id == $bp['loggedin_userid'] ) || $bp['is_item_admin'] ) {
 		if ( $bp['current_component'] == 'wire' || $bp['current_component'] == 'profile' ) {
-			echo '<a href="' . $bp['current_domain'] . $bp['wire']['slug'] . '/delete/' . $wire_posts_template->wire_post->id . '">[' . __('Delete', 'buddypress') . ']</a>';
+			echo apply_filters( 'bp_wire_delete_link', '<a href="' . $bp['current_domain'] . $bp['wire']['slug'] . '/delete/' . $wire_posts_template->wire_post->id . '">[' . __('Delete', 'buddypress') . ']</a>' );
 		} else {
-			echo '<a href="' . site_url() . '/' . $bp[$bp['current_component']]['slug'] . '/' . $uri . '/wire/delete/' . $wire_posts_template->wire_post->id . '">[' . __('Delete', 'buddypress') . ']</a>';
+			echo apply_filters( 'bp_wire_delete_link', '<a href="' . site_url() . '/' . $bp[$bp['current_component']]['slug'] . '/' . $uri . '/wire/delete/' . $wire_posts_template->wire_post->id . '">[' . __('Delete', 'buddypress') . ']</a>' );
 		}
 	}
 }
@@ -324,9 +319,9 @@ function bp_wire_see_all_link() {
 		$uri = $bp['current_item'];
 	
 	if ( $bp['current_component'] == 'wire' || $bp['current_component'] == 'profile') {
-		echo $bp['current_domain'] . $bp['wire']['slug'];
+		echo apply_filters( 'bp_wire_see_all_link', $bp['current_domain'] . $bp['wire']['slug'] );
 	} else {
-		echo $bp['root_domain'] . '/' . $bp['groups']['slug'] . '/' . $uri . '/wire';
+		echo apply_filters( 'bp_wire_see_all_link', $bp['root_domain'] . '/' . $bp['groups']['slug'] . '/' . $uri . '/wire' );
 	}
 }
 

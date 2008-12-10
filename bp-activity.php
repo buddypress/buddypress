@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_ACTIVITY_IS_INSTALLED', 1 );
-define ( 'BP_ACTIVITY_VERSION', '0.2.6' );
+define ( 'BP_ACTIVITY_VERSION', '0.2.8' );
 
 /* How long before activity items in streams are re-cached? */
 define ( 'BP_ACTIVITY_CACHE_LENGTH', '6 HOURS' );
@@ -11,7 +11,7 @@ include_once( 'bp-activity/bp-activity-classes.php' );
 include_once( 'bp-activity/bp-activity-templatetags.php' );
 include_once( 'bp-activity/bp-activity-widgets.php' );
 include_once( 'bp-activity/bp-activity-cssjs.php' );
-//include_once( 'bp-activity/bp-activity-ajax.php' );
+include_once( 'bp-activity/bp-activity-filters.php' );
 //include_once( 'bp-activity/bp-activity-admin.php' );
 
 /**************************************************************************
@@ -29,6 +29,7 @@ function bp_activity_user_install() {
 	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_current_user'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  		item_id int(11) NOT NULL,
+				secondary_item_id int(11),
 				user_id int(11) NOT NULL,
 		  		component_name varchar(75) NOT NULL,
 				component_action varchar(75) NOT NULL,
@@ -42,6 +43,8 @@ function bp_activity_user_install() {
 
 	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_current_user_cached'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				item_id int(11) NOT NULL,
+				secondary_item_id int(11),
 		  		content longtext NOT NULL,
 				primary_link varchar(150) NOT NULL,
 				component_name varchar(75) NOT NULL,
@@ -51,6 +54,7 @@ function bp_activity_user_install() {
 				KEY date_cached (date_cached),
 				KEY date_recorded (date_recorded),
 			    KEY is_private (is_private),
+				KEY item_id (item_id),
 				KEY component_name (component_name)
 		 	   ) {$charset_collate};";
 	
@@ -89,6 +93,8 @@ function bp_activity_sitewide_install() {
 	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_sitewide'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id int(11) NOT NULL,
+				item_id int(11) NOT NULL,
+				secondary_item_id int(11),
 		  		content longtext NOT NULL,
 				primary_link varchar(150) NOT NULL,
 				component_name varchar(75) NOT NULL,
@@ -97,6 +103,7 @@ function bp_activity_sitewide_install() {
 				KEY date_cached (date_cached),
 				KEY date_recorded (date_recorded),
 				KEY user_id (user_id),
+				KEY item_id (item_id),
 				KEY component_name (component_name)
 		 	   ) {$charset_collate};";
 	
@@ -196,7 +203,7 @@ function bp_activity_screen_friends_activity() {
 
 /***** Actions **********/
 
-function bp_activity_record( $item_id, $component_name, $component_action, $is_private, $user_id = false, $secondary_user_id = false ) {
+function bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id = false, $user_id = false, $secondary_user_id = false ) {
 	global $bp, $wpdb;
 
 	if ( !$user_id )
@@ -206,6 +213,7 @@ function bp_activity_record( $item_id, $component_name, $component_action, $is_p
 	
 	$activity = new BP_Activity_Activity;
 	$activity->item_id = $item_id;
+	$activity->secondary_item_id = $secondary_item_id;
 	$activity->user_id = $user_id;
 	$activity->component_name = $component_name;
 	$activity->component_action = $component_action;

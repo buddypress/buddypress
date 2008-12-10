@@ -10,6 +10,7 @@ include_once( 'bp-friends/bp-friends-cssjs.php' );
 include_once( 'bp-friends/bp-friends-templatetags.php' );
 include_once( 'bp-friends/bp-friends-widgets.php' );
 include_once( 'bp-friends/bp-friends-notifications.php' );
+include_once( 'bp-friends/bp-friends-filters.php' );
 /*include_once( 'bp-messages/bp-friends-admin.php' );*/
 
 
@@ -194,7 +195,7 @@ add_action( 'bp_notification_settings', 'friends_screen_notification_settings' )
 function friends_record_activity( $args = true ) {
 	if ( function_exists('bp_activity_record') ) {
 		extract($args);
-		bp_activity_record( $item_id, $component_name, $component_action, $is_private, $dual_record );
+		bp_activity_record( $item_id, $component_name, $component_action, $is_private );
 	} 
 }
 add_action( 'bp_friends_friendship_accepted', 'friends_record_activity' );
@@ -208,12 +209,12 @@ add_action( 'bp_friends_friendship_accepted', 'friends_record_activity' );
           formats it to read "Andy Peatling & John Smith are now friends"
  **************************************************************************/
 
-function friends_format_activity( $friendship_id, $user_id, $action, $for_secondary_user = false ) {
+function friends_format_activity( $item_id, $user_id, $action, $secondary_item_id = false, $for_secondary_user = false ) {
 	global $bp;
 	
 	switch( $action ) {
 		case 'friendship_accepted':
-			$friendship = new BP_Friends_Friendship( $friendship_id, false, false );
+			$friendship = new BP_Friends_Friendship( $item_id, false, false );
 
 			if ( !$friendship->initiator_user_id || !$friendship->friend_user_id )
 				return false;

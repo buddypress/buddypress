@@ -10,6 +10,7 @@ include_once( 'bp-groups/bp-groups-cssjs.php' );
 include_once( 'bp-groups/bp-groups-templatetags.php' );
 include_once( 'bp-groups/bp-groups-widgets.php' );
 include_once( 'bp-groups/bp-groups-notifications.php' );
+include_once( 'bp-groups/bp-groups-filters.php' );
 include_once( 'bp-groups/bp-groups-admin.php' );
 include_once( 'bp-groups/directories/bp-groups-directory-groups.php' );
 
@@ -243,10 +244,12 @@ function groups_setup_nav() {
 			// If this is a closed group, and the user is not a member, show a "Request Membership" nav item.
 			if ( $group_obj->status == 'private' && ( !groups_is_user_member( $bp['loggedin_userid'], $group_obj->id ) && !groups_check_for_membership_request( $bp['loggedin_userid'], $group_obj->id ) ) && is_user_logged_in() )
 				bp_core_add_subnav_item( $bp['groups']['slug'], 'request-membership', __('Request Membership', 'buddypress'), $group_link , 'groups_screen_group_request_membership', 'request-membership' );
-				
-			bp_core_add_subnav_item( $bp['groups']['slug'], 'forum', __('Forum', 'buddypress'), $group_link , 'groups_screen_group_forum', 'group-forum', $is_visible);
 			
-			if ( function_exists('bp_wire_install') ) {
+			if ( function_exists('bp_forums_setup') && $group_obj->enable_forum ) {
+				bp_core_add_subnav_item( $bp['groups']['slug'], 'forum', __('Forum', 'buddypress'), $group_link , 'groups_screen_group_forum', 'group-forum', $is_visible);
+			}
+			
+			if ( function_exists('bp_wire_install') && $group_obj->enable_wire ) {
 				bp_core_add_subnav_item( $bp['groups']['slug'], 'wire', __('Wire', 'buddypress'), $group_link, 'groups_screen_group_wire', 'group-wire', $is_visible );
 			}
 			
@@ -352,7 +355,7 @@ function groups_screen_create_group() {
 			// We're done.
 			if ( $create_group_step == 4 )
 				bp_core_redirect( bp_group_permalink( $group_obj, false ) );
-
+			
 			if ( !$group_id = groups_manage_group( $create_group_step, $_SESSION['group_obj_id'] ) ) {
 				bp_core_add_message( __('There was an error saving group details. Please try again.', 'buddypress'), 'error' );
 				bp_core_redirect( $bp['loggedin_domain'] . $bp['groups']['slug'] . '/create/step/' . $create_group_step );
@@ -387,11 +390,33 @@ function groups_screen_group_home() {
 }
 
 function groups_screen_group_forum() {
-	global $is_single_group;
+	global $is_single_group, $bp, $group_obj;
 	
-	if ( $is_single_group ) {	
-		// Not implemented yet.
-		bp_catch_uri( 'groups/forum' );		
+	if ( $is_single_group ) {
+		$topic_id = $bp['action_variables'][1];
+		$forum_id = groups_get_groupmeta( $group_obj->id, 'forum_id' );
+		
+		if ( $topic_id ) {
+			
+			/* Posting a reply */
+			if ( isset( $_POST['submit_reply'] ) && function_exists( 'bp_forums_new_post') ) {
+				groups_new_group_forum_post( $_POST['reply_text'], $topic_id );
+				bp_core_redirect( bp_group_permalink( $group_obj, false ) . '/forum/topic/' . $topic_id );
+			}
+			
+			// If we are viewing a topic, load it.
+			bp_catch_uri( 'groups/forum/topic' );
+		} else {
+
+			/* Posting a topic */
+			if ( isset( $_POST['submit_topic'] ) && function_exists( 'bp_forums_new_topic') ) {
+				groups_new_group_forum_topic( $_POST['topic_title'], $_POST['topic_text'], $_POST['topic_tags'], $forum_id );
+				bp_core_redirect( bp_group_permalink( $group_obj, false ) . '/forum/' );
+			}
+			
+			// Load the forum home.
+			bp_catch_uri( 'groups/forum/index' );				
+		}
 	}
 }
 
@@ -409,7 +434,7 @@ function groups_screen_group_wire() {
 			} else {
 				bp_core_add_message( __('Wire message successfully posted.', 'buddypress') );
 			}
-			
+
 			if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
 				bp_core_redirect( bp_group_permalink( $group_obj, false ) );
 			} else {
@@ -799,18 +824,17 @@ function groups_record_activity( $args = true ) {
 	if ( function_exists('bp_activity_record') ) {
 		extract($args);
 		
-		if ( !isset($group_id) )
-			$group_id = $item_id;
-		
-		$group = new BP_Groups_Group( $group_id, false, false );
-		
+		$group = new BP_Groups_Group( $item_id, false, false );
+				
 		if ( $group->status == 'public' )
-			bp_activity_record( $item_id, $component_name, $component_action, $is_private );
+			bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_item_id );
 	} 
 }
 add_action( 'activity_groups_joined_group', 'groups_record_activity' );
 add_action( 'activity_groups_created_group', 'groups_record_activity' );
 add_action( 'activity_groups_new_wire_post', 'groups_record_activity' );
+add_action( 'activity_groups_new_forum_topic_post', 'groups_record_activity' );
+add_action( 'activity_groups_new_forum_topic', 'groups_record_activity' );
 
 /**************************************************************************
  groups_format_activity()
@@ -820,7 +844,7 @@ add_action( 'activity_groups_new_wire_post', 'groups_record_activity' );
           formats it to read "Andy Peatling joined the group 'A Cool Group'"
  **************************************************************************/
 
-function groups_format_activity( $item_id, $user_id, $action, $for_secondary_user = false  ) {
+function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id = false, $for_secondary_user = false  ) {
 	global $bp;
 	
 	switch( $action ) {
@@ -861,6 +885,44 @@ function groups_format_activity( $item_id, $user_id, $action, $for_secondary_use
 				'content' => $content
 			);
 		break;
+		case 'new_forum_post':
+			if ( function_exists('bp_forums_setup') ) {
+				$group = new BP_Groups_Group( $item_id );
+				$forum_post = bp_forums_get_post( $secondary_item_id );
+				$forum_topic = bp_forums_get_topic_details( $forum_post['topic_id'] );
+
+				if ( !$group || !$forum_post || !$forum_topic )
+					return false;		
+
+				$content = sprintf ( __('%s posted on the forum topic %s in the group %s:', 'buddypress'), bp_core_get_userlink($user_id), '<a href="' . bp_group_permalink( $group, false ) . '/forum/topic/' . $forum_topic['topic_id'] . '">' . $forum_topic['topic_title'] . '</a>', '<a href="' . bp_group_permalink( $group, false ) . '">' . $group->name . '</a>' ) . ' <span class="time-since">%s</span>';			
+				$content .= '<blockquote>' . apply_filters( 'bp_the_topic_post_content', stripslashes( $forum_post['post_text'] ) ) . '</blockquote>';
+
+				return array( 
+					'primary_link' => bp_group_permalink( $group, false ),
+					'content' => $content
+				);
+			}
+		break;
+		case 'new_forum_topic':
+			if ( function_exists('bp_forums_setup') ) {
+				$group = new BP_Groups_Group( $item_id );
+				$forum_topic = bp_forums_get_topic_details( $secondary_item_id );
+				$forum_post = bp_forums_get_post( $forum_topic['topic_last_post_id'] );
+				
+				var_dump($group, $forum_topic, $forum_post);
+
+				if ( !$group || !$forum_post || !$forum_topic )
+					return false;		
+
+				$content = sprintf ( __('%s created the forum topic %s in the group %s:', 'buddypress'), bp_core_get_userlink($user_id), '<a href="' . bp_group_permalink( $group, false ) . '/forum/topic/' . $forum_topic['topic_id'] . '">' . $forum_topic['topic_title'] . '</a>', '<a href="' . bp_group_permalink( $group, false ) . '">' . $group->name . '</a>' ) . ' <span class="time-since">%s</span>';			
+				$content .= '<blockquote>' . apply_filters( 'bp_the_topic_post_content', stripslashes( $forum_post['post_text'] ) ) . '</blockquote>';
+
+				return array( 
+					'primary_link' => bp_group_permalink( $group, false ),
+					'content' => $content
+				);
+			}
+		break;		
 	}
 	
 	return false;
@@ -966,6 +1028,9 @@ add_action( 'groups_new_wire_post', 'groups_update_last_activity' );
 add_action( 'groups_joined_group', 'groups_update_last_activity' );
 add_action( 'groups_leave_group', 'groups_update_last_activity' );
 add_action( 'groups_created_group', 'groups_update_last_activity' );
+add_action( 'bp_groups_new_forum_topic_post', 'groups_update_last_activity' );
+add_action( 'bp_groups_new_forum_topic_post', 'groups_update_last_activity' );
+
 
 
 /**************************************************************************
@@ -1100,8 +1165,8 @@ function groups_filter_user_groups( $filter, $pag_num_per_page = 5, $pag_page = 
 **************************************************************************/
 
 function groups_manage_group( $step, $group_id ) {
-	global $bp, $create_group_step, $group_obj;
-	
+	global $bp, $create_group_step, $group_obj, $bbpress_live;
+
 	if ( is_numeric( $step ) && ( $step == '1' || $step == '2' || $step == '3' || $step == '4' ) ) {
 		
 		if ( !$group_obj )
@@ -1165,8 +1230,14 @@ function groups_manage_group( $step, $group_id ) {
 				if ( !isset($_POST['group-show-wire']) )
 					$group_obj->enable_wire = 0;
 				
-				if ( !isset($_POST['group-show-forum']) )
+				if ( !isset($_POST['group-show-forum']) ) {
 					$group_obj->enable_forum = 0;
+				} else {
+					/* Create the forum if enable_forum = 1 */
+					if ( function_exists( 'bp_forums_setup' ) && groups_get_groupmeta( $group_obj->id, 'forum_id' ) == '' ) {
+						groups_new_group_forum();
+					}
+				}
 				
 				if ( !isset($_POST['group-show-photos']) )
 					$group_obj->enable_photos = 0;				
@@ -1261,6 +1332,51 @@ function groups_is_user_member( $user_id, $group_id ) {
 
 function groups_is_user_banned( $user_id, $group_id ) {
 	return BP_Groups_Member::check_is_banned( $user_id, $group_id );
+}
+
+function groups_new_group_forum() {
+	global $group_obj;
+	
+	$forum = bp_forums_new_forum( $group_obj->name . ' - Forum ', $group_obj->description );
+	groups_update_groupmeta( $group_obj->id, 'forum_id', $forum['forum_id'] );
+	
+	do_action( 'groups_new_group_forum', $forum, $group_obj->id );
+}
+
+function groups_new_group_forum_post( $post_text, $topic_id ) {
+	global $group_obj;
+	
+	if ( $forum_post = bp_forums_new_post( $post_text, $topic_id ) ) {
+		bp_core_add_message( __( 'Reply posted successfully!', 'buddypress') );
+
+		/* Activity recording action */
+		do_action( 'activity_groups_new_forum_topic_post', array( 'item_id' => $group_obj->id, 'component_name' => 'groups', 'component_action' => 'new_forum_post', 'is_private' => 0, 'secondary_item_id' => $forum_post['post_id'] ) );
+		
+		do_action( 'bp_groups_new_forum_topic_post', $group_obj->id, $forum_post );
+		
+		return $forum_post;
+	}
+	
+	bp_core_add_message( __( 'There was an error posting that reply.', 'buddypress'), 'error' );					
+	return false;
+}
+
+function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $forum_id ) {
+	global $group_obj;
+	
+	if ( $topic = bp_forums_new_topic( $topic_title, $topic_text, $topic_tags, $forum_id ) ) {
+		bp_core_add_message( __( 'Topic posted successfully!', 'buddypress') );
+
+		/* Activity recording action */
+		do_action( 'activity_groups_new_forum_topic', array( 'item_id' => $group_obj->id, 'component_name' => 'groups', 'component_action' => 'new_forum_topic', 'is_private' => 0, 'secondary_item_id' => $topic['topic_id'] ) );
+		
+		do_action( 'bp_groups_new_forum_topic', $group_obj->id, $topic );
+		
+		return $topic;
+	}
+	
+	bp_core_add_message( __( 'There was an error posting that topic.', 'buddypress'), 'error' );					
+	return false;
 }
 
 function groups_invite_user( $user_id, $group_id ) {
@@ -1457,6 +1573,14 @@ function groups_edit_group_settings( $group_id, $enable_wire, $enable_forum, $en
 	
 	if ( !$group->save() )
 		return false;
+	
+	/* If forums have been enabled, and a forum does not yet exist, we need to create one. */
+	if ( $group->enable_forum ) {
+		if ( function_exists( 'bp_forums_setup' ) && groups_get_groupmeta( $group->id, 'forum_id' ) == '' ) {
+			$forum = bp_forums_new_forum( $group->name . ' - Forum ', $group->description );
+			groups_update_groupmeta( $group->id, 'forum_id', $forum['forum_id'] );
+		}
+	}
 	
 	do_action( 'bp_groups_settings_updated', $group->id );
 	
@@ -1705,18 +1829,19 @@ function groups_update_groupmeta( $group_id, $meta_key, $meta_value ) {
 		return false;
 	
 	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
+	$meta_value = (string)$meta_value;
 
 	if ( is_string($meta_value) )
 		$meta_value = stripslashes($wpdb->escape($meta_value));
-		
+	
 	$meta_value = maybe_serialize($meta_value);
-
+	
 	if (empty($meta_value)) {
 		return groups_delete_groupmeta( $group_id, $meta_key );
 	}
 
 	$cur = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp['groups']['table_name_groupmeta'] . " WHERE group_id = %d AND meta_key = %s", $group_id, $meta_key ) );
-	
+
 	if ( !$cur ) {
 		$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['groups']['table_name_groupmeta'] . " ( group_id, meta_key, meta_value ) VALUES ( %d, %s, %s )", $group_id, $meta_key, $meta_value ) );
 	} else if ( $cur->meta_value != $meta_value ) {

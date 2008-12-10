@@ -163,7 +163,7 @@ function bp_field_css_class() {
 	global $profile_template;
 	
 	if ( $profile_template->current_field % 2 )
-		echo ' class="alt"';
+		echo apply_filters( 'bp_field_css_class', ' class="alt"' );
 }
 
 function bp_field_has_data() {
@@ -182,12 +182,12 @@ function bp_field_has_public_data() {
 
 function bp_the_profile_group_name() {
 	global $group;
-	echo $group->name;
+	echo apply_filters( 'bp_the_profile_group_name', $group->name );
 }
 
 function bp_the_profile_group_description() {
 	global $group;
-	echo $group->description;
+	echo apply_filters( 'bp_the_profile_group_description', $group->description );
 }
 
 function bp_profile_fields() {
@@ -284,7 +284,7 @@ function bp_profile_last_updated() {
 	if ( !$last_updated ) {
 		_e('Profile not recently updated', 'buddypress') . '.';
 	} else {
-		echo __('Profile updated ', 'buddypress') . bp_core_time_since( strtotime( $last_updated ) ) . __(' ago', 'buddypress'); 
+		echo apply_filters( 'bp_wire_poster_date', sprintf( __('Profile updated %s ago', 'buddypress'), bp_core_time_since( strtotime( $last_updated ) ) ) ); 
 	}
 }
 

@@ -412,7 +412,7 @@ add_action( 'bp_xprofile_updated_profile', 'xprofile_record_activity' );
  * @uses BP_XProfile_Group Class Creates a new group object based on the group ID.
  * @return The readable activity item
  */
-function xprofile_format_activity( $item_id, $user_id, $action ) {
+function xprofile_format_activity( $item_id, $user_id, $action, $secondary_item_id = false, $for_secondary_user = false ) {
 	global $bp;
 	
 	switch( $action ) {

@@ -10,6 +10,7 @@ include_once( 'bp-messages/bp-messages-cssjs.php' );
 include_once( 'bp-messages/bp-messages-admin.php' );
 include_once( 'bp-messages/bp-messages-templatetags.php' );
 include_once( 'bp-messages/bp-messages-notifications.php' );
+include_once( 'bp-messages/bp-messages-filters.php' );
 
 /**************************************************************************
  messages_install()
@@ -553,14 +554,11 @@ function messages_view_thread( $thread_id ) {
 					<a name="<?php echo 'm-' . $message->id ?>"></a>
 					<div class="message-box">
 						<div class="avatar-box">
-							<?php if ( function_exists('bp_core_get_avatar') ) 
-								echo bp_core_get_avatar($message->sender_id, 1);
-							?>
-				
-							<h3><?php echo bp_core_get_userlink($message->sender_id) ?></h3>
-							<small><?php echo bp_format_time(strtotime($message->date_sent)) ?></small>
+							<?php echo apply_filters( 'bp_message_sender_avatar', bp_core_get_avatar( $message->sender_id, 1 ) ) ?>
+							<h3><?php echo apply_filters( 'bp_message_sender_id', bp_core_get_userlink( $message->sender_id ) ) ?></h3>
+							<small><?php echo apply_filters( 'bp_message_date_sent', bp_format_time( strtotime($message->date_sent ) ) ) ?></small>
 						</div>
-						<?php echo stripslashes($message->message); ?>
+						<?php echo apply_filters( 'bp_message_content', stripslashes($message->message) ); ?>
 						<div class="clear"></div>
 					</div>
 				<?php

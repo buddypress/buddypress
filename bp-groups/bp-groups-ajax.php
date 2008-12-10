@@ -1,4 +1,4 @@
-<?php
+A<?php
 function groups_ajax_invite_user() {
 	global $bp;
 

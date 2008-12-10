@@ -103,17 +103,17 @@ function bp_the_blog() {
 
 function bp_blog_title() {
 	global $blogs_template;	
-	echo $blogs_template->blog['title'];
+	echo apply_filters( 'bp_blog_title', $blogs_template->blog['title'] );
 }
 
 function bp_blog_description() {
 	global $blogs_template;
-	echo $blogs_template->blog['description'];
+	echo apply_filters( 'bp_blog_description', $blogs_template->blog['description'] );
 }
 
 function bp_blog_permalink() {
 	global $blogs_template;	
-	echo $blogs_template->blog['siteurl'];
+	echo apply_filters( 'bp_blog_permalink', $blogs_template->blog['siteurl'] );
 }
 
 
@@ -224,19 +224,19 @@ function bp_post_title( $echo = true ) {
 	global $posts_template;
 	
 	if ( $echo )
-		echo $posts_template->post->post_title;
+		echo apply_filters( 'bp_post_title', $posts_template->post->post_title );
 	else
-		return $posts_template->post->post_title;
+		return apply_filters( 'bp_post_title', $posts_template->post->post_title );
 }
 
 function bp_post_permalink() {
 	global $posts_template;
-	echo bp_post_get_permalink();	
+	echo apply_filters( 'bp_post_permalink', bp_post_get_permalink() );	
 }
 
 function bp_post_excerpt() {
 	global $posts_template;
-	echo $posts_template->post->post_excerpt;	
+	echo apply_filters( 'bp_post_excerpt', $posts_template->post->post_excerpt );	
 }
 
 function bp_post_content() {
@@ -244,12 +244,12 @@ function bp_post_content() {
 	$content = $posts_template->post->post_content;
 	$content = apply_filters('the_content', $content);
 	$content = str_replace(']]>', ']]&gt;', $content);
-	echo $content;
+	echo apply_filters( 'bp_post_content', $content );
 }
 
 function bp_post_status() {
 	global $posts_template;
-	echo $posts_template->post->post_status;	
+	echo apply_filters( 'bp_post_status', $posts_template->post->post_status );	
 }
 
 function bp_post_date( $date_format = null, $echo = true ) {
@@ -259,14 +259,14 @@ function bp_post_date( $date_format = null, $echo = true ) {
 		$date_format = get_option('date_format');
 		
 	if ( $echo )
-		echo mysql2date( $date_format, $posts_template->post->post_date );
+		echo apply_filters( 'bp_post_date', mysql2date( $date_format, $posts_template->post->post_date ) );
 	else
-		return mysql2date( $date_format, $posts_template->post->post_date );
+		return apply_filters( 'bp_post_date', mysql2date( $date_format, $posts_template->post->post_date ) );
 }
 
 function bp_post_comment_count() {
 	global $posts_template;
-	echo $posts_template->post->comment_count;	
+	echo apply_filters( 'bp_post_comment_count', $posts_template->post->comment_count );	
 }
 
 function bp_post_comments( $zero = 'No Comments', $one = '1 Comment', $more = '% Comments', $css_class = '', $none = 'Comments Off' ) {
@@ -310,23 +310,23 @@ function bp_post_author( $echo = true ) {
 	global $posts_template;
 	
 	if ( $echo )
-		echo bp_core_get_userlink( $posts_template->post->post_author );
+		echo apply_filters( 'bp_post_author', bp_core_get_userlink( $posts_template->post->post_author ) );
 	else
-		return bp_core_get_userlink( $posts_template->post->post_author );
+		return apply_filters( 'bp_post_author', bp_core_get_userlink( $posts_template->post->post_author ) );
 }
 
 function bp_post_id() {
 	global $posts_template;
-	echo $posts_template->post->ID;	
+	echo apply_filters( 'bp_post_id', $posts_template->post->ID );	
 }
 
 function bp_post_category( $separator = '', $parents='', $post_id = false, $echo = true ) {
 	global $posts_template;
 	
 	if ( $echo )
-		echo get_the_category_list( $separator, $parents, $posts_template->post->ID );
+		echo apply_filters( 'bp_post_category', get_the_category_list( $separator, $parents, $posts_template->post->ID ) );
 	else
-		return get_the_category_list( $separator, $parents, $posts_template->post->ID );
+		return apply_filters( 'bp_post_category', get_the_category_list( $separator, $parents, $posts_template->post->ID ) );
 }
 
 function bp_post_tags( $before = '', $sep = ', ', $after = '' ) {
@@ -338,22 +338,22 @@ function bp_post_tags( $before = '', $sep = ', ', $after = '' ) {
 
 function bp_post_blog_id() {
 	global $posts_template;
-	echo $posts_template->post->blog_id;
+	echo apply_filters( 'bp_post_blog_id', $posts_template->post->blog_id );
 }
 
 function bp_post_blog_title() {
 	global $posts_template;
-	echo $posts_template->post->blog_id;	
+	echo apply_filters( 'bp_post_blog_title', $posts_template->post->blog_id );	
 }
 
 function bp_post_blog_description() {
 	global $posts_template;
-	echo $posts_template->post->blog_id;	
+	echo apply_filters( 'bp_post_blog_description', $posts_template->post->blog_id );	
 }
 
 function bp_post_blog_permalink() {
 	global $posts_template;
-	echo $posts_template->post->blog_id;	
+	echo apply_filters( 'bp_post_blog_permalink', $posts_template->post->blog_id );	
 }
 
 function bp_post_get_permalink( $post = null, $blog_id = null ) {
@@ -567,34 +567,34 @@ function bp_the_comment() {
 
 function bp_comment_id() {
 	global $comments_template;
-	echo $comments_template->comment->comment_ID;
+	echo apply_filters( 'bp_comment_id', $comments_template->comment->comment_ID );
 }
 
 function bp_comment_post_permalink( $echo = true ) {
 	global $comments_template;
 	
 	if ( $echo )
-		echo bp_post_get_permalink( $comments_template->comment->post, $comments_template->comment->blog_id ) . '#comment-' . $comments_template->comment->comment_ID;
+		echo apply_filters( 'bp_comment_post_permalink', bp_post_get_permalink( $comments_template->comment->post, $comments_template->comment->blog_id ) . '#comment-' . $comments_template->comment->comment_ID );
 	else
-		return bp_post_get_permalink( $comments_template->comment->post, $comments_template->comment->blog_id ) . '#comment-' . $comments_template->comment->comment_ID;
+		return apply_filters( 'bp_comment_post_permalink', bp_post_get_permalink( $comments_template->comment->post, $comments_template->comment->blog_id ) . '#comment-' . $comments_template->comment->comment_ID );
 }
 
 function bp_comment_post_title( $echo = true ) {
 	global $comments_template;
 	
 	if ( $echo )
-		echo $comments_template->comment->post->post_title;
+		echo apply_filters( 'bp_comment_post_title', $comments_template->comment->post->post_title );
 	else
-		return $comments_template->comment->post->post_title;
+		return apply_filters( 'bp_comment_post_title', $comments_template->comment->post->post_title );
 }
 
 function bp_comment_author( $echo = true ) {
 	global $comments_template;
 	
 	if ( $echo )
-		echo bp_core_get_userlink( $comments_template->comment->user_id );
+		echo apply_filters( 'bp_comment_author', bp_core_get_userlink( $comments_template->comment->user_id ) );
 	else
-		return bp_core_get_userlink( $comments_template->comment->user_id );
+		return apply_filters( 'bp_comment_author', bp_core_get_userlink( $comments_template->comment->user_id ) );
 }
 
 function bp_comment_content() {
@@ -602,7 +602,7 @@ function bp_comment_content() {
 	$content = $comments_template->comment->comment_content;
 	$content = apply_filters('the_content', $content);
 	$content = str_replace(']]>', ']]&gt;', $content);
-	echo $content;
+	echo apply_filters( 'bp_comment_content', $content );
 }
 
 function bp_comment_date( $date_format = null, $echo = true ) {
@@ -612,27 +612,27 @@ function bp_comment_date( $date_format = null, $echo = true ) {
 		$date_format = get_option('date_format');
 		
 	if ( $echo == true )
-		echo mysql2date( $date_format, $comments_template->comment->post->post_date );
+		echo apply_filters( 'bp_comment_date', mysql2date( $date_format, $comments_template->comment->post->post_date ) );
 	else 
-		return mysql2date( $date_format, $comments_template->comment->post->post_date );
+		return apply_filters( 'bp_comment_date', mysql2date( $date_format, $comments_template->comment->post->post_date ) );
 }
 
 function bp_comment_blog_permalink( $echo = true ) {
 	global $comments_template;
 	
 	if ( $echo )
-		echo get_blog_option( $comments_template->comment->blog_id, 'siteurl' );
+		echo apply_filters( 'bp_comment_blog_permalink', get_blog_option( $comments_template->comment->blog_id, 'siteurl' ) );
 	else
-		return get_blog_option( $comments_template->comment->blog_id, 'siteurl' );
+		return apply_filters( 'bp_comment_blog_permalink', get_blog_option( $comments_template->comment->blog_id, 'siteurl' ) );
 }
 
 function bp_comment_blog_name( $echo = true ) {
 	global $comments_template;
 	
 	if ( $echo )
-		echo get_blog_option( $comments_template->comment->blog_id, 'blogname' );
+		echo apply_filters( 'bp_comment_blog_name', get_blog_option( $comments_template->comment->blog_id, 'blogname' ) );
 	else
-		return get_blog_option( $comments_template->comment->blog_id, 'blogname' );
+		return apply_filters( 'bp_comment_blog_name', get_blog_option( $comments_template->comment->blog_id, 'blogname' ) );
 }
 
 
@@ -799,7 +799,7 @@ function bp_create_blog_link() {
 	global $bp;
 	
 	if ( bp_is_home() )	{
-		echo '<a href="' . $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/create-a-blog">' . __('Create a Blog', 'buddypress') . '</a>';
+		echo apply_filters( 'bp_create_blog_link', '<a href="' . $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/create-a-blog">' . __('Create a Blog', 'buddypress') . '</a>' );
 	}
 }
 ?>

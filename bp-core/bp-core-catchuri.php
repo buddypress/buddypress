@@ -210,7 +210,7 @@ function bp_core_do_catch_uri() {
 
 function bp_core_catch_no_access() {
 	global $bp, $bp_path, $bp_no_status_set;
-	
+
 	// If bp_core_redirect() and $bp_no_status_set is true,
 	// we are redirecting to an accessable page, so skip this check.
 	if ( $bp_no_status_set )

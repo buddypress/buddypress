@@ -125,12 +125,12 @@ function bp_the_activity() {
 
 function bp_activities_title() {
 	global $bp_activity_title;
-	echo $bp_activity_title;
+	echo apply_filters( 'bp_activities_title', $bp_activity_title );
 }
 
 function bp_activities_no_activity() {
 	global $bp_activity_no_activity;
-	echo $bp_activity_no_activity;
+	echo apply_filters( 'bp_activities_no_activity', $bp_activity_no_activity );
 }
 
 function bp_activity_content() {
@@ -138,13 +138,13 @@ function bp_activity_content() {
 	
 	if ( $activities_template->filter_content ) {
 		if ( $activities_template->is_home ) {
-			echo bp_activity_content_filter( $activities_template->activity['content'], $activities_template->activity['date_recorded'], $activities_template->full_name );						
+			echo apply_filters( 'bp_activity_content', bp_activity_content_filter( $activities_template->activity['content'], $activities_template->activity['date_recorded'], $activities_template->full_name ) );						
 		} else {
-			echo bp_activity_content_filter( $activities_template->activity['content'], $activities_template->activity['date_recorded'], $activities_template->full_name, true, false, false );									
+			echo apply_filters( 'bp_activity_content', bp_activity_content_filter( $activities_template->activity['content'], $activities_template->activity['date_recorded'], $activities_template->full_name, true, false, false ) );									
 		}
 	} else {
 		$activities_template->activity['content'] = bp_activity_insert_time_since( $activities_template->activity['content'], $activities_template->activity['date_recorded'] );
-		echo $activities_template->activity['content'];
+		echo apply_filters( 'bp_activity_content', $activities_template->activity['content'] );
 	}
 }
 
@@ -175,34 +175,34 @@ function bp_activity_content_filter( $content, $date_recorded, $full_name, $inse
 	for ( $i = 0; $i < count($content); $i++ )
 		$content_new .= $content[$i];
 	
-	return $content_new;
+	return apply_filters( 'bp_activity_content_filter', $content_new );
 }
 
 function bp_activity_insert_time_since( $content, $date ) {
 	if ( !$content || !$date )
 		return false;
 		
-	return @sprintf( $content, @sprintf( __( '&nbsp; %s ago', 'buddypress' ), bp_core_time_since( strtotime( $date ) ) ) );
+	return apply_filters( 'bp_activity_insert_time_since', @sprintf( $content, @sprintf( __( '&nbsp; %s ago', 'buddypress' ), bp_core_time_since( strtotime( $date ) ) ) ) );
 }
 
 function bp_activity_css_class() {
 	global $activities_template;
-	echo $activities_template->activity['component_name'];
+	echo apply_filters( 'bp_activity_css_class', $activities_template->activity['component_name'] );
 }
 
 function bp_sitewide_activity_feed_link() {
 	global $bp;
 	
-	echo site_url() . '/' . $bp['activity']['slug'] . '/feed';
+	echo apply_filters( 'bp_sitewide_activity_feed_link', site_url() . '/' . $bp['activity']['slug'] . '/feed' );
 }
 
 function bp_activities_member_rss_link() {
 	global $bp;
 	
 	if ( ( $bp['current_component'] == $bp['profile']['slug'] ) || $bp['current_action'] == 'just-me' )
-		echo $bp['current_domain'] . $bp['activity']['slug'] . '/feed';
+		echo apply_filters( 'bp_activities_member_rss_link', $bp['current_domain'] . $bp['activity']['slug'] . '/feed' );
 	else
-		echo $bp['current_domain'] . $bp['activity']['slug'] . '/my-friends/feed';		
+		echo apply_filters( 'bp_activities_member_rss_link', $bp['current_domain'] . $bp['activity']['slug'] . '/my-friends/feed' );		
 }
 
 /* Template tags for RSS feed output */
@@ -211,25 +211,25 @@ function bp_activity_feed_item_title() {
 	global $activities_template;
 
 	$title = explode( '<span', $activities_template->activity['content'] );
-	echo trim( strip_tags( $title[0] ) );
+	echo apply_filters( 'bp_activity_feed_item_title', trim( strip_tags( $title[0] ) ) );
 }
 
 function bp_activity_feed_item_link() {
 	global $activities_template;
 
-	echo $activities_template->activity['primary_link'];
+	echo apply_filters( 'bp_activity_feed_item_link', $activities_template->activity['primary_link'] );
 }
 
 function bp_activity_feed_item_date() {
 	global $activities_template;
 
-	echo $activities_template->activity['date_recorded'];
+	echo apply_filters( 'bp_activity_feed_item_date', $activities_template->activity['date_recorded'] );
 }
 
 function bp_activity_feed_item_description() {
 	global $activities_template;
 
-	echo sprintf( $activities_template->activity['content'], '' );	
+	echo apply_filters( 'bp_activity_feed_item_description', sprintf( $activities_template->activity['content'], '' ) );	
 }
 
 

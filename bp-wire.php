@@ -8,6 +8,7 @@ include_once( 'bp-wire/bp-wire-classes.php' );
 include_once( 'bp-wire/bp-wire-ajax.php' );
 include_once( 'bp-wire/bp-wire-templatetags.php' );
 include_once( 'bp-wire/bp-wire-cssjs.php' );
+include_once( 'bp-wire/bp-wire-filters.php' );
 //include_once( 'bp-wire/bp-wire-admin.php' );
 
 /**************************************************************************
@@ -93,11 +94,11 @@ function bp_wire_action_post() {
 		bp_core_add_message( __('Wire message successfully posted.', 'buddypress') );
 		do_action( 'bp_xprofile_new_wire_post', array( 'item_id' => $wire_post_id, 'component_name' => 'profile', 'component_action' => 'new_wire_post', 'is_private' => 0 ) );	
 	}
-	
+
 	if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
 		bp_core_redirect( $bp['current_domain'] );
 	} else {
-		bp_core_redirect( $bp['current_domain']. $bp['wire']['slug'] );
+		bp_core_redirect( $bp['current_domain'] . $bp['wire']['slug'] );
 	}
 }
 add_action( 'wp', 'bp_wire_action_post', 3 );

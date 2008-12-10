@@ -3,6 +3,7 @@
 Class BP_Activity_Activity {
 	var $id;
 	var $item_id;
+	var $secondary_item_id;
 	var $user_id;
 	var $primary_link;
 	var $component_name;
@@ -31,6 +32,7 @@ Class BP_Activity_Activity {
 		$activity = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $this->table_name . " WHERE id = %d", $this->id ) );
 
 		$this->item_id = $activity->item_id;
+		$this->secondary_item_id = $activity->secondary_item_id;
 		$this->user_id = $activity->user_id;
 		$this->component_name = $activity->component_name;
 		$this->component_action = $activity->component_action;
@@ -50,19 +52,19 @@ Class BP_Activity_Activity {
 
 		if ( !$this->exists() ) {
 			// Insert the new activity into the activity table.
-			$activity = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $this->table_name . " ( item_id, user_id, component_name, component_action, date_recorded, is_private ) VALUES ( %d, %d, %s, %s, FROM_UNIXTIME(%d), %d )", $this->item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_recorded, $this->is_private ) );
+			$activity = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $this->table_name . " ( item_id, secondary_item_id, user_id, component_name, component_action, date_recorded, is_private ) VALUES ( %d, %d, %d, %s, %s, FROM_UNIXTIME(%d), %d )", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_recorded, $this->is_private ) );
 
 			// Fetch the formatted activity content so we can add it to the cache.
 			if ( function_exists( $bp[$this->component_name]['format_activity_function'] ) ) {
-				if ( !$activity_content = call_user_func($bp[$this->component_name]['format_activity_function'], $this->item_id, $this->user_id, $this->component_action, $this->for_secondary_user ) )
+				if ( !$activity_content = call_user_func($bp[$this->component_name]['format_activity_function'], $this->item_id, $this->user_id, $this->component_action, $this->secondary_item_id, $this->for_secondary_user ) )
 					return false;
 			}
-			
+
 			// Add the cached version of the activity to the cached activity table.
-			$activity_cached = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $this->table_name_cached . " ( content, primary_link, component_name, date_cached, date_recorded, is_private ) VALUES ( %s, %s, %s, FROM_UNIXTIME(%d), FROM_UNIXTIME(%d), %d )", $activity_content['content'], $activity_content['primary_link'], $this->component_name, time(), $this->date_recorded, $this->is_private ) );
+			$activity_cached = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $this->table_name_cached . " ( item_id, secondary_item_id, content, primary_link, component_name, date_cached, date_recorded, is_private ) VALUES ( %d, %d, %s, %s, %s, FROM_UNIXTIME(%d), FROM_UNIXTIME(%d), %d )", $this->item_id, $this->secondary_item_id, $activity_content['content'], $activity_content['primary_link'], $this->component_name, time(), $this->date_recorded, $this->is_private ) );
 		
 			// Add the cached version of the activity to the cached activity table.
-			$sitewide_cached = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_sitewide'] . " ( user_id, content, primary_link, component_name, date_cached, date_recorded ) VALUES ( %d, %s, %s, %s, FROM_UNIXTIME(%d), FROM_UNIXTIME(%d) )", $bp['loggedin_userid'], $activity_content['content'], $activity_content['primary_link'], $this->component_name, time(), $this->date_recorded ) );
+			$sitewide_cached = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_sitewide'] . " ( user_id, item_id, secondary_item_id, content, primary_link, component_name, date_cached, date_recorded ) VALUES ( %d, %d, %d, %s, %s, %s, FROM_UNIXTIME(%d), FROM_UNIXTIME(%d) )", $bp['loggedin_userid'], $this->item_id, $this->secondary_item_id, $activity_content['content'], $activity_content['primary_link'], $this->component_name, time(), $this->date_recorded ) );
 			
 			if ( $activity && $activity_cached )
 				return true;
@@ -73,15 +75,15 @@ Class BP_Activity_Activity {
 	
 	function exists() {
 		global $wpdb, $bp;
-		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM " . $this->table_name . " WHERE item_id = %d AND user_id = %d AND component_name = %s AND component_action = %s", $this->item_id, $this->user_id, $this->component_name, $this->component_action ) );		
+		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM " . $this->table_name . " WHERE item_id = %d AND secondary_item_id = %d AND user_id = %d AND component_name = %s AND component_action = %s", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action ) );		
 	}
 	
 	/* Static Functions */ 
 
-	function delete( $item_id, $user_id, $component_name, $component_action ) {
+	function delete( $item_id, $secondary_item_id, $user_id, $component_name, $component_action ) {
 		global $wpdb, $bp;
 			
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['activity']['table_name_loggedin_user'] . " WHERE item_id = %d AND user_id = %d AND component_name = %s AND component_action = %s", $item_id, $user_id, $component_name, $component_action ) );
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['activity']['table_name_loggedin_user'] . " WHERE item_id = %d AND secondary_item_id = %d AND user_id = %d AND component_name = %s AND component_action = %s", $item_id, $secondary_item_id, $user_id, $component_name, $component_action ) );
 	}
 	
 	function get_activity_for_user( $user_id = null, $limit = 30, $since = '-1 week' ) {
@@ -133,6 +135,8 @@ Class BP_Activity_Activity {
 					if ( !$activities[$i]->is_private ) {
 						$activities_formatted[$i]['content'] = $content['content'];
 						$activities_formatted[$i]['primary_link'] = $content['primary_link'];
+						$activities_formatted[$i]['item_id'] = $activities[$i]->item_id;
+						$activities_formatted[$i]['secondary_item_id'] = $activities[$i]->secondary_item_id;
 						$activities_formatted[$i]['date_recorded'] = $activities[$i]->date_recorded;
 						$activities_formatted[$i]['component_name'] = $activities[$i]->component_name;
 						$activities_formatted[$i]['is_private'] = $activities[$i]->is_private;
@@ -278,14 +282,11 @@ Class BP_Activity_Activity {
 			if ( $activity_array[$i]['content'] == '' ) continue;
 			
 			// Cache that sucka...
-			
-			//echo $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_current_user_cached'] . " ( content, primary_link, component_name, date_cached, date_recorded, is_private ) VALUES ( %s, %s, FROM_UNIXTIME(%d), %s, %d )", $activity_array[$i]['content'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], time(), $activity_array[$i]['date_recorded'], $activity_array[$i]['is_private'] );
-			
-			$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_current_user_cached'] . " ( content, primary_link, component_name, date_cached, date_recorded, is_private ) VALUES ( %s, %s, %s, FROM_UNIXTIME(%d), %s, %d )", $activity_array[$i]['content'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], time(), $activity_array[$i]['date_recorded'], $activity_array[$i]['is_private'] ) );
+			$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_current_user_cached'] . " ( content, item_id, secondary_item_id, primary_link, component_name, date_cached, date_recorded, is_private ) VALUES ( %s, %d, %d, %s, %s, FROM_UNIXTIME(%d), %s, %d )", $activity_array[$i]['content'], $activity_array[$i]['item_id'], $activity_array[$i]['secondary_item_id'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], time(), $activity_array[$i]['date_recorded'], $activity_array[$i]['is_private'] ) );
 			
 			// Add to the sitewide activity stream
 			if ( !$activity_array[$i]['is_private'] )
-				$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_sitewide'] . " ( user_id, content, primary_link, component_name, date_cached, date_recorded ) VALUES ( %d, %s, %s, %s, FROM_UNIXTIME(%d), %s )", $user_id, $activity_array[$i]['content'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], time(), $activity_array[$i]['date_recorded'] ) );
+				$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_sitewide'] . " ( user_id, content, item_id, secondary_item_id, primary_link, component_name, date_cached, date_recorded ) VALUES ( %d, %s, %d, %d, %s, %s, FROM_UNIXTIME(%d), %s )", $user_id, $activity_array[$i]['content'], $activity_array[$i]['item_id'], $activity_array[$i]['secondary_item_id'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], time(), $activity_array[$i]['date_recorded'] ) );
 		}
 		
 		update_usermeta( $bp['current_userid'], 'bp_activity_last_cached', time() );
