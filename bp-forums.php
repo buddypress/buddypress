@@ -36,6 +36,11 @@ add_action( 'admin_head', 'bp_forums_setup', 3 );
 function bp_forums_get_forum( $parent = 0, $depth = 0 ) {
 	global $bbpress_live;
 	
+	if ( !is_object( $bbpress_live ) ) {
+		include_once( ABSPATH . WPINC . '/class-IXR.php' );
+		$bbpress_live = new bbPress_Live();
+	}
+	
 	if ( $forum = $bbpress_live->get_forums( $parent, $depth ) ) {
 		do_action( 'bp_forums_get_forum', $forum );
 		return $forum;
@@ -46,6 +51,11 @@ function bp_forums_get_forum( $parent = 0, $depth = 0 ) {
 
 function bp_forums_get_topics( $forum_id = 0, $number = 0, $page = 1 ) {
 	global $bbpress_live;
+	
+	if ( !is_object( $bbpress_live ) ) {
+		include_once( ABSPATH . WPINC . '/class-IXR.php' );
+		$bbpress_live = new bbPress_Live();
+	}
 	
 	if ( $topics = $bbpress_live->get_topics( $forum_id, $number, $page ) ) {
 		do_action( 'bp_forums_get_topics', $topics );
@@ -58,6 +68,11 @@ function bp_forums_get_topics( $forum_id = 0, $number = 0, $page = 1 ) {
 function bp_forums_get_topic_details( $topic_id = 0 ) {
 	global $bbpress_live;
 	
+	if ( !is_object( $bbpress_live ) ) {
+		include_once( ABSPATH . WPINC . '/class-IXR.php' );
+		$bbpress_live = new bbPress_Live();
+	}
+	
 	if ( $topic = $bbpress_live->get_topic_details( $topic_id ) ) {
 		do_action( 'bp_forums_get_topic_details', $topic );
 		return $topic;
@@ -68,6 +83,11 @@ function bp_forums_get_topic_details( $topic_id = 0 ) {
 
 function bp_forums_get_posts( $topic_id = 0, $number = 0, $page = 1 ) {
 	global $bbpress_live;
+	
+	if ( !is_object( $bbpress_live ) ) {
+		include_once( ABSPATH . WPINC . '/class-IXR.php' );
+		$bbpress_live = new bbPress_Live();
+	}
 	
 	if ( $posts = $bbpress_live->get_posts( $topic_id, $number, $page ) ) {
 		do_action( 'bp_forums_get_posts', $posts );
@@ -96,6 +116,11 @@ function bp_forums_get_post( $post_id = 0 ) {
 function bp_forums_new_forum( $name = '', $desc = '', $parent = 0, $order = 0, $is_category = false ) {
 	global $bbpress_live;
 	
+	if ( !is_object( $bbpress_live ) ) {
+		include_once( ABSPATH . WPINC . '/class-IXR.php' );
+		$bbpress_live = new bbPress_Live();
+	}
+	
 	if ( $forum = $bbpress_live->new_forum( $name, $desc, $parent, $order, $is_category ) ) {
 		do_action( 'bp_forums_new_forum', $forum );
 		return $forum;
@@ -106,6 +131,11 @@ function bp_forums_new_forum( $name = '', $desc = '', $parent = 0, $order = 0, $
 
 function bp_forums_new_topic( $title = '', $topic_text = '', $topic_tags = '', $forum_id = 0 ) {
 	global $bbpress_live;
+	
+	if ( !is_object( $bbpress_live ) ) {
+		include_once( ABSPATH . WPINC . '/class-IXR.php' );
+		$bbpress_live = new bbPress_Live();
+	}
 	
 	$topic_text = apply_filters( 'bp_forums_new_post_text', $topic_text );
 	$title = apply_filters( 'bp_forums_new_post_title', $title );
@@ -121,6 +151,11 @@ function bp_forums_new_topic( $title = '', $topic_text = '', $topic_tags = '', $
 
 function bp_forums_new_post( $post_text = '', $topic_id = 0 ) {
 	global $bbpress_live;
+	
+	if ( !is_object( $bbpress_live ) ) {
+		include_once( ABSPATH . WPINC . '/class-IXR.php' );
+		$bbpress_live = new bbPress_Live();
+	}
 	
 	$post_text = apply_filters( 'bp_forums_new_post_text', $post_text );
 	

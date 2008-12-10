@@ -532,6 +532,12 @@ function bp_group_is_wire_enabled() {
 	return false;
 }
 
+function bp_group_forum_permalink() {
+	global $groups_template;
+	
+	echo bp_group_permalink( $groups_template->group, false ) . '/forum';
+}
+
 function bp_group_is_forum_enabled() {
 	global $groups_template;
 	

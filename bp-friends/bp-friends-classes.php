@@ -107,6 +107,12 @@ class BP_Friends_Friendship {
 		return $wpdb->get_col( $wpdb->prepare( "SELECT id FROM " . $bp['friends']['table_name'] . " $friend_sql $oc_sql" ) );
 	}
 	
+	function get_friendship_id( $user_id, $friend_id ) {
+		global $wpdb, $bp;
+		
+		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM " . $bp['friends']['table_name'] . " WHERE ( initiator_user_id = %d AND friend_user_id = %d ) OR ( initiator_user_id = %d AND friend_user_id = %d ) AND is_confirmed = 1", $user_id, $friend_id, $friend_id, $user_id ) );
+	}
+	
 	function total_friend_count( $user_id ) {
 		global $wpdb, $bp;
 		

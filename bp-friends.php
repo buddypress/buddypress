@@ -490,20 +490,21 @@ function friends_add_friend( $initiator_userid, $friend_userid ) {
  Remove a friend relationship
 **************************************************************************/
 
-function friends_remove_friend( $initiator_userid, $friend_userid, $only_confirmed = false ) {
+function friends_remove_friend( $initiator_userid, $friend_userid ) {
 	global $bp;
 		
-	$friendship_id = BP_Friends_Friendship::get_friendship_ids( $initiator_userid, $only_confirmed, false, null, null, $friend_userid );
-	$friendship = new BP_Friends_Friendship( $friendship_id[0]->id );
+	$friendship_id = BP_Friends_Friendship::get_friendship_id( $initiator_userid, $friend_userid );
+	$friendship = new BP_Friends_Friendship( $friendship_id );
 	
 	do_action( 'bp_friends_friendship_deleted', $friendship_id, $initiator_userid, $friend_userid );
 	
 	if ( $friendship->delete() ) {
 		friends_update_friend_totals( $initiator_userid, $friend_userid, 'remove' );
+		
 		return true;
-	} else {
-		return false;
 	}
+	
+	return false;
 }
 
 function friends_accept_friendship( $friendship_id ) {

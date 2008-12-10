@@ -5,7 +5,7 @@ function friends_notification_new_request( $friendship_id, $initiator_id, $frien
 	
 	$initiator_name = bp_fetch_user_fullname( $initiator_id, false );
 
-	if ( get_usermeta( $friend_id, 'notification_friends_friendship_request' ) == 'no' )
+	if ( get_usermeta( (int)$friend_id, 'notification_friends_friendship_request' ) == 'no' )
 		return false;
 	
 	$ud = get_userdata( $friend_id );
@@ -44,7 +44,7 @@ function friends_notification_accepted_request( $friendship_id, $initiator_id, $
 	
 	$friend_name = bp_fetch_user_fullname( $friend_id, false );
 
-	if ( get_usermeta( $initiator_id, 'notification_friends_friendship_accepted' ) == 'no' )
+	if ( get_usermeta( (int)$initiator_id, 'notification_friends_friendship_accepted' ) == 'no' )
 		return false;
 	
 	$ud = get_userdata( $initiator_id );
