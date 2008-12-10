@@ -908,8 +908,6 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 				$group = new BP_Groups_Group( $item_id );
 				$forum_topic = bp_forums_get_topic_details( $secondary_item_id );
 				$forum_post = bp_forums_get_post( $forum_topic['topic_last_post_id'] );
-				
-				var_dump($group, $forum_topic, $forum_post);
 
 				if ( !$group || !$forum_post || !$forum_topic )
 					return false;		
