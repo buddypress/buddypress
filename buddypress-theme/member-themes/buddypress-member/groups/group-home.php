@@ -10,21 +10,7 @@
 	<?php if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group(); ?>
 	
 	<div class="left-menu">
-		<?php bp_group_avatar() ?>
-		
-		<?php bp_group_join_button() ?>
-		
-		<div class="info-group">
-			<h4><?php _e( 'Admins', 'buddypress' ); ?></h4>
-			<?php bp_group_list_admins() ?>
-		</div>
-		
-		<?php if ( bp_group_has_moderators() ) : ?>
-		<div class="info-group">
-			<h4><?php _e( 'Mods', 'buddypress' ); ?></h4>
-			<?php bp_group_list_mods() ?>
-		</div>
-		<?php endif; ?>
+		<?php load_template( TEMPLATEPATH . '/groups/group-menu.php' ) ?>
 	</div>
 
 	<div class="main-column">
@@ -52,6 +38,13 @@
 					<p><?php bp_group_news() ?></p>
 				</div>
 			<?php endif; ?>
+			
+			<?php if ( bp_group_is_visible() && bp_group_is_forum_enabled() && function_exists( 'bp_forums_setup') ) : ?>
+				<div class="info-group">
+					<h4><?php _e( 'Active Forum Topics', 'buddypress' ); ?></h4>
+					<p><?php bp_group_active_forum_topics() ?></p>
+				</div>
+			<?php endif; ?>
 		
 			<?php if ( bp_group_is_visible() ) : ?>
 				<div class="info-group">
@@ -60,7 +53,7 @@
 				</div>
 			<?php endif; ?>
 		
-			<?php if ( bp_group_is_visible() ) : ?>
+			<?php if ( bp_group_is_visible() && bp_group_is_wire_enabled() ) : ?>
 				<?php if ( function_exists('bp_wire_get_post_list') ) : ?>
 					<?php bp_wire_get_post_list( bp_group_id( false ), __( 'Group Wire', 'buddypress' ), sprintf( __( 'The are no wire posts for %s', 'buddypress' ), bp_group_name( false ) ), bp_group_is_member(), true ) ?>
 				<?php endif; ?>

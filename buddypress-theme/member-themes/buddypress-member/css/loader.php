@@ -43,11 +43,15 @@ if ( function_exists('bp_wire_install') && file_exists('wire.css') )
 if ( function_exists('xprofile_install') && file_exists('profiles.css') )
 	echo "@import url(profiles.css);\n";
 
+/* Forums */
+if ( function_exists('bp_forums_setup') && file_exists('forums.css') )
+	echo "@import url(forums.css);\n";
+
 /* If the root blog is set up for right to left reading, include the rtl.css file */
 if ( get_bloginfo( 1, 'text_direction' ) == 'rtl' && file_exists( 'rtl.css' ) )
 	echo "@import url(rtl.css);\n";
 	
-/* If there are any custom component css files inside the /custom/ dir, load them. */
+/* If there are any custom component css files inside the /custom-components/ dir, load them. */
 if ( is_dir( './custom-components' ) ) {
 	if ( $dh = opendir( './custom-components' ) ) {
 		while ( ( $css_file = readdir( $dh ) ) !== false ) {
