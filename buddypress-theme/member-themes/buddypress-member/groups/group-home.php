@@ -41,7 +41,7 @@
 			
 			<?php if ( bp_group_is_visible() && bp_group_is_forum_enabled() && function_exists( 'bp_forums_setup') ) : ?>
 				<div class="info-group">
-					<h4><?php _e( 'Active Forum Topics', 'buddypress' ); ?></h4>
+					<h4><?php _e( 'Active Forum Topics', 'buddypress' ); ?> <a href="<?php bp_group_forum_permalink() ?>"><?php _e( 'See All &raquo;', 'buddypress' ) ?></a></h4>
 					<p><?php bp_group_active_forum_topics() ?></p>
 				</div>
 			<?php endif; ?>
