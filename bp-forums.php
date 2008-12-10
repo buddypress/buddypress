@@ -80,6 +80,11 @@ function bp_forums_get_posts( $topic_id = 0, $number = 0, $page = 1 ) {
 function bp_forums_get_post( $post_id = 0 ) {
 	global $bbpress_live;
 	
+	if ( !is_object( $bbpress_live ) ) {
+		include_once( ABSPATH . WPINC . '/class-IXR.php' );
+		$bbpress_live = new bbPress_Live();
+	}
+	
 	if ( $post = $bbpress_live->get_post( $post_id ) ) {
 		do_action( 'bp_forums_get_post', $post );
 		return $post;
