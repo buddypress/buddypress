@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_MESSAGES_IS_INSTALLED', 1 );
-define ( 'BP_MESSAGES_VERSION', '0.3.8' );
+define ( 'BP_MESSAGES_VERSION', '0.4' );
 
 include_once( 'bp-messages/bp-messages-classes.php' );
 include_once( 'bp-messages/bp-messages-ajax.php' );
@@ -44,8 +44,10 @@ function messages_install() {
 		  		thread_id int(11) NOT NULL,
 				sender_only tinyint(1) NOT NULL DEFAULT '0',
 		  		unread_count int(10) NOT NULL DEFAULT '0',
+				is_deleted tinyint(1) NOT NULL DEFAULT '0',
 			    KEY user_id (user_id),
 			    KEY thread_id (thread_id),
+				KEY is_deleted (is_deleted),
 			    KEY sender_only (sender_only),
 			    KEY unread_count (unread_count)
 		 	   ) {$charset_collate};";
@@ -176,6 +178,9 @@ function messages_screen_sentbox() {
 }
 
 function messages_screen_compose() {
+	
+	// Remove any saved message data from a previous session.
+	messages_remove_callback_values();
 	
 	if ( isset($_POST['send_to']) || ( isset($_POST['send-notice']) && is_site_admin() ) ) {
 		messages_send_message( $_POST['send_to'], $_POST['subject'], $_POST['content'], $_POST['thread_id'], false, true );
@@ -355,7 +360,7 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 function messages_send_message( $recipients, $subject, $content, $thread_id, $from_ajax = false, $from_template = false, $is_reply = false ) {
 	global $pmessage;
 	global $message, $type;
-	global $bp;
+	global $bp, $current_user;
 
 	if ( isset( $_POST['send-notice'] ) ) {
 		messages_send_notice( $subject, $content, $from_template );
@@ -363,14 +368,24 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 	}
 
 	messages_add_callback_values( $recipients, $subject, $content );
-
-	if ( $recipients == '' ) {
+	
+	$recipients = explode( ',', $recipients );
+	
+	// If there are no recipients
+	if ( count( $recipients ) < 1 ) {
 		if ( !$from_ajax ) {	
 			bp_core_add_message( __('Please enter at least one valid user to send this message to.', 'buddypress'), 'error' );
 			bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/compose' );
 		} else {
 			return array('status' => 0, 'message' => __('There was an error sending the reply, please try again.', 'buddypress'));
 		}
+		
+	// If there is only 1 recipient and it is the logged in user.
+	} else if ( count( $recipients ) == 1 && $recipients[0] == $current_user->user_login ) {
+		bp_core_add_message( __('You must send your message to one or more users not including yourself.', 'buddypress'), 'error' );
+		bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/compose' );	
+	
+	// If the subject or content boxes are empty.
 	} else if ( $subject == '' || $content == '' ) {
 		if ( !$from_ajax ) {
 			bp_core_add_message( __('Please make sure you fill in all the fields.', 'buddypress'), 'error' );
@@ -378,7 +393,14 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 		} else {
 			return array('status' => 0, 'message' => __('Please make sure you have typed a message before sending a reply.', 'buddypress'));
 		}
+		
+	// Passed validation continue.
 	} else {
+
+		// Strip the logged in user from the recipient list if they exist
+		if ( $key = array_search( $current_user->user_login, $recipients ) )
+			unset( $recipients[$key] );
+		
 		$pmessage = new BP_Messages_Message;
 
 		$pmessage->sender_id = $bp['loggedin_userid'];
@@ -393,7 +415,7 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 			$thread = new BP_Messages_Thread($thread_id);
 			$pmessage->recipients = $thread->get_recipients();
 		} else {
-			$pmessage->recipients = BP_Messages_Message::get_recipient_ids( explode( ',', $recipients ) );
+			$pmessage->recipients = BP_Messages_Message::get_recipient_ids( $recipients );
 		}
 
 		if ( !is_null( $pmessage->recipients ) ) {
@@ -446,6 +468,12 @@ function messages_add_callback_values( $recipients, $subject, $content ) {
 	$_SESSION['send_to'] = $recipients;
 	$_SESSION['subject'] = $subject;
 	$_SESSION['content'] = $content;
+}
+
+function messages_remove_callback_values() {
+	unset($_SESSION['send_to']);
+	unset($_SESSION['subject']);
+	unset($_SESSION['content']);
 }
 
 /**************************************************************************
@@ -515,6 +543,14 @@ function messages_delete_thread( $thread_ids, $box, $display_name ) {
 	messages_box( $box, $display_name, $message, $type );
 }
 
+function messages_is_user_sender( $user_id, $message_id ) {
+	return BP_Messages_Message::is_user_sender( $user_id, $message_id );
+}
+
+function messages_get_message_sender( $message_id ) {
+	return BP_Messages_Message::get_message_sender( $message_id );
+}
+
 
 /**************************************************************************
  messages_view_thread()
@@ -528,8 +564,11 @@ function messages_view_thread( $thread_id ) {
 	$thread = new BP_Messages_Thread( $thread_id, true );
 	
 	if ( !$thread->has_access ) {
-		unset($_GET['mode']);
-		messages_inbox( __('There was an error viewing this message, please try again.', 'buddypress'), 'error' );
+		unset($_GET['mode']); ?>
+		<div id="message" class="error">
+			<p><?php _e( 'There was an error when viewing that message', 'buddypress' ) ?></p>
+		</div>
+	<?php	
 	} else {
 		if ( $thread->messages ) { ?>
 			<?php $thread->mark_read() ?>

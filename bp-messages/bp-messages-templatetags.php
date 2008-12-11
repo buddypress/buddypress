@@ -37,7 +37,7 @@ Class BP_Messages_Template {
 			else
 				$this->total_thread_count = BP_Messages_Thread::get_total_threads_for_user( $this->user_id, $this->box );
 		}
-			
+
 		$this->pag_links = paginate_links( array(
 			'base' => add_query_arg( 'mpage', '%#%' ),
 			'format' => '',
@@ -47,7 +47,6 @@ Class BP_Messages_Template {
 			'next_text' => '&raquo;',
 			'mid_size' => 1
 		));
-
 	}
 	
 	function has_threads() {
@@ -99,7 +98,7 @@ function bp_has_message_threads() {
 	global $bp, $messages_template;
 
 	if ( $bp['current_action'] == 'notices' && !is_site_admin() ) {
-		wp_die('No Access');
+		wp_redirect( $bp['current_userid'] );
 	} else {
 		if ( $bp['current_action'] == 'inbox' )
 			bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'messages', 'new_message' );
