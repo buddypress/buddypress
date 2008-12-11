@@ -6,9 +6,15 @@ define( 'BP_CORE_VERSION', '0.3' );
 /* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
 define( 'MEMBERS_SLUG', 'members' );
 
+/* Define the slug for the register/signup page */
+define( 'REGISTER_SLUG', 'register' );
+
+/* Define the slug for the news page */
+define( 'NEWS_SLUG', 'news' );
+
 /* These components are accessed via the root, and not under a blog name or member home.
    e.g Groups is accessed via: http://domain.com/groups/group-name NOT http://domain.com/andy/groups/group-name */
-define( 'BP_CORE_ROOT_COMPONENTS', 'groups,news,blogs' . ',' . MEMBERS_SLUG );
+define( 'BP_CORE_ROOT_COMPONENTS', 'groups,blogs' . ',' . MEMBERS_SLUG . ',' . REGISTER_SLUG . ',' . NEWS_SLUG );
 
 /* Load the language file */
 if ( file_exists( ABSPATH . 'wp-content/mu-plugins/bp-languages/buddypress-' . get_locale() . '.mo' ) )
@@ -49,6 +55,9 @@ require_once( 'bp-core/directories/bp-core-directory-members.php' );
 
 /* Functions to handle and display BuddyPress administration menus */
 require_once( 'bp-core/bp-core-admin.php' );
+
+/* Functions to provide better WPMU custom signup page support */
+require_once( 'bp-core/bp-core-signup.php' );
 
 
 /* "And now for something completely different" .... */

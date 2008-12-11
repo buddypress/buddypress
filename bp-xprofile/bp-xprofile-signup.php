@@ -14,60 +14,60 @@ function xprofile_add_signup_fields() {
 
 	if ( $fields ) {
 	?>
-	<div id="extraFields">
-		<div id="breaker">
-			<h3><?php _e('Additional Information', 'buddypress'); ?></h3>
-			<p><?php _e('Please fill in the following fields to start up your member profile. Fields
-				marked with a star are required.', 'buddypress'); ?></p>
-		</div>
-			<?php
-			for ( $i = 0; $i < count($fields); $i++ ) {
-				if ( $bp_xprofile_callback[$i]['field_id'] == $fields[$i]->id && isset($bp_xprofile_callback[$i]['error_msg']) ) {
-					$css_class = ' class="error"';
-				} else {
-					$css_class = '';
-				}
-				?>
-				<div>
-					<?php if ( $css_class != '' ) { echo '<div class="error">' . $bp_xprofile_callback[$i]['error_msg'] . '</div>'; } ?>
-					<?php echo $fields[$i]->get_edit_html($bp_xprofile_callback[$i]['value']); ?>
-				</div>
-				<?php
-				$field_ids .= $fields[$i]->id . ",";
-			}
-			?>
-	<input type="hidden" name="xprofile_ids" value="<?php echo $field_ids; ?>" />	
-	<?php
-	}
-	
-	?>
-		<div id="breaker">
-			<h3><?php _e('Profile Picture (Avatar)', 'buddypress'); ?></h3>
-			<p><?php _e('You can upload an image from your computer to use as an avatar. This avatar will appear on your profile page.', 'buddypress'); ?></p>
-		</div>
-			<?php
-			if ( $avatar_error ) {
+		<h3><?php _e('Your Profile Details', 'buddypress'); ?></h3>
+		<p id="extra-fields-help"><?php _e('Please fill in the following fields to start up your member profile. Fields
+			marked with a star are required.', 'buddypress'); ?></p>
+		
+		<div id="extra-form-fields">
+		<?php
+		for ( $i = 0; $i < count($fields); $i++ ) {
+			if ( $bp_xprofile_callback[$i]['field_id'] == $fields[$i]->id && isset($bp_xprofile_callback[$i]['error_msg']) ) {
 				$css_class = ' class="error"';
 			} else {
 				$css_class = '';
 			}
 			?>
+			<div class="extra-field">
+				<?php if ( $css_class != '' ) { echo '<div class="error">' . $bp_xprofile_callback[$i]['error_msg'] . '</div>'; } ?>
+				<?php echo $fields[$i]->get_edit_html($bp_xprofile_callback[$i]['value']); ?>
+			</div>
+			<?php
+			$field_ids .= $fields[$i]->id . ",";
+		}
+		?>
+		</div>
+	<input type="hidden" name="xprofile_ids" value="<?php echo $field_ids; ?>" />	
+	<?php
+	}
+	
+	?>
+		<div id="avatar-form-fields">
+			<h3><?php _e('Profile Picture (Avatar)', 'buddypress'); ?></h3>
+			<p id="avatar-help-text"><?php _e('You can upload an image from your computer to use as an avatar. This avatar will appear on your profile page.', 'buddypress'); ?></p>
+			<?php
+			if ( $avatar_error ) {
+				$css_class = ' error';
+			} else {
+				$css_class = '';
+			}
+			?>
 			
-			<div<?php echo $css_class; ?>
+			<div class="avatar-field<?php echo $css_class; ?>">
 				<?php if ( $css_class != '' ) { echo '<div class="error">' . $avatar_error_msg . '</div>'; } ?>
 				
+				<label for="file"><?php _e( 'Select a file:', 'buddypress' ) ?></label>
 				<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo get_site_option('fileupload_maxk') * 1024; ?>" />
 				<input type="hidden" name="slick_avatars_action" value="upload" />
 				<input type="hidden" name="action" value="slick_avatars" />
 				<input type="file" name="file" id="file" />
 			</div>
-	<script type="text/javascript">
-		jQuery(document).ready( function() {
-			jQuery('form#setupform').attr( 'enctype', 'multipart/form-data' );
-			jQuery('form#setupform').attr( 'encoding', 'multipart/form-data' );
-		});
-	</script>
-	</div>
+		<script type="text/javascript">
+			jQuery(document).ready( function() {
+				jQuery('form#setupform').attr( 'enctype', 'multipart/form-data' );
+				jQuery('form#setupform').attr( 'encoding', 'multipart/form-data' );
+			});
+		</script>
+		</div>
 	<?php
 }
 add_action( 'signup_extra_fields', 'xprofile_add_signup_fields' );
@@ -86,6 +86,7 @@ function xprofile_validate_signup_fields( $result ) {
 	global $bp_xprofile_callback, $avatar_error, $avatar_error_msg, $has_errors;
 	global $canvas, $original;
 	global $current_site, $active_signup;
+	global $wp_upload_error;
 	
 	if ( $_POST['stage'] != 'validate-user-signup' ) return $result;
 	
@@ -178,7 +179,7 @@ function xprofile_validate_signup_fields( $result ) {
 			// "Handle" upload into temporary location
 			if ( $checked_upload && $checked_size && $checked_type && !$original = bp_core_handle_avatar_upload($_FILES) ) {
 				$avatar_error = true;
-				$avatar_error_msg = __('Upload Failed! Your photo dimensions are likely too big.', 'buddypress');						
+				$avatar_error_msg = sprintf( __('Upload Failed! Error was: %s', 'buddypress'), $wp_upload_error );						
 			}
 	
 			if ( $checked_upload && $checked_size && $checked_type && $original && !$canvas = bp_core_resize_avatar($original) )

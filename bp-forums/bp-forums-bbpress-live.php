@@ -448,7 +448,7 @@ class bbPress_Live_Fetch
 		$client->timeout = 3;
 		$client->useragent .= ' -- bbPress Live Data/0.1.2';
 
-		if ( !$username && !$password ) {
+		if ( !$username ) {
 			$username = $this->options['username'];
 		} else {
 			$username = array( $this->options['username'], $username );

@@ -34,7 +34,7 @@ function bp_adminbar_login_menu() {
 		
 		// Show "Sign Up" link if registrations are allowed
 		if ( get_site_option( 'registration' ) != 'none' ) {
-			echo '<li class="bp-signup no-arrow"><a href="' . site_url() . '/wp-signup.php">' . __( 'Create Account', 'buddypress' ) . '</a></li>';
+			echo '<li class="bp-signup no-arrow"><a href="' . bp_signup_page(false) . '">' . __( 'Sign Up', 'buddypress' ) . '</a></li>';
 		}
 	}
 }

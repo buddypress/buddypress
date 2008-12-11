@@ -413,6 +413,20 @@ function bp_is_page($page) {
 	return false;
 }
 
+function bp_signup_page( $echo = true ) {
+	if ( file_exists( WP_CONTENT_DIR . '/themes/' . get_blog_option( 1, 'template') . '/register.php') ) {
+		if ( $echo )
+			echo site_url(REGISTER_SLUG);
+		else
+			return site_url(REGISTER_SLUG);
+	} else {
+		if ( $echo )
+			echo site_url('wp-signup.php');
+		else
+			return site_url('wp-signup.php');
+	}
+}
+
 /* Template functions for fetching globals, without querying the DB again
    also means we dont have to use the $bp variable in the template (looks messy) */
 
