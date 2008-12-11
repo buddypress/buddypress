@@ -4,7 +4,7 @@ Installing and setting up bp-forums
 The bp-forums component provides a link between bbPress and BuddyPress so forums can be
 created and manipulated directly in BuddyPress.
 
-Integration is simple right now and limited to creating forums, creating topics and posting.
+Forum functionality is currently quite basic and limited to creating forums, creating topics and posting.
 More advanced integration including moderation, searching and tagging support will come in later
 versions of the component.
 
