@@ -413,76 +413,114 @@ textarea#comment {
 	margin: 0 5px 8px 0;
 }
 
-/** SIGNUP FIELDS CSS **/
+/***** SIGNUP FORM *******/
 
-#breaker {
-	margin-top: 20px;
+#setupform {
+	padding: 10px;
+	float: left;
 }
+	#setupform h3 {
+		margin-top: 20px;
+	}
 
-#extraFields {
-	margin-bottom: 20px;
-}
-
-#extraFields label, 
-div.radio span.signup-label, 
-div.checkbox span.signup-label {
-	font-weight: bold;
-	margin-top: 25px;
-	margin-bottom: 10px;
+#setupform input, #setupform textarea {
+	width: 95%;
+	padding: 7px 5px;
 	font-size: 1.2em;
+}
+	#setupform input[type='radio'], #setupform input[type='checkbox'] { width: auto; }
+	#setupform select {
+		padding: 3px;
+	}
+	
+	#setupform input#submit {
+		width: auto;
+		margin-top: 20px;
+		font-size: 1.2em;
+	}
+
+#setupform label, div.radio span.signup-label, 
+div.checkbox span.signup-label {
 	display: block;
+	font-family: Georgia, times, serif;
+	font-size: 1.3em;
+	margin: 15px 0 5px 0;
 }
 
-#extraFields input {
-	font-size: 24px;
-	width: 100%;
+p#intro-text, p#extra-fields-help, p#avatar-help-text, p#blog-help-text, p#blog-details-help {
+	margin-bottom: 15px;
 }
 
-#extraFields textarea {
-	width: 80%;
-	height: 120px;
+p.help-text, span.desc {
+	font-size: 11px;
+	color: #888;
+	padding-top: 5px;
 }
 
-#extraFields select {
+div.field-box, div.mu_alert, div#account-fields, div#extra-form-fields, 
+div.avatar-field, div#blog-or-username-fields, div#blog-details-fields {
+	background: #eee;
+	padding: 5px 15px 15px 15px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+	div.field-box { padding-top: 15px; }
+
+div.avatar-field {
+	padding-top: 1px;
+}
+
+div#blog-or-username-fields {
+	padding: 18px 15px 5px 15px;
+}
+	div#blog-or-username-fields p {
+		padding-bottom: 10px;
+	}
+	
+	div#blog-or-username-fields label {
+		margin-left: 3px;
+	}
+
+div#extra-fields, div#avatar-form-fields, div#blog-or-username {
+	margin-top: 30px;
+}
+
+div.mu_alert {
+	padding-top: 15px;
+	margin-bottom: 15px;
+}
+
+p.error, div.error {
+	padding: 7px 10px;
+	margin: 0 0 10px 0;
+}
+	 div.error {
+		margin: 10px 0 4px 0 !important;
+	}
+
+div#extra-fields select {
 	width: 280px;
 	font-size: 1.4em;
 }
 
-#extraFields div.datefield select {
+div#extra-fields div.datefield select {
 	width: auto;
 }
 
-#extraFields div.radio label,
-#extraFields div.checkbox label {
-	display: inline;
+div#extra-fields div.radio label,
+div#extra-fields div.checkbox label,
+div#blog-or-username-fields label {
+	display: inline !important;
 	font-weight: normal;
 	float: none;
 	padding: 0 !important;
 	margin-right: 15px;
+	font-size: 1.1em;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", verdana, arial, sans-serif;
 }
 
-#extraFields div.radio input,
-#extraFields div.checkbox input {
-	width: auto;
-}
 
-#extraFields div.error {
-	margin: 20px 0 -15px 0;
-}
-
-span.desc {
-	margin-left: 115px;
-	font-weight: normal;
-}
-
-div.error {
-	font-weight: bold;
-}
-
-span.signup-description {
-	display: block;
-	margin: 5px 0 0 0;
-}
+/**** PAGINATION ******/
 
 a.page-numbers:hover { background: #e1e1e1; }
 
@@ -496,6 +534,8 @@ a.page-numbers:hover { background: #e1e1e1; }
 	color: #888;
 }
 
+/***** FEEDBACK MESSAGES ******/
+
 #message {
 	background: #ddffc4;
 	margin: 0 0 2em 0;
@@ -506,7 +546,7 @@ a.page-numbers:hover { background: #e1e1e1; }
 		background: url(images/info_icon.gif) 1em 1.1em no-repeat;
 	}
 
-#message.error {
+#message.error, p.error, div.error {
 	background-image: url(images/error_back.gif);
 	background-color: #ff3a3a;
 	color: #fff;
