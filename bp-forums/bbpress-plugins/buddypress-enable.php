@@ -20,7 +20,6 @@ function for_buddypress_strip_tags( $_post, $post ) {
 	$_post['poster_display_name'] = get_user_display_name( $_post['poster_id'] );
 	// Remove some sensitive data
 	unset(
-		$_post['poster_id'],
 		$_post['poster_ip'],
 		$_post['pingback_queued']
 	);

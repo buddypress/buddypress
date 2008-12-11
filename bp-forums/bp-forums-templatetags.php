@@ -404,16 +404,16 @@ function bp_the_topic_post_content() {
 function bp_the_topic_post_poster_avatar() {
 	global $topic_template;
 
-	echo apply_filters( 'bp_the_topic_post_poster_avatar', bp_core_get_avatar( get_user_id_from_string($topic_template->post->poster_display_name), 1, 20, 20 ) ); 
+	echo apply_filters( 'bp_the_topic_post_poster_avatar', bp_core_get_avatar( $topic_template->post->poster_id, 1, 20, 20 ) ); 
 }
 
 function bp_the_topic_post_poster_name( $echo = true ) {
 	global $topic_template;
 	
 	if ( $echo )
-		echo apply_filters( 'bp_the_topic_post_poster_name', bp_core_get_userlink_by_username( $topic_template->post->poster_display_name ) );
+		echo apply_filters( 'bp_the_topic_post_poster_name', bp_core_get_userlink( $topic_template->post->poster_id ) );
 	else
-		return apply_filters( 'bp_the_topic_post_poster_name', bp_core_get_userlink_by_username( $topic_template->post->poster_display_name ) );
+		return apply_filters( 'bp_the_topic_post_poster_name', bp_core_get_userlink( $topic_template->post->poster_id ) );
 }
 
 function bp_the_topic_post_time_since( $echo = true ) {
