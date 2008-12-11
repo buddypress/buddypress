@@ -31,4 +31,21 @@ function for_buddypress_strip_tags( $_post, $post ) {
 }
 
 add_filter( 'bb_xmlrpc_prepare_post', 'for_buddypress_strip_tags', 10, 2 );
+
+
+function for_buddypress_prepare_topic( $_topic, $topic ) {
+	// Cast to an array
+	$_topic = (array) $topic;
+	// Set the URI
+	$_topic['topic_uri'] = get_topic_link( $_topic['topic_id'] );
+	// Set readable times
+	$_topic['topic_start_time_since'] = bb_since( $_topic['topic_start_time'] );
+	$_topic['topic_time_since'] = bb_since( $_topic['topic_time'] );
+	// Set the display names
+	$_topic['topic_poster_display_name'] = get_user_display_name( $_topic['topic_poster'] );
+	$_topic['topic_last_poster_display_name'] = get_user_display_name( $_topic['topic_last_poster'] );
+
+	return $_topic;
+}
+add_filter( 'bb_xmlrpc_prepare_topic', 'for_buddypress_prepare_topic', 10, 2 );
 ?>

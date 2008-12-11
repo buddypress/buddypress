@@ -123,7 +123,7 @@ function bp_the_topic_id() {
 
 function bp_the_topic_title() {
 	global $forum_template;
-	
+
 	echo apply_filters( 'bp_the_topic_title', stripslashes( $forum_template->topic->topic_title ) );
 }
 
@@ -136,31 +136,31 @@ function bp_the_topic_slug() {
 function bp_the_topic_poster_id() {
 	global $forum_template;
 	
-	echo apply_filters( 'bp_the_topic_poster_id', get_user_id_from_string($forum_template->topic->topic_poster_name) );
+	echo apply_filters( 'bp_the_topic_poster_id', $forum_template->topic->topic_poster );
 }
 
 function bp_the_topic_poster_avatar() {
 	global $forum_template;
 	
-	echo apply_filters( 'bp_the_topic_poster_avatar', bp_core_get_avatar( get_user_id_from_string($forum_template->topic->topic_poster_name), 1 ) ); 
+	echo apply_filters( 'bp_the_topic_poster_avatar', bp_core_get_avatar( $forum_template->topic->topic_poster, 1 ) ); 
 }
 
 function bp_the_topic_poster_name() {
 	global $forum_template;
-	
-	echo apply_filters( 'bp_the_topic_poster_name', bp_core_get_userlink_by_username( $forum_template->topic->topic_poster_name ) );
+		
+	echo apply_filters( 'bp_the_topic_poster_name', bp_core_get_userlink( $forum_template->topic->topic_poster ) );
 }
 
 function bp_the_topic_last_poster_name() {
 	global $forum_template;
 	
-	echo apply_filters( 'bp_the_topic_last_poster_name', bp_core_get_userlink_by_username( $forum_template->topic->topic_last_poster_display_name ) );
+	echo apply_filters( 'bp_the_topic_last_poster_name', bp_core_get_userlink( $forum_template->topic->topic_last_poster ) );
 }
 
 function bp_the_topic_last_poster_avatar() {
 	global $forum_template;
 	
-	echo apply_filters( 'bp_the_topic_last_poster_avatar', bp_core_get_avatar( get_user_id_from_string($forum_template->topic->topic_last_poster_display_name), 1 ) ); 
+	echo apply_filters( 'bp_the_topic_last_poster_avatar', bp_core_get_avatar( $forum_template->topic->topic_last_poster, 1 ) ); 
 }
 
 function bp_the_topic_start_time() {
