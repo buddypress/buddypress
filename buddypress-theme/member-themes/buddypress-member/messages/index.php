@@ -9,16 +9,15 @@
 </div>
 
 <div id="content">
-	<div class="pagination-links">
-		<?php bp_messages_pagination() ?>
-	</div>
-	
 	<h2><?php _e("Inbox", "buddypress"); ?></h2>
 	<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 	
 	<?php bp_message_get_notices(); // (admin created site wide notices) ?>
 
 	<?php if ( bp_has_message_threads() ) : ?>
+		<div class="pagination-links">
+			<?php bp_messages_pagination() ?>
+		</div>
 		
 		<table id="message-threads">
 		<?php while ( bp_message_threads() ) : bp_message_thread(); ?>
