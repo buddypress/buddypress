@@ -20,7 +20,7 @@ define( 'CORE_DEFAULT_AVATAR_THUMB', site_url() . '/wp-content/mu-plugins/bp-xpr
 
 function bp_core_get_avatar( $user, $version = 1, $width = null, $height = null, $no_tag = false ) {
 	global $bp, $current_blog;
-	
+		
 	if ( !is_int($version) )
 		$version = (int) $version;
 		
@@ -42,11 +42,13 @@ function bp_core_get_avatar( $user, $version = 1, $width = null, $height = null,
 		else
 			return '<img src="' . $url . '" alt="" class="avatar photo" width="' . $width . '" height="' . $height . '" />';
 	} else {
-		$identicon = 'http://www.gravatar.com/avatar/' . md5( $user . '@' . get_option('siteurl') ) . '?d=wavatar&amp;s=';
+		$ud = get_userdata($user);
+		
+		$gravatar = 'http://www.gravatar.com/avatar/' . md5( $ud->user_email ) . '?d=wavatar&amp;s=';
 		if ( $no_tag )
-			return $identicon . constant('CORE_AVATAR_V' . $version . '_W');
+			return $gravatar . constant('CORE_AVATAR_V' . $version . '_W');
 		else
-			return '<img src="' . $identicon . constant('CORE_AVATAR_V' . $version . '_W') . '" alt="" class="avatar" width="' . $width . '" height="' . $height . '" />';
+			return '<img src="' . $gravatar . constant('CORE_AVATAR_V' . $version . '_W') . '" alt="" class="avatar" width="' . $width . '" height="' . $height . '" />';
 	}
 }
 
