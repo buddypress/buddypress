@@ -38,6 +38,7 @@ Follow these steps to get forums up and running:
 4. Head to your new bbPress install and log in with the account you set as the keymaster.
 
 5. Head to the Admin area (/bb-admin) and then the settings menu. Check the "Enable XML-RPC" option.
+   Also check the "Enable Pingbacks" option just below.
 
 6. In the bp-forums component there is a /bbpress-plugins/ folder. Copy the 'buddypress-enable.php'
    plugin file from that folder into your bbpress plugins folder (eg domain/bbpress/bb-plugins/)
