@@ -615,6 +615,8 @@ function bp_group_admin_memberlist( $admin_list = false ) {
 
 function bp_group_mod_memberlist( $admin_list = false ) {
 	global $groups_template, $group_mods;	
+	
+	$group_mods = groups_get_group_mods( $groups_template->group->id );
 	?>
 		<?php if ( $group_mods ) { ?>
 			<ul id="mods-list" class="item-list<?php if ( $admin_list ) { ?> single-line<?php } ?>">

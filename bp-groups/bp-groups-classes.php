@@ -802,7 +802,7 @@ Class BP_Groups_Member {
 		
 		if ( !$user_id )
 			return false;
-		
+				
 		return $wpdb->query( $wpdb->prepare( "SELECT id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d AND group_id = %d AND is_mod = 1 AND is_banned = 0", $user_id, $group_id ) );
 	}
 	
@@ -852,7 +852,7 @@ Class BP_Groups_Member {
 	
 	function get_group_moderator_ids( $group_id ) {
 		global $bp, $wpdb;
-		
+
 		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id, date_modified FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d AND is_mod = 1 AND is_banned = 0", $group_id ) );
 	}
 	
