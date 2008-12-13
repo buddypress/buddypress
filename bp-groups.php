@@ -231,6 +231,16 @@ function groups_setup_nav() {
 			
 			$group_link = $bp['root_domain'] . '/' . $bp['groups']['slug'] . '/' . $group_obj->slug . '/';
 			
+			// If this is a private or hidden group, does the user have access?
+			if ( $group_obj->status == 'private' || $group_obj->status == 'hidden' ) {
+				if ( groups_is_user_member( $bp['loggedin_userid'], $group_obj->id ) && is_user_logged_in() )
+					$has_access = true;
+				else
+					$has_access = false;
+			} else {
+				$has_access = true;
+			}
+
 			// Reset the existing subnav items
 			bp_core_reset_subnav_items($bp['groups']['slug']);
 			
@@ -241,23 +251,21 @@ function groups_setup_nav() {
 			if ( $bp['is_item_mod'] || $bp['is_item_admin'] )
 				bp_core_add_subnav_item( $bp['groups']['slug'], 'admin', __('Admin', 'buddypress'), $group_link , 'groups_screen_group_admin', 'group-admin', ( $bp['is_item_admin'] + (int)$bp['is_item_mod'] ) );
 			
-			// If this is a closed group, and the user is not a member, show a "Request Membership" nav item.
-			if ( $group_obj->status == 'private' && ( !groups_is_user_member( $bp['loggedin_userid'], $group_obj->id ) && !groups_check_for_membership_request( $bp['loggedin_userid'], $group_obj->id ) ) && is_user_logged_in() )
+			// If this is a private group, and the user is not a member, show a "Request Membership" nav item.
+			if ( !$has_access && !groups_check_for_membership_request( $bp['loggedin_userid'], $group_obj->id ) )
 				bp_core_add_subnav_item( $bp['groups']['slug'], 'request-membership', __('Request Membership', 'buddypress'), $group_link , 'groups_screen_group_request_membership', 'request-membership' );
 			
-			if ( function_exists('bp_forums_setup') && $group_obj->enable_forum ) {
+			if ( $has_access && $group_obj->enable_forum && function_exists('bp_forums_setup') )
 				bp_core_add_subnav_item( $bp['groups']['slug'], 'forum', __('Forum', 'buddypress'), $group_link , 'groups_screen_group_forum', 'group-forum', $is_visible);
-			}
-			
-			if ( function_exists('bp_wire_install') && $group_obj->enable_wire ) {
+
+			if ( $has_access && $group_obj->enable_wire && function_exists('bp_wire_install') )
 				bp_core_add_subnav_item( $bp['groups']['slug'], 'wire', __('Wire', 'buddypress'), $group_link, 'groups_screen_group_wire', 'group-wire', $is_visible );
-			}
-			
-			if ( function_exists('bp_gallery_install') ) {
+
+			if ( $has_access && $group_obj->enable_photos && function_exists('bp_gallery_install') )
 				bp_core_add_subnav_item( $bp['groups']['slug'], 'photos', __('Photos', 'buddypress'), $group_link, 'groups_screen_group_photos', 'group-photos', $is_visible );
-			}
-			
-			bp_core_add_subnav_item( $bp['groups']['slug'], 'members', __('Members', 'buddypress'), $group_link, 'groups_screen_group_members', 'group-members', $is_visible );
+
+			if ( $has_access )
+				bp_core_add_subnav_item( $bp['groups']['slug'], 'members', __('Members', 'buddypress'), $group_link, 'groups_screen_group_members', 'group-members', $is_visible );
 			
 			if ( is_user_logged_in() && groups_is_user_member( $bp['loggedin_userid'], $group_obj->id ) ) {
 				if ( function_exists('friends_install') )
@@ -779,7 +787,7 @@ function groups_screen_notification_settings() {
 		</tr>
 		<tr>
 			<td></td>
-			<td><?php _e( 'A member requests to join a closed group for which you are an admin', 'buddypress' ) ?></td>
+			<td><?php _e( 'A member requests to join a private group for which you are an admin', 'buddypress' ) ?></td>
 			<td class="yes"><input type="radio" name="notifications[notification_groups_membership_request]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_groups_membership_request') || get_usermeta( $current_user->id, 'notification_groups_membership_request') == 'yes' ) { ?>checked="checked" <?php } ?>/></td>
 			<td class="no"><input type="radio" name="notifications[notification_groups_membership_request]" value="no" <?php if ( get_usermeta( $current_user->id, 'notification_groups_membership_request') == 'no' ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>

@@ -32,7 +32,7 @@ function groups_admin_settings() {
 	<div class="wrap" style="position: relative">
 		<h2><?php _e( 'Groups', 'buddypress' ) ?></h2>
 	
-		<form id="wpmu-search" method="post" action="<?php $_SERVER['PHPSELF'] ?>">
+		<form id="wpmu-search" method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
 			<input type="text" size="17" value="<?php echo $_REQUEST['s'] ?>" name="s" />
 			<input id="post-query-submit" class="button" type="submit" value="Search Groups"/>
 		</form>
