@@ -45,7 +45,7 @@
 		
 			<div class="radio">
 				<label><input type="radio" name="group-status" value="public"<?php bp_group_show_status_setting('public') ?> /> <strong><?php _e( 'This is an open group', 'buddypress' ) ?></strong><br /><?php _e( 'This group will be free to join and will appear in group search results.', 'buddypress' ); ?></label>
-				<label><input type="radio" name="group-status" value="private"<?php bp_group_show_status_setting('private') ?> /> <strong><?php _e( 'This is a closed group', 'buddypress' ) ?></strong><br /><?php _e( 'This group will require an invite to join but will still appear in group search results.', 'buddypress' ); ?></label>
+				<label><input type="radio" name="group-status" value="private"<?php bp_group_show_status_setting('private') ?> /> <strong><?php _e( 'This is a private group', 'buddypress' ) ?></strong><br /><?php _e( 'This group will require an invite to join but will still appear in group search results.', 'buddypress' ); ?></label>
 				<label><input type="radio" name="group-status" value="hidden"<?php bp_group_show_status_setting('hidden') ?> /> <strong><?php _e( 'This is a hidden group', 'buddypress' ) ?></strong><br /><?php _e( 'This group will require an invite to join and will only be visible to invited members. It will not appear in search results or on member profiles.', 'buddypress' ); ?></label>
 			</div>
 

@@ -42,8 +42,8 @@
 			color: #fff;
 		}
 		
-		#main #content #send_message_form h3 {
-			font-size: 1.1em;
+		#send_message_form {
+			margin-top: 15px;
 		}
 		
 		#send_message_form input {

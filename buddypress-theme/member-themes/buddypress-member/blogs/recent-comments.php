@@ -1,6 +1,7 @@
 <?php get_header() ?>
 
 <div class="content-header">
+	<?php bp_blogs_blog_tabs() ?>
 </div>
 
 <div id="content">
