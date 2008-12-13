@@ -153,10 +153,10 @@ Class BP_Messages_Thread {
 		global $wpdb, $bp;
 		
 		$delete_for_user = $wpdb->query( $wpdb->prepare( "UPDATE " . $bp['messages']['table_name_recipients'] . " SET is_deleted = 1 WHERE thread_id = %d AND user_id = %d", $thread_id, $bp['loggedin_userid'] ) );
-
+		
 		// Check to see if any more recipients remain for this message
 		// if not, then delete the message from the database.
-		$recipients =  $wpdb->get_results( $wpdb->prepare( "SELECT id FROM " . $bp['messages']['table_name_recipients'] . " WHERE thread_id = %d AND is_deleted = 0", $thread_id ) );
+		$recipients = $wpdb->get_results( $wpdb->prepare( "SELECT id FROM " . $bp['messages']['table_name_recipients'] . " WHERE thread_id = %d AND is_deleted = 0", $thread_id ) );
 
 		if ( !$recipients ) {
 			// Get message ids:
@@ -185,7 +185,7 @@ Class BP_Messages_Thread {
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 			
-		$sql = $wpdb->prepare( "SELECT r.thread_id FROM " . $bp['messages']['table_name_recipients'] . " r, " . $bp['messages']['table_name_threads'] . " t WHERE t.id = r.thread_id AND r.user_id = %d$exclude_sender ORDER BY t.last_post_date DESC$pag_sql", $bp['loggedin_userid'] );
+		$sql = $wpdb->prepare( "SELECT r.thread_id FROM " . $bp['messages']['table_name_recipients'] . " r, " . $bp['messages']['table_name_threads'] . " t WHERE t.id = r.thread_id AND r.is_deleted = 0 AND r.user_id = %d$exclude_sender ORDER BY t.last_post_date DESC$pag_sql", $bp['loggedin_userid'] );
 
 		if ( !$thread_ids = $wpdb->get_results($sql) )
 			return false;
@@ -254,7 +254,7 @@ Class BP_Messages_Thread {
 	function get_inbox_count() {
 		global $wpdb, $bp;
 
-		$sql = $wpdb->prepare( "SELECT unread_count FROM " . $bp['messages']['table_name_recipients'] . " WHERE user_id = %d", $bp['loggedin_userid'] );
+		$sql = $wpdb->prepare( "SELECT unread_count FROM " . $bp['messages']['table_name_recipients'] . " WHERE user_id = %d AND is_deleted = 0", $bp['loggedin_userid'] );
 
 		if ( !$unread_counts = $wpdb->get_results($sql) )
 			return false;

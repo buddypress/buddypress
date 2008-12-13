@@ -151,7 +151,7 @@ function bp_message_thread_view_link() {
 
 function bp_message_thread_delete_link() {
 	global $messages_template, $bp;
-	echo apply_filters( 'bp_message_thread_delete_link', $bp['loggedin_domain'] . $bp['messages']['slug'] . '/delete/' . $messages_template->thread->thread_id );
+	echo apply_filters( 'bp_message_thread_delete_link', $bp['loggedin_domain'] . $bp['messages']['slug'] . '/' . $bp['current_action'] . '/delete/' . $messages_template->thread->thread_id );
 }
 
 function bp_message_thread_has_unread() {
@@ -317,6 +317,11 @@ function bp_send_message_button() {
 		<a class="send-message" title="<?php _e( 'Send Message', 'buddypress' ) ?>" href="<?php echo $bp['loggedin_domain'] . $bp['messages']['slug'] ?>/compose/?r=<?php echo $ud->user_login ?>"><?php _e( 'Send Message', 'buddypress' ) ?></a>
 	</div>
 	<?php
+}
+
+function bp_message_loading_image_src() {
+	global $bp;
+	echo $bp['messages']['image_base'] . '/ajax-loader.gif';
 }
 
 ?>

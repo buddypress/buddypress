@@ -49,7 +49,7 @@ jQuery(document).ready( function() {
 				}, 500);
 				
 				setTimeout( function() {
-					var err_num = response.split('|');
+					var err_num = response.split('[[split]]');
 					if ( err_num[0] == "-1" ) {
 						response = err_num[1];
 						css_class = 'error-box';
@@ -96,7 +96,7 @@ jQuery(document).ready( function() {
 			},
 			function(response) {
 				response = response.substr(0, response.length-1);
-				var err_num = response.split('|');
+				var err_num = response.split('[[split]]');
 				if ( err_num[0] == "-1" ) {
 					// error
 					jQuery('table#message-threads').before('<div id="message" class="error fade"><p>' + err_num[1] + '</p></div>')
@@ -139,7 +139,7 @@ jQuery(document).ready( function() {
 			},
 			function(response) {
 				response = response.substr(0, response.length-1);
-				var err_num = response.split('|');
+				var err_num = response.split('[[split]]');
 				if ( err_num[0] == "-1" ) {
 					// error
 					jQuery('table#message-threads').before('<div id="message" class="error fade"><p>' + err_num[1] + '</p></div>')
@@ -182,7 +182,7 @@ jQuery(document).ready( function() {
 			},
 			function(response) {
 				response = response.substr(0, response.length-1);
-				var err_num = response.split('|');
+				var err_num = response.split('[[split]]');
 				
 				jQuery('#message').remove();
 				
@@ -205,7 +205,7 @@ jQuery(document).ready( function() {
 			},
 			function(response) {
 				response = response.substr(0, response.length-1);
-				var err_num = response.split('|');
+				var err_num = response.split('[[split]]');
 
 				if ( err_num[0] == "-1" ) {
 					// error
@@ -246,5 +246,5 @@ jQuery(document).ready( function() {
 				break;
 			}
 		}
-	);	
+	);
 });

@@ -21,7 +21,7 @@ function messages_ajax_send_reply() {
 		<?php
 	} else {
 		$result['message'] = '<img src="' . $bp['messages']['image_base'] . '/warning.gif" alt="Warning" /> &nbsp;' . $result['message'];
-		echo "-1|" . $result['message'];
+		echo "-1[[split]]" . $result['message'];
 	}
 }
 add_action( 'wp_ajax_messages_send_reply', 'messages_ajax_send_reply' );
@@ -30,7 +30,7 @@ function messages_ajax_markunread() {
 	global $bp;
 
 	if ( !isset($_POST['thread_ids']) ) {
-		echo "-1|" . __('There was a problem marking messages as unread.', 'buddypress');
+		echo "-1[[split]]" . __('There was a problem marking messages as unread.', 'buddypress');
 	} else {
 		$thread_ids = explode( ',', $_POST['thread_ids'] );
 		
@@ -45,7 +45,7 @@ function messages_ajax_markread() {
 	global $bp;
 	
 	if ( !isset($_POST['thread_ids']) ) {
-		echo "-1|" . __('There was a problem marking messages as read.', 'buddypress');
+		echo "-1[[split]]" . __('There was a problem marking messages as read.', 'buddypress');
 	} else {
 		$thread_ids = explode( ',', $_POST['thread_ids'] );
 
@@ -60,7 +60,7 @@ function messages_ajax_delete() {
 	global $bp;
 
 	if ( !isset($_POST['thread_ids']) ) {
-		echo "-1|" . __('There was a problem deleting messages.', 'buddypress');
+		echo "-1[[split]]" . __( 'There was a problem deleting messages.', 'buddypress' );
 	} else {
 		$thread_ids = explode( ',', $_POST['thread_ids'] );
 
@@ -68,7 +68,7 @@ function messages_ajax_delete() {
 			BP_Messages_Thread::delete($thread_ids[$i]);
 		}
 		
-		echo __('Messages deleted.', 'buddypress');
+		_e('Messages deleted.', 'buddypress');
 	}
 }
 add_action( 'wp_ajax_messages_delete', 'messages_ajax_delete' );
@@ -77,7 +77,7 @@ function messages_ajax_close_notice() {
 	global $userdata;
 
 	if ( !isset($_POST['notice_id']) ) {
-		echo "-1|" . __('There was a problem closing the notice.', 'buddypress');
+		echo "-1[[split]]" . __('There was a problem closing the notice.', 'buddypress');
 	} else {
 		$notice_ids = get_usermeta( $userdata->ID, 'closed_notices' );
 	
