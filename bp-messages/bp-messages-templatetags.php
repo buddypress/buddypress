@@ -324,4 +324,27 @@ function bp_message_loading_image_src() {
 	echo $bp['messages']['image_base'] . '/ajax-loader.gif';
 }
 
+function bp_message_get_recipient_tabs() {
+	global $bp;
+	
+	if ( isset( $_GET['r'] ) ) {
+		$user_id = bp_core_get_userid_from_user_login( $_GET['r'] );
+		
+		if ( $user_id ) {
+			?>
+			<li id="un-<?php echo $_GET['r'] ?>" class="friend-tab">
+				<span>
+					<?php echo bp_core_get_avatar( $user_id, 1, 15, 15 ) ?>
+					<?php echo bp_core_get_userlink( $user_id ) ?>
+				</span>
+				<span class="p">X</span>
+			</li>
+			<?php
+		}
+	}
+}
+
+function bp_message_get_recipient_usernames() {
+	echo $_GET['r'];
+}
 ?>

@@ -182,8 +182,10 @@ function messages_screen_compose() {
 	// Remove any saved message data from a previous session.
 	messages_remove_callback_values();
 	
-	if ( isset($_POST['send_to']) || ( isset($_POST['send-notice']) && is_site_admin() ) ) {
-		messages_send_message( $_POST['send_to'], $_POST['subject'], $_POST['content'], $_POST['thread_id'], false, true );
+	//var_dump($_POST['send_to_usernames']);
+	
+	if ( isset($_POST['send_to_usernames']) || ( isset($_POST['send-notice']) && is_site_admin() ) ) {
+		messages_send_message( $_POST['send_to_usernames'], $_POST['subject'], $_POST['content'], $_POST['thread_id'], false, true );
 	}
 	
 	bp_catch_uri( 'messages/compose' );
@@ -263,8 +265,7 @@ function messages_action_view_message() {
 	$thread_id = $bp['action_variables'][0];
 
 	if ( !$thread_id || !is_numeric($thread_id) || !BP_Messages_Thread::check_access($thread_id) ) {
-		$bp['current_action'] = 'inbox';
-		bp_catch_uri( 'messages/index' );
+		bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );
 	} else {
 		$bp['bp_options_nav'][$bp['messages']['slug']]['view'] = array(
 			'name' => __('From: ' . BP_Messages_Thread::get_last_sender($thread_id), 'buddypress'),
@@ -280,22 +281,22 @@ add_action( 'wp', 'messages_action_view_message', 3 );
 function messages_action_delete_message() {
 	global $bp, $thread_id;
 	
-	if ( $bp['current_component'] != $bp['messages']['slug'] || $bp['current_action'] != 'delete' )
+	if ( $bp['current_component'] != $bp['messages']['slug'] || $bp['action_variables'][0] != 'delete' )
 		return false;
 	
-	$thread_id = $bp['action_variables'][0];
+	$thread_id = $bp['action_variables'][1];
 
 	if ( !$thread_id || !is_numeric($thread_id) || !BP_Messages_Thread::check_access($thread_id) ) {
-		bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] );
+		bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );
 	} else {
+		//echo $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action']; die;
 		// delete message
-		if ( !BP_Messages_Thread::delete($thread_id) ) {
+		if ( !messages_delete_thread($thread_id) ) {
 			bp_core_add_message( __('There was an error deleting that message.', 'buddypress'), 'error' );
-			bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] );
 		} else {
 			bp_core_add_message( __('Message deleted.', 'buddypress') );
-			bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] );
 		}
+		bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );
 	}
 }
 add_action( 'wp', 'messages_action_delete_message', 3 );
@@ -304,22 +305,20 @@ add_action( 'wp', 'messages_action_delete_message', 3 );
 function messages_action_bulk_delete() {
 	global $bp, $thread_ids;
 	
-	if ( $bp['current_component'] != $bp['messages']['slug'] || $bp['current_action'] != 'bulk-delete' )
+	if ( $bp['current_component'] != $bp['messages']['slug'] || $bp['action_variables'][0] != 'bulk-delete' )
 		return false;
 	
 	$thread_ids = $_POST['thread_ids'];
 
 	if ( !$thread_ids || !BP_Messages_Thread::check_access($thread_ids) ) {
-		$bp['current_action'] = 'inbox';
-		bp_catch_uri( 'messages/index' );				
+		bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );			
 	} else {
 		if ( !BP_Messages_Thread::delete( explode(',', $thread_ids ) ) ) {
 			bp_core_add_message( __('There was an error deleting messages.', 'buddypress'), 'error' );
-			bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] );
 		} else {
 			bp_core_add_message( __('Messages deleted.', 'buddypress') );
-			bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] );
 		}
+		bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );
 	}
 }
 add_action( 'wp', 'messages_action_bulk_delete', 3 );
@@ -361,7 +360,7 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 	global $pmessage;
 	global $message, $type;
 	global $bp, $current_user;
-
+	
 	if ( isset( $_POST['send-notice'] ) ) {
 		messages_send_notice( $subject, $content, $from_template );
 		return true;
@@ -369,7 +368,7 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 
 	messages_add_callback_values( $recipients, $subject, $content );
 	
-	$recipients = explode( ',', $recipients );
+	$recipients = explode( ' ', $recipients );
 	
 	// If there are no recipients
 	if ( count( $recipients ) < 1 ) {
@@ -515,32 +514,25 @@ function messages_send_notice( $subject, $message, $from_template ) {
  Handles the deletion of a single or multiple threads.
  **************************************************************************/
 
-function messages_delete_thread( $thread_ids, $box, $display_name ) {
-	$type = 'success';
-	
+function messages_delete_thread( $thread_ids ) {
 	if ( is_array($thread_ids) ) {
-		$message = __('Messages deleted successfully!', 'buddypress');
-		
+		$error = 0;
 		for ( $i = 0; $i < count($thread_ids); $i++ ) {
-			if ( !$status = BP_Messages_Thread::delete($thread_ids[$i]) ) {
-				$message = __('There was an error when deleting messages. Please try again.', 'buddypress');
-				$type = 'error';
-			}
+			if ( !$status = BP_Messages_Thread::delete($thread_ids[$i]) )
+				$error = 1;
 		}
+		
+		if ( $error )
+			return false;
+		
+		return true;
 	} else {
-		$message = __('Message deleted successfully!', 'buddypress');
-		
 		if ( !$status = BP_Messages_Thread::delete($thread_ids) ) {
-			$message = __('There was an error when deleting that message. Please try again.', 'buddypress');
-			$type = 'error';
+			return false;
+		} else {
+			return true;
 		}
-		
-		do_action( 'bp_messages_message_deleted' );
-		
 	}
-	
-	unset($_GET['mode']);
-	messages_box( $box, $display_name, $message, $type );
 }
 
 function messages_is_user_sender( $user_id, $message_id ) {
