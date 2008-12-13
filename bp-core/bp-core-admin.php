@@ -18,7 +18,7 @@ function bp_core_admin_settings() { ?>
 		
 		<h2><?php _e( 'BuddyPress Settings', 'buddypress' ) ?></h2>
 	
-		<form action="<?php $_SERVER['PHPSELF'] ?>" method="post" id="bp-admin-form">
+		<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" id="bp-admin-form">
 		
 			<table class="form-table">
 			<tbody>

@@ -802,4 +802,23 @@ function bp_create_blog_link() {
 		echo apply_filters( 'bp_create_blog_link', '<a href="' . $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/create-a-blog">' . __('Create a Blog', 'buddypress') . '</a>' );
 	}
 }
+
+function bp_blogs_blog_tabs() {
+	global $bp, $groups_template;
+	
+	// Don't show these tabs on a user's own profile
+	if ( bp_is_home() )
+		return false;
+	
+	$current_tab = $bp['current_action'];
+?>
+	<ul class="content-header-nav">
+		<li<?php if ( $current_tab == 'my-blogs' || $current_tab == '' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['current_domain'] . $bp['blogs']['slug'] ?>/my-blogs"><?php printf( __( "%s's Blogs", 'buddypress' ), $bp['current_fullname'] )  ?></a></li>
+		<li<?php if ( $current_tab == 'recent-posts' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['current_domain'] . $bp['blogs']['slug'] ?>/recent-posts"><?php printf( __( "%s's Recent Posts", 'buddypress' ), $bp['current_fullname'] )  ?></a></li>
+		<li<?php if ( $current_tab == 'recent-comments' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['current_domain'] . $bp['blogs']['slug'] ?>/recent-comments"><?php printf( __( "%s's Recent Comments", 'buddypress' ), $bp['current_fullname'] )  ?></a></li>	
+	</ul>
+<?php
+	do_action( 'bp_blogs_blog_tabs', $current_tab );
+}
+
 ?>
