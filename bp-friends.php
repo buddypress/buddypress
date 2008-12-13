@@ -195,11 +195,17 @@ add_action( 'bp_notification_settings', 'friends_screen_notification_settings' )
 function friends_record_activity( $args = true ) {
 	if ( function_exists('bp_activity_record') ) {
 		extract($args);
-		bp_activity_record( $item_id, $component_name, $component_action, $is_private );
-	} 
+		bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_user_id );
+	}
 }
 add_action( 'bp_friends_friendship_accepted', 'friends_record_activity' );
 
+function friends_delete_activity( $args = true ) {
+	if ( function_exists('bp_activity_delete') ) {
+		extract($args);
+		bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
+	}
+}
 
 /**************************************************************************
  friends_format_activity()
@@ -496,6 +502,9 @@ function friends_remove_friend( $initiator_userid, $friend_userid ) {
 	$friendship_id = BP_Friends_Friendship::get_friendship_id( $initiator_userid, $friend_userid );
 	$friendship = new BP_Friends_Friendship( $friendship_id );
 	
+	// Remove the activity stream items
+	friends_delete_activity( array( 'item_id' => $friendship_id, 'component_name' => 'friends', 'component_action' => 'friendship_accepted', 'user_id' => $bp['current_userid'] ) );
+	
 	do_action( 'bp_friends_friendship_deleted', $friendship_id, $initiator_userid, $friend_userid );
 	
 	if ( $friendship->delete() ) {
@@ -519,10 +528,10 @@ function friends_accept_friendship( $friendship_id ) {
 		// Add a friend accepted notice for the initiating user
 		bp_core_add_notification( $friendship->friend_user_id, $friendship->initiator_user_id, 'friends', 'friendship_accepted' );
 		
+		// Record in activity streams
+		friends_record_activity( array( 'item_id' => $friendship_id, 'component_name' => 'friends', 'component_action' => 'friendship_accepted', 'is_private' => 0, 'user_id' => $friendship->initiator_user_id, 'secondary_user_id' => $friendship->friend_user_id ) );
+
 		do_action( 'friends_friendship_accepted', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
-		
-		// notification action
-		do_action( 'bp_friends_friendship_accepted', array( 'item_id' => $friendship_id, 'component_name' => 'friends', 'component_action' => 'friendship_accepted', 'is_private' => 0, 'dual_record' => true ) );
 		
 		return true;
 	}

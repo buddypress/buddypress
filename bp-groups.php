@@ -825,16 +825,19 @@ function groups_record_activity( $args = true ) {
 		extract($args);
 		
 		$group = new BP_Groups_Group( $item_id, false, false );
-				
+
 		if ( $group->status == 'public' )
-			bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_item_id );
-	} 
+			bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_user_id );
+	}
 }
-add_action( 'activity_groups_joined_group', 'groups_record_activity' );
-add_action( 'activity_groups_created_group', 'groups_record_activity' );
-add_action( 'activity_groups_new_wire_post', 'groups_record_activity' );
-add_action( 'activity_groups_new_forum_topic_post', 'groups_record_activity' );
-add_action( 'activity_groups_new_forum_topic', 'groups_record_activity' );
+
+function groups_delete_activity( $args = true ) {
+	if ( function_exists('bp_activity_delete') ) {
+		extract($args);
+		bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
+	}
+}
+
 
 /**************************************************************************
  groups_format_activity()
@@ -1280,10 +1283,9 @@ function groups_manage_group( $step, $group_id ) {
 			case '4':
 				$send_invites = groups_send_invites($group_obj);
 
-				/* activity stream recording action */
-				do_action( 'activity_groups_created_group', array( 'item_id' => $group_obj->id, 'component_name' => 'groups', 'component_action' => 'created_group', 'is_private' => 0 ) );
+				/* Record in activity streams */
+				groups_record_activity( array( 'item_id' => $group_obj->id, 'component_name' => 'groups', 'component_action' => 'created_group', 'is_private' => 0 ) );
 				
-				/* regular action */
 				do_action( 'bp_groups_created_group', $group_obj->id );
 				
 				return $group_obj->id;
@@ -1347,8 +1349,8 @@ function groups_new_group_forum_post( $post_text, $topic_id ) {
 	if ( $forum_post = bp_forums_new_post( $post_text, $topic_id ) ) {
 		bp_core_add_message( __( 'Reply posted successfully!', 'buddypress') );
 
-		/* Activity recording action */
-		do_action( 'activity_groups_new_forum_topic_post', array( 'item_id' => $group_obj->id, 'component_name' => 'groups', 'component_action' => 'new_forum_post', 'is_private' => 0, 'secondary_item_id' => $forum_post['post_id'] ) );
+		/* Record in activity streams */
+		groups_record_activity( array( 'item_id' => $group_obj->id, 'component_name' => 'groups', 'component_action' => 'new_forum_post', 'is_private' => 0, 'secondary_item_id' => $forum_post['post_id'] ) );
 		
 		do_action( 'bp_groups_new_forum_topic_post', $group_obj->id, $forum_post );
 		
@@ -1365,8 +1367,8 @@ function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $
 	if ( $topic = bp_forums_new_topic( $topic_title, $topic_text, $topic_tags, $forum_id ) ) {
 		bp_core_add_message( __( 'Topic posted successfully!', 'buddypress') );
 
-		/* Activity recording action */
-		do_action( 'activity_groups_new_forum_topic', array( 'item_id' => $group_obj->id, 'component_name' => 'groups', 'component_action' => 'new_forum_topic', 'is_private' => 0, 'secondary_item_id' => $topic['topic_id'] ) );
+		/* Record in activity streams */
+		groups_record_activity( array( 'item_id' => $group_obj->id, 'component_name' => 'groups', 'component_action' => 'new_forum_topic', 'is_private' => 0, 'secondary_item_id' => $topic['topic_id'] ) );
 		
 		do_action( 'bp_groups_new_forum_topic', $group_obj->id, $topic );
 		
@@ -1481,15 +1483,14 @@ function groups_join_group( $group_id, $user_id = false ) {
 	if ( !$new_member->save() )
 		return false;
 
-	/* activity stream recording action */
-	do_action( 'activity_groups_joined_group', array( 'item_id' => $new_member->group_id, 'component_name' => 'groups', 'component_action' => 'joined_group', 'is_private' => 0 ) );
-	
-	/* regular action */
-	do_action( 'groups_joined_group', $group_id, $bp['loggedin_userid'] );
+	/* Record this in activity streams */
+	groups_record_activity( array( 'item_id' => $new_member->group_id, 'component_name' => 'groups', 'component_action' => 'joined_group', 'is_private' => 0 ) );
 	
 	/* Modify group member count */
 	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') + 1 );
-	
+
+	do_action( 'groups_joined_group', $group_id, $bp['loggedin_userid'] );
+
 	return true;
 }
 
@@ -1516,10 +1517,9 @@ function groups_is_group_mod( $user_id, $group_id ) {
 function groups_new_wire_post( $group_id, $content ) {
 	if ( $wire_post_id = bp_wire_new_post( $group_id, $content ) ) {
 		
-		/* activity stream recording action */
-		do_action( 'activity_groups_new_wire_post', array( 'item_id' => $wire_post_id, 'group_id' => $group_id, 'component_name' => 'groups', 'component_action' => 'new_wire_post', 'is_private' => 0 ) );
-		
-		/* regular action */
+		/* Record in activity streams */
+		groups_record_activity( array( 'item_id' => $wire_post_id, 'group_id' => $group_id, 'component_name' => 'groups', 'component_action' => 'new_wire_post', 'is_private' => 0 ) );
+
 		do_action( 'groups_new_wire_post', $group_id, $wire_post_id );
 		
 		return true;
@@ -1530,6 +1530,10 @@ function groups_new_wire_post( $group_id, $content ) {
 
 function groups_delete_wire_post( $wire_post_id, $table_name ) {
 	if ( bp_wire_delete_post( $wire_post_id, $table_name ) ) {
+		
+		// Remove this activity stream item
+		groups_delete_activity( array( 'item_id' => $wire_post_id, 'component_name' => 'groups', 'component_action' => 'new_wire_post', 'user_id' => $bp['current_userid'], 'group_id' => $group_id ) );
+		
 		do_action( 'groups_deleted_wire_post', $wire_post_id );
 		return true;
 	}
@@ -1722,6 +1726,9 @@ function groups_delete_group( $group_id ) {
 	if ( !$group->delete() )
 		return false;
 	
+	// Remove the activity stream item
+	groups_delete_activity( array( 'item_id' => $group_id, 'component_name' => 'groups', 'component_action' => 'created_group', 'user_id' => $bp['loggedin_userid'] ) );
+ 	
 	add_action( 'bp_groups_delete_group', $group_id );
 	
 	return true;

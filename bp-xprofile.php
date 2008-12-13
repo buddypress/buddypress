@@ -364,6 +364,58 @@ function xprofile_action_delete_avatar() {
 }
 add_action( 'wp', 'xprofile_action_delete_avatar', 3 );
 
+function xprofile_action_new_wire_post() {
+	global $bp;
+	
+	if ( $bp['current_component'] != $bp['xprofile']['slug'] && $bp['current_action'] != 'post' )
+		return false;
+	
+	if ( !$wire_post_id = bp_wire_new_post( $bp['current_userid'], $_POST['wire-post-textarea'], $bp['profile']['table_name_wire'] ) ) {
+		bp_core_add_message( __('Wire message could not be posted. Please try again.', 'buddypress'), 'error' );
+	} else {
+		bp_core_add_message( __('Wire message successfully posted.', 'buddypress') );
+		
+		// Record to activity stream
+		xprofile_record_activity( array( 'item_id' => $wire_post_id, 'component_name' => 'profile', 'component_action' => 'new_wire_post', 'is_private' => 0 ) );
+		
+		do_action( 'bp_xprofile_new_wire_post', $wire_post_id );	
+	}
+
+	if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
+		bp_core_redirect( $bp['current_domain'] );
+	} else {
+		bp_core_redirect( $bp['current_domain'] . $bp['wire']['slug'] );
+	}
+}
+add_action( 'wp', 'xprofile_action_new_wire_post', 3 );
+
+function xprofile_action_delete_wire_post() {
+	global $bp;
+	
+	if ( $bp['current_component'] != $bp['xprofile']['slug'] && $bp['current_action'] != 'delete' )
+		return false;
+	
+	$wire_post_id = $bp['action_variables'][0];
+	
+	if ( bp_wire_delete_post( $wire_post_id, $bp['profile']['table_name_wire'] ) ) {
+		bp_core_add_message( __('Wire message successfully deleted.', 'buddypress') );
+
+		// Delete activity stream items
+		xprofile_delete_activity( array( 'user_id' => $bp['current_userid'], 'item_id' => $wire_post_id, 'component_name' => 'profile', 'component_action' => 'new_wire_post' ) );	
+
+		do_action( 'bp_xprofile_delete_wire_post', $wire_post_id );						
+	} else {
+		bp_core_add_message( __('Wire post could not be deleted, please try again.', 'buddypress'), 'error' );
+	}
+	
+	if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
+		bp_core_redirect( $bp['current_domain'] );
+	} else {
+		bp_core_redirect( $bp['current_domain']. $bp['wire']['slug'] );
+	}
+}
+add_action( 'wp', 'xprofile_action_delete_wire_post', 3 );
+
 
 /********
  * Activity and notification recording functions
@@ -382,15 +434,29 @@ add_action( 'wp', 'xprofile_action_delete_avatar', 3 );
  * @uses bp_activity_record() Adds an entry to the activity component tables for a specific activity
  */
 function xprofile_record_activity( $args = true ) {
-	global $bp;
-
 	if ( function_exists('bp_activity_record') ) {
 		extract($args);
-		bp_activity_record( $item_id, $component_name, $component_action, $is_private );
+		bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_user_id );
 	}
 }
-add_action( 'bp_xprofile_new_wire_post', 'xprofile_record_activity' );
-add_action( 'bp_xprofile_updated_profile', 'xprofile_record_activity' );
+
+/**
+ * xprofile_delete_activity()
+ *
+ * Deletes activity for a user within the profile component so that
+ * it will be removed from the users activity stream and sitewide stream (if installed)
+ * 
+ * @package BuddyPress XProfile
+ * @param $args Array containing all variables used after extract() call
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @uses bp_activity_delete() Deletes an entry to the activity component tables for a specific activity
+ */
+function xprofile_delete_activity( $args = true ) {
+	if ( function_exists('bp_activity_delete') ) {
+		extract($args);
+		bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
+	}
+}
 
 /**
  * xprofile_format_activity()
@@ -434,10 +500,13 @@ function xprofile_format_activity( $item_id, $user_id, $action, $secondary_item_
 			
 			} 
 			
-			$content .= '<blockquote>' . bp_create_excerpt($wire_post->content) . '</blockquote>';
-			$return_values['content'] = $content;
+			if ( $content != '' ) {
+				$content .= '<blockquote>' . bp_create_excerpt($wire_post->content) . '</blockquote>';
+				$return_values['content'] = $content;
+				return $return_values;
+			} 
 			
-			return $return_values;
+			return false;
 		break;
 		case 'updated_profile':
 			$profile_group = new BP_XProfile_Group( $item_id );
@@ -631,8 +700,10 @@ function xprofile_edit( $group_id, $action ) {
 					$type = 'success';
 					$message = __('Changes saved.', 'buddypress');
 					
-					do_action( 'bp_xprofile_updated_profile', array( 'item_id' => $group->id, 'component_name' => 'profile', 'component_action' => 'updated_profile', 'is_private' => 0 ) );
-					update_usermeta( $bp['loggedin_userid'], 'profile_last_updated', date("Y-m-d H:i:s") );
+					// Record in activity stream
+					xprofile_record_activity( array( 'item_id' => $group->id, 'component_name' => 'profile', 'component_action' => 'updated_profile', 'is_private' => 0 ) );
+					
+					do_action( 'bp_xprofile_updated_profile', $group->id ); 
 				}
 			}
 			// If this is an invalid group, then display an error.

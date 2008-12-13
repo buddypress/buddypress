@@ -80,7 +80,7 @@ class BP_Friends_Friendship {
 			$oc_sql = $wpdb->prepare( "AND is_confirmed = 1" );
 			$friend_sql = $wpdb->prepare ( " WHERE (initiator_user_id = %d OR friend_user_id = %d)", $user_id, $user_id );
 		}
-		
+
 		$friends = $wpdb->get_results( $wpdb->prepare( "SELECT friend_user_id, initiator_user_id FROM " . $bp['friends']['table_name'] . " $friend_sql $oc_sql ORDER BY date_created DESC" ) );
 		
 		for ( $i = 0; $i < count($friends); $i++ ) {
@@ -143,7 +143,7 @@ class BP_Friends_Friendship {
 		
 		if ( !$friend_ids = BP_Friends_Friendship::get_friend_user_ids( $user_id ) )
 			return false;
-			
+
 		// Get all the user ids for the current user's friends.
 		$fids = implode( ',', $friend_ids );
 

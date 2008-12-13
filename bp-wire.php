@@ -80,52 +80,6 @@ function bp_wire_screen_latest() {
 	bp_catch_uri( 'wire/latest' );	
 }
 
-/***** Actions **********/
-
-function bp_wire_action_post() {
-	global $bp;
-	
-	if ( $bp['current_component'] != $bp['xprofile']['slug'] && $bp['current_action'] != 'post' )
-		return false;
-	
-	if ( !$wire_post_id = bp_wire_new_post( $bp['current_userid'], $_POST['wire-post-textarea'], $bp['profile']['table_name_wire'] ) ) {
-		bp_core_add_message( __('Wire message could not be posted. Please try again.', 'buddypress'), 'error' );
-	} else {
-		bp_core_add_message( __('Wire message successfully posted.', 'buddypress') );
-		do_action( 'bp_xprofile_new_wire_post', array( 'item_id' => $wire_post_id, 'component_name' => 'profile', 'component_action' => 'new_wire_post', 'is_private' => 0 ) );	
-	}
-
-	if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
-		bp_core_redirect( $bp['current_domain'] );
-	} else {
-		bp_core_redirect( $bp['current_domain'] . $bp['wire']['slug'] );
-	}
-}
-add_action( 'wp', 'bp_wire_action_post', 3 );
-
-function bp_wire_action_delete() {
-	global $bp;
-	
-	if ( $bp['current_component'] != $bp['xprofile']['slug'] && $bp['current_action'] != 'delete' )
-		return false;
-	
-	if ( bp_wire_delete_post( $bp['action_variables'][0], $bp['profile']['table_name_wire'] ) ) {
-		bp_core_add_message( __('Wire message successfully deleted.', 'buddypress') );
-		do_action( 'bp_xprofile_delete_wire_post' );						
-	} else {
-		bp_core_add_message( __('Wire post could not be deleted, please try again.', 'buddypress'), 'error' );
-		do_action( 'bp_xprofile_delete_wire_post' );		
-	}
-	
-	if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
-		bp_core_redirect( $bp['current_domain'] );
-	} else {
-		bp_core_redirect( $bp['current_domain']. $bp['wire']['slug'] );
-	}
-}
-add_action( 'wp', 'bp_wire_action_delete', 3 );
-
-
 function bp_wire_new_post( $item_id, $message, $table_name = null ) {
 	global $bp;
 	
@@ -150,7 +104,6 @@ function bp_wire_new_post( $item_id, $message, $table_name = null ) {
 	
 	return $wire_post->id;
 }
-add_action( 'wp', 'bp_wire_action_delete', 3 );
 
 function bp_wire_delete_post( $wire_post_id, $table_name = null ) {
 	global $bp;
