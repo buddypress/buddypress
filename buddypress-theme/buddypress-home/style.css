@@ -251,6 +251,9 @@ div.avatar-block {
 #left-column {
 	margin-right: 560px;
 }
+	#left-column.span-two {
+		margin-right: 280px;
+	}
 
 	#left-column .widget h2, .narrowcolumn h2.widgettitle {
 		background: url(images/leftcol_header_back.gif) top left no-repeat;
@@ -423,7 +426,7 @@ textarea#comment {
 		margin-top: 20px;
 	}
 
-#setupform input, #setupform textarea {
+#setupform input, #setupform textarea, #activateform input {
 	width: 95%;
 	padding: 7px 5px;
 	font-size: 1.2em;
@@ -433,7 +436,7 @@ textarea#comment {
 		padding: 3px;
 	}
 	
-	#setupform input#submit {
+	input#submit {
 		width: auto;
 		margin-top: 20px;
 		font-size: 1.2em;
@@ -465,6 +468,11 @@ div.avatar-field, div#blog-or-username-fields, div#blog-details-fields {
 	-webkit-border-radius: 3px;
 }
 	div.field-box { padding-top: 15px; }
+	
+	#signup-welcome {
+		width: 420px !important;
+		margin: 20px 0;
+	}
 
 div.avatar-field {
 	padding-top: 1px;
@@ -494,7 +502,7 @@ p.error, div.error {
 	padding: 7px 10px;
 	margin: 0 0 10px 0;
 }
-	 div.error {
+	div.error {
 		margin: 10px 0 4px 0 !important;
 	}
 
@@ -519,6 +527,41 @@ div#blog-or-username-fields label {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", verdana, arial, sans-serif;
 }
 
+div#signup-welcome {
+	font: normal 1.2em georgia, times, serif;
+}
+	div#signup-welcome span.label {
+		font-weight: bold;
+	}
+
+div.crop-img, div.crop-preview img {
+	padding: 4px;
+	background: #f0f0f0;
+	border: 1px solid #ddd;
+}
+	div.crop-img {
+		float: left;
+		margin-right: 15px;
+	}
+
+#avatar-cropper h4 {
+	font-weight: bold;
+	font-size: 1.1em;
+	margin-bottom: 5px;
+	margin-top: 20px;
+}
+
+#avatar_v1 p, #avatar_v2 p {
+	margin-bottom: 20px;
+}
+
+#avatar_v1 p.submit, #avatar_v2 p.submit {
+	margin-top: 20px;
+}
+
+p.crop-preview {
+	font-size: 1.2em;
+}
 
 /**** PAGINATION ******/
 

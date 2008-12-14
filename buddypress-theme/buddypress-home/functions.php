@@ -69,5 +69,19 @@ function bp_show_register_page() {
 }
 add_action( 'wp', 'bp_show_register_page', 2 );
 
+function bp_show_activation_page() {
+	global $bp, $current_blog;
+	
+	if ( $current_blog->blog_id > 1 )
+		return false;
+
+	if ( $bp['current_component'] == ACTIVATION_SLUG && $bp['current_action'] == '' ) {
+		bp_core_activation_set_headers();
+		bp_catch_uri( 'activate', true );
+	}
+}
+add_action( 'wp', 'bp_show_activation_page', 2 );
+
+
 
 ?>

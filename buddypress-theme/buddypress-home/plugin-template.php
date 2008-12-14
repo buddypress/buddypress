@@ -1,10 +1,6 @@
 <?php get_header(); ?>
 
-	<div id="content" class="narrowcolumn">
-	
-		<?php do_action('bp_template_content') ?>
-
-	</div>
+<?php do_action('bp_template_content') ?>
 
 <?php bp_get_plugin_sidebar(); ?>
 
