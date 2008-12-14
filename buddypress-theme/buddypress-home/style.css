@@ -590,8 +590,7 @@ a.page-numbers:hover { background: #e1e1e1; }
 	}
 
 #message.error, p.error, div.error {
-	background-image: url(images/error_back.gif);
-	background-color: #ff3a3a;
+	background: #ff3a3a url(images/error_back.gif) top left repeat-x;
 	color: #fff;
 }
 	#message.error p {
