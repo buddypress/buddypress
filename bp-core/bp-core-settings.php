@@ -77,7 +77,7 @@ function bp_core_screen_general_settings_content() {
 		<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small" /> &nbsp;New Password
 		<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small" /> &nbsp;Repeat New Password
 	
-		<p><input type="submit" name="submit" value="Save Changes" id="submit" class="auto" /></p>
+		<p><input type="submit" name="submit" value="Save Changes" id="submit" class="auto" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" /></p>
 		<?php wp_nonce_field('bp_settings_general') ?>
 	</form>
 <?php
@@ -125,7 +125,7 @@ function bp_core_screen_notification_settings_content() {
 		
 		<?php do_action( 'bp_notification_settings' ) ?>
 		
-		<p class="submit"><input type="submit" name="submit" value="Save Changes" id="submit" class="auto" /></p>		
+		<p class="submit"><input type="submit" name="submit" value="Save Changes" id="submit" class="auto" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" /></p>		
 		
 		<?php wp_nonce_field('bp_settings_notifications') ?>
 		

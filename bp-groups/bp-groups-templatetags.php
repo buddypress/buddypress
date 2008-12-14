@@ -784,7 +784,7 @@ function bp_group_create_form() {
 			<label for="group-news">* <?php _e('Recent News', 'buddypress') ?></label>
 			<textarea name="group-news" id="group-news"><?php echo ( $group_obj ) ? $group_obj->news : $_POST['group-news']; ?></textarea>
 			
-			<p><input type="submit" value="<?php _e('Create Group and Continue', 'buddypress') ?> &raquo;" id="save" name="save" /></p>
+			<p><input type="submit" value="<?php _e('Create Group and Continue', 'buddypress') ?> &raquo;" id="save" name="save" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" /></p>
 		<?php break; ?>
 		
 		<?php case '2': ?>
@@ -819,7 +819,7 @@ function bp_group_create_form() {
 					<label><input type="radio" name="group-status" value="hidden"<?php if ( $group_obj->status == 'hidden' ) { ?> checked="checked"<?php } ?> /> <strong><?php _e('This is a hidden group', 'buddypress') ?></strong><br /><?php _e('This group will require an invite to join and will only be visible to invited members. It will not appear in search results or on member profiles.', 'buddypress'); ?></label>
 				</div>
 
-				<p><input type="submit" value="<?php _e('Save and Continue', 'buddypress') ?> &raquo;" id="save" name="save" /></p>
+				<p><input type="submit" value="<?php _e('Save and Continue', 'buddypress') ?> &raquo;" id="save" name="save" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" /></p>
 			<?php } else { ?>
 				<div id="message" class="info">
 					<p>Please complete all previous steps first.</p>
@@ -849,7 +849,7 @@ function bp_group_create_form() {
 					?>
 					
 					<div id="skip-continue">
-						<input type="submit" value="<?php _e('Skip', 'buddypress') ?> &raquo;" id="skip" name="skip" />
+						<input type="submit" value="<?php _e('Skip', 'buddypress') ?> &raquo;" id="skip" name="skip" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" />
 					</div>
 				</div>
 			<?php } else { ?>
@@ -1041,7 +1041,7 @@ function bp_group_send_invite_form( $group_obj = null ) {
 			<?php } // end for ?>
 		</ul>
 
-		<input type="submit" value="<?php _e('Finish', 'buddypress') ?> &raquo;" id="save" name="save" />
+		<input type="submit" value="<?php _e('Finish', 'buddypress') ?> &raquo;" id="save" name="save" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" />
 
 	</div>
 <?php

@@ -151,7 +151,8 @@ function bp_core_signup_signup_another_blog($blogname = '', $blog_title = '', $e
 		<?php do_action( "signup_hidden_fields" ); ?>
 		<?php bp_core_signup_show_blog_form($blogname, $blog_title, $errors); ?>
 		<p>
-			<input id="submit" type="submit" name="submit" class="submit" value="<?php _e('Create Blog &raquo;') ?>" /></p>
+			<input id="submit" type="submit" name="submit" class="submit" value="<?php _e('Create Blog &raquo;') ?>" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" />
+		</p>
 	</form>
 	<?php
 }
@@ -238,7 +239,7 @@ function bp_core_signup_signup_user($user_name = '', $user_email = '', $errors =
 			</div>
 		<?php } ?>
 
-		<input id="submit" type="submit" name="submit" class="submit" value="<?php _e('Next &raquo;') ?>" />
+		<input id="submit" type="submit" name="submit" class="submit" value="<?php _e('Next &raquo;') ?>" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" />
 	</form>
 	<?php
 }
@@ -296,7 +297,7 @@ function bp_core_signup_signup_blog($user_name = '', $user_email = '', $blogname
 		<?php do_action( "signup_hidden_fields" ); ?>
 		<?php bp_core_signup_show_blog_form($blogname, $blog_title, $errors); ?>
 		<p>
-			<input id="submit" type="submit" name="submit" class="submit" value="<?php _e('Signup &raquo;') ?>" /></p>
+			<input id="submit" type="submit" name="submit" class="submit" value="<?php _e('Signup &raquo;') ?>" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" /></p>
 	</form>
 	<?php
 }

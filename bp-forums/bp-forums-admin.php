@@ -94,7 +94,7 @@ function bp_forums_bbpress_admin() {
 			</table>
 			<br />
 			<p class="submit">
-				<input type="submit" name="submit" value="<?php _e('Save Settings', 'buddypress') ?>" />
+				<input type="submit" name="submit" value="<?php _e('Save Settings', 'buddypress') ?>" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" />
 			</p>
 			<?php wp_nonce_field('bbpress-settings') ?>
 		</form>

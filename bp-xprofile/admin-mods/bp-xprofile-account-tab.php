@@ -188,7 +188,7 @@ if ( $show_password_fields ) :
 <p class="submit">
 	<input type="hidden" name="action" value="update" />
 	<input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id; ?>" />
-	<input type="submit" value="<?php $is_profile_page? _e('Update Profile', 'buddypress') : _e('Update User', 'buddypress') ?>" name="submit" />
+	<input type="submit" value="<?php $is_profile_page? _e('Update Profile', 'buddypress') : _e('Update User', 'buddypress') ?>" name="submit" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" />
  </p>
 </form>
 </div>

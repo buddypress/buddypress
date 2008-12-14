@@ -265,7 +265,7 @@ function bp_blogs_format_activity( $item_id, $user_id, $action, $secondary_item_
 			
 			$post = BP_Blogs_Post::fetch_post_content($post);
 			
-			if ( $post->post_type != 'post' || $post->post_status != 'publish' || $post->post_password != '' )
+			if ( !$post || $post->post_type != 'post' || $post->post_status != 'publish' || $post->post_password != '' )
 				return false;
 
 			$post_link = bp_post_get_permalink( $post, $post->blog_id );
@@ -288,8 +288,12 @@ function bp_blogs_format_activity( $item_id, $user_id, $action, $secondary_item_
 				return false;
 
 			$comment = BP_Blogs_Comment::fetch_comment_content($comment);
+			
+			if ( !$comment )
+				return false;
+				
 			$post_link = bp_post_get_permalink( $comment->post, $comment->blog_id );
-			$content = sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink($user_id), '<a href="' . $post_link . '#comment-' . $comment->comment_ID . '">' . $comment->post->post_title . '</a>' ) . ' <span class="time-since">%s</span>';		
+			$content = sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink($user_id), '<a href="' . $post_link . '#comment-' . $comment->comment_ID . '">' . $comment->post->post_title . '</a>' ) . ' <span class="time-since">%s</span>';			
 			$content .= '<blockquote>' . bp_create_excerpt($comment->comment_content) . '</blockquote>';
 
 			return array( 

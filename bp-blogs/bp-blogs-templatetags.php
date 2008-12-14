@@ -685,7 +685,7 @@ function bp_show_blog_signup_form($blogname = '', $blog_title = '', $errors = ''
 			<?php do_action( "signup_hidden_fields" ); ?>
 			<?php bp_blogs_signup_blog($blogname, $blog_title, $errors); ?>
 			<p>
-				<input id="submit" type="submit" name="submit" class="submit" value="<?php _e('Create Blog &raquo;', 'buddypress') ?>" />
+				<input id="submit" type="submit" name="submit" class="submit" value="<?php _e('Create Blog &raquo;', 'buddypress') ?>" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" />
 			</p>
 		</form>
 		<?php
