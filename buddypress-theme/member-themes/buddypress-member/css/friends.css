@@ -22,3 +22,15 @@
 	label#friend-search-label {
 		font-size: 0.9em;
 	}
+	
+	.profile-data {
+		font-size: 0.9em;
+		color: #777;
+		width: 65%;
+		margin-left: 70px;
+	}
+	
+	.profile-data .field-name {
+		font-weight: bold;
+		margin-bottom: -2px;
+	}

@@ -73,7 +73,7 @@
 					<div id="post-topic-reply">
 						<p><?php _e( 'Add a reply:', 'buddypress' ) ?></p>
 						<textarea name="reply_text" id="reply_text"></textarea>
-						<input type="submit" name="submit_reply" id="submit_reply" value="Post Reply" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" />
+						<input type="submit" name="submit_reply" id="submit_reply" value="Post Reply"/>
 					</div>
 					
 					<?php endif; ?>

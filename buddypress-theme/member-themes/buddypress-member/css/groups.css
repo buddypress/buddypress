@@ -39,3 +39,22 @@
 		color: #888;
 		letter-spacing: 0.5px;
 	}
+	
+	#random-groups-list .item-meta {
+		margin: 10px 0;
+		width: 45%;
+		line-height: 180%;
+	}
+		#random-groups-list .desc, #random-groups-list .meta {
+			font-size: 0.9em;
+		}
+		
+		#random-groups-list .desc {
+			margin-left: 70px;	
+		}
+		
+		#random-groups-list .action {
+			text-align: right;
+			margin-top: -20px;
+			padding-right: 10px;
+		}

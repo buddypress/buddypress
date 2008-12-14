@@ -23,13 +23,22 @@
 <?php else: ?>
 
 	<?php if ( bp_group_show_no_groups_message() ) : ?>
-	<div id="message" class="info">
-		<p><?php bp_word_or_name( __( "You haven't joined any groups yet.", 'buddypress' ), __( "%s hasn't joined any groups yet.", 'buddypress' ) ) ?></p>
-	</div>
+		
+		<div id="message" class="info">
+			<p><?php bp_word_or_name( __( "You haven't joined any groups yet.", 'buddypress' ), __( "%s hasn't joined any groups yet.", 'buddypress' ) ) ?></p>
+		</div>
+	
+		<?php if ( bp_is_home() ) : ?>
+			<h3><?php _e( 'Why not join a few of these groups?', 'buddypress') ?></h3>
+			<?php bp_groups_random_selection() ?>
+		<?php endif; ?>
+	
 	<?php else: ?>
-	<div id="message" class="error">
-		<p><?php _e( "No matching groups found.", 'buddypress' ) ?></p>
-	</div>
+		
+		<div id="message" class="error">
+			<p><?php _e( "No matching groups found.", 'buddypress' ) ?></p>
+		</div>
+	
 	<?php endif; ?>
 
 <?php endif;?>

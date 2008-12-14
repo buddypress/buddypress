@@ -22,6 +22,11 @@
 		<div id="message" class="info">
 			<p><?php bp_word_or_name( __( "Your friends list is currently empty", 'buddypress' ), __( "%s's friends list is currently empty", 'buddypress' ) ) ?></p>
 		</div>
-
+		
+		<?php if ( bp_is_home() ) : ?>
+			<h3><?php _e( 'Why not make friends with some of these members?', 'buddypress') ?></h3>
+			<?php bp_friends_random_members() ?>
+		<?php endif; ?>
+		
 	<?php endif;?>
 </div>
