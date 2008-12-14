@@ -617,7 +617,7 @@ function bp_core_get_user_email( $uid ) {
  * @return false on no match
  * @return str The link text based on passed parameters.
  */
-function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false, $no_you = false, $with_s = false ) {
+function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false, $deprecated = false, $with_s = false ) {
 	global $userdata;
 	
 	$ud = get_userdata($user_id);

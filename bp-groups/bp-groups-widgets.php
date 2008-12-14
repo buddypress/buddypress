@@ -46,7 +46,7 @@ function groups_widget_groups_list($args) {
 				<?php $group = new BP_Groups_Group( $group->group_id, false ) ?>
 				<li>
 					<div class="item-avatar">
-						<img src="<?php echo $group->avatar_thumb; ?>" alt="<?php echo $group->name ?> Avatar" class="avatar" />
+						<a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb; ?>" alt="<?php echo $group->name ?> Avatar" class="avatar" /></a>
 					</div>
 
 					<div class="item">

@@ -40,7 +40,7 @@ function bp_blogs_widget_recent_posts($args) {
 				<?php foreach ( $posts as $post ) : ?>
 					<li>
 						<div class="item-avatar">
-							<?php echo bp_core_get_avatar( $post->post_author, 1 ) ?>
+							<a href="<?php echo bp_post_get_permalink( $post, $post->blog_id ) ?>" title="<?php echo apply_filters( 'the_title', $post->post_title ) ?>"><?php echo bp_core_get_avatar( $post->post_author, 1 ) ?></a>
 						</div>
 
 						<div class="item">

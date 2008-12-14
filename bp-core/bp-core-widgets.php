@@ -110,7 +110,7 @@ function bp_core_widget_members($args) {
 			<?php foreach ( (array) $users['users'] as $user ) : ?>
 				<li class="vcard">
 					<div class="item-avatar">
-						<?php echo bp_core_get_avatar( $user->user_id, 1 ) ?>
+						<a href="<?php echo bp_core_get_userlink( $user->user_id, false, true ) ?>"><?php echo bp_core_get_avatar( $user->user_id, 1 ) ?></a>
 					</div>
 
 					<div class="item">

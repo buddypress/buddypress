@@ -95,7 +95,7 @@ function groups_directory_groups_content() {
 				<?php $group = new BP_Groups_Group( $group->group_id, false, false ); ?>
 				<li>
 					<div class="item-avatar">
-						<img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php echo $group->name ?> Avatar" />
+						<a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php echo $group->name ?> Avatar" /></a>
 					</div>
 
 					<div class="item">
@@ -158,7 +158,7 @@ function groups_directory_groups_sidebar() {
 					<?php $group = new BP_Groups_Group( $group->group_id, false, false ); ?>
 					<li>
 						<div class="item-avatar">
-							<img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php echo $group->name ?> Avatar" />
+							<a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php echo $group->name ?> Avatar" /></a>
 						</div>
 
 						<div class="item">

@@ -97,7 +97,7 @@ function bp_core_directory_members_content() {
 			<?php foreach ( $users['users'] as $user ) : ?>
 				<li>
 					<div class="item-avatar">
-						<?php echo bp_core_get_avatar( $user->user_id, 1 ) ?>
+						<a href="<?php echo bp_core_get_userlink( $user->user_id, false, true ) ?>"><?php echo bp_core_get_avatar( $user->user_id, 1 ) ?></a>
 					</div>
 
 					<div class="item">
@@ -154,7 +154,7 @@ function bp_core_directory_members_sidebar() {
 				<?php foreach( $users['users'] as $user ) : ?>
 				<li>
 					<div class="item-avatar">
-						<?php echo bp_core_get_avatar( $user->user_id, 1 ) ?>
+						<a href="<?php echo bp_core_get_userlink( $user->user_id, false, true ) ?>"><?php echo bp_core_get_avatar( $user->user_id, 1 ) ?></a>
 					</div>
 
 					<div class="item">

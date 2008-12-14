@@ -390,9 +390,9 @@ function bp_page_title() {
 	global $bp;
 	
 	if ( $bp['current_fullname'] != '' ) {
-	 	echo apply_filters( 'bp_page_title', $bp['current_fullname'] . ' &raquo; ' . ucwords($bp['current_component']) . ' &raquo; ' . $bp['bp_options_nav'][$bp['current_component']][$bp['current_action']]['name'] );
+	 	echo apply_filters( 'bp_page_title', strip_tags( $bp['current_fullname'] . ' &raquo; ' . ucwords($bp['current_component']) . ' &raquo; ' . $bp['bp_options_nav'][$bp['current_component']][$bp['current_action']]['name'] ) );
 	} else {
-		echo apply_filters( 'bp_page_title', ucwords($bp['current_component']) . ' &raquo; ' . ucwords($bp['bp_options_title']) . ' &raquo; ' . ucwords($bp['current_action']) );
+		echo apply_filters( 'bp_page_title', strip_tags( ucwords($bp['current_component']) . ' &raquo; ' . ucwords($bp['bp_options_title']) . ' &raquo; ' . ucwords($bp['current_action']) ) );
 	}
 }
 
