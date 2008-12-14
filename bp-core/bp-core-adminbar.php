@@ -74,15 +74,25 @@ function bp_adminbar_account_menu() {
 		}
 	
 		$alt = ( $counter % 2 == 0 ) ? ' class="alt"' : '';
-	
-		echo '<li' . $alt . '><a id="logout" href="' . site_url() . '/wp-login.php?action=logout">' . __('Log Out', 'buddypress') . '</a></li>';
-		echo '</ul>';
+
+		if ( function_exists('wp_logout_url') ) { 
+			echo '<li' . $alt . '><a id="logout" href="' . wp_logout_url(site_url()) . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';                   
+		} else {  
+			echo '<li' . $alt . '><a id="logout" href="' . site_url() . '/wp-login.php?action=logout&amp;redirect_to=' . site_url() . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>'; 
+		} 
+		   	 
+ 		echo '</ul>';
 		echo '</li>';
 	}
 }
 
 // return a string indicating user's role in that blog
 function get_blog_role_for_user( $user, $blog ) {
+	
+	// If the user is a site admin, just display admin.
+	if ( is_site_admin() ) 
+		return __( 'Admin', 'buddypress');
+	
 	$roles = get_usermeta( $user, 'wp_' . $blog . '_capabilities' );
 
 	if ( isset( $roles['subscriber'] ) )
