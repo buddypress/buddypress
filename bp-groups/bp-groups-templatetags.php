@@ -1104,6 +1104,51 @@ function bp_group_status_message() {
 	}
 }
 
+function bp_groups_random_selection( $total_groups = 5 ) {
+	global $bp;
+	
+	$group_ids = BP_Groups_Group::get_random( $total_groups, 1 );
+?>	
+	<?php if ( $group_ids['groups'] ) { ?>
+		<ul class="item-list" id="random-groups-list">
+		<?php for ( $i = 0; $i < count( $group_ids['groups'] ); $i++ ) { ?>
+			<?php $group = new BP_Groups_Group( $group_ids['groups'][$i]->group_id, false, false ); ?>
+			<li>
+				<div class="item-avatar">
+					<a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php echo $group->name ?> Avatar" /></a>
+				</div>
+
+				<div class="item">
+					<div class="item-title"><a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><?php echo $group->name ?></a></div>
+					<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __('active %s ago') ) ?></span></div>
+					<div class="item-meta desc"><?php echo bp_create_excerpt( $group->description ) ?></div>
+				</div>
+				
+				<div class="action">
+					<?php bp_group_join_button( $group ) ?>
+					<div class="meta">
+						<?php $member_count = groups_get_groupmeta( $group->id, 'total_member_count' ) ?>
+						<?php echo ucwords($group->status) ?> <?php _e( 'Group', 'buddypress' ) ?> / 
+						<?php if ( $member_count == 1 ) : ?>
+							<?php _e( sprintf( '%d member', $member_count ), 'buddypress' ) ?>
+						<?php else : ?>
+							<?php _e( sprintf( '%d members', $member_count ), 'buddypress' ) ?>
+						<?php endif; ?>
+					</div>
+				</div>
+				
+				<div class="clear"></div>
+			</li>
+		<?php } ?>
+		</ul>
+	<?php } else { ?>
+		<div id="message" class="info">
+			<p><?php _e( "There aren't enough groups to show a random sample just yet.", 'buddypress' ) ?></p>
+		</div>		
+	<?php } ?>
+<?php
+}
+
 function bp_groups_random_groups() {
 	global $bp;
 	
