@@ -198,8 +198,8 @@ function xprofile_validate_signup_fields( $result ) {
 		$meta['xprofile_field_ids'] = $_POST['xprofile_ids'];
 		$meta['avatar_image_resized'] = $canvas;
 		$meta['avatar_image_original'] = $original;
-		$meta['public'] = $public;
-		$meta['lang_id'] = 1;
+		
+		var_dump($meta);
 		
 		$_SESSION['xprofile_meta'] = $meta;
 	} else {
@@ -209,6 +209,18 @@ function xprofile_validate_signup_fields( $result ) {
 	return array('user_name' => $user_name, 'user_email' => $user_email, 'errors' => $errors);
 }
 add_filter( 'wpmu_validate_user_signup', 'xprofile_validate_signup_fields', 10, 1 );
+
+
+function xprofile_add_blog_signup_meta( $meta ) {
+	$_SESSION['xprofile_meta']['public'] = (int) $_POST['blog_public'];
+	$_SESSION['xprofile_meta']['lang_id'] = 1; // deprecated
+	$_SESSION['xprofile_meta']['blogname'] = $_POST['blogname'];
+	$_SESSION['xprofile_meta']['blog_title'] = $_POST['blog_title'];
+
+	return $meta;
+}
+
+add_filter( 'wpmu_validate_blog_signup', 'xprofile_add_blog_signup_meta' );
 
 
 function xprofile_add_profile_meta( $meta ) {
