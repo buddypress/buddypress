@@ -265,7 +265,7 @@ function messages_action_view_message() {
 	$thread_id = $bp['action_variables'][0];
 
 	if ( !$thread_id || !is_numeric($thread_id) || !BP_Messages_Thread::check_access($thread_id) ) {
-		bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );
+		bp_core_redirect( $bp['current_domain'] . $bp['current_component'] );
 	} else {
 		$bp['bp_options_nav'][$bp['messages']['slug']]['view'] = array(
 			'name' => __('From: ' . BP_Messages_Thread::get_last_sender($thread_id), 'buddypress'),
@@ -287,7 +287,7 @@ function messages_action_delete_message() {
 	$thread_id = $bp['action_variables'][1];
 
 	if ( !$thread_id || !is_numeric($thread_id) || !BP_Messages_Thread::check_access($thread_id) ) {
-		bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );
+		bp_core_redirect( $bp['current_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );
 	} else {
 		//echo $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action']; die;
 		// delete message
@@ -311,7 +311,7 @@ function messages_action_bulk_delete() {
 	$thread_ids = $_POST['thread_ids'];
 
 	if ( !$thread_ids || !BP_Messages_Thread::check_access($thread_ids) ) {
-		bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );			
+		bp_core_redirect( $bp['current_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );			
 	} else {
 		if ( !BP_Messages_Thread::delete( explode(',', $thread_ids ) ) ) {
 			bp_core_add_message( __('There was an error deleting messages.', 'buddypress'), 'error' );
