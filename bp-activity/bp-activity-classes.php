@@ -173,7 +173,7 @@ Class BP_Activity_Activity {
 		return $activities_formatted;
 	}
 	
-	function get_activity_for_friends( $user_id = null, $limit = 30, $since = '-3 days' ) {
+	function get_activity_for_friends( $user_id = null, $total_limit = 80, $since = '-3 days', $limit_per_friend = 5 ) {
 		global $wpdb, $bp;
 		
 		if ( !function_exists('friends_get_friend_user_ids') )
@@ -181,8 +181,8 @@ Class BP_Activity_Activity {
 
 		$since = strtotime($since);
 		
-		if ( $limit )
-			$limit_sql = $wpdb->prepare( " LIMIT %d", $limit );
+		if ( $total_limit )
+			$limit_sql = $wpdb->prepare( " LIMIT %d", $total_limit );
 		
 		/* Determine whether or not to use the cached friends activity stream, or re-select and cache a new stream */
 		$last_cached = get_usermeta( $bp['loggedin_userid'], 'bp_activity_friends_last_cached' );
@@ -210,11 +210,14 @@ Class BP_Activity_Activity {
 			//echo '<small style="color: red">** Debug: Not Using Cache **</small>';
 			
 			$friend_ids = friends_get_friend_user_ids( $user_id );
+			
+			if ( $limit_per_friend )
+				$limit_sql = $wpdb->prepare( " LIMIT %d", $limit_per_friend );
 
 			for ( $i = 0; $i < count($friend_ids); $i++ ) {
 				$table_name = $wpdb->base_prefix . 'user_' . $friend_ids[$i] . '_activity_cached';
 
-				$activities[$i]['activity'] = $wpdb->get_results( $wpdb->prepare( "SELECT content, date_recorded, component_name FROM " . $table_name . " WHERE is_private = 0 ORDER BY date_recorded LIMIT 5" ) );
+				$activities[$i]['activity'] = $wpdb->get_results( $wpdb->prepare( "SELECT content, date_recorded, component_name FROM " . $table_name . " WHERE is_private = 0 ORDER BY date_recorded $limit_sql" ) );
 				$activities[$i]['full_name'] = bp_fetch_user_fullname( $friend_ids[$i], false );
 			}
 		
@@ -229,6 +232,9 @@ Class BP_Activity_Activity {
 		
 			if ( is_array($activities_formatted) )
 				usort( $activities_formatted, 'bp_activity_order_by_date' );
+			
+			// Limit the number of items that get cached to the total_limit variable passed.
+			$activities_formatted = array_slice( $activities_formatted, 0, $total_limit );
 			
 			if ( count($activities_formatted) )
 				BP_Activity_Activity::cache_friends_activities( $activities_formatted );
