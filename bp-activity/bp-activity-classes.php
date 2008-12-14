@@ -125,7 +125,7 @@ Class BP_Activity_Activity {
 			
 			// Use the cached activity stream.
 			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $bp['activity']['table_name_current_user_cached'] . " WHERE date_recorded >= FROM_UNIXTIME(%d) $privacy_sql ORDER BY date_recorded DESC $limit_sql", $since ) );
-			
+	
 			for ( $i = 0; $i < count( $activities ); $i++ ) {
 				if ( !$activities[$i]->is_private ) {
 					$activities_formatted[$i]['content'] = $activities[$i]->content;
@@ -173,14 +173,12 @@ Class BP_Activity_Activity {
 		return $activities_formatted;
 	}
 	
-	function get_activity_for_friends( $user_id = null, $total_limit = 80, $since = '-3 days', $limit_per_friend = 5 ) {
+	function get_activity_for_friends( $user_id = null, $total_limit = 80, $limit_per_friend = 5 ) {
 		global $wpdb, $bp;
 		
 		if ( !function_exists('friends_get_friend_user_ids') )
 			return false;
 
-		$since = strtotime($since);
-		
 		if ( $total_limit )
 			$limit_sql = $wpdb->prepare( " LIMIT %d", $total_limit );
 		
@@ -192,8 +190,8 @@ Class BP_Activity_Activity {
 			//echo '<small style="color: green">** Debug: Using Cache **</small>';
 			
 			// Use the cached activity stream.
-			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $bp['activity']['table_name_loggedin_user_friends_cached'] . " WHERE date_recorded >= FROM_UNIXTIME(%d) ORDER BY date_recorded DESC $limit_sql", $since ) );
-
+			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $bp['activity']['table_name_loggedin_user_friends_cached'] . " ORDER BY date_recorded DESC $limit_sql" ) );
+		
 			for ( $i = 0; $i < count( $activities ); $i++ ) {
 				if ( !$activities[$i]->is_private ) {
 					$activities_formatted[$i]['content'] = $activities[$i]->content;
@@ -217,7 +215,7 @@ Class BP_Activity_Activity {
 			for ( $i = 0; $i < count($friend_ids); $i++ ) {
 				$table_name = $wpdb->base_prefix . 'user_' . $friend_ids[$i] . '_activity_cached';
 
-				$activities[$i]['activity'] = $wpdb->get_results( $wpdb->prepare( "SELECT content, date_recorded, component_name FROM " . $table_name . " WHERE is_private = 0 ORDER BY date_recorded $limit_sql" ) );
+				$activities[$i]['activity'] = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $table_name . " WHERE is_private = 0 ORDER BY date_recorded $limit_sql" ) );
 				$activities[$i]['full_name'] = bp_fetch_user_fullname( $friend_ids[$i], false );
 			}
 		
@@ -289,7 +287,7 @@ Class BP_Activity_Activity {
 		
 		for ( $i = 0; $i < count($activity_array); $i++ ) {
 			// Cache that sucka...
-			$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_loggedin_user_friends_cached'] . " ( user_id, content, primary_link, component_name, component_action, date_cached, date_recorded ) VALUES ( %d, %s, %s, %s, %s FROM_UNIXTIME(%d), %s )", $activity_array[$i]['user_id'], $activity_array[$i]['content'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], $activity_array[$i]['component_action'], time(), $activity_array[$i]['date_recorded'] ) );
+			$cached = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_loggedin_user_friends_cached'] . " ( user_id, content, primary_link, component_name, component_action, date_cached, date_recorded ) VALUES ( %d, %s, %s, %s, %s, FROM_UNIXTIME(%d), %s )", $activity_array[$i]['user_id'], $activity_array[$i]['content'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], $activity_array[$i]['component_action'], time(), $activity_array[$i]['date_recorded'] ) );
 		}
 		
 		update_usermeta( $bp['loggedin_userid'], 'bp_activity_friends_last_cached', time() );
