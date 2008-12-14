@@ -249,7 +249,7 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 	switch ( $action ) {
 		case 'friendship_accepted':
 			if ( (int)$total_items > 1 ) {
-				return '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '" title="' . __( 'My Friends', 'buddypress' ) . '">' . sprintf( __('%d friends accepted your friendship requests'), (int)$total_items ) . '</a>';		
+				return '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/my-friends/newest" title="' . __( 'My Friends', 'buddypress' ) . '">' . sprintf( __('%d friends accepted your friendship requests'), (int)$total_items ) . '</a>';		
 			} else {
 				$user_fullname = bp_core_global_user_fullname( $item_id );
 				$user_url = bp_core_get_userurl( $item_id );
