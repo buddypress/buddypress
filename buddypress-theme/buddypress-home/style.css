@@ -608,3 +608,13 @@ a.page-numbers:hover { background: #e1e1e1; }
 		color: inherit;
 		padding-left: 3.3em;
 	}
+
+/***** FOOTER *********/
+
+#footer {
+	background: #fff9df;
+	padding: 15px;
+	text-align: center;
+	margin-top: 30px;
+	font: normal 1.1em Georgia, times, serif;
+}
