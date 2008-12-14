@@ -224,7 +224,7 @@ Class BP_Messages_Thread {
 		if ( $box != 'sentbox' )
 			$exclude_sender = ' AND sender_only != 1';
 
-		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT count(thread_id) FROM " . $bp['messages']['table_name_recipients'] . " WHERE user_id = %d$exclude_sender", $user_id ) );
+		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT count(thread_id) FROM " . $bp['messages']['table_name_recipients'] . " WHERE user_id = %d AND is_deleted = 0$exclude_sender", $user_id ) );
 	}
 	
 	function user_is_sender($thread_id) {
