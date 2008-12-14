@@ -619,7 +619,7 @@ function messages_view_thread( $thread_id ) {
 								</div>
 							</div>
 							<p class="submit">
-								<input type="submit" name="send" value="Send Reply &raquo;" id="send_reply_button" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" />
+								<input type="submit" name="send" value="Send Reply &raquo;" id="send_reply_button"/>
 							</p>
 							<input type="hidden" id="thread_id" name="thread_id" value="<?php echo $thread->thread_id ?>" />
 							<input type="hidden" name="subject" id="subject" value="<?php _e('Re: ', 'buddypress'); echo str_replace( 'Re: ', '', $thread->last_message_subject); ?>" />

@@ -436,7 +436,7 @@ function bp_core_render_avatar_upload_form($action, $no_form_tag = false) {
 		<input type="hidden" name="action" value="slick_avatars" />
 		<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('slick_avatars'); ?>" />
 		<input type="file" name="file" id="file" />
-		<input type="submit" name="upload" id="upload" value="Upload Photo" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" />
+		<input type="submit" name="upload" id="upload" value="Upload Photo"/>
 <?php if ( !$no_form_tag ) { ?>
 	</form>
 <?php

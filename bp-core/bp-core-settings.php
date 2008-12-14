@@ -8,6 +8,7 @@ function bp_core_add_settings_nav() {
 	
 	bp_core_add_subnav_item( 'settings', 'general', __('General', 'buddypress'), $bp['loggedin_domain'] . 'settings/', 'bp_core_screen_general_settings', false, bp_is_home() );
 	bp_core_add_subnav_item( 'settings', 'notifications', __('Notifications', 'buddypress'), $bp['loggedin_domain'] . 'settings/', 'bp_core_screen_notification_settings', false, bp_is_home() );
+	bp_core_add_subnav_item( 'settings', 'delete-account', __('Delete Account', 'buddypress'), $bp['loggedin_domain'] . 'settings/', 'bp_core_screen_delete_account', false, bp_is_home() );
 }
 add_action( 'wp', 'bp_core_add_settings_nav', 2 );
 
@@ -77,7 +78,7 @@ function bp_core_screen_general_settings_content() {
 		<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small" /> &nbsp;New Password
 		<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small" /> &nbsp;Repeat New Password
 	
-		<p><input type="submit" name="submit" value="Save Changes" id="submit" class="auto" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" /></p>
+		<p><input type="submit" name="submit" value="Save Changes" id="submit" class="auto"/></p>
 		<?php wp_nonce_field('bp_settings_general') ?>
 	</form>
 <?php
@@ -125,10 +126,82 @@ function bp_core_screen_notification_settings_content() {
 		
 		<?php do_action( 'bp_notification_settings' ) ?>
 		
-		<p class="submit"><input type="submit" name="submit" value="Save Changes" id="submit" class="auto" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" /></p>		
+		<p class="submit"><input type="submit" name="submit" value="Save Changes" id="submit" class="auto"/></p>		
 		
 		<?php wp_nonce_field('bp_settings_notifications') ?>
 		
+	</form>
+<?php
+}
+
+/**** DELETE ACCOUNT ****/
+
+function bp_core_screen_delete_account() {
+	global $current_user, $bp_settings_updated, $pass_error;
+	
+	$bp_settings_updated = false;
+	$pass_error = false;
+	
+	if ( isset($_POST['submit']) && check_admin_referer('bp_settings_general') ) {
+		require_once( WPINC . '/registration.php' );
+		
+		// Form has been submitted and nonce checks out, lets do it.
+		
+		if ( $_POST['email'] != '' ) {
+			$current_user->user_email = wp_specialchars( trim( $_POST['email'] ));
+		}
+
+		if ( $_POST['pass1'] != '' && $_POST['pass2'] != '' ) {
+			if ( $_POST['pass1'] == $_POST['pass2'] && !strpos( " " . $_POST['pass1'], "\\" ) ) {
+				$current_user->user_pass = $_POST['pass1'];
+			} else {
+				$pass_error = true;
+			}
+		} else if ( $_POST['pass1'] == '' && $_POST['pass2'] != '' || $_POST['pass1'] != '' && $_POST['pass2'] == '' ) {
+			$pass_error = true;
+		} else {
+			unset( $current_user->user_pass );
+		}
+		
+		if ( !$pass_error && wp_update_user( get_object_vars( $current_user ) ) )
+			$bp_settings_updated = true;
+	}
+	
+	add_action( 'bp_template_title', 'bp_core_screen_delete_account_title' );
+	add_action( 'bp_template_content', 'bp_core_screen_delete_account_content' );
+	
+	bp_catch_uri('plugin-template');
+}
+
+function bp_core_screen_delete_account_title() {
+	_e( 'Delete Account', 'buddypress' );
+}
+
+function bp_core_screen_delete_account_content() {
+	global $bp, $current_user, $bp_settings_updated, $pass_error; ?>
+
+	<?php if ( $bp_settings_updated && !$pass_error ) { ?>
+		<div id="message" class="updated fade">
+			<p><?php _e( 'Changes Saved.', 'buddypress' ) ?></p>
+		</div>
+	<?php } ?>
+	
+	<?php if ( $pass_error && !$bp_settings_updated ) { ?>
+		<div id="message" class="error fade">
+			<p><?php _e( 'Your passwords did not match', 'buddypress' ) ?></p>
+		</div>	
+	<?php } ?>
+
+	<form action="<?php echo $bp['loggedin_domain'] . 'settings/general' ?>" method="post" id="settings-form">
+		<label for="email">Account Email</label>
+		<input type="text" name="email" id="email" value="<?php echo $current_user->user_email ?>" class="settings-input" />
+			
+		<label for="pass1">Change Password <span>(leave blank for no change)</span></label>
+		<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small" /> &nbsp;New Password
+		<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small" /> &nbsp;Repeat New Password
+	
+		<p><input type="submit" name="submit" value="Save Changes" id="submit" class="auto"/></p>
+		<?php wp_nonce_field('bp_settings_general') ?>
 	</form>
 <?php
 }

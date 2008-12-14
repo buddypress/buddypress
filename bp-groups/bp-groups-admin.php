@@ -34,7 +34,7 @@ function groups_admin_settings() {
 	
 		<form id="wpmu-search" method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
 			<input type="text" size="17" value="<?php echo $_REQUEST['s'] ?>" name="s" />
-			<input id="post-query-submit" class="button" type="submit" value="Search Groups" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" />
+			<input id="post-query-submit" class="button" type="submit" value="Search Groups"/>
 		</form>
 		
 		<?php if ( bp_has_groups('15') ) : ?>
@@ -44,7 +44,7 @@ function groups_admin_settings() {
 						<?php bp_group_pagination() ?>
 					</div>
 					<div class="alignleft">
-						<input class="button-secondary delete" type="submit" name="groups_admin_delete" value="Delete" onclick="if ( !confirm('<?php _e( 'Are you sure?', 'buddypress' ) ?>') ) return false" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" />
+						<input class="button-secondary delete" type="submit" name="groups_admin_delete" value="Delete" onclick="if ( !confirm('<?php _e( 'Are you sure?', 'buddypress' ) ?>') ) return false"/>
 						<?php wp_nonce_field('bp-groups-admin') ?>
 						<br class="clear"/>
 					</div>

@@ -65,7 +65,7 @@ function bp_core_admin_settings() { ?>
 			</table>
 	
 			<p class="submit">
-				<input type="submit" name="bp-admin-submit" id="bp-admin-submit" value="<?php _e( 'Save Settings', 'buddypress' ) ?>" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" />
+				<input type="submit" name="bp-admin-submit" id="bp-admin-submit" value="<?php _e( 'Save Settings', 'buddypress' ) ?>"/>
 			</p>
 		
 			<?php wp_nonce_field( 'bp-admin') ?>
