@@ -716,14 +716,6 @@ Class BP_XProfile_Field {
 				</div>
 
 				<div id="titlediv">
-					<h3><label for="public"><?php _e("Default Field Privacy Settings", 'buddypress') ?> *</label></h3>
-					<select name="public" id="public" style="width: 30%">
-						<option value="1"<?php if ( $this->is_public== '1' ) { ?> selected="selected"<?php } ?>>Viewable by everyone</option>
-						<option value="0"<?php if ( $this->is_public== '0' ) { ?> selected="selected"<?php } ?>>Viewable only by member</option>
-					</select>
-				</div>
-
-				<div id="titlediv">
 					<h3><label for="fieldtype"><?php _e("Field Type", 'buddypress') ?> *</label></h3>
 					<select name="fieldtype" id="fieldtype" onchange="show_options(this.value)" style="width: 30%">
 						<option value="textbox"<?php if ( $this->type == 'textbox' ) {?> selected="selected"<?php } ?>>Text Box</option>
