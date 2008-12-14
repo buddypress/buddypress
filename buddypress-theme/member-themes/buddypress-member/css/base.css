@@ -192,6 +192,8 @@ input, select, textarea { width: 100%; }
 		#userbar form input {
 			width: 100%;
 		}
+		
+		input#wp-submit { width: auto !important; }
 	
 	#userbar ul#bp-nav {
 		width: 149px;

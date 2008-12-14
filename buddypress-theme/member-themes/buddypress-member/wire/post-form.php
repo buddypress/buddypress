@@ -12,7 +12,7 @@
 				<p><input type="checkbox" name="wire-post-email-notify" id="wire-post-email-notify" value="1" /> <?php _e( 'Notify members via email (will slow down posting)', 'buddypress' ) ?></p>
 			<?php endif; ?>
 			
-			<input type="submit" name="wire-post-submit" id="wire-post-submit" value="Post &raquo;" />
+			<input type="submit" name="wire-post-submit" id="wire-post-submit" value="Post &raquo;" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" />
 		</div>
 		
 	</form>

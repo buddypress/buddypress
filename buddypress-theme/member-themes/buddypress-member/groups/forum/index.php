@@ -90,7 +90,7 @@
 							<label><?php _e( 'Tags:', 'buddypress' ) ?></label>
 							<input type="text" name="topic_tags" id="topic_tags" value="" />
 					
-							<input type="submit" name="submit_topic" id="submit_topic" value="Post Topic" />
+							<input type="submit" name="submit_topic" id="submit_topic" value="Post Topic" onclick="this.disabled = true; this.value = '<?php _e( 'Loading...', 'buddypress' ) ?>';" />
 						</div>
 					
 					<?php endif; ?>

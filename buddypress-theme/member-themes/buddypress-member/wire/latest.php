@@ -13,8 +13,6 @@
 		<?php if ( bp_exists('friends') ) : ?>
 			<?php bp_add_friend_button() ?>
 		<?php endif; ?>
-		
-		<?php //bp_user_groups() ?>
 	</div>
 
 	<div class="main-column">
