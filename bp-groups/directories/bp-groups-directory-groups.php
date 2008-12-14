@@ -39,6 +39,8 @@ function groups_directory_groups_content() {
 	$to_num = ( $from_num + ( $pag_num - 1  ) > $groups['total'] ) ? $groups['total'] : $from_num + ( $pag_num - 1 ); 
 	
 ?>	
+<div id="content" class="narrowcolumn">
+	
 	<form action="<?php echo site_url() . '/' ?>" method="post" id="groups-directory-form">
 	<div class="widget">
 		<h2 class="widgettitle"><?php _e( 'Group Directory', 'buddypress' ) ?></h2>
@@ -129,6 +131,8 @@ function groups_directory_groups_content() {
 	</div>
 	<?php wp_nonce_field('directory_groups', '_wpnonce-group-filter' ) ?>
 	</form>
+
+</div>
 <?php
 }
 

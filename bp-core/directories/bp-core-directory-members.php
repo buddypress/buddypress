@@ -42,6 +42,8 @@ function bp_core_directory_members_content() {
 	$to_num = ( $from_num + 9 > $users['total'] ) ? $users['total'] : $from_num + 9; 
 	
 ?>	
+<div id="content" class="narrowcolumn">
+	
 	<form action="<?php echo site_url() . '/' ?>" method="post" id="members-directory-form">
 	<div class="widget">
 		<h2 class="widgettitle"><?php _e( 'Member Directory', 'buddypress' ) ?></h2>
@@ -126,6 +128,8 @@ function bp_core_directory_members_content() {
 	</div>
 	<?php wp_nonce_field('directory_members', '_wpnonce-member-filter' ) ?>
 	</form>
+	
+</div>
 <?php
 }
 

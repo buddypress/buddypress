@@ -39,6 +39,8 @@ function bp_blogs_directory_blogs_content() {
 	$to_num = ( $from_num + ( $pag_num - 1  ) > $blogs['total'] ) ? $blogs['total'] : $from_num + ( $pag_num - 1 );
 	
 ?>	
+<div id="content" class="narrowcolumn">
+	
 	<form action="<?php echo site_url() . '/' ?>" method="post" id="blogs-directory-form">
 	<div class="widget">
 		<h2 class="widgettitle"><?php _e( 'Blog Directory', 'buddypress' ) ?></h2>
@@ -127,6 +129,8 @@ function bp_blogs_directory_blogs_content() {
 	</div>
 	<?php wp_nonce_field('directory_blogs', '_wpnonce-blog-filter' ) ?>
 	</form>
+
+</div>
 <?php
 }
 
