@@ -1010,7 +1010,7 @@ msgid "You are promoted to a group administrator"
 msgstr ""
 
 #: bp-groups.php:755
-msgid "A member requests to join a closed group for which you are an admin"
+msgid "A member requests to join a private group for which you are an admin"
 msgstr ""
 
 #: bp-groups.php:777
@@ -2439,7 +2439,7 @@ msgid "Save Changes"
 msgstr ""
 
 #: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:46
-msgid "This is a closed group"
+msgid "This is a private group"
 msgstr ""
 
 #: buddypress-theme/member-themes/buddypress-member/groups/admin/manage-members.php:16

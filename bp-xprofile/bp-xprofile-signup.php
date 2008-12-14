@@ -231,17 +231,21 @@ add_filter( 'add_signup_meta', 'xprofile_add_profile_meta' );
 function xprofile_on_activate_blog( $blog_id, $user_id, $password, $title, $meta ) {
 	xprofile_extract_signup_meta( $user_id, $meta );
 	
-	// move and set the avatar if one has been provided.
-	xprofile_handle_signup_avatar( $user_id, $meta );
+	if ( bp_has_custom_activation_page() )
+		add_action( 'bp_activation_extras', 'xprofile_handle_signup_avatar', 1, 2 );
+	else 
+		xprofile_handle_signup_avatar( $user_id, $meta );
 }
 add_action( 'wpmu_activate_blog', 'xprofile_on_activate_blog', 1, 5 );
 
 
 function xprofile_on_activate_user( $user_id, $password, $meta ) {
 	xprofile_extract_signup_meta( $user_id, $meta );
-
-	// move and set the avatar if one has been provided.
-	xprofile_handle_signup_avatar( $user_id, $meta );
+	
+	if ( bp_has_custom_activation_page() )
+		add_action( 'bp_activation_extras', 'xprofile_handle_signup_avatar', 1, 2 );
+	else 
+		xprofile_handle_signup_avatar( $user_id, $meta );
 }
 add_action( 'wpmu_activate_user', 'xprofile_on_activate_user', 1, 3 );
 
@@ -296,7 +300,7 @@ function xprofile_handle_signup_avatar( $user_id, $meta ) {
 		$original = $original_new;
 	
 		// Render the cropper UI
-		$action = site_url() . '/wp-activate.php?key=' . $_GET['key'] . '&amp;cropped=true';
+		$action = bp_activation_page( false ) . '?key=' . $_GET['key'] . '&amp;cropped=true';
 		bp_core_render_avatar_cropper($original, $resized, $action, $user_id);
 	}
 }

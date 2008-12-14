@@ -284,8 +284,9 @@ function bp_core_render_avatar_cropper($original, $new, $action, $user_id = null
 	echo '<input type="hidden" name="canvas" value="' . $new . '" />';
 	
 	echo '<div id="avatar_v1">';
-	echo '<h3>' . __('Main Avatar', 'buddypress') . '</h3>';
-	echo '<p>' . __('Please select the area of your photo you would like to use for your avatar', 'buddypress') . '(' . CORE_AVATAR_V1_W . 'px x ' . CORE_AVATAR_V1_H . 'px).</p>';
+	echo '<h3>' . __( 'Please Crop Your Avatar!', 'buddypress' ) . '</h3>';
+	echo '<h4>' . __('Thumbnail Avatar', 'buddypress') . '</h4>';
+	echo '<p>' . __('Please crop a small version of your avatar to use for thumbnails.', 'buddypress') . '</p>';
 	
 	// Canvas
 	echo '<div id="crop-v1" class="crop-img"><img src="' . $src . '" ' . $size[3] . ' border="0" alt="Select the area to crop" id="crop-v1-img" /></div>';
@@ -305,12 +306,12 @@ function bp_core_render_avatar_cropper($original, $new, $action, $user_id = null
 	// V2 UI (optional)
 	if (CORE_AVATAR_V2_W !== false && CORE_AVATAR_V2_H !== false) {
 		// Continue button (v1 => v2)
-		echo '<p class="submit"><input type="button" name="avatar_continue" value="' . __('Crop &amp; Continue', 'buddypress') . '" onclick="cropAndContinue();" /></p>';
+		echo '<p class="submit"><input type="button" name="avatar_continue" value="' . __('Crop Thumbnail &amp; Continue', 'buddypress') . '" onclick="cropAndContinue();" /></p>';
 		echo '</div>';
 		
 		echo '<div id="avatar_v2" style="display: none">';
-		echo '<h3>' . __('Alternate Avatar', 'buddypress') . '</h3>';
-		echo '<p>' . __('Please select the area of your photo you would like to use for an alternate version', 'buddypress') . '(' . CORE_AVATAR_V2_W . 'px x ' . CORE_AVATAR_V2_H . 'px).</p>';
+		echo '<h4>' . __('Full Size Avatar', 'buddypress') . '</h4>';
+		echo '<p>' . __('Please crop a full size version of your avatar.', 'buddypress') . '</p>';
 		
 		// Canvas
 		echo '<div id="crop-v2" class="crop-img"><img src="' . $src . '" ' . $size[3] . ' border="0" alt="Select the area to crop" id="crop-v2-img" /></div>';
@@ -328,14 +329,14 @@ function bp_core_render_avatar_cropper($original, $new, $action, $user_id = null
 		echo '<input type="hidden" id="v2_h" name="v2_h" value="" />';
 		
 		// Final button to process everything
-		echo '<p class="submit"><input type="submit" name="save" value="' . __('Crop &amp; Save', 'buddypress') . '" /></p>';
+		echo '<p class="submit"><input type="submit" name="save" value="' . __('Crop Full Size &amp; Save', 'buddypress') . '" /></p>';
 		echo '</div>';
 	} else {
 		// Close out v1 DIV
 		echo '</div>';
 		
 		// Final button to process everything
-		echo '<p class="submit"><input type="submit" name="save" value="' . __('Crop &amp; Save', 'buddypress') . '" /></p>';
+		echo '<p class="submit"><input type="submit" name="save" value="' . __('Crop Full Size &amp; Save', 'buddypress') . '" /></p>';
 	}
 	
 	if ( !$no_form_tag )

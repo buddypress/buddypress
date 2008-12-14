@@ -413,8 +413,15 @@ function bp_is_page($page) {
 	return false;
 }
 
+function bp_has_custom_signup_page() {
+	if ( file_exists( WP_CONTENT_DIR . '/themes/' . get_blog_option( 1, 'template') . '/register.php') )
+		return true;
+	
+	return false;
+}
+
 function bp_signup_page( $echo = true ) {
-	if ( file_exists( WP_CONTENT_DIR . '/themes/' . get_blog_option( 1, 'template') . '/register.php') ) {
+	if ( bp_has_custom_signup_page() ) {
 		if ( $echo )
 			echo site_url(REGISTER_SLUG);
 		else
@@ -424,6 +431,27 @@ function bp_signup_page( $echo = true ) {
 			echo site_url('wp-signup.php');
 		else
 			return site_url('wp-signup.php');
+	}
+}
+
+function bp_has_custom_activation_page() {
+	if ( file_exists( WP_CONTENT_DIR . '/themes/' . get_blog_option( 1, 'template') . '/activate.php') )
+		return true;
+	
+	return false;
+}
+
+function bp_activation_page( $echo = true ) {
+	if ( bp_has_custom_activation_page() ) {
+		if ( $echo )
+			echo site_url(ACTIVATION_SLUG);
+		else
+			return site_url(ACTIVATION_SLUG);
+	} else {
+		if ( $echo )
+			echo site_url('wp-activate.php');
+		else
+			return site_url('wp-activate.php');
 	}
 }
 
