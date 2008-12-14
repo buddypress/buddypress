@@ -139,6 +139,12 @@ function bp_core_screen_notification_settings_content() {
 function bp_core_screen_delete_account() {
 	global $current_user, $bp_settings_updated, $pass_error;
 	
+	if ( isset( $_POST['delete-account-button'] ) && check_admin_referer('delete-account') ) {
+		// delete the users account
+		if ( bp_core_delete_account() )
+			bp_core_redirect( site_url() );
+	}
+	
 	$bp_settings_updated = false;
 	$pass_error = false;
 	
@@ -178,30 +184,17 @@ function bp_core_screen_delete_account_title() {
 }
 
 function bp_core_screen_delete_account_content() {
-	global $bp, $current_user, $bp_settings_updated, $pass_error; ?>
+	global $bp, $current_user, $bp_settings_updated, $pass_error; 	?>
 
-	<?php if ( $bp_settings_updated && !$pass_error ) { ?>
-		<div id="message" class="updated fade">
-			<p><?php _e( 'Changes Saved.', 'buddypress' ) ?></p>
+	<form action="<?php echo $bp['loggedin_domain'] . 'settings/delete-account'; ?>" name="account-delete-form" id="account-delete-form" class="standard-form" method="post">
+		
+		<div id="message" class="info">
+			<p><?php _e( 'WARNING: Deleting your account will completely remove ALL content associated with it. There is no way back, please be careful with this option.', 'buddypress' ); ?></p>
 		</div>
-	<?php } ?>
-	
-	<?php if ( $pass_error && !$bp_settings_updated ) { ?>
-		<div id="message" class="error fade">
-			<p><?php _e( 'Your passwords did not match', 'buddypress' ) ?></p>
-		</div>	
-	<?php } ?>
-
-	<form action="<?php echo $bp['loggedin_domain'] . 'settings/general' ?>" method="post" id="settings-form">
-		<label for="email">Account Email</label>
-		<input type="text" name="email" id="email" value="<?php echo $current_user->user_email ?>" class="settings-input" />
-			
-		<label for="pass1">Change Password <span>(leave blank for no change)</span></label>
-		<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small" /> &nbsp;New Password
-		<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small" /> &nbsp;Repeat New Password
-	
-		<p><input type="submit" name="submit" value="Save Changes" id="submit" class="auto"/></p>
-		<?php wp_nonce_field('bp_settings_general') ?>
+		
+		<input type="checkbox" name="delete-account-understand" id="delete-account-understand" value="1" onclick="if(this.checked) { document.getElementById('delete-account-button').disabled = ''; } else { document.getElementById('delete-account-button').disabled = 'disabled'; }" /> <?php _e( 'I understand the consequences of deleting my account.', 'buddypress' ); ?>
+		<p><input type="submit" disabled="disabled" value="<?php _e( 'Delete My Account', 'buddypress' ) ?> &raquo;" id="delete-account-button" name="delete-account-button" /></p>
+		<?php wp_nonce_field('delete-account') ?>
 	</form>
 <?php
 }

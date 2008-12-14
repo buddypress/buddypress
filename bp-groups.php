@@ -1872,9 +1872,11 @@ function groups_update_groupmeta( $group_id, $meta_key, $meta_value ) {
 
 function groups_remove_data( $user_id ) {
 	BP_Groups_Member::delete_all_for_user($user_id);
+	
+	do_action( 'groups_remove_data', $user_id );
 }
-add_action( 'wpmu_delete_user', 'bp_core_remove_data', 1 );
-add_action( 'delete_user', 'bp_core_remove_data', 1 );
+add_action( 'wpmu_delete_user', 'groups_remove_data', 1 );
+add_action( 'delete_user', 'groups_remove_data', 1 );
 
 
 ?>

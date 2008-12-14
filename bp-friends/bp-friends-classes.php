@@ -303,7 +303,6 @@ class BP_Friends_Friendship {
 	
 	function delete_all_for_user( $user_id ) {
 		global $wpdb, $bp;
-		
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['friends']['table_name'] . " WHERE friend_user_id = %d OR initiator_user_id = %d", $user_id, $user_id ) ); 		
 	}
 }

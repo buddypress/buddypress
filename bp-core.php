@@ -1163,6 +1163,17 @@ function bp_core_email_from_address_filter() {
 }
 add_filter( 'wp_mail_from', 'bp_core_email_from_address_filter' );
 
+
+function bp_core_delete_account() {
+	global $bp;
+	
+	require_once( ABSPATH . '/wp-admin/includes/mu.php' );
+	require_once( ABSPATH . '/wp-admin/includes/user.php' );
+		
+	// Be careful with this function!
+	return wpmu_delete_user( $bp['loggedin_userid'] );
+}
+
 /**
  * bp_core_remove_data()
  *

@@ -573,9 +573,11 @@ function friends_remove_data( $user_id ) {
 	
 	/* Remove usermeta */
 	delete_usermeta( $user_id, 'total_friend_count' );
+
+	do_action( 'friends_remove_data', $user_id );
 }
-add_action( 'wpmu_delete_user', 'bp_core_remove_data', 1 );
-add_action( 'delete_user', 'bp_core_remove_data', 1 );
+add_action( 'wpmu_delete_user', 'friends_remove_data', 1 );
+add_action( 'delete_user', 'friends_remove_data', 1 );
 
 
 ?>

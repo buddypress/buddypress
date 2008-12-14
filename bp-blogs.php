@@ -577,15 +577,15 @@ function bp_blogs_remove_comment( $comment_id ) {
 }
 add_action( 'delete_comment', 'bp_blogs_remove_comment' );
 
-function bp_blogs_remove_data( $blog_id ) {
+function bp_blogs_remove_data_for_blog( $blog_id ) {
 	/* If this is regular blog, delete all data for that blog. */
 	BP_Blogs_Blog::delete_blog_for_all( $blog_id );
 	BP_Blogs_Post::delete_posts_for_blog( $blog_id );		
 	BP_Blogs_Comment::delete_comments_for_blog( $blog_id );
 
-	do_action( 'bp_blogs_remove_data', $blog_id );
+	do_action( 'bp_blogs_remove_data_for_blog', $blog_id );
 }
-add_action( 'delete_blog', 'bp_blogs_remove_data', 1 );
+add_action( 'delete_blog', 'bp_blogs_remove_data_for_blog', 1 );
 
 function bp_blogs_register_existing_content( $blog_id ) {
 	global $bp, $current_blog;
@@ -777,6 +777,18 @@ function bp_blogs_update_blogmeta( $blog_id, $meta_key, $meta_value ) {
 
 	return true;
 }
+
+function bp_blogs_remove_data( $user_id ) {
+	/* If this is regular blog, delete all data for that blog. */
+	BP_Blogs_Blog::delete_blogs_for_user( $user_id );
+	BP_Blogs_Post::delete_posts_for_user( $user_id );		
+	BP_Blogs_Comment::delete_comments_for_user( $user_id );
+
+	do_action( 'bp_blogs_remove_data', $user_id );
+}
+add_action( 'wpmu_delete_user', 'bp_blogs_remove_data', 1 );
+add_action( 'delete_user', 'bp_blogs_remove_data', 1 );
+
 
 
 

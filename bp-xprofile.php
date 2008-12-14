@@ -781,7 +781,7 @@ function xprofile_format_profile_field( $field_type, $field_value ) {
  * @uses delete_usermeta() Delete user meta value based on meta key from wp_usermeta
  * @uses delete_data_for_user() Removes all profile data from the xprofile tables for the user
  */
-function xprofile_remove_data_on_user_deletion( $user_id ) {
+function xprofile_remove_data( $user_id ) {
 	BP_XProfile_ProfileData::delete_data_for_user( $user_id );
 	
 	// delete any avatar files.
@@ -794,7 +794,7 @@ function xprofile_remove_data_on_user_deletion( $user_id ) {
 	delete_usermeta( $user_id, 'bp_core_avatar_v2' );
 	delete_usermeta( $user_id, 'bp_core_avatar_v2_path' );
 }
-add_action( 'wpmu_delete_user', 'xprofile_remove_data_on_user_deletion', 1 );
-add_action( 'delete_user', 'xprofile_remove_data_on_user_deletion', 1 );
+add_action( 'wpmu_delete_user', 'xprofile_remove_data', 1 );
+add_action( 'delete_user', 'xprofile_remove_data', 1 );
 
 ?>
