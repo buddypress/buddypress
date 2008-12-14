@@ -358,12 +358,15 @@ function bp_post_blog_permalink() {
 
 function bp_post_get_permalink( $post = null, $blog_id = null ) {
 	global $current_blog, $posts_template;
-
+	
 	if ( !$post )
 		$post = $posts_template->post;	
 		
 	if ( !$blog_id )
 		$blog_id = $posts_template->post->blog_id;
+		
+	if ( !$post || !$blog_id )
+		return false;
 		
 	$rewritecode = array(
 		'%year%',

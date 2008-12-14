@@ -94,7 +94,7 @@ function bp_blogs_directory_blogs_content() {
 			<?php foreach ( $blogs['blogs'] as $blog ) : ?>
 				<li>
 					<div class="item-avatar">
-						<a href="<?php echo bp_post_get_permalink( $post, $post->blog_id ) ?>" title="<?php echo apply_filters( 'the_title', $post->post_title ) ?>"><img src="<?php echo 'http://www.gravatar.com/avatar/' . md5( $blog->blog_id . '.blogs@' . site_url() ) . '?d=identicon&amp;s=50'; ?>" class="avatar" alt="Blog Identicon" /></a>
+						<img src="<?php echo 'http://www.gravatar.com/avatar/' . md5( $blog->blog_id . '.blogs@' . site_url() ) . '?d=identicon&amp;s=50'; ?>" class="avatar" alt="Blog Identicon" />
 					</div>
 
 					<div class="item">
