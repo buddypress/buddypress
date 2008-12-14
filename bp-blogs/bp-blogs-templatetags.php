@@ -612,9 +612,9 @@ function bp_comment_date( $date_format = null, $echo = true ) {
 		$date_format = get_option('date_format');
 		
 	if ( $echo == true )
-		echo apply_filters( 'bp_comment_date', mysql2date( $date_format, $comments_template->comment->post->post_date ) );
+		echo apply_filters( 'bp_comment_date', mysql2date( $date_format, $comments_template->comment->comment_date ) );
 	else 
-		return apply_filters( 'bp_comment_date', mysql2date( $date_format, $comments_template->comment->post->post_date ) );
+		return apply_filters( 'bp_comment_date', mysql2date( $date_format, $comments_template->comment->comment_date ) );
 }
 
 function bp_comment_blog_permalink( $echo = true ) {
@@ -685,7 +685,7 @@ function bp_show_blog_signup_form($blogname = '', $blog_title = '', $errors = ''
 			<?php do_action( "signup_hidden_fields" ); ?>
 			<?php bp_blogs_signup_blog($blogname, $blog_title, $errors); ?>
 			<p>
-				<input id="submit" type="submit" name="submit" class="submit" value="<?php _e('Create Blog &raquo;', 'buddypress') ?>"/>
+				<input id="submit" type="submit" name="submit" class="submit" value="<?php _e('Create Blog &raquo;', 'buddypress') ?>" />
 			</p>
 		</form>
 		<?php
