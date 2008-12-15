@@ -4,25 +4,17 @@
 function bp_core_register_widgets() {
 	global $current_blog;
 	
-	/* Only allow these widgets on the main site blog */
-	if ( (int)$current_blog->blog_id == 1 ) {
-		
-		/* Site welcome widget */
-		register_sidebar_widget( __('Welcome', 'buddypress'), 'bp_core_widget_welcome');
-		register_widget_control( __('Welcome', 'buddypress'), 'bp_core_widget_welcome_control' );
-		
-		/* Site members widget */
-		register_sidebar_widget( __('Members', 'buddypress'), 'bp_core_widget_members');
-		register_widget_control( __('Members', 'buddypress'), 'bp_core_widget_members_control' );
-		
-		/* Include the javascript needed for activated widgets only */
-		if ( is_active_widget( 'bp_core_widget_members' ) )
-			wp_enqueue_script( 'bp_core_widget_members-js', site_url() . '/wp-content/mu-plugins/bp-core/js/widget-members.js', array('jquery', 'jquery-livequery-pack') );		
-	} else {
-		
-		/* Widgets we specifically only want on member home bases, or blogs and not the main home blog */
-
-	}
+	/* Site welcome widget */
+	register_sidebar_widget( __('Welcome', 'buddypress'), 'bp_core_widget_welcome');
+	register_widget_control( __('Welcome', 'buddypress'), 'bp_core_widget_welcome_control' );
+	
+	/* Site members widget */
+	register_sidebar_widget( __('Members', 'buddypress'), 'bp_core_widget_members');
+	register_widget_control( __('Members', 'buddypress'), 'bp_core_widget_members_control' );
+	
+	/* Include the javascript needed for activated widgets only */
+	if ( is_active_widget( 'bp_core_widget_members' ) )
+		wp_enqueue_script( 'bp_core_widget_members-js', site_url() . '/wp-content/mu-plugins/bp-core/js/widget-members.js', array('jquery', 'jquery-livequery-pack') );		
 	
 	/* Widgets that can be enabled anywhere */
 	register_sidebar_widget( __('Who\'s Online', 'buddypress'), 'bp_core_widget_whos_online');

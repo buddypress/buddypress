@@ -4,17 +4,13 @@
 function groups_register_widgets() {
 	global $current_blog;
 	
-	/* Only allow these widgets on the main site blog */
-	if ( (int)$current_blog->blog_id == 1 ) {
-		
-		/* Site welcome widget */
-		register_sidebar_widget( __('Groups', 'buddypress'), 'groups_widget_groups_list');
-		register_widget_control( __('Groups', 'buddypress'), 'groups_widget_groups_list_control' );
-		
-		/* Include the javascript needed for activated widgets only */
-		if ( is_active_widget( 'groups_widget_groups_list' ) )
-			wp_enqueue_script( 'groups_widget_groups_list-js', site_url() . '/wp-content/mu-plugins/bp-groups/js/widget-groups.js', array('jquery', 'jquery-livequery-pack') );		
-	}
+	/* Site welcome widget */
+	register_sidebar_widget( __('Groups', 'buddypress'), 'groups_widget_groups_list');
+	register_widget_control( __('Groups', 'buddypress'), 'groups_widget_groups_list_control' );
+	
+	/* Include the javascript needed for activated widgets only */
+	if ( is_active_widget( 'groups_widget_groups_list' ) )
+		wp_enqueue_script( 'groups_widget_groups_list-js', site_url() . '/wp-content/mu-plugins/bp-groups/js/widget-groups.js', array('jquery', 'jquery-livequery-pack') );		
 }
 add_action( 'plugins_loaded', 'groups_register_widgets' );
 

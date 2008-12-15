@@ -3,15 +3,10 @@
 /* Register widgets for blogs component */
 function bp_activity_register_widgets() {
 	global $current_blog;
-	
-	/* Only allow these widgets on the main site blog */
-	if ( (int)$current_blog->blog_id == 1 ) {
 
-		/* Site Wide Activity Widget */
-		register_sidebar_widget( __('Site Wide Activity', 'buddypress'), 'bp_activity_widget_sitewide_activity');
-		register_widget_control( __('Site Wide Activity', 'buddypress'), 'bp_activity_widget_sitewide_activity_control' );
-		
-	}
+	/* Site Wide Activity Widget */
+	register_sidebar_widget( __('Site Wide Activity', 'buddypress'), 'bp_activity_widget_sitewide_activity');
+	register_widget_control( __('Site Wide Activity', 'buddypress'), 'bp_activity_widget_sitewide_activity_control' );
 }
 add_action( 'plugins_loaded', 'bp_activity_register_widgets' );
 
@@ -27,25 +22,23 @@ function bp_activity_widget_sitewide_activity($args) {
 		. $widget_name 
 		. $after_title; ?>
 
-	<?php if ( (int)$current_blog->blog_id == 1 ) : ?>
-		<?php $activity = bp_activity_get_sitewide_activity( $options['max_items'] ) ?>
-		
-		<?php if ( $activity ) : ?>
-			<div class="item-options" id="activity-list-options">
-				<img src="<?php echo $bp['activity']['image_base'] ?>/rss.png" alt="<?php _e( 'RSS Feed', 'buddypress' ) ?>" /> <a href="<?php bp_sitewide_activity_feed_link() ?>" title="<?php _e( 'Site Wide Activity RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a>
-			</div>
-			<ul id="site-wide-stream" class="activity-list">
-			<?php foreach( $activity as $item ) : ?>
-				<li class="<?php echo $item['component_name'] ?>">
-					<?php echo apply_filters( 'bp_activity_content', bp_activity_content_filter( $item['content'], $item['date_recorded'], '', true, false, true ) ); ?>
-				</li>
-			<?php endforeach; ?>
-			</ul>
-		<?php else: ?>
-			<div class="widget-error">
-				<?php _e('There has been no recent site activity.', 'buddypress') ?>
-			</div>
-		<?php endif; ?>
+	<?php $activity = bp_activity_get_sitewide_activity( $options['max_items'] ) ?>
+	
+	<?php if ( $activity ) : ?>
+		<div class="item-options" id="activity-list-options">
+			<img src="<?php echo $bp['activity']['image_base'] ?>/rss.png" alt="<?php _e( 'RSS Feed', 'buddypress' ) ?>" /> <a href="<?php bp_sitewide_activity_feed_link() ?>" title="<?php _e( 'Site Wide Activity RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a>
+		</div>
+		<ul id="site-wide-stream" class="activity-list">
+		<?php foreach( $activity as $item ) : ?>
+			<li class="<?php echo $item['component_name'] ?>">
+				<?php echo apply_filters( 'bp_activity_content', bp_activity_content_filter( $item['content'], $item['date_recorded'], '', true, false, true ) ); ?>
+			</li>
+		<?php endforeach; ?>
+		</ul>
+	<?php else: ?>
+		<div class="widget-error">
+			<?php _e('There has been no recent site activity.', 'buddypress') ?>
+		</div>
 	<?php endif; ?>
 
 	<?php echo $after_widget; ?>
