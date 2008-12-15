@@ -107,7 +107,7 @@ input, select, textarea { width: 100%; }
 			text-decoration: underline;
 		}
 		
-			#search-login-bar input {
+			#search-login-bar input, #avatar_continue {
 				width: auto;
 			}
 
