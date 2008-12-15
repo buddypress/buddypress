@@ -315,7 +315,7 @@ function bp_core_render_avatar_cropper($original, $new, $action, $user_id = null
 	// V2 UI (optional)
 	if (CORE_AVATAR_V2_W !== false && CORE_AVATAR_V2_H !== false) {
 		// Continue button (v1 => v2)
-		echo '<p class="submit"><input type="button" name="avatar_continue" value="' . __('Crop Thumbnail &amp; Continue', 'buddypress') . '" onclick="cropAndContinue();" /></p>';
+		echo '<p class="submit"><input type="button" name="avatar_continue" id="avatar_continue" value="' . __('Crop Thumbnail &amp; Continue', 'buddypress') . '" onclick="cropAndContinue();" /></p>';
 		echo '</div>';
 		
 		echo '<div id="avatar_v2" style="display: none">';
@@ -338,7 +338,7 @@ function bp_core_render_avatar_cropper($original, $new, $action, $user_id = null
 		echo '<input type="hidden" id="v2_h" name="v2_h" value="" />';
 		
 		// Final button to process everything
-		echo '<p class="submit"><input type="submit" name="save" value="' . __('Crop Full Size &amp; Save', 'buddypress') . '" /></p>';
+		echo '<p class="submit"><input type="submit" id="crop-complete" name="save" value="' . __('Crop Full Size &amp; Save', 'buddypress') . '" /></p>';
 		echo '</div>';
 	} else {
 		// Close out v1 DIV
