@@ -34,3 +34,23 @@
 	margin-bottom: 1em;
 	font-size: 1.4em;
 }
+
+#avatar-cropper h4 {
+	font-weight: bold;
+}
+
+#crop-complete {
+	width: auto;
+}
+
+#avatar-cropper #avatar_continue, #crop-complete {
+	margin-top: 20px;
+}
+
+div.imgCrop_wrap {
+	position: relative;
+	border: 4px solid #ddd;
+	float: left;
+	margin-right: 15px;
+	margin-bottom: 30px;
+}
