@@ -36,7 +36,7 @@ function messages_add_js() {
 	global $bp;
 	
 	if ( $bp['current_component'] == $bp['messages']['slug'] )
-		wp_enqueue_script( 'bp-messages-js', site_url() . '/wp-content/mu-plugins/bp-messages/js/general.js' );
+		wp_enqueue_script( 'bp-messages-js', site_url() . '/wp-content/mu-plugins/bp-messages/js/general.php' );
 
 	// Include the autocomplete JS for composing a message.
 	if ( $bp['current_component'] == $bp['messages']['slug'] && $bp['current_action'] == 'compose') {
