@@ -465,9 +465,19 @@ function bp_search_form_type_select() {
 	// Eventually this won't be needed and a page will be built to integrate all search results.
 ?>
 	<select name="search-which" id="search-which" style="width: auto">
+		
+		<?php if ( function_exists( 'xprofile_install' ) ) { ?>
 		<option value="members"><?php _e( 'Members', 'buddypress' ) ?></option>
+		<?php } ?>
+		
+		<?php if ( function_exists( 'groups_install' ) ) { ?>
 		<option value="groups"><?php _e( 'Groups', 'buddypress' ) ?></option>
+		<?php } ?>
+		
+		<?php if ( function_exists( 'bp_blogs_install' ) ) { ?>
 		<option value="blogs"><?php _e( 'Blogs', 'buddypress' ) ?></option>
+		<?php } ?>
+		
 		<?php do_action( 'bp_search_form_type_select_options') ?>
 	</select>
 <?php
