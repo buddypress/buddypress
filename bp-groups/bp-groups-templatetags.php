@@ -354,7 +354,7 @@ function bp_group_list_admins( $full_list = true ) {
 			<?php } ?>
 		<?php } ?>
 	<?php } else { ?>
-		<span class="activity">No Admin</span>
+		<span class="activity"><?php _e( 'No Admins', 'buddypress' ) ?></span>
 	<?php } ?>
 	
 <?php
@@ -383,7 +383,7 @@ function bp_group_list_mods( $full_list = true ) {
 			<?php } ?>
 		<?php } ?>
 	<?php } else { ?>
-		<span class="activity">No Admin</span>
+		<span class="activity"><?php _e( 'No Mods', 'buddypress' ) ?></span>
 	<?php } ?>
 	
 <?php
