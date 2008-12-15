@@ -378,6 +378,8 @@ Class BP_XProfile_Field {
 			$this->data->value = $value;
 		}
 		
+		$this->data->value = stripslashes($this->data->value);
+		
 		switch ( $this->type ) {
 			case 'textbox':
 				$html .= '<div class="signup-field">';
