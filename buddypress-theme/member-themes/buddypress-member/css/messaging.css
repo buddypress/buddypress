@@ -53,11 +53,18 @@
 		
 		#send_message_form textarea {
 			border: 1px solid #cdcdcd;
+			height: 200px;
+			font-size: 1.1em;
 		}
 		
-		#send_message_form input#send {
-			font: normal 1em inherit;
+		#send_message_form input#send, input#send_reply_button {
+			font-size: 1.2em;
+			font-weight: bold;
 		}
+			input#send_reply_button {
+				width: auto;
+				color: #555;
+			}
 		
 		a.delete {
 			overflow: hidden;
