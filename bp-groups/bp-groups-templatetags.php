@@ -863,19 +863,22 @@ function bp_group_create_form() {
 		<?php case '4': ?>
 			<?php 
 			if ( $completed_to_step > 2 ) {
+				$group_link = bp_group_permalink( $group_obj, false );
+				
 				if ( function_exists('friends_install') ) {
 					if ( friends_get_friend_count_for_user( $bp['loggedin_userid'] ) ) {
 						bp_group_send_invite_form( $group_obj );
 					} else {
-						$group_link = bp_group_permalink( $group_obj, false );
 						?>
 						<div id="message" class="info">
 							<p><?php _e( 'Once you build up your friends list you will be able to invite friends to join your group.', 'buddypress' ) ?></p>
 						</div>
-						<p><input type="button" value="<?php _e('Finish', 'buddypress') ?> &raquo;" id="save" name="save" onclick="location.href='<?php echo $group_link ?>'" /></p>
 						<?php
 					}
-				}
+				} ?>
+				
+				<p><input type="button" value="<?php _e('Finish', 'buddypress') ?> &raquo;" id="save" name="save" onclick="location.href='<?php echo $group_link ?>'" /></p>
+				<?php
 			} else { ?>
 				<div id="message" class="info">
 					<p>Please complete all previous steps first.</p>
