@@ -222,8 +222,7 @@ function bp_core_ajax_directory_groups() {
 	
 	$from_num = intval( ( $pag_page - 1 ) * $pag_num ) + 1;
 	$to_num = ( $from_num + 9 > $groups['total'] ) ? $groups['total'] : $from_num + 9; 
-	
-	echo '<div id="group-dir-list">';
+
 	if ( $groups['groups'] ) {
 		echo '0[[SPLIT]]'; // return valid result.
 		
@@ -280,8 +279,7 @@ function bp_core_ajax_directory_groups() {
 	if ( isset( $_POST['groups_search'] ) ) {
 		echo '<input type="hidden" id="search_terms" value="' . $_POST['groups_search'] . '" name="search_terms" />';
 	}
-	
-	echo '</div>';
+
 }
 add_action( 'wp_ajax_directory_groups', 'bp_core_ajax_directory_groups' );
 

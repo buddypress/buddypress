@@ -27,8 +27,7 @@ function bp_blogs_ajax_directory_blogs() {
 	
 	$from_num = intval( ( $pag_page - 1 ) * $pag_num ) + 1;
 	$to_num = ( $from_num + 9 > $blogs['total'] ) ? $blogs['total'] : $from_num + 9; 
-	
-	echo '<div id="blog-dir-list">';
+
 	if ( $blogs['blogs'] ) {
 		echo '0[[SPLIT]]'; // return valid result.
 		
@@ -83,8 +82,7 @@ function bp_blogs_ajax_directory_blogs() {
 	if ( isset( $_POST['blogs_search'] ) ) {
 		echo '<input type="hidden" id="search_terms" value="' . $_POST['blogs_search'] . '" name="search_terms" />';
 	}
-	
-	echo '</div>';
+
 }
 add_action( 'wp_ajax_directory_blogs', 'bp_blogs_ajax_directory_blogs' );
 
