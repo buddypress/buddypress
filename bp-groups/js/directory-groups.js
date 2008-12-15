@@ -35,7 +35,7 @@ jQuery(document).ready( function() {
 					jQuery("ul#groups-list").fadeOut(200, 
 						function() {
 							jQuery('#ajax-loader-groups').toggle();
-							var message = '<p><div id="group" class="error"><p>' + response[1] + '</p></div></p>';
+							var message = response[1];
 							jQuery("#group-dir-list").html(message);
 							jQuery("#group-dir-list").fadeIn(200);
 						}
@@ -78,7 +78,7 @@ jQuery(document).ready( function() {
 					jQuery("#group-dir-list").fadeOut(200, 
 						function() {
 							jQuery('#ajax-loader-groups').toggle();
-							var message = '<p><div id="message" class="error"><p>' + response[1] + '</p></div></p>';
+							var message = response[1];
 							jQuery("#group-dir-list").html(message);
 							jQuery("#group-dir-list").fadeIn(200);
 						}
@@ -140,7 +140,7 @@ jQuery(document).ready( function() {
 					jQuery("#group-dir-list").fadeOut(200, 
 						function() {
 							jQuery('#ajax-loader-groups').toggle();
-							var message = '<p><div id="message" class="error"><p>' + response[1] + '</p></div></p>';
+							var message = response[1];
 							jQuery("#group-dir-list").html(message);
 							jQuery("#group-dir-list").fadeIn(200);
 						}

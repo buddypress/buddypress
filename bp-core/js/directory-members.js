@@ -35,7 +35,7 @@ jQuery(document).ready( function() {
 					jQuery("ul#members-list").fadeOut(200, 
 						function() {
 							jQuery('#ajax-loader-members').toggle();
-							var message = '<p><div id="message" class="error"><p>' + response[1] + '</p></div></p>';
+							var message = response[1];
 							jQuery("#member-dir-list").html(message);
 							jQuery("#member-dir-list").fadeIn(200);
 						}
@@ -78,7 +78,7 @@ jQuery(document).ready( function() {
 					jQuery("#member-dir-list").fadeOut(200, 
 						function() {
 							jQuery('#ajax-loader-members').toggle();
-							var message = '<p><div id="message" class="error"><p>' + response[1] + '</p></div></p>';
+							var message = response[1];
 							jQuery("#member-dir-list").html(message);
 							jQuery("#member-dir-list").fadeIn(200);
 						}
@@ -140,7 +140,7 @@ jQuery(document).ready( function() {
 					jQuery("#member-dir-list").fadeOut(200, 
 						function() {
 							jQuery('#ajax-loader-members').toggle();
-							var message = '<p><div id="message" class="error"><p>' + response[1] + '</p></div></p>';
+							var message = response[1];
 							jQuery("#member-dir-list").html(message);
 							jQuery("#member-dir-list").fadeIn(200);
 						}
