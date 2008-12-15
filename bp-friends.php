@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_FRIENDS_IS_INSTALLED', 1 );
-define ( 'BP_FRIENDS_VERSION', '0.2' );
+define ( 'BP_FRIENDS_VERSION', '1.0b1' );
 
 include_once( 'bp-friends/bp-friends-classes.php' );
 include_once( 'bp-friends/bp-friends-ajax.php' );
@@ -11,7 +11,6 @@ include_once( 'bp-friends/bp-friends-templatetags.php' );
 include_once( 'bp-friends/bp-friends-widgets.php' );
 include_once( 'bp-friends/bp-friends-notifications.php' );
 include_once( 'bp-friends/bp-friends-filters.php' );
-/*include_once( 'bp-messages/bp-friends-admin.php' );*/
 
 
 /**************************************************************************

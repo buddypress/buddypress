@@ -1,7 +1,7 @@
 <?php
 
 /* Define the current version number for checking if DB tables are up to date. */
-define( 'BP_CORE_VERSION', '0.3' );
+define( 'BP_CORE_VERSION', '1.0b1' );
 
 /* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
 define( 'MEMBERS_SLUG', 'members' );

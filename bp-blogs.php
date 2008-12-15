@@ -1,7 +1,7 @@
 <?php
 require_once( 'bp-core.php' );
 
-define ( 'BP_BLOGS_VERSION', '0.1.6' );
+define ( 'BP_BLOGS_VERSION', '1.0b1' );
 
 /* These will be moved into admin configurable settings */
 define ( 'TOTAL_RECORDED_POSTS', 10 );
@@ -13,7 +13,7 @@ include_once( 'bp-blogs/bp-blogs-templatetags.php' );
 include_once( 'bp-blogs/bp-blogs-widgets.php' );
 include_once( 'bp-blogs/bp-blogs-ajax.php' );
 include_once( 'bp-blogs/directories/bp-blogs-directory-blogs.php' );
-//include_once( 'bp-blogs/bp-blogs-admin.php' );
+
 
 /**************************************************************************
  bp_blogs_install()

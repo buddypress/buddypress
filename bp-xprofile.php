@@ -1,7 +1,7 @@
 <?php
 require_once( 'bp-core.php' );
 
-define ( 'BP_XPROFILE_VERSION', '0.3.9.8' );
+define ( 'BP_XPROFILE_VERSION', '1.0b1' );
 
 define ( 'BP_XPROFILE_BASE_GROUP_NAME', get_site_option( 'bp-xprofile-base-group-name' ) );
 define ( 'BP_XPROFILE_FULLNAME_FIELD_NAME', get_site_option( 'bp-xprofile-fullname-field-name' ) );

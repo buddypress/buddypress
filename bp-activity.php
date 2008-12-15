@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_ACTIVITY_IS_INSTALLED', 1 );
-define ( 'BP_ACTIVITY_VERSION', '0.3.1' );
+define ( 'BP_ACTIVITY_VERSION', '1.0b1' );
 
 /* How long before activity items in streams are re-cached? */
 define ( 'BP_ACTIVITY_CACHE_LENGTH', '6 HOURS' );
@@ -12,7 +12,7 @@ include_once( 'bp-activity/bp-activity-templatetags.php' );
 include_once( 'bp-activity/bp-activity-widgets.php' );
 include_once( 'bp-activity/bp-activity-cssjs.php' );
 include_once( 'bp-activity/bp-activity-filters.php' );
-//include_once( 'bp-activity/bp-activity-admin.php' );
+
 
 /**************************************************************************
  bp_bp_activity_install()

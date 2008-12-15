@@ -2,14 +2,13 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_WIRE_IS_INSTALLED', 1 );
-define ( 'BP_WIRE_VERSION', '0.1.3' );
+define ( 'BP_WIRE_VERSION', '1.0b1' );
 
 include_once( 'bp-wire/bp-wire-classes.php' );
 include_once( 'bp-wire/bp-wire-ajax.php' );
 include_once( 'bp-wire/bp-wire-templatetags.php' );
 include_once( 'bp-wire/bp-wire-cssjs.php' );
 include_once( 'bp-wire/bp-wire-filters.php' );
-//include_once( 'bp-wire/bp-wire-admin.php' );
 
 /**************************************************************************
  bp_bp_wire_install()
