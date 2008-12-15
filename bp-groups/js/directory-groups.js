@@ -97,7 +97,6 @@ jQuery(document).ready( function() {
 
 			var page = jQuery(this).attr('href');
 			page = page.split('page=');
-			page[1] = page[1].substr(0, 1);
 			
 			if ( !jQuery("input#selected_letter").val() )
 				var letter = '';
