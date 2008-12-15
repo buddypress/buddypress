@@ -1,6 +1,8 @@
 <?php
 
-function bp_core_admin_settings() { ?>
+function bp_core_admin_settings() {
+	global $wpdb, $bp;
+?>
 	
 	<?php
 	if ( isset( $_POST['bp-admin-submit'] ) && isset( $_POST['bp-admin'] ) ) {
@@ -9,6 +11,17 @@ function bp_core_admin_settings() { ?>
 		
 		// Settings form submitted, now save the settings.
 		foreach ( $_POST['bp-admin'] as $key => $value ) {
+			
+			if ( function_exists( 'xprofile_install' ) ) {
+				if ( $key == 'bp-xprofile-base-group-name' ) {
+					$wpdb->query( $wpdb->prepare( "UPDATE " . $bp['profile']['table_name_groups'] . " SET name = %s WHERE name = %s AND id = 1", $value, get_site_option('bp-xprofile-base-group-name') ) );
+				}
+				
+				if ( $key == 'bp-xprofile-fullname-field-name' ) {
+					$wpdb->query( $wpdb->prepare( "UPDATE " . $bp['profile']['table_name_fields'] . " SET name = %s WHERE name = %s AND group_id = 1", $value, get_site_option('bp-xprofile-fullname-field-name') ) );
+				}
+			}
+			
 			update_site_option( $key, $value );
 		}
 	}
@@ -22,6 +35,20 @@ function bp_core_admin_settings() { ?>
 		
 			<table class="form-table">
 			<tbody>
+				<?php if ( function_exists( 'xprofile_install' ) ) :?>
+				<tr>
+					<th scope="row"><?php _e('Base profile group name', 'buddypress') ?>:</th>
+					<td>
+						<input name="bp-admin[bp-xprofile-base-group-name]" id="bp-xprofile-base-group-name" value="<?php echo get_site_option('bp-xprofile-base-group-name') ?>" />
+					</td>			
+				</tr>
+				<tr>
+					<th scope="row"><?php _e('Full Name field name', 'buddypress') ?>:</th>
+					<td>
+						<input name="bp-admin[bp-xprofile-fullname-field-name]" id="bp-xprofile-fullname-field-name" value="<?php echo get_site_option('bp-xprofile-fullname-field-name') ?>" />
+					</td>
+				</tr>
+				<?php endif; ?>
 				<tr>
 					<th scope="row"><?php _e('Show admin bar for logged out users', 'buddypress') ?>:</th>
 					<td>
