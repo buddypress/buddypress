@@ -23,7 +23,7 @@ jQuery(document).ready( function() {
 
 	jQuery("input#send_reply_button").click( 
 		function() {
-			tinyMCE.triggerSave(true, true);
+			//tinyMCE.triggerSave(true, true);
 			
 			var rand = Math.floor(Math.random()*100001);
 			jQuery("form#send-reply").before('<div style="display:none;" class="ajax_reply" id="' + rand + '"><img src="/wp-admin/mu-plugins/bp-messages/images/loading.gif" alt="Loading" /> &nbsp;Sending Message...</div>');
@@ -55,7 +55,8 @@ jQuery(document).ready( function() {
 						css_class = 'error-box';
 					}
 					
-					tinyMCE.activeEditor.setContent('')
+					//tinyMCE.activeEditor.setContent('')
+					
 					jQuery("div#" + rand).html(response).attr('class', css_class).slideDown();
 				}, 1250);	
 			});
