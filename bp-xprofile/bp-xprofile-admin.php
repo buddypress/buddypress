@@ -9,7 +9,7 @@
  **************************************************************************/
 
 function xprofile_admin( $message = '', $type = 'error' ) {
-	global $image_base;
+	global $bp;
 	
 	$groups = BP_XProfile_Group::get_all();
 	
@@ -95,7 +95,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 									<tr id="field_<?php echo $field->id; ?>" <?php if ( $class ) { echo 'class="' . $class . '"'; } ?>>
 							    	<td><span title="<?php echo $field->desc; ?>"><?php echo $field->name; ?> <?php if(!$field->can_delete) { ?>(Core)<?php } ?></span></td>
 							    	<td><?php echo $field->type; ?></td>
-							    	<td style="text-align:center;"><?php if ( $field->is_required ) { echo '<img src="' . $image_base . '/tick.gif" alt="Yes" />'; } else { ?>--<?php } ?></td>
+							    	<td style="text-align:center;"><?php if ( $field->is_required ) { echo '<img src="' . $bp['profile']['image_base'] . '/tick.gif" alt="Yes" />'; } else { ?>--<?php } ?></td>
 							    	<td style="text-align:center;"><?php if ( !$field->can_delete ) { ?><strike>Edit</strike><?php } else { ?><a class="edit" href="admin.php?page=xprofile_settings&amp;group_id=<?php echo $groups[$i]->id; ?>&amp;field_id=<?php echo $field->id; ?>&amp;mode=edit_field">Edit</a><?php } ?></td>
 							    	<td style="text-align:center;"><?php if ( !$field->can_delete ) { ?><strike>Delete</strike><?php } else { ?><a class="delete" href="admin.php?page=xprofile_settings&amp;field_id=<?php echo $field->id; ?>&amp;mode=delete_field">Delete</a><?php } ?></td>
 							    </tr>
