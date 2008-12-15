@@ -56,6 +56,7 @@ jQuery(document).ready( function() {
 					}
 					
 					//tinyMCE.activeEditor.setContent('')
+					jQuery("#message_content").val('');
 					
 					jQuery("div#" + rand).html(response).attr('class', css_class).slideDown();
 				}, 1250);	
