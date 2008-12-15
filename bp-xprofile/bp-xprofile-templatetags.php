@@ -288,22 +288,6 @@ function bp_profile_last_updated() {
 	}
 }
 
-function bp_profile_wire_can_post() {
-	global $bp;
-	
-	if ( bp_is_home() )
-		return true;
-	
-	if ( function_exists('friends_install') ) {
-		if ( friends_check_friendship( $bp['loggedin_userid'], $bp['current_userid'] ) )
-			return true;
-		else
-			return false;
-	} 
-	
-	return true;
-}
-
 function bp_edit_profile_button() {
 	global $bp;
 	
