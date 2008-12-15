@@ -23,8 +23,9 @@ jQuery.fn.autoCompletefb = function(options)
 		urlLookup  : [""],
 		acOptions  : {},
 		foundClass : ".friend-tab",
-		inputClass : ".send-to-input",
+		inputClass : ".send-to-input"
 	}
+	
 	if(options) jQuery.extend(settings, options);
 	
 	var acfb = 
