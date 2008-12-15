@@ -224,35 +224,35 @@ input, select, textarea { width: 100%; }
 					color: #fff;
 				}
 			
-				li a#user-profile {
+				li a#user-profile, li a#my-profile {
 					background: url(../images/profile_bullet.gif) 88% 52% no-repeat;
 				}
 
-				li a#user-messages {
+				li a#user-messages, li a#my-messages {
 					background: url(../images/messages_bullet.gif) 89% 52% no-repeat;
 				}			
 				
-				li a#user-blogs {
+				li a#user-blogs, li a#my-blogs {
 					background: url(../images/blog_bullet.gif) 87% 52% no-repeat;
 				}
 				
-				li a#user-friends {
+				li a#user-friends, li a#my-friends {
 					background: url(../images/friends_bullet.gif) 87% 52% no-repeat;
 				}
 				
-				li a#user-groups {
+				li a#user-groups, li a#my-groups {
 					background: url(../images/groups_bullet.gif) 88% 52% no-repeat;
 				}
 				
-				li a#user-wire {
+				li a#user-wire, li a#my-wire {
 					background: url(../images/wire_bullet.gif) 88% 52% no-repeat;
 				}
 
-				li a#user-activity {
+				li a#user-activity, li a#my-activity {
 					background: url(../images/activity_bullet.gif) 88% 52% no-repeat;
 				}
 				
-				li a#user-settings {
+				li a#user-settings, li a#my-settings {
 					background: url(../images/settings_bullet.gif) 88% 52% no-repeat;					
 				}
 				
