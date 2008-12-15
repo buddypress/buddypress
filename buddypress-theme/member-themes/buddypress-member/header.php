@@ -27,12 +27,12 @@
 <body>
 
 <div id="search-login-bar">
-	<!--
-	<form action="" method="post" id="search-form">
-		<input type="text" id="search-terms" name="search-terms" value="Search everything" />
-		<input type="submit" name="search-submit" id="search-submit" value="Search" />
+	<form action="<?php bp_search_form_action() ?>" method="post" id="search-form">
+		<input type="text" id="search-terms" name="search-terms" value="" /> 
+		<?php bp_search_form_type_select() ?>
+		
+		<input type="submit" name="search-submit" id="search-submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
 	</form>
-	-->
 
 	<?php if ( !is_user_logged_in() ) : ?>
 		<form name="login-form" id="login-form" action="<?php get_option('home') ?>/wp-login.php" method="post">
@@ -40,7 +40,7 @@
 			<input type="password" name="pwd" id="user_pass" class="input" value="" />
 			<!--<input name="rememberme" type="checkbox" id="rememberme" value="forever" />-->
 			<input type="submit" name="wp-submit" id="wp-submit" value="<?php _e( 'Log In', 'buddypress' ) ?>" />				
-			<input type="button" name="signup-submit" id="signup-submit" value="<?php _e( 'Sign Up', 'buddypress' ) ?>" onclick="location.href='<?php echo bp_signup_page() ?>'" />
+			<input type="button" name="signup-submit" id="signup-submit" value="<?php _e( 'Sign Up', 'buddypress' ) ?>" onclick="location.href='<?php echo site_url() . '/wp-signup.php' ?>'" />
 			<input type="hidden" name="redirect_to" value="http://<?php echo $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] ?>" />
 			<input type="hidden" name="testcookie" value="1" />
 		</form>

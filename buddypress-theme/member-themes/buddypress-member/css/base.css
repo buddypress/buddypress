@@ -91,7 +91,17 @@ input, select, textarea { width: 100%; }
 	}
 		#search-login-bar #search-form {
 			float: left;
+			margin-top: 1px;
 		}
+			#search-login-bar #search-terms {
+				width: 200px;
+				margin-right: 4px;
+				color: #888;
+			}
+			
+			#search-login-bar #search-which {
+				margin-right: 2px;
+			}
 		
 		#search-login-bar a {
 			text-decoration: underline;
@@ -192,8 +202,6 @@ input, select, textarea { width: 100%; }
 		#userbar form input {
 			width: 100%;
 		}
-		
-		input#wp-submit { width: auto !important; }
 	
 	#userbar ul#bp-nav {
 		width: 149px;
