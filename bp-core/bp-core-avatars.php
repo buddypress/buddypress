@@ -84,7 +84,7 @@ add_filter( 'get_avatar', 'bp_core_get_avatar_filter', 10, 4 );
 
 
 // Main UI Rendering
-function bp_core_avatar_admin( $message = null ) {
+function bp_core_avatar_admin( $message = null, $action, $delete_action) {
 	global $wp_upload_error;
 	?>	
 	<?php if ( !isset($_POST['slick_avatars_action']) && !isset($_GET['slick_avatars_action']) ) { ?>		
