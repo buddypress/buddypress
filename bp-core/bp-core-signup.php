@@ -193,6 +193,8 @@ function bp_core_signup_confirm_another_blog_signup($domain, $path, $blog_title,
 function bp_core_signup_signup_user($user_name = '', $user_email = '', $errors = '') {
 	global $current_site, $active_signup;
 
+	$active_signup = get_site_option( 'registration' );
+
 	if ( !is_wp_error($errors) )
 		$errors = new WP_Error();
 	if( isset( $_POST[ 'signup_for' ] ) ) {
