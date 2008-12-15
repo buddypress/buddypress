@@ -198,9 +198,7 @@ function xprofile_validate_signup_fields( $result ) {
 		$meta['xprofile_field_ids'] = $_POST['xprofile_ids'];
 		$meta['avatar_image_resized'] = $canvas;
 		$meta['avatar_image_original'] = $original;
-		
-		var_dump($meta);
-		
+
 		$_SESSION['xprofile_meta'] = $meta;
 	} else {
 		$errors->add( 'bp_xprofile_errors', '' );
