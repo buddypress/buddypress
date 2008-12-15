@@ -1422,16 +1422,16 @@ function groups_get_invites_for_group( $user_id, $group_id ) {
 }
 
 function groups_check_user_has_invite( $user_id, $group_id ) {
-	BP_Groups_Member::check_has_invite( $user_id, $group_id );
+	return BP_Groups_Member::check_has_invite( $user_id, $group_id );
 }
 
-function groups_get_invites_for_user( $user_id = false, $group_id = false ) {
+function groups_get_invites_for_user( $user_id = false ) {
 	global $bp;
 	
 	if ( !$user_id )
 		$user_id = $bp['loggedin_userid'];
 	
-	return BP_Groups_Member::get_invites( $user_id, $group_id );
+	return BP_Groups_Member::get_invites( $user_id );
 }
 
 function groups_send_invites( $group_obj ) {

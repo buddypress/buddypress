@@ -278,7 +278,7 @@ class BP_Friends_Friendship {
 	function get_invitable_friend_count( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
-		$friend_ids = BP_Friends_Friendship::get_friend_ids( $user_id );
+		$friend_ids = BP_Friends_Friendship::get_friend_user_ids( $user_id );
 		
 		$invitable_count = 0;
 		for ( $i = 0; $i < count($friend_ids); $i++ ) {

@@ -279,7 +279,7 @@ Class BP_Groups_Group {
 
 	function get_invites( $user_id, $group_id ) {
 		global $wpdb, $bp;
-		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d and is_confirmed = 0 AND inviter_id = %d", $group_id, $user_id ), ARRAY_A );
+		return $wpdb->get_col( $wpdb->prepare( "SELECT user_id FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d and is_confirmed = 0 AND inviter_id = %d", $group_id, $user_id ) );
 	}
 	
 	function filter_user_groups( $filter, $limit = null, $page = null ) {
@@ -770,13 +770,9 @@ Class BP_Groups_Member {
 	function get_invites( $user_id ) {
 		global $wpdb, $bp;
 		
-		$group_ids = $wpdb->get_col( $wpdb->prepare( "SELECT group_id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d and is_confirmed = 0 AND inviter_id != 0 AND invite_sent = 1", $user_id ) );
+		$group_ids = $wpdb->get_results( $wpdb->prepare( "SELECT group_id FROM " . $bp['groups']['table_name_members'] . " WHERE user_id = %d and is_confirmed = 0 AND inviter_id != 0 AND invite_sent = 1", $user_id ) );
 		
-		for ( $i = 0; $i < count($group_ids); $i++ ) {
-			$groups[] = new BP_Groups_Group($group_ids[$i]);
-		}
-		
-		return $groups;
+		return $group_ids;
 	}
 	
 	function check_has_invite( $user_id, $group_id ) {

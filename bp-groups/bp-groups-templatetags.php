@@ -900,7 +900,7 @@ function bp_group_list_invite_friends() {
 				<ul>
 					<?php 
 						for ( $i = 0; $i < count( $friends ); $i++ ) {
-							if ( $invites ) { 
+							if ( $invites ) {
 								if ( in_array( $friends[$i]['id'], $invites ) ) {
 									$checked = ' checked="checked"';
 								} else {
@@ -1014,9 +1014,7 @@ function bp_group_send_invite_form( $group_obj = null ) {
 	<div class="left-menu">
 		<h4><?php _e( 'Select Friends', 'buddypress' ) ?> <img id="ajax-loader" src="<?php echo $bp['groups']['image_base'] ?>/ajax-loader.gif" height="7" alt="Loading" style="display: none;" /></h4>
 		<?php bp_group_list_invite_friends() ?>
-		<?php if ( function_exists('wp_nonce_field') )
-			wp_nonce_field( 'invite_user' );
-		?>
+		<?php wp_nonce_field( 'invite_user' ) ?>
 		<input type="hidden" name="group_id" id="group_id" value="<?php echo $group_obj->id ?>" />
 	</div>
 
@@ -1025,11 +1023,13 @@ function bp_group_send_invite_form( $group_obj = null ) {
 		<div id="message" class="info">
 			<p><?php _e('Select people to invite from your friends list.', 'buddypress'); ?></p>
 		</div>
-				
-		<ul id="friend-list">
+
+		<?php $invites = groups_get_invites_for_group( $bp['loggedin_userid'], $group_obj->id ) ?>
+		
+		<ul id="friend-list" class="item-list">
 			<?php for( $i = 0; $i < count($invites); $i++ ) {
 				$user = new BP_Core_User( $invites[$i] ); ?>
-		
+	
 				<li id="uid-<?php echo $user->id ?>">
 					<?php echo $user->avatar_thumb ?>
 					<h4><?php echo $user->user_link ?></h4>
