@@ -1,0 +1,80 @@
+tr.header td {
+	border-bottom: 2px solid #eee;
+	font-weight: bold;
+}
+
+tr.core td { color: #999; }
+
+thead tr th {
+	font-size: 16px;
+}
+	
+	ul.forTab {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 0 1em;
+	}
+		ul.forTab li {
+			margin: 0 0 1em 0;
+		}
+	
+			ul.forTab li label {
+				display: block;
+				
+			}
+	
+			ul.forTab li input {
+				font-size: 1.4em;
+			}
+	
+	p.success { background: green;}
+	p.err { 
+		border-top: 2px solid red;
+		border-bottom: 2px solid red;
+		color: red;
+		padding: 5px 0;
+		width: 40%;
+	}
+	
+	span.desc, span.signup-description {
+		display: block;
+		font-size: 11px;
+		color: #555;
+	}
+
+	select.multi-select{
+	    width:90%;
+    	height:10em !important;
+	}
+
+ul.multi-checkbox {
+    margin: 0 5px 0 0px;
+    padding: .5em .9em;
+    height: 10em;
+    overflow: auto;
+    list-style: none;
+    border: solid 1px #ccc;
+    width:90%;           
+}
+
+ul.multi-checkbox li{
+    padding: 0;
+    margin: 0;
+}
+
+div.options-box {
+	margin-left: 20px !important;
+	margin-right: 10px !important;
+	border-left: 4px solid #EAF3FA;
+	padding-left: 15px;
+}
+
+th a {
+	background: #fff;
+	padding: 2px 5px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	top: -2px;
+}
