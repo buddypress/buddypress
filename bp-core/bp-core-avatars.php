@@ -43,8 +43,17 @@ function bp_core_get_avatar( $user, $version = 1, $width = null, $height = null,
 			return '<img src="' . $url . '" alt="" class="avatar photo" width="' . $width . '" height="' . $height . '" />';
 	} else {
 		$ud = get_userdata($user);
+		$grav_option = get_site_option('user-avatar-default');
 		
-		$gravatar = 'http://www.gravatar.com/avatar/' . md5( $ud->user_email ) . '?d=wavatar&amp;s=';
+		if ( $grav_option == '' ) {
+			$default_grav = 'wavatar';
+		} else if ( $grav_option == 'mystery' ) {
+			$default_grav = site_url('wp-content/mu-plugins/bp-core/images/mystery-man.jpg');
+		} else {
+			$default_grav = $grav_option;
+		}
+		
+		$gravatar = 'http://www.gravatar.com/avatar/' . md5( $ud->user_email ) . '?d=' . $default_grav . '&amp;s=';
 		if ( $no_tag )
 			return $gravatar . constant('CORE_AVATAR_V' . $version . '_W');
 		else
