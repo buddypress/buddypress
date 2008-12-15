@@ -303,7 +303,7 @@ class BP_Forums_Template_Topic {
 			$this->total_post_count = 0;
 		} else {
 			$this->post_count = count( $this->posts );
-			$this->total_post_count = count( bp_forums_get_topics( $topic_id ) );			
+			$this->total_post_count = count( bp_forums_get_posts( $topic_id ) );			
 		}
 		
 		$this->topic_id = $topic_id;
