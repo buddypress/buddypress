@@ -22,8 +22,17 @@
 					<h4><?php bp_group_request_user_link() ?> <span class="comments"><?php bp_group_request_comment() ?></span></h4>
 					<span class="activity"><?php bp_group_request_time_since_requested() ?></span>
 					<div class="action">
-						<a href="<?php bp_group_request_accept_link() ?>" id="accept"><?php _e( 'Accept', 'buddypress' ); ?></a> 
-						<a href="<?php bp_group_request_reject_link() ?>" id="reject"><?php _e( 'Reject', 'buddypress' ); ?></a> 
+						
+						<div class="generic-button accept">
+							<a href="<?php bp_group_request_accept_link() ?>"><?php _e( 'Accept', 'buddypress' ); ?></a> 
+						</div>
+					
+					 &nbsp; 
+
+						<div class="generic-button reject">
+							<a href="<?php bp_group_request_reject_link() ?>"><?php _e( 'Reject', 'buddypress' ); ?></a> 
+						</div>
+						
 					</div>
 				</li>
 			<?php endwhile; ?>

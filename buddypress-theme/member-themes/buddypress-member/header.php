@@ -60,7 +60,7 @@
 </div>
 
 <div id="header">
-	<h1><a href="<?php echo get_option('home'); ?>/"><?php _e( 'Social Network', 'buddypress' ) ?></a></h1>
+	<h1 id="logo"><a href="<?php echo get_option('home'); ?>/"><?php _e( 'Social Network', 'buddypress' ) ?></a></h1>
 	
 	<ul id="nav">
 		<li<?php if(bp_is_page('home')) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a></li>

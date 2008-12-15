@@ -483,21 +483,6 @@ ul.content-header-nav {
 					font-weight: normal;
 				}
 
-		a#accept, a#reject {
-			background: url(../images/accept_button.gif) top left no-repeat;
-			text-indent: -999em;
-			display: block;
-			overflow: hidden;
-			width: 80px;
-			height: 19px;
-			float: right;
-			margin-left: 10px;
-		}
-			a#reject {
-				background: url(../images/reject_button.gif) top left no-repeat;
-				width: 78px;		
-			}
-
 	.standard-form input, .standard-form select, .standard-form textarea {
 		font-size: 1.3em;
 		font-family: inherit;

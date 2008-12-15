@@ -22,8 +22,17 @@
 					<?php bp_group_description_excerpt() ?>
 				</p>
 				<div class="action">
-					<a href="<?php bp_group_accept_invite_link() ?>" id="accept"><?php _e( 'Accept', 'buddypress' ) ?></a> 
-					<a href="<?php bp_group_reject_invite_link() ?>" id="reject"><?php _e( 'Reject', 'buddypress' ) ?></a> 
+					
+					<div class="generic-button accept">
+						<a href="<?php bp_group_accept_invite_link() ?>"><?php _e( 'Accept', 'buddypress' ) ?></a> 
+					</div>
+					
+					 &nbsp; 
+
+					<div class="generic-buttion reject">
+						<a href="<?php bp_group_reject_invite_link() ?>"><?php _e( 'Reject', 'buddypress' ) ?></a> 
+					</div>
+					
 				</div>
 				<hr />
 			</li>
