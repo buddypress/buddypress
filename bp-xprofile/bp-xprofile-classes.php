@@ -120,7 +120,7 @@ Class BP_XProfile_Group {
 			<form action="<?php echo $action; ?>" method="post">
 				
 				<div id="titlediv">
-					<label for="group_name"><?php _e("Group Name", 'buddypress') ?></label>
+					<label for="group_name"><?php _e("Profile Group Name", 'buddypress') ?></label>
 					<div>
 						<input type="text" name="group_name" id="group_name" value="<?php echo $this->name ?>" style="width:50%" />
 					</div>
