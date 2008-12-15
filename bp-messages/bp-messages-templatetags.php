@@ -242,7 +242,7 @@ function bp_message_is_active_notice() {
 
 function bp_message_notice_post_date() {
 	global $messages_template;
-	echo apply_filters( 'bp_message_notice_post_date', bp_format_time( strtotime($messages_template->thread->post_date) ) );
+	echo apply_filters( 'bp_message_notice_post_date', bp_format_time( strtotime($messages_template->thread->date_sent) ) );
 }
 
 function bp_message_notice_subject() {
@@ -267,7 +267,7 @@ function bp_message_activate_deactivate_link() {
 	if ( $messages_template->thread->is_active == "1" ) {
 		$link = $bp['loggedin_domain'] . $bp['messages']['slug'] . '/notices/deactivate/' . $messages_template->thread->id;
 	} else {
-		$link = $bp['loggedin_domain'] . $bp['bp_messages_slug'] . '/notices/activate/' . $messages_template->thread->id;		
+		$link = $bp['loggedin_domain'] . $bp['messages']['slug'] . '/notices/activate/' . $messages_template->thread->id;		
 	}
 	echo apply_filters( 'bp_message_activate_deactivate_link', $link );
 }

@@ -193,16 +193,13 @@ function messages_screen_compose() {
 
 function messages_screen_notices() {
 	global $bp, $notice_id;
-	
+		
 	if ( !is_site_admin() )
 		return false;
 		
 	$notice_id = $bp['action_variables'][1];
 
-	if ( !$notice_id || !is_numeric($notice_id) ) {
-		$bp['current_action'] = 'notices';
-		bp_catch_uri( 'messages/notices' );
-	} else {
+	if ( $notice_id && is_numeric($notice_id) ) {
 		$notice = new BP_Messages_Notice($notice_id);
 
 		if ( $bp['action_variables'][0] == 'deactivate' ) {
@@ -224,6 +221,7 @@ function messages_screen_notices() {
 				bp_core_add_message( __('Notice deleted.', 'buddypress') );
 			}
 		}
+		bp_core_redirect( $bp['loggedin_domain'] . $bp['messages']['slug'] . '/notices' );
 	}
 	bp_catch_uri( 'messages/notices' );	
 }
@@ -368,12 +366,17 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 	global $message, $type;
 	global $bp, $current_user;
 	
+	messages_add_callback_values( $recipients, $subject, $content );
+	
 	if ( isset( $_POST['send-notice'] ) ) {
-		messages_send_notice( $subject, $content, $from_template );
+		if ( messages_send_notice( $subject, $content, $from_template ) ) {
+			bp_core_add_message( __('Notice posted successfully.', 'buddypress') );
+		} else {
+			bp_core_add_message( __('There was an error posting that notice.', 'buddypress'), 'error' );			
+		}
+		bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/notices' );
 		return true;
 	}
-
-	messages_add_callback_values( $recipients, $subject, $content );
 	
 	$recipients = explode( ' ', $recipients );
 	
@@ -490,18 +493,7 @@ function messages_remove_callback_values() {
 
 function messages_send_notice( $subject, $message, $from_template ) {
 	if ( !is_site_admin() || $subject == '' || $message == '' ) {
-		unset($_POST['send_to']);
-		unset($_POST['send-notice']);
-		
-		$message = __('Notice could not be sent, please try again.', 'buddypress');
-		$type = 'error';
-	
-		if ( $from_template ) {
-			bp_core_render_notice();
-			messages_write_new();
-		} else {
-			messages_box( 'inbox', __('Inbox', 'buddypress'), $message, $type );	
-		}
+		return false;
 	} else {
 		// Has access to send notices, lets do it.
 		$notice = new BP_Messages_Notice;
@@ -512,6 +504,8 @@ function messages_send_notice( $subject, $message, $from_template ) {
 		$notice->save(); // send it.
 		
 		do_action( 'bp_messages_notice_sent', $subject, $message );
+		
+		return true;
 	}
 }
 

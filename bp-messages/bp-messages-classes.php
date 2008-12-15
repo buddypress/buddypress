@@ -475,7 +475,7 @@ Class BP_Messages_Notice {
 		if ( !$this->id ) {
 			$sql = $wpdb->prepare( "INSERT INTO " . $bp['messages']['table_name_notices'] . " (subject, message, date_sent, is_active) VALUES (%s, %s, FROM_UNIXTIME(%d), %d)", $this->subject, $this->message, $this->date_sent, $this->is_active );	
 		} else {
-			$sql = $wpdb->prepare( "UPDATE " . $bp['messages']['table_name_notices'] . " SET subject = %s, message = %s, date_sent = FROM_UNIXTIME(%d), is_active = %d WHERE id = %d", $this->subject, $this->message, $this->date_sent, $this->is_active, $this->id );				
+			$sql = $wpdb->prepare( "UPDATE " . $bp['messages']['table_name_notices'] . " SET subject = %s, message = %s, is_active = %d WHERE id = %d", $this->subject, $this->message, $this->is_active, $this->id );				
 		}
 	
 		if ( !$wpdb->query($sql) )
