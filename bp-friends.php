@@ -95,7 +95,7 @@ function friends_setup_nav() {
 	$friends_link = $bp['loggedin_domain'] . $bp['friends']['slug'] . '/';
 	
 	/* Add the subnav items to the friends nav item */
-	bp_core_add_subnav_item( $bp['friends']['slug'], 'my-friends', __('My Friends', 'buddypress'), $friends_link, 'friends_screen_my_friends' );
+	bp_core_add_subnav_item( $bp['friends']['slug'], 'friends-my-friends', __('My Friends', 'buddypress'), $friends_link, 'friends_screen_my_friends' );
 	bp_core_add_subnav_item( $bp['friends']['slug'], 'requests', __('Requests', 'buddypress'), $friends_link, 'friends_screen_requests', false, bp_is_home() );
 	//bp_core_add_subnav_item( $bp['friends']['slug'], 'invite-friend', __('Invite Friends', 'buddypress'), $friends_link, 'friends_screen_invite_friends' );
 	

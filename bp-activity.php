@@ -179,7 +179,7 @@ function bp_activity_setup_nav() {
 	
 	/* Add the subnav items to the activity nav item */
 	bp_core_add_subnav_item( $bp['activity']['slug'], 'just-me', __('Just Me', 'buddypress'), $activity_link, 'bp_activity_screen_my_activity' );
-	bp_core_add_subnav_item( $bp['activity']['slug'], 'my-friends', __('My Friends', 'buddypress'), $activity_link, 'bp_activity_screen_friends_activity', false, bp_is_home() );
+	bp_core_add_subnav_item( $bp['activity']['slug'], 'activity-my-friends', __('My Friends', 'buddypress'), $activity_link, 'bp_activity_screen_friends_activity', false, bp_is_home() );
 	
 	if ( $bp['current_component'] == $bp['activity']['slug'] ) {
 		if ( bp_is_home() ) {

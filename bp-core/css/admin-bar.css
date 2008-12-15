@@ -210,7 +210,7 @@ body { padding-top: 28px !important; }
 	height: 55px !important;
 }
 
-#wp-admin-bar ul li#notifications_menu a span {
+#wp-admin-bar ul li#bp-admin-notifications_menu a span {
 	background: #fff !important;
 	padding: 0 6px !important;
 	color: #555 !important;

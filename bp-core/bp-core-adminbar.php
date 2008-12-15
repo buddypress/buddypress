@@ -55,14 +55,14 @@ function bp_adminbar_account_menu() {
 			$alt = ( $counter % 2 == 0 ) ? ' class="alt"' : '';
 			
 			echo '<li' . $alt . '>';
-			echo '<a id="' . $nav_item['css_id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a>';
+			echo '<a id="bp-admin-' . $nav_item['css_id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a>';
 
 			if ( is_array( $bp['bp_options_nav'][$nav_item['css_id']] ) ) {
 				echo '<ul>';
 				$sub_counter = 0;
 				foreach( $bp['bp_options_nav'][$nav_item['css_id']] as $subnav_item ) {
 					$alt = ( $sub_counter % 2 == 0 ) ? ' class="alt"' : '';
-					echo '<li' . $alt . '><a id="' . $subnav_item['css_id'] . '" href="' . $subnav_item['link'] . '">' . $subnav_item['name'] . '</a></li>';				
+					echo '<li' . $alt . '><a id="bp-admin-' . $subnav_item['css_id'] . '" href="' . $subnav_item['link'] . '">' . $subnav_item['name'] . '</a></li>';				
 					$sub_counter++;
 				}
 				echo '</ul>';
@@ -76,9 +76,9 @@ function bp_adminbar_account_menu() {
 		$alt = ( $counter % 2 == 0 ) ? ' class="alt"' : '';
 
 		if ( function_exists('wp_logout_url') ) { 
-			echo '<li' . $alt . '><a id="logout" href="' . wp_logout_url(site_url()) . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';                   
+			echo '<li' . $alt . '><a id="bp-admin-logout" href="' . wp_logout_url(site_url()) . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';                   
 		} else {  
-			echo '<li' . $alt . '><a id="logout" href="' . site_url() . '/wp-login.php?action=logout&amp;redirect_to=' . site_url() . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>'; 
+			echo '<li' . $alt . '><a id="bp-admin-logout" href="' . site_url() . '/wp-login.php?action=logout&amp;redirect_to=' . site_url() . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>'; 
 		} 
 		   	 
  		echo '</ul>';
@@ -168,7 +168,7 @@ function bp_adminbar_notifications_menu() {
 	if ( is_user_logged_in() ) {
 		global $bp;
 		
-		echo '<li id="notifications_menu"><a href="' . $bp['loggedin_domain'] . '">';
+		echo '<li id="bp-admin-notifications_menu"><a href="' . $bp['loggedin_domain'] . '">';
 		_e( 'Notifications', 'buddypress' );
 	
 		if ( $notifications = bp_core_get_notifications_for_user( $bp['loggedin_userid']) ) { ?>

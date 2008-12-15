@@ -49,7 +49,7 @@ function bp_get_nav() {
 		}
 		
 		/* echo out the final list item */
-		echo '<li' . $selected . '><a id="' . $nav_item['css_id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a></li>';
+		echo '<li' . $selected . '><a id="user-' . $nav_item['css_id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a></li>';
 	}
 	
 	/* Always add a log out list item to the end of the navigation */
