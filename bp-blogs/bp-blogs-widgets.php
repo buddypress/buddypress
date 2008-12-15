@@ -22,38 +22,35 @@ function bp_blogs_widget_recent_posts($args) {
 		. $widget_name 
 		. $after_title; ?>
 
-	<?php if ( (int)$current_blog->blog_id == 1 ) : ?>
 		<?php $posts = bp_blogs_get_latest_posts( null, $options['max_posts'] ) ?>
 		<?php $counter = 0; ?>
 		
-		
-		<?php if ( $posts ) : ?>
-			<div class="item-options" id="recent-posts-options">
-				<?php _e("Site Wide", 'buddypress') ?>
-			</div>
-			<ul id="recent-posts" class="item-list">
-				<?php foreach ( $posts as $post ) : ?>
-					<li>
-						<div class="item-avatar">
-							<a href="<?php echo bp_post_get_permalink( $post, $post->blog_id ) ?>" title="<?php echo apply_filters( 'the_title', $post->post_title ) ?>"><?php echo bp_core_get_avatar( $post->post_author, 1 ) ?></a>
-						</div>
+	<?php if ( $posts ) : ?>
+		<div class="item-options" id="recent-posts-options">
+			<?php _e("Site Wide", 'buddypress') ?>
+		</div>
+		<ul id="recent-posts" class="item-list">
+			<?php foreach ( $posts as $post ) : ?>
+				<li>
+					<div class="item-avatar">
+						<a href="<?php echo bp_post_get_permalink( $post, $post->blog_id ) ?>" title="<?php echo apply_filters( 'the_title', $post->post_title ) ?>"><?php echo bp_core_get_avatar( $post->post_author, 1 ) ?></a>
+					</div>
 
-						<div class="item">
-							<h4 class="item-title"><a href="<?php echo bp_post_get_permalink( $post, $post->blog_id ) ?>" title="<?php echo apply_filters( 'the_title', $post->post_title ) ?>"><?php echo apply_filters( 'the_title', $post->post_title ) ?></a></h4>
-							<?php if ( !$counter ) : ?>
-								<div class="item-content"><?php echo bp_create_excerpt($post->post_content) ?></div>
-							<?php endif; ?>
-							<div class="item-meta"><em>by <?php echo bp_core_get_userlink($post->post_author) ?> from the blog "<a href="<?php echo get_blog_option($post->blog_id, 'siteurl') ?>"><?php echo get_blog_option($post->blog_id, 'blogname') ?></a>"</em></div>
-						</div>
-					</li>
-					<?php $counter++; ?>	
-				<?php endforeach; ?>
-			</ul>
-		<?php else: ?>
-			<div class="widget-error">
-				<?php _e('There are no recent blog posts, why not write one?', 'buddypress') ?>
-			</div>
-		<?php endif; ?>
+					<div class="item">
+						<h4 class="item-title"><a href="<?php echo bp_post_get_permalink( $post, $post->blog_id ) ?>" title="<?php echo apply_filters( 'the_title', $post->post_title ) ?>"><?php echo apply_filters( 'the_title', $post->post_title ) ?></a></h4>
+						<?php if ( !$counter ) : ?>
+							<div class="item-content"><?php echo bp_create_excerpt($post->post_content) ?></div>
+						<?php endif; ?>
+						<div class="item-meta"><em>by <?php echo bp_core_get_userlink($post->post_author) ?> from the blog "<a href="<?php echo get_blog_option($post->blog_id, 'siteurl') ?>"><?php echo get_blog_option($post->blog_id, 'blogname') ?></a>"</em></div>
+					</div>
+				</li>
+				<?php $counter++; ?>	
+			<?php endforeach; ?>
+		</ul>
+	<?php else: ?>
+		<div class="widget-error">
+			<?php _e('There are no recent blog posts, why not write one?', 'buddypress') ?>
+		</div>
 	<?php endif; ?>
 
 	<?php echo $after_widget; ?>
