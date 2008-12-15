@@ -15,7 +15,7 @@
 	<?php else : ?>
 		
 		<p class="avatar">
-			<img src="<?php get_option('home') ?>/wp-content/mu-plugins/bp-core/images/none-thumbnail.gif" alt="No User" />
+			<img src="<?php echo site_url( 'wp-content/mu-plugins/bp-core/images/mystery-man.jpg' ) ?>" alt="No User" width="50" height="50" />
 		</p>
 		
 		<p id="login-text"><?php _e( 'You must log in to access your account.', 'buddypress' ) ?></p>
