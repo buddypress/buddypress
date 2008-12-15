@@ -64,7 +64,7 @@ input, select, textarea { width: 100%; }
 
 #header {
 	position: relative;
-	padding: 1.8em 1.5em;
+	padding: 2.2em 1.7em 1.8em 1.7em;
 	background: #fff;
 }
 
@@ -72,7 +72,7 @@ input, select, textarea { width: 100%; }
 		background: url(../images/logo.gif) top left no-repeat;
 		overflow: hidden;
 		text-indent: -999em;
-		width: 149px;
+		width: 214px;
 		height: 35px;
 	}
 
