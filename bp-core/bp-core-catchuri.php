@@ -255,9 +255,11 @@ function bp_core_force_buddypress_theme() {
 	
 	if ( function_exists('groups_setup_globals') )
 		$groups_bp = groups_setup_globals(true);
-
-	if ( $current_component == $groups_bp['groups']['slug'] )
-		$is_single_group = BP_Groups_Group::group_exists( $current_action, $groups_bp['groups']['table_name'] );
+	
+	if ( function_exists( 'bp_groups_install') ) {
+		if ( $current_component == $groups_bp['groups']['slug'] )
+			$is_single_group = BP_Groups_Group::group_exists( $current_action, $groups_bp['groups']['table_name'] );
+	}
 	
 	if ( $is_member_page || ( $current_component == $groups_bp['groups']['slug'] && $is_single_group ) ) {
 		add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
