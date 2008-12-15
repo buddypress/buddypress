@@ -26,12 +26,12 @@
 <body>
 	
 	<div id="search-login-bar">
-		<!--
-		<form action="" method="post" id="search-form">
-			<input type="text" id="search-terms" name="search-terms" value="Search everything" />
-			<input type="submit" name="search-submit" id="search-submit" value="Search" />
+		<form action="<?php bp_search_form_action() ?>" method="post" id="search-form">
+			<input type="text" id="search-terms" name="search-terms" value="" /> 
+			<?php bp_search_form_type_select() ?>
+
+			<input type="submit" name="search-submit" id="search-submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
 		</form>
-		-->
 		
 		<?php if ( !is_user_logged_in() ) : ?>
 			<form name="login-form" id="login-form" action="<?php echo site_url() ?>/wp-login.php" method="post">

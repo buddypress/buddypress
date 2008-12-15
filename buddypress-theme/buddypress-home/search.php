@@ -14,7 +14,6 @@
 					<div class="alignright"><?php previous_posts_link('Next Entries &raquo;') ?></div>
 				</div>
 
-
 				<?php while (have_posts()) : the_post(); ?>
 
 					<div class="post">

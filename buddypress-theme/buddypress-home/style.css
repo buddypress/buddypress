@@ -65,8 +65,18 @@ a.selected { color: #555; text-decoration: none; }
 }
 	#search-login-bar #search-form {
 		float: left;
+		margin-top: 1px;
 	}
-	
+		#search-login-bar #search-terms {
+			width: 200px;
+			margin-right: 4px;
+			color: #888;
+		}
+
+		#search-login-bar #search-which {
+			margin-right: 2px;
+		}
+
 	#search-login-bar #login-form, #logout-link {
 		float: right;
 	}
