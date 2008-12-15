@@ -81,26 +81,30 @@ class BP_Core_User {
 	function populate_extras() {
 		global $bp;
 		
-		$this->total_friends = BP_Friends_Friendship::total_friend_count( $this->id );
+		if ( function_exists('friends_install') ) { 
+			$this->total_friends = BP_Friends_Friendship::total_friend_count( $this->id );
 
-		if ( $this->total_friends ) {
-			if ( $this->total_friends == 1 )
-				$this->total_friends .= ' ' . __( 'friend', 'buddypress' );
-			else
-				$this->total_friends .= ' ' . __( 'friends', 'buddypress' );
+			if ( $this->total_friends ) {
+				if ( $this->total_friends == 1 )
+					$this->total_friends .= ' ' . __( 'friend', 'buddypress' );
+				else
+					$this->total_friends .= ' ' . __( 'friends', 'buddypress' );
 			
-			$this->total_friends = '<a href="' . $this->user_url . $bp['friends']['slug'] . '" title="' . sprintf( __( "%s's friend list", 'buddypress' ), $this->fullname ) . '">' . $this->total_friends . '</a>';
+				$this->total_friends = '<a href="' . $this->user_url . $bp['friends']['slug'] . '" title="' . sprintf( __( "%s's friend list", 'buddypress' ), $this->fullname ) . '">' . $this->total_friends . '</a>';
+			}
+		}
+
+		if ( function_exists('bp_blogs_install') ) { 		
+			if ( $this->total_blogs ) {
+				if ( $this->total_blogs == 1 )
+					$this->total_blogs .= ' ' . __( 'blog', 'buddypress' );
+				else
+					$this->total_blogs .= ' ' . __( 'blogs', 'buddypress' );			
+				
+				$this->total_blogs = '<a href="' . $this->user_url . $bp['blogs']['slug'] . '" title="' . sprintf( __( "%s's blog list", 'buddypress' ), $this->fullname ) . '">' . $this->total_blogs . '</a>';
+			}
 		}
 		
-		if ( $this->total_blogs ) {
-			if ( $this->total_blogs == 1 )
-				$this->total_blogs .= ' ' . __( 'blog', 'buddypress' );
-			else
-				$this->total_blogs .= ' ' . __( 'blogs', 'buddypress' );			
-				
-			$this->total_blogs = '<a href="' . $this->user_url . $bp['blogs']['slug'] . '" title="' . sprintf( __( "%s's blog list", 'buddypress' ), $this->fullname ) . '">' . $this->total_blogs . '</a>';
-		}
-	
 		if ( function_exists('groups_install') ) {
 			$this->total_groups = BP_Groups_Member::total_group_count( $this->id );
 			
