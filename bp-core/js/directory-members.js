@@ -96,8 +96,9 @@ jQuery(document).ready( function() {
 			jQuery('#ajax-loader-members').toggle();
 
 			var page = jQuery(this).attr('href');
-			page = page.split('=');
-			
+			page = page.split('page=');
+			page[1] = page[1].substr(0, 1);
+
 			if ( !jQuery("input#selected_letter").val() )
 				var letter = '';
 			else

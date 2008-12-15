@@ -17,7 +17,7 @@ define( 'NEWS_SLUG', 'news' );
 
 /* These components are accessed via the root, and not under a blog name or member home.
    e.g Groups is accessed via: http://domain.com/groups/group-name NOT http://domain.com/andy/groups/group-name */
-define( 'BP_CORE_ROOT_COMPONENTS', 'groups,blogs' . ',' . MEMBERS_SLUG . ',' . REGISTER_SLUG . ',' . ACTIVATION_SLUG . ',' . NEWS_SLUG );
+define( 'BP_CORE_ROOT_COMPONENTS', 'search,groups,blogs' . ',' . MEMBERS_SLUG . ',' . REGISTER_SLUG . ',' . ACTIVATION_SLUG . ',' . NEWS_SLUG );
 
 /* Load the language file */
 if ( file_exists( ABSPATH . 'wp-content/mu-plugins/bp-languages/buddypress-' . get_locale() . '.mo' ) )
@@ -1166,13 +1166,40 @@ add_filter( 'wp_mail_from', 'bp_core_email_from_address_filter' );
 
 function bp_core_delete_account() {
 	global $bp;
+
+	// Be careful with this function!
 	
 	require_once( ABSPATH . '/wp-admin/includes/mu.php' );
 	require_once( ABSPATH . '/wp-admin/includes/user.php' );
-		
-	// Be careful with this function!
+
 	return wpmu_delete_user( $bp['loggedin_userid'] );
 }
+
+function bp_core_search_site() {
+	global $bp;
+	
+	if ( $bp['current_component'] == 'search' ) {
+		$search_terms = $_POST['search-terms'];
+		$search_which = $_POST['search-which'];
+		
+		switch ( $search_which ) {
+			case 'members': default:
+				$search = MEMBERS_SLUG;
+				break;
+			case 'groups':
+				$search = 'groups';
+				break;
+			case 'blogs':
+				$search = 'blogs';
+				break;
+		}
+		
+		$search_url = apply_filters( 'bp_core_search_site', site_url( $search . '/?s=' . $search_terms ), $search_terms );
+		
+		bp_core_redirect( $search_url );
+	}
+}
+add_action( 'wp', 'bp_core_search_site', 5 );
 
 /**
  * bp_core_remove_data()

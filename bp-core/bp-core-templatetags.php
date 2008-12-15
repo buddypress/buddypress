@@ -455,6 +455,24 @@ function bp_activation_page( $echo = true ) {
 	}
 }
 
+function bp_search_form_action() {
+	global $bp;
+	
+	echo site_url('search');
+}
+
+function bp_search_form_type_select() {
+	// Eventually this won't be needed and a page will be built to integrate all search results.
+?>
+	<select name="search-which" id="search-which" style="width: auto">
+		<option value="members"><?php _e( 'Members', 'buddypress' ) ?></option>
+		<option value="groups"><?php _e( 'Groups', 'buddypress' ) ?></option>
+		<option value="blogs"><?php _e( 'Blogs', 'buddypress' ) ?></option>
+		<?php do_action( 'bp_search_form_type_select_options') ?>
+	</select>
+<?php
+}
+
 /* Template functions for fetching globals, without querying the DB again
    also means we dont have to use the $bp variable in the template (looks messy) */
 

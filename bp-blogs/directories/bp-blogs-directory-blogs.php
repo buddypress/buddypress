@@ -23,8 +23,12 @@ function bp_blogs_directory_blogs_content() {
 	$pag_page = isset( $_GET['page'] ) ? intval( $_GET['page'] ) : 1;
 	$pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 10;
 	
-	$blogs = bp_blogs_get_all_blogs( $pag_num, $pag_page );
-
+	if ( isset( $_GET['s'] ) ) {
+		$blogs = BP_Blogs_Blog::search_blogs( $_GET['s'], $pag_num, $pag_page );		
+	} else {
+		$blogs = bp_blogs_get_all_blogs( $pag_num, $pag_page );
+	}
+	
 	$pag_links = paginate_links( array(
 		'base' => add_query_arg( 'page', '%#%' ),
 		'format' => '',
@@ -118,7 +122,14 @@ function bp_blogs_directory_blogs_content() {
 					<div class="clear"></div>
 				</li>
 			<?php endforeach; ?>
-			</ul>	
+			</ul>
+			
+			<?php
+			if ( isset( $_GET['s'] ) ) {
+				echo '<input type="hidden" id="search_terms" value="' . $_GET['s'] . '" name="search_terms" />';
+			}
+			?>
+				
 		<?php else: ?>
 			<div id="message" class="info">
 				<p><?php _e( 'No blogs found.', 'buddypress' ) ?></p>
@@ -140,7 +151,7 @@ function bp_blogs_directory_blogs_sidebar() {
 	<div class="widget">
 		<h2 class="widgettitle"><?php _e( 'Find Blogs', 'buddypress' ) ?></h2>
 		<form action="<?php echo site_url() . '/' . $bp['blogs']['slug']  . '/search/' ?>" method="post" id="search-blogs-form">
-			<label><input type="text" name="blogs_search" id="blogs_search" value="<?php _e('Search anything...', 'buddypress' ) ?>"  onfocus="if (this.value == '<?php _e('Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e('Search anything...', 'buddypress' ) ?>';}" /></label>
+			<label><input type="text" name="blogs_search" id="blogs_search" value="<?php if ( isset( $_GET['s'] ) ) { echo $_GET['s']; } else { _e('Search anything...', 'buddypress' ); } ?>"  onfocus="if (this.value == '<?php _e('Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e('Search anything...', 'buddypress' ) ?>';}" /></label>
 			<input type="submit" id="blogs_search_submit" name="blogs_search_submit" value="Search" />
 		</form>
 	</div>

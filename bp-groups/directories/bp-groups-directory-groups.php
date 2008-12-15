@@ -23,7 +23,11 @@ function groups_directory_groups_content() {
 	$pag_page = isset( $_GET['page'] ) ? intval( $_GET['page'] ) : 1;
 	$pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 10;
 	
-	$groups = groups_get_active( $pag_num, $pag_page );
+	if ( isset( $_GET['s'] ) )
+		$groups = BP_Groups_Group::search_groups( $_GET['s'], $pag_num, $pag_page );
+	else
+		$groups = groups_get_active( $pag_num, $pag_page );
+
 
 	$pag_links = paginate_links( array(
 		'base' => add_query_arg( 'page', '%#%' ),
@@ -121,6 +125,13 @@ function groups_directory_groups_content() {
 				</li>
 			<?php endforeach; ?>
 			</ul>	
+			
+			<?php
+			if ( isset( $_GET['s'] ) ) {
+				echo '<input type="hidden" id="search_terms" value="' . $_GET['s'] . '" name="search_terms" />';
+			}
+			?>
+			
 		<?php else: ?>
 			<div id="message" class="info">
 				<p><?php _e( 'No groups found.', 'buddypress' ) ?></p>
@@ -142,7 +153,7 @@ function groups_directory_groups_sidebar() {
 	<div class="widget">
 		<h2 class="widgettitle"><?php _e( 'Find Groups', 'buddypress' ) ?></h2>
 		<form action="<?php echo site_url() . '/' . $bp['groups']['slug']  . '/search/' ?>" method="post" id="search-groups-form">
-			<label><input type="text" name="groups_search" id="groups_search" value="<?php _e('Search anything...', 'buddypress' ) ?>"  onfocus="if (this.value == '<?php _e('Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e('Search anything...', 'buddypress' ) ?>';}" /></label>
+			<label><input type="text" name="groups_search" id="groups_search" value="<?php if ( isset( $_GET['s'] ) ) { echo $_GET['s']; } else { _e('Search anything...', 'buddypress' ); } ?>"  onfocus="if (this.value == '<?php _e('Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e('Search anything...', 'buddypress' ) ?>';}" /></label>
 			<input type="submit" id="groups_search_submit" name="groups_search_submit" value="Search" />
 		</form>
 	</div>

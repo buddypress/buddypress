@@ -118,6 +118,13 @@ function bp_core_directory_members_content() {
 				</li>
 			<?php endforeach; ?>
 			</ul>	
+			
+			<?php
+			if ( isset( $_GET['s'] ) ) {
+				echo '<input type="hidden" id="search_terms" value="' . $_GET['s'] . '" name="search_terms" />';
+			}
+			?>
+				
 		<?php else: ?>
 			<div id="message" class="info">
 				<p><?php _e( 'No members found. Members must fill in at least one piece of profile data to show in member lists.', 'buddypress' ) ?></p>
