@@ -5,3 +5,7 @@ img#admin-bar-logo {
 input#wire-post-email-notify, input[type='radio'], input[type='checkbox'], input[type='submit'] {
 	width: auto;
 }
+
+.generic-button, .friendship-button, .group-button, .blog-button {
+	display: inline;
+}

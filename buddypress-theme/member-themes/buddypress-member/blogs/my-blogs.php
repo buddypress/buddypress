@@ -20,7 +20,7 @@
 	<?php else: ?>
 
 		<div id="message" class="info">
-			<p><?php bp_word_or_name( __( "You haven't created any blogs yet.", 'buddypress' ), __( "%s hasn't created any blogs yet.", 'buddypress' ) ) ?> <?php bp_create_blog_link() ?> </p>
+			<p><?php bp_word_or_name( __( "You haven't created any blogs yet.", 'buddypress' ), __( "%s hasn't created any public blogs yet.", 'buddypress' ) ) ?> <?php bp_create_blog_link() ?> </p>
 		</div>
 
 	<?php endif;?>
