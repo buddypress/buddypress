@@ -30,7 +30,7 @@
 		<input type="hidden" name="send_to_usernames" id="send-to-usernames" value="" class="<?php bp_message_get_recipient_usernames() ?>" />
 		
 		<p class="submit">
-				<input type="submit" value="<?php _e("Send", 'buddypress') ?> &raquo;" name="send" id="send" onclick="this.value = '<?php _e( 'Sending...', 'buddypress' ) ?>';" />
+				<input type="submit" value="<?php _e("Send", 'buddypress') ?> &raquo;" name="send" id="send" />
 		</p>
 	</div>
 	</form>
