@@ -483,6 +483,22 @@ function bp_search_form_type_select() {
 <?php
 }
 
+function bp_profile_wire_can_post() {
+	global $bp;
+	
+	if ( bp_is_home() )
+		return true;
+	
+	if ( function_exists('friends_install') ) {
+		if ( friends_check_friendship( $bp['loggedin_userid'], $bp['current_userid'] ) )
+			return true;
+		else
+			return false;
+	} 
+	
+	return true;
+}
+
 /* Template functions for fetching globals, without querying the DB again
    also means we dont have to use the $bp variable in the template (looks messy) */
 
