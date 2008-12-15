@@ -126,6 +126,7 @@ ul#members-list li {
 	background: url(../../bp-core/images/button_back.gif) top left no-repeat;
 	display: inline-block;
 	margin-bottom: 10px;
+	margin-right: 5px;
 }
 
 .friendship-button a {
@@ -136,6 +137,7 @@ ul#members-list li {
 	padding: 0 33px 0 11px;
 	text-shadow: 0 1px 0 #fff;
 	text-decoration: none;
+	margin-right: -6px;
 }
 	.friendship-button a:hover {
 		color: #555;
