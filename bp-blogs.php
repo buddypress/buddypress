@@ -167,7 +167,7 @@ function bp_blogs_setup_nav() {
 	$blogs_link = $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/';
 	
 	/* Add the subnav items to the blogs nav item */
-	bp_core_add_subnav_item( $bp['blogs']['slug'], 'my-blogs', __('My Blogs', 'buddypress'), $blogs_link, 'bp_blogs_screen_my_blogs' );
+	bp_core_add_subnav_item( $bp['blogs']['slug'], 'my-blogs', __('My Blogs', 'buddypress'), $blogs_link, 'bp_blogs_screen_my_blogs', 'my-blogs-list' );
 	bp_core_add_subnav_item( $bp['blogs']['slug'], 'recent-posts', __('Recent Posts', 'buddypress'), $blogs_link, 'bp_blogs_screen_recent_posts' );
 	bp_core_add_subnav_item( $bp['blogs']['slug'], 'recent-comments', __('Recent Comments', 'buddypress'), $blogs_link, 'bp_blogs_screen_recent_comments' );
 	bp_core_add_subnav_item( $bp['blogs']['slug'], 'create-a-blog', __('Create a Blog', 'buddypress'), $blogs_link, 'bp_blogs_screen_create_a_blog' );
