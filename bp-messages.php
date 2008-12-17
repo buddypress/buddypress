@@ -184,8 +184,19 @@ function messages_screen_compose() {
 	
 	//var_dump($_POST['send_to_usernames']);
 	
-	if ( isset($_POST['send_to_usernames']) || ( isset($_POST['send-notice']) && is_site_admin() ) ) {
-		messages_send_message( $_POST['send_to_usernames'], $_POST['subject'], $_POST['content'], $_POST['thread_id'], false, true );
+	$recipients = false;
+	if ( $_POST['send_to_usernames'] == '' ) {
+		if ( $_POST['send-to-input'] != '' ) {
+			// Replace commas with places
+			$recipients = str_replace( ',', ' ', $_POST['send-to-input'] );
+			$recipients = str_replace( '  ', ' ', $recipients );
+		}
+	} else {
+		$recipients = $_POST['send_to_usernames'];
+	}
+	
+	if ( $recipients || ( isset($_POST['send-notice']) && is_site_admin() ) ) {
+		messages_send_message( $recipients, $_POST['subject'], $_POST['content'], $_POST['thread_id'], false, true );
 	}
 	
 	bp_catch_uri( 'messages/compose' );
