@@ -424,7 +424,7 @@ Class BP_Groups_Group {
 			
 			switch ( $sort_by ) {
 				default:
-					$sql = $wpdb->prepare( "SELECT id as group_id, slug FROM " . $bp['groups']['table_name'] . " {$public_sql} {$hidden_sql} {$order_sql} {$pag_sql}" ); 	
+					$sql = $wpdb->prepare( "SELECT g.id as g.group_id, g.slug FROM " . $bp['groups']['table_name'] . " {$public_sql} {$hidden_sql} {$order_sql} {$pag_sql}" ); 	
 					break;
 				case 'members':
 					$sql = $wpdb->prepare( "SELECT g.id as group_id, g.slug FROM " . $bp['groups']['table_name'] . " g, " . $bp['groups']['table_name_groupmeta'] . " gm WHERE g.id = gm.group_id AND gm.meta_key = 'total_member_count' {$hidden_sql} {$public_sql} ORDER BY CONVERT(gm.meta_value, SIGNED) {$order} {$pag_sql}" ); 
