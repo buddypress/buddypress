@@ -22,9 +22,9 @@ function groups_ajax_invite_user() {
 		echo '<li id="uid-' . $user->id . '">';
 		echo $user->avatar_thumb;
 		echo '<h4>' . $user->user_link . '</h4>';
-		echo '<span class="activity">active ' . $user->last_active . ' ago</span>';
+		echo '<span class="activity">' . sprintf( __( 'active %s ago', 'buddypress' ), $user->last_active ) . '</span>';
 		echo '<div class="action">
-				<a class="remove" href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '/' . $_POST['group_id'] . '/invites/remove/' . $user->id . '" id="uid-' . $user->id . '">Remove Invite</a> 
+				<a class="remove" href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '/' . $_POST['group_id'] . '/invites/remove/' . $user->id . '" id="uid-' . $user->id . '">' . __( 'Remove Invite', 'buddypress' ) . '</a> 
 			  </div>';
 		echo '</li>';
 		
