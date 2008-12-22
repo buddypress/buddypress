@@ -212,7 +212,7 @@ function bp_core_signup_signup_user($user_name = '', $user_email = '', $errors =
 	?>
 	
 	<form id="setupform" method="post" action="<?php echo site_url(REGISTER_SLUG) ?>">
-		<p id="intro-text"><?php _e( 'Registering for a new account is easy, just fill in the form below an you\'ll be a new member in no time at all.', 'buddypress' ) ?></p>
+		<p id="intro-text"><?php _e( 'Registering for a new account is easy, just fill in the form below and you\'ll be a new member in no time at all.', 'buddypress' ) ?></p>
 		<input type="hidden" name="stage" value="validate-user-signup" />
 		<?php do_action( "signup_hidden_fields" ); ?>
 		
