@@ -306,6 +306,7 @@ function bp_core_setup_nav() {
 	}	
 }
 add_action( 'wp', 'bp_core_setup_nav', 2 );
+add_action( 'admin_menu', 'bp_core_setup_nav', 2 );
 
 /**
  * bp_core_get_user_domain()

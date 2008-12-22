@@ -110,7 +110,7 @@ function messages_setup_globals() {
 	);
 }
 add_action( 'wp', 'messages_setup_globals', 1 );	
-add_action( '_admin_menu', 'messages_setup_globals', 1 );
+add_action( 'admin_menu', 'messages_setup_globals', 1 );
 
 
 /**************************************************************************
@@ -166,6 +166,7 @@ function messages_setup_nav() {
 	}
 }
 add_action( 'wp', 'messages_setup_nav', 2 );
+add_action( 'admin_menu', 'messages_setup_nav', 2 );
 
 /***** Screens **********/
 

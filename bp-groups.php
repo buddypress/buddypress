@@ -135,7 +135,7 @@ function groups_setup_globals( $no_global = false ) {
 	return $bp;
 }
 add_action( 'wp', 'groups_setup_globals', 1, false );	
-add_action( '_admin_menu', 'groups_setup_globals', 1, false );
+add_action( 'admin_menu', 'groups_setup_globals', 1, false );
 
 
 function groups_check_installed() {	
@@ -277,6 +277,7 @@ function groups_setup_nav() {
 	}
 }
 add_action( 'wp', 'groups_setup_nav', 2 );
+add_action( 'admin_menu', 'groups_setup_nav', 2 );
 
 
 /***** Screens **********/

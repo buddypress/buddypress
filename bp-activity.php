@@ -162,7 +162,7 @@ function bp_activity_setup_globals() {
 	}
 }
 add_action( 'wp', 'bp_activity_setup_globals', 1 );
-add_action( '_admin_menu', 'bp_activity_setup_globals', 1 );
+add_action( 'admin_menu', 'bp_activity_setup_globals', 1 );
 
 
 /**************************************************************************
@@ -194,6 +194,7 @@ function bp_activity_setup_nav() {
 	}
 }
 add_action( 'wp', 'bp_activity_setup_nav', 2 );
+add_action( 'admin_menu', 'bp_activity_setup_nav', 2 );
 
 /***** Screens **********/
 

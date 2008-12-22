@@ -41,8 +41,12 @@ function bp_adminbar_login_menu() {
 
 // **** "My Account" Menu ******
 function bp_adminbar_account_menu() {
+	global $bp;
+	
+	/* Sort the nav by key as the array has been put together in different locations */
+	$bp['bp_nav'] = bp_core_sort_nav_items( $bp['bp_nav'] );
+	
 	if ( is_user_logged_in() ) {
-		global $bp;
 		
 		echo '<li><a href="">';
 	
@@ -263,5 +267,6 @@ add_action( 'bp-adminbar-menus', 'bp_adminbar_authors_menu', 12 );
 add_action( 'bp-adminbar-menus', 'bp_adminbar_random_menu', 100 );
 
 add_action( 'wp_footer', 'bp_core_admin_bar' );
+add_action( 'admin_footer', 'bp_core_admin_bar' );
 
 ?>

@@ -65,7 +65,7 @@ function friends_setup_globals() {
 	);
 }
 add_action( 'wp', 'friends_setup_globals', 1 );	
-add_action( '_admin_menu', 'friends_setup_globals', 1 );
+add_action( 'admin_menu', 'friends_setup_globals', 1 );
 
 function friends_check_installed() {	
 	global $wpdb, $bp;
@@ -108,6 +108,7 @@ function friends_setup_nav() {
 	}
 }
 add_action( 'wp', 'friends_setup_nav', 2 );
+add_action( 'admin_menu', 'friends_setup_nav', 2 );
 
 /***** Screens **********/
 

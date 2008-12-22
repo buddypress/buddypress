@@ -183,7 +183,7 @@ function xprofile_setup_globals() {
 		$bp['profile']['table_name_wire'] = $wpdb->base_prefix . 'bp_xprofile_wire';
 }
 add_action( 'wp', 'xprofile_setup_globals', 1 );	
-add_action( '_admin_menu', 'xprofile_setup_globals', 1 );
+add_action( 'admin_menu', 'xprofile_setup_globals', 1 );
 
 /**
  * xprofile_add_admin_menu()
@@ -254,6 +254,7 @@ function xprofile_setup_nav() {
 	}
 }
 add_action( 'wp', 'xprofile_setup_nav', 2 );
+add_action( 'admin_menu', 'xprofile_setup_nav', 2 );
 
 /********
  * Functions to handle screens and URL based actions

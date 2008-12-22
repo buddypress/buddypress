@@ -11,6 +11,7 @@ function bp_core_add_settings_nav() {
 	bp_core_add_subnav_item( 'settings', 'delete-account', __('Delete Account', 'buddypress'), $bp['loggedin_domain'] . 'settings/', 'bp_core_screen_delete_account', false, bp_is_home() );
 }
 add_action( 'wp', 'bp_core_add_settings_nav', 2 );
+add_action( 'admin_menu', 'bp_core_add_settings_nav', 2 );
 
 /**** GENERAL SETTINGS ****/
 

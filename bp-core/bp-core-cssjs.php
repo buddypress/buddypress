@@ -14,6 +14,7 @@ function bp_core_add_js() {
 	wp_enqueue_script( 'bp-general-js', site_url() . '/wp-content/mu-plugins/bp-core/js/general.js' );
 }
 add_action( 'wp', 'bp_core_add_js' );
+add_action( 'admin_menu', 'bp_core_add_js' );
 
 /**
  * bp_core_add_ajax_js()
@@ -82,6 +83,19 @@ function bp_core_add_admin_js() {
 	}
 }
 add_action( 'admin_menu', 'bp_core_add_admin_js' );
+
+/**
+ * bp_core_add_admin_css()
+ *
+ * Add the CSS needed for all components in the admin area.
+ * 
+ * @package BuddyPress Core
+ * @uses get_option() Selects a site setting from the DB.
+ */
+function bp_core_add_admin_css() {
+	wp_enqueue_style( 'bp-admin-bar', site_url('/wp-content/mu-plugins/bp-core/css/admin-bar.css') );
+}
+add_action( 'admin_menu', 'bp_core_add_admin_css' );
 
 /**
  * bp_core_add_cropper_js()
