@@ -1538,6 +1538,8 @@ function groups_new_wire_post( $group_id, $content ) {
 }
 
 function groups_delete_wire_post( $wire_post_id, $table_name ) {
+	global $bp;
+	
 	if ( bp_wire_delete_post( $wire_post_id, $table_name ) ) {
 		
 		// Remove this activity stream item
