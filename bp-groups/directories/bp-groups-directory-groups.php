@@ -114,9 +114,9 @@ function groups_directory_groups_content() {
 							<?php $member_count = groups_get_groupmeta( $group->id, 'total_member_count' ) ?>
 							<?php echo ucwords($group->status) ?> <?php _e( 'Group', 'buddypress' ) ?> / 
 							<?php if ( $member_count == 1 ) : ?>
-								<?php _e( sprintf( '%d member', $member_count ), 'buddypress' ) ?>
+								<?php printf( __( '%d member', 'buddypress' ), $member_count ) ?>
 							<?php else : ?>
-								<?php _e( sprintf( '%d members', $member_count ), 'buddypress' ) ?>
+								<?php printf( __( '%d members', 'buddypress' ), $member_count ) ?>
 							<?php endif; ?>
 						</div>
 					</div>
