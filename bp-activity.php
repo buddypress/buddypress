@@ -23,6 +23,9 @@ include_once( 'bp-activity/bp-activity-filters.php' );
 function bp_activity_user_install() {
 	global $wpdb, $bp;
 	
+	if ( !$bp['current_userid'] )
+		return false;
+	
 	if ( !empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 	
@@ -145,7 +148,7 @@ function bp_activity_setup_globals() {
 		'image_base' => site_url() . '/wp-content/mu-plugins/bp-activity/images',
 		'slug'		 => 'activity'
 	);
-	
+
 	if ( $bp['current_userid'] ) {
 		/* Check to see if the current user has their activity table set up. If not, set them up. */
 		if ( !$wpdb->get_var("show tables like '%" . $bp['activity']['table_name_current_user'] . "%'") || get_usermeta( $bp['current_userid'], 'bp-activity-version' ) < BP_ACTIVITY_VERSION  )
