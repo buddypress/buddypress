@@ -203,7 +203,7 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 	$subject = sprintf( __( 'You have been promoted in the group: "%s"', 'buddypress' ), stripslashes($group->name) );
 
 		$message = sprintf( __( 
-'You have been promoted to % for the group: "%s".
+'You have been promoted to %s for the group: "%s".
 
 To view the group please visit: %s
 
