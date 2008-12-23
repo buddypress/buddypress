@@ -24,7 +24,7 @@ function bp_core_admin_bar() {
 
 // **** Default BuddyPress admin bar logo ********
 function bp_adminbar_logo() {
-	echo '<a href="' . get_blog_option( 1, 'siteurl' ) . '"><img id="admin-bar-logo" src="' . apply_filters( 'bp_admin_bar_logo_src', site_url() . '/wp-content/mu-plugins/bp-core/images/admin_bar_logo.gif' ) . '" alt="' . apply_filters( 'bp_admin_bar_logo_alt_text', __( 'BuddyPress', 'buddypress' ) ) . '" /></a>';
+	echo '<a href="' . get_blog_option( 1, 'siteurl' ) . '"><img id="admin-bar-logo" src="' . apply_filters( 'bp_admin_bar_logo_src', site_url( MUPLUGINDIR . '/bp-core/images/admin_bar_logo.gif' ) ) . '" alt="' . apply_filters( 'bp_admin_bar_logo_alt_text', __( 'BuddyPress', 'buddypress' ) ) . '" /></a>';
 }
 
 // **** "Log In" and "Sign Up" links (Visible when not logged in) ********

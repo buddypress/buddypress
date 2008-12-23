@@ -122,7 +122,7 @@ function groups_setup_globals( $no_global = false ) {
 		'table_name' => $wpdb->base_prefix . 'bp_groups',
 		'table_name_members' => $wpdb->base_prefix . 'bp_groups_members',
 		'table_name_groupmeta' => $wpdb->base_prefix . 'bp_groups_groupmeta',
-		'image_base' => site_url() . '/wp-content/mu-plugins/bp-groups/images',
+		'image_base' => site_url( MUPLUGINDIR . '/bp-groups/images' ),
 		'format_activity_function' => 'groups_format_activity',
 		'slug'		 => 'groups'
 	);

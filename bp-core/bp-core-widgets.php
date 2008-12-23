@@ -14,7 +14,7 @@ function bp_core_register_widgets() {
 	
 	/* Include the javascript needed for activated widgets only */
 	if ( is_active_widget( 'bp_core_widget_members' ) )
-		wp_enqueue_script( 'bp_core_widget_members-js', site_url() . '/wp-content/mu-plugins/bp-core/js/widget-members.js', array('jquery', 'jquery-livequery-pack') );		
+		wp_enqueue_script( 'bp_core_widget_members-js', site_url( MUPLUGINDIR . '/bp-core/js/widget-members.js' ), array('jquery', 'jquery-livequery-pack') );		
 	
 	/* Widgets that can be enabled anywhere */
 	register_sidebar_widget( __('Who\'s Online', 'buddypress'), 'bp_core_widget_whos_online');

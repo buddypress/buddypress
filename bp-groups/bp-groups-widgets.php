@@ -10,7 +10,7 @@ function groups_register_widgets() {
 	
 	/* Include the javascript needed for activated widgets only */
 	if ( is_active_widget( 'groups_widget_groups_list' ) )
-		wp_enqueue_script( 'groups_widget_groups_list-js', site_url() . '/wp-content/mu-plugins/bp-groups/js/widget-groups.js', array('jquery', 'jquery-livequery-pack') );		
+		wp_enqueue_script( 'groups_widget_groups_list-js', site_url( MUPLUGINDIR . '/bp-groups/js/widget-groups.js' ), array('jquery', 'jquery-livequery-pack') );		
 }
 add_action( 'plugins_loaded', 'groups_register_widgets' );
 

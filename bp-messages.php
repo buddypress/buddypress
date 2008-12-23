@@ -105,7 +105,7 @@ function messages_setup_globals() {
 		'table_name_recipients'    => $wpdb->base_prefix . 'bp_messages_recipients',
 		'table_name_notices' 	   => $wpdb->base_prefix . 'bp_messages_notices',
 		'format_activity_function' => 'messages_format_activity',
-		'image_base' 		 	   => site_url() . '/wp-content/mu-plugins/bp-messages/images',
+		'image_base' 		 	   => site_url( MUPLUGINDIR . '/bp-messages/images' ),
 		'slug'		 		 	   => 'messages'
 	);
 }

@@ -175,7 +175,7 @@ function xprofile_setup_globals() {
 		'table_name_fields' => $wpdb->base_prefix . 'bp_xprofile_fields',
 		'table_name_data' 	=> $wpdb->base_prefix . 'bp_xprofile_data',
 		'format_activity_function' => 'xprofile_format_activity',
-		'image_base' 		=> site_url() . '/wp-content/mu-plugins/bp-xprofile/images',
+		'image_base' 		=> site_url( MUPLUGINDIR . '/bp-xprofile/images' ),
 		'slug'		 		=> 'profile'
 	);
 	
@@ -205,7 +205,7 @@ function xprofile_add_admin_menu() {
 	global $wpdb, $bp;
 	
 	if ( is_site_admin() ) {
-		wp_enqueue_script( 'jquery.tablednd', '/wp-content/mu-plugins/bp-core/js/jquery/jquery.tablednd.js', array( 'jquery' ), '0.4' );
+		wp_enqueue_script( 'jquery.tablednd', site_url( MUPLUGINDIR . '/bp-core/js/jquery/jquery.tablednd.js' ), array( 'jquery' ), '0.4' );
 	
 		/* Add the administration tab under the "Site Admin" tab for site administrators */
 		add_submenu_page( 'wpmu-admin.php', __("Profile Fields", 'buddypress'), __("Profile Fields", 'buddypress'), 1, "xprofile_settings", "xprofile_admin" );

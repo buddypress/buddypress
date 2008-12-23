@@ -15,8 +15,8 @@ define( 'CORE_AVATAR_V2_W', 150 );
 define( 'CORE_AVATAR_V2_H', 150 );
 define( 'CORE_CROPPING_CANVAS_MAX', 450 );
 define( 'CORE_MAX_FILE_SIZE', get_site_option('fileupload_maxk') * 1024 );
-define( 'CORE_DEFAULT_AVATAR', site_url() . '/wp-content/mu-plugins/bp-xprofile/images/none.gif' );
-define( 'CORE_DEFAULT_AVATAR_THUMB', site_url() . '/wp-content/mu-plugins/bp-xprofile/images/none-thumbnail.gif' );
+define( 'CORE_DEFAULT_AVATAR', site_url( MUPLUGINDIR . '/bp-xprofile/images/none.gif' ) );
+define( 'CORE_DEFAULT_AVATAR_THUMB', site_url( MUPLUGINDIR . '/bp-xprofile/images/none-thumbnail.gif' ) );
 
 function bp_core_get_avatar( $user, $version = 1, $width = null, $height = null, $no_tag = false ) {
 	global $bp, $current_blog;
@@ -48,7 +48,7 @@ function bp_core_get_avatar( $user, $version = 1, $width = null, $height = null,
 		if ( $grav_option == '' ) {
 			$default_grav = 'wavatar';
 		} else if ( $grav_option == 'mystery' ) {
-			$default_grav = site_url('wp-content/mu-plugins/bp-core/images/mystery-man.jpg');
+			$default_grav = site_url( MUPLUGINDIR . '/bp-core/images/mystery-man.jpg');
 		} else {
 			$default_grav = $grav_option;
 		}

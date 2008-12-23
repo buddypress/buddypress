@@ -39,7 +39,7 @@ function bp_wire_setup_globals() {
 	}
 	
 	$bp['wire'] = array(
-		'image_base' => site_url() . '/wp-content/mu-plugins/bp-wire/images',
+		'image_base' => site_url( MUPLUGINDIR . '/bp-wire/images' ),
 		'slug'		 => 'wire'
 	);
 }

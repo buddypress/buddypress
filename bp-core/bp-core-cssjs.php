@@ -10,8 +10,8 @@
  */
 function bp_core_add_js() {
 	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'jquery-livequery-pack', site_url() . "/wp-content/mu-plugins/bp-core/js/jquery/jquery.livequery.pack.js", 'jquery' );
-	wp_enqueue_script( 'bp-general-js', site_url() . '/wp-content/mu-plugins/bp-core/js/general.js' );
+	wp_enqueue_script( 'jquery-livequery-pack', site_url( MUPLUGINDIR . '/bp-core/js/jquery/jquery.livequery.pack.js' ), 'jquery' );
+	wp_enqueue_script( 'bp-general-js', site_url( MUPLUGINDIR . '/bp-core/js/general.js' ) );
 }
 add_action( 'wp', 'bp_core_add_js' );
 add_action( 'admin_menu', 'bp_core_add_js' );
@@ -26,7 +26,7 @@ add_action( 'admin_menu', 'bp_core_add_js' );
  */
 function bp_core_add_ajax_js() {
 	echo 
-'<script type="text/javascript">var ajaxurl = "' . site_url() . '/wp-content/mu-plugins/bp-core/bp-core-ajax-handler.php";</script>
+'<script type="text/javascript">var ajaxurl = "' . site_url( MUPLUGINDIR . '/bp-core/bp-core-ajax-handler.php' ) . ';</script>
 ';
 }
 add_action( 'wp_head', 'bp_core_add_ajax_js' );
@@ -41,10 +41,10 @@ add_action( 'wp_head', 'bp_core_add_ajax_js' );
  */
 function bp_core_add_css() {
 	if ( is_user_logged_in() || ( (int)get_site_option( 'show-loggedout-adminbar' ) && !is_user_logged_in() ) ) {
-		wp_enqueue_style( 'bp-admin-bar', site_url() . '/wp-content/mu-plugins/bp-core/css/admin-bar.css' );
+		wp_enqueue_style( 'bp-admin-bar', site_url( MUPLUGINDIR . '/bp-core/css/admin-bar.css' ) );
 		
 		if ( get_bloginfo('text_direction') == 'rtl' && file_exists( ABSPATH . MUPLUGINDIR . '/bp-core/css/admin-bar-rtl.css' ) )
-			wp_enqueue_style( 'bp-admin-bar-rtl', site_url() . '/wp-content/mu-plugins/bp-core/css/admin-bar-rtl.css' );	
+			wp_enqueue_style( 'bp-admin-bar-rtl', site_url( MUPLUGINDIR . '/bp-core/css/admin-bar-rtl.css' ) );	
 	}
 	
 	wp_print_styles();
@@ -61,7 +61,7 @@ add_action( 'wp_head', 'bp_core_add_css' );
  */
 function bp_core_add_structure_css() {
 	/* Enqueue the structure CSS file to give basic positional formatting for components */
-	wp_enqueue_style( 'bp-core-structure', site_url() . '/wp-content/mu-plugins/bp-core/css/structure.css' );	
+	wp_enqueue_style( 'bp-core-structure', site_url( MUPLUGINDIR . '/bp-core/css/structure.css' ) );	
 }
 add_action( 'bp_styles', 'bp_core_add_structure_css' );
 
@@ -75,7 +75,7 @@ add_action( 'bp_styles', 'bp_core_add_structure_css' );
  */
 function bp_core_add_admin_js() {
 	if ( strpos( $_GET['page'], 'bp-core' ) !== false ) {
-		wp_enqueue_script( 'bp-account-admin-js', site_url() . '/wp-content/mu-plugins/bp-core/js/account-admin.js' );
+		wp_enqueue_script( 'bp-account-admin-js', site_url( MUPLUGINDIR . '/bp-core/js/account-admin.js' ) );
 	}
 	
 	if ( strpos( $_GET['page'], 'bp-core/admin-mods' ) !== false ) {
@@ -93,7 +93,7 @@ add_action( 'admin_menu', 'bp_core_add_admin_js' );
  * @uses get_option() Selects a site setting from the DB.
  */
 function bp_core_add_admin_css() {
-	wp_enqueue_style( 'bp-admin-bar', site_url('/wp-content/mu-plugins/bp-core/css/admin-bar.css') );
+	wp_enqueue_style( 'bp-admin-bar', site_url( MUPLUGINDIR . '/bp-core/css/admin-bar.css' ) );
 }
 add_action( 'admin_menu', 'bp_core_add_admin_css' );
 

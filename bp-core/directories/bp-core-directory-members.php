@@ -6,8 +6,8 @@ function bp_core_directory_members_setup() {
 		add_action( 'bp_template_content', 'bp_core_directory_members_content' );
 		add_action( 'bp_template_sidebar', 'bp_core_directory_members_sidebar' );
 		
-		wp_enqueue_script( 'bp-core-directory-members', site_url() . '/wp-content/mu-plugins/bp-core/js/directory-members.js', array( 'jquery', 'jquery-livequery-pack' ) );
-		wp_enqueue_style( 'bp-core-directory-members', site_url() . '/wp-content/mu-plugins/bp-core/css/directory-members.css' );
+		wp_enqueue_script( 'bp-core-directory-members', site_url( MUPLUGINDIR . '/bp-core/js/directory-members.js' ), array( 'jquery', 'jquery-livequery-pack' ) );
+		wp_enqueue_style( 'bp-core-directory-members', site_url( MUPLUGINDIR . '/bp-core/css/directory-members.css' ) );
 		
 		if ( file_exists( TEMPLATEPATH . '/plugin-template.php' ) )
 			bp_catch_uri('plugin-template');

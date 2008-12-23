@@ -145,7 +145,7 @@ function bp_activity_setup_globals() {
 		
 		'table_name_sitewide' => $wpdb->base_prefix . 'bp_activity_sitewide',
 		
-		'image_base' => site_url() . '/wp-content/mu-plugins/bp-activity/images',
+		'image_base' => site_url( MUPLUGINDIR . '/bp-activity/images' ),
 		'slug'		 => 'activity'
 	);
 

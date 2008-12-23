@@ -59,7 +59,7 @@ function friends_setup_globals() {
 	
 	$bp['friends'] = array(
 		'table_name' => $wpdb->base_prefix . 'bp_friends',
-		'image_base' => site_url() . '/wp-content/mu-plugins/bp-friends/images',
+		'image_base' => site_url( MUPLUGINDIR . '/bp-friends/images' ),
 		'format_activity_function' => 'friends_format_activity',
 		'slug'		 => 'friends'
 	);

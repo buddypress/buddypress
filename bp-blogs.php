@@ -135,7 +135,7 @@ function bp_blogs_setup_globals() {
 		'table_name_blog_comments' => $wpdb->base_prefix . 'bp_user_blogs_comments',
 		'table_name_blogmeta' => $wpdb->base_prefix . 'bp_user_blogs_blogmeta',
 		'format_activity_function' => 'bp_blogs_format_activity',
-		'image_base' => site_url() . '/wp-content/mu-plugins/bp-groups/images',
+		'image_base' => site_url( MUPLUGINDIR . '/bp-groups/images' ),
 		'slug'		 => 'blogs'
 	);
 }

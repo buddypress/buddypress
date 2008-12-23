@@ -3,6 +3,8 @@
 /* Define the current version number for checking if DB tables are up to date. */
 define( 'BP_CORE_VERSION', '1.0b1' );
 
+define( 'WP_CONTENT_URL', 'wp-content/' );
+
 /* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
 define( 'MEMBERS_SLUG', 'members' );
 
@@ -151,7 +153,7 @@ function bp_core_setup_globals() {
 	$bp['is_item_mod'] = false;
 
 	$bp['core'] = array(
-		'image_base' => site_url() . '/wp-content/mu-plugins/bp-core/images',
+		'image_base' => site_url( MUPLUGINDIR . '/bp-core/images' ),
 		'table_name_notifications' => $wpdb->base_prefix . 'bp_notifications'
 	);
 	
