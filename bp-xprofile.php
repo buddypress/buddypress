@@ -4,9 +4,6 @@ require_once( 'bp-core.php' );
 /* Set the version number */
 define ( 'BP_XPROFILE_VERSION', '1.0b1' );
 
-/* Functions to handle the removing of the profile tab and replacement with an account tab */
-require_once( 'bp-xprofile/admin-mods/bp-xprofile-admin-mods.php' );
-
 /* Database access classes and functions */
 require_once( 'bp-xprofile/bp-xprofile-classes.php' );
 
