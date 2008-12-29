@@ -27,7 +27,7 @@ add_filter( 'bp_the_topic_post_content', 'bp_forums_filter_decode' );
 add_filter( 'bp_the_topic_latest_post_excerpt', 'bp_forums_filter_decode' );
 
 function bp_forums_filter_encode( $content ) {
-	$content = htmlentities($content);
+	$content = htmlentities( $content, ENT_COMPAT, "UTF-8" );
 	$content = str_replace( '&', '/amp/', $content );
 
 	return $content;
@@ -35,7 +35,7 @@ function bp_forums_filter_encode( $content ) {
 
 function bp_forums_filter_decode( $content ) {
 	$content = str_replace( '/amp/', '&', $content );
-	$content = html_entity_decode($content);
+	$content = html_entity_decode( $content, ENT_COMPAT, "UTF-8" );
 	$content = str_replace( '[', '<', $content );
 	$content = str_replace( ']', '>', $content );
 	$content = wp_filter_kses( $content );
