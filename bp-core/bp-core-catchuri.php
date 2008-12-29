@@ -244,17 +244,14 @@ function bp_core_catch_profile_uri() {
 		bp_catch_uri( 'profile/index' );
 }
 
-function bp_core_force_buddypress_theme() {
+function bp_core_force_buddypress_theme( $template ) {
 	global $current_component, $current_action;
 	global $is_member_page;
-		
+	
 	// The theme filter does not recognize any globals, where as the stylesheet filter does.
 	// We have to set up the globals to use manually.
 	bp_core_set_uri_globals();
 	
-	if ( !is_null( $current_component ) )
-		return get_option('template');
-	
 	$member_theme = get_site_option('active-member-theme');
 	
 	if ( $member_theme == '' )
@@ -266,34 +263,29 @@ function bp_core_force_buddypress_theme() {
 
 		return $member_theme;
 	} else {
-		return get_option('template');
+		return $template;
 	}
-	
-	return $theme;
 }
-add_filter( 'template', 'bp_core_force_buddypress_theme' );
+add_filter( 'template', 'bp_core_force_buddypress_theme', 1, 1 );
 
-function bp_core_force_buddypress_stylesheet() {
+function bp_core_force_buddypress_stylesheet( $stylesheet ) {
 	global $bp, $is_single_group, $is_member_page;
-	
-	if ( !is_null( $current_component ) )
-		return get_option('template');
 
 	$member_theme = get_site_option('active-member-theme');
 	
 	if ( $member_theme == '' )
 		$member_theme = 'buddypress-member';
-	
+
 	if ( $is_member_page ) {
 		add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
 		add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
-		
+
 		return $member_theme;
 	} else {
-		return get_option('stylesheet');	
+		return $stylesheet;
 	}
 }
-add_filter( 'stylesheet', 'bp_core_force_buddypress_stylesheet' );
+add_filter( 'stylesheet', 'bp_core_force_buddypress_stylesheet', 1, 1 );
 
 
 
