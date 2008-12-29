@@ -38,6 +38,7 @@ function bp_forums_filter_decode( $content ) {
 	$content = html_entity_decode($content);
 	$content = str_replace( '[', '<', $content );
 	$content = str_replace( ']', '>', $content );
+	$content = wp_filter_kses( $content );
 	
 	return $content;
 }
