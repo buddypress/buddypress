@@ -119,21 +119,20 @@ class BP_Friends_Friendship {
 		/* This is stored in 'total_friend_count' usermeta. 
 		   This function will recalculate, update and return. */
 		
-		$sql = $wpdb->prepare( "SELECT count(id) FROM " . $bp['friends']['table_name'] . " WHERE (initiator_user_id = %d OR friend_user_id = %d) AND is_confirmed = 1", $user_id, $user_id );
+		$count = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM " . $bp['friends']['table_name'] . " WHERE (initiator_user_id = %d OR friend_user_id = %d) AND is_confirmed = 1", $user_id, $user_id ) );
 
-		if ( !$friend_count = $wpdb->get_var( $sql ) )
-			return 0;
-	
-		if ( !$friend_count )
+		if ( !$count )
 			return 0;
 		
-		update_usermeta( $user_id, 'total_friend_count', $friend_count );
-		
-		return $friend_count;
+		update_usermeta( $user_id, 'total_friend_count', $count );
+		return $count;
 	}
 	
 	function search_friends( $filter, $user_id, $limit = null, $page = null ) {
 		global $wpdb, $bp;
+		
+		if ( !$user_id )
+			$user_id = $bp['loggedin_userid'];
 		
 		like_escape($filter);
 		$usermeta_table = $wpdb->prefix . 'usermeta';
@@ -303,7 +302,11 @@ class BP_Friends_Friendship {
 	
 	function delete_all_for_user( $user_id ) {
 		global $wpdb, $bp;
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['friends']['table_name'] . " WHERE friend_user_id = %d OR initiator_user_id = %d", $user_id, $user_id ) ); 		
+
+		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['friends']['table_name'] . " WHERE friend_user_id = %d OR initiator_user_id = %d", $user_id, $user_id ) ); 
+		
+		// Delete friend request notifications for members who have a notification from this user.		
+		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['core']['table_name_notifications'] . " WHERE component_name = 'friends' AND ( component_action = 'friendship_request' OR component_action = 'friendship_accepted' ) AND item_id = %d", $user_id ) );
 	}
 }
 	

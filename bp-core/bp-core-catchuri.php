@@ -215,7 +215,11 @@ function bp_core_catch_no_access() {
 	// we are redirecting to an accessable page, so skip this check.
 	if ( $bp_no_status_set )
 		return false;
-		
+	
+	// If this user does not exist, redirect them to their own profile.
+	if ( !$bp['current_userid'] )
+		bp_core_redirect( $bp['loggedin_domain'] );
+
 	if ( !$bp_path && !bp_is_blog_page() ) {
 		if ( is_user_logged_in() ) {
 			wp_redirect( $bp['loggedin_domain'] );

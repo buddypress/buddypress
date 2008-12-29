@@ -281,20 +281,10 @@ class BP_Core_Notification {
 
 	/* Static functions */
 	
-	function delete( $id ) {
-		global $wpdb, $bp;
-		
-		
-	}
-	
 	function check_access( $user_id, $notification_id ) {
 		global $wpdb, $bp;
 		
 		return $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM " . $bp['core']['table_name_notifications'] . " WHERE id = %d AND user_id = %d", $notification_id, $user_id ) );
-	}
-	
-	function total_notification_count( $user_id ) {
-		
 	}
 	
 	function get_all_for_user( $user_id ) {

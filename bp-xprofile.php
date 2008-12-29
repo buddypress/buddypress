@@ -1,10 +1,8 @@
 <?php
 require_once( 'bp-core.php' );
 
+/* Set the version number */
 define ( 'BP_XPROFILE_VERSION', '1.0b1' );
-
-define ( 'BP_XPROFILE_BASE_GROUP_NAME', get_site_option( 'bp-xprofile-base-group-name' ) );
-define ( 'BP_XPROFILE_FULLNAME_FIELD_NAME', get_site_option( 'bp-xprofile-fullname-field-name' ) );
 
 /* Functions to handle the removing of the profile tab and replacement with an account tab */
 require_once( 'bp-xprofile/admin-mods/bp-xprofile-admin-mods.php' );
@@ -29,6 +27,10 @@ require_once( 'bp-xprofile/bp-xprofile-notifications.php' );
 
 /* Functions to handle the selective inclusion of CSS and JS files */
 require_once( 'bp-xprofile/bp-xprofile-cssjs.php' );
+
+/* Assign the base group and fullname field names to constants to use in SQL statements */
+define ( 'BP_XPROFILE_BASE_GROUP_NAME', get_site_option( 'bp-xprofile-base-group-name' ) );
+define ( 'BP_XPROFILE_FULLNAME_FIELD_NAME', get_site_option( 'bp-xprofile-fullname-field-name' ) );
 
 /**
  * xprofile_install()
@@ -371,6 +373,17 @@ function xprofile_action_delete_avatar() {
 }
 add_action( 'wp', 'xprofile_action_delete_avatar', 3 );
 
+/**
+ * xprofile_action_new_wire_post()
+ *
+ * Posts a new wire post to the users profile wire. 
+ * 
+ * @package BuddyPress XProfile
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @uses bp_wire_new_post() Adds a new wire post to a specific wire using the ID of the item passed and the table name.
+ * @uses bp_core_add_message() Adds an error/success message to the session to be displayed on the next page load.
+ * @uses bp_core_redirect() Safe redirects to a new page using the wp_redirect() function
+ */
 function xprofile_action_new_wire_post() {
 	global $bp;
 	
@@ -396,6 +409,18 @@ function xprofile_action_new_wire_post() {
 }
 add_action( 'wp', 'xprofile_action_new_wire_post', 3 );
 
+/**
+ * xprofile_action_delete_wire_post()
+ *
+ * Deletes a wire post from the users profile wire. 
+ * 
+ * @package BuddyPress XProfile
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @uses bp_wire_delete_post() Deletes a wire post for a specific wire using the ID of the item passed and the table name.
+ * @uses xprofile_delete_activity() Deletes an activity item for the xprofile component and a particular user.
+ * @uses bp_core_add_message() Adds an error/success message to the session to be displayed on the next page load.
+ * @uses bp_core_redirect() Safe redirects to a new page using the wp_redirect() function
+ */
 function xprofile_action_delete_wire_post() {
 	global $bp;
 	
@@ -750,6 +775,20 @@ function xprofile_edit( $group_id, $action ) {
 <?php
 }
 
+/**
+ * xprofile_get_random_profile_data()
+ *
+ * Fetches a random piece of profile data for the user.
+ * 
+ * @package BuddyPress Core
+ * @param $user_id User ID of the user to get random data for
+ * @param $exclude_fullname whether or not to exclude the full name field as random data.
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global $wpdb WordPress DB access object.
+ * @global $current_user WordPress global variable containing current logged in user information
+ * @uses xprofile_format_profile_field() Formats profile field data so it is suitable for display.
+ * @return $field_data The fetched random data for the user.
+ */
 function xprofile_get_random_profile_data( $user_id, $exclude_fullname = true ) {
 	$field_data = BP_XProfile_ProfileData::get_random( $user_id, $exclude_fullname );
 	$field_data[0]->value = xprofile_format_profile_field( $field_data[0]->type, $field_data[0]->value );
@@ -757,9 +796,20 @@ function xprofile_get_random_profile_data( $user_id, $exclude_fullname = true ) 
 	if ( !$field_data[0]->value || $field_data[0]->value == '' )
 		return false;
 	
-	return $field_data;
+	return apply_filters( 'xprofile_get_random_profile_data', $field_data );
 }
 
+/**
+ * xprofile_format_profile_field()
+ *
+ * Formats a profile field according to its type. [ TODO: Should really be moved to filters ]
+ * 
+ * @package BuddyPress Core
+ * @param $field_type The type of field: datebox, selectbox, textbox etc
+ * @param $field_value The actual value
+ * @uses bp_format_time() Formats a time value based on the WordPress date format setting
+ * @return $field_value The formatted value
+ */
 function xprofile_format_profile_field( $field_type, $field_value ) {
 	if ( !isset($field_value) || $field_value == '' )
 		return false;
