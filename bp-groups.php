@@ -1872,6 +1872,66 @@ function groups_update_groupmeta( $group_id, $meta_key, $meta_value ) {
 	return true;
 }
 
+// The following two functions will force the active member theme for
+// groups pages, even though they are technically under the root "home" blog
+// from a WordPress point of view.
+
+function groups_force_buddypress_theme() {
+	global $current_component, $current_action;
+	global $is_member_page;
+	
+	$groups_bp = groups_setup_globals(true);
+	
+	if ( $current_component != $groups_bp['groups']['slug'] )
+		return get_option('template');
+		
+	$member_theme = get_site_option('active-member-theme');
+	
+	if ( $member_theme == '' )
+		$member_theme = 'buddypress-member';
+	
+	// The theme filter does not recognize any globals, where as the stylesheet filter does.
+	// We have to set up the globals to use manually.
+	bp_core_set_uri_globals();
+		
+	if ( $current_component == $groups_bp['groups']['slug'] )
+		$is_single_group = BP_Groups_Group::group_exists( $current_action, $groups_bp['groups']['table_name'] );
+	
+	if ( $is_single_group ) {
+		add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
+		add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
+
+		return $member_theme;
+	} else {
+		return get_option('template');
+	}
+	
+	return $theme;
+}
+add_filter( 'template', 'groups_force_buddypress_theme' );
+
+function groups_force_buddypress_stylesheet() {
+	global $bp, $is_single_group, $is_member_page, $current_component;
+
+	if ( $current_component != $bp['groups']['slug'] )
+		return get_option('stylesheet');
+
+	$member_theme = get_site_option('active-member-theme');
+	
+	if ( $member_theme == '' )
+		$member_theme = 'buddypress-member';
+	
+	if ( $is_single_group ) {
+		add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
+		add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
+		
+		return $member_theme;
+	} else {
+		return get_option('stylesheet');	
+	}
+}
+add_filter( 'stylesheet', 'groups_force_buddypress_stylesheet' );
+
 
 function groups_remove_data( $user_id ) {
 	BP_Groups_Member::delete_all_for_user($user_id);
