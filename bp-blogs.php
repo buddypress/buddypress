@@ -667,14 +667,12 @@ function bp_blogs_redirect_to_random_blog() {
 	global $bp, $wpdb;
 	
 	if ( $bp['current_component'] == $bp['blogs']['slug'] && isset( $_GET['random-blog'] ) ) {
-		$blog_id = bp_blogs_get_random_blog();
+		$blog = bp_blogs_get_random_blog();
 
-		bp_core_redirect( get_blog_option( $blog_id, 'siteurl') );
+		bp_core_redirect( get_blog_option( $blog['blogs'][0]->blog_id, 'siteurl') );
 	}
 }
 add_action( 'wp', 'bp_blogs_redirect_to_random_blog', 6 );
-
-
 
 
 //

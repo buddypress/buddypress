@@ -108,6 +108,9 @@ Class BP_Activity_Activity {
 		if ( !$user_id )
 			$user_id = $bp['current_userid'];
 		
+		if ( !$user_id )
+			return false;
+		
 		$since = strtotime($since);
 		
 		if ( $limit )

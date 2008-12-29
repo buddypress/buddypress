@@ -1719,7 +1719,7 @@ function groups_redirect_to_random_group() {
 	if ( $bp['current_component'] == $bp['groups']['slug'] && isset( $_GET['random'] ) ) {
 		$group = groups_get_random_group();
 
-		bp_core_redirect( $bp['root_domain'] . '/' . $bp['groups']['slug'] . '/' . $group->slug );
+		bp_core_redirect( $bp['root_domain'] . '/' . $bp['groups']['slug'] . '/' . $group['groups'][0]->slug );
 	}
 }
 add_action( 'wp', 'groups_redirect_to_random_group', 6 );
