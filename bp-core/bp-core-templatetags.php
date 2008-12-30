@@ -458,29 +458,41 @@ function bp_activation_page( $echo = true ) {
 function bp_search_form_action() {
 	global $bp;
 	
-	echo site_url('search');
+	return apply_filters( 'bp_search_form_action', site_url('search') );
 }
 
 function bp_search_form_type_select() {
 	// Eventually this won't be needed and a page will be built to integrate all search results.
-?>
-	<select name="search-which" id="search-which" style="width: auto">
+	$selection_box = '<select name="search-which" id="search-which" style="width: auto">';
+	
+	if ( function_exists( 'xprofile_install' ) ) {
+		$selection_box .= '<option value="members">' . __( 'Members', 'buddypress' ) . '</option>';
+	}
+	
+	if ( function_exists( 'groups_install' ) ) {
+		$selection_box .= '<option value="groups">' . __( 'Groups', 'buddypress' ) . '</option>';
+	}
+	
+	if ( function_exists( 'bp_blogs_install' ) ) {
+		$selection_box .= '<option value="blogs">' . __( 'Blogs', 'buddypress' ) . '</option>';
+	}
+			
+	$selection_box .= '</select>';
+	
+	return apply_filters( 'bp_search_form_type_select', $selection_box );
+}
+
+function bp_search_form() {
+	$form = '
+		<form action="' . bp_search_form_action() . '" method="post" id="search-form">
+			<input type="text" id="search-terms" name="search-terms" value="" /> 
+			' . bp_search_form_type_select() . '
 		
-		<?php if ( function_exists( 'xprofile_install' ) ) { ?>
-		<option value="members"><?php _e( 'Members', 'buddypress' ) ?></option>
-		<?php } ?>
-		
-		<?php if ( function_exists( 'groups_install' ) ) { ?>
-		<option value="groups"><?php _e( 'Groups', 'buddypress' ) ?></option>
-		<?php } ?>
-		
-		<?php if ( function_exists( 'bp_blogs_install' ) ) { ?>
-		<option value="blogs"><?php _e( 'Blogs', 'buddypress' ) ?></option>
-		<?php } ?>
-		
-		<?php do_action( 'bp_search_form_type_select_options') ?>
-	</select>
-<?php
+			<input type="submit" name="search-submit" id="search-submit" value="' . __( 'Search', 'buddypress' ) . '" />
+		</form>
+	';
+	
+	echo apply_filters( 'bp_search_form', $form );
 }
 
 function bp_profile_wire_can_post() {
