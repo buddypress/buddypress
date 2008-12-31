@@ -511,6 +511,10 @@ function bp_profile_wire_can_post() {
 	return true;
 }
 
+function bp_custom_profile_boxes() {
+	do_action( 'bp_custom_profile_boxes' );
+}
+
 /* Template functions for fetching globals, without querying the DB again
    also means we dont have to use the $bp variable in the template (looks messy) */
 
