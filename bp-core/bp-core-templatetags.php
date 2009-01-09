@@ -307,15 +307,14 @@ function bp_exists( $component_name ) {
 }
 
 function bp_format_time( $time, $just_date = false ) {
-	$date = date( "F j, Y ", $time );
+	$date = date( get_option('date_format'), $time );
 	
 	if ( !$just_date ) {
-		$date .= __('at', 'buddypress') . date( ' g:iA', $time );
+		$date .= ' ' . __( 'at', 'buddypress' ) . date( ' ' . get_option('time_format'), $time );
 	}
 	
 	return apply_filters( 'bp_format_time', $date );
 }
-
 
 function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true ) {
 	global $bp;
