@@ -1,6 +1,8 @@
 <?php
 
 function bp_core_activation_set_headers() {
+	global $wp_object_cache;
+	
 	define( "WP_INSTALLING", true );
 	
 	require_once( ABSPATH . WPINC . '/registration.php');
@@ -11,7 +13,9 @@ function bp_core_activation_set_headers() {
 	do_action("activate_header");
 }
 
-function bp_core_activation_do_activation() { ?>
+function bp_core_activation_do_activation() {
+	global $current_site, $blog_id, $user_id; ?>
+	
 	<?php if ( empty( $_GET['key'] ) && empty( $_POST['key'] ) ) { ?>
 
 		<h3><?php _e('Activation Key Required') ?></h3>
