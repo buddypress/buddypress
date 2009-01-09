@@ -526,9 +526,12 @@ Class BP_XProfile_Field {
 				
 				$html .= '</select>';
 				
-				$months = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
-								'September', 'October', 'November', 'December');
-				
+				$months = array( __( 'January', 'buddypress' ), __( 'February', 'buddypress' ), __( 'March', 'buddypress' ), 
+								 __( 'April', 'buddypress' ), __( 'May', 'buddypress' ), __( 'June', 'buddypress' ),
+								 __( 'July', 'buddypress' ), __( 'August', 'buddypress' ), __( 'September', 'buddypress' ),
+								 __( 'October', 'buddypress' ), __( 'November', 'buddypress' ), __( 'December', 'buddypress' )
+								);
+
 				$html .= '
 				<select name="field_' . $this->id . '_month" id="field_' . $this->id . '_month">';
 				$html .= '<option value=""' . $default_select . '>------</option>';
