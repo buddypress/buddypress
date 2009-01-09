@@ -1151,7 +1151,7 @@ function groups_avatar_upload( $file ) {
 function groups_get_avatar_hrefs( $avatars ) {
 	global $bp;
 	
-	$src = $bp['loggedin_domain'];
+	$src = $bp['root_domain'];
 
 	$thumb_href = str_replace( ABSPATH, $src, $avatars['v1_out'] );
 	$full_href = str_replace( ABSPATH, $src, $avatars['v2_out'] );
