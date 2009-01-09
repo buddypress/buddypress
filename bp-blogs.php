@@ -266,7 +266,7 @@ function bp_blogs_format_activity( $item_id, $user_id, $action, $secondary_item_
 			
 			$post = BP_Blogs_Post::fetch_post_content($post);
 			
-			if ( !$post || $post->post_type != 'post' || $post->post_status != 'publish' || $post->post_password != '' )
+			if ( !$post || $post->post_type != 'post' )
 				return false;
 
 			$post_link = bp_post_get_permalink( $post, $post->blog_id );
@@ -362,7 +362,6 @@ function bp_blogs_record_blog( $blog_id, $user_id ) {
 }
 add_action( 'wpmu_new_blog', 'bp_blogs_record_blog', 10, 2 );
 
-
 function bp_blogs_record_post($post_id) {
 	global $bp, $current_blog;
 	
@@ -381,19 +380,20 @@ function bp_blogs_record_post($post_id) {
 	
 	$post = get_post($post_id);
 	
-	/* Don't record this if it's not a post, not published, or password protected */
-	if ( $post->post_type != 'post' || $post->post_status != 'publish' || $post->post_password != '' )
+	/* Don't record this if it's not a post */
+	if ( $post->post_type != 'post' )
 		return false;
-	
-	/** 
-	 * Check how many recorded posts there are for the user. If we are
-	 * at the max, then delete the oldest recorded post first.
-	 */
-	if ( BP_Blogs_Post::get_total_recorded_for_user() >= TOTAL_RECORDED_POSTS )
-		BP_Blogs_Post::delete_oldest();
 
 	if ( !BP_Blogs_Post::is_recorded( $post_id, $blog_id ) ) {
 		if ( $post->post_status == 'publish' ) {
+			
+			/** 
+			 * Check how many recorded posts there are for the user. If we are
+			 * at the max, then delete the oldest recorded post first.
+			 */
+			if ( BP_Blogs_Post::get_total_recorded_for_user() >= TOTAL_RECORDED_POSTS )
+				BP_Blogs_Post::delete_oldest();
+			
 			$recorded_post = new BP_Blogs_Post;
 			$recorded_post->user_id = $user_id;
 			$recorded_post->blog_id = $blog_id;
@@ -417,8 +417,8 @@ function bp_blogs_record_post($post_id) {
 		 * If the post status has changed from public to private then we need
 		 * to remove the record of the post.
 		 */
-		if ( $post->post_status != 'publish' )
-			BP_Blogs_Post::delete( $post_id, $blog_id );	
+		if ( $post->post_status != 'publish' || $post->post_password != '')
+			BP_Blogs_Post::delete( $post_id, $blog_id );
 	}
 }
 add_action( 'publish_post', 'bp_blogs_record_post' );
