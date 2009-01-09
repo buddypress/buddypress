@@ -33,7 +33,7 @@ class bbPress_Live_Widget_Forums
 		foreach ( $options as $instance => $option ) {
 			wp_register_sidebar_widget(
 				'bbpress_live_widget_forums-' . $instance,
-				__('bbPress Forum list', 'bbpress_live'),
+				__('bbPress Forum list', 'buddypress'),
 				array($this, 'display'),
 				$widget_options,
 				array( 'number' => $instance )
@@ -41,7 +41,7 @@ class bbPress_Live_Widget_Forums
 
 			wp_register_widget_control(
 				'bbpress_live_widget_forums-' . $instance,
-				__('bbPress Forum list', 'bbpress_live'),
+				__('bbPress Forum list', 'buddypress'),
 				array($this, 'control'),
 				$control_options,
 				array( 'number' => $instance )
@@ -86,9 +86,9 @@ class bbPress_Live_Widget_Forums
 				case 'table':
 					echo '<table>';
 					echo '<tr>';
-					echo '<th>'. __('Forum', 'bbpress_live') . '</th>';
-					echo '<th>'. __('Topics', 'bbpress_live') . '</th>';
-					echo '<th>'. __('Posts', 'bbpress_live') . '</th>';
+					echo '<th>'. __('Forum', 'buddypress') . '</th>';
+					echo '<th>'. __('Topics', 'buddypress') . '</th>';
+					echo '<th>'. __('Posts', 'buddypress') . '</th>';
 					echo '</tr>';
 					foreach ( $forums as $forum ) {
 						echo '<tr>';
@@ -163,34 +163,34 @@ class bbPress_Live_Widget_Forums
 ?>
 			<p>
 				<label for="bbpress_live_widget_forums_title_<?php echo $instance; ?>">
-					<?php _e('Title:', 'bbpress_live'); ?>
+					<?php _e('Title:', 'buddypress'); ?>
 					<input class="widefat" id="bbpress_live_widget_forums_title_<?php echo $instance; ?>" name="bbpress_live_widget_forums[<?php echo $instance; ?>][title]" type="text" value="<?php echo $title; ?>" />
 				</label>
 			</p>
 			<p>
 				<label for="bbpress_live_widget_forums_parent_<?php echo $instance; ?>">
-					<?php _e('Parent forum id or slug (optional):', 'bbpress_live'); ?>
+					<?php _e('Parent forum id or slug (optional):', 'buddypress'); ?>
 					<input class="widefat" id="bbpress_live_widget_forums_parent_<?php echo $instance; ?>" name="bbpress_live_widget_forums[<?php echo $instance; ?>][parent]" type="text" value="<?php echo $parent; ?>" />
 				</label>
 			</p>
 			<p>
 				<label for="bbpress_live_widget_forums_depth_<?php echo $instance; ?>">
-					<?php _e('Hierarchy depth:', 'bbpress_live'); ?>
+					<?php _e('Hierarchy depth:', 'buddypress'); ?>
 					<input style="width: 25px;" id="bbpress_live_widget_forums_depth_<?php echo $instance; ?>" name="bbpress_live_widget_forums[<?php echo $instance; ?>][depth]" type="text" value="<?php echo $depth; ?>" />
 				</label>
 			</p>
 			<div>
 				<p style="margin-bottom: 0;">
-					<?php _e('Layout style:', 'bbpress_live'); ?>
+					<?php _e('Layout style:', 'buddypress'); ?>
 				</p>
 				<div>
 					<label for="bbpress_live_widget_forums_list_<?php echo $instance; ?>">
-						<input id="bbpress_live_widget_forums_list_<?php echo $instance; ?>" name="bbpress_live_widget_forums[<?php echo $instance; ?>][layout]" type="radio" value="list"<?php echo $layout['list']; ?> /> <?php _e('ordered list', 'bbpress_live'); ?>
+						<input id="bbpress_live_widget_forums_list_<?php echo $instance; ?>" name="bbpress_live_widget_forums[<?php echo $instance; ?>][layout]" type="radio" value="list"<?php echo $layout['list']; ?> /> <?php _e('ordered list', 'buddypress'); ?>
 					</label>
 				</div>
 				<div>
 					<label for="bbpress_live_widget_forums_table_<?php echo $instance; ?>">
-						<input id="bbpress_live_widget_forums_table_<?php echo $instance; ?>" name="bbpress_live_widget_forums[<?php echo $instance; ?>][layout]" type="radio" value="table"<?php echo $layout['table']; ?> /> <?php _e('table', 'bbpress_live'); ?>
+						<input id="bbpress_live_widget_forums_table_<?php echo $instance; ?>" name="bbpress_live_widget_forums[<?php echo $instance; ?>][layout]" type="radio" value="table"<?php echo $layout['table']; ?> /> <?php _e('table', 'buddypress'); ?>
 					</label>
 				</div>
 			</div>
@@ -234,7 +234,7 @@ class bbPress_Live_Widget_Topics
 		foreach ( $options as $instance => $option ) {
 			wp_register_sidebar_widget(
 				'bbpress_live_widget_topics-' . $instance,
-				__('bbPress latest topics', 'bbpress_live'),
+				__('bbPress latest topics', 'buddypress'),
 				array($this, 'display'),
 				$widget_options,
 				array( 'number' => $instance )
@@ -242,7 +242,7 @@ class bbPress_Live_Widget_Topics
 
 			wp_register_widget_control(
 				'bbpress_live_widget_topics-' . $instance,
-				__('bbPress latest topics', 'bbpress_live'),
+				__('bbPress latest topics', 'buddypress'),
 				array($this, 'control'),
 				$control_options,
 				array( 'number' => $instance )
@@ -279,7 +279,7 @@ class bbPress_Live_Widget_Topics
 					foreach ( $topics as $topic ) {
 						echo '<li>';
 						echo '<a href="' . $topic['topic_uri'] . '">' . $topic['topic_title'] . '</a> ';
-						printf( __( '%1$s posted %2$s ago', 'bbpress_live' ), $topic['topic_last_poster_display_name'], $topic['topic_time_since'] );
+						printf( __( '%1$s posted %2$s ago', 'buddypress' ), $topic['topic_last_poster_display_name'], $topic['topic_time_since'] );
 						echo '</li>';
 					}
 					echo '</ol>';
@@ -288,10 +288,10 @@ class bbPress_Live_Widget_Topics
 				case 'table':
 					echo '<table>';
 					echo '<tr>';
-					echo '<th>'. __('Topic', 'bbpress_live') . '</th>';
-					echo '<th>'. __('Posts', 'bbpress_live') . '</th>';
-					echo '<th>'. __('Last Poster', 'bbpress_live') . '</th>';
-					echo '<th>'. __('Freshness', 'bbpress_live') . '</th>';
+					echo '<th>'. __('Topic', 'buddypress') . '</th>';
+					echo '<th>'. __('Posts', 'buddypress') . '</th>';
+					echo '<th>'. __('Last Poster', 'buddypress') . '</th>';
+					echo '<th>'. __('Freshness', 'buddypress') . '</th>';
 					echo '</tr>';
 					foreach ( $topics as $topic ) {
 						echo '<tr>';
@@ -367,34 +367,34 @@ class bbPress_Live_Widget_Topics
 ?>
 			<p>
 				<label for="bbpress_live_widget_topics_title_<?php echo $instance; ?>">
-					<?php _e('Title:', 'bbpress_live'); ?>
+					<?php _e('Title:', 'buddypress'); ?>
 					<input class="widefat" id="bbpress_live_widget_topics_title_<?php echo $instance; ?>" name="bbpress_live_widget_topics[<?php echo $instance; ?>][title]" type="text" value="<?php echo $title; ?>" />
 				</label>
 			</p>
 			<p>
 				<label for="bbpress_live_widget_topics_forum_<?php echo $instance; ?>">
-					<?php _e('Forum id or slug (optional):', 'bbpress_live'); ?>
+					<?php _e('Forum id or slug (optional):', 'buddypress'); ?>
 					<input class="widefat" id="bbpress_live_widget_topics_forum_<?php echo $instance; ?>" name="bbpress_live_widget_topics[<?php echo $instance; ?>][forum]" type="text" value="<?php echo $forum; ?>" />
 				</label>
 			</p>
 			<p>
 				<label for="bbpress_live_widget_topics_number_<?php echo $instance; ?>">
-					<?php _e('Number of topics to show:', 'bbpress_live'); ?>
+					<?php _e('Number of topics to show:', 'buddypress'); ?>
 					<input style="width: 25px;" id="bbpress_live_widget_topics_number_<?php echo $instance; ?>" name="bbpress_live_widget_topics[<?php echo $instance; ?>][number]" type="text" value="<?php echo $number; ?>" />
 				</label>
 			</p>
 			<div>
 				<p style="margin-bottom: 0;">
-					<?php _e('Layout style:', 'bbpress_live'); ?>
+					<?php _e('Layout style:', 'buddypress'); ?>
 				</p>
 				<div>
 					<label for="bbpress_live_widget_topics_list_<?php echo $instance; ?>">
-						<input id="bbpress_live_widget_topics_list_<?php echo $instance; ?>" name="bbpress_live_widget_topics[<?php echo $instance; ?>][layout]" type="radio" value="list"<?php echo $layout['list']; ?> /> <?php _e('ordered list', 'bbpress_live'); ?>
+						<input id="bbpress_live_widget_topics_list_<?php echo $instance; ?>" name="bbpress_live_widget_topics[<?php echo $instance; ?>][layout]" type="radio" value="list"<?php echo $layout['list']; ?> /> <?php _e('ordered list', 'buddypress'); ?>
 					</label>
 				</div>
 				<div>
 					<label for="bbpress_live_widget_topics_table_<?php echo $instance; ?>">
-						<input id="bbpress_live_widget_topics_table_<?php echo $instance; ?>" name="bbpress_live_widget_topics[<?php echo $instance; ?>][layout]" type="radio" value="table"<?php echo $layout['table']; ?> /> <?php _e('table', 'bbpress_live'); ?>
+						<input id="bbpress_live_widget_topics_table_<?php echo $instance; ?>" name="bbpress_live_widget_topics[<?php echo $instance; ?>][layout]" type="radio" value="table"<?php echo $layout['table']; ?> /> <?php _e('table', 'buddypress'); ?>
 					</label>
 				</div>
 			</div>
@@ -486,7 +486,7 @@ class bbPress_Live
 			'host_all_comments' => false
 		);
 
-		if ( $options = get_option('bbpress_live') ) {
+		if ( $options = get_option('buddypress') ) {
 			$this->options = array_merge( $this->options, $options );
 		}
 
