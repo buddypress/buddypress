@@ -6,7 +6,7 @@ function bp_blogs_directory_blogs_setup() {
 		add_action( 'bp_template_content', 'bp_blogs_directory_blogs_content' );
 		add_action( 'bp_template_sidebar', 'bp_blogs_directory_blogs_sidebar' );
 		
-		wp_enqueue_script( 'bp-blogs-directory-blogs', site_url( MUPLUGINDIR . 'bp-blogs/js/directory-blogs.js' ), array( 'jquery', 'jquery-livequery-pack' ) );
+		wp_enqueue_script( 'bp-blogs-directory-blogs', site_url( MUPLUGINDIR . '/bp-blogs/js/directory-blogs.js' ), array( 'jquery', 'jquery-livequery-pack' ) );
 		wp_enqueue_style( 'bp-blogs-directory-blogs', site_url( MUPLUGINDIR . '/bp-blogs/css/directory-blogs.css' ) );
 
 		if ( file_exists( TEMPLATEPATH . '/plugin-template.php' ) )
