@@ -739,6 +739,8 @@ function bp_core_format_time( $time, $just_date = false ) {
 function bp_create_excerpt( $text, $excerpt_length = 55 ) { // Fakes an excerpt if needed
 	$text = str_replace(']]>', ']]&gt;', $text);
 	$text = strip_tags($text);
+	$text = preg_replace( '|\[(.+?)\](.+?\[/\\1\])?|s', '', $text );
+	
 	$words = explode(' ', $text, $excerpt_length + 1);
 	if (count($words) > $excerpt_length) {
 		array_pop($words);
