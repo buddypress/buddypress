@@ -377,9 +377,6 @@ function bp_blogs_record_post($post_id) {
 	/* This is to stop infinate loops with Donncha's sitewide tags plugin */
 	if ( (int)get_site_option('tags_blog_id') == $blog_id )
 		return false;
-		
-	error_log( (int)get_site_option('tags_blog_id') );
-	error_log ( $blog_id );
 	
 	$post = get_post($post_id);
 	
