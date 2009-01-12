@@ -33,9 +33,9 @@ function bp_core_signup_show_blog_form( $blogname = '', $blog_title = '', $error
 	
 		// Blog name
 		if( constant( "VHOST" ) == 'no' )
-			echo '<label for="blogname">' . __('Blog Name:') . '</label>';
+			echo '<label for="blogname">' . __('Blog Name:', 'buddypress') . '</label>';
 		else
-			echo '<label for="blogname">' . __('Blog Domain:') . '</label>';
+			echo '<label for="blogname">' . __('Blog Domain:', 'buddypress') . '</label>';
 
 		if ( $errmsg = $errors->get_error_message('blogname') ) { ?>
 			<p class="error"><?php echo $errmsg ?></p>
@@ -48,19 +48,19 @@ function bp_core_signup_show_blog_form( $blogname = '', $blog_title = '', $error
 		}
 		if ( !is_user_logged_in() ) {
 			echo '<p class="help-text">';
-			print '(<strong>' . __( 'Your address will be ' );
+			print '(<strong>' . __( 'Your address will be ', 'buddypress'  );
 			if( constant( "VHOST" ) == 'no' ) {
-				print $current_site->domain . $current_site->path . __( 'blogname' );
+				print $current_site->domain . $current_site->path . __( 'blogname', 'buddypress'  );
 			} else {
-				print __( 'domain.' ) . $current_site->domain . $current_site->path;
+				print __( 'domain.', 'buddypress'  ) . $current_site->domain . $current_site->path;
 			}
-			echo '</strong>. ' . __( 'Must be at least 4 characters, letters and numbers only. It cannot be changed so choose carefully!)' ) . '</p>';
+			echo '</strong>. ' . __( 'Must be at least 4 characters, letters and numbers only. It cannot be changed so choose carefully!)', 'buddypress'  ) . '</p>';
 			echo '</p>';
 		}
 
 		// Blog Title
 		?>
-		<label for="blog_title"><?php _e('Blog Title:') ?></label>	
+		<label for="blog_title"><?php _e( 'Blog Title:', 'buddypress' ) ?></label>	
 		<?php if ( $errmsg = $errors->get_error_message('blog_title') ) { ?>
 			<p class="error"><?php echo $errmsg ?></p>
 		<?php }
@@ -68,16 +68,16 @@ function bp_core_signup_show_blog_form( $blogname = '', $blog_title = '', $error
 		?>
 
 		<p>
-			<label for="blog_public_on"><?php _e('Privacy:') ?></label>
-			<?php _e('I would like my blog to appear in search engines like Google and Technorati, and in public listings around this site.'); ?> 
+			<label for="blog_public_on"><?php _e( 'Privacy:', 'buddypress' ) ?></label>
+			<?php _e( 'I would like my blog to appear in search engines like Google and Technorati, and in public listings around this site.', 'buddypress' ); ?> 
 			<div style="clear:both;"></div>
 			<label class="checkbox" for="blog_public_on">
 				<input type="radio" id="blog_public_on" name="blog_public" value="1" <?php if( !isset( $_POST['blog_public'] ) || $_POST['blog_public'] == '1' ) { ?>checked="checked"<?php } ?> />
-				 &nbsp;<?php _e( 'Yes' ); ?>
+				 &nbsp;<?php _e( 'Yes', 'buddypress' ); ?>
 			</label>
 			<label class="checkbox" for="blog_public_off">
 				<input type="radio" id="blog_public_off" name="blog_public" value="0" <?php if( isset( $_POST['blog_public'] ) && $_POST['blog_public'] == '0' ) { ?>checked="checked"<?php } ?> />
-				 &nbsp;<?php _e( 'No' ); ?>
+				 &nbsp;<?php _e( 'No', 'buddypress' ); ?>
 			</label>
 		</p>
 	</div>
@@ -96,21 +96,21 @@ function bp_core_signup_validate_blog_form() {
 function bp_core_signup_show_user_form($user_name = '', $user_email = '', $errors = '') {
 	// User name
 	echo '<div id="account-fields">';
-	echo '<label for="user_name">' . __('Username:') . '</label>';
+	echo '<label for="user_name">' . __( 'Username:', 'buddypress' ) . '</label>';
 	if ( $errmsg = $errors->get_error_message('user_name') ) {
 		echo '<p class="error">'.$errmsg.'</p>';
 	}
 	echo '<input name="user_name" type="text" id="user_name" value="'.$user_name.'" maxlength="50" />';
 	echo '<p class="help-text">';
-	_e('(Must be at least 4 characters, letters and numbers only.)');
+	_e( '(Must be at least 4 characters, letters and numbers only.)', 'buddypress' );
 	echo '</p>'
 	?>
 
-	<label for="user_email"><?php _e('Email&nbsp;Address:') ?></label>
+	<label for="user_email"><?php _e( 'Email&nbsp;Address:', 'buddypress' ) ?></label>
 	<?php if ( $errmsg = $errors->get_error_message('user_email') ) { ?>
 		<p class="error"><?php echo $errmsg ?></p>
 	<?php } ?>		
-	<input name="user_email" type="text" id="user_email" value="<?php  echo wp_specialchars($user_email, 1) ?>" maxlength="200" /><p class="help-text"><?php _e('(We&#8217;ll send your password to this address, so <strong>triple-check it</strong>.)') ?></p>
+	<input name="user_email" type="text" id="user_email" value="<?php  echo wp_specialchars($user_email, 1) ?>" maxlength="200" /><p class="help-text"><?php _e( '(We&#8217;ll send your password to this address, so <strong>triple-check it</strong>.)', 'buddypress' ) ?></p>
 	<?php
 	if ( $errmsg = $errors->get_error_message('generic') ) {
 		echo '<p class="error">'.$errmsg.'</p>';
@@ -141,10 +141,10 @@ function bp_core_signup_signup_another_blog($blogname = '', $blog_title = '', $e
 
 	?>
 	<h3><?php _e( "You're already registered!", 'buddypress' )?></h3>
-	<p><?php _e( 'You can still create another blog however. Fill in the form below to add another blog to your account.', 'buddypress') ?>
+	<p><?php _e( 'You can still create another blog however. Fill in the form below to add another blog to your account.', 'buddypress' ) ?>
 	 
 
-	<p><?php _e("There is no limit to the number of blogs you can have, so create to your heart's content, but blog responsibly. If you&#8217;re not going to use a great blog domain, leave it for a new user. Now have at it!") ?></p>
+	<p><?php _e( "There is no limit to the number of blogs you can have, so create to your heart's content, but blog responsibly. If you&#8217;re not going to use a great blog domain, leave it for a new user. Now have at it!", 'buddypress' ) ?></p>
 	
 	<form id="setupform" method="post" action="<?php echo site_url(REGISTER_SLUG) ?>">
 		<input type="hidden" name="stage" value="gimmeanotherblog" />
@@ -182,9 +182,9 @@ function bp_core_signup_validate_another_blog_signup() {
 
 function bp_core_signup_confirm_another_blog_signup($domain, $path, $blog_title, $user_name, $user_email = '', $meta = '') {
 	?>
-	<h2><?php printf(__('The blog %s is yours.'), "<a href='http://{$domain}{$path}'>{$blog_title}</a>" ) ?></h2>
+	<h2><?php printf( __( 'The blog %s is yours.', 'buddypress' ), "<a href='http://{$domain}{$path}'>{$blog_title}</a>" ) ?></h2>
 	<p>
-		<?php printf(__('<a href="http://%1$s">http://%2$s</a> is your new blog.  <a href="%3$s">Login</a> as "%4$s" using your existing password.'), $domain.$path, $domain.$path, "http://" . $domain.$path . "wp-login.php", $user_name) ?>
+		<?php printf( __( '<a href="http://%1$s">http://%2$s</a> is your new blog.  <a href="%3$s">Login</a> as "%4$s" using your existing password.', 'buddypress' ), $domain.$path, $domain.$path, "http://" . $domain.$path . "/wp-login.php", $user_name) ?>
 	</p>
 	<?php
 	do_action('signup_finished');
@@ -230,12 +230,12 @@ function bp_core_signup_signup_user($user_name = '', $user_email = '', $errors =
 				<div id="blog-or-username-fields">
 					<p>
 						<input id="signupblog" type="radio" name="signup_for" value="blog" <?php echo $signup['blog'] ?> />
-						<label class="checkbox" for="signupblog"><?php _e('Gimme a blog!') ?></label>			
+						<label class="checkbox" for="signupblog"><?php _e( 'Gimme a blog!', 'buddypress' ) ?></label>			
 					</p>
 				
 					<p>
 						<input id="signupuser" type="radio" name="signup_for" value="user" <?php echo $signup['user'] ?> />			
-						<label class="checkbox" for="signupuser"><?php _e('Just a username, please.') ?></label>
+						<label class="checkbox" for="signupuser"><?php _e( 'Just a username, please.', 'buddypress' ) ?></label>
 					</p>
 				</div>
 			</div>
@@ -269,10 +269,10 @@ function bp_core_signup_validate_user_signup() {
 function bp_core_signup_confirm_user_signup($user_name, $user_email) {
 	?>
 	<h3><?php _e( 'Congratulations, you are now registered!', 'buddypress' ) ?></h3>
-	<p><?php printf(__('Your new username is: %s'), $user_name) ?></p>
+	<p><?php printf(__('Your new username is: %s', 'buddypress' ), $user_name) ?></p>
 	<p>&nbsp;</p>
-	<p><?php printf(__('Before you can start using your new username, <strong>you must activate it</strong>. Check your inbox at <strong>%1$s</strong> and click the link given.'),  $user_email) ?></p>
-	<p><?php _e('If you do not activate your username within two days, you will have to sign up again.'); ?></p>
+	<p><?php printf(__('Before you can start using your new username, <strong>you must activate it</strong>. Check your inbox at <strong>%1$s</strong> and click the link given.', 'buddypress' ),  $user_email) ?></p>
+	<p><?php _e('If you do not activate your username within two days, you will have to sign up again.', 'buddypress' ); ?></p>
 	<?php
 	do_action('signup_finished');
 }
@@ -335,16 +335,16 @@ function bp_core_signup_confirm_blog_signup($domain, $path, $blog_title, $user_n
 	?>
 	<h3><?php _e('Congratulations, You are now registered!', 'buddypress' ) ?></h2>
 	
-	<p><?php printf( __('But, before you can start using your blog, <strong>you must activate it</strong>. Check your inbox at <strong>%s</strong> and click the link given. It should arrive within 30 minutes.'),  $user_email) ?></p>
+	<p><?php printf( __('But, before you can start using your blog, <strong>you must activate it</strong>. Check your inbox at <strong>%s</strong> and click the link given. It should arrive within 30 minutes.', 'buddypress' ),  $user_email) ?></p>
 	<p>&nbsp;</p>
 	
 	<h3><?php _e('Still waiting for your email?'); ?></h3>
 	<p>
 		<?php _e("If you haven't received your email yet, there are a number of things you can do:") ?>
 		<ul>
-			<li><p><strong><?php _e('Wait a little longer.  Sometimes delivery of email can be delayed by processes outside of our control.') ?></strong></p></li>
-			<li><p><?php _e('Check the junk email or spam folder of your email client.  Sometime emails wind up there by mistake.') ?></p></li>
-			<li><?php printf(__("Have you entered your email correctly?  We think it's %s but if you've entered it incorrectly, you won't receive it."), $user_email) ?></li>
+			<li><p><strong><?php _e('Wait a little longer.  Sometimes delivery of email can be delayed by processes outside of our control.', 'buddypress' ) ?></strong></p></li>
+			<li><p><?php _e('Check the junk email or spam folder of your email client.  Sometime emails wind up there by mistake.', 'buddypress' ) ?></p></li>
+			<li><?php printf(__("Have you entered your email correctly?  We think it's %s but if you've entered it incorrectly, you won't receive it.", 'buddypress' ), $user_email) ?></li>
 		</ul>
 	</p>
 	<?php
@@ -360,13 +360,13 @@ function bp_core_signup_do_signup() {
 	$active_signup = apply_filters( 'wpmu_active_signup', $active_signup ); // return "all", "none", "blog" or "user"
 
 	if( is_site_admin() )
-		echo '<div class="mu_alert">' . sprintf( __( "Greetings Site Administrator! You are currently allowing '%s' registrations. To change or disable registration go to your <a href='wp-admin/wpmu-options.php'>Options page</a>." ), $active_signup ) . '</div>';
+		echo '<div class="mu_alert">' . sprintf( __( "Greetings Site Administrator! You are currently allowing '%s' registrations. To change or disable registration go to your <a href='wp-admin/wpmu-options.php'>Options page</a>.", 'buddypress' ), $active_signup ) . '</div>';
 
 	$newblogname = isset($_GET['new']) ? strtolower(preg_replace('/^-|-$|[^-a-zA-Z0-9]/', '', $_GET['new'])) : null;
 
 	$current_user = wp_get_current_user();
 	if( $active_signup == "none" ) {
-		_e( "Registration has been disabled." );
+		_e( "Registration has been disabled.", 'buddypress' );
 	} elseif( $active_signup == 'blog' && !is_user_logged_in() ){
 		if( is_ssl() ) {
 			$proto = 'https://';
@@ -374,20 +374,20 @@ function bp_core_signup_do_signup() {
 			$proto = 'http://';
 		}
 		$login_url = site_url( 'wp-login.php?redirect_to=' . site_url(REGISTER_SLUG) );
-		echo sprintf( __( "You must first <a href=\"%s\">login</a>, and then you can create a new blog."), $login_url );
+		echo sprintf( __( "You must first <a href=\"%s\">login</a>, and then you can create a new blog.", 'buddypress' ), $login_url );
 	} else {
 		switch ($_POST['stage']) {
 			case 'validate-user-signup' :
 				if( $active_signup == 'all' || $_POST[ 'signup_for' ] == 'blog' && $active_signup == 'blog' || $_POST[ 'signup_for' ] == 'user' && $active_signup == 'user' )
 					bp_core_signup_validate_user_signup();
 				else
-					_e( "User registration has been disabled." );
+					_e( "User registration has been disabled.", 'buddypress' );
 			break;
 			case 'validate-blog-signup':
 				if( $active_signup == 'all' || $active_signup == 'blog' )
 					bp_core_signup_validate_blog_signup();
 				else
-					_e( "Blog registration has been disabled." );
+					_e( "Blog registration has been disabled.", 'buddypress' );
 				break;
 			case 'gimmeanotherblog':
 				bp_core_signup_validate_another_blog_signup();
@@ -400,9 +400,9 @@ function bp_core_signup_do_signup() {
 				} elseif( is_user_logged_in() == false && ( $active_signup == 'all' || $active_signup == 'user' ) ) {
 					bp_core_signup_signup_user( $newblogname, $user_email );
 				} elseif( is_user_logged_in() == false && ( $active_signup == 'blog' ) ) {
-					_e( "I'm sorry. We're not accepting new registrations at this time." );
+					_e( "I'm sorry. We're not accepting new registrations at this time.", 'buddypress' );
 				} else {
-					_e( "You're logged in already. No need to register again!" );
+					_e( "You're logged in already. No need to register again!", 'buddypress' );
 				}
 				if ($newblogname) {
 					if( constant( "VHOST" ) == 'no' )
@@ -410,9 +410,9 @@ function bp_core_signup_do_signup() {
 					else
 						$newblog = 'http://' . $newblogname . '.' . $current_site->domain . $current_site->path;
 					if ($active_signup == 'blog' || $active_signup == 'all')
-						printf(__("<p><em>The blog you were looking for, <strong>%s</strong> doesn't exist but you can create it now!</em></p>"), $newblog );
+						printf( __( "<p><em>The blog you were looking for, <strong>%s</strong> doesn't exist but you can create it now!</em></p>", 'buddypress' ), $newblog );
 					else
-						printf(__("<p><em>The blog you were looking for, <strong>%s</strong> doesn't exist.</em></p>"), $newblog );
+						printf( __( "<p><em>The blog you were looking for, <strong>%s</strong> doesn't exist.</em></p>", 'buddypress' ), $newblog );
 				}
 				break;
 		}
