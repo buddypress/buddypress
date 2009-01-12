@@ -29,6 +29,7 @@ function bp_core_set_uri_globals() {
 	global $current_component, $current_action, $action_variables;
 	global $current_userid;
 	global $is_member_page, $is_new_friend;
+	global $bp_unfiltered_uri;
 	
 	$path = apply_filters( 'bp_uri', $_SERVER['REQUEST_URI'] );
 	
@@ -78,7 +79,8 @@ function bp_core_set_uri_globals() {
 	}
 	
 	/* Reset the keys by merging with an empty array */
-	$bp_uri = array_merge( array(), $bp_uri );	
+	$bp_uri = array_merge( array(), $bp_uri );
+	$bp_unfiltered_uri = $bp_uri;
 
 	/* Catch a member page and set the current member ID */
 	if ( $bp_uri[0] == MEMBERS_SLUG && $bp_uri[1] != '' ) {
@@ -209,16 +211,16 @@ function bp_core_do_catch_uri() {
 }
 
 function bp_core_catch_no_access() {
-	global $bp, $bp_path, $bp_no_status_set;
+	global $bp, $bp_path, $bp_unfiltered_uri, $bp_no_status_set;
 
 	// If bp_core_redirect() and $bp_no_status_set is true,
 	// we are redirecting to an accessable page, so skip this check.
 	if ( $bp_no_status_set )
 		return false;
-	
-	// If this user does not exist, redirect them to their own profile.
-	// if ( !$bp['current_userid'] )
-	// 	bp_core_redire( $bp['loggedin_domain'] ); die;
+
+	// If this user does not exist, redirect to the root domain.
+	if ( !$bp['current_userid'] && $bp_unfiltered_uri[0] == MEMBERS_SLUG && isset($bp_unfiltered_uri[1]) )
+		bp_core_redirect( $bp['root_domain'] );
 
 	if ( !$bp_path && !bp_is_blog_page() ) {
 		if ( is_user_logged_in() ) {
