@@ -114,6 +114,12 @@ Class BP_Blogs_Blog {
 		return array( 'blogs' => $blogs, 'count' => $total_blog_count );
 	}
 	
+	function is_recorded( $blog_id ) {
+		global $bp, $wpdb;
+		
+		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM " . $bp['blogs']['table_name'] . " WHERE blog_id = %d", $blog_id ) );
+	}
+	
 	function total_blog_count( $user_id = null ) {
 		global $bp, $wpdb;
 		
