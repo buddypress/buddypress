@@ -375,8 +375,11 @@ function bp_blogs_record_post($post_id) {
 	$blog_id = (int)$current_blog->blog_id;
 
 	/* This is to stop infinate loops with Donncha's sitewide tags plugin */
-	if ( get_site_option('tags_blog_id') == $blog_id )
+	if ( (int)get_site_option('tags_blog_id') == $blog_id )
 		return false;
+		
+	error_log( (int)get_site_option('tags_blog_id') );
+	error_log ( $blog_id );
 	
 	$post = get_post($post_id);
 	
@@ -589,7 +592,7 @@ function bp_blogs_remove_data_for_blog( $blog_id ) {
 add_action( 'delete_blog', 'bp_blogs_remove_data_for_blog', 1 );
 
 function bp_blogs_register_existing_content( $blog_id ) {
-	global $bp, $current_blog;
+	global $bp;
 	
 	if ( !$bp ) {
 		bp_core_setup_globals();
@@ -609,12 +612,12 @@ function bp_blogs_register_existing_content( $blog_id ) {
 			for ( $i = 0; $i < count($posts); $i++ ) {
 				bp_blogs_record_post( $posts[$i] );
 			}
-			
+	
 			do_action( 'bp_blogs_register_existing_content', $blog );
 		}
 	}	
 	
-	switch_to_blog( $current_blog->blog_id );
+	restore_current_blog();
 }
 add_action( 'bp_homebase_signup_completed', 'bp_blogs_register_existing_content', 10 );
 

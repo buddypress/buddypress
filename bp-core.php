@@ -342,11 +342,9 @@ function bp_core_get_user_domain( $user_id ) {
  * @return $domain The domain URL for the blog.
  */
 function bp_core_get_root_domain() {
-	global $current_blog;
-	
 	switch_to_blog(1);
 	$domain = site_url();
-	switch_to_blog($current_blog->blog_id);
+	restore_current_blog();
 	
 	return $domain;
 }

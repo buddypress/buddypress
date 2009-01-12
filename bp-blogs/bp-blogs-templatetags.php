@@ -334,6 +334,7 @@ function bp_post_tags( $before = '', $sep = ', ', $after = '' ) {
 	
 	switch_to_blog( $posts_template->post->blog_id );
 	$terms = bp_post_get_term_list( $before, $sep, $after );
+	restore_current_blog();
 }
 
 function bp_post_blog_id() {

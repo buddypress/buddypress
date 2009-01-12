@@ -222,7 +222,7 @@ function bp_core_handle_avatar_upload($file) {
 }
 
 function bp_core_avatar_upload_dir( $upload, $user_id = false ) {
-	global $bp, $current_blog;
+	global $bp;
 
 	if ( !$user_id )
 		$user_id = $bp['loggedin_userid'];
@@ -243,7 +243,7 @@ function bp_core_avatar_upload_dir( $upload, $user_id = false ) {
 	$newsubdir = '/avatars/' . $user_id . '/';
 	
 	// Switch back to the current blog
-	switch_to_blog($current_blog->blog_id);	
+	restore_current_blog();
 
 	return array( 'path' => $newdir, 'url' => $newurl, 'subdir' => $newsubdir, 'basedir' => $newbdir, 'baseurl' => $newburl, 'error' => false );
 }

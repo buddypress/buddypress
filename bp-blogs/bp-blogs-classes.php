@@ -318,13 +318,11 @@ Class BP_Blogs_Post {
 	}
 	
 	function fetch_post_content( $post_object ) {
-		global $current_blog;
-		
 		// TODO: switch_to_blog() calls are expensive and this needs to be changed.
 		switch_to_blog( $post_object->blog_id );
 		$post = get_post($post_object->post_id);
 		$post->blog_id = $post_object->blog_id;
-		switch_to_blog( $current_blog->blog_id );
+		restore_current_blog();
 
 		return $post;
 	}
@@ -473,14 +471,12 @@ Class BP_Blogs_Comment {
 		return array( 'comments' => $comments, 'count' => $total_comment_count );
 	}
 	
-	function fetch_comment_content( $comment_object ) {
-		global $current_blog;
-		
+	function fetch_comment_content( $comment_object ) {	
 		switch_to_blog($comment_object->blog_id);
 		$comment = get_comment($comment_object->comment_id);
 		$comment->blog_id = $comment_object->blog_id;
 		$comment->post = &get_post( $comment->comment_post_ID );
-		switch_to_blog($current_blog->blog_id);
+		restore_current_blog();
 		
 		return $comment;
 	}
