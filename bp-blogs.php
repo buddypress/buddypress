@@ -380,6 +380,11 @@ function bp_blogs_record_post($post_id) {
 	
 	$post = get_post($post_id);
 	
+	/* If another user is editing this post, don't record this at all, otherwise
+	   we will get multiple post recordings for each revisor. */
+	if ( $user_id != (int)$post->post_author )
+		return false;
+	
 	/* Don't record this if it's not a post */
 	if ( $post->post_type != 'post' )
 		return false;
@@ -548,11 +553,14 @@ function bp_blogs_remove_post( $post_id ) {
 	
 	$post_id = (int)$post_id;
 	$blog_id = (int)$current_blog->blog_id;
+	
+	$post = new BP_Blogs_Post( null, $blog_id, $post_id );
 
-	BP_Blogs_Post::delete( $post_id, $blog_id, $bp['loggedin_userid'] );
+	// Delete post from the bp_blogs table
+	BP_Blogs_Post::delete( $post_id, $blog_id );
 
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $post_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'user_id' => $bp['loggedin_userid'] ) );
+	bp_blogs_delete_activity( array( 'item_id' => $post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'user_id' => $post->user_id ) );
 
 	do_action( 'bp_blogs_remove_post', $blog_id, $post_id );
 }
@@ -569,7 +577,7 @@ function bp_blogs_remove_comment( $comment_id ) {
 	$comment_id = (int)$comment_id;
 	$blog_id = (int)$current_blog->blog_id;
 	
-	BP_Blogs_Comment::delete( $comment_id, $blog_id, $bp['loggedin_userid'] );	
+	BP_Blogs_Comment::delete( $comment_id, $blog_id );	
 
 	// Delete activity stream item
 	bp_blogs_delete_activity( array( 'item_id' => $comment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'user_id' => $bp['loggedin_userid'] ) );

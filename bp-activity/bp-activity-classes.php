@@ -92,9 +92,10 @@ Class BP_Activity_Activity {
 		if ( $secondary_item_id )
 			$secondary_sql = $wpdb->prepare( " AND secondary_item_id = %d", $secondary_item_id );
 		
-		// var_dump($wpdb->prepare( "DELETE FROM {$wpdb->base_prefix}user_{$user_id}_activity WHERE item_id = %d{$secondary_sql} AND user_id = %d AND component_name = %s AND component_action = %s", $item_id, $user_id, $component_name, $component_action ) );
-		// var_dump($wpdb->prepare( "DELETE FROM {$wpdb->base_prefix}user_{$user_id}_activity_cached WHERE item_id = %d{$secondary_sql} AND component_name = %s AND component_action = %s", $item_id, $component_name, $component_action ) );
-		// var_dump($wpdb->prepare( "DELETE FROM " . $bp['activity']['table_name_sitewide'] . " WHERE item_id = %d{$secondary_sql} AND user_id = %d AND component_name = %s AND component_action = %s", $item_id, $user_id, $component_name, $component_action ) );
+	 	//var_dump($wpdb->prepare( "DELETE FROM {$wpdb->base_prefix}user_{$user_id}_activity WHERE item_id = %d{$secondary_sql} AND user_id = %d AND component_name = %s AND component_action = %s", $item_id, $user_id, $component_name, $component_action ) );
+		//var_dump($wpdb->prepare( "DELETE FROM {$wpdb->base_prefix}user_{$user_id}_activity_cached WHERE item_id = %d{$secondary_sql} AND component_name = %s AND component_action = %s", $item_id, $component_name, $component_action ) );
+		//var_dump($wpdb->prepare( "DELETE FROM " . $bp['activity']['table_name_sitewide'] . " WHERE item_id = %d{$secondary_sql} AND user_id = %d AND component_name = %s AND component_action = %s", $item_id, $user_id, $component_name, $component_action ) );
+		//die;
 		
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->base_prefix}user_{$user_id}_activity WHERE item_id = %d{$secondary_sql} AND user_id = %d AND component_name = %s AND component_action = %s", $item_id, $user_id, $component_name, $component_action ) );
 				
@@ -234,11 +235,12 @@ Class BP_Activity_Activity {
 				}
 			}
 		
-			if ( is_array($activities_formatted) )
+			if ( is_array($activities_formatted) ) {
 				usort( $activities_formatted, 'bp_activity_order_by_date' );
-			
-			// Limit the number of items that get cached to the total_limit variable passed.
-			$activities_formatted = array_slice( $activities_formatted, 0, $total_limit );
+				
+				// Limit the number of items that get cached to the total_limit variable passed.
+				$activities_formatted = array_slice( $activities_formatted, 0, $total_limit );
+			}
 			
 			if ( count($activities_formatted) )
 				BP_Activity_Activity::cache_friends_activities( $activities_formatted );

@@ -201,23 +201,26 @@ Class BP_Blogs_Post {
 	var $post_id;
 	var $date_created;
 	
-	function bp_blogs_post( $id = null ) {
+	function bp_blogs_post( $id = null, $blog_id = null, $post_id = null ) {
 		global $bp, $wpdb;
 
-		if ( !$user_id )
-			$user_id = $bp['current_userid'];
-
-		if ( $id ) {
+		if ( $id || ( !$id && $blog_id && $post_id ) ) {
 			$this->id = $id;
+			$this->blog_id = $blog_id;
+			$this->post_id = $post_id;
 			$this->populate();
 		}
 	}
 
 	function populate() {
 		global $wpdb, $bp;
-		
-		$post = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp['blogs']['table_name_blog_posts'] . " WHERE id = %d", $this->id ) );
 
+		if ( $this->id )
+			$post = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp['blogs']['table_name_blog_posts'] . " WHERE id = %d", $this->id ) );
+		else
+			$post = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp['blogs']['table_name_blog_posts'] . " WHERE blog_id = %d AND post_id = %d", $this->blog_id, $this->post_id ) );
+		
+		$this->id = $post->id;	
 		$this->user_id = $post->user_id;
 		$this->blog_id = $post->blog_id;
 		$this->post_id = $post->post_id;
@@ -246,13 +249,10 @@ Class BP_Blogs_Post {
 	
 	/* Static Functions */
 	
-	function delete( $post_id, $blog_id, $user_id = null ) {
+	function delete( $post_id, $blog_id ) {
 		global $wpdb, $bp, $current_user;
-		
-		if ( !$user_id )
-			$user_id = $current_user->ID;
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['blogs']['table_name_blog_posts'] . " WHERE user_id = %d AND blog_id = %d AND post_id = %d", $user_id, $blog_id, $post_id ) );
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['blogs']['table_name_blog_posts'] . " WHERE blog_id = %d AND post_id = %d", $blog_id, $post_id ) );
 	}
 	
 	function delete_oldest( $user_id = null ) {
@@ -416,13 +416,10 @@ Class BP_Blogs_Comment {
 
 	/* Static Functions */
 	
-	function delete( $comment_id, $blog_id, $user_id = null ) {
+	function delete( $comment_id, $blog_id ) {
 		global $wpdb, $bp, $current_user;
-
-		if ( !$user_id )
-			$user_id = $current_user->ID;
 			
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['blogs']['table_name_blog_comments'] . " WHERE comment_id = %d AND blog_id = %d AND user_id = %d", $comment_id, $blog_id, $user_id ) );
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['blogs']['table_name_blog_comments'] . " WHERE comment_id = %d AND blog_id = %d", $comment_id, $blog_id ) );
 	}
 	
 	function delete_oldest( $user_id = null ) {
