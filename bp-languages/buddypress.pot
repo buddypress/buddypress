@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-01-10 14:11+0000\n"
+"POT-Creation-Date: 2009-01-13 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -106,7 +106,7 @@ msgstr ""
 msgid "Recent Comments"
 msgstr ""
 
-#: bp-blogs.php:173 bp-blogs/bp-blogs-templatetags.php:805
+#: bp-blogs.php:173 bp-blogs/bp-blogs-templatetags.php:806
 msgid "Create a Blog"
 msgstr ""
 
@@ -175,104 +175,104 @@ msgstr ""
 msgid "Comment on %s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:678
+#: bp-blogs/bp-blogs-templatetags.php:679
 msgid "There was a problem, please correct the form below and try again."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:681
+#: bp-blogs/bp-blogs-templatetags.php:682
 msgid ""
 "By filling out the form below, you can <strong>add a blog to your account</"
 "strong>. There is no limit to the number of blogs you can have, so create to "
 "your heart's content, but blog responsibly."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:683
+#: bp-blogs/bp-blogs-templatetags.php:684
 msgid ""
 "If you&#8217;re not going to use a great blog domain, leave it for a new "
 "user. Now have at it!"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:691 bp-core/bp-core-signup.php:154
+#: bp-blogs/bp-blogs-templatetags.php:692 bp-core/bp-core-signup.php:154
 msgid "Create Blog &raquo;"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:703 bp-core/bp-core-signup.php:36
+#: bp-blogs/bp-blogs-templatetags.php:704 bp-core/bp-core-signup.php:36
 msgid "Blog Name:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:705 bp-core/bp-core-signup.php:38
+#: bp-blogs/bp-blogs-templatetags.php:706 bp-core/bp-core-signup.php:38
 msgid "Blog Domain:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:717 bp-core/bp-core-signup.php:51
+#: bp-blogs/bp-blogs-templatetags.php:718 bp-core/bp-core-signup.php:51
 msgid "Your address will be "
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:719 bp-core/bp-core-signup.php:53
+#: bp-blogs/bp-blogs-templatetags.php:720 bp-core/bp-core-signup.php:53
 msgid "blogname"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:721 bp-core/bp-core-signup.php:55
+#: bp-blogs/bp-blogs-templatetags.php:722 bp-core/bp-core-signup.php:55
 msgid "domain."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:723 bp-core/bp-core-signup.php:57
+#: bp-blogs/bp-blogs-templatetags.php:724 bp-core/bp-core-signup.php:57
 msgid ""
 "Must be at least 4 characters, letters and numbers only. It cannot be "
 "changed so choose carefully!)"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:728 bp-core/bp-core-signup.php:63
+#: bp-blogs/bp-blogs-templatetags.php:729 bp-core/bp-core-signup.php:63
 msgid "Blog Title:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:736 bp-core/bp-core-signup.php:71
+#: bp-blogs/bp-blogs-templatetags.php:737 bp-core/bp-core-signup.php:71
 msgid "Privacy:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:737 bp-core/bp-core-signup.php:72
+#: bp-blogs/bp-blogs-templatetags.php:738 bp-core/bp-core-signup.php:72
 msgid ""
 "I would like my blog to appear in search engines like Google and Technorati, "
 "and in public listings around this site."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:741 bp-core/bp-core-signup.php:76
+#: bp-blogs/bp-blogs-templatetags.php:742 bp-core/bp-core-signup.php:76
 #: bp-friends.php:167 bp-groups.php:760 bp-messages.php:247
 #: bp-xprofile.php:329
 #: buddypress-theme/member-themes/buddypress-member/groups/admin/edit-details.php:29
 msgid "Yes"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:745 bp-core/bp-core-signup.php:80
+#: bp-blogs/bp-blogs-templatetags.php:746 bp-core/bp-core-signup.php:80
 #: bp-friends.php:168 bp-groups.php:761 bp-messages.php:248
 #: bp-xprofile.php:330
 #: buddypress-theme/member-themes/buddypress-member/groups/admin/edit-details.php:30
 msgid "No"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:793
+#: bp-blogs/bp-blogs-templatetags.php:794
 msgid "Congratulations! You have successfully registered a new blog."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:795 bp-core/bp-core-signup.php:187
+#: bp-blogs/bp-blogs-templatetags.php:796 bp-core/bp-core-signup.php:187
 #, php-format
 msgid ""
 "<a href=\"http://%1$s\">http://%2$s</a> is your new blog.  <a href=\"%3$s"
 "\">Login</a> as \"%4$s\" using your existing password."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:819
+#: bp-blogs/bp-blogs-templatetags.php:820
 #: buddypress-theme/member-themes/buddypress-member/blogs/my-blogs.php:8
 #, php-format
 msgid "%s's Blogs"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:820
+#: bp-blogs/bp-blogs-templatetags.php:821
 #, php-format
 msgid "%s's Recent Posts"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:821
+#: bp-blogs/bp-blogs-templatetags.php:822
 #, php-format
 msgid "%s's Recent Comments"
 msgstr ""
@@ -357,67 +357,67 @@ msgstr ""
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:723 bp-core/bp-core-templatetags.php:313
+#: bp-core.php:721 bp-core/bp-core-templatetags.php:313
 msgid "at"
 msgstr ""
 
-#: bp-core.php:844
+#: bp-core.php:842
 msgid "year"
 msgstr ""
 
-#: bp-core.php:844
+#: bp-core.php:842
 msgid "years"
 msgstr ""
 
-#: bp-core.php:845
+#: bp-core.php:843
 msgid "month"
 msgstr ""
 
-#: bp-core.php:845
+#: bp-core.php:843
 msgid "months"
 msgstr ""
 
-#: bp-core.php:846
+#: bp-core.php:844
 msgid "week"
 msgstr ""
 
-#: bp-core.php:846
+#: bp-core.php:844
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:847
+#: bp-core.php:845
 msgid "day"
 msgstr ""
 
-#: bp-core.php:847
+#: bp-core.php:845
 msgid "days"
 msgstr ""
 
-#: bp-core.php:848
+#: bp-core.php:846
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:848
+#: bp-core.php:846
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:849
+#: bp-core.php:847
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:849
+#: bp-core.php:847
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:850 bp-core.php:884
+#: bp-core.php:848 bp-core.php:882
 msgid "second"
 msgstr ""
 
-#: bp-core.php:850
+#: bp-core.php:848
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:933
+#: bp-core.php:931
 msgid "not recently active"
 msgstr ""
 
