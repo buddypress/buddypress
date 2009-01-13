@@ -514,6 +514,10 @@ function bp_custom_profile_boxes() {
 	do_action( 'bp_custom_profile_boxes' );
 }
 
+function bp_custom_profile_sidebar_boxes() {
+	do_action( 'bp_custom_profile_sidebar_boxes' );
+}
+
 /* Template functions for fetching globals, without querying the DB again
    also means we dont have to use the $bp variable in the template (looks messy) */
 

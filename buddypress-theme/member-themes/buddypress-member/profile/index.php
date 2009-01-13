@@ -19,6 +19,8 @@
 				<?php bp_send_message_button() ?>
 			<?php endif; ?>
 		</div>
+
+		<?php bp_custom_profile_sidebar_boxes() ?>
 	</div>
 
 	<div class="main-column">
