@@ -156,7 +156,7 @@ function bp_core_avatar_admin( $message = null, $action, $delete_action) {
 		if ( !bp_core_check_crop( $_POST['orig'], $_POST['canvas'] ) )
 			bp_core_ap_die('Error when cropping, please go back and try again');
 		
-		if ( !$result = bp_core_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'] ) )
+		if ( !$result = bp_core_avatar_cropstore( stripslashes($_POST['orig']), $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'] ) )
 			bp_core_ap_die('Error when saving avatars, please go back and try again.');
 		
 		// Store details to the DB and we're done		
