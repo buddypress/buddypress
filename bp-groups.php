@@ -690,13 +690,13 @@ add_action( 'wp', 'groups_screen_group_admin_manage_members', 4 );
 
 
 function groups_screen_group_admin_requests() {
-	global $bp;
+	global $bp, $group_obj;
 	
 	if ( $bp['current_component'] == $bp['groups']['slug'] && $bp['action_variables'][0] == 'membership-requests' ) {
 		
-		if ( !$bp['is_item_admin'] )
+		if ( !$bp['is_item_admin'] || $group_obj->status == 'public' )
 			return false;
-			
+		
 		// Remove any screen notifications
 		bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'new_membership_request' );
 		

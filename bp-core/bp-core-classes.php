@@ -166,8 +166,8 @@ class BP_Core_User {
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
-		$total_users = $wpdb->get_var( $wpdb->prepare( "SELECT count(user_id) FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'total_friend_count' ORDER BY RAND() DESC" ) );
-		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um WHERE meta_key = 'total_friend_count' ORDER BY RAND(){$pag_sql}" ) );
+		$total_users = $wpdb->get_var( $wpdb->prepare( "SELECT count(user_id) FROM {$wpdb->base_prefix}usermeta um ORDER BY RAND() DESC" ) );
+		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta um ORDER BY RAND(){$pag_sql}" ) );
 		
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}

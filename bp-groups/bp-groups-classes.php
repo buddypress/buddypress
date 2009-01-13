@@ -358,10 +358,10 @@ Class BP_Groups_Group {
 		
 		if ( $limit && $page ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
-			$total_requests = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d AND is_confirmed = 0", $group_id ) );
+			$total_requests = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d AND is_confirmed = 0 AND inviter_id = 0", $group_id ) );
 		}
 		
-		$paged_requests = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d AND is_confirmed = 0{$pag_sql}", $group_id ) );
+		$paged_requests = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $bp['groups']['table_name_members'] . " WHERE group_id = %d AND is_confirmed = 0 AND inviter_id = 0{$pag_sql}", $group_id ) );
 
 		return array( 'requests' => $paged_requests, 'total' => $total_requests );
 	}
