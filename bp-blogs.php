@@ -364,7 +364,7 @@ function bp_blogs_record_blog( $blog_id, $user_id ) {
 }
 add_action( 'wpmu_new_blog', 'bp_blogs_record_blog', 10, 2 );
 
-function bp_blogs_record_post($post_id) {
+function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 	global $bp, $current_blog;
 	
 	if ( !$bp ) {
@@ -373,8 +373,12 @@ function bp_blogs_record_post($post_id) {
 	}
 	
 	$post_id = (int)$post_id;
-	$user_id = (int)$bp['loggedin_userid'];
-	$blog_id = (int)$current_blog->blog_id;
+	
+	if ( !$user_id )
+		$user_id = (int)$bp['loggedin_userid'];
+		
+	if ( !$blog_id )
+		$blog_id = (int)$current_blog->blog_id;
 
 	/* This is to stop infinate loops with Donncha's sitewide tags plugin */
 	if ( (int)get_site_option('tags_blog_id') == $blog_id )
@@ -430,7 +434,7 @@ function bp_blogs_record_post($post_id) {
 }
 add_action( 'publish_post', 'bp_blogs_record_post' );
 
-function bp_blogs_record_comment( $comment_id, $from_ajax = false ) {
+function bp_blogs_record_comment( $comment_id, $post_id = false, $blog_id = false, $from_ajax = false ) {
 	global $bp, $current_blog, $current_user;
 
 	if ( !$bp ) {
@@ -447,9 +451,13 @@ function bp_blogs_record_comment( $comment_id, $from_ajax = false ) {
 	/* Only record a comment if it is by a registered user. */
 	if ( $user_id ) {
 		$comment_id = (int)$comment_id;
-		$blog_id = (int)$current_blog->blog_id;
-		$post_id = (int)$comment->comment_post_ID;
-	
+		
+		if ( !$post_id )
+			$post_id = (int)$comment->comment_post_ID;
+
+		if ( !$blog_id )
+			$blog_id = (int)$current_blog->blog_id;
+			
 		/** 
 		 * Check how many recorded posts there are for the user. If we are
 		 * at the max, then delete the oldest recorded post first.
@@ -517,7 +525,7 @@ function bp_blogs_modify_comment( $comment_id, $comment_status ) {
 	if ( $comment->comment_approved ) {
 		bp_blogs_remove_comment( $comment_id ); 
 	} else {
-		bp_blogs_record_comment( $comment_id, true ); 		
+		bp_blogs_record_comment( $comment_id, false, false, true ); 		
 	}
 }
 add_action( 'wp_set_comment_status', 'bp_blogs_modify_comment', 10, 2 );
