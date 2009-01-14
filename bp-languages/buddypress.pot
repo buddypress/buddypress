@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-01-13 14:11+0000\n"
+"POT-Creation-Date: 2009-01-14 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgstr ""
 
 #: bp-activity.php:189
 #: buddypress-theme/member-themes/buddypress-member/activity/just-me.php:24
-#: buddypress-theme/member-themes/buddypress-member/profile/index.php:35
+#: buddypress-theme/member-themes/buddypress-member/profile/index.php:37
 msgid "My Activity"
 msgstr ""
 
@@ -2678,7 +2678,7 @@ msgid "All Posts"
 msgstr ""
 
 #: bp-wire.php:67
-#: buddypress-theme/member-themes/buddypress-member/profile/index.php:49
+#: buddypress-theme/member-themes/buddypress-member/profile/index.php:51
 msgid "My Wire"
 msgstr ""
 
@@ -3083,7 +3083,7 @@ msgid "Register for an Account"
 msgstr ""
 
 #: buddypress-theme/member-themes/buddypress-member/activity/just-me.php:24
-#: buddypress-theme/member-themes/buddypress-member/profile/index.php:35
+#: buddypress-theme/member-themes/buddypress-member/profile/index.php:37
 #, php-format
 msgid "%s's Activity"
 msgstr ""
@@ -3468,27 +3468,27 @@ msgstr ""
 msgid "Editing '%s'"
 msgstr ""
 
-#: buddypress-theme/member-themes/buddypress-member/profile/index.php:35
+#: buddypress-theme/member-themes/buddypress-member/profile/index.php:37
 msgid "You haven't done anything recently."
 msgstr ""
 
-#: buddypress-theme/member-themes/buddypress-member/profile/index.php:35
+#: buddypress-theme/member-themes/buddypress-member/profile/index.php:37
 #, php-format
 msgid "%s has not done anything recently."
 msgstr ""
 
-#: buddypress-theme/member-themes/buddypress-member/profile/index.php:49
+#: buddypress-theme/member-themes/buddypress-member/profile/index.php:51
 #: buddypress-theme/member-themes/buddypress-member/wire/latest.php:22
 #, php-format
 msgid "%s's Wire"
 msgstr ""
 
-#: buddypress-theme/member-themes/buddypress-member/profile/index.php:49
+#: buddypress-theme/member-themes/buddypress-member/profile/index.php:51
 #: buddypress-theme/member-themes/buddypress-member/wire/latest.php:22
 msgid "No one has posted to your wire yet."
 msgstr ""
 
-#: buddypress-theme/member-themes/buddypress-member/profile/index.php:49
+#: buddypress-theme/member-themes/buddypress-member/profile/index.php:51
 #: buddypress-theme/member-themes/buddypress-member/wire/latest.php:22
 #, php-format
 msgid "No one has posted to %s's wire yet."
