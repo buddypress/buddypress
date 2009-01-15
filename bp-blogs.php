@@ -373,9 +373,10 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 	}
 	
 	$post_id = (int)$post_id;
+	$post = get_post($post_id);
 	
 	if ( !$user_id )
-		$user_id = (int)$bp['loggedin_userid'];
+		$user_id = (int)$post->post_author;
 		
 	if ( !$blog_id )
 		$blog_id = (int)$current_blog->blog_id;
@@ -383,14 +384,7 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 	/* This is to stop infinate loops with Donncha's sitewide tags plugin */
 	if ( (int)get_site_option('tags_blog_id') == $blog_id )
 		return false;
-	
-	$post = get_post($post_id);
-	
-	/* If another user is editing this post, don't record this at all, otherwise
-	   we will get multiple post recordings for each revisor. */
-	if ( $user_id != (int)$post->post_author )
-		return false;
-	
+		
 	/* Don't record this if it's not a post */
 	if ( $post->post_type != 'post' )
 		return false;
@@ -402,8 +396,8 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 			 * Check how many recorded posts there are for the user. If we are
 			 * at the max, then delete the oldest recorded post first.
 			 */
-			if ( BP_Blogs_Post::get_total_recorded_for_user() >= TOTAL_RECORDED_POSTS )
-				BP_Blogs_Post::delete_oldest();
+			if ( BP_Blogs_Post::get_total_recorded_for_user( $user_id ) >= TOTAL_RECORDED_POSTS )
+				BP_Blogs_Post::delete_oldest( $user_id );
 			
 			$recorded_post = new BP_Blogs_Post;
 			$recorded_post->user_id = $user_id;
@@ -421,13 +415,24 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 			bp_blogs_record_activity( array( 'item_id' => $recorded_post_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'is_private' => $is_private, 'user_id' => $recorded_post->user_id ) );
 		}
 	} else {
-		/** 
-		 * Check to see if the post have previously been recorded.
-		 * If the post status has changed from public to private then we need
-		 * to remove the record of the post.
+		$existing_post = new BP_Blogs_Post( null, $blog_id, $post_id );
+		
+		/**
+		 *  Delete the recorded post if:
+		 *  - The status is no longer "published"
+		 *  - The post is password protected
 		 */
-		if ( $post->post_status != 'publish' || $post->post_password != '')
-			BP_Blogs_Post::delete( $post_id, $blog_id );
+		if ( $post->post_status != 'publish' || $post->post_password != '' )
+			bp_blogs_remove_post( $post_id, $blog_id );
+		
+		// Check to see if the post author has changed.
+		if ( (int)$existing_post->user_id != (int)$post->post_author ) {
+			// Delete the existing recorded post
+			bp_blogs_remove_post( $post_id, $blog_id );
+			
+			// Re-record the post with the new author.
+			bp_blogs_record_post( $post_id );
+		}
 	}
 
 	do_action( 'bp_blogs_new_blog_post', $recorded_post, $is_private, $is_recorded );
@@ -579,7 +584,7 @@ function bp_blogs_remove_post( $post_id ) {
 
 	// Delete post from the bp_blogs table
 	BP_Blogs_Post::delete( $post_id, $blog_id );
-
+	
 	// Delete activity stream item
 	bp_blogs_delete_activity( array( 'item_id' => $post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'user_id' => $post->user_id ) );
 

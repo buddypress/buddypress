@@ -67,7 +67,7 @@ Class BP_Activity_Activity {
 		
 			// Add the cached version of the activity to the sitewide activity table.
 			if ( !$this->no_sitewide_recording )
-				$sitewide_cached = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_sitewide'] . " ( user_id, item_id, secondary_item_id, content, primary_link, component_name, component_action, date_cached, date_recorded ) VALUES ( %d, %d, %d, %s, %s, %s, %s, FROM_UNIXTIME(%d), FROM_UNIXTIME(%d) )", $bp['loggedin_userid'], $this->item_id, $this->secondary_item_id, $activity_content['content'], $activity_content['primary_link'], $this->component_name, $this->component_action, time(), $this->date_recorded ) );
+				$sitewide_cached = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_sitewide'] . " ( user_id, item_id, secondary_item_id, content, primary_link, component_name, component_action, date_cached, date_recorded ) VALUES ( %d, %d, %d, %s, %s, %s, %s, FROM_UNIXTIME(%d), FROM_UNIXTIME(%d) )", $this->user_id, $this->item_id, $this->secondary_item_id, $activity_content['content'], $activity_content['primary_link'], $this->component_name, $this->component_action, time(), $this->date_recorded ) );
 			
 			if ( $activity && $activity_cached )
 				return true;
@@ -92,10 +92,9 @@ Class BP_Activity_Activity {
 		if ( $secondary_item_id )
 			$secondary_sql = $wpdb->prepare( " AND secondary_item_id = %d", $secondary_item_id );
 		
-	 	//var_dump($wpdb->prepare( "DELETE FROM {$wpdb->base_prefix}user_{$user_id}_activity WHERE item_id = %d{$secondary_sql} AND user_id = %d AND component_name = %s AND component_action = %s", $item_id, $user_id, $component_name, $component_action ) );
-		//var_dump($wpdb->prepare( "DELETE FROM {$wpdb->base_prefix}user_{$user_id}_activity_cached WHERE item_id = %d{$secondary_sql} AND component_name = %s AND component_action = %s", $item_id, $component_name, $component_action ) );
-		//var_dump($wpdb->prepare( "DELETE FROM " . $bp['activity']['table_name_sitewide'] . " WHERE item_id = %d{$secondary_sql} AND user_id = %d AND component_name = %s AND component_action = %s", $item_id, $user_id, $component_name, $component_action ) );
-		//die;
+	 	//error_log($wpdb->prepare( "DELETE FROM {$wpdb->base_prefix}user_{$user_id}_activity WHERE item_id = %d{$secondary_sql} AND user_id = %d AND component_name = %s AND component_action = %s", $item_id, $user_id, $component_name, $component_action ) );
+		//error_log($wpdb->prepare( "DELETE FROM {$wpdb->base_prefix}user_{$user_id}_activity_cached WHERE item_id = %d{$secondary_sql} AND component_name = %s AND component_action = %s", $item_id, $component_name, $component_action ) );
+		//error_log($wpdb->prepare( "DELETE FROM " . $bp['activity']['table_name_sitewide'] . " WHERE item_id = %d{$secondary_sql} AND user_id = %d AND component_name = %s AND component_action = %s", $item_id, $user_id, $component_name, $component_action ) );
 		
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->base_prefix}user_{$user_id}_activity WHERE item_id = %d{$secondary_sql} AND user_id = %d AND component_name = %s AND component_action = %s", $item_id, $user_id, $component_name, $component_action ) );
 				

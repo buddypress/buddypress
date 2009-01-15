@@ -12,13 +12,8 @@
  * The function will also analyze the current component the user is in, to determine whether
  * or not to highlight a particular nav item.
  *
- * It will also compare the current user to the logged in user, if a user profile is being viewed.
- * This allows the "Friends" item to be highlighted if the users are friends. This is only if the friends
- * component is installed.
- * 
  * @package BuddyPress Core
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @uses friends_check_friendship() Checks to see if the logged in user is a friend of the currently viewed user.
  */
 function bp_get_nav() {
 	global $bp, $current_blog;

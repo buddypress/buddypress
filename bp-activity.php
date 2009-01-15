@@ -212,7 +212,7 @@ function bp_activity_screen_friends_activity() {
 
 function bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id = false, $user_id = false, $secondary_user_id = false ) {
 	global $bp, $wpdb;
-
+	
 	if ( !$user_id )
 		$user_id = $bp['loggedin_userid'];
 
