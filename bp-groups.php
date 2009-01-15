@@ -830,12 +830,12 @@ add_action( 'wp', 'groups_action_join_group', 3 );
  **************************************************************************/
 
 function groups_record_activity( $args = true ) {
+	global $group_obj;
+	
 	if ( function_exists('bp_activity_record') ) {
 		extract($args);
-		
-		$group = new BP_Groups_Group( $item_id, false, false );
 
-		if ( $group->status == 'public' )
+		if ( $group_obj->status == 'public' )
 			bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_user_id );
 	}
 }
@@ -1525,7 +1525,6 @@ function groups_is_group_mod( $user_id, $group_id ) {
 
 function groups_new_wire_post( $group_id, $content ) {
 	if ( $wire_post_id = bp_wire_new_post( $group_id, $content ) ) {
-		
 		/* Record in activity streams */
 		groups_record_activity( array( 'item_id' => $wire_post_id, 'group_id' => $group_id, 'component_name' => 'groups', 'component_action' => 'new_wire_post', 'is_private' => 0 ) );
 

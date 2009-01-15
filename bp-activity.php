@@ -226,7 +226,7 @@ function bp_activity_record( $item_id, $component_name, $component_action, $is_p
 	$activity->component_action = $component_action;
 	$activity->date_recorded = $recorded_time;
 	$activity->is_private = $is_private;
- 
+	
 	$loggedin_user_save = $activity->save();
 	
 	/* Save an activity entry for both logged in and secondary user. For example for a new friend connection

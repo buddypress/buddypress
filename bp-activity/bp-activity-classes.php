@@ -86,6 +86,9 @@ Class BP_Activity_Activity {
 	function delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id = false ) {
 		global $wpdb, $bp;
 		
+		if ( !$user_id )
+			return false;
+		
 		if ( !$bp['activity'] )
 			bp_activity_setup_globals();
 		
