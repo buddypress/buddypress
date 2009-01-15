@@ -173,6 +173,7 @@ function bp_core_do_catch_uri() {
 	global $bp_path, $bp, $wpdb;
 	global $current_blog, $bp_skip_blog_check;
 	global $bp_no_status_set;
+	global $wp_query;
 	
 	$pages = $bp_path;
 	
@@ -185,6 +186,7 @@ function bp_core_do_catch_uri() {
 	/* Make sure this is not reported as a 404 */
 	if ( !$bp_no_status_set ) {
 		status_header( 200 );
+		$wp_query->is_404 = false;
 	}
 
 	if ( is_array( $pages ) ) {
