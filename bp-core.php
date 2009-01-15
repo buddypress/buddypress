@@ -81,10 +81,7 @@ require_once( 'bp-core/bp-core-activation.php' );
  * @global $current_component Which is set up in /bp-core/bp-core-catch-uri.php
  * @global $current_action Which is set up in /bp-core/bp-core-catch-uri.php
  * @global $action_variables Which is set up in /bp-core/bp-core-catch-uri.php
- * @uses bp_core_get_loggedin_domain() Returns the domain for the logged in user
- * @uses bp_core_get_current_domain() Returns the domain for the current user being viewed
- * @uses bp_core_get_current_userid() Returns the user id for the current user being viewed
- * @uses bp_core_get_loggedin_userid() Returns the user id for the logged in user
+ * @uses bp_core_get_user_domain() Returns the domain for a user
  */
 function bp_core_setup_globals() {
 	global $bp, $wpdb;
