@@ -629,9 +629,9 @@ Class BP_XProfile_Field {
 				<p>Order By: 
 					
 					<select name="sort_order_<?php echo $type ?>" id="sort_order_<?php echo $type ?>" >
-						<option value="default" <?php if ( $this->order_by == 'default' ) {?> selected="selected"<?php } ?> >Order Entered</option>
-						<option value="asc" <?php if ( $this->order_by == 'asc' ) {?> selected="selected"<?php } ?>>Name - Ascending</option>
-						<option value="desc" <?php if ( $this->order_by == 'desc' ) {?> selected="selected"<?php } ?>>Name - Descending</option>
+						<option value="default" <?php if ( $this->order_by == 'default' ) {?> selected="selected"<?php } ?> ><?php _e( 'Order Entered', 'buddypress' ) ?></option>
+						<option value="asc" <?php if ( $this->order_by == 'asc' ) {?> selected="selected"<?php } ?>><?php _e( 'Name - Ascending', 'buddypress' ) ?></option>
+						<option value="desc" <?php if ( $this->order_by == 'desc' ) {?> selected="selected"<?php } ?>><?php _e( 'Name - Descending', 'buddypress' ) ?></option>
 					</select>
 	
 				<?php
@@ -646,7 +646,7 @@ Class BP_XProfile_Field {
 					?>
 						<p><?php _e('Option', 'buddypress') ?> <?php echo $j ?>: 
 						   <input type="text" name="<?php echo $type ?>_option[<?php echo $j ?>]" id="<?php echo $type ?>_option<?php echo $j ?>" value="<?php echo $options[$i]->name ?>" />
-						   <input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" <?php if ( $options[$i]->sort_order == 'CHECKED' ) {?> checked="checked"<?php } ?> " /> Default Value 
+						   <input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" <?php if ( $options[$i]->sort_order == 'CHECKED' ) {?> checked="checked"<?php } ?> " /> <?php _e( 'Default Value', 'buddypress' ) ?> 
 						<a href="admin.php?page=xprofile_settings&amp;mode=delete_option&amp;option_id=<?php echo $options[$i]->id ?>" class="ajax-option-delete" id="delete-<?php echo $options[$i]->id ?>">[x]</a></p>
 						</p>
 					<?php } // end for ?>
@@ -659,7 +659,7 @@ Class BP_XProfile_Field {
 				?>
 					
 					<p><?php _e('Option', 'buddypress') ?> 1: <input type="text" name="<?php echo $type ?>_option[1]" id="<?php echo $type ?>_option1" />
-					<input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" id="isDefault_<?php echo $type ?>_option" <?php if ( $options[$i]->sort_order == 'CHECKED' ) {?> checked="checked"<?php } ?>" value="1" /> Default Value
+					<input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" id="isDefault_<?php echo $type ?>_option" <?php if ( $options[$i]->sort_order == 'CHECKED' ) {?> checked="checked"<?php } ?>" value="1" /> <?php _e( 'Default Value', 'buddypress' ) ?>
 					<input type="hidden" name="<?php echo $type ?>_option_number" id="<?php echo $type ?>_option_number" value="2" />
 				
 				<?php } // end if ?>
@@ -715,21 +715,21 @@ Class BP_XProfile_Field {
 				<div id="titlediv">
 					<h3><label for="required"><?php _e("Is This Field Required?", 'buddypress') ?> *</label></h3>
 					<select name="required" id="required" style="width: 30%">
-						<option value="0"<?php if ( $this->is_required == '0' ) { ?> selected="selected"<?php } ?>>Not Required</option>
-						<option value="1"<?php if ( $this->is_required == '1' ) { ?> selected="selected"<?php } ?>>Required</option>
+						<option value="0"<?php if ( $this->is_required == '0' ) { ?> selected="selected"<?php } ?>><?php _e( 'Not Required', 'buddypress' ) ?></option>
+						<option value="1"<?php if ( $this->is_required == '1' ) { ?> selected="selected"<?php } ?>><?php _e( 'Required', 'buddypress' ) ?></option>
 					</select>
 				</div>
 
 				<div id="titlediv">
 					<h3><label for="fieldtype"><?php _e("Field Type", 'buddypress') ?> *</label></h3>
 					<select name="fieldtype" id="fieldtype" onchange="show_options(this.value)" style="width: 30%">
-						<option value="textbox"<?php if ( $this->type == 'textbox' ) {?> selected="selected"<?php } ?>>Text Box</option>
-						<option value="textarea"<?php if ( $this->type == 'textarea' ) {?> selected="selected"<?php } ?>>Multi-line Text Box</option>
-						<option value="datebox"<?php if ( $this->type == 'datebox' ) {?> selected="selected"<?php } ?>>Date Selector</option>
-						<option value="radio"<?php if ( $this->type == 'radio' ) {?> selected="selected"<?php } ?>>Radio Buttons</option>
-						<option value="selectbox"<?php if ( $this->type == 'selectbox' ) {?> selected="selected"<?php } ?>>Drop-down Select Box</option>
-						<option value="multiselectbox"<?php if ( $this->type == 'multiselectbox' ) {?> selected="selected"<?php } ?>>Multi Select Box</option>
-						<option value="checkbox"<?php if ( $this->type == 'checkbox' ) {?> selected="selected"<?php } ?>>Checkboxes</option>
+						<option value="textbox"<?php if ( $this->type == 'textbox' ) {?> selected="selected"<?php } ?>><?php _e( 'Text Box', 'buddypress' ) ?></option>
+						<option value="textarea"<?php if ( $this->type == 'textarea' ) {?> selected="selected"<?php } ?>><?php _e( 'Multi-line Text Box', 'buddypress' ) ?></option>
+						<option value="datebox"<?php if ( $this->type == 'datebox' ) {?> selected="selected"<?php } ?>><?php _e( 'Date Selector', 'buddypress' ) ?></option>
+						<option value="radio"<?php if ( $this->type == 'radio' ) {?> selected="selected"<?php } ?>><?php _e( 'Radio Buttons', 'buddypress' ) ?></option>
+						<option value="selectbox"<?php if ( $this->type == 'selectbox' ) {?> selected="selected"<?php } ?>><?php _e( 'Drop Down Select Box', 'buddypress' ) ?></option>
+						<option value="multiselectbox"<?php if ( $this->type == 'multiselectbox' ) {?> selected="selected"<?php } ?>><?php _e( 'Multi Select Box', 'buddypress' ) ?></option>
+						<option value="checkbox"<?php if ( $this->type == 'checkbox' ) {?> selected="selected"<?php } ?>><?php _e( 'Checkboxes', 'buddypress' ) ?></option>
 					</select>
 				</div>
 
@@ -801,8 +801,8 @@ Class BP_XProfile_Field {
 									<label for="required">* <?php _e("Is This Field Required?", 'buddypress') ?></label>
 									<div>
 										<select name="required" id="required">
-											<option value="0"<?php if ( $this->is_required == '0' ) { ?> selected="selected"<?php } ?>>Not Required</option>
-											<option value="1"<?php if ( $this->is_required == '1' ) { ?> selected="selected"<?php } ?>>Required</option>
+											<option value="0"<?php if ( $this->is_required == '0' ) { ?> selected="selected"<?php } ?>><?php _e( 'Not Required', 'buddypress' ) ?></option>
+											<option value="1"<?php if ( $this->is_required == '1' ) { ?> selected="selected"<?php } ?>><?php _e( 'Required', 'buddypress' ) ?></option>
 										</select>
 									</div>
 									<p></p>
@@ -810,17 +810,17 @@ Class BP_XProfile_Field {
 									<div>
 										<select name="fieldtype" id="fieldtype" onchange="show_options(this.value)">
 											<?php if (in_array('textbox', $field_data['Types'])) { ?>
-												<option value="textbox"<?php if ( $this->type == 'textbox' ) {?> selected="selected"<?php } ?>>Text Box</option>
+												<option value="textbox"<?php if ( $this->type == 'textbox' ) {?> selected="selected"<?php } ?>><?php _e( 'Text Box', 'buddypress' ) ?></option>
 											<?php } if (in_array('textarea', $field_data['Types'])) { ?>
-												<option value="textarea"<?php if ( $this->type == 'textarea' ) {?> selected="selected"<?php } ?>>Multi-line Text Box</option>
+												<option value="textarea"<?php if ( $this->type == 'textarea' ) {?> selected="selected"<?php } ?>><?php _e( 'Multi-line Text Box', 'buddypress' ) ?></option>
 											<?php } if (in_array('datebox', $field_data['Types'])) { ?>
-												<option value="datebox"<?php if ( $this->type == 'datebox' ) {?> selected="selected"<?php } ?>>Date Selector</option>
+												<option value="datebox"<?php if ( $this->type == 'datebox' ) {?> selected="selected"<?php } ?>><?php _e( 'Date Selector', 'buddypress' ) ?></option>
 											<?php } if (in_array('radio', $field_data['Types'])) { ?>
-												<option value="radio"<?php if ( $this->type == 'radio' ) {?> selected="selected"<?php } ?>>Radio Buttons</option>
+												<option value="radio"<?php if ( $this->type == 'radio' ) {?> selected="selected"<?php } ?>><?php _e( 'Radio Buttons', 'buddypress' ) ?></option>
 											<?php } if (in_array('selectbox', $field_data['Types'])) { ?>
-												<option value="selectbox"<?php if ( $this->type == 'selectbox' ) {?> selected="selected"<?php } ?>>Drop-down Select Box</option>
+												<option value="selectbox"<?php if ( $this->type == 'selectbox' ) {?> selected="selected"<?php } ?>><?php _e( 'Drop Down Select Box', 'buddypress' ) ?></option>
 											<?php } if (in_array('multiselectbox', $field_data['Types'])) { ?>
-												<option value="multiselectbox"<?php if ( $this->type == 'multiselectbox' ) {?> selected="selected"<?php } ?>>Multi Select Box</option>
+												<option value="multiselectbox"<?php if ( $this->type == 'multiselectbox' ) {?> selected="selected"<?php } ?>><?php _e( 'Multi Select Box', 'buddypress' ) ?></option>
 											<?php } ?>
 										</select>
 									</div>
