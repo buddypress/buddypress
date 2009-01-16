@@ -7,7 +7,7 @@
 table { border-collapse:collapse; border-spacing:0 }
 fieldset, img { border:0 }
 address, caption, cite, code, dfn, em, strong, th, var { font-style:normal; font-weight:normal }
-ol, ul, li { list-style:none }
+ul { list-style:none }
 caption, th { text-align:left }
 h1, h2, h3, h4, h5, h6 { font-size:100%; font-weight: normal; }
 q:before, q:after { content:'' }
@@ -386,6 +386,102 @@ h4.archive {
 	padding-bottom: 0.5em;
 	margin: -1em 0 1em 0;
 }
+
+
+/**** POST CONTENT STYLES (WORDPRESS STYLES) *****/
+
+	.entry blockquote { width: 230px; font-style: normal !important; font-size: 1.1em !important; margin: 5px 15px 5px 0 !important; padding: 0.5em !important; background: #eee; text-align: center; float: left; }
+	.entry blockquote.right { width: 230px; font-style: normal !important; font-size: 1.3em !important; margin: 5px 0 5px 15px !important; padding: 0.5em !important; background: #eee; border-width: 3px 0; text-align: center; float: right; }
+
+	.entry p { margin: 0 0 15px 0; }
+
+	.entry ul, .entry ol { margin: 0 0 15px 40px; }
+	.entry ul { list-style: disc; }
+
+		.entry li { margin: 0 0 5px 0; }
+			.entry ul li ul, .entry ul li ol, .entry ol li ul, .entry ol li ol { margin: 5px 0 5px 30px; }
+
+	.entry dl { margin: 0 0 15px 0; }
+		.entry dt { font-weight: bold; }
+		.entry dd { margin: 0 0 15px 20px; }
+		.entry .gallery dd { margin: 0; }
+
+	.entry .ad { margin: 0 0 15px 15px; float: right; }
+
+	.entry .ad_left { margin: 0 15px 15px 0; float: left; }
+
+	.entry a img { border: 0; }
+
+	.entry img.left { padding: 3px; margin: 5px 15px 5px 0; border: 3px double #bbb; float: left; clear: left; }
+
+	.entry img.right { padding: 3px; margin: 5px 0 5px 15px; border: 3px double #bbb; float: right; clear: right; }
+
+	.entry img.center { display: block; padding: 3px; margin: 0 auto 15px auto; border: 3px double #bbb; float: none; clear: both; }
+
+	.entry img.off { padding: 0 !important; border: none !important; }
+
+	.entry img.stack { clear: none !important; }
+
+	.entry img.wp-smiley { padding: 0 !important; margin: 0 !important; border: none !important; float: none !important; clear: none !important; }
+
+	.entry img.centered, img.aligncenter {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.entry img.alignright {
+		padding: 4px;
+		margin: 0 0 2px 7px;
+		display: inline;
+	}
+
+	.entry img.alignleft {
+		padding: 4px;
+		margin: 0 7px 2px 0;
+		display: inline;
+	}
+
+	.entry .alignright {
+		float: right;
+	}
+
+	.entry .alignleft {
+		float: left;
+	}
+	
+	.entry .aligncenter, .entry div.aligncenter {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.entry .wp-caption {
+		border: 1px solid #ddd;
+		text-align: center;
+		background-color: #f3f3f3;
+		padding-top: 4px;
+		margin: 10px;
+		-moz-border-radius: 3px;
+		-khtml-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+	}
+
+	.entry .wp-caption img {
+		margin: 0;
+		padding: 0;
+		border: 0 none;
+	}
+
+	.entry dd.wp-caption p.wp-caption-text, .entry .wp-caption p.wp-caption-text {
+		font-size: 11px;
+		line-height: 17px;
+		padding: 0 4px 5px 0;
+		margin: 0;
+	}
+
+/*** COMMENT FORM STYLES ****/
 
 textarea#comment {
 	width: 100%;
