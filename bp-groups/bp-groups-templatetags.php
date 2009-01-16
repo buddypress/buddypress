@@ -824,7 +824,7 @@ function bp_group_create_form() {
 				<p><input type="submit" value="<?php _e('Save and Continue', 'buddypress') ?> &raquo;" id="save" name="save"/></p>
 			<?php } else { ?>
 				<div id="message" class="info">
-					<p>Please complete all previous steps first.</p>
+					<p><?php _e('Please complete all previous steps first.', 'buddypress'); ?></p>
 				</div>
 			<?php } ?>
 		<?php break; ?>
@@ -856,7 +856,7 @@ function bp_group_create_form() {
 				</div>
 			<?php } else { ?>
 				<div id="message" class="info">
-					<p>Please complete all previous steps first.</p>
+					<p><?php _e('Please complete all previous steps first.', 'buddypress'); ?></p>
 				</div>
 			<?php } ?>
 		<?php break; ?>
@@ -881,7 +881,7 @@ function bp_group_create_form() {
 				<?php
 			} else { ?>
 				<div id="message" class="info">
-					<p>Please complete all previous steps first.</p>
+					<p><?php _e('Please complete all previous steps first.', 'buddypress'); ?></p>
 				</div>
 		<?php } ?>
 		<?php break; ?>
