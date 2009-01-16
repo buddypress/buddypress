@@ -26,6 +26,15 @@ add_filter( 'bp_forums_new_post_text', 'bp_forums_filter_encode' );
 add_filter( 'bp_the_topic_post_content', 'bp_forums_filter_decode' );
 add_filter( 'bp_the_topic_latest_post_excerpt', 'bp_forums_filter_decode' );
 
+function bp_forums_add_allowed_tags( $allowedtags ) {
+	$allowedtags['p'] = array();
+	$allowedtags['br'] = array();
+	
+	return $allowedtags;
+}
+add_filter( 'edit_allowedtags', 'bp_forums_add_allowed_tags' );
+
+
 function bp_forums_filter_encode( $content ) {
 	$content = htmlentities( $content, ENT_COMPAT, "UTF-8" );
 	$content = str_replace( '&', '/amp/', $content );
