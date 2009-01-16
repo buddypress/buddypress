@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-01-14 14:11+0000\n"
+"POT-Creation-Date: 2009-01-16 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -85,7 +85,7 @@ msgstr ""
 msgid "Site Wide Activity Feed"
 msgstr ""
 
-#: bp-blogs.php:162 bp-core/bp-core-templatetags.php:476
+#: bp-blogs.php:162 bp-core/bp-core-templatetags.php:471
 #: buddypress-theme/buddypress-home/header.php:72
 #: buddypress-theme/member-themes/buddypress-member/header.php:70
 msgid "Blogs"
@@ -146,7 +146,7 @@ msgstr ""
 #: bp-blogs/directories/bp-blogs-directory-blogs.php:106
 #: bp-blogs/directories/bp-blogs-directory-blogs.php:174
 #: bp-core/bp-core-ajax.php:38 bp-core/bp-core-ajax.php:112
-#: bp-core/bp-core-classes.php:67 bp-core/bp-core-templatetags.php:270
+#: bp-core/bp-core-classes.php:67 bp-core/bp-core-templatetags.php:265
 #: bp-core/directories/bp-core-directory-members.php:105
 #: bp-core/directories/bp-core-directory-members.php:169
 #: bp-groups/bp-groups-ajax.php:25 bp-groups/bp-groups-ajax.php:87
@@ -340,84 +340,84 @@ msgstr ""
 msgid "There are no blogs to feature."
 msgstr ""
 
-#: bp-core.php:253 bp-core/bp-core-adminbar.php:27
+#: bp-core.php:250 bp-core/bp-core-adminbar.php:27
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core.php:290 bp-xprofile.php:236 bp-xprofile.php:328
+#: bp-core.php:287 bp-xprofile.php:236 bp-xprofile.php:328
 msgid "Profile"
 msgstr ""
 
-#: bp-core.php:296 bp-groups/bp-groups-templatetags.php:316
+#: bp-core.php:293 bp-groups/bp-groups-templatetags.php:316
 #: bp-xprofile.php:242
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:300 bp-xprofile.php:248
+#: bp-core.php:297 bp-xprofile.php:248
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:721 bp-core/bp-core-templatetags.php:313
+#: bp-core.php:718 bp-core/bp-core-templatetags.php:308
 msgid "at"
 msgstr ""
 
-#: bp-core.php:842
+#: bp-core.php:839
 msgid "year"
 msgstr ""
 
-#: bp-core.php:842
+#: bp-core.php:839
 msgid "years"
 msgstr ""
 
-#: bp-core.php:843
+#: bp-core.php:840
 msgid "month"
 msgstr ""
 
-#: bp-core.php:843
+#: bp-core.php:840
 msgid "months"
 msgstr ""
 
-#: bp-core.php:844
+#: bp-core.php:841
 msgid "week"
 msgstr ""
 
-#: bp-core.php:844
+#: bp-core.php:841
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:845
+#: bp-core.php:842
 msgid "day"
 msgstr ""
 
-#: bp-core.php:845
+#: bp-core.php:842
 msgid "days"
 msgstr ""
 
-#: bp-core.php:846
+#: bp-core.php:843
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:846
+#: bp-core.php:843
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:847
+#: bp-core.php:844
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:847
+#: bp-core.php:844
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:848 bp-core.php:882
+#: bp-core.php:845 bp-core.php:879
 msgid "second"
 msgstr ""
 
-#: bp-core.php:848
+#: bp-core.php:845
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:931
+#: bp-core.php:928
 msgid "not recently active"
 msgstr ""
 
@@ -582,7 +582,7 @@ msgid "My Account"
 msgstr ""
 
 #: bp-core/bp-core-adminbar.php:83 bp-core/bp-core-adminbar.php:85
-#: bp-core/bp-core-templatetags.php:57 bp-core/bp-core-templatetags.php:59
+#: bp-core/bp-core-templatetags.php:52 bp-core/bp-core-templatetags.php:54
 #: buddypress-theme/buddypress-home/header.php:50
 #: buddypress-theme/buddypress-home/header.php:52
 #: buddypress-theme/member-themes/buddypress-member/header.php:48
@@ -1047,11 +1047,11 @@ msgid ""
 "em></p>"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:178
+#: bp-core/bp-core-templatetags.php:173
 msgid "Options"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:468 bp-core/bp-core-widgets.php:12
+#: bp-core/bp-core-templatetags.php:463 bp-core/bp-core-widgets.php:12
 #: bp-core/bp-core-widgets.php:13 bp-groups.php:268
 #: bp-groups/bp-groups-admin.php:97
 #: bp-groups/directories/bp-groups-directory-groups.php:180
@@ -1061,7 +1061,7 @@ msgstr ""
 msgid "Members"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:472 bp-groups.php:158 bp-groups.php:196
+#: bp-core/bp-core-templatetags.php:467 bp-groups.php:158 bp-groups.php:196
 #: bp-groups.php:759 bp-groups.php:965 bp-groups.php:977 bp-groups.php:990
 #: bp-groups.php:1002 bp-groups/bp-groups-admin.php:33
 #: bp-groups/bp-groups-widgets.php:8 bp-groups/bp-groups-widgets.php:9
@@ -1070,7 +1070,7 @@ msgstr ""
 msgid "Groups"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:490
+#: bp-core/bp-core-templatetags.php:485
 msgid "Search"
 msgstr ""
 
@@ -1899,7 +1899,8 @@ msgstr ""
 msgid "Admins"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:132
+#: bp-groups/bp-groups-admin.php:132 bp-xprofile/bp-xprofile-admin.php:76
+#: bp-xprofile/bp-xprofile-admin.php:99
 msgid "Edit"
 msgstr ""
 
@@ -2651,6 +2652,7 @@ msgstr ""
 
 #: bp-messages/bp-messages-templatetags.php:229
 #: bp-wire/bp-wire-templatetags.php:306 bp-wire/bp-wire-templatetags.php:308
+#: bp-xprofile/bp-xprofile-admin.php:77 bp-xprofile/bp-xprofile-admin.php:100
 #: buddypress-theme/member-themes/buddypress-member/messages/index.php:38
 #: buddypress-theme/member-themes/buddypress-member/messages/notices.php:33
 #: buddypress-theme/member-themes/buddypress-member/messages/sentbox.php:31
@@ -2782,6 +2784,36 @@ msgstr ""
 msgid "NOTE: Fields in the 'Basic' group appear on the signup page."
 msgstr ""
 
+#: bp-xprofile/bp-xprofile-admin.php:83
+msgid "Field Name"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-admin.php:84
+#: bp-xprofile/bp-xprofile-classes.php:724
+#: bp-xprofile/bp-xprofile-classes.php:809
+msgid "Field Type"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-admin.php:85
+msgid "Required?"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-admin.php:86
+msgid "Action"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-admin.php:106
+msgid "There are no fields in this group."
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-admin.php:110
+msgid "Add New Field"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-admin.php:119 bp-xprofile/bp-xprofile-admin.php:124
+msgid "Add New Group"
+msgstr ""
+
 #: bp-xprofile/bp-xprofile-admin.php:149
 msgid "There was an error saving the group. Please try again"
 msgstr ""
@@ -2892,9 +2924,26 @@ msgstr ""
 msgid "Please enter options for this Field:"
 msgstr ""
 
+#: bp-xprofile/bp-xprofile-classes.php:632
+msgid "Order Entered"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-classes.php:633
+msgid "Name - Ascending"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-classes.php:634
+msgid "Name - Descending"
+msgstr ""
+
 #: bp-xprofile/bp-xprofile-classes.php:647
 #: bp-xprofile/bp-xprofile-classes.php:661
 msgid "Option"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-classes.php:649
+#: bp-xprofile/bp-xprofile-classes.php:662
+msgid "Default Value"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-classes.php:667
@@ -2924,9 +2973,48 @@ msgstr ""
 msgid "Is This Field Required?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:724
-#: bp-xprofile/bp-xprofile-classes.php:809
-msgid "Field Type"
+#: bp-xprofile/bp-xprofile-classes.php:718
+#: bp-xprofile/bp-xprofile-classes.php:804
+msgid "Not Required"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-classes.php:719
+#: bp-xprofile/bp-xprofile-classes.php:805
+msgid "Required"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-classes.php:726
+#: bp-xprofile/bp-xprofile-classes.php:813
+msgid "Text Box"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-classes.php:727
+#: bp-xprofile/bp-xprofile-classes.php:815
+msgid "Multi-line Text Box"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-classes.php:728
+#: bp-xprofile/bp-xprofile-classes.php:817
+msgid "Date Selector"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-classes.php:729
+#: bp-xprofile/bp-xprofile-classes.php:819
+msgid "Radio Buttons"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-classes.php:730
+#: bp-xprofile/bp-xprofile-classes.php:821
+msgid "Drop Down Select Box"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-classes.php:731
+#: bp-xprofile/bp-xprofile-classes.php:823
+msgid "Multi Select Box"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-classes.php:732
+msgid "Checkboxes"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-classes.php:739
