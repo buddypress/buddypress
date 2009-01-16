@@ -71,11 +71,7 @@
 <h3 id="respond">Leave a Reply</h3>
 
 <?php if ( get_option('comment_registration') && !$user_ID ) : ?>
-<<<<<<< .mine
 <p>You must be <a href="<?php echo get_option('siteurl'); ?>/wp-login.php?redirect_to=<?php echo urlencode(get_permalink()); ?>">logged in</a> to post a comment.</p>
-=======
-<p>You must be <a href="<?php echo site_url(); ?>/wp-login.php?redirect_to=<?php the_permalink(); ?>">logged in</a> to post a comment.</p>
->>>>>>> .r392
 <?php else : ?>
 
 <form action="<?php echo site_url(); ?>/wp-comments-post.php" method="post" id="commentform">
