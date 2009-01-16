@@ -11,4 +11,6 @@ add_filter( 'bp_activity_content', 'wpautop' );
 
 add_filter( 'bp_activity_content', 'stripslashes_deep' );
 
+add_filter( 'bp_activity_content', 'make_clickable' );
+
 ?>

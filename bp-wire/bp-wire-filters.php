@@ -11,4 +11,6 @@ add_filter( 'bp_wire_post_content', 'wpautop' );
 
 add_filter( 'bp_wire_post_content', 'stripslashes_deep' );
 
+add_filter( 'bp_wire_post_content', 'make_clickable' );
+
 ?>

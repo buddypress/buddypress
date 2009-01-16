@@ -1,4 +1,11 @@
 <?php
+
+/* BuddyPress filters */
+add_filter( 'bp_forums_new_post_text', 'bp_forums_filter_encode' );
+
+add_filter( 'bp_the_topic_post_content', 'bp_forums_filter_decode' );
+add_filter( 'bp_the_topic_latest_post_excerpt', 'bp_forums_filter_decode' );
+
 /* Apply WordPress defined filters */
 add_filter( 'bp_the_topic_title', 'wptexturize' );
 add_filter( 'bp_the_topic_poster_name', 'wptexturize' );
@@ -20,11 +27,7 @@ add_filter( 'bp_the_topic_post_content', 'stripslashes_deep' );
 add_filter( 'bp_the_topic_title', 'stripslashes_deep' );
 add_filter( 'bp_the_topic_latest_post_excerpt', 'stripslashes_deep' );
 
-/* BuddyPress filters */
-add_filter( 'bp_forums_new_post_text', 'bp_forums_filter_encode' );
-
-add_filter( 'bp_the_topic_post_content', 'bp_forums_filter_decode' );
-add_filter( 'bp_the_topic_latest_post_excerpt', 'bp_forums_filter_decode' );
+add_filter( 'bp_the_topic_post_content', 'make_clickable' );
 
 function bp_forums_add_allowed_tags( $allowedtags ) {
 	$allowedtags['p'] = array();
@@ -47,8 +50,8 @@ function bp_forums_filter_decode( $content ) {
 	$content = html_entity_decode( $content, ENT_COMPAT, "UTF-8" );
 	$content = str_replace( '[', '<', $content );
 	$content = str_replace( ']', '>', $content );
-	$content = wp_filter_kses( $content );
-	
+	$content = stripslashes( wp_filter_kses( $content ) );
+		
 	return $content;
 }
 

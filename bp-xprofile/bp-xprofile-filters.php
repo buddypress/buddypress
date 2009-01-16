@@ -5,6 +5,7 @@ add_filter( 'bp_the_profile_field_value', 'wptexturize' );
 add_filter( 'bp_the_profile_field_value', 'convert_smilies' );
 add_filter( 'bp_the_profile_field_value', 'convert_chars' );
 add_filter( 'bp_the_profile_field_value', 'wpautop' );
+add_filter( 'bp_the_profile_field_value', 'make_clickable' );
 add_filter( 'bp_the_profile_field_value', 'xprofile_filter_format_field_value', 1, 2 );
 
 add_filter( 'bp_the_profile_field_type', 'wptexturize' );
