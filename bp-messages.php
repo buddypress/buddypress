@@ -360,9 +360,9 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 	
 	if ( $action == 'new_message') {
 		if ( (int)$total_items > 1 )
-			return '<a href="' . $bp['loggedin_domain'] . $bp['messages']['slug'] . '/inbox" title="Inbox">' . sprintf( __('You have %d new messages'), (int)$total_items ) . '</a>';		
+			return apply_filters( 'bp_messages_multiple_new_message_notification', '<a href="' . $bp['loggedin_domain'] . $bp['messages']['slug'] . '/inbox" title="Inbox">' . sprintf( __('You have %d new messages'), (int)$total_items ) . '</a>', $total_items );		
 		else
-			return '<a href="' . $bp['loggedin_domain'] . $bp['messages']['slug'] . '/inbox" title="Inbox">' . sprintf( __('You have %d new message'), (int)$total_items ) . '</a>';
+			return apply_filters( 'bp_messages_single_new_message_notification', '<a href="' . $bp['loggedin_domain'] . $bp['messages']['slug'] . '/inbox" title="Inbox">' . sprintf( __('You have %d new message'), (int)$total_items ) . '</a>', $total_items );
 	}
 }
 

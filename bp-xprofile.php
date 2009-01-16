@@ -516,22 +516,33 @@ function xprofile_format_activity( $item_id, $user_id, $action, $secondary_item_
 			
 			if ( !$wire_post )
 				return false;
-
+			
 			if ( ( $wire_post->item_id == $bp['loggedin_userid'] && $wire_post->user_id == $bp['loggedin_userid'] ) || ( $wire_post->item_id == $bp['current_userid'] && $wire_post->user_id == $bp['current_userid'] ) ) {
 				
-				$content = sprintf( __('%s wrote on their own wire', 'buddypress'), bp_core_get_userlink($wire_post->user_id) ) . ': <span class="time-since">%s</span>';				
+				$from_user_link = bp_core_get_userlink($wire_post->user_id);
+				$to_user_link = false;
+								
+				$content = sprintf( __('%s wrote on their own wire', 'buddypress'), $from_user_link ) . ': <span class="time-since">%s</span>';				
 				$return_values['primary_link'] = bp_core_get_userlink( $wire_post->user_id, false, true );
 			
 			} else if ( ( $wire_post->item_id != $bp['loggedin_userid'] && $wire_post->user_id == $bp['loggedin_userid'] ) || ( $wire_post->item_id != $bp['current_userid'] && $wire_post->user_id == $bp['current_userid'] ) ) {
 			
-				$content = sprintf( __('%s wrote on %s wire', 'buddypress'), bp_core_get_userlink($wire_post->user_id), bp_core_get_userlink( $wire_post->item_id, false, false, true, true ) ) . ': <span class="time-since">%s</span>';			
+				$from_user_link = bp_core_get_userlink($wire_post->user_id);
+				$to_user_link = bp_core_get_userlink( $wire_post->item_id, false, false, true, true );
+				
+				$content = sprintf( __('%s wrote on %s wire', 'buddypress'), $from_user_link, $to_user_link ) . ': <span class="time-since">%s</span>';			
 				$return_values['primary_link'] = bp_core_get_userlink( $wire_post->item_id, false, true );
 			
 			} 
 			
 			if ( $content != '' ) {
-				$content .= '<blockquote>' . bp_create_excerpt($wire_post->content) . '</blockquote>';
+				$post_excerpt = bp_create_excerpt($wire_post->content);
+				
+				$content .= '<blockquote>' . $post_excerpt . '</blockquote>';
 				$return_values['content'] = $content;
+				
+				$return_values['content'] = apply_filters( 'bp_xprofile_new_wire_post_activity', $content, $from_user_link, $to_user_link, $post_excerpt );
+				
 				return $return_values;
 			} 
 			
@@ -543,9 +554,11 @@ function xprofile_format_activity( $item_id, $user_id, $action, $secondary_item_
 			if ( !$profile_group )
 				return false;
 			
+			$user_link = bp_core_get_userlink($user_id);
+			
 			return array( 
 				'primary_link' => bp_core_get_userlink( $user_id, false, true ),
-				'content' => sprintf( __('%s updated the "%s" information on their profile', 'buddypress'), bp_core_get_userlink($user_id), '<a href="' . $bp['current_domain'] . $bp['profile']['slug'] . '">' . $profile_group->name . '</a>' ) . ' <span class="time-since">%s</span>'
+				'content' => apply_filters( 'bp_xprofile_updated_profile_activity', sprintf( __('%s updated the "%s" information on their profile', 'buddypress'), $user_link, '<a href="' . $bp['current_domain'] . $bp['profile']['slug'] . '">' . $profile_group->name . '</a>' ) . ' <span class="time-since">%s</span>', $user_link, $profile_group->name )
 			);
 		break;
 	}
@@ -571,10 +584,10 @@ function xprofile_format_notifications( $action, $item_id, $secondary_item_id, $
 
 	if ( $action == 'new_wire_post') {
 		if ( (int)$total_items > 1 ) {
-			return '<a href="' . $bp['loggedin_domain'] . $bp['wire']['slug'] . '" title="Wire">' . sprintf( __('You have %d new posts on your wire'), (int)$total_items ) . '</a>';		
+			return apply_filters( 'bp_xprofile_multiple_new_wire_post_notification', '<a href="' . $bp['loggedin_domain'] . $bp['wire']['slug'] . '" title="Wire">' . sprintf( __('You have %d new posts on your wire'), (int)$total_items ) . '</a>', $total_items );		
 		} else {
 			$user_fullname = bp_core_global_user_fullname( $item_id );
-			return '<a href="' . $bp['loggedin_domain'] . $bp['wire']['slug'] . '" title="Wire">' . sprintf( __('%s posted on your wire'), $user_fullname ) . '</a>';
+			return apply_filters( 'bp_xprofile_single_new_wire_post_notification', '<a href="' . $bp['loggedin_domain'] . $bp['wire']['slug'] . '" title="Wire">' . sprintf( __('%s posted on your wire'), $user_fullname ) . '</a>', $user_fullname );
 		}
 	}
 	

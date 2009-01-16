@@ -865,10 +865,13 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 			
 			if ( !$group )
 				return false;
+				
+			$user_link = bp_core_get_userlink($user_id);
+			$group_link = bp_group_permalink( $group, false );
 			
 			return array( 
 				'primary_link' => bp_group_permalink( $group, false ),
-				'content' => sprintf( __('%s joined the group %s', 'buddypress'), bp_core_get_userlink($user_id),  '<a href="' . bp_group_permalink( $group, false ) . '">' . $group->name . '</a>' ) . ' <span class="time-since">%s</span>'
+				'content' => apply_filters( 'bp_groups_joined_group_activity', sprintf( __('%s joined the group %s', 'buddypress'), $user_link,  '<a href="' . $group_link . '">' . $group->name . '</a>' ) . ' <span class="time-since">%s</span>', $user_link, $group_link, $group->name )
 			);				
 		break;
 		case 'created_group':
@@ -877,9 +880,12 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 			if ( !$group )
 				return false;
 			
+			$user_link = bp_core_get_userlink($user_id);
+			$group_link = bp_group_permalink( $group, false );
+			
 			return array( 
 				'primary_link' => bp_group_permalink( $group, false ),
-				'content' => sprintf( __('%s created the group %s', 'buddypress'), bp_core_get_userlink($user_id), '<a href="' . bp_group_permalink( $group, false ) . '">' . $group->name . '</a>') . ' <span class="time-since">%s</span>'
+				'content' => apply_filters( 'bp_groups_created_group_activity', sprintf( __('%s created the group %s', 'buddypress'), $user_link, '<a href="' . $group_link . '">' . $group->name . '</a>') . ' <span class="time-since">%s</span>', $user_link, $group_link, $group->name )
 			);
 		break;
 		case 'new_wire_post':
@@ -888,9 +894,15 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 			
 			if ( !$group || !$wire_post || !$wire_post->content )
 				return false;		
+
+			$user_link = bp_core_get_userlink($user_id);
+			$group_link = bp_group_permalink( $group, false );
+			$post_excerpt = bp_create_excerpt($wire_post->content);
 					
-			$content = sprintf ( __('%s wrote on the wire of the group %s', 'buddypress'), bp_core_get_userlink($user_id), '<a href="' . bp_group_permalink( $group, false ) . '">' . $group->name . '</a>' ) . ' <span class="time-since">%s</span>';			
-			$content .= '<blockquote>' . bp_create_excerpt($wire_post->content) . '</blockquote>';
+			$content = sprintf ( __('%s wrote on the wire of the group %s', 'buddypress'), $user_link, '<a href="' . $group_link . '">' . $group->name . '</a>' ) . ' <span class="time-since">%s</span>';			
+			$content .= '<blockquote>' . $post_excerpt . '</blockquote>';
+			
+			$content = apply_filters( 'bp_groups_new_wire_post_activity', $content, $user_link, $group_link, $group->name, $post_excerpt );
 			
 			return array( 
 				'primary_link' => bp_group_permalink( $group, false ),
@@ -906,8 +918,15 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 				if ( !$group || !$forum_post || !$forum_topic )
 					return false;		
 
-				$content = sprintf ( __('%s posted on the forum topic %s in the group %s:', 'buddypress'), bp_core_get_userlink($user_id), '<a href="' . bp_group_permalink( $group, false ) . '/forum/topic/' . $forum_topic['topic_id'] . '">' . $forum_topic['topic_title'] . '</a>', '<a href="' . bp_group_permalink( $group, false ) . '">' . $group->name . '</a>' ) . ' <span class="time-since">%s</span>';			
-				$content .= '<blockquote>' . apply_filters( 'bp_the_topic_post_content', stripslashes( $forum_post['post_text'] ) ) . '</blockquote>';
+				$user_link = bp_core_get_userlink($user_id);
+				$group_link = bp_group_permalink( $group, false );
+				
+				$post_content = apply_filters( 'bp_the_topic_post_content', stripslashes( $forum_post['post_text'] ) );
+			
+				$content = sprintf ( __('%s posted on the forum topic %s in the group %s:', 'buddypress'), $user_link, '<a href="' . $group_link . '/forum/topic/' . $forum_topic['topic_id'] . '">' . $forum_topic['topic_title'] . '</a>', '<a href="' . $group_link . '">' . $group->name . '</a>' ) . ' <span class="time-since">%s</span>';			
+				$content .= '<blockquote>' . $post_content . '</blockquote>';
+				
+				$content = apply_filters( 'bp_groups_new_forum_post_activity', $content, $user_link, $group_link, $forum_topic['topic_id'], $forum_topic['topic_title'], $group_link, $group->name, $post_content );
 
 				return array( 
 					'primary_link' => bp_group_permalink( $group, false ),
@@ -922,10 +941,17 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 				$forum_post = bp_forums_get_post( $forum_topic['topic_last_post_id'] );
 
 				if ( !$group || !$forum_post || !$forum_topic )
-					return false;		
-
-				$content = sprintf ( __('%s created the forum topic %s in the group %s:', 'buddypress'), bp_core_get_userlink($user_id), '<a href="' . bp_group_permalink( $group, false ) . '/forum/topic/' . $forum_topic['topic_id'] . '">' . $forum_topic['topic_title'] . '</a>', '<a href="' . bp_group_permalink( $group, false ) . '">' . $group->name . '</a>' ) . ' <span class="time-since">%s</span>';			
-				$content .= '<blockquote>' . apply_filters( 'bp_the_topic_post_content', stripslashes( $forum_post['post_text'] ) ) . '</blockquote>';
+					return false;
+					
+				$user_link = bp_core_get_userlink($user_id);
+				$group_link = bp_group_permalink( $group, false );
+				
+				$post_content = apply_filters( 'bp_the_topic_post_content', stripslashes( $forum_post['post_text'] ) );
+				
+				$content = sprintf ( __('%s created the forum topic %s in the group %s:', 'buddypress'), $uesr_link, '<a href="' . $group_link . '/forum/topic/' . $forum_topic['topic_id'] . '">' . $forum_topic['topic_title'] . '</a>', '<a href="' . $group_link . '">' . $group->name . '</a>' ) . ' <span class="time-since">%s</span>';			
+				$content .= '<blockquote>' . $post_content . '</blockquote>';
+				
+				$content = apply_filters( 'bp_groups_new_forum_topic_activity', $content, $user_link, $group_link, $forum_topic['topic_id'], $forum_topic['topic_title'], $group_link, $group->name, $post_content );
 
 				return array( 
 					'primary_link' => bp_group_permalink( $group, false ),
@@ -948,11 +974,13 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			
 			$group = new BP_Groups_Group( $group_id, false, false );
 			
+			$group_link = bp_group_permalink( $group, false );
+			
 			if ( (int)$total_items > 1 ) {
-				return '<a href="' . bp_group_permalink( $group, false ) . '/admin/membership-requests/" title="' . __( 'Group Membership Requests', 'buddypress' ) . '">' . sprintf( __('%d new membership requests for the group "%s"'), (int)$total_items, $group->name ) . '</a>';		
+				return apply_filters( 'bp_groups_multiple_new_membership_requests_notification', '<a href="' . $group_link . '/admin/membership-requests/" title="' . __( 'Group Membership Requests', 'buddypress' ) . '">' . sprintf( __('%d new membership requests for the group "%s"'), (int)$total_items, $group->name ) . '</a>', $group_link, $total_items, $group->name );		
 			} else {
 				$user_fullname = bp_core_global_user_fullname( $requesting_user_id );
-				return '<a href="' . bp_group_permalink( $group, false ) . '/admin/membership-requests/" title="' . $user_fullname .' requests group membership">' . sprintf( __('%s requests membership for the group "%s"'), $user_fullname, $group->name ) . '</a>';
+				return apply_filters( 'bp_groups_single_new_membership_request_notification', '<a href="' . $group_link . '/admin/membership-requests/" title="' . $user_fullname .' requests group membership">' . sprintf( __('%s requests membership for the group "%s"'), $user_fullname, $group->name ) . '</a>', $group_link, $user_fullname, $group->name );
 			}	
 		break;
 		
@@ -960,11 +988,12 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_id = $item_id;
 			
 			$group = new BP_Groups_Group( $group_id, false, false );
+			$group_link = bp_group_permalink( $group, false )  . '/?new';
 			
 			if ( (int)$total_items > 1 ) {
-				return '<a href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('%d accepted group membership requests'), (int)$total_items, $group->name ) . '</a>';		
+				return apply_filters( 'bp_groups_multiple_membership_request_accepted_notification', '<a href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('%d accepted group membership requests'), (int)$total_items, $group->name ) . '</a>', $total_items, $group_name );		
 			} else {
-				return '<a href="' . bp_group_permalink( $group, false ) . '/?new">' . sprintf( __('Membership for group "%s" accepted'), $group->name ) . '</a>';
+				return apply_filters( 'bp_groups_single_membership_request_accepted_notification', '<a href="' . $group_link . '">' . sprintf( __('Membership for group "%s" accepted'), $group->name ) . '</a>', $group_link, $group->name );
 			}	
 		break;
 		
@@ -972,11 +1001,12 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_id = $item_id;
 			
 			$group = new BP_Groups_Group( $group_id, false, false );
+			$group_link = bp_group_permalink( $group, false )  . '/?new';
 			
 			if ( (int)$total_items > 1 ) {
-				return '<a href="' . site_url() . '/' . MEMBERS_SLUG . '/' . $bp['groups']['slug'] . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('%d rejected group membership requests'), (int)$total_items, $group->name ) . '</a>';		
+				return apply_filters( 'bp_groups_multiple_membership_request_rejected_notification', '<a href="' . site_url() . '/' . MEMBERS_SLUG . '/' . $bp['groups']['slug'] . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('%d rejected group membership requests'), (int)$total_items, $group->name ) . '</a>', $total_items, $group->name );		
 			} else {
-				return '<a href="' . bp_group_permalink( $group, false ) . '/?new">' . sprintf( __('Membership for group "%s" rejected'), $group->name ) . '</a>';
+				return apply_filters( 'bp_groups_single_membership_request_rejected_notification', '<a href="' . $group_link . '">' . sprintf( __('Membership for group "%s" rejected'), $group->name ) . '</a>', $group_link, $group->name );
 			}	
 		
 		break;
@@ -985,11 +1015,12 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_id = $item_id;
 		
 			$group = new BP_Groups_Group( $group_id, false, false );
-
+			$group_link = bp_group_permalink( $group, false )  . '/?new';
+			
 			if ( (int)$total_items > 1 ) {
-				return '<a href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('You were promoted to an admin in %d groups'), (int)$total_items ) . '</a>';		
+				return apply_filters( 'bp_groups_multiple_member_promoted_to_admin_notification', '<a href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('You were promoted to an admin in %d groups'), (int)$total_items ) . '</a>', $total_items );		
 			} else {
-				return '<a href="' . bp_group_permalink( $group, false ) . '/?new">' . sprintf( __('You were promoted to an admin in the group %s'), $group->name ) . '</a>';
+				return apply_filters( 'bp_groups_single_member_promoted_to_admin_notification', '<a href="' . $group_link . '">' . sprintf( __('You were promoted to an admin in the group %s'), $group->name ) . '</a>', $group_link, $group->name );
 			}	
 		break;
 		
@@ -997,11 +1028,12 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_id = $item_id;
 	
 			$group = new BP_Groups_Group( $group_id, false, false );
-
+			$group_link = bp_group_permalink( $group, false )  . '/?new';
+			
 			if ( (int)$total_items > 1 ) {
-				return '<a href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('You were promoted to a mod in %d groups'), (int)$total_items ) . '</a>';		
+				return apply_filters( 'bp_groups_multiple_member_promoted_to_mod_notification', '<a href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('You were promoted to a mod in %d groups'), (int)$total_items ) . '</a>', $total_items );		
 			} else {
-				return '<a href="' . bp_group_permalink( $group, false ) . '/?new">' . sprintf( __('You were promoted to a mod in the group %s'), $group->name ) . '</a>';
+				return apply_filters( 'bp_groups_single_member_promoted_to_mod_notification', '<a href="' . $group_link . '">' . sprintf( __('You were promoted to a mod in the group %s'), $group->name ) . '</a>', $group_link, $group->name );
 			}	
 		break;
 		
@@ -1012,9 +1044,9 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$user_url = bp_core_get_userurl( $user_id );
 			
 			if ( (int)$total_items > 1 ) {
-				return '<a href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '/invites" title="' . __( 'Group Invites', 'buddypress' ) . '">' . sprintf( __('You have %d new group invitations'), (int)$total_items ) . '</a>';		
+				return apply_filters( 'bp_groups_multiple_group_invite_notification', '<a href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '/invites" title="' . __( 'Group Invites', 'buddypress' ) . '">' . sprintf( __('You have %d new group invitations'), (int)$total_items ) . '</a>', $total_items );		
 			} else {
-				return '<a href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '/invites" title="' . __( 'Group Invites', 'buddypress' ) . '">' . sprintf( __('You have an invitation to the group: %s'), $group->name ) . '</a>';
+				return apply_filters( 'bp_groups_single_group_invite_notification', '<a href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '/invites" title="' . __( 'Group Invites', 'buddypress' ) . '">' . sprintf( __('You have an invitation to the group: %s'), $group->name ) . '</a>', $group->name );
 			}	
 		break;
 	}

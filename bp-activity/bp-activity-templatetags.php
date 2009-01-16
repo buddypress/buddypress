@@ -172,6 +172,8 @@ function bp_activity_content_filter( $content, $date_recorded, $full_name, $inse
 		$content[0] = str_replace( $full_name, __('You', 'buddypress'), $content[0] );				
 	}
 	
+	$content_new = '';
+	
 	for ( $i = 0; $i < count($content); $i++ )
 		$content_new .= $content[$i];
 	

@@ -226,14 +226,21 @@ function friends_format_activity( $item_id, $user_id, $action, $secondary_item_i
 				return false;
 			
 			if ( $for_secondary_user ) {
+				
+				$user_1 = bp_core_get_userlink( $friendship->initiator_user_id );
+				$user_2 = bp_core_get_userlink($friendship->friend_user_id, false, false, true);
+				
 				return array( 
 					'primary_link' => bp_core_get_userlink( $friendship->friend_user_id, false, true ),
-					'content' => sprintf( __( '%s and %s are now friends', 'buddypress' ), bp_core_get_userlink( $friendship->initiator_user_id ), bp_core_get_userlink($friendship->friend_user_id, false, false, true) ) . ' <span class="time-since">%s</span>'
+					'content' => apply_filters( 'bp_friends_friendship_accepted_activity', sprintf( __( '%s and %s are now friends', 'buddypress' ), $user_1, $user_2 ) . ' <span class="time-since">%s</span>', $user_1, $user_2 )
 				);				
 			} else {
+				$user_1 = bp_core_get_userlink( $friendship->friend_user_id );
+				$user_2 = bp_core_get_userlink($friendship->initiator_user_id);
+				
 				return array( 
 					'primary_link' => bp_core_get_userlink( $friendship->friend_user_id, false, true ),
-					'content' => sprintf( __( '%s and %s are now friends', 'buddypress' ), bp_core_get_userlink( $friendship->friend_user_id ), bp_core_get_userlink($friendship->initiator_user_id) ) . ' <span class="time-since">%s</span>'
+					'content' => apply_filters( 'bp_friends_friendship_accepted_activity', sprintf( __( '%s and %s are now friends', 'buddypress' ), bp_core_get_userlink( $friendship->friend_user_id ), bp_core_get_userlink($friendship->initiator_user_id) ) . ' <span class="time-since">%s</span>', $user_1, $user_2 )
 				);				
 			}
 			
@@ -249,21 +256,21 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 	switch ( $action ) {
 		case 'friendship_accepted':
 			if ( (int)$total_items > 1 ) {
-				return '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/my-friends/newest" title="' . __( 'My Friends', 'buddypress' ) . '">' . sprintf( __('%d friends accepted your friendship requests'), (int)$total_items ) . '</a>';		
+				return apply_filters( 'bp_friends_multiple_friendship_accepted_notification', '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/my-friends/newest" title="' . __( 'My Friends', 'buddypress' ) . '">' . sprintf( __('%d friends accepted your friendship requests'), (int)$total_items ) . '</a>', (int)$total_items );		
 			} else {
 				$user_fullname = bp_core_global_user_fullname( $item_id );
 				$user_url = bp_core_get_userurl( $item_id );
-				return '<a href="' . $user_url . '?new" title="' . $user_fullname .'\'s profile">' . sprintf( __('%s accepted your friendship request'), $user_fullname ) . '</a>';
+				return apply_filters( 'bp_friends_single_friendship_accepted_notification', '<a href="' . $user_url . '?new" title="' . $user_fullname .'\'s profile">' . sprintf( __('%s accepted your friendship request'), $user_fullname ) . '</a>', $user_fullname );
 			}	
 		break;
 		
 		case 'friendship_request':
 			if ( (int)$total_items > 1 ) {
-				return '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/requests" title="' . __( 'Friendship requests', 'buddypress' ) . '">' . sprintf( __('You have %d pending friendship requests'), (int)$total_items ) . '</a>';		
+				return apply_filters( 'bp_friends_multiple_friendship_request_notification', '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/requests" title="' . __( 'Friendship requests', 'buddypress' ) . '">' . sprintf( __('You have %d pending friendship requests'), (int)$total_items ) . '</a>', $total_items );		
 			} else {
 				$user_fullname = bp_core_global_user_fullname( $item_id );
 				$user_url = bp_core_get_userurl( $item_id );
-				return '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/requests" title="' . __( 'Friendship requests', 'buddypress' ) . '">' . sprintf( __('You have a friendship request from %s'), $user_fullname ) . '</a>';
+				return apply_filters( 'bp_friends_single_friendship_request_notification', '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/requests" title="' . __( 'Friendship requests', 'buddypress' ) . '">' . sprintf( __('You have a friendship request from %s'), $user_fullname ) . '</a>', $user_fullname );
 			}	
 		break;
 	}
