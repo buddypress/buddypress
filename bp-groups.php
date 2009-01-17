@@ -303,23 +303,29 @@ function groups_screen_group_finder() {
 function groups_screen_group_invites() {
 	global $bp;
 	
-	if ( isset($bp['action_variables']) && in_array( 'accept', $bp['action_variables'] ) && is_numeric($bp['action_variables'][1]) ) {
-		$member = new BP_Groups_Member( $bp['loggedin_userid'], $bp['action_variables'][1] );
-		$member->accept_invite();
-
-		if ( $member->save() ) {
-			bp_core_add_message( __('Group invite accepted', 'buddypress') );
+	$group_id = $bp['action_variables'][1];
+	
+	if ( isset($bp['action_variables']) && in_array( 'accept', $bp['action_variables'] ) && is_numeric($group_id) ) {
+		
+		if ( !groups_accept_invite( $bp['loggedin_userid'], $group_id ) ) {
+			bp_core_add_message( __('Group invite could not be accepted', 'buddypress'), 'error' );				
 		} else {
-			bp_core_add_message( __('Group invite could not be accepted', 'buddypress'), 'error' );			
+			bp_core_add_message( __('Group invite accepted', 'buddypress') );
+			
+			/* Record this in activity streams */
+			groups_record_activity( array( 'item_id' => $group_id, 'component_name' => 'groups', 'component_action' => 'joined_group', 'is_private' => 0 ) );
 		}
+
 		bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );
 		
-	} else if ( isset($bp['action_variables']) && in_array( 'reject', $bp['action_variables'] ) && is_numeric($bp['action_variables'][1]) ) {
-		if ( BP_Groups_Member::delete( $bp['loggedin_userid'], $bp['action_variables'][1] ) ) {
-			bp_core_add_message( __('Group invite rejected', 'buddypress') );
-		} else {
-			bp_core_add_message( __('Group invite could not be rejected', 'buddypress'), 'error' );			
+	} else if ( isset($bp['action_variables']) && in_array( 'reject', $bp['action_variables'] ) && is_numeric($group_id) ) {
+		
+		if ( !groups_reject_invite( $group_id, $bp['loggedin_userid'] ) ) {
+			bp_core_add_message( __('Group invite could not be rejected', 'buddypress'), 'error' );							
+		} else {			
+			bp_core_add_message( __('Group invite rejected', 'buddypress') );			
 		}
+
 		bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );
 	}
 	
@@ -834,7 +840,7 @@ function groups_record_activity( $args = true ) {
 	
 	if ( function_exists('bp_activity_record') ) {
 		extract($args);
-
+		
 		if ( $group_obj->status == 'public' )
 			bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_user_id );
 	}
@@ -1423,6 +1429,9 @@ function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $
 function groups_invite_user( $user_id, $group_id ) {
 	global $bp;
 	
+	if ( groups_is_user_member( $user_id, $group_id ) )
+		return false;
+	
 	$invite = new BP_Groups_Member;
 	$invite->group_id = $group_id;
 	$invite->user_id = $user_id;
@@ -1446,6 +1455,32 @@ function groups_uninvite_user( $user_id, $group_id ) {
 
 	do_action( 'groups_uninvite_user', $group_id, $user_id );
 
+	return true;
+}
+
+function groups_accept_invite( $user_id, $group_id ) {
+	global $group_obj;
+	
+	if ( groups_is_user_member( $user_id, $group_id ) )
+		return false;
+	
+	$group_obj = new BP_Groups_Group( $group_id );
+	
+	$member = new BP_Groups_Member( $user_id, $group_id );
+	$member->accept_invite();
+
+	if ( !$member->save() ) 
+		return false;
+	
+	do_action( 'groups_accept_invite', $user_id, $group_id );
+	return true;
+}
+
+function groups_reject_invite( $user_id, $group_id ) {
+	if ( !BP_Groups_Member::delete( $user_id, $group_id ) )
+		return false;
+	
+	do_action( 'groups_reject_invite', $user_id, $group_id );
 	return true;
 }
 
@@ -1721,8 +1756,11 @@ function groups_accept_membership_request( $membership_id ) {
 		
 	/* Modify group member count */
 	groups_update_groupmeta( $membership->group_id, 'total_member_count', (int) groups_get_groupmeta( $membership->group_id, 'total_member_count') + 1 );
+	
+	/* Record this in activity streams */
+	groups_record_activity( array( 'item_id' => $membership->group_id, 'component_name' => 'groups', 'component_action' => 'joined_group', 'is_private' => 0 ) );
 
-	// Send a notification to the user.
+	/* Send a notification to the user. */
 	groups_notification_membership_request_completed( $membership->user_id, $membership->group_id, true );
 	
 	do_action( 'bp_groups_membership_accepted', $membership->user_id, $membership->group_id );
