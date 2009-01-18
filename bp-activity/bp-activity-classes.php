@@ -9,9 +9,8 @@ Class BP_Activity_Activity {
 	var $component_name;
 	var $component_action;
 	var $date_recorded;
-	var $is_private;
-	
-	var $no_sitewide_recording = false;
+	var $is_private = false;
+	var $no_sitewide_cache = false;
 	
 	var $table_name;
 	var $table_name_cached;
@@ -40,6 +39,7 @@ Class BP_Activity_Activity {
 		$this->component_action = $activity->component_action;
 		$this->date_recorded = $activity->date_recorded;
 		$this->is_private = $activity->is_private;
+		$this->no_sitewide_cache = $activity->no_sitewide_cache;
 	}
 	
 	function save() {
@@ -54,7 +54,7 @@ Class BP_Activity_Activity {
 
 		if ( !$this->exists() ) {
 			// Insert the new activity into the activity table.
-			$activity = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $this->table_name . " ( item_id, secondary_item_id, user_id, component_name, component_action, date_recorded, is_private ) VALUES ( %d, %d, %d, %s, %s, FROM_UNIXTIME(%d), %d )", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_recorded, $this->is_private ) );
+			$activity = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $this->table_name . " ( item_id, secondary_item_id, user_id, component_name, component_action, date_recorded, is_private, no_sitewide_cache ) VALUES ( %d, %d, %d, %s, %s, FROM_UNIXTIME(%d), %d, %d )", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_recorded, $this->is_private, $this->no_sitewide_cache ) );
 
 			// Fetch the formatted activity content so we can add it to the cache.
 			if ( function_exists( $bp[$this->component_name]['format_activity_function'] ) ) {
@@ -66,7 +66,7 @@ Class BP_Activity_Activity {
 			$activity_cached = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $this->table_name_cached . " ( item_id, secondary_item_id, content, primary_link, component_name, component_action, date_cached, date_recorded, is_private ) VALUES ( %d, %d, %s, %s, %s, %s, FROM_UNIXTIME(%d), FROM_UNIXTIME(%d), %d )", $this->item_id, $this->secondary_item_id, $activity_content['content'], $activity_content['primary_link'], $this->component_name, $this->component_action, time(), $this->date_recorded, $this->is_private ) );
 		
 			// Add the cached version of the activity to the sitewide activity table.
-			if ( !$this->no_sitewide_recording )
+			if ( !$this->no_sitewide_cache )
 				$sitewide_cached = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_sitewide'] . " ( user_id, item_id, secondary_item_id, content, primary_link, component_name, component_action, date_cached, date_recorded ) VALUES ( %d, %d, %d, %s, %s, %s, %s, FROM_UNIXTIME(%d), FROM_UNIXTIME(%d) )", $this->user_id, $this->item_id, $this->secondary_item_id, $activity_content['content'], $activity_content['primary_link'], $this->component_name, $this->component_action, time(), $this->date_recorded ) );
 			
 			if ( $activity && $activity_cached )
@@ -167,6 +167,7 @@ Class BP_Activity_Activity {
 						$activities_formatted[$i]['component_name'] = $activities[$i]->component_name;
 						$activities_formatted[$i]['component_action'] = $activities[$i]->component_action;
 						$activities_formatted[$i]['is_private'] = $activities[$i]->is_private;
+						$activities_formatted[$i]['no_sitewide_cache'] = $activities[$i]->no_sitewide_cache;
 					}
 				}
 				
@@ -319,7 +320,7 @@ Class BP_Activity_Activity {
 			$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_current_user_cached'] . " ( content, item_id, secondary_item_id, primary_link, component_name, component_action, date_cached, date_recorded, is_private ) VALUES ( %s, %d, %d, %s, %s, %s, FROM_UNIXTIME(%d), %s, %d )", $activity_array[$i]['content'], $activity_array[$i]['item_id'], $activity_array[$i]['secondary_item_id'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], $activity_array[$i]['component_action'], time(), $activity_array[$i]['date_recorded'], $activity_array[$i]['is_private'] ) );
 			
 			// Add to the sitewide activity stream
-			if ( !$activity_array[$i]['is_private'] )
+			if ( !$activity_array[$i]['is_private'] && !$activity_array[$i]['no_sitewide_cache'] )
 				$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_sitewide'] . " ( user_id, content, item_id, secondary_item_id, primary_link, component_name, component_action, date_cached, date_recorded ) VALUES ( %d, %s, %d, %d, %s, %s, %s, FROM_UNIXTIME(%d), %s )", $user_id, $activity_array[$i]['content'], $activity_array[$i]['item_id'], $activity_array[$i]['secondary_item_id'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], $activity_array[$i]['component_action'], time(), $activity_array[$i]['date_recorded'] ) );
 		}
 		
