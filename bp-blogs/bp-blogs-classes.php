@@ -291,7 +291,7 @@ Class BP_Blogs_Post {
 		if ( $blog_id )
 			$blog_sql = $wpdb->prepare( " AND p.blog_id = %d", $blog_id );
 		
-		$post_ids = $wpdb->get_results( $wpdb->prepare( "SELECT p.post_id, p.blog_id FROM " . $bp['blogs']['table_name_blog_posts'] . " p LEFT JOIN {$wpdb->base_prefix}blogs b ON p.blog_id = b.blog_id WHERE b.public = 1 AND b.deleted = 0 AND b.archived = '0' AND b.spam = 0 AND b.mature = 0 $blog_sql ORDER BY p.date_created DESC LIMIT $limit" ) );
+		$post_ids = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT p.post_id, p.blog_id FROM " . $bp['blogs']['table_name_blog_posts'] . " p LEFT JOIN {$wpdb->base_prefix}blogs b ON p.blog_id = b.blog_id WHERE b.public = 1 AND b.deleted = 0 AND b.archived = '0' AND b.spam = 0 AND b.mature = 0 $blog_sql ORDER BY p.date_created DESC LIMIT $limit" ) );
 
 		for ( $i = 0; $i < count($post_ids); $i++ ) {
 			$posts[$i] = BP_Blogs_Post::fetch_post_content($post_ids[$i]);
