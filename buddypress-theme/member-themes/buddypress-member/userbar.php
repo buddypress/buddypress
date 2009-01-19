@@ -39,7 +39,7 @@
 	
 	<?php endif ?>
 	
-	<?php do_action( 'bp_userbar' ) ?>
+	<?php do_action( 'bp_user_bar' ) ?>
 
 	<div class="clear"></div>
 </div>
