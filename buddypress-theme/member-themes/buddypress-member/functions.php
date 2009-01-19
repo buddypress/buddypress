@@ -28,4 +28,8 @@ function bp_has_icons() {
 	if ( ($bp['current_userid'] != $bp['loggedin_userid']) )
 		echo ' class="icons"';
 }
+
+/* Hook for custom theme functions via plugins */
+do_action( 'bp_member_theme_functions' );
+
 ?>

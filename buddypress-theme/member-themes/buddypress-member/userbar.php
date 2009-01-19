@@ -11,7 +11,7 @@
 		<ul id="bp-nav">
 			<?php bp_get_nav() ?>
 		</ul>
-	
+		
 	<?php else : ?>
 		
 		<p class="avatar">
@@ -38,6 +38,8 @@
 		</form>
 	
 	<?php endif ?>
+	
+	<?php do_action( 'bp_userbar' ) ?>
 
 	<div class="clear"></div>
 </div>
