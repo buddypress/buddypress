@@ -1621,10 +1621,7 @@ function groups_is_group_mod( $user_id, $group_id ) {
 }
 
 function groups_new_wire_post( $group_id, $content ) {
-	if ( $wire_post_id = bp_wire_new_post( $group_id, $content ) ) {
-		/* Record in activity streams */
-		groups_record_activity( array( 'item_id' => $wire_post_id, 'group_id' => $group_id, 'component_name' => 'groups', 'component_action' => 'new_wire_post', 'is_private' => 0 ) );
-
+	if ( $wire_post_id = bp_wire_new_post( $group_id, $content, 'groups' ) ) {
 		do_action( 'groups_new_wire_post', $group_id, $wire_post_id );
 		
 		return true;
@@ -1636,11 +1633,7 @@ function groups_new_wire_post( $group_id, $content ) {
 function groups_delete_wire_post( $wire_post_id, $table_name ) {
 	global $bp;
 	
-	if ( bp_wire_delete_post( $wire_post_id, $table_name ) ) {
-		
-		// Remove this activity stream item
-		groups_delete_activity( array( 'item_id' => $wire_post_id, 'component_name' => 'groups', 'component_action' => 'new_wire_post', 'user_id' => $bp['current_userid'], 'group_id' => $group_id ) );
-		
+	if ( bp_wire_delete_post( $wire_post_id, 'groups', $table_name ) ) {		
 		do_action( 'groups_deleted_wire_post', $wire_post_id );
 		return true;
 	}

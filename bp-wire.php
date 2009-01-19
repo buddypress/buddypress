@@ -81,39 +81,58 @@ function bp_wire_screen_latest() {
 	bp_catch_uri( 'wire/latest' );	
 }
 
-function bp_wire_new_post( $item_id, $message, $table_name = null ) {
+function bp_wire_record_activity( $args = true ) {
+	if ( function_exists('bp_activity_record') ) {
+		extract($args);
+		bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_user_id );
+	}
+}
+
+function bp_wire_delete_activity( $args = true ) {
+	if ( function_exists('bp_activity_delete') ) {
+		extract($args);
+		bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
+	}
+}
+
+function bp_wire_new_post( $item_id, $message, $component_name, $table_name = null ) {
 	global $bp;
 	
 	if ( empty($message) || !is_user_logged_in() )
 		return false;
 	
 	if ( !$table_name )
-		$table_name = $bp[$bp['current_component']]['table_name_wire'];
+		$table_name = $bp[$component_name]['table_name_wire'];
 
 	$wire_post = new BP_Wire_Post( $table_name );
 	$wire_post->item_id = $item_id;
 	$wire_post->user_id = $bp['loggedin_userid'];
 	$wire_post->date_posted = time();
 	
-	$message = strip_tags( $message, '<a>,<b>,<strong>,<i>,<em>,<img>' );
+	$allowed_tags = apply_filters( 'bp_wire_post_allowed_tags', '<a>,<b>,<strong>,<i>,<em>,<img>' );
+		
+	$message = strip_tags( $message, $allowed_tags );
 	$wire_post->content = $message;
 	
 	if ( !$wire_post->save() )
 		return false;
+	
+	// Record in the activity streams
+	bp_wire_record_activity( array( 'item_id' => $wire_post->id, 'component_name' => $component_name, 'component_action' => 'new_wire_post', 'is_private' => 0 ) );
 	
 	do_action( 'bp_wire_post_posted', $wire_post->id, $wire_post->item_id, $wire_post->user_id );
 	
 	return $wire_post->id;
 }
 
-function bp_wire_delete_post( $wire_post_id, $table_name = null ) {
+function bp_wire_delete_post( $wire_post_id, $component_name, $table_name = null ) {
 	global $bp;
 
 	if ( !is_user_logged_in() )
 		return false;
 
 	if ( !$table_name )
-		$table_name = $bp[$bp['current_component']]['table_name_wire'];
+		$table_name = $bp[$component_name]['table_name_wire'];
 	
 	$wire_post = new BP_Wire_Post( $table_name, $wire_post_id );
 	
@@ -124,6 +143,9 @@ function bp_wire_delete_post( $wire_post_id, $table_name = null ) {
 	
 	if ( !$wire_post->delete() )
 		return false;
+
+	// Delete activity stream items
+	bp_wire_delete_activity( array( 'user_id' => $wire_post->user_id, 'item_id' => $wire_post->id, 'component_name' => $component_name, 'component_action' => 'new_wire_post' ) );	
 
 	do_action( 'bp_wire_post_deleted', $wire_post->id, $wire_post->item_id, $wire_post->user_id );
 	

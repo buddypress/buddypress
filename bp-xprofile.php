@@ -393,14 +393,11 @@ function xprofile_action_new_wire_post() {
 	if ( $bp['current_component'] != $bp['xprofile']['slug'] && $bp['current_action'] != 'post' )
 		return false;
 	
-	if ( !$wire_post_id = bp_wire_new_post( $bp['current_userid'], $_POST['wire-post-textarea'], $bp['profile']['table_name_wire'] ) ) {
+	if ( !$wire_post_id = bp_wire_new_post( $bp['current_userid'], $_POST['wire-post-textarea'], $bp['profile']['slug'], $bp['profile']['table_name_wire'] ) ) {
 		bp_core_add_message( __('Wire message could not be posted. Please try again.', 'buddypress'), 'error' );
 	} else {
 		bp_core_add_message( __('Wire message successfully posted.', 'buddypress') );
-		
-		// Record to activity stream
-		xprofile_record_activity( array( 'item_id' => $wire_post_id, 'component_name' => 'profile', 'component_action' => 'new_wire_post', 'is_private' => 0 ) );
-		
+				
 		do_action( 'bp_xprofile_new_wire_post', $wire_post_id );	
 	}
 
@@ -432,11 +429,8 @@ function xprofile_action_delete_wire_post() {
 	
 	$wire_post_id = $bp['action_variables'][0];
 	
-	if ( bp_wire_delete_post( $wire_post_id, $bp['profile']['table_name_wire'] ) ) {
+	if ( bp_wire_delete_post( $wire_post_id, $bp['profile']['slug'], $bp['profile']['table_name_wire'] ) ) {
 		bp_core_add_message( __('Wire message successfully deleted.', 'buddypress') );
-
-		// Delete activity stream items
-		xprofile_delete_activity( array( 'user_id' => $bp['current_userid'], 'item_id' => $wire_post_id, 'component_name' => 'profile', 'component_action' => 'new_wire_post' ) );	
 
 		do_action( 'bp_xprofile_delete_wire_post', $wire_post_id );						
 	} else {
