@@ -9,14 +9,14 @@ require_once( ABSPATH . '/wp-admin/includes/image.php' );
 require_once( ABSPATH . '/wp-admin/includes/file.php' );
 
 /* Define settings for avatars. [TODO] This will eventually end up as admin configurable settings */
-define( 'CORE_AVATAR_V1_W', 50 );
-define( 'CORE_AVATAR_V1_H', 50 );
-define( 'CORE_AVATAR_V2_W', 150 );
-define( 'CORE_AVATAR_V2_H', 150 );
-define( 'CORE_CROPPING_CANVAS_MAX', 450 );
+define( 'CORE_AVATAR_V1_W', apply_filters( 'bp_core_avatar_v1_w', 50 ) );
+define( 'CORE_AVATAR_V1_H', apply_filters( 'bp_core_avatar_v1_h', 50 ) );
+define( 'CORE_AVATAR_V2_W', apply_filters( 'bp_core_avatar_v2_w', 150 ) );
+define( 'CORE_AVATAR_V2_H', apply_filters( 'bp_core_avatar_v2_h', 150 ) );
+define( 'CORE_CROPPING_CANVAS_MAX', apply_filters( 'bp_core_avatar_cropping_canvas_max', 450 ) );
 define( 'CORE_MAX_FILE_SIZE', get_site_option('fileupload_maxk') * 1024 );
-define( 'CORE_DEFAULT_AVATAR', site_url( MUPLUGINDIR . '/bp-xprofile/images/none.gif' ) );
-define( 'CORE_DEFAULT_AVATAR_THUMB', site_url( MUPLUGINDIR . '/bp-xprofile/images/none-thumbnail.gif' ) );
+define( 'CORE_DEFAULT_AVATAR', apply_filters( 'bp_core_avatar_default_src', site_url( MUPLUGINDIR . '/bp-xprofile/images/none.gif' ) ) );
+define( 'CORE_DEFAULT_AVATAR_THUMB', apply_filters( 'bp_core_avatar_default_thumb_src', site_url( MUPLUGINDIR . '/bp-xprofile/images/none-thumbnail.gif' ) ) );
 
 function bp_core_get_avatar( $user, $version = 1, $width = null, $height = null, $no_tag = false ) {
 	global $bp, $current_blog;
