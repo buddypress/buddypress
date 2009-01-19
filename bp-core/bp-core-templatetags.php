@@ -175,15 +175,6 @@ function bp_get_options_title() {
 	echo apply_filters( 'bp_get_options_avatar', $bp['bp_options_title'] );
 }
 
-function bp_is_home() {
-	global $bp, $current_blog, $doing_admin_bar;
-	
-	if ( is_user_logged_in() && $bp['loggedin_userid'] == $bp['current_userid'] )
-		return true;
-		
-	return false;
-}
-
 function bp_comment_author_avatar() {
 	global $comment;
 	
@@ -220,6 +211,19 @@ function bp_loggedinuser_avatar_thumbnail( $width = false, $height = false ) {
 		echo apply_filters( 'bp_get_options_avatar', bp_core_get_avatar( $bp['loggedin_userid'], 1, $width, $height ) );
 	else
 		echo apply_filters( 'bp_get_options_avatar', bp_core_get_avatar( $bp['loggedin_userid'], 1 ) );
+}
+
+function bp_site_name() {
+	echo apply_filters( 'bp_site_name', get_blog_option( 1, 'blogname' ) );
+}
+
+function bp_is_home() {
+	global $bp, $current_blog, $doing_admin_bar;
+	
+	if ( is_user_logged_in() && $bp['loggedin_userid'] == $bp['current_userid'] )
+		return true;
+		
+	return false;
 }
 
 function bp_fetch_user_fullname( $user_id = false, $echo = true ) {
@@ -487,6 +491,33 @@ function bp_search_form() {
 	';
 	
 	echo apply_filters( 'bp_search_form', $form );
+}
+
+function bp_login_bar() {
+	if ( !is_user_logged_in() ) : ?>
+		
+		<form name="login-form" id="login-form" action="<?php echo site_url( '/wp-login.php' ) ?>" method="post">
+			<input type="text" name="log" id="user_login" value="<?php _e( 'Username', 'buddypress' ) ?>" onfocus="if (this.value == '<?php _e( 'Username', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Username', 'buddypress' ) ?>';}" />
+			<input type="password" name="pwd" id="user_pass" class="input" value="" />
+			<input type="submit" name="wp-submit" id="wp-submit" value="<?php _e( 'Log In', 'buddypress' ) ?>"/>				
+			<input type="button" name="signup-submit" id="signup-submit" value="<?php _e( 'Sign Up', 'buddypress' ) ?>" onclick="location.href='<?php echo bp_signup_page() ?>'" />
+			<input type="hidden" name="redirect_to" value="http://<?php echo $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] ?>" />
+			<input type="hidden" name="testcookie" value="1" />
+		</form>
+	
+	<?php else : ?>
+		
+		<div id="logout-link">
+			<?php bp_loggedinuser_avatar_thumbnail( 20, 20 ) ?> &nbsp;
+			<?php bp_loggedinuser_link() ?> 
+			<?php if ( function_exists('wp_logout_url') ) : ?>
+				/ <a href="<?php echo wp_logout_url( site_url() ) ?>" alt="<?php _e( 'Log Out', 'buddypress' ) ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>			
+			<?php else : ?>
+				/ <a href="<?php echo site_url( '/wp-login.php?action=logout&amp;redirect_to=' . site_url() ) ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>
+			<?php endif; ?>
+		</div>
+		
+	<?php endif;
 }
 
 function bp_profile_wire_can_post() {
