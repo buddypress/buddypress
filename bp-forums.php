@@ -20,15 +20,6 @@ function bp_forums_setup() {
 
 	if ( get_usermeta( $bp['loggedin_userid'], 'bb_capabilities' ) == '' )
 		bp_forums_make_user_active_member( $bp['loggedin_userid'] );
-	
-	if ( $bp['current_component'] == $bp['groups']['slug'] || $_GET['page'] == 'bp_forums_settings' ) { 
-		if ( defined('XMLRPC_REQUEST') && XMLRPC_REQUEST ) return;
-		if ( defined('DOING_AJAX') && DOING_AJAX ) return;
-		
-		include_once( ABSPATH . WPINC . '/class-IXR.php' );
-	
-		$bbpress_live = new bbPress_Live();
-	}
 }
 add_action( 'wp', 'bp_forums_setup', 3 );
 add_action( 'admin_head', 'bp_forums_setup', 3 );

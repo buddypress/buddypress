@@ -4,13 +4,18 @@ function bp_forums_add_admin_menu() {
 
 	if ( is_site_admin() ) {
 		/* Add the administration tab under the "Site Admin" tab for site administrators */
-		add_submenu_page( 'wpmu-admin.php', __( 'Group Forums', 'buddypress' ), __( 'Group Forums', 'buddypress' ), 1, "bp_forums_settings", "bp_forums_bbpress_admin" );
+		add_submenu_page( 'wpmu-admin.php', __( 'bbPress Forums', 'buddypress' ), __( 'bbPress Forums', 'buddypress' ), 1, "bp_forums_settings", "bp_forums_bbpress_admin" );
 	}
 }
 add_action( 'admin_menu', 'bp_forums_add_admin_menu' );
 
 function bp_forums_bbpress_admin() { 
 	global $bp, $bbpress_live;
+	
+	if ( !is_object( $bbpress_live ) ) {
+		include_once( ABSPATH . WPINC . '/class-IXR.php' );
+		$bbpress_live = new bbPress_Live();
+	}
 	
 	if ( isset( $_POST['submit'] ) ) {
 		check_admin_referer('bbpress-settings');
