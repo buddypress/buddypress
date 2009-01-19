@@ -327,10 +327,33 @@ Class BP_Activity_Activity {
 		update_usermeta( $bp['current_userid'], 'bp_activity_last_cached', time() );
 	}
 	
+	function delete_activity_for_user( $user_id ) {
+		global $wpdb, $bp;
+
+		/* Empty user's activities from the sitewide stream */
+		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['activity']['table_name_sitewide'] . " WHERE user_id = %d", $user_id ) );
+
+		/* Empty the user's activity items and cached activity items */
+		$wpdb->query( $wpdb->prepare( "TRUNCATE TABLE wp_user_{$user_id}_activity" ) );
+		$wpdb->query( $wpdb->prepare( "TRUNCATE TABLE wp_user_{$user_id}_activity_cached" ) );	
+		
+		return true;
+	}
+	
 	function get_last_updated() {
 		global $bp, $wpdb;
 		
 		return $wpdb->get_var( $wpdb->prepare( "SELECT date_recorded FROM " . $bp['activity']['table_name_sitewide'] . " ORDER BY date_recorded ASC LIMIT 1" ) );
+	}
+	
+	function kill_tables_for_user( $user_id ) {
+		global $bp, $wpdb;
+		
+		$wpdb->query( $wpdb->prepare( "DROP TABLE wp_user_{$user_id}_activity" ) );
+		$wpdb->query( $wpdb->prepare( "DROP TABLE wp_user_{$user_id}_activity_cached" ) );	
+		$wpdb->query( $wpdb->prepare( "DROP TABLE wp_user_{$user_id}_friends_activity_cached" ) );	
+		
+		return true;
 	}
 	
 
