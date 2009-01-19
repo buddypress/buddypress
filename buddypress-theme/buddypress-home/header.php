@@ -47,9 +47,9 @@
 				<?php bp_loggedinuser_avatar_thumbnail( 20, 20 ) ?> &nbsp;
 				<?php bp_loggedinuser_link() ?> 
 				<?php if ( function_exists('wp_logout_url') ) : ?>
-					/ <a href="<?php echo wp_logout_url(site_url()) ?>" alt="<?php _e( 'Log Out', 'buddypress' ) ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>			
+					/ <a href="<?php echo wp_logout_url( site_url() ) ?>" alt="<?php _e( 'Log Out', 'buddypress' ) ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>			
 				<?php else : ?>
-					/ <a href="<?php echo site_url() . '/wp-login.php?action=logout&amp;redirect_to=' . site_url() ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>
+					/ <a href="<?php echo site_url( '/wp-login.php?action=logout&amp;redirect_to=' . site_url() ) ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>
 				<?php endif; ?>
 			</div>
 		<?php endif; ?>
@@ -72,10 +72,6 @@
 				<li<?php if(bp_is_page('blogs')) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/blogs" title="<?php _e( 'Blogs', 'buddypress' ) ?>"><?php _e( 'Blogs', 'buddypress' ) ?></a></li>
 			<?php } ?>
 
-			<!--
-			<li><a href="<?php echo get_option('home') ?>/forum" title="<?php _e( 'Forums', 'buddypress' ) ?>"><?php _e( 'Forums', 'buddypress' ) ?></a></li>
-			-->
-			
 			<?php do_action( 'bp_nav_items' ) ?>
 		</ul>
 		

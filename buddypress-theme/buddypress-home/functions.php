@@ -73,6 +73,8 @@ function bp_show_activation_page() {
 }
 add_action( 'wp', 'bp_show_activation_page', 2 );
 
+/* Hook for custom theme functions via plugins */
+do_action( 'bp_home_functions' );
 
 
 ?>
