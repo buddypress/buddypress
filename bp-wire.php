@@ -77,6 +77,7 @@ add_action( 'admin_menu', 'bp_wire_setup_nav', 2 );
 /***** Screens **********/
 
 function bp_wire_screen_latest() {
+	do_action( 'bp_wire_screen_latest' );
 	bp_catch_uri( 'wire/latest' );	
 }
 

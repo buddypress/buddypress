@@ -118,6 +118,8 @@ function friends_screen_my_friends() {
 	// Delete any friendship acceptance notifications for the user when viewing a profile
 	bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'friends', 'friendship_accepted' );
 
+	do_action( 'friends_screen_my_friends' );
+	
 	bp_catch_uri( 'friends/index' );	
 }
 
@@ -143,19 +145,14 @@ function friends_screen_requests() {
 		bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );
 	}
 	
+	do_action( 'friends_screen_requests' );
+	
 	bp_catch_uri( 'friends/requests' );
 }
 
 function friends_screen_friend_finder() {
+	do_action( 'friends_screen_friend_finder' );
 	bp_catch_uri( 'friends/friend-finder' );
-}
-
-function friends_screen_invite_friends() {
-	global $bp;
-	$bp['current_action'] = 'my-friends';
-	
-	// Not implemented yet.
-	bp_catch_uri( 'friends/index' );	
 }
 
 function friends_screen_notification_settings() { 
@@ -179,6 +176,8 @@ function friends_screen_notification_settings() {
 			<td class="yes"><input type="radio" name="notifications[notification_friends_friendship_accepted]" value="yes" <?php if ( !get_usermeta( $current_user->id,'notification_friends_friendship_accepted') || get_usermeta( $current_user->id,'notification_friends_friendship_accepted') == 'yes' ) { ?>checked="checked" <?php } ?>/></td>
 			<td class="no"><input type="radio" name="notifications[notification_friends_friendship_accepted]" value="no" <?php if ( get_usermeta( $current_user->id,'notification_friends_friendship_accepted') == 'no' ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
+		
+		<?php do_action( 'friends_screen_notification_settings' ); ?>
 	</table>
 <?php	
 }
@@ -247,6 +246,8 @@ function friends_format_activity( $item_id, $user_id, $action, $secondary_item_i
 		break;
 	}
 	
+	do_action( 'friends_format_activity', $action, $item_id, $user_id, $action, $secondary_item_id, $for_secondary_user );
+	
 	return false;
 }
 
@@ -274,6 +275,8 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 			}	
 		break;
 	}
+
+	do_action( 'friends_format_notifications', $action, $item_id, $secondary_item_id, $total_items );
 	
 	return false;
 }

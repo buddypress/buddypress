@@ -284,20 +284,10 @@ add_action( 'admin_menu', 'groups_setup_nav', 2 );
 
 function groups_screen_my_groups() {
 	global $bp;
-	
-	// Delete group request notifications for the user
-	bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'membership_request_accepted' );
-	bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'membership_request_rejected' );
-	bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'member_promoted_to_mod' );
-	bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'member_promoted_to_admin' );
-	
-	do_action( 'bp_groups_my_groups' );
+		
+	do_action( 'groups_screen_my_groups' );
 	
 	bp_catch_uri( 'groups/index' );
-}
-
-function groups_screen_group_finder() {
-	bp_catch_uri( 'groups/group-finder' );	
 }
 
 function groups_screen_group_invites() {
@@ -331,6 +321,8 @@ function groups_screen_group_invites() {
 	
 	// Remove notifications
 	bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'group_invite' );
+
+	do_action( 'groups_screen_group_invites', $group_id );
 	
 	bp_catch_uri( 'groups/list-invites' );	
 }
@@ -398,7 +390,11 @@ function groups_screen_group_home() {
 			// Delete group request notifications for the user
 			bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'membership_request_accepted' );
 			bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'membership_request_rejected' );
+			bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'member_promoted_to_mod' );
+			bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'member_promoted_to_admin' );
 		}	
+
+		do_action( 'groups_screen_group_home' );	
 		
 		bp_catch_uri( 'groups/group-home' );		
 	}
@@ -419,6 +415,8 @@ function groups_screen_group_forum() {
 				bp_core_redirect( bp_group_permalink( $group_obj, false ) . '/forum/topic/' . $topic_id );
 			}
 			
+			do_action( 'groups_screen_group_forum_topic' );
+			
 			// If we are viewing a topic, load it.
 			bp_catch_uri( 'groups/forum/topic' );
 		} else {
@@ -428,6 +426,8 @@ function groups_screen_group_forum() {
 				groups_new_group_forum_topic( $_POST['topic_title'], $_POST['topic_text'], $_POST['topic_tags'], $forum_id );
 				bp_core_redirect( bp_group_permalink( $group_obj, false ) . '/forum/' );
 			}
+			
+			do_action( 'groups_screen_group_forum', $topic_id, $forum_id );
 			
 			// Load the forum home.
 			bp_catch_uri( 'groups/forum/index' );				
@@ -484,6 +484,8 @@ function groups_screen_group_members() {
 	global $is_single_group, $group_obj;
 	
 	if ( $is_single_group ) {
+		do_action( 'groups_screen_group_members', $group_obj->id );
+		
 		bp_catch_uri( 'groups/list-members' );
 	}
 }
@@ -510,6 +512,8 @@ function groups_screen_group_invite() {
 			bp_core_add_message( __('Group invites sent.', 'buddypress') );
 			bp_core_redirect( bp_group_permalink( $group_obj, false ) );
 		} else {
+			do_action( 'groups_screen_group_invite', $group_obj->id );
+			
 			// Show send invite page
 			bp_catch_uri( 'groups/send-invite' );	
 		}
@@ -533,6 +537,8 @@ function groups_screen_group_leave() {
 		} else if ( isset($bp['action_variables']) && $bp['action_variables'][0] == 'no' ) {
 			bp_core_redirect( bp_group_permalink( $group_obj, false) );
 		} else {
+			do_action( 'groups_screen_group_leave', $group_obj->id );
+			
 			// Show leave group page
 			bp_catch_uri( 'groups/leave-group-confirm' );
 		}
@@ -555,15 +561,23 @@ function groups_screen_group_request_membership() {
 			}
 			bp_core_redirect( bp_group_permalink( $group_obj, false ) );
 		}
+		
+		do_action( 'groups_screen_group_request_membership', $group_obj->id );
+		
 		bp_catch_uri( 'groups/request-membership' );
 	}
 }
 
 function groups_screen_group_admin() {
-	global $bp;
+	global $bp, $group_obj;
 	
-	if ( $bp['current_component'] == $bp['groups']['slug'] && !$bp['action_variables'] )
-		bp_catch_uri( 'groups/admin/edit-details' );
+	if ( $bp['current_component'] == $bp['groups']['slug'] && !$bp['action_variables'] ) {
+		
+		do_action( 'groups_screen_group_admin', $group_obj->id );
+		
+		bp_catch_uri( 'groups/admin/edit-details' );		
+	}
+
 }
 
 function groups_screen_group_admin_edit_details() {
@@ -583,6 +597,8 @@ function groups_screen_group_admin_edit_details() {
 				bp_core_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/edit-details' );
 			}
 
+			do_action( 'groups_screen_group_admin_edit_details', $group_obj->id );
+
 			bp_catch_uri( 'groups/admin/edit-details' );
 			
 		}
@@ -592,7 +608,7 @@ add_action( 'wp', 'groups_screen_group_admin_edit_details', 4 );
 
 
 function groups_screen_group_admin_settings() {
-	global $bp;
+	global $bp, $group_obj;
 	
 	if ( $bp['current_component'] == $bp['groups']['slug'] && $bp['action_variables'][0] == 'group-settings' ) {
 		
@@ -615,6 +631,8 @@ function groups_screen_group_admin_settings() {
 			
 			bp_core_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/group-settings' );
 		}
+
+		do_action( 'groups_screen_group_admin_settings', $group_obj->id );
 		
 		bp_catch_uri( 'groups/admin/group-settings' );
 	}
@@ -688,6 +706,8 @@ function groups_screen_group_admin_manage_members() {
 			
 			bp_core_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/manage-members' );
 		}
+
+		do_action( 'groups_screen_group_admin_manage_members', $group_obj->id );
 		
 		bp_catch_uri( 'groups/admin/manage-members' );
 	}
@@ -727,6 +747,8 @@ function groups_screen_group_admin_requests() {
 			}
 			bp_core_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/membership-requests' );
 		}
+
+		do_action( 'groups_screen_group_admin_requests', $group_obj->id );
 		
 		bp_catch_uri( 'groups/admin/membership-requests' );
 	}
@@ -751,6 +773,8 @@ function groups_screen_group_admin_delete_group() {
 			}
 			bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] );
 		} else {
+			do_action( 'groups_screen_group_admin_delete_group', $group_obj->id );
+			
 			bp_catch_uri( 'groups/admin/delete-group' );
 		}
 	}
@@ -798,6 +822,8 @@ function groups_screen_notification_settings() {
 			<td class="yes"><input type="radio" name="notifications[notification_groups_membership_request]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_groups_membership_request') || get_usermeta( $current_user->id, 'notification_groups_membership_request') == 'yes' ) { ?>checked="checked" <?php } ?>/></td>
 			<td class="no"><input type="radio" name="notifications[notification_groups_membership_request]" value="no" <?php if ( get_usermeta( $current_user->id, 'notification_groups_membership_request') == 'no' ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
+		
+		<?php do_action( 'groups_screen_notification_settings' ); ?>
 	</table>
 <?php	
 }
@@ -967,6 +993,8 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 		break;		
 	}
 	
+	do_action( 'groups_format_activity', $action, $item_id, $user_id, $action, $secondary_item_id, $for_secondary_user );
+	
 	return false;
 }
 
@@ -1056,6 +1084,8 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			}	
 		break;
 	}
+
+	do_action( 'groups_format_notifications', $action, $item_id, $secondary_item_id, $total_items );
 	
 	return false;
 }

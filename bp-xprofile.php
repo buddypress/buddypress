@@ -275,6 +275,7 @@ function xprofile_screen_display_profile() {
 	if ( $is_new_friend )
 		bp_core_delete_notifications_for_user_by_item_id( $bp['loggedin_userid'], $bp['current_userid'], 'friends', 'friendship_accepted' );
 	
+	do_action( 'xprofile_screen_display_profile', $is_new_friend );
 	bp_catch_uri( 'profile/index' );
 }
 
@@ -289,8 +290,10 @@ function xprofile_screen_display_profile() {
  * @uses bp_catch_uri() Looks for and loads a template file within the current member theme (folder/filename)
  */
 function xprofile_screen_edit_profile() {
-	if ( bp_is_home() )
+	if ( bp_is_home() ) {
+		do_action( 'xprofile_screen_edit_profile' );
 		bp_catch_uri( 'profile/edit' );
+	}
 }
 
 /**
@@ -306,6 +309,7 @@ function xprofile_screen_edit_profile() {
 function xprofile_screen_change_avatar() {
 	if ( bp_is_home() ) {
 		add_action( 'wp_head', 'bp_core_add_cropper_js' );
+		do_action( 'xprofile_screen_change_avatar' );
 		bp_catch_uri( 'profile/change-avatar' );
 	}
 }
@@ -337,6 +341,8 @@ function xprofile_screen_notification_settings() {
 			<td class="no"><input type="radio" name="notifications[notification_profile_wire_post]" value="no" <?php if ( get_usermeta( $current_user->id, 'notification_profile_wire_post' ) == 'no' ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
 		<?php } ?>
+		
+		<?php do_action( 'xprofile_screen_notification_settings' ) ?>
 	</table>
 <?php	
 }
@@ -450,7 +456,6 @@ add_action( 'wp', 'xprofile_action_delete_wire_post', 3 );
  * Activity and notification recording functions
  */
 
-
 /**
  * xprofile_record_activity()
  *
@@ -563,6 +568,8 @@ function xprofile_format_activity( $item_id, $user_id, $action, $secondary_item_
 		break;
 	}
 	
+	do_action( 'xprofile_format_activity', $action, $item_id, $user_id, $action, $secondary_item_id, $for_secondary_user );
+	
 	return false;
 }
 
@@ -590,6 +597,8 @@ function xprofile_format_notifications( $action, $item_id, $secondary_item_id, $
 			return apply_filters( 'bp_xprofile_single_new_wire_post_notification', '<a href="' . $bp['loggedin_domain'] . $bp['wire']['slug'] . '" title="Wire">' . sprintf( __('%s posted on your wire'), $user_fullname ) . '</a>', $user_fullname );
 		}
 	}
+	
+	do_action( 'xprofile_format_notifications', $action, $item_id, $secondary_item_id, $total_items );
 	
 	return false;
 }

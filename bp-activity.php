@@ -200,12 +200,12 @@ add_action( 'admin_menu', 'bp_activity_setup_nav', 2 );
 /***** Screens **********/
 
 function bp_activity_screen_my_activity() {
+	do_action( 'bp_activity_screen_my_activity' );
 	bp_catch_uri( 'activity/just-me' );	
 }
 
 function bp_activity_screen_friends_activity() {
-	global $bp;
-
+	do_action( 'bp_activity_screen_friends_activity' );
 	bp_catch_uri( 'activity/my-friends' );	
 }
 

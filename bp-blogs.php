@@ -189,18 +189,22 @@ add_action( 'wp', 'bp_blogs_setup_nav', 2 );
 add_action( 'admin_menu', 'bp_blogs_setup_nav', 2 );
 
 function bp_blogs_screen_my_blogs() {
+	do_action( 'bp_blogs_screen_my_blogs' );
 	bp_catch_uri( 'blogs/my-blogs' );	
 }
 
 function bp_blogs_screen_recent_posts() {
+	do_action( 'bp_blogs_screen_recent_posts' );
 	bp_catch_uri( 'blogs/recent-posts' );
 }
 
 function bp_blogs_screen_recent_comments() {
+	do_action( 'bp_blogs_screen_recent_comments' );
 	bp_catch_uri( 'blogs/recent-comments' );
 }
 
 function bp_blogs_screen_create_a_blog() {
+	do_action( 'bp_blogs_screen_create_a_blog' );
 	bp_catch_uri( 'blogs/create' );
 }
 
@@ -315,6 +319,8 @@ function bp_blogs_format_activity( $item_id, $user_id, $action, $secondary_item_
 			);
 		break;
 	}
+	
+	do_action( 'bp_blogs_format_activity', $action, $item_id, $user_id, $action, $secondary_item_id, $for_secondary_user );
 	
 	return false;
 }

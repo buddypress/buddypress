@@ -171,10 +171,12 @@ add_action( 'admin_menu', 'messages_setup_nav', 2 );
 /***** Screens **********/
 
 function messages_screen_inbox() {
+	do_action( 'messages_screen_inbox' );
 	bp_catch_uri( 'messages/index' );	
 }
 
 function messages_screen_sentbox() {
+	do_action( 'messages_screen_sentbox' );
 	bp_catch_uri( 'messages/sentbox' );
 }
 
@@ -199,6 +201,8 @@ function messages_screen_compose() {
 	if ( $recipients || ( isset($_POST['send-notice']) && is_site_admin() ) ) {
 		messages_send_message( $recipients, $_POST['subject'], $_POST['content'], $_POST['thread_id'], false, true );
 	}
+	
+	do_action( 'messages_screen_compose' );
 	
 	bp_catch_uri( 'messages/compose' );
 }
@@ -235,6 +239,9 @@ function messages_screen_notices() {
 		}
 		bp_core_redirect( $bp['loggedin_domain'] . $bp['messages']['slug'] . '/notices' );
 	}
+	
+	do_action( 'messages_screen_notices' );
+	
 	bp_catch_uri( 'messages/notices' );	
 }
 
@@ -259,6 +266,8 @@ function messages_screen_notification_settings() {
 			<td class="yes"><input type="radio" name="notifications[notification_messages_new_notice]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_messages_new_notice' ) || get_usermeta( $current_user->id, 'notification_messages_new_notice' ) == 'yes' ) { ?>checked="checked" <?php } ?>/></td>
 			<td class="no"><input type="radio" name="notifications[notification_messages_new_notice]" value="no" <?php if ( get_usermeta( $current_user->id, 'notification_messages_new_notice' ) == 'no' ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
+		
+		<?php do_action( 'messages_screen_notification_settings' ) ?>
 	</table>
 <?php	
 }
@@ -364,6 +373,10 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 		else
 			return apply_filters( 'bp_messages_single_new_message_notification', '<a href="' . $bp['loggedin_domain'] . $bp['messages']['slug'] . '/inbox" title="Inbox">' . sprintf( __('You have %d new message'), (int)$total_items ) . '</a>', $total_items );
 	}
+	
+	do_action( 'messages_format_notifications', $action, $item_id, $secondary_item_id, $total_items );
+	
+	return false;
 }
 
 
