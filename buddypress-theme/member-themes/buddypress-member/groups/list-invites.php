@@ -29,7 +29,7 @@
 					
 					 &nbsp; 
 
-					<div class="generic-buttion reject">
+					<div class="generic-button reject">
 						<a href="<?php bp_group_reject_invite_link() ?>"><?php _e( 'Reject', 'buddypress' ) ?></a> 
 					</div>
 					
