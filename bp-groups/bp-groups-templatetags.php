@@ -877,7 +877,7 @@ function bp_group_create_form() {
 					}
 				} ?>
 				
-				<p><input type="button" value="<?php _e('Finish', 'buddypress') ?> &raquo;" id="save" name="save" onclick="location.href='<?php echo $group_link ?>'" /></p>
+				<p class="clear"><input type="button" value="<?php _e('Finish', 'buddypress') ?> &raquo;" id="save" name="save" onclick="location.href='<?php echo $group_link ?>'" /></p>
 				<?php
 			} else { ?>
 				<div id="message" class="info">
@@ -1045,9 +1045,7 @@ function bp_group_send_invite_form( $group_obj = null ) {
 				</li>
 			<?php } // end for ?>
 		</ul>
-
-		<input type="submit" value="<?php _e('Finish', 'buddypress') ?> &raquo;" id="save" name="save"/>
-
+		
 	</div>
 <?php
 }

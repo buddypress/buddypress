@@ -363,7 +363,7 @@ function groups_screen_create_group() {
 			if ( $create_group_step == 4 )
 				bp_core_redirect( bp_group_permalink( $group_obj, false ) );
 			
-			if ( !$group_id = groups_manage_group( $create_group_step, $_SESSION['group_obj_id'] ) ) {
+			if ( !$group_id = groups_create_group( $create_group_step, $_SESSION['group_obj_id'] ) ) {
 				bp_core_add_message( __('There was an error saving group details. Please try again.', 'buddypress'), 'error' );
 				bp_core_redirect( $bp['loggedin_domain'] . $bp['groups']['slug'] . '/create/step/' . $create_group_step );
 			} else {
@@ -946,7 +946,9 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 				$group = new BP_Groups_Group( $item_id );
 				$forum_post = bp_forums_get_post( $secondary_item_id );
 				$forum_topic = bp_forums_get_topic_details( $forum_post['topic_id'] );
-
+				
+				
+				
 				if ( !$group || !$forum_post || !$forum_topic )
 					return false;		
 
@@ -1237,12 +1239,12 @@ function groups_filter_user_groups( $filter, $pag_num_per_page = 5, $pag_page = 
 }
 
 /**************************************************************************
- groups_manage_group()
+ groups_create_group()
  
  Manage the creation of a group via the step by step wizard.
 **************************************************************************/
 
-function groups_manage_group( $step, $group_id ) {
+function groups_create_group( $step, $group_id ) {
 	global $bp, $create_group_step, $group_obj, $bbpress_live;
 
 	if ( is_numeric( $step ) && ( $step == '1' || $step == '2' || $step == '3' || $step == '4' ) ) {
@@ -1386,6 +1388,9 @@ function groups_check_slug( $slug ) {
 		}
 		while ( BP_Groups_Group::check_slug( $slug ) );
 	}
+	
+	if ( substr( $slug, 0, 2 ) == 'wp' )
+		$slug = substr( $slug, 2, strlen( $slug ) - 2 );
 	
 	return $slug;
 }
