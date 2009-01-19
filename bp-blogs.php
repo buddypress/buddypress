@@ -529,7 +529,7 @@ function bp_blogs_add_user_to_blog( $user_id, $role, $blog_id ) {
 }
 add_action( 'add_user_to_blog', 'bp_blogs_add_user_to_blog', 10, 3 );
 
-function bp_blogs_remove_user_form_blog( $user_id, $blog_id ) {
+function bp_blogs_remove_user_from_blog( $user_id, $blog_id ) {
 	bp_blogs_remove_blog_for_user( $user_id, $blog_id );
 }
 add_action( 'remove_user_from_blog', 'bp_blogs_remove_user_from_blog', 10, 2 );
