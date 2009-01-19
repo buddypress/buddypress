@@ -168,15 +168,14 @@ function bp_core_widget_whos_online($args) {
 	<?php $users = BP_Core_User::get_online_users($options['max_members']) ?>
 
 	<?php if ( $users['users'] ) : ?>
-			<div class="avatar-block">
-			<?php foreach ( (array) $users['users'] as $user ) : ?>
-				<div class="item-avatar">
-					<a href="<?php echo bp_core_get_userurl($user->user_id) ?>" title="<?php bp_fetch_user_fullname( $user->user_id, true ) ?>"><?php echo bp_core_get_avatar( $user->user_id, 1 ) ?></a>
-				</div>
-			<?php endforeach; ?>
+		<div class="avatar-block">
+		<?php foreach ( (array) $users['users'] as $user ) : ?>
+			<div class="item-avatar">
+				<a href="<?php echo bp_core_get_userurl($user->user_id) ?>" title="<?php bp_fetch_user_fullname( $user->user_id, true ) ?>"><?php echo bp_core_get_avatar( $user->user_id, 1 ) ?></a>
 			</div>
-		</ul>
-
+		<?php endforeach; ?>
+		</div>
+			
 		<?php 
 		if ( function_exists('wp_nonce_field') )
 			wp_nonce_field( 'bp_core_widget_members', '_wpnonce-members' );
