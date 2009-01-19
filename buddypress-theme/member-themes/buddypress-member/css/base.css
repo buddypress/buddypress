@@ -47,11 +47,15 @@ hr, div.clear {
 	visibility: hidden;
 	clear: right;
 }
-	.info-group div.clear {
+	.info-group div.clear, p.clear {
 		clear: both;
 	}
 
 input, select, textarea { width: 100%; }
+
+input#submit {
+	width: auto;
+}
 
 .inner-tube {
 	float: right;
