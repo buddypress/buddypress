@@ -533,15 +533,8 @@ ul.content-header-nav {
 	clear: both;
 	background: url(../images/content_header.gif) repeat-x #eee;
 	text-align: center;
-	height: 35px;
+	margin-top: 30px;
+	padding: 15px;
+	font: normal 1.1em Georgia, times, serif;
 }
-
-	#footer p {
-		margin: 0;
-	}
-
-	#footer code {
-		font-size: 1.1em;
-		color: #ccc;
-	}
 
