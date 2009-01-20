@@ -38,10 +38,14 @@ function bp_forums_bbpress_admin() {
 			'post_to_topic_delay' => (int) $_POST['post_to_topic_delay']
 		);
 		update_option( 'bbpress_live', $_options );		
-	}
 	
-	$fetch_options = $bbpress_live->fetch->options;
-	$options = $bbpress_live->options;
+		$fetch_options = $_fetch_options;
+		$options = $_options;
+		
+	} else {
+		$fetch_options = $bbpress_live->fetch->options;
+		$options = $bbpress_live->options;
+	}
 ?>
 	<div class="wrap">
 
@@ -49,7 +53,7 @@ function bp_forums_bbpress_admin() {
 		<br />
 		
 		<?php if ( isset($path_success) ) : ?><?php echo "<p id='message' class='updated fade'>$path_success</p>" ?><?php endif; ?>
-
+			
 		<p><?php _e( 'To enable forums for each group in a BuddyPress installation, you must first download, install, and setup bbPress and integrate it with WordPress MU.', 'buddypress' ) ?></p>
 		<p><?php _e( 'Once you have bbPress set up correctly, enter the options below so that BuddyPress can connect.', 'buddypress' ) ?></p>
 		

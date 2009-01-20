@@ -902,7 +902,7 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 			$group_link = bp_group_permalink( $group, false );
 			
 			return array( 
-				'primary_link' => bp_group_permalink( $group, false ),
+				'primary_link' => $group_link,
 				'content' => apply_filters( 'bp_groups_joined_group_activity', sprintf( __('%s joined the group %s', 'buddypress'), $user_link,  '<a href="' . $group_link . '">' . $group->name . '</a>' ) . ' <span class="time-since">%s</span>', $user_link, $group_link, $group->name )
 			);				
 		break;
@@ -916,7 +916,7 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 			$group_link = bp_group_permalink( $group, false );
 			
 			return array( 
-				'primary_link' => bp_group_permalink( $group, false ),
+				'primary_link' => $group_link,
 				'content' => apply_filters( 'bp_groups_created_group_activity', sprintf( __('%s created the group %s', 'buddypress'), $user_link, '<a href="' . $group_link . '">' . $group->name . '</a>') . ' <span class="time-since">%s</span>', $user_link, $group_link, $group->name )
 			);
 		break;
@@ -937,7 +937,7 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 			$content = apply_filters( 'bp_groups_new_wire_post_activity', $content, $user_link, $group_link, $group->name, $post_excerpt );
 			
 			return array( 
-				'primary_link' => bp_group_permalink( $group, false ),
+				'primary_link' => $group_link,
 				'content' => $content
 			);
 		break;
@@ -946,15 +946,13 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 				$group = new BP_Groups_Group( $item_id );
 				$forum_post = bp_forums_get_post( $secondary_item_id );
 				$forum_topic = bp_forums_get_topic_details( $forum_post['topic_id'] );
-				
-				
-				
+
 				if ( !$group || !$forum_post || !$forum_topic )
-					return false;		
+					return false;
 
 				$user_link = bp_core_get_userlink($user_id);
 				$group_link = bp_group_permalink( $group, false );
-				
+
 				$post_content = apply_filters( 'bp_the_topic_post_content', stripslashes( $forum_post['post_text'] ) );
 			
 				$content = sprintf ( __('%s posted on the forum topic %s in the group %s:', 'buddypress'), $user_link, '<a href="' . $group_link . '/forum/topic/' . $forum_topic['topic_id'] . '">' . $forum_topic['topic_title'] . '</a>', '<a href="' . $group_link . '">' . $group->name . '</a>' ) . ' <span class="time-since">%s</span>';			
@@ -963,7 +961,7 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 				$content = apply_filters( 'bp_groups_new_forum_post_activity', $content, $user_link, $group_link, $forum_topic['topic_id'], $forum_topic['topic_title'], $group_link, $group->name, $post_content );
 
 				return array( 
-					'primary_link' => bp_group_permalink( $group, false ),
+					'primary_link' => $group_link,
 					'content' => $content
 				);
 			}
@@ -982,13 +980,13 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 				
 				$post_content = apply_filters( 'bp_the_topic_post_content', stripslashes( $forum_post['post_text'] ) );
 				
-				$content = sprintf ( __('%s created the forum topic %s in the group %s:', 'buddypress'), $uesr_link, '<a href="' . $group_link . '/forum/topic/' . $forum_topic['topic_id'] . '">' . $forum_topic['topic_title'] . '</a>', '<a href="' . $group_link . '">' . $group->name . '</a>' ) . ' <span class="time-since">%s</span>';			
+				$content = sprintf ( __('%s created the forum topic %s in the group %s:', 'buddypress'), $user_link, '<a href="' . $group_link . '/forum/topic/' . $forum_topic['topic_id'] . '">' . $forum_topic['topic_title'] . '</a>', '<a href="' . $group_link . '">' . $group->name . '</a>' ) . ' <span class="time-since">%s</span>';			
 				$content .= '<blockquote>' . $post_content . '</blockquote>';
 				
 				$content = apply_filters( 'bp_groups_new_forum_topic_activity', $content, $user_link, $group_link, $forum_topic['topic_id'], $forum_topic['topic_title'], $group_link, $group->name, $post_content );
 
 				return array( 
-					'primary_link' => bp_group_permalink( $group, false ),
+					'primary_link' => $group_link,
 					'content' => $content
 				);
 			}
@@ -2061,9 +2059,9 @@ add_action( 'groups_premote_member', 'bp_core_clear_cache' );
 add_action( 'groups_membership_rejected', 'bp_core_clear_cache' );
 add_action( 'groups_membership_accepted', 'bp_core_clear_cache' );
 add_action( 'groups_membership_requested', 'bp_core_clear_cache' );
+add_action( 'groups_create_group_step1_save', 'bp_core_clear_cache' );
+add_action( 'groups_create_group_step2_save', 'bp_core_clear_cache' );
+add_action( 'groups_create_group_step3_save', 'bp_core_clear_cache' );
 add_action( 'groups_created_group', 'bp_core_clear_cache' );
-add_action( 'groups_step3_save', 'bp_core_clear_cache' );
-add_action( 'groups_step2_save', 'bp_core_clear_cache' );
-add_action( 'groups_step1_save', 'bp_core_clear_cache' );
 
 ?>

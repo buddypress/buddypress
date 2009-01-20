@@ -61,10 +61,10 @@ Class BP_Activity_Activity {
 				if ( !$activity_content = call_user_func($bp[$this->component_name]['format_activity_function'], $this->item_id, $this->user_id, $this->component_action, $this->secondary_item_id, $this->for_secondary_user ) )
 					return false;
 			}
-
+			
 			// Add the cached version of the activity to the cached activity table.
 			$activity_cached = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $this->table_name_cached . " ( item_id, secondary_item_id, content, primary_link, component_name, component_action, date_cached, date_recorded, is_private ) VALUES ( %d, %d, %s, %s, %s, %s, FROM_UNIXTIME(%d), FROM_UNIXTIME(%d), %d )", $this->item_id, $this->secondary_item_id, $activity_content['content'], $activity_content['primary_link'], $this->component_name, $this->component_action, time(), $this->date_recorded, $this->is_private ) );
-		
+			
 			// Add the cached version of the activity to the sitewide activity table.
 			if ( !$this->no_sitewide_cache )
 				$sitewide_cached = $wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['activity']['table_name_sitewide'] . " ( user_id, item_id, secondary_item_id, content, primary_link, component_name, component_action, date_cached, date_recorded ) VALUES ( %d, %d, %d, %s, %s, %s, %s, FROM_UNIXTIME(%d), FROM_UNIXTIME(%d) )", $this->user_id, $this->item_id, $this->secondary_item_id, $activity_content['content'], $activity_content['primary_link'], $this->component_name, $this->component_action, time(), $this->date_recorded ) );
