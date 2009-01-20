@@ -11,7 +11,7 @@ function groups_add_js() {
 	if ( $bp['current_component'] == $bp['groups']['slug'] )
 		wp_enqueue_script( 'bp-groups-js', site_url( MUPLUGINDIR . '/bp-groups/js/general.js' ) );
 }
-add_action( 'template_redirect', 'groups_add_js' );
+add_action( 'template_redirect', 'groups_add_js', 1 );
 
 function groups_add_structure_css() {
 	/* Enqueue the structure CSS file to give basic positional formatting for components */
@@ -30,7 +30,7 @@ function groups_add_cropper_js() {
 		add_action( 'wp_head', 'bp_core_add_cropper_js' );
 	}
 }
-add_action( 'template_redirect', 'groups_add_cropper_js' );
+add_action( 'template_redirect', 'groups_add_cropper_js', 1 );
 
 
 ?>

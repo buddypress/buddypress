@@ -49,7 +49,7 @@ function xprofile_add_cropper_js() {
 	}
 }
 add_action( 'activate_header', 'xprofile_add_cropper_js' );
-add_action( 'template_redirect', 'xprofile_add_cropper_js' );
+add_action( 'template_redirect', 'xprofile_add_cropper_js', 1 );
 add_action( 'admin_menu', 'xprofile_add_cropper_js' );
 
 ?>

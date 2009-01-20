@@ -215,7 +215,7 @@ To view the group please visit: %s
 	// Send it
 	wp_mail( $to, $subject, $message );
 }
-add_action( 'bp_groups_promoted_member', 'groups_notification_promoted_member', 10, 2 );
+add_action( 'groups_promoted_member', 'groups_notification_promoted_member', 10, 2 );
 
 function groups_notification_group_invites( $group_id, $invited_user_ids, $inviter_user_id ) {
 	global $bp;

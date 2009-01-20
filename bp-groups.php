@@ -657,7 +657,7 @@ function groups_screen_group_admin_manage_members() {
 				bp_core_add_message( __( 'User promoted successfully', 'buddypress' ) );
 			}
 			
-			do_action( 'bp_groups_promoted_member', $user_id, $group_obj->id );
+			do_action( 'groups_promoted_member', $user_id, $group_obj->id );
 			
 			bp_core_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/manage-members' );
 		}
@@ -672,7 +672,7 @@ function groups_screen_group_admin_manage_members() {
 				bp_core_add_message( __( 'User demoted successfully', 'buddypress' ) );
 			}
 
-			do_action( 'bp_groups_demoted_member', $user_id, $group_obj->id );
+			do_action( 'groups_demoted_member', $user_id, $group_obj->id );
 			
 			bp_core_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/manage-members' );
 		}
@@ -687,7 +687,7 @@ function groups_screen_group_admin_manage_members() {
 				bp_core_add_message( __( 'User banned successfully', 'buddypress' ) );
 			}
 
-			do_action( 'bp_groups_banned_member', $user_id, $group_obj->id );
+			do_action( 'groups_banned_member', $user_id, $group_obj->id );
 			
 			bp_core_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/manage-members' );
 		}
@@ -702,7 +702,7 @@ function groups_screen_group_admin_manage_members() {
 				bp_core_add_message( __( 'User ban removed successfully', 'buddypress' ) );
 			}
 
-			do_action( 'bp_groups_unbanned_member', $user_id, $group_obj->id );
+			do_action( 'groups_unbanned_member', $user_id, $group_obj->id );
 			
 			bp_core_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/manage-members' );
 		}
@@ -1108,8 +1108,8 @@ add_action( 'groups_new_wire_post', 'groups_update_last_activity' );
 add_action( 'groups_joined_group', 'groups_update_last_activity' );
 add_action( 'groups_leave_group', 'groups_update_last_activity' );
 add_action( 'groups_created_group', 'groups_update_last_activity' );
-add_action( 'bp_groups_new_forum_topic_post', 'groups_update_last_activity' );
-add_action( 'bp_groups_new_forum_topic_post', 'groups_update_last_activity' );
+add_action( 'groups_new_forum_topic_post', 'groups_update_last_activity' );
+add_action( 'groups_new_forum_topic_post', 'groups_update_last_activity' );
 
 
 
@@ -1285,7 +1285,7 @@ function groups_create_group( $step, $group_id ) {
 					if ( !$admin->save() )
 						return false;
 					
-					do_action( 'bp_groups_step1_save' );
+					do_action( 'groups_create_group_step1_save' );
 					
 					/* Set groupmeta */
 					groups_update_groupmeta( $group_obj->id, 'total_member_count', 1 );
@@ -1334,7 +1334,7 @@ function groups_create_group( $step, $group_id ) {
 				if ( !$group_obj->save() )
 					return false;
 					
-				do_action( 'bp_groups_step2_save' );
+				do_action( 'groups_create_group_step2_save' );
 					
 				return $group_obj->id;
 			break;
@@ -1354,7 +1354,7 @@ function groups_create_group( $step, $group_id ) {
 				if ( !$group_obj->save() )
 					return false;
 				
-				do_action( 'bp_groups_step3_save' );
+				do_action( 'groups_create_group_step3_save' );
 				
 				return $group_obj->id;
 			break;
@@ -1365,7 +1365,7 @@ function groups_create_group( $step, $group_id ) {
 				/* Record in activity streams */
 				groups_record_activity( array( 'item_id' => $group_obj->id, 'component_name' => 'groups', 'component_action' => 'created_group', 'is_private' => 0 ) );
 				
-				do_action( 'bp_groups_created_group', $group_obj->id );
+				do_action( 'groups_created_group', $group_obj->id );
 				
 				return $group_obj->id;
 			break;
@@ -1434,7 +1434,7 @@ function groups_new_group_forum_post( $post_text, $topic_id ) {
 		/* Record in activity streams */
 		groups_record_activity( array( 'item_id' => $group_obj->id, 'component_name' => 'groups', 'component_action' => 'new_forum_post', 'is_private' => 0, 'secondary_item_id' => $forum_post['post_id'] ) );
 		
-		do_action( 'bp_groups_new_forum_topic_post', $group_obj->id, $forum_post );
+		do_action( 'groups_new_forum_topic_post', $group_obj->id, $forum_post );
 		
 		return $forum_post;
 	}
@@ -1452,7 +1452,7 @@ function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $
 		/* Record in activity streams */
 		groups_record_activity( array( 'item_id' => $group_obj->id, 'component_name' => 'groups', 'component_action' => 'new_forum_topic', 'is_private' => 0, 'secondary_item_id' => $topic['topic_id'] ) );
 		
-		do_action( 'bp_groups_new_forum_topic', $group_obj->id, $topic );
+		do_action( 'groups_new_forum_topic', $group_obj->id, $topic );
 		
 		return $topic;
 	}
@@ -1600,7 +1600,7 @@ function groups_join_group( $group_id, $user_id = false ) {
 	/* Modify group member count */
 	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') + 1 );
 
-	do_action( 'groups_joined_group', $group_id, $bp['loggedin_userid'] );
+	do_action( 'groups_join_group', $group_id, $bp['loggedin_userid'] );
 
 	return true;
 }
@@ -1663,7 +1663,7 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $g
 	if ( $notify_members )
 		groups_notification_group_updated( $group->id );
 
-	do_action( 'bp_groups_details_updated', $group->id );
+	do_action( 'groups_details_updated', $group->id );
 	
 	return true;
 }
@@ -1689,7 +1689,7 @@ function groups_edit_group_settings( $group_id, $enable_wire, $enable_forum, $en
 		}
 	}
 	
-	do_action( 'bp_groups_settings_updated', $group->id );
+	do_action( 'groups_settings_updated', $group->id );
 	
 	return true;
 }
@@ -1741,7 +1741,7 @@ function groups_unban_member( $user_id, $group_id ) {
 		
 	$member = new BP_Groups_Member( $user_id, $group_id );
 	
-	add_action( 'bp_groups_unban_member', $user_id, $group_id );
+	add_action( 'groups_unban_member', $user_id, $group_id );
 	
 	return $member->unban();
 }
@@ -1767,7 +1767,7 @@ function groups_send_membership_request( $requesting_user_id, $group_id ) {
 			groups_notification_new_membership_request( $requesting_user_id, $admins[$i]->user_id, $group_id, $requesting_user->id );
 		}
 		
-		do_action( 'bp_groups_group_membership_requested', $requesting_user_id, $admins, $group_id, $requesting_user->id );
+		do_action( 'groups_membership_requested', $requesting_user_id, $admins, $group_id, $requesting_user->id );
 	
 		return true;
 	}
@@ -1791,7 +1791,7 @@ function groups_accept_membership_request( $membership_id ) {
 	/* Send a notification to the user. */
 	groups_notification_membership_request_completed( $membership->user_id, $membership->group_id, true );
 	
-	do_action( 'bp_groups_membership_accepted', $membership->user_id, $membership->group_id );
+	do_action( 'groups_membership_accepted', $membership->user_id, $membership->group_id );
 	
 	return true;
 }
@@ -1805,7 +1805,7 @@ function groups_reject_membership_request( $membership_id ) {
 	// Send a notification to the user.
 	groups_notification_membership_request_completed( $membership->user_id, $membership->group_id, false );
 	
-	do_action( 'bp_groups_membership_rejected', $membership->user_id, $membership->group_id );
+	do_action( 'groups_membership_rejected', $membership->user_id, $membership->group_id );
 	
 	return true;
 }
@@ -1837,7 +1837,7 @@ function groups_delete_group( $group_id ) {
 	// Remove the activity stream item
 	groups_delete_activity( array( 'item_id' => $group_id, 'component_name' => 'groups', 'component_action' => 'created_group', 'user_id' => $bp['loggedin_userid'] ) );
  	
-	add_action( 'bp_groups_delete_group', $group_id );
+	do_action( 'groups_delete_group', $group_id );
 	
 	return true;
 }
@@ -2037,5 +2037,27 @@ function groups_remove_data( $user_id ) {
 add_action( 'wpmu_delete_user', 'groups_remove_data', 1 );
 add_action( 'delete_user', 'groups_remove_data', 1 );
 
+// List actions to clear super cached pages on, if super cache is installed
+add_action( 'groups_new_wire_post', 'bp_core_clear_cache' );
+add_action( 'groups_deleted_wire_post', 'bp_core_clear_cache' );
+add_action( 'groups_join_group', 'bp_core_clear_cache' );
+add_action( 'groups_leave_group', 'bp_core_clear_cache' );
+add_action( 'groups_accept_invite', 'bp_core_clear_cache' );
+add_action( 'groups_reject_invite', 'bp_core_clear_cache' );
+add_action( 'groups_invite_user', 'bp_core_clear_cache' );
+add_action( 'groups_uninvite_user', 'bp_core_clear_cache' );
+add_action( 'groups_details_updated', 'bp_core_clear_cache' );
+add_action( 'groups_settings_updated', 'bp_core_clear_cache' );
+add_action( 'groups_unban_member', 'bp_core_clear_cache' );
+add_action( 'groups_ban_member', 'bp_core_clear_cache' );
+add_action( 'groups_demote_member', 'bp_core_clear_cache' );
+add_action( 'groups_premote_member', 'bp_core_clear_cache' );
+add_action( 'groups_membership_rejected', 'bp_core_clear_cache' );
+add_action( 'groups_membership_accepted', 'bp_core_clear_cache' );
+add_action( 'groups_membership_requested', 'bp_core_clear_cache' );
+add_action( 'groups_created_group', 'bp_core_clear_cache' );
+add_action( 'groups_step3_save', 'bp_core_clear_cache' );
+add_action( 'groups_step2_save', 'bp_core_clear_cache' );
+add_action( 'groups_step1_save', 'bp_core_clear_cache' );
 
 ?>

@@ -239,7 +239,7 @@ function bp_profile_group_tabs() {
 		echo '<li' . $selected . '><a href="' . $bp['loggedin_domain'] . $bp['profile']['slug'] . '/edit/group/' . $groups[$i]->id . '">' . $groups[$i]->name . '</a></li>';
 	}
 	
-	do_action( 'bp_xprofile_profile_group_tabs' );
+	do_action( 'xprofile_profile_group_tabs' );
 }
 
 function bp_profile_group_name( $echo = true ) {

@@ -813,6 +813,8 @@ function bp_core_render_notice() {
 	<?php 
 		unset( $_SESSION['message'] );
 		unset( $_SESSION['message_type'] );
+		
+		do_action( 'bp_core_render_notice' );
 	}
 }
 
@@ -1200,6 +1202,25 @@ function bp_core_search_site() {
 add_action( 'wp', 'bp_core_search_site', 5 );
 
 /**
+ * bp_core_clear_cache()
+ * REQUIRES WP-SUPER-CACHE 
+ * 
+ * When wp-super-cache is installed this function will clear cached pages
+ * so that success/error messages are not cached, or time sensitive content.
+ * 
+ * @package BuddyPress Core
+ */
+function bp_core_clear_cache() {
+	global $cache_path, $cache_filename;
+	
+	if ( function_exists( 'prune_super_cache' ) ) {
+		do_action( 'bp_core_clear_cache' );
+		
+		return prune_super_cache( $cache_path, true );		
+	}
+}
+
+/**
  * bp_core_remove_data()
  *
  * Deletes usermeta for the user when the user is deleted.
@@ -1214,5 +1235,10 @@ function bp_core_remove_data( $user_id ) {
 }
 add_action( 'wpmu_delete_user', 'bp_core_remove_data', 1 );
 add_action( 'delete_user', 'bp_core_remove_data', 1 );
+
+// List actions to clear super cached pages on, if super cache is installed
+add_action( 'bp_core_delete_avatar', 'bp_core_clear_cache' );
+add_action( 'bp_core_avatar_save', 'bp_core_clear_cache' );
+add_action( 'bp_core_render_notice', 'bp_core_clear_cache' );
 
 ?>

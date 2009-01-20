@@ -709,7 +709,7 @@ function bp_group_admin_tabs() {
 	<?php } ?>
 	
 <?php
-	do_action( 'bp_groups_admin_tabs' );
+	do_action( 'groups_admin_tabs' );
 }
 
 function bp_group_form_action( $page ) {
@@ -744,7 +744,7 @@ function bp_group_creation_tabs() {
 	<li<?php if ( $create_group_step == '3' ) : ?> class="current"<?php endif; ?>><?php if ( $completed_to_step > 1 ) { ?><a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] ?>/create/step/3">3. <?php _e('Group Avatar', 'buddypress') ?></a><?php } else { ?><span>3. <?php _e('Group Avatar', 'buddypress') ?></span><?php } ?></li>
 	<li<?php if ( $create_group_step == '4' ) : ?> class="current"<?php endif; ?>><?php if ( $completed_to_step > 2 ) { ?><a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] ?>/create/step/4">4. <?php _e('Invite Members', 'buddypress') ?></a><?php } else { ?><span>4. <?php _e('Invite Members', 'buddypress') ?></span><?php } ?></li>
 <?php
-	do_action( 'bp_groups_creation_tabs' );
+	do_action( 'groups_creation_tabs' );
 }
 
 function bp_group_creation_stage_title() {
@@ -935,7 +935,7 @@ function bp_groups_header_tabs() {
 	<li<?php if ( $bp['action_variables'][0] == 'alphabetically' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['current_domain'] . $bp['groups']['slug'] ?>/my-groups/alphabetically""><?php _e( 'Alphabetically', 'buddypress' ) ?></a></li>
 		
 <?php
-	do_action( 'bp_friends_header_tabs' );
+	do_action( 'groups_header_tabs' );
 }
 
 function bp_groups_filter_title() {

@@ -152,5 +152,8 @@ function bp_wire_delete_post( $wire_post_id, $component_name, $table_name = null
 	return true;
 }
 
+// List actions to clear super cached pages on, if super cache is installed
+add_action( 'bp_wire_post_deleted', 'bp_core_clear_cache' );
+add_action( 'bp_wire_post_posted', 'bp_core_clear_cache' );
 
 ?>

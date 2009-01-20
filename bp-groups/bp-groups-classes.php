@@ -248,9 +248,7 @@ Class BP_Groups_Group {
 		if ( function_exists('bp_wire_install') ) {
 			BP_Wire_Post::delete_all_for_item( $this->id, $bp['groups']['table_name_wire'] );
 		}
-		
-		do_action( 'bp_groups_delete_group_content', $this->id );
-		
+				
 		// Finally remove the group entry from the DB
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['groups']['table_name'] . " WHERE id = %d", $this->id ) ) )
 			return false;

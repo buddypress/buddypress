@@ -35,7 +35,7 @@ To view all of your pending friendship requests: %s
 	// Send it
 	wp_mail( $to, $subject, $message );
 }
-add_action( 'bp_friends_friendship_requested', 'friends_notification_new_request', 10, 3 );
+add_action( 'friends_friendship_requested', 'friends_notification_new_request', 10, 3 );
 
 function friends_notification_accepted_request( $friendship_id, $initiator_id, $friend_id ) {
 	global $bp;

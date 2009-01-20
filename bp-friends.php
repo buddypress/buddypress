@@ -197,7 +197,7 @@ function friends_record_activity( $args = true ) {
 		bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_user_id );
 	}
 }
-add_action( 'bp_friends_friendship_accepted', 'friends_record_activity' );
+add_action( 'friends_friendship_accepted', 'friends_record_activity' );
 
 function friends_delete_activity( $args = true ) {
 	if ( function_exists('bp_activity_delete') ) {
@@ -497,7 +497,7 @@ function friends_add_friend( $initiator_userid, $friend_userid ) {
 	
 	if ( $friendship->save() ) {
 		bp_core_add_notification( $friendship->initiator_user_id, $friendship->friend_user_id, 'friends', 'friendship_request' );	
-		do_action( 'bp_friends_friendship_requested', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );	
+		do_action( 'friends_friendship_requested', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );	
 		
 		return true;
 	}
@@ -520,7 +520,7 @@ function friends_remove_friend( $initiator_userid, $friend_userid ) {
 	// Remove the activity stream items
 	friends_delete_activity( array( 'item_id' => $friendship_id, 'component_name' => 'friends', 'component_action' => 'friendship_accepted', 'user_id' => $bp['current_userid'] ) );
 	
-	do_action( 'bp_friends_friendship_deleted', $friendship_id, $initiator_userid, $friend_userid );
+	do_action( 'friends_friendship_deleted', $friendship_id, $initiator_userid, $friend_userid );
 	
 	if ( $friendship->delete() ) {
 		friends_update_friend_totals( $initiator_userid, $friend_userid, 'remove' );
@@ -561,7 +561,7 @@ function friends_reject_friendship( $friendship_id ) {
 		// Remove the friend request notice
 		bp_core_delete_notifications_for_user_by_item_id( $friendship->friend_user_id, $friendship->initiator_user_id, 'friends', 'friendship_request' );	
 		
-		do_action( 'bp_friends_friendship_rejected', $friendship_id );
+		do_action( 'friends_friendship_rejected', $friendship_id );
 		return true;
 	}
 	
@@ -594,5 +594,10 @@ function friends_remove_data( $user_id ) {
 add_action( 'wpmu_delete_user', 'friends_remove_data', 1 );
 add_action( 'delete_user', 'friends_remove_data', 1 );
 
+// List actions to clear super cached pages on, if super cache is installed
+add_action( 'friends_friendship_rejected', 'bp_core_clear_cache' );
+add_action( 'friends_friendship_accepted', 'bp_core_clear_cache' );
+add_action( 'friends_friendship_deleted', 'bp_core_clear_cache' );
+add_action( 'friends_friendship_requested', 'bp_core_clear_cache' );
 
 ?>

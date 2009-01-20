@@ -332,7 +332,7 @@ function messages_action_bulk_delete() {
 	if ( !$thread_ids || !BP_Messages_Thread::check_access($thread_ids) ) {
 		bp_core_redirect( $bp['current_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );			
 	} else {
-		if ( !BP_Messages_Thread::delete( explode(',', $thread_ids ) ) ) {
+		if ( !messages_delete_thread( $thread_ids ) ) {
 			bp_core_add_message( __('There was an error deleting messages.', 'buddypress'), 'error' );
 		} else {
 			bp_core_add_message( __('Messages deleted.', 'buddypress') );
@@ -474,7 +474,7 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 					}
 				}
 				
-				do_action( 'bp_messages_message_sent', array( 'item_id' => $pmessage->id, 'recipient_ids' => $pmessage->recipients, 'thread_id' => $pmessage->thread_id, 'component_name' => 'messages', 'component_action' => 'message_sent', 'is_private' => 1 ) );
+				do_action( 'messages_send_message', array( 'item_id' => $pmessage->id, 'recipient_ids' => $pmessage->recipients, 'thread_id' => $pmessage->thread_id, 'component_name' => 'messages', 'component_action' => 'message_sent', 'is_private' => 1 ) );
 		
 				if ( $from_ajax ) {
 					return array('status' => 1, 'message' => $message, 'reply' => $pmessage);
@@ -528,7 +528,7 @@ function messages_send_notice( $subject, $message, $from_template ) {
 		$notice->is_active = 1;
 		$notice->save(); // send it.
 		
-		do_action( 'bp_messages_notice_sent', $subject, $message );
+		do_action( 'messages_send_notice', $subject, $message );
 		
 		return true;
 	}
@@ -551,13 +551,16 @@ function messages_delete_thread( $thread_ids ) {
 		if ( $error )
 			return false;
 		
+		do_action( 'messages_delete_thread', $thread_ids );
+		
 		return true;
 	} else {
-		if ( !$status = BP_Messages_Thread::delete($thread_ids) ) {
+		if ( !BP_Messages_Thread::delete($thread_ids) )
 			return false;
-		} else {
-			return true;
-		}
+		
+		do_action( 'messages_delete_thread', $thread_ids );
+		
+		return true;
 	}
 }
 
@@ -653,6 +656,14 @@ function messages_view_thread( $thread_id ) {
 	}
 }
 
+// List actions to clear super cached pages on, if super cache is installed
+add_action( 'messages_delete_thread', 'bp_core_clear_cache' );
+add_action( 'messages_send_notice', 'bp_core_clear_cache' );
+add_action( 'messages_message_sent', 'bp_core_clear_cache' );
 
+// Don't cache message inbox/sentbox/compose as it's too problematic
+add_action( 'messages_screen_compose', 'bp_core_clear_cache' );
+add_action( 'messages_screen_sentbox', 'bp_core_clear_cache' );
+add_action( 'messages_screen_inbox', 'bp_core_clear_cache' );
 
 ?>

@@ -398,7 +398,7 @@ function xprofile_action_new_wire_post() {
 	} else {
 		bp_core_add_message( __('Wire message successfully posted.', 'buddypress') );
 				
-		do_action( 'bp_xprofile_new_wire_post', $wire_post_id );	
+		do_action( 'xprofile_new_wire_post', $wire_post_id );	
 	}
 
 	if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
@@ -432,7 +432,7 @@ function xprofile_action_delete_wire_post() {
 	if ( bp_wire_delete_post( $wire_post_id, $bp['profile']['slug'], $bp['profile']['table_name_wire'] ) ) {
 		bp_core_add_message( __('Wire message successfully deleted.', 'buddypress') );
 
-		do_action( 'bp_xprofile_delete_wire_post', $wire_post_id );						
+		do_action( 'xprofile_delete_wire_post', $wire_post_id );						
 	} else {
 		bp_core_add_message( __('Wire post could not be deleted, please try again.', 'buddypress'), 'error' );
 	}
@@ -540,7 +540,7 @@ function xprofile_format_activity( $item_id, $user_id, $action, $secondary_item_
 				$content .= '<blockquote>' . $post_excerpt . '</blockquote>';
 				$return_values['content'] = $content;
 				
-				$return_values['content'] = apply_filters( 'bp_xprofile_new_wire_post_activity', $content, $from_user_link, $to_user_link, $post_excerpt );
+				$return_values['content'] = apply_filters( 'xprofile_new_wire_post_activity', $content, $from_user_link, $to_user_link, $post_excerpt );
 				
 				return $return_values;
 			} 
@@ -557,7 +557,7 @@ function xprofile_format_activity( $item_id, $user_id, $action, $secondary_item_
 			
 			return array( 
 				'primary_link' => bp_core_get_userlink( $user_id, false, true ),
-				'content' => apply_filters( 'bp_xprofile_updated_profile_activity', sprintf( __('%s updated the "%s" information on their profile', 'buddypress'), $user_link, '<a href="' . $bp['current_domain'] . $bp['profile']['slug'] . '">' . $profile_group->name . '</a>' ) . ' <span class="time-since">%s</span>', $user_link, $profile_group->name )
+				'content' => apply_filters( 'xprofile_updated_profile_activity', sprintf( __('%s updated the "%s" information on their profile', 'buddypress'), $user_link, '<a href="' . $bp['current_domain'] . $bp['profile']['slug'] . '">' . $profile_group->name . '</a>' ) . ' <span class="time-since">%s</span>', $user_link, $profile_group->name )
 			);
 		break;
 	}
@@ -748,7 +748,7 @@ function xprofile_edit( $group_id, $action ) {
 					// Record in activity stream
 					xprofile_record_activity( array( 'item_id' => $group->id, 'component_name' => 'profile', 'component_action' => 'updated_profile', 'is_private' => 0 ) );
 					
-					do_action( 'bp_xprofile_updated_profile', $group->id ); 
+					do_action( 'xprofile_updated_profile', $group->id ); 
 				}
 			}
 			// If this is an invalid group, then display an error.
@@ -866,5 +866,8 @@ function xprofile_remove_data( $user_id ) {
 }
 add_action( 'wpmu_delete_user', 'xprofile_remove_data', 1 );
 add_action( 'delete_user', 'xprofile_remove_data', 1 );
+
+// List actions to clear super cached pages on, if super cache is installed
+add_action( 'xprofile_updated_profile', 'bp_core_clear_cache' );
 
 ?>

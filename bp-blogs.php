@@ -434,7 +434,7 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 		}
 	} else {
 		$existing_post = new BP_Blogs_Post( null, $blog_id, $post_id );
-		
+
 		/**
 		 *  Delete the recorded post if:
 		 *  - The status is no longer "published"
@@ -456,6 +456,8 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 	do_action( 'bp_blogs_new_blog_post', $recorded_post, $is_private, $is_recorded );
 }
 add_action( 'publish_post', 'bp_blogs_record_post' );
+add_action( 'edit_post', 'bp_blogs_record_post' );
+
 
 function bp_blogs_record_comment( $comment_id, $post_id = false, $blog_id = false, $from_ajax = false ) {
 	global $bp, $current_blog, $current_user;
@@ -640,36 +642,6 @@ function bp_blogs_remove_data_for_blog( $blog_id ) {
 }
 add_action( 'delete_blog', 'bp_blogs_remove_data_for_blog', 1 );
 
-function bp_blogs_register_existing_content( $blog_id ) {
-	global $bp;
-	
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		bp_blogs_setup_globals();
-	}	
-	
-	$user_id = $bp['loggedin_userid'];
-	$blogs = get_blogs_of_user($user_id);
-
-	if ( is_array($blogs) ) {
-		foreach ( $blogs as $blog ) {
-			bp_blogs_record_blog( (int)$blog->userblog_id, (int)$user_id );
-
-			switch_to_blog( $blog->userblog_id );
-			$posts_for_blog = bp_core_get_all_posts_for_user( $user_id );
-		
-			for ( $i = 0; $i < count($posts); $i++ ) {
-				bp_blogs_record_post( $posts[$i] );
-			}
-	
-			do_action( 'bp_blogs_register_existing_content', $blog );
-		}
-	}	
-	
-	restore_current_blog();
-}
-add_action( 'bp_homebase_signup_completed', 'bp_blogs_register_existing_content', 10 );
-
 function bp_blogs_get_blogs_for_user( $user_id ) {
 	return BP_Blogs_Blog::get_blogs_for_user( $user_id );
 }
@@ -729,6 +701,9 @@ add_action( 'wp', 'bp_blogs_redirect_to_random_blog', 6 );
 
 //
 // Blog meta functions
+// These functions are used to store specific blogmeta in one global table, rather than in each
+// blog's options table. Significantly speeds up global blog queries.
+// By default each blog's name, description and last updated time are stored and synced here.
 //
 
 function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = false ) {
@@ -840,6 +815,17 @@ function bp_blogs_remove_data( $user_id ) {
 add_action( 'wpmu_delete_user', 'bp_blogs_remove_data', 1 );
 add_action( 'delete_user', 'bp_blogs_remove_data', 1 );
 
+// List actions to clear super cached pages on, if super cache is installed
+add_action( 'bp_blogs_remove_data_for_blog', 'bp_core_clear_cache' );
+add_action( 'bp_blogs_remove_comment', 'bp_core_clear_cache' );
+add_action( 'bp_blogs_remove_post', 'bp_core_clear_cache' );
+add_action( 'bp_blogs_remove_blog_for_user', 'bp_core_clear_cache' );
+add_action( 'bp_blogs_remove_blog', 'bp_core_clear_cache' );
+add_action( 'bp_blogs_new_blog_comment', 'bp_core_clear_cache' );
+add_action( 'bp_blogs_new_blog_post', 'bp_core_clear_cache' );
+add_action( 'bp_blogs_new_blog', 'bp_core_clear_cache' );
+add_action( 'bp_blogs_new_blog', 'bp_core_clear_cache' );
+add_action( 'bp_blogs_remove_data', 'bp_core_clear_cache' );
 
 
 

@@ -245,7 +245,7 @@ function bp_core_avatar_upload_dir( $upload, $user_id = false ) {
 	// Switch back to the current blog
 	restore_current_blog();
 
-	return array( 'path' => $newdir, 'url' => $newurl, 'subdir' => $newsubdir, 'basedir' => $newbdir, 'baseurl' => $newburl, 'error' => false );
+	return apply_filters( 'bp_core_avatar_upload_dir', array( 'path' => $newdir, 'url' => $newurl, 'subdir' => $newsubdir, 'basedir' => $newbdir, 'baseurl' => $newburl, 'error' => false ) );
 }
 
 function bp_core_check_avatar_dimensions($file) {
@@ -270,7 +270,7 @@ function bp_core_resize_avatar( $file, $size = false ) {
 	return $canvas = str_replace( '//', '/', $canvas );
 }
 
-function bp_core_render_avatar_cropper($original, $new, $action, $user_id = null, $no_form_tag = false, $url = false) {
+function bp_core_render_avatar_cropper( $original, $new, $action, $user_id = null, $no_form_tag = false, $url = false ) {
 	global $bp;
 	
 	$size = getimagesize($new);
@@ -348,6 +348,8 @@ function bp_core_render_avatar_cropper($original, $new, $action, $user_id = null
 		echo '<p class="submit"><input type="submit" name="save" value="' . __('Crop Full Size &amp; Save', 'buddypress') . '" /></p>';
 	}
 	
+	do_action( 'bp_core_render_avatar_cropper', $original, $new, $action );
+	
 	if ( !$no_form_tag )
 		echo '</form>';
 	?>
@@ -384,8 +386,11 @@ function bp_core_avatar_cropstore( $source, $canvas, $v1_x1, $v1_y1, $v1_w, $v1_
 		$v2_filename = '-avatar2';		
 	}
 	
+	$v1_filename = apply_filters( 'bp_avatar_v1_filename', $v1_filename );
+	$v2_filename = apply_filters( 'bp_avatar_v2_filename', $v2_filename );
+	
 	// Perform v1 crop
-	$v1_dest = dirname($source) . '/' . preg_replace('!(\.[^.]+)?$!', $v1_filename . '$1', basename($source), 1);
+	$v1_dest = apply_filters( 'bp_avatar_v1_dest', dirname($source) . '/' . preg_replace('!(\.[^.]+)?$!', $v1_filename . '$1', basename($source), 1), $source ); 
 	
 	if ( $from_signup )
 		$v1_out = wp_crop_image( $source, $v1_x1, $v1_y1, $v1_w, $v1_h, CORE_AVATAR_V1_W, CORE_AVATAR_V1_H, false, $v1_dest );
@@ -394,7 +399,7 @@ function bp_core_avatar_cropstore( $source, $canvas, $v1_x1, $v1_y1, $v1_w, $v1_
 		
 	// Perform v2 crop
 	if ( CORE_AVATAR_V2_W !== false && CORE_AVATAR_V2_H !== false ) {
-		$v2_dest = dirname($source) . '/' . preg_replace('!(\.[^.]+)?$!', $v2_filename . '$1', basename($source), 1);
+		$v2_dest = apply_filters( 'bp_avatar_v2_dest', dirname($source) . '/' . preg_replace('!(\.[^.]+)?$!', $v2_filename . '$1', basename($source), 1), $source );
 
 		if ( $from_signup )
 			$v2_out = wp_crop_image( $source, $v2_x1, $v2_y1, $v2_w, $v2_h, CORE_AVATAR_V2_W, CORE_AVATAR_V2_H, false, $v2_dest );
@@ -414,7 +419,7 @@ function bp_core_avatar_cropstore( $source, $canvas, $v1_x1, $v1_y1, $v1_w, $v1_
 		@rmdir($dir); // will fail on non-empty directories
 	} while ( substr_count($dir, '/') >= 2 && stristr($dir, ABSPATH) );
 	
-	return array('v1_out' => $v1_out, 'v2_out' => $v2_out);
+	return apply_filters( 'bp_core_avatar_cropstore', array('v1_out' => $v1_out, 'v2_out' => $v2_out) );
 }
 
 function bp_core_avatar_save( $vars, $user_id = false ) {
@@ -422,18 +427,20 @@ function bp_core_avatar_save( $vars, $user_id = false ) {
 		$user_id = get_current_user_id();
 	
 	$old = get_usermeta( $user_id, 'bp_core_avatar_v1_path' );
-	$v1_href = str_replace( array(ABSPATH), array($src), $vars['v1_out'] );
+	$v1_href = apply_filters( 'bp_avatar_v1_href', str_replace( array(ABSPATH), array($src), $vars['v1_out'] ), $src, $vars['v1_out'] );
 	update_usermeta( $user_id, 'bp_core_avatar_v1', $v1_href );
 	update_usermeta( $user_id, 'bp_core_avatar_v1_path', $vars['v1_out'] );
 	@unlink($old); // Removing old avatar
 	
 	if ( CORE_AVATAR_V2_W !== false && CORE_AVATAR_V2_H !== false ) {
 		$old = get_usermeta( $user_id, 'bp_core_avatar_v2_path' );
-		$v2_href = str_replace( array(ABSPATH), array($src), $vars['v2_out'] );
+		$v2_href = apply_filters( 'bp_avatar_v2_href', str_replace( array(ABSPATH), array($src), $vars['v2_out'] ), $src, $vars['v2_out'] );
 		update_usermeta( $user_id, 'bp_core_avatar_v2', $v2_href );
 		update_usermeta( $user_id, 'bp_core_avatar_v2_path', $vars['v2_out'] );
 		@unlink($old); // Removing old avatar
 	}
+	
+	do_action( 'bp_core_avatar_save', $old, $v1_href, $vars['v1_out'] );
 }
 
 function bp_core_render_avatar_upload_form($action, $no_form_tag = false) {
@@ -446,10 +453,13 @@ function bp_core_render_avatar_upload_form($action, $no_form_tag = false) {
 		<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('slick_avatars'); ?>" />
 		<input type="file" name="file" id="file" />
 		<input type="submit" name="upload" id="upload" value="Upload Photo"/>
+		
+		<?php do_action( 'bp_core_render_avatar_upload_form' ) ?>
+		
 <?php if ( !$no_form_tag ) { ?>
 	</form>
 <?php
-	}	
+	}
 }
 
 function bp_core_delete_avatar() {
@@ -465,6 +475,8 @@ function bp_core_delete_avatar() {
 	// Remove the actual images
 	@unlink($old_v1);
 	@unlink($old_v2);
+	
+	do_action( 'bp_core_delete_avatar', $old_v1, $old_v2 );
 }
 
 function bp_core_ap_die( $msg ) {

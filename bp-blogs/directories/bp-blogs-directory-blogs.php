@@ -138,6 +138,9 @@ function bp_blogs_directory_blogs_content() {
 		</div>
 		
 	</div>
+	
+	<?php do_action( 'bp_blogs_directory_blogs_sidebar' ) ?>
+	
 	<?php wp_nonce_field('directory_blogs', '_wpnonce-blog-filter' ) ?>
 	</form>
 
@@ -194,5 +197,7 @@ function bp_blogs_directory_blogs_sidebar() {
 			</div>
 		<?php } ?>
 	</div>
+	
+	<?php do_action( 'bp_blogs_directory_blogs_sidebar' ) ?>
 <?php
 }

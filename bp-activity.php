@@ -247,6 +247,8 @@ function bp_activity_record( $item_id, $component_name, $component_action, $is_p
 		$secondary_user_save = $activity->save();
 	}
 	
+	do_action( 'bp_activity_record', $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_user_id );
+	
 	return true;
 }
 
@@ -292,7 +294,12 @@ function bp_activity_get_sitewide_activity( $max_items ) {
 }
 
 function bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id ) {
-	return BP_Activity_Activity::delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
+	if ( !BP_Activity_Activity::delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id ) )
+		return false;
+		
+	do_action( 'bp_activity_delete', $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
+	
+	return true;
 }
 
 function bp_activity_order_by_date( $a, $b ) {
@@ -305,6 +312,8 @@ function bp_activity_remove_data( $user_id ) {
 	
 	// Remove the deleted users activity tables
 	BP_Activity_Activity::kill_tables_for_user( $user_id );
+	
+	do_action( 'bp_activity_remove_data', $user_id );
 }
 add_action( 'wpmu_delete_user', 'bp_activity_remove_data', 1 );
 add_action( 'delete_user', 'bp_activity_remove_data', 1 );

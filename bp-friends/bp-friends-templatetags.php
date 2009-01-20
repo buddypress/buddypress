@@ -336,7 +336,7 @@ function bp_friends_header_tabs() {
 	<li<?php if ( $bp['action_variables'][0] == 'newest' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['current_domain'] . $bp['friends']['slug'] ?>/my-friends/newest"><?php _e( 'Newest', 'buddypress' ) ?></a></li>
 	<li<?php if ( $bp['action_variables'][0] == 'alphabetically' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['current_domain'] . $bp['friends']['slug'] ?>/my-friends/alphabetically""><?php _e( 'Alphabetically', 'buddypress' ) ?></a></li>
 <?php
-	do_action( 'bp_friends_header_tabs' );
+	do_action( 'friends_header_tabs' );
 }
 
 function bp_friends_filter_title() {

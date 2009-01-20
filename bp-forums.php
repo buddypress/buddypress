@@ -171,5 +171,11 @@ function bp_forums_get_keymaster() {
 	return get_userdata( $user_id );
 }
 
+// List actions to clear super cached pages on, if super cache is installed
+add_action( 'bp_forums_new_forum', 'bp_core_clear_cache' );
+add_action( 'bp_forums_new_topic', 'bp_core_clear_cache' );
+add_action( 'bp_forums_new_post', 'bp_core_clear_cache' );
+
+
 
 ?>

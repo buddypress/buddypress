@@ -130,9 +130,11 @@ function bp_core_directory_members_content() {
 				<p><?php _e( 'No members found. Members must fill in at least one piece of profile data to show in member lists.', 'buddypress' ) ?></p>
 			</div>
 		<?php endif; ?>
-		</div>
-		
+		</div>		
 	</div>
+
+	<?php do_action( 'bp_core_directory_members_content' ) ?>
+
 	<?php wp_nonce_field('directory_members', '_wpnonce-member-filter' ) ?>
 	</form>
 	
@@ -185,5 +187,7 @@ function bp_core_directory_members_sidebar() {
 			</div>
 		<?php } ?>
 	</div>
+	
+	<?php do_action( 'bp_core_directory_members_sidebar' ) ?>
 <?php
 }

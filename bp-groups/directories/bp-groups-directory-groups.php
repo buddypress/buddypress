@@ -140,6 +140,9 @@ function groups_directory_groups_content() {
 		</div>
 		
 	</div>
+	
+	<?php do_action( 'groups_directory_groups_content' ) ?>
+	
 	<?php wp_nonce_field('directory_groups', '_wpnonce-group-filter' ) ?>
 	</form>
 
@@ -191,5 +194,8 @@ function groups_directory_groups_sidebar() {
 			</div>
 		<?php } ?>
 	</div>
+
+	<?php do_action( 'groups_directory_groups_sidebar' ) ?>
+	
 <?php
 }
