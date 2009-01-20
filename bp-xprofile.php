@@ -393,7 +393,7 @@ function xprofile_action_new_wire_post() {
 	if ( $bp['current_component'] != $bp['xprofile']['slug'] && $bp['current_action'] != 'post' )
 		return false;
 	
-	if ( !$wire_post_id = bp_wire_new_post( $bp['current_userid'], $_POST['wire-post-textarea'], $bp['profile']['slug'], $bp['profile']['table_name_wire'] ) ) {
+	if ( !$wire_post_id = bp_wire_new_post( $bp['current_userid'], $_POST['wire-post-textarea'], $bp['profile']['slug'], false, $bp['profile']['table_name_wire'] ) ) {
 		bp_core_add_message( __('Wire message could not be posted. Please try again.', 'buddypress'), 'error' );
 	} else {
 		bp_core_add_message( __('Wire message successfully posted.', 'buddypress') );

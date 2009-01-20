@@ -95,7 +95,7 @@ function bp_wire_delete_activity( $args = true ) {
 	}
 }
 
-function bp_wire_new_post( $item_id, $message, $component_name, $table_name = null ) {
+function bp_wire_new_post( $item_id, $message, $component_name, $private_post = false, $table_name = null ) {
 	global $bp;
 	
 	if ( empty($message) || !is_user_logged_in() )
@@ -117,8 +117,10 @@ function bp_wire_new_post( $item_id, $message, $component_name, $table_name = nu
 	if ( !$wire_post->save() )
 		return false;
 	
-	// Record in the activity streams
-	bp_wire_record_activity( array( 'item_id' => $wire_post->id, 'component_name' => $component_name, 'component_action' => 'new_wire_post', 'is_private' => 0 ) );
+	if ( !$private_post ) {
+		// Record in the activity streams
+		bp_wire_record_activity( array( 'item_id' => $wire_post->id, 'component_name' => $component_name, 'component_action' => 'new_wire_post', 'is_private' => 0 ) );
+	}
 	
 	do_action( 'bp_wire_post_posted', $wire_post->id, $wire_post->item_id, $wire_post->user_id );
 	

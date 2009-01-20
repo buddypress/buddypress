@@ -1626,7 +1626,13 @@ function groups_is_group_mod( $user_id, $group_id ) {
 }
 
 function groups_new_wire_post( $group_id, $content ) {
-	if ( $wire_post_id = bp_wire_new_post( $group_id, $content, 'groups' ) ) {
+	global $group_obj;
+	
+	$private = false;
+	if ( $group_obj->status != 'public' )
+		$private = true;
+	
+	if ( $wire_post_id = bp_wire_new_post( $group_id, $content, 'groups', $private ) ) {
 		do_action( 'groups_new_wire_post', $group_id, $wire_post_id );
 		
 		return true;
