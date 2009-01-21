@@ -10,7 +10,7 @@ function bp_blogs_directory_blogs_setup() {
 		wp_enqueue_style( 'bp-blogs-directory-blogs', site_url( MUPLUGINDIR . '/bp-blogs/css/directory-blogs.css' ) );
 
 		if ( file_exists( TEMPLATEPATH . '/plugin-template.php' ) )
-			bp_catch_uri( 'plugin-template', true );
+			bp_core_load_template( 'plugin-template', true );
 		else
 			wp_die( __( 'To enable the blog directory you must drop the "plugin-template.php" file into your theme directory.', 'buddypress' ) );
 	}

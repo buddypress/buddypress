@@ -10,7 +10,7 @@ function groups_directory_groups_setup() {
 		wp_enqueue_style( 'bp-groups-directory-groups', site_url( MUPLUGINDIR . '/bp-groups/css/directory-groups.css' ) );
 		
 		if ( file_exists( TEMPLATEPATH . '/plugin-template.php' ) )
-			bp_catch_uri('plugin-template');
+			bp_core_load_template('plugin-template');
 		else
 			wp_die( __( 'To enable the group directory you must drop the "plugin-template.php" file into your theme directory.', 'buddypress' ) );
 	}

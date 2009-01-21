@@ -482,13 +482,44 @@ function bp_core_add_nav_default( $parent_id, $function, $slug = false, $user_ha
 	}
 }
 
+/**
+ * bp_core_load_template()
+ *
+ * Uses the bp_catch_uri function to load a specific template file with fallback support.
+ *
+ * Example:
+ *   bp_core_load_template( 'profile/edit-profile' );
+ * Loads:
+ *   wp-content/member-themes/[activated_theme]/profile/edit-profile.php
+ * 
+ * @package BuddyPress Core
+ * @param $username str Username to check.
+ * @global $wpdb WordPress DB access object.
+ * @return false on no match
+ * @return int the user ID of the matched user.
+ */
+function bp_core_load_template( $template, $skip_blog_check = false ) {
+	return bp_catch_uri( $template, $skip_blog_check );
+}
+
+/**
+ * bp_core_get_random_member()
+ *
+ * Returns the user_id for a user based on their username.
+ * 
+ * @package BuddyPress Core
+ * @param $username str Username to check.
+ * @global $wpdb WordPress DB access object.
+ * @return false on no match
+ * @return int the user ID of the matched user.
+ */
 function bp_core_get_random_member() {
 	global $bp, $wpdb;
 	
 	if ( $bp['current_component'] == MEMBERS_SLUG && isset( $_GET['random'] ) ) {
-		$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . $wpdb->base_prefix . "users WHERE user_status = 0 AND spam = 0 AND deleted = 0 ORDER BY rand() LIMIT 1" ) );
+		$user = BP_Core_User::get_random_users(1);
 
-		$ud = get_userdata( $user_id );
+		$ud = get_userdata( $user['users'][0]->user_id );
 		bp_core_redirect( $bp['root_domain'] . '/' . MEMBERS_SLUG . '/' . $ud->user_login );
 	}
 }

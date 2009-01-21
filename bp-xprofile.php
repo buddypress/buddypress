@@ -265,7 +265,7 @@ add_action( 'admin_menu', 'xprofile_setup_nav', 2 );
  * Handles the display of the profile page by loading the correct template file.
  * 
  * @package BuddyPress Xprofile
- * @uses bp_catch_uri() Looks for and loads a template file within the current member theme (folder/filename)
+ * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
  */
 function xprofile_screen_display_profile() {
 	global $bp, $is_new_friend;
@@ -276,7 +276,7 @@ function xprofile_screen_display_profile() {
 		bp_core_delete_notifications_for_user_by_item_id( $bp['loggedin_userid'], $bp['current_userid'], 'friends', 'friendship_accepted' );
 	
 	do_action( 'xprofile_screen_display_profile', $is_new_friend );
-	bp_catch_uri( 'profile/index' );
+	bp_core_load_template( 'profile/index' );
 }
 
 /**
@@ -287,12 +287,12 @@ function xprofile_screen_display_profile() {
  * 
  * @package BuddyPress Xprofile
  * @uses bp_is_home() Checks to make sure the current user being viewed equals the logged in user
- * @uses bp_catch_uri() Looks for and loads a template file within the current member theme (folder/filename)
+ * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
  */
 function xprofile_screen_edit_profile() {
 	if ( bp_is_home() ) {
 		do_action( 'xprofile_screen_edit_profile' );
-		bp_catch_uri( 'profile/edit' );
+		bp_core_load_template( 'profile/edit' );
 	}
 }
 
@@ -304,13 +304,13 @@ function xprofile_screen_edit_profile() {
  * 
  * @package BuddyPress Xprofile
  * @uses bp_is_home() Checks to make sure the current user being viewed equals the logged in user
- * @uses bp_catch_uri() Looks for and loads a template file within the current member theme (folder/filename)
+ * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
  */
 function xprofile_screen_change_avatar() {
 	if ( bp_is_home() ) {
 		add_action( 'wp_head', 'bp_core_add_cropper_js' );
 		do_action( 'xprofile_screen_change_avatar' );
-		bp_catch_uri( 'profile/change-avatar' );
+		bp_core_load_template( 'profile/change-avatar' );
 	}
 }
 
@@ -360,7 +360,7 @@ add_action( 'bp_notification_settings', 'xprofile_screen_notification_settings',
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  * @uses bp_core_delete_avatar() Deletes the active avatar for the logged in user.
  * @uses add_action() Runs a specific function for an action when it fires.
- * @uses bp_catch_uri() Looks for and loads a template file within the current member theme (folder/filename)
+ * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
  */
 function xprofile_action_delete_avatar() {
 	global $bp;
@@ -371,7 +371,7 @@ function xprofile_action_delete_avatar() {
 	if ( bp_is_home() ) {
 		bp_core_delete_avatar();
 		add_action( 'wp_head', 'bp_core_add_cropper_js' );
-		bp_catch_uri( 'profile/change-avatar' );
+		bp_core_load_template( 'profile/change-avatar' );
 	}
 }
 add_action( 'wp', 'xprofile_action_delete_avatar', 3 );

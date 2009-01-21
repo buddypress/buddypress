@@ -172,12 +172,12 @@ add_action( 'admin_menu', 'messages_setup_nav', 2 );
 
 function messages_screen_inbox() {
 	do_action( 'messages_screen_inbox' );
-	bp_catch_uri( 'messages/index' );	
+	bp_core_load_template( 'messages/index' );	
 }
 
 function messages_screen_sentbox() {
 	do_action( 'messages_screen_sentbox' );
-	bp_catch_uri( 'messages/sentbox' );
+	bp_core_load_template( 'messages/sentbox' );
 }
 
 function messages_screen_compose() {
@@ -204,7 +204,7 @@ function messages_screen_compose() {
 	
 	do_action( 'messages_screen_compose' );
 	
-	bp_catch_uri( 'messages/compose' );
+	bp_core_load_template( 'messages/compose' );
 }
 
 function messages_screen_notices() {
@@ -242,7 +242,7 @@ function messages_screen_notices() {
 	
 	do_action( 'messages_screen_notices' );
 	
-	bp_catch_uri( 'messages/notices' );	
+	bp_core_load_template( 'messages/notices' );	
 }
 
 function messages_screen_notification_settings() { 
@@ -291,7 +291,7 @@ function messages_action_view_message() {
 			'link' => $bp['loggedin_domain'] . $bp['messages']['slug'] . '/'			
 		);
 
-		bp_catch_uri( 'messages/view' );
+		bp_core_load_template( 'messages/view' );
 	}
 }
 add_action( 'wp', 'messages_action_view_message', 3 );

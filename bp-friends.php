@@ -120,7 +120,7 @@ function friends_screen_my_friends() {
 
 	do_action( 'friends_screen_my_friends' );
 	
-	bp_catch_uri( 'friends/index' );	
+	bp_core_load_template( 'friends/index' );	
 }
 
 function friends_screen_requests() {
@@ -147,12 +147,12 @@ function friends_screen_requests() {
 	
 	do_action( 'friends_screen_requests' );
 	
-	bp_catch_uri( 'friends/requests' );
+	bp_core_load_template( 'friends/requests' );
 }
 
 function friends_screen_friend_finder() {
 	do_action( 'friends_screen_friend_finder' );
-	bp_catch_uri( 'friends/friend-finder' );
+	bp_core_load_template( 'friends/friend-finder' );
 }
 
 function friends_screen_notification_settings() { 
@@ -191,7 +191,7 @@ add_action( 'bp_notification_settings', 'friends_screen_notification_settings' )
  it will show in the users activity stream (if installed)
  **************************************************************************/
 
-function friends_record_activity( $args = true ) {
+function friends_record_activity( $args ) {
 	if ( function_exists('bp_activity_record') ) {
 		extract($args);
 		bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_user_id );
@@ -199,7 +199,7 @@ function friends_record_activity( $args = true ) {
 }
 add_action( 'friends_friendship_accepted', 'friends_record_activity' );
 
-function friends_delete_activity( $args = true ) {
+function friends_delete_activity( $args ) {
 	if ( function_exists('bp_activity_delete') ) {
 		extract($args);
 		bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id );

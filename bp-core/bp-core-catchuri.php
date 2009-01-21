@@ -144,6 +144,8 @@ add_action( 'wp', 'bp_core_set_uri_globals', 1 );
  *
  * Takes either a single page name or array of page names and 
  * loads the first template file that can be found.
+ *
+ * Please don't call this function directly anymore, use: bp_core_load_template()
  * 
  * @package BuddyPress Core
  * @global $bp_path BuddyPress global containing the template file names to use.
@@ -245,7 +247,7 @@ function bp_core_catch_profile_uri() {
 	global $bp;
 	
 	if ( !function_exists('xprofile_install') )
-		bp_catch_uri( 'profile/index' );
+		bp_core_load_template( 'profile/index' );
 }
 
 function bp_core_force_buddypress_theme( $template ) {

@@ -190,22 +190,22 @@ add_action( 'admin_menu', 'bp_blogs_setup_nav', 2 );
 
 function bp_blogs_screen_my_blogs() {
 	do_action( 'bp_blogs_screen_my_blogs' );
-	bp_catch_uri( 'blogs/my-blogs' );	
+	bp_core_load_template( 'blogs/my-blogs' );	
 }
 
 function bp_blogs_screen_recent_posts() {
 	do_action( 'bp_blogs_screen_recent_posts' );
-	bp_catch_uri( 'blogs/recent-posts' );
+	bp_core_load_template( 'blogs/recent-posts' );
 }
 
 function bp_blogs_screen_recent_comments() {
 	do_action( 'bp_blogs_screen_recent_comments' );
-	bp_catch_uri( 'blogs/recent-comments' );
+	bp_core_load_template( 'blogs/recent-comments' );
 }
 
 function bp_blogs_screen_create_a_blog() {
 	do_action( 'bp_blogs_screen_create_a_blog' );
-	bp_catch_uri( 'blogs/create' );
+	bp_core_load_template( 'blogs/create' );
 }
 
 
