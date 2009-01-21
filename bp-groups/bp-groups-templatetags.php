@@ -198,6 +198,15 @@ function bp_group_is_visible() {
 	return false;
 }
 
+function bp_group_has_news() {
+	global $groups_template;
+	
+	if ( $groups_template->group->news == '' )
+		return false;
+	
+	return true;
+}
+
 function bp_group_id( $echo = true ) {
 	global $groups_template;
 	
@@ -783,7 +792,7 @@ function bp_group_create_form() {
 			<label for="group-desc">* <?php _e('Group Description', 'buddypress') ?></label>
 			<textarea name="group-desc" id="group-desc"><?php echo ( $group_obj ) ? $group_obj->description : $_POST['group-desc']; ?></textarea>
 		
-			<label for="group-news">* <?php _e('Recent News', 'buddypress') ?></label>
+			<label for="group-news"><?php _e('Recent News', 'buddypress') ?></label>
 			<textarea name="group-news" id="group-news"><?php echo ( $group_obj ) ? $group_obj->news : $_POST['group-news']; ?></textarea>
 			
 			<p><input type="submit" value="<?php _e('Create Group and Continue', 'buddypress') ?> &raquo;" id="save" name="save"/></p>

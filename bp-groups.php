@@ -1252,7 +1252,7 @@ function groups_create_group( $step, $group_id ) {
 			
 		switch ( $step ) {
 			case '1':
-				if ( $_POST['group-name'] != '' && $_POST['group-desc'] != '' && $_POST['group-news'] != '' ) {
+				if ( $_POST['group-name'] != '' && $_POST['group-desc'] != '' ) {
 					$group_obj->creator_id = $bp['loggedin_userid'];
 					$group_obj->name = stripslashes($_POST['group-name']);
 					$group_obj->description = stripslashes($_POST['group-desc']);
@@ -1653,7 +1653,7 @@ function groups_delete_wire_post( $wire_post_id, $table_name ) {
 function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $group_news ) {
 	global $bp;
 	
-	if ( $group_name == '' || $group_desc == '' || $group_news == '' )
+	if ( $group_name == '' || $group_desc == '' )
 		return false;
 		
 	$group = new BP_Groups_Group( $group_id, false, false );
