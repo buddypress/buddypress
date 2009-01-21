@@ -251,9 +251,6 @@ function bp_adminbar_random_menu() {
 		</ul>
 	</li>
 	<?php
-	
-	echo '</ul>';
-	echo '</div>';
 
 	$doing_admin_bar = false;
 }
