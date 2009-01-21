@@ -795,6 +795,8 @@ function bp_group_create_form() {
 			<label for="group-news"><?php _e('Recent News', 'buddypress') ?></label>
 			<textarea name="group-news" id="group-news"><?php echo ( $group_obj ) ? $group_obj->news : $_POST['group-news']; ?></textarea>
 			
+			<?php bp_custom_group_fields_editable() ?>
+			
 			<p><input type="submit" value="<?php _e('Create Group and Continue', 'buddypress') ?> &raquo;" id="save" name="save"/></p>
 		<?php break; ?>
 		
@@ -1187,6 +1189,19 @@ function bp_groups_random_groups() {
 	</div>
 <?php
 }
+
+function bp_custom_group_boxes() {
+	do_action( 'groups_custom_group_boxes' );
+}
+
+function bp_custom_group_admin_tabs() {
+	do_action( 'groups_custom_group_admin_tabs' );
+}
+
+function bp_custom_group_fields_editable() {
+	do_action( 'groups_custom_group_fields_editable' );
+}
+
 
 /****
  * Group Members Template Tags

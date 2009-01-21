@@ -52,6 +52,8 @@
 					<?php bp_group_random_members() ?>
 				</div>
 			<?php endif; ?>
+			
+			<?php bp_custom_group_boxes() ?>
 		
 			<?php if ( bp_group_is_visible() && bp_group_is_wire_enabled() ) : ?>
 				<?php if ( function_exists('bp_wire_get_post_list') ) : ?>

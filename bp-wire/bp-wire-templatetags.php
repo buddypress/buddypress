@@ -325,5 +325,13 @@ function bp_wire_see_all_link() {
 	}
 }
 
+function bp_custom_wire_boxes_before() {
+	do_action( 'bp_wire_custom_wire_boxes_before' );
+}
+
+function bp_custom_wire_boxes_after() {
+	do_action( 'bp_wire_custom_wire_boxes_after' );
+}
+
 
 ?>

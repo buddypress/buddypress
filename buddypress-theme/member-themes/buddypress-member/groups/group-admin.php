@@ -17,6 +17,8 @@
 			<li><a href="<?php bp_group_admin_permalink() ?>/group-settings"><?php _e( 'Group Settings', 'buddypress' ); ?></a></li>
 			<li><a href="<?php bp_group_admin_permalink() ?>/manage-members"><?php _e( 'Manage Members', 'buddypress' ); ?></a></li>
 			<li><a href="<?php bp_group_admin_permalink() ?>/delete-group"><?php _e( 'Delete Group', 'buddypress' ); ?></a></li>
+			
+			<?php bp_custom_group_admin_tabs() ?>
 		</ul>
 </div>
 
