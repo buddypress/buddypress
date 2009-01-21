@@ -298,7 +298,7 @@ function bp_core_render_avatar_cropper( $original, $new, $action, $user_id = nul
 	echo '<p>' . __('Please crop a small version of your avatar to use for thumbnails.', 'buddypress') . '</p>';
 	
 	// Canvas
-	echo '<div id="crop-v1" class="crop-img"><img src="' . $src . '" ' . $size[3] . ' border="0" alt="Select the area to crop" id="crop-v1-img" /></div>';
+	echo '<div id="crop-v1" class="crop-img"><img src="' . $src . '" ' . $size[3] . ' border="0" alt="' . __( 'Select the area to crop', 'buddypress' ) . '" id="crop-v1-img" /></div>';
 	
 	// Preview
 	echo '<p class="crop-preview"><strong>' . __('Crop Preview', 'buddypress') . '</strong></p>';
@@ -323,7 +323,7 @@ function bp_core_render_avatar_cropper( $original, $new, $action, $user_id = nul
 		echo '<p>' . __('Please crop a full size version of your avatar.', 'buddypress') . '</p>';
 		
 		// Canvas
-		echo '<div id="crop-v2" class="crop-img"><img src="' . $src . '" ' . $size[3] . ' border="0" alt="Select the area to crop" id="crop-v2-img" /></div>';
+		echo '<div id="crop-v2" class="crop-img"><img src="' . $src . '" ' . $size[3] . ' border="0" alt="' . __('Select the area to crop', 'buddypress' ) . '" id="crop-v2-img" /></div>';
 
 		// Preview
 		echo '<p class="crop-preview"><strong>' . __('Crop Preview', 'buddypress') . '</strong></p>';
@@ -452,7 +452,7 @@ function bp_core_render_avatar_upload_form($action, $no_form_tag = false) {
 		<input type="hidden" name="action" value="slick_avatars" />
 		<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('slick_avatars'); ?>" />
 		<input type="file" name="file" id="file" />
-		<input type="submit" name="upload" id="upload" value="Upload Photo"/>
+		<input type="submit" name="upload" id="upload" value="<?php _e( 'Upload Photo', 'buddypress' ) ?>"/>
 		
 		<?php do_action( 'bp_core_render_avatar_upload_form' ) ?>
 		
