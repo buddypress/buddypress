@@ -32,7 +32,7 @@
 				<p><?php bp_group_description() ?></p>
 			</div>
 		
-			<?php if ( bp_group_is_visible() ) : ?>
+			<?php if ( bp_group_is_visible() && bp_group_has_news() ) : ?>
 				<div class="info-group">
 					<h4><?php _e( 'News', 'buddypress' ); ?></h4>
 					<p><?php bp_group_news() ?></p>

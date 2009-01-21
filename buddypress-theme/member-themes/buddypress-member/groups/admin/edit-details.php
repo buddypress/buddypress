@@ -21,7 +21,7 @@
 			<label for="group-desc">* <?php _e( 'Group Description', 'buddypress' ) ?></label>
 			<textarea name="group-desc" id="group-desc"><?php bp_group_description_editable() ?></textarea>
 		
-			<label for="group-news">* <?php _e( 'Recent News', 'buddypress' ) ?></label>
+			<label for="group-news"><?php _e( 'Recent News', 'buddypress' ) ?></label>
 			<textarea name="group-news" id="group-news"><?php bp_group_news_editable() ?></textarea>
 			
 			<p>
