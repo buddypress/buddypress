@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-01-20 14:11+0000\n"
+"POT-Creation-Date: 2009-01-21 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -560,7 +560,7 @@ msgstr ""
 msgid "MonsterID (Generated)"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:106 bp-forums/bp-forums-admin.php:102
+#: bp-core/bp-core-admin.php:106 bp-forums/bp-forums-admin.php:106
 msgid "Save Settings"
 msgstr ""
 
@@ -693,7 +693,7 @@ msgstr ""
 msgid "This is your current avatar"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:121 bp-groups.php:1170
+#: bp-core/bp-core-avatars.php:121 bp-groups.php:1168
 #: bp-xprofile/bp-xprofile-signup.php:153
 msgid "There is no error, the file uploaded with success"
 msgstr ""
@@ -704,16 +704,16 @@ msgstr ""
 msgid "Your image was bigger than the maximum allowed file size of: "
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:124 bp-groups.php:1173
+#: bp-core/bp-core-avatars.php:124 bp-groups.php:1171
 #: bp-xprofile/bp-xprofile-signup.php:156
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:125 bp-groups.php:1174
+#: bp-core/bp-core-avatars.php:125 bp-groups.php:1172
 msgid "No file was uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:126 bp-groups.php:1175
+#: bp-core/bp-core-avatars.php:126 bp-groups.php:1173
 #: bp-xprofile/bp-xprofile-signup.php:157
 msgid "Missing a temporary folder"
 msgstr ""
@@ -738,6 +738,10 @@ msgstr ""
 msgid "Please crop a small version of your avatar to use for thumbnails."
 msgstr ""
 
+#: bp-core/bp-core-avatars.php:301 bp-core/bp-core-avatars.php:326
+msgid "Select the area to crop"
+msgstr ""
+
 #: bp-core/bp-core-avatars.php:304 bp-core/bp-core-avatars.php:329
 msgid "Crop Preview"
 msgstr ""
@@ -756,6 +760,10 @@ msgstr ""
 
 #: bp-core/bp-core-avatars.php:341 bp-core/bp-core-avatars.php:348
 msgid "Crop Full Size &amp; Save"
+msgstr ""
+
+#: bp-core/bp-core-avatars.php:455
+msgid "Upload Photo"
 msgstr ""
 
 #: bp-core/bp-core-avatars.php:485
@@ -1055,8 +1063,8 @@ msgid "Members"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:471 bp-groups.php:158 bp-groups.php:196
-#: bp-groups.php:789 bp-groups.php:1030 bp-groups.php:1043 bp-groups.php:1057
-#: bp-groups.php:1070 bp-groups/bp-groups-admin.php:33
+#: bp-groups.php:789 bp-groups.php:1028 bp-groups.php:1041 bp-groups.php:1055
+#: bp-groups.php:1068 bp-groups/bp-groups-admin.php:33
 #: bp-groups/bp-groups-widgets.php:8 bp-groups/bp-groups-widgets.php:9
 #: buddypress-theme/buddypress-home/header.php:48
 #: buddypress-theme/member-themes/buddypress-member/header.php:45
@@ -1160,73 +1168,73 @@ msgstr ""
 msgid "bbPress Forums"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:48
+#: bp-forums/bp-forums-admin.php:52
 msgid "Group Forum Settings"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:53
+#: bp-forums/bp-forums-admin.php:57
 msgid ""
 "To enable forums for each group in a BuddyPress installation, you must first "
 "download, install, and setup bbPress and integrate it with WordPress MU."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:54
+#: bp-forums/bp-forums-admin.php:58
 msgid ""
 "Once you have bbPress set up correctly, enter the options below so that "
 "BuddyPress can connect."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:61
+#: bp-forums/bp-forums-admin.php:65
 msgid "bbPress URL"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:64
+#: bp-forums/bp-forums-admin.php:68
 msgid ""
 "The URL of the location you installed bbPress. For example, http://domain."
 "com/forums/"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:68
+#: bp-forums/bp-forums-admin.php:72
 msgid "bbPress username"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:71
+#: bp-forums/bp-forums-admin.php:75
 msgid ""
 "The username for the user (with admin rights) that you created for "
 "BuddyPress integration"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:75
+#: bp-forums/bp-forums-admin.php:79
 msgid "bbPress password"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:78
+#: bp-forums/bp-forums-admin.php:82
 msgid ""
 "The password for the user (with admin rights) that you created for "
 "BuddyPress integration"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:83
+#: bp-forums/bp-forums-admin.php:87
 msgid "Cache requests"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:86
+#: bp-forums/bp-forums-admin.php:90
 msgid "Caching enabled"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:89
+#: bp-forums/bp-forums-admin.php:93
 msgid "Turn on caching of requests to reduce latency and load."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:93
+#: bp-forums/bp-forums-admin.php:97
 msgid "Cache timeout"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:95
+#: bp-forums/bp-forums-admin.php:99
 msgid "(seconds)"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:96
+#: bp-forums/bp-forums-admin.php:100
 msgid "The amount of time in seconds that a cached request is valid for."
 msgstr ""
 
@@ -1730,131 +1738,131 @@ msgstr ""
 msgid "%s wrote on the wire of the group %s"
 msgstr ""
 
-#: bp-groups.php:960
+#: bp-groups.php:958
 #, php-format
 msgid "%s posted on the forum topic %s in the group %s:"
 msgstr ""
 
-#: bp-groups.php:985
+#: bp-groups.php:983
 #, php-format
 msgid "%s created the forum topic %s in the group %s:"
 msgstr ""
 
-#: bp-groups.php:1016
+#: bp-groups.php:1014
 msgid "Group Membership Requests"
 msgstr ""
 
-#: bp-groups.php:1016
+#: bp-groups.php:1014
 #, php-format
 msgid "%d new membership requests for the group \"%s\""
 msgstr ""
 
-#: bp-groups.php:1019
+#: bp-groups.php:1017
 #, php-format
 msgid "%s requests membership for the group \"%s\""
 msgstr ""
 
-#: bp-groups.php:1030
+#: bp-groups.php:1028
 #, php-format
 msgid "%d accepted group membership requests"
 msgstr ""
 
-#: bp-groups.php:1032
+#: bp-groups.php:1030
 #, php-format
 msgid "Membership for group \"%s\" accepted"
 msgstr ""
 
-#: bp-groups.php:1043
+#: bp-groups.php:1041
 #, php-format
 msgid "%d rejected group membership requests"
 msgstr ""
 
-#: bp-groups.php:1045
+#: bp-groups.php:1043
 #, php-format
 msgid "Membership for group \"%s\" rejected"
 msgstr ""
 
-#: bp-groups.php:1057
+#: bp-groups.php:1055
 #, php-format
 msgid "You were promoted to an admin in %d groups"
 msgstr ""
 
-#: bp-groups.php:1059
+#: bp-groups.php:1057
 #, php-format
 msgid "You were promoted to an admin in the group %s"
 msgstr ""
 
-#: bp-groups.php:1070
+#: bp-groups.php:1068
 #, php-format
 msgid "You were promoted to a mod in %d groups"
 msgstr ""
 
-#: bp-groups.php:1072
+#: bp-groups.php:1070
 #, php-format
 msgid "You were promoted to a mod in the group %s"
 msgstr ""
 
-#: bp-groups.php:1083 bp-groups.php:1085
+#: bp-groups.php:1081 bp-groups.php:1083
 #: buddypress-theme/member-themes/buddypress-member/groups/list-invites.php:12
 msgid "Group Invites"
 msgstr ""
 
-#: bp-groups.php:1083
+#: bp-groups.php:1081
 #, php-format
 msgid "You have %d new group invitations"
 msgstr ""
 
-#: bp-groups.php:1085
+#: bp-groups.php:1083
 #, php-format
 msgid "You have an invitation to the group: %s"
 msgstr ""
 
-#: bp-groups.php:1171
+#: bp-groups.php:1169
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr ""
 
-#: bp-groups.php:1172
+#: bp-groups.php:1170
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
 
-#: bp-groups.php:1180
+#: bp-groups.php:1178
 msgid "Your group avatar upload failed, please try again. Error was: "
 msgstr ""
 
-#: bp-groups.php:1186
+#: bp-groups.php:1184
 msgid "The file you uploaded is too big. Please upload a file under"
 msgstr ""
 
-#: bp-groups.php:1191 bp-xprofile/bp-xprofile-signup.php:176
+#: bp-groups.php:1189 bp-xprofile/bp-xprofile-signup.php:176
 msgid "Please upload only JPG, GIF or PNG photos."
 msgstr ""
 
-#: bp-groups.php:1197
+#: bp-groups.php:1195
 msgid ""
 "Upload Failed! Please check the permissions on the group avatar upload "
 "directory."
 msgstr ""
 
-#: bp-groups.php:1280
+#: bp-groups.php:1278
 #: buddypress-theme/member-themes/buddypress-member/groups/group-admin.php:13
 msgid "Group Admin"
 msgstr ""
 
-#: bp-groups.php:1432
+#: bp-groups.php:1430
 msgid "Reply posted successfully!"
 msgstr ""
 
-#: bp-groups.php:1442
+#: bp-groups.php:1440
 msgid "There was an error posting that reply."
 msgstr ""
 
-#: bp-groups.php:1450
+#: bp-groups.php:1448
 msgid "Topic posted successfully!"
 msgstr ""
 
-#: bp-groups.php:1460
+#: bp-groups.php:1458
 msgid "There was an error posting that topic."
 msgstr ""
 
@@ -3143,6 +3151,7 @@ msgid "Activate your Account"
 msgstr ""
 
 #: buddypress-theme/buddypress-home/footer.php:5
+#: buddypress-theme/member-themes/buddypress-member/footer.php:6
 #, php-format
 msgid ""
 "%s is proudly powered by <a href=\"http://mu.wordpress.org\">WordPress MU</"
