@@ -1221,8 +1221,8 @@ function groups_get_avatar_hrefs( $avatars ) {
 	
 	$src = $bp['root_domain'] . '/';
 
-	$thumb_href = str_replace( ABSPATH, $src, $avatars['v1_out'] );
-	$full_href = str_replace( ABSPATH, $src, $avatars['v2_out'] );
+	$thumb_href = str_replace( ABSPATH, $src, stripslashes( $avatars['v1_out'] ) );
+	$full_href = str_replace( ABSPATH, $src, stripslashes ( $avatars['v2_out'] ) );
 	
 	return array( 'thumb_href' => $thumb_href, 'full_href' => $full_href );
 }
@@ -1346,8 +1346,8 @@ function groups_create_group( $step, $group_id ) {
 				// Success on group avatar cropping, now save the results.
 				$avatar_hrefs = groups_get_avatar_hrefs($result);
 				
-				$group_obj->avatar_thumb = $avatar_hrefs['thumb_href'];
-				$group_obj->avatar_full = $avatar_hrefs['full_href'];
+				$group_obj->avatar_thumb = stripslashes( $avatar_hrefs['thumb_href'] );
+				$group_obj->avatar_full = stripslashes( $avatar_hrefs['full_href'] );
 				
 				if ( !$group_obj->save() )
 					return false;
