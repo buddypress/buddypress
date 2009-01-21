@@ -29,9 +29,7 @@ function for_buddypress_strip_tags( $_post, $post ) {
 	
 	return $_post; 
 }
-
 add_filter( 'bb_xmlrpc_prepare_post', 'for_buddypress_strip_tags', 10, 2 );
-
 
 function for_buddypress_prepare_topic( $_topic, $topic ) {
 	// Cast to an array
@@ -48,4 +46,14 @@ function for_buddypress_prepare_topic( $_topic, $topic ) {
 	return $_topic;
 }
 add_filter( 'bb_xmlrpc_prepare_topic', 'for_buddypress_prepare_topic', 10, 2 );
+
+function for_buddypress_pre_post( $post_text, $post_id, $topic_id ){
+	$post_text = stripslashes( stripslashes_deep($post_text) );
+	$post_text = str_replace( '/amp/', '&', $post_text );
+	$post_text = html_entity_decode( $post_text, ENT_COMPAT, "UTF-8" );
+
+	return $post_text;
+}
+add_filter( 'pre_post', 'for_buddypress_pre_post', 10, 3 );
+
 ?>
