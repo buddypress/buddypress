@@ -108,7 +108,7 @@ Class BP_Activity_Activity {
 		return true;
 	}
 	
-	function get_activity_for_user( $user_id = null, $limit = 30, $since = '-1 week' ) {
+	function get_activity_for_user( $user_id = null, $limit = 30, $since = '-4 weeks' ) {
 		global $wpdb, $bp;
 		
 		if ( !$user_id )
