@@ -193,7 +193,7 @@ add_action( 'bp_notification_settings', 'friends_screen_notification_settings' )
 
 function friends_record_activity( $args ) {
 	if ( function_exists('bp_activity_record') ) {
-		extract($args);
+		extract( (array)$args );
 		bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_user_id );
 	}
 }
@@ -201,7 +201,7 @@ add_action( 'friends_friendship_accepted', 'friends_record_activity' );
 
 function friends_delete_activity( $args ) {
 	if ( function_exists('bp_activity_delete') ) {
-		extract($args);
+		extract( (array)$args );
 		bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
 	}
 }
