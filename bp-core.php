@@ -162,7 +162,7 @@ add_action( '_admin_menu', 'bp_core_setup_globals', 1 ); // must be _admin_menu 
 
 function bp_core_setup_session() {
 	// Start a session for error/success feedback on redirect and for signup functions.
-	session_start();
+	@session_start();
 	
 	// Render any error/success feedback on the template
 	if ( $_SESSION['message'] != '' )
