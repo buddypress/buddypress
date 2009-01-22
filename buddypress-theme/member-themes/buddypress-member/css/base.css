@@ -53,9 +53,10 @@ hr, div.clear {
 
 input, select, textarea { width: 100%; }
 
-input#submit {
+input#submit, p.submit input {
 	width: auto;
 }
+	p.submit { margin-top: 1em; font-size: 1.4em; }
 
 .inner-tube {
 	float: right;

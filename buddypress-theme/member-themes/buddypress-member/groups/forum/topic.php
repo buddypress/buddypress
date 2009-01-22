@@ -73,7 +73,7 @@
 					<div id="post-topic-reply">
 						<p><?php _e( 'Add a reply:', 'buddypress' ) ?></p>
 						<textarea name="reply_text" id="reply_text"></textarea>
-						<input type="submit" name="submit_reply" id="submit_reply" value="Post Reply"/>
+						<p class="submit"><input type="submit" name="submit_reply" id="submit" value="Post Reply"/></p>
 					</div>
 					
 					<?php endif; ?>

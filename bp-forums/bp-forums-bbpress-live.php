@@ -591,15 +591,23 @@ class bbPress_Live
 	
 	function get_topic_details( $topic ) 
 	{
+		$key = md5( 'topic_' . $topic );
+		
+		if ( $topic = $this->cache_get( $key ) ) {
+			return $topic;
+		}
+				
 		if ( !$topic = $this->fetch->query( 'bb.getTopic', array( $topic ) ) ) {
 			return false;
 		}
+		
+		$this->cache_update( $key, $topic );
 		
 		return $topic;
 	}
 
 	function new_forum( $name = '', $desc = '', $parent = 0, $order = 0, $is_category = false )
-	{
+	{				
 		if ( !$forum = $this->fetch->query( 'bb.newForum', array( array( 'name' => $name, 'description' => $desc, 'parent' => $parent, 'order' => $order, 'is_category' => $is_category ) ) ) ) {
 			return false;
 		}
@@ -625,11 +633,19 @@ class bbPress_Live
 	}
 	
 	function get_post( $post = 0 )
-	{		
+	{	
+		$key = md5( 'post_' . $post );
+		
+		if ( $post = $this->cache_get( $key ) ) {
+			return $post;
+		}
+		
 		if ( !$post = $this->fetch->query( 'bb.getPost', array( $post ) ) ) {
 			return false;
 		}
 
+		$this->cache_update( $key, $post );
+		
 		return $post;		
 	}
 	
@@ -641,6 +657,9 @@ class bbPress_Live
 			return false;
 		}
 		
+		$key = md5( 'post_' . $post->post_id );
+		$this->cache_update( $key, $post );
+		
 		return $post;
 	}
 	
@@ -651,6 +670,9 @@ class bbPress_Live
 		if ( !$topic = $this->fetch->query( 'bb.newTopic', array( array( 'title' => $title, 'text' => $topic_text, 'tags' => $tags, 'forum_id' => (int)$forum ) ), $current_user->user_login ) ) {
 			return false;
 		}
+		
+		$key = md5( 'topic_' . $topic->topic_id );
+		$this->cache_update( $key, $post );
 		
 		return $topic;
 	}
