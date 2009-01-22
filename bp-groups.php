@@ -91,13 +91,7 @@ function groups_install() {
 	
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
-	
-	// dbDelta won't change character sets, so we need to do this seperately.
-	// This will only be in here pre v1.0
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['groups']['table_name'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['groups']['table_name_members'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['groups']['table_name_groupmeta'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
-	
+
 	if ( function_exists('bp_wire_install') )
 		$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['groups']['table_name_wire'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );		
 	

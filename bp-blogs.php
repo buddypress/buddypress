@@ -72,13 +72,7 @@ function bp_blogs_install( $version ) {
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 
 	dbDelta($sql);
-	
-	// dbDelta won't change character sets, so we need to do this seperately.
-	// This will only be in here pre v1.0
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['blogs']['table_name'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['blogs']['table_name_blog_posts'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['blogs']['table_name_blog_comments'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
-	
+
 	// On first installation - record all existing blogs in the system.
 	if ( !(int)get_site_option( 'bp-blogs-first-install') ) {
 		

@@ -26,14 +26,12 @@ function messages_install() {
 	
 	$sql[] = "CREATE TABLE ". $bp['messages']['table_name_threads'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-		  		message_ids varchar(150) NOT NULL,
-				sender_ids varchar(150) NOT NULL,
+		  		message_ids longtext NOT NULL,
+				sender_ids longtext NOT NULL,
 		  		first_post_date datetime NOT NULL,
 		  		last_post_date datetime NOT NULL,
 		  		last_message_id int(11) NOT NULL,
 				last_sender_id int(11) NOT NULL,
-			    KEY message_ids (message_ids),
-			    KEY sender_ids (sender_ids),
 			    KEY last_message_id (last_message_id),
 			    KEY last_sender_id (last_sender_id)
 		 	   ) {$charset_collate};";
@@ -76,13 +74,6 @@ function messages_install() {
 	
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 	dbDelta($sql);
-	
-	// dbDelta won't change character sets, so we need to do this seperately.
-	// This will only be in here pre v1.0
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['messages']['table_name_threads'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['messages']['table_name_recipients'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['messages']['table_name_messages'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['messages']['table_name_notices'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
 	
 	add_site_option( 'bp-messages-version', BP_MESSAGES_VERSION );
 }

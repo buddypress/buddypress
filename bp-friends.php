@@ -39,10 +39,6 @@ function friends_install() {
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
 	
-	// dbDelta won't change character sets, so we need to do this seperately.
-	// This will only be in here pre v1.0
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['friends']['table_name'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
-	
 	add_site_option( 'bp-friends-version', BP_FRIENDS_VERSION );
 }
 	

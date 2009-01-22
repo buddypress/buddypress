@@ -80,12 +80,6 @@ function bp_activity_user_install() {
 
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
-
-	// dbDelta won't change character sets, so we need to do this seperately.
-	// This will only be in here pre v1.0
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['activity']['table_name_current_user'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['activity']['table_name_current_user_cached'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['activity']['table_name_current_user_friends_cached'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
 	
 	update_usermeta( $bp['current_userid'], 'bp-activity-version', BP_ACTIVITY_VERSION );
 }

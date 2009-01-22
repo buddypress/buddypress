@@ -115,36 +115,6 @@ function xprofile_install() {
 
 	dbDelta($sql);
 	
-	// dbDelta won't change character sets, so we need to do this seperately.
-	
-	// This will only be in here pre v1.0
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['profile']['table_name_groups'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['profile']['table_name_fields'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['profile']['table_name_data'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
-	
-	$wpdb->query( $wpdb->prepare( "UPDATE " . $bp['profile']['table_name_fields'] . " SET name = 'Full Name' WHERE id = 1" ) );
-	
-	if ( !(int)get_site_option( 'bp-xprofile-fullname-conversion' ) ) {
-		$names = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, value FROM " . $bp['profile']['table_name_data'] . " WHERE field_id = 1 OR field_id = 2" ) );
-	
-		for ( $i = 0; $i < count($names); $i++ ) {
-			$fullnames[$names[$i]->user_id] .= $names[$i]->value . ' ';
-		}
-	
-		if ( $fullnames ) {
-			foreach( $fullnames as $user_id => $fullname ) {
-				$wpdb->query( $wpdb->prepare( "UPDATE " . $bp['profile']['table_name_data'] . " SET value = %s WHERE field_id = 1 AND user_id = %d", $fullname, $user_id ) );
-			}
-		}
-	
-		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['profile']['table_name_fields'] . " WHERE name = 'Last Name'" ) );	
-		
-		add_site_option( 'bp-xprofile-fullname-conversion', 1 );
-	}
-	
-	if ( function_exists('bp_wire_install') )
-		$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['profile']['table_name_wire'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
-
 	add_site_option('bp-xprofile-version', BP_XPROFILE_VERSION);
 	
 	if ( get_site_option( 'bp-xprofile-base-group-name' ) == '' ) {
