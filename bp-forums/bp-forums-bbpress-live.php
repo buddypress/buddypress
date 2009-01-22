@@ -589,15 +589,15 @@ class bbPress_Live
 		return $topics;
 	}
 	
-	function get_topic_details( $topic ) 
+	function get_topic_details( $topic_id ) 
 	{
-		$key = md5( 'topic_' . $topic );
+		$key = md5( 'topic_' . $topic_id );
 		
 		if ( $topic = $this->cache_get( $key ) ) {
 			return $topic;
 		}
 				
-		if ( !$topic = $this->fetch->query( 'bb.getTopic', array( $topic ) ) ) {
+		if ( !$topic = $this->fetch->query( 'bb.getTopic', array( $topic_id ) ) ) {
 			return false;
 		}
 		
@@ -632,15 +632,15 @@ class bbPress_Live
 		return $posts;		
 	}
 	
-	function get_post( $post = 0 )
+	function get_post( $post_id = 0 )
 	{	
-		$key = md5( 'post_' . $post );
+		$key = md5( 'post_' . $post_id );
 		
 		if ( $post = $this->cache_get( $key ) ) {
 			return $post;
 		}
-		
-		if ( !$post = $this->fetch->query( 'bb.getPost', array( $post ) ) ) {
+				
+		if ( !$post = $this->fetch->query( 'bb.getPost', array( $post_id ) ) ) {
 			return false;
 		}
 

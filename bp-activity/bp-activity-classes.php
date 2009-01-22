@@ -150,12 +150,12 @@ Class BP_Activity_Activity {
 			
 			//echo '<small style="color: red">** Debug: Not Using Cache **</small>';
 			
-			// Reselect, format and cache a new activity stream.
-			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $bp['activity']['table_name_current_user'] . " WHERE date_recorded >= FROM_UNIXTIME(%d) $privacy_sql ORDER BY date_recorded DESC $limit_sql", $since ) );
+			// Reselect, format and cache a new activity stream. Override the limit otherwise we might only cache 5 items when viewing a profile page.
+			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $bp['activity']['table_name_current_user'] . " WHERE date_recorded >= FROM_UNIXTIME(%d) $privacy_sql ORDER BY date_recorded DESC LIMIT 30", $since ) );
 
-			for ( $i = 0; $i < count( $activities ); $i++ ) {
-				if ( function_exists( $bp[$activities[$i]->component_name]['format_activity_function'] ) ) {
-					if ( !$content = call_user_func($bp[$activities[$i]->component_name]['format_activity_function'], $activities[$i]->item_id, $activities[$i]->user_id, $activities[$i]->component_action ) )
+			for ( $i = 0; $i < count( $activities ); $i++ ) {			
+				if ( function_exists( $bp[$activities[$i]->component_name]['format_activity_function'] ) ) {	
+					if ( !$content = call_user_func($bp[$activities[$i]->component_name]['format_activity_function'], $activities[$i]->item_id, $activities[$i]->user_id, $activities[$i]->component_action, $activities[$i]->secondary_item_id ) )
 						continue;
 					
 					if ( !$activities[$i]->is_private ) {
@@ -178,6 +178,9 @@ Class BP_Activity_Activity {
 			
 			if ( count($activities_formatted) )
 				BP_Activity_Activity::cache_activities( $activities_formatted, $user_id );
+				
+			// Now honor the limit value, otherwise we may return 30 items on a profile page.
+			$activities_formatted = array_slice($activities_formatted, 0, $limit);
 		}
 		
 		return $activities_formatted;

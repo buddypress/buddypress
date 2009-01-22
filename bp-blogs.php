@@ -226,7 +226,7 @@ function bp_blogs_record_activity( $args = true ) {
 
 	if ( function_exists('bp_activity_record') ) {
 		extract($args);
-				
+						
 		bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_user_id );
 	}
 }
@@ -370,13 +370,14 @@ function bp_blogs_record_blog( $blog_id, $user_id ) {
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'name', $name );
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'description', $description );
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'last_activity', time() );
-	
-	$is_private = bp_blogs_is_blog_hidden( $recorded_blog_id );
-	
-	if ( !$is_recorded = BP_Blogs_Blog::is_recorded( $blog_id ) ) {
-		// Record in activity streams
-		bp_blogs_record_activity( array( 'item_id' => $recorded_blog_id, 'component_name' => 'blogs', 'component_action' => 'new_blog', 'is_private' => $is_private ) );		
-	}
+
+	if ( (int)$_POST['blog_public'] )
+		$is_private = 0;
+	else
+		$is_private = 1;
+
+	// Record in activity streams
+	bp_blogs_record_activity( array( 'item_id' => $recorded_blog_id, 'component_name' => 'blogs', 'component_action' => 'new_blog', 'is_private' => $is_private, 'user_id' => $recorded_blog->user_id ) );		
 	
 	do_action( 'bp_blogs_new_blog', $recorded_blog, $is_private, $is_recorded );
 }

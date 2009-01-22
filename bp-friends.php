@@ -234,15 +234,15 @@ function friends_format_activity( $item_id, $user_id, $action, $secondary_item_i
 					'content' => apply_filters( 'bp_friends_friendship_accepted_activity', sprintf( __( '%s and %s are now friends', 'buddypress' ), $user_1, $user_2 ) . ' <span class="time-since">%s</span>', $user_1, $user_2 )
 				);				
 			} else {
+				
 				$user_1 = bp_core_get_userlink( $friendship->friend_user_id );
 				$user_2 = bp_core_get_userlink($friendship->initiator_user_id);
 				
 				return array( 
 					'primary_link' => bp_core_get_userlink( $friendship->friend_user_id, false, true ),
 					'content' => apply_filters( 'bp_friends_friendship_accepted_activity', sprintf( __( '%s and %s are now friends', 'buddypress' ), bp_core_get_userlink( $friendship->friend_user_id ), bp_core_get_userlink($friendship->initiator_user_id) ) . ' <span class="time-since">%s</span>', $user_1, $user_2 )
-				);				
+				);			
 			}
-			
 		break;
 	}
 	
