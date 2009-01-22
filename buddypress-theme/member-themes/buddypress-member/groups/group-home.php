@@ -39,6 +39,8 @@
 				</div>
 			<?php endif; ?>
 			
+			<?php bp_custom_group_fields() ?>
+			
 			<?php if ( bp_group_is_visible() && bp_group_is_forum_enabled() && function_exists( 'bp_forums_setup') ) : ?>
 				<div class="info-group">
 					<h4><?php _e( 'Active Forum Topics', 'buddypress' ); ?> <a href="<?php bp_group_forum_permalink() ?>"><?php _e( 'See All &raquo;', 'buddypress' ) ?></a></h4>

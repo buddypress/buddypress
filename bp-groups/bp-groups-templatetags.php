@@ -1202,6 +1202,9 @@ function bp_custom_group_fields_editable() {
 	do_action( 'groups_custom_group_fields_editable' );
 }
 
+function bp_custom_group_fields() {
+	do_action( 'groups_custom_group_fields' );
+}
 
 /****
  * Group Members Template Tags
