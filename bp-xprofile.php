@@ -481,7 +481,9 @@ function xprofile_format_activity( $item_id, $user_id, $action, $secondary_item_
 	
 	switch( $action ) {
 		case 'new_wire_post':
-			$wire_post = new BP_Wire_Post( $bp['profile']['table_name_wire'], $item_id );
+			if ( class_exists('BP_Wire_Post') ) {
+				$wire_post = new BP_Wire_Post( $bp['profile']['table_name_wire'], $item_id );
+			}
 			
 			if ( !$wire_post )
 				return false;
