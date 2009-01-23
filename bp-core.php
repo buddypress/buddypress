@@ -762,10 +762,12 @@ function bp_core_format_time( $time, $just_date = false ) {
  * @uses $excerpt_length The maximum length in characters of the excerpt.
  * @return str The excerpt text
  */
-function bp_create_excerpt( $text, $excerpt_length = 55 ) { // Fakes an excerpt if needed
+function bp_create_excerpt( $text, $excerpt_length = 55, $filter_shortcodes = true ) { // Fakes an excerpt if needed
 	$text = str_replace(']]>', ']]&gt;', $text);
 	$text = strip_tags($text);
-	$text = preg_replace( '|\[(.+?)\](.+?\[/\\1\])?|s', '', $text );
+	
+	if ( $filter_shortcodes )
+		$text = preg_replace( '|\[(.+?)\](.+?\[/\\1\])?|s', '', $text );
 	
 	$words = explode(' ', $text, $excerpt_length + 1);
 	if (count($words) > $excerpt_length) {
@@ -1271,5 +1273,8 @@ add_action( 'delete_user', 'bp_core_remove_data', 1 );
 add_action( 'bp_core_delete_avatar', 'bp_core_clear_cache' );
 add_action( 'bp_core_avatar_save', 'bp_core_clear_cache' );
 add_action( 'bp_core_render_notice', 'bp_core_clear_cache' );
+
+// Remove the catch non existent blogs hook so WPMU doesn't think BuddyPress pages are non existing blogs
+//remove_action( 'plugins_loaded', 'catch_nonexistant_blogs' );
 
 ?>

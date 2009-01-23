@@ -947,7 +947,7 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 				$user_link = bp_core_get_userlink($user_id);
 				$group_link = bp_group_permalink( $group, false );
 
-				$post_content = apply_filters( 'bp_the_topic_post_content', bp_create_excerpt( stripslashes( $forum_post['post_text'] ) ) );
+				$post_content = apply_filters( 'bp_the_topic_post_content', bp_create_excerpt( stripslashes( $forum_post['post_text'] ), 55, false ) );
 			
 				$content = sprintf ( __('%s posted on the forum topic %s in the group %s:', 'buddypress'), $user_link, '<a href="' . $group_link . '/forum/topic/' . $forum_topic['topic_id'] . '">' . $forum_topic['topic_title'] . '</a>', '<a href="' . $group_link . '">' . $group->name . '</a>' ) . ' <span class="time-since">%s</span>';			
 				$content .= '<blockquote>' . $post_content . '</blockquote>';
@@ -972,7 +972,7 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 				$user_link = bp_core_get_userlink($user_id);
 				$group_link = bp_group_permalink( $group, false );
 				
-				$post_content = apply_filters( 'bp_the_topic_post_content', bp_create_excerpt( stripslashes( $forum_post['post_text'] ) ) );
+				$post_content = apply_filters( 'bp_the_topic_post_content', bp_create_excerpt( stripslashes( $forum_post['post_text'] ), 55, false ) );
 				
 				$content = sprintf ( __('%s created the forum topic %s in the group %s:', 'buddypress'), $user_link, '<a href="' . $group_link . '/forum/topic/' . $forum_topic['topic_id'] . '">' . $forum_topic['topic_title'] . '</a>', '<a href="' . $group_link . '">' . $group->name . '</a>' ) . ' <span class="time-since">%s</span>';			
 				$content .= '<blockquote>' . $post_content . '</blockquote>';
