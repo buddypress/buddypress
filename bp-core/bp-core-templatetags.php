@@ -419,16 +419,18 @@ function bp_has_custom_signup_page() {
 }
 
 function bp_signup_page( $echo = true ) {
+	global $bp;
+	
 	if ( bp_has_custom_signup_page() ) {
 		if ( $echo )
-			echo site_url(REGISTER_SLUG);
+			echo $bp['root_domain'] . '/' . REGISTER_SLUG;
 		else
-			return site_url(REGISTER_SLUG);
+			return $bp['root_domain'] . '/' . REGISTER_SLUG;
 	} else {
 		if ( $echo )
-			echo site_url('wp-signup.php');
+			echo $bp['root_domain'] . '/wp-signup.php';
 		else
-			return site_url('wp-signup.php');
+			return $bp['root_domain'] . '/wp-signup.php';
 	}
 }
 
