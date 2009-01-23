@@ -178,9 +178,11 @@ Class BP_Activity_Activity {
 			
 			if ( count($activities_formatted) )
 				BP_Activity_Activity::cache_activities( $activities_formatted, $user_id );
-				
-			// Now honor the limit value, otherwise we may return 30 items on a profile page.
-			$activities_formatted = array_slice($activities_formatted, 0, $limit);
+			
+			if ( is_array( $activities_formatted ) ) {
+				// Now honor the limit value, otherwise we may return 30 items on a profile page.
+				$activities_formatted = array_slice($activities_formatted, 0, $limit);				
+			}
 		}
 		
 		return $activities_formatted;
