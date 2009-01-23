@@ -238,7 +238,6 @@ function bp_the_topic_latest_post_excerpt() {
 	global $forum_template;
 	
 	$posts = bp_forums_get_posts( $forum_template->topic->topic_id );
-	echo "test";
 	echo apply_filters( 'bp_the_topic_latest_post_excerpt', bp_create_excerpt( $posts[count($posts) - 1]['post_text'] ), 55, false );
 }
 
