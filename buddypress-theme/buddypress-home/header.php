@@ -37,7 +37,7 @@
 	</div>
 
 	<div id="header">		
-		<h1 id="logo"><?php bp_site_name() ?></h1>
+		<h1 id="logo"><a href="<?php echo get_option('home') ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php bp_site_name() ?></a></h1>
 		
 		<ul id="nav">
 			<li<?php if(bp_is_page('home')) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a></li>

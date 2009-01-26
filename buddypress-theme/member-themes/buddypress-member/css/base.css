@@ -72,13 +72,13 @@ input#submit, p.submit input {
 	padding: 2.2em 1.7em 1.8em 1.7em;
 	background: #fff;
 }
-
-	#header h1 {
+	#header h1 a {
+		text-indent: -999em;
 		background: url(../images/logo.gif) top left no-repeat;
 		overflow: hidden;
-		text-indent: -999em;
 		width: 214px;
 		height: 35px;
+		display: block;
 	}
 
 	#header .search {

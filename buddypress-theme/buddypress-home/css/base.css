@@ -81,12 +81,13 @@ a.selected { color: #555; text-decoration: none; }
 #header {
 	padding: 25px 20px;
 }
-	#header h1 {
-		width: 214px;
-		height: 29px;
-		overflow: hidden;
-		text-indent: -999px;
+	#header h1 a {
+		text-indent: -999em;
 		background: url(../images/logo.gif) top left no-repeat;
+		overflow: hidden;
+		width: 214px;
+		height: 35px;
+		display: block;
 		float: left;
 	}
 	
