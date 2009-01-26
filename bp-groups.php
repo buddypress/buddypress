@@ -1845,20 +1845,20 @@ function groups_check_for_membership_request( $user_id, $group_id ) {
 	return BP_Groups_Member::check_for_membership_request( $user_id, $group_id );
 }
 
-function groups_get_newest( $limit = null, $page = null ) {
+function groups_get_newest( $limit = null, $page = 1 ) {
 	return BP_Groups_Group::get_newest( $limit, $page );
 }
 
-function groups_get_active( $limit = null, $page = null ) {
+function groups_get_active( $limit = null, $page = 1 ) {
 	return BP_Groups_Group::get_active( $limit, $page );
 }
 
-function groups_get_popular( $limit = null, $page = null ) {
+function groups_get_popular( $limit = null, $page = 1 ) {
 	return BP_Groups_Group::get_popular( $limit, $page );
 }
 
-function groups_get_all( $limit = null, $page = null ) {
-	return BP_Groups_Group::get_all( $limit, $page );
+function groups_get_all( $limit = null, $page = 1, $only_public = true, $sort_by = false, $order = false ) {
+	return BP_Groups_Group::get_all( $limit, $page, $only_public, $sort_by, $order );
 }
 
 function groups_get_random_group() {
