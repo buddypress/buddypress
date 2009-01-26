@@ -1411,7 +1411,8 @@ function groups_is_user_banned( $user_id, $group_id ) {
 function groups_new_group_forum() {
 	global $group_obj;
 	
-	$forum = bp_forums_new_forum( $group_obj->name . ' - Forum ', $group_obj->description );
+	$forum = bp_forums_new_forum( apply_filters( 'groups_new_group_forum_name', $group_obj->name . ' - Forum', $group_obj->name ), apply_filters( 'groups_new_group_forum_desc', $group_obj->description ) );
+	
 	groups_update_groupmeta( $group_obj->id, 'forum_id', $forum['forum_id'] );
 	
 	do_action( 'groups_new_group_forum', $forum, $group_obj->id );
