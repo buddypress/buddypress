@@ -6,6 +6,8 @@ add_filter( 'bp_forums_new_post_text', 'bp_forums_filter_encode' );
 add_filter( 'bp_the_topic_post_content', 'bp_forums_filter_decode' );
 add_filter( 'bp_the_topic_latest_post_excerpt', 'bp_forums_filter_decode' );
 
+add_filter( 'bp_the_topic_latest_post_excerpt', 'bp_create_excerpt' );
+
 /* Apply WordPress defined filters */
 add_filter( 'bp_the_topic_title', 'wptexturize' );
 add_filter( 'bp_the_topic_poster_name', 'wptexturize' );
@@ -22,6 +24,7 @@ add_filter( 'bp_the_topic_latest_post_excerpt', 'convert_chars' );
 add_filter( 'bp_the_topic_post_content', 'convert_chars' );
 
 add_filter( 'bp_the_topic_post_content', 'wpautop' );
+add_filter( 'bp_the_topic_latest_post_excerpt', 'wpautop' );
 
 add_filter( 'bp_the_topic_post_content', 'stripslashes_deep' );
 add_filter( 'bp_the_topic_title', 'stripslashes_deep' );
