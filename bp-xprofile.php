@@ -98,19 +98,6 @@ function xprofile_install() {
 				1, 1, 0, 'textbox', '" . get_site_option( 'bp-xprofile-fullname-field-name' ) . "', '', 1, 1, 0, '', 1, 0
 			  );";
 	
-	if ( function_exists('bp_wire_install') ) {
-		$sql[] = "CREATE TABLE ". $bp['profile']['table_name_wire'] ." (
-		  		id int(11) NOT NULL AUTO_INCREMENT,
-				item_id int(11) NOT NULL,
-				user_id int(11) NOT NULL,
-				content longtext NOT NULL,
-				date_posted datetime NOT NULL,
-				PRIMARY KEY id (id),
-				KEY item_id (item_id),
-			    KEY user_id (user_id)
-		 	   ) {$charset_collate};";
-	}
-	
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 
 	dbDelta($sql);
@@ -124,6 +111,28 @@ function xprofile_install() {
 	if ( get_site_option( 'bp-xprofile-fullname-field-name' ) == '' ) {
 		add_site_option( 'bp-xprofile-fullname-field-name', 'Full Name' );
 	}
+}
+
+function xprofile_wire_install() {
+	global $bp, $wpdb;
+
+	if ( !empty($wpdb->charset) )
+		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+
+	$sql[] = "CREATE TABLE ". $bp['profile']['table_name_wire'] ." (
+	  		id int(11) NOT NULL AUTO_INCREMENT,
+			item_id int(11) NOT NULL,
+			user_id int(11) NOT NULL,
+			content longtext NOT NULL,
+			date_posted datetime NOT NULL,
+			PRIMARY KEY id (id),
+			KEY item_id (item_id),
+		    KEY user_id (user_id)
+	 	   ) {$charset_collate};";
+
+	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
+
+	dbDelta($sql);
 }
 
 /**
@@ -182,6 +191,9 @@ function xprofile_add_admin_menu() {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 		if ( ( $wpdb->get_var("show tables like '%" . $bp['profile']['table_name_groups'] . "%'") == false ) || ( get_site_option('bp-xprofile-version') < BP_XPROFILE_VERSION )  )
 			xprofile_install();
+		
+		if ( ( function_exists('bp_wire_install') && $wpdb->get_var("show tables like '%" . $bp['profile']['table_name_wire'] . "%'") == false ) || ( get_site_option('bp-xprofile-version') < BP_XPROFILE_VERSION )  )
+			xprofile_wire_install();
 	}
 }
 add_action( 'admin_menu', 'xprofile_add_admin_menu' );

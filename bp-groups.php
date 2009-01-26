@@ -77,25 +77,30 @@ function groups_install() {
 			KEY meta_key (meta_key)
 		   ) {$charset_collate};";
 	
-	if ( function_exists('bp_wire_install') ) {
-		$sql[] = "CREATE TABLE ". $bp['groups']['table_name_wire'] ." (
-		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				item_id int(11) NOT NULL,
-				user_id int(11) NOT NULL,
-				content longtext NOT NULL,
-				date_posted datetime NOT NULL,
-				KEY item_id (item_id),
-				KEY user_id (user_id)
-		 	   ) {$charset_collate};";		
-	}
-	
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
-
-	if ( function_exists('bp_wire_install') )
-		$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['groups']['table_name_wire'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );		
 	
 	add_site_option( 'bp-groups-version', BP_GROUPS_VERSION );
+}
+
+function groups_wire_install() {
+	global $wpdb, $bp;
+	
+	if ( !empty($wpdb->charset) )
+		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+	
+	$sql[] = "CREATE TABLE ". $bp['groups']['table_name_wire'] ." (
+	  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+			item_id int(11) NOT NULL,
+			user_id int(11) NOT NULL,
+			content longtext NOT NULL,
+			date_posted datetime NOT NULL,
+			KEY item_id (item_id),
+			KEY user_id (user_id)
+	 	   ) {$charset_collate};";
+
+	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
+	dbDelta($sql);
 }
 
 
@@ -139,6 +144,9 @@ function groups_check_installed() {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 		if ( ( $wpdb->get_var("show tables like '%" . $bp['groups']['table_name'] . "%'") == false ) || ( get_site_option('bp-groups-version') < BP_GROUPS_VERSION )  )
 			groups_install();
+			
+		if ( ( function_exists('bp_wire_install') && $wpdb->get_var("show tables like '%" . $bp['groups']['table_name_wire'] . "%'") == false ) || ( get_site_option('bp-groups-version') < BP_GROUPS_VERSION ) )
+			groups_wire_install();
 	}
 }
 add_action( 'admin_menu', 'groups_check_installed' );
