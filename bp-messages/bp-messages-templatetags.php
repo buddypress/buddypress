@@ -216,8 +216,11 @@ function bp_messages_content_value() {
 }
 
 function bp_messages_options() {
+	global $bp;
+	
+	if ( $bp['current_action'] != 'sentbox' ) {
 ?>
-	<?php _e( 'Select:', 'buddypress' ) ?> 
+		<?php _e( 'Select:', 'buddypress' ) ?> 
 		<select name="message-type-select" id="message-type-select">
 			<option value=""></option>
 			<option value="read"><?php _e('Read', 'buddypress') ?></option>
@@ -226,7 +229,8 @@ function bp_messages_options() {
 		</select> &nbsp;
 		<a href="#" id="mark_as_read"><?php _e('Mark as Read', 'buddypress') ?></a> &nbsp;
 		<a href="#" id="mark_as_unread"><?php _e('Mark as Unread', 'buddypress') ?></a> &nbsp;
-		<a href="#" id="delete_messages"><?php _e('Delete', 'buddypress') ?></a> &nbsp;
+	<?php } ?>
+		<a href="#" id="delete_<?php echo $bp['current_action'] ?>_messages"><?php _e('Delete Selected', 'buddypress') ?></a> &nbsp;
 <?php	
 }
 

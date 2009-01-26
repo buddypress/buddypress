@@ -158,10 +158,11 @@ jQuery(document).ready( function() {
 		}
 	);
 	
-	jQuery("a#delete_messages").click(
+	jQuery("a#delete_inbox_messages").click(
 		function() {
 			checkboxes_tosend = '';
 			checkboxes = jQuery("#message-threads tr td input[type='checkbox']");
+
 			for(var i=0; i<checkboxes.length; i++) {
 				if(checkboxes[i].checked) {
 					checkboxes_tosend += checkboxes[i].value;
@@ -185,6 +186,8 @@ jQuery(document).ready( function() {
 				}
 			}
 
+			if ( !checkboxes_tosend ) return false;
+
 			jQuery.post( ajaxurl, {
 				action: 'messages_delete',
 				'thread_ids': checkboxes_tosend
@@ -205,6 +208,49 @@ jQuery(document).ready( function() {
 			return false;			
 		}
 	);
+	
+	jQuery("a#delete_sentbox_messages").click(
+		function() {
+			checkboxes_tosend = '';
+			checkboxes = jQuery("#message-threads tr td input[type='checkbox']");
+			
+			if ( !checkboxes.length ) return false;
+			
+			for(var i=0; i<checkboxes.length; i++) {
+				if(checkboxes[i].checked) {
+					checkboxes_tosend += checkboxes[i].value;
+
+					if ( i != checkboxes.length - 1 ) {
+						checkboxes_tosend += ','
+					}
+					alert('tr#m-' + checkboxes[i].value);
+					jQuery('tr#m-' + checkboxes[i].value).remove();					
+				}
+			}
+
+			if ( !checkboxes_tosend ) return false;
+
+			jQuery.post( ajaxurl, {
+				action: 'messages_delete',
+				'thread_ids': checkboxes_tosend
+			},
+			function(response) {
+				response = response.substr(0, response.length-1);
+				var err_num = response.split('[[split]]');
+				
+				jQuery('#message').remove();
+				
+				if ( err_num[0] == "-1" ) {
+					// error
+					jQuery('table#message-threads').before('<div id="message" class="error fade"><p>' + err_num[1] + '</p></div>')
+				} else {
+					jQuery('table#message-threads').before('<div id="message" class="updated"><p>' + response + '</p></div>')
+				}
+			});
+			return false;			
+		}
+	);
+	
 	
 	jQuery("a#close-notice").click(
 		function() {

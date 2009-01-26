@@ -9,7 +9,7 @@
 </div>
 
 <div id="content">
-	<h2><?php _e("Inbox", "buddypress"); ?></h2>
+	<h2><?php _e( "Inbox", "buddypress" ); ?></h2>
 	<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 	
 	<?php bp_message_get_notices(); // (admin created site wide notices) ?>

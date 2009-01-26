@@ -1,7 +1,9 @@
 <?php get_header() ?>
 
 <div class="content-header">
-
+	<div class="messages-options">	
+		<?php bp_messages_options() ?>
+	</div>
 </div>
 
 <div id="content">	
@@ -15,7 +17,7 @@
 		
 		<table id="message-threads">
 		<?php while ( bp_message_threads() ) : bp_message_thread(); ?>
-			<tr>
+			<tr id="m-<?php bp_message_thread_id() ?>">
 				<td width="1%">
 				</td>
 				<td width="1%"><?php bp_message_thread_avatar() ?></td>
@@ -29,7 +31,7 @@
 				</td>
 				<td width="4%">
 						<a href="<?php bp_message_thread_delete_link() ?>" title="<?php _e("Delete Message", "buddypress"); ?>"><?php _e("Delete", "buddypress"); ?></a> 
-						<input type="checkbox" name="" value="" />
+						<input type="checkbox" name="message_ids[]" value="<?php bp_message_thread_id() ?>" />
 				</td>
 			</tr>
 		<?php endwhile; ?>
