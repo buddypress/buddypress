@@ -1293,7 +1293,7 @@ class BP_Groups_Group_Members_Template {
 	}
 }
 
-function bp_group_has_members( $group_id = false, $num_per_page = 5, $exclude_admins_mods = true, $exclude_banned = true ) {
+function bp_group_has_members( $group_id = false, $num_per_page = 10, $exclude_admins_mods = true, $exclude_banned = true ) {
 	global $members_template, $groups_template;
 	
 	if ( !$groups_template )
@@ -1478,7 +1478,7 @@ class BP_Groups_Membership_Requests_Template {
 	}
 }
 
-function bp_group_has_membership_requests( $num_per_page = 5 ) {
+function bp_group_has_membership_requests( $num_per_page = 10 ) {
 	global $requests_template, $groups_template;
 	
 	$requests_template = new BP_Groups_Membership_Requests_Template( $groups_template->group->id, $num_per_page );
