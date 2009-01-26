@@ -192,9 +192,11 @@ Class BP_Blogs_Blog {
 	function is_hidden( $blog_id ) {
 		global $wpdb;
 		
-		return (int)$wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT public FROM {$wpdb->base_prefix}blogs WHERE blog_id = %d", $blog_id ) );
+		if ( !(int)$wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT public FROM {$wpdb->base_prefix}blogs WHERE blog_id = %d", $blog_id ) ) )
+			return true;
+		
+		return false;
 	}
-	
 }
 
 Class BP_Blogs_Post {
