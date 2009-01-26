@@ -444,7 +444,7 @@ function bp_group_active_forum_topics( $total_topics = 3 ) {
 				
 						<a href="<?php bp_the_topic_permalink() ?>" title="<?php bp_the_topic_title() ?> - <?php _e( 'Permalink', 'buddypress' ) ?>"><?php bp_the_topic_title() ?></a> 
 						<span class="small">- <?php bp_the_topic_total_post_count() ?> </span>
-						<p><span class="activity"><?php echo sprintf( __( 'updated %s ago', 'buddypress' ), bp_the_topic_time_since_last_post( false ) ) ?><span></p>
+						<p><span class="activity"><?php echo sprintf( __( 'updated %s ago', 'buddypress' ), bp_the_topic_time_since_last_post( false ) ) ?></span></p>
 				
 						<div class="latest-post">
 							<?php _e( 'Latest by', 'buddypress' ) ?> <?php bp_the_topic_last_poster_name() ?>:
