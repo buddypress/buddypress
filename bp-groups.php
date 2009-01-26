@@ -1645,7 +1645,7 @@ function groups_delete_wire_post( $wire_post_id, $table_name ) {
 	return false;
 }
 
-function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $group_news ) {
+function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $group_news, $notify_members ) {
 	global $bp;
 	
 	if ( $group_name == '' || $group_desc == '' )
