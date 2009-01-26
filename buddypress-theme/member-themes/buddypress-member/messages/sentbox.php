@@ -29,9 +29,9 @@
 					<p><a href="<?php bp_message_thread_view_link() ?>" title="<?php _e("View Message", "buddypress"); ?>"><?php bp_message_thread_subject() ?></a></p>
 					<p><?php bp_message_thread_excerpt() ?></p>
 				</td>
-				<td width="4%">
-						<a href="<?php bp_message_thread_delete_link() ?>" title="<?php _e("Delete Message", "buddypress"); ?>"><?php _e("Delete", "buddypress"); ?></a> 
-						<input type="checkbox" name="message_ids[]" value="<?php bp_message_thread_id() ?>" />
+				<td width="10%">
+					<a href="<?php bp_message_thread_delete_link() ?>" title="<?php _e("Delete Message", "buddypress"); ?>" class="delete"><?php _e("Delete", "buddypress"); ?></a> &nbsp;  
+					<input type="checkbox" name="message_ids[]" value="<?php bp_message_thread_id() ?>" />
 				</td>
 			</tr>
 		<?php endwhile; ?>
