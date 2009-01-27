@@ -768,7 +768,7 @@ function bp_create_excerpt( $text, $excerpt_length = 55, $filter_shortcodes = tr
 	
 	if ( $filter_shortcodes )
 		$text = preg_replace( '|\[(.+?)\](.+?\[/\\1\])?|s', '', $text );
-	
+
 	$words = explode(' ', $text, $excerpt_length + 1);
 	if (count($words) > $excerpt_length) {
 		array_pop($words);

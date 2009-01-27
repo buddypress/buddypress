@@ -73,8 +73,8 @@ class BP_Groups_Template {
 				$this->groups = $this->groups['groups'];
 				$this->group_count = count($this->groups);
 			} else {
-				$this->groups = BP_Groups_Group::get_all( $this->pag_num, $this->pag_page, false, $this->sort_by, $this->order );
-				$this->total_group_count = count(BP_Groups_Group::get_all( false )); // TODO: not ideal
+				$this->groups = groups_get_all( $this->pag_num, $this->pag_page, false, $this->sort_by, $this->order );
+				$this->total_group_count = count( groups_get_all() ); // TODO: not ideal
 				$this->group_count = count($this->groups);
 			}
 			
@@ -704,6 +704,10 @@ function bp_group_admin_tabs() {
 	<?php if ( $bp['is_item_admin'] ) { ?>	
 		<li<?php if ( $current_tab == 'group-settings' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['root_domain'] . '/' . $bp['groups']['slug'] ?>/<?php echo $groups_template->group->slug ?>/admin/group-settings"><?php _e('Group Settings', 'buddypress') ?></a></li>
 	<?php } ?>
+	
+	<?php if ( $bp['is_item_admin'] ) { ?>	
+		<li<?php if ( $current_tab == 'group-avatar' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['root_domain'] . '/' . $bp['groups']['slug'] ?>/<?php echo $groups_template->group->slug ?>/admin/group-avatar"><?php _e('Group Avatar', 'buddypress') ?></a></li>
+	<?php } ?>
 
 	<?php if ( $bp['is_item_admin'] ) { ?>			
 		<li<?php if ( $current_tab == 'manage-members' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['root_domain'] . '/' . $bp['groups']['slug'] ?>/<?php echo $groups_template->group->slug ?>/admin/manage-members"><?php _e('Manage Members', 'buddypress') ?></a></li>
@@ -843,11 +847,7 @@ function bp_group_create_form() {
 		<?php case '3': ?>
 			<?php if ( $completed_to_step > 1 ) { ?>
 				<div class="left-menu">
-					<?php if ( $group_obj->avatar_full ) { ?>
-						<img src="<?php echo $group_obj->avatar_full ?>" alt="Group Avatar" class="avatar" />
-					<?php } else { ?>
-						<img src="<?php echo $bp['groups']['image_base'] . '/none.gif' ?>" alt="No Group Avatar" class="avatar" />
-					<?php } ?>
+					<?php bp_group_current_avatar() ?>
 				</div>
 				
 				<div class="main-column">
@@ -1059,6 +1059,24 @@ function bp_group_send_invite_form( $group_obj = null ) {
 		
 	</div>
 <?php
+}
+
+function bp_group_current_avatar() {
+	global $group_obj;
+	
+	if ( $group_obj->avatar_full ) { ?>
+		<img src="<?php echo $group_obj->avatar_full ?>" alt="Group Avatar" class="avatar" />
+	<?php } else { ?>
+		<img src="<?php echo $bp['groups']['image_base'] . '/none.gif' ?>" alt="No Group Avatar" class="avatar" />
+	<?php }
+}
+
+function bp_group_avatar_edit_form() {
+	if ( !empty($_FILES) || ( isset($_POST['orig']) && isset($_POST['canvas']) ) ) {
+		groups_avatar_upload($_FILES);
+	} else {
+		bp_core_render_avatar_upload_form( '', true );		
+	}
 }
 
 function bp_group_send_invite_form_action() {

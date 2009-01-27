@@ -641,6 +641,49 @@ function groups_screen_group_admin_settings() {
 }
 add_action( 'wp', 'groups_screen_group_admin_settings', 4 );
 
+function groups_screen_group_admin_avatar() {
+	global $bp, $group_obj;
+	
+	if ( $bp['current_component'] == $bp['groups']['slug'] && $bp['action_variables'][0] == 'group-avatar' ) {
+		
+		if ( !$bp['is_item_admin'] )
+			return false;
+		
+		if ( isset( $_POST['save'] ) ) {
+			
+			// Image already cropped and uploaded, lets store a reference in the DB.
+			if ( !wp_verify_nonce($_POST['nonce'], 'slick_avatars') || !$result = bp_core_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'], false, 'groupavatar', $group_obj->id ) )
+				return false;
+
+			// Success on group avatar cropping, now save the results.
+			$avatar_hrefs = groups_get_avatar_hrefs($result);
+			
+			// Delete the old group avatars first
+			$avatar_thumb_path = groups_get_avatar_path( $group_obj->avatar_thumb );
+			$avatar_full_path = groups_get_avatar_path( $group_obj->avatar_full );
+			
+			@unlink($avatar_thumb_path);
+			@unlink($avatar_full_path);
+
+			$group_obj->avatar_thumb = stripslashes( $avatar_hrefs['thumb_href'] );
+			$group_obj->avatar_full = stripslashes( $avatar_hrefs['full_href'] );
+
+			if ( !$group_obj->save() ) {
+				bp_core_add_message( __( 'There was an error updating the group avatar, please try again.', 'buddypress' ), 'error' );
+			} else {
+				bp_core_add_message( __( 'The group avatar was successfully updated.', 'buddypress' ) );
+			}
+
+			bp_core_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/group-avatar' );
+		}
+		
+		do_action( 'groups_screen_group_admin_avatar', $group_obj->id );
+		
+		bp_core_load_template( 'groups/admin/group-avatar' );
+	}
+}
+add_action( 'wp', 'groups_screen_group_admin_avatar', 4 );
+
 function groups_screen_group_admin_manage_members() {
 	global $bp, $group_obj;
 
@@ -1229,6 +1272,14 @@ function groups_get_avatar_hrefs( $avatars ) {
 	return array( 'thumb_href' => $thumb_href, 'full_href' => $full_href );
 }
 
+function groups_get_avatar_path( $avatar ) {
+	global $bp;
+
+	$src = $bp['root_domain'] . '/';
+
+	$path = str_replace( $src, ABSPATH, stripslashes( $avatar ) );
+	return $path;
+}
 
 function groups_search_groups( $search_terms, $pag_num_per_page = 5, $pag_page = 1, $sort_by = false, $order = false ) {
 	return BP_Groups_Group::search_groups( $search_terms, $pag_num_per_page, $pag_page, $sort_by, $order );
