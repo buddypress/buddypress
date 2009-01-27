@@ -186,6 +186,11 @@ input#submit, p.submit input {
 		margin: 0;
 		float: none;
 	}
+		.crop-img {
+			position: relative;
+			padding-left: 276px;
+			margin-left: -276px;
+		}
 
 	#userbar p#login-text {
 		text-align: center;
