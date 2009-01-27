@@ -378,7 +378,7 @@ function bp_blogs_record_blog( $blog_id, $user_id ) {
 add_action( 'wpmu_new_blog', 'bp_blogs_record_blog', 10, 2 );
 
 function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
-	global $bp, $current_blog;
+	global $bp, $wpdb;
 	
 	if ( !$bp ) {
 		bp_core_setup_globals();
@@ -392,7 +392,7 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 		$user_id = (int)$post->post_author;
 		
 	if ( !$blog_id )
-		$blog_id = (int)$current_blog->blog_id;
+		$blog_id = (int)$wpdb->blog_id;
 
 	/* This is to stop infinate loops with Donncha's sitewide tags plugin */
 	if ( (int)get_site_option('tags_blog_id') == (int)$blog_id )
@@ -455,7 +455,7 @@ add_action( 'edit_post', 'bp_blogs_record_post' );
 
 
 function bp_blogs_record_comment( $comment_id, $post_id = false, $blog_id = false, $from_ajax = false ) {
-	global $bp, $current_blog, $current_user;
+	global $bp, $wpdb, $current_user;
 
 	if ( !$bp ) {
 		bp_core_setup_globals();
@@ -476,7 +476,7 @@ function bp_blogs_record_comment( $comment_id, $post_id = false, $blog_id = fals
 			$post_id = (int)$comment->comment_post_ID;
 
 		if ( !$blog_id )
-			$blog_id = (int)$current_blog->blog_id;
+			$blog_id = (int)$wpdb->blog_id;
 			
 		/** 
 		 * Check how many recorded posts there are for the user. If we are
