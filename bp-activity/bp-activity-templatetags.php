@@ -162,14 +162,18 @@ function bp_activity_content_filter( $content, $date_recorded, $full_name, $inse
 	if ( $insert_time )
 		$content[0] = bp_activity_insert_time_since( $content[0], $date_recorded );
 
-	/* Switch 'their/your' depending on whether the user is logged in or not and viewing their profile */
-	if ( $filter_words ) {
-		$content[0] = str_replace( __('their', 'buddypress'), __('your', 'buddypress'), $content[0] );
-	}
-	
-	/* Remove the 'You' and replace if with the persons name */
-	if ( $filter_you ) {
-		$content[0] = str_replace( $full_name, __('You', 'buddypress'), $content[0] );				
+	// The "You" and "Your" conversion is only done in english, if a translation file is present
+	// then do not translate as it causes problems in other languages.
+	if ( get_locale() == '' ) {
+		/* Switch 'their/your' depending on whether the user is logged in or not and viewing their profile */
+		if ( $filter_words ) {
+			$content[0] = preg_replace( '/their/', 'your', $content[0] );
+		}
+
+		/* Remove the 'You' and replace if with the persons name */
+		if ( $filter_you && $full_name != '' ) {
+			$content[0] = preg_replace( "/$full_name/", 'You', $content[0] );				
+		}
 	}
 	
 	$content_new = '';
