@@ -227,7 +227,18 @@ function bp_group_name( $echo = true ) {
 
 function bp_group_type() {
 	global $groups_template;
-	echo apply_filters( 'bp_group_type', ucwords($groups_template->group->status) . ' ' . __('Group', 'buddypress') );	
+	
+	if ( $groups_template->group->status == 'public' ) {
+		$type = __( "Public Group", "buddypress" );
+	} else if ( $groups_template->group->status == 'hidden' ) {	
+		$type = __( "Hidden Group", "buddypress" );
+	} else if ( $groups_template->group->status == 'private' ) {
+		$type = __( "Private Group", "buddypress" );
+	} else {
+		$type = ucwords( $groups_template->group->status ) . ' ' . __( 'Group', 'buddypress' );
+	}
+	
+	echo apply_filters( 'bp_group_type',  $type );	
 }
 
 function bp_group_avatar() {
