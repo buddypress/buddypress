@@ -1275,6 +1275,6 @@ add_action( 'bp_core_avatar_save', 'bp_core_clear_cache' );
 add_action( 'bp_core_render_notice', 'bp_core_clear_cache' );
 
 // Remove the catch non existent blogs hook so WPMU doesn't think BuddyPress pages are non existing blogs
-//remove_action( 'plugins_loaded', 'catch_nonexistant_blogs' );
+remove_action( 'plugins_loaded', 'catch_nonexistant_blogs' );
 
 ?>
