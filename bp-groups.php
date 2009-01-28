@@ -288,7 +288,10 @@ add_action( 'admin_menu', 'groups_setup_nav', 2 );
 
 function groups_screen_my_groups() {
 	global $bp;
-		
+	
+	bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'member_promoted_to_mod' );
+	bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'groups', 'member_promoted_to_admin' );
+
 	do_action( 'groups_screen_my_groups' );
 	
 	bp_core_load_template( 'groups/index' );
