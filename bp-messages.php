@@ -3,7 +3,7 @@ require_once( 'bp-core.php' );
 
 define ( 'BP_MESSAGES_IS_INSTALLED', 1 );
 define ( 'BP_MESSAGES_VERSION', '1.0b1' );
-define ( 'BP_MESSAGES_DB_VERSION', '937' );
+define ( 'BP_MESSAGES_DB_VERSION', '948' );
 
 include_once( 'bp-messages/bp-messages-classes.php' );
 include_once( 'bp-messages/bp-messages-ajax.php' );
@@ -24,6 +24,10 @@ function messages_install() {
 	
 	if ( !empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+		
+	// Remove indexes so we can alter the field types for these fields.
+	$wpdb->query( "ALTER TABLE ". $bp['messages']['table_name_threads'] . " DROP INDEX message_ids " );
+	$wpdb->query( "ALTER TABLE ". $bp['messages']['table_name_threads'] . " DROP INDEX sender_ids " );
 	
 	$sql[] = "CREATE TABLE ". $bp['messages']['table_name_threads'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,

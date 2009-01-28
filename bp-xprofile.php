@@ -3,7 +3,7 @@ require_once( 'bp-core.php' );
 
 /* Set the version number */
 define ( 'BP_XPROFILE_VERSION', '1.0b1' );
-define ( 'BP_XPROFILE_DB_VERSION', '937' );
+define ( 'BP_XPROFILE_DB_VERSION', '948' );
 
 /* Database access classes and functions */
 require_once( 'bp-xprofile/bp-xprofile-classes.php' );
@@ -91,13 +91,15 @@ function xprofile_install() {
 			  KEY user_id (user_id)
 	) {$charset_collate};";
 	
-	$sql[] = "INSERT INTO ". $bp['profile']['table_name_groups'] . " VALUES ( 1, '" . get_site_option( 'bp-xprofile-base-group-name' ) . "', '', 0 );";
+	if ( get_site_option( 'bp-xprofile-db-version' ) == '' ) {
+		$sql[] = "INSERT INTO ". $bp['profile']['table_name_groups'] . " VALUES ( 1, '" . get_site_option( 'bp-xprofile-base-group-name' ) . "', '', 0 );";
 	
-	$sql[] = "INSERT INTO ". $bp['profile']['table_name_fields'] . " ( 
-				id, group_id, parent_id, type, name, description, is_required, field_order, option_order, order_by, is_public, can_delete
-			  ) VALUES (
-				1, 1, 0, 'textbox', '" . get_site_option( 'bp-xprofile-fullname-field-name' ) . "', '', 1, 1, 0, '', 1, 0
-			  );";
+		$sql[] = "INSERT INTO ". $bp['profile']['table_name_fields'] . " ( 
+					id, group_id, parent_id, type, name, description, is_required, field_order, option_order, order_by, is_public, can_delete
+				  ) VALUES (
+					1, 1, 0, 'textbox', '" . get_site_option( 'bp-xprofile-fullname-field-name' ) . "', '', 1, 1, 0, '', 1, 0
+				  );";
+	}
 	
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 
