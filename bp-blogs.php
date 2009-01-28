@@ -479,7 +479,7 @@ function bp_blogs_record_comment( $comment_id, $post_id = false, $blog_id = fals
 			$post_id = (int)$comment->comment_post_ID;
 
 		if ( !$blog_id )
-			$blog_id = (int)$wpdb->blog_id;
+			$blog_id = (int)$wpdb->blogid;
 			
 		/** 
 		 * Check how many recorded posts there are for the user. If we are
