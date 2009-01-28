@@ -3,6 +3,7 @@ require_once( 'bp-core.php' );
 
 define ( 'BP_MESSAGES_IS_INSTALLED', 1 );
 define ( 'BP_MESSAGES_VERSION', '1.0b1' );
+define ( 'BP_MESSAGES_DB_VERSION', '937' );
 
 include_once( 'bp-messages/bp-messages-classes.php' );
 include_once( 'bp-messages/bp-messages-ajax.php' );
@@ -75,7 +76,7 @@ function messages_install() {
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 	dbDelta($sql);
 	
-	add_site_option( 'bp-messages-version', BP_MESSAGES_VERSION );
+	add_site_option( 'bp-messages-db-version', BP_MESSAGES_DB_VERSION );
 }
 
 
@@ -99,6 +100,8 @@ function messages_setup_globals() {
 		'image_base' 		 	   => site_url( MUPLUGINDIR . '/bp-messages/images' ),
 		'slug'		 		 	   => 'messages'
 	);
+
+	$bp['version_numbers'][$bp['messages']['slug']] = BP_MESSAGES_VERSION;
 }
 add_action( 'wp', 'messages_setup_globals', 1 );	
 add_action( 'admin_menu', 'messages_setup_globals', 1 );
@@ -116,7 +119,7 @@ function messages_check_installed() {
 
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( $wpdb->get_var( "show tables like '%" . $bp['messages']['table_name'] . "%'" ) == false ) || ( get_site_option('bp-messages-version') < BP_MESSAGES_VERSION ) )
+		if ( ( $wpdb->get_var( "show tables like '%" . $bp['messages']['table_name'] . "%'" ) == false ) || ( get_site_option('bp-messages-db-version') < BP_MESSAGES_DB_VERSION ) )
 			messages_install();
 	}
 }

@@ -3,6 +3,7 @@ require_once( 'bp-core.php' );
 
 define ( 'BP_FRIENDS_IS_INSTALLED', 1 );
 define ( 'BP_FRIENDS_VERSION', '1.0b1' );
+define ( 'BP_FRIENDS_DB_VERSION', '937' );
 
 include_once( 'bp-friends/bp-friends-classes.php' );
 include_once( 'bp-friends/bp-friends-ajax.php' );
@@ -39,7 +40,7 @@ function friends_install() {
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
 	
-	add_site_option( 'bp-friends-version', BP_FRIENDS_VERSION );
+	update_site_option( 'bp-friends-db-version', BP_FRIENDS_DB_VERSION );
 }
 	
 	
@@ -59,6 +60,8 @@ function friends_setup_globals() {
 		'format_activity_function' => 'friends_format_activity',
 		'slug'		 => 'friends'
 	);
+
+	$bp['version_numbers'][$bp['friends']['slug']] = BP_FRIENDS_VERSION;
 }
 add_action( 'wp', 'friends_setup_globals', 1 );	
 add_action( 'admin_menu', 'friends_setup_globals', 1 );
@@ -68,7 +71,7 @@ function friends_check_installed() {
 
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( $wpdb->get_var("show tables like '%" . $bp['friends']['table_name'] . "%'") == false ) || ( get_site_option('bp-friends-version') < BP_FRIENDS_VERSION )  )
+		if ( ( $wpdb->get_var("show tables like '%" . $bp['friends']['table_name'] . "%'") == false ) || ( get_site_option('bp-friends-db-version') < BP_FRIENDS_DB_VERSION )  )
 			friends_install();
 	}
 }

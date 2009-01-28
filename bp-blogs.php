@@ -2,6 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_BLOGS_VERSION', '1.0b1' );
+define ( 'BP_BLOGS_DB_VERSION', '937' );
 
 /* These will be moved into admin configurable settings */
 define ( 'TOTAL_RECORDED_POSTS', 10 );
@@ -21,7 +22,7 @@ include_once( 'bp-blogs/directories/bp-blogs-directory-blogs.php' );
  Sets up the database tables ready for use on a site installation.
  **************************************************************************/
 
-function bp_blogs_install( $version ) {
+function bp_blogs_install() {
 	global $wpdb, $bp;
 	
 	if ( !empty($wpdb->charset) )
@@ -97,7 +98,7 @@ function bp_blogs_install( $version ) {
 		
 	}
 	
-	add_site_option( 'bp-blogs-version', $version );
+	update_site_option( 'bp-blogs-db-version', BP_BLOGS_DB_VERSION );
 }
 
 
@@ -106,8 +107,8 @@ function bp_blogs_check_installed() {
 	
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( $wpdb->get_var("show tables like '%" . $bp['blogs']['table_name'] . "%'") == false ) || ( get_site_option('bp-blogs-version') < BP_BLOGS_VERSION )  )
-			bp_blogs_install(BP_BLOGS_VERSION);
+		if ( ( $wpdb->get_var("show tables like '%" . $bp['blogs']['table_name'] . "%'") == false ) || ( get_site_option('bp-blogs-db-version') < BP_BLOGS_DB_VERSION )  )
+			bp_blogs_install();
 	}
 }
 add_action( 'admin_menu', 'bp_blogs_check_installed' );
@@ -132,6 +133,8 @@ function bp_blogs_setup_globals() {
 		'image_base' => site_url( MUPLUGINDIR . '/bp-groups/images' ),
 		'slug'		 => 'blogs'
 	);
+	
+	$bp['version_numbers'][$bp['blogs']['slug']] = BP_BLOGS_VERSION;
 }
 add_action( 'wp', 'bp_blogs_setup_globals', 1 );	
 add_action( 'admin_menu', 'bp_blogs_setup_globals', 1 );

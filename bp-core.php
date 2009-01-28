@@ -2,6 +2,7 @@
 
 /* Define the current version number for checking if DB tables are up to date. */
 define( 'BP_CORE_VERSION', '1.0b1' );
+define( 'BP_CORE_DB_VERSION', '937' );
 
 /* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
 define( 'MEMBERS_SLUG', 'members' );
@@ -146,11 +147,14 @@ function bp_core_setup_globals() {
 	
 	/* Used to determine if the logged in user is a moderator for the current content. */
 	$bp['is_item_mod'] = false;
-
+	
 	$bp['core'] = array(
 		'image_base' => site_url( MUPLUGINDIR . '/bp-core/images' ),
 		'table_name_notifications' => $wpdb->base_prefix . 'bp_notifications'
 	);
+	
+	/* Used to print version numbers in the footer for reference */
+	$bp['version_numbers']['core'] = BP_CORE_VERSION;
 	
 	if ( !$bp['current_component'] )
 		$bp['current_component'] = $bp['default_component'];
@@ -204,7 +208,7 @@ function bp_core_install() {
 	// This will only be in here pre v1.0
 	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['core']['table_name_notifications'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
 	
-	add_site_option( 'bp-core-version', BP_CORE_VERSION );
+	update_site_option( 'bp-core-db-version', BP_CORE_DB_VERSION );
 }
 
 /**
@@ -225,7 +229,7 @@ function bp_core_check_installed() {
 
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( $wpdb->get_var("show tables like '%" . $bp['core']['table_name_notifications'] . "%'") == false ) || ( get_site_option('bp-core-version') < BP_CORE_VERSION )  )
+		if ( ( $wpdb->get_var("show tables like '%" . $bp['core']['table_name_notifications'] . "%'") == false ) || ( get_site_option('bp-core-db-version') < BP_CORE_DB_VERSION )  )
 			bp_core_install();
 	}
 }
@@ -1252,6 +1256,34 @@ function bp_core_clear_cache() {
 		return prune_super_cache( $cache_path, true );		
 	}
 }
+
+function bp_core_print_version_numbers() {
+	global $bp;
+	
+	echo '
+	
+	<!--
+	';
+	echo ' BuddyPress:
+	 -------------
+	';
+	foreach ( $bp['version_numbers'] as $name => $version ) {
+	echo ' ' . ucwords($name) . ': ' . $version . '
+	';
+	}
+	echo '-->
+	
+	';
+}
+add_action( 'wp_footer', 'bp_core_print_version_numbers', 9 );
+
+function bp_core_print_generation_time() {
+	?>
+<!-- Generated in <?php timer_stop(1); ?> seconds -->
+	<?php
+}
+add_action( 'wp_footer', 'bp_core_print_generation_time' );
+
 
 /**
  * bp_core_remove_data()

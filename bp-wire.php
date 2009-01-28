@@ -11,20 +11,6 @@ include_once( 'bp-wire/bp-wire-cssjs.php' );
 include_once( 'bp-wire/bp-wire-filters.php' );
 
 /**************************************************************************
- bp_bp_wire_install()
- 
- Sets up the component ready for use on a site installation.
- **************************************************************************/
-
-function bp_wire_install() {
-	global $wpdb, $bp;
-	
-	// No DB tables need to be installed, DB tables for each component wire
-	// are set up within that component *if* this component is installed.
-	add_site_option( 'bp-wire-version', BP_WIRE_VERSION );
-}
-
-/**************************************************************************
  bp_wire_setup_globals()
  
  Set up and add all global variables for this component, and add them to 
@@ -34,14 +20,12 @@ function bp_wire_install() {
 function bp_wire_setup_globals() {
 	global $bp, $wpdb;
 	
-	if ( get_site_option('bp-wire-version') < BP_WIRE_VERSION ) {
-		bp_wire_install();
-	}
-	
 	$bp['wire'] = array(
 		'image_base' => site_url( MUPLUGINDIR . '/bp-wire/images' ),
 		'slug'		 => 'wire'
 	);
+
+	$bp['version_numbers'][$bp['wire']['slug']] = BP_WIRE_VERSION;
 }
 add_action( 'wp', 'bp_wire_setup_globals', 1 );	
 add_action( 'admin_menu', 'bp_wire_setup_globals', 1 );

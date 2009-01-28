@@ -37,8 +37,8 @@ function xprofile_add_cropper_js() {
 	global $bp;
 
 	if ( $_SERVER['SCRIPT_NAME'] == '/wp-activate.php' || $bp['current_component'] == ACTIVATION_SLUG || $bp['current_action'] == 'change-avatar' ) {
-		wp_enqueue_script('jquery');
-		wp_enqueue_script('prototype');
+		//wp_enqueue_script('jquery');
+		//wp_enqueue_script('prototype');
 		wp_enqueue_script('scriptaculous-root');
 		wp_enqueue_script('cropper');
 		add_action( 'wp_head', 'bp_core_add_cropper_js' );

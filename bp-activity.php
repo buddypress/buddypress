@@ -3,6 +3,7 @@ require_once( 'bp-core.php' );
 
 define ( 'BP_ACTIVITY_IS_INSTALLED', 1 );
 define ( 'BP_ACTIVITY_VERSION', '1.0b1.1' );
+define ( 'BP_ACTIVITY_DB_VERSION', '937' );
 
 /* How long before activity items in streams are re-cached? */
 define ( 'BP_ACTIVITY_CACHE_LENGTH', '6 HOURS' );
@@ -81,7 +82,7 @@ function bp_activity_user_install() {
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
 	
-	update_usermeta( $bp['current_userid'], 'bp-activity-version', BP_ACTIVITY_VERSION );
+	update_usermeta( $bp['current_userid'], 'bp-activity-db-version', BP_ACTIVITY_DB_VERSION );
 }
 
 function bp_activity_sitewide_install() {
@@ -108,14 +109,14 @@ function bp_activity_sitewide_install() {
 				KEY component_name (component_name)
 		 	   ) {$charset_collate};";
 	
-	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
+	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 	dbDelta($sql);
 	
 	// dbDelta won't change character sets, so we need to do this seperately.
 	// This will only be in here pre v1.0
 	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['activity']['table_name_sitewide'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
 
-	update_site_option( 'bp-activity-version', BP_ACTIVITY_VERSION );
+	update_site_option( 'bp-activity-db-version', BP_ACTIVITY_DB_VERSION );
 }
 
 /**************************************************************************
@@ -143,16 +144,18 @@ function bp_activity_setup_globals() {
 		'image_base' => site_url( MUPLUGINDIR . '/bp-activity/images' ),
 		'slug'		 => 'activity'
 	);
+	
+	$bp['version_numbers'][$bp['activity']['slug']] = BP_ACTIVITY_VERSION;
 
 	if ( $bp['current_userid'] ) {
 		/* Check to see if the current user has their activity table set up. If not, set them up. */
-		if ( !$wpdb->get_var("show tables like '%" . $bp['activity']['table_name_current_user'] . "%'") || get_usermeta( $bp['current_userid'], 'bp-activity-version' ) < BP_ACTIVITY_VERSION  )
+		if ( !$wpdb->get_var("show tables like '%" . $bp['activity']['table_name_current_user'] . "%'") || get_usermeta( $bp['current_userid'], 'bp-activity-db-version' ) < BP_ACTIVITY_VERSION  )
 			bp_activity_user_install();
 	}
 	
 	if ( is_site_admin() && $current_blog->blog_id == 1 ) {
 		/* Check to see if the site wide activity table is set up. */
-		if ( !$wpdb->get_var("show tables like '%" . $bp['activity']['table_name_sitewide'] . "%'") || get_site_option( 'bp-activity-version' ) < BP_ACTIVITY_VERSION  )
+		if ( !$wpdb->get_var("show tables like '%" . $bp['activity']['table_name_sitewide'] . "%'") || get_site_option( 'bp-activity-db-version' ) < BP_ACTIVITY_VERSION  )
 			bp_activity_sitewide_install();
 	}
 }

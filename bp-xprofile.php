@@ -3,6 +3,7 @@ require_once( 'bp-core.php' );
 
 /* Set the version number */
 define ( 'BP_XPROFILE_VERSION', '1.0b1' );
+define ( 'BP_XPROFILE_DB_VERSION', '937' );
 
 /* Database access classes and functions */
 require_once( 'bp-xprofile/bp-xprofile-classes.php' );
@@ -102,15 +103,7 @@ function xprofile_install() {
 
 	dbDelta($sql);
 	
-	add_site_option('bp-xprofile-version', BP_XPROFILE_VERSION);
-	
-	if ( get_site_option( 'bp-xprofile-base-group-name' ) == '' ) {
-		add_site_option( 'bp-xprofile-base-group-name', 'Basic' );
-	}
-	
-	if ( get_site_option( 'bp-xprofile-fullname-field-name' ) == '' ) {
-		add_site_option( 'bp-xprofile-fullname-field-name', 'Full Name' );
-	}
+	update_site_option( 'bp-xprofile-db-version', BP_XPROFILE_DB_VERSION );
 }
 
 function xprofile_wire_install() {
@@ -157,6 +150,8 @@ function xprofile_setup_globals() {
 		'slug'		 		=> 'profile'
 	);
 	
+	$bp['version_numbers'][$bp['profile']['slug']] = BP_XPROFILE_VERSION;
+	
 	if ( function_exists('bp_wire_install') )
 		$bp['profile']['table_name_wire'] = $wpdb->base_prefix . 'bp_xprofile_wire';
 }
@@ -189,10 +184,10 @@ function xprofile_add_admin_menu() {
 		add_submenu_page( 'wpmu-admin.php', __("Profile Fields", 'buddypress'), __("Profile Fields", 'buddypress'), 1, "xprofile_settings", "xprofile_admin" );
 
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( $wpdb->get_var("show tables like '%" . $bp['profile']['table_name_groups'] . "%'") == false ) || ( get_site_option('bp-xprofile-version') < BP_XPROFILE_VERSION )  )
+		if ( ( $wpdb->get_var("show tables like '%" . $bp['profile']['table_name_groups'] . "%'") == false ) || ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )  )
 			xprofile_install();
 		
-		if ( ( function_exists('bp_wire_install') && $wpdb->get_var("show tables like '%" . $bp['profile']['table_name_wire'] . "%'") == false ) || ( get_site_option('bp-xprofile-version') < BP_XPROFILE_VERSION )  )
+		if ( ( function_exists('bp_wire_install') && $wpdb->get_var("show tables like '%" . $bp['profile']['table_name_wire'] . "%'") == false ) || ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )  )
 			xprofile_wire_install();
 	}
 }

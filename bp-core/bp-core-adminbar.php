@@ -267,7 +267,7 @@ add_action( 'bp_adminbar_menus', 'bp_adminbar_notifications_menu', 8 );
 add_action( 'bp_adminbar_menus', 'bp_adminbar_authors_menu', 12 );
 add_action( 'bp_adminbar_menus', 'bp_adminbar_random_menu', 100 );
 
-add_action( 'wp_footer', 'bp_core_admin_bar' );
+add_action( 'wp_footer', 'bp_core_admin_bar', 8 );
 add_action( 'admin_footer', 'bp_core_admin_bar' );
 
 ?>

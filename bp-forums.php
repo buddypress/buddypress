@@ -20,6 +20,8 @@ function bp_forums_setup() {
 
 	if ( get_usermeta( $bp['loggedin_userid'], 'bb_capabilities' ) == '' )
 		bp_forums_make_user_active_member( $bp['loggedin_userid'] );
+	
+	$bp['version_numbers']['forums'] = BP_FORUMS_VERSION;
 }
 add_action( 'wp', 'bp_forums_setup', 3 );
 add_action( 'admin_head', 'bp_forums_setup', 3 );

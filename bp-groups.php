@@ -3,6 +3,7 @@ require_once( 'bp-core.php' );
 
 define ( 'BP_GROUPS_IS_INSTALLED', 1 );
 define ( 'BP_GROUPS_VERSION', '1.0b1' );
+define ( 'BP_GROUPS_DB_VERSION', '937' );
 
 include_once( 'bp-groups/bp-groups-classes.php' );
 include_once( 'bp-groups/bp-groups-ajax.php' );
@@ -80,7 +81,7 @@ function groups_install() {
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
 	
-	add_site_option( 'bp-groups-version', BP_GROUPS_VERSION );
+	update_site_option( 'bp-groups-db-version', BP_GROUPS_DB_VERSION );
 }
 
 function groups_wire_install() {
@@ -130,7 +131,8 @@ function groups_setup_globals( $no_global = false ) {
 		$bp['groups']['table_name_wire'] = $wpdb->base_prefix . 'bp_groups_wire';
 	
 	$bp['groups']['forbidden_names'] = array( 'my-groups', 'group-finder', 'create', 'invites', 'delete', 'add', 'admin', 'request-membership' );
-
+	$bp['version_numbers'][$bp['groups']['slug']] = BP_GROUPS_VERSION;
+	
 	return $bp;
 }
 add_action( 'wp', 'groups_setup_globals', 1, false );	
@@ -142,10 +144,10 @@ function groups_check_installed() {
 	
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( $wpdb->get_var("show tables like '%" . $bp['groups']['table_name'] . "%'") == false ) || ( get_site_option('bp-groups-version') < BP_GROUPS_VERSION )  )
+		if ( ( $wpdb->get_var("show tables like '%" . $bp['groups']['table_name'] . "%'") == false ) || ( get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION )  )
 			groups_install();
 			
-		if ( ( function_exists('bp_wire_install') && $wpdb->get_var("show tables like '%" . $bp['groups']['table_name_wire'] . "%'") == false ) || ( get_site_option('bp-groups-version') < BP_GROUPS_VERSION ) )
+		if ( ( function_exists('bp_wire_install') && $wpdb->get_var("show tables like '%" . $bp['groups']['table_name_wire'] . "%'") == false ) || ( get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION ) )
 			groups_wire_install();
 	}
 }
