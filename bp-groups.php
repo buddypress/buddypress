@@ -1654,8 +1654,9 @@ function groups_join_group( $group_id, $user_id = false ) {
 	/* Record this in activity streams */
 	groups_record_activity( array( 'item_id' => $new_member->group_id, 'component_name' => 'groups', 'component_action' => 'joined_group', 'is_private' => 0 ) );
 	
-	/* Modify group member count */
+	/* Modify group meta */
 	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') + 1 );
+	groups_update_groupmeta( $group_id, 'last_activity', time() );
 
 	do_action( 'groups_join_group', $group_id, $bp['loggedin_userid'] );
 
