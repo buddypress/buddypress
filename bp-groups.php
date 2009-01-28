@@ -533,6 +533,13 @@ function groups_screen_group_leave() {
 	
 	if ( $is_single_group ) {
 		if ( isset($bp['action_variables']) && $bp['action_variables'][0] == 'yes' ) {
+			
+			// Check if the user is the group admin first.
+			if ( groups_is_group_admin( $bp['loggedin_userid'], $group_obj->id ) ) {
+				bp_core_add_message(  __('As the only group administrator, you cannot leave this group.', 'buddypress'), 'error' );
+				bp_core_redirect( bp_group_permalink( $group_obj, false) );
+			}
+			
 			// remove the user from the group.
 			if ( !groups_leave_group( $group_obj->id ) ) {
 				bp_core_add_message(  __('There was an error leaving the group. Please try again.', 'buddypress'), 'error' );
@@ -541,13 +548,18 @@ function groups_screen_group_leave() {
 				bp_core_add_message( __('You left the group successfully.', 'buddypress') );
 				bp_core_redirect( $bp['loggedin_domain'] . $bp['groups']['slug'] );
 			}
+			
 		} else if ( isset($bp['action_variables']) && $bp['action_variables'][0] == 'no' ) {
+			
 			bp_core_redirect( bp_group_permalink( $group_obj, false) );
+		
 		} else {
+		
 			do_action( 'groups_screen_group_leave', $group_obj->id );
 			
 			// Show leave group page
 			bp_core_load_template( 'groups/leave-group-confirm' );
+		
 		}
 	}
 }
@@ -1620,6 +1632,10 @@ function groups_leave_group( $group_id, $user_id = false ) {
 	
 	if ( !$user_id )
 		$user_id = $bp['loggedin_userid'];
+	
+	// Admins cannot leave a group, that is until promotion to admin support is implemented.
+	if ( groups_is_group_admin( $user_id, $group_id ) )
+		return false;
 		
 	// This is exactly the same as deleting and invite, just is_confirmed = 1 NOT 0.
 	if ( !groups_uninvite_user( $user_id, $group_id ) )
