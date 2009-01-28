@@ -72,14 +72,14 @@ function bp_core_screen_general_settings_content() {
 	<?php } ?>
 
 	<form action="<?php echo $bp['loggedin_domain'] . 'settings/general' ?>" method="post" id="settings-form">
-		<label for="email">Account Email</label>
+		<label for="email"><?php _e( 'Account Email', 'buddypress' ) ?></label>
 		<input type="text" name="email" id="email" value="<?php echo $current_user->user_email ?>" class="settings-input" />
 			
-		<label for="pass1">Change Password <span>(leave blank for no change)</span></label>
-		<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small" /> &nbsp;New Password
-		<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small" /> &nbsp;Repeat New Password
+		<label for="pass1"><?php _e( 'Change Password <span>(leave blank for no change)</span>', 'buddypress' ) ?></label>
+		<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small" /> &nbsp;<?php _e( 'New Password', 'buddypress' ) ?>
+		<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small" /> &nbsp;<?php _e( 'Repeat New Password', 'buddypress' ) ?>
 	
-		<p><input type="submit" name="submit" value="Save Changes" id="submit" class="auto"/></p>
+		<p><input type="submit" name="submit" value="<?php _e( 'Save Changes', 'buddypress' ) ?>" id="submit" class="auto"/></p>
 		<?php wp_nonce_field('bp_settings_general') ?>
 	</form>
 <?php
@@ -127,7 +127,7 @@ function bp_core_screen_notification_settings_content() {
 		
 		<?php do_action( 'bp_notification_settings' ) ?>
 		
-		<p class="submit"><input type="submit" name="submit" value="Save Changes" id="submit" class="auto"/></p>		
+		<p class="submit"><input type="submit" name="submit" value="<?php _e( 'Save Changes', 'buddypress' ) ?>" id="submit" class="auto"/></p>		
 		
 		<?php wp_nonce_field('bp_settings_notifications') ?>
 		
