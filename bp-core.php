@@ -1043,6 +1043,7 @@ function bp_core_redirect( $location, $status = 302 ) {
 	$bp_no_status_set = true;
 	
 	wp_redirect( $location, $status );
+	die;
 }
 
 /**
