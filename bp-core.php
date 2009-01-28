@@ -1260,22 +1260,10 @@ function bp_core_clear_cache() {
 function bp_core_print_version_numbers() {
 	global $bp;
 	
-	echo '
-	
-	<!--
-	';
-	echo ' BuddyPress:
-	 -------------
-	';
 	foreach ( $bp['version_numbers'] as $name => $version ) {
-	echo ' ' . ucwords($name) . ': ' . $version . '
-	';
+		echo ucwords($name) . ': <b>' . $version . '</b> / ';
 	}
-	echo '-->
-	
-	';
 }
-add_action( 'wp_footer', 'bp_core_print_version_numbers', 9 );
 
 function bp_core_print_generation_time() {
 	?>
