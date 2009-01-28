@@ -3,7 +3,7 @@ require_once( 'bp-core.php' );
 
 define ( 'BP_GROUPS_IS_INSTALLED', 1 );
 define ( 'BP_GROUPS_VERSION', '1.0b1' );
-define ( 'BP_GROUPS_DB_VERSION', '937' );
+define ( 'BP_GROUPS_DB_VERSION', '951' );
 
 include_once( 'bp-groups/bp-groups-classes.php' );
 include_once( 'bp-groups/bp-groups-ajax.php' );
@@ -41,8 +41,8 @@ function groups_install() {
 			enable_photos tinyint(1) NOT NULL DEFAULT '1',
 			photos_admin_only tinyint(1) NOT NULL DEFAULT '0',
 			date_created datetime NOT NULL,
-			avatar_thumb varchar(150) NOT NULL,
-			avatar_full varchar(150) NOT NULL,
+			avatar_thumb varchar(250) NOT NULL,
+			avatar_full varchar(250) NOT NULL,
 		    KEY creator_id (creator_id),
 		    KEY status (status),
 		    KEY is_invitation_only (is_invitation_only)
