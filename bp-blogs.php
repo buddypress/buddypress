@@ -387,7 +387,7 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 		bp_core_setup_globals();
 		bp_blogs_setup_globals();
 	}
-	
+
 	$post_id = (int)$post_id;
 	$post = get_post($post_id);
 	
@@ -395,7 +395,7 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 		$user_id = (int)$post->post_author;
 		
 	if ( !$blog_id )
-		$blog_id = (int)$wpdb->blog_id;
+		$blog_id = (int)$wpdb->blogid;
 
 	/* This is to stop infinate loops with Donncha's sitewide tags plugin */
 	if ( (int)get_site_option('tags_blog_id') == (int)$blog_id )
@@ -404,7 +404,7 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 	/* Don't record this if it's not a post */
 	if ( $post->post_type != 'post' )
 		return false;
-
+	
 	if ( !$is_recorded = BP_Blogs_Post::is_recorded( $post_id, $blog_id, $user_id ) ) {
 		if ( $post->post_status == 'publish' ) {
 			
