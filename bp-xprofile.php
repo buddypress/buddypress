@@ -367,7 +367,10 @@ add_action( 'wp', 'xprofile_action_delete_avatar', 3 );
 function xprofile_action_new_wire_post() {
 	global $bp;
 	
-	if ( $bp['current_component'] != $bp['xprofile']['slug'] && $bp['current_action'] != 'post' )
+	if ( $bp['current_component'] != $bp['wire']['slug'] )
+		return false;
+	
+	if ( $bp['current_action'] != 'post' )
 		return false;
 	
 	if ( !$wire_post_id = bp_wire_new_post( $bp['current_userid'], $_POST['wire-post-textarea'], $bp['profile']['slug'], false, $bp['profile']['table_name_wire'] ) ) {
@@ -401,9 +404,12 @@ add_action( 'wp', 'xprofile_action_new_wire_post', 3 );
 function xprofile_action_delete_wire_post() {
 	global $bp;
 	
-	if ( $bp['current_component'] != $bp['xprofile']['slug'] && $bp['current_action'] != 'delete' )
+	if ( $bp['current_component'] != $bp['wire']['slug'] )
 		return false;
 	
+	if ( $bp['current_action'] != 'delete' )
+		return false;
+			
 	$wire_post_id = $bp['action_variables'][0];
 	
 	if ( bp_wire_delete_post( $wire_post_id, $bp['profile']['slug'], $bp['profile']['table_name_wire'] ) ) {

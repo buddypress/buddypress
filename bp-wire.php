@@ -17,6 +17,10 @@ include_once( 'bp-wire/bp-wire-filters.php' );
  the $bp global variable array.
  **************************************************************************/
 
+function bp_wire_install() {
+	// Tables are installed on a per component basis, where needed.
+}
+
 function bp_wire_setup_globals() {
 	global $bp, $wpdb;
 	
@@ -93,6 +97,7 @@ function bp_wire_new_post( $item_id, $message, $component_name, $private_post = 
 	$wire_post->user_id = $bp['loggedin_userid'];
 	$wire_post->date_posted = time();
 	
+
 	$allowed_tags = apply_filters( 'bp_wire_post_allowed_tags', '<a>,<b>,<strong>,<i>,<em>,<img>' );
 		
 	$message = strip_tags( $message, $allowed_tags );
