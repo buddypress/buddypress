@@ -161,13 +161,13 @@ class BP_Core_User {
 	}
 	
 	function get_random_users( $limit = null, $page = 1 ) {
-		global $wpdb;
+		global $wpdb, $bp;
 		
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
-		$total_users = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(um.user_id) FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$wpdb->base_prefix}users u ON u.ID = um.user_id WHERE u.spam = 0 AND u.deleted = 0 AND u.user_status = 0 ORDER BY RAND() DESC" ) );
-		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT um.user_id FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$wpdb->base_prefix}users u ON u.ID = um.user_id WHERE u.spam = 0 AND u.deleted = 0 AND u.user_status = 0 ORDER BY RAND(){$pag_sql}" ) );
+		$total_users = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(um.user_id) FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$wpdb->base_prefix}users u ON u.ID = um.user_id WHERE u.spam = 0 AND u.deleted = 0 AND u.user_status = 0 AND u.ID != %d ORDER BY RAND() DESC", $bp['loggedin_userid'] ) );
+		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT um.user_id FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$wpdb->base_prefix}users u ON u.ID = um.user_id WHERE u.spam = 0 AND u.deleted = 0 AND u.user_status = 0 AND u.ID != %d ORDER BY RAND(){$pag_sql}", $bp['loggedin_userid'] ) );
 		
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
