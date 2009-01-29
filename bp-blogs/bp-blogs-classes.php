@@ -486,6 +486,9 @@ Class BP_Blogs_Comment {
 	function get_total_recorded_for_user( $user_id = null ) {
 		global $bp, $wpdb, $current_user;
 		
+		if ( !$bp['blogs'] )
+			bp_blogs_setup_globals();
+		
 		if ( !$user_id )
 			$user_id = $current_user->ID;
 
@@ -495,6 +498,9 @@ Class BP_Blogs_Comment {
 	function total_comment_count( $blog_id, $post_id ) {
 		global $bp, $wpdb;
 		
+		if ( !$bp['blogs'] )
+			bp_blogs_setup_globals();
+			
 		if ( $post_id )
 			$post_sql = $wpdb->prepare( " AND comment_post_id = %d", $post_id );
 
@@ -505,6 +511,9 @@ Class BP_Blogs_Comment {
 	function is_recorded( $comment_id, $comment_post_id, $blog_id, $user_id = null ) {
 		global $bp, $wpdb, $current_user;
 		
+		if ( !$bp['blogs'] )
+			bp_blogs_setup_globals();
+			
 		if ( !$user_id )
 			$user_id = $current_user->ID;
 		
