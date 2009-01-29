@@ -620,6 +620,9 @@ function groups_screen_group_admin_edit_details() {
 				} else {
 					bp_core_add_message( __( 'Group details were successfully updated.', 'buddypress' ) );
 				}
+				
+				do_action( 'groups_group_details_edited', $group_obj->id );
+				
 				bp_core_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/edit-details' );
 			}
 
@@ -654,6 +657,8 @@ function groups_screen_group_admin_settings() {
 			} else {
 				bp_core_add_message( __( 'Group settings were successfully updated.', 'buddypress' ) );
 			}
+
+			do_action( 'groups_group_settings_edited', $group_obj->id );
 			
 			bp_core_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/group-settings' );
 		}
@@ -697,6 +702,8 @@ function groups_screen_group_admin_avatar() {
 			} else {
 				bp_core_add_message( __( 'The group avatar was successfully updated.', 'buddypress' ) );
 			}
+
+			do_action( 'groups_group_avatar_edited', $group_obj->id );
 
 			bp_core_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/group-avatar' );
 		}
@@ -800,20 +807,27 @@ function groups_screen_group_admin_requests() {
 
 		if ( isset($request_action) && isset($membership_id) ) {
 			if ( $request_action == 'accept' && is_numeric($membership_id) ) {
+
 				// Accept the membership request
 				if ( !groups_accept_membership_request( $membership_id ) ) {
 					bp_core_add_message( __( 'There was an error accepting the membership request, please try again.', 'buddypress' ), 'error' );
 				} else {
 					bp_core_add_message( __( 'Group membership request accepted', 'buddypress' ) );
 				}
+
 			} else if ( $request_action == 'reject' && is_numeric($membership_id) ) {
+
 				// Reject the membership request
 				if ( !groups_reject_membership_request( $membership_id ) ) {
 					bp_core_add_message( __( 'There was an error rejecting the membership request, please try again.', 'buddypress' ), 'error' );
 				} else {
 					bp_core_add_message( __( 'Group membership request rejected', 'buddypress' ) );
 				}	
+
 			}
+			
+			do_action( 'groups_group_request_managed', $group_obj->id, $request_action, $membership_id );
+			
 			bp_core_redirect( site_url() . '/' . $bp['current_component'] . '/' . $bp['current_item'] . '/admin/membership-requests' );
 		}
 
@@ -840,6 +854,9 @@ function groups_screen_group_admin_delete_group() {
 				bp_core_add_message( __( 'The group was deleted successfully', 'buddypress' ) );
 				bp_core_redirect( site_url() . '/' . $bp['groups']['slug'] . '/' );
 			}
+
+			do_action( 'groups_group_deleted', $_POST['group-id'] );
+
 			bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] );
 		} else {
 			do_action( 'groups_screen_group_admin_delete_group', $group_obj->id );
