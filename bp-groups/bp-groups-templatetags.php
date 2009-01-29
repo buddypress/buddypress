@@ -563,8 +563,16 @@ function bp_group_forum_permalink() {
 function bp_group_is_forum_enabled() {
 	global $groups_template;
 	
-	if ( $groups_template->group->enable_forum )
-		return true;
+	if ( function_exists( 'bp_forums_is_installed_correctly' ) ) {
+		if ( bp_forums_is_installed_correctly() ) {
+			if ( $groups_template->group->enable_forum )
+				return true;
+			
+			return false;
+		} else {
+			return false;
+		}
+	}
 	
 	return false;	
 }
@@ -824,9 +832,19 @@ function bp_group_create_form() {
 				<?php endif; ?>
 				
 				<?php if ( function_exists('bp_forums_setup') ) : ?>
-				<div class="checkbox">
-					<label><input type="checkbox" name="group-show-forum" id="group-show-forum" value="1"<?php if ( $group_obj->enable_forum ) { ?> checked="checked"<?php } ?> /> <?php _e('Enable discussion forum', 'buddypress') ?></label>
-				</div>
+					<?php if ( bp_forums_is_installed_correctly() ) { ?>
+						<div class="checkbox">
+							<label><input type="checkbox" name="group-show-forum" id="group-show-forum" value="1"<?php if ( $group_obj->enable_forum ) { ?> checked="checked"<?php } ?> /> <?php _e('Enable discussion forum', 'buddypress') ?></label>
+						</div>
+					<?php } else {
+						if ( is_site_admin() ) {
+							?>
+							<div class="checkbox">
+								<label><input type="checkbox" disabled="disabled" name="disabled" id="disabled" value="0" /> <?php _e('<strong>Attention Site Admin:</strong> Group forums require correct setup and configuration of a bbPress installation.', 'buddypress') ?></label>
+							</div>
+							<?php
+						}
+					}?>
 				<?php endif; ?>
 				
 				<?php if ( function_exists('bp_albums_install') ) : ?>
