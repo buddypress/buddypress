@@ -1491,14 +1491,23 @@ function groups_is_user_banned( $user_id, $group_id ) {
 	return BP_Groups_Member::check_is_banned( $user_id, $group_id );
 }
 
-function groups_new_group_forum() {
+function groups_new_group_forum( $group_id = false, $group_name = false, $group_desc = false ) {
 	global $group_obj;
 	
-	$forum = bp_forums_new_forum( apply_filters( 'groups_new_group_forum_name', $group_obj->name . ' - Forum', $group_obj->name ), apply_filters( 'groups_new_group_forum_desc', $group_obj->description ) );
+	if ( !$group_id )
+		$group_id = $group_obj->id;
 	
-	groups_update_groupmeta( $group_obj->id, 'forum_id', $forum['forum_id'] );
+	if ( !$group_name )
+		$group_name = $group_obj->name;
 	
-	do_action( 'groups_new_group_forum', $forum, $group_obj->id );
+	if ( !$group_desc )
+		$group_desc = $group_obj->description;
+	
+	$forum = bp_forums_new_forum( apply_filters( 'groups_new_group_forum_name', $group_name . ' - Forum', $group_name ), apply_filters( 'groups_new_group_forum_desc', $group_desc ) );
+	
+	groups_update_groupmeta( $group_id, 'forum_id', $forum['forum_id'] );
+	
+	do_action( 'groups_new_group_forum', $forum, $group_id );
 }
 
 function groups_new_group_forum_post( $post_text, $topic_id ) {
@@ -1771,8 +1780,7 @@ function groups_edit_group_settings( $group_id, $enable_wire, $enable_forum, $en
 	/* If forums have been enabled, and a forum does not yet exist, we need to create one. */
 	if ( $group->enable_forum ) {
 		if ( function_exists( 'bp_forums_setup' ) && groups_get_groupmeta( $group->id, 'forum_id' ) == '' ) {
-			$forum = bp_forums_new_forum( $group->name . ' - Forum ', $group->description );
-			groups_update_groupmeta( $group->id, 'forum_id', $forum['forum_id'] );
+			groups_new_group_forum( $group->id, $group->name, $group->description );
 		}
 	}
 	
