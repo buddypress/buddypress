@@ -226,24 +226,18 @@ function bp_core_avatar_upload_dir( $upload, $user_id = false ) {
 
 	if ( !$user_id )
 		$user_id = $bp['loggedin_userid'];
-	
-	// Switch to the root blog, so all avatars are stored in the root blog upload dir.
-	switch_to_blog(1);
-	
-	$path  = get_option('upload_path');
-	$newdir = path_join( ABSPATH, $path );
-	$newdir .= '/avatars/' . $user_id . '/';
+
+	$path  = get_blog_option( 1, 'upload_path' );
+	$newdir = ABSPATH;
+	$newdir .= '/avatars/' . $user_id;
 
 	$newbdir = $newdir;
 	
 	@wp_mkdir_p( $newdir );
 
-	$newurl = trailingslashit( get_option('siteurl') ) . '/avatars/' . $user_id . '/';
+	$newurl = trailingslashit( get_blog_option( 1, 'siteurl' ) ) . '/avatars/' . $user_id;
 	$newburl = $newurl;
-	$newsubdir = '/avatars/' . $user_id . '/';
-	
-	// Switch back to the current blog
-	restore_current_blog();
+	$newsubdir = '/avatars/' . $user_id;
 
 	return apply_filters( 'bp_core_avatar_upload_dir', array( 'path' => $newdir, 'url' => $newurl, 'subdir' => $newsubdir, 'basedir' => $newbdir, 'baseurl' => $newburl, 'error' => false ) );
 }
