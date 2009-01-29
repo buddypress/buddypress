@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* Load the WP environment */
 require_once( preg_replace('%(.*)[/\\\\]wp-content[/\\\\].*%', '\1', $_SERVER['SCRIPT_FILENAME'] ) . '/wp-load.php' ); 

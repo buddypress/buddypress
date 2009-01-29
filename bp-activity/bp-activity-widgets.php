@@ -21,6 +21,12 @@ function bp_activity_widget_sitewide_activity($args) {
 	<?php echo $before_title
 		. $widget_name 
 		. $after_title; ?>
+		
+	<?php 
+	if ( $options['max_items'] == '' ) {
+		$options['max_items'] = 20;
+	}
+	?>
 
 	<?php $activity = bp_activity_get_sitewide_activity( $options['max_items'] ) ?>
 	

@@ -4,6 +4,8 @@ require_once( 'bp-core.php' );
 define ( 'BP_BLOGS_VERSION', '1.0b1' );
 define ( 'BP_BLOGS_DB_VERSION', '937' );
 
+define ( 'BP_BLOGS_SLUG', 'blogs' );
+
 /* These will be moved into admin configurable settings */
 define ( 'TOTAL_RECORDED_POSTS', 10 );
 define ( 'TOTAL_RECORDED_COMMENTS', 25 );
@@ -131,14 +133,22 @@ function bp_blogs_setup_globals() {
 		'table_name_blogmeta' => $wpdb->base_prefix . 'bp_user_blogs_blogmeta',
 		'format_activity_function' => 'bp_blogs_format_activity',
 		'image_base' => site_url( MUPLUGINDIR . '/bp-groups/images' ),
-		'slug'		 => 'blogs'
+		'slug'		 => BP_BLOGS_SLUG
 	);
 	
 	$bp['version_numbers'][$bp['blogs']['slug']] = BP_BLOGS_VERSION;
+	
+	/* Register 'groups' as a root component */
+	bp_core_add_root_component( $bp['blogs']['slug'] );
 }
 add_action( 'wp', 'bp_blogs_setup_globals', 1 );	
 add_action( 'admin_menu', 'bp_blogs_setup_globals', 1 );
 
+function bp_blogs_setup_root_component() {
+	/* Register 'groups' as a root component */
+	bp_core_add_root_component( BP_BLOGS_SLUG );
+}
+add_action( 'plugins_loaded', 'bp_blogs_setup_root_component' );
 
 /**
  * bp_blogs_setup_nav()

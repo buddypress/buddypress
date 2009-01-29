@@ -43,15 +43,26 @@ register_sidebars( 1,
 
 /* Catch specific URLs */
 
-function bp_home_theme_catch_urls() {
-	global $bp, $current_blog;
+function bp_show_home_blog() {
+	global $bp, $query_string;
 	
-	if ( $bp['current_component'] == NEWS_SLUG && $bp['current_action'] == '' ) {
-		query_posts('showposts=15');
-		bp_core_load_template( 'index', true );
+	if ( $bp['current_component'] == HOME_BLOG_SLUG  ) {
+		$pos = strpos( $query_string, 'pagename=' . HOME_BLOG_SLUG );
+		
+		if ( $pos !== false )
+			$query_string = preg_replace( '/pagename=' . HOME_BLOG_SLUG . '/', '', $query_string );
+
+		query_posts($query_string);
+		
+		$single_check = strpos( $query_string, '&name=' );
+		
+		if ( $single_check === false )
+			bp_core_load_template( 'index', true );
+		else
+			bp_core_load_template( 'single', true );			
 	}
 }
-add_action('wp', 'bp_home_theme_catch_urls', 1 );
+add_action( 'wp', 'bp_show_home_blog', 2 );
 
 function bp_show_register_page() {
 	global $bp, $current_blog;

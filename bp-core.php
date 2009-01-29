@@ -4,22 +4,6 @@
 define( 'BP_CORE_VERSION', '1.0b1' );
 define( 'BP_CORE_DB_VERSION', '937' );
 
-/* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
-define( 'MEMBERS_SLUG', 'members' );
-
-/* Define the slug for the register/signup page */
-define( 'REGISTER_SLUG', 'register' );
-
-/* Define the slug for the activation page */
-define( 'ACTIVATION_SLUG', 'activate' );
-
-/* Define the slug for the news page */
-define( 'NEWS_SLUG', 'news' );
-
-/* These components are accessed via the root, and not under a blog name or member home.
-   e.g Groups is accessed via: http://domain.com/groups/group-name NOT http://domain.com/andy/groups/group-name */
-define( 'BP_CORE_ROOT_COMPONENTS', 'search,groups,blogs' . ',' . MEMBERS_SLUG . ',' . REGISTER_SLUG . ',' . ACTIVATION_SLUG . ',' . NEWS_SLUG );
-
 /* Load the language file */
 if ( file_exists( ABSPATH . 'wp-content/mu-plugins/bp-languages/buddypress-' . get_locale() . '.mo' ) )
 	load_textdomain( 'buddypress', ABSPATH . 'wp-content/mu-plugins/bp-languages/buddypress-' . get_locale() . '.mo' );
@@ -65,6 +49,21 @@ require_once( 'bp-core/bp-core-signup.php' );
 
 /* Functions to provide better WPMU custom activation page support */
 require_once( 'bp-core/bp-core-activation.php' );
+
+/* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
+define( 'MEMBERS_SLUG', apply_filters( 'bp_members_slug', 'members' ) );
+
+/* Define the slug for the register/signup page */
+define( 'REGISTER_SLUG', apply_filters( 'bp_register_slug', 'register' ) );
+
+/* Define the slug for the activation page */
+define( 'ACTIVATION_SLUG', apply_filters( 'bp_activate_slug', 'activate' ) );
+
+/* Define the slug for the search page */
+define( 'SEARCH_SLUG', apply_filters( 'bp_search_slug', 'search' ) );
+
+/* Define the slug for the search page */
+define( 'HOME_BLOG_SLUG', apply_filters( 'bp_home_blog_slug', 'blog' ) );
 
 
 /* "And now for something completely different" .... */
@@ -158,11 +157,19 @@ function bp_core_setup_globals() {
 	
 	if ( !$bp['current_component'] )
 		$bp['current_component'] = $bp['default_component'];
-
 }
-add_action( 'wp', 'bp_core_setup_globals', 1 );
-add_action( '_admin_menu', 'bp_core_setup_globals', 1 ); // must be _admin_menu hook.
+add_action( 'wp', 'bp_core_setup_globals', 2 );
+add_action( '_admin_menu', 'bp_core_setup_globals', 2 ); // must be _admin_menu hook.
 
+function bp_core_setup_root_components() {
+	/* Add core root components */
+	bp_core_add_root_component( MEMBERS_SLUG );
+	bp_core_add_root_component( REGISTER_SLUG );
+	bp_core_add_root_component( ACTIVATION_SLUG );
+	bp_core_add_root_component( SEARCH_SLUG );
+	bp_core_add_root_component( HOME_BLOG_SLUG );
+}
+add_action( 'plugins_loaded', 'bp_core_setup_root_components' );
 
 function bp_core_setup_session() {
 	// Start a session for error/success feedback on redirect and for signup functions.
@@ -266,8 +273,9 @@ add_action( 'admin_menu', 'bp_core_add_admin_menu' );
  * @return true if root component, else false.
  */
 function bp_core_is_root_component( $component_name ) {
-	$root_components = explode( ',', BP_CORE_ROOT_COMPONENTS );	
-	return in_array( $component_name, $root_components );
+	global $bp;
+
+	return in_array( $component_name, $bp['root_components'] );
 }
 
 /**
@@ -504,6 +512,33 @@ function bp_core_add_nav_default( $parent_id, $function, $slug = false, $user_ha
  */
 function bp_core_load_template( $template, $skip_blog_check = false ) {
 	return bp_catch_uri( $template, $skip_blog_check );
+}
+
+/**
+ * bp_core_add_root_component()
+ *
+ * Adds a component to the $bp['root_components'] global.
+ * Any component that runs in the "root" of an install should be added.
+ * The "root" as in, it can or always runs outside of the /members/username/ path.
+ *
+ * Example of a root component:
+ *  Groups: http://domain.com/groups/group-name
+ *          http://community.domain.com/groups/group-name
+ *          http://domain.com/wpmu/groups/group-name
+ *
+ * Example of a component that is NOT a root component:
+ *  Friends: http://domain.com/members/andy/friends
+ *           http://community.domain.com/members/andy/friends
+ *           http://domain.com/wpmu/members/andy/friends
+ * 
+ * @package BuddyPress Core
+ * @param $slug str The slug of the component
+ * @global $bp BuddyPress global settings
+ */
+function bp_core_add_root_component( $slug ) {
+	global $bp;
+
+	$bp['root_components'][] = $slug;
 }
 
 /**
@@ -1154,8 +1189,10 @@ function bp_core_set_member_theme_root_uri() {
 }
 
 function bp_core_add_illegal_names() {
+	global $bp;
+	
 	$current = maybe_unserialize( get_site_option( 'illegal_names' ) );
-	$bp_illegal_names = explode( ',', BP_CORE_ROOT_COMPONENTS );
+	$bp_illegal_names = $bp['root_components'];
 	
 	if ( is_array( $current ) ) {
 		foreach( $bp_illegal_names as $bp_illegal_name ) {

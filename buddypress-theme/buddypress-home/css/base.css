@@ -312,13 +312,24 @@ div.avatar-block {
 	margin: 0;
 }
 
+.alignleft { float: left; }
+.alignright { float: right; }
+
+.item-options {
+	padding: 5px;
+	height: 20px;
+}
+
 .post, #comments-section, #compose-reply {
 	background: url(../images/item_list_back.gif) top left repeat-x;
 	padding: 20px 15px;	
+	clear: both;
 }
 	#comments-section, #compose-reply {
 		background: none;
 	}
+	
+	ol#comments { list-style: none; }
 
 .post p {
 	margin-top: 15px;

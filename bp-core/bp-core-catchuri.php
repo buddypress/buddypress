@@ -30,6 +30,7 @@ function bp_core_set_uri_globals() {
 	global $current_userid;
 	global $is_member_page, $is_new_friend;
 	global $bp_unfiltered_uri;
+	global $bp;
 	
 	$path = apply_filters( 'bp_uri', $_SERVER['REQUEST_URI'] );
 	
@@ -105,7 +106,7 @@ function bp_core_set_uri_globals() {
 	}
 	
 	/* This is used to determine where the component and action indexes should start */
-	$root_components = explode( ',', BP_CORE_ROOT_COMPONENTS );
+	$root_components = $bp['root_components'];
 	
 	if ( !isset($is_root_component) )
 		$is_root_component = in_array( $bp_uri[0], $root_components );
@@ -180,7 +181,7 @@ function bp_core_do_catch_uri() {
 	global $wp_query;
 	
 	$pages = $bp_path;
-	
+
 	/* Don't hijack any URLs on blog pages */
 	if ( !$bp_skip_blog_check ) {
 		if ( bp_is_blog_page() )
@@ -223,7 +224,7 @@ function bp_core_catch_no_access() {
 	// we are redirecting to an accessable page, so skip this check.
 	if ( $bp_no_status_set )
 		return false;
-
+		
 	// If this user does not exist, redirect to the root domain.
 	if ( !$bp['current_userid'] && $bp_unfiltered_uri[0] == MEMBERS_SLUG && isset($bp_unfiltered_uri[1]) )
 		bp_core_redirect( $bp['root_domain'] );

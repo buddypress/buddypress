@@ -3,7 +3,7 @@
 <div id="content" class="narrowcolumn">
 
 	<div class="widget" id="latest-news">
-		<h2 class="widgettitle">News</h2>
+		<h2 class="widgettitle"><?php _e( 'Blog', 'buddypress' ) ?></h2>
 		<?php if (have_posts()) : ?>
 
 			<?php while (have_posts()) : the_post(); ?>

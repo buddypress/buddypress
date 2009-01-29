@@ -5,6 +5,8 @@ define ( 'BP_GROUPS_IS_INSTALLED', 1 );
 define ( 'BP_GROUPS_VERSION', '1.0b1' );
 define ( 'BP_GROUPS_DB_VERSION', '951' );
 
+define ( 'BP_GROUPS_SLUG', apply_filters( 'groups_slug', 'groups' ) );
+
 include_once( 'bp-groups/bp-groups-classes.php' );
 include_once( 'bp-groups/bp-groups-ajax.php' );
 include_once( 'bp-groups/bp-groups-cssjs.php' );
@@ -124,7 +126,7 @@ function groups_setup_globals( $no_global = false ) {
 		'table_name_groupmeta' => $wpdb->base_prefix . 'bp_groups_groupmeta',
 		'image_base' => site_url( MUPLUGINDIR . '/bp-groups/images' ),
 		'format_activity_function' => 'groups_format_activity',
-		'slug'		 => 'groups'
+		'slug'		 => BP_GROUPS_SLUG
 	);
 	
 	if ( function_exists('bp_wire_install') )
@@ -132,12 +134,17 @@ function groups_setup_globals( $no_global = false ) {
 	
 	$bp['groups']['forbidden_names'] = array( 'my-groups', 'group-finder', 'create', 'invites', 'delete', 'add', 'admin', 'request-membership' );
 	$bp['version_numbers'][$bp['groups']['slug']] = BP_GROUPS_VERSION;
-	
+
 	return $bp;
 }
 add_action( 'wp', 'groups_setup_globals', 1, false );	
 add_action( 'admin_menu', 'groups_setup_globals', 1, false );
 
+function groups_setup_root_component() {
+	/* Register 'groups' as a root component */
+	bp_core_add_root_component( BP_GROUPS_SLUG );
+}
+add_action( 'plugins_loaded', 'groups_setup_root_component' );
 
 function groups_check_installed() {	
 	global $wpdb, $bp;
