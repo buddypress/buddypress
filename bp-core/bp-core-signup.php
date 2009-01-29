@@ -332,7 +332,7 @@ function bp_core_signup_validate_blog_signup() {
 
 function bp_core_signup_confirm_blog_signup($domain, $path, $blog_title, $user_name = '', $user_email = '', $meta) {
 	?>
-	<h3><?php _e('Congratulations, You are now registered!', 'buddypress' ) ?></h2>
+	<h3><?php _e('Congratulations, You are now registered!', 'buddypress' ) ?></h3>
 	
 	<p><?php printf( __('But, before you can start using your blog, <strong>you must activate it</strong>. Check your inbox at <strong>%s</strong> and click the link given. It should arrive within 30 minutes.', 'buddypress' ),  $user_email) ?></p>
 	<p>&nbsp;</p>
