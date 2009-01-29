@@ -8,7 +8,7 @@ div.inner-tube {
 }
 
 #optionsbar {
-	margin-left: -11px
+	margin-left: -4px
 }
 
 #main {
@@ -40,6 +40,7 @@ ul#group-list li, ul#wire-post-list li, ul#friend-list li {
 	}
 
 div#message {
+	position: relative;
 	border: 1px solid #fff;
 }
 	div#message p {
