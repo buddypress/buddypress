@@ -4,6 +4,8 @@ require_once( 'bp-core.php' );
 define ( 'BP_WIRE_IS_INSTALLED', 1 );
 define ( 'BP_WIRE_VERSION', '1.0b1' );
 
+define ( 'BP_WIRE_SLUG', apply_filters( 'bp_wire_slug', 'wire' ) );
+
 include_once( 'bp-wire/bp-wire-classes.php' );
 include_once( 'bp-wire/bp-wire-ajax.php' );
 include_once( 'bp-wire/bp-wire-templatetags.php' );
@@ -26,7 +28,7 @@ function bp_wire_setup_globals() {
 	
 	$bp['wire'] = array(
 		'image_base' => site_url( MUPLUGINDIR . '/bp-wire/images' ),
-		'slug'		 => 'wire'
+		'slug'		 => BP_WIRE_SLUG
 	);
 
 	$bp['version_numbers'][$bp['wire']['slug']] = BP_WIRE_VERSION;

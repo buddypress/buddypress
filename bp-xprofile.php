@@ -5,6 +5,8 @@ require_once( 'bp-core.php' );
 define ( 'BP_XPROFILE_VERSION', '1.0b1' );
 define ( 'BP_XPROFILE_DB_VERSION', '948' );
 
+define ( 'BP_XPROFILE_SLUG', apply_filters( 'xprofile_slug', 'profile' ) );
+
 /* Database access classes and functions */
 require_once( 'bp-xprofile/bp-xprofile-classes.php' );
 
@@ -149,7 +151,7 @@ function xprofile_setup_globals() {
 		'table_name_data' 	=> $wpdb->base_prefix . 'bp_xprofile_data',
 		'format_activity_function' => 'xprofile_format_activity',
 		'image_base' 		=> site_url( MUPLUGINDIR . '/bp-xprofile/images' ),
-		'slug'		 		=> 'profile'
+		'slug'		 		=> BP_XPROFILE_SLUG
 	);
 	
 	$bp['version_numbers'][$bp['profile']['slug']] = BP_XPROFILE_VERSION;

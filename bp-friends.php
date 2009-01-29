@@ -5,6 +5,8 @@ define ( 'BP_FRIENDS_IS_INSTALLED', 1 );
 define ( 'BP_FRIENDS_VERSION', '1.0b1' );
 define ( 'BP_FRIENDS_DB_VERSION', '937' );
 
+define ( 'BP_FRIENDS_SLUG', apply_filters( 'friends_slug', 'friends' ) );
+
 include_once( 'bp-friends/bp-friends-classes.php' );
 include_once( 'bp-friends/bp-friends-ajax.php' );
 include_once( 'bp-friends/bp-friends-cssjs.php' );
@@ -58,7 +60,7 @@ function friends_setup_globals() {
 		'table_name' => $wpdb->base_prefix . 'bp_friends',
 		'image_base' => site_url( MUPLUGINDIR . '/bp-friends/images' ),
 		'format_activity_function' => 'friends_format_activity',
-		'slug'		 => 'friends'
+		'slug'		 => BP_FRIENDS_SLUG
 	);
 
 	$bp['version_numbers'][$bp['friends']['slug']] = BP_FRIENDS_VERSION;

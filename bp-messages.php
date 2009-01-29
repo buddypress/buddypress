@@ -5,6 +5,8 @@ define ( 'BP_MESSAGES_IS_INSTALLED', 1 );
 define ( 'BP_MESSAGES_VERSION', '1.0b1' );
 define ( 'BP_MESSAGES_DB_VERSION', '948' );
 
+define ( 'BP_MESSAGES_SLUG', apply_filters( 'messages_slug', 'messages' ) );
+
 include_once( 'bp-messages/bp-messages-classes.php' );
 include_once( 'bp-messages/bp-messages-ajax.php' );
 include_once( 'bp-messages/bp-messages-cssjs.php' );
@@ -102,7 +104,7 @@ function messages_setup_globals() {
 		'table_name_notices' 	   => $wpdb->base_prefix . 'bp_messages_notices',
 		'format_activity_function' => 'messages_format_activity',
 		'image_base' 		 	   => site_url( MUPLUGINDIR . '/bp-messages/images' ),
-		'slug'		 		 	   => 'messages'
+		'slug'		 		 	   => BP_MESSAGES_SLUG
 	);
 
 	$bp['version_numbers'][$bp['messages']['slug']] = BP_MESSAGES_VERSION;

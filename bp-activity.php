@@ -5,6 +5,8 @@ define ( 'BP_ACTIVITY_IS_INSTALLED', 1 );
 define ( 'BP_ACTIVITY_VERSION', '1.0b1.1' );
 define ( 'BP_ACTIVITY_DB_VERSION', '937' );
 
+define ( 'BP_ACTIVITY_SLUG', apply_filters( 'bp_activity_slug', 'activity' ) );
+
 /* How long before activity items in streams are re-cached? */
 define ( 'BP_ACTIVITY_CACHE_LENGTH', '6 HOURS' );
 
@@ -142,7 +144,7 @@ function bp_activity_setup_globals() {
 		'table_name_sitewide' => $wpdb->base_prefix . 'bp_activity_sitewide',
 		
 		'image_base' => site_url( MUPLUGINDIR . '/bp-activity/images' ),
-		'slug'		 => 'activity'
+		'slug'		 => BP_ACTIVITY_SLUG
 	);
 	
 	$bp['version_numbers'][$bp['activity']['slug']] = BP_ACTIVITY_VERSION;

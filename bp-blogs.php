@@ -4,7 +4,7 @@ require_once( 'bp-core.php' );
 define ( 'BP_BLOGS_VERSION', '1.0b1' );
 define ( 'BP_BLOGS_DB_VERSION', '937' );
 
-define ( 'BP_BLOGS_SLUG', 'blogs' );
+define ( 'BP_BLOGS_SLUG', apply_filters( 'bp_blogs_slug', 'blogs' ) );
 
 /* These will be moved into admin configurable settings */
 define ( 'TOTAL_RECORDED_POSTS', 10 );
