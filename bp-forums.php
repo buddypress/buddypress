@@ -26,6 +26,20 @@ function bp_forums_setup() {
 add_action( 'wp', 'bp_forums_setup', 3 );
 add_action( 'admin_head', 'bp_forums_setup', 3 );
 
+function bp_forums_is_installed_correctly() {
+	global $bbpress_live;
+	
+	if ( !is_object( $bbpress_live ) ) {
+		include_once( ABSPATH . WPINC . '/class-IXR.php' );
+		$bbpress_live = new bbPress_Live();
+	}
+	
+	if ( !$bbpress_live->fetch->endpoint )
+		return false;
+	
+	return true;
+}
+
 function bp_forums_get_forum( $parent = 0, $depth = 0 ) {
 	global $bbpress_live;
 	
