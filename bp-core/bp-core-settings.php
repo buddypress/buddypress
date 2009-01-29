@@ -1,7 +1,7 @@
 <?php
 function bp_core_add_settings_nav() {
 	global $bp;
-	
+
 	/* Add the settings navigation item */
 	bp_core_add_nav_item( __('Settings', 'buddypress'), 'settings', false, false );
 	bp_core_add_nav_default( 'settings', 'bp_core_screen_general_settings', 'general', false );

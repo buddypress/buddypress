@@ -159,7 +159,7 @@ function bp_catch_uri( $pages, $skip_blog_check = false ) {
 	$bp_skip_blog_check = $skip_blog_check;
 
 	$bp_path = $pages;
-
+	
 	if ( !bp_is_blog_page() )
 		remove_action( 'template_redirect', 'redirect_canonical' );
 	
