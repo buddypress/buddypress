@@ -117,11 +117,17 @@ Class BP_Blogs_Blog {
 	function is_recorded( $blog_id ) {
 		global $bp, $wpdb;
 		
+		if ( !$bp['blogs'] )
+			bp_blogs_setup_globals();
+		
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM " . $bp['blogs']['table_name'] . " WHERE blog_id = %d", $blog_id ) );
 	}
 	
 	function total_blog_count( $user_id = null ) {
 		global $bp, $wpdb;
+		
+		if ( !$bp['blogs'] )
+			bp_blogs_setup_globals();
 		
 		if ( !$user_id )
 			$user_id = $bp['current_userid'];
@@ -335,6 +341,9 @@ Class BP_Blogs_Post {
 	function get_total_recorded_for_user( $user_id = null ) {
 		global $bp, $wpdb;
 		
+		if ( !$bp['blogs'] )
+			bp_blogs_setup_globals();
+		
 		if ( !$user_id )
 			$user_id = $current_user->ID;
 
@@ -343,6 +352,9 @@ Class BP_Blogs_Post {
 	
 	function is_recorded( $post_id, $blog_id, $user_id = null ) {
 		global $bp, $wpdb, $current_user;
+		
+		if ( !$bp['blogs'] )
+			bp_blogs_setup_globals();
 		
 		if ( !$user_id )
 			$user_id = $current_user->ID;
@@ -353,6 +365,9 @@ Class BP_Blogs_Post {
 	function total_post_count( $blog_id ) {
 		global $bp, $wpdb;
 		
+		if ( !$bp['blogs'] )
+			bp_blogs_setup_globals();
+		
 		if ( !$blog_id )
 			return false;
 			
@@ -361,6 +376,9 @@ Class BP_Blogs_Post {
 	
 	function get_all() {
 		global $bp, $wpdb;
+		
+		if ( !$bp['blogs'] )
+			bp_blogs_setup_globals();
 		
 		return $wpdb->get_col( $wpdb->prepare( "SELECT post_id, blog_id FROM " . $bp['blogs']['table_name_blog_posts'] ) );
 	}
