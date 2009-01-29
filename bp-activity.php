@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_ACTIVITY_IS_INSTALLED', 1 );
-define ( 'BP_ACTIVITY_VERSION', '1.0b1.1' );
+define ( 'BP_ACTIVITY_VERSION', '1.0b2' );
 define ( 'BP_ACTIVITY_DB_VERSION', '937' );
 
 define ( 'BP_ACTIVITY_SLUG', apply_filters( 'bp_activity_slug', 'activity' ) );

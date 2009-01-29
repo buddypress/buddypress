@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_MESSAGES_IS_INSTALLED', 1 );
-define ( 'BP_MESSAGES_VERSION', '1.0b1' );
+define ( 'BP_MESSAGES_VERSION', '1.0b2' );
 define ( 'BP_MESSAGES_DB_VERSION', '948' );
 
 define ( 'BP_MESSAGES_SLUG', apply_filters( 'messages_slug', 'messages' ) );
