@@ -1253,7 +1253,7 @@ function bp_core_delete_account() {
 function bp_core_search_site() {
 	global $bp;
 	
-	if ( $bp['current_component'] == 'search' ) {
+	if ( $bp['current_component'] == SEARCH_SLUG ) {
 		$search_terms = $_POST['search-terms'];
 		$search_which = $_POST['search-which'];
 		
@@ -1269,7 +1269,7 @@ function bp_core_search_site() {
 				break;
 		}
 		
-		$search_url = apply_filters( 'bp_core_search_site', site_url( $search . '/?s=' . $search_terms ), $search_terms );
+		$search_url = apply_filters( 'bp_core_search_site', site_url( $search . '/?s=' . urlencode($search_terms) ), $search_terms );
 		
 		bp_core_redirect( $search_url );
 	}
