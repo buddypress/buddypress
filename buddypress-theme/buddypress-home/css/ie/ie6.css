@@ -1,9 +1,6 @@
+
 img#admin-bar-logo {
 	left: -70px !important;
-}
-
-h2.widgettitle {
-	margin-left: -16px !important;
 }
 
 .item-list li {
@@ -17,10 +14,22 @@ ul#letter-list li a {
 
 .item-list *, .pagination-links * { position: relative; }
 
-.group-button, .generic-button, .friend-button, .blog-button {
+.group-button, .generic-button, .friend-button, .blog-button, .generic-button {
+	display: inline;
+}
+
+.generic-button a {
 	display: inline;
 }
 
 .action {
 	display: none;
+}
+
+#setupform {
+	float: none;
+}
+
+#blog-or-username-fields input, .checkbox input, input#rememberme {
+	width: auto !important;
 }

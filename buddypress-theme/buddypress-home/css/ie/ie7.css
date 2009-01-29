@@ -1,7 +1,31 @@
+
 img#admin-bar-logo {
 	left: -70px !important;
 }
 
-.widgettitle {
-	margin-left: -16px;
+.item-list li {
+	background-position: 0 2px !important;
+}
+
+ul#letter-list li a { 
+	color: #555;
+	padding: 4px;
+}
+
+.item-list *, .pagination-links * { position: relative; }
+
+.group-button, .generic-button, .friend-button, .blog-button, .generic-button {
+	display: inline;
+}
+
+.action {
+	display: none;
+}
+
+#setupform {
+	float: none;
+}
+
+#blog-or-username-fields input, .checkbox input, input#rememberme {
+	width: auto !important;
 }
