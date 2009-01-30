@@ -228,7 +228,7 @@ function bp_core_avatar_upload_dir( $upload, $user_id = false ) {
 		$user_id = $bp['loggedin_userid'];
 
 	$path  = get_blog_option( 1, 'upload_path' );
-	$newdir = ABSPATH;
+	$newdir = path_join( ABSPATH, $path );
 	$newdir .= '/avatars/' . $user_id;
 
 	$newbdir = $newdir;
