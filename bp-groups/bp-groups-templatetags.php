@@ -1080,7 +1080,7 @@ function bp_group_send_invite_form( $group_obj = null ) {
 					<h4><?php echo $user->user_link ?></h4>
 					<span class="activity"><?php echo $user->last_active ?></span>
 					<div class="action">
-						<a class="remove" href="<?php echo site_url() . $bp['groups']['slug'] . '/' . $group_obj->id . '/invites/remove/' . $user->id ?>" id="uid-<?php echo $user->id ?>">Remove Invite</a> 
+						<a class="remove" href="<?php echo site_url() . $bp['groups']['slug'] . '/' . $group_obj->id . '/invites/remove/' . $user->id ?>" id="uid-<?php echo $user->id ?>"><?php _e( 'Remove Invite', 'buddypress' ) ?></a> 
 					</div>
 				</li>
 			<?php } // end for ?>
