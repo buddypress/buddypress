@@ -2,28 +2,28 @@
 
 	<div id="content" class="narrowcolumn">
 		<div class="widget" id="latest-news">
-			<h2 class="widgettitle">News</h2>
+			<h2 class="widgettitle"><?php _e( 'Blog', 'buddypress' ) ?></h2>
 			
 			<?php if (have_posts()) : ?>
 
 			 <?php $post = $posts[0]; // Hack. Set $post so that the_date() works. ?>
 			 <?php /* If this is a category archive */ if (is_category()) { ?>
-			<h3 class="pageTitle">Archive for the &#8216;<?php single_cat_title(); ?>&#8217; Category</h2>
+			<h3 class="pageTitle"><?php _e( 'Archive for the', 'buddypress' ) ?> &#8216;<?php single_cat_title(); ?>&#8217; <?php _e( 'Category', 'buddypress' ) ?></h2>
 
 	 	  	 <?php /* If this is a daily archive */ } elseif (is_day()) { ?>
-			<h3 class="pageTitle">Archive for <?php the_time('F jS, Y'); ?></h2>
+			<h3 class="pageTitle"><?php _e( 'Archive for', 'buddypress' ) ?> <?php the_time('F jS, Y'); ?></h2>
 
 		 	 <?php /* If this is a monthly archive */ } elseif (is_month()) { ?>
-			<h3 class="pageTitle">Archive for <?php the_time('F, Y'); ?></h2>
+			<h3 class="pageTitle"><?php _e( 'Archive for', 'buddypress' ) ?> <?php the_time('F, Y'); ?></h2>
 
 			<?php /* If this is a yearly archive */ } elseif (is_year()) { ?>
-			<h3 class="pageTitle">Archive for <?php the_time('Y'); ?></h2>
+			<h3 class="pageTitle"><?php _e( 'Archive for', 'buddypress' ) ?> <?php the_time('Y'); ?></h2>
 
 		  	<?php /* If this is an author archive */ } elseif (is_author()) { ?>
-			<h3 class="pageTitle">Author Archive</h2>
+			<h3 class="pageTitle"><?php _e( 'Author Archive', 'buddypress' ) ?></h2>
 
 			<?php /* If this is a paged archive */ } elseif (isset($_GET['paged']) && !empty($_GET['paged'])) { ?>
-			<h3 class="pageTitle">Blog Archives</h2>
+			<h3 class="pageTitle"><?php _e( 'Blog Archives', 'buddypress' ) ?></h2>
 
 			<?php } ?>
 
@@ -42,7 +42,7 @@
 						<?php the_content() ?>
 					</div>
 
-					<p class="postmetadata">Posted in <?php the_category(', ') ?> | <?php edit_post_link('Edit', '', ' | '); ?>  <?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></p>
+					<p class="postmetadata"><?php _e( 'Posted in', 'buddypress' ) ?> <?php the_category(', ') ?> | <?php edit_post_link('Edit', '', ' | '); ?>  <?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></p>
 
 				</div>
 
@@ -55,7 +55,7 @@
 
 		<?php else : ?>
 
-			<h2 class="center">Not Found</h2>
+			<h2 class="center"><?php _e( 'Not Found', 'buddypress' ) ?></h2>
 			<?php include (TEMPLATEPATH . '/searchform.php'); ?>
 
 		<?php endif; ?>

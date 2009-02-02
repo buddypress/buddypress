@@ -5,10 +5,10 @@
 	<div id="right-column">
 		<?php if ( !function_exists('dynamic_sidebar')
 		        || !dynamic_sidebar('right-column') ) : ?>
-
+		
 		<div class="widget-error">
-			Please log in and <a href="<?php echo get_option('siteurl') ?>/wp-admin/widgets.php?s=&amp;show=&amp;sidebar=sidebar-3">add widgets to this column</a>.
-		</div>		
+			<?php _e( 'Please log in and add widgets to this column.', 'buddypress' ) ?> <a href="<?php echo get_option('siteurl') ?>/wp-admin/widgets.php?s=&amp;show=&amp;sidebar=sidebar-3"><?php _e( 'Add Widgets', 'buddypress' ) ?></a>
+		</div>
 		
 		<?php endif; ?>
 	</div>

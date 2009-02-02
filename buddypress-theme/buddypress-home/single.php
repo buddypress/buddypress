@@ -3,7 +3,7 @@
 	<div id="content" class="narrowcolumn">
 
 	<div class="widget" id="latest-news">
-		<h2 class="widgettitle"><?php _e( 'News', 'buddypress' ) ?></h2>
+		<h2 class="widgettitle"><?php _e( 'Blog', 'buddypress' ) ?></h2>
 
 		<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 			
@@ -28,7 +28,7 @@
 
 		<?php endwhile; else: ?>
 
-			<p>Sorry, no posts matched your criteria.</p>
+			<p><?php _e( 'Sorry, no posts matched your criteria.', 'buddypress' ) ?></p>
 
 		<?php endif; ?>
 		

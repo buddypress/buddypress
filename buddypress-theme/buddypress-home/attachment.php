@@ -3,7 +3,7 @@
 	<div id="content" class="widecolumn">
 		
 	<div class="widget" id="latest-news">
-		<h2 class="widgettitle">News</h2>
+		<h2 class="widgettitle"><?php _e( 'Blog', 'buddypress' ) ?></h2>
   		<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
 				<?php $attachment_link = get_the_attachment_link($post->ID, true, array(450, 800)); // This also populates the iconsize for the next line ?>
@@ -24,7 +24,7 @@
 
 			<?php endwhile; else: ?>
 
-				<p>Sorry, no attachments matched your criteria.</p>
+				<p><?php _e( 'Sorry, no attachments matched your criteria.', 'buddypress' ) ?></p>
 
 			<?php endif; ?>
 	</div>

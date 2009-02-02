@@ -29,8 +29,8 @@
 
 		<?php else : ?>
 
-			<h2 class="center">Not Found</h2>
-			<p class="center">Sorry, but you are looking for something that isn't here.</p>
+			<h2 class="center"><?php _e( 'Not Found', 'buddypress' ) ?></h2>
+			<p class="center"><?php _e( 'Sorry, but you are looking for something that isn\'t here.', 'buddypress' ) ?></p>
 			<?php include (TEMPLATEPATH . "/searchform.php"); ?>
 
 		<?php endif; ?>
