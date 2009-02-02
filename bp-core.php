@@ -8,6 +8,10 @@ define( 'BP_CORE_DB_VERSION', '937' );
 if ( file_exists( ABSPATH . 'wp-content/mu-plugins/bp-languages/buddypress-' . get_locale() . '.mo' ) )
 	load_textdomain( 'buddypress', ABSPATH . 'wp-content/mu-plugins/bp-languages/buddypress-' . get_locale() . '.mo' );
 
+/* Place your custom code (actions/filters) in a file called bp-custom.php and it will be loaded before anything else. */
+if ( file_exists( 'bp-custom.php' ) )
+	require_once( 'bp-custom.php' );
+
 /* Functions to handle pretty URLs and breaking them down into usable variables */
 require_once( 'bp-core/bp-core-catchuri.php' );
 
