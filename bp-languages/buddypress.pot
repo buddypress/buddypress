@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-01-30 14:11+0000\n"
+"POT-Creation-Date: 2009-02-03 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -326,84 +326,85 @@ msgstr ""
 msgid "There are no blogs to feature."
 msgstr ""
 
-#: bp-core.php:261 bp-core/bp-core-adminbar.php:29
+#: bp-core.php:265 bp-core/bp-core-adminbar.php:29
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core.php:299 bp-xprofile.php:217 bp-xprofile.php:313
+#: bp-core.php:303 bp-xprofile.php:217 bp-xprofile.php:313
 msgid "Profile"
 msgstr ""
 
-#: bp-core.php:305 bp-groups/bp-groups-templatetags.php:336
+#: bp-core.php:309 bp-groups/bp-groups-templatetags.php:336
 #: bp-xprofile.php:223
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:309 bp-xprofile.php:229
+#: bp-core.php:313 bp-xprofile.php:229
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:788 bp-core/bp-core-templatetags.php:312
+#: bp-core.php:792 bp-core/bp-core-templatetags.php:312
+#: buddypress-theme/buddypress-home/comments.php:42
 msgid "at"
 msgstr ""
 
-#: bp-core.php:913
+#: bp-core.php:917
 msgid "year"
 msgstr ""
 
-#: bp-core.php:913
+#: bp-core.php:917
 msgid "years"
 msgstr ""
 
-#: bp-core.php:914
+#: bp-core.php:918
 msgid "month"
 msgstr ""
 
-#: bp-core.php:914
+#: bp-core.php:918
 msgid "months"
 msgstr ""
 
-#: bp-core.php:915
+#: bp-core.php:919
 msgid "week"
 msgstr ""
 
-#: bp-core.php:915
+#: bp-core.php:919
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:916
+#: bp-core.php:920
 msgid "day"
 msgstr ""
 
-#: bp-core.php:916
+#: bp-core.php:920
 msgid "days"
 msgstr ""
 
-#: bp-core.php:917
+#: bp-core.php:921
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:917
+#: bp-core.php:921
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:918
+#: bp-core.php:922
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:918
+#: bp-core.php:922
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:919 bp-core.php:953
+#: bp-core.php:923 bp-core.php:957
 msgid "second"
 msgstr ""
 
-#: bp-core.php:919
+#: bp-core.php:923
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1002
+#: bp-core.php:1006
 msgid "not recently active"
 msgstr ""
 
@@ -1105,7 +1106,11 @@ msgid "Home"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:543
+#: buddypress-theme/buddypress-home/archive.php:5
+#: buddypress-theme/buddypress-home/attachment.php:6
 #: buddypress-theme/buddypress-home/index.php:6
+#: buddypress-theme/buddypress-home/search.php:6
+#: buddypress-theme/buddypress-home/single.php:6
 msgid "Blog"
 msgstr ""
 
@@ -1920,6 +1925,8 @@ msgid "Groups matching: \"%s\""
 msgstr ""
 
 #: bp-groups/bp-groups-admin.php:82
+#: buddypress-theme/buddypress-home/comments-popup.php:64
+#: buddypress-theme/buddypress-home/comments.php:86
 msgid "Name"
 msgstr ""
 
@@ -1951,7 +1958,7 @@ msgstr ""
 msgid "No groups to display"
 msgstr ""
 
-#: bp-groups/bp-groups-ajax.php:27
+#: bp-groups/bp-groups-ajax.php:27 bp-groups/bp-groups-templatetags.php:1083
 msgid "Remove Invite"
 msgstr ""
 
@@ -3194,6 +3201,30 @@ msgstr ""
 msgid "Profile updated %s ago"
 msgstr ""
 
+#: buddypress-theme/buddypress-home/404.php:10
+#: buddypress-theme/buddypress-home/404.php:21
+#: buddypress-theme/buddypress-home/activate.php:10
+#: buddypress-theme/buddypress-home/home.php:9
+#: buddypress-theme/buddypress-home/home.php:20
+#: buddypress-theme/buddypress-home/home.php:31
+#: buddypress-theme/buddypress-home/register.php:10
+#: buddypress-theme/buddypress-home/register.php:21
+#: buddypress-theme/buddypress-home/sidebar.php:6
+msgid "Please log in and add widgets to this column."
+msgstr ""
+
+#: buddypress-theme/buddypress-home/404.php:10
+#: buddypress-theme/buddypress-home/404.php:21
+#: buddypress-theme/buddypress-home/activate.php:10
+#: buddypress-theme/buddypress-home/home.php:9
+#: buddypress-theme/buddypress-home/home.php:20
+#: buddypress-theme/buddypress-home/home.php:31
+#: buddypress-theme/buddypress-home/register.php:10
+#: buddypress-theme/buddypress-home/register.php:21
+#: buddypress-theme/buddypress-home/sidebar.php:6
+msgid "Add Widgets"
+msgstr ""
+
 #: buddypress-theme/buddypress-home/404.php:29
 msgid "Sorry, that page was not found"
 msgstr ""
@@ -3206,6 +3237,165 @@ msgstr ""
 msgid "Activate your Account"
 msgstr ""
 
+#: buddypress-theme/buddypress-home/archive.php:11
+msgid "Archive for the"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/archive.php:11
+msgid "Category"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/archive.php:14
+#: buddypress-theme/buddypress-home/archive.php:17
+#: buddypress-theme/buddypress-home/archive.php:20
+msgid "Archive for"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/archive.php:23
+msgid "Author Archive"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/archive.php:26
+msgid "Blog Archives"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/archive.php:45
+#: buddypress-theme/buddypress-home/search.php:23
+msgid "Posted in"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/archive.php:58
+#: buddypress-theme/buddypress-home/index.php:32
+msgid "Not Found"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/archives.php:13
+msgid "Archives by Month:"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/archives.php:18
+msgid "Archives by Subject:"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/attachment.php:27
+msgid "Sorry, no attachments matched your criteria."
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments-popup.php:9
+msgid "Comments on"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments-popup.php:22
+msgid "Comments"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments-popup.php:24
+msgid ""
+"<abbr title=\"Really Simple Syndication\">RSS</abbr> feed for comments on "
+"this post."
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments-popup.php:27
+msgid ""
+"The <abbr title=\"Universal Resource Locator\">URL</abbr> to TrackBack this "
+"entry is:"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments-popup.php:45
+msgid "by"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments-popup.php:51
+msgid "No comments yet."
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments-popup.php:55
+msgid "Leave a comment"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments-popup.php:56
+msgid ""
+"Line and paragraph breaks automatic, e-mail address never displayed, "
+"<acronym title=\"Hypertext Markup Language\">HTML</acronym> allowed:"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments-popup.php:60
+msgid "Logged in as"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments-popup.php:60
+#: buddypress-theme/buddypress-home/comments.php:81
+msgid "Logout"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments-popup.php:71
+msgid "E-mail"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments-popup.php:76
+msgid "URL"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments-popup.php:81
+msgid "Your Comment"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments-popup.php:92
+msgid "Sorry, the comment form is closed at this time."
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments-popup.php:97
+msgid "Close this window."
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments-popup.php:105
+msgid ""
+"Powered by <a href=\"http://wordpress.org/\" title=\"Powered by WordPress, "
+"state-of-the-art semantic personal publishing platform\"><strong>Wordpress</"
+"strong>"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments.php:9
+msgid "This post is password protected. Enter the password to view comments."
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments.php:33
+msgid "said:"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments.php:38
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments.php:62
+msgid "Comments are closed."
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments.php:71
+msgid "Leave a Reply"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments.php:74
+#, php-format
+msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments.php:89
+msgid "Mail (will not be published)"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments.php:89
+msgid "(required)"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments.php:92
+msgid "Website"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/comments.php:100
+msgid "Submit Comment"
+msgstr ""
+
 #: buddypress-theme/buddypress-home/footer.php:5
 #: buddypress-theme/member-themes/buddypress-member/footer.php:4
 #, php-format
@@ -3214,25 +3404,28 @@ msgid ""
 "a> and <a href=\"http://buddypress.org\">BuddyPress</a>"
 msgstr ""
 
-#: buddypress-theme/buddypress-home/home.php:9
-#: buddypress-theme/buddypress-home/home.php:20
-#: buddypress-theme/buddypress-home/home.php:31
-msgid "Please log in and add widgets to this column."
+#: buddypress-theme/buddypress-home/index.php:33
+msgid "Sorry, but you are looking for something that isn't here."
 msgstr ""
 
-#: buddypress-theme/buddypress-home/home.php:9
-#: buddypress-theme/buddypress-home/home.php:20
-#: buddypress-theme/buddypress-home/home.php:31
-msgid "Add Widgets"
+#: buddypress-theme/buddypress-home/links.php:11
+msgid "Links:"
 msgstr ""
 
 #: buddypress-theme/buddypress-home/register.php:29
 msgid "Register for an Account"
 msgstr ""
 
-#: buddypress-theme/buddypress-home/single.php:6
-#: buddypress-theme/member-themes/buddypress-member/groups/group-home.php:37
-msgid "News"
+#: buddypress-theme/buddypress-home/search.php:10
+msgid "Search Results"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/search.php:35
+msgid "No posts found. Try a different search?"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/single.php:31
+msgid "Sorry, no posts matched your criteria."
 msgstr ""
 
 #: buddypress-theme/member-themes/buddypress-member/activity/just-me.php:24
@@ -3466,6 +3659,10 @@ msgstr ""
 
 #: buddypress-theme/member-themes/buddypress-member/groups/forum/topic.php:85
 msgid "There are no posts for this topic."
+msgstr ""
+
+#: buddypress-theme/member-themes/buddypress-member/groups/group-home.php:37
+msgid "News"
 msgstr ""
 
 #: buddypress-theme/member-themes/buddypress-member/groups/group-home.php:46
