@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-02-03 14:11+0000\n"
+"POT-Creation-Date: 2009-02-04 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -224,14 +224,14 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:742 bp-core/bp-core-signup.php:75
 #: bp-friends.php:165 bp-groups.php:876 bp-messages.php:254
-#: bp-xprofile.php:314
+#: bp-xprofile.php:313
 #: buddypress-theme/member-themes/buddypress-member/groups/admin/edit-details.php:31
 msgid "Yes"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:746 bp-core/bp-core-signup.php:79
 #: bp-friends.php:166 bp-groups.php:877 bp-messages.php:255
-#: bp-xprofile.php:315
+#: bp-xprofile.php:314
 #: buddypress-theme/member-themes/buddypress-member/groups/admin/edit-details.php:32
 msgid "No"
 msgstr ""
@@ -330,16 +330,16 @@ msgstr ""
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core.php:303 bp-xprofile.php:217 bp-xprofile.php:313
+#: bp-core.php:303 bp-xprofile.php:216 bp-xprofile.php:312
 msgid "Profile"
 msgstr ""
 
 #: bp-core.php:309 bp-groups/bp-groups-templatetags.php:336
-#: bp-xprofile.php:223
+#: bp-xprofile.php:222
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:313 bp-xprofile.php:229
+#: bp-core.php:313 bp-xprofile.php:228
 msgid "My Profile"
 msgstr ""
 
@@ -685,8 +685,8 @@ msgid "This is your current avatar"
 msgstr ""
 
 #: bp-core/bp-core-avatars.php:110 bp-wire/bp-wire-templatetags.php:306
-#: bp-wire/bp-wire-templatetags.php:308 bp-xprofile/bp-xprofile-admin.php:77
-#: bp-xprofile/bp-xprofile-admin.php:100
+#: bp-wire/bp-wire-templatetags.php:308 bp-xprofile/bp-xprofile-admin.php:79
+#: bp-xprofile/bp-xprofile-admin.php:102
 #: buddypress-theme/member-themes/buddypress-member/messages/index.php:38
 #: buddypress-theme/member-themes/buddypress-member/messages/notices.php:33
 #: buddypress-theme/member-themes/buddypress-member/messages/sentbox.php:33
@@ -1224,7 +1224,7 @@ msgstr ""
 
 #: bp-forums/bp-forums-admin.php:68
 msgid ""
-"The URL of the location you installed bbPress. For example, http://domain."
+"The URL of the location you installed bbPress. For example, http://example."
 "com/forums/"
 msgstr ""
 
@@ -1617,7 +1617,7 @@ msgstr ""
 msgid "Wire message could not be posted."
 msgstr ""
 
-#: bp-groups.php:464 bp-xprofile.php:383
+#: bp-groups.php:464 bp-xprofile.php:382
 msgid "Wire message successfully posted."
 msgstr ""
 
@@ -1625,7 +1625,7 @@ msgstr ""
 msgid "There was an error deleting the wire message."
 msgstr ""
 
-#: bp-groups.php:479 bp-xprofile.php:420
+#: bp-groups.php:479 bp-xprofile.php:419
 msgid "Wire message successfully deleted."
 msgstr ""
 
@@ -1949,8 +1949,8 @@ msgstr ""
 msgid "Admins"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:132 bp-xprofile/bp-xprofile-admin.php:76
-#: bp-xprofile/bp-xprofile-admin.php:99
+#: bp-groups/bp-groups-admin.php:132 bp-xprofile/bp-xprofile-admin.php:78
+#: bp-xprofile/bp-xprofile-admin.php:101
 msgid "Edit"
 msgstr ""
 
@@ -2767,166 +2767,170 @@ msgstr ""
 msgid "Profile Fields"
 msgstr ""
 
-#: bp-xprofile.php:224 bp-xprofile/bp-xprofile-templatetags.php:296
+#: bp-xprofile.php:223 bp-xprofile/bp-xprofile-templatetags.php:296
 msgid "Edit Profile"
 msgstr ""
 
-#: bp-xprofile.php:225
+#: bp-xprofile.php:224
 #: buddypress-theme/member-themes/buddypress-member/profile/change-avatar.php:9
 msgid "Change Avatar"
 msgstr ""
 
-#: bp-xprofile.php:320
+#: bp-xprofile.php:319
 msgid "A member posts on your wire"
 msgstr ""
 
-#: bp-xprofile.php:381
+#: bp-xprofile.php:380
 msgid "Wire message could not be posted. Please try again."
 msgstr ""
 
-#: bp-xprofile.php:424
+#: bp-xprofile.php:423
 msgid "Wire post could not be deleted, please try again."
 msgstr ""
 
-#: bp-xprofile.php:513
+#: bp-xprofile.php:512
 #, php-format
 msgid "%s wrote on their own wire"
 msgstr ""
 
-#: bp-xprofile.php:521
+#: bp-xprofile.php:520
 #, php-format
 msgid "%s wrote on %s wire"
 msgstr ""
 
-#: bp-xprofile.php:549
+#: bp-xprofile.php:548
 #, php-format
 msgid "%s updated the \"%s\" information on their profile"
 msgstr ""
 
-#: bp-xprofile.php:577
+#: bp-xprofile.php:576
 #, php-format
 msgid "You have %d new posts on your wire"
 msgstr ""
 
-#: bp-xprofile.php:580
+#: bp-xprofile.php:579
 #, php-format
 msgid "%s posted on your wire"
 msgstr ""
 
-#: bp-xprofile.php:618
+#: bp-xprofile.php:617
 msgid "Information"
 msgstr ""
 
-#: bp-xprofile.php:653
+#: bp-xprofile.php:652
 #, php-format
 msgid "%s cannot be left blank."
 msgstr ""
 
-#: bp-xprofile.php:703
+#: bp-xprofile.php:702
 msgid "There was a problem saving changes to this field, please try again."
 msgstr ""
 
-#: bp-xprofile.php:720
+#: bp-xprofile.php:719
 msgid "Save Changes &raquo;"
 msgstr ""
 
-#: bp-xprofile.php:726
+#: bp-xprofile.php:725
 msgid ""
 "There were problems saving your information. Please fix the following:<br />"
 msgstr ""
 
-#: bp-xprofile.php:735
+#: bp-xprofile.php:734
 msgid "Changes saved."
 msgstr ""
 
-#: bp-xprofile.php:746
+#: bp-xprofile.php:745
 msgid "That group does not exist."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:34
+#: bp-xprofile/bp-xprofile-admin.php:36
 msgid "Profile Settings"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:36
+#: bp-xprofile/bp-xprofile-admin.php:38
 msgid ""
-"Your users will distinguish themselves through their profile page. \n"
+"Your users will distinguish themselves through their profile page. \r\n"
 "\t\t   You must give them profile fields that allow them to describe "
-"themselves \n"
+"themselves \r\n"
 "\t\t\tin a way that is relevant to the theme of your social network."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:40
+#: bp-xprofile/bp-xprofile-admin.php:42
 msgid "NOTE: Fields in the 'Basic' group appear on the signup page."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:83
+#: bp-xprofile/bp-xprofile-admin.php:85
 msgid "Field Name"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:84
+#: bp-xprofile/bp-xprofile-admin.php:86
 #: bp-xprofile/bp-xprofile-classes.php:724
 #: bp-xprofile/bp-xprofile-classes.php:809
 msgid "Field Type"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:85
+#: bp-xprofile/bp-xprofile-admin.php:87
 msgid "Required?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:86
+#: bp-xprofile/bp-xprofile-admin.php:88
 msgid "Action"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:106
+#: bp-xprofile/bp-xprofile-admin.php:108
 msgid "There are no fields in this group."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:110
+#: bp-xprofile/bp-xprofile-admin.php:112
 msgid "Add New Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:119 bp-xprofile/bp-xprofile-admin.php:124
+#: bp-xprofile/bp-xprofile-admin.php:121 bp-xprofile/bp-xprofile-admin.php:126
 msgid "Add New Group"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:149
+#: bp-xprofile/bp-xprofile-admin.php:125
+msgid "You have no groups."
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-admin.php:151
 msgid "There was an error saving the group. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:152
+#: bp-xprofile/bp-xprofile-admin.php:154
 msgid "The group was saved successfully."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:179
+#: bp-xprofile/bp-xprofile-admin.php:181
 msgid "There was an error deleting the group. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:182
+#: bp-xprofile/bp-xprofile-admin.php:184
 msgid "The group was deleted successfully."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:213
+#: bp-xprofile/bp-xprofile-admin.php:215
 msgid "There was an error saving the field. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:219
+#: bp-xprofile/bp-xprofile-admin.php:221
 msgid "The field was saved successfully."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:245
+#: bp-xprofile/bp-xprofile-admin.php:247
 msgid "field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:247
+#: bp-xprofile/bp-xprofile-admin.php:249
 msgid "option"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:253
+#: bp-xprofile/bp-xprofile-admin.php:255
 #, php-format
 msgid "There was an error deleting the %s. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:256
+#: bp-xprofile/bp-xprofile-admin.php:258
 #, php-format
 msgid "The %s was deleted successfully!"
 msgstr ""
