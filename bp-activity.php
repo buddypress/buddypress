@@ -35,7 +35,7 @@ function bp_activity_user_install() {
 	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_current_user'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  		item_id int(11) NOT NULL,
-				secondary_item_id int(11),
+				secondary_item_id int(11) NOT NULL,
 				user_id int(11) NOT NULL,
 		  		component_name varchar(75) NOT NULL,
 				component_action varchar(75) NOT NULL,
@@ -51,7 +51,7 @@ function bp_activity_user_install() {
 	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_current_user_cached'] ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				item_id int(11) NOT NULL,
-				secondary_item_id int(11),
+				secondary_item_id int(11) NOT NULL,
 		  		content longtext NOT NULL,
 				primary_link varchar(150) NOT NULL,
 				component_name varchar(75) NOT NULL,
@@ -151,13 +151,13 @@ function bp_activity_setup_globals() {
 
 	if ( $bp['current_userid'] ) {
 		/* Check to see if the current user has their activity table set up. If not, set them up. */
-		if ( !$wpdb->get_var("show tables like '%" . $bp['activity']['table_name_current_user'] . "%'") || get_usermeta( $bp['current_userid'], 'bp-activity-db-version' ) < BP_ACTIVITY_VERSION  )
+		if ( !$wpdb->get_var("SHOW TABLES LIKE '%" . $bp['activity']['table_name_current_user'] . "%'") || get_usermeta( $bp['current_userid'], 'bp-activity-db-version' ) < BP_ACTIVITY_VERSION  )
 			bp_activity_user_install();
 	}
 	
 	if ( is_site_admin() && $current_blog->blog_id == 1 ) {
 		/* Check to see if the site wide activity table is set up. */
-		if ( !$wpdb->get_var("show tables like '%" . $bp['activity']['table_name_sitewide'] . "%'") || get_site_option( 'bp-activity-db-version' ) < BP_ACTIVITY_VERSION  )
+		if ( !$wpdb->get_var("SHOW TABLES LIKE '%" . $bp['activity']['table_name_sitewide'] . "%'") || get_site_option( 'bp-activity-db-version' ) < BP_ACTIVITY_VERSION  )
 			bp_activity_sitewide_install();
 	}
 }

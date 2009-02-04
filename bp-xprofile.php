@@ -181,19 +181,18 @@ add_action( 'admin_menu', 'xprofile_setup_globals', 1 );
 function xprofile_add_admin_menu() {
 	global $wpdb, $bp;
 	
-	if ( is_site_admin() ) {
-		wp_enqueue_script( 'jquery.tablednd', site_url( MUPLUGINDIR . '/bp-core/js/jquery/jquery.tablednd.js' ), array( 'jquery' ), '0.4' );
-	
-		/* Add the administration tab under the "Site Admin" tab for site administrators */
-		add_submenu_page( 'wpmu-admin.php', __("Profile Fields", 'buddypress'), __("Profile Fields", 'buddypress'), 1, "xprofile_settings", "xprofile_admin" );
+	if ( !is_site_admin() )
+		return false;
 
-		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( $wpdb->get_var("show tables like '%" . $bp['profile']['table_name_groups'] . "%'") == false ) || ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )  )
-			xprofile_install();
-		
-		if ( ( function_exists('bp_wire_install') && $wpdb->get_var("show tables like '%" . $bp['profile']['table_name_wire'] . "%'") == false ) || ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )  )
-			xprofile_wire_install();
-	}
+	/* Add the administration tab under the "Site Admin" tab for site administrators */
+	add_submenu_page( 'wpmu-admin.php', __("Profile Fields", 'buddypress'), __("Profile Fields", 'buddypress'), 1, "xprofile_settings", "xprofile_admin" );
+
+	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
+	if ( ( $wpdb->get_var("SHOW TABLES LIKE '%" . $bp['profile']['table_name_groups'] . "%'") == false ) || ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )  )
+		xprofile_install();
+	
+	if ( ( function_exists('bp_wire_install') && $wpdb->get_var("SHOW TABLES LIKE '%" . $bp['profile']['table_name_wire'] . "%'") == false ) || ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )  )
+		xprofile_wire_install();
 }
 add_action( 'admin_menu', 'xprofile_add_admin_menu' );
 
@@ -333,7 +332,7 @@ add_action( 'bp_notification_settings', 'xprofile_screen_notification_settings',
  * xprofile_action_delete_avatar()
  *
  * This function runs when an action is set for a screen:
- * domain.com/members/andy/profile/change-avatar/ [delete-avatar]
+ * example.com/members/andy/profile/change-avatar/ [delete-avatar]
  *
  * The function will delete the active avatar for a user.
  * 
@@ -346,7 +345,7 @@ add_action( 'bp_notification_settings', 'xprofile_screen_notification_settings',
 function xprofile_action_delete_avatar() {
 	global $bp;
 	
-	if ( $bp['current_action'] != 'delete-avatar' )
+	if ( 'delete-avatar' != $bp['current_action'] )
 		return false;
 	
 	if ( bp_is_home() ) {
@@ -374,14 +373,14 @@ function xprofile_action_new_wire_post() {
 	if ( $bp['current_component'] != $bp['wire']['slug'] )
 		return false;
 	
-	if ( $bp['current_action'] != 'post' )
+	if ( 'post' != $bp['current_action'] )
 		return false;
 	
 	if ( !$wire_post_id = bp_wire_new_post( $bp['current_userid'], $_POST['wire-post-textarea'], $bp['profile']['slug'], false, $bp['profile']['table_name_wire'] ) ) {
 		bp_core_add_message( __('Wire message could not be posted. Please try again.', 'buddypress'), 'error' );
 	} else {
-		bp_core_add_message( __('Wire message successfully posted.', 'buddypress') );
-				
+		bp_core_add_message( __('Wire message successfully posted.', 'buddypress' ) );
+
 		do_action( 'xprofile_new_wire_post', $wire_post_id );	
 	}
 

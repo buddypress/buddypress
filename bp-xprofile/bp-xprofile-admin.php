@@ -10,9 +10,11 @@
 
 function xprofile_admin( $message = '', $type = 'error' ) {
 	global $bp;
-	
+
+	$type = preg_replace( '|[^a-z]|i', '', $type );
+
 	$groups = BP_XProfile_Group::get_all();
-	
+
 	if ( isset($_GET['mode']) && isset($_GET['group_id']) && $_GET['mode'] == "add_field" ) {
 		xprofile_admin_manage_field($_GET['group_id']);
 	} else if ( isset($_GET['mode']) && isset($_GET['group_id']) && isset($_GET['field_id']) && $_GET['mode'] == "edit_field" ) {
@@ -44,7 +46,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 				$type = ( $type == 'error' ) ? 'error' : 'updated';
 		?>
 			<div id="message" class="<?php echo $type; ?> fade">
-				<p><?php echo $message; ?></p>
+				<p><?php echo wp_specialchars( $message ); ?></p>
 			</div>
 		<?php }
 		
@@ -62,10 +64,10 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 				});					
 			</script>
 			
-			<?php if ( function_exists('wp_nonce_field') )
-				wp_nonce_field('xprofile_reorder_fields');
+			<?php 
+			wp_nonce_field('xprofile_reorder_fields');
 			
-			for ( $i = 0; $i < count($groups); $i++ ) {
+			for ( $i = 0; $i < count($groups); $i++ ) { // TODO: foreach
 			?>
 				<p>
 				<table id="group_<?php echo $groups[$i]->id;?>" class="widefat">
@@ -120,7 +122,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 				</p>
 				
 		<?php } else { ?>
-			<div id="message" class="error"><p>You have no groups.</p></div>
+			<div id="message" class="error"><p><?php _e('You have no groups.', 'buddypress' ); ?></p></div>
 			<p><a href="admin.php?page=xprofile_settings&amp;mode=add_group"><?php _e( 'Add New Group', 'buddypress' ) ?></a></p>
 		<?php } ?>
 	</div>
@@ -183,7 +185,7 @@ function xprofile_admin_delete_group( $group_id ) {
 		$type = 'success';
 	}
 	
-	unset($_GET['mode']);
+	unset($_GET['mode']); // TODO: wtf?
 	xprofile_admin( $message, $type );
 }
 
@@ -260,5 +262,3 @@ function xprofile_admin_delete_field( $field_id, $type = 'field' ) {
 	unset($_GET['mode']);
 	xprofile_admin($message, $type);
 }
-
-?>

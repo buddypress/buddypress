@@ -14,11 +14,11 @@ Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/
  * Future custom components would then be able to use their own custom URI structure.
  *
  * The URI's are broken down as follows:
- *   - http:// domain.com / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
- *   - OUTSIDE ROOT: http:// domain.com / sites / buddypress / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
+ *   - http:// example.com / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
+ *   - OUTSIDE ROOT: http:// example.com / sites / buddypress / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
  * 
  *	Example:
- *    - http://domain.com/members/andy/profile/edit/group/5/
+ *    - http://example.com/members/andy/profile/edit/group/5/
  *    - $current_component: string 'profile'
  *    - $current_action: string 'edit'
  *    - $action_variables: array ['group', 5]

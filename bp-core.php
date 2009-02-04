@@ -54,7 +54,7 @@ require_once( 'bp-core/bp-core-signup.php' );
 /* Functions to provide better WPMU custom activation page support */
 require_once( 'bp-core/bp-core-activation.php' );
 
-/* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
+/* Define the slug for member pages and the members directory (e.g. example.com/[members] ) */
 define( 'MEMBERS_SLUG', apply_filters( 'bp_members_slug', 'members' ) );
 
 /* Define the slug for the register/signup page */
@@ -102,25 +102,25 @@ function bp_core_setup_globals() {
 	/* The user id of the user currently being viewed, set in /bp-core/bp-core-catchuri.php */
 	$bp['current_userid'] = $current_userid;
 	
-	/* The domain for the user currently logged in. eg: http://domain.com/members/andy */
+	/* The domain for the user currently logged in. eg: http://example.com/members/andy */
 	$bp['loggedin_domain'] = bp_core_get_user_domain($current_user->ID);
 	
 	/* The domain for the user currently being viewed */
 	$bp['current_domain'] = bp_core_get_user_domain($current_userid);
 	
-	/* The component being used eg: http://andy.domain.com/ [profile] */
+	/* The component being used eg: http://andy.example.com/ [profile] */
 	$bp['current_component'] = $current_component; // type: string
 	
-	/* The current action for the component eg: http://andy.domain.com/profile/ [edit] */
+	/* The current action for the component eg: http://andy.example.com/profile/ [edit] */
 	$bp['current_action'] = $current_action; // type: string
 	
-	/* The action variables for the current action eg: http://andy.domain.com/profile/edit/ [group] / [6] */
+	/* The action variables for the current action eg: http://andy.example.com/profile/edit/ [group] / [6] */
 	$bp['action_variables']	= $action_variables; // type: array
 	
-	/* Only used where a component has a sub item, e.g. groups: http://andy.domain.com/groups/ [my-group] / home - manipulated in the actual component not in catch uri code.*/
+	/* Only used where a component has a sub item, e.g. groups: http://andy.example.com/groups/ [my-group] / home - manipulated in the actual component not in catch uri code.*/
 	$bp['current_item'] = ''; // type: string
 
-	/* The default component to use if none are set and someone visits: http://andy.domain.com/ */
+	/* The default component to use if none are set and someone visits: http://andy.example.com/ */
 	$bp['default_component'] = 'profile';
 	
 	/* Sets up the array container for the component navigation rendered by bp_get_nav() */
@@ -196,7 +196,7 @@ function bp_core_install() {
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id int(11) NOT NULL,
 				item_id int(11) NOT NULL,
-				secondary_item_id int(11),
+				secondary_item_id int(11) NOT NULL,
 		  		component_name varchar(75) NOT NULL,
 				component_action varchar(75) NOT NULL,
 		  		date_notified datetime NOT NULL,
@@ -240,7 +240,7 @@ function bp_core_check_installed() {
 
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( $wpdb->get_var("show tables like '%" . $bp['core']['table_name_notifications'] . "%'") == false ) || ( get_site_option('bp-core-db-version') < BP_CORE_DB_VERSION )  )
+		if ( ( $wpdb->get_var("SHOW TABLES LIKE '%" . $bp['core']['table_name_notifications'] . "%'") == false ) || ( get_site_option('bp-core-db-version') < BP_CORE_DB_VERSION )  )
 			bp_core_install();
 	}
 }
@@ -262,7 +262,7 @@ function bp_core_add_admin_menu() {
 	
 	if ( is_site_admin() ) {
 		/* Add the administration tab under the "Site Admin" tab for site administrators */
-		add_submenu_page( 'wpmu-admin.php', __("BuddyPress", 'buddypress'), __("BuddyPress", 'buddypress'), 1, "bp_core_admin_settings", "bp_core_admin_settings" );
+		add_submenu_page( 'wpmu-admin.php', __('BuddyPress', 'buddypress'), __('BuddyPress', 'buddypress'), 1, 'bp_core_admin_settings', 'bp_core_admin_settings' );
 	}
 }
 add_action( 'admin_menu', 'bp_core_add_admin_menu' );
@@ -271,7 +271,7 @@ add_action( 'admin_menu', 'bp_core_add_admin_menu' );
  * bp_core_is_root_component()
  *
  * Checks to see if a component's URL should be in the root, not under a member page:
- * eg: http://domain.com/groups/the-group NOT http://domain.com/members/andy/groups/the-group
+ * eg: http://example.com/groups/the-group NOT http://example.com/members/andy/groups/the-group
  * 
  * @package BuddyPress Core
  * @return true if root component, else false.
@@ -325,7 +325,7 @@ add_action( 'admin_menu', 'bp_core_setup_nav', 2 );
  * bp_core_get_user_domain()
  *
  * Returns the domain for the passed user:
- * e.g. http://domain.com/members/andy/
+ * e.g. http://example.com/members/andy/
  * 
  * @package BuddyPress Core
  * @global $current_user WordPress global variable containing current logged in user information
@@ -337,7 +337,7 @@ function bp_core_get_user_domain( $user_id ) {
 	
 	if ( !$user_id ) return;
 	
-	$ud = get_userdata($user_id);
+	$ud = get_userdata( $user_id );
 	
 	return $bp['root_domain'] . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/';
 }
@@ -346,7 +346,7 @@ function bp_core_get_user_domain( $user_id ) {
  * bp_core_get_root_domain()
  *
  * Returns the domain for the root blog.
- * eg: http://domain.com/ OR https://domain.com
+ * eg: http://example.com/ OR https://example.com
  * 
  * @package BuddyPress Core
  * @global $current_blog WordPress global variable containing information for the current blog being viewed.
@@ -366,7 +366,7 @@ function bp_core_get_root_domain() {
  * bp_core_get_current_userid()
  *
  * Returns the user id for the user that is currently being viewed.
- * eg: http://andy.domain.com/ or http://domain.com/andy/
+ * eg: http://andy.example.com/ or http://example.com/andy/
  * 
  * @package BuddyPress Core
  * @global $current_blog WordPress global containing information and settings for the current blog being viewed.
@@ -526,14 +526,14 @@ function bp_core_load_template( $template, $skip_blog_check = false ) {
  * The "root" as in, it can or always runs outside of the /members/username/ path.
  *
  * Example of a root component:
- *  Groups: http://domain.com/groups/group-name
- *          http://community.domain.com/groups/group-name
- *          http://domain.com/wpmu/groups/group-name
+ *  Groups: http://example.com/groups/group-name
+ *          http://community.example.com/groups/group-name
+ *          http://example.com/wpmu/groups/group-name
  *
  * Example of a component that is NOT a root component:
- *  Friends: http://domain.com/members/andy/friends
- *           http://community.domain.com/members/andy/friends
- *           http://domain.com/wpmu/members/andy/friends
+ *  Friends: http://example.com/members/andy/friends
+ *           http://community.example.com/members/andy/friends
+ *           http://example.com/wpmu/members/andy/friends
  * 
  * @package BuddyPress Core
  * @param $slug str The slug of the component
@@ -669,7 +669,7 @@ function bp_core_get_user_email( $uid ) {
  * bp_core_get_userlink()
  *
  * Returns a HTML formatted link for a user with the user's full name as the link text.
- * eg: <a href="http://andy.domain.com/">Andy Peatling</a>
+ * eg: <a href="http://andy.example.com/">Andy Peatling</a>
  * Optional parameters will return just the name, or just the URL, or disable "You" text when
  * user matches the logged in user. 
  *

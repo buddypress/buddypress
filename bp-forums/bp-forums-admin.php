@@ -65,7 +65,7 @@ function bp_forums_bbpress_admin() {
 					<th scope="row"><label for="target_uri"><?php _e( 'bbPress URL', 'buddypress' ) ?></label></th>
 					<td>
 						<input name="target_uri" type="text" id="target_uri" value="<?php echo attribute_escape( $fetch_options['target_uri'] ); ?>" size="60" /><br />
-						<?php _e( 'The URL of the location you installed bbPress. For example, http://domain.com/forums/', 'buddypress' ); ?>
+						<?php _e( 'The URL of the location you installed bbPress. For example, http://example.com/forums/', 'buddypress' ); ?>
 					</td>
 				</tr>
 				<tr valign="top">

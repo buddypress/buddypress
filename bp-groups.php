@@ -151,10 +151,10 @@ function groups_check_installed() {
 	
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( $wpdb->get_var("show tables like '%" . $bp['groups']['table_name'] . "%'") == false ) || ( get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION )  )
+		if ( ( $wpdb->get_var("SHOW TABLES LIKE '%" . $bp['groups']['table_name'] . "%'") == false ) || ( get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION )  )
 			groups_install();
 			
-		if ( ( function_exists('bp_wire_install') && $wpdb->get_var("show tables like '%" . $bp['groups']['table_name_wire'] . "%'") == false ) || ( get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION ) )
+		if ( ( function_exists('bp_wire_install') && $wpdb->get_var("SHOW TABLES LIKE '%" . $bp['groups']['table_name_wire'] . "%'") == false ) || ( get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION ) )
 			groups_wire_install();
 	}
 }

@@ -109,7 +109,7 @@ function bp_blogs_check_installed() {
 	
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( $wpdb->get_var("show tables like '%" . $bp['blogs']['table_name'] . "%'") == false ) || ( get_site_option('bp-blogs-db-version') < BP_BLOGS_DB_VERSION )  )
+		if ( ( $wpdb->get_var("SHOW TABLES LIKE '%" . $bp['blogs']['table_name'] . "%'") == false ) || ( get_site_option('bp-blogs-db-version') < BP_BLOGS_DB_VERSION )  )
 			bp_blogs_install();
 	}
 }
