@@ -49,7 +49,7 @@ function bp_forums_bbpress_admin() {
 ?>
 	<div class="wrap">
 
-		<h2><?php _e("Group Forum Settings") ?></h2>
+		<h2><?php _e( 'Group Forum Settings', 'buddypress' ) ?></h2>
 		<br />
 		
 		<?php if ( isset($path_success) ) : ?><?php echo "<p id='message' class='updated fade'>$path_success</p>" ?><?php endif; ?>
