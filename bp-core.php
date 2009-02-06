@@ -54,7 +54,7 @@ require_once( 'bp-core/bp-core-signup.php' );
 /* Functions to provide better WPMU custom activation page support */
 require_once( 'bp-core/bp-core-activation.php' );
 
-/* Define the slug for member pages and the members directory (e.g. example.com/[members] ) */
+/* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
 define( 'MEMBERS_SLUG', apply_filters( 'bp_members_slug', 'members' ) );
 
 /* Define the slug for the register/signup page */
@@ -90,77 +90,76 @@ define( 'HOME_BLOG_SLUG', apply_filters( 'bp_home_blog_slug', 'blog' ) );
 function bp_core_setup_globals() {
 	global $bp, $wpdb;
 	global $current_user, $current_component, $current_action, $current_blog;
-	global $current_userid;
+	global $displayed_user_id;
 	global $action_variables;
 
 	/* The domain for the root of the site where the main blog resides */	
-	$bp['root_domain'] = bp_core_get_root_domain();
+	$bp->root_domain = bp_core_get_root_domain();
 	
 	/* The user ID of the user who is currently logged in. */
-	$bp['loggedin_userid'] = $current_user->ID;
+	$bp->loggedin_user->id = $current_user->ID;
+
+	/* The domain for the user currently logged in. eg: http://domain.com/members/andy */
+	$bp->loggedin_user->domain = bp_core_get_user_domain($current_user->ID);
 	
 	/* The user id of the user currently being viewed, set in /bp-core/bp-core-catchuri.php */
-	$bp['current_userid'] = $current_userid;
+	$bp->displayed_user->id = $displayed_user_id;
 	
-	/* The domain for the user currently logged in. eg: http://example.com/members/andy */
-	$bp['loggedin_domain'] = bp_core_get_user_domain($current_user->ID);
+	/* The domain for the user currently being displayed */
+	$bp->displayed_user->domain = bp_core_get_user_domain($displayed_user_id);
 	
-	/* The domain for the user currently being viewed */
-	$bp['current_domain'] = bp_core_get_user_domain($current_userid);
+	/* The component being used eg: http://andy.domain.com/ [profile] */
+	$bp->current_component = $current_component; // type: string
 	
-	/* The component being used eg: http://andy.example.com/ [profile] */
-	$bp['current_component'] = $current_component; // type: string
+	/* The current action for the component eg: http://andy.domain.com/profile/ [edit] */
+	$bp->current_action = $current_action; // type: string
 	
-	/* The current action for the component eg: http://andy.example.com/profile/ [edit] */
-	$bp['current_action'] = $current_action; // type: string
+	/* The action variables for the current action eg: http://andy.domain.com/profile/edit/ [group] / [6] */
+	$bp->action_variables = $action_variables; // type: array
 	
-	/* The action variables for the current action eg: http://andy.example.com/profile/edit/ [group] / [6] */
-	$bp['action_variables']	= $action_variables; // type: array
-	
-	/* Only used where a component has a sub item, e.g. groups: http://andy.example.com/groups/ [my-group] / home - manipulated in the actual component not in catch uri code.*/
-	$bp['current_item'] = ''; // type: string
+	/* Only used where a component has a sub item, e.g. groups: http://andy.domain.com/groups/ [my-group] / home - manipulated in the actual component not in catch uri code.*/
+	$bp->current_item = ''; // type: string
 
-	/* The default component to use if none are set and someone visits: http://andy.example.com/ */
-	$bp['default_component'] = 'profile';
+	/* The default component to use if none are set and someone visits: http://andy.domain.com/ */
+	$bp->default_component = 'profile';
 	
 	/* Sets up the array container for the component navigation rendered by bp_get_nav() */
-	$bp['bp_nav'] = array();
+	$bp->bp_nav = array();
 
 	/* Sets up the array container for the user navigation rendered by bp_get_user_nav() */
-	$bp['bp_users_nav'] = array();
+	$bp->bp_users_nav = array();
 	
 	/* Sets up the array container for the component options navigation rendered by bp_get_options_nav() */
-	$bp['bp_options_nav'] = array();
+	$bp->bp_options_nav = array();
 	
 	/* Sets up container used for the title of the current component option and rendered by bp_get_options_title() */
-	$bp['bp_options_title']	= '';
+	$bp->bp_options_title = '';
 	
 	/* Sets up container used for the avatar of the current component being viewed. Rendered by bp_get_options_avatar() */
-	$bp['bp_options_avatar'] = '';
+	$bp->bp_options_avatar = '';
 
 	/* Fetch the full name for the logged in and current user */
-	$bp['loggedin_fullname'] = bp_core_global_user_fullname( $bp['loggedin_userid'] );
-	$bp['current_fullname'] = bp_core_global_user_fullname( $bp['current_userid'] );
+	$bp->loggedin_user->fullname = bp_core_global_user_fullname( $bp->loggedin_user->id );
+	$bp->displayed_user->fullname = bp_core_global_user_fullname( $bp->displayed_user->id );
 
 	/* Used to determine if user has admin rights on current content. If the logged in user is viewing
 	   their own profile and wants to delete a post on their wire, is_item_admin is used. This is a
 	   generic variable so it can be used in other components. It can also be modified, so when viewing a group
 	   'is_item_admin' would be 1 if they are a group admin, 0 if they are not. */
-	$bp['is_item_admin'] = bp_is_home();
+	$bp->is_item_admin = bp_is_home();
 	
 	/* Used to determine if the logged in user is a moderator for the current content. */
-	$bp['is_item_mod'] = false;
+	$bp->is_item_mod = false;
 	
-	$bp['core'] = array(
-		'image_base' => site_url( MUPLUGINDIR . '/bp-core/images' ),
-		'table_name_notifications' => $wpdb->base_prefix . 'bp_notifications'
-	);
+	$bp->core->image_base = site_url( MUPLUGINDIR . '/bp-core/images' );
+	$bp->core->table_name_notifications = $wpdb->base_prefix . 'bp_notifications';
 	
 	/* Used to print version numbers in the footer for reference */
-	$bp['version_numbers']['core'] = BP_CORE_VERSION;
+	$bp->version_numbers = new stdClass;
+	$bp->version_numbers->core = BP_CORE_VERSION;
 	
-	if ( !$bp['current_component'] )
-		$bp['current_component'] = $bp['default_component'];
+	if ( !$bp->current_component )
+		$bp->current_component = $bp->default_component;
 }
 add_action( 'wp', 'bp_core_setup_globals', 1 );
 add_action( '_admin_menu', 'bp_core_setup_globals', 1 ); // must be _admin_menu hook.
@@ -192,11 +191,11 @@ function bp_core_install() {
 	if ( !empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 	
-	$sql[] = "CREATE TABLE ". $bp['core']['table_name_notifications'] ." (
+	$sql[] = "CREATE TABLE $bp->core->table_name_notifications (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id int(11) NOT NULL,
 				item_id int(11) NOT NULL,
-				secondary_item_id int(11) NOT NULL,
+				secondary_item_id int(11),
 		  		component_name varchar(75) NOT NULL,
 				component_action varchar(75) NOT NULL,
 		  		date_notified datetime NOT NULL,
@@ -217,7 +216,7 @@ function bp_core_install() {
 	
 	// dbDelta won't change character sets, so we need to do this seperately.
 	// This will only be in here pre v1.0
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['core']['table_name_notifications'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE $bp->core->table_name_notifications DEFAULT CHARACTER SET %s", $wpdb->charset ) );
 	
 	update_site_option( 'bp-core-db-version', BP_CORE_DB_VERSION );
 }
@@ -240,7 +239,7 @@ function bp_core_check_installed() {
 
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( $wpdb->get_var("SHOW TABLES LIKE '%" . $bp['core']['table_name_notifications'] . "%'") == false ) || ( get_site_option('bp-core-db-version') < BP_CORE_DB_VERSION )  )
+		if ( ( $wpdb->get_var("show tables like '%{$bp->core->table_name_notifications}%'") == false ) || ( get_site_option('bp-core-db-version') < BP_CORE_DB_VERSION )  )
 			bp_core_install();
 	}
 }
@@ -262,7 +261,7 @@ function bp_core_add_admin_menu() {
 	
 	if ( is_site_admin() ) {
 		/* Add the administration tab under the "Site Admin" tab for site administrators */
-		add_submenu_page( 'wpmu-admin.php', __('BuddyPress', 'buddypress'), __('BuddyPress', 'buddypress'), 1, 'bp_core_admin_settings', 'bp_core_admin_settings' );
+		add_submenu_page( 'wpmu-admin.php', __("BuddyPress", 'buddypress'), __("BuddyPress", 'buddypress'), 1, "bp_core_admin_settings", "bp_core_admin_settings" );
 	}
 }
 add_action( 'admin_menu', 'bp_core_add_admin_menu' );
@@ -271,7 +270,7 @@ add_action( 'admin_menu', 'bp_core_add_admin_menu' );
  * bp_core_is_root_component()
  *
  * Checks to see if a component's URL should be in the root, not under a member page:
- * eg: http://example.com/groups/the-group NOT http://example.com/members/andy/groups/the-group
+ * eg: http://domain.com/groups/the-group NOT http://domain.com/members/andy/groups/the-group
  * 
  * @package BuddyPress Core
  * @return true if root component, else false.
@@ -279,7 +278,7 @@ add_action( 'admin_menu', 'bp_core_add_admin_menu' );
 function bp_core_is_root_component( $component_name ) {
 	global $bp;
 
-	return in_array( $component_name, $bp['root_components'] );
+	return in_array( $component_name, $bp->root_components );
 }
 
 /**
@@ -303,17 +302,17 @@ function bp_core_setup_nav() {
 		bp_core_add_nav_item( __('Profile', 'buddypress'), 'profile' );
 		bp_core_add_nav_default( 'profile', 'bp_core_catch_profile_uri', 'public' );
 
-		$profile_link = $bp['loggedin_domain'] . '/profile/';
+		$profile_link = $bp->loggedin_user->domain . '/profile/';
 
 		/* Add the subnav items to the profile */
 		bp_core_add_subnav_item( 'profile', 'public', __('Public', 'buddypress'), $profile_link, 'xprofile_screen_display_profile' );
 
-		if ( $bp['current_component'] == 'profile' ) {
+		if ( $bp->current_component == 'profile' ) {
 			if ( bp_is_home() ) {
-				$bp['bp_options_title'] = __('My Profile', 'buddypress');
+				$bp->bp_options_title = __('My Profile', 'buddypress');
 			} else {
-				$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
-				$bp['bp_options_title'] = $bp['current_fullname']; 
+				$bp->bp_options_avatar = bp_core_get_avatar( $bp->displayed_user->id, 1 );
+				$bp->bp_options_title = $bp->displayed_user->fullname; 
 			}
 		}
 	}	
@@ -325,7 +324,7 @@ add_action( 'admin_menu', 'bp_core_setup_nav', 2 );
  * bp_core_get_user_domain()
  *
  * Returns the domain for the passed user:
- * e.g. http://example.com/members/andy/
+ * e.g. http://domain.com/members/andy/
  * 
  * @package BuddyPress Core
  * @global $current_user WordPress global variable containing current logged in user information
@@ -337,16 +336,16 @@ function bp_core_get_user_domain( $user_id ) {
 	
 	if ( !$user_id ) return;
 	
-	$ud = get_userdata( $user_id );
+	$ud = get_userdata($user_id);
 	
-	return $bp['root_domain'] . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/';
+	return $bp->root_domain . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/';
 }
 
 /**
  * bp_core_get_root_domain()
  *
  * Returns the domain for the root blog.
- * eg: http://example.com/ OR https://example.com
+ * eg: http://domain.com/ OR https://domain.com
  * 
  * @package BuddyPress Core
  * @global $current_blog WordPress global variable containing information for the current blog being viewed.
@@ -363,17 +362,17 @@ function bp_core_get_root_domain() {
 }
 
 /**
- * bp_core_get_current_userid()
+ * bp_core_get_displayed_userid()
  *
- * Returns the user id for the user that is currently being viewed.
- * eg: http://andy.example.com/ or http://example.com/andy/
+ * Returns the user id for the user that is currently being displayed.
+ * eg: http://andy.domain.com/ or http://domain.com/andy/
  * 
  * @package BuddyPress Core
  * @global $current_blog WordPress global containing information and settings for the current blog being viewed.
  * @uses bp_core_get_userid_from_user_login() Returns the user id for the username passed
- * @return $current_userid The user id for the user that is currently being viewed, return zero if this is not a user home and just a normal blog.
+ * @return The user id for the user that is currently being displayed, return zero if this is not a user home and just a normal blog.
  */
-function bp_core_get_current_userid( $user_login ) {
+function bp_core_get_displayed_userid( $user_login ) {
 	return bp_core_get_userid_from_user_login( $user_login );
 }
 
@@ -394,22 +393,22 @@ function bp_core_get_current_userid( $user_login ) {
 function bp_core_add_nav_item( $name, $slug, $css_id = false, $add_to_usernav = true ) {
 	global $bp;
 	
-	$nav_key = count($bp['bp_nav']) + 1;
-	$user_nav_key = count($bp['bp_users_nav']) + 1;
+	$nav_key = count($bp->bp_nav) + 1;
+	$user_nav_key = count($bp->bp_users_nav) + 1;
 	
 	if ( !$css_id )
 		$css_id = $slug;
 
-	$bp['bp_nav'][$nav_key] = array(
+	$bp->bp_nav[$nav_key] = array(
 		'name'   => $name, 
-		'link'   => $bp['loggedin_domain'] . $slug,
+		'link'   => $bp->loggedin_user->domain . $slug,
 		'css_id' => $css_id
 	);
 	
 	if ( $add_to_usernav ) {
-		$bp['bp_users_nav'][$user_nav_key] = array(
+		$bp->bp_users_nav[$user_nav_key] = array(
 			'name'   => $name, 
-			'link'   => $bp['current_domain'] . $slug,
+			'link'   => $bp->displayed_user->domain . $slug,
 			'css_id' => $css_id
 		);
 	}
@@ -440,13 +439,13 @@ function bp_core_add_subnav_item( $parent_id, $slug, $name, $link, $function, $c
 	if ( !$css_id )
 		$css_id = $slug;
 
-	$bp['bp_options_nav'][$parent_id][$slug] = array(
+	$bp->bp_options_nav[$parent_id][$slug] = array(
 		'name' => $name,
 		'link' => $link . $slug,
 		'css_id' => $css_id
 	);
 	
-	if ( function_exists($function) && $user_has_access && $bp['current_action'] == $slug && $bp['current_component'] == $parent_id )
+	if ( function_exists($function) && $user_has_access && $bp->current_action == $slug && $bp->current_component == $parent_id )
 		add_action( 'wp', $function, 3 );
 }
 
@@ -463,7 +462,7 @@ function bp_core_add_subnav_item( $parent_id, $slug, $name, $link, $function, $c
 function bp_core_reset_subnav_items($parent_id) {
 	global $bp;
 
-	unset($bp['bp_options_nav'][$parent_id]);
+	unset($bp->bp_options_nav[$parent_id]);
 }
 
 /**
@@ -488,13 +487,13 @@ function bp_core_add_nav_default( $parent_id, $function, $slug = false, $user_ha
 	if ( $admin_only && !is_site_admin() )
 		return false;
 
-	if ( $bp['current_component'] == $parent_id && !$bp['current_action'] ) {
+	if ( $bp->current_component == $parent_id && !$bp->current_action ) {
 		if ( function_exists($function) ) {
 			add_action( 'wp', $function, 3 );
 		}
 		
 		if ( $slug )
-			$bp['current_action'] = $slug;
+			$bp->current_action = $slug;
 	}
 }
 
@@ -521,19 +520,19 @@ function bp_core_load_template( $template, $skip_blog_check = false ) {
 /**
  * bp_core_add_root_component()
  *
- * Adds a component to the $bp['root_components'] global.
+ * Adds a component to the $bp->root_components global.
  * Any component that runs in the "root" of an install should be added.
  * The "root" as in, it can or always runs outside of the /members/username/ path.
  *
  * Example of a root component:
- *  Groups: http://example.com/groups/group-name
- *          http://community.example.com/groups/group-name
- *          http://example.com/wpmu/groups/group-name
+ *  Groups: http://domain.com/groups/group-name
+ *          http://community.domain.com/groups/group-name
+ *          http://domain.com/wpmu/groups/group-name
  *
  * Example of a component that is NOT a root component:
- *  Friends: http://example.com/members/andy/friends
- *           http://community.example.com/members/andy/friends
- *           http://example.com/wpmu/members/andy/friends
+ *  Friends: http://domain.com/members/andy/friends
+ *           http://community.domain.com/members/andy/friends
+ *           http://domain.com/wpmu/members/andy/friends
  * 
  * @package BuddyPress Core
  * @param $slug str The slug of the component
@@ -542,7 +541,7 @@ function bp_core_load_template( $template, $skip_blog_check = false ) {
 function bp_core_add_root_component( $slug ) {
 	global $bp;
 
-	$bp['root_components'][] = $slug;
+	$bp->root_components[] = $slug;
 }
 
 /**
@@ -559,11 +558,11 @@ function bp_core_add_root_component( $slug ) {
 function bp_core_get_random_member() {
 	global $bp, $wpdb;
 	
-	if ( $bp['current_component'] == MEMBERS_SLUG && isset( $_GET['random'] ) ) {
+	if ( $bp->current_component == MEMBERS_SLUG && isset( $_GET['random'] ) ) {
 		$user = BP_Core_User::get_random_users(1);
 
 		$ud = get_userdata( $user['users'][0]->user_id );
-		bp_core_redirect( $bp['root_domain'] . '/' . MEMBERS_SLUG . '/' . $ud->user_login );
+		bp_core_redirect( $bp->root_domain . '/' . MEMBERS_SLUG . '/' . $ud->user_login );
 	}
 }
 add_action( 'wp', 'bp_core_get_random_member', 6 );
@@ -646,7 +645,7 @@ function bp_core_get_userurl( $uid ) {
 	
 	$ud = get_userdata($uid);
 		
-	return $bp['root_domain'] . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/';
+	return $bp->root_domain . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/';
 }
 
 /**
@@ -669,7 +668,7 @@ function bp_core_get_user_email( $uid ) {
  * bp_core_get_userlink()
  *
  * Returns a HTML formatted link for a user with the user's full name as the link text.
- * eg: <a href="http://andy.example.com/">Andy Peatling</a>
+ * eg: <a href="http://andy.domain.com/">Andy Peatling</a>
  * Optional parameters will return just the name, or just the URL, or disable "You" text when
  * user matches the logged in user. 
  *
@@ -979,12 +978,12 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 function bp_core_record_activity() {
 	global $bp;
 	
-	if ( !is_user_logged_in() || !get_usermeta( $bp['loggedin_userid'], 'last_activity') )
+	if ( !is_user_logged_in() )
 		return false;
 	
-	if ( time() >= strtotime('+5 minutes', get_usermeta( $bp['loggedin_userid'], 'last_activity') ) || get_usermeta( $bp['loggedin_userid'], 'last_activity') == '' ) {
+	if ( time() >= strtotime( '+5 minutes', get_usermeta( $bp->loggedin_user->id, 'last_activity' ) ) || '' == get_usermeta( $bp->loggedin_user->id, 'last_activity' ) ) {
 		// Updated last site activity for this user.
-		update_usermeta( $bp['loggedin_userid'], 'last_activity', time() );
+		update_usermeta( $bp->loggedin_user->id, 'last_activity', time() );
 	}
 }
 add_action( 'wp_head', 'bp_core_record_activity' );
@@ -1002,7 +1001,7 @@ add_action( 'wp_head', 'bp_core_record_activity' );
  * @uses bp_core_time_since() This function will return an English representation of the time elapsed.
  */
 function bp_core_get_last_activity( $last_activity_date, $string ) {
-	if ( !$last_activity_date || $last_activity_date == '' ) {
+	if ( !$last_activity_date || empty( $last_activity_date ) ) {
 		$last_active = __('not recently active', 'buddypress');
 	} else {
 		if ( strstr( $last_activity_date, '-' ) ) {
@@ -1031,7 +1030,7 @@ function bp_core_get_all_posts_for_user( $user_id = null ) {
 	global $bp, $wpdb;
 	
 	if ( !$user_id )
-		$user_id = $bp['current_userid'];
+		$user_id = $bp->displayed_user->id;
 	
 	return $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM $wpdb->posts WHERE post_author = %d AND post_status = 'publish' AND post_type = 'post'", $user_id ) );
 }
@@ -1102,11 +1101,11 @@ function bp_core_sort_nav_items( $nav_array ) {
 	
 	foreach ( (array)$nav_array as $key => $value ) {
 		switch ( $nav_array[$key]['css_id'] ) {
-			case $bp['activity']['slug']:
+			case $bp->activity->slug:
 				$new_nav[0] = $nav_array[$key];
 				unset($nav_array[$key]);
 			break;
-			case $bp['profile']['slug']:
+			case $bp->profile->slug:
 				$new_nav[1] = $nav_array[$key];
 				unset($nav_array[$key]);
 			break;
@@ -1114,31 +1113,31 @@ function bp_core_sort_nav_items( $nav_array ) {
 				$new_nav[1] = $nav_array[$key];
 				unset($nav_array[$key]);
 			break;
-			case $bp['blogs']['slug']:
+			case $bp->blogs->slug:
 				$new_nav[2] = $nav_array[$key];
 				unset($nav_array[$key]);
 			break;
-			case $bp['wire']['slug']:
+			case $bp->wire->slug:
 				$new_nav[3] = $nav_array[$key];
 				unset($nav_array[$key]);
 			break;
-			case $bp['messages']['slug']:
+			case $bp->messages->slug:
 				$new_nav[4] = $nav_array[$key];
 				unset($nav_array[$key]);
 			break;
-			case $bp['friends']['slug']:
+			case $bp->friends->slug:
 				$new_nav[5] = $nav_array[$key];
 				unset($nav_array[$key]);
 			break;
-			case $bp['groups']['slug']:
+			case $bp->groups->slug:
 				$new_nav[6] = $nav_array[$key];
 				unset($nav_array[$key]);
 			break;
-			case $bp['photos']['slug']:
+			case $bp->photos->slug:
 				$new_nav[7] = $nav_array[$key];
 				unset($nav_array[$key]);
 			break;
-			case $bp['account']['slug']:
+			case $bp->account->slug:
 				$new_nav[8] = $nav_array[$key];
 				unset($nav_array[$key]);
 			break;
@@ -1196,7 +1195,7 @@ function bp_core_add_illegal_names() {
 	global $bp;
 	
 	$current = maybe_unserialize( get_site_option( 'illegal_names' ) );
-	$bp_illegal_names = $bp['root_components'];
+	$bp_illegal_names = $bp->root_components;
 	
 	if ( is_array( $current ) ) {
 		foreach( $bp_illegal_names as $bp_illegal_name ) {
@@ -1251,13 +1250,13 @@ function bp_core_delete_account() {
 	require_once( ABSPATH . '/wp-admin/includes/mu.php' );
 	require_once( ABSPATH . '/wp-admin/includes/user.php' );
 
-	return wpmu_delete_user( $bp['loggedin_userid'] );
+	return wpmu_delete_user( $bp->loggedin_user->id  );
 }
 
 function bp_core_search_site() {
 	global $bp;
 	
-	if ( $bp['current_component'] == SEARCH_SLUG ) {
+	if ( $bp->current_component == SEARCH_SLUG ) {
 		$search_terms = $_POST['search-terms'];
 		$search_which = $_POST['search-which'];
 		
@@ -1302,7 +1301,7 @@ function bp_core_clear_cache() {
 function bp_core_print_version_numbers() {
 	global $bp;
 	
-	foreach ( $bp['version_numbers'] as $name => $version ) {
+	foreach ( $bp->version_numbers as $name => $version ) {
 		echo ucwords($name) . ': <b>' . $version . '</b> / ';
 	}
 }

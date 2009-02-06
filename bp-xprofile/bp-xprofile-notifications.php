@@ -21,12 +21,12 @@
 function xprofile_record_wire_post_notification( $wire_post_id, $user_id, $poster_id ) {
 	global $bp, $current_user;
 	
-	if ( $bp['current_component'] == $bp['wire']['slug'] && !bp_is_home() ) {
+	if ( $bp->current_component == $bp->wire->slug && !bp_is_home() ) {
 		bp_core_add_notification( $poster_id, $user_id, 'xprofile', 'new_wire_post' );
 
-		if ( !get_usermeta( $bp['loggedin_userid'], 'notification_profile_wire_post' ) || get_usermeta( $bp['loggedin_userid'], 'notification_profile_wire_post' ) == 'yes' ) {
+		if ( !get_usermeta( $bp->loggedin_user->id, 'notification_profile_wire_post' ) || get_usermeta( $bp->loggedin_user->id, 'notification_profile_wire_post' ) == 'yes' ) {
 			$poster_name = bp_fetch_user_fullname( $poster_id, false );
-			$wire_post = new BP_Wire_Post( $bp['profile']['table_name_wire'], $wire_post_id, true );
+			$wire_post = new BP_Wire_Post( $bp->profile->table_name_wire, $wire_post_id, true );
 			$ud = get_userdata($user_id);
 			
 			$wire_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/wire';

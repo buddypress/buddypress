@@ -7,10 +7,10 @@ function groups_ajax_invite_user() {
 	if ( !$_POST['friend_id'] || !$_POST['friend_action'] || !$_POST['group_id'] )
 		return false;
 	
-	if ( !groups_is_user_admin( $bp['loggedin_userid'], $_POST['group_id'] ) )
+	if ( !groups_is_user_admin( $bp->loggedin_user->id, $_POST['group_id'] ) )
 		return false;
 	
-	if ( !friends_check_friendship( $bp['loggedin_userid'], $_POST['friend_id'] ) )
+	if ( !friends_check_friendship( $bp->loggedin_user->id, $_POST['friend_id'] ) )
 		return false;
 	
 	if ( $_POST['friend_action'] == 'invite' ) {
@@ -24,7 +24,7 @@ function groups_ajax_invite_user() {
 		echo '<h4>' . $user->user_link . '</h4>';
 		echo '<span class="activity">' . sprintf( __( 'active %s ago', 'buddypress' ), $user->last_active ) . '</span>';
 		echo '<div class="action">
-				<a class="remove" href="' . $bp['loggedin_domain'] . $bp['groups']['slug'] . '/' . $_POST['group_id'] . '/invites/remove/' . $user->id . '" id="uid-' . $user->id . '">' . __( 'Remove Invite', 'buddypress' ) . '</a> 
+				<a class="remove" href="' . $bp->loggedin_user->domain . $bp->groups->slug . '/' . $_POST['group_id'] . '/invites/remove/' . $user->id . '" id="uid-' . $user->id . '">' . __( 'Remove Invite', 'buddypress' ) . '</a> 
 			  </div>';
 		echo '</li>';
 		
@@ -229,7 +229,7 @@ function bp_core_ajax_directory_groups() {
 		?>
 		<div id="group-dir-count" class="pag-count">
 			<?php echo sprintf( __( 'Viewing group %d to %d (%d total active groups)', 'buddypress' ), $from_num, $to_num, $groups['total'] ); ?> &nbsp;
-			<img id="ajax-loader-groups" src="<?php echo $bp['core']['image_base'] ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" />
+			<img id="ajax-loader-groups" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" />
 		</div>
 	
 		<div class="pagination-links" id="group-dir-pag">
@@ -286,7 +286,7 @@ add_action( 'wp_ajax_directory_groups', 'bp_core_ajax_directory_groups' );
 function groups_ajax_joinleave_group() {
 	global $bp;
 
-	if ( groups_is_user_banned( $bp['loggedin_userid'], $_POST['gid'] ) )
+	if ( groups_is_user_banned( $bp->loggedin_user->id, $_POST['gid'] ) )
 		return false;
 	
 	if ( !$group = new BP_Groups_Group( $_POST['gid'], false, false ) )
@@ -295,7 +295,7 @@ function groups_ajax_joinleave_group() {
 	if ( $group->status == 'hidden' )
 		return false;
 	
-	if ( !groups_is_user_member( $bp['loggedin_userid'], $group->id ) ) {
+	if ( !groups_is_user_member( $bp->loggedin_user->id, $group->id ) ) {
 	
 		if ( $group->status == 'public' ) {
 			if ( !groups_join_group( $group->id ) ) {
@@ -304,7 +304,7 @@ function groups_ajax_joinleave_group() {
 				echo '<a id="group-' . $group->id . '" class="leave-group" rel="leave" title="' . __( 'Leave Group', 'buddypress' ) . '" href="' . bp_group_permalink( $group, false ) . '/leave-group">' . __( 'Leave Group', 'buddypress' ) . '</a>';
 			}			
 		} else if ( $group->status == 'private' ) {
-			if ( !groups_send_membership_request( $bp['loggedin_userid'], $group->id ) ) {
+			if ( !groups_send_membership_request( $bp->loggedin_user->id, $group->id ) ) {
 				_e( 'Error requesting membership', 'buddypress' );	
 			} else {
 				echo '<a id="group-' . $group->id . '" class="membership-requested" rel="membership-requested" title="' . __( 'Membership Requested', 'buddypress' ) . '" href="' . bp_group_permalink( $group, false ) . '">' . __( 'Membership Requested', 'buddypress' ) . '</a>';				

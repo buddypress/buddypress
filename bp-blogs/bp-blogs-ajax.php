@@ -34,7 +34,7 @@ function bp_blogs_ajax_directory_blogs() {
 		?>
 		<div id="blog-dir-count" class="pag-count">
 			<?php echo sprintf( __( 'Viewing blog %d to %d (%d total active blogs)', 'buddypress' ), $from_num, $to_num, $blogs['total'] ); ?> &nbsp;
-			<img id="ajax-loader-blogs" src="<?php echo $bp['core']['image_base'] ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" />
+			<img id="ajax-loader-blogs" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" />
 		</div>
 	
 		<div class="pagination-links" id="blog-dir-pag">
@@ -45,7 +45,7 @@ function bp_blogs_ajax_directory_blogs() {
 		<?php foreach ( $blogs['blogs'] as $blog ) : ?>
 			<li>
 				<div class="item-avatar">
-					<img src="<?php echo 'http://www.gravatar.com/avatar/' . md5( $blog->blog_id . '.blogs@' . $bp['root_domain'] ) . '?d=identicon&amp;s=50'; ?>" class="avatar" alt="Blog Identicon" />
+					<img src="<?php echo 'http://www.gravatar.com/avatar/' . md5( $blog->blog_id . '.blogs@' . $bp->root_domain ) . '?d=identicon&amp;s=50'; ?>" class="avatar" alt="Blog Identicon" />
 				</div>
 
 				<div class="item">

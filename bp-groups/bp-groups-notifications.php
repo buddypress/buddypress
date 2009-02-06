@@ -6,7 +6,7 @@ function groups_notification_new_wire_post( $group_id, $wire_post_id ) {
 	if ( !isset( $_POST['wire-post-email-notify'] ) )
 		return false;
 	
-	$wire_post = new BP_Wire_Post( $bp['groups']['table_name_wire'], $wire_post_id );
+	$wire_post = new BP_Wire_Post( $bp->groups->table_name_wire, $wire_post_id );
 	$group = new BP_Groups_Group( $group_id, false, true );
 	
 	$poster_name = bp_fetch_user_fullname( $wire_post->user_id, false );
@@ -23,8 +23,8 @@ function groups_notification_new_wire_post( $group_id, $wire_post_id ) {
 		// Set up and send the message
 		$to = $ud->user_email;
 
-		$wire_link = site_url() . '/' . $bp['groups']['slug'] . '/' . $group->slug . '/wire';
-		$group_link = site_url() . '/' . $bp['groups']['slug'] . '/' . $group->slug;
+		$wire_link = site_url() . '/' . $bp->groups->slug . '/' . $group->slug . '/wire';
+		$group_link = site_url() . '/' . $bp->groups->slug . '/' . $group->slug;
 		$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
 
 		$message = sprintf( __( 
@@ -64,7 +64,7 @@ function groups_notification_group_updated( $group_id ) {
 		// Set up and send the message
 		$to = $ud->user_email;
 
-		$group_link = site_url() . '/' . $bp['groups']['slug'] . '/' . $group->slug;
+		$group_link = site_url() . '/' . $bp->groups->slug . '/' . $group->slug;
 		$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
 
 		$message = sprintf( __( 
@@ -238,7 +238,7 @@ function groups_notification_group_invites( $group_id, $invited_user_ids, $invit
 		$invited_ud = get_userdata($invited_user_id);
 		$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
 		$invited_link = site_url() . '/' . MEMBERS_SLUG . '/' . $invited_ud->user_login;
-		$invites_link = $invited_link . '/' . $bp['groups']['slug'] . '/invites';
+		$invites_link = $invited_link . '/' . $bp->groups->slug . '/invites';
 		
 		// Set up and send the message
 		$to = $invited_ud->user_email;

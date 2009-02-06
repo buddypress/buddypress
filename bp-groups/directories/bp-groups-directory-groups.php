@@ -2,7 +2,7 @@
 function groups_directory_groups_setup() {
 	global $bp, $current_blog;
 	
-	if ( $bp['current_component'] == $bp['groups']['slug'] && $bp['current_action'] == '' ) {
+	if ( $bp->current_component == $bp->groups->slug && empty( $bp->current_action ) ) {
 		add_action( 'bp_template_content', 'groups_directory_groups_content' );
 		add_action( 'bp_template_sidebar', 'groups_directory_groups_sidebar' );
 		
@@ -87,7 +87,7 @@ function groups_directory_groups_content() {
 		<?php if ( $groups['groups'] ) : ?>
 			<div id="group-dir-count" class="pag-count">
 				<?php echo sprintf( __( 'Viewing group %d to %d (%d total active groups)', 'buddypress' ), $from_num, $to_num, $groups['total'] ); ?> &nbsp;
-				<img id="ajax-loader-groups" src="<?php echo $bp['core']['image_base'] ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" />
+				<img id="ajax-loader-groups" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" />
 			</div>
 			
 			<div class="pagination-links" id="group-dir-pag">
@@ -155,7 +155,7 @@ function groups_directory_groups_sidebar() {
 ?>	
 	<div class="widget">
 		<h2 class="widgettitle"><?php _e( 'Find Groups', 'buddypress' ) ?></h2>
-		<form action="<?php echo site_url() . '/' . $bp['groups']['slug']  . '/search/' ?>" method="post" id="search-groups-form">
+		<form action="<?php echo site_url() . '/' . $bp->groups->slug  . '/search/' ?>" method="post" id="search-groups-form">
 			<label><input type="text" name="groups_search" id="groups_search" value="<?php if ( isset( $_GET['s'] ) ) { echo $_GET['s']; } else { _e('Search anything...', 'buddypress' ); } ?>"  onfocus="if (this.value == '<?php _e('Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e('Search anything...', 'buddypress' ) ?>';}" /></label>
 			<input type="submit" id="groups_search_submit" name="groups_search_submit" value="Search" />
 		</form>

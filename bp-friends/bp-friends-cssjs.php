@@ -8,7 +8,7 @@
 function friends_add_js() {
 	global $bp;
 
-	if ( $bp['current_component'] == $bp['friends']['slug'] )
+	if ( $bp->current_component == $bp->friends->slug )
 		wp_enqueue_script( 'bp-friends-js', site_url( MUPLUGINDIR . '/bp-friends/js/general.js' ) );
 }
 add_action( 'template_redirect', 'friends_add_js', 1 );

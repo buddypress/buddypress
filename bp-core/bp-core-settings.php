@@ -6,9 +6,9 @@ function bp_core_add_settings_nav() {
 	bp_core_add_nav_item( __('Settings', 'buddypress'), 'settings', false, false );
 	bp_core_add_nav_default( 'settings', 'bp_core_screen_general_settings', 'general', false );
 	
-	bp_core_add_subnav_item( 'settings', 'general', __('General', 'buddypress'), $bp['loggedin_domain'] . 'settings/', 'bp_core_screen_general_settings', false, bp_is_home() );
-	bp_core_add_subnav_item( 'settings', 'notifications', __('Notifications', 'buddypress'), $bp['loggedin_domain'] . 'settings/', 'bp_core_screen_notification_settings', false, bp_is_home() );
-	bp_core_add_subnav_item( 'settings', 'delete-account', __('Delete Account', 'buddypress'), $bp['loggedin_domain'] . 'settings/', 'bp_core_screen_delete_account', false, bp_is_home() );
+	bp_core_add_subnav_item( 'settings', 'general', __('General', 'buddypress'), $bp->loggedin_user->domain . 'settings/', 'bp_core_screen_general_settings', false, bp_is_home() );
+	bp_core_add_subnav_item( 'settings', 'notifications', __('Notifications', 'buddypress'), $bp->loggedin_user->domain . 'settings/', 'bp_core_screen_notification_settings', false, bp_is_home() );
+	bp_core_add_subnav_item( 'settings', 'delete-account', __('Delete Account', 'buddypress'), $bp->loggedin_user->domain . 'settings/', 'bp_core_screen_delete_account', false, bp_is_home() );
 }
 add_action( 'wp', 'bp_core_add_settings_nav', 2 );
 add_action( 'admin_menu', 'bp_core_add_settings_nav', 2 );
@@ -36,7 +36,7 @@ function bp_core_screen_general_settings() {
 			} else {
 				$pass_error = true;
 			}
-		} else if ( $_POST['pass1'] == '' && $_POST['pass2'] != '' || $_POST['pass1'] != '' && $_POST['pass2'] == '' ) {
+		} else if ( empty( $_POST['pass1'] ) && !empty( $_POST['pass2'] ) || !empty( $_POST['pass1'] ) && empty( $_POST['pass2'] ) ) {
 			$pass_error = true;
 		} else {
 			unset( $current_user->user_pass );
@@ -71,7 +71,7 @@ function bp_core_screen_general_settings_content() {
 		</div>	
 	<?php } ?>
 
-	<form action="<?php echo $bp['loggedin_domain'] . 'settings/general' ?>" method="post" id="settings-form">
+	<form action="<?php echo $bp->loggedin_user->domain . 'settings/general' ?>" method="post" id="settings-form">
 		<label for="email"><?php _e( 'Account Email', 'buddypress' ) ?></label>
 		<input type="text" name="email" id="email" value="<?php echo $current_user->user_email ?>" class="settings-input" />
 			
@@ -121,7 +121,7 @@ function bp_core_screen_notification_settings_content() {
 		</div>
 	<?php } ?>
 	
-	<form action="<?php echo $bp['loggedin_domain'] . 'settings/notifications' ?>" method="post" id="settings-form">
+	<form action="<?php echo $bp->loggedin_user->domain . 'settings/notifications' ?>" method="post" id="settings-form">
 		<h3><?php _e( 'Email Notifications', 'buddypress' ) ?></h3>
 		<p><?php _e( 'Send a notification by email when:', 'buddypress' ) ?></p>
 		
@@ -164,7 +164,7 @@ function bp_core_screen_delete_account() {
 			} else {
 				$pass_error = true;
 			}
-		} else if ( $_POST['pass1'] == '' && $_POST['pass2'] != '' || $_POST['pass1'] != '' && $_POST['pass2'] == '' ) {
+		} else if ( empty( $_POST['pass1'] ) && !empty( $_POST['pass2'] ) || !empty( $_POST['pass1'] ) && empty( $_POST['pass2'] ) ) {
 			$pass_error = true;
 		} else {
 			unset( $current_user->user_pass );
@@ -187,7 +187,7 @@ function bp_core_screen_delete_account_title() {
 function bp_core_screen_delete_account_content() {
 	global $bp, $current_user, $bp_settings_updated, $pass_error; 	?>
 
-	<form action="<?php echo $bp['loggedin_domain'] . 'settings/delete-account'; ?>" name="account-delete-form" id="account-delete-form" class="standard-form" method="post">
+	<form action="<?php echo $bp->loggedin_user->domain . 'settings/delete-account'; ?>" name="account-delete-form" id="account-delete-form" class="standard-form" method="post">
 		
 		<div id="message" class="info">
 			<p><?php _e( 'WARNING: Deleting your account will completely remove ALL content associated with it. There is no way back, please be careful with this option.', 'buddypress' ); ?></p>

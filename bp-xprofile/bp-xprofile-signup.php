@@ -129,7 +129,7 @@ function xprofile_validate_signup_fields( $result ) {
 				"value" => $value
 			);
 			
-			if ( $field->is_required && $value == '' ) {
+			if ( $field->is_required && empty( $value ) ) {
 				$bp_xprofile_callback[$counter]["error_msg"] = $field->name . ' cannot be left blank.';
 				$has_errors = true;
 			}
@@ -224,7 +224,7 @@ add_filter( 'wpmu_validate_blog_signup', 'xprofile_add_blog_signup_meta' );
 function xprofile_add_profile_meta( $meta ) {
 	global $bp;
 	
-	if ( $bp['current_component'] != $bp['blogs']['slug'] )
+	if ( $bp->current_component != $bp->blogs->slug )
 		return $_SESSION['xprofile_meta'];
 	else
 		return $meta;
@@ -267,7 +267,7 @@ function xprofile_extract_signup_meta( $user_id, $meta ) {
 
 	// Loop through each bit of profile data and save it to profile.
 	for ( $i = 0; $i < count($field_ids); $i++ ) {
-		if ( $field_ids[$i] == '' ) continue;
+		if ( empty( $field_ids[$i] ) ) continue;
 		
 		$field_value = $meta["field_{$field_ids[$i]}"];
 		

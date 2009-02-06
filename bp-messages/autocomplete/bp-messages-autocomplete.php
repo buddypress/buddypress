@@ -9,7 +9,7 @@ bp_core_setup_globals();
 friends_setup_globals();
 
 // Get the friend ids based on the search terms
-$friends = friends_search_friends( $_GET['q'], $bp['loggedin_userid'], $_GET['limit'], 1 );
+$friends = friends_search_friends( $_GET['q'], $bp->loggedin_user->id, $_GET['limit'], 1 );
 
 if ( $friends['friends'] ) {
 	foreach ( $friends['friends'] as $key => $friend ) {

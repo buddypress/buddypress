@@ -32,7 +32,7 @@ function bp_activity_widget_sitewide_activity($args) {
 	
 	<?php if ( $activity ) : ?>
 		<div class="item-options" id="activity-list-options">
-			<img src="<?php echo $bp['activity']['image_base'] ?>/rss.png" alt="<?php _e( 'RSS Feed', 'buddypress' ) ?>" /> <a href="<?php bp_sitewide_activity_feed_link() ?>" title="<?php _e( 'Site Wide Activity RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a>
+			<img src="<?php echo $bp->activity->image_base; ?>/rss.png" alt="<?php _e( 'RSS Feed', 'buddypress' ) ?>" /> <a href="<?php bp_sitewide_activity_feed_link() ?>" title="<?php _e( 'Site Wide Activity RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a>
 		</div>
 		<ul id="site-wide-stream" class="activity-list">
 		<?php foreach( $activity as $item ) : ?>

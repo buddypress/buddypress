@@ -14,11 +14,11 @@ Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/
  * Future custom components would then be able to use their own custom URI structure.
  *
  * The URI's are broken down as follows:
- *   - http:// example.com / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
- *   - OUTSIDE ROOT: http:// example.com / sites / buddypress / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
+ *   - http:// domain.com / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
+ *   - OUTSIDE ROOT: http:// domain.com / sites / buddypress / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
  * 
  *	Example:
- *    - http://example.com/members/andy/profile/edit/group/5/
+ *    - http://domain.com/members/andy/profile/edit/group/5/
  *    - $current_component: string 'profile'
  *    - $current_action: string 'edit'
  *    - $action_variables: array ['group', 5]
@@ -27,7 +27,7 @@ Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/
  */
 function bp_core_set_uri_globals() {
 	global $current_component, $current_action, $action_variables;
-	global $current_userid;
+	global $displayed_user_id;
 	global $is_member_page, $is_new_friend;
 	global $bp_unfiltered_uri;
 	global $bp;
@@ -84,12 +84,12 @@ function bp_core_set_uri_globals() {
 	$bp_unfiltered_uri = $bp_uri;
 
 	/* Catch a member page and set the current member ID */
-	if ( $bp_uri[0] == MEMBERS_SLUG && $bp_uri[1] != '' ) {
+	if ( $bp_uri[0] == MEMBERS_SLUG && !empty( $bp_uri[1] ) ) {
 		$is_member_page = true;
 		$is_root_component = true;
 		
 		// We are within a member page, set up user id globals
-		$current_userid = bp_core_get_current_userid( $bp_uri[1] );
+		$displayed_user_id = bp_core_get_displayed_userid( $bp_uri[1] );
 				
 		unset($bp_uri[0]);
 		unset($bp_uri[1]);
@@ -104,9 +104,9 @@ function bp_core_set_uri_globals() {
 		/* Reset the keys by merging with an empty array */
 		$bp_uri = array_merge( array(), $bp_uri );
 	}
-	
+
 	/* This is used to determine where the component and action indexes should start */
-	$root_components = $bp['root_components'];
+	$root_components = $bp->root_components;
 	
 	if ( !isset($is_root_component) )
 		$is_root_component = in_array( $bp_uri[0], $root_components );
@@ -159,7 +159,7 @@ function bp_catch_uri( $pages, $skip_blog_check = false ) {
 	$bp_skip_blog_check = $skip_blog_check;
 
 	$bp_path = $pages;
-	
+
 	if ( !bp_is_blog_page() )
 		remove_action( 'template_redirect', 'redirect_canonical' );
 	
@@ -226,12 +226,12 @@ function bp_core_catch_no_access() {
 		return false;
 		
 	// If this user does not exist, redirect to the root domain.
-	if ( !$bp['current_userid'] && $bp_unfiltered_uri[0] == MEMBERS_SLUG && isset($bp_unfiltered_uri[1]) )
-		bp_core_redirect( $bp['root_domain'] );
+	if ( !$bp->displayed_user->id && $bp_unfiltered_uri[0] == MEMBERS_SLUG && isset($bp_unfiltered_uri[1]) )
+		bp_core_redirect( $bp->root_domain );
 
 	if ( !$bp_path && !bp_is_blog_page() ) {
 		if ( is_user_logged_in() ) {
-			wp_redirect( $bp['loggedin_domain'] );
+			wp_redirect( $bp->loggedin_user->domain );
 		} else {
 			wp_redirect( site_url( 'wp-login.php?redirect_to=' . site_url() . $_SERVER['REQUEST_URI'] ) );
 		}
@@ -263,7 +263,7 @@ function bp_core_force_buddypress_theme( $template ) {
 	
 	$member_theme = get_site_option('active-member-theme');
 	
-	if ( $member_theme == '' )
+	if ( empty( $member_theme ) )
 		$member_theme = 'buddypress-member';
 	
 	if ( $is_member_page ) {
@@ -282,7 +282,7 @@ function bp_core_force_buddypress_stylesheet( $stylesheet ) {
 
 	$member_theme = get_site_option('active-member-theme');
 	
-	if ( $member_theme == '' )
+	if ( empty( $member_theme ) )
 		$member_theme = 'buddypress-member';
 
 	if ( $is_member_page ) {
@@ -295,7 +295,5 @@ function bp_core_force_buddypress_stylesheet( $stylesheet ) {
 	}
 }
 add_filter( 'stylesheet', 'bp_core_force_buddypress_stylesheet', 1, 1 );
-
-
 
 ?>

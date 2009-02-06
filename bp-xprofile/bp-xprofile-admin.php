@@ -97,7 +97,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 									<tr id="field_<?php echo $field->id; ?>" <?php if ( $class ) { echo 'class="' . $class . '"'; } ?>>
 							    	<td><span title="<?php echo $field->desc; ?>"><?php echo $field->name; ?> <?php if(!$field->can_delete) { ?>(Core)<?php } ?></span></td>
 							    	<td><?php echo $field->type; ?></td>
-							    	<td style="text-align:center;"><?php if ( $field->is_required ) { echo '<img src="' . $bp['profile']['image_base'] . '/tick.gif" alt="Yes" />'; } else { ?>--<?php } ?></td>
+							    	<td style="text-align:center;"><?php if ( $field->is_required ) { echo '<img src="' . $bp->profile->image_base . '/tick.gif" alt="Yes" />'; } else { ?>--<?php } ?></td>
 							    	<td style="text-align:center;"><?php if ( !$field->can_delete ) { ?><strike><?php _e( 'Edit', 'buddypress' ) ?></strike><?php } else { ?><a class="edit" href="admin.php?page=xprofile_settings&amp;group_id=<?php echo $groups[$i]->id; ?>&amp;field_id=<?php echo $field->id; ?>&amp;mode=edit_field"><?php _e( 'Edit', 'buddypress' ) ?></a><?php } ?></td>
 							    	<td style="text-align:center;"><?php if ( !$field->can_delete ) { ?><strike><?php _e( 'Delete', 'buddypress' ) ?></strike><?php } else { ?><a class="delete" href="admin.php?page=xprofile_settings&amp;field_id=<?php echo $field->id; ?>&amp;mode=delete_field"><?php _e( 'Delete', 'buddypress' ) ?></a><?php } ?></td>
 							    </tr>

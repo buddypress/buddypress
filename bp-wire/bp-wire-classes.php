@@ -23,7 +23,7 @@ class BP_Wire_Post {
 	function populate() {
 		global $wpdb, $bp;
 
-		$sql = $wpdb->prepare( "SELECT * FROM " . $this->table_name . " WHERE id = %d", $this->id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$this->table_name} WHERE id = %d", $this->id );
 
 		$wire_post = $wpdb->get_row($sql);
 
@@ -40,7 +40,7 @@ class BP_Wire_Post {
 		
 		if ( $this->id ) {
 			$sql = $wpdb->prepare( 
-				"UPDATE " . $this->table_name . " SET 
+				"UPDATE {$this->table_name} SET 
 					item_id = %d, 
 					user_id = %d, 
 					content = %s, 
@@ -56,7 +56,7 @@ class BP_Wire_Post {
 			);
 		} else {
 			$sql = $wpdb->prepare( 
-				"INSERT INTO " . $this->table_name . " ( 
+				"INSERT INTO {$this->table_name} ( 
 					item_id,
 					user_id,
 					content,
@@ -83,7 +83,7 @@ class BP_Wire_Post {
 	function delete() {
 		global $wpdb, $bp;
 		
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $this->table_name . " WHERE id = %d", $this->id ) );
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$this->table_name} WHERE id = %d", $this->id ) );
 	}
 	
 	/* Static Functions */
@@ -94,8 +94,8 @@ class BP_Wire_Post {
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		
-		$wire_posts = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $table_name . " WHERE item_id = %d  ORDER BY date_posted DESC $pag_sql", $item_id ) );
-		$count = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM " . $table_name . " WHERE item_id = %d", $item_id ) );
+		$wire_posts = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table_name} WHERE item_id = %d  ORDER BY date_posted DESC $pag_sql", $item_id ) );
+		$count = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$table_name} WHERE item_id = %d", $item_id ) );
 		
 		return array( 'wire_posts' => $wire_posts, 'count' => $count );
 	}

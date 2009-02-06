@@ -97,13 +97,13 @@ Class BP_Messages_Template {
 function bp_has_message_threads() {
 	global $bp, $messages_template;
 
-	if ( $bp['current_action'] == 'notices' && !is_site_admin() ) {
-		wp_redirect( $bp['current_userid'] );
+	if ( $bp->current_action == 'notices' && !is_site_admin() ) {
+		wp_redirect( $bp->displayed_user->id );
 	} else {
-		if ( $bp['current_action'] == 'inbox' )
-			bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'messages', 'new_message' );
+		if ( $bp->current_action == 'inbox' )
+			bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, 'messages', 'new_message' );
 	
-		$messages_template = new BP_Messages_Template( $bp['loggedin_userid'], $bp['current_action'] );
+		$messages_template = new BP_Messages_Template( $bp->loggedin_user->id, $bp->current_action );
 	}
 	
 	return $messages_template->has_threads();
@@ -146,12 +146,12 @@ function bp_message_thread_to() {
 
 function bp_message_thread_view_link() {
 	global $messages_template, $bp;
-	echo apply_filters( 'bp_message_thread_view_link', $bp['loggedin_domain'] . $bp['messages']['slug'] . '/view/' . $messages_template->thread->thread_id );
+	echo apply_filters( 'bp_message_thread_view_link', $bp->loggedin_user->domain . $bp->messages->slug . '/view/' . $messages_template->thread->thread_id );
 }
 
 function bp_message_thread_delete_link() {
 	global $messages_template, $bp;
-	echo apply_filters( 'bp_message_thread_delete_link', $bp['loggedin_domain'] . $bp['messages']['slug'] . '/' . $bp['current_action'] . '/delete/' . $messages_template->thread->thread_id );
+	echo apply_filters( 'bp_message_thread_delete_link', $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action . '/delete/' . $messages_template->thread->thread_id );
 }
 
 function bp_message_thread_has_unread() {
@@ -196,7 +196,7 @@ function bp_messages_pagination() {
 function bp_messages_form_action() {
 	global $bp;
 	
-	echo apply_filters( 'bp_messages_form_action', $bp['loggedin_domain'] . $bp['messages']['slug'] . '/' . $bp['current_action'] );
+	echo apply_filters( 'bp_messages_form_action', $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action );
 }
 
 function bp_messages_username_value() {
@@ -218,7 +218,7 @@ function bp_messages_content_value() {
 function bp_messages_options() {
 	global $bp;
 	
-	if ( $bp['current_action'] != 'sentbox' ) {
+	if ( $bp->current_action != 'sentbox' ) {
 ?>
 		<?php _e( 'Select:', 'buddypress' ) ?> 
 		<select name="message-type-select" id="message-type-select">
@@ -230,7 +230,7 @@ function bp_messages_options() {
 		<a href="#" id="mark_as_read"><?php _e('Mark as Read', 'buddypress') ?></a> &nbsp;
 		<a href="#" id="mark_as_unread"><?php _e('Mark as Unread', 'buddypress') ?></a> &nbsp;
 	<?php } ?>
-		<a href="#" id="delete_<?php echo $bp['current_action'] ?>_messages"><?php _e('Delete Selected', 'buddypress') ?></a> &nbsp;
+		<a href="#" id="delete_<?php echo $bp->current_action ?>_messages"><?php _e('Delete Selected', 'buddypress') ?></a> &nbsp;
 <?php	
 }
 
@@ -262,16 +262,16 @@ function bp_message_notice_text() {
 function bp_message_notice_delete_link() {
 	global $messages_template, $bp;
 	
-	echo apply_filters( 'bp_message_notice_delete_link', $bp['loggedin_domain'] . $bp['messages']['slug'] . '/notices/delete/' . $messages_template->thread->id );
+	echo apply_filters( 'bp_message_notice_delete_link', $bp->loggedin_user->domain . $bp->messages->slug . '/notices/delete/' . $messages_template->thread->id );
 }
 
 function bp_message_activate_deactivate_link() {
 	global $messages_template, $bp;
 
 	if ( $messages_template->thread->is_active == "1" ) {
-		$link = $bp['loggedin_domain'] . $bp['messages']['slug'] . '/notices/deactivate/' . $messages_template->thread->id;
+		$link = $bp->loggedin_user->domain . $bp->messages->slug . '/notices/deactivate/' . $messages_template->thread->id;
 	} else {
-		$link = $bp['loggedin_domain'] . $bp['messages']['slug'] . '/notices/activate/' . $messages_template->thread->id;		
+		$link = $bp->loggedin_user->domain . $bp->messages->slug . '/notices/activate/' . $messages_template->thread->id;		
 	}
 	echo apply_filters( 'bp_message_activate_deactivate_link', $link );
 }
@@ -315,17 +315,17 @@ function bp_send_message_button() {
 	if ( bp_is_home() || !is_user_logged_in() )
 		return false;
 	
-	$ud = get_userdata( $bp['current_userid'] ); 
+	$ud = get_userdata( $bp->displayed_user->id ); 
 	?>
 	<div class="generic-button">
-		<a class="send-message" title="<?php _e( 'Send Message', 'buddypress' ) ?>" href="<?php echo $bp['loggedin_domain'] . $bp['messages']['slug'] ?>/compose/?r=<?php echo $ud->user_login ?>"><?php _e( 'Send Message', 'buddypress' ) ?></a>
+		<a class="send-message" title="<?php _e( 'Send Message', 'buddypress' ) ?>" href="<?php echo $bp->loggedin_user->domain . $bp->messages->slug ?>/compose/?r=<?php echo $ud->user_login ?>"><?php _e( 'Send Message', 'buddypress' ) ?></a>
 	</div>
 	<?php
 }
 
 function bp_message_loading_image_src() {
 	global $bp;
-	echo $bp['messages']['image_base'] . '/ajax-loader.gif';
+	echo $bp->messages->image_base . '/ajax-loader.gif';
 }
 
 function bp_message_get_recipient_tabs() {

@@ -2,7 +2,7 @@
 function bp_blogs_directory_blogs_setup() {
 	global $bp, $current_blog;
 	
-	if ( $bp['current_component'] == $bp['blogs']['slug'] && $bp['current_action'] == '' ) {
+	if ( $bp->current_component == $bp->blogs->slug && $bp->current_action == '' ) {
 		add_action( 'bp_template_content', 'bp_blogs_directory_blogs_content' );
 		add_action( 'bp_template_sidebar', 'bp_blogs_directory_blogs_sidebar' );
 		
@@ -87,7 +87,7 @@ function bp_blogs_directory_blogs_content() {
 		<?php if ( $blogs['blogs'] ) : ?>
 			<div id="blog-dir-count" class="pag-count">
 				<?php echo sprintf( __( 'Viewing blog %d to %d (%d total active blogs)', 'buddypress' ), $from_num, $to_num, $blogs['total'] ); ?> &nbsp;
-				<img id="ajax-loader-blogs" src="<?php echo $bp['core']['image_base'] ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" />
+				<img id="ajax-loader-blogs" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" />
 			</div>
 			
 			<div class="pagination-links" id="blog-dir-pag">
@@ -98,7 +98,7 @@ function bp_blogs_directory_blogs_content() {
 			<?php foreach ( $blogs['blogs'] as $blog ) : ?>
 				<li>
 					<div class="item-avatar">
-						<img src="<?php echo 'http://www.gravatar.com/avatar/' . md5( $blog->blog_id . '.blogs@' . $bp['root_domain'] ) . '?d=identicon&amp;s=50'; ?>" class="avatar" alt="Blog Identicon" />
+						<img src="<?php echo 'http://www.gravatar.com/avatar/' . md5( $blog->blog_id . '.blogs@' . $bp->root_domain ) . '?d=identicon&amp;s=50'; ?>" class="avatar" alt="Blog Identicon" />
 					</div>
 
 					<div class="item">
@@ -153,7 +153,7 @@ function bp_blogs_directory_blogs_sidebar() {
 ?>	
 	<div class="widget">
 		<h2 class="widgettitle"><?php _e( 'Find Blogs', 'buddypress' ) ?></h2>
-		<form action="<?php echo site_url() . '/' . $bp['blogs']['slug']  . '/search/' ?>" method="post" id="search-blogs-form">
+		<form action="<?php echo site_url() . '/' . $bp->blogs->slug  . '/search/' ?>" method="post" id="search-blogs-form">
 			<label><input type="text" name="blogs_search" id="blogs_search" value="<?php if ( isset( $_GET['s'] ) ) { echo $_GET['s']; } else { _e('Search anything...', 'buddypress' ); } ?>"  onfocus="if (this.value == '<?php _e('Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e('Search anything...', 'buddypress' ) ?>';}" /></label>
 			<input type="submit" id="blogs_search_submit" name="blogs_search_submit" value="Search" />
 		</form>

@@ -26,12 +26,10 @@ function bp_wire_install() {
 function bp_wire_setup_globals() {
 	global $bp, $wpdb;
 	
-	$bp['wire'] = array(
-		'image_base' => site_url( MUPLUGINDIR . '/bp-wire/images' ),
-		'slug'		 => BP_WIRE_SLUG
-	);
+	$bp->wire->image_base = site_url( MUPLUGINDIR . '/bp-wire/images' );
+	$bp->wire->slug = BP_WIRE_SLUG;
 
-	$bp['version_numbers'][$bp['wire']['slug']] = BP_WIRE_VERSION;
+	$bp->version_numbers->wire = BP_WIRE_VERSION;
 }
 add_action( 'wp', 'bp_wire_setup_globals', 1 );	
 add_action( 'admin_menu', 'bp_wire_setup_globals', 1 );
@@ -46,18 +44,18 @@ function bp_wire_setup_nav() {
 	global $bp;
 
 	/* Add 'Wire' to the main navigation */
-	bp_core_add_nav_item( __('Wire', 'buddypress'), $bp['wire']['slug'] );
-	bp_core_add_nav_default( $bp['wire']['slug'], 'bp_wire_screen_latest', 'all-posts' );
+	bp_core_add_nav_item( __('Wire', 'buddypress'), $bp->wire->slug );
+	bp_core_add_nav_default( $bp->wire->slug, 'bp_wire_screen_latest', 'all-posts' );
 
 	/* Add the subnav items to the wire nav */
- 	bp_core_add_subnav_item( $bp['wire']['slug'], 'all-posts', __('All Posts', 'buddypress'), $bp['loggedin_domain'] . $bp['wire']['slug'] . '/', 'bp_wire_screen_latest' );
+ 	bp_core_add_subnav_item( $bp->wire->slug, 'all-posts', __('All Posts', 'buddypress'), $bp->loggedin_user->domain . $bp->wire->slug . '/', 'bp_wire_screen_latest' );
 	
-	if ( $bp['current_component'] == $bp['wire']['slug'] ) {
+	if ( $bp->current_component == $bp->wire->slug ) {
 		if ( bp_is_home() ) {
-			$bp['bp_options_title'] = __('My Wire', 'buddypress');
+			$bp->bp_options_title = __('My Wire', 'buddypress');
 		} else {
-			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
-			$bp['bp_options_title'] = $bp['current_fullname']; 
+			$bp->bp_options_avatar = bp_core_get_avatar( $bp->displayed_user->id, 1 );
+			$bp->bp_options_title = $bp->displayed_user->fullname; 
 		}
 	}
 }
@@ -74,6 +72,7 @@ function bp_wire_screen_latest() {
 function bp_wire_record_activity( $args = true ) {
 	if ( function_exists('bp_activity_record') ) {
 		extract($args);
+
 		bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_user_id );
 	}
 }
@@ -92,13 +91,12 @@ function bp_wire_new_post( $item_id, $message, $component_name, $private_post = 
 		return false;
 	
 	if ( !$table_name )
-		$table_name = $bp[$component_name]['table_name_wire'];
+		$table_name = $bp->{$component_name}->table_name_wire;
 
 	$wire_post = new BP_Wire_Post( $table_name );
 	$wire_post->item_id = $item_id;
-	$wire_post->user_id = $bp['loggedin_userid'];
+	$wire_post->user_id = $bp->loggedin_user->id;
 	$wire_post->date_posted = time();
-	
 
 	$allowed_tags = apply_filters( 'bp_wire_post_allowed_tags', '<a>,<b>,<strong>,<i>,<em>,<img>' );
 		
@@ -125,12 +123,12 @@ function bp_wire_delete_post( $wire_post_id, $component_name, $table_name = null
 		return false;
 
 	if ( !$table_name )
-		$table_name = $bp[$component_name]['table_name_wire'];
+		$table_name = $bp->{$component_name}->table_name_wire;
 	
 	$wire_post = new BP_Wire_Post( $table_name, $wire_post_id );
 	
-	if ( !$bp['is_item_admin'] ) {
-		if ( $wire_post->user_id != $bp['loggedin_userid'] )
+	if ( !$bp->is_item_admin ) {
+		if ( $wire_post->user_id != $bp->loggedin_user->id )
 			return false;
 	}
 	

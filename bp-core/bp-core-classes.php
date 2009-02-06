@@ -90,7 +90,7 @@ class BP_Core_User {
 				else
 					$this->total_friends .= ' ' . __( 'friends', 'buddypress' );
 			
-				$this->total_friends = '<a href="' . $this->user_url . $bp['friends']['slug'] . '" title="' . sprintf( __( "%s's friend list", 'buddypress' ), $this->fullname ) . '">' . $this->total_friends . '</a>';
+				$this->total_friends = '<a href="' . $this->user_url . $bp->friends->slug . '" title="' . sprintf( __( "%s's friend list", 'buddypress' ), $this->fullname ) . '">' . $this->total_friends . '</a>';
 			}
 		}
 
@@ -101,7 +101,7 @@ class BP_Core_User {
 				else
 					$this->total_blogs .= ' ' . __( 'blogs', 'buddypress' );			
 				
-				$this->total_blogs = '<a href="' . $this->user_url . $bp['blogs']['slug'] . '" title="' . sprintf( __( "%s's blog list", 'buddypress' ), $this->fullname ) . '">' . $this->total_blogs . '</a>';
+				$this->total_blogs = '<a href="' . $this->user_url . $bp->blogs->slug . '" title="' . sprintf( __( "%s's blog list", 'buddypress' ), $this->fullname ) . '">' . $this->total_blogs . '</a>';
 			}
 		}
 		
@@ -114,7 +114,7 @@ class BP_Core_User {
 				else
 					$this->total_groups .= ' ' . __( 'groups', 'buddypress' );
 
-				$this->total_groups = '<a href="' . $this->user_url . $bp['groups']['slug'] . '" title="' . sprintf( __( "%s's group list", 'buddypress' ), $this->fullname ) . '">' . $this->total_groups . '</a>';
+				$this->total_groups = '<a href="' . $this->user_url . $bp->groups->slug . '" title="' . sprintf( __( "%s's group list", 'buddypress' ), $this->fullname ) . '">' . $this->total_groups . '</a>';
 			}
 		}
 	}
@@ -166,8 +166,8 @@ class BP_Core_User {
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
-		$total_users = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(um.user_id) FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$wpdb->base_prefix}users u ON u.ID = um.user_id WHERE u.spam = 0 AND u.deleted = 0 AND u.user_status = 0 AND u.ID != %d ORDER BY RAND() DESC", $bp['loggedin_userid'] ) );
-		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT um.user_id FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$wpdb->base_prefix}users u ON u.ID = um.user_id WHERE u.spam = 0 AND u.deleted = 0 AND u.user_status = 0 AND u.ID != %d ORDER BY RAND(){$pag_sql}", $bp['loggedin_userid'] ) );
+		$total_users = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(um.user_id) FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$wpdb->base_prefix}users u ON u.ID = um.user_id WHERE u.spam = 0 AND u.deleted = 0 AND u.user_status = 0 AND u.ID != %d ORDER BY RAND() DESC", $bp->loggedin_user->id ) );
+		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT um.user_id FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$wpdb->base_prefix}users u ON u.ID = um.user_id WHERE u.spam = 0 AND u.deleted = 0 AND u.user_status = 0 AND u.ID != %d ORDER BY RAND(){$pag_sql}", $bp->loggedin_user->id ) );
 		
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
@@ -180,7 +180,7 @@ class BP_Core_User {
 
 		$total_users = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(um.user_id) FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$wpdb->base_prefix}users u ON u.ID = um.user_id WHERE um.meta_key = 'last_activity' AND u.spam = 0 AND u.deleted = 0 AND u.user_status = 0 AND DATE_ADD( FROM_UNIXTIME(um.meta_value), INTERVAL 5 MINUTE ) >= NOW() ORDER BY FROM_UNIXTIME(um.meta_value) DESC" ) );
 		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT um.user_id FROM {$wpdb->base_prefix}usermeta um LEFT JOIN {$wpdb->base_prefix}users u ON u.ID = um.user_id WHERE um.meta_key = 'last_activity' AND u.spam = 0 AND u.deleted = 0 AND u.user_status = 0 AND DATE_ADD( FROM_UNIXTIME(um.meta_value), INTERVAL 5 MINUTE ) >= NOW() ORDER BY FROM_UNIXTIME(um.meta_value) DESC{$pag_sql}" ) );
-		
+
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
 	
@@ -198,8 +198,8 @@ class BP_Core_User {
 		
 		like_escape($letter);
 
-		$total_users = count( $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT u.ID user_id FROM {$wpdb->base_prefix}users u LEFT JOIN {$bp['profile']['table_name_data']} pd ON u.ID = pd.user_id LEFT JOIN {$bp['profile']['table_name_fields']} pf ON pd.field_id = pf.id WHERE u.spam = 0 AND u.deleted = 0 AND u.user_status = 0 AND pf.name = %s AND pd.value LIKE '$letter%%' ORDER BY pd.value ASC", BP_XPROFILE_FULLNAME_FIELD_NAME ) ) );
-		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT u.ID as user_id FROM {$wpdb->base_prefix}users u LEFT JOIN {$bp['profile']['table_name_data']} pd ON u.ID = pd.user_id LEFT JOIN {$bp['profile']['table_name_fields']} pf ON pd.field_id = pf.id WHERE u.spam = 0 AND u.deleted = 0 AND u.user_status = 0 AND pf.name = %s AND pd.value LIKE '$letter%%' ORDER BY pd.value ASC{$pag_sql}", BP_XPROFILE_FULLNAME_FIELD_NAME ) );
+		$total_users = count( $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT u.ID user_id FROM {$wpdb->base_prefix}users u LEFT JOIN $bp->profile->table_name_data pd ON u.ID = pd.user_id LEFT JOIN $bp->profile->table_name_fields pf ON pd.field_id = pf.id WHERE u.spam = 0 AND u.deleted = 0 AND u.user_status = 0 AND pf.name = %s AND pd.value LIKE '$letter%%' ORDER BY pd.value ASC", BP_XPROFILE_FULLNAME_FIELD_NAME ) ) );
+		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT u.ID as user_id FROM {$wpdb->base_prefix}users u LEFT JOIN $bp->profile->table_name_data pd ON u.ID = pd.user_id LEFT JOIN $bp->profile->table_name_fields pf ON pd.field_id = pf.id WHERE u.spam = 0 AND u.deleted = 0 AND u.user_status = 0 AND pf.name = %s AND pd.value LIKE '$letter%%' ORDER BY pd.value ASC{$pag_sql}", BP_XPROFILE_FULLNAME_FIELD_NAME ) );
 		
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
@@ -215,8 +215,8 @@ class BP_Core_User {
 		
 		like_escape($search_terms);	
 
-		$total_users = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(u.ID) as user_id FROM {$wpdb->base_prefix}users u LEFT JOIN {$bp['profile']['table_name_data']} pd ON u.ID = pd.user_id WHERE pd.value LIKE '%%$search_terms%%' ORDER BY pd.value ASC" ) );
-		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT u.ID as user_id FROM {$wpdb->base_prefix}users u LEFT JOIN {$bp['profile']['table_name_data']} pd ON u.ID = pd.user_id WHERE pd.value LIKE '%%$search_terms%%' ORDER BY pd.value ASC{$pag_sql}" ) );
+		$total_users = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(u.ID) as user_id FROM {$wpdb->base_prefix}users u LEFT JOIN $bp->profile->table_name_data pd ON u.ID = pd.user_id WHERE pd.value LIKE '%%$search_terms%%' ORDER BY pd.value ASC" ) );
+		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT u.ID as user_id FROM {$wpdb->base_prefix}users u LEFT JOIN $bp->profile->table_name_data pd ON u.ID = pd.user_id WHERE pd.value LIKE '%%$search_terms%%' ORDER BY pd.value ASC{$pag_sql}" ) );
 		
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
@@ -250,7 +250,7 @@ class BP_Core_Notification {
 	function populate() {
 		global $wpdb, $bp;
 		
-		if ( $notification = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp['core']['table_name_notifications'] . " WHERE id = %d", $this->id ) ) ) {
+		if ( $notification = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE id = %d", $this->id ) ) ) {
 			$this->item_id = $notification->item_id;
 			$this->secondary_item_id = $notification->secondary_item_id;
 			$this->user_id = $notification->user_id;
@@ -266,10 +266,10 @@ class BP_Core_Notification {
 		
 		if ( $this->id ) {
 			// Update
-			$sql = $wpdb->prepare( "UPDATE " . $bp['core']['table_name_notifications'] . " SET item_id = %d, secondary_item_id = %d, user_id = %d, component_name = %s, component_action = %d, date_notified = FROM_UNIXTIME(%d), is_new = %d ) WHERE id = %d", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new, $this->id );
+			$sql = $wpdb->prepare( "UPDATE {$bp->core->table_name_notifications} SET item_id = %d, secondary_item_id = %d, user_id = %d, component_name = %s, component_action = %d, date_notified = FROM_UNIXTIME(%d), is_new = %d ) WHERE id = %d", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new, $this->id );
 		} else {
 			// Save
-			$sql = $wpdb->prepare( "INSERT INTO " . $bp['core']['table_name_notifications'] . " ( item_id, secondary_item_id, user_id, component_name, component_action, date_notified, is_new ) VALUES ( %d, %d, %d, %s, %s, FROM_UNIXTIME(%d), %d )", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new );
+			$sql = $wpdb->prepare( "INSERT INTO {$bp->core->table_name_notifications} ( item_id, secondary_item_id, user_id, component_name, component_action, date_notified, is_new ) VALUES ( %d, %d, %d, %s, %s, FROM_UNIXTIME(%d), %d )", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new );
 		}
 
 		if ( !$result = $wpdb->query( $sql ) )
@@ -284,19 +284,19 @@ class BP_Core_Notification {
 	function check_access( $user_id, $notification_id ) {
 		global $wpdb, $bp;
 		
-		return $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM " . $bp['core']['table_name_notifications'] . " WHERE id = %d AND user_id = %d", $notification_id, $user_id ) );
+		return $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->core->table_name_notifications} WHERE id = %d AND user_id = %d", $notification_id, $user_id ) );
 	}
 	
 	function get_all_for_user( $user_id ) {
 		global $wpdb, $bp;
-		
- 		return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $bp['core']['table_name_notifications'] . " WHERE user_id = %d AND is_new = 1", $user_id ) );
+
+ 		return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE user_id = %d AND is_new = 1", $user_id ) );
 	}
 	
 	function delete_for_user_by_type( $user_id, $component_name, $component_action ) {
 		global $wpdb, $bp;
 		
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['core']['table_name_notifications'] . " WHERE user_id = %d AND component_name = %s AND component_action = %s", $user_id, $component_name, $component_action ) );
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE user_id = %d AND component_name = %s AND component_action = %s", $user_id, $component_name, $component_action ) );
 	}
 	
 	function delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id ) {
@@ -305,7 +305,7 @@ class BP_Core_Notification {
 		if ( $secondary_item_id )
 			$secondary_item_sql = $wpdb->prepare( " AND secondary_item_id = %d", $secondary_item_id );
 		
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['core']['table_name_notifications'] . " WHERE user_id = %d AND item_id = %d AND component_name = %s AND component_action = %s{$secondary_item_sql}", $user_id, $item_id, $component_name, $component_action ) );
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE user_id = %d AND item_id = %d AND component_name = %s AND component_action = %s{$secondary_item_sql}", $user_id, $item_id, $component_name, $component_action ) );
 	}
 	
 }	

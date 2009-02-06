@@ -48,13 +48,13 @@ function xprofile_install() {
 	if ( !empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 	
-	if ( get_site_option( 'bp-xprofile-base-group-name' ) == '' )
+	if ( '' == get_site_option( 'bp-xprofile-base-group-name' ) )
 		update_site_option( 'bp-xprofile-base-group-name', 'Base' );
 	
-	if ( get_site_option( 'bp-xprofile-fullname-field-name' ) == '' )
+	if ( '' == get_site_option( 'bp-xprofile-fullname-field-name' ) )
 		update_site_option( 'bp-xprofile-fullname-field-name', 'Full Name' );	
 	
-	$sql[] = "CREATE TABLE " . $bp['profile']['table_name_groups'] . " (
+	$sql[] = "CREATE TABLE {$bp->profile->table_name_groups} (
 			  id int(11) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			  name varchar(150) NOT NULL,
 			  description mediumtext NOT NULL,
@@ -62,7 +62,7 @@ function xprofile_install() {
 			  KEY can_delete (can_delete)
 	) {$charset_collate};";
 	
-	$sql[] = "CREATE TABLE " . $bp['profile']['table_name_fields'] . " (
+	$sql[] = "CREATE TABLE {$bp->profile->table_name_fields} (
 			  id int(11) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			  group_id int(11) unsigned NOT NULL,
 			  parent_id int(11) unsigned NOT NULL,
@@ -83,7 +83,7 @@ function xprofile_install() {
 			  KEY is_required (is_required)
 	) {$charset_collate};";
 	
-	$sql[] = "CREATE TABLE " . $bp['profile']['table_name_data'] . " (
+	$sql[] = "CREATE TABLE {$bp->profile->table_name_data} (
 			  id int(11) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			  field_id int(11) unsigned NOT NULL,
 			  user_id int(11) unsigned NOT NULL,
@@ -93,10 +93,10 @@ function xprofile_install() {
 			  KEY user_id (user_id)
 	) {$charset_collate};";
 	
-	if ( get_site_option( 'bp-xprofile-db-version' ) == '' ) {
-		$sql[] = "INSERT INTO ". $bp['profile']['table_name_groups'] . " VALUES ( 1, '" . get_site_option( 'bp-xprofile-base-group-name' ) . "', '', 0 );";
+	if ( '' == get_site_option( 'bp-xprofile-db-version' ) ) {
+		$sql[] = "INSERT INTO {$bp->profile->table_name_groups} VALUES ( 1, '" . get_site_option( 'bp-xprofile-base-group-name' ) . "', '', 0 );";
 	
-		$sql[] = "INSERT INTO ". $bp['profile']['table_name_fields'] . " ( 
+		$sql[] = "INSERT INTO {$bp->profile->table_name_fields} ( 
 					id, group_id, parent_id, type, name, description, is_required, field_order, option_order, order_by, is_public, can_delete
 				  ) VALUES (
 					1, 1, 0, 'textbox', '" . get_site_option( 'bp-xprofile-fullname-field-name' ) . "', '', 1, 1, 0, '', 1, 0
@@ -116,16 +116,16 @@ function xprofile_wire_install() {
 	if ( !empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 
-	$sql[] = "CREATE TABLE ". $bp['profile']['table_name_wire'] ." (
-	  		id int(11) NOT NULL AUTO_INCREMENT,
-			item_id int(11) NOT NULL,
-			user_id int(11) NOT NULL,
-			content longtext NOT NULL,
-			date_posted datetime NOT NULL,
-			PRIMARY KEY id (id),
-			KEY item_id (item_id),
-		    KEY user_id (user_id)
-	 	   ) {$charset_collate};";
+	$sql[] = "CREATE TABLE {$bp->profile->table_name_wire} (
+	  		   id int(11) NOT NULL AUTO_INCREMENT,
+			   item_id int(11) NOT NULL,
+			   user_id int(11) NOT NULL,
+			   content longtext NOT NULL,
+			   date_posted datetime NOT NULL,
+			   PRIMARY KEY id (id),
+			   KEY item_id (item_id),
+		       KEY user_id (user_id)
+	 	       ) {$charset_collate};";
 
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 
@@ -145,19 +145,17 @@ function xprofile_wire_install() {
 function xprofile_setup_globals() {
 	global $bp, $wpdb;
 	
-	$bp['profile'] = array(
-		'table_name_groups' => $wpdb->base_prefix . 'bp_xprofile_groups',
-		'table_name_fields' => $wpdb->base_prefix . 'bp_xprofile_fields',
-		'table_name_data' 	=> $wpdb->base_prefix . 'bp_xprofile_data',
-		'format_activity_function' => 'xprofile_format_activity',
-		'image_base' 		=> site_url( MUPLUGINDIR . '/bp-xprofile/images' ),
-		'slug'		 		=> BP_XPROFILE_SLUG
-	);
-	
-	$bp['version_numbers'][$bp['profile']['slug']] = BP_XPROFILE_VERSION;
+	$bp->profile->table_name_groups = $wpdb->base_prefix . 'bp_xprofile_groups';
+	$bp->profile->table_name_fields = $wpdb->base_prefix . 'bp_xprofile_fields';
+	$bp->profile->table_name_data = $wpdb->base_prefix . 'bp_xprofile_data';
+	$bp->profile->format_activity_function = 'xprofile_format_activity';
+	$bp->profile->image_base = site_url( MUPLUGINDIR . '/bp-xprofile/images' );
+	$bp->profile->slug = BP_XPROFILE_SLUG;
+
+	$bp->version_numbers->profile = BP_XPROFILE_VERSION;
 	
 	if ( function_exists('bp_wire_install') )
-		$bp['profile']['table_name_wire'] = $wpdb->base_prefix . 'bp_xprofile_wire';
+		$bp->profile->table_name_wire = $wpdb->base_prefix . 'bp_xprofile_wire';
 }
 add_action( 'wp', 'xprofile_setup_globals', 1 );	
 add_action( 'admin_menu', 'xprofile_setup_globals', 1 );
@@ -188,10 +186,10 @@ function xprofile_add_admin_menu() {
 	add_submenu_page( 'wpmu-admin.php', __("Profile Fields", 'buddypress'), __("Profile Fields", 'buddypress'), 1, "xprofile_settings", "xprofile_admin" );
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( ( $wpdb->get_var("SHOW TABLES LIKE '%" . $bp['profile']['table_name_groups'] . "%'") == false ) || ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )  )
+	if ( ( $wpdb->get_var("SHOW TABLES LIKE '%{$bp->profile->table_name_groups}%'") == false ) || ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )  )
 		xprofile_install();
 	
-	if ( ( function_exists('bp_wire_install') && $wpdb->get_var("SHOW TABLES LIKE '%" . $bp['profile']['table_name_wire'] . "%'") == false ) || ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )  )
+	if ( ( function_exists('bp_wire_install') && $wpdb->get_var("SHOW TABLES LIKE '%{$bp->profile->table_name_wire}%'") == false ) || ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )  )
 		xprofile_wire_install();
 }
 add_action( 'admin_menu', 'xprofile_add_admin_menu' );
@@ -213,22 +211,22 @@ function xprofile_setup_nav() {
 	global $bp;
 	
 	/* Add 'Profile' to the main navigation */
-	bp_core_add_nav_item( __('Profile', 'buddypress'), $bp['profile']['slug'] );
-	bp_core_add_nav_default( $bp['profile']['slug'], 'xprofile_screen_display_profile', 'public' );
+	bp_core_add_nav_item( __('Profile', 'buddypress'), $bp->profile->slug );
+	bp_core_add_nav_default( $bp->profile->slug, 'xprofile_screen_display_profile', 'public' );
 	
-	$profile_link = $bp['loggedin_domain'] . $bp['profile']['slug'] . '/';
+	$profile_link = $bp->loggedin_user->domain . $bp->profile->slug . '/';
 	
 	/* Add the subnav items to the profile */
-	bp_core_add_subnav_item( $bp['profile']['slug'], 'public', __('Public', 'buddypress'), $profile_link, 'xprofile_screen_display_profile' );
-	bp_core_add_subnav_item( $bp['profile']['slug'], 'edit', __('Edit Profile', 'buddypress'), $profile_link, 'xprofile_screen_edit_profile' );
-	bp_core_add_subnav_item( $bp['profile']['slug'], 'change-avatar', __('Change Avatar', 'buddypress'), $profile_link, 'xprofile_screen_change_avatar' );
+	bp_core_add_subnav_item( $bp->profile->slug, 'public', __('Public', 'buddypress'), $profile_link, 'xprofile_screen_display_profile' );
+	bp_core_add_subnav_item( $bp->profile->slug, 'edit', __('Edit Profile', 'buddypress'), $profile_link, 'xprofile_screen_edit_profile' );
+	bp_core_add_subnav_item( $bp->profile->slug, 'change-avatar', __('Change Avatar', 'buddypress'), $profile_link, 'xprofile_screen_change_avatar' );
 
-	if ( $bp['current_component'] == $bp['profile']['slug'] ) {
+	if ( $bp->current_component == $bp->profile->slug ) {
 		if ( bp_is_home() ) {
-			$bp['bp_options_title'] = __('My Profile', 'buddypress');
+			$bp->bp_options_title = __('My Profile', 'buddypress');
 		} else {
-			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
-			$bp['bp_options_title'] = $bp['current_fullname']; 
+			$bp->bp_options_avatar = bp_core_get_avatar( $bp->displayed_user->id, 1 );
+			$bp->bp_options_title = $bp->displayed_user->fullname; 
 		}
 	}
 }
@@ -253,7 +251,7 @@ function xprofile_screen_display_profile() {
 	// If this is a first visit to a new friends profile, delete the friend accepted notifications for the
 	// logged in user. $is_new_friend is set in bp-core/bp-core-catchuri.php in bp_core_set_uri_globals()
 	if ( $is_new_friend )
-		bp_core_delete_notifications_for_user_by_item_id( $bp['loggedin_userid'], $bp['current_userid'], 'friends', 'friendship_accepted' );
+		bp_core_delete_notifications_for_user_by_item_id( $bp->loggedin_user->id, $bp->displayed_user->id, 'friends', 'friendship_accepted' );
 	
 	do_action( 'xprofile_screen_display_profile', $is_new_friend );
 	bp_core_load_template( 'profile/index' );
@@ -306,6 +304,7 @@ function xprofile_screen_change_avatar() {
  */
 function xprofile_screen_notification_settings() { 
 	global $current_user; ?>
+	<?php if ( function_exists('bp_wire_install') ) { ?>
 	<table class="notification-settings" id="profile-notification-settings">
 		<tr>
 			<th class="icon"></th>
@@ -313,17 +312,17 @@ function xprofile_screen_notification_settings() {
 			<th class="yes"><?php _e( 'Yes', 'buddypress' ) ?></th>
 			<th class="no"><?php _e( 'No', 'buddypress' )?></th>
 		</tr>
-		<?php if ( function_exists('bp_wire_install') ) { ?>
+
 		<tr>
 			<td></td>
 			<td><?php _e( 'A member posts on your wire', 'buddypress' ) ?></td>
 			<td class="yes"><input type="radio" name="notifications[notification_profile_wire_post]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_profile_wire_post' ) || get_usermeta( $current_user->id, 'notification_profile_wire_post' ) == 'yes' ) { ?>checked="checked" <?php } ?>/></td>
 			<td class="no"><input type="radio" name="notifications[notification_profile_wire_post]" value="no" <?php if ( get_usermeta( $current_user->id, 'notification_profile_wire_post' ) == 'no' ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
-		<?php } ?>
 		
 		<?php do_action( 'xprofile_screen_notification_settings' ) ?>
 	</table>
+	<?php } ?>
 <?php	
 }
 add_action( 'bp_notification_settings', 'xprofile_screen_notification_settings', 1 );
@@ -345,7 +344,7 @@ add_action( 'bp_notification_settings', 'xprofile_screen_notification_settings',
 function xprofile_action_delete_avatar() {
 	global $bp;
 	
-	if ( 'delete-avatar' != $bp['current_action'] )
+	if ( 'delete-avatar' != $bp->current_action )
 		return false;
 	
 	if ( bp_is_home() ) {
@@ -370,13 +369,13 @@ add_action( 'wp', 'xprofile_action_delete_avatar', 3 );
 function xprofile_action_new_wire_post() {
 	global $bp;
 	
-	if ( $bp['current_component'] != $bp['wire']['slug'] )
+	if ( $bp->current_component != $bp->wire->slug )
 		return false;
 	
-	if ( 'post' != $bp['current_action'] )
+	if ( 'post' != $bp->current_action )
 		return false;
 	
-	if ( !$wire_post_id = bp_wire_new_post( $bp['current_userid'], $_POST['wire-post-textarea'], $bp['profile']['slug'], false, $bp['profile']['table_name_wire'] ) ) {
+	if ( !$wire_post_id = bp_wire_new_post( $bp->displayed_user->id, $_POST['wire-post-textarea'], $bp->profile->slug, false, $bp->profile->table_name_wire ) ) {
 		bp_core_add_message( __('Wire message could not be posted. Please try again.', 'buddypress'), 'error' );
 	} else {
 		bp_core_add_message( __('Wire message successfully posted.', 'buddypress' ) );
@@ -384,10 +383,10 @@ function xprofile_action_new_wire_post() {
 		do_action( 'xprofile_new_wire_post', $wire_post_id );	
 	}
 
-	if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
-		bp_core_redirect( $bp['current_domain'] );
+	if ( !strpos( $_SERVER['HTTP_REFERER'], $bp->wire->slug ) ) {
+		bp_core_redirect( $bp->displayed_user->domain );
 	} else {
-		bp_core_redirect( $bp['current_domain'] . $bp['wire']['slug'] );
+		bp_core_redirect( $bp->displayed_user->domain . $bp->wire->slug );
 	}
 }
 add_action( 'wp', 'xprofile_action_new_wire_post', 3 );
@@ -407,15 +406,15 @@ add_action( 'wp', 'xprofile_action_new_wire_post', 3 );
 function xprofile_action_delete_wire_post() {
 	global $bp;
 	
-	if ( $bp['current_component'] != $bp['wire']['slug'] )
+	if ( $bp->current_component != $bp->wire->slug )
 		return false;
 	
-	if ( $bp['current_action'] != 'delete' )
+	if ( $bp->current_action != 'delete' )
 		return false;
 			
-	$wire_post_id = $bp['action_variables'][0];
+	$wire_post_id = $bp->action_variables[0];
 	
-	if ( bp_wire_delete_post( $wire_post_id, $bp['profile']['slug'], $bp['profile']['table_name_wire'] ) ) {
+	if ( bp_wire_delete_post( $wire_post_id, $bp->profile->slug, $bp->profile->table_name_wire ) ) {
 		bp_core_add_message( __('Wire message successfully deleted.', 'buddypress') );
 
 		do_action( 'xprofile_delete_wire_post', $wire_post_id );						
@@ -423,10 +422,10 @@ function xprofile_action_delete_wire_post() {
 		bp_core_add_message( __('Wire post could not be deleted, please try again.', 'buddypress'), 'error' );
 	}
 	
-	if ( !strpos( $_SERVER['HTTP_REFERER'], $bp['wire']['slug'] ) ) {
-		bp_core_redirect( $bp['current_domain'] );
+	if ( !strpos( $_SERVER['HTTP_REFERER'], $bp->wire->slug ) ) {
+		bp_core_redirect( $bp->displayed_user->domain );
 	} else {
-		bp_core_redirect( $bp['current_domain']. $bp['wire']['slug'] );
+		bp_core_redirect( $bp->displayed_user->domain. $bp->wire->slug );
 	}
 }
 add_action( 'wp', 'xprofile_action_delete_wire_post', 3 );
@@ -498,13 +497,13 @@ function xprofile_format_activity( $item_id, $user_id, $action, $secondary_item_
 	switch( $action ) {
 		case 'new_wire_post':
 			if ( class_exists('BP_Wire_Post') ) {
-				$wire_post = new BP_Wire_Post( $bp['profile']['table_name_wire'], $item_id );
+				$wire_post = new BP_Wire_Post( $bp->profile->table_name_wire, $item_id );
 			}
 			
 			if ( !$wire_post )
 				return false;
 			
-			if ( ( $wire_post->item_id == $bp['loggedin_userid'] && $wire_post->user_id == $bp['loggedin_userid'] ) || ( $wire_post->item_id == $bp['current_userid'] && $wire_post->user_id == $bp['current_userid'] ) ) {
+			if ( ( $wire_post->item_id == $bp->loggedin_user->id && $wire_post->user_id == $bp->loggedin_user->id ) || ( $wire_post->item_id == $bp->displayed_user->id && $wire_post->user_id == $bp->displayed_user->id ) ) {
 				
 				$from_user_link = bp_core_get_userlink($wire_post->user_id);
 				$to_user_link = false;
@@ -512,7 +511,7 @@ function xprofile_format_activity( $item_id, $user_id, $action, $secondary_item_
 				$content = sprintf( __('%s wrote on their own wire', 'buddypress'), $from_user_link ) . ': <span class="time-since">%s</span>';				
 				$return_values['primary_link'] = bp_core_get_userlink( $wire_post->user_id, false, true );
 			
-			} else if ( ( $wire_post->item_id != $bp['loggedin_userid'] && $wire_post->user_id == $bp['loggedin_userid'] ) || ( $wire_post->item_id != $bp['current_userid'] && $wire_post->user_id == $bp['current_userid'] ) ) {
+			} else if ( ( $wire_post->item_id != $bp->loggedin_user->id && $wire_post->user_id == $bp->loggedin_user->id ) || ( $wire_post->item_id != $bp->displayed_user->id && $wire_post->user_id == $bp->displayed_user->id ) ) {
 			
 				$from_user_link = bp_core_get_userlink($wire_post->user_id);
 				$to_user_link = bp_core_get_userlink( $wire_post->item_id, false, false, true, true );
@@ -545,7 +544,7 @@ function xprofile_format_activity( $item_id, $user_id, $action, $secondary_item_
 			
 			return array( 
 				'primary_link' => bp_core_get_userlink( $user_id, false, true ),
-				'content' => apply_filters( 'xprofile_updated_profile_activity', sprintf( __('%s updated the "%s" information on their profile', 'buddypress'), $user_link, '<a href="' . $bp['current_domain'] . $bp['profile']['slug'] . '">' . $profile_group->name . '</a>' ) . ' <span class="time-since">%s</span>', $user_link, $profile_group->name )
+				'content' => apply_filters( 'xprofile_updated_profile_activity', sprintf( __('%s updated the "%s" information on their profile', 'buddypress'), $user_link, '<a href="' . $bp->displayed_user->domain . $bp->profile->slug . '">' . $profile_group->name . '</a>' ) . ' <span class="time-since">%s</span>', $user_link, $profile_group->name )
 			);
 		break;
 	}
@@ -573,10 +572,10 @@ function xprofile_format_notifications( $action, $item_id, $secondary_item_id, $
 
 	if ( $action == 'new_wire_post') {
 		if ( (int)$total_items > 1 ) {
-			return apply_filters( 'bp_xprofile_multiple_new_wire_post_notification', '<a href="' . $bp['loggedin_domain'] . $bp['wire']['slug'] . '" title="Wire">' . sprintf( __('You have %d new posts on your wire'), (int)$total_items ) . '</a>', $total_items );		
+			return apply_filters( 'bp_xprofile_multiple_new_wire_post_notification', '<a href="' . $bp->loggedin_user->domain . $bp->wire->slug . '" title="Wire">' . sprintf( __('You have %d new posts on your wire'), (int)$total_items ) . '</a>', $total_items );		
 		} else {
 			$user_fullname = bp_core_global_user_fullname( $item_id );
-			return apply_filters( 'bp_xprofile_single_new_wire_post_notification', '<a href="' . $bp['loggedin_domain'] . $bp['wire']['slug'] . '" title="Wire">' . sprintf( __('%s posted on your wire'), $user_fullname ) . '</a>', $user_fullname );
+			return apply_filters( 'bp_xprofile_single_new_wire_post_notification', '<a href="' . $bp->loggedin_user->domain . $bp->wire->slug . '" title="Wire">' . sprintf( __('%s posted on your wire'), $user_fullname ) . '</a>', $user_fullname );
 		}
 	}
 	
@@ -646,7 +645,7 @@ function xprofile_edit( $group_id, $action ) {
 						
 						// If the field is required and has been left blank then we need to add a callback error.
 						if ( ( $field->is_required && !isset($current_field) ) ||
-						     ( $field->is_required && $current_field == '' ) ) {
+						     ( $field->is_required && empty( $current_field ) ) ) {
 							
 							// Add the error message to the errors array
 							$field->message = sprintf( __('%s cannot be left blank.', 'buddypress'), $field->name );
@@ -654,7 +653,7 @@ function xprofile_edit( $group_id, $action ) {
 						
 						// If the field is not required and the field has been left blank, delete any values for the
 						// field from the database.
-						} else if ( !$field->is_required && ( $current_field == '' || is_null($current_field) ) ) {
+						} else if ( !$field->is_required && ( empty( $current_field ) || is_null($current_field) ) ) {
 							
 							// Create a new profile data object for the logged in user based on field ID.								
 							$profile_data = new BP_Xprofile_ProfileData( $group->fields[$j]->id );
@@ -794,7 +793,7 @@ function xprofile_get_random_profile_data( $user_id, $exclude_fullname = true ) 
 	$field_data = BP_XProfile_ProfileData::get_random( $user_id, $exclude_fullname );
 	$field_data[0]->value = xprofile_format_profile_field( $field_data[0]->type, $field_data[0]->value );
 	
-	if ( !$field_data[0]->value || $field_data[0]->value == '' )
+	if ( !$field_data[0]->value || empty( $field_data[0]->value ) )
 		return false;
 	
 	return apply_filters( 'xprofile_get_random_profile_data', $field_data );
@@ -812,7 +811,7 @@ function xprofile_get_random_profile_data( $user_id, $exclude_fullname = true ) 
  * @return $field_value The formatted value
  */
 function xprofile_format_profile_field( $field_type, $field_value ) {
-	if ( !isset($field_value) || $field_value == '' )
+	if ( !isset($field_value) || empty( $field_value ) )
 		return false;
 	
 	if ( $field_type == "datebox" ) {

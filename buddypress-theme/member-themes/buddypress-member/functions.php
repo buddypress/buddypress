@@ -10,22 +10,22 @@ if ( function_exists('register_sidebar') )
 function bp_get_options_class() {
 	global $bp, $is_single_group;
 
-	if ( !bp_is_home() && $bp['current_component'] == 'profile' || 
-						  $bp['current_component'] == 'blog' || 
-						  $bp['current_component'] == 'friends' || 
-						  $bp['current_component'] == 'blogs' ) {
-		if ( $bp['current_userid'] != $bp['loggedin_userid'] )
+	if ( !bp_is_home() && $bp->current_component == 'profile' || 
+						  $bp->current_component == 'blog' || 
+						  $bp->current_component == 'friends' || 
+						  $bp->current_component == 'blogs' ) {
+		if ( $bp->displayed_user->id != $bp->loggedin_user->id )
 			echo ' class="arrow"';
 	}
 	
-	if ( ( $bp['current_component'] == 'groups' && $is_single_group ) || ( $bp['current_component'] == 'groups' && !bp_is_home() ) )
+	if ( ( $bp->current_component == 'groups' && $is_single_group ) || ( $bp->current_component == 'groups' && !bp_is_home() ) )
 		echo ' class="arrow"';	
 }
 
 function bp_has_icons() {
 	global $bp;
 
-	if ( ($bp['current_userid'] != $bp['loggedin_userid']) )
+	if ( ($bp->displayed_user->id != $bp->loggedin_user->id) )
 		echo ' class="icons"';
 }
 

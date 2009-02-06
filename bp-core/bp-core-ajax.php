@@ -91,7 +91,7 @@ function bp_core_ajax_directory_members() {
 		?>
 		<div id="member-dir-count" class="pag-count">
 			<?php echo sprintf( __( 'Viewing member %d to %d (%d total active members)', 'buddypress' ), $from_num, $to_num, $users['total'] ); ?> &nbsp;
-			<img id="ajax-loader-members" src="<?php echo $bp['core']['image_base'] ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" />
+			<img id="ajax-loader-members" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" />
 		</div>
 	
 		<div class="pagination-links" id="member-dir-pag">

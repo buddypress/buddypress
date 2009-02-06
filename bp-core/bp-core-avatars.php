@@ -34,7 +34,7 @@ function bp_core_get_avatar( $user, $version = 1, $width = null, $height = null,
 		$height = constant('CORE_AVATAR_V' . $version . '_H');		
 	
 	$avatar_file = get_usermeta( $user, "bp_core_avatar_v$version" );
-	$url = $bp['root_domain'] . '/' . $avatar_file;
+	$url = $bp->root_domain . '/' . $avatar_file;
 	
 	if ( strlen($avatar_file) ) {
 		if ( $no_tag )
@@ -45,7 +45,7 @@ function bp_core_get_avatar( $user, $version = 1, $width = null, $height = null,
 		$ud = get_userdata($user);
 		$grav_option = get_site_option('user-avatar-default');
 		
-		if ( $grav_option == '' ) {
+		if ( empty( $grav_option ) ) {
 			$default_grav = 'wavatar';
 		} else if ( $grav_option == 'mystery' ) {
 			$default_grav = site_url( MUPLUGINDIR . '/bp-core/images/mystery-man.jpg');
@@ -225,7 +225,7 @@ function bp_core_avatar_upload_dir( $upload, $user_id = false ) {
 	global $bp;
 
 	if ( !$user_id )
-		$user_id = $bp['loggedin_userid'];
+		$user_id = $bp->loggedin_user->id;
 
 	$path  = get_blog_option( 1, 'upload_path' );
 	$newdir = path_join( ABSPATH, $path );
@@ -270,7 +270,7 @@ function bp_core_render_avatar_cropper( $original, $new, $action, $user_id = nul
 	$size = getimagesize($new);
 	
 	if ( !$user_id )
-		$user_id = $bp['loggedin_userid'];
+		$user_id = $bp->loggedin_user->id;
 
 	$src = str_replace( array(ABSPATH), array(site_url() . '/'), $new );
 
@@ -476,7 +476,7 @@ function bp_core_delete_avatar() {
 function bp_core_ap_die( $msg ) {
 	global $bp;
 	echo '<p><strong>' . $msg . '</strong></p>';
-	echo '<p><a href="' . $bp['loggedin_domain'] . $bp['profile']['slug'] . '/change-avatar">' . __('Try Again', 'buddypress') . '</a></p>';
+	echo '<p><a href="' . $bp->loggedin_user->domain . $bp->profile->slug . '/change-avatar">' . __('Try Again', 'buddypress') . '</a></p>';
 	echo '</div>';
 	exit;
 }

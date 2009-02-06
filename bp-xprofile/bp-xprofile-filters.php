@@ -16,7 +16,7 @@ add_filter( 'bp_the_profile_field_value', 'xprofile_filter_link_profile_data', 2
 /* Custom BuddyPress filters */
 
 function xprofile_filter_format_field_value( $field_value, $field_type ) {
-	if ( !isset($field_value) || $field_value == '' )
+	if ( !isset($field_value) || empty( $field_value ) )
 		return false;
 
 	if ( $field_type == 'datebox' ) {

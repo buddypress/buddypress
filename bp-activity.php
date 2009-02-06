@@ -26,13 +26,13 @@ include_once( 'bp-activity/bp-activity-filters.php' );
 function bp_activity_user_install() {
 	global $wpdb, $bp;
 	
-	if ( !$bp['current_userid'] )
+	if ( !$bp->displayed_user->id )
 		return false;
 	
 	if ( !empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 	
-	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_current_user'] ." (
+	$sql[] = "CREATE TABLE ". $bp->activity->table_name_current_user ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  		item_id int(11) NOT NULL,
 				secondary_item_id int(11) NOT NULL,
@@ -48,7 +48,7 @@ function bp_activity_user_install() {
 				KEY component_name (component_name)
 		 	   ) {$charset_collate};";
 
-	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_current_user_cached'] ." (
+	$sql[] = "CREATE TABLE ". $bp->activity->table_name_current_user_cached ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				item_id int(11) NOT NULL,
 				secondary_item_id int(11) NOT NULL,
@@ -66,7 +66,7 @@ function bp_activity_user_install() {
 				KEY component_name (component_name)
 		 	   ) {$charset_collate};";
 	
-	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_current_user_friends_cached'] ." (
+	$sql[] = "CREATE TABLE ". $bp->activity->table_name_current_user_friends_cached ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id int(11) NOT NULL,
 		  		content longtext NOT NULL,
@@ -84,7 +84,7 @@ function bp_activity_user_install() {
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
 	
-	update_usermeta( $bp['current_userid'], 'bp-activity-db-version', BP_ACTIVITY_DB_VERSION );
+	update_usermeta( $bp->displayed_user->id, 'bp-activity-db-version', BP_ACTIVITY_DB_VERSION );
 }
 
 function bp_activity_sitewide_install() {
@@ -93,7 +93,7 @@ function bp_activity_sitewide_install() {
 	if ( !empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 	
-	$sql[] = "CREATE TABLE ". $bp['activity']['table_name_sitewide'] ." (
+	$sql[] = "CREATE TABLE ". $bp->activity->table_name_sitewide ." (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id int(11) NOT NULL,
 				item_id int(11) NOT NULL,
@@ -116,7 +116,7 @@ function bp_activity_sitewide_install() {
 	
 	// dbDelta won't change character sets, so we need to do this seperately.
 	// This will only be in here pre v1.0
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp['activity']['table_name_sitewide'] . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp->activity->table_name_sitewide . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
 
 	update_site_option( 'bp-activity-db-version', BP_ACTIVITY_DB_VERSION );
 }
@@ -131,33 +131,31 @@ function bp_activity_sitewide_install() {
 function bp_activity_setup_globals() {
 	global $bp, $wpdb, $current_blog;
 
-	$bp['activity'] = array(
-		'table_name_loggedin_user' => $wpdb->base_prefix . 'user_' . $bp['loggedin_userid'] . '_activity',
-		'table_name_loggedin_user_cached' => $wpdb->base_prefix . 'user_' . $bp['loggedin_userid'] . '_activity_cached',
-		
-		'table_name_current_user' => $wpdb->base_prefix . 'user_' . $bp['current_userid'] . '_activity',
-		'table_name_current_user_cached' => $wpdb->base_prefix . 'user_' . $bp['current_userid'] . '_activity_cached',
-		
-		'table_name_loggedin_user_friends_cached' => $wpdb->base_prefix . 'user_' . $bp['loggedin_userid'] . '_friends_activity_cached',
-		'table_name_current_user_friends_cached' => $wpdb->base_prefix . 'user_' . $bp['current_userid'] . '_friends_activity_cached',
-		
-		'table_name_sitewide' => $wpdb->base_prefix . 'bp_activity_sitewide',
-		
-		'image_base' => site_url( MUPLUGINDIR . '/bp-activity/images' ),
-		'slug'		 => BP_ACTIVITY_SLUG
-	);
+	$bp->activity->table_name_loggedin_user = $wpdb->base_prefix . 'user_' . $bp->loggedin_user->id . '_activity';
+	$bp->activity->table_name_loggedin_user_cached = $wpdb->base_prefix . 'user_' . $bp->loggedin_user->id . '_activity_cached';
 	
-	$bp['version_numbers'][$bp['activity']['slug']] = BP_ACTIVITY_VERSION;
+	$bp->activity->table_name_current_user = $wpdb->base_prefix . 'user_' . $bp->displayed_user->id . '_activity';
+	$bp->activity->table_name_current_user_cached = $wpdb->base_prefix . 'user_' . $bp->displayed_user->id . '_activity_cached';
+	
+	$bp->activity->table_name_loggedin_user_friends_cached = $wpdb->base_prefix . 'user_' . $bp->loggedin_user->id . '_friends_activity_cached';
+	$bp->activity->table_name_current_user_friends_cached = $wpdb->base_prefix . 'user_' . $bp->displayed_user->id . '_friends_activity_cached';
+	
+	$bp->activity->table_name_sitewide = $wpdb->base_prefix . 'bp_activity_sitewide';
+	
+	$bp->activity->image_base = site_url( MUPLUGINDIR . '/bp-activity/images' );
+	$bp->activity->slug = BP_ACTIVITY_SLUG;
+	
+	$bp->version_numbers->activity = BP_ACTIVITY_VERSION;
 
-	if ( $bp['current_userid'] ) {
+	if ( $bp->displayed_user->id ) {
 		/* Check to see if the current user has their activity table set up. If not, set them up. */
-		if ( !$wpdb->get_var("SHOW TABLES LIKE '%" . $bp['activity']['table_name_current_user'] . "%'") || get_usermeta( $bp['current_userid'], 'bp-activity-db-version' ) < BP_ACTIVITY_VERSION  )
+		if ( !$wpdb->get_var("SHOW TABLES LIKE '%" . $bp->activity->table_name_current_user . "%'") || get_usermeta( $bp->displayed_user->id, 'bp-activity-db-version' ) < BP_ACTIVITY_VERSION  )
 			bp_activity_user_install();
 	}
 	
 	if ( is_site_admin() && $current_blog->blog_id == 1 ) {
 		/* Check to see if the site wide activity table is set up. */
-		if ( !$wpdb->get_var("SHOW TABLES LIKE '%" . $bp['activity']['table_name_sitewide'] . "%'") || get_site_option( 'bp-activity-db-version' ) < BP_ACTIVITY_VERSION  )
+		if ( !$wpdb->get_var("SHOW TABLES LIKE '%" . $bp->activity->table_name_sitewide . "%'") || get_site_option( 'bp-activity-db-version' ) < BP_ACTIVITY_VERSION  )
 			bp_activity_sitewide_install();
 	}
 }
@@ -175,21 +173,21 @@ function bp_activity_setup_nav() {
 	global $bp;
 	
 	/* Add 'Activity' to the main navigation */
-	bp_core_add_nav_item( __('Activity', 'buddypress'), $bp['activity']['slug'] );
-	bp_core_add_nav_default( $bp['activity']['slug'], 'bp_activity_screen_my_activity', 'just-me' );
+	bp_core_add_nav_item( __('Activity', 'buddypress'), $bp->activity->slug );
+	bp_core_add_nav_default( $bp->activity->slug, 'bp_activity_screen_my_activity', 'just-me' );
 		
-	$activity_link = $bp['loggedin_domain'] . $bp['activity']['slug'] . '/';
+	$activity_link = $bp->loggedin_user->domain . $bp->activity->slug . '/';
 	
 	/* Add the subnav items to the activity nav item */
-	bp_core_add_subnav_item( $bp['activity']['slug'], 'just-me', __('Just Me', 'buddypress'), $activity_link, 'bp_activity_screen_my_activity' );
-	bp_core_add_subnav_item( $bp['activity']['slug'], 'my-friends', __('My Friends', 'buddypress'), $activity_link, 'bp_activity_screen_friends_activity', 'activity-my-friends', bp_is_home() );
+	bp_core_add_subnav_item( $bp->activity->slug, 'just-me', __('Just Me', 'buddypress'), $activity_link, 'bp_activity_screen_my_activity' );
+	bp_core_add_subnav_item( $bp->activity->slug, 'my-friends', __('My Friends', 'buddypress'), $activity_link, 'bp_activity_screen_friends_activity', 'activity-my-friends', bp_is_home() );
 	
-	if ( $bp['current_component'] == $bp['activity']['slug'] ) {
+	if ( $bp->current_component == $bp->activity->slug ) {
 		if ( bp_is_home() ) {
-			$bp['bp_options_title'] = __('My Activity', 'buddypress');
+			$bp->bp_options_title = __( 'My Activity', 'buddypress' );
 		} else {
-			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
-			$bp['bp_options_title'] = $bp['current_fullname']; 
+			$bp->bp_options_avatar = bp_core_get_avatar( $bp->displayed_user->id, 1 );
+			$bp->bp_options_title = $bp->displayed_user->fullname; 
 		}
 	}
 }
@@ -214,7 +212,7 @@ function bp_activity_record( $item_id, $component_name, $component_action, $is_p
 	global $bp, $wpdb;
 	
 	if ( !$user_id )
-		$user_id = $bp['loggedin_userid'];
+		$user_id = $bp->loggedin_user->id;
 
 	$recorded_time = time();
 	
@@ -254,7 +252,7 @@ function bp_activity_record( $item_id, $component_name, $component_action, $is_p
 function bp_activity_action_sitewide_feed() {
 	global $bp;
 
-	if ( $bp['current_component'] != $bp['activity']['slug'] || $bp['current_action'] != 'feed' || $bp['current_userid'] )
+	if ( $bp->current_component != $bp->activity->slug || $bp->current_action != 'feed' || $bp->displayed_user->id )
 		return false;
 
 	include_once( 'bp-activity/feeds/bp-activity-sitewide-feed.php' );
@@ -265,7 +263,7 @@ add_action( 'wp', 'bp_activity_action_sitewide_feed', 3 );
 function bp_activity_action_personal_feed() {
 	global $bp;	
 
-	if ( $bp['current_component'] != $bp['activity']['slug'] || !$bp['current_userid'] || $bp['current_action'] != 'feed' )
+	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != 'feed' )
 		return false;
 
 	include_once( 'bp-activity/feeds/bp-activity-personal-feed.php' );
@@ -276,7 +274,7 @@ add_action( 'wp', 'bp_activity_action_personal_feed', 3 );
 function bp_activity_action_friends_feed() {
 	global $bp;
 
-	if ( $bp['current_component'] != $bp['activity']['slug'] || !$bp['current_userid'] || $bp['current_action'] != 'my-friends' || $bp['action_variables'][0] != 'feed' )
+	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != 'my-friends' || $bp->action_variables[0] != 'feed' )
 		return false;
 	
 	include_once( 'bp-activity/feeds/bp-activity-friends-feed.php' );

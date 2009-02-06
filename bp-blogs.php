@@ -30,7 +30,7 @@ function bp_blogs_install() {
 	if ( !empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 	
-	$sql[] = "CREATE TABLE ". $bp['blogs']['table_name'] ." (
+	$sql[] = "CREATE TABLE {$bp->blogs->table_name} (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id int(11) NOT NULL,
 				blog_id int(11) NOT NULL,
@@ -38,7 +38,7 @@ function bp_blogs_install() {
 				KEY blog_id (blog_id)
 			 ) {$charset_collate};";
 
-	$sql[] = "CREATE TABLE ". $bp['blogs']['table_name_blog_posts'] ." (
+	$sql[] = "CREATE TABLE {$bp->blogs->table_name_blog_posts} (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id int(11) NOT NULL,
 				blog_id int(11) NOT NULL,
@@ -49,7 +49,7 @@ function bp_blogs_install() {
 				KEY post_id (post_id)
 			 ) {$charset_collate};";
 
-	$sql[] = "CREATE TABLE ". $bp['blogs']['table_name_blog_comments'] ." (
+	$sql[] = "CREATE TABLE {$bp->blogs->table_name_blog_comments} (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id int(11) NOT NULL,
 				blog_id int(11) NOT NULL,
@@ -62,7 +62,7 @@ function bp_blogs_install() {
 				KEY comment_post_id (comment_post_id)
 			 ) {$charset_collate};";
 	
-	$sql[] = "CREATE TABLE ". $bp['blogs']['table_name_blogmeta'] ." (
+	$sql[] = "CREATE TABLE {$bp->blogs->table_name_blogmeta} (
 			id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			blog_id int(11) NOT NULL,
 			meta_key varchar(255) DEFAULT NULL,
@@ -86,7 +86,7 @@ function bp_blogs_install() {
 		
 		// Import blog titles and descriptions into the blogmeta table 	
 		if ( get_site_option( 'bp-blogs-version' ) <= '0.1.5' ) {
-			$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM " . $bp['blogs']['table_name'] ) );
+			$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM " . $bp->blogs->table_name ) );
 
 			for ( $i = 0; $i < count($blog_ids); $i++ ) {
 				$name = get_blog_option( $blog_ids[$i], 'blogname' );
@@ -109,7 +109,7 @@ function bp_blogs_check_installed() {
 	
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( $wpdb->get_var("SHOW TABLES LIKE '%" . $bp['blogs']['table_name'] . "%'") == false ) || ( get_site_option('bp-blogs-db-version') < BP_BLOGS_DB_VERSION )  )
+		if ( ( $wpdb->get_var("SHOW TABLES LIKE '%" . $bp->blogs->table_name . "%'") == false ) || ( get_site_option('bp-blogs-db-version') < BP_BLOGS_DB_VERSION )  )
 			bp_blogs_install();
 	}
 }
@@ -126,20 +126,15 @@ add_action( 'admin_menu', 'bp_blogs_check_installed' );
 function bp_blogs_setup_globals() {
 	global $bp, $wpdb;
 
-	$bp['blogs'] = array(
-		'table_name' => $wpdb->base_prefix . 'bp_user_blogs',
-		'table_name_blog_posts' => $wpdb->base_prefix . 'bp_user_blogs_posts',
-		'table_name_blog_comments' => $wpdb->base_prefix . 'bp_user_blogs_comments',
-		'table_name_blogmeta' => $wpdb->base_prefix . 'bp_user_blogs_blogmeta',
-		'format_activity_function' => 'bp_blogs_format_activity',
-		'image_base' => site_url( MUPLUGINDIR . '/bp-groups/images' ),
-		'slug'		 => BP_BLOGS_SLUG
-	);
-	
-	$bp['version_numbers'][$bp['blogs']['slug']] = BP_BLOGS_VERSION;
-	
-	/* Register 'groups' as a root component */
-	bp_core_add_root_component( $bp['blogs']['slug'] );
+	$bp->blogs->table_name = $wpdb->base_prefix . 'bp_user_blogs';
+	$bp->blogs->table_name_blog_posts = $wpdb->base_prefix . 'bp_user_blogs_posts';
+	$bp->blogs->table_name_blog_comments = $wpdb->base_prefix . 'bp_user_blogs_comments';
+	$bp->blogs->table_name_blogmeta = $wpdb->base_prefix . 'bp_user_blogs_blogmeta';
+	$bp->blogs->format_activity_function = 'bp_blogs_format_activity';
+	$bp->blogs->image_base = site_url( MUPLUGINDIR . '/bp-groups/images' );
+	$bp->blogs->slug = BP_BLOGS_SLUG;
+
+	$bp->version_numbers->blogs = BP_BLOGS_VERSION;
 }
 add_action( 'wp', 'bp_blogs_setup_globals', 1 );	
 add_action( 'admin_menu', 'bp_blogs_setup_globals', 1 );
@@ -154,9 +149,6 @@ add_action( 'plugins_loaded', 'bp_blogs_setup_root_component' );
  * bp_blogs_setup_nav()
  *
  * Adds "Blog" to the navigation arrays for the current and logged in user.
- * $bp['bp_nav'] represents the main component navigation 
- * $bp['bp_users_nav'] represents the sub navigation when viewing a users
- * profile other than that of the current logged in user.
  * 
  * @package BuddyPress Blogs
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
@@ -166,29 +158,29 @@ function bp_blogs_setup_nav() {
 	global $bp;
 	
 	/* Add 'Blogs' to the main navigation */
-	bp_core_add_nav_item( __('Blogs', 'buddypress'), $bp['blogs']['slug'] );
+	bp_core_add_nav_item( __( 'Blogs', 'buddypress' ), $bp->blogs->slug );
 
-	if ( $bp['current_userid'] )
-		bp_core_add_nav_default( $bp['blogs']['slug'], 'bp_blogs_screen_my_blogs', 'my-blogs' );
+	if ( $bp->displayed_user->id )
+		bp_core_add_nav_default( $bp->blogs->slug, 'bp_blogs_screen_my_blogs', 'my-blogs' );
 	
-	$blogs_link = $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/';
+	$blogs_link = $bp->loggedin_user->domain . $bp->blogs->slug . '/';
 	
 	/* Add the subnav items to the blogs nav item */
-	bp_core_add_subnav_item( $bp['blogs']['slug'], 'my-blogs', __('My Blogs', 'buddypress'), $blogs_link, 'bp_blogs_screen_my_blogs', 'my-blogs-list' );
-	bp_core_add_subnav_item( $bp['blogs']['slug'], 'recent-posts', __('Recent Posts', 'buddypress'), $blogs_link, 'bp_blogs_screen_recent_posts' );
-	bp_core_add_subnav_item( $bp['blogs']['slug'], 'recent-comments', __('Recent Comments', 'buddypress'), $blogs_link, 'bp_blogs_screen_recent_comments' );
-	bp_core_add_subnav_item( $bp['blogs']['slug'], 'create-a-blog', __('Create a Blog', 'buddypress'), $blogs_link, 'bp_blogs_screen_create_a_blog' );
+	bp_core_add_subnav_item( $bp->blogs->slug, 'my-blogs', __('My Blogs', 'buddypress'), $blogs_link, 'bp_blogs_screen_my_blogs', 'my-blogs-list' );
+	bp_core_add_subnav_item( $bp->blogs->slug, 'recent-posts', __('Recent Posts', 'buddypress'), $blogs_link, 'bp_blogs_screen_recent_posts' );
+	bp_core_add_subnav_item( $bp->blogs->slug, 'recent-comments', __('Recent Comments', 'buddypress'), $blogs_link, 'bp_blogs_screen_recent_comments' );
+	bp_core_add_subnav_item( $bp->blogs->slug, 'create-a-blog', __('Create a Blog', 'buddypress'), $blogs_link, 'bp_blogs_screen_create_a_blog' );
 	
 	/* Set up the component options navigation for Blog */
-	if ( $bp['current_component'] == 'blogs' ) {
+	if ( $bp->current_component == 'blogs' ) {
 		if ( bp_is_home() ) {
 			if ( function_exists('xprofile_setup_nav') ) {
-				$bp['bp_options_title'] = __('My Blogs', 'buddypress'); 
+				$bp->bp_options_title = __('My Blogs', 'buddypress'); 
 			}
 		} else {
 			/* If we are not viewing the logged in user, set up the current users avatar and name */
-			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
-			$bp['bp_options_title'] = $bp['current_fullname']; 
+			$bp->bp_options_avatar = bp_core_get_avatar( $bp->displayed_user->id, 1 );
+			$bp->bp_options_title = $bp->displayed_user->fullname; 
 		}
 	}
 }
@@ -228,7 +220,7 @@ function bp_blogs_record_activity( $args = true ) {
 	
 	/* Because blog, comment, and blog post code execution happens before anything else
 	   we need to manually instantiate the activity component globals */
-	if ( !$bp['activity'] && function_exists('bp_activity_setup_globals') )
+	if ( !$bp->activity && function_exists('bp_activity_setup_globals') )
 		bp_activity_setup_globals();
 
 	if ( function_exists('bp_activity_record') ) {
@@ -363,7 +355,7 @@ function bp_blogs_record_blog( $blog_id, $user_id ) {
 	}
 	
 	if ( !$user_id )
-		$user_id = $bp['loggedin_userid'];
+		$user_id = $bp->loggedin_user->id;
 		
 	$name = get_blog_option( $blog_id, 'blogname' );
 	$description = get_blog_option( $blog_id, 'blogdescription' );
@@ -576,7 +568,7 @@ function bp_blogs_remove_blog( $blog_id ) {
 	BP_Blogs_Blog::delete_blog_for_all( $blog_id );
 	
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component_name' => 'blogs', 'component_action' => 'new_blog', 'user_id' => $bp['loggedin_userid'] ) );
+	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component_name' => 'blogs', 'component_action' => 'new_blog', 'user_id' => $bp->loggedin_user->id ) );
 	
 	do_action( 'bp_blogs_remove_blog', $blog_id );
 }
@@ -634,7 +626,7 @@ function bp_blogs_remove_comment( $comment_id ) {
 	BP_Blogs_Comment::delete( $comment_id, $blog_id );	
 
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $comment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'user_id' => $bp['loggedin_userid'] ) );
+	bp_blogs_delete_activity( array( 'item_id' => $comment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'user_id' => $bp->loggedin_user->id ) );
 
 	do_action( 'bp_blogs_remove_comment', $blog_id, $comment_id );
 }
@@ -698,7 +690,7 @@ function bp_blogs_is_blog_hidden( $blog_id ) {
 function bp_blogs_redirect_to_random_blog() {
 	global $bp, $wpdb;
 	
-	if ( $bp['current_component'] == $bp['blogs']['slug'] && isset( $_GET['random-blog'] ) ) {
+	if ( $bp->current_component == $bp->blogs->slug && isset( $_GET['random-blog'] ) ) {
 		$blog = bp_blogs_get_random_blog();
 
 		bp_core_redirect( get_blog_option( $blog['blogs'][0]->blog_id, 'siteurl') );
@@ -728,11 +720,11 @@ function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = fa
 	$meta_value = trim( $meta_value );
 
 	if ( !$meta_key ) {
-		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['blogs']['table_name_blogpmeta'] . " WHERE blog_id = %d", $blog_id ) );		
+		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->blogs->table_name_blogpmeta . " WHERE blog_id = %d", $blog_id ) );		
 	} else if ( !$meta_value ) {
-		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['blogs']['table_name_blogmeta'] . " WHERE blog_id = %d AND meta_key = %s AND meta_value = %s", $blog_id, $meta_key, $meta_value ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name_blogmeta} WHERE blog_id = %d AND meta_key = %s AND meta_value = %s", $blog_id, $meta_key, $meta_value ) );
 	} else {
-		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp['blogs']['table_name_blogmeta'] . " WHERE blog_id = %d AND meta_key = %s", $blog_id, $meta_key ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name_blogmeta} WHERE blog_id = %d AND meta_key = %s", $blog_id, $meta_key ) );
 	}
 	
 	// TODO need to look into using this.
@@ -759,9 +751,9 @@ function bp_blogs_get_blogmeta( $blog_id, $meta_key = '') {
 		//if ( false !== $user && isset($user->$meta_key) )
 		//	$metas = array($user->$meta_key);
 		//else
-		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM " . $bp['blogs']['table_name_blogmeta'] . " WHERE blog_id = %d AND meta_key = %s", $blog_id, $meta_key) );
+		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM {$bp->blogs->table_name_blogmeta} WHERE blog_id = %d AND meta_key = %s", $blog_id, $meta_key) );
 	} else {
-		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM " . $bp['blogs']['table_name_blogmeta'] . " WHERE blog_id = %d", $blog_id) );
+		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM {$bp->blogs->table_name_blogmeta} WHERE blog_id = %d", $blog_id) );
 	}
 
 	if ( empty($metas) ) {
@@ -796,12 +788,12 @@ function bp_blogs_update_blogmeta( $blog_id, $meta_key, $meta_value ) {
 		return bp_blogs_delete_blogmeta( $blog_id, $meta_key );
 	}
 
-	$cur = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp['blogs']['table_name_blogmeta'] . " WHERE blog_id = %d AND meta_key = %s", $blog_id, $meta_key ) );
+	$cur = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->blogs->table_name_blogmeta} WHERE blog_id = %d AND meta_key = %s", $blog_id, $meta_key ) );
 	
 	if ( !$cur ) {
-		$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp['blogs']['table_name_blogmeta'] . " ( blog_id, meta_key, meta_value ) VALUES ( %d, %s, %s )", $blog_id, $meta_key, $meta_value ) );
+		$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->blogs->table_name_blogmeta} ( blog_id, meta_key, meta_value ) VALUES ( %d, %s, %s )", $blog_id, $meta_key, $meta_value ) );
 	} else if ( $cur->meta_value != $meta_value ) {
-		$wpdb->query( $wpdb->prepare( "UPDATE " . $bp['blogs']['table_name_blogmeta'] . " SET meta_value = %s WHERE blog_id = %d AND meta_key = %s", $meta_value, $blog_id, $meta_key ) );
+		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->blogs->table_name_blogmeta} SET meta_value = %s WHERE blog_id = %d AND meta_key = %s", $meta_value, $blog_id, $meta_key ) );
 	} else {
 		return false;
 	}

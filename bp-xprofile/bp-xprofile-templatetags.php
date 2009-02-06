@@ -139,7 +139,7 @@ function xprofile_get_profile() {
 function bp_has_profile() { 
 	global $bp, $profile_template;
 
-	$profile_template = new BP_XProfile_Template($bp['current_userid']);
+	$profile_template = new BP_XProfile_Template($bp->displayed_user->id);
 	
 	return $profile_template->has_groups();
 }
@@ -226,7 +226,7 @@ function bp_profile_group_tabs() {
 	
 	$groups = BP_XProfile_Group::get_all();
 	
-	if ( $group_name == '' )
+	if ( empty( $group_name ) )
 		$group_name = bp_profile_group_name(false);
 	
 	for ( $i = 0; $i < count($groups); $i++ ) {
@@ -236,7 +236,7 @@ function bp_profile_group_tabs() {
 			$selected = '';
 		}
 
-		echo '<li' . $selected . '><a href="' . $bp['loggedin_domain'] . $bp['profile']['slug'] . '/edit/group/' . $groups[$i]->id . '">' . $groups[$i]->name . '</a></li>';
+		echo '<li' . $selected . '><a href="' . $bp->loggedin_user->domain . $bp->profile->slug . '/edit/group/' . $groups[$i]->id . '">' . $groups[$i]->name . '</a></li>';
 	}
 	
 	do_action( 'xprofile_profile_group_tabs' );
@@ -245,7 +245,7 @@ function bp_profile_group_tabs() {
 function bp_profile_group_name( $echo = true ) {
 	global $bp;
 	
-	$group_id = $bp['action_variables'][1];
+	$group_id = $bp->action_variables[1];
 	
 	if ( !is_numeric( $group_id ) )
 		$group_id = 1;
@@ -262,24 +262,24 @@ function bp_profile_group_name( $echo = true ) {
 function bp_edit_profile_form() {
 	global $bp;
 
-	$group_id = $bp['action_variables'][1];
+	$group_id = $bp->action_variables[1];
 
 	if ( !is_numeric( $group_id ) )
 		$group_id = 1; // 'Basic' group.
 	
-	xprofile_edit( $group_id, $bp['loggedin_domain'] . $bp['profile']['slug'] . '/edit/group/' . $group_id . '/?mode=save' );
+	xprofile_edit( $group_id, $bp->loggedin_user->domain . $bp->profile->slug . '/edit/group/' . $group_id . '/?mode=save' );
 }
 
 function bp_avatar_upload_form() {
 	global $bp;
 	 
-	bp_core_avatar_admin( null, $bp['loggedin_domain'] . $bp['profile']['slug'] . '/change-avatar/', $bp['loggedin_domain'] . $bp['profile']['slug'] . '/delete-avatar/' );
+	bp_core_avatar_admin( null, $bp->loggedin_user->domain . $bp->profile->slug . '/change-avatar/', $bp->loggedin_user->domain . $bp->profile->slug . '/delete-avatar/' );
 }
 
 function bp_profile_last_updated() {
 	global $bp;
 	
-	$last_updated = get_usermeta( $bp['current_userid'], 'profile_last_updated' );
+	$last_updated = get_usermeta( $bp->displayed_user->id, 'profile_last_updated' );
 
 	if ( !$last_updated ) {
 		_e('Profile not recently updated', 'buddypress') . '.';
@@ -293,7 +293,7 @@ function bp_edit_profile_button() {
 	
 	?>
 	<div class="generic-button">
-		<a class="edit" title="<?php _e( 'Edit Profile', 'buddypress' ) ?>" href="<?php echo $bp['loggedin_domain'] . $bp['profile']['slug'] ?>/edit"><?php _e( 'Edit Profile', 'buddypress' ) ?></a>
+		<a class="edit" title="<?php _e( 'Edit Profile', 'buddypress' ) ?>" href="<?php echo $bp->loggedin_user->domain . $bp->profile->slug ?>/edit"><?php _e( 'Edit Profile', 'buddypress' ) ?></a>
 	</div>
 	<?php
 }

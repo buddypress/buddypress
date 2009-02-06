@@ -46,7 +46,7 @@ register_sidebars( 1,
 function bp_show_home_blog() {
 	global $bp, $query_string;
 	
-	if ( $bp['current_component'] == HOME_BLOG_SLUG  ) {
+	if ( $bp->current_component == HOME_BLOG_SLUG  ) {
 		$pos = strpos( $query_string, 'pagename=' . HOME_BLOG_SLUG );
 		
 		if ( $pos !== false )
@@ -67,7 +67,7 @@ add_action( 'wp', 'bp_show_home_blog', 2 );
 function bp_show_register_page() {
 	global $bp, $current_blog;
 	
-	if ( $bp['current_component'] == REGISTER_SLUG && $bp['current_action'] == '' ) {
+	if ( $bp->current_component == REGISTER_SLUG && $bp->current_action == '' ) {
 		bp_core_signup_set_headers();
 		bp_core_load_template( 'register', true );
 	}
@@ -77,7 +77,7 @@ add_action( 'wp', 'bp_show_register_page', 2 );
 function bp_show_activation_page() {
 	global $bp, $current_blog;
 	
-	if ( $bp['current_component'] == ACTIVATION_SLUG && $bp['current_action'] == '' ) {
+	if ( $bp->current_component == ACTIVATION_SLUG && $bp->current_action == '' ) {
 		bp_core_activation_set_headers();
 		bp_core_load_template( 'activate', true );
 	}

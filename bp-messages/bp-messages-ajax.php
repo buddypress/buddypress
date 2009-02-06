@@ -20,7 +20,7 @@ function messages_ajax_send_reply() {
 			<div class="clear"></div>
 		<?php
 	} else {
-		$result['message'] = '<img src="' . $bp['messages']['image_base'] . '/warning.gif" alt="Warning" /> &nbsp;' . $result['message'];
+		$result['message'] = '<img src="' . $bp->messages->image_base . '/warning.gif" alt="Warning" /> &nbsp;' . $result['message'];
 		echo "-1[[split]]" . $result['message'];
 	}
 }

@@ -18,7 +18,7 @@ class BP_Blogs_Blog_Template {
 		global $bp;
 		
 		if ( !$user_id )
-			$user_id = $bp['current_userid'];
+			$user_id = $bp->displayed_user->id;
 
 		$this->pag_page = isset( $_GET['fpage'] ) ? intval( $_GET['fpage'] ) : 1;
 		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 5;
@@ -136,7 +136,7 @@ class BP_Blogs_Blog_Post_Template {
 		global $bp;
 		
 		if ( !$user_id )
-			$user_id = $bp['current_userid'];
+			$user_id = $bp->displayed_user->id;
 
 		$this->pag_page = isset( $_GET['fpage'] ) ? intval( $_GET['fpage'] ) : 1;
 		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 5;
@@ -484,7 +484,7 @@ class BP_Blogs_Post_Comment_Template {
 		global $bp;
 		
 		if ( !$user_id )
-			$user_id = $bp['current_userid'];
+			$user_id = $bp->displayed_user->id;
 
 		$this->pag_page = isset( $_GET['fpage'] ) ? intval( $_GET['fpage'] ) : 1;
 		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 5;
@@ -683,7 +683,7 @@ function bp_show_blog_signup_form($blogname = '', $blog_title = '', $errors = ''
 
 		<p><?php _e("If you&#8217;re not going to use a great blog domain, leave it for a new user. Now have at it!", 'buddypress') ?></p>
 
-		<form id="setupform" method="post" action="<?php echo $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/create-a-blog' ?>">
+		<form id="setupform" method="post" action="<?php echo $bp->loggedin_user->domain . $bp->blogs->slug . '/create-a-blog' ?>">
 
 			<input type="hidden" name="stage" value="gimmeanotherblog" />
 			<?php do_action( "signup_hidden_fields" ); ?>
@@ -803,7 +803,7 @@ function bp_create_blog_link() {
 	global $bp;
 	
 	if ( bp_is_home() )	{
-		echo apply_filters( 'bp_create_blog_link', '<a href="' . $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/create-a-blog">' . __('Create a Blog', 'buddypress') . '</a>' );
+		echo apply_filters( 'bp_create_blog_link', '<a href="' . $bp->loggedin_user->domain . $bp->blogs->slug . '/create-a-blog">' . __('Create a Blog', 'buddypress') . '</a>' );
 	}
 }
 
@@ -814,12 +814,12 @@ function bp_blogs_blog_tabs() {
 	if ( bp_is_home() )
 		return false;
 	
-	$current_tab = $bp['current_action'];
+	$current_tab = $bp->current_action
 ?>
 	<ul class="content-header-nav">
-		<li<?php if ( $current_tab == 'my-blogs' || $current_tab == '' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['current_domain'] . $bp['blogs']['slug'] ?>/my-blogs"><?php printf( __( "%s's Blogs", 'buddypress' ), $bp['current_fullname'] )  ?></a></li>
-		<li<?php if ( $current_tab == 'recent-posts' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['current_domain'] . $bp['blogs']['slug'] ?>/recent-posts"><?php printf( __( "%s's Recent Posts", 'buddypress' ), $bp['current_fullname'] )  ?></a></li>
-		<li<?php if ( $current_tab == 'recent-comments' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp['current_domain'] . $bp['blogs']['slug'] ?>/recent-comments"><?php printf( __( "%s's Recent Comments", 'buddypress' ), $bp['current_fullname'] )  ?></a></li>	
+		<li<?php if ( $current_tab == 'my-blogs' || $current_tab == '' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->blogs->slug ?>/my-blogs"><?php printf( __( "%s's Blogs", 'buddypress' ), $bp->displayed_user->fullname )  ?></a></li>
+		<li<?php if ( $current_tab == 'recent-posts' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->blogs->slug ?>/recent-posts"><?php printf( __( "%s's Recent Posts", 'buddypress' ), $bp->displayed_user->fullname )  ?></a></li>
+		<li<?php if ( $current_tab == 'recent-comments' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->blogs->slug ?>/recent-comments"><?php printf( __( "%s's Recent Comments", 'buddypress' ), $bp->displayed_user->fullname )  ?></a></li>	
 	</ul>
 <?php
 	do_action( 'bp_blogs_blog_tabs', $current_tab );

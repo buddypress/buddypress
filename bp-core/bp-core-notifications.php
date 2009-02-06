@@ -24,7 +24,7 @@ function bp_core_add_notification( $item_id, $user_id, $component_name, $compone
 }
 
 function bp_core_delete_notification( $id ) {
-	if ( !bp_core_check_notification_access( $bp['loggedin_userid'], $id ) )
+	if ( !bp_core_check_notification_access( $bp->loggedin_user->id, $id ) )
 		return false;
 	
 	return BP_Core_Notification::delete( $id );

@@ -23,9 +23,9 @@ class BP_Activity_Template {
 		global $bp;
 		
 		if ( !$user_id )
-			$user_id = $bp['current_userid'];
+			$user_id = $bp->displayed_user->id;
 
-		if ( $bp['current_component'] != $bp['activity']['slug'] || ( $bp['current_component'] == $bp['activity']['slug'] && $bp['current_action'] == 'just-me' || $bp['current_action'] == 'feed' ) ) {
+		if ( $bp->current_component != $bp->activity->slug || ( $bp->current_component == $bp->activity->slug && $bp->current_action == 'just-me' || $bp->current_action == 'feed' ) ) {
 			$this->activities = BP_Activity_Activity::get_activity_for_user( $user_id, $limit );
 		} else {
 			$this->activities = BP_Activity_Activity::get_activity_for_friends( $user_id, $limit );
@@ -33,7 +33,7 @@ class BP_Activity_Template {
 
 		$this->activity_count = count($this->activities);
 	
-		$this->full_name = $bp['current_fullname'];
+		$this->full_name = $bp->displayed_user->fullname;
 
 		$this->is_home = bp_is_home();
 		$this->filter_content = $filter_content;
@@ -98,13 +98,13 @@ function bp_activity_get_list( $user_id, $title, $no_activity, $limit = false ) 
 function bp_has_activities() {
 	global $bp, $activities_template, $bp_activity_user_id, $bp_activity_limit;
 	
-	if ( $bp['current_action'] == 'my-friends' )
+	if ( $bp->current_action == 'my-friends' )
 		$filter_content = false;
 	else
 		$filter_content = true;
 	
 	if ( !$bp_activity_user_id )
-		$bp_activity_user_id = $bp['current_userid'];
+		$bp_activity_user_id = $bp->displayed_user->id;
 	
 	if ( !$bp_activity_limit )
 		$bp_activity_limit = 35;
@@ -199,16 +199,16 @@ function bp_activity_css_class() {
 function bp_sitewide_activity_feed_link() {
 	global $bp;
 	
-	echo apply_filters( 'bp_sitewide_activity_feed_link', site_url() . '/' . $bp['activity']['slug'] . '/feed' );
+	echo apply_filters( 'bp_sitewide_activity_feed_link', site_url() . '/' . $bp->activity->slug . '/feed' );
 }
 
 function bp_activities_member_rss_link() {
 	global $bp;
 	
-	if ( ( $bp['current_component'] == $bp['profile']['slug'] ) || $bp['current_action'] == 'just-me' )
-		echo apply_filters( 'bp_activities_member_rss_link', $bp['current_domain'] . $bp['activity']['slug'] . '/feed' );
+	if ( ( $bp->current_component == $bp->profile->slug ) || $bp->current_action == 'just-me' )
+		echo apply_filters( 'bp_activities_member_rss_link', $bp->displayed_user->domain . $bp->activity->slug . '/feed' );
 	else
-		echo apply_filters( 'bp_activities_member_rss_link', $bp['current_domain'] . $bp['activity']['slug'] . '/my-friends/feed' );		
+		echo apply_filters( 'bp_activities_member_rss_link', $bp->displayed_user->domain . $bp->activity->slug . '/my-friends/feed' );		
 }
 
 /* Template tags for RSS feed output */

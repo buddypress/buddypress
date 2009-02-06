@@ -26,7 +26,7 @@ function bp_core_admin_bar() {
 function bp_adminbar_logo() {
 	global $bp;
 	
-	echo '<a href="' . $bp['root_domain'] . '"><img id="admin-bar-logo" src="' . apply_filters( 'bp_admin_bar_logo_src', site_url( MUPLUGINDIR . '/bp-core/images/admin_bar_logo.gif' ) ) . '" alt="' . apply_filters( 'bp_admin_bar_logo_alt_text', __( 'BuddyPress', 'buddypress' ) ) . '" /></a>';
+	echo '<a href="' . $bp->root_domain . '"><img id="admin-bar-logo" src="' . apply_filters( 'bp_admin_bar_logo_src', site_url( MUPLUGINDIR . '/bp-core/images/admin_bar_logo.gif' ) ) . '" alt="' . apply_filters( 'bp_admin_bar_logo_alt_text', __( 'BuddyPress', 'buddypress' ) ) . '" /></a>';
 }
 
 // **** "Log In" and "Sign Up" links (Visible when not logged in) ********
@@ -48,7 +48,7 @@ function bp_adminbar_account_menu() {
 	global $bp;
 	
 	/* Sort the nav by key as the array has been put together in different locations */
-	$bp['bp_nav'] = bp_core_sort_nav_items( $bp['bp_nav'] );
+	$bp->bp_nav = bp_core_sort_nav_items( $bp->bp_nav );
 	
 	if ( is_user_logged_in() ) {
 		
@@ -59,16 +59,16 @@ function bp_adminbar_account_menu() {
 	
 		/* Loop through each navigation item */
 		$counter = 0;
-		foreach( $bp['bp_nav'] as $nav_item ) {
+		foreach( $bp->bp_nav as $nav_item ) {
 			$alt = ( $counter % 2 == 0 ) ? ' class="alt"' : '';
 			
 			echo '<li' . $alt . '>';
 			echo '<a id="bp-admin-' . $nav_item['css_id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a>';
 
-			if ( is_array( $bp['bp_options_nav'][$nav_item['css_id']] ) ) {
+			if ( is_array( $bp->bp_options_nav[$nav_item['css_id']] ) ) {
 				echo '<ul>';
 				$sub_counter = 0;
-				foreach( $bp['bp_options_nav'][$nav_item['css_id']] as $subnav_item ) {
+				foreach( $bp->bp_options_nav[$nav_item['css_id']] as $subnav_item ) {
 					$alt = ( $sub_counter % 2 == 0 ) ? ' class="alt"' : '';
 					echo '<li' . $alt . '><a id="bp-admin-' . $subnav_item['css_id'] . '" href="' . $subnav_item['link'] . '">' . $subnav_item['name'] . '</a></li>';				
 					$sub_counter++;
@@ -125,9 +125,9 @@ function bp_adminbar_blogs_menu() {
 		global $bp; 
 	
 		if ( function_exists('bp_blogs_install') ) {
-			$blogs = get_blogs_of_user( $bp['loggedin_userid'] ); // find *all* blogs with any kind of role
+			$blogs = get_blogs_of_user( $bp->loggedin_user->id ); // find *all* blogs with any kind of role
 
-			echo '<li><a href="' . $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/my-blogs">';
+			echo '<li><a href="' . $bp->loggedin_user->domain . $bp->blogs->slug . '/my-blogs">';
 			
 			_e( 'My Blogs', 'buddypress' );
 			
@@ -138,7 +138,7 @@ function bp_adminbar_blogs_menu() {
 		
 				$counter = 0;
 				foreach( $blogs as $blog ) {
-					$role = get_blog_role_for_user( $bp['loggedin_userid'], $blog->userblog_id );
+					$role = get_blog_role_for_user( $bp->loggedin_user->id, $blog->userblog_id );
 
 					$alt = ( $counter % 2 == 0 ) ? ' class="alt"' : '';
 					echo '<li' . $alt . '>';
@@ -162,7 +162,7 @@ function bp_adminbar_blogs_menu() {
 			$alt = ( $counter % 2 == 0 ) ? ' class="alt"' : '';
 
 			echo '<li' . $alt . '>';
-			echo '<a href="' . $bp['loggedin_domain'] . $bp['blogs']['slug'] . '/create-a-blog">' . __('Create a Blog!', 'buddypress') . '</a>';
+			echo '<a href="' . $bp->loggedin_user->domain . $bp->blogs->slug . '/create-a-blog">' . __('Create a Blog!', 'buddypress') . '</a>';
 			echo '</li>';
 	
 			echo '</ul>';
@@ -176,10 +176,10 @@ function bp_adminbar_notifications_menu() {
 	if ( is_user_logged_in() ) {
 		global $bp;
 		
-		echo '<li id="bp-admin-notifications_menu"><a href="' . $bp['loggedin_domain'] . '">';
+		echo '<li id="bp-admin-notifications_menu"><a href="' . $bp->loggedin_user->domain . '">';
 		_e( 'Notifications', 'buddypress' );
 	
-		if ( $notifications = bp_core_get_notifications_for_user( $bp['loggedin_userid']) ) { ?>
+		if ( $notifications = bp_core_get_notifications_for_user( $bp->loggedin_user->id ) ) { ?>
 			<span><?php echo count($notifications) ?></span>
 		<?php
 		}
@@ -195,7 +195,7 @@ function bp_adminbar_notifications_menu() {
 				<?php $counter++; ?>
 			<?php } ?>
 		<?php } else { ?>
-			<li><a href="<?php echo $bp['loggedin_domain'] ?>"><?php _e( 'No new notifications.', 'buddypress' ); ?></a></li>
+			<li><a href="<?php echo $bp->loggedin_user->domain ?>"><?php _e( 'No new notifications.', 'buddypress' ); ?></a></li>
 		<?php
 		}
 		
@@ -242,14 +242,14 @@ function bp_adminbar_random_menu() {
 	<li class="align-right">
 		<a href="#"><?php _e( 'Visit', 'buddypress' ) ?></a>
 		<ul class="random-list">
-			<li><a href="<?php echo $bp['root_domain'] . '/' . MEMBERS_SLUG . '/?random' ?>"><?php _e( 'Random Member', 'buddypress' ) ?></a></li>
+			<li><a href="<?php echo $bp->root_domain . '/' . MEMBERS_SLUG . '/?random' ?>"><?php _e( 'Random Member', 'buddypress' ) ?></a></li>
 
 			<?php if ( function_exists('groups_install') ) : ?>
-			<li class="alt"><a href="<?php echo $bp['root_domain'] . '/' . $bp['groups']['slug'] . '/?random' ?>"><?php _e( 'Random Group', 'buddypress' ) ?></a></li>
+			<li class="alt"><a href="<?php echo $bp->root_domain . '/' . $bp->groups->slug . '/?random' ?>"><?php _e( 'Random Group', 'buddypress' ) ?></a></li>
 			<?php endif; ?>
 
 			<?php if ( function_exists('bp_blogs_install') ) : ?>
-			<li><a href="<?php echo $bp['root_domain'] . '/' . $bp['blogs']['slug'] . '/?random-blog' ?>"><?php _e( 'Random Blog', 'buddypress' ) ?></a></li>
+			<li><a href="<?php echo $bp->root_domain . '/' . $bp->blogs->slug . '/?random-blog' ?>"><?php _e( 'Random Blog', 'buddypress' ) ?></a></li>
 			
 			<?php endif; ?>
 		</ul>

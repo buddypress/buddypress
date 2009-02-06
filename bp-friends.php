@@ -28,7 +28,7 @@ function friends_install() {
 	if ( !empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 		
-	$sql[] = "CREATE TABLE ". $bp['friends']['table_name'] ." (
+	$sql[] = "CREATE TABLE {$bp->friends->table_name} (
 		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  		initiator_user_id int(11) NOT NULL,
 		  		friend_user_id int(11) NOT NULL,
@@ -56,14 +56,12 @@ function friends_install() {
 function friends_setup_globals() {
 	global $bp, $wpdb;
 	
-	$bp['friends'] = array(
-		'table_name' => $wpdb->base_prefix . 'bp_friends',
-		'image_base' => site_url( MUPLUGINDIR . '/bp-friends/images' ),
-		'format_activity_function' => 'friends_format_activity',
-		'slug'		 => BP_FRIENDS_SLUG
-	);
+	$bp->friends->table_name = $wpdb->base_prefix . 'bp_friends';
+	$bp->friends->image_base = site_url( MUPLUGINDIR . '/bp-friends/images' );
+	$bp->friends->format_activity_function = 'friends_format_activity';
+	$bp->friends->slug = BP_FRIENDS_SLUG;
 
-	$bp['version_numbers'][$bp['friends']['slug']] = BP_FRIENDS_VERSION;
+	$bp->version_numbers->friends = BP_FRIENDS_VERSION;
 }
 add_action( 'wp', 'friends_setup_globals', 1 );	
 add_action( 'admin_menu', 'friends_setup_globals', 1 );
@@ -73,7 +71,7 @@ function friends_check_installed() {
 
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( $wpdb->get_var("SHOW TABLES LIKE '%" . $bp['friends']['table_name'] . "%'") == false ) || ( get_site_option('bp-friends-db-version') < BP_FRIENDS_DB_VERSION )  )
+		if ( ( $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->friends->table_name}%'") == false ) || ( get_site_option('bp-friends-db-version') < BP_FRIENDS_DB_VERSION )  )
 			friends_install();
 	}
 }
@@ -89,22 +87,21 @@ function friends_setup_nav() {
 	global $bp;
 	
 	/* Add 'Friends' to the main navigation */
-	bp_core_add_nav_item( __('Friends', 'buddypress'), $bp['friends']['slug'] );
-	bp_core_add_nav_default( $bp['friends']['slug'], 'friends_screen_my_friends', 'my-friends' );
+	bp_core_add_nav_item( __('Friends', 'buddypress'), $bp->friends->slug );
+	bp_core_add_nav_default( $bp->friends->slug, 'friends_screen_my_friends', 'my-friends' );
 	
-	$friends_link = $bp['loggedin_domain'] . $bp['friends']['slug'] . '/';
+	$friends_link = $bp->loggedin_user->domain . $bp->friends->slug . '/';
 	
 	/* Add the subnav items to the friends nav item */
-	bp_core_add_subnav_item( $bp['friends']['slug'], 'my-friends', __('My Friends', 'buddypress'), $friends_link, 'friends_screen_my_friends', 'friends-my-friends' );
-	bp_core_add_subnav_item( $bp['friends']['slug'], 'requests', __('Requests', 'buddypress'), $friends_link, 'friends_screen_requests', false, bp_is_home() );
-	//bp_core_add_subnav_item( $bp['friends']['slug'], 'invite-friend', __('Invite Friends', 'buddypress'), $friends_link, 'friends_screen_invite_friends' );
+	bp_core_add_subnav_item( $bp->friends->slug, 'my-friends', __( 'My Friends', 'buddypress' ), $friends_link, 'friends_screen_my_friends', 'friends-my-friends' );
+	bp_core_add_subnav_item( $bp->friends->slug, 'requests', __( 'Requests', 'buddypress' ), $friends_link, 'friends_screen_requests', false, bp_is_home() );
 	
-	if ( $bp['current_component'] == $bp['friends']['slug'] ) {
+	if ( $bp->current_component == $bp->friends->slug ) {
 		if ( bp_is_home() ) {
-			$bp['bp_options_title'] = __('My Friends', 'buddypress');
+			$bp->bp_options_title = __( 'My Friends', 'buddypress' );
 		} else {
-			$bp['bp_options_avatar'] = bp_core_get_avatar( $bp['current_userid'], 1 );
-			$bp['bp_options_title'] = $bp['current_fullname']; 
+			$bp->bp_options_avatar = bp_core_get_avatar( $bp->displayed_user->id, 1 );
+			$bp->bp_options_title = $bp->displayed_user->fullname; 
 		}
 	}
 }
@@ -117,7 +114,7 @@ function friends_screen_my_friends() {
 	global $bp;
 
 	// Delete any friendship acceptance notifications for the user when viewing a profile
-	bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'friends', 'friendship_accepted' );
+	bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, 'friends', 'friendship_accepted' );
 
 	do_action( 'friends_screen_my_friends' );
 	
@@ -127,23 +124,23 @@ function friends_screen_my_friends() {
 function friends_screen_requests() {
 	global $bp;
 			
-	if ( isset($bp['action_variables']) && $bp['action_variables'][0] == 'accept' && is_numeric($bp['action_variables'][1]) ) {
+	if ( isset($bp->action_variables) && $bp->action_variables[0] == 'accept' && is_numeric($bp->action_variables[1]) ) {
 		
-		if ( friends_accept_friendship( $bp['action_variables'][1] ) ) {
-			bp_core_add_message( __('Friendship accepted', 'buddypress') );
+		if ( friends_accept_friendship( $bp->action_variables[1] ) ) {
+			bp_core_add_message( __( 'Friendship accepted', 'buddypress' ) );
 		} else {
-			bp_core_add_message( __('Friendship could not be accepted', 'buddypress'), 'error' );
+			bp_core_add_message( __( 'Friendship could not be accepted', 'buddypress' ), 'error' );
 		}
-		bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );
+		bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/' . $bp->current_action );
 		
-	} else if ( isset($bp['action_variables']) && $bp['action_variables'][0] == 'reject' && is_numeric($bp['action_variables'][1]) ) {
+	} else if ( isset($bp->action_variables) && $bp->action_variables[0] == 'reject' && is_numeric($bp->action_variables[1]) ) {
 		
-		if ( friends_reject_friendship( $bp['action_variables'][1] ) ) {
-			bp_core_add_message( __('Friendship rejected', 'buddypress') );
+		if ( friends_reject_friendship( $bp->action_variables[1] ) ) {
+			bp_core_add_message( __( 'Friendship rejected', 'buddypress' ) );
 		} else {
-			bp_core_add_message( __('Friendship could not be rejected', 'buddypress'), 'error' );
+			bp_core_add_message( __( 'Friendship could not be rejected', 'buddypress' ), 'error' );
 		}	
-		bp_core_redirect( $bp['loggedin_domain'] . $bp['current_component'] . '/' . $bp['current_action'] );
+		bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/' . $bp->current_action );
 	}
 	
 	do_action( 'friends_screen_requests' );
@@ -258,7 +255,7 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 	switch ( $action ) {
 		case 'friendship_accepted':
 			if ( (int)$total_items > 1 ) {
-				return apply_filters( 'bp_friends_multiple_friendship_accepted_notification', '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/my-friends/newest" title="' . __( 'My Friends', 'buddypress' ) . '">' . sprintf( __('%d friends accepted your friendship requests'), (int)$total_items ) . '</a>', (int)$total_items );		
+				return apply_filters( 'bp_friends_multiple_friendship_accepted_notification', '<a href="' . $bp->loggedin_user->domain . $bp->friends->slug . '/my-friends/newest" title="' . __( 'My Friends', 'buddypress' ) . '">' . sprintf( __('%d friends accepted your friendship requests'), (int)$total_items ) . '</a>', (int)$total_items );		
 			} else {
 				$user_fullname = bp_core_global_user_fullname( $item_id );
 				$user_url = bp_core_get_userurl( $item_id );
@@ -268,11 +265,11 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 		
 		case 'friendship_request':
 			if ( (int)$total_items > 1 ) {
-				return apply_filters( 'bp_friends_multiple_friendship_request_notification', '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/requests" title="' . __( 'Friendship requests', 'buddypress' ) . '">' . sprintf( __('You have %d pending friendship requests'), (int)$total_items ) . '</a>', $total_items );		
+				return apply_filters( 'bp_friends_multiple_friendship_request_notification', '<a href="' . $bp->loggedin_user->domain . $bp->friends->slug . '/requests" title="' . __( 'Friendship requests', 'buddypress' ) . '">' . sprintf( __('You have %d pending friendship requests'), (int)$total_items ) . '</a>', $total_items );		
 			} else {
 				$user_fullname = bp_core_global_user_fullname( $item_id );
 				$user_url = bp_core_get_userurl( $item_id );
-				return apply_filters( 'bp_friends_single_friendship_request_notification', '<a href="' . $bp['loggedin_domain'] . $bp['friends']['slug'] . '/requests" title="' . __( 'Friendship requests', 'buddypress' ) . '">' . sprintf( __('You have a friendship request from %s'), $user_fullname ) . '</a>', $user_fullname );
+				return apply_filters( 'bp_friends_single_friendship_request_notification', '<a href="' . $bp->loggedin_user->domain . $bp->friends->slug . '/requests" title="' . __( 'Friendship requests', 'buddypress' ) . '">' . sprintf( __('You have a friendship request from %s'), $user_fullname ) . '</a>', $user_fullname );
 			}	
 		break;
 	}
@@ -285,7 +282,7 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 function friends_check_user_has_friends( $user_id ) {
 	$friend_count = get_usermeta( $user_id, 'total_friend_count');
 
-	if ( $friend_count == '' )
+	if ( empty( $friend_count ) )
 		return false;
 	
 	if ( !(int)$friend_count )
@@ -405,7 +402,7 @@ function friends_get_friends_invite_list( $user_id = false, $group_id ) {
 	global $bp;
 	
 	if ( !$user_id )
-		$user_id = $bp['loggedin_userid'];
+		$user_id = $bp->loggedin_user->id;
 	
 	$friend_ids = friends_get_alphabetically( $user_id );
 
@@ -519,7 +516,7 @@ function friends_remove_friend( $initiator_userid, $friend_userid ) {
 	$friendship = new BP_Friends_Friendship( $friendship_id );
 	
 	// Remove the activity stream items
-	friends_delete_activity( array( 'item_id' => $friendship_id, 'component_name' => 'friends', 'component_action' => 'friendship_accepted', 'user_id' => $bp['current_userid'] ) );
+	friends_delete_activity( array( 'item_id' => $friendship_id, 'component_name' => 'friends', 'component_action' => 'friendship_accepted', 'user_id' => $bp->displayed_user->id ) );
 	
 	do_action( 'friends_friendship_deleted', $friendship_id, $initiator_userid, $friend_userid );
 	

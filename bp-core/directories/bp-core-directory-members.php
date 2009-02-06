@@ -1,8 +1,8 @@
 <?php
 function bp_core_directory_members_setup() {
 	global $bp, $current_blog;
-	
-	if ( $bp['current_component'] == MEMBERS_SLUG && $bp['current_action'] == '' ) {
+
+	if ( $bp->current_component == MEMBERS_SLUG && empty( $bp->current_action ) ) {
 		add_action( 'bp_template_content', 'bp_core_directory_members_content' );
 		add_action( 'bp_template_sidebar', 'bp_core_directory_members_sidebar' );
 		
@@ -86,7 +86,7 @@ function bp_core_directory_members_content() {
 		<?php if ( $users['users'] ) : ?>
 			<div id="member-dir-count" class="pag-count">
 				<?php echo sprintf( __( 'Viewing member %d to %d (%d total active members)', 'buddypress' ), $from_num, $to_num, $users['total'] ); ?> &nbsp;
-				<img id="ajax-loader-members" src="<?php echo $bp['core']['image_base'] ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" />
+				<img id="ajax-loader-members" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" />
 			</div>
 			
 			<div class="pagination-links" id="member-dir-pag">

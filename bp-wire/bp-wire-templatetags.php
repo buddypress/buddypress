@@ -20,16 +20,16 @@ class BP_Wire_Posts_Template {
 	function bp_wire_posts_template( $item_id, $can_post ) {
 		global $bp;
 		
-		if ( $bp['current_component'] == $bp['wire']['slug'] ) {
-			$this->table_name = $bp['profile']['table_name_wire'];
+		if ( $bp->current_component == $bp->wire->slug ) {
+			$this->table_name = $bp->profile->table_name_wire;
 			
 			// Seeing as we're viewing a users wire, lets remove any new wire
 			// post notifications
-			if ( $bp['current_action'] == 'all-posts' )
-				bp_core_delete_notifications_for_user_by_type( $bp['loggedin_userid'], 'xprofile', 'new_wire_post' );
+			if ( $bp->current_action == 'all-posts' )
+				bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, 'xprofile', 'new_wire_post' );
 			
 		} else {
-			$this->table_name = $bp[$bp['current_component']]['table_name_wire'];
+			$this->table_name = $bp->{$bp->current_component}->table_name_wire;
 		}
 		
 		$this->pag_page = isset( $_REQUEST['wpage'] ) ? intval( $_REQUEST['wpage'] ) : 1;
@@ -41,13 +41,13 @@ class BP_Wire_Posts_Template {
 		$this->wire_posts = $this->wire_posts['wire_posts'];
 		$this->wire_post_count = count($this->wire_posts);
 		
-		if ( (int)get_site_option('non-friend-wire-posting') && ( $bp['current_component'] == $bp['profile']['slug'] || $bp['current_component'] == $bp['wire']['slug'] ) )
+		if ( (int)get_site_option('non-friend-wire-posting') && ( $bp->current_component == $bp->profile->slug || $bp->current_component == $bp->wire->slug ) )
 			$this->can_post = 1;
 		else
 			$this->can_post = $can_post;
 		
 		$this->pag_links = paginate_links( array(
-			'base' => add_query_arg( 'wpage', '%#%', $bp['current_domain'] ),
+			'base' => add_query_arg( 'wpage', '%#%', $bp->displayed_user->domain ),
 			'format' => '',
 			'total' => ceil($this->total_wire_post_count / $this->pag_num),
 			'current' => $this->pag_page,
@@ -216,7 +216,7 @@ function bp_wire_pagination_count() {
 function bp_wire_ajax_loader_src() {
 	global $bp;
 	
-	echo apply_filters( 'bp_wire_ajax_loader_src', $bp['wire']['image_base'] . '/ajax-loader.gif' );
+	echo apply_filters( 'bp_wire_ajax_loader_src', $bp->wire->image_base . '/ajax-loader.gif' );
 }
 
 function bp_wire_post_date( $date_format = null, $echo = true ) {
@@ -256,31 +256,31 @@ function bp_wire_get_post_form() {
 function bp_wire_get_action() {
 	global $bp;
 	
-	if ( $bp['current_item'] == '')
-		$uri = $bp['current_action'];
+	if ( empty( $bp->current_item ) )
+		$uri = $bp->current_action;
 	else
-		$uri = $bp['current_item'];
+		$uri = $bp->current_item;
 	
-	if ( $bp['current_component'] == 'wire' || $bp['current_component'] == 'profile' ) {
-		echo apply_filters( 'bp_wire_get_action', $bp['current_domain'] . $bp['wire']['slug'] . '/post/' );
+	if ( $bp->current_component == 'wire' || $bp->current_component == 'profile' ) {
+		echo apply_filters( 'bp_wire_get_action', $bp->displayed_user->domain . $bp->wire->slug . '/post/' );
 	} else {
-		echo apply_filters( 'bp_wire_get_action', site_url() . '/' . $bp[$bp['current_component']]['slug'] . '/' . $uri . '/wire/post/' );
+		echo apply_filters( 'bp_wire_get_action', site_url() . '/' . $bp[$bp->current_component]['slug'] . '/' . $uri . '/wire/post/' );
 	}
 }
 
 function bp_wire_poster_avatar() {
 	global $bp;
 	
-	echo apply_filters( 'bp_wire_poster_avatar', bp_core_get_avatar( $bp['loggedin_userid'], 1 ) );
+	echo apply_filters( 'bp_wire_poster_avatar', bp_core_get_avatar( $bp->loggedin_user->id, 1 ) );
 }
 
 function bp_wire_poster_name( $echo = true ) {
 	global $bp;
 	
 	if ( $echo )
-		echo apply_filters( 'bp_wire_poster_name', '<a href="' . $bp['loggedin_domain'] . $bp['profile']['slug'] . '">' . __('You', 'buddypress') . '</a>' );
+		echo apply_filters( 'bp_wire_poster_name', '<a href="' . $bp->loggedin_user->domain . $bp->profile->slug . '">' . __('You', 'buddypress') . '</a>' );
 	else
-		return apply_filters( 'bp_wire_poster_name', '<a href="' . $bp['loggedin_domain'] . $bp['profile']['slug'] . '">' . __('You', 'buddypress') . '</a>' );
+		return apply_filters( 'bp_wire_poster_name', '<a href="' . $bp->loggedin_user->domain . $bp->profile->slug . '">' . __('You', 'buddypress') . '</a>' );
 }
 
 function bp_wire_poster_date( $date_format = null, $echo = true ) {
@@ -296,16 +296,16 @@ function bp_wire_poster_date( $date_format = null, $echo = true ) {
 function bp_wire_delete_link() {
 	global $wire_posts_template, $bp;
 
-	if ( $bp['current_item'] == '')
-		$uri = $bp['current_action'];
+	if ( empty( $bp->current_item ) )
+		$uri = $bp->current_action;
 	else
-		$uri = $bp['current_item'];
+		$uri = $bp->current_item;
 		
-	if ( ( $wire_posts_template->wire_post->user_id == $bp['loggedin_userid'] ) || $bp['is_item_admin'] ) {
-		if ( $bp['current_component'] == 'wire' || $bp['current_component'] == 'profile' ) {
-			echo apply_filters( 'bp_wire_delete_link', '<a href="' . $bp['current_domain'] . $bp['wire']['slug'] . '/delete/' . $wire_posts_template->wire_post->id . '">[' . __('Delete', 'buddypress') . ']</a>' );
+	if ( ( $wire_posts_template->wire_post->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin ) {
+		if ( $bp->current_component == 'wire' || $bp->current_component == 'profile' ) {
+			echo apply_filters( 'bp_wire_delete_link', '<a href="' . $bp->displayed_user->domain . $bp->wire->slug . '/delete/' . $wire_posts_template->wire_post->id . '">[' . __('Delete', 'buddypress') . ']</a>' );
 		} else {
-			echo apply_filters( 'bp_wire_delete_link', '<a href="' . site_url() . '/' . $bp[$bp['current_component']]['slug'] . '/' . $uri . '/wire/delete/' . $wire_posts_template->wire_post->id . '">[' . __('Delete', 'buddypress') . ']</a>' );
+			echo apply_filters( 'bp_wire_delete_link', '<a href="' . site_url() . '/' . $bp[$bp->current_component]['slug'] . '/' . $uri . '/wire/delete/' . $wire_posts_template->wire_post->id . '">[' . __('Delete', 'buddypress') . ']</a>' );
 		}
 	}
 }
@@ -313,15 +313,15 @@ function bp_wire_delete_link() {
 function bp_wire_see_all_link() {
 	global $bp;
 	
-	if ( $bp['current_item'] == '')
-		$uri = $bp['current_action'];
+	if ( empty( $bp->current_item ) )
+		$uri = $bp->current_action;
 	else
-		$uri = $bp['current_item'];
+		$uri = $bp->current_item;
 	
-	if ( $bp['current_component'] == 'wire' || $bp['current_component'] == 'profile') {
-		echo apply_filters( 'bp_wire_see_all_link', $bp['current_domain'] . $bp['wire']['slug'] );
+	if ( $bp->current_component == 'wire' || $bp->current_component == 'profile') {
+		echo apply_filters( 'bp_wire_see_all_link', $bp->displayed_user->domain . $bp->wire->slug );
 	} else {
-		echo apply_filters( 'bp_wire_see_all_link', $bp['root_domain'] . '/' . $bp['groups']['slug'] . '/' . $uri . '/wire' );
+		echo apply_filters( 'bp_wire_see_all_link', $bp->root_domain . '/' . $bp->groups->slug . '/' . $uri . '/wire' );
 	}
 }
 

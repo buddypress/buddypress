@@ -21,8 +21,8 @@ function bp_wire_ajax_get_wire_posts() {
 			<li>
 				<div class="wire-post-metadata">
 					<?php bp_wire_post_author_avatar() ?>
-					On <?php bp_wire_post_date() ?> 
-					<?php bp_wire_post_author_name() ?> said:
+					<?php _e( 'On', 'buddypress' ) ?> <?php bp_wire_post_date() ?> 
+					<?php bp_wire_post_author_name() ?> <?php _e( 'said:', 'buddypress' ) ?>
 					<?php bp_wire_delete_link() ?>
 				</div>
 				
