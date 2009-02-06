@@ -264,7 +264,7 @@ function bp_wire_get_action() {
 	if ( $bp->current_component == 'wire' || $bp->current_component == 'profile' ) {
 		echo apply_filters( 'bp_wire_get_action', $bp->displayed_user->domain . $bp->wire->slug . '/post/' );
 	} else {
-		echo apply_filters( 'bp_wire_get_action', site_url() . '/' . $bp[$bp->current_component]['slug'] . '/' . $uri . '/wire/post/' );
+		echo apply_filters( 'bp_wire_get_action', site_url() . '/' . $bp->{$bp->current_component}->slug . '/' . $uri . '/wire/post/' );
 	}
 }
 
@@ -305,7 +305,7 @@ function bp_wire_delete_link() {
 		if ( $bp->current_component == 'wire' || $bp->current_component == 'profile' ) {
 			echo apply_filters( 'bp_wire_delete_link', '<a href="' . $bp->displayed_user->domain . $bp->wire->slug . '/delete/' . $wire_posts_template->wire_post->id . '">[' . __('Delete', 'buddypress') . ']</a>' );
 		} else {
-			echo apply_filters( 'bp_wire_delete_link', '<a href="' . site_url() . '/' . $bp[$bp->current_component]['slug'] . '/' . $uri . '/wire/delete/' . $wire_posts_template->wire_post->id . '">[' . __('Delete', 'buddypress') . ']</a>' );
+			echo apply_filters( 'bp_wire_delete_link', '<a href="' . site_url() . '/' . $bp->{$bp->current_component}->slug . '/' . $uri . '/wire/delete/' . $wire_posts_template->wire_post->id . '">[' . __('Delete', 'buddypress') . ']</a>' );
 		}
 	}
 }
