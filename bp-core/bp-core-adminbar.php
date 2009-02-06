@@ -60,7 +60,7 @@ function bp_adminbar_account_menu() {
 		/* Loop through each navigation item */
 		$counter = 0;
 		foreach( $bp->bp_nav as $nav_item ) {
-			$alt = ( $counter % 2 == 0 ) ? ' class="alt"' : '';
+			$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
 			
 			echo '<li' . $alt . '>';
 			echo '<a id="bp-admin-' . $nav_item['css_id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a>';
@@ -69,7 +69,7 @@ function bp_adminbar_account_menu() {
 				echo '<ul>';
 				$sub_counter = 0;
 				foreach( $bp->bp_options_nav[$nav_item['css_id']] as $subnav_item ) {
-					$alt = ( $sub_counter % 2 == 0 ) ? ' class="alt"' : '';
+					$alt = ( 0 == $sub_counter % 2 ) ? ' class="alt"' : '';
 					echo '<li' . $alt . '><a id="bp-admin-' . $subnav_item['css_id'] . '" href="' . $subnav_item['link'] . '">' . $subnav_item['name'] . '</a></li>';				
 					$sub_counter++;
 				}
@@ -81,7 +81,7 @@ function bp_adminbar_account_menu() {
 			$counter++;
 		}
 	
-		$alt = ( $counter % 2 == 0 ) ? ' class="alt"' : '';
+		$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
 
 		if ( function_exists('wp_logout_url') ) { 
 			echo '<li' . $alt . '><a id="bp-admin-logout" href="' . wp_logout_url(site_url()) . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';                   
@@ -140,16 +140,16 @@ function bp_adminbar_blogs_menu() {
 				foreach( $blogs as $blog ) {
 					$role = get_blog_role_for_user( $bp->loggedin_user->id, $blog->userblog_id );
 
-					$alt = ( $counter % 2 == 0 ) ? ' class="alt"' : '';
+					$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
 					echo '<li' . $alt . '>';
 					echo '<a href="' . $blog->siteurl . '">' . $blog->blogname . ' (' . $role . ')</a>';
-					if (!('Subscriber' == $role)) { // then they have something to display on the flyout menu
+					if ( !( 'Subscriber' == $role ) ) { // then they have something to display on the flyout menu
 						echo '<ul>';
 						echo '<li class="alt"><a href="' . $blog->siteurl  . '/wp-admin/">' . __('Dashboard', 'buddypress') . '</a></li>';
 						echo '<li><a href="' . $blog->siteurl  . '/wp-admin/post-new.php">' . __('New Post', 'buddypress') . '</a></li>';
 						echo '<li class="alt"><a href="' . $blog->siteurl  . '/wp-admin/edit.php">' . __('Manage Posts', 'buddypress') . '</a></li>';
 						echo '<li class="alt"><a href="' . $blog->siteurl  . '/wp-admin/edit-comments.php">' . __('Manage Comments', 'buddypress') . '</a></li>';					
-						if ('Admin' == $role) {	
+						if ( 'Admin' == $role ) {	
 							echo '<li><a href="' . $blog->siteurl  . '/wp-admin/themes.php">' . __('Switch Theme', 'buddypress') . '</a></li>'; 
 						}					
 						echo '</ul>';					
@@ -159,7 +159,7 @@ function bp_adminbar_blogs_menu() {
 				}
 			}
 	
-			$alt = ( $counter % 2 == 0 ) ? ' class="alt"' : '';
+			$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
 
 			echo '<li' . $alt . '>';
 			echo '<a href="' . $bp->loggedin_user->domain . $bp->blogs->slug . '/create-a-blog">' . __('Create a Blog!', 'buddypress') . '</a>';
@@ -190,7 +190,7 @@ function bp_adminbar_notifications_menu() {
 		if ( $notifications ) { ?>
 			<?php $counter = 0; ?>
 			<?php for ( $i = 0; $i < count($notifications); $i++ ) { ?>
-				<?php $alt = ( $counter % 2 == 0 ) ? ' class="alt"' : ''; ?>
+				<?php $alt = ( 0 == $counter % 2 ) ? ' class="alt"' : ''; ?>
 				<li<?php echo $alt ?>><?php echo $notifications[$i] ?></li>
 				<?php $counter++; ?>
 			<?php } ?>

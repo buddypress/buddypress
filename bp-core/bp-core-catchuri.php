@@ -43,11 +43,11 @@ function bp_core_set_uri_globals() {
 	$bp_uri = explode( "/", $path );
 	
 	/* Take empties off the end of complete URI */
-	if ( $bp_uri[count($bp_uri) - 1] == "" )
+	if ( empty( $bp_uri[count($bp_uri) - 1] ) )
 		array_pop( $bp_uri );
 
 	/* Take empties off the start of complete URI */
-	if ( $bp_uri[0] == "" )
+	if ( empty( $bp_uri[0] ) )
 		array_shift( $bp_uri );
 		
 	/* Get total URI segment count */
@@ -66,11 +66,11 @@ function bp_core_set_uri_globals() {
 	$paths = explode( '/', bp_core_get_site_path() );
 
 	/* Take empties off the end of path */
-	if ( $paths[count($paths) - 1] == "" )
+	if ( empty( $paths[count($paths) - 1] ) )
 		array_pop( $paths );
 
 	/* Take empties off the start of path */
-	if ( $paths[0] == "" )
+	if ( empty( $paths[0] ) )
 		array_shift( $paths );
 
 	for ( $i = 0; $i < $bp_uri_count; $i++ ) {
@@ -111,7 +111,7 @@ function bp_core_set_uri_globals() {
 	if ( !isset($is_root_component) )
 		$is_root_component = in_array( $bp_uri[0], $root_components );
 
-	if ( VHOST == 'no' && !$is_root_component ) {
+	if ( 'no' == VHOST && !$is_root_component ) {
 		$component_index++;
 		$action_index++;
 	}
@@ -130,7 +130,7 @@ function bp_core_set_uri_globals() {
 	unset($action_variables[$action_index]);
 
 	/* Remove the username from action variables if this is not a VHOST install */
-	if ( VHOST == 'no' && !$is_root_component )
+	if ( 'no' == VHOST && !$is_root_component )
 		array_shift($action_variables);
 	
 	/* Reset the keys by merging with an empty array */

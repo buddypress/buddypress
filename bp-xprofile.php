@@ -55,7 +55,7 @@ function xprofile_install() {
 		update_site_option( 'bp-xprofile-fullname-field-name', 'Full Name' );	
 	
 	$sql[] = "CREATE TABLE {$bp->profile->table_name_groups} (
-			  id int(11) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+			  id bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			  name varchar(150) NOT NULL,
 			  description mediumtext NOT NULL,
 			  can_delete tinyint(1) NOT NULL,
@@ -63,16 +63,16 @@ function xprofile_install() {
 	) {$charset_collate};";
 	
 	$sql[] = "CREATE TABLE {$bp->profile->table_name_fields} (
-			  id int(11) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			  group_id int(11) unsigned NOT NULL,
-			  parent_id int(11) unsigned NOT NULL,
+			  id bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+			  group_id bigint(20) unsigned NOT NULL,
+			  parent_id bigint(20) unsigned NOT NULL,
 			  type varchar(150) NOT NULL,
 			  name varchar(150) NOT NULL,
 			  description longtext NOT NULL,
 			  is_required tinyint(1) NOT NULL DEFAULT '0',
 			  is_default_option tinyint(1) NOT NULL DEFAULT '0',
-			  field_order int(11) NOT NULL DEFAULT '0',
-			  option_order int(11) NOT NULL DEFAULT '0',
+			  field_order bigint(20) NOT NULL DEFAULT '0',
+			  option_order bigint(20) NOT NULL DEFAULT '0',
 			  order_by varchar(15) NOT NULL,
 			  is_public int(2) NOT NULL DEFAULT '1',
 			  can_delete tinyint(1) NOT NULL DEFAULT '1',
@@ -84,9 +84,9 @@ function xprofile_install() {
 	) {$charset_collate};";
 	
 	$sql[] = "CREATE TABLE {$bp->profile->table_name_data} (
-			  id int(11) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			  field_id int(11) unsigned NOT NULL,
-			  user_id int(11) unsigned NOT NULL,
+			  id bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+			  field_id bigint(20) unsigned NOT NULL,
+			  user_id bigint(20) unsigned NOT NULL,
 			  value longtext NOT NULL,
 			  last_updated datetime NOT NULL,
 			  KEY field_id (field_id),
@@ -117,9 +117,9 @@ function xprofile_wire_install() {
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 
 	$sql[] = "CREATE TABLE {$bp->profile->table_name_wire} (
-	  		   id int(11) NOT NULL AUTO_INCREMENT,
-			   item_id int(11) NOT NULL,
-			   user_id int(11) NOT NULL,
+	  		   id bigint(20) NOT NULL AUTO_INCREMENT,
+			   item_id bigint(20) NOT NULL,
+			   user_id bigint(20) NOT NULL,
 			   content longtext NOT NULL,
 			   date_posted datetime NOT NULL,
 			   PRIMARY KEY id (id),
@@ -186,10 +186,10 @@ function xprofile_add_admin_menu() {
 	add_submenu_page( 'wpmu-admin.php', __("Profile Fields", 'buddypress'), __("Profile Fields", 'buddypress'), 1, "xprofile_settings", "xprofile_admin" );
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( ( $wpdb->get_var("SHOW TABLES LIKE '%{$bp->profile->table_name_groups}%'") == false ) || ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )  )
+	if ( false == ( $wpdb->get_var("SHOW TABLES LIKE '%{$bp->profile->table_name_groups}%'") ) || ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )  )
 		xprofile_install();
 	
-	if ( ( function_exists('bp_wire_install') && $wpdb->get_var("SHOW TABLES LIKE '%{$bp->profile->table_name_wire}%'") == false ) || ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )  )
+	if ( ( function_exists('bp_wire_install') && false == $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->profile->table_name_wire}%'" ) ) || ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )  )
 		xprofile_wire_install();
 }
 add_action( 'admin_menu', 'xprofile_add_admin_menu' );
@@ -316,8 +316,8 @@ function xprofile_screen_notification_settings() {
 		<tr>
 			<td></td>
 			<td><?php _e( 'A member posts on your wire', 'buddypress' ) ?></td>
-			<td class="yes"><input type="radio" name="notifications[notification_profile_wire_post]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_profile_wire_post' ) || get_usermeta( $current_user->id, 'notification_profile_wire_post' ) == 'yes' ) { ?>checked="checked" <?php } ?>/></td>
-			<td class="no"><input type="radio" name="notifications[notification_profile_wire_post]" value="no" <?php if ( get_usermeta( $current_user->id, 'notification_profile_wire_post' ) == 'no' ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="yes"><input type="radio" name="notifications[notification_profile_wire_post]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_profile_wire_post' ) || 'yes' == get_usermeta( $current_user->id, 'notification_profile_wire_post' ) ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_profile_wire_post]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_profile_wire_post' ) ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
 		
 		<?php do_action( 'xprofile_screen_notification_settings' ) ?>
@@ -570,7 +570,7 @@ function xprofile_format_activity( $item_id, $user_id, $action, $secondary_item_
 function xprofile_format_notifications( $action, $item_id, $secondary_item_id, $total_items ) {
 	global $bp;
 
-	if ( $action == 'new_wire_post') {
+	if ( 'new_wire_post' == $action ) {
 		if ( (int)$total_items > 1 ) {
 			return apply_filters( 'bp_xprofile_multiple_new_wire_post_notification', '<a href="' . $bp->loggedin_user->domain . $bp->wire->slug . '" title="Wire">' . sprintf( __('You have %d new posts on your wire'), (int)$total_items ) . '</a>', $total_items );		
 		} else {
@@ -631,11 +631,11 @@ function xprofile_edit( $group_id, $action ) {
 					$field_ids[] = $group->fields[$j]->id;
 					
 					// If the user has submitted the form - validate and save the new value for this field
-					if ( isset($_GET['mode']) && $_GET['mode'] == 'save' ) {
+					if ( isset($_GET['mode']) && 'save' == $_GET['mode'] ) {
 						
 						// If the current field is a datebox, we need to append '_day' to the end of the field name
 						// otherwise the field name will not exist
-						$post_field_string = ( $group->fields[$j]->type == 'datebox' ) ? '_day' : null;
+						$post_field_string = ( 'datebox' == $group->fields[$j]->type ) ? '_day' : null;
 						
 						// Explode the posted field IDs into an array so we know which fields have been submitted
 						$posted_fields = explode( ',', $_POST['field_ids'] );
@@ -752,7 +752,7 @@ function xprofile_edit( $group_id, $action ) {
 		
 		<?php
 			if ( $message != '' ) {
-				$type = ( $type == 'error' ) ? 'error' : 'updated';
+				$type = ( 'error' == $type ) ? 'error' : 'updated';
 		?>
 			<div id="message" class="<?php echo $type; ?> fade">
 				<p><?php echo $message; ?></p>
@@ -814,7 +814,7 @@ function xprofile_format_profile_field( $field_type, $field_value ) {
 	if ( !isset($field_value) || empty( $field_value ) )
 		return false;
 	
-	if ( $field_type == "datebox" ) {
+	if ( 'datebox' == $field_type ) {
 		$field_value = bp_format_time( $field_value, true );
 	} else {
 		$content = $field_value;

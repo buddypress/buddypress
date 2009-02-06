@@ -15,19 +15,19 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 
 	$groups = BP_XProfile_Group::get_all();
 
-	if ( isset($_GET['mode']) && isset($_GET['group_id']) && $_GET['mode'] == "add_field" ) {
+	if ( isset($_GET['mode']) && isset($_GET['group_id']) && 'add_field' == $_GET['mode'] ) {
 		xprofile_admin_manage_field($_GET['group_id']);
-	} else if ( isset($_GET['mode']) && isset($_GET['group_id']) && isset($_GET['field_id']) && $_GET['mode'] == "edit_field" ) {
+	} else if ( isset($_GET['mode']) && isset($_GET['group_id']) && isset($_GET['field_id']) && 'edit_field' == $_GET['mode'] ) {
 		xprofile_admin_manage_field($_GET['group_id'], $_GET['field_id']);
-	} else if ( isset($_GET['mode']) && isset($_GET['field_id']) && $_GET['mode'] == "delete_field" ) {
+	} else if ( isset($_GET['mode']) && isset($_GET['field_id']) && 'delete_field' == $_GET['mode'] ) {
 		xprofile_admin_delete_field($_GET['field_id'], 'field');
-	} else if ( isset($_GET['mode']) && isset($_GET['option_id']) && $_GET['mode'] == "delete_option" ) {
+	} else if ( isset($_GET['mode']) && isset($_GET['option_id']) && 'delete_option' == $_GET['mode'] ) {
 		xprofile_admin_delete_field($_GET['option_id'], 'option');
-	} else if ( isset($_GET['mode']) && $_GET['mode'] == "add_group" ) {
+	} else if ( isset($_GET['mode']) && 'add_group' == $_GET['mode'] ) {
 		xprofile_admin_manage_group();
-	} else if ( isset($_GET['mode']) && isset($_GET['group_id']) && $_GET['mode'] == "delete_group" ) {
+	} else if ( isset($_GET['mode']) && isset($_GET['group_id']) && 'delete_group' == $_GET['mode'] ) {
 		xprofile_admin_delete_group($_GET['group_id']);
-	} else if ( isset($_GET['mode']) && isset($_GET['group_id']) && $_GET['mode'] == "edit_group" ) {
+	} else if ( isset($_GET['mode']) && isset($_GET['group_id']) && 'edit_group' == $_GET['mode'] ) {
 		xprofile_admin_manage_group($_GET['group_id']);
 	} else {
 ?>	
@@ -90,7 +90,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 
 						  <?php if ( $groups[$i]->fields ) { ?>
 					    	<?php for ( $j = 0; $j < count($groups[$i]->fields); $j++ ) { ?>
-									<?php if ( $j % 2 == 0 ) { $class = ""; } else { $class = "alternate"; } ?>
+									<?php if ( 0 == $j % 2 ) { $class = ""; } else { $class = "alternate"; } ?>
 							    <?php $field = new BP_XProfile_Field($groups[$i]->fields[$j]->id); ?>
 							    <?php if ( !$field->can_delete ) { $class .= ' core'; } ?>
 							
@@ -243,7 +243,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 function xprofile_admin_delete_field( $field_id, $type = 'field' ) {
 	global $message, $type;
 	
-	if ( $type == 'field' ) {
+	if ( 'field' == $type ) {
 		$type = __('field', 'buddypress');
 	} else {
 		$type = __('option', 'buddypress');

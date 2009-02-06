@@ -33,10 +33,10 @@ function bp_activity_user_install() {
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 	
 	$sql[] = "CREATE TABLE ". $bp->activity->table_name_current_user ." (
-		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-		  		item_id int(11) NOT NULL,
-				secondary_item_id int(11) NOT NULL,
-				user_id int(11) NOT NULL,
+		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+		  		item_id bigint(20) NOT NULL,
+				secondary_item_id bigint(20) NOT NULL,
+				user_id bigint(20) NOT NULL,
 		  		component_name varchar(75) NOT NULL,
 				component_action varchar(75) NOT NULL,
 		  		date_recorded datetime NOT NULL,
@@ -49,9 +49,9 @@ function bp_activity_user_install() {
 		 	   ) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE ". $bp->activity->table_name_current_user_cached ." (
-		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				item_id int(11) NOT NULL,
-				secondary_item_id int(11) NOT NULL,
+		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				item_id bigint(20) NOT NULL,
+				secondary_item_id bigint(20) NOT NULL,
 		  		content longtext NOT NULL,
 				primary_link varchar(150) NOT NULL,
 				component_name varchar(75) NOT NULL,
@@ -67,8 +67,8 @@ function bp_activity_user_install() {
 		 	   ) {$charset_collate};";
 	
 	$sql[] = "CREATE TABLE ". $bp->activity->table_name_current_user_friends_cached ." (
-		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				user_id int(11) NOT NULL,
+		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				user_id bigint(20) NOT NULL,
 		  		content longtext NOT NULL,
 				primary_link varchar(150) NOT NULL,
 				component_name varchar(75) NOT NULL,
@@ -94,10 +94,10 @@ function bp_activity_sitewide_install() {
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 	
 	$sql[] = "CREATE TABLE ". $bp->activity->table_name_sitewide ." (
-		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				user_id int(11) NOT NULL,
-				item_id int(11) NOT NULL,
-				secondary_item_id int(11),
+		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				user_id bigint(20) NOT NULL,
+				item_id bigint(20) NOT NULL,
+				secondary_item_id bigint(20),
 		  		content longtext NOT NULL,
 				primary_link varchar(150) NOT NULL,
 				component_name varchar(75) NOT NULL,
@@ -153,7 +153,7 @@ function bp_activity_setup_globals() {
 			bp_activity_user_install();
 	}
 	
-	if ( is_site_admin() && $current_blog->blog_id == 1 ) {
+	if ( is_site_admin() && 1 == $current_blog->blog_id ) {
 		/* Check to see if the site wide activity table is set up. */
 		if ( !$wpdb->get_var("SHOW TABLES LIKE '%" . $bp->activity->table_name_sitewide . "%'") || get_site_option( 'bp-activity-db-version' ) < BP_ACTIVITY_VERSION  )
 			bp_activity_sitewide_install();

@@ -9,7 +9,7 @@ function messages_notification_new_message( $args ) {
 	$sender_name = bp_fetch_user_fullname( $message->sender_id, false );
 
 	for ( $i = 0; $i < count($recipient_ids); $i++ ) {
-		if ( $message->sender_id == $recipient_ids[$i] || get_userdata( $recipient_ids[$i], 'notification-messages-new-message' ) == 'no' ) continue;
+		if ( $message->sender_id == $recipient_ids[$i] || 'no' == get_userdata( $recipient_ids[$i], 'notification-messages-new-message' ) ) continue;
 
 		$ud = get_userdata($recipient_ids[$i]);
 		$message_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/messages/view/' . $message->id;

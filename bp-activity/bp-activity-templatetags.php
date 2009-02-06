@@ -25,7 +25,7 @@ class BP_Activity_Template {
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
 
-		if ( $bp->current_component != $bp->activity->slug || ( $bp->current_component == $bp->activity->slug && $bp->current_action == 'just-me' || $bp->current_action == 'feed' ) ) {
+		if ( $bp->current_component != $bp->activity->slug || ( $bp->current_component == $bp->activity->slug && 'just-me' == $bp->current_action || 'feed' == $bp->current_action ) ) {
 			$this->activities = BP_Activity_Activity::get_activity_for_user( $user_id, $limit );
 		} else {
 			$this->activities = BP_Activity_Activity::get_activity_for_friends( $user_id, $limit );
@@ -98,7 +98,7 @@ function bp_activity_get_list( $user_id, $title, $no_activity, $limit = false ) 
 function bp_has_activities() {
 	global $bp, $activities_template, $bp_activity_user_id, $bp_activity_limit;
 	
-	if ( $bp->current_action == 'my-friends' )
+	if ( 'my-friends' == $bp->current_action )
 		$filter_content = false;
 	else
 		$filter_content = true;
@@ -164,7 +164,7 @@ function bp_activity_content_filter( $content, $date_recorded, $full_name, $inse
 
 	// The "You" and "Your" conversion is only done in english, if a translation file is present
 	// then do not translate as it causes problems in other languages.
-	if ( get_locale() == '' ) {
+	if ( '' == get_locale() ) {
 		/* Switch 'their/your' depending on whether the user is logged in or not and viewing their profile */
 		if ( $filter_words ) {
 			$content[0] = preg_replace( '/their/', 'your', $content[0] );
@@ -205,7 +205,7 @@ function bp_sitewide_activity_feed_link() {
 function bp_activities_member_rss_link() {
 	global $bp;
 	
-	if ( ( $bp->current_component == $bp->profile->slug ) || $bp->current_action == 'just-me' )
+	if ( ( $bp->current_component == $bp->profile->slug ) || 'just-me' == $bp->current_action )
 		echo apply_filters( 'bp_activities_member_rss_link', $bp->displayed_user->domain . $bp->activity->slug . '/feed' );
 	else
 		echo apply_filters( 'bp_activities_member_rss_link', $bp->displayed_user->domain . $bp->activity->slug . '/my-friends/feed' );		

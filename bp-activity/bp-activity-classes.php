@@ -319,7 +319,7 @@ Class BP_Activity_Activity {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->activity->table_name_sitewide . " WHERE user_id = %d", $user_id ) );
 		
 		for ( $i = 0; $i < count($activity_array); $i++ ) {
-			if ( $activity_array[$i]['content'] == '' ) continue;
+			if ( empty( $activity_array[$i]['content'] ) ) continue;
 			
 			// Cache that sucka...
 			$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp->activity->table_name_current_user_cached . " ( content, item_id, secondary_item_id, primary_link, component_name, component_action, date_cached, date_recorded, is_private ) VALUES ( %s, %d, %d, %s, %s, %s, FROM_UNIXTIME(%d), %s, %d )", $activity_array[$i]['content'], $activity_array[$i]['item_id'], $activity_array[$i]['secondary_item_id'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], $activity_array[$i]['component_action'], time(), $activity_array[$i]['date_recorded'], $activity_array[$i]['is_private'] ) );

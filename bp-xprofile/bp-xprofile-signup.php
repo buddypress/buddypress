@@ -111,7 +111,7 @@ function xprofile_validate_signup_fields( $result ) {
 		if ( $prev_field_id != $field->id ) {
 			$field = new BP_XProfile_Field($field->id);
 			
-			if ( $field->type == "datebox" ) {
+			if ( 'datebox' == $field->type ) {
 				if ( $_POST['field_' . $field->id . '_day'] != "" && $_POST['field_' . $field->id . '_month'] != "" && $_POST['field_' . $field->id . '_year'] != "") {
 					$value = strtotime( $_POST['field_' . $field->id . '_day'] . " " . 
 						     			$_POST['field_' . $field->id . '_month'] . " " .
@@ -159,7 +159,7 @@ function xprofile_validate_signup_fields( $result ) {
 	
 	if ( isset($_FILES['file']) ) {
 
-		if ( $_FILES['file']['error'] !== 4 ) {
+		if ( 4 !== $_FILES['file']['error'] ) {
 			if ( !$checked_upload = bp_core_check_avatar_upload($_FILES) ) {
 				$avatar_error = true;
 				$avatar_error_msg = $uploadErrors[$_FILES['file']['error']];

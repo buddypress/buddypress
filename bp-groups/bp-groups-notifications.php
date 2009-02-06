@@ -16,7 +16,7 @@ function groups_notification_new_wire_post( $group_id, $wire_post_id ) {
 	$subject = sprintf( __( 'New wire post on group: %s', 'buddypress' ), stripslashes($group->name) );
 
 	foreach ( $group->user_dataset as $user ) {
-		if ( get_usermeta( $user->user_id, 'notification_groups_wire_post' ) == 'no' ) continue;
+		if ( 'no' == get_usermeta( $user->user_id, 'notification_groups_wire_post' ) ) continue;
 		
 		$ud = get_userdata( $user->user_id );
 		
@@ -57,7 +57,7 @@ function groups_notification_group_updated( $group_id ) {
 	$subject = __( 'Group Details Updated', 'buddypress' );
 
 	foreach ( $group->user_dataset as $user ) {
-		if ( get_usermeta( $user->user_id, 'notification_groups_group_updated' ) == 'no' ) continue;
+		if ( 'no' == get_usermeta( $user->user_id, 'notification_groups_group_updated' ) ) continue;
 		
 		$ud = get_userdata( $user->user_id );
 		
@@ -89,7 +89,7 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 
 	bp_core_add_notification( $requesting_user_id, $admin_id, 'groups', 'new_membership_request', $group_id );
 
-	if ( get_usermeta( $admin_id, 'notification_groups_membership_request' ) == 'no' )
+	if ( 'no' == get_usermeta( $admin_id, 'notification_groups_membership_request' ) )
 		return false;
 		
 	$requesting_user_name = bp_fetch_user_fullname( $requesting_user_id, false );
@@ -134,7 +134,7 @@ function groups_notification_membership_request_completed( $requesting_user_id, 
 	else
 		bp_core_add_notification( $group_id, $requesting_user_id, 'groups', 'membership_request_rejected' );
 	
-	if ( get_usermeta( $requesting_user_id, 'notification_membership_request_completed' ) == 'no' )
+	if ( 'no' == get_usermeta( $requesting_user_id, 'notification_membership_request_completed' ) )
 		return false;
 		
 	$group = new BP_Groups_Group( $group_id, false, false );
@@ -188,7 +188,7 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 	// Post a screen notification first.
 	bp_core_add_notification( $group_id, $user_id, 'groups', $type );
 
-	if ( get_usermeta( $user_id, 'notification_groups_admin_promotion' ) == 'no' )
+	if ( 'no' == get_usermeta( $user_id, 'notification_groups_admin_promotion' ) )
 		return false;
 
 	$group = new BP_Groups_Group( $group_id, false, false );
@@ -233,7 +233,7 @@ function groups_notification_group_invites( $group_id, $invited_user_ids, $invit
 		// Post a screen notification first.
 		bp_core_add_notification( $group_id, $invited_user_id, 'groups', 'group_invite' );
 
-		if ( get_usermeta( $invited_user_id, 'notification_groups_invite' ) == 'no' ) continue;
+		if ( 'no' == get_usermeta( $invited_user_id, 'notification_groups_invite' ) ) continue;
 
 		$invited_ud = get_userdata($invited_user_id);
 		$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';

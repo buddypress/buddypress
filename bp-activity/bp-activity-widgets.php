@@ -23,7 +23,7 @@ function bp_activity_widget_sitewide_activity($args) {
 		. $after_title; ?>
 		
 	<?php 
-	if ( $options['max_items'] == '' ) {
+	if ( empty( $options['max_items'] ) ) {
 		$options['max_items'] = 20;
 	}
 	?>

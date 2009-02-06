@@ -47,7 +47,7 @@ function bp_core_get_avatar( $user, $version = 1, $width = null, $height = null,
 		
 		if ( empty( $grav_option ) ) {
 			$default_grav = 'wavatar';
-		} else if ( $grav_option == 'mystery' ) {
+		} else if ( 'mystery' == $grav_option ) {
 			$default_grav = site_url( MUPLUGINDIR . '/bp-core/images/mystery-man.jpg');
 		} else {
 			$default_grav = $grav_option;
@@ -65,9 +65,9 @@ function bp_core_get_avatar( $user, $version = 1, $width = null, $height = null,
 // WARNING: Does NOT apply size restrictions
 function bp_core_get_avatar_filter( $avatar, $id_or_email, $size, $default ) {
 	$str = '';
-	$ver = ( $size == 1 || $size == 2 ) ? $size : 1;
+	$ver = ( 1 == $size || 2 == $size ) ? $size : 1;
 	
-	if ( CORE_AVATAR_V2_W == false && CORE_AVATAR_V2_H == false )
+	if ( !CORE_AVATAR_V2_W && !CORE_AVATAR_V2_H )
 		$ver = 1;
 		
 	if ( is_numeric($id_or_email) ) {
@@ -110,7 +110,7 @@ function bp_core_avatar_admin( $message = null, $action, $delete_action) {
 			echo '<a href="' .  $delete_action . '">' . __( 'Delete', 'buddypress' ) . '</a>';
 		}
 
-	} else if ( isset($_POST['slick_avatars_action']) && $_POST['slick_avatars_action'] == 'upload' ) {
+	} else if ( isset($_POST['slick_avatars_action']) && 'upload' == $_POST['slick_avatars_action'] ) {
 	
 		// Confirm that the nonce is valid
 		if ( !isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'slick_avatars') )
@@ -146,7 +146,7 @@ function bp_core_avatar_admin( $message = null, $action, $delete_action) {
 		// Render the cropper UI		
 		bp_core_render_avatar_cropper($original, $canvas, $action);
 
-	} else if ( isset($_POST['slick_avatars_action']) && $_POST['slick_avatars_action'] == 'crop' ) {
+	} else if ( isset($_POST['slick_avatars_action']) && 'crop' == $_POST['slick_avatars_action'] ) {
 		// Crop, save, store
 		
 		// Confirm that the nonce is valid
@@ -166,11 +166,11 @@ function bp_core_avatar_admin( $message = null, $action, $delete_action) {
 		
 		echo '<span class="crop-img">' . bp_core_get_avatar( get_current_user_id(), 1 ) . '</span>';
 		
-		if ( CORE_AVATAR_V2_W !== false && CORE_AVATAR_V2_H !== false ) {
+		if ( CORE_AVATAR_V2_W && CORE_AVATAR_V2_H ) {
 			echo '<span class="crop-img">' . bp_core_get_avatar( get_current_user_id(), 2 ) . '</span>';
 		}
 
-	} else if ( isset($_GET['slick_avatars_action']) && $_GET['slick_avatars_action'] == 'delete' ) {
+	} else if ( isset($_GET['slick_avatars_action']) && 'delete' == $_GET['slick_avatars_action'] ) {
 		// Delete an avatar
 
 		bp_core_delete_avatar();

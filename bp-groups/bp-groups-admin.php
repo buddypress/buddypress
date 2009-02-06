@@ -57,7 +57,7 @@ function groups_admin_settings() {
 				<?php } ?>
 				
 				<?php 
-				if ( !isset($_REQUEST['order']) || $_REQUEST['order'] == 'ASC' ) {
+				if ( !isset($_REQUEST['order']) || 'ASC' == $_REQUEST['order'] ) {
 					$order = 'DESC';
 				} else {
 					$order = 'ASC';
@@ -116,7 +116,7 @@ function groups_admin_settings() {
 					<tbody id="group-list" class="list:groups group-list">
 						<?php $counter = 0 ?>
 						<?php while ( bp_groups() ) : bp_the_group(); ?>
-							<tr<?php if ( $counter % 2 == 1 ) { ?> class="alternate"<?php }?>>
+							<tr<?php if ( 1 == $counter % 2 ) { ?> class="alternate"<?php }?>>
 								<th class="check-column" scope="row">
 									<input id="group_<?php bp_group_id() ?>" type="checkbox" value="<?php bp_group_id() ?>" name="allgroups[<?php bp_group_id() ?>]" />
 								</th>

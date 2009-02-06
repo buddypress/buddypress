@@ -173,7 +173,7 @@ class BP_Friends_Friendship {
 		$result = $wpdb->get_results( $wpdb->prepare( "SELECT id, is_confirmed FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d AND friend_user_id = %d) OR (initiator_user_id = %d AND friend_user_id = %d)", $loggedin_userid, $possible_friend_userid, $possible_friend_userid, $loggedin_userid ) );
 		
 		if ( $result ) {
-			if ( (int)$result[0]->is_confirmed == 0 ) {
+			if ( 0 == (int)$result[0]->is_confirmed ) {
 				return 'pending';
 			} else {
 				return 'is_friend';

@@ -61,7 +61,7 @@ Class BP_Messages_Thread {
 					$this->message_ids = array_reverse( $this->message_ids );
 					
 					foreach ( $this->message_ids as $key => $message_id ) {
-						if ( $this->box == 'sentbox' ) {
+						if ( 'sentbox' == $this->box ) {
 							if ( !messages_is_user_sender( $bp->loggedin_user->id, $message_id ) ) {
 								unset( $this->message_ids[$key] );
 							} else {
@@ -376,7 +376,7 @@ Class BP_Messages_Message {
 			
 			$sql = $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_threads} ( message_ids, sender_ids, first_post_date, last_post_date, last_message_id, last_sender_id ) VALUES ( %s, %s, FROM_UNIXTIME(%d), FROM_UNIXTIME(%d), %d, %d )", $serialized_message_id, $serialized_sender_id, $this->date_sent, $this->date_sent, $message_id, $this->sender_id ); 
 			
-			if ( $wpdb->query($sql) === false )
+			if ( false === $wpdb->query($sql) )
 				return false;
 			
 

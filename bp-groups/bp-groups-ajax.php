@@ -13,7 +13,7 @@ function groups_ajax_invite_user() {
 	if ( !friends_check_friendship( $bp->loggedin_user->id, $_POST['friend_id'] ) )
 		return false;
 	
-	if ( $_POST['friend_action'] == 'invite' ) {
+	if ( 'invite' == $_POST['friend_action'] ) {
 		if ( !groups_invite_user( $_POST['friend_id'], $_POST['group_id'] ) )
 			return false;
 		
@@ -28,7 +28,7 @@ function groups_ajax_invite_user() {
 			  </div>';
 		echo '</li>';
 		
-	} else if ( $_POST['friend_action'] == 'uninvite' ) {
+	} else if ( 'uninvite' == $_POST['friend_action'] ) {
 		if ( !groups_uninvite_user( $_POST['friend_id'], $_POST['group_id'] ) )
 			return false;
 		
@@ -81,11 +81,11 @@ function groups_ajax_widget_groups_list() {
 					<div class="item-meta">
 						<span class="activity">
 							<?php 
-							if ( $_POST['filter'] == 'newest-groups') {
+							if ( 'newest-groups' == $_POST['filter'] ) {
 								echo bp_core_get_last_activity( $group->date_created, __('created %s ago', 'buddypress') );
-							} else if ( $_POST['filter'] == 'recently-active-groups') {
+							} else if ( 'recently-active-groups' == $_POST['filter'] ) {
 								echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __('active %s ago', 'buddypress') );
-							} else if ( $_POST['filter'] == 'popular-groups') {
+							} else if ( 'popular-groups' == $_POST['filter'] ) {
 								if ( $group->total_member_count == 1 )
 									echo $group->total_member_count . __(' member', 'buddypress');
 								else
@@ -255,7 +255,7 @@ function bp_core_ajax_directory_groups() {
 					<div class="meta">
 						<?php $member_count = groups_get_groupmeta( $group->id, 'total_member_count' ) ?>
 						<?php echo ucwords($group->status) ?> <?php _e( 'Group', 'buddypress' ) ?> / 
-						<?php if ( $member_count == 1 ) : ?>
+						<?php if ( 1 == $member_count ) : ?>
 							<?php _e( sprintf( '%d member', $member_count ), 'buddypress' ) ?>
 						<?php else : ?>
 							<?php _e( sprintf( '%d members', $member_count ), 'buddypress' ) ?>
@@ -292,18 +292,18 @@ function groups_ajax_joinleave_group() {
 	if ( !$group = new BP_Groups_Group( $_POST['gid'], false, false ) )
 		return false;
 	
-	if ( $group->status == 'hidden' )
+	if ( 'hidden' == $group->status )
 		return false;
 	
 	if ( !groups_is_user_member( $bp->loggedin_user->id, $group->id ) ) {
 	
-		if ( $group->status == 'public' ) {
+		if ( 'public' == $group->status ) {
 			if ( !groups_join_group( $group->id ) ) {
 				_e( 'Error joining group', 'buddypress' );
 			} else {
 				echo '<a id="group-' . $group->id . '" class="leave-group" rel="leave" title="' . __( 'Leave Group', 'buddypress' ) . '" href="' . bp_group_permalink( $group, false ) . '/leave-group">' . __( 'Leave Group', 'buddypress' ) . '</a>';
 			}			
-		} else if ( $group->status == 'private' ) {
+		} else if ( 'private' == $group->status ) {
 			if ( !groups_send_membership_request( $bp->loggedin_user->id, $group->id ) ) {
 				_e( 'Error requesting membership', 'buddypress' );	
 			} else {
@@ -315,9 +315,9 @@ function groups_ajax_joinleave_group() {
 		if ( !groups_leave_group( $group->id ) ) {
 			_e( 'Error leaving group', 'buddypress' );
 		} else {
-			if ( $group->status == 'public' ) {
+			if ( 'public' == $group->status ) {
 				echo '<a id="group-' . $group->id . '" class="join-group" rel="join" title="' . __( 'Join Group', 'buddypress' ) . '" href="' . bp_group_permalink( $group, false ) . '/join">' . __( 'Join Group', 'buddypress' ) . '</a>';				
-			} else if ( $group->status == 'private' ) {
+			} else if ( 'private' == $group->status ) {
 				echo '<a id="group-' . $group->id . '" class="request-membership" rel="join" title="' . __( 'Request Membership', 'buddypress' ) . '" href="' . bp_group_permalink( $group, false ) . '/request-membership">' . __( 'Request Membership', 'buddypress' ) . '</a>';
 			}
 		}

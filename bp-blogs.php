@@ -31,18 +31,18 @@ function bp_blogs_install() {
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 	
 	$sql[] = "CREATE TABLE {$bp->blogs->table_name} (
-		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				user_id int(11) NOT NULL,
-				blog_id int(11) NOT NULL,
+		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				user_id bigint(20) NOT NULL,
+				blog_id bigint(20) NOT NULL,
 				KEY user_id (user_id),
 				KEY blog_id (blog_id)
 			 ) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE {$bp->blogs->table_name_blog_posts} (
-		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				user_id int(11) NOT NULL,
-				blog_id int(11) NOT NULL,
-				post_id int(11) NOT NULL,
+		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				user_id bigint(20) NOT NULL,
+				blog_id bigint(20) NOT NULL,
+				post_id bigint(20) NOT NULL,
 				date_created datetime NOT NULL,
 				KEY user_id (user_id),
 				KEY blog_id (blog_id),
@@ -50,11 +50,11 @@ function bp_blogs_install() {
 			 ) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE {$bp->blogs->table_name_blog_comments} (
-		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				user_id int(11) NOT NULL,
-				blog_id int(11) NOT NULL,
-				comment_id int(11) NOT NULL,
-				comment_post_id int(11) NOT NULL,
+		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				user_id bigint(20) NOT NULL,
+				blog_id bigint(20) NOT NULL,
+				comment_id bigint(20) NOT NULL,
+				comment_post_id bigint(20) NOT NULL,
 				date_created datetime NOT NULL,
 				KEY user_id (user_id),
 				KEY blog_id (blog_id),
@@ -63,8 +63,8 @@ function bp_blogs_install() {
 			 ) {$charset_collate};";
 	
 	$sql[] = "CREATE TABLE {$bp->blogs->table_name_blogmeta} (
-			id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			blog_id int(11) NOT NULL,
+			id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+			blog_id bigint(20) NOT NULL,
 			meta_key varchar(255) DEFAULT NULL,
 			meta_value longtext DEFAULT NULL,
 			KEY blog_id (blog_id),
@@ -109,7 +109,7 @@ function bp_blogs_check_installed() {
 	
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( $wpdb->get_var("SHOW TABLES LIKE '%" . $bp->blogs->table_name . "%'") == false ) || ( get_site_option('bp-blogs-db-version') < BP_BLOGS_DB_VERSION )  )
+		if ( ( false == $wpdb->get_var("SHOW TABLES LIKE '%" . $bp->blogs->table_name . "%'") ) || ( get_site_option('bp-blogs-db-version') < BP_BLOGS_DB_VERSION )  )
 			bp_blogs_install();
 	}
 }
@@ -172,7 +172,7 @@ function bp_blogs_setup_nav() {
 	bp_core_add_subnav_item( $bp->blogs->slug, 'create-a-blog', __('Create a Blog', 'buddypress'), $blogs_link, 'bp_blogs_screen_create_a_blog' );
 	
 	/* Set up the component options navigation for Blog */
-	if ( $bp->current_component == 'blogs' ) {
+	if ( 'blogs' == $bp->current_component ) {
 		if ( bp_is_home() ) {
 			if ( function_exists('xprofile_setup_nav') ) {
 				$bp->bp_options_title = __('My Blogs', 'buddypress'); 
@@ -408,7 +408,7 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 		return false;
 	
 	if ( !$is_recorded = BP_Blogs_Post::is_recorded( $post_id, $blog_id, $user_id ) ) {
-		if ( $post->post_status == 'publish' ) {
+		if ( 'publish' == $post->post_status ) {
 			
 			/** 
 			 * Check how many recorded posts there are for the user. If we are
@@ -514,7 +514,7 @@ function bp_blogs_record_comment( $comment_id, $post_id = false, $blog_id = fals
 			 * If the post status has changed from public to private then we need
 			 * to remove the record of the post.
 			 */
-			if ( !$comment->comment_approved || $comment->comment_approved == 'spam' )
+			if ( !$comment->comment_approved || 'spam' == $comment->comment_approved )
 				BP_Blogs_Comment::delete( $comment_id, $blog_id );	
 		}
 	}
@@ -765,7 +765,7 @@ function bp_blogs_get_blogmeta( $blog_id, $meta_key = '') {
 
 	$metas = array_map('maybe_unserialize', $metas);
 
-	if ( count($metas) == 1 )
+	if ( 1 == count($metas) )
 		return $metas[0];
 	else
 		return $metas;

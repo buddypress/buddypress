@@ -51,7 +51,7 @@ Class BP_XProfile_Group {
 			$sql = $wpdb->prepare("INSERT INTO {$bp->profile->table_name_groups} (name, description, can_delete) VALUES (%s, %s, 1)", $this->name, $this->description);		
 		}
 		
-		if ( $wpdb->query($sql) === false )
+		if ( !$wpdb->query($sql) )
 			return false;
 		
 		return true;
@@ -65,7 +65,7 @@ Class BP_XProfile_Group {
 		
 		$sql = $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_groups} WHERE id = %d", $this->id );
 
-		if ( $wpdb->query($sql) === false) {
+		if ( !$wpdb->query($sql) ) {
 			return false;
 		} else {
 			// Now the group is deleted, remove the group's fields.
@@ -84,18 +84,16 @@ Class BP_XProfile_Group {
 		global $wpdb, $bp;
 
 		// Get field ids for the current group.
-		$sql = $wpdb->prepare("SELECT id, type FROM {$bp->profile->table_name_fields} WHERE group_id = %d AND parent_id = 0 ORDER BY id", $this->id);
-
-		if(!$fields = $wpdb->get_results($sql))			
+		if ( !$fields = $wpdb->get_results( $wpdb->prepare("SELECT id, type FROM {$bp->profile->table_name_fields} WHERE group_id = %d AND parent_id = 0 ORDER BY id", $this->id ) ) )
 			return false;
-
+		
 		return $fields;
 	}
 	
 	function render_admin_form() {
 		global $message;
 
-		if ( $this->id == null ) {
+		if ( !$this->id ) {
 			$title = __('Add Group', 'buddypress');
 			$action = "admin.php?page=xprofile_settings&amp;mode=add_group";
 		} else {
@@ -110,7 +108,7 @@ Class BP_XProfile_Group {
 			
 			<?php
 				if ( $message != '' ) {
-					$type = ( $type == 'error' ) ? 'error' : 'updated';
+					$type = ( 'error' == $type ) ? 'error' : 'updated';
 			?>
 				<div id="message" class="<?php echo $type; ?> fade">
 					<p><?php echo $message; ?></p>
@@ -232,9 +230,7 @@ Class BP_XProfile_Field {
 		if ( !$this->id )
 			return false;
 			
-		$sql = $wpdb->prepare("DELETE FROM {$bp->profile->table_name_fields} WHERE id = %d OR parent_id = %d", $this->id, $this->id );
-
-		if ( $wpdb->query($sql) === false )
+		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_fields} WHERE id = %d OR parent_id = %d", $this->id, $this->id ) ) )
 			return false;
 		
 		// delete the data in the DB for this field
@@ -251,7 +247,9 @@ Class BP_XProfile_Field {
 		} else {
 			$sql = $wpdb->prepare("INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, is_public, order_by) VALUES (%d, 0, %s, %s, %s, %d, %d, %s)", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->is_public, $this->order_by);
 		}
-		if ( $wpdb->query($sql) !== false ) {
+		
+		if ( $wpdb->query($sql) ) {
+			
 			// Only do this if we are editing an existing field
 			if ( $this->id != null ) {
 				// Remove any radio or dropdown options for this
@@ -263,7 +261,7 @@ Class BP_XProfile_Field {
 			
 			// Check to see if this is a field with child options.
 			// We need to add the options to the db, if it is.
-			if ( $this->type == 'radio' || $this->type == 'selectbox' || $this->type == 'checkbox' || $this->type == 'multiselectbox' ) {
+			if ( 'radio' == $this->type || 'selectbox' == $this->type || 'checkbox' == $this->type || 'multiselectbox' == $this->type ) {
 				if ( $this->id ) {
 					$parent_id = $this->id;
 				} else {
@@ -304,18 +302,27 @@ Class BP_XProfile_Field {
 						fclose($fp);
 					}
 				} else {
-					if ( $this->type == "radio" ) {
+					
+					if ( 'radio' == $this->type ) {
+						
 						$options = $_POST['radio_option'];
 						$defaults = $_POST['isDefault_radio_option'];
-					} else if ( $this->type == "selectbox" ) {
+						
+					} else if ( 'selectbox' == $this->type ) {
+						
 						$options = $_POST['selectbox_option'];
 						$defaults = $_POST['isDefault_selectbox_option'];
-					} else if ( $this->type == "multiselectbox" ) {
+						
+					} else if ( 'multiselectbox' == $this->type ) {
+						
 						$options = $_POST['multiselectbox_option'];
 						$defaults = $_POST['isDefault_multiselectbox_option'];
-					} else if ( $this->type == "checkbox" ) {
+						
+					} else if ( 'checkbox' == $this->type ) {
+						
 						$options = $_POST['checkbox_option'];
 						$defaults = $_POST['isDefault_checkbox_option'];
+						
 					}
 					
 					$counter = 1;
@@ -331,16 +338,13 @@ Class BP_XProfile_Field {
 									$is_default = 1;
 							}
 
-							if ( $option_value != "" ) { 
+							if ( !empty( $option_valu ) ) { 
+								
 								// don't insert an empty option.
-								$sql = $wpdb->prepare("INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, option_order, is_default_option) VALUES (%d, %d, 'option', %s, '', 0, %d, %d)", $this->group_id, $parent_id, $option_value, $counter, $is_default);
-
-								if ( $wpdb->query($sql) === false ) {
+								if ( !$wpdb->query( $wpdb->prepare("INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, option_order, is_default_option) VALUES (%d, %d, 'option', %s, '', 0, %d, %d)", $this->group_id, $parent_id, $option_value, $counter, $is_default ) ) )
 									return false;
-
-									// @TODO 
-									// Need to go back and reverse what has been entered here.
-								}
+								
+								return true;
 							}
 						
 							$counter++;
@@ -579,10 +583,10 @@ Class BP_XProfile_Field {
 	 function get_children($for_editing = false) {
 		global $wpdb, $bp;
 		
-		//This is done here so we don't have problems with sql injection
-		if ( $this->order_by == 'asc' && !$for_editing ) {
+		// This is done here so we don't have problems with sql injection
+		if ( 'asc' == $this->order_by && !$for_editing ) {
 			$sort_sql = 'ORDER BY name ASC';
-		} else if ( $this->order_by == 'desc' && !$for_editing ) {
+		} else if ( 'desc' == $this->order_by && !$for_editing ) {
 			$sort_sql = 'ORDER BY name DESC';
 		} else {
 			$sort_sql = 'ORDER BY option_order ASC';
@@ -618,7 +622,7 @@ Class BP_XProfile_Field {
 		foreach ($input_types as $type) { 
 			$default_name = '';
 			
-			if ( $type == 'multiselectbox' || $type == 'checkbox' ) {
+			if ( 'multiselectbox' == $type || 'checkbox' == $type ) {
 				$default_input = 'checkbox';
 			} else {
 				$default_input = 'radio';
@@ -626,12 +630,12 @@ Class BP_XProfile_Field {
 		?>
 			<div id="<?php echo $type ?>" class="options-box" style="<?php if ( $this->type != $type ) { ?>display: none;<?php } ?> margin-left: 15px;">
 				<h4><?php _e('Please enter options for this Field:', 'buddypress') ?></h4>
-				<p>Order By: 
+				<p><?php _e( 'Order By:', 'buddypress' ) ?>
 					
 					<select name="sort_order_<?php echo $type ?>" id="sort_order_<?php echo $type ?>" >
-						<option value="default" <?php if ( $this->order_by == 'default' ) {?> selected="selected"<?php } ?> ><?php _e( 'Order Entered', 'buddypress' ) ?></option>
-						<option value="asc" <?php if ( $this->order_by == 'asc' ) {?> selected="selected"<?php } ?>><?php _e( 'Name - Ascending', 'buddypress' ) ?></option>
-						<option value="desc" <?php if ( $this->order_by == 'desc' ) {?> selected="selected"<?php } ?>><?php _e( 'Name - Descending', 'buddypress' ) ?></option>
+						<option value="default" <?php if ( 'default' == $this->order_by ) {?> selected="selected"<?php } ?> ><?php _e( 'Order Entered', 'buddypress' ) ?></option>
+						<option value="asc" <?php if ( 'asc' == $this->order_by ) {?> selected="selected"<?php } ?>><?php _e( 'Name - Ascending', 'buddypress' ) ?></option>
+						<option value="desc" <?php if ( 'desc' == $this->order_by ) {?> selected="selected"<?php } ?>><?php _e( 'Name - Descending', 'buddypress' ) ?></option>
 					</select>
 	
 				<?php
@@ -641,12 +645,12 @@ Class BP_XProfile_Field {
 					for ( $i = 0; $i < count($options); $i++ ) { 
 						$j = $i + 1;
 						
-						if ( $type == 'multiselectbox' || $type == 'checkbox' )
+						if ( 'multiselectbox' == $type || 'checkbox' == $type )
 							$default_name = '[' . $j . ']';
 					?>
 						<p><?php _e('Option', 'buddypress') ?> <?php echo $j ?>: 
 						   <input type="text" name="<?php echo $type ?>_option[<?php echo $j ?>]" id="<?php echo $type ?>_option<?php echo $j ?>" value="<?php echo $options[$i]->name ?>" />
-						   <input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" <?php if ( $options[$i]->sort_order == 'CHECKED' ) {?> checked="checked"<?php } ?> " /> <?php _e( 'Default Value', 'buddypress' ) ?> 
+						   <input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" <?php if ( 'CHECKED' == $options[$i]->sort_order ) {?> checked="checked"<?php } ?> " /> <?php _e( 'Default Value', 'buddypress' ) ?> 
 						<a href="admin.php?page=xprofile_settings&amp;mode=delete_option&amp;option_id=<?php echo $options[$i]->id ?>" class="ajax-option-delete" id="delete-<?php echo $options[$i]->id ?>">[x]</a></p>
 						</p>
 					<?php } // end for ?>
@@ -654,7 +658,7 @@ Class BP_XProfile_Field {
 				
 				<?php 
 				} else { 
-					if ( $type == 'multiselectbox' || $type == 'checkbox' )
+					if ( 'multiselectbox' == $type || 'checkxbox' == $type )
 						$default_name = '[1]';
 				?>
 					
@@ -671,7 +675,7 @@ Class BP_XProfile_Field {
 	}
 		
 	function render_admin_form( $message = '' ) {
-		if ( $this->id == null ) {
+		if ( !$this->id ) {
 			$title = __('Add Field', 'buddypress');
 			$action = "admin.php?page=xprofile_settings&amp;group_id=" . $this->group_id . "&amp;mode=add_field";
 		} else {
@@ -705,10 +709,10 @@ Class BP_XProfile_Field {
 					</div>
 				</div>
 			
-				<div id="titlediv">
+				<div id="titlediv" class="inside">
 					<h3><label for="description"><?php _e("Field Description", 'buddypress') ?></label></h3>
 					<div id="titlewrap">
-						<textarea name="description" id="description" rows="8" cols="60" style="border: none; width: 99%;"><?php echo $this->desc ?></textarea>
+						<textarea name="description" id="description" rows="8" cols="60" style="border: 1px solid #ddd; width: 85%;"><?php echo $this->desc ?></textarea>
 					</div>
 				</div>
 	
@@ -909,7 +913,7 @@ Class BP_XProfile_Field {
 		global $message;
 		
 		// Validate Form
-		if ( empty( $_POST['title'] ) || empty( $_POST['required'] ) || empty( $_POST['fieldtype'] ) ) {
+		if ( '' == $_POST['title'] || '' == $_POST['required'] || '' == $_POST['fieldtype'] ) {
 			$message = __('Please make sure you fill out all required fields.', 'buddypress');
 			return false;
 		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'radio' && empty($_POST['radio_option'][1]) ) {
@@ -1046,9 +1050,7 @@ Class BP_XProfile_ProfileData {
 	function delete() {
 		global $wpdb, $bp;
 		
-		$sql = $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $this->field_id, $this->user_id );
-
-		if ( $wpdb->query($sql) === false )
+		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $this->field_id, $this->user_id ) ) )
 			return false;
 		
 		return true;
@@ -1125,9 +1127,7 @@ Class BP_XProfile_ProfileData {
 	function delete_for_field( $field_id ) {
 		global $wpdb, $userdata, $bp;
 
-		$sql = $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE field_id = %d", $field_id );
-
-		if ( $wpdb->query($sql) === false )
+		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE field_id = %d", $field_id ) ) )
 			return false;
 		
 		return true;

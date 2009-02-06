@@ -67,7 +67,7 @@ Class BP_XProfile_Template {
 		$this->in_the_loop = true;
 		$group = $this->next_group();
 
-		if ( $this->current_group == 0 ) // loop has just started
+		if ( 0 == $this->current_group ) // loop has just started
 			do_action('loop_start');
 	}
 	

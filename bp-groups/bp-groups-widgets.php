@@ -50,7 +50,7 @@ function groups_widget_groups_list($args) {
 						<div class="item-meta">
 						<span class="activity">
 							<?php 
-							if ( $group->total_member_count == 1 )
+							if ( 1 == $group->total_member_count )
 								echo $group->total_member_count . __(' member', 'buddypress');
 							else
 								echo $group->total_member_count . __(' members', 'buddypress');

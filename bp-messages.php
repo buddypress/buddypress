@@ -10,7 +10,6 @@ define ( 'BP_MESSAGES_SLUG', apply_filters( 'messages_slug', 'messages' ) );
 include_once( 'bp-messages/bp-messages-classes.php' );
 include_once( 'bp-messages/bp-messages-ajax.php' );
 include_once( 'bp-messages/bp-messages-cssjs.php' );
-include_once( 'bp-messages/bp-messages-admin.php' );
 include_once( 'bp-messages/bp-messages-templatetags.php' );
 include_once( 'bp-messages/bp-messages-notifications.php' );
 include_once( 'bp-messages/bp-messages-filters.php' );
@@ -32,21 +31,21 @@ function messages_install() {
 	$wpdb->query( "ALTER TABLE {$bp->messages->table_name_threads} DROP INDEX sender_ids " );
 	
 	$sql[] = "CREATE TABLE {$bp->messages->table_name_threads} (
-		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  		message_ids longtext NOT NULL,
 				sender_ids longtext NOT NULL,
 		  		first_post_date datetime NOT NULL,
 		  		last_post_date datetime NOT NULL,
-		  		last_message_id int(11) NOT NULL,
-				last_sender_id int(11) NOT NULL,
+		  		last_message_id bigint(20) NOT NULL,
+				last_sender_id bigint(20) NOT NULL,
 			    KEY last_message_id (last_message_id),
 			    KEY last_sender_id (last_sender_id)
 		 	   ) {$charset_collate};";
 	
 	$sql[] = "CREATE TABLE {$bp->messages->table_name_recipients} (
-		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-		  		user_id int(11) NOT NULL,
-		  		thread_id int(11) NOT NULL,
+		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+		  		user_id bigint(20) NOT NULL,
+		  		thread_id bigint(20) NOT NULL,
 				sender_only tinyint(1) NOT NULL DEFAULT '0',
 		  		unread_count int(10) NOT NULL DEFAULT '0',
 				is_deleted tinyint(1) NOT NULL DEFAULT '0',
@@ -58,8 +57,8 @@ function messages_install() {
 		 	   ) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE {$bp->messages->table_name_messages} (
-		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-		  		sender_id int(11) NOT NULL,
+		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+		  		sender_id bigint(20) NOT NULL,
 		  		subject varchar(200) NOT NULL,
 		  		message longtext NOT NULL,
 		  		date_sent datetime NOT NULL,
@@ -71,7 +70,7 @@ function messages_install() {
 		 	   ) {$charset_collate};";
 	
 	$sql[] = "CREATE TABLE {$bp->messages->table_name_notices} (
-		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  		subject varchar(200) NOT NULL,
 		  		message longtext NOT NULL,
 		  		date_sent datetime NOT NULL,
@@ -122,7 +121,7 @@ function messages_check_installed() {
 
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->messages->table_name_messages}%'" ) == false ) || ( get_site_option('bp-messages-db-version') < BP_MESSAGES_DB_VERSION ) )
+		if ( false == ( $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->messages->table_name_messages}%'" ) ) || ( get_site_option('bp-messages-db-version') < BP_MESSAGES_DB_VERSION ) )
 			messages_install();
 	}
 }
@@ -185,8 +184,8 @@ function messages_screen_compose() {
 	//var_dump($_POST['send_to_usernames']);
 	
 	$recipients = false;
-	if ( $_POST['send_to_usernames'] == '' ) {
-		if ( $_POST['send-to-input'] != '' ) {
+	if ( empty( $_POST['send_to_usernames'] ) ) {
+		if ( !empty( $_POST['send-to-input'] ) ) {
 			// Replace commas with places
 			$recipients = str_replace( ',', ' ', $_POST['send-to-input'] );
 			$recipients = str_replace( '  ', ' ', $recipients );
@@ -215,19 +214,19 @@ function messages_screen_notices() {
 	if ( $notice_id && is_numeric($notice_id) ) {
 		$notice = new BP_Messages_Notice($notice_id);
 
-		if ( $bp->action_variables[0] == 'deactivate' ) {
+		if ( 'deactivate' == $bp->action_variables[0] ) {
 			if ( !$notice->deactivate() ) {
 				bp_core_add_message( __('There was a problem deactivating that notice.', 'buddypress'), 'error' );	
 			} else {
 				bp_core_add_message( __('Notice deactivated.', 'buddypress') );
 			}
-		} else if ( $bp->action_variables[0] == 'activate' ) {
+		} else if ( 'activate' == $bp->action_variables[0] ) {
 			if ( !$notice->activate() ) {
 				bp_core_add_message( __('There was a problem activating that notice.', 'buddypress'), 'error' );
 			} else {
 				bp_core_add_message( __('Notice activated.', 'buddypress') );
 			}
-		} else if ( $bp->action_variables[0] == 'delete' ) {
+		} else if ( 'delete' == $bp->action_variables[0] ) {
 			if ( !$notice->delete() ) {
 				bp_core_add_message( __('There was a problem deleting that notice.', 'buddypress'), 'buddypress' );
 			} else {
@@ -254,14 +253,14 @@ function messages_screen_notification_settings() {
 		<tr>
 			<td></td>
 			<td><?php _e( 'A member sends you a new message', 'buddypress' ) ?></td>
-			<td class="yes"><input type="radio" name="notifications[notification_messages_new_message]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_messages_new_message' ) || get_usermeta( $current_user->id, 'notification_messages_new_message' ) == 'yes' ) { ?>checked="checked" <?php } ?>/></td>
-			<td class="no"><input type="radio" name="notifications[notification_messages_new_message]" value="no" <?php if ( get_usermeta( $current_user->id, 'notification_messages_new_message' ) == 'no' ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="yes"><input type="radio" name="notifications[notification_messages_new_message]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_messages_new_message' ) || 'yes' == get_usermeta( $current_user->id, 'notification_messages_new_message' ) ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_messages_new_message]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_messages_new_message' ) ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
 		<tr>
 			<td></td>
 			<td><?php _e( 'A new site notice is posted', 'buddypress' ) ?></td>
-			<td class="yes"><input type="radio" name="notifications[notification_messages_new_notice]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_messages_new_notice' ) || get_usermeta( $current_user->id, 'notification_messages_new_notice' ) == 'yes' ) { ?>checked="checked" <?php } ?>/></td>
-			<td class="no"><input type="radio" name="notifications[notification_messages_new_notice]" value="no" <?php if ( get_usermeta( $current_user->id, 'notification_messages_new_notice' ) == 'no' ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="yes"><input type="radio" name="notifications[notification_messages_new_notice]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_messages_new_notice' ) || 'yes' == get_usermeta( $current_user->id, 'notification_messages_new_notice' ) ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_messages_new_notice]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_messages_new_notice' ) ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
 		
 		<?php do_action( 'messages_screen_notification_settings' ) ?>
@@ -364,7 +363,7 @@ function messages_delete_activity( $args = true ) {
 function messages_format_notifications( $action, $item_id, $secondary_item_id, $total_items ) {
 	global $bp;
 	
-	if ( $action == 'new_message') {
+	if ( 'new_message' == $action ) {
 		if ( (int)$total_items > 1 )
 			return apply_filters( 'bp_messages_multiple_new_message_notification', '<a href="' . $bp->loggedin_user->domain . $bp->messages->slug . '/inbox" title="Inbox">' . sprintf( __('You have %d new messages'), (int)$total_items ) . '</a>', $total_items );		
 		else
@@ -412,12 +411,12 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 		}
 		
 	// If there is only 1 recipient and it is the logged in user.
-	} else if ( count( $recipients ) == 1 && $recipients[0] == $current_user->user_login ) {
+	} else if ( 1 == count( $recipients ) && $recipients[0] == $current_user->user_login ) {
 		bp_core_add_message( __('You must send your message to one or more users not including yourself.', 'buddypress'), 'error' );
 		bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/compose' );	
 	
 	// If the subject or content boxes are empty.
-	} else if ( $subject == '' || $content == '' ) {
+	} else if ( empty( $subject ) || empty( $content ) ) {
 		if ( !$from_ajax ) {
 			bp_core_add_message( __('Please make sure you fill in all the fields.', 'buddypress'), 'error' );
 			bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/compose' );
@@ -514,7 +513,7 @@ function messages_remove_callback_values() {
  **************************************************************************/
 
 function messages_send_notice( $subject, $message, $from_template ) {
-	if ( !is_site_admin() || $subject == '' || $message == '' ) {
+	if ( !is_site_admin() || empty( $subject ) || empty( $message ) ) {
 		return false;
 	} else {
 		// Has access to send notices, lets do it.

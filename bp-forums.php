@@ -18,7 +18,7 @@ include_once( 'bp-forums/bp-forums-filters.php' );
 function bp_forums_setup() {
 	global $bp, $bbpress_live;
 
-	if ( get_usermeta( $bp->loggedin_user->id, 'bb_capabilities' ) == '' )
+	if ( '' == get_usermeta( $bp->loggedin_user->id, 'bb_capabilities' ) )
 		bp_forums_make_user_active_member( $bp->loggedin_user->id );
 	
 	$bp->version_numbers->forums = BP_FORUMS_VERSION;

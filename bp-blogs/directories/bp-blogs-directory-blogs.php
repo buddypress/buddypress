@@ -2,7 +2,7 @@
 function bp_blogs_directory_blogs_setup() {
 	global $bp, $current_blog;
 	
-	if ( $bp->current_component == $bp->blogs->slug && $bp->current_action == '' ) {
+	if ( $bp->current_component == $bp->blogs->slug && empty( $bp->current_action ) ) {
 		add_action( 'bp_template_content', 'bp_blogs_directory_blogs_content' );
 		add_action( 'bp_template_sidebar', 'bp_blogs_directory_blogs_sidebar' );
 		

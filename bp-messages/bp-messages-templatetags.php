@@ -21,7 +21,7 @@ Class BP_Messages_Template {
 		$this->user_id = $user_id;
 		$this->box = $box;
 		
-		if ( $this->box == 'notices' )
+		if ( 'notices' == $this->box )
 			$this->threads = BP_Messages_Notice::get_notices();
 		else
 			$this->threads = BP_Messages_Thread::get_current_threads_for_user( $this->user_id, $this->box, $this->pag_num, $this->pag_page );
@@ -32,7 +32,7 @@ Class BP_Messages_Template {
 		} else { 
 			$this->thread_count = count($this->threads);
 		
-			if ( $this->box == 'notices' )
+			if ( 'notices' == $this->box )
 				$this->total_thread_count = BP_Messages_Notice::get_total_notice_count();
 			else
 				$this->total_thread_count = BP_Messages_Thread::get_total_threads_for_user( $this->user_id, $this->box );
@@ -89,7 +89,7 @@ Class BP_Messages_Template {
 		$this->in_the_loop = true;
 		$thread = $this->next_thread();
 
-		if ( $this->current_thread == 0 ) // loop has just started
+		if ( 0 == $this->current_thread ) // loop has just started
 			do_action('loop_start');
 	}
 }
@@ -97,10 +97,10 @@ Class BP_Messages_Template {
 function bp_has_message_threads() {
 	global $bp, $messages_template;
 
-	if ( $bp->current_action == 'notices' && !is_site_admin() ) {
+	if ( 'notices' == $bp->current_action && !is_site_admin() ) {
 		wp_redirect( $bp->displayed_user->id );
 	} else {
-		if ( $bp->current_action == 'inbox' )
+		if ( 'inbox' == $bp->current_action )
 			bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, 'messages', 'new_message' );
 	
 		$messages_template = new BP_Messages_Template( $bp->loggedin_user->id, $bp->current_action );
@@ -268,7 +268,7 @@ function bp_message_notice_delete_link() {
 function bp_message_activate_deactivate_link() {
 	global $messages_template, $bp;
 
-	if ( $messages_template->thread->is_active == "1" ) {
+	if ( 1 == (int)$messages_template->thread->is_active ) {
 		$link = $bp->loggedin_user->domain . $bp->messages->slug . '/notices/deactivate/' . $messages_template->thread->id;
 	} else {
 		$link = $bp->loggedin_user->domain . $bp->messages->slug . '/notices/activate/' . $messages_template->thread->id;		
@@ -279,7 +279,7 @@ function bp_message_activate_deactivate_link() {
 function bp_message_activate_deactivate_text() {
 	global $messages_template;
 	
-	if ( $messages_template->thread->is_active == "1" ) {
+	if ( 1 == (int)$messages_template->thread->is_active  ) {
 		$text = __('Deactivate', 'buddypress');
 	} else {
 		$text = __('Activate', 'buddypress');		

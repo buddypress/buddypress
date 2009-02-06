@@ -90,7 +90,7 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 	global $current_site;
 
 	// Send email with activation link.
-	if( constant( "VHOST" ) == 'no' ) {
+	if ( 'no' == constant( "VHOST" ) ) {
 		$activate_url = bp_activation_page( false ) . "?key=$key";
 	} else {
 		$activate_url = bp_activation_page( false ) ."?key=$key";
@@ -99,10 +99,10 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 	$activate_url = clean_url($activate_url);
 	$admin_email = get_site_option( "admin_email" );
 	
-	if ( $admin_email == '' )
+	if ( empty( $admin_email ) )
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
 	
-	$from_name = get_site_option( "site_name" ) == '' ? 'WordPress' : wp_specialchars( get_site_option( "site_name" ) );
+	$from_name = ( '' == get_site_option( "site_name" ) ) ? 'WordPress' : wp_specialchars( get_site_option( "site_name" ) );
 	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 	$message = sprintf(__("To activate your blog, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\nAfter you activate, you can visit your blog here:\n\n%s", 'buddypress' ), $activate_url, clean_url("http://{$domain}{$path}"));
 	$subject = '[' . $from_name . '] ' . sprintf(__('Activate %s', 'buddypress' ), clean_url('http://' . $domain . $path));
@@ -120,10 +120,10 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 	// Send email with activation link.
 	$admin_email = get_site_option( "admin_email" );
 	
-	if ( $admin_email == '' )
+	if ( empty( $admin_email ) )
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
 	
-	$from_name = get_site_option( "site_name" ) == '' ? 'WordPress' : wp_specialchars( get_site_option( "site_name" ) );
+	$from_name = ( '' == get_site_option( "site_name" ) ) ? 'WordPress' : wp_specialchars( get_site_option( "site_name" ) );
 	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 	$message = sprintf(__( apply_filters( 'wpmu_signup_user_notification_email', "To activate your user, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\n" ) ), clean_url( bp_activation_page( false ) . "?key=$key") );
 	$subject = sprintf(__( apply_filters( 'wpmu_signup_user_notification_subject', 'Activate %s' )), $user);

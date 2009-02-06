@@ -30,8 +30,8 @@ function groups_install() {
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 	
 	$sql[] = "CREATE TABLE {$bp->groups->table_name} (
-	  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			creator_id int(11) NOT NULL,
+	  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+			creator_id bigint(20) NOT NULL,
 	  		name varchar(100) NOT NULL,
 	  		slug varchar(100) NOT NULL,
 	  		description longtext NOT NULL,
@@ -51,10 +51,10 @@ function groups_install() {
 	 	   ) {$charset_collate};";
 	
 	$sql[] = "CREATE TABLE {$bp->groups->table_name_members} (
-	  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			group_id int(11) NOT NULL,
-			user_id int(11) NOT NULL,
-			inviter_id int(11) NOT NULL,
+	  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+			group_id bigint(20) NOT NULL,
+			user_id bigint(20) NOT NULL,
+			inviter_id bigint(20) NOT NULL,
 			is_admin tinyint(1) NOT NULL DEFAULT '0',
 			is_mod tinyint(1) NOT NULL DEFAULT '0',
 			user_title varchar(100) NOT NULL,
@@ -72,8 +72,8 @@ function groups_install() {
 	 	   ) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE {$bp->groups->table_name_groupmeta} (
-			id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			group_id int(11) NOT NULL,
+			id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+			group_id bigint(20) NOT NULL,
 			meta_key varchar(255) DEFAULT NULL,
 			meta_value longtext DEFAULT NULL,
 			KEY group_id (group_id),
@@ -93,9 +93,9 @@ function groups_wire_install() {
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 	
 	$sql[] = "CREATE TABLE {$bp->groups->table_name_wire} (
-	  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			item_id int(11) NOT NULL,
-			user_id int(11) NOT NULL,
+	  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+			item_id bigint(20) NOT NULL,
+			user_id bigint(20) NOT NULL,
 			content longtext NOT NULL,
 			date_posted datetime NOT NULL,
 			KEY item_id (item_id),
@@ -149,10 +149,10 @@ function groups_check_installed() {
 	
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( $wpdb->get_var("SHOW TABLES LIKE '%" . $bp->groups->table_name . "%'") == false ) || ( get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION )  )
+		if ( false == ( $wpdb->get_var("SHOW TABLES LIKE '%" . $bp->groups->table_name . "%'") ) || ( get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION )  )
 			groups_install();
 			
-		if ( ( function_exists('bp_wire_install') && $wpdb->get_var("SHOW TABLES LIKE '%" . $bp->groups->table_name_wire . "%'") == false ) || ( get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION ) )
+		if ( ( function_exists('bp_wire_install') && false == $wpdb->get_var("SHOW TABLES LIKE '%" . $bp->groups->table_name_wire . "%'") ) || ( get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION ) )
 			groups_wire_install();
 	}
 }
@@ -198,7 +198,7 @@ function groups_setup_nav() {
 		$is_member = ( groups_is_user_member( $bp->loggedin_user->id, $group_obj->id ) ) ? true : false;
 	
 		/* Should this group be visible to the logged in user? */
-		$is_visible = ( $group_obj->status == 'public' || $is_member ) ? true : false;
+		$is_visible = ( 'public' == $group_obj->status || $is_member ) ? true : false;
 	}
 
 	/* Add 'Groups' to the main navigation */
@@ -241,7 +241,7 @@ function groups_setup_nav() {
 			$group_link = $bp->root_domain . '/' . $bp->groups->slug . '/' . $group_obj->slug . '/';
 			
 			// If this is a private or hidden group, does the user have access?
-			if ( $group_obj->status == 'private' || $group_obj->status == 'hidden' ) {
+			if ( 'private' == $group_obj->status || 'hidden' == $group_obj->status ) {
 				if ( groups_is_user_member( $bp->loggedin_user->id, $group_obj->id ) && is_user_logged_in() )
 					$has_access = true;
 				else
@@ -365,14 +365,14 @@ function groups_screen_create_group() {
 		$group_obj = new BP_Groups_Group( $_SESSION['group_obj_id'] );
 
 		// If the user skipped the avatar step, move onto the next step and don't save anything.
-		if ( isset( $_POST['skip'] ) && $create_group_step == "3" ) {
+		if ( isset( $_POST['skip'] ) && 3 == (int)$create_group_step ) {
 			$create_group_step++;
 			$completed_to_step++;
 			$_SESSION['completed_to_step'] = $completed_to_step;
 		} else {
 			
 			// We're done.
-			if ( $create_group_step == 4 )
+			if ( 4 == (int)$create_group_step )
 				bp_core_redirect( bp_group_permalink( $group_obj, false ) );
 			
 			if ( !$group_id = groups_create_group( $create_group_step, $_SESSION['group_obj_id'] ) ) {
@@ -454,7 +454,7 @@ function groups_screen_group_wire() {
 	$wire_action = $bp->action_variables[0];
 		
 	if ( $is_single_group ) {
-		if ( $wire_action == 'post' && BP_Groups_Member::check_is_member( $bp->loggedin_user->id, $group_obj->id ) ) {
+		if ( 'post' == $wire_action && BP_Groups_Member::check_is_member( $bp->loggedin_user->id, $group_obj->id ) ) {
 
 			if ( !groups_new_wire_post( $group_obj->id, $_POST['wire-post-textarea'] ) ) {
 				bp_core_add_message( __('Wire message could not be posted.', 'buddypress'), 'error' );
@@ -468,7 +468,7 @@ function groups_screen_group_wire() {
 				bp_core_redirect( bp_group_permalink( $group_obj, false ) . '/' . $bp->wire->slug );
 			}
 	
-		} else if ( $wire_action == 'delete' && BP_Groups_Member::check_is_member( $bp->loggedin_user->id, $group_obj->id ) ) {
+		} else if ( 'delete' == $wire_action && BP_Groups_Member::check_is_member( $bp->loggedin_user->id, $group_obj->id ) ) {
 			$wire_message_id = $bp->action_variables[1];
 
 			if ( !groups_delete_wire_post( $wire_message_id, $bp->groups->table_name_wire ) ) {
@@ -483,7 +483,7 @@ function groups_screen_group_wire() {
 				bp_core_redirect( bp_group_permalink( $group_obj, false ) . '/' . $bp->wire->slug );
 			}
 		
-		} else if ( ( !$wire_action || $bp->action_variables[1] == 'latest' ) ) {
+		} else if ( ( !$wire_action || 'latest' == $bp->action_variables[1] ) ) {
 			bp_core_load_template( 'groups/wire' );
 		} else {
 			bp_core_load_template( 'groups/group-home' );
@@ -517,7 +517,7 @@ function groups_screen_group_invite() {
 	global $is_single_group, $group_obj;
 	
 	if ( $is_single_group ) {
-		if ( isset($bp->action_variables) && $bp->action_variables[0] == 'send' ) {
+		if ( isset($bp->action_variables) && 'send' == $bp->action_variables[0] ) {
 			// Send the invites.
 			groups_send_invites($group_obj);
 			
@@ -537,7 +537,7 @@ function groups_screen_group_leave() {
 	global $is_single_group, $group_obj;
 	
 	if ( $is_single_group ) {
-		if ( isset($bp->action_variables) && $bp->action_variables[0] == 'yes' ) {
+		if ( isset($bp->action_variables) && 'yes' == $bp->action_variables[0] ) {
 			
 			// Check if the user is the group admin first.
 			if ( groups_is_group_admin( $bp->loggedin_user->id, $group_obj->id ) ) {
@@ -554,7 +554,7 @@ function groups_screen_group_leave() {
 				bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug );
 			}
 			
-		} else if ( isset($bp->action_variables) && $bp->action_variables[0] == 'no' ) {
+		} else if ( isset($bp->action_variables) && 'no' == $bp->action_variables[0] ) {
 			
 			bp_core_redirect( bp_group_permalink( $group_obj, false) );
 		
@@ -575,7 +575,7 @@ function groups_screen_group_request_membership() {
 	if ( !is_user_logged_in() )
 		return false;
 	
-	if ( $group_obj->status == 'private' ) {
+	if ( 'private' == $group_obj->status ) {
 		// If the user has submitted a request, send it.
 		if ( isset( $_POST['group-request-send']) ) {
 			if ( !groups_send_membership_request( $bp->loggedin_user->id, $group_obj->id ) ) {
@@ -607,7 +607,7 @@ function groups_screen_group_admin() {
 function groups_screen_group_admin_edit_details() {
 	global $bp, $group_obj;
 	
-	if ( $bp->current_component == $bp->groups->slug && $bp->action_variables[0] == 'edit-details' ) {
+	if ( $bp->current_component == $bp->groups->slug && 'edit-details' == $bp->action_variables[0] ) {
 	
 		if ( $bp->is_item_admin || $bp->is_item_mod  ) {
 		
@@ -637,7 +637,7 @@ add_action( 'wp', 'groups_screen_group_admin_edit_details', 4 );
 function groups_screen_group_admin_settings() {
 	global $bp, $group_obj;
 	
-	if ( $bp->current_component == $bp->groups->slug && $bp->action_variables[0] == 'group-settings' ) {
+	if ( $bp->current_component == $bp->groups->slug && 'group-settings' == $bp->action_variables[0] ) {
 		
 		if ( !$bp->is_item_admin )
 			return false;
@@ -671,7 +671,7 @@ add_action( 'wp', 'groups_screen_group_admin_settings', 4 );
 function groups_screen_group_admin_avatar() {
 	global $bp, $group_obj;
 	
-	if ( $bp->current_component == $bp->groups->slug && $bp->action_variables[0] == 'group-avatar' ) {
+	if ( $bp->current_component == $bp->groups->slug && 'group-avatar' == $bp->action_variables[0] ) {
 		
 		if ( !$bp->is_item_admin )
 			return false;
@@ -716,12 +716,12 @@ add_action( 'wp', 'groups_screen_group_admin_avatar', 4 );
 function groups_screen_group_admin_manage_members() {
 	global $bp, $group_obj;
 
-	if ( $bp->current_component == $bp->groups->slug && $bp->action_variables[0] == 'manage-members' ) {
+	if ( $bp->current_component == $bp->groups->slug && 'manage-members' == $bp->action_variables[0] ) {
 		
 		if ( !$bp->is_item_admin )
 			return false;
 		
-		if ( $bp->action_variables[1] == 'promote' && is_numeric( $bp->action_variables[2] ) ) {
+		if ( 'promote' == $bp->action_variables[1] && is_numeric( $bp->action_variables[2] ) ) {
 			$user_id = $bp->action_variables[2];
 			
 			// Promote a user.
@@ -736,7 +736,7 @@ function groups_screen_group_admin_manage_members() {
 			bp_core_redirect( site_url() . '/' . $bp->current_component . '/' . $bp->current_item . '/admin/manage-members' );
 		}
 		
-		if ( $bp->action_variables[1] == 'demote' && is_numeric( $bp->action_variables[2] ) ) {
+		if ( 'demote' == $bp->action_variables[1] && is_numeric( $bp->action_variables[2] ) ) {
 			$user_id = $bp->action_variables[2];
 			
 			// Demote a user.
@@ -751,7 +751,7 @@ function groups_screen_group_admin_manage_members() {
 			bp_core_redirect( site_url() . '/' . $bp->current_component . '/' . $bp->current_item . '/admin/manage-members' );
 		}
 		
-		if ( $bp->action_variables[1] == 'ban' && is_numeric( $bp->action_variables[2] ) ) {
+		if ( 'ban' == $bp->action_variables[1] && is_numeric( $bp->action_variables[2] ) ) {
 			$user_id = $bp->action_variables[2];
 			
 			// Ban a user.
@@ -766,7 +766,7 @@ function groups_screen_group_admin_manage_members() {
 			bp_core_redirect( site_url() . '/' . $bp->current_component . '/' . $bp->current_item . '/admin/manage-members' );
 		}
 		
-		if ( $bp->action_variables[1] == 'unban' && is_numeric( $bp->action_variables[2] ) ) {
+		if ( 'unban' == $bp->action_variables[1] && is_numeric( $bp->action_variables[2] ) ) {
 			$user_id = $bp->action_variables[2];
 			
 			// Remove a ban for user.
@@ -792,9 +792,9 @@ add_action( 'wp', 'groups_screen_group_admin_manage_members', 4 );
 function groups_screen_group_admin_requests() {
 	global $bp, $group_obj;
 	
-	if ( $bp->current_component == $bp->groups->slug && $bp->action_variables[0] == 'membership-requests' ) {
+	if ( $bp->current_component == $bp->groups->slug && 'membership-requests' == $bp->action_variables[0] ) {
 		
-		if ( !$bp->is_item_admin || $group_obj->status == 'public' )
+		if ( !$bp->is_item_admin || 'public' == $group_obj->status )
 			return false;
 		
 		// Remove any screen notifications
@@ -804,7 +804,7 @@ function groups_screen_group_admin_requests() {
 		$membership_id = $bp->action_variables[2];
 
 		if ( isset($request_action) && isset($membership_id) ) {
-			if ( $request_action == 'accept' && is_numeric($membership_id) ) {
+			if ( 'accept' == $request_action && is_numeric($membership_id) ) {
 
 				// Accept the membership request
 				if ( !groups_accept_membership_request( $membership_id ) ) {
@@ -813,7 +813,7 @@ function groups_screen_group_admin_requests() {
 					bp_core_add_message( __( 'Group membership request accepted', 'buddypress' ) );
 				}
 
-			} else if ( $request_action == 'reject' && is_numeric($membership_id) ) {
+			} else if ( 'reject' == $request_action && is_numeric($membership_id) ) {
 
 				// Reject the membership request
 				if ( !groups_reject_membership_request( $membership_id ) ) {
@@ -839,7 +839,7 @@ add_action( 'wp', 'groups_screen_group_admin_requests', 4 );
 function groups_screen_group_admin_delete_group() {
 	global $bp, $group_obj;
 	
-	if ( $bp->current_component == $bp->groups->slug && $bp->action_variables[0] == 'delete-group' ) {
+	if ( $bp->current_component == $bp->groups->slug && 'delete-group' == $bp->action_variables[0] ) {
 		
 		if ( !$bp->is_item_admin )
 			return false;
@@ -877,34 +877,34 @@ function groups_screen_notification_settings() {
 		<tr>
 			<td></td>
 			<td><?php _e( 'A member invites you to join a group', 'buddypress' ) ?></td>
-			<td class="yes"><input type="radio" name="notifications[notification_groups_invite]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_groups_invite') || get_usermeta( $current_user->id, 'notification_groups_invite') == 'yes' ) { ?>checked="checked" <?php } ?>/></td>
-			<td class="no"><input type="radio" name="notifications[notification_groups_invite]" value="no" <?php if ( get_usermeta( $current_user->id, 'notification_groups_invite') == 'no' ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="yes"><input type="radio" name="notifications[notification_groups_invite]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_groups_invite') || 'yes' == get_usermeta( $current_user->id, 'notification_groups_invite') ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_groups_invite]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_groups_invite') ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
 		<tr>
 			<td></td>
 			<td><?php _e( 'Group information is updated', 'buddypress' ) ?></td>
-			<td class="yes"><input type="radio" name="notifications[notification_groups_group_updated]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_groups_group_updated') || get_usermeta( $current_user->id, 'notification_groups_group_updated') == 'yes' ) { ?>checked="checked" <?php } ?>/></td>
-			<td class="no"><input type="radio" name="notifications[notification_groups_group_updated]" value="no" <?php if ( get_usermeta( $current_user->id, 'notification_groups_group_updated') == 'no' ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="yes"><input type="radio" name="notifications[notification_groups_group_updated]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_groups_group_updated') || 'yes' == get_usermeta( $current_user->id, 'notification_groups_group_updated') ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_groups_group_updated]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_groups_group_updated') ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
 		<?php if ( function_exists('bp_wire_install') ) { ?>
 		<tr>
 			<td></td>
 			<td><?php _e( 'A member posts on the wire of a group you belong to', 'buddypress' ) ?></td>
-			<td class="yes"><input type="radio" name="notifications[notification_groups_wire_post]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_groups_wire_post') || get_usermeta( $current_user->id, 'notification_groups_wire_post') == 'yes' ) { ?>checked="checked" <?php } ?>/></td>
-			<td class="no"><input type="radio" name="notifications[notification_groups_wire_post]" value="no" <?php if ( get_usermeta( $current_user->id, 'notification_groups_wire_post') == 'no' ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="yes"><input type="radio" name="notifications[notification_groups_wire_post]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_groups_wire_post') || 'yes' == get_usermeta( $current_user->id, 'notification_groups_wire_post') ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_groups_wire_post]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_groups_wire_post') ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
 		<?php } ?>
 		<tr>
 			<td></td>
 			<td><?php _e( 'You are promoted to a group administrator or moderator', 'buddypress' ) ?></td>
-			<td class="yes"><input type="radio" name="notifications[notification_groups_admin_promotion]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_groups_admin_promotion') || get_usermeta( $current_user->id, 'notification_groups_admin_promotion') == 'yes' ) { ?>checked="checked" <?php } ?>/></td>
-			<td class="no"><input type="radio" name="notifications[notification_groups_admin_promotion]" value="no" <?php if ( get_usermeta( $current_user->id, 'notification_groups_admin_promotion') == 'no' ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="yes"><input type="radio" name="notifications[notification_groups_admin_promotion]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_groups_admin_promotion') || 'yes' == get_usermeta( $current_user->id, 'notification_groups_admin_promotion') ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_groups_admin_promotion]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_groups_admin_promotion') ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
 		<tr>
 			<td></td>
 			<td><?php _e( 'A member requests to join a private group for which you are an admin', 'buddypress' ) ?></td>
-			<td class="yes"><input type="radio" name="notifications[notification_groups_membership_request]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_groups_membership_request') || get_usermeta( $current_user->id, 'notification_groups_membership_request') == 'yes' ) { ?>checked="checked" <?php } ?>/></td>
-			<td class="no"><input type="radio" name="notifications[notification_groups_membership_request]" value="no" <?php if ( get_usermeta( $current_user->id, 'notification_groups_membership_request') == 'no' ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="yes"><input type="radio" name="notifications[notification_groups_membership_request]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_groups_membership_request') || 'yes' == get_usermeta( $current_user->id, 'notification_groups_membership_request') ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_groups_membership_request]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_groups_membership_request') ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
 		
 		<?php do_action( 'groups_screen_notification_settings' ); ?>
@@ -951,7 +951,7 @@ function groups_record_activity( $args = true ) {
 	if ( function_exists('bp_activity_record') ) {
 		extract($args);
 
-		if ( $group_obj->status == 'public' )
+		if ( 'public' == $group_obj->status )
 			bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_user_id );
 	}
 }
@@ -1337,7 +1337,7 @@ function groups_filter_user_groups( $filter, $pag_num_per_page = 5, $pag_page = 
 function groups_create_group( $step, $group_id ) {
 	global $bp, $create_group_step, $group_obj, $bbpress_live;
 
-	if ( is_numeric( $step ) && ( $step == '1' || $step == '2' || $step == '3' || $step == '4' ) ) {
+	if ( is_numeric( $step ) && ( 1 == (int)$step || 2 == (int)$step || 3 == (int)$step || 4 == (int)$step ) ) {
 		
 		if ( !$group_obj )
 			$group_obj = new BP_Groups_Group( $group_id );		
@@ -1418,9 +1418,9 @@ function groups_create_group( $step, $group_id ) {
 				if ( $_POST['group-photos-status'] != 'all' )
 					$group_obj->photos_admin_only = 1;
 				
-				if ( $_POST['group-status'] == 'private' ) {
+				if ( 'private' == $_POST['group-status'] ) {
 					$group_obj->status = 'private';
-				} else if ( $_POST['group-status'] == 'hidden' ) {
+				} else if ( 'hidden' == $_POST['group-status'] ) {
 					$group_obj->status = 'hidden';
 				}
 				
@@ -1479,7 +1479,7 @@ function groups_check_slug( $slug ) {
 		while ( BP_Groups_Group::check_slug( $slug ) );
 	}
 	
-	if ( substr( $slug, 0, 2 ) == 'wp' )
+	if ( 'wp' == substr( $slug, 0, 2 ) )
 		$slug = substr( $slug, 2, strlen( $slug ) - 2 );
 	
 	return $slug;
@@ -2039,7 +2039,7 @@ function groups_get_groupmeta( $group_id, $meta_key = '') {
 
 	$metas = array_map('maybe_unserialize', $metas);
 
-	if ( count($metas) == 1 )
+	if ( 1 == count($metas) )
 		return $metas[0];
 	else
 		return $metas;

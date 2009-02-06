@@ -43,9 +43,14 @@ function bp_core_add_css() {
 	if ( is_user_logged_in() || ( (int)get_site_option( 'show-loggedout-adminbar' ) && !is_user_logged_in() ) ) {
 		wp_enqueue_style( 'bp-admin-bar', site_url( MUPLUGINDIR . '/bp-core/css/admin-bar.css' ) );
 		
-		if ( get_bloginfo('text_direction') == 'rtl' && file_exists( ABSPATH . MUPLUGINDIR . '/bp-core/css/admin-bar-rtl.css' ) )
+		if ( 'rtl' == get_bloginfo('text_direction') && file_exists( ABSPATH . MUPLUGINDIR . '/bp-core/css/admin-bar-rtl.css' ) )
 			wp_enqueue_style( 'bp-admin-bar-rtl', site_url( MUPLUGINDIR . '/bp-core/css/admin-bar-rtl.css' ) );	
 	}
+	
+	// Enable a sitewide CSS file that will apply styles to both the home blog theme
+	// and the member theme.
+	if ( file_exists( WP_CONTENT_DIR . '/themes/' . get_blog_option( 1, 'stylesheet' ) . '/css/site-wide.css' ) )
+		wp_enqueue_style( 'site-wide-styles', WP_CONTENT_URL . '/themes/' . get_blog_option( 1, 'stylesheet' ) . '/css/site-wide.css' );
 	
 	wp_print_styles();
 }
@@ -74,11 +79,11 @@ add_action( 'bp_styles', 'bp_core_add_structure_css' );
  * @uses get_option() Selects a site setting from the DB.
  */
 function bp_core_add_admin_js() {
-	if ( strpos( $_GET['page'], 'bp-core' ) !== false ) {
+	if ( false !== strpos( $_GET['page'], 'bp-core' ) ) {
 		wp_enqueue_script( 'bp-account-admin-js', site_url( MUPLUGINDIR . '/bp-core/js/account-admin.js' ) );
 	}
 	
-	if ( strpos( $_GET['page'], 'bp-core/admin-mods' ) !== false ) {
+	if ( false !== strpos( $_GET['page'], 'bp-core/admin-mods' ) ) {
 		wp_enqueue_script('password-strength-meter');
 	}
 }
@@ -138,7 +143,7 @@ function bp_core_add_cropper_js() {
 			jQuery('#v1_h').val(dimensions.height);
 		}
 
-		<?php if (CORE_AVATAR_V2_W !== false && CORE_AVATAR_V2_H !== false) { ?>
+		<?php if ( CORE_AVATAR_V2_W !== false && CORE_AVATAR_V2_H !== false ) { ?>
 		function v2Cropper() {
 			v1Crop = new Cropper.ImgWithPreview( 
 				'crop-v2-img',

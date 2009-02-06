@@ -19,7 +19,7 @@ function xprofile_filter_format_field_value( $field_value, $field_type ) {
 	if ( !isset($field_value) || empty( $field_value ) )
 		return false;
 
-	if ( $field_type == 'datebox' ) {
+	if ( 'datebox' == $field_type ) {
 		$field_value = bp_format_time( $field_value, true );
 	} else {
 		$field_value = str_replace(']]>', ']]&gt;', $field_value );
@@ -30,7 +30,7 @@ function xprofile_filter_format_field_value( $field_value, $field_type ) {
 
 
 function xprofile_filter_link_profile_data( $field_value, $field_type, $field_id ) {
-	if ( $field_type == 'datebox' )
+	if ( 'datebox' == $field_type )
 		return $field_value;
 	
 	if ( !strpos( $field_value, ',' ) && ( count( explode( ' ', $field_value ) ) > 5 ) )

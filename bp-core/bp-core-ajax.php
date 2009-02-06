@@ -32,12 +32,12 @@ function bp_core_ajax_widget_members() {
 					<div class="item-meta">
 						<span class="activity">
 							<?php 
-							if ( $_POST['filter'] == 'newest-members') {
+							if ( 'newest-members' == $_POST['filter'] ) {
 								echo bp_core_get_last_activity( $user->user_registered, __( 'registered %s ago', 'buddypress' ) );
-							} else if ( $_POST['filter'] == 'recently-active-members') {
+							} else if ( 'recently-active-members' == $_POST['filter'] ) {
 								echo bp_core_get_last_activity( get_usermeta( $user->user_id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) );
-							} else if ( $_POST['filter'] == 'popular-members') {
-								if ( get_usermeta( $user->user_id, 'total_friend_count' ) == 1 )
+							} else if ( 'popular-members' == $_POST['filter'] ) {
+								if ( 1 == get_usermeta( $user->user_id, 'total_friend_count' ) )
 									echo get_usermeta( $user->user_id, 'total_friend_count' ) . __(' friend', 'buddypress');
 								else
 									echo get_usermeta( $user->user_id, 'total_friend_count' ) . __(' friends', 'buddypress');

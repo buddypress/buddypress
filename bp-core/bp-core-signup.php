@@ -32,7 +32,7 @@ function bp_core_signup_show_blog_form( $blogname = '', $blog_title = '', $error
 		<?php
 	
 		// Blog name
-		if( constant( "VHOST" ) == 'no' )
+		if ( 'no' == constant( "VHOST" ) )
 			echo '<label for="blogname">' . __('Blog Name:', 'buddypress') . '</label>';
 		else
 			echo '<label for="blogname">' . __('Blog Domain:', 'buddypress') . '</label>';
@@ -41,15 +41,16 @@ function bp_core_signup_show_blog_form( $blogname = '', $blog_title = '', $error
 			<p class="error"><?php echo $errmsg ?></p>
 		<?php }
 
-		if( constant( "VHOST" ) == 'no' ) {
+		if ( 'no' == constant( "VHOST" ) ) {
 			echo '<span class="prefix_address">' . $current_site->domain . $current_site->path . '</span><input name="blogname" type="text" id="blogname" value="'.$blogname.'" maxlength="50" /><br />';
 		} else {
 			echo '<input name="blogname" type="text" id="blogname" value="'.$blogname.'" maxlength="50" /><span class="suffix_address">.' . $current_site->domain . $current_site->path . '</span><br />';
 		}
+		
 		if ( !is_user_logged_in() ) {
 			echo '<p class="help-text">';
 			print '(<strong>' . __( 'Your address will be ', 'buddypress'  );
-			if( constant( "VHOST" ) == 'no' ) {
+			if( 'no' == constant( "VHOST" ) ) {
 				print $current_site->domain . $current_site->path . __( 'blogname', 'buddypress'  );
 			} else {
 				print __( 'domain.', 'buddypress'  ) . $current_site->domain . $current_site->path;
@@ -71,11 +72,11 @@ function bp_core_signup_show_blog_form( $blogname = '', $blog_title = '', $error
 			<label for="blog_public_on"><?php _e( 'Privacy:', 'buddypress' ) ?></label>
 			<?php _e( 'I would like my blog to appear in search engines like Google and Technorati, and in public listings around this site.', 'buddypress' ); ?> 
 			<label class="checkbox" for="blog_public_on">
-				<input type="radio" id="blog_public_on" name="blog_public" value="1" <?php if( !isset( $_POST['blog_public'] ) || $_POST['blog_public'] == '1' ) { ?>checked="checked"<?php } ?> />
+				<input type="radio" id="blog_public_on" name="blog_public" value="1" <?php if( !isset( $_POST['blog_public'] ) || '1' == $_POST['blog_public'] ) { ?>checked="checked"<?php } ?> />
 				 &nbsp;<?php _e( 'Yes', 'buddypress' ); ?>
 			</label>
 			<label class="checkbox" for="blog_public_off">
-				<input type="radio" id="blog_public_off" name="blog_public" value="0" <?php if( isset( $_POST['blog_public'] ) && $_POST['blog_public'] == '0' ) { ?>checked="checked"<?php } ?> />
+				<input type="radio" id="blog_public_off" name="blog_public" value="0" <?php if( isset( $_POST['blog_public'] ) && '0' == $_POST['blog_public'] ) { ?>checked="checked"<?php } ?> />
 				 &nbsp;<?php _e( 'No', 'buddypress' ); ?>
 			</label>
 		</p>
@@ -217,9 +218,9 @@ function bp_core_signup_signup_user($user_name = '', $user_email = '', $errors =
 		
 		<?php bp_core_signup_show_user_form($user_name, $user_email, $errors); ?>
 		
-		<?php if( $active_signup == 'blog' ) { ?>
+		<?php if( 'blog' == $active_signup ) { ?>
 			<input id="signupblog" type="hidden" name="signup_for" value="blog" />
-		<?php } elseif( $active_signup == 'user' ) { ?>
+		<?php } elseif( 'user' == $active_signup ) { ?>
 			<input id="signupblog" type="hidden" name="signup_for" value="user" />
 		<?php } else { ?>
 			<div id="blog-or-username">

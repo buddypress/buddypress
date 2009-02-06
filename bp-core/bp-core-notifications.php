@@ -12,7 +12,6 @@ function bp_core_add_notification( $item_id, $user_id, $component_name, $compone
 	$notification->component_name = $component_name;
 	$notification->component_action = $component_action;
 	$notification->date_notified = $date_notified;
-	$notification->is_new = 1;
 
 	if ( $secondary_item_id )
 		$notification->secondary_item_id = $secondary_item_id;
@@ -58,8 +57,8 @@ function bp_core_get_notifications_for_user( $user_id ) {
 			if ( $action_item_count < 1 )
 				continue;
 			
-			$item_id = ( $action_item_count == 1 ) ? $component_action_items[0]->item_id : false;
-			$secondary_item_id = ( $action_item_count == 1 ) ? $component_action_items[0]->secondary_item_id : false;
+			$item_id = ( 1 == $action_item_count ) ? $component_action_items[0]->item_id : false;
+			$secondary_item_id = ( 1 == $action_item_count ) ? $component_action_items[0]->secondary_item_id : false;
 			
 			if ( function_exists( $component_name . '_format_notifications' ) ) {
 				$renderable[] = call_user_func( $component_name . '_format_notifications', $component_action_name, $item_id, $secondary_item_id, $action_item_count );

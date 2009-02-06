@@ -25,7 +25,7 @@ class BP_Wire_Posts_Template {
 			
 			// Seeing as we're viewing a users wire, lets remove any new wire
 			// post notifications
-			if ( $bp->current_action == 'all-posts' )
+			if ( 'all-posts' == $bp->current_action )
 				bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, 'xprofile', 'new_wire_post' );
 			
 		} else {
@@ -98,7 +98,7 @@ class BP_Wire_Posts_Template {
 		$this->in_the_loop = true;
 		$this->wire_post = $this->next_wire_post();
 
-		if ( $this->current_wire_post == 0 ) // loop has just started
+		if ( 0 == $this->current_wire_post ) // loop has just started
 			do_action('loop_start');
 	}
 }
@@ -261,7 +261,7 @@ function bp_wire_get_action() {
 	else
 		$uri = $bp->current_item;
 	
-	if ( $bp->current_component == 'wire' || $bp->current_component == 'profile' ) {
+	if ( $bp->current_component == $bp->wire->slug || $bp->current_component == $bp->profile->slug ) {
 		echo apply_filters( 'bp_wire_get_action', $bp->displayed_user->domain . $bp->wire->slug . '/post/' );
 	} else {
 		echo apply_filters( 'bp_wire_get_action', site_url() . '/' . $bp->{$bp->current_component}->slug . '/' . $uri . '/wire/post/' );
@@ -302,7 +302,7 @@ function bp_wire_delete_link() {
 		$uri = $bp->current_item;
 		
 	if ( ( $wire_posts_template->wire_post->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin ) {
-		if ( $bp->current_component == 'wire' || $bp->current_component == 'profile' ) {
+		if ( $bp->wire->slug == $bp->current_component || $bp->profile->slug == $bp->current_component ) {
 			echo apply_filters( 'bp_wire_delete_link', '<a href="' . $bp->displayed_user->domain . $bp->wire->slug . '/delete/' . $wire_posts_template->wire_post->id . '">[' . __('Delete', 'buddypress') . ']</a>' );
 		} else {
 			echo apply_filters( 'bp_wire_delete_link', '<a href="' . site_url() . '/' . $bp->{$bp->current_component}->slug . '/' . $uri . '/wire/delete/' . $wire_posts_template->wire_post->id . '">[' . __('Delete', 'buddypress') . ']</a>' );
@@ -318,7 +318,7 @@ function bp_wire_see_all_link() {
 	else
 		$uri = $bp->current_item;
 	
-	if ( $bp->current_component == 'wire' || $bp->current_component == 'profile') {
+	if ( $bp->current_component == $bp->wire->slug || $bp->current_component == $bp->profile->slug ) {
 		echo apply_filters( 'bp_wire_see_all_link', $bp->displayed_user->domain . $bp->wire->slug );
 	} else {
 		echo apply_filters( 'bp_wire_see_all_link', $bp->root_domain . '/' . $bp->groups->slug . '/' . $uri . '/wire' );

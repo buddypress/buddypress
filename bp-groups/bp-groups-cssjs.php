@@ -22,7 +22,7 @@ add_action( 'bp_styles', 'groups_add_structure_css' );
 function groups_add_cropper_js() {
 	global $bp, $create_group_step;
 	
-	if ( $create_group_step == '3' || ( $bp->current_component == $bp->groups->slug && $bp->action_variables[0] == 'group-avatar' ) ) {
+	if ( 3 == (int)$create_group_step || ( $bp->current_component == $bp->groups->slug && $bp->action_variables[0] == 'group-avatar' ) ) {
 		wp_enqueue_script('jquery');
 		wp_enqueue_script('prototype');
 		wp_enqueue_script('scriptaculous-root');

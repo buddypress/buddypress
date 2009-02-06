@@ -19,14 +19,14 @@ class BP_Friendship_Template {
 		$this->pag_page = isset( $_REQUEST['fpage'] ) ? intval( $_REQUEST['fpage'] ) : 1;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : 10;
 
-		if ( $bp->current_action == 'my-friends' && $_POST['friend-search-box'] != '' ) {
+		if ( 'my-friends' == $bp->current_action && !empty( $_POST['friend-search-box'] ) ) {
 			
 			// Search results
 			$this->friendships = friends_search_friends( $_POST['friend-search-box'], $bp->displayed_user->id, $this->pag_num, $this->pag_page );
 			$this->total_friend_count = (int)$this->friendships['total'];
 			$this->friendships = $this->friendships['friends'];
 		
-		} else if ( $bp->current_action == 'requests' ) {
+		} else if ( 'requests' == $bp->current_action ) {
 		
 			// Friendship Requests
 			$this->friendships = friends_get_friendship_requests( $bp->displayed_user->id );
@@ -36,9 +36,9 @@ class BP_Friendship_Template {
 		} else {
 			$order = $bp->action_variables[0];
 			
-			if ( $order == 'newest' ) {
+			if ( 'newest' == $order ) {
 				$this->friendships = friends_get_newest( $bp->displayed_user->id, $this->pag_num, $this->pag_page );
-			} else if ( $order == 'alphabetically' ) {
+			} else if ( 'alphabetically' == $order ) {
 				$this->friendships = friends_get_alphabetically( $bp->displayed_user->id, $this->pag_num, $this->pag_page );				
 			} else {
 				$this->friendships = friends_get_recently_active( $bp->displayed_user->id, $this->pag_num, $this->pag_page );	
@@ -101,14 +101,14 @@ class BP_Friendship_Template {
 		$this->in_the_loop = true;
 		$this->friendship = $this->next_friendship();
 		
-		if ( $bp->current_action == 'requests' ) {
+		if ( 'requests' == $bp->current_action ) {
 			$this->friendship = new BP_Friends_Friendship( $this->friendship );
 		} else {
 			$this->friendship = (object) $this->friendship;
 			$this->friendship->friend = new BP_Core_User( $this->friendship->user_id );
 		}
 		
-		if ( $this->current_friendship == 0 ) // loop has just started
+		if ( 0 == $this->current_friendship ) // loop has just started
 			do_action('loop_start');
 	}
 }
@@ -314,9 +314,9 @@ function bp_add_friend_button( $potential_friend_id = false ) {
 		$friend_status = BP_Friends_Friendship::check_is_friend( $bp->loggedin_user->id, $potential_friend_id );
 
 		echo '<div class="friendship-button ' . $friend_status . '" id="friendship-button-' . $potential_friend_id . '">';
-		if ( $friend_status == 'pending' ) {
+		if ( 'pending' == $friend_status ) {
 			echo '<a class="requested" href="' . $bp->loggedin_user->domain . $bp->friends->slug . '">' . __( 'Friendship Requested', 'buddypress' ) . '</a>';
-		} else if ( $friend_status == 'is_friend') {
+		} else if ( 'is_friend' == $friend_status ) {
 			echo '<a href="' . $bp->loggedin_user->domain . $bp->friends->slug . '/remove-friend/' . $potential_friend_id . '" title="' . __('Cancel Friendship', 'buddypress') . '" id="friend-' . $potential_friend_id . '" rel="remove" class="remove">' . __('Cancel Friendship', 'buddypress') . '</a>';
 		} else {
 			echo '<a href="' . $bp->loggedin_user->domain . $bp->friends->slug . '/add-friend/' . $potential_friend_id . '" title="' . __('Add Friend', 'buddypress') . '" id="friend-' . $potential_friend_id . '" rel="add" class="add">' . __('Add Friend', 'buddypress') . '</a>';
@@ -332,9 +332,9 @@ function bp_add_friend_button( $potential_friend_id = false ) {
 function bp_friends_header_tabs() {
 	global $bp, $create_group_step, $completed_to_step;
 ?>
-	<li<?php if ( !isset($bp->action_variables[0]) || $bp->action_variables[0] == 'recently-active' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->friends->slug ?>/my-friends/recently-active"><?php _e( 'Recently Active', 'buddypress' ) ?></a></li>
-	<li<?php if ( $bp->action_variables[0] == 'newest' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->friends->slug ?>/my-friends/newest"><?php _e( 'Newest', 'buddypress' ) ?></a></li>
-	<li<?php if ( $bp->action_variables[0] == 'alphabetically' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->friends->slug ?>/my-friends/alphabetically""><?php _e( 'Alphabetically', 'buddypress' ) ?></a></li>
+	<li<?php if ( !isset($bp->action_variables[0]) || 'recently_active' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->friends->slug ?>/my-friends/recently-active"><?php _e( 'Recently Active', 'buddypress' ) ?></a></li>
+	<li<?php if ( 'newest' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->friends->slug ?>/my-friends/newest"><?php _e( 'Newest', 'buddypress' ) ?></a></li>
+	<li<?php if ( 'alphabetically' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->friends->slug ?>/my-friends/alphabetically""><?php _e( 'Alphabetically', 'buddypress' ) ?></a></li>
 <?php
 	do_action( 'friends_header_tabs' );
 }

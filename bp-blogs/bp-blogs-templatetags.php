@@ -79,7 +79,7 @@ class BP_Blogs_Blog_Template {
 		$this->in_the_loop = true;
 		$blog = $this->next_blog();
 		
-		if ( $this->current_blog == 0 ) // loop has just started
+		if ( 0 == $this->current_blog ) // loop has just started
 			do_action('loop_start');
 	}
 }
@@ -198,7 +198,7 @@ class BP_Blogs_Blog_Post_Template {
 		$this->in_the_loop = true;
 		$post = $this->next_post();
 		
-		if ( $this->current_post == 0 ) // loop has just started
+		if ( 0 == $this->current_post ) // loop has just started
 			do_action('loop_start');
 	}
 }
@@ -383,9 +383,9 @@ function bp_post_get_permalink( $post = null, $blog_id = null ) {
 		$leavename? '' : '%pagename%',
 	);
 
-	if ( $post->post_type == 'page' )
+	if ( 'page' == $post->post_type )
 		return get_page_link($post->ID, $leavename);
-	elseif ($post->post_type == 'attachment')
+	else if ( 'attachment' == $post->post_type )
 		return get_attachment_link($post->ID);
 
 	$permalink = get_blog_option( $blog_id, 'permalink_structure' );
@@ -395,7 +395,7 @@ function bp_post_get_permalink( $post = null, $blog_id = null ) {
 		$unixtime = strtotime($post->post_date);
 
 		$category = '';
-		if ( strpos($permalink, '%category%') !== false ) {
+		if ( false !== strpos($permalink, '%category%') ) {
 			$cats = get_the_category($post->ID);
 			if ( $cats )
 				usort($cats, '_usort_terms_by_ID'); // order by ID
@@ -412,7 +412,7 @@ function bp_post_get_permalink( $post = null, $blog_id = null ) {
 		}
 
 		$author = '';
-		if ( strpos($permalink, '%author%') !== false ) {
+		if ( false !== strpos($permalink, '%author%') ) {
 			$authordata = get_userdata($post->post_author);
 			$author = $authordata->user_nicename;
 		}
@@ -546,7 +546,7 @@ class BP_Blogs_Post_Comment_Template {
 		$this->in_the_loop = true;
 		$comment = $this->next_comment();
 		
-		if ( $this->current_comment == 0 ) // loop has just started
+		if ( 0 == $this->current_comment ) // loop has just started
 			do_action('loop_start');
 	}
 }
@@ -615,7 +615,7 @@ function bp_comment_date( $date_format = null, $echo = true ) {
 	if ( !$date_format )
 		$date_format = get_option('date_format');
 		
-	if ( $echo == true )
+	if ( $echo )
 		echo apply_filters( 'bp_comment_date', mysql2date( $date_format, $comments_template->comment->comment_date ) );
 	else 
 		return apply_filters( 'bp_comment_date', mysql2date( $date_format, $comments_template->comment->comment_date ) );
@@ -650,7 +650,7 @@ function bp_blog_signup_enabled() {
 		
 	$active_signup = apply_filters( 'wpmu_active_signup', $active_signup ); // return "all", "none", "blog" or "user"
 	
-	if ( $active_signup == 'none' || $active_signup == 'user' )
+	if ( 'none' == $active_signup || 'user' == $active_signup )
 		return false;
 	
 	return true;
@@ -700,7 +700,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 	global $current_site;
 	
 	// Blog name
-	if( constant( "VHOST" ) == 'no' )
+	if( 'no' == constant( "VHOST" ) )
 		echo '<label for="blogname">' . __('Blog Name:', 'buddypress') . '</label>';
 	else
 		echo '<label for="blogname">' . __('Blog Domain:', 'buddypress') . '</label>';
@@ -709,14 +709,14 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 		<p class="error"><?php echo $errmsg ?></p>
 	<?php }
 
-	if( constant( "VHOST" ) == 'no' ) {
+	if( 'no' == constant( "VHOST" ) ) {
 		echo '<span class="prefix_address">' . $current_site->domain . $current_site->path . '</span><input name="blogname" type="text" id="blogname" value="'.$blogname.'" maxlength="50" /><br />';
 	} else {
 		echo '<input name="blogname" type="text" id="blogname" value="'.$blogname.'" maxlength="50" /><span class="suffix_address">.' . $current_site->domain . $current_site->path . '</span><br />';
 	}
 	if ( !is_user_logged_in() ) {
 		print '(<strong>' . __( 'Your address will be ' , 'buddypress');
-		if( constant( "VHOST" ) == 'no' ) {
+		if( 'no' == constant( "VHOST" ) ) {
 			print $current_site->domain . $current_site->path . __( 'blogname' , 'buddypress');
 		} else {
 			print __( 'domain.' , 'buddypress') . $current_site->domain . $current_site->path;
@@ -738,11 +738,11 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 		<?php _e('I would like my blog to appear in search engines like Google and Technorati, and in public listings around this site.', 'buddypress'); ?> 
 		<div style="clear:both;"></div>
 		<label class="checkbox" for="blog_public_on">
-			<input type="radio" id="blog_public_on" name="blog_public" value="1" <?php if( !isset( $_POST['blog_public'] ) || $_POST['blog_public'] == '1' ) { ?>checked="checked"<?php } ?> />
+			<input type="radio" id="blog_public_on" name="blog_public" value="1" <?php if( !isset( $_POST['blog_public'] ) || '1' == $_POST['blog_public'] ) { ?>checked="checked"<?php } ?> />
 			<strong><?php _e( 'Yes' , 'buddypress'); ?></strong>
 		</label>
 		<label class="checkbox" for="blog_public_off">
-			<input type="radio" id="blog_public_off" name="blog_public" value="0" <?php if( isset( $_POST['blog_public'] ) && $_POST['blog_public'] == '0' ) { ?>checked="checked"<?php } ?> />
+			<input type="radio" id="blog_public_off" name="blog_public" value="0" <?php if( isset( $_POST['blog_public'] ) && '0' == $_POST['blog_public'] ) { ?>checked="checked"<?php } ?> />
 			<strong><?php _e( 'No' , 'buddypress'); ?></strong>
 		</label>
 	</p>
@@ -817,9 +817,9 @@ function bp_blogs_blog_tabs() {
 	$current_tab = $bp->current_action
 ?>
 	<ul class="content-header-nav">
-		<li<?php if ( $current_tab == 'my-blogs' || $current_tab == '' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->blogs->slug ?>/my-blogs"><?php printf( __( "%s's Blogs", 'buddypress' ), $bp->displayed_user->fullname )  ?></a></li>
-		<li<?php if ( $current_tab == 'recent-posts' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->blogs->slug ?>/recent-posts"><?php printf( __( "%s's Recent Posts", 'buddypress' ), $bp->displayed_user->fullname )  ?></a></li>
-		<li<?php if ( $current_tab == 'recent-comments' ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->blogs->slug ?>/recent-comments"><?php printf( __( "%s's Recent Comments", 'buddypress' ), $bp->displayed_user->fullname )  ?></a></li>	
+		<li<?php if ( 'my-blogs' == $current_tab || empty( $current_tab ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->blogs->slug ?>/my-blogs"><?php printf( __( "%s's Blogs", 'buddypress' ), $bp->displayed_user->fullname )  ?></a></li>
+		<li<?php if ( 'recent-posts' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->blogs->slug ?>/recent-posts"><?php printf( __( "%s's Recent Posts", 'buddypress' ), $bp->displayed_user->fullname )  ?></a></li>
+		<li<?php if ( 'recent-comments' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->blogs->slug ?>/recent-comments"><?php printf( __( "%s's Recent Comments", 'buddypress' ), $bp->displayed_user->fullname )  ?></a></li>	
 	</ul>
 <?php
 	do_action( 'bp_blogs_blog_tabs', $current_tab );

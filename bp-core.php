@@ -192,18 +192,16 @@ function bp_core_install() {
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 	
 	$sql[] = "CREATE TABLE $bp->core->table_name_notifications (
-		  		id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				user_id int(11) NOT NULL,
-				item_id int(11) NOT NULL,
-				secondary_item_id int(11),
+		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				user_id bigint(20) NOT NULL,
+				item_id bigint(20) NOT NULL,
+				secondary_item_id bigint(20),
 		  		component_name varchar(75) NOT NULL,
 				component_action varchar(75) NOT NULL,
 		  		date_notified datetime NOT NULL,
-				is_new tinyint(1) NOT NULL,
 			    KEY item_id (item_id),
 				KEY secondary_item_id (secondary_item_id),
 				KEY user_id (user_id),
-			    KEY is_new (is_new),
 				KEY component_name (component_name),
 		 	   	KEY component_action (component_action)
 			   ) {$charset_collate};";
@@ -239,7 +237,7 @@ function bp_core_check_installed() {
 
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( $wpdb->get_var("show tables like '%{$bp->core->table_name_notifications}%'") == false ) || ( get_site_option('bp-core-db-version') < BP_CORE_DB_VERSION )  )
+		if ( ( false == $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->core->table_name_notifications}%'" ) ) || ( get_site_option('bp-core-db-version') < BP_CORE_DB_VERSION )  )
 			bp_core_install();
 	}
 }
@@ -307,7 +305,7 @@ function bp_core_setup_nav() {
 		/* Add the subnav items to the profile */
 		bp_core_add_subnav_item( 'profile', 'public', __('Public', 'buddypress'), $profile_link, 'xprofile_screen_display_profile' );
 
-		if ( $bp->current_component == 'profile' ) {
+		if ( 'profile' == $bp->current_component ) {
 			if ( bp_is_home() ) {
 				$bp->bp_options_title = __('My Profile', 'buddypress');
 			} else {
@@ -832,7 +830,7 @@ function bp_create_excerpt( $text, $excerpt_length = 55, $filter_shortcodes = tr
  * @return bool true if the data is serialized
  */
 function bp_is_serialized( $data ) {
-   if ( trim($data) == "" ) {
+   if ( '' == trim($data) ) {
       return false;
    }
 
@@ -880,7 +878,7 @@ function bp_core_add_message( $message, $type = false ) {
  */
 function bp_core_render_notice() {
 	if ( $_SESSION['message'] ) {
-		$type = ( $_SESSION['message_type'] == 'success' ) ? 'updated' : 'error';
+		$type = ( 'success' == $_SESSION['message_type'] ) ? 'updated' : 'error';
 	?>
 		<div id="message" class="<?php echo $type; ?>">
 			<p><?php echo $_SESSION['message']; ?></p>
@@ -924,7 +922,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 
 	/* $newer_date will equal false if we want to know the time elapsed between a date and the current time */
 	/* $newer_date will have a value if we want to work out time elapsed between two known dates */
-	$newer_date = ( $newer_date == false ) ? ( time() + ( 60*60*0 ) ) : $newer_date;
+	$newer_date = ( !$newer_date ) ? ( time() + ( 60*60*0 ) ) : $newer_date;
 
 	/* Difference in seconds */
 	$since = $newer_date - $older_date;
@@ -946,7 +944,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	}
 
 	/* Set output var */
-	$output = ( $count == 1 ) ? '1 '. $chunks[$i][1] : $count . ' ' . $chunks[$i][2];
+	$output = ( 1 == $count ) ? '1 '. $chunks[$i][1] : $count . ' ' . $chunks[$i][2];
 
 	/* Step two: the second chunk */
 	if ( $i + 1 < $j ) {
@@ -957,7 +955,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	
 		if ( ( $count2 = floor( ( $since - ( $seconds * $count ) ) / $seconds2 ) ) != 0 ) {
 			/* Add to output var */
-			$output .= ($count2 == 1) ? ', 1 '. $chunks[$i + 1][1] : ", " . $count2 . ' ' . $chunks[$i + 1][2];
+			$output .= ( 1 == $count2 ) ? ', 1 '. $chunks[$i + 1][1] : ", " . $count2 . ' ' . $chunks[$i + 1][2];
 		}
 	}
 
