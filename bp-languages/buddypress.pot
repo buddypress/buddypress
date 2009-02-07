@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-02-06 14:11+0000\n"
+"POT-Creation-Date: 2009-02-07 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "Just Me"
 msgstr ""
 
-#: bp-activity.php:183 bp-friends.php:96 bp-friends.php:101 bp-friends.php:258
+#: bp-activity.php:183 bp-friends.php:95 bp-friends.php:100 bp-friends.php:257
 #: bp-friends/bp-friends-templatetags.php:366
 #: buddypress-theme/member-themes/buddypress-member/friends/index.php:10
 msgid "My Friends"
@@ -178,7 +178,7 @@ msgid ""
 "user. Now have at it!"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:692 bp-core/bp-core-signup.php:153
+#: bp-blogs/bp-blogs-templatetags.php:692 bp-core/bp-core-signup.php:154
 msgid "Create Blog &raquo;"
 msgstr ""
 
@@ -190,47 +190,47 @@ msgstr ""
 msgid "Blog Domain:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:718 bp-core/bp-core-signup.php:51
+#: bp-blogs/bp-blogs-templatetags.php:718 bp-core/bp-core-signup.php:52
 msgid "Your address will be "
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:720 bp-core/bp-core-signup.php:53
+#: bp-blogs/bp-blogs-templatetags.php:720 bp-core/bp-core-signup.php:54
 msgid "blogname"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:722 bp-core/bp-core-signup.php:55
+#: bp-blogs/bp-blogs-templatetags.php:722 bp-core/bp-core-signup.php:56
 msgid "domain."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:724 bp-core/bp-core-signup.php:57
+#: bp-blogs/bp-blogs-templatetags.php:724 bp-core/bp-core-signup.php:58
 msgid ""
 "Must be at least 4 characters, letters and numbers only. It cannot be "
 "changed so choose carefully!)"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:729 bp-core/bp-core-signup.php:63
+#: bp-blogs/bp-blogs-templatetags.php:729 bp-core/bp-core-signup.php:64
 msgid "Blog Title:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:737 bp-core/bp-core-signup.php:71
+#: bp-blogs/bp-blogs-templatetags.php:737 bp-core/bp-core-signup.php:72
 msgid "Privacy:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:738 bp-core/bp-core-signup.php:72
+#: bp-blogs/bp-blogs-templatetags.php:738 bp-core/bp-core-signup.php:73
 msgid ""
 "I would like my blog to appear in search engines like Google and Technorati, "
 "and in public listings around this site."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:742 bp-core/bp-core-signup.php:75
-#: bp-friends.php:162 bp-groups.php:874 bp-messages.php:251
+#: bp-blogs/bp-blogs-templatetags.php:742 bp-core/bp-core-signup.php:76
+#: bp-friends.php:161 bp-groups.php:874 bp-messages.php:250
 #: bp-xprofile.php:312
 #: buddypress-theme/member-themes/buddypress-member/groups/admin/edit-details.php:31
 msgid "Yes"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:746 bp-core/bp-core-signup.php:79
-#: bp-friends.php:163 bp-groups.php:875 bp-messages.php:252
+#: bp-blogs/bp-blogs-templatetags.php:746 bp-core/bp-core-signup.php:80
+#: bp-friends.php:162 bp-groups.php:875 bp-messages.php:251
 #: bp-xprofile.php:313
 #: buddypress-theme/member-themes/buddypress-member/groups/admin/edit-details.php:32
 msgid "No"
@@ -240,7 +240,7 @@ msgstr ""
 msgid "Congratulations! You have successfully registered a new blog."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:796 bp-core/bp-core-signup.php:186
+#: bp-blogs/bp-blogs-templatetags.php:796 bp-core/bp-core-signup.php:187
 #, php-format
 msgid ""
 "<a href=\"http://%1$s\">http://%2$s</a> is your new blog.  <a href=\"%3$s"
@@ -326,85 +326,85 @@ msgstr ""
 msgid "There are no blogs to feature."
 msgstr ""
 
-#: bp-core.php:264 bp-core/bp-core-adminbar.php:29
+#: bp-core.php:262 bp-core/bp-core-adminbar.php:29
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core.php:302 bp-xprofile.php:214 bp-xprofile.php:311
+#: bp-core.php:300 bp-xprofile.php:214 bp-xprofile.php:311
 msgid "Profile"
 msgstr ""
 
-#: bp-core.php:308 bp-groups/bp-groups-templatetags.php:336
+#: bp-core.php:306 bp-groups/bp-groups-templatetags.php:336
 #: bp-xprofile.php:220
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:312 bp-xprofile.php:226
+#: bp-core.php:310 bp-xprofile.php:226
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:791 bp-core/bp-core-templatetags.php:304
+#: bp-core.php:789 bp-core/bp-core-templatetags.php:304
 #: buddypress-theme/buddypress-home/comments.php:42
 msgid "at"
 msgstr ""
 
-#: bp-core.php:916
+#: bp-core.php:914
 msgid "year"
 msgstr ""
 
-#: bp-core.php:916
+#: bp-core.php:914
 msgid "years"
 msgstr ""
 
-#: bp-core.php:917
+#: bp-core.php:915
 msgid "month"
 msgstr ""
 
-#: bp-core.php:917
+#: bp-core.php:915
 msgid "months"
 msgstr ""
 
-#: bp-core.php:918
+#: bp-core.php:916
 msgid "week"
 msgstr ""
 
-#: bp-core.php:918
+#: bp-core.php:916
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:919
+#: bp-core.php:917
 msgid "day"
 msgstr ""
 
-#: bp-core.php:919
+#: bp-core.php:917
 msgid "days"
 msgstr ""
 
-#: bp-core.php:920
+#: bp-core.php:918
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:920
+#: bp-core.php:918
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:921
+#: bp-core.php:919
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:921
+#: bp-core.php:919
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:922 bp-core.php:956
+#: bp-core.php:920 bp-core.php:954
 msgid "second"
 msgstr ""
 
-#: bp-core.php:922
+#: bp-core.php:920
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1005
+#: bp-core.php:1003
 msgid "not recently active"
 msgstr ""
 
@@ -470,7 +470,7 @@ msgid ""
 "<a href=\"%2$s\">homepage</a>."
 msgstr ""
 
-#: bp-core/bp-core-activation.php:78 bp-core/bp-core-signup.php:98
+#: bp-core/bp-core-activation.php:78 bp-core/bp-core-signup.php:99
 msgid "Username:"
 msgstr ""
 
@@ -891,101 +891,101 @@ msgid ""
 "registration is complete."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:104
+#: bp-core/bp-core-signup.php:105
 msgid "(Must be at least 4 characters, letters and numbers only.)"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:108
+#: bp-core/bp-core-signup.php:109
 msgid "Email&nbsp;Address:"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:112
+#: bp-core/bp-core-signup.php:113
 msgid ""
 "(We&#8217;ll send your password to this address, so <strong>triple-check it</"
 "strong>.)"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:142
+#: bp-core/bp-core-signup.php:143
 msgid "You're already registered!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:143
+#: bp-core/bp-core-signup.php:144
 msgid ""
 "You can still create another blog however. Fill in the form below to add "
 "another blog to your account."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:146
+#: bp-core/bp-core-signup.php:147
 msgid ""
 "There is no limit to the number of blogs you can have, so create to your "
 "heart's content, but blog responsibly. If you&#8217;re not going to use a "
 "great blog domain, leave it for a new user. Now have at it!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:184
+#: bp-core/bp-core-signup.php:185
 #, php-format
 msgid "The blog %s is yours."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:214
+#: bp-core/bp-core-signup.php:215
 msgid ""
 "Registering for a new account is easy, just fill in the form below and "
 "you'll be a new member in no time at all."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:226
+#: bp-core/bp-core-signup.php:227
 msgid "Create a Blog?"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:227
+#: bp-core/bp-core-signup.php:228
 msgid ""
 "If you want to create your first blog, select the option below and you'll be "
 "asked for a few more details."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:232
+#: bp-core/bp-core-signup.php:233
 msgid "Gimme a blog!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:237
+#: bp-core/bp-core-signup.php:238
 msgid "Just a username, please."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:243
+#: bp-core/bp-core-signup.php:244
 msgid "Next &raquo;"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:270
+#: bp-core/bp-core-signup.php:271
 msgid "Congratulations, you are now registered!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:271
+#: bp-core/bp-core-signup.php:272
 #, php-format
 msgid "Your new username is: %s"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:273
+#: bp-core/bp-core-signup.php:274
 #, php-format
 msgid ""
 "Before you can start using your new username, <strong>you must activate it</"
 "strong>. Check your inbox at <strong>%1$s</strong> and click the link given."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:274
+#: bp-core/bp-core-signup.php:275
 msgid ""
 "If you do not activate your username within two days, you will have to sign "
 "up again."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:301
+#: bp-core/bp-core-signup.php:302
 msgid "Signup &raquo;"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:335
+#: bp-core/bp-core-signup.php:336
 msgid "Congratulations, You are now registered!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:337
+#: bp-core/bp-core-signup.php:338
 #, php-format
 msgid ""
 "But, before you can start using your blog, <strong>you must activate it</"
@@ -993,36 +993,36 @@ msgid ""
 "It should arrive within 30 minutes."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:340
+#: bp-core/bp-core-signup.php:341
 msgid "Still waiting for your email?"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:342
+#: bp-core/bp-core-signup.php:343
 msgid ""
 "If you haven't received your email yet, there are a number of things you can "
 "do:"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:344
+#: bp-core/bp-core-signup.php:345
 msgid ""
 "Wait a little longer.  Sometimes delivery of email can be delayed by "
 "processes outside of our control."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:345
+#: bp-core/bp-core-signup.php:346
 msgid ""
 "Check the junk email or spam folder of your email client.  Sometime emails "
 "wind up there by mistake."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:346
+#: bp-core/bp-core-signup.php:347
 #, php-format
 msgid ""
 "Have you entered your email correctly?  We think it's %s but if you've "
 "entered it incorrectly, you won't receive it."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:362
+#: bp-core/bp-core-signup.php:363
 #, php-format
 msgid ""
 "Greetings Site Administrator! You are currently allowing '%s' registrations. "
@@ -1030,40 +1030,40 @@ msgid ""
 "php'>Options page</a>."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:368
+#: bp-core/bp-core-signup.php:369
 msgid "Registration has been disabled."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:376
+#: bp-core/bp-core-signup.php:377
 #, php-format
 msgid ""
 "You must first <a href=\"%s\">login</a>, and then you can create a new blog."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:383
+#: bp-core/bp-core-signup.php:384
 msgid "User registration has been disabled."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:389
+#: bp-core/bp-core-signup.php:390
 msgid "Blog registration has been disabled."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:402
+#: bp-core/bp-core-signup.php:403
 msgid "I'm sorry. We're not accepting new registrations at this time."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:404
+#: bp-core/bp-core-signup.php:405
 msgid "You're logged in already. No need to register again!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:412
+#: bp-core/bp-core-signup.php:413
 #, php-format
 msgid ""
 "<p><em>The blog you were looking for, <strong>%s</strong> doesn't exist but "
 "you can create it now!</em></p>"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:414
+#: bp-core/bp-core-signup.php:415
 #, php-format
 msgid ""
 "<p><em>The blog you were looking for, <strong>%s</strong> doesn't exist.</"
@@ -1375,63 +1375,63 @@ msgstr ""
 msgid "Viewing post %d to %d (%d total posts)"
 msgstr ""
 
-#: bp-friends.php:90 bp-friends.php:161
+#: bp-friends.php:89 bp-friends.php:160
 msgid "Friends"
 msgstr ""
 
-#: bp-friends.php:97
+#: bp-friends.php:96
 msgid "Requests"
 msgstr ""
 
-#: bp-friends.php:130
+#: bp-friends.php:129
 msgid "Friendship accepted"
 msgstr ""
 
-#: bp-friends.php:132
+#: bp-friends.php:131
 msgid "Friendship could not be accepted"
 msgstr ""
 
-#: bp-friends.php:139
+#: bp-friends.php:138
 msgid "Friendship rejected"
 msgstr ""
 
-#: bp-friends.php:141
+#: bp-friends.php:140
 msgid "Friendship could not be rejected"
 msgstr ""
 
-#: bp-friends.php:167
+#: bp-friends.php:166
 msgid "A member sends you a friendship request"
 msgstr ""
 
-#: bp-friends.php:173
+#: bp-friends.php:172
 msgid "A member accepts your friendship request"
 msgstr ""
 
-#: bp-friends.php:232 bp-friends.php:241
+#: bp-friends.php:231 bp-friends.php:240
 #, php-format
 msgid "%s and %s are now friends"
 msgstr ""
 
-#: bp-friends.php:258
+#: bp-friends.php:257
 #, php-format
 msgid "%d friends accepted your friendship requests"
 msgstr ""
 
-#: bp-friends.php:262 bp-friends/bp-friends-notifications.php:58
+#: bp-friends.php:261 bp-friends/bp-friends-notifications.php:58
 #, php-format
 msgid "%s accepted your friendship request"
 msgstr ""
 
-#: bp-friends.php:268 bp-friends.php:272
+#: bp-friends.php:267 bp-friends.php:271
 msgid "Friendship requests"
 msgstr ""
 
-#: bp-friends.php:268
+#: bp-friends.php:267
 #, php-format
 msgid "You have %d pending friendship requests"
 msgstr ""
 
-#: bp-friends.php:272
+#: bp-friends.php:271
 #, php-format
 msgid "You have a friendship request from %s"
 msgstr ""
@@ -1454,7 +1454,7 @@ msgstr ""
 msgid "Friendship Requested"
 msgstr ""
 
-#: bp-friends/bp-friends-ajax.php:29
+#: bp-friends/bp-friends-ajax.php:28
 msgid "Request Pending"
 msgstr ""
 
@@ -2515,153 +2515,153 @@ msgstr ""
 msgid "There are no groups to feature."
 msgstr ""
 
-#: bp-messages.php:145 bp-messages.php:250
+#: bp-messages.php:144 bp-messages.php:249
 msgid "Messages"
 msgstr ""
 
-#: bp-messages.php:151
+#: bp-messages.php:150
 #: buddypress-theme/member-themes/buddypress-member/messages/index.php:12
 msgid "Inbox"
 msgstr ""
 
-#: bp-messages.php:152
+#: bp-messages.php:151
 #: buddypress-theme/member-themes/buddypress-member/messages/sentbox.php:10
 msgid "Sent Messages"
 msgstr ""
 
-#: bp-messages.php:153
+#: bp-messages.php:152
 msgid "Compose"
 msgstr ""
 
-#: bp-messages.php:154
+#: bp-messages.php:153
 msgid "Notices"
 msgstr ""
 
-#: bp-messages.php:158
+#: bp-messages.php:157
 msgid "My Messages"
 msgstr ""
 
-#: bp-messages.php:220
+#: bp-messages.php:219
 msgid "There was a problem deactivating that notice."
 msgstr ""
 
-#: bp-messages.php:222
+#: bp-messages.php:221
 msgid "Notice deactivated."
 msgstr ""
 
-#: bp-messages.php:226
+#: bp-messages.php:225
 msgid "There was a problem activating that notice."
 msgstr ""
 
-#: bp-messages.php:228
+#: bp-messages.php:227
 msgid "Notice activated."
 msgstr ""
 
-#: bp-messages.php:232
+#: bp-messages.php:231
 msgid "There was a problem deleting that notice."
 msgstr ""
 
-#: bp-messages.php:234
+#: bp-messages.php:233
 msgid "Notice deleted."
 msgstr ""
 
-#: bp-messages.php:256
+#: bp-messages.php:255
 msgid "A member sends you a new message"
 msgstr ""
 
-#: bp-messages.php:262
+#: bp-messages.php:261
 msgid "A new site notice is posted"
 msgstr ""
 
-#: bp-messages.php:287
+#: bp-messages.php:286
 msgid "From: "
 msgstr ""
 
-#: bp-messages.php:311
+#: bp-messages.php:310
 msgid "There was an error deleting that message."
 msgstr ""
 
-#: bp-messages.php:313
+#: bp-messages.php:312
 msgid "Message deleted."
 msgstr ""
 
-#: bp-messages.php:333
+#: bp-messages.php:332
 msgid "There was an error deleting messages."
 msgstr ""
 
-#: bp-messages.php:335 bp-messages/bp-messages-ajax.php:71
+#: bp-messages.php:334 bp-messages/bp-messages-ajax.php:71
 msgid "Messages deleted."
 msgstr ""
 
-#: bp-messages.php:369
+#: bp-messages.php:368
 #, php-format
 msgid "You have %d new messages"
 msgstr ""
 
-#: bp-messages.php:371
+#: bp-messages.php:370
 #, php-format
 msgid "You have %d new message"
 msgstr ""
 
-#: bp-messages.php:395
+#: bp-messages.php:394
 msgid "Notice posted successfully."
 msgstr ""
 
-#: bp-messages.php:397
+#: bp-messages.php:396
 msgid "There was an error posting that notice."
 msgstr ""
 
-#: bp-messages.php:408
+#: bp-messages.php:407
 msgid "Please enter at least one valid user to send this message to."
 msgstr ""
 
-#: bp-messages.php:411
+#: bp-messages.php:410
 msgid "There was an error sending the reply, please try again."
 msgstr ""
 
-#: bp-messages.php:416
+#: bp-messages.php:415
 msgid "You must send your message to one or more users not including yourself."
 msgstr ""
 
-#: bp-messages.php:422
+#: bp-messages.php:421
 msgid "Please make sure you fill in all the fields."
 msgstr ""
 
-#: bp-messages.php:425
+#: bp-messages.php:424
 msgid "Please make sure you have typed a message before sending a reply."
 msgstr ""
 
-#: bp-messages.php:454 bp-messages.php:484
+#: bp-messages.php:453 bp-messages.php:483
 msgid "Message could not be sent, please try again."
 msgstr ""
 
-#: bp-messages.php:464
+#: bp-messages.php:463
 msgid "Message sent successfully!"
 msgstr ""
 
-#: bp-messages.php:464
+#: bp-messages.php:463
 #: buddypress-theme/member-themes/buddypress-member/messages/index.php:34
 #: buddypress-theme/member-themes/buddypress-member/messages/sentbox.php:29
 msgid "View Message"
 msgstr ""
 
-#: bp-messages.php:587
+#: bp-messages.php:586
 msgid "There was an error when viewing that message"
 msgstr ""
 
-#: bp-messages.php:601
+#: bp-messages.php:600
 msgid "Sent between "
 msgstr ""
 
-#: bp-messages.php:602
+#: bp-messages.php:601
 msgid "and"
 msgstr ""
 
-#: bp-messages.php:633
+#: bp-messages.php:632
 msgid "Reply: "
 msgstr ""
 
-#: bp-messages.php:644
+#: bp-messages.php:643
 msgid "Re: "
 msgstr ""
 
@@ -2873,8 +2873,8 @@ msgid "Field Name"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-admin.php:86
-#: bp-xprofile/bp-xprofile-classes.php:724
-#: bp-xprofile/bp-xprofile-classes.php:809
+#: bp-xprofile/bp-xprofile-classes.php:728
+#: bp-xprofile/bp-xprofile-classes.php:813
 msgid "Field Type"
 msgstr ""
 
@@ -2944,216 +2944,220 @@ msgstr ""
 msgid "The %s was deleted successfully!"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:99
+#: bp-xprofile/bp-xprofile-classes.php:97
 msgid "Add Group"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:102
+#: bp-xprofile/bp-xprofile-classes.php:100
 msgid "Edit Group"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:123
+#: bp-xprofile/bp-xprofile-classes.php:121
 msgid "Profile Group Name"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:166
+#: bp-xprofile/bp-xprofile-classes.php:164
 msgid "Please make sure you give the group a name."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:529
+#: bp-xprofile/bp-xprofile-classes.php:533
 msgid "January"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:529
+#: bp-xprofile/bp-xprofile-classes.php:533
 msgid "February"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:529
+#: bp-xprofile/bp-xprofile-classes.php:533
 msgid "March"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:530
+#: bp-xprofile/bp-xprofile-classes.php:534
 msgid "April"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:530
+#: bp-xprofile/bp-xprofile-classes.php:534
 msgid "May"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:530
+#: bp-xprofile/bp-xprofile-classes.php:534
 msgid "June"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:531
+#: bp-xprofile/bp-xprofile-classes.php:535
 msgid "July"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:531
+#: bp-xprofile/bp-xprofile-classes.php:535
 msgid "August"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:531
+#: bp-xprofile/bp-xprofile-classes.php:535
 msgid "September"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:532
+#: bp-xprofile/bp-xprofile-classes.php:536
 msgid "October"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:532
+#: bp-xprofile/bp-xprofile-classes.php:536
 msgid "November"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:532
+#: bp-xprofile/bp-xprofile-classes.php:536
 msgid "December"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:628
+#: bp-xprofile/bp-xprofile-classes.php:632
 msgid "Please enter options for this Field:"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:632
+#: bp-xprofile/bp-xprofile-classes.php:633
+msgid "Order By:"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-classes.php:636
 msgid "Order Entered"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:633
+#: bp-xprofile/bp-xprofile-classes.php:637
 msgid "Name - Ascending"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:634
+#: bp-xprofile/bp-xprofile-classes.php:638
 msgid "Name - Descending"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:647
-#: bp-xprofile/bp-xprofile-classes.php:661
+#: bp-xprofile/bp-xprofile-classes.php:651
+#: bp-xprofile/bp-xprofile-classes.php:665
 msgid "Option"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:649
-#: bp-xprofile/bp-xprofile-classes.php:662
+#: bp-xprofile/bp-xprofile-classes.php:653
+#: bp-xprofile/bp-xprofile-classes.php:666
 msgid "Default Value"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:667
+#: bp-xprofile/bp-xprofile-classes.php:671
 msgid "Add Another Option"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:675
+#: bp-xprofile/bp-xprofile-classes.php:679
 msgid "Add Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:678
+#: bp-xprofile/bp-xprofile-classes.php:682
 msgid "Edit Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:702
-#: bp-xprofile/bp-xprofile-classes.php:791
+#: bp-xprofile/bp-xprofile-classes.php:706
+#: bp-xprofile/bp-xprofile-classes.php:795
 msgid "Field Title"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:709
-#: bp-xprofile/bp-xprofile-classes.php:796
+#: bp-xprofile/bp-xprofile-classes.php:713
+#: bp-xprofile/bp-xprofile-classes.php:800
 msgid "Field Description"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:716
-#: bp-xprofile/bp-xprofile-classes.php:801
+#: bp-xprofile/bp-xprofile-classes.php:720
+#: bp-xprofile/bp-xprofile-classes.php:805
 msgid "Is This Field Required?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:718
-#: bp-xprofile/bp-xprofile-classes.php:804
+#: bp-xprofile/bp-xprofile-classes.php:722
+#: bp-xprofile/bp-xprofile-classes.php:808
 msgid "Not Required"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:719
-#: bp-xprofile/bp-xprofile-classes.php:805
+#: bp-xprofile/bp-xprofile-classes.php:723
+#: bp-xprofile/bp-xprofile-classes.php:809
 msgid "Required"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:726
-#: bp-xprofile/bp-xprofile-classes.php:813
+#: bp-xprofile/bp-xprofile-classes.php:730
+#: bp-xprofile/bp-xprofile-classes.php:817
 msgid "Text Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:727
-#: bp-xprofile/bp-xprofile-classes.php:815
+#: bp-xprofile/bp-xprofile-classes.php:731
+#: bp-xprofile/bp-xprofile-classes.php:819
 msgid "Multi-line Text Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:728
-#: bp-xprofile/bp-xprofile-classes.php:817
+#: bp-xprofile/bp-xprofile-classes.php:732
+#: bp-xprofile/bp-xprofile-classes.php:821
 msgid "Date Selector"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:729
-#: bp-xprofile/bp-xprofile-classes.php:819
+#: bp-xprofile/bp-xprofile-classes.php:733
+#: bp-xprofile/bp-xprofile-classes.php:823
 msgid "Radio Buttons"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:730
-#: bp-xprofile/bp-xprofile-classes.php:821
+#: bp-xprofile/bp-xprofile-classes.php:734
+#: bp-xprofile/bp-xprofile-classes.php:825
 msgid "Drop Down Select Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:731
-#: bp-xprofile/bp-xprofile-classes.php:823
+#: bp-xprofile/bp-xprofile-classes.php:735
+#: bp-xprofile/bp-xprofile-classes.php:827
 msgid "Multi Select Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:732
+#: bp-xprofile/bp-xprofile-classes.php:736
 msgid "Checkboxes"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:739
+#: bp-xprofile/bp-xprofile-classes.php:743
 msgid "Save"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:740
+#: bp-xprofile/bp-xprofile-classes.php:744
 msgid "or"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:740
+#: bp-xprofile/bp-xprofile-classes.php:744
 msgid "Cancel"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:753
+#: bp-xprofile/bp-xprofile-classes.php:757
 msgid "Add Prebuilt Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:829
+#: bp-xprofile/bp-xprofile-classes.php:833
 msgid "Add"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:841
+#: bp-xprofile/bp-xprofile-classes.php:845
 msgid "No prebuilt fields available at this time."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:883
+#: bp-xprofile/bp-xprofile-classes.php:887
 msgid "Visit author homepage"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:887
+#: bp-xprofile/bp-xprofile-classes.php:891
 msgid "Anonymous"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:913
+#: bp-xprofile/bp-xprofile-classes.php:917
 msgid "Please make sure you fill out all required fields."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:916
+#: bp-xprofile/bp-xprofile-classes.php:920
 msgid ""
 "Radio button field types require at least one option. Please add options "
 "below."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:919
-#: bp-xprofile/bp-xprofile-classes.php:922
+#: bp-xprofile/bp-xprofile-classes.php:923
+#: bp-xprofile/bp-xprofile-classes.php:926
 msgid ""
 "Select box field types require at least one option. Please add options below."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:925
+#: bp-xprofile/bp-xprofile-classes.php:929
 msgid ""
 "Checkbox field types require at least one option. Please add options below."
 msgstr ""
