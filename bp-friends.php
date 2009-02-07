@@ -258,7 +258,7 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 			} else {
 				$user_fullname = bp_core_global_user_fullname( $item_id );
 				$user_url = bp_core_get_userurl( $item_id );
-				return apply_filters( 'bp_friends_single_friendship_accepted_notification', '<a href="' . $user_url . '?new" title="' . $user_fullname .'\'s profile">' . sprintf( __('%s accepted your friendship request'), $user_fullname ) . '</a>', $user_fullname );
+				return apply_filters( 'bp_friends_single_friendship_accepted_notification', '<a href="' . $user_url . '?new" title="' . $user_fullname .'\'s profile">' . sprintf( __( '%s accepted your friendship request', 'buddypress' ), $user_fullname ) . '</a>', $user_fullname );
 			}	
 		break;
 		
