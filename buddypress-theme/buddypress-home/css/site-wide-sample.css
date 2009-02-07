@@ -1,5 +1,10 @@
 /* 
+ Rename this file to 'site-wide.css' to activate it.
+
  Any CSS styles placed in this file will be applied site-wide regardless of which theme is in
  use for a particular page. Essentially, if you want to apply common styles to both your home blog
  theme and your member theme, put them in here.
+
+ This CSS file is not limited to the 'buddypress-home' theme. Place this file in any theme that you
+ activate for your root blog and it will be loaded.
 */
