@@ -238,6 +238,7 @@ class BP_Core_Notification {
 	var $component_name;
 	var $component_action;
 	var $date_notified;
+	var $is_new;
 	
 	function bp_core_notification( $id = false ) {
 		if ( $id ) {
@@ -256,6 +257,7 @@ class BP_Core_Notification {
 			$this->component_name = $notification->component_name;
 			$this->component_action = $notification->component_action;
 			$this->date_notified = $notification->date_notified;
+			$this->is_new = $notification->is_new;
 		}
 	}	
 	
@@ -264,10 +266,10 @@ class BP_Core_Notification {
 		
 		if ( $this->id ) {
 			// Update
-			$sql = $wpdb->prepare( "UPDATE {$bp->core->table_name_notifications} SET item_id = %d, secondary_item_id = %d, user_id = %d, component_name = %s, component_action = %d, date_notified = FROM_UNIXTIME(%d) ) WHERE id = %d", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->id );
+			$sql = $wpdb->prepare( "UPDATE {$bp->core->table_name_notifications} SET item_id = %d, secondary_item_id = %d, user_id = %d, component_name = %s, component_action = %d, date_notified = FROM_UNIXTIME(%d), is_new = %d ) WHERE id = %d", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new, $this->id );
 		} else {
 			// Save
-			$sql = $wpdb->prepare( "INSERT INTO {$bp->core->table_name_notifications} ( item_id, secondary_item_id, user_id, component_name, component_action, date_notified ) VALUES ( %d, %d, %d, %s, %s, FROM_UNIXTIME(%d) )", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified );
+			$sql = $wpdb->prepare( "INSERT INTO {$bp->core->table_name_notifications} ( item_id, secondary_item_id, user_id, component_name, component_action, date_notified, is_new ) VALUES ( %d, %d, %d, %s, %s, FROM_UNIXTIME(%d), %d )", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new );
 		}
 
 		if ( !$result = $wpdb->query( $sql ) )
@@ -288,7 +290,7 @@ class BP_Core_Notification {
 	function get_all_for_user( $user_id ) {
 		global $wpdb, $bp;
 
- 		return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE user_id = %d", $user_id ) );
+ 		return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE user_id = %d AND is_new = 1", $user_id ) );
 	}
 	
 	function delete_for_user_by_type( $user_id, $component_name, $component_action ) {

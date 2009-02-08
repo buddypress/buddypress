@@ -131,6 +131,7 @@ function bp_blogs_setup_globals() {
 	$bp->blogs->table_name_blog_comments = $wpdb->base_prefix . 'bp_user_blogs_comments';
 	$bp->blogs->table_name_blogmeta = $wpdb->base_prefix . 'bp_user_blogs_blogmeta';
 	$bp->blogs->format_activity_function = 'bp_blogs_format_activity';
+	$bp->blogs->format_notification_function = 'bp_blogs_format_notifications';
 	$bp->blogs->image_base = site_url( MUPLUGINDIR . '/bp-groups/images' );
 	$bp->blogs->slug = BP_BLOGS_SLUG;
 

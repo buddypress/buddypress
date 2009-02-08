@@ -125,6 +125,7 @@ function groups_setup_globals( $no_global = false ) {
 	$bp->groups->table_name_groupmeta = $wpdb->base_prefix . 'bp_groups_groupmeta';
 	$bp->groups->image_base = site_url( MUPLUGINDIR . '/bp-groups/images' );
 	$bp->groups->format_activity_function = 'groups_format_activity';
+	$bp->groups->format_notification_function = 'groups_format_notifications';
 	$bp->groups->slug = BP_GROUPS_SLUG;
 
 	if ( function_exists('bp_wire_install') )

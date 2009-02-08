@@ -58,6 +58,8 @@ function friends_setup_globals() {
 	$bp->friends->table_name = $wpdb->base_prefix . 'bp_friends';
 	$bp->friends->image_base = site_url( MUPLUGINDIR . '/bp-friends/images' );
 	$bp->friends->format_activity_function = 'friends_format_activity';
+	$bp->friends->format_notification_function = 'friends_format_notifications';
+
 	$bp->friends->slug = BP_FRIENDS_SLUG;
 
 	$bp->version_numbers->friends = BP_FRIENDS_VERSION;

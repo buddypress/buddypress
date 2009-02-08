@@ -2,7 +2,7 @@
 
 /* Define the current version number for checking if DB tables are up to date. */
 define( 'BP_CORE_VERSION', '1.0b2' );
-define( 'BP_CORE_DB_VERSION', '937' );
+define( 'BP_CORE_DB_VERSION', '1030' );
 
 /* Load the language file */
 if ( file_exists( ABSPATH . 'wp-content/mu-plugins/bp-languages/buddypress-' . get_locale() . '.mo' ) )
@@ -191,7 +191,7 @@ function bp_core_install() {
 	if ( !empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 	
-	$sql[] = "CREATE TABLE $bp->core->table_name_notifications (
+	$sql[] = "CREATE TABLE {$bp->core->table_name_notifications} (
 		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id bigint(20) NOT NULL,
 				item_id bigint(20) NOT NULL,
@@ -199,22 +199,24 @@ function bp_core_install() {
 		  		component_name varchar(75) NOT NULL,
 				component_action varchar(75) NOT NULL,
 		  		date_notified datetime NOT NULL,
+				is_new bool NOT NULL DEFAULT 0,
 			    KEY item_id (item_id),
 				KEY secondary_item_id (secondary_item_id),
 				KEY user_id (user_id),
+				KEY is_new (is_new),
 				KEY component_name (component_name),
 		 	   	KEY component_action (component_action)
 			   ) {$charset_collate};";
 
-	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
-	dbDelta($sql);
+	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
+	dbDelta( $sql );
 	
 	/* Add names of root components to the banned blog list to avoid conflicts */
 	bp_core_add_illegal_names();
 	
 	// dbDelta won't change character sets, so we need to do this seperately.
 	// This will only be in here pre v1.0
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE $bp->core->table_name_notifications DEFAULT CHARACTER SET %s", $wpdb->charset ) );
+	$wpdb->query( $wpdb->prepare( "ALTER TABLE {$bp->core->table_name_notifications} DEFAULT CHARACTER SET %s", $wpdb->charset ) );
 	
 	update_site_option( 'bp-core-db-version', BP_CORE_DB_VERSION );
 }

@@ -12,6 +12,7 @@ function bp_core_add_notification( $item_id, $user_id, $component_name, $compone
 	$notification->component_name = $component_name;
 	$notification->component_action = $component_action;
 	$notification->date_notified = $date_notified;
+	$notification->is_new = 1;
 
 	if ( $secondary_item_id )
 		$notification->secondary_item_id = $secondary_item_id;
@@ -34,8 +35,10 @@ function bp_core_get_notification( $id ) {
 }
 
 function bp_core_get_notifications_for_user( $user_id ) {
+	global $bp;
+	
 	$notifications = BP_Core_Notification::get_all_for_user( $user_id );
-		
+	
 	/* Group notifications by component and component_action and provide totals */
 	for ( $i = 0; $i < count($notifications); $i++ ) {
 		$notification = $notifications[$i];
@@ -60,8 +63,8 @@ function bp_core_get_notifications_for_user( $user_id ) {
 			$item_id = ( 1 == $action_item_count ) ? $component_action_items[0]->item_id : false;
 			$secondary_item_id = ( 1 == $action_item_count ) ? $component_action_items[0]->secondary_item_id : false;
 			
-			if ( function_exists( $component_name . '_format_notifications' ) ) {
-				$renderable[] = call_user_func( $component_name . '_format_notifications', $component_action_name, $item_id, $secondary_item_id, $action_item_count );
+			if ( function_exists( $bp->{$component_name}->format_notification_function ) ) {
+				$renderable[] = call_user_func( $bp->{$component_name}->format_notification_function, $component_action_name, $item_id, $secondary_item_id, $action_item_count );
 			}
 		}
 	} 	

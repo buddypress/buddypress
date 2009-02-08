@@ -100,6 +100,7 @@ function messages_setup_globals() {
 	$bp->messages->table_name_recipients = $wpdb->base_prefix . 'bp_messages_recipients';
 	$bp->messages->table_name_notices = $wpdb->base_prefix . 'bp_messages_notices';
 	$bp->messages->format_activity_function = 'messages_format_activity';
+	$bp->messages->format_notification_function = 'messages_format_notifications';
 	$bp->messages->image_base = site_url( MUPLUGINDIR . '/bp-messages/images' );
 	$bp->messages->slug = BP_MESSAGES_SLUG;
 
