@@ -90,7 +90,9 @@
 							<label><?php _e( 'Tags:', 'buddypress' ) ?></label>
 							<input type="text" name="topic_tags" id="topic_tags" value="" />
 					
-							<p class="submit"><input type="submit" name="submit_topic" id="submit" value="Post Topic"/></p>
+							<p class="submit"><input type="submit" name="submit_topic" id="submit" value="<?php _e( 'Post Topic', 'buddypress' ) ?>" /></p>
+							
+							<?php wp_nonce_field( 'bp_forums_new_topic' ) ?>
 						</div>
 					
 					<?php endif; ?>

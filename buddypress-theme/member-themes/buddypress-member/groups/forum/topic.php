@@ -73,7 +73,9 @@
 					<div id="post-topic-reply">
 						<p><?php _e( 'Add a reply:', 'buddypress' ) ?></p>
 						<textarea name="reply_text" id="reply_text"></textarea>
-						<p class="submit"><input type="submit" name="submit_reply" id="submit" value="Post Reply"/></p>
+						<p class="submit"><input type="submit" name="submit_reply" id="submit" value="<?php _e( 'Post Reply', 'buddypress' ) ?>" /></p>
+						
+						<?php wp_nonce_field( 'bp_forums_new_reply' ) ?>
 					</div>
 					
 					<?php endif; ?>
