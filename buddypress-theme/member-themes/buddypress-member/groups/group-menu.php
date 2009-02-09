@@ -1,6 +1,8 @@
 <?php bp_group_avatar() ?>
 
-<?php bp_group_join_button() ?>
+<div class="button-block">
+	<?php bp_group_join_button() ?>
+</div>
 
 <div class="info-group">
 	<h4><?php _e( 'Admins', 'buddypress' ) ?></h4>

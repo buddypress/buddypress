@@ -52,7 +52,8 @@
 			<input type="hidden" name="group-id" id="group-id" value="<?php bp_group_id() ?>" />
 			
 			<p><input type="submit" value="<?php _e( 'Save Changes', 'buddypress' ) ?> &raquo;" id="save" name="save" /></p>
-		
+			
+			<?php wp_nonce_field( 'groups_edit_group_settings' ) ?>
 		</form>
 </div>
 

@@ -32,6 +32,8 @@
 		<p class="submit">
 				<input type="submit" value="<?php _e("Send", 'buddypress') ?> &raquo;" name="send" id="send" />
 		</p>
+		
+		<?php wp_nonce_field( 'messages_send_message' ) ?>
 	</div>
 	</form>
 	<script type="text/javascript">

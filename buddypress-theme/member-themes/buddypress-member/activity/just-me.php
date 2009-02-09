@@ -10,11 +10,17 @@
 	<div class="left-menu">
 		<?php bp_the_avatar() ?>
 		
-		<?php if ( bp_exists('friends') ) : ?>
-			<?php bp_add_friend_button() ?>
-		<?php endif; ?>
-		
-		<?php //bp_user_groups() ?>
+		<div class="button-block">
+			<?php if ( function_exists('bp_add_friend_button') ) : ?>
+				<?php bp_add_friend_button() ?>
+			<?php endif; ?>
+			
+			<?php if ( function_exists('bp_send_message_button') ) : ?>
+				<?php bp_send_message_button() ?>
+			<?php endif; ?>
+		</div>
+
+		<?php bp_custom_profile_sidebar_boxes() ?>
 	</div>
 
 	<div class="main-column">

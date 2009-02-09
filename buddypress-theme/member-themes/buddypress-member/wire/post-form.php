@@ -18,6 +18,9 @@
 			<?php bp_custom_wire_boxes_after() ?>
 			
 			<input type="submit" name="wire-post-submit" id="wire-post-submit" value="Post &raquo;" />
+			
+			<?php wp_nonce_field( 'bp_wire_post' ) ?>
+			
 		</div>
 		
 	</form>

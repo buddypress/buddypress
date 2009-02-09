@@ -31,6 +31,8 @@
 					<textarea name="group-request-membership-comments" id="group-request-membership-comments"></textarea>
 
 					<p><input type="submit" name="group-request-send" id="group-request-send" value="<?php _e( 'Send Request', 'buddypress' ) ?> &raquo;" />
+					
+					<?php wp_nonce_field( 'groups_request_membership' ) ?>
 				</form>
 			<?php endif; ?>
 			

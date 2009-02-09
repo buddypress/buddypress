@@ -24,6 +24,8 @@
 			<p><input type="submit" disabled="disabled" value="<?php _e( 'Delete Group', 'buddypress' ) ?> &raquo;" id="delete-group-button" name="delete-group-button" /></p>
 		
 			<input type="hidden" name="group-id" id="group-id" value="<?php bp_group_id() ?>" />
+			
+			<?php wp_nonce_field( 'groups_delete_group' ) ?>
 		</form>
 </div>
 
