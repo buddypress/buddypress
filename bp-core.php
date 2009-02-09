@@ -1280,6 +1280,18 @@ function bp_core_search_site() {
 add_action( 'wp', 'bp_core_search_site', 5 );
 
 /**
+ * bp_core_ucfirst()
+ * 
+ * Localization save ucfirst() support.
+ * 
+ * @package BuddyPress Core
+ */
+function bp_core_ucfirst( $str ) {
+    $fc = mb_strtoupper(mb_substr($str, 0, 1));
+    return $fc.mb_substr($str, 1);
+}
+
+/**
  * bp_core_clear_cache()
  * REQUIRES WP-SUPER-CACHE 
  * 

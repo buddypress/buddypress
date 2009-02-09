@@ -239,7 +239,7 @@ function bp_fetch_user_fullname( $user_id = false, $echo = true ) {
 			$ud = get_userdata($user_id);
 			$data = $ud->display_name;
 		} else {
-			$data = ucfirst($data);
+			$data = bp_core_ucfirst($data);
 		}
 	} else {
 		$ud = get_userdata($user_id);
@@ -311,7 +311,7 @@ function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true 
 	global $bp;
 	
 	if ( $capitalize )
-		$youtext = ucfirst($youtext);
+		$youtext = bp_core_ucfirst($youtext);
 	
 	if ( $bp->displayed_user->id == $bp->loggedin_user->id ) {
 		if ( $echo )
@@ -331,7 +331,7 @@ function bp_your_or_their( $capitalize = true, $echo = true ) {
 	global $bp;
 	
 	if ( $capitalize )
-		$yourtext = ucfirst($yourtext);
+		$yourtext = bp_core_ucfirst($yourtext);
 	
 	if ( $bp->displayed_user->id == $bp->loggedin_user->id ) {
 		if ( $echo )
