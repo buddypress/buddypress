@@ -326,7 +326,7 @@ Class BP_XProfile_Field {
 					}
 					
 					$counter = 1;
-					if ( count($options) > 0 ) {
+					if ( $options ) {
 						foreach ( $options as $option_key => $option_value ) {
 							$is_default = 0;
 
@@ -338,13 +338,9 @@ Class BP_XProfile_Field {
 									$is_default = 1;
 							}
 
-							if ( !empty( $option_valu ) ) { 
-								
-								// don't insert an empty option.
+							if ( '' != $option_value ) { 
 								if ( !$wpdb->query( $wpdb->prepare("INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, option_order, is_default_option) VALUES (%d, %d, 'option', %s, '', 0, %d, %d)", $this->group_id, $parent_id, $option_value, $counter, $is_default ) ) )
 									return false;
-								
-								return true;
 							}
 						
 							$counter++;
