@@ -42,6 +42,8 @@ function bp_forums_bbpress_admin() {
 		$fetch_options = $_fetch_options;
 		$options = $_options;
 		
+ 		do_action( 'bp_forums_bbpress_admin', $_fetch_options, $_options );
+		
 	} else {
 		$fetch_options = $bbpress_live->fetch->options;
 		$options = $bbpress_live->options;

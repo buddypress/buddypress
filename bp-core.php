@@ -1287,8 +1287,8 @@ add_action( 'wp', 'bp_core_search_site', 5 );
  * @package BuddyPress Core
  */
 function bp_core_ucfirst( $str ) {
-    $fc = mb_strtoupper(mb_substr($str, 0, 1));
-    return $fc.mb_substr($str, 1);
+    $fc = mb_strtoupper( mb_substr( $str, 0, 1 ) );
+    return $fc.mb_substr( $str, 1 );
 }
 
 /**
