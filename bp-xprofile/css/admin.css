@@ -78,3 +78,8 @@ th a {
 	border-radius: 3px;
 	top: -2px;
 }
+
+textarea#description {
+	border: 1px solid #ddd;
+	width: 85%;
+}

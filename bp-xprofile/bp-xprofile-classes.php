@@ -708,7 +708,7 @@ Class BP_XProfile_Field {
 				<div id="titlediv" class="inside">
 					<h3><label for="description"><?php _e("Field Description", 'buddypress') ?></label></h3>
 					<div id="titlewrap">
-						<textarea name="description" id="description" rows="8" cols="60" style="border: 1px solid #ddd; width: 85%;"><?php echo $this->desc ?></textarea>
+						<textarea name="description" id="description" rows="8" cols="60"> <?php echo $this->desc ?></textarea>
 					</div>
 				</div>
 	
