@@ -288,7 +288,7 @@ Class BP_Activity_Activity {
 
 				$activity_feed[$i]['title'] = trim( strip_tags( $title[0] ) );
 				$activity_feed[$i]['link'] = $activities[$i]['primary_link'];
-				$activity_feed[$i]['description'] = sprintf( $activities[$i]['content'], '' );
+				$activity_feed[$i]['description'] = @sprintf( $activities[$i]['content'], '' );
 				$activity_feed[$i]['pubdate'] = $activities[$i]['date_recorded'];
 		}
 
