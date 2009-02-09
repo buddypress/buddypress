@@ -250,10 +250,13 @@ function bp_activity_record( $item_id, $component_name, $component_action, $is_p
 }
 
 function bp_activity_action_sitewide_feed() {
-	global $bp;
+	global $bp, $wp_query;
 
 	if ( $bp->current_component != $bp->activity->slug || $bp->current_action != 'feed' || $bp->displayed_user->id )
 		return false;
+
+	$wp_query->is_404 = false;
+	status_header( 200 );
 
 	include_once( 'bp-activity/feeds/bp-activity-sitewide-feed.php' );
 	die;
@@ -261,10 +264,13 @@ function bp_activity_action_sitewide_feed() {
 add_action( 'wp', 'bp_activity_action_sitewide_feed', 3 );
 
 function bp_activity_action_personal_feed() {
-	global $bp;	
+	global $bp, $wp_query;	
 
 	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != 'feed' )
 		return false;
+	
+	$wp_query->is_404 = false;
+	status_header( 200 );
 
 	include_once( 'bp-activity/feeds/bp-activity-personal-feed.php' );
 	die;
@@ -272,11 +278,14 @@ function bp_activity_action_personal_feed() {
 add_action( 'wp', 'bp_activity_action_personal_feed', 3 );
 
 function bp_activity_action_friends_feed() {
-	global $bp;
+	global $bp, $wp_query;
 
 	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != 'my-friends' || $bp->action_variables[0] != 'feed' )
 		return false;
-	
+
+	$wp_query->is_404 = false;	
+	status_header( 200 );
+
 	include_once( 'bp-activity/feeds/bp-activity-friends-feed.php' );
 	die;	
 }
