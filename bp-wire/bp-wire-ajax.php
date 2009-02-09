@@ -2,8 +2,6 @@
 
 function bp_wire_ajax_get_wire_posts() {
 	global $bp;
-
-	check_ajax_referer('get_wire_posts');
 	?>
 
 	<?php if ( bp_has_wire_posts( $_POST['bp_wire_item_id'], 1 ) ) : ?>

@@ -109,8 +109,7 @@ add_action( 'wp_ajax_widget_groups_list', 'groups_ajax_widget_groups_list' );
 
 function groups_ajax_member_list() {
 	global $bp;
-
-	check_ajax_referer('bp_groups_member_list'); ?>
+	?>
 	
 	<?php if ( bp_group_has_members( $_REQUEST['group_id'] ) ) : ?>
 		
@@ -154,8 +153,7 @@ add_action( 'wp_ajax_get_group_members', 'groups_ajax_member_list' );
 
 function groups_ajax_member_admin_list() {
 	global $bp;
-
-	check_ajax_referer('bp_groups_member_admin_list'); ?>
+	?>
 	
 	<?php if ( bp_group_has_members( $_REQUEST['group_id'], $_REQUEST['num'] ) ) : ?>
 	
