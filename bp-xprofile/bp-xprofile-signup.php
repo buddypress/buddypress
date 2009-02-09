@@ -101,45 +101,48 @@ function xprofile_validate_signup_fields( $result ) {
 	
 	// Validate all sign up fields
 	$fields = BP_XProfile_Field::get_signup_fields();
-	foreach ( $fields as $field ) {
+	
+	if ( $fields ) {
+		foreach ( $fields as $field ) {
 		
-		$value = $_POST['field_' . $field->id];
+			$value = $_POST['field_' . $field->id];
 		
-		// Need to check if the previous field had
-		// the same ID, as to not validate individual
-		// day/month/year dropdowns individually.
-		if ( $prev_field_id != $field->id ) {
-			$field = new BP_XProfile_Field($field->id);
+			// Need to check if the previous field had
+			// the same ID, as to not validate individual
+			// day/month/year dropdowns individually.
+			if ( $prev_field_id != $field->id ) {
+				$field = new BP_XProfile_Field($field->id);
 			
-			if ( 'datebox' == $field->type ) {
-				if ( $_POST['field_' . $field->id . '_day'] != "" && $_POST['field_' . $field->id . '_month'] != "" && $_POST['field_' . $field->id . '_year'] != "") {
-					$value = strtotime( $_POST['field_' . $field->id . '_day'] . " " . 
-						     			$_POST['field_' . $field->id . '_month'] . " " .
-						     			$_POST['field_' . $field->id . '_year']);								
+				if ( 'datebox' == $field->type ) {
+					if ( $_POST['field_' . $field->id . '_day'] != "" && $_POST['field_' . $field->id . '_month'] != "" && $_POST['field_' . $field->id . '_year'] != "") {
+						$value = strtotime( $_POST['field_' . $field->id . '_day'] . " " . 
+							     			$_POST['field_' . $field->id . '_month'] . " " .
+							     			$_POST['field_' . $field->id . '_year']);								
+					}
 				}
+			
+				if ( is_array($value) ) {
+					$value = serialize( $value );
+				}
+			
+				$bp_xprofile_callback[$counter] = array(
+					"field_id" => $field->id,
+					"type" => $field->type,
+					"value" => $value
+				);
+			
+				if ( $field->is_required && empty( $value ) ) {
+					$bp_xprofile_callback[$counter]["error_msg"] = $field->name . ' cannot be left blank.';
+					$has_errors = true;
+				}
+			
+				$counter++;
 			}
-			
-			if ( is_array($value) ) {
-				$value = serialize( $value );
-			}
-			
-			$bp_xprofile_callback[$counter] = array(
-				"field_id" => $field->id,
-				"type" => $field->type,
-				"value" => $value
-			);
-			
-			if ( $field->is_required && empty( $value ) ) {
-				$bp_xprofile_callback[$counter]["error_msg"] = $field->name . ' cannot be left blank.';
-				$has_errors = true;
-			}
-			
-			$counter++;
-		}
 		
-		$prev_field_id = $field->id;
+			$prev_field_id = $field->id;
+		}
 	}
-
+	
 	// validate the avatar upload if there is one.
 	$avatar_error = false;
 	$checked_upload = false;
