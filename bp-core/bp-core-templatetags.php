@@ -479,6 +479,7 @@ function bp_search_form() {
 			' . bp_search_form_type_select() . '
 		
 			<input type="submit" name="search-submit" id="search-submit" value="' . __( 'Search', 'buddypress' ) . '" />
+			' . wp_nonce_field( 'bp_search_form' ) . '
 		</form>
 	';
 	

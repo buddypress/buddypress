@@ -239,7 +239,7 @@ function bp_core_check_installed() {
 
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( false == $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->core->table_name_notifications}%'" ) ) || ( get_site_option('bp-core-db-version') < BP_CORE_DB_VERSION )  )
+		if ( ( !$wpdb->get_var( "SHOW TABLES LIKE '%{$bp->core->table_name_notifications}%'" ) ) || ( get_site_option('bp-core-db-version') < BP_CORE_DB_VERSION )  )
 			bp_core_install();
 	}
 }

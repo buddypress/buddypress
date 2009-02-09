@@ -150,10 +150,10 @@ function groups_check_installed() {
 	
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( false == ( $wpdb->get_var("SHOW TABLES LIKE '%" . $bp->groups->table_name . "%'") ) || ( get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION )  )
+		if ( !$wpdb->get_var("SHOW TABLES LIKE '%" . $bp->groups->table_name . "%'") || ( get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION )  )
 			groups_install();
 			
-		if ( ( function_exists('bp_wire_install') && false == $wpdb->get_var("SHOW TABLES LIKE '%" . $bp->groups->table_name_wire . "%'") ) || ( get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION ) )
+		if ( ( function_exists('bp_wire_install') && !$wpdb->get_var("SHOW TABLES LIKE '%" . $bp->groups->table_name_wire . "%'") ) || ( get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION ) )
 			groups_wire_install();
 	}
 }
@@ -348,7 +348,7 @@ function groups_screen_create_group() {
 	$reset_steps = false;
 	
 	if ( !$create_group_step = $bp->action_variables[1] ) {
-		$create_group_step = '1';
+		$create_group_step = 1;
 		$completed_to_step = 0;
 		
 		unset($_SESSION['group_obj_id']);
@@ -365,27 +365,18 @@ function groups_screen_create_group() {
 	if ( isset( $_POST['save'] ) || isset( $_POST['skip'] ) ) {
 		$group_obj = new BP_Groups_Group( $_SESSION['group_obj_id'] );
 
-		// If the user skipped the avatar step, move onto the next step and don't save anything.
-		if ( isset( $_POST['skip'] ) && 3 == (int)$create_group_step ) {
+		if ( !$group_id = groups_create_group( $create_group_step, $_SESSION['group_obj_id'] ) ) {
+			bp_core_add_message( __('There was an error saving group details. Please try again.', 'buddypress'), 'error' );
+			bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . $create_group_step );
+		} else {
 			$create_group_step++;
 			$completed_to_step++;
 			$_SESSION['completed_to_step'] = $completed_to_step;
-		} else {
-			
-			// We're done.
-			if ( 4 == (int)$create_group_step )
-				bp_core_redirect( bp_group_permalink( $group_obj, false ) );
-			
-			if ( !$group_id = groups_create_group( $create_group_step, $_SESSION['group_obj_id'] ) ) {
-				bp_core_add_message( __('There was an error saving group details. Please try again.', 'buddypress'), 'error' );
-				bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . $create_group_step );
-			} else {
-				$create_group_step++;
-				$completed_to_step++;
-				$_SESSION['completed_to_step'] = $completed_to_step;
-				$_SESSION['group_obj_id'] = $group_id;
-			}
+			$_SESSION['group_obj_id'] = $group_id;
 		}
+		
+		if ( $completed_to_step == 4 )
+			bp_core_redirect( bp_group_permalink( $group_obj, false ) );
 	}
 
 	if ( isset($_SESSION['group_obj_id']) && !$group_obj && !$no_instantiate )
@@ -851,7 +842,7 @@ function groups_screen_group_admin_delete_group() {
 				bp_core_add_message( __( 'There was an error deleting the group, please try again.', 'buddypress' ), 'error' );
 			} else {
 				bp_core_add_message( __( 'The group was deleted successfully', 'buddypress' ) );
-				bp_core_redirect( site_url() . '/' . $bp->groups->slug . '/' );
+				bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/' );
 			}
 
 			do_action( 'groups_group_deleted', $_POST['group-id'] );
@@ -1344,7 +1335,10 @@ function groups_create_group( $step, $group_id ) {
 			$group_obj = new BP_Groups_Group( $group_id );		
 			
 		switch ( $step ) {
-			case '1':
+			case '1':		
+				if ( !check_admin_referer( 'groups_step1_save' ) )
+					return false;
+				
 				if ( $_POST['group-name'] != '' && $_POST['group-desc'] != '' ) {
 					$group_obj->creator_id = $bp->loggedin_user->id;
 					$group_obj->name = stripslashes($_POST['group-name']);
@@ -1394,6 +1388,9 @@ function groups_create_group( $step, $group_id ) {
 			break;
 			
 			case '2':
+				if ( !check_admin_referer( 'groups_step2_save' ) )
+					return false;
+
 				$group_obj->status = 'public';
 				$group_obj->is_invitation_only = 0;
 				$group_obj->enable_wire = 1;
@@ -1434,7 +1431,12 @@ function groups_create_group( $step, $group_id ) {
 			break;
 			
 			case '3':
-								
+				if ( !check_admin_referer( 'groups_step3_save' ) )
+					return false;
+				
+				if ( isset( $_POST['skip'] ) )
+					return $group_obj->id;
+				
 				// Image already cropped and uploaded, lets store a reference in the DB.
 				if ( !wp_verify_nonce($_POST['nonce'], 'slick_avatars') || !$result = bp_core_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'], false, 'groupavatar', $group_obj->id ) )
 					return false;
@@ -1454,7 +1456,10 @@ function groups_create_group( $step, $group_id ) {
 			break;
 			
 			case '4':
-				$send_invites = groups_send_invites($group_obj);
+				if ( !check_admin_referer( 'groups_step4_save' ) )
+					return false;
+					
+				groups_send_invites( $group_obj, true );
 				
 				do_action( 'groups_created_group', $group_obj->id );
 				
@@ -1528,6 +1533,10 @@ function groups_new_group_forum( $group_id = false, $group_name = false, $group_
 
 function groups_new_group_forum_post( $post_text, $topic_id ) {
 	global $group_obj;
+
+	/* Check the nonce */
+	if ( !check_admin_referer( 'bp_forums_new_reply' ) ) 
+		return false;
 	
 	if ( $forum_post = bp_forums_new_post( $post_text, $topic_id ) ) {
 		bp_core_add_message( __( 'Reply posted successfully!', 'buddypress') );
@@ -1546,6 +1555,10 @@ function groups_new_group_forum_post( $post_text, $topic_id ) {
 
 function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $forum_id ) {
 	global $group_obj;
+
+	/* Check the nonce */	
+	if ( !check_admin_referer( 'bp_forums_new_topic' ) ) 
+		return false;
 	
 	if ( $topic = bp_forums_new_topic( $topic_title, $topic_text, $topic_tags, $forum_id ) ) {
 		bp_core_add_message( __( 'Topic posted successfully!', 'buddypress') );
@@ -1564,6 +1577,10 @@ function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $
 
 function groups_invite_user( $user_id, $group_id ) {
 	global $bp;
+
+	/* Check the nonce */
+	if ( !check_admin_referer( 'groups_invite_uninvite_user' ) )
+		return false;
 	
 	if ( groups_is_user_member( $user_id, $group_id ) )
 		return false;
@@ -1583,9 +1600,17 @@ function groups_invite_user( $user_id, $group_id ) {
 	return true;
 }
 
-function groups_uninvite_user( $user_id, $group_id ) {
+function groups_uninvite_user( $user_id, $group_id, $skip_check = false ) {
 	global $bp;
 
+	/* Because this is called on groups_leave_group() and a nonce has already been
+	 * checked, we need a way of overriding a double check.
+	 */
+	if ( !$skip_check ) {
+		if ( !check_admin_referer( 'groups_invite_uninvite_user' ) )
+			return false;
+	}
+	
 	if ( !BP_Groups_Member::delete( $user_id, $group_id ) )
 		return false;
 
@@ -1596,6 +1621,10 @@ function groups_uninvite_user( $user_id, $group_id ) {
 
 function groups_accept_invite( $user_id, $group_id ) {
 	global $group_obj;
+
+	/* Check the nonce */
+	if ( !check_admin_referer( 'groups_accept_invite' ) )
+		return false;
 	
 	if ( groups_is_user_member( $user_id, $group_id ) )
 		return false;
@@ -1638,18 +1667,23 @@ function groups_get_invites_for_user( $user_id = false ) {
 	return BP_Groups_Member::get_invites( $user_id );
 }
 
-function groups_send_invites( $group_obj ) {
+function groups_send_invites( $group_obj, $skip_check = false ) {
 	global $bp;
-	
+
+	if ( !$skip_check ) {
+		if ( !check_admin_referer( 'groups_send_invites' ) )
+			return false;
+	}
+
 	// Send friend invites.
 	$invited_users = groups_get_invites_for_group( $bp->loggedin_user->id, $group_obj->id );
-
+	
 	for ( $i = 0; $i < count( $invited_users ); $i++ ) {
 		$member = new BP_Groups_Member( $invited_users[$i], $group_obj->id );
 		$member->invite_sent = 1;
 		$member->save();
 	}
-	
+
 	groups_notification_group_invites( $group_obj->id, $invited_users, $bp->loggedin_user->id );
 	
 	do_action( 'groups_send_invites', $group_obj->id, $invited_users );
@@ -1662,6 +1696,10 @@ function groups_check_group_exists( $group_id ) {
 function groups_leave_group( $group_id, $user_id = false ) {
 	global $bp;
 	
+	/* Check the nonce */	
+	if ( !check_admin_referer( 'groups_leave_group' ) )
+		return false;
+	
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
 	
@@ -1670,7 +1708,7 @@ function groups_leave_group( $group_id, $user_id = false ) {
 		return false;
 		
 	// This is exactly the same as deleting and invite, just is_confirmed = 1 NOT 0.
-	if ( !groups_uninvite_user( $user_id, $group_id ) )
+	if ( !groups_uninvite_user( $user_id, $group_id, true ) )
 		return false;
 
 	do_action( 'groups_leave_group', $group_id, $bp->loggedin_user->id );
@@ -1684,6 +1722,10 @@ function groups_leave_group( $group_id, $user_id = false ) {
 function groups_join_group( $group_id, $user_id = false ) {
 	global $bp;
 	
+	/* Check the nonce */
+	if ( !check_admin_referer( 'groups_join_group' ) ) 
+		return false;
+		
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
 	
@@ -1733,7 +1775,11 @@ function groups_is_group_mod( $user_id, $group_id ) {
 
 function groups_new_wire_post( $group_id, $content ) {
 	global $group_obj;
-	
+
+	/* Check the nonce first. */
+	if ( !check_admin_referer( 'bp_wire_post' ) ) 
+		return false;
+
 	$private = false;
 	if ( $group_obj->status != 'public' )
 		$private = true;
@@ -1750,6 +1796,10 @@ function groups_new_wire_post( $group_id, $content ) {
 function groups_delete_wire_post( $wire_post_id, $table_name ) {
 	global $bp;
 	
+	/* Check the nonce first. */
+	if ( !check_admin_referer( 'bp_wire_delete_link' ) )
+		return false;
+	
 	if ( bp_wire_delete_post( $wire_post_id, 'groups', $table_name ) ) {		
 		do_action( 'groups_deleted_wire_post', $wire_post_id );
 		return true;
@@ -1761,9 +1811,13 @@ function groups_delete_wire_post( $wire_post_id, $table_name ) {
 function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $group_news, $notify_members ) {
 	global $bp;
 	
+	/* Check the nonce first. */
+	if ( !check_admin_referer( 'groups_edit_group_details' ) )
+		return false;
+	
 	if ( empty( $group_name ) || empty( $group_desc ) )
 		return false;
-		
+	
 	$group = new BP_Groups_Group( $group_id, false, false );
 	$group->name = $group_name;
 	$group->description = $group_desc;
@@ -1782,6 +1836,10 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $g
 
 function groups_edit_group_settings( $group_id, $enable_wire, $enable_forum, $enable_photos, $photos_admin_only, $status ) {
 	global $bp;
+	
+	/* Check the nonce first. */
+	if ( !check_admin_referer( 'groups_edit_group_settings' ) )
+		return false;
 	
 	$group = new BP_Groups_Group( $group_id, false, false );
 	$group->enable_wire = $enable_wire;
@@ -1807,6 +1865,10 @@ function groups_edit_group_settings( $group_id, $enable_wire, $enable_forum, $en
 
 function groups_promote_member( $user_id, $group_id ) {
 	global $bp;
+
+	/* Check the nonce first. */
+	if ( !check_admin_referer( 'groups_promote_member' ) )
+		return false;
 	
 	if ( !$bp->is_item_admin )
 		return false;
@@ -1820,6 +1882,10 @@ function groups_promote_member( $user_id, $group_id ) {
 
 function groups_demote_member( $user_id, $group_id ) {
 	global $bp;
+
+	/* Check the nonce first. */
+	if ( !check_admin_referer( 'groups_demote_member' ) )
+		return false;
 	
 	if ( !$bp->is_item_admin )
 		return false;
@@ -1833,6 +1899,10 @@ function groups_demote_member( $user_id, $group_id ) {
 
 function groups_ban_member( $user_id, $group_id ) {
 	global $bp;
+
+	/* Check the nonce first. */
+	if ( !check_admin_referer( 'groups_ban_member' ) )
+		return false;
 	
 	if ( !$bp->is_item_admin )
 		return false;
@@ -1846,6 +1916,10 @@ function groups_ban_member( $user_id, $group_id ) {
 
 function groups_unban_member( $user_id, $group_id ) {
 	global $bp;
+
+	/* Check the nonce first. */
+	if ( !check_admin_referer( 'groups_unban_member' ) )
+		return false;
 	
 	if ( !$bp->is_item_admin )
 		return false;
@@ -1859,6 +1933,10 @@ function groups_unban_member( $user_id, $group_id ) {
 
 function groups_send_membership_request( $requesting_user_id, $group_id ) {
 	global $bp;
+
+	/* Check the nonce first. */
+	if ( !check_admin_referer( 'groups_send_membership_request' ) )
+		return false;
 
 	$requesting_user = new BP_Groups_Member;
 	$requesting_user->group_id = $group_id;
@@ -1887,6 +1965,11 @@ function groups_send_membership_request( $requesting_user_id, $group_id ) {
 }
 
 function groups_accept_membership_request( $membership_id ) {
+	
+	/* Check the nonce first. */
+	if ( !check_admin_referer( 'groups_accept_membership_request' ) )
+		return false;
+
 	$membership = new BP_Groups_Member( false, false, $membership_id );
 	$membership->accept_request();
 	
@@ -1908,6 +1991,11 @@ function groups_accept_membership_request( $membership_id ) {
 }
 
 function groups_reject_membership_request( $membership_id ) {
+
+	/* Check the nonce first. */
+	if ( !check_admin_referer( 'groups_reject_membership_request' ) )
+		return false;
+		
 	$membership = new BP_Groups_Member( false, false, $membership_id );
 	
 	if ( !BP_Groups_Member::delete( $membership->user_id, $membership->group_id ) )
@@ -1934,6 +2022,10 @@ add_action( 'wp', 'groups_redirect_to_random_group', 6 );
 
 function groups_delete_group( $group_id ) {
 	global $bp;
+
+	/* Check the nonce first. */
+	if ( !check_admin_referer( 'groups_delete_group' ) )
+		return false;
 	
 	// Check the user is the group admin.
 	if ( !$bp->is_item_admin )

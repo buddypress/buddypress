@@ -187,10 +187,10 @@ function xprofile_add_admin_menu() {
 	add_submenu_page( 'wpmu-admin.php', __("Profile Fields", 'buddypress'), __("Profile Fields", 'buddypress'), 1, "xprofile_settings", "xprofile_admin" );
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( false == ( $wpdb->get_var("SHOW TABLES LIKE '%{$bp->profile->table_name_groups}%'") ) || ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )  )
+	if ( !$wpdb->get_var("SHOW TABLES LIKE '%{$bp->profile->table_name_groups}%'") || ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )  )
 		xprofile_install();
 	
-	if ( ( function_exists('bp_wire_install') && false == $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->profile->table_name_wire}%'" ) ) || ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )  )
+	if ( ( function_exists('bp_wire_install') && !$wpdb->get_var( "SHOW TABLES LIKE '%{$bp->profile->table_name_wire}%'" ) ) || ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )  )
 		xprofile_wire_install();
 }
 add_action( 'admin_menu', 'xprofile_add_admin_menu' );
@@ -344,8 +344,11 @@ add_action( 'bp_notification_settings', 'xprofile_screen_notification_settings',
  */
 function xprofile_action_delete_avatar() {
 	global $bp;
-	
+
 	if ( 'delete-avatar' != $bp->current_action )
+		return false;
+
+	if ( !check_admin_referer( 'bp_delete_avatar_link' ) )
 		return false;
 	
 	if ( bp_is_home() ) {
@@ -369,13 +372,17 @@ add_action( 'wp', 'xprofile_action_delete_avatar', 3 );
  */
 function xprofile_action_new_wire_post() {
 	global $bp;
-	
+
 	if ( $bp->current_component != $bp->wire->slug )
 		return false;
 	
 	if ( 'post' != $bp->current_action )
 		return false;
-	
+		
+	/* Check the nonce */
+	if ( !check_admin_referer( 'bp_wire_post' ) ) 
+		return false;
+		
 	if ( !$wire_post_id = bp_wire_new_post( $bp->displayed_user->id, $_POST['wire-post-textarea'], $bp->profile->slug, false, $bp->profile->table_name_wire ) ) {
 		bp_core_add_message( __('Wire message could not be posted. Please try again.', 'buddypress'), 'error' );
 	} else {
@@ -624,7 +631,7 @@ function xprofile_edit( $group_id, $action ) {
 				
 				// Loop through each field in the group
 				for ( $j = 0; $j < count($group->fields); $j++ ) {
-					
+										
 					// Create a new field object for this field based on the field ID.
 					$field = new BP_XProfile_Field( $group->fields[$j]->id );
 					
@@ -633,6 +640,10 @@ function xprofile_edit( $group_id, $action ) {
 					
 					// If the user has submitted the form - validate and save the new value for this field
 					if ( isset($_GET['mode']) && 'save' == $_GET['mode'] ) {
+						
+						/* Check the nonce */
+						if ( !check_admin_referer( 'bp_xprofile_edit' ) ) 
+							return false;
 						
 						// If the current field is a datebox, we need to append '_day' to the end of the field name
 						// otherwise the field name will not exist
@@ -718,6 +729,8 @@ function xprofile_edit( $group_id, $action ) {
 				$list_html .= '<p class="submit">
 								<input type="submit" name="save" id="save" value="'.__('Save Changes &raquo;', 'buddypress').'" />
 							   </p>';
+							
+				$list_html .= wp_nonce_field( 'bp_xprofile_edit' );
 
 				// If the user submitted the form to save new values, and there were errors, make sure we display them.
 				if ( $errors && isset($_POST['save']) ) {

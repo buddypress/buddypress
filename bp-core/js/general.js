@@ -7,12 +7,18 @@ jQuery(document).ready( function() {
 			fid = fid.split('-');
 			fid = fid[1];
 			
+			var nonce = jQuery(this).attr('href');
+			nonce = nonce.split('?_wpnonce=');
+			nonce = nonce[1].split('&');
+			nonce = nonce[0];
+
 			var thelink = jQuery(this);
 
 			jQuery.post( ajaxurl, {
 				action: 'addremove_friend',
 				'cookie': encodeURIComponent(document.cookie),
-				'fid': fid
+				'fid': fid,
+				'_wpnonce': nonce
 			},
 			function(response)
 			{

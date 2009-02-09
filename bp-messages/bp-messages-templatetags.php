@@ -151,7 +151,7 @@ function bp_message_thread_view_link() {
 
 function bp_message_thread_delete_link() {
 	global $messages_template, $bp;
-	echo apply_filters( 'bp_message_thread_delete_link', $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action . '/delete/' . $messages_template->thread->thread_id );
+	echo apply_filters( 'bp_message_thread_delete_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action . '/delete/' . $messages_template->thread->thread_id, 'messages_delete_thread' ) );
 }
 
 function bp_message_thread_has_unread() {
@@ -262,16 +262,16 @@ function bp_message_notice_text() {
 function bp_message_notice_delete_link() {
 	global $messages_template, $bp;
 	
-	echo apply_filters( 'bp_message_notice_delete_link', $bp->loggedin_user->domain . $bp->messages->slug . '/notices/delete/' . $messages_template->thread->id );
+	echo apply_filters( 'bp_message_notice_delete_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->messages->slug . '/notices/delete/' . $messages_template->thread->id, 'messages_delete_thread' ) );
 }
 
 function bp_message_activate_deactivate_link() {
 	global $messages_template, $bp;
 
 	if ( 1 == (int)$messages_template->thread->is_active ) {
-		$link = $bp->loggedin_user->domain . $bp->messages->slug . '/notices/deactivate/' . $messages_template->thread->id;
+		$link = wp_nonce_url( $bp->loggedin_user->domain . $bp->messages->slug . '/notices/deactivate/' . $messages_template->thread->id, 'messages_deactivate_notice' );
 	} else {
-		$link = $bp->loggedin_user->domain . $bp->messages->slug . '/notices/activate/' . $messages_template->thread->id;		
+		$link = wp_nonce_url( $bp->loggedin_user->domain . $bp->messages->slug . '/notices/activate/' . $messages_template->thread->id, 'messages_activate_notice' );		
 	}
 	echo apply_filters( 'bp_message_activate_deactivate_link', $link );
 }
@@ -302,7 +302,7 @@ function bp_message_get_notices() {
 			<div class="notice" id="<?php echo $notice->id ?>">
 				<h5><?php echo stripslashes($notice->subject) ?></h5>
 				<?php echo stripslashes($notice->message) ?>
-				<a href="#" id="close-notice">Close</a>
+				<a href="#" id="close-notice"><?php _e( 'Close', 'buddypress' ) ?></a>
 			</div>
 			<?php
 		}	
@@ -351,4 +351,81 @@ function bp_message_get_recipient_tabs() {
 function bp_message_get_recipient_usernames() {
 	echo $_GET['r'];
 }
+
+function messages_view_thread( $thread_id ) {
+	global $bp;
+
+	$thread = new BP_Messages_Thread( $thread_id, true );
+	
+	if ( !$thread->has_access ) {
+		unset($_GET['mode']); ?>
+		<div id="message" class="error">
+			<p><?php _e( 'There was an error when viewing that message', 'buddypress' ) ?></p>
+		</div>
+	<?php	
+	} else {
+		if ( $thread->messages ) { ?>
+			<?php $thread->mark_read() ?>
+				
+			<div class="wrap">
+				<h2 id="message-subject"><?php echo $thread->subject; ?></h2>
+				<table class="form-table">
+					<tbody>
+						<tr>
+							<td>
+								<img src="<?php echo $bp->messages->image_base ?>/email_open.gif" alt="Message" style="vertical-align: top;" /> &nbsp;
+								<?php _e('Sent between ', 'buddypress') ?> <?php echo BP_Messages_Thread::get_recipient_links($thread->recipients) ?> 
+								<?php _e('and', 'buddypress') ?> <?php echo bp_core_get_userlink($bp->loggedin_user->id) ?>. 
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				
+		<?php
+			foreach ( $thread->messages as $message ) {
+				?>
+					<a name="<?php echo 'm-' . $message->id ?>"></a>
+					<div class="message-box">
+						<div class="avatar-box">
+							<?php echo apply_filters( 'bp_message_sender_avatar', bp_core_get_avatar( $message->sender_id, 1 ) ) ?>
+							<h3><?php echo apply_filters( 'bp_message_sender_id', bp_core_get_userlink( $message->sender_id ) ) ?></h3>
+							<small><?php echo apply_filters( 'bp_message_date_sent', bp_format_time( strtotime($message->date_sent ) ) ) ?></small>
+						</div>
+						<?php echo apply_filters( 'bp_message_content', stripslashes($message->message) ); ?>
+						<div class="clear"></div>
+					</div>
+				<?php
+			}
+		
+			?>
+				<form id="send-reply" action="<?php echo get_option('home'); ?>/wp-admin/admin.php?page=bp-messages.php&amp;mode=send" method="post">
+					<div class="message-box">
+							<div id="messagediv">
+								<div class="avatar-box">
+									<?php if ( function_exists('bp_core_get_avatar') ) 
+										echo bp_core_get_avatar($bp->loggedin_user->id, 1);
+									?>
+					
+									<h3><?php _e("Reply: ", 'buddypress') ?></h3>
+								</div>
+								<label for="reply"></label>
+								<div>
+									<textarea name="content" id="message_content" rows="15" cols="40"><?php echo $content; ?></textarea>
+								</div>
+							</div>
+							<p class="submit">
+								<input type="submit" name="send" value="Send Reply &raquo;" id="send_reply_button"/>
+							</p>
+							<input type="hidden" id="thread_id" name="thread_id" value="<?php echo $thread->thread_id ?>" />
+							<input type="hidden" name="subject" id="subject" value="<?php _e('Re: ', 'buddypress'); echo str_replace( 'Re: ', '', $thread->last_message_subject); ?>" />
+					</div>
+					
+					<?php wp_nonce_field( 'messages_send_message', '_wpnonce_send_message' ) ?>
+				</form>
+			</div>
+			<?php
+		}
+	}
+}
+
 ?>

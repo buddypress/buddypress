@@ -2,7 +2,7 @@
 function groups_ajax_invite_user() {
 	global $bp;
 
-	check_ajax_referer('invite_user');
+	check_ajax_referer( 'groups_invite_uninvite_user' );
 
 	if ( !$_POST['friend_id'] || !$_POST['friend_action'] || !$_POST['group_id'] )
 		return false;
@@ -14,6 +14,7 @@ function groups_ajax_invite_user() {
 		return false;
 	
 	if ( 'invite' == $_POST['friend_action'] ) {
+				
 		if ( !groups_invite_user( $_POST['friend_id'], $_POST['group_id'] ) )
 			return false;
 		
@@ -24,15 +25,17 @@ function groups_ajax_invite_user() {
 		echo '<h4>' . $user->user_link . '</h4>';
 		echo '<span class="activity">' . sprintf( __( 'active %s ago', 'buddypress' ), $user->last_active ) . '</span>';
 		echo '<div class="action">
-				<a class="remove" href="' . $bp->loggedin_user->domain . $bp->groups->slug . '/' . $_POST['group_id'] . '/invites/remove/' . $user->id . '" id="uid-' . $user->id . '">' . __( 'Remove Invite', 'buddypress' ) . '</a> 
+				<a class="remove" href="' . wp_nonce_url( $bp->loggedin_user->domain . $bp->groups->slug . '/' . $_POST['group_id'] . '/invites/remove/' . $user->id, 'groups_invite_uninvite_user' ) . '" id="uid-' . $user->id . '">' . __( 'Remove Invite', 'buddypress' ) . '</a> 
 			  </div>';
 		echo '</li>';
 		
 	} else if ( 'uninvite' == $_POST['friend_action'] ) {
+		
 		if ( !groups_uninvite_user( $_POST['friend_id'], $_POST['group_id'] ) )
 			return false;
 		
 		return true;
+		
 	} else {
 		return false;
 	}
@@ -42,7 +45,7 @@ add_action( 'wp_ajax_groups_invite_user', 'groups_ajax_invite_user' );
 function groups_ajax_group_filter() {
 	global $bp;
 
-	check_ajax_referer('group-filter-box');
+	check_ajax_referer( 'group-filter-box' );
 	
 	load_template( get_template_directory() . '/groups/group-loop.php' );
 }
@@ -139,7 +142,7 @@ function groups_ajax_member_list() {
 	<?php else: ?>
 
 		<div id="message" class="info">
-			<p>This group has no members.</p>
+			<p><?php _e( 'This group has no members.', 'buddypress' ) ?></p>
 		</div>
 
 	<?php endif; ?>
@@ -185,7 +188,7 @@ function groups_ajax_member_admin_list() {
 	<?php else: ?>
 
 		<div id="message" class="info">
-			<p>This group has no members.</p>
+			<p><?php _e( 'This group has no members.', 'buddypress' ) ?></p>
 		</div>
 
 	<?php endif;?>
@@ -296,14 +299,21 @@ function groups_ajax_joinleave_group() {
 		return false;
 	
 	if ( !groups_is_user_member( $bp->loggedin_user->id, $group->id ) ) {
-	
+
 		if ( 'public' == $group->status ) {
+			
+			check_ajax_referer( 'groups_join_group' );
+			
 			if ( !groups_join_group( $group->id ) ) {
 				_e( 'Error joining group', 'buddypress' );
 			} else {
-				echo '<a id="group-' . $group->id . '" class="leave-group" rel="leave" title="' . __( 'Leave Group', 'buddypress' ) . '" href="' . bp_group_permalink( $group, false ) . '/leave-group">' . __( 'Leave Group', 'buddypress' ) . '</a>';
-			}			
+				echo '<a id="group-' . $group->id . '" class="leave-group" rel="leave" title="' . __( 'Leave Group', 'buddypress' ) . '" href="' . wp_nonce_url( bp_group_permalink( $group, false ) . '/leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
+			}	
+					
 		} else if ( 'private' == $group->status ) {
+			
+			check_ajax_referer( 'groups_send_membership_request' );
+			
 			if ( !groups_send_membership_request( $bp->loggedin_user->id, $group->id ) ) {
 				_e( 'Error requesting membership', 'buddypress' );	
 			} else {
@@ -312,13 +322,16 @@ function groups_ajax_joinleave_group() {
 		}
 		
 	} else {
+
+		check_ajax_referer( 'groups_leave_group' );
+
 		if ( !groups_leave_group( $group->id ) ) {
 			_e( 'Error leaving group', 'buddypress' );
 		} else {
 			if ( 'public' == $group->status ) {
-				echo '<a id="group-' . $group->id . '" class="join-group" rel="join" title="' . __( 'Join Group', 'buddypress' ) . '" href="' . bp_group_permalink( $group, false ) . '/join">' . __( 'Join Group', 'buddypress' ) . '</a>';				
+				echo '<a id="group-' . $group->id . '" class="join-group" rel="join" title="' . __( 'Join Group', 'buddypress' ) . '" href="' . wp_nonce_url( bp_group_permalink( $group, false ) . '/join', 'groups_join_group' ) . '">' . __( 'Join Group', 'buddypress' ) . '</a>';				
 			} else if ( 'private' == $group->status ) {
-				echo '<a id="group-' . $group->id . '" class="request-membership" rel="join" title="' . __( 'Request Membership', 'buddypress' ) . '" href="' . bp_group_permalink( $group, false ) . '/request-membership">' . __( 'Request Membership', 'buddypress' ) . '</a>';
+				echo '<a id="group-' . $group->id . '" class="request-membership" rel="join" title="' . __( 'Request Membership', 'buddypress' ) . '" href="' . wp_nonce_url( bp_group_permalink( $group, false ) . '/request-membership', 'groups_send_membership_request' ) . '">' . __( 'Request Membership', 'buddypress' ) . '</a>';
 			}
 		}
 	}

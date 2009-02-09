@@ -687,7 +687,7 @@ function bp_group_has_moderators() {
 function bp_group_member_promote_link() {
 	global $members_template, $groups_template, $bp;
 
-	echo apply_filters( 'bp_group_member_promote_link', bp_group_permalink( $groups_template->group, false ) . '/admin/manage-members/promote/' . $members_template->member->user_id );
+	echo apply_filters( 'bp_group_member_promote_link', wp_nonce_url( bp_group_permalink( $groups_template->group, false ) . '/admin/manage-members/promote/' . $members_template->member->user_id, 'groups_promote_member' ) );
 }
 
 function bp_group_member_demote_link( $user_id = false) {
@@ -696,19 +696,19 @@ function bp_group_member_demote_link( $user_id = false) {
 	if ( !$user_id )
 		$user_id = $members_template->member->user_id;
 	
-	echo apply_filters( 'bp_group_member_demote_link', bp_group_permalink( $groups_template->group, false ) . '/admin/manage-members/demote/' . $user_id );
+	echo apply_filters( 'bp_group_member_demote_link', wp_nonce_url( bp_group_permalink( $groups_template->group, false ) . '/admin/manage-members/demote/' . $user_id, 'groups_demote_member' ) );
 }
 
 function bp_group_member_ban_link() {
 	global $members_template, $groups_template, $bp;
 	
-	echo apply_filters( 'bp_group_member_ban_link', bp_group_permalink( $groups_template->group, false ) . '/admin/manage-members/ban/' . $members_template->member->user_id );
+	echo apply_filters( 'bp_group_member_ban_link', wp_nonce_url( bp_group_permalink( $groups_template->group, false ) . '/admin/manage-members/ban/' . $members_template->member->user_id, 'groups_ban_member' ) );
 }
 
 function bp_group_member_unban_link() {
 	global $members_template, $groups_template, $bp;
 	
-	echo apply_filters( 'bp_group_member_unban_link', bp_group_permalink( $groups_template->group, false ) . '/admin/manage-members/unban/' . $members_template->member->user_id );	
+	echo apply_filters( 'bp_group_member_unban_link', wp_nonce_url( bp_group_permalink( $groups_template->group, false ) . '/admin/manage-members/unban/' . $members_template->member->user_id, 'groups_unban_member' ) );	
 }
 
 function bp_group_admin_tabs() {
@@ -821,6 +821,8 @@ function bp_group_create_form() {
 			<?php bp_custom_group_fields_editable() ?>
 			
 			<p><input type="submit" value="<?php _e('Create Group and Continue', 'buddypress') ?> &raquo;" id="save" name="save"/></p>
+			
+			<?php wp_nonce_field( 'groups_step1_save' ) ?>
 		<?php break; ?>
 		
 		<?php case '2': ?>
@@ -866,6 +868,8 @@ function bp_group_create_form() {
 				</div>
 
 				<p><input type="submit" value="<?php _e('Save and Continue', 'buddypress') ?> &raquo;" id="save" name="save"/></p>
+
+				<?php wp_nonce_field( 'groups_step2_save' ) ?>
 			<?php } else { ?>
 				<div id="message" class="info">
 					<p><?php _e('Please complete all previous steps first.', 'buddypress'); ?></p>
@@ -894,6 +898,8 @@ function bp_group_create_form() {
 						<input type="submit" value="<?php _e('Skip', 'buddypress') ?> &raquo;" id="skip" name="skip"/>
 					</div>
 				</div>
+				
+				<?php wp_nonce_field( 'groups_step3_save' ) ?>
 			<?php } else { ?>
 				<div id="message" class="info">
 					<p><?php _e('Please complete all previous steps first.', 'buddypress'); ?></p>
@@ -917,7 +923,10 @@ function bp_group_create_form() {
 					}
 				} ?>
 				
-				<p class="clear"><input type="button" value="<?php _e('Finish', 'buddypress') ?> &raquo;" id="save" name="save" onclick="location.href='<?php echo $group_link ?>'" /></p>
+				<p class="clear"><input type="submit" value="<?php _e('Finish', 'buddypress') ?> &raquo;" id="save" name="save" /></p>
+				
+				<?php wp_nonce_field( 'groups_step4_save' ) ?>
+				
 				<?php
 			} else { ?>
 				<div id="message" class="info">
@@ -1017,13 +1026,13 @@ function bp_group_is_member() {
 function bp_group_accept_invite_link() {
 	global $groups_template, $bp;
 	
-	echo apply_filters( 'bp_group_accept_invite_link', $bp->loggedin_user->domain . $bp->groups->slug . '/invites/accept/' . $groups_template->group->id );	
+	echo apply_filters( 'bp_group_accept_invite_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->groups->slug . '/invites/accept/' . $groups_template->group->id, 'groups_accept_invite' ) );	
 }
 
 function bp_group_reject_invite_link() {
 	global $groups_template, $bp;
 	
-	echo apply_filters( 'bp_group_reject_invite_link', $bp->loggedin_user->domain . $bp->groups->slug . '/invites/reject/' . $groups_template->group->id );
+	echo apply_filters( 'bp_group_reject_invite_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->groups->slug . '/invites/reject/' . $groups_template->group->id, 'groups_reject_invite' ) );
 }
 
 function bp_has_friends_to_invite() {
@@ -1041,7 +1050,7 @@ function bp_has_friends_to_invite() {
 function bp_group_leave_confirm_link() {
 	global $groups_template, $bp;
 	
-	echo apply_filters( 'bp_group_leave_confirm_link', bp_group_permalink( false, true ) . '/leave-group/yes' );	
+	echo apply_filters( 'bp_group_leave_confirm_link', wp_nonce_url( bp_group_permalink( false, true ) . '/leave-group/yes', 'groups_leave_group' ) );	
 }
 
 function bp_group_leave_reject_link() {
@@ -1059,7 +1068,7 @@ function bp_group_send_invite_form( $group_obj = null ) {
 	<div class="left-menu">
 		<h4><?php _e( 'Select Friends', 'buddypress' ) ?> <img id="ajax-loader" src="<?php echo $bp->groups->image_base ?>/ajax-loader.gif" height="7" alt="Loading" style="display: none;" /></h4>
 		<?php bp_group_list_invite_friends() ?>
-		<?php wp_nonce_field( 'invite_user' ) ?>
+		<?php wp_nonce_field( 'groups_invite_uninvite_user', '_wpnonce_invite_uninvite_user' ) ?>
 		<input type="hidden" name="group_id" id="group_id" value="<?php echo $group_obj->id ?>" />
 	</div>
 
@@ -1080,12 +1089,13 @@ function bp_group_send_invite_form( $group_obj = null ) {
 					<h4><?php echo $user->user_link ?></h4>
 					<span class="activity"><?php echo $user->last_active ?></span>
 					<div class="action">
-						<a class="remove" href="<?php echo site_url() . $bp->groups->slug . '/' . $group_obj->id . '/invites/remove/' . $user->id ?>" id="uid-<?php echo $user->id ?>"><?php _e( 'Remove Invite', 'buddypress' ) ?></a> 
+						<a class="remove" href="<?php echo wp_nonce_url( site_url( $bp->groups->slug . '/' . $group_obj->id . '/invites/remove/' . $user->id ), 'groups_invite_uninvite_user' ) ?>" id="uid-<?php echo $user->id ?>"><?php _e( 'Remove Invite', 'buddypress' ) ?></a> 
 					</div>
 				</li>
 			<?php } // end for ?>
 		</ul>
 		
+		<?php wp_nonce_field( 'groups_send_invites', '_wpnonce_send_invites' ) ?>
 	</div>
 <?php
 }
@@ -1129,19 +1139,19 @@ function bp_group_join_button( $group = false ) {
 	switch ( $group->status ) {
 		case 'public':
 			if ( BP_Groups_Member::check_is_member( $bp->loggedin_user->id, $group->id ) )
-				echo '<a class="leave-group" href="' . bp_group_permalink( $group, false ) . '/leave-group">' . __('Leave Group', 'buddypress') . '</a>';									
+				echo '<a class="leave-group" href="' . wp_nonce_url( bp_group_permalink( $group, false ) . '/leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';									
 			else
-				echo '<a class="join-group" href="' . bp_group_permalink( $group, false ) . '/join">' . __('Join Group', 'buddypress') . '</a>';					
+				echo '<a class="join-group" href="' . wp_nonce_url( bp_group_permalink( $group, false ) . '/join', 'groups_join_group' ) . '">' . __( 'Join Group', 'buddypress' ) . '</a>';					
 		break;
 		
 		case 'private':
 			if ( BP_Groups_Member::check_is_member( $bp->loggedin_user->id, $group->id ) ) {
-				echo '<a class="leave-group" href="' . bp_group_permalink( $group, false ) . '/leave-group">' . __('Leave Group', 'buddypress') . '</a>';										
+				echo '<a class="leave-group" href="' . wp_nonce_url( bp_group_permalink( $group, false ) . '/leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';										
 			} else {
 				if ( !bp_group_has_requested_membership( $group ) )
-					echo '<a class="request-membership" href="' . bp_group_permalink( $group, false ) . '/request-membership">' . __('Request Membership', 'buddypress') . '</a>';		
+					echo '<a class="request-membership" href="' . wp_nonce_url( bp_group_permalink( $group, false ) . '/request-membership', 'groups_send_membership_request' ) . '">' . __('Request Membership', 'buddypress') . '</a>';		
 				else
-					echo '<a class="membership-requested" href="' . bp_group_permalink( $group, false ) . '">' . __('Membership Requested', 'buddypress') . '</a>';				
+					echo '<a class="membership-requested" href="' . bp_group_permalink( $group, false ) . '">' . __( 'Request Sent', 'buddypress' ) . '</a>';				
 			}
 		break;
 	}

@@ -5,6 +5,7 @@ jQuery(document).ready( function() {
 
 			jQuery("div#groups-list-options a").removeClass("selected");
 			jQuery(this).addClass('selected');
+			jQuery("input#groups_search").val('');
 
 			var letter = jQuery(this).attr('id')
 			letter = letter.split('-');
@@ -157,13 +158,19 @@ jQuery(document).ready( function() {
 			var gid = jQuery(this).parent().attr('id');
 			gid = gid.split('-');
 			gid = gid[1];
-
+			
+			var nonce = jQuery(this).attr('href');
+			nonce = nonce.split('?_wpnonce=');
+			nonce = nonce[1].split('&');
+			nonce = nonce[0];
+			
 			var thelink = jQuery(this);
 
 			jQuery.post( ajaxurl, {
 				action: 'joinleave_group',
 				'cookie': encodeURIComponent(document.cookie),
-				'gid': gid
+				'gid': gid,
+				'_wpnonce': nonce
 			},
 			function(response)
 			{

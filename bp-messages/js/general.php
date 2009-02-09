@@ -39,7 +39,7 @@ jQuery(document).ready( function() {
 			jQuery.post( ajaxurl, {
 				action: 'messages_send_reply',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce").val(),
+				'_wpnonce': jQuery("input#_wpnonce_send_message").val(),
 				
 				'content': jQuery("#message_content").val(),
 				'send_to': jQuery("input#send_to").val(),

@@ -5,6 +5,7 @@ jQuery(document).ready( function() {
 
 			jQuery("div#blogs-list-options a").removeClass("selected");
 			jQuery(this).addClass('selected');
+			jQuery("input#blogs_search").val('');
 
 			var letter = jQuery(this).attr('id')
 			letter = letter.split('-');

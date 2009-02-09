@@ -72,7 +72,7 @@ function friends_check_installed() {
 
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( false == $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->friends->table_name}%'") ) || ( get_site_option('bp-friends-db-version') < BP_FRIENDS_DB_VERSION )  )
+		if ( ( !$wpdb->get_var( "SHOW TABLES LIKE '%{$bp->friends->table_name}%'") ) || ( get_site_option('bp-friends-db-version') < BP_FRIENDS_DB_VERSION )  )
 			friends_install();
 	}
 }
@@ -483,6 +483,10 @@ function friends_check_friendship( $user_id, $possible_friend_id ) {
 function friends_add_friend( $initiator_userid, $friend_userid ) {
 	global $bp;
 	
+	/* Check the nonce */
+	if ( !check_admin_referer( 'friends_add_friend' ) ) 
+		return false;
+	
 	$friendship = new BP_Friends_Friendship;
 	
 	if ( (int)$friendship->is_confirmed )
@@ -512,6 +516,10 @@ function friends_add_friend( $initiator_userid, $friend_userid ) {
 
 function friends_remove_friend( $initiator_userid, $friend_userid ) {
 	global $bp;
+
+	/* Check the nonce */
+	if ( !check_admin_referer( 'friends_remove_friend' ) ) 
+		return false;
 		
 	$friendship_id = BP_Friends_Friendship::get_friendship_id( $initiator_userid, $friend_userid );
 	$friendship = new BP_Friends_Friendship( $friendship_id );
@@ -531,8 +539,12 @@ function friends_remove_friend( $initiator_userid, $friend_userid ) {
 }
 
 function friends_accept_friendship( $friendship_id ) {
+	/* Check the nonce */
+	if ( !check_admin_referer( 'friends_accept_friendship' ) ) 
+		return false;
+		
 	$friendship = new BP_Friends_Friendship( $friendship_id, true, false );
-	
+
 	if ( !$friendship->is_confirmed && BP_Friends_Friendship::accept( $friendship_id ) ) {
 		friends_update_friend_totals( $friendship->initiator_user_id, $friendship->friend_user_id );
 		
@@ -554,6 +566,10 @@ function friends_accept_friendship( $friendship_id ) {
 }
 
 function friends_reject_friendship( $friendship_id ) {
+	/* Check the nonce */
+	if ( !check_admin_referer( 'friends_reject_friendship' ) ) 
+		return false;
+		
 	$friendship = new BP_Friends_Friendship( $friendship_id, true, false );
 
 	if ( !$friendship->is_confirmed && BP_Friends_Friendship::reject( $friendship_id ) ) {

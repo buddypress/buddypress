@@ -691,6 +691,8 @@ function bp_show_blog_signup_form($blogname = '', $blog_title = '', $errors = ''
 			<p>
 				<input id="submit" type="submit" name="submit" class="submit" value="<?php _e('Create Blog &raquo;', 'buddypress') ?>" />
 			</p>
+			
+			<?php wp_nonce_field( 'bp_blog_signup_form' ) ?>
 		</form>
 		<?php
 	}
@@ -753,6 +755,9 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 
 function bp_blogs_validate_blog_signup() {
 	global $wpdb, $current_user, $blogname, $blog_title, $errors, $domain, $path;
+
+	if ( !check_admin_referer( 'bp_blog_signup_form' ) ) 
+		return false;
 
 	$current_user = wp_get_current_user();
 	

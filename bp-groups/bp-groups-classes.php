@@ -163,7 +163,7 @@ Class BP_Groups_Group {
 			);
 		}
 		
-		if ( false == $wpdb->query($sql) )
+		if ( false === $wpdb->query($sql) )
 			return false;
 		
 		if ( !$this->id ) {

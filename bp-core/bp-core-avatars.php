@@ -107,7 +107,7 @@ function bp_core_avatar_admin( $message = null, $action, $delete_action) {
 			echo '<h3>' . __('This is your current avatar', 'buddypress') . '</h3>';
 			echo '<span class="crop-img avatar">' . bp_core_get_avatar(get_current_user_id(), 1) . '</span>';
 			echo '<span class="crop-img avatar">' . bp_core_get_avatar(get_current_user_id(), 2) . '</span>';
-			echo '<a href="' .  $delete_action . '">' . __( 'Delete', 'buddypress' ) . '</a>';
+			echo '<a href="' .  wp_nonce_url( $delete_action, 'bp_delete_avatar_link' ) . '">' . __( 'Delete', 'buddypress' ) . '</a>';
 		}
 
 	} else if ( isset($_POST['slick_avatars_action']) && 'upload' == $_POST['slick_avatars_action'] ) {

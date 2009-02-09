@@ -122,7 +122,7 @@ function messages_check_installed() {
 
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( false == ( $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->messages->table_name_messages}%'" ) ) || ( get_site_option('bp-messages-db-version') < BP_MESSAGES_DB_VERSION ) )
+		if ( !$wpdb->get_var( "SHOW TABLES LIKE '%{$bp->messages->table_name_messages}%'" ) || ( get_site_option('bp-messages-db-version') < BP_MESSAGES_DB_VERSION ) )
 			messages_install();
 	}
 }
@@ -388,6 +388,9 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 	global $message, $type;
 	global $bp, $current_user;
 	
+	if ( !check_admin_referer( 'messages_send_message' ) )
+		return false;
+	
 	messages_add_callback_values( $recipients, $subject, $content );
 	
 	if ( isset( $_POST['send-notice'] ) ) {
@@ -514,6 +517,8 @@ function messages_remove_callback_values() {
  **************************************************************************/
 
 function messages_send_notice( $subject, $message, $from_template ) {
+	
+	
 	if ( !is_site_admin() || empty( $subject ) || empty( $message ) ) {
 		return false;
 	} else {
@@ -538,6 +543,9 @@ function messages_send_notice( $subject, $message, $from_template ) {
  **************************************************************************/
 
 function messages_delete_thread( $thread_ids ) {
+	if ( !check_admin_referer( 'messages_delete_thread' ) )
+		return false;
+	
 	if ( is_array($thread_ids) ) {
 		$error = 0;
 		for ( $i = 0; $i < count($thread_ids); $i++ ) {
@@ -570,88 +578,6 @@ function messages_get_message_sender( $message_id ) {
 }
 
 
-/**************************************************************************
- messages_view_thread()
-  
- Displays a message thread.
- **************************************************************************/
-
-function messages_view_thread( $thread_id ) {
-	global $bp;
-
-	$thread = new BP_Messages_Thread( $thread_id, true );
-	
-	if ( !$thread->has_access ) {
-		unset($_GET['mode']); ?>
-		<div id="message" class="error">
-			<p><?php _e( 'There was an error when viewing that message', 'buddypress' ) ?></p>
-		</div>
-	<?php	
-	} else {
-		if ( $thread->messages ) { ?>
-			<?php $thread->mark_read() ?>
-				
-			<div class="wrap">
-				<h2 id="message-subject"><?php echo $thread->subject; ?></h2>
-				<table class="form-table">
-					<tbody>
-						<tr>
-							<td>
-								<img src="<?php echo $bp->messages->image_base ?>/email_open.gif" alt="Message" style="vertical-align: top;" /> &nbsp;
-								<?php _e('Sent between ', 'buddypress') ?> <?php echo BP_Messages_Thread::get_recipient_links($thread->recipients) ?> 
-								<?php _e('and', 'buddypress') ?> <?php echo bp_core_get_userlink($bp->loggedin_user->id) ?>. 
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				
-		<?php
-			foreach ( $thread->messages as $message ) {
-				?>
-					<a name="<?php echo 'm-' . $message->id ?>"></a>
-					<div class="message-box">
-						<div class="avatar-box">
-							<?php echo apply_filters( 'bp_message_sender_avatar', bp_core_get_avatar( $message->sender_id, 1 ) ) ?>
-							<h3><?php echo apply_filters( 'bp_message_sender_id', bp_core_get_userlink( $message->sender_id ) ) ?></h3>
-							<small><?php echo apply_filters( 'bp_message_date_sent', bp_format_time( strtotime($message->date_sent ) ) ) ?></small>
-						</div>
-						<?php echo apply_filters( 'bp_message_content', stripslashes($message->message) ); ?>
-						<div class="clear"></div>
-					</div>
-				<?php
-			}
-		
-			?>
-				<form id="send-reply" action="<?php echo get_option('home'); ?>/wp-admin/admin.php?page=bp-messages.php&amp;mode=send" method="post">
-					<div class="message-box">
-							<div id="messagediv">
-								<div class="avatar-box">
-									<?php if ( function_exists('bp_core_get_avatar') ) 
-										echo bp_core_get_avatar($bp->loggedin_user->id, 1);
-									?>
-					
-									<h3><?php _e("Reply: ", 'buddypress') ?></h3>
-								</div>
-								<label for="reply"></label>
-								<div>
-									<textarea name="content" id="message_content" rows="15" cols="40"><?php echo $content; ?></textarea>
-								</div>
-							</div>
-							<p class="submit">
-								<input type="submit" name="send" value="Send Reply &raquo;" id="send_reply_button"/>
-							</p>
-							<input type="hidden" id="thread_id" name="thread_id" value="<?php echo $thread->thread_id ?>" />
-							<input type="hidden" name="subject" id="subject" value="<?php _e('Re: ', 'buddypress'); echo str_replace( 'Re: ', '', $thread->last_message_subject); ?>" />
-					</div>
-					<?php if ( function_exists('wp_nonce_field') )
-						wp_nonce_field('messages_sendreply');
-					?>
-				</form>
-			</div>
-			<?php
-		}
-	}
-}
 
 // List actions to clear super cached pages on, if super cache is installed
 add_action( 'messages_delete_thread', 'bp_core_clear_cache' );

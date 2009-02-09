@@ -247,13 +247,13 @@ function bp_friend_time_since_requested() {
 function bp_friend_accept_request_link() {
 	global $friends_template, $bp;
 	
-	echo apply_filters( 'bp_friend_accept_request_link', $bp->loggedin_user->domain . $bp->friends->slug . '/requests/accept/' . $friends_template->friendship->id );
+	echo apply_filters( 'bp_friend_accept_request_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->friends->slug . '/requests/accept/' . $friends_template->friendship->id, 'friends_accept_friendship' ) );
 }
 
 function bp_friend_reject_request_link() {
 	global $friends_template, $bp;
 	
-	echo apply_filters( 'bp_friend_reject_request_link', $bp->loggedin_user->domain . $bp->friends->slug . '/requests/reject/' . $friends_template->friendship->id );	
+	echo apply_filters( 'bp_friend_reject_request_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->friends->slug . '/requests/reject/' . $friends_template->friendship->id, 'friends_reject_friendship' ) );	
 }
 
 function bp_friend_pagination() {
@@ -268,12 +268,13 @@ function bp_friend_search_form() {
 	$label = __( 'Filter Friends', 'buddypress' );
 ?>
 	<form action="<?php echo $action ?>" id="friend-search-form" method="post">
+
 		<label for="friend-search-box" id="friend-search-label"><?php echo $label ?> <img id="ajax-loader" src="<?php echo $bp->friends->image_base ?>/ajax-loader.gif" height="7" alt="Loading" style="display: none;" /></label>
 		<input type="search" name="friend-search-box" id="friend-search-box" value="<?php echo $value ?>"<?php echo $disabled ?> />
-		<?php if ( function_exists('wp_nonce_field') )
-			wp_nonce_field('friend_search' );
-		?>
+		
+		<?php wp_nonce_field( 'friends_search', '_wpnonce_friend_search' ) ?>
 		<input type="hidden" name="initiator" id="initiator" value="<?php echo $bp->displayed_user->id ?>" />
+	
 	</form>
 <?php
 }
@@ -317,15 +318,11 @@ function bp_add_friend_button( $potential_friend_id = false ) {
 		if ( 'pending' == $friend_status ) {
 			echo '<a class="requested" href="' . $bp->loggedin_user->domain . $bp->friends->slug . '">' . __( 'Friendship Requested', 'buddypress' ) . '</a>';
 		} else if ( 'is_friend' == $friend_status ) {
-			echo '<a href="' . $bp->loggedin_user->domain . $bp->friends->slug . '/remove-friend/' . $potential_friend_id . '" title="' . __('Cancel Friendship', 'buddypress') . '" id="friend-' . $potential_friend_id . '" rel="remove" class="remove">' . __('Cancel Friendship', 'buddypress') . '</a>';
+			echo '<a href="' . wp_nonce_url( $bp->loggedin_user->domain . $bp->friends->slug . '/remove-friend/' . $potential_friend_id, 'friends_remove_friend' ) . '" title="' . __('Cancel Friendship', 'buddypress') . '" id="friend-' . $potential_friend_id . '" rel="remove" class="remove">' . __('Cancel Friendship', 'buddypress') . '</a>';
 		} else {
-			echo '<a href="' . $bp->loggedin_user->domain . $bp->friends->slug . '/add-friend/' . $potential_friend_id . '" title="' . __('Add Friend', 'buddypress') . '" id="friend-' . $potential_friend_id . '" rel="add" class="add">' . __('Add Friend', 'buddypress') . '</a>';
+			echo '<a href="' . wp_nonce_url( $bp->loggedin_user->domain . $bp->friends->slug . '/add-friend/' . $potential_friend_id, 'friends_add_friend' ) . '" title="' . __('Add Friend', 'buddypress') . '" id="friend-' . $potential_friend_id . '" rel="add" class="add">' . __('Add Friend', 'buddypress') . '</a>';
 		}
 		echo '</div>';
-
-		// This causes duplicates, so it's not feasible as is.
-		// if ( function_exists('wp_nonce_field') )
-		//	wp_nonce_field('addremove_friend');
 	}
 }
 

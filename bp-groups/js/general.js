@@ -21,7 +21,7 @@ jQuery(document).ready( function() {
 				action: 'groups_invite_user',
 				'friend_action': friend_action,
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce").val(),
+				'_wpnonce': jQuery("input#_wpnonce_invite_uninvite_user").val(),
 				'friend_id': friend_id,
 				'group_id': jQuery("input#group_id").val()
 			},
@@ -54,7 +54,7 @@ jQuery(document).ready( function() {
 				action: 'groups_invite_user',
 				'friend_action': 'uninvite',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce").val(),
+				'_wpnonce': jQuery("input#_wpnonce_invite_uninvite_user").val(),
 				'friend_id': friend_id,
 				'group_id': jQuery("input#group_id").val()
 			},

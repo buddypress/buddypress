@@ -50,7 +50,7 @@ function bp_forums_filter_encode( $content ) {
 
 function bp_forums_filter_decode( $content ) {
 	$content = str_replace( '/amp/', '&', $content );
-	$content = html_entity_decode( $content, ENT_COMPAT, "UTF-8" );
+	$content = @html_entity_decode( $content, ENT_COMPAT, "UTF-8" );
 	$content = str_replace( '[', '<', $content );
 	$content = str_replace( ']', '>', $content );
 	$content = stripslashes( wp_filter_kses( $content ) );

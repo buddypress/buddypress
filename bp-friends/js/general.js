@@ -49,7 +49,7 @@ jQuery(document).ready( function() {
 				jQuery.post( ajaxurl, {
 					action: 'friends_search',
 					'cookie': encodeURIComponent(document.cookie),
-					'_wpnonce': jQuery("input#_wpnonce").val(),
+					'_wpnonce': jQuery("input#_wpnonce_friend_search").val(),
 
 					'friend-search-box': jQuery("#friend-search-box").val()
 				},
