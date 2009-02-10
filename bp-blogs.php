@@ -267,7 +267,7 @@ function bp_blogs_format_activity( $item_id, $user_id, $action, $secondary_item_
 			);	
 		break;
 		case 'new_blog_post':
-			$post = new BP_Blogs_Post($item_id);
+			$post = new BP_Blogs_Post($secondary_item_id);
 			
 			if ( !$post )
 				return false;
@@ -295,7 +295,7 @@ function bp_blogs_format_activity( $item_id, $user_id, $action, $secondary_item_
 			if ( !is_user_logged_in() )
 				return false;
 
-			$comment = new BP_Blogs_Comment($item_id);
+			$comment = new BP_Blogs_Comment($secondary_item_id);
 			
 			if ( !$comment )
 				return false;
@@ -431,7 +431,7 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 			$is_private = bp_blogs_is_blog_hidden( $recorded_post->blog_id );
 			
 			// Record in activity streams
-			bp_blogs_record_activity( array( 'item_id' => $recorded_post_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'is_private' => $is_private, 'user_id' => $recorded_post->user_id ) );
+			bp_blogs_record_activity( array( 'item_id' => $recorded_post->blog_id, 'secondary_item_id' => $recorded_post_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'is_private' => $is_private, 'user_id' => $recorded_post->user_id ) );
 		}
 	} else {
 		$existing_post = new BP_Blogs_Post( null, $blog_id, $post_id );
@@ -507,7 +507,7 @@ function bp_blogs_record_comment( $comment_id, $post_id = false, $blog_id = fals
 				$is_private = bp_blogs_is_blog_hidden( $recorded_comment->blog_id );
 				
 				// Record in activity streams
-				bp_blogs_record_activity( array( 'item_id' => $recorded_commment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'is_private' => $is_private, 'user_id' => $recorded_comment->user_id ) );
+				bp_blogs_record_activity( array( 'item_id' => $recorded_comment->blog_id, 'secondary_item_id' => $recorded_commment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'is_private' => $is_private, 'user_id' => $recorded_comment->user_id ) );
 			}
 		} else {
 			/** 
@@ -634,10 +634,15 @@ function bp_blogs_remove_comment( $comment_id ) {
 add_action( 'delete_comment', 'bp_blogs_remove_comment' );
 
 function bp_blogs_remove_data_for_blog( $blog_id ) {
+	global $bp;
+	
 	/* If this is regular blog, delete all data for that blog. */
 	BP_Blogs_Blog::delete_blog_for_all( $blog_id );
 	BP_Blogs_Post::delete_posts_for_blog( $blog_id );		
 	BP_Blogs_Comment::delete_comments_for_blog( $blog_id );
+
+	// Delete activity stream item
+	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component_name' => 'blogs', 'component_action' => false, 'user_id' => $bp->loggedin_user->id ) );
 
 	do_action( 'bp_blogs_remove_data_for_blog', $blog_id );
 }
@@ -721,7 +726,7 @@ function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = fa
 	$meta_value = trim( $meta_value );
 
 	if ( !$meta_key ) {
-		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->blogs->table_name_blogpmeta . " WHERE blog_id = %d", $blog_id ) );		
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name_blogmeta} WHERE blog_id = %d", $blog_id ) );		
 	} else if ( !$meta_value ) {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name_blogmeta} WHERE blog_id = %d AND meta_key = %s AND meta_value = %s", $blog_id, $meta_key, $meta_value ) );
 	} else {

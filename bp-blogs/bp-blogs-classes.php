@@ -20,7 +20,7 @@ Class BP_Blogs_Blog {
 	function populate() {
 		global $wpdb, $bp;
 		
-		$blog = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp->blogs->table_name . " WHERE id = %d", $this->id ) );
+		$blog = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->blogs->table_name} WHERE id = %d", $this->id ) );
 
 		$this->user_id = $blog->user_id;
 		$this->blog_id = $blog->blog_id;
@@ -39,10 +39,10 @@ Class BP_Blogs_Blog {
 		
 		if ( $this->id ) {
 			// Update
-			$sql = $wpdb->prepare( "UPDATE " . $bp->blogs->table_name . " SET user_id = %d, blog_id = %d WHERE id = %d", $this->user_id, $this->blog_id, $this->id );
+			$sql = $wpdb->prepare( "UPDATE {$bp->blogs->table_name} SET user_id = %d, blog_id = %d WHERE id = %d", $this->user_id, $this->blog_id, $this->id );
 		} else {
 			// Save
-			$sql = $wpdb->prepare( "INSERT INTO " . $bp->blogs->table_name . " ( user_id, blog_id ) VALUES ( %d, %d )", $this->user_id, $this->blog_id );
+			$sql = $wpdb->prepare( "INSERT INTO {$bp->blogs->table_name} ( user_id, blog_id ) VALUES ( %d, %d )", $this->user_id, $this->blog_id );
 		}
 		
 		if ( !$wpdb->query($sql) )
@@ -57,7 +57,7 @@ Class BP_Blogs_Blog {
 	function exists() {
 		global $bp, $wpdb;
 		
-		return $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM " . $bp->blogs->table_name . " WHERE user_id = %d AND blog_id = %d", $this->user_id, $this->blog_id ) );
+		return $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->blogs->table_name} WHERE user_id = %d AND blog_id = %d", $this->user_id, $this->blog_id ) );
 	}
 	
 	/* Static Functions */
@@ -65,40 +65,52 @@ Class BP_Blogs_Blog {
 	function delete_blog_for_all( $blog_id ) {
 		global $wpdb, $bp;
 		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
+		
 		bp_blogs_delete_blogmeta( $blog_id );
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->blogs->table_name . " WHERE blog_id = %d", $blog_id ) );
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name} WHERE blog_id = %d", $blog_id ) );
 	}
 	
 	function delete_blog_for_user( $blog_id, $user_id = null ) {
 		global $wpdb, $bp;
 		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
+		
 		if ( !$user_id )
 			$user_id = $bp->loggedin_user->id;
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->blogs->table_name . " WHERE user_id = %d AND blog_id = %d", $user_id, $blog_id ) );
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name} WHERE user_id = %d AND blog_id = %d", $user_id, $blog_id ) );
 	}
 	
 	function delete_blogs_for_user( $user_id = null ) {
 		global $wpdb, $bp;
+		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
 
 		if ( !$user_id )
 			$user_id = $bp->loggedin_user->id;
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->blogs->table_name . " WHERE user_id = %d", $user_id ) );
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name} WHERE user_id = %d", $user_id ) );
 	}
 	
 	function get_blogs_for_user( $user_id = null ) {
 		global $bp, $wpdb;
+		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
 		
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
 		
 		// Show logged in users their hidden blogs.
 		if ( !bp_is_home() )
-			$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT b.blog_id FROM " . $bp->blogs->table_name . " b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.public = 1 AND wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND b.user_id = %d ", $user_id) );
+			$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT b.blog_id FROM {$bp->blogs->table_name} b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.public = 1 AND wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND b.user_id = %d ", $user_id) );
 		else
-			$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT b.blog_id FROM " . $bp->blogs->table_name . " b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND b.user_id = %d ", $user_id) );
+			$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT b.blog_id FROM {$bp->blogs->table_name} b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND b.user_id = %d ", $user_id) );
 			
 		$total_blog_count = BP_Blogs_Blog::total_blog_count( $user_id );
 		
@@ -120,7 +132,7 @@ Class BP_Blogs_Blog {
 		if ( !$bp->blogs )
 			bp_blogs_setup_globals();
 		
-		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM " . $bp->blogs->table_name . " WHERE blog_id = %d", $blog_id ) );
+		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->blogs->table_name} WHERE blog_id = %d", $blog_id ) );
 	}
 	
 	function total_blog_count( $user_id = null ) {
@@ -134,13 +146,16 @@ Class BP_Blogs_Blog {
 
 		// If the user is logged in return the blog count including their hidden blogs.
 		if ( !bp_is_home() )
-			return $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(b.blog_id) FROM " . $bp->blogs->table_name . " b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.public = 1 AND wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND user_id = %d", $user_id) );
+			return $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(b.blog_id) FROM {$bp->blogs->table_name} b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.public = 1 AND wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND user_id = %d", $user_id) );
 		else
-			return $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(b.blog_id) FROM " . $bp->blogs->table_name . " b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND user_id = %d", $user_id) );			
+			return $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(b.blog_id) FROM {$bp->blogs->table_name} b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND user_id = %d", $user_id) );			
 	}
 	
 	function get_all( $limit = null, $page = null ) {
 		global $bp, $wpdb;
+		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
 		
 		if ( $limit && $page ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
@@ -154,6 +169,9 @@ Class BP_Blogs_Blog {
 	
 	function get_by_letter( $letter, $limit = null, $page = null ) {
 		global $bp, $wpdb;
+		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
 		
 		like_escape($letter);
 				
@@ -170,6 +188,9 @@ Class BP_Blogs_Blog {
 	function search_blogs( $filter, $limit = null, $page = null ) {
 		global $wpdb, $bp;
 		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
+		
 		like_escape($filter);
 		
 		if ( $limit && $page ) {
@@ -185,18 +206,24 @@ Class BP_Blogs_Blog {
 	function get_random( $limit = null, $page = null ) {
 		global $bp, $wpdb;
 		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
+		
 		if ( $limit && $page ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
-			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(b.blog_id) FROM " . $bp->blogs->table_name . " b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.public = 1 AND wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 ORDER BY rand()" ) );
+			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(b.blog_id) FROM {$bp->blogs->table_name} b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.public = 1 AND wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 ORDER BY rand()" ) );
 		}
 		
-		$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT b.blog_id FROM " . $bp->blogs->table_name . " b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.public = 1 AND wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0  ORDER BY rand() {$pag_sql}" ) ); 		
+		$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT b.blog_id FROM {$bp->blogs->table_name} b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.public = 1 AND wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0  ORDER BY rand() {$pag_sql}" ) ); 		
 		
 		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
 	}
 	
 	function is_hidden( $blog_id ) {
 		global $wpdb;
+
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
 		
 		if ( !(int)$wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT public FROM {$wpdb->base_prefix}blogs WHERE blog_id = %d", $blog_id ) ) )
 			return true;
@@ -262,12 +289,18 @@ Class BP_Blogs_Post {
 	
 	function delete( $post_id, $blog_id ) {
 		global $wpdb, $bp, $current_user;
+		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name_blog_posts} WHERE blog_id = %d AND post_id = %d", $blog_id, $post_id ) );
 	}
 	
 	function delete_oldest( $user_id = null ) {
 		global $wpdb, $bp;
+		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
 		
 		if ( !$user_id )
 			$user_id = $current_user->ID;
@@ -277,6 +310,9 @@ Class BP_Blogs_Post {
 	
 	function delete_posts_for_user( $user_id = null ) {
 		global $wpdb, $bp;
+		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
 
 		if ( !$user_id )
 			$user_id = $bp->loggedin_user->id;
@@ -287,11 +323,17 @@ Class BP_Blogs_Post {
 	function delete_posts_for_blog( $blog_id ) {
 		global $wpdb, $bp;
 		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
+		
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name_blog_posts} WHERE blog_id = %d", $blog_id ) );
 	}
 	
 	function get_latest_posts( $blog_id = null, $limit = 5 ) {
 		global $wpdb, $bp;
+		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
 		
 		if ( $blog_id )
 			$blog_sql = $wpdb->prepare( " AND p.blog_id = %d", $blog_id );
@@ -307,6 +349,9 @@ Class BP_Blogs_Post {
 	
 	function get_posts_for_user( $user_id = null ) {
 		global $bp, $wpdb;
+		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
 		
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
@@ -441,12 +486,18 @@ Class BP_Blogs_Comment {
 	
 	function delete( $comment_id, $blog_id ) {
 		global $wpdb, $bp, $current_user;
+		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
 			
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name_blog_comments} WHERE comment_id = %d AND blog_id = %d", $comment_id, $blog_id ) );
 	}
 	
 	function delete_oldest( $user_id = null ) {
 		global $wpdb, $bp, $current_user;
+		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
 		
 		if ( !$user_id )
 			$user_id = $current_user->ID;
@@ -456,6 +507,9 @@ Class BP_Blogs_Comment {
 	
 	function delete_comments_for_user( $user_id = null ) {
 		global $wpdb, $bp;
+		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
 
 		if ( !$user_id )
 			$user_id = $bp->loggedin_user->id;
@@ -466,11 +520,17 @@ Class BP_Blogs_Comment {
 	function delete_comments_for_blog( $blog_id ) {
 		global $wpdb, $bp;
 		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
+		
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name_blog_comments} WHERE blog_id = %d", $blog_id ) );
 	}
 	
 	function get_comments_for_user( $user_id = null ) {
 		global $bp, $wpdb;
+		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
 
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;

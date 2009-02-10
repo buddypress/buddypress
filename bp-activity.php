@@ -305,7 +305,7 @@ function bp_activity_get_sitewide_activity( $max_items ) {
 	return BP_Activity_Activity::get_sitewide_activity( $max_items );
 }
 
-function bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id ) {
+function bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id ) {	
 	if ( !BP_Activity_Activity::delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id ) )
 		return false;
 		
