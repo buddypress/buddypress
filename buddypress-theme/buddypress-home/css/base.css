@@ -143,6 +143,17 @@ h2.widgettitle {
 	height: 36px;
 	font-weight: bold;
 }
+
+	h2.widgettitle a {
+		text-decoration: none;
+		color: #555;
+	}
+
+	h2.widgettitle img {
+		vertical-align: middle;
+		margin-right: 4px;
+	}
+
 	.bp_core_widget_welcome h2 {
 		background: url(../images/welcome_header_back.gif) top left no-repeat !important;
 		color: #fff !important;
@@ -206,6 +217,40 @@ div.avatar-block {
 .bp_core_widget_whos_online img {
 	margin-bottom: 15px !important;
 }
+
+.widget table#wp-calendar {
+	width: 100%;
+}
+
+.widget table#wp-calendar caption {
+	text-align: center;
+	font-size: 1.2em;
+	font-family: georgia, times, serif;
+	padding-bottom: 10px;
+}
+
+.widget table#wp-calendar th {
+	text-align: center;
+	font-weight: bold;
+}
+
+.widget table#wp-calendar td {
+	background: #eee;
+	border: 2px solid #fff;
+	text-align: center;
+}
+	.widget table#wp-calendar td:hover {
+		background: #ccc;
+		cursor: pointer;
+	}
+	
+	.widget table#wp-calendar td#today {
+		background: #fff9df;
+	}
+	
+	.widget table#wp-calendar td.pad {
+		background: none;
+	}
 
 /** ACTIVITY FEED **********/
 
@@ -283,14 +328,16 @@ div.avatar-block {
 		color: #fff;
 	}
 
-#sidebar .widget ul {
+#sidebar .widget ul, .widget_rss ul, .widget_pages ul, .widget_links ul,
+.widget_meta ul, .widget_categories ul, .widget_archive ul {
 	padding-left: 15px;
 }
 	#sidebar .widget ul.item-list {
 		padding: 0;
 	}
 
-	#sidebar .widget li {
+	#sidebar .widget li, .widget_rss ul li, .widget_pages ul li, .widget_archive ul li,
+	.widget_links li, .widget_meta li, .widget_categories li {
 		list-style-type: square;
 		margin-left: 16px;
 		padding-left: 5px;
