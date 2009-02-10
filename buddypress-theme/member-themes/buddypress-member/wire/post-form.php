@@ -7,7 +7,7 @@
 	
 		<div id="wire-post-new-input">
 			
-			<?php bp_custom_wire_boxes_before() ?>
+			<?php do_action( 'bp_wire_custom_wire_boxes_before' ) ?>
 			
 			<textarea name="wire-post-textarea" id="wire-post-textarea"></textarea>
 
@@ -15,7 +15,7 @@
 				<p><input type="checkbox" name="wire-post-email-notify" id="wire-post-email-notify" value="1" /> <?php _e( 'Notify members via email (will slow down posting)', 'buddypress' ) ?></p>
 			<?php endif; ?>
 			
-			<?php bp_custom_wire_boxes_after() ?>
+			<?php do_action( 'bp_wire_custom_wire_boxes_after' ) ?>
 			
 			<input type="submit" name="wire-post-submit" id="wire-post-submit" value="Post &raquo;" />
 			

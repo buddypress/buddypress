@@ -45,7 +45,7 @@
 	<?php else: ?>
 		
 		<div id="message" class="info">
-			<p><?php _e("You have no messages in your inbox.", "buddypress"); ?></p>
+			<p><?php _e( 'You have no messages in your inbox.', 'buddypress' ); ?></p>
 		</div>	
 		
 	<?php endif;?>

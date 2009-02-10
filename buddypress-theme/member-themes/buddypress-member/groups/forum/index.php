@@ -64,17 +64,22 @@
 					<?php if ( bp_group_is_member() ) : ?>
 				
 						<div id="post-new-topic">
+
+							<?php do_action( 'groups_forum_new_topic_before' ) ?>
+
 							<a name="post-new"></a>
 							<p><strong><?php _e( 'Post a New Topic:', 'buddypress' ) ?></strong></p>
+							
 							<label><?php _e( 'Title:', 'buddypress' ) ?></label>
 							<input type="text" name="topic_title" id="topic_title" value="" />
-				
 				
 							<label><?php _e( 'Content:', 'buddypress' ) ?></label>
 							<textarea name="topic_text" id="topic_text"></textarea>
 					
 							<label><?php _e( 'Tags:', 'buddypress' ) ?></label>
 							<input type="text" name="topic_tags" id="topic_tags" value="" />
+
+							<?php do_action( 'groups_forum_new_topic_after' ) ?>
 					
 							<p class="submit"><input type="submit" name="submit_topic" id="submit" value="<?php _e( 'Post Topic', 'buddypress' ) ?>" /></p>
 							

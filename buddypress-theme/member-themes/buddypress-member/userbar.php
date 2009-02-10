@@ -1,5 +1,8 @@
 <div id="userbar">
 	<h3><?php _e( 'Me', 'buddypress' ) ?></h3>
+
+	<?php do_action( 'bp_user_bar_before' ) ?>
+	
 	<?php if ( is_user_logged_in() ) : ?>
 		
 		<?php if ( function_exists('bp_loggedinuser_avatar_thumbnail') ) : ?>
@@ -39,7 +42,7 @@
 	
 	<?php endif ?>
 	
-	<?php do_action( 'bp_user_bar' ) ?>
+	<?php do_action( 'bp_user_bar_after' ) ?>
 
 	<div class="clear"></div>
 </div>

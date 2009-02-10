@@ -56,13 +56,20 @@
 					
 					<?php if ( bp_group_is_member() ) : ?>
 						
-					<div id="post-topic-reply">
-						<p><?php _e( 'Add a reply:', 'buddypress' ) ?></p>
-						<textarea name="reply_text" id="reply_text"></textarea>
-						<p class="submit"><input type="submit" name="submit_reply" id="submit" value="<?php _e( 'Post Reply', 'buddypress' ) ?>" /></p>
+						<div id="post-topic-reply">
+
+							<?php do_action( 'groups_forum_new_reply_before' ) ?>
+							
+							<p><?php _e( 'Add a reply:', 'buddypress' ) ?></p>
+							<textarea name="reply_text" id="reply_text"></textarea>
 						
-						<?php wp_nonce_field( 'bp_forums_new_reply' ) ?>
-					</div>
+							<p class="submit"><input type="submit" name="submit_reply" id="submit" value="<?php _e( 'Post Reply', 'buddypress' ) ?>" /></p>
+
+							<?php do_action( 'groups_forum_new_topic_after' ) ?>
+	
+							<?php wp_nonce_field( 'bp_forums_new_reply' ) ?>
+						
+						</div>
 					
 					<?php endif; ?>
 					

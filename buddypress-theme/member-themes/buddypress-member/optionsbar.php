@@ -10,6 +10,8 @@
 
 		<h3><?php bp_get_options_title() ?></h3>
 
+		<?php do_action( 'bp_options_bar_before' ) ?>
+		
 		<?php if ( bp_has_options_avatar() ) : ?>
 
 			<p class="avatar">
@@ -31,7 +33,7 @@
 				<?php bp_get_options_nav() ?>
 			</ul>
 		
-		<?php do_action( 'bp_options_bar' ) ?>
+		<?php do_action( 'bp_options_bar_after' ) ?>
 		
 		<div class="clear"></div>
 		

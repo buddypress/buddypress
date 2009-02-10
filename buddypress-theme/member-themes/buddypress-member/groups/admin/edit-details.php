@@ -24,7 +24,7 @@
 			<label for="group-news"><?php _e( 'Recent News', 'buddypress' ) ?></label>
 			<textarea name="group-news" id="group-news"><?php bp_group_news_editable() ?></textarea>
 			
-			<?php bp_custom_group_fields_editable() ?>
+			<?php do_action( 'groups_custom_group_fields_editable' ) ?>
 			
 			<p>
 				<label for="group-notifiy-members"><?php _e( 'Notify group members of changes via email', 'buddypress' ); ?></label>

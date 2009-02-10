@@ -10,7 +10,7 @@
 	<h2><?php bp_word_or_name( __( "My Friends", 'buddypress' ), __( "%s's Friends", 'buddypress' ) ) ?> &raquo; <?php bp_friends_filter_title() ?></h2>
 	
 	<div class="left-menu">
-		<?php bp_friend_search_form('Search Friends') ?>
+		<?php bp_friend_search_form() ?>
 	</div>
 	
 	<div class="main-column">
