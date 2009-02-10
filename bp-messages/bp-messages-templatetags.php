@@ -391,7 +391,13 @@ function messages_view_thread( $thread_id ) {
 							<h3><?php echo apply_filters( 'bp_message_sender_id', bp_core_get_userlink( $message->sender_id ) ) ?></h3>
 							<small><?php echo apply_filters( 'bp_message_date_sent', bp_format_time( strtotime($message->date_sent ) ) ) ?></small>
 						</div>
+						
+						<?php do_action( 'messages_custom_fields_output_before' ) ?>
+						
 						<?php echo apply_filters( 'bp_message_content', stripslashes($message->message) ); ?>
+						
+						<?php do_action( 'messages_custom_fields_output_after' ) ?>
+		
 						<div class="clear"></div>
 					</div>
 				<?php

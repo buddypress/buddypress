@@ -818,7 +818,7 @@ function bp_group_create_form() {
 			<label for="group-news"><?php _e('Recent News', 'buddypress') ?></label>
 			<textarea name="group-news" id="group-news"><?php echo ( $group_obj ) ? $group_obj->news : $_POST['group-news']; ?></textarea>
 			
-			<?php bp_custom_group_fields_editable() ?>
+			<?php do_action( 'groups_custom_group_fields_editable' ) ?>
 			
 			<p><input type="submit" value="<?php _e('Create Group and Continue', 'buddypress') ?> &raquo;" id="save" name="save"/></p>
 			
