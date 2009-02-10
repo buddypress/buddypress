@@ -66,4 +66,6 @@ if ( is_dir( './custom-components' ) ) {
 if ( file_exists('custom.css') )
 	echo "@import url(custom.css);\n";
 
+do_action( 'bp_custom_member_styles' );
+
 ?>
