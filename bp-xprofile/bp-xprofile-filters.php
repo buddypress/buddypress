@@ -28,7 +28,6 @@ function xprofile_filter_format_field_value( $field_value, $field_type ) {
 	return stripslashes( stripslashes( $field_value ) );
 }
 
-
 function xprofile_filter_link_profile_data( $field_value, $field_type, $field_id ) {
 	if ( 'datebox' == $field_type )
 		return $field_value;
@@ -42,10 +41,15 @@ function xprofile_filter_link_profile_data( $field_value, $field_type, $field_id
 		foreach ( $values as $value ) {
 			$value = trim( $value );
 			
-			if ( count( explode( ' ', $value ) ) > 5 )
-				$new_values[] = $value;
-			else
-				$new_values[] = '<a href="' . site_url(MEMBERS_SLUG) . '/?s=' . $value . '">' . $value . '</a>';
+			/* If the value is a URL, skip it and just make it clickable. */
+			if ( preg_match( '@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@', $value ) ) {
+				$new_values[] = make_clickable( $value );
+			} else {
+				if ( count( explode( ' ', $value ) ) > 5 )
+					$new_values[] = $value;
+				else
+					$new_values[] = '<a href="' . site_url( MEMBERS_SLUG ) . '/?s=' . $value . '">' . $value . '</a>';
+			}
 		}
 		
 		$values = implode( ', ', $new_values );
