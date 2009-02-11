@@ -1303,7 +1303,7 @@ function bp_core_ucfirst( $str ) {
  * @package BuddyPress Core
  */
 function bp_core_strip_username_spaces( $username ) {
-	return str_replace( ' ', '', $username );
+	return str_replace( ' ', '-', $username );
 }
 add_action( 'pre_user_login', 'bp_core_strip_username_spaces' );
 

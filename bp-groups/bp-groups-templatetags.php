@@ -859,12 +859,35 @@ function bp_group_create_form() {
 				</div>
 				<?php endif; ?>
 			
-				<h3><?php _e('Privacy Options', 'buddypress'); ?></h3>
+				<h3><?php _e( 'Privacy Options', 'buddypress' ); ?></h3>
 			
 				<div class="radio">
-					<label><input type="radio" name="group-status" value="public"<?php if ( 'public' == $group_obj->status ) { ?> checked="checked"<?php } ?> /> <strong><?php _e('This is an open group', 'buddypress') ?></strong><br /><?php _e('This group will be free to join and will appear in group search results.', 'buddypress'); ?></label>
-					<label><input type="radio" name="group-status" value="private"<?php if ( 'private' == $group_obj->status ) { ?> checked="checked"<?php } ?> /> <strong><?php _e('This is an private group', 'buddypress') ?></strong><br /><?php _e('This group will require an invite to join but will still appear in group search results.', 'buddypress'); ?></label>
-					<label><input type="radio" name="group-status" value="hidden"<?php if ( 'hidden' == $group_obj->status ) { ?> checked="checked"<?php } ?> /> <strong><?php _e('This is a hidden group', 'buddypress') ?></strong><br /><?php _e('This group will require an invite to join and will only be visible to invited members. It will not appear in search results or on member profiles.', 'buddypress'); ?></label>
+					<label><input type="radio" name="group-status" value="public"<?php if ( 'public' == $group_obj->status ) { ?> checked="checked"<?php } ?> /> 
+						<strong><?php _e( 'This is a public group', 'buddypress' ) ?></strong>
+						<ul>
+							<li><?php _e( 'Any site member can join this group.', 'buddypress' ) ?></li>
+							<li><?php _e( 'This group will be listed in the groups directory and in search results.', 'buddypress' ) ?></li>
+							<li><?php _e( 'Group content and activity will be visible to any site member.', 'buddypress' ) ?></li>
+						</ul>
+					</label>
+					
+					<label><input type="radio" name="group-status" value="private"<?php if ( 'private' == $group_obj->status ) { ?> checked="checked"<?php } ?> />
+						<strong><?php _e( 'This is a private group', 'buddypress' ) ?></strong>
+						<ul>
+							<li><?php _e( 'Only users who request membership and are accepted can join the group.', 'buddypress' ) ?></li>
+							<li><?php _e( 'This group will be listed in the groups directory and in search results.', 'buddypress' ) ?></li>
+							<li><?php _e( 'Group content and activity will only be visible to members of the group.', 'buddypress' ) ?></li>
+						</ul>
+					</label>
+					
+					<label><input type="radio" name="group-status" value="hidden"<?php if ( 'hidden' == $group_obj->status ) { ?> checked="checked"<?php } ?> />
+						<strong><?php _e('This is a hidden group', 'buddypress') ?></strong>
+						<ul>
+							<li><?php _e( 'Only users who are invited can join the group.', 'buddypress' ) ?></li>
+							<li><?php _e( 'This group will not be listed in the groups directory or search results.', 'buddypress' ) ?></li>
+							<li><?php _e( 'Group content and activity will only be visible to members of the group.', 'buddypress' ) ?></li>
+						</ul>
+					</label>
 				</div>
 
 				<p><input type="submit" value="<?php _e('Save and Continue', 'buddypress') ?> &raquo;" id="save" name="save"/></p>
