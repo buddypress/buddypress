@@ -55,7 +55,7 @@ function bp_core_widget_welcome_control() {
 
 	if ( $_POST['bp-widget-welcome-submit'] ) {
 		$newoptions['title'] = strip_tags( stripslashes( $_POST['bp-widget-welcome-title'] ) );
-		$newoptions['text'] = strip_tags( stripslashes( $_POST['bp-widget-welcome-text'] ), '<img>' );
+		$newoptions['text'] = stripslashes( wp_filter_post_kses( $_POST['bp-widget-welcome-text'] ) );
 	}
 	
 	if ( $options != $newoptions ) {
