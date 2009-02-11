@@ -1296,6 +1296,18 @@ function bp_core_ucfirst( $str ) {
 }
 
 /**
+ * bp_core_ucfirst()
+ * 
+ * Strips spaces from usernames that are created using add_user() and wp_insert_user()
+ * 
+ * @package BuddyPress Core
+ */
+function bp_core_strip_username_spaces( $username ) {
+	return str_replace( ' ', '', $username );
+}
+add_action( 'pre_user_login', 'bp_core_strip_username_spaces' );
+
+/**
  * bp_core_clear_cache()
  * REQUIRES WP-SUPER-CACHE 
  * 
