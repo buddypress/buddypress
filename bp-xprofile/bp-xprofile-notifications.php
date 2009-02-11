@@ -34,7 +34,7 @@ function xprofile_record_wire_post_notification( $wire_post_id, $user_id, $poste
 			
 			// Set up and send the message
 			$to = $ud->user_email;
-			$subject = sprintf( __( '%s posted on your wire.', 'buddypress' ), stripslashes($poster_name) );
+			$subject = '[' . get_blog_option( 1, 'blogname' ) . '] ' . sprintf( __( '%s posted on your wire.', 'buddypress' ), stripslashes($poster_name) );
 
 $message = sprintf( __( 
 '%s posted on your wire:
