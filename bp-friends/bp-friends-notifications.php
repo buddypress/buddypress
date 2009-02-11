@@ -23,6 +23,7 @@ function friends_notification_new_request( $friendship_id, $initiator_id, $frien
 '%s wants to add you as a friend. You have two options:
 
 Accept the friendship request: %s
+
 Reject the friendship request: %s
 
 To view all of your pending friendship requests: %s

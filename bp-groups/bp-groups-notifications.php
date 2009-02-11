@@ -33,7 +33,9 @@ function groups_notification_new_wire_post( $group_id, $wire_post_id ) {
 "%s"
 
 To view the group wire: %s
+
 To view the group home: %s
+
 To view %s\'s profile page: %s
 
 ---------------------
@@ -113,7 +115,9 @@ $message = sprintf( __(
 Because you are the administrator of this group, you must either accept or reject the membership request.
 
 To accept the membership request: %s
+
 To reject the membership request: %s
+
 To view %s\'s profile: %s
 
 ---------------------
@@ -249,7 +253,9 @@ function groups_notification_group_invites( $group_id, $invited_user_ids, $invit
 'One of your friends %s has invited you to the group: "%s".
 
 To view your group invites visit: %s
+
 To view the group visit: %s
+
 To view %s\'s profile visit: %s
 
 ---------------------
