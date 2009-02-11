@@ -1296,7 +1296,7 @@ function bp_core_ucfirst( $str ) {
 }
 
 /**
- * bp_core_ucfirst()
+ * bp_core_strip_username_spaces()
  * 
  * Strips spaces from usernames that are created using add_user() and wp_insert_user()
  * 

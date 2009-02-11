@@ -419,6 +419,9 @@ function xprofile_action_delete_wire_post() {
 	
 	if ( $bp->current_action != 'delete' )
 		return false;
+	
+	if ( !check_admin_referer( 'bp_wire_delete_link' ) )
+		return false;
 			
 	$wire_post_id = $bp->action_variables[0];
 	

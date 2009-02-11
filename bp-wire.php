@@ -127,9 +127,11 @@ function bp_wire_delete_post( $wire_post_id, $component_name, $table_name = null
 	
 	$wire_post = new BP_Wire_Post( $table_name, $wire_post_id );
 	
-	if ( !$bp->is_item_admin ) {
-		if ( $wire_post->user_id != $bp->loggedin_user->id )
-			return false;
+	if ( !is_site_admin() ) {
+		if ( !$bp->is_item_admin ) {
+			if ( $wire_post->user_id != $bp->loggedin_user->id )
+				return false;
+		}
 	}
 	
 	if ( !$wire_post->delete() )

@@ -301,7 +301,7 @@ function bp_wire_delete_link() {
 	else
 		$uri = $bp->current_item;
 		
-	if ( ( $wire_posts_template->wire_post->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin ) {
+	if ( ( $wire_posts_template->wire_post->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin || is_site_admin() ) {
 		if ( $bp->wire->slug == $bp->current_component || $bp->profile->slug == $bp->current_component ) {
 			echo apply_filters( 'bp_wire_delete_link', '<a href="' . wp_nonce_url( $bp->displayed_user->domain . $bp->wire->slug . '/delete/' . $wire_posts_template->wire_post->id, 'bp_wire_delete_link' ) . '">[' . __('Delete', 'buddypress') . ']</a>' );
 		} else {

@@ -45,7 +45,7 @@ Class BP_Activity_Activity {
 	function save() {
 		global $wpdb, $bp, $current_user;
 
-		if ( !$this->item_id || !$this->user_id || $this->is_private )
+		if ( !$this->item_id || !$this->user_id || $this->is_private || !$this->component_name )
 			return false;
 			
 		// Set the table names
@@ -160,7 +160,10 @@ Class BP_Activity_Activity {
 			// Reselect, format and cache a new activity stream. Override the limit otherwise we might only cache 5 items when viewing a profile page.
 			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name_current_user} WHERE date_recorded >= FROM_UNIXTIME(%d) $privacy_sql ORDER BY date_recorded DESC LIMIT 30", $since ) );
 
-			for ( $i = 0; $i < count( $activities ); $i++ ) {			
+			for ( $i = 0; $i < count( $activities ); $i++ ) {
+				
+				if ( !$activities[$i]->component_name ) continue;
+						
 				if ( function_exists( $bp->{$activities[$i]->component_name}->format_activity_function ) ) {	
 					if ( !$content = call_user_func( $bp->{$activities[$i]->component_name}->format_activity_function, $activities[$i]->item_id, $activities[$i]->user_id, $activities[$i]->component_action, $activities[$i]->secondary_item_id ) )
 						continue;
