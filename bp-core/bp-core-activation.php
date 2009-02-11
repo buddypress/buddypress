@@ -48,7 +48,7 @@ function bp_core_activation_do_activation() {
 				
 				<?php
 			    if( $signup->domain . $signup->path == '' ) {
-			    	printf(__('<p class="lead-in">Your account has been activated. You may now <a href="%1$s">login</a> to the site using your chosen username of "%2$s".  Please check your email inbox at %3$s for your password and login instructions. If you do not receive an email, please check your junk or spam folder. If you still do not receive an email within an hour, you can <a href="%4$s">reset your password</a>.</p>', 'buddypress' ), 'http://' . $current_site->domain . $current_site->path . '/wp-login.php', $signup->user_login, $signup->user_email, 'http://' . $current_site->domain . $current_site->path . '/wp-login.php?action=lostpassword');
+			    	printf(__('<p class="lead-in">Your account has been activated. You may now <a href="%1$s">log in</a> to the site using your chosen username of "%2$s".  Please check your email inbox at %3$s for your password and login instructions. If you do not receive an email, please check your junk or spam folder. If you still do not receive an email within an hour, you can <a href="%4$s">reset your password</a>.</p>', 'buddypress' ), 'http://' . $current_site->domain . $current_site->path . '/wp-login.php?redirect_to=' . $current_site->domain, $signup->user_login, $signup->user_email, 'http://' . $current_site->domain . $current_site->path . '/wp-login.php?action=lostpassword');
 			    } else {
 			    	printf(__('<p class="lead-in">Your blog at <a href="%1$s">%2$s</a> is active. You may now login to your blog using your chosen username of "%3$s".  Please check your email inbox at %4$s for your password and login instructions.  If you do not receive an email, please check your junk or spam folder.  If you still do not receive an email within an hour, you can <a href="%5$s">reset your password</a>.</p>', 'buddypress' ), 'http://' . $signup->domain, $signup->domain, $signup->user_login, $signup->user_email, 'http://' . $current_site->domain . $current_site->path . '/wp-login.php?action=lostpassword');
 			    }
@@ -69,9 +69,9 @@ function bp_core_activation_do_activation() {
 			<h3><?php _e('Your account is now active!', 'buddypress' ); ?></h3>
 			
 			<?php if( $url != site_url() ) : ?>
-				<p class="view"><?php printf(__('Your account is now activated. <a href="%1$s">View your site</a> or <a href="%2$s">Login</a>', 'buddypress' ), $url, $url . 'wp-login.php' ); ?></p>
+				<p class="view"><?php printf(__('Your account is now activated. <a href="%1$s">View your site</a> or <a href="%2$s">Login</a>', 'buddypress' ), $url, $url . 'wp-login.php?redirect_to=' . $current_site->domain ); ?></p>
 			<?php else: ?>
-				<p class="view"><?php printf( __( 'Your account is now activated. <a href="%1$s">Login</a> or go back to the <a href="%2$s">homepage</a>.', 'buddypress' ), 'http://' . $current_site->domain . $current_site->path . 'wp-login.php', 'http://' . $current_site->domain . $current_site->path ); ?></p>
+				<p class="view"><?php printf( __( 'Your account is now activated. <a href="%1$s">Login</a> or go back to the <a href="%2$s">homepage</a>.', 'buddypress' ), 'http://' . $current_site->domain . $current_site->path . 'wp-login.php?redirect_to=' . $current_site->domain, 'http://' . $current_site->domain . $current_site->path ); ?></p>
 			<?php endif; ?>
 			
 			<div class="field-box" id="signup-welcome">
