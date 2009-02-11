@@ -10,6 +10,15 @@
 		div#skip-continue input {
 			font-size: 1em;
 		}
+	
+	#create-group-form ul, #group-settings-form ul {
+		margin: 5px 0 0 33px;
+	}
+	
+	#create-group-form ul li, #group-settings-form ul li {
+		list-style-type: disc;
+		padding-left: 5px;
+	}
 
 	ul#group-list li, ul#member-list li, ul#blog-list li, ul#comment-list li, ul.item-list li {
 		background: url(../images/message_thread_back.gif) top left repeat-x;
