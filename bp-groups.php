@@ -260,9 +260,9 @@ function groups_setup_nav() {
 			// If the user is a group mod or more, then show the group admin nav item */
 			if ( $bp->is_item_mod || $bp->is_item_admin )
 				bp_core_add_subnav_item( $bp->groups->slug, 'admin', __('Admin', 'buddypress'), $group_link , 'groups_screen_group_admin', 'group-admin', ( $bp->is_item_admin + (int)$bp->is_item_mod ) );
-			
+
 			// If this is a private group, and the user is not a member, show a "Request Membership" nav item.
-			if ( !$has_access && !groups_check_for_membership_request( $bp->loggedin_user->id, $group_obj->id ) )
+			if ( !$has_access && !groups_check_for_membership_request( $bp->loggedin_user->id, $group_obj->id ) && $group_obj->status == 'private' )
 				bp_core_add_subnav_item( $bp->groups->slug, 'request-membership', __('Request Membership', 'buddypress'), $group_link , 'groups_screen_group_request_membership', 'request-membership' );
 			
 			if ( $has_access && $group_obj->enable_forum && function_exists('bp_forums_setup') )
