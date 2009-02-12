@@ -17,7 +17,7 @@ Class BP_Messages_Template {
 
 	function bp_messages_template( $user_id, $box ) {
 		$this->pag_page = isset( $_GET['mpage'] ) ? intval( $_GET['mpage'] ) : 1;
-		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 5;
+		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 10;
 		$this->user_id = $user_id;
 		$this->box = $box;
 		
