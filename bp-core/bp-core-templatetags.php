@@ -531,6 +531,7 @@ function bp_profile_wire_can_post() {
 
 function bp_nav_items() {
 	global $bp;
+	// This is deprecated, you should put these navigation items in your template header.php for easy editing.
 ?>
 	<li<?php if ( bp_is_page( 'home' ) ) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a></li>
 	<li<?php if ( bp_is_page( HOME_BLOG_SLUG ) ) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/<?php echo HOME_BLOG_SLUG ?>" title="<?php _e( 'Blog', 'buddypress' ) ?>"><?php _e( 'Blog', 'buddypress' ) ?></a></li>
