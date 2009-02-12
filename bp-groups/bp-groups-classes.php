@@ -59,12 +59,12 @@ Class BP_Groups_Group {
 			$this->total_member_count = groups_get_groupmeta( $this->id, 'total_member_count' );
 			
 			if ( !$group->avatar_thumb || strpos( $group->avatar_thumb, 'none-thumbnail' ) )
-				$this->avatar_thumb = 'http://www.gravatar.com/avatar/' . md5( $this->id . '@buddypress.org') . '?d=identicon&amp;s=50';
+				$this->avatar_thumb = 'http://www.gravatar.com/avatar/' . md5( $this->id . '@' . $bp->root_domain ) . '?d=identicon&amp;s=50';
 			else
 				$this->avatar_thumb = $group->avatar_thumb;
 			
 			if ( !$group->avatar_full || strpos( $group->avatar_thumb, 'none-' ) )
-				$this->avatar_full = 'http://www.gravatar.com/avatar/' . md5( $this->id . '@buddypress.org') . '?d=identicon&amp;s=150';
+				$this->avatar_full = 'http://www.gravatar.com/avatar/' . md5( $this->id . '@' . $bp->root_domain ) . '?d=identicon&amp;s=150';
 			else
 				$this->avatar_full = $group->avatar_full;
 			
