@@ -99,19 +99,13 @@ Class BP_Activity_Activity {
 			$component_action_sql = $wpdb->prepare( "AND component_action = %s AND user_id = %d", $component_action, $user_id );
 			$cached_component_action_sql = $wpdb->prepare( "AND component_action = %s", $component_action );
 		}
-		
-		error_log( $component_action );
-		
-		error_log( $wpdb->prepare( "DELETE FROM {$wpdb->base_prefix}user_{$user_id}_activity WHERE item_id = %d {$secondary_sql} AND component_name = %s {$component_action_sql}", $item_id, $component_name ) );
-		error_log( $wpdb->prepare( "DELETE FROM {$wpdb->base_prefix}user_{$user_id}_activity_cached WHERE item_id = %d {$secondary_sql} AND component_name = %s {$cached_component_action_sql}", $item_id, $component_name ) );
-		error_log( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_sitewide} WHERE item_id = %d {$secondary_sql} AND component_name = %s {$component_action_sql}", $item_id, $component_name ) );
-		
+				
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->base_prefix}user_{$user_id}_activity WHERE item_id = %d {$secondary_sql} AND component_name = %s {$component_action_sql}", $item_id, $component_name ) );
 				
 		// Delete this entry from the users' cache table and the sitewide cache table
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->base_prefix}user_{$user_id}_activity_cached WHERE item_id = %d {$secondary_sql} AND component_name = %s {$cached_component_action_sql}", $item_id, $component_name ) );
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_sitewide} WHERE item_id = %d {$secondary_sql} AND component_name = %s {$component_action_sql}", $item_id, $component_name ) );
-		
+
 		return true;
 	}
 	

@@ -7,8 +7,8 @@ define ( 'BP_BLOGS_DB_VERSION', '937' );
 define ( 'BP_BLOGS_SLUG', apply_filters( 'bp_blogs_slug', 'blogs' ) );
 
 /* These will be moved into admin configurable settings */
-define ( 'TOTAL_RECORDED_POSTS', 10 );
-define ( 'TOTAL_RECORDED_COMMENTS', 25 );
+define ( 'TOTAL_RECORDED_POSTS', 150 );
+define ( 'TOTAL_RECORDED_COMMENTS', 500 );
 
 include_once( 'bp-blogs/bp-blogs-classes.php' );
 include_once( 'bp-blogs/bp-blogs-cssjs.php' );
@@ -409,7 +409,7 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 		return false;
 	
 	if ( !$is_recorded = BP_Blogs_Post::is_recorded( $post_id, $blog_id, $user_id ) ) {
-		if ( 'publish' == $post->post_status ) {
+		if ( 'publish' == $post->post_status && '' == $post->post_password ) {
 			
 			/** 
 			 * Check how many recorded posts there are for the user. If we are
@@ -441,7 +441,7 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 		 *  - The status is no longer "published"
 		 *  - The post is password protected
 		 */
-		if ( $post->post_status != 'publish' || $post->post_password != '' )
+		if ( 'publish' != $post->post_status || '' != $post->post_password )
 			bp_blogs_remove_post( $post_id, $blog_id );
 		
 		// Check to see if the post author has changed.
@@ -605,9 +605,9 @@ function bp_blogs_remove_post( $post_id ) {
 
 	// Delete post from the bp_blogs table
 	BP_Blogs_Post::delete( $post_id, $blog_id );
-	
+		
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'user_id' => $post->user_id ) );
+	bp_blogs_delete_activity( array( 'item_id' => $post->blog_id, 'secondary_item_id' => $post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'user_id' => $post->user_id ) );
 
 	do_action( 'bp_blogs_remove_post', $blog_id, $post_id );
 }
@@ -627,7 +627,7 @@ function bp_blogs_remove_comment( $comment_id ) {
 	BP_Blogs_Comment::delete( $comment_id, $blog_id );	
 
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $comment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'user_id' => $bp->loggedin_user->id ) );
+	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'secondary_item_id' => $comment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'user_id' => $bp->loggedin_user->id ) );
 
 	do_action( 'bp_blogs_remove_comment', $blog_id, $comment_id );
 }

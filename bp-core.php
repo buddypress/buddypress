@@ -981,10 +981,11 @@ function bp_core_record_activity() {
 	if ( !is_user_logged_in() )
 		return false;
 	
-	if ( time() >= strtotime( '+5 minutes', get_usermeta( $bp->loggedin_user->id, 'last_activity' ) ) || '' == get_usermeta( $bp->loggedin_user->id, 'last_activity' ) ) {
-		// Updated last site activity for this user.
+	if ( '' == get_usermeta( $bp->loggedin_user->id, 'last_activity' ) )
+		update_usermeta( $bp->loggedin_user->id, 'last_activity', time() );		
+	
+	if ( time() >= strtotime( '+5 minutes', get_usermeta( $bp->loggedin_user->id, 'last_activity' ) ) )
 		update_usermeta( $bp->loggedin_user->id, 'last_activity', time() );
-	}
 }
 add_action( 'wp_head', 'bp_core_record_activity' );
 
