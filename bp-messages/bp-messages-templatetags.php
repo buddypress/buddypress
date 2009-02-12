@@ -126,7 +126,7 @@ function bp_message_thread_id() {
 
 function bp_message_thread_subject() {
 	global $messages_template;
-	echo apply_filters( 'bp_message_thread_subject', $messages_template->thread->last_message_subject );
+	echo apply_filters( 'bp_message_thread_subject', stripslashes_deep( $messages_template->thread->last_message_subject ) );
 }
 
 function bp_message_thread_excerpt() {
