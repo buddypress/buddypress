@@ -207,14 +207,20 @@ function bp_the_profile_field_name() {
 
 function bp_the_profile_field_value() {
 	global $field;
-	
-	if ( is_serialized($field->data->value) ) {
-		$field_value = maybe_unserialize($field->data->value);
-		$field_value = implode( ', ', $field_value );
-		$field->data->value = $field_value;
-	}
+
+	$field->data->value = bp_unserialize_profile_field( $field->data->value );
 
 	echo apply_filters( 'bp_the_profile_field_value', $field->data->value, $field->type, $field->id );
+}
+
+function bp_unserialize_profile_field( $value ) {
+	if ( is_serialized($value) ) {
+		$field_value = maybe_unserialize($value);
+		$field_value = implode( ', ', $field_value );
+		return $field_value;
+	}
+	
+	return $value;
 }
 
 function bp_get_field_data( $field, $user_id = null ) {

@@ -833,7 +833,9 @@ function xprofile_get_random_profile_data( $user_id, $exclude_fullname = true ) 
 function xprofile_format_profile_field( $field_type, $field_value ) {
 	if ( !isset($field_value) || empty( $field_value ) )
 		return false;
-	
+		
+	$field_value = bp_unserialize_profile_field( $field_value );
+		
 	if ( 'datebox' == $field_type ) {
 		$field_value = bp_format_time( $field_value, true );
 	} else {
