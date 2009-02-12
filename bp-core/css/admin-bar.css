@@ -10,6 +10,8 @@ body { padding-top: 28px !important; }
 	color: #fff !important;
 	text-align: left !important;
 	background:url(../images/admin_bar_back.gif) #818181 repeat-x !important;
+	font: 12px normal "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, Verdana, Arial, sans-serif !important;
+	font-weight: normal !important;
 }
 
 #wp-admin-bar * { z-index: 999 !important; }
@@ -24,6 +26,11 @@ body { padding-top: 28px !important; }
 	border: none !important;
 }
 
+#wp-admin-bar li {
+	list-style: none !important;
+	margin: 0 !important;
+}
+
 #wp-admin-bar li * {
 	font: 12px normal "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, Verdana, Arial, sans-serif !important;
 	font-weight: normal !important;
@@ -32,6 +39,8 @@ body { padding-top: 28px !important; }
 
 #wp-admin-bar li a {
 	padding: 6px 25px 7px 15px !important;
+	font: 12px normal "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, Verdana, Arial, sans-serif !important;
+	font-weight: normal !important;
 }
 	#wp-admin-bar li.no-arrow a {
 		padding-right: 15px !important;
@@ -60,6 +69,7 @@ body { padding-top: 28px !important; }
 	padding: 0 !important;
 	float: left !important;
 	background: url( ../images/admin-menu-arrow.gif ) 88% 53% no-repeat;
+	position: relative;
 }
 	#wp-admin-bar ul li.no-arrow {
 		background: none;
