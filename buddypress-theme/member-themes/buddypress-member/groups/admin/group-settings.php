@@ -46,7 +46,7 @@
 			<div class="radio">
 				<label>
 					<input type="radio" name="group-status" value="public"<?php bp_group_show_status_setting('public') ?> /> 
-					<strong><?php _e( 'This is an open group', 'buddypress' ) ?></strong>
+					<strong><?php _e( 'This is a public group', 'buddypress' ) ?></strong>
 					<ul>
 						<li><?php _e( 'Any site member can join this group.', 'buddypress' ) ?></li>
 						<li><?php _e( 'This group will be listed in the groups directory and in search results.', 'buddypress' ) ?></li>
