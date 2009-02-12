@@ -428,18 +428,24 @@ Class BP_XProfile_Field {
 				$html .= '<div class="signup-field">';
 				$html .= '<label class="signup-label" for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
 				$html .= $this->message . '<select class="multi-select" multiple="multiple" name="field_' . $this->id . '[]" id="field_' . $this->id . '">';
-					for ( $k = 0; $k < count($options); $k++ ) {
-						$option_value = BP_XProfile_ProfileData::get_value_byid($options[$k]->parent_id);
-						$values = explode( ',', $option_value );
-						
-						if ( $option_value == $options[$k]->name || $value == $options[$k]->name || in_array( $options[$k]->name, $values ) || ( $options[$k]->is_default_option ) ) {
-							$selected = ' selected="selected"';
-						} else {
-							$selected = '';
-						}
-						
-						$html .= '<option' . $selected . ' value="' . $options[$k]->name . '">' . $options[$k]->name . '</option>';
+
+				if ( $value ) {
+					$option_values = maybe_unserialize($value);
+				} else {
+					$option_values = BP_XProfile_ProfileData::get_value_byid($options[0]->parent_id);
+					$option_values = maybe_unserialize($option_values);
+				}
+
+				for ( $k = 0; $k < count($options); $k++ ) {
+					if ( @in_array( $options[$k]->name, $option_values ) ) {
+						$selected = ' selected="selected"';
+					} else {
+						$selected = '';
 					}
+					
+					$html .= '<option' . $selected . ' value="' . $options[$k]->name . '">' . $options[$k]->name . '</option>';
+				}
+
 				$html .= '</select>';
 				$html .= '<span class="signup-description">' . $this->desc . '</span>';
 				$html .= '</div>';
@@ -477,10 +483,10 @@ Class BP_XProfile_Field {
 				$html .= '<div class="checkbox signup-field" id="field_' . $this->id . '"><span class="signup-label">' . $asterisk . $this->name . ':</span>' . $this->message;
 				
 				if ( $value ) {
-					$option_values = unserialize($value);
+					$option_values = maybe_unserialize($value);
 				} else {
 					$option_values = BP_XProfile_ProfileData::get_value_byid($options[0]->parent_id);
-					$option_values = unserialize($option_values);
+					$option_values = maybe_unserialize($option_values);
 				}
 
 				for ( $k = 0; $k < count($options); $k++ ) {	
