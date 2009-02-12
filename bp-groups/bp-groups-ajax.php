@@ -310,7 +310,7 @@ function groups_ajax_joinleave_group() {
 					
 		} else if ( 'private' == $group->status ) {
 			
-			check_ajax_referer( 'groups_send_membership_request' );
+			check_ajax_referer( 'groups_request_membership' );
 			
 			if ( !groups_send_membership_request( $bp->loggedin_user->id, $group->id ) ) {
 				_e( 'Error requesting membership', 'buddypress' );	

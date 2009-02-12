@@ -1935,7 +1935,7 @@ function groups_send_membership_request( $requesting_user_id, $group_id ) {
 	global $bp;
 
 	/* Check the nonce first. */
-	if ( !check_admin_referer( 'groups_send_membership_request' ) )
+	if ( !check_admin_referer( 'groups_request_membership' ) )
 		return false;
 
 	$requesting_user = new BP_Groups_Member;
