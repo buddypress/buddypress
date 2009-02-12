@@ -384,9 +384,12 @@ function xprofile_action_new_wire_post() {
 		return false;
 		
 	if ( !$wire_post_id = bp_wire_new_post( $bp->displayed_user->id, $_POST['wire-post-textarea'], $bp->profile->slug, false, $bp->profile->table_name_wire ) ) {
-		bp_core_add_message( __('Wire message could not be posted. Please try again.', 'buddypress'), 'error' );
+		bp_core_add_message( __( 'Wire message could not be posted. Please try again.', 'buddypress' ), 'error' );
 	} else {
-		bp_core_add_message( __('Wire message successfully posted.', 'buddypress' ) );
+		bp_core_add_message( __( 'Wire message successfully posted.', 'buddypress' ) );
+
+		/* Record the notification for the user */
+		bp_core_add_notification( $bp->loggedin_user->id, $bp->displayed_user->id, 'profile', 'new_wire_post' );	
 
 		do_action( 'xprofile_new_wire_post', $wire_post_id );	
 	}
@@ -841,6 +844,21 @@ function xprofile_format_profile_field( $field_type, $field_value ) {
 	
 	return stripslashes( stripslashes( $field_value ) );
 }
+
+/**
+ * xprofile_remove_screen_notifications()
+ *
+ * Removes notifications from the notification menu when a user clicks on them and
+ * is taken to a specific screen.
+ * 
+ * @package BuddyPress Core
+ */
+function xprofile_remove_screen_notifications() {
+	global $bp;
+	
+	bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, 'profile', 'new_wire_post' );
+}
+add_action( 'bp_wire_screen_latest', 'xprofile_remove_screen_notifications' );
 
 /**
  * xprofile_remove_data_on_user_deletion()
