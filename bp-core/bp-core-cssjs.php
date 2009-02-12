@@ -40,13 +40,6 @@ add_action( 'wp_head', 'bp_core_add_ajax_js' );
  * @uses get_option() Selects a site setting from the DB.
  */
 function bp_core_add_css() {
-	if ( is_user_logged_in() || ( (int)get_site_option( 'show-loggedout-adminbar' ) && !is_user_logged_in() ) ) {
-		wp_enqueue_style( 'bp-admin-bar', site_url( MUPLUGINDIR . '/bp-core/css/admin-bar.css' ) );
-		
-		if ( 'rtl' == get_bloginfo('text_direction') && file_exists( ABSPATH . MUPLUGINDIR . '/bp-core/css/admin-bar-rtl.css' ) )
-			wp_enqueue_style( 'bp-admin-bar-rtl', site_url( MUPLUGINDIR . '/bp-core/css/admin-bar-rtl.css' ) );	
-	}
-	
 	// Enable a sitewide CSS file that will apply styles to both the home blog theme
 	// and the member theme.
 	if ( file_exists( WP_CONTENT_DIR . '/themes/' . get_blog_option( 1, 'stylesheet' ) . '/css/site-wide.css' ) )
@@ -55,6 +48,23 @@ function bp_core_add_css() {
 	wp_print_styles();
 }
 add_action( 'wp_head', 'bp_core_add_css' );
+
+/**
+ * bp_core_admin_bar_css()
+ *
+ * Add the CSS required for the global admin bar.
+ * 
+ * @package BuddyPress Core
+ */
+function bp_core_admin_bar_css() {
+	if ( is_user_logged_in() || ( (int)get_site_option( 'show-loggedout-adminbar' ) && !is_user_logged_in() ) ) {
+		wp_enqueue_style( 'bp-admin-bar', site_url( MUPLUGINDIR . '/bp-core/css/admin-bar.css' ) );
+		
+		if ( 'rtl' == get_bloginfo('text_direction') && file_exists( ABSPATH . MUPLUGINDIR . '/bp-core/css/admin-bar-rtl.css' ) )
+			wp_enqueue_style( 'bp-admin-bar-rtl', site_url( MUPLUGINDIR . '/bp-core/css/admin-bar-rtl.css' ) );	
+	}
+}
+add_action( 'wp_head', 'bp_core_admin_bar_css' );
 
 /**
  * bp_core_add_structure_css()
