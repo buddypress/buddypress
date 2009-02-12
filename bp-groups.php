@@ -942,7 +942,7 @@ function groups_record_activity( $args = true ) {
 	
 	if ( function_exists('bp_activity_record') ) {
 		extract($args);
-
+		
 		if ( 'public' == $group_obj->status )
 			bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_user_id );
 	}
@@ -1377,10 +1377,7 @@ function groups_create_group( $step, $group_id ) {
 					groups_update_groupmeta( $group_obj->id, 'last_activity', time() );
 					groups_update_groupmeta( $group_obj->id, 'theme', 'buddypress' );
 					groups_update_groupmeta( $group_obj->id, 'stylesheet', 'buddypress' );
-										
-					/* Record in activity streams */
-					groups_record_activity( array( 'item_id' => $group_obj->id, 'component_name' => 'groups', 'component_action' => 'created_group', 'is_private' => 0 ) );
-					
+															
 					return $group_obj->id;
 				}
 				
@@ -1424,6 +1421,9 @@ function groups_create_group( $step, $group_id ) {
 				
 				if ( !$group_obj->save() )
 					return false;
+
+				/* Record in activity streams */
+				groups_record_activity( array( 'item_id' => $group_obj->id, 'component_name' => 'groups', 'component_action' => 'created_group', 'is_private' => 0 ) );
 					
 				do_action( 'groups_create_group_step2_save' );
 					
