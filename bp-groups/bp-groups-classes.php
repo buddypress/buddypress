@@ -475,6 +475,12 @@ Class BP_Groups_Group {
 		
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
+	
+	function delete_all_invites( $group_id ) {
+		global $wpdb, $bp;
+		
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE group_id = %d AND invite_sent = 1", $group_id ) );
+	}
 }
 
 Class BP_Groups_Member {
@@ -615,7 +621,7 @@ Class BP_Groups_Member {
 
 	function delete( $user_id, $group_id, $check_empty = true ) {
 		global $wpdb, $bp;
-		
+
 		$delete_result = $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );
 		
 		return $delete_result;

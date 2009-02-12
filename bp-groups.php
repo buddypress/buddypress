@@ -323,7 +323,7 @@ function groups_screen_group_invites() {
 		
 	} else if ( isset($bp->action_variables) && in_array( 'reject', $bp->action_variables ) && is_numeric($group_id) ) {
 		
-		if ( !groups_reject_invite( $group_id, $bp->loggedin_user->id ) ) {
+		if ( !groups_reject_invite( $bp->loggedin_user->id, $group_id ) ) {
 			bp_core_add_message( __('Group invite could not be rejected', 'buddypress'), 'error' );							
 		} else {			
 			bp_core_add_message( __('Group invite rejected', 'buddypress') );			
@@ -514,10 +514,11 @@ function groups_screen_group_invite() {
 			groups_send_invites($group_obj);
 			
 			bp_core_add_message( __('Group invites sent.', 'buddypress') );
+
+			do_action( 'groups_screen_group_invite', $group_obj->id );
+
 			bp_core_redirect( bp_group_permalink( $group_obj, false ) );
 		} else {
-			do_action( 'groups_screen_group_invite', $group_obj->id );
-			
 			// Show send invite page
 			bp_core_load_template( 'groups/send-invite' );	
 		}
@@ -842,10 +843,11 @@ function groups_screen_group_admin_delete_group() {
 				bp_core_add_message( __( 'There was an error deleting the group, please try again.', 'buddypress' ), 'error' );
 			} else {
 				bp_core_add_message( __( 'The group was deleted successfully', 'buddypress' ) );
+
+				do_action( 'groups_group_deleted', $_POST['group-id'] );
+
 				bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/' );
 			}
-
-			do_action( 'groups_group_deleted', $_POST['group-id'] );
 
 			bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component );
 		} else {
@@ -1646,6 +1648,7 @@ function groups_reject_invite( $user_id, $group_id ) {
 		return false;
 	
 	do_action( 'groups_reject_invite', $user_id, $group_id );
+	
 	return true;
 }
 
@@ -1671,7 +1674,7 @@ function groups_send_invites( $group_obj, $skip_check = false ) {
 	global $bp;
 
 	if ( !$skip_check ) {
-		if ( !check_admin_referer( 'groups_send_invites' ) )
+		if ( !check_admin_referer( 'groups_send_invites', '_wpnonce_send_invites' ) )
 			return false;
 	}
 
@@ -1687,6 +1690,10 @@ function groups_send_invites( $group_obj, $skip_check = false ) {
 	groups_notification_group_invites( $group_obj->id, $invited_users, $bp->loggedin_user->id );
 	
 	do_action( 'groups_send_invites', $group_obj->id, $invited_users );
+}
+
+function groups_delete_all_group_invites( $group_id ) {
+	return BP_Groups_Group::delete_all_invites( $group_id );
 }
 
 function groups_check_group_exists( $group_id ) {
@@ -2039,7 +2046,13 @@ function groups_delete_group( $group_id ) {
 	
 	// Remove the activity stream item
 	groups_delete_activity( array( 'item_id' => $group_id, 'component_name' => 'groups', 'component_action' => 'created_group', 'user_id' => $bp->loggedin_user->id ) );
- 	
+ 
+	// Remove all outstanding invites for this group
+	groups_delete_all_group_invites( $group_id );
+
+	// Remove all notifications for any user belonging to this group
+	bp_core_delete_all_notifications_by_type( $group_id, $bp->groups->slug );
+	
 	do_action( 'groups_delete_group', $group_id );
 	
 	return true;
@@ -2239,6 +2252,7 @@ function groups_remove_data( $user_id ) {
 }
 add_action( 'wpmu_delete_user', 'groups_remove_data', 1 );
 add_action( 'delete_user', 'groups_remove_data', 1 );
+
 
 // List actions to clear super cached pages on, if super cache is installed
 add_action( 'groups_new_wire_post', 'bp_core_clear_cache' );
