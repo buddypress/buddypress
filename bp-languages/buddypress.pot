@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-02-12 14:11+0000\n"
+"POT-Creation-Date: 2009-02-13 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,7 +73,9 @@ msgid "Site Wide Activity Feed"
 msgstr ""
 
 #: bp-blogs.php:162 bp-core/bp-core-templatetags.php:467
-#: bp-core/bp-core-templatetags.php:544
+#: bp-core/bp-core-templatetags.php:545
+#: buddypress-theme/buddypress-home/header.php:55
+#: buddypress-theme/member-themes/buddypress-member/header.php:49
 msgid "Blogs"
 msgstr ""
 
@@ -223,14 +225,14 @@ msgid ""
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:744 bp-core/bp-core-signup.php:76
-#: bp-friends.php:163 bp-groups.php:866 bp-messages.php:251
+#: bp-friends.php:163 bp-groups.php:868 bp-messages.php:251
 #: bp-xprofile.php:313
 #: buddypress-theme/member-themes/buddypress-member/groups/admin/edit-details.php:31
 msgid "Yes"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:748 bp-core/bp-core-signup.php:80
-#: bp-friends.php:164 bp-groups.php:867 bp-messages.php:252
+#: bp-friends.php:164 bp-groups.php:869 bp-messages.php:252
 #: bp-xprofile.php:314
 #: buddypress-theme/member-themes/buddypress-member/groups/admin/edit-details.php:32
 msgid "No"
@@ -693,7 +695,7 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:121 bp-groups.php:1244
+#: bp-core/bp-core-avatars.php:121 bp-groups.php:1246
 #: bp-xprofile/bp-xprofile-signup.php:156
 msgid "There is no error, the file uploaded with success"
 msgstr ""
@@ -704,16 +706,16 @@ msgstr ""
 msgid "Your image was bigger than the maximum allowed file size of: "
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:124 bp-groups.php:1247
+#: bp-core/bp-core-avatars.php:124 bp-groups.php:1249
 #: bp-xprofile/bp-xprofile-signup.php:159
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:125 bp-groups.php:1248
+#: bp-core/bp-core-avatars.php:125 bp-groups.php:1250
 msgid "No file was uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:126 bp-groups.php:1249
+#: bp-core/bp-core-avatars.php:126 bp-groups.php:1251
 #: bp-xprofile/bp-xprofile-signup.php:160
 msgid "Missing a temporary folder"
 msgstr ""
@@ -1074,19 +1076,23 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:459 bp-core/bp-core-templatetags.php:537
+#: bp-core/bp-core-templatetags.php:459 bp-core/bp-core-templatetags.php:538
 #: bp-core/bp-core-widgets.php:12 bp-core/bp-core-widgets.php:13
 #: bp-groups.php:278 bp-groups/bp-groups-admin.php:97
 #: bp-groups/directories/bp-groups-directory-groups.php:183
+#: buddypress-theme/buddypress-home/header.php:48
 #: buddypress-theme/member-themes/buddypress-member/groups/admin/manage-members.php:30
+#: buddypress-theme/member-themes/buddypress-member/header.php:42
 msgid "Members"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:463 bp-core/bp-core-templatetags.php:540
-#: bp-groups.php:168 bp-groups.php:206 bp-groups.php:865 bp-groups.php:1104
-#: bp-groups.php:1117 bp-groups.php:1131 bp-groups.php:1144
+#: bp-core/bp-core-templatetags.php:463 bp-core/bp-core-templatetags.php:541
+#: bp-groups.php:168 bp-groups.php:206 bp-groups.php:867 bp-groups.php:1106
+#: bp-groups.php:1119 bp-groups.php:1133 bp-groups.php:1146
 #: bp-groups/bp-groups-admin.php:33 bp-groups/bp-groups-widgets.php:8
 #: bp-groups/bp-groups-widgets.php:9
+#: buddypress-theme/buddypress-home/header.php:51
+#: buddypress-theme/member-themes/buddypress-member/header.php:45
 msgid "Groups"
 msgstr ""
 
@@ -1099,18 +1105,22 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:535 bp-groups.php:258
-#: buddypress-theme/buddypress-home/header.php:40
+#: bp-core/bp-core-templatetags.php:536 bp-groups.php:258
+#: buddypress-theme/buddypress-home/header.php:43
+#: buddypress-theme/buddypress-home/header.php:46
 #: buddypress-theme/member-themes/buddypress-member/header.php:37
+#: buddypress-theme/member-themes/buddypress-member/header.php:40
 msgid "Home"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:536
+#: bp-core/bp-core-templatetags.php:537
 #: buddypress-theme/buddypress-home/archive.php:5
 #: buddypress-theme/buddypress-home/attachment.php:6
+#: buddypress-theme/buddypress-home/header.php:47
 #: buddypress-theme/buddypress-home/index.php:6
 #: buddypress-theme/buddypress-home/search.php:6
 #: buddypress-theme/buddypress-home/single.php:6
+#: buddypress-theme/member-themes/buddypress-member/header.php:41
 msgid "Blog"
 msgstr ""
 
@@ -1626,7 +1636,7 @@ msgstr ""
 msgid "There was an error deleting the wire message."
 msgstr ""
 
-#: bp-groups.php:469 bp-xprofile.php:432
+#: bp-groups.php:469 bp-xprofile.php:434
 msgid "Wire message successfully deleted."
 msgstr ""
 
@@ -1634,277 +1644,277 @@ msgstr ""
 msgid "Group invites sent."
 msgstr ""
 
-#: bp-groups.php:536
+#: bp-groups.php:537
 msgid "As the only group administrator, you cannot leave this group."
 msgstr ""
 
-#: bp-groups.php:542
+#: bp-groups.php:543
 msgid "There was an error leaving the group. Please try again."
 msgstr ""
 
-#: bp-groups.php:545
+#: bp-groups.php:546
 msgid "You left the group successfully."
 msgstr ""
 
-#: bp-groups.php:574
+#: bp-groups.php:575
 msgid ""
 "There was an error sending your group membership request, please try again."
 msgstr ""
 
-#: bp-groups.php:576
+#: bp-groups.php:577
 msgid ""
 "Your membership request was sent to the group administrator successfully. "
 "You will be notified when the group administrator responds to your request."
 msgstr ""
 
-#: bp-groups.php:609
+#: bp-groups.php:610
 msgid "There was an error updating group details, please try again."
 msgstr ""
 
-#: bp-groups.php:611
+#: bp-groups.php:612
 msgid "Group details were successfully updated."
 msgstr ""
 
-#: bp-groups.php:646
+#: bp-groups.php:647
 msgid "There was an error updating group settings, please try again."
 msgstr ""
 
-#: bp-groups.php:648
+#: bp-groups.php:649
 msgid "Group settings were successfully updated."
 msgstr ""
 
-#: bp-groups.php:691
+#: bp-groups.php:692
 msgid "There was an error updating the group avatar, please try again."
 msgstr ""
 
-#: bp-groups.php:693
+#: bp-groups.php:694
 msgid "The group avatar was successfully updated."
 msgstr ""
 
-#: bp-groups.php:721
+#: bp-groups.php:722
 msgid "There was an error when promoting that user, please try again"
 msgstr ""
 
-#: bp-groups.php:723
+#: bp-groups.php:724
 msgid "User promoted successfully"
 msgstr ""
 
-#: bp-groups.php:736
+#: bp-groups.php:737
 msgid "There was an error when demoting that user, please try again"
 msgstr ""
 
-#: bp-groups.php:738
+#: bp-groups.php:739
 msgid "User demoted successfully"
 msgstr ""
 
-#: bp-groups.php:751
+#: bp-groups.php:752
 msgid "There was an error when banning that user, please try again"
 msgstr ""
 
-#: bp-groups.php:753
+#: bp-groups.php:754
 msgid "User banned successfully"
 msgstr ""
 
-#: bp-groups.php:766
+#: bp-groups.php:767
 msgid "There was an error when unbanning that user, please try again"
 msgstr ""
 
-#: bp-groups.php:768
+#: bp-groups.php:769
 msgid "User ban removed successfully"
 msgstr ""
 
-#: bp-groups.php:803
+#: bp-groups.php:804
 msgid "There was an error accepting the membership request, please try again."
 msgstr ""
 
-#: bp-groups.php:805
+#: bp-groups.php:806
 msgid "Group membership request accepted"
 msgstr ""
 
-#: bp-groups.php:812
+#: bp-groups.php:813
 msgid "There was an error rejecting the membership request, please try again."
 msgstr ""
 
-#: bp-groups.php:814
+#: bp-groups.php:815
 msgid "Group membership request rejected"
 msgstr ""
 
-#: bp-groups.php:842
+#: bp-groups.php:843
 msgid "There was an error deleting the group, please try again."
 msgstr ""
 
-#: bp-groups.php:844
+#: bp-groups.php:845
 msgid "The group was deleted successfully"
 msgstr ""
 
-#: bp-groups.php:871
+#: bp-groups.php:873
 msgid "A member invites you to join a group"
 msgstr ""
 
-#: bp-groups.php:877
+#: bp-groups.php:879
 msgid "Group information is updated"
 msgstr ""
 
-#: bp-groups.php:884
+#: bp-groups.php:886
 msgid "A member posts on the wire of a group you belong to"
 msgstr ""
 
-#: bp-groups.php:891
+#: bp-groups.php:893
 msgid "You are promoted to a group administrator or moderator"
 msgstr ""
 
-#: bp-groups.php:897
+#: bp-groups.php:899
 msgid "A member requests to join a private group for which you are an admin"
 msgstr ""
 
-#: bp-groups.php:921
+#: bp-groups.php:923
 msgid "There was an error joining the group."
 msgstr ""
 
-#: bp-groups.php:923
+#: bp-groups.php:925
 msgid "You joined the group!"
 msgstr ""
 
-#: bp-groups.php:982
+#: bp-groups.php:984
 #, php-format
 msgid "%s joined the group %s"
 msgstr ""
 
-#: bp-groups.php:996
+#: bp-groups.php:998
 #, php-format
 msgid "%s created the group %s"
 msgstr ""
 
-#: bp-groups.php:1010
+#: bp-groups.php:1012
 #, php-format
 msgid "%s wrote on the wire of the group %s"
 msgstr ""
 
-#: bp-groups.php:1034
+#: bp-groups.php:1036
 #, php-format
 msgid "%s posted on the forum topic %s in the group %s:"
 msgstr ""
 
-#: bp-groups.php:1059
+#: bp-groups.php:1061
 #, php-format
 msgid "%s created the forum topic %s in the group %s:"
 msgstr ""
 
-#: bp-groups.php:1090
+#: bp-groups.php:1092
 msgid "Group Membership Requests"
 msgstr ""
 
-#: bp-groups.php:1090
+#: bp-groups.php:1092
 #, php-format
 msgid "%d new membership requests for the group \"%s\""
 msgstr ""
 
-#: bp-groups.php:1093
+#: bp-groups.php:1095
 #, php-format
 msgid "%s requests membership for the group \"%s\""
 msgstr ""
 
-#: bp-groups.php:1104
+#: bp-groups.php:1106
 #, php-format
 msgid "%d accepted group membership requests"
 msgstr ""
 
-#: bp-groups.php:1106
+#: bp-groups.php:1108
 #, php-format
 msgid "Membership for group \"%s\" accepted"
 msgstr ""
 
-#: bp-groups.php:1117
+#: bp-groups.php:1119
 #, php-format
 msgid "%d rejected group membership requests"
 msgstr ""
 
-#: bp-groups.php:1119
+#: bp-groups.php:1121
 #, php-format
 msgid "Membership for group \"%s\" rejected"
 msgstr ""
 
-#: bp-groups.php:1131
+#: bp-groups.php:1133
 #, php-format
 msgid "You were promoted to an admin in %d groups"
 msgstr ""
 
-#: bp-groups.php:1133
+#: bp-groups.php:1135
 #, php-format
 msgid "You were promoted to an admin in the group %s"
 msgstr ""
 
-#: bp-groups.php:1144
+#: bp-groups.php:1146
 #, php-format
 msgid "You were promoted to a mod in %d groups"
 msgstr ""
 
-#: bp-groups.php:1146
+#: bp-groups.php:1148
 #, php-format
 msgid "You were promoted to a mod in the group %s"
 msgstr ""
 
-#: bp-groups.php:1157 bp-groups.php:1159
+#: bp-groups.php:1159 bp-groups.php:1161
 #: buddypress-theme/member-themes/buddypress-member/groups/list-invites.php:12
 msgid "Group Invites"
 msgstr ""
 
-#: bp-groups.php:1157
+#: bp-groups.php:1159
 #, php-format
 msgid "You have %d new group invitations"
 msgstr ""
 
-#: bp-groups.php:1159
+#: bp-groups.php:1161
 #, php-format
 msgid "You have an invitation to the group: %s"
 msgstr ""
 
-#: bp-groups.php:1245
+#: bp-groups.php:1247
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr ""
 
-#: bp-groups.php:1246
+#: bp-groups.php:1248
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
 
-#: bp-groups.php:1254
+#: bp-groups.php:1256
 msgid "Your group avatar upload failed, please try again. Error was: "
 msgstr ""
 
-#: bp-groups.php:1260
+#: bp-groups.php:1262
 msgid "The file you uploaded is too big. Please upload a file under"
 msgstr ""
 
-#: bp-groups.php:1265 bp-xprofile/bp-xprofile-signup.php:179
+#: bp-groups.php:1267 bp-xprofile/bp-xprofile-signup.php:179
 msgid "Please upload only JPG, GIF or PNG photos."
 msgstr ""
 
-#: bp-groups.php:1271
+#: bp-groups.php:1273
 msgid ""
 "Upload Failed! Please check the permissions on the group avatar upload "
 "directory."
 msgstr ""
 
-#: bp-groups.php:1365
+#: bp-groups.php:1367
 #: buddypress-theme/member-themes/buddypress-member/groups/group-admin.php:13
 msgid "Group Admin"
 msgstr ""
 
-#: bp-groups.php:1542
+#: bp-groups.php:1544
 msgid "Reply posted successfully!"
 msgstr ""
 
-#: bp-groups.php:1552
+#: bp-groups.php:1554
 msgid "There was an error posting that reply."
 msgstr ""
 
-#: bp-groups.php:1564
+#: bp-groups.php:1566
 msgid "Topic posted successfully!"
 msgstr ""
 
-#: bp-groups.php:1574
+#: bp-groups.php:1576
 msgid "There was an error posting that topic."
 msgstr ""
 
@@ -2334,6 +2344,7 @@ msgid "Privacy Options"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:866
+#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:49
 msgid "This is a public group"
 msgstr ""
 
@@ -2817,7 +2828,7 @@ msgstr ""
 msgid "Profile Fields"
 msgstr ""
 
-#: bp-xprofile.php:222 bp-xprofile/bp-xprofile-templatetags.php:296
+#: bp-xprofile.php:222 bp-xprofile/bp-xprofile-templatetags.php:302
 msgid "Edit Profile"
 msgstr ""
 
@@ -2834,62 +2845,62 @@ msgstr ""
 msgid "Wire message could not be posted. Please try again."
 msgstr ""
 
-#: bp-xprofile.php:436
+#: bp-xprofile.php:438
 msgid "Wire post could not be deleted, please try again."
 msgstr ""
 
-#: bp-xprofile.php:525
+#: bp-xprofile.php:527
 #, php-format
 msgid "%s wrote on their own wire"
 msgstr ""
 
-#: bp-xprofile.php:533
+#: bp-xprofile.php:535
 #, php-format
 msgid "%s wrote on %s wire"
 msgstr ""
 
-#: bp-xprofile.php:561
+#: bp-xprofile.php:563
 #, php-format
 msgid "%s updated the \"%s\" information on their profile"
 msgstr ""
 
-#: bp-xprofile.php:589
+#: bp-xprofile.php:591
 #, php-format
 msgid "You have %d new posts on your wire"
 msgstr ""
 
-#: bp-xprofile.php:592
+#: bp-xprofile.php:594
 #, php-format
 msgid "%s posted on your wire"
 msgstr ""
 
-#: bp-xprofile.php:630
+#: bp-xprofile.php:632
 msgid "Information"
 msgstr ""
 
-#: bp-xprofile.php:669
+#: bp-xprofile.php:671
 #, php-format
 msgid "%s cannot be left blank."
 msgstr ""
 
-#: bp-xprofile.php:719
+#: bp-xprofile.php:721
 msgid "There was a problem saving changes to this field, please try again."
 msgstr ""
 
-#: bp-xprofile.php:736
+#: bp-xprofile.php:738
 msgid "Save Changes &raquo;"
 msgstr ""
 
-#: bp-xprofile.php:744
+#: bp-xprofile.php:746
 msgid ""
 "There were problems saving your information. Please fix the following:<br />"
 msgstr ""
 
-#: bp-xprofile.php:753
+#: bp-xprofile.php:755
 msgid "Changes saved."
 msgstr ""
 
-#: bp-xprofile.php:764
+#: bp-xprofile.php:766
 msgid "That group does not exist."
 msgstr ""
 
@@ -2914,8 +2925,8 @@ msgid "Field Name"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-admin.php:86
-#: bp-xprofile/bp-xprofile-classes.php:724
-#: bp-xprofile/bp-xprofile-classes.php:809
+#: bp-xprofile/bp-xprofile-classes.php:730
+#: bp-xprofile/bp-xprofile-classes.php:815
 msgid "Field Type"
 msgstr ""
 
@@ -3001,204 +3012,204 @@ msgstr ""
 msgid "Please make sure you give the group a name."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:529
+#: bp-xprofile/bp-xprofile-classes.php:535
 msgid "January"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:529
+#: bp-xprofile/bp-xprofile-classes.php:535
 msgid "February"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:529
+#: bp-xprofile/bp-xprofile-classes.php:535
 msgid "March"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:530
+#: bp-xprofile/bp-xprofile-classes.php:536
 msgid "April"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:530
+#: bp-xprofile/bp-xprofile-classes.php:536
 msgid "May"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:530
+#: bp-xprofile/bp-xprofile-classes.php:536
 msgid "June"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:531
+#: bp-xprofile/bp-xprofile-classes.php:537
 msgid "July"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:531
+#: bp-xprofile/bp-xprofile-classes.php:537
 msgid "August"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:531
+#: bp-xprofile/bp-xprofile-classes.php:537
 msgid "September"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:532
+#: bp-xprofile/bp-xprofile-classes.php:538
 msgid "October"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:532
+#: bp-xprofile/bp-xprofile-classes.php:538
 msgid "November"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:532
+#: bp-xprofile/bp-xprofile-classes.php:538
 msgid "December"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:628
+#: bp-xprofile/bp-xprofile-classes.php:634
 msgid "Please enter options for this Field:"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:629
+#: bp-xprofile/bp-xprofile-classes.php:635
 msgid "Order By:"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:632
+#: bp-xprofile/bp-xprofile-classes.php:638
 msgid "Order Entered"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:633
+#: bp-xprofile/bp-xprofile-classes.php:639
 msgid "Name - Ascending"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:634
+#: bp-xprofile/bp-xprofile-classes.php:640
 msgid "Name - Descending"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:647
-#: bp-xprofile/bp-xprofile-classes.php:661
+#: bp-xprofile/bp-xprofile-classes.php:653
+#: bp-xprofile/bp-xprofile-classes.php:667
 msgid "Option"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:649
-#: bp-xprofile/bp-xprofile-classes.php:662
+#: bp-xprofile/bp-xprofile-classes.php:655
+#: bp-xprofile/bp-xprofile-classes.php:668
 msgid "Default Value"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:667
+#: bp-xprofile/bp-xprofile-classes.php:673
 msgid "Add Another Option"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:675
+#: bp-xprofile/bp-xprofile-classes.php:681
 msgid "Add Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:678
+#: bp-xprofile/bp-xprofile-classes.php:684
 msgid "Edit Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:702
-#: bp-xprofile/bp-xprofile-classes.php:791
+#: bp-xprofile/bp-xprofile-classes.php:708
+#: bp-xprofile/bp-xprofile-classes.php:797
 msgid "Field Title"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:709
-#: bp-xprofile/bp-xprofile-classes.php:796
+#: bp-xprofile/bp-xprofile-classes.php:715
+#: bp-xprofile/bp-xprofile-classes.php:802
 msgid "Field Description"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:716
-#: bp-xprofile/bp-xprofile-classes.php:801
+#: bp-xprofile/bp-xprofile-classes.php:722
+#: bp-xprofile/bp-xprofile-classes.php:807
 msgid "Is This Field Required?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:718
-#: bp-xprofile/bp-xprofile-classes.php:804
+#: bp-xprofile/bp-xprofile-classes.php:724
+#: bp-xprofile/bp-xprofile-classes.php:810
 msgid "Not Required"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:719
-#: bp-xprofile/bp-xprofile-classes.php:805
+#: bp-xprofile/bp-xprofile-classes.php:725
+#: bp-xprofile/bp-xprofile-classes.php:811
 msgid "Required"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:726
-#: bp-xprofile/bp-xprofile-classes.php:813
+#: bp-xprofile/bp-xprofile-classes.php:732
+#: bp-xprofile/bp-xprofile-classes.php:819
 msgid "Text Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:727
-#: bp-xprofile/bp-xprofile-classes.php:815
+#: bp-xprofile/bp-xprofile-classes.php:733
+#: bp-xprofile/bp-xprofile-classes.php:821
 msgid "Multi-line Text Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:728
-#: bp-xprofile/bp-xprofile-classes.php:817
+#: bp-xprofile/bp-xprofile-classes.php:734
+#: bp-xprofile/bp-xprofile-classes.php:823
 msgid "Date Selector"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:729
-#: bp-xprofile/bp-xprofile-classes.php:819
+#: bp-xprofile/bp-xprofile-classes.php:735
+#: bp-xprofile/bp-xprofile-classes.php:825
 msgid "Radio Buttons"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:730
-#: bp-xprofile/bp-xprofile-classes.php:821
+#: bp-xprofile/bp-xprofile-classes.php:736
+#: bp-xprofile/bp-xprofile-classes.php:827
 msgid "Drop Down Select Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:731
-#: bp-xprofile/bp-xprofile-classes.php:823
+#: bp-xprofile/bp-xprofile-classes.php:737
+#: bp-xprofile/bp-xprofile-classes.php:829
 msgid "Multi Select Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:732
+#: bp-xprofile/bp-xprofile-classes.php:738
 msgid "Checkboxes"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:739
+#: bp-xprofile/bp-xprofile-classes.php:745
 msgid "Save"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:740
+#: bp-xprofile/bp-xprofile-classes.php:746
 msgid "or"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:740
+#: bp-xprofile/bp-xprofile-classes.php:746
 msgid "Cancel"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:753
+#: bp-xprofile/bp-xprofile-classes.php:759
 msgid "Add Prebuilt Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:829
+#: bp-xprofile/bp-xprofile-classes.php:835
 msgid "Add"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:841
+#: bp-xprofile/bp-xprofile-classes.php:847
 msgid "No prebuilt fields available at this time."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:883
+#: bp-xprofile/bp-xprofile-classes.php:889
 msgid "Visit author homepage"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:887
+#: bp-xprofile/bp-xprofile-classes.php:893
 msgid "Anonymous"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:913
+#: bp-xprofile/bp-xprofile-classes.php:919
 msgid "Please make sure you fill out all required fields."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:916
+#: bp-xprofile/bp-xprofile-classes.php:922
 msgid ""
 "Radio button field types require at least one option. Please add options "
 "below."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:919
-#: bp-xprofile/bp-xprofile-classes.php:922
+#: bp-xprofile/bp-xprofile-classes.php:925
+#: bp-xprofile/bp-xprofile-classes.php:928
 msgid ""
 "Select box field types require at least one option. Please add options below."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:925
+#: bp-xprofile/bp-xprofile-classes.php:931
 msgid ""
 "Checkbox field types require at least one option. Please add options below."
 msgstr ""
@@ -3254,11 +3265,11 @@ msgstr ""
 msgid "Upload Failed! Error was: %s"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:285
+#: bp-xprofile/bp-xprofile-templatetags.php:291
 msgid "Profile not recently updated"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:287
+#: bp-xprofile/bp-xprofile-templatetags.php:293
 #, php-format
 msgid "Profile updated %s ago"
 msgstr ""
@@ -3462,6 +3473,14 @@ msgid ""
 "a> and <a href=\"http://buddypress.org\">BuddyPress</a>"
 msgstr ""
 
+#: buddypress-theme/buddypress-home/header.php:17
+msgid "Blog Posts RSS Feed"
+msgstr ""
+
+#: buddypress-theme/buddypress-home/header.php:18
+msgid "Blog Posts Atom Feed"
+msgstr ""
+
 #: buddypress-theme/buddypress-home/index.php:33
 msgid "Sorry, but you are looking for something that isn't here."
 msgstr ""
@@ -3630,10 +3649,6 @@ msgstr ""
 
 #: buddypress-theme/member-themes/buddypress-member/groups/admin/edit-details.php:30
 msgid "Notify group members of changes via email"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:49
-msgid "This is an open group"
 msgstr ""
 
 #: buddypress-theme/member-themes/buddypress-member/groups/admin/manage-members.php:18
