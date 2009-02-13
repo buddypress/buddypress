@@ -388,9 +388,11 @@ function xprofile_action_new_wire_post() {
 	} else {
 		bp_core_add_message( __( 'Wire message successfully posted.', 'buddypress' ) );
 
-		/* Record the notification for the user */
-		bp_core_add_notification( $bp->loggedin_user->id, $bp->displayed_user->id, 'profile', 'new_wire_post' );	
-
+		if ( !bp_is_home() ) {
+			/* Record the notification for the user */
+			bp_core_add_notification( $bp->loggedin_user->id, $bp->displayed_user->id, 'profile', 'new_wire_post' );	
+		}
+		
 		do_action( 'xprofile_new_wire_post', $wire_post_id );	
 	}
 
