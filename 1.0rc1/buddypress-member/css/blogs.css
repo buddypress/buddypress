@@ -1,0 +1,71 @@
+/**** BLOGS *****************/
+		
+		#blog-info {
+			border-bottom: 1px solid #e1e1e1;
+		}
+		
+		.post {
+			border-bottom: 1px solid #e1e1e1;
+		}
+		
+		#main #content .post h2 {
+			font: normal 1.6em Georgia, times, serif;
+			border: none;
+		}
+			#main #content .post h2 a {
+				color: #555;
+			}
+		
+		.post p.date, .small, h2 span {
+			color: #888;
+			font-size: 0.95em;
+		}
+			.post p.date em {
+				color: #f7740a;
+				font: italic 1em Georgia, times, serif;
+			}
+			
+		.post span.tags {
+			background: url(../images/tag_icon.gif) center left no-repeat;
+		}
+		
+		.post span.comments {
+			background: url(../images/comments_icon.gif) center right no-repeat;
+		}
+		
+		.post-details {
+			background: #f0f0f0;
+		}
+	
+		h4.archive {
+			font: normal 1.2em Georgia, Times, serif;
+			text-transform: uppercase;
+			border-bottom: 1px solid #e1e1e1;
+		}
+		
+	
+/**** BLOG SIGNUP FORM **********/
+
+#setupform label {
+	font-weight: bold;
+}
+	#setupform p.error {
+		background-image: url(../images/error_back.gif);
+		background-color: #ff3a3a;
+		color: #fff;
+	}
+	
+	.suffix_address, .prefix_address {
+		font-size: 1.4em;
+	}
+
+#setupform input#blog_title, #setupform input#blogname {
+	font-size: 1.4em;
+}
+	#setupform input#blogname {
+		text-align: right;
+	}
+	
+#setupform input#submit {
+	font-size: 1.4em;
+}
