@@ -10,11 +10,11 @@ function friends_notification_new_request( $friendship_id, $initiator_id, $frien
 	
 	$ud = get_userdata( $friend_id );
 	
-	$all_requests_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/friends/requests/';
-	$approve_request_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/friends/requests/accept/' . $friendship_id;
-	$reject_request_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/friends/requests/reject/' . $friendship_id;
-	$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
-		
+	$all_requests_link = site_url( MEMBERS_SLUG . '/' . $ud->user_login . '/friends/requests/' );
+	$approve_request_link = wp_nonce_url( site_url( MEMBERS_SLUG . '/' . $ud->user_login . '/friends/requests/accept/' . $friendship_id, 'friends_accept_friendship' ) );
+	$reject_request_link = wp_nonce_url( site_url( MEMBERS_SLUG . '/' . $ud->user_login . '/friends/requests/reject/' . $friendship_id, 'friends_reject_friendship' ) );
+	$settings_link = site_url( MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications' );
+
 	// Set up and send the message
 	$to = $ud->user_email;
 	$subject = '[' . get_blog_option( 1, 'blogname' ) . '] ' . sprintf( __( 'New friendship request from %s', 'buddypress' ), $initiator_name );

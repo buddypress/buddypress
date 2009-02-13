@@ -100,8 +100,8 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 	$ud = get_userdata($admin_id);
 	$requesting_ud = get_userdata($requesting_user_id);
 
-	$group_request_accept = bp_group_permalink( $group, false ) . '/admin/membership-requests/accept/' . $membership_id;
-	$group_request_reject = bp_group_permalink( $group, false ) . '/admin/membership-requests/reject/' . $membership_id;
+	$group_request_accept = wp_nonce_url( bp_group_permalink( $group, false ) . '/admin/membership-requests/accept/' . $membership_id, 'groups_accept_membership_request' );
+	$group_request_reject = wp_nonce_url( bp_group_permalink( $group, false ) . '/admin/membership-requests/reject/' . $membership_id, 'groups_reject_membership_request' );
 	$profile_link = site_url() . '/' . MEMBERS_SLUG . '/' . $requesting_ud->user_login . '/profile';
 	$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
 
