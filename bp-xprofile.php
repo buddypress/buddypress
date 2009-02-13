@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 /* Set the version number */
-define ( 'BP_XPROFILE_VERSION', '1.0b2' );
+define ( 'BP_XPROFILE_VERSION', '1.0-RC1' );
 define ( 'BP_XPROFILE_DB_VERSION', '948' );
 
 define ( 'BP_XPROFILE_SLUG', apply_filters( 'xprofile_slug', 'profile' ) );

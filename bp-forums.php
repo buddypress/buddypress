@@ -8,7 +8,7 @@ http://wordpress.org/extend/plugins/bbpress-live/
 
 require_once( 'bp-core.php' );
 
-define ( 'BP_FORUMS_VERSION', '1.0b2' );
+define ( 'BP_FORUMS_VERSION', '1.0-RC1' );
 
 include_once( 'bp-forums/bp-forums-admin.php' );
 include_once( 'bp-forums/bp-forums-bbpress-live.php' );

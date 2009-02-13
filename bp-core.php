@@ -1,7 +1,7 @@
 <?php
 
 /* Define the current version number for checking if DB tables are up to date. */
-define( 'BP_CORE_VERSION', '1.0b2' );
+define( 'BP_CORE_VERSION', '1.0-RC1' );
 define( 'BP_CORE_DB_VERSION', '1030' );
 
 /* Load the language file */

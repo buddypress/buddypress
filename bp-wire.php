@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_WIRE_IS_INSTALLED', 1 );
-define ( 'BP_WIRE_VERSION', '1.0b2' );
+define ( 'BP_WIRE_VERSION', '1.0-RC1' );
 
 define ( 'BP_WIRE_SLUG', apply_filters( 'bp_wire_slug', 'wire' ) );
 

@@ -1,7 +1,7 @@
 <?php
 require_once( 'bp-core.php' );
 
-define ( 'BP_BLOGS_VERSION', '1.0b2' );
+define ( 'BP_BLOGS_VERSION', '1.0-RC1' );
 define ( 'BP_BLOGS_DB_VERSION', '937' );
 
 define ( 'BP_BLOGS_SLUG', apply_filters( 'bp_blogs_slug', 'blogs' ) );

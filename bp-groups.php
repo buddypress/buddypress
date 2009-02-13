@@ -2,7 +2,7 @@
 require_once( 'bp-core.php' );
 
 define ( 'BP_GROUPS_IS_INSTALLED', 1 );
-define ( 'BP_GROUPS_VERSION', '1.0b2' );
+define ( 'BP_GROUPS_VERSION', '1.0-RC1' );
 define ( 'BP_GROUPS_DB_VERSION', '951' );
 
 define ( 'BP_GROUPS_SLUG', apply_filters( 'groups_slug', 'groups' ) );

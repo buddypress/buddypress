@@ -4,7 +4,7 @@ Plugin Name: BuddyPress Support Plugin
 Plugin URI: http://buddypress.org/
 Description: Modifies bbPress behaviour to provide better support for integration in BuddyPress.
 Author: Andy Peatling
-Version: 0.1
+Version: 1.0-RC1
 Author URI: http://apeatling.wordpress.com/
 */
 
