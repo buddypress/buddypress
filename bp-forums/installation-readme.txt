@@ -10,11 +10,12 @@ versions of the component.
 
 *** Please Note ***
 
-You *must* either be running the trunk of bbPress and the trunk of WPMU **OR**
-at least version 1.0 of bbPress and version 2.7 of WPMU for bp-forums to work.
+You *must* be running the latest alpha of bbPress and at least WPMU version 2.7 for forum integration to 
+work.
 
-
+************************************************
 Follow these steps to get forums up and running:
+************************************************
 
 1. Run the bbPress installer by browsing to the location that you uploaded bbPress.
 
@@ -22,9 +23,7 @@ Follow these steps to get forums up and running:
 
    - Check the "Add integration settings" box
 
-   - Check the "Add cookie integration settings" box
-     - Add your WordPress URL and blog URL (they are the same thing)
-     - Add your auth keys, these are in your wp-config.php
+   - Leave "Add cookie integration settings" unchecked
 
    - Check the "Add user database integration settings" box
      - Add your table prefix (usually always 'wp_')
@@ -32,10 +31,10 @@ Follow these steps to get forums up and running:
      - You can usually ignore the "character set" and "collation" boxes
      - Leave the "Custom user tables" section blank.
 
-3. On Step 3 enter anything you like as the site name and then select an admin user
-   from WPMU to set as the keymaster.
+3. On Step 3 enter anything you like for your site name and first forum name. Select "Admin" from the
+   dropdown to use as your keymaster user.
 
-4. Head to your new bbPress install and log in with the account you set as the keymaster.
+4. Head to your new bbPress install and log in with your WordPress administrator account (admin).
 
 5. Head to the Admin area (/bb-admin) and then the settings menu. Check the "Enable XML-RPC" option.
    Also check the "Enable Pingbacks" option just below.
@@ -45,19 +44,26 @@ Follow these steps to get forums up and running:
 
 7. Enable the plugin in the bbPress admin area under the plugins menu.
 
-8. Sign up a new user in bbPress (make a note of the username and password). Next log in as the keymaster 
-   account, head to 'users' and find the new user in the list. Hit the "edit" link and set the "User Type"
-   of the user to "Administrator". Save the changes.
+8. Head back to your BuddyPress installation and sign up as a new user. Once you have
+   activated the new user, make a note of the username and password given.
 
-9. Enable user switching in bbPress by copying the following line of code into your bbPress bb-config.php
-   file:
+9. Log back into your bbPress installation as the administrator, and head back to the admin panel (/bb-admin).
+   Go to the "Users" tab and look for the new user you signed up in step 8 in the list. Hit the "Edit"
+   link for that user, on the end of the row.
+
+10. On the edit user screen there is a drop down menu called "User Type". Select "Administrator" as the user
+    type for this user. Hit the "Update Profile" button.
+
+11. Enable user switching in bbPress by copying the following line of code into your bbPress bb-config.php
+    file:
     
         $bb->bb_xmlrpc_allow_user_switching = true;
 
-10. Log into your WPMU admin interface and head to "Site Admin > Group Forums" fill in the details on that
-    page. Enter the username and password for the "admin" user you just created.
+12. Log into your WPMU admin interface and head to "Site Admin > Group Forums" fill in the details on that
+    page. Make sure you don't leave out the ending slash on your bbPress URL. (http://example.com/bbpress/)
+    Enter the username and password for the user that you signed up in step 8.
 
-11. Once you have saved those details you can create group forums. Existing groups you will need to head
+13. Once you have saved those details you can create group forums. Existing groups you will need to head
     to the group admin settings page, disable then enable the group forum setting to generate a new forum. 
     New groups will work fine.
 
