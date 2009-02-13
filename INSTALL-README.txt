@@ -14,38 +14,55 @@ Please test your installation first. Make sure you can register and activate
 new blogs. Make sure you can post and leave comments on blogs. Make sure you
 are not getting blank screens or 404's anywhere on the install.
 
-***************************************
-Step 2: Use all the BuddyPress plugins.
-***************************************
 
-While in pre-release, it's advised to use all the BuddyPress plugins. Full checks
-have not been done yet for component dependencies. This means if you leave out
-something like the extended profiles component, things will likely break right now.
+**************************************************************************
+Step 2: Add the BuddyPress plugins to your wp-content/mu-plugins directory
+**************************************************************************
 
-Once all components are at a stable point, these dependencies will be checked and fixed
-so you'll be able to pick and choose which components to enable.
+Drop everything into the 'wp-content/mu-plugins/' directory for your installation.
+You do not need to activate plugins dropped into this folder.
 
 
-**********************************************************************************
-Step 3: Make sure you are adding the correct directories to /wp-content/mu-plugins
-**********************************************************************************
+**************************************************
+Step 3: Move the themes to their correct locations
+**************************************************
 
-Once you get hold of the trunk version of BuddyPress you must make sure all the files are
-in the root of the /wp-content/mu-plugins/ directory and not in a /trunk/ or /buddypress/
-subdirectory.
+Move the home theme:
+  From: 'wp-content/mu-plugins/buddypress-theme/buddypress-home'
+  To: 'wp-content/themes/buddypress-home/'
+
+Move the member theme:
+  From: 'wp-content/mu-plugins/buddypress-theme/member-themes/buddypress-member/'
+  To: 'wp-content/member-themes/buddypress-member/'
 
 
-***********************************************************
-Step 4: Place the BuddyPress themes in the correct location
-***********************************************************
+**************************************************************
+Step 4: Log in as an administrator and activate the home theme
+**************************************************************
 
- - Please follow the instructions in the /buddypress-theme/readme.txt file
+If you plan on using the default home blog theme (it is optional) you will need to enable
+and activate it.
 
-************************************************************
-Step 5: Log in as an administrator and create profile fields
-************************************************************
+Head to the WordPress admin panel, when logged in as a site administrator. Go to the
+"Site Admin > Themes" menu and select the "Yes" radio option for "BuddyPress Home Theme".
 
-Log into your installation as the administrator and in the back end admin area head to:
+Next, go to "Appearance > Themes" and activate the "BuddyPress Home Theme" for the root
+blog.
+
+You will want to go back to "Site Admin > Themes" once the you have activated it for the
+root blog so that no one else can use that theme.
+
+If you have multiple member themes installed, you will need to go to "Site Admin > BuddyPress"
+and make sure you have selected the member theme you would like to use from the dropdown
+menu.
+
+
+******************************************************************
+Step 5: Create your default profile fields and enable registration
+******************************************************************
+
+If you have installed the Extended Profiles component, log into your installation as
+the administrator and in the administration panel head to:
 
  - Site Admin > Profiles
 
@@ -60,24 +77,15 @@ Check the "Enabled" radio button under "Allow new registrations" and hit the upd
 options button. You can enable/disable blog registrations if you wish.
 
 
-*******************************************
-Step 6: Up and running and useful resources
-*******************************************
-
-You should now be up and running with BuddyPress. If you are experiencing 404's or blank 
-screens it is likely related to your WPMU setup. If your WPMU setup was definitely working 
-perfectly before you installed BuddyPress, ask for help on the mailing list.
-
-Here are some links to useful resources:
+****************
+Useful Resources
+****************
 
  - BuddyPress Forums:
    http://buddypress.org/forums
 
- - BuddyPress FAQ's
-   http://codex.buddypress.org/faqs
-
- - BuddyPress mailing list:
-   http://lists.automattic.com/mailman/listinfo/buddypress-dev
+ - BuddyPress Codex
+   http://codex.buddypress.org/
 
  - BuddyPress Testdrive:
    http://testbp.org
