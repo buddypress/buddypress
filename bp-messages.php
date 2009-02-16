@@ -1,4 +1,14 @@
 <?php
+/*
+Plugin Name: BuddyPress Private Messaging
+Plugin URI: http://buddypress.org/
+Description: Enables the ability for users to send private messages to one another. Site admins can send site notices.
+Author: BuddyPress
+Version: 1.0-RC1
+Author URI: http://buddypress.org
+WPMU-Plugin: true
+*/
+
 require_once( 'bp-core.php' );
 
 define ( 'BP_MESSAGES_IS_INSTALLED', 1 );

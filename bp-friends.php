@@ -1,4 +1,14 @@
 <?php
+/*
+Plugin Name: BuddyPress Friends
+Plugin URI: http://buddypress.org/
+Description: Allows the creation of friend connections between users.
+Author: BuddyPress
+Version: 1.0-RC1
+Author URI: http://buddypress.org
+WPMU-Plugin: true
+*/
+
 require_once( 'bp-core.php' );
 
 define ( 'BP_FRIENDS_IS_INSTALLED', 1 );

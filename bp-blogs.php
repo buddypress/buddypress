@@ -1,4 +1,14 @@
 <?php
+/*
+Plugin Name: BuddyPress Blog Tracking
+Plugin URI: http://buddypress.org/
+Description: Tracks blogs, blog posts and blogs comments for a user across a WPMU installation.
+Author: BuddyPress
+Version: 1.0-RC1
+Author URI: http://buddypress.org
+WPMU-Plugin: true
+*/
+
 require_once( 'bp-core.php' );
 
 define ( 'BP_BLOGS_VERSION', '1.0-RC1' );

@@ -1,4 +1,14 @@
 <?php
+/*
+Plugin Name: BuddyPress Extended Profiles
+Plugin URI: http://buddypress.org/
+Description: Activates customizable profiles and avatars for site users.
+Author: BuddyPress
+Version: 1.0-RC1
+Author URI: http://buddypress.org
+WPMU-Plugin: true
+*/
+
 require_once( 'bp-core.php' );
 
 /* Set the version number */

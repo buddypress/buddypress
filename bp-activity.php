@@ -1,4 +1,14 @@
 <?php
+/*
+Plugin Name: BuddyPress Activity Streams
+Plugin URI: http://buddypress.org/
+Description: Activates activity streams for all users, plus a site-wide activity stream.
+Author: BuddyPress
+Version: 1.0-RC1
+Author URI: http://buddypress.org
+WPMU-Plugin: true
+*/
+
 require_once( 'bp-core.php' );
 
 define ( 'BP_ACTIVITY_IS_INSTALLED', 1 );

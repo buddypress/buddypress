@@ -1,4 +1,13 @@
 <?php
+/*
+Plugin Name: BuddyPress Core
+Plugin URI: http://buddypress.org/
+Description: This plugin must be activated when using any other BuddyPress plugins.
+Author: BuddyPress
+Version: 1.0-RC1
+Author URI: http://buddypress.org
+WPMU-Plugin: true
+*/
 
 /* Define the current version number for checking if DB tables are up to date. */
 define( 'BP_CORE_VERSION', '1.0-RC1' );

@@ -1,4 +1,14 @@
 <?php
+/*
+Plugin Name: BuddyPress Groups
+Plugin URI: http://buddypress.org/
+Description: Allows users to create, join and participate in groups.
+Author: BuddyPress
+Version: 1.0-RC1
+Author URI: http://buddypress.org
+WPMU-Plugin: true
+*/
+
 require_once( 'bp-core.php' );
 
 define ( 'BP_GROUPS_IS_INSTALLED', 1 );

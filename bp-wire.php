@@ -1,4 +1,14 @@
 <?php
+/*
+Plugin Name: BuddyPress Wire
+Plugin URI: http://buddypress.org/
+Description: Allows users to leave a comment on groups, profiles and custom components.
+Author: BuddyPress
+Version: 1.0-RC1
+Author URI: http://buddypress.org
+WPMU-Plugin: true
+*/
+
 require_once( 'bp-core.php' );
 
 define ( 'BP_WIRE_IS_INSTALLED', 1 );

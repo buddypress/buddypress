@@ -1,4 +1,13 @@
 <?php
+/*
+Plugin Name: BuddyPress Forum Integration
+Plugin URI: http://buddypress.org/
+Description: Activates bbPress forum support within BuddyPress groups or any other custom component.
+Author: BuddyPress
+Version: 1.0-RC1
+Author URI: http://buddypress.org
+WPMU-Plugin: true
+*/
 
 /*
 BP-Forums component is based on the bbPress Live 
