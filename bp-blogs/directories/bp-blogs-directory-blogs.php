@@ -9,7 +9,10 @@ function bp_blogs_directory_blogs_setup() {
 		wp_enqueue_script( 'bp-blogs-directory-blogs', site_url( MUPLUGINDIR . '/bp-blogs/js/directory-blogs.js' ), array( 'jquery', 'jquery-livequery-pack' ) );
 		wp_enqueue_style( 'bp-blogs-directory-blogs', site_url( MUPLUGINDIR . '/bp-blogs/css/directory-blogs.css' ) );
 
-		if ( file_exists( TEMPLATEPATH . '/plugin-template.php' ) )
+		/* If you include a blogs-directory.php template file in your home/blog theme, you can overide the standard output */
+		if ( file_exists( TEMPLATEPATH . '/blogs-directory.php' ) )
+			bp_core_load_template( 'blogs-directory' );
+		else if ( file_exists( TEMPLATEPATH . '/plugin-template.php' ) )
 			bp_core_load_template( 'plugin-template', true );
 		else
 			wp_die( __( 'To enable the blog directory you must drop the "plugin-template.php" file into your theme directory.', 'buddypress' ) );

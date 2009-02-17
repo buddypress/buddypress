@@ -8,8 +8,11 @@ function groups_directory_groups_setup() {
 		
 		wp_enqueue_script( 'bp-groups-directory-groups', site_url( MUPLUGINDIR . '/bp-groups/js/directory-groups.js' ), array( 'jquery', 'jquery-livequery-pack' ) );
 		wp_enqueue_style( 'bp-groups-directory-groups', site_url( MUPLUGINDIR . '/bp-groups/css/directory-groups.css' ) );
-		
-		if ( file_exists( TEMPLATEPATH . '/plugin-template.php' ) )
+
+		/* If you include a groups-directory.php template file in your home/blog theme, you can overide the standard output */		
+		if ( file_exists( TEMPLATEPATH . '/groups-directory.php' ) )
+			bp_core_load_template( 'groups-directory' );
+		else if ( file_exists( TEMPLATEPATH . '/plugin-template.php' ) )
 			bp_core_load_template('plugin-template');
 		else
 			wp_die( __( 'To enable the group directory you must drop the "plugin-template.php" file into your theme directory.', 'buddypress' ) );

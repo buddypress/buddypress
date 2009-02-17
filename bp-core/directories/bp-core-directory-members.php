@@ -9,8 +9,11 @@ function bp_core_directory_members_setup() {
 		wp_enqueue_script( 'bp-core-directory-members', site_url( MUPLUGINDIR . '/bp-core/js/directory-members.js' ), array( 'jquery', 'jquery-livequery-pack' ) );
 		wp_enqueue_style( 'bp-core-directory-members', site_url( MUPLUGINDIR . '/bp-core/css/directory-members.css' ) );
 		
-		if ( file_exists( TEMPLATEPATH . '/plugin-template.php' ) )
-			bp_core_load_template('plugin-template');
+		/* If you include a members-directory.php template file in your home/blog theme, you can overide the standard output */
+		if ( file_exists( TEMPLATEPATH . '/members-directory.php' ) )
+			bp_core_load_template( 'members-directory' );
+		else if ( file_exists( TEMPLATEPATH . '/plugin-template.php' ) )
+			bp_core_load_template( 'plugin-template' );
 		else
 			wp_die( __( 'To enable the member directory you must drop the "plugin-template.php and plugin-sidebar.php" files into your theme directory.', 'buddypress' ) );
 	}
