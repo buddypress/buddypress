@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-02-16 14:11+0000\n"
+"POT-Creation-Date: 2009-02-18 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -114,39 +114,39 @@ msgid "%s commented on the blog post %s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-ajax.php:36
-#: bp-blogs/directories/bp-blogs-directory-blogs.php:89
+#: bp-blogs/directories/bp-blogs-directory-blogs.php:92
 #, php-format
 msgid "Viewing blog %d to %d (%d total active blogs)"
 msgstr ""
 
 #: bp-blogs/bp-blogs-ajax.php:37
-#: bp-blogs/directories/bp-blogs-directory-blogs.php:90
+#: bp-blogs/directories/bp-blogs-directory-blogs.php:93
 #: bp-core/bp-core-ajax.php:94
-#: bp-core/directories/bp-core-directory-members.php:89
+#: bp-core/directories/bp-core-directory-members.php:92
 #: bp-forums/bp-forums-templatetags.php:267
 #: bp-forums/bp-forums-templatetags.php:442 bp-groups/bp-groups-ajax.php:233
-#: bp-groups/directories/bp-groups-directory-groups.php:90
+#: bp-groups/directories/bp-groups-directory-groups.php:93
 #: buddypress-theme/member-themes/buddypress-member/wire/post-list.php:10
 msgid "Loading"
 msgstr ""
 
 #: bp-blogs/bp-blogs-ajax.php:53
-#: bp-blogs/directories/bp-blogs-directory-blogs.php:106
-#: bp-blogs/directories/bp-blogs-directory-blogs.php:177
+#: bp-blogs/directories/bp-blogs-directory-blogs.php:109
+#: bp-blogs/directories/bp-blogs-directory-blogs.php:180
 #: bp-core/bp-core-ajax.php:38 bp-core/bp-core-ajax.php:112
 #: bp-core/bp-core-classes.php:67 bp-core/bp-core-templatetags.php:261
-#: bp-core/directories/bp-core-directory-members.php:105
-#: bp-core/directories/bp-core-directory-members.php:171
+#: bp-core/directories/bp-core-directory-members.php:108
+#: bp-core/directories/bp-core-directory-members.php:174
 #: bp-groups/bp-groups-ajax.php:26 bp-groups/bp-groups-ajax.php:90
 #: bp-groups/bp-groups-ajax.php:250 bp-groups/bp-groups-templatetags.php:1217
-#: bp-groups/directories/bp-groups-directory-groups.php:107
-#: bp-groups/directories/bp-groups-directory-groups.php:180
+#: bp-groups/directories/bp-groups-directory-groups.php:110
+#: bp-groups/directories/bp-groups-directory-groups.php:183
 #, php-format
 msgid "active %s ago"
 msgstr ""
 
 #: bp-blogs/bp-blogs-ajax.php:58
-#: bp-blogs/directories/bp-blogs-directory-blogs.php:111
+#: bp-blogs/directories/bp-blogs-directory-blogs.php:114
 msgid "Visit Blog"
 msgstr ""
 
@@ -281,50 +281,50 @@ msgstr ""
 msgid "Max Number of Posts:"
 msgstr ""
 
-#: bp-blogs/directories/bp-blogs-directory-blogs.php:15
+#: bp-blogs/directories/bp-blogs-directory-blogs.php:18
 msgid ""
 "To enable the blog directory you must drop the \"plugin-template.php\" file "
 "into your theme directory."
 msgstr ""
 
-#: bp-blogs/directories/bp-blogs-directory-blogs.php:50
+#: bp-blogs/directories/bp-blogs-directory-blogs.php:53
 msgid "Blog Directory"
 msgstr ""
 
-#: bp-blogs/directories/bp-blogs-directory-blogs.php:84
+#: bp-blogs/directories/bp-blogs-directory-blogs.php:87
 msgid "Blog Listing"
 msgstr ""
 
-#: bp-blogs/directories/bp-blogs-directory-blogs.php:135
+#: bp-blogs/directories/bp-blogs-directory-blogs.php:138
 msgid "No blogs found."
 msgstr ""
 
-#: bp-blogs/directories/bp-blogs-directory-blogs.php:155
+#: bp-blogs/directories/bp-blogs-directory-blogs.php:158
 msgid "Find Blogs"
 msgstr ""
 
-#: bp-blogs/directories/bp-blogs-directory-blogs.php:157
-#: bp-core/directories/bp-core-directory-members.php:151
-#: bp-groups/directories/bp-groups-directory-groups.php:159
+#: bp-blogs/directories/bp-blogs-directory-blogs.php:160
+#: bp-core/directories/bp-core-directory-members.php:154
+#: bp-groups/directories/bp-groups-directory-groups.php:162
 msgid "Search anything..."
 msgstr ""
 
-#: bp-blogs/directories/bp-blogs-directory-blogs.php:163
+#: bp-blogs/directories/bp-blogs-directory-blogs.php:166
 msgid "Featured Blogs"
 msgstr ""
 
-#: bp-blogs/directories/bp-blogs-directory-blogs.php:180
+#: bp-blogs/directories/bp-blogs-directory-blogs.php:183
 #: bp-groups/bp-groups-admin.php:87
-#: bp-groups/directories/bp-groups-directory-groups.php:184
+#: bp-groups/directories/bp-groups-directory-groups.php:187
 #: buddypress-theme/member-themes/buddypress-member/groups/group-home.php:31
 msgid "Description"
 msgstr ""
 
-#: bp-blogs/directories/bp-blogs-directory-blogs.php:185
+#: bp-blogs/directories/bp-blogs-directory-blogs.php:188
 msgid "Latest Post"
 msgstr ""
 
-#: bp-blogs/directories/bp-blogs-directory-blogs.php:196
+#: bp-blogs/directories/bp-blogs-directory-blogs.php:199
 msgid "There are no blogs to feature."
 msgstr ""
 
@@ -667,7 +667,7 @@ msgid "No members matched the current filter."
 msgstr ""
 
 #: bp-core/bp-core-ajax.php:93
-#: bp-core/directories/bp-core-directory-members.php:88
+#: bp-core/directories/bp-core-directory-members.php:91
 #, php-format
 msgid "Viewing member %d to %d (%d total active members)"
 msgstr ""
@@ -1079,7 +1079,7 @@ msgstr ""
 #: bp-core/bp-core-templatetags.php:459 bp-core/bp-core-templatetags.php:538
 #: bp-core/bp-core-widgets.php:12 bp-core/bp-core-widgets.php:13
 #: bp-groups.php:288 bp-groups/bp-groups-admin.php:97
-#: bp-groups/directories/bp-groups-directory-groups.php:183
+#: bp-groups/directories/bp-groups-directory-groups.php:186
 #: buddypress-theme/buddypress-home/header.php:48
 #: buddypress-theme/member-themes/buddypress-member/groups/admin/manage-members.php:30
 #: buddypress-theme/member-themes/buddypress-member/header.php:42
@@ -1176,35 +1176,35 @@ msgstr ""
 msgid "Maximum number of members to show:"
 msgstr ""
 
-#: bp-core/directories/bp-core-directory-members.php:15
+#: bp-core/directories/bp-core-directory-members.php:18
 msgid ""
 "To enable the member directory you must drop the \"plugin-template.php and "
 "plugin-sidebar.php\" files into your theme directory."
 msgstr ""
 
-#: bp-core/directories/bp-core-directory-members.php:49
+#: bp-core/directories/bp-core-directory-members.php:52
 msgid "Member Directory"
 msgstr ""
 
-#: bp-core/directories/bp-core-directory-members.php:83
+#: bp-core/directories/bp-core-directory-members.php:86
 msgid "Member Listing"
 msgstr ""
 
-#: bp-core/directories/bp-core-directory-members.php:130
+#: bp-core/directories/bp-core-directory-members.php:133
 msgid ""
 "No members found. Members must fill in at least one piece of profile data to "
 "show in member lists."
 msgstr ""
 
-#: bp-core/directories/bp-core-directory-members.php:149
+#: bp-core/directories/bp-core-directory-members.php:152
 msgid "Find Members"
 msgstr ""
 
-#: bp-core/directories/bp-core-directory-members.php:157
+#: bp-core/directories/bp-core-directory-members.php:160
 msgid "Featured Members"
 msgstr ""
 
-#: bp-core/directories/bp-core-directory-members.php:186
+#: bp-core/directories/bp-core-directory-members.php:189
 msgid "There are no members to feature."
 msgstr ""
 
@@ -1995,14 +1995,14 @@ msgid "This group has no members."
 msgstr ""
 
 #: bp-groups/bp-groups-ajax.php:232
-#: bp-groups/directories/bp-groups-directory-groups.php:89
+#: bp-groups/directories/bp-groups-directory-groups.php:92
 #, php-format
 msgid "Viewing group %d to %d (%d total active groups)"
 msgstr ""
 
 #: bp-groups/bp-groups-ajax.php:258 bp-groups/bp-groups-templatetags.php:238
 #: bp-groups/bp-groups-templatetags.php:1225
-#: bp-groups/directories/bp-groups-directory-groups.php:115
+#: bp-groups/directories/bp-groups-directory-groups.php:118
 msgid "Group"
 msgstr ""
 
@@ -2523,43 +2523,43 @@ msgstr ""
 msgid "Maximum number of groups to show:"
 msgstr ""
 
-#: bp-groups/directories/bp-groups-directory-groups.php:15
+#: bp-groups/directories/bp-groups-directory-groups.php:18
 msgid ""
 "To enable the group directory you must drop the \"plugin-template.php\" file "
 "into your theme directory."
 msgstr ""
 
-#: bp-groups/directories/bp-groups-directory-groups.php:50
+#: bp-groups/directories/bp-groups-directory-groups.php:53
 msgid "Group Directory"
 msgstr ""
 
-#: bp-groups/directories/bp-groups-directory-groups.php:84
+#: bp-groups/directories/bp-groups-directory-groups.php:87
 msgid "Group Listing"
 msgstr ""
 
-#: bp-groups/directories/bp-groups-directory-groups.php:117
+#: bp-groups/directories/bp-groups-directory-groups.php:120
 #, php-format
 msgid "%d member"
 msgstr ""
 
-#: bp-groups/directories/bp-groups-directory-groups.php:119
+#: bp-groups/directories/bp-groups-directory-groups.php:122
 #, php-format
 msgid "%d members"
 msgstr ""
 
-#: bp-groups/directories/bp-groups-directory-groups.php:137
+#: bp-groups/directories/bp-groups-directory-groups.php:140
 msgid "No groups found."
 msgstr ""
 
-#: bp-groups/directories/bp-groups-directory-groups.php:157
+#: bp-groups/directories/bp-groups-directory-groups.php:160
 msgid "Find Groups"
 msgstr ""
 
-#: bp-groups/directories/bp-groups-directory-groups.php:165
+#: bp-groups/directories/bp-groups-directory-groups.php:168
 msgid "Featured Groups"
 msgstr ""
 
-#: bp-groups/directories/bp-groups-directory-groups.php:193
+#: bp-groups/directories/bp-groups-directory-groups.php:196
 msgid "There are no groups to feature."
 msgstr ""
 
