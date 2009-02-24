@@ -41,7 +41,7 @@ function bp_blogs_widget_recent_posts($args) {
 						<?php if ( !$counter ) : ?>
 							<div class="item-content"><?php echo bp_create_excerpt($post->post_content) ?></div>
 						<?php endif; ?>
-						<div class="item-meta"><em>by <?php echo bp_core_get_userlink($post->post_author) ?> from the blog "<a href="<?php echo get_blog_option($post->blog_id, 'siteurl') ?>"><?php echo get_blog_option($post->blog_id, 'blogname') ?></a>"</em></div>
+						<div class="item-meta"><em><?php printf( __( 'by %s from the blog <a href="%s">%s</a>', 'buddypress' ), bp_core_get_userlink( $post->post_author ), get_blog_option( $post->blog_id, 'siteurl' ), get_blog_option( $post->blog_id, 'blogname' ) ) ?></em></div>
 					</div>
 				</li>
 				<?php $counter++; ?>	
