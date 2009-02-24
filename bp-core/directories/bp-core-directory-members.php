@@ -31,6 +31,8 @@ function bp_core_directory_members_content() {
 	else
 		$users = BP_Core_User::get_active_users( $pag_num, $pag_page );
 
+	$users = apply_filters( 'bp_core_directory_members_content', $users );
+
 	$pag_links = paginate_links( array(
 		'base' => add_query_arg( 'page', '%#%' ),
 		'format' => '',
@@ -106,6 +108,8 @@ function bp_core_directory_members_content() {
 					<div class="item">
 						<div class="item-title"><?php echo bp_core_get_userlink( $user->user_id ) ?></div>
 						<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( get_usermeta( $user->user_id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) ) ?></span></div>
+
+						<?php do_action( 'bp_core_directory_members_content', $user ) ?>
 					</div>
 					
 					<div class="action">

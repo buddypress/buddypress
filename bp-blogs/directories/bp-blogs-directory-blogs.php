@@ -32,6 +32,8 @@ function bp_blogs_directory_blogs_content() {
 		$blogs = bp_blogs_get_all_blogs( $pag_num, $pag_page );
 	}
 	
+	$blogs = apply_filters( 'bp_blogs_directory_blogs_content', $blogs );
+	
 	$pag_links = paginate_links( array(
 		'base' => add_query_arg( 'page', '%#%' ),
 		'format' => '',
@@ -107,6 +109,8 @@ function bp_blogs_directory_blogs_content() {
 					<div class="item">
 						<div class="item-title"><a href="<?php echo get_blog_option( $blog->blog_id, 'siteurl' ) ?>" title="<?php echo get_blog_option( $blog->blog_id, 'blogname' ) ?>"><?php echo get_blog_option( $blog->blog_id, 'blogname' ) ?></a></div>
 						<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( bp_blogs_get_blogmeta( $blog->blog_id, 'last_activity' ), __('active %s ago') ) ?></span></div>
+						
+						<?php do_action( 'bp_blogs_directory_blogs_content', $blog ) ?>
 					</div>
 					
 					<div class="action">

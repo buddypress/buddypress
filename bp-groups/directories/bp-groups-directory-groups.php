@@ -31,7 +31,8 @@ function groups_directory_groups_content() {
 	else
 		$groups = groups_get_active( $pag_num, $pag_page );
 
-
+	$groups = apply_filters( 'groups_directory_groups_content', $groups );
+	 
 	$pag_links = paginate_links( array(
 		'base' => add_query_arg( 'page', '%#%' ),
 		'format' => '',
@@ -109,6 +110,8 @@ function groups_directory_groups_content() {
 						<div class="item-title"><a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><?php echo $group->name ?></a></div>
 						<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __('active %s ago') ) ?></span></div>
 						<div class="item-meta desc"><?php echo bp_create_excerpt( $group->description ) ?></div>
+						
+						<?php do_action( 'groups_directory_groups_content', $group ) ?>
 					</div>
 					
 					<div class="action">
