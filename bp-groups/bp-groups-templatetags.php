@@ -1177,6 +1177,12 @@ function bp_group_join_button( $group = false ) {
 					echo '<a class="membership-requested" href="' . bp_group_permalink( $group, false ) . '">' . __( 'Request Sent', 'buddypress' ) . '</a>';				
 			}
 		break;
+		
+		case 'hidden': 
+			if ( BP_Groups_Member::check_is_member( $bp->loggedin_user->id, $group->id ) ) { 
+				echo '<a class="leave-group" href="' . wp_nonce_url( bp_group_permalink( $group, false ) . '/leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';                     
+			}  
+		break;
 	}
 	
 	echo '</div>';
