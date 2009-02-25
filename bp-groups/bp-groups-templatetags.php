@@ -163,9 +163,9 @@ class BP_Groups_Template {
 
 function bp_has_groups( $groups_per_page = 10 ) {
 	global $groups_template, $bp;
-	global $is_single_group, $group_obj;
+	global $group_obj;
 	
-	if ( !$is_single_group ) {
+	if ( !$bp->is_single_item ) {
 		$groups_template = new BP_Groups_Template( $bp->displayed_user->id, false, $groups_per_page );
 	} else {
 		$groups_template = new BP_Groups_Template( $bp->displayed_user->id, $group_obj->slug, $groups_per_page );		

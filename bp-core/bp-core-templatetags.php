@@ -73,10 +73,13 @@ function bp_get_nav() {
  * @uses bp_get_user_nav() Renders the navigation for a profile of a currently viewed user.
  */
 function bp_get_options_nav() {
-	global $bp, $is_single_group;
+	global $bp;
 
-	/* Only render this navigation when the logged in user is looking at one of their own pages. */
-	if ( bp_is_home() || $is_single_group ) {
+	/***
+	 * Only render this navigation when the logged in user is looking at one of their own pages, or we are using it to display nav
+	 * menus for something like a group, or event.
+	 */
+	if ( bp_is_home() || $bp->is_single_item ) {
 		if ( count( $bp->bp_options_nav[$bp->current_component] ) < 1 )
 			return false;
 	

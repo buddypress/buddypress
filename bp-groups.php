@@ -188,11 +188,12 @@ add_action( 'admin_menu', 'groups_add_admin_menu' );
 
 function groups_setup_nav() {
 	global $bp, $current_blog;
-	global $group_obj, $is_single_group;
+	global $group_obj;
 	
 	if ( $group_id = BP_Groups_Group::group_exists($bp->current_action) ) {
+		
 		/* This is a single group page. */
-		$is_single_group = true;
+		$bp->is_single_item = true;
 		$group_obj = new BP_Groups_Group( $group_id );
 	
 		/* Using "item" not "group" for generic support in other components. */
@@ -227,16 +228,16 @@ function groups_setup_nav() {
 	
 	if ( $bp->current_component == $bp->groups->slug ) {
 		
-		if ( bp_is_home() && !$is_single_group ) {
+		if ( bp_is_home() && !$bp->is_single_item ) {
 			
 			$bp->bp_options_title = __('My Groups', 'buddypress');
 			
-		} else if ( !bp_is_home() && !$is_single_group ) {
+		} else if ( !bp_is_home() && !$bp->is_single_item ) {
 
 			$bp->bp_options_avatar = bp_core_get_avatar( $bp->displayed_user->id, 1 );
 			$bp->bp_options_title = $bp->displayed_user->fullname;
 			
-		} else if ( $is_single_group ) {
+		} else if ( $bp->is_single_item ) {
 			// We are viewing a single group, so set up the
 			// group navigation menu using the $group_obj global.
 			
@@ -396,9 +397,9 @@ function groups_screen_create_group() {
 }
 
 function groups_screen_group_home() {
-	global $is_single_group, $bp;
+	global $bp;
 	
-	if ( $is_single_group ) {
+	if ( $bp->is_single_item ) {
 		
 		if ( isset($_GET['new']) ) {
 			// Delete group request notifications for the user
@@ -415,9 +416,9 @@ function groups_screen_group_home() {
 }
 
 function groups_screen_group_forum() {
-	global $is_single_group, $bp, $group_obj;
+	global $bp, $group_obj;
 	
-	if ( $is_single_group ) {
+	if ( $bp->is_single_item ) {
 		$topic_id = $bp->action_variables[1];
 		$forum_id = groups_get_groupmeta( $group_obj->id, 'forum_id' );
 		
@@ -451,11 +452,11 @@ function groups_screen_group_forum() {
 
 function groups_screen_group_wire() {
 	global $bp;
-	global $is_single_group, $group_obj;
+	global $group_obj;
 	
 	$wire_action = $bp->action_variables[0];
 		
-	if ( $is_single_group ) {
+	if ( $bp->is_single_item ) {
 		if ( 'post' == $wire_action && BP_Groups_Member::check_is_member( $bp->loggedin_user->id, $group_obj->id ) ) {
 
 			if ( !groups_new_wire_post( $group_obj->id, $_POST['wire-post-textarea'] ) ) {
@@ -495,9 +496,9 @@ function groups_screen_group_wire() {
 
 function groups_screen_group_members() {
 	global $bp;
-	global $is_single_group, $group_obj;
+	global $group_obj;
 	
-	if ( $is_single_group ) {
+	if ( $bp->is_single_item ) {
 		do_action( 'groups_screen_group_members', $group_obj->id );
 		
 		bp_core_load_template( 'groups/list-members' );
@@ -506,9 +507,9 @@ function groups_screen_group_members() {
 
 function groups_screen_group_photos() {
 	global $bp;
-	global $is_single_group, $group_obj;
+	global $group_obj;
 	
-	if ( $is_single_group ) {
+	if ( $bp->is_single_item ) {
 		// Not implemented yet.
 		bp_core_load_template( 'groups/group-home' );
 	}
@@ -516,9 +517,9 @@ function groups_screen_group_photos() {
 
 function groups_screen_group_invite() {
 	global $bp;
-	global $is_single_group, $group_obj;
+	global $group_obj;
 	
-	if ( $is_single_group ) {
+	if ( $bp->is_single_item ) {
 		if ( isset($bp->action_variables) && 'send' == $bp->action_variables[0] ) {
 			// Send the invites.
 			groups_send_invites($group_obj);
@@ -537,9 +538,9 @@ function groups_screen_group_invite() {
 
 function groups_screen_group_leave() {
 	global $bp;
-	global $is_single_group, $group_obj;
+	global $group_obj;
 	
-	if ( $is_single_group ) {
+	if ( $bp->is_single_item ) {
 		if ( isset($bp->action_variables) && 'yes' == $bp->action_variables[0] ) {
 			
 			// Check if the user is the group admin first.
@@ -922,9 +923,9 @@ add_action( 'bp_notification_settings', 'groups_screen_notification_settings' );
 
 function groups_action_join_group() {
 	global $bp;
-	global $is_single_group, $group_obj;	
+	global $group_obj;	
 
-	if ( !$is_single_group || $bp->current_component != $bp->groups->slug || $bp->current_action != 'join' )
+	if ( !$bp->is_single_item || $bp->current_component != $bp->groups->slug || $bp->current_action != 'join' )
 		return false;
 		
 	// user wants to join a group
@@ -2218,9 +2219,9 @@ function groups_force_buddypress_theme( $template ) {
 	bp_core_set_uri_globals();
 
 	if ( $current_component == $groups_bp->groups->slug )
-		$is_single_group = BP_Groups_Group::group_exists( $current_action, $groups_bp->groups->table_name );
+		$bp->is_single_item = BP_Groups_Group::group_exists( $current_action, $groups_bp->groups->table_name );
 	
-	if ( $is_single_group ) {
+	if ( $bp->is_single_item ) {
 		add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
 		add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
 
@@ -2234,7 +2235,7 @@ function groups_force_buddypress_theme( $template ) {
 add_filter( 'template', 'groups_force_buddypress_theme', 1, 1 );
 
 function groups_force_buddypress_stylesheet( $stylesheet ) {
-	global $bp, $is_single_group, $is_member_page, $current_component;
+	global $bp, $is_member_page, $current_component;
 
 	if ( $current_component != $bp->groups->slug )
 		return $stylesheet;
@@ -2244,7 +2245,7 @@ function groups_force_buddypress_stylesheet( $stylesheet ) {
 	if ( empty( $member_theme ) )
 		$member_theme = 'buddypress-member';
 	
-	if ( $is_single_group ) {
+	if ( $bp->is_single_item ) {
 		add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
 		add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
 		

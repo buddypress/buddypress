@@ -278,7 +278,7 @@ function bp_core_force_buddypress_theme( $template ) {
 add_filter( 'template', 'bp_core_force_buddypress_theme', 1, 1 );
 
 function bp_core_force_buddypress_stylesheet( $stylesheet ) {
-	global $bp, $is_single_group, $is_member_page;
+	global $bp, $is_member_page;
 
 	$member_theme = get_site_option('active-member-theme');
 	

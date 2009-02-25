@@ -8,13 +8,13 @@ if ( function_exists('register_sidebar') )
     ));
 
 function bp_get_options_class() {
-	global $bp, $is_single_group;
+	global $bp;
 
 	if ( !bp_is_home() && $bp->current_component == $bp->profile->slug || $bp->current_component == $bp->friends->slug  || $bp->current_component == $bp->blogs->slug ) {
 		echo ' class="arrow"';
 	}
 	
-	if ( ( $bp->current_component == $bp->groups->slug && $is_single_group ) || ( $bp->current_component == $bp->groups->slug && !bp_is_home() ) )
+	if ( ( $bp->current_component == $bp->groups->slug && $bp->is_single_item ) || ( $bp->current_component == $bp->groups->slug && !bp_is_home() ) )
 		echo ' class="arrow"';	
 }
 

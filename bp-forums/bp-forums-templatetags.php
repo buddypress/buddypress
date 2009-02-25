@@ -93,7 +93,7 @@ class BP_Forums_Template_Forum {
 
 function bp_has_topics( $topics_per_page = 10 ) {
 	global $forum_template, $bp;
-	global $is_single_group, $group_obj;
+	global $group_obj;
 	
 	$forum_id = groups_get_groupmeta( $group_obj->id, 'forum_id' );
 
@@ -368,7 +368,7 @@ class BP_Forums_Template_Topic {
 
 function bp_has_topic_posts( $posts_per_page = 10 ) {
 	global $topic_template, $bp;
-	global $is_single_group, $group_obj;
+	global $group_obj;
 	
 	$topic_id = $bp->action_variables[1];
 
