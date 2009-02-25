@@ -27,4 +27,9 @@ add_filter( 'bp_group_description_excerpt', 'wp_filter_kses', 1 );
 add_filter( 'bp_group_news', 'wp_filter_kses', 1 );
 add_filter( 'bp_group_name', 'wp_filter_kses', 1 );
 
+add_filter( 'bp_group_description', 'stripslashes' );
+add_filter( 'bp_group_description_excerpt', 'stripslashes' );
+add_filter( 'bp_group_news', 'stripslashes' );
+add_filter( 'bp_group_name', 'stripslashes' );
+
 ?>
