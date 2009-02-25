@@ -156,7 +156,7 @@ function bp_core_directory_members_sidebar() {
 		<h2 class="widgettitle"><?php _e( 'Find Members', 'buddypress' ) ?></h2>
 		<form action="<?php echo site_url() . '/' . MEMBERS_SLUG  . '/search/' ?>" method="post" id="search-members-form">
 			<label><input type="text" name="members_search" id="members_search" value="<?php if ( isset( $_GET['s'] ) ) { echo $_GET['s']; } else { _e('Search anything...', 'buddypress' ); } ?>"  onfocus="if (this.value == '<?php _e('Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e('Search anything...', 'buddypress' ) ?>';}" /></label>
-			<input type="submit" id="members_search_submit" name="members_search_submit" value="Search" />
+			<input type="submit" id="members_search_submit" name="members_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
 		</form>
 	</div>
 	
