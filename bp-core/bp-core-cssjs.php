@@ -47,7 +47,7 @@ function bp_core_add_css() {
 	
 	wp_print_styles();
 }
-add_action( 'wp_head', 'bp_core_add_css' );
+add_action( 'wp_head', 'bp_core_add_css', 1 );
 
 /**
  * bp_core_admin_bar_css()
@@ -64,7 +64,7 @@ function bp_core_admin_bar_css() {
 			wp_enqueue_style( 'bp-admin-bar-rtl', site_url( MUPLUGINDIR . '/bp-core/css/admin-bar-rtl.css' ) );	
 	}
 }
-add_action( 'wp_head', 'bp_core_admin_bar_css' );
+add_action( 'wp_head', 'bp_core_admin_bar_css', 2 );
 
 /**
  * bp_core_add_structure_css()
