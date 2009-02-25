@@ -129,6 +129,9 @@ function bp_core_setup_globals() {
 	/* Only used where a component has a sub item, e.g. groups: http://andy.domain.com/groups/ [my-group] / home - manipulated in the actual component not in catch uri code.*/
 	$bp->current_item = ''; // type: string
 
+	/* Used for overriding the 2nd level navigation menu so it can be used to display custom navigation for an item (for example a group) */
+	$bp->is_single_item = false;
+
 	/* The default component to use if none are set and someone visits: http://andy.domain.com/ */
 	$bp->default_component = 'profile';
 	
