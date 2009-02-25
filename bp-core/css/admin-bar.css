@@ -138,7 +138,7 @@ body { padding-top: 28px !important; }
 	background-color: #f4f4f4 !important;
 	border-left: 1px solid #ccc !important;
 	border-right: 1px solid #ccc !important;
-	margin-bottom: -1px !important;
+	margin-top: -1px !important;
 }
 
 #wp-admin-bar ul li ul li.alt {
@@ -192,6 +192,7 @@ body { padding-top: 28px !important; }
 	-khtml-border-top-right-radius: 4px !important;
 	-webkit-border-top-right-radius: 4px !important;
 	border-top-right-radius: 4px !important;
+	margin-top: -2px !important;
 }
 
 /* Menu item css */
