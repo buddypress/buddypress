@@ -658,11 +658,11 @@ Class BP_Groups_Member {
 
 		// If the user is logged in and viewing their own groups, we can show hidden and private groups
 		if ( bp_is_home() ) {
-			$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT group_id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND inviter_id = 0 AND is_banned = 0 AND is_confirmed = 1 ORDER BY date_modified ASC {$pag_sql}", $user_id ) );	
-			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(group_id) FROM {$bp->groups->table_name_members} WHERE user_id = %d AND inviter_id = 0 AND is_banned = 0 AND is_confirmed = 1 ORDER BY date_modified ASC", $user_id ) );
+			$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT group_id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND inviter_id = 0 AND is_banned = 0 AND is_confirmed = 1 ORDER BY date_modified DESC {$pag_sql}", $user_id ) );	
+			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(group_id) FROM {$bp->groups->table_name_members} WHERE user_id = %d AND inviter_id = 0 AND is_banned = 0 AND is_confirmed = 1 ORDER BY date_modified DESC", $user_id ) );
 		} else {
-			$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT m.group_id FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.inviter_id = 0 AND m.is_banned = 0 AND m.is_confirmed = 1 ORDER BY date_modified ASC {$pag_sql}", $user_id ) );	
-			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.inviter_id = 0 AND m.is_banned = 0 AND m.is_confirmed = 1 ORDER BY date_modified ASC", $user_id ) );	
+			$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT m.group_id FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.inviter_id = 0 AND m.is_banned = 0 AND m.is_confirmed = 1 ORDER BY m.date_modified DESC {$pag_sql}", $user_id ) );	
+			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.inviter_id = 0 AND m.is_banned = 0 AND m.is_confirmed = 1 ORDER BY m.date_modified DESC", $user_id ) );	
 		}
 				
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
