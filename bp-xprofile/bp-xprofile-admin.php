@@ -75,8 +75,8 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 					    <tr class="nodrag">
 					    	<th scope="col" colspan="<?php if ( $groups[$i]->can_delete ) { ?>3<?php } else { ?>5<?php } ?>"><?php echo $groups[$i]->name; ?></th>
 							<?php if ( $groups[$i]->can_delete ) { ?>    	
-								<th scope="col" width="5%"><a class="edit" href="admin.php?page=xprofile_settings&amp;mode=edit_group&amp;group_id=<?php echo $groups[$i]->id; ?>"><?php _e( 'Edit', 'buddypress' ) ?></a></th>
-					    		<th scope="col" width="5%"><a class="delete" href="admin.php?page=xprofile_settings&amp;mode=delete_group&amp;group_id=<?php echo $groups[$i]->id; ?>"><?php _e( 'Delete', 'buddypress' ) ?></a></th>
+								<th scope="col"><a class="edit" href="admin.php?page=xprofile_settings&amp;mode=edit_group&amp;group_id=<?php echo $groups[$i]->id; ?>"><?php _e( 'Edit', 'buddypress' ) ?></a></th>
+					    		<th scope="col"><a class="delete" href="admin.php?page=xprofile_settings&amp;mode=delete_group&amp;group_id=<?php echo $groups[$i]->id; ?>"><?php _e( 'Delete', 'buddypress' ) ?></a></th>
 							<?php } ?>
 						</tr>
 					</thead>
@@ -97,7 +97,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 									<tr id="field_<?php echo $field->id; ?>" <?php if ( $class ) { echo 'class="' . $class . '"'; } ?>>
 							    	<td><span title="<?php echo $field->desc; ?>"><?php echo $field->name; ?> <?php if(!$field->can_delete) { ?>(Core)<?php } ?></span></td>
 							    	<td><?php echo $field->type; ?></td>
-							    	<td style="text-align:center;"><?php if ( $field->is_required ) { echo '<img src="' . $bp->profile->image_base . '/tick.gif" alt="Yes" />'; } else { ?>--<?php } ?></td>
+							    	<td style="text-align:center;"><?php if ( $field->is_required ) { echo '<img src="' . $bp->profile->image_base . '/tick.gif" alt="' . _e( 'Yes', 'buddypress' ) . '" />'; } else { ?>--<?php } ?></td>
 							    	<td style="text-align:center;"><?php if ( !$field->can_delete ) { ?><strike><?php _e( 'Edit', 'buddypress' ) ?></strike><?php } else { ?><a class="edit" href="admin.php?page=xprofile_settings&amp;group_id=<?php echo $groups[$i]->id; ?>&amp;field_id=<?php echo $field->id; ?>&amp;mode=edit_field"><?php _e( 'Edit', 'buddypress' ) ?></a><?php } ?></td>
 							    	<td style="text-align:center;"><?php if ( !$field->can_delete ) { ?><strike><?php _e( 'Delete', 'buddypress' ) ?></strike><?php } else { ?><a class="delete" href="admin.php?page=xprofile_settings&amp;field_id=<?php echo $field->id; ?>&amp;mode=delete_field"><?php _e( 'Delete', 'buddypress' ) ?></a><?php } ?></td>
 							    </tr>
