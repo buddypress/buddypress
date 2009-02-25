@@ -167,12 +167,12 @@ function bp_activity_content_filter( $content, $date_recorded, $full_name, $inse
 	if ( '' == get_locale() ) {
 		/* Switch 'their/your' depending on whether the user is logged in or not and viewing their profile */
 		if ( $filter_words ) {
-			$content[0] = preg_replace( '/their/', 'your', $content[0] );
+			$content[0] = preg_replace( '/their\s/', 'your ', $content[0] );
 		}
 
 		/* Remove the 'You' and replace if with the persons name */
 		if ( $filter_you && $full_name != '' ) {
-			$content[0] = preg_replace( "/$full_name/", 'You', $content[0] );				
+			$content[0] = preg_replace( "/{$full_name}[<]/", 'You<', $content[0] );				
 		}
 	}
 	
