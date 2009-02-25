@@ -1,10 +1,10 @@
 <?php bp_group_avatar() ?>
 
-<?php do_action( 'groups_sidebar_before' ) ?>
-
 <div class="button-block">
 	<?php bp_group_join_button() ?>
 </div>
+
+<?php do_action( 'groups_sidebar_before' ) ?>
 
 <div class="info-group">
 	<h4><?php _e( 'Admins', 'buddypress' ) ?></h4>
