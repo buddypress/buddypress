@@ -6,7 +6,7 @@ Description: Activates bbPress forum support within BuddyPress groups or any oth
 Author: BuddyPress
 Version: 1.0-RC1
 Author URI: http://buddypress.org
-WPMU-Plugin: true
+Site Wide Only: true
 */
 
 /*

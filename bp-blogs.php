@@ -6,7 +6,7 @@ Description: Tracks blogs, blog posts and blogs comments for a user across a WPM
 Author: BuddyPress
 Version: 1.0-RC1
 Author URI: http://buddypress.org
-WPMU-Plugin: true
+Site Wide Only: true
 */
 
 require_once( 'bp-core.php' );

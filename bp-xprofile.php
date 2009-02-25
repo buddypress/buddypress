@@ -6,7 +6,7 @@ Description: Activates customizable profiles and avatars for site users.
 Author: BuddyPress
 Version: 1.0-RC1
 Author URI: http://buddypress.org
-WPMU-Plugin: true
+Site Wide Only: true
 */
 
 require_once( 'bp-core.php' );

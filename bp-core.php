@@ -6,7 +6,7 @@ Description: This plugin must be activated when using any other BuddyPress plugi
 Author: BuddyPress
 Version: 1.0-RC1
 Author URI: http://buddypress.org
-WPMU-Plugin: true
+Site Wide Only: true
 */
 
 /* Define the current version number for checking if DB tables are up to date. */

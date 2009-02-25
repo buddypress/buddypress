@@ -6,7 +6,7 @@ Description: Activates activity streams for all users, plus a site-wide activity
 Author: BuddyPress
 Version: 1.0-RC1
 Author URI: http://buddypress.org
-WPMU-Plugin: true
+Site Wide Only: true
 */
 
 require_once( 'bp-core.php' );
