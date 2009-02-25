@@ -9,21 +9,26 @@ function friends_notification_new_request( $friendship_id, $initiator_id, $frien
 		return false;
 	
 	$ud = get_userdata( $friend_id );
+	$initiator_ud = get_userdata( $initiator_id );
 	
 	$all_requests_link = site_url( MEMBERS_SLUG . '/' . $ud->user_login . '/friends/requests/' );
 	$settings_link = site_url( MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications' );
+	
+	$initiator_link = site_url( MEMBERS_SLUG . '/' . $initiator_ud->user_login . '/profile' );
 
 	// Set up and send the message
 	$to = $ud->user_email;
 	$subject = '[' . get_blog_option( 1, 'blogname' ) . '] ' . sprintf( __( 'New friendship request from %s', 'buddypress' ), $initiator_name );
 
 	$message = sprintf( __( 
-'%s wants to add you as a friend.
+"%s wants to add you as a friend.
 
 To view all of your pending friendship requests: %s
 
+To view %s's profile: %s
+
 ---------------------
-', 'buddypress' ), $initiator_name, $all_requests_link, $message_link );
+", 'buddypress' ), $initiator_name, $all_requests_link, $initiator_name, $initiator_link );
 
 	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
