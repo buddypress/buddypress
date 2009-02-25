@@ -79,7 +79,7 @@ jQuery(document).ready( function() {
 			jQuery.post( ajaxurl, {
 				action: 'group_filter',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce").val(),
+				'_wpnonce': jQuery("input#_wpnonce_group_filter").val(),
 				'fpage': fpage[1],
 				'num': 10,
 

@@ -479,23 +479,15 @@ function bp_group_active_forum_topics( $total_topics = 3 ) {
 function bp_group_search_form() {
 	global $groups_template, $bp;
 
-	if ( 'my-groups' == $bp->current_action || !$bp->current_action ) {
-		$action = $bp->loggedin_user->domain . $bp->groups->slug . '/my-groups/search/';
-		$label = __('Filter Groups', 'buddypress');
-		$name = 'group-filter-box';
-	} else {
-		$action = $bp->loggedin_user->domain . $bp->groups->slug . '/group-finder/search/';
-		$label = __('Find a Group', 'buddypress');
-		$name = 'groupfinder-search-box';
-		$value = $bp->action_variables[0];
-	}
+	$action = $bp->loggedin_user->domain . $bp->groups->slug . '/my-groups/search/';
+	$label = __('Filter Groups', 'buddypress');
+	$name = 'group-filter-box';
 ?>
 	<form action="<?php echo $action ?>" id="group-search-form" method="post">
 		<label for="<?php echo $name ?>" id="<?php echo $name ?>-label"><?php echo $label ?> <img id="ajax-loader" src="<?php echo $bp->groups->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( 'Loading', 'buddypress' ) ?>" style="display: none;" /></label>
 		<input type="search" name="<?php echo $name ?>" id="<?php echo $name ?>" value="<?php echo $value ?>"<?php echo $disabled ?> />
-		<?php if ( function_exists('wp_nonce_field') )
-			wp_nonce_field( $name );
-		?>
+	
+		<?php wp_nonce_field( 'group-filter-box', '_wpnonce_group_filter' ) ?>
 	</form>
 <?php
 }
