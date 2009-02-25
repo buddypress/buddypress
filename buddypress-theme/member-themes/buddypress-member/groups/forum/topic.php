@@ -65,7 +65,7 @@
 						
 							<p class="submit"><input type="submit" name="submit_reply" id="submit" value="<?php _e( 'Post Reply', 'buddypress' ) ?>" /></p>
 
-							<?php do_action( 'groups_forum_new_topic_after' ) ?>
+							<?php do_action( 'groups_forum_new_reply_after' ) ?>
 	
 							<?php wp_nonce_field( 'bp_forums_new_reply' ) ?>
 						
