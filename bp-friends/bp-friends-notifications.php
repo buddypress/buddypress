@@ -11,8 +11,6 @@ function friends_notification_new_request( $friendship_id, $initiator_id, $frien
 	$ud = get_userdata( $friend_id );
 	
 	$all_requests_link = site_url( MEMBERS_SLUG . '/' . $ud->user_login . '/friends/requests/' );
-	$approve_request_link = wp_nonce_url( site_url( MEMBERS_SLUG . '/' . $ud->user_login . '/friends/requests/accept/' . $friendship_id, 'friends_accept_friendship' ) );
-	$reject_request_link = wp_nonce_url( site_url( MEMBERS_SLUG . '/' . $ud->user_login . '/friends/requests/reject/' . $friendship_id, 'friends_reject_friendship' ) );
 	$settings_link = site_url( MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications' );
 
 	// Set up and send the message
@@ -20,16 +18,12 @@ function friends_notification_new_request( $friendship_id, $initiator_id, $frien
 	$subject = '[' . get_blog_option( 1, 'blogname' ) . '] ' . sprintf( __( 'New friendship request from %s', 'buddypress' ), $initiator_name );
 
 	$message = sprintf( __( 
-'%s wants to add you as a friend. You have two options:
-
-Accept the friendship request: %s
-
-Reject the friendship request: %s
+'%s wants to add you as a friend.
 
 To view all of your pending friendship requests: %s
 
 ---------------------
-', 'buddypress' ), $initiator_name, $approve_request_link, $reject_request_link, $all_requests_link, $message_link );
+', 'buddypress' ), $initiator_name, $all_requests_link, $message_link );
 
 	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
