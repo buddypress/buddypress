@@ -63,6 +63,7 @@ function bp_core_admin_bar_css() {
 		if ( 'rtl' == get_bloginfo('text_direction') && file_exists( ABSPATH . MUPLUGINDIR . '/bp-core/css/admin-bar-rtl.css' ) )
 			wp_enqueue_style( 'bp-admin-bar-rtl', site_url( MUPLUGINDIR . '/bp-core/css/admin-bar-rtl.css' ) );	
 	}
+	wp_print_styles();
 }
 add_action( 'wp_head', 'bp_core_admin_bar_css', 2 );
 

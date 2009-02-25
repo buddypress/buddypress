@@ -259,6 +259,7 @@ function bp_adminbar_random_menu() {
 	$doing_admin_bar = false;
 }
 
+
 add_action( 'bp_adminbar_logo', 'bp_adminbar_logo' );
 add_action( 'bp_adminbar_menus', 'bp_adminbar_login_menu', 2 );
 add_action( 'bp_adminbar_menus', 'bp_adminbar_account_menu', 4 );

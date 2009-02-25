@@ -83,47 +83,52 @@ function bp_core_ajax_directory_members() {
 	));
 	
 	$from_num = intval( ( $pag_page - 1 ) * $pag_num ) + 1;
-	$to_num = ( $from_num + 9 > $users['total'] ) ? $users['total'] : $from_num + 9; 
+	$to_num = ( $from_num + ( $pag_num - 1 ) > $users['total'] ) ? $users['total'] : $from_num + ( $pag_num - 1 ); 
 	
 	if ( $users['users'] ) {
 		echo '0[[SPLIT]]'; // return valid result.
 		
 		?>
-		<div id="member-dir-count" class="pag-count">
-			<?php echo sprintf( __( 'Viewing member %d to %d (%d total active members)', 'buddypress' ), $from_num, $to_num, $users['total'] ); ?> &nbsp;
-			<img id="ajax-loader-members" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" />
-		</div>
-	
-		<div class="pagination-links" id="member-dir-pag">
-			<?php echo $pag_links ?>
-		</div>
-		<?php
-	
-		echo '<ul id="members-list" class="item-list">';
-		foreach ( (array) $users['users'] as $user ) {
-		?>
-			<li>
-				<div class="item-avatar">
-					<?php echo bp_core_get_avatar( $user->user_id, 1 ) ?>
+		<div class="container">
+			<div id="member-dir-count" class="pag-count">
+				<?php echo sprintf( __( 'Viewing member %d to %d (%d total active members)', 'buddypress' ), $from_num, $to_num, $users['total'] ); ?> &nbsp;
+				<img id="ajax-loader-members" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" />
+			</div>
+		
+			<?php if ( $pag_links ) : ?>
+				<div class="pagination-links" id="member-dir-pag">
+					<?php echo $pag_links ?>
 				</div>
+			<?php endif; ?>
 
-				<div class="item">
-					<div class="item-title"><?php echo bp_core_get_userlink( $user->user_id ) ?></div>
-					<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( get_usermeta( $user->user_id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) ) ?></span></div>
-				</div>
-				
-				<div class="action">
-					<?php bp_add_friend_button( $user->user_id ) ?>
-					<div class="meta">
-						<?php if ( $user_obj->total_friends ) echo $user_obj->total_friends ?><?php if ( $user_obj->total_blogs ) echo ', ' . $user_obj->total_blogs ?><?php if ( $user_obj->total_groups ) echo ', ' . $user_obj->total_groups ?>
+			<?php	
+			echo '<ul id="members-list" class="item-list">';
+			foreach ( (array) $users['users'] as $user ) {
+			?>
+				<li>
+					<div class="item-avatar">
+						<?php echo bp_core_get_avatar( $user->user_id, 1 ) ?>
 					</div>
-				</div>
+
+					<div class="item">
+						<div class="item-title"><?php echo bp_core_get_userlink( $user->user_id ) ?></div>
+						<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( get_usermeta( $user->user_id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) ) ?></span></div>
+					</div>
 				
-				<div class="clear"></div>
-			</li>
-		<?php	
-		}
-		echo '</ul>';
+					<div class="action">
+						<?php bp_add_friend_button( $user->user_id ) ?>
+						<div class="meta">
+							<?php if ( $user_obj->total_friends ) echo $user_obj->total_friends ?><?php if ( $user_obj->total_blogs ) echo ', ' . $user_obj->total_blogs ?><?php if ( $user_obj->total_groups ) echo ', ' . $user_obj->total_groups ?>
+						</div>
+					</div>
+				
+					<div class="clear"></div>
+				</li>
+			<?php	
+			}
+			echo '</ul>'; ?>
+		</div>
+<?php
 	} else {
 		echo "-1[[SPLIT]]<div id='message' class='error'><p>" . __("No members matched the current filter.", 'buddypress') . '</p></div>';
 	}

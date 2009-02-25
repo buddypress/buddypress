@@ -9,14 +9,17 @@ jQuery(document).ready( function() {
 			
 			var letter = jQuery(this).attr('id')
 			letter = letter.split('-');
+			
+			var num = ( jQuery('input#members-per-page').val() ) ? jQuery('input#members-per-page').val() : 10;
+			var page = ( jQuery('input#members-page-num').val() ) ? jQuery('input#members-page-num').val() : 1;
 
 			jQuery.post( ajaxurl, {
 				action: 'directory_members',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce-member-filter").val(),
 				'letter': letter[1],
-				'page': 1,
-				'num': 10
+				'page': page,
+				'num': num
 			},
 			function(response)
 			{	
@@ -51,13 +54,16 @@ jQuery(document).ready( function() {
 	jQuery("form#search-members-form").submit( function() { 
 			jQuery('#ajax-loader-members').toggle();
 
+			var num = ( jQuery('input#members-per-page').val() ) ? jQuery('input#members-per-page').val() : 10;
+			var page = ( jQuery('input#members-page-num').val() ) ? jQuery('input#members-page-num').val() : 1;
+
 			jQuery.post( ajaxurl, {
 				action: 'directory_members',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce-member-filter").val(),
 				'members_search': jQuery("input#members_search").val(),
-				'page': 1,
-				'num': 10
+				'page': page,
+				'num': num
 			},
 			function(response)
 			{	
@@ -108,13 +114,15 @@ jQuery(document).ready( function() {
 				var search_terms = '';
 			else
 				var search_terms = jQuery("input#search_terms").val();
+
+			var num = ( jQuery('input#members-per-page').val() ) ? jQuery('input#members-per-page').val() : 10;
 				
 			jQuery.post( ajaxurl, {
 				action: 'directory_members',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce").val(),
 				'page': page[1],
-				'num': 10,
+				'num': num,
 				'_wpnonce': jQuery("input#_wpnonce-member-filter").val(),
 				
 				'letter': letter,

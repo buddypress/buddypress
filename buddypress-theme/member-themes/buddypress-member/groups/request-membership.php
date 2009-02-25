@@ -24,7 +24,7 @@
 			<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 
 			<?php if ( !bp_group_has_requested_membership() ) : ?>
-				<p><?php printf( __( "You are requesting to become a member of the group '%s'.", "buddypress" ), bp_group_name( false ) ); ?></p>
+				<p><?php printf( __( "You are requesting to become a member of the group '%s'.", "buddypress" ), bp_group_name( false, false ) ); ?></p>
 
 				<form action="<?php bp_group_form_action('request-membership') ?>" method="post" name="request-membership-form" id="request-membership-form" class="standard-form">
 					<label for="group-request-membership-comments"><?php _e( 'Comments (optional)', 'buddypress' ); ?></label>
