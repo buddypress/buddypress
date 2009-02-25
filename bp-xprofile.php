@@ -598,10 +598,10 @@ function xprofile_format_notifications( $action, $item_id, $secondary_item_id, $
 
 	if ( 'new_wire_post' == $action ) {
 		if ( (int)$total_items > 1 ) {
-			return apply_filters( 'bp_xprofile_multiple_new_wire_post_notification', '<a href="' . $bp->loggedin_user->domain . $bp->wire->slug . '" title="' . __( 'Wire', 'buddypres' ) . '">' . sprintf( __('You have %d new posts on your wire'), (int)$total_items ) . '</a>', $total_items );		
+			return apply_filters( 'bp_xprofile_multiple_new_wire_post_notification', '<a href="' . $bp->loggedin_user->domain . $bp->wire->slug . '" title="' . __( 'Wire', 'buddypres' ) . '">' . sprintf( __( 'You have %d new posts on your wire', 'buddypress' ), (int)$total_items ) . '</a>', $total_items );		
 		} else {
 			$user_fullname = bp_core_global_user_fullname( $item_id );
-			return apply_filters( 'bp_xprofile_single_new_wire_post_notification', '<a href="' . $bp->loggedin_user->domain . $bp->wire->slug . '" title="' . __( 'Wire', 'buddypres' ) . '">' . sprintf( __('%s posted on your wire'), $user_fullname ) . '</a>', $user_fullname );
+			return apply_filters( 'bp_xprofile_single_new_wire_post_notification', '<a href="' . $bp->loggedin_user->domain . $bp->wire->slug . '" title="' . __( 'Wire', 'buddypres' ) . '">' . sprintf( __( '%s posted on your wire', 'buddypress' ), $user_fullname ) . '</a>', $user_fullname );
 		}
 	}
 	
