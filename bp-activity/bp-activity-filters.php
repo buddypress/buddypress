@@ -1,6 +1,8 @@
 <?php
 
 /* Apply WordPress defined filters */
+add_filter( 'bp_activity_content', 'wp_filter_kses', 1 );
+
 add_filter( 'bp_activity_content', 'wptexturize' );
 
 add_filter( 'bp_activity_content', 'convert_smilies' );

@@ -22,4 +22,9 @@ add_filter( 'bp_group_description', 'make_clickable' );
 add_filter( 'bp_group_description_excerpt', 'make_clickable' );
 add_filter( 'bp_group_news', 'make_clickable' );
 
+add_filter( 'bp_group_description', 'wp_filter_kses', 1 );
+add_filter( 'bp_group_description_excerpt', 'wp_filter_kses', 1 );
+add_filter( 'bp_group_news', 'wp_filter_kses', 1 );
+add_filter( 'bp_group_name', 'wp_filter_kses', 1 );
+
 ?>

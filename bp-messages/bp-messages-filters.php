@@ -33,4 +33,12 @@ add_filter( 'bp_messages_subject_value', 'stripslashes_deep' );
 add_filter( 'bp_messages_content_value', 'stripslashes_deep' );
 add_filter( 'bp_message_content', 'stripslashes_deep' );
 
+add_filter( 'bp_message_notice_subject', 'wp_filter_kses', 1 );
+add_filter( 'bp_message_notice_text', 'wp_filter_kses', 1 );
+add_filter( 'bp_message_thread_subject', 'wp_filter_kses', 1 );
+add_filter( 'bp_message_thread_excerpt', 'wp_filter_kses', 1 );
+add_filter( 'bp_messages_subject_value', 'wp_filter_kses', 1 );
+add_filter( 'bp_messages_content_value', 'wp_filter_kses', 1 );
+add_filter( 'bp_message_content', 'wp_filter_kses', 1 );
+
 ?>
