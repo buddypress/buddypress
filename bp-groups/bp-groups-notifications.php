@@ -240,7 +240,7 @@ function groups_notification_group_invites( $group_id, $invited_user_ids, $invit
 		if ( 'no' == get_usermeta( $invited_user_id, 'notification_groups_invite' ) ) continue;
 
 		$invited_ud = get_userdata($invited_user_id);
-		$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
+		$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $invited_ud->user_login . '/settings/notifications';
 		$invited_link = site_url() . '/' . MEMBERS_SLUG . '/' . $invited_ud->user_login;
 		$invites_link = $invited_link . '/' . $bp->groups->slug . '/invites';
 		
