@@ -234,7 +234,7 @@ Class BP_Activity_Activity {
 			for ( $i = 0; $i < count($friend_ids); $i++ ) {
 				$table_name = $wpdb->base_prefix . 'user_' . $friend_ids[$i] . '_activity_cached';
 
-				$activities[$i]['activity'] = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table_name} WHERE is_private = 0 ORDER BY date_recorded $limit_sql" ) );
+				$activities[$i]['activity'] = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table_name} WHERE is_private = 0 ORDER BY date_recorded DESC $limit_sql" ) );
 				$activities[$i]['full_name'] = bp_fetch_user_fullname( $friend_ids[$i], false );
 			}
 		
