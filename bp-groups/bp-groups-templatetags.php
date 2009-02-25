@@ -491,7 +491,7 @@ function bp_group_search_form() {
 	}
 ?>
 	<form action="<?php echo $action ?>" id="group-search-form" method="post">
-		<label for="<?php echo $name ?>" id="<?php echo $name ?>-label"><?php echo $label ?> <img id="ajax-loader" src="<?php echo $bp->groups->image_base ?>/ajax-loader.gif" height="7" alt="Loading" style="display: none;" /></label>
+		<label for="<?php echo $name ?>" id="<?php echo $name ?>-label"><?php echo $label ?> <img id="ajax-loader" src="<?php echo $bp->groups->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( 'Loading', 'buddypress' ) ?>" style="display: none;" /></label>
 		<input type="search" name="<?php echo $name ?>" id="<?php echo $name ?>" value="<?php echo $value ?>"<?php echo $disabled ?> />
 		<?php if ( function_exists('wp_nonce_field') )
 			wp_nonce_field( $name );
@@ -1089,7 +1089,7 @@ function bp_group_send_invite_form( $group_obj = null ) {
 		$group_obj =& $groups_template->group;
 ?>
 	<div class="left-menu">
-		<h4><?php _e( 'Select Friends', 'buddypress' ) ?> <img id="ajax-loader" src="<?php echo $bp->groups->image_base ?>/ajax-loader.gif" height="7" alt="Loading" style="display: none;" /></h4>
+		<h4><?php _e( 'Select Friends', 'buddypress' ) ?> <img id="ajax-loader" src="<?php echo $bp->groups->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( 'Loading', 'buddypress' ) ?>" style="display: none;" /></h4>
 		<?php bp_group_list_invite_friends() ?>
 		<?php wp_nonce_field( 'groups_invite_uninvite_user', '_wpnonce_invite_uninvite_user' ) ?>
 		<input type="hidden" name="group_id" id="group_id" value="<?php echo $group_obj->id ?>" />
@@ -1127,9 +1127,9 @@ function bp_group_current_avatar() {
 	global $group_obj;
 	
 	if ( $group_obj->avatar_full ) { ?>
-		<img src="<?php echo $group_obj->avatar_full ?>" alt="Group Avatar" class="avatar" />
+		<img src="<?php echo $group_obj->avatar_full ?>" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" class="avatar" />
 	<?php } else { ?>
-		<img src="<?php echo $bp->groups->image_base . '/none.gif' ?>" alt="No Group Avatar" class="avatar" />
+		<img src="<?php echo $bp->groups->image_base . '/none.gif' ?>" alt="<?php _e( 'No Group Avatar', 'buddypress' ) ?>" class="avatar" />
 	<?php }
 }
 
@@ -1215,12 +1215,12 @@ function bp_groups_random_selection( $total_groups = 5 ) {
 			<?php $group = new BP_Groups_Group( $group_ids['groups'][$i]->group_id, false, false ); ?>
 			<li>
 				<div class="item-avatar">
-					<a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php echo $group->name ?> Avatar" /></a>
+					<a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php printf( __( '%s Avatar', 'buddypress' ), $group->name ) ?>" /></a>
 				</div>
 
 				<div class="item">
 					<div class="item-title"><a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><?php echo $group->name ?></a></div>
-					<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __('active %s ago') ) ?></span></div>
+					<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) ) ?></span></div>
 					<div class="item-meta desc"><?php echo bp_create_excerpt( $group->description ) ?></div>
 				</div>
 				
@@ -1230,9 +1230,9 @@ function bp_groups_random_selection( $total_groups = 5 ) {
 						<?php $member_count = groups_get_groupmeta( $group->id, 'total_member_count' ) ?>
 						<?php echo ucwords($group->status) ?> <?php _e( 'Group', 'buddypress' ) ?> / 
 						<?php if ( 1 == $member_count ) : ?>
-							<?php _e( sprintf( '%d member', $member_count ), 'buddypress' ) ?>
+							<?php printf( __( '%d member', 'buddypress' ), $member_count ) ?>
 						<?php else : ?>
-							<?php _e( sprintf( '%d members', $member_count ), 'buddypress' ) ?>
+							<?php printf( __( '%d members', 'buddypress' ), $member_count ) ?>
 						<?php endif; ?>
 					</div>
 				</div>
@@ -1261,7 +1261,7 @@ function bp_groups_random_groups() {
 			<?php for ( $i = 0; $i < count( $group_ids ); $i++ ) { ?>
 				<?php $group = new BP_Groups_Group( $group_ids[$i], false, false ); ?>
 				<li>
-					<a href="<?php echo bp_group_permalink( $group, false ) ?>"><img src="<?php echo $group->avatar_thumb; ?>" class="avatar" alt="Group Avatar" /></a>
+					<a href="<?php echo bp_group_permalink( $group, false ) ?>"><img src="<?php echo $group->avatar_thumb; ?>" class="avatar" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" /></a>
 					<h5><a href="<?php echo bp_group_permalink( $group, false ) ?>"><?php echo $group->name ?></a></h5>
 				</li>
 			<?php } ?>

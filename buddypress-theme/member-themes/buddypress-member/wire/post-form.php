@@ -17,7 +17,7 @@
 			
 			<?php do_action( 'bp_wire_custom_wire_boxes_after' ) ?>
 			
-			<input type="submit" name="wire-post-submit" id="wire-post-submit" value="Post &raquo;" />
+			<input type="submit" name="wire-post-submit" id="wire-post-submit" value="<?php _e( 'Post &raquo;', 'buddypress' ) ?>" />
 			
 			<?php wp_nonce_field( 'bp_wire_post' ) ?>
 			

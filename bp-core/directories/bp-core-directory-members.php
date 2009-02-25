@@ -175,7 +175,7 @@ function bp_core_directory_members_sidebar() {
 
 					<div class="item">
 						<div class="item-title"><?php echo bp_core_get_userlink( $user->user_id ) ?></div>
-						<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( get_usermeta( $user->user_id, 'last_activity' ), __('active %s ago') ) ?></span></div>
+						<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( get_usermeta( $user->user_id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) ) ?></span></div>
 					
 						<?php if ( function_exists( 'xprofile_get_random_profile_data' ) ) { ?>
 							<?php $random_data = xprofile_get_random_profile_data( $user->user_id, true ); ?>

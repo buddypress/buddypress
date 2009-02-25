@@ -294,7 +294,7 @@ function messages_action_view_message() {
 		bp_core_redirect( $bp->displayed_user->domain . $bp->current_component );
 	} else {
 		$bp->bp_options_nav[$bp->messages->slug]['view'] = array(
-			'name' => __('From: ' . BP_Messages_Thread::get_last_sender($thread_id), 'buddypress'),
+			'name' => sprintf( __( 'From: %s', 'buddypress'), BP_Messages_Thread::get_last_sender($thread_id) ),
 			'link' => $bp->loggedin_user->domain . $bp->messages->slug . '/'			
 		);
 

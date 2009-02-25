@@ -5,7 +5,7 @@
 </div>
 
 <div id="content">
-	<h2>Create a Blog</h2>
+	<h2><?php _e( 'Create a Blog', 'buddypress' ) ?></h2>
 	<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 
 	<?php if ( bp_blog_signup_enabled() ) : ?>

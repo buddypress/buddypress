@@ -469,7 +469,7 @@ Class BP_XProfile_Field {
 				}
 				
 				if ( !$this->is_required ) {
-					$html .= '<a class="clear-value" style="text-decoration: none;" href="javascript:clear(\'field_' . $this->id . '\');"><img src="' . $bp->profile->image_base . '/cross.gif" alt="Clear" /> Clear</a>';
+					$html .= '<a class="clear-value" style="text-decoration: none;" href="javascript:clear(\'field_' . $this->id . '\');"><img src="' . $bp->profile->image_base . '/cross.gif" alt="' . __( 'Clear', 'buddypress' ) . '" /> ' . __( 'Clear', 'buddypress' ) . '</a>';
 				}
 				
 				$html .= '<span class="signup-description">' . $this->desc . '</span>';	

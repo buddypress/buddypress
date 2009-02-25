@@ -13,9 +13,9 @@
 					<div class="entry">
 						<p class="<?php echo $classname; ?>"><?php echo $attachment_link; ?><br /><?php echo basename($post->guid); ?></p>
 
-						<?php the_content('<p class="serif">Read the rest of this entry &raquo;</p>'); ?>
+						<?php the_content( __('<p class="serif">Read the rest of this entry &raquo;</p>', 'buddypress' ) ); ?>
 
-						<?php wp_link_pages(array('before' => '<p><strong>Pages:</strong> ', 'after' => '</p>', 'next_or_number' => 'number')); ?>
+						<?php wp_link_pages( array( 'before' => __( '<p><strong>Pages:</strong> ', 'buddypress' ), 'after' => '</p>', 'next_or_number' => 'number')); ?>
 
 					</div>
 				</div>

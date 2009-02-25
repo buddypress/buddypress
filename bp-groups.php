@@ -1536,7 +1536,7 @@ function groups_new_group_forum( $group_id = false, $group_name = false, $group_
 	if ( !$group_desc )
 		$group_desc = $group_obj->description;
 	
-	$forum = bp_forums_new_forum( apply_filters( 'groups_new_group_forum_name', $group_name . ' - Forum', $group_name ), apply_filters( 'groups_new_group_forum_desc', $group_desc ) );
+	$forum = bp_forums_new_forum( apply_filters( 'groups_new_group_forum_name', $group_name . ' - ' . __( 'Forum', 'buddypress' ), $group_name ), apply_filters( 'groups_new_group_forum_desc', $group_desc ) );
 	
 	groups_update_groupmeta( $group_id, 'forum_id', $forum['forum_id'] );
 	

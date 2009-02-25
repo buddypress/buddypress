@@ -109,7 +109,7 @@ function bp_core_ajax_directory_members() {
 
 				<div class="item">
 					<div class="item-title"><?php echo bp_core_get_userlink( $user->user_id ) ?></div>
-					<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( get_usermeta( $user->user_id, 'last_activity' ), __('active %s ago') ) ?></span></div>
+					<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( get_usermeta( $user->user_id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) ) ?></span></div>
 				</div>
 				
 				<div class="action">

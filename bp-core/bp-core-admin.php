@@ -37,36 +37,36 @@ function bp_core_admin_settings() {
 			<tbody>
 				<?php if ( function_exists( 'xprofile_install' ) ) :?>
 				<tr>
-					<th scope="row"><?php _e('Base profile group name', 'buddypress') ?>:</th>
+					<th scope="row"><?php _e( 'Base profile group name', 'buddypress' ) ?>:</th>
 					<td>
 						<input name="bp-admin[bp-xprofile-base-group-name]" id="bp-xprofile-base-group-name" value="<?php echo get_site_option('bp-xprofile-base-group-name') ?>" />
 					</td>			
 				</tr>
 				<tr>
-					<th scope="row"><?php _e('Full Name field name', 'buddypress') ?>:</th>
+					<th scope="row"><?php _e( 'Full Name field name', 'buddypress' ) ?>:</th>
 					<td>
 						<input name="bp-admin[bp-xprofile-fullname-field-name]" id="bp-xprofile-fullname-field-name" value="<?php echo get_site_option('bp-xprofile-fullname-field-name') ?>" />
 					</td>
 				</tr>
 				<?php endif; ?>
 				<tr>
-					<th scope="row"><?php _e('Show admin bar for logged out users', 'buddypress') ?>:</th>
+					<th scope="row"><?php _e( 'Show admin bar for logged out users', 'buddypress' ) ?>:</th>
 					<td>
-						<input type="radio" name="bp-admin[show-loggedout-adminbar]"<?php if ( (int)get_site_option( 'show-loggedout-adminbar' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-show-loggedout-adminbar-yes" value="1" /> Yes &nbsp;
-						<input type="radio" name="bp-admin[show-loggedout-adminbar]"<?php if ( !(int)get_site_option( 'show-loggedout-adminbar' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-show-loggedout-adminbar-no" value="0" /> No
+						<input type="radio" name="bp-admin[show-loggedout-adminbar]"<?php if ( (int)get_site_option( 'show-loggedout-adminbar' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-show-loggedout-adminbar-yes" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
+						<input type="radio" name="bp-admin[show-loggedout-adminbar]"<?php if ( !(int)get_site_option( 'show-loggedout-adminbar' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-show-loggedout-adminbar-no" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
 					</td>			
 				</tr>
 				<?php if ( function_exists('bp_wire_install') ) { ?>
 				<tr>
-					<th scope="row"><?php _e('Allow non-friends to post on profile wires', 'buddypress') ?>:</th>
+					<th scope="row"><?php _e( 'Allow non-friends to post on profile wires', 'buddypress' ) ?>:</th>
 					<td>
-						<input type="radio" name="bp-admin[non-friend-wire-posting]"<?php if ( (int)get_site_option( 'non-friend-wire-posting' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-non-friend-wire-post" value="1" /> Yes &nbsp;
-						<input type="radio" name="bp-admin[non-friend-wire-posting]"<?php if ( !(int)get_site_option( 'non-friend-wire-posting' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-non-friend-wire-post" value="0" /> No
+						<input type="radio" name="bp-admin[non-friend-wire-posting]"<?php if ( (int)get_site_option( 'non-friend-wire-posting' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-non-friend-wire-post" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
+						<input type="radio" name="bp-admin[non-friend-wire-posting]"<?php if ( !(int)get_site_option( 'non-friend-wire-posting' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-non-friend-wire-post" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
 					</td>			
 				</tr>
 				<?php } ?>
 				<tr>
-					<th scope="row"><?php _e('Select theme to use for member pages', 'buddypress') ?>:</th>
+					<th scope="row"><?php _e('Select theme to use for member pages', 'buddypress' ) ?>:</th>
 					<td>
 						<select name="bp-admin[active-member-theme]" id="active-member-theme">
 							<?php $themes = bp_core_get_member_themes() ?>

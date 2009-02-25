@@ -17,7 +17,7 @@ class bbPress_Live_Widget_Forums
 	{
 		$widget_options = array(
 			'classname' => 'bbpress_live_widget_forums',
-			'description' => __('Forum lists from your bbPress forums')
+			'description' => __( 'Forum lists from your bbPress forums', 'buddypress' )
 		);
 
 		$control_options = array(
@@ -218,7 +218,7 @@ class bbPress_Live_Widget_Topics
 	{
 		$widget_options = array(
 			'classname' => 'bbpress_live_widget_topics',
-			'description' => __('The latest topics from your bbPress forums')
+			'description' => __( 'The latest topics from your bbPress forums', 'buddypress' )
 		);
 
 		$control_options = array(

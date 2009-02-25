@@ -57,7 +57,7 @@ if (!empty($post->post_password) && $_COOKIE['wp-postpass_'. COOKIEHASH] != $pos
 
 <form action="<?php echo site_url(); ?>/wp-comments-post.php" method="post" id="commentform">
 <?php if ( $user_ID ) : ?> 
-	<p><?php _e( 'Logged in as', 'buddypress' ) ?> <a href="<?php echo site_url(); ?>/wp-admin/profile.php"><?php echo $user_identity; ?></a>. <a href="<?php echo site_url(); ?>/wp-login.php?action=logout" title="Log out of this account"><?php _e( 'Logout', 'buddypress' ) ?> &raquo;</a></p>
+	<p><?php _e( 'Logged in as', 'buddypress' ) ?> <a href="<?php echo site_url(); ?>/wp-admin/profile.php"><?php echo $user_identity; ?></a>. <a href="<?php echo site_url(); ?>/wp-login.php?action=logout" title="<?php _e( 'Log out of this account', 'buddypress' ) ?>"><?php _e( 'Logout', 'buddypress' ) ?> &raquo;</a></p>
 <?php else : ?> 
 	<p>
 	  <input type="text" name="author" id="author" class="textarea" value="<?php echo $comment_author; ?>" size="28" tabindex="1" />
@@ -84,7 +84,7 @@ if (!empty($post->post_password) && $_COOKIE['wp-postpass_'. COOKIEHASH] != $pos
 	</p>
 
 	<p>
-	  <input name="submit" type="submit" tabindex="5" value="Say It!" />
+	  <input name="submit" type="submit" tabindex="5" value="<?php _e( 'Say It!', 'buddypress' ) ?>" />
 	</p>
 	<?php do_action('comment_form', $post->ID); ?>
 </form>

@@ -93,10 +93,10 @@ function bp_core_widget_members($args) {
 	
 	<?php if ( $users['users'] ) : ?>
 		<div class="item-options" id="members-list-options">
-			<img id="ajax-loader-members" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="Loading" style="display: none;" /> &nbsp;
-			<a href="<?php echo site_url() . '/' . MEMBERS_SLUG ?>" id="newest-members" class="selected"><?php _e("Newest", 'buddypress') ?></a> | 
-			<a href="<?php echo site_url() . '/' . MEMBERS_SLUG ?>" id="recently-active-members"><?php _e("Active", 'buddypress') ?></a> | 
-			<a href="<?php echo site_url() . '/' . MEMBERS_SLUG ?>" id="popular-members"><?php _e("Popular", 'buddypress') ?></a>
+			<img id="ajax-loader-members" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( 'Loading', 'buddypress' ) ?>" style="display: none;" /> &nbsp;
+			<a href="<?php echo site_url() . '/' . MEMBERS_SLUG ?>" id="newest-members" class="selected"><?php _e( 'Newest', 'buddypress' ) ?></a> | 
+			<a href="<?php echo site_url() . '/' . MEMBERS_SLUG ?>" id="recently-active-members"><?php _e( 'Active', 'buddypress' ) ?></a> | 
+			<a href="<?php echo site_url() . '/' . MEMBERS_SLUG ?>" id="popular-members"><?php _e( 'Popular', 'buddypress' ) ?></a>
 		</div>
 		<ul id="members-list" class="item-list">
 			<?php foreach ( (array) $users['users'] as $user ) : ?>
@@ -107,7 +107,7 @@ function bp_core_widget_members($args) {
 
 					<div class="item">
 						<div class="item-title fn"><?php echo bp_core_get_userlink( $user->user_id ) ?></div>
-						<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( $user->user_registered, __('registered %s ago', 'buddypress') ) ?></span></div>
+						<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( $user->user_registered, __( 'registered %s ago', 'buddypress' ) ) ?></span></div>
 					</div>
 				</li>
 				<?php $counter++; ?>	

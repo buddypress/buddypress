@@ -78,12 +78,12 @@
 
 <?php if ( $user_ID ) : ?>
 
-<p>Logged in as <a href="<?php echo site_url(); ?>/wp-admin/profile.php"><?php echo $user_identity; ?></a>. <a href="<?php echo site_url(); ?>/wp-login.php?action=logout" title="Log out of this account"><?php _e( 'Logout', 'buddypress' ) ?> &raquo;</a></p>
+<p><?php _e( 'Logged in as', 'buddypress' ) ?> <a href="<?php echo site_url(); ?>/wp-admin/profile.php"><?php echo $user_identity; ?></a>. <a href="<?php echo site_url(); ?>/wp-login.php?action=logout" title="Log out of this account"><?php _e( 'Logout', 'buddypress' ) ?> &raquo;</a></p>
 
 <?php else : ?>
 
 <p><input type="text" name="author" id="author" value="<?php echo $comment_author; ?>" size="22" tabindex="1" />
-<label for="author"><?php _e( 'Name', 'buddypress' ) ?> <?php if ($req) echo "(required)"; ?></label></p>
+<label for="author"><?php _e( 'Name', 'buddypress' ) ?> <?php if ($req) _e( '(required)', 'buddypress' ); ?></label></p>
 
 <p><input type="text" name="email" id="email" value="<?php echo $comment_author_email; ?>" size="22" tabindex="2" />
 <label for="email"><?php _e( 'Mail (will not be published)', 'buddypress' ) ?> <?php if ($req) _e( '(required)', 'buddypress' ); ?></label></p>
@@ -92,8 +92,6 @@
 <label for="url"><?php _e( 'Website', 'buddypress' ) ?></label></p>
 
 <?php endif; ?>
-
-<!--<p><strong>XHTML:</strong> You can use these tags: <code><?php echo allowed_tags(); ?></code></p>-->
 
 <p><textarea name="comment" id="comment" cols="38" rows="10" tabindex="4"></textarea></p>
 

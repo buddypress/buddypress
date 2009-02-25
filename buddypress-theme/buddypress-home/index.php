@@ -8,11 +8,11 @@
 
 			<?php while (have_posts()) : the_post(); ?>
 				<div class="post" id="post-<?php the_ID(); ?>">
-					<h3><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h3>
+					<h3><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php _e( 'Permanent Link to', 'buddypress' ) ?> <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h3>
 					<p class="date"><?php the_time('F jS, Y') ?> <em>in <?php the_category(', ') ?> by <?php echo bp_core_get_userlink($post->post_author) ?></em></p>
 
 					<div class="entry">
-						<?php the_content('Read the rest of this entry &raquo;'); ?>
+						<?php the_content( __( 'Read the rest of this entry &raquo;', 'buddypress' ) ); ?>
 					</div>
 
 					<p class="postmetadata"><span class="tags"><?php the_tags('Tags: ', ', ', '<br />'); ?></span> <span class="comments"><?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></span></p>
@@ -23,8 +23,8 @@
 			<?php endwhile; ?>
 
 			<div class="navigation">
-				<div class="alignleft"><?php next_posts_link('&laquo; Older Entries') ?></div>
-				<div class="alignright"><?php previous_posts_link('Newer Entries &raquo;') ?></div>
+				<div class="alignleft"><?php next_posts_link( __( '&laquo; Previous Entries', 'buddypress' ) ) ?></div>
+				<div class="alignright"><?php previous_posts_link( __( 'Next Entries &raquo;', 'buddypress' ) ) ?></div>
 			</div>
 
 		<?php else : ?>

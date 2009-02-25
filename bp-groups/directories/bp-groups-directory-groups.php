@@ -103,12 +103,12 @@ function groups_directory_groups_content() {
 				<?php $group = new BP_Groups_Group( $group->group_id, false, false ); ?>
 				<li>
 					<div class="item-avatar">
-						<a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php echo $group->name ?> Avatar" /></a>
+						<a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php printf( __( '%s Avatar', 'buddypress' ), $group->name ) ?>" /></a>
 					</div>
 
 					<div class="item">
 						<div class="item-title"><a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><?php echo $group->name ?></a></div>
-						<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __('active %s ago') ) ?></span></div>
+						<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) ) ?></span></div>
 						<div class="item-meta desc"><?php echo bp_create_excerpt( $group->description ) ?></div>
 						
 						<?php do_action( 'groups_directory_groups_content', $group ) ?>
@@ -163,7 +163,7 @@ function groups_directory_groups_sidebar() {
 		<h2 class="widgettitle"><?php _e( 'Find Groups', 'buddypress' ) ?></h2>
 		<form action="<?php echo site_url() . '/' . $bp->groups->slug  . '/search/' ?>" method="post" id="search-groups-form">
 			<label><input type="text" name="groups_search" id="groups_search" value="<?php if ( isset( $_GET['s'] ) ) { echo $_GET['s']; } else { _e('Search anything...', 'buddypress' ); } ?>"  onfocus="if (this.value == '<?php _e('Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e('Search anything...', 'buddypress' ) ?>';}" /></label>
-			<input type="submit" id="groups_search_submit" name="groups_search_submit" value="Search" />
+			<input type="submit" id="groups_search_submit" name="groups_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
 		</form>
 	</div>
 	
@@ -178,12 +178,12 @@ function groups_directory_groups_sidebar() {
 					<?php $group = new BP_Groups_Group( $group->group_id, false, false ); ?>
 					<li>
 						<div class="item-avatar">
-							<a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php echo $group->name ?> Avatar" /></a>
+							<a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php printf( __( '%s Avatar', 'buddypress' ), $group->name ) ?>" /></a>
 						</div>
 
 						<div class="item">
 							<div class="item-title"><a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><?php echo $group->name ?></a></div>
-							<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __('active %s ago') ) ?></span></div>
+							<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) ) ?></span></div>
 						
 							<div class="item-title group-data">
 								<p class="field-name"><?php _e( 'Members', 'buddypress' ) ?>: <span><?php echo groups_get_groupmeta( $group->id, 'total_member_count' ) ?></span></p>

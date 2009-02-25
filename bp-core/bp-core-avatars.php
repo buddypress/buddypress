@@ -127,17 +127,17 @@ function bp_core_avatar_admin( $message = null, $action, $delete_action) {
 		);
 
 		if ( !bp_core_check_avatar_upload($_FILES) )
-			bp_core_ap_die( 'Your upload failed, please try again. Error was: ' . $uploadErrors[$_FILES['file']['error']] );
+			bp_core_ap_die( sprintf( __( 'Your upload failed, please try again. Error was: %s', 'buddypress' ), $uploadErrors[$_FILES['file']['error']] ) );
 		
 		if ( !bp_core_check_avatar_size($_FILES) )
-			bp_core_ap_die( 'The file you uploaded is too big. Please upload a file under ' . size_format(CORE_MAX_FILE_SIZE) );
+			bp_core_ap_die( sprintf( __( 'The file you uploaded is too big. Please upload a file under %s', 'buddypress'), size_format(CORE_MAX_FILE_SIZE) ) );
 
 		if ( !bp_core_check_avatar_type($_FILES) )
-			bp_core_ap_die( 'Please upload only JPG, GIF or PNG photos.' );
+			bp_core_ap_die( __( 'Please upload only JPG, GIF or PNG photos.', 'buddypress' ) );
 		
 		// "Handle" upload into temporary location
 		if ( !$original = bp_core_handle_avatar_upload($_FILES) )
-			bp_core_ap_die( 'Upload Failed! Error was: ' . $wp_upload_error );
+			bp_core_ap_die( sprintf( __( 'Upload Failed! Error was: %s', 'buddypress' ), $wp_upload_error ) );
 		
 		// Resize down to something we can display on the page or use original if its small enough already.
 		if ( !$canvas = bp_core_resize_avatar($original) )
@@ -151,13 +151,13 @@ function bp_core_avatar_admin( $message = null, $action, $delete_action) {
 		
 		// Confirm that the nonce is valid
 		if ( !isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'slick_avatars') )
-			bp_core_ap_die( 'Security error.' );
+			bp_core_ap_die( __( 'Security error.', 'buddypress' ) );
 		
 		if ( !bp_core_check_crop( $_POST['orig'], $_POST['canvas'] ) )
-			bp_core_ap_die('Error when cropping, please go back and try again');
+			bp_core_ap_die( __( 'Error when cropping, please go back and try again', 'buddypress' ) );
 		
 		if ( !$result = bp_core_avatar_cropstore( stripslashes($_POST['orig']), $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'] ) )
-			bp_core_ap_die('Error when saving avatars, please go back and try again.');
+			bp_core_ap_die( __( 'Error when saving avatars, please go back and try again.', 'buddypress' ) );
 		
 		// Store details to the DB and we're done		
 		echo '<p>' . __('Your new avatar was successfully created!', 'buddypress') . '</p>';

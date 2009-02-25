@@ -269,7 +269,7 @@ function bp_friend_search_form() {
 ?>
 	<form action="<?php echo $action ?>" id="friend-search-form" method="post">
 
-		<label for="friend-search-box" id="friend-search-label"><?php echo $label ?> <img id="ajax-loader" src="<?php echo $bp->friends->image_base ?>/ajax-loader.gif" height="7" alt="Loading" style="display: none;" /></label>
+		<label for="friend-search-box" id="friend-search-label"><?php echo $label ?> <img id="ajax-loader" src="<?php echo $bp->friends->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( 'Loading', 'buddypress' ) ?>" style="display: none;" /></label>
 		<input type="search" name="friend-search-box" id="friend-search-box" value="<?php echo $value ?>"<?php echo $disabled ?> />
 		
 		<?php wp_nonce_field( 'friends_search', '_wpnonce_friend_search' ) ?>

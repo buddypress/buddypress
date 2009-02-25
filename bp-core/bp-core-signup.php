@@ -338,13 +338,13 @@ function bp_core_signup_confirm_blog_signup($domain, $path, $blog_title, $user_n
 	<p><?php printf( __('But, before you can start using your blog, <strong>you must activate it</strong>. Check your inbox at <strong>%s</strong> and click the link given. It should arrive within 30 minutes.', 'buddypress' ),  $user_email) ?></p>
 	<p>&nbsp;</p>
 	
-	<h3><?php _e('Still waiting for your email?'); ?></h3>
+	<h3><?php _e( 'Still waiting for your email?', 'buddypress' ); ?></h3>
 	<p>
-		<?php _e("If you haven't received your email yet, there are a number of things you can do:") ?>
+		<?php _e( "If you haven't received your email yet, there are a number of things you can do:", 'buddypress' ) ?>
 		<ul>
-			<li><p><strong><?php _e('Wait a little longer.  Sometimes delivery of email can be delayed by processes outside of our control.', 'buddypress' ) ?></strong></p></li>
-			<li><p><?php _e('Check the junk email or spam folder of your email client.  Sometime emails wind up there by mistake.', 'buddypress' ) ?></p></li>
-			<li><?php printf(__("Have you entered your email correctly?  We think it's %s but if you've entered it incorrectly, you won't receive it.", 'buddypress' ), $user_email) ?></li>
+			<li><p><strong><?php _e( 'Wait a little longer.  Sometimes delivery of email can be delayed by processes outside of our control.', 'buddypress' ) ?></strong></p></li>
+			<li><p><?php _e( 'Check the junk email or spam folder of your email client.  Sometime emails wind up there by mistake.', 'buddypress' ) ?></p></li>
+			<li><?php printf( __( "Have you entered your email correctly?  We think it's %s but if you've entered it incorrectly, you won't receive it.", 'buddypress' ), $user_email) ?></li>
 		</ul>
 	</p>
 	<?php

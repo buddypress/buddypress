@@ -173,11 +173,11 @@ function groups_ajax_member_admin_list() {
 				<li class="banned-user">
 					<?php bp_group_member_avatar_mini() ?>
 
-					<h5><?php bp_group_member_link() ?> (banned) <span class="small"> &mdash; <a href="<?php bp_group_member_unban_link() ?>" title="Kick and ban this member">Remove Ban</a> </h5>
+					<h5><?php bp_group_member_link() ?> <?php _e( '(banned)', 'buddypress' ) ?> <span class="small"> &mdash; <a href="<?php bp_group_member_unban_link() ?>" title="<?php _e( 'Kick and ban this member', 'buddypress' ) ?>"><?php _e( 'Remove Ban', 'buddypress' ) ?></a> </h5>
 			<?php else : ?>
 				<li>
 					<?php bp_group_member_avatar_mini() ?>
-					<h5><?php bp_group_member_link() ?>  <span class="small"> &mdash; <a href="<?php bp_group_member_ban_link() ?>" title="Kick and ban this member">Kick &amp; Ban</a> | <a href="<?php bp_group_member_promote_link() ?>" title="Promote this member">Promote to Moderator</a></span></h5>
+					<h5><?php bp_group_member_link() ?>  <span class="small"> &mdash; <a href="<?php bp_group_member_ban_link() ?>" title="<?php _e( 'Kick and ban this member', 'buddypress' ) ?>"><?php _e( 'Kick &amp; Ban', 'buddypress' ) ?></a> | <a href="<?php bp_group_member_promote_link() ?>" title="<?php _e( 'Promote this member', 'buddypress' ) ?>"><?php _e( 'Promote to Moderator', 'buddypress' ) ?></a></span></h5>
 
 			<?php endif; ?>
 				</li>
@@ -242,12 +242,12 @@ function bp_core_ajax_directory_groups() {
 			<?php $group = new BP_Groups_Group( $group->group_id, false, false ); ?>
 			<li>
 				<div class="item-avatar">
-					<img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php echo $group->name ?> Avatar" />
+					<img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php echo $group->name ?> <?php _e( 'Avatar', 'buddypress' ) ?>" />
 				</div>
 
 				<div class="item">
 					<div class="item-title"><a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><?php echo $group->name ?></a></div>
-					<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __('active %s ago') ) ?></span></div>
+					<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) ) ?></span></div>
 					<div class="item-meta desc"><?php echo bp_create_excerpt( $group->description ) ?></div>
 				</div>
 			
@@ -257,9 +257,9 @@ function bp_core_ajax_directory_groups() {
 						<?php $member_count = groups_get_groupmeta( $group->id, 'total_member_count' ) ?>
 						<?php echo ucwords($group->status) ?> <?php _e( 'Group', 'buddypress' ) ?> / 
 						<?php if ( 1 == $member_count ) : ?>
-							<?php _e( sprintf( '%d member', $member_count ), 'buddypress' ) ?>
+							<?php printf( __( '%d member', 'buddypress' ), $member_count ) ?>
 						<?php else : ?>
-							<?php _e( sprintf( '%d members', $member_count ), 'buddypress' ) ?>
+							<?php _e( '%d members', 'buddypress' ) ?>
 						<?php endif; ?>
 					</div>
 				</div>

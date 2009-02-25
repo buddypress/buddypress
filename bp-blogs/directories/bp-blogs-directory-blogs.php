@@ -103,24 +103,24 @@ function bp_blogs_directory_blogs_content() {
 			<?php foreach ( $blogs['blogs'] as $blog ) : ?>
 				<li>
 					<div class="item-avatar">
-						<img src="<?php echo 'http://www.gravatar.com/avatar/' . md5( $blog->blog_id . '.blogs@' . $bp->root_domain ) . '?d=identicon&amp;s=50'; ?>" class="avatar" alt="Blog Identicon" />
+						<img src="<?php echo 'http://www.gravatar.com/avatar/' . md5( $blog->blog_id . '.blogs@' . $bp->root_domain ) . '?d=identicon&amp;s=50'; ?>" class="avatar" alt="<?php _e( 'Blog Identicon', 'buddypress' ) ?>" />
 					</div>
 
 					<div class="item">
 						<div class="item-title"><a href="<?php echo get_blog_option( $blog->blog_id, 'siteurl' ) ?>" title="<?php echo get_blog_option( $blog->blog_id, 'blogname' ) ?>"><?php echo get_blog_option( $blog->blog_id, 'blogname' ) ?></a></div>
-						<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( bp_blogs_get_blogmeta( $blog->blog_id, 'last_activity' ), __('active %s ago') ) ?></span></div>
+						<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( bp_blogs_get_blogmeta( $blog->blog_id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) ) ?></span></div>
 						
 						<?php do_action( 'bp_blogs_directory_blogs_content', $blog ) ?>
 					</div>
 					
 					<div class="action">
 						<div class="blog-button visit">
-							<a href="<?php echo get_blog_option( $blog->blog_id, 'siteurl' ) ?>" class="visit" title="Visit <?php echo get_blog_option( $blog->blog_id, 'blogname' ) ?>"><?php _e( 'Visit Blog', 'buddypress' ) ?></a>
+							<a href="<?php echo get_blog_option( $blog->blog_id, 'siteurl' ) ?>" class="visit" title="<?php printf( __( 'Visit %s', 'buddypress'), get_blog_option( $blog->blog_id, 'blogname' ) ) ?>"><?php _e( 'Visit Blog', 'buddypress' ) ?></a>
 						</div>
 						<div class="meta">
 							<?php 
 								if ( $post = bp_blogs_get_latest_posts( $blog->blog_id, 1 ) ) {
-									_e( sprintf( 'Latest Post: %s', '<a href="' . bp_post_get_permalink( $post[0], $blog->blog_id ) . '">' . apply_filters( 'the_title', $post[0]->post_title ) . '</a>' ), 'buddypress' );
+									printf( __( 'Latest Post: %s', 'buddypress' ), '<a href="' . bp_post_get_permalink( $post[0], $blog->blog_id ) . '">' . apply_filters( 'the_title', $post[0]->post_title ) . '</a>' );
 								}
 							?>
 						</div>
@@ -181,7 +181,7 @@ function bp_blogs_directory_blogs_sidebar() {
 						
 						<div class="item">
 							<div class="item-title"><a href="<?php echo get_blog_option( $blog->blog_id, 'siteurl' ) ?>" title="<?php echo get_blog_option( $blog->blog_id, 'blogname' ) ?>"><?php echo get_blog_option( $blog->blog_id, 'blogname' ) ?></a></div>
-							<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( bp_blogs_get_blogmeta( $blog->blog_id, 'last_activity' ), __('active %s ago') ) ?></span></div>
+							<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( bp_blogs_get_blogmeta( $blog->blog_id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) ) ?></span></div>
 						
 							<div class="item-title blog-data">
 								<p class="field-name"><?php _e( 'Description', 'buddypress' ) ?>:</p>
