@@ -18,10 +18,6 @@ ul#letter-list li a {
 	display: inline;
 }
 
-.action {
-	display: none;
-}
-
 #setupform {
 	float: none;
 }
