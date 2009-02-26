@@ -224,13 +224,14 @@ function bp_activity_screen_friends_activity() {
 
 /***** Actions **********/
 
-function bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id = false, $user_id = false, $secondary_user_id = false ) {
+function bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id = false, $user_id = false, $secondary_user_id = false, $recorded_time = false ) {
 	global $bp, $wpdb;
 	
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
 
-	$recorded_time = time();
+	if ( !$recorded_time )
+		$recorded_time = time();
 	
 	$activity = new BP_Activity_Activity;
 	$activity->item_id = $item_id;
