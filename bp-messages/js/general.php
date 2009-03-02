@@ -223,7 +223,6 @@ jQuery(document).ready( function() {
 					if ( i != checkboxes.length - 1 ) {
 						checkboxes_tosend += ','
 					}
-					alert('tr#m-' + checkboxes[i].value);
 					jQuery('tr#m-' + checkboxes[i].value).remove();					
 				}
 			}
