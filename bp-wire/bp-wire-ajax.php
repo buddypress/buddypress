@@ -15,8 +15,9 @@ function bp_wire_ajax_get_wire_posts() {
 		</div>
 		
 		<ul id="wire-post-list">
+		<?php $counter = 0; ?>
 		<?php while ( bp_wire_posts() ) : bp_the_wire_post(); ?>
-			<li>
+			<li<?php if ( $counter % 2 != 1 ) : ?> class="alt"<?php endif; ?>>
 				<div class="wire-post-metadata">
 					<?php bp_wire_post_author_avatar() ?>
 					<?php _e( 'On', 'buddypress' ) ?> <?php bp_wire_post_date() ?> 
@@ -28,6 +29,7 @@ function bp_wire_ajax_get_wire_posts() {
 					<?php bp_wire_post_content() ?>
 				</div>
 			</li>
+			<?php $counter++ ?>
 		<?php endwhile; ?>
 		</ul>
 	

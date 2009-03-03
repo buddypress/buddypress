@@ -382,10 +382,13 @@ function messages_view_thread( $thread_id ) {
 				</table>
 				
 		<?php
+			$counter = 0;
+			
 			foreach ( $thread->messages as $message ) {
+				$alt = ( $counter % 2 == 1 ) ? ' alt' : '';
 				?>
 					<a name="<?php echo 'm-' . $message->id ?>"></a>
-					<div class="message-box">
+					<div class="message-box<?php echo $alt ?>">
 						<div class="avatar-box">
 							<?php echo apply_filters( 'bp_message_sender_avatar', bp_core_get_avatar( $message->sender_id, 1 ) ) ?>
 							<h3><?php echo apply_filters( 'bp_message_sender_id', bp_core_get_userlink( $message->sender_id ) ) ?></h3>
@@ -401,6 +404,7 @@ function messages_view_thread( $thread_id ) {
 						<div class="clear"></div>
 					</div>
 				<?php
+				$counter++;
 			}
 		
 			?>

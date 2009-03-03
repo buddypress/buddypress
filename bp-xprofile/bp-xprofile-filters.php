@@ -2,13 +2,15 @@
 
 /* Apply WordPress defined filters */
 add_filter( 'bp_the_profile_field_value', 'wp_filter_kses', 1 );
+add_filter( 'bp_get_field_data', 'wp_filter_kses', 1 );
+
 add_filter( 'bp_the_profile_field_value', 'wptexturize' );
 add_filter( 'bp_the_profile_field_value', 'convert_smilies' );
 add_filter( 'bp_the_profile_field_value', 'convert_chars' );
 add_filter( 'bp_the_profile_field_value', 'wpautop' );
 add_filter( 'bp_the_profile_field_value', 'make_clickable' );
 add_filter( 'bp_the_profile_field_value', 'xprofile_filter_format_field_value', 1, 2 );
-add_filter( 'bp_the_profile_field_value', 'xprofile_filter_link_profile_data', 2, 3 );
+add_filter( 'bp_the_profile_field_value', 'xprofile_filter_link_profile_data', 2, 2 );
 
 add_filter( 'bp_the_profile_field_type', 'wptexturize' );
 add_filter( 'bp_the_profile_field_type', 'convert_smilies' );
@@ -17,7 +19,7 @@ add_filter( 'bp_the_profile_field_type', 'convert_chars' );
 
 /* Custom BuddyPress filters */
 
-function xprofile_filter_format_field_value( $field_value, $field_type ) {
+function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
 	if ( !isset($field_value) || empty( $field_value ) )
 		return false;
 
@@ -30,7 +32,7 @@ function xprofile_filter_format_field_value( $field_value, $field_type ) {
 	return stripslashes( stripslashes( $field_value ) );
 }
 
-function xprofile_filter_link_profile_data( $field_value, $field_type, $field_id ) {
+function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox' ) {
 	if ( 'datebox' == $field_type )
 		return $field_value;
 	

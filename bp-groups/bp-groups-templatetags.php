@@ -517,13 +517,18 @@ function bp_group_active_forum_topics( $total_topics = 3, $group = false ) {
 		
 			if ( $latest_topics ) { ?>
 				<ul class="item-list" id="recent-forum-topics"><?php
+				
+				$counter = 0;
+				
 				foreach( $latest_topics as $topic ) {
+					$alt = ( $counter % 2 == 1 ) ? ' class="alt"' : '';
 					$forum_template->topic = (object)$topic; ?>
-					<li>
+					
+					<li<?php echo $alt ?>>
 						<div class="avatar">
 							<?php bp_the_topic_poster_avatar() ?>
 						</div>
-				
+
 						<a href="<?php bp_the_topic_permalink() ?>" title="<?php bp_the_topic_title() ?> - <?php _e( 'Permalink', 'buddypress' ) ?>"><?php bp_the_topic_title() ?></a> 
 						<span class="small">- <?php bp_the_topic_total_post_count() ?> </span>
 						<p><span class="activity"><?php echo sprintf( __( 'updated %s ago', 'buddypress' ), bp_the_topic_time_since_last_post( false ) ) ?></span></p>
@@ -533,6 +538,8 @@ function bp_group_active_forum_topics( $total_topics = 3, $group = false ) {
 							<?php bp_the_topic_latest_post_excerpt() ?>
 						</div>
 					</li>
+					<?php $counter++ ?>
+					
 				<?php } ?>
 				</ul>
 				<?php
@@ -1390,10 +1397,10 @@ function bp_groups_random_selection( $total_groups = 5 ) {
 <?php
 }
 
-function bp_groups_random_groups() {
+function bp_groups_random_groups( $total_groups = 5 ) {
 	global $bp;
 	
-	$group_ids = BP_Groups_Member::get_random_groups( $bp->displayed_user->id );
+	$group_ids = groups_get_random_groups_for_user( $bp->displayed_user->id, $total_groups, 1 );
 ?>	
 	<div class="info-group">
 		<h4><?php bp_word_or_name( __( "My Groups", 'buddypress' ), __( "%s's Groups", 'buddypress' ) ) ?> (<?php echo BP_Groups_Member::total_group_count() ?>) <a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>"><?php _e('See All', 'buddypress') ?> &raquo;</a></h4>

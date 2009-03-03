@@ -1214,33 +1214,78 @@ function groups_get_user_groups( $pag_num, $pag_page ) {
 	return array( 'groups' => $groups['ids'], 'total' => $groups['total'] );
 }
 
-function groups_get_recently_joined_for_user( $user_id, $pag_num = false, $pag_page = false ) {
+function groups_get_recently_joined_for_user( $user_id = false, $pag_num = false, $pag_page = false ) {
+	global $bp;
+	
+	if ( !$user_id )
+		$user_id = $bp->displayed_user->id;
+
 	return BP_Groups_Member::get_recently_joined( $user_id, $pag_num, $pag_page );
 }
 
-function groups_get_most_popular_for_user( $user_id, $pag_num = false, $pag_page = false ) {
+function groups_get_most_popular_for_user( $user_id = false, $pag_num = false, $pag_page = false ) {
+	global $bp;
+	
+	if ( !$user_id )
+		$user_id = $bp->displayed_user->id;
+
 	return BP_Groups_Member::get_most_popular( $user_id, $pag_num, $pag_page );	
 }
 
-function groups_get_recently_active_for_user( $user_id, $pag_num = false, $pag_page = false ) {
+function groups_get_recently_active_for_user( $user_id = false, $pag_num = false, $pag_page = false ) {
+	global $bp;
+	
+	if ( !$user_id )
+		$user_id = $bp->displayed_user->id;
+		
 	return BP_Groups_Member::get_recently_active( $user_id, $pag_num, $pag_page );
 }
 
-function groups_get_alphabetically_for_user( $user_id, $pag_num = false, $pag_page = false ) {
+function groups_get_alphabetically_for_user( $user_id = false, $pag_num = false, $pag_page = false ) {
+	global $bp;
+	
+	if ( !$user_id )
+		$user_id = $bp->displayed_user->id;
+
 	return BP_Groups_Member::get_alphabetically( $user_id, $pag_num, $pag_page );	
 }
 
-function groups_get_user_is_admin_of( $user_id, $pag_num = false, $pag_page = false ) {
+function groups_get_user_is_admin_of( $user_id = false, $pag_num = false, $pag_page = false ) {
+	global $bp;
+	
+	if ( !$user_id )
+		$user_id = $bp->displayed_user->id;
+		
 	return BP_Groups_Member::get_is_admin_of( $user_id, $pag_num, $pag_page );	
 }
 
-function groups_get_user_is_mod_of( $user_id, $pag_num = false, $pag_page = false ) {
+function groups_get_user_is_mod_of( $user_id = false, $pag_num = false, $pag_page = false ) {
+	global $bp;
+	
+	if ( !$user_id )
+		$user_id = $bp->displayed_user->id;
+		
 	return BP_Groups_Member::get_is_mod_of( $user_id, $pag_num, $pag_page );	
 }
 
-function groups_total_groups_for_user( $user_id ) {
+function groups_total_groups_for_user( $user_id = false ) {
+	global $bp;
+	
+	if ( !$user_id )
+		$user_id = $bp->displayed_user->id;
+		
 	return BP_Groups_Member::total_group_count( $user_id );
 }
+
+function groups_get_random_groups_for_user( $user_id = false, $total_groups = 5 ) {
+	global $bp;
+	
+	if ( !$user_id )
+		$user_id = $bp->displayed_user->id;
+		
+	return BP_Groups_Member::get_random_groups( $user_id, $total_groups );
+}
+
 
 /**************************************************************************
  groups_avatar_upload()
