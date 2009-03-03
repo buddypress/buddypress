@@ -105,6 +105,8 @@ function bp_core_admin_settings() {
 			<p class="submit">
 				<input type="submit" name="bp-admin-submit" id="bp-admin-submit" value="<?php _e( 'Save Settings', 'buddypress' ) ?>"/>
 			</p>
+
+			<?php do_action( 'bp_core_admin_screen' ) ?>
 			
 			<h4><?php _e( 'BuddyPress Version Numbers', 'buddypress' ) ?></h4>
 			
