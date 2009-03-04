@@ -207,10 +207,8 @@ function bp_core_do_catch_uri() {
 			if ( file_exists( TEMPLATEPATH . "/404.php" ) ) {
 				status_header( 404 );
 				load_template( TEMPLATEPATH . "/404.php" );
-			} else if ( file_exists( TEMPLATEPATH . "/home.php" ) ) {
-				load_template( TEMPLATEPATH . "/home.php" );
 			} else {
-				load_template( TEMPLATEPATH . "/index.php" );
+				wp_die( __( '<strong>You do not have any BuddyPress member themes installed.</strong><br />Please download the <a href="http://buddypress.org/download" title="Download">Default Member Theme</a> and install it in /wp-content/member-themes/' ) );
 			}
 		}
 	}
