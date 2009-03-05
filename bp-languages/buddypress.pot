@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-03-04 14:11+0000\n"
+"POT-Creation-Date: 2009-03-05 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -851,6 +851,14 @@ msgstr ""
 
 #: bp-core/bp-core-avatars.php:479
 msgid "Try Again"
+msgstr ""
+
+#: bp-core/bp-core-catchuri.php:211
+msgid ""
+"<strong>You do not have any BuddyPress member themes installed.</strong><br /"
+">Please download the <a href=\"http://buddypress.org/download\" title="
+"\"Download\">Default Member Theme</a> and install it in /wp-content/member-"
+"themes/"
 msgstr ""
 
 #: bp-core/bp-core-classes.php:89
