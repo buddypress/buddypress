@@ -608,7 +608,7 @@ class bbPress_Live
 
 	function new_forum( $name = '', $desc = '', $parent = 0, $order = 0, $is_category = false )
 	{				
-		if ( !$forum = $this->fetch->query( 'bb.newForum', array( array( 'name' => $name, 'description' => $desc, 'parent' => $parent, 'order' => $order, 'is_category' => $is_category ) ) ) ) {
+		if ( !$forum = $this->fetch->query( 'bb.newForum', array( array( 'name' => $name, 'description' => $desc, 'parent_id' => $parent, 'order' => $order, 'is_category' => $is_category ) ) ) ) {
 			return false;
 		}
 		
