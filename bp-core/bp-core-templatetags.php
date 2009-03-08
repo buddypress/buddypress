@@ -497,6 +497,9 @@ function bp_login_bar() {
 			<input type="password" name="pwd" id="user_pass" class="input" value="" />
 			<input type="submit" name="wp-submit" id="wp-submit" value="<?php _e( 'Log In', 'buddypress' ) ?>"/>				
 			<input type="button" name="signup-submit" id="signup-submit" value="<?php _e( 'Sign Up', 'buddypress' ) ?>" onclick="location.href='<?php echo bp_signup_page() ?>'" />
+			
+			<?php do_action( 'bp_login_bar_logged_out' ) ?>
+
 			<input type="hidden" name="redirect_to" value="http://<?php echo $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] ?>" />
 			<input type="hidden" name="testcookie" value="1" />
 		</form>
@@ -511,6 +514,8 @@ function bp_login_bar() {
 			<?php else : ?>
 				/ <a href="<?php echo site_url( '/wp-login.php?action=logout&amp;redirect_to=' . site_url() ) ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>
 			<?php endif; ?>
+
+			<?php do_action( 'bp_login_bar_logged_in' ) ?>
 		</div>
 		
 	<?php endif;
