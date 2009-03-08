@@ -791,7 +791,7 @@ function xprofile_edit( $group_id, $action ) {
 			</div>
 		<?php } ?>
 
-		<p><form action="<?php echo $action ?>" method="post">
+		<p><form action="<?php echo $action ?>" method="post" id="profile-edit-form" class="generic-form">
 		<?php 
 			if ( $field_ids )
 				$field_ids = implode( ",", $field_ids );

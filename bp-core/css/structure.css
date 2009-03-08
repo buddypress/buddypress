@@ -107,7 +107,7 @@ These structure styles can be overridden by the theme CSS file if needed.
  * Left Menu
  */			
 
-.left-menu {
+.left-menu, .page-menu {
 	position: relative;
 	float: left;
 	width: 158px;
