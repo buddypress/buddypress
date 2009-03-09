@@ -220,7 +220,7 @@ function bp_activity_feed_item_title() {
 	global $activities_template;
 
 	$title = explode( '<span', $activities_template->activity['content'] );
-	echo apply_filters( 'bp_activity_feed_item_title', trim( strip_tags( $title[0] ) ) );
+	echo apply_filters( 'bp_activity_feed_item_title', trim( strip_tags( html_entity_decode( $title[0] ) ) ) );
 }
 
 function bp_activity_feed_item_link() {
@@ -238,7 +238,7 @@ function bp_activity_feed_item_date() {
 function bp_activity_feed_item_description() {
 	global $activities_template;
 
-	echo apply_filters( 'bp_activity_feed_item_description', sprintf( $activities_template->activity['content'], '' ) );	
+	echo apply_filters( 'bp_activity_feed_item_description', sprintf( html_entity_decode( $activities_template->activity['content'], '' ) ) );	
 }
 
 
