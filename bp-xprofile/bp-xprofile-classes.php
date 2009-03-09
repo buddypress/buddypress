@@ -1036,17 +1036,17 @@ Class BP_XProfile_ProfileData {
 			} else {
 				$sql = $wpdb->prepare("INSERT INTO {$bp->profile->table_name_data} (user_id, field_id, value, last_updated) VALUES (%d, %d, %s, %s)", $this->user_id, $this->field_id, $this->value, $this->last_updated );
 			}
-						
+
 			if ( $wpdb->query($sql) === false )
 				return false;
-			
+
 			// Updated last site activity for this user.
 			update_usermeta( $userdata->ID, 'last_activity', $this->last_updated ); 
 			
 			return true;
-		} else {
-			return false;
 		}
+		
+		return false;
 	}
 
 	function delete() {

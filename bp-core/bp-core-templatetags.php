@@ -497,24 +497,28 @@ function bp_login_bar() {
 			<input type="password" name="pwd" id="user_pass" class="input" value="" />
 			<input type="submit" name="wp-submit" id="wp-submit" value="<?php _e( 'Log In', 'buddypress' ) ?>"/>				
 			<input type="button" name="signup-submit" id="signup-submit" value="<?php _e( 'Sign Up', 'buddypress' ) ?>" onclick="location.href='<?php echo bp_signup_page() ?>'" />
-			
-			<?php do_action( 'bp_login_bar_logged_out' ) ?>
 
 			<input type="hidden" name="redirect_to" value="http://<?php echo $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] ?>" />
 			<input type="hidden" name="testcookie" value="1" />
+						
+			<?php do_action( 'bp_login_bar_logged_out' ) ?>
 		</form>
 	
 	<?php else : ?>
 		
 		<div id="logout-link">
 			<?php bp_loggedinuser_avatar_thumbnail( 20, 20 ) ?> &nbsp;
-			<?php bp_loggedinuser_link() ?> 
-			<?php if ( function_exists('wp_logout_url') ) : ?>
-				/ <a href="<?php echo wp_logout_url( site_url() ) ?>" alt="<?php _e( 'Log Out', 'buddypress' ) ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>			
-			<?php else : ?>
-				/ <a href="<?php echo site_url( '/wp-login.php?action=logout&amp;redirect_to=' . site_url() ) ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>
-			<?php endif; ?>
-
+			<?php bp_loggedinuser_link() ?>
+			<?php 
+				if ( function_exists('wp_logout_url') ) {
+					$logout_link = '/ <a href="' . wp_logout_url( site_url() ) . '" alt="' . __( 'Log Out', 'buddypress' ) . '">' . __( 'Log Out', 'buddypress' ) . '</a>';
+				} else {
+					$logout_link = '/ <a href="' . site_url( '/wp-login.php?action=logout&amp;redirect_to=' . site_url() ) . '">' . __( 'Log Out', 'buddypress' ) . '</a>';					
+				}			
+				
+				echo apply_filters( 'bp_logout_link', $logout_link );
+			?>
+			
 			<?php do_action( 'bp_login_bar_logged_in' ) ?>
 		</div>
 		

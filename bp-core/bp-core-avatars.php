@@ -55,9 +55,9 @@ function bp_core_get_avatar( $user, $version = 1, $width = null, $height = null,
 		
 		$gravatar = 'http://www.gravatar.com/avatar/' . md5( $ud->user_email ) . '?d=' . $default_grav . '&amp;s=';
 		if ( $no_tag )
-			return $gravatar . constant('CORE_AVATAR_V' . $version . '_W');
+			return apply_filters( 'bp_core_get_avatar', $gravatar . constant('CORE_AVATAR_V' . $version . '_W'), $user, $version, $width, $height, $no_tag );
 		else
-			return '<img src="' . $gravatar . constant('CORE_AVATAR_V' . $version . '_W') . '" alt="" class="avatar" width="' . $width . '" height="' . $height . '" />';
+			return apply_filters( 'bp_core_get_avatar', '<img src="' . $gravatar . constant('CORE_AVATAR_V' . $version . '_W') . '" alt="" class="avatar" width="' . $width . '" height="' . $height . '" />', $user, $version, $width, $height, $no_tag );
 	}
 }
 
