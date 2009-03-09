@@ -432,7 +432,7 @@ Class BP_Groups_Group {
 					break;
 			}
 		} else {
-			$sql = $wpdb->prepare( "SELECT id as group_id, slug FROM {$bp->groups->table_name} {$public_sql} {$hidden_sql} {$order_sql} {$pag_sql}" ); 	
+			$sql = $wpdb->prepare( "SELECT g.id as g.group_id, g.slug FROM {$bp->groups->table_name} g {$public_sql} {$hidden_sql} {$order_sql} {$pag_sql}" ); 	
 		}
 		
 		return $wpdb->get_results($sql);
