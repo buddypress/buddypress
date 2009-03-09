@@ -263,7 +263,7 @@ function bp_core_ajax_directory_groups() {
 						<?php if ( 1 == $member_count ) : ?>
 							<?php printf( __( '%d member', 'buddypress' ), $member_count ) ?>
 						<?php else : ?>
-							<?php _e( '%d members', 'buddypress' ) ?>
+							<?php printf( __( '%d members', 'buddypress' ), $member_count ) ?>
 						<?php endif; ?>
 					</div>
 				</div>
