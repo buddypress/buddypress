@@ -29,3 +29,7 @@ ul#letter-list li a {
 #blog-or-username-fields input, .checkbox input, input#rememberme {
 	width: auto !important;
 }
+
+#imgCrop_wrap {
+	position: relative;
+}
