@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-03-05 14:11+0000\n"
+"POT-Creation-Date: 2009-03-09 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -83,7 +83,7 @@ msgid "Site Wide Activity Feed"
 msgstr ""
 
 #: bp-blogs.php:172 bp-core/bp-core-templatetags.php:470
-#: bp-core/bp-core-templatetags.php:548
+#: bp-core/bp-core-templatetags.php:557
 #: buddypress-theme/buddypress-home/header.php:55
 #: buddypress-theme/member-themes/buddypress-member/header.php:49
 msgid "Blogs"
@@ -621,7 +621,7 @@ msgstr ""
 
 #: bp-core/bp-core-adminbar.php:87 bp-core/bp-core-adminbar.php:89
 #: bp-core/bp-core-templatetags.php:52 bp-core/bp-core-templatetags.php:54
-#: bp-core/bp-core-templatetags.php:510 bp-core/bp-core-templatetags.php:512
+#: bp-core/bp-core-templatetags.php:514 bp-core/bp-core-templatetags.php:516
 msgid "Log Out"
 msgstr ""
 
@@ -1165,7 +1165,7 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:462 bp-core/bp-core-templatetags.php:541
+#: bp-core/bp-core-templatetags.php:462 bp-core/bp-core-templatetags.php:550
 #: bp-core/bp-core-widgets.php:12 bp-core/bp-core-widgets.php:13
 #: bp-groups.php:289 bp-groups/bp-groups-admin.php:97
 #: bp-groups/directories/bp-groups-directory-groups.php:189
@@ -1175,7 +1175,7 @@ msgstr ""
 msgid "Members"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:466 bp-core/bp-core-templatetags.php:544
+#: bp-core/bp-core-templatetags.php:466 bp-core/bp-core-templatetags.php:553
 #: bp-groups.php:178 bp-groups.php:217 bp-groups.php:878 bp-groups.php:1117
 #: bp-groups.php:1130 bp-groups.php:1144 bp-groups.php:1157
 #: bp-groups/bp-groups-admin.php:33 bp-groups/bp-groups-widgets.php:8
@@ -1197,7 +1197,7 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:539 bp-groups.php:269
+#: bp-core/bp-core-templatetags.php:548 bp-groups.php:269
 #: buddypress-theme/buddypress-home/header.php:43
 #: buddypress-theme/buddypress-home/header.php:46
 #: buddypress-theme/member-themes/buddypress-member/header.php:37
@@ -1205,7 +1205,7 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:540
+#: bp-core/bp-core-templatetags.php:549
 #: buddypress-theme/buddypress-home/archive.php:5
 #: buddypress-theme/buddypress-home/attachment.php:6
 #: buddypress-theme/buddypress-home/header.php:47
