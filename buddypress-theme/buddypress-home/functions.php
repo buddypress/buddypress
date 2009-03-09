@@ -54,12 +54,12 @@ function bp_show_home_blog() {
 
 		query_posts($query_string);
 		
-		$single_check = strpos( $query_string, '&name=' );
-		
-		if ( $single_check === false )
-			bp_core_load_template( 'index', true );
+		if ( is_single() )
+			bp_core_load_template( 'single', true );
+		else if ( is_category() || is_search() || is_day() || is_month() || is_year() )
+			bp_core_load_template( 'archive', true );
 		else
-			bp_core_load_template( 'single', true );			
+			bp_core_load_template( 'index', true );
 	}
 }
 add_action( 'wp', 'bp_show_home_blog', 2 );
