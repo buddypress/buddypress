@@ -47,7 +47,7 @@ function bp_core_add_css() {
 	
 	wp_print_styles();
 }
-add_action( 'wp_head', 'bp_core_add_css', 1 );
+add_action( 'wp_head', 'bp_core_add_css', 2 );
 
 /**
  * bp_core_admin_bar_css()
@@ -65,7 +65,7 @@ function bp_core_admin_bar_css() {
 	}
 	wp_print_styles();
 }
-add_action( 'wp_head', 'bp_core_admin_bar_css', 2 );
+add_action( 'wp_head', 'bp_core_admin_bar_css', 1 );
 
 /**
  * bp_core_add_structure_css()
