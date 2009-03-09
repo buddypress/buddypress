@@ -965,13 +965,16 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 		$seconds2 = $chunks[$i + 1][0];
 		$name2 = $chunks[$i + 1][1];
 		
-		if ( $chunks[$i + 1][1] == __( 'second', 'buddypress' ) ) return $output;
+		//if ( $chunks[$i + 1][1] == __( 'second', 'buddypress' ) ) return $output;
 	
 		if ( ( $count2 = floor( ( $since - ( $seconds * $count ) ) / $seconds2 ) ) != 0 ) {
 			/* Add to output var */
 			$output .= ( 1 == $count2 ) ? ', 1 '. $chunks[$i + 1][1] : ", " . $count2 . ' ' . $chunks[$i + 1][2];
 		}
 	}
+
+	if ( !(int)trim($output) )
+		$output = '0 ' . __( 'seconds', 'buddypress' );
 
 	return $output;
 }
