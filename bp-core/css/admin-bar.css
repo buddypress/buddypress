@@ -38,7 +38,7 @@ body { padding-top: 28px !important; }
 }
 
 #wp-admin-bar li a {
-	padding: 6px 25px 7px 15px !important;
+	padding: 5px 25px 7px 15px !important;
 	font: 12px normal "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, Verdana, Arial, sans-serif !important;
 	font-weight: normal !important;
 }
