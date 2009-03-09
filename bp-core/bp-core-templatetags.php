@@ -406,8 +406,8 @@ function bp_styles() {
 
 function bp_is_page($page) {
 	global $bp;
-
-	if ( $bp->displayed_user->id )
+	
+	if ( $bp->displayed_user->id || $bp->is_single_item )
 		return false;
 
 	if ( $page == $bp->current_component || $page == 'home' && $bp->current_component == $bp->default_component )
