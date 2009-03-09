@@ -22,9 +22,9 @@ function bp_core_ajax_widget_members() {
 	
 		foreach ( (array) $users['users'] as $user ) {
 		?>
-			<li>
+			<li class="vcard">
 				<div class="item-avatar">
-					<?php echo bp_core_get_avatar( $user->user_id, 1 ) ?>
+					<a href="<?php echo bp_core_get_userlink( $user->user_id, false, true ) ?>"><?php echo bp_core_get_avatar( $user->user_id, 1 ) ?></a>
 				</div>
 
 				<div class="item">
