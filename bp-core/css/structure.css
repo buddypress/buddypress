@@ -47,7 +47,7 @@ These structure styles can be overridden by the theme CSS file if needed.
 		margin-right: 10px;
 	}
 
-	#optionsbar .avatar {
+	#optionsbar img.avatar {
 		float: left;
 		margin-right: 8px;
 		margin-top: 2px;
