@@ -8,6 +8,10 @@
 		border-right: 1px solid #dadada;
 		font-weight: bold;
 	}
+	
+	td.data p {
+		margin: 0.5em 0;
+	}
 
 		
 /**** Profile Edit Form ********************/
