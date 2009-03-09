@@ -52,7 +52,7 @@ function bp_adminbar_account_menu() {
 	
 	if ( is_user_logged_in() ) {
 		
-		echo '<li><a href="">';
+		echo '<li id="bp-adminbar-account-menu"><a href="">';
 	
 		echo __( 'My Account', 'buddypress' ) . '</a>';
 		echo '<ul>';
@@ -127,7 +127,7 @@ function bp_adminbar_blogs_menu() {
 		if ( function_exists('bp_blogs_install') ) {
 			$blogs = get_blogs_of_user( $bp->loggedin_user->id ); // find *all* blogs with any kind of role
 
-			echo '<li><a href="' . $bp->loggedin_user->domain . $bp->blogs->slug . '/my-blogs">';
+			echo '<li id="bp-adminbar-blogs-menu"><a href="' . $bp->loggedin_user->domain . $bp->blogs->slug . '/my-blogs">';
 			
 			_e( 'My Blogs', 'buddypress' );
 			
@@ -176,7 +176,7 @@ function bp_adminbar_notifications_menu() {
 	if ( is_user_logged_in() ) {
 		global $bp;
 		
-		echo '<li id="bp-admin-notifications_menu"><a href="' . $bp->loggedin_user->domain . '">';
+		echo '<li id="bp-adminbar-notifications-menu"><a href="' . $bp->loggedin_user->domain . '">';
 		_e( 'Notifications', 'buddypress' );
 	
 		if ( $notifications = bp_core_get_notifications_for_user( $bp->loggedin_user->id ) ) { ?>
@@ -213,7 +213,7 @@ function bp_adminbar_authors_menu() {
 	
 		if ( is_array( $authors ) ) {
 			/* This is a blog, render a menu with links to all authors */
-			echo '<li><a href="/">';
+			echo '<li id="bp-adminbar-authors-menu"><a href="/">';
 			_e('Blog Authors', 'buddypress');
 			echo '</a>';
 		
@@ -239,7 +239,7 @@ function bp_adminbar_authors_menu() {
 // **** "Random" Menu (visible when not logged in) ********
 function bp_adminbar_random_menu() { 
 	global $bp; ?>
-	<li class="align-right">
+	<li class="align-right" id="bp-adminbar-visitrandom-menu">
 		<a href="#"><?php _e( 'Visit', 'buddypress' ) ?></a>
 		<ul class="random-list">
 			<li><a href="<?php echo $bp->root_domain . '/' . MEMBERS_SLUG . '/?random' ?>"><?php _e( 'Random Member', 'buddypress' ) ?></a></li>
