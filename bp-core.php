@@ -1372,6 +1372,7 @@ add_action( 'wpmu_delete_user', 'bp_core_remove_data', 1 );
 add_action( 'delete_user', 'bp_core_remove_data', 1 );
 
 // List actions to clear super cached pages on, if super cache is installed
+add_action( 'wp_login', 'bp_core_clear_cache' );
 add_action( 'bp_core_delete_avatar', 'bp_core_clear_cache' );
 add_action( 'bp_core_avatar_save', 'bp_core_clear_cache' );
 add_action( 'bp_core_render_notice', 'bp_core_clear_cache' );
