@@ -252,6 +252,10 @@ div.avatar-block {
 		background: none;
 	}
 
+.widget #ajax-loader-members, .widget #ajax-loader-groups {
+	padding-right: 5px;
+}
+
 /** ACTIVITY FEED **********/
 
 .activity-list {
