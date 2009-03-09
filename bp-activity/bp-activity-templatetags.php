@@ -187,7 +187,10 @@ function bp_activity_content_filter( $content, $date_recorded, $full_name, $inse
 function bp_activity_insert_time_since( $content, $date ) {
 	if ( !$content || !$date )
 		return false;
-		
+
+	// Make sure we don't have any URL encoding in links when trying to insert the time.
+	$content = urldecode($content);
+	
 	return apply_filters( 'bp_activity_insert_time_since', @sprintf( $content, @sprintf( __( '&nbsp; %s ago', 'buddypress' ), bp_core_time_since( strtotime( $date ) ) ) ) );
 }
 
