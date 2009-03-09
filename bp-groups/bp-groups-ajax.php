@@ -23,7 +23,7 @@ function groups_ajax_invite_user() {
 		echo '<li id="uid-' . $user->id . '">';
 		echo $user->avatar_thumb;
 		echo '<h4>' . $user->user_link . '</h4>';
-		echo '<span class="activity">' . sprintf( __( 'active %s ago', 'buddypress' ), $user->last_active ) . '</span>';
+		echo '<span class="activity">' . $user->last_active . '</span>';
 		echo '<div class="action">
 				<a class="remove" href="' . wp_nonce_url( $bp->loggedin_user->domain . $bp->groups->slug . '/' . $_POST['group_id'] . '/invites/remove/' . $user->id, 'groups_invite_uninvite_user' ) . '" id="uid-' . $user->id . '">' . __( 'Remove Invite', 'buddypress' ) . '</a> 
 			  </div>';
@@ -236,11 +236,15 @@ function bp_core_ajax_directory_groups() {
 		<div class="pagination-links" id="group-dir-pag">
 			<?php echo $pag_links ?>
 		</div>
-
+		
+		<?php $counter = 0; ?>
 		<ul id="groups-list" class="item-list">
 		<?php foreach ( $groups['groups'] as $group ) : ?>
+			
+			<?php $alt = ( $counter % 2 == 1 ) ? ' class="alt"' : ''; ?>
 			<?php $group = new BP_Groups_Group( $group->group_id, false, false ); ?>
-			<li>
+			
+			<li<?php echo $alt ?>>
 				<div class="item-avatar">
 					<img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php echo $group->name ?> <?php _e( 'Avatar', 'buddypress' ) ?>" />
 				</div>
@@ -266,6 +270,8 @@ function bp_core_ajax_directory_groups() {
 			
 				<div class="clear"></div>
 			</li>
+			
+			<?php $counter++ ?>
 		<?php endforeach; ?>
 		</ul>	
 	<?php
@@ -322,7 +328,7 @@ function groups_ajax_joinleave_group() {
 	} else {
 
 		check_ajax_referer( 'groups_leave_group' );
-
+		
 		if ( !groups_leave_group( $group->id ) ) {
 			_e( 'Error leaving group', 'buddypress' );
 		} else {

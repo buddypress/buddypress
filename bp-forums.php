@@ -18,6 +18,7 @@ http://wordpress.org/extend/plugins/bbpress-live/
 require_once( 'bp-core.php' );
 
 define ( 'BP_FORUMS_VERSION', '1.0-RC1' );
+define ( 'BP_FORUMS_PARENT_FORUM_ID', apply_filters( 'bp_forums_parent_forum_id', 0 ) );
 
 include_once( 'bp-forums/bp-forums-admin.php' );
 include_once( 'bp-forums/bp-forums-bbpress-live.php' );
@@ -129,7 +130,7 @@ function bp_forums_get_post( $post_id = 0 ) {
 	return false;
 }
 
-function bp_forums_new_forum( $name = '', $desc = '', $parent = 0, $order = 0, $is_category = false ) {
+function bp_forums_new_forum( $name = '', $desc = '', $parent = BP_FORUMS_PARENT_FORUM_ID, $order = 0, $is_category = false ) {
 	global $bbpress_live;
 	
 	if ( !is_object( $bbpress_live ) ) {

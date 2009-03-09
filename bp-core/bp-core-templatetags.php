@@ -285,6 +285,18 @@ function bp_user_link() {
 	echo apply_filters( 'bp_the_avatar_thumbnail', $bp->displayed_user->domain );
 }
 
+function bp_get_loggedin_user_link() {
+	global $bp;
+	
+	return $bp->loggedin_user->domain;
+}
+
+function bp_get_displayed_user_link() {
+	global $bp;
+	
+	return $bp->displayed_user->domain;
+}
+
 function bp_core_get_wp_profile() {
 	
 }

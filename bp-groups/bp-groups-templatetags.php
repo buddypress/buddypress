@@ -1528,11 +1528,14 @@ class BP_Groups_Group_Members_Template {
 }
 
 function bp_group_has_members( $group_id = false, $num_per_page = 10, $exclude_admins_mods = true, $exclude_banned = true ) {
-	global $members_template, $groups_template;
+	global $members_template, $groups_template, $group_obj;
 	
+	if ( !$group_id )
+		$group_id = $group_obj->id;
+		
 	if ( !$groups_template )
 		$groups_template->group = new BP_Groups_Group( $group_id );
-	
+		
 	$members_template = new BP_Groups_Group_Members_Template( $groups_template->group->id, $num_per_page, $exclude_admins_mods, $exclude_banned );
 
 	return $members_template->has_members();

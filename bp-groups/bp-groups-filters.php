@@ -32,4 +32,6 @@ add_filter( 'bp_group_description_excerpt', 'stripslashes' );
 add_filter( 'bp_group_news', 'stripslashes' );
 add_filter( 'bp_group_name', 'stripslashes' );
 
+add_filter( 'groups_new_group_forum_desc', 'bp_create_excerpt' );
+
 ?>

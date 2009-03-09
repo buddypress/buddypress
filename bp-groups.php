@@ -1824,9 +1824,12 @@ function groups_get_group_mods( $group_id ) {
 	return BP_Groups_Member::get_group_moderator_ids( $group_id );
 }
 
-function groups_get_group_users( $group_id, $limit = false, $page = false ) {
+function groups_get_group_members( $group_id, $limit = false, $page = false ) {
 	return BP_Groups_Member::get_all_for_group( $group_id, $limit, $page );
 }
+	function groups_get_group_users( $group_id, $limit = false, $page = false, $deprecated_function = true ) {
+		return groups_get_group_members( $group_id, $limit, $page );
+	}
 
 function groups_is_group_admin( $user_id, $group_id ) {
 	return BP_Groups_Member::check_is_admin( $user_id, $group_id );
