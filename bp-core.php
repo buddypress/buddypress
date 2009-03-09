@@ -1278,10 +1278,10 @@ function bp_core_search_site() {
 				$search = MEMBERS_SLUG;
 				break;
 			case 'groups':
-				$search = 'groups';
+				$search = BP_GROUPS_SLUG;
 				break;
 			case 'blogs':
-				$search = 'blogs';
+				$search = BP_BLOGS_SLUG;
 				break;
 		}
 		
