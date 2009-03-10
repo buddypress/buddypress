@@ -221,21 +221,20 @@ To view the group please visit: %s
 }
 add_action( 'groups_promoted_member', 'groups_notification_promoted_member', 10, 2 );
 
-function groups_notification_group_invites( $group_id, $invited_user_ids, $inviter_user_id ) {
+function groups_notification_group_invites( &$group, &$member, $inviter_user_id ) {
 	global $bp;
 	
 	$inviter_ud = get_userdata($inviter_user_id);
 	$inviter_name = bp_core_get_userlink( $inviter_user_id, true, false, true );
 	$inviter_link = site_url() . '/' . MEMBERS_SLUG . '/' . $inviter_ud->user_login;
 	
-	$group = new BP_Groups_Group( $group_id, false, false );
 	$group_link = bp_group_permalink( $group, false );
-		
-	for ( $i = 0; $i < count( $invited_user_ids ); $i++ ) {
-		$invited_user_id = $invited_user_ids[$i];
+	
+	if ( !$member->invite_sent ) {
+		$invited_user_id = $member->user_id;
 
 		// Post a screen notification first.
-		bp_core_add_notification( $group_id, $invited_user_id, 'groups', 'group_invite' );
+		bp_core_add_notification( $group->id, $invited_user_id, 'groups', 'group_invite' );
 
 		if ( 'no' == get_usermeta( $invited_user_id, 'notification_groups_invite' ) ) continue;
 
@@ -243,7 +242,7 @@ function groups_notification_group_invites( $group_id, $invited_user_ids, $invit
 		$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $invited_ud->user_login . '/settings/notifications';
 		$invited_link = site_url() . '/' . MEMBERS_SLUG . '/' . $invited_ud->user_login;
 		$invites_link = $invited_link . '/' . $bp->groups->slug . '/invites';
-		
+
 		// Set up and send the message
 		$to = $invited_ud->user_email;
 

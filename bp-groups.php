@@ -1739,11 +1739,13 @@ function groups_send_invites( $group_obj, $skip_check = false ) {
 	
 	for ( $i = 0; $i < count( $invited_users ); $i++ ) {
 		$member = new BP_Groups_Member( $invited_users[$i], $group_obj->id );
+		
+		// Send the actual invite
+		groups_notification_group_invites( $group_obj, $member, $bp->loggedin_user->id );
+		
 		$member->invite_sent = 1;
 		$member->save();
 	}
-
-	groups_notification_group_invites( $group_obj->id, $invited_users, $bp->loggedin_user->id );
 	
 	do_action( 'groups_send_invites', $group_obj->id, $invited_users );
 }
