@@ -440,6 +440,9 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 			
 			$is_private = bp_blogs_is_blog_hidden( $recorded_post->blog_id );
 			
+			if ( 0 != (int)$is_private )
+				$is_private = 1;
+			
 			if ( $recorded_post->date_created >= strtotime( "-24 hours" ) ) {
 				// Record in activity streams, but only if the post is 30 minutes
 				// old or less (stops old posts registering as new posts in activity streams when a comment is posted on them)
