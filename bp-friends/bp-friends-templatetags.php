@@ -121,25 +121,15 @@ function bp_has_friendships() {
 	return $friends_template->has_friendships();
 }
 
-	function bp_has_users() {
-		bp_has_friendships();
-	}
-
 function bp_the_friendship() {
 	global $friends_template;
 	return $friends_template->the_friendship();
 }
-	function bp_the_user() {
-		bp_the_friendship();
-	}
 
 function bp_user_friendships() {
 	global $friends_template;
 	return $friends_template->user_friendships();
 }
-	function bp_friends_user_users() {
-		bp_friends_user_friendships();
-	}
 
 function bp_friend_avatar_thumb( $template = false ) {
 	global $friends_template;
@@ -149,10 +139,6 @@ function bp_friend_avatar_thumb( $template = false ) {
 	
 	echo apply_filters( 'bp_friend_avatar_thumb', $template->avatar_thumb );
 }
-	function bp_user_avatar_thumb() {
-		global $friends_template;
-		bp_friend_avatar_thumb( $friends_template->friendship );
-	}
 
 function bp_friend_status( $template = false ) {
 	global $friends_template;
@@ -163,11 +149,16 @@ function bp_friend_status( $template = false ) {
 	if ( $template->status )
 		echo apply_filters( 'bp_friend_status', $template->status );
 }
-	function bp_user_status_message() {
-		global $friends_template;
-		bp_friend_status( $friends_template->friendship );
-	}
 
+function bp_friend_name( $template = false ) {
+	global $friends_template;
+	
+	if ( !$template )
+		$template = &$friends_template->friendship->friend;
+	
+	echo apply_filters( 'bp_friend_name', strip_tags( $template->user_link ) );	
+}
+	
 function bp_friend_link( $template = false ) {
 	global $friends_template;
 	
@@ -176,10 +167,15 @@ function bp_friend_link( $template = false ) {
 	
 	echo apply_filters( 'bp_friend_link', $template->user_link );
 }
-	function bp_user_url() {
-		global $friends_template;
-		bp_friend_link( $friends_template->friendship );
-	}
+
+function bp_friend_url( $template = false ) {
+	global $friends_template;
+
+	if ( !$template )
+		$template = &$friends_template->friendship->friend;
+
+	echo apply_filters( 'bp_friend_url', $template->user_url );
+}
 
 function bp_friend_last_active( $time = false, $template = false ) {
 	global $friends_template;
@@ -192,10 +188,6 @@ function bp_friend_last_active( $time = false, $template = false ) {
 
 	echo apply_filters( 'bp_friend_last_active', $time );
 }
-	function bp_user_last_active( $time = false ) {
-		global $friends_template;
-		bp_friend_last_active( $time, $friends_template->friendship );
-	}
 
 function bp_friend_last_profile_update( $template = false ) {
 	global $friends_template;
@@ -205,10 +197,6 @@ function bp_friend_last_profile_update( $template = false ) {
 
 	echo apply_filters( 'bp_friend_last_profile_update', $template->profile_last_updated );
 }
-	function bp_user_last_profile_update() {
-		global $friends_template;
-		bp_friend_last_profile_update( $friends_template->friendship );
-	}
 
 function bp_friend_last_status_update( $template = false ) {
 	global $friends_template;
@@ -218,10 +206,7 @@ function bp_friend_last_status_update( $template = false ) {
 
 	echo apply_filters( 'bp_friend_last_status_update', $template->profile_last_updated );
 }
-	function bp_user_last_status_update() {
-		global $friends_template;
-		bp_friend_last_status_update( $friends_template->friendship );
-	}
+
 
 function bp_friend_last_content_update( $template = false ) {
 	global $friends_template;
@@ -231,10 +216,6 @@ function bp_friend_last_content_update( $template = false ) {
 
 	echo apply_filters( 'bp_friend_last_content_update', $template->content_last_updated );
 }
-	function bp_user_last_content_update() {
-		global $friends_template;
-		bp_friend_last_content_update( $friends_template->friendship );
-	}
 
 function bp_friend_time_since_requested() {
 	global $friends_template;

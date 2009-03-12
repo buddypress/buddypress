@@ -420,7 +420,7 @@ function bp_group_list_admins( $full_list = true, $group = false ) {
 			<ul id="group-admins">
 			<?php for ( $i = 0; $i < count($admins); $i++ ) { ?>
 				<li>
-					<?php echo $admins[$i]->user->avatar_thumb ?>
+					<a href="<?php echo $admins[$i]->user->user_url ?>" title="<?php echo $admins[$i]->user->fullname ?>"><?php echo $admins[$i]->user->avatar_thumb ?></a>
 					<h5><?php echo $admins[$i]->user->user_link ?></h5>
 					<span class="activity"><?php echo $admins[$i]->user_title ?></span>
 					<hr />
@@ -452,7 +452,7 @@ function bp_group_list_mods( $full_list = true, $group = false ) {
 			<ul id="group-mods" class="mods-list">
 			<?php for ( $i = 0; $i < count($group_mods); $i++ ) { ?>
 				<li>
-					<?php echo bp_core_get_avatar( $group_mods[$i]->user_id, 1, 50, 50 ) ?>
+					<a href="<?php echo bp_core_get_userlink( $group_mods[$i]->user_id, false, true ) ?>" title="<?php echo bp_fetch_user_fullname( $group_mods[$i]->user->user_id ) ?>"><?php echo bp_core_get_avatar( $group_mods[$i]->user_id, 1, 50, 50 ) ?></a>
 					<h5><?php echo bp_core_get_userlink( $group_mods[$i]->user_id ) ?></h5>
 					<span class="activity"><?php _e( 'Group Mod', 'buddypress' ) ?></span>
 					<div class="clear"></div>
@@ -1563,6 +1563,18 @@ function bp_group_member_avatar_mini( $width = 30, $height = 30 ) {
 	global $members_template;
 	
 	echo apply_filters( 'bp_group_member_avatar_mini', bp_core_get_avatar( $members_template->member->user_id, 1, $width, $height ) );
+}
+
+function bp_group_member_name() {
+	global $members_template;
+		
+	echo apply_filters( 'bp_group_member_name', bp_fetch_user_fullname( $members_template->member->user_id, false ) );
+}
+
+function bp_group_member_url() {
+	global $members_template;
+		
+	echo apply_filters( 'bp_group_member_url', bp_core_get_userlink( $members_template->member->user_id, false, true ) );
 }
 
 function bp_group_member_link() {
