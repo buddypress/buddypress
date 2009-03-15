@@ -18,7 +18,7 @@
 	<?php else : ?>
 		
 		<p class="avatar">
-			<img src="<?php echo site_url( MUPLUGINDIR . '/bp-core/images/mystery-man.jpg' ) ?>" alt="No User" width="50" height="50" />
+			<img src="<?php echo WPMU_PLUGIN_URL . '/bp-core/images/mystery-man.jpg' ?>" alt="No User" width="50" height="50" />
 		</p>
 		
 		<p id="login-text"><?php _e( 'You must log in to access your account.', 'buddypress' ) ?></p>

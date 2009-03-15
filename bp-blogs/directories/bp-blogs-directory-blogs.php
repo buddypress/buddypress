@@ -6,8 +6,8 @@ function bp_blogs_directory_blogs_setup() {
 		add_action( 'bp_template_content', 'bp_blogs_directory_blogs_content' );
 		add_action( 'bp_template_sidebar', 'bp_blogs_directory_blogs_sidebar' );
 		
-		wp_enqueue_script( 'bp-blogs-directory-blogs', site_url( MUPLUGINDIR . '/bp-blogs/js/directory-blogs.js' ), array( 'jquery', 'jquery-livequery-pack' ) );
-		wp_enqueue_style( 'bp-blogs-directory-blogs', site_url( MUPLUGINDIR . '/bp-blogs/css/directory-blogs.css' ) );
+		wp_enqueue_script( 'bp-blogs-directory-blogs', WPMU_PLUGIN_URL . '/bp-blogs/js/directory-blogs.js', array( 'jquery', 'jquery-livequery-pack' ) );
+		wp_enqueue_style( 'bp-blogs-directory-blogs', WPMU_PLUGIN_URL . '/bp-blogs/css/directory-blogs.css' );
 
 		/* If you include a blogs-directory.php template file in your home/blog theme, you can overide the standard output */
 		if ( file_exists( TEMPLATEPATH . '/blogs-directory.php' ) )

@@ -36,7 +36,7 @@ function bp_wire_install() {
 function bp_wire_setup_globals() {
 	global $bp, $wpdb;
 	
-	$bp->wire->image_base = site_url( MUPLUGINDIR . '/bp-wire/images' );
+	$bp->wire->image_base = WPMU_PLUGIN_URL . '/bp-wire/images';
 	$bp->wire->slug = BP_WIRE_SLUG;
 
 	$bp->version_numbers->wire = BP_WIRE_VERSION;

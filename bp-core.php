@@ -14,12 +14,12 @@ define( 'BP_CORE_VERSION', '1.0-RC1' );
 define( 'BP_CORE_DB_VERSION', '1030' );
 
 /* Load the language file */
-if ( file_exists( ABSPATH . MUPLUGINDIR . '/bp-languages/buddypress-' . get_locale() . '.mo' ) )
-	load_textdomain( 'buddypress', ABSPATH . MUPLUGINDIR . '/bp-languages/buddypress-' . get_locale() . '.mo' );
+if ( file_exists( WPMU_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() . '.mo' ) )
+	load_textdomain( 'buddypress', WPMU_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() . '.mo' );
 
 /* Place your custom code (actions/filters) in a file called bp-custom.php and it will be loaded before anything else. */
-if ( file_exists( ABSPATH . MUPLUGINDIR . '/bp-custom.php' ) )
-	require_once( ABSPATH . MUPLUGINDIR . '/bp-custom.php' );
+if ( file_exists( WPMU_PLUGIN_DIR . '/bp-custom.php' ) )
+	require_once( WPMU_PLUGIN_DIR . '/bp-custom.php' );
 
 /* Functions to handle pretty URLs and breaking them down into usable variables */
 require_once( 'bp-core/bp-core-catchuri.php' );
@@ -163,7 +163,7 @@ function bp_core_setup_globals() {
 	/* Used to determine if the logged in user is a moderator for the current content. */
 	$bp->is_item_mod = false;
 	
-	$bp->core->image_base = site_url( MUPLUGINDIR . '/bp-core/images' );
+	$bp->core->image_base = WPMU_PLUGIN_URL . '/bp-core/images';
 	$bp->core->table_name_notifications = $wpdb->base_prefix . 'bp_notifications';
 	
 	/* Used to print version numbers in the footer for reference */

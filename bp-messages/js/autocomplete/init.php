@@ -6,7 +6,7 @@ header( 'Content: text/javascript' );
 
 jQuery(document).ready(function() {
 	var acfb = 
-	jQuery("ul.first").autoCompletefb({urlLookup:'<?php echo site_url( MUPLUGINDIR . '/bp-messages/autocomplete/bp-messages-autocomplete.php') ?>'});
+	jQuery("ul.first").autoCompletefb({urlLookup:'<?php echo WPMU_PLUGIN_URL . '/bp-messages/autocomplete/bp-messages-autocomplete.php' ?>'});
 
 	jQuery('#send_message_form').submit( function() {
 		var users = document.getElementById('send-to-usernames').className;

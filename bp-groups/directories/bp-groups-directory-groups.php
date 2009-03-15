@@ -6,8 +6,8 @@ function groups_directory_groups_setup() {
 		add_action( 'bp_template_content', 'groups_directory_groups_content' );
 		add_action( 'bp_template_sidebar', 'groups_directory_groups_sidebar' );
 		
-		wp_enqueue_script( 'bp-groups-directory-groups', site_url( MUPLUGINDIR . '/bp-groups/js/directory-groups.js' ), array( 'jquery', 'jquery-livequery-pack' ) );
-		wp_enqueue_style( 'bp-groups-directory-groups', site_url( MUPLUGINDIR . '/bp-groups/css/directory-groups.css' ) );
+		wp_enqueue_script( 'bp-groups-directory-groups', WPMU_PLUGIN_URL . '/bp-groups/js/directory-groups.js', array( 'jquery', 'jquery-livequery-pack' ) );
+		wp_enqueue_style( 'bp-groups-directory-groups', WPMU_PLUGIN_URL . '/bp-groups/css/directory-groups.css' );
 
 		/* If you include a groups-directory.php template file in your home/blog theme, you can overide the standard output */		
 		if ( file_exists( TEMPLATEPATH . '/groups-directory.php' ) )

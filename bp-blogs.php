@@ -142,7 +142,7 @@ function bp_blogs_setup_globals() {
 	$bp->blogs->table_name_blogmeta = $wpdb->base_prefix . 'bp_user_blogs_blogmeta';
 	$bp->blogs->format_activity_function = 'bp_blogs_format_activity';
 	$bp->blogs->format_notification_function = 'bp_blogs_format_notifications';
-	$bp->blogs->image_base = site_url( MUPLUGINDIR . '/bp-groups/images' );
+	$bp->blogs->image_base = WPMU_PLUGIN_URL . '/bp-groups/images';
 	$bp->blogs->slug = BP_BLOGS_SLUG;
 
 	$bp->version_numbers->blogs = BP_BLOGS_VERSION;
@@ -439,9 +439,6 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 			bp_blogs_update_blogmeta( $recorded_post->blog_id, 'last_activity', time() );
 			
 			$is_private = bp_blogs_is_blog_hidden( $recorded_post->blog_id );
-			
-			if ( 0 != (int)$is_private )
-				$is_private = 1;
 			
 			if ( $recorded_post->date_created >= strtotime( "-24 hours" ) ) {
 				// Record in activity streams, but only if the post is 30 minutes

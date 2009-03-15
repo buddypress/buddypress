@@ -152,7 +152,7 @@ function bp_activity_setup_globals() {
 	
 	$bp->activity->table_name_sitewide = $wpdb->base_prefix . 'bp_activity_sitewide';
 	
-	$bp->activity->image_base = site_url( MUPLUGINDIR . '/bp-activity/images' );
+	$bp->activity->image_base = WPMU_PLUGIN_URL . '/bp-activity/images';
 	$bp->activity->slug = BP_ACTIVITY_SLUG;
 	
 	$bp->version_numbers->activity = BP_ACTIVITY_VERSION;

@@ -160,7 +160,7 @@ function xprofile_setup_globals() {
 	$bp->profile->table_name_data = $wpdb->base_prefix . 'bp_xprofile_data';
 	$bp->profile->format_activity_function = 'xprofile_format_activity';
 	$bp->profile->format_notification_function = 'xprofile_format_notifications';
-	$bp->profile->image_base = site_url( MUPLUGINDIR . '/bp-xprofile/images' );
+	$bp->profile->image_base = WPMU_PLUGIN_URL . '/bp-xprofile/images';
 	$bp->profile->slug = BP_XPROFILE_SLUG;
 
 	$bp->version_numbers->profile = BP_XPROFILE_VERSION;

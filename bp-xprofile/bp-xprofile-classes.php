@@ -769,7 +769,7 @@ Class BP_XProfile_Field {
 		$action = "admin.php?page=xprofile_settings&amp;group_id=" . $this->group_id . "&amp;mode=add_field";
 		
 		// Files in wp-content/themes directory and one subdir down
-		$prebuilt_fields_path = ABSPATH . MUPLUGINDIR . '/bp-xprofile/prebuilt-fields';
+		$prebuilt_fields_path = WPMU_PLUGIN_DIR . '/bp-xprofile/prebuilt-fields';
 		if( !empty( $prebuilt_fields_path ) ){
 			$prebuilt_fields_dir = @opendir($prebuilt_fields_path);		
 			if ( $prebuilt_fields_dir ){ 

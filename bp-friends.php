@@ -66,7 +66,7 @@ function friends_setup_globals() {
 	global $bp, $wpdb;
 	
 	$bp->friends->table_name = $wpdb->base_prefix . 'bp_friends';
-	$bp->friends->image_base = site_url( MUPLUGINDIR . '/bp-friends/images' );
+	$bp->friends->image_base = WPMU_PLUGIN_URL . '/bp-friends/images';
 	$bp->friends->format_activity_function = 'friends_format_activity';
 	$bp->friends->format_notification_function = 'friends_format_notifications';
 
