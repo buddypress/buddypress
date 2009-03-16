@@ -526,7 +526,7 @@ function bp_login_bar() {
 			<?php bp_loggedinuser_link() ?>
 			<?php 
 				if ( function_exists('wp_logout_url') ) {
-					$logout_link = '/ <a href="' . wp_logout_url( site_url() ) . '" alt="' . __( 'Log Out', 'buddypress' ) . '">' . __( 'Log Out', 'buddypress' ) . '</a>';
+					$logout_link = '/ <a href="' . wp_logout_url( site_url() ) . '">' . __( 'Log Out', 'buddypress' ) . '</a>';
 				} else {
 					$logout_link = '/ <a href="' . site_url( '/wp-login.php?action=logout&amp;redirect_to=' . site_url() ) . '">' . __( 'Log Out', 'buddypress' ) . '</a>';					
 				}			
