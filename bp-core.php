@@ -1200,11 +1200,11 @@ function bp_core_get_member_themes() {
 }
 
 function bp_core_set_member_theme_root() {
-	return WP_CONTENT_DIR . "/member-themes";
+	return apply_filters( 'bp_core_set_member_theme_root', WP_CONTENT_DIR . "/bp-themes" );
 }
 
 function bp_core_set_member_theme_root_uri() {
-	return WP_CONTENT_URL . '/member-themes';
+	return apply_filters( 'bp_core_set_member_theme_root_uri', WP_CONTENT_URL . '/bp-themes' );
 }
 
 function bp_core_add_illegal_names() {
