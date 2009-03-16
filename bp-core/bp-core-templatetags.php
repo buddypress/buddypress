@@ -235,24 +235,24 @@ function bp_fetch_user_fullname( $user_id = false, $echo = true ) {
 	if ( !$user_id )
 		$user_id = $bp->displayed_user->id;
 	
-	if ( function_exists('xprofile_install') ) {
-		$data = bp_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id );
-
-		if ( empty($data) ) {
-			$ud = get_userdata($user_id);
-			$data = $ud->display_name;
+	$ud = get_userdata($user_id);
+	$fullname = $ud->bp_fullname;	
+	
+	if ( !$fullname ) {
+		if ( function_exists('xprofile_install') ) {
+			$fullname = xprofile_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id );
 		} else {
-			$data = bp_core_ucfirst($data);
+			$ud = get_userdata($user_id);
+			$fullname = $ud->display_name;
 		}
-	} else {
-		$ud = get_userdata($user_id);
-		$data = $ud->display_name;
+		
+		update_usermeta( $user_id, 'bp_fullname', $fullname );
 	}
 	
 	if ( $echo )
-		echo apply_filters( 'bp_fetch_user_fullname', stripslashes( trim( $data ) ) );
+		echo apply_filters( 'bp_fetch_user_fullname', stripslashes( trim( $fullname ) ) );
 	else
-		return apply_filters( 'bp_fetch_user_fullname', stripslashes ( trim ( $data ) ) );
+		return apply_filters( 'bp_fetch_user_fullname', stripslashes ( trim ( $fullname ) ) );
 }
 
 function bp_last_activity( $user_id = false, $echo = true ) {
