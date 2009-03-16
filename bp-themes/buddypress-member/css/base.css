@@ -531,6 +531,21 @@ ul.content-header-nav {
 			padding-left: 3.3em;
 		}
 
+/*************************
+ WP PROFILE FIELD FALLBACK  
+*************************/
+
+table.wp-profile-fields {
+	width: 100%;
+}
+	table.wp-profile-fields tr td {
+		padding: 0.5em 1em;
+	}
+
+	table.wp-profile-fields tr td.label {
+		width: 130px;
+	}
+
 /**************************
  FOOTER
 ***************************/
