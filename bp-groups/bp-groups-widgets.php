@@ -39,7 +39,7 @@ function groups_widget_groups_list($args) {
 		</div>
 		<ul id="groups-list" class="item-list">
 			<?php foreach ( $groups['groups'] as $group ) : ?>
-				<?php $group = new BP_Groups_Group( $group->group_id, false ) ?>
+				<?php $group = new BP_Groups_Group( $group->group_id, false, false ) ?>
 				<li>
 					<div class="item-avatar">
 						<a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb; ?>" alt="<?php echo $group->name ?> Avatar" class="avatar" /></a>

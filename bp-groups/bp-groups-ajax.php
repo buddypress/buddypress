@@ -72,7 +72,7 @@ function groups_ajax_widget_groups_list() {
 		echo '0[[SPLIT]]'; // return valid result.
 	
 		foreach ( (array) $groups['groups'] as $group ) {
-			$group = new BP_Groups_Group( $group->group_id, false );
+			$group = new BP_Groups_Group( $group->group_id, false, false );
 		?>
 			<li>
 				<div class="item-avatar">

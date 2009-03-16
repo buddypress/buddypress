@@ -982,12 +982,12 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 	
 	switch( $action ) {
 		case 'joined_group':
-			$group = new BP_Groups_Group( $item_id );
+			$group = new BP_Groups_Group( $item_id, false, false );
 			
 			if ( !$group )
 				return false;
 				
-			$user_link = bp_core_get_userlink($user_id);
+			$user_link = bp_core_get_userlink( $user_id );
 			$group_link = bp_group_permalink( $group, false );
 			
 			return array( 
@@ -996,12 +996,12 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 			);				
 		break;
 		case 'created_group':
-			$group = new BP_Groups_Group( $item_id );
+			$group = new BP_Groups_Group( $item_id, false, false );
 
 			if ( !$group )
 				return false;
 			
-			$user_link = bp_core_get_userlink($user_id);
+			$user_link = bp_core_get_userlink( $user_id );
 			$group_link = bp_group_permalink( $group, false );
 			
 			return array( 
@@ -1011,14 +1011,14 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 		break;
 		case 'new_wire_post':
 			$wire_post = new BP_Wire_Post( $bp->groups->table_name_wire, $item_id );
-			$group = new BP_Groups_Group( $wire_post->item_id );
+			$group = new BP_Groups_Group( $wire_post->item_id, false, false );
 
 			if ( !$group || !$wire_post || !$wire_post->content )
 				return false;		
 
-			$user_link = bp_core_get_userlink($user_id);
+			$user_link = bp_core_get_userlink( $user_id );
 			$group_link = bp_group_permalink( $group, false );
-			$post_excerpt = bp_create_excerpt($wire_post->content);
+			$post_excerpt = bp_create_excerpt( $wire_post->content );
 					
 			$content = sprintf ( __('%s wrote on the wire of the group %s', 'buddypress'), $user_link, '<a href="' . $group_link . '">' . $group->name . '</a>' ) . ' <span class="time-since">%s</span>';			
 			$content .= '<blockquote>' . $post_excerpt . '</blockquote>';
@@ -1032,7 +1032,7 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 		break;
 		case 'new_forum_post':
 			if ( function_exists('bp_forums_setup') ) {
-				$group = new BP_Groups_Group( $item_id );
+				$group = new BP_Groups_Group( $item_id, false, false );
 				$forum_post = bp_forums_get_post( $secondary_item_id );
 				$forum_topic = bp_forums_get_topic_details( $forum_post['topic_id'] );
 
@@ -1057,7 +1057,7 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 		break;
 		case 'new_forum_topic':
 			if ( function_exists('bp_forums_setup') ) {
-				$group = new BP_Groups_Group( $item_id );
+				$group = new BP_Groups_Group( $item_id, false, false );
 				$forum_topic = bp_forums_get_topic_details( $secondary_item_id );
 				$forum_post = bp_forums_get_post( $forum_topic['topic_last_post_id'] );
 
@@ -1686,8 +1686,6 @@ function groups_accept_invite( $user_id, $group_id ) {
 	
 	if ( groups_is_user_member( $user_id, $group_id ) )
 		return false;
-	
-	$group_obj = new BP_Groups_Group( $group_id );
 	
 	$member = new BP_Groups_Member( $user_id, $group_id );
 	$member->accept_invite();

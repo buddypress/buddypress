@@ -154,7 +154,7 @@ class BP_Groups_Template {
 		if ( $this->single_group )
 			$this->group = new BP_Groups_Group( $this->group->group_id, true );
 		else
-			$this->group = new BP_Groups_Group( $this->group->group_id, false );
+			$this->group = new BP_Groups_Group( $this->group->group_id, false, false );
 
 		if ( 0 == $this->current_group ) // loop has just started
 			do_action('loop_start');
