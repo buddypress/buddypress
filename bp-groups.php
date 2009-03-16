@@ -2147,7 +2147,7 @@ function groups_get_random_group() {
 // Group meta functions
 //
 
-function groups_delete_groupmeta( $group_id, $meta_key, $meta_value = false ) {
+function groups_delete_groupmeta( $group_id, $meta_key = false, $meta_value = false ) {
 	global $wpdb, $bp;
 	
 	if ( !is_numeric( $group_id ) )
@@ -2160,7 +2160,9 @@ function groups_delete_groupmeta( $group_id, $meta_key, $meta_value = false ) {
 		
 	$meta_value = trim( $meta_value );
 
-	if ( $meta_value ) {
+	if ( !$meta_key ) {
+		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d", $group_id ) );		
+	} else if ( $meta_value ) {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d AND meta_key = %s AND meta_value = %s", $group_id, $meta_key, $meta_value ) );
 	} else {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d AND meta_key = %s", $group_id, $meta_key ) );

@@ -725,7 +725,7 @@ add_action( 'wp', 'bp_blogs_redirect_to_random_blog', 6 );
 // By default each blog's name, description and last updated time are stored and synced here.
 //
 
-function bp_blogs_delete_blogmeta( $blog_id, $meta_key, $meta_value = false ) {
+function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = false ) {
 	global $wpdb, $bp;
 	
 	if ( !is_numeric( $blog_id ) )
@@ -738,7 +738,9 @@ function bp_blogs_delete_blogmeta( $blog_id, $meta_key, $meta_value = false ) {
 		
 	$meta_value = trim( $meta_value );
 
-	if ( $meta_value ) {
+	if ( !$meta_key ) {
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name_blogmeta} WHERE blog_id = %d", $blog_id ) );		
+	} else if ( $meta_value ) {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name_blogmeta} WHERE blog_id = %d AND meta_key = %s AND meta_value = %s", $blog_id, $meta_key, $meta_value ) );
 	} else {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name_blogmeta} WHERE blog_id = %d AND meta_key = %s", $blog_id, $meta_key ) );
