@@ -91,11 +91,12 @@ class BP_Forums_Template_Forum {
 	}
 }
 
-function bp_has_topics( $topics_per_page = 10 ) {
+function bp_has_topics( $topics_per_page = 10, $forum_id = false ) {
 	global $forum_template, $bp;
 	global $group_obj;
 	
-	$forum_id = groups_get_groupmeta( $group_obj->id, 'forum_id' );
+	if ( !$forum_id )
+		$forum_id = groups_get_groupmeta( $group_obj->id, 'forum_id' );
 
 	if ( is_numeric( $forum_id ) )
 		$forum_template = new BP_Forums_Template_Forum( $forum_id );
@@ -366,11 +367,11 @@ class BP_Forums_Template_Topic {
 	}
 }
 
-function bp_has_topic_posts( $posts_per_page = 10 ) {
+function bp_has_topic_posts( $posts_per_page = 10, $topic_id = false ) {
 	global $topic_template, $bp;
-	global $group_obj;
 	
-	$topic_id = $bp->action_variables[1];
+	if ( !$topic_id )
+		$topic_id = $bp->action_variables[1];
 
 	if ( is_numeric( $topic_id ) )
 		$topic_template = new BP_Forums_Template_Topic( $topic_id, $posts_per_page );
