@@ -19,49 +19,49 @@ if ( file_exists( WPMU_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() .
 
 /* Place your custom code (actions/filters) in a file called bp-custom.php and it will be loaded before anything else. */
 if ( file_exists( WPMU_PLUGIN_DIR . '/bp-custom.php' ) )
-	require_once( WPMU_PLUGIN_DIR . '/bp-custom.php' );
+	require( WPMU_PLUGIN_DIR . '/bp-custom.php' );
 
 /* Functions to handle pretty URLs and breaking them down into usable variables */
-require_once( 'bp-core/bp-core-catchuri.php' );
+require( 'bp-core/bp-core-catchuri.php' );
 
 /* Database access classes */
-require_once( 'bp-core/bp-core-classes.php' );
+require( 'bp-core/bp-core-classes.php' );
 
 /* Functions to control the inclusion of CSS and JS files */
-require_once( 'bp-core/bp-core-cssjs.php' );
+require( 'bp-core/bp-core-cssjs.php' );
 
 /* Functions that handle the uploading, cropping, validation and storing of avatars */
-require_once( 'bp-core/bp-core-avatars.php' );
+require( 'bp-core/bp-core-avatars.php' );
 
 /* Template functions/tags that can be used in template files */
-require_once( 'bp-core/bp-core-templatetags.php' );
+require( 'bp-core/bp-core-templatetags.php' );
 
 /* Functions to enable the site wide administration bar */
-require_once( 'bp-core/bp-core-adminbar.php' );
+require( 'bp-core/bp-core-adminbar.php' );
 
 /* Functions to handle the display and saving of account settings for members */
-require_once( 'bp-core/bp-core-settings.php' );
+require( 'bp-core/bp-core-settings.php' );
 
 /* Bundled core widgets that can be dropped into themes */
-require_once( 'bp-core/bp-core-widgets.php' );
+require( 'bp-core/bp-core-widgets.php' );
 
 /* AJAX functionality */
-require_once( 'bp-core/bp-core-ajax.php' );
+require( 'bp-core/bp-core-ajax.php' );
 
 /* Functions to handle the calculations and display of notifications for a user */
-require_once( 'bp-core/bp-core-notifications.php' );
+require( 'bp-core/bp-core-notifications.php' );
 
 /* Functions to handle and display the member and blog directory pages */
-require_once( 'bp-core/directories/bp-core-directory-members.php' );
+require( 'bp-core/directories/bp-core-directory-members.php' );
 
 /* Functions to handle and display BuddyPress administration menus */
-require_once( 'bp-core/bp-core-admin.php' );
+require( 'bp-core/bp-core-admin.php' );
 
 /* Functions to provide better WPMU custom signup page support */
-require_once( 'bp-core/bp-core-signup.php' );
+require( 'bp-core/bp-core-signup.php' );
 
 /* Functions to provide better WPMU custom activation page support */
-require_once( 'bp-core/bp-core-activation.php' );
+require( 'bp-core/bp-core-activation.php' );
 
 /* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
 define( 'MEMBERS_SLUG', apply_filters( 'bp_members_slug', 'members' ) );
@@ -996,10 +996,9 @@ function bp_core_record_activity() {
 	if ( !is_user_logged_in() )
 		return false;
 	
-	if ( '' == get_usermeta( $bp->loggedin_user->id, 'last_activity' ) )
-		update_usermeta( $bp->loggedin_user->id, 'last_activity', time() );		
+	$activity = get_usermeta( $bp->loggedin_user->id, 'last_activity' );
 	
-	if ( time() >= strtotime( '+5 minutes', get_usermeta( $bp->loggedin_user->id, 'last_activity' ) ) )
+	if ( '' == $activity || time() >= strtotime( '+5 minutes', $activity ) )
 		update_usermeta( $bp->loggedin_user->id, 'last_activity', time() );
 }
 add_action( 'wp_head', 'bp_core_record_activity' );
@@ -1018,7 +1017,7 @@ add_action( 'wp_head', 'bp_core_record_activity' );
  */
 function bp_core_get_last_activity( $last_activity_date, $string ) {
 	if ( !$last_activity_date || empty( $last_activity_date ) ) {
-		$last_active = __('not recently active', 'buddypress');
+		$last_active = __( 'not recently active', 'buddypress' );
 	} else {
 		if ( strstr( $last_activity_date, '-' ) ) {
 			$last_active = bp_core_time_since( strtotime( $last_activity_date ) ); 
@@ -1351,8 +1350,9 @@ function bp_core_print_version_numbers() {
 }
 
 function bp_core_print_generation_time() {
+	global $wpdb;
 	?>
-<!-- Generated in <?php timer_stop(1); ?> seconds -->
+<!-- Generated in <?php timer_stop(1); ?> seconds. <?php echo $wpdb->num_queries ?> q. -->
 	<?php
 }
 add_action( 'wp_footer', 'bp_core_print_generation_time' );

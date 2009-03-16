@@ -298,7 +298,66 @@ function bp_get_displayed_user_link() {
 }
 
 function bp_core_get_wp_profile() {
-	
+	global $current_user;
+?>
+
+<div class="info-group wp-profile">
+	<h4><?php _e( 'My Profile' ) ?></h4>
+
+	<table class="wp-profile-fields">
+		<?php if ( $current_user->first_name || $current_user->last_name ) { ?>
+		<tr>
+			<td class="label">
+				<?php _e( 'Full Name', 'buddypress' ) ?>
+			</td>
+			<td class="data">
+				<?php echo $current_user->first_name . ' ' . $current_user->last_name ?>
+			</td>
+		</tr>
+		<?php } ?>
+		<?php if ( $current_user->user_description ) { ?>
+		<tr>
+			<td class="label">
+				<?php _e( 'About Me', 'buddypress' ) ?>
+			</td>
+			<td class="data">
+				<?php echo $current_user->user_description ?>
+			</td>
+		</tr>
+		<?php } ?>
+		<?php if ( $current_user->jabber ) { ?>
+		<tr>
+			<td class="label">
+				<?php _e( 'Jabber', 'buddypress' ) ?>
+			</td>
+			<td class="data">
+				<?php echo $current_user->jabber ?>
+			</td>
+		</tr>
+		<?php } ?>
+		<?php if ( $current_user->aim ) { ?>
+		<tr>
+			<td class="label">
+				<?php _e( 'AOL Messenger', 'buddypress' ) ?>
+			</td>
+			<td class="data">
+				<?php echo $current_user->aim ?>
+			</td>
+		</tr>
+		<?php } ?>
+		<?php if ( $current_user->yim ) { ?>
+		<tr>
+			<td class="label">
+				<?php _e( 'Yahoo Messenger', 'buddypress' ) ?>
+			</td>
+			<td class="data">
+				<?php echo $current_user->yim ?>
+			</td>
+		</tr>
+		<?php } ?>
+	</table>
+</div>
+<?php
 }
 
 function bp_get_profile_header() {
