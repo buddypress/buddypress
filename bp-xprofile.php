@@ -18,25 +18,25 @@ define ( 'BP_XPROFILE_DB_VERSION', '948' );
 define ( 'BP_XPROFILE_SLUG', apply_filters( 'xprofile_slug', 'profile' ) );
 
 /* Database access classes and functions */
-require_once( 'bp-xprofile/bp-xprofile-classes.php' );
+require ( 'bp-xprofile/bp-xprofile-classes.php' );
 
 /* Functions for handling the admin area tabs for administrators */
-require_once( 'bp-xprofile/bp-xprofile-admin.php' );
+require ( 'bp-xprofile/bp-xprofile-admin.php' );
 
 /* Functions for applying filters to Xprofile specfic output */
-require_once( 'bp-xprofile/bp-xprofile-filters.php' );
+require ( 'bp-xprofile/bp-xprofile-filters.php' );
 
 /* Functions to handle the modification and saving of signup pages */
-require_once( 'bp-xprofile/bp-xprofile-signup.php' );
+require ( 'bp-xprofile/bp-xprofile-signup.php' );
 
 /* Template tag functions that can be used in theme template files */
-require_once( 'bp-xprofile/bp-xprofile-templatetags.php' );
+require ( 'bp-xprofile/bp-xprofile-templatetags.php' );
 
 /* Functions to handle the sending of email notifications */
-require_once( 'bp-xprofile/bp-xprofile-notifications.php' );
+require ( 'bp-xprofile/bp-xprofile-notifications.php' );
 
 /* Functions to handle the selective inclusion of CSS and JS files */
-require_once( 'bp-xprofile/bp-xprofile-cssjs.php' );
+require ( 'bp-xprofile/bp-xprofile-cssjs.php' );
 
 /* Assign the base group and fullname field names to constants to use in SQL statements */
 define ( 'BP_XPROFILE_BASE_GROUP_NAME', get_site_option( 'bp-xprofile-base-group-name' ) );

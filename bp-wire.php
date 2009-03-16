@@ -16,11 +16,11 @@ define ( 'BP_WIRE_VERSION', '1.0-RC1' );
 
 define ( 'BP_WIRE_SLUG', apply_filters( 'bp_wire_slug', 'wire' ) );
 
-include_once( 'bp-wire/bp-wire-classes.php' );
-include_once( 'bp-wire/bp-wire-ajax.php' );
-include_once( 'bp-wire/bp-wire-templatetags.php' );
-include_once( 'bp-wire/bp-wire-cssjs.php' );
-include_once( 'bp-wire/bp-wire-filters.php' );
+require ( 'bp-wire/bp-wire-classes.php' );
+require ( 'bp-wire/bp-wire-ajax.php' );
+require ( 'bp-wire/bp-wire-templatetags.php' );
+require ( 'bp-wire/bp-wire-cssjs.php' );
+require ( 'bp-wire/bp-wire-filters.php' );
 
 /**************************************************************************
  bp_wire_setup_globals()

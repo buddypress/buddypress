@@ -21,47 +21,20 @@ if ( file_exists( WPMU_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() .
 if ( file_exists( WPMU_PLUGIN_DIR . '/bp-custom.php' ) )
 	require( WPMU_PLUGIN_DIR . '/bp-custom.php' );
 
-/* Functions to handle pretty URLs and breaking them down into usable variables */
-require( 'bp-core/bp-core-catchuri.php' );
-
-/* Database access classes */
-require( 'bp-core/bp-core-classes.php' );
-
-/* Functions to control the inclusion of CSS and JS files */
-require( 'bp-core/bp-core-cssjs.php' );
-
-/* Functions that handle the uploading, cropping, validation and storing of avatars */
-require( 'bp-core/bp-core-avatars.php' );
-
-/* Template functions/tags that can be used in template files */
-require( 'bp-core/bp-core-templatetags.php' );
-
-/* Functions to enable the site wide administration bar */
-require( 'bp-core/bp-core-adminbar.php' );
-
-/* Functions to handle the display and saving of account settings for members */
-require( 'bp-core/bp-core-settings.php' );
-
-/* Bundled core widgets that can be dropped into themes */
-require( 'bp-core/bp-core-widgets.php' );
-
-/* AJAX functionality */
-require( 'bp-core/bp-core-ajax.php' );
-
-/* Functions to handle the calculations and display of notifications for a user */
-require( 'bp-core/bp-core-notifications.php' );
-
-/* Functions to handle and display the member and blog directory pages */
-require( 'bp-core/directories/bp-core-directory-members.php' );
-
-/* Functions to handle and display BuddyPress administration menus */
-require( 'bp-core/bp-core-admin.php' );
-
-/* Functions to provide better WPMU custom signup page support */
-require( 'bp-core/bp-core-signup.php' );
-
-/* Functions to provide better WPMU custom activation page support */
-require( 'bp-core/bp-core-activation.php' );
+require ( 'bp-core/bp-core-catchuri.php' );
+require ( 'bp-core/bp-core-classes.php' );
+require ( 'bp-core/bp-core-cssjs.php' );
+require ( 'bp-core/bp-core-avatars.php' );
+require ( 'bp-core/bp-core-templatetags.php' );
+require ( 'bp-core/bp-core-adminbar.php' );
+require ( 'bp-core/bp-core-settings.php' );
+require ( 'bp-core/bp-core-widgets.php' );
+require ( 'bp-core/bp-core-ajax.php' );
+require ( 'bp-core/bp-core-notifications.php' );
+require ( 'bp-core/bp-core-admin.php' );
+require ( 'bp-core/bp-core-signup.php' );
+require ( 'bp-core/bp-core-activation.php' );
+require ( 'bp-core/directories/bp-core-directory-members.php' );
 
 /* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
 define( 'MEMBERS_SLUG', apply_filters( 'bp_members_slug', 'members' ) );

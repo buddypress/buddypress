@@ -17,15 +17,15 @@ define ( 'BP_GROUPS_DB_VERSION', '951' );
 
 define ( 'BP_GROUPS_SLUG', apply_filters( 'groups_slug', 'groups' ) );
 
-include_once( 'bp-groups/bp-groups-classes.php' );
-include_once( 'bp-groups/bp-groups-ajax.php' );
-include_once( 'bp-groups/bp-groups-cssjs.php' );
-include_once( 'bp-groups/bp-groups-templatetags.php' );
-include_once( 'bp-groups/bp-groups-widgets.php' );
-include_once( 'bp-groups/bp-groups-notifications.php' );
-include_once( 'bp-groups/bp-groups-filters.php' );
-include_once( 'bp-groups/bp-groups-admin.php' );
-include_once( 'bp-groups/directories/bp-groups-directory-groups.php' );
+require ( 'bp-groups/bp-groups-classes.php' );
+require ( 'bp-groups/bp-groups-ajax.php' );
+require ( 'bp-groups/bp-groups-cssjs.php' );
+require ( 'bp-groups/bp-groups-templatetags.php' );
+require ( 'bp-groups/bp-groups-widgets.php' );
+require ( 'bp-groups/bp-groups-notifications.php' );
+require ( 'bp-groups/bp-groups-filters.php' );
+require ( 'bp-groups/bp-groups-admin.php' );
+require ( 'bp-groups/directories/bp-groups-directory-groups.php' );
 
 /**************************************************************************
  groups_install()

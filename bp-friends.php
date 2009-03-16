@@ -17,13 +17,12 @@ define ( 'BP_FRIENDS_DB_VERSION', '937' );
 
 define ( 'BP_FRIENDS_SLUG', apply_filters( 'friends_slug', 'friends' ) );
 
-include_once( 'bp-friends/bp-friends-classes.php' );
-include_once( 'bp-friends/bp-friends-ajax.php' );
-include_once( 'bp-friends/bp-friends-cssjs.php' );
-include_once( 'bp-friends/bp-friends-templatetags.php' );
-include_once( 'bp-friends/bp-friends-notifications.php' );
-include_once( 'bp-friends/bp-friends-filters.php' );
-
+require ( 'bp-friends/bp-friends-classes.php' );
+require ( 'bp-friends/bp-friends-ajax.php' );
+require ( 'bp-friends/bp-friends-cssjs.php' );
+require ( 'bp-friends/bp-friends-templatetags.php' );
+require ( 'bp-friends/bp-friends-notifications.php' );
+require ( 'bp-friends/bp-friends-filters.php' );
 
 /**************************************************************************
  friends_install()

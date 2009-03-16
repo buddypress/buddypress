@@ -20,11 +20,11 @@ define ( 'BP_ACTIVITY_SLUG', apply_filters( 'bp_activity_slug', 'activity' ) );
 /* How long before activity items in streams are re-cached? */
 define ( 'BP_ACTIVITY_CACHE_LENGTH', '6 HOURS' );
 
-include_once( 'bp-activity/bp-activity-classes.php' );
-include_once( 'bp-activity/bp-activity-templatetags.php' );
-include_once( 'bp-activity/bp-activity-widgets.php' );
-include_once( 'bp-activity/bp-activity-cssjs.php' );
-include_once( 'bp-activity/bp-activity-filters.php' );
+require ( 'bp-activity/bp-activity-classes.php' );
+require ( 'bp-activity/bp-activity-templatetags.php' );
+require ( 'bp-activity/bp-activity-widgets.php' );
+require ( 'bp-activity/bp-activity-cssjs.php' );
+require ( 'bp-activity/bp-activity-filters.php' );
 
 
 /**************************************************************************

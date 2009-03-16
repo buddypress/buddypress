@@ -20,12 +20,12 @@ define ( 'BP_BLOGS_SLUG', apply_filters( 'bp_blogs_slug', 'blogs' ) );
 define ( 'TOTAL_RECORDED_POSTS', 150 );
 define ( 'TOTAL_RECORDED_COMMENTS', 500 );
 
-include_once( 'bp-blogs/bp-blogs-classes.php' );
-include_once( 'bp-blogs/bp-blogs-cssjs.php' );
-include_once( 'bp-blogs/bp-blogs-templatetags.php' );
-include_once( 'bp-blogs/bp-blogs-widgets.php' );
-include_once( 'bp-blogs/bp-blogs-ajax.php' );
-include_once( 'bp-blogs/directories/bp-blogs-directory-blogs.php' );
+require ( 'bp-blogs/bp-blogs-classes.php' );
+require ( 'bp-blogs/bp-blogs-cssjs.php' );
+require ( 'bp-blogs/bp-blogs-templatetags.php' );
+require ( 'bp-blogs/bp-blogs-widgets.php' );
+require ( 'bp-blogs/bp-blogs-ajax.php' );
+require ( 'bp-blogs/directories/bp-blogs-directory-blogs.php' );
 
 
 /**************************************************************************

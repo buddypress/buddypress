@@ -17,12 +17,12 @@ define ( 'BP_MESSAGES_DB_VERSION', '948' );
 
 define ( 'BP_MESSAGES_SLUG', apply_filters( 'messages_slug', 'messages' ) );
 
-include_once( 'bp-messages/bp-messages-classes.php' );
-include_once( 'bp-messages/bp-messages-ajax.php' );
-include_once( 'bp-messages/bp-messages-cssjs.php' );
-include_once( 'bp-messages/bp-messages-templatetags.php' );
-include_once( 'bp-messages/bp-messages-notifications.php' );
-include_once( 'bp-messages/bp-messages-filters.php' );
+require ( 'bp-messages/bp-messages-classes.php' );
+require ( 'bp-messages/bp-messages-ajax.php' );
+require ( 'bp-messages/bp-messages-cssjs.php' );
+require ( 'bp-messages/bp-messages-templatetags.php' );
+require ( 'bp-messages/bp-messages-notifications.php' );
+require ( 'bp-messages/bp-messages-filters.php' );
 
 /**************************************************************************
  messages_install()
