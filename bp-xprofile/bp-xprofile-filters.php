@@ -2,7 +2,7 @@
 
 /* Apply WordPress defined filters */
 add_filter( 'bp_the_profile_field_value', 'wp_filter_kses', 1 );
-add_filter( 'bp_get_field_data', 'wp_filter_kses', 1 );
+add_filter( 'xprofile_get_field_data', 'wp_filter_kses', 1 );
 
 add_filter( 'bp_the_profile_field_value', 'wptexturize' );
 add_filter( 'bp_the_profile_field_value', 'convert_smilies' );

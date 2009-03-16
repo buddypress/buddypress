@@ -223,10 +223,6 @@ function bp_unserialize_profile_field( $value ) {
 	return $value;
 }
 
-function bp_get_field_data( $field, $user_id = null ) {
-	return apply_filters( 'bp_get_field_data', BP_XProfile_ProfileData::get_value_byfieldname( $field, $user_id ) );
-}
-
 function bp_profile_group_tabs() {
 	global $bp, $group_name;
 	

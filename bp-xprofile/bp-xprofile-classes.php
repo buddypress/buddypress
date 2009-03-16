@@ -1164,7 +1164,7 @@ Class BP_XProfile_ProfileData {
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
 
-		$data = bp_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id );
+		$data = xprofile_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id );
 
 		return $data[BP_XPROFILE_FULLNAME_FIELD_NAME];		
 	}

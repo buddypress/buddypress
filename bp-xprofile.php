@@ -808,6 +808,27 @@ function xprofile_edit( $group_id, $action ) {
 }
 
 /**
+ * xprofile_get_field_data()
+ *
+ * Fetches profile data for a specific field for the user.
+ * 
+ * @package BuddyPress Core
+ * @param $field_name The name of the field to get data for.
+ * @param $user_id The ID of the user
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @uses BP_XProfile_ProfileData::get_value_byfieldname() Fetches the value based on the params passed.
+ * @return The profile field data.
+ */
+function xprofile_get_field_data( $field_name, $user_id = null ) {
+	global $bp;
+	
+	if ( !$user_id )
+		$user_id = $bp->displayed_user->id;
+		
+	return apply_filters( 'xprofile_get_field_data', BP_XProfile_ProfileData::get_value_byfieldname( $field_name, $user_id ) );
+}
+
+/**
  * xprofile_get_random_profile_data()
  *
  * Fetches a random piece of profile data for the user.
