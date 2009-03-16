@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-03-13 14:11+0000\n"
+"POT-Creation-Date: 2009-03-16 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,13 +26,12 @@ msgstr ""
 
 #: bp-activity.php:199 bp-friends.php:107 bp-friends.php:112
 #: bp-friends.php:269 bp-friends/bp-friends-templatetags.php:344
-#: buddypress-theme/member-themes/buddypress-member/friends/index.php:10
+#: bp-themes/buddypress-member/friends/index.php:10
 msgid "My Friends"
 msgstr ""
 
-#: bp-activity.php:203
-#: buddypress-theme/member-themes/buddypress-member/activity/just-me.php:30
-#: buddypress-theme/member-themes/buddypress-member/profile/index.php:37
+#: bp-activity.php:203 bp-themes/buddypress-member/activity/just-me.php:30
+#: bp-themes/buddypress-member/profile/index.php:37
 msgid "My Activity"
 msgstr ""
 
@@ -47,12 +46,12 @@ msgid "Site Wide Activity"
 msgstr ""
 
 #: bp-activity/bp-activity-widgets.php:35
-#: buddypress-theme/member-themes/buddypress-member/activity/activity-list.php:7
+#: bp-themes/buddypress-member/activity/activity-list.php:7
 msgid "RSS Feed"
 msgstr ""
 
 #: bp-activity/bp-activity-widgets.php:35
-#: buddypress-theme/buddypress-home/header.php:14
+#: bp-themes/buddypress-home/header.php:14
 msgid "Site Wide Activity RSS Feed"
 msgstr ""
 
@@ -82,30 +81,28 @@ msgstr ""
 msgid "Site Wide Activity Feed"
 msgstr ""
 
-#: bp-blogs.php:172 bp-core/bp-core-templatetags.php:482
-#: bp-core/bp-core-templatetags.php:572
-#: buddypress-theme/buddypress-home/header.php:55
-#: buddypress-theme/member-themes/buddypress-member/header.php:49
+#: bp-blogs.php:172 bp-core/bp-core-templatetags.php:541
+#: bp-core/bp-core-templatetags.php:631
+#: bp-themes/buddypress-home/header.php:55
+#: bp-themes/buddypress-member/header.php:49
 msgid "Blogs"
 msgstr ""
 
 #: bp-blogs.php:180 bp-blogs.php:189 bp-core/bp-core-adminbar.php:132
-#: buddypress-theme/member-themes/buddypress-member/blogs/my-blogs.php:8
+#: bp-themes/buddypress-member/blogs/my-blogs.php:8
 msgid "My Blogs"
 msgstr ""
 
-#: bp-blogs.php:181
-#: buddypress-theme/member-themes/buddypress-member/blogs/recent-posts.php:8
+#: bp-blogs.php:181 bp-themes/buddypress-member/blogs/recent-posts.php:8
 msgid "Recent Posts"
 msgstr ""
 
-#: bp-blogs.php:182
-#: buddypress-theme/member-themes/buddypress-member/blogs/recent-comments.php:8
+#: bp-blogs.php:182 bp-themes/buddypress-member/blogs/recent-comments.php:8
 msgid "Recent Comments"
 msgstr ""
 
 #: bp-blogs.php:183 bp-blogs/bp-blogs-templatetags.php:811
-#: buddypress-theme/member-themes/buddypress-member/blogs/create.php:8
+#: bp-themes/buddypress-member/blogs/create.php:8
 msgid "Create a Blog"
 msgstr ""
 
@@ -134,13 +131,13 @@ msgstr ""
 #: bp-blogs/directories/bp-blogs-directory-blogs.php:95
 #: bp-core/bp-core-ajax.php:95 bp-core/bp-core-widgets.php:96
 #: bp-core/directories/bp-core-directory-members.php:94
-#: bp-forums/bp-forums-templatetags.php:267
-#: bp-forums/bp-forums-templatetags.php:442
+#: bp-forums/bp-forums-templatetags.php:268
+#: bp-forums/bp-forums-templatetags.php:443
 #: bp-friends/bp-friends-templatetags.php:253 bp-groups/bp-groups-ajax.php:233
 #: bp-groups/bp-groups-templatetags.php:565 bp-groups/bp-groups-widgets.php:35
 #: bp-groups/directories/bp-groups-directory-groups.php:94
+#: bp-themes/buddypress-member/wire/post-list.php:10
 #: bp-wire/bp-wire-ajax.php:10
-#: buddypress-theme/member-themes/buddypress-member/wire/post-list.php:10
 msgid "Loading"
 msgstr ""
 
@@ -258,16 +255,16 @@ msgstr ""
 #: bp-blogs/bp-blogs-templatetags.php:744 bp-core/bp-core-admin.php:55
 #: bp-core/bp-core-admin.php:63 bp-core/bp-core-signup.php:76
 #: bp-friends.php:173 bp-groups.php:879 bp-messages.php:261
+#: bp-themes/buddypress-member/groups/admin/edit-details.php:31
 #: bp-xprofile.php:323 bp-xprofile/bp-xprofile-admin.php:100
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/edit-details.php:31
 msgid "Yes"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:748 bp-core/bp-core-admin.php:56
 #: bp-core/bp-core-admin.php:64 bp-core/bp-core-signup.php:80
 #: bp-friends.php:174 bp-groups.php:880 bp-messages.php:262
+#: bp-themes/buddypress-member/groups/admin/edit-details.php:32
 #: bp-xprofile.php:324
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/edit-details.php:32
 msgid "No"
 msgstr ""
 
@@ -283,7 +280,7 @@ msgid ""
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:825
-#: buddypress-theme/member-themes/buddypress-member/blogs/my-blogs.php:8
+#: bp-themes/buddypress-member/blogs/my-blogs.php:8
 #, php-format
 msgid "%s's Blogs"
 msgstr ""
@@ -354,7 +351,7 @@ msgstr ""
 #: bp-blogs/directories/bp-blogs-directory-blogs.php:187
 #: bp-groups/bp-groups-admin.php:87
 #: bp-groups/directories/bp-groups-directory-groups.php:190
-#: buddypress-theme/member-themes/buddypress-member/groups/group-home.php:31
+#: bp-themes/buddypress-member/groups/group-home.php:31
 msgid "Description"
 msgstr ""
 
@@ -379,12 +376,12 @@ msgstr ""
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:324 bp-xprofile.php:237
+#: bp-core.php:324 bp-core/bp-core-templatetags.php:305 bp-xprofile.php:237
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:803 bp-core/bp-core-templatetags.php:319
-#: buddypress-theme/buddypress-home/comments.php:42
+#: bp-core.php:803 bp-core/bp-core-templatetags.php:378
+#: bp-themes/buddypress-home/comments.php:42
 msgid "at"
 msgstr ""
 
@@ -444,7 +441,7 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1021
+#: bp-core.php:1020
 msgid "not recently active"
 msgstr ""
 
@@ -588,12 +585,12 @@ msgstr ""
 msgid "BuddyPress Version Numbers"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:37 bp-core/bp-core-templatetags.php:513
-#: buddypress-theme/member-themes/buddypress-member/userbar.php:37
+#: bp-core/bp-core-adminbar.php:37 bp-core/bp-core-templatetags.php:572
+#: bp-themes/buddypress-member/userbar.php:37
 msgid "Log In"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:41 bp-core/bp-core-templatetags.php:514
+#: bp-core/bp-core-adminbar.php:41 bp-core/bp-core-templatetags.php:573
 msgid "Sign Up"
 msgstr ""
 
@@ -603,7 +600,7 @@ msgstr ""
 
 #: bp-core/bp-core-adminbar.php:87 bp-core/bp-core-adminbar.php:89
 #: bp-core/bp-core-templatetags.php:52 bp-core/bp-core-templatetags.php:54
-#: bp-core/bp-core-templatetags.php:529 bp-core/bp-core-templatetags.php:531
+#: bp-core/bp-core-templatetags.php:588 bp-core/bp-core-templatetags.php:590
 msgid "Log Out"
 msgstr ""
 
@@ -718,11 +715,11 @@ msgid "This is your current avatar"
 msgstr ""
 
 #: bp-core/bp-core-avatars.php:110 bp-groups/bp-groups-admin.php:47
+#: bp-themes/buddypress-member/messages/index.php:38
+#: bp-themes/buddypress-member/messages/notices.php:33
+#: bp-themes/buddypress-member/messages/sentbox.php:33
 #: bp-wire/bp-wire-templatetags.php:306 bp-wire/bp-wire-templatetags.php:308
 #: bp-xprofile/bp-xprofile-admin.php:79 bp-xprofile/bp-xprofile-admin.php:102
-#: buddypress-theme/member-themes/buddypress-member/messages/index.php:38
-#: buddypress-theme/member-themes/buddypress-member/messages/notices.php:33
-#: buddypress-theme/member-themes/buddypress-member/messages/sentbox.php:33
 msgid "Delete"
 msgstr ""
 
@@ -835,12 +832,12 @@ msgstr ""
 msgid "Try Again"
 msgstr ""
 
-#: bp-core/bp-core-catchuri.php:211
+#: bp-core/bp-core-catchuri.php:212
 msgid ""
-"<strong>You do not have any BuddyPress member themes installed.</strong><br /"
-">Please download the <a href=\"http://buddypress.org/download\" title="
-"\"Download\">Default Member Theme</a> and install it in /wp-content/member-"
-"themes/"
+"<strong>You do not have any BuddyPress themes installed.</strong><br /"
+">Please download the <a href=\"http://buddypress.org/extend/themes\" title="
+"\"Download\">Default BuddyPress Theme</a> and install it in /wp-content/"
+"buddypress-themes/"
 msgstr ""
 
 #: bp-core/bp-core-classes.php:89
@@ -923,8 +920,8 @@ msgid "Repeat New Password"
 msgstr ""
 
 #: bp-core/bp-core-settings.php:82 bp-core/bp-core-settings.php:130
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/edit-details.php:37
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:80
+#: bp-themes/buddypress-member/groups/admin/edit-details.php:37
+#: bp-themes/buddypress-member/groups/admin/group-settings.php:80
 msgid "Save Changes"
 msgstr ""
 
@@ -1147,59 +1144,78 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:474 bp-core/bp-core-templatetags.php:565
+#: bp-core/bp-core-templatetags.php:311
+msgid "Full Name"
+msgstr ""
+
+#: bp-core/bp-core-templatetags.php:321
+msgid "About Me"
+msgstr ""
+
+#: bp-core/bp-core-templatetags.php:331
+msgid "Jabber"
+msgstr ""
+
+#: bp-core/bp-core-templatetags.php:341
+msgid "AOL Messenger"
+msgstr ""
+
+#: bp-core/bp-core-templatetags.php:351
+msgid "Yahoo Messenger"
+msgstr ""
+
+#: bp-core/bp-core-templatetags.php:533 bp-core/bp-core-templatetags.php:624
 #: bp-core/bp-core-widgets.php:12 bp-core/bp-core-widgets.php:13
 #: bp-groups.php:289 bp-groups/bp-groups-admin.php:97
 #: bp-groups/directories/bp-groups-directory-groups.php:189
-#: buddypress-theme/buddypress-home/header.php:48
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/manage-members.php:30
-#: buddypress-theme/member-themes/buddypress-member/header.php:42
+#: bp-themes/buddypress-home/header.php:48
+#: bp-themes/buddypress-member/groups/admin/manage-members.php:30
+#: bp-themes/buddypress-member/header.php:42
 msgid "Members"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:478 bp-core/bp-core-templatetags.php:568
+#: bp-core/bp-core-templatetags.php:537 bp-core/bp-core-templatetags.php:627
 #: bp-groups.php:178 bp-groups.php:217 bp-groups.php:878 bp-groups.php:1117
 #: bp-groups.php:1130 bp-groups.php:1144 bp-groups.php:1157
 #: bp-groups/bp-groups-admin.php:33 bp-groups/bp-groups-widgets.php:8
-#: bp-groups/bp-groups-widgets.php:9
-#: buddypress-theme/buddypress-home/header.php:51
-#: buddypress-theme/member-themes/buddypress-member/header.php:45
+#: bp-groups/bp-groups-widgets.php:9 bp-themes/buddypress-home/header.php:51
+#: bp-themes/buddypress-member/header.php:45
 msgid "Groups"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:496
+#: bp-core/bp-core-templatetags.php:555
 #: bp-core/directories/bp-core-directory-members.php:159
 #: bp-groups/directories/bp-groups-directory-groups.php:166
-#: buddypress-theme/buddypress-home/searchform.php:3
+#: bp-themes/buddypress-home/searchform.php:3
 msgid "Search"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:508
-#: buddypress-theme/member-themes/buddypress-member/userbar.php:28
+#: bp-core/bp-core-templatetags.php:567
+#: bp-themes/buddypress-member/userbar.php:28
 msgid "Username"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:511
-#: buddypress-theme/member-themes/buddypress-member/userbar.php:35
+#: bp-core/bp-core-templatetags.php:570
+#: bp-themes/buddypress-member/userbar.php:35
 msgid "Remember Me"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:563 bp-groups.php:269
-#: buddypress-theme/buddypress-home/header.php:43
-#: buddypress-theme/buddypress-home/header.php:46
-#: buddypress-theme/member-themes/buddypress-member/header.php:37
-#: buddypress-theme/member-themes/buddypress-member/header.php:40
+#: bp-core/bp-core-templatetags.php:622 bp-groups.php:269
+#: bp-themes/buddypress-home/header.php:43
+#: bp-themes/buddypress-home/header.php:46
+#: bp-themes/buddypress-member/header.php:37
+#: bp-themes/buddypress-member/header.php:40
 msgid "Home"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:564
-#: buddypress-theme/buddypress-home/archive.php:5
-#: buddypress-theme/buddypress-home/attachment.php:6
-#: buddypress-theme/buddypress-home/header.php:47
-#: buddypress-theme/buddypress-home/index.php:6
-#: buddypress-theme/buddypress-home/search.php:6
-#: buddypress-theme/buddypress-home/single.php:6
-#: buddypress-theme/member-themes/buddypress-member/header.php:41
+#: bp-core/bp-core-templatetags.php:623
+#: bp-themes/buddypress-home/archive.php:5
+#: bp-themes/buddypress-home/attachment.php:6
+#: bp-themes/buddypress-home/header.php:47
+#: bp-themes/buddypress-home/index.php:6
+#: bp-themes/buddypress-home/search.php:6
+#: bp-themes/buddypress-home/single.php:6
+#: bp-themes/buddypress-member/header.php:41
 msgid "Blog"
 msgstr ""
 
@@ -1217,7 +1233,7 @@ msgstr ""
 
 #: bp-core/bp-core-widgets.php:69 bp-forums/bp-forums-bbpress-live.php:166
 #: bp-forums/bp-forums-bbpress-live.php:370
-#: buddypress-theme/member-themes/buddypress-member/groups/forum/index.php:73
+#: bp-themes/buddypress-member/groups/forum/index.php:73
 msgid "Title:"
 msgstr ""
 
@@ -1371,10 +1387,9 @@ msgid "bbPress Forum list"
 msgstr ""
 
 #: bp-forums/bp-forums-bbpress-live.php:89 bp-groups.php:280
-#: bp-groups.php:1585
-#: buddypress-theme/member-themes/buddypress-member/groups/forum/index.php:25
-#: buddypress-theme/member-themes/buddypress-member/groups/forum/topic.php:28
-#: buddypress-theme/member-themes/buddypress-member/groups/forum/topic.php:40
+#: bp-groups.php:1585 bp-themes/buddypress-member/groups/forum/index.php:25
+#: bp-themes/buddypress-member/groups/forum/topic.php:28
+#: bp-themes/buddypress-member/groups/forum/topic.php:40
 msgid "Forum"
 msgstr ""
 
@@ -1444,22 +1459,22 @@ msgstr ""
 msgid "Number of topics to show:"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:212
+#: bp-forums/bp-forums-templatetags.php:213
 #, php-format
 msgid "%d post"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:214
+#: bp-forums/bp-forums-templatetags.php:215
 #, php-format
 msgid "%d posts"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:265
+#: bp-forums/bp-forums-templatetags.php:266
 #, php-format
 msgid "Viewing topic %d to %d (%d total topics)"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:440
+#: bp-forums/bp-forums-templatetags.php:441
 #: bp-wire/bp-wire-templatetags.php:213
 #, php-format
 msgid "Viewing post %d to %d (%d total posts)"
@@ -1618,7 +1633,7 @@ msgid "Alphabetically"
 msgstr ""
 
 #: bp-friends/bp-friends-templatetags.php:344
-#: buddypress-theme/member-themes/buddypress-member/friends/index.php:10
+#: bp-themes/buddypress-member/friends/index.php:10
 #, php-format
 msgid "%s's Friends"
 msgstr ""
@@ -1643,12 +1658,11 @@ msgstr ""
 
 #: bp-groups.php:225 bp-groups.php:233
 #: bp-groups/bp-groups-templatetags.php:1406
-#: buddypress-theme/member-themes/buddypress-member/groups/index.php:10
+#: bp-themes/buddypress-member/groups/index.php:10
 msgid "My Groups"
 msgstr ""
 
-#: bp-groups.php:226
-#: buddypress-theme/member-themes/buddypress-member/groups/create.php:10
+#: bp-groups.php:226 bp-themes/buddypress-member/groups/create.php:10
 msgid "Create a Group"
 msgstr ""
 
@@ -1658,7 +1672,7 @@ msgstr ""
 
 #: bp-groups.php:277 bp-groups/bp-groups-ajax.php:338
 #: bp-groups/bp-groups-templatetags.php:1039
-#: buddypress-theme/member-themes/buddypress-member/groups/request-membership.php:22
+#: bp-themes/buddypress-member/groups/request-membership.php:22
 msgid "Request Membership"
 msgstr ""
 
@@ -1671,9 +1685,8 @@ msgstr ""
 msgid "Photos"
 msgstr ""
 
-#: bp-groups.php:293
-#: buddypress-theme/member-themes/buddypress-member/groups/send-invite.php:15
-#: buddypress-theme/member-themes/buddypress-member/groups/send-invite.php:24
+#: bp-groups.php:293 bp-themes/buddypress-member/groups/send-invite.php:15
+#: bp-themes/buddypress-member/groups/send-invite.php:24
 msgid "Send Invites"
 msgstr ""
 
@@ -1934,7 +1947,7 @@ msgid "You were promoted to a mod in the group %s"
 msgstr ""
 
 #: bp-groups.php:1170 bp-groups.php:1172
-#: buddypress-theme/member-themes/buddypress-member/groups/list-invites.php:12
+#: bp-themes/buddypress-member/groups/list-invites.php:12
 msgid "Group Invites"
 msgstr ""
 
@@ -1972,8 +1985,7 @@ msgid ""
 "directory."
 msgstr ""
 
-#: bp-groups.php:1423
-#: buddypress-theme/member-themes/buddypress-member/groups/group-admin.php:13
+#: bp-groups.php:1423 bp-themes/buddypress-member/groups/group-admin.php:13
 msgid "Group Admin"
 msgstr ""
 
@@ -2015,8 +2027,8 @@ msgid "Groups matching: \"%s\""
 msgstr ""
 
 #: bp-groups/bp-groups-admin.php:82
-#: buddypress-theme/buddypress-home/comments-popup.php:64
-#: buddypress-theme/buddypress-home/comments.php:86
+#: bp-themes/buddypress-home/comments-popup.php:64
+#: bp-themes/buddypress-home/comments.php:86
 msgid "Name"
 msgstr ""
 
@@ -2033,14 +2045,13 @@ msgid "Last Active"
 msgstr ""
 
 #: bp-groups/bp-groups-admin.php:110
-#: buddypress-theme/member-themes/buddypress-member/groups/group-menu.php:10
+#: bp-themes/buddypress-member/groups/group-menu.php:10
 msgid "Admins"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:132 bp-xprofile/bp-xprofile-admin.php:78
-#: bp-xprofile/bp-xprofile-admin.php:101
-#: buddypress-theme/buddypress-home/archive.php:45
-#: buddypress-theme/buddypress-home/search.php:23
+#: bp-groups/bp-groups-admin.php:132 bp-themes/buddypress-home/archive.php:45
+#: bp-themes/buddypress-home/search.php:23
+#: bp-xprofile/bp-xprofile-admin.php:78 bp-xprofile/bp-xprofile-admin.php:101
 msgid "Edit"
 msgstr ""
 
@@ -2070,39 +2081,39 @@ msgid "No groups matched the current filter."
 msgstr ""
 
 #: bp-groups/bp-groups-ajax.php:144 bp-groups/bp-groups-ajax.php:189
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/manage-members.php:64
-#: buddypress-theme/member-themes/buddypress-member/groups/list-members.php:68
+#: bp-themes/buddypress-member/groups/admin/manage-members.php:64
+#: bp-themes/buddypress-member/groups/list-members.php:68
 msgid "This group has no members."
 msgstr ""
 
 #: bp-groups/bp-groups-ajax.php:176
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/manage-members.php:51
+#: bp-themes/buddypress-member/groups/admin/manage-members.php:51
 msgid "(banned)"
 msgstr ""
 
 #: bp-groups/bp-groups-ajax.php:176 bp-groups/bp-groups-ajax.php:180
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/manage-members.php:51
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/manage-members.php:55
+#: bp-themes/buddypress-member/groups/admin/manage-members.php:51
+#: bp-themes/buddypress-member/groups/admin/manage-members.php:55
 msgid "Kick and ban this member"
 msgstr ""
 
 #: bp-groups/bp-groups-ajax.php:176
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/manage-members.php:51
+#: bp-themes/buddypress-member/groups/admin/manage-members.php:51
 msgid "Remove Ban"
 msgstr ""
 
 #: bp-groups/bp-groups-ajax.php:180 bp-groups/bp-groups-templatetags.php:763
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/manage-members.php:55
+#: bp-themes/buddypress-member/groups/admin/manage-members.php:55
 msgid "Kick &amp; Ban"
 msgstr ""
 
 #: bp-groups/bp-groups-ajax.php:180
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/manage-members.php:55
+#: bp-themes/buddypress-member/groups/admin/manage-members.php:55
 msgid "Promote this member"
 msgstr ""
 
 #: bp-groups/bp-groups-ajax.php:180
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/manage-members.php:55
+#: bp-themes/buddypress-member/groups/admin/manage-members.php:55
 msgid "Promote to Moderator"
 msgstr ""
 
@@ -2316,18 +2327,18 @@ msgid "No Mods"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:532
-#: buddypress-theme/member-themes/buddypress-member/groups/forum/index.php:45
+#: bp-themes/buddypress-member/groups/forum/index.php:45
 msgid "Permalink"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:534
-#: buddypress-theme/member-themes/buddypress-member/groups/forum/index.php:47
+#: bp-themes/buddypress-member/groups/forum/index.php:47
 #, php-format
 msgid "updated %s ago"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:537
-#: buddypress-theme/member-themes/buddypress-member/groups/forum/index.php:50
+#: bp-themes/buddypress-member/groups/forum/index.php:50
 msgid "Latest by"
 msgstr ""
 
@@ -2359,16 +2370,16 @@ msgid "This group has no moderators"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:844
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/edit-details.php:13
-#: buddypress-theme/member-themes/buddypress-member/groups/group-admin.php:16
+#: bp-themes/buddypress-member/groups/admin/edit-details.php:13
+#: bp-themes/buddypress-member/groups/group-admin.php:16
 msgid "Edit Details"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:848
 #: bp-groups/bp-groups-templatetags.php:1072
 #: bp-groups/bp-groups-templatetags.php:1088
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:13
-#: buddypress-theme/member-themes/buddypress-member/groups/group-admin.php:17
+#: bp-themes/buddypress-member/groups/admin/group-settings.php:13
+#: bp-themes/buddypress-member/groups/group-admin.php:17
 msgid "Group Settings"
 msgstr ""
 
@@ -2377,25 +2388,25 @@ msgstr ""
 #: bp-groups/bp-groups-templatetags.php:1092
 #: bp-groups/bp-groups-templatetags.php:1341
 #: bp-groups/bp-groups-templatetags.php:1412
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-avatar.php:13
+#: bp-themes/buddypress-member/groups/admin/group-avatar.php:13
 msgid "Group Avatar"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:856
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/manage-members.php:13
-#: buddypress-theme/member-themes/buddypress-member/groups/group-admin.php:18
+#: bp-themes/buddypress-member/groups/admin/manage-members.php:13
+#: bp-themes/buddypress-member/groups/group-admin.php:18
 msgid "Manage Members"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:860
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/membership-requests.php:13
+#: bp-themes/buddypress-member/groups/admin/membership-requests.php:13
 msgid "Membership Requests"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:864
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/delete-group.php:13
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/delete-group.php:24
-#: buddypress-theme/member-themes/buddypress-member/groups/group-admin.php:19
+#: bp-themes/buddypress-member/groups/admin/delete-group.php:13
+#: bp-themes/buddypress-member/groups/admin/delete-group.php:24
+#: bp-themes/buddypress-member/groups/group-admin.php:19
 msgid "Delete Group"
 msgstr ""
 
@@ -2444,17 +2455,17 @@ msgid "Invite Members"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1109
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/edit-details.php:18
+#: bp-themes/buddypress-member/groups/admin/edit-details.php:18
 msgid "Group Name"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1112
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/edit-details.php:21
+#: bp-themes/buddypress-member/groups/admin/edit-details.php:21
 msgid "Group Description"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1115
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/edit-details.php:24
+#: bp-themes/buddypress-member/groups/admin/edit-details.php:24
 msgid "Recent News"
 msgstr ""
 
@@ -2463,12 +2474,12 @@ msgid "Create Group and Continue"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1129
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:21
+#: bp-themes/buddypress-member/groups/admin/group-settings.php:21
 msgid "Enable comment wire"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1136
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:27
+#: bp-themes/buddypress-member/groups/admin/group-settings.php:27
 msgid "Enable discussion forum"
 msgstr ""
 
@@ -2479,78 +2490,78 @@ msgid ""
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1151
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:33
+#: bp-themes/buddypress-member/groups/admin/group-settings.php:33
 msgid "Enable photo gallery"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1153
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:37
+#: bp-themes/buddypress-member/groups/admin/group-settings.php:37
 msgid "All members can upload photos"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1154
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:38
+#: bp-themes/buddypress-member/groups/admin/group-settings.php:38
 msgid "Only group admins can upload photos"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1159
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:44
+#: bp-themes/buddypress-member/groups/admin/group-settings.php:44
 msgid "Privacy Options"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1163
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:49
+#: bp-themes/buddypress-member/groups/admin/group-settings.php:49
 msgid "This is a public group"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1165
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:51
+#: bp-themes/buddypress-member/groups/admin/group-settings.php:51
 msgid "Any site member can join this group."
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1166
 #: bp-groups/bp-groups-templatetags.php:1175
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:52
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:62
+#: bp-themes/buddypress-member/groups/admin/group-settings.php:52
+#: bp-themes/buddypress-member/groups/admin/group-settings.php:62
 msgid ""
 "This group will be listed in the groups directory and in search results."
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1167
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:53
+#: bp-themes/buddypress-member/groups/admin/group-settings.php:53
 msgid "Group content and activity will be visible to any site member."
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1172
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:59
+#: bp-themes/buddypress-member/groups/admin/group-settings.php:59
 msgid "This is a private group"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1174
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:61
+#: bp-themes/buddypress-member/groups/admin/group-settings.php:61
 msgid "Only users who request membership and are accepted can join the group."
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1176
 #: bp-groups/bp-groups-templatetags.php:1185
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:63
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:73
+#: bp-themes/buddypress-member/groups/admin/group-settings.php:63
+#: bp-themes/buddypress-member/groups/admin/group-settings.php:73
 msgid ""
 "Group content and activity will only be visible to members of the group."
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1181
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:69
+#: bp-themes/buddypress-member/groups/admin/group-settings.php:69
 msgid "This is a hidden group"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1183
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:71
+#: bp-themes/buddypress-member/groups/admin/group-settings.php:71
 msgid "Only users who are invited can join the group."
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1184
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-settings.php:72
+#: bp-themes/buddypress-member/groups/admin/group-settings.php:72
 msgid ""
 "This group will not be listed in the groups directory or search results."
 msgstr ""
@@ -2566,7 +2577,7 @@ msgid "Please complete all previous steps first."
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1207
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/group-avatar.php:24
+#: bp-themes/buddypress-member/groups/admin/group-avatar.php:24
 msgid ""
 "Upload an image to use as an avatar for this group. The image will be shown "
 "on the main group page, and in search results."
@@ -2626,18 +2637,18 @@ msgid "There aren't enough groups to show a random sample just yet."
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1406
-#: buddypress-theme/member-themes/buddypress-member/groups/index.php:10
+#: bp-themes/buddypress-member/groups/index.php:10
 #, php-format
 msgid "%s's Groups"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1419
-#: buddypress-theme/member-themes/buddypress-member/groups/group-loop.php:28
+#: bp-themes/buddypress-member/groups/group-loop.php:28
 msgid "You haven't joined any groups yet."
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1419
-#: buddypress-theme/member-themes/buddypress-member/groups/group-loop.php:28
+#: bp-themes/buddypress-member/groups/group-loop.php:28
 #, php-format
 msgid "%s hasn't joined any groups yet."
 msgstr ""
@@ -2689,13 +2700,11 @@ msgstr ""
 msgid "Messages"
 msgstr ""
 
-#: bp-messages.php:161
-#: buddypress-theme/member-themes/buddypress-member/messages/index.php:12
+#: bp-messages.php:161 bp-themes/buddypress-member/messages/index.php:12
 msgid "Inbox"
 msgstr ""
 
-#: bp-messages.php:162
-#: buddypress-theme/member-themes/buddypress-member/messages/sentbox.php:10
+#: bp-messages.php:162 bp-themes/buddypress-member/messages/sentbox.php:10
 msgid "Sent Messages"
 msgstr ""
 
@@ -2810,9 +2819,8 @@ msgstr ""
 msgid "Message sent successfully!"
 msgstr ""
 
-#: bp-messages.php:477
-#: buddypress-theme/member-themes/buddypress-member/messages/index.php:34
-#: buddypress-theme/member-themes/buddypress-member/messages/sentbox.php:29
+#: bp-messages.php:477 bp-themes/buddypress-member/messages/index.php:34
+#: bp-themes/buddypress-member/messages/sentbox.php:29
 msgid "View Message"
 msgstr ""
 
@@ -2921,22 +2929,743 @@ msgstr ""
 msgid "Re: "
 msgstr ""
 
+#: bp-themes/buddypress-home/404.php:10 bp-themes/buddypress-home/404.php:21
+#: bp-themes/buddypress-home/activate.php:10
+#: bp-themes/buddypress-home/home.php:9 bp-themes/buddypress-home/home.php:20
+#: bp-themes/buddypress-home/home.php:31
+#: bp-themes/buddypress-home/register.php:10
+#: bp-themes/buddypress-home/register.php:21
+#: bp-themes/buddypress-home/sidebar.php:6
+msgid "Please log in and add widgets to this column."
+msgstr ""
+
+#: bp-themes/buddypress-home/404.php:10 bp-themes/buddypress-home/404.php:21
+#: bp-themes/buddypress-home/activate.php:10
+#: bp-themes/buddypress-home/home.php:9 bp-themes/buddypress-home/home.php:20
+#: bp-themes/buddypress-home/home.php:31
+#: bp-themes/buddypress-home/register.php:10
+#: bp-themes/buddypress-home/register.php:21
+#: bp-themes/buddypress-home/sidebar.php:6
+msgid "Add Widgets"
+msgstr ""
+
+#: bp-themes/buddypress-home/404.php:29
+msgid "Sorry, that page was not found"
+msgstr ""
+
+#: bp-themes/buddypress-home/404.php:32
+msgid "The page you were looking for was not found."
+msgstr ""
+
+#: bp-themes/buddypress-home/activate.php:18
+msgid "Activate your Account"
+msgstr ""
+
+#: bp-themes/buddypress-home/archive.php:11
+msgid "Archive for the"
+msgstr ""
+
+#: bp-themes/buddypress-home/archive.php:11
+msgid "Category"
+msgstr ""
+
+#: bp-themes/buddypress-home/archive.php:14
+#: bp-themes/buddypress-home/archive.php:17
+#: bp-themes/buddypress-home/archive.php:20
+msgid "Archive for"
+msgstr ""
+
+#: bp-themes/buddypress-home/archive.php:23
+msgid "Author Archive"
+msgstr ""
+
+#: bp-themes/buddypress-home/archive.php:26
+msgid "Blog Archives"
+msgstr ""
+
+#: bp-themes/buddypress-home/archive.php:32
+#: bp-themes/buddypress-home/archive.php:52
+#: bp-themes/buddypress-home/index.php:26
+#: bp-themes/buddypress-home/search.php:13
+#: bp-themes/buddypress-home/search.php:29
+#: bp-themes/buddypress-home/single.php:11
+msgid "&laquo; Previous Entries"
+msgstr ""
+
+#: bp-themes/buddypress-home/archive.php:33
+#: bp-themes/buddypress-home/archive.php:53
+#: bp-themes/buddypress-home/index.php:27
+#: bp-themes/buddypress-home/search.php:14
+#: bp-themes/buddypress-home/search.php:30
+#: bp-themes/buddypress-home/single.php:12
+msgid "Next Entries &raquo;"
+msgstr ""
+
+#: bp-themes/buddypress-home/archive.php:38
+#: bp-themes/buddypress-home/index.php:11
+#: bp-themes/buddypress-home/search.php:20
+msgid "Permanent Link to"
+msgstr ""
+
+#: bp-themes/buddypress-home/archive.php:45
+#: bp-themes/buddypress-home/search.php:23
+msgid "Posted in"
+msgstr ""
+
+#: bp-themes/buddypress-home/archive.php:58
+#: bp-themes/buddypress-home/index.php:32
+msgid "Not Found"
+msgstr ""
+
+#: bp-themes/buddypress-home/archives.php:13
+msgid "Archives by Month:"
+msgstr ""
+
+#: bp-themes/buddypress-home/archives.php:18
+msgid "Archives by Subject:"
+msgstr ""
+
+#: bp-themes/buddypress-home/attachment.php:16
+#: bp-themes/buddypress-home/single.php:19
+msgid "<p class=\"serif\">Read the rest of this entry &raquo;</p>"
+msgstr ""
+
+#: bp-themes/buddypress-home/attachment.php:18
+#: bp-themes/buddypress-home/page.php:12
+#: bp-themes/buddypress-home/single.php:21
+msgid "<p><strong>Pages:</strong> "
+msgstr ""
+
+#: bp-themes/buddypress-home/attachment.php:27
+msgid "Sorry, no attachments matched your criteria."
+msgstr ""
+
+#: bp-themes/buddypress-home/comments-popup.php:9
+msgid "Comments on"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments-popup.php:22
+msgid "Comments"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments-popup.php:24
+msgid ""
+"<abbr title=\"Really Simple Syndication\">RSS</abbr> feed for comments on "
+"this post."
+msgstr ""
+
+#: bp-themes/buddypress-home/comments-popup.php:27
+msgid ""
+"The <abbr title=\"Universal Resource Locator\">URL</abbr> to TrackBack this "
+"entry is:"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments-popup.php:45
+msgid "by"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments-popup.php:51
+msgid "No comments yet."
+msgstr ""
+
+#: bp-themes/buddypress-home/comments-popup.php:55
+msgid "Leave a comment"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments-popup.php:56
+msgid ""
+"Line and paragraph breaks automatic, e-mail address never displayed, "
+"<acronym title=\"Hypertext Markup Language\">HTML</acronym> allowed:"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments-popup.php:60
+#: bp-themes/buddypress-home/comments.php:81
+msgid "Logged in as"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments-popup.php:60
+msgid "Log out of this account"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments-popup.php:60
+#: bp-themes/buddypress-home/comments.php:81
+msgid "Logout"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments-popup.php:71
+msgid "E-mail"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments-popup.php:76
+msgid "URL"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments-popup.php:81
+msgid "Your Comment"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments-popup.php:87
+msgid "Say It!"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments-popup.php:92
+msgid "Sorry, the comment form is closed at this time."
+msgstr ""
+
+#: bp-themes/buddypress-home/comments-popup.php:97
+msgid "Close this window."
+msgstr ""
+
+#: bp-themes/buddypress-home/comments-popup.php:105
+msgid ""
+"Powered by <a href=\"http://wordpress.org/\" title=\"Powered by WordPress, "
+"state-of-the-art semantic personal publishing platform\"><strong>Wordpress</"
+"strong>"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments.php:9
+msgid "This post is password protected. Enter the password to view comments."
+msgstr ""
+
+#: bp-themes/buddypress-home/comments.php:33 bp-wire/bp-wire-ajax.php:24
+msgid "said:"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments.php:38
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: bp-themes/buddypress-home/comments.php:62
+msgid "Comments are closed."
+msgstr ""
+
+#: bp-themes/buddypress-home/comments.php:71
+msgid "Leave a Reply"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments.php:74
+#, php-format
+msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
+msgstr ""
+
+#: bp-themes/buddypress-home/comments.php:86
+#: bp-themes/buddypress-home/comments.php:89
+msgid "(required)"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments.php:89
+msgid "Mail (will not be published)"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments.php:92
+msgid "Website"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments.php:98
+msgid "Submit Comment"
+msgstr ""
+
+#: bp-themes/buddypress-home/footer.php:5
+#: bp-themes/buddypress-member/footer.php:4
+#, php-format
+msgid ""
+"%s is proudly powered by <a href=\"http://mu.wordpress.org\">WordPress MU</"
+"a> and <a href=\"http://buddypress.org\">BuddyPress</a>"
+msgstr ""
+
+#: bp-themes/buddypress-home/header.php:17
+msgid "Blog Posts RSS Feed"
+msgstr ""
+
+#: bp-themes/buddypress-home/header.php:18
+msgid "Blog Posts Atom Feed"
+msgstr ""
+
+#: bp-themes/buddypress-home/index.php:15
+#: bp-themes/buddypress-member/blogs/recent-posts.php:16
+msgid "Read the rest of this entry &raquo;"
+msgstr ""
+
+#: bp-themes/buddypress-home/index.php:33
+msgid "Sorry, but you are looking for something that isn't here."
+msgstr ""
+
+#: bp-themes/buddypress-home/links.php:11
+msgid "Links:"
+msgstr ""
+
+#: bp-themes/buddypress-home/page.php:10
+msgid "<p class=\"serif\">Read the rest of this page &raquo;</p>"
+msgstr ""
+
+#: bp-themes/buddypress-home/page.php:18
+msgid "Edit this entry."
+msgstr ""
+
+#: bp-themes/buddypress-home/register.php:29
+msgid "Register for an Account"
+msgstr ""
+
+#: bp-themes/buddypress-home/search.php:10
+msgid "Search Results"
+msgstr ""
+
+#: bp-themes/buddypress-home/search.php:35
+msgid "No posts found. Try a different search?"
+msgstr ""
+
+#: bp-themes/buddypress-home/single.php:16
+msgid "Permanent link to"
+msgstr ""
+
+#: bp-themes/buddypress-home/single.php:31
+msgid "Sorry, no posts matched your criteria."
+msgstr ""
+
+#: bp-themes/buddypress-member/404.php:4
+msgid "Permission Denied"
+msgstr ""
+
+#: bp-themes/buddypress-member/404.php:8
+msgid "Not Found / No Access"
+msgstr ""
+
+#: bp-themes/buddypress-member/404.php:9
+msgid ""
+"The page you are looking for either does not exist, or you do not have the "
+"permissions to access it."
+msgstr ""
+
+#: bp-themes/buddypress-member/activity/just-me.php:30
+#: bp-themes/buddypress-member/profile/index.php:37
+#, php-format
+msgid "%s's Activity"
+msgstr ""
+
+#: bp-themes/buddypress-member/activity/just-me.php:30
+msgid "You haven't done anything yet."
+msgstr ""
+
+#: bp-themes/buddypress-member/activity/just-me.php:30
+#, php-format
+msgid "%s hasn't done anything yet."
+msgstr ""
+
+#: bp-themes/buddypress-member/activity/my-friends.php:23
+msgid "My Friends Activity"
+msgstr ""
+
+#: bp-themes/buddypress-member/activity/my-friends.php:23
+msgid "Your friends haven't done anything yet."
+msgstr ""
+
+#: bp-themes/buddypress-member/blogs/create.php:18
+msgid "Blog registration is currently disabled"
+msgstr ""
+
+#: bp-themes/buddypress-member/blogs/my-blogs.php:23
+msgid "You haven't created any blogs yet."
+msgstr ""
+
+#: bp-themes/buddypress-member/blogs/my-blogs.php:23
+#, php-format
+msgid "%s hasn't created any public blogs yet."
+msgstr ""
+
+#: bp-themes/buddypress-member/blogs/recent-comments.php:15
+#: bp-themes/buddypress-member/wire/post-form.php:5
+#: bp-themes/buddypress-member/wire/post-list.php:23
+#, php-format
+msgid "On %1$s %2$s said:"
+msgstr ""
+
+#: bp-themes/buddypress-member/blogs/recent-comments.php:15
+#: bp-themes/buddypress-member/blogs/recent-posts.php:15
+msgid "F jS, Y"
+msgstr ""
+
+#: bp-themes/buddypress-member/blogs/recent-comments.php:17
+#, php-format
+msgid ""
+"Commented on the post <a href=\"%1$s\">%2$s</a> on the blog <a href=\"%3$s\">"
+"%4$s</a>."
+msgstr ""
+
+#: bp-themes/buddypress-member/blogs/recent-comments.php:24
+msgid "You haven't posted any comments yet."
+msgstr ""
+
+#: bp-themes/buddypress-member/blogs/recent-comments.php:24
+#, php-format
+msgid "%s hasn't posted any comments yet."
+msgstr ""
+
+#: bp-themes/buddypress-member/blogs/recent-posts.php:14
+#, php-format
+msgid "Permanent Link to %s"
+msgstr ""
+
+#: bp-themes/buddypress-member/blogs/recent-posts.php:15
+#, php-format
+msgid "%1$s <em>in %2$s by %3$s</em>"
+msgstr ""
+
+#: bp-themes/buddypress-member/blogs/recent-posts.php:17
+msgid "No Comments"
+msgstr ""
+
+#: bp-themes/buddypress-member/blogs/recent-posts.php:17
+msgid "1 Comment"
+msgstr ""
+
+#: bp-themes/buddypress-member/blogs/recent-posts.php:17
+msgid "% Comments"
+msgstr ""
+
+#: bp-themes/buddypress-member/blogs/recent-posts.php:24
+msgid "You haven't made any posts yet."
+msgstr ""
+
+#: bp-themes/buddypress-member/blogs/recent-posts.php:24
+#, php-format
+msgid "%s hasn't made any posts yet."
+msgstr ""
+
+#: bp-themes/buddypress-member/friends/friends-loop.php:27
+msgid "Your friends list is currently empty"
+msgstr ""
+
+#: bp-themes/buddypress-member/friends/friends-loop.php:27
+#, php-format
+msgid "%s's friends list is currently empty"
+msgstr ""
+
+#: bp-themes/buddypress-member/friends/friends-loop.php:31
+msgid "Why not make friends with some of these members?"
+msgstr ""
+
+#: bp-themes/buddypress-member/friends/requests.php:11
+msgid "Friendship Requests"
+msgstr ""
+
+#: bp-themes/buddypress-member/friends/requests.php:24
+#: bp-themes/buddypress-member/groups/admin/membership-requests.php:27
+#: bp-themes/buddypress-member/groups/list-invites.php:27
+msgid "Accept"
+msgstr ""
+
+#: bp-themes/buddypress-member/friends/requests.php:30
+#: bp-themes/buddypress-member/groups/admin/membership-requests.php:33
+#: bp-themes/buddypress-member/groups/list-invites.php:33
+msgid "Reject"
+msgstr ""
+
+#: bp-themes/buddypress-member/friends/requests.php:40
+msgid "You have no pending friendship requests."
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/admin/delete-group.php:20
+msgid ""
+"WARNING: Deleting this group will completely remove ALL content associated "
+"with it. There is no way back, please be careful with this option."
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/admin/delete-group.php:23
+msgid "I understand the consequences of deleting this group."
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/admin/edit-details.php:30
+msgid "Notify group members of changes via email"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/admin/manage-members.php:18
+#: bp-themes/buddypress-member/groups/list-members.php:23
+msgid "Administrators"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/admin/manage-members.php:24
+#: bp-themes/buddypress-member/groups/list-members.php:29
+msgid "Moderators"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/admin/membership-requests.php:43
+msgid "There are no pending membership requests."
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/forum/index.php:25
+msgid "Post New"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/forum/index.php:25
+msgid "Post New &raquo;"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/forum/index.php:59
+msgid "There are no topics for this group forum."
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/forum/index.php:71
+msgid "Post a New Topic:"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/forum/index.php:76
+msgid "Content:"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/forum/index.php:79
+msgid "Tags:"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/forum/index.php:84
+msgid "Post Topic"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/forum/topic.php:47
+#, php-format
+msgid "%s said %s ago:"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/forum/topic.php:63
+msgid "Add a reply:"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/forum/topic.php:66
+msgid "Post Reply"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/forum/topic.php:80
+msgid "There are no posts for this topic."
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/group-home.php:37
+msgid "News"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/group-home.php:46
+msgid "Active Forum Topics"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/group-home.php:46
+#: bp-themes/buddypress-member/wire/post-list.php:2
+msgid "See All &raquo;"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/group-home.php:53
+#, php-format
+msgid "Members (%d) <a href=\"%s\">See All &raquo;</a>"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/group-home.php:62
+#: bp-themes/buddypress-member/groups/wire.php:26
+msgid "Group Wire"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/group-home.php:62
+#: bp-themes/buddypress-member/groups/wire.php:26
+#, php-format
+msgid "The are no wire posts for %s"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/group-home.php:70
+msgid "Sorry, the group does not exist."
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/group-loop.php:11
+#: bp-themes/buddypress-member/groups/list-invites.php:20
+#, php-format
+msgid "%s members"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/group-loop.php:14
+msgid "Membership Pending Approval"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/group-loop.php:32
+msgid "Why not join a few of these groups?"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/group-loop.php:39
+msgid "No matching groups found."
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/group-menu.php:16
+msgid "Mods"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/leave-group-confirm.php:23
+msgid "Confirm Leave Group"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/leave-group-confirm.php:24
+msgid "Are you sure you want to leave this group?"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/leave-group-confirm.php:27
+msgid "Yes, I'd like to leave this group."
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/leave-group-confirm.php:28
+msgid "No, I'll stay!"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/list-invites.php:44
+msgid "You have no outstanding group invites."
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/list-members.php:35
+msgid "Group Members"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/request-membership.php:27
+#, php-format
+msgid "You are requesting to become a member of the group '%s'."
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/request-membership.php:30
+msgid "Comments (optional)"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/request-membership.php:33
+msgid "Send Request"
+msgstr ""
+
+#: bp-themes/buddypress-member/groups/send-invite.php:30
+msgid ""
+"You either need to build up your friends list, or your friends have already "
+"been invited or are current members."
+msgstr ""
+
+#: bp-themes/buddypress-member/messages/compose.php:8
+msgid "Compose Message"
+msgstr ""
+
+#: bp-themes/buddypress-member/messages/compose.php:16
+msgid "Send To"
+msgstr ""
+
+#: bp-themes/buddypress-member/messages/compose.php:25
+msgid "This is a notice to all users."
+msgstr ""
+
+#: bp-themes/buddypress-member/messages/compose.php:28
+msgid "Subject"
+msgstr ""
+
+#: bp-themes/buddypress-member/messages/compose.php:31
+msgid "Message"
+msgstr ""
+
+#: bp-themes/buddypress-member/messages/compose.php:39
+msgid "Send"
+msgstr ""
+
+#: bp-themes/buddypress-member/messages/index.php:30
+msgid "From:"
+msgstr ""
+
+#: bp-themes/buddypress-member/messages/index.php:38
+#: bp-themes/buddypress-member/messages/notices.php:33
+#: bp-themes/buddypress-member/messages/sentbox.php:33
+msgid "Delete Message"
+msgstr ""
+
+#: bp-themes/buddypress-member/messages/index.php:48
+msgid "You have no messages in your inbox."
+msgstr ""
+
+#: bp-themes/buddypress-member/messages/notices.php:12
+msgid "Sent Notices"
+msgstr ""
+
+#: bp-themes/buddypress-member/messages/notices.php:29
+msgid "Sent:"
+msgstr ""
+
+#: bp-themes/buddypress-member/messages/notices.php:42
+msgid "You have not sent any notices."
+msgstr ""
+
+#: bp-themes/buddypress-member/messages/sentbox.php:25
+msgid "To:"
+msgstr ""
+
+#: bp-themes/buddypress-member/messages/sentbox.php:43
+msgid "You have no sent messages."
+msgstr ""
+
+#: bp-themes/buddypress-member/profile/change-avatar.php:9 bp-xprofile.php:233
+msgid "Change Avatar"
+msgstr ""
+
+#: bp-themes/buddypress-member/profile/edit.php:13
+#, php-format
+msgid "Editing '%s'"
+msgstr ""
+
+#: bp-themes/buddypress-member/profile/index.php:37
+msgid "You haven't done anything recently."
+msgstr ""
+
+#: bp-themes/buddypress-member/profile/index.php:37
+#, php-format
+msgid "%s has not done anything recently."
+msgstr ""
+
+#: bp-themes/buddypress-member/profile/index.php:51 bp-wire.php:65
+msgid "My Wire"
+msgstr ""
+
+#: bp-themes/buddypress-member/profile/index.php:51
+#: bp-themes/buddypress-member/wire/latest.php:30
+#, php-format
+msgid "%s's Wire"
+msgstr ""
+
+#: bp-themes/buddypress-member/profile/index.php:51
+#: bp-themes/buddypress-member/wire/latest.php:30
+msgid "No one has posted to your wire yet."
+msgstr ""
+
+#: bp-themes/buddypress-member/profile/index.php:51
+#: bp-themes/buddypress-member/wire/latest.php:30
+#, php-format
+msgid "No one has posted to %s's wire yet."
+msgstr ""
+
+#: bp-themes/buddypress-member/profile/profile-loop.php:38
+msgid "Sorry, this person does not have a public profile."
+msgstr ""
+
+#: bp-themes/buddypress-member/userbar.php:2
+msgid "Me"
+msgstr ""
+
+#: bp-themes/buddypress-member/userbar.php:24
+msgid "You must log in to access your account."
+msgstr ""
+
+#: bp-themes/buddypress-member/userbar.php:32
+msgid "Password"
+msgstr ""
+
+#: bp-themes/buddypress-member/wire/latest.php:30
+msgid "Your Wire"
+msgstr ""
+
+#: bp-themes/buddypress-member/wire/post-form.php:15
+msgid "Notify members via email (will slow down posting)"
+msgstr ""
+
+#: bp-themes/buddypress-member/wire/post-form.php:20
+msgid "Post &raquo;"
+msgstr ""
+
 #: bp-wire.php:61
 msgid "All Posts"
 msgstr ""
 
-#: bp-wire.php:65
-#: buddypress-theme/member-themes/buddypress-member/profile/index.php:51
-msgid "My Wire"
-msgstr ""
-
 #: bp-wire/bp-wire-ajax.php:23
 msgid "On"
-msgstr ""
-
-#: bp-wire/bp-wire-ajax.php:24
-#: buddypress-theme/buddypress-home/comments.php:33
-msgid "said:"
 msgstr ""
 
 #: bp-wire/bp-wire-templatetags.php:133
@@ -2953,11 +3682,6 @@ msgstr ""
 
 #: bp-xprofile.php:232 bp-xprofile/bp-xprofile-templatetags.php:302
 msgid "Edit Profile"
-msgstr ""
-
-#: bp-xprofile.php:233
-#: buddypress-theme/member-themes/buddypress-member/profile/change-avatar.php:9
-msgid "Change Avatar"
 msgstr ""
 
 #: bp-xprofile.php:329
@@ -3389,727 +4113,4 @@ msgstr ""
 #: bp-xprofile/bp-xprofile-templatetags.php:293
 #, php-format
 msgid "Profile updated %s ago"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/404.php:10
-#: buddypress-theme/buddypress-home/404.php:21
-#: buddypress-theme/buddypress-home/activate.php:10
-#: buddypress-theme/buddypress-home/home.php:9
-#: buddypress-theme/buddypress-home/home.php:20
-#: buddypress-theme/buddypress-home/home.php:31
-#: buddypress-theme/buddypress-home/register.php:10
-#: buddypress-theme/buddypress-home/register.php:21
-#: buddypress-theme/buddypress-home/sidebar.php:6
-msgid "Please log in and add widgets to this column."
-msgstr ""
-
-#: buddypress-theme/buddypress-home/404.php:10
-#: buddypress-theme/buddypress-home/404.php:21
-#: buddypress-theme/buddypress-home/activate.php:10
-#: buddypress-theme/buddypress-home/home.php:9
-#: buddypress-theme/buddypress-home/home.php:20
-#: buddypress-theme/buddypress-home/home.php:31
-#: buddypress-theme/buddypress-home/register.php:10
-#: buddypress-theme/buddypress-home/register.php:21
-#: buddypress-theme/buddypress-home/sidebar.php:6
-msgid "Add Widgets"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/404.php:29
-msgid "Sorry, that page was not found"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/404.php:32
-msgid "The page you were looking for was not found."
-msgstr ""
-
-#: buddypress-theme/buddypress-home/activate.php:18
-msgid "Activate your Account"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/archive.php:11
-msgid "Archive for the"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/archive.php:11
-msgid "Category"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/archive.php:14
-#: buddypress-theme/buddypress-home/archive.php:17
-#: buddypress-theme/buddypress-home/archive.php:20
-msgid "Archive for"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/archive.php:23
-msgid "Author Archive"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/archive.php:26
-msgid "Blog Archives"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/archive.php:32
-#: buddypress-theme/buddypress-home/archive.php:52
-#: buddypress-theme/buddypress-home/index.php:26
-#: buddypress-theme/buddypress-home/search.php:13
-#: buddypress-theme/buddypress-home/search.php:29
-#: buddypress-theme/buddypress-home/single.php:11
-msgid "&laquo; Previous Entries"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/archive.php:33
-#: buddypress-theme/buddypress-home/archive.php:53
-#: buddypress-theme/buddypress-home/index.php:27
-#: buddypress-theme/buddypress-home/search.php:14
-#: buddypress-theme/buddypress-home/search.php:30
-#: buddypress-theme/buddypress-home/single.php:12
-msgid "Next Entries &raquo;"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/archive.php:38
-#: buddypress-theme/buddypress-home/index.php:11
-#: buddypress-theme/buddypress-home/search.php:20
-msgid "Permanent Link to"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/archive.php:45
-#: buddypress-theme/buddypress-home/search.php:23
-msgid "Posted in"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/archive.php:58
-#: buddypress-theme/buddypress-home/index.php:32
-msgid "Not Found"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/archives.php:13
-msgid "Archives by Month:"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/archives.php:18
-msgid "Archives by Subject:"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/attachment.php:16
-#: buddypress-theme/buddypress-home/single.php:19
-msgid "<p class=\"serif\">Read the rest of this entry &raquo;</p>"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/attachment.php:18
-#: buddypress-theme/buddypress-home/page.php:12
-#: buddypress-theme/buddypress-home/single.php:21
-msgid "<p><strong>Pages:</strong> "
-msgstr ""
-
-#: buddypress-theme/buddypress-home/attachment.php:27
-msgid "Sorry, no attachments matched your criteria."
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments-popup.php:9
-msgid "Comments on"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments-popup.php:22
-msgid "Comments"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments-popup.php:24
-msgid ""
-"<abbr title=\"Really Simple Syndication\">RSS</abbr> feed for comments on "
-"this post."
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments-popup.php:27
-msgid ""
-"The <abbr title=\"Universal Resource Locator\">URL</abbr> to TrackBack this "
-"entry is:"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments-popup.php:45
-msgid "by"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments-popup.php:51
-msgid "No comments yet."
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments-popup.php:55
-msgid "Leave a comment"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments-popup.php:56
-msgid ""
-"Line and paragraph breaks automatic, e-mail address never displayed, "
-"<acronym title=\"Hypertext Markup Language\">HTML</acronym> allowed:"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments-popup.php:60
-#: buddypress-theme/buddypress-home/comments.php:81
-msgid "Logged in as"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments-popup.php:60
-msgid "Log out of this account"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments-popup.php:60
-#: buddypress-theme/buddypress-home/comments.php:81
-msgid "Logout"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments-popup.php:71
-msgid "E-mail"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments-popup.php:76
-msgid "URL"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments-popup.php:81
-msgid "Your Comment"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments-popup.php:87
-msgid "Say It!"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments-popup.php:92
-msgid "Sorry, the comment form is closed at this time."
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments-popup.php:97
-msgid "Close this window."
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments-popup.php:105
-msgid ""
-"Powered by <a href=\"http://wordpress.org/\" title=\"Powered by WordPress, "
-"state-of-the-art semantic personal publishing platform\"><strong>Wordpress</"
-"strong>"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments.php:9
-msgid "This post is password protected. Enter the password to view comments."
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments.php:38
-msgid "Your comment is awaiting moderation."
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments.php:62
-msgid "Comments are closed."
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments.php:71
-msgid "Leave a Reply"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments.php:74
-#, php-format
-msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments.php:86
-#: buddypress-theme/buddypress-home/comments.php:89
-msgid "(required)"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments.php:89
-msgid "Mail (will not be published)"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments.php:92
-msgid "Website"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/comments.php:98
-msgid "Submit Comment"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/footer.php:5
-#: buddypress-theme/member-themes/buddypress-member/footer.php:4
-#, php-format
-msgid ""
-"%s is proudly powered by <a href=\"http://mu.wordpress.org\">WordPress MU</"
-"a> and <a href=\"http://buddypress.org\">BuddyPress</a>"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/header.php:17
-msgid "Blog Posts RSS Feed"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/header.php:18
-msgid "Blog Posts Atom Feed"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/index.php:15
-#: buddypress-theme/member-themes/buddypress-member/blogs/recent-posts.php:16
-msgid "Read the rest of this entry &raquo;"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/index.php:33
-msgid "Sorry, but you are looking for something that isn't here."
-msgstr ""
-
-#: buddypress-theme/buddypress-home/links.php:11
-msgid "Links:"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/page.php:10
-msgid "<p class=\"serif\">Read the rest of this page &raquo;</p>"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/page.php:18
-msgid "Edit this entry."
-msgstr ""
-
-#: buddypress-theme/buddypress-home/register.php:29
-msgid "Register for an Account"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/search.php:10
-msgid "Search Results"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/search.php:35
-msgid "No posts found. Try a different search?"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/single.php:16
-msgid "Permanent link to"
-msgstr ""
-
-#: buddypress-theme/buddypress-home/single.php:31
-msgid "Sorry, no posts matched your criteria."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/404.php:4
-msgid "Permission Denied"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/404.php:8
-msgid "Not Found / No Access"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/404.php:9
-msgid ""
-"The page you are looking for either does not exist, or you do not have the "
-"permissions to access it."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/activity/just-me.php:30
-#: buddypress-theme/member-themes/buddypress-member/profile/index.php:37
-#, php-format
-msgid "%s's Activity"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/activity/just-me.php:30
-msgid "You haven't done anything yet."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/activity/just-me.php:30
-#, php-format
-msgid "%s hasn't done anything yet."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/activity/my-friends.php:23
-msgid "My Friends Activity"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/activity/my-friends.php:23
-msgid "Your friends haven't done anything yet."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/blogs/create.php:18
-msgid "Blog registration is currently disabled"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/blogs/my-blogs.php:23
-msgid "You haven't created any blogs yet."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/blogs/my-blogs.php:23
-#, php-format
-msgid "%s hasn't created any public blogs yet."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/blogs/recent-comments.php:15
-#: buddypress-theme/member-themes/buddypress-member/wire/post-form.php:5
-#: buddypress-theme/member-themes/buddypress-member/wire/post-list.php:23
-#, php-format
-msgid "On %1$s %2$s said:"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/blogs/recent-comments.php:15
-#: buddypress-theme/member-themes/buddypress-member/blogs/recent-posts.php:15
-msgid "F jS, Y"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/blogs/recent-comments.php:17
-#, php-format
-msgid ""
-"Commented on the post <a href=\"%1$s\">%2$s</a> on the blog <a href=\"%3$s\">"
-"%4$s</a>."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/blogs/recent-comments.php:24
-msgid "You haven't posted any comments yet."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/blogs/recent-comments.php:24
-#, php-format
-msgid "%s hasn't posted any comments yet."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/blogs/recent-posts.php:14
-#, php-format
-msgid "Permanent Link to %s"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/blogs/recent-posts.php:15
-#, php-format
-msgid "%1$s <em>in %2$s by %3$s</em>"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/blogs/recent-posts.php:17
-msgid "No Comments"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/blogs/recent-posts.php:17
-msgid "1 Comment"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/blogs/recent-posts.php:17
-msgid "% Comments"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/blogs/recent-posts.php:24
-msgid "You haven't made any posts yet."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/blogs/recent-posts.php:24
-#, php-format
-msgid "%s hasn't made any posts yet."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/friends/friends-loop.php:27
-msgid "Your friends list is currently empty"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/friends/friends-loop.php:27
-#, php-format
-msgid "%s's friends list is currently empty"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/friends/friends-loop.php:31
-msgid "Why not make friends with some of these members?"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/friends/requests.php:11
-msgid "Friendship Requests"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/friends/requests.php:24
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/membership-requests.php:27
-#: buddypress-theme/member-themes/buddypress-member/groups/list-invites.php:27
-msgid "Accept"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/friends/requests.php:30
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/membership-requests.php:33
-#: buddypress-theme/member-themes/buddypress-member/groups/list-invites.php:33
-msgid "Reject"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/friends/requests.php:40
-msgid "You have no pending friendship requests."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/delete-group.php:20
-msgid ""
-"WARNING: Deleting this group will completely remove ALL content associated "
-"with it. There is no way back, please be careful with this option."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/delete-group.php:23
-msgid "I understand the consequences of deleting this group."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/edit-details.php:30
-msgid "Notify group members of changes via email"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/manage-members.php:18
-#: buddypress-theme/member-themes/buddypress-member/groups/list-members.php:23
-msgid "Administrators"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/manage-members.php:24
-#: buddypress-theme/member-themes/buddypress-member/groups/list-members.php:29
-msgid "Moderators"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/admin/membership-requests.php:43
-msgid "There are no pending membership requests."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/forum/index.php:25
-msgid "Post New"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/forum/index.php:25
-msgid "Post New &raquo;"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/forum/index.php:59
-msgid "There are no topics for this group forum."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/forum/index.php:71
-msgid "Post a New Topic:"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/forum/index.php:76
-msgid "Content:"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/forum/index.php:79
-msgid "Tags:"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/forum/index.php:84
-msgid "Post Topic"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/forum/topic.php:47
-#, php-format
-msgid "%s said %s ago:"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/forum/topic.php:63
-msgid "Add a reply:"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/forum/topic.php:66
-msgid "Post Reply"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/forum/topic.php:80
-msgid "There are no posts for this topic."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/group-home.php:37
-msgid "News"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/group-home.php:46
-msgid "Active Forum Topics"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/group-home.php:46
-#: buddypress-theme/member-themes/buddypress-member/wire/post-list.php:2
-msgid "See All &raquo;"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/group-home.php:53
-#, php-format
-msgid "Members (%d) <a href=\"%s\">See All &raquo;</a>"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/group-home.php:62
-#: buddypress-theme/member-themes/buddypress-member/groups/wire.php:26
-msgid "Group Wire"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/group-home.php:62
-#: buddypress-theme/member-themes/buddypress-member/groups/wire.php:26
-#, php-format
-msgid "The are no wire posts for %s"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/group-home.php:70
-msgid "Sorry, the group does not exist."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/group-loop.php:11
-#: buddypress-theme/member-themes/buddypress-member/groups/list-invites.php:20
-#, php-format
-msgid "%s members"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/group-loop.php:14
-msgid "Membership Pending Approval"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/group-loop.php:32
-msgid "Why not join a few of these groups?"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/group-loop.php:39
-msgid "No matching groups found."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/group-menu.php:16
-msgid "Mods"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/leave-group-confirm.php:23
-msgid "Confirm Leave Group"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/leave-group-confirm.php:24
-msgid "Are you sure you want to leave this group?"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/leave-group-confirm.php:27
-msgid "Yes, I'd like to leave this group."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/leave-group-confirm.php:28
-msgid "No, I'll stay!"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/list-invites.php:44
-msgid "You have no outstanding group invites."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/list-members.php:35
-msgid "Group Members"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/request-membership.php:27
-#, php-format
-msgid "You are requesting to become a member of the group '%s'."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/request-membership.php:30
-msgid "Comments (optional)"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/request-membership.php:33
-msgid "Send Request"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/groups/send-invite.php:30
-msgid ""
-"You either need to build up your friends list, or your friends have already "
-"been invited or are current members."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/messages/compose.php:8
-msgid "Compose Message"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/messages/compose.php:16
-msgid "Send To"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/messages/compose.php:25
-msgid "This is a notice to all users."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/messages/compose.php:28
-msgid "Subject"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/messages/compose.php:31
-msgid "Message"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/messages/compose.php:39
-msgid "Send"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/messages/index.php:30
-msgid "From:"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/messages/index.php:38
-#: buddypress-theme/member-themes/buddypress-member/messages/notices.php:33
-#: buddypress-theme/member-themes/buddypress-member/messages/sentbox.php:33
-msgid "Delete Message"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/messages/index.php:48
-msgid "You have no messages in your inbox."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/messages/notices.php:12
-msgid "Sent Notices"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/messages/notices.php:29
-msgid "Sent:"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/messages/notices.php:42
-msgid "You have not sent any notices."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/messages/sentbox.php:25
-msgid "To:"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/messages/sentbox.php:43
-msgid "You have no sent messages."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/profile/edit.php:13
-#, php-format
-msgid "Editing '%s'"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/profile/index.php:37
-msgid "You haven't done anything recently."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/profile/index.php:37
-#, php-format
-msgid "%s has not done anything recently."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/profile/index.php:51
-#: buddypress-theme/member-themes/buddypress-member/wire/latest.php:30
-#, php-format
-msgid "%s's Wire"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/profile/index.php:51
-#: buddypress-theme/member-themes/buddypress-member/wire/latest.php:30
-msgid "No one has posted to your wire yet."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/profile/index.php:51
-#: buddypress-theme/member-themes/buddypress-member/wire/latest.php:30
-#, php-format
-msgid "No one has posted to %s's wire yet."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/profile/profile-loop.php:38
-msgid "Sorry, this person does not have a public profile."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/userbar.php:2
-msgid "Me"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/userbar.php:24
-msgid "You must log in to access your account."
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/userbar.php:32
-msgid "Password"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/wire/latest.php:30
-msgid "Your Wire"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/wire/post-form.php:15
-msgid "Notify members via email (will slow down posting)"
-msgstr ""
-
-#: buddypress-theme/member-themes/buddypress-member/wire/post-form.php:20
-msgid "Post &raquo;"
 msgstr ""
