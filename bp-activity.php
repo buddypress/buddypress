@@ -159,13 +159,13 @@ function bp_activity_setup_globals() {
 
 	if ( $bp->displayed_user->id ) {
 		/* Check to see if the current user has their activity table set up. If not, set them up. */
-		if ( !$wpdb->get_var("SHOW TABLES LIKE '%" . $bp->activity->table_name_current_user . "%'") || get_usermeta( $bp->displayed_user->id, 'bp-activity-db-version' ) < BP_ACTIVITY_VERSION  )
+		if ( get_usermeta( $bp->displayed_user->id, 'bp-activity-db-version' ) < BP_ACTIVITY_VERSION  )
 			bp_activity_user_install();
 	}
 	
 	if ( is_site_admin() && 1 == $current_blog->blog_id ) {
 		/* Check to see if the site wide activity table is set up. */
-		if ( !$wpdb->get_var("SHOW TABLES LIKE '%" . $bp->activity->table_name_sitewide . "%'") || get_site_option( 'bp-activity-db-version' ) < BP_ACTIVITY_VERSION  )
+		if ( get_site_option( 'bp-activity-db-version' ) < BP_ACTIVITY_VERSION  )
 			bp_activity_sitewide_install();
 	}
 }

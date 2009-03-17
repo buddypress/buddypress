@@ -224,7 +224,7 @@ function bp_core_check_installed() {
 
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( !$wpdb->get_var( "SHOW TABLES LIKE '%{$bp->core->table_name_notifications}%'" ) ) || ( get_site_option('bp-core-db-version') < BP_CORE_DB_VERSION )  )
+		if ( get_site_option('bp-core-db-version') < BP_CORE_DB_VERSION )
 			bp_core_install();
 	}
 }
@@ -400,13 +400,38 @@ function bp_core_add_nav_item( $name, $slug, $css_id = false, $add_to_usernav = 
 }
 
 /**
+ * bp_core_remove_nav_item()
+ *
+ * Removes a navigation item from the navigation array used in BuddyPress themes.
+ * 
+ * @package BuddyPress Core
+ * @param $parent_id The id of the parent navigation item.
+ * @param $slug The slug of the sub navigation item.
+ */
+function bp_core_remove_nav_item( $name ) {
+	global $bp;
+
+	foreach( (array) $bp->bp_nav as $item_key => $item_value ) {
+		if ( $item_value['name'] == $name ) {
+			unset( $bp->bp_nav[$item_key] );
+		}
+	}
+	
+	foreach( (array) $bp->bp_users_nav as $item_key => $item_value ) {
+		if ( $item_value['name'] == $name ) {
+			unset( $bp->bp_nav[$item_key] );
+		}
+	}
+}
+
+/**
  * bp_core_add_subnav_item()
  *
  * Adds a navigation item to the sub navigation array used in BuddyPress themes.
  * 
  * @package BuddyPress Core
  * @param $parent_id The id of the parent navigation item.
- * @param $id A unique id for the sub navigation item.
+ * @param $slug The slug of the sub navigation item.
  * @param $name The display name for the sub navigation item, e.g. 'Public' or 'Change Avatar'
  * @param $link The url for the sub navigation item.
  * @param $function The function to run when this sub nav item is selected.
@@ -434,6 +459,20 @@ function bp_core_add_subnav_item( $parent_id, $slug, $name, $link, $function, $c
 		add_action( 'wp', $function, 3 );
 }
 
+/**
+ * bp_core_remove_subnav_item()
+ *
+ * Removes a navigation item from the sub navigation array used in BuddyPress themes.
+ * 
+ * @package BuddyPress Core
+ * @param $parent_id The id of the parent navigation item.
+ * @param $slug The slug of the sub navigation item.
+ */
+function bp_core_remove_subnav_item( $parent_id, $slug ) {
+	global $bp;
+	
+	unset( $bp->bp_options_nav[$parent_id][$slug] );
+}
 
 /**
  * bp_core_reset_subnav_items()

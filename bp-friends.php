@@ -81,7 +81,7 @@ function friends_check_installed() {
 
 	if ( is_site_admin() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( ( !$wpdb->get_var( "SHOW TABLES LIKE '%{$bp->friends->table_name}%'") ) || ( get_site_option('bp-friends-db-version') < BP_FRIENDS_DB_VERSION )  )
+		if ( get_site_option('bp-friends-db-version') < BP_FRIENDS_DB_VERSION )
 			friends_install();
 	}
 }
