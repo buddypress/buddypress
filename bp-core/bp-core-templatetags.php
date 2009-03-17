@@ -243,7 +243,7 @@ function bp_fetch_user_fullname( $user_id = false, $echo = true ) {
 			$fullname = xprofile_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id );
 		} else {
 			$ud = get_userdata($user_id);
-			$fullname = $ud->display_name;
+			$fullname = $ud->user_login;
 		}
 		
 		update_usermeta( $user_id, 'bp_fullname', $fullname );
