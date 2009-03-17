@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-03-16 14:11+0000\n"
+"POT-Creation-Date: 2009-03-17 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,8 +24,8 @@ msgstr ""
 msgid "Just Me"
 msgstr ""
 
-#: bp-activity.php:199 bp-friends.php:107 bp-friends.php:112
-#: bp-friends.php:269 bp-friends/bp-friends-templatetags.php:344
+#: bp-activity.php:199 bp-friends.php:106 bp-friends.php:111
+#: bp-friends.php:268 bp-friends/bp-friends-templatetags.php:344
 #: bp-themes/buddypress-member/friends/index.php:10
 msgid "My Friends"
 msgstr ""
@@ -254,7 +254,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:744 bp-core/bp-core-admin.php:55
 #: bp-core/bp-core-admin.php:63 bp-core/bp-core-signup.php:76
-#: bp-friends.php:173 bp-groups.php:879 bp-messages.php:261
+#: bp-friends.php:172 bp-groups.php:879 bp-messages.php:261
 #: bp-themes/buddypress-member/groups/admin/edit-details.php:31
 #: bp-xprofile.php:323 bp-xprofile/bp-xprofile-admin.php:100
 msgid "Yes"
@@ -262,7 +262,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:748 bp-core/bp-core-admin.php:56
 #: bp-core/bp-core-admin.php:64 bp-core/bp-core-signup.php:80
-#: bp-friends.php:174 bp-groups.php:880 bp-messages.php:262
+#: bp-friends.php:173 bp-groups.php:880 bp-messages.php:262
 #: bp-themes/buddypress-member/groups/admin/edit-details.php:32
 #: bp-xprofile.php:324
 msgid "No"
@@ -363,85 +363,85 @@ msgstr ""
 msgid "There are no blogs to feature."
 msgstr ""
 
-#: bp-core.php:276 bp-core/bp-core-adminbar.php:29
+#: bp-core.php:249 bp-core/bp-core-adminbar.php:29
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core.php:314 bp-xprofile.php:225 bp-xprofile.php:322
+#: bp-core.php:287 bp-xprofile.php:225 bp-xprofile.php:322
 msgid "Profile"
 msgstr ""
 
-#: bp-core.php:320 bp-groups/bp-groups-templatetags.php:385
+#: bp-core.php:293 bp-groups/bp-groups-templatetags.php:385
 #: bp-xprofile.php:231
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:324 bp-core/bp-core-templatetags.php:305 bp-xprofile.php:237
+#: bp-core.php:297 bp-core/bp-core-templatetags.php:305 bp-xprofile.php:237
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:803 bp-core/bp-core-templatetags.php:378
+#: bp-core.php:815 bp-core/bp-core-templatetags.php:378
 #: bp-themes/buddypress-home/comments.php:42
 msgid "at"
 msgstr ""
 
-#: bp-core.php:928
+#: bp-core.php:940
 msgid "year"
 msgstr ""
 
-#: bp-core.php:928
+#: bp-core.php:940
 msgid "years"
 msgstr ""
 
-#: bp-core.php:929
+#: bp-core.php:941
 msgid "month"
 msgstr ""
 
-#: bp-core.php:929
+#: bp-core.php:941
 msgid "months"
 msgstr ""
 
-#: bp-core.php:930
+#: bp-core.php:942
 msgid "week"
 msgstr ""
 
-#: bp-core.php:930
+#: bp-core.php:942
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:931
+#: bp-core.php:943
 msgid "day"
 msgstr ""
 
-#: bp-core.php:931
+#: bp-core.php:943
 msgid "days"
 msgstr ""
 
-#: bp-core.php:932
+#: bp-core.php:944
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:932
+#: bp-core.php:944
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:933
+#: bp-core.php:945
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:933
+#: bp-core.php:945
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:934
+#: bp-core.php:946
 msgid "second"
 msgstr ""
 
-#: bp-core.php:934 bp-core.php:977
+#: bp-core.php:946 bp-core.php:989
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1020
+#: bp-core.php:1032
 msgid "not recently active"
 msgstr ""
 
@@ -836,8 +836,8 @@ msgstr ""
 msgid ""
 "<strong>You do not have any BuddyPress themes installed.</strong><br /"
 ">Please download the <a href=\"http://buddypress.org/extend/themes\" title="
-"\"Download\">Default BuddyPress Theme</a> and install it in /wp-content/"
-"buddypress-themes/"
+"\"Download\">Default BuddyPress Theme</a> and install it in /wp-content/bp-"
+"themes/"
 msgstr ""
 
 #: bp-core/bp-core-classes.php:89
@@ -1480,63 +1480,63 @@ msgstr ""
 msgid "Viewing post %d to %d (%d total posts)"
 msgstr ""
 
-#: bp-friends.php:101 bp-friends.php:172
+#: bp-friends.php:100 bp-friends.php:171
 msgid "Friends"
 msgstr ""
 
-#: bp-friends.php:108
+#: bp-friends.php:107
 msgid "Requests"
 msgstr ""
 
-#: bp-friends.php:141
+#: bp-friends.php:140
 msgid "Friendship accepted"
 msgstr ""
 
-#: bp-friends.php:143
+#: bp-friends.php:142
 msgid "Friendship could not be accepted"
 msgstr ""
 
-#: bp-friends.php:150
+#: bp-friends.php:149
 msgid "Friendship rejected"
 msgstr ""
 
-#: bp-friends.php:152
+#: bp-friends.php:151
 msgid "Friendship could not be rejected"
 msgstr ""
 
-#: bp-friends.php:178
+#: bp-friends.php:177
 msgid "A member sends you a friendship request"
 msgstr ""
 
-#: bp-friends.php:184
+#: bp-friends.php:183
 msgid "A member accepts your friendship request"
 msgstr ""
 
-#: bp-friends.php:243 bp-friends.php:252
+#: bp-friends.php:242 bp-friends.php:251
 #, php-format
 msgid "%s and %s are now friends"
 msgstr ""
 
-#: bp-friends.php:269
+#: bp-friends.php:268
 #, php-format
 msgid "%d friends accepted your friendship requests"
 msgstr ""
 
-#: bp-friends.php:273 bp-friends/bp-friends-notifications.php:58
+#: bp-friends.php:272 bp-friends/bp-friends-notifications.php:58
 #, php-format
 msgid "%s accepted your friendship request"
 msgstr ""
 
-#: bp-friends.php:279 bp-friends.php:283
+#: bp-friends.php:278 bp-friends.php:282
 msgid "Friendship requests"
 msgstr ""
 
-#: bp-friends.php:279
+#: bp-friends.php:278
 #, php-format
 msgid "You have %d pending friendship requests"
 msgstr ""
 
-#: bp-friends.php:283
+#: bp-friends.php:282
 #, php-format
 msgid "You have a friendship request from %s"
 msgstr ""
@@ -3680,7 +3680,7 @@ msgstr ""
 msgid "Profile Fields"
 msgstr ""
 
-#: bp-xprofile.php:232 bp-xprofile/bp-xprofile-templatetags.php:302
+#: bp-xprofile.php:232 bp-xprofile/bp-xprofile-templatetags.php:298
 msgid "Edit Profile"
 msgstr ""
 
@@ -4106,11 +4106,11 @@ msgstr ""
 msgid "Select a file:"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:291
+#: bp-xprofile/bp-xprofile-templatetags.php:287
 msgid "Profile not recently updated"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:293
+#: bp-xprofile/bp-xprofile-templatetags.php:289
 #, php-format
 msgid "Profile updated %s ago"
 msgstr ""
