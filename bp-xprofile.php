@@ -829,6 +829,46 @@ function xprofile_get_field_data( $field_name, $user_id = null ) {
 }
 
 /**
+ * xprofile_set_field_data()
+ *
+ * A simple function to set profile data for a specific field for a specific user.
+ * 
+ * @package BuddyPress Core
+ * @param $field_name The name of the field to set data for.
+ * @param $user_id The ID of the user
+ * @param $value The value for the field you want to set for the user.
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @uses xprofile_get_field_id_from_name() Gets the ID for the field based on the name.
+ * @return true on success, false on failure.
+ */
+function xprofile_set_field_data( $field_name, $user_id, $value ) {
+	global $bp;
+	
+	if ( !$field_id = xprofile_get_field_id_from_name( $field_name ) )
+		return false;
+	
+	$field = new BP_XProfile_ProfileData();
+	$field->field_id = $field_id;
+	$field->user_id = $user_id;
+	$field->value = $value;
+
+	return $field->save();
+}
+
+/**
+ * xprofile_get_field_id_from_name()
+ *
+ * Returns the ID for the field based on the field name.
+ * 
+ * @package BuddyPress Core
+ * @param $field_name The name of the field to get the ID for.
+ * @return int $field_id on success, false on failure.
+ */
+function xprofile_get_field_id_from_name( $field_name ) {
+	return BP_Xprofile_Field::get_id_from_name( $field_name );
+}
+
+/**
  * xprofile_get_random_profile_data()
  *
  * Fetches a random piece of profile data for the user.

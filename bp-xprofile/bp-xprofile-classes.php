@@ -965,6 +965,12 @@ Class BP_XProfile_Field {
 		
 		return false;
 	}
+	
+	function get_id_from_name( $field_name ) {
+		global $wpdb, $bp;
+		
+		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE name = %s", $field_name ) );
+	}
 }
 
 
