@@ -1063,28 +1063,6 @@ function bp_core_get_all_posts_for_user( $user_id = null ) {
 }
 
 /**
- * bp_core_replace_comment_author_link()
- *
- * Replace the author link on comments to point to a user home base.
- * 
- * @package BuddyPress Core
- * @global $comment WordPress comment global for the current comment.
- * @uses bp_core_get_userlink_by_email() Fetches a userlink via email address.
- */
-function bp_core_replace_comment_author_link( $author ) {
-	global $comment;
-
-	if ( !$comment->comment_author_email ) {
-		$bp_author_link = bp_core_get_userlink_by_username( $comment->comment_author );
-	} else {
-		$bp_author_link = bp_core_get_userlink_by_email( $comment->comment_author_email );	
-	}
-	
-	return ( !$bp_author_link ) ? $author : $bp_author_link; 
-}
-add_filter( 'get_comment_author_link', 'bp_core_replace_comment_author_link', 10, 4 );
-
-/**
  * bp_core_get_site_path()
  *
  * Get the path of of the current site.
@@ -1362,9 +1340,8 @@ function bp_core_print_version_numbers() {
 }
 
 function bp_core_print_generation_time() {
-	global $wpdb;
 	?>
-<!-- Generated in <?php timer_stop(1); ?> seconds. <?php echo $wpdb->num_queries ?> q. -->
+<!-- Generated in <?php timer_stop(1); ?> seconds. -->
 	<?php
 }
 add_action( 'wp_footer', 'bp_core_print_generation_time' );
