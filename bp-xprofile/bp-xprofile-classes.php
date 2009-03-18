@@ -1043,9 +1043,6 @@ Class BP_XProfile_ProfileData {
 			if ( $wpdb->query($sql) === false )
 				return false;
 
-			// Updated last site activity for this user.
-			update_usermeta( $this->user_id, 'last_activity', $this->last_updated ); 
-			
 			return true;
 		}
 		
