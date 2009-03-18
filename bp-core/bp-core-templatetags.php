@@ -242,7 +242,7 @@ function bp_fetch_user_fullname( $user_id = false, $echo = true ) {
 			$ud = get_userdata($user_id);
 			$data = bp_core_ucfirst($ud->user_login);
 			
-			xprofile_set_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id );
+			xprofile_set_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id, $data );
 		} else {
 			$data = bp_core_ucfirst($data);
 		}
