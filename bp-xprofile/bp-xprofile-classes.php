@@ -988,10 +988,7 @@ Class BP_XProfile_ProfileData {
 	}
 
 	function populate( $field_id, $user_id )  {
-		global $wpdb, $userdata, $bp;
-		
-		if ( is_null($user_id) )
-			$user_id = $userdata->ID;
+		global $wpdb, $bp;
 		
 		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_id );
 
@@ -1005,10 +1002,10 @@ Class BP_XProfile_ProfileData {
 	}
 	
 	function exists() {
-		global $wpdb, $userdata, $bp;
+		global $wpdb, $bp;
 		
 		// check to see if there is data already for the user.
-		$sql = $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = %d", $userdata->ID, $this->field_id );
+		$sql = $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = %d", $this->user_id, $this->field_id );
 
 		if ( !$wpdb->get_row($sql) ) 
 			return false;
@@ -1029,7 +1026,7 @@ Class BP_XProfile_ProfileData {
 	}
 
 	function save() {
-		global $wpdb, $userdata, $bp;
+		global $wpdb, $bp;
 		
 		$this->last_updated = date( 'Y-m-d H:i:s' );
 
@@ -1047,7 +1044,7 @@ Class BP_XProfile_ProfileData {
 				return false;
 
 			// Updated last site activity for this user.
-			update_usermeta( $userdata->ID, 'last_activity', $this->last_updated ); 
+			update_usermeta( $this->user_id, 'last_activity', $this->last_updated ); 
 			
 			return true;
 		}
