@@ -612,6 +612,9 @@ function friends_remove_data( $user_id ) {
 	
 	/* Remove usermeta */
 	delete_usermeta( $user_id, 'total_friend_count' );
+	
+	/* Remove friendship requests FROM user */
+	bp_core_delete_notifications_from_user( $user_id, $bp->friends->slug, 'friendship_request' );
 
 	do_action( 'friends_remove_data', $user_id );
 }

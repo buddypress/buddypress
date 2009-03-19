@@ -1077,7 +1077,6 @@ function bp_core_get_site_path() {
 	return $wpdb->get_var( $wpdb->prepare( "SELECT path FROM {$wpdb->base_prefix}site WHERE id = 1") );
 }
 
-
 function bp_core_redirect( $location, $status = 302 ) {
 	global $bp_no_status_set;
 	
@@ -1360,6 +1359,8 @@ add_action( 'wp_footer', 'bp_core_print_generation_time' );
 function bp_core_remove_data( $user_id ) {
 	/* Remove usermeta */
 	delete_usermeta( $user_id, 'last_activity' );
+
+	/* Flush the cache to remove the user from all cached objects */
 	wp_cache_flush();
 }
 add_action( 'wpmu_delete_user', 'bp_core_remove_data', 1 );

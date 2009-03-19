@@ -308,6 +308,12 @@ class BP_Core_Notification {
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE user_id = %d AND item_id = %d AND component_name = %s AND component_action = %s{$secondary_item_sql}", $user_id, $item_id, $component_name, $component_action ) );
 	}
 	
+	function delete_from_user_by_type( $user_id, $component_name, $component_action ) {
+		global $wpdb, $bp;
+		
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE item_id = %d AND component_name = %s AND component_action = %s", $user_id, $component_name, $component_action ) );
+	}
+	
 	function delete_all_by_type( $item_id, $component_name, $component_action, $secondary_item_id ) {
 		global $wpdb, $bp;
 		

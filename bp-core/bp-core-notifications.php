@@ -84,6 +84,10 @@ function bp_core_delete_all_notifications_by_type( $item_id, $component_name, $c
 	return BP_Core_Notification::delete_all_by_type( $item_id, $component_name, $component_action, $secondary_item_id );
 }
 
+function bp_core_delete_notifications_from_user( $user_id, $component_name, $component_action ) {
+	return BP_Core_Notification::delete_from_user_by_type( $user_id, $component_name, $component_action );
+}
+
 function bp_core_check_notification_access( $user_id, $notification_id ) {
 	if ( !BP_Core_Notification::check_access( $user_id, $notification_id ) )
 		return false;
