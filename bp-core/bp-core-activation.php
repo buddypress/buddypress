@@ -47,7 +47,7 @@ function bp_core_activation_do_activation() {
 				<h3><?php _e('Your account is now active!', 'buddypress' ); ?></h3>
 				
 				<?php
-			    printf(__('<p class="lead-in">Your account has been activated. You may now <a href="%1$s">log in</a> to the site using your chosen username of "%2$s".  Please check your email inbox at %3$s for your password and login instructions. If you do not receive an email, please check your junk or spam folder. If you still do not receive an email within an hour, you can <a href="%4$s">reset your password</a>.</p>', 'buddypress' ), site_url( '/wp-login.php?redirect_to=' . site_url() ), $signup->user_email, site_url( '/wp-login.php?action=lostpassword' ) );
+			  	_e( 'Your account has already been activated. You can now log in with the account details that were emailed to you.' );
 			
 			} else {
 				?>
