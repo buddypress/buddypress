@@ -334,7 +334,7 @@ Class BP_XProfile_Field {
 								if ( isset($defaults[$option_key]) )
 									$is_default = 1;
 							} else {
-								if ( $defaults == $option_key )
+								if ( (int) $defaults == $option_key )
 									$is_default = 1;
 							}
 
@@ -645,6 +645,7 @@ Class BP_XProfile_Field {
 				
 				if ( !empty($options) ) {
 					for ( $i = 0; $i < count($options); $i++ ) { 
+						//var_dump($options[$i]);
 						$j = $i + 1;
 						
 						if ( 'multiselectbox' == $type || 'checkbox' == $type )
@@ -652,7 +653,7 @@ Class BP_XProfile_Field {
 					?>
 						<p><?php _e('Option', 'buddypress') ?> <?php echo $j ?>: 
 						   <input type="text" name="<?php echo $type ?>_option[<?php echo $j ?>]" id="<?php echo $type ?>_option<?php echo $j ?>" value="<?php echo $options[$i]->name ?>" />
-						   <input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" <?php if ( 'CHECKED' == $options[$i]->sort_order ) {?> checked="checked"<?php } ?> " /> <?php _e( 'Default Value', 'buddypress' ) ?> 
+						   <input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" <?php if ( (int) $options[$i]->is_default_option ) {?> checked="checked"<?php } ?> " value="<?php echo $j ?>" /> <?php _e( 'Default Value', 'buddypress' ) ?> 
 						<a href="admin.php?page=xprofile_settings&amp;mode=delete_option&amp;option_id=<?php echo $options[$i]->id ?>" class="ajax-option-delete" id="delete-<?php echo $options[$i]->id ?>">[x]</a></p>
 						</p>
 					<?php } // end for ?>
@@ -665,7 +666,7 @@ Class BP_XProfile_Field {
 				?>
 					
 					<p><?php _e('Option', 'buddypress') ?> 1: <input type="text" name="<?php echo $type ?>_option[1]" id="<?php echo $type ?>_option1" />
-					<input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" id="isDefault_<?php echo $type ?>_option" <?php if ( $options[$i]->sort_order == 'CHECKED' ) {?> checked="checked"<?php } ?>" value="1" /> <?php _e( 'Default Value', 'buddypress' ) ?>
+					<input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" id="isDefault_<?php echo $type ?>_option" <?php if ( (int) $options[$i]->is_default_option ) {?> checked="checked"<?php } ?>" value="1" /> <?php _e( 'Default Value', 'buddypress' ) ?>
 					<input type="hidden" name="<?php echo $type ?>_option_number" id="<?php echo $type ?>_option_number" value="2" />
 				
 				<?php } // end if ?>
