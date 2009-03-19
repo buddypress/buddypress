@@ -434,7 +434,7 @@ function bp_core_avatar_save( $vars, $user_id = false ) {
 		@unlink($old); // Removing old avatar
 	}
 	
-	do_action( 'bp_core_avatar_save', $old, $v1_href, $vars['v1_out'] );
+	do_action( 'bp_core_avatar_save', $user_id, $old, $v1_href, $vars['v1_out'] );
 }
 
 function bp_core_render_avatar_upload_form($action, $no_form_tag = false) {
@@ -457,20 +457,22 @@ function bp_core_render_avatar_upload_form($action, $no_form_tag = false) {
 }
 
 function bp_core_delete_avatar() {
-	$old_v1 = get_usermeta( get_current_user_id(), 'bp_core_avatar_v1_path' );
-	$old_v2 = get_usermeta( get_current_user_id(), 'bp_core_avatar_v2_path' );
+	$user_id = get_current_user_id();
 	
-	delete_usermeta( get_current_user_id(), 'bp_core_avatar_v1_path' );
-	delete_usermeta( get_current_user_id(), 'bp_core_avatar_v2_path' );
+	$old_v1 = get_usermeta( $user_id, 'bp_core_avatar_v1_path' );
+	$old_v2 = get_usermeta( $user_id, 'bp_core_avatar_v2_path' );
 	
-	delete_usermeta( get_current_user_id(), 'bp_core_avatar_v1' );
-	delete_usermeta( get_current_user_id(), 'bp_core_avatar_v2' );
+	delete_usermeta( $user_id, 'bp_core_avatar_v1_path' );
+	delete_usermeta( $user_id, 'bp_core_avatar_v2_path' );
+	
+	delete_usermeta( $user_id, 'bp_core_avatar_v1' );
+	delete_usermeta( $user_id, 'bp_core_avatar_v2' );
 	
 	// Remove the actual images
 	@unlink($old_v1);
 	@unlink($old_v2);
 	
-	do_action( 'bp_core_delete_avatar', $old_v1, $old_v2 );
+	do_action( 'bp_core_delete_avatar', $user_id, $old_v1, $old_v2 );
 }
 
 function bp_core_ap_die( $msg ) {

@@ -58,21 +58,33 @@ function groups_ajax_widget_groups_list() {
 
 	switch ( $_POST['filter'] ) {
 		case 'newest-groups':
-			$groups = groups_get_newest( $_POST['max-groups'], 1 );
+			if ( !$groups = wp_cache_get( 'newest_groups', 'bp' ) ) {
+				$groups = groups_get_newest( $_POST['max-groups'], 1 );
+				wp_cache_set( 'newest_groups', $groups, 'bp' );
+			}
 		break;
 		case 'recently-active-groups':
-			$groups = groups_get_active( $_POST['max-groups'], 1 );
+			if ( !$groups = wp_cache_get( 'active_groups', 'bp' ) ) {
+				$groups = groups_get_active( $_POST['max-groups'], 1 );
+				wp_cache_set( 'active_groups', $groups, 'bp' );
+			}
 		break;
 		case 'popular-groups':
-			$groups = groups_get_popular( $_POST['max-groups'], 1 );
+			if ( !$groups = wp_cache_get( 'popular_groups', 'bp' ) ) {
+				$groups = groups_get_popular( $_POST['max-groups'], 1 );
+				wp_cache_set( 'popular_groups', $groups, 'bp' );
+			}
 		break;
 	}
 
 	if ( $groups['groups'] ) {
 		echo '0[[SPLIT]]'; // return valid result.
 	
-		foreach ( (array) $groups['groups'] as $group ) {
-			$group = new BP_Groups_Group( $group->group_id, false, false );
+		foreach ( (array) $groups['groups'] as $group_id ) {
+			if ( !$group = wp_cache_get( 'groups_group_nouserdata_' . $group_id->group_id, 'bp' ) ) {
+				$group = new BP_Groups_Group( $group_id->group_id, false, false );
+				wp_cache_set( 'groups_group_nouserdata_' . $group_id->group_id, $group, 'bp' );
+			}	
 		?>
 			<li>
 				<div class="item-avatar">
@@ -239,10 +251,15 @@ function bp_core_ajax_directory_groups() {
 		
 		<?php $counter = 0; ?>
 		<ul id="groups-list" class="item-list">
-		<?php foreach ( $groups['groups'] as $group ) : ?>
+		<?php foreach ( $groups['groups'] as $group_id ) : ?>
 			
 			<?php $alt = ( $counter % 2 == 1 ) ? ' class="alt"' : ''; ?>
-			<?php $group = new BP_Groups_Group( $group->group_id, false, false ); ?>
+			<?php 
+				if ( !$group = wp_cache_get( 'groups_group_nouserdata_' . $group_id->group_id, 'bp' ) ) {
+					$group = new BP_Groups_Group( $group_id->group_id, false, false );
+					wp_cache_set( 'groups_group_nouserdata_' . $group_id->group_id, $group, 'bp' );
+				}	
+			?>
 			
 			<li<?php echo $alt ?>>
 				<div class="item-avatar">

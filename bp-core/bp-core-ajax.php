@@ -7,13 +7,22 @@ function bp_core_ajax_widget_members() {
 	
 	switch ( $_POST['filter'] ) {
 		case 'newest-members':
-			$users = BP_Core_User::get_newest_users( $_POST['max-members'], 1 );
+			if ( !$users = wp_cache_get( 'newest_users', 'bp' ) ) {
+				$users = BP_Core_User::get_newest_users( $_POST['max-members'], 1 );
+				wp_cache_set( 'newest_users', $users, 'bp' );
+			}
 		break;
 		case 'recently-active-members':
-			$users = BP_Core_User::get_active_users( $_POST['max-members'], 1 );
+			if ( !$users = wp_cache_get( 'active_users', 'bp' ) ) {
+				$users = BP_Core_User::get_active_users( $_POST['max-members'], 1 );
+				wp_cache_set( 'active_users', $users, 'bp' );
+			}
 		break;
 		case 'popular-members':
-			$users = BP_Core_User::get_popular_users( $_POST['max-members'], 1 );
+			if ( !$users = wp_cache_get( 'popular_users', 'bp' ) ) {
+				$users = BP_Core_User::get_popular_users( $_POST['max-members'], 1 );
+				wp_cache_set( 'popular_users', $users, 'bp' );
+			}
 		break;
 	}
 	
@@ -116,7 +125,9 @@ function bp_core_ajax_directory_members() {
 					</div>
 				
 					<div class="action">
-						<?php bp_add_friend_button( $user->user_id ) ?>
+						<?php if ( function_exists('bp_add_friend_button') ) : ?>
+						    <?php bp_add_friend_button( $user->user_id ) ?>
+						<?php endif; ?>
 						<div class="meta">
 							<?php if ( $user_obj->total_friends ) echo $user_obj->total_friends ?><?php if ( $user_obj->total_blogs ) echo ', ' . $user_obj->total_blogs ?><?php if ( $user_obj->total_groups ) echo ', ' . $user_obj->total_groups ?>
 						</div>

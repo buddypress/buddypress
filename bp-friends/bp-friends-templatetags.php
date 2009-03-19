@@ -105,7 +105,11 @@ class BP_Friendship_Template {
 			$this->friendship = new BP_Friends_Friendship( $this->friendship );
 		} else {
 			$this->friendship = (object) $this->friendship;
-			$this->friendship->friend = new BP_Core_User( $this->friendship->user_id );
+			
+			if ( !$this->friendship->friend = wp_cache_get( 'bp_user_' . $this->friendship->user_id, 'bp' ) ) {
+				$this->friendship->friend = new BP_Core_User( $this->friendship->user_id );
+				wp_cache_set( 'bp_user_' . $this->friendship->user_id, $this->friendship->friend, 'bp' );
+			}
 		}
 		
 		if ( 0 == $this->current_friendship ) // loop has just started
@@ -338,7 +342,10 @@ function bp_friends_filter_title() {
 function bp_friends_random_friends() {
 	global $bp;
 	
-	$friend_ids = BP_Friends_Friendship::get_random_friends( $bp->displayed_user->id );
+	if ( !$friend_ids = wp_cache_get( 'friends_friend_ids_' . $bp->displayed_user->id, 'bp' ) ) {
+		$friend_ids = BP_Friends_Friendship::get_random_friends( $bp->displayed_user->id );
+		wp_cache_set( 'friends_friend_ids_' . $bp->displayed_user->id, $friend_ids, 'bp' );
+	}
 ?>	
 	<div class="info-group">
 		<h4><?php bp_word_or_name( __( "My Friends", 'buddypress' ), __( "%s's Friends", 'buddypress' ) ) ?>  (<?php echo BP_Friends_Friendship::total_friend_count( $bp->displayed_user->id ) ?>)  <a href="<?php echo $bp->displayed_user->domain . $bp->friends->slug ?>"><?php _e('See All', 'buddypress') ?> &raquo;</a></h4>
@@ -365,7 +372,10 @@ function bp_friends_random_friends() {
 function bp_friends_random_members( $total_members = 5 ) {
 	global $bp;
 	
-	$user_ids = BP_Core_User::get_random_users( $total_members );
+	if ( !$user_ids = wp_cache_get( 'friends_random_users', 'bp' ) ) {
+		$user_ids = BP_Core_User::get_random_users( $total_members );
+		wp_cache_set( 'friends_random_users', $user_ids, 'bp' );
+	}
 ?>	
 	<?php if ( $user_ids['users'] ) { ?>
 		<ul class="item-list" id="random-members-list">

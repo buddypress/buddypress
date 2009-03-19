@@ -465,6 +465,8 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 			// Re-record the post with the new author.
 			bp_blogs_record_post( $post_id );
 		}
+		
+		$recorded_post = $existing_post;
 	}
 
 	do_action( 'bp_blogs_new_blog_post', $recorded_post, $is_private, $is_recorded );
@@ -622,7 +624,7 @@ function bp_blogs_remove_post( $post_id ) {
 	// Delete activity stream item
 	bp_blogs_delete_activity( array( 'item_id' => $post->blog_id, 'secondary_item_id' => $post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'user_id' => $post->user_id ) );
 
-	do_action( 'bp_blogs_remove_post', $blog_id, $post_id );
+	do_action( 'bp_blogs_remove_post', $blog_id, $post_id, $post->user_id );
 }
 add_action( 'delete_post', 'bp_blogs_remove_post' );
 
@@ -642,7 +644,7 @@ function bp_blogs_remove_comment( $comment_id ) {
 	// Delete activity stream item
 	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'secondary_item_id' => $comment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'user_id' => $bp->loggedin_user->id ) );
 
-	do_action( 'bp_blogs_remove_comment', $blog_id, $comment_id );
+	do_action( 'bp_blogs_remove_comment', $blog_id, $comment_id, $bp->loggedin_user->id );
 }
 add_action( 'delete_comment', 'bp_blogs_remove_comment' );
 
@@ -834,6 +836,40 @@ function bp_blogs_remove_data( $user_id ) {
 add_action( 'wpmu_delete_user', 'bp_blogs_remove_data', 1 );
 add_action( 'delete_user', 'bp_blogs_remove_data', 1 );
 
+
+function bp_blogs_clear_blog_object_cache( $blog_id, $user_id ) {
+	wp_cache_delete( 'bp_user_blogs_' . $user_id, 'bp' );
+}
+
+function bp_blogs_format_clear_blog_cache( $recorded_blog_obj ) {
+	bp_blogs_clear_blog_object_cache( false, $recorded_blog_obj->user_id );
+}
+
+function bp_blogs_clear_post_object_cache( $blog_id, $post_id, $user_id ) {
+	wp_cache_delete( 'bp_user_posts_' . $user_id, 'bp' );
+}
+
+function bp_blogs_format_clear_post_cache( $recorded_post_obj ) {
+	bp_blogs_clear_post_object_cache( false, false, $recorded_post_obj->user_id );
+}
+
+function bp_blogs_clear_comment_object_cache( $blog_id, $comment_id, $user_id ) {
+	wp_cache_delete( 'bp_user_comments_' . $user_id, 'bp' );
+}
+
+function bp_blogs_format_clear_comment_cache( $recorded_comment_obj ) {
+	bp_blogs_clear_comment_object_cache( false, false, $recorded_comment_obj->user_id );
+}
+
+// List actions to clear object caches on
+add_action( 'bp_blogs_remove_blog_for_user', 'bp_blogs_clear_blog_object_cache', 10, 2 );
+add_action( 'bp_blogs_remove_post', 'bp_blogs_clear_post_object_cache', 10, 3 );
+add_action( 'bp_blogs_remove_comment', 'bp_blogs_clear_comment_object_cache', 10, 3 );
+
+add_action( 'bp_blogs_new_blog', 'bp_blogs_format_clear_blog_cache', 10, 2 );
+add_action( 'bp_blogs_new_blog_post', 'bp_blogs_format_clear_post_cache', 10, 2 );
+add_action( 'bp_blogs_new_blog_comment', 'bp_blogs_format_clear_comment_cache', 10, 2 );
+
 // List actions to clear super cached pages on, if super cache is installed
 add_action( 'bp_blogs_remove_data_for_blog', 'bp_core_clear_cache' );
 add_action( 'bp_blogs_remove_comment', 'bp_core_clear_cache' );
@@ -842,7 +878,6 @@ add_action( 'bp_blogs_remove_blog_for_user', 'bp_core_clear_cache' );
 add_action( 'bp_blogs_remove_blog', 'bp_core_clear_cache' );
 add_action( 'bp_blogs_new_blog_comment', 'bp_core_clear_cache' );
 add_action( 'bp_blogs_new_blog_post', 'bp_core_clear_cache' );
-add_action( 'bp_blogs_new_blog', 'bp_core_clear_cache' );
 add_action( 'bp_blogs_new_blog', 'bp_core_clear_cache' );
 add_action( 'bp_blogs_remove_data', 'bp_core_clear_cache' );
 

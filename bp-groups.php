@@ -705,7 +705,7 @@ function groups_screen_group_admin_avatar() {
 				bp_core_add_message( __( 'The group avatar was successfully updated.', 'buddypress' ) );
 			}
 
-			do_action( 'groups_group_avatar_edited', $group_obj->id );
+			do_action( 'groups_group_avatar_updated', $group_obj->id );
 
 			bp_core_redirect( site_url() . '/' . $bp->current_component . '/' . $bp->current_item . '/admin/group-avatar' );
 		}
@@ -2311,6 +2311,21 @@ function groups_remove_data( $user_id ) {
 add_action( 'wpmu_delete_user', 'groups_remove_data', 1 );
 add_action( 'delete_user', 'groups_remove_data', 1 );
 
+
+function groups_clear_group_object_cache( $group_id ) {
+	wp_cache_delete( 'groups_group_nouserdata_' . $group_id, 'bp' );
+	wp_cache_delete( 'groups_group_' . $group_id, 'bp' );
+	wp_cache_delete( 'newest_groups', 'bp' );
+	wp_cache_delete( 'active_groups', 'bp' );
+	wp_cache_delete( 'popular_groups', 'bp' );
+	wp_cache_delete( 'groups_random_groups', 'bp' );
+}
+
+// List actions to clear object caches on
+add_action( 'groups_group_deleted', 'groups_clear_group_object_cache' );
+add_action( 'groups_settings_updated', 'groups_clear_group_object_cache' );
+add_action( 'groups_details_updated', 'groups_clear_group_object_cache' );
+add_action( 'groups_group_avatar_updated', 'groups_clear_group_object_cache' );
 
 // List actions to clear super cached pages on, if super cache is installed
 add_action( 'groups_new_wire_post', 'bp_core_clear_cache' );

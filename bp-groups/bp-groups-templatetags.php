@@ -151,11 +151,20 @@ class BP_Groups_Template {
 		$this->group = $this->next_group();
 		
 		// If this is a single group then instantiate group meta when creating the object.
-		if ( $this->single_group )
-			$this->group = new BP_Groups_Group( $this->group->group_id, true );
-		else
-			$this->group = new BP_Groups_Group( $this->group->group_id, false, false );
-
+		if ( $this->single_group ) {
+			if ( !$group = wp_cache_get( 'groups_group_' . $this->group->group_id, 'bp' ) ) {
+				$group = new BP_Groups_Group( $this->group->group_id, true );
+				wp_cache_set( 'groups_group_' . $this->group->group_id, $group, 'bp' );
+			}
+		} else {
+			if ( !$group = wp_cache_get( 'groups_group_nouserdata_' . $this->group->group_id, 'bp' ) ) {
+				$group = new BP_Groups_Group( $this->group->group_id, false, false );
+				wp_cache_set( 'groups_group_nouserdata_' . $this->group->group_id, $group, 'bp' );
+			}
+		}
+		
+		$this->group = $group;
+		
 		if ( 0 == $this->current_group ) // loop has just started
 			do_action('loop_start');
 	}
@@ -983,9 +992,12 @@ function bp_group_send_invite_form( $group = false ) {
 		<?php $invites = groups_get_invites_for_group( $bp->loggedin_user->id, $group_obj->id ) ?>
 		
 		<ul id="friend-list" class="item-list">
-			<?php for( $i = 0; $i < count($invites); $i++ ) {
-				$user = new BP_Core_User( $invites[$i] ); ?>
-	
+			<?php for ( $i = 0; $i < count($invites); $i++ ) {
+				if ( !$user = wp_cache_get( 'bp_user_' . $invites[$i], 'bp' ) ) {
+					$user = new BP_Core_User( $invites[$i] );
+					wp_cache_set( 'bp_user_' . $invites[$i], $user, 'bp' );
+				}
+				?>
 				<li id="uid-<?php echo $user->id ?>">
 					<?php echo $user->avatar_thumb ?>
 					<h4><?php echo $user->user_link ?></h4>
@@ -1355,12 +1367,20 @@ function bp_group_avatar_edit_form() {
 function bp_groups_random_selection( $total_groups = 5 ) {
 	global $bp;
 	
-	$group_ids = BP_Groups_Group::get_random( $total_groups, 1 );
+	if ( !$group_ids = wp_cache_get( 'groups_random_groups', 'bp' ) ) {
+		$group_ids = BP_Groups_Group::get_random( $total_groups, 1 );
+		wp_cache_set( 'groups_random_groups', $group_ids, 'bp' );
+	}
 ?>	
 	<?php if ( $group_ids['groups'] ) { ?>
 		<ul class="item-list" id="random-groups-list">
-		<?php for ( $i = 0; $i < count( $group_ids['groups'] ); $i++ ) { ?>
-			<?php $group = new BP_Groups_Group( $group_ids['groups'][$i]->group_id, false, false ); ?>
+		<?php 
+			for ( $i = 0; $i < count( $group_ids['groups'] ); $i++ ) { 
+				if ( !$group = wp_cache_get( 'groups_group_nouserdata_' . $group_ids['groups'][$i]->group_id, 'bp' ) ) {
+					$group = new BP_Groups_Group( $group_ids['groups'][$i]->group_id, false, false );
+					wp_cache_set( 'groups_group_nouserdata_' . $group_ids['groups'][$i]->group_id, $group, 'bp' );
+				}
+			?>	
 			<li>
 				<div class="item-avatar">
 					<a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php printf( __( '%s Avatar', 'buddypress' ), $group->name ) ?>" /></a>
@@ -1400,15 +1420,23 @@ function bp_groups_random_selection( $total_groups = 5 ) {
 function bp_groups_random_groups( $total_groups = 5 ) {
 	global $bp;
 	
-	$group_ids = groups_get_random_groups_for_user( $bp->displayed_user->id, $total_groups, 1 );
+	if ( !$group_ids = wp_cache_get( 'groups_random_user_groups_' . $bp->displayed_user->id . '_' . $total_groups, 'bp' ) ) {
+		$group_ids = groups_get_random_groups_for_user( $bp->displayed_user->id, $total_groups, 1 );
+		wp_cache_set( 'groups_random_user_groups_' . $bp->displayed_user->id . '_' . $total_groups, $group_ids, 'bp' );
+	}
+	
 ?>	
 	<div class="info-group">
 		<h4><?php bp_word_or_name( __( "My Groups", 'buddypress' ), __( "%s's Groups", 'buddypress' ) ) ?> (<?php echo BP_Groups_Member::total_group_count() ?>) <a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>"><?php _e('See All', 'buddypress') ?> &raquo;</a></h4>
 		<?php if ( $group_ids ) { ?>
 			<ul class="horiz-gallery">
-			<?php for ( $i = 0; $i < count( $group_ids ); $i++ ) { ?>
-				<?php $group = new BP_Groups_Group( $group_ids[$i], false, false ); ?>
-				<li>
+			<?php 
+			for ( $i = 0; $i < count( $group_ids ); $i++ ) {
+				if ( !$group = wp_cache_get( 'groups_group_nouserdata_' . $group_ids[$i], 'bp' ) ) {
+					$group = new BP_Groups_Group( $group_ids[$i], false, false );
+					wp_cache_set( 'groups_group_nouserdata_' . $group_ids[$i], $group, 'bp' );
+				}
+			?>				<li>
 					<a href="<?php echo bp_group_permalink( $group, false ) ?>"><img src="<?php echo $group->avatar_thumb; ?>" class="avatar" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" /></a>
 					<h5><a href="<?php echo bp_group_permalink( $group, false ) ?>"><?php echo $group->name ?></a></h5>
 				</li>

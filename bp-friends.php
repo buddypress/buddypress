@@ -618,6 +618,19 @@ function friends_remove_data( $user_id ) {
 add_action( 'wpmu_delete_user', 'friends_remove_data', 1 );
 add_action( 'delete_user', 'friends_remove_data', 1 );
 
+function friends_clear_friend_object_cache( $friendship_id ) {
+	if ( !$friendship = new BP_Friends_Friendship( $friendship_id ) )
+		return false;
+
+	wp_cache_delete( 'friends_friend_ids_' . $friendship->initiator_user_id, 'bp' );
+	wp_cache_delete( 'friends_friend_ids_' . $friendship->friend_user_id, 'bp' );
+	wp_cache_delete( 'popular_users', 'bp' );
+}
+
+// List actions to clear object caches on
+add_action( 'friends_friendship_accepted', 'friends_clear_friend_object_cache' );
+add_action( 'friends_friendship_deleted', 'friends_clear_friend_object_cache' );
+
 // List actions to clear super cached pages on, if super cache is installed
 add_action( 'friends_friendship_rejected', 'bp_core_clear_cache' );
 add_action( 'friends_friendship_accepted', 'bp_core_clear_cache' );

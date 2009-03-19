@@ -231,30 +231,32 @@ function bp_is_home() {
 
 function bp_fetch_user_fullname( $user_id = false, $echo = true ) {
 	global $bp;
-
+	
 	if ( !$user_id )
 		$user_id = $bp->displayed_user->id;
+	
+	if ( !$fullname = wp_cache_get( 'bp_user_fullname_' . $user_id, 'bp' ) ) {
+		if ( function_exists('xprofile_install') ) {
+			$fullname = bp_core_ucfirst( xprofile_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id ) );
 
-	if ( function_exists('xprofile_install') ) {
-		$data = xprofile_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id );
+			if ( empty($fullname) ) {
+				$ud = get_userdata($user_id);
+				$fullname = bp_core_ucfirst($ud->user_login);
 
-		if ( empty($data) ) {
-			$ud = get_userdata($user_id);
-			$data = bp_core_ucfirst($ud->user_login);
-			
-			xprofile_set_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id, $data );
+				xprofile_set_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id, $data );
+			}
 		} else {
-			$data = bp_core_ucfirst($data);
+			$ud = get_userdata($user_id);
+			$fullname = $ud->user_login;
 		}
-	} else {
-		$ud = get_userdata($user_id);
-		$data = $ud->user_login;
+
+		wp_cache_set( 'bp_user_fullname_' . $user_id, $fullname, 'bp' );
 	}
 
 	if ( $echo )
-		echo apply_filters( 'bp_fetch_user_fullname', stripslashes( trim( $data ) ) );
+		echo apply_filters( 'bp_fetch_user_fullname', stripslashes( trim( $fullname ) ) );
 	else
-		return apply_filters( 'bp_fetch_user_fullname', stripslashes ( trim ( $data ) ) );
+		return apply_filters( 'bp_fetch_user_fullname', stripslashes ( trim ( $fullname ) ) );
 }
 
 function bp_last_activity( $user_id = false, $echo = true ) {

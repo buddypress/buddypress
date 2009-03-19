@@ -16,7 +16,11 @@ Class BP_XProfile_Template {
 	var $user_id;
 
 	function bp_xprofile_template($user_id) {
-		$this->groups = BP_XProfile_Group::get_all(true);
+		if ( !$this->groups = wp_cache_get( 'xprofile_groups', 'bp' ) ) {
+			$this->groups = BP_XProfile_Group::get_all(true);
+			wp_cache_set( 'xprofile_groups', $this->groups, 'bp' );
+		}
+
 		$this->group_count = count($this->groups);
 		$this->user_id = $user_id;
 	}
@@ -34,9 +38,16 @@ Class BP_XProfile_Template {
 		$this->group = $this->groups[$this->current_group];
 		$this->field_count = count($this->group->fields);
 		
-		for ( $i = 0; $i < $this->field_count; $i++ ) {
-			$this->group->fields[$i] = new BP_XProfile_Field( $this->group->fields[$i]->id, $this->user_id );	
+		if ( !$fields = wp_cache_get( 'xprofile_fields_' . $this->group->id . '_' . $this->user_id, 'bp' ) ) {
+			for ( $i = 0; $i < $this->field_count; $i++ ) {
+				$field = new BP_XProfile_Field( $this->group->fields[$i]->id, $this->user_id );
+				$fields[$i] = $field;
+			}
+			
+			wp_cache_set( 'xprofile_fields_' . $this->group->id . '_' . $this->user_id, $fields, 'bp' );
 		}
+		
+		$this->group->fields = $fields;
 		
 		return $this->group;
 	}
@@ -226,8 +237,11 @@ function bp_unserialize_profile_field( $value ) {
 function bp_profile_group_tabs() {
 	global $bp, $group_name;
 	
-	$groups = BP_XProfile_Group::get_all();
-	
+	if ( !$groups = wp_cache_get( 'xprofile_groups_inc_empty', 'bp' ) ) {
+		$groups = BP_XProfile_Group::get_all();
+		wp_cache_set( 'xprofile_groups_inc_empty', $groups, 'bp' );
+	}
+
 	if ( empty( $group_name ) )
 		$group_name = bp_profile_group_name(false);
 	
@@ -252,7 +266,10 @@ function bp_profile_group_name( $echo = true ) {
 	if ( !is_numeric( $group_id ) )
 		$group_id = 1;
 	
-	$group = new BP_XProfile_Group($group_id);
+	if ( !$group = wp_cache_get( 'xprofile_group_' . $group_id, 'bp' ) ) {
+		$group = new BP_XProfile_Group($group_id);
+		wp_cache_set( 'xprofile_group_' . $group_id, $group, 'bp' );
+	}
 	
 	if ( $echo ) {
 		echo apply_filters( 'bp_xprofile_profile_group_name', $group->name );

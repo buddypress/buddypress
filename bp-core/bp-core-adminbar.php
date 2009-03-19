@@ -125,7 +125,11 @@ function bp_adminbar_blogs_menu() {
 		global $bp; 
 	
 		if ( function_exists('bp_blogs_install') ) {
-			$blogs = get_blogs_of_user( $bp->loggedin_user->id ); // find *all* blogs with any kind of role
+			
+			if ( !$blogs = wp_cache_get( 'bp_user_blogs_' . $bp->loggedin_user->id, 'bp' ) ) {
+				$blogs = get_blogs_of_user( $bp->loggedin_user->id );
+				wp_cache_set( 'bp_user_blogs_' . $bp->loggedin_user->id, $blogs, 'bp' );
+			}
 
 			echo '<li id="bp-adminbar-blogs-menu"><a href="' . $bp->loggedin_user->domain . $bp->blogs->slug . '/my-blogs">';
 			

@@ -99,8 +99,13 @@ function groups_directory_groups_content() {
 			</div>
 
 			<ul id="groups-list" class="item-list">
-			<?php foreach ( $groups['groups'] as $group ) : ?>
-				<?php $group = new BP_Groups_Group( $group->group_id, false, false ); ?>
+			<?php foreach ( $groups['groups'] as $group_id ) : ?>
+				<?php 
+					if ( !$group = wp_cache_get( 'groups_group_nouserdata_' . $group_id->group_id, 'bp' ) ) {
+						$group = new BP_Groups_Group( $group_id->group_id, false, false );
+						wp_cache_set( 'groups_group_nouserdata_' . $group_id->group_id, $group, 'bp' );
+					}	
+				?>
 				<li>
 					<div class="item-avatar">
 						<a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php printf( __( '%s Avatar', 'buddypress' ), $group->name ) ?>" /></a>
@@ -174,8 +179,13 @@ function groups_directory_groups_sidebar() {
 		
 		<?php if ( $groups['groups'] ) { ?>
 			<ul id="featured-group-list" class="item-list">
-				<?php foreach( $groups['groups'] as $group ) : ?>
-					<?php $group = new BP_Groups_Group( $group->group_id, false, false ); ?>
+				<?php foreach( $groups['groups'] as $group_id ) : ?>
+					<?php 
+						if ( !$group = wp_cache_get( 'groups_group_nouserdata_' . $group_id->group_id, 'bp' ) ) {
+							$group = new BP_Groups_Group( $group_id->group_id, false, false );
+							wp_cache_set( 'groups_group_nouserdata_' . $group_id->group_id, $group, 'bp' );
+						}	
+					?>
 					<li>
 						<div class="item-avatar">
 							<a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php printf( __( '%s Avatar', 'buddypress' ), $group->name ) ?>" /></a>

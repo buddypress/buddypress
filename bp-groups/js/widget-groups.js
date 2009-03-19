@@ -10,7 +10,7 @@ jQuery(document).ready( function() {
 				action: 'widget_groups_list',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce-groups").val(),
-				'max-groups': jQuery("input#groups_widget_groups_list_max_groups").val(),
+				'max-groups': jQuery("input#groups_widget_max").val(),
 				'filter': jQuery(this).attr('id')
 			},
 			function(response)

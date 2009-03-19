@@ -32,7 +32,6 @@ class BP_Activity_Template {
 		}
 
 		$this->activity_count = count($this->activities);
-	
 		$this->full_name = $bp->displayed_user->fullname;
 
 		$this->is_home = bp_is_home();

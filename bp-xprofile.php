@@ -621,8 +621,8 @@ function xprofile_format_notifications( $action, $item_id, $secondary_item_id, $
  * Renders the edit form for the profile fields within a group as well as
  * handling the save action.
  *
- * [NOTE] This is old code that was written when support for the admin area was also
- * available. It is big and clunky and needs to be broken up.
+ * [NOTE] This is old code that was written when editing was not done in the theme.
+ * It is big and clunky and will be broken up in future versions.
  * 
  * @package BuddyPress XProfile
  * @param $group_id The ID of the group of fields to edit
@@ -963,6 +963,26 @@ function xprofile_remove_data( $user_id ) {
 }
 add_action( 'wpmu_delete_user', 'xprofile_remove_data', 1 );
 add_action( 'delete_user', 'xprofile_remove_data', 1 );
+
+
+function xprofile_clear_profile_groups_object_cache( $group_obj ) {
+	wp_cache_delete( 'xprofile_groups', 'bp' );
+	wp_cache_delete( 'xprofile_groups_inc_empty', 'bp' );
+	wp_cache_delete( 'xprofile_group_' . $group_obj->id );
+}
+
+function xprofile_clear_profile_data_object_cache( $group_id ) {
+	global $bp;	
+	wp_cache_delete( 'xprofile_fields_' . $group_id . '_' . $bp->loggedin_user->id, 'bp' );
+	wp_cache_delete( 'online_users', 'bp' );
+	wp_cache_delete( 'newest_users', 'bp' );
+	wp_cache_delete( 'popular_users', 'bp' );
+}
+
+// List actions to clear object caches on
+add_action( 'xprofile_groups_deleted_group', 'xprofile_clear_profile_groups_object_cache' );
+add_action( 'xprofile_groups_saved_group', 'xprofile_clear_profile_groups_object_cache' );
+add_action( 'xprofile_updated_profile', 'xprofile_clear_profile_data_object_cache' );
 
 // List actions to clear super cached pages on, if super cache is installed
 add_action( 'xprofile_updated_profile', 'bp_core_clear_cache' );

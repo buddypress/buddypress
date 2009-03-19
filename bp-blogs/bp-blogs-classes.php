@@ -364,8 +364,7 @@ Class BP_Blogs_Post {
 			$post_ids = $wpdb->get_results( $wpdb->prepare( "SELECT p.post_id, p.blog_id FROM {$bp->blogs->table_name_blog_posts} p LEFT JOIN {$wpdb->base_prefix}blogs b ON p.blog_id = b.blog_id WHERE b.deleted = 0 AND b.archived = '0' AND b.spam = 0 AND b.mature = 0 AND p.user_id = %d ORDER BY p.date_created DESC", $user_id) );
 			$total_post_count = $wpdb->get_var( $wpdb->prepare( "SELECT count(p.post_id) FROM {$bp->blogs->table_name_blog_posts} p LEFT JOIN {$wpdb->base_prefix}blogs b ON p.blog_id = b.blog_id WHERE b.deleted = 0 AND b.archived = '0' AND b.spam = 0 AND b.mature = 0 AND p.user_id = %d", $user_id) );			
 		}
-			
-			
+
 		for ( $i = 0; $i < count($post_ids); $i++ ) {
 			$posts[$i] = BP_Blogs_Post::fetch_post_content($post_ids[$i]);
 		}

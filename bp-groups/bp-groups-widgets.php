@@ -27,9 +27,14 @@ function groups_widget_groups_list($args) {
 	<?php echo $before_title
 		. $widget_name 
 		. $after_title; ?>
-	
-	<?php $groups = groups_get_popular( $options['max_groups'], 1 ); ?>
-	
+
+	<?php 
+	if ( !$groups = wp_cache_get( 'popular_groups', 'bp' ) ) {
+		$groups = groups_get_popular( $options['max_groups'], 1 );
+		wp_cache_set( 'popular_groups', $groups, 'bp' );
+	}
+	?>
+
 	<?php if ( $groups['groups'] ) : ?>
 		<div class="item-options" id="groups-list-options">
 			<img id="ajax-loader-groups" src="<?php echo $bp->groups->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( 'Loading', 'buddypress' ) ?>" style="display: none;" /> 
@@ -38,8 +43,13 @@ function groups_widget_groups_list($args) {
 			<a href="<?php echo site_url() . '/groups' ?>" id="popular-groups" class="selected"><?php _e("Popular", 'buddypress') ?></a>
 		</div>
 		<ul id="groups-list" class="item-list">
-			<?php foreach ( $groups['groups'] as $group ) : ?>
-				<?php $group = new BP_Groups_Group( $group->group_id, false, false ) ?>
+			<?php foreach ( $groups['groups'] as $group_id ) : ?>
+				<?php 
+				if ( !$group = wp_cache_get( 'groups_group_nouserdata_' . $group_id->group_id, 'bp' ) ) {
+					$group = new BP_Groups_Group( $group_id->group_id, false, false );
+					wp_cache_set( 'groups_group_nouserdata_' . $group_id->group_id, $group, 'bp' );
+				}	
+				?>
 				<li>
 					<div class="item-avatar">
 						<a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb; ?>" alt="<?php echo $group->name ?> Avatar" class="avatar" /></a>
@@ -67,7 +77,7 @@ function groups_widget_groups_list($args) {
 			wp_nonce_field( 'groups_widget_groups_list', '_wpnonce-groups' );
 		?>
 		
-		<input type="hidden" name="groups_widget_groups_list_max_groups" id="groups_widget_groups_list_max_groups" value="<?php echo $options['max_groups'] ?>" />
+		<input type="hidden" name="groups_widget_max" id="groups_widget_max" value="<?php echo $options['max_groups'] ?>" />
 		
 	<?php else: ?>
 		<div class="widget-error">

@@ -153,6 +153,8 @@ function xprofile_admin_manage_group( $group_id = null ) {
 			} else {
 				$message = __('The group was saved successfully.', 'buddypress');
 				$type = 'success';
+				
+				do_action( 'xprofile_groups_saved_group', $group );
 			}
 			
 			unset($_GET['mode']);
@@ -183,6 +185,8 @@ function xprofile_admin_delete_group( $group_id ) {
 	} else {
 		$message = __('The group was deleted successfully.', 'buddypress');
 		$type = 'success';
+		
+		do_action( 'xprofile_groups_deleted_group', $group );
 	}
 	
 	unset($_GET['mode']); // TODO: wtf?
@@ -223,7 +227,9 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 				
 				unset($_GET['mode']);
 				
-				$groups = $groups = BP_XProfile_Group::get_all();
+				do_action( 'xprofile_fields_saved_field', $field );
+				
+				$groups = BP_XProfile_Group::get_all();
 				xprofile_admin( $message, $type );
 			}
 		} else {
@@ -257,6 +263,8 @@ function xprofile_admin_delete_field( $field_id, $type = 'field' ) {
 	} else {
 		$message = sprintf( __('The %s was deleted successfully!', 'buddypress'), $type);
 		$type = 'success';
+		
+		do_action( 'xprofile_fields_deleted_field', $field );
 	}
 	
 	unset($_GET['mode']);

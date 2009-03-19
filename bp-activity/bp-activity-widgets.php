@@ -27,8 +27,15 @@ function bp_activity_widget_sitewide_activity($args) {
 		$options['max_items'] = 20;
 	}
 	?>
+	
+	<?php 
+	if ( !$activity = wp_cache_get( 'sitewide_activity', 'bp' ) ) {
+		$activity = bp_activity_get_sitewide_activity( $options['max_items'] );
+		wp_cache_set( 'sitewide_activity', $activity, 'bp' );
+	}
+	?>
 
-	<?php $activity = bp_activity_get_sitewide_activity( $options['max_items'] ) ?>
+	<?php  ?>
 	
 	<?php if ( $activity ) : ?>
 		<div class="item-options" id="activity-list-options">

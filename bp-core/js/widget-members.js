@@ -10,7 +10,7 @@ jQuery(document).ready( function() {
 				action: 'widget_members',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce-members").val(),
-				'max-members': jQuery("input#bp_core_widget_members_max").val(),
+				'max-members': jQuery("input#members_widget_max").val(),
 				'filter': jQuery(this).attr('id')
 			},
 			function(response)

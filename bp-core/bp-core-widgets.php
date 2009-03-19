@@ -89,7 +89,12 @@ function bp_core_widget_members($args) {
 		. $widget_name 
 		. $after_title; ?>
 	
-	<?php $users = BP_Core_User::get_newest_users( $options['max_members'] ) ?>
+	<?php 
+	if ( !$users = wp_cache_get( 'newest_users', 'bp' ) ) {
+		$users = BP_Core_User::get_newest_users( $options['max_members'] );
+		wp_cache_set( 'newest_users', $users, 'bp' );
+	}
+	?>
 	
 	<?php if ( $users['users'] ) : ?>
 		<div class="item-options" id="members-list-options">
@@ -119,7 +124,7 @@ function bp_core_widget_members($args) {
 			wp_nonce_field( 'bp_core_widget_members', '_wpnonce-members' );
 		?>
 		
-		<input type="hidden" name="bp_core_widget_members_max" id="bp_core_widget_members_max" value="<?php echo $options['max_members'] ?>" />
+		<input type="hidden" name="members_widget_max" id="members_widget_max" value="<?php echo $options['max_members'] ?>" />
 		
 	<?php else: ?>
 		<div class="widget-error">
@@ -164,6 +169,13 @@ function bp_core_widget_whos_online($args) {
 	<?php echo $before_title
 		. $widget_name
 		. $after_title; ?>
+
+	<?php 
+	if ( !$users = wp_cache_get( 'online_users', 'bp' ) ) {
+		$users = BP_Core_User::get_online_users( $options['max_members'] );
+		wp_cache_set( 'online_users', $users, 'bp' );
+	}
+	?>
 
 	<?php $users = BP_Core_User::get_online_users($options['max_members']) ?>
 
