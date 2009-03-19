@@ -229,17 +229,17 @@ function bp_is_home() {
 	return false;
 }
 
-function bp_fetch_user_fullname( $user_id = false, $echo = true ) {
+function bp_fetch_user_fullname( $user_id, $echo = true ) {
 	global $bp;
 	
 	if ( !$user_id )
-		$user_id = $bp->displayed_user->id;
-	
+		return false;
+		
 	if ( !$fullname = wp_cache_get( 'bp_user_fullname_' . $user_id, 'bp' ) ) {
 		if ( function_exists('xprofile_install') ) {
 			$fullname = bp_core_ucfirst( xprofile_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id ) );
 
-			if ( empty($fullname) ) {
+			if ( empty($fullname) || !$fullname ) {
 				$ud = get_userdata($user_id);
 				$fullname = bp_core_ucfirst($ud->user_login);
 
