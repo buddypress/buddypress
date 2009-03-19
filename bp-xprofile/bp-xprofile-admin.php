@@ -51,22 +51,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 		<?php }
 		
 		if ( $groups ) { ?>
-			<script type="text/javascript" charset="utf-8">
-				jQuery(document).ready(function(){ <?php
-				for ( $i = 0; $i < count($groups); $i++ ) { ?>
-					jQuery('#group_<?php echo $groups[$i]->id;?>').tableDnD( {
-							onDrop: function(table, row) {
-				      	var field_ids = jQuery.tableDnD.serialize();
-								reorderFields(table, row, field_ids);
-					    }
-				  });
-				<?php } ?>
-				});					
-			</script>
-			
 			<?php 
-			wp_nonce_field('xprofile_reorder_fields');
-			
 			for ( $i = 0; $i < count($groups); $i++ ) { // TODO: foreach
 			?>
 				<p>
