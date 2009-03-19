@@ -5,8 +5,8 @@ function bp_activity_register_widgets() {
 	global $current_blog;
 
 	/* Site Wide Activity Widget */
-	register_sidebar_widget( __('Site Wide Activity', 'buddypress'), 'bp_activity_widget_sitewide_activity');
-	register_widget_control( __('Site Wide Activity', 'buddypress'), 'bp_activity_widget_sitewide_activity_control' );
+	wp_register_sidebar_widget( 'buddypress-activity', __('Site Wide Activity', 'buddypress'), 'bp_activity_widget_sitewide_activity');
+	wp_register_widget_control( 'buddypress-activity', __('Site Wide Activity', 'buddypress'), 'bp_activity_widget_sitewide_activity_control' );
 }
 add_action( 'plugins_loaded', 'bp_activity_register_widgets' );
 

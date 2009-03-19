@@ -5,20 +5,19 @@ function bp_core_register_widgets() {
 	global $current_blog;
 	
 	/* Site welcome widget */
-	register_sidebar_widget( __('Welcome', 'buddypress'), 'bp_core_widget_welcome');
-	register_widget_control( __('Welcome', 'buddypress'), 'bp_core_widget_welcome_control' );
+	wp_register_sidebar_widget( 'buddypress-welcome', __( 'Welcome', 'buddypress' ), 'bp_core_widget_welcome' );
+	wp_register_widget_control( 'buddypress-welcome', __( 'Welcome', 'buddypress' ), 'bp_core_widget_welcome_control' );
 	
 	/* Site members widget */
-	register_sidebar_widget( __('Members', 'buddypress'), 'bp_core_widget_members');
-	register_widget_control( __('Members', 'buddypress'), 'bp_core_widget_members_control' );
+	wp_register_sidebar_widget( 'buddypress-members', __( 'Members', 'buddypress' ), 'bp_core_widget_members' );
+	wp_register_widget_control( 'buddypress-members', __( 'Members', 'buddypress' ), 'bp_core_widget_members_control' );
 	
 	/* Include the javascript needed for activated widgets only */
 	if ( is_active_widget( 'bp_core_widget_members' ) )
 		wp_enqueue_script( 'bp_core_widget_members-js', WPMU_PLUGIN_URL . '/bp-core/js/widget-members.js', array('jquery', 'jquery-livequery-pack') );		
 	
-	/* Widgets that can be enabled anywhere */
-	register_sidebar_widget( __('Who\'s Online', 'buddypress'), 'bp_core_widget_whos_online');
-	register_widget_control( __('Who\'s Online', 'buddypress'), 'bp_core_widget_whos_online_control' );	
+	wp_register_sidebar_widget( 'buddypress-whosonline', __( "Who's Online", 'buddypress' ), 'bp_core_widget_whos_online' );
+	wp_register_widget_control( 'buddypress-whosonline', __( "Who's Online", 'buddypress' ), 'bp_core_widget_whos_online_control' );	
 
 }
 add_action( 'plugins_loaded', 'bp_core_register_widgets' );

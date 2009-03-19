@@ -5,8 +5,8 @@ function bp_blogs_register_widgets() {
 	global $current_blog;
 
 	/* Latest Posts Widget */
-	register_sidebar_widget( __('Recent Blog Posts', 'buddypress'), 'bp_blogs_widget_recent_posts');
-	register_widget_control( __('Recent Blog Posts', 'buddypress'), 'bp_blogs_widget_recent_posts_control' );
+	wp_register_sidebar_widget( 'buddypress-blogs', __('Recent Blog Posts', 'buddypress'), 'bp_blogs_widget_recent_posts');
+	wp_register_widget_control( 'buddypress-blogs', __('Recent Blog Posts', 'buddypress'), 'bp_blogs_widget_recent_posts_control' );
 }
 add_action( 'plugins_loaded', 'bp_blogs_register_widgets' );
 

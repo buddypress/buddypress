@@ -5,8 +5,8 @@ function groups_register_widgets() {
 	global $current_blog;
 	
 	/* Site welcome widget */
-	register_sidebar_widget( __('Groups', 'buddypress'), 'groups_widget_groups_list');
-	register_widget_control( __('Groups', 'buddypress'), 'groups_widget_groups_list_control' );
+	wp_register_sidebar_widget( 'buddypress-groups', __( 'Groups', 'buddypress' ), 'groups_widget_groups_list' );
+	wp_register_widget_control( 'buddypress-groups', __( 'Groups', 'buddypress' ), 'groups_widget_groups_list_control' );
 	
 	/* Include the javascript needed for activated widgets only */
 	if ( is_active_widget( 'groups_widget_groups_list' ) )
