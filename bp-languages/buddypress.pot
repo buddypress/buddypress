@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-03-19 14:11+0000\n"
+"POT-Creation-Date: 2009-03-20 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -129,7 +129,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-ajax.php:37
 #: bp-blogs/directories/bp-blogs-directory-blogs.php:95
-#: bp-core/bp-core-ajax.php:104 bp-core/bp-core-widgets.php:101
+#: bp-core/bp-core-ajax.php:104 bp-core/bp-core-widgets.php:100
 #: bp-core/directories/bp-core-directory-members.php:94
 #: bp-forums/bp-forums-templatetags.php:268
 #: bp-forums/bp-forums-templatetags.php:443
@@ -256,7 +256,7 @@ msgstr ""
 #: bp-core/bp-core-admin.php:63 bp-core/bp-core-signup.php:76
 #: bp-friends.php:172 bp-groups.php:879 bp-messages.php:261
 #: bp-themes/buddypress-member/groups/admin/edit-details.php:31
-#: bp-xprofile.php:323 bp-xprofile/bp-xprofile-admin.php:100
+#: bp-xprofile.php:323 bp-xprofile/bp-xprofile-admin.php:85
 msgid "Yes"
 msgstr ""
 
@@ -672,7 +672,7 @@ msgstr ""
 msgid "Random Blog"
 msgstr ""
 
-#: bp-core/bp-core-ajax.php:45 bp-core/bp-core-widgets.php:115
+#: bp-core/bp-core-ajax.php:45 bp-core/bp-core-widgets.php:114
 #, php-format
 msgid "registered %s ago"
 msgstr ""
@@ -714,7 +714,7 @@ msgstr ""
 #: bp-themes/buddypress-member/messages/notices.php:33
 #: bp-themes/buddypress-member/messages/sentbox.php:33
 #: bp-wire/bp-wire-templatetags.php:306 bp-wire/bp-wire-templatetags.php:308
-#: bp-xprofile/bp-xprofile-admin.php:79 bp-xprofile/bp-xprofile-admin.php:102
+#: bp-xprofile/bp-xprofile-admin.php:64 bp-xprofile/bp-xprofile-admin.php:87
 msgid "Delete"
 msgstr ""
 
@@ -1218,51 +1218,51 @@ msgstr ""
 msgid "Welcome"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:20 bp-core/bp-core-widgets.php:21
+#: bp-core/bp-core-widgets.php:19 bp-core/bp-core-widgets.php:20
 msgid "Who's Online"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:44
+#: bp-core/bp-core-widgets.php:43
 msgid "Create Account"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:69 bp-forums/bp-forums-bbpress-live.php:166
+#: bp-core/bp-core-widgets.php:68 bp-forums/bp-forums-bbpress-live.php:166
 #: bp-forums/bp-forums-bbpress-live.php:370
 #: bp-themes/buddypress-member/groups/forum/index.php:73
 msgid "Title:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:71
+#: bp-core/bp-core-widgets.php:70
 msgid "Welcome Text:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:102 bp-friends/bp-friends-templatetags.php:318
+#: bp-core/bp-core-widgets.php:101 bp-friends/bp-friends-templatetags.php:318
 #: bp-friends/bp-friends-templatetags.php:334
 #: bp-groups/bp-groups-widgets.php:41
 msgid "Newest"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:103 bp-groups/bp-groups-widgets.php:42
+#: bp-core/bp-core-widgets.php:102 bp-groups/bp-groups-widgets.php:42
 msgid "Active"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:104 bp-groups/bp-groups-widgets.php:43
+#: bp-core/bp-core-widgets.php:103 bp-groups/bp-groups-widgets.php:43
 msgid "Popular"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:131
+#: bp-core/bp-core-widgets.php:130
 msgid "No one has signed up yet!"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:155
+#: bp-core/bp-core-widgets.php:154
 msgid "Max Members to show:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:200
+#: bp-core/bp-core-widgets.php:199
 msgid "There are no users currently online."
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:227
+#: bp-core/bp-core-widgets.php:226
 msgid "Maximum number of members to show:"
 msgstr ""
 
@@ -2046,7 +2046,7 @@ msgstr ""
 
 #: bp-groups/bp-groups-admin.php:132 bp-themes/buddypress-home/archive.php:45
 #: bp-themes/buddypress-home/search.php:23
-#: bp-xprofile/bp-xprofile-admin.php:78 bp-xprofile/bp-xprofile-admin.php:101
+#: bp-xprofile/bp-xprofile-admin.php:63 bp-xprofile/bp-xprofile-admin.php:86
 msgid "Edit"
 msgstr ""
 
@@ -3762,78 +3762,78 @@ msgstr ""
 msgid "NOTE: Fields in the 'Basic' group appear on the signup page."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:85
+#: bp-xprofile/bp-xprofile-admin.php:70
 msgid "Field Name"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:86
-#: bp-xprofile/bp-xprofile-classes.php:730
-#: bp-xprofile/bp-xprofile-classes.php:815
+#: bp-xprofile/bp-xprofile-admin.php:71
+#: bp-xprofile/bp-xprofile-classes.php:731
+#: bp-xprofile/bp-xprofile-classes.php:816
 msgid "Field Type"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:87
+#: bp-xprofile/bp-xprofile-admin.php:72
 msgid "Required?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:88
+#: bp-xprofile/bp-xprofile-admin.php:73
 msgid "Action"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:108
+#: bp-xprofile/bp-xprofile-admin.php:93
 msgid "There are no fields in this group."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:112
+#: bp-xprofile/bp-xprofile-admin.php:97
 msgid "Add New Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:121 bp-xprofile/bp-xprofile-admin.php:126
+#: bp-xprofile/bp-xprofile-admin.php:106 bp-xprofile/bp-xprofile-admin.php:111
 msgid "Add New Group"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:125
+#: bp-xprofile/bp-xprofile-admin.php:110
 msgid "You have no groups."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:151
+#: bp-xprofile/bp-xprofile-admin.php:136
 msgid "There was an error saving the group. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:154
+#: bp-xprofile/bp-xprofile-admin.php:139
 msgid "The group was saved successfully."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:183
+#: bp-xprofile/bp-xprofile-admin.php:168
 msgid "There was an error deleting the group. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:186
+#: bp-xprofile/bp-xprofile-admin.php:171
 msgid "The group was deleted successfully."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:219
+#: bp-xprofile/bp-xprofile-admin.php:204
 msgid "There was an error saving the field. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:225
+#: bp-xprofile/bp-xprofile-admin.php:210
 msgid "The field was saved successfully."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:253
+#: bp-xprofile/bp-xprofile-admin.php:238
 msgid "field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:255
+#: bp-xprofile/bp-xprofile-admin.php:240
 msgid "option"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:261
+#: bp-xprofile/bp-xprofile-admin.php:246
 #, php-format
 msgid "There was an error deleting the %s. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:264
+#: bp-xprofile/bp-xprofile-admin.php:249
 #, php-format
 msgid "The %s was deleted successfully!"
 msgstr ""
@@ -3926,136 +3926,136 @@ msgstr ""
 msgid "Name - Descending"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:653
-#: bp-xprofile/bp-xprofile-classes.php:667
+#: bp-xprofile/bp-xprofile-classes.php:654
+#: bp-xprofile/bp-xprofile-classes.php:668
 msgid "Option"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:655
-#: bp-xprofile/bp-xprofile-classes.php:668
+#: bp-xprofile/bp-xprofile-classes.php:656
+#: bp-xprofile/bp-xprofile-classes.php:669
 msgid "Default Value"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:673
+#: bp-xprofile/bp-xprofile-classes.php:674
 msgid "Add Another Option"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:681
+#: bp-xprofile/bp-xprofile-classes.php:682
 msgid "Add Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:684
+#: bp-xprofile/bp-xprofile-classes.php:685
 msgid "Edit Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:708
-#: bp-xprofile/bp-xprofile-classes.php:797
+#: bp-xprofile/bp-xprofile-classes.php:709
+#: bp-xprofile/bp-xprofile-classes.php:798
 msgid "Field Title"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:715
-#: bp-xprofile/bp-xprofile-classes.php:802
+#: bp-xprofile/bp-xprofile-classes.php:716
+#: bp-xprofile/bp-xprofile-classes.php:803
 msgid "Field Description"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:722
-#: bp-xprofile/bp-xprofile-classes.php:807
+#: bp-xprofile/bp-xprofile-classes.php:723
+#: bp-xprofile/bp-xprofile-classes.php:808
 msgid "Is This Field Required?"
-msgstr ""
-
-#: bp-xprofile/bp-xprofile-classes.php:724
-#: bp-xprofile/bp-xprofile-classes.php:810
-msgid "Not Required"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-classes.php:725
 #: bp-xprofile/bp-xprofile-classes.php:811
+msgid "Not Required"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-classes.php:726
+#: bp-xprofile/bp-xprofile-classes.php:812
 msgid "Required"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:732
-#: bp-xprofile/bp-xprofile-classes.php:819
+#: bp-xprofile/bp-xprofile-classes.php:733
+#: bp-xprofile/bp-xprofile-classes.php:820
 msgid "Text Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:733
-#: bp-xprofile/bp-xprofile-classes.php:821
+#: bp-xprofile/bp-xprofile-classes.php:734
+#: bp-xprofile/bp-xprofile-classes.php:822
 msgid "Multi-line Text Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:734
-#: bp-xprofile/bp-xprofile-classes.php:823
+#: bp-xprofile/bp-xprofile-classes.php:735
+#: bp-xprofile/bp-xprofile-classes.php:824
 msgid "Date Selector"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:735
-#: bp-xprofile/bp-xprofile-classes.php:825
+#: bp-xprofile/bp-xprofile-classes.php:736
+#: bp-xprofile/bp-xprofile-classes.php:826
 msgid "Radio Buttons"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:736
-#: bp-xprofile/bp-xprofile-classes.php:827
+#: bp-xprofile/bp-xprofile-classes.php:737
+#: bp-xprofile/bp-xprofile-classes.php:828
 msgid "Drop Down Select Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:737
-#: bp-xprofile/bp-xprofile-classes.php:829
+#: bp-xprofile/bp-xprofile-classes.php:738
+#: bp-xprofile/bp-xprofile-classes.php:830
 msgid "Multi Select Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:738
+#: bp-xprofile/bp-xprofile-classes.php:739
 msgid "Checkboxes"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:745
+#: bp-xprofile/bp-xprofile-classes.php:746
 msgid "Save"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:746
+#: bp-xprofile/bp-xprofile-classes.php:747
 msgid "or"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:746
+#: bp-xprofile/bp-xprofile-classes.php:747
 msgid "Cancel"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:759
+#: bp-xprofile/bp-xprofile-classes.php:760
 msgid "Add Prebuilt Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:835
+#: bp-xprofile/bp-xprofile-classes.php:836
 msgid "Add"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:847
+#: bp-xprofile/bp-xprofile-classes.php:848
 msgid "No prebuilt fields available at this time."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:889
+#: bp-xprofile/bp-xprofile-classes.php:890
 msgid "Visit author homepage"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:893
+#: bp-xprofile/bp-xprofile-classes.php:894
 msgid "Anonymous"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:919
+#: bp-xprofile/bp-xprofile-classes.php:920
 msgid "Please make sure you fill out all required fields."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:922
+#: bp-xprofile/bp-xprofile-classes.php:923
 msgid ""
 "Radio button field types require at least one option. Please add options "
 "below."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:925
-#: bp-xprofile/bp-xprofile-classes.php:928
+#: bp-xprofile/bp-xprofile-classes.php:926
+#: bp-xprofile/bp-xprofile-classes.php:929
 msgid ""
 "Select box field types require at least one option. Please add options below."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:931
+#: bp-xprofile/bp-xprofile-classes.php:932
 msgid ""
 "Checkbox field types require at least one option. Please add options below."
 msgstr ""
