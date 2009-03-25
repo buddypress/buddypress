@@ -36,7 +36,7 @@ body {
 	max-width: 1300px;
 	margin: 0 auto;
 }
-	body.in-blog { background-image: url(../images/background_blog.gif); }
+	body.directory { background: none; }
 
 p { margin: 0 0 1em 0; }
 
@@ -47,7 +47,7 @@ hr, div.clear {
 	visibility: hidden;
 	clear: right;
 }
-	.info-group div.clear, p.clear {
+	.info-group div.clear, p.clear, body.directory div.clear {
 		clear: both;
 	}
 
@@ -171,8 +171,8 @@ input#submit, p.submit input {
 		font: normal 1em "Georgia", Times, serif;
 		text-transform: uppercase;
 		text-align: center;
-		background: url(../images/userbar_header.gif) top left no-repeat;
-		height: 24px;
+		background: url(../images/userbar_header.gif) bottom center no-repeat;
+		min-height: 24px;
 		padding: 8px 0 8px 0;
 	}
 
@@ -335,13 +335,12 @@ input#submit, p.submit input {
 		font: normal 1em "Georgia", Times, serif;
 		text-transform: uppercase;
 		text-align: center;
-		background: url(../images/optionsbar_header_noarrow.gif) top left repeat-x;
-		height: 24px;
-		padding: 8px 0 8px 0;
+		background: url(../images/optionsbar_header_noarrow.gif) top center repeat-x;
+		padding: 8px 0 17px 0;
 		letter-spacing: 0.5px;
 	}
 		#optionsbar.arrow h3 {
-			background: url(../images/optionsbar_header_arrow.gif) top center no-repeat;
+			background: #c9c9c9 url(../images/optionsbar_header_arrow.gif) bottom center no-repeat;
 		}
 	
 	#optionsbar ul#options-nav {
@@ -414,6 +413,8 @@ ul.content-header-nav {
 	background: #fff url(../images/content_back.gif) top left repeat-x;
 	min-width: 680px;
 }
+	body.directory #main { margin-left: 0; }
+	
 	#main div.content-header {
 		font: normal 1em "Georgia", Times, serif;
 		text-transform: uppercase;

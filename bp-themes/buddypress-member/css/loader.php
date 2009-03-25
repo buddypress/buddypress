@@ -1,56 +1,22 @@
 <?php
-
-/* Load the WP environment */
-require_once( preg_replace('%(.*)[/\\\\]wp-content[/\\\\].*%', '\1', $_SERVER['SCRIPT_FILENAME'] ) . '/wp-load.php' ); 
-
 /* Set the content type to CSS */
-header('Content-type: text/css'); 
+header('Content-type: text/css');
+?>
 
-/* Load the base and settings css as they will always be present */
-if ( file_exists('base.css') )
-	echo "@import url(base.css);\n";
+@import url(base.css);
+@import url(settings.css);
 
-if ( file_exists('settings.css') )
-	echo "@import url(settings.css);\n";
-	
-/* Load CSS for components that are installed */
+@import url(activity.css);
+@import url(blogs.css);
+@import url(directories.css);
+@import url(friends.css);
+@import url(groups.css);
+@import url(messaging.css);
+@import url(wire.css);
+@import url(profiles.css);
+@import url(forums.css);
 
-/* Activity Streams */
-if ( function_exists('bp_activity_user_install') && file_exists('activity.css') )
-	echo "@import url(activity.css);\n";
-	
-/* Blogs */
-if ( function_exists('bp_blogs_install') && file_exists('blogs.css') )
-	echo "@import url(blogs.css);\n";	
-
-/* Friends */
-if ( function_exists('friends_install') && file_exists('friends.css') )
-	echo "@import url(friends.css);\n";
-
-/* Groups */
-if ( function_exists('groups_install') && file_exists('groups.css') )
-	echo "@import url(groups.css);\n";
-
-/* Messages */
-if ( function_exists('messages_install') && file_exists('messaging.css') )
-	echo "@import url(messaging.css);\n";
-	
-/* Wire */
-if ( function_exists('bp_wire_install') && file_exists('wire.css') )
-	echo "@import url(wire.css);\n";
-
-/* Profiles */
-if ( function_exists('xprofile_install') && file_exists('profiles.css') )
-	echo "@import url(profiles.css);\n";
-
-/* Forums */
-if ( function_exists('bp_forums_setup') && file_exists('forums.css') )
-	echo "@import url(forums.css);\n";
-
-/* If the root blog is set up for right to left reading, include the rtl.css file */
-if ( get_bloginfo( 1, 'text_direction' ) == 'rtl' && file_exists( 'rtl.css' ) )
-	echo "@import url(rtl.css);\n";
-	
+<?php
 /* If there are any custom component css files inside the /custom-components/ dir, load them. */
 if ( is_dir( './custom-components' ) ) {
 	if ( $dh = opendir( './custom-components' ) ) {
@@ -65,7 +31,4 @@ if ( is_dir( './custom-components' ) ) {
 /* Now load the custom styles CSS for custom modifications */
 if ( file_exists('custom.css') )
 	echo "@import url(custom.css);\n";
-
-do_action( 'bp_custom_member_styles' );
-
 ?>

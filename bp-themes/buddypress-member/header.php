@@ -24,7 +24,7 @@
 	<![endif]-->
 </head>
 
-<body>
+<body<?php if ( bp_is_directory() ) : ?> class="directory"<?php endif; ?>>
 
 <div id="search-login-bar">
 	<?php bp_search_form() ?>
@@ -53,7 +53,8 @@
 	</ul>
 </div>
 
-<?php include_once( TEMPLATEPATH . '/userbar.php' ) ?>
-<?php include_once( TEMPLATEPATH . '/optionsbar.php' ) ?>
+<?php bp_get_optionsbar() ?>
+<?php bp_get_userbar() ?>
+
 
 <div id="main">

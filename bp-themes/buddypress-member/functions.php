@@ -10,7 +10,7 @@ if ( function_exists('register_sidebar') )
 function bp_get_options_class() {
 	global $bp;
 
-	if ( !bp_is_home() && $bp->current_component == $bp->profile->slug || $bp->current_component == $bp->friends->slug  || $bp->current_component == $bp->blogs->slug ) {
+	if ( ( !bp_is_home() && $bp->current_component == $bp->profile->slug ) || ( !bp_is_home() && $bp->current_component == $bp->friends->slug ) || ( !bp_is_home() && $bp->current_component == $bp->blogs->slug ) ) {
 		echo ' class="arrow"';
 	}
 	
