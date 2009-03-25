@@ -15,33 +15,18 @@ jQuery(document).ready( function() {
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce-blog-filter").val(),
 				'letter': letter[1],
-				'page': 1,
-				'num': 10
+				'page': 1
 			},
 			function(response)
 			{	
 				response = response.substr(0, response.length-1);
-				response = response.split('[[SPLIT]]');
-
-				if ( response[0] != "-1" ) {
-					jQuery("#blog-dir-list").fadeOut(200, 
-						function() {
-							jQuery('#ajax-loader-blogs').toggle();
-							jQuery("#blog-dir-list").html(response[1]);
-							jQuery("#blog-dir-list").fadeIn(200);
-						}
-					);
-
-				} else {					
-					jQuery("ul#blogs-list").fadeOut(200, 
-						function() {
-							jQuery('#ajax-loader-blogs').toggle();
-							var message = response[1];
-							jQuery("#blog-dir-list").html(message);
-							jQuery("#blog-dir-list").fadeIn(200);
-						}
-					);
-				}
+				jQuery("#blog-dir-list").fadeOut(200, 
+					function() {
+						jQuery('#ajax-loader-blogs').toggle();
+						jQuery("#blog-dir-list").html(response);
+						jQuery("#blog-dir-list").fadeIn(200);
+					}
+				);
 			});
 		
 			return false;
@@ -55,37 +40,19 @@ jQuery(document).ready( function() {
 				action: 'directory_blogs',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce-blog-filter").val(),
-				'blogs_search': jQuery("input#blogs_search").val(),
-				'page': 1,
-				'num': 10
+				's': jQuery("input#blogs_search").val(),
+				'page': 1
 			},
 			function(response)
 			{	
 				response = response.substr(0, response.length-1);
-				response = response.split('[[SPLIT]]');
-
-				if ( response[0] != "-1" ) {
-					
-					jQuery("#blog-dir-list").fadeOut(200, 
-						function() {
-							jQuery('#ajax-loader-blogs').toggle();
-							jQuery("#blog-dir-list").html(response[1]);
-							jQuery("#blog-dir-list").fadeIn(200);
-						}
-					);
-
-				} else {
-										
-					jQuery("#blog-dir-list").fadeOut(200, 
-						function() {
-							jQuery('#ajax-loader-blogs').toggle();
-							var message = response[1];
-							jQuery("#blog-dir-list").html(message);
-							jQuery("#blog-dir-list").fadeIn(200);
-						}
-					);
-					
-				}
+				jQuery("#blog-dir-list").fadeOut(200, 
+					function() {
+						jQuery('#ajax-loader-blogs').toggle();
+						jQuery("#blog-dir-list").html(response);
+						jQuery("#blog-dir-list").fadeIn(200);
+					}
+				);
 			});
 		
 			return false;
@@ -114,39 +81,21 @@ jQuery(document).ready( function() {
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce").val(),
 				'page': page[1],
-				'num': 10,
 				'_wpnonce': jQuery("input#_wpnonce-blog-filter").val(),
 				
 				'letter': letter,
-				'blogs_search': search_terms
+				's': search_terms
 			},
 			function(response)
 			{	
 				response = response.substr(0, response.length-1);
-				response = response.split('[[SPLIT]]');
-
-				if ( response[0] != "-1" ) {
-					
-					jQuery("#blog-dir-list").fadeOut(200, 
-						function() {
-							jQuery('#ajax-loader-blogs').toggle();
-							jQuery("#blog-dir-list").html(response[1]);
-							jQuery("#blog-dir-list").fadeIn(200);
-						}
-					);
-
-				} else {
-										
-					jQuery("#blog-dir-list").fadeOut(200, 
-						function() {
-							jQuery('#ajax-loader-blogs').toggle();
-							var message = response[1];
-							jQuery("#blog-dir-list").html(message);
-							jQuery("#blog-dir-list").fadeIn(200);
-						}
-					);
-					
-				}			
+				jQuery("#blog-dir-list").fadeOut(200, 
+					function() {
+						jQuery('#ajax-loader-blogs').toggle();
+						jQuery("#blog-dir-list").html(response);
+						jQuery("#blog-dir-list").fadeIn(200);
+					}
+				);
 			});
 			
 			return false;

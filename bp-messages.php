@@ -116,7 +116,7 @@ function messages_setup_globals() {
 
 	$bp->version_numbers->messages = BP_MESSAGES_VERSION;
 }
-add_action( 'wp', 'messages_setup_globals', 1 );	
+add_action( 'plugins_loaded', 'messages_setup_globals', 5 );	
 add_action( 'admin_menu', 'messages_setup_globals', 1 );
 
 

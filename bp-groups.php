@@ -25,7 +25,6 @@ require ( 'bp-groups/bp-groups-widgets.php' );
 require ( 'bp-groups/bp-groups-notifications.php' );
 require ( 'bp-groups/bp-groups-filters.php' );
 require ( 'bp-groups/bp-groups-admin.php' );
-require ( 'bp-groups/directories/bp-groups-directory-groups.php' );
 
 /**************************************************************************
  groups_install()
@@ -141,19 +140,19 @@ function groups_setup_globals( $no_global = false ) {
 	if ( function_exists('bp_wire_install') )
 		$bp->groups->table_name_wire = $wpdb->base_prefix . 'bp_groups_wire';
 	
-	$bp->groups->forbidden_names = array( 'my-groups', 'group-finder', 'create', 'invites', 'delete', 'add', 'admin', 'request-membership' );
+	$bp->groups->forbidden_names = apply_filters( 'groups_forbidden_names', array( 'my-groups', 'group-finder', 'create', 'invites', 'delete', 'add', 'admin', 'request-membership' ) );
 	$bp->version_numbers->groups = BP_GROUPS_VERSION;
 	
 	return $bp;
 }
-add_action( 'wp', 'groups_setup_globals', 1, false );	
-add_action( 'admin_menu', 'groups_setup_globals', 1, false );
+add_action( 'plugins_loaded', 'groups_setup_globals', 5 );	
+add_action( 'admin_menu', 'groups_setup_globals', 1 );
 
 function groups_setup_root_component() {
 	/* Register 'groups' as a root component */
 	bp_core_add_root_component( BP_GROUPS_SLUG );
 }
-add_action( 'plugins_loaded', 'groups_setup_root_component' );
+add_action( 'plugins_loaded', 'groups_setup_root_component', 1 );
 
 function groups_check_installed() {	
 	global $wpdb, $bp;
@@ -168,7 +167,6 @@ function groups_check_installed() {
 	}
 }
 add_action( 'admin_menu', 'groups_check_installed' );
-
 
 function groups_add_admin_menu() {
 	global $wpdb, $bp;
@@ -247,7 +245,7 @@ function groups_setup_nav() {
 			$bp->current_action = $bp->action_variables[0];
 			array_shift($bp->action_variables);
 									
-			$bp->bp_options_title = bp_create_excerpt( $group_obj->name, 1 );
+			$bp->bp_options_title = $group_obj->name;
 			$bp->bp_options_avatar = '<img src="' . $group_obj->avatar_thumb . '" alt="Group Avatar Thumbnail" />';
 			
 			$group_link = $bp->root_domain . '/' . $bp->groups->slug . '/' . $group_obj->slug . '/';
@@ -300,6 +298,17 @@ function groups_setup_nav() {
 add_action( 'wp', 'groups_setup_nav', 2 );
 add_action( 'admin_menu', 'groups_setup_nav', 2 );
 
+function groups_directory_groups_setup() {
+	global $bp;
+	
+	if ( $bp->current_component == $bp->groups->slug && empty( $bp->current_action ) ) {
+		$bp->is_directory = true;
+
+		wp_enqueue_script( 'bp-groups-directory-groups', WPMU_PLUGIN_URL . '/bp-groups/js/directory-groups.js', array( 'jquery', 'jquery-livequery-pack' ) );
+		bp_core_load_template( 'directories/groups/index' );
+	}
+}
+add_action( 'wp', 'groups_directory_groups_setup', 5 );
 
 /***** Screens **********/
 
@@ -2248,43 +2257,27 @@ function groups_update_groupmeta( $group_id, $meta_key, $meta_value ) {
 // from a WordPress point of view.
 
 function groups_force_buddypress_theme( $template ) {
-	global $current_component, $current_action;
-	global $is_member_page, $bp;
-
-	$groups_bp = groups_setup_globals(true);
+	global $bp;
 	
-	if ( $current_component != $groups_bp->groups->slug )
+	if ( $bp->current_component != $bp->groups->slug )
 		return $template;
 	
 	$member_theme = get_site_option('active-member-theme');
 	
 	if ( empty($member_theme) )
 		$member_theme = 'buddypress-member';
-	
-	// The theme filter does not recognize any globals, where as the stylesheet filter does.
-	// We have to set up the globals to use manually.
-	bp_core_set_uri_globals();
 
-	if ( $current_component == $groups_bp->groups->slug )
-		$bp->is_single_item = BP_Groups_Group::group_exists( $current_action, $groups_bp->groups->table_name );
-	
-	if ( $bp->is_single_item ) {
-		add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
-		add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
+	add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
+	add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
 
-		return $member_theme;
-	} else {
-		return $template;
-	}
-	
-	return $theme;
+	return $member_theme;
 }
-add_filter( 'template', 'groups_force_buddypress_theme', 1, 1 );
+add_filter( 'template', 'groups_force_buddypress_theme' );
 
 function groups_force_buddypress_stylesheet( $stylesheet ) {
-	global $bp, $is_member_page, $current_component;
+	global $bp;
 
-	if ( $current_component != $bp->groups->slug )
+	if ( $bp->current_component != $bp->groups->slug )
 		return $stylesheet;
 
 	$member_theme = get_site_option('active-member-theme');
@@ -2292,14 +2285,10 @@ function groups_force_buddypress_stylesheet( $stylesheet ) {
 	if ( empty( $member_theme ) )
 		$member_theme = 'buddypress-member';
 	
-	if ( $bp->is_single_item ) {
-		add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
-		add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
-		
-		return $member_theme;
-	} else {
-		return $stylesheet;	
-	}
+	add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
+	add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
+	
+	return $member_theme;
 }
 add_filter( 'stylesheet', 'groups_force_buddypress_stylesheet', 1, 1 );
 

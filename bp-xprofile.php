@@ -168,7 +168,7 @@ function xprofile_setup_globals() {
 	if ( function_exists('bp_wire_install') )
 		$bp->profile->table_name_wire = $wpdb->base_prefix . 'bp_xprofile_wire';
 }
-add_action( 'wp', 'xprofile_setup_globals', 1 );	
+add_action( 'plugins_loaded', 'xprofile_setup_globals', 5 );	
 add_action( 'admin_menu', 'xprofile_setup_globals', 1 );
 
 /**
@@ -974,6 +974,7 @@ function xprofile_clear_profile_groups_object_cache( $group_obj ) {
 function xprofile_clear_profile_data_object_cache( $group_id ) {
 	global $bp;	
 	wp_cache_delete( 'xprofile_fields_' . $group_id . '_' . $bp->loggedin_user->id, 'bp' );
+	wp_cache_delete( 'bp_user_fullname_' . $bp->loggedin_user->id, 'bp' );
 	wp_cache_delete( 'online_users', 'bp' );
 	wp_cache_delete( 'newest_users', 'bp' );
 	wp_cache_delete( 'popular_users', 'bp' );

@@ -219,6 +219,38 @@ Class BP_Blogs_Blog {
 		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
 	}
 	
+	function get_active( $limit = null, $page = null ) {
+		global $bp, $wpdb;
+		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
+		
+		if ( $limit && $page ) {
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(bm.blog_id) FROM {$bp->blogs->table_name_blogmeta} bm LEFT JOIN {$wpdb->base_prefix}blogs wb ON bm.blog_id = wb.blog_id WHERE wb.public = 1 AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 AND bm.meta_key = 'last_activity' ORDER BY CONVERT(bm.meta_value, SIGNED) DESC" ) );
+		}
+			
+		$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT bm.blog_id FROM {$bp->blogs->table_name_blogmeta} bm LEFT JOIN {$wpdb->base_prefix}blogs wb ON bm.blog_id = wb.blog_id WHERE wb.public = 1 AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 AND bm.meta_key = 'last_activity' ORDER BY CONVERT(bm.meta_value, SIGNED) DESC {$pag_sql}" ) );
+
+		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
+	}
+	
+	function get_newest( $limit = null, $page = null ) {
+		global $bp, $wpdb;
+		
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
+		
+		if ( $limit && $page ) {
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(wb.blog_id) FROM {$wpdb->base_prefix}blogs wb WHERE wb.public = 1 AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 ORDER BY wb.registered DESC" ) );
+		}
+			
+		$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT wb.blog_id FROM {$wpdb->base_prefix}blogs wb WHERE wb.public = 1 AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 ORDER BY wb.registered DESC {$pag_sql}" ) );
+
+		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
+	}
+	
 	function is_hidden( $blog_id ) {
 		global $wpdb;
 

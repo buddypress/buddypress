@@ -1,6 +1,402 @@
 <?php
 
-class BP_Groups_Template {
+function bp_groups_header_tabs() {
+	global $bp, $create_group_step, $completed_to_step;
+?>
+	<li<?php if ( !isset($bp->action_variables[0]) || 'recently-active' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/recently-active"><?php _e( 'Recently Active', 'buddypress' ) ?></a></li>
+	<li<?php if ( 'recently-joined' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/recently-joined"><?php _e( 'Recently Joined', 'buddypress' ) ?></a></li>
+	<li<?php if ( 'most-popular' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/most-popular""><?php _e( 'Most Popular', 'buddypress' ) ?></a></li>
+	<li<?php if ( 'admin-of' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/admin-of""><?php _e( 'Administrator Of', 'buddypress' ) ?></a></li>
+	<li<?php if ( 'mod-of' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/mod-of""><?php _e( 'Moderator Of', 'buddypress' ) ?></a></li>
+	<li<?php if ( 'alphabetically' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/alphabetically""><?php _e( 'Alphabetically', 'buddypress' ) ?></a></li>
+		
+<?php
+	do_action( 'groups_header_tabs' );
+}
+
+function bp_group_creation_tabs() {
+	global $bp, $create_group_step, $completed_to_step;
+?>
+	<li<?php if ( 1 == (int)$create_group_step ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/create/step/1">1. <?php _e('Group Details', 'buddypress') ?></a></li>
+	<li<?php if ( 2 == (int)$create_group_step ) : ?> class="current"<?php endif; ?>><?php if ( $completed_to_step > 0 ) { ?><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/create/step/2">2. <?php _e('Group Settings', 'buddypress') ?></a><?php } else { ?><span>2. <?php _e('Group Settings', 'buddypress') ?></span><?php } ?></li>
+	<li<?php if ( 3 == (int)$create_group_step ) : ?> class="current"<?php endif; ?>><?php if ( $completed_to_step > 1 ) { ?><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/create/step/3">3. <?php _e('Group Avatar', 'buddypress') ?></a><?php } else { ?><span>3. <?php _e('Group Avatar', 'buddypress') ?></span><?php } ?></li>
+	<li<?php if ( 4 == (int)$create_group_step ) : ?> class="current"<?php endif; ?>><?php if ( $completed_to_step > 2 ) { ?><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/create/step/4">4. <?php _e('Invite Members', 'buddypress') ?></a><?php } else { ?><span>4. <?php _e('Invite Members', 'buddypress') ?></span><?php } ?></li>
+<?php
+	do_action( 'groups_creation_tabs' );
+}
+
+function bp_group_creation_stage_title() {
+	global $create_group_step;
+	
+	switch( $create_group_step ) {
+		case '1':
+			echo '<span>&mdash; ' . __('Group Details', 'buddypress') . '</span>';
+		break;
+		
+		case '2':
+			echo '<span>&mdash; ' . __('Group Settings', 'buddypress') . '</span>';		
+		break;
+		
+		case '3':
+			echo '<span>&mdash; ' . __('Group Avatar', 'buddypress') . '</span>';
+		break;
+		
+		case '4':
+			echo '<span>&mdash; ' . __('Invite Members', 'buddypress') . '</span>';
+		break;
+	}
+}
+
+function bp_group_create_form() {
+	global $bp, $create_group_step, $completed_to_step;
+	global $group_obj, $invites;
+
+?>
+	<form action="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/create/step/<?php echo $create_group_step ?>" method="post" id="create-group-form" class="standard-form" enctype="multipart/form-data">
+	<?php switch( $create_group_step ) {
+		case '1': ?>
+			<label for="group-name">* <?php _e('Group Name', 'buddypress') ?></label>
+			<input type="text" name="group-name" id="group-name" value="<?php echo ( $group_obj ) ? $group_obj->name : $_POST['group-name']; ?>" />
+		
+			<label for="group-desc">* <?php _e('Group Description', 'buddypress') ?></label>
+			<textarea name="group-desc" id="group-desc"><?php echo ( $group_obj ) ? $group_obj->description : $_POST['group-desc']; ?></textarea>
+		
+			<label for="group-news"><?php _e('Recent News', 'buddypress') ?></label>
+			<textarea name="group-news" id="group-news"><?php echo ( $group_obj ) ? $group_obj->news : $_POST['group-news']; ?></textarea>
+			
+			<?php do_action( 'groups_custom_group_fields_editable' ) ?>
+			
+			<p><input type="submit" value="<?php _e('Create Group and Continue', 'buddypress') ?> &raquo;" id="save" name="save"/></p>
+			
+			<?php wp_nonce_field( 'groups_step1_save' ) ?>
+		<?php break; ?>
+		
+		<?php case '2': ?>
+			<?php if ( $completed_to_step > 0 ) { ?>
+				<?php if ( function_exists('bp_wire_install') ) : ?>
+				<div class="checkbox">
+					<label><input type="checkbox" name="group-show-wire" id="group-show-wire" value="1"<?php if ( $group_obj->enable_wire ) { ?> checked="checked"<?php } ?> /> <?php _e('Enable comment wire', 'buddypress') ?></label>
+				</div>
+				<?php endif; ?>
+				
+				<?php if ( function_exists('bp_forums_setup') ) : ?>
+					<?php if ( bp_forums_is_installed_correctly() ) { ?>
+						<div class="checkbox">
+							<label><input type="checkbox" name="group-show-forum" id="group-show-forum" value="1"<?php if ( $group_obj->enable_forum ) { ?> checked="checked"<?php } ?> /> <?php _e('Enable discussion forum', 'buddypress') ?></label>
+						</div>
+					<?php } else {
+						if ( is_site_admin() ) {
+							?>
+							<div class="checkbox">
+								<label><input type="checkbox" disabled="disabled" name="disabled" id="disabled" value="0" /> <?php _e('<strong>Attention Site Admin:</strong> Group forums require correct setup and configuration of a bbPress installation.', 'buddypress') ?></label>
+							</div>
+							<?php
+						}
+					}?>
+				<?php endif; ?>
+				
+				<?php if ( function_exists('bp_albums_install') ) : ?>
+				<div class="checkbox with-suboptions">
+					<label><input type="checkbox" name="group-show-photos" id="group-show-photos" value="1"<?php if ( $group_obj->enable_photos ) { ?> checked="checked"<?php } ?> /> <?php _e('Enable photo gallery', 'buddypress') ?></label>
+					<div class="sub-options"<?php if ( !$group_obj->enable_photos ) { ?> style="display: none;"<?php } ?>>
+						<label><input type="radio" name="group-photos-status" value="all"<?php if ( !$group_obj->photos_admin_only ) { ?> checked="checked"<?php } ?> /> <?php _e('All members can upload photos', 'buddypress') ?></label>
+						<label><input type="radio" name="group-photos-status" value="admins"<?php if ( $group_obj->photos_admin_only ) { ?> checked="checked"<?php } ?> /> <?php _e('Only group admins can upload photos', 'buddypress') ?></label>
+					</div>
+				</div>
+				<?php endif; ?>
+			
+				<h3><?php _e( 'Privacy Options', 'buddypress' ); ?></h3>
+			
+				<div class="radio">
+					<label><input type="radio" name="group-status" value="public"<?php if ( 'public' == $group_obj->status ) { ?> checked="checked"<?php } ?> /> 
+						<strong><?php _e( 'This is a public group', 'buddypress' ) ?></strong>
+						<ul>
+							<li><?php _e( 'Any site member can join this group.', 'buddypress' ) ?></li>
+							<li><?php _e( 'This group will be listed in the groups directory and in search results.', 'buddypress' ) ?></li>
+							<li><?php _e( 'Group content and activity will be visible to any site member.', 'buddypress' ) ?></li>
+						</ul>
+					</label>
+					
+					<label><input type="radio" name="group-status" value="private"<?php if ( 'private' == $group_obj->status ) { ?> checked="checked"<?php } ?> />
+						<strong><?php _e( 'This is a private group', 'buddypress' ) ?></strong>
+						<ul>
+							<li><?php _e( 'Only users who request membership and are accepted can join the group.', 'buddypress' ) ?></li>
+							<li><?php _e( 'This group will be listed in the groups directory and in search results.', 'buddypress' ) ?></li>
+							<li><?php _e( 'Group content and activity will only be visible to members of the group.', 'buddypress' ) ?></li>
+						</ul>
+					</label>
+					
+					<label><input type="radio" name="group-status" value="hidden"<?php if ( 'hidden' == $group_obj->status ) { ?> checked="checked"<?php } ?> />
+						<strong><?php _e('This is a hidden group', 'buddypress') ?></strong>
+						<ul>
+							<li><?php _e( 'Only users who are invited can join the group.', 'buddypress' ) ?></li>
+							<li><?php _e( 'This group will not be listed in the groups directory or search results.', 'buddypress' ) ?></li>
+							<li><?php _e( 'Group content and activity will only be visible to members of the group.', 'buddypress' ) ?></li>
+						</ul>
+					</label>
+				</div>
+
+				<p><input type="submit" value="<?php _e('Save and Continue', 'buddypress') ?> &raquo;" id="save" name="save"/></p>
+
+				<?php wp_nonce_field( 'groups_step2_save' ) ?>
+			<?php } else { ?>
+				<div id="message" class="info">
+					<p><?php _e('Please complete all previous steps first.', 'buddypress'); ?></p>
+				</div>
+			<?php } ?>
+		<?php break; ?>
+		
+		<?php case '3': ?>
+			<?php if ( $completed_to_step > 1 ) { ?>
+				<div class="left-menu">
+					<?php bp_group_current_avatar() ?>
+				</div>
+				
+				<div class="main-column">
+					<p><?php _e("Upload an image to use as an avatar for this group. The image will be shown on the main group page, and in search results.", 'buddypress') ?></p>
+					
+					<?php
+					if ( !empty($_FILES) || ( isset($_POST['orig']) && isset($_POST['canvas']) ) ) {
+						groups_avatar_upload($_FILES);
+					} else {
+						bp_core_render_avatar_upload_form( '', true );		
+					}
+					?>
+					
+					<div id="skip-continue">
+						<input type="submit" value="<?php _e('Skip', 'buddypress') ?> &raquo;" id="skip" name="skip"/>
+					</div>
+				</div>
+				
+				<?php wp_nonce_field( 'groups_step3_save' ) ?>
+			<?php } else { ?>
+				<div id="message" class="info">
+					<p><?php _e('Please complete all previous steps first.', 'buddypress'); ?></p>
+				</div>
+			<?php } ?>
+		<?php break; ?>
+		<?php case '4': ?>
+			<?php 
+			if ( $completed_to_step > 2 ) {
+				$group_link = bp_group_permalink( $group_obj, false );
+				
+				if ( function_exists('friends_install') ) {
+					if ( friends_get_friend_count_for_user( $bp->loggedin_user->id ) ) {
+						bp_group_send_invite_form( $group_obj );
+					} else {
+						?>
+						<div id="message" class="info">
+							<p><?php _e( 'Once you build up your friends list you will be able to invite friends to join your group.', 'buddypress' ) ?></p>
+						</div>
+						<?php
+					}
+				} ?>
+				
+				<p class="clear"><input type="submit" value="<?php _e('Finish', 'buddypress') ?> &raquo;" id="save" name="save" /></p>
+				
+				<?php wp_nonce_field( 'groups_step4_save' ) ?>
+				
+				<?php
+			} else { ?>
+				<div id="message" class="info">
+					<p><?php _e('Please complete all previous steps first.', 'buddypress'); ?></p>
+				</div>
+		<?php } ?>
+		<?php break; ?>
+	<?php } ?>
+	</form>
+<?php
+}
+function bp_group_list_invite_friends() {
+	global $bp, $group_obj, $invites;
+	
+	if ( !function_exists('friends_install') )
+		return false;
+
+		$friends = friends_get_friends_invite_list( $bp->loggedin_user->id, $group_obj->id );
+
+		if ( $friends ) {
+			$invites = groups_get_invites_for_group( $bp->loggedin_user->id, $group_obj->id );
+
+	?>
+			<div id="invite-list">
+				<ul>
+					<?php 
+						for ( $i = 0; $i < count( $friends ); $i++ ) {
+							if ( $invites ) {
+								if ( in_array( $friends[$i]['id'], $invites ) ) {
+									$checked = ' checked="checked"';
+								} else {
+									$checked = '';
+								} 
+							}
+					?>
+					
+					<li><input<?php echo $checked ?> type="checkbox" name="friends[]" id="f-<?php echo $friends[$i]['id'] ?>" value="<?php echo $friends[$i]['id'] ?>" /> <?php echo $friends[$i]['full_name']; ?></li>
+					<?php } ?>
+				</ul>
+			</div>
+	<?php
+		} else {
+			_e( 'No friends to invite.', 'buddypress' );
+		}
+}
+
+function bp_groups_filter_title() {
+	global $bp;
+	
+	$current_filter = $bp->action_variables[0];
+	
+	switch ( $current_filter ) {
+		case 'recently-active': default:
+			_e( 'Recently Active', 'buddypress' );
+			break;
+		case 'recently-joined':
+			_e( 'Recently Joined', 'buddypress' );
+			break;
+		case 'most-popular':
+			_e( 'Most Popular', 'buddypress' );
+			break;
+		case 'admin-of':
+			_e( 'Administrator Of', 'buddypress' );
+			break;
+		case 'mod-of':
+			_e( 'Moderator Of', 'buddypress' );
+			break;
+		case 'alphabetically':
+			_e( 'Alphabetically', 'buddypress' );
+		break;
+	}
+}
+
+function bp_group_current_avatar() {
+	global $group_obj;
+	
+	if ( $group_obj->avatar_full ) { ?>
+		<img src="<?php echo $group_obj->avatar_full ?>" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" class="avatar" />
+	<?php } else { ?>
+		<img src="<?php echo $bp->groups->image_base . '/none.gif' ?>" alt="<?php _e( 'No Group Avatar', 'buddypress' ) ?>" class="avatar" />
+	<?php }
+}
+
+function bp_group_avatar_edit_form() {
+	if ( !empty($_FILES) || ( isset($_POST['orig']) && isset($_POST['canvas']) ) ) {
+		groups_avatar_upload($_FILES);
+	} else {
+		bp_core_render_avatar_upload_form( '', true );		
+	}
+}
+
+function bp_groups_random_selection( $total_groups = 5 ) {
+	global $bp;
+	
+	if ( !$group_ids = wp_cache_get( 'groups_random_groups', 'bp' ) ) {
+		$group_ids = BP_Groups_Group::get_random( $total_groups, 1 );
+		wp_cache_set( 'groups_random_groups', $group_ids, 'bp' );
+	}
+?>	
+	<?php if ( $group_ids['groups'] ) { ?>
+		<ul class="item-list" id="random-groups-list">
+		<?php 
+			for ( $i = 0; $i < count( $group_ids['groups'] ); $i++ ) { 
+				if ( !$group = wp_cache_get( 'groups_group_nouserdata_' . $group_ids['groups'][$i]->group_id, 'bp' ) ) {
+					$group = new BP_Groups_Group( $group_ids['groups'][$i]->group_id, false, false );
+					wp_cache_set( 'groups_group_nouserdata_' . $group_ids['groups'][$i]->group_id, $group, 'bp' );
+				}
+			?>	
+			<li>
+				<div class="item-avatar">
+					<a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php printf( __( '%s Avatar', 'buddypress' ), $group->name ) ?>" /></a>
+				</div>
+
+				<div class="item">
+					<div class="item-title"><a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><?php echo $group->name ?></a></div>
+					<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) ) ?></span></div>
+					<div class="item-meta desc"><?php echo bp_create_excerpt( $group->description ) ?></div>
+				</div>
+				
+				<div class="action">
+					<?php bp_group_join_button( $group ) ?>
+					<div class="meta">
+						<?php $member_count = groups_get_groupmeta( $group->id, 'total_group_count' ) ?>
+						<?php echo ucwords($group->status) ?> <?php _e( 'Group', 'buddypress' ) ?> / 
+						<?php if ( 1 == $member_count ) : ?>
+							<?php printf( __( '%d member', 'buddypress' ), $member_count ) ?>
+						<?php else : ?>
+							<?php printf( __( '%d members', 'buddypress' ), $member_count ) ?>
+						<?php endif; ?>
+					</div>
+				</div>
+				
+				<div class="clear"></div>
+			</li>
+		<?php } ?>
+		</ul>
+	<?php } else { ?>
+		<div id="message" class="info">
+			<p><?php _e( "There aren't enough groups to show a random sample just yet.", 'buddypress' ) ?></p>
+		</div>		
+	<?php } ?>
+<?php
+}
+
+function bp_groups_random_groups( $total_groups = 5 ) {
+	global $bp;
+	
+	if ( !$group_ids = wp_cache_get( 'groups_random_user_groups_' . $bp->displayed_user->id . '_' . $total_groups, 'bp' ) ) {
+		$group_ids = groups_get_random_groups_for_user( $bp->displayed_user->id, $total_groups, 1 );
+		wp_cache_set( 'groups_random_user_groups_' . $bp->displayed_user->id . '_' . $total_groups, $group_ids, 'bp' );
+	}
+	
+?>	
+	<div class="info-group">
+		<h4><?php bp_word_or_name( __( "My Groups", 'buddypress' ), __( "%s's Groups", 'buddypress' ) ) ?> (<?php echo BP_Groups_Member::total_group_count() ?>) <a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>"><?php _e('See All', 'buddypress') ?> &raquo;</a></h4>
+		<?php if ( $group_ids ) { ?>
+			<ul class="horiz-gallery">
+			<?php 
+			for ( $i = 0; $i < count( $group_ids ); $i++ ) {
+				if ( !$group = wp_cache_get( 'groups_group_nouserdata_' . $group_ids[$i], 'bp' ) ) {
+					$group = new BP_Groups_Group( $group_ids[$i], false, false );
+					wp_cache_set( 'groups_group_nouserdata_' . $group_ids[$i], $group, 'bp' );
+				}
+			?>				<li>
+					<a href="<?php echo bp_group_permalink( $group, false ) ?>"><img src="<?php echo $group->avatar_thumb; ?>" class="avatar" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" /></a>
+					<h5><a href="<?php echo bp_group_permalink( $group, false ) ?>"><?php echo $group->name ?></a></h5>
+				</li>
+			<?php } ?>
+			</ul>
+		<?php } else { ?>
+			<div id="message" class="info">
+				<p><?php bp_word_or_name( __( "You haven't joined any groups yet.", 'buddypress' ), __( "%s hasn't joined any groups yet.", 'buddypress' ) ) ?></p>
+			</div>
+		<?php } ?>
+		<div class="clear"></div>
+	</div>
+<?php
+}
+
+function bp_custom_group_boxes() {
+	do_action( 'groups_custom_group_boxes' );
+}
+
+function bp_custom_group_admin_tabs() {
+	do_action( 'groups_custom_group_admin_tabs' );
+}
+
+function bp_custom_group_fields_editable() {
+	do_action( 'groups_custom_group_fields_editable' );
+}
+
+function bp_custom_group_fields() {
+	do_action( 'groups_custom_group_fields' );
+}
+
+
+/*****************************************************************************
+ * User Groups Template Class/Tags
+ **/
+
+class BP_Groups_User_Groups_Template {
 	var $current_group = -1;
 	var $group_count;
 	var $groups;
@@ -18,7 +414,7 @@ class BP_Groups_Template {
 	var $sort_by;
 	var $order;
 	
-	function bp_groups_template( $user_id = null, $group_slug = null, $groups_per_page = 10 ) {
+	function bp_groups_user_groups_template( $user_id = null, $group_slug = null, $groups_per_page = 10 ) {
 		global $bp, $current_user;
 		
 		if ( !$user_id )
@@ -175,9 +571,9 @@ function bp_has_groups( $groups_per_page = 10 ) {
 	global $group_obj;
 	
 	if ( !$bp->is_single_item ) {
-		$groups_template = new BP_Groups_Template( $bp->displayed_user->id, false, $groups_per_page );
+		$groups_template = new BP_Groups_User_Groups_Template( $bp->displayed_user->id, false, $groups_per_page );
 	} else {
-		$groups_template = new BP_Groups_Template( $bp->displayed_user->id, $group_obj->slug, $groups_per_page );		
+		$groups_template = new BP_Groups_User_Groups_Template( $bp->displayed_user->id, $group_obj->slug, $groups_per_page );		
 	}
 	
 	return $groups_template->has_groups();
@@ -300,10 +696,17 @@ function bp_group_last_active( $echo = true, $group = false ) {
 	
 	$last_active = groups_get_groupmeta( $group->id, 'last_activity' );
 	
-	if ( empty( $last_active ) )
-		_e( 'not yet active', 'buddypress' );
-	else
-		echo apply_filters( 'bp_group_last_active', bp_core_time_since( $last_active ) );
+	if ( empty( $last_active ) ) {
+		if ( $echo )
+			_e( 'not yet active', 'buddypress' );
+		else
+			return __( 'not yet active', 'buddypress' );
+	} else {
+		if ( $echo )
+			echo apply_filters( 'bp_group_last_active', bp_core_time_since( $last_active ) );
+		else
+			return apply_filters( 'bp_group_last_active', bp_core_time_since( $last_active ) );			
+	}
 }
 
 function bp_group_permalink( $group = false, $echo = true ) {
@@ -606,9 +1009,9 @@ function bp_group_total_members( $echo = true, $group = false ) {
 		$group =& $groups_template->group;
 
 	if ( $echo )
-		echo apply_filters( 'groups_template', $group->total_member_count );
+		echo apply_filters( 'groups_template', $group->total_group_count );
 	else
-		return apply_filters( 'groups_template', $group->total_member_count );
+		return apply_filters( 'groups_template', $group->total_group_count );
 }
 
 function bp_group_is_photos_enabled( $group = false ) {
@@ -1077,398 +1480,8 @@ function bp_group_status_message( $group = false ) {
 	}
 }
 
-function bp_group_creation_tabs() {
-	global $bp, $create_group_step, $completed_to_step;
-?>
-	<li<?php if ( 1 == (int)$create_group_step ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/create/step/1">1. <?php _e('Group Details', 'buddypress') ?></a></li>
-	<li<?php if ( 2 == (int)$create_group_step ) : ?> class="current"<?php endif; ?>><?php if ( $completed_to_step > 0 ) { ?><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/create/step/2">2. <?php _e('Group Settings', 'buddypress') ?></a><?php } else { ?><span>2. <?php _e('Group Settings', 'buddypress') ?></span><?php } ?></li>
-	<li<?php if ( 3 == (int)$create_group_step ) : ?> class="current"<?php endif; ?>><?php if ( $completed_to_step > 1 ) { ?><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/create/step/3">3. <?php _e('Group Avatar', 'buddypress') ?></a><?php } else { ?><span>3. <?php _e('Group Avatar', 'buddypress') ?></span><?php } ?></li>
-	<li<?php if ( 4 == (int)$create_group_step ) : ?> class="current"<?php endif; ?>><?php if ( $completed_to_step > 2 ) { ?><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/create/step/4">4. <?php _e('Invite Members', 'buddypress') ?></a><?php } else { ?><span>4. <?php _e('Invite Members', 'buddypress') ?></span><?php } ?></li>
-<?php
-	do_action( 'groups_creation_tabs' );
-}
 
-function bp_group_creation_stage_title() {
-	global $create_group_step;
-	
-	switch( $create_group_step ) {
-		case '1':
-			echo '<span>&mdash; ' . __('Group Details', 'buddypress') . '</span>';
-		break;
-		
-		case '2':
-			echo '<span>&mdash; ' . __('Group Settings', 'buddypress') . '</span>';		
-		break;
-		
-		case '3':
-			echo '<span>&mdash; ' . __('Group Avatar', 'buddypress') . '</span>';
-		break;
-		
-		case '4':
-			echo '<span>&mdash; ' . __('Invite Members', 'buddypress') . '</span>';
-		break;
-	}
-}
-
-function bp_group_create_form() {
-	global $bp, $create_group_step, $completed_to_step;
-	global $group_obj, $invites;
-
-?>
-	<form action="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/create/step/<?php echo $create_group_step ?>" method="post" id="create-group-form" class="standard-form" enctype="multipart/form-data">
-	<?php switch( $create_group_step ) {
-		case '1': ?>
-			<label for="group-name">* <?php _e('Group Name', 'buddypress') ?></label>
-			<input type="text" name="group-name" id="group-name" value="<?php echo ( $group_obj ) ? $group_obj->name : $_POST['group-name']; ?>" />
-		
-			<label for="group-desc">* <?php _e('Group Description', 'buddypress') ?></label>
-			<textarea name="group-desc" id="group-desc"><?php echo ( $group_obj ) ? $group_obj->description : $_POST['group-desc']; ?></textarea>
-		
-			<label for="group-news"><?php _e('Recent News', 'buddypress') ?></label>
-			<textarea name="group-news" id="group-news"><?php echo ( $group_obj ) ? $group_obj->news : $_POST['group-news']; ?></textarea>
-			
-			<?php do_action( 'groups_custom_group_fields_editable' ) ?>
-			
-			<p><input type="submit" value="<?php _e('Create Group and Continue', 'buddypress') ?> &raquo;" id="save" name="save"/></p>
-			
-			<?php wp_nonce_field( 'groups_step1_save' ) ?>
-		<?php break; ?>
-		
-		<?php case '2': ?>
-			<?php if ( $completed_to_step > 0 ) { ?>
-				<?php if ( function_exists('bp_wire_install') ) : ?>
-				<div class="checkbox">
-					<label><input type="checkbox" name="group-show-wire" id="group-show-wire" value="1"<?php if ( $group_obj->enable_wire ) { ?> checked="checked"<?php } ?> /> <?php _e('Enable comment wire', 'buddypress') ?></label>
-				</div>
-				<?php endif; ?>
-				
-				<?php if ( function_exists('bp_forums_setup') ) : ?>
-					<?php if ( bp_forums_is_installed_correctly() ) { ?>
-						<div class="checkbox">
-							<label><input type="checkbox" name="group-show-forum" id="group-show-forum" value="1"<?php if ( $group_obj->enable_forum ) { ?> checked="checked"<?php } ?> /> <?php _e('Enable discussion forum', 'buddypress') ?></label>
-						</div>
-					<?php } else {
-						if ( is_site_admin() ) {
-							?>
-							<div class="checkbox">
-								<label><input type="checkbox" disabled="disabled" name="disabled" id="disabled" value="0" /> <?php _e('<strong>Attention Site Admin:</strong> Group forums require correct setup and configuration of a bbPress installation.', 'buddypress') ?></label>
-							</div>
-							<?php
-						}
-					}?>
-				<?php endif; ?>
-				
-				<?php if ( function_exists('bp_albums_install') ) : ?>
-				<div class="checkbox with-suboptions">
-					<label><input type="checkbox" name="group-show-photos" id="group-show-photos" value="1"<?php if ( $group_obj->enable_photos ) { ?> checked="checked"<?php } ?> /> <?php _e('Enable photo gallery', 'buddypress') ?></label>
-					<div class="sub-options"<?php if ( !$group_obj->enable_photos ) { ?> style="display: none;"<?php } ?>>
-						<label><input type="radio" name="group-photos-status" value="all"<?php if ( !$group_obj->photos_admin_only ) { ?> checked="checked"<?php } ?> /> <?php _e('All members can upload photos', 'buddypress') ?></label>
-						<label><input type="radio" name="group-photos-status" value="admins"<?php if ( $group_obj->photos_admin_only ) { ?> checked="checked"<?php } ?> /> <?php _e('Only group admins can upload photos', 'buddypress') ?></label>
-					</div>
-				</div>
-				<?php endif; ?>
-			
-				<h3><?php _e( 'Privacy Options', 'buddypress' ); ?></h3>
-			
-				<div class="radio">
-					<label><input type="radio" name="group-status" value="public"<?php if ( 'public' == $group_obj->status ) { ?> checked="checked"<?php } ?> /> 
-						<strong><?php _e( 'This is a public group', 'buddypress' ) ?></strong>
-						<ul>
-							<li><?php _e( 'Any site member can join this group.', 'buddypress' ) ?></li>
-							<li><?php _e( 'This group will be listed in the groups directory and in search results.', 'buddypress' ) ?></li>
-							<li><?php _e( 'Group content and activity will be visible to any site member.', 'buddypress' ) ?></li>
-						</ul>
-					</label>
-					
-					<label><input type="radio" name="group-status" value="private"<?php if ( 'private' == $group_obj->status ) { ?> checked="checked"<?php } ?> />
-						<strong><?php _e( 'This is a private group', 'buddypress' ) ?></strong>
-						<ul>
-							<li><?php _e( 'Only users who request membership and are accepted can join the group.', 'buddypress' ) ?></li>
-							<li><?php _e( 'This group will be listed in the groups directory and in search results.', 'buddypress' ) ?></li>
-							<li><?php _e( 'Group content and activity will only be visible to members of the group.', 'buddypress' ) ?></li>
-						</ul>
-					</label>
-					
-					<label><input type="radio" name="group-status" value="hidden"<?php if ( 'hidden' == $group_obj->status ) { ?> checked="checked"<?php } ?> />
-						<strong><?php _e('This is a hidden group', 'buddypress') ?></strong>
-						<ul>
-							<li><?php _e( 'Only users who are invited can join the group.', 'buddypress' ) ?></li>
-							<li><?php _e( 'This group will not be listed in the groups directory or search results.', 'buddypress' ) ?></li>
-							<li><?php _e( 'Group content and activity will only be visible to members of the group.', 'buddypress' ) ?></li>
-						</ul>
-					</label>
-				</div>
-
-				<p><input type="submit" value="<?php _e('Save and Continue', 'buddypress') ?> &raquo;" id="save" name="save"/></p>
-
-				<?php wp_nonce_field( 'groups_step2_save' ) ?>
-			<?php } else { ?>
-				<div id="message" class="info">
-					<p><?php _e('Please complete all previous steps first.', 'buddypress'); ?></p>
-				</div>
-			<?php } ?>
-		<?php break; ?>
-		
-		<?php case '3': ?>
-			<?php if ( $completed_to_step > 1 ) { ?>
-				<div class="left-menu">
-					<?php bp_group_current_avatar() ?>
-				</div>
-				
-				<div class="main-column">
-					<p><?php _e("Upload an image to use as an avatar for this group. The image will be shown on the main group page, and in search results.", 'buddypress') ?></p>
-					
-					<?php
-					if ( !empty($_FILES) || ( isset($_POST['orig']) && isset($_POST['canvas']) ) ) {
-						groups_avatar_upload($_FILES);
-					} else {
-						bp_core_render_avatar_upload_form( '', true );		
-					}
-					?>
-					
-					<div id="skip-continue">
-						<input type="submit" value="<?php _e('Skip', 'buddypress') ?> &raquo;" id="skip" name="skip"/>
-					</div>
-				</div>
-				
-				<?php wp_nonce_field( 'groups_step3_save' ) ?>
-			<?php } else { ?>
-				<div id="message" class="info">
-					<p><?php _e('Please complete all previous steps first.', 'buddypress'); ?></p>
-				</div>
-			<?php } ?>
-		<?php break; ?>
-		<?php case '4': ?>
-			<?php 
-			if ( $completed_to_step > 2 ) {
-				$group_link = bp_group_permalink( $group_obj, false );
-				
-				if ( function_exists('friends_install') ) {
-					if ( friends_get_friend_count_for_user( $bp->loggedin_user->id ) ) {
-						bp_group_send_invite_form( $group_obj );
-					} else {
-						?>
-						<div id="message" class="info">
-							<p><?php _e( 'Once you build up your friends list you will be able to invite friends to join your group.', 'buddypress' ) ?></p>
-						</div>
-						<?php
-					}
-				} ?>
-				
-				<p class="clear"><input type="submit" value="<?php _e('Finish', 'buddypress') ?> &raquo;" id="save" name="save" /></p>
-				
-				<?php wp_nonce_field( 'groups_step4_save' ) ?>
-				
-				<?php
-			} else { ?>
-				<div id="message" class="info">
-					<p><?php _e('Please complete all previous steps first.', 'buddypress'); ?></p>
-				</div>
-		<?php } ?>
-		<?php break; ?>
-	<?php } ?>
-	</form>
-<?php
-}
-function bp_group_list_invite_friends() {
-	global $bp, $group_obj, $invites;
-	
-	if ( !function_exists('friends_install') )
-		return false;
-
-		$friends = friends_get_friends_invite_list( $bp->loggedin_user->id, $group_obj->id );
-
-		if ( $friends ) {
-			$invites = groups_get_invites_for_group( $bp->loggedin_user->id, $group_obj->id );
-
-	?>
-			<div id="invite-list">
-				<ul>
-					<?php 
-						for ( $i = 0; $i < count( $friends ); $i++ ) {
-							if ( $invites ) {
-								if ( in_array( $friends[$i]['id'], $invites ) ) {
-									$checked = ' checked="checked"';
-								} else {
-									$checked = '';
-								} 
-							}
-					?>
-					
-					<li><input<?php echo $checked ?> type="checkbox" name="friends[]" id="f-<?php echo $friends[$i]['id'] ?>" value="<?php echo $friends[$i]['id'] ?>" /> <?php echo $friends[$i]['full_name']; ?></li>
-					<?php } ?>
-				</ul>
-			</div>
-	<?php
-		} else {
-			_e( 'No friends to invite.', 'buddypress' );
-		}
-}
-
-function bp_groups_header_tabs() {
-	global $bp, $create_group_step, $completed_to_step;
-?>
-	<li<?php if ( !isset($bp->action_variables[0]) || 'recently-active' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/recently-active"><?php _e( 'Recently Active', 'buddypress' ) ?></a></li>
-	<li<?php if ( 'recently-joined' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/recently-joined"><?php _e( 'Recently Joined', 'buddypress' ) ?></a></li>
-	<li<?php if ( 'most-popular' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/most-popular""><?php _e( 'Most Popular', 'buddypress' ) ?></a></li>
-	<li<?php if ( 'admin-of' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/admin-of""><?php _e( 'Administrator Of', 'buddypress' ) ?></a></li>
-	<li<?php if ( 'mod-of' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/mod-of""><?php _e( 'Moderator Of', 'buddypress' ) ?></a></li>
-	<li<?php if ( 'alphabetically' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/alphabetically""><?php _e( 'Alphabetically', 'buddypress' ) ?></a></li>
-		
-<?php
-	do_action( 'groups_header_tabs' );
-}
-
-function bp_groups_filter_title() {
-	global $bp;
-	
-	$current_filter = $bp->action_variables[0];
-	
-	switch ( $current_filter ) {
-		case 'recently-active': default:
-			_e( 'Recently Active', 'buddypress' );
-			break;
-		case 'recently-joined':
-			_e( 'Recently Joined', 'buddypress' );
-			break;
-		case 'most-popular':
-			_e( 'Most Popular', 'buddypress' );
-			break;
-		case 'admin-of':
-			_e( 'Administrator Of', 'buddypress' );
-			break;
-		case 'mod-of':
-			_e( 'Moderator Of', 'buddypress' );
-			break;
-		case 'alphabetically':
-			_e( 'Alphabetically', 'buddypress' );
-		break;
-	}
-}
-
-function bp_group_current_avatar() {
-	global $group_obj;
-	
-	if ( $group_obj->avatar_full ) { ?>
-		<img src="<?php echo $group_obj->avatar_full ?>" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" class="avatar" />
-	<?php } else { ?>
-		<img src="<?php echo $bp->groups->image_base . '/none.gif' ?>" alt="<?php _e( 'No Group Avatar', 'buddypress' ) ?>" class="avatar" />
-	<?php }
-}
-
-function bp_group_avatar_edit_form() {
-	if ( !empty($_FILES) || ( isset($_POST['orig']) && isset($_POST['canvas']) ) ) {
-		groups_avatar_upload($_FILES);
-	} else {
-		bp_core_render_avatar_upload_form( '', true );		
-	}
-}
-
-function bp_groups_random_selection( $total_groups = 5 ) {
-	global $bp;
-	
-	if ( !$group_ids = wp_cache_get( 'groups_random_groups', 'bp' ) ) {
-		$group_ids = BP_Groups_Group::get_random( $total_groups, 1 );
-		wp_cache_set( 'groups_random_groups', $group_ids, 'bp' );
-	}
-?>	
-	<?php if ( $group_ids['groups'] ) { ?>
-		<ul class="item-list" id="random-groups-list">
-		<?php 
-			for ( $i = 0; $i < count( $group_ids['groups'] ); $i++ ) { 
-				if ( !$group = wp_cache_get( 'groups_group_nouserdata_' . $group_ids['groups'][$i]->group_id, 'bp' ) ) {
-					$group = new BP_Groups_Group( $group_ids['groups'][$i]->group_id, false, false );
-					wp_cache_set( 'groups_group_nouserdata_' . $group_ids['groups'][$i]->group_id, $group, 'bp' );
-				}
-			?>	
-			<li>
-				<div class="item-avatar">
-					<a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php printf( __( '%s Avatar', 'buddypress' ), $group->name ) ?>" /></a>
-				</div>
-
-				<div class="item">
-					<div class="item-title"><a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><?php echo $group->name ?></a></div>
-					<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) ) ?></span></div>
-					<div class="item-meta desc"><?php echo bp_create_excerpt( $group->description ) ?></div>
-				</div>
-				
-				<div class="action">
-					<?php bp_group_join_button( $group ) ?>
-					<div class="meta">
-						<?php $member_count = groups_get_groupmeta( $group->id, 'total_member_count' ) ?>
-						<?php echo ucwords($group->status) ?> <?php _e( 'Group', 'buddypress' ) ?> / 
-						<?php if ( 1 == $member_count ) : ?>
-							<?php printf( __( '%d member', 'buddypress' ), $member_count ) ?>
-						<?php else : ?>
-							<?php printf( __( '%d members', 'buddypress' ), $member_count ) ?>
-						<?php endif; ?>
-					</div>
-				</div>
-				
-				<div class="clear"></div>
-			</li>
-		<?php } ?>
-		</ul>
-	<?php } else { ?>
-		<div id="message" class="info">
-			<p><?php _e( "There aren't enough groups to show a random sample just yet.", 'buddypress' ) ?></p>
-		</div>		
-	<?php } ?>
-<?php
-}
-
-function bp_groups_random_groups( $total_groups = 5 ) {
-	global $bp;
-	
-	if ( !$group_ids = wp_cache_get( 'groups_random_user_groups_' . $bp->displayed_user->id . '_' . $total_groups, 'bp' ) ) {
-		$group_ids = groups_get_random_groups_for_user( $bp->displayed_user->id, $total_groups, 1 );
-		wp_cache_set( 'groups_random_user_groups_' . $bp->displayed_user->id . '_' . $total_groups, $group_ids, 'bp' );
-	}
-	
-?>	
-	<div class="info-group">
-		<h4><?php bp_word_or_name( __( "My Groups", 'buddypress' ), __( "%s's Groups", 'buddypress' ) ) ?> (<?php echo BP_Groups_Member::total_group_count() ?>) <a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>"><?php _e('See All', 'buddypress') ?> &raquo;</a></h4>
-		<?php if ( $group_ids ) { ?>
-			<ul class="horiz-gallery">
-			<?php 
-			for ( $i = 0; $i < count( $group_ids ); $i++ ) {
-				if ( !$group = wp_cache_get( 'groups_group_nouserdata_' . $group_ids[$i], 'bp' ) ) {
-					$group = new BP_Groups_Group( $group_ids[$i], false, false );
-					wp_cache_set( 'groups_group_nouserdata_' . $group_ids[$i], $group, 'bp' );
-				}
-			?>				<li>
-					<a href="<?php echo bp_group_permalink( $group, false ) ?>"><img src="<?php echo $group->avatar_thumb; ?>" class="avatar" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" /></a>
-					<h5><a href="<?php echo bp_group_permalink( $group, false ) ?>"><?php echo $group->name ?></a></h5>
-				</li>
-			<?php } ?>
-			</ul>
-		<?php } else { ?>
-			<div id="message" class="info">
-				<p><?php bp_word_or_name( __( "You haven't joined any groups yet.", 'buddypress' ), __( "%s hasn't joined any groups yet.", 'buddypress' ) ) ?></p>
-			</div>
-		<?php } ?>
-		<div class="clear"></div>
-	</div>
-<?php
-}
-
-function bp_custom_group_boxes() {
-	do_action( 'groups_custom_group_boxes' );
-}
-
-function bp_custom_group_admin_tabs() {
-	do_action( 'groups_custom_group_admin_tabs' );
-}
-
-function bp_custom_group_fields_editable() {
-	do_action( 'groups_custom_group_fields_editable' );
-}
-
-function bp_custom_group_fields() {
-	do_action( 'groups_custom_group_fields' );
-}
-
-/****
+/***************************************************************************
  * Group Members Template Tags
  **/
 
@@ -1483,7 +1496,7 @@ class BP_Groups_Group_Members_Template {
 	var $pag_page;
 	var $pag_num;
 	var $pag_links;
-	var $total_member_count;
+	var $total_group_count;
 	
 	function bp_groups_group_members_template( $group_id, $num_per_page, $exclude_admins_mods, $exclude_banned ) {
 		global $bp;
@@ -1493,7 +1506,7 @@ class BP_Groups_Group_Members_Template {
 		
 		$members = BP_Groups_Member::get_all_for_group( $group_id, $this->pag_num, $this->pag_page, $exclude_admins_mods, $exclude_banned );
 		
-		$this->total_member_count = $members['count'];
+		$this->total_group_count = $members['count'];
 		$this->members = $members['members'];
 		
 		$this->member_count = count($this->members);
@@ -1501,7 +1514,7 @@ class BP_Groups_Group_Members_Template {
 		$this->pag_links = paginate_links( array(
 			'base' => add_query_arg( 'mlpage', '%#%' ),
 			'format' => '',
-			'total' => ceil( $this->total_member_count / $this->pag_num ),
+			'total' => ceil( $this->total_group_count / $this->pag_num ),
 			'current' => $this->pag_page,
 			'prev_text' => '&laquo;',
 			'next_text' => '&raquo;',
@@ -1631,7 +1644,7 @@ function bp_group_member_id() {
 function bp_group_member_needs_pagination() {
 	global $members_template;
 
-	if ( $members_template->total_member_count > $members_template->pag_num )
+	if ( $members_template->total_group_count > $members_template->pag_num )
 		return true;
 	
 	return false;
@@ -1654,9 +1667,9 @@ function bp_group_member_pagination_count() {
 	global $members_template;
 	
 	$from_num = intval( ( $members_template->pag_page - 1 ) * $members_template->pag_num ) + 1;
-	$to_num = ( $from_num + 4 > $members_template->total_member_count ) ? $members_template->total_member_count : $from_num + 4; 
+	$to_num = ( $from_num + 4 > $members_template->total_group_count ) ? $members_template->total_group_count : $from_num + 4; 
 
-	echo apply_filters( 'bp_group_reject_invite_link', sprintf( __( 'Viewing members %d to %d (%d total members)', 'buddypress' ), $from_num, $to_num, $members_template->total_member_count ) );  
+	echo apply_filters( 'bp_group_reject_invite_link', sprintf( __( 'Viewing members %d to %d (%d total members)', 'buddypress' ), $from_num, $to_num, $members_template->total_group_count ) );  
 }
 
 function bp_group_member_admin_pagination() {
@@ -1665,8 +1678,264 @@ function bp_group_member_admin_pagination() {
 	wp_nonce_field( 'bp_groups_member_admin_list', '_member_admin_pag_nonce' );
 }
 
+/********************************************************************************
+ * Site Groups Template Tags
+ **/
 
-/****
+class BP_Groups_Site_Groups_Template {
+	var $current_group = -1;
+	var $group_count;
+	var $groups;
+	var $group;
+	
+	var $in_the_loop;
+	
+	var $pag_page;
+	var $pag_num;
+	var $pag_links;
+	var $total_group_count;
+	
+	function bp_groups_site_groups_template( $type, $per_page, $max ) {
+		global $bp;
+
+		$this->pag_page = isset( $_REQUEST['page'] ) ? intval( $_REQUEST['page'] ) : 1;
+		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
+				
+		if ( isset( $_REQUEST['s'] ) && '' != $_REQUEST['s'] && $type != 'random' ) {
+			$this->groups = BP_Groups_Group::search_groups( $_REQUEST['s'], $this->pag_num, $this->pag_page );
+		} else if ( isset( $_REQUEST['letter'] ) && '' != $_REQUEST['letter'] ) {
+			$this->groups = BP_Groups_Group::get_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page );
+		} else {
+			switch ( $type ) {
+				case 'random':
+					$this->groups = BP_Groups_Group::get_random( $this->pag_num, $this->pag_page );
+					break;
+				
+				case 'newest':
+					$this->groups = BP_Groups_Group::get_newest( $this->pag_num, $this->pag_page );
+					break;
+
+				case 'popular':
+					$this->groups = BP_Groups_Group::get_popular( $this->pag_num, $this->pag_page );
+					break;	
+				
+				case 'active': default:
+					$this->groups = BP_Groups_Group::get_active( $this->pag_num, $this->pag_page );
+					break;					
+			}
+		}
+		
+		if ( !$max )
+			$this->total_group_count = (int)$this->groups['total'];
+		else
+			$this->total_group_count = (int)$max;
+
+		$this->groups = $this->groups['groups'];
+		$this->group_count = count($this->groups);
+
+		$this->pag_links = paginate_links( array(
+			'base' => add_query_arg( 'page', '%#%' ),
+			'format' => '',
+			'total' => ceil( (int) $this->total_group_count / (int) $this->pag_num ),
+			'current' => (int) $this->pag_page,
+			'prev_text' => '&laquo;',
+			'next_text' => '&raquo;',
+			'mid_size' => 1
+		));		
+	}
+	
+	function has_groups() {
+		if ( $this->group_count )
+			return true;
+		
+		return false;
+	}
+	
+	function next_group() {
+		$this->current_group++;
+		$this->group = $this->groups[$this->current_group];
+		
+		return $this->group;
+	}
+	
+	function rewind_groups() {
+		$this->current_group = -1;
+		if ( $this->group_count > 0 ) {
+			$this->group = $this->groups[0];
+		}
+	}
+	
+	function groups() { 
+		if ( $this->current_group + 1 < $this->group_count ) {
+			return true;
+		} elseif ( $this->current_group + 1 == $this->group_count ) {
+			do_action('loop_end');
+			// Do some cleaning up after the loop
+			$this->rewind_groups();
+		}
+
+		$this->in_the_loop = false;
+		return false;
+	}
+	
+	function the_group() {
+		global $group;
+
+		$this->in_the_loop = true;
+		$this->group = $this->next_group();
+		
+		if ( !$group = wp_cache_get( 'groups_group_nouserdata_' . $this->group->group_id, 'bp' ) ) {
+			$group = new BP_Groups_Group( $this->group->group_id, false, false );
+			wp_cache_set( 'groups_group_nouserdata_' . $this->group->group_id, $group, 'bp' );
+		}
+		
+		$this->group = $group;
+		
+		if ( 0 == $this->current_group ) // loop has just started
+			do_action('loop_start');
+	}
+}
+
+function bp_rewind_site_groups() {
+	global $site_groups_template;
+	
+	$site_groups_template->rewind_groups();	
+}
+
+function bp_has_site_groups( $args = '' ) {
+	global $site_groups_template;
+
+	$defaults = array(
+		'type' => 'active',
+		'per_page' => 10,
+		'max' => false
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+	
+	// type: active ( default ) | random | newest | popular
+	
+	if ( $max ) {
+		if ( $per_page > $max )
+			$per_page = $max;
+	}
+		
+	$site_groups_template = new BP_Groups_Site_Groups_Template( $type, $per_page, $max );
+
+	return $site_groups_template->has_groups();
+}
+
+function bp_site_groups() {
+	global $site_groups_template;
+	
+	return $site_groups_template->groups();
+}
+
+function bp_the_site_group() {
+	global $site_groups_template;
+	
+	return $site_groups_template->the_group();
+}
+
+function bp_site_groups_pagination_count() {
+	global $bp, $site_groups_template;
+	
+	$from_num = intval( ( $site_groups_template->pag_page - 1 ) * $site_groups_template->pag_num ) + 1;
+	$to_num = ( $from_num + ( $site_groups_template->pag_num - 1 ) > $site_groups_template->total_group_count ) ? $site_groups_template->total_group_count : $from_num + ( $site_groups_template->pag_num - 1) ;
+
+	echo sprintf( __( 'Viewing group %d to %d (of %d groups)', 'buddypress' ), $from_num, $to_num, $site_groups_template->total_group_count ); ?> &nbsp;
+	<img id="ajax-loader-groups" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" /><?php
+}
+
+function bp_site_groups_pagination_links() {
+	global $site_groups_template;
+	echo $site_groups_template->pag_links;
+}
+
+function bp_the_site_group_avatar() {
+	global $site_groups_template;
+	echo bp_group_avatar( $site_groups_template->group );
+}
+
+function bp_the_site_group_avatar_thumb() {
+	global $site_groups_template;
+	echo bp_group_avatar_thumb( $site_groups_template->group );
+}
+
+function bp_the_site_group_avatar_mini() {
+	global $site_groups_template;
+	echo bp_group_avatar_mini( $site_groups_template->group );
+}
+
+function bp_the_site_group_link() {
+	global $site_groups_template;
+	echo bp_group_permalink( $site_groups_template->group );
+}
+
+function bp_the_site_group_name() {
+	global $site_groups_template;
+	echo bp_group_name( true, $site_groups_template->group );
+}
+
+function bp_the_site_group_last_active() {
+	global $site_groups_template;
+	
+	printf( __( 'active %s ago', 'buddypress' ), bp_group_last_active( false, $site_groups_template->group ) );
+}
+
+function bp_the_site_group_join_button() {
+	global $site_groups_template;
+	
+	echo bp_group_join_button( $site_groups_template->group );
+}
+
+function bp_the_site_group_description() {
+	global $site_groups_template;
+
+	echo bp_group_description( $site_groups_template->group );	
+}
+
+function bp_the_site_group_member_count() {
+	global $site_groups_template;
+
+	if ( 1 == (int) $site_groups_template->group->total_member_count )
+		printf( '%d member', (int) $site_groups_template->group->total_member_count );
+	else
+		printf( '%d members', (int) $site_groups_template->group->total_member_count );		
+}
+
+function bp_the_site_group_type() {
+	global $site_groups_template;
+	
+	echo bp_group_type( $site_groups_template->group );
+}
+
+
+function bp_the_site_group_hidden_fields() {
+	if ( isset( $_REQUEST['s'] ) ) {
+		echo '<input type="hidden" id="search_terms" value="' . attribute_escape( $_REQUEST['s'] ) . '" name="search_terms" />';
+	}
+	
+	if ( isset( $_REQUEST['letter'] ) ) {
+		echo '<input type="hidden" id="selected_letter" value="' . attribute_escape( $_REQUEST['letter'] ) . '" name="selected_letter" />';
+	}
+	
+	if ( isset( $_REQUEST['groups_search'] ) ) {
+		echo '<input type="hidden" id="search_terms" value="' . attribute_escape( $_REQUEST['groups_search'] ) . '" name="search_terms" />';
+	}
+}
+
+function bp_directory_groups_search_form() {
+	global $bp; ?>
+	<form action="<?php echo $bp->root_domain . '/' . groups_SLUG  . '/search/' ?>" method="post" id="search-groups-form">
+		<label><input type="text" name="groups_search" id="groups_search" value="<?php if ( isset( $_GET['s'] ) ) { echo attribute_escape( $_GET['s'] ); } else { _e( 'Search anything...', 'buddypress' ); } ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
+		<input type="submit" id="groups_search_submit" name="groups_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
+	</form>
+<?php
+}
+
+/************************************************************************************
  * Membership Requests Template Tags
  **/
 
@@ -1807,5 +2076,8 @@ function bp_group_request_user_link() {
 	
 	echo apply_filters( 'bp_group_request_user_link', bp_core_get_userlink( $requests_template->request->user_id ) );
 }
+
+
+
 
 ?>

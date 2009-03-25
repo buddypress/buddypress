@@ -15,33 +15,18 @@ jQuery(document).ready( function() {
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce-group-filter").val(),
 				'letter': letter[1],
-				'page': 1,
-				'num': 10
+				'page': 1
 			},
 			function(response)
 			{	
 				response = response.substr(0, response.length-1);
-				response = response.split('[[SPLIT]]');
-
-				if ( response[0] != "-1" ) {
-					jQuery("#group-dir-list").fadeOut(200, 
-						function() {
-							jQuery('#ajax-loader-groups').toggle();
-							jQuery("#group-dir-list").html(response[1]);
-							jQuery("#group-dir-list").fadeIn(200);
-						}
-					);
-
-				} else {					
-					jQuery("ul#groups-list").fadeOut(200, 
-						function() {
-							jQuery('#ajax-loader-groups').toggle();
-							var message = response[1];
-							jQuery("#group-dir-list").html(message);
-							jQuery("#group-dir-list").fadeIn(200);
-						}
-					);
-				}
+				jQuery("#group-dir-list").fadeOut(200, 
+					function() {
+						jQuery('#ajax-loader-groups').toggle();
+						jQuery("#group-dir-list").html(response);
+						jQuery("#group-dir-list").fadeIn(200);
+					}
+				);
 			});
 		
 			return false;
@@ -55,37 +40,19 @@ jQuery(document).ready( function() {
 				action: 'directory_groups',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce-group-filter").val(),
-				'groups_search': jQuery("input#groups_search").val(),
-				'page': 1,
-				'num': 10
+				's': jQuery("input#groups_search").val(),
+				'page': 1
 			},
 			function(response)
 			{	
 				response = response.substr(0, response.length-1);
-				response = response.split('[[SPLIT]]');
-
-				if ( response[0] != "-1" ) {
-					
-					jQuery("#group-dir-list").fadeOut(200, 
-						function() {
-							jQuery('#ajax-loader-groups').toggle();
-							jQuery("#group-dir-list").html(response[1]);
-							jQuery("#group-dir-list").fadeIn(200);
-						}
-					);
-
-				} else {
-										
-					jQuery("#group-dir-list").fadeOut(200, 
-						function() {
-							jQuery('#ajax-loader-groups').toggle();
-							var message = response[1];
-							jQuery("#group-dir-list").html(message);
-							jQuery("#group-dir-list").fadeIn(200);
-						}
-					);
-					
-				}
+				jQuery("#group-dir-list").fadeOut(200, 
+					function() {
+						jQuery('#ajax-loader-groups').toggle();
+						jQuery("#group-dir-list").html(response);
+						jQuery("#group-dir-list").fadeIn(200);
+					}
+				);
 			});
 		
 			return false;
@@ -114,39 +81,21 @@ jQuery(document).ready( function() {
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce").val(),
 				'page': page[1],
-				'num': 10,
 				'_wpnonce': jQuery("input#_wpnonce-group-filter").val(),
 				
 				'letter': letter,
-				'groups_search': search_terms
+				's': search_terms
 			},
 			function(response)
 			{	
 				response = response.substr(0, response.length-1);
-				response = response.split('[[SPLIT]]');
-
-				if ( response[0] != "-1" ) {
-					
-					jQuery("#group-dir-list").fadeOut(200, 
-						function() {
-							jQuery('#ajax-loader-groups').toggle();
-							jQuery("#group-dir-list").html(response[1]);
-							jQuery("#group-dir-list").fadeIn(200);
-						}
-					);
-
-				} else {
-										
-					jQuery("#group-dir-list").fadeOut(200, 
-						function() {
-							jQuery('#ajax-loader-groups').toggle();
-							var message = response[1];
-							jQuery("#group-dir-list").html(message);
-							jQuery("#group-dir-list").fadeIn(200);
-						}
-					);
-					
-				}			
+				jQuery("#group-dir-list").fadeOut(200, 
+					function() {
+						jQuery('#ajax-loader-groups').toggle();
+						jQuery("#group-dir-list").html(response);
+						jQuery("#group-dir-list").fadeIn(200);
+					}
+				);		
 			});
 			
 			return false;

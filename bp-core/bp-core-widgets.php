@@ -13,8 +13,10 @@ function bp_core_register_widgets() {
 	wp_register_widget_control( 'buddypress-members', __( 'Members', 'buddypress' ), 'bp_core_widget_members_control' );
 	
 	/* Include the javascript needed for activated widgets only */
-	if ( is_active_widget( 'bp_core_widget_members' ) )
+	if ( is_active_widget( 'bp_core_widget_members' ) ) {
 		wp_enqueue_script( 'bp_core_widget_members-js', WPMU_PLUGIN_URL . '/bp-core/js/widget-members.js', array('jquery', 'jquery-livequery-pack') );		
+		wp_enqueue_style( 'bp_core_widget_members-css', WPMU_PLUGIN_URL . '/bp-core/css/widget-members.css' );
+	}
 	
 	wp_register_sidebar_widget( 'buddypress-whosonline', __( "Who's Online", 'buddypress' ), 'bp_core_widget_whos_online' );
 	wp_register_widget_control( 'buddypress-whosonline', __( "Who's Online", 'buddypress' ), 'bp_core_widget_whos_online_control' );	

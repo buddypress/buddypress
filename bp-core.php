@@ -34,7 +34,6 @@ require ( 'bp-core/bp-core-notifications.php' );
 require ( 'bp-core/bp-core-admin.php' );
 require ( 'bp-core/bp-core-signup.php' );
 require ( 'bp-core/bp-core-activation.php' );
-require ( 'bp-core/directories/bp-core-directory-members.php' );
 
 /* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
 define( 'MEMBERS_SLUG', apply_filters( 'bp_members_slug', 'members' ) );
@@ -74,6 +73,8 @@ function bp_core_setup_globals() {
 	global $current_user, $current_component, $current_action, $current_blog;
 	global $displayed_user_id;
 	global $action_variables;
+	
+	$current_user = wp_get_current_user();
 
 	/* The domain for the root of the site where the main blog resides */	
 	$bp->root_domain = bp_core_get_root_domain();
@@ -146,7 +147,7 @@ function bp_core_setup_globals() {
 	if ( !$bp->current_component )
 		$bp->current_component = $bp->default_component;
 }
-add_action( 'wp', 'bp_core_setup_globals', 1 );
+add_action( 'plugins_loaded', 'bp_core_setup_globals', 3 );
 add_action( '_admin_menu', 'bp_core_setup_globals', 1 ); // must be _admin_menu hook.
 
 function bp_core_setup_root_components() {
@@ -157,7 +158,7 @@ function bp_core_setup_root_components() {
 	bp_core_add_root_component( SEARCH_SLUG );
 	bp_core_add_root_component( HOME_BLOG_SLUG );
 }
-add_action( 'plugins_loaded', 'bp_core_setup_root_components' );
+add_action( 'plugins_loaded', 'bp_core_setup_root_components', 1 );
 
 function bp_core_setup_session() {
 	// Start a session for error/success feedback on redirect and for signup functions.
@@ -304,6 +305,19 @@ function bp_core_setup_nav() {
 }
 add_action( 'wp', 'bp_core_setup_nav', 2 );
 add_action( 'admin_menu', 'bp_core_setup_nav', 2 );
+
+function bp_core_directory_members() {
+	global $bp;
+	
+	if ( !is_home() && is_null( $bp->displayed_user->id ) && $bp->current_component == $bp->default_component ) {
+		$bp->is_directory = true;
+		$bp->current_component = false;
+
+		wp_enqueue_script( 'bp-core-directory-members', WPMU_PLUGIN_URL . '/bp-core/js/directory-members.js', array( 'jquery', 'jquery-livequery-pack' ) );
+		bp_core_load_template( 'directories/members/index' );
+	}
+}
+add_action( 'wp', 'bp_core_directory_members', 5 );
 
 /**
  * bp_core_get_user_domain()
@@ -1166,7 +1180,7 @@ function bp_core_sort_nav_items( $nav_array ) {
  * @return The referrer URL
  */
 function bp_core_referrer() {
-	$referer = explode( '/', $_SERVER['HTTP_REFERER'] );
+	$referer = explode( '/', wp_get_referer() );
 	unset( $referer[0], $referer[1], $referer[2] );
 	return implode( '/', $referer );
 }
@@ -1341,7 +1355,7 @@ function bp_core_print_version_numbers() {
 function bp_core_print_generation_time() {
 	global $wpdb;
 	?>
-<!-- Generated in <?php timer_stop(1); ?> seconds. -->
+<!-- Generated in <?php timer_stop(1); ?> seconds. <?php echo $wpdb->num_queries; ?> queries. -->
 	<?php
 }
 add_action( 'wp_footer', 'bp_core_print_generation_time' );

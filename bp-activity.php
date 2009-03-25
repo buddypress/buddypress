@@ -169,14 +169,14 @@ function bp_activity_setup_globals() {
 			bp_activity_sitewide_install();
 	}
 }
-add_action( 'wp', 'bp_activity_setup_globals', 1 );
+add_action( 'plugins_loaded', 'bp_activity_setup_globals', 5 );
 add_action( 'admin_menu', 'bp_activity_setup_globals', 1 );
 
 function bp_activity_setup_root_component() {
 	/* Register 'groups' as a root component */
 	bp_core_add_root_component( BP_ACTIVITY_SLUG );
 }
-add_action( 'plugins_loaded', 'bp_activity_setup_root_component' );
+add_action( 'plugins_loaded', 'bp_activity_setup_root_component', 1 );
 
 
 /**************************************************************************

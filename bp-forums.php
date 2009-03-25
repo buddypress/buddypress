@@ -33,7 +33,7 @@ function bp_forums_setup() {
 	
 	$bp->version_numbers->forums = BP_FORUMS_VERSION;
 }
-add_action( 'wp', 'bp_forums_setup', 3 );
+add_action( 'plugins_loaded', 'bp_forums_setup', 5 );
 add_action( 'admin_head', 'bp_forums_setup', 3 );
 
 function bp_forums_is_installed_correctly() {

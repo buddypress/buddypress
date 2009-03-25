@@ -1,0 +1,9 @@
+.bp_activity_widget_sitewide_activity span.time-since {
+	font-size: 11px;
+}
+
+.bp_activity_widget_sitewide_activity ul#site-wide-stream {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}

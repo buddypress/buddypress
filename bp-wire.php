@@ -41,7 +41,7 @@ function bp_wire_setup_globals() {
 
 	$bp->version_numbers->wire = BP_WIRE_VERSION;
 }
-add_action( 'wp', 'bp_wire_setup_globals', 1 );	
+add_action( 'plugins_loaded', 'bp_wire_setup_globals', 5 );	
 add_action( 'admin_menu', 'bp_wire_setup_globals', 1 );
 
 /**************************************************************************

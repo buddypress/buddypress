@@ -10,7 +10,6 @@ jQuery(document).ready( function() {
 			var letter = jQuery(this).attr('id')
 			letter = letter.split('-');
 			
-			var num = ( jQuery('input#members-per-page').val() ) ? jQuery('input#members-per-page').val() : 10;
 			var page = ( jQuery('input#members-page-num').val() ) ? jQuery('input#members-page-num').val() : 1;
 
 			jQuery.post( ajaxurl, {
@@ -18,33 +17,19 @@ jQuery(document).ready( function() {
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce-member-filter").val(),
 				'letter': letter[1],
-				'page': page,
-				'num': num
+				'page': page
 			},
 			function(response)
-			{	
+			{
 				response = response.substr(0, response.length-1);
-				response = response.split('[[SPLIT]]');
-
-				if ( response[0] != "-1" ) {
-					jQuery("#member-dir-list").fadeOut(200, 
-						function() {
-							jQuery('#ajax-loader-members').toggle();
-							jQuery("#member-dir-list").html(response[1]);
-							jQuery("#member-dir-list").fadeIn(200);
-						}
-					);
-
-				} else {					
-					jQuery("ul#members-list").fadeOut(200, 
-						function() {
-							jQuery('#ajax-loader-members').toggle();
-							var message = response[1];
-							jQuery("#member-dir-list").html(message);
-							jQuery("#member-dir-list").fadeIn(200);
-						}
-					);
-				}
+				
+				jQuery("#member-dir-list").fadeOut(200, 
+					function() {
+						jQuery('#ajax-loader-members').toggle();
+						jQuery("#member-dir-list").html(response);
+						jQuery("#member-dir-list").fadeIn(200);
+					}
+				);
 			});
 		
 			return false;
@@ -54,44 +39,26 @@ jQuery(document).ready( function() {
 	jQuery("form#search-members-form").submit( function() { 
 			jQuery('#ajax-loader-members').toggle();
 
-			var num = ( jQuery('input#members-per-page').val() ) ? jQuery('input#members-per-page').val() : 10;
 			var page = ( jQuery('input#members-page-num').val() ) ? jQuery('input#members-page-num').val() : 1;
 
 			jQuery.post( ajaxurl, {
 				action: 'directory_members',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce-member-filter").val(),
-				'members_search': jQuery("input#members_search").val(),
-				'page': page,
-				'num': num
+				's': jQuery("input#members_search").val(),
+				'page': page
 			},
 			function(response)
 			{	
 				response = response.substr(0, response.length-1);
-				response = response.split('[[SPLIT]]');
-
-				if ( response[0] != "-1" ) {
-					
-					jQuery("#member-dir-list").fadeOut(200, 
-						function() {
-							jQuery('#ajax-loader-members').toggle();
-							jQuery("#member-dir-list").html(response[1]);
-							jQuery("#member-dir-list").fadeIn(200);
-						}
-					);
-
-				} else {
-										
-					jQuery("#member-dir-list").fadeOut(200, 
-						function() {
-							jQuery('#ajax-loader-members').toggle();
-							var message = response[1];
-							jQuery("#member-dir-list").html(message);
-							jQuery("#member-dir-list").fadeIn(200);
-						}
-					);
-					
-				}
+				
+				jQuery("#member-dir-list").fadeOut(200, 
+					function() {
+						jQuery('#ajax-loader-members').toggle();
+						jQuery("#member-dir-list").html(response);
+						jQuery("#member-dir-list").fadeIn(200);
+					}
+				);
 			});
 		
 			return false;
@@ -104,7 +71,7 @@ jQuery(document).ready( function() {
 
 			var page = jQuery(this).attr('href');
 			page = page.split('page=');
-
+			
 			if ( !jQuery("input#selected_letter").val() )
 				var letter = '';
 			else
@@ -114,15 +81,12 @@ jQuery(document).ready( function() {
 				var search_terms = '';
 			else
 				var search_terms = jQuery("input#search_terms").val();
-
-			var num = ( jQuery('input#members-per-page').val() ) ? jQuery('input#members-per-page').val() : 10;
-				
+			
 			jQuery.post( ajaxurl, {
 				action: 'directory_members',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce").val(),
 				'page': page[1],
-				'num': num,
 				'_wpnonce': jQuery("input#_wpnonce-member-filter").val(),
 				
 				'letter': letter,
@@ -131,30 +95,14 @@ jQuery(document).ready( function() {
 			function(response)
 			{	
 				response = response.substr(0, response.length-1);
-				response = response.split('[[SPLIT]]');
-
-				if ( response[0] != "-1" ) {
-					
-					jQuery("#member-dir-list").fadeOut(200, 
-						function() {
-							jQuery('#ajax-loader-members').toggle();
-							jQuery("#member-dir-list").html(response[1]);
-							jQuery("#member-dir-list").fadeIn(200);
-						}
-					);
-
-				} else {
-										
-					jQuery("#member-dir-list").fadeOut(200, 
-						function() {
-							jQuery('#ajax-loader-members').toggle();
-							var message = response[1];
-							jQuery("#member-dir-list").html(message);
-							jQuery("#member-dir-list").fadeIn(200);
-						}
-					);
-					
-				}			
+				
+				jQuery("#member-dir-list").fadeOut(200, 
+					function() {
+						jQuery('#ajax-loader-members').toggle();
+						jQuery("#member-dir-list").html(response);
+						jQuery("#member-dir-list").fadeIn(200);
+					}
+				);
 			});
 			
 			return false;

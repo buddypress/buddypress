@@ -9,8 +9,10 @@ function groups_register_widgets() {
 	wp_register_widget_control( 'buddypress-groups', __( 'Groups', 'buddypress' ), 'groups_widget_groups_list_control' );
 	
 	/* Include the javascript needed for activated widgets only */
-	if ( is_active_widget( 'groups_widget_groups_list' ) )
+	if ( is_active_widget( 'groups_widget_groups_list' ) ) {
 		wp_enqueue_script( 'groups_widget_groups_list-js', WPMU_PLUGIN_URL . '/bp-groups/js/widget-groups.js', array('jquery', 'jquery-livequery-pack') );		
+		wp_enqueue_style( 'groups_widget_members-css', WPMU_PLUGIN_URL . '/bp-groups/css/widget-groups.css' );		
+	}
 }
 add_action( 'plugins_loaded', 'groups_register_widgets' );
 

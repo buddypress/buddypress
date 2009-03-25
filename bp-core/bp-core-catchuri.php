@@ -32,8 +32,13 @@ function bp_core_set_uri_globals() {
 	global $bp_unfiltered_uri;
 	global $bp;
 	
-	$path = apply_filters( 'bp_uri', $_SERVER['REQUEST_URI'] );
-	
+	if ( strpos( $_SERVER['REQUEST_URI'], 'bp-core-ajax-handler.php' ) )
+		$path = bp_core_referrer();
+	else
+		$path = clean_url( $_SERVER['REQUEST_URI'] );
+
+	$path = apply_filters( 'bp_uri', $path );
+
 	// Firstly, take GET variables off the URL to avoid problems,
 	// they are still registered in the global $_GET variable */
 	$noget = substr( $path, 0, strpos( $path, '?' ) );
@@ -78,13 +83,13 @@ function bp_core_set_uri_globals() {
 			unset( $bp_uri[$i] );
 		}
 	}
-	
+
 	/* Reset the keys by merging with an empty array */
 	$bp_uri = array_merge( array(), $bp_uri );
 	$bp_unfiltered_uri = $bp_uri;
-
+	
 	/* Catch a member page and set the current member ID */
-	if ( $bp_uri[0] == MEMBERS_SLUG && !empty( $bp_uri[1] ) ) {
+	if ( $bp_uri[0] == MEMBERS_SLUG || in_array( 'bp-core-ajax-handler.php', $bp_uri ) ) {
 		$is_member_page = true;
 		$is_root_component = true;
 		
@@ -105,11 +110,8 @@ function bp_core_set_uri_globals() {
 		$bp_uri = array_merge( array(), $bp_uri );
 	}
 
-	/* This is used to determine where the component and action indexes should start */
-	$root_components = $bp->root_components;
-	
 	if ( !isset($is_root_component) )
-		$is_root_component = in_array( $bp_uri[0], $root_components );
+		$is_root_component = in_array( $bp_uri[0], $bp->root_components );
 
 	if ( 'no' == VHOST && !$is_root_component ) {
 		$component_index++;
@@ -138,7 +140,7 @@ function bp_core_set_uri_globals() {
 
 	//var_dump($current_component, $current_action, $action_variables);
 }
-add_action( 'wp', 'bp_core_set_uri_globals', 1 );
+add_action( 'plugins_loaded', 'bp_core_set_uri_globals', 3 );
 
 /**
  * bp_catch_uri()
@@ -253,19 +255,15 @@ function bp_core_catch_profile_uri() {
 }
 
 function bp_core_force_buddypress_theme( $template ) {
-	global $current_component, $current_action;
-	global $is_member_page;
-	
-	// The theme filter does not recognize any globals, where as the stylesheet filter does.
-	// We have to set up the globals to use manually.
-	bp_core_set_uri_globals();
-	
-	$member_theme = get_site_option('active-member-theme');
+	global $is_member_page, $bp;
+
+	$member_theme = get_site_option( 'active-member-theme' );
 	
 	if ( empty( $member_theme ) )
 		$member_theme = 'buddypress-member';
 	
 	if ( $is_member_page ) {
+
 		add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
 		add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
 
@@ -277,9 +275,9 @@ function bp_core_force_buddypress_theme( $template ) {
 add_filter( 'template', 'bp_core_force_buddypress_theme', 1, 1 );
 
 function bp_core_force_buddypress_stylesheet( $stylesheet ) {
-	global $bp, $is_member_page;
+	global $is_member_page;
 
-	$member_theme = get_site_option('active-member-theme');
+	$member_theme = get_site_option( 'active-member-theme' );
 	
 	if ( empty( $member_theme ) )
 		$member_theme = 'buddypress-member';

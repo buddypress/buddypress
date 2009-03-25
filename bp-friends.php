@@ -73,7 +73,7 @@ function friends_setup_globals() {
 
 	$bp->version_numbers->friends = BP_FRIENDS_VERSION;
 }
-add_action( 'wp', 'friends_setup_globals', 1 );	
+add_action( 'plugins_loaded', 'friends_setup_globals', 5 );	
 add_action( 'admin_menu', 'friends_setup_globals', 1 );
 
 function friends_check_installed() {	
