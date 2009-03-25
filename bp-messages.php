@@ -35,10 +35,6 @@ function messages_install() {
 	
 	if ( !empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-		
-	// Remove indexes so we can alter the field types for these fields.
-	$wpdb->query( "ALTER TABLE {$bp->messages->table_name_threads} DROP INDEX message_ids " );
-	$wpdb->query( "ALTER TABLE {$bp->messages->table_name_threads} DROP INDEX sender_ids " );
 	
 	$sql[] = "CREATE TABLE {$bp->messages->table_name_threads} (
 		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -90,6 +86,10 @@ function messages_install() {
 	
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 	dbDelta($sql);
+
+	// Remove indexes so we can alter the field types for these fields.
+	$wpdb->query( "ALTER TABLE {$bp->messages->table_name_threads} DROP INDEX message_ids " );
+	$wpdb->query( "ALTER TABLE {$bp->messages->table_name_threads} DROP INDEX sender_ids " );
 	
 	add_site_option( 'bp-messages-db-version', BP_MESSAGES_DB_VERSION );
 }
