@@ -114,8 +114,10 @@ function xprofile_install() {
 	}
 	
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
-
 	dbDelta($sql);
+	
+	if ( function_exists('bp_wire_install') )
+		xprofile_wire_install();
 	
 	update_site_option( 'bp-xprofile-db-version', BP_XPROFILE_DB_VERSION );
 }
@@ -138,7 +140,6 @@ function xprofile_wire_install() {
 	 	       ) {$charset_collate};";
 
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
-
 	dbDelta($sql);
 }
 
@@ -199,9 +200,6 @@ function xprofile_add_admin_menu() {
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 	if ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )
 		xprofile_install();
-	
-	if ( function_exists('bp_wire_install') && get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )
-		xprofile_wire_install();
 }
 add_action( 'admin_menu', 'xprofile_add_admin_menu' );
 

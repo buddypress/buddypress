@@ -92,6 +92,9 @@ function groups_install() {
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
 	
+	if ( function_exists('bp_wire_install') )
+		groups_wire_install();
+	
 	update_site_option( 'bp-groups-db-version', BP_GROUPS_DB_VERSION );
 }
 
@@ -161,9 +164,6 @@ function groups_check_installed() {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 		if ( get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION )
 			groups_install();
-			
-		if ( function_exists('bp_wire_install') && get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION )
-			groups_wire_install();
 	}
 }
 add_action( 'admin_menu', 'groups_check_installed' );
