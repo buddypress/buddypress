@@ -30,7 +30,10 @@ function bp_core_set_uri_globals() {
 	global $displayed_user_id;
 	global $is_member_page, $is_new_friend;
 	global $bp_unfiltered_uri;
-	global $bp;
+	global $bp, $current_blog;
+	
+	if ( 1 != (int) $current_blog->blog_id )
+		return false;
 	
 	if ( strpos( $_SERVER['REQUEST_URI'], 'bp-core-ajax-handler.php' ) )
 		$path = bp_core_referrer();
