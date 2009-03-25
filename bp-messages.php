@@ -136,7 +136,7 @@ function messages_check_installed() {
 			messages_install();
 	}
 }
-add_action( 'admin_menu', 'messages_check_installed' );
+add_action( 'admin_menu', 'messages_check_installed', 1 );
 
 /**************************************************************************
  messages_setup_nav()
