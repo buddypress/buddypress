@@ -164,10 +164,9 @@ h2.widgettitle {
 	padding: 15px;
 }
 	.activity-list { padding: 0; border: 1px solid #fff; margin-top: -1px; }
-
-	.widget ul.item-list li .item-avatar, .avatar-block img.avatar {
-		float: left;
-		margin: 0 15px 0 0;
+	
+	.widget ul.item-list {
+		margin-top: 5px !important;
 	}
 	
 	.widget ul.item-list li .item-avatar img, img.avatar {
@@ -178,10 +177,18 @@ h2.widgettitle {
 		font: normal 1.4em "Georgia", Times, serif;
 		margin: 0 0 7px 0;	
 	}
-		
+	
+	.bp_blogs_widget_recent_posts img.avatar {
+		width: 50px !important;
+		height: 50px !important;
+	}	
+	
 	.widget ul.item-list li .item {
 		margin-left: 71px;
 	}
+		.bp_blogs_widget_recent_posts ul.item-list li .item {
+			margin-left: 31px;
+		}
 	
 	.widget ul.item-list li .item-meta {
 		font: normal 1em "Georgia", Times, serif;
@@ -191,7 +198,7 @@ h2.widgettitle {
 	.widget .item-options {
 		text-align: right;
 		font-size: 0.9em;
-		margin: -15px 0 5px 0;
+		margin: -15px 0 0 0;
 	}
 	
 .widget-error {
@@ -254,6 +261,7 @@ div.avatar-block {
 
 .widget #ajax-loader-members, .widget #ajax-loader-groups {
 	padding-right: 5px;
+	float: none !important;
 }
 
 /** ACTIVITY FEED **********/
