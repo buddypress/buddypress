@@ -534,23 +534,25 @@ function bp_has_custom_activation_page() {
 }
 
 function bp_activation_page( $echo = true ) {
+	global $bp;
+	
 	if ( bp_has_custom_activation_page() ) {
 		if ( $echo )
-			echo site_url(ACTIVATION_SLUG);
+			echo $bp->root_domain . '/' . ACTIVATION_SLUG;
 		else
-			return site_url(ACTIVATION_SLUG);
+			return $bp->root_domain . '/' . ACTIVATION_SLUG;
 	} else {
 		if ( $echo )
-			echo site_url('wp-activate.php');
+			echo $bp->root_domain . '/wp-activate.php';
 		else
-			return site_url('wp-activate.php');
+			return $bp->root_domain . '/wp-activate.php';
 	}
 }
 
 function bp_search_form_action() {
 	global $bp;
 	
-	return apply_filters( 'bp_search_form_action', site_url('search') );
+	return apply_filters( 'bp_search_form_action', $bp->root_domain . '/search' );
 }
 
 function bp_search_form_type_select() {
@@ -589,9 +591,11 @@ function bp_search_form() {
 }
 
 function bp_login_bar() {
+	global $bp;
+	
 	if ( !is_user_logged_in() ) : ?>
 		
-		<form name="login-form" id="login-form" action="<?php echo site_url( '/wp-login.php' ) ?>" method="post">
+		<form name="login-form" id="login-form" action="<?php echo $bp->root_domain . '/wp-login.php' ?>" method="post">
 			<input type="text" name="log" id="user_login" value="<?php _e( 'Username', 'buddypress' ) ?>" onfocus="if (this.value == '<?php _e( 'Username', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Username', 'buddypress' ) ?>';}" />
 			<input type="password" name="pwd" id="user_pass" class="input" value="" />
 			
@@ -613,9 +617,9 @@ function bp_login_bar() {
 			<?php bp_loggedinuser_link() ?>
 			<?php 
 				if ( function_exists('wp_logout_url') ) {
-					$logout_link = '/ <a href="' . wp_logout_url( site_url() ) . '">' . __( 'Log Out', 'buddypress' ) . '</a>';
+					$logout_link = '/ <a href="' . wp_logout_url( $bp->root_domain ) . '">' . __( 'Log Out', 'buddypress' ) . '</a>';
 				} else {
-					$logout_link = '/ <a href="' . site_url( '/wp-login.php?action=logout&amp;redirect_to=' . site_url() ) . '">' . __( 'Log Out', 'buddypress' ) . '</a>';					
+					$logout_link = '/ <a href="' . $bp->root_domain . '/wp-login.php?action=logout&amp;redirect_to=' . $bp->root_domain . '">' . __( 'Log Out', 'buddypress' ) . '</a>';					
 				}			
 				
 				echo apply_filters( 'bp_logout_link', $logout_link );
