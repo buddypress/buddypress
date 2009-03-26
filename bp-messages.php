@@ -21,7 +21,6 @@ require ( 'bp-messages/bp-messages-classes.php' );
 require ( 'bp-messages/bp-messages-ajax.php' );
 require ( 'bp-messages/bp-messages-cssjs.php' );
 require ( 'bp-messages/bp-messages-templatetags.php' );
-require ( 'bp-messages/bp-messages-notifications.php' );
 require ( 'bp-messages/bp-messages-filters.php' );
 
 /**************************************************************************
@@ -130,11 +129,12 @@ add_action( 'admin_menu', 'messages_setup_globals', 1 );
 function messages_check_installed() {	
 	global $wpdb, $bp;
 
-	if ( is_site_admin() ) {
-		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( get_site_option('bp-messages-db-version') < BP_MESSAGES_DB_VERSION )
-			messages_install();
-	}
+	if ( !is_site_admin() )
+		return false;
+	
+	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
+	if ( get_site_option('bp-messages-db-version') < BP_MESSAGES_DB_VERSION )
+		messages_install();
 }
 add_action( 'admin_menu', 'messages_check_installed', 1 );
 
@@ -477,13 +477,17 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 				$message = __('Message sent successfully!', 'buddypress') . ' <a href="' . $bp->loggedin_user->domain . $bp->messages->slug . '/view/' . $pmessage->thread_id . '">' . __('View Message', 'buddypress') . '</a> &raquo;';
 				$type = 'success';
 				
-				// Send notices to the recipients
+				// Send screen notifications to the recipients
 				for ( $i = 0; $i < count($pmessage->recipients); $i++ ) {
 					if ( $pmessage->recipients[$i] != $bp->loggedin_user->id ) {
 						bp_core_add_notification( $pmessage->id, $pmessage->recipients[$i], 'messages', 'new_message' );	
 					}
 				}
 				
+				// Send email notifications to the recipients
+				require_once( 'bp-messages/bp-messages-notifications.php' );
+				messages_notification_new_message( array( 'item_id' => $pmessage->id, 'recipient_ids' => $pmessage->recipients, 'thread_id' => $pmessage->thread_id, 'component_name' => 'messages', 'component_action' => 'message_sent', 'is_private' => 1 ) );
+
 				do_action( 'messages_send_message', array( 'item_id' => $pmessage->id, 'recipient_ids' => $pmessage->recipients, 'thread_id' => $pmessage->thread_id, 'component_name' => 'messages', 'component_action' => 'message_sent', 'is_private' => 1 ) );
 		
 				if ( $from_ajax ) {

@@ -20,10 +20,12 @@ require_once( 'bp-core.php' );
 define ( 'BP_FORUMS_VERSION', '1.0-RC1' );
 define ( 'BP_FORUMS_PARENT_FORUM_ID', apply_filters( 'bp_forums_parent_forum_id', 0 ) );
 
-require ( 'bp-forums/bp-forums-admin.php' );
 require ( 'bp-forums/bp-forums-bbpress-live.php' );
 require ( 'bp-forums/bp-forums-templatetags.php' );
 require ( 'bp-forums/bp-forums-filters.php' );
+
+if ( is_admin() )
+	require ( 'bp-forums/bp-forums-admin.php' );
 
 function bp_forums_setup() {
 	global $bp, $bbpress_live;

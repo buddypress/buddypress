@@ -35,7 +35,7 @@ To view %s's profile: %s
 	// Send it
 	wp_mail( $to, $subject, $message );
 }
-add_action( 'friends_friendship_requested', 'friends_notification_new_request', 10, 3 );
+
 
 function friends_notification_accepted_request( $friendship_id, $initiator_id, $friend_id ) {
 	global $bp;
@@ -70,7 +70,6 @@ To view %s\'s profile: %s
 	// Send it
 	wp_mail( $to, $subject, $message );
 }
-add_action( 'friends_friendship_accepted', 'friends_notification_accepted_request', 10, 3 );
 
 
 ?>

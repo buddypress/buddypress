@@ -296,19 +296,19 @@ class BP_Forums_Template_Topic {
 		
 		$this->pag_page = isset( $_REQUEST['page'] ) ? intval( $_REQUEST['page'] ) : 1;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $posts_per_page;
+	
+		$this->topic_id = $topic_id;
+		$forum_template->topic = (object) bp_forums_get_topic_details( $this->topic_id );
 		
-		$this->posts = bp_forums_get_posts( $topic_id, $this->pag_num, $this->pag_page );
+		$this->posts = bp_forums_get_posts( $this->topic_id, $this->pag_num, $this->pag_page );
 		
 		if ( !$this->posts ) {
 			$this->post_count = 0;
 			$this->total_post_count = 0;
 		} else {
 			$this->post_count = count( $this->posts );
-			$this->total_post_count = count( bp_forums_get_posts( $topic_id ) );			
+			$this->total_post_count = (int) $forum_template->topic->topic_posts;			
 		}
-		
-		$this->topic_id = $topic_id;
-		$forum_template->topic = (object) bp_forums_get_topic_details( $topic_id );
 
 		$this->pag_links = paginate_links( array(
 			'base' => add_query_arg( array( 'page' => '%#%', 'num' => $this->pag_num ) ),

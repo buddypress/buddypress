@@ -13,14 +13,15 @@ Site Wide Only: true
 define( 'BP_CORE_VERSION', '1.0-RC1' );
 define( 'BP_CORE_DB_VERSION', '1030' );
 
-/* Load the language file */
-if ( file_exists( WPMU_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() . '.mo' ) )
-	load_textdomain( 'buddypress', WPMU_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() . '.mo' );
-
 /* Place your custom code (actions/filters) in a file called bp-custom.php and it will be loaded before anything else. */
 if ( file_exists( WPMU_PLUGIN_DIR . '/bp-custom.php' ) )
 	require( WPMU_PLUGIN_DIR . '/bp-custom.php' );
 
+/* Load the language file */
+if ( file_exists( WPMU_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() . '.mo' ) )
+	load_textdomain( 'buddypress', WPMU_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() . '.mo' );
+
+/* Load the files containing functions that we globally will need. */
 require ( 'bp-core/bp-core-catchuri.php' );
 require ( 'bp-core/bp-core-classes.php' );
 require ( 'bp-core/bp-core-cssjs.php' );
@@ -31,9 +32,6 @@ require ( 'bp-core/bp-core-settings.php' );
 require ( 'bp-core/bp-core-widgets.php' );
 require ( 'bp-core/bp-core-ajax.php' );
 require ( 'bp-core/bp-core-notifications.php' );
-require ( 'bp-core/bp-core-admin.php' );
-require ( 'bp-core/bp-core-signup.php' );
-require ( 'bp-core/bp-core-activation.php' );
 
 /* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
 define( 'MEMBERS_SLUG', apply_filters( 'bp_members_slug', 'members' ) );
@@ -91,22 +89,22 @@ function bp_core_setup_globals() {
 	/* The domain for the user currently being displayed */
 	$bp->displayed_user->domain = bp_core_get_user_domain($displayed_user_id);
 	
-	/* The component being used eg: http://andy.domain.com/ [profile] */
+	/* The component being used eg: http://domain.com/members/andy/ [profile] */
 	$bp->current_component = $current_component; // type: string
 	
-	/* The current action for the component eg: http://andy.domain.com/profile/ [edit] */
+	/* The current action for the component eg: http://domain.com/members/andy/profile/ [edit] */
 	$bp->current_action = $current_action; // type: string
 	
-	/* The action variables for the current action eg: http://andy.domain.com/profile/edit/ [group] / [6] */
+	/* The action variables for the current action eg: http://domain.com/members/andy/profile/edit/ [group] / [6] */
 	$bp->action_variables = $action_variables; // type: array
 	
-	/* Only used where a component has a sub item, e.g. groups: http://andy.domain.com/groups/ [my-group] / home - manipulated in the actual component not in catch uri code.*/
+	/* Only used where a component has a sub item, e.g. groups: http://domain.com/members/andy/groups/ [my-group] / home - manipulated in the actual component not in catch uri code.*/
 	$bp->current_item = ''; // type: string
 
 	/* Used for overriding the 2nd level navigation menu so it can be used to display custom navigation for an item (for example a group) */
 	$bp->is_single_item = false;
 
-	/* The default component to use if none are set and someone visits: http://andy.domain.com/ */
+	/* The default component to use if none are set and someone visits: http://domain.com/members/andy */
 	$bp->default_component = 'profile';
 	
 	/* Sets up the array container for the component navigation rendered by bp_get_nav() */
@@ -223,11 +221,14 @@ function bp_core_install() {
 function bp_core_check_installed() {
 	global $wpdb, $bp;
 
-	if ( is_site_admin() ) {
-		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( get_site_option('bp-core-db-version') < BP_CORE_DB_VERSION )
-			bp_core_install();
-	}
+	if ( !is_site_admin() )
+		return false;
+	
+	require ( 'bp-core/bp-core-admin.php' );
+
+	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
+	if ( get_site_option('bp-core-db-version') < BP_CORE_DB_VERSION )
+		bp_core_install();
 }
 add_action( 'admin_menu', 'bp_core_check_installed' );
 
@@ -245,10 +246,12 @@ add_action( 'admin_menu', 'bp_core_check_installed' );
 function bp_core_add_admin_menu() {
 	global $wpdb, $bp;
 	
-	if ( is_site_admin() ) {
-		/* Add the administration tab under the "Site Admin" tab for site administrators */
-		add_submenu_page( 'wpmu-admin.php', __("BuddyPress", 'buddypress'), __("BuddyPress", 'buddypress'), 1, "bp_core_admin_settings", "bp_core_admin_settings" );
-	}
+	if ( !is_site_admin() )
+		return false;
+		
+	/* Add the administration tab under the "Site Admin" tab for site administrators */
+	add_submenu_page( 'wpmu-admin.php', __("BuddyPress", 'buddypress'), __("BuddyPress", 'buddypress'), 1, "bp_core_admin_settings", "bp_core_admin_settings" );
+
 }
 add_action( 'admin_menu', 'bp_core_add_admin_menu' );
 

@@ -8,7 +8,7 @@ Version: 1.0-RC1
 Author URI: http://buddypress.org
 Site Wide Only: true
 */
-
+  
 require_once( 'bp-core.php' );
 
 define ( 'BP_GROUPS_IS_INSTALLED', 1 );
@@ -22,9 +22,7 @@ require ( 'bp-groups/bp-groups-ajax.php' );
 require ( 'bp-groups/bp-groups-cssjs.php' );
 require ( 'bp-groups/bp-groups-templatetags.php' );
 require ( 'bp-groups/bp-groups-widgets.php' );
-require ( 'bp-groups/bp-groups-notifications.php' );
 require ( 'bp-groups/bp-groups-filters.php' );
-require ( 'bp-groups/bp-groups-admin.php' );
 
 /**************************************************************************
  groups_install()
@@ -160,21 +158,25 @@ add_action( 'plugins_loaded', 'groups_setup_root_component', 1 );
 function groups_check_installed() {	
 	global $wpdb, $bp;
 	
-	if ( is_site_admin() ) {
-		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION )
-			groups_install();
-	}
+	if ( !is_site_admin() )
+		return false;
+
+	require ( 'bp-groups/bp-groups-admin.php' );
+
+	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
+	if ( get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION )
+		groups_install();
 }
 add_action( 'admin_menu', 'groups_check_installed' );
 
 function groups_add_admin_menu() {
 	global $wpdb, $bp;
 	
-	if ( is_site_admin() ) {
-		/* Add the administration tab under the "Site Admin" tab for site administrators */
-		add_submenu_page( 'wpmu-admin.php', __("Groups", 'buddypress'), __("Groups", 'buddypress'), 1, "groups_admin_settings", "groups_admin_settings" );
-	}
+	if ( !is_site_admin() )
+		return false;
+		
+	/* Add the administration tab under the "Site Admin" tab for site administrators */
+	add_submenu_page( 'wpmu-admin.php', __("Groups", 'buddypress'), __("Groups", 'buddypress'), 1, "groups_admin_settings", "groups_admin_settings" );
 }
 add_action( 'admin_menu', 'groups_add_admin_menu' );
 
@@ -1739,6 +1741,8 @@ function groups_send_invites( $group_obj, $skip_check = false ) {
 		if ( !check_admin_referer( 'groups_send_invites', '_wpnonce_send_invites' ) )
 			return false;
 	}
+	
+	require_once ( 'bp-groups/bp-groups-notifications.php' );
 
 	// Send friend invites.
 	$invited_users = groups_get_invites_for_group( $bp->loggedin_user->id, $group_obj->id );
@@ -1900,9 +1904,11 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $g
 	if ( !$group->save() )
 		return false;
 
-	if ( $notify_members )
+	if ( $notify_members ) {
+		require_once ( 'bp-groups/bp-groups-notifications.php' );
 		groups_notification_group_updated( $group->id );
-
+	}
+		
 	do_action( 'groups_details_updated', $group->id );
 	
 	return true;
@@ -2024,7 +2030,9 @@ function groups_send_membership_request( $requesting_user_id, $group_id ) {
 	
 	if ( $requesting_user->save() ) {
 		$admins = groups_get_group_admins( $group_id );
-		
+
+		require_once ( 'bp-groups/bp-groups-notifications.php' );
+
 		for ( $i = 0; $i < count( $admins ); $i++ ) {
 			// Saved okay, now send the email notification
 			groups_notification_new_membership_request( $requesting_user_id, $admins[$i]->user_id, $group_id, $requesting_user->id );
@@ -2057,6 +2065,7 @@ function groups_accept_membership_request( $membership_id ) {
 	groups_record_activity( array( 'item_id' => $membership->group_id, 'component_name' => 'groups', 'component_action' => 'joined_group', 'is_private' => 0 ) );
 
 	/* Send a notification to the user. */
+	require_once ( 'bp-groups/bp-groups-notifications.php' );
 	groups_notification_membership_request_completed( $membership->user_id, $membership->group_id, true );
 	
 	do_action( 'groups_membership_accepted', $membership->user_id, $membership->group_id );
@@ -2076,6 +2085,7 @@ function groups_reject_membership_request( $membership_id ) {
 		return false;
 	
 	// Send a notification to the user.
+	require_once ( 'bp-groups/bp-groups-notifications.php' );
 	groups_notification_membership_request_completed( $membership->user_id, $membership->group_id, false );
 	
 	do_action( 'groups_membership_rejected', $membership->user_id, $membership->group_id );

@@ -47,7 +47,7 @@ function groups_ajax_group_filter() {
 
 	check_ajax_referer( 'group-filter-box' );
 	
-	load_template( get_template_directory() . '/groups/group-loop.php' );
+	load_template( TEMPLATEPATH . '/groups/group-loop.php' );
 }
 add_action( 'wp_ajax_group_filter', 'groups_ajax_group_filter' );
 

@@ -21,7 +21,6 @@ require ( 'bp-friends/bp-friends-classes.php' );
 require ( 'bp-friends/bp-friends-ajax.php' );
 require ( 'bp-friends/bp-friends-cssjs.php' );
 require ( 'bp-friends/bp-friends-templatetags.php' );
-require ( 'bp-friends/bp-friends-notifications.php' );
 require ( 'bp-friends/bp-friends-filters.php' );
 
 /**************************************************************************
@@ -79,11 +78,12 @@ add_action( 'admin_menu', 'friends_setup_globals', 1 );
 function friends_check_installed() {	
 	global $wpdb, $bp;
 
-	if ( is_site_admin() ) {
-		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( get_site_option('bp-friends-db-version') < BP_FRIENDS_DB_VERSION )
-			friends_install();
-	}
+	if ( !is_site_admin() )
+		return false;
+	
+	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
+	if ( get_site_option('bp-friends-db-version') < BP_FRIENDS_DB_VERSION )
+		friends_install();
 }
 add_action( 'admin_menu', 'friends_check_installed' );
 
@@ -508,7 +508,14 @@ function friends_add_friend( $initiator_userid, $friend_userid ) {
 	$friendship->date_created = time();
 	
 	if ( $friendship->save() ) {
+		
+		// Add the on screen notification
 		bp_core_add_notification( $friendship->initiator_user_id, $friendship->friend_user_id, 'friends', 'friendship_request' );	
+		
+		// Send the email notification
+		require_once( 'bp-friends/bp-friends-notifications.php' );
+		friends_notification_new_request( $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
+		
 		do_action( 'friends_friendship_requested', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );	
 		
 		return true;
@@ -565,6 +572,10 @@ function friends_accept_friendship( $friendship_id ) {
 		
 		// Record in activity streams
 		friends_record_activity( array( 'item_id' => $friendship_id, 'component_name' => 'friends', 'component_action' => 'friendship_accepted', 'is_private' => 0, 'user_id' => $friendship->initiator_user_id, 'secondary_user_id' => $friendship->friend_user_id ) );
+		
+		// Send the email notification
+		require_once( 'bp-friends/bp-friends-notifications.php' );
+		friends_notification_accepted_request( $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
 
 		do_action( 'friends_friendship_accepted', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
 		

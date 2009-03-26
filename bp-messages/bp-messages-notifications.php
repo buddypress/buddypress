@@ -35,7 +35,7 @@ To view the message: %s
 		wp_mail( $to, $subject, $message );
 	}
 }
-add_action( 'messages_send_message', 'messages_notification_new_message' );
+
 
 /* This is too expensive to send on normal servers uncomment at your own risk. */
 
