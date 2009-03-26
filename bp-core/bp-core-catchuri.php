@@ -33,7 +33,7 @@ function bp_core_set_uri_globals() {
 	global $bp, $current_blog;
 	
 	/* Only catch URI's on the root blog */
-	if ( 1 != (int) $current_blog->blog_id )
+	if ( BP_ROOT_BLOG != (int) $current_blog->blog_id )
 		return false;
 	
 	if ( strpos( $_SERVER['REQUEST_URI'], 'bp-core-ajax-handler.php' ) )

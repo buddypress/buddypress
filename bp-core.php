@@ -17,6 +17,9 @@ define( 'BP_CORE_DB_VERSION', '1030' );
 if ( file_exists( WPMU_PLUGIN_DIR . '/bp-custom.php' ) )
 	require( WPMU_PLUGIN_DIR . '/bp-custom.php' );
 
+/* Define on which blog ID BuddyPress should run */ 
+define( 'BP_ROOT_BLOG', apply_filters( 'bp_root_blog', 1 ) );
+
 /* Load the language file */
 if ( file_exists( WPMU_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() . '.mo' ) )
 	load_textdomain( 'buddypress', WPMU_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() . '.mo' );
@@ -356,7 +359,7 @@ function bp_core_get_user_domain( $user_id ) {
  * @return $domain The domain URL for the blog.
  */
 function bp_core_get_root_domain() {
-	switch_to_blog(1);
+	switch_to_blog(BP_ROOT_BLOG);
 	$domain = site_url();
 	restore_current_blog();
 	
@@ -658,7 +661,7 @@ function bp_core_get_username( $uid ) {
 	global $userdata;
 	
 	if ( $uid == $userdata->ID )
-		return 'You';
+		return __( 'You', 'buddypress' );
 	
 	if ( !$ud = get_userdata($uid) )
 		return false;
@@ -1089,9 +1092,9 @@ function bp_core_get_all_posts_for_user( $user_id = null ) {
  * @uses bp_core_get_userlink_by_email() Fetches a userlink via email address.
  */
 function bp_core_get_site_path() {
-	global $wpdb;
+	global $current_site;
 	
-	return $wpdb->get_var( $wpdb->prepare( "SELECT path FROM {$wpdb->base_prefix}site WHERE id = 1") );
+	return $current_site->path;
 }
 
 function bp_core_redirect( $location, $status = 302 ) {
