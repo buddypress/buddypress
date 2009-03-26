@@ -49,8 +49,8 @@ Class BP_Activity_Activity {
 			return false;
 			
 		// Set the table names
-		$this->table_name = $wpdb->base_prefix . 'user_' . $this->user_id . '_activity';
-		$this->table_name_cached = $wpdb->base_prefix . 'user_' . $this->user_id . '_activity_cached';
+		$this->table_name = $bp->activity->table_name_user_activity;
+		$this->table_name_cached = $bp->activity->table_name_user_activity_cached;
 
 		if ( !$this->exists() ) {
 			// Insert the new activity into the activity table.
@@ -63,7 +63,7 @@ Class BP_Activity_Activity {
 			}
 			
 			// Add the cached version of the activity to the cached activity table.
-			$activity_cached = $wpdb->query( $wpdb->prepare( "INSERT INTO {$this->table_name_cached} ( item_id, secondary_item_id, content, primary_link, component_name, component_action, date_cached, date_recorded, is_private ) VALUES ( %d, %d, %s, %s, %s, %s, FROM_UNIXTIME(%d), FROM_UNIXTIME(%d), %d )", $this->item_id, $this->secondary_item_id, $activity_content['content'], $activity_content['primary_link'], $this->component_name, $this->component_action, time(), $this->date_recorded, $this->is_private ) );
+			$activity_cached = $wpdb->query( $wpdb->prepare( "INSERT INTO {$this->table_name_cached} ( user_id, item_id, secondary_item_id, content, primary_link, component_name, component_action, date_cached, date_recorded, is_private ) VALUES ( %d, %d, %d, %s, %s, %s, %s, FROM_UNIXTIME(%d), FROM_UNIXTIME(%d), %d )", $this->user_id, $this->item_id, $this->secondary_item_id, $activity_content['content'], $activity_content['primary_link'], $this->component_name, $this->component_action, time(), $this->date_recorded, $this->is_private ) );
 			
 			// Add the cached version of the activity to the sitewide activity table.
 			if ( !$this->no_sitewide_cache )
@@ -100,10 +100,10 @@ Class BP_Activity_Activity {
 			$cached_component_action_sql = $wpdb->prepare( "AND component_action = %s", $component_action );
 		}
 				
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->base_prefix}user_{$user_id}_activity WHERE item_id = %d {$secondary_sql} AND component_name = %s {$component_action_sql}", $item_id, $component_name ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_user_activity} WHERE item_id = %d {$secondary_sql} AND component_name = %s {$component_action_sql}", $item_id, $component_name ) );
 				
-		// Delete this entry from the users' cache table and the sitewide cache table
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->base_prefix}user_{$user_id}_activity_cached WHERE item_id = %d {$secondary_sql} AND component_name = %s {$cached_component_action_sql}", $item_id, $component_name ) );
+		// Delete this entry from the user activity cache table and the sitewide cache table
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_user_activity_cached} WHERE user_id = %d AND item_id = %d {$secondary_sql} AND component_name = %s {$cached_component_action_sql}", $user_id, $item_id, $component_name ) );
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_sitewide} WHERE item_id = %d {$secondary_sql} AND component_name = %s {$component_action_sql}", $item_id, $component_name ) );
 
 		return true;
@@ -134,7 +134,7 @@ Class BP_Activity_Activity {
 			//echo '<small style="color: green">** Debug: Using Cache **</small>';
 			
 			// Use the cached activity stream.
-			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name_current_user_cached} WHERE date_recorded >= FROM_UNIXTIME(%d) $privacy_sql ORDER BY date_recorded DESC $limit_sql", $since ) );
+			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name_user_activity_cached} WHERE user_id = %d AND date_recorded >= FROM_UNIXTIME(%d) $privacy_sql ORDER BY date_recorded DESC $limit_sql", $user_id, $since ) );
 	
 			for ( $i = 0; $i < count( $activities ); $i++ ) {
 				if ( !$activities[$i]->is_private ) {
@@ -152,7 +152,7 @@ Class BP_Activity_Activity {
 			//echo '<small style="color: red">** Debug: Not Using Cache **</small>';
 			
 			// Reselect, format and cache a new activity stream. Override the limit otherwise we might only cache 5 items when viewing a profile page.
-			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name_current_user} WHERE date_recorded >= FROM_UNIXTIME(%d) $privacy_sql ORDER BY date_recorded DESC LIMIT 30", $since ) );
+			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name_user_activity} WHERE user_id = %d AND date_recorded >= FROM_UNIXTIME(%d) $privacy_sql ORDER BY date_recorded DESC LIMIT 30", $user_id, $since ) );
 
 			for ( $i = 0; $i < count( $activities ); $i++ ) {
 				
@@ -201,64 +201,13 @@ Class BP_Activity_Activity {
 		if ( $total_limit )
 			$limit_sql = $wpdb->prepare( " LIMIT %d", $total_limit );
 		
-		/* Determine whether or not to use the cached friends activity stream, or re-select and cache a new stream */
-		$last_cached = get_usermeta( $bp->loggedin_user->id, 'bp_activity_friends_last_cached' );
+		$friend_ids = friends_get_friend_user_ids( $user_id );
 		
-		if ( strtotime( BP_ACTIVITY_CACHE_LENGTH, (int)$last_cached ) >= time() ) {
-		
-			//echo '<small style="color: green">** Debug: Using Cache **</small>';
+		if ( !$friend_ids )
+			return false;
 			
-			// Use the cached activity stream.
-			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name_loggedin_user_friends_cached} ORDER BY date_recorded DESC $limit_sql" ) );
-		
-			for ( $i = 0; $i < count( $activities ); $i++ ) {
-				if ( !$activities[$i]->is_private ) {
-					$activities_formatted[$i]['content'] = $activities[$i]->content;
-					$activities_formatted[$i]['primary_link'] = $activities[$i]->primary_link;
-					$activities_formatted[$i]['date_recorded'] = $activities[$i]->date_recorded;
-					$activities_formatted[$i]['component_name'] = $activities[$i]->component_name;
-					$activities_formatted[$i]['component_action'] = $activities[$i]->component_action;
-					$activities_formatted[$i]['is_private'] = $activities[$i]->is_private;
-				}
-			}
-		
-		} else {
-			
-			//echo '<small style="color: red">** Debug: Not Using Cache **</small>';
-			
-			$friend_ids = friends_get_friend_user_ids( $user_id );
-			
-			if ( $limit_per_friend )
-				$limit_sql = $wpdb->prepare( " LIMIT %d", $limit_per_friend );
-
-			for ( $i = 0; $i < count($friend_ids); $i++ ) {
-				$table_name = $wpdb->base_prefix . 'user_' . $friend_ids[$i] . '_activity_cached';
-
-				$activities[$i]['activity'] = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table_name} WHERE is_private = 0 ORDER BY date_recorded DESC $limit_sql" ) );
-				$activities[$i]['full_name'] = bp_fetch_user_fullname( $friend_ids[$i], false );
-			}
-		
-			for ( $i = 0; $i < count($activities); $i++ ) {
-			
-				/* Filter activities for friends to remove 'You' and 'your' */
-				for ( $j = 0; $j < count( $activities[$i]['activity']); $j++ ) {
-					$activities[$i]['activity'][$j]->content = bp_activity_content_filter( $activities[$i]['activity'][$j]->content, $activities[$i]['activity'][$j]->date_recorded, $activities[$i]['full_name'], false, false, false );
-					$activities_formatted[] = array( 'user_id' => $friend_ids[$i], 'content' => $activities[$i]['activity'][$j]->content, 'primary_link' => $activities[$i]['activity'][$j]->primary_link, 'date_recorded' => $activities[$i]['activity'][$j]->date_recorded, 'component_name' => $activities[$i]['activity'][$j]->component_name, 'component_action' => $activities[$i]['activity'][$j]->component_action );
-				}
-			}
-		
-			if ( is_array($activities_formatted) ) {
-				usort( $activities_formatted, 'bp_activity_order_by_date' );
-				
-				// Limit the number of items that get cached to the total_limit variable passed.
-				$activities_formatted = array_slice( $activities_formatted, 0, $total_limit );
-			}
-			
-			if ( count($activities_formatted) )
-				BP_Activity_Activity::cache_friends_activities( $activities_formatted );
-		}
-		
-		return $activities_formatted;
+		$friend_ids = implode( ',', $friend_ids );
+		return $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT user_id, content, primary_link, date_recorded, component_name, component_action FROM {$bp->activity->table_name_sitewide} WHERE user_id IN ({$friend_ids}) ORDER BY date_recorded DESC LIMIT %d", $total_limit ) ); 
 	}
 	
 	function get_sitewide_activity( $limit = 15 ) {
@@ -316,21 +265,21 @@ Class BP_Activity_Activity {
 	function cache_activities( $activity_array, $user_id ) {
 		global $wpdb, $bp;
 
-		/* Empty the cache */
-		$wpdb->query( "TRUNCATE TABLE {$bp->activity->table_name_current_user_cached}" );
+		/* Empty the cache for the user */
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_user_activity_cached} WHERE user_id = %d AND DATE_ADD(date_recorded, INTERVAL 30 DAY) <= NOW()", $user_id ) );
 		
 		/* Empty user's activities from the sitewide stream */
-		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->activity->table_name_sitewide . " WHERE user_id = %d", $user_id ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_sitewide} WHERE user_id = %d AND DATE_ADD(date_recorded, INTERVAL 30 DAY) <= NOW()", $user_id ) );
 		
 		for ( $i = 0; $i < count($activity_array); $i++ ) {
 			if ( empty( $activity_array[$i]['content'] ) ) continue;
 			
 			// Cache that sucka...
-			$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp->activity->table_name_current_user_cached . " ( content, item_id, secondary_item_id, primary_link, component_name, component_action, date_cached, date_recorded, is_private ) VALUES ( %s, %d, %d, %s, %s, %s, FROM_UNIXTIME(%d), %s, %d )", $activity_array[$i]['content'], $activity_array[$i]['item_id'], $activity_array[$i]['secondary_item_id'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], $activity_array[$i]['component_action'], time(), $activity_array[$i]['date_recorded'], $activity_array[$i]['is_private'] ) );
+			$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->activity->table_name_user_activity_cached} ( user_id, content, item_id, secondary_item_id, primary_link, component_name, component_action, date_cached, date_recorded, is_private ) VALUES ( %d, %s, %d, %d, %s, %s, %s, FROM_UNIXTIME(%d), %s, %d )", $user_id, $activity_array[$i]['content'], $activity_array[$i]['item_id'], $activity_array[$i]['secondary_item_id'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], $activity_array[$i]['component_action'], time(), $activity_array[$i]['date_recorded'], $activity_array[$i]['is_private'] ) );
 			
 			// Add to the sitewide activity stream
 			if ( !$activity_array[$i]['is_private'] && !$activity_array[$i]['no_sitewide_cache'] )
-				$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp->activity->table_name_sitewide . " ( user_id, content, item_id, secondary_item_id, primary_link, component_name, component_action, date_cached, date_recorded ) VALUES ( %d, %s, %d, %d, %s, %s, %s, FROM_UNIXTIME(%d), %s )", $user_id, $activity_array[$i]['content'], $activity_array[$i]['item_id'], $activity_array[$i]['secondary_item_id'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], $activity_array[$i]['component_action'], time(), $activity_array[$i]['date_recorded'] ) );
+				$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->activity->table_name_sitewide} ( user_id, content, item_id, secondary_item_id, primary_link, component_name, component_action, date_cached, date_recorded ) VALUES ( %d, %s, %d, %d, %s, %s, %s, FROM_UNIXTIME(%d), %s )", $user_id, $activity_array[$i]['content'], $activity_array[$i]['item_id'], $activity_array[$i]['secondary_item_id'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], $activity_array[$i]['component_action'], time(), $activity_array[$i]['date_recorded'] ) );
 		}
 		
 		update_usermeta( $bp->displayed_user->id, 'bp_activity_last_cached', time() );
@@ -340,11 +289,11 @@ Class BP_Activity_Activity {
 		global $wpdb, $bp;
 
 		/* Empty user's activities from the sitewide stream */
-		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->activity->table_name_sitewide . " WHERE user_id = %d", $user_id ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_sitewide} WHERE user_id = %d", $user_id ) );
 
 		/* Empty the user's activity items and cached activity items */
-		$wpdb->query( $wpdb->prepare( "TRUNCATE TABLE wp_user_{$user_id}_activity" ) );
-		$wpdb->query( $wpdb->prepare( "TRUNCATE TABLE wp_user_{$user_id}_activity_cached" ) );	
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_user_activity} WHERE user_id = %d", $user_id ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_user_activity_cached} WHERE user_id = %d", $user_id ) );
 		
 		return true;
 	}
@@ -365,7 +314,36 @@ Class BP_Activity_Activity {
 		return true;
 	}
 	
-
+	function convert_tables_for_user( $user_id ) {
+		global $bp, $wpdb;
+		
+		$activity_items = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM wp_user_{$user_id}_activity" ) );
+		$activity_cached_items = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM wp_user_{$user_id}_activity_cached" ) );
+		
+		if ( $activity_items ) {
+			foreach ( $activity_items as $activity_item ) {
+				$wpdb->query( $wpdb->prepare( 
+					"INSERT INTO {$bp->activity->table_name_user_activity} 
+						( item_id, secondary_item_id, user_id, component_name, component_action, date_recorded, is_private, no_sitewide_cache ) 
+					VALUES 
+						( %d, %d, %d, %s, %s, %s, %d, %d )",
+					$activity_item->item_id, $activity_item->secondary_item_id, $user_id, $activity_item->component_name, $activity_item->component_action, $activity_item->date_recorded, $activity_item->is_private, $activity_item->no_sitewide_cache
+				) );
+			}
+		}
+		
+		if ( $activity_cached_items ) {
+			foreach ( $activity_cached_items as $activity_cached_item ) {
+				$wpdb->query( $wpdb->prepare( 
+					"INSERT INTO {$bp->activity->table_name_user_activity_cached} 
+						( content, primary_link, item_id, secondary_item_id, user_id, component_name, component_action, date_recorded, date_cached, is_private ) 
+					VALUES 
+						( %s, %s, %d, %d, %d, %s, %s, %s, %s, %d )",
+					$activity_cached_item->content, $activity_cached_item->primary_link, $activity_cached_item->item_id, $activity_cached_item->secondary_item_id, $user_id, $activity_cached_item->component_name, $activity_cached_item->component_action, $activity_cached_item->date_recorded, $activity_cached_item->date_cached, $activity_cached_item->is_private
+				) );
+			}
+		}
+	}
 }
 
 ?>

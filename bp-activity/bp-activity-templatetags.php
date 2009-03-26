@@ -1,6 +1,6 @@
 <?php
 
-class BP_Activity_Template {
+class BP_Activity_User_Activity_Template {
 	var $current_activity = -1;
 	var $activity_count;
 	var $activities;
@@ -19,7 +19,7 @@ class BP_Activity_Template {
 	var $filter_content;
 	var $is_home;
 	
-	function bp_activity_template( $user_id = false, $limit = false, $filter_content = true ) {
+	function bp_activity_user_activity_template( $user_id = false, $limit = false, $filter_content = true ) {
 		global $bp;
 		
 		if ( !$user_id )
@@ -30,8 +30,12 @@ class BP_Activity_Template {
 		} else {
 			$this->activities = BP_Activity_Activity::get_activity_for_friends( $user_id, $limit );
 		}
-
-		$this->activity_count = count($this->activities);
+		
+		if ( !$this->activities )
+			$this->activity_count = false;
+		else
+			$this->activity_count = count($this->activities);
+		
 		$this->full_name = $bp->displayed_user->fullname;
 
 		$this->is_home = bp_is_home();
@@ -77,6 +81,9 @@ class BP_Activity_Template {
 
 		$this->in_the_loop = true;
 		$this->activity = $this->next_activity();
+		
+		if ( is_array( $this->activity ) )
+			$this->activity = (object) $this->activity;
 
 		if ( $this->current_activity == 0 ) // loop has just started
 			do_action('loop_start');
@@ -108,7 +115,8 @@ function bp_has_activities() {
 	if ( !$bp_activity_limit )
 		$bp_activity_limit = 35;
 		
-	$activities_template = new BP_Activity_Template( $bp_activity_user_id, $bp_activity_limit, $filter_content );		
+	$activities_template = new BP_Activity_User_Activity_Template( $bp_activity_user_id, $bp_activity_limit, $filter_content );		
+
 	return $activities_template->has_activities();
 }
 
@@ -124,6 +132,7 @@ function bp_the_activity() {
 
 function bp_activities_title() {
 	global $bp_activity_title;
+	
 	echo apply_filters( 'bp_activities_title', $bp_activity_title );
 }
 
@@ -137,13 +146,13 @@ function bp_activity_content() {
 	
 	if ( $activities_template->filter_content ) {
 		if ( $activities_template->is_home ) {
-			echo apply_filters( 'bp_activity_content', bp_activity_content_filter( $activities_template->activity['content'], $activities_template->activity['date_recorded'], $activities_template->full_name ) );						
+			echo apply_filters( 'bp_activity_content', bp_activity_content_filter( $activities_template->activity->content, $activities_template->activity->date_recorded, $activities_template->full_name ) );						
 		} else {
-			echo apply_filters( 'bp_activity_content', bp_activity_content_filter( $activities_template->activity['content'], $activities_template->activity['date_recorded'], $activities_template->full_name, true, false, false ) );									
+			echo apply_filters( 'bp_activity_content', bp_activity_content_filter( $activities_template->activity->content, $activities_template->activity->date_recorded, $activities_template->full_name, true, false, false ) );									
 		}
 	} else {
-		$activities_template->activity['content'] = bp_activity_insert_time_since( $activities_template->activity['content'], $activities_template->activity['date_recorded'] );
-		echo apply_filters( 'bp_activity_content', $activities_template->activity['content'] );
+		$activities_template->activity->content = bp_activity_insert_time_since( $activities_template->activity->content, $activities_template->activity->date_recorded );
+		echo apply_filters( 'bp_activity_content', $activities_template->activity->content );
 	}
 }
 
@@ -195,7 +204,7 @@ function bp_activity_insert_time_since( $content, $date ) {
 
 function bp_activity_css_class() {
 	global $activities_template;
-	echo apply_filters( 'bp_activity_css_class', $activities_template->activity['component_name'] );
+	echo apply_filters( 'bp_activity_css_class', $activities_template->activity->component_name );
 }
 
 function bp_sitewide_activity_feed_link() {
@@ -218,26 +227,26 @@ function bp_activities_member_rss_link() {
 function bp_activity_feed_item_title() {
 	global $activities_template;
 
-	$title = explode( '<span', $activities_template->activity['content'] );
+	$title = explode( '<span', $activities_template->activity->content );
 	echo apply_filters( 'bp_activity_feed_item_title', trim( strip_tags( html_entity_decode( $title[0] ) ) ) );
 }
 
 function bp_activity_feed_item_link() {
 	global $activities_template;
 
-	echo apply_filters( 'bp_activity_feed_item_link', $activities_template->activity['primary_link'] );
+	echo apply_filters( 'bp_activity_feed_item_link', $activities_template->activity->primary_link );
 }
 
 function bp_activity_feed_item_date() {
 	global $activities_template;
 
-	echo apply_filters( 'bp_activity_feed_item_date', $activities_template->activity['date_recorded'] );
+	echo apply_filters( 'bp_activity_feed_item_date', $activities_template->activity->date_recorded );
 }
 
 function bp_activity_feed_item_description() {
 	global $activities_template;
 
-	echo apply_filters( 'bp_activity_feed_item_description', sprintf( html_entity_decode( $activities_template->activity['content'], '' ) ) );	
+	echo apply_filters( 'bp_activity_feed_item_description', sprintf( html_entity_decode( $activities_template->activity->content, '' ) ) );	
 }
 
 

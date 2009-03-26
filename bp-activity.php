@@ -13,7 +13,7 @@ require_once( 'bp-core.php' );
 
 define ( 'BP_ACTIVITY_IS_INSTALLED', 1 );
 define ( 'BP_ACTIVITY_VERSION', '1.0-RC1' );
-define ( 'BP_ACTIVITY_DB_VERSION', '937' );
+define ( 'BP_ACTIVITY_DB_VERSION', '1211' );
 
 define ( 'BP_ACTIVITY_SLUG', apply_filters( 'bp_activity_slug', 'activity' ) );
 
@@ -33,22 +33,19 @@ require ( 'bp-activity/bp-activity-filters.php' );
  Sets up the component ready for use on a site installation.
  **************************************************************************/
 
-function bp_activity_user_install() {
+function bp_activity_install() {
 	global $wpdb, $bp;
-	
-	if ( !$bp->displayed_user->id )
-		return false;
 	
 	if ( !empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 	
-	$sql[] = "CREATE TABLE ". $bp->activity->table_name_current_user ." (
+	$sql[] = "CREATE TABLE {$bp->activity->table_name_user_activity} (
 		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-		  		item_id bigint(20) NOT NULL,
-				secondary_item_id bigint(20) NOT NULL,
 				user_id bigint(20) NOT NULL,
-		  		component_name varchar(75) NOT NULL,
+				component_name varchar(75) NOT NULL,
 				component_action varchar(75) NOT NULL,
+				item_id bigint(20) NOT NULL,
+				secondary_item_id bigint(20) NOT NULL,
 		  		date_recorded datetime NOT NULL,
 				is_private tinyint(1) NOT NULL DEFAULT 0,
 				no_sitewide_cache tinyint(1) NOT NULL DEFAULT 0,
@@ -58,52 +55,27 @@ function bp_activity_user_install() {
 				KEY component_name (component_name)
 		 	   ) {$charset_collate};";
 
-	$sql[] = "CREATE TABLE ". $bp->activity->table_name_current_user_cached ." (
+	$sql[] = "CREATE TABLE {$bp->activity->table_name_user_activity_cached} (
 		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				item_id bigint(20) NOT NULL,
-				secondary_item_id bigint(20) NOT NULL,
-		  		content longtext NOT NULL,
-				primary_link varchar(150) NOT NULL,
+				user_id bigint(20) NOT NULL,
 				component_name varchar(75) NOT NULL,
 				component_action varchar(75) NOT NULL,
+				content longtext NOT NULL,
+				primary_link varchar(150) NOT NULL,
+				item_id bigint(20) NOT NULL,
+				secondary_item_id bigint(20) NOT NULL,
 				date_cached datetime NOT NULL,
 				date_recorded datetime NOT NULL,
 				is_private tinyint(1) NOT NULL DEFAULT 0,
 				KEY date_cached (date_cached),
 				KEY date_recorded (date_recorded),
 			    KEY is_private (is_private),
+				KEY user_id (user_id),
 				KEY item_id (item_id),
 				KEY component_name (component_name)
 		 	   ) {$charset_collate};";
-	
-	$sql[] = "CREATE TABLE ". $bp->activity->table_name_current_user_friends_cached ." (
-		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				user_id bigint(20) NOT NULL,
-		  		content longtext NOT NULL,
-				primary_link varchar(150) NOT NULL,
-				component_name varchar(75) NOT NULL,
-				component_action varchar(75) NOT NULL,
-				date_cached datetime NOT NULL,
-				date_recorded datetime NOT NULL,
-				KEY date_cached (date_cached),
-				KEY date_recorded (date_recorded),
-				KEY user_id (user_id),
-				KEY component_name (component_name)
-		 	   ) {$charset_collate};";
 
-	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
-	dbDelta($sql);
-	
-	update_usermeta( $bp->displayed_user->id, 'bp-activity-db-version', BP_ACTIVITY_DB_VERSION );
-}
-
-function bp_activity_sitewide_install() {
-	global $wpdb, $bp;
-
-	if ( !empty($wpdb->charset) )
-		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-	
-	$sql[] = "CREATE TABLE ". $bp->activity->table_name_sitewide ." (
+	$sql[] = "CREATE TABLE {$bp->activity->table_name_sitewide} (
 		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id bigint(20) NOT NULL,
 				item_id bigint(20) NOT NULL,
@@ -120,13 +92,20 @@ function bp_activity_sitewide_install() {
 				KEY item_id (item_id),
 				KEY component_name (component_name)
 		 	   ) {$charset_collate};";
-	
+
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 	dbDelta($sql);
 	
-	// dbDelta won't change character sets, so we need to do this seperately.
-	// This will only be in here pre v1.0
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE " . $bp->activity->table_name_sitewide . " DEFAULT CHARACTER SET %s", $wpdb->charset ) );
+	if ( '' == get_site_option( 'bp-activity-db-merge' ) ) {
+		$users = $wpdb->get_col( "SELECT ID FROM {$wpdb->base_prefix}users" );
+		
+		foreach ( $users as $user_id ) {
+			BP_Activity_Activity::convert_tables_for_user( $user_id );
+			BP_Activity_Activity::kill_tables_for_user( $user_id );
+		}
+		
+		add_site_option( 'bp-activity-db-merge', 1 );
+	}
 
 	update_site_option( 'bp-activity-db-version', BP_ACTIVITY_DB_VERSION );
 }
@@ -141,15 +120,8 @@ function bp_activity_sitewide_install() {
 function bp_activity_setup_globals() {
 	global $bp, $wpdb, $current_blog;
 
-	$bp->activity->table_name_loggedin_user = $wpdb->base_prefix . 'user_' . $bp->loggedin_user->id . '_activity';
-	$bp->activity->table_name_loggedin_user_cached = $wpdb->base_prefix . 'user_' . $bp->loggedin_user->id . '_activity_cached';
-	
-	$bp->activity->table_name_current_user = $wpdb->base_prefix . 'user_' . $bp->displayed_user->id . '_activity';
-	$bp->activity->table_name_current_user_cached = $wpdb->base_prefix . 'user_' . $bp->displayed_user->id . '_activity_cached';
-	
-	$bp->activity->table_name_loggedin_user_friends_cached = $wpdb->base_prefix . 'user_' . $bp->loggedin_user->id . '_friends_activity_cached';
-	$bp->activity->table_name_current_user_friends_cached = $wpdb->base_prefix . 'user_' . $bp->displayed_user->id . '_friends_activity_cached';
-	
+	$bp->activity->table_name_user_activity	= $wpdb->base_prefix . 'bp_activity_user_activity';
+	$bp->activity->table_name_user_activity_cached = $wpdb->base_prefix . 'bp_activity_user_activity_cached';
 	$bp->activity->table_name_sitewide = $wpdb->base_prefix . 'bp_activity_sitewide';
 	
 	$bp->activity->image_base = WPMU_PLUGIN_URL . '/bp-activity/images';
@@ -157,17 +129,8 @@ function bp_activity_setup_globals() {
 	
 	$bp->version_numbers->activity = BP_ACTIVITY_VERSION;
 
-	if ( $bp->displayed_user->id ) {
-		/* Check to see if the current user has their activity table set up. If not, set them up. */
-		if ( get_usermeta( $bp->displayed_user->id, 'bp-activity-db-version' ) < BP_ACTIVITY_VERSION  )
-			bp_activity_user_install();
-	}
-	
-	if ( is_site_admin() && 1 == $current_blog->blog_id ) {
-		/* Check to see if the site wide activity table is set up. */
-		if ( get_site_option( 'bp-activity-db-version' ) < BP_ACTIVITY_VERSION  )
-			bp_activity_sitewide_install();
-	}
+	if ( is_site_admin() && get_site_option( 'bp-activity-db-version' ) < BP_ACTIVITY_DB_VERSION  )
+		bp_activity_install();
 }
 add_action( 'plugins_loaded', 'bp_activity_setup_globals', 5 );
 add_action( 'admin_menu', 'bp_activity_setup_globals', 1 );
@@ -338,8 +301,8 @@ function bp_activity_remove_data( $user_id ) {
 	
 	do_action( 'bp_activity_remove_data', $user_id );
 }
-add_action( 'wpmu_delete_user', 'bp_activity_remove_data', 1 );
-add_action( 'delete_user', 'bp_activity_remove_data', 1 );
+add_action( 'wpmu_delete_user', 'bp_activity_remove_data' );
+add_action( 'delete_user', 'bp_activity_remove_data' );
 
 
 ?>
