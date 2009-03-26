@@ -201,6 +201,11 @@ h2.widgettitle {
 		margin: -15px 0 0 0;
 	}
 	
+	.bp_core_widget_whos_online .item-avatar {
+		float: left;
+		margin-right: 10px;
+	}
+	
 .widget-error {
 	padding: 10px;
 	background: #fff9df;
