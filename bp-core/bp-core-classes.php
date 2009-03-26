@@ -184,11 +184,26 @@ class BP_Core_User {
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
 	
+	function get_alphabetical_users( $limit = null, $page = 1 ) {
+		global $wpdb, $bp;
+
+		if ( !function_exists( 'xprofile_install' ) )
+			return BP_Core_User::get_active_users( $limit, $page );
+		
+		if ( $limit && $page )
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+
+		$total_users = count( $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT u.ID user_id FROM {$wpdb->base_prefix}users u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE u.spam = 0 AND u.deleted = 0 AND u.user_status = 0 AND pf.name = %s ORDER BY pd.value ASC", BP_XPROFILE_FULLNAME_FIELD_NAME ) ) );
+		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT u.ID as user_id FROM {$wpdb->base_prefix}users u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE u.spam = 0 AND u.deleted = 0 AND u.user_status = 0 AND pf.name = %s ORDER BY pd.value ASC{$pag_sql}", BP_XPROFILE_FULLNAME_FIELD_NAME ) );
+
+		return array( 'users' => $paged_users, 'total' => $total_users );
+	}
+	
 	function get_users_by_letter( $letter, $limit = null, $page = 1 ) {
 		global $wpdb, $bp;
 		
 		if ( !function_exists('xprofile_install') )
-			return false;
+			return BP_Core_User::get_active_users( $limit, $page );
 		
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
@@ -208,7 +223,7 @@ class BP_Core_User {
 		global $wpdb, $bp;
 		
 		if ( !function_exists('xprofile_install') )
-			return false;
+			return BP_Core_User::get_active_users( $limit, $page );
 		
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );

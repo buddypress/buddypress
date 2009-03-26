@@ -740,7 +740,11 @@ class BP_Core_Members_Template {
 
 				case 'online':
 					$this->members = BP_Core_User::get_online_users( $this->pag_num, $this->pag_page );
-					break;	
+					break;
+					
+				case 'alphabetical':
+					$this->members = BP_Core_User::get_alphabetical_users( $this->pag_num, $this->pag_page );
+					break;
 				
 				case 'active': default:
 					$this->members = BP_Core_User::get_active_users( $this->pag_num, $this->pag_page );
@@ -836,13 +840,13 @@ function bp_has_site_members( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	// type: active ( default ) | random | newest | popular | online
+	// type: active ( default ) | random | newest | popular | online | alphabetical
 	
 	if ( $max ) {
 		if ( $per_page > $max )
 			$per_page = $max;
 	}
-	
+
 	$site_members_template = new BP_Core_Members_Template( $type, $per_page, $max );
 	
 	return $site_members_template->has_members();
