@@ -15,7 +15,9 @@ require_once( 'bp-core.php' );
 define ( 'BP_XPROFILE_VERSION', '1.0-RC1' );
 define ( 'BP_XPROFILE_DB_VERSION', '948' );
 
-define ( 'BP_XPROFILE_SLUG', apply_filters( 'xprofile_slug', 'profile' ) );
+/* Define the slug for the component */
+if ( !defined( 'BP_XPROFILE_SLUG' ) )
+	define ( 'BP_XPROFILE_SLUG', 'profile' );
 
 require ( 'bp-xprofile/bp-xprofile-classes.php' );
 require ( 'bp-xprofile/bp-xprofile-filters.php' );

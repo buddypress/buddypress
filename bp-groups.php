@@ -15,7 +15,9 @@ define ( 'BP_GROUPS_IS_INSTALLED', 1 );
 define ( 'BP_GROUPS_VERSION', '1.0-RC1' );
 define ( 'BP_GROUPS_DB_VERSION', '951' );
 
-define ( 'BP_GROUPS_SLUG', apply_filters( 'groups_slug', 'groups' ) );
+/* Define the slug for the component */
+if ( !defined( 'BP_GROUPS_SLUG' ) )
+	define ( 'BP_GROUPS_SLUG', 'groups' );
 
 require ( 'bp-groups/bp-groups-classes.php' );
 require ( 'bp-groups/bp-groups-ajax.php' );

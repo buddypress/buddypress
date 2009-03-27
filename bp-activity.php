@@ -15,10 +15,13 @@ define ( 'BP_ACTIVITY_IS_INSTALLED', 1 );
 define ( 'BP_ACTIVITY_VERSION', '1.0-RC1' );
 define ( 'BP_ACTIVITY_DB_VERSION', '1211' );
 
-define ( 'BP_ACTIVITY_SLUG', apply_filters( 'bp_activity_slug', 'activity' ) );
+/* Define the slug for the component */
+if ( !defined( 'BP_ACTIVITY_SLUG' ) )
+	define ( 'BP_ACTIVITY_SLUG', 'activity' );
 
 /* How long before activity items in streams are re-cached? */
-define ( 'BP_ACTIVITY_CACHE_LENGTH', '6 HOURS' );
+if ( !defined( 'BP_ACTIVITY_CACHE_LENGTH' ) )
+	define ( 'BP_ACTIVITY_CACHE_LENGTH', '6 HOURS' );
 
 require ( 'bp-activity/bp-activity-classes.php' );
 require ( 'bp-activity/bp-activity-templatetags.php' );

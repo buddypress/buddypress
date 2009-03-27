@@ -14,7 +14,9 @@ require_once( 'bp-core.php' );
 define ( 'BP_WIRE_IS_INSTALLED', 1 );
 define ( 'BP_WIRE_VERSION', '1.0-RC1' );
 
-define ( 'BP_WIRE_SLUG', apply_filters( 'bp_wire_slug', 'wire' ) );
+/* Define the slug for the component */
+if ( !defined( 'BP_WIRE_SLUG' ) )
+	define ( 'BP_WIRE_SLUG', 'wire' );
 
 require ( 'bp-wire/bp-wire-classes.php' );
 require ( 'bp-wire/bp-wire-ajax.php' );

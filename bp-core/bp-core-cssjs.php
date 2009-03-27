@@ -57,6 +57,9 @@ add_action( 'wp_head', 'bp_core_add_css', 2 );
  * @package BuddyPress Core
  */
 function bp_core_admin_bar_css() {
+	if ( defined( 'BP_DISABLE_ADMIN_BAR') )
+		return false;
+		
 	if ( is_user_logged_in() || ( (int)get_site_option( 'show-loggedout-adminbar' ) && !is_user_logged_in() ) ) {
 		wp_enqueue_style( 'bp-admin-bar', WPMU_PLUGIN_URL . '/bp-core/css/admin-bar.css' );
 		
@@ -109,6 +112,9 @@ add_action( 'admin_menu', 'bp_core_add_admin_js' );
  * @uses get_option() Selects a site setting from the DB.
  */
 function bp_core_add_admin_css() {
+	if ( defined( 'BP_DISABLE_ADMIN_BAR') )
+		return false;
+		
 	wp_enqueue_style( 'bp-admin-bar', WPMU_PLUGIN_URL . '/bp-core/css/admin-bar.css' );
 }
 add_action( 'admin_menu', 'bp_core_add_admin_css' );

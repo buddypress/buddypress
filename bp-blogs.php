@@ -14,11 +14,17 @@ require_once( 'bp-core.php' );
 define ( 'BP_BLOGS_VERSION', '1.0-RC1' );
 define ( 'BP_BLOGS_DB_VERSION', '937' );
 
-define ( 'BP_BLOGS_SLUG', apply_filters( 'bp_blogs_slug', 'blogs' ) );
+/* Define the slug for the component */
+if ( !defined( 'BP_BLOGS_SLUG' ) )
+	define ( 'BP_BLOGS_SLUG', 'blogs' );
 
-/* These will be moved into admin configurable settings */
-define ( 'TOTAL_RECORDED_POSTS', 150 );
-define ( 'TOTAL_RECORDED_COMMENTS', 500 );
+/* Define the total number of posts to keep track of for each user. */
+if ( !defined( 'TOTAL_RECORDED_POSTS' ) )
+	define ( 'TOTAL_RECORDED_POSTS', 150 );
+
+/* Define the total number of comments to keep track of for each user. */	
+if ( !defined( 'TOTAL_RECORDED_COMMENTS' ) )	
+	define ( 'TOTAL_RECORDED_COMMENTS', 500 );
 
 require ( 'bp-blogs/bp-blogs-classes.php' );
 require ( 'bp-blogs/bp-blogs-cssjs.php' );

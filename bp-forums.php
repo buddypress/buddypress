@@ -18,7 +18,10 @@ http://wordpress.org/extend/plugins/bbpress-live/
 require_once( 'bp-core.php' );
 
 define ( 'BP_FORUMS_VERSION', '1.0-RC1' );
-define ( 'BP_FORUMS_PARENT_FORUM_ID', apply_filters( 'bp_forums_parent_forum_id', 0 ) );
+
+/* Define the parent forum ID */
+if ( !defined( 'BP_FORUMS_PARENT_FORUM_ID' ) )
+	define ( 'BP_FORUMS_PARENT_FORUM_ID', 1 );
 
 require ( 'bp-forums/bp-forums-bbpress-live.php' );
 require ( 'bp-forums/bp-forums-templatetags.php' );

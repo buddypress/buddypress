@@ -9,16 +9,24 @@ Author URI: http://buddypress.org
 Site Wide Only: true
 */
 
-/* Define the current version number for checking if DB tables are up to date. */
-define( 'BP_CORE_VERSION', '1.0-RC1' );
-define( 'BP_CORE_DB_VERSION', '1030' );
-
 /* Place your custom code (actions/filters) in a file called bp-custom.php and it will be loaded before anything else. */
 if ( file_exists( WPMU_PLUGIN_DIR . '/bp-custom.php' ) )
 	require( WPMU_PLUGIN_DIR . '/bp-custom.php' );
 
-/* Define on which blog ID BuddyPress should run */ 
-define( 'BP_ROOT_BLOG', apply_filters( 'bp_root_blog', 1 ) );
+/* Define the current version number for checking if DB tables are up to date. */
+define( 'BP_CORE_VERSION', '1.0-RC1' );
+define( 'BP_CORE_DB_VERSION', '1030' );
+
+/* Define on which blog ID BuddyPress should run */
+if ( !defined( 'BP_ROOT_BLOG' ) )
+	define( 'BP_ROOT_BLOG', 1 );
+
+/* Define the user and usermeta table names, useful if you are using custom or shared tables */
+if ( !defined( 'CUSTOM_USER_TABLE' ) )
+	define( 'CUSTOM_USER_TABLE', $wpdb->base_prefix . 'users' );
+
+if ( !defined( 'CUSTOM_USER_META_TABLE' ) )
+	define( 'CUSTOM_USER_META_TABLE', $wpdb->base_prefix . 'usermeta' );
 
 /* Load the language file */
 if ( file_exists( WPMU_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() . '.mo' ) )
@@ -30,26 +38,33 @@ require ( 'bp-core/bp-core-classes.php' );
 require ( 'bp-core/bp-core-cssjs.php' );
 require ( 'bp-core/bp-core-avatars.php' );
 require ( 'bp-core/bp-core-templatetags.php' );
-require ( 'bp-core/bp-core-adminbar.php' );
 require ( 'bp-core/bp-core-settings.php' );
 require ( 'bp-core/bp-core-widgets.php' );
 require ( 'bp-core/bp-core-ajax.php' );
 require ( 'bp-core/bp-core-notifications.php' );
 
+if ( !defined( 'BP_DISABLE_ADMIN_BAR') )
+	require ( 'bp-core/bp-core-adminbar.php' );
+
 /* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
-define( 'MEMBERS_SLUG', apply_filters( 'bp_members_slug', 'members' ) );
+if ( !defined( 'MEMBERS_SLUG' ) )
+	define( 'MEMBERS_SLUG', 'members' );
 
 /* Define the slug for the register/signup page */
-define( 'REGISTER_SLUG', apply_filters( 'bp_register_slug', 'register' ) );
+if ( !defined( 'REGISTER_SLUG' ) )
+	define( 'REGISTER_SLUG', 'register' );
 
 /* Define the slug for the activation page */
-define( 'ACTIVATION_SLUG', apply_filters( 'bp_activate_slug', 'activate' ) );
+if ( !defined( 'ACTIVATION_SLUG' ) )
+	define( 'ACTIVATION_SLUG', 'activate' );
 
 /* Define the slug for the search page */
-define( 'SEARCH_SLUG', apply_filters( 'bp_search_slug', 'search' ) );
+if ( !defined( 'SEARCH_SLUG' ) )
+	define( 'SEARCH_SLUG', 'search' );
 
 /* Define the slug for the search page */
-define( 'HOME_BLOG_SLUG', apply_filters( 'bp_home_blog_slug', 'blog' ) );
+if ( !defined( 'HOME_BLOG_SLUG' ) )
+	define( 'HOME_BLOG_SLUG', 'blog' );
 
 
 /* "And now for something completely different" .... */
@@ -625,7 +640,7 @@ add_action( 'wp', 'bp_core_get_random_member', 6 );
 function bp_core_get_userid( $username ) {
 	global $wpdb;
 	
-	$sql = $wpdb->prepare( "SELECT ID FROM " . $wpdb->base_prefix . "users WHERE user_login = %s", $username );
+	$sql = $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $username );
 	return $wpdb->get_var($sql);
 }
 
@@ -642,7 +657,7 @@ function bp_core_get_userid( $username ) {
 function bp_core_get_userid_from_user_login( $user_login ) {
 	global $wpdb;
 
-	return $wpdb->get_var( $wpdb->prepare( "SELECT ID from {$wpdb->base_prefix}users WHERE user_login = %s", $user_login ) );
+	return $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $user_login ) );
 }
 
 /**
@@ -813,7 +828,7 @@ function bp_core_get_userlink_by_email( $email ) {
 function bp_core_get_userlink_by_username( $username ) {
 	global $wpdb;
 	
-	$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->base_prefix}users WHERE user_login = %s", $username ) ); 
+	$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $username ) ); 
 	return bp_core_get_userlink( $user_id, false, false, true );
 }
 

@@ -15,7 +15,9 @@ define ( 'BP_MESSAGES_IS_INSTALLED', 1 );
 define ( 'BP_MESSAGES_VERSION', '1.0-RC1' );
 define ( 'BP_MESSAGES_DB_VERSION', '948' );
 
-define ( 'BP_MESSAGES_SLUG', apply_filters( 'messages_slug', 'messages' ) );
+/* Define the slug for the component */
+if ( !defined( 'BP_MESSAGES_SLUG' ) )
+	define ( 'BP_MESSAGES_SLUG', 'messages' );
 
 require ( 'bp-messages/bp-messages-classes.php' );
 require ( 'bp-messages/bp-messages-ajax.php' );

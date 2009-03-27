@@ -15,7 +15,9 @@ define ( 'BP_FRIENDS_IS_INSTALLED', 1 );
 define ( 'BP_FRIENDS_VERSION', '1.0-RC1' );
 define ( 'BP_FRIENDS_DB_VERSION', '937' );
 
-define ( 'BP_FRIENDS_SLUG', apply_filters( 'friends_slug', 'friends' ) );
+/* Define the slug for the component */
+if ( !defined( 'BP_FRIENDS_SLUG' ) )
+	define ( 'BP_FRIENDS_SLUG', 'friends' );
 
 require ( 'bp-friends/bp-friends-classes.php' );
 require ( 'bp-friends/bp-friends-ajax.php' );
