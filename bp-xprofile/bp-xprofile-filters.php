@@ -52,7 +52,7 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 				if ( count( explode( ' ', $value ) ) > 5 )
 					$new_values[] = $value;
 				else
-					$new_values[] = '<a href="' . site_url( MEMBERS_SLUG ) . '/?s=' . $value . '">' . $value . '</a>';
+					$new_values[] = '<a href="' . site_url( BP_MEMBERS_SLUG ) . '/?s=' . $value . '">' . $value . '</a>';
 			}
 		}
 		

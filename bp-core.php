@@ -47,24 +47,24 @@ if ( !defined( 'BP_DISABLE_ADMIN_BAR') )
 	require ( 'bp-core/bp-core-adminbar.php' );
 
 /* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
-if ( !defined( 'MEMBERS_SLUG' ) )
-	define( 'MEMBERS_SLUG', 'members' );
+if ( !defined( 'BP_MEMBERS_SLUG' ) )
+	define( 'BP_MEMBERS_SLUG', 'members' );
 
 /* Define the slug for the register/signup page */
-if ( !defined( 'REGISTER_SLUG' ) )
-	define( 'REGISTER_SLUG', 'register' );
+if ( !defined( 'BP_REGISTER_SLUG' ) )
+	define( 'BP_REGISTER_SLUG', 'register' );
 
 /* Define the slug for the activation page */
-if ( !defined( 'ACTIVATION_SLUG' ) )
-	define( 'ACTIVATION_SLUG', 'activate' );
+if ( !defined( 'BP_ACTIVATION_SLUG' ) )
+	define( 'BP_ACTIVATION_SLUG', 'activate' );
 
 /* Define the slug for the search page */
-if ( !defined( 'SEARCH_SLUG' ) )
-	define( 'SEARCH_SLUG', 'search' );
+if ( !defined( 'BP_SEARCH_SLUG' ) )
+	define( 'BP_SEARCH_SLUG', 'search' );
 
 /* Define the slug for the search page */
-if ( !defined( 'HOME_BLOG_SLUG' ) )
-	define( 'HOME_BLOG_SLUG', 'blog' );
+if ( !defined( 'BP_HOME_BLOG_SLUG' ) )
+	define( 'BP_HOME_BLOG_SLUG', 'blog' );
 
 
 /* "And now for something completely different" .... */
@@ -168,11 +168,11 @@ add_action( '_admin_menu', 'bp_core_setup_globals', 1 ); // must be _admin_menu 
 
 function bp_core_setup_root_components() {
 	/* Add core root components */
-	bp_core_add_root_component( MEMBERS_SLUG );
-	bp_core_add_root_component( REGISTER_SLUG );
-	bp_core_add_root_component( ACTIVATION_SLUG );
-	bp_core_add_root_component( SEARCH_SLUG );
-	bp_core_add_root_component( HOME_BLOG_SLUG );
+	bp_core_add_root_component( BP_MEMBERS_SLUG );
+	bp_core_add_root_component( BP_REGISTER_SLUG );
+	bp_core_add_root_component( BP_ACTIVATION_SLUG );
+	bp_core_add_root_component( BP_SEARCH_SLUG );
+	bp_core_add_root_component( BP_HOME_BLOG_SLUG );
 }
 add_action( 'plugins_loaded', 'bp_core_setup_root_components', 1 );
 
@@ -358,7 +358,7 @@ function bp_core_get_user_domain( $user_id ) {
 	
 	$ud = get_userdata($user_id);
 	
-	return $bp->root_domain . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/';
+	return $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/';
 }
 
 /**
@@ -617,11 +617,11 @@ function bp_core_add_root_component( $slug ) {
 function bp_core_get_random_member() {
 	global $bp, $wpdb;
 	
-	if ( $bp->current_component == MEMBERS_SLUG && isset( $_GET['random'] ) ) {
+	if ( $bp->current_component == BP_MEMBERS_SLUG && isset( $_GET['random'] ) ) {
 		$user = BP_Core_User::get_random_users(1);
 
 		$ud = get_userdata( $user['users'][0]->user_id );
-		bp_core_redirect( $bp->root_domain . '/' . MEMBERS_SLUG . '/' . $ud->user_login );
+		bp_core_redirect( $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login );
 	}
 }
 add_action( 'wp', 'bp_core_get_random_member', 6 );
@@ -704,7 +704,7 @@ function bp_core_get_userurl( $uid ) {
 	
 	$ud = get_userdata($uid);
 		
-	return $bp->root_domain . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/';
+	return $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/';
 }
 
 /**
@@ -1295,13 +1295,13 @@ function bp_core_delete_account() {
 function bp_core_search_site() {
 	global $bp;
 	
-	if ( $bp->current_component == SEARCH_SLUG ) {
+	if ( $bp->current_component == BP_SEARCH_SLUG ) {
 		$search_terms = $_POST['search-terms'];
 		$search_which = $_POST['search-which'];
 		
 		switch ( $search_which ) {
 			case 'members': default:
-				$search = MEMBERS_SLUG;
+				$search = BP_MEMBERS_SLUG;
 				break;
 			case 'groups':
 				$search = BP_GROUPS_SLUG;

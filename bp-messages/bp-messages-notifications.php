@@ -12,8 +12,8 @@ function messages_notification_new_message( $args ) {
 		if ( $message->sender_id == $recipient_ids[$i] || 'no' == get_userdata( $recipient_ids[$i], 'notification-messages-new-message' ) ) continue;
 
 		$ud = get_userdata($recipient_ids[$i]);
-		$message_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/messages/view/' . $message->id;
-		$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
+		$message_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/messages/view/' . $message->id;
+		$settings_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
 		
 		// Set up and send the message
 		$to = $ud->user_email;
@@ -47,8 +47,8 @@ To view the message: %s
 // 	for ( $i = 0; $i < count($users); $i++ ) {
 // 		if ( get_userdata( $users[$i]->user_id, 'notification-messages-new-notice' ) == 'no' ) continue;
 // 
-// 		$message_link = site_url() . '/' . MEMBERS_SLUG . '/' . $users[$i]->user_login . '/messages';
-// 		$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $users[$i]->user_login . '/settings/notifications';
+// 		$message_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $users[$i]->user_login . '/messages';
+// 		$settings_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $users[$i]->user_login . '/settings/notifications';
 // 
 // 		// Set up and send the message
 // 		$to = $users[$i]->user_email;

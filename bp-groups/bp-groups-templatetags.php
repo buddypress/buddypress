@@ -890,9 +890,9 @@ function bp_group_all_members_permalink( $echo = true, $group = false ) {
 		$group =& $groups_template->group;
 	
 	if ( $echo )
-		echo apply_filters( 'bp_group_all_members_permalink', bp_group_permalink( $group, true ) . '/' . MEMBERS_SLUG );
+		echo apply_filters( 'bp_group_all_members_permalink', bp_group_permalink( $group, true ) . '/' . BP_MEMBERS_SLUG );
 	else
-		return apply_filters( 'bp_group_all_members_permalink', bp_group_permalink( $group, false ) . '/' . MEMBERS_SLUG );
+		return apply_filters( 'bp_group_all_members_permalink', bp_group_permalink( $group, false ) . '/' . BP_MEMBERS_SLUG );
 }
 
 function bp_group_random_members( $group = false ) {

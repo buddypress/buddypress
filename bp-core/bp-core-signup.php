@@ -146,7 +146,7 @@ function bp_core_signup_signup_another_blog($blogname = '', $blog_title = '', $e
 
 	<p><?php _e( "There is no limit to the number of blogs you can have, so create to your heart's content, but blog responsibly. If you&#8217;re not going to use a great blog domain, leave it for a new user. Now have at it!", 'buddypress' ) ?></p>
 	
-	<form id="setupform" method="post" action="<?php echo site_url(REGISTER_SLUG) ?>">
+	<form id="setupform" method="post" action="<?php echo site_url(BP_REGISTER_SLUG) ?>">
 		<input type="hidden" name="stage" value="gimmeanotherblog" />
 		<?php do_action( "signup_hidden_fields" ); ?>
 		<?php bp_core_signup_show_blog_form($blogname, $blog_title, $errors); ?>
@@ -211,7 +211,7 @@ function bp_core_signup_signup_user($user_name = '', $user_email = '', $errors =
 
 	?>
 	
-	<form id="setupform" method="post" action="<?php echo site_url(REGISTER_SLUG) ?>">
+	<form id="setupform" method="post" action="<?php echo site_url(BP_REGISTER_SLUG) ?>">
 		<p id="intro-text"><?php _e( 'Registering for a new account is easy, just fill in the form below and you\'ll be a new member in no time at all.', 'buddypress' ) ?></p>
 		<input type="hidden" name="stage" value="validate-user-signup" />
 		<?php do_action( "signup_hidden_fields" ); ?>
@@ -292,7 +292,7 @@ function bp_core_signup_signup_blog($user_name = '', $user_email = '', $blogname
 	if ( empty($blogname) )
 		$blogname = $user_name;
 	?>
-	<form id="setupform" method="post" action="<?php echo site_url(REGISTER_SLUG) ?>">
+	<form id="setupform" method="post" action="<?php echo site_url(BP_REGISTER_SLUG) ?>">
 		<input type="hidden" name="stage" value="validate-blog-signup" />
 		<input type="hidden" name="user_name" value="<?php echo $user_name ?>" />
 		<input type="hidden" name="user_email" value="<?php echo $user_email ?>" />
@@ -373,7 +373,7 @@ function bp_core_signup_do_signup() {
 		} else {
 			$proto = 'http://';
 		}
-		$login_url = site_url( 'wp-login.php?redirect_to=' . site_url(REGISTER_SLUG) );
+		$login_url = site_url( 'wp-login.php?redirect_to=' . site_url(BP_REGISTER_SLUG) );
 		echo sprintf( __( "You must first <a href=\"%s\">login</a>, and then you can create a new blog.", 'buddypress' ), $login_url );
 	} else {
 		switch ($_POST['stage']) {

@@ -29,8 +29,8 @@ function xprofile_record_wire_post_notification( $wire_post_id, $user_id, $poste
 			$wire_post = new BP_Wire_Post( $bp->profile->table_name_wire, $wire_post_id, true );
 			$ud = get_userdata($user_id);
 			
-			$wire_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/wire';
-			$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
+			$wire_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/wire';
+			$settings_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
 			
 			// Set up and send the message
 			$to = $ud->user_email;

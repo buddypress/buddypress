@@ -11,7 +11,7 @@ function groups_notification_new_wire_post( $group_id, $wire_post_id ) {
 	
 	$poster_name = bp_fetch_user_fullname( $wire_post->user_id, false );
 	$poster_ud = get_userdata( $wire_post->user_id );
-	$poster_profile_link = site_url() . '/' . MEMBERS_SLUG . '/' . $poster_ud->user_login;
+	$poster_profile_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $poster_ud->user_login;
 
 	$subject = '[' . get_blog_option( 1, 'blogname' ) . '] ' . sprintf( __( 'New wire post on group: %s', 'buddypress' ), stripslashes($group->name) );
 
@@ -25,7 +25,7 @@ function groups_notification_new_wire_post( $group_id, $wire_post_id ) {
 
 		$wire_link = site_url() . '/' . $bp->groups->slug . '/' . $group->slug . '/wire';
 		$group_link = site_url() . '/' . $bp->groups->slug . '/' . $group->slug;
-		$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
+		$settings_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
 
 		$message = sprintf( __( 
 '%s posted on the wire of the group "%s":
@@ -67,7 +67,7 @@ function groups_notification_group_updated( $group_id ) {
 		$to = $ud->user_email;
 
 		$group_link = site_url() . '/' . $bp->groups->slug . '/' . $group->slug;
-		$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
+		$settings_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
 
 		$message = sprintf( __( 
 'Group details for the group "%s" were updated:
@@ -102,8 +102,8 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 
 	$group_request_accept = wp_nonce_url( bp_group_permalink( $group, false ) . '/admin/membership-requests/accept/' . $membership_id, 'groups_accept_membership_request' );
 	$group_request_reject = wp_nonce_url( bp_group_permalink( $group, false ) . '/admin/membership-requests/reject/' . $membership_id, 'groups_reject_membership_request' );
-	$profile_link = site_url() . '/' . MEMBERS_SLUG . '/' . $requesting_ud->user_login . '/profile';
-	$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
+	$profile_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $requesting_ud->user_login . '/profile';
+	$settings_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
 
 	// Set up and send the message
 	$to = $ud->user_email;
@@ -146,7 +146,7 @@ function groups_notification_membership_request_completed( $requesting_user_id, 
 	$ud = get_userdata($requesting_user_id);
 
 	$group_link = bp_group_permalink( $group, false );
-	$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
+	$settings_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
 
 	// Set up and send the message
 	$to = $ud->user_email;
@@ -199,7 +199,7 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 	$ud = get_userdata($user_id);
 
 	$group_link = bp_group_permalink( $group, false );
-	$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
+	$settings_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
 
 	// Set up and send the message
 	$to = $ud->user_email;
@@ -226,7 +226,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 	
 	$inviter_ud = get_userdata($inviter_user_id);
 	$inviter_name = bp_core_get_userlink( $inviter_user_id, true, false, true );
-	$inviter_link = site_url() . '/' . MEMBERS_SLUG . '/' . $inviter_ud->user_login;
+	$inviter_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $inviter_ud->user_login;
 	
 	$group_link = bp_group_permalink( $group, false );
 	
@@ -239,8 +239,8 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 		if ( 'no' == get_usermeta( $invited_user_id, 'notification_groups_invite' ) ) continue;
 
 		$invited_ud = get_userdata($invited_user_id);
-		$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $invited_ud->user_login . '/settings/notifications';
-		$invited_link = site_url() . '/' . MEMBERS_SLUG . '/' . $invited_ud->user_login;
+		$settings_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $invited_ud->user_login . '/settings/notifications';
+		$invited_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $invited_ud->user_login;
 		$invites_link = $invited_link . '/' . $bp->groups->slug . '/invites';
 
 		// Set up and send the message

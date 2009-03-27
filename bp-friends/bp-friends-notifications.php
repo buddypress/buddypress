@@ -11,10 +11,10 @@ function friends_notification_new_request( $friendship_id, $initiator_id, $frien
 	$ud = get_userdata( $friend_id );
 	$initiator_ud = get_userdata( $initiator_id );
 	
-	$all_requests_link = site_url( MEMBERS_SLUG . '/' . $ud->user_login . '/friends/requests/' );
-	$settings_link = site_url( MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications' );
+	$all_requests_link = site_url( BP_MEMBERS_SLUG . '/' . $ud->user_login . '/friends/requests/' );
+	$settings_link = site_url( BP_MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications' );
 	
-	$initiator_link = site_url( MEMBERS_SLUG . '/' . $initiator_ud->user_login . '/profile' );
+	$initiator_link = site_url( BP_MEMBERS_SLUG . '/' . $initiator_ud->user_login . '/profile' );
 
 	// Set up and send the message
 	$to = $ud->user_email;
@@ -50,8 +50,8 @@ function friends_notification_accepted_request( $friendship_id, $initiator_id, $
 	$ud = get_userdata( $initiator_id );
 	$friend_ud = get_userdata( $friend_id );
 	
-	$friend_link = site_url() . '/' . MEMBERS_SLUG . '/' . $friend_ud->user_login;
-	$settings_link = site_url() . '/' . MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
+	$friend_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $friend_ud->user_login;
+	$settings_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
 		
 	// Set up and send the message
 	$to = $ud->user_email;

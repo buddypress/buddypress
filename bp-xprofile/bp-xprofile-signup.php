@@ -335,7 +335,7 @@ function xprofile_catch_activate_crop() {
 		}
 		
 		$ud = get_userdata($user_id);
-		$url = site_url( MEMBERS_SLUG . '/' . $ud->user_login );
+		$url = site_url( BP_MEMBERS_SLUG . '/' . $ud->user_login );
 		
 		bp_core_redirect( $url );
 	}

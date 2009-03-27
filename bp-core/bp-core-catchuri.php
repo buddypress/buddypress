@@ -93,7 +93,7 @@ function bp_core_set_uri_globals() {
 	$bp_unfiltered_uri = $bp_uri;
 	
 	/* Catch a member page and set the current member ID */
-	if ( $bp_uri[0] == MEMBERS_SLUG || in_array( 'bp-core-ajax-handler.php', $bp_uri ) ) {
+	if ( $bp_uri[0] == BP_MEMBERS_SLUG || in_array( 'bp-core-ajax-handler.php', $bp_uri ) ) {
 		$is_member_page = true;
 		$is_root_component = true;
 		
@@ -231,7 +231,7 @@ function bp_core_catch_no_access() {
 		return false;
 		
 	// If this user does not exist, redirect to the root domain.
-	if ( !$bp->displayed_user->id && $bp_unfiltered_uri[0] == MEMBERS_SLUG && isset($bp_unfiltered_uri[1]) )
+	if ( !$bp->displayed_user->id && $bp_unfiltered_uri[0] == BP_MEMBERS_SLUG && isset($bp_unfiltered_uri[1]) )
 		bp_core_redirect( $bp->root_domain );
 
 	if ( !$bp_path && !bp_is_blog_page() ) {

@@ -1140,7 +1140,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_link = bp_group_permalink( $group, false )  . '/?new';
 			
 			if ( (int)$total_items > 1 ) {
-				return apply_filters( 'bp_groups_multiple_membership_request_rejected_notification', '<a href="' . site_url() . '/' . MEMBERS_SLUG . '/' . $bp->groups->slug . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('%d rejected group membership requests', 'buddypress' ), (int)$total_items, $group->name ) . '</a>', $total_items, $group->name );		
+				return apply_filters( 'bp_groups_multiple_membership_request_rejected_notification', '<a href="' . site_url() . '/' . BP_MEMBERS_SLUG . '/' . $bp->groups->slug . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('%d rejected group membership requests', 'buddypress' ), (int)$total_items, $group->name ) . '</a>', $total_items, $group->name );		
 			} else {
 				return apply_filters( 'bp_groups_single_membership_request_rejected_notification', '<a href="' . $group_link . '">' . sprintf( __('Membership for group "%s" rejected'), $group->name ) . '</a>', $group_link, $group->name );
 			}	

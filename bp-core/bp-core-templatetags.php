@@ -443,7 +443,7 @@ function bp_get_plugin_sidebar() {
 function bp_is_blog_page() {
 	global $bp, $is_member_page;
 	
-	if ( $bp->current_component == HOME_BLOG_SLUG )
+	if ( $bp->current_component == BP_HOME_BLOG_SLUG )
 		return true;
 
 	if ( !$is_member_page && !in_array( $bp->current_component, $bp->root_components ) )
@@ -497,7 +497,7 @@ function bp_is_page($page) {
 	if ( $bp->displayed_user->id || $bp->is_single_item )
 		return false;
 	
-	if ( $page == $bp->current_component || ( is_home() && $page == 'home' && $bp->current_component == $bp->default_component ) || ( $page == MEMBERS_SLUG && !$bp->current_component ) )
+	if ( $page == $bp->current_component || ( is_home() && $page == 'home' && $bp->current_component == $bp->default_component ) || ( $page == BP_MEMBERS_SLUG && !$bp->current_component ) )
 		return true;
 	
 	return false;
@@ -515,9 +515,9 @@ function bp_signup_page( $echo = true ) {
 	
 	if ( bp_has_custom_signup_page() ) {
 		if ( $echo )
-			echo $bp->root_domain . '/' . REGISTER_SLUG;
+			echo $bp->root_domain . '/' . BP_REGISTER_SLUG;
 		else
-			return $bp->root_domain . '/' . REGISTER_SLUG;
+			return $bp->root_domain . '/' . BP_REGISTER_SLUG;
 	} else {
 		if ( $echo )
 			echo $bp->root_domain . '/wp-signup.php';
@@ -538,9 +538,9 @@ function bp_activation_page( $echo = true ) {
 	
 	if ( bp_has_custom_activation_page() ) {
 		if ( $echo )
-			echo $bp->root_domain . '/' . ACTIVATION_SLUG;
+			echo $bp->root_domain . '/' . BP_ACTIVATION_SLUG;
 		else
-			return $bp->root_domain . '/' . ACTIVATION_SLUG;
+			return $bp->root_domain . '/' . BP_ACTIVATION_SLUG;
 	} else {
 		if ( $echo )
 			echo $bp->root_domain . '/wp-activate.php';
@@ -652,8 +652,8 @@ function bp_nav_items() {
 	// This is deprecated, you should put these navigation items in your template header.php for easy editing.
 ?>
 	<li<?php if ( bp_is_page( 'home' ) ) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a></li>
-	<li<?php if ( bp_is_page( HOME_BLOG_SLUG ) ) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/<?php echo HOME_BLOG_SLUG ?>" title="<?php _e( 'Blog', 'buddypress' ) ?>"><?php _e( 'Blog', 'buddypress' ) ?></a></li>
-	<li<?php if ( bp_is_page( MEMBERS_SLUG ) ) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/<?php echo MEMBERS_SLUG ?>" title="<?php _e( 'Members', 'buddypress' ) ?>"><?php _e( 'Members', 'buddypress' ) ?></a></li>
+	<li<?php if ( bp_is_page( BP_HOME_BLOG_SLUG ) ) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/<?php echo BP_HOME_BLOG_SLUG ?>" title="<?php _e( 'Blog', 'buddypress' ) ?>"><?php _e( 'Blog', 'buddypress' ) ?></a></li>
+	<li<?php if ( bp_is_page( BP_MEMBERS_SLUG ) ) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/<?php echo BP_MEMBERS_SLUG ?>" title="<?php _e( 'Members', 'buddypress' ) ?>"><?php _e( 'Members', 'buddypress' ) ?></a></li>
 	
 	<?php if ( function_exists( 'groups_install' ) ) { ?>
 		<li<?php if ( bp_is_page( $bp->groups->slug ) ) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/<?php echo $bp->groups->slug ?>" title="<?php _e( 'Groups', 'buddypress' ) ?>"><?php _e( 'Groups', 'buddypress' ) ?></a></li>
@@ -947,7 +947,7 @@ function bp_the_site_member_hidden_fields() {
 
 function bp_directory_members_search_form() {
 	global $bp; ?>
-	<form action="<?php echo $bp->root_domain . '/' . MEMBERS_SLUG  . '/search/' ?>" method="post" id="search-members-form">
+	<form action="<?php echo $bp->root_domain . '/' . BP_MEMBERS_SLUG  . '/search/' ?>" method="post" id="search-members-form">
 		<label><input type="text" name="members_search" id="members_search" value="<?php if ( isset( $_GET['s'] ) ) { echo attribute_escape( $_GET['s'] ); } else { _e( 'Search anything...', 'buddypress' ); } ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
 		<input type="submit" id="members_search_submit" name="members_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
 	</form>

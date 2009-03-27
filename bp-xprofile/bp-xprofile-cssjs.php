@@ -36,7 +36,7 @@ add_action( 'admin_head', 'xprofile_add_admin_js' );
 function xprofile_add_cropper_js() {
 	global $bp;
 
-	if ( $_SERVER['SCRIPT_NAME'] == '/wp-activate.php' || $bp->current_component == ACTIVATION_SLUG || $bp->current_action == 'change-avatar' ) {
+	if ( $_SERVER['SCRIPT_NAME'] == '/wp-activate.php' || $bp->current_component == BP_ACTIVATION_SLUG || $bp->current_action == 'change-avatar' ) {
 		//wp_enqueue_script('jquery');
 		//wp_enqueue_script('prototype');
 		wp_enqueue_script('scriptaculous-root');
