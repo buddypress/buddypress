@@ -236,7 +236,8 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 		// Post a screen notification first.
 		bp_core_add_notification( $group->id, $invited_user_id, 'groups', 'group_invite' );
 
-		if ( 'no' == get_usermeta( $invited_user_id, 'notification_groups_invite' ) ) continue;
+		if ( 'no' == get_usermeta( $invited_user_id, 'notification_groups_invite' ) )
+			return false;
 
 		$invited_ud = get_userdata($invited_user_id);
 		$settings_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $invited_ud->user_login . '/settings/notifications';
