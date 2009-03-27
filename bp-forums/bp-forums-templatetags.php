@@ -238,8 +238,8 @@ function bp_the_topic_time_since_created() {
 function bp_the_topic_latest_post_excerpt() {
 	global $forum_template;
 	
-	$posts = bp_forums_get_posts( $forum_template->topic->topic_id );
-	echo apply_filters( 'bp_the_topic_latest_post_excerpt', $posts[count($posts) - 1]['post_text'] );
+	$post = bp_forums_get_post( $forum_template->topic->topic_last_post_id );
+	echo apply_filters( 'bp_the_topic_latest_post_excerpt', $post->post_text );
 }
 
 function bp_the_topic_time_since_last_post( $echo = false ) {
