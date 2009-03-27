@@ -46,11 +46,11 @@ register_sidebars( 1,
 function bp_show_home_blog() {
 	global $bp, $query_string;
 	
-	if ( $bp->current_component == HOME_BLOG_SLUG  ) {
-		$pos = strpos( $query_string, 'pagename=' . HOME_BLOG_SLUG );
+	if ( $bp->current_component == BP_HOME_BLOG_SLUG  ) {
+		$pos = strpos( $query_string, 'pagename=' . BP_HOME_BLOG_SLUG );
 		
 		if ( $pos !== false )
-			$query_string = preg_replace( '/pagename=' . HOME_BLOG_SLUG . '/', '', $query_string );
+			$query_string = preg_replace( '/pagename=' . BP_HOME_BLOG_SLUG . '/', '', $query_string );
 
 		query_posts($query_string);
 		
@@ -69,7 +69,7 @@ function bp_show_register_page() {
 	
 	require ( WPMU_PLUGIN_DIR . '/bp-core/bp-core-signup.php' );
 	
-	if ( $bp->current_component == REGISTER_SLUG && $bp->current_action == '' ) {
+	if ( $bp->current_component == BP_REGISTER_SLUG && $bp->current_action == '' ) {
 		bp_core_signup_set_headers();
 		bp_core_load_template( 'register', true );
 	}
@@ -81,7 +81,7 @@ function bp_show_activation_page() {
 
 	require ( WPMU_PLUGIN_DIR . '/bp-core/bp-core-activation.php' );
 	
-	if ( $bp->current_component == ACTIVATION_SLUG && $bp->current_action == '' ) {
+	if ( $bp->current_component == BP_ACTIVATION_SLUG && $bp->current_action == '' ) {
 		bp_core_activation_set_headers();
 		bp_core_load_template( 'activate', true );
 	}
