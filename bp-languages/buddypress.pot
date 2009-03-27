@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-03-26 14:11+0000\n"
+"POT-Creation-Date: 2009-03-27 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,26 +16,26 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: bp-activity.php:192 bp-activity/feeds/bp-activity-personal-feed.php:21
+#: bp-activity.php:158 bp-activity/feeds/bp-activity-personal-feed.php:21
 msgid "Activity"
 msgstr ""
 
-#: bp-activity.php:198
+#: bp-activity.php:164
 msgid "Just Me"
 msgstr ""
 
-#: bp-activity.php:199 bp-friends.php:106 bp-friends.php:111
-#: bp-friends.php:268 bp-friends/bp-friends-templatetags.php:351
+#: bp-activity.php:165 bp-friends.php:108 bp-friends.php:113
+#: bp-friends.php:270 bp-friends/bp-friends-templatetags.php:351
 #: bp-themes/buddypress-member/friends/index.php:10
 msgid "My Friends"
 msgstr ""
 
-#: bp-activity.php:203 bp-themes/buddypress-member/activity/just-me.php:30
+#: bp-activity.php:169 bp-themes/buddypress-member/activity/just-me.php:30
 #: bp-themes/buddypress-member/profile/index.php:37
 msgid "My Activity"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:193
+#: bp-activity/bp-activity-templatetags.php:202
 #, php-format
 msgid "&nbsp; %s ago"
 msgstr ""
@@ -81,42 +81,42 @@ msgstr ""
 msgid "Site Wide Activity Feed"
 msgstr ""
 
-#: bp-blogs.php:171 bp-core/bp-core-templatetags.php:571
+#: bp-blogs.php:177 bp-core/bp-core-templatetags.php:571
 #: bp-core/bp-core-templatetags.php:663
 #: bp-themes/buddypress-home/header.php:55
 #: bp-themes/buddypress-member/header.php:49
 msgid "Blogs"
 msgstr ""
 
-#: bp-blogs.php:179 bp-blogs.php:188 bp-core/bp-core-adminbar.php:136
+#: bp-blogs.php:185 bp-blogs.php:194 bp-core/bp-core-adminbar.php:136
 #: bp-themes/buddypress-member/blogs/my-blogs.php:8
 msgid "My Blogs"
 msgstr ""
 
-#: bp-blogs.php:180 bp-themes/buddypress-member/blogs/recent-posts.php:8
+#: bp-blogs.php:186 bp-themes/buddypress-member/blogs/recent-posts.php:8
 msgid "Recent Posts"
 msgstr ""
 
-#: bp-blogs.php:181 bp-themes/buddypress-member/blogs/recent-comments.php:8
+#: bp-blogs.php:187 bp-themes/buddypress-member/blogs/recent-comments.php:8
 msgid "Recent Comments"
 msgstr ""
 
-#: bp-blogs.php:182 bp-blogs/bp-blogs-templatetags.php:171
+#: bp-blogs.php:188 bp-blogs/bp-blogs-templatetags.php:171
 #: bp-themes/buddypress-member/blogs/create.php:8
 msgid "Create a Blog"
 msgstr ""
 
-#: bp-blogs.php:287
+#: bp-blogs.php:293
 #, php-format
 msgid "%s created a new blog: %s"
 msgstr ""
 
-#: bp-blogs.php:304
+#: bp-blogs.php:310
 #, php-format
 msgid "%s wrote a new blog post: %s"
 msgstr ""
 
-#: bp-blogs.php:332
+#: bp-blogs.php:338
 #, php-format
 msgid "%s commented on the blog post %s"
 msgstr ""
@@ -184,17 +184,17 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:104 bp-core/bp-core-admin.php:55
 #: bp-core/bp-core-admin.php:63 bp-core/bp-core-signup.php:76
-#: bp-friends.php:172 bp-groups.php:890 bp-messages.php:261
+#: bp-friends.php:174 bp-groups.php:892 bp-messages.php:263
 #: bp-themes/buddypress-member/groups/admin/edit-details.php:31
-#: bp-xprofile.php:309 bp-xprofile/bp-xprofile-admin.php:85
+#: bp-xprofile.php:311 bp-xprofile/bp-xprofile-admin.php:85
 msgid "Yes"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:108 bp-core/bp-core-admin.php:56
 #: bp-core/bp-core-admin.php:64 bp-core/bp-core-signup.php:80
-#: bp-friends.php:173 bp-groups.php:891 bp-messages.php:262
+#: bp-friends.php:175 bp-groups.php:893 bp-messages.php:264
 #: bp-themes/buddypress-member/groups/admin/edit-details.php:32
-#: bp-xprofile.php:310
+#: bp-xprofile.php:312
 msgid "No"
 msgstr ""
 
@@ -240,7 +240,7 @@ msgid "Viewing blog %d to %d (of %d blogs)"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1007
-#: bp-core/bp-core-templatetags.php:868 bp-core/bp-core-widgets.php:102
+#: bp-core/bp-core-templatetags.php:872 bp-core/bp-core-widgets.php:102
 #: bp-forums/bp-forums-templatetags.php:268
 #: bp-forums/bp-forums-templatetags.php:443
 #: bp-friends/bp-friends-templatetags.php:257
@@ -272,13 +272,13 @@ msgid "Latest Post: %s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1088
-#: bp-core/bp-core-templatetags.php:947
+#: bp-core/bp-core-templatetags.php:951
 #: bp-groups/bp-groups-templatetags.php:1932
 msgid "Search anything..."
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1089
-#: bp-core/bp-core-templatetags.php:585 bp-core/bp-core-templatetags.php:948
+#: bp-core/bp-core-templatetags.php:585 bp-core/bp-core-templatetags.php:952
 #: bp-groups/bp-groups-templatetags.php:1933
 #: bp-themes/buddypress-home/searchform.php:3
 msgid "Search"
@@ -305,85 +305,90 @@ msgstr ""
 msgid "Max Number of Posts:"
 msgstr ""
 
-#: bp-core.php:253 bp-core/bp-core-adminbar.php:29
+#: bp-core.php:271 bp-core/bp-core-adminbar.php:29
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core.php:291 bp-xprofile.php:211 bp-xprofile.php:308
+#: bp-core.php:309 bp-xprofile.php:213 bp-xprofile.php:310
 msgid "Profile"
 msgstr ""
 
-#: bp-core.php:297 bp-groups/bp-groups-templatetags.php:797
-#: bp-xprofile.php:217
+#: bp-core.php:315 bp-groups/bp-groups-templatetags.php:797
+#: bp-xprofile.php:219
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:301 bp-core/bp-core-templatetags.php:309 bp-xprofile.php:223
+#: bp-core.php:319 bp-core/bp-core-templatetags.php:309 bp-xprofile.php:225
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:832 bp-core/bp-core-templatetags.php:382
+#: bp-core.php:679 bp-wire/bp-wire-templatetags.php:281
+#: bp-wire/bp-wire-templatetags.php:283
+msgid "You"
+msgstr ""
+
+#: bp-core.php:850 bp-core/bp-core-templatetags.php:382
 #: bp-themes/buddypress-home/comments.php:42
 msgid "at"
 msgstr ""
 
-#: bp-core.php:957
+#: bp-core.php:975
 msgid "year"
 msgstr ""
 
-#: bp-core.php:957
+#: bp-core.php:975
 msgid "years"
 msgstr ""
 
-#: bp-core.php:958
+#: bp-core.php:976
 msgid "month"
 msgstr ""
 
-#: bp-core.php:958
+#: bp-core.php:976
 msgid "months"
 msgstr ""
 
-#: bp-core.php:959
+#: bp-core.php:977
 msgid "week"
 msgstr ""
 
-#: bp-core.php:959
+#: bp-core.php:977
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:960
+#: bp-core.php:978
 msgid "day"
 msgstr ""
 
-#: bp-core.php:960
+#: bp-core.php:978
 msgid "days"
 msgstr ""
 
-#: bp-core.php:961
+#: bp-core.php:979
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:961
+#: bp-core.php:979
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:962
+#: bp-core.php:980
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:962
+#: bp-core.php:980
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:963
+#: bp-core.php:981
 msgid "second"
 msgstr ""
 
-#: bp-core.php:963 bp-core.php:1006
+#: bp-core.php:981 bp-core.php:1024
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1049
+#: bp-core.php:1067
 msgid "not recently active"
 msgstr ""
 
@@ -542,7 +547,7 @@ msgid "Log Out"
 msgstr ""
 
 #: bp-core/bp-core-adminbar.php:102 bp-core/bp-core-adminbar.php:115
-#: bp-groups.php:273
+#: bp-groups.php:275
 msgid "Admin"
 msgstr ""
 
@@ -654,7 +659,7 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:121 bp-groups.php:1313
+#: bp-core/bp-core-avatars.php:121 bp-groups.php:1315
 #: bp-xprofile/bp-xprofile-signup.php:156
 msgid "There is no error, the file uploaded with success"
 msgstr ""
@@ -665,16 +670,16 @@ msgstr ""
 msgid "Your image was bigger than the maximum allowed file size of: "
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:124 bp-groups.php:1316
+#: bp-core/bp-core-avatars.php:124 bp-groups.php:1318
 #: bp-xprofile/bp-xprofile-signup.php:159
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:125 bp-groups.php:1317
+#: bp-core/bp-core-avatars.php:125 bp-groups.php:1319
 msgid "No file was uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:126 bp-groups.php:1318
+#: bp-core/bp-core-avatars.php:126 bp-groups.php:1320
 #: bp-xprofile/bp-xprofile-signup.php:160
 msgid "Missing a temporary folder"
 msgstr ""
@@ -689,7 +694,7 @@ msgstr ""
 msgid "The file you uploaded is too big. Please upload a file under %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:136 bp-groups.php:1334
+#: bp-core/bp-core-avatars.php:136 bp-groups.php:1336
 #: bp-xprofile/bp-xprofile-signup.php:179
 msgid "Please upload only JPG, GIF or PNG photos."
 msgstr ""
@@ -1096,7 +1101,7 @@ msgid "Yahoo Messenger"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:461 bp-core/bp-core-templatetags.php:654
-#: bp-groups.php:269 bp-themes/buddypress-home/header.php:43
+#: bp-groups.php:271 bp-themes/buddypress-home/header.php:43
 #: bp-themes/buddypress-home/header.php:46
 #: bp-themes/buddypress-member/header.php:37
 #: bp-themes/buddypress-member/header.php:40
@@ -1138,7 +1143,7 @@ msgstr ""
 
 #: bp-core/bp-core-templatetags.php:563 bp-core/bp-core-templatetags.php:656
 #: bp-core/bp-core-widgets.php:12 bp-core/bp-core-widgets.php:13
-#: bp-groups.php:289 bp-groups/bp-groups-admin.php:97
+#: bp-groups.php:291 bp-groups/bp-groups-admin.php:97
 #: bp-themes/buddypress-home/header.php:48
 #: bp-themes/buddypress-member/groups/admin/manage-members.php:30
 #: bp-themes/buddypress-member/header.php:42
@@ -1146,8 +1151,8 @@ msgid "Members"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:567 bp-core/bp-core-templatetags.php:659
-#: bp-groups.php:179 bp-groups.php:217 bp-groups.php:889 bp-groups.php:1128
-#: bp-groups.php:1141 bp-groups.php:1155 bp-groups.php:1168
+#: bp-groups.php:181 bp-groups.php:219 bp-groups.php:891 bp-groups.php:1130
+#: bp-groups.php:1143 bp-groups.php:1157 bp-groups.php:1170
 #: bp-groups/bp-groups-admin.php:33 bp-groups/bp-groups-widgets.php:8
 #: bp-groups/bp-groups-widgets.php:9 bp-themes/buddypress-home/header.php:51
 #: bp-themes/buddypress-member/header.php:45
@@ -1164,17 +1169,17 @@ msgstr ""
 msgid "Remember Me"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:867
+#: bp-core/bp-core-templatetags.php:871
 #, php-format
 msgid "Viewing member %d to %d (of %d members)"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:915
+#: bp-core/bp-core-templatetags.php:919
 #, php-format
 msgid "%d friend"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:917
+#: bp-core/bp-core-templatetags.php:921
 #, php-format
 msgid "%d friends"
 msgstr ""
@@ -1314,8 +1319,8 @@ msgstr ""
 msgid "bbPress Forum list"
 msgstr ""
 
-#: bp-forums/bp-forums-bbpress-live.php:89 bp-groups.php:280
-#: bp-groups.php:1596 bp-themes/buddypress-member/groups/forum/index.php:25
+#: bp-forums/bp-forums-bbpress-live.php:89 bp-groups.php:282
+#: bp-groups.php:1598 bp-themes/buddypress-member/groups/forum/index.php:25
 #: bp-themes/buddypress-member/groups/forum/topic.php:28
 #: bp-themes/buddypress-member/groups/forum/topic.php:40
 msgid "Forum"
@@ -1408,63 +1413,63 @@ msgstr ""
 msgid "Viewing post %d to %d (%d total posts)"
 msgstr ""
 
-#: bp-friends.php:100 bp-friends.php:171
+#: bp-friends.php:102 bp-friends.php:173
 msgid "Friends"
 msgstr ""
 
-#: bp-friends.php:107
+#: bp-friends.php:109
 msgid "Requests"
 msgstr ""
 
-#: bp-friends.php:140
+#: bp-friends.php:142
 msgid "Friendship accepted"
 msgstr ""
 
-#: bp-friends.php:142
+#: bp-friends.php:144
 msgid "Friendship could not be accepted"
 msgstr ""
 
-#: bp-friends.php:149
+#: bp-friends.php:151
 msgid "Friendship rejected"
 msgstr ""
 
-#: bp-friends.php:151
+#: bp-friends.php:153
 msgid "Friendship could not be rejected"
 msgstr ""
 
-#: bp-friends.php:177
+#: bp-friends.php:179
 msgid "A member sends you a friendship request"
 msgstr ""
 
-#: bp-friends.php:183
+#: bp-friends.php:185
 msgid "A member accepts your friendship request"
 msgstr ""
 
-#: bp-friends.php:242 bp-friends.php:251
+#: bp-friends.php:244 bp-friends.php:253
 #, php-format
 msgid "%s and %s are now friends"
 msgstr ""
 
-#: bp-friends.php:268
+#: bp-friends.php:270
 #, php-format
 msgid "%d friends accepted your friendship requests"
 msgstr ""
 
-#: bp-friends.php:272 bp-friends/bp-friends-notifications.php:58
+#: bp-friends.php:274 bp-friends/bp-friends-notifications.php:58
 #, php-format
 msgid "%s accepted your friendship request"
 msgstr ""
 
-#: bp-friends.php:278 bp-friends.php:282
+#: bp-friends.php:280 bp-friends.php:284
 msgid "Friendship requests"
 msgstr ""
 
-#: bp-friends.php:278
+#: bp-friends.php:280
 #, php-format
 msgid "You have %d pending friendship requests"
 msgstr ""
 
-#: bp-friends.php:282
+#: bp-friends.php:284
 #, php-format
 msgid "You have a friendship request from %s"
 msgstr ""
@@ -1515,7 +1520,7 @@ msgstr ""
 #: bp-groups/bp-groups-notifications.php:126
 #: bp-groups/bp-groups-notifications.php:175
 #: bp-groups/bp-groups-notifications.php:217
-#: bp-groups/bp-groups-notifications.php:263
+#: bp-groups/bp-groups-notifications.php:264
 #: bp-messages/bp-messages-notifications.php:32
 #: bp-xprofile/bp-xprofile-notifications.php:49
 #, php-format
@@ -1584,352 +1589,352 @@ msgstr ""
 msgid "There aren't enough site members to show a random sample just yet."
 msgstr ""
 
-#: bp-groups.php:225 bp-groups.php:233
+#: bp-groups.php:227 bp-groups.php:235
 #: bp-groups/bp-groups-templatetags.php:353
 #: bp-themes/buddypress-member/groups/index.php:10
 msgid "My Groups"
 msgstr ""
 
-#: bp-groups.php:226 bp-themes/buddypress-member/groups/create.php:10
+#: bp-groups.php:228 bp-themes/buddypress-member/groups/create.php:10
 msgid "Create a Group"
 msgstr ""
 
-#: bp-groups.php:227
+#: bp-groups.php:229
 msgid "Invites"
 msgstr ""
 
-#: bp-groups.php:277 bp-groups/bp-groups-ajax.php:264
+#: bp-groups.php:279 bp-groups/bp-groups-ajax.php:264
 #: bp-groups/bp-groups-templatetags.php:1454
 #: bp-themes/buddypress-member/groups/request-membership.php:22
 msgid "Request Membership"
 msgstr ""
 
-#: bp-groups.php:283 bp-wire.php:57 bp-wire/bp-wire-templatetags.php:136
-#: bp-xprofile.php:587 bp-xprofile.php:590
+#: bp-groups.php:285 bp-wire.php:59 bp-wire/bp-wire-templatetags.php:136
+#: bp-xprofile.php:589 bp-xprofile.php:592
 msgid "Wire"
 msgstr ""
 
-#: bp-groups.php:286
+#: bp-groups.php:288
 msgid "Photos"
 msgstr ""
 
-#: bp-groups.php:293 bp-themes/buddypress-member/groups/send-invite.php:15
+#: bp-groups.php:295 bp-themes/buddypress-member/groups/send-invite.php:15
 #: bp-themes/buddypress-member/groups/send-invite.php:24
 msgid "Send Invites"
 msgstr ""
 
-#: bp-groups.php:295 bp-groups/bp-groups-ajax.php:240
+#: bp-groups.php:297 bp-groups/bp-groups-ajax.php:240
 #: bp-groups/bp-groups-templatetags.php:1444
 #: bp-groups/bp-groups-templatetags.php:1451
 msgid "Leave Group"
 msgstr ""
 
-#: bp-groups.php:336
+#: bp-groups.php:338
 msgid "Group invite could not be accepted"
 msgstr ""
 
-#: bp-groups.php:338
+#: bp-groups.php:340
 msgid "Group invite accepted"
 msgstr ""
 
-#: bp-groups.php:349
+#: bp-groups.php:351
 msgid "Group invite could not be rejected"
 msgstr ""
 
-#: bp-groups.php:351
+#: bp-groups.php:353
 msgid "Group invite rejected"
 msgstr ""
 
-#: bp-groups.php:391
+#: bp-groups.php:393
 msgid "There was an error saving group details. Please try again."
 msgstr ""
 
-#: bp-groups.php:474
+#: bp-groups.php:476
 msgid "Wire message could not be posted."
 msgstr ""
 
-#: bp-groups.php:476 bp-xprofile.php:385
+#: bp-groups.php:478 bp-xprofile.php:387
 msgid "Wire message successfully posted."
 msgstr ""
 
-#: bp-groups.php:489
+#: bp-groups.php:491
 msgid "There was an error deleting the wire message."
 msgstr ""
 
-#: bp-groups.php:491 bp-xprofile.php:430
+#: bp-groups.php:493 bp-xprofile.php:432
 msgid "Wire message successfully deleted."
 msgstr ""
 
-#: bp-groups.php:538
+#: bp-groups.php:540
 msgid "Group invites sent."
 msgstr ""
 
-#: bp-groups.php:559
+#: bp-groups.php:561
 msgid "As the only group administrator, you cannot leave this group."
 msgstr ""
 
-#: bp-groups.php:565
+#: bp-groups.php:567
 msgid "There was an error leaving the group. Please try again."
 msgstr ""
 
-#: bp-groups.php:568
+#: bp-groups.php:570
 msgid "You left the group successfully."
 msgstr ""
 
-#: bp-groups.php:597
+#: bp-groups.php:599
 msgid ""
 "There was an error sending your group membership request, please try again."
 msgstr ""
 
-#: bp-groups.php:599
+#: bp-groups.php:601
 msgid ""
 "Your membership request was sent to the group administrator successfully. "
 "You will be notified when the group administrator responds to your request."
 msgstr ""
 
-#: bp-groups.php:632
+#: bp-groups.php:634
 msgid "There was an error updating group details, please try again."
 msgstr ""
 
-#: bp-groups.php:634
+#: bp-groups.php:636
 msgid "Group details were successfully updated."
 msgstr ""
 
-#: bp-groups.php:669
+#: bp-groups.php:671
 msgid "There was an error updating group settings, please try again."
 msgstr ""
 
-#: bp-groups.php:671
+#: bp-groups.php:673
 msgid "Group settings were successfully updated."
 msgstr ""
 
-#: bp-groups.php:714
+#: bp-groups.php:716
 msgid "There was an error updating the group avatar, please try again."
 msgstr ""
 
-#: bp-groups.php:716
+#: bp-groups.php:718
 msgid "The group avatar was successfully updated."
 msgstr ""
 
-#: bp-groups.php:744
+#: bp-groups.php:746
 msgid "There was an error when promoting that user, please try again"
 msgstr ""
 
-#: bp-groups.php:746
+#: bp-groups.php:748
 msgid "User promoted successfully"
 msgstr ""
 
-#: bp-groups.php:759
+#: bp-groups.php:761
 msgid "There was an error when demoting that user, please try again"
 msgstr ""
 
-#: bp-groups.php:761
+#: bp-groups.php:763
 msgid "User demoted successfully"
 msgstr ""
 
-#: bp-groups.php:774
+#: bp-groups.php:776
 msgid "There was an error when banning that user, please try again"
 msgstr ""
 
-#: bp-groups.php:776
+#: bp-groups.php:778
 msgid "User banned successfully"
 msgstr ""
 
-#: bp-groups.php:789
+#: bp-groups.php:791
 msgid "There was an error when unbanning that user, please try again"
 msgstr ""
 
-#: bp-groups.php:791
+#: bp-groups.php:793
 msgid "User ban removed successfully"
 msgstr ""
 
-#: bp-groups.php:826
+#: bp-groups.php:828
 msgid "There was an error accepting the membership request, please try again."
 msgstr ""
 
-#: bp-groups.php:828
+#: bp-groups.php:830
 msgid "Group membership request accepted"
 msgstr ""
 
-#: bp-groups.php:835
+#: bp-groups.php:837
 msgid "There was an error rejecting the membership request, please try again."
 msgstr ""
 
-#: bp-groups.php:837
+#: bp-groups.php:839
 msgid "Group membership request rejected"
 msgstr ""
 
-#: bp-groups.php:865
+#: bp-groups.php:867
 msgid "There was an error deleting the group, please try again."
 msgstr ""
 
-#: bp-groups.php:867
+#: bp-groups.php:869
 msgid "The group was deleted successfully"
 msgstr ""
 
-#: bp-groups.php:895
+#: bp-groups.php:897
 msgid "A member invites you to join a group"
 msgstr ""
 
-#: bp-groups.php:901
+#: bp-groups.php:903
 msgid "Group information is updated"
 msgstr ""
 
-#: bp-groups.php:908
+#: bp-groups.php:910
 msgid "A member posts on the wire of a group you belong to"
 msgstr ""
 
-#: bp-groups.php:915
+#: bp-groups.php:917
 msgid "You are promoted to a group administrator or moderator"
 msgstr ""
 
-#: bp-groups.php:921
+#: bp-groups.php:923
 msgid "A member requests to join a private group for which you are an admin"
 msgstr ""
 
-#: bp-groups.php:945
+#: bp-groups.php:947
 msgid "There was an error joining the group."
 msgstr ""
 
-#: bp-groups.php:947
+#: bp-groups.php:949
 msgid "You joined the group!"
 msgstr ""
 
-#: bp-groups.php:1006
+#: bp-groups.php:1008
 #, php-format
 msgid "%s joined the group %s"
 msgstr ""
 
-#: bp-groups.php:1020
+#: bp-groups.php:1022
 #, php-format
 msgid "%s created the group %s"
 msgstr ""
 
-#: bp-groups.php:1034
+#: bp-groups.php:1036
 #, php-format
 msgid "%s wrote on the wire of the group %s"
 msgstr ""
 
-#: bp-groups.php:1058
+#: bp-groups.php:1060
 #, php-format
 msgid "%s posted on the forum topic %s in the group %s:"
 msgstr ""
 
-#: bp-groups.php:1083
+#: bp-groups.php:1085
 #, php-format
 msgid "%s created the forum topic %s in the group %s:"
 msgstr ""
 
-#: bp-groups.php:1114
+#: bp-groups.php:1116
 msgid "Group Membership Requests"
 msgstr ""
 
-#: bp-groups.php:1114
+#: bp-groups.php:1116
 #, php-format
 msgid "%d new membership requests for the group \"%s\""
 msgstr ""
 
-#: bp-groups.php:1117
+#: bp-groups.php:1119
 #, php-format
 msgid "%s requests membership for the group \"%s\""
 msgstr ""
 
-#: bp-groups.php:1128
+#: bp-groups.php:1130
 #, php-format
 msgid "%d accepted group membership requests"
 msgstr ""
 
-#: bp-groups.php:1130
+#: bp-groups.php:1132
 #, php-format
 msgid "Membership for group \"%s\" accepted"
 msgstr ""
 
-#: bp-groups.php:1141
+#: bp-groups.php:1143
 #, php-format
 msgid "%d rejected group membership requests"
 msgstr ""
 
-#: bp-groups.php:1143
+#: bp-groups.php:1145
 #, php-format
 msgid "Membership for group \"%s\" rejected"
 msgstr ""
 
-#: bp-groups.php:1155
+#: bp-groups.php:1157
 #, php-format
 msgid "You were promoted to an admin in %d groups"
 msgstr ""
 
-#: bp-groups.php:1157
+#: bp-groups.php:1159
 #, php-format
 msgid "You were promoted to an admin in the group %s"
 msgstr ""
 
-#: bp-groups.php:1168
+#: bp-groups.php:1170
 #, php-format
 msgid "You were promoted to a mod in %d groups"
 msgstr ""
 
-#: bp-groups.php:1170
+#: bp-groups.php:1172
 #, php-format
 msgid "You were promoted to a mod in the group %s"
 msgstr ""
 
-#: bp-groups.php:1181 bp-groups.php:1183
+#: bp-groups.php:1183 bp-groups.php:1185
 #: bp-themes/buddypress-member/groups/list-invites.php:12
 msgid "Group Invites"
 msgstr ""
 
-#: bp-groups.php:1181
+#: bp-groups.php:1183
 #, php-format
 msgid "You have %d new group invitations"
 msgstr ""
 
-#: bp-groups.php:1183
+#: bp-groups.php:1185
 #, php-format
 msgid "You have an invitation to the group: %s"
 msgstr ""
 
-#: bp-groups.php:1314
+#: bp-groups.php:1316
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr ""
 
-#: bp-groups.php:1315
+#: bp-groups.php:1317
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
 
-#: bp-groups.php:1323
+#: bp-groups.php:1325
 msgid "Your group avatar upload failed, please try again. Error was: "
 msgstr ""
 
-#: bp-groups.php:1329
+#: bp-groups.php:1331
 msgid "The file you uploaded is too big. Please upload a file under"
 msgstr ""
 
-#: bp-groups.php:1340
+#: bp-groups.php:1342
 msgid ""
 "Upload Failed! Please check the permissions on the group avatar upload "
 "directory."
 msgstr ""
 
-#: bp-groups.php:1434 bp-themes/buddypress-member/groups/group-admin.php:13
+#: bp-groups.php:1436 bp-themes/buddypress-member/groups/group-admin.php:13
 msgid "Group Admin"
 msgstr ""
 
-#: bp-groups.php:1611
+#: bp-groups.php:1613
 msgid "Reply posted successfully!"
 msgstr ""
 
-#: bp-groups.php:1621
+#: bp-groups.php:1623
 msgid "There was an error posting that reply."
 msgstr ""
 
-#: bp-groups.php:1633
+#: bp-groups.php:1635
 msgid "Topic posted successfully!"
 msgstr ""
 
-#: bp-groups.php:1643
+#: bp-groups.php:1645
 msgid "There was an error posting that topic."
 msgstr ""
 
@@ -2180,12 +2185,12 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:249
+#: bp-groups/bp-groups-notifications.php:250
 #, php-format
 msgid "You have an invitation to the group: \"%s\""
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:252
+#: bp-groups/bp-groups-notifications.php:253
 #, php-format
 msgid ""
 "One of your friends %s has invited you to the group: \"%s\".\n"
@@ -2590,130 +2595,130 @@ msgstr ""
 msgid "Maximum number of groups to show:"
 msgstr ""
 
-#: bp-messages.php:155 bp-messages.php:260
+#: bp-messages.php:157 bp-messages.php:262
 msgid "Messages"
 msgstr ""
 
-#: bp-messages.php:161 bp-themes/buddypress-member/messages/index.php:12
+#: bp-messages.php:163 bp-themes/buddypress-member/messages/index.php:12
 msgid "Inbox"
 msgstr ""
 
-#: bp-messages.php:162 bp-themes/buddypress-member/messages/sentbox.php:10
+#: bp-messages.php:164 bp-themes/buddypress-member/messages/sentbox.php:10
 msgid "Sent Messages"
 msgstr ""
 
-#: bp-messages.php:163
+#: bp-messages.php:165
 msgid "Compose"
 msgstr ""
 
-#: bp-messages.php:164
+#: bp-messages.php:166
 msgid "Notices"
 msgstr ""
 
-#: bp-messages.php:168
+#: bp-messages.php:170
 msgid "My Messages"
 msgstr ""
 
-#: bp-messages.php:230
+#: bp-messages.php:232
 msgid "There was a problem deactivating that notice."
 msgstr ""
 
-#: bp-messages.php:232
+#: bp-messages.php:234
 msgid "Notice deactivated."
 msgstr ""
 
-#: bp-messages.php:236
+#: bp-messages.php:238
 msgid "There was a problem activating that notice."
 msgstr ""
 
-#: bp-messages.php:238
+#: bp-messages.php:240
 msgid "Notice activated."
 msgstr ""
 
-#: bp-messages.php:242
+#: bp-messages.php:244
 msgid "There was a problem deleting that notice."
 msgstr ""
 
-#: bp-messages.php:244
+#: bp-messages.php:246
 msgid "Notice deleted."
 msgstr ""
 
-#: bp-messages.php:266
+#: bp-messages.php:268
 msgid "A member sends you a new message"
 msgstr ""
 
-#: bp-messages.php:272
+#: bp-messages.php:274
 msgid "A new site notice is posted"
 msgstr ""
 
-#: bp-messages.php:297
+#: bp-messages.php:299
 #, php-format
 msgid "From: %s"
 msgstr ""
 
-#: bp-messages.php:321
+#: bp-messages.php:323
 msgid "There was an error deleting that message."
 msgstr ""
 
-#: bp-messages.php:323
+#: bp-messages.php:325
 msgid "Message deleted."
 msgstr ""
 
-#: bp-messages.php:343
+#: bp-messages.php:345
 msgid "There was an error deleting messages."
 msgstr ""
 
-#: bp-messages.php:345 bp-messages/bp-messages-ajax.php:71
+#: bp-messages.php:347 bp-messages/bp-messages-ajax.php:71
 msgid "Messages deleted."
-msgstr ""
-
-#: bp-messages.php:379
-#, php-format
-msgid "You have %d new messages"
 msgstr ""
 
 #: bp-messages.php:381
 #, php-format
+msgid "You have %d new messages"
+msgstr ""
+
+#: bp-messages.php:383
+#, php-format
 msgid "You have %d new message"
 msgstr ""
 
-#: bp-messages.php:408
+#: bp-messages.php:410
 msgid "Notice posted successfully."
 msgstr ""
 
-#: bp-messages.php:410
+#: bp-messages.php:412
 msgid "There was an error posting that notice."
 msgstr ""
 
-#: bp-messages.php:421
+#: bp-messages.php:423
 msgid "Please enter at least one valid user to send this message to."
 msgstr ""
 
-#: bp-messages.php:424
+#: bp-messages.php:426
 msgid "There was an error sending the reply, please try again."
 msgstr ""
 
-#: bp-messages.php:429
+#: bp-messages.php:431
 msgid "You must send your message to one or more users not including yourself."
 msgstr ""
 
-#: bp-messages.php:435
+#: bp-messages.php:437
 msgid "Please make sure you fill in all the fields."
 msgstr ""
 
-#: bp-messages.php:438
+#: bp-messages.php:440
 msgid "Please make sure you have typed a message before sending a reply."
 msgstr ""
 
-#: bp-messages.php:467 bp-messages.php:501
+#: bp-messages.php:469 bp-messages.php:503
 msgid "Message could not be sent, please try again."
 msgstr ""
 
-#: bp-messages.php:477
+#: bp-messages.php:479
 msgid "Message sent successfully!"
 msgstr ""
 
-#: bp-messages.php:477 bp-themes/buddypress-member/messages/index.php:34
+#: bp-messages.php:479 bp-themes/buddypress-member/messages/index.php:34
 #: bp-themes/buddypress-member/messages/sentbox.php:29
 msgid "View Message"
 msgstr ""
@@ -3572,7 +3577,7 @@ msgstr ""
 msgid "You have no sent messages."
 msgstr ""
 
-#: bp-themes/buddypress-member/profile/change-avatar.php:9 bp-xprofile.php:219
+#: bp-themes/buddypress-member/profile/change-avatar.php:9 bp-xprofile.php:221
 msgid "Change Avatar"
 msgstr ""
 
@@ -3590,7 +3595,7 @@ msgstr ""
 msgid "%s has not done anything recently."
 msgstr ""
 
-#: bp-themes/buddypress-member/profile/index.php:51 bp-wire.php:65
+#: bp-themes/buddypress-member/profile/index.php:51 bp-wire.php:67
 msgid "My Wire"
 msgstr ""
 
@@ -3639,7 +3644,7 @@ msgstr ""
 msgid "Post &raquo;"
 msgstr ""
 
-#: bp-wire.php:61
+#: bp-wire.php:63
 msgid "All Posts"
 msgstr ""
 
@@ -3651,82 +3656,78 @@ msgstr ""
 msgid "There are currently no wire posts."
 msgstr ""
 
-#: bp-wire/bp-wire-templatetags.php:281 bp-wire/bp-wire-templatetags.php:283
-msgid "You"
-msgstr ""
-
-#: bp-xprofile.php:186
+#: bp-xprofile.php:188
 msgid "Profile Fields"
 msgstr ""
 
-#: bp-xprofile.php:218 bp-xprofile/bp-xprofile-templatetags.php:315
+#: bp-xprofile.php:220 bp-xprofile/bp-xprofile-templatetags.php:315
 msgid "Edit Profile"
 msgstr ""
 
-#: bp-xprofile.php:315
+#: bp-xprofile.php:317
 msgid "A member posts on your wire"
 msgstr ""
 
-#: bp-xprofile.php:383
+#: bp-xprofile.php:385
 msgid "Wire message could not be posted. Please try again."
 msgstr ""
 
-#: bp-xprofile.php:434
+#: bp-xprofile.php:436
 msgid "Wire post could not be deleted, please try again."
 msgstr ""
 
-#: bp-xprofile.php:523
+#: bp-xprofile.php:525
 #, php-format
 msgid "%s wrote on their own wire"
 msgstr ""
 
-#: bp-xprofile.php:531
+#: bp-xprofile.php:533
 #, php-format
 msgid "%s wrote on %s wire"
 msgstr ""
 
-#: bp-xprofile.php:559
+#: bp-xprofile.php:561
 #, php-format
 msgid "%s updated the \"%s\" information on their profile"
 msgstr ""
 
-#: bp-xprofile.php:587
+#: bp-xprofile.php:589
 #, php-format
 msgid "You have %d new posts on your wire"
 msgstr ""
 
-#: bp-xprofile.php:590
+#: bp-xprofile.php:592
 #, php-format
 msgid "%s posted on your wire"
 msgstr ""
 
-#: bp-xprofile.php:628
+#: bp-xprofile.php:630
 msgid "Information"
 msgstr ""
 
-#: bp-xprofile.php:667
+#: bp-xprofile.php:669
 #, php-format
 msgid "%s cannot be left blank."
 msgstr ""
 
-#: bp-xprofile.php:717
+#: bp-xprofile.php:719
 msgid "There was a problem saving changes to this field, please try again."
 msgstr ""
 
-#: bp-xprofile.php:734
+#: bp-xprofile.php:736
 msgid "Save Changes &raquo;"
 msgstr ""
 
-#: bp-xprofile.php:742
+#: bp-xprofile.php:744
 msgid ""
 "There were problems saving your information. Please fix the following:<br />"
 msgstr ""
 
-#: bp-xprofile.php:751
+#: bp-xprofile.php:753
 msgid "Changes saved."
 msgstr ""
 
-#: bp-xprofile.php:762
+#: bp-xprofile.php:764
 msgid "That group does not exist."
 msgstr ""
 
