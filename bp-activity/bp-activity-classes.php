@@ -125,14 +125,7 @@ Class BP_Activity_Activity {
 		
 		if ( !bp_is_home() )
 			$privacy_sql = " AND is_private = 0";
-		
-		/* Determine whether or not to use the cached activity stream, or re-select and cache a new stream */
-		$last_cached = get_usermeta( $bp->displayed_user->id, 'bp_activity_last_cached' );
-		
-		if ( strtotime( BP_ACTIVITY_CACHE_LENGTH, (int)$last_cached ) >= time() ) {
-			
-			//echo '<small style="color: green">** Debug: Using Cache **</small>';
-			
+					
 			// Use the cached activity stream.
 			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name_user_activity_cached} WHERE user_id = %d AND date_recorded >= FROM_UNIXTIME(%d) $privacy_sql ORDER BY date_recorded DESC $limit_sql", $user_id, $since ) );
 	
@@ -146,48 +139,6 @@ Class BP_Activity_Activity {
 					$activities_formatted[$i]['is_private'] = $activities[$i]->is_private;
 				}
 			}
-
-		} else {
-			
-			//echo '<small style="color: red">** Debug: Not Using Cache **</small>';
-			
-			// Reselect, format and cache a new activity stream. Override the limit otherwise we might only cache 5 items when viewing a profile page.
-			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name_user_activity} WHERE user_id = %d AND date_recorded >= FROM_UNIXTIME(%d) $privacy_sql ORDER BY date_recorded DESC LIMIT 30", $user_id, $since ) );
-
-			for ( $i = 0; $i < count( $activities ); $i++ ) {
-				
-				if ( !$activities[$i]->component_name ) continue;
-						
-				if ( function_exists( $bp->{$activities[$i]->component_name}->format_activity_function ) ) {	
-					if ( !$content = call_user_func( $bp->{$activities[$i]->component_name}->format_activity_function, $activities[$i]->item_id, $activities[$i]->user_id, $activities[$i]->component_action, $activities[$i]->secondary_item_id ) )
-						continue;
-					
-					if ( !$activities[$i]->is_private ) {
-						$activities_formatted[$i]['content'] = $content['content'];
-						$activities_formatted[$i]['primary_link'] = $content['primary_link'];
-						$activities_formatted[$i]['item_id'] = $activities[$i]->item_id;
-						$activities_formatted[$i]['secondary_item_id'] = $activities[$i]->secondary_item_id;
-						$activities_formatted[$i]['date_recorded'] = $activities[$i]->date_recorded;
-						$activities_formatted[$i]['component_name'] = $activities[$i]->component_name;
-						$activities_formatted[$i]['component_action'] = $activities[$i]->component_action;
-						$activities_formatted[$i]['is_private'] = $activities[$i]->is_private;
-						$activities_formatted[$i]['no_sitewide_cache'] = $activities[$i]->no_sitewide_cache;
-					}
-				}
-				
-				/* Remove empty activity items so they are not cached. */
-				if ( !$activities_formatted[$i]['content'] )
-					unset($activities_formatted[$i]);
-			}
-			
-			if ( count($activities_formatted) )
-				BP_Activity_Activity::cache_activities( $activities_formatted, $user_id );
-			
-			if ( is_array( $activities_formatted ) ) {
-				// Now honor the limit value, otherwise we may return 30 items on a profile page.
-				$activities_formatted = array_slice($activities_formatted, 0, $limit);				
-			}
-		}
 		
 		return $activities_formatted;
 	}
@@ -265,26 +216,24 @@ Class BP_Activity_Activity {
 	function cache_activities( $activity_array, $user_id ) {
 		global $wpdb, $bp;
 
-		/* Empty the cache for the user */
+		/* Delete cached items older than 30 days for the user */
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_user_activity_cached} WHERE user_id = %d AND DATE_ADD(date_recorded, INTERVAL 30 DAY) <= NOW()", $user_id ) );
-		
-		/* Empty user's activities from the sitewide stream */
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_sitewide} WHERE user_id = %d AND DATE_ADD(date_recorded, INTERVAL 30 DAY) <= NOW()", $user_id ) );
-		
+
 		for ( $i = 0; $i < count($activity_array); $i++ ) {
 			if ( empty( $activity_array[$i]['content'] ) ) continue;
-			
+
 			// Cache that sucka...
 			$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->activity->table_name_user_activity_cached} ( user_id, content, item_id, secondary_item_id, primary_link, component_name, component_action, date_cached, date_recorded, is_private ) VALUES ( %d, %s, %d, %d, %s, %s, %s, FROM_UNIXTIME(%d), %s, %d )", $user_id, $activity_array[$i]['content'], $activity_array[$i]['item_id'], $activity_array[$i]['secondary_item_id'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], $activity_array[$i]['component_action'], time(), $activity_array[$i]['date_recorded'], $activity_array[$i]['is_private'] ) );
-			
+
 			// Add to the sitewide activity stream
 			if ( !$activity_array[$i]['is_private'] && !$activity_array[$i]['no_sitewide_cache'] )
 				$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->activity->table_name_sitewide} ( user_id, content, item_id, secondary_item_id, primary_link, component_name, component_action, date_cached, date_recorded ) VALUES ( %d, %s, %d, %d, %s, %s, %s, FROM_UNIXTIME(%d), %s )", $user_id, $activity_array[$i]['content'], $activity_array[$i]['item_id'], $activity_array[$i]['secondary_item_id'], $activity_array[$i]['primary_link'], $activity_array[$i]['component_name'], $activity_array[$i]['component_action'], time(), $activity_array[$i]['date_recorded'] ) );
 		}
-		
+
 		update_usermeta( $bp->displayed_user->id, 'bp_activity_last_cached', time() );
 	}
-	
+
 	function delete_activity_for_user( $user_id ) {
 		global $wpdb, $bp;
 
