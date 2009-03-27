@@ -1,4 +1,4 @@
-<?php if ( bp_has_site_members( 'type=alphabetical&per_page=10' ) ) : ?>
+<?php if ( bp_has_site_members( 'type=active&per_page=10' ) ) : ?>
 	
 	<div class="pag-count" id="member-dir-count">
 		<?php bp_site_members_pagination_count() ?>
