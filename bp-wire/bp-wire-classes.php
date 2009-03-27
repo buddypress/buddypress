@@ -38,6 +38,8 @@ class BP_Wire_Post {
 	function save() {
 		global $wpdb, $bp;
 		
+		$this->content = wp_filter_kses( $this->content );
+		
 		if ( $this->id ) {
 			$sql = $wpdb->prepare( 
 				"UPDATE {$this->table_name} SET 

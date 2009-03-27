@@ -334,6 +334,9 @@ Class BP_Messages_Message {
 	function send() {	
 		global $wpdb, $bp;
 
+		$this->subject = wp_filter_kses( $this->subject );
+		$this->message = wp_filter_kses( $this->message );
+
 		// First insert the message into the messages table
 		if ( !$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_messages} ( sender_id, subject, message, date_sent, message_order, sender_is_group ) VALUES ( %d, %s, %s, FROM_UNIXTIME(%d), %d, %d )", $this->sender_id, $this->subject, $this->message, $this->date_sent, $this->message_order, $this->sender_is_group ) ) )
 			return false;
@@ -471,6 +474,9 @@ Class BP_Messages_Notice {
 	
 	function save() {
 		global $wpdb, $bp;
+		
+		$this->subject = wp_filter_kses( $this->subject );
+		$this->message = wp_filter_kses( $this->message );
 		
 		if ( !$this->id ) {
 			$sql = $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_notices} (subject, message, date_sent, is_active) VALUES (%s, %s, FROM_UNIXTIME(%d), %d)", $this->subject, $this->message, $this->date_sent, $this->is_active );	

@@ -90,6 +90,10 @@ Class BP_Groups_Group {
 	function save() {
 		global $wpdb, $bp;
 		
+		$this->name = wp_filter_kses( $this->name );
+ 		$this->news = wp_filter_kses( $this->news );
+		$this->description = wp_filter_kses( $this->description );
+		
 		if ( $this->id ) {
 			$sql = $wpdb->prepare( 
 				"UPDATE {$bp->groups->table_name} SET 

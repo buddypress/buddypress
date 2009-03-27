@@ -44,6 +44,9 @@ Class BP_XProfile_Group {
 
 	function save() {
 		global $wpdb, $bp;
+		
+		$this->name = wp_filter_kses( $this->name );
+		$this->description = wp_filter_kses( $this->description );
 
 		if ( $this->id != null ) {
 			$sql = $wpdb->prepare("UPDATE {$bp->profile->table_name_groups} SET name = %s, description = %s WHERE id = %d", $this->name, $this->description, $this->id);
@@ -241,6 +244,9 @@ Class BP_XProfile_Field {
 	
 	function save() {
 		global $wpdb, $bp;
+		
+		$this->name = wp_filter_kses( $this->name );
+		$this->desc = wp_filter_kses( $this->desc );		
 		
 		if ( $this->id != null ) {
 			$sql = $wpdb->prepare("UPDATE {$bp->profile->table_name_fields} SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d, is_public = %d, order_by = %s WHERE id = %d", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->is_public, $this->order_by, $this->id);
@@ -1030,6 +1036,7 @@ Class BP_XProfile_ProfileData {
 		global $wpdb, $bp;
 		
 		$this->last_updated = date( 'Y-m-d H:i:s' );
+		$this->value = wp_filter_kses( $this->value );
 
 		if ( $this->is_valid_field() ) {
 			if ( $this->exists() && $this->value != '' ) {
