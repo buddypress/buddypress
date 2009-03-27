@@ -115,17 +115,17 @@ Class BP_XProfile_Group {
 				</div>
 			<?php } ?>
 			
-			<form action="<?php echo $action; ?>" method="post">
+			<form action="<?php echo attribute_escape( $action ); ?>" method="post">
 				
 				<div id="titlediv">
 					<label for="group_name"><?php _e("Profile Group Name", 'buddypress') ?></label>
 					<div>
-						<input type="text" name="group_name" id="group_name" value="<?php echo $this->name ?>" style="width:50%" />
+						<input type="text" name="group_name" id="group_name" value="<?php echo attribute_escape( $this->name ) ?>" style="width:50%" />
 					</div>
 				</div>
 				
 				<p class="submit" style="text-align: left">
-					<input type="submit" name="saveGroup" value="<?php echo $title; ?> &raquo;" />
+					<input type="submit" name="saveGroup" value="<?php echo attribute_escape( $title ); ?> &raquo;" />
 				</p>
 			
 			</form>
@@ -378,13 +378,13 @@ Class BP_XProfile_Field {
 			$this->data->value = $value;
 		}
 		
-		$this->data->value = stripslashes($this->data->value);
+		$this->data->value = stripslashes( wp_filter_kses( $this->data->value ) );
 		
 		switch ( $this->type ) {
 			case 'textbox':
 				$html .= '<div class="signup-field">';
 				$html .= '<label class="signup-label" for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
-				$html .= $this->message . '<input type="text" name="field_' . $this->id . '" id="field_' . $this->id . '" value="' . $this->data->value . '" />';
+				$html .= $this->message . '<input type="text" name="field_' . $this->id . '" id="field_' . $this->id . '" value="' . attribute_escape( $this->data->value ) . '" />';
 				$html .= '<span class="signup-description">' . $this->desc . '</span>';
 				$html .= '</div>';
 			break;
@@ -392,7 +392,7 @@ Class BP_XProfile_Field {
 			case 'textarea':
 				$html .= '<div class="signup-field">';
 				$html .= '<label class="signup-label" for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
-				$html .= $this->message . '<textarea rows="5" cols="40" name="field_' . $this->id . '" id="field_' . $this->id . '">' . $this->data->value . '</textarea>';
+				$html .= $this->message . '<textarea rows="5" cols="40" name="field_' . $this->id . '" id="field_' . $this->id . '">' . attribute_escape( $this->data->value ) . '</textarea>';
 				$html .= '<span class="signup-description">' . $this->desc . '</span>';
 				$html .= '</div>';
 			break;
@@ -414,7 +414,7 @@ Class BP_XProfile_Field {
 						$selected = '';
 					}
 					
-					$html .= '<option' . $selected . ' value="' . $options[$k]->name . '">' . $options[$k]->name . '</option>';
+					$html .= '<option' . $selected . ' value="' . attribute_escape( $options[$k]->name ) . '">' . $options[$k]->name . '</option>';
 				}
 				
 				$html .= '</select>';
@@ -443,7 +443,7 @@ Class BP_XProfile_Field {
 						$selected = '';
 					}
 					
-					$html .= '<option' . $selected . ' value="' . $options[$k]->name . '">' . $options[$k]->name . '</option>';
+					$html .= '<option' . $selected . ' value="' . attribute_escape( $options[$k]->name ) . '">' . $options[$k]->name . '</option>';
 				}
 
 				$html .= '</select>';
@@ -465,7 +465,7 @@ Class BP_XProfile_Field {
 						$selected = '';
 					}
 					
-					$html .= '<label><input' . $selected . ' type="radio" name="field_' . $this->id . '" id="option_' . $options[$k]->id . '" value="' . $options[$k]->name . '"> ' . $options[$k]->name . '</label>';
+					$html .= '<label><input' . $selected . ' type="radio" name="field_' . $this->id . '" id="option_' . $options[$k]->id . '" value="' . attribute_escape( $options[$k]->name ) . '"> ' . $options[$k]->name . '</label>';
 				}
 				
 				if ( !$this->is_required ) {
@@ -497,7 +497,7 @@ Class BP_XProfile_Field {
 						}
 					}
 					
-					$html .= '<label><input' . $selected . ' type="checkbox" name="field_' . $this->id . '[]" id="field_' . $options[$k]->id . '_' . $k . '" value="' . $options[$k]->name . '"> ' . $options[$k]->name . '</label>';
+					$html .= '<label><input' . $selected . ' type="checkbox" name="field_' . $this->id . '[]" id="field_' . $options[$k]->id . '_' . $k . '" value="' . attribute_escape( $options[$k]->name ) . '"> ' . $options[$k]->name . '</label>';
 					$selected = '';
 				}
 				
@@ -519,7 +519,7 @@ Class BP_XProfile_Field {
 				
 				$html .= $this->message . '
 				<select name="field_' . $this->id . '_day" id="field_' . $this->id . '_day">';
-				$html .= '<option value=""' . $default_select . '>--</option>';
+				$html .= '<option value=""' . attribute_escape( $default_select ) . '>--</option>';
 				
 				for ( $i = 1; $i < 32; $i++ ) {
 					if ( $day == $i ) { 
@@ -540,7 +540,7 @@ Class BP_XProfile_Field {
 
 				$html .= '
 				<select name="field_' . $this->id . '_month" id="field_' . $this->id . '_month">';
-				$html .= '<option value=""' . $default_select . '>------</option>';
+				$html .= '<option value=""' . attribute_escape( $default_select ) . '>------</option>';
 				
 				for ( $i = 0; $i < 12; $i++ ) {
 					if ( $month == $months[$i] ) {
@@ -556,7 +556,7 @@ Class BP_XProfile_Field {
 				
 				$html .= '
 				<select name="field_' . $this->id . '_year" id="field_' . $this->id . '_year">';
-				$html .= '<option value=""' . $default_select . '>----</option>';
+				$html .= '<option value=""' . attribute_escape( $default_select ) . '>----</option>';
 								
 				for ( $i = date( 'Y', time() ); $i > 1899; $i-- ) {
 					if ( $year == $i ) {
@@ -652,7 +652,7 @@ Class BP_XProfile_Field {
 							$default_name = '[' . $j . ']';
 					?>
 						<p><?php _e('Option', 'buddypress') ?> <?php echo $j ?>: 
-						   <input type="text" name="<?php echo $type ?>_option[<?php echo $j ?>]" id="<?php echo $type ?>_option<?php echo $j ?>" value="<?php echo $options[$i]->name ?>" />
+						   <input type="text" name="<?php echo $type ?>_option[<?php echo $j ?>]" id="<?php echo $type ?>_option<?php echo $j ?>" value="<?php echo attribute_escape( $options[$i]->name ) ?>" />
 						   <input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" <?php if ( (int) $options[$i]->is_default_option ) {?> checked="checked"<?php } ?> " value="<?php echo $j ?>" /> <?php _e( 'Default Value', 'buddypress' ) ?> 
 						<a href="admin.php?page=xprofile_settings&amp;mode=delete_option&amp;option_id=<?php echo $options[$i]->id ?>" class="ajax-option-delete" id="delete-<?php echo $options[$i]->id ?>">[x]</a></p>
 						</p>
@@ -708,7 +708,7 @@ Class BP_XProfile_Field {
 				<div id="titlediv">
 					<h3><label for="title"><?php _e("Field Title", 'buddypress') ?> *</label></h3>
 					<div id="titlewrap">
-						<input type="text" name="title" id="title" value="<?php echo $this->name ?>" style="width:50%" />
+						<input type="text" name="title" id="title" value="<?php echo attribute_escape( $this->name ) ?>" style="width:50%" />
 					</div>
 				</div>
 			
@@ -797,7 +797,7 @@ Class BP_XProfile_Field {
 									
 									<label for="title">* <?php _e("Field Title", 'buddypress') ?></label>
 									<div>
-										<input type="text" name="title" id="title" value="<?php echo $field_data['Name']; ?>" style="width:50%" />
+										<input type="text" name="title" id="title" value="<?php echo attribute_escape( $field_data['Name'] ); ?>" style="width:50%" />
 									</div>
 									<p></p>
 									<label for="description"><?php _e("Field Description", 'buddypress') ?></label>
@@ -834,7 +834,7 @@ Class BP_XProfile_Field {
 									
 									<p class="submit">									
 								 	  <input type="submit" value="<?php _e("Add", 'buddypress') ?> &raquo;" name="saveField" id="saveField<?php echo $counter;?>" class="button" />
-									  <input type="hidden" name="field_file" value="<?php echo $field_file_path; ?>">
+									  <input type="hidden" name="field_file" value="<?php echo attribute_escape( $field_file_path ); ?>">
 									</p>
 							  </form>
 							</td>
