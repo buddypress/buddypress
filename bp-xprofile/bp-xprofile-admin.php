@@ -129,8 +129,8 @@ function xprofile_admin_manage_group( $group_id = null ) {
 
 	if ( isset($_POST['saveGroup']) ) {
 		if ( BP_XProfile_Group::admin_validate($_POST) ) {
-			$group->name = $_POST['group_name'];
-			$group->description = $_POST['group_desc'];
+			$group->name = wp_filter_kses( $_POST['group_name'] );
+			$group->description = wp_filter_kses( $_POST['group_desc'] );
 			
 			if ( !$group->save() ) {
 				$message = __('There was an error saving the group. Please try again', 'buddypress');
@@ -193,12 +193,12 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 
 	if ( isset($_POST['saveField']) ) {
 		if ( BP_XProfile_Field::admin_validate($_POST) ) {
-			$field->name = $_POST['title'];
-			$field->desc = $_POST['description'];
-			$field->is_required = $_POST['required'];
-			$field->is_public= $_POST['public'];
-			$field->type = $_POST['fieldtype'];
-			$field->order_by = $_POST["sort_order_$field->type"];
+			$field->name = wp_filter_kses( $_POST['title'] );
+			$field->desc = wp_filter_kses( $_POST['description'] );
+			$field->is_required = wp_filter_kses( $_POST['required'] );
+			$field->is_public= wp_filter_kses( $_POST['public'] );
+			$field->type = wp_filter_kses( $_POST['fieldtype'] );
+			$field->order_by = wp_filter_kses( $_POST["sort_order_$field->type"] );
 			
 			if ( !$field->save() ) {
 				$message = __('There was an error saving the field. Please try again', 'buddypress');
