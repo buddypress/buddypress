@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-03-28 14:11+0000\n"
+"POT-Creation-Date: 2009-03-30 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -81,8 +81,8 @@ msgstr ""
 msgid "Site Wide Activity Feed"
 msgstr ""
 
-#: bp-blogs.php:177 bp-core/bp-core-templatetags.php:571
-#: bp-core/bp-core-templatetags.php:663
+#: bp-blogs.php:177 bp-core/bp-core-templatetags.php:572
+#: bp-core/bp-core-templatetags.php:664
 #: bp-themes/buddypress-home/header.php:55
 #: bp-themes/buddypress-member/header.php:49
 msgid "Blogs"
@@ -184,7 +184,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:104 bp-core/bp-core-admin.php:55
 #: bp-core/bp-core-admin.php:63 bp-core/bp-core-signup.php:76
-#: bp-friends.php:174 bp-groups.php:892 bp-messages.php:263
+#: bp-friends.php:174 bp-groups.php:892 bp-messages.php:265
 #: bp-themes/buddypress-member/groups/admin/edit-details.php:31
 #: bp-xprofile.php:311 bp-xprofile/bp-xprofile-admin.php:85
 msgid "Yes"
@@ -192,7 +192,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:108 bp-core/bp-core-admin.php:56
 #: bp-core/bp-core-admin.php:64 bp-core/bp-core-signup.php:80
-#: bp-friends.php:175 bp-groups.php:893 bp-messages.php:264
+#: bp-friends.php:175 bp-groups.php:893 bp-messages.php:266
 #: bp-themes/buddypress-member/groups/admin/edit-details.php:32
 #: bp-xprofile.php:312
 msgid "No"
@@ -240,7 +240,7 @@ msgid "Viewing blog %d to %d (of %d blogs)"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1007
-#: bp-core/bp-core-templatetags.php:872 bp-core/bp-core-widgets.php:102
+#: bp-core/bp-core-templatetags.php:873 bp-core/bp-core-widgets.php:102
 #: bp-forums/bp-forums-templatetags.php:268
 #: bp-forums/bp-forums-templatetags.php:443
 #: bp-friends/bp-friends-templatetags.php:257
@@ -259,7 +259,7 @@ msgid "Blog Avatar"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1059 bp-core/bp-core-ajax.php:47
-#: bp-core/bp-core-classes.php:67 bp-core/bp-core-templatetags.php:268
+#: bp-core/bp-core-classes.php:67 bp-core/bp-core-templatetags.php:269
 #: bp-groups/bp-groups-ajax.php:102 bp-groups/bp-groups-templatetags.php:314
 #: bp-groups/bp-groups-templatetags.php:1884
 #, php-format
@@ -272,13 +272,13 @@ msgid "Latest Post: %s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1088
-#: bp-core/bp-core-templatetags.php:951
+#: bp-core/bp-core-templatetags.php:952
 #: bp-groups/bp-groups-templatetags.php:1932
 msgid "Search anything..."
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1089
-#: bp-core/bp-core-templatetags.php:585 bp-core/bp-core-templatetags.php:952
+#: bp-core/bp-core-templatetags.php:586 bp-core/bp-core-templatetags.php:953
 #: bp-groups/bp-groups-templatetags.php:1933
 #: bp-themes/buddypress-home/searchform.php:3
 msgid "Search"
@@ -305,90 +305,90 @@ msgstr ""
 msgid "Max Number of Posts:"
 msgstr ""
 
-#: bp-core.php:271 bp-core/bp-core-adminbar.php:29
+#: bp-core.php:272 bp-core/bp-core-adminbar.php:29
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core.php:309 bp-xprofile.php:213 bp-xprofile.php:310
+#: bp-core.php:310 bp-xprofile.php:213 bp-xprofile.php:310
 msgid "Profile"
 msgstr ""
 
-#: bp-core.php:315 bp-groups/bp-groups-templatetags.php:797
+#: bp-core.php:316 bp-groups/bp-groups-templatetags.php:797
 #: bp-xprofile.php:219
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:319 bp-core/bp-core-templatetags.php:309 bp-xprofile.php:225
+#: bp-core.php:320 bp-core/bp-core-templatetags.php:310 bp-xprofile.php:225
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:679 bp-wire/bp-wire-templatetags.php:281
+#: bp-core.php:681 bp-wire/bp-wire-templatetags.php:281
 #: bp-wire/bp-wire-templatetags.php:283
 msgid "You"
 msgstr ""
 
-#: bp-core.php:850 bp-core/bp-core-templatetags.php:382
+#: bp-core.php:852 bp-core/bp-core-templatetags.php:383
 #: bp-themes/buddypress-home/comments.php:42
 msgid "at"
 msgstr ""
 
-#: bp-core.php:975
+#: bp-core.php:977
 msgid "year"
 msgstr ""
 
-#: bp-core.php:975
+#: bp-core.php:977
 msgid "years"
 msgstr ""
 
-#: bp-core.php:976
+#: bp-core.php:978
 msgid "month"
 msgstr ""
 
-#: bp-core.php:976
+#: bp-core.php:978
 msgid "months"
 msgstr ""
 
-#: bp-core.php:977
+#: bp-core.php:979
 msgid "week"
 msgstr ""
 
-#: bp-core.php:977
+#: bp-core.php:979
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:978
+#: bp-core.php:980
 msgid "day"
 msgstr ""
 
-#: bp-core.php:978
+#: bp-core.php:980
 msgid "days"
 msgstr ""
 
-#: bp-core.php:979
+#: bp-core.php:981
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:979
+#: bp-core.php:981
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:980
+#: bp-core.php:982
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:980
+#: bp-core.php:982
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:981
+#: bp-core.php:983
 msgid "second"
 msgstr ""
 
-#: bp-core.php:981 bp-core.php:1024
+#: bp-core.php:983 bp-core.php:1026
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1067
+#: bp-core.php:1069
 msgid "not recently active"
 msgstr ""
 
@@ -527,12 +527,12 @@ msgstr ""
 msgid "BuddyPress Version Numbers"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:37 bp-core/bp-core-templatetags.php:604
+#: bp-core/bp-core-adminbar.php:37 bp-core/bp-core-templatetags.php:605
 #: bp-themes/buddypress-member/userbar.php:37
 msgid "Log In"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:41 bp-core/bp-core-templatetags.php:605
+#: bp-core/bp-core-adminbar.php:41 bp-core/bp-core-templatetags.php:606
 msgid "Sign Up"
 msgstr ""
 
@@ -541,8 +541,8 @@ msgid "My Account"
 msgstr ""
 
 #: bp-core/bp-core-adminbar.php:87 bp-core/bp-core-adminbar.php:89
-#: bp-core/bp-core-templatetags.php:52 bp-core/bp-core-templatetags.php:54
-#: bp-core/bp-core-templatetags.php:620 bp-core/bp-core-templatetags.php:622
+#: bp-core/bp-core-templatetags.php:53 bp-core/bp-core-templatetags.php:55
+#: bp-core/bp-core-templatetags.php:621 bp-core/bp-core-templatetags.php:623
 msgid "Log Out"
 msgstr ""
 
@@ -776,41 +776,41 @@ msgid ""
 "themes/"
 msgstr ""
 
-#: bp-core/bp-core-classes.php:89
+#: bp-core/bp-core-classes.php:82
 msgid "friend"
 msgstr ""
 
-#: bp-core/bp-core-classes.php:91
+#: bp-core/bp-core-classes.php:84
 msgid "friends"
 msgstr ""
 
-#: bp-core/bp-core-classes.php:93
+#: bp-core/bp-core-classes.php:86
 #, php-format
 msgid "%s's friend list"
 msgstr ""
 
-#: bp-core/bp-core-classes.php:100
+#: bp-core/bp-core-classes.php:93
 msgid "blog"
 msgstr ""
 
-#: bp-core/bp-core-classes.php:102
+#: bp-core/bp-core-classes.php:95
 msgid "blogs"
 msgstr ""
 
-#: bp-core/bp-core-classes.php:104
+#: bp-core/bp-core-classes.php:97
 #, php-format
 msgid "%s's blog list"
 msgstr ""
 
-#: bp-core/bp-core-classes.php:113
+#: bp-core/bp-core-classes.php:106
 msgid "group"
 msgstr ""
 
-#: bp-core/bp-core-classes.php:115
+#: bp-core/bp-core-classes.php:108
 msgid "groups"
 msgstr ""
 
-#: bp-core/bp-core-classes.php:117
+#: bp-core/bp-core-classes.php:110
 #, php-format
 msgid "%s's group list"
 msgstr ""
@@ -1076,31 +1076,31 @@ msgid ""
 "em></p>"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:176
+#: bp-core/bp-core-templatetags.php:177
 msgid "Options"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:315
+#: bp-core/bp-core-templatetags.php:316
 msgid "Full Name"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:325
+#: bp-core/bp-core-templatetags.php:326
 msgid "About Me"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:335
+#: bp-core/bp-core-templatetags.php:336
 msgid "Jabber"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:345
+#: bp-core/bp-core-templatetags.php:346
 msgid "AOL Messenger"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:355
+#: bp-core/bp-core-templatetags.php:356
 msgid "Yahoo Messenger"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:461 bp-core/bp-core-templatetags.php:654
+#: bp-core/bp-core-templatetags.php:462 bp-core/bp-core-templatetags.php:655
 #: bp-groups.php:271 bp-themes/buddypress-home/header.php:43
 #: bp-themes/buddypress-home/header.php:46
 #: bp-themes/buddypress-member/header.php:37
@@ -1108,19 +1108,19 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:464
+#: bp-core/bp-core-templatetags.php:465
 msgid "Blog &#8212; "
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:466
+#: bp-core/bp-core-templatetags.php:467
 msgid "Blog &#8212; Categories &#8212; "
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:468
+#: bp-core/bp-core-templatetags.php:469
 msgid "Blog &#8212; Tags &#8212; "
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:470 bp-core/bp-core-templatetags.php:655
+#: bp-core/bp-core-templatetags.php:471 bp-core/bp-core-templatetags.php:656
 #: bp-themes/buddypress-home/archive.php:5
 #: bp-themes/buddypress-home/attachment.php:6
 #: bp-themes/buddypress-home/header.php:47
@@ -1131,17 +1131,17 @@ msgstr ""
 msgid "Blog"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:479
+#: bp-core/bp-core-templatetags.php:480
 #: bp-themes/buddypress-member/directories/members/index.php:6
 msgid "Members Directory"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:481
+#: bp-core/bp-core-templatetags.php:482
 #, php-format
 msgid "%s Directory"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:563 bp-core/bp-core-templatetags.php:656
+#: bp-core/bp-core-templatetags.php:564 bp-core/bp-core-templatetags.php:657
 #: bp-core/bp-core-widgets.php:12 bp-core/bp-core-widgets.php:13
 #: bp-groups.php:291 bp-groups/bp-groups-admin.php:97
 #: bp-themes/buddypress-home/header.php:48
@@ -1150,7 +1150,7 @@ msgstr ""
 msgid "Members"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:567 bp-core/bp-core-templatetags.php:659
+#: bp-core/bp-core-templatetags.php:568 bp-core/bp-core-templatetags.php:660
 #: bp-groups.php:181 bp-groups.php:219 bp-groups.php:891 bp-groups.php:1130
 #: bp-groups.php:1143 bp-groups.php:1157 bp-groups.php:1170
 #: bp-groups/bp-groups-admin.php:33 bp-groups/bp-groups-widgets.php:8
@@ -1159,27 +1159,27 @@ msgstr ""
 msgid "Groups"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:599
+#: bp-core/bp-core-templatetags.php:600
 #: bp-themes/buddypress-member/userbar.php:28
 msgid "Username"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:602
+#: bp-core/bp-core-templatetags.php:603
 #: bp-themes/buddypress-member/userbar.php:35
 msgid "Remember Me"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:871
+#: bp-core/bp-core-templatetags.php:872
 #, php-format
 msgid "Viewing member %d to %d (of %d members)"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:919
+#: bp-core/bp-core-templatetags.php:920
 #, php-format
 msgid "%d friend"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:921
+#: bp-core/bp-core-templatetags.php:922
 #, php-format
 msgid "%d friends"
 msgstr ""
@@ -2595,130 +2595,130 @@ msgstr ""
 msgid "Maximum number of groups to show:"
 msgstr ""
 
-#: bp-messages.php:157 bp-messages.php:262
+#: bp-messages.php:159 bp-messages.php:264
 msgid "Messages"
 msgstr ""
 
-#: bp-messages.php:163 bp-themes/buddypress-member/messages/index.php:12
+#: bp-messages.php:165 bp-themes/buddypress-member/messages/index.php:12
 msgid "Inbox"
 msgstr ""
 
-#: bp-messages.php:164 bp-themes/buddypress-member/messages/sentbox.php:10
+#: bp-messages.php:166 bp-themes/buddypress-member/messages/sentbox.php:10
 msgid "Sent Messages"
 msgstr ""
 
-#: bp-messages.php:165
+#: bp-messages.php:167
 msgid "Compose"
 msgstr ""
 
-#: bp-messages.php:166
+#: bp-messages.php:168
 msgid "Notices"
 msgstr ""
 
-#: bp-messages.php:170
+#: bp-messages.php:172
 msgid "My Messages"
 msgstr ""
 
-#: bp-messages.php:232
+#: bp-messages.php:234
 msgid "There was a problem deactivating that notice."
 msgstr ""
 
-#: bp-messages.php:234
+#: bp-messages.php:236
 msgid "Notice deactivated."
 msgstr ""
 
-#: bp-messages.php:238
+#: bp-messages.php:240
 msgid "There was a problem activating that notice."
 msgstr ""
 
-#: bp-messages.php:240
+#: bp-messages.php:242
 msgid "Notice activated."
 msgstr ""
 
-#: bp-messages.php:244
+#: bp-messages.php:246
 msgid "There was a problem deleting that notice."
 msgstr ""
 
-#: bp-messages.php:246
+#: bp-messages.php:248
 msgid "Notice deleted."
 msgstr ""
 
-#: bp-messages.php:268
+#: bp-messages.php:270
 msgid "A member sends you a new message"
 msgstr ""
 
-#: bp-messages.php:274
+#: bp-messages.php:276
 msgid "A new site notice is posted"
 msgstr ""
 
-#: bp-messages.php:299
+#: bp-messages.php:301
 #, php-format
 msgid "From: %s"
 msgstr ""
 
-#: bp-messages.php:323
+#: bp-messages.php:325
 msgid "There was an error deleting that message."
 msgstr ""
 
-#: bp-messages.php:325
+#: bp-messages.php:327
 msgid "Message deleted."
 msgstr ""
 
-#: bp-messages.php:345
+#: bp-messages.php:347
 msgid "There was an error deleting messages."
 msgstr ""
 
-#: bp-messages.php:347 bp-messages/bp-messages-ajax.php:71
+#: bp-messages.php:349 bp-messages/bp-messages-ajax.php:71
 msgid "Messages deleted."
-msgstr ""
-
-#: bp-messages.php:381
-#, php-format
-msgid "You have %d new messages"
 msgstr ""
 
 #: bp-messages.php:383
 #, php-format
+msgid "You have %d new messages"
+msgstr ""
+
+#: bp-messages.php:385
+#, php-format
 msgid "You have %d new message"
 msgstr ""
 
-#: bp-messages.php:410
+#: bp-messages.php:412
 msgid "Notice posted successfully."
 msgstr ""
 
-#: bp-messages.php:412
+#: bp-messages.php:414
 msgid "There was an error posting that notice."
 msgstr ""
 
-#: bp-messages.php:423
+#: bp-messages.php:425
 msgid "Please enter at least one valid user to send this message to."
 msgstr ""
 
-#: bp-messages.php:426
+#: bp-messages.php:428
 msgid "There was an error sending the reply, please try again."
 msgstr ""
 
-#: bp-messages.php:431
+#: bp-messages.php:433
 msgid "You must send your message to one or more users not including yourself."
 msgstr ""
 
-#: bp-messages.php:437
+#: bp-messages.php:439
 msgid "Please make sure you fill in all the fields."
 msgstr ""
 
-#: bp-messages.php:440
+#: bp-messages.php:442
 msgid "Please make sure you have typed a message before sending a reply."
 msgstr ""
 
-#: bp-messages.php:469 bp-messages.php:503
+#: bp-messages.php:471 bp-messages.php:505
 msgid "Message could not be sent, please try again."
 msgstr ""
 
-#: bp-messages.php:479
+#: bp-messages.php:481
 msgid "Message sent successfully!"
 msgstr ""
 
-#: bp-messages.php:479 bp-themes/buddypress-member/messages/index.php:34
+#: bp-messages.php:481 bp-themes/buddypress-member/messages/index.php:34
 #: bp-themes/buddypress-member/messages/sentbox.php:29
 msgid "View Message"
 msgstr ""
