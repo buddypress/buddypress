@@ -20,7 +20,7 @@ define( 'CORE_DEFAULT_AVATAR_THUMB', apply_filters( 'bp_core_avatar_default_thum
 
 function bp_core_get_avatar( $user, $version = 1, $width = null, $height = null, $no_tag = false ) {
 	global $bp, $current_blog;
-		
+
 	if ( !is_int($version) )
 		$version = (int) $version;
 		
@@ -40,7 +40,7 @@ function bp_core_get_avatar( $user, $version = 1, $width = null, $height = null,
 		if ( $no_tag )
 			return $url;
 		else
-			return '<img src="' . $url . '" alt="" class="avatar photo" width="' . $width . '" height="' . $height . '" />';
+			return apply_filters( 'bp_core_get_avatar', '<img src="' . $url . '" alt="" class="avatar photo" width="' . $width . '" height="' . $height . '" />', $user, $version, $width, $height, $no_tag );
 	} else {
 		$ud = get_userdata($user);
 		$grav_option = get_site_option('user-avatar-default');
