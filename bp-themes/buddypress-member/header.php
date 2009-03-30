@@ -53,8 +53,7 @@
 	</ul>
 </div>
 
-<?php bp_get_optionsbar() ?>
 <?php bp_get_userbar() ?>
-
+<?php bp_get_optionsbar() ?>
 
 <div id="main">

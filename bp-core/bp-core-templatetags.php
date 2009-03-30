@@ -675,7 +675,7 @@ function bp_custom_profile_sidebar_boxes() {
 	do_action( 'bp_custom_profile_sidebar_boxes' );
 }
 
-function bp_get_optionsbar( $hide_on_directory = true ) {
+function bp_get_userbar( $hide_on_directory = true ) {
 	global $bp;
 	
 	if ( $hide_on_directory && $bp->is_directory )
@@ -684,7 +684,7 @@ function bp_get_optionsbar( $hide_on_directory = true ) {
 	include_once( TEMPLATEPATH . '/userbar.php' );
 }
 
-function bp_get_userbar( $hide_on_directory = true ) {
+function bp_get_optionsbar( $hide_on_directory = true ) {
 	global $bp;
 	
 	if ( $hide_on_directory && $bp->is_directory )
