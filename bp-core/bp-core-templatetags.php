@@ -34,11 +34,12 @@ function bp_get_nav() {
 		   then check to see if the two users are friends. if they are, add a highlight CSS class
 		   to the friends nav item if it exists. */
 		if ( !bp_is_home() && $bp->displayed_user->id ) {
+			$selected = '';
+			
 			if ( function_exists('friends_install') ) {
-				if ( friends_check_friendship( $bp->loggedin_user->id, $bp->displayed_user->id ) && $nav_item['css_id'] == $bp->friends->slug ) {
-					$selected = ' class="current"';
-				} else { 
-					$selected = '';
+				if ( $nav_item['css_id'] == $bp->friends->slug ) {
+					if ( friends_check_friendship( $bp->loggedin_user->id, $bp->displayed_user->id ) )
+						$selected = ' class="current"';
 				}
 			}
 		}

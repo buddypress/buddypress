@@ -478,7 +478,7 @@ function friends_search_users( $search_terms, $user_id, $pag_num = false, $pag_p
 
 function friends_check_friendship( $user_id, $possible_friend_id ) {
 	global $bp;
-		
+
 	if ( 'is_friend' == BP_Friends_Friendship::check_is_friend( $user_id, $possible_friend_id ) )
 		return true;
 	

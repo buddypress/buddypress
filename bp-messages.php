@@ -149,9 +149,11 @@ add_action( 'admin_menu', 'messages_check_installed', 1 );
 function messages_setup_nav() {
 	global $bp;
 
-	$inbox_count = BP_Messages_Thread::get_inbox_count();
-	$inbox_display = ( $inbox_count ) ? ' style="display:inline;"' : ' style="display:none;"';
-	$count_indicator = '&nbsp; <span' . $inbox_display . ' class="unread-count inbox-count">' . BP_Messages_Thread::get_inbox_count() . '</span>';
+	if ( $bp->current_component == $bp->messages->slug ) {
+		$inbox_count = BP_Messages_Thread::get_inbox_count();
+		$inbox_display = ( $inbox_count ) ? ' style="display:inline;"' : ' style="display:none;"';
+		$count_indicator = '&nbsp; <span' . $inbox_display . ' class="unread-count inbox-count">' . BP_Messages_Thread::get_inbox_count() . '</span>';
+	}
 	
 	/* Add 'Profile' to the main navigation */
 	bp_core_add_nav_item( __('Messages', 'buddypress'), $bp->messages->slug, false, false );

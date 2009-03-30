@@ -15,7 +15,7 @@ if ( file_exists( WPMU_PLUGIN_DIR . '/bp-custom.php' ) )
 
 /* Define the current version number for checking if DB tables are up to date. */
 define( 'BP_CORE_VERSION', '1.0-RC1' );
-define( 'BP_CORE_DB_VERSION', '1030' );
+define( 'BP_CORE_DB_VERSION', '1031' );
 
 /* Define on which blog ID BuddyPress should run */
 if ( !defined( 'BP_ROOT_BLOG' ) )
@@ -207,7 +207,8 @@ function bp_core_install() {
 				KEY user_id (user_id),
 				KEY is_new (is_new),
 				KEY component_name (component_name),
-		 	   	KEY component_action (component_action)
+		 	   	KEY component_action (component_action),
+				KEY useritem (user_id, is_new)
 			   ) {$charset_collate};";
 
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );

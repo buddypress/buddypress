@@ -62,20 +62,13 @@ class BP_Core_User {
 		$this->user_url = bp_core_get_userurl( $this->id );
 		$this->user_link = bp_core_get_userlink( $this->id );
 		
-		$this->fullname = bp_core_get_userlink( $this->id, true );
+		$this->fullname = bp_fetch_user_fullname( $this->id, false );
 		$this->email = bp_core_get_user_email( $this->id );
 		$this->last_active = bp_core_get_last_activity( get_usermeta( $this->id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) );
-		
-		if ( function_exists('xprofile_install') ) {
-			$this->avatar = bp_core_get_avatar( $this->id, 2 );
-			$this->avatar_thumb = bp_core_get_avatar( $this->id, 1 );
-			$this->avatar_mini = bp_core_get_avatar( $this->id, 1, 25, 25, false );
-		}
-		
-		if ( function_exists('bp_statuses_install') ) {
-			$this->status = null; // TODO: Fetch status updates.
-			$this->status_last_updated = null;
-		}
+
+		$this->avatar = bp_core_get_avatar( $this->id, 2 );
+		$this->avatar_thumb = bp_core_get_avatar( $this->id, 1 );
+		$this->avatar_mini = bp_core_get_avatar( $this->id, 1, 25, 25, false );
 	}
 	
 	function populate_extras() {
