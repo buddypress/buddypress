@@ -27,13 +27,15 @@ You do not need to activate plugins dropped into this folder.
 Step 3: Move the themes to their correct locations
 **************************************************
 
-Move the home theme:
-  From: 'wp-content/mu-plugins/buddypress-theme/buddypress-home'
+The home theme is not required, you can use a standard WordPress theme if you wish.
+
+If you want to use the home theme, move:
+  From: 'wp-content/mu-plugins/bp-themes/buddypress-home'
   To: 'wp-content/themes/buddypress-home/'
 
-Move the member theme:
-  From: 'wp-content/mu-plugins/buddypress-theme/member-themes/buddypress-member/'
-  To: 'wp-content/member-themes/buddypress-member/'
+Move the default BuddyPress member theme:
+  From: 'wp-content/mu-plugins/bp-themes/buddypress-member/'
+  To: 'wp-content/bp-themes/buddypress-member/'
 
 
 **************************************************************
