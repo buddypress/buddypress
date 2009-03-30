@@ -150,9 +150,9 @@ function messages_setup_nav() {
 	global $bp;
 
 	if ( $bp->current_component == $bp->messages->slug ) {
-		$inbox_count = BP_Messages_Thread::get_inbox_count();
+		$inbox_count = messages_get_unread_count();
 		$inbox_display = ( $inbox_count ) ? ' style="display:inline;"' : ' style="display:none;"';
-		$count_indicator = '&nbsp; <span' . $inbox_display . ' class="unread-count inbox-count">' . BP_Messages_Thread::get_inbox_count() . '</span>';
+		$count_indicator = '&nbsp; <span' . $inbox_display . ' class="unread-count inbox-count">' . $inbox_count . '</span>';
 	}
 	
 	/* Add 'Profile' to the main navigation */
@@ -585,6 +585,15 @@ function messages_delete_thread( $thread_ids ) {
 		
 		return true;
 	}
+}
+
+function messages_get_unread_count( $user_id = false ) {
+	global $bp;
+	
+	if ( !$user_id ) 
+		$user_id = $bp->loggedin_user->id;
+		
+	return BP_Messages_Thread::get_inbox_count( $user_id );
 }
 
 function messages_is_user_sender( $user_id, $message_id ) {

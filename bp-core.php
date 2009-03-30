@@ -658,7 +658,8 @@ function bp_core_get_userid( $username ) {
 function bp_core_get_userid_from_user_login( $user_login ) {
 	global $wpdb;
 
-	return $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $user_login ) );
+	if ( !empty( $user_login ) ) 
+		return $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $user_login ) );
 }
 
 /**
