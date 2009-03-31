@@ -1185,11 +1185,13 @@ function bp_core_sort_nav_items( $nav_array ) {
 		}
 	}
 	
-	/* Sort the navigation array by key */
-	ksort($new_nav);
+	if ( is_array( $new_nav ) ) {
+		/* Sort the navigation array by key */
+		ksort($new_nav);
 	
-	/* Merge the remaining nav items, so they can be appended on the end */
-	$new_nav = array_merge( $new_nav, $nav_array );
+		/* Merge the remaining nav items, so they can be appended on the end */
+		$new_nav = array_merge( $new_nav, $nav_array );
+	}
 	
 	return $new_nav;
 }
