@@ -57,7 +57,7 @@ Class BP_Groups_Group {
 			$this->photos_admin_only = $group->photos_admin_only;
 			$this->date_created = strtotime($group->date_created);
 			$this->total_member_count = groups_get_groupmeta( $this->id, 'total_member_count' );
-			
+
 			if ( !$group->avatar_thumb || strpos( $group->avatar_thumb, 'none-thumbnail' ) )
 				$this->avatar_thumb = 'http://www.gravatar.com/avatar/' . md5( $this->id . '@' . $bp->root_domain ) . '?d=identicon&amp;s=50';
 			else

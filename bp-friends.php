@@ -641,6 +641,9 @@ function friends_clear_friend_object_cache( $friendship_id ) {
 	wp_cache_delete( 'friends_friend_ids_' . $friendship->initiator_user_id, 'bp' );
 	wp_cache_delete( 'friends_friend_ids_' . $friendship->friend_user_id, 'bp' );
 	wp_cache_delete( 'popular_users', 'bp' );
+
+	/* Clear the sitewide activity cache */
+	wp_cache_delete( 'sitewide_activity', 'bp' );
 }
 
 // List actions to clear object caches on

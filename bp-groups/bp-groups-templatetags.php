@@ -1009,9 +1009,9 @@ function bp_group_total_members( $echo = true, $group = false ) {
 		$group =& $groups_template->group;
 
 	if ( $echo )
-		echo apply_filters( 'groups_template', $group->total_group_count );
+		echo apply_filters( 'groups_template', $group->total_member_count );
 	else
-		return apply_filters( 'groups_template', $group->total_group_count );
+		return apply_filters( 'groups_template', $group->total_member_count );
 }
 
 function bp_group_is_photos_enabled( $group = false ) {

@@ -897,10 +897,16 @@ add_action( 'delete_user', 'bp_blogs_remove_data', 1 );
 function bp_blogs_clear_blog_object_cache( $blog_id, $user_id ) {
 	wp_cache_delete( 'bp_blogs_of_user_' . $user_id, 'bp' );
 	wp_cache_delete( 'bp_blogs_for_user_' . $user_id, 'bp' );
+
+	/* Clear the sitewide activity cache */
+	wp_cache_delete( 'sitewide_activity', 'bp' );
 }
 
 function bp_blogs_format_clear_blog_cache( $recorded_blog_obj ) {
 	bp_blogs_clear_blog_object_cache( false, $recorded_blog_obj->user_id );
+
+	/* Clear the sitewide activity cache */
+	wp_cache_delete( 'sitewide_activity', 'bp' );
 }
 
 function bp_blogs_clear_post_object_cache( $blog_id, $post_id, $user_id ) {
@@ -909,6 +915,9 @@ function bp_blogs_clear_post_object_cache( $blog_id, $post_id, $user_id ) {
 
 function bp_blogs_format_clear_post_cache( $recorded_post_obj ) {
 	bp_blogs_clear_post_object_cache( false, false, $recorded_post_obj->user_id );
+
+	/* Clear the sitewide activity cache */
+	wp_cache_delete( 'sitewide_activity', 'bp' );
 }
 
 function bp_blogs_clear_comment_object_cache( $blog_id, $comment_id, $user_id ) {
@@ -917,6 +926,9 @@ function bp_blogs_clear_comment_object_cache( $blog_id, $comment_id, $user_id ) 
 
 function bp_blogs_format_clear_comment_cache( $recorded_comment_obj ) {
 	bp_blogs_clear_comment_object_cache( false, false, $recorded_comment_obj->user_id );
+
+	/* Clear the sitewide activity cache */
+	wp_cache_delete( 'sitewide_activity', 'bp' );
 }
 
 // List actions to clear object caches on
