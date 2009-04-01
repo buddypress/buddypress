@@ -998,8 +998,9 @@ Class BP_XProfile_ProfileData {
 		global $wpdb, $bp;
 		
 		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_id );
-
+		
 		if ( $profiledata = $wpdb->get_row($sql) ) {
+			
 			$this->id = $profiledata->id;
 			$this->user_id = $profiledata->user_id;
 			$this->field_id = $profiledata->field_id;
@@ -1059,6 +1060,8 @@ Class BP_XProfile_ProfileData {
 
 	function delete() {
 		global $wpdb, $bp;
+		
+		var_dump($wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $this->field_id, $this->user_id ));
 		
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $this->field_id, $this->user_id ) ) )
 			return false;

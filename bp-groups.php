@@ -26,6 +26,8 @@ require ( 'bp-groups/bp-groups-templatetags.php' );
 require ( 'bp-groups/bp-groups-widgets.php' );
 require ( 'bp-groups/bp-groups-filters.php' );
 
+
+
 /**************************************************************************
  groups_install()
  
@@ -131,6 +133,8 @@ function groups_setup_globals( $no_global = false ) {
 	
 	if ( !$no_global )
 		global $bp;
+		
+	
 	
 	$bp->groups->table_name = $wpdb->base_prefix . 'bp_groups';
 	$bp->groups->table_name_members = $wpdb->base_prefix . 'bp_groups_members';
@@ -1093,7 +1097,7 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 				$content .= '<blockquote>' . $post_content . '</blockquote>';
 				
 				$content = apply_filters( 'bp_groups_new_forum_topic_activity', $content, $user_link, $group_link, $forum_topic['topic_id'], $forum_topic['topic_title'], $group_link, $group->name, $post_content );
-
+				
 				return array( 
 					'primary_link' => $group_link,
 					'content' => $content

@@ -674,14 +674,16 @@ function xprofile_edit( $group_id, $action ) {
 						} else if ( !$field->is_required && ( empty( $current_field ) || is_null($current_field) ) ) {
 							
 							// Create a new profile data object for the logged in user based on field ID.								
-							$profile_data = new BP_Xprofile_ProfileData( $group->fields[$j]->id );
+							$profile_data = new BP_Xprofile_ProfileData( $group->fields[$j]->id, $bp->loggedin_user->id );
 							
-							// Delete any data
-							$profile_data->delete();
+							if ( $profile_data ) {					
+								// Delete any data
+								$profile_data->delete();
+								
+								// Also remove any selected profile field data from the $field object.
+								$field->data->value = null;
+							}
 							
-							// Also remove any selected profile field data from the $field object.
-							$field->data->value = null;
-						
 						// If we get to this point then the field validates ok and we have new data.
 						} else {
 							
