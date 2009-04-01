@@ -1061,8 +1061,6 @@ Class BP_XProfile_ProfileData {
 	function delete() {
 		global $wpdb, $bp;
 		
-		var_dump($wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $this->field_id, $this->user_id ));
-		
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $this->field_id, $this->user_id ) ) )
 			return false;
 		
