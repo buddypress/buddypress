@@ -508,13 +508,13 @@ function bp_blogs_record_comment( $comment_id, $post_id = false, $blog_id = fals
 
 	/* Only record a comment if it is by a registered user. */
 	if ( $user_id ) {
-		$comment_id = (int)$comment_id;
+		$comment_id = (int) $comment_id;
 		
 		if ( !$post_id )
-			$post_id = (int)$comment->comment_post_ID;
+			$post_id = (int) $comment->comment_post_ID;
 
 		if ( !$blog_id )
-			$blog_id = (int)$wpdb->blogid;
+			$blog_id = (int) $wpdb->blogid;
 			
 		/** 
 		 * Check how many recorded posts there are for the user. If we are
@@ -524,23 +524,24 @@ function bp_blogs_record_comment( $comment_id, $post_id = false, $blog_id = fals
 			BP_Blogs_Comment::delete_oldest();
 
 		if ( !$is_recorded = BP_Blogs_Comment::is_recorded( $comment_id, $post_id, $blog_id ) ) {
-			if ( $comment->comment_approved || $from_ajax ) {
-				$recorded_comment = new BP_Blogs_Comment;
-				$recorded_comment->user_id = $user_id;
-				$recorded_comment->blog_id = $blog_id;
-				$recorded_comment->comment_id = $comment_id;
-				$recorded_comment->comment_post_id = $post_id;
-				$recorded_comment->date_created = strtotime( $comment->comment_date );
-					
-				$recorded_commment_id = $recorded_comment->save();
-				
-				bp_blogs_update_blogmeta( $recorded_comment->blog_id, 'last_activity', time() );
-				
-				$is_private = bp_blogs_is_blog_hidden( $recorded_comment->blog_id );
-				
-				// Record in activity streams
-				bp_blogs_record_activity( array( 'item_id' => $recorded_comment->blog_id, 'secondary_item_id' => $recorded_commment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'is_private' => $is_private, 'user_id' => $recorded_comment->user_id, 'recorded_time' => $recorded_comment->date_created ) );
-			}
+			if ( !$comment->comment_approved || 'spam' == $comment->comment_approved )
+				return false;
+
+			$recorded_comment = new BP_Blogs_Comment;
+			$recorded_comment->user_id = $user_id;
+			$recorded_comment->blog_id = $blog_id;
+			$recorded_comment->comment_id = $comment_id;
+			$recorded_comment->comment_post_id = $post_id;
+			$recorded_comment->date_created = strtotime( $comment->comment_date );
+
+			$recorded_commment_id = $recorded_comment->save();
+			
+			bp_blogs_update_blogmeta( $recorded_comment->blog_id, 'last_activity', time() );
+			
+			$is_private = bp_blogs_is_blog_hidden( $recorded_comment->blog_id );
+			
+			// Record in activity streams
+			bp_blogs_record_activity( array( 'item_id' => $recorded_comment->blog_id, 'secondary_item_id' => $recorded_commment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'is_private' => $is_private, 'user_id' => $recorded_comment->user_id, 'recorded_time' => $recorded_comment->date_created ) );
 		} else {
 			/** 
 			 * Check to see if the post have previously been recorded.
