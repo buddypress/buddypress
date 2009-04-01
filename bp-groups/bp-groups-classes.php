@@ -788,8 +788,17 @@ Class BP_Groups_Member {
 		
 		if ( !$user_id )
 			return false;
-		
+			
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND inviter_id != 0 AND invite_sent = 1", $user_id, $group_id ) );		
+	}
+	
+	function delete_invite( $user_id, $group_id ) {
+		global $wpdb, $bp;
+		
+		if ( !$user_id )
+			return false;
+		
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND inviter_id != 0 AND invite_sent = 1", $user_id, $group_id ) );				
 	}
 	
 	function check_is_admin( $user_id, $group_id ) {
