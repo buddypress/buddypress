@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-04-01 14:11+0000\n"
+"POT-Creation-Date: 2009-04-02 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -184,7 +184,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:104 bp-core/bp-core-admin.php:55
 #: bp-core/bp-core-admin.php:63 bp-core/bp-core-signup.php:76
-#: bp-friends.php:174 bp-groups.php:892 bp-messages.php:265
+#: bp-friends.php:174 bp-groups.php:896 bp-messages.php:265
 #: bp-themes/buddypress-member/groups/admin/edit-details.php:31
 #: bp-xprofile.php:311 bp-xprofile/bp-xprofile-admin.php:85
 msgid "Yes"
@@ -192,7 +192,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:108 bp-core/bp-core-admin.php:56
 #: bp-core/bp-core-admin.php:64 bp-core/bp-core-signup.php:80
-#: bp-friends.php:175 bp-groups.php:893 bp-messages.php:266
+#: bp-friends.php:175 bp-groups.php:897 bp-messages.php:266
 #: bp-themes/buddypress-member/groups/admin/edit-details.php:32
 #: bp-xprofile.php:312
 msgid "No"
@@ -388,6 +388,10 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
+#: bp-core.php:1021
+msgid ",|Separator in time since"
+msgstr ""
+
 #: bp-core.php:1069
 msgid "not recently active"
 msgstr ""
@@ -547,7 +551,7 @@ msgid "Log Out"
 msgstr ""
 
 #: bp-core/bp-core-adminbar.php:102 bp-core/bp-core-adminbar.php:115
-#: bp-groups.php:275
+#: bp-groups.php:279
 msgid "Admin"
 msgstr ""
 
@@ -659,7 +663,7 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:121 bp-groups.php:1322
+#: bp-core/bp-core-avatars.php:121 bp-groups.php:1326
 #: bp-xprofile/bp-xprofile-signup.php:156
 msgid "There is no error, the file uploaded with success"
 msgstr ""
@@ -670,16 +674,16 @@ msgstr ""
 msgid "Your image was bigger than the maximum allowed file size of: "
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:124 bp-groups.php:1325
+#: bp-core/bp-core-avatars.php:124 bp-groups.php:1329
 #: bp-xprofile/bp-xprofile-signup.php:159
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:125 bp-groups.php:1326
+#: bp-core/bp-core-avatars.php:125 bp-groups.php:1330
 msgid "No file was uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:126 bp-groups.php:1327
+#: bp-core/bp-core-avatars.php:126 bp-groups.php:1331
 #: bp-xprofile/bp-xprofile-signup.php:160
 msgid "Missing a temporary folder"
 msgstr ""
@@ -694,7 +698,7 @@ msgstr ""
 msgid "The file you uploaded is too big. Please upload a file under %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:136 bp-groups.php:1343
+#: bp-core/bp-core-avatars.php:136 bp-groups.php:1347
 #: bp-xprofile/bp-xprofile-signup.php:179
 msgid "Please upload only JPG, GIF or PNG photos."
 msgstr ""
@@ -1101,7 +1105,7 @@ msgid "Yahoo Messenger"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:462 bp-core/bp-core-templatetags.php:655
-#: bp-groups.php:271 bp-themes/buddypress-home/header.php:43
+#: bp-groups.php:275 bp-themes/buddypress-home/header.php:43
 #: bp-themes/buddypress-home/header.php:46
 #: bp-themes/buddypress-member/header.php:37
 #: bp-themes/buddypress-member/header.php:40
@@ -1143,7 +1147,7 @@ msgstr ""
 
 #: bp-core/bp-core-templatetags.php:564 bp-core/bp-core-templatetags.php:657
 #: bp-core/bp-core-widgets.php:12 bp-core/bp-core-widgets.php:13
-#: bp-groups.php:291 bp-groups/bp-groups-admin.php:97
+#: bp-groups.php:295 bp-groups/bp-groups-admin.php:97
 #: bp-themes/buddypress-home/header.php:48
 #: bp-themes/buddypress-member/groups/admin/manage-members.php:30
 #: bp-themes/buddypress-member/header.php:42
@@ -1151,8 +1155,8 @@ msgid "Members"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:568 bp-core/bp-core-templatetags.php:660
-#: bp-groups.php:181 bp-groups.php:219 bp-groups.php:891 bp-groups.php:1137
-#: bp-groups.php:1150 bp-groups.php:1164 bp-groups.php:1177
+#: bp-groups.php:185 bp-groups.php:223 bp-groups.php:895 bp-groups.php:1141
+#: bp-groups.php:1154 bp-groups.php:1168 bp-groups.php:1181
 #: bp-groups/bp-groups-admin.php:33 bp-groups/bp-groups-widgets.php:8
 #: bp-groups/bp-groups-widgets.php:9 bp-themes/buddypress-home/header.php:51
 #: bp-themes/buddypress-member/header.php:45
@@ -1319,8 +1323,8 @@ msgstr ""
 msgid "bbPress Forum list"
 msgstr ""
 
-#: bp-forums/bp-forums-bbpress-live.php:89 bp-groups.php:282
-#: bp-groups.php:1605 bp-themes/buddypress-member/groups/forum/index.php:25
+#: bp-forums/bp-forums-bbpress-live.php:89 bp-groups.php:286
+#: bp-groups.php:1609 bp-themes/buddypress-member/groups/forum/index.php:25
 #: bp-themes/buddypress-member/groups/forum/topic.php:28
 #: bp-themes/buddypress-member/groups/forum/topic.php:40
 msgid "Forum"
@@ -1521,7 +1525,7 @@ msgstr ""
 #: bp-groups/bp-groups-notifications.php:175
 #: bp-groups/bp-groups-notifications.php:217
 #: bp-groups/bp-groups-notifications.php:264
-#: bp-messages/bp-messages-notifications.php:32
+#: bp-messages/bp-messages-notifications.php:34
 #: bp-xprofile/bp-xprofile-notifications.php:49
 #, php-format
 msgid "To disable these notifications please log in and go to: %s"
@@ -1589,352 +1593,352 @@ msgstr ""
 msgid "There aren't enough site members to show a random sample just yet."
 msgstr ""
 
-#: bp-groups.php:227 bp-groups.php:235
+#: bp-groups.php:231 bp-groups.php:239
 #: bp-groups/bp-groups-templatetags.php:353
 #: bp-themes/buddypress-member/groups/index.php:10
 msgid "My Groups"
 msgstr ""
 
-#: bp-groups.php:228 bp-themes/buddypress-member/groups/create.php:10
+#: bp-groups.php:232 bp-themes/buddypress-member/groups/create.php:10
 msgid "Create a Group"
 msgstr ""
 
-#: bp-groups.php:229
+#: bp-groups.php:233
 msgid "Invites"
 msgstr ""
 
-#: bp-groups.php:279 bp-groups/bp-groups-ajax.php:264
+#: bp-groups.php:283 bp-groups/bp-groups-ajax.php:264
 #: bp-groups/bp-groups-templatetags.php:1454
 #: bp-themes/buddypress-member/groups/request-membership.php:22
 msgid "Request Membership"
 msgstr ""
 
-#: bp-groups.php:285 bp-wire.php:59 bp-wire/bp-wire-templatetags.php:136
+#: bp-groups.php:289 bp-wire.php:59 bp-wire/bp-wire-templatetags.php:136
 #: bp-xprofile.php:589 bp-xprofile.php:592
 msgid "Wire"
 msgstr ""
 
-#: bp-groups.php:288
+#: bp-groups.php:292
 msgid "Photos"
 msgstr ""
 
-#: bp-groups.php:295 bp-themes/buddypress-member/groups/send-invite.php:15
+#: bp-groups.php:299 bp-themes/buddypress-member/groups/send-invite.php:15
 #: bp-themes/buddypress-member/groups/send-invite.php:24
 msgid "Send Invites"
 msgstr ""
 
-#: bp-groups.php:297 bp-groups/bp-groups-ajax.php:240
+#: bp-groups.php:301 bp-groups/bp-groups-ajax.php:240
 #: bp-groups/bp-groups-templatetags.php:1444
 #: bp-groups/bp-groups-templatetags.php:1451
 msgid "Leave Group"
 msgstr ""
 
-#: bp-groups.php:338
+#: bp-groups.php:342
 msgid "Group invite could not be accepted"
 msgstr ""
 
-#: bp-groups.php:340
+#: bp-groups.php:344
 msgid "Group invite accepted"
 msgstr ""
 
-#: bp-groups.php:351
+#: bp-groups.php:355
 msgid "Group invite could not be rejected"
 msgstr ""
 
-#: bp-groups.php:353
+#: bp-groups.php:357
 msgid "Group invite rejected"
 msgstr ""
 
-#: bp-groups.php:393
+#: bp-groups.php:397
 msgid "There was an error saving group details. Please try again."
 msgstr ""
 
-#: bp-groups.php:476
+#: bp-groups.php:480
 msgid "Wire message could not be posted."
 msgstr ""
 
-#: bp-groups.php:478 bp-xprofile.php:387
+#: bp-groups.php:482 bp-xprofile.php:387
 msgid "Wire message successfully posted."
 msgstr ""
 
-#: bp-groups.php:491
+#: bp-groups.php:495
 msgid "There was an error deleting the wire message."
 msgstr ""
 
-#: bp-groups.php:493 bp-xprofile.php:432
+#: bp-groups.php:497 bp-xprofile.php:432
 msgid "Wire message successfully deleted."
 msgstr ""
 
-#: bp-groups.php:540
+#: bp-groups.php:544
 msgid "Group invites sent."
 msgstr ""
 
-#: bp-groups.php:561
+#: bp-groups.php:565
 msgid "As the only group administrator, you cannot leave this group."
 msgstr ""
 
-#: bp-groups.php:567
+#: bp-groups.php:571
 msgid "There was an error leaving the group. Please try again."
 msgstr ""
 
-#: bp-groups.php:570
+#: bp-groups.php:574
 msgid "You left the group successfully."
 msgstr ""
 
-#: bp-groups.php:599
+#: bp-groups.php:603
 msgid ""
 "There was an error sending your group membership request, please try again."
 msgstr ""
 
-#: bp-groups.php:601
+#: bp-groups.php:605
 msgid ""
 "Your membership request was sent to the group administrator successfully. "
 "You will be notified when the group administrator responds to your request."
 msgstr ""
 
-#: bp-groups.php:634
+#: bp-groups.php:638
 msgid "There was an error updating group details, please try again."
 msgstr ""
 
-#: bp-groups.php:636
+#: bp-groups.php:640
 msgid "Group details were successfully updated."
 msgstr ""
 
-#: bp-groups.php:671
+#: bp-groups.php:675
 msgid "There was an error updating group settings, please try again."
 msgstr ""
 
-#: bp-groups.php:673
+#: bp-groups.php:677
 msgid "Group settings were successfully updated."
 msgstr ""
 
-#: bp-groups.php:716
+#: bp-groups.php:720
 msgid "There was an error updating the group avatar, please try again."
 msgstr ""
 
-#: bp-groups.php:718
+#: bp-groups.php:722
 msgid "The group avatar was successfully updated."
 msgstr ""
 
-#: bp-groups.php:746
+#: bp-groups.php:750
 msgid "There was an error when promoting that user, please try again"
 msgstr ""
 
-#: bp-groups.php:748
+#: bp-groups.php:752
 msgid "User promoted successfully"
 msgstr ""
 
-#: bp-groups.php:761
+#: bp-groups.php:765
 msgid "There was an error when demoting that user, please try again"
 msgstr ""
 
-#: bp-groups.php:763
+#: bp-groups.php:767
 msgid "User demoted successfully"
 msgstr ""
 
-#: bp-groups.php:776
+#: bp-groups.php:780
 msgid "There was an error when banning that user, please try again"
 msgstr ""
 
-#: bp-groups.php:778
+#: bp-groups.php:782
 msgid "User banned successfully"
 msgstr ""
 
-#: bp-groups.php:791
+#: bp-groups.php:795
 msgid "There was an error when unbanning that user, please try again"
 msgstr ""
 
-#: bp-groups.php:793
+#: bp-groups.php:797
 msgid "User ban removed successfully"
 msgstr ""
 
-#: bp-groups.php:828
+#: bp-groups.php:832
 msgid "There was an error accepting the membership request, please try again."
 msgstr ""
 
-#: bp-groups.php:830
+#: bp-groups.php:834
 msgid "Group membership request accepted"
 msgstr ""
 
-#: bp-groups.php:837
+#: bp-groups.php:841
 msgid "There was an error rejecting the membership request, please try again."
 msgstr ""
 
-#: bp-groups.php:839
+#: bp-groups.php:843
 msgid "Group membership request rejected"
 msgstr ""
 
-#: bp-groups.php:867
+#: bp-groups.php:871
 msgid "There was an error deleting the group, please try again."
 msgstr ""
 
-#: bp-groups.php:869
+#: bp-groups.php:873
 msgid "The group was deleted successfully"
 msgstr ""
 
-#: bp-groups.php:897
+#: bp-groups.php:901
 msgid "A member invites you to join a group"
 msgstr ""
 
-#: bp-groups.php:903
+#: bp-groups.php:907
 msgid "Group information is updated"
 msgstr ""
 
-#: bp-groups.php:910
+#: bp-groups.php:914
 msgid "A member posts on the wire of a group you belong to"
 msgstr ""
 
-#: bp-groups.php:917
+#: bp-groups.php:921
 msgid "You are promoted to a group administrator or moderator"
 msgstr ""
 
-#: bp-groups.php:923
+#: bp-groups.php:927
 msgid "A member requests to join a private group for which you are an admin"
 msgstr ""
 
-#: bp-groups.php:947
+#: bp-groups.php:951
 msgid "There was an error joining the group."
 msgstr ""
 
-#: bp-groups.php:949
+#: bp-groups.php:953
 msgid "You joined the group!"
 msgstr ""
 
-#: bp-groups.php:1015
+#: bp-groups.php:1019
 #, php-format
 msgid "%s joined the group %s"
 msgstr ""
 
-#: bp-groups.php:1029
+#: bp-groups.php:1033
 #, php-format
 msgid "%s created the group %s"
 msgstr ""
 
-#: bp-groups.php:1043
+#: bp-groups.php:1047
 #, php-format
 msgid "%s wrote on the wire of the group %s"
 msgstr ""
 
-#: bp-groups.php:1067
+#: bp-groups.php:1071
 #, php-format
 msgid "%s posted on the forum topic %s in the group %s:"
 msgstr ""
 
-#: bp-groups.php:1092
+#: bp-groups.php:1096
 #, php-format
 msgid "%s created the forum topic %s in the group %s:"
 msgstr ""
 
-#: bp-groups.php:1123
+#: bp-groups.php:1127
 msgid "Group Membership Requests"
 msgstr ""
 
-#: bp-groups.php:1123
+#: bp-groups.php:1127
 #, php-format
 msgid "%d new membership requests for the group \"%s\""
 msgstr ""
 
-#: bp-groups.php:1126
+#: bp-groups.php:1130
 #, php-format
 msgid "%s requests membership for the group \"%s\""
 msgstr ""
 
-#: bp-groups.php:1137
+#: bp-groups.php:1141
 #, php-format
 msgid "%d accepted group membership requests"
 msgstr ""
 
-#: bp-groups.php:1139
+#: bp-groups.php:1143
 #, php-format
 msgid "Membership for group \"%s\" accepted"
 msgstr ""
 
-#: bp-groups.php:1150
+#: bp-groups.php:1154
 #, php-format
 msgid "%d rejected group membership requests"
 msgstr ""
 
-#: bp-groups.php:1152
+#: bp-groups.php:1156
 #, php-format
 msgid "Membership for group \"%s\" rejected"
 msgstr ""
 
-#: bp-groups.php:1164
+#: bp-groups.php:1168
 #, php-format
 msgid "You were promoted to an admin in %d groups"
 msgstr ""
 
-#: bp-groups.php:1166
+#: bp-groups.php:1170
 #, php-format
 msgid "You were promoted to an admin in the group %s"
 msgstr ""
 
-#: bp-groups.php:1177
+#: bp-groups.php:1181
 #, php-format
 msgid "You were promoted to a mod in %d groups"
 msgstr ""
 
-#: bp-groups.php:1179
+#: bp-groups.php:1183
 #, php-format
 msgid "You were promoted to a mod in the group %s"
 msgstr ""
 
-#: bp-groups.php:1190 bp-groups.php:1192
+#: bp-groups.php:1194 bp-groups.php:1196
 #: bp-themes/buddypress-member/groups/list-invites.php:12
 msgid "Group Invites"
 msgstr ""
 
-#: bp-groups.php:1190
+#: bp-groups.php:1194
 #, php-format
 msgid "You have %d new group invitations"
 msgstr ""
 
-#: bp-groups.php:1192
+#: bp-groups.php:1196
 #, php-format
 msgid "You have an invitation to the group: %s"
 msgstr ""
 
-#: bp-groups.php:1323
+#: bp-groups.php:1327
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr ""
 
-#: bp-groups.php:1324
+#: bp-groups.php:1328
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
 
-#: bp-groups.php:1332
+#: bp-groups.php:1336
 msgid "Your group avatar upload failed, please try again. Error was: "
 msgstr ""
 
-#: bp-groups.php:1338
+#: bp-groups.php:1342
 msgid "The file you uploaded is too big. Please upload a file under"
 msgstr ""
 
-#: bp-groups.php:1349
+#: bp-groups.php:1353
 msgid ""
 "Upload Failed! Please check the permissions on the group avatar upload "
 "directory."
 msgstr ""
 
-#: bp-groups.php:1443 bp-themes/buddypress-member/groups/group-admin.php:13
+#: bp-groups.php:1447 bp-themes/buddypress-member/groups/group-admin.php:13
 msgid "Group Admin"
 msgstr ""
 
-#: bp-groups.php:1620
+#: bp-groups.php:1624
 msgid "Reply posted successfully!"
 msgstr ""
 
-#: bp-groups.php:1630
+#: bp-groups.php:1634
 msgid "There was an error posting that reply."
 msgstr ""
 
-#: bp-groups.php:1642
+#: bp-groups.php:1646
 msgid "Topic posted successfully!"
 msgstr ""
 
-#: bp-groups.php:1652
+#: bp-groups.php:1656
 msgid "There was an error posting that topic."
 msgstr ""
 
@@ -2753,6 +2757,8 @@ msgstr ""
 msgid ""
 "%s sent you a new message:\n"
 "\n"
+"Subject: %s\n"
+"\n"
 "\"%s\"\n"
 "\n"
 "To view the message: %s\n"
@@ -3078,6 +3084,15 @@ msgstr ""
 
 #: bp-themes/buddypress-home/header.php:18
 msgid "Blog Posts Atom Feed"
+msgstr ""
+
+#: bp-themes/buddypress-home/index.php:12
+msgid "in"
+msgstr ""
+
+#: bp-themes/buddypress-home/index.php:12
+#, php-format
+msgid "by %s"
 msgstr ""
 
 #: bp-themes/buddypress-home/index.php:15
@@ -3710,24 +3725,24 @@ msgstr ""
 msgid "%s cannot be left blank."
 msgstr ""
 
-#: bp-xprofile.php:719
+#: bp-xprofile.php:721
 msgid "There was a problem saving changes to this field, please try again."
 msgstr ""
 
-#: bp-xprofile.php:736
+#: bp-xprofile.php:738
 msgid "Save Changes &raquo;"
 msgstr ""
 
-#: bp-xprofile.php:744
+#: bp-xprofile.php:746
 msgid ""
 "There were problems saving your information. Please fix the following:<br />"
 msgstr ""
 
-#: bp-xprofile.php:753
+#: bp-xprofile.php:755
 msgid "Changes saved."
 msgstr ""
 
-#: bp-xprofile.php:764
+#: bp-xprofile.php:766
 msgid "That group does not exist."
 msgstr ""
 
