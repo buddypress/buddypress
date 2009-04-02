@@ -294,7 +294,7 @@ function bp_blogs_format_activity( $item_id, $user_id, $action, $secondary_item_
 			);	
 		break;
 		case 'new_blog_post':
-			$post = new BP_Blogs_Post($secondary_item_id);
+			$post = new BP_Blogs_Post( $item_id );
 			
 			if ( !$post )
 				return false;
@@ -455,12 +455,10 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 			
 			bp_blogs_update_blogmeta( $recorded_post->blog_id, 'last_activity', time() );
 			
-			$is_private = bp_blogs_is_blog_hidden( $recorded_post->blog_id );
-			
-			if ( $recorded_post->date_created >= strtotime( "-24 hours" ) ) {
+			if ( strtotime( $recorded_post->date_created ) >= strtotime( "-24 hours" ) ) {
 				// Record in activity streams, but only if the post is 30 minutes
 				// old or less (stops old posts registering as new posts in activity streams when a comment is posted on them)
-				bp_blogs_record_activity( array( 'item_id' => $recorded_post->blog_id, 'secondary_item_id' => $recorded_post_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'is_private' => $is_private, 'user_id' => $recorded_post->user_id ) );
+				bp_blogs_record_activity( array( 'item_id' => $recorded_post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'is_private' => bp_blogs_is_blog_hidden( $recorded_post->blog_id ), 'user_id' => $recorded_post->user_id ) );
 			}
 		}
 	} else {
@@ -484,6 +482,12 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 		}
 		
 		$recorded_post = $existing_post;
+
+		/* Delete and re-add the activity stream item to reflect potential content changes. */
+		if ( strtotime( $recorded_post->date_created ) >= strtotime( "-24 hours" ) ) {
+			bp_blogs_delete_activity( array( 'item_id' => $recorded_post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'user_id' => $recorded_post->user_id ) );
+			bp_blogs_record_activity( array( 'item_id' => $recorded_post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'is_private' => bp_blogs_is_blog_hidden( $recorded_post->blog_id ), 'user_id' => $recorded_post->user_id ) );
+		}
 	}
 
 	do_action( 'bp_blogs_new_blog_post', $recorded_post, $is_private, $is_recorded );
