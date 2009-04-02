@@ -1018,7 +1018,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	
 		if ( ( $count2 = floor( ( $since - ( $seconds * $count ) ) / $seconds2 ) ) != 0 ) {
 			/* Add to output var */
-			$output .= ( 1 == $count2 ) ? ', 1 '. $chunks[$i + 1][1] : ", " . $count2 . ' ' . $chunks[$i + 1][2];
+			$output .= ( 1 == $count2 ) ? _c( ',|Separator in time since', 'buddypress' ) . ' 1 '. $chunks[$i + 1][1] : _c( ',|Separator in time since', 'buddypress' ) . ' ' . $count2 . ' ' . $chunks[$i + 1][2];
 		}
 	}
 
