@@ -1174,10 +1174,6 @@ function bp_core_sort_nav_items( $nav_array ) {
 				$new_nav[6] = $nav_array[$key];
 				unset($nav_array[$key]);
 			break;
-			case $bp->photos->slug:
-				$new_nav[7] = $nav_array[$key];
-				unset($nav_array[$key]);
-			break;
 			case $bp->account->slug:
 				$new_nav[8] = $nav_array[$key];
 				unset($nav_array[$key]);
