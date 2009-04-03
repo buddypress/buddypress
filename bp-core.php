@@ -14,9 +14,9 @@ define( 'BP_CORE_VERSION', '1.0-RC2' );
 define( 'BP_CORE_DB_VERSION', '1300' );
 
 /* Define the path and url of the BuddyPress plugins directory */
-$bpdir = array_pop( explode( '/', dirname(__FILE__) ) );
-define( 'BP_PLUGIN_DIR', WP_PLUGIN_DIR . '/' . $bpdir );
-define( 'BP_PLUGIN_URL', WP_PLUGIN_URL . '/' . $bpdir );
+$bpdir = str_replace( WP_PLUGIN_DIR, '', dirname(__FILE__) );
+define( 'BP_PLUGIN_DIR', WP_PLUGIN_DIR . $bpdir );
+define( 'BP_PLUGIN_URL', WP_PLUGIN_URL . $bpdir );
 
 /* Place your custom code (actions/filters) in a file called bp-custom.php and it will be loaded before anything else. */
 if ( file_exists( BP_PLUGIN_DIR . '/bp-custom.php' ) )
