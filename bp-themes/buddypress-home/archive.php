@@ -11,7 +11,7 @@
 			<h3 class="pageTitle"><?php _e( 'Archive for the', 'buddypress' ) ?> &#8216;<?php single_cat_title(); ?>&#8217; <?php _e( 'Category', 'buddypress' ) ?></h3>
 
 	 	  	 <?php /* If this is a daily archive */ } elseif (is_day()) { ?>
-			<h3 class="pageTitle"><?php _e( 'Archive for', 'buddypress' ) ?> <?php the_time('F jS, Y'); ?></h3>
+			<h3 class="pageTitle"><?php _e( 'Archive for', 'buddypress' ) ?> <?php the_time('F j, Y'); ?></h3>
 
 		 	 <?php /* If this is a monthly archive */ } elseif (is_month()) { ?>
 			<h3 class="pageTitle"><?php _e( 'Archive for', 'buddypress' ) ?> <?php the_time('F, Y'); ?></h3>
@@ -36,7 +36,7 @@
 			<?php while (have_posts()) : the_post(); ?>
 			<div class="post">
 					<h3 id="post-<?php the_ID(); ?>"><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php _e( 'Permanent Link to', 'buddypress' ) ?> <?php the_title(); ?>"><?php the_title(); ?></a></h3>
-					<small><?php the_time('l, F jS, Y') ?></small>
+					<small><?php the_time('F j, Y') ?></small>
 
 					<div class="entry">
 						<?php the_content() ?>

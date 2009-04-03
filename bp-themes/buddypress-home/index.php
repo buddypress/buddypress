@@ -9,7 +9,7 @@
 			<?php while (have_posts()) : the_post(); ?>
 				<div class="post" id="post-<?php the_ID(); ?>">
 					<h3><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php _e( 'Permanent Link to', 'buddypress' ) ?> <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h3>
-					<p class="date"><?php the_time('F jS, Y') ?> <em><?php _e( 'in', 'buddypress' ) ?> <?php the_category(', ') ?> <?php printf( __( 'by %s', 'buddypress' ), bp_core_get_userlink($post->post_author) ) ?></em></p>
+					<p class="date"><?php the_time('F j, Y') ?> <em><?php _e( 'in', 'buddypress' ) ?> <?php the_category(', ') ?> <?php printf( __( 'by %s', 'buddypress' ), bp_core_get_userlink($post->post_author) ) ?></em></p>
 
 					<div class="entry">
 						<?php the_content( __( 'Read the rest of this entry &raquo;', 'buddypress' ) ); ?>
