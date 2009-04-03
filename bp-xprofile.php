@@ -4,7 +4,7 @@ Plugin Name: BuddyPress Extended Profiles
 Plugin URI: http://buddypress.org/
 Description: Activates customizable profiles and avatars for site users.
 Author: BuddyPress
-Version: 1.0-RC1
+Version: 1.0-RC2
 Author URI: http://buddypress.org
 Site Wide Only: true
 */
@@ -12,8 +12,8 @@ Site Wide Only: true
 require_once( 'bp-core.php' );
 
 /* Set the version number */
-define ( 'BP_XPROFILE_VERSION', '1.0-RC1' );
-define ( 'BP_XPROFILE_DB_VERSION', '948' );
+define ( 'BP_XPROFILE_VERSION', '1.0-RC2' );
+define ( 'BP_XPROFILE_DB_VERSION', '1300' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_XPROFILE_SLUG' ) )
@@ -149,7 +149,7 @@ function xprofile_setup_globals() {
 	$bp->profile->table_name_data = $wpdb->base_prefix . 'bp_xprofile_data';
 	$bp->profile->format_activity_function = 'xprofile_format_activity';
 	$bp->profile->format_notification_function = 'xprofile_format_notifications';
-	$bp->profile->image_base = WPMU_PLUGIN_URL . '/bp-xprofile/images';
+	$bp->profile->image_base = BP_PLUGIN_URL . '/bp-xprofile/images';
 	$bp->profile->slug = BP_XPROFILE_SLUG;
 
 	$bp->version_numbers->profile = BP_XPROFILE_VERSION;

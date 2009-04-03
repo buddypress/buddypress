@@ -10,8 +10,8 @@
  */
 function bp_core_add_js() {
 	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'jquery-livequery-pack', WPMU_PLUGIN_URL . '/bp-core/js/jquery/jquery.livequery.pack.js', 'jquery' );
-	wp_enqueue_script( 'bp-general-js', WPMU_PLUGIN_URL . '/bp-core/js/general.js' );
+	wp_enqueue_script( 'jquery-livequery-pack', BP_PLUGIN_URL . '/bp-core/js/jquery/jquery.livequery.pack.js', 'jquery' );
+	wp_enqueue_script( 'bp-general-js', BP_PLUGIN_URL . '/bp-core/js/general.js' );
 }
 add_action( 'wp', 'bp_core_add_js' );
 add_action( 'admin_menu', 'bp_core_add_js' );
@@ -26,7 +26,7 @@ add_action( 'admin_menu', 'bp_core_add_js' );
  */
 function bp_core_add_ajax_js() {
 	echo 
-'<script type="text/javascript">var ajaxurl = "' . WPMU_PLUGIN_URL . '/bp-core/bp-core-ajax-handler.php";</script>
+'<script type="text/javascript">var ajaxurl = "' . BP_PLUGIN_URL . '/bp-core/bp-core-ajax-handler.php";</script>
 ';
 }
 add_action( 'wp_head', 'bp_core_add_ajax_js' );
@@ -61,10 +61,10 @@ function bp_core_admin_bar_css() {
 		return false;
 		
 	if ( is_user_logged_in() || ( (int)get_site_option( 'show-loggedout-adminbar' ) && !is_user_logged_in() ) ) {
-		wp_enqueue_style( 'bp-admin-bar', WPMU_PLUGIN_URL . '/bp-core/css/admin-bar.css' );
+		wp_enqueue_style( 'bp-admin-bar', BP_PLUGIN_URL . '/bp-core/css/admin-bar.css' );
 		
-		if ( 'rtl' == get_bloginfo('text_direction') && file_exists( WPMU_PLUGIN_DIR . '/bp-core/css/admin-bar-rtl.css' ) )
-			wp_enqueue_style( 'bp-admin-bar-rtl', WPMU_PLUGIN_URL . '/bp-core/css/admin-bar-rtl.css' );	
+		if ( 'rtl' == get_bloginfo('text_direction') && file_exists( BP_PLUGIN_DIR . '/bp-core/css/admin-bar-rtl.css' ) )
+			wp_enqueue_style( 'bp-admin-bar-rtl', BP_PLUGIN_URL . '/bp-core/css/admin-bar-rtl.css' );	
 	}
 	wp_print_styles();
 }
@@ -80,7 +80,7 @@ add_action( 'wp_head', 'bp_core_admin_bar_css', 1 );
  */
 function bp_core_add_structure_css() {
 	/* Enqueue the structure CSS file to give basic positional formatting for components */
-	wp_enqueue_style( 'bp-core-structure', WPMU_PLUGIN_URL . '/bp-core/css/structure.css' );	
+	wp_enqueue_style( 'bp-core-structure', BP_PLUGIN_URL . '/bp-core/css/structure.css' );	
 }
 add_action( 'bp_styles', 'bp_core_add_structure_css' );
 
@@ -94,7 +94,7 @@ add_action( 'bp_styles', 'bp_core_add_structure_css' );
  */
 function bp_core_add_admin_js() {
 	if ( false !== strpos( $_GET['page'], 'bp-core' ) ) {
-		wp_enqueue_script( 'bp-account-admin-js', WPMU_PLUGIN_URL . '/bp-core/js/account-admin.js' );
+		wp_enqueue_script( 'bp-account-admin-js', BP_PLUGIN_URL . '/bp-core/js/account-admin.js' );
 	}
 	
 	if ( false !== strpos( $_GET['page'], 'bp-core/admin-mods' ) ) {
@@ -115,7 +115,7 @@ function bp_core_add_admin_css() {
 	if ( defined( 'BP_DISABLE_ADMIN_BAR') )
 		return false;
 		
-	wp_enqueue_style( 'bp-admin-bar', WPMU_PLUGIN_URL . '/bp-core/css/admin-bar.css' );
+	wp_enqueue_style( 'bp-admin-bar', BP_PLUGIN_URL . '/bp-core/css/admin-bar.css' );
 }
 add_action( 'admin_menu', 'bp_core_add_admin_css' );
 

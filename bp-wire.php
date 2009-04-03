@@ -4,7 +4,7 @@ Plugin Name: BuddyPress Wire
 Plugin URI: http://buddypress.org/
 Description: Allows users to leave a comment on groups, profiles and custom components.
 Author: BuddyPress
-Version: 1.0-RC1
+Version: 1.0-RC2
 Author URI: http://buddypress.org
 Site Wide Only: true
 */
@@ -12,7 +12,7 @@ Site Wide Only: true
 require_once( 'bp-core.php' );
 
 define ( 'BP_WIRE_IS_INSTALLED', 1 );
-define ( 'BP_WIRE_VERSION', '1.0-RC1' );
+define ( 'BP_WIRE_VERSION', '1.0-RC2' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_WIRE_SLUG' ) )
@@ -38,7 +38,7 @@ function bp_wire_install() {
 function bp_wire_setup_globals() {
 	global $bp, $wpdb;
 	
-	$bp->wire->image_base = WPMU_PLUGIN_URL . '/bp-wire/images';
+	$bp->wire->image_base = BP_PLUGIN_URL . '/bp-wire/images';
 	$bp->wire->slug = BP_WIRE_SLUG;
 
 	$bp->version_numbers->wire = BP_WIRE_VERSION;

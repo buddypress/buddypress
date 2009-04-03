@@ -26,7 +26,7 @@ function bp_core_admin_bar() {
 function bp_adminbar_logo() {
 	global $bp;
 	
-	echo '<a href="' . $bp->root_domain . '"><img id="admin-bar-logo" src="' . apply_filters( 'bp_admin_bar_logo_src', WPMU_PLUGIN_URL . '/bp-core/images/admin_bar_logo.gif' ) . '" alt="' . apply_filters( 'bp_admin_bar_logo_alt_text', __( 'BuddyPress', 'buddypress' ) ) . '" /></a>';
+	echo '<a href="' . $bp->root_domain . '"><img id="admin-bar-logo" src="' . apply_filters( 'bp_admin_bar_logo_src', BP_PLUGIN_URL . '/bp-core/images/admin_bar_logo.gif' ) . '" alt="' . apply_filters( 'bp_admin_bar_logo_alt_text', __( 'BuddyPress', 'buddypress' ) ) . '" /></a>';
 }
 
 // **** "Log In" and "Sign Up" links (Visible when not logged in) ********

@@ -4,7 +4,7 @@ Plugin Name: BuddyPress Groups
 Plugin URI: http://buddypress.org/
 Description: Allows users to create, join and participate in groups.
 Author: BuddyPress
-Version: 1.0-RC1
+Version: 1.0-RC2
 Author URI: http://buddypress.org
 Site Wide Only: true
 */
@@ -12,8 +12,8 @@ Site Wide Only: true
 require_once( 'bp-core.php' );
 
 define ( 'BP_GROUPS_IS_INSTALLED', 1 );
-define ( 'BP_GROUPS_VERSION', '1.0-RC1' );
-define ( 'BP_GROUPS_DB_VERSION', '951' );
+define ( 'BP_GROUPS_VERSION', '1.0-RC2' );
+define ( 'BP_GROUPS_DB_VERSION', '1300' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_GROUPS_SLUG' ) )
@@ -139,7 +139,7 @@ function groups_setup_globals( $no_global = false ) {
 	$bp->groups->table_name = $wpdb->base_prefix . 'bp_groups';
 	$bp->groups->table_name_members = $wpdb->base_prefix . 'bp_groups_members';
 	$bp->groups->table_name_groupmeta = $wpdb->base_prefix . 'bp_groups_groupmeta';
-	$bp->groups->image_base = WPMU_PLUGIN_URL . '/bp-groups/images';
+	$bp->groups->image_base = BP_PLUGIN_URL . '/bp-groups/images';
 	$bp->groups->format_activity_function = 'groups_format_activity';
 	$bp->groups->format_notification_function = 'groups_format_notifications';
 	$bp->groups->slug = BP_GROUPS_SLUG;
@@ -312,7 +312,7 @@ function groups_directory_groups_setup() {
 	if ( $bp->current_component == $bp->groups->slug && empty( $bp->current_action ) ) {
 		$bp->is_directory = true;
 
-		wp_enqueue_script( 'bp-groups-directory-groups', WPMU_PLUGIN_URL . '/bp-groups/js/directory-groups.js', array( 'jquery', 'jquery-livequery-pack' ) );
+		wp_enqueue_script( 'bp-groups-directory-groups', BP_PLUGIN_URL . '/bp-groups/js/directory-groups.js', array( 'jquery', 'jquery-livequery-pack' ) );
 		bp_core_load_template( 'directories/groups/index' );
 	}
 }

@@ -4,7 +4,7 @@ Plugin Name: BuddyPress Friends
 Plugin URI: http://buddypress.org/
 Description: Allows the creation of friend connections between users.
 Author: BuddyPress
-Version: 1.0-RC1
+Version: 1.0-RC2
 Author URI: http://buddypress.org
 Site Wide Only: true
 */
@@ -12,8 +12,8 @@ Site Wide Only: true
 require_once( 'bp-core.php' );
 
 define ( 'BP_FRIENDS_IS_INSTALLED', 1 );
-define ( 'BP_FRIENDS_VERSION', '1.0-RC1' );
-define ( 'BP_FRIENDS_DB_VERSION', '937' );
+define ( 'BP_FRIENDS_VERSION', '1.0-RC2' );
+define ( 'BP_FRIENDS_DB_VERSION', '1300' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_FRIENDS_SLUG' ) )
@@ -66,7 +66,7 @@ function friends_setup_globals() {
 	global $bp, $wpdb;
 	
 	$bp->friends->table_name = $wpdb->base_prefix . 'bp_friends';
-	$bp->friends->image_base = WPMU_PLUGIN_URL . '/bp-friends/images';
+	$bp->friends->image_base = BP_PLUGIN_URL . '/bp-friends/images';
 	$bp->friends->format_activity_function = 'friends_format_activity';
 	$bp->friends->format_notification_function = 'friends_format_notifications';
 

@@ -4,18 +4,23 @@ Plugin Name: BuddyPress Core
 Plugin URI: http://buddypress.org/
 Description: This plugin must be activated when using any other BuddyPress plugins.
 Author: BuddyPress
-Version: 1.0-RC1
+Version: 1.0-RC2
 Author URI: http://buddypress.org
 Site Wide Only: true
 */
 
-/* Place your custom code (actions/filters) in a file called bp-custom.php and it will be loaded before anything else. */
-if ( file_exists( WPMU_PLUGIN_DIR . '/bp-custom.php' ) )
-	require( WPMU_PLUGIN_DIR . '/bp-custom.php' );
-
 /* Define the current version number for checking if DB tables are up to date. */
-define( 'BP_CORE_VERSION', '1.0-RC1' );
-define( 'BP_CORE_DB_VERSION', '1031' );
+define( 'BP_CORE_VERSION', '1.0-RC2' );
+define( 'BP_CORE_DB_VERSION', '1300' );
+
+/* Define the path and url of the BuddyPress plugins directory */
+$bpdir = array_pop( explode( '/', dirname(__FILE__) ) );
+define( 'BP_PLUGIN_DIR', WP_PLUGIN_DIR . '/' . $bpdir );
+define( 'BP_PLUGIN_URL', WP_PLUGIN_URL . '/' . $bpdir );
+
+/* Place your custom code (actions/filters) in a file called bp-custom.php and it will be loaded before anything else. */
+if ( file_exists( BP_PLUGIN_DIR . '/bp-custom.php' ) )
+	require( BP_PLUGIN_DIR . '/bp-custom.php' );
 
 /* Define on which blog ID BuddyPress should run */
 if ( !defined( 'BP_ROOT_BLOG' ) )
@@ -29,8 +34,8 @@ if ( !defined( 'CUSTOM_USER_META_TABLE' ) )
 	define( 'CUSTOM_USER_META_TABLE', $wpdb->base_prefix . 'usermeta' );
 
 /* Load the language file */
-if ( file_exists( WPMU_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() . '.mo' ) )
-	load_textdomain( 'buddypress', WPMU_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() . '.mo' );
+if ( file_exists( BP_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() . '.mo' ) )
+	load_textdomain( 'buddypress', BP_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() . '.mo' );
 
 /* Load the files containing functions that we globally will need. */
 require ( 'bp-core/bp-core-catchuri.php' );
@@ -153,7 +158,7 @@ function bp_core_setup_globals() {
 	/* Used to determine if the logged in user is a moderator for the current content. */
 	$bp->is_item_mod = false;
 	
-	$bp->core->image_base = WPMU_PLUGIN_URL . '/bp-core/images';
+	$bp->core->image_base = BP_PLUGIN_URL . '/bp-core/images';
 	$bp->core->table_name_notifications = $wpdb->base_prefix . 'bp_notifications';
 	
 	/* Used to print version numbers in the footer for reference */
@@ -335,7 +340,7 @@ function bp_core_directory_members() {
 		$bp->is_directory = true;
 		$bp->current_component = false;
 
-		wp_enqueue_script( 'bp-core-directory-members', WPMU_PLUGIN_URL . '/bp-core/js/directory-members.js', array( 'jquery', 'jquery-livequery-pack' ) );
+		wp_enqueue_script( 'bp-core-directory-members', BP_PLUGIN_URL . '/bp-core/js/directory-members.js', array( 'jquery', 'jquery-livequery-pack' ) );
 		bp_core_load_template( 'directories/members/index' );
 	}
 }
@@ -1174,13 +1179,9 @@ function bp_core_sort_nav_items( $nav_array ) {
 				$new_nav[6] = $nav_array[$key];
 				unset($nav_array[$key]);
 			break;
-			case $bp->account->slug:
-				$new_nav[8] = $nav_array[$key];
-				unset($nav_array[$key]);
-			break;
 		}
 	}
-	
+
 	if ( is_array( $new_nav ) ) {
 		/* Sort the navigation array by key */
 		ksort($new_nav);

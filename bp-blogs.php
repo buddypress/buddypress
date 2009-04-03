@@ -4,15 +4,15 @@ Plugin Name: BuddyPress Blog Tracking
 Plugin URI: http://buddypress.org/
 Description: Tracks blogs, blog posts and blogs comments for a user across a WPMU installation.
 Author: BuddyPress
-Version: 1.0-RC1
+Version: 1.0-RC2
 Author URI: http://buddypress.org
 Site Wide Only: true
 */
 
 require_once( 'bp-core.php' );
 
-define ( 'BP_BLOGS_VERSION', '1.0-RC1' );
-define ( 'BP_BLOGS_DB_VERSION', '937' );
+define ( 'BP_BLOGS_VERSION', '1.0-RC2' );
+define ( 'BP_BLOGS_DB_VERSION', '1300' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_BLOGS_SLUG' ) )
@@ -147,7 +147,7 @@ function bp_blogs_setup_globals() {
 	$bp->blogs->table_name_blogmeta = $wpdb->base_prefix . 'bp_user_blogs_blogmeta';
 	$bp->blogs->format_activity_function = 'bp_blogs_format_activity';
 	$bp->blogs->format_notification_function = 'bp_blogs_format_notifications';
-	$bp->blogs->image_base = WPMU_PLUGIN_URL . '/bp-groups/images';
+	$bp->blogs->image_base = BP_PLUGIN_URL . '/bp-groups/images';
 	$bp->blogs->slug = BP_BLOGS_SLUG;
 
 	$bp->version_numbers->blogs = BP_BLOGS_VERSION;
@@ -209,7 +209,7 @@ function bp_blogs_directory_blogs_setup() {
 	if ( $bp->current_component == $bp->blogs->slug && empty( $bp->current_action ) ) {
 		$bp->is_directory = true;
 
-		wp_enqueue_script( 'bp-blogs-directory-blogs', WPMU_PLUGIN_URL . '/bp-blogs/js/directory-blogs.js', array( 'jquery', 'jquery-livequery-pack' ) );
+		wp_enqueue_script( 'bp-blogs-directory-blogs', BP_PLUGIN_URL . '/bp-blogs/js/directory-blogs.js', array( 'jquery', 'jquery-livequery-pack' ) );
 		bp_core_load_template( 'directories/blogs/index' );
 	}
 }

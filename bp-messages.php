@@ -4,7 +4,7 @@ Plugin Name: BuddyPress Private Messaging
 Plugin URI: http://buddypress.org/
 Description: Enables the ability for users to send private messages to one another. Site admins can send site notices.
 Author: BuddyPress
-Version: 1.0-RC1
+Version: 1.0-RC2
 Author URI: http://buddypress.org
 Site Wide Only: true
 */
@@ -12,8 +12,8 @@ Site Wide Only: true
 require_once( 'bp-core.php' );
 
 define ( 'BP_MESSAGES_IS_INSTALLED', 1 );
-define ( 'BP_MESSAGES_VERSION', '1.0-RC1' );
-define ( 'BP_MESSAGES_DB_VERSION', '948' );
+define ( 'BP_MESSAGES_VERSION', '1.0-RC2' );
+define ( 'BP_MESSAGES_DB_VERSION', '1300' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_MESSAGES_SLUG' ) )
@@ -112,7 +112,7 @@ function messages_setup_globals() {
 	$bp->messages->table_name_notices = $wpdb->base_prefix . 'bp_messages_notices';
 	$bp->messages->format_activity_function = 'messages_format_activity';
 	$bp->messages->format_notification_function = 'messages_format_notifications';
-	$bp->messages->image_base = WPMU_PLUGIN_URL . '/bp-messages/images';
+	$bp->messages->image_base = BP_PLUGIN_URL . '/bp-messages/images';
 	$bp->messages->slug = BP_MESSAGES_SLUG;
 
 	$bp->version_numbers->messages = BP_MESSAGES_VERSION;

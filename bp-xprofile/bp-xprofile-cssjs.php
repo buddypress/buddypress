@@ -8,7 +8,7 @@ add_action( 'wp', 'xprofile_add_js' );
 
 function xprofile_add_css() {
 	if ( $_SERVER['SCRIPT_NAME'] == '/wp-signup.php' )
-		wp_enqueue_style( 'bp-xprofile-signup', WPMU_PLUGIN_URL . '/bp-xprofile/css/signup.css' );	
+		wp_enqueue_style( 'bp-xprofile-signup', BP_PLUGIN_URL . '/bp-xprofile/css/signup.css' );	
 	
 	wp_print_styles();
 }
@@ -16,20 +16,20 @@ add_action( 'wp_head', 'xprofile_add_css' );
 
 function xprofile_add_structure_css() {
 	/* Enqueue the structure CSS file to give basic positional formatting for xprofile pages */
-	wp_enqueue_style( 'bp-xprofile-structure', WPMU_PLUGIN_URL . '/bp-xprofile/css/structure.css' );	
+	wp_enqueue_style( 'bp-xprofile-structure', BP_PLUGIN_URL . '/bp-xprofile/css/structure.css' );	
 }
 add_action( 'bp_styles', 'xprofile_add_structure_css' );
 
 function xprofile_add_admin_css() {
 	if ( strpos( $_GET['page'], 'xprofile' ) !== false ) {
-		echo '<link rel="stylesheet" href="' . WPMU_PLUGIN_URL . '/bp-xprofile/css/admin.css' . '" type="text/css" />';
+		echo '<link rel="stylesheet" href="' . BP_PLUGIN_URL . '/bp-xprofile/css/admin.css' . '" type="text/css" />';
 	}
 }
 add_action( 'admin_head', 'xprofile_add_admin_css' );
 
 function xprofile_add_admin_js() {
 	if ( strpos( $_GET['page'], 'xprofile' ) !== false )
-		echo '<script type="text/javascript" src="' . WPMU_PLUGIN_URL . '/bp-xprofile/js/admin.js' . '"></script>';
+		echo '<script type="text/javascript" src="' . BP_PLUGIN_URL . '/bp-xprofile/js/admin.js' . '"></script>';
 }
 add_action( 'admin_head', 'xprofile_add_admin_js' );
 

@@ -4,7 +4,7 @@ Plugin Name: BuddyPress Forum Integration
 Plugin URI: http://buddypress.org/
 Description: Activates bbPress forum support within BuddyPress groups or any other custom component.
 Author: BuddyPress
-Version: 1.0-RC1
+Version: 1.0-RC2
 Author URI: http://buddypress.org
 Site Wide Only: true
 */
@@ -17,7 +17,7 @@ http://wordpress.org/extend/plugins/bbpress-live/
 
 require_once( 'bp-core.php' );
 
-define ( 'BP_FORUMS_VERSION', '1.0-RC1' );
+define ( 'BP_FORUMS_VERSION', '1.0-RC2' );
 
 /* Define the parent forum ID */
 if ( !defined( 'BP_FORUMS_PARENT_FORUM_ID' ) )

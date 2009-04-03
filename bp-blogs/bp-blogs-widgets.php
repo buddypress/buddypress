@@ -9,7 +9,7 @@ function bp_blogs_register_widgets() {
 	wp_register_widget_control( 'buddypress-blogs', __('Recent Blog Posts', 'buddypress'), 'bp_blogs_widget_recent_posts_control' );
 
 	if ( is_active_widget( 'bp_blogs_widget_recent_posts' ) ) {
-		wp_enqueue_style( 'bp-blogs-widget-posts-css', WPMU_PLUGIN_URL . '/bp-blogs/css/widget-blogs.css' );		
+		wp_enqueue_style( 'bp-blogs-widget-posts-css', BP_PLUGIN_URL . '/bp-blogs/css/widget-blogs.css' );		
 	}
 }
 add_action( 'plugins_loaded', 'bp_blogs_register_widgets' );

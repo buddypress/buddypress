@@ -4,7 +4,7 @@ Plugin Name: BuddyPress Activity Streams
 Plugin URI: http://buddypress.org/
 Description: Activates activity streams for all users, plus a site-wide activity stream.
 Author: BuddyPress
-Version: 1.0-RC1
+Version: 1.0-RC2
 Author URI: http://buddypress.org
 Site Wide Only: true
 */
@@ -12,8 +12,8 @@ Site Wide Only: true
 require_once( 'bp-core.php' );
 
 define ( 'BP_ACTIVITY_IS_INSTALLED', 1 );
-define ( 'BP_ACTIVITY_VERSION', '1.0-RC1' );
-define ( 'BP_ACTIVITY_DB_VERSION', '1211' );
+define ( 'BP_ACTIVITY_VERSION', '1.0-RC2' );
+define ( 'BP_ACTIVITY_DB_VERSION', '1300' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_ACTIVITY_SLUG' ) )
@@ -127,7 +127,7 @@ function bp_activity_setup_globals() {
 	$bp->activity->table_name_user_activity_cached = $wpdb->base_prefix . 'bp_activity_user_activity_cached';
 	$bp->activity->table_name_sitewide = $wpdb->base_prefix . 'bp_activity_sitewide';
 	
-	$bp->activity->image_base = WPMU_PLUGIN_URL . '/bp-activity/images';
+	$bp->activity->image_base = BP_PLUGIN_URL . '/bp-activity/images';
 	$bp->activity->slug = BP_ACTIVITY_SLUG;
 	
 	$bp->version_numbers->activity = BP_ACTIVITY_VERSION;
