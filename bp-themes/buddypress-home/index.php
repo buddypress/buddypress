@@ -15,7 +15,7 @@
 						<?php the_content( __( 'Read the rest of this entry &raquo;', 'buddypress' ) ); ?>
 					</div>
 
-					<p class="postmetadata"><span class="tags"><?php the_tags('Tags: ', ', ', '<br />'); ?></span> <span class="comments"><?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></span></p>
+					<p class="postmetadata"><span class="tags"><?php the_tags('Tags: ', ', ', '<br />'); ?></span> <span class="comments"><?php comments_popup_link( __( 'No Comments &#187;', 'buddypress' ), __( '1 Comment &#187;', 'buddypress' ), __( '% Comments &#187;', 'buddypress' ) ); ?></span></p>
 					
 					<div class="clear"></div>
 				</div>

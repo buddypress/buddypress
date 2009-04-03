@@ -198,7 +198,9 @@ function bp_core_do_catch_uri() {
 	if ( !$bp_no_status_set ) {
 		status_header( 200 );
 		$wp_query->is_404 = false;
-		$wp_query->is_page = true;
+		
+		if ( $bp->current_component != BP_HOME_BLOG_SLUG )
+			$wp_query->is_page = true;
 	}
 
 	if ( is_array( $pages ) ) {

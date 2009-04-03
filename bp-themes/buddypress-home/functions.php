@@ -46,7 +46,7 @@ register_sidebars( 1,
 function bp_show_home_blog() {
 	global $bp, $query_string;
 	
-	if ( $bp->current_component == BP_HOME_BLOG_SLUG  ) {
+	if ( $bp->current_component == BP_HOME_BLOG_SLUG ) {
 		$pos = strpos( $query_string, 'pagename=' . BP_HOME_BLOG_SLUG );
 		
 		if ( $pos !== false )
