@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-04-02 14:11+0000\n"
+"POT-Creation-Date: 2009-04-03 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -305,94 +305,94 @@ msgstr ""
 msgid "Max Number of Posts:"
 msgstr ""
 
-#: bp-core.php:272 bp-core/bp-core-adminbar.php:29
+#: bp-core.php:277 bp-core/bp-core-adminbar.php:29
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core.php:310 bp-xprofile.php:213 bp-xprofile.php:310
+#: bp-core.php:315 bp-xprofile.php:213 bp-xprofile.php:310
 msgid "Profile"
 msgstr ""
 
-#: bp-core.php:316 bp-groups/bp-groups-templatetags.php:797
+#: bp-core.php:321 bp-groups/bp-groups-templatetags.php:797
 #: bp-xprofile.php:219
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:320 bp-core/bp-core-templatetags.php:310 bp-xprofile.php:225
+#: bp-core.php:325 bp-core/bp-core-templatetags.php:310 bp-xprofile.php:225
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:681 bp-wire/bp-wire-templatetags.php:281
+#: bp-core.php:686 bp-wire/bp-wire-templatetags.php:281
 #: bp-wire/bp-wire-templatetags.php:283
 msgid "You"
 msgstr ""
 
-#: bp-core.php:852 bp-core/bp-core-templatetags.php:383
+#: bp-core.php:857 bp-core/bp-core-templatetags.php:383
 #: bp-themes/buddypress-home/comments.php:42
 msgid "at"
 msgstr ""
 
-#: bp-core.php:977
+#: bp-core.php:982
 msgid "year"
 msgstr ""
 
-#: bp-core.php:977
+#: bp-core.php:982
 msgid "years"
 msgstr ""
 
-#: bp-core.php:978
+#: bp-core.php:983
 msgid "month"
 msgstr ""
 
-#: bp-core.php:978
+#: bp-core.php:983
 msgid "months"
 msgstr ""
 
-#: bp-core.php:979
+#: bp-core.php:984
 msgid "week"
 msgstr ""
 
-#: bp-core.php:979
+#: bp-core.php:984
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:980
+#: bp-core.php:985
 msgid "day"
 msgstr ""
 
-#: bp-core.php:980
+#: bp-core.php:985
 msgid "days"
 msgstr ""
 
-#: bp-core.php:981
+#: bp-core.php:986
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:981
+#: bp-core.php:986
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:982
+#: bp-core.php:987
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:982
+#: bp-core.php:987
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:983
+#: bp-core.php:988
 msgid "second"
 msgstr ""
 
-#: bp-core.php:983 bp-core.php:1026
+#: bp-core.php:988 bp-core.php:1031
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1021
+#: bp-core.php:1026
 msgid ",|Separator in time since"
 msgstr ""
 
-#: bp-core.php:1069
+#: bp-core.php:1074
 msgid "not recently active"
 msgstr ""
 
@@ -772,7 +772,7 @@ msgstr ""
 msgid "Try Again"
 msgstr ""
 
-#: bp-core/bp-core-catchuri.php:218
+#: bp-core/bp-core-catchuri.php:220
 msgid ""
 "<strong>You do not have any BuddyPress themes installed.</strong><br /"
 ">Please download the <a href=\"http://buddypress.org/extend/themes\" title="
@@ -2917,6 +2917,24 @@ msgstr ""
 msgid "Posted in"
 msgstr ""
 
+#: bp-themes/buddypress-home/archive.php:45
+#: bp-themes/buddypress-home/index.php:18
+#: bp-themes/buddypress-home/search.php:23
+msgid "No Comments &#187;"
+msgstr ""
+
+#: bp-themes/buddypress-home/archive.php:45
+#: bp-themes/buddypress-home/index.php:18
+#: bp-themes/buddypress-home/search.php:23
+msgid "1 Comment &#187;"
+msgstr ""
+
+#: bp-themes/buddypress-home/archive.php:45
+#: bp-themes/buddypress-home/index.php:18
+#: bp-themes/buddypress-home/search.php:23
+msgid "% Comments &#187;"
+msgstr ""
+
 #: bp-themes/buddypress-home/archive.php:58
 #: bp-themes/buddypress-home/index.php:32
 msgid "Not Found"
@@ -3030,6 +3048,18 @@ msgstr ""
 
 #: bp-themes/buddypress-home/comments.php:9
 msgid "This post is password protected. Enter the password to view comments."
+msgstr ""
+
+#: bp-themes/buddypress-home/comments.php:24
+msgid "No Responses"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments.php:24
+msgid "One Response"
+msgstr ""
+
+#: bp-themes/buddypress-home/comments.php:24
+msgid "% Responses"
 msgstr ""
 
 #: bp-themes/buddypress-home/comments.php:33 bp-wire/bp-wire-ajax.php:24
