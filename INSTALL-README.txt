@@ -16,11 +16,11 @@ are not getting blank screens or 404's anywhere on the install.
 
 
 **************************************************************************
-Step 2: Add the BuddyPress plugins to your wp-content/mu-plugins directory
+Step 2: Add the BuddyPress plugins to wp-content/plugins/buddypress directory
 **************************************************************************
 
-Drop everything into the 'wp-content/mu-plugins/' directory for your installation.
-You do not need to activate plugins dropped into this folder.
+Drop everything into the 'wp-content/plugins/buddypress' directory for your installation.
+You will then need to activate each BuddyPress component in the "Plugins" admin panel.
 
 
 **************************************************
@@ -30,11 +30,11 @@ Step 3: Move the themes to their correct locations
 The home theme is not required, you can use a standard WordPress theme if you wish.
 
 If you want to use the home theme, move:
-  From: 'wp-content/mu-plugins/bp-themes/buddypress-home'
+  From: 'wp-content/plugins/buddypress/bp-themes/buddypress-home'
   To: 'wp-content/themes/buddypress-home/'
 
 Move the default BuddyPress member theme:
-  From: 'wp-content/mu-plugins/bp-themes/buddypress-member/'
+  From: 'wp-content/plugins/buddypress/bp-themes/buddypress-member/'
   To: 'wp-content/bp-themes/buddypress-member/'
 
 
