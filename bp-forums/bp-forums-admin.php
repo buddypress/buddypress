@@ -4,7 +4,7 @@ function bp_forums_add_admin_menu() {
 
 	if ( is_site_admin() ) {
 		/* Add the administration tab under the "Site Admin" tab for site administrators */
-		add_submenu_page( 'wpmu-admin.php', __( 'bbPress Forums', 'buddypress' ), __( 'bbPress Forums', 'buddypress' ), 1, "bp_forums_settings", "bp_forums_bbpress_admin" );
+		add_submenu_page( 'bp-core.php', __( 'Forums Setup', 'buddypress' ), __( 'Forums Setup', 'buddypress' ), 2, __FILE__, "bp_forums_bbpress_admin" );
 	}
 }
 add_action( 'admin_menu', 'bp_forums_add_admin_menu' );
@@ -52,6 +52,12 @@ function bp_forums_bbpress_admin() {
 	<div class="wrap">
 
 		<h2><?php _e( 'Group Forum Settings', 'buddypress' ) ?></h2>
+		
+		<?php if ( isset( $_POST['submit'] ) ) : ?>
+			<div id="message" class="updated fade">
+				<p><?php _e( 'Settings Saved.', 'buddypress' ) ?></p>
+			</div>
+		<?php endif; ?>
 		<br />
 		
 		<?php if ( isset($path_success) ) : ?><?php echo "<p id='message' class='updated fade'>$path_success</p>" ?><?php endif; ?>
@@ -59,7 +65,7 @@ function bp_forums_bbpress_admin() {
 		<p><?php _e( 'To enable forums for each group in a BuddyPress installation, you must first download, install, and setup bbPress and integrate it with WordPress MU.', 'buddypress' ) ?></p>
 		<p><?php _e( 'Once you have bbPress set up correctly, enter the options below so that BuddyPress can connect.', 'buddypress' ) ?></p>
 		
-		<form action="<?php echo site_url() . '/wp-admin/admin.php?page=bp_forums_settings' ?>" name="bbpress-path-form" id="bbpress-path-form" method="post">				
+		<form action="<?php echo site_url() . '/wp-admin/admin.php?page=' . BP_PLUGIN_DIR . '/bp-forums/bp-forums-admin.php' ?>" name="bbpress-path-form" id="bbpress-path-form" method="post">				
 			<input type="hidden" name="option_page" value="bbpress-live" />
 			
 			<table class="form-table">
@@ -105,7 +111,7 @@ function bp_forums_bbpress_admin() {
 			</table>
 			<br />
 			<p class="submit">
-				<input type="submit" name="submit" value="<?php _e('Save Settings', 'buddypress') ?>"/>
+				<input class="button-primary" type="submit" name="submit" value="<?php _e('Save Settings', 'buddypress') ?>"/>
 			</p>
 			<?php wp_nonce_field('bbpress-settings') ?>
 		</form>

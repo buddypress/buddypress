@@ -1,17 +1,5 @@
 <?php
-/*
-Plugin Name: BuddyPress Extended Profiles
-Plugin URI: http://buddypress.org/
-Description: Activates customizable profiles and avatars for site users.
-Author: BuddyPress
-Version: 1.0-RC2
-Author URI: http://buddypress.org
-Site Wide Only: true
-*/
 
-require_once( 'bp-core.php' );
-
-/* Set the version number */
 define ( 'BP_XPROFILE_VERSION', '1.0-RC2' );
 define ( 'BP_XPROFILE_DB_VERSION', '1300' );
 
@@ -185,7 +173,7 @@ function xprofile_add_admin_menu() {
 	require ( 'bp-xprofile/bp-xprofile-admin.php' );
 	
 	/* Add the administration tab under the "Site Admin" tab for site administrators */
-	add_submenu_page( 'wpmu-admin.php', __("Profile Fields", 'buddypress'), __("Profile Fields", 'buddypress'), 1, "xprofile_settings", "xprofile_admin" );
+	add_submenu_page( 'bp-core.php', __("Profile Field Setup", 'buddypress'), __("Profile Field Setup", 'buddypress'), 1, __FILE__, "xprofile_admin" );
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 	if ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )

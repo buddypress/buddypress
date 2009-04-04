@@ -1,17 +1,5 @@
 <?php
-/*
-Plugin Name: BuddyPress Groups
-Plugin URI: http://buddypress.org/
-Description: Allows users to create, join and participate in groups.
-Author: BuddyPress
-Version: 1.0-RC2
-Author URI: http://buddypress.org
-Site Wide Only: true
-*/
-  
-require_once( 'bp-core.php' );
 
-define ( 'BP_GROUPS_IS_INSTALLED', 1 );
 define ( 'BP_GROUPS_VERSION', '1.0-RC2' );
 define ( 'BP_GROUPS_DB_VERSION', '1300' );
 
@@ -25,7 +13,6 @@ require ( 'bp-groups/bp-groups-cssjs.php' );
 require ( 'bp-groups/bp-groups-templatetags.php' );
 require ( 'bp-groups/bp-groups-widgets.php' );
 require ( 'bp-groups/bp-groups-filters.php' );
-
 
 
 /**************************************************************************
@@ -133,9 +120,7 @@ function groups_setup_globals( $no_global = false ) {
 	
 	if ( !$no_global )
 		global $bp;
-		
-	
-	
+
 	$bp->groups->table_name = $wpdb->base_prefix . 'bp_groups';
 	$bp->groups->table_name_members = $wpdb->base_prefix . 'bp_groups_members';
 	$bp->groups->table_name_groupmeta = $wpdb->base_prefix . 'bp_groups_groupmeta';
@@ -164,9 +149,6 @@ add_action( 'plugins_loaded', 'groups_setup_root_component', 1 );
 function groups_check_installed() {	
 	global $wpdb, $bp;
 	
-	if ( !is_site_admin() )
-		return false;
-
 	require ( 'bp-groups/bp-groups-admin.php' );
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */

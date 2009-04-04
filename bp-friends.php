@@ -1,17 +1,5 @@
 <?php
-/*
-Plugin Name: BuddyPress Friends
-Plugin URI: http://buddypress.org/
-Description: Allows the creation of friend connections between users.
-Author: BuddyPress
-Version: 1.0-RC2
-Author URI: http://buddypress.org
-Site Wide Only: true
-*/
 
-require_once( 'bp-core.php' );
-
-define ( 'BP_FRIENDS_IS_INSTALLED', 1 );
 define ( 'BP_FRIENDS_VERSION', '1.0-RC2' );
 define ( 'BP_FRIENDS_DB_VERSION', '1300' );
 

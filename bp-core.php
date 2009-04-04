@@ -1,13 +1,4 @@
 <?php
-/*
-Plugin Name: BuddyPress Core
-Plugin URI: http://buddypress.org/
-Description: This plugin must be activated when using any other BuddyPress plugins.
-Author: BuddyPress
-Version: 1.0-RC2
-Author URI: http://buddypress.org
-Site Wide Only: true
-*/
 
 /* Define the current version number for checking if DB tables are up to date. */
 define( 'BP_CORE_VERSION', '1.0-RC2' );
@@ -191,7 +182,6 @@ function bp_core_setup_session() {
 }
 add_action( 'wp', 'bp_core_setup_session', 3 );
 
-
 function bp_core_install() {
 	global $wpdb, $bp;
 	
@@ -274,8 +264,9 @@ function bp_core_add_admin_menu() {
 		return false;
 		
 	/* Add the administration tab under the "Site Admin" tab for site administrators */
-	add_submenu_page( 'wpmu-admin.php', __("BuddyPress", 'buddypress'), __("BuddyPress", 'buddypress'), 1, "bp_core_admin_settings", "bp_core_admin_settings" );
-
+	add_menu_page( __("BuddyPress", 'buddypress'), __("BuddyPress", 'buddypress'), 2, 'bp-core.php', "bp_core_admin_settings" );
+	add_submenu_page( 'bp-core.php', __("General Settings", 'buddypress'), __("General Settings", 'buddypress'), 1, 'bp-core.php', "bp_core_admin_settings" );
+	add_submenu_page( 'bp-core.php', __("Component Setup", 'buddypress'), __("Component Setup", 'buddypress'), 2, __FILE__, "bp_core_admin_component_setup" );
 }
 add_action( 'admin_menu', 'bp_core_add_admin_menu' );
 
@@ -1377,7 +1368,7 @@ function bp_core_print_version_numbers() {
 function bp_core_print_generation_time() {
 	global $wpdb;
 	?>
-<!-- Generated in <?php timer_stop(1); ?> seconds. <?php echo $wpdb->num_queries; ?> queries. -->
+<!-- Generated in <?php timer_stop(1); ?> seconds. -->
 	<?php
 }
 add_action( 'wp_footer', 'bp_core_print_generation_time' );

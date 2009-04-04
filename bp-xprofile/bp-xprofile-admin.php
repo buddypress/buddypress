@@ -60,8 +60,8 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 					    <tr class="nodrag">
 					    	<th scope="col" colspan="<?php if ( $groups[$i]->can_delete ) { ?>3<?php } else { ?>5<?php } ?>"><?php echo $groups[$i]->name; ?></th>
 							<?php if ( $groups[$i]->can_delete ) { ?>    	
-								<th scope="col"><a class="edit" href="admin.php?page=xprofile_settings&amp;mode=edit_group&amp;group_id=<?php echo $groups[$i]->id; ?>"><?php _e( 'Edit', 'buddypress' ) ?></a></th>
-					    		<th scope="col"><a class="delete" href="admin.php?page=xprofile_settings&amp;mode=delete_group&amp;group_id=<?php echo $groups[$i]->id; ?>"><?php _e( 'Delete', 'buddypress' ) ?></a></th>
+								<th scope="col"><a class="edit" href="admin.php?page=<?php echo BP_PLUGIN_DIR ?>/bp-xprofile.php&amp;mode=edit_group&amp;group_id=<?php echo $groups[$i]->id; ?>"><?php _e( 'Edit', 'buddypress' ) ?></a></th>
+					    		<th scope="col"><a class="delete" href="admin.php?page=<?php echo BP_PLUGIN_DIR ?>/bp-xprofile.php&amp;mode=delete_group&amp;group_id=<?php echo $groups[$i]->id; ?>"><?php _e( 'Delete', 'buddypress' ) ?></a></th>
 							<?php } ?>
 						</tr>
 					</thead>
@@ -83,8 +83,8 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 							    	<td><span title="<?php echo $field->desc; ?>"><?php echo $field->name; ?> <?php if(!$field->can_delete) { ?>(Core)<?php } ?></span></td>
 							    	<td><?php echo $field->type; ?></td>
 							    	<td style="text-align:center;"><?php if ( $field->is_required ) { echo '<img src="' . $bp->profile->image_base . '/tick.gif" alt="' . _e( 'Yes', 'buddypress' ) . '" />'; } else { ?>--<?php } ?></td>
-							    	<td style="text-align:center;"><?php if ( !$field->can_delete ) { ?><strike><?php _e( 'Edit', 'buddypress' ) ?></strike><?php } else { ?><a class="edit" href="admin.php?page=xprofile_settings&amp;group_id=<?php echo $groups[$i]->id; ?>&amp;field_id=<?php echo $field->id; ?>&amp;mode=edit_field"><?php _e( 'Edit', 'buddypress' ) ?></a><?php } ?></td>
-							    	<td style="text-align:center;"><?php if ( !$field->can_delete ) { ?><strike><?php _e( 'Delete', 'buddypress' ) ?></strike><?php } else { ?><a class="delete" href="admin.php?page=xprofile_settings&amp;field_id=<?php echo $field->id; ?>&amp;mode=delete_field"><?php _e( 'Delete', 'buddypress' ) ?></a><?php } ?></td>
+							    	<td style="text-align:center;"><?php if ( !$field->can_delete ) { ?><strike><?php _e( 'Edit', 'buddypress' ) ?></strike><?php } else { ?><a class="edit" href="admin.php?page=<?php echo BP_PLUGIN_DIR ?>/bp-xprofile.php&amp;group_id=<?php echo $groups[$i]->id; ?>&amp;field_id=<?php echo $field->id; ?>&amp;mode=edit_field"><?php _e( 'Edit', 'buddypress' ) ?></a><?php } ?></td>
+							    	<td style="text-align:center;"><?php if ( !$field->can_delete ) { ?><strike><?php _e( 'Delete', 'buddypress' ) ?></strike><?php } else { ?><a class="delete" href="admin.php?page=<?php echo BP_PLUGIN_DIR ?>/bp-xprofile.php&amp;field_id=<?php echo $field->id; ?>&amp;mode=delete_field"><?php _e( 'Delete', 'buddypress' ) ?></a><?php } ?></td>
 							    </tr>
 							
 							<?php } ?>
@@ -94,7 +94,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 							</tr>
 						<?php } ?>
 							<tr class="nodrag">
-								<td colspan="6"><a href="admin.php?page=xprofile_settings&amp;group_id=<?php echo $groups[$i]->id; ?>&amp;mode=add_field"><?php _e( 'Add New Field', 'buddypress' ) ?></a></td>
+								<td colspan="6"><a href="admin.php?page=<?php echo BP_PLUGIN_DIR ?>/bp-xprofile.php&amp;group_id=<?php echo $groups[$i]->id; ?>&amp;mode=add_field"><?php _e( 'Add New Field', 'buddypress' ) ?></a></td>
 							</tr>
 					</tbody>
 				</table>
@@ -103,12 +103,12 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 			<?php } /* End For */ ?>
 			
 				<p>
-					<a href="admin.php?page=xprofile_settings&amp;mode=add_group"><?php _e( 'Add New Group', 'buddypress' ) ?></a>
+					<a href="admin.php?page=<?php echo BP_PLUGIN_DIR ?>/bp-xprofile.php&amp;mode=add_group"><?php _e( 'Add New Group', 'buddypress' ) ?></a>
 				</p>
 				
 		<?php } else { ?>
 			<div id="message" class="error"><p><?php _e('You have no groups.', 'buddypress' ); ?></p></div>
-			<p><a href="admin.php?page=xprofile_settings&amp;mode=add_group"><?php _e( 'Add New Group', 'buddypress' ) ?></a></p>
+			<p><a href="admin.php?page=<?php echo BP_PLUGIN_DIR ?>/bp-xprofile.php&amp;mode=add_group"><?php _e( 'Add New Group', 'buddypress' ) ?></a></p>
 		<?php } ?>
 	</div>
 <?php

@@ -98,10 +98,10 @@ Class BP_XProfile_Group {
 
 		if ( !$this->id ) {
 			$title = __('Add Group', 'buddypress');
-			$action = "admin.php?page=xprofile_settings&amp;mode=add_group";
+			$action = "admin.php?page=" . BP_PLUGIN_DIR . "/bp-xprofile.php&amp;mode=add_group";
 		} else {
 			$title = __('Edit Group', 'buddypress');
-			$action = "admin.php?page=xprofile_settings&amp;mode=edit_group&amp;group_id=" . $this->id;			
+			$action = "admin.php?page=" . BP_PLUGIN_DIR . "/bp-xprofile.php&amp;mode=edit_group&amp;group_id=" . $this->id;			
 		}
 	?>
 		<div class="wrap">
@@ -660,7 +660,7 @@ Class BP_XProfile_Field {
 						<p><?php _e('Option', 'buddypress') ?> <?php echo $j ?>: 
 						   <input type="text" name="<?php echo $type ?>_option[<?php echo $j ?>]" id="<?php echo $type ?>_option<?php echo $j ?>" value="<?php echo attribute_escape( $options[$i]->name ) ?>" />
 						   <input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" <?php if ( (int) $options[$i]->is_default_option ) {?> checked="checked"<?php } ?> " value="<?php echo $j ?>" /> <?php _e( 'Default Value', 'buddypress' ) ?> 
-						<a href="admin.php?page=xprofile_settings&amp;mode=delete_option&amp;option_id=<?php echo $options[$i]->id ?>" class="ajax-option-delete" id="delete-<?php echo $options[$i]->id ?>">[x]</a></p>
+						<a href="admin.php?page=" . BP_PLUGIN_DIR . "/bp-xprofile.php&amp;mode=delete_option&amp;option_id=<?php echo $options[$i]->id ?>" class="ajax-option-delete" id="delete-<?php echo $options[$i]->id ?>">[x]</a></p>
 						</p>
 					<?php } // end for ?>
 					<input type="hidden" name="<?php echo $type ?>_option_number" id="<?php echo $type ?>_option_number" value="<?php echo $j ?>" />
@@ -686,10 +686,10 @@ Class BP_XProfile_Field {
 	function render_admin_form( $message = '' ) {
 		if ( !$this->id ) {
 			$title = __('Add Field', 'buddypress');
-			$action = "admin.php?page=xprofile_settings&amp;group_id=" . $this->group_id . "&amp;mode=add_field";
+			$action = "admin.php?page=" . BP_PLUGIN_DIR . "/bp-xprofile.php&amp;group_id=" . $this->group_id . "&amp;mode=add_field";
 		} else {
 			$title = __('Edit Field', 'buddypress');
-			$action = "admin.php?page=xprofile_settings&amp;mode=edit_field&amp;group_id=" . $this->group_id . "&amp;field_id=" . $this->id;			
+			$action = "admin.php?page=" . BP_PLUGIN_DIR . "/bp-xprofile.php&amp;mode=edit_field&amp;group_id=" . $this->group_id . "&amp;field_id=" . $this->id;			
 			$options = $this->get_children();
 		}
 	
@@ -750,7 +750,7 @@ Class BP_XProfile_Field {
 	
 				<p class="submit">
 						&nbsp;<input type="submit" value="<?php _e("Save", 'buddypress') ?> &raquo;" name="saveField" id="saveField" style="font-weight: bold" />
-						 <?php _e('or', 'buddypress') ?> <a href="admin.php?page=xprofile_settings" style="color: red"><?php _e( 'Cancel', 'buddypress' ) ?></a>
+						 <?php _e('or', 'buddypress') ?> <a href="admin.php?page=" . BP_PLUGIN_DIR . "/bp-xprofile.php" style="color: red"><?php _e( 'Cancel', 'buddypress' ) ?></a>
 				</p>
 			
 			<div class="clear"></div>
@@ -773,7 +773,7 @@ Class BP_XProfile_Field {
 	
 	/** Static Functions **/
 	function render_prebuilt_fields() {
-		$action = "admin.php?page=xprofile_settings&amp;group_id=" . $this->group_id . "&amp;mode=add_field";
+		$action = "admin.php?page=" . BP_PLUGIN_DIR . "/bp-xprofile.php&amp;group_id=" . $this->group_id . "&amp;mode=add_field";
 		
 		// Files in wp-content/themes directory and one subdir down
 		$prebuilt_fields_path = BP_PLUGIN_DIR . '/bp-xprofile/prebuilt-fields';
