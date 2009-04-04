@@ -159,7 +159,7 @@ function bp_core_admin_component_setup() {
 				components by using the form below. Your BuddyPress installation will continue to function
 				however the features associated with the disabled components will no longer be accessible to
 				your anyone using the site.
-				')?>
+				', 'buddypress' )?>
 			</p>
 			
 			<?php $disabled_components = get_site_option( 'bp-deactivated-components' ); ?>
@@ -170,8 +170,8 @@ function bp_core_admin_component_setup() {
 				<tr>
 					<td><h3><?php _e( 'Activity Streams', 'buddypress' ) ?></h3><p><?php _e( 'Tracks user activity across the entire site.', 'buddypress' ) ?></p></td>
 					<td>
-						<input type="radio" name="bp_components[bp-activity.php]" value="1"<?php if ( !isset( $disabled_components['bp-activity.php'] ) ) : ?> checked="checked" <?php endif; ?>/> Enabled &nbsp;
-						<input type="radio" name="bp_components[bp-activity.php]" value="0"<?php if ( isset( $disabled_components['bp-activity.php'] ) ) : ?> checked="checked" <?php endif; ?>/> Disabled
+						<input type="radio" name="bp_components[bp-activity.php]" value="1"<?php if ( !isset( $disabled_components['bp-activity.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?> &nbsp;
+						<input type="radio" name="bp_components[bp-activity.php]" value="0"<?php if ( isset( $disabled_components['bp-activity.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
 					</td>			
 				</tr>
 				<?php endif; ?>
@@ -179,8 +179,8 @@ function bp_core_admin_component_setup() {
 				<tr>
 					<td><h3><?php _e( 'Blog Tracking', 'buddypress' ) ?></h3><p><?php _e( 'Tracks blogs, blog posts and blogs comments for a user across a WPMU installation.', 'buddypress' ) ?></p></td>
 					<td>
-						<input type="radio" name="bp_components[bp-blogs.php]" value="1"<?php if ( !isset( $disabled_components['bp-blogs.php'] ) ) : ?> checked="checked" <?php endif; ?>/> Enabled &nbsp;
-						<input type="radio" name="bp_components[bp-blogs.php]" value="0"<?php if ( isset( $disabled_components['bp-blogs.php'] ) ) : ?> checked="checked" <?php endif; ?>/> Disabled
+						<input type="radio" name="bp_components[bp-blogs.php]" value="1"<?php if ( !isset( $disabled_components['bp-blogs.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?>  &nbsp;
+						<input type="radio" name="bp_components[bp-blogs.php]" value="0"<?php if ( isset( $disabled_components['bp-blogs.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
 					</td>			
 				</tr>
 				<?php endif; ?>
@@ -188,8 +188,8 @@ function bp_core_admin_component_setup() {
 				<tr>
 					<td><h3><?php _e( 'bbPress Forums', 'buddypress' ) ?></h3><p><?php _e( 'Activates bbPress forum support within BuddyPress groups or any other custom component.', 'buddypress' ) ?></p></td>
 					<td>
-						<input type="radio" name="bp_components[bp-forums.php]" value="1"<?php if ( !isset( $disabled_components['bp-forums.php'] ) ) : ?> checked="checked" <?php endif; ?>/> Enabled &nbsp;
-						<input type="radio" name="bp_components[bp-forums.php]" value="0"<?php if ( isset( $disabled_components['bp-forums.php'] ) ) : ?> checked="checked" <?php endif; ?>/> Disabled
+						<input type="radio" name="bp_components[bp-forums.php]" value="1"<?php if ( !isset( $disabled_components['bp-forums.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?>  &nbsp;
+						<input type="radio" name="bp_components[bp-forums.php]" value="0"<?php if ( isset( $disabled_components['bp-forums.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
 					</td>			
 				</tr>
 				<?php endif; ?>
@@ -197,8 +197,8 @@ function bp_core_admin_component_setup() {
 				<tr>
 					<td><h3><?php _e( 'Friends', 'buddypress' ) ?></h3><p><?php _e( 'Allows the creation of friend connections between users.', 'buddypress' ) ?></p></td>
 					<td>
-						<input type="radio" name="bp_components[bp-friends.php]" value="1"<?php if ( !isset( $disabled_components['bp-friends.php'] ) ) : ?> checked="checked" <?php endif; ?>/> Enabled &nbsp;
-						<input type="radio" name="bp_components[bp-friends.php]" value="0"<?php if ( isset( $disabled_components['bp-friends.php'] ) ) : ?> checked="checked" <?php endif; ?>/> Disabled
+						<input type="radio" name="bp_components[bp-friends.php]" value="1"<?php if ( !isset( $disabled_components['bp-friends.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?>  &nbsp;
+						<input type="radio" name="bp_components[bp-friends.php]" value="0"<?php if ( isset( $disabled_components['bp-friends.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
 					</td>			
 				</tr>
 				<?php endif; ?>
@@ -206,8 +206,8 @@ function bp_core_admin_component_setup() {
 				<tr>
 					<td><h3><?php _e( 'Groups', 'buddypress' ) ?></h3><p><?php _e( 'Let users create, join and participate in groups.', 'buddypress' ) ?></p></td>
 					<td>
-						<input type="radio" name="bp_components[bp-groups.php]" value="1"<?php if ( !isset( $disabled_components['bp-groups.php'] ) ) : ?> checked="checked" <?php endif; ?>/> Enabled &nbsp;
-						<input type="radio" name="bp_components[bp-groups.php]" value="0"<?php if ( isset( $disabled_components['bp-groups.php'] ) ) : ?> checked="checked" <?php endif; ?>/> Disabled
+						<input type="radio" name="bp_components[bp-groups.php]" value="1"<?php if ( !isset( $disabled_components['bp-groups.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?>  &nbsp;
+						<input type="radio" name="bp_components[bp-groups.php]" value="0"<?php if ( isset( $disabled_components['bp-groups.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
 					</td>			
 				</tr>
 				<?php endif; ?>
@@ -215,8 +215,8 @@ function bp_core_admin_component_setup() {
 				<tr>
 					<td><h3><?php _e( 'Private Messaging', 'buddypress' ) ?></h3><p><?php _e( 'Let users send private messages to one another. Site admins can also send site-wide notices.', 'buddypress' ) ?></p></td>
 					<td>
-						<input type="radio" name="bp_components[bp-messages.php]" value="1"<?php if ( !isset( $disabled_components['bp-messages.php'] ) ) : ?> checked="checked" <?php endif; ?>/> Enabled &nbsp;
-						<input type="radio" name="bp_components[bp-messages.php]" value="0"<?php if ( isset( $disabled_components['bp-messages.php'] ) ) : ?> checked="checked" <?php endif; ?>/> Disabled
+						<input type="radio" name="bp_components[bp-messages.php]" value="1"<?php if ( !isset( $disabled_components['bp-messages.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?>  &nbsp;
+						<input type="radio" name="bp_components[bp-messages.php]" value="0"<?php if ( isset( $disabled_components['bp-messages.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
 					</td>			
 				</tr>
 				<?php endif; ?>
@@ -224,8 +224,8 @@ function bp_core_admin_component_setup() {
 				<tr>
 					<td><h3><?php _e( 'Comment Wire', 'buddypress' ) ?></h3><p><?php _e( 'Let users leave a comment on groups, profiles and custom components.', 'buddypress' ) ?></p></td>
 					<td>
-						<input type="radio" name="bp_components[bp-wire.php]" value="1"<?php if ( !isset( $disabled_components['bp-wire.php'] ) ) : ?> checked="checked" <?php endif; ?>/> Enabled &nbsp;
-						<input type="radio" name="bp_components[bp-wire.php]" value="0"<?php if ( isset( $disabled_components['bp-wire.php'] ) ) : ?> checked="checked" <?php endif; ?>/> Disabled
+						<input type="radio" name="bp_components[bp-wire.php]" value="1"<?php if ( !isset( $disabled_components['bp-wire.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?>  &nbsp;
+						<input type="radio" name="bp_components[bp-wire.php]" value="0"<?php if ( isset( $disabled_components['bp-wire.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
 					</td>			
 				</tr>
 				<?php endif; ?>
@@ -233,8 +233,8 @@ function bp_core_admin_component_setup() {
 				<tr>
 					<td><h3><?php _e( 'Extended Profiles', 'buddypress' ) ?></h3><p><?php _e( 'Activates customizable profiles and avatars for site users.', 'buddypress' ) ?></p></td>
 					<td width="45%">
-						<input type="radio" name="bp_components[bp-xprofile.php]" value="1"<?php if ( !isset( $disabled_components['bp-xprofile.php'] ) ) : ?> checked="checked" <?php endif; ?>/> Enabled &nbsp;
-						<input type="radio" name="bp_components[bp-xprofile.php]" value="0"<?php if ( isset( $disabled_components['bp-xprofile.php'] ) ) : ?> checked="checked" <?php endif; ?>/> Disabled
+						<input type="radio" name="bp_components[bp-xprofile.php]" value="1"<?php if ( !isset( $disabled_components['bp-xprofile.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?>  &nbsp;
+						<input type="radio" name="bp_components[bp-xprofile.php]" value="0"<?php if ( isset( $disabled_components['bp-xprofile.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
 					</td>			
 				</tr>
 				<?php endif; ?>
@@ -248,9 +248,7 @@ function bp_core_admin_component_setup() {
 			<?php wp_nonce_field( 'bp-admin-component-setup' ) ?>
 		
 		</form>
-		
-		<p>&nbsp;</p>
-		
+
 	</div>
 	
 <?php 
