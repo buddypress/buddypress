@@ -33,13 +33,13 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 ?>	
 	<div class="wrap">
 		
-		<h2><?php _e("Profile Settings", 'buddypress') ?></h2>
+		<h2><?php _e( 'Profile Field Setup', 'buddypress') ?></h2>
 		<br />
-		<p><?php _e('Your users will distinguish themselves through their profile page. 
+		<p><?php _e( 'Your users will distinguish themselves through their profile page. 
 		   You must give them profile fields that allow them to describe themselves 
 			in a way that is relevant to the theme of your social network.', 'buddypress') ?></p>
 			
-		<p><?php _e('NOTE: Fields in the \'Basic\' group appear on the signup page.', 'buddypress'); ?></p>
+		<p><?php _e('NOTE: Any fields in the first group will appear on the signup page.', 'buddypress'); ?></p>
 		
 		<?php
 			if ( $message != '' ) {

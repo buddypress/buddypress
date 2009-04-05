@@ -88,7 +88,7 @@ function bp_group_create_form() {
 						if ( is_site_admin() ) {
 							?>
 							<div class="checkbox">
-								<label><input type="checkbox" disabled="disabled" name="disabled" id="disabled" value="0" /> <?php _e('<strong>Attention Site Admin:</strong> Group forums require correct setup and configuration of a bbPress installation.', 'buddypress') ?></label>
+								<label><input type="checkbox" disabled="disabled" name="disabled" id="disabled" value="0" /> <?php printf( __('<strong>Attention Site Admin:</strong> Group forums require the <a href="%s">correct setup and configuration</a> of a bbPress installation.', 'buddypress' ), $bp->root_domain . '/wp-admin/admin.php?page=' . BP_PLUGIN_DIR . '/bp-forums/bp-forums-admin.php' ) ?></label>
 							</div>
 							<?php
 						}

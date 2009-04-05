@@ -40,6 +40,7 @@ function xprofile_add_signup_fields() {
 	<?php
 	}
 	
+	if ( '' == get_site_option( 'bp-enable-signup-avatar-uploads' ) || (int) get_site_option( 'bp-enable-signup-avatar-uploads' ) ) {
 	?>
 		<div id="avatar-form-fields">
 			<h3><?php _e('Profile Picture (Avatar)', 'buddypress'); ?></h3>
@@ -69,6 +70,7 @@ function xprofile_add_signup_fields() {
 		</script>
 		</div>
 	<?php
+	}
 }
 add_action( 'signup_extra_fields', 'xprofile_add_signup_fields' );
 

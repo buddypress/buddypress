@@ -217,7 +217,7 @@ function bp_core_do_catch_uri() {
 				status_header( 404 );
 				load_template( TEMPLATEPATH . "/404.php" );
 			} else {
-				wp_die( __( '<strong>You do not have any BuddyPress themes installed.</strong><br />Please download the <a href="http://buddypress.org/extend/themes" title="Download">Default BuddyPress Theme</a> and install it in /wp-content/bp-themes/' ) );
+				wp_die( __( '<strong>You do not have any BuddyPress themes installed.</strong><br />Please download at least one <a href="http://buddypress.org/extend/themes" title="Download">BuddyPress Theme</a> and install in /wp-content/bp-themes/' ) );
 			}
 		}
 	}

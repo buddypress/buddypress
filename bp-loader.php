@@ -16,7 +16,7 @@ define( 'BP_VERSION', '1.0-RC2' );
  * of the components have been activated on the "BuddyPress" admin menu.
  */
 
-require( 'bp-core.php' );
+require_once( 'bp-core.php' );
 $deactivated = get_site_option( 'bp-deactivated-components' );
 
 /* Activity Streams */

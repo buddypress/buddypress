@@ -72,26 +72,28 @@ function bp_core_admin_settings() {
 				</tr>
 				<?php } ?>
 				<tr>
-					<th scope="row"><?php _e('Select theme to use for member pages', 'buddypress' ) ?>:</th>
+					<th scope="row"><?php _e('Select theme to use for BuddyPress generated pages', 'buddypress' ) ?>:</th>
 					<td>
+						<?php $themes = bp_core_get_member_themes() ?>
+						<?php if ( $themes ) : ?>
 						<select name="bp-admin[active-member-theme]" id="active-member-theme">
-							<?php $themes = bp_core_get_member_themes() ?>
 							<?php 
-								if ( $themes ) { 
-									for ( $i = 0; $i < count($themes); $i++ ) { 
-										if ( $themes[$i]['template'] == get_site_option( 'active-member-theme' ) ) {
-											$selected = ' selected="selected"';
-										} else {
-											$selected = '';
-										}
-							?>
-										<option<?php echo $selected ?> value="<?php echo $themes[$i]['template'] ?>"><?php echo $themes[$i]['name'] ?></option>
-							<?php	
-									}
+							for ( $i = 0; $i < count($themes); $i++ ) { 
+								if ( $themes[$i]['template'] == get_site_option( 'active-member-theme' ) ) {
+									$selected = ' selected="selected"';
+								} else {
+									$selected = '';
 								}
 							?>
-
+							<option<?php echo $selected ?> value="<?php echo $themes[$i]['template'] ?>"><?php echo $themes[$i]['name'] ?> (<?php echo $themes[$i]['version'] ?>)</option>
+							<?php } ?>
 						</select>
+						<?php else : ?>
+							<div class="error">
+								<p><?php printf( __( '<strong>You do not have any BuddyPress themes installed.</strong><p style="line-height: 150%%">Please move the default BuddyPress themes to their correct location (move %s to %s) and reload this page. You can <a href="http://buddypress.org/extend/themes" title="Download">download more themes here</a>.</p>', 'buddypress' ), BP_PLUGIN_DIR . '/bp-themes/', WP_CONTENT_DIR . '/bp-themes/' ) ?></p>
+							</div>
+							<p><?php _e( 'No Themes Installed.', 'buddypress' ) ?></p>
+						<?php endif; ?>
 					</td>			
 				</tr>
 				<tr>
@@ -235,7 +237,7 @@ function bp_core_admin_component_setup() {
 					<td width="45%">
 						<input type="radio" name="bp_components[bp-xprofile.php]" value="1"<?php if ( !isset( $disabled_components['bp-xprofile.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?>  &nbsp;
 						<input type="radio" name="bp_components[bp-xprofile.php]" value="0"<?php if ( isset( $disabled_components['bp-xprofile.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
-					</td>			
+					</td>
 				</tr>
 				<?php endif; ?>
 			</tbody>

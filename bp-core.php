@@ -1204,9 +1204,13 @@ function bp_core_get_member_themes() {
 
 	if ( $themes ) {
 		foreach ( $themes as $name => $values ) {
+			if ( $name == 'BuddyPress Default Home Theme' )
+				continue;
+			
 			$member_themes[] = array(
 				'name' => $name,
-				'template' => $values['Template']
+				'template' => $values['Template'],
+				'version' => $values['Version']
 			);
 		}
 	}

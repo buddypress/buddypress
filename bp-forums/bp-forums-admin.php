@@ -51,7 +51,7 @@ function bp_forums_bbpress_admin() {
 ?>
 	<div class="wrap">
 
-		<h2><?php _e( 'Group Forum Settings', 'buddypress' ) ?></h2>
+		<h2><?php _e( 'Forums Setup', 'buddypress' ) ?></h2>
 		
 		<?php if ( isset( $_POST['submit'] ) ) : ?>
 			<div id="message" class="updated fade">
