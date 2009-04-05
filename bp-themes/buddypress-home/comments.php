@@ -21,7 +21,7 @@
 
 <div id="comments-section">
 <?php if ($comments) : ?>
-	<h3 id="responses"><?php comments_number( __( 'No Responses', 'buddypress' ), __( 'One Response', 'buddypress' ), __( '% Responses', 'buddypress' ) );?> to &#8220;<?php the_title(); ?>&#8221;</h3>
+	<h3 id="responses"><?php comments_number( __( 'No Responses', 'buddypress' ), __( 'One Response', 'buddypress' ), __( '% Responses', 'buddypress' ) );?> <?php _e( 'to', 'buddypress' ) ?> &#8220;<?php the_title(); ?>&#8221;</h3>
 		
 	<ol class="commentlist" id="comments">
 
