@@ -291,8 +291,11 @@ function bp_edit_profile_form() {
 
 function bp_avatar_upload_form() {
 	global $bp;
-	 
-	bp_core_avatar_admin( null, $bp->loggedin_user->domain . $bp->profile->slug . '/change-avatar/', $bp->loggedin_user->domain . $bp->profile->slug . '/delete-avatar/' );
+	
+	if ( !(int)get_site_option( 'bp-disable-avatar-uploads' ) ) 
+		bp_core_avatar_admin( null, $bp->loggedin_user->domain . $bp->profile->slug . '/change-avatar/', $bp->loggedin_user->domain . $bp->profile->slug . '/delete-avatar/' );
+	else
+		_e( 'Avatar uploads are currently disabled. Why not use a <a href="http://gravatar.com">gravatar</a> instead?', 'buddypress' );
 }
 
 function bp_profile_last_updated() {

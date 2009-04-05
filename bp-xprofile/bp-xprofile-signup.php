@@ -40,7 +40,7 @@ function xprofile_add_signup_fields() {
 	<?php
 	}
 	
-	if ( '' == get_site_option( 'bp-enable-signup-avatar-uploads' ) || (int) get_site_option( 'bp-enable-signup-avatar-uploads' ) ) {
+	if ( !(int) get_site_option( 'bp-disable-avatar-uploads' ) ) {
 	?>
 		<div id="avatar-form-fields">
 			<h3><?php _e('Profile Picture (Avatar)', 'buddypress'); ?></h3>
