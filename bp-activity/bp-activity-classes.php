@@ -255,6 +255,9 @@ Class BP_Activity_Activity {
 	
 	function kill_tables_for_user( $user_id ) {
 		global $bp, $wpdb;
+
+		if ( !$wpdb->get_var( "SHOW TABLES LIKE 'wp_user_{$user_id}_activity'" ) )
+			return false;
 		
 		$wpdb->query( $wpdb->prepare( "DROP TABLE wp_user_{$user_id}_activity" ) );
 		$wpdb->query( $wpdb->prepare( "DROP TABLE wp_user_{$user_id}_activity_cached" ) );	
@@ -265,6 +268,9 @@ Class BP_Activity_Activity {
 	
 	function convert_tables_for_user( $user_id ) {
 		global $bp, $wpdb;
+		
+		if ( !$wpdb->get_var( "SHOW TABLES LIKE 'wp_user_{$user_id}_activity'" ) )
+			return false;
 		
 		$activity_items = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM wp_user_{$user_id}_activity" ) );
 		$activity_cached_items = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM wp_user_{$user_id}_activity_cached" ) );
