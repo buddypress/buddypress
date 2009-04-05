@@ -58,8 +58,8 @@ function bp_core_admin_settings() {
 				<tr>
 					<th scope="row"><?php _e( 'Hide admin bar for logged out users?', 'buddypress' ) ?>:</th>
 					<td>
-						<input type="radio" name="bp-admin[show-loggedout-adminbar]"<?php if ( (int)get_site_option( 'show-loggedout-adminbar' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-show-loggedout-adminbar-yes" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
-						<input type="radio" name="bp-admin[show-loggedout-adminbar]"<?php if ( !(int)get_site_option( 'show-loggedout-adminbar' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-show-loggedout-adminbar-no" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
+						<input type="radio" name="bp-admin[hide-loggedout-adminbar]"<?php if ( (int)get_site_option( 'hide-loggedout-adminbar' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-hide-loggedout-adminbar-yes" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
+						<input type="radio" name="bp-admin[hide-loggedout-adminbar]"<?php if ( !(int)get_site_option( 'hide-loggedout-adminbar' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-hide-loggedout-adminbar-no" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
 					</td>			
 				</tr>
 				<tr>

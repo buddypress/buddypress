@@ -5,7 +5,7 @@ function bp_core_admin_bar() {
 	
 	$doing_admin_bar = true;
 	
-	if ( !(int)get_site_option( 'show-loggedout-adminbar' ) && !is_user_logged_in() )
+	if ( (int)get_site_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() )
 		return false;
 
 	echo '<div id="wp-admin-bar">';

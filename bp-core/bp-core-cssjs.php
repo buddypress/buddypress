@@ -60,7 +60,7 @@ function bp_core_admin_bar_css() {
 	if ( defined( 'BP_DISABLE_ADMIN_BAR') )
 		return false;
 		
-	if ( is_user_logged_in() || ( (int)get_site_option( 'show-loggedout-adminbar' ) && !is_user_logged_in() ) ) {
+	if ( is_user_logged_in() || ( !(int)get_site_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() ) ) {
 		wp_enqueue_style( 'bp-admin-bar', BP_PLUGIN_URL . '/bp-core/css/admin-bar.css' );
 		
 		if ( 'rtl' == get_bloginfo('text_direction') && file_exists( BP_PLUGIN_DIR . '/bp-core/css/admin-bar-rtl.css' ) )
