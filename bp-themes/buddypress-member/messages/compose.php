@@ -40,7 +40,6 @@
 		</p>
 		
 		<?php wp_nonce_field( 'messages_send_message' ) ?>
-	</div>
 	</form>
 	
 	<script type="text/javascript">
