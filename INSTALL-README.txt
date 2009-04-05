@@ -20,7 +20,7 @@ Step 2: Add the BuddyPress plugins to wp-content/plugins/buddypress directory
 **************************************************************************
 
 Drop everything into the 'wp-content/plugins/buddypress' directory for your installation.
-You will then need to activate each BuddyPress component in the "Plugins" admin panel.
+You will then need to activate BuddyPress in the "Plugins" admin panel.
 
 
 **************************************************
