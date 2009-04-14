@@ -4,17 +4,9 @@ header('Content-type: text/css');
 ?>
 
 @import url(base.css);
-@import url(settings.css);
-
-@import url(activity.css);
-@import url(blogs.css);
 @import url(directories.css);
-@import url(friends.css);
-@import url(groups.css);
-@import url(messaging.css);
-@import url(wire.css);
-@import url(profiles.css);
-@import url(forums.css);
+@import url(settings.css);
+@import url(components.css);
 
 <?php
 /* If there are any custom component css files inside the /custom-components/ dir, load them. */
