@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-04-06 14:11+0000\n"
+"POT-Creation-Date: 2009-04-14 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -242,7 +242,7 @@ msgid "Viewing blog %d to %d (of %d blogs)"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1007
-#: bp-core/bp-core-templatetags.php:873 bp-core/bp-core-widgets.php:102
+#: bp-core/bp-core-templatetags.php:922 bp-core/bp-core-widgets.php:102
 #: bp-forums/bp-forums-templatetags.php:268
 #: bp-forums/bp-forums-templatetags.php:443
 #: bp-friends/bp-friends-templatetags.php:257
@@ -274,13 +274,13 @@ msgid "Latest Post: %s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1088
-#: bp-core/bp-core-templatetags.php:952
+#: bp-core/bp-core-templatetags.php:1001
 #: bp-groups/bp-groups-templatetags.php:1932
 msgid "Search anything..."
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1089
-#: bp-core/bp-core-templatetags.php:586 bp-core/bp-core-templatetags.php:953
+#: bp-core/bp-core-templatetags.php:586 bp-core/bp-core-templatetags.php:1002
 #: bp-groups/bp-groups-templatetags.php:1933
 #: bp-themes/buddypress-home/searchform.php:3
 msgid "Search"
@@ -342,67 +342,67 @@ msgstr ""
 msgid "at"
 msgstr ""
 
-#: bp-core.php:972
+#: bp-core.php:905
 msgid "year"
 msgstr ""
 
-#: bp-core.php:972
+#: bp-core.php:905
 msgid "years"
 msgstr ""
 
-#: bp-core.php:973
+#: bp-core.php:906
 msgid "month"
 msgstr ""
 
-#: bp-core.php:973
+#: bp-core.php:906
 msgid "months"
 msgstr ""
 
-#: bp-core.php:974
+#: bp-core.php:907
 msgid "week"
 msgstr ""
 
-#: bp-core.php:974
+#: bp-core.php:907
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:975
+#: bp-core.php:908
 msgid "day"
 msgstr ""
 
-#: bp-core.php:975
+#: bp-core.php:908
 msgid "days"
 msgstr ""
 
-#: bp-core.php:976
+#: bp-core.php:909
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:976
+#: bp-core.php:909
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:977
+#: bp-core.php:910
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:977
+#: bp-core.php:910
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:978
+#: bp-core.php:911
 msgid "second"
 msgstr ""
 
-#: bp-core.php:978 bp-core.php:1021
+#: bp-core.php:911 bp-core.php:954
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1016
+#: bp-core.php:949
 msgid ",|Separator in time since"
 msgstr ""
 
-#: bp-core.php:1064
+#: bp-core.php:997
 msgid "not recently active"
 msgstr ""
 
@@ -798,7 +798,7 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:121 bp-groups.php:1308
+#: bp-core/bp-core-avatars.php:121 bp-groups.php:1307
 #: bp-xprofile/bp-xprofile-signup.php:158
 msgid "There is no error, the file uploaded with success"
 msgstr ""
@@ -809,16 +809,16 @@ msgstr ""
 msgid "Your image was bigger than the maximum allowed file size of: "
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:124 bp-groups.php:1311
+#: bp-core/bp-core-avatars.php:124 bp-groups.php:1310
 #: bp-xprofile/bp-xprofile-signup.php:161
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:125 bp-groups.php:1312
+#: bp-core/bp-core-avatars.php:125 bp-groups.php:1311
 msgid "No file was uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:126 bp-groups.php:1313
+#: bp-core/bp-core-avatars.php:126 bp-groups.php:1312
 #: bp-xprofile/bp-xprofile-signup.php:162
 msgid "Missing a temporary folder"
 msgstr ""
@@ -833,7 +833,7 @@ msgstr ""
 msgid "The file you uploaded is too big. Please upload a file under %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:136 bp-groups.php:1329
+#: bp-core/bp-core-avatars.php:136 bp-groups.php:1328
 #: bp-xprofile/bp-xprofile-signup.php:181
 msgid "Please upload only JPG, GIF or PNG photos."
 msgstr ""
@@ -1295,17 +1295,17 @@ msgstr ""
 msgid "Remember Me"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:872
+#: bp-core/bp-core-templatetags.php:921
 #, php-format
 msgid "Viewing member %d to %d (of %d members)"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:920
+#: bp-core/bp-core-templatetags.php:969
 #, php-format
 msgid "%d friend"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:922
+#: bp-core/bp-core-templatetags.php:971
 #, php-format
 msgid "%d friends"
 msgstr ""
@@ -1446,7 +1446,7 @@ msgid "bbPress Forum list"
 msgstr ""
 
 #: bp-forums/bp-forums-bbpress-live.php:89 bp-groups.php:268
-#: bp-groups.php:1591 bp-themes/buddypress-member/groups/forum/index.php:25
+#: bp-groups.php:1590 bp-themes/buddypress-member/groups/forum/index.php:25
 #: bp-themes/buddypress-member/groups/forum/topic.php:28
 #: bp-themes/buddypress-member/groups/forum/topic.php:40
 msgid "Forum"
@@ -2016,47 +2016,47 @@ msgstr ""
 msgid "You have an invitation to the group: %s"
 msgstr ""
 
-#: bp-groups.php:1309
+#: bp-groups.php:1308
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr ""
 
-#: bp-groups.php:1310
+#: bp-groups.php:1309
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
 
-#: bp-groups.php:1318
+#: bp-groups.php:1317
 msgid "Your group avatar upload failed, please try again. Error was: "
 msgstr ""
 
-#: bp-groups.php:1324
+#: bp-groups.php:1323
 msgid "The file you uploaded is too big. Please upload a file under"
 msgstr ""
 
-#: bp-groups.php:1335
+#: bp-groups.php:1334
 msgid ""
 "Upload Failed! Please check the permissions on the group avatar upload "
 "directory."
 msgstr ""
 
-#: bp-groups.php:1429 bp-themes/buddypress-member/groups/group-admin.php:13
+#: bp-groups.php:1428 bp-themes/buddypress-member/groups/group-admin.php:13
 msgid "Group Admin"
 msgstr ""
 
-#: bp-groups.php:1606
+#: bp-groups.php:1605
 msgid "Reply posted successfully!"
 msgstr ""
 
-#: bp-groups.php:1616
+#: bp-groups.php:1615
 msgid "There was an error posting that reply."
 msgstr ""
 
-#: bp-groups.php:1628
+#: bp-groups.php:1627
 msgid "Topic posted successfully!"
 msgstr ""
 
-#: bp-groups.php:1638
+#: bp-groups.php:1637
 msgid "There was an error posting that topic."
 msgstr ""
 
@@ -2083,7 +2083,7 @@ msgstr ""
 
 #: bp-groups/bp-groups-admin.php:82
 #: bp-themes/buddypress-home/comments-popup.php:64
-#: bp-themes/buddypress-home/comments.php:86
+#: bp-themes/buddypress-home/comments.php:90
 msgid "Name"
 msgstr ""
 
@@ -3121,7 +3121,7 @@ msgid ""
 msgstr ""
 
 #: bp-themes/buddypress-home/comments-popup.php:60
-#: bp-themes/buddypress-home/comments.php:81
+#: bp-themes/buddypress-home/comments.php:85
 msgid "Logged in as"
 msgstr ""
 
@@ -3130,7 +3130,7 @@ msgid "Log out of this account"
 msgstr ""
 
 #: bp-themes/buddypress-home/comments-popup.php:60
-#: bp-themes/buddypress-home/comments.php:81
+#: bp-themes/buddypress-home/comments.php:85
 msgid "Logout"
 msgstr ""
 
@@ -3197,29 +3197,29 @@ msgstr ""
 msgid "Comments are closed."
 msgstr ""
 
-#: bp-themes/buddypress-home/comments.php:71
+#: bp-themes/buddypress-home/comments.php:75
 msgid "Leave a Reply"
 msgstr ""
 
-#: bp-themes/buddypress-home/comments.php:74
+#: bp-themes/buddypress-home/comments.php:78
 #, php-format
 msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
 msgstr ""
 
-#: bp-themes/buddypress-home/comments.php:86
-#: bp-themes/buddypress-home/comments.php:89
+#: bp-themes/buddypress-home/comments.php:90
+#: bp-themes/buddypress-home/comments.php:93
 msgid "(required)"
 msgstr ""
 
-#: bp-themes/buddypress-home/comments.php:89
+#: bp-themes/buddypress-home/comments.php:93
 msgid "Mail (will not be published)"
 msgstr ""
 
-#: bp-themes/buddypress-home/comments.php:92
+#: bp-themes/buddypress-home/comments.php:96
 msgid "Website"
 msgstr ""
 
-#: bp-themes/buddypress-home/comments.php:98
+#: bp-themes/buddypress-home/comments.php:102
 msgid "Submit Comment"
 msgstr ""
 
