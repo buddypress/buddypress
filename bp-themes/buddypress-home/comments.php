@@ -64,6 +64,10 @@
 	
 <?php endif; ?>
 </div>
+	<?php if ( $user_ID ) : ?>
+	</div>
+	<?php endif; ?>
+
 
 <div id="compose-reply">
 	<?php if ('open' == $post->comment_status) : ?>
@@ -99,10 +103,6 @@
 	<input type="hidden" name="comment_post_ID" value="<?php echo $id; ?>" />
 	</p>
 	<?php do_action('comment_form', $post->ID); ?>
-
-	<?php if ( $user_ID ) : ?>
-	</div>
-	<?php endif; ?>
 
 </form>
 <?php endif; // If registration required and not logged in ?>
