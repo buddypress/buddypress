@@ -67,7 +67,7 @@ function groups_admin_settings() {
 				<table class="widefat" cellspacing="3" cellpadding="3">
 					<thead>
 						<tr>
-							<th class="check-column" scope="col"/>
+							<th class="check-column" scope="col">
 								<input id="group_check_all" type="checkbox" value="0" name="group_check_all" onclick="if ( jQuery(this).attr('checked') ) { jQuery('#group-list input[@type=checkbox]').attr('checked', 'checked'); } else { jQuery('#group-list input[@type=checkbox]').attr('checked', ''); }" />
 							</th>
 							<th scope="col">
