@@ -699,6 +699,55 @@ function bp_is_directory() {
 	return $bp->is_directory;
 }
 
+/**
+ * bp_create_excerpt()
+ *
+ * Fakes an excerpt on any content. Will not truncate words.
+ * 
+ * @package BuddyPress Core
+ * @param $text str The text to create the excerpt from
+ * @uses $excerpt_length The maximum length in characters of the excerpt.
+ * @return str The excerpt text
+ */
+function bp_create_excerpt( $text, $excerpt_length = 55, $filter_shortcodes = true ) { // Fakes an excerpt if needed
+	$text = str_replace(']]>', ']]&gt;', $text);
+	$text = strip_tags($text);
+	
+	if ( $filter_shortcodes )
+		$text = preg_replace( '|\[(.+?)\](.+?\[/\\1\])?|s', '', $text );
+
+	$words = explode(' ', $text, $excerpt_length + 1);
+	if (count($words) > $excerpt_length) {
+		array_pop($words);
+		array_push($words, '[...]');
+		$text = implode(' ', $words);
+	}
+	
+	return apply_filters( 'the_excerpt', stripslashes($text) );
+}
+
+/**
+ * bp_is_serialized()
+ *
+ * Checks to see if the data passed has been serialized.
+ * 
+ * @package BuddyPress Core
+ * @param $data str The data that will be checked
+ * @return bool false if the data is not serialized
+ * @return bool true if the data is serialized
+ */
+function bp_is_serialized( $data ) {
+   if ( '' == trim($data) ) {
+      return false;
+   }
+
+   if ( preg_match( "/^(i|s|a|o|d)(.*);/si", $data ) ) {
+      return true;
+   }
+
+   return false;
+}
+
 
 /*** CUSTOM LOOP TEMPLATE CLASSES *******************/
 
