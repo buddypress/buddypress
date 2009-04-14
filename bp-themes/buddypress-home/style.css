@@ -7,4 +7,18 @@ Author: Andy Peatling
 Author URI: http://apeatling.wordpress.com
 */
 
-@import url(css/loader.php);
+/* Load the base styles */
+@import url(css/base.css);
+
+/***
+ * Rename /css/custom-sample.css to /css/custom.css and uncomment the following line to load your own
+ * custom styles without modifying the originals (this will preserve your changes across theme updates)
+ *  
+ * @import url(css/custom.css);
+ */
+
+/***
+ * NOTE: If you rename /css/site-wide-sample.css to /css/site-wide.css you can apply CSS styles to any
+ * theme that is in use across your whole site. This includes any blog or member theme. You do not
+ * need to add an @import declaration in this file, it will load automaticaly.
+ */
