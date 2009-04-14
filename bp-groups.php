@@ -1201,9 +1201,8 @@ add_action( 'groups_new_wire_post', 'groups_update_last_activity' );
 add_action( 'groups_joined_group', 'groups_update_last_activity' );
 add_action( 'groups_leave_group', 'groups_update_last_activity' );
 add_action( 'groups_created_group', 'groups_update_last_activity' );
+add_action( 'groups_new_forum_topic', 'groups_update_last_activity' );
 add_action( 'groups_new_forum_topic_post', 'groups_update_last_activity' );
-add_action( 'groups_new_forum_topic_post', 'groups_update_last_activity' );
-
 
 
 /**************************************************************************
