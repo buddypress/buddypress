@@ -266,8 +266,16 @@ function bp_activity_get_last_updated() {
 	return BP_Activity_Activity::get_last_updated();
 }
 
-function bp_activity_get_sitewide_activity( $max_items ) {
-	return BP_Activity_Activity::get_sitewide_activity( $max_items );
+function bp_activity_get_sitewide_activity( $pag_num, $pag_page, $max_items ) {
+	return BP_Activity_Activity::get_sitewide_activity( $pag_num, $pag_page, $max_items );
+}
+
+function bp_activity_get_user_activity( $user_id, $pag_num, $pag_page, $max_items, $since = '-4 weeks' ) {
+	return BP_Activity_Activity::get_activity_for_user( $user_id, $pag_num, $pag_page, $max_items, $since );
+}
+
+function bp_activity_get_friends_activity( $user_id, $pag_num, $pag_page, $max_items, $since = '-4 weeks' ) {
+	return BP_Activity_Activity::get_activity_for_friends( $user_id, $pag_num, $pag_page, $max_items, $since );
 }
 
 function bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id ) {	

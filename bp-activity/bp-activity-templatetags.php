@@ -1,45 +1,65 @@
 <?php
 
-class BP_Activity_User_Activity_Template {
+class BP_Activity_Template {
 	var $current_activity = -1;
 	var $activity_count;
+	var $total_activity_count;
 	var $activities;
 	var $activity;
+	var $activity_type;
 	
 	var $in_the_loop;
 	
 	var $pag_page;
 	var $pag_num;
 	var $pag_links;
-	var $total_activity_count;
-	
-	var $full_name;
-	
-	var $table_name;
-	var $filter_content;
-	var $is_home;
-	
-	function bp_activity_user_activity_template( $user_id = false, $limit = false, $filter_content = true ) {
-		global $bp;
-		
-		if ( !$user_id )
-			$user_id = $bp->displayed_user->id;
 
-		if ( $bp->current_component != $bp->activity->slug || ( $bp->current_component == $bp->activity->slug && 'just-me' == $bp->current_action || 'feed' == $bp->current_action ) ) {
-			$this->activities = BP_Activity_Activity::get_activity_for_user( $user_id, $limit );
-		} else {
-			$this->activities = BP_Activity_Activity::get_activity_for_friends( $user_id, $limit );
-		}
+	var $full_name;
+
+	function bp_activity_template( $type, $user_id, $per_page, $max, $timeframe ) {
+		global $bp;
+
+		$this->pag_page = isset( $_REQUEST['page'] ) ? intval( $_REQUEST['page'] ) : 1;
+		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
+		$this->filter_content = false;
+		$this->activity_type = $type;
+
+		if ( $type == 'sitewide' )
+			$this->activities = bp_activity_get_sitewide_activity( $this->pag_num, $this->pag_page, $max );
 		
-		if ( !$this->activities )
-			$this->activity_count = false;
+		if ( $type == 'personal' )
+			$this->activities = bp_activity_get_user_activity( $user_id, $this->page_num, $this->pag_page, $timeframe );
+
+		if ( $type == 'friends' && ( bp_is_home() || is_site_admin() || $bp->loggedin_user->id == $user_id ) )
+			$this->activities = bp_activity_get_friends_activity( $user_id, $this->pag_num, $this->pag_page, $timeframe );
+		
+		if ( !$max )
+			$this->total_activity_count = (int)$this->activities['total'];
 		else
+			$this->total_activity_count = (int)$max;
+		
+		$this->activities = $this->activities['activities'];
+		
+		if ( $max ) {
+			if ( $max >= count($this->activities) )
+				$this->activity_count = count($this->activities);
+			else
+				$this->activity_count = (int)$max;
+		} else {
 			$this->activity_count = count($this->activities);
+		}
 		
 		$this->full_name = $bp->displayed_user->fullname;
 
-		$this->is_home = bp_is_home();
-		$this->filter_content = $filter_content;
+		$this->pag_links = paginate_links( array(
+			'base' => add_query_arg( 'page', '%#%' ),
+			'format' => '',
+			'total' => ceil( (int)$this->total_activity_count / (int)$this->pag_num ),
+			'current' => (int)$this->pag_page,
+			'prev_text' => '&laquo;',
+			'next_text' => '&raquo;',
+			'mid_size' => 1
+		));
 	}
 	
 	function has_activities() {
@@ -101,22 +121,44 @@ function bp_activity_get_list( $user_id, $title, $no_activity, $limit = false ) 
 	load_template( TEMPLATEPATH . '/activity/activity-list.php' );
 }
 
-function bp_has_activities() {
+function bp_has_activities( $args = '' ) {
 	global $bp, $activities_template, $bp_activity_user_id, $bp_activity_limit;
-	
-	if ( 'my-friends' == $bp->current_action )
-		$filter_content = false;
-	else
-		$filter_content = true;
-	
-	if ( !$bp_activity_user_id )
-		$bp_activity_user_id = $bp->displayed_user->id;
-	
-	if ( !$bp_activity_limit )
-		$bp_activity_limit = 35;
-		
-	$activities_template = new BP_Activity_User_Activity_Template( $bp_activity_user_id, $bp_activity_limit, $filter_content );		
 
+	$defaults = array(
+		'type' => 'sitewide',
+		'user_id' => false,
+		'per_page' => 25,
+		'max' => false,
+		'timeframe' => '-4 weeks'
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+	
+	// The following lines are for backwards template compatibility.
+	if ( 'my-friends' == $bp->current_action && $bp->activity->slug == $bp->current_component )
+		$type = 'friends';
+	
+	if ( $bp->displayed_user->id && $bp->activity->slug == $bp->current_component && ( !$bp->current_action || 'just-me' == $bp->current_action ) )
+		$type = 'personal';
+	
+	if ( $bp->displayed_user->id && $bp->profile->slug == $bp->current_component )
+		$type = 'personal';
+
+	if ( $bp_activity_limit )
+		$max = $bp_activity_limit;
+
+	// END backwards compatibility ---
+
+	if ( ( 'personal' == $type || 'friends' == $type ) && !$user_id )
+		$user_id = (int)$bp->displayed_user->id;
+
+	if ( $max ) {
+		if ( $per_page > $max )
+			$per_page = $max;
+	}
+	
+	$activities_template = new BP_Activity_Template( $type, $user_id, $per_page, $max, $timeframe );		
 	return $activities_template->has_activities();
 }
 
@@ -143,13 +185,9 @@ function bp_activities_no_activity() {
 
 function bp_activity_content() {
 	global $activities_template;
-	
-	if ( $activities_template->filter_content ) {
-		if ( $activities_template->is_home ) {
-			echo apply_filters( 'bp_activity_content', bp_activity_content_filter( $activities_template->activity->content, $activities_template->activity->date_recorded, $activities_template->full_name ) );						
-		} else {
-			echo apply_filters( 'bp_activity_content', bp_activity_content_filter( $activities_template->activity->content, $activities_template->activity->date_recorded, $activities_template->full_name, true, false, false ) );									
-		}
+
+	if ( bp_is_home() && $activities_template->activity_type == 'personal' ) {
+		echo apply_filters( 'bp_activity_content', bp_activity_content_filter( $activities_template->activity->content, $activities_template->activity->date_recorded, $activities_template->full_name ) );						
 	} else {
 		$activities_template->activity->content = bp_activity_insert_time_since( $activities_template->activity->content, $activities_template->activity->date_recorded );
 		echo apply_filters( 'bp_activity_content', $activities_template->activity->content );

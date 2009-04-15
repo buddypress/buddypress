@@ -34,19 +34,19 @@ function bp_activity_widget_sitewide_activity($args) {
 	
 	<?php 
 	if ( !$activity = wp_cache_get( 'sitewide_activity', 'bp' ) ) {
-		$activity = bp_activity_get_sitewide_activity( $options['max_items'] );
+		$activity = bp_activity_get_sitewide_activity( false, false, $options['max_items'] );
 		wp_cache_set( 'sitewide_activity', $activity, 'bp' );
 	}
 	?>
 
 	<?php  ?>
 	
-	<?php if ( $activity ) : ?>
+	<?php if ( $activity['activities'] ) : ?>
 		<div class="item-options" id="activity-list-options">
 			<img src="<?php echo $bp->activity->image_base; ?>/rss.png" alt="<?php _e( 'RSS Feed', 'buddypress' ) ?>" /> <a href="<?php bp_sitewide_activity_feed_link() ?>" title="<?php _e( 'Site Wide Activity RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a>
 		</div>
 		<ul id="site-wide-stream" class="activity-list">
-		<?php foreach( $activity as $item ) : ?>
+		<?php foreach( $activity['activities'] as $item ) : ?>
 			<li class="<?php echo $item['component_name'] ?>">
 				<?php echo apply_filters( 'bp_activity_content', bp_activity_content_filter( $item['content'], $item['date_recorded'], '', true, false, true ) ); ?>
 			</li>

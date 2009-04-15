@@ -109,68 +109,69 @@ Class BP_Activity_Activity {
 		return true;
 	}
 	
-	function get_activity_for_user( $user_id = null, $limit = 30, $since = '-4 weeks' ) {
+	function get_activity_for_user( $user_id, $limit = 30, $page = 1, $since = '-4 weeks' ) {
 		global $wpdb, $bp;
-		
-		if ( !$user_id )
-			$user_id = $bp->displayed_user->id;
-		
-		if ( !$user_id )
-			return false;
-		
+
 		$since = strtotime($since);
 		
-		if ( $limit )
-			$limit_sql = $wpdb->prepare( " LIMIT %d", $limit ); 
+		if ( $limit && $page )
+			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		
 		if ( !bp_is_home() )
 			$privacy_sql = " AND is_private = 0";
 					
-			// Use the cached activity stream.
-			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name_user_activity_cached} WHERE user_id = %d AND date_recorded >= FROM_UNIXTIME(%d) $privacy_sql ORDER BY date_recorded DESC $limit_sql", $user_id, $since ) );
-	
-			for ( $i = 0; $i < count( $activities ); $i++ ) {
-				if ( !$activities[$i]->is_private ) {
-					$activities_formatted[$i]['content'] = $activities[$i]->content;
-					$activities_formatted[$i]['primary_link'] = $activities[$i]->primary_link;
-					$activities_formatted[$i]['date_recorded'] = $activities[$i]->date_recorded;
-					$activities_formatted[$i]['component_name'] = $activities[$i]->component_name;
-					$activities_formatted[$i]['component_action'] = $activities[$i]->component_action;
-					$activities_formatted[$i]['is_private'] = $activities[$i]->is_private;
-				}
+		$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name_user_activity_cached} WHERE user_id = %d AND date_recorded >= FROM_UNIXTIME(%d) $privacy_sql ORDER BY date_recorded DESC {$pag_sql}", $user_id, $since ) );
+		$total_activities = $wpdb->get_results( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name_user_activity_cached} WHERE user_id = %d AND date_recorded >= FROM_UNIXTIME(%d) $privacy_sql ORDER BY date_recorded DESC", $user_id, $since ) );
+
+		for ( $i = 0; $i < count( $activities ); $i++ ) {
+			if ( !$activities[$i]->is_private ) {
+				$activities_formatted[$i]['content'] = $activities[$i]->content;
+				$activities_formatted[$i]['primary_link'] = $activities[$i]->primary_link;
+				$activities_formatted[$i]['date_recorded'] = $activities[$i]->date_recorded;
+				$activities_formatted[$i]['component_name'] = $activities[$i]->component_name;
+				$activities_formatted[$i]['component_action'] = $activities[$i]->component_action;
+				$activities_formatted[$i]['is_private'] = $activities[$i]->is_private;
 			}
+		}
 		
-		return $activities_formatted;
+		return array( 'activities' => $activities_formatted, 'total' => $total_activities );
 	}
 	
-	function get_activity_for_friends( $user_id = null, $total_limit = 80, $limit_per_friend = 5 ) {
+	function get_activity_for_friends( $user_id, $limit = 30, $page = 1, $since = '-4 weeks', $limit_per_friend = 5 ) {
 		global $wpdb, $bp;
 		
 		if ( !function_exists('friends_get_friend_user_ids') )
 			return false;
 
-		if ( $total_limit )
-			$limit_sql = $wpdb->prepare( " LIMIT %d", $total_limit );
-		
+		if ( $limit && $page )
+			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+
+		$since = strtotime($since);
+
 		$friend_ids = friends_get_friend_user_ids( $user_id );
-		
+
 		if ( !$friend_ids )
 			return false;
 			
 		$friend_ids = implode( ',', $friend_ids );
-		return $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT user_id, content, primary_link, date_recorded, component_name, component_action FROM {$bp->activity->table_name_sitewide} WHERE user_id IN ({$friend_ids}) ORDER BY date_recorded DESC LIMIT %d", $total_limit ) ); 
+		
+		$activities = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT user_id, content, primary_link, date_recorded, component_name, component_action FROM {$bp->activity->table_name_sitewide} WHERE user_id IN ({$friend_ids}) AND date_recorded >= FROM_UNIXTIME(%d) ORDER BY date_recorded DESC {$pag_sql}", $since ) ); 
+		$total_activities = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT count(user_id) FROM {$bp->activity->table_name_sitewide} WHERE user_id IN ({$friend_ids}) AND date_recorded >= FROM_UNIXTIME(%d) ORDER BY date_recorded DESC", $since ) ); 
+		
+		return array( 'activities' => $activities, 'total' => $total_activities );
 	}
 	
-	function get_sitewide_activity( $limit = 15 ) {
+	function get_sitewide_activity( $limit = 30, $page = 1 ) {
 		global $wpdb, $bp;
 		
-		if ( $limit )
-			$limit_sql = $wpdb->prepare( " LIMIT %d", $limit );
+		if ( $limit && $page )
+			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		
 		/* Remove entries that are older than 6 months */
 		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->activity->table_name_sitewide . " WHERE DATE_ADD(date_recorded, INTERVAL 6 MONTH) <= NOW()" ) );
 		
-		$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $bp->activity->table_name_sitewide . " ORDER BY date_recorded DESC $limit_sql" ) );
+		$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name_sitewide} ORDER BY date_recorded DESC $pag_sql" ) );
+		$total_activites = $wpdb->get_results( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name_sitewide} ORDER BY date_recorded DESC" ) );
 		
 		for ( $i = 0; $i < count( $activities ); $i++ ) {
 			$activities_formatted[$i]['content'] = $activities[$i]->content;
@@ -180,7 +181,7 @@ Class BP_Activity_Activity {
 			$activities_formatted[$i]['component_action'] = $activities[$i]->component_action;
 		}
 		
-		return $activities_formatted;
+		return array( 'activities' => $activities_formatted, 'total' => $total_activities );
 	}
 	
 	function get_sitewide_items_for_feed( $limit = 35 ) {
