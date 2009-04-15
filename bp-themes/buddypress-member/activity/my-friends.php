@@ -17,13 +17,36 @@
 	</div>
 
 	<div class="main-column">
-	<?php bp_get_profile_header() ?>
-	
-		<?php if ( function_exists('bp_activity_get_list') ) : ?>
-			<?php bp_activity_get_list( bp_current_user_id(), __( 'My Friends Activity', 'buddypress' ), __( "Your friends haven't done anything yet.", 'buddypress' ) ) ?>
-		<?php endif; ?>
-			
+		<?php bp_get_profile_header() ?>
+
+		<div class="info-group">
+			<h4><?php _e( 'My Friends Activity', 'buddypress' ) ?></h4>
+
+			<?php if ( bp_has_activities( 'type=friends' ) ) : ?>
+
+				<div id="activity-rss">
+					<p><a href="<?php bp_activities_member_rss_link() ?>" title="<?php _e( 'RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a></p>
+				</div>
+
+				<ul id="activity-list">
+				<?php while ( bp_activities() ) : bp_the_activity(); ?>
+					<li class="<?php bp_activity_css_class() ?>">
+						<?php bp_activity_content() ?>
+					</li>
+				<?php endwhile; ?>
+				</ul>
+
+			<?php else: ?>
+
+				<div id="message" class="info">
+					<p><?php _e( "Your friends haven't done anything yet.", 'buddypress' )  ?></p>
+				</div>
+
+			<?php endif;?>
+		</div>
+		
 	</div>
+	
 
 </div>
 

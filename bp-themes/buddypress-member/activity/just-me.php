@@ -24,11 +24,34 @@
 	</div>
 
 	<div class="main-column">
+		
 		<?php bp_get_profile_header() ?>
 
-		<?php if ( function_exists('bp_activity_get_list') ) : ?>
-			<?php bp_activity_get_list( bp_current_user_id(), bp_word_or_name( __( "My Activity", 'buddypress' ), __( "%s's Activity", 'buddypress' ), true, false ), bp_word_or_name( __( "You haven't done anything yet.", 'buddypress' ), __( "%s hasn't done anything yet.", 'buddypress' ), true, false )  ) ?>
-		<?php endif; ?>
+		<div class="info-group">
+			<h4><?php echo bp_word_or_name( __( "My Activity", 'buddypress' ), __( "%s's Activity", 'buddypress' ), true, false ) ?></h4>
+
+			<?php if ( bp_has_activities( 'type=personal' ) ) : ?>
+
+				<div id="activity-rss">
+					<p><a href="<?php bp_activities_member_rss_link() ?>" title="<?php _e( 'RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a></p>
+				</div>
+
+				<ul id="activity-list">
+				<?php while ( bp_activities() ) : bp_the_activity(); ?>
+					<li class="<?php bp_activity_css_class() ?>">
+						<?php bp_activity_content() ?>
+					</li>
+				<?php endwhile; ?>
+				</ul>
+
+			<?php else: ?>
+
+				<div id="message" class="info">
+					<p><?php echo bp_word_or_name( __( "You haven't done anything yet.", 'buddypress' ), __( "%s hasn't done anything yet.", 'buddypress' ), true, false ) ?></p>
+				</div>
+
+			<?php endif;?>
+		</div>
 		
 	</div>
 
