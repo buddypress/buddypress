@@ -30,7 +30,7 @@
 		<div class="info-group">
 			<h4><?php echo bp_word_or_name( __( "My Activity", 'buddypress' ), __( "%s's Activity", 'buddypress' ), true, false ) ?></h4>
 
-			<?php if ( bp_has_activities( 'type=personal' ) ) : ?>
+			<?php if ( bp_has_activities( 'type=personal&max=30' ) ) : ?>
 
 				<div id="activity-rss">
 					<p><a href="<?php bp_activities_member_rss_link() ?>" title="<?php _e( 'RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a></p>

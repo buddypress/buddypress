@@ -22,7 +22,7 @@
 		<div class="info-group">
 			<h4><?php _e( 'My Friends Activity', 'buddypress' ) ?></h4>
 
-			<?php if ( bp_has_activities( 'type=friends' ) ) : ?>
+			<?php if ( bp_has_activities( 'type=friends&max=30' ) ) : ?>
 
 				<div id="activity-rss">
 					<p><a href="<?php bp_activities_member_rss_link() ?>" title="<?php _e( 'RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a></p>
