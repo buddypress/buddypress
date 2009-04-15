@@ -124,7 +124,7 @@ Class BP_Activity_Activity {
 			$privacy_sql = " AND is_private = 0";
 					
 		$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name_user_activity_cached} WHERE user_id = %d AND date_recorded >= FROM_UNIXTIME(%d) $privacy_sql ORDER BY date_recorded DESC {$pag_sql}", $user_id, $since ) );
-		$total_activities = $wpdb->get_results( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name_user_activity_cached} WHERE user_id = %d AND date_recorded >= FROM_UNIXTIME(%d) $privacy_sql ORDER BY date_recorded DESC $max_sql", $user_id, $since ) );
+		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name_user_activity_cached} WHERE user_id = %d AND date_recorded >= FROM_UNIXTIME(%d) $privacy_sql ORDER BY date_recorded DESC $max_sql", $user_id, $since ) );
 
 		for ( $i = 0; $i < count( $activities ); $i++ ) {
 			if ( !$activities[$i]->is_private ) {
@@ -137,7 +137,7 @@ Class BP_Activity_Activity {
 			}
 		}
 		
-		return array( 'activities' => $activities_formatted, 'total' => $total_activities );
+		return array( 'activities' => $activities_formatted, 'total' => (int)$total_activities );
 	}
 	
 	function get_activity_for_friends( $user_id, $max_items, $since, $max_items_per_friend, $limit, $page ) {
@@ -164,9 +164,9 @@ Class BP_Activity_Activity {
 		$friend_ids = implode( ',', $friend_ids );
 		
 		$activities = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT user_id, content, primary_link, date_recorded, component_name, component_action FROM {$bp->activity->table_name_sitewide} WHERE user_id IN ({$friend_ids}) AND date_recorded >= FROM_UNIXTIME(%d) ORDER BY date_recorded DESC {$pag_sql}", $since ) ); 
-		$total_activities = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT count(user_id) FROM {$bp->activity->table_name_sitewide} WHERE user_id IN ({$friend_ids}) AND date_recorded >= FROM_UNIXTIME(%d) ORDER BY date_recorded DESC $max_sql", $since ) ); 
+		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(user_id) FROM {$bp->activity->table_name_sitewide} WHERE user_id IN ({$friend_ids}) AND date_recorded >= FROM_UNIXTIME(%d) ORDER BY date_recorded DESC $max_sql", $since ) ); 
 		
-		return array( 'activities' => $activities, 'total' => $total_activities );
+		return array( 'activities' => $activities, 'total' => (int)$total_activities );
 	}
 	
 	function get_sitewide_activity( $max, $limit, $page ) {
@@ -182,7 +182,7 @@ Class BP_Activity_Activity {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->activity->table_name_sitewide . " WHERE DATE_ADD(date_recorded, INTERVAL 6 MONTH) <= NOW()" ) );
 		
 		$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name_sitewide} ORDER BY date_recorded DESC $pag_sql" ) );
-		$total_activites = $wpdb->get_results( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name_sitewide} ORDER BY date_recorded DESC $max_sql" ) );
+		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name_sitewide} ORDER BY date_recorded DESC $max_sql" ) );
 		
 		for ( $i = 0; $i < count( $activities ); $i++ ) {
 			$activities_formatted[$i]['content'] = $activities[$i]->content;
@@ -191,8 +191,8 @@ Class BP_Activity_Activity {
 			$activities_formatted[$i]['component_name'] = $activities[$i]->component_name;
 			$activities_formatted[$i]['component_action'] = $activities[$i]->component_action;
 		}
-		
-		return array( 'activities' => $activities_formatted, 'total' => $total_activities );
+
+		return array( 'activities' => $activities_formatted, 'total' => (int)$total_activities );
 	}
 	
 	function get_sitewide_items_for_feed( $limit = 35 ) {
