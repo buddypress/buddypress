@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-04-14 14:11+0000\n"
+"POT-Creation-Date: 2009-04-15 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,12 +30,12 @@ msgstr ""
 msgid "My Friends"
 msgstr ""
 
-#: bp-activity.php:157 bp-themes/buddypress-member/activity/just-me.php:30
+#: bp-activity.php:157 bp-themes/buddypress-member/activity/just-me.php:31
 #: bp-themes/buddypress-member/profile/index.php:37
 msgid "My Activity"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:202
+#: bp-activity/bp-activity-templatetags.php:240
 #, php-format
 msgid "&nbsp; %s ago"
 msgstr ""
@@ -46,7 +46,8 @@ msgid "Site Wide Activity"
 msgstr ""
 
 #: bp-activity/bp-activity-widgets.php:46
-#: bp-themes/buddypress-member/activity/activity-list.php:7
+#: bp-themes/buddypress-member/activity/just-me.php:36
+#: bp-themes/buddypress-member/activity/my-friends.php:28
 msgid "RSS Feed"
 msgstr ""
 
@@ -3303,17 +3304,17 @@ msgid ""
 "permissions to access it."
 msgstr ""
 
-#: bp-themes/buddypress-member/activity/just-me.php:30
+#: bp-themes/buddypress-member/activity/just-me.php:31
 #: bp-themes/buddypress-member/profile/index.php:37
 #, php-format
 msgid "%s's Activity"
 msgstr ""
 
-#: bp-themes/buddypress-member/activity/just-me.php:30
+#: bp-themes/buddypress-member/activity/just-me.php:50
 msgid "You haven't done anything yet."
 msgstr ""
 
-#: bp-themes/buddypress-member/activity/just-me.php:30
+#: bp-themes/buddypress-member/activity/just-me.php:50
 #, php-format
 msgid "%s hasn't done anything yet."
 msgstr ""
@@ -3322,7 +3323,7 @@ msgstr ""
 msgid "My Friends Activity"
 msgstr ""
 
-#: bp-themes/buddypress-member/activity/my-friends.php:23
+#: bp-themes/buddypress-member/activity/my-friends.php:42
 msgid "Your friends haven't done anything yet."
 msgstr ""
 
