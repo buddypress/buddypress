@@ -28,18 +28,18 @@ header('Status: 200 OK');
 	<language><?php echo get_option('rss_language'); ?></language>
 	<?php do_action('bp_activity_sitewide_feed_head'); ?>
 	
-	<?php $activity_items = BP_Activity_Activity::get_sitewide_items_for_feed( 35 ) ?>
-	
-	<?php foreach ( $activity_items as $activity ) { ?>
-		<?php if ( $activity['title'] == '' && $activity['description'] == '' ) continue; ?>
-	<item>
-		<title><![CDATA[<?php echo $activity['title'] ?>]]></title>
-		<link><?php echo $activity['link'] ?></link>
-		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', $activity['pubdate'], false); ?></pubDate>
+	<?php if ( bp_has_activities( 'type=sitewide&max=50' ) ) : ?>
+		<?php while ( bp_activities() ) : bp_the_activity(); ?>
+			<item>
+				<title><![CDATA[<?php bp_activity_feed_item_title() ?>]]></title>
+				<link><?php echo bp_activity_feed_item_link() ?></link>
+				<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', bp_activity_feed_item_date(), false); ?></pubDate>
 
-		<description><![CDATA[<?php echo $activity['description'] ?>]]></description>
-	<?php do_action('rss2_item'); ?>
-	</item>
-	<?php } ?>
+				<description><![CDATA[<?php bp_activity_feed_item_description() ?>]]></description>
+			<?php do_action('bp_activity_personal_feed_item'); ?>
+			</item>
+		<?php endwhile; ?>
+
+	<?php endif; ?>
 </channel>
 </rss>

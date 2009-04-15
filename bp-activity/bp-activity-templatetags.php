@@ -284,7 +284,7 @@ function bp_activity_feed_item_date() {
 function bp_activity_feed_item_description() {
 	global $activities_template;
 
-	echo apply_filters( 'bp_activity_feed_item_description', sprintf( html_entity_decode( $activities_template->activity->content, ENT_COMPAT, 'UTF-8' ) ) );	
+	echo apply_filters( 'bp_activity_feed_item_description', html_entity_decode( str_replace( '%s', '', $activities_template->activity->content ), ENT_COMPAT, 'UTF-8' ) );	
 }
 
 

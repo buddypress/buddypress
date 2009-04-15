@@ -27,7 +27,7 @@ header('Status: 200 OK');
 	<language><?php echo get_option('rss_language'); ?></language>
 	<?php do_action('bp_activity_personal_feed_head'); ?>
 	
-	<?php if ( bp_has_activities() ) : ?>
+	<?php if ( bp_has_activities( 'type=personal&max=50' ) ) : ?>
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<item>
 				<title><![CDATA[<?php bp_activity_feed_item_title() ?>]]></title>
