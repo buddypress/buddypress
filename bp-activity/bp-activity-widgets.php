@@ -34,7 +34,7 @@ function bp_activity_widget_sitewide_activity($args) {
 	
 	<?php 
 	if ( !$activity = wp_cache_get( 'sitewide_activity', 'bp' ) ) {
-		$activity = bp_activity_get_sitewide_activity( false, false, $options['max_items'] );
+		$activity = bp_activity_get_sitewide_activity( $options['max_items'] );
 		wp_cache_set( 'sitewide_activity', $activity, 'bp' );
 	}
 	?>

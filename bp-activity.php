@@ -266,16 +266,16 @@ function bp_activity_get_last_updated() {
 	return BP_Activity_Activity::get_last_updated();
 }
 
-function bp_activity_get_sitewide_activity( $pag_num, $pag_page, $max_items ) {
-	return BP_Activity_Activity::get_sitewide_activity( $pag_num, $pag_page, $max_items );
+function bp_activity_get_sitewide_activity( $max_items = 30, $pag_num = false, $pag_page = false ) {
+	return BP_Activity_Activity::get_sitewide_activity( $max_items, $pag_num, $pag_page );
 }
 
-function bp_activity_get_user_activity( $user_id, $pag_num, $pag_page, $max_items, $since = '-4 weeks' ) {
-	return BP_Activity_Activity::get_activity_for_user( $user_id, $pag_num, $pag_page, $max_items, $since );
+function bp_activity_get_user_activity( $user_id, $max_items = 30, $since = '-4 weeks', $pag_num = false, $pag_page = false ) {
+	return BP_Activity_Activity::get_activity_for_user( $user_id, $max_items, $since, $pag_num, $pag_page );
 }
 
-function bp_activity_get_friends_activity( $user_id, $pag_num, $pag_page, $max_items, $since = '-4 weeks' ) {
-	return BP_Activity_Activity::get_activity_for_friends( $user_id, $pag_num, $pag_page, $max_items, $since );
+function bp_activity_get_friends_activity( $user_id, $max_items = 30, $since = '-4 weeks', $max_items_per_friend = false, $pag_num = false, $pag_page = false ) {
+	return BP_Activity_Activity::get_activity_for_friends( $user_id, $max_items, $since, $max_items_per_friend, $pag_num, $pag_page );
 }
 
 function bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id ) {	
