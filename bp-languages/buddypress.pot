@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-04-15 14:11+0000\n"
+"POT-Creation-Date: 2009-04-16 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgid "My Friends"
 msgstr ""
 
 #: bp-activity.php:157 bp-themes/buddypress-member/activity/just-me.php:31
-#: bp-themes/buddypress-member/profile/index.php:37
+#: bp-themes/buddypress-member/profile/index.php:38
 msgid "My Activity"
 msgstr ""
 
@@ -45,30 +45,31 @@ msgstr ""
 msgid "Site Wide Activity"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:46
+#: bp-activity/bp-activity-widgets.php:44
 #: bp-themes/buddypress-member/activity/just-me.php:36
 #: bp-themes/buddypress-member/activity/my-friends.php:28
+#: bp-themes/buddypress-member/profile/index.php:43
 msgid "RSS Feed"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:46
+#: bp-activity/bp-activity-widgets.php:44
 #: bp-themes/buddypress-home/header.php:14
 msgid "Site Wide Activity RSS Feed"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:57
+#: bp-activity/bp-activity-widgets.php:55
 msgid "There has been no recent site activity."
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:81
+#: bp-activity/bp-activity-widgets.php:79
 msgid "Max Number of Items:"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-friends-feed.php:22
+#: bp-activity/feeds/bp-activity-friends-feed.php:21
 msgid "Friends Activity"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-friends-feed.php:25
+#: bp-activity/feeds/bp-activity-friends-feed.php:24
 #, php-format
 msgid "%s - Friends Activity Feed"
 msgstr ""
@@ -3305,16 +3306,18 @@ msgid ""
 msgstr ""
 
 #: bp-themes/buddypress-member/activity/just-me.php:31
-#: bp-themes/buddypress-member/profile/index.php:37
+#: bp-themes/buddypress-member/profile/index.php:38
 #, php-format
 msgid "%s's Activity"
 msgstr ""
 
 #: bp-themes/buddypress-member/activity/just-me.php:50
+#: bp-themes/buddypress-member/profile/index.php:57
 msgid "You haven't done anything yet."
 msgstr ""
 
 #: bp-themes/buddypress-member/activity/just-me.php:50
+#: bp-themes/buddypress-member/profile/index.php:57
 #, php-format
 msgid "%s hasn't done anything yet."
 msgstr ""
@@ -3755,31 +3758,22 @@ msgstr ""
 msgid "Editing '%s'"
 msgstr ""
 
-#: bp-themes/buddypress-member/profile/index.php:37
-msgid "You haven't done anything recently."
-msgstr ""
-
-#: bp-themes/buddypress-member/profile/index.php:37
-#, php-format
-msgid "%s has not done anything recently."
-msgstr ""
-
-#: bp-themes/buddypress-member/profile/index.php:51 bp-wire.php:55
+#: bp-themes/buddypress-member/profile/index.php:75 bp-wire.php:55
 msgid "My Wire"
 msgstr ""
 
-#: bp-themes/buddypress-member/profile/index.php:51
+#: bp-themes/buddypress-member/profile/index.php:75
 #: bp-themes/buddypress-member/wire/latest.php:30
 #, php-format
 msgid "%s's Wire"
 msgstr ""
 
-#: bp-themes/buddypress-member/profile/index.php:51
+#: bp-themes/buddypress-member/profile/index.php:75
 #: bp-themes/buddypress-member/wire/latest.php:30
 msgid "No one has posted to your wire yet."
 msgstr ""
 
-#: bp-themes/buddypress-member/profile/index.php:51
+#: bp-themes/buddypress-member/profile/index.php:75
 #: bp-themes/buddypress-member/wire/latest.php:30
 #, php-format
 msgid "No one has posted to %s's wire yet."
