@@ -1963,7 +1963,7 @@ function groups_promote_member( $user_id, $group_id ) {
 		
 	$member = new BP_Groups_Member( $user_id, $group_id );
 
-	add_action( 'groups_premote_member', $user_id, $group_id );
+	do_action( 'groups_premote_member', $user_id, $group_id );
 	
 	return $member->promote();
 }
@@ -1980,7 +1980,7 @@ function groups_demote_member( $user_id, $group_id ) {
 		
 	$member = new BP_Groups_Member( $user_id, $group_id );
 	
-	add_action( 'groups_demote_member', $user_id, $group_id );
+	do_action( 'groups_demote_member', $user_id, $group_id );
 
 	return $member->demote();
 }
@@ -1997,7 +1997,7 @@ function groups_ban_member( $user_id, $group_id ) {
 		
 	$member = new BP_Groups_Member( $user_id, $group_id );
 
-	add_action( 'groups_ban_member', $user_id, $group_id );
+	do_action( 'groups_ban_member', $user_id, $group_id );
 	
 	return $member->ban();
 }
@@ -2014,7 +2014,7 @@ function groups_unban_member( $user_id, $group_id ) {
 		
 	$member = new BP_Groups_Member( $user_id, $group_id );
 	
-	add_action( 'groups_unban_member', $user_id, $group_id );
+	do_action( 'groups_unban_member', $user_id, $group_id );
 	
 	return $member->unban();
 }
