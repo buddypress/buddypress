@@ -90,9 +90,23 @@ Class BP_Groups_Group {
 	function save() {
 		global $wpdb, $bp;
 		
-		$this->name = wp_filter_kses( $this->name );
- 		$this->news = wp_filter_kses( $this->news );
-		$this->description = wp_filter_kses( $this->description );
+		$this->creator_id = apply_filters( 'groups_details_creator_id_pre_save', $this->creator_id, $this->id );
+		$this->name = apply_filters( 'groups_details_name_pre_save', $this->name, $this->id );
+ 		$this->slug = apply_filters( 'groups_details_slug_pre_save', $this->slug, $this->id );
+		$this->description = apply_filters( 'groups_details_description_pre_save', $this->description, $this->id );
+ 		$this->news = apply_filters( 'groups_details_news_pre_save', $this->news, $this->id );
+		$this->description = apply_filters( 'groups_details_description_pre_save', $this->description, $this->id );
+		$this->status = apply_filters( 'groups_details_status_pre_save', $this->status, $this->id );
+		$this->is_invitation_only = apply_filters( 'groups_details_is_invitation_only_pre_save', $this->is_invitation_only, $this->id );
+		$this->enable_wire = apply_filters( 'groups_details_enable_wire_pre_save', $this->enable_wire, $this->id );
+		$this->enable_forum = apply_filters( 'groups_details_enable_forum_pre_save', $this->enable_forum, $this->id );
+		$this->enable_photos = apply_filters( 'groups_details_enable_photos_pre_save', $this->enable_photos, $this->id );
+		$this->photos_admin_only = apply_filters( 'groups_details_photos_admin_only_pre_save', $this->photos_admin_only, $this->id );
+		$this->date_created = apply_filters( 'groups_details_date_created_pre_save', $this->date_created, $this->id );
+		$this->avatar_thumb = apply_filters( 'groups_details_avatar_thumb_pre_save', $this->avatar_thumb, $this->id );
+		$this->avatar_full = apply_filters( 'groups_details_avatar_full_pre_save', $this->avatar_full, $this->id );
+
+		do_action( 'groups_group_pre_save', $this );
 		
 		if ( $this->id ) {
 			$sql = $wpdb->prepare( 
@@ -173,6 +187,8 @@ Class BP_Groups_Group {
 		if ( !$this->id ) {
 			$this->id = $wpdb->insert_id;
 		}
+
+		do_action( 'groups_group_post_save', $this );
 		
 		return true;
 	}

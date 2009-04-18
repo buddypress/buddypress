@@ -364,9 +364,7 @@ function bp_core_get_user_domain( $user_id ) {
  * eg: http://domain.com/ OR https://domain.com
  * 
  * @package BuddyPress Core
- * @global $current_blog WordPress global variable containing information for the current blog being viewed.
- * @uses switch_to_blog() WordPress function to switch to a blog of the given ID.
- * @uses site_url() WordPress function to return the current site url.
+ * @uses get_blog_option() WordPress function to fetch blog meta.
  * @return $domain The domain URL for the blog.
  */
 function bp_core_get_root_domain() {
