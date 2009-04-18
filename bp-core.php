@@ -370,11 +370,7 @@ function bp_core_get_user_domain( $user_id ) {
  * @return $domain The domain URL for the blog.
  */
 function bp_core_get_root_domain() {
-	switch_to_blog(BP_ROOT_BLOG);
-	$domain = site_url();
-	restore_current_blog();
-	
-	return $domain;
+	return get_blog_option( BP_ROOT_BLOG, 'siteurl' );
 }
 
 /**
