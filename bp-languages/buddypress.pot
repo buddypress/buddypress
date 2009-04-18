@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-04-16 14:11+0000\n"
+"POT-Creation-Date: 2009-04-18 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -334,77 +334,77 @@ msgstr ""
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:676 bp-wire/bp-wire-templatetags.php:281
+#: bp-core.php:670 bp-wire/bp-wire-templatetags.php:281
 #: bp-wire/bp-wire-templatetags.php:283
 msgid "You"
 msgstr ""
 
-#: bp-core.php:847 bp-core/bp-core-templatetags.php:383
+#: bp-core.php:841 bp-core/bp-core-templatetags.php:383
 #: bp-themes/buddypress-home/comments.php:42
 msgid "at"
 msgstr ""
 
-#: bp-core.php:905
+#: bp-core.php:899
 msgid "year"
 msgstr ""
 
-#: bp-core.php:905
+#: bp-core.php:899
 msgid "years"
 msgstr ""
 
-#: bp-core.php:906
+#: bp-core.php:900
 msgid "month"
 msgstr ""
 
-#: bp-core.php:906
+#: bp-core.php:900
 msgid "months"
 msgstr ""
 
-#: bp-core.php:907
+#: bp-core.php:901
 msgid "week"
 msgstr ""
 
-#: bp-core.php:907
+#: bp-core.php:901
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:908
+#: bp-core.php:902
 msgid "day"
 msgstr ""
 
-#: bp-core.php:908
+#: bp-core.php:902
 msgid "days"
 msgstr ""
 
-#: bp-core.php:909
+#: bp-core.php:903
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:909
+#: bp-core.php:903
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:910
+#: bp-core.php:904
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:910
+#: bp-core.php:904
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:911
+#: bp-core.php:905
 msgid "second"
 msgstr ""
 
-#: bp-core.php:911 bp-core.php:954
+#: bp-core.php:905 bp-core.php:948
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:949
+#: bp-core.php:943
 msgid ",|Separator in time since"
 msgstr ""
 
-#: bp-core.php:997
+#: bp-core.php:991
 msgid "not recently active"
 msgstr ""
 
@@ -2949,6 +2949,10 @@ msgstr ""
 
 #: bp-messages/bp-messages-templatetags.php:419
 msgid "Reply: "
+msgstr ""
+
+#: bp-messages/bp-messages-templatetags.php:427
+msgid "Send Reply"
 msgstr ""
 
 #: bp-messages/bp-messages-templatetags.php:430
