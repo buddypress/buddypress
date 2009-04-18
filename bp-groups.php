@@ -2357,5 +2357,6 @@ add_action( 'groups_create_group_step1_save', 'bp_core_clear_cache' );
 add_action( 'groups_create_group_step2_save', 'bp_core_clear_cache' );
 add_action( 'groups_create_group_step3_save', 'bp_core_clear_cache' );
 add_action( 'groups_created_group', 'bp_core_clear_cache' );
+add_action( 'groups_group_avatar_updated', 'bp_core_clear_cache' );
 
 ?>
