@@ -95,7 +95,6 @@ Class BP_Groups_Group {
  		$this->slug = apply_filters( 'groups_details_slug_pre_save', $this->slug, $this->id );
 		$this->description = apply_filters( 'groups_details_description_pre_save', $this->description, $this->id );
  		$this->news = apply_filters( 'groups_details_news_pre_save', $this->news, $this->id );
-		$this->description = apply_filters( 'groups_details_description_pre_save', $this->description, $this->id );
 		$this->status = apply_filters( 'groups_details_status_pre_save', $this->status, $this->id );
 		$this->is_invitation_only = apply_filters( 'groups_details_is_invitation_only_pre_save', $this->is_invitation_only, $this->id );
 		$this->enable_wire = apply_filters( 'groups_details_enable_wire_pre_save', $this->enable_wire, $this->id );
