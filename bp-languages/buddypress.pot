@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-04-18 14:11+0000\n"
+"POT-Creation-Date: 2009-04-19 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3915,8 +3915,8 @@ msgid "Field Name"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-admin.php:71
-#: bp-xprofile/bp-xprofile-classes.php:737
-#: bp-xprofile/bp-xprofile-classes.php:822
+#: bp-xprofile/bp-xprofile-classes.php:751
+#: bp-xprofile/bp-xprofile-classes.php:836
 msgid "Field Type"
 msgstr ""
 
@@ -3986,224 +3986,224 @@ msgstr ""
 msgid "The %s was deleted successfully!"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:100
+#: bp-xprofile/bp-xprofile-classes.php:104
 msgid "Add Group"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:103
+#: bp-xprofile/bp-xprofile-classes.php:107
 msgid "Edit Group"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:124
+#: bp-xprofile/bp-xprofile-classes.php:128
 msgid "Profile Group Name"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:167
+#: bp-xprofile/bp-xprofile-classes.php:171
 msgid "Please make sure you give the group a name."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:478
+#: bp-xprofile/bp-xprofile-classes.php:492
 msgid "Clear"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:541
+#: bp-xprofile/bp-xprofile-classes.php:555
 msgid "January"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:541
+#: bp-xprofile/bp-xprofile-classes.php:555
 msgid "February"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:541
+#: bp-xprofile/bp-xprofile-classes.php:555
 msgid "March"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:542
+#: bp-xprofile/bp-xprofile-classes.php:556
 msgid "April"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:542
+#: bp-xprofile/bp-xprofile-classes.php:556
 msgid "May"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:542
+#: bp-xprofile/bp-xprofile-classes.php:556
 msgid "June"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:543
+#: bp-xprofile/bp-xprofile-classes.php:557
 msgid "July"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:543
+#: bp-xprofile/bp-xprofile-classes.php:557
 msgid "August"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:543
+#: bp-xprofile/bp-xprofile-classes.php:557
 msgid "September"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:544
+#: bp-xprofile/bp-xprofile-classes.php:558
 msgid "October"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:544
+#: bp-xprofile/bp-xprofile-classes.php:558
 msgid "November"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:544
+#: bp-xprofile/bp-xprofile-classes.php:558
 msgid "December"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:640
+#: bp-xprofile/bp-xprofile-classes.php:654
 msgid "Please enter options for this Field:"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:641
+#: bp-xprofile/bp-xprofile-classes.php:655
 msgid "Order By:"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:644
+#: bp-xprofile/bp-xprofile-classes.php:658
 msgid "Order Entered"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:645
+#: bp-xprofile/bp-xprofile-classes.php:659
 msgid "Name - Ascending"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:646
+#: bp-xprofile/bp-xprofile-classes.php:660
 msgid "Name - Descending"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:660
 #: bp-xprofile/bp-xprofile-classes.php:674
+#: bp-xprofile/bp-xprofile-classes.php:688
 msgid "Option"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:662
-#: bp-xprofile/bp-xprofile-classes.php:675
+#: bp-xprofile/bp-xprofile-classes.php:676
+#: bp-xprofile/bp-xprofile-classes.php:689
 msgid "Default Value"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:680
+#: bp-xprofile/bp-xprofile-classes.php:694
 msgid "Add Another Option"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:688
+#: bp-xprofile/bp-xprofile-classes.php:702
 msgid "Add Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:691
+#: bp-xprofile/bp-xprofile-classes.php:705
 msgid "Edit Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:715
-#: bp-xprofile/bp-xprofile-classes.php:804
+#: bp-xprofile/bp-xprofile-classes.php:729
+#: bp-xprofile/bp-xprofile-classes.php:818
 msgid "Field Title"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:722
-#: bp-xprofile/bp-xprofile-classes.php:809
+#: bp-xprofile/bp-xprofile-classes.php:736
+#: bp-xprofile/bp-xprofile-classes.php:823
 msgid "Field Description"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:729
-#: bp-xprofile/bp-xprofile-classes.php:814
+#: bp-xprofile/bp-xprofile-classes.php:743
+#: bp-xprofile/bp-xprofile-classes.php:828
 msgid "Is This Field Required?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:731
-#: bp-xprofile/bp-xprofile-classes.php:817
+#: bp-xprofile/bp-xprofile-classes.php:745
+#: bp-xprofile/bp-xprofile-classes.php:831
 msgid "Not Required"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:732
-#: bp-xprofile/bp-xprofile-classes.php:818
+#: bp-xprofile/bp-xprofile-classes.php:746
+#: bp-xprofile/bp-xprofile-classes.php:832
 msgid "Required"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:739
-#: bp-xprofile/bp-xprofile-classes.php:826
+#: bp-xprofile/bp-xprofile-classes.php:753
+#: bp-xprofile/bp-xprofile-classes.php:840
 msgid "Text Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:740
-#: bp-xprofile/bp-xprofile-classes.php:828
+#: bp-xprofile/bp-xprofile-classes.php:754
+#: bp-xprofile/bp-xprofile-classes.php:842
 msgid "Multi-line Text Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:741
-#: bp-xprofile/bp-xprofile-classes.php:830
+#: bp-xprofile/bp-xprofile-classes.php:755
+#: bp-xprofile/bp-xprofile-classes.php:844
 msgid "Date Selector"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:742
-#: bp-xprofile/bp-xprofile-classes.php:832
+#: bp-xprofile/bp-xprofile-classes.php:756
+#: bp-xprofile/bp-xprofile-classes.php:846
 msgid "Radio Buttons"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:743
-#: bp-xprofile/bp-xprofile-classes.php:834
+#: bp-xprofile/bp-xprofile-classes.php:757
+#: bp-xprofile/bp-xprofile-classes.php:848
 msgid "Drop Down Select Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:744
-#: bp-xprofile/bp-xprofile-classes.php:836
+#: bp-xprofile/bp-xprofile-classes.php:758
+#: bp-xprofile/bp-xprofile-classes.php:850
 msgid "Multi Select Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:745
+#: bp-xprofile/bp-xprofile-classes.php:759
 msgid "Checkboxes"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:752
+#: bp-xprofile/bp-xprofile-classes.php:766
 msgid "Save"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:753
+#: bp-xprofile/bp-xprofile-classes.php:767
 msgid "or"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:753
+#: bp-xprofile/bp-xprofile-classes.php:767
 msgid "Cancel"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:766
+#: bp-xprofile/bp-xprofile-classes.php:780
 msgid "Add Prebuilt Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:842
+#: bp-xprofile/bp-xprofile-classes.php:856
 msgid "Add"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:854
+#: bp-xprofile/bp-xprofile-classes.php:868
 msgid "No prebuilt fields available at this time."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:896
+#: bp-xprofile/bp-xprofile-classes.php:910
 msgid "Visit author homepage"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:900
+#: bp-xprofile/bp-xprofile-classes.php:914
 msgid "Anonymous"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:926
+#: bp-xprofile/bp-xprofile-classes.php:940
 msgid "Please make sure you fill out all required fields."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:929
+#: bp-xprofile/bp-xprofile-classes.php:943
 msgid ""
 "Radio button field types require at least one option. Please add options "
 "below."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:932
-#: bp-xprofile/bp-xprofile-classes.php:935
+#: bp-xprofile/bp-xprofile-classes.php:946
+#: bp-xprofile/bp-xprofile-classes.php:949
 msgid ""
 "Select box field types require at least one option. Please add options below."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:938
+#: bp-xprofile/bp-xprofile-classes.php:952
 msgid ""
 "Checkbox field types require at least one option. Please add options below."
 msgstr ""
@@ -4247,6 +4247,11 @@ msgstr ""
 
 #: bp-xprofile/bp-xprofile-signup.php:59
 msgid "Select a file:"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-signup.php:137
+#, php-format
+msgid "%s cannot be left blank"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-templatetags.php:298
