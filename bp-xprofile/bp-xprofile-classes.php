@@ -45,17 +45,21 @@ Class BP_XProfile_Group {
 	function save() {
 		global $wpdb, $bp;
 		
-		$this->name = wp_filter_kses( $this->name );
-		$this->description = wp_filter_kses( $this->description );
+		$this->name = apply_filters( 'xprofile_group_name_before_save', $this->name, $this->id );
+		$this->description = apply_filters( 'xprofile_group_description_before_save', $this->description, $this->id );
 
-		if ( $this->id != null ) {
-			$sql = $wpdb->prepare("UPDATE {$bp->profile->table_name_groups} SET name = %s, description = %s WHERE id = %d", $this->name, $this->description, $this->id);
+		do_action( 'xprofile_group_before_save', $this );
+
+		if ( $this->id ) {
+			$sql = $wpdb->prepare( "UPDATE {$bp->profile->table_name_groups} SET name = %s, description = %s WHERE id = %d", $this->name, $this->description, $this->id );
 		} else {
-			$sql = $wpdb->prepare("INSERT INTO {$bp->profile->table_name_groups} (name, description, can_delete) VALUES (%s, %s, 1)", $this->name, $this->description);		
+			$sql = $wpdb->prepare( "INSERT INTO {$bp->profile->table_name_groups} (name, description, can_delete) VALUES (%s, %s, 1)", $this->name, $this->description );		
 		}
 		
 		if ( !$wpdb->query($sql) )
 			return false;
+
+		do_action( 'xprofile_group_after_save', $this );
 		
 		return true;
 	}
@@ -245,8 +249,18 @@ Class BP_XProfile_Field {
 	function save() {
 		global $wpdb, $bp;
 		
-		$this->name = wp_filter_kses( $this->name );
-		$this->desc = wp_filter_kses( $this->desc );		
+		$error = false;
+		
+		$this->group_id = apply_filters( 'xprofile_field_group_id_before_save', $this->group_id, $this->id );
+		$this->parent_id = apply_filters( 'xprofile_field_parent_id_before_save', $this->parent_id, $this->id );
+		$this->type = apply_filters( 'xprofile_field_type_before_save', $this->type, $this->id );
+		$this->name = apply_filters( 'xprofile_field_name_before_save', $this->name, $this->id );
+		$this->desc = apply_filters( 'xprofile_field_description_before_save', $this->desc, $this->id );
+		$this->is_required = apply_filters( 'xprofile_field_is_required_before_save', $this->is_required, $this->id );
+		$this->is_public = apply_filters( 'xprofile_field_is_public_before_save', $this->is_public, $this->id );
+		$this->order_by = apply_filters( 'xprofile_field_order_by_before_save', $this->order_by, $this->id );
+
+		do_action( 'xprofile_field_before_save', $this );
 		
 		if ( $this->id != null ) {
 			$sql = $wpdb->prepare("UPDATE {$bp->profile->table_name_fields} SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d, is_public = %d, order_by = %s WHERE id = %d", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->is_public, $this->order_by, $this->id);
@@ -353,15 +367,15 @@ Class BP_XProfile_Field {
 						}					
 					}
 				}
-
-				return true;
-			
-			} else {
-				return true;
 			}
+		} else {
+			$error = true;
 		}
-		else
-		{
+		
+		if ( !$error ) {
+			do_action( 'xprofile_field_after_save', $this );
+			return true;
+		} else {
 			return false;
 		}
 	}
@@ -1038,10 +1052,14 @@ Class BP_XProfile_ProfileData {
 
 	function save() {
 		global $wpdb, $bp;
-		
-		$this->last_updated = date( 'Y-m-d H:i:s' );
-		$this->value = wp_filter_kses( $this->value );
 
+		$this->user_id = apply_filters( 'xprofile_data_user_id_before_save', $this->user_id, $this->id );
+		$this->field_id = apply_filters( 'xprofile_data_field_id_before_save', $this->field_id, $this->id );
+		$this->value = apply_filters( 'xprofile_data_value_before_save', $this->value, $this->id );
+		$this->last_updated = apply_filters( 'xprofile_data_last_updated_before_save', date( 'Y-m-d H:i:s' ), $this->id );
+		
+		do_action( 'xprofile_data_before_save', $this );
+		
 		if ( $this->is_valid_field() ) {
 			if ( $this->exists() && $this->value != '' ) {
 				$sql = $wpdb->prepare( "UPDATE {$bp->profile->table_name_data} SET value = %s, last_updated = %s WHERE user_id = %d AND field_id = %d", $this->value, $this->last_updated, $this->user_id, $this->field_id );
@@ -1055,6 +1073,8 @@ Class BP_XProfile_ProfileData {
 			if ( $wpdb->query($sql) === false )
 				return false;
 
+			do_action( 'xprofile_data_after_save', $this );
+			
 			return true;
 		}
 		

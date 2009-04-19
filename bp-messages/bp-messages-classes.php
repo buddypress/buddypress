@@ -333,10 +333,16 @@ Class BP_Messages_Message {
 	
 	function send() {	
 		global $wpdb, $bp;
+		
+		$this->sender_id = apply_filters( 'messages_message_sender_id_before_save', $this->sender_id, $this->id );
+		$this->subject = apply_filters( 'messages_message_subject_before_save', $this->subject, $this->id );
+		$this->message = apply_filters( 'messages_message_content_before_save', $this->message, $this->id );
+		$this->date_sent = apply_filters( 'messages_message_date_sent_before_save', $this->date_sent, $this->id ); 
+		$this->message_order = apply_filters( 'messages_message_order_before_save', $this->message_order, $this->id ); 
+		$this->sender_is_group = apply_filters( 'messages_message_sender_is_group_before_save', $this->sender_is_group, $this->id );
 
-		$this->subject = wp_filter_kses( $this->subject );
-		$this->message = wp_filter_kses( $this->message );
-
+		do_action( 'messages_message_before_save', $this );
+		
 		// First insert the message into the messages table
 		if ( !$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_messages} ( sender_id, subject, message, date_sent, message_order, sender_is_group ) VALUES ( %d, %s, %s, FROM_UNIXTIME(%d), %d, %d )", $this->sender_id, $this->subject, $this->message, $this->date_sent, $this->message_order, $this->sender_is_group ) ) )
 			return false;
@@ -398,6 +404,8 @@ Class BP_Messages_Message {
 		
 		$this->id = $message_id;
 		messages_remove_callback_values();
+
+		do_action( 'messages_message_after_save', $this );
 		
 		return true;
 	}

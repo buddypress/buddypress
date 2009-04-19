@@ -40,5 +40,7 @@ add_filter( 'bp_message_thread_excerpt', 'wp_filter_kses', 1 );
 add_filter( 'bp_messages_subject_value', 'wp_filter_kses', 1 );
 add_filter( 'bp_messages_content_value', 'wp_filter_kses', 1 );
 add_filter( 'bp_message_content', 'wp_filter_kses', 1 );
+add_filter( 'messages_message_content_before_save', 'wp_filter_kses', 1 );
+add_filter( 'messages_message_subject_before_save', 'wp_filter_kses', 1 );
 
 ?>

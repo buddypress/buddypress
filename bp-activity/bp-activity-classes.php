@@ -44,6 +44,8 @@ Class BP_Activity_Activity {
 	
 	function save() {
 		global $wpdb, $bp, $current_user;
+		
+		do_action( 'bp_activity_before_save', $this );
 
 		if ( !$this->item_id || !$this->user_id || $this->is_private || !$this->component_name )
 			return false;
@@ -69,8 +71,10 @@ Class BP_Activity_Activity {
 			if ( !$this->no_sitewide_cache )
 				$sitewide_cached = $wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->activity->table_name_sitewide} ( user_id, item_id, secondary_item_id, content, primary_link, component_name, component_action, date_cached, date_recorded ) VALUES ( %d, %d, %d, %s, %s, %s, %s, FROM_UNIXTIME(%d), FROM_UNIXTIME(%d) )", $this->user_id, $this->item_id, $this->secondary_item_id, $activity_content['content'], $activity_content['primary_link'], $this->component_name, $this->component_action, time(), $this->date_recorded ) );
 			
-			if ( $activity && $activity_cached )
+			if ( $activity && $activity_cached ) {
+				do_action( 'bp_activity_after_save', $this );
 				return true;
+			}
 			
 			return false;
 		}

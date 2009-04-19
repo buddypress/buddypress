@@ -49,6 +49,14 @@ class BP_Friends_Friendship {
 	
 	function save() {
 		global $wpdb, $bp;
+
+		$this->initiator_user_id = apply_filters( 'friends_friendship_initiator_user_id_before_save', $this->initiator_user_id, $this->id );
+		$this->friend_user_id = apply_filters( 'friends_friendship_friend_user_id_before_save', $this->friend_user_id, $this->id );
+		$this->is_confirmed = apply_filters( 'friends_friendship_is_confirmed_before_save', $this->is_confirmed, $this->id );
+		$this->is_limited = apply_filters( 'friends_friendship_is_limited_before_save', $this->is_limited, $this->id );
+		$this->date_created = apply_filters( 'friends_friendship_date_created_before_save', $this->date_created, $this->id );
+
+		do_action( 'friends_friendship_before_save', $this );		
 		
 		if ( $this->id ) {
 			// Update
@@ -58,6 +66,8 @@ class BP_Friends_Friendship {
 			$result = $wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->friends->table_name} ( initiator_user_id, friend_user_id, is_confirmed, is_limited, date_created ) VALUES ( %d, %d, %d, %d, FROM_UNIXTIME(%d) )", $this->initiator_user_id, $this->friend_user_id, $this->is_confirmed, $this->is_limited, $this->date_created ) );
 			$this->id = $wpdb->insert_id;
 		}
+
+		do_action( 'friends_friendship_after_save', $this );		
 		
 		return $result;
 	}

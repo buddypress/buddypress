@@ -38,7 +38,12 @@ class BP_Wire_Post {
 	function save() {
 		global $wpdb, $bp;
 		
-		$this->content = wp_filter_kses( $this->content );
+		$this->item_id = apply_filters( 'bp_wire_post_item_id_before_save', $this->item_id, $this->id ); 
+		$this->user_id = apply_filters( 'bp_wire_post_user_id_before_save', $this->user_id, $this->id ); 
+		$this->content = apply_filters( 'bp_wire_post_content_before_save', $this->content, $this->id ); 
+		$this->date_posted = apply_filters( 'bp_wire_post_date_posted_before_save', $this->date_posted, $this->id );
+
+		do_action( 'bp_wire_post_before_save', $this );		
 		
 		if ( $this->id ) {
 			$sql = $wpdb->prepare( 
@@ -78,6 +83,8 @@ class BP_Wire_Post {
 		
 		if ( !$this->id )
 			$this->id = $wpdb->insert_id;
+
+		do_action( 'bp_wire_post_after_save', $this );		
 		
 		return $result;
 	}

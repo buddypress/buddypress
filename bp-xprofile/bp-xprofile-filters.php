@@ -3,6 +3,8 @@
 /* Apply WordPress defined filters */
 add_filter( 'bp_the_profile_field_value', 'wp_filter_kses', 1 );
 add_filter( 'xprofile_get_field_data', 'wp_filter_kses', 1 );
+add_filter( 'xprofile_field_name_before_save', 'wp_filter_kses', 1 );
+add_filter( 'xprofile_field_description_before_save', 'wp_filter_kses', 1 );
 
 add_filter( 'bp_the_profile_field_value', 'wptexturize' );
 add_filter( 'bp_the_profile_field_value', 'convert_smilies' );
@@ -15,7 +17,6 @@ add_filter( 'bp_the_profile_field_value', 'xprofile_filter_link_profile_data', 2
 add_filter( 'bp_the_profile_field_type', 'wptexturize' );
 add_filter( 'bp_the_profile_field_type', 'convert_smilies' );
 add_filter( 'bp_the_profile_field_type', 'convert_chars' );
-
 
 /* Custom BuddyPress filters */
 

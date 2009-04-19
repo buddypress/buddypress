@@ -14,5 +14,6 @@ add_filter( 'bp_wire_post_content', 'stripslashes_deep' );
 add_filter( 'bp_wire_post_content', 'make_clickable' );
 
 add_filter( 'bp_wire_post_content', 'wp_filter_kses', 1 );
+add_filter( 'bp_wire_post_content_before_save', 'wp_filter_kses', 1 );
 
 ?>

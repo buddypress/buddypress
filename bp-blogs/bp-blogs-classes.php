@@ -29,6 +29,11 @@ Class BP_Blogs_Blog {
 	function save() {
 		global $wpdb, $bp;
 		
+		$this->user_id = apply_filters( 'bp_blogs_blog_user_id_before_save', $this->user_id, $this->id );
+		$this->blog_ud = apply_filters( 'bp_blogs_blog_id_before_save', $this->blog_id, $this->id );
+		
+		do_action( 'bp_blogs_blog_before_save', $this );
+		
 		// Don't try and save if there is no user ID or blog ID set.
 		if ( !$this->user_id || !$this->blog_id )
 			return false;
@@ -47,6 +52,8 @@ Class BP_Blogs_Blog {
 		
 		if ( !$wpdb->query($sql) )
 			return false;
+			
+		do_action( 'bp_blogs_blog_after_save', $this );
 		
 		if ( $this->id )
 			return $this->id;
@@ -300,6 +307,13 @@ Class BP_Blogs_Post {
 	function save() {
 		global $wpdb, $bp;
 		
+		$this->post_id = apply_filters( 'bp_blogs_post_id_before_save', $this->post_id, $this->id );
+		$this->blog_id = apply_filters( 'bp_blogs_post_blog_id_before_save', $this->blog_id, $this->id );
+		$this->user_id = apply_filters( 'bp_blogs_post_user_id_before_save', $this->user_id, $this->id );
+		$this->date_created = apply_filters( 'bp_blogs_post_date_created_before_save', $this->date_created, $this->id );
+
+		do_action( 'bp_blogs_post_before_save', $this );
+
 		if ( $this->id ) {
 			// Update
 			$sql = $wpdb->prepare( "UPDATE {$bp->blogs->table_name_blog_posts} SET post_id = %d, blog_id = %d, user_id = %d, date_created = FROM_UNIXTIME(%d) WHERE id = %d", $this->post_id, $this->blog_id, $this->user_id, $this->date_created, $this->id );
@@ -310,6 +324,8 @@ Class BP_Blogs_Post {
 		
 		if ( !$wpdb->query($sql) )
 			return false;
+
+		do_action( 'bp_blogs_post_after_save', $this );
 		
 		if ( $this->id )
 			return $this->id;
@@ -495,6 +511,14 @@ Class BP_Blogs_Comment {
 	
 	function save() {
 		global $wpdb, $bp;
+
+		$this->comment_id = apply_filters( 'bp_blogs_comment_id_before_save', $this->comment_id, $this->id );
+		$this->comment_post_id = apply_filters( 'bp_blogs_comment_post_id_before_save', $this->comment_post_id, $this->id );
+		$this->blog_id = apply_filters( 'bp_blogs_comment_blog_id_before_save', $this->blog_id, $this->id );
+		$this->user_id = apply_filters( 'bp_blogs_comment_user_id_before_save', $this->user_id, $this->id );
+		$this->date_created = apply_filters( 'bp_blogs_comment_date_created_before_save', $this->date_created, $this->id );
+
+		do_action( 'bp_blogs_comment_before_save', $this );
 		
 		if ( $this->id ) {
 			// Update
@@ -506,6 +530,8 @@ Class BP_Blogs_Comment {
 
 		if ( !$wpdb->query($sql) )
 			return false;
+			
+		do_action( 'bp_blogs_comment_after_save', $this );
 		
 		if ( $this->id )
 			return $this->id;
