@@ -134,7 +134,7 @@ function xprofile_validate_signup_fields( $result ) {
 				);
 			
 				if ( $field->is_required && empty( $value ) ) {
-					$bp_xprofile_callback[$counter]["error_msg"] = $field->name . ' cannot be left blank.';
+					$bp_xprofile_callback[$counter]["error_msg"] = sprintf( __( '%s cannot be left blank', 'buddypress' ), $field->name );
 					$has_errors = true;
 				}
 			
