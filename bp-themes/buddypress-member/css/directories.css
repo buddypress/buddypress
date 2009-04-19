@@ -120,6 +120,7 @@ div#blogs-directory-listing .action {
 
 div#groups-directory-listing .desc {
 	margin: 10px 0 0 71px;
+	width: 60%;
 	font-size: 0.9em;
 }
 
