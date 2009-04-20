@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-04-19 14:11+0000\n"
+"POT-Creation-Date: 2009-04-20 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,7 +25,7 @@ msgid "Just Me"
 msgstr ""
 
 #: bp-activity.php:153 bp-friends.php:96 bp-friends.php:101 bp-friends.php:258
-#: bp-friends/bp-friends-templatetags.php:351
+#: bp-friends/bp-friends-templatetags.php:359
 #: bp-themes/buddypress-member/friends/index.php:10
 msgid "My Friends"
 msgstr ""
@@ -247,7 +247,7 @@ msgstr ""
 #: bp-core/bp-core-templatetags.php:922 bp-core/bp-core-widgets.php:102
 #: bp-forums/bp-forums-templatetags.php:268
 #: bp-forums/bp-forums-templatetags.php:443
-#: bp-friends/bp-friends-templatetags.php:257
+#: bp-friends/bp-friends-templatetags.php:258
 #: bp-groups/bp-groups-templatetags.php:977
 #: bp-groups/bp-groups-templatetags.php:1848
 #: bp-groups/bp-groups-widgets.php:42
@@ -1334,8 +1334,8 @@ msgstr ""
 msgid "Welcome Text:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:103 bp-friends/bp-friends-templatetags.php:318
-#: bp-friends/bp-friends-templatetags.php:334
+#: bp-core/bp-core-widgets.php:103 bp-friends/bp-friends-templatetags.php:326
+#: bp-friends/bp-friends-templatetags.php:342
 #: bp-groups/bp-groups-widgets.php:43
 msgid "Newest"
 msgstr ""
@@ -1603,7 +1603,7 @@ msgid "Friendship could not be canceled."
 msgstr ""
 
 #: bp-friends/bp-friends-ajax.php:22
-#: bp-friends/bp-friends-templatetags.php:308
+#: bp-friends/bp-friends-templatetags.php:316
 msgid "Add Friend"
 msgstr ""
 
@@ -1612,7 +1612,7 @@ msgid "Friendship could not be requested."
 msgstr ""
 
 #: bp-friends/bp-friends-ajax.php:31
-#: bp-friends/bp-friends-templatetags.php:304
+#: bp-friends/bp-friends-templatetags.php:312
 msgid "Friendship Requested"
 msgstr ""
 
@@ -1661,55 +1661,55 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:228
+#: bp-friends/bp-friends-templatetags.php:229
 #: bp-groups/bp-groups-templatetags.php:2065
 #, php-format
 msgid "requested %s ago"
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:253
+#: bp-friends/bp-friends-templatetags.php:254
 msgid "Filter Friends"
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:306
+#: bp-friends/bp-friends-templatetags.php:314
 msgid "Cancel Friendship"
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:317
-#: bp-friends/bp-friends-templatetags.php:331
+#: bp-friends/bp-friends-templatetags.php:325
+#: bp-friends/bp-friends-templatetags.php:339
 #: bp-groups/bp-groups-templatetags.php:6
 #: bp-groups/bp-groups-templatetags.php:252
 msgid "Recently Active"
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:319
-#: bp-friends/bp-friends-templatetags.php:337
+#: bp-friends/bp-friends-templatetags.php:327
+#: bp-friends/bp-friends-templatetags.php:345
 #: bp-groups/bp-groups-templatetags.php:11
 #: bp-groups/bp-groups-templatetags.php:267
 msgid "Alphabetically"
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:351
+#: bp-friends/bp-friends-templatetags.php:359
 #: bp-themes/buddypress-member/friends/index.php:10
 #, php-format
 msgid "%s's Friends"
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:351
+#: bp-friends/bp-friends-templatetags.php:359
 #: bp-groups/bp-groups-templatetags.php:353
 msgid "See All"
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:364
+#: bp-friends/bp-friends-templatetags.php:372
 msgid "You haven't added any friend connections yet."
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:364
+#: bp-friends/bp-friends-templatetags.php:372
 #, php-format
 msgid "%s hasn't created any friend connections yet."
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:404
+#: bp-friends/bp-friends-templatetags.php:412
 msgid "There aren't enough site members to show a random sample just yet."
 msgstr ""
 
@@ -3491,16 +3491,20 @@ msgid ""
 "show in member lists."
 msgstr ""
 
-#: bp-themes/buddypress-member/friends/friends-loop.php:27
+#: bp-themes/buddypress-member/friends/friends-loop.php:28
+msgid "No friends matched your search filter terms"
+msgstr ""
+
+#: bp-themes/buddypress-member/friends/friends-loop.php:32
 msgid "Your friends list is currently empty"
 msgstr ""
 
-#: bp-themes/buddypress-member/friends/friends-loop.php:27
+#: bp-themes/buddypress-member/friends/friends-loop.php:32
 #, php-format
 msgid "%s's friends list is currently empty"
 msgstr ""
 
-#: bp-themes/buddypress-member/friends/friends-loop.php:31
+#: bp-themes/buddypress-member/friends/friends-loop.php:37
 msgid "Why not make friends with some of these members?"
 msgstr ""
 
