@@ -170,7 +170,7 @@ class BP_Friends_Friendship {
 		}
 
 		$filtered_friend_ids = $wpdb->get_results($sql);	
-		$total_friend_ids = $wpdb->get_var($sql);	
+		$total_friend_ids = $wpdb->get_var($total_sql);	
 		
 		if ( !$filtered_friend_ids )
 			return false;
