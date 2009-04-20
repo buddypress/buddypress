@@ -100,18 +100,19 @@ class BP_Friendship_Template {
 
 		$this->in_the_loop = true;
 		$this->friendship = $this->next_friendship();
-		
+
 		if ( 'requests' == $bp->current_action ) {
 			$this->friendship = new BP_Friends_Friendship( $this->friendship );
+			$this->friendship->user_id = ( $this->friendship->friend_user_id == $bp->loggedin_user->id ) ?  $this->friendship->initiator_user_id : $this->friendship->friend_user_id;
 		} else {
 			$this->friendship = (object) $this->friendship;
-			
+
 			if ( !$this->friendship->friend = wp_cache_get( 'bp_user_' . $this->friendship->user_id, 'bp' ) ) {
 				$this->friendship->friend = new BP_Core_User( $this->friendship->user_id );
 				wp_cache_set( 'bp_user_' . $this->friendship->user_id, $this->friendship->friend, 'bp' );
 			}
 		}
-		
+
 		if ( 0 == $this->current_friendship ) // loop has just started
 			do_action('loop_start');
 	}
@@ -262,6 +263,13 @@ function bp_friend_search_form() {
 	
 	</form>
 <?php
+}
+
+function bp_friends_is_filtered() {
+	if ( isset( $_POST['friend-search-box'] ) )
+		return true;
+	
+	return false;
 }
 
 function bp_friend_all_friends_link() {

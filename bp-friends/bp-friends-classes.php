@@ -141,11 +141,12 @@ class BP_Friends_Friendship {
 	function search_friends( $filter, $user_id, $limit = null, $page = null ) {
 		global $wpdb, $bp;
 		
+		// TODO: Optimize this function.
+		
 		if ( !$user_id )
 			$user_id = $bp->loggedin_user->id;
 		
 		like_escape($filter);
-		$usermeta_table = $wpdb->prefix . 'usermeta';
 		
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
@@ -155,25 +156,28 @@ class BP_Friends_Friendship {
 
 		// Get all the user ids for the current user's friends.
 		$fids = implode( ',', $friend_ids );
+		
+		if ( empty($fids) )
+			return false;
 
 		// filter the user_ids based on the search criteria.
 		if ( function_exists('xprofile_install') ) {
-			$sql = $wpdb->prepare( "SELECT DISTINCT user_id FROM {$bp->profile->table_name_data} WHERE user_id IN ($fids) AND value LIKE '$filter%%'" );
+			$sql = $wpdb->prepare( "SELECT DISTINCT user_id FROM {$bp->profile->table_name_data} WHERE user_id IN ($fids) AND value LIKE '$filter%%' {$pag_sql}" );
+			$total_sql = $wpdb->prepare( "SELECT DISTINCT count(user_id) FROM {$bp->profile->table_name_data} WHERE user_id IN ($fids) AND value LIKE '$filter%%'" );
 		} else {
-			$sql = $wpdb->prepare( "SELECT DISTINCT user_id FROM $usermeta_table WHERE user_id IN ($fids) AND meta_key = 'nickname' AND meta_value LIKE '$filter%%'" );
+			$sql = $wpdb->prepare( "SELECT DISTINCT user_id FROM " . CUSTOM_USER_META_TABLE . " WHERE user_id IN ($fids) AND meta_key = 'nickname' AND meta_value LIKE '$filter%%' {$pag_sql}" );
+			$total_sql = $wpdb->prepare( "SELECT DISTINCT count(user_id) FROM " . CUSTOM_USER_META_TABLE . " WHERE user_id IN ($fids) AND meta_key = 'nickname' AND meta_value LIKE '$filter%%'" );
 		}
 
-		$filtered_friends = $wpdb->get_results( $sql, ARRAY_A );	
-
-		if ( !$filtered_friends )
+		$filtered_friend_ids = $wpdb->get_results($sql);	
+		$total_friend_ids = $wpdb->get_var($sql);	
+		
+		if ( !$filtered_friend_ids )
 			return false;
 
-		// Get the total number of friendships
-		$total_friends = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->friends->table_name} WHERE (friend_user_id IN ($filtered_fids) AND initiator_user_id = %d) OR (initiator_user_id IN ($filtered_fids) AND friend_user_id = %d)", $user_id, $user_id ) );
-		
-		return array( 'friends' => $filtered_friends, 'total' => $total_friends );
+		return array( 'friends' => $filtered_friend_ids, 'total' => (int)$total_friend_ids );
 	}
-		
+			
 	function check_is_friend( $loggedin_userid, $possible_friend_userid ) {
 		global $wpdb, $bp;
 		
