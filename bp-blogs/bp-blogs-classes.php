@@ -30,7 +30,7 @@ Class BP_Blogs_Blog {
 		global $wpdb, $bp;
 		
 		$this->user_id = apply_filters( 'bp_blogs_blog_user_id_before_save', $this->user_id, $this->id );
-		$this->blog_ud = apply_filters( 'bp_blogs_blog_id_before_save', $this->blog_id, $this->id );
+		$this->blog_id = apply_filters( 'bp_blogs_blog_id_before_save', $this->blog_id, $this->id );
 		
 		do_action( 'bp_blogs_blog_before_save', $this );
 		
