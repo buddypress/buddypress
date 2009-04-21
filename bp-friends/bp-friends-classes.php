@@ -200,7 +200,7 @@ class BP_Friends_Friendship {
 	function get_bulk_last_active( $user_ids ) {
 		global $wpdb, $bp;
 
-		return $wpdb->get_results( $wpdb->prepare( "SELECT meta_value as last_activity, user_id FROM {$wpdb->base_prefix}usermeta WHERE meta_key = 'last_activity' AND user_id IN ( {$user_ids} ) ORDER BY meta_value DESC" ) );
+		return $wpdb->get_results( $wpdb->prepare( "SELECT meta_value as last_activity, user_id FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = 'last_activity' AND user_id IN ( {$user_ids} ) ORDER BY meta_value DESC" ) );
 	}
 	
 	function accept($friendship_id) {

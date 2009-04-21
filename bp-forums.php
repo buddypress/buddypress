@@ -183,7 +183,7 @@ add_action( 'wpmu_new_user', 'bp_forums_make_user_active_member' );
 function bp_forums_get_keymaster() {
 	global $wpdb;
 	
-	$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT user_id FROM {$wpdb->base_prefix}usermeta WHERE meta_key = 'bb_capabilities' AND meta_value LIKE '%%keymaster%%'" ) );
+	$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT user_id FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = 'bb_capabilities' AND meta_value LIKE '%%keymaster%%'" ) );
 	
 	return get_userdata( $user_id );
 }
