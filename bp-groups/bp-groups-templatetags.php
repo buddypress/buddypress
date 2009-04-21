@@ -1896,6 +1896,12 @@ function bp_the_site_group_description() {
 	echo bp_group_description( $site_groups_template->group );	
 }
 
+function bp_the_site_group_description_excerpt() {
+	global $site_groups_template;
+
+	echo bp_create_excerpt( bp_group_description( $site_groups_template->group ), 35 );	
+}
+
 function bp_the_site_group_member_count() {
 	global $site_groups_template;
 

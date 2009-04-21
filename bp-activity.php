@@ -87,8 +87,8 @@ function bp_activity_install() {
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 	dbDelta($sql);
 	
-	if ( '' == get_site_option( 'bp-activity-db-merge' ) ) {
-		$users = $wpdb->get_col( "SELECT ID FROM {$wpdb->base_prefix}users" );
+	if ( '' == get_site_option( 'bp-activity-db-merge' ) || !get_site_option( 'bp-activity-db-merge' ) ) {
+		$users = $wpdb->get_col( "SELECT ID FROM " . CUSTOM_USER_TABLE );
 		
 		foreach ( $users as $user_id ) {
 			BP_Activity_Activity::convert_tables_for_user( $user_id );
