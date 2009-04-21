@@ -46,8 +46,7 @@
 		</div>
 
 		<?php do_action( 'bp_core_directory_members_content' ) ?>
-		<?php wp_nonce_field( 'directory_members', '_wpnonce-member-filter' ) ?>
-
+		
 	</form>
 	
 </div>
