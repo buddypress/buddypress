@@ -77,10 +77,10 @@ jQuery(document).ready( function() {
 			else
 				var letter = jQuery("input#selected_letter").val();
 						
-			if ( !jQuery("input#search_terms").val() )
+			if ( !jQuery("input#members_search").val() )
 				var search_terms = '';
 			else
-				var search_terms = jQuery("input#search_terms").val();
+				var search_terms = jQuery("input#members_search").val();
 			
 			jQuery.post( ajaxurl, {
 				action: 'directory_members',
@@ -90,7 +90,7 @@ jQuery(document).ready( function() {
 				'_wpnonce': jQuery("input#_wpnonce-member-filter").val(),
 				
 				'letter': letter,
-				'members_search': search_terms
+				's': search_terms
 			},
 			function(response)
 			{	
