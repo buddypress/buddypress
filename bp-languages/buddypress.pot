@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-04-20 14:11+0000\n"
+"POT-Creation-Date: 2009-04-21 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -277,13 +277,13 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1088
 #: bp-core/bp-core-templatetags.php:1001
-#: bp-groups/bp-groups-templatetags.php:1932
+#: bp-groups/bp-groups-templatetags.php:1938
 msgid "Search anything..."
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1089
 #: bp-core/bp-core-templatetags.php:586 bp-core/bp-core-templatetags.php:1002
-#: bp-groups/bp-groups-templatetags.php:1933
+#: bp-groups/bp-groups-templatetags.php:1939
 #: bp-themes/buddypress-home/searchform.php:3
 msgid "Search"
 msgstr ""
@@ -1662,7 +1662,7 @@ msgid ""
 msgstr ""
 
 #: bp-friends/bp-friends-templatetags.php:229
-#: bp-groups/bp-groups-templatetags.php:2065
+#: bp-groups/bp-groups-templatetags.php:2071
 #, php-format
 msgid "requested %s ago"
 msgstr ""
@@ -3473,15 +3473,15 @@ msgstr ""
 msgid "Member Listing"
 msgstr ""
 
-#: bp-themes/buddypress-member/directories/members/index.php:58
+#: bp-themes/buddypress-member/directories/members/index.php:57
 msgid "Find Members"
 msgstr ""
 
-#: bp-themes/buddypress-member/directories/members/index.php:65
+#: bp-themes/buddypress-member/directories/members/index.php:64
 msgid "Featured Members"
 msgstr ""
 
-#: bp-themes/buddypress-member/directories/members/index.php:98
+#: bp-themes/buddypress-member/directories/members/index.php:97
 msgid "There are not enough members to feature."
 msgstr ""
 
