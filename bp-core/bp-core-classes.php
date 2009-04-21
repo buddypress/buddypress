@@ -223,8 +223,8 @@ class BP_Core_User {
 		
 		like_escape($search_terms);	
 
-		$total_users = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(pd.user_id) as user_id FROM {$bp->profile->table_name_data} pd WHERE pd.value LIKE '$search_terms%%' ORDER BY pd.value ASC" ) );
-		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT count(pd.user_id) as user_id FROM {$bp->profile->table_name_data} pd WHERE pd.value LIKE '$search_terms%%' ORDER BY pd.value ASC{$pag_sql}" ) );
+		$total_users = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(u.ID) as user_id FROM " . CUSTOM_USER_TABLE . " u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE pd.value LIKE '$search_terms%%' ORDER BY pd.value ASC" ) );
+		$paged_users = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT u.ID as user_id FROM " . CUSTOM_USER_TABLE . " u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE pd.value LIKE '$search_terms%%' ORDER BY pd.value ASC{$pag_sql}" ) );
 		
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
