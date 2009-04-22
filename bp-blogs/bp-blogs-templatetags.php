@@ -207,23 +207,35 @@ class BP_Blogs_User_Blogs_Template {
 	var $pag_links;
 	var $total_blog_count;
 	
-	function bp_blogs_user_blogs_template( $user_id = null ) {
+	function bp_blogs_user_blogs_template( $user_id, $per_page, $max ) {
 		global $bp;
 		
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
 
 		$this->pag_page = isset( $_GET['fpage'] ) ? intval( $_GET['fpage'] ) : 1;
-		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 10;
+		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : $per_page;
 
 		if ( !$this->blogs = wp_cache_get( 'bp_blogs_for_user_' . $user_id, 'bp' ) ) {
 			$this->blogs = bp_blogs_get_blogs_for_user( $user_id );
 			wp_cache_set( 'bp_blogs_for_user_' . $user_id, $this->blogs, 'bp' );
 		}
 		
-		$this->total_blog_count = (int)$this->blogs['count'];
+		if ( !$max )
+			$this->total_blog_count = (int)$this->blogs['count'];
+		else
+			$this->total_blog_count = (int)$max;
+		
 		$this->blogs = $this->blogs['blogs'];
-		$this->blog_count = count($this->blogs);
+		
+		if ( $max ) {
+			if ( $max >= count($this->blogs) )
+				$this->blog_count = count($this->blogs);
+			else
+				$this->blog_count = (int)$max;
+		} else {
+			$this->blog_count = count($this->blogs);
+		}
 		
 		$this->pag_links = paginate_links( array(
 			'base' => add_query_arg( 'fpage', '%#%' ),
@@ -281,10 +293,19 @@ class BP_Blogs_User_Blogs_Template {
 	}
 }
 
-function bp_has_blogs() {
+function bp_has_blogs( $args = '' ) {
 	global $blogs_template;
 
-	$blogs_template = new BP_Blogs_User_Blogs_Template;
+	$defaults = array(
+		'user_id' => false,
+		'per_page' => 10,
+		'max' => false
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	$blogs_template = new BP_Blogs_User_Blogs_Template( $user_id, $per_page, $max );
 	return $blogs_template->has_blogs();
 }
 
@@ -331,24 +352,36 @@ class BP_Blogs_Blog_Post_Template {
 	var $pag_links;
 	var $total_post_count;
 	
-	function bp_blogs_blog_post_template( $user_id = null ) {
+	function bp_blogs_blog_post_template( $user_id, $per_page, $max ) {
 		global $bp;
 		
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
 
 		$this->pag_page = isset( $_GET['fpage'] ) ? intval( $_GET['fpage'] ) : 1;
-		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 10;
+		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : $per_page;
 		
 		if ( !$this->posts = wp_cache_get( 'bp_user_posts_' . $user_id, 'bp' ) ) {
 			$this->posts = bp_blogs_get_posts_for_user( $user_id );
 			wp_cache_set( 'bp_user_posts_' . $user_id, $this->posts, 'bp' );
 		}
 		
-		$this->total_post_count = (int)$this->posts['count'];
+		if ( !$max )
+			$this->total_post_count = (int)$this->posts['count'];
+		else
+			$this->total_post_count = (int)$max;
+		
 		$this->posts = $this->posts['posts'];
-		$this->post_count = count($this->posts);
 
+		if ( $max ) {
+			if ( $max >= count($this->posts) )
+				$this->post_count = count($this->posts);
+			else
+				$this->post_count = (int)$max;
+		} else {
+			$this->post_count = count($this->posts);
+		}
+		
 		$this->pag_links = paginate_links( array(
 			'base' => add_query_arg( 'fpage', '%#%' ),
 			'format' => '',
@@ -357,8 +390,7 @@ class BP_Blogs_Blog_Post_Template {
 			'prev_text' => '&laquo;',
 			'next_text' => '&raquo;',
 			'mid_size' => 1
-		));
-		
+		));	
 	}
 	
 	function has_posts() {
@@ -406,10 +438,19 @@ class BP_Blogs_Blog_Post_Template {
 	}
 }
 
-function bp_has_posts() {
+function bp_has_posts( $args = '' ) {
 	global $posts_template;
 
-	$posts_template = new BP_Blogs_Blog_Post_Template;	
+	$defaults = array(
+		'user_id' => false,
+		'per_page' => 10,
+		'max' => false
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	$posts_template = new BP_Blogs_Blog_Post_Template( $user_id, $per_page, $max );	
 	return $posts_template->has_posts();
 }
 
