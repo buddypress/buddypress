@@ -43,7 +43,7 @@ function bp_wire_ajax_get_wire_posts() {
 
 	<?php endif; ?>
 	
-	<input type="hidden" name="bp_wire_item_id" id="bp_wire_item_id" value="<?php echo $_POST['bp_wire_item_id'] ?>" />
+	<input type="hidden" name="bp_wire_item_id" id="bp_wire_item_id" value="<?php echo attribute_escape( $_POST['bp_wire_item_id'] ) ?>" />
 	<?php
 }
 add_action( 'wp_ajax_get_wire_posts', 'bp_wire_ajax_get_wire_posts' );
