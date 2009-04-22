@@ -123,7 +123,7 @@ function groups_ajax_member_list() {
 	global $bp;
 	?>
 	
-	<?php if ( bp_group_has_members( $_REQUEST['group_id'] ) ) : ?>
+	<?php if ( bp_group_has_members( 'group_id=' . $_REQUEST['group_id'] ) ) : ?>
 		
 		<?php if ( bp_group_member_needs_pagination() ) : ?>
 			<div id="member-count" class="pag-count">
@@ -167,7 +167,7 @@ function groups_ajax_member_admin_list() {
 	global $bp;
 	?>
 	
-	<?php if ( bp_group_has_members( $_REQUEST['group_id'], $_REQUEST['num'] ) ) : ?>
+	<?php if ( bp_group_has_members( 'group_id=' . $_REQUEST['group_id'] . '&per_page=' . $_REQUEST['num'] ) ) : ?>
 	
 		<?php if ( bp_group_member_needs_pagination() ) : ?>
 			<div id="member-count" class="pag-count">

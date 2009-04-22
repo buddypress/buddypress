@@ -414,86 +414,80 @@ class BP_Groups_User_Groups_Template {
 	var $sort_by;
 	var $order;
 	
-	function bp_groups_user_groups_template( $user_id = null, $group_slug = null, $groups_per_page = 10 ) {
-		global $bp, $current_user;
+	function bp_groups_user_groups_template( $user_id, $type, $per_page, $max, $slug, $filter ) {
+		global $bp;
 		
 		if ( !$user_id )
-			$user_id = $current_user->id;
+			$user_id = $bp->displayed_user->id;
 		
 		$this->pag_page = isset( $_REQUEST['fpage'] ) ? intval( $_REQUEST['fpage'] ) : 1;
-		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $groups_per_page;
+		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 		
-		if ( ( 'my-groups' == $bp->current_action && empty( $_REQUEST['group-filter-box'] ) ) || ( !$bp->current_action && !isset($_REQUEST['page']) && empty( $_REQUEST['group-filter-box'] ) ) ) {
-
-			$order = $bp->action_variables[0];
+		switch ( $type ) {
+			case 'recently-joined':
+				$this->groups = groups_get_recently_joined_for_user( $user_id, $this->pag_num, $this->pag_page );
+				break;
 			
-			if ( 'recently-joined' == $order ) {
-				$this->groups = groups_get_recently_joined_for_user( $bp->displayed_user->id, $this->pag_num, $this->pag_page );
-			} else if ( 'most-popular' == $order ) {
-				$this->groups = groups_get_most_popular_for_user( $bp->displayed_user->id, $this->pag_num, $this->pag_page );				
-			} else if ( 'admin-of' == $order ) {
-				$this->groups = groups_get_user_is_admin_of( $bp->displayed_user->id, $this->pag_num, $this->pag_page );				
-			} else if ( 'mod-of' == $order ) {
-				$this->groups = groups_get_user_is_mod_of( $bp->displayed_user->id, $this->pag_num, $this->pag_page );				
-			} else if ( 'alphabetically' == $order ) {
-				$this->groups = groups_get_alphabetically_for_user( $bp->displayed_user->id, $this->pag_num, $this->pag_page );	
-			} else {
-				$this->groups = groups_get_recently_active_for_user( $bp->displayed_user->id, $this->pag_num, $this->pag_page );
-			}
+			case 'popular':
+				$this->groups = groups_get_most_popular_for_user( $user_id, $this->pag_num, $this->pag_page );				
+				break;
 
-			$this->total_group_count = (int)$this->groups['total'];
-			$this->groups = $this->groups['groups'];
-			$this->group_count = count($this->groups);
-		
-		} else if ( ( 'my-groups' == $bp->current_action && $_REQUEST['group-filter-box'] != '' ) || ( !$bp->current_action && !isset($_REQUEST['page']) && $_REQUEST['group-filter-box'] != '' ) ) {
+			case 'admin-of':
+				$this->groups = groups_get_user_is_admin_of( $user_id, $this->pag_num, $this->pag_page );				
+				break;	
+			
+			case 'mod-of':
+				$this->groups = groups_get_user_is_mod_of( $user_id, $this->pag_num, $this->pag_page );				
+				break;
+			
+			case 'alphabetical':
+				$this->groups = groups_get_alphabetically_for_user( $user_id, $this->pag_num, $this->pag_page );	
+				break;
 
-			$this->groups = groups_filter_user_groups( $_REQUEST['group-filter-box'], $this->pag_num, $this->pag_page );
-			$this->total_group_count = (int)$this->groups['total'];
-			$this->groups = $this->groups['groups'];
-			$this->group_count = count($this->groups);
-		
-		} else if ( 'invites' == $bp->current_action ) {
-		
-			$this->groups = groups_get_invites_for_user();
+			case 'invites':
+				$this->groups = groups_get_invites_for_user();
+				break;
+			
+			case 'filter':
+				$this->groups = groups_filter_user_groups( $filter, $user_id, $this->pag_num, $this->pag_page );
+				break;
+			
+			case 'single-group':
+				$group = new stdClass;
+				$group->group_id = BP_Groups_Group::get_id_from_slug($slug);			
+				$this->groups = array( $group );
+				break;
+
+			case 'active': default:
+				$this->groups = groups_get_recently_active_for_user( $user_id, $this->pag_num, $this->pag_page );
+				break;
+		}
+
+		if ( 'invites' == $type ) {
 			$this->total_group_count = count($this->groups);
 			$this->group_count = count($this->groups);
-		
-		} else if ( isset( $_REQUEST['page'] ) && 'groups_admin_settings' == $_REQUEST['page'] ) {
-			
-			$this->sort_by = $_REQUEST['sortby'];
-			$this->order = ( isset( $_REQUEST['order'] ) ) ? $_REQUEST['order'] : 'ASC';
-			
-			if ( isset( $_REQUEST['s'] ) && $_REQUEST['s'] != '' ) {
-				$this->groups = groups_search_groups( $_REQUEST['s'], $this->pag_num, $this->pag_page, $this->sort_by, $this->order );
-				$this->total_group_count = (int)$this->groups['total'];
-				$this->groups = $this->groups['groups'];
-				$this->group_count = count($this->groups);
-			} else {
-				$this->groups = groups_get_all( $this->pag_num, $this->pag_page, false, $this->sort_by, $this->order );
-				$this->total_group_count = count( groups_get_all() ); // TODO: not ideal
-				$this->group_count = count($this->groups);
-			}
-			
-		} else if ( $group_slug ) {
-			
+		} else if ( 'single-group' == $type ) {
 			$this->single_group = true;
-			
-			$group = new stdClass;
-			$group->group_id = BP_Groups_Group::get_id_from_slug($group_slug);
-			
-			$this->groups = array( $group );
 			$this->total_group_count = 1;
 			$this->group_count = 1;
-		
 		} else {
-			
-			$this->groups = groups_get_user_groups( $bp->displayed_user->id, $this->pag_num, $this->pag_page );
-			$this->total_group_count = (int)$this->groups['total'];
+			if ( !$max )
+				$this->total_group_count = (int)$this->groups['total'];
+			else
+				$this->total_group_count = (int)$max;
+
 			$this->groups = $this->groups['groups'];
-			$this->group_count = count($this->groups);	
-					
+
+			if ( $max ) {
+				if ( $max >= count($this->groups) )
+					$this->group_count = count($this->groups);
+				else
+					$this->group_count = (int)$max;
+			} else {
+				$this->group_count = count($this->groups);
+			}
 		}
-		
+
 		$this->pag_links = paginate_links( array(
 			'base' => add_query_arg( array( 'fpage' => '%#%', 'num' => $this->pag_num, 's' => $_REQUEST['s'], 'sortby' => $this->sort_by, 'order' => $this->order ) ),
 			'format' => '',
@@ -503,9 +497,8 @@ class BP_Groups_User_Groups_Template {
 			'next_text' => '&raquo;',
 			'mid_size' => 1
 		));
-		
 	}
-	
+
 	function has_groups() {
 		if ( $this->group_count )
 			return true;
@@ -566,16 +559,49 @@ class BP_Groups_User_Groups_Template {
 	}
 }
 
-function bp_has_groups( $groups_per_page = 10 ) {
+function bp_has_groups( $args = '' ) {
 	global $groups_template, $bp;
 	global $group_obj;
 	
-	if ( !$bp->is_single_item ) {
-		$groups_template = new BP_Groups_User_Groups_Template( $bp->displayed_user->id, false, $groups_per_page );
-	} else {
-		$groups_template = new BP_Groups_User_Groups_Template( $bp->displayed_user->id, $group_obj->slug, $groups_per_page );		
-	}
+	$defaults = array(
+		'type' => 'active',
+		'user_id' => false,
+		'per_page' => 10,
+		'max' => false,
+		'slug' => false,
+		'filter' => false
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
 	
+	/* The following code will auto set parameters based on the page being viewed.
+	 * for example on example.com/members/andy/groups/my-groups/most-popular/
+	 * $type = 'most-popular'
+	 */
+	if ( 'my-groups' == $bp->current_action && !isset( $_REQUEST['group-filter-box'] ) ) {
+		$order = $bp->action_variables[0];
+		if ( 'recently-joined' == $order )
+			$type = 'recently-joined';
+		else if ( 'most-popular' == $order )
+			$type = 'popular';
+		else if ( 'admin-of' == $order )
+			$type = 'admin-of';
+		else if ( 'mod-of' == $order )
+			$type = 'mod-of';
+		else if ( 'alphabetically' == $order )
+			$type = 'alphabetical';
+	} else if ( 'invites' == $bp->current_action ) {
+		$type = 'invites';
+	} else if ( $group_obj->slug ) {
+		$type = 'single-group';
+		$slug = $group_obj->slug;
+	} else if ( isset( $_REQUEST['group-filter-box'] ) ) {
+		$type = 'filter';
+		$filter = $_REQUEST['group-filter-box'];
+	}
+
+	$groups_template = new BP_Groups_User_Groups_Template( $user_id, $type, $per_page, $max, $slug, $filter );
 	return $groups_template->has_groups();
 }
 
@@ -742,13 +768,16 @@ function bp_group_slug( $group = false ) {
 	echo apply_filters( 'bp_group_slug', $group->slug );
 }
 
-function bp_group_description( $group = false ) {
+function bp_group_description( $group = false, $echo = true ) {
 	global $groups_template;
 
 	if ( !$group )
 		$group =& $groups_template->group;
 
-	echo apply_filters( 'bp_group_description', stripslashes($group->description) );
+	if ( $echo )
+		echo apply_filters( 'bp_group_description', stripslashes($group->description) );
+	else
+		return apply_filters( 'bp_group_description', stripslashes($group->description) );
 }
 
 function bp_group_description_editable( $group = false ) {
@@ -1498,23 +1527,34 @@ class BP_Groups_Group_Members_Template {
 	var $pag_links;
 	var $total_group_count;
 	
-	function bp_groups_group_members_template( $group_id, $num_per_page, $exclude_admins_mods, $exclude_banned ) {
+	function bp_groups_group_members_template( $group_id, $per_page, $max, $exclude_admins_mods, $exclude_banned ) {
 		global $bp;
 		
 		$this->pag_page = isset( $_REQUEST['mlpage'] ) ? intval( $_REQUEST['mlpage'] ) : 1;
-		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $num_per_page;
+		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 		
 		$members = BP_Groups_Member::get_all_for_group( $group_id, $this->pag_num, $this->pag_page, $exclude_admins_mods, $exclude_banned );
 		
-		$this->total_group_count = $members['count'];
+		if ( !$max )
+			$this->total_member_count = (int)$this->members['count'];
+		else
+			$this->total_member_count = (int)$max;
+
 		$this->members = $members['members'];
 		
-		$this->member_count = count($this->members);
+		if ( $max ) {
+			if ( $max >= count($this->members) )
+				$this->member_count = count($this->members);
+			else
+				$this->member_count = (int)$max;
+		} else {
+			$this->member_count = count($this->members);
+		}
 		
 		$this->pag_links = paginate_links( array(
 			'base' => add_query_arg( 'mlpage', '%#%' ),
 			'format' => '',
-			'total' => ceil( $this->total_group_count / $this->pag_num ),
+			'total' => ceil( $this->total_member_count / $this->pag_num ),
 			'current' => $this->pag_page,
 			'prev_text' => '&laquo;',
 			'next_text' => '&raquo;',
@@ -1568,16 +1608,24 @@ class BP_Groups_Group_Members_Template {
 	}
 }
 
-function bp_group_has_members( $group_id = false, $num_per_page = 10, $exclude_admins_mods = true, $exclude_banned = true ) {
+function bp_group_has_members( $args = '' ) {
 	global $members_template, $groups_template, $group_obj;
 	
-	if ( !$group_id )
-		$group_id = $group_obj->id;
-		
+	$defaults = array(
+		'group_id' => $group_obj->id,
+		'per_page' => 10,
+		'max' => false,
+		'exclude_admins_mods' => true,
+		'exclude_banned' => true
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+	
 	if ( !$groups_template )
 		$groups_template->group = new BP_Groups_Group( $group_id );
 		
-	$members_template = new BP_Groups_Group_Members_Template( $groups_template->group->id, $num_per_page, $exclude_admins_mods, $exclude_banned );
+	$members_template = new BP_Groups_Group_Members_Template( $group_id, $per_page, $max, $exclude_admins_mods, $exclude_banned );
 
 	return $members_template->has_members();
 }
@@ -1698,7 +1746,7 @@ class BP_Groups_Site_Groups_Template {
 	function bp_groups_site_groups_template( $type, $per_page, $max ) {
 		global $bp;
 
-		$this->pag_page = isset( $_REQUEST['page'] ) ? intval( $_REQUEST['page'] ) : 1;
+		$this->pag_page = isset( $_REQUEST['gpage'] ) ? intval( $_REQUEST['gpage'] ) : 1;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 				
 		if ( isset( $_REQUEST['s'] ) && '' != $_REQUEST['s'] && $type != 'random' ) {
@@ -1731,10 +1779,18 @@ class BP_Groups_Site_Groups_Template {
 			$this->total_group_count = (int)$max;
 
 		$this->groups = $this->groups['groups'];
-		$this->group_count = count($this->groups);
-
+		
+		if ( $max ) {
+			if ( $max >= count($this->groups) )
+				$this->group_count = count($this->groups);
+			else
+				$this->group_count = (int)$max;
+		} else {
+			$this->group_count = count($this->groups);
+		}
+		
 		$this->pag_links = paginate_links( array(
-			'base' => add_query_arg( 'page', '%#%' ),
+			'base' => add_query_arg( 'gpage', '%#%' ),
 			'format' => '',
 			'total' => ceil( (int) $this->total_group_count / (int) $this->pag_num ),
 			'current' => (int) $this->pag_page,
@@ -1853,6 +1909,11 @@ function bp_site_groups_pagination_links() {
 	echo $site_groups_template->pag_links;
 }
 
+function bp_the_site_group_id() {
+	global $site_groups_template;
+	echo $site_groups_template->group->id;
+}
+
 function bp_the_site_group_avatar() {
 	global $site_groups_template;
 	echo bp_group_avatar( $site_groups_template->group );
@@ -1899,7 +1960,13 @@ function bp_the_site_group_description() {
 function bp_the_site_group_description_excerpt() {
 	global $site_groups_template;
 
-	echo bp_create_excerpt( bp_group_description( $site_groups_template->group ), 35 );	
+	echo bp_create_excerpt( bp_group_description( $site_groups_template->group, false ), 35 );	
+}
+
+function bp_the_site_group_date_created() {
+	global $site_groups_template;
+
+	echo date( get_option( 'date_format' ), $site_groups_template->group->date_created );	
 }
 
 function bp_the_site_group_member_count() {
@@ -1958,17 +2025,29 @@ class BP_Groups_Membership_Requests_Template {
 	var $pag_links;
 	var $total_request_count;
 	
-	function bp_groups_membership_requests_template( $group_id, $num_per_page ) {
+	function bp_groups_membership_requests_template( $group_id, $per_page, $max ) {
 		global $bp;
 		
 		$this->pag_page = isset( $_REQUEST['mrpage'] ) ? intval( $_REQUEST['mrpage'] ) : 1;
-		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $num_per_page;
+		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 		
 		$this->requests = BP_Groups_Group::get_membership_requests( $group_id, $this->pag_num, $this->pag_page );		
 
-		$this->total_request_count = $this->requests['total'];
+		if ( !$max )
+			$this->total_request_count = (int)$this->requests['total'];
+		else
+			$this->total_request_count = (int)$max;
+
 		$this->requests = $this->requests['requests'];
-		$this->request_count = count($this->requests);
+		
+		if ( $max ) {
+			if ( $max >= count($this->requests) )
+				$this->request_count = count($this->requests);
+			else
+				$this->request_count = (int)$max;
+		} else {
+			$this->request_count = count($this->requests);
+		}
 
 		$this->pag_links = paginate_links( array(
 			'base' => add_query_arg( 'mrpage', '%#%' ),
@@ -1979,7 +2058,6 @@ class BP_Groups_Membership_Requests_Template {
 			'next_text' => '&raquo;',
 			'mid_size' => 1
 		));
-		
 	}
 	
 	function has_requests() {
@@ -2027,11 +2105,19 @@ class BP_Groups_Membership_Requests_Template {
 	}
 }
 
-function bp_group_has_membership_requests( $num_per_page = 10 ) {
+function bp_group_has_membership_requests( $args = '' ) {
 	global $requests_template, $groups_template;
-	
-	$requests_template = new BP_Groups_Membership_Requests_Template( $groups_template->group->id, $num_per_page );
 
+	$defaults = array(
+		'group_id' => $groups_template->group->id,
+		'per_page' => 10,
+		'max' => false
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	$requests_template = new BP_Groups_Membership_Requests_Template( $group_id, $per_page, $max );
 	return $requests_template->has_requests();
 }
 

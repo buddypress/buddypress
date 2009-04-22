@@ -924,7 +924,7 @@ class BP_Blogs_Site_Blogs_Template {
 	function bp_blogs_site_blogs_template( $type, $per_page, $max ) {
 		global $bp;
 
-		$this->pag_page = isset( $_REQUEST['page'] ) ? intval( $_REQUEST['page'] ) : 1;
+		$this->pag_page = isset( $_REQUEST['bpage'] ) ? intval( $_REQUEST['bpage'] ) : 1;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 				
 		if ( isset( $_REQUEST['s'] ) && '' != $_REQUEST['s'] && $type != 'random' ) {
@@ -953,10 +953,18 @@ class BP_Blogs_Site_Blogs_Template {
 			$this->total_blog_count = (int)$max;
 
 		$this->blogs = $this->blogs['blogs'];
-		$this->blog_count = count($this->blogs);
 
+		if ( $max ) {
+			if ( $max >= count($this->blogs) )
+				$this->blog_count = count($this->blogs);
+			else
+				$this->blog_count = (int)$max;
+		} else {
+			$this->blog_count = count($this->blogs);
+		}
+		
 		$this->pag_links = paginate_links( array(
-			'base' => add_query_arg( 'page', '%#%' ),
+			'base' => add_query_arg( 'bpage', '%#%' ),
 			'format' => '',
 			'total' => ceil( (int) $this->total_blog_count / (int) $this->pag_num ),
 			'current' => (int) $this->pag_page,

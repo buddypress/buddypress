@@ -30,8 +30,8 @@
 				<h4><?php _e("Members", "buddypress"); ?></h4>
 				
 				<form action="<?php bp_group_admin_form_action('manage-members') ?>" name="group-members-form" id="group-members-form" class="standard-form" method="post">
-				<?php if ( bp_group_has_members( false, 15, true, false ) ) : ?>
-				
+				<?php if ( bp_group_has_members( 'per_page=15&exclude_banned=false' ) ) : ?>
+
 					<?php if ( bp_group_member_needs_pagination() ) : ?>
 						<div id="member-count" class="pag-count">
 							<?php bp_group_member_pagination_count() ?>

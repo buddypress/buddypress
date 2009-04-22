@@ -767,7 +767,7 @@ class BP_Core_Members_Template {
 	function bp_core_members_template( $type, $per_page, $max ) {
 		global $bp, $bp_the_member_query;
 
-		$this->pag_page = isset( $_REQUEST['page'] ) ? intval( $_REQUEST['page'] ) : 1;
+		$this->pag_page = isset( $_REQUEST['upage'] ) ? intval( $_REQUEST['upage'] ) : 1;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 				
 		if ( isset( $_REQUEST['s'] ) && '' != $_REQUEST['s'] && $type != 'random' ) {
@@ -808,10 +808,18 @@ class BP_Core_Members_Template {
 			$this->total_member_count = (int)$max;
 
 		$this->members = $this->members['users'];
-		$this->member_count = count($this->members);
 
+		if ( $max ) {
+			if ( $max >= count($this->members) )
+				$this->member_count = count($this->members);
+			else
+				$this->member_count = (int)$max;
+		} else {
+			$this->member_count = count($this->members);
+		}
+		
 		$this->pag_links = paginate_links( array(
-			'base' => add_query_arg( 'page', '%#%' ),
+			'base' => add_query_arg( 'upage', '%#%' ),
 			'format' => '',
 			'total' => ceil( (int) $this->total_member_count / (int) $this->pag_num ),
 			'current' => (int) $this->pag_page,

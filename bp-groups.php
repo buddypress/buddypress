@@ -1379,8 +1379,8 @@ function groups_search_groups( $search_terms, $pag_num_per_page = 5, $pag_page =
 	return BP_Groups_Group::search_groups( $search_terms, $pag_num_per_page, $pag_page, $sort_by, $order );
 }
 
-function groups_filter_user_groups( $filter, $pag_num_per_page = 5, $pag_page = 1 ) {
-	return BP_Groups_Group::filter_user_groups( $filter, $pag_num_per_page, $pag_page );
+function groups_filter_user_groups( $filter, $user_id = false, $pag_num_per_page = 5, $pag_page = 1 ) {
+	return BP_Groups_Group::filter_user_groups( $filter, $user_id, $pag_num_per_page, $pag_page );
 }
 
 /**************************************************************************
