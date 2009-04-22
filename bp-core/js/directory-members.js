@@ -70,23 +70,23 @@ jQuery(document).ready( function() {
 			jQuery('#ajax-loader-members').toggle();
 
 			var page = jQuery(this).attr('href');
-			page = page.split('page=');
+			page = page.split('upage=');
 			
 			if ( !jQuery("input#selected_letter").val() )
 				var letter = '';
 			else
 				var letter = jQuery("input#selected_letter").val();
 						
-			if ( !jQuery("input#members_search").val() )
+			if ( !jQuery("input#search_terms").val() )
 				var search_terms = '';
 			else
-				var search_terms = jQuery("input#members_search").val();
+				var search_terms = jQuery("input#search_terms").val();
 			
 			jQuery.post( ajaxurl, {
 				action: 'directory_members',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce").val(),
-				'page': page[1],
+				'upage': page[1],
 				'_wpnonce': jQuery("input#_wpnonce-member-filter").val(),
 				
 				'letter': letter,

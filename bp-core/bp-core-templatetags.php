@@ -996,15 +996,15 @@ function bp_the_site_member_random_profile_data() {
 }
 
 function bp_the_site_member_hidden_fields() {
-	if ( isset( $_GET['s'] ) ) {
+	if ( isset( $_REQUEST['s'] ) ) {
 		echo '<input type="hidden" id="search_terms" value="' . attribute_escape( $_REQUEST['s'] ) . '" name="search_terms" />';
 	}
 
-	if ( isset( $_POST['letter'] ) ) {
+	if ( isset( $_REQUEST['letter'] ) ) {
 		echo '<input type="hidden" id="selected_letter" value="' . attribute_escape( $_REQUEST['letter'] ) . '" name="selected_letter" />';
 	}
 
-	if ( isset( $_POST['members_search'] ) ) {
+	if ( isset( $_REQUEST['members_search'] ) ) {
 		echo '<input type="hidden" id="search_terms" value="' . attribute_escape( $_REQUEST['members_search'] ) . '" name="search_terms" />';
 	}
 }
