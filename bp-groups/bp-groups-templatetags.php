@@ -1533,14 +1533,14 @@ class BP_Groups_Group_Members_Template {
 		$this->pag_page = isset( $_REQUEST['mlpage'] ) ? intval( $_REQUEST['mlpage'] ) : 1;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 		
-		$members = BP_Groups_Member::get_all_for_group( $group_id, $this->pag_num, $this->pag_page, $exclude_admins_mods, $exclude_banned );
+		$this->members = BP_Groups_Member::get_all_for_group( $group_id, $this->pag_num, $this->pag_page, $exclude_admins_mods, $exclude_banned );
 		
 		if ( !$max )
 			$this->total_member_count = (int)$this->members['count'];
 		else
 			$this->total_member_count = (int)$max;
 
-		$this->members = $members['members'];
+		$this->members = $this->members['members'];
 		
 		if ( $max ) {
 			if ( $max >= count($this->members) )
@@ -1550,7 +1550,7 @@ class BP_Groups_Group_Members_Template {
 		} else {
 			$this->member_count = count($this->members);
 		}
-		
+
 		$this->pag_links = paginate_links( array(
 			'base' => add_query_arg( 'mlpage', '%#%' ),
 			'format' => '',
@@ -1560,7 +1560,6 @@ class BP_Groups_Group_Members_Template {
 			'next_text' => '&raquo;',
 			'mid_size' => 1
 		));
-		
 	}
 	
 	function has_members() {
@@ -1692,7 +1691,7 @@ function bp_group_member_id() {
 function bp_group_member_needs_pagination() {
 	global $members_template;
 
-	if ( $members_template->total_group_count > $members_template->pag_num )
+	if ( $members_template->total_member_count > $members_template->pag_num )
 		return true;
 	
 	return false;
@@ -1701,7 +1700,7 @@ function bp_group_member_needs_pagination() {
 function bp_group_pag_id() {
 	global $bp;
 	
-	echo apply_filters( 'bp_group_reject_invite_link', 'pag' );
+	echo apply_filters( 'bp_group_pag_id', 'pag' );
 }
 
 
@@ -1715,9 +1714,9 @@ function bp_group_member_pagination_count() {
 	global $members_template;
 	
 	$from_num = intval( ( $members_template->pag_page - 1 ) * $members_template->pag_num ) + 1;
-	$to_num = ( $from_num + 4 > $members_template->total_group_count ) ? $members_template->total_group_count : $from_num + 4; 
+	$to_num = ( $from_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $from_num + ( $members_template->pag_num - 1 ); 
 
-	echo apply_filters( 'bp_group_reject_invite_link', sprintf( __( 'Viewing members %d to %d (%d total members)', 'buddypress' ), $from_num, $to_num, $members_template->total_group_count ) );  
+	echo apply_filters( 'bp_group_member_pagination_count', sprintf( __( 'Viewing members %d to %d (of %d members)', 'buddypress' ), $from_num, $to_num, $members_template->total_member_count ) );  
 }
 
 function bp_group_member_admin_pagination() {
@@ -2168,8 +2167,5 @@ function bp_group_request_user_link() {
 	
 	echo apply_filters( 'bp_group_request_user_link', bp_core_get_userlink( $requests_template->request->user_id ) );
 }
-
-
-
 
 ?>
