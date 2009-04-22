@@ -952,7 +952,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	$output = ( 1 == $count ) ? '1 '. $chunks[$i][1] : $count . ' ' . $chunks[$i][2];
 
 	/* Step two: the second chunk */
-	if ( $i + 1 < $j ) {
+	if ( $i + 2 < $j ) {
 		$seconds2 = $chunks[$i + 1][0];
 		$name2 = $chunks[$i + 1][1];
 		
