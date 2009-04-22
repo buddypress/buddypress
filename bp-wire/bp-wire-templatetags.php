@@ -17,15 +17,14 @@ class BP_Wire_Posts_Template {
 	
 	var $table_name;
 	
-	function bp_wire_posts_template( $item_id, $can_post ) {
+	function bp_wire_posts_template( $item_id, $can_post, $per_page, $max ) {
 		global $bp;
 		
 		if ( $bp->current_component == $bp->wire->slug ) {
 			$this->table_name = $bp->profile->table_name_wire;
 			
-			// Seeing as we're viewing a users wire, lets remove any new wire
-			// post notifications
-			if ( 'all-posts' == $bp->current_action )
+			// If the user is viewing their own wire, delete the notifications.
+			if ( 'all-posts' == $bp->current_action && bp_is_home() )
 				bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, 'xprofile', 'new_wire_post' );
 			
 		} else {
@@ -33,7 +32,7 @@ class BP_Wire_Posts_Template {
 		}
 		
 		$this->pag_page = isset( $_REQUEST['wpage'] ) ? intval( $_REQUEST['wpage'] ) : 1;
-		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : 5;
+		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
 		$this->wire_posts = BP_Wire_Post::get_all_for_item( $item_id, $this->table_name, $this->pag_page, $this->pag_num );
 		$this->total_wire_post_count = (int)$this->wire_posts['count'];
@@ -103,13 +102,23 @@ class BP_Wire_Posts_Template {
 	}
 }
 
-function bp_has_wire_posts( $item_id = null, $can_post = true ) {
+function bp_has_wire_posts( $args = '' ) {
 	global $wire_posts_template, $bp;
+	
+	$defaults = array(
+		'item_id' => false,
+		'can_post' => true,
+		'per_page' => 5,
+		'max' => false
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
 	
 	if ( !$item_id )
 		return false;
 		
-	$wire_posts_template = new BP_Wire_Posts_Template( $item_id, $can_post );		
+	$wire_posts_template = new BP_Wire_Posts_Template( $item_id, $can_post, $per_page, $max );		
 	return $wire_posts_template->has_wire_posts();
 }
 
@@ -208,7 +217,7 @@ function bp_wire_pagination_count() {
 	global $wire_posts_template;
 	
 	$from_num = intval( ( $wire_posts_template->pag_page - 1 ) * $wire_posts_template->pag_num ) + 1;
-	$to_num = ( $from_num + 4 > $wire_posts_template->total_wire_post_count ) ? $wire_posts_template->total_wire_post_count : $from_num + 4; 
+	$to_num = ( $from_num + ( $wire_posts_template->pag_num - 1) > $wire_posts_template->total_wire_post_count ) ? $wire_posts_template->total_wire_post_count : $from_num + ( $wire_posts_template->pag_num - 1); 
 	
 	echo apply_filters( 'bp_wire_pagination_count', sprintf( __( 'Viewing post %d to %d (%d total posts)', 'buddypress' ), $from_num, $to_num, $wire_posts_template->total_wire_post_count ) );  
 }
