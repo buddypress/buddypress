@@ -7,14 +7,6 @@ define ( 'BP_BLOGS_DB_VERSION', '1300' );
 if ( !defined( 'BP_BLOGS_SLUG' ) )
 	define ( 'BP_BLOGS_SLUG', 'blogs' );
 
-/* Define the total number of posts to keep track of for each user. */
-if ( !defined( 'TOTAL_RECORDED_POSTS' ) )
-	define ( 'TOTAL_RECORDED_POSTS', 150 );
-
-/* Define the total number of comments to keep track of for each user. */	
-if ( !defined( 'TOTAL_RECORDED_COMMENTS' ) )	
-	define ( 'TOTAL_RECORDED_COMMENTS', 500 );
-
 require ( 'bp-blogs/bp-blogs-classes.php' );
 require ( 'bp-blogs/bp-blogs-cssjs.php' );
 require ( 'bp-blogs/bp-blogs-templatetags.php' );
@@ -427,13 +419,6 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 	if ( !$is_recorded = BP_Blogs_Post::is_recorded( $post_id, $blog_id, $user_id ) ) {
 		if ( 'publish' == $post->post_status && '' == $post->post_password ) {
 			
-			/** 
-			 * Check how many recorded posts there are for the user. If we are
-			 * at the max, then delete the oldest recorded post first.
-			 */
-			if ( BP_Blogs_Post::get_total_recorded_for_user( $user_id ) >= TOTAL_RECORDED_POSTS )
-				BP_Blogs_Post::delete_oldest( $user_id );
-			
 			$recorded_post = new BP_Blogs_Post;
 			$recorded_post->user_id = $user_id;
 			$recorded_post->blog_id = $blog_id;
@@ -473,83 +458,59 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 		$recorded_post = $existing_post;
 
 		/* Delete and re-add the activity stream item to reflect potential content changes. */
-		if ( strtotime( $recorded_post->date_created ) >= strtotime( "-24 hours" ) ) {
-			bp_blogs_delete_activity( array( 'item_id' => $recorded_post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'user_id' => $recorded_post->user_id ) );
-			bp_blogs_record_activity( array( 'item_id' => $recorded_post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'is_private' => bp_blogs_is_blog_hidden( $recorded_post->blog_id ), 'user_id' => $recorded_post->user_id ) );
-		}
+		bp_blogs_delete_activity( array( 'item_id' => $recorded_post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'user_id' => $recorded_post->user_id ) );
+		bp_blogs_record_activity( array( 'item_id' => $recorded_post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'is_private' => bp_blogs_is_blog_hidden( $recorded_post->blog_id ), 'user_id' => $recorded_post->user_id, 'recorded_time' => strtotime( $post->post_date ) ) );
 	}
 
 	do_action( 'bp_blogs_new_blog_post', $recorded_post, $is_private, $is_recorded );
 }
 add_action( 'publish_post', 'bp_blogs_record_post' );
-add_action( 'edit_post', 'bp_blogs_record_post' );
 
-
-function bp_blogs_record_comment( $comment_id, $post_id = false, $blog_id = false, $from_ajax = false ) {
-	global $bp, $wpdb, $current_user;
-
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		bp_blogs_setup_globals();
-	}
-
+function bp_blogs_record_comment( $comment_id, $is_approved ) {
+	global $wpdb;
+	
+	if ( !$is_approved )
+		return false;
+		
 	$comment = get_comment($comment_id);
 	
 	/* Get the user_id from the author email. */
 	$user = get_user_by_email( $comment->comment_author_email );
 	$user_id = (int)$user->ID;
+	
+	if ( !$user_id )
+		return false;
 
-	/* Only record a comment if it is by a registered user. */
-	if ( $user_id ) {
-		$comment_id = (int) $comment_id;
-		
-		if ( !$post_id )
-			$post_id = (int) $comment->comment_post_ID;
+	$recorded_comment = new BP_Blogs_Comment;
+	$recorded_comment->user_id = $user_id;
+	$recorded_comment->blog_id = $wpdb->blogid;
+	$recorded_comment->comment_id = $comment_id;
+	$recorded_comment->comment_post_id = $comment->comment_post_ID;
+	$recorded_comment->date_created = strtotime( $comment->comment_date );
 
-		if ( !$blog_id )
-			$blog_id = (int) $wpdb->blogid;
-			
-		/** 
-		 * Check how many recorded posts there are for the user. If we are
-		 * at the max, then delete the oldest recorded post first.
-		 */
-		if ( BP_Blogs_Comment::get_total_recorded_for_user() >= TOTAL_RECORDED_COMMENTS )
-			BP_Blogs_Comment::delete_oldest();
-
-		if ( !$is_recorded = BP_Blogs_Comment::is_recorded( $comment_id, $post_id, $blog_id ) ) {
-			if ( !$comment->comment_approved || 'spam' == $comment->comment_approved )
-				return false;
-
-			$recorded_comment = new BP_Blogs_Comment;
-			$recorded_comment->user_id = $user_id;
-			$recorded_comment->blog_id = $blog_id;
-			$recorded_comment->comment_id = $comment_id;
-			$recorded_comment->comment_post_id = $post_id;
-			$recorded_comment->date_created = strtotime( $comment->comment_date );
-
-			$recorded_commment_id = $recorded_comment->save();
-			
-			bp_blogs_update_blogmeta( $recorded_comment->blog_id, 'last_activity', time() );
-			
-			$is_private = bp_blogs_is_blog_hidden( $recorded_comment->blog_id );
-			
-			// Record in activity streams
-			bp_blogs_record_activity( array( 'item_id' => $recorded_comment->blog_id, 'secondary_item_id' => $recorded_commment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'is_private' => $is_private, 'user_id' => $recorded_comment->user_id, 'recorded_time' => $recorded_comment->date_created ) );
-		} else {
-			/** 
-			 * Check to see if the post have previously been recorded.
-			 * If the post status has changed from public to private then we need
-			 * to remove the record of the post.
-			 */
-			if ( !$comment->comment_approved || 'spam' == $comment->comment_approved )
-				BP_Blogs_Comment::delete( $comment_id, $blog_id );	
-		}
-	}
-
-	do_action( 'bp_blogs_new_blog_comment', $recorded_comment, $is_private, $is_recorded );
+	$recorded_commment_id = $recorded_comment->save();
+	
+	bp_blogs_update_blogmeta( $recorded_comment->blog_id, 'last_activity', time() );
+	bp_blogs_record_activity( array( 'item_id' => $recorded_comment->blog_id, 'secondary_item_id' => $recorded_commment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'is_private' => $is_private, 'user_id' => $recorded_comment->user_id, 'recorded_time' => $recorded_comment->date_created ) );	
 }
 add_action( 'comment_post', 'bp_blogs_record_comment', 10, 2 );
-add_action( 'edit_comment', 'bp_blogs_record_comment', 10, 2 );
+
+function bp_blogs_approve_comment( $comment_id, $comment ) {
+	global $bp, $wpdb;
+
+	$recorded_comment = bp_blogs_record_comment( $comment_id, true );
+
+	bp_blogs_delete_activity( array( 'item_id' => $recorded_comment->blog_id, 'secondary_item_id' => $recorded_commment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'user_id' => $recorded_comment->user_id ) );
+	bp_blogs_record_activity( array( 'item_id' => $recorded_comment->blog_id, 'secondary_item_id' => $recorded_commment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'is_private' => $is_private, 'user_id' => $recorded_comment->user_id, 'recorded_time' => $recorded_comment->date_created ) );	
+}
+add_action( 'comment_approved_', 'bp_blogs_approve_comment', 10, 2 );
+
+function bp_blogs_unapprove_comment( $comment_id, $status = false ) {
+	if ( 'spam' == $status || !$status )
+		bp_blogs_remove_comment( $comment_id ); 	
+}
+add_action( 'comment_unapproved_', 'bp_blogs_unapprove_comment' );
+add_action( 'wp_set_comment_status', 'bp_blogs_unapprove_comment', 10, 2 );
 
 function bp_blogs_add_user_to_blog( $user_id, $role, $blog_id ) {
 	if ( $role != 'subscriber' ) {
@@ -562,25 +523,6 @@ function bp_blogs_remove_user_from_blog( $user_id, $blog_id ) {
 	bp_blogs_remove_blog_for_user( $user_id, $blog_id );
 }
 add_action( 'remove_user_from_blog', 'bp_blogs_remove_user_from_blog', 10, 2 );
-	
-function bp_blogs_modify_comment( $comment_id, $comment_status ) {
-	global $bp;
-	
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		bp_blogs_setup_globals();
-	}
-	
-	$comment = get_comment($comment_id);
-	
-	// This is backwards, but it's just the way things work with WP AJAX.
-	if ( $comment->comment_approved ) {
-		bp_blogs_remove_comment( $comment_id ); 
-	} else {
-		bp_blogs_record_comment( $comment_id, false, false, true ); 		
-	}
-}
-add_action( 'wp_set_comment_status', 'bp_blogs_modify_comment', 10, 2 );
 
 function bp_blogs_remove_blog( $blog_id ) {
 	global $bp;
@@ -640,20 +582,18 @@ function bp_blogs_remove_post( $post_id ) {
 add_action( 'delete_post', 'bp_blogs_remove_post' );
 
 function bp_blogs_remove_comment( $comment_id ) {
-	global $current_blog, $bp;
+	global $wpdb, $bp;
 	
 	if ( !$bp ) {
 		bp_core_setup_globals();
 		bp_blogs_setup_globals();
 	}
 	
-	$comment_id = (int)$comment_id;
-	$blog_id = (int)$current_blog->blog_id;
-	
-	BP_Blogs_Comment::delete( $comment_id, $blog_id );	
+	$recorded_comment = new BP_Blogs_Comment( false, $wpdb->blogid, $comment_id );
+	BP_Blogs_Comment::delete( $comment_id, $wpdb->blogid );	
 
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'secondary_item_id' => $comment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'user_id' => $bp->loggedin_user->id ) );
+	bp_blogs_delete_activity( array( 'item_id' => $recorded_comment->blog_id, 'secondary_item_id' => $recorded_comment->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'user_id' => $recorded_comment->user_id ) );
 
 	do_action( 'bp_blogs_remove_comment', $blog_id, $comment_id, $bp->loggedin_user->id );
 }

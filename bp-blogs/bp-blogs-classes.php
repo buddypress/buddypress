@@ -485,23 +485,28 @@ Class BP_Blogs_Comment {
 	var $comment_post_id;
 	var $date_created;
 	
-	function bp_blogs_comment( $id = null ) {
+	function bp_blogs_comment( $id = false, $blog_id = false, $comment_id = false ) {
 		global $bp, $wpdb;
 
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
 			
-		if ( $id ) {
+		if ( $id || ( !$id && $blog_id && $comment_id ) ) {
 			$this->id = $id;
-			$this->populate( $id );
+			$this->blog_id = $blog_id;
+			$this->comment_id = $comment_id;
+			$this->populate();
 		}
 	}
 
-	function populate( $id ) {
+	function populate() {
 		global $wpdb, $bp;
 		
-		$comment = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->blogs->table_name_blog_comments} WHERE id = %d", $this->id ) );
-
+		if ( $this->id )
+			$comment = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->blogs->table_name_blog_comments} WHERE id = %d", $this->id ) );
+		else
+			$comment = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->blogs->table_name_blog_comments} WHERE blog_id = %d AND comment_id = %d", (int)$this->blog_id, (int)$this->comment_id ) );
+		
 		$this->comment_id = $comment->comment_id;
 		$this->user_id = $comment->user_id;
 		$this->blog_id = $comment->blog_id;
