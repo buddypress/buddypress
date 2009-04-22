@@ -15,9 +15,9 @@ Class BP_Messages_Template {
 	var $pag_num;
 	var $pag_links;
 
-	function bp_messages_template( $user_id, $box ) {
+	function bp_messages_template( $user_id, $box, $per_page, $max ) {
 		$this->pag_page = isset( $_GET['mpage'] ) ? intval( $_GET['mpage'] ) : 1;
-		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 10;
+		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : $per_page;
 		$this->user_id = $user_id;
 		$this->box = $box;
 		
@@ -30,12 +30,23 @@ Class BP_Messages_Template {
 			$this->thread_count = 0;
 			$this->total_thread_count = 0;
 		} else { 
-			$this->thread_count = count($this->threads);
-		
-			if ( 'notices' == $this->box )
-				$this->total_thread_count = BP_Messages_Notice::get_total_notice_count();
-			else
-				$this->total_thread_count = BP_Messages_Thread::get_total_threads_for_user( $this->user_id, $this->box );
+			if ( !$max ) {
+				if ( 'notices' == $this->box )
+					$this->total_thread_count = BP_Messages_Notice::get_total_notice_count();
+				else
+					$this->total_thread_count = BP_Messages_Thread::get_total_threads_for_user( $this->user_id, $this->box );
+			} else {
+				$this->total_thread_count = (int)$max;
+			}
+			
+			if ( $max ) {
+				if ( $max >= count($this->threads) )
+					$this->thread_count = count($this->threads);
+				else
+					$this->thread_count = (int)$max;
+			} else {
+				$this->thread_count = count($this->threads);
+			}
 		}
 
 		$this->pag_links = paginate_links( array(
@@ -94,8 +105,18 @@ Class BP_Messages_Template {
 	}
 }
 
-function bp_has_message_threads() {
+function bp_has_message_threads( $args = '' ) {
 	global $bp, $messages_template;
+	
+	$defaults = array(
+		'user_id' => $bp->loggedin_user->id,
+		'box' => 'inbox',
+		'per_page' => 10,
+		'max' => false
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
 
 	if ( 'notices' == $bp->current_action && !is_site_admin() ) {
 		wp_redirect( $bp->displayed_user->id );
@@ -103,7 +124,7 @@ function bp_has_message_threads() {
 		if ( 'inbox' == $bp->current_action )
 			bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, 'messages', 'new_message' );
 	
-		$messages_template = new BP_Messages_Template( $bp->loggedin_user->id, $bp->current_action );
+		$messages_template = new BP_Messages_Template( $user_id, $box, $per_page, $max );
 	}
 	
 	return $messages_template->has_threads();
