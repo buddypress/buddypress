@@ -935,6 +935,12 @@ function bp_site_members_pagination_links() {
 	echo $site_members_template->pag_links;
 }
 
+function bp_the_site_member_user_id() { 
+	global $site_members_template; 
+
+	echo $site_members_template->member->id; 
+}
+
 function bp_the_site_member_avatar() {
 	global $site_members_template;
 	
