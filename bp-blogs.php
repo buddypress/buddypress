@@ -357,12 +357,7 @@ function bp_blogs_record_existing_blogs() {
 
 function bp_blogs_record_blog( $blog_id, $user_id ) {
 	global $bp;
-	
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		bp_blogs_setup_globals();
-	}
-	
+
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
 		
@@ -393,11 +388,6 @@ add_action( 'wpmu_new_blog', 'bp_blogs_record_blog', 10, 2 );
 
 function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 	global $bp, $wpdb;
-	
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		bp_blogs_setup_globals();
-	}
 
 	$post_id = (int)$post_id;
 	$post = get_post($post_id);
@@ -428,12 +418,7 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 			$recorded_post_id = $recorded_post->save();
 			
 			bp_blogs_update_blogmeta( $recorded_post->blog_id, 'last_activity', time() );
-			
-			if ( strtotime( $recorded_post->date_created ) >= strtotime( "-24 hours" ) ) {
-				// Record in activity streams, but only if the post is 30 minutes
-				// old or less (stops old posts registering as new posts in activity streams when a comment is posted on them)
-				bp_blogs_record_activity( array( 'item_id' => $recorded_post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'is_private' => bp_blogs_is_blog_hidden( $recorded_post->blog_id ), 'user_id' => $recorded_post->user_id ) );
-			}
+			bp_blogs_record_activity( array( 'item_id' => $recorded_post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'is_private' => bp_blogs_is_blog_hidden( $recorded_post->blog_id ), 'user_id' => $recorded_post->user_id, 'recorded_time' => strtotime( $post->post_date ) ) );
 		}
 	} else {
 		$existing_post = new BP_Blogs_Post( null, $blog_id, $post_id );
@@ -465,6 +450,8 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 	do_action( 'bp_blogs_new_blog_post', $recorded_post, $is_private, $is_recorded );
 }
 add_action( 'publish_post', 'bp_blogs_record_post' );
+add_action( 'edit_post', 'bp_blogs_record_post' );
+
 
 function bp_blogs_record_comment( $comment_id, $is_approved ) {
 	global $wpdb;
@@ -526,12 +513,7 @@ add_action( 'remove_user_from_blog', 'bp_blogs_remove_user_from_blog', 10, 2 );
 
 function bp_blogs_remove_blog( $blog_id ) {
 	global $bp;
-	
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		bp_blogs_setup_globals();
-	}
-	
+
 	$blog_id = (int)$blog_id;
 
 	BP_Blogs_Blog::delete_blog_for_all( $blog_id );
@@ -560,12 +542,7 @@ add_action( 'remove_user_from_blog', 'bp_blogs_remove_blog_for_user', 10, 2 );
 
 function bp_blogs_remove_post( $post_id ) {
 	global $current_blog, $bp;
-	
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		bp_blogs_setup_globals();
-	}
-	
+
 	$post_id = (int)$post_id;
 	$blog_id = (int)$current_blog->blog_id;
 	
@@ -575,7 +552,7 @@ function bp_blogs_remove_post( $post_id ) {
 	BP_Blogs_Post::delete( $post_id, $blog_id );
 		
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $post->blog_id, 'secondary_item_id' => $post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'user_id' => $post->user_id ) );
+	bp_blogs_delete_activity( array( 'item_id' => $post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'user_id' => $post->user_id ) );
 
 	do_action( 'bp_blogs_remove_post', $blog_id, $post_id, $post->user_id );
 }
@@ -583,12 +560,7 @@ add_action( 'delete_post', 'bp_blogs_remove_post' );
 
 function bp_blogs_remove_comment( $comment_id ) {
 	global $wpdb, $bp;
-	
-	if ( !$bp ) {
-		bp_core_setup_globals();
-		bp_blogs_setup_globals();
-	}
-	
+
 	$recorded_comment = new BP_Blogs_Comment( false, $wpdb->blogid, $comment_id );
 	BP_Blogs_Comment::delete( $comment_id, $wpdb->blogid );	
 
