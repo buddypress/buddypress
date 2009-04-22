@@ -23,10 +23,6 @@ if ( !defined( 'CUSTOM_USER_TABLE' ) )
 if ( !defined( 'CUSTOM_USER_META_TABLE' ) )
 	define( 'CUSTOM_USER_META_TABLE', $wpdb->base_prefix . 'usermeta' );
 
-/* Load the language file */
-if ( file_exists( BP_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() . '.mo' ) )
-	load_textdomain( 'buddypress', BP_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() . '.mo' );
-
 /* Load the files containing functions that we globally will need. */
 require ( 'bp-core/bp-core-catchuri.php' );
 require ( 'bp-core/bp-core-classes.php' );
@@ -244,6 +240,30 @@ function bp_core_check_installed() {
 		bp_core_install();
 }
 add_action( 'admin_menu', 'bp_core_check_installed' );
+
+/**
+ * bp_core_load_textdomain()
+ *
+ * Load a global text domain regardless of blog specific settings.
+ * This stops the admin bar translating to the local blog language for a user.
+ * 
+ * @package BuddyPress Core
+ * @uses load_textdomain() Loads the localization file.
+ */
+function bp_core_load_textdomain() {
+	$locale = get_blog_option( BP_ROOT_BLOG, 'WPLANG', null );
+
+	if ( isset( $locale ) && defined( 'WPLANG' ) )
+		$locale = WPLANG;
+	else
+		$locale = 'en_US';
+		
+	$locale = apply_filters( 'bp_core_buddypress_locale', $locale );
+
+	if ( file_exists( BP_PLUGIN_DIR . '/bp-languages/buddypress-' . $locale . '.mo' ) )
+		load_textdomain( 'buddypress', BP_PLUGIN_DIR . '/bp-languages/buddypress-' . $locale . '.mo' );
+}
+add_action( 'plugins_loaded', 'bp_core_load_textdomain', 1 );
 
 /**
  * bp_core_add_admin_menu()
