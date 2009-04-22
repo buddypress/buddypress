@@ -334,6 +334,11 @@ function bp_blog_permalink() {
 	echo apply_filters( 'bp_blog_permalink', $blogs_template->blog['siteurl'] );
 }
 
+function bp_blogs_pagination() {
+	global $blogs_template;
+	echo $blogs_template->pag_links;
+}
+
 
 /**********************************************************************
  * User Blog Posts listing template class
@@ -462,6 +467,11 @@ function bp_posts() {
 function bp_the_post() {
 	global $posts_template;
 	return $posts_template->the_post();
+}
+
+function bp_post_pagination() {
+	global $posts_template;
+	echo $posts_template->pag_links;
 }
 
 function bp_post_title( $echo = true ) {
@@ -817,6 +827,11 @@ function bp_comments() {
 function bp_the_comment() {
 	global $comments_template;
 	return $comments_template->the_comment();
+}
+
+function bp_comments_pagination() {
+	global $comments_template;
+	echo $comments_template->pag_links;
 }
 
 function bp_comment_id() {
