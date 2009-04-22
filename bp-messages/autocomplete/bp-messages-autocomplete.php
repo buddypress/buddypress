@@ -12,10 +12,10 @@ friends_setup_globals();
 $friends = friends_search_friends( $_GET['q'], $bp->loggedin_user->id, $_GET['limit'], 1 );
 
 if ( $friends['friends'] ) {
-	foreach ( $friends['friends'] as $key => $friend ) {
-		$ud = get_userdata($friend['user_id']);
+	foreach ( $friends['friends'] as $user ) {
+		$ud = get_userdata($user->user_id);
 		$username = $ud->user_login;
-		echo bp_core_get_avatar( $friend['user_id'], 1, 15, 15 ) . ' ' . bp_fetch_user_fullname( $friend['user_id'], false ) . ' (' . $username . ')
+		echo bp_core_get_avatar( $user->user_id, 1, 15, 15 ) . ' ' . bp_fetch_user_fullname( $user->user_id, false ) . ' (' . $username . ')
 		';
 	}		
 }
