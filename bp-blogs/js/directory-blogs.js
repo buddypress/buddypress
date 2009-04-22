@@ -64,7 +64,7 @@ jQuery(document).ready( function() {
 			jQuery('#ajax-loader-blogs').toggle();
 
 			var page = jQuery(this).attr('href');
-			page = page.split('page=');
+			page = page.split('bpage=');
 			
 			if ( !jQuery("input#selected_letter").val() )
 				var letter = '';
@@ -80,7 +80,7 @@ jQuery(document).ready( function() {
 				action: 'directory_blogs',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce").val(),
-				'page': page[1],
+				'bpage': page[1],
 				'_wpnonce': jQuery("input#_wpnonce-blog-filter").val(),
 				
 				'letter': letter,

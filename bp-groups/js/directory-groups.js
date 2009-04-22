@@ -64,7 +64,7 @@ jQuery(document).ready( function() {
 			jQuery('#ajax-loader-groups').toggle();
 
 			var page = jQuery(this).attr('href');
-			page = page.split('page=');
+			page = page.split('gpage=');
 			
 			if ( !jQuery("input#selected_letter").val() )
 				var letter = '';
@@ -80,7 +80,7 @@ jQuery(document).ready( function() {
 				action: 'directory_groups',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce").val(),
-				'page': page[1],
+				'gpage': page[1],
 				'_wpnonce': jQuery("input#_wpnonce-group-filter").val(),
 				
 				'letter': letter,
