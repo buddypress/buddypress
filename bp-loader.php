@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: BuddyPress
-Plugin URI: http://buddypress.org/
+Plugin URI: http://buddypress.org/download/
 Description: BuddyPress will add social networking features to a new or existing WordPress MU installation.
-Author: Andy Peatling
+Author: The BuddyPress Community
 Version: 1.0-RC2
-Author URI: http://apeatling.wordpress.com/
+Author URI: http://buddypress.org/developers/
 Site Wide Only: true
 */
 
