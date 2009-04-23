@@ -1019,6 +1019,15 @@ function bp_directory_members_search_form() {
 <?php
 }
 
+function bp_home_blog_url() {
+	global $bp;
+
+	if ( 'buddypress-home' == get_blog_option( BP_ROOT_BLOG, 'template' ) )
+		echo $bp->root_domain . '/' . BP_HOME_BLOG_SLUG;
+	else
+		echo $bp->root_domain;
+}
+
 
 /* Template functions for fetching globals, without querying the DB again
    also means we dont have to use the $bp variable in the template (looks messy) */
