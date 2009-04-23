@@ -251,13 +251,11 @@ add_action( 'admin_menu', 'bp_core_check_installed' );
  * @uses load_textdomain() Loads the localization file.
  */
 function bp_core_load_textdomain() {
-	$locale = get_blog_option( BP_ROOT_BLOG, 'WPLANG', null );
-
-	if ( isset( $locale ) && defined( 'WPLANG' ) )
+	if ( defined( 'WPLANG' ) )
 		$locale = WPLANG;
 	else
 		$locale = 'en_US';
-		
+
 	$locale = apply_filters( 'bp_core_buddypress_locale', $locale );
 
 	if ( file_exists( BP_PLUGIN_DIR . '/bp-languages/buddypress-' . $locale . '.mo' ) )
