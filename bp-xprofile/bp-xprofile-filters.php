@@ -83,7 +83,6 @@ function xprofile_sync_wp_profile() {
 	update_usermeta( $bp->loggedin_user->id, 'nickname', $fullname );
 	update_usermeta( $bp->loggedin_user->id, 'first_name', $firstname );
 	update_usermeta( $bp->loggedin_user->id, 'last_name', $lastname );
-	update_usermeta( $bp->loggedin_user->id, 'last_name', $lastname );
 
 	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET display_name = %s WHERE ID = %d", $fullname, $bp->loggedin_user->id ) );
 	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET user_url = %s WHERE ID = %d", bp_core_get_user_domain( $bp->loggedin_user->id ), $bp->loggedin_user->id ) );
