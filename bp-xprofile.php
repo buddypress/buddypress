@@ -38,7 +38,7 @@ function xprofile_install() {
 		update_site_option( 'bp-xprofile-base-group-name', 'Base' );
 	
 	if ( '' == get_site_option( 'bp-xprofile-fullname-field-name' ) )
-		update_site_option( 'bp-xprofile-fullname-field-name', 'Full Name' );	
+		update_site_option( 'bp-xprofile-fullname-field-name', 'Name' );	
 	
 	$sql[] = "CREATE TABLE {$bp->profile->table_name_groups} (
 			  id bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
