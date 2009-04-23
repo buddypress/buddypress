@@ -1,0 +1,84 @@
+/* 
+Basic layout structure styles for BuddyPress Blogs. Formats BuddyPress blog pages within any WordPress theme.
+No colors, fonts or pretty stuff. 
+
+These structure styles can be overridden by the theme CSS file if needed.
+*/
+
+#blog-info {
+	margin: -1em 0 2em 0;
+}
+
+.post {
+	padding-bottom: 2em;
+	margin-bottom: 2em;
+	float: left;
+	width: 100%;
+}
+
+#main #content .post h2 {
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+	
+.post span.tags {
+	padding-left: 1.6em;
+	float: left;
+}
+
+.post span.comments {
+	float: right;
+	padding-right: 1.8em;
+}
+
+.postmetadata {
+	padding: 0.5em 0;
+}
+
+.post-details {
+	padding: 1em 1.5em;
+	margin: 0 0 2em 0;
+}
+
+h4.archive {
+	padding-bottom: 0.5em;
+	margin: -1em 0 1em 0;
+}
+		
+	
+/**** BLOG SIGNUP FORM **********/
+
+#setupform label {
+	display: block;
+	padding-bottom: 3px;
+}
+	#setupform label.checkbox {
+		display: inline;
+		margin-right: 1em;
+	}
+	
+	#setupform label.checkbox input {
+		display: inline;
+	}
+	
+	#setupform p.error {
+		padding: 5px 10px;
+		width: 40%;
+	}
+
+#setupform input#blog_title, #setupform input#blogname {
+	width: 25%;
+	padding: 5px;
+	margin-bottom: 1.5em;
+	margin-right: 5px;
+}
+	#setupform input#blog_title {
+		width: 65%;
+	}
+	
+#setupform input#submit {
+	width: auto;
+	margin-top: 1.5em;
+	padding: 3px 10px;
+}
