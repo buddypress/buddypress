@@ -123,6 +123,12 @@ function bp_has_message_threads( $args = '' ) {
 	} else {
 		if ( 'inbox' == $bp->current_action )
 			bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, 'messages', 'new_message' );
+		
+		if ( 'sentbox' == $bp->current_action )
+			$box = 'sentbox';
+
+		if ( 'notices' == $bp->current_action )
+			$box = 'notices';
 	
 		$messages_template = new BP_Messages_Template( $user_id, $box, $per_page, $max );
 	}
