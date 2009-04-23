@@ -318,7 +318,7 @@ function bp_groups_random_selection( $total_groups = 5 ) {
 				<div class="action">
 					<?php bp_group_join_button( $group ) ?>
 					<div class="meta">
-						<?php $member_count = groups_get_groupmeta( $group->id, 'total_group_count' ) ?>
+						<?php $member_count = groups_get_groupmeta( $group->id, 'total_member_count' ) ?>
 						<?php echo ucwords($group->status) ?> <?php _e( 'Group', 'buddypress' ) ?> / 
 						<?php if ( 1 == $member_count ) : ?>
 							<?php printf( __( '%d member', 'buddypress' ), $member_count ) ?>
