@@ -422,36 +422,32 @@ class BP_Groups_User_Groups_Template {
 		
 		$this->pag_page = isset( $_REQUEST['fpage'] ) ? intval( $_REQUEST['fpage'] ) : 1;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
-		
+
 		switch ( $type ) {
 			case 'recently-joined':
-				$this->groups = groups_get_recently_joined_for_user( $user_id, $this->pag_num, $this->pag_page );
+				$this->groups = groups_get_recently_joined_for_user( $user_id, $this->pag_num, $this->pag_page, $filter );
 				break;
-			
+
 			case 'popular':
-				$this->groups = groups_get_most_popular_for_user( $user_id, $this->pag_num, $this->pag_page );				
+				$this->groups = groups_get_most_popular_for_user( $user_id, $this->pag_num, $this->pag_page, $filter );				
 				break;
 
 			case 'admin-of':
-				$this->groups = groups_get_user_is_admin_of( $user_id, $this->pag_num, $this->pag_page );				
+				$this->groups = groups_get_user_is_admin_of( $user_id, $this->pag_num, $this->pag_page, $filter );				
 				break;	
-			
+
 			case 'mod-of':
-				$this->groups = groups_get_user_is_mod_of( $user_id, $this->pag_num, $this->pag_page );				
+				$this->groups = groups_get_user_is_mod_of( $user_id, $this->pag_num, $this->pag_page, $filter );				
 				break;
-			
+
 			case 'alphabetical':
-				$this->groups = groups_get_alphabetically_for_user( $user_id, $this->pag_num, $this->pag_page );	
+				$this->groups = groups_get_alphabetically_for_user( $user_id, $this->pag_num, $this->pag_page, $filter );	
 				break;
 
 			case 'invites':
 				$this->groups = groups_get_invites_for_user();
 				break;
-			
-			case 'filter':
-				$this->groups = groups_filter_user_groups( $filter, $user_id, $this->pag_num, $this->pag_page );
-				break;
-			
+
 			case 'single-group':
 				$group = new stdClass;
 				$group->group_id = BP_Groups_Group::get_id_from_slug($slug);			
@@ -459,7 +455,7 @@ class BP_Groups_User_Groups_Template {
 				break;
 
 			case 'active': default:
-				$this->groups = groups_get_recently_active_for_user( $user_id, $this->pag_num, $this->pag_page );
+				$this->groups = groups_get_recently_active_for_user( $user_id, $this->pag_num, $this->pag_page, $filter );
 				break;
 		}
 
@@ -579,7 +575,7 @@ function bp_has_groups( $args = '' ) {
 	 * for example on example.com/members/andy/groups/my-groups/most-popular/
 	 * $type = 'most-popular'
 	 */
-	if ( 'my-groups' == $bp->current_action && !isset( $_REQUEST['group-filter-box'] ) ) {
+	if ( 'my-groups' == $bp->current_action ) {
 		$order = $bp->action_variables[0];
 		if ( 'recently-joined' == $order )
 			$type = 'recently-joined';
@@ -596,11 +592,12 @@ function bp_has_groups( $args = '' ) {
 	} else if ( $group_obj->slug ) {
 		$type = 'single-group';
 		$slug = $group_obj->slug;
-	} else if ( isset( $_REQUEST['group-filter-box'] ) ) {
-		$type = 'filter';
+	}
+	
+	if ( isset( $_REQUEST['group-filter-box'] ) ) {
 		$filter = $_REQUEST['group-filter-box'];
 	}
-
+	
 	$groups_template = new BP_Groups_User_Groups_Template( $user_id, $type, $per_page, $max, $slug, $filter );
 	return $groups_template->has_groups();
 }
