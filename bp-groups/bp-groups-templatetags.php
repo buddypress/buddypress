@@ -594,9 +594,8 @@ function bp_has_groups( $args = '' ) {
 		$slug = $group_obj->slug;
 	}
 	
-	if ( isset( $_REQUEST['group-filter-box'] ) ) {
+	if ( isset( $_REQUEST['group-filter-box'] ) )
 		$filter = $_REQUEST['group-filter-box'];
-	}
 	
 	$groups_template = new BP_Groups_User_Groups_Template( $user_id, $type, $per_page, $max, $slug, $filter );
 	return $groups_template->has_groups();

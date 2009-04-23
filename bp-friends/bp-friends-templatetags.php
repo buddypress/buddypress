@@ -21,26 +21,23 @@ class BP_Friendship_Template {
 					
 		$this->pag_page = isset( $_REQUEST['fpage'] ) ? intval( $_REQUEST['fpage'] ) : 1;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
+		$this->type = $type;
 
 		switch ( $type ) {
 			case 'newest':
-				$this->friendships = friends_get_newest( $user_id, $this->pag_num, $this->pag_page );
+				$this->friendships = friends_get_newest( $user_id, $this->pag_num, $this->pag_page, $filter );
 				break;
 			
 			case 'alphabetical':
-				$this->friendships = friends_get_alphabetically( $user_id, $this->pag_num, $this->pag_page );				
+				$this->friendships = friends_get_alphabetically( $user_id, $this->pag_num, $this->pag_page, $filter );				
 				break;
 
 			case 'requests':
 				$this->friendships = friends_get_friendship_requests( $user_id );
 				break;
-			
-			case 'filter':
-				$this->friendships = friends_search_friends( $filter, $user_id, $this->pag_num, $this->pag_page );
-				break;
 
 			case 'active': default:
-				$this->friendships = friends_get_recently_active( $user_id, $this->pag_num, $this->pag_page );	
+				$this->friendships = friends_get_recently_active( $user_id, $this->pag_num, $this->pag_page, $filter );	
 				break;
 		}
 
@@ -117,15 +114,20 @@ class BP_Friendship_Template {
 		$this->in_the_loop = true;
 		$this->friendship = $this->next_friendship();
 
-		if ( 'requests' == $bp->current_action ) {
+		if ( 'requests' == $this->type ) {
 			$this->friendship = new BP_Friends_Friendship( $this->friendship );
 			$this->friendship->user_id = ( $this->friendship->friend_user_id == $bp->loggedin_user->id ) ?  $this->friendship->initiator_user_id : $this->friendship->friend_user_id;
 		} else {
-			$this->friendship = (object) $this->friendship;
-
-			if ( !$this->friendship->friend = wp_cache_get( 'bp_user_' . $this->friendship->user_id, 'bp' ) ) {
-				$this->friendship->friend = new BP_Core_User( $this->friendship->user_id );
-				wp_cache_set( 'bp_user_' . $this->friendship->user_id, $this->friendship->friend, 'bp' );
+			if ( 'newest' == $this->type )
+				$user_id = $this->friendship;
+			else
+				$user_id = $this->friendship->user_id;
+			
+			$this->friendship = new stdClass;
+				
+			if ( !$this->friendship->friend = wp_cache_get( 'bp_user_' . $user_id, 'bp' ) ) {
+				$this->friendship->friend = new BP_Core_User( $user_id );
+				wp_cache_set( 'bp_user_' . $user_id, $this->friendship->friend, 'bp' );
 			}
 		}
 
@@ -152,7 +154,7 @@ function bp_has_friendships( $args = '' ) {
 	 * for example on example.com/members/andy/friends/my-friends/newest/
 	 * $type = 'newest'
 	 */
-	if ( 'my-friends' == $bp->current_action && !isset( $_POST['friend-search-box'] )  ) {
+	if ( 'my-friends' == $bp->current_action ) {
 		$order = $bp->action_variables[0];
 		if ( 'newest' == $order )
 			$type = 'newest';
@@ -160,10 +162,10 @@ function bp_has_friendships( $args = '' ) {
 			$type = 'alphabetical';
 	} else if ( 'requests' == $bp->current_action ) {
 		$type = 'requests';
-	} else if ( isset( $_REQUEST['friend-search-box'] ) ) {
-		$type = 'filter';
-		$filter = $_REQUEST['friend-search-box'];
 	}
+	
+	if ( isset( $_REQUEST['friend-search-box'] ) )
+		$filter = $_REQUEST['friend-search-box'];
 
 	$friends_template = new BP_Friendship_Template( $user_id, $type, $per_page, $max, $filter );
 	return $friends_template->has_friendships();

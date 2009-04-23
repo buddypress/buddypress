@@ -169,7 +169,7 @@ class BP_Friends_Friendship {
 			$total_sql = $wpdb->prepare( "SELECT DISTINCT count(user_id) FROM " . CUSTOM_USER_META_TABLE . " WHERE user_id IN ($fids) AND meta_key = 'nickname' AND meta_value LIKE '$filter%%'" );
 		}
 
-		$filtered_friend_ids = $wpdb->get_results($sql);	
+		$filtered_friend_ids = $wpdb->get_col($sql);	
 		$total_friend_ids = $wpdb->get_var($total_sql);	
 		
 		if ( !$filtered_friend_ids )

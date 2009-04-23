@@ -418,7 +418,7 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 			$recorded_post_id = $recorded_post->save();
 			
 			bp_blogs_update_blogmeta( $recorded_post->blog_id, 'last_activity', time() );
-			bp_blogs_record_activity( array( 'item_id' => $recorded_post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'is_private' => bp_blogs_is_blog_hidden( $recorded_post->blog_id ), 'user_id' => $recorded_post->user_id, 'recorded_time' => strtotime( $post->post_date_gmt ) ) );
+			bp_blogs_record_activity( array( 'item_id' => $recorded_post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'is_private' => bp_blogs_is_blog_hidden( $recorded_post->blog_id ), 'user_id' => $recorded_post->user_id, 'recorded_time' => strtotime( $post->post_date ) ) );
 		}
 	} else {
 		$existing_post = new BP_Blogs_Post( null, $blog_id, $post_id );
