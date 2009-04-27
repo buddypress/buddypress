@@ -911,6 +911,9 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 
 	/* Difference in seconds */
 	$since = $newer_date - $older_date;
+	
+	if ( 0 > $since )
+		return __( '[Adjust Time Zone]', 'buddypress' );
 
 	/**
 	 * We only want to output two chunks of time here, eg:
