@@ -175,24 +175,40 @@ function bp_the_activity() {
 function bp_activities_title() {
 	global $bp_activity_title;
 	
-	echo apply_filters( 'bp_activities_title', $bp_activity_title );
+	echo bp_get_activities_title();
 }
+	function bp_get_activities_title() {
+		global $bp_activity_title;
+
+		return apply_filters( 'bp_get_activities_title', $bp_activity_title );
+	}
 
 function bp_activities_no_activity() {
 	global $bp_activity_no_activity;
-	echo apply_filters( 'bp_activities_no_activity', $bp_activity_no_activity );
+	
+	echo bp_get_activities_no_activity();
 }
+	function bp_get_activities_no_activity() {
+		global $bp_activity_no_activity;
+		
+		return apply_filters( 'bp_get_activities_no_activity', $bp_activity_no_activity );
+	}
 
 function bp_activity_content() {
 	global $activities_template;
 
-	if ( bp_is_home() && $activities_template->activity_type == 'personal' ) {
-		echo apply_filters( 'bp_activity_content', bp_activity_content_filter( $activities_template->activity->content, $activities_template->activity->date_recorded, $activities_template->full_name ) );						
-	} else {
-		$activities_template->activity->content = bp_activity_insert_time_since( $activities_template->activity->content, $activities_template->activity->date_recorded );
-		echo apply_filters( 'bp_activity_content', $activities_template->activity->content );
-	}
+	echo bp_get_activity_content();
 }
+	function bp_get_activity_content() {
+		global $activities_template;
+
+		if ( bp_is_home() && $activities_template->activity_type == 'personal' ) {
+			return apply_filters( 'bp_get_activity_content', bp_activity_content_filter( $activities_template->activity->content, $activities_template->activity->date_recorded, $activities_template->full_name ) );						
+		} else {
+			$activities_template->activity->content = bp_activity_insert_time_since( $activities_template->activity->content, $activities_template->activity->date_recorded );
+			return apply_filters( 'bp_get_activity_content', $activities_template->activity->content );
+		}
+	}
 
 function bp_activity_content_filter( $content, $date_recorded, $full_name, $insert_time = true, $filter_words = true, $filter_you = true ) {
 	if ( !$content )
@@ -241,52 +257,72 @@ function bp_activity_insert_time_since( $content, $date ) {
 }
 
 function bp_activity_css_class() {
-	global $activities_template;
-	echo apply_filters( 'bp_activity_css_class', $activities_template->activity->component_name );
+	echo bp_get_activity_css_class();
 }
+	function bp_get_activity_css_class() {
+		global $activities_template;
+		
+		return apply_filters( 'bp_get_activity_css_class', $activities_template->activity->component_name );
+	}
 
 function bp_sitewide_activity_feed_link() {
-	global $bp;
-	
-	echo apply_filters( 'bp_sitewide_activity_feed_link', site_url() . '/' . $bp->activity->slug . '/feed' );
+	echo bp_get_sitewide_activity_feed_link();
 }
+	function bp_get_sitewide_activity_feed_link() {
+		global $bp;
+
+		return apply_filters( 'bp_get_sitewide_activity_feed_link', site_url() . '/' . $bp->activity->slug . '/feed' );
+	}
 
 function bp_activities_member_rss_link() {
-	global $bp;
-	
-	if ( ( $bp->current_component == $bp->profile->slug ) || 'just-me' == $bp->current_action )
-		echo apply_filters( 'bp_activities_member_rss_link', $bp->displayed_user->domain . $bp->activity->slug . '/feed' );
-	else
-		echo apply_filters( 'bp_activities_member_rss_link', $bp->displayed_user->domain . $bp->activity->slug . '/my-friends/feed' );		
+	echo bp_get_activities_member_rss_link();
 }
+	function bp_get_activities_member_rss_link() {
+		global $bp;
+
+		if ( ( $bp->current_component == $bp->profile->slug ) || 'just-me' == $bp->current_action )
+			return apply_filters( 'bp_get_activities_member_rss_link', $bp->displayed_user->domain . $bp->activity->slug . '/feed' );
+		else
+			return apply_filters( 'bp_get_activities_member_rss_link', $bp->displayed_user->domain . $bp->activity->slug . '/my-friends/feed' );		
+	}
 
 /* Template tags for RSS feed output */
 
 function bp_activity_feed_item_title() {
-	global $activities_template;
-
-	$title = explode( '<span', $activities_template->activity->content );
-	echo apply_filters( 'bp_activity_feed_item_title', trim( strip_tags( html_entity_decode( $title[0] ) ) ) );
+	echo bp_get_activity_feed_item_title();
 }
+	function bp_get_activity_feed_item_title() {
+		global $activities_template;
+
+		$title = explode( '<span', $activities_template->activity->content );
+		return apply_filters( 'bp_get_activity_feed_item_title', trim( strip_tags( html_entity_decode( $title[0] ) ) ) );
+	}
 
 function bp_activity_feed_item_link() {
-	global $activities_template;
-
-	echo apply_filters( 'bp_activity_feed_item_link', $activities_template->activity->primary_link );
+	echo bp_get_activity_feed_item_link();
 }
+	function bp_get_activity_feed_item_link() {
+		global $activities_template;
+
+		return apply_filters( 'bp_get_activity_feed_item_link', $activities_template->activity->primary_link );
+	}
 
 function bp_activity_feed_item_date() {
-	global $activities_template;
-
-	echo apply_filters( 'bp_activity_feed_item_date', $activities_template->activity->date_recorded );
+	echo bp_get_activity_feed_item_date();
 }
+	function bp_get_activity_feed_item_date() {
+		global $activities_template;
+
+		return apply_filters( 'bp_get_activity_feed_item_date', $activities_template->activity->date_recorded );
+	}
 
 function bp_activity_feed_item_description() {
-	global $activities_template;
-
-	echo apply_filters( 'bp_activity_feed_item_description', html_entity_decode( str_replace( '%s', '', $activities_template->activity->content ), ENT_COMPAT, 'UTF-8' ) );	
+	echo bp_get_activity_feed_item_description();	
 }
+	function bp_get_activity_feed_item_description() {
+		global $activities_template;
 
-
+		return apply_filters( 'bp_get_activity_feed_item_description', html_entity_decode( str_replace( '%s', '', $activities_template->activity->content ), ENT_COMPAT, 'UTF-8' ) );	
+	}
 
 ?>

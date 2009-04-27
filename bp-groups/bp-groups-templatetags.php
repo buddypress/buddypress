@@ -28,20 +28,20 @@ function bp_group_creation_tabs() {
 function bp_group_creation_stage_title() {
 	global $create_group_step;
 	
-	switch( $create_group_step ) {
-		case '1':
+	switch( (int) $create_group_step ) {
+		case 1:
 			echo '<span>&mdash; ' . __('Group Details', 'buddypress') . '</span>';
 		break;
 		
-		case '2':
+		case 2:
 			echo '<span>&mdash; ' . __('Group Settings', 'buddypress') . '</span>';		
 		break;
 		
-		case '3':
+		case 3:
 			echo '<span>&mdash; ' . __('Group Avatar', 'buddypress') . '</span>';
 		break;
 		
-		case '4':
+		case 4:
 			echo '<span>&mdash; ' . __('Invite Members', 'buddypress') . '</span>';
 		break;
 	}
@@ -53,8 +53,8 @@ function bp_group_create_form() {
 
 ?>
 	<form action="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/create/step/<?php echo $create_group_step ?>" method="post" id="create-group-form" class="standard-form" enctype="multipart/form-data">
-	<?php switch( $create_group_step ) {
-		case '1': ?>
+	<?php switch( (int) $create_group_step ) {
+		case 1: ?>
 			<label for="group-name">* <?php _e('Group Name', 'buddypress') ?></label>
 			<input type="text" name="group-name" id="group-name" value="<?php echo ( $group_obj ) ? $group_obj->name : $_POST['group-name']; ?>" />
 		
@@ -71,7 +71,7 @@ function bp_group_create_form() {
 			<?php wp_nonce_field( 'groups_step1_save' ) ?>
 		<?php break; ?>
 		
-		<?php case '2': ?>
+		<?php case 2: ?>
 			<?php if ( $completed_to_step > 0 ) { ?>
 				<?php if ( function_exists('bp_wire_install') ) : ?>
 				<div class="checkbox">
@@ -146,7 +146,7 @@ function bp_group_create_form() {
 			<?php } ?>
 		<?php break; ?>
 		
-		<?php case '3': ?>
+		<?php case 3: ?>
 			<?php if ( $completed_to_step > 1 ) { ?>
 				<div class="left-menu">
 					<?php bp_group_current_avatar() ?>
@@ -175,10 +175,10 @@ function bp_group_create_form() {
 				</div>
 			<?php } ?>
 		<?php break; ?>
-		<?php case '4': ?>
+		<?php case 4: ?>
 			<?php 
 			if ( $completed_to_step > 2 ) {
-				$group_link = bp_group_permalink( $group_obj, false );
+				$group_link = bp_get_group_permalink( $group_obj );
 				
 				if ( function_exists('friends_install') ) {
 					if ( friends_get_friend_count_for_user( $bp->loggedin_user->id ) ) {
@@ -306,11 +306,11 @@ function bp_groups_random_selection( $total_groups = 5 ) {
 			?>	
 			<li>
 				<div class="item-avatar">
-					<a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php printf( __( '%s Avatar', 'buddypress' ), $group->name ) ?>" /></a>
+					<a href="<?php echo bp_get_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php printf( __( '%s Avatar', 'buddypress' ), $group->name ) ?>" /></a>
 				</div>
 
 				<div class="item">
-					<div class="item-title"><a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><?php echo $group->name ?></a></div>
+					<div class="item-title"><a href="<?php echo bp_get_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><?php echo $group->name ?></a></div>
 					<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( groups_get_groupmeta( $group->id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) ) ?></span></div>
 					<div class="item-meta desc"><?php echo bp_create_excerpt( $group->description ) ?></div>
 				</div>
@@ -360,8 +360,8 @@ function bp_groups_random_groups( $total_groups = 5 ) {
 					wp_cache_set( 'groups_group_nouserdata_' . $group_ids[$i], $group, 'bp' );
 				}
 			?>				<li>
-					<a href="<?php echo bp_group_permalink( $group, false ) ?>"><img src="<?php echo $group->avatar_thumb; ?>" class="avatar" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" /></a>
-					<h5><a href="<?php echo bp_group_permalink( $group, false ) ?>"><?php echo $group->name ?></a></h5>
+					<a href="<?php echo bp_get_group_permalink( $group ) ?>"><img src="<?php echo $group->avatar_thumb; ?>" class="avatar" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" /></a>
+					<h5><a href="<?php echo bp_get_group_permalink( $group ) ?>"><?php echo $group->name ?></a></h5>
 				</li>
 			<?php } ?>
 			</ul>
@@ -640,208 +640,263 @@ function bp_group_has_news( $group = false ) {
 	return true;
 }
 
-function bp_group_id( $echo = true, $group = false ) {
+function bp_group_id( $deprecated = true, $deprecated2 = false ) {
 	global $groups_template;
 
-	if ( !$group )
-		$group =& $groups_template->group;
-	
-	if ( $echo )
-		echo apply_filters( 'bp_group_id', $group->id );
+	if ( !$deprecated )
+		return bp_get_group_id();
 	else
-		return apply_filters( 'bp_group_id', $group->id );
+		echo bp_get_group_id();
 }
-
-function bp_group_name( $echo = true, $group = false ) {
-	global $groups_template;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-
-	if ( $echo )
-		echo apply_filters( 'bp_group_name', $group->name );
-	else
-		return apply_filters( 'bp_group_name', $group->name ); 
-}
-
-function bp_group_type( $group = false ) {
-	global $groups_template;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-	
-	if ( 'public' == $group->status ) {
-		$type = __( "Public Group", "buddypress" );
-	} else if ( 'hidden' == $group->status ) {	
-		$type = __( "Hidden Group", "buddypress" );
-	} else if ( 'private' == $group->status ) {
-		$type = __( "Private Group", "buddypress" );
-	} else {
-		$type = ucwords( $group->status ) . ' ' . __( 'Group', 'buddypress' );
-	}
-	
-	echo apply_filters( 'bp_group_type',  $type );	
-}
-
-function bp_group_avatar( $group = false ) {
-	global $groups_template;
-	
-	if ( !$group )
-		$group =& $groups_template->group;
-	
-	?><img src="<?php echo $group->avatar_full ?>" class="avatar" alt="<?php echo $group->name ?> Avatar" /><?php
-}
-
-function bp_group_avatar_thumb( $group = false ) {
-	global $groups_template;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-
-	?><img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php echo $group->name ?> Avatar" /><?php
-}
-
-function bp_group_avatar_mini( $group = false) {
-	global $groups_template;
-	
-	if ( !$group )
-		$group =& $groups_template->group;
-	
-	?><img src="<?php echo $group->avatar_thumb ?>" width="30" height="30" class="avatar" alt="<?php echo $group->name ?> Avatar" /><?php
-}
-
-function bp_group_last_active( $echo = true, $group = false ) {
-	global $groups_template;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-	
-	$last_active = groups_get_groupmeta( $group->id, 'last_activity' );
-	
-	if ( empty( $last_active ) ) {
-		if ( $echo )
-			_e( 'not yet active', 'buddypress' );
-		else
-			return __( 'not yet active', 'buddypress' );
-	} else {
-		if ( $echo )
-			echo apply_filters( 'bp_group_last_active', bp_core_time_since( $last_active ) );
-		else
-			return apply_filters( 'bp_group_last_active', bp_core_time_since( $last_active ) );			
-	}
-}
-
-function bp_group_permalink( $group = false, $echo = true ) {
-	global $groups_template, $bp, $current_blog;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-	
-	if ( $echo )
-		echo apply_filters( 'bp_group_permalink', $bp->root_domain . '/' . $bp->groups->slug . '/' . $group->slug );
-	else
-		return apply_filters( 'bp_group_permalink', $bp->root_domain . '/' . $bp->groups->slug . '/' . $group->slug );
-}
-
-function bp_group_admin_permalink( $echo = true, $group = false ) {
-	global $groups_template, $bp, $current_blog;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-	
-	if ( $echo )
-		echo apply_filters( 'bp_group_admin_permalink', $bp->root_domain . '/' . $bp->groups->slug . '/' . $group->slug . '/admin' );
-	else
-		return apply_filters( 'bp_group_admin_permalink', $bp->root_domain . '/' . $bp->groups->slug . '/' . $group->slug . '/admin' );	
-}
-
-function bp_group_slug( $group = false ) {
-	global $groups_template;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-
-	echo apply_filters( 'bp_group_slug', $group->slug );
-}
-
-function bp_group_description( $group = false, $echo = true ) {
-	global $groups_template;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-
-	if ( $echo )
-		echo apply_filters( 'bp_group_description', stripslashes($group->description) );
-	else
-		return apply_filters( 'bp_group_description', stripslashes($group->description) );
-}
-
-function bp_group_description_editable( $group = false ) {
-	global $groups_template;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-	
-	echo apply_filters( 'bp_group_description_editable', $group->description );
-}
-
-function bp_group_description_excerpt( $group = false ) {
-	global $groups_template;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-	
-	echo apply_filters( 'bp_group_description_excerpt', bp_create_excerpt( $group->description, 20 ) );	
-}
-
-function bp_group_news( $group = false ) {
-	global $groups_template;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-
-	echo apply_filters( 'bp_group_news', stripslashes($groups_template->group->news) );
-}
-
-function bp_group_news_editable( $group = false ) {
-	global $groups_template;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-
-	echo apply_filters( 'bp_group_news_editable', $group->news );
-}
-
-function bp_group_public_status( $group = false ) {
-	global $groups_template;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-
-	if ( $group->is_public ) {
-		_e('Public', 'buddypress');
-	} else {
-		_e('Private', 'buddypress');
-	}
-}
-	function bp_group_is_public( $group = false ) {
+	function bp_get_group_id( $group = false ) {
 		global $groups_template;
 
 		if ( !$group )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_group_is_public', $group->is_public );
+		return apply_filters( 'bp_get_group_id', $group->id );
 	}
-
-
-function bp_group_date_created( $group = false ) {
+	
+function bp_group_name( $deprecated = true, $deprecated2 = false ) {
 	global $groups_template;
 
-	if ( !$group )
-		$group =& $groups_template->group;
-	
-	echo apply_filters( 'bp_group_date_created', date( get_option( 'date_format' ), $group->date_created ) );
+	if ( !$deprecated )
+		return bp_get_group_name();
+	else
+		echo bp_get_group_name();
 }
+	function bp_get_group_name( $group = false ) {
+		global $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_name', $group->name );
+	}
+
+function bp_group_type() {
+	echo bp_get_group_type();
+}
+	function bp_get_group_type( $group = false ) {
+		global $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		if ( 'public' == $group->status ) {
+			$type = __( "Public Group", "buddypress" );
+		} else if ( 'hidden' == $group->status ) {	
+			$type = __( "Hidden Group", "buddypress" );
+		} else if ( 'private' == $group->status ) {
+			$type = __( "Private Group", "buddypress" );
+		} else {
+			$type = ucwords( $group->status ) . ' ' . __( 'Group', 'buddypress' );
+		}
+
+		return apply_filters( 'bp_get_group_type', $type );	
+	}
+
+function bp_group_avatar() {
+	echo bp_get_group_avatar();
+}
+	function bp_get_group_avatar( $group = false ) {
+		global $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_avatar', '<img src="' . $group->avatar_full . '" class="avatar" alt="' . $group->name . '" />', $group->avatar_full, $group->avatar_name );
+	}
+
+function bp_group_avatar_thumb() {
+	echo bp_get_group_avatar_thumb();
+}
+	function bp_get_group_avatar_thumb( $group = false ) {
+		global $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_avatar_thumb', '<img src="' . $group->avatar_thumb . '" class="avatar" alt="' . $group->name . '" />', $group->avatar_thumb, $group->avatar_name );
+	}
+
+function bp_group_avatar_mini() {
+	echo bp_get_group_avatar_mini();
+}
+	function bp_get_group_avatar_mini( $group = false ) {
+		global $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_avatar_mini', '<img src="' . $group->avatar_thumb . '" class="avatar" width="30" height="30" alt="' . $group->name . '" />', $group->avatar_thumb, $group->avatar_name );
+	}
+
+function bp_group_last_active( $deprecated = true, $deprecated2 = false ) {
+	if ( !$deprecated )
+		return bp_get_group_last_active();
+	else
+		echo bp_get_group_last_active();			
+}
+	function bp_get_group_last_active( $group = false ) {
+		global $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		$last_active = groups_get_groupmeta( $group->id, 'last_activity' );
+
+		if ( empty( $last_active ) ) {
+			return __( 'not yet active', 'buddypress' );
+		} else {
+			return apply_filters( 'bp_get_group_last_active', bp_core_time_since( $last_active ) );			
+		}
+	}
+	
+function bp_group_permalink( $deprecated = false, $deprecated2 = true ) {
+	if ( !$deprecated2 )
+		return bp_get_group_permalink();
+	else
+		echo bp_get_group_permalink();
+}
+	function bp_get_group_permalink( $group = false ) {
+		global $groups_template, $bp;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_permalink', $bp->root_domain . '/' . $bp->groups->slug . '/' . $group->slug );
+	}
+
+function bp_group_admin_permalink( $deprecated = true, $deprecated2 = false ) {
+	if ( !$deprecated )
+		return bp_get_group_admin_permalink();
+	else
+		echo bp_get_group_admin_permalink();
+}
+	function bp_get_group_admin_permalink( $group = false ) {
+		global $groups_template, $bp;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_admin_permalink', $bp->root_domain . '/' . $bp->groups->slug . '/' . $group->slug . '/admin' );	
+	}
+
+function bp_group_slug() {
+	echo bp_get_group_slug();
+}
+	function bp_get_group_slug( $group = false ) {
+		global $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_slug', $group->slug );
+	}
+
+function bp_group_description( $deprecated = false, $deprecated2 = true ) {
+	if ( !$deprecated2 )
+		return bp_get_group_description();
+	else
+		echo bp_get_group_description();
+}
+	function bp_get_group_description( $group = false ) {
+		global $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_description', stripslashes($group->description) );
+	}
+
+function bp_group_description_editable( $deprecated = false ) {
+	echo bp_get_group_description_editable();
+}
+	function bp_get_group_description_editable( $group = false ) {
+		global $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_description_editable', $group->description );
+	}
+
+function bp_group_description_excerpt( $deprecated = false ) {
+	echo bp_get_group_description_excerpt();
+}
+	function bp_get_group_description_excerpt( $group = false ) {
+		global $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_description_excerpt', bp_create_excerpt( $group->description, 20 ) );	
+	}
+
+function bp_group_news( $deprecated = false ) {
+	echo bp_get_group_news();
+}
+	function bp_get_group_news( $group = false ) {
+		global $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_news', stripslashes($groups_template->group->news) );
+	}
+
+function bp_group_news_editable( $deprecated = false ) {
+	echo bp_get_group_news_editable();
+}
+	function bp_get_group_news_editable( $group = false ) {
+		global $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_news_editable', $group->news );
+	}
+
+function bp_group_public_status( $deprecated = false ) {
+	echo bp_get_group_public_status();
+}
+	function bp_get_group_public_status( $group = false ) {
+		global $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		if ( $group->is_public ) {
+			return __( 'Public', 'buddypress' );
+		} else {
+			return __( 'Private', 'buddypress' );
+		}
+	}
+	
+function bp_group_is_public( $deprecated = false ) {
+	echo bp_get_group_is_public();
+}
+	function bp_get_group_is_public( $group = false ) {
+		global $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_is_public', $group->is_public );
+	}
+
+function bp_group_date_created( $deprecated = false ) {
+	echo bp_get_group_date_created();
+}
+	function bp_get_group_date_created( $group = false ) {
+		global $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_date_created', date( get_option( 'date_format' ), $group->date_created ) );
+	}
 
 function bp_group_list_admins( $full_list = true, $group = false ) {
 	global $groups_template;
@@ -908,17 +963,25 @@ function bp_group_list_mods( $full_list = true, $group = false ) {
 <?php
 }
 
-function bp_group_all_members_permalink( $echo = true, $group = false ) {
+function bp_group_all_members_permalink( $deprecated = true, $deprecated2 = false ) {
 	global $groups_template, $bp;
 
 	if ( !$group )
 		$group =& $groups_template->group;
 	
-	if ( $echo )
-		echo apply_filters( 'bp_group_all_members_permalink', bp_group_permalink( $group, true ) . '/' . BP_MEMBERS_SLUG );
+	if ( !$deprecated )
+		return bp_get_group_all_members_permalink();
 	else
-		return apply_filters( 'bp_group_all_members_permalink', bp_group_permalink( $group, false ) . '/' . BP_MEMBERS_SLUG );
+		echo bp_get_group_all_members_permalink();
 }
+	function bp_get_group_all_members_permalink( $group = false ) {
+		global $groups_template, $bp;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_all_members_permalink', bp_get_group_permalink( $group ) . '/' . BP_MEMBERS_SLUG );
+	}
 
 function bp_group_random_members( $group = false ) {
 	global $groups_template;
@@ -1017,39 +1080,37 @@ function bp_group_show_no_groups_message() {
 }
 
 function bp_group_pagination() {
-	global $groups_template;
-	echo apply_filters( 'bp_group_pagination', $groups_template->pag_links );
+	echo bp_get_group_pagination();
 }
+	function bp_get_group_pagination() {
+		global $groups_template;
+		
+		return apply_filters( 'bp_get_group_pagination', $groups_template->pag_links );
+	}
 
 function bp_total_group_count() {
-	global $groups_template;
-	
-	echo apply_filters( 'bp_total_group_count', $groups_template->total_group_count );
+	echo bp_get_total_group_count();
 }
+	function bp_get_total_group_count() {
+		global $groups_template;
 
-function bp_group_total_members( $echo = true, $group = false ) {
-	global $groups_template;
+		return apply_filters( 'bp_get_total_group_count', $groups_template->total_group_count );
+	}
 
-	if ( !$group )
-		$group =& $groups_template->group;
-
-	if ( $echo )
-		echo apply_filters( 'groups_template', $group->total_member_count );
+function bp_group_total_members( $deprecated = true, $deprecated2 = false ) {
+	if ( !$deprecated )
+		return bp_get_group_total_members();
 	else
-		return apply_filters( 'groups_template', $group->total_member_count );
+		echo bp_get_group_total_members();
 }
+	function bp_get_group_total_members( $echo = true, $group = false ) {
+		global $groups_template;
 
-function bp_group_is_photos_enabled( $group = false ) {
-	global $groups_template;
+		if ( !$group )
+			$group =& $groups_template->group;
 
-	if ( !$group )
-		$group =& $groups_template->group;
-
-	if ( $group->enable_photos )
-		return true;
-	
-	return false;
-}
+		return apply_filters( 'bp_get_group_total_members', $group->total_member_count );
+	}
 
 function bp_group_show_wire_setting( $group = false ) {
 	global $groups_template;
@@ -1073,14 +1134,17 @@ function bp_group_is_wire_enabled( $group = false ) {
 	return false;
 }
 
-function bp_group_forum_permalink( $group = false ) {
-	global $groups_template;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-
-	echo bp_group_permalink( $group, false ) . '/forum';
+function bp_group_forum_permalink( $deprecated = false ) {
+	echo bp_get_group_forum_permalink();
 }
+	function bp_get_group_forum_permalink( $group = false ) {
+		global $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_forum_permalink', bp_get_group_permalink( $group ) . '/forum' );
+	}
 
 function bp_group_is_forum_enabled( $group = false ) {
 	global $groups_template;
@@ -1109,29 +1173,6 @@ function bp_group_show_forum_setting( $group = false ) {
 		$group =& $groups_template->group;
 	
 	if ( $group->enable_forum )
-		echo ' checked="checked"';
-}
-
-function bp_group_show_photos_setting( $group = false ) {
-	global $groups_template;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-	
-	if ( $group->enable_photos )
-		echo ' checked="checked"';	
-}
-
-function bp_group_show_photos_upload_setting( $permission, $group = false ) {
-	global $groups_template;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-	
-	if ( 'admin' == $permission && $group->photos_admin_only )
-		echo ' checked="checked"';
-	
-	if ( 'member' == $permission && !$group->photos_admin_only )
 		echo ' checked="checked"';
 }
 
@@ -1230,44 +1271,82 @@ function bp_group_has_moderators( $group = false ) {
 	return apply_filters( 'bp_group_has_moderators', groups_get_group_mods( $group->id ) );
 }
 
-function bp_group_member_promote_link( $group = false ) {
-	global $members_template, $groups_template, $bp;
+function bp_group_member_promote_link( $user_id = false, $deprecated = false ) {
+	global $members_template;
 
-	if ( !$group )
-		$group =& $groups_template->group;
-
-	echo apply_filters( 'bp_group_member_promote_link', wp_nonce_url( bp_group_permalink( $group, false ) . '/admin/manage-members/promote/' . $members_template->member->user_id, 'groups_promote_member' ) );
+	if ( !$user_id )
+		$user_id = $members_template->member->user_id;
+		
+	echo bp_get_group_member_promote_link( $user_id );
 }
+	function bp_get_group_member_promote_link( $user_id = false, $group = false ) {
+		global $members_template, $groups_template, $bp;
 
-function bp_group_member_demote_link( $user_id = false, $group = false ) {
-	global $members_template, $groups_template, $bp;
+		if ( !$user_id )
+			$user_id = $members_template->member->user_id;
+			
+		if ( !$group )
+			$group =& $groups_template->group;
 
-	if ( !$group )
-		$group =& $groups_template->group;
+		return apply_filters( 'bp_get_group_member_promote_link', wp_nonce_url( bp_get_group_permalink( $group ) . '/admin/manage-members/promote/' . $user_id, 'groups_promote_member' ) );
+	}
+
+function bp_group_member_demote_link( $user_id = false, $deprecated = false ) {
+	global $members_template;
+
+	if ( !$user_id )
+		$user_id = $members_template->member->user_id;
+
+	echo bp_get_group_member_demote_link( $user_id );
+}
+	function bp_get_group_member_demote_link( $user_id = false, $group = false ) {
+		global $members_template, $groups_template, $bp;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		if ( !$user_id )
+			$user_id = $members_template->member->user_id;
+
+		return apply_filters( 'bp_get_group_member_demote_link', wp_nonce_url( bp_get_group_permalink( $group ) . '/admin/manage-members/demote/' . $user_id, 'groups_demote_member' ) );
+	}
 	
+function bp_group_member_ban_link( $user_id = false, $deprecated = false ) {
+	global $members_template;
+
+	if ( !$user_id )
+		$user_id = $members_template->member->user_id;
+
+	echo bp_get_group_member_ban_link( $user_id );
+}
+	function bp_get_group_member_ban_link( $user_id = false, $group = false ) {
+		global $members_template, $groups_template, $bp;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_member_ban_link', wp_nonce_url( bp_get_group_permalink( $group ) . '/admin/manage-members/ban/' . $user_id, 'groups_ban_member' ) );
+	}
+
+function bp_group_member_unban_link( $user_id = false, $deprecated = false ) {
+	global $members_template;
+
 	if ( !$user_id )
 		$user_id = $members_template->member->user_id;
 	
-	echo apply_filters( 'bp_group_member_demote_link', wp_nonce_url( bp_group_permalink( $group, false ) . '/admin/manage-members/demote/' . $user_id, 'groups_demote_member' ) );
+	echo bp_get_group_member_unban_link( $user_id );	
 }
+	function bp_get_group_member_unban_link( $user_id = false, $group = false ) {
+		global $members_template;
 
-function bp_group_member_ban_link( $group = false ) {
-	global $members_template, $groups_template, $bp;
+		if ( !$user_id )
+			$user_id = $members_template->member->user_id;
+		
+		if ( !$group )
+			$group =& $groups_template->group;
 
-	if ( !$group )
-		$group =& $groups_template->group;
-	
-	echo apply_filters( 'bp_group_member_ban_link', wp_nonce_url( bp_group_permalink( $group, false ) . '/admin/manage-members/ban/' . $members_template->member->user_id, 'groups_ban_member' ) );
-}
-
-function bp_group_member_unban_link( $group = false ) {
-	global $members_template, $groups_template, $bp;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-	
-	echo apply_filters( 'bp_group_member_unban_link', wp_nonce_url( bp_group_permalink( $group, false ) . '/admin/manage-members/unban/' . $members_template->member->user_id, 'groups_unban_member' ) );	
-}
+		return apply_filters( 'bp_get_group_member_unban_link', wp_nonce_url( bp_get_group_permalink( $group ) . '/admin/manage-members/unban/' . $user_id, 'groups_unban_member' ) );	
+	}
 
 function bp_group_admin_tabs( $group = false ) {
 	global $bp, $groups_template;
@@ -1305,23 +1384,29 @@ function bp_group_admin_tabs( $group = false ) {
 	do_action( 'groups_admin_tabs' );
 }
 
-function bp_group_form_action( $page, $group = false ) {
-	global $bp, $groups_template;
-	
-	if ( !$group )
-		$group =& $groups_template->group;
-	
-	echo apply_filters( 'bp_group_form_action', bp_group_permalink( $group, false ) . '/' . $page );
+function bp_group_form_action( $page, $deprecated = false ) {
+	echo bp_get_group_form_action( $page );
 }
+	function bp_get_group_form_action( $page, $group = false ) {
+		global $bp, $groups_template;
 
-function bp_group_admin_form_action( $page, $group = false ) {
-	global $bp, $groups_template;
+		if ( !$group )
+			$group =& $groups_template->group;
 
-	if ( !$group )
-		$group =& $groups_template->group;
+		return apply_filters( 'bp_group_form_action', bp_get_group_permalink( $group ) . '/' . $page );
+	}
 	
-	echo apply_filters( 'bp_group_admin_form_action', bp_group_permalink( $group, false ) . '/admin/' . $page );
+function bp_group_admin_form_action( $page, $deprecated = false ) {
+	echo bp_get_group_admin_form_action( $page );
 }
+	function bp_get_group_admin_form_action( $page, $group = false ) {
+		global $bp, $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_group_admin_form_action', bp_get_group_permalink( $group ) . '/admin/' . $page );
+	}
 
 function bp_group_has_requested_membership( $group = false ) {
 	global $bp, $groups_template;
@@ -1347,56 +1432,65 @@ function bp_group_is_member( $group = false ) {
 	return false;
 }
 
-function bp_group_accept_invite_link( $group = false ) {
-	global $groups_template, $bp;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-	
-	echo apply_filters( 'bp_group_accept_invite_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->groups->slug . '/invites/accept/' . $group->id, 'groups_accept_invite' ) );	
+function bp_group_accept_invite_link( $deprecated = false ) {
+	echo bp_get_group_accept_invite_link();
 }
+	function bp_get_group_accept_invite_link( $group = false ) {
+		global $groups_template, $bp;
 
-function bp_group_reject_invite_link( $group = false ) {
-	global $groups_template, $bp;
-	
-	if ( !$group )
-		$group =& $groups_template->group;
-	
-	echo apply_filters( 'bp_group_reject_invite_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->groups->slug . '/invites/reject/' . $group->id, 'groups_reject_invite' ) );
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_accept_invite_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->groups->slug . '/invites/accept/' . $group->id, 'groups_accept_invite' ) );	
+	}
+
+function bp_group_reject_invite_link( $deprecated = false ) {
+	echo bp_get_group_reject_invite_link();
 }
+	function bp_get_group_reject_invite_link( $group = false ) {
+		global $groups_template, $bp;
 
-function bp_has_friends_to_invite( $group = false ) {
-	global $groups_template, $bp;
-	
-	if ( !function_exists('friends_install') )
-		return false;
+		if ( !$group )
+			$group =& $groups_template->group;
 
-	if ( !$group )
-		$group =& $groups_template->group;
-	
-	if ( !friends_check_user_has_friends( $bp->loggedin_user->id ) || !friends_count_invitable_friends( $bp->loggedin_user->id, $group->id ) )
-		return false;
-	
-	return true;
+		return apply_filters( 'bp_get_group_reject_invite_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->groups->slug . '/invites/reject/' . $group->id, 'groups_reject_invite' ) );
+	}
+
+function bp_group_leave_confirm_link( $deprecated = false ) {
+	echo bp_group_leave_confirm_link();
 }
+	function bp_get_group_leave_confirm_link( $group = false ) {
+		global $groups_template, $bp;
 
-function bp_group_leave_confirm_link( $group = false ) {
-	global $groups_template, $bp;
+		if ( !$group )
+			$group =& $groups_template->group;
 
-	if ( !$group )
-		$group =& $groups_template->group;
-	
-	echo apply_filters( 'bp_group_leave_confirm_link', wp_nonce_url( bp_group_permalink( $group, true ) . '/leave-group/yes', 'groups_leave_group' ) );	
+		return apply_filters( 'bp_group_leave_confirm_link', wp_nonce_url( bp_get_group_permalink( $group ) . '/leave-group/yes', 'groups_leave_group' ) );	
+	}
+
+function bp_group_leave_reject_link( $deprecated = false ) {
+	echo bp_get_group_leave_reject_link();
 }
+	function bp_get_group_leave_reject_link( $group = false ) {
+		global $groups_template, $bp;
 
-function bp_group_leave_reject_link( $group = false ) {
-	global $groups_template, $bp;
+		if ( !$group )
+			$group =& $groups_template->group;
 
-	if ( !$group )
-		$group =& $groups_template->group;
+		return apply_filters( 'bp_get_group_leave_reject_link', bp_get_group_permalink( $group ) );
+	}
 
-	echo apply_filters( 'bp_group_leave_reject_link', bp_group_permalink( $group, true ) );
+function bp_group_send_invite_form_action( $deprecated = false ) {
+	echo bp_get_group_send_invite_form_action();
 }
+	function bp_get_group_send_invite_form_action( $group = false ) {
+		global $groups_template, $bp;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_group_send_invite_form_action', bp_get_group_permalink( $group ) . '/send-invites/send' );
+	}
 
 function bp_group_send_invite_form( $group = false ) {
 	global $bp, $groups_template, $invites;
@@ -1442,13 +1536,19 @@ function bp_group_send_invite_form( $group = false ) {
 <?php
 }
 
-function bp_group_send_invite_form_action( $group = false ) {
+function bp_has_friends_to_invite( $group = false ) {
 	global $groups_template, $bp;
 	
+	if ( !function_exists('friends_install') )
+		return false;
+
 	if ( !$group )
 		$group =& $groups_template->group;
 	
-	echo apply_filters( 'bp_group_send_invite_form_action', bp_group_permalink( $group, true ) . '/send-invites/send' );
+	if ( !friends_check_user_has_friends( $bp->loggedin_user->id ) || !friends_count_invitable_friends( $bp->loggedin_user->id, $group->id ) )
+		return false;
+	
+	return true;
 }
 
 function bp_group_join_button( $group = false ) {
@@ -1466,19 +1566,19 @@ function bp_group_join_button( $group = false ) {
 	switch ( $group->status ) {
 		case 'public':
 			if ( BP_Groups_Member::check_is_member( $bp->loggedin_user->id, $group->id ) )
-				echo '<a class="leave-group" href="' . wp_nonce_url( bp_group_permalink( $group, false ) . '/leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';									
+				echo '<a class="leave-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . '/leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';									
 			else
-				echo '<a class="join-group" href="' . wp_nonce_url( bp_group_permalink( $group, false ) . '/join', 'groups_join_group' ) . '">' . __( 'Join Group', 'buddypress' ) . '</a>';					
+				echo '<a class="join-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . '/join', 'groups_join_group' ) . '">' . __( 'Join Group', 'buddypress' ) . '</a>';					
 		break;
 		
 		case 'private':
 			if ( BP_Groups_Member::check_is_member( $bp->loggedin_user->id, $group->id ) ) {
-				echo '<a class="leave-group" href="' . wp_nonce_url( bp_group_permalink( $group, false ) . '/leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';										
+				echo '<a class="leave-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . '/leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';										
 			} else {
 				if ( !bp_group_has_requested_membership( $group ) )
-					echo '<a class="request-membership" href="' . wp_nonce_url( bp_group_permalink( $group, false ) . '/request-membership', 'groups_request_membership' ) . '">' . __('Request Membership', 'buddypress') . '</a>';		
+					echo '<a class="request-membership" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . '/request-membership', 'groups_request_membership' ) . '">' . __('Request Membership', 'buddypress') . '</a>';		
 				else
-					echo '<a class="membership-requested" href="' . bp_group_permalink( $group, false ) . '">' . __( 'Request Sent', 'buddypress' ) . '</a>';				
+					echo '<a class="membership-requested" href="' . bp_get_group_permalink( $group ) . '">' . __( 'Request Sent', 'buddypress' ) . '</a>';				
 			}
 		break;
 	}
@@ -1638,51 +1738,77 @@ function bp_group_the_member() {
 }
 
 function bp_group_member_avatar() {
-	global $members_template;
-	
-	echo apply_filters( 'bp_group_member_avatar', bp_core_get_avatar( $members_template->member->user_id, 1 ) );
+	echo bp_get_group_member_avatar();
 }
+	function bp_get_group_member_avatar() {
+		global $members_template;
+
+		return apply_filters( 'bp_get_group_member_avatar', bp_core_get_avatar( $members_template->member->user_id, 1 ) );
+	}
 
 function bp_group_member_avatar_mini( $width = 30, $height = 30 ) {
-	global $members_template;
-	
-	echo apply_filters( 'bp_group_member_avatar_mini', bp_core_get_avatar( $members_template->member->user_id, 1, $width, $height ) );
+	echo bp_get_group_member_avatar_mini( $width, $height );
 }
+	function bp_get_group_member_avatar_mini( $width = 30, $height = 30 ) {
+		global $members_template;
+
+		return apply_filters( 'bp_get_group_member_avatar_mini', bp_core_get_avatar( $members_template->member->user_id, 1, $width, $height ) );
+	}
 
 function bp_group_member_name() {
-	global $members_template;
-		
-	echo apply_filters( 'bp_group_member_name', bp_fetch_user_fullname( $members_template->member->user_id, false ) );
+	echo bp_get_group_member_name();
 }
+	function bp_get_group_member_name() {
+		global $members_template;
+
+		return apply_filters( 'bp_get_group_member_name', bp_fetch_user_fullname( $members_template->member->user_id, false ) );
+	}
 
 function bp_group_member_url() {
-	global $members_template;
-		
-	echo apply_filters( 'bp_group_member_url', bp_core_get_userlink( $members_template->member->user_id, false, true ) );
+	echo bp_get_group_member_url();
 }
+	function bp_get_group_member_url() {
+		global $members_template;
+
+		return apply_filters( 'bp_get_group_member_url', bp_core_get_userlink( $members_template->member->user_id, false, true ) );
+	}
 
 function bp_group_member_link() {
-	global $members_template;
+	echo bp_get_group_member_link();
+}
+	function bp_get_group_member_link() {
+		global $members_template;
+
+		return apply_filters( 'bp_get_group_member_link', bp_core_get_userlink( $members_template->member->user_id ) );
+	}
 	
-	echo apply_filters( 'bp_group_member_link', bp_core_get_userlink( $members_template->member->user_id ) );
-}
-
 function bp_group_member_is_banned() {
-	global $members_template, $groups_template;
-
-	return apply_filters( 'bp_group_member_is_banned', groups_is_user_banned( $members_template->member->user_id, $groups_template->group->id ) );
+	echo bp_get_group_member_is_banned();
 }
+	function bp_get_group_member_is_banned() {
+		global $members_template, $groups_template;
+
+		return apply_filters( 'bp_get_group_member_is_banned', groups_is_user_banned( $members_template->member->user_id, $groups_template->group->id ) );
+	}
 
 function bp_group_member_joined_since() {
-	global $members_template;
-	
-	echo apply_filters( 'bp_group_member_joined_since', bp_core_get_last_activity( strtotime( $members_template->member->date_modified ), __( 'joined %s ago', 'buddypress') ) );
+	echo bp_get_group_member_joined_since();
 }
+	function bp_get_group_member_joined_since() {
+		global $members_template;
+
+		return apply_filters( 'bp_get_group_member_joined_since', bp_core_get_last_activity( strtotime( $members_template->member->date_modified ), __( 'joined %s ago', 'buddypress') ) );
+	}
+	
 
 function bp_group_member_id() {
-	global $members_template;
-	return apply_filters( 'bp_group_member_id', $members_template->member->user_id );
+	echo bp_get_group_member_id();
 }
+	function bp_get_group_member_id() {
+		global $members_template;
+
+		return apply_filters( 'bp_get_group_member_id', $members_template->member->user_id );
+	}
 
 function bp_group_member_needs_pagination() {
 	global $members_template;
@@ -1694,32 +1820,45 @@ function bp_group_member_needs_pagination() {
 }
 
 function bp_group_pag_id() {
-	global $bp;
-	
-	echo apply_filters( 'bp_group_pag_id', 'pag' );
+	echo bp_get_group_pag_id();
 }
+	function bp_get_group_pag_id() {
+		global $bp;
+
+		return apply_filters( 'bp_get_group_pag_id', 'pag' );
+	}
 
 
 function bp_group_member_pagination() {
-	global $members_template;
-	echo $members_template->pag_links;
+	echo bp_get_group_member_pagination();
 	wp_nonce_field( 'bp_groups_member_list', '_member_pag_nonce' );
 }
+	function bp_get_group_member_pagination() {
+		global $members_template;
+		return apply_filters( 'bp_get_group_member_pagination', $members_template->pag_links );
+	}
 
 function bp_group_member_pagination_count() {
-	global $members_template;
-	
-	$from_num = intval( ( $members_template->pag_page - 1 ) * $members_template->pag_num ) + 1;
-	$to_num = ( $from_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $from_num + ( $members_template->pag_num - 1 ); 
-
-	echo apply_filters( 'bp_group_member_pagination_count', sprintf( __( 'Viewing members %d to %d (of %d members)', 'buddypress' ), $from_num, $to_num, $members_template->total_member_count ) );  
+	echo bp_get_group_member_pagination_count();
 }
+	function bp_get_group_member_pagination_count() {
+		global $members_template;
+
+		$from_num = intval( ( $members_template->pag_page - 1 ) * $members_template->pag_num ) + 1;
+		$to_num = ( $from_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $from_num + ( $members_template->pag_num - 1 ); 
+
+		return apply_filters( 'bp_get_group_member_pagination_count', sprintf( __( 'Viewing members %d to %d (of %d members)', 'buddypress' ), $from_num, $to_num, $members_template->total_member_count ) );  
+	}
 
 function bp_group_member_admin_pagination() {
-	global $members_template;
-	echo $members_template->pag_links;
+	echo bp_get_group_member_admin_pagination();
 	wp_nonce_field( 'bp_groups_member_admin_list', '_member_admin_pag_nonce' );
 }
+	function bp_get_group_member_admin_pagination() {
+		global $members_template;
+		
+		return $members_template->pag_links;
+	}
 
 /********************************************************************************
  * Site Groups Template Tags
@@ -1900,45 +2039,76 @@ function bp_site_groups_pagination_count() {
 }
 
 function bp_site_groups_pagination_links() {
-	global $site_groups_template;
-	echo $site_groups_template->pag_links;
+	echo bp_get_site_groups_pagination_links();
 }
+	function bp_get_site_groups_pagination_links() {
+		global $site_groups_template;
+		
+		return apply_filters( 'bp_get_site_groups_pagination_links', $site_groups_template->pag_links );
+	}
 
 function bp_the_site_group_id() {
-	global $site_groups_template;
-	echo $site_groups_template->group->id;
+	echo bp_get_the_site_group_id();
 }
+	function bp_get_the_site_group_id() {
+		global $site_groups_template;
+		
+		return apply_filters( 'bp_get_the_site_group_id', $site_groups_template->group->id );
+	}
 
 function bp_the_site_group_avatar() {
-	global $site_groups_template;
-	echo bp_group_avatar( $site_groups_template->group );
+	echo bp_get_the_site_group_avatar();
 }
+	function bp_get_the_site_group_avatar() {
+		global $site_groups_template;
+
+		return apply_filters( 'bp_the_site_group_avatar', bp_group_avatar( $site_groups_template->group ) );
+	}
 
 function bp_the_site_group_avatar_thumb() {
-	global $site_groups_template;
-	echo bp_group_avatar_thumb( $site_groups_template->group );
+	echo bp_get_the_site_group_avatar_thumb();
 }
+	function bp_get_the_site_group_avatar_thumb() {
+		global $site_groups_template;
+		
+		return apply_filters( 'bp_get_the_site_group_avatar_thumb', bp_group_avatar_thumb( $site_groups_template->group ) );
+	}
 
 function bp_the_site_group_avatar_mini() {
-	global $site_groups_template;
-	echo bp_group_avatar_mini( $site_groups_template->group );
+	echo bp_get_the_site_group_avatar_mini();
 }
+	function bp_get_the_site_group_avatar_mini() {
+		global $site_groups_template;
+
+		return apply_filters( 'bp_get_the_site_group_avatar_mini', bp_group_avatar_mini( $site_groups_template->group ) );
+	}
 
 function bp_the_site_group_link() {
-	global $site_groups_template;
-	echo bp_group_permalink( $site_groups_template->group );
+	echo bp_get_the_site_group_link();
 }
+	function bp_get_the_site_group_link() {
+		global $site_groups_template;
+		
+		return apply_filters( 'bp_get_the_site_group_link', bp_get_group_permalink( $site_groups_template->group ) );
+	}
 
 function bp_the_site_group_name() {
-	global $site_groups_template;
-	echo bp_group_name( true, $site_groups_template->group );
+	echo bp_get_the_site_group_name();
 }
+	function bp_get_the_site_group_name() {
+		global $site_groups_template;
+
+		return apply_filters( 'bp_get_the_site_group_name', bp_get_group_name( $site_groups_template->group ) );
+	}
 
 function bp_the_site_group_last_active() {
-	global $site_groups_template;
-	
-	printf( __( 'active %s ago', 'buddypress' ), bp_group_last_active( false, $site_groups_template->group ) );
+	echo bp_get_the_site_group_last_active();
 }
+	function bp_get_the_site_group_last_active() {
+		global $site_groups_template;
+
+		return apply_filters( 'bp_get_the_site_group_last_active', sprintf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active( $site_groups_template->group ) ) );
+	}
 
 function bp_the_site_group_join_button() {
 	global $site_groups_template;
@@ -1947,38 +2117,52 @@ function bp_the_site_group_join_button() {
 }
 
 function bp_the_site_group_description() {
-	global $site_groups_template;
-
-	echo bp_group_description( $site_groups_template->group );	
+	echo bp_get_the_site_group_description();
 }
+	function bp_get_the_site_group_description() {
+		global $site_groups_template;
+
+		return apply_filters( 'bp_get_the_site_group_description', bp_get_group_description( $site_groups_template->group ) );	
+	}
 
 function bp_the_site_group_description_excerpt() {
-	global $site_groups_template;
-
-	echo bp_create_excerpt( bp_group_description( $site_groups_template->group, false ), 35 );	
+	echo bp_get_the_site_group_description_excerpt();
 }
+	function bp_get_the_site_group_description_excerpt() {
+		global $site_groups_template;
+
+		return apply_filters( 'bp_get_the_site_group_description_excerpt', bp_create_excerpt( bp_get_group_description( $site_groups_template->group, false ), 35 ) );	
+	}
 
 function bp_the_site_group_date_created() {
-	global $site_groups_template;
-
-	echo date( get_option( 'date_format' ), $site_groups_template->group->date_created );	
+	echo bp_get_the_site_group_date_created();	
 }
+	function bp_get_the_site_group_date_created() {
+		global $site_groups_template;
+
+		return apply_filters( 'bp_get_the_site_group_date_created', date( get_option( 'date_format' ), $site_groups_template->group->date_created ) );	
+	}
 
 function bp_the_site_group_member_count() {
-	global $site_groups_template;
-
-	if ( 1 == (int) $site_groups_template->group->total_member_count )
-		printf( '%d member', (int) $site_groups_template->group->total_member_count );
-	else
-		printf( '%d members', (int) $site_groups_template->group->total_member_count );		
+	echo bp_get_the_site_group_member_count();
 }
+	function bp_get_the_site_group_member_count() {
+		global $site_groups_template;
+
+		if ( 1 == (int) $site_groups_template->group->total_member_count )
+			return apply_filters( 'bp_get_the_site_group_member_count', sprintf( '%d member', (int) $site_groups_template->group->total_member_count ) );
+		else
+			return apply_filters( 'bp_get_the_site_group_member_count', sprintf( '%d members', (int) $site_groups_template->group->total_member_count ) );		
+	}
 
 function bp_the_site_group_type() {
-	global $site_groups_template;
-	
-	echo bp_group_type( $site_groups_template->group );
+	echo bp_get_the_site_group_type();
 }
+	function bp_get_the_site_group_type() {
+		global $site_groups_template;
 
+		return apply_filters( 'bp_get_the_site_group_type', bp_get_group_type( $site_groups_template->group ) );
+	}
 
 function bp_the_site_group_hidden_fields() {
 	if ( isset( $_REQUEST['s'] ) ) {
@@ -2137,13 +2321,13 @@ function bp_group_request_user_avatar_thumb() {
 function bp_group_request_reject_link() {
 	global $requests_template, $groups_template;	
 
-	echo apply_filters( 'bp_group_request_reject_link', wp_nonce_url( bp_group_permalink( $groups_template->group, false ) . '/admin/membership-requests/reject/' . $requests_template->request->id, 'groups_reject_membership_request' ) );
+	echo apply_filters( 'bp_group_request_reject_link', wp_nonce_url( bp_get_group_permalink( $groups_template->group ) . '/admin/membership-requests/reject/' . $requests_template->request->id, 'groups_reject_membership_request' ) );
 }
 
 function bp_group_request_accept_link() {
 	global $requests_template, $groups_template;	
 
-	echo apply_filters( 'bp_group_request_accept_link', wp_nonce_url( bp_group_permalink( $groups_template->group, false ) . '/admin/membership-requests/accept/' . $requests_template->request->id, 'groups_accept_membership_request' ) );
+	echo apply_filters( 'bp_group_request_accept_link', wp_nonce_url( bp_get_group_permalink( $groups_template->group ) . '/admin/membership-requests/accept/' . $requests_template->request->id, 'groups_accept_membership_request' ) );
 }
 
 function bp_group_request_time_since_requested() {

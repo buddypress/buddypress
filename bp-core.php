@@ -8,9 +8,9 @@ define( 'BP_CORE_DB_VERSION', '1300' );
 define( 'BP_PLUGIN_DIR', WP_PLUGIN_DIR . '/buddypress' );
 define( 'BP_PLUGIN_URL', WP_PLUGIN_URL . '/buddypress' );
 
-/* Place your custom code (actions/filters) in a file called bp-custom.php and it will be loaded before anything else. */
-if ( file_exists( BP_PLUGIN_DIR . '/bp-custom.php' ) )
-	require( BP_PLUGIN_DIR . '/bp-custom.php' );
+/* Place your custom code (actions/filters) in a file called /plugins/bp-custom.php and it will be loaded before anything else. */
+if ( file_exists( WP_PLUGIN_DIR . '/bp-custom.php' ) )
+	require( WP_PLUGIN_DIR . '/bp-custom.php' );
 
 /* Define on which blog ID BuddyPress should run */
 if ( !defined( 'BP_ROOT_BLOG' ) )

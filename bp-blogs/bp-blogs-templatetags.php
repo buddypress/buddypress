@@ -319,25 +319,51 @@ function bp_the_blog() {
 	return $blogs_template->the_blog();
 }
 
-function bp_blog_title() {
-	global $blogs_template;	
-	echo apply_filters( 'bp_blog_title', $blogs_template->blog['title'] );
+function bp_blogs_pagination_count() {
+	global $bp, $blogs_template;
+	
+	$from_num = intval( ( $blogs_template->pag_page - 1 ) * $blogs_template->pag_num ) + 1;
+	$to_num = ( $from_num + ( $blogs_template->pag_num - 1 ) > $blogs_template->total_blog_count ) ? $blogs_template->total_blog_count : $from_num + ( $blogs_template->pag_num - 1 ) ;
+
+	echo sprintf( __( 'Viewing blog %d to %d (of %d blogs)', 'buddypress' ), $from_num, $to_num, $blogs_template->total_blog_count ); ?> &nbsp;
+	<img id="ajax-loader-blogs" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" /><?php
 }
+
+function bp_blogs_pagination_links() {
+	echo bp_get_blogs_pagination_links();
+}
+	function bp_get_blogs_pagination_links() {
+		global $blogs_template;
+
+		return apply_filters( 'bp_get_blogs_pagination_links', $blogs_template->pag_links );
+	}
+
+function bp_blog_title() {
+	echo bp_get_blog_title();
+}
+	function bp_get_blog_title() {
+		global $blogs_template;
+			
+		return apply_filters( 'bp_get_blog_title', $blogs_template->blog['title'] );
+	}
 
 function bp_blog_description() {
-	global $blogs_template;
-	echo apply_filters( 'bp_blog_description', $blogs_template->blog['description'] );
+	echo bp_get_blog_description();
 }
+	function bp_get_blog_description() {
+		global $blogs_template;
+		
+		return apply_filters( 'bp_get_blog_description', $blogs_template->blog['description'] );
+	}
 
 function bp_blog_permalink() {
-	global $blogs_template;	
-	echo apply_filters( 'bp_blog_permalink', $blogs_template->blog['siteurl'] );
+	echo bp_get_blog_permalink();
 }
-
-function bp_blogs_pagination() {
-	global $blogs_template;
-	echo $blogs_template->pag_links;
-}
+	function bp_get_blog_permalink() {
+		global $blogs_template;	
+		
+		return apply_filters( 'bp_get_blog_permalink', $blogs_template->blog['siteurl'] );
+	}
 
 
 /**********************************************************************
@@ -469,59 +495,103 @@ function bp_the_post() {
 	return $posts_template->the_post();
 }
 
-function bp_post_pagination() {
-	global $posts_template;
-	echo $posts_template->pag_links;
+function bp_post_pagination_count() {
+	global $bp, $posts_template;
+	
+	$from_num = intval( ( $posts_template->pag_page - 1 ) * $posts_template->pag_num ) + 1;
+	$to_num = ( $from_num + ( $posts_template->pag_num - 1 ) > $posts_template->total_post_count ) ? $posts_template->total_post_count : $from_num + ( $posts_template->pag_num - 1 ) ;
+
+	echo sprintf( __( 'Viewing post %d to %d (of %d posts)', 'buddypress' ), $from_num, $to_num, $posts_template->total_post_count ); ?> &nbsp;
+	<img id="ajax-loader-blogs" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" /><?php
 }
 
-function bp_post_title( $echo = true ) {
-	global $posts_template;
-	
-	if ( $echo )
-		echo apply_filters( 'bp_post_title', $posts_template->post->post_title );
-	else
-		return apply_filters( 'bp_post_title', $posts_template->post->post_title );
+function bp_post_pagination_links() {
+	echo bp_get_post_pagination_links();
 }
+	function bp_get_post_pagination_links() {
+		global $posts_template;
+
+		return apply_filters( 'bp_get_post_pagination_links', $posts_template->pag_links );
+	}
+
+function bp_post_id() {
+	echo bp_get_post_id();
+}
+	function bp_get_post_id() {
+		global $posts_template;
+		echo apply_filters( 'bp_get_post_id', $posts_template->post->ID );	
+	}
+	
+function bp_post_title( $deprecated = true ) {
+	if ( !$deprecated )
+		bp_get_post_title();
+	else
+		echo bp_get_post_title();
+}
+	function bp_get_post_title() {
+		global $posts_template;
+		
+		return apply_filters( 'bp_get_post_title', $posts_template->post->post_title );
+	}
 
 function bp_post_permalink() {
 	global $posts_template;
-	echo apply_filters( 'bp_post_permalink', bp_post_get_permalink() );	
+	
+	echo bp_post_get_permalink();	
 }
 
 function bp_post_excerpt() {
-	global $posts_template;
-	echo apply_filters( 'bp_post_excerpt', $posts_template->post->post_excerpt );	
+	echo bp_get_post_excerpt();	
 }
+	function bp_get_post_excerpt() {
+		global $posts_template;
+		echo apply_filters( 'bp_get_post_excerpt', $posts_template->post->post_excerpt );	
+	}
 
 function bp_post_content() {
-	global $posts_template;
-	$content = $posts_template->post->post_content;
-	$content = apply_filters('the_content', $content);
-	$content = str_replace(']]>', ']]&gt;', $content);
-	echo apply_filters( 'bp_post_content', $content );
+	echo bp_get_post_content();
 }
+	function bp_get_post_content() {
+		global $posts_template;
+		$content = $posts_template->post->post_content;
+		$content = apply_filters('the_content', $content);
+		$content = str_replace(']]>', ']]&gt;', $content);
+		return apply_filters( 'bp_get_post_content', $content );
+	}
 
 function bp_post_status() {
-	global $posts_template;
-	echo apply_filters( 'bp_post_status', $posts_template->post->post_status );	
+	echo bp_get_post_status();
 }
-
-function bp_post_date( $date_format = null, $echo = true ) {
-	global $posts_template;
+	function bp_get_post_status() {
+		global $posts_template;
+		return apply_filters( 'bp_get_post_status', $posts_template->post->post_status );	
+	}
 	
+function bp_post_date( $date_format = null, $deprecated = true ) {
 	if ( !$date_format )
 		$date_format = get_option('date_format');
 		
-	if ( $echo )
-		echo apply_filters( 'bp_post_date', mysql2date( $date_format, $posts_template->post->post_date ) );
+	if ( !$deprecated )
+		return bp_get_post_date( $date_format );
 	else
-		return apply_filters( 'bp_post_date', mysql2date( $date_format, $posts_template->post->post_date ) );
+		echo bp_get_post_date();
 }
+	function bp_get_post_date( $date_format = null ) {
+		global $posts_template;
+
+		if ( !$date_format )
+			$date_format = get_option('date_format');
+
+		echo apply_filters( 'bp_get_post_date', mysql2date( $date_format, $posts_template->post->post_date ) );
+	}
 
 function bp_post_comment_count() {
-	global $posts_template;
-	echo apply_filters( 'bp_post_comment_count', $posts_template->post->comment_count );	
+	echo bp_get_post_comment_count();
 }
+	function bp_get_post_comment_count() {
+		global $posts_template;
+		return apply_filters( 'bp_get_post_comment_count', $posts_template->post->comment_count );	
+	}
 
 function bp_post_comments( $zero = 'No Comments', $one = '1 Comment', $more = '% Comments', $css_class = '', $none = 'Comments Off' ) {
 	global $posts_template, $wpdb;
@@ -560,28 +630,34 @@ function bp_post_comments( $zero = 'No Comments', $one = '1 Comment', $more = '%
 	echo '</a>';
 }
 
-function bp_post_author( $echo = true ) {
-	global $posts_template;
-	
-	if ( $echo )
-		echo apply_filters( 'bp_post_author', bp_core_get_userlink( $posts_template->post->post_author ) );
+function bp_post_author( $deprecated = true ) {
+	if ( !$deprecated )
+		return bp_get_post_author();
 	else
-		return apply_filters( 'bp_post_author', bp_core_get_userlink( $posts_template->post->post_author ) );
+		echo bp_get_post_author();
 }
+	function bp_get_post_author() {
+		global $posts_template;
+		
+		return apply_filters( 'bp_get_post_author', bp_core_get_userlink( $posts_template->post->post_author ) );
+	}
 
-function bp_post_id() {
+function bp_post_category( $separator = '', $parents = '', $post_id = false, $deprecated = true ) {
 	global $posts_template;
-	echo apply_filters( 'bp_post_id', $posts_template->post->ID );	
-}
 
-function bp_post_category( $separator = '', $parents='', $post_id = false, $echo = true ) {
-	global $posts_template;
-	
-	if ( $echo )
-		echo apply_filters( 'bp_post_category', get_the_category_list( $separator, $parents, $posts_template->post->ID ) );
+	if ( !$deprecated )
+		return bp_get_post_category( $separator, $parents, $post_id );
 	else
-		return apply_filters( 'bp_post_category', get_the_category_list( $separator, $parents, $posts_template->post->ID ) );
+		echo bp_get_post_category();
 }
+	function bp_get_post_category( $separator = '', $parents = '', $post_id = false ) {
+		global $posts_template;
+
+		if ( !$post_id )
+			$post_id = $posts_template->post->ID;
+
+		return apply_filters( 'bp_get_post_category', get_the_category_list( $separator, $parents, $post_id ) );	
+	}
 
 function bp_post_tags( $before = '', $sep = ', ', $after = '' ) {
 	global $posts_template, $wpdb;
@@ -592,25 +668,30 @@ function bp_post_tags( $before = '', $sep = ', ', $after = '' ) {
 }
 
 function bp_post_blog_id() {
-	global $posts_template;
-	echo apply_filters( 'bp_post_blog_id', $posts_template->post->blog_id );
+	echo bp_get_post_blog_id();
 }
+	function bp_get_post_blog_id() {
+		global $posts_template;
 
-function bp_post_blog_title() {
-	global $posts_template;
-	echo apply_filters( 'bp_post_blog_title', $posts_template->post->blog_id );	
-}
+		return apply_filters( 'bp_get_post_blog_id', $posts_template->post->blog_id );
+	}
 
-function bp_post_blog_description() {
-	global $posts_template;
-	echo apply_filters( 'bp_post_blog_description', $posts_template->post->blog_id );	
+function bp_post_blog_name() {
+	echo bp_get_post_blog_name();
 }
+	function bp_get_post_blog_name() {
+		global $posts_template;
+		return apply_filters( 'bp_get_post_blog_name', get_blog_option( $posts_template->post->blog_id, 'blogname' ) );	
+	}
 
 function bp_post_blog_permalink() {
-	global $posts_template;
-	echo apply_filters( 'bp_post_blog_permalink', $posts_template->post->blog_id );	
+	echo bp_get_post_blog_permalink();	
 }
-
+	function bp_get_post_blog_permalink() {
+		global $posts_template;
+		return apply_filters( 'bp_get_post_blog_permalink', get_blog_option( $posts_template->post->blog_id, 'siteurl' ) );	
+	}
+	
 function bp_post_get_permalink( $post = null, $blog_id = null ) {
 	global $current_blog, $posts_template;
 	
@@ -830,79 +911,114 @@ function bp_the_comment() {
 }
 
 function bp_comments_pagination() {
-	global $comments_template;
-	echo $comments_template->pag_links;
+	echo bp_get_comments_pagination();
 }
+	function bp_get_comments_pagination() {
+		global $comments_template;
+		
+		return apply_filters( 'bp_get_comments_pagination', $comments_template->pag_links );
+	}
 
 function bp_comment_id() {
-	global $comments_template;
-	echo apply_filters( 'bp_comment_id', $comments_template->comment->comment_ID );
+	echo bp_get_comment_id();
 }
+	function bp_get_comment_id() {
+		global $comments_template;
+		echo apply_filters( 'bp_get_comment_id', $comments_template->comment->comment_ID );
+	}
 
-function bp_comment_post_permalink( $echo = true ) {
+function bp_comment_post_permalink( $depricated = true ) {
+	if ( !$depricated )
+		return bp_get_comment_post_permalink();
+	else
+		echo bp_get_comment_post_permalink();
+}
+	function bp_get_comment_post_permalink() {
+		global $comments_template;
+		
+		return apply_filters( 'bp_get_comment_post_permalink', bp_post_get_permalink( $comments_template->comment->post, $comments_template->comment->blog_id ) . '#comment-' . $comments_template->comment->comment_ID );
+	}
+
+function bp_comment_post_title( $deprecated = true ) {
+	if ( !$deprecated )
+		return bp_get_comment_post_title();
+	else
+		echo bp_get_comment_post_title();
+}
+	function bp_get_comment_post_title( $deprecated = true ) {
+		global $comments_template;
+		
+		return apply_filters( 'bp_get_comment_post_title', $comments_template->comment->post->post_title );
+	}
+
+function bp_comment_author( $deprecated = true ) {
 	global $comments_template;
 	
-	if ( $echo )
-		echo apply_filters( 'bp_comment_post_permalink', bp_post_get_permalink( $comments_template->comment->post, $comments_template->comment->blog_id ) . '#comment-' . $comments_template->comment->comment_ID );
+	if ( !$deprecated )
+		return bp_get_comment_author();
 	else
-		return apply_filters( 'bp_comment_post_permalink', bp_post_get_permalink( $comments_template->comment->post, $comments_template->comment->blog_id ) . '#comment-' . $comments_template->comment->comment_ID );
+		echo bp_get_comment_author();
 }
+	function bp_get_comment_author() {
+		global $comments_template;
 
-function bp_comment_post_title( $echo = true ) {
-	global $comments_template;
-	
-	if ( $echo )
-		echo apply_filters( 'bp_comment_post_title', $comments_template->comment->post->post_title );
-	else
-		return apply_filters( 'bp_comment_post_title', $comments_template->comment->post->post_title );
-}
-
-function bp_comment_author( $echo = true ) {
-	global $comments_template;
-	
-	if ( $echo )
-		echo apply_filters( 'bp_comment_author', bp_core_get_userlink( $comments_template->comment->user_id ) );
-	else
-		return apply_filters( 'bp_comment_author', bp_core_get_userlink( $comments_template->comment->user_id ) );
-}
+		return apply_filters( 'bp_get_comment_author', bp_core_get_userlink( $comments_template->comment->user_id ) );
+	}
 
 function bp_comment_content() {
-	global $comments_template;
-	$content = $comments_template->comment->comment_content;
-	$content = apply_filters('the_content', $content);
-	$content = str_replace(']]>', ']]&gt;', $content);
-	echo apply_filters( 'bp_comment_content', $content );
+	echo bp_get_comment_content();
 }
+	function bp_get_comment_content() {
+		global $comments_template;
+		$content = $comments_template->comment->comment_content;
+		$content = apply_filters('the_content', $content);
+		$content = str_replace(']]>', ']]&gt;', $content);
+		echo apply_filters( 'bp_get_comment_content', $content );
+	}
 
-function bp_comment_date( $date_format = null, $echo = true ) {
-	global $comments_template;
-	
+function bp_comment_date( $date_format = null, $deprecated = true ) {
 	if ( !$date_format )
 		$date_format = get_option('date_format');
 		
-	if ( $echo )
-		echo apply_filters( 'bp_comment_date', mysql2date( $date_format, $comments_template->comment->comment_date ) );
+	if ( !$deprecated )
+		return bp_get_comment_date( $date_format );
 	else 
-		return apply_filters( 'bp_comment_date', mysql2date( $date_format, $comments_template->comment->comment_date ) );
+		echo bp_get_comment_date( $date_format );
 }
+	function bp_get_comment_date( $date_format = null ) {
+		global $comments_template;
 
-function bp_comment_blog_permalink( $echo = true ) {
+		if ( !$date_format )
+			$date_format = get_option('date_format');
+
+		return apply_filters( 'bp_get_comment_date', mysql2date( $date_format, $comments_template->comment->comment_date ) );
+	}
+
+function bp_comment_blog_permalink( $deprecated = true ) {
+	if ( !$deprecated )
+		return bp_get_comment_blog_permalink();	
+	else
+		echo bp_get_comment_blog_permalink();
+}
+	function bp_get_comment_blog_permalink() {
+		global $comments_template;
+
+		return apply_filters( 'bp_get_comment_blog_permalink', get_blog_option( $comments_template->comment->blog_id, 'siteurl' ) );
+	}
+
+function bp_comment_blog_name( $deprecated = true ) {
 	global $comments_template;
 	
-	if ( $echo )
-		echo apply_filters( 'bp_comment_blog_permalink', get_blog_option( $comments_template->comment->blog_id, 'siteurl' ) );
+	if ( !$deprecated )
+		return bp_get_comment_blog_permalink();	
 	else
-		return apply_filters( 'bp_comment_blog_permalink', get_blog_option( $comments_template->comment->blog_id, 'siteurl' ) );
+		echo bp_get_comment_blog_permalink();	
 }
+	function bp_get_comment_blog_name( $deprecated = true ) {
+		global $comments_template;
 
-function bp_comment_blog_name( $echo = true ) {
-	global $comments_template;
-	
-	if ( $echo )
-		echo apply_filters( 'bp_comment_blog_name', get_blog_option( $comments_template->comment->blog_id, 'blogname' ) );
-	else
-		return apply_filters( 'bp_comment_blog_name', get_blog_option( $comments_template->comment->blog_id, 'blogname' ) );
-}
+		return apply_filters( 'bp_get_comment_blog_name', get_blog_option( $comments_template->comment->blog_id, 'blogname' ) );
+	}
 
 /**********************************************************************
  * Site Wide Blog listing template class
@@ -1072,65 +1188,91 @@ function bp_site_blogs_pagination_count() {
 }
 
 function bp_site_blogs_pagination_links() {
-	global $site_blogs_template;
-	echo $site_blogs_template->pag_links;
+	echo bp_get_site_blogs_pagination_links();
 }
+	function bp_get_site_blogs_pagination_links() {
+		global $site_blogs_template;
 
-function bp_the_site_blog_avatar() {
-	global $site_blogs_template, $bp;
-
-	/***
-	 * In future BuddyPress versions you will be able to set the avatar for a blog.
-	 * Right now you can use a filter with the ID of the blog to change it if you wish.
-	 */
+		return apply_filters( 'bp_get_site_blogs_pagination_links', $site_blogs_template->pag_links );
+	}
 	
-	echo apply_filters( 'bp_blogs_blog_avatar_' . $site_blogs_template->blog->blog_id, '<img src="http://www.gravatar.com/avatar/' . md5( $site_blogs_template->blog->blog_id . '.blogs@' . $bp->root_domain ) . '?d=identicon&amp;s=150" class="avatar blog-avatar" alt="' . __( 'Blog Avatar', 'buddypress' ) . '" />' );
+function bp_the_site_blog_avatar() {
+	echo bp_get_the_site_blog_avatar();
 }
+	function bp_get_the_site_blog_avatar() {
+		global $site_blogs_template, $bp;
+		
+		/***
+		 * In future BuddyPress versions you will be able to set the avatar for a blog.
+		 * Right now you can use a filter with the ID of the blog to change it if you wish.
+		 */
+		return apply_filters( 'bp_get_blogs_blog_avatar_' . $site_blogs_template->blog->blog_id, '<img src="http://www.gravatar.com/avatar/' . md5( $site_blogs_template->blog->blog_id . '.blogs@' . $bp->root_domain ) . '?d=identicon&amp;s=150" class="avatar blog-avatar" alt="' . __( 'Blog Avatar', 'buddypress' ) . '" />', $site_blogs_template->blog->blog_id );
+	}
 
 function bp_the_site_blog_avatar_thumb() {
-	global $site_blogs_template, $bp;
-
-	echo apply_filters( 'bp_blogs_blog_avatar_thumb_' . $site_blogs_template->blog->blog_id, '<img src="http://www.gravatar.com/avatar/' . md5( $site_blogs_template->blog->blog_id . '.blogs@' . $bp->root_domain ) . '?d=identicon&amp;s=50" class="avatar blog-avatar thumb" alt="' . __( 'Blog Avatar', 'buddypress' ) . '" />' );
+	echo bp_get_the_site_blog_avatar_thumb();
 }
+	function bp_get_the_site_blog_avatar_thumb() {
+		global $site_blogs_template, $bp;
+
+		return apply_filters( 'bp_get_blogs_blog_avatar_thumb_' . $site_blogs_template->blog->blog_id, '<img src="http://www.gravatar.com/avatar/' . md5( $site_blogs_template->blog->blog_id . '.blogs@' . $bp->root_domain ) . '?d=identicon&amp;s=50" class="avatar blog-avatar thumb" alt="' . __( 'Blog Avatar', 'buddypress' ) . '" />', $site_blogs_template->blog->blog_id );
+	}
 
 function bp_the_site_blog_avatar_mini() {
-	global $site_blogs_template, $bp;
-	
-	echo apply_filters( 'bp_blogs_blog_avatar_mini_' . $site_blogs_template->blog->blog_id, '<img src="http://www.gravatar.com/avatar/' . md5( $site_blogs_template->blog->blog_id . '.blogs@' . $bp->root_domain ) . '?d=identicon&amp;s=25" class="avatar blog-avatar mini" alt="' . __( 'Blog Avatar', 'buddypress' ) . '" />' );
+	echo bp_get_the_site_blog_avatar_mini();
 }
+	function bp_get_the_site_blog_avatar_mini() {
+		global $site_blogs_template, $bp;
+
+		return apply_filters( 'bp_get_blogs_blog_avatar_mini_' . $site_blogs_template->blog->blog_id, '<img src="http://www.gravatar.com/avatar/' . md5( $site_blogs_template->blog->blog_id . '.blogs@' . $bp->root_domain ) . '?d=identicon&amp;s=25" class="avatar blog-avatar mini" alt="' . __( 'Blog Avatar', 'buddypress' ) . '" />', $site_blogs_template->blog->blog_id );
+	}
 
 function bp_the_site_blog_link() {
-	global $site_blogs_template;
-	
-	echo get_blog_option( $site_blogs_template->blog->blog_id, 'siteurl' );
+	echo bp_get_the_site_blog_link();
 }
+	function bp_get_the_site_blog_link() {
+		global $site_blogs_template;
+
+		return apply_filters( 'bp_get_the_site_blog_link', get_blog_option( $site_blogs_template->blog->blog_id, 'siteurl' ) );
+	}
 
 function bp_the_site_blog_name() {
-	global $site_blogs_template;
-	
-	echo get_blog_option( $site_blogs_template->blog->blog_id, 'blogname' );
+	echo bp_get_the_site_blog_name();
 }
+	function bp_get_the_site_blog_name() {
+		global $site_blogs_template;
+
+		return apply_filters( 'bp_get_the_site_blog_name', get_blog_option( $site_blogs_template->blog->blog_id, 'blogname' ) );
+	}
 
 function bp_the_site_blog_description() {
-	global $site_blogs_template;
-	
-	echo get_blog_option( $site_blogs_template->blog->blog_id, 'blogdescription' );
+	echo apply_filters( 'bp_the_site_blog_description', bp_get_the_site_blog_description() );
 }
+	function bp_get_the_site_blog_description() {
+		global $site_blogs_template;
+
+		return apply_filters( 'bp_get_the_site_blog_description', get_blog_option( $site_blogs_template->blog->blog_id, 'blogdescription' ) );
+	}
 
 function bp_the_site_blog_last_active() {
-	global $site_blogs_template;
-
-	echo bp_core_get_last_activity( bp_blogs_get_blogmeta( $site_blogs_template->blog->blog_id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) );
+	echo bp_get_the_site_blog_last_active();
 }
+	function bp_get_the_site_blog_last_active() {
+		global $site_blogs_template;
+
+		return apply_filters( 'bp_the_site_blog_last_active', bp_core_get_last_activity( bp_blogs_get_blogmeta( $site_blogs_template->blog->blog_id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) ) );
+	}
 
 function bp_the_site_blog_latest_post() {
-	global $site_blogs_template;
-	
-	if ( $post = bp_blogs_get_latest_posts( $site_blogs_template->blog->blog_id, 1 ) ) {
-		printf( __( 'Latest Post: %s', 'buddypress' ), '<a href="' . bp_post_get_permalink( $post[0], $site_blogs_template->blog->blog_id ) . '">' . apply_filters( 'the_title', $post[0]->post_title ) . '</a>' );
-	}
+	echo bp_get_the_site_blog_latest_post();
 }
+	function bp_get_the_site_blog_latest_post() {
+		global $site_blogs_template;
 
+		if ( $post = bp_blogs_get_latest_posts( $site_blogs_template->blog->blog_id, 1 ) ) {
+			return apply_filters( 'bp_get_the_site_blog_latest_post', sprintf( __( 'Latest Post: %s', 'buddypress' ), '<a href="' . bp_post_get_permalink( $post[0], $site_blogs_template->blog->blog_id ) . '">' . apply_filters( 'the_title', $post[0]->post_title ) . '</a>' ) );
+		}
+	}
 
 function bp_the_site_blog_hidden_fields() {
 	if ( isset( $_REQUEST['s'] ) ) {

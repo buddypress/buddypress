@@ -244,8 +244,8 @@ class BP_Core_User {
 		
 		like_escape($search_terms);	
 
-		$total_users_sql = apply_filters( 'bp_core_search_users_count_sql', "SELECT DISTINCT count(u.ID) as user_id FROM " . CUSTOM_USER_TABLE . " u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE pd.value LIKE '$search_terms%%' ORDER BY pd.value ASC", $search_terms );
-		$paged_users_sql = apply_filters( 'bp_core_search_users_sql', "SELECT DISTINCT u.ID as user_id FROM " . CUSTOM_USER_TABLE . " u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE pd.value LIKE '$search_terms%%' ORDER BY pd.value ASC{$pag_sql}", $search_terms, $pag_sql );
+		$total_users_sql = apply_filters( 'bp_core_search_users_count_sql', "SELECT DISTINCT count(u.ID) as user_id FROM " . CUSTOM_USER_TABLE . " u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE pd.value LIKE '%%$search_terms%%' ORDER BY pd.value ASC", $search_terms );
+		$paged_users_sql = apply_filters( 'bp_core_search_users_sql', "SELECT DISTINCT u.ID as user_id FROM " . CUSTOM_USER_TABLE . " u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE pd.value LIKE '%%$search_terms%%' ORDER BY pd.value ASC{$pag_sql}", $search_terms, $pag_sql );
 
 		$total_users = $wpdb->get_var( $total_users_sql );
 		$paged_users = $wpdb->get_results( $paged_users_sql );

@@ -11,7 +11,6 @@ require ( 'bp-friends/bp-friends-classes.php' );
 require ( 'bp-friends/bp-friends-ajax.php' );
 require ( 'bp-friends/bp-friends-cssjs.php' );
 require ( 'bp-friends/bp-friends-templatetags.php' );
-require ( 'bp-friends/bp-friends-filters.php' );
 
 /**************************************************************************
  friends_install()

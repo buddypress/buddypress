@@ -155,24 +155,35 @@ function bp_wire_get_post_list( $item_id = null, $title = null, $empty_message =
 }
 
 function bp_wire_title() {
-	global $bp_wire_header;
-	echo apply_filters( 'bp_group_reject_invite_link', $bp_wire_header );
+	echo bp_get_wire_title();
 }
-
-function bp_wire_item_id( $echo = false ) {
+	function bp_get_wire_title() {
+		global $bp_wire_header;
+		return apply_filters( 'bp_get_wire_title', $bp_wire_header );
+	}
+	
+function bp_wire_item_id( $deprecated = false ) {
 	global $bp_item_id;
 	
-	if ( $echo )
-		echo apply_filters( 'bp_wire_item_id', $bp_item_id );
+	if ( $deprecated )
+		echo bp_get_wire_item_id();
 	else
-		return apply_filters( 'bp_wire_item_id', $bp_item_id );
+		return bp_get_wire_item_id();
 }
+	function bp_get_wire_item_id() {
+		global $bp_item_id;
+
+		return apply_filters( 'bp_get_wire_item_id', $bp_item_id );
+	}
 
 function bp_wire_no_posts_message() {
-	global $bp_wire_msg;
-	echo apply_filters( 'bp_wire_no_posts_message', $bp_wire_msg );
+	echo bp_get_wire_no_posts_message();
 }
-
+	function bp_get_wire_no_posts_message() {
+		global $bp_wire_msg;
+		return apply_filters( 'bp_get_wire_no_posts_message', $bp_wire_msg );
+	}
+	
 function bp_wire_can_post() {
 	global $bp_wire_can_post;
 	return apply_filters( 'bp_wire_can_post', $bp_wire_can_post );
@@ -183,20 +194,28 @@ function bp_wire_show_email_notify() {
 	return apply_filters( 'bp_wire_show_email_notify', $bp_wire_show_email_notify );
 }
 
-function bp_wire_post_id( $echo = true ) {
+function bp_wire_post_id( $deprecated = true ) {
 	global $wire_posts_template;
 	
-	if ( $echo )
-		echo apply_filters( 'bp_wire_post_id', $wire_posts_template->wire_post->id );
+	if ( !$deprecated )
+		return bp_get_wire_post_id();
 	else
-		return apply_filters( 'bp_wire_post_id', $wire_posts_template->wire_post->id );
+		echo bp_get_wire_post_id();
 }
+	function bp_get_wire_post_id() {
+		global $wire_posts_template;
+
+		return apply_filters( 'bp_get_wire_post_id', $wire_posts_template->wire_post->id );
+	}
 
 function bp_wire_post_content() {
-	global $wire_posts_template;
-
-	echo apply_filters( 'bp_wire_post_content', $wire_posts_template->wire_post->content );
+	echo bp_get_wire_post_content();
 }
+	function bp_get_wire_post_content() {
+		global $wire_posts_template;
+
+		return apply_filters( 'bp_get_wire_post_content', $wire_posts_template->wire_post->content );
+	}
 
 function bp_wire_needs_pagination() {
 	global $wire_posts_template;
@@ -208,52 +227,71 @@ function bp_wire_needs_pagination() {
 }
 
 function bp_wire_pagination() {
-	global $wire_posts_template;
-	echo $wire_posts_template->pag_links;
+	echo bp_get_wire_pagination();
 	wp_nonce_field( 'get_wire_posts' );
 }
-
+	function bp_get_wire_pagination() {
+		global $wire_posts_template;
+		return apply_filters( 'bp_get_wire_pagination', $wire_posts_template->pag_links );
+	}
+	
 function bp_wire_pagination_count() {
-	global $wire_posts_template;
-	
-	$from_num = intval( ( $wire_posts_template->pag_page - 1 ) * $wire_posts_template->pag_num ) + 1;
-	$to_num = ( $from_num + ( $wire_posts_template->pag_num - 1) > $wire_posts_template->total_wire_post_count ) ? $wire_posts_template->total_wire_post_count : $from_num + ( $wire_posts_template->pag_num - 1); 
-	
-	echo apply_filters( 'bp_wire_pagination_count', sprintf( __( 'Viewing post %d to %d (%d total posts)', 'buddypress' ), $from_num, $to_num, $wire_posts_template->total_wire_post_count ) );  
+	echo bp_get_wire_pagination_count();
 }
+	function bp_get_wire_pagination_count() {
+		global $wire_posts_template;
 
+		$from_num = intval( ( $wire_posts_template->pag_page - 1 ) * $wire_posts_template->pag_num ) + 1;
+		$to_num = ( $from_num + ( $wire_posts_template->pag_num - 1) > $wire_posts_template->total_wire_post_count ) ? $wire_posts_template->total_wire_post_count : $from_num + ( $wire_posts_template->pag_num - 1); 
+
+		return apply_filters( 'bp_get_wire_pagination_count', sprintf( __( 'Viewing post %d to %d (%d total posts)', 'buddypress' ), $from_num, $to_num, $wire_posts_template->total_wire_post_count ) );  
+	}
+	
 function bp_wire_ajax_loader_src() {
-	global $bp;
-	
-	echo apply_filters( 'bp_wire_ajax_loader_src', $bp->wire->image_base . '/ajax-loader.gif' );
+	echo bp_get_wire_ajax_loader_src();
 }
+	function bp_get_wire_ajax_loader_src() {
+		global $bp;
 
-function bp_wire_post_date( $date_format = null, $echo = true ) {
+		return apply_filters( 'bp_get_wire_ajax_loader_src', $bp->wire->image_base . '/ajax-loader.gif' );
+	}
+
+function bp_wire_post_date( $deprecated = null, $deprecated2 = true ) {
 	global $wire_posts_template;
 
-	if ( !$date_format )
-		$date_format = get_option('date_format');
+	if ( !$deprecated2 )
+		return bp_get_wire_post_date();
+	else
+		echo bp_get_wire_post_date();
+}
+	function bp_get_wire_post_date() {
+		global $wire_posts_template;
 		
-	if ( $echo )
-		echo apply_filters( 'bp_wire_post_date', mysql2date( $date_format, $wire_posts_template->wire_post->date_posted ) );
-	else
-		return apply_filters( 'bp_wire_post_date', mysql2date( $date_format, $wire_posts_template->wire_post->date_posted ) );
-}
+		return apply_filters( 'bp_get_wire_post_date', mysql2date( get_blog_option( BP_ROOT_BLOG, 'date_format'), $wire_posts_template->wire_post->date_posted ) );
+	}
 
-function bp_wire_post_author_name( $echo = true ) {
+function bp_wire_post_author_name( $deprecated = true ) {
 	global $wire_posts_template;
 	
-	if ( $echo )
-		echo apply_filters( 'bp_wire_post_author_name', bp_core_get_userlink( $wire_posts_template->wire_post->user_id ) );
+	if ( !$deprecated )
+		return bp_get_wire_post_author_name();
 	else
-		return apply_filters( 'bp_wire_post_author_name', bp_core_get_userlink( $wire_posts_template->wire_post->user_id ) );
+		echo bp_get_wire_post_author_name();
 }
+	function bp_get_wire_post_author_name() {
+		global $wire_posts_template;
+
+		return apply_filters( 'bp_get_wire_post_author_name', bp_core_get_userlink( $wire_posts_template->wire_post->user_id ) );
+	}
 
 function bp_wire_post_author_avatar() {
-	global $wire_posts_template;
-	
-	echo apply_filters( 'bp_wire_post_author_avatar', bp_core_get_avatar( $wire_posts_template->wire_post->user_id, 1 ) );
+	echo bp_get_wire_post_author_avatar();
 }
+	function bp_get_wire_post_author_avatar() {
+		global $wire_posts_template;
+
+		return apply_filters( 'bp_get_wire_post_author_avatar', bp_core_get_avatar( $wire_posts_template->wire_post->user_id, 1 ) );
+	}
 
 function bp_wire_get_post_form() {
 	global $wire_posts_template;
@@ -263,76 +301,91 @@ function bp_wire_get_post_form() {
 }
 
 function bp_wire_get_action() {
-	global $bp;
-	
-	if ( empty( $bp->current_item ) )
-		$uri = $bp->current_action;
-	else
-		$uri = $bp->current_item;
-	
-	if ( $bp->current_component == $bp->wire->slug || $bp->current_component == $bp->profile->slug ) {
-		echo apply_filters( 'bp_wire_get_action', $bp->displayed_user->domain . $bp->wire->slug . '/post/' );
-	} else {
-		echo apply_filters( 'bp_wire_get_action', site_url() . '/' . $bp->{$bp->current_component}->slug . '/' . $uri . '/wire/post/' );
-	}
+	echo bp_get_wire_get_action();
 }
+	function bp_get_wire_get_action() {
+		global $bp;
 
-function bp_wire_poster_avatar() {
-	global $bp;
-	
-	echo apply_filters( 'bp_wire_poster_avatar', bp_core_get_avatar( $bp->loggedin_user->id, 1 ) );
-}
+		if ( empty( $bp->current_item ) )
+			$uri = $bp->current_action;
+		else
+			$uri = $bp->current_item;
 
-function bp_wire_poster_name( $echo = true ) {
-	global $bp;
-	
-	if ( $echo )
-		echo apply_filters( 'bp_wire_poster_name', '<a href="' . $bp->loggedin_user->domain . $bp->profile->slug . '">' . __('You', 'buddypress') . '</a>' );
-	else
-		return apply_filters( 'bp_wire_poster_name', '<a href="' . $bp->loggedin_user->domain . $bp->profile->slug . '">' . __('You', 'buddypress') . '</a>' );
-}
-
-function bp_wire_poster_date( $date_format = null, $echo = true ) {
-	if ( !$date_format )
-		$date_format = get_option('date_format');
-
-	if ( $echo )
-		echo apply_filters( 'bp_wire_poster_date', mysql2date( $date_format, date("Y-m-d H:i:s") ) );
-	else
-		return apply_filters( 'bp_wire_poster_date', mysql2date( $date_format, date("Y-m-d H:i:s") ) );	
-}
-
-function bp_wire_delete_link() {
-	global $wire_posts_template, $bp;
-
-	if ( empty( $bp->current_item ) )
-		$uri = $bp->current_action;
-	else
-		$uri = $bp->current_item;
-		
-	if ( ( $wire_posts_template->wire_post->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin || is_site_admin() ) {
-		if ( $bp->wire->slug == $bp->current_component || $bp->profile->slug == $bp->current_component ) {
-			echo apply_filters( 'bp_wire_delete_link', '<a href="' . wp_nonce_url( $bp->displayed_user->domain . $bp->wire->slug . '/delete/' . $wire_posts_template->wire_post->id, 'bp_wire_delete_link' ) . '">[' . __('Delete', 'buddypress') . ']</a>' );
+		if ( $bp->current_component == $bp->wire->slug || $bp->current_component == $bp->profile->slug ) {
+			return apply_filters( 'bp_get_wire_get_action', $bp->displayed_user->domain . $bp->wire->slug . '/post/' );
 		} else {
-			echo apply_filters( 'bp_wire_delete_link', '<a href="' . wp_nonce_url( site_url( $bp->{$bp->current_component}->slug . '/' . $uri . '/wire/delete/' . $wire_posts_template->wire_post->id ), 'bp_wire_delete_link' ) . '">[' . __('Delete', 'buddypress') . ']</a>' );
+			return apply_filters( 'bp_get_wire_get_action', site_url() . '/' . $bp->{$bp->current_component}->slug . '/' . $uri . '/' . $bp->wire->slug . '/post/' );
 		}
 	}
+
+function bp_wire_poster_avatar() {
+	echo bp_get_wire_poster_avatar();
 }
+	function bp_get_wire_poster_avatar() {
+		global $bp;
+
+		return apply_filters( 'bp_get_wire_poster_avatar', bp_core_get_avatar( $bp->loggedin_user->id, 1 ) );
+	}
+
+function bp_wire_poster_name( $deprecated = true ) {
+	if ( !$deprecated )
+		return bp_get_wire_poster_name();
+	else
+		echo bp_get_wire_poster_name();
+}
+	function bp_get_wire_poster_name() {
+		global $bp;
+
+		return apply_filters( 'bp_get_wire_poster_name', '<a href="' . $bp->loggedin_user->domain . $bp->profile->slug . '">' . __('You', 'buddypress') . '</a>' );
+	}
+
+function bp_wire_poster_date( $deprecated = null, $deprecated2 = true ) {
+	if ( !$deprecated2 )
+		return bp_get_wire_poster_date();
+	else
+		echo bp_get_wire_poster_date();	
+}
+	function bp_get_wire_poster_date() {
+		return apply_filters( 'bp_get_wire_poster_date', mysql2date( get_blog_option( BP_ROOT_BLOG, 'date_format' ), date("Y-m-d H:i:s") ) );	
+	}
+
+function bp_wire_delete_link() {
+	echo bp_get_wire_delete_link();
+}
+	function bp_get_wire_delete_link() {
+		global $wire_posts_template, $bp;
+
+		if ( empty( $bp->current_item ) )
+			$uri = $bp->current_action;
+		else
+			$uri = $bp->current_item;
+
+		if ( ( $wire_posts_template->wire_post->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin || is_site_admin() ) {
+			if ( $bp->wire->slug == $bp->current_component || $bp->profile->slug == $bp->current_component ) {
+				return apply_filters( 'bp_get_wire_delete_link', '<a href="' . wp_nonce_url( $bp->displayed_user->domain . $bp->wire->slug . '/delete/' . $wire_posts_template->wire_post->id, 'bp_wire_delete_link' ) . '">[' . __('Delete', 'buddypress') . ']</a>' );
+			} else {
+				return apply_filters( 'bp_get_wire_delete_link', '<a href="' . wp_nonce_url( site_url( $bp->{$bp->current_component}->slug . '/' . $uri . '/wire/delete/' . $wire_posts_template->wire_post->id ), 'bp_wire_delete_link' ) . '">[' . __('Delete', 'buddypress') . ']</a>' );
+			}
+		}
+	}
 
 function bp_wire_see_all_link() {
-	global $bp;
-	
-	if ( empty( $bp->current_item ) )
-		$uri = $bp->current_action;
-	else
-		$uri = $bp->current_item;
-	
-	if ( $bp->current_component == $bp->wire->slug || $bp->current_component == $bp->profile->slug ) {
-		echo apply_filters( 'bp_wire_see_all_link', $bp->displayed_user->domain . $bp->wire->slug );
-	} else {
-		echo apply_filters( 'bp_wire_see_all_link', $bp->root_domain . '/' . $bp->groups->slug . '/' . $uri . '/wire' );
-	}
+	echo bp_get_wire_see_all_link();
 }
+	function bp_get_wire_see_all_link() {
+		global $bp;
+
+		if ( empty( $bp->current_item ) )
+			$uri = $bp->current_action;
+		else
+			$uri = $bp->current_item;
+
+		if ( $bp->current_component == $bp->wire->slug || $bp->current_component == $bp->profile->slug ) {
+			return apply_filters( 'bp_get_wire_see_all_link', $bp->displayed_user->domain . $bp->wire->slug );
+		} else {
+			return apply_filters( 'bp_get_wire_see_all_link', $bp->root_domain . '/' . $bp->groups->slug . '/' . $uri . '/wire' );
+		}
+	}
 
 function bp_custom_wire_boxes_before() {
 	do_action( 'bp_wire_custom_wire_boxes_before' );

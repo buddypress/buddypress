@@ -100,8 +100,8 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 	$ud = get_userdata($admin_id);
 	$requesting_ud = get_userdata($requesting_user_id);
 
-	$group_request_accept = wp_nonce_url( bp_group_permalink( $group, false ) . '/admin/membership-requests/accept/' . $membership_id, 'groups_accept_membership_request' );
-	$group_request_reject = wp_nonce_url( bp_group_permalink( $group, false ) . '/admin/membership-requests/reject/' . $membership_id, 'groups_reject_membership_request' );
+	$group_request_accept = wp_nonce_url( bp_get_group_permalink( $group ) . '/admin/membership-requests/accept/' . $membership_id, 'groups_accept_membership_request' );
+	$group_request_reject = wp_nonce_url( bp_get_group_permalink( $group ) . '/admin/membership-requests/reject/' . $membership_id, 'groups_reject_membership_request' );
 	$profile_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $requesting_ud->user_login . '/profile';
 	$settings_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
 
@@ -145,7 +145,7 @@ function groups_notification_membership_request_completed( $requesting_user_id, 
 	
 	$ud = get_userdata($requesting_user_id);
 
-	$group_link = bp_group_permalink( $group, false );
+	$group_link = bp_get_group_permalink( $group );
 	$settings_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
 
 	// Set up and send the message
@@ -198,7 +198,7 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 	$group = new BP_Groups_Group( $group_id, false, false );
 	$ud = get_userdata($user_id);
 
-	$group_link = bp_group_permalink( $group, false );
+	$group_link = bp_get_group_permalink( $group );
 	$settings_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/settings/notifications';
 
 	// Set up and send the message
@@ -228,7 +228,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 	$inviter_name = bp_core_get_userlink( $inviter_user_id, true, false, true );
 	$inviter_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $inviter_ud->user_login;
 	
-	$group_link = bp_group_permalink( $group, false );
+	$group_link = bp_get_group_permalink( $group );
 	
 	if ( !$member->invite_sent ) {
 		$invited_user_id = $member->user_id;

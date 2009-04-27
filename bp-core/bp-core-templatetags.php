@@ -238,7 +238,7 @@ function bp_fetch_user_fullname( $user_id, $echo = true ) {
 		
 	if ( !$fullname = wp_cache_get( 'bp_user_fullname_' . $user_id, 'bp' ) ) {
 		if ( function_exists('xprofile_install') ) {
-			$fullname = bp_core_ucfirst( xprofile_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id ) );
+			$fullname = xprofile_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id );
 
 			if ( empty($fullname) || !$fullname ) {
 				$ud = get_userdata($user_id);
@@ -931,40 +931,60 @@ function bp_site_members_pagination_count() {
 }
 
 function bp_site_members_pagination_links() {
-	global $site_members_template;
-	echo $site_members_template->pag_links;
+	echo bp_get_site_members_pagination_links();
 }
+	function bp_get_site_members_pagination_links() {
+		global $site_members_template;
+		
+		return apply_filters( 'bp_get_site_members_pagination_links', $site_members_template->pag_links );
+	}
 
 function bp_the_site_member_user_id() { 
-	global $site_members_template; 
-
-	echo $site_members_template->member->id; 
+	echo bp_get_the_site_member_user_id(); 
 }
+	function bp_get_the_site_member_user_id() { 
+		global $site_members_template; 
+
+		return apply_filters( 'bp_get_the_site_member_user_id', $site_members_template->member->id ); 
+	}
 
 function bp_the_site_member_avatar() {
-	global $site_members_template;
-	
-	echo $site_members_template->member->avatar_thumb;
+	echo apply_filters( 'bp_the_site_member_avatar', bp_get_the_site_member_avatar() );
 }
+	function bp_get_the_site_member_avatar() { 
+		global $site_members_template; 
+
+		return apply_filters( 'bp_get_the_site_member_avatar', $site_members_template->member->avatar_thumb );
+	}
 
 function bp_the_site_member_link() {
-	global $site_members_template;
-	
-	echo $site_members_template->member->user_url;
+	echo bp_get_the_site_member_link();
 }
+	function bp_get_the_site_member_link() {
+		global $site_members_template;
+
+		echo apply_filters( 'bp_get_the_site_member_link', $site_members_template->member->user_url );
+	}
 
 function bp_the_site_member_name() {
-	global $site_members_template;
-	
-	echo $site_members_template->member->fullname;
+	echo apply_filters( 'bp_the_site_member_name', bp_get_the_site_member_name() );
 }
+	function bp_get_the_site_member_name() {
+		global $site_members_template;
+
+		return apply_filters( 'bp_get_the_site_member_name', $site_members_template->member->fullname );
+	}
+	add_filter( 'bp_get_the_site_member_name', 'wp_filter_kses' );
 
 function bp_the_site_member_last_active() {
-	global $site_members_template;
-
-	echo $site_members_template->member->last_active;
+	echo bp_get_the_site_member_last_active();
 }
+	function bp_get_the_site_member_last_active() {
+		global $site_members_template;
 
+		return apply_filters( 'bp_the_site_member_last_active', $site_members_template->member->last_active );
+	}
+	
 function bp_the_site_member_add_friend_button() {
 	global $site_members_template;
 	
@@ -979,19 +999,27 @@ function bp_the_site_member_total_friend_count() {
 	if ( !(int) $site_members_template->member->total_friends )
 		return false;
 	
-	if ( 1 == (int) $site_members_template->member->total_friends )
-		printf( __( '%d friend', 'buddypress' ), (int) $site_members_template->member->total_friends );
-	else
-		printf( __( '%d friends', 'buddypress' ), (int) $site_members_template->member->total_friends );		
+	echo bp_get_the_site_member_total_friend_count();
 }
+	function bp_get_the_site_member_total_friend_count() {
+		global $site_members_template;
 
+		if ( !(int) $site_members_template->member->total_friends )
+			return false;
+
+		if ( 1 == (int) $site_members_template->member->total_friends )
+			return apply_filters( 'bp_get_the_site_member_total_friend_count', sprintf( __( '%d friend', 'buddypress' ), (int) $site_members_template->member->total_friends ) );
+		else
+			return apply_filters( 'bp_get_the_site_member_total_friend_count', sprintf( __( '%d friends', 'buddypress' ), (int) $site_members_template->member->total_friends ) );		
+	}
+	
 function bp_the_site_member_random_profile_data() {
 	global $site_members_template;
 
 	if ( function_exists( 'xprofile_get_random_profile_data' ) ) { ?>
 		<?php $random_data = xprofile_get_random_profile_data( $site_members_template->member->id, true ); ?>
-			<strong><?php echo $random_data[0]->name ?></strong>
-			<?php echo $random_data[0]->value ?>
+			<strong><?php echo wp_filter_kses( $random_data[0]->name ) ?></strong>
+			<?php echo wp_filter_kses( $random_data[0]->value ) ?>
 	<?php }
 }
 
@@ -1032,13 +1060,11 @@ function bp_home_blog_url() {
 /* Template functions for fetching globals, without querying the DB again
    also means we dont have to use the $bp variable in the template (looks messy) */
 
-function bp_current_user_id() {
+function bp_displayed_user_id() {
 	global $bp;
-	return apply_filters( 'bp_current_user_id', $bp->displayed_user->id );
+	return apply_filters( 'bp_displayed_user_id', $bp->displayed_user->id );
 }
-	function bp_displayed_user_id() {
-		return bp_current_user_id();
-	}
+	function bp_current_user_id() { return bp_displayed_user_id(); }
 
 function bp_loggedin_user_id() {
 	global $bp;

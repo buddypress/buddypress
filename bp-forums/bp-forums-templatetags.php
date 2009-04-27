@@ -117,145 +117,213 @@ function bp_the_topic() {
 }
 
 function bp_the_topic_id() {
-	global $forum_template;
+	echo bp_get_the_topic_id();
+}
+	function bp_get_the_topic_id() {
+		global $forum_template;
+
+		return apply_filters( 'bp_get_the_topic_id', $forum_template->topic->topic_id );
+	}
 	
-	echo apply_filters( 'bp_the_topic_id', $forum_template->topic->topic_id );
-}
-
 function bp_the_topic_title() {
-	global $forum_template;
-
-	echo apply_filters( 'bp_the_topic_title', stripslashes( $forum_template->topic->topic_title ) );
+	echo bp_get_the_topic_title();
 }
+	function bp_get_the_topic_title() {
+		global $forum_template;
+
+		return apply_filters( 'bp_get_the_topic_title', stripslashes( $forum_template->topic->topic_title ) );
+	}
 
 function bp_the_topic_slug() {
-	global $forum_template;
-	
-	echo apply_filters( 'bp_the_topic_slug', $forum_template->topic->topic_slug );
+	echo bp_get_the_topic_slug();
 }
+	function bp_get_the_topic_slug() {
+		global $forum_template;
+
+		return apply_filters( 'bp_get_the_topic_slug', $forum_template->topic->topic_slug );
+	}
 
 function bp_the_topic_poster_id() {
-	global $forum_template;
-	
-	echo apply_filters( 'bp_the_topic_poster_id', $forum_template->topic->topic_poster );
+	echo bp_get_the_topic_poster_id();
 }
+	function bp_get_the_topic_poster_id() {
+		global $forum_template;
+
+		return apply_filters( 'bp_get_the_topic_poster_id', $forum_template->topic->topic_poster );
+	}
 
 function bp_the_topic_poster_avatar() {
-	global $forum_template;
-	
-	echo apply_filters( 'bp_the_topic_poster_avatar', bp_core_get_avatar( $forum_template->topic->topic_poster, 1 ) ); 
+	echo bp_get_the_topic_poster_avatar();
 }
+	function bp_get_the_topic_poster_avatar() {
+		global $forum_template;
+
+		return apply_filters( 'bp_get_the_topic_poster_avatar', bp_core_get_avatar( $forum_template->topic->topic_poster, 1 ) ); 
+	}
 
 function bp_the_topic_poster_name() {
-	global $forum_template;
-		
-	echo apply_filters( 'bp_the_topic_poster_name', bp_core_get_userlink( $forum_template->topic->topic_poster ) );
+	echo bp_get_the_topic_poster_name();
 }
+	function bp_get_the_topic_poster_name() {
+		global $forum_template;
 
-function bp_the_topic_last_poster_name() {
-	global $forum_template;
+		return apply_filters( 'bp_get_the_topic_poster_name', bp_core_get_userlink( $forum_template->topic->topic_poster ) );
+	}
 	
-	echo apply_filters( 'bp_the_topic_last_poster_name', bp_core_get_userlink( $forum_template->topic->topic_last_poster ) );
+function bp_the_topic_last_poster_name() {
+	echo bp_get_the_topic_last_poster_name();
 }
+	function bp_get_the_topic_last_poster_name() {
+		global $forum_template;
+
+		return apply_filters( 'bp_get_the_topic_last_poster_name', bp_core_get_userlink( $forum_template->topic->topic_last_poster ) );
+	}
 
 function bp_the_topic_last_poster_avatar() {
-	global $forum_template;
-	
-	echo apply_filters( 'bp_the_topic_last_poster_avatar', bp_core_get_avatar( $forum_template->topic->topic_last_poster, 1 ) ); 
+	echo bp_get_the_topic_last_poster_avatar();
 }
+	function bp_get_the_topic_last_poster_avatar() {
+		global $forum_template;
+
+		return apply_filters( 'bp_get_the_topic_last_poster_avatar', bp_core_get_avatar( $forum_template->topic->topic_last_poster, 1 ) ); 
+	}
 
 function bp_the_topic_start_time() {
-	global $forum_template;
-	
-	echo apply_filters( 'bp_the_topic_start_time', $forum_template->topic->topic_start_time );
+	echo bp_get_the_topic_start_time();
 }
+	function bp_get_the_topic_start_time() {
+		global $forum_template;
 
-function bp_the_topic_time() {
-	global $forum_template;
+		return apply_filters( 'bp_get_the_topic_start_time', $forum_template->topic->topic_start_time );
+	}
 	
-	echo apply_filters( 'bp_the_topic_time', $forum_template->topic->topic_time );
+function bp_the_topic_time() {
+	echo bp_get_the_topic_time();
 }
+	function bp_get_the_topic_time() {
+		global $forum_template;
+
+		return apply_filters( 'bp_get_the_topic_time', $forum_template->topic->topic_time );
+	}
 
 function bp_the_topic_forum_id() {
-	global $forum_template;
-	
-	echo apply_filters( 'bp_the_topic_forum_id', $forum_template->topic->topic_forum_id );
+	echo bp_get_the_topic_forum_id();
 }
+	function bp_get_the_topic_forum_id() {
+		global $forum_template;
+
+		return apply_filters( 'bp_get_the_topic_forum_id', $forum_template->topic->topic_forum_id );
+	}
 
 function bp_the_topic_status() {
-	global $forum_template;
-	
-	echo apply_filters( 'bp_the_topic_status', $forum_template->topic->topic_status );
+	echo bp_get_the_topic_status();
 }
+	function bp_get_the_topic_status() {
+		global $forum_template;
+
+		return apply_filters( 'bp_get_the_topic_status', $forum_template->topic->topic_status );
+	}
 
 function bp_the_topic_is_topic_open() {
-	global $forum_template;
-	
-	echo apply_filters( 'bp_the_topic_is_topic_open', $forum_template->topic->topic_open );
+	echo bp_get_the_topic_is_topic_open();
 }
+	function bp_get_the_topic_is_topic_open() {
+		global $forum_template;
+
+		return apply_filters( 'bp_get_the_topic_is_topic_open', $forum_template->topic->topic_open );
+	}
 
 function bp_the_topic_last_post_id() {
-	global $forum_template;
-	
-	echo apply_filters( 'bp_the_topic_last_post_id', $forum_template->topic->topic_last_post_id );
+	echo bp_get_the_topic_last_post_id();
 }
+	function bp_get_the_topic_last_post_id() {
+		global $forum_template;
+
+		echo apply_filters( 'bp_get_the_topic_last_post_id', $forum_template->topic->topic_last_post_id );
+	}
 
 function bp_the_topic_is_sticky() {
-	global $forum_template;
-	
-	echo apply_filters( 'bp_the_topic_is_sticky', $forum_template->topic->topic_sticky );
+	echo bp_get_the_topic_is_sticky();
 }
+	function bp_get_the_topic_is_sticky() {
+		global $forum_template;
+
+		echo apply_filters( 'bp_get_the_topic_is_sticky', $forum_template->topic->topic_sticky );
+	}
 
 function bp_the_topic_total_post_count() {
-	global $forum_template;
-	
-	if ( $forum_template->topic->topic_posts == 1 )
-		echo apply_filters( 'bp_the_topic_total_post_count', sprintf( __( '%d post', 'buddypress' ), $forum_template->topic->topic_posts ) );
-	else
-		echo apply_filters( 'bp_the_topic_total_post_count', sprintf( __( '%d posts', 'buddypress' ), $forum_template->topic->topic_posts ) );		
+	echo bp_get_the_topic_total_post_count();
 }
+	function bp_get_the_topic_total_post_count() {
+		global $forum_template;
+
+		if ( $forum_template->topic->topic_posts == 1 )
+			return apply_filters( 'bp_get_the_topic_total_post_count', sprintf( __( '%d post', 'buddypress' ), $forum_template->topic->topic_posts ) );
+		else
+			return apply_filters( 'bp_get_the_topic_total_post_count', sprintf( __( '%d posts', 'buddypress' ), $forum_template->topic->topic_posts ) );		
+	}
 
 function bp_the_topic_tag_count() {
-	global $forum_template;
-	
-	echo apply_filters( 'bp_the_topic_tag_count', $forum_template->topic->tag_count );
+	echo bp_get_the_topic_tag_count();
 }
+	function bp_get_the_topic_tag_count() {
+		global $forum_template;
+
+		echo apply_filters( 'bp_get_the_topic_tag_count', $forum_template->topic->tag_count );
+	}
 
 function bp_the_topic_permalink() {
-	global $forum_template, $bbpress_live, $group_obj;
-	
-	$target_uri = $bbpress_live->fetch->options['target_uri'];
-	
-	echo apply_filters( 'bp_the_topic_permalink', bp_group_permalink( $group_obj, false ) . '/forum/topic/' . $forum_template->topic->topic_id );
+	echo bp_get_the_topic_permalink();
 }
+	function bp_get_the_topic_permalink() {
+		global $forum_template, $bbpress_live, $group_obj;
+
+		$target_uri = $bbpress_live->fetch->options['target_uri'];
+
+		return apply_filters( 'bp_get_the_topic_permalink', bp_get_group_permalink( $group_obj ) . '/forum/topic/' . $forum_template->topic->topic_id );
+	}
 
 function bp_the_topic_time_since_created() {
-	global $forum_template;
-	
-	echo apply_filters( 'bp_the_topic_time_since_created', $forum_template->topic->topic_start_time_since );
+	echo bp_get_the_topic_time_since_created();
 }
+	function bp_get_the_topic_time_since_created() {
+		global $forum_template;
 
+		echo apply_filters( 'bp_get_the_topic_time_since_created', $forum_template->topic->topic_start_time_since );
+	}
+	
 function bp_the_topic_latest_post_excerpt() {
-	global $forum_template;
-	
-	$post = bp_forums_get_post( $forum_template->topic->topic_last_post_id );
-	echo apply_filters( 'bp_the_topic_latest_post_excerpt', $post->post_text );
+	echo bp_get_the_topic_latest_post_excerpt();
 }
+	function bp_get_the_topic_latest_post_excerpt() {
+		global $forum_template;
 
-function bp_the_topic_time_since_last_post( $echo = false ) {
+		$post = bp_forums_get_post( $forum_template->topic->topic_last_post_id );
+		return apply_filters( 'bp_get_the_topic_latest_post_excerpt', $post->post_text );
+	}
+
+function bp_the_topic_time_since_last_post( $deprecated = true ) {
 	global $forum_template;
 	
-	if ( $echo )
-		echo apply_filters( 'bp_the_topic_time_since_last_post', $forum_template->topic->topic_time_since );
+	if ( !$deprecated )
+		return bp_get_the_topic_time_since_last_post();
 	else
-		return apply_filters( 'bp_the_topic_time_since_last_post', $forum_template->topic->topic_time_since );
+		echo bp_get_the_topic_time_since_last_post();
 }
+	function bp_get_the_topic_time_since_last_post() {
+		global $forum_template;
+
+		return apply_filters( 'bp_get_the_topic_time_since_last_post', $forum_template->topic->topic_time_since );
+	}
 
 function bp_forum_pagination() {
-	global $forum_template;
-	
-	echo apply_filters( 'bp_forum_pagination', $forum_template->pag_links );
+	echo bp_get_forum_pagination();
 }
+	function bp_get_forum_pagination() {
+		global $forum_template;
+
+		echo apply_filters( 'bp_get_forum_pagination', $forum_template->pag_links );
+	}
 
 function bp_forum_pagination_count() {
 	global $bp, $forum_template;
@@ -392,45 +460,64 @@ function bp_the_topic_post() {
 }
 
 function bp_the_topic_post_id() {
-	global $topic_template;
-	echo apply_filters( 'bp_the_topic_post_id', $topic_template->post->post_id );
+	echo bp_get_the_topic_post_id();
 }
+	function bp_get_the_topic_post_id() {
+		global $topic_template;
+		
+		return apply_filters( 'bp_get_the_topic_post_id', $topic_template->post->post_id );
+	}
 
 function bp_the_topic_post_content() {
-	global $topic_template;
-
-	echo apply_filters( 'bp_the_topic_post_content', stripslashes( $topic_template->post->post_text ) );
+	echo bp_get_the_topic_post_content();
 }
+	function bp_get_the_topic_post_content() {
+		global $topic_template;
+
+		return apply_filters( 'bp_get_the_topic_post_content', stripslashes( $topic_template->post->post_text ) );
+	}
 
 function bp_the_topic_post_poster_avatar() {
-	global $topic_template;
-
-	echo apply_filters( 'bp_the_topic_post_poster_avatar', bp_core_get_avatar( $topic_template->post->poster_id, 1, 20, 20 ) ); 
+	echo bp_the_topic_post_poster_avatar();
 }
+	function bp_get_the_topic_post_poster_avatar() {
+		global $topic_template;
 
-function bp_the_topic_post_poster_name( $echo = true ) {
-	global $topic_template;
-	
-	if ( $echo )
-		echo apply_filters( 'bp_the_topic_post_poster_name', bp_core_get_userlink( $topic_template->post->poster_id ) );
+		return apply_filters( 'bp_get_the_topic_post_poster_avatar', bp_core_get_avatar( $topic_template->post->poster_id, 1, 20, 20 ) ); 
+	}
+
+function bp_the_topic_post_poster_name( $deprecated = true ) {
+	if ( !$deprecated )
+		return bp_get_the_topic_post_poster_name();
 	else
-		return apply_filters( 'bp_the_topic_post_poster_name', bp_core_get_userlink( $topic_template->post->poster_id ) );
+		echo bp_get_the_topic_post_poster_name();
 }
+	function bp_get_the_topic_post_poster_name() {
+		global $topic_template;
 
-function bp_the_topic_post_time_since( $echo = true ) {
-	global $topic_template;
+		return apply_filters( 'bp_get_the_topic_post_poster_name', bp_core_get_userlink( $topic_template->post->poster_id ) );		
+	}
 
-	if ( $echo )
-		echo apply_filters( 'bp_the_topic_post_time_since', $topic_template->post->post_time_since );
+function bp_the_topic_post_time_since( $deprecated = true ) {
+	if ( !$deprecated )
+		return bp_get_the_topic_post_time_since();
 	else
-		return apply_filters( 'bp_the_topic_post_time_since', $topic_template->post->post_time_since );
+		echo bp_get_the_topic_post_time_since();
 }
+	function bp_get_the_topic_post_time_since() {
+		global $topic_template;
+
+		return apply_filters( 'bp_get_the_topic_post_time_since', $topic_template->post->post_time_since );
+	}
 
 function bp_the_topic_pagination() {
-	global $topic_template;
-	
-	echo apply_filters( 'bp_the_topic_pagination', $topic_template->pag_links );
+	echo bp_get_the_topic_pagination();
 }
+	function bp_get_the_topic_pagination() {
+		global $topic_template;
+
+		return apply_filters( 'bp_get_the_topic_pagination', $topic_template->pag_links );
+	}
 
 function bp_the_topic_pagination_count() {
 	global $bp, $topic_template;
@@ -445,22 +532,30 @@ function bp_the_topic_pagination_count() {
 }
 
 function bp_forum_permalink() {
-	global $group_obj;
-	
-	echo apply_filters( 'bp_forum_permalink', bp_group_permalink( $group_obj, false ) . '/forum' );
+	echo bp_get_forum_permalink();
 }
+	function bp_get_forum_permalink() {
+		global $group_obj;
+
+		return apply_filters( 'bp_get_forum_permalink', bp_get_group_permalink( $group_obj ) . '/forum' );
+	}
 
 function bp_forum_action() {
-	global $topic_template;
-	
-	echo apply_filters( 'bp_forum_action', bp_group_permalink( $group_obj, false ) . '/forum' );	
+	echo bp_get_forum_action();
 }
+	function bp_get_forum_action() {
+		global $topic_template;
+
+		return apply_filters( 'bp_get_forum_action', bp_get_group_permalink( $group_obj ) . '/forum' );	
+	}
 
 function bp_forum_topic_action() {
-	global $topic_template;
-
-	
-	echo apply_filters( 'bp_forum_topic_action', bp_group_permalink( $group_obj, false ) . '/forum/topic/' . $topic_template->topic_id );	
+	echo bp_get_forum_topic_action();
 }
+	function bp_get_forum_topic_action() {
+		global $topic_template;
+
+		return apply_filters( 'bp_get_forum_topic_action', bp_get_group_permalink( $group_obj ) . '/forum/topic/' . $topic_template->topic_id );	
+	}
 
 ?>

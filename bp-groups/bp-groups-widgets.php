@@ -54,11 +54,11 @@ function groups_widget_groups_list($args) {
 				?>
 				<li>
 					<div class="item-avatar">
-						<a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb; ?>" alt="<?php echo $group->name ?> Avatar" class="avatar" /></a>
+						<a href="<?php echo bp_get_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb; ?>" alt="<?php echo $group->name ?> Avatar" class="avatar" /></a>
 					</div>
 
 					<div class="item">
-						<div class="item-title"><a href="<?php echo bp_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><?php echo $group->name ?></a></div>
+						<div class="item-title"><a href="<?php echo bp_get_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><?php echo $group->name ?></a></div>
 						<div class="item-meta">
 						<span class="activity">
 							<?php 

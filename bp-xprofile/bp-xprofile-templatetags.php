@@ -192,15 +192,21 @@ function bp_field_has_public_data() {
 }
 
 function bp_the_profile_group_name() {
-	global $group;
-	echo apply_filters( 'bp_the_profile_group_name', $group->name );
+	echo bp_get_the_profile_group_name();
 }
+	function bp_get_the_profile_group_name() {
+		global $group;
+		return apply_filters( 'bp_get_the_profile_group_name', $group->name );
+	}
 
 function bp_the_profile_group_description() {
-	global $group;
-	echo apply_filters( 'bp_the_profile_group_description', $group->description );
+	echo bp_get_the_profile_group_description();
 }
-
+	function bp_get_the_profile_group_description() {
+		global $group;
+		echo apply_filters( 'bp_get_the_profile_group_description', $group->description );
+	}
+	
 function bp_profile_fields() {
 	global $profile_template;
 	return $profile_template->profile_fields();
@@ -212,17 +218,23 @@ function bp_the_profile_field() {
 }
 
 function bp_the_profile_field_name() {
-	global $field;
-	echo apply_filters( 'bp_the_profile_field_name', $field->name );
+	echo bp_get_the_profile_field_name();
 }
+	function bp_get_the_profile_field_name() {
+		global $field;
+		return apply_filters( 'bp_get_the_profile_field_name', $field->name );
+	}
 
 function bp_the_profile_field_value() {
-	global $field;
-
-	$field->data->value = bp_unserialize_profile_field( $field->data->value );
-
-	echo apply_filters( 'bp_the_profile_field_value', $field->data->value, $field->type, $field->id );
+	echo bp_get_the_profile_field_value();
 }
+	function bp_get_the_profile_field_value() {
+		global $field;
+
+		$field->data->value = bp_unserialize_profile_field( $field->data->value );
+
+		return apply_filters( 'bp_get_the_profile_field_value', $field->data->value, $field->type, $field->id );
+	}
 
 function bp_unserialize_profile_field( $value ) {
 	if ( is_serialized($value) ) {
@@ -258,7 +270,7 @@ function bp_profile_group_tabs() {
 	do_action( 'xprofile_profile_group_tabs' );
 }
 
-function bp_profile_group_name( $echo = true ) {
+function bp_profile_group_name( $deprecated = true ) {
 	global $bp;
 	
 	$group_id = $bp->action_variables[1];
@@ -271,12 +283,27 @@ function bp_profile_group_name( $echo = true ) {
 		wp_cache_set( 'xprofile_group_' . $group_id, $group, 'bp' );
 	}
 	
-	if ( $echo ) {
-		echo apply_filters( 'bp_xprofile_profile_group_name', $group->name );
+	if ( !$deprecated ) {
+		return bp_get_profile_group_name();
 	} else {
-		return apply_filters( 'bp_xprofile_profile_group_name', $group->name );
+		echo bp_get_profile_group_name();
 	}
 }
+	function bp_get_profile_group_name( $deprecated = true ) {
+		global $bp;
+
+		$group_id = $bp->action_variables[1];
+
+		if ( !is_numeric( $group_id ) )
+			$group_id = 1;
+
+		if ( !$group = wp_cache_get( 'xprofile_group_' . $group_id, 'bp' ) ) {
+			$group = new BP_XProfile_Group($group_id);
+			wp_cache_set( 'xprofile_group_' . $group_id, $group, 'bp' );
+		}
+
+		return apply_filters( 'bp_get_profile_group_name', $group->name );
+	}
 
 function bp_edit_profile_form() {
 	global $bp;
@@ -301,14 +328,25 @@ function bp_avatar_upload_form() {
 function bp_profile_last_updated() {
 	global $bp;
 	
-	$last_updated = get_usermeta( $bp->displayed_user->id, 'profile_last_updated' );
+	$last_updated = bp_get_profile_last_updated();
 
 	if ( !$last_updated ) {
-		_e('Profile not recently updated', 'buddypress') . '.';
+		_e( 'Profile not recently updated', 'buddypress' ) . '.';
 	} else {
-		echo apply_filters( 'bp_wire_poster_date', sprintf( __('Profile updated %s ago', 'buddypress'), bp_core_time_since( strtotime( $last_updated ) ) ) ); 
+		echo $last_updated;
 	}
 }
+	function bp_get_profile_last_updated() {
+		global $bp;
+
+		$last_updated = get_usermeta( $bp->displayed_user->id, 'profile_last_updated' );
+
+		if ( $last_updated )
+			return apply_filters( 'bp_get_profile_last_updated', sprintf( __('Profile updated %s ago', 'buddypress'), bp_core_time_since( strtotime( $last_updated ) ) ) ); 
+		
+		return false;
+	}
+	
 
 function bp_edit_profile_button() {
 	global $bp;

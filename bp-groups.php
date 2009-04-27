@@ -386,7 +386,7 @@ function groups_screen_create_group() {
 		}
 		
 		if ( $completed_to_step == 4 )
-			bp_core_redirect( bp_group_permalink( $group_obj, false ) );
+			bp_core_redirect( bp_get_group_permalink( $group_obj ) );
 	}
 
 	if ( isset($_SESSION['group_obj_id']) && !$group_obj && !$no_instantiate )
@@ -426,7 +426,7 @@ function groups_screen_group_forum() {
 			/* Posting a reply */
 			if ( isset( $_POST['submit_reply'] ) && function_exists( 'bp_forums_new_post') ) {
 				groups_new_group_forum_post( $_POST['reply_text'], $topic_id );
-				bp_core_redirect( bp_group_permalink( $group_obj, false ) . '/forum/topic/' . $topic_id );
+				bp_core_redirect( bp_get_group_permalink( $group_obj ) . '/forum/topic/' . $topic_id );
 			}
 			
 			do_action( 'groups_screen_group_forum_topic' );
@@ -438,7 +438,7 @@ function groups_screen_group_forum() {
 			/* Posting a topic */
 			if ( isset( $_POST['submit_topic'] ) && function_exists( 'bp_forums_new_topic') ) {
 				groups_new_group_forum_topic( $_POST['topic_title'], $_POST['topic_text'], $_POST['topic_tags'], $forum_id );
-				bp_core_redirect( bp_group_permalink( $group_obj, false ) . '/forum/' );
+				bp_core_redirect( bp_get_group_permalink( $group_obj ) . '/forum/' );
 			}
 			
 			do_action( 'groups_screen_group_forum', $topic_id, $forum_id );
@@ -465,9 +465,9 @@ function groups_screen_group_wire() {
 			}
 
 			if ( !strpos( $_SERVER['HTTP_REFERER'], $bp->wire->slug ) ) {
-				bp_core_redirect( bp_group_permalink( $group_obj, false ) );
+				bp_core_redirect( bp_get_group_permalink( $group_obj ) );
 			} else {
-				bp_core_redirect( bp_group_permalink( $group_obj, false ) . '/' . $bp->wire->slug );
+				bp_core_redirect( bp_get_group_permalink( $group_obj ) . '/' . $bp->wire->slug );
 			}
 	
 		} else if ( 'delete' == $wire_action && BP_Groups_Member::check_is_member( $bp->loggedin_user->id, $group_obj->id ) ) {
@@ -480,9 +480,9 @@ function groups_screen_group_wire() {
 			}
 			
 			if ( !strpos( $_SERVER['HTTP_REFERER'], $bp->wire->slug ) ) {
-				bp_core_redirect( bp_group_permalink( $group_obj, false ) );
+				bp_core_redirect( bp_get_group_permalink( $group_obj ) );
 			} else {
-				bp_core_redirect( bp_group_permalink( $group_obj, false ) . '/' . $bp->wire->slug );
+				bp_core_redirect( bp_get_group_permalink( $group_obj ) . '/' . $bp->wire->slug );
 			}
 		
 		} else if ( ( !$wire_action || 'latest' == $bp->action_variables[1] ) ) {
@@ -527,7 +527,7 @@ function groups_screen_group_invite() {
 
 			do_action( 'groups_screen_group_invite', $group_obj->id );
 
-			bp_core_redirect( bp_group_permalink( $group_obj, false ) );
+			bp_core_redirect( bp_get_group_permalink( $group_obj ) );
 		} else {
 			// Show send invite page
 			bp_core_load_template( 'groups/send-invite' );	
@@ -545,13 +545,13 @@ function groups_screen_group_leave() {
 			// Check if the user is the group admin first.
 			if ( groups_is_group_admin( $bp->loggedin_user->id, $group_obj->id ) ) {
 				bp_core_add_message(  __('As the only group administrator, you cannot leave this group.', 'buddypress'), 'error' );
-				bp_core_redirect( bp_group_permalink( $group_obj, false) );
+				bp_core_redirect( bp_get_group_permalink( $group_obj ) );
 			}
 			
 			// remove the user from the group.
 			if ( !groups_leave_group( $group_obj->id ) ) {
 				bp_core_add_message(  __('There was an error leaving the group. Please try again.', 'buddypress'), 'error' );
-				bp_core_redirect( bp_group_permalink( $group_obj, false) );
+				bp_core_redirect( bp_get_group_permalink( $group_obj ) );
 			} else {
 				bp_core_add_message( __('You left the group successfully.', 'buddypress') );
 				bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug );
@@ -559,7 +559,7 @@ function groups_screen_group_leave() {
 			
 		} else if ( isset($bp->action_variables) && 'no' == $bp->action_variables[0] ) {
 			
-			bp_core_redirect( bp_group_permalink( $group_obj, false) );
+			bp_core_redirect( bp_get_group_permalink( $group_obj ) );
 		
 		} else {
 		
@@ -586,7 +586,7 @@ function groups_screen_group_request_membership() {
 			} else {
 				bp_core_add_message( __( 'Your membership request was sent to the group administrator successfully. You will be notified when the group administrator responds to your request.', 'buddypress' ) );
 			}
-			bp_core_redirect( bp_group_permalink( $group_obj, false ) );
+			bp_core_redirect( bp_get_group_permalink( $group_obj ) );
 		}
 		
 		do_action( 'groups_screen_group_request_membership', $group_obj->id );
@@ -934,7 +934,7 @@ function groups_action_join_group() {
 		} else {
 			bp_core_add_message( __('You joined the group!', 'buddypress') );
 		}
-		bp_core_redirect( bp_group_permalink( $group_obj, false ) );
+		bp_core_redirect( bp_get_group_permalink( $group_obj ) );
 	}
 
 	bp_core_load_template( 'groups/group-home' );
@@ -994,7 +994,7 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 				return false;
 				
 			$user_link = bp_core_get_userlink( $user_id );
-			$group_link = bp_group_permalink( $group, false );
+			$group_link = bp_get_group_permalink( $group );
 			
 			return array( 
 				'primary_link' => $group_link,
@@ -1008,7 +1008,7 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 				return false;
 			
 			$user_link = bp_core_get_userlink( $user_id );
-			$group_link = bp_group_permalink( $group, false );
+			$group_link = bp_get_group_permalink( $group );
 			
 			return array( 
 				'primary_link' => $group_link,
@@ -1023,7 +1023,7 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 				return false;		
 
 			$user_link = bp_core_get_userlink( $user_id );
-			$group_link = bp_group_permalink( $group, false );
+			$group_link = bp_get_group_permalink( $group );
 			$post_excerpt = bp_create_excerpt( $wire_post->content );
 					
 			$content = sprintf ( __('%s wrote on the wire of the group %s', 'buddypress'), $user_link, '<a href="' . $group_link . '">' . $group->name . '</a>' ) . ' <span class="time-since">%s</span>';			
@@ -1046,7 +1046,7 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 					return false;
 
 				$user_link = bp_core_get_userlink($user_id);
-				$group_link = bp_group_permalink( $group, false );
+				$group_link = bp_get_group_permalink( $group );
 
 				$post_content = apply_filters( 'bp_the_topic_post_content', bp_create_excerpt( stripslashes( $forum_post['post_text'] ), 55, false ) );
 			
@@ -1071,7 +1071,7 @@ function groups_format_activity( $item_id, $user_id, $action, $secondary_item_id
 					return false;
 					
 				$user_link = bp_core_get_userlink($user_id);
-				$group_link = bp_group_permalink( $group, false );
+				$group_link = bp_get_group_permalink( $group );
 				
 				$post_content = apply_filters( 'bp_the_topic_post_content', bp_create_excerpt( stripslashes( $forum_post['post_text'] ), 55, false ) );
 				
@@ -1103,7 +1103,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			
 			$group = new BP_Groups_Group( $group_id, false, false );
 			
-			$group_link = bp_group_permalink( $group, false );
+			$group_link = bp_get_group_permalink( $group );
 			
 			if ( (int)$total_items > 1 ) {
 				return apply_filters( 'bp_groups_multiple_new_membership_requests_notification', '<a href="' . $group_link . '/admin/membership-requests/" title="' . __( 'Group Membership Requests', 'buddypress' ) . '">' . sprintf( __('%d new membership requests for the group "%s"', 'buddypress' ), (int)$total_items, $group->name ) . '</a>', $group_link, $total_items, $group->name );		
@@ -1117,7 +1117,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_id = $item_id;
 			
 			$group = new BP_Groups_Group( $group_id, false, false );
-			$group_link = bp_group_permalink( $group, false )  . '/?new';
+			$group_link = bp_get_group_permalink( $group )  . '/?new';
 			
 			if ( (int)$total_items > 1 ) {
 				return apply_filters( 'bp_groups_multiple_membership_request_accepted_notification', '<a href="' . $bp->loggedin_user->domain . $bp->groups->slug . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('%d accepted group membership requests', 'buddypress' ), (int)$total_items, $group->name ) . '</a>', $total_items, $group_name );		
@@ -1130,7 +1130,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_id = $item_id;
 			
 			$group = new BP_Groups_Group( $group_id, false, false );
-			$group_link = bp_group_permalink( $group, false )  . '/?new';
+			$group_link = bp_get_group_permalink( $group )  . '/?new';
 			
 			if ( (int)$total_items > 1 ) {
 				return apply_filters( 'bp_groups_multiple_membership_request_rejected_notification', '<a href="' . site_url() . '/' . BP_MEMBERS_SLUG . '/' . $bp->groups->slug . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('%d rejected group membership requests', 'buddypress' ), (int)$total_items, $group->name ) . '</a>', $total_items, $group->name );		
@@ -1144,7 +1144,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_id = $item_id;
 		
 			$group = new BP_Groups_Group( $group_id, false, false );
-			$group_link = bp_group_permalink( $group, false )  . '/?new';
+			$group_link = bp_get_group_permalink( $group )  . '/?new';
 			
 			if ( (int)$total_items > 1 ) {
 				return apply_filters( 'bp_groups_multiple_member_promoted_to_admin_notification', '<a href="' . $bp->loggedin_user->domain . $bp->groups->slug . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('You were promoted to an admin in %d groups', 'buddypress' ), (int)$total_items ) . '</a>', $total_items );		
@@ -1157,7 +1157,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_id = $item_id;
 	
 			$group = new BP_Groups_Group( $group_id, false, false );
-			$group_link = bp_group_permalink( $group, false )  . '/?new';
+			$group_link = bp_get_group_permalink( $group )  . '/?new';
 			
 			if ( (int)$total_items > 1 ) {
 				return apply_filters( 'bp_groups_multiple_member_promoted_to_mod_notification', '<a href="' . $bp->loggedin_user->domain . $bp->groups->slug . '" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('You were promoted to a mod in %d groups', 'buddypress' ), (int)$total_items ) . '</a>', $total_items );		

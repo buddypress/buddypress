@@ -147,43 +147,64 @@ function bp_message_thread() {
 }
 
 function bp_message_thread_id() {
-	global $messages_template;
-	echo apply_filters( 'bp_message_thread_id', $messages_template->thread->thread_id );
+	echo bp_get_message_thread_id();
 }
+	function bp_get_message_thread_id() {
+		global $messages_template;
+		return apply_filters( 'bp_get_message_thread_id', $messages_template->thread->thread_id );
+	}
 
 function bp_message_thread_subject() {
-	global $messages_template;
-	echo apply_filters( 'bp_message_thread_subject', stripslashes_deep( $messages_template->thread->last_message_subject ) );
+	echo bp_get_message_thread_subject();
 }
+	function bp_get_message_thread_subject() {
+		global $messages_template;
+		return apply_filters( 'bp_message_thread_subject', stripslashes_deep( $messages_template->thread->last_message_subject ) );
+	}
 
 function bp_message_thread_excerpt() {
-	global $messages_template;
-	echo apply_filters( 'bp_message_thread_excerpt', bp_create_excerpt($messages_template->thread->last_message_message, 20) );
+	echo bp_get_message_thread_excerpt();
 }
+	function bp_get_message_thread_excerpt() {
+		global $messages_template;
+		return apply_filters( 'bp_get_message_thread_excerpt', bp_create_excerpt($messages_template->thread->last_message_message, 20) );
+	}
 
 function bp_message_thread_from() {
-	global $messages_template;
-	echo apply_filters( 'bp_message_thread_from', bp_core_get_userlink($messages_template->thread->last_sender_id) );
+	echo bp_get_message_thread_from();
 }
+	function bp_get_message_thread_from() {
+		global $messages_template;
+		return apply_filters( 'bp_get_message_thread_from', bp_core_get_userlink($messages_template->thread->last_sender_id) );
+	}
 
 function bp_message_thread_to() {
-	global $messages_template;
-	echo apply_filters( 'bp_message_thread_to', BP_Messages_Thread::get_recipient_links($messages_template->thread->recipients) );
+	echo bp_get_message_thread_to();
 }
+	function bp_get_message_thread_to() {
+		global $messages_template;
+		return apply_filters( 'bp_message_thread_to', BP_Messages_Thread::get_recipient_links($messages_template->thread->recipients) );
+	}
 
 function bp_message_thread_view_link() {
-	global $messages_template, $bp;
-	echo apply_filters( 'bp_message_thread_view_link', $bp->loggedin_user->domain . $bp->messages->slug . '/view/' . $messages_template->thread->thread_id );
+	echo bp_get_message_thread_view_link();
 }
-
+	function bp_get_message_thread_view_link() {
+		global $messages_template, $bp;
+		return apply_filters( 'bp_get_message_thread_view_link', $bp->loggedin_user->domain . $bp->messages->slug . '/view/' . $messages_template->thread->thread_id );
+	}
+	
 function bp_message_thread_delete_link() {
-	global $messages_template, $bp;
-	echo apply_filters( 'bp_message_thread_delete_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action . '/delete/' . $messages_template->thread->thread_id, 'messages_delete_thread' ) );
+	echo bp_get_message_thread_delete_link();
 }
-
+	function bp_get_message_thread_delete_link() {
+		global $messages_template, $bp;
+		return apply_filters( 'bp_get_message_thread_delete_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action . '/delete/' . $messages_template->thread->thread_id, 'messages_delete_thread' ) );
+	}
+	
 function bp_message_thread_has_unread() {
 	global $messages_template;
-	
+
 	if ( $messages_template->thread->unread_count )
 		return true;
 	
@@ -191,19 +212,32 @@ function bp_message_thread_has_unread() {
 }
 
 function bp_message_thread_unread_count() {
-	global $messages_template;
-	echo apply_filters( 'bp_message_thread_unread_count', $messages_template->thread->unread_count );
+	echo bp_get_message_thread_unread_count();
 }
+	function bp_get_message_thread_unread_count() {
+		global $messages_template;
+		
+		if ( (int)$messages_template->thread->unread_count )
+			return apply_filters( 'bp_get_message_thread_unread_count', $messages_template->thread->unread_count );
+		
+		return false;
+	}
 
 function bp_message_thread_last_post_date() {
-	global $messages_template;
-	echo apply_filters( 'bp_message_thread_last_post_date', bp_format_time( strtotime($messages_template->thread->last_post_date) ) );
+	echo bp_get_message_thread_last_post_date();
 }
+	function bp_get_message_thread_last_post_date() {
+		global $messages_template;
+		echo apply_filters( 'bp_get_message_thread_last_post_date', bp_format_time( strtotime($messages_template->thread->last_post_date) ) );
+	}
 
 function bp_message_thread_avatar() {
-	global $messages_template;
-	echo apply_filters( 'bp_message_thread_avatar', bp_core_get_avatar($messages_template->thread->last_sender_id, 1) );
+	echo bp_get_message_thread_avatar();
 }
+	function bp_get_message_thread_avatar() {
+		global $messages_template;
+		echo apply_filters( 'bp_get_message_thread_avatar', bp_core_get_avatar($messages_template->thread->last_sender_id, 1) );
+	}
 
 function bp_message_thread_view() {
 	global $thread_id;
@@ -212,35 +246,54 @@ function bp_message_thread_view() {
 }
 
 function bp_total_unread_messages_count() {
-	echo BP_Messages_Thread::get_inbox_count();
+	echo bp_get_total_unread_messages_count();
 }
+	function bp_get_total_unread_messages_count() {
+		return apply_filters( 'bp_get_total_unread_messages_count', BP_Messages_Thread::get_inbox_count() );
+	}
 
 function bp_messages_pagination() {
-	global $messages_template;
-	echo apply_filters( 'bp_messages_pagination', $messages_template->pag_links );
+	echo bp_get_messages_pagination();
 }
+	function bp_get_messages_pagination() {
+		global $messages_template;
+		return apply_filters( 'bp_get_messages_pagination', $messages_template->pag_links );
+	}
 
 function bp_messages_form_action() {
-	global $bp;
-	
-	echo apply_filters( 'bp_messages_form_action', $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action );
+	echo bp_get_messages_form_action();
 }
+	
+	function bp_get_messages_form_action() {
+		global $bp;
+
+		return apply_filters( 'bp_get_messages_form_action', $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action );
+	}
 
 function bp_messages_username_value() {
-	if ( isset( $_SESSION['send_to'] ) ) {
-		echo apply_filters( 'bp_messages_username_value', $_SESSION['send_to'] );
-	} else if ( isset( $_GET['r'] ) && !isset( $_SESSION['send_to'] ) ) {
-		echo apply_filters( 'bp_messages_username_value', $_GET['r'] );
-	}
+	echo bp_get_messages_username_value();
 }
+	function bp_get_messages_username_value() {
+		if ( isset( $_SESSION['send_to'] ) ) {
+			return apply_filters( 'bp_get_messages_username_value', $_SESSION['send_to'] );
+		} else if ( isset( $_GET['r'] ) && !isset( $_SESSION['send_to'] ) ) {
+			return apply_filters( 'bp_get_messages_username_value', $_GET['r'] );
+		}
+	}
 
 function bp_messages_subject_value() {
-	echo apply_filters( 'bp_messages_subject_value', $_SESSION['subject'] );
+	echo bp_get_messages_subject_value();
 }
+	function bp_get_messages_subject_value() {
+		return apply_filters( 'bp_get_messages_subject_value', $_SESSION['subject'] );
+	}
 
 function bp_messages_content_value() {
-	echo apply_filters( 'bp_messages_content_value', $_SESSION['content'] );
+	echo bp_get_messages_content_value();
 }
+	function bp_get_messages_content_value() {
+		return apply_filters( 'bp_get_messages_content_value', $_SESSION['content'] );
+	}
 
 function bp_messages_options() {
 	global $bp;
@@ -266,53 +319,79 @@ function bp_message_is_active_notice() {
 	
 	if ( $messages_template->thread->is_active ) {
 		echo "<strong>";
-		_e('Currently Active', 'buddypress');
+		_e( 'Currently Active', 'buddypress' );
 		echo "</strong>";
 	}
 }
+	function bp_get_message_is_active_notice() {
+		global $messages_template;
+
+		if ( $messages_template->thread->is_active )
+			return true;
+		
+		return false;
+	}
 
 function bp_message_notice_post_date() {
-	global $messages_template;
-	echo apply_filters( 'bp_message_notice_post_date', bp_format_time( strtotime($messages_template->thread->date_sent) ) );
+	echo bp_get_message_notice_post_date();
 }
+	function bp_get_message_notice_post_date() {
+		global $messages_template;
+		return apply_filters( 'bp_get_message_notice_post_date', bp_format_time( strtotime($messages_template->thread->date_sent) ) );
+	}
 
 function bp_message_notice_subject() {
-	global $messages_template;
-	echo apply_filters( 'bp_message_notice_subject', $messages_template->thread->subject );
+	echo bp_get_message_notice_subject();
 }
+	function bp_get_message_notice_subject() {
+		global $messages_template;
+		return apply_filters( 'bp_get_message_notice_subject', $messages_template->thread->subject );
+	}
 
 function bp_message_notice_text() {
-	global $messages_template;
-	echo apply_filters( 'bp_message_notice_text', $messages_template->thread->message );
+	echo bp_get_message_notice_text();
 }
+	function bp_get_message_notice_text() {
+		global $messages_template;
+		return apply_filters( 'bp_get_message_notice_text', $messages_template->thread->message );
+	}
 
 function bp_message_notice_delete_link() {
-	global $messages_template, $bp;
-	
-	echo apply_filters( 'bp_message_notice_delete_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->messages->slug . '/notices/delete/' . $messages_template->thread->id, 'messages_delete_thread' ) );
+	echo bp_get_message_notice_delete_link();
 }
+	function bp_get_message_notice_delete_link() {
+		global $messages_template, $bp;
+
+		return apply_filters( 'bp_get_message_notice_delete_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->messages->slug . '/notices/delete/' . $messages_template->thread->id, 'messages_delete_thread' ) );
+	}
 
 function bp_message_activate_deactivate_link() {
-	global $messages_template, $bp;
-
-	if ( 1 == (int)$messages_template->thread->is_active ) {
-		$link = wp_nonce_url( $bp->loggedin_user->domain . $bp->messages->slug . '/notices/deactivate/' . $messages_template->thread->id, 'messages_deactivate_notice' );
-	} else {
-		$link = wp_nonce_url( $bp->loggedin_user->domain . $bp->messages->slug . '/notices/activate/' . $messages_template->thread->id, 'messages_activate_notice' );		
-	}
-	echo apply_filters( 'bp_message_activate_deactivate_link', $link );
+	echo bp_get_message_activate_deactivate_link();
 }
+	function bp_get_message_activate_deactivate_link() {
+		global $messages_template, $bp;
+
+		if ( 1 == (int)$messages_template->thread->is_active ) {
+			$link = wp_nonce_url( $bp->loggedin_user->domain . $bp->messages->slug . '/notices/deactivate/' . $messages_template->thread->id, 'messages_deactivate_notice' );
+		} else {
+			$link = wp_nonce_url( $bp->loggedin_user->domain . $bp->messages->slug . '/notices/activate/' . $messages_template->thread->id, 'messages_activate_notice' );		
+		}
+		return apply_filters( 'bp_get_message_activate_deactivate_link', $link );
+	}
 
 function bp_message_activate_deactivate_text() {
-	global $messages_template;
-	
-	if ( 1 == (int)$messages_template->thread->is_active  ) {
-		$text = __('Deactivate', 'buddypress');
-	} else {
-		$text = __('Activate', 'buddypress');		
-	}
-	echo apply_filters( 'bp_message_activate_deactivate_text', $text );
+	echo bp_get_message_activate_deactivate_text();
 }
+	function bp_get_message_activate_deactivate_text() {
+		global $messages_template;
+
+		if ( 1 == (int)$messages_template->thread->is_active  ) {
+			$text = __('Deactivate', 'buddypress');
+		} else {
+			$text = __('Activate', 'buddypress');		
+		}
+		return apply_filters( 'bp_message_activate_deactivate_text', $text );
+	}
 
 function bp_message_get_notices() {
 	global $userdata;
@@ -351,9 +430,12 @@ function bp_send_message_button() {
 }
 
 function bp_message_loading_image_src() {
-	global $bp;
-	echo $bp->messages->image_base . '/ajax-loader.gif';
+	echo bp_get_message_loading_image_src();
 }
+	function bp_get_message_loading_image_src() {
+		global $bp;
+		return apply_filters( 'bp_get_message_loading_image_src', $bp->messages->image_base . '/ajax-loader.gif' );
+	}
 
 function bp_message_get_recipient_tabs() {
 	global $bp;
@@ -376,9 +458,12 @@ function bp_message_get_recipient_tabs() {
 }
 
 function bp_message_get_recipient_usernames() {
-	echo $_GET['r'];
+	echo bp_get_message_get_recipient_usernames();
 }
-
+	function bp_get_message_get_recipient_usernames() {
+		return apply_filters( 'bp_get_message_get_recipient_usernames', $_GET['r'] );
+	}
+	
 function messages_view_thread( $thread_id ) {
 	global $bp;
 
@@ -417,14 +502,14 @@ function messages_view_thread( $thread_id ) {
 					<a name="<?php echo 'm-' . $message->id ?>"></a>
 					<div class="message-box<?php echo $alt ?>">
 						<div class="avatar-box">
-							<?php echo apply_filters( 'bp_message_sender_avatar', bp_core_get_avatar( $message->sender_id, 1 ) ) ?>
-							<h3><?php echo apply_filters( 'bp_message_sender_id', bp_core_get_userlink( $message->sender_id ) ) ?></h3>
-							<small><?php echo apply_filters( 'bp_message_date_sent', bp_format_time( strtotime($message->date_sent ) ) ) ?></small>
+							<?php echo apply_filters( 'bp_get_message_sender_avatar', bp_core_get_avatar( $message->sender_id, 1 ) ) ?>
+							<h3><?php echo apply_filters( 'bp_get_message_sender_id', bp_core_get_userlink( $message->sender_id ) ) ?></h3>
+							<small><?php echo apply_filters( 'bp_get_message_date_sent', bp_format_time( strtotime($message->date_sent ) ) ) ?></small>
 						</div>
 						
 						<?php do_action( 'messages_custom_fields_output_before' ) ?>
 						
-						<?php echo apply_filters( 'bp_message_content', stripslashes($message->message) ); ?>
+						<?php echo apply_filters( 'bp_get_message_content', stripslashes($message->message) ); ?>
 						
 						<?php do_action( 'messages_custom_fields_output_after' ) ?>
 		
@@ -447,7 +532,7 @@ function messages_view_thread( $thread_id ) {
 								</div>
 								<label for="reply"></label>
 								<div>
-									<textarea name="content" id="message_content" rows="15" cols="40"><?php echo $content; ?></textarea>
+									<textarea name="content" id="message_content" rows="15" cols="40"><?php echo attribute_escape( wp_filter_kses( $content ) ); ?></textarea>
 								</div>
 							</div>
 							<p class="submit">
