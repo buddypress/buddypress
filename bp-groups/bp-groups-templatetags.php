@@ -2062,7 +2062,7 @@ function bp_the_site_group_avatar() {
 	function bp_get_the_site_group_avatar() {
 		global $site_groups_template;
 
-		return apply_filters( 'bp_the_site_group_avatar', bp_group_avatar( $site_groups_template->group ) );
+		return apply_filters( 'bp_the_site_group_avatar', bp_get_group_avatar( $site_groups_template->group ) );
 	}
 
 function bp_the_site_group_avatar_thumb() {
@@ -2071,7 +2071,7 @@ function bp_the_site_group_avatar_thumb() {
 	function bp_get_the_site_group_avatar_thumb() {
 		global $site_groups_template;
 		
-		return apply_filters( 'bp_get_the_site_group_avatar_thumb', bp_group_avatar_thumb( $site_groups_template->group ) );
+		return apply_filters( 'bp_get_the_site_group_avatar_thumb', bp_get_group_avatar_thumb( $site_groups_template->group ) );
 	}
 
 function bp_the_site_group_avatar_mini() {
@@ -2080,7 +2080,7 @@ function bp_the_site_group_avatar_mini() {
 	function bp_get_the_site_group_avatar_mini() {
 		global $site_groups_template;
 
-		return apply_filters( 'bp_get_the_site_group_avatar_mini', bp_group_avatar_mini( $site_groups_template->group ) );
+		return apply_filters( 'bp_get_the_site_group_avatar_mini', bp_get_group_avatar_mini( $site_groups_template->group ) );
 	}
 
 function bp_the_site_group_link() {
