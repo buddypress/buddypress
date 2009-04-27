@@ -748,7 +748,7 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false,
 		$display_name = bp_fetch_user_fullname( $user_id, false );
 		
 		if ( $with_s )
-			$display_name .= "'s";
+			$display_name = sprintf( __( "%s's", 'buddypress' ), $display_name );
 			
 	} else {
 		$display_name = $ud->display_name;
