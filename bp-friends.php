@@ -7,10 +7,10 @@ define ( 'BP_FRIENDS_DB_VERSION', '1300' );
 if ( !defined( 'BP_FRIENDS_SLUG' ) )
 	define ( 'BP_FRIENDS_SLUG', 'friends' );
 
-require ( 'bp-friends/bp-friends-classes.php' );
-require ( 'bp-friends/bp-friends-ajax.php' );
-require ( 'bp-friends/bp-friends-cssjs.php' );
-require ( 'bp-friends/bp-friends-templatetags.php' );
+require ( BP_PLUGIN_DIR . '/bp-friends/bp-friends-classes.php' );
+require ( BP_PLUGIN_DIR . '/bp-friends/bp-friends-ajax.php' );
+require ( BP_PLUGIN_DIR . '/bp-friends/bp-friends-cssjs.php' );
+require ( BP_PLUGIN_DIR . '/bp-friends/bp-friends-templatetags.php' );
 
 /**************************************************************************
  friends_install()
@@ -520,7 +520,7 @@ function friends_add_friend( $initiator_userid, $friend_userid ) {
 		bp_core_add_notification( $friendship->initiator_user_id, $friendship->friend_user_id, 'friends', 'friendship_request' );	
 		
 		// Send the email notification
-		require_once( 'bp-friends/bp-friends-notifications.php' );
+		require_once( BP_PLUGIN_DIR . '/bp-friends/bp-friends-notifications.php' );
 		friends_notification_new_request( $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
 		
 		do_action( 'friends_friendship_requested', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );	
@@ -581,7 +581,7 @@ function friends_accept_friendship( $friendship_id ) {
 		friends_record_activity( array( 'item_id' => $friendship_id, 'component_name' => 'friends', 'component_action' => 'friendship_accepted', 'is_private' => 0, 'user_id' => $friendship->initiator_user_id, 'secondary_user_id' => $friendship->friend_user_id ) );
 		
 		// Send the email notification
-		require_once( 'bp-friends/bp-friends-notifications.php' );
+		require_once( BP_PLUGIN_DIR . '/bp-friends/bp-friends-notifications.php' );
 		friends_notification_accepted_request( $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
 
 		do_action( 'friends_friendship_accepted', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );

@@ -11,11 +11,11 @@ if ( !defined( 'BP_ACTIVITY_SLUG' ) )
 if ( !defined( 'BP_ACTIVITY_CACHE_LENGTH' ) )
 	define ( 'BP_ACTIVITY_CACHE_LENGTH', '6 HOURS' );
 
-require ( 'bp-activity/bp-activity-classes.php' );
-require ( 'bp-activity/bp-activity-templatetags.php' );
-require ( 'bp-activity/bp-activity-widgets.php' );
-require ( 'bp-activity/bp-activity-cssjs.php' );
-require ( 'bp-activity/bp-activity-filters.php' );
+require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-classes.php' );
+require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-templatetags.php' );
+require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-widgets.php' );
+require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-cssjs.php' );
+require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-filters.php' );
 
 
 /**************************************************************************

@@ -6,11 +6,11 @@ define( 'BP_WIRE_VERSION', '1.0-RC2' );
 if ( !defined( 'BP_WIRE_SLUG' ) )
 	define ( 'BP_WIRE_SLUG', 'wire' );
 
-require ( 'bp-wire/bp-wire-classes.php' );
-require ( 'bp-wire/bp-wire-ajax.php' );
-require ( 'bp-wire/bp-wire-templatetags.php' );
-require ( 'bp-wire/bp-wire-cssjs.php' );
-require ( 'bp-wire/bp-wire-filters.php' );
+require ( BP_PLUGIN_DIR . '/bp-wire/bp-wire-classes.php' );
+require ( BP_PLUGIN_DIR . '/bp-wire/bp-wire-ajax.php' );
+require ( BP_PLUGIN_DIR . '/bp-wire/bp-wire-templatetags.php' );
+require ( BP_PLUGIN_DIR . '/bp-wire/bp-wire-cssjs.php' );
+require ( BP_PLUGIN_DIR . '/bp-wire/bp-wire-filters.php' );
 
 /**************************************************************************
  bp_wire_setup_globals()

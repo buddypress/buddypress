@@ -473,7 +473,7 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 				}
 				
 				// Send email notifications to the recipients
-				require_once( 'bp-messages/bp-messages-notifications.php' );
+				require_once( BP_PLUGIN_DIR . '/bp-messages/bp-messages-notifications.php' );
 				messages_notification_new_message( array( 'item_id' => $pmessage->id, 'recipient_ids' => $pmessage->recipients, 'thread_id' => $pmessage->thread_id, 'component_name' => 'messages', 'component_action' => 'message_sent', 'is_private' => 1 ) );
 
 				do_action( 'messages_send_message', array( 'item_id' => $pmessage->id, 'recipient_ids' => $pmessage->recipients, 'thread_id' => $pmessage->thread_id, 'component_name' => 'messages', 'component_action' => 'message_sent', 'is_private' => 1 ) );

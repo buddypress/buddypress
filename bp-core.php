@@ -28,15 +28,15 @@ if ( file_exists( BP_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() . '
 	load_textdomain( 'buddypress', BP_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() . '.mo' );
 
 /* Load the files containing functions that we globally will need. */
-require ( 'bp-core/bp-core-catchuri.php' );
-require ( 'bp-core/bp-core-classes.php' );
-require ( 'bp-core/bp-core-cssjs.php' );
-require ( 'bp-core/bp-core-avatars.php' );
-require ( 'bp-core/bp-core-templatetags.php' );
-require ( 'bp-core/bp-core-settings.php' );
-require ( 'bp-core/bp-core-widgets.php' );
-require ( 'bp-core/bp-core-ajax.php' );
-require ( 'bp-core/bp-core-notifications.php' );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-catchuri.php' );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-classes.php' );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-cssjs.php' );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-avatars.php' );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-templatetags.php' );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-settings.php' );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-widgets.php' );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-ajax.php' );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-notifications.php' );
 
 if ( !defined( 'BP_DISABLE_ADMIN_BAR') )
 	require ( 'bp-core/bp-core-adminbar.php' );
@@ -237,7 +237,7 @@ function bp_core_check_installed() {
 	if ( !is_site_admin() )
 		return false;
 	
-	require ( 'bp-core/bp-core-admin.php' );
+	require ( BP_PLUGIN_DIR . '/bp-core/bp-core-admin.php' );
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 	if ( get_site_option('bp-core-db-version') < BP_CORE_DB_VERSION )

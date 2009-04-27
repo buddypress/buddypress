@@ -7,12 +7,12 @@ define ( 'BP_XPROFILE_DB_VERSION', '1300' );
 if ( !defined( 'BP_XPROFILE_SLUG' ) )
 	define ( 'BP_XPROFILE_SLUG', 'profile' );
 
-require ( 'bp-xprofile/bp-xprofile-classes.php' );
-require ( 'bp-xprofile/bp-xprofile-filters.php' );
-require ( 'bp-xprofile/bp-xprofile-signup.php' );
-require ( 'bp-xprofile/bp-xprofile-templatetags.php' );
-require ( 'bp-xprofile/bp-xprofile-notifications.php' );
-require ( 'bp-xprofile/bp-xprofile-cssjs.php' );
+require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-classes.php' );
+require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-filters.php' );
+require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-signup.php' );
+require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-templatetags.php' );
+require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-notifications.php' );
+require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-cssjs.php' );
 
 /* Assign the base group and fullname field names to constants to use in SQL statements */
 define ( 'BP_XPROFILE_BASE_GROUP_NAME', get_site_option( 'bp-xprofile-base-group-name' ) );
@@ -170,7 +170,7 @@ function xprofile_add_admin_menu() {
 	if ( !is_site_admin() )
 		return false;
 
-	require ( 'bp-xprofile/bp-xprofile-admin.php' );
+	require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-admin.php' );
 	
 	/* Add the administration tab under the "Site Admin" tab for site administrators */
 	add_submenu_page( 'bp-core.php', __("Profile Field Setup", 'buddypress'), __("Profile Field Setup", 'buddypress'), 1, __FILE__, "xprofile_admin" );

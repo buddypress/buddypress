@@ -7,11 +7,11 @@ define ( 'BP_BLOGS_DB_VERSION', '1300' );
 if ( !defined( 'BP_BLOGS_SLUG' ) )
 	define ( 'BP_BLOGS_SLUG', 'blogs' );
 
-require ( 'bp-blogs/bp-blogs-classes.php' );
-require ( 'bp-blogs/bp-blogs-cssjs.php' );
-require ( 'bp-blogs/bp-blogs-templatetags.php' );
-require ( 'bp-blogs/bp-blogs-widgets.php' );
-require ( 'bp-blogs/bp-blogs-ajax.php' );
+require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-classes.php' );
+require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-cssjs.php' );
+require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-templatetags.php' );
+require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-widgets.php' );
+require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-ajax.php' );
 
 
 /**************************************************************************

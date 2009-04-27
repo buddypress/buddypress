@@ -6,9 +6,9 @@ define ( 'BP_FORUMS_VERSION', '1.0-RC2' );
 if ( !defined( 'BP_FORUMS_PARENT_FORUM_ID' ) )
 	define ( 'BP_FORUMS_PARENT_FORUM_ID', 1 );
 
-require ( 'bp-forums/bp-forums-bbpress-live.php' );
-require ( 'bp-forums/bp-forums-templatetags.php' );
-require ( 'bp-forums/bp-forums-filters.php' );
+require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-bbpress-live.php' );
+require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-templatetags.php' );
+require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-filters.php' );
 
 if ( is_admin() )
 	require ( 'bp-forums/bp-forums-admin.php' );
