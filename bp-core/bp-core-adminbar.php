@@ -46,7 +46,10 @@ function bp_adminbar_login_menu() {
 // **** "My Account" Menu ******
 function bp_adminbar_account_menu() {
 	global $bp;
-	
+
+	if ( !$bp->bp_nav )
+		return false;
+
 	/* Sort the nav by key as the array has been put together in different locations */
 	$bp->bp_nav = bp_core_sort_nav_items( $bp->bp_nav );
 	
