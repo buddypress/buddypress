@@ -239,7 +239,7 @@ function bp_the_topic_last_post_id() {
 	function bp_get_the_topic_last_post_id() {
 		global $forum_template;
 
-		echo apply_filters( 'bp_get_the_topic_last_post_id', $forum_template->topic->topic_last_post_id );
+		return apply_filters( 'bp_get_the_topic_last_post_id', $forum_template->topic->topic_last_post_id );
 	}
 
 function bp_the_topic_is_sticky() {
@@ -248,7 +248,7 @@ function bp_the_topic_is_sticky() {
 	function bp_get_the_topic_is_sticky() {
 		global $forum_template;
 
-		echo apply_filters( 'bp_get_the_topic_is_sticky', $forum_template->topic->topic_sticky );
+		return apply_filters( 'bp_get_the_topic_is_sticky', $forum_template->topic->topic_sticky );
 	}
 
 function bp_the_topic_total_post_count() {
@@ -269,7 +269,7 @@ function bp_the_topic_tag_count() {
 	function bp_get_the_topic_tag_count() {
 		global $forum_template;
 
-		echo apply_filters( 'bp_get_the_topic_tag_count', $forum_template->topic->tag_count );
+		return apply_filters( 'bp_get_the_topic_tag_count', $forum_template->topic->tag_count );
 	}
 
 function bp_the_topic_permalink() {
@@ -289,7 +289,7 @@ function bp_the_topic_time_since_created() {
 	function bp_get_the_topic_time_since_created() {
 		global $forum_template;
 
-		echo apply_filters( 'bp_get_the_topic_time_since_created', $forum_template->topic->topic_start_time_since );
+		return apply_filters( 'bp_get_the_topic_time_since_created', $forum_template->topic->topic_start_time_since );
 	}
 	
 function bp_the_topic_latest_post_excerpt() {
@@ -322,7 +322,7 @@ function bp_forum_pagination() {
 	function bp_get_forum_pagination() {
 		global $forum_template;
 
-		echo apply_filters( 'bp_get_forum_pagination', $forum_template->pag_links );
+		return apply_filters( 'bp_get_forum_pagination', $forum_template->pag_links );
 	}
 
 function bp_forum_pagination_count() {
