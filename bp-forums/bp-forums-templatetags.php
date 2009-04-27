@@ -478,7 +478,7 @@ function bp_the_topic_post_content() {
 	}
 
 function bp_the_topic_post_poster_avatar() {
-	echo bp_the_topic_post_poster_avatar();
+	echo bp_get_the_topic_post_poster_avatar();
 }
 	function bp_get_the_topic_post_poster_avatar() {
 		global $topic_template;
