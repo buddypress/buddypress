@@ -98,7 +98,7 @@ function bp_wire_new_post( $item_id, $message, $component_name, $private_post = 
 	$wire_post->user_id = $bp->loggedin_user->id;
 	$wire_post->date_posted = time();
 
-	$allowed_tags = apply_filters( 'bp_wire_post_allowed_tags', '<a>,<b>,<strong>,<i>,<em>,<img>' );
+	$allowed_tags = apply_filters( 'bp_wire_post_allowed_tags', '<a><b><strong><i><em><img>' );
 		
 	$message = strip_tags( $message, $allowed_tags );
 	$wire_post->content = apply_filters( 'bp_wire_post_content', $message );

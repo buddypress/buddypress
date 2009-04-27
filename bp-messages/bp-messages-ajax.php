@@ -16,7 +16,7 @@ function messages_ajax_send_reply() {
 				<h3><?php echo bp_core_get_userlink($result['reply']->sender_id) ?></h3>
 				<small><?php echo bp_format_time($result['reply']->date_sent) ?></small>
 			</div>
-			<?php echo stripslashes( apply_filters( 'bp_message_content', $result['reply']->message ) ) ?>
+			<?php echo stripslashes( apply_filters( 'bp_get_message_content', $result['reply']->message ) ) ?>
 			<div class="clear"></div>
 		<?php
 	} else {
