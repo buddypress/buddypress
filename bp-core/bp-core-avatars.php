@@ -48,14 +48,13 @@ function bp_core_get_avatar( $user, $version = 1, $width = null, $height = null,
 			return apply_filters( 'bp_core_get_avatar', '<img src="' . $url . '" alt="" class="avatar photo" width="' . $width . '" height="' . $height . '" />', $user, $version, $width, $height, $no_tag );
 	} else {
 		$ud = get_userdata($user);
-		$grav_option = get_site_option('user-avatar-default');
 		
-		if ( empty( $grav_option ) ) {
+		if ( empty( $bp->grav_default ) ) {
 			$default_grav = 'wavatar';
-		} else if ( 'mystery' == $grav_option ) {
+		} else if ( 'mystery' == $bp->grav_default ) {
 			$default_grav = BP_PLUGIN_URL . '/bp-core/images/mystery-man.jpg';
 		} else {
-			$default_grav = $grav_option;
+			$default_grav = $bp->grav_default;
 		}
 		
 		$gravatar = 'http://www.gravatar.com/avatar/' . md5( $ud->user_email ) . '?d=' . $default_grav . '&amp;s=';

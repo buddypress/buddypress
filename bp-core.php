@@ -134,7 +134,10 @@ function bp_core_setup_globals() {
 	
 	/* Sets up container used for the avatar of the current component being viewed. Rendered by bp_get_options_avatar() */
 	$bp->bp_options_avatar = '';
-
+	
+	/* Fetches the default Gravatar image to use if the user has no avatar or gravatar */
+	$bp->grav_default = get_site_option( 'user-avatar-default' );
+	
 	/* Fetch the full name for the logged in and current user */
 	$bp->loggedin_user->fullname = bp_core_global_user_fullname( $bp->loggedin_user->id );
 	$bp->displayed_user->fullname = bp_core_global_user_fullname( $bp->displayed_user->id );
