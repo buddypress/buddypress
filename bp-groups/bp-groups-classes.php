@@ -570,6 +570,20 @@ Class BP_Groups_Member {
 	function save() {
 		global $wpdb, $bp;
 		
+		$this->user_id = apply_filters( 'groups_member_user_id_before_save', $this->user_id, $this->id );
+		$this->group_id = apply_filters( 'groups_member_group_id_before_save', $this->group_id, $this->id );
+		$this->inviter_id = apply_filters( 'groups_member_inviter_id_before_save', $this->inviter_id, $this->id );
+		$this->is_admin = apply_filters( 'groups_member_is_admin_before_save', $this->is_admin, $this->id );
+		$this->is_mod = apply_filters( 'groups_member_is_mod_before_save', $this->is_mod, $this->id );
+		$this->is_banned = apply_filters( 'groups_member_is_banned_before_save', $this->is_banned, $this->id );
+		$this->user_title = apply_filters( 'groups_member_user_title_before_save', $this->user_title, $this->id );
+		$this->date_modified = apply_filters( 'groups_member_date_modified_before_save', $this->date_modified, $this->id );
+		$this->is_confirmed = apply_filters( 'groups_member_is_confirmed_before_save', $this->is_confirmed, $this->id );
+		$this->comments = apply_filters( 'groups_member_comments_before_save', $this->comments, $this->id );
+		$this->invite_sent = apply_filters( 'groups_member_invite_sent_before_save', $this->invite_sent, $this->id );
+		
+		do_action( 'groups_member_before_save', $this );
+		
 		if ( $this->id ) {
 			$sql = $wpdb->prepare( "UPDATE {$bp->groups->table_name_members} SET inviter_id = %d, is_admin = %d, is_mod = %d, is_banned = %d, user_title = %s, date_modified = FROM_UNIXTIME(%d), is_confirmed = %d, comments = %s, invite_sent = %d WHERE id = %d", $this->inviter_id, $this->is_admin, $this->is_mod, $this->is_banned, $this->user_title, $this->date_modified, $this->is_confirmed, $this->comments, $this->invite_sent, $this->id );
 		} else {
@@ -580,6 +594,9 @@ Class BP_Groups_Member {
 			return false;
 		
 		$this->id = $wpdb->insert_id;
+		
+		do_action( 'groups_member_after_save', $this );
+		
 		return true;
 	}
 	
