@@ -2150,9 +2150,9 @@ function bp_the_site_group_member_count() {
 		global $site_groups_template;
 
 		if ( 1 == (int) $site_groups_template->group->total_member_count )
-			return apply_filters( 'bp_get_the_site_group_member_count', sprintf( '%d member', (int) $site_groups_template->group->total_member_count ) );
+			return apply_filters( 'bp_get_the_site_group_member_count', sprintf( __( '%d member', 'buddypress' ), (int) $site_groups_template->group->total_member_count ) );
 		else
-			return apply_filters( 'bp_get_the_site_group_member_count', sprintf( '%d members', (int) $site_groups_template->group->total_member_count ) );		
+			return apply_filters( 'bp_get_the_site_group_member_count', sprintf( __( '%d members', 'buddypress' ), (int) $site_groups_template->group->total_member_count ) );		
 	}
 
 function bp_the_site_group_type() {
