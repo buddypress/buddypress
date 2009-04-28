@@ -1,10 +1,3 @@
-<?php
-/* Load the WP environment */
-require_once( preg_replace('%(.*)[/\\\\]wp-content[/\\\\].*%', '\1', dirname( __FILE__ ) ) . '/wp-load.php' ); 
-
-/* Set the content type to CSS */
-header('Content-type: text/javascript'); 
-?>
 function checkAll() {
 	var checkboxes = document.getElementsByTagName("input");
 	for(var i=0; i<checkboxes.length; i++) {
@@ -33,7 +26,7 @@ jQuery(document).ready( function() {
 			//tinyMCE.triggerSave(true, true);
 			
 			var rand = Math.floor(Math.random()*100001);
-			jQuery("form#send-reply").before('<div style="display:none;" class="ajax_reply" id="' + rand + '"><img src="<?php echo BP_PLUGIN_URL . '/bp-messages/images/loading.gif' ?>" alt="Loading" /> &nbsp;Sending Message...</div>');
+			jQuery("form#send-reply").before('<div style="display:none;" class="ajax_reply" id="' + rand + '">Sending Message...</div>');
 			jQuery("div#" + rand).fadeIn();
 		
 			jQuery.post( ajaxurl, {

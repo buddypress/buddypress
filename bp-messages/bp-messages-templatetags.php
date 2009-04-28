@@ -520,7 +520,7 @@ function messages_view_thread( $thread_id ) {
 			}
 		
 			?>
-				<form id="send-reply" action="<?php echo get_option('home'); ?>/wp-admin/admin.php?page=bp-messages.php&amp;mode=send" method="post">
+				<form id="send-reply" action="<?php bp_messages_form_action() ?>" method="post">
 					<div class="message-box">
 							<div id="messagediv">
 								<div class="avatar-box">

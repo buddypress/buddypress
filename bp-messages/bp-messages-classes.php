@@ -483,8 +483,10 @@ Class BP_Messages_Notice {
 	function save() {
 		global $wpdb, $bp;
 		
-		$this->subject = wp_filter_kses( $this->subject );
-		$this->message = wp_filter_kses( $this->message );
+		$this->subject = apply_filters( 'messages_notice_subject_before_save', $this->subject, $this->id );
+		$this->message = apply_filters( 'messages_notice_message_before_save', $this->message, $this->id );
+
+		do_action( 'messages_notice_before_save', $this );
 		
 		if ( !$this->id ) {
 			$sql = $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_notices} (subject, message, date_sent, is_active) VALUES (%s, %s, FROM_UNIXTIME(%d), %d)", $this->subject, $this->message, $this->date_sent, $this->is_active );	
@@ -502,7 +504,9 @@ Class BP_Messages_Notice {
 		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_notices} SET is_active = 0 WHERE id != %d", $id ) );
 		
 		update_usermeta( $bp->loggedin_user->id, 'last_activity', date( 'Y-m-d H:i:s' ) ); 
-		
+
+		do_action( 'messages_notice_after_save', $this );
+				
 		return true;
 	}
 	

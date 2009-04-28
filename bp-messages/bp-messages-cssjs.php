@@ -4,7 +4,7 @@ function messages_add_js() {
 	global $bp;
 
 	if ( $bp->current_component == $bp->messages->slug )
-		wp_enqueue_script( 'bp-messages-js', BP_PLUGIN_URL . '/bp-messages/js/general.php' );
+		wp_enqueue_script( 'bp-messages-js', BP_PLUGIN_URL . '/bp-messages/js/general.js' );
 
 	// Include the autocomplete JS for composing a message.
 	if ( $bp->current_component == $bp->messages->slug && $bp->current_action == 'compose') {
@@ -13,7 +13,6 @@ function messages_add_js() {
 		wp_enqueue_script( 'bp-jquery-bgiframe', BP_PLUGIN_URL . '/bp-messages/js/autocomplete/jquery.bgiframe.min.js', 'jquery' );
 		wp_enqueue_script( 'bp-jquery-dimensions', BP_PLUGIN_URL . '/bp-messages/js/autocomplete/jquery.dimensions.js', 'jquery' );	
 		wp_enqueue_script( 'bp-autocomplete-init', BP_PLUGIN_URL . '/bp-messages/js/autocomplete/init.php', 'jquery' );	
-
 	}
 
 }

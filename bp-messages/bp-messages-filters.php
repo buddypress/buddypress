@@ -10,6 +10,8 @@ add_filter( 'bp_get_messages_content_value', 'wp_filter_kses', 1 );
 add_filter( 'bp_get_message_content', 'wp_filter_kses', 1 );
 add_filter( 'messages_message_content_before_save', 'wp_filter_kses', 1 );
 add_filter( 'messages_message_subject_before_save', 'wp_filter_kses', 1 );
+add_filter( 'messages_notice_message_before_save', 'wp_filter_kses', 1 );
+add_filter( 'messages_notice_subject_before_save', 'wp_filter_kses', 1 );
 
 add_filter( 'bp_get_message_notice_subject', 'wptexturize' );
 add_filter( 'bp_get_message_notice_text', 'wptexturize' );
