@@ -174,9 +174,9 @@ function bp_core_admin_component_setup() {
 			<p>
 			<?php _e( 
 				'By default, all BuddyPress components are enabled. You can selectively disable any of the 
-				components by using the form below. Your BuddyPress installation will continue to function
-				however the features associated with the disabled components will no longer be accessible to
-				your anyone using the site.
+				components by using the form below. Your BuddyPress installation will continue to function, however
+				the features of the disabled components will no longer be accessible to
+				anyone using the site.
 				', 'buddypress' )?>
 			</p>
 			
