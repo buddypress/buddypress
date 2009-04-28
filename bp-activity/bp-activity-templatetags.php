@@ -19,7 +19,7 @@ class BP_Activity_Template {
 	function bp_activity_template( $type, $user_id, $per_page, $max, $timeframe ) {
 		global $bp;
 
-		$this->pag_page = isset( $_REQUEST['page'] ) ? intval( $_REQUEST['page'] ) : 1;
+		$this->pag_page = isset( $_REQUEST['acpage'] ) ? intval( $_REQUEST['acpage'] ) : 1;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 		$this->filter_content = false;
 		$this->activity_type = $type;
@@ -52,7 +52,7 @@ class BP_Activity_Template {
 		$this->full_name = $bp->displayed_user->fullname;
 
 		$this->pag_links = paginate_links( array(
-			'base' => add_query_arg( 'page', '%#%' ),
+			'base' => add_query_arg( 'acpage', '%#%' ),
 			'format' => '',
 			'total' => ceil( (int)$this->total_activity_count / (int)$this->pag_num ),
 			'current' => (int)$this->pag_page,
@@ -171,6 +171,25 @@ function bp_the_activity() {
 	global $activities_template;
 	return $activities_template->the_activity();
 }
+
+function bp_activity_pagination_count() {
+	global $bp, $activities_template;
+	
+	$from_num = intval( ( $activities_template->pag_page - 1 ) * $activities_template->pag_num ) + 1;
+	$to_num = ( $from_num + ( $activities_template->pag_num - 1 ) > $activities_template->total_activity_count ) ? $activities_template->total_activity_count : $from_num + ( $activities_template->pag_num - 1) ;
+
+	echo sprintf( __( 'Viewing item %d to %d (of %d items)', 'buddypress' ), $from_num, $to_num, $activities_template->total_activity_count ); ?> &nbsp;
+	<img id="ajax-loader-activity" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" /><?php
+}
+
+function bp_activity_pagination_links() {
+	echo bp_get_activity_pagination_links();
+}
+	function bp_get_activity_pagination_links() {
+		global $site_members_template;
+		
+		return apply_filters( 'bp_get_site_members_pagination_links', $site_members_template->pag_links );
+	}
 
 function bp_activities_title() {
 	global $bp_activity_title;
