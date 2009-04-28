@@ -33,7 +33,8 @@ function bp_core_get_avatar( $user, $version = 1, $width = null, $height = null,
 	if ( !$height )
 		$height = constant('CORE_AVATAR_V' . $version . '_H');		
 	
-	if ( !$avatar_file = wp_cache_get( 'bp_core_avatar_v' . $version . '_u' . $user, 'bp' ) ) {
+	$avatar_file = wp_cache_get( 'bp_core_avatar_v' . $version . '_u' . $user, 'bp' );
+	if ( false === $avatar_file ) {
 		$avatar_file = get_usermeta( $user, 'bp_core_avatar_v' . $version );
 		wp_cache_set( 'bp_core_avatar_v' . $version . '_u' . $user, $avatar_file, 'bp' );
 	}
