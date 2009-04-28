@@ -299,7 +299,7 @@ function bp_the_topic_latest_post_excerpt() {
 		global $forum_template;
 
 		$post = bp_forums_get_post( $forum_template->topic->topic_last_post_id );
-		return apply_filters( 'bp_get_the_topic_latest_post_excerpt', $post->post_text );
+		return apply_filters( 'bp_get_the_topic_latest_post_excerpt', $post['post_text'] );
 	}
 
 function bp_the_topic_time_since_last_post( $deprecated = true ) {
