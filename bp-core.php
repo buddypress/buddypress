@@ -1328,6 +1328,8 @@ add_action( 'delete_user', 'bp_core_remove_data', 1 );
 
 function bp_core_clear_user_object_cache( $user_id ) {
 	wp_cache_delete( 'bp_user_' . $user_id, 'bp' );
+	wp_cache_delete( 'bp_core_avatar_v1_u' . $user_id, 'bp' );
+	wp_cache_delete( 'bp_core_avatar_v2_u' . $user_id, 'bp' );
 	wp_cache_delete( 'online_users' );
 	wp_cache_delete( 'newest_users' );
 }
