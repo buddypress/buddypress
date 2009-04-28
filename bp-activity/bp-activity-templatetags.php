@@ -186,9 +186,9 @@ function bp_activity_pagination_links() {
 	echo bp_get_activity_pagination_links();
 }
 	function bp_get_activity_pagination_links() {
-		global $site_members_template;
+		global $activities_template;
 		
-		return apply_filters( 'bp_get_site_members_pagination_links', $site_members_template->pag_links );
+		return apply_filters( 'bp_get_activity_pagination_links', $activities_template->pag_links );
 	}
 
 function bp_activities_title() {
