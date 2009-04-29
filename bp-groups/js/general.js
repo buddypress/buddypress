@@ -73,15 +73,14 @@ jQuery(document).ready( function() {
 		function() { 
 			jQuery('#ajax-loader').toggle();
 
-			var fpage = jQuery(this).attr('href');
-			fpage = fpage.split('=');
+			var grpage = jQuery(this).attr('href');
+			grpage = grpage.split('=');
 
 			jQuery.post( ajaxurl, {
 				action: 'group_filter',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce_group_filter").val(),
-				'fpage': fpage[1],
-				'num': 10,
+				'grpage': grpage[1],
 
 				'group-filter-box': jQuery("#group-filter-box").val()
 			},
@@ -144,8 +143,7 @@ jQuery(document).ready( function() {
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_member_pag_nonce").val(),
 				'group_id': jQuery("#group_id").val(),
-				'mlpage': mlpage[1],
-				'num': 10
+				'mlpage': mlpage[1]
 			},
 			function(response)
 			{	
@@ -177,8 +175,7 @@ jQuery(document).ready( function() {
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_member_admin_pag_nonce").val(),
 				'group_id': jQuery("#group_id").val(),
-				'mlpage': mlpage[1],
-				'num': 15
+				'mlpage': mlpage[1]
 			},
 			function(response)
 			{	

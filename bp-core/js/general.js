@@ -65,8 +65,7 @@ jQuery("div#wire-pagination a").livequery('click',
 			'cookie': encodeURIComponent(document.cookie),
 			'_wpnonce': jQuery("input#_wpnonce").val(),
 			'wpage': fpage[1],
-			'bp_wire_item_id': jQuery("input#bp_wire_item_id").val(),
-			'num': 5
+			'bp_wire_item_id': jQuery("input#bp_wire_item_id").val()
 		},
 		function(response)
 		{	
