@@ -44,7 +44,7 @@
 <?php else: ?>
 
 	<div id="message" class="info">
-		<p><?php _e( 'No groups found.', 'buddypress' ) ?></p>
+		<p><?php _e( 'There were no groups found.', 'buddypress' ) ?></p>
 	</div>
 
 <?php endif; ?>
