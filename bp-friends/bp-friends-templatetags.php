@@ -19,7 +19,7 @@ class BP_Friendship_Template {
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
 					
-		$this->pag_page = isset( $_REQUEST['fpage'] ) ? intval( $_REQUEST['fpage'] ) : 1;
+		$this->pag_page = isset( $_REQUEST['frpage'] ) ? intval( $_REQUEST['frpage'] ) : 1;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 		$this->type = $type;
 
@@ -64,7 +64,7 @@ class BP_Friendship_Template {
 		}
 
 		$this->pag_links = paginate_links( array(
-			'base' => add_query_arg( 'fpage', '%#%' ),
+			'base' => add_query_arg( 'frpage', '%#%' ),
 			'format' => '',
 			'total' => ceil($this->total_friend_count / $this->pag_num),
 			'current' => $this->pag_page,
@@ -307,6 +307,16 @@ function bp_friend_pagination() {
 		
 		return apply_filters( 'bp_friend_pagination', $friends_template->pag_links );
 	}
+
+function bp_friend_pagination_count() {
+	global $bp, $friends_template;
+
+	$from_num = intval( ( $friends_template->pag_page - 1 ) * $friends_template->pag_num ) + 1;
+	$to_num = ( $from_num + ( $friends_template->pag_num - 1 ) > $friends_template->total_friend_count ) ? $friends_template->total_friend_count : $from_num + ( $friends_template->pag_num - 1) ;
+
+	echo sprintf( __( 'Viewing friend %d to %d (of %d friends)', 'buddypress' ), $from_num, $to_num, $friends_template->total_friend_count ); ?> &nbsp;
+	<img id="ajax-loader-friends" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" /><?php
+}
 	
 
 function bp_friend_search_form() {
