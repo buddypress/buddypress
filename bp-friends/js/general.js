@@ -6,20 +6,22 @@ jQuery(document).ready( function() {
 		}
 	);
 	
+	if ( !jQuery("div#friends-loop") )
+		return false;
+	
 	jQuery("div#pag a").livequery('click',
 		function() { 
 			jQuery('#ajax-loader').toggle();
 
-			var fpage = jQuery(this).attr('href');
-			fpage = fpage.split('=');
+			var frpage = jQuery(this).attr('href');
+			frpage = frpage.split('=');
 
 			jQuery.post( ajaxurl, {
 				action: 'friends_search',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce_friend_search").val(),
 				'initiator_id': jQuery("input#initiator").val(),
-				'fpage': fpage[1],
-				'num': 10,
+				'frpage': frpage[1]
 
 				'friend-search-box': jQuery("#friend-search-box").val()
 			},
@@ -41,7 +43,10 @@ jQuery(document).ready( function() {
 		}
 	);
 	
-	jQuery("input#friend-search-box").keyup(	
+	jQuery("input#friend-search-box").keyup(
+		if ( !jQuery("div#friends-loop") )
+			return false;
+				
 		function(e) {
 			if ( e.which == 13 ) {
 				jQuery('#ajax-loader').toggle();
