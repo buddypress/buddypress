@@ -15,17 +15,17 @@ Class BP_XProfile_Template {
 	var $in_the_loop;
 	var $user_id;
 
-	function bp_xprofile_template( $user_id, $group_id ) {
+	function bp_xprofile_template( $user_id, $profile_group_id ) {
 		
-		if ( !$group_id ) {
+		if ( !$profile_group_id ) {
 			if ( !$this->groups = wp_cache_get( 'xprofile_groups', 'bp' ) ) {
 				$this->groups = BP_XProfile_Group::get_all(true);
 				wp_cache_set( 'xprofile_groups', $this->groups, 'bp' );
 			}
 		} else {
-			if ( !$this->groups = wp_cache_get( 'xprofile_group_' . $group_id, 'bp' ) ) {
-				$this->groups = new BP_XProfile_Group( $group_id );
-				wp_cache_set( 'xprofile_group_' . $group_id, 'bp' );
+			if ( !$this->groups = wp_cache_get( 'xprofile_group_' . $profile_group_id, 'bp' ) ) {
+				$this->groups = new BP_XProfile_Group( $profile_group_id );
+				wp_cache_set( 'xprofile_group_' . $profile_group_id, 'bp' );
 			}
 			
 			/* We need to put this single group into the same format as multiple group (an array) */
@@ -163,13 +163,13 @@ function bp_has_profile( $args = '' ) {
 	
 	$defaults = array(
 		'user_id' => $bp->displayed_user->id,
-		'group_id' => false
+		'profile_group_id' => false
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 	
-	$profile_template = new BP_XProfile_Template( $user_id, $group_id );
+	$profile_template = new BP_XProfile_Template( $user_id, $profile_group_id );
 	
 	return $profile_template->has_groups();
 }
@@ -184,10 +184,14 @@ function bp_the_profile_group() {
 	return $profile_template->the_profile_group();
 }
 
-function bp_group_has_fields() {
+function bp_profile_group_has_fields() {
 	global $profile_template;
 	return $profile_template->has_fields();
 }
+	/* Deprecated: Don't use this as it it too easily confused with site groups */
+	function bp_group_has_fields() {
+		return bp_profile_group_has_fields();
+	}
 
 function bp_field_css_class() {
 	global $profile_template;
