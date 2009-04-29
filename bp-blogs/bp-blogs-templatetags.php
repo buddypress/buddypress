@@ -226,7 +226,7 @@ class BP_Blogs_User_Blogs_Template {
 		else
 			$this->total_blog_count = (int)$max;
 		
-		$this->blogs = $this->blogs['blogs'];
+		$this->blogs = array_slice( $this->blogs['blogs'], intval( ( $this->pag_page - 1 ) * $this->pag_num), intval( $this->pag_num ) );
 		
 		if ( $max ) {
 			if ( $max >= count($this->blogs) )
@@ -402,7 +402,7 @@ class BP_Blogs_Blog_Post_Template {
 		else
 			$this->total_post_count = (int)$max;
 		
-		$this->posts = $this->posts['posts'];
+		$this->posts = array_slice( $this->posts['posts'], intval( ( $this->pag_page - 1 ) * $this->pag_num), intval( $this->pag_num ) );
 
 		if ( $max ) {
 			if ( $max >= count($this->posts) )
@@ -817,26 +817,38 @@ class BP_Blogs_Post_Comment_Template {
 	var $pag_links;
 	var $total_comment_count;
 	
-	function bp_blogs_post_comment_template( $user_id = null ) {
+	function bp_blogs_post_comment_template( $user_id, $per_page, $max ) {
 		global $bp;
 		
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
 
-		$this->pag_page = isset( $_GET['fpage'] ) ? intval( $_GET['fpage'] ) : 1;
-		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 10;
+		$this->pag_page = isset( $_GET['compage'] ) ? intval( $_GET['compage'] ) : 1;
+		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : $per_page;
 		
 		if ( !$this->comments = wp_cache_get( 'bp_user_comments_' . $user_id, 'bp' ) ) {
 			$this->comments = bp_blogs_get_comments_for_user( $user_id );
 			wp_cache_set( 'bp_user_comments_' . $user_id, $this->comments, 'bp' );
 		}
 		
-		$this->total_comment_count = (int)$this->comments['count'];
-		$this->comments = $this->comments['comments'];
-		$this->comment_count = count($this->comments);
+		if ( !$max )
+			$this->total_comment_count = (int)$this->comments['count'];
+		else
+			$this->total_comment_count = (int)$max;
+		
+		$this->comments = array_slice( $this->comments['comments'], intval( ( $this->pag_page - 1 ) * $this->pag_num), intval( $this->pag_num ) );
 
+		if ( $max ) {
+			if ( $max >= count($this->comments) )
+				$this->comment_count = count($this->comments);
+			else
+				$this->comment_count = (int)$max;
+		} else {
+			$this->comment_count = count($this->comments);
+		}
+		
 		$this->pag_links = paginate_links( array(
-			'base' => add_query_arg( 'fpage', '%#%' ),
+			'base' => add_query_arg( 'compage', '%#%' ),
 			'format' => '',
 			'total' => ceil($this->total_comment_count / $this->pag_num),
 			'current' => $this->pag_page,
@@ -892,10 +904,19 @@ class BP_Blogs_Post_Comment_Template {
 	}
 }
 
-function bp_has_comments() {
+function bp_has_comments( $args = '' ) {
 	global $comments_template;
 
-	$comments_template = new BP_Blogs_Post_Comment_Template;
+	$defaults = array(
+		'user_id' => false,
+		'per_page' => 10,
+		'max' => false
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+	
+	$comments_template = new BP_Blogs_Post_Comment_Template( $user_id, $per_page, $max );
 	
 	return $comments_template->has_comments();
 }
