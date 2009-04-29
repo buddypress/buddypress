@@ -59,7 +59,7 @@
 		
 			<?php if ( bp_group_is_visible() && bp_group_is_wire_enabled() ) : ?>
 				<?php if ( function_exists('bp_wire_get_post_list') ) : ?>
-					<?php bp_wire_get_post_list( bp_group_id( false, false ), __( 'Group Wire', 'buddypress' ), sprintf( __( 'The are no wire posts for %s', 'buddypress' ), bp_group_name( false ) ), bp_group_is_member(), true ) ?>
+					<?php bp_wire_get_post_list( bp_group_id( false, false ), __( 'Group Wire', 'buddypress' ), sprintf( __( 'There are no wire posts for %s', 'buddypress' ), bp_group_name( false ) ), bp_group_is_member(), true ) ?>
 				<?php endif; ?>
 			<?php endif; ?>
 		
