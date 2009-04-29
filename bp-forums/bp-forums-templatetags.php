@@ -18,11 +18,11 @@ class BP_Forums_Template_Forum {
 	var $sort_by;
 	var $order;
 	
-	function BP_Forums_Template_Forum( $forum_id, $topics_per_page = 10 ) {
+	function BP_Forums_Template_Forum( $forum_id, $per_page, $max ) {
 		global $bp, $current_user;
-		
-		$this->pag_page = isset( $_REQUEST['fpage'] ) ? intval( $_REQUEST['fpage'] ) : 1;
-		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $topics_per_page;
+
+		$this->pag_page = isset( $_REQUEST['forum_page'] ) ? intval( $_REQUEST['forum_page'] ) : 1;
+		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
 		$this->topics = bp_forums_get_topics( $forum_id, $this->pag_num, $this->pag_page );
 		
@@ -30,12 +30,23 @@ class BP_Forums_Template_Forum {
 			$this->topic_count = 0;
 			$this->total_topic_count = 0;
 		} else {
-			$this->topic_count = count( $this->topics );
-			$this->total_topic_count = count( bp_forums_get_topics( $forum_id ) );			
+			if ( !$max )
+				$this->total_topic_count = count( bp_forums_get_topics( $forum_id ) );
+			else
+				$this->total_topic_count = (int)$max;
+
+			if ( $max ) {
+				if ( $max >= count($this->topics) )
+					$this->topic_count = count( $this->topics );
+				else
+					$this->topic_count = (int)$max;
+			} else {
+				$this->topic_count = count( $this->topics );
+			}		
 		}
 
 		$this->pag_links = paginate_links( array(
-			'base' => add_query_arg( array( 'fpage' => '%#%', 'num' => $this->pag_num ) ),
+			'base' => add_query_arg( array( 'forum_page' => '%#%', 'num' => $this->pag_num ) ),
 			'format' => '',
 			'total' => ceil($this->total_topic_count / $this->pag_num),
 			'current' => $this->pag_page,
@@ -91,15 +102,24 @@ class BP_Forums_Template_Forum {
 	}
 }
 
-function bp_has_topics( $topics_per_page = 10, $forum_id = false ) {
+function bp_has_topics( $args = '' ) {
 	global $forum_template, $bp;
 	global $group_obj;
 	
-	if ( !$forum_id )
-		$forum_id = groups_get_groupmeta( $group_obj->id, 'forum_id' );
+	$defaults = array(
+		'forum_id' => false,
+		'per_page' => 10,
+		'max' => false
+	);
 
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	if ( !$forum_id && $bp->current_component == $bp->groups->slug && 'forum' == $bp->current_action )
+		$forum_id = groups_get_groupmeta( $group_obj->id, 'forum_id' );
+	
 	if ( is_numeric( $forum_id ) )
-		$forum_template = new BP_Forums_Template_Forum( $forum_id );
+		$forum_template = new BP_Forums_Template_Forum( $forum_id, $per_page, $max );
 	else
 		return false;
 
@@ -359,27 +379,38 @@ class BP_Forums_Template_Topic {
 	var $sort_by;
 	var $order;
 	
-	function BP_Forums_Template_Topic( $topic_id, $posts_per_page = 10 ) {
+	function BP_Forums_Template_Topic( $topic_id, $per_page, $max ) {
 		global $bp, $current_user, $forum_template;
 		
-		$this->pag_page = isset( $_REQUEST['page'] ) ? intval( $_REQUEST['page'] ) : 1;
-		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $posts_per_page;
+		$this->pag_page = isset( $_REQUEST['topic_page'] ) ? intval( $_REQUEST['topic_page'] ) : 1;
+		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 	
 		$this->topic_id = $topic_id;
 		$forum_template->topic = (object) bp_forums_get_topic_details( $this->topic_id );
-		
+
 		$this->posts = bp_forums_get_posts( $this->topic_id, $this->pag_num, $this->pag_page );
 		
 		if ( !$this->posts ) {
 			$this->post_count = 0;
 			$this->total_post_count = 0;
 		} else {
-			$this->post_count = count( $this->posts );
-			$this->total_post_count = (int) $forum_template->topic->topic_posts;			
+			if ( !$max )
+				$this->total_post_count = (int) $forum_template->topic->topic_posts;
+			else
+				$this->total_post_count = (int)$max;
+
+			if ( $max ) {
+				if ( $max >= count($this->posts) )
+					$this->post_count = count( $this->posts );
+				else
+					$this->post_count = (int)$max;
+			} else {
+				$this->post_count = count( $this->posts );
+			}
 		}
 
 		$this->pag_links = paginate_links( array(
-			'base' => add_query_arg( array( 'page' => '%#%', 'num' => $this->pag_num ) ),
+			'base' => add_query_arg( array( 'topic_page' => '%#%', 'num' => $this->pag_num ) ),
 			'format' => '',
 			'total' => ceil($this->total_post_count / $this->pag_num),
 			'current' => $this->pag_page,
@@ -435,14 +466,23 @@ class BP_Forums_Template_Topic {
 	}
 }
 
-function bp_has_topic_posts( $posts_per_page = 10, $topic_id = false ) {
+function bp_has_topic_posts( $args = '' ) {
 	global $topic_template, $bp;
 	
-	if ( !$topic_id )
+	$defaults = array(
+		'topic_id' => false,
+		'per_page' => 10,
+		'max' => false
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	if ( !$topic_id && $bp->current_component == $bp->groups->slug && 'forum' == $bp->current_action && 'topic' == $bp->action_variables[0] )
 		$topic_id = $bp->action_variables[1];
 
 	if ( is_numeric( $topic_id ) )
-		$topic_template = new BP_Forums_Template_Topic( $topic_id, $posts_per_page );
+		$topic_template = new BP_Forums_Template_Topic( $topic_id, $per_page, $max );
 	else
 		return false;
 
