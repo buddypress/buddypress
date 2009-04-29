@@ -147,9 +147,9 @@ Class BP_XProfile_Group {
 		global $wpdb, $bp;
 
 		if ( $hide_empty ) {
-			$sql = $wpdb->prepare( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id ORDER BY g.id ASC" );
+			$sql = $wpdb->prepare( "SELECT DISTINCT g.id FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id ORDER BY g.id ASC" );
 		} else {
-			$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_groups} ORDER BY id ASC" );
+			$sql = $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_groups} ORDER BY id ASC" );
 		}
 
 		if ( !$groups_temp = $wpdb->get_results($sql) )

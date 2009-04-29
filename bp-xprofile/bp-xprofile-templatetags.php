@@ -15,12 +15,23 @@ Class BP_XProfile_Template {
 	var $in_the_loop;
 	var $user_id;
 
-	function bp_xprofile_template($user_id) {
-		if ( !$this->groups = wp_cache_get( 'xprofile_groups', 'bp' ) ) {
-			$this->groups = BP_XProfile_Group::get_all(true);
-			wp_cache_set( 'xprofile_groups', $this->groups, 'bp' );
+	function bp_xprofile_template( $user_id, $group_id ) {
+		
+		if ( !$group_id ) {
+			if ( !$this->groups = wp_cache_get( 'xprofile_groups', 'bp' ) ) {
+				$this->groups = BP_XProfile_Group::get_all(true);
+				wp_cache_set( 'xprofile_groups', $this->groups, 'bp' );
+			}
+		} else {
+			if ( !$this->groups = wp_cache_get( 'xprofile_group_' . $group_id, 'bp' ) ) {
+				$this->groups = new BP_XProfile_Group( $group_id );
+				wp_cache_set( 'xprofile_group_' . $group_id, 'bp' );
+			}
+			
+			/* We need to put this single group into the same format as multiple group (an array) */
+			$this->groups = array( $this->groups );
 		}
-
+		
 		$this->group_count = count($this->groups);
 		$this->user_id = $user_id;
 	}
@@ -147,10 +158,18 @@ function xprofile_get_profile() {
 	load_template( TEMPLATEPATH . '/profile/profile-loop.php');
 }
 
-function bp_has_profile() { 
+function bp_has_profile( $args = '' ) { 
 	global $bp, $profile_template;
+	
+	$defaults = array(
+		'user_id' => $bp->displayed_user->id,
+		'group_id' => false
+	);
 
-	$profile_template = new BP_XProfile_Template($bp->displayed_user->id);
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+	
+	$profile_template = new BP_XProfile_Template( $user_id, $group_id );
 	
 	return $profile_template->has_groups();
 }
