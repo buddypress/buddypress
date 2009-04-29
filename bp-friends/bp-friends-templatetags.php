@@ -129,6 +129,9 @@ class BP_Friendship_Template {
 				$this->friendship->friend = new BP_Core_User( $user_id );
 				wp_cache_set( 'bp_user_' . $user_id, $this->friendship->friend, 'bp' );
 			}
+			
+			/* Make sure the user_id is available in the friend object. */
+			$this->friendship->friend->user_id = $user_id;
 		}
 
 		if ( 0 == $this->current_friendship ) // loop has just started
@@ -180,6 +183,15 @@ function bp_user_friendships() {
 	global $friends_template;
 	return $friends_template->user_friendships();
 }
+
+function bp_friend_id() {
+	echo bp_get_friend_id();
+}
+	function bp_get_friend_id() {
+		global $friends_template;
+		
+		return apply_filters( 'bp_get_friend_id', $friends_template->friendship->friend->user_id );	
+	}
 
 function bp_friend_avatar_thumb() {
 	echo bp_get_friend_avatar_thumb();
