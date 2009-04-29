@@ -260,10 +260,19 @@ function bp_messages_pagination() {
 		return apply_filters( 'bp_get_messages_pagination', $messages_template->pag_links );
 	}
 
+function bp_messages_pagination_count() {
+	global $messages_template;
+
+	$from_num = intval( ( $messages_template->pag_page - 1 ) * $messages_template->pag_num ) + 1;
+	$to_num = ( $from_num + ( $messages_template->pag_num - 1 ) > $messages_template->total_thread_count ) ? $messages_template->total_thread_count : $from_num + ( $messages_template->pag_num - 1) ;
+
+	echo sprintf( __( 'Viewing message %d to %d (of %d messages)', 'buddypress' ), $from_num, $to_num, $messages_template->total_thread_count ); ?> &nbsp;
+	<img id="ajax-loader-messages" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" /><?php
+}
+
 function bp_messages_form_action() {
 	echo bp_get_messages_form_action();
 }
-	
 	function bp_get_messages_form_action() {
 		global $bp;
 
