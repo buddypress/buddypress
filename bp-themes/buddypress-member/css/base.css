@@ -191,6 +191,10 @@ input#submit, p.submit input {
 			padding-left: 276px;
 			margin-left: -276px;
 		}
+			#create-group-form .crop-img {
+				padding-left: 476px !important;
+				margin-left: -476px !important;	
+			}
 
 	#userbar p#login-text {
 		text-align: center;
