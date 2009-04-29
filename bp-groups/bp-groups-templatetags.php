@@ -1088,6 +1088,16 @@ function bp_group_pagination() {
 		return apply_filters( 'bp_get_group_pagination', $groups_template->pag_links );
 	}
 
+function bp_group_pagination_count() {
+	global $bp, $groups_template;
+
+	$from_num = intval( ( $groups_template->pag_page - 1 ) * $groups_template->pag_num ) + 1;
+	$to_num = ( $from_num + ( $groups_template->pag_num - 1 ) > $groups_template->total_group_count ) ? $groups_template->total_group_count : $from_num + ( $groups_template->pag_num - 1) ;
+
+	echo sprintf( __( 'Viewing group %d to %d (of %d groups)', 'buddypress' ), $from_num, $to_num, $groups_template->total_group_count ); ?> &nbsp;
+	<img id="ajax-loader-groups" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" /><?php
+}
+
 function bp_total_group_count() {
 	echo bp_get_total_group_count();
 }
