@@ -193,18 +193,6 @@ function bp_friend_avatar_thumb() {
 		return apply_filters( 'bp_get_friend_avatar_thumb', $friends_template->friendship->friend->avatar_thumb );
 	}
 
-function bp_friend_status() {
-	echo bp_get_friend_status();
-}
-	function bp_get_friend_status() {
-		global $friends_template;
-
-		if ( $friends_template->friendship->friend->status )
-			return apply_filters( 'bp_get_friend_status', $friends_template->friendship->friend->status );
-		
-		return false;
-	}
-
 function bp_friend_name() {
 	echo bp_get_friend_name();
 }
@@ -239,33 +227,6 @@ function bp_friend_last_active() {
 		global $friends_template;
 
 		return apply_filters( 'bp_get_friend_last_active', $friends_template->friendship->friend->last_active );
-	}
-
-function bp_friend_last_profile_update() {
-	echo bp_get_friend_last_profile_update();
-}
-	function bp_get_friend_last_profile_update() {
-		global $friends_template;
-
-		return apply_filters( 'bp_get_friend_last_profile_update', $friends_template->friendship->friend->profile_last_updated );
-	}
-
-function bp_friend_last_status_update() {
-	echo bp_get_friend_last_status_update();
-}
-	function bp_get_friend_last_status_update() {
-		global $friends_template;
-
-		echo apply_filters( 'bp_get_friend_last_status_update', $friends_template->friendship->friend->profile_last_updated );
-	}
-
-function bp_friend_last_content_update() {
-	echo bp_get_friend_last_content_update();
-}
-	function bp_get_friend_last_content_update() {
-		global $friends_template;
-
-		echo apply_filters( 'bp_get_friend_last_content_update', $friends_template->friendship->friend->content_last_updated );
 	}
 	
 function bp_friend_time_since_requested() {
