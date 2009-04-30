@@ -1,0 +1,126 @@
+/**** MY GROUP LISTING PAGE *************************/
+
+ul#group-list {
+	
+}
+
+ul#random-groups-list {
+	
+}
+
+form#group-search-form {
+	
+}
+	form#group-search-form label#group-filter-box-label { }
+	form#group-search-form input#group-filter-box { }
+
+
+/**** CREATE A GROUP PAGE ****************************/
+
+form#create-group-form {
+	
+}
+	div#skip-continue { }
+
+
+div#invite-list {
+	
+}
+
+
+/**** GROUP INVITES PAGE *****************************/
+
+ul#group-list.invites {
+	
+}
+
+
+/***** MAIN GROUP PAGE *******************************/
+
+div#group-name {
+	
+}
+	div#group-name p.status { }
+	
+	/* --- Group Menu Lists -------------------------*/
+
+	/* All of these lists contain the item-list generic class */
+	ul#group-admins {
+	
+	}
+
+	ul#group-mods {
+	
+	}
+
+	/* --- Group Forum Styles -----------------------*/
+
+	ul#recent-forum-topics {
+		
+	}
+	
+	ul#forum-topic-list {
+		
+	}
+		ul#forum-topic-list div.latst-post { }
+		
+	
+	ul#topic-post-list {
+		
+	}
+		ul#topic-post-list li#topic-meta { }
+		
+		ul#topic-post-list li div.poster-meta { }
+		ul#topic-post-list li div.post-content { }
+	
+	div#post-new-topic {
+		
+	}
+	
+	div#post-topic-reply {
+		
+	}
+	
+	/* --- Group Member Lists ------------------------*/
+	
+	/* All of these lists contain the item-list generic class */
+	ul#admins-list {
+		
+	}
+	
+	ul#mods-list {
+		
+	}
+	
+	ul#member-list {
+		
+	}
+
+
+/***** GROUP ADMIN PAGES *******************************/
+
+form#edit-details-form {
+	
+}
+
+form#group-settings-form {
+	
+}
+
+form#group-avatar-form {
+	
+}
+
+form#group-delete-form {
+	
+}
+
+
+
+
+
+
+
+	
+	
+		

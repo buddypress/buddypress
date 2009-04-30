@@ -1,0 +1,26 @@
+/*  
+Theme Name: Skeleton BuddyPress Member Theme
+Theme URI: http://buddypress.org/
+Description: A bare-bones BuddyPress theme to start your own theme from.
+Version: 1.2
+Author: Andy Peatling
+Author URI: http://apeatling.wordpress.com
+*/
+
+/**
+ * I find it easier to break down CSS into seperate files, each one tackling a specific component.
+ * Of course this is only a guide, you could quite easily keep all your CSS in this style.css file.
+ */
+
+/* First, include the "base" styles, that will structure and style the header, main content areas and footer. */
+@import url( css/base.css );
+
+/* Next, include the CSS file for each component. Profile, Groups, Friends, etc... */
+@import url( css/activity.css );
+@import url( css/blogs.css );
+@import url( css/directories.css );
+@import url( css/friends.css );
+@import url( css/groups.css );
+@import url( css/messages.css );
+@import url( css/profile.css );
+@import url( css/wire.css );
