@@ -242,13 +242,13 @@ function bp_fetch_user_fullname( $user_id, $echo = true ) {
 
 			if ( empty($fullname) || !$fullname ) {
 				$ud = get_userdata($user_id);
-				$fullname = bp_core_ucfirst($ud->user_login);
+				$fullname = $ud->display_name;
 
 				xprofile_set_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id, $fullname );
 			}
 		} else {
 			$ud = get_userdata($user_id);
-			$fullname = $ud->user_login;
+			$fullname = $ud->display_name;
 		}
 
 		wp_cache_set( 'bp_user_fullname_' . $user_id, $fullname, 'bp' );
@@ -303,60 +303,72 @@ function bp_get_displayed_user_link() {
 }
 
 function bp_core_get_wp_profile() {
-	global $current_user;
+	global $bp;
+	
+	$ud = get_userdata( $bp->displayed_user->id );
 ?>
 
 <div class="info-group wp-profile">
 	<h4><?php _e( 'My Profile' ) ?></h4>
 
 	<table class="wp-profile-fields">
-		<?php if ( $current_user->first_name || $current_user->last_name ) { ?>
-		<tr>
+		<?php if ( $ud->display_name ) { ?>
+		<tr id="wp_displayname">
 			<td class="label">
-				<?php _e( 'Full Name', 'buddypress' ) ?>
+				<?php _e( 'Name', 'buddypress' ) ?>
 			</td>
 			<td class="data">
-				<?php echo $current_user->first_name . ' ' . $current_user->last_name ?>
+				<?php echo $ud->display_name ?>
 			</td>
 		</tr>
 		<?php } ?>
-		<?php if ( $current_user->user_description ) { ?>
-		<tr>
+		<?php if ( $ud->user_description ) { ?>
+		<tr id="wp_desc">
 			<td class="label">
 				<?php _e( 'About Me', 'buddypress' ) ?>
 			</td>
 			<td class="data">
-				<?php echo $current_user->user_description ?>
+				<?php echo $ud->user_description ?>
 			</td>
 		</tr>
 		<?php } ?>
-		<?php if ( $current_user->jabber ) { ?>
-		<tr>
+		<?php if ( $ud->user_url ) { ?>
+		<tr id="wp_website">
+			<td class="label">
+				<?php _e( 'Website', 'buddypress' ) ?>
+			</td>
+			<td class="data">
+				<?php echo make_clickable( $ud->user_url ) ?>
+			</td>
+		</tr>
+		<?php } ?>
+		<?php if ( $ud->jabber ) { ?>
+		<tr id="wp_jabber">
 			<td class="label">
 				<?php _e( 'Jabber', 'buddypress' ) ?>
 			</td>
 			<td class="data">
-				<?php echo $current_user->jabber ?>
+				<?php echo $ud->jabber ?>
 			</td>
 		</tr>
 		<?php } ?>
-		<?php if ( $current_user->aim ) { ?>
-		<tr>
+		<?php if ( $ud->aim ) { ?>
+		<tr id="wp_aim">
 			<td class="label">
 				<?php _e( 'AOL Messenger', 'buddypress' ) ?>
 			</td>
 			<td class="data">
-				<?php echo $current_user->aim ?>
+				<?php echo $ud->aim ?>
 			</td>
 		</tr>
 		<?php } ?>
-		<?php if ( $current_user->yim ) { ?>
-		<tr>
+		<?php if ( $ud->yim ) { ?>
+		<tr id="wp_yim">
 			<td class="label">
 				<?php _e( 'Yahoo Messenger', 'buddypress' ) ?>
 			</td>
 			<td class="data">
-				<?php echo $current_user->yim ?>
+				<?php echo $ud->yim ?>
 			</td>
 		</tr>
 		<?php } ?>
