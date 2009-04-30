@@ -1,6 +1,6 @@
 <?php
 
-define( 'BP_WIRE_VERSION', '1.0-RC2' );
+define( 'BP_WIRE_VERSION', '1.0' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_WIRE_SLUG' ) )

@@ -1,107 +1,60 @@
-How to install BuddyPress
-'''''''''''''''''''''''''
+=== Plugin Name ===
+Contributors: apeatling
+Tags: wpmu, buddypress, social, networking, profiles, messaging, friends, groups, forums, activity
+Requires at least: 2.7.1
+Tested up to: 2.7.1
+Stable tag: 1.0
 
-**********************************************
-Step 1: Make sure WPMU is installed correctly.
-**********************************************
+BuddyPress is a suite of WordPress MU social networking plugins and themes.
 
-This is the most important step of all. Before you try and install
-BuddyPress, you must make sure WPMU is installed and working correctly.
+== Description ==
 
-The WPMU support forums are a great resource. http://mu.wordpress.org/forums
+BuddyPress will extend WordPress MU and bring social networking features to a new or existing installation.
 
-Please test your installation first. Make sure you can register and activate
-new blogs. Make sure you can post and leave comments on blogs. Make sure you
-are not getting blank screens or 404's anywhere on the install.
+BuddyPress is a suite of WordPress plugins and themes, each adding a distinct new feature. BuddyPress 
+contains all the features you‚Äôd expect from WordPress but aims to let members socially interact.
 
+All BuddyPress plugins can be themed to match your own style, in just the same way as a WordPress blog. 
+The BuddyPress plugins are bundled with a default theme to get you going out of the box.
 
-**************************************************************************
-Step 2: Add the BuddyPress plugins to wp-content/plugins/buddypress directory
-**************************************************************************
+== Installation ==
 
-Drop everything into the 'wp-content/plugins/buddypress' directory for your installation.
-You will then need to activate BuddyPress in the "Plugins" admin panel.
+BuddyPress requires WordPress MU, it will not work on a single install of WordPress (yet).
 
+--- Plugins: ---
 
-**************************************************
-Step 3: Move the themes to their correct locations
-**************************************************
+1. Upload everything into the "/wp-content/plugins/buddypress/" directory of your installation.
+2. Activate BuddyPress in the "Plugins" admin panel using the "Activate Site Wide" or "Activate" link (both work).
 
-The home theme is not required, you can use a standard WordPress theme if you wish.
+--- Themes: ---
 
-If you want to use the home theme, move:
-  From: 'wp-content/plugins/buddypress/bp-themes/bphome'
-  To: 'wp-content/themes/bphome/'
+1. Move the "/wp-content/plugins/buddypress/bp-themes/" directory to "/wp-content/bp-themes/"
 
-Move the default BuddyPress member theme:
-  From: 'wp-content/plugins/buddypress/bp-themes/bpmember/'
-  To: 'wp-content/bp-themes/bpmember/'
+The default home theme is not required, you can use a standard WordPress theme for your root blog if you wish.
 
+2. To install the default home theme move "/wp-content/bp-themes/buddypress-home/ to /wp-content/themes/buddypress-home/"
 
-**************************************************************
-Step 4: Log in as an administrator and activate the home theme
-**************************************************************
+There are a few more steps to get you going correctly, to read the full setup guide, please visit:
+http://codex.buddypress.org/getting-started/installing-buddypress/
 
-If you plan on using the default home blog theme (it is optional) you will need to enable
-and activate it.
+== Frequently Asked Questions ==
 
-Head to the WordPress admin panel, when logged in as a site administrator. Go to the
-"Site Admin > Themes" menu and select the "Yes" radio option for "BuddyPress Home Theme".
+= Will this work on standard WordPress? =
 
-Next, go to "Appearance > Themes" and activate the "BuddyPress Home Theme" for the root
-blog.
+No, this will only work on WordPress MU for the time being, but watch this space.
 
-You will want to go back to "Site Admin > Themes" once the you have activated it for the
-root blog so that no one else can use that theme.
+= Where can I get support? =
 
-If you have multiple member themes installed, you will need to go to "Site Admin > BuddyPress"
-and make sure you have selected the member theme you would like to use from the dropdown
-menu.
+The support forums can be found here: http://buddypress.org/forums
 
+= Where can I find documentation? =
 
-******************************************************************
-Step 5: Create your default profile fields and enable registration
-******************************************************************
+The documentation codex can be found here: http://codex.buddypress.org/
 
-If you have installed the Extended Profiles component, log into your installation as
-the administrator and in the administration panel head to:
+= Where can I report a bug? =
 
- - Site Admin > Profiles
+Bugs can be reported here: http://trac.buddypress.org/newticket
 
-Here you can set up profile groups and fields for users to fill in. Any fields you add 
-to the "Basic" group will appear on the signup form along with an avatar upload option.
+= Where can checkout the latest bleeding edge? =
 
-** If this is a brand new WPMU install ** you will need to enable registrations. Head to:
-
- - Site Admin > Options
-
-Check the "Enabled" radio button under "Allow new registrations" and hit the update 
-options button. You can enable/disable blog registrations if you wish.
-
-
-****************
-Useful Resources
-****************
-
- - BuddyPress Forums:
-   http://buddypress.org/forums
-
- - BuddyPress Codex
-   http://codex.buddypress.org/
-
- - BuddyPress Testdrive:
-   http://testbp.org
-
- - BuddyPress Trac server (code repo and install links)
-   http://trac.buddypress.org
-
- - Report a Bug:
-   http://trac.buddypress.org/newticket
-
-
-
-
-
-
-
-
+BuddyPress subversion trunk can be found at: http://svn.buddypress.org/trunk/
