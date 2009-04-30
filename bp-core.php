@@ -153,11 +153,7 @@ function bp_core_setup_globals() {
 	
 	$bp->core->image_base = BP_PLUGIN_URL . '/bp-core/images';
 	$bp->core->table_name_notifications = $wpdb->base_prefix . 'bp_notifications';
-	
-	/* Used to print version numbers in the footer for reference */
-	$bp->version_numbers = new stdClass;
-	$bp->version_numbers->core = BP_CORE_VERSION;
-	
+
 	if ( !$bp->current_component )
 		$bp->current_component = $bp->default_component;
 }

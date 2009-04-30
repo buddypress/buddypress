@@ -1090,8 +1090,27 @@ function bp_user_fullname() {
 	}
 
 function bp_loggedin_user_fullname() {
-	global $bp;
-	echo apply_filters( 'bp_loggedin_user_fullname', $bp->loggedin_user->fullname );	
+	echo bp_get_loggedin_user_fullname();
 }
+	function bp_get_loggedin_user_fullname() {
+		global $bp;
+		return apply_filters( 'bp_get_loggedin_user_fullname', $bp->loggedin_user->fullname );	
+	}
+
+function bp_current_component() {
+	global $bp;
+	return apply_filters( 'bp_current_component', $bp->current_component );		
+}
+
+function bp_current_action() {
+	global $bp;
+	return apply_filters( 'bp_current_action', $bp->current_action );		
+}
+
+function bp_action_variables() {
+	global $bp;
+	return apply_filters( 'bp_action_variables', $bp->action_variables );		
+}
+
 
 ?>
