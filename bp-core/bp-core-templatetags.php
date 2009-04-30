@@ -455,8 +455,6 @@ function bp_is_blog_page() {
 
 function bp_page_title() {
 	global $bp, $post, $wp_query;
-	
-	//var_dump($wp_query);
 
 	if ( is_home() && bp_is_page( 'home' ) ) {
 		$title = __( 'Home', 'buddypress' );
@@ -474,16 +472,17 @@ function bp_page_title() {
 	 	$title = strip_tags( $bp->displayed_user->fullname . ' &#8212; ' . ucwords( $bp->current_component ) . ' &#8212; ' . $bp->bp_options_nav[$bp->current_component][$bp->current_action]['name'] );
 	} else if ( $bp->is_single_item ) {
 		$title = ucwords( $bp->current_component ) . ' &#8212; ' . $bp->bp_options_title;
+	} else if ( $bp->is_directory ) {
+		if ( !$bp->current_component )
+			$title = sprintf( __( '%s Directory', 'buddypress' ), ucwords( BP_MEMBERS_SLUG ) );
+		else
+			$title = sprintf( __( '%s Directory', 'buddypress' ), ucwords( $bp->current_component ) );
 	} else {
-		if ( $bp->is_directory ) {
-			if ( !$bp->current_component )
-				$title = __( 'Members Directory', 'buddypress' );
-			else
-				$title = sprintf( __( '%s Directory', 'buddypress' ), ucwords( $bp->current_component ) );
-		}		
+		global $post;
+		$title = get_the_title($post->ID);
 	}
 	
-	echo apply_filters( 'bp_page_title', get_blog_option( 1, 'blogname' ) . ' &#8212; ' . $title, $title );
+	echo apply_filters( 'bp_page_title', get_blog_option( BP_ROOT_BLOG, 'blogname' ) . ' &#8212; ' . $title, $title );
 	
 }
 
