@@ -30,12 +30,12 @@ Step 3: Move the themes to their correct locations
 The home theme is not required, you can use a standard WordPress theme if you wish.
 
 If you want to use the home theme, move:
-  From: 'wp-content/plugins/buddypress/bp-themes/buddypress-home'
-  To: 'wp-content/themes/buddypress-home/'
+  From: 'wp-content/plugins/buddypress/bp-themes/bphome'
+  To: 'wp-content/themes/bphome/'
 
 Move the default BuddyPress member theme:
-  From: 'wp-content/plugins/buddypress/bp-themes/buddypress-member/'
-  To: 'wp-content/bp-themes/buddypress-member/'
+  From: 'wp-content/plugins/buddypress/bp-themes/bpmember/'
+  To: 'wp-content/bp-themes/bpmember/'
 
 
 **************************************************************

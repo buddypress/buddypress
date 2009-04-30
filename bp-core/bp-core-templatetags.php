@@ -1050,7 +1050,7 @@ function bp_directory_members_search_form() {
 function bp_home_blog_url() {
 	global $bp;
 
-	if ( 'buddypress-home' == get_blog_option( BP_ROOT_BLOG, 'template' ) )
+	if ( 'bphome' == get_blog_option( BP_ROOT_BLOG, 'template' ) )
 		echo $bp->root_domain . '/' . BP_HOME_BLOG_SLUG;
 	else
 		echo $bp->root_domain;

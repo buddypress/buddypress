@@ -2284,7 +2284,7 @@ function groups_force_buddypress_theme( $template ) {
 	$member_theme = get_site_option('active-member-theme');
 	
 	if ( empty($member_theme) )
-		$member_theme = 'buddypress-member';
+		$member_theme = 'bpmember';
 
 	add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
 	add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
@@ -2302,7 +2302,7 @@ function groups_force_buddypress_stylesheet( $stylesheet ) {
 	$member_theme = get_site_option('active-member-theme');
 	
 	if ( empty( $member_theme ) )
-		$member_theme = 'buddypress-member';
+		$member_theme = 'bpmember';
 	
 	add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
 	add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
