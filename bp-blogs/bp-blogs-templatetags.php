@@ -226,7 +226,7 @@ class BP_Blogs_User_Blogs_Template {
 		else
 			$this->total_blog_count = (int)$max;
 		
-		$this->blogs = array_slice( $this->blogs['blogs'], intval( ( $this->pag_page - 1 ) * $this->pag_num), intval( $this->pag_num ) );
+		$this->blogs = array_slice( (array)$this->blogs['blogs'], intval( ( $this->pag_page - 1 ) * $this->pag_num), intval( $this->pag_num ) );
 		
 		if ( $max ) {
 			if ( $max >= count($this->blogs) )
@@ -402,7 +402,7 @@ class BP_Blogs_Blog_Post_Template {
 		else
 			$this->total_post_count = (int)$max;
 		
-		$this->posts = array_slice( $this->posts['posts'], intval( ( $this->pag_page - 1 ) * $this->pag_num), intval( $this->pag_num ) );
+		$this->posts = array_slice( (array)$this->posts['posts'], intval( ( $this->pag_page - 1 ) * $this->pag_num), intval( $this->pag_num ) );
 
 		if ( $max ) {
 			if ( $max >= count($this->posts) )
@@ -836,7 +836,7 @@ class BP_Blogs_Post_Comment_Template {
 		else
 			$this->total_comment_count = (int)$max;
 		
-		$this->comments = array_slice( $this->comments['comments'], intval( ( $this->pag_page - 1 ) * $this->pag_num), intval( $this->pag_num ) );
+		$this->comments = array_slice( (array)$this->comments['comments'], intval( ( $this->pag_page - 1 ) * $this->pag_num), intval( $this->pag_num ) );
 
 		if ( $max ) {
 			if ( $max >= count($this->comments) )
