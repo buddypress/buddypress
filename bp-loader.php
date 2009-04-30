@@ -17,7 +17,7 @@ define( 'BP_VERSION', '1.0-RC2' );
  */
 
 require_once( 'bp-core.php' );
-$deactivated = get_site_option( 'bp-deactivated-components' );
+$deactivated = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) );
 
 /* Activity Streams */
 if ( !isset( $deactivated['bp-activity.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-activity.php') )

@@ -295,7 +295,7 @@ function groups_directory_groups_setup() {
 		$bp->is_directory = true;
 
 		wp_enqueue_script( 'bp-groups-directory-groups', BP_PLUGIN_URL . '/bp-groups/js/directory-groups.js', array( 'jquery', 'jquery-livequery-pack' ) );
-		bp_core_load_template( 'directories/groups/index' );
+		bp_core_load_template( apply_filters( 'groups_template_directory_groups', 'directories/groups/index' ) );
 	}
 }
 add_action( 'wp', 'groups_directory_groups_setup', 5 );
@@ -310,7 +310,7 @@ function groups_screen_my_groups() {
 
 	do_action( 'groups_screen_my_groups' );
 	
-	bp_core_load_template( 'groups/index' );
+	bp_core_load_template( apply_filters( 'groups_template_my_groups', 'groups/index' ) );
 }
 
 function groups_screen_group_invites() {
@@ -347,7 +347,7 @@ function groups_screen_group_invites() {
 
 	do_action( 'groups_screen_group_invites', $group_id );
 	
-	bp_core_load_template( 'groups/list-invites' );	
+	bp_core_load_template( apply_filters( 'groups_template_group_invites', 'groups/list-invites' ) );	
 }
 
 function groups_screen_create_group() {
@@ -392,7 +392,7 @@ function groups_screen_create_group() {
 	if ( isset($_SESSION['group_obj_id']) && !$group_obj && !$no_instantiate )
 		$group_obj = new BP_Groups_Group( $_SESSION['group_obj_id'] );
 	
-	bp_core_load_template( 'groups/create' );
+ 	bp_core_load_template( apply_filters( 'groups_template_create_group', 'groups/create' ) );
 }
 
 function groups_screen_group_home() {
@@ -410,7 +410,7 @@ function groups_screen_group_home() {
 
 		do_action( 'groups_screen_group_home' );	
 		
-		bp_core_load_template( 'groups/group-home' );		
+		bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/group-home' ) );		
 	}
 }
 
@@ -432,7 +432,7 @@ function groups_screen_group_forum() {
 			do_action( 'groups_screen_group_forum_topic' );
 			
 			// If we are viewing a topic, load it.
-			bp_core_load_template( 'groups/forum/topic' );
+ 			bp_core_load_template( apply_filters( 'groups_template_group_forum', 'groups/forum/topic' ) );
 		} else {
 
 			/* Posting a topic */
@@ -444,7 +444,7 @@ function groups_screen_group_forum() {
 			do_action( 'groups_screen_group_forum', $topic_id, $forum_id );
 			
 			// Load the forum home.
-			bp_core_load_template( 'groups/forum/index' );				
+			bp_core_load_template( apply_filters( 'groups_template_group_forum', 'groups/forum/index' ) );				
 		}
 	}
 }
@@ -486,9 +486,9 @@ function groups_screen_group_wire() {
 			}
 		
 		} else if ( ( !$wire_action || 'latest' == $bp->action_variables[1] ) ) {
-			bp_core_load_template( 'groups/wire' );
+			bp_core_load_template( apply_filters( 'groups_template_group_wire', 'groups/wire' ) );
 		} else {
-			bp_core_load_template( 'groups/group-home' );
+			bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/group-home' ) );
 		}
 	}
 }
@@ -500,17 +500,7 @@ function groups_screen_group_members() {
 	if ( $bp->is_single_item ) {
 		do_action( 'groups_screen_group_members', $group_obj->id );
 		
-		bp_core_load_template( 'groups/list-members' );
-	}
-}
-
-function groups_screen_group_photos() {
-	global $bp;
-	global $group_obj;
-	
-	if ( $bp->is_single_item ) {
-		// Not implemented yet.
-		bp_core_load_template( 'groups/group-home' );
+		bp_core_load_template( apply_filters( 'groups_template_group_members', 'groups/list-members' ) );
 	}
 }
 
@@ -530,7 +520,7 @@ function groups_screen_group_invite() {
 			bp_core_redirect( bp_get_group_permalink( $group_obj ) );
 		} else {
 			// Show send invite page
-			bp_core_load_template( 'groups/send-invite' );	
+			bp_core_load_template( apply_filters( 'groups_template_group_invite', 'groups/send-invite' ) );	
 		}
 	}
 }
@@ -566,7 +556,7 @@ function groups_screen_group_leave() {
 			do_action( 'groups_screen_group_leave', $group_obj->id );
 			
 			// Show leave group page
-			bp_core_load_template( 'groups/leave-group-confirm' );
+			bp_core_load_template( apply_filters( 'groups_template_group_leave', 'groups/leave-group-confirm' ) );
 		
 		}
 	}
@@ -591,7 +581,7 @@ function groups_screen_group_request_membership() {
 		
 		do_action( 'groups_screen_group_request_membership', $group_obj->id );
 		
-		bp_core_load_template( 'groups/request-membership' );
+		bp_core_load_template( apply_filters( 'groups_template_group_request_membership', 'groups/request-membership' ) );
 	}
 }
 
@@ -602,7 +592,7 @@ function groups_screen_group_admin() {
 		
 		do_action( 'groups_screen_group_admin', $group_obj->id );
 		
-		bp_core_load_template( 'groups/admin/edit-details' );		
+		bp_core_load_template( apply_filters( 'groups_template_group_admin', 'groups/admin/edit-details' ) );		
 	}
 
 }
@@ -629,7 +619,7 @@ function groups_screen_group_admin_edit_details() {
 
 			do_action( 'groups_screen_group_admin_edit_details', $group_obj->id );
 
-			bp_core_load_template( 'groups/admin/edit-details' );
+			bp_core_load_template( apply_filters( 'groups_template_group_admin_edit_details', 'groups/admin/edit-details' ) );
 			
 		}
 	}
@@ -666,7 +656,7 @@ function groups_screen_group_admin_settings() {
 
 		do_action( 'groups_screen_group_admin_settings', $group_obj->id );
 		
-		bp_core_load_template( 'groups/admin/group-settings' );
+		bp_core_load_template( apply_filters( 'groups_template_group_admin_settings', 'groups/admin/group-settings' ) );
 	}
 }
 add_action( 'wp', 'groups_screen_group_admin_settings', 4 );
@@ -711,7 +701,7 @@ function groups_screen_group_admin_avatar() {
 		
 		do_action( 'groups_screen_group_admin_avatar', $group_obj->id );
 		
-		bp_core_load_template( 'groups/admin/group-avatar' );
+		bp_core_load_template( apply_filters( 'groups_template_group_admin_avatar', 'groups/admin/group-avatar' ) );
 	}
 }
 add_action( 'wp', 'groups_screen_group_admin_avatar', 4 );
@@ -786,7 +776,7 @@ function groups_screen_group_admin_manage_members() {
 
 		do_action( 'groups_screen_group_admin_manage_members', $group_obj->id );
 		
-		bp_core_load_template( 'groups/admin/manage-members' );
+		bp_core_load_template( apply_filters( 'groups_template_group_admin_manage_members', 'groups/admin/manage-members' ) );
 	}
 }
 add_action( 'wp', 'groups_screen_group_admin_manage_members', 4 );
@@ -834,7 +824,7 @@ function groups_screen_group_admin_requests() {
 
 		do_action( 'groups_screen_group_admin_requests', $group_obj->id );
 		
-		bp_core_load_template( 'groups/admin/membership-requests' );
+		bp_core_load_template( apply_filters( 'groups_template_group_admin_requests', 'groups/admin/membership-requests' ) );
 	}
 }
 add_action( 'wp', 'groups_screen_group_admin_requests', 4 );
@@ -863,7 +853,7 @@ function groups_screen_group_admin_delete_group() {
 		} else {
 			do_action( 'groups_screen_group_admin_delete_group', $group_obj->id );
 			
-			bp_core_load_template( 'groups/admin/delete-group' );
+			bp_core_load_template( apply_filters( 'groups_template_group_admin_delete_group', 'groups/admin/delete-group' ) );
 		}
 	}
 }
@@ -937,7 +927,7 @@ function groups_action_join_group() {
 		bp_core_redirect( bp_get_group_permalink( $group_obj ) );
 	}
 
-	bp_core_load_template( 'groups/group-home' );
+	bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/group-home' ) );
 }
 add_action( 'wp', 'groups_action_join_group', 3 );
 

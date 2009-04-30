@@ -117,7 +117,7 @@ function friends_screen_my_friends() {
 
 	do_action( 'friends_screen_my_friends' );
 	
-	bp_core_load_template( 'friends/index' );	
+	bp_core_load_template( apply_filters( 'friends_template_my_friends', 'friends/index' ) );	
 }
 
 function friends_screen_requests() {
@@ -144,12 +144,12 @@ function friends_screen_requests() {
 	
 	do_action( 'friends_screen_requests' );
 	
-	bp_core_load_template( 'friends/requests' );
+	bp_core_load_template( apply_filters( 'friends_template_requests', 'friends/requests' ) );
 }
 
 function friends_screen_friend_finder() {
 	do_action( 'friends_screen_friend_finder' );
-	bp_core_load_template( 'friends/friend-finder' );
+ 	bp_core_load_template( apply_filters( 'friends_template_friend_finder', 'friends/friend-finder' ) );
 }
 
 function friends_screen_notification_settings() { 

@@ -66,7 +66,7 @@ add_action( 'admin_menu', 'bp_wire_setup_nav', 2 );
 
 function bp_wire_screen_latest() {
 	do_action( 'bp_wire_screen_latest' );
-	bp_core_load_template( 'wire/latest' );	
+	bp_core_load_template( apply_filters( 'bp_wire_template_latest', 'wire/latest' ) );	
 }
 
 function bp_wire_record_activity( $args = true ) {

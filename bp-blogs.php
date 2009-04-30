@@ -191,29 +191,29 @@ function bp_blogs_directory_blogs_setup() {
 		$bp->is_directory = true;
 
 		wp_enqueue_script( 'bp-blogs-directory-blogs', BP_PLUGIN_URL . '/bp-blogs/js/directory-blogs.js', array( 'jquery', 'jquery-livequery-pack' ) );
-		bp_core_load_template( 'directories/blogs/index' );
+		bp_core_load_template( apply_filters( 'bp_blogs_template_directory_blogs_setup', 'directories/blogs/index' ) );
 	}
 }
 add_action( 'wp', 'bp_blogs_directory_blogs_setup', 5 );
 
 function bp_blogs_screen_my_blogs() {
 	do_action( 'bp_blogs_screen_my_blogs' );
-	bp_core_load_template( 'blogs/my-blogs' );	
+	bp_core_load_template( apply_filters( 'bp_blogs_template_my_blogs', 'blogs/my-blogs' ) );	
 }
 
 function bp_blogs_screen_recent_posts() {
 	do_action( 'bp_blogs_screen_recent_posts' );
-	bp_core_load_template( 'blogs/recent-posts' );
+	bp_core_load_template( apply_filters( 'bp_blogs_template_recent_posts', 'blogs/recent-posts' ) );
 }
 
 function bp_blogs_screen_recent_comments() {
 	do_action( 'bp_blogs_screen_recent_comments' );
-	bp_core_load_template( 'blogs/recent-comments' );
+	bp_core_load_template( apply_filters( 'bp_blogs_template_recent_comments', 'blogs/recent-comments' ) );
 }
 
 function bp_blogs_screen_create_a_blog() {
 	do_action( 'bp_blogs_screen_create_a_blog' );
-	bp_core_load_template( 'blogs/create' );
+	bp_core_load_template( apply_filters( 'bp_blogs_template_create_a_blog', 'blogs/create' ) );
 }
 
 

@@ -241,7 +241,7 @@ function xprofile_screen_display_profile() {
 		bp_core_delete_notifications_for_user_by_item_id( $bp->loggedin_user->id, $bp->displayed_user->id, 'friends', 'friendship_accepted' );
 	
 	do_action( 'xprofile_screen_display_profile', $is_new_friend );
-	bp_core_load_template( 'profile/index' );
+	bp_core_load_template( apply_filters( 'xprofile_template_display_profile', 'profile/index' ) );
 }
 
 /**
@@ -257,7 +257,7 @@ function xprofile_screen_display_profile() {
 function xprofile_screen_edit_profile() {
 	if ( bp_is_home() ) {
 		do_action( 'xprofile_screen_edit_profile' );
-		bp_core_load_template( 'profile/edit' );
+		bp_core_load_template( apply_filters( 'xprofile_template_edit_profile', 'profile/edit' ) );
 	}
 }
 
@@ -275,7 +275,7 @@ function xprofile_screen_change_avatar() {
 	if ( bp_is_home() ) {
 		add_action( 'wp_head', 'bp_core_add_cropper_js' );
 		do_action( 'xprofile_screen_change_avatar' );
-		bp_core_load_template( 'profile/change-avatar' );
+		bp_core_load_template( apply_filters( 'xprofile_template_change_avatar', 'profile/change-avatar' ) );
 	}
 }
 
@@ -340,7 +340,7 @@ function xprofile_action_delete_avatar() {
 	if ( bp_is_home() ) {
 		bp_core_delete_avatar();
 		add_action( 'wp_head', 'bp_core_add_cropper_js' );
-		bp_core_load_template( 'profile/change-avatar' );
+		bp_core_load_template( apply_filters( 'xprofile_template_delete_avatar', 'profile/change-avatar' ) );
 	}
 }
 add_action( 'wp', 'xprofile_action_delete_avatar', 3 );

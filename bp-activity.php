@@ -168,12 +168,12 @@ add_action( 'admin_menu', 'bp_activity_setup_nav', 2 );
 
 function bp_activity_screen_my_activity() {
 	do_action( 'bp_activity_screen_my_activity' );
-	bp_core_load_template( 'activity/just-me' );	
+	bp_core_load_template( apply_filters( 'bp_activity_template_my_activity', 'activity/just-me' ) );	
 }
 
 function bp_activity_screen_friends_activity() {
 	do_action( 'bp_activity_screen_friends_activity' );
-	bp_core_load_template( 'activity/my-friends' );	
+	bp_core_load_template( apply_filters( 'bp_activity_template_friends_activity', 'activity/my-friends' ) );	
 }
 
 /***** Actions **********/

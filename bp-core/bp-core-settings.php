@@ -49,7 +49,7 @@ function bp_core_screen_general_settings() {
 	add_action( 'bp_template_title', 'bp_core_screen_general_settings_title' );
 	add_action( 'bp_template_content', 'bp_core_screen_general_settings_content' );
 	
-	bp_core_load_template('plugin-template');
+	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'plugin-template' ) );
 }
 
 function bp_core_screen_general_settings_title() {
@@ -105,7 +105,7 @@ function bp_core_screen_notification_settings() {
 	add_action( 'bp_template_title', 'bp_core_screen_notification_settings_title' );
 	add_action( 'bp_template_content', 'bp_core_screen_notification_settings_content' );
 	
-	bp_core_load_template('plugin-template');
+	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'plugin-template' ) );
 }
 
 function bp_core_screen_notification_settings_title() {
@@ -177,7 +177,7 @@ function bp_core_screen_delete_account() {
 	add_action( 'bp_template_title', 'bp_core_screen_delete_account_title' );
 	add_action( 'bp_template_content', 'bp_core_screen_delete_account_content' );
 	
-	bp_core_load_template('plugin-template');
+	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'plugin-template' ) );
 }
 
 function bp_core_screen_delete_account_title() {

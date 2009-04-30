@@ -330,7 +330,7 @@ function bp_core_directory_members() {
 		$bp->current_component = false;
 
 		wp_enqueue_script( 'bp-core-directory-members', BP_PLUGIN_URL . '/bp-core/js/directory-members.js', array( 'jquery', 'jquery-livequery-pack' ) );
-		bp_core_load_template( 'directories/members/index' );
+		bp_core_load_template( apply_filters( 'bp_core_template_directory_members', 'directories/members/index' ) );
 	}
 }
 add_action( 'wp', 'bp_core_directory_members', 5 );

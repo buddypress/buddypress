@@ -167,16 +167,15 @@ add_action( 'admin_menu', 'messages_setup_nav', 2 );
 
 function messages_screen_inbox() {
 	do_action( 'messages_screen_inbox' );
-	bp_core_load_template( 'messages/index' );	
+	bp_core_load_template( apply_filters( 'messages_template_inbox', 'messages/index' ) );	
 }
 
 function messages_screen_sentbox() {
 	do_action( 'messages_screen_sentbox' );
-	bp_core_load_template( 'messages/sentbox' );
+	bp_core_load_template( apply_filters( 'messages_template_sentbox', 'messages/sentbox' ) );
 }
 
 function messages_screen_compose() {
-	
 	// Remove any saved message data from a previous session.
 	messages_remove_callback_values();
 	
@@ -199,7 +198,7 @@ function messages_screen_compose() {
 	
 	do_action( 'messages_screen_compose' );
 	
-	bp_core_load_template( 'messages/compose' );
+	bp_core_load_template( apply_filters( 'messages_template_compose', 'messages/compose' ) );
 }
 
 function messages_screen_notices() {
@@ -237,7 +236,7 @@ function messages_screen_notices() {
 	
 	do_action( 'messages_screen_notices' );
 	
-	bp_core_load_template( 'messages/notices' );	
+	bp_core_load_template( apply_filters( 'messages_template_notices', 'messages/notices' ) );	
 }
 
 function messages_screen_notification_settings() { 
@@ -286,7 +285,7 @@ function messages_action_view_message() {
 			'link' => $bp->loggedin_user->domain . $bp->messages->slug . '/'			
 		);
 
-		bp_core_load_template( 'messages/view' );
+		bp_core_load_template( apply_filters( 'messages_template_view_message', 'messages/view' ) );
 	}
 }
 add_action( 'wp', 'messages_action_view_message', 3 );
