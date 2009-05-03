@@ -1,0 +1,44 @@
+/**** SETTINGS SCREEN ***************************/
+
+form#settings-form label span {
+	color: #888;
+	font-size: 0.9em;
+}
+
+input.settings-input {
+	color: #777;
+	font-family: inherit;
+	font-size: 1.3em;
+}
+
+	table.notification-settings th {
+		font-weight: bold;
+	}
+	
+	table.notification-settings tr {
+		border-bottom: 1px solid #eee;
+	}
+	
+	table.notification-settings th.icon {
+		background: center center no-repeat;
+	}
+
+	table.notification-settings .yes, table.notification-settings .no {
+		text-align: center;
+	}
+
+	table#profile-notification-settings th.icon {
+		background-image: url(../images/profile_bullet.gif);
+	}
+
+	table#messages-notification-settings th.icon {
+		background-image: url(../images/messages_bullet.gif);
+	}
+
+	table#friends-notification-settings th.icon {
+		background-image: url(../images/friends_bullet.gif);
+	}
+
+	table#groups-notification-settings th.icon {
+		background-image: url(../images/groups_bullet.gif);
+	}

@@ -1,0 +1,56 @@
+ul#blog-list, ul#comment-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+	ul#blog-list h4 {
+		font: normal 1.6em georgia, times, serif;
+		margin: 0.8em 0 0.2em 0;
+	}
+
+	ul#blog-list li, ul#comment-list li {
+		border-bottom: 1px solid #ddd;
+	}
+
+.post {
+	border-bottom: 1px solid #ddd;
+	padding: 0.5em;
+}
+
+	.post h2 {
+		font: normal 1.4em georgia, times, serif !important;
+		border: none !important;
+		margin: 0.5em 0 0.2em 0 !important;
+	}
+
+	.post hr {
+		visibility: hidden;
+		clear: both;
+	}
+
+	.post p.date {
+		margin: 0;
+		font-size: 0.9em;
+	}
+
+	.post p.date, .small, h2 span {
+			font: italic 1em Georgia, times, serif;
+		color: #888;
+		font-size: 0.95em;
+	}
+	
+	.post span.tags {
+		background: url(/wp-content/themes/buddypress/images/tag_icon.gif) center left no-repeat;
+		padding-left: 1.6em;
+		float: left;
+	}
+
+	.post span.comments {
+		float: right;
+		background: url(/wp-content/themes/buddypress/images/comments_icon.gif) center right no-repeat;
+		padding-right: 1.8em;
+	}
+
+ul#comment-list li {
+	padding: 0.8em;
+}
