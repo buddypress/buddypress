@@ -219,7 +219,8 @@ span.activity {
 	border-right: 1px solid #FFE8C4;
 	border-bottom: 1px solid #FFE8C4;
 	display: inline-block;
-	font: 0.9em normal "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, Verdana, Arial, sans-serif;
+	font-size: 9px;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, Verdana, Arial, sans-serif;
 	margin: -5px 0 0 0;
 }
 
