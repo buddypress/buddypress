@@ -438,13 +438,10 @@ function bp_your_or_their( $capitalize = true, $echo = true ) {
 }
 
 function bp_loggedinuser_link() {
-	global $bp, $current_user;
+	global $bp;
 	
 	if ( $link = bp_core_get_userlink( $bp->loggedin_user->id ) ) {
 		echo apply_filters( 'bp_loggedinuser_link', $link );
-	} else {
-		$ud = get_userdata($displayed_user->id);
-		echo apply_filters( 'bp_loggedinuser_link', $ud->user_login );
 	}
 }
 
