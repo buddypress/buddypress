@@ -541,13 +541,13 @@ function messages_view_thread( $thread_id ) {
 								</div>
 								<label for="reply"></label>
 								<div>
-									<textarea name="content" id="message_content" rows="15" cols="40"><?php echo attribute_escape( wp_filter_kses( $content ) ); ?></textarea>
+									<textarea name="content" id="message_content" rows="15" cols="40"><?php echo htmlspecialchars( wp_filter_kses( $content ) ); ?></textarea>
 								</div>
 							</div>
 							<p class="submit">
 								<input type="submit" name="send" value="<?php _e( 'Send Reply', 'buddypress' ) ?> &rarr;" id="send_reply_button"/>
 							</p>
-							<input type="hidden" id="thread_id" name="thread_id" value="<?php echo $thread->thread_id ?>" />
+							<input type="hidden" id="thread_id" name="thread_id" value="<?php echo attribute_escape( $thread->thread_id ); ?>" />
 							<input type="hidden" name="subject" id="subject" value="<?php _e('Re: ', 'buddypress'); echo str_replace( 'Re: ', '', $thread->last_message_subject); ?>" />
 					</div>
 					

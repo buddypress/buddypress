@@ -36,7 +36,7 @@ function xprofile_add_signup_fields() {
 		}
 		?>
 		</div>
-	<input type="hidden" name="xprofile_ids" value="<?php echo $field_ids; ?>" />	
+	<input type="hidden" name="xprofile_ids" value="<?php echo attribute_escape( $field_ids ); ?>" />	
 	<?php
 	}
 	

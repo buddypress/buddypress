@@ -63,14 +63,12 @@ function bp_core_widget_welcome_control() {
 		$options = $newoptions;
 		update_blog_option( $current_blog->blog_id, 'bp_core_widget_welcome', $options );
 	}
-	
-	$title = attribute_escape( $options['title'] );
-	$text = attribute_escape( $options['text'] );
+
 ?>
-		<p><label for="bp-widget-welcome-title"><?php _e('Title:', 'buddypress'); ?> <input class="widefat" id="bp-widget-welcome-title" name="bp-widget-welcome-title" type="text" value="<?php echo $title; ?>" /></label></p>
+		<p><label for="bp-widget-welcome-title"><?php _e('Title:', 'buddypress'); ?> <input class="widefat" id="bp-widget-welcome-title" name="bp-widget-welcome-title" type="text" value="<?php echo attribute_escape( $options['title'] ); ?>" /></label></p>
 		<p>
 			<label for="bp-widget-welcome-text"><?php _e( 'Welcome Text:' , 'buddypress'); ?>
-				<textarea id="bp-widget-welcome-text" name="bp-widget-welcome-text" class="widefat" style="height: 100px"><?php echo $text; ?></textarea>
+				<textarea id="bp-widget-welcome-text" name="bp-widget-welcome-text" class="widefat" style="height: 100px"><?php echo htmlspecialchars( $options['text'] ); ?></textarea>
 			</label>
 		</p>
 		<input type="hidden" id="bp-widget-welcome-submit" name="bp-widget-welcome-submit" value="1" />
@@ -125,7 +123,7 @@ function bp_core_widget_members($args) {
 			wp_nonce_field( 'bp_core_widget_members', '_wpnonce-members' );
 		?>
 		
-		<input type="hidden" name="members_widget_max" id="members_widget_max" value="<?php echo $options['max_members'] ?>" />
+		<input type="hidden" name="members_widget_max" id="members_widget_max" value="<?php echo attribute_escape( $options['max_members'] ); ?>" />
 		
 	<?php else: ?>
 		<div class="widget-error">
@@ -153,7 +151,7 @@ function bp_core_widget_members_control() {
 
 	$max_members = attribute_escape( $options['max_members'] );
 ?>
-		<p><label for="bp-core-widget-members-max"><?php _e('Max Members to show:', 'buddypress'); ?> <input class="widefat" id="bp-core-widget-members-max" name="bp-core-widget-members-max" type="text" value="<?php echo $max_members; ?>" style="width: 30%" /></label></p>
+		<p><label for="bp-core-widget-members-max"><?php _e('Max Members to show:', 'buddypress'); ?> <input class="widefat" id="bp-core-widget-members-max" name="bp-core-widget-members-max" type="text" value="<?php echo attribute_escape( $options['max_members'] ); ?>" style="width: 30%" /></label></p>
 		<input type="hidden" id="bp-core-widget-members-submit" name="bp-core-widget-members-submit" value="1" />
 <?php
 }
@@ -194,7 +192,7 @@ function bp_core_widget_whos_online($args) {
 			wp_nonce_field( 'bp_core_widget_members', '_wpnonce-members' );
 		?>
 
-		<input type="hidden" name="bp_core_widget_members_max" id="bp_core_widget_members_max" value="<?php echo $options['max_members'] ?>" />
+		<input type="hidden" name="bp_core_widget_members_max" id="bp_core_widget_members_max" value="<?php echo attribute_escape( $options['max_members'] ); ?>" />
 
 	<?php else: ?>
 		<div class="widget-error">
@@ -222,10 +220,9 @@ function bp_core_widget_whos_online_control() {
 		$options = $newoptions;
 		update_blog_option( $current_blog->blog_id, 'bp_core_widget_whos_online', $options );
 	}
-	
-	$max_members = attribute_escape( $options['max_members'] );
+
 ?>
-		<p><label for="bp-widget-whos-online-max-members"><?php _e('Maximum number of members to show:', 'buddypress'); ?><br /><input class="widefat" id="bp-widget-whos-online-max-members" name="bp-widget-whos-online-max-members" type="text" value="<?php echo $max_members; ?>" style="width: 30%" /></label></p>
+		<p><label for="bp-widget-whos-online-max-members"><?php _e('Maximum number of members to show:', 'buddypress'); ?><br /><input class="widefat" id="bp-widget-whos-online-max-members" name="bp-widget-whos-online-max-members" type="text" value="<?php echo attribute_escape( $options['max_members'] ); ?>" style="width: 30%" /></label></p>
 		<input type="hidden" id="bp-widget-whos-online-submit" name="bp-widget-whos-online-submit" value="1" />
 <?php
 }

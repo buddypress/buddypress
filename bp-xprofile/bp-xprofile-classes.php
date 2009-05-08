@@ -412,7 +412,7 @@ Class BP_XProfile_Field {
 			case 'textarea':
 				$html .= '<div class="signup-field">';
 				$html .= '<label class="signup-label" for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
-				$html .= $this->message . '<textarea rows="5" cols="40" name="field_' . $this->id . '" id="field_' . $this->id . '">' . attribute_escape( $this->data->value ) . '</textarea>';
+				$html .= $this->message . '<textarea rows="5" cols="40" name="field_' . $this->id . '" id="field_' . $this->id . '">' . htmlspecialchars( $this->data->value ) . '</textarea>';
 				$html .= '<span class="signup-description">' . $this->desc . '</span>';
 				$html .= '</div>';
 			break;
@@ -735,7 +735,7 @@ Class BP_XProfile_Field {
 				<div id="titlediv" class="inside">
 					<h3><label for="description"><?php _e("Field Description", 'buddypress') ?></label></h3>
 					<div id="titlewrap">
-						<textarea name="description" id="description" rows="8" cols="60"> <?php echo $this->desc ?></textarea>
+						<textarea name="description" id="description" rows="8" cols="60"> <?php echo htmlspecialchars( $this->desc ); ?></textarea>
 					</div>
 				</div>
 	
@@ -822,7 +822,7 @@ Class BP_XProfile_Field {
 									<p></p>
 									<label for="description"><?php _e("Field Description", 'buddypress') ?></label>
 									<div>
-										<textarea name="description" id="description" rows="5" cols="60"><?php echo $field_data['Description']; ?></textarea>
+										<textarea name="description" id="description" rows="5" cols="60"><?php echo htmlspecialchars( $field_data['Description'] ); ?></textarea>
 									</div>
 									<p></p>
 									<label for="required">* <?php _e("Is This Field Required?", 'buddypress') ?></label>

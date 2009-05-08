@@ -62,7 +62,7 @@ if (!empty($post->post_password) && $_COOKIE['wp-postpass_'. COOKIEHASH] != $pos
 	<p>
 	  <input type="text" name="author" id="author" class="textarea" value="<?php echo $comment_author; ?>" size="28" tabindex="1" />
 	   <label for="author"><?php _e( 'Name', 'buddypress' ) ?></label>
-	<input type="hidden" name="comment_post_ID" value="<?php echo $id; ?>" />
+	<input type="hidden" name="comment_post_ID" value="<?php echo attribute_escape( $id ); ?>" />
 	<input type="hidden" name="redirect_to" value="<?php echo attribute_escape($_SERVER["REQUEST_URI"]); ?>" />
 	</p>
 
