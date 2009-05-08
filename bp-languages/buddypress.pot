@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-05-04 14:11+0000\n"
+"POT-Creation-Date: 2009-05-08 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,7 +47,7 @@ msgstr ""
 #: bp-blogs/bp-blogs-templatetags.php:329
 #: bp-blogs/bp-blogs-templatetags.php:505
 #: bp-blogs/bp-blogs-templatetags.php:1208
-#: bp-core/bp-core-templatetags.php:938 bp-core/bp-core-widgets.php:102
+#: bp-core/bp-core-templatetags.php:938 bp-core/bp-core-widgets.php:100
 #: bp-forums/bp-forums-templatetags.php:356
 #: bp-forums/bp-forums-templatetags.php:570
 #: bp-friends/bp-friends-templatetags.php:291
@@ -90,7 +90,7 @@ msgstr ""
 msgid "There has been no recent site activity."
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:79
+#: bp-activity/bp-activity-widgets.php:78
 msgid "Max Number of Items:"
 msgstr ""
 
@@ -332,7 +332,7 @@ msgstr ""
 msgid "There are no recent blog posts, why not write one?"
 msgstr ""
 
-#: bp-blogs/bp-blogs-widgets.php:80
+#: bp-blogs/bp-blogs-widgets.php:79
 msgid "Max Number of Posts:"
 msgstr ""
 
@@ -799,7 +799,7 @@ msgstr ""
 msgid "Random Blog"
 msgstr ""
 
-#: bp-core/bp-core-ajax.php:45 bp-core/bp-core-widgets.php:116
+#: bp-core/bp-core-ajax.php:45 bp-core/bp-core-widgets.php:114
 #, php-format
 msgid "registered %s ago"
 msgstr ""
@@ -1367,44 +1367,44 @@ msgstr ""
 msgid "Create Account"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:70 bp-forums/bp-forums-bbpress-live.php:166
+#: bp-core/bp-core-widgets.php:68 bp-forums/bp-forums-bbpress-live.php:166
 #: bp-forums/bp-forums-bbpress-live.php:370
 #: bp-themes/bpmember/groups/forum/index.php:73
 #: bp-themes/bpskeletonmember/groups/forum/index.php:84
 msgid "Title:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:72
+#: bp-core/bp-core-widgets.php:70
 msgid "Welcome Text:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:103 bp-friends/bp-friends-templatetags.php:371
+#: bp-core/bp-core-widgets.php:101 bp-friends/bp-friends-templatetags.php:371
 #: bp-friends/bp-friends-templatetags.php:387
 #: bp-groups/bp-groups-widgets.php:43
 msgid "Newest"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:104 bp-groups/bp-groups-widgets.php:44
+#: bp-core/bp-core-widgets.php:102 bp-groups/bp-groups-widgets.php:44
 msgid "Active"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:105 bp-groups/bp-groups-widgets.php:45
+#: bp-core/bp-core-widgets.php:103 bp-groups/bp-groups-widgets.php:45
 msgid "Popular"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:132
+#: bp-core/bp-core-widgets.php:130
 msgid "No one has signed up yet!"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:156
+#: bp-core/bp-core-widgets.php:154
 msgid "Max Members to show:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:201
+#: bp-core/bp-core-widgets.php:199
 msgid "There are no users currently online."
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:228
+#: bp-core/bp-core-widgets.php:225
 msgid "Maximum number of members to show:"
 msgstr ""
 
@@ -2810,7 +2810,7 @@ msgstr ""
 msgid "There are no groups to display."
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:110
+#: bp-groups/bp-groups-widgets.php:109
 msgid "Maximum number of groups to show:"
 msgstr ""
 
