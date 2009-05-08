@@ -32,13 +32,13 @@ function groups_admin_settings() {
 	<div class="wrap" style="position: relative">
 		<h2><?php _e( 'Groups', 'buddypress' ) ?></h2>
 	
-		<form id="wpmu-search" method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
-			<input type="text" size="17" value="<?php echo $_REQUEST['s'] ?>" name="s" />
+		<form id="wpmu-search" method="post" action="">
+			<input type="text" size="17" value="<?php echo attribute_escape( stripslashes( $_REQUEST['s'] ) ); ?>" name="s" />
 			<input id="post-query-submit" class="button" type="submit" value="<?php _e( 'Search Groups', 'buddypress' ) ?>" />
 		</form>
 		
 		<?php if ( bp_has_site_groups( 'type=active&per_page=10' ) ) : ?>
-			<form id="bp-group-admin-list" method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
+			<form id="bp-group-admin-list" method="post" action="">
 				<div class="tablenav">
 					<div class="tablenav-pages">
 						<?php bp_site_groups_pagination_count() ?> <?php bp_site_groups_pagination_links() ?>

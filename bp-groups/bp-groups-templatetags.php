@@ -56,13 +56,13 @@ function bp_group_create_form() {
 	<?php switch( (int) $create_group_step ) {
 		case 1: ?>
 			<label for="group-name">* <?php _e('Group Name', 'buddypress') ?></label>
-			<input type="text" name="group-name" id="group-name" value="<?php echo ( $group_obj ) ? $group_obj->name : $_POST['group-name']; ?>" />
+			<input type="text" name="group-name" id="group-name" value="<?php echo attribute_escape( ( $group_obj ) ? $group_obj->name : $_POST['group-name'] ); ?>" />
 		
 			<label for="group-desc">* <?php _e('Group Description', 'buddypress') ?></label>
-			<textarea name="group-desc" id="group-desc"><?php echo ( $group_obj ) ? $group_obj->description : $_POST['group-desc']; ?></textarea>
+			<textarea name="group-desc" id="group-desc"><?php echo htmlspecialchars( ( $group_obj ) ? $group_obj->description : $_POST['group-desc'] ); ?></textarea>
 		
 			<label for="group-news"><?php _e('Recent News', 'buddypress') ?></label>
-			<textarea name="group-news" id="group-news"><?php echo ( $group_obj ) ? $group_obj->news : $_POST['group-news']; ?></textarea>
+			<textarea name="group-news" id="group-news"><?php echo htmlspecialchars( ( $group_obj ) ? $group_obj->news : $_POST['group-news'] ); ?></textarea>
 			
 			<?php do_action( 'groups_custom_group_fields_editable' ) ?>
 			
@@ -232,7 +232,7 @@ function bp_group_list_invite_friends() {
 							}
 					?>
 					
-					<li><input<?php echo $checked ?> type="checkbox" name="friends[]" id="f-<?php echo $friends[$i]['id'] ?>" value="<?php echo $friends[$i]['id'] ?>" /> <?php echo $friends[$i]['full_name']; ?></li>
+					<li><input<?php echo $checked ?> type="checkbox" name="friends[]" id="f-<?php echo $friends[$i]['id'] ?>" value="<?php echo attribute_escape( $friends[$i]['id'] ); ?>" /> <?php echo $friends[$i]['full_name']; ?></li>
 					<?php } ?>
 				</ul>
 			</div>
@@ -1512,7 +1512,7 @@ function bp_group_send_invite_form( $group = false ) {
 		<h4><?php _e( 'Select Friends', 'buddypress' ) ?> <img id="ajax-loader" src="<?php echo $bp->groups->image_base ?>/ajax-loader.gif" height="7" alt="Loading" style="display: none;" /></h4>
 		<?php bp_group_list_invite_friends() ?>
 		<?php wp_nonce_field( 'groups_invite_uninvite_user', '_wpnonce_invite_uninvite_user' ) ?>
-		<input type="hidden" name="group_id" id="group_id" value="<?php echo $group->id ?>" />
+		<input type="hidden" name="group_id" id="group_id" value="<?php echo attribute_escape( $group->id ) ?>" />
 	</div>
 
 	<div class="main-column">

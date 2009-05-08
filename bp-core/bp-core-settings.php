@@ -73,7 +73,7 @@ function bp_core_screen_general_settings_content() {
 
 	<form action="<?php echo $bp->loggedin_user->domain . 'settings/general' ?>" method="post" id="settings-form">
 		<label for="email"><?php _e( 'Account Email', 'buddypress' ) ?></label>
-		<input type="text" name="email" id="email" value="<?php echo $current_user->user_email ?>" class="settings-input" />
+		<input type="text" name="email" id="email" value="<?php echo attribute_escape( $current_user->user_email ); ?>" class="settings-input" />
 			
 		<label for="pass1"><?php _e( 'Change Password <span>(leave blank for no change)</span>', 'buddypress' ) ?></label>
 		<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small" /> &nbsp;<?php _e( 'New Password', 'buddypress' ) ?>

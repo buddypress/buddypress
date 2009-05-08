@@ -774,7 +774,7 @@ function xprofile_edit( $group_id, $action ) {
 			if ( $field_ids )
 				$field_ids = implode( ",", $field_ids );
 		?>
-		<input type="hidden" name="field_ids" id="field_ids" value="<?php echo $field_ids; ?>" />
+		<input type="hidden" name="field_ids" id="field_ids" value="<?php echo attribute_escape( $field_ids ); ?>" />
 		
 		<?php echo $list_html; ?>
 

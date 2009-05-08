@@ -100,7 +100,7 @@
 	<p><textarea name="comment" id="comment" cols="38" rows="10" tabindex="4"></textarea></p>
 
 	<p><input name="submit" type="submit" id="submit" tabindex="5" value="<?php _e ( 'Submit Comment', 'buddypress' ) ?>" />
-	<input type="hidden" name="comment_post_ID" value="<?php echo $id; ?>" />
+	<input type="hidden" name="comment_post_ID" value="<?php echo attribute_escape( $id ); ?>" />
 	</p>
 	<?php do_action('comment_form', $post->ID); ?>
 

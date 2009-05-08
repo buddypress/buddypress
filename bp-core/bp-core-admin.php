@@ -37,7 +37,7 @@ function bp_core_admin_settings() {
 			</div>
 		<?php endif; ?>
 
-		<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" id="bp-admin-form">
+		<form action="" method="post" id="bp-admin-form">
 		
 			<table class="form-table">
 			<tbody>
@@ -169,7 +169,7 @@ function bp_core_admin_component_setup() {
 			</div>
 		<?php endif; ?>
 	
-		<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" id="bp-admin-component-form">
+		<form action="" method="post" id="bp-admin-component-form">
 		
 			<p>
 			<?php _e( 

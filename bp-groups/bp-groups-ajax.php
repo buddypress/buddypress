@@ -157,7 +157,7 @@ function groups_ajax_member_list() {
 		</div>
 
 	<?php endif; ?>
-	<input type="hidden" name="group_id" id="group_id" value="<?php echo $_REQUEST['group_id'] ?>" />
+	<input type="hidden" name="group_id" id="group_id" value="<?php echo attribute_escape( $_REQUEST['group_id'] ); ?>" />
 <?php
 }
 add_action( 'wp_ajax_get_group_members', 'groups_ajax_member_list' );
@@ -202,7 +202,7 @@ function groups_ajax_member_admin_list() {
 		</div>
 
 	<?php endif;?>
-	<input type="hidden" name="group_id" id="group_id" value="<?php echo $_REQUEST['group_id'] ?>" />
+	<input type="hidden" name="group_id" id="group_id" value="<?php echo attribute_escape( $_REQUEST['group_id'] ); ?>" />
 <?php
 }
 add_action( 'wp_ajax_get_group_members_admin', 'groups_ajax_member_admin_list' );

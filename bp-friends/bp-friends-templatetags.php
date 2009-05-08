@@ -304,7 +304,7 @@ function bp_friend_search_form() {
 		<input type="search" name="friend-search-box" id="friend-search-box" value="<?php echo $value ?>"<?php echo $disabled ?> />
 		
 		<?php wp_nonce_field( 'friends_search', '_wpnonce_friend_search' ) ?>
-		<input type="hidden" name="initiator" id="initiator" value="<?php echo $bp->displayed_user->id ?>" />
+		<input type="hidden" name="initiator" id="initiator" value="<?php echo attribute_escape( $bp->displayed_user->id ) ?>" />
 	
 	</form>
 <?php

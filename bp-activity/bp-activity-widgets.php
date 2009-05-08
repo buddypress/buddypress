@@ -74,9 +74,8 @@ function bp_activity_widget_sitewide_activity_control() {
 		update_blog_option( $current_blog->blog_id, 'bp_activity_widget_sitewide_activity', $options );
 	}
 
-	$max_items = attribute_escape( $options['max_items'] );
 ?>
-		<p><label for="bp-activity-widget-sitewide-items-max"><?php _e('Max Number of Items:', 'buddypress'); ?> <input class="widefat" id="bp-activity-widget-sitewide-items-max" name="bp-activity-widget-sitewide-items-max" type="text" value="<?php echo $max_items; ?>" style="width: 30%" /></label></p>
+		<p><label for="bp-activity-widget-sitewide-items-max"><?php _e('Max Number of Items:', 'buddypress'); ?> <input class="widefat" id="bp-activity-widget-sitewide-items-max" name="bp-activity-widget-sitewide-items-max" type="text" value="<?php echo attribute_escape( $options['max_items'] ); ?>" style="width: 30%" /></label></p>
 		<input type="hidden" id="bp-activity-widget-sitewide-submit" name="bp-activity-widget-sitewide-submit" value="1" />
 <?php
 }

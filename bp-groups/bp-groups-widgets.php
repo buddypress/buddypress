@@ -79,7 +79,7 @@ function groups_widget_groups_list($args) {
 			wp_nonce_field( 'groups_widget_groups_list', '_wpnonce-groups' );
 		?>
 		
-		<input type="hidden" name="groups_widget_max" id="groups_widget_max" value="<?php echo $options['max_groups'] ?>" />
+		<input type="hidden" name="groups_widget_max" id="groups_widget_max" value="<?php echo attribute_escape( $options['max_groups'] ); ?>" />
 		
 	<?php else: ?>
 		<div class="widget-error">
@@ -105,9 +105,8 @@ function groups_widget_groups_list_control() {
 		update_blog_option( $current_blog->blog_id, 'groups_widget_groups_list', $options );
 	}
 
-	$max_groups = attribute_escape( $options['max_groups'] );
 ?>
-		<p><label for="groups-widget-groups-list-max"><?php _e('Maximum number of groups to show:', 'buddypress'); ?><br /> <input class="widefat" id="groups-widget-groups-list-max" name="groups-widget-groups-list-max" type="text" value="<?php echo $max_groups; ?>" style="width: 30%" /></label></p>
+		<p><label for="groups-widget-groups-list-max"><?php _e('Maximum number of groups to show:', 'buddypress'); ?><br /> <input class="widefat" id="groups-widget-groups-list-max" name="groups-widget-groups-list-max" type="text" value="<?php echo attribute_escape( $options['max_groups'] ); ?>" style="width: 30%" /></label></p>
 		<input type="hidden" id="groups-widget-groups-list-submit" name="groups-widget-groups-list-submit" value="1" />
 <?php
 }

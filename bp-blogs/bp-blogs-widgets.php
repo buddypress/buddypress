@@ -75,9 +75,8 @@ function bp_blogs_widget_recent_posts_control() {
 		update_blog_option( $current_blog->blog_id, 'bp_blogs_widget_recent_posts', $options );
 	}
 
-	$max_posts = attribute_escape( $options['max_posts'] );
 ?>
-		<p><label for="bp-blogs-widget-recent-posts-max"><?php _e('Max Number of Posts:', 'buddypress'); ?> <input class="widefat" id="bp-blogs-widget-recent-posts-max" name="bp-blogs-widget-recent-posts-max" type="text" value="<?php echo $max_posts; ?>" style="width: 30%" /></label></p>
+		<p><label for="bp-blogs-widget-recent-posts-max"><?php _e('Max Number of Posts:', 'buddypress'); ?> <input class="widefat" id="bp-blogs-widget-recent-posts-max" name="bp-blogs-widget-recent-posts-max" type="text" value="<?php echo attribute_escape( $options['max_posts'] ); ?>" style="width: 30%" /></label></p>
 		<input type="hidden" id="bp-blogs-widget-recent-posts-submit" name="bp-blogs-widget-recent-posts-submit" value="1" />
 <?php
 }
