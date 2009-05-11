@@ -947,7 +947,7 @@ function groups_record_activity( $args = true ) {
 
 		if ( !$group_obj ) {
 			if ( !$group_obj = wp_cache_get( 'groups_group_nouserdata_' . $item_id, 'bp' ) ) {
-				$group_obj = new BP_Groups_Group( $group_obj->id, false, false );
+				$group_obj = new BP_Groups_Group( $item_id, false, false );
 				wp_cache_set( 'groups_group_nouserdata_' . $item_id, $group_obj, 'bp' );
 			}
 		}
