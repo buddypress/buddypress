@@ -1467,7 +1467,7 @@ function bp_group_reject_invite_link( $deprecated = false ) {
 	}
 
 function bp_group_leave_confirm_link( $deprecated = false ) {
-	echo bp_group_leave_confirm_link();
+	echo bp_get_group_leave_confirm_link();
 }
 	function bp_get_group_leave_confirm_link( $group = false ) {
 		global $groups_template, $bp;
