@@ -578,7 +578,7 @@ function friends_accept_friendship( $friendship_id ) {
 		bp_core_add_notification( $friendship->friend_user_id, $friendship->initiator_user_id, 'friends', 'friendship_accepted' );
 		
 		// Record in activity streams
-		friends_record_activity( array( 'item_id' => $friendship_id, 'component_name' => 'friends', 'component_action' => 'friendship_accepted', 'is_private' => 0, 'user_id' => $friendship->initiator_user_id, 'secondary_user_id' => $friendship->friend_user_id ) );
+		friends_record_activity( array( 'item_id' => $friendship_id, 'component_name' => $bp->friends->slug, 'component_action' => 'friendship_accepted', 'is_private' => 0, 'user_id' => $friendship->initiator_user_id, 'secondary_user_id' => $friendship->friend_user_id ) );
 		
 		// Send the email notification
 		require_once( BP_PLUGIN_DIR . '/bp-friends/bp-friends-notifications.php' );
