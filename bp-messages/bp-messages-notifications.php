@@ -19,7 +19,7 @@ function messages_notification_new_message( $args ) {
 		$to = $ud->user_email;
 		$subject = '[' . get_blog_option( 1, 'blogname' ) . '] ' . sprintf( __( 'New message from %s', 'buddypress' ), stripslashes($sender_name) );
 
-		$message = sprintf( __( 
+		$content = sprintf( __( 
 '%s sent you a new message:
 
 Subject: %s
@@ -31,10 +31,10 @@ To view the message: %s
 ---------------------
 ', 'buddypress' ), $sender_name, stripslashes( wp_filter_kses( $message->subject ) ), stripslashes( wp_filter_kses( $message->message ) ), $message_link );
 
-		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+		$content .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
 		// Send it
-		wp_mail( $to, $subject, $message );
+		wp_mail( $to, $subject, $content );
 	}
 }
 
