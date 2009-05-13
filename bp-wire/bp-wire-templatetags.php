@@ -139,7 +139,7 @@ function bp_wire_get_post_list( $item_id = null, $title = null, $empty_message =
 	if ( !$item_id )
 		return false;
 	
-	if ( !$message )
+	if ( !$empty_message )
 		$empty_message = __("There are currently no wire posts.", 'buddypress');
 	
 	if ( !$title )
