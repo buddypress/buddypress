@@ -353,7 +353,7 @@ function bp_core_get_user_domain( $user_id ) {
 	
 	$ud = get_userdata($user_id);
 	
-	return $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/';
+	return apply_filters( 'bp_core_get_user_domain', $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/' );
 }
 
 /**
@@ -367,7 +367,7 @@ function bp_core_get_user_domain( $user_id ) {
  * @return $domain The domain URL for the blog.
  */
 function bp_core_get_root_domain() {
-	return get_blog_option( BP_ROOT_BLOG, 'siteurl' );
+	return apply_filters( 'bp_core_get_root_domain', get_blog_option( BP_ROOT_BLOG, 'siteurl' ) );
 }
 
 /**
@@ -382,7 +382,7 @@ function bp_core_get_root_domain() {
  * @return The user id for the user that is currently being displayed, return zero if this is not a user home and just a normal blog.
  */
 function bp_core_get_displayed_userid( $user_login ) {
-	return bp_core_get_userid_from_user_login( $user_login );
+	return apply_filters( 'bp_core_get_displayed_userid', bp_core_get_userid_from_user_login( $user_login ) );
 }
 
 /**
@@ -802,7 +802,7 @@ function bp_core_global_user_fullname( $user_id ) {
  */
 function bp_core_get_userlink_by_email( $email ) {
 	$user = get_user_by_email( $email );
-	return bp_core_get_userlink( $user->ID, false, false, true );
+	return apply_filters( 'bp_core_get_userlink_by_email', bp_core_get_userlink( $user->ID, false, false, true ) );
 }
 
 /**
@@ -819,7 +819,7 @@ function bp_core_get_userlink_by_username( $username ) {
 	global $wpdb;
 	
 	$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $username ) ); 
-	return bp_core_get_userlink( $user_id, false, false, true );
+	return apply_filters( 'bp_core_get_userlink_by_username', bp_core_get_userlink( $user_id, false, false, true ) );
 }
 
 /**
