@@ -45,7 +45,7 @@ function bp_core_get_avatar( $user, $version = 1, $width = null, $height = null,
 		if ( $no_tag )
 			return $url;
 		else
-			return apply_filters( 'bp_core_get_avatar', '<img src="' . $url . '" alt="" class="avatar photo" width="' . $width . '" height="' . $height . '" />', $user, $version, $width, $height, $no_tag );
+			return apply_filters( 'bp_core_get_avatar', '<img src="' . attribute_escape( $url ) . '" alt="" class="avatar photo" width="' . attribute_escape( $width ) . '" height="' . attribute_escape( $height ) . '" />', $user, $version, $width, $height, $no_tag );
 	} else {
 		$ud = get_userdata($user);
 		
@@ -61,7 +61,7 @@ function bp_core_get_avatar( $user, $version = 1, $width = null, $height = null,
 		if ( $no_tag )
 			return apply_filters( 'bp_core_get_avatar', $gravatar . constant('CORE_AVATAR_V' . $version . '_W'), $user, $version, $width, $height, $no_tag );
 		else
-			return apply_filters( 'bp_core_get_avatar', '<img src="' . $gravatar . constant('CORE_AVATAR_V' . $version . '_W') . '" alt="" class="avatar" width="' . $width . '" height="' . $height . '" />', $user, $version, $width, $height, $no_tag );
+			return apply_filters( 'bp_core_get_avatar', '<img src="' . attribute_escape( $gravatar ) . constant('CORE_AVATAR_V' . $version . '_W') . '" alt="" class="avatar" width="' . attribute_escape( $width ) . '" height="' . attribute_escape( $height ) . '" />', $user, $version, $width, $height, $no_tag );
 	}
 }
 

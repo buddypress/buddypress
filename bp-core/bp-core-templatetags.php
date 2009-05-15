@@ -176,7 +176,7 @@ function bp_get_options_title() {
 	if ( empty( $bp->bp_options_title ) )
 		$bp->bp_options_title = __( 'Options', 'buddypress' );
 	
-	echo apply_filters( 'bp_get_options_avatar', $bp->bp_options_title );
+	echo apply_filters( 'bp_get_options_avatar', attribute_escape( $bp->bp_options_title ) );
 }
 
 function bp_comment_author_avatar() {
@@ -491,7 +491,7 @@ function bp_page_title() {
 		$title = get_the_title($post->ID);
 	}
 	
-	echo apply_filters( 'bp_page_title', get_blog_option( BP_ROOT_BLOG, 'blogname' ) . ' &#8212; ' . $title, $title );
+	echo apply_filters( 'bp_page_title', get_blog_option( BP_ROOT_BLOG, 'blogname' ) . ' &#8212; ' . attribute_escape( $title ), attribute_escape( $title ) );
 	
 }
 
