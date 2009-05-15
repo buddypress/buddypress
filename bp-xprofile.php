@@ -615,7 +615,7 @@ function xprofile_edit( $group_id, $action ) {
 ?>
 	<div class="wrap">
 		
-		<h2><?php echo $group->name ?> <?php _e("Information", 'buddypress') ?></h2>
+		<h2><?php echo attribute_escape( $group->name ) ?> <?php _e("Information", 'buddypress') ?></h2>
 		
 		<?php
 			// If this group has fields then continue
