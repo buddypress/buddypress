@@ -38,8 +38,8 @@ function bp_core_widget_welcome($args) {
 		. $widget_name
 		. $after_title; ?>
 
-	<?php if ( $options['title'] ) : ?><h3><?php echo $options['title'] ?></h3><?php endif; ?>
-	<?php if ( $options['text'] ) : ?><p><?php echo $options['text'] ?></p><?php endif; ?>
+	<?php if ( $options['title'] ) : ?><h3><?php echo attribute_escape( $options['title'] ) ?></h3><?php endif; ?>
+	<?php if ( $options['text'] ) : ?><p><?php echo attribute_escape( $options['text'] ) ?></p><?php endif; ?>
 
 	<?php if ( !is_user_logged_in() ) { ?>
 	<div class="create-account"><div class="visit generic-button"><a href="<?php bp_signup_page() ?>" title="<?php _e('Create Account', 'buddypress') ?>"><?php _e('Create Account', 'buddypress') ?></a></div></div>
