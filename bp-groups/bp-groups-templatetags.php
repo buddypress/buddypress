@@ -273,7 +273,7 @@ function bp_group_current_avatar() {
 	global $group_obj;
 	
 	if ( $group_obj->avatar_full ) { ?>
-		<img src="<?php echo $group_obj->avatar_full ?>" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" class="avatar" />
+		<img src="<?php echo attribute_escape( $group_obj->avatar_full ) ?>" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" class="avatar" />
 	<?php } else { ?>
 		<img src="<?php echo $bp->groups->image_base . '/none.gif' ?>" alt="<?php _e( 'No Group Avatar', 'buddypress' ) ?>" class="avatar" />
 	<?php }
@@ -306,7 +306,7 @@ function bp_groups_random_selection( $total_groups = 5 ) {
 			?>	
 			<li>
 				<div class="item-avatar">
-					<a href="<?php echo bp_get_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo $group->avatar_thumb ?>" class="avatar" alt="<?php printf( __( '%s Avatar', 'buddypress' ), $group->name ) ?>" /></a>
+					<a href="<?php echo bp_get_group_permalink( $group ) ?>" title="<?php echo $group->name ?>"><img src="<?php echo attribute_escape( $group->avatar_thumb ) ?>" class="avatar" alt="<?php printf( __( '%s Avatar', 'buddypress' ), $group->name ) ?>" /></a>
 				</div>
 
 				<div class="item">
@@ -360,7 +360,7 @@ function bp_groups_random_groups( $total_groups = 5 ) {
 					wp_cache_set( 'groups_group_nouserdata_' . $group_ids[$i], $group, 'bp' );
 				}
 			?>				<li>
-					<a href="<?php echo bp_get_group_permalink( $group ) ?>"><img src="<?php echo $group->avatar_thumb; ?>" class="avatar" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" /></a>
+					<a href="<?php echo bp_get_group_permalink( $group ) ?>"><img src="<?php echo attribute_escape( $group->avatar_thumb ); ?>" class="avatar" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" /></a>
 					<h5><a href="<?php echo bp_get_group_permalink( $group ) ?>"><?php echo $group->name ?></a></h5>
 				</li>
 			<?php } ?>
@@ -705,7 +705,7 @@ function bp_group_avatar() {
 		if ( !$group )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_get_group_avatar', '<img src="' . $group->avatar_full . '" class="avatar" alt="' . $group->name . '" />', $group->avatar_full, $group->avatar_name );
+		return apply_filters( 'bp_get_group_avatar', '<img src="' . attribute_escape( $group->avatar_full ) . '" class="avatar" alt="' . attribute_escape( $group->name ) . '" />', $group->avatar_full, $group->avatar_name );
 	}
 
 function bp_group_avatar_thumb() {
@@ -717,7 +717,7 @@ function bp_group_avatar_thumb() {
 		if ( !$group )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_get_group_avatar_thumb', '<img src="' . $group->avatar_thumb . '" class="avatar" alt="' . $group->name . '" />', $group->avatar_thumb, $group->avatar_name );
+		return apply_filters( 'bp_get_group_avatar_thumb', '<img src="' . attribute_escape( $group->avatar_thumb ) . '" class="avatar" alt="' . attribute_escape( $group->name ) . '" />', $group->avatar_thumb, $group->avatar_name );
 	}
 
 function bp_group_avatar_mini() {
@@ -729,7 +729,7 @@ function bp_group_avatar_mini() {
 		if ( !$group )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_get_group_avatar_mini', '<img src="' . $group->avatar_thumb . '" class="avatar" width="30" height="30" alt="' . $group->name . '" />', $group->avatar_thumb, $group->avatar_name );
+		return apply_filters( 'bp_get_group_avatar_mini', '<img src="' . attribute_escape( $group->avatar_thumb ) . '" class="avatar" width="30" height="30" alt="' . attribute_escape( $group->name ) . '" />', $group->avatar_thumb, $group->avatar_name );
 	}
 
 function bp_group_last_active( $deprecated = true, $deprecated2 = false ) {
