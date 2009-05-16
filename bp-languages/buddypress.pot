@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-05-08 14:11+0000\n"
+"POT-Creation-Date: 2009-05-16 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2609,11 +2609,6 @@ msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:278
 msgid "No Group Avatar"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:309
-#, php-format
-msgid "%s Avatar"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:322
