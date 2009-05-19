@@ -18,7 +18,7 @@
 	
 	<?php do_action( 'template_notices' ) ?>
 
-	<form action="<?php bp_messages_form_action('compose') ?>" method="post" id="send-message-form" class="standard-form">
+	<form action="<?php bp_messages_form_action('compose') ?>" method="post" id="send_message_form" class="standard-form">
 
 		<?php do_action( 'messages_custom_fields_input_before' ) ?>
 			
