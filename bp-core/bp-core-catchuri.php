@@ -32,9 +32,11 @@ function bp_core_set_uri_globals() {
 	global $bp_unfiltered_uri;
 	global $bp, $current_blog;
 	
-	/* Only catch URI's on the root blog */
-	if ( BP_ROOT_BLOG != (int) $current_blog->blog_id )
-		return false;
+	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) {
+		/* Only catch URI's on the root blog if we are not running BP on multiple blogs */
+		if ( BP_ROOT_BLOG != (int) $current_blog->blog_id )
+			return false;
+	}
 	
 	if ( strpos( $_SERVER['REQUEST_URI'], 'bp-core-ajax-handler.php' ) )
 		$path = bp_core_referrer();
@@ -51,12 +53,22 @@ function bp_core_set_uri_globals() {
 	/* Fetch the current URI and explode each part seperated by '/' into an array */
 	$bp_uri = explode( "/", $path );
 	
+	if ( defined( 'BP_ENABLE_MULTIBLOG' ) ) {
+		/* If we are running BuddyPress on any blog, not just a root blog, we need to first
+		   shift off the blog name if we are running a subdirectory install of WPMU. */
+		if ( $current_blog->path != '/' )
+			array_shift( $bp_uri );
+	}
+	
 	/* Take empties off the end of complete URI */
 	if ( empty( $bp_uri[count($bp_uri) - 1] ) )
 		array_pop( $bp_uri );
 
 	/* Take empties off the start of complete URI */
 	if ( empty( $bp_uri[0] ) )
+		array_shift( $bp_uri );
+	
+	if ( (int)$current_blog->blog_id == 2 )
 		array_shift( $bp_uri );
 		
 	/* Get total URI segment count */

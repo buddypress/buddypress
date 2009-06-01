@@ -13,6 +13,4 @@ add_filter( 'bp_get_activity_content', 'stripslashes_deep' );
 
 add_filter( 'bp_get_activity_content', 'make_clickable' );
 
-add_filter( 'bp_get_activity_content', 'wp_filter_kses' );
-
 ?>
