@@ -324,7 +324,9 @@ $.Autocompleter = function(input, options) {
 				url: options.url,
 				data: $.extend({
 					q: lastWord(term),
-					limit: options.max
+					limit: options.max,
+					action: 'messages_autocomplete_results',
+					'cookie': encodeURIComponent(document.cookie)
 				}, extraParams),
 				success: function(data) {
 					var parsed = options.parse && options.parse(data) || parse(data);

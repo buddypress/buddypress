@@ -40,7 +40,7 @@ function messaegs_autocomplete_init_jsblock() {
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
 			var acfb = 
-			jQuery("ul.first").autoCompletefb({urlLookup:'<?php echo BP_PLUGIN_URL . '/bp-messages/autocomplete/bp-messages-autocomplete.php' ?>'});
+			jQuery("ul.first").autoCompletefb({urlLookup:'<?php echo $bp->root_domain . str_replace( 'index.php', 'wp-load.php', $_SERVER['SCRIPT_NAME'] ) ?>'});
 
 			jQuery('#send_message_form').submit( function() {
 				var users = document.getElementById('send-to-usernames').className;

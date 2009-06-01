@@ -26,6 +26,23 @@ function messages_ajax_send_reply() {
 }
 add_action( 'wp_ajax_messages_send_reply', 'messages_ajax_send_reply' );
 
+function messages_ajax_autocomplete_results() {
+	global $bp;
+
+	// Get the friend ids based on the search terms
+	$friends = apply_filters( 'bp_friends_autocomplete_list', friends_search_friends( $_GET['q'], $bp->loggedin_user->id, $_GET['limit'], 1 ), $_GET['q'], $_GET['limit'] );
+	
+	if ( $friends['friends'] ) {
+		foreach ( $friends['friends'] as $user_id ) {
+			$ud = get_userdata($user_id);
+			$username = $ud->user_login;
+			echo bp_core_get_avatar( $user_id, 1, 15, 15 ) . ' ' . bp_fetch_user_fullname( $user_id, false ) . ' (' . $username . ')
+			';
+		}		
+	}
+}
+add_action( 'wp_ajax_messages_autocomplete_results', 'messages_ajax_autocomplete_results' );
+
 function messages_ajax_markunread() {
 	global $bp;
 

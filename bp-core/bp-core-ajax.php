@@ -1,7 +1,7 @@
 <?php
 
 function bp_core_add_ajax_hook() {
-	do_action( 'wp_ajax_' . $_POST['action'] );
+	do_action( 'wp_ajax_' . $_REQUEST['action'] );
 }
 add_action( 'init', 'bp_core_add_ajax_hook' );
 
