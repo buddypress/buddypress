@@ -1,5 +1,10 @@
 <?php
 
+function bp_core_add_ajax_hook() {
+	do_action( 'wp_ajax_' . $_POST['action'] );
+}
+add_action( 'init', 'bp_core_add_ajax_hook' );
+
 function bp_core_ajax_widget_members() {
 	global $bp;
 

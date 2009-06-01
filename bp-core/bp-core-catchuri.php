@@ -38,7 +38,7 @@ function bp_core_set_uri_globals() {
 			return false;
 	}
 	
-	if ( strpos( $_SERVER['REQUEST_URI'], 'bp-core-ajax-handler.php' ) )
+	if ( strpos( $_SERVER['REQUEST_URI'], 'wp-load.php' ) )
 		$path = bp_core_referrer();
 	else
 		$path = clean_url( $_SERVER['REQUEST_URI'] );
@@ -105,7 +105,7 @@ function bp_core_set_uri_globals() {
 	$bp_unfiltered_uri = $bp_uri;
 	
 	/* Catch a member page and set the current member ID */
-	if ( $bp_uri[0] == BP_MEMBERS_SLUG || in_array( 'bp-core-ajax-handler.php', $bp_uri ) ) {
+	if ( $bp_uri[0] == BP_MEMBERS_SLUG || in_array( 'wp-load.php', $bp_uri ) ) {
 		$is_member_page = true;
 		$is_root_component = true;
 		
@@ -274,7 +274,7 @@ function bp_core_catch_profile_uri() {
 
 function bp_core_force_buddypress_theme( $template ) {
 	global $is_member_page, $bp;
-
+	
 	$member_theme = get_site_option( 'active-member-theme' );
 	
 	if ( empty( $member_theme ) )
