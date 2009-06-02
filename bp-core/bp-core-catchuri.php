@@ -67,9 +67,6 @@ function bp_core_set_uri_globals() {
 	/* Take empties off the start of complete URI */
 	if ( empty( $bp_uri[0] ) )
 		array_shift( $bp_uri );
-	
-	if ( (int)$current_blog->blog_id == 2 )
-		array_shift( $bp_uri );
 		
 	/* Get total URI segment count */
 	$bp_uri_count = count( $bp_uri ) - 1;
