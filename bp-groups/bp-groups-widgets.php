@@ -40,9 +40,9 @@ function groups_widget_groups_list($args) {
 	<?php if ( $groups['groups'] ) : ?>
 		<div class="item-options" id="groups-list-options">
 			<img id="ajax-loader-groups" src="<?php echo $bp->groups->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( 'Loading', 'buddypress' ) ?>" style="display: none;" /> 
-			<a href="<?php echo site_url() . '/groups' ?>" id="newest-groups"><?php _e("Newest", 'buddypress') ?></a> | 
-			<a href="<?php echo site_url() . '/groups' ?>" id="recently-active-groups"><?php _e("Active", 'buddypress') ?></a> | 
-			<a href="<?php echo site_url() . '/groups' ?>" id="popular-groups" class="selected"><?php _e("Popular", 'buddypress') ?></a>
+			<a href="<?php echo site_url() . '/' . $bp->groups->slug ?>" id="newest-groups"><?php _e("Newest", 'buddypress') ?></a> | 
+			<a href="<?php echo site_url() . '/' . $bp->groups->slug ?>" id="recently-active-groups"><?php _e("Active", 'buddypress') ?></a> | 
+			<a href="<?php echo site_url() . '/' . $bp->groups->slug ?>" id="popular-groups" class="selected"><?php _e("Popular", 'buddypress') ?></a>
 		</div>
 		<ul id="groups-list" class="item-list">
 			<?php foreach ( $groups['groups'] as $group_id ) : ?>
