@@ -548,7 +548,7 @@ function friends_remove_friend( $initiator_userid, $friend_userid ) {
 	$friendship = new BP_Friends_Friendship( $friendship_id );
 	
 	// Remove the activity stream items
-	friends_delete_activity( array( 'item_id' => $friendship_id, 'component_name' => 'friends', 'component_action' => 'friendship_accepted', 'user_id' => $bp->displayed_user->id ) );
+	friends_delete_activity( array( 'item_id' => $friendship_id, 'component_name' => $bp->friends->slug, 'component_action' => 'friendship_accepted', 'user_id' => $bp->displayed_user->id ) );
 	
 	do_action( 'friends_friendship_deleted', $friendship_id, $initiator_userid, $friend_userid );
 	

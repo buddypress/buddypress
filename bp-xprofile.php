@@ -743,7 +743,7 @@ function xprofile_edit( $group_id, $action ) {
 					$message = __('Changes saved.', 'buddypress');
 					
 					// Record in activity stream
-					xprofile_record_activity( array( 'item_id' => $group->id, 'component_name' => 'profile', 'component_action' => 'updated_profile', 'is_private' => 0 ) );
+					xprofile_record_activity( array( 'item_id' => $group->id, 'component_name' => $bp->profile->slug, 'component_action' => 'updated_profile', 'is_private' => 0 ) );
 					
 					do_action( 'xprofile_updated_profile', $group->id ); 
 				}

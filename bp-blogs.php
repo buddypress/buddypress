@@ -380,7 +380,7 @@ function bp_blogs_record_blog( $blog_id, $user_id ) {
 		$is_private = 1;
 
 	// Record in activity streams
-	bp_blogs_record_activity( array( 'item_id' => $recorded_blog_id, 'component_name' => 'blogs', 'component_action' => 'new_blog', 'is_private' => $is_private, 'user_id' => $recorded_blog->user_id ) );		
+	bp_blogs_record_activity( array( 'item_id' => $recorded_blog_id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog', 'is_private' => $is_private, 'user_id' => $recorded_blog->user_id ) );		
 	
 	do_action( 'bp_blogs_new_blog', $recorded_blog, $is_private, $is_recorded );
 }
@@ -418,7 +418,7 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 			$recorded_post_id = $recorded_post->save();
 			
 			bp_blogs_update_blogmeta( $recorded_post->blog_id, 'last_activity', time() );
-			bp_blogs_record_activity( array( 'item_id' => $recorded_post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'is_private' => bp_blogs_is_blog_hidden( $recorded_post->blog_id ), 'user_id' => $recorded_post->user_id, 'recorded_time' => strtotime( $post->post_date ) ) );
+			bp_blogs_record_activity( array( 'item_id' => $recorded_post->id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog_post', 'is_private' => bp_blogs_is_blog_hidden( $recorded_post->blog_id ), 'user_id' => $recorded_post->user_id, 'recorded_time' => strtotime( $post->post_date ) ) );
 		}
 	} else {
 		$existing_post = new BP_Blogs_Post( null, $blog_id, $post_id );
@@ -443,8 +443,8 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 		$recorded_post = $existing_post;
 
 		/* Delete and re-add the activity stream item to reflect potential content changes. */
-		bp_blogs_delete_activity( array( 'item_id' => $recorded_post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'user_id' => $recorded_post->user_id ) );
-		bp_blogs_record_activity( array( 'item_id' => $recorded_post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'is_private' => bp_blogs_is_blog_hidden( $recorded_post->blog_id ), 'user_id' => $recorded_post->user_id, 'recorded_time' => strtotime( $post->post_date ) ) );
+		bp_blogs_delete_activity( array( 'item_id' => $recorded_post->id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog_post', 'user_id' => $recorded_post->user_id ) );
+		bp_blogs_record_activity( array( 'item_id' => $recorded_post->id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog_post', 'is_private' => bp_blogs_is_blog_hidden( $recorded_post->blog_id ), 'user_id' => $recorded_post->user_id, 'recorded_time' => strtotime( $post->post_date ) ) );
 	}
 
 	do_action( 'bp_blogs_new_blog_post', $recorded_post, $is_private, $is_recorded );
@@ -478,7 +478,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved ) {
 	$recorded_commment_id = $recorded_comment->save();
 	
 	bp_blogs_update_blogmeta( $recorded_comment->blog_id, 'last_activity', time() );
-	bp_blogs_record_activity( array( 'item_id' => $recorded_comment->blog_id, 'secondary_item_id' => $recorded_commment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'is_private' => $is_private, 'user_id' => $recorded_comment->user_id, 'recorded_time' => $recorded_comment->date_created ) );	
+	bp_blogs_record_activity( array( 'item_id' => $recorded_comment->blog_id, 'secondary_item_id' => $recorded_commment_id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog_comment', 'is_private' => $is_private, 'user_id' => $recorded_comment->user_id, 'recorded_time' => $recorded_comment->date_created ) );	
 }
 add_action( 'comment_post', 'bp_blogs_record_comment', 10, 2 );
 
@@ -487,8 +487,8 @@ function bp_blogs_approve_comment( $comment_id, $comment ) {
 
 	$recorded_comment = bp_blogs_record_comment( $comment_id, true );
 
-	bp_blogs_delete_activity( array( 'item_id' => $recorded_comment->blog_id, 'secondary_item_id' => $recorded_commment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'user_id' => $recorded_comment->user_id ) );
-	bp_blogs_record_activity( array( 'item_id' => $recorded_comment->blog_id, 'secondary_item_id' => $recorded_commment_id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'is_private' => $is_private, 'user_id' => $recorded_comment->user_id, 'recorded_time' => $recorded_comment->date_created ) );	
+	bp_blogs_delete_activity( array( 'item_id' => $recorded_comment->blog_id, 'secondary_item_id' => $recorded_commment_id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog_comment', 'user_id' => $recorded_comment->user_id ) );
+	bp_blogs_record_activity( array( 'item_id' => $recorded_comment->blog_id, 'secondary_item_id' => $recorded_commment_id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog_comment', 'is_private' => $is_private, 'user_id' => $recorded_comment->user_id, 'recorded_time' => $recorded_comment->date_created ) );	
 }
 add_action( 'comment_approved_', 'bp_blogs_approve_comment', 10, 2 );
 
@@ -519,7 +519,7 @@ function bp_blogs_remove_blog( $blog_id ) {
 	BP_Blogs_Blog::delete_blog_for_all( $blog_id );
 	
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component_name' => 'blogs', 'component_action' => 'new_blog', 'user_id' => $bp->loggedin_user->id ) );
+	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog', 'user_id' => $bp->loggedin_user->id ) );
 	
 	do_action( 'bp_blogs_remove_blog', $blog_id );
 }
@@ -534,7 +534,7 @@ function bp_blogs_remove_blog_for_user( $user_id, $blog_id ) {
 	BP_Blogs_Blog::delete_blog_for_user( $blog_id, $user_id );
 
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component_name' => 'blogs', 'component_action' => 'new_blog', 'user_id' => $current_user->ID ) );
+	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog', 'user_id' => $current_user->ID ) );
 
 	do_action( 'bp_blogs_remove_blog_for_user', $blog_id, $user_id );
 }
@@ -552,7 +552,7 @@ function bp_blogs_remove_post( $post_id ) {
 	BP_Blogs_Post::delete( $post_id, $blog_id );
 		
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $post->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_post', 'user_id' => $post->user_id ) );
+	bp_blogs_delete_activity( array( 'item_id' => $post->id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog_post', 'user_id' => $post->user_id ) );
 
 	do_action( 'bp_blogs_remove_post', $blog_id, $post_id, $post->user_id );
 }
@@ -565,7 +565,7 @@ function bp_blogs_remove_comment( $comment_id ) {
 	BP_Blogs_Comment::delete( $comment_id, $wpdb->blogid );	
 
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $recorded_comment->blog_id, 'secondary_item_id' => $recorded_comment->id, 'component_name' => 'blogs', 'component_action' => 'new_blog_comment', 'user_id' => $recorded_comment->user_id ) );
+	bp_blogs_delete_activity( array( 'item_id' => $recorded_comment->blog_id, 'secondary_item_id' => $recorded_comment->id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog_comment', 'user_id' => $recorded_comment->user_id ) );
 
 	do_action( 'bp_blogs_remove_comment', $blog_id, $comment_id, $bp->loggedin_user->id );
 }
@@ -580,7 +580,7 @@ function bp_blogs_remove_data_for_blog( $blog_id ) {
 	BP_Blogs_Comment::delete_comments_for_blog( $blog_id );
 
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component_name' => 'blogs', 'component_action' => false, 'user_id' => $bp->loggedin_user->id ) );
+	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component_name' => $bp->blogs->slug, 'component_action' => false, 'user_id' => $bp->loggedin_user->id ) );
 
 	do_action( 'bp_blogs_remove_data_for_blog', $blog_id );
 }
