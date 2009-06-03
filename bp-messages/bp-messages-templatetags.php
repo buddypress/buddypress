@@ -283,9 +283,9 @@ function bp_messages_username_value() {
 	echo bp_get_messages_username_value();
 }
 	function bp_get_messages_username_value() {
-		if ( isset( $_SESSION['send_to'] ) ) {
-			return apply_filters( 'bp_get_messages_username_value', $_SESSION['send_to'] );
-		} else if ( isset( $_GET['r'] ) && !isset( $_SESSION['send_to'] ) ) {
+		if ( isset( $_COOKIE['bp_messages_send_to'] ) ) {
+			return apply_filters( 'bp_get_messages_username_value', $_COOKIE['bp_messages_send_to'] );
+		} else if ( isset( $_GET['r'] ) && !isset( $_COOKIE['bp_messages_send_to'] ) ) {
 			return apply_filters( 'bp_get_messages_username_value', $_GET['r'] );
 		}
 	}
@@ -294,14 +294,14 @@ function bp_messages_subject_value() {
 	echo bp_get_messages_subject_value();
 }
 	function bp_get_messages_subject_value() {
-		return apply_filters( 'bp_get_messages_subject_value', $_SESSION['subject'] );
+		return apply_filters( 'bp_get_messages_subject_value', $_COOKIE['bp_messages_subject'] );
 	}
 
 function bp_messages_content_value() {
 	echo bp_get_messages_content_value();
 }
 	function bp_get_messages_content_value() {
-		return apply_filters( 'bp_get_messages_content_value', $_SESSION['content'] );
+		return apply_filters( 'bp_get_messages_content_value', $_COOKIE['bp_messages_content'] );
 	}
 
 function bp_messages_options() {

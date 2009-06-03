@@ -361,36 +361,42 @@ function groups_screen_create_group() {
 		$create_group_step = 1;
 		$completed_to_step = 0;
 		
-		unset($_SESSION['group_obj_id']);
-		unset($_SESSION['completed_to_step']);
+		setcookie( 'bp_group_obj_id', false, time() - 1000, COOKIEPATH );
+		setcookie( 'bp_group_completed_to_step', false, time() - 1000, COOKIEPATH );
 		
 		$no_instantiate = true;
 		$reset_steps = true;
 	}
 	
-	if ( isset($_SESSION['completed_to_step']) && !$reset_steps ) {
-		$completed_to_step = $_SESSION['completed_to_step'];
+	if ( isset($_COOKIE['bp_group_completed_to_step']) && !$reset_steps ) {
+		$completed_to_step = $_COOKIE['bp_group_completed_to_step'];
 	}
 	
 	if ( isset( $_POST['save'] ) || isset( $_POST['skip'] ) ) {
-		$group_obj = new BP_Groups_Group( $_SESSION['group_obj_id'] );
+		$group_obj = new BP_Groups_Group( $_COOKIE['bp_group_obj_id'] );
 
-		if ( !$group_id = groups_create_group( $create_group_step, $_SESSION['group_obj_id'] ) ) {
+		if ( !$group_id = groups_create_group( $create_group_step, $_COOKIE['bp_group_obj_id'] ) ) {
 			bp_core_add_message( __('There was an error saving group details. Please try again.', 'buddypress'), 'error' );
 			bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . $create_group_step );
 		} else {
 			$create_group_step++;
 			$completed_to_step++;
-			$_SESSION['completed_to_step'] = $completed_to_step;
-			$_SESSION['group_obj_id'] = $group_id;
+			
+			/* Unset cookie info */
+			setcookie( 'bp_group_obj_id', false, time() - 1000, COOKIEPATH );
+			setcookie( 'bp_group_completed_to_step', false, time() - 1000, COOKIEPATH );
+			
+			/* Reset cookie info */
+			setcookie( 'bp_group_obj_id', $group_id, time()+60*60*24, COOKIEPATH );
+			setcookie( 'bp_group_completed_to_step', $completed_to_step, time()+60*60*24, COOKIEPATH );
 		}
 		
 		if ( $completed_to_step == 4 )
 			bp_core_redirect( bp_get_group_permalink( $group_obj ) );
 	}
 
-	if ( isset($_SESSION['group_obj_id']) && !$group_obj && !$no_instantiate )
-		$group_obj = new BP_Groups_Group( $_SESSION['group_obj_id'] );
+	if ( isset($_COOKIE['bp_group_obj_id']) && !$group_obj && !$no_instantiate )
+		$group_obj = new BP_Groups_Group( $_COOKIE['bp_group_obj_id'] );
 	
  	bp_core_load_template( apply_filters( 'groups_template_create_group', 'groups/create' ) );
 }

@@ -1,5 +1,4 @@
 <?php
-
 /* Define the current version number for checking if DB tables are up to date. */
 define( 'BP_CORE_VERSION', '1.0' );
 define( 'BP_CORE_DB_VERSION', '1300' );
@@ -170,15 +169,21 @@ function bp_core_setup_root_components() {
 }
 add_action( 'plugins_loaded', 'bp_core_setup_root_components', 1 );
 
-function bp_core_setup_session() {
-	// Start a session for error/success feedback on redirect and for signup functions.
-	@session_start();
+function bp_core_setup_cookies() {
+	global $bp_message, $bp_message_type;
 	
 	// Render any error/success feedback on the template
-	if ( $_SESSION['message'] != '' )
-		add_action( 'template_notices', 'bp_core_render_notice' );
+	if ( $_COOKIE['bp-message'] == '' || !isset( $_COOKIE['bp-message'] ) )
+	 	return false;
+
+	$bp_message = $_COOKIE['bp-message'];
+	$bp_message_type = $_COOKIE['bp-message-type'];
+	add_action( 'template_notices', 'bp_core_render_notice' );
+
+	setcookie( 'bp-message', false, time() - 1000, COOKIEPATH );
+	setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH );
 }
-add_action( 'wp', 'bp_core_setup_session', 3 );
+add_action( 'wp', 'bp_core_setup_cookies', 3 );
 
 function bp_core_install() {
 	global $wpdb, $bp;
@@ -846,9 +851,9 @@ function bp_core_format_time( $time, $just_date = false ) {
 function bp_core_add_message( $message, $type = false ) {
 	if ( !$type )
 		$type = 'success';
-	
-	$_SESSION['message'] = $message;
-	$_SESSION['message_type'] = $type;
+
+	setcookie( 'bp-message', $message, time()+60*60*24, COOKIEPATH );
+	setcookie( 'bp-message-type', $type, time()+60*60*24, COOKIEPATH );
 }
 
 /**
@@ -861,16 +866,13 @@ function bp_core_add_message( $message, $type = false ) {
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
 function bp_core_render_notice() {
-	if ( $_SESSION['message'] ) {
-		$type = ( 'success' == $_SESSION['message_type'] ) ? 'updated' : 'error';
+	if ( $_COOKIE['bp-message'] ) {
+		$type = ( 'success' == $_COOKIE['bp-message-type'] ) ? 'updated' : 'error';
 	?>
 		<div id="message" class="<?php echo $type; ?>">
-			<p><?php echo $_SESSION['message']; ?></p>
+			<p><?php echo $_COOKIE['bp-message']; ?></p>
 		</div>
-	<?php 
-		unset( $_SESSION['message'] );
-		unset( $_SESSION['message_type'] );
-		
+	<?php
 		do_action( 'bp_core_render_notice' );
 	}
 }
