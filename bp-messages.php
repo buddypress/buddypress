@@ -178,9 +178,8 @@ function messages_screen_sentbox() {
 function messages_screen_compose() {
 	// Remove any saved message data from a previous session.
 	messages_remove_callback_values();
-	
-	//var_dump($_POST['send_to_usernames']);
-	
+
+	// Require the auto 
 	$recipients = false;
 	if ( empty( $_POST['send_to_usernames'] ) ) {
 		if ( !empty( $_POST['send-to-input'] ) ) {
@@ -569,6 +568,7 @@ function messages_delete_thread( $thread_ids ) {
 		return true;
 	}
 }
+
 
 function messages_get_unread_count( $user_id = false ) {
 	global $bp;

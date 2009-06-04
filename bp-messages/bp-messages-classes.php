@@ -244,10 +244,10 @@ Class BP_Messages_Thread {
 		global $wpdb, $bp;
 
 		$sql = $wpdb->prepare("SELECT last_sender_id FROM {$bp->messages->table_name_threads} WHERE id = %d", $thread_id);
-
+	
 		if ( !$sender_id = $wpdb->get_var($sql) )
 			return false;
-
+		
 		return bp_core_get_userlink( $sender_id, true );
 	}
 	
