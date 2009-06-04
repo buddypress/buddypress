@@ -242,7 +242,11 @@ function bp_fetch_user_fullname( $user_id, $echo = true ) {
 
 			if ( empty($fullname) || !$fullname ) {
 				$ud = get_userdata($user_id);
-				$fullname = $ud->display_name;
+
+				if ( empty( $ud->display_name ) )
+					$fullname = $ud->user_nicename;
+				else
+					$fullname = $ud->display_name;
 
 				xprofile_set_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id, $fullname );
 			}
