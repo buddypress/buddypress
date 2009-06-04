@@ -1591,7 +1591,7 @@ function groups_new_group_forum( $group_id = false, $group_name = false, $group_
 }
 
 function groups_new_group_forum_post( $post_text, $topic_id ) {
-	global $group_obj;
+	global $group_obj, $bp;
 
 	/* Check the nonce */
 	if ( !check_admin_referer( 'bp_forums_new_reply' ) ) 
@@ -1613,7 +1613,7 @@ function groups_new_group_forum_post( $post_text, $topic_id ) {
 }
 
 function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $forum_id ) {
-	global $group_obj;
+	global $group_obj, $bp;
 
 	/* Check the nonce */	
 	if ( !check_admin_referer( 'bp_forums_new_topic' ) ) 

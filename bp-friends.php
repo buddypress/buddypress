@@ -562,6 +562,8 @@ function friends_remove_friend( $initiator_userid, $friend_userid ) {
 }
 
 function friends_accept_friendship( $friendship_id ) {
+	global $bp;
+	
 	/* Check the nonce */
 	if ( !check_admin_referer( 'friends_accept_friendship' ) ) 
 		return false;
