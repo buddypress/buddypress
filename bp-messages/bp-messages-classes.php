@@ -367,7 +367,7 @@ Class BP_Messages_Message {
 			$sender_ids = serialize($sender_ids);			
 			
 			// Update the thread the message belongs to.
-			$wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_threads} SET message_ids = %s, sender_ids = %s, last_message_id = %d, last_sender_id = %d WHERE id = %d", $message_ids, $sender_ids, $wpdb->insert_id, $this->sender_id, $this->thread_id ) );
+			$wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_threads} SET message_ids = %s, sender_ids = %s, last_message_id = %d, last_sender_id = %d, last_post_date = FROM_UNIXTIME(%d) WHERE id = %d", $message_ids, $sender_ids, $wpdb->insert_id, $this->sender_id, $this->date_sent, $this->thread_id ) );
 						
 			// Find the recipients and update the unread counts for each
 			if ( !$this->recipients )
