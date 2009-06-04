@@ -2101,7 +2101,7 @@ function groups_reject_membership_request( $membership_id ) {
 function groups_redirect_to_random_group() {
 	global $bp, $wpdb;
 	
-	if ( $bp->current_component == $bp->groups->slug && isset( $_GET['random'] ) ) {
+	if ( $bp->current_component == $bp->groups->slug && isset( $_GET['random-group'] ) ) {
 		$group = groups_get_random_group();
 
 		bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/' . $group['groups'][0]->slug );

@@ -249,10 +249,10 @@ function bp_adminbar_random_menu() {
 	<li class="align-right" id="bp-adminbar-visitrandom-menu">
 		<a href="#"><?php _e( 'Visit', 'buddypress' ) ?></a>
 		<ul class="random-list">
-			<li><a href="<?php echo $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/?random' ?>"><?php _e( 'Random Member', 'buddypress' ) ?></a></li>
+			<li><a href="<?php echo $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/?random-member' ?>"><?php _e( 'Random Member', 'buddypress' ) ?></a></li>
 
 			<?php if ( function_exists('groups_install') ) : ?>
-			<li class="alt"><a href="<?php echo $bp->root_domain . '/' . $bp->groups->slug . '/?random' ?>"><?php _e( 'Random Group', 'buddypress' ) ?></a></li>
+			<li class="alt"><a href="<?php echo $bp->root_domain . '/' . $bp->groups->slug . '/?random-group' ?>"><?php _e( 'Random Group', 'buddypress' ) ?></a></li>
 			<?php endif; ?>
 
 			<?php if ( function_exists('bp_blogs_install') ) : ?>

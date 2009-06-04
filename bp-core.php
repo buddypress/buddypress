@@ -611,14 +611,14 @@ function bp_core_add_root_component( $slug ) {
 function bp_core_get_random_member() {
 	global $bp, $wpdb;
 	
-	if ( $bp->current_component == BP_MEMBERS_SLUG && isset( $_GET['random'] ) ) {
+	if ( !$bp->current_component && isset( $_GET['random-member'] ) ) {
 		$user = BP_Core_User::get_random_users(1);
-
+		
 		$ud = get_userdata( $user['users'][0]->user_id );
 		bp_core_redirect( $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login );
 	}
 }
-add_action( 'wp', 'bp_core_get_random_member', 6 );
+add_action( 'wp', 'bp_core_get_random_member' );
 
 /**
  * bp_core_get_userid()
