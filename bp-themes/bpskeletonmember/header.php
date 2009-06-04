@@ -42,7 +42,7 @@
 		</li>
 		
 		<li<?php if ( bp_is_page( BP_MEMBERS_SLUG ) ) : ?> class="selected"<?php endif; ?>>
-			<a href="<?php echo get_option('home') ?>/<?php echo MEMBERS_SLUG ?>" title="<?php _e( 'Members', 'buddypress' ) ?>"><?php _e( 'Members', 'buddypress' ) ?></a>
+			<a href="<?php echo get_option('home') ?>/<?php echo BP_MEMBERS_SLUG ?>" title="<?php _e( 'Members', 'buddypress' ) ?>"><?php _e( 'Members', 'buddypress' ) ?></a>
 		</li>
 
 		<?php if ( function_exists( 'groups_install' ) ) : ?>
