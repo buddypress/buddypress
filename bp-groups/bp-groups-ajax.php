@@ -144,7 +144,7 @@ function groups_ajax_member_list() {
 				
 				<?php if ( function_exists( 'friends_install' ) ) : ?>
 					<div class="action">
-						<?php bp_add_friend_button( bp_group_member_id() ) ?>
+						<?php bp_add_friend_button( bp_get_group_member_id() ) ?>
 					</div>
 				<?php endif; ?>
 			</li>
