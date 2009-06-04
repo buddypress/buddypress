@@ -870,7 +870,7 @@ function bp_core_render_notice() {
 		$type = ( 'success' == $_COOKIE['bp-message-type'] ) ? 'updated' : 'error';
 	?>
 		<div id="message" class="<?php echo $type; ?>">
-			<p><?php echo $_COOKIE['bp-message']; ?></p>
+			<p><?php echo stripslashes( $_COOKIE['bp-message'] ); ?></p>
 		</div>
 	<?php
 		do_action( 'bp_core_render_notice' );
