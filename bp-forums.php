@@ -11,7 +11,7 @@ require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-filters.php' );
 
 if ( is_admin() )
-	require ( 'bp-forums/bp-forums-admin.php' );
+	require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-admin.php' );
 
 function bp_forums_setup() {
 	global $bp, $bbpress_live;

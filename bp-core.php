@@ -39,7 +39,7 @@ require ( BP_PLUGIN_DIR . '/bp-core/bp-core-notifications.php' );
 
 /* If BP_DISABLE_ADMIN_BAR is defined, do not load the global admin bar */
 if ( !defined( 'BP_DISABLE_ADMIN_BAR') )
-	require ( 'bp-core/bp-core-adminbar.php' );
+	require ( BP_PLUGIN_DIR . '/bp-core/bp-core-adminbar.php' );
 
 /* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
 if ( !defined( 'BP_MEMBERS_SLUG' ) )

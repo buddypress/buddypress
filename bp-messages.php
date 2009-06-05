@@ -7,11 +7,11 @@ define ( 'BP_MESSAGES_DB_VERSION', '1300' );
 if ( !defined( 'BP_MESSAGES_SLUG' ) )
 	define ( 'BP_MESSAGES_SLUG', 'messages' );
 
-require ( 'bp-messages/bp-messages-classes.php' );
-require ( 'bp-messages/bp-messages-ajax.php' );
-require ( 'bp-messages/bp-messages-cssjs.php' );
-require ( 'bp-messages/bp-messages-templatetags.php' );
-require ( 'bp-messages/bp-messages-filters.php' );
+require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-classes.php' );
+require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-ajax.php' );
+require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-cssjs.php' );
+require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-templatetags.php' );
+require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-filters.php' );
 
 /**************************************************************************
  messages_install()
