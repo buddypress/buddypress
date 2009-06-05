@@ -8,7 +8,9 @@ function bp_core_add_settings_nav() {
 	
 	bp_core_add_subnav_item( 'settings', 'general', __('General', 'buddypress'), $bp->loggedin_user->domain . 'settings/', 'bp_core_screen_general_settings', false, bp_is_home() );
 	bp_core_add_subnav_item( 'settings', 'notifications', __('Notifications', 'buddypress'), $bp->loggedin_user->domain . 'settings/', 'bp_core_screen_notification_settings', false, bp_is_home() );
-	bp_core_add_subnav_item( 'settings', 'delete-account', __('Delete Account', 'buddypress'), $bp->loggedin_user->domain . 'settings/', 'bp_core_screen_delete_account', false, bp_is_home() );
+	
+	if ( !is_site_admin() )
+		bp_core_add_subnav_item( 'settings', 'delete-account', __('Delete Account', 'buddypress'), $bp->loggedin_user->domain . 'settings/', 'bp_core_screen_delete_account', false, bp_is_home() );
 }
 add_action( 'wp', 'bp_core_add_settings_nav', 2 );
 add_action( 'admin_menu', 'bp_core_add_settings_nav', 2 );

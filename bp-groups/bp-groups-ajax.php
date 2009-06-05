@@ -21,8 +21,8 @@ function groups_ajax_invite_user() {
 		$user = new BP_Core_User( $_POST['friend_id'] );
 		
 		echo '<li id="uid-' . $user->id . '">';
-		echo attribute_escape( $user->avatar_thumb );
-		echo '<h4>' . attribute_escape( $user->user_link ) . '</h4>';
+		echo $user->avatar_thumb;
+		echo '<h4>' . $user->user_link . '</h4>';
 		echo '<span class="activity">' . attribute_escape( $user->last_active ) . '</span>';
 		echo '<div class="action">
 				<a class="remove" href="' . wp_nonce_url( $bp->loggedin_user->domain . $bp->groups->slug . '/' . $_POST['group_id'] . '/invites/remove/' . $user->id, 'groups_invite_uninvite_user' ) . '" id="uid-' . attribute_escape( $user->id ) . '">' . __( 'Remove Invite', 'buddypress' ) . '</a> 
@@ -144,7 +144,7 @@ function groups_ajax_member_list() {
 				
 				<?php if ( function_exists( 'friends_install' ) ) : ?>
 					<div class="action">
-						<?php bp_add_friend_button( bp_group_member_id() ) ?>
+						<?php bp_add_friend_button( bp_get_group_member_id() ) ?>
 					</div>
 				<?php endif; ?>
 			</li>

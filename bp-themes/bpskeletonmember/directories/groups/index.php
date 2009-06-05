@@ -74,7 +74,7 @@
 	</div>
 
 	<div id="groups-directory-featured" class="directory-featured">
-		<h3><?php _e( 'Featured Groups', 'buddypress' ) ?></h3>
+		<h3><?php _e( 'Random Groups', 'buddypress' ) ?></h3>
 		
 		<?php if ( bp_has_site_groups( 'type=random&max=3' ) ) : ?>
 

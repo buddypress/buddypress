@@ -88,7 +88,10 @@ function bp_core_widget_members($args) {
 		. $widget_name 
 		. $after_title; ?>
 	
-	<?php 
+	<?php
+	if ( empty( $options['max_members'] ) || !$options['max_members'] )
+		$options['max_members'] = 5;
+		
 	if ( !$users = wp_cache_get( 'newest_users', 'bp' ) ) {
 		$users = BP_Core_User::get_newest_users( $options['max_members'] );
 		wp_cache_set( 'newest_users', $users, 'bp' );
@@ -169,7 +172,10 @@ function bp_core_widget_whos_online($args) {
 		. $widget_name
 		. $after_title; ?>
 
-	<?php 
+	<?php
+	if ( empty( $options['max_members'] ) || !$options['max_members'] )
+		$options['max_members'] = 5;
+		
 	if ( !$users = wp_cache_get( 'online_users', 'bp' ) ) {
 		$users = BP_Core_User::get_online_users( $options['max_members'] );
 		wp_cache_set( 'online_users', $users, 'bp' );
@@ -182,7 +188,7 @@ function bp_core_widget_whos_online($args) {
 		<div class="avatar-block">
 		<?php foreach ( (array) $users['users'] as $user ) : ?>
 			<div class="item-avatar">
-				<a href="<?php echo bp_core_get_userurl($user->user_id) ?>" title="<?php bp_fetch_user_fullname( $user->user_id, true ) ?>"><?php echo bp_core_get_avatar( $user->user_id, 1 ) ?></a>
+				<a href="<?php echo bp_core_get_userurl($user->user_id) ?>" title="<?php echo bp_core_get_user_displayname( $user->user_id ) ?>"><?php echo bp_core_get_avatar( $user->user_id, 1 ) ?></a>
 			</div>
 		<?php endforeach; ?>
 		</div>

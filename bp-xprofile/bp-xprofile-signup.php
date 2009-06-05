@@ -85,30 +85,59 @@ add_action( 'signup_extra_fields', 'xprofile_add_signup_fields' );
  **************************************************************************/
 
 function xprofile_validate_signup_fields( $result ) {
-	global $bp_xprofile_callback, $avatar_error, $avatar_error_msg, $has_errors;
+	global $bp_xprofile_callback, $avatar_error_msg;
 	global $canvas, $original;
 	global $current_site, $active_signup;
 	global $wp_upload_error;
+	global $bp_signup_has_errors, $bp_signup_avatar_has_errors;
 	
 	if ( $_POST['stage'] != 'validate-user-signup' ) return $result;
 	
-	// form has been submitted, let's validate the form
-	// using the built in Wordpress functions and our own.
-
 	extract($result);
 	
+	if ( $bp_signup_has_errors || $bp_signup_avatar_has_errors )
+		$errors->add( 'bp_xprofile_errors', '' );
+		
+	return array('user_name' => $user_name, 'user_email' => $user_email, 'errors' => $errors);
+}
+add_filter( 'wpmu_validate_user_signup', 'xprofile_validate_signup_fields', 10, 1 );
+
+function xprofile_add_profile_meta( $meta ) {
+	global $bp, $bp_blog_signup_meta;
+	
+	if ( $_POST['stage'] == 'validate-blog-signup' ) {
+		$bp_meta = $bp_blog_signup_meta;
+	} else if ( $_POST['stage'] == 'validate-user-signup' ) {
+		$bp_meta = unserialize( stripslashes( $_COOKIE['bp_xprofile_meta'] ) );
+	} else {
+		$bp_meta = $meta;
+	}
+
+	return $bp_meta;
+}
+add_filter( 'add_signup_meta', 'xprofile_add_profile_meta' );
+
+function xprofile_load_signup_meta() {
+	global $bp_signup_has_errors, $bp_signup_avatar_has_errors;
+	global $bp_xprofile_callback, $avatar_error_msg;
+	global $canvas, $original;
+	global $current_site, $active_signup;
+	global $wp_upload_error;
+
+	if ( $_POST['stage'] != 'validate-user-signup' ) return;
+	
 	$counter = 0;
-	$has_errors = false;
+	$bp_signup_has_errors = false;
 	$prev_field_id = -1;
 	
 	// Validate all sign up fields
 	$fields = BP_XProfile_Field::get_signup_fields();
-	
+
 	if ( $fields ) {
 		foreach ( $fields as $field ) {
 		
 			$value = $_POST['field_' . $field->id];
-		
+
 			// Need to check if the previous field had
 			// the same ID, as to not validate individual
 			// day/month/year dropdowns individually.
@@ -132,10 +161,10 @@ function xprofile_validate_signup_fields( $result ) {
 					"type" => $field->type,
 					"value" => $value
 				);
-			
+
 				if ( $field->is_required && empty( $value ) ) {
 					$bp_xprofile_callback[$counter]["error_msg"] = sprintf( __( '%s cannot be left blank', 'buddypress' ), $field->name );
-					$has_errors = true;
+					$bp_signup_has_errors = true;
 				}
 			
 				$counter++;
@@ -166,24 +195,24 @@ function xprofile_validate_signup_fields( $result ) {
 
 		if ( 4 !== $_FILES['file']['error'] ) {
 			if ( !$checked_upload = bp_core_check_avatar_upload($_FILES) ) {
-				$avatar_error = true;
+				$bp_signup_avatar_has_errors = true;
 				$avatar_error_msg = $uploadErrors[$_FILES['file']['error']];
 			}
 
 			if ( $checked_upload && !$checked_size = bp_core_check_avatar_size($_FILES) ) {
-				$avatar_error = true;
+				$bp_signup_avatar_has_errors = true;
 				$avatar_size = size_format(CORE_MAX_FILE_SIZE);
 				$avatar_error_msg = sprintf( __('The file you uploaded is too big. Please upload a file under %s', 'buddypress'), $avatar_size);
 			}
 
 			if ( $checked_upload && $checked_size && !$checked_type = bp_core_check_avatar_type($_FILES) ) {
-				$avatar_error = true;
+				$bp_signup_avatar_has_errors = true;
 				$avatar_error_msg = __('Please upload only JPG, GIF or PNG photos.', 'buddypress');		
 			}
 
 			// "Handle" upload into temporary location
 			if ( $checked_upload && $checked_size && $checked_type && !$original = bp_core_handle_avatar_upload($_FILES) ) {
-				$avatar_error = true;
+				$bp_signup_avatar_has_errors = true;
 				$avatar_error_msg = sprintf( __('Upload Failed! Error was: %s', 'buddypress'), $wp_upload_error );						
 			}
 	
@@ -191,50 +220,43 @@ function xprofile_validate_signup_fields( $result ) {
 				$canvas = $original;
 		}
 	}
-	
-	if ( !$has_errors && !$avatar_error ) {
+
+	if ( !$bp_signup_has_errors && !$bp_signup_avatar_has_errors ) {
+		/* Destroy and existing cookies */
+		setcookie( 'bp_xprofile_meta', false, time()-1000, COOKIEPATH );
+		
 		$public = (int) $_POST['blog_public'];
 		
 		// put the user profile meta in a session ready to store.
 		for ( $i = 0; $i < count($bp_xprofile_callback); $i++ ) {
-			$meta['field_' . $bp_xprofile_callback[$i]['field_id']] .= $bp_xprofile_callback[$i]['value'];
+			$bp_meta['field_' . $bp_xprofile_callback[$i]['field_id']] .= $bp_xprofile_callback[$i]['value'];
 		}
 
-		$meta['xprofile_field_ids'] = $_POST['xprofile_ids'];
-		$meta['avatar_image_resized'] = $canvas;
-		$meta['avatar_image_original'] = $original;
-
-		$_SESSION['xprofile_meta'] = $meta;
-	} else {
-		$errors->add( 'bp_xprofile_errors', '' );
+		$bp_meta['xprofile_field_ids'] = $_POST['xprofile_ids'];
+		$bp_meta['avatar_image_resized'] = $canvas;
+		$bp_meta['avatar_image_original'] = $original;
+		
+		setcookie( 'bp_xprofile_meta', serialize($bp_meta), time()+60*60*24, COOKIEPATH );
 	}
+}
+add_action( 'init', 'xprofile_load_signup_meta' );
+
+function xprofile_load_blog_signup_meta() {
+	global $bp_blog_signup_meta;
 	
-	return array('user_name' => $user_name, 'user_email' => $user_email, 'errors' => $errors);
-}
-add_filter( 'wpmu_validate_user_signup', 'xprofile_validate_signup_fields', 10, 1 );
+	if ( $_POST['stage'] != 'validate-blog-signup' ) return;
 
-
-function xprofile_add_blog_signup_meta( $meta ) {
-	$_SESSION['xprofile_meta']['public'] = (int) $_POST['blog_public'];
-	$_SESSION['xprofile_meta']['lang_id'] = 1; // deprecated
-	$_SESSION['xprofile_meta']['blogname'] = $_POST['blogname'];
-	$_SESSION['xprofile_meta']['blog_title'] = $_POST['blog_title'];
-
-	return $meta;
-}
-
-add_filter( 'wpmu_validate_blog_signup', 'xprofile_add_blog_signup_meta' );
-
-
-function xprofile_add_profile_meta( $meta ) {
-	global $bp;
+	$blog_meta = array( 
+		'public' => $_POST['blog_public'],
+		'lang_id' => 1, // deprecated
+		'blogname' => $_POST['blogname'],
+		'blog_title' => $_POST['blog_title']
+	);
 	
-	if ( $bp->current_component != $bp->blogs->slug )
-		return $_SESSION['xprofile_meta'];
-	else
-		return $meta;
+	$bp_meta = unserialize( stripslashes( $_COOKIE['bp_xprofile_meta'] ) );
+	$bp_blog_signup_meta = array_merge( $bp_meta, $blog_meta );
 }
-add_filter( 'add_signup_meta', 'xprofile_add_profile_meta' );
+add_action( 'init', 'xprofile_load_blog_signup_meta' );
 
 /**************************************************************************
  xprofile_on_activate_user()
@@ -263,7 +285,6 @@ function xprofile_on_activate_user( $user_id, $password, $meta ) {
 		xprofile_handle_signup_avatar( $user_id, $meta );
 }
 add_action( 'wpmu_activate_user', 'xprofile_on_activate_user', 1, 3 );
-
 
 function xprofile_extract_signup_meta( $user_id, $meta ) {
 	// Extract signup meta fields to fill out profile

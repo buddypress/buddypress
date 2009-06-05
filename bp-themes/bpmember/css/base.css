@@ -23,7 +23,7 @@ a img { border:none }
 
 html {
 	background: #fff;
-	font-size: 11px;
+	font: 11px;
 	font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, Verdana, Arial, sans-serif;
 }
 

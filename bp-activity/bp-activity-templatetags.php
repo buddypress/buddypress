@@ -219,14 +219,16 @@ function bp_activity_content() {
 	echo bp_get_activity_content();
 }
 	function bp_get_activity_content() {
-		global $activities_template;
+		global $activities_template, $allowed_tags;
 
 		if ( bp_is_home() && $activities_template->activity_type == 'personal' ) {
-			return apply_filters( 'bp_get_activity_content', bp_activity_content_filter( $activities_template->activity->content, $activities_template->activity->date_recorded, $activities_template->full_name ) );						
+			$content = bp_activity_content_filter( $activities_template->activity->content, $activities_template->activity->date_recorded, $activities_template->full_name );						
 		} else {
 			$activities_template->activity->content = bp_activity_insert_time_since( $activities_template->activity->content, $activities_template->activity->date_recorded );
-			return apply_filters( 'bp_get_activity_content', $activities_template->activity->content );
+			$content = $activities_template->activity->content;
 		}
+		
+		return apply_filters( 'bp_get_activity_content', $content );
 	}
 
 function bp_activity_content_filter( $content, $date_recorded, $full_name, $insert_time = true, $filter_words = true, $filter_you = true ) {

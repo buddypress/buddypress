@@ -88,7 +88,7 @@ function bp_core_admin_settings() {
 				<tr>
 					<th scope="row"><?php _e('Select theme to use for BuddyPress generated pages', 'buddypress' ) ?>:</th>
 					<td>
-						<?php $themes = bp_core_get_member_themes() ?>
+						<?php $themes = bp_core_get_buddypress_themes() ?>
 						<?php if ( $themes ) : ?>
 						<select name="bp-admin[active-member-theme]" id="active-member-theme">
 							<?php 

@@ -944,7 +944,7 @@ function bp_group_list_mods( $full_list = true, $group = false ) {
 			<ul id="group-mods" class="mods-list">
 			<?php for ( $i = 0; $i < count($group_mods); $i++ ) { ?>
 				<li>
-					<a href="<?php echo bp_core_get_userlink( $group_mods[$i]->user_id, false, true ) ?>" title="<?php echo bp_fetch_user_fullname( $group_mods[$i]->user->user_id ) ?>"><?php echo bp_core_get_avatar( $group_mods[$i]->user_id, 1, 50, 50 ) ?></a>
+					<a href="<?php echo bp_core_get_userlink( $group_mods[$i]->user_id, false, true ) ?>" title="<?php echo bp_core_get_user_displayname( $group_mods[$i]->user->user_id ) ?>"><?php echo bp_core_get_avatar( $group_mods[$i]->user_id, 1, 50, 50 ) ?></a>
 					<h5><?php echo bp_core_get_userlink( $group_mods[$i]->user_id ) ?></h5>
 					<span class="activity"><?php _e( 'Group Mod', 'buddypress' ) ?></span>
 					<div class="clear"></div>
@@ -1771,7 +1771,7 @@ function bp_group_member_name() {
 	function bp_get_group_member_name() {
 		global $members_template;
 
-		return apply_filters( 'bp_get_group_member_name', bp_fetch_user_fullname( $members_template->member->user_id, false ) );
+		return apply_filters( 'bp_get_group_member_name', bp_core_get_user_displayname( $members_template->member->user_id ) );
 	}
 
 function bp_group_member_url() {

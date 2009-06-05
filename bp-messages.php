@@ -1,17 +1,16 @@
 <?php
 
-define ( 'BP_MESSAGES_VERSION', '1.0' );
 define ( 'BP_MESSAGES_DB_VERSION', '1300' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_MESSAGES_SLUG' ) )
 	define ( 'BP_MESSAGES_SLUG', 'messages' );
 
-require ( 'bp-messages/bp-messages-classes.php' );
-require ( 'bp-messages/bp-messages-ajax.php' );
-require ( 'bp-messages/bp-messages-cssjs.php' );
-require ( 'bp-messages/bp-messages-templatetags.php' );
-require ( 'bp-messages/bp-messages-filters.php' );
+require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-classes.php' );
+require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-ajax.php' );
+require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-cssjs.php' );
+require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-templatetags.php' );
+require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-filters.php' );
 
 /**************************************************************************
  messages_install()
@@ -178,9 +177,8 @@ function messages_screen_sentbox() {
 function messages_screen_compose() {
 	// Remove any saved message data from a previous session.
 	messages_remove_callback_values();
-	
-	//var_dump($_POST['send_to_usernames']);
-	
+
+	// Require the auto 
 	$recipients = false;
 	if ( empty( $_POST['send_to_usernames'] ) ) {
 		if ( !empty( $_POST['send-to-input'] ) ) {
@@ -473,9 +471,9 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 				
 				// Send email notifications to the recipients
 				require_once( BP_PLUGIN_DIR . '/bp-messages/bp-messages-notifications.php' );
-				messages_notification_new_message( array( 'item_id' => $pmessage->id, 'recipient_ids' => $pmessage->recipients, 'thread_id' => $pmessage->thread_id, 'component_name' => 'messages', 'component_action' => 'message_sent', 'is_private' => 1 ) );
+				messages_notification_new_message( array( 'item_id' => $pmessage->id, 'recipient_ids' => $pmessage->recipients, 'thread_id' => $pmessage->thread_id, 'component_name' => $bp->messages->slug, 'component_action' => 'message_sent', 'is_private' => 1 ) );
 
-				do_action( 'messages_send_message', array( 'item_id' => $pmessage->id, 'recipient_ids' => $pmessage->recipients, 'thread_id' => $pmessage->thread_id, 'component_name' => 'messages', 'component_action' => 'message_sent', 'is_private' => 1 ) );
+				do_action( 'messages_send_message', array( 'item_id' => $pmessage->id, 'recipient_ids' => $pmessage->recipients, 'thread_id' => $pmessage->thread_id, 'component_name' => $bp->messages->slug, 'component_action' => 'message_sent', 'is_private' => 1 ) );
 		
 				if ( $from_ajax ) {
 					return array('status' => 1, 'message' => $message, 'reply' => $pmessage);
@@ -500,15 +498,15 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 }
 
 function messages_add_callback_values( $recipients, $subject, $content ) {
-	$_SESSION['send_to'] = $recipients;
-	$_SESSION['subject'] = $subject;
-	$_SESSION['content'] = $content;
+	setcookie( 'bp_messages_send_to', $recipients, time()+60*60*24, COOKIEPATH );
+	setcookie( 'bp_messages_subject', $subject, time()+60*60*24, COOKIEPATH );
+	setcookie( 'bp_messages_content', $content, time()+60*60*24, COOKIEPATH );
 }
 
 function messages_remove_callback_values() {
-	unset($_SESSION['send_to']);
-	unset($_SESSION['subject']);
-	unset($_SESSION['content']);
+	setcookie( 'bp_messages_send_to', false, time()-1000, COOKIEPATH );
+	setcookie( 'bp_messages_subject', false, time()-1000, COOKIEPATH );
+	setcookie( 'bp_messages_content', false, time()-1000, COOKIEPATH );
 }
 
 /**************************************************************************
@@ -569,6 +567,7 @@ function messages_delete_thread( $thread_ids ) {
 		return true;
 	}
 }
+
 
 function messages_get_unread_count( $user_id = false ) {
 	global $bp;

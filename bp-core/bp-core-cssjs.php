@@ -25,8 +25,10 @@ add_action( 'admin_menu', 'bp_core_add_js' );
  * @uses get_option() Selects a site setting from the DB.
  */
 function bp_core_add_ajax_js() {
+	global $bp;
+	
 	echo 
-'<script type="text/javascript">var ajaxurl = "' . BP_PLUGIN_URL . '/bp-core/bp-core-ajax-handler.php";</script>
+'<script type="text/javascript">var ajaxurl = "' . $bp->root_domain . str_replace( 'index.php', 'wp-load.php', $_SERVER['SCRIPT_NAME'] ) . '";</script>
 ';
 }
 add_action( 'wp_head', 'bp_core_add_ajax_js' );

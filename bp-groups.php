@@ -1,6 +1,5 @@
 <?php
 
-define ( 'BP_GROUPS_VERSION', '1.0' );
 define ( 'BP_GROUPS_DB_VERSION', '1300' );
 
 /* Define the slug for the component */
@@ -298,7 +297,7 @@ function groups_directory_groups_setup() {
 		bp_core_load_template( apply_filters( 'groups_template_directory_groups', 'directories/groups/index' ) );
 	}
 }
-add_action( 'wp', 'groups_directory_groups_setup', 5 );
+add_action( 'wp', 'groups_directory_groups_setup', 2 );
 
 /***** Screens **********/
 
@@ -361,36 +360,42 @@ function groups_screen_create_group() {
 		$create_group_step = 1;
 		$completed_to_step = 0;
 		
-		unset($_SESSION['group_obj_id']);
-		unset($_SESSION['completed_to_step']);
+		setcookie( 'bp_group_obj_id', false, time() - 1000, COOKIEPATH );
+		setcookie( 'bp_group_completed_to_step', false, time() - 1000, COOKIEPATH );
 		
 		$no_instantiate = true;
 		$reset_steps = true;
 	}
 	
-	if ( isset($_SESSION['completed_to_step']) && !$reset_steps ) {
-		$completed_to_step = $_SESSION['completed_to_step'];
+	if ( isset($_COOKIE['bp_group_completed_to_step']) && !$reset_steps ) {
+		$completed_to_step = $_COOKIE['bp_group_completed_to_step'];
 	}
 	
 	if ( isset( $_POST['save'] ) || isset( $_POST['skip'] ) ) {
-		$group_obj = new BP_Groups_Group( $_SESSION['group_obj_id'] );
+		$group_obj = new BP_Groups_Group( $_COOKIE['bp_group_obj_id'] );
 
-		if ( !$group_id = groups_create_group( $create_group_step, $_SESSION['group_obj_id'] ) ) {
+		if ( !$group_id = groups_create_group( $create_group_step, $_COOKIE['bp_group_obj_id'] ) ) {
 			bp_core_add_message( __('There was an error saving group details. Please try again.', 'buddypress'), 'error' );
 			bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . $create_group_step );
 		} else {
 			$create_group_step++;
 			$completed_to_step++;
-			$_SESSION['completed_to_step'] = $completed_to_step;
-			$_SESSION['group_obj_id'] = $group_id;
+			
+			/* Unset cookie info */
+			setcookie( 'bp_group_obj_id', false, time() - 1000, COOKIEPATH );
+			setcookie( 'bp_group_completed_to_step', false, time() - 1000, COOKIEPATH );
+			
+			/* Reset cookie info */
+			setcookie( 'bp_group_obj_id', $group_id, time()+60*60*24, COOKIEPATH );
+			setcookie( 'bp_group_completed_to_step', $completed_to_step, time()+60*60*24, COOKIEPATH );
 		}
 		
 		if ( $completed_to_step == 4 )
 			bp_core_redirect( bp_get_group_permalink( $group_obj ) );
 	}
 
-	if ( isset($_SESSION['group_obj_id']) && !$group_obj && !$no_instantiate )
-		$group_obj = new BP_Groups_Group( $_SESSION['group_obj_id'] );
+	if ( isset($_COOKIE['bp_group_obj_id']) && !$group_obj && !$no_instantiate )
+		$group_obj = new BP_Groups_Group( $_COOKIE['bp_group_obj_id'] );
 	
  	bp_core_load_template( apply_filters( 'groups_template_create_group', 'groups/create' ) );
 }
@@ -1098,7 +1103,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			if ( (int)$total_items > 1 ) {
 				return apply_filters( 'bp_groups_multiple_new_membership_requests_notification', '<a href="' . $group_link . '/admin/membership-requests/" title="' . __( 'Group Membership Requests', 'buddypress' ) . '">' . sprintf( __('%d new membership requests for the group "%s"', 'buddypress' ), (int)$total_items, $group->name ) . '</a>', $group_link, $total_items, $group->name );		
 			} else {
-				$user_fullname = bp_core_global_user_fullname( $requesting_user_id );
+				$user_fullname = bp_core_get_user_displayname( $requesting_user_id );
 				return apply_filters( 'bp_groups_single_new_membership_request_notification', '<a href="' . $group_link . '/admin/membership-requests/" title="' . $user_fullname .' requests group membership">' . sprintf( __('%s requests membership for the group "%s"', 'buddypress' ), $user_fullname, $group->name ) . '</a>', $group_link, $user_fullname, $group->name );
 			}	
 		break;
@@ -1585,7 +1590,7 @@ function groups_new_group_forum( $group_id = false, $group_name = false, $group_
 }
 
 function groups_new_group_forum_post( $post_text, $topic_id ) {
-	global $group_obj;
+	global $group_obj, $bp;
 
 	/* Check the nonce */
 	if ( !check_admin_referer( 'bp_forums_new_reply' ) ) 
@@ -1607,7 +1612,7 @@ function groups_new_group_forum_post( $post_text, $topic_id ) {
 }
 
 function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $forum_id ) {
-	global $group_obj;
+	global $group_obj, $bp;
 
 	/* Check the nonce */	
 	if ( !check_admin_referer( 'bp_forums_new_topic' ) ) 
@@ -2095,7 +2100,7 @@ function groups_reject_membership_request( $membership_id ) {
 function groups_redirect_to_random_group() {
 	global $bp, $wpdb;
 	
-	if ( $bp->current_component == $bp->groups->slug && isset( $_GET['random'] ) ) {
+	if ( $bp->current_component == $bp->groups->slug && isset( $_GET['random-group'] ) ) {
 		$group = groups_get_random_group();
 
 		bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/' . $group['groups'][0]->slug );
@@ -2276,8 +2281,8 @@ function groups_force_buddypress_theme( $template ) {
 	if ( empty($member_theme) )
 		$member_theme = 'bpmember';
 
-	add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
-	add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
+	add_filter( 'theme_root', 'bp_core_filter_buddypress_theme_root' );
+	add_filter( 'theme_root_uri', 'bp_core_filter_buddypress_theme_root_uri' );
 
 	return $member_theme;
 }
@@ -2294,8 +2299,8 @@ function groups_force_buddypress_stylesheet( $stylesheet ) {
 	if ( empty( $member_theme ) )
 		$member_theme = 'bpmember';
 	
-	add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
-	add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
+	add_filter( 'theme_root', 'bp_core_filter_buddypress_theme_root' );
+	add_filter( 'theme_root_uri', 'bp_core_filter_buddypress_theme_root_uri' );
 	
 	return $member_theme;
 }

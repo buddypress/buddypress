@@ -32,11 +32,13 @@ function bp_core_set_uri_globals() {
 	global $bp_unfiltered_uri;
 	global $bp, $current_blog;
 	
-	/* Only catch URI's on the root blog */
-	if ( BP_ROOT_BLOG != (int) $current_blog->blog_id )
-		return false;
+	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) {
+		/* Only catch URI's on the root blog if we are not running BP on multiple blogs */
+		if ( BP_ROOT_BLOG != (int) $current_blog->blog_id )
+			return false;
+	}
 	
-	if ( strpos( $_SERVER['REQUEST_URI'], 'bp-core-ajax-handler.php' ) )
+	if ( strpos( $_SERVER['REQUEST_URI'], 'wp-load.php' ) )
 		$path = bp_core_referrer();
 	else
 		$path = clean_url( $_SERVER['REQUEST_URI'] );
@@ -50,6 +52,13 @@ function bp_core_set_uri_globals() {
 	
 	/* Fetch the current URI and explode each part seperated by '/' into an array */
 	$bp_uri = explode( "/", $path );
+	
+	if ( defined( 'BP_ENABLE_MULTIBLOG' ) ) {
+		/* If we are running BuddyPress on any blog, not just a root blog, we need to first
+		   shift off the blog name if we are running a subdirectory install of WPMU. */
+		if ( $current_blog->path != '/' )
+			array_shift( $bp_uri );
+	}
 	
 	/* Take empties off the end of complete URI */
 	if ( empty( $bp_uri[count($bp_uri) - 1] ) )
@@ -93,7 +102,7 @@ function bp_core_set_uri_globals() {
 	$bp_unfiltered_uri = $bp_uri;
 	
 	/* Catch a member page and set the current member ID */
-	if ( $bp_uri[0] == BP_MEMBERS_SLUG || in_array( 'bp-core-ajax-handler.php', $bp_uri ) ) {
+	if ( $bp_uri[0] == BP_MEMBERS_SLUG || in_array( 'wp-load.php', $bp_uri ) ) {
 		$is_member_page = true;
 		$is_root_component = true;
 		
@@ -262,7 +271,7 @@ function bp_core_catch_profile_uri() {
 
 function bp_core_force_buddypress_theme( $template ) {
 	global $is_member_page, $bp;
-
+	
 	$member_theme = get_site_option( 'active-member-theme' );
 	
 	if ( empty( $member_theme ) )
@@ -270,8 +279,8 @@ function bp_core_force_buddypress_theme( $template ) {
 	
 	if ( $is_member_page ) {
 
-		add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
-		add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
+		add_filter( 'theme_root', 'bp_core_filter_buddypress_theme_root' );
+		add_filter( 'theme_root_uri', 'bp_core_filter_buddypress_theme_root_uri' );
 
 		return $member_theme;
 	} else {
@@ -289,8 +298,8 @@ function bp_core_force_buddypress_stylesheet( $stylesheet ) {
 		$member_theme = 'bpmember';
 
 	if ( $is_member_page ) {
-		add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
-		add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
+		add_filter( 'theme_root', 'bp_core_filter_buddypress_theme_root' );
+		add_filter( 'theme_root_uri', 'bp_core_filter_buddypress_theme_root_uri' );
 
 		return $member_theme;
 	} else {
