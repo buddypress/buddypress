@@ -74,7 +74,7 @@
 	</div>
 
 	<div id="members-directory-featured" class="directory-featured">
-		<h3><?php _e( 'Featured Members', 'buddypress' ) ?></h3>
+		<h3><?php _e( 'Random Members', 'buddypress' ) ?></h3>
 		
 		<?php if ( bp_has_site_members( 'type=random&max=3' ) ) : ?>
 

@@ -74,7 +74,7 @@
 	</div>
 
 	<div id="blogs-directory-featured" class="directory-featured">
-		<h3><?php _e( 'Featured Blogs', 'buddypress' ) ?></h3>
+		<h3><?php _e( 'Random Blogs', 'buddypress' ) ?></h3>
 		
 		<?php if ( bp_has_site_blogs( 'type=random&max=3' ) ) : ?>
 
