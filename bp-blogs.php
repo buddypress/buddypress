@@ -1,6 +1,5 @@
 <?php
 
-define ( 'BP_BLOGS_VERSION', '1.0' );
 define ( 'BP_BLOGS_DB_VERSION', '1300' );
 
 /* Define the slug for the component */

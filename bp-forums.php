@@ -1,7 +1,5 @@
 <?php
 
-define ( 'BP_FORUMS_VERSION', '1.0' );
-
 /* Define the parent forum ID */
 if ( !defined( 'BP_FORUMS_PARENT_FORUM_ID' ) )
 	define ( 'BP_FORUMS_PARENT_FORUM_ID', 1 );
