@@ -88,7 +88,10 @@ function bp_core_widget_members($args) {
 		. $widget_name 
 		. $after_title; ?>
 	
-	<?php 
+	<?php
+	if ( empty( $options['max_members'] ) || !$options['max_members'] )
+		$options['max_members'] = 5;
+		
 	if ( !$users = wp_cache_get( 'newest_users', 'bp' ) ) {
 		$users = BP_Core_User::get_newest_users( $options['max_members'] );
 		wp_cache_set( 'newest_users', $users, 'bp' );
@@ -169,7 +172,10 @@ function bp_core_widget_whos_online($args) {
 		. $widget_name
 		. $after_title; ?>
 
-	<?php 
+	<?php
+	if ( empty( $options['max_members'] ) || !$options['max_members'] )
+		$options['max_members'] = 5;
+		
 	if ( !$users = wp_cache_get( 'online_users', 'bp' ) ) {
 		$users = BP_Core_User::get_online_users( $options['max_members'] );
 		wp_cache_set( 'online_users', $users, 'bp' );

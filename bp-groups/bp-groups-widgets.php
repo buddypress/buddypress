@@ -31,6 +31,9 @@ function groups_widget_groups_list($args) {
 		. $after_title; ?>
 
 	<?php 
+	if ( empty( $options['max_groups'] ) || !$options['max_groups'] )
+		$options['max_groups'] = 5;
+		
 	if ( !$groups = wp_cache_get( 'popular_groups', 'bp' ) ) {
 		$groups = groups_get_popular( $options['max_groups'], 1 );
 		wp_cache_set( 'popular_groups', $groups, 'bp' );
