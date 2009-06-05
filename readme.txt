@@ -3,7 +3,7 @@ Contributors: apeatling
 Tags: wpmu, buddypress, social, networking, profiles, messaging, friends, groups, forums, activity
 Requires at least: 2.7.1
 Tested up to: 2.7.1
-Stable tag: 1.0
+Stable tag: 1.0.1
 
 BuddyPress is a suite of WordPress MU social networking plugins and themes.
 
@@ -12,7 +12,7 @@ BuddyPress is a suite of WordPress MU social networking plugins and themes.
 BuddyPress will extend WordPress MU and bring social networking features to a new or existing installation.
 
 BuddyPress is a suite of WordPress plugins and themes, each adding a distinct new feature. BuddyPress 
-contains all the features you‚Äôd expect from WordPress but aims to let members socially interact.
+contains all the features you'd expect from WordPress but aims to let members socially interact.
 
 All BuddyPress plugins can be themed to match your own style, in just the same way as a WordPress blog. 
 The BuddyPress plugins are bundled with a default theme to get you going out of the box.
@@ -32,10 +32,18 @@ BuddyPress requires WordPress MU, it will not work on a single install of WordPr
 
 The default home theme is not required, you can use a standard WordPress theme for your root blog if you wish.
 
-2. To install the default home theme move "/wp-content/bp-themes/buddypress-home/ to /wp-content/themes/buddypress-home/"
+2. To install the default home theme move "/wp-content/bp-themes/bphome/ to /wp-content/themes/bphome/"
 
 There are a few more steps to get you going correctly, to read the full setup guide, please visit:
 http://codex.buddypress.org/getting-started/installing-buddypress/
+
+--- Upgrading from an earlier version: ---
+
+1. Backup!
+2. Overwrite the /plugins/buddypress/ directory with the latest version.
+3. If you are using the default themes, overwrite them using the new versions in the /plugins/buddypress/
+directory. If you are using your own custom themes, they will continue to work with no changes needed.
+
 
 == Frequently Asked Questions ==
 
