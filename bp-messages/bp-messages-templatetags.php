@@ -450,7 +450,7 @@ function bp_message_get_recipient_tabs() {
 	global $bp;
 	
 	if ( isset( $_GET['r'] ) ) {
-		$user_id = bp_core_get_userid_from_user_login( $_GET['r'] );
+		$user_id = bp_core_get_userid( $_GET['r'] );
 		
 		if ( $user_id ) {
 			?>

@@ -279,8 +279,8 @@ function bp_core_force_buddypress_theme( $template ) {
 	
 	if ( $is_member_page ) {
 
-		add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
-		add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
+		add_filter( 'theme_root', 'bp_core_filter_buddypress_theme_root' );
+		add_filter( 'theme_root_uri', 'bp_core_filter_buddypress_theme_root_uri' );
 
 		return $member_theme;
 	} else {
@@ -298,8 +298,8 @@ function bp_core_force_buddypress_stylesheet( $stylesheet ) {
 		$member_theme = 'bpmember';
 
 	if ( $is_member_page ) {
-		add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
-		add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
+		add_filter( 'theme_root', 'bp_core_filter_buddypress_theme_root' );
+		add_filter( 'theme_root_uri', 'bp_core_filter_buddypress_theme_root_uri' );
 
 		return $member_theme;
 	} else {

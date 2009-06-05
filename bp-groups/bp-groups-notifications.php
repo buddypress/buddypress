@@ -9,7 +9,7 @@ function groups_notification_new_wire_post( $group_id, $wire_post_id ) {
 	$wire_post = new BP_Wire_Post( $bp->groups->table_name_wire, $wire_post_id );
 	$group = new BP_Groups_Group( $group_id, false, true );
 	
-	$poster_name = bp_fetch_user_fullname( $wire_post->user_id, false );
+	$poster_name = bp_core_get_user_displayname( $wire_post->user_id );
 	$poster_ud = get_userdata( $wire_post->user_id );
 	$poster_profile_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $poster_ud->user_login;
 
@@ -94,7 +94,7 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 	if ( 'no' == get_usermeta( $admin_id, 'notification_groups_membership_request' ) )
 		return false;
 		
-	$requesting_user_name = bp_fetch_user_fullname( $requesting_user_id, false );
+	$requesting_user_name = bp_core_get_user_displayname( $requesting_user_id );
 	$group = new BP_Groups_Group( $group_id, false, false );
 	
 	$ud = get_userdata($admin_id);

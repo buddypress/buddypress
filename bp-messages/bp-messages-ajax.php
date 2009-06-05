@@ -36,7 +36,7 @@ function messages_ajax_autocomplete_results() {
 		foreach ( $friends['friends'] as $user_id ) {
 			$ud = get_userdata($user_id);
 			$username = $ud->user_login;
-			echo bp_core_get_avatar( $user_id, 1, 15, 15 ) . ' ' . bp_fetch_user_fullname( $user_id, false ) . ' (' . $username . ')
+			echo bp_core_get_avatar( $user_id, 1, 15, 15 ) . ' ' . bp_core_get_user_displayname( $user_id ) . ' (' . $username . ')
 			';
 		}		
 	}

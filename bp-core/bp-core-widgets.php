@@ -182,7 +182,7 @@ function bp_core_widget_whos_online($args) {
 		<div class="avatar-block">
 		<?php foreach ( (array) $users['users'] as $user ) : ?>
 			<div class="item-avatar">
-				<a href="<?php echo bp_core_get_userurl($user->user_id) ?>" title="<?php bp_fetch_user_fullname( $user->user_id, true ) ?>"><?php echo bp_core_get_avatar( $user->user_id, 1 ) ?></a>
+				<a href="<?php echo bp_core_get_userurl($user->user_id) ?>" title="<?php echo bp_core_get_user_displayname( $user->user_id ) ?>"><?php echo bp_core_get_avatar( $user->user_id, 1 ) ?></a>
 			</div>
 		<?php endforeach; ?>
 		</div>

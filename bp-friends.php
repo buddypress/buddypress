@@ -335,7 +335,7 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 			if ( (int)$total_items > 1 ) {
 				return apply_filters( 'bp_friends_multiple_friendship_accepted_notification', '<a href="' . $bp->loggedin_user->domain . $bp->friends->slug . '/my-friends/newest" title="' . __( 'My Friends', 'buddypress' ) . '">' . sprintf( __('%d friends accepted your friendship requests', 'buddypress' ), (int)$total_items ) . '</a>', (int)$total_items );		
 			} else {
-				$user_fullname = bp_core_global_user_fullname( $item_id );
+				$user_fullname = bp_core_get_user_displayname( $item_id );
 				$user_url = bp_core_get_userurl( $item_id );
 				return apply_filters( 'bp_friends_single_friendship_accepted_notification', '<a href="' . $user_url . '?new" title="' . $user_fullname .'\'s profile">' . sprintf( __( '%s accepted your friendship request', 'buddypress' ), $user_fullname ) . '</a>', $user_fullname );
 			}	
@@ -345,7 +345,7 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 			if ( (int)$total_items > 1 ) {
 				return apply_filters( 'bp_friends_multiple_friendship_request_notification', '<a href="' . $bp->loggedin_user->domain . $bp->friends->slug . '/requests" title="' . __( 'Friendship requests', 'buddypress' ) . '">' . sprintf( __('You have %d pending friendship requests', 'buddypress' ), (int)$total_items ) . '</a>', $total_items );		
 			} else {
-				$user_fullname = bp_core_global_user_fullname( $item_id );
+				$user_fullname = bp_core_get_user_displayname( $item_id );
 				$user_url = bp_core_get_userurl( $item_id );
 				return apply_filters( 'bp_friends_single_friendship_request_notification', '<a href="' . $bp->loggedin_user->domain . $bp->friends->slug . '/requests" title="' . __( 'Friendship requests', 'buddypress' ) . '">' . sprintf( __('You have a friendship request from %s', 'buddypress' ), $user_fullname ) . '</a>', $user_fullname );
 			}	
@@ -471,7 +471,7 @@ function friends_get_friends_list( $user_id ) {
 
 	for ( $i = 0; $i < count($friend_ids); $i++ ) {
 		if ( function_exists('bp_user_fullname') )
-			$display_name = bp_fetch_user_fullname($friend_ids[$i], false);
+			$display_name = bp_core_get_user_displayname( $friend_ids[$i] );
 		
 		if ( $display_name != ' ' ) {
 			$friends[] = array(
@@ -509,7 +509,7 @@ function friends_get_friends_invite_list( $user_id = false, $group_id ) {
 		if ( groups_check_user_has_invite( $friend_ids['friends'][$i]->user_id, $group_id ) || groups_is_user_member( $friend_ids['friends'][$i]->user_id, $group_id ) )
 			continue;
 			
-		$display_name = bp_fetch_user_fullname($friend_ids['friends'][$i]->user_id, false);
+		$display_name = bp_core_get_user_displayname( $friend_ids['friends'][$i]->user_id );
 		
 		if ( $display_name != ' ' ) {
 			$friends[] = array(

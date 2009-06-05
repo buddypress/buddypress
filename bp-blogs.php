@@ -194,7 +194,7 @@ function bp_blogs_directory_blogs_setup() {
 		bp_core_load_template( apply_filters( 'bp_blogs_template_directory_blogs_setup', 'directories/blogs/index' ) );
 	}
 }
-add_action( 'wp', 'bp_blogs_directory_blogs_setup', 5 );
+add_action( 'wp', 'bp_blogs_directory_blogs_setup', 2 );
 
 function bp_blogs_screen_my_blogs() {
 	do_action( 'bp_blogs_screen_my_blogs' );
@@ -757,8 +757,8 @@ function bp_blogs_force_buddypress_theme( $template ) {
 		if ( empty( $member_theme ) )
 			$member_theme = 'bpmember';
 
-		add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
-		add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
+		add_filter( 'theme_root', 'bp_core_filter_buddypress_theme_root' );
+		add_filter( 'theme_root_uri', 'bp_core_filter_buddypress_theme_root_uri' );
 
 		return $member_theme;
 	} else {
@@ -776,8 +776,8 @@ function bp_blogs_force_buddypress_stylesheet( $stylesheet ) {
 		if ( empty( $member_theme ) )
 			$member_theme = 'bpmember';
 
-		add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
-		add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
+		add_filter( 'theme_root', 'bp_core_filter_buddypress_theme_root' );
+		add_filter( 'theme_root_uri', 'bp_core_filter_buddypress_theme_root_uri' );
 
 		return $member_theme;
 	} else {

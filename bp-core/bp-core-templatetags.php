@@ -230,38 +230,12 @@ function bp_is_home() {
 	return false;
 }
 
+/* DEPRECATED Use: bp_core_get_user_displayname() */
 function bp_fetch_user_fullname( $user_id, $echo = true ) {
-	global $bp;
-	
-	if ( !$user_id )
-		return false;
-		
-	if ( !$fullname = wp_cache_get( 'bp_user_fullname_' . $user_id, 'bp' ) ) {
-		if ( function_exists('xprofile_install') ) {
-			$fullname = xprofile_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id );
-
-			if ( empty($fullname) || !$fullname ) {
-				$ud = get_userdata($user_id);
-
-				if ( empty( $ud->display_name ) )
-					$fullname = $ud->user_nicename;
-				else
-					$fullname = $ud->display_name;
-
-				xprofile_set_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id, $fullname );
-			}
-		} else {
-			$ud = get_userdata($user_id);
-			$fullname = $ud->display_name;
-		}
-
-		wp_cache_set( 'bp_user_fullname_' . $user_id, $fullname, 'bp' );
-	}
-
 	if ( $echo )
-		echo apply_filters( 'bp_fetch_user_fullname', stripslashes( trim( $fullname ) ) );
+		echo apply_filters( 'bp_fetch_user_fullname', bp_core_get_user_displayname( $user_id ) );
 	else
-		return apply_filters( 'bp_fetch_user_fullname', stripslashes ( trim ( $fullname ) ) );
+		return apply_filters( 'bp_fetch_user_fullname', bp_core_get_user_displayname( $user_id ) );
 }
 
 function bp_last_activity( $user_id = false, $echo = true ) {

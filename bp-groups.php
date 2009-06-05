@@ -298,7 +298,7 @@ function groups_directory_groups_setup() {
 		bp_core_load_template( apply_filters( 'groups_template_directory_groups', 'directories/groups/index' ) );
 	}
 }
-add_action( 'wp', 'groups_directory_groups_setup', 5 );
+add_action( 'wp', 'groups_directory_groups_setup', 2 );
 
 /***** Screens **********/
 
@@ -1104,7 +1104,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			if ( (int)$total_items > 1 ) {
 				return apply_filters( 'bp_groups_multiple_new_membership_requests_notification', '<a href="' . $group_link . '/admin/membership-requests/" title="' . __( 'Group Membership Requests', 'buddypress' ) . '">' . sprintf( __('%d new membership requests for the group "%s"', 'buddypress' ), (int)$total_items, $group->name ) . '</a>', $group_link, $total_items, $group->name );		
 			} else {
-				$user_fullname = bp_core_global_user_fullname( $requesting_user_id );
+				$user_fullname = bp_core_get_user_displayname( $requesting_user_id );
 				return apply_filters( 'bp_groups_single_new_membership_request_notification', '<a href="' . $group_link . '/admin/membership-requests/" title="' . $user_fullname .' requests group membership">' . sprintf( __('%s requests membership for the group "%s"', 'buddypress' ), $user_fullname, $group->name ) . '</a>', $group_link, $user_fullname, $group->name );
 			}	
 		break;
@@ -2282,8 +2282,8 @@ function groups_force_buddypress_theme( $template ) {
 	if ( empty($member_theme) )
 		$member_theme = 'bpmember';
 
-	add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
-	add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
+	add_filter( 'theme_root', 'bp_core_filter_buddypress_theme_root' );
+	add_filter( 'theme_root_uri', 'bp_core_filter_buddypress_theme_root_uri' );
 
 	return $member_theme;
 }
@@ -2300,8 +2300,8 @@ function groups_force_buddypress_stylesheet( $stylesheet ) {
 	if ( empty( $member_theme ) )
 		$member_theme = 'bpmember';
 	
-	add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
-	add_filter( 'theme_root_uri', 'bp_core_set_member_theme_root_uri' );
+	add_filter( 'theme_root', 'bp_core_filter_buddypress_theme_root' );
+	add_filter( 'theme_root_uri', 'bp_core_filter_buddypress_theme_root_uri' );
 	
 	return $member_theme;
 }

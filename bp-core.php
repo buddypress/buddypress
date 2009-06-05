@@ -37,6 +37,7 @@ require ( BP_PLUGIN_DIR . '/bp-core/bp-core-widgets.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-ajax.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-notifications.php' );
 
+/* If BP_DISABLE_ADMIN_BAR is defined, do not load the global admin bar */
 if ( !defined( 'BP_DISABLE_ADMIN_BAR') )
 	require ( 'bp-core/bp-core-adminbar.php' );
 
@@ -138,8 +139,8 @@ function bp_core_setup_globals() {
 	$bp->grav_default = get_site_option( 'user-avatar-default' );
 	
 	/* Fetch the full name for the logged in and current user */
-	$bp->loggedin_user->fullname = bp_core_global_user_fullname( $bp->loggedin_user->id );
-	$bp->displayed_user->fullname = bp_core_global_user_fullname( $bp->displayed_user->id );
+	$bp->loggedin_user->fullname = bp_core_get_user_displayname( $bp->loggedin_user->id );
+	$bp->displayed_user->fullname = bp_core_get_user_displayname( $bp->displayed_user->id );
 
 	/* Used to determine if user has admin rights on current content. If the logged in user is viewing
 	   their own profile and wants to delete a post on their wire, is_item_admin is used. This is a
@@ -157,9 +158,20 @@ function bp_core_setup_globals() {
 		$bp->current_component = $bp->default_component;
 }
 add_action( 'plugins_loaded', 'bp_core_setup_globals', 3 );
-add_action( '_admin_menu', 'bp_core_setup_globals', 1 ); // must be _admin_menu hook.
+add_action( '_admin_menu', 'bp_core_setup_globals', 3 ); // must be _admin_menu hook.
 
-function bp_core_setup_root_components() {
+
+/**
+ * bp_core_setup_root_uris()
+ *
+ * Adds the core URIs that should run in the root of the installation.
+ *
+ * For example: http://example.org/search or http://example.org/members
+ * 
+ * @package BuddyPress Core
+ * @uses bp_core_add_root_component() Adds a slug to the root components global variable.
+ */
+function bp_core_setup_root_uris() {
 	/* Add core root components */
 	bp_core_add_root_component( BP_MEMBERS_SLUG );
 	bp_core_add_root_component( BP_REGISTER_SLUG );
@@ -167,24 +179,20 @@ function bp_core_setup_root_components() {
 	bp_core_add_root_component( BP_SEARCH_SLUG );
 	bp_core_add_root_component( BP_HOME_BLOG_SLUG );
 }
-add_action( 'plugins_loaded', 'bp_core_setup_root_components', 1 );
+add_action( 'plugins_loaded', 'bp_core_setup_root_uris', 2 );
 
-function bp_core_setup_cookies() {
-	global $bp_message, $bp_message_type;
-	
-	// Render any error/success feedback on the template
-	if ( $_COOKIE['bp-message'] == '' || !isset( $_COOKIE['bp-message'] ) )
-	 	return false;
 
-	$bp_message = $_COOKIE['bp-message'];
-	$bp_message_type = $_COOKIE['bp-message-type'];
-	add_action( 'template_notices', 'bp_core_render_notice' );
-
-	setcookie( 'bp-message', false, time() - 1000, COOKIEPATH );
-	setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH );
-}
-add_action( 'wp', 'bp_core_setup_cookies', 3 );
-
+/**
+ * bp_core_install()
+ *
+ * Installs the core DB tables for BuddyPress.
+ * 
+ * @package BuddyPress Core
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global $wpdb WordPress DB access object.
+ * @uses dbDelta() Performs a table creation, or upgrade based on what already exists in the DB.
+ * @uses bp_core_add_illegal_names() Adds illegal blog names to the WP settings
+ */
 function bp_core_install() {
 	global $wpdb, $bp;
 	
@@ -248,6 +256,38 @@ function bp_core_check_installed() {
 		bp_core_install();
 }
 add_action( 'admin_menu', 'bp_core_check_installed' );
+
+
+/**
+ * bp_core_setup_cookies()
+ *
+ * Checks if there is a feedback message in the WP cookie, if so, adds a "template_notices" action
+ * so that the message can be parsed into the template and displayed to the user.
+ *
+ * After the message is displayed, it removes the message vars from the cookie so that the message
+ * is not shown to the user multiple times.
+ * 
+ * @package BuddyPress Core
+ * @global $bp_message The message text
+ * @global $bp_message_type The type of message (error/success)
+ * @uses setcookie() Sets a cookie value for the user.
+ */
+function bp_core_setup_cookies() {
+	global $bp_message, $bp_message_type;
+	
+	// Render any error/success feedback on the template
+	if ( $_COOKIE['bp-message'] == '' || !isset( $_COOKIE['bp-message'] ) )
+	 	return false;
+
+	$bp_message = $_COOKIE['bp-message'];
+	$bp_message_type = $_COOKIE['bp-message-type'];
+	add_action( 'template_notices', 'bp_core_render_notice' );
+
+	setcookie( 'bp-message', false, time() - 1000, COOKIEPATH );
+	setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH );
+}
+add_action( 'init', 'bp_core_setup_cookies' );
+
 
 /**
  * bp_core_add_admin_menu()
@@ -327,7 +367,18 @@ function bp_core_setup_nav() {
 add_action( 'wp', 'bp_core_setup_nav', 2 );
 add_action( 'admin_menu', 'bp_core_setup_nav', 2 );
 
-function bp_core_directory_members() {
+/**
+ * bp_core_action_directory_members()
+ *
+ * Listens to the $bp component and action variables to determine if the user is viewing the members
+ * directory page. If they are, it will set up the directory and load the members directory template.
+ * 
+ * @package BuddyPress Core
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @uses wp_enqueue_script() Loads a JS script into the header of the page.
+ * @uses bp_core_load_template() Loads a specific template file.
+ */
+function bp_core_action_directory_members() {
 	global $bp;
 	
 	if ( !is_home() && is_null( $bp->displayed_user->id ) && $bp->current_component == $bp->default_component ) {
@@ -338,7 +389,7 @@ function bp_core_directory_members() {
 		bp_core_load_template( apply_filters( 'bp_core_template_directory_members', 'directories/members/index' ) );
 	}
 }
-add_action( 'wp', 'bp_core_directory_members', 5 );
+add_action( 'wp', 'bp_core_action_directory_members', 2 );
 
 /**
  * bp_core_get_user_domain()
@@ -485,7 +536,7 @@ function bp_core_add_subnav_item( $parent_id, $slug, $name, $link, $function, $c
 	);
 	
 	if ( function_exists($function) && $user_has_access && $bp->current_action == $slug && $bp->current_component == $parent_id )
-		add_action( 'wp', $function, 3 );
+		add_action( 'wp', $function );
 }
 
 /**
@@ -542,7 +593,7 @@ function bp_core_add_nav_default( $parent_id, $function, $slug = false, $user_ha
 
 	if ( $bp->current_component == $parent_id && !$bp->current_action ) {
 		if ( function_exists($function) ) {
-			add_action( 'wp', $function, 3 );
+			add_action( 'wp', $function );
 		}
 		
 		if ( $slug )
@@ -634,26 +685,12 @@ add_action( 'wp', 'bp_core_get_random_member' );
 function bp_core_get_userid( $username ) {
 	global $wpdb;
 	
-	$sql = $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $username );
-	return $wpdb->get_var($sql);
+	if ( !empty( $username ) )
+		return apply_filters( 'bp_core_get_userid', $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $username ) ) ); 
 }
-
-/**
- * bp_core_get_userid_from_user_login()
- *
- * Returns the user_id from a user login
- * @package BuddyPress Core
- * @param $path str Path to check.
- * @global $wpdb WordPress DB access object.
- * @return false on no match
- * @return int the user ID of the matched user.
- */
-function bp_core_get_userid_from_user_login( $user_login ) {
-	global $wpdb;
-
-	if ( !empty( $user_login ) ) 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $user_login ) );
-}
+	function bp_core_get_userid_from_user_login( $deprecated ) {
+		return bp_core_get_userid( $deprecated );
+	}
 
 /**
  * bp_core_get_username()
@@ -671,12 +708,14 @@ function bp_core_get_username( $uid ) {
 	global $userdata;
 	
 	if ( $uid == $userdata->ID )
-		return __( 'You', 'buddypress' );
+		$username =  __( 'You', 'buddypress' );
 	
 	if ( !$ud = get_userdata($uid) )
 		return false;
 		
-	return $ud->user_login;	
+	$username = $ud->user_login;	
+
+	return apply_filters( 'bp_core_get_username', $username );
 }
 
 /**
@@ -699,7 +738,7 @@ function bp_core_get_userurl( $uid ) {
 	
 	$ud = get_userdata($uid);
 		
-	return $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/';
+	return apply_filters( 'bp_core_get_userurl', $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/' );
 }
 
 /**
@@ -715,7 +754,7 @@ function bp_core_get_userurl( $uid ) {
  */
 function bp_core_get_user_email( $uid ) {
 	$ud = get_userdata($uid);
-	return $ud->user_email;
+	return apply_filters( 'bp_core_get_user_email', $ud->user_email );
 }
 
 /**
@@ -749,7 +788,7 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false,
 		return false;
 
 	if ( function_exists('bp_fetch_user_fullname') ) { 
-		$display_name = bp_fetch_user_fullname( $user_id, false );
+		$display_name = bp_core_get_user_displayname( $user_id );
 		
 		if ( $with_s )
 			$display_name = sprintf( __( "%s's", 'buddypress' ), $display_name );
@@ -757,9 +796,6 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false,
 	} else {
 		$display_name = $ud->display_name;
 	}
-	
-	// if ( $user_id == $userdata->ID && !$no_you )
-	// 	$display_name = 'You';
 	
 	if ( $no_anchor )
 		return $display_name;
@@ -773,26 +809,54 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false,
 	return '<a href="' . $url . '">' . $display_name . '</a>';	
 }
 
+
 /**
- * bp_core_global_user_fullname()
+ * bp_core_get_user_displayname()
  *
- * Returns the full name for the user, or the display name if Xprofile component is not installed.
+ * Fetch the display name for a user. This will use the "Name" field in xprofile if it is installed.
+ * Otherwise, it will fall back to the normal WP display_name, or user_nicename, depending on what has been set.
  * 
  * @package BuddyPress Core
- * @param $user_id string The user ID of the user.
- * @param
- * @uses bp_fetch_user_fullname() Returns the full name for a user based on user ID.
- * @uses get_userdata() Fetches a new userdata object for the user ID passed.
- * @return Either the users full name, or the display name.
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @uses wp_cache_get() Will try and fetch the value from the cache, rather than querying the DB again.
+ * @uses get_userdata() Fetches the WP userdata for a specific user.
+ * @uses xprofile_set_field_data() Will update the field data for a user based on field name and user id.
+ * @uses wp_cache_set() Adds a value to the cache.
+ * @return str The display name for the user in question.
  */
-function bp_core_global_user_fullname( $user_id ) {
-	if ( function_exists('bp_fetch_user_fullname') ) {
-		return bp_fetch_user_fullname( $user_id, false );
-	} else {
-		$ud = get_userdata($user_id);
-		return $current_user->display_name;
+function bp_core_get_user_displayname( $user_id ) {
+	global $bp;
+	
+	if ( !$user_id )
+		return false;
+		
+	if ( !$fullname = wp_cache_get( 'bp_user_fullname_' . $user_id, 'bp' ) ) {
+		if ( function_exists('xprofile_install') ) {
+			$fullname = xprofile_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id );
+
+			if ( empty($fullname) || !$fullname ) {
+				$ud = get_userdata($user_id);
+
+				if ( empty( $ud->display_name ) )
+					$fullname = $ud->user_nicename;
+				else
+					$fullname = $ud->display_name;
+
+				xprofile_set_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id, $fullname );
+			}
+		} else {
+			$ud = get_userdata($user_id);
+			$fullname = $ud->display_name;
+		}
+
+		wp_cache_set( 'bp_user_fullname_' . $user_id, $fullname, 'bp' );
 	}
+	
+	return apply_filters( 'bp_core_get_user_displayname', stripslashes( trim( $fullname ) ) );
 }
+	/* DEPRECATED Use: bp_core_get_user_displayname */
+	function bp_core_global_user_fullname( $user_id ) { return bp_core_get_user_displayname( $user_id ); }
+
 
 /**
  * bp_core_get_userlink_by_email()
@@ -810,6 +874,7 @@ function bp_core_get_userlink_by_email( $email ) {
 	return apply_filters( 'bp_core_get_userlink_by_email', bp_core_get_userlink( $user->ID, false, false, true ) );
 }
 
+
 /**
  * bp_core_get_userlink_by_username()
  *
@@ -826,6 +891,7 @@ function bp_core_get_userlink_by_username( $username ) {
 	$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $username ) ); 
 	return apply_filters( 'bp_core_get_userlink_by_username', bp_core_get_userlink( $user_id, false, false, true ) );
 }
+
 
 /**
  * bp_core_get_user_email()
@@ -848,6 +914,14 @@ function bp_core_format_time( $time, $just_date = false ) {
 	return $date;
 }
 
+
+/**
+ * bp_core_add_message()
+ *
+ * Adds a feedback (error/success) message to the WP cookie so it can be displayed after the page reloads.
+ * 
+ * @package BuddyPress Core
+ */
 function bp_core_add_message( $message, $type = false ) {
 	if ( !$type )
 		$type = 'success';
@@ -855,6 +929,7 @@ function bp_core_add_message( $message, $type = false ) {
 	setcookie( 'bp-message', $message, time()+60*60*24, COOKIEPATH );
 	setcookie( 'bp-message-type', $type, time()+60*60*24, COOKIEPATH );
 }
+
 
 /**
  * bp_core_render_notice()
@@ -876,6 +951,7 @@ function bp_core_render_notice() {
 		do_action( 'bp_core_render_notice' );
 	}
 }
+
 
 /**
  * bp_core_time_since()
@@ -954,6 +1030,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	return $output;
 }
 
+
 /**
  * bp_core_record_activity()
  *
@@ -1006,6 +1083,7 @@ function bp_core_get_last_activity( $last_activity_date, $string ) {
 	return $last_active;
 }
 
+
 /**
  * bp_core_get_all_posts_for_user()
  *
@@ -1025,6 +1103,7 @@ function bp_core_get_all_posts_for_user( $user_id = null ) {
 	return $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM $wpdb->posts WHERE post_author = %d AND post_status = 'publish' AND post_type = 'post'", $user_id ) );
 }
 
+
 /**
  * bp_core_get_site_path()
  *
@@ -1040,6 +1119,16 @@ function bp_core_get_site_path() {
 	return $current_site->path;
 }
 
+/**
+ * bp_core_redirect()
+ *
+ * Performs a status safe wp_redirect() that is compatible with bp_catch_uri()
+ * 
+ * @package BuddyPress Core
+ * @global $bp_no_status_set Makes sure that there are no conflicts with status_header() called in bp_core_do_catch_uri()
+ * @uses get_themes()
+ * @return An array containing all of the themes.
+ */
 function bp_core_redirect( $location, $status = 302 ) {
 	global $bp_no_status_set;
 	
@@ -1128,8 +1217,17 @@ function bp_core_referrer() {
 	return implode( '/', $referer );
 }
 
-function bp_core_get_member_themes() {
-	add_filter( 'theme_root', 'bp_core_set_member_theme_root' );
+/**
+ * bp_core_get_buddypress_themes()
+ *
+ * Gets an array of all the BuddyPress themes in the /bp-themes/ directory.
+ * 
+ * @package BuddyPress Core
+ * @uses get_themes()
+ * @return An array containing all of the themes.
+ */
+function bp_core_get_buddypress_themes() {
+	add_filter( 'theme_root', 'bp_core_filter_buddypress_theme_root' );
 	$themes = get_themes();
 
 	if ( $themes ) {
@@ -1147,15 +1245,68 @@ function bp_core_get_member_themes() {
 	
 	return $member_themes;
 }
+function bp_core_get_member_themes() { return bp_core_get_buddypress_themes(); } // DEPRECATED
 
-function bp_core_set_member_theme_root() {
-	return apply_filters( 'bp_core_set_member_theme_root', WP_CONTENT_DIR . "/bp-themes" );
+
+/**
+ * bp_get_buddypress_theme_uri()
+ *
+ * Get the url of the selected BuddyPress theme.
+ * 
+ * @package BuddyPress Core
+ */
+function bp_get_buddypress_theme_uri() {
+	return apply_filters( 'bp_get_buddypress_theme_uri', WP_CONTENT_URL . '/bp-themes/' . get_site_option( 'active-member-theme' ) );
 }
 
-function bp_core_set_member_theme_root_uri() {
-	return apply_filters( 'bp_core_set_member_theme_root_uri', WP_CONTENT_URL . '/bp-themes' );
+
+/**
+ * bp_get_buddypress_theme_path()
+ *
+ * Get the path of the selected BuddyPress theme.
+ * 
+ * @package BuddyPress Core
+ */
+function bp_get_buddypress_theme_path() {
+	return apply_filters( 'bp_get_buddypress_theme_path', WP_CONTENT_DIR . '/bp-themes/' . get_site_option( 'active-member-theme' ) );
 }
 
+
+/**
+ * bp_core_filter_buddypress_theme_root()
+ *
+ * Adds a filter that changes the root path of the theme directory to the bp-themes directory.
+ * 
+ * @package BuddyPress Core
+ */
+function bp_core_filter_buddypress_theme_root() {
+	return apply_filters( 'bp_core_filter_buddypress_theme_root', WP_CONTENT_DIR . "/bp-themes" );
+}
+
+
+/**
+ * bp_core_filter_buddypress_theme_root_uri()
+ *
+ * Adds a filter that changes the root URI of the theme directory to the bp-themes directory.
+ * 
+ * @package BuddyPress Core
+ */
+function bp_core_filter_buddypress_theme_root_uri() {
+	return apply_filters( 'bp_core_filter_buddypress_theme_root_uri', WP_CONTENT_URL . '/bp-themes' );
+}
+
+
+/**
+ * bp_core_add_illegal_names()
+ *
+ * Adds illegal names to WP so that root components will not conflict with
+ * blog names on a subdirectory installation.
+ *
+ * For example, it would stop someone creating a blog with the slug "groups".
+ * 
+ * @package BuddyPress Core
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ */
 function bp_core_add_illegal_names() {
 	global $bp;
 	
@@ -1191,6 +1342,7 @@ function bp_core_email_from_name_filter() {
 }
 add_filter( 'wp_mail_from_name', 'bp_core_email_from_name_filter' );
 
+
 /**
  * bp_core_email_from_name_filter()
  *
@@ -1207,10 +1359,28 @@ function bp_core_email_from_address_filter() {
 add_filter( 'wp_mail_from', 'bp_core_email_from_address_filter' );
 
 
+/**
+ * bp_core_delete_account()
+ *
+ * Allows a user to completely remove their account from the system
+ * 
+ * @package BuddyPress Core
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @uses check_admin_referer() Checks for a valid security nonce.
+ * @uses is_site_admin() Checks to see if the user is a site administrator.
+ * @uses wpmu_delete_user() Deletes a user from the system.
+ */
 function bp_core_delete_account() {
 	global $bp;
 
 	// Be careful with this function!
+	
+	if ( !check_admin_referer( 'delete-account' ) )
+		return false;
+	
+	/* Site admins should not be allowed to delete their accounts */
+	if ( is_site_admin() )
+		return false;
 	
 	require_once( ABSPATH . '/wp-admin/includes/mu.php' );
 	require_once( ABSPATH . '/wp-admin/includes/user.php' );
@@ -1218,36 +1388,49 @@ function bp_core_delete_account() {
 	return wpmu_delete_user( $bp->loggedin_user->id  );
 }
 
-function bp_core_search_site() {
+
+/**
+ * bp_core_search_site()
+ *
+ * A javascript free implementation of the search functions in BuddyPress
+ * 
+ * @package BuddyPress Core
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @param $slug The slug to redirect to for searching.
+ */
+function bp_core_action_search_site( $slug = false ) {
 	global $bp;
-	
+
 	if ( $bp->current_component == BP_SEARCH_SLUG ) {
 		$search_terms = $_POST['search-terms'];
 		$search_which = $_POST['search-which'];
 		
-		switch ( $search_which ) {
-			case 'members': default:
-				$search = BP_MEMBERS_SLUG;
-				break;
-			case 'groups':
-				$search = BP_GROUPS_SLUG;
-				break;
-			case 'blogs':
-				$search = BP_BLOGS_SLUG;
-				break;
+		if ( !$slug || empty( $slug ) ) {
+			switch ( $search_which ) {
+				case 'members': default:
+					$slug = BP_MEMBERS_SLUG;
+					break;
+				case 'groups':
+					$slug = BP_GROUPS_SLUG;
+					break;
+				case 'blogs':
+					$slug = BP_BLOGS_SLUG;
+					break;
+			}
 		}
-		
-		$search_url = apply_filters( 'bp_core_search_site', site_url( $search . '/?s=' . urlencode($search_terms) ), $search_terms );
+
+		$search_url = apply_filters( 'bp_core_search_site', site_url( $slug . '/?s=' . urlencode($search_terms) ), $search_terms );
 		
 		bp_core_redirect( $search_url );
 	}
 }
-add_action( 'wp', 'bp_core_search_site', 5 );
+add_action( 'init', 'bp_core_action_search_site', 5 );
+
 
 /**
  * bp_core_ucfirst()
  * 
- * Localization save ucfirst() support.
+ * Localization safe ucfirst() support.
  * 
  * @package BuddyPress Core
  */
@@ -1260,6 +1443,7 @@ function bp_core_ucfirst( $str ) {
 	}
 }
 
+
 /**
  * bp_core_strip_username_spaces()
  * 
@@ -1271,6 +1455,7 @@ function bp_core_strip_username_spaces( $username ) {
 	return str_replace( ' ', '-', $username );
 }
 add_action( 'pre_user_login', 'bp_core_strip_username_spaces' );
+
 
 /**
  * bp_core_clear_cache()
@@ -1291,14 +1476,13 @@ function bp_core_clear_cache() {
 	}
 }
 
-function bp_core_print_version_numbers() {
-	global $bp;
-	
-	foreach ( $bp->version_numbers as $name => $version ) {
-		echo ucwords($name) . ': <b>' . $version . '</b> / ';
-	}
-}
-
+/**
+ * bp_core_print_generation_time()
+ * 
+ * Prints the generation time in the footer of the site.
+ * 
+ * @package BuddyPress Core
+ */
 function bp_core_print_generation_time() {
 	global $wpdb;
 	?>
@@ -1327,6 +1511,14 @@ function bp_core_remove_data( $user_id ) {
 add_action( 'wpmu_delete_user', 'bp_core_remove_data', 1 );
 add_action( 'delete_user', 'bp_core_remove_data', 1 );
 
+
+/**
+ * bp_core_clear_user_object_cache()
+ * 
+ * Clears all cached objects for a user, or a user is part of.
+ * 
+ * @package BuddyPress Core
+ */
 function bp_core_clear_user_object_cache( $user_id ) {
 	wp_cache_delete( 'bp_user_' . $user_id, 'bp' );
 	wp_cache_delete( 'bp_core_avatar_v1_u' . $user_id, 'bp' );
