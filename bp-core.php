@@ -535,7 +535,7 @@ function bp_core_add_subnav_item( $parent_id, $slug, $name, $link, $function, $c
 	);
 	
 	if ( function_exists($function) && $user_has_access && $bp->current_action == $slug && $bp->current_component == $parent_id )
-		add_action( 'wp', $function );
+		add_action( 'wp', $function, 3 );
 }
 
 /**
@@ -592,7 +592,7 @@ function bp_core_add_nav_default( $parent_id, $function, $slug = false, $user_ha
 
 	if ( $bp->current_component == $parent_id && !$bp->current_action ) {
 		if ( function_exists($function) ) {
-			add_action( 'wp', $function );
+			add_action( 'wp', $function, 3 );
 		}
 		
 		if ( $slug )
