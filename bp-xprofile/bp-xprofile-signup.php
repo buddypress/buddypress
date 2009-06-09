@@ -1,5 +1,11 @@
 <?php
 
+function xprofile_clear_signup_cookie() {
+	if ( $_POST['stage'] != 'validate-blog-signup' && $_POST['stage'] != 'validate-user-signup' )
+		setcookie( 'bp_xprofile_meta', false, time()-1000, COOKIEPATH );
+}
+add_action( 'init', 'xprofile_clear_signup_cookie' );
+
 /**************************************************************************
  xprofile_add_signup_fields()
  
@@ -94,7 +100,7 @@ function xprofile_validate_signup_fields( $result ) {
 	if ( $_POST['stage'] != 'validate-user-signup' ) return $result;
 	
 	extract($result);
-	
+
 	if ( $bp_signup_has_errors || $bp_signup_avatar_has_errors )
 		$errors->add( 'bp_xprofile_errors', '' );
 		
@@ -103,12 +109,12 @@ function xprofile_validate_signup_fields( $result ) {
 add_filter( 'wpmu_validate_user_signup', 'xprofile_validate_signup_fields', 10, 1 );
 
 function xprofile_add_profile_meta( $meta ) {
-	global $bp, $bp_blog_signup_meta;
+	global $bp, $bp_blog_signup_meta, $bp_user_signup_meta;
 	
 	if ( $_POST['stage'] == 'validate-blog-signup' ) {
 		$bp_meta = $bp_blog_signup_meta;
 	} else if ( $_POST['stage'] == 'validate-user-signup' ) {
-		$bp_meta = unserialize( stripslashes( $_COOKIE['bp_xprofile_meta'] ) );
+		$bp_meta = $bp_user_signup_meta;
 	} else {
 		$bp_meta = $meta;
 	}
@@ -123,9 +129,10 @@ function xprofile_load_signup_meta() {
 	global $canvas, $original;
 	global $current_site, $active_signup;
 	global $wp_upload_error;
+	global $bp_user_signup_meta;
 
 	if ( $_POST['stage'] != 'validate-user-signup' ) return;
-	
+
 	$counter = 0;
 	$bp_signup_has_errors = false;
 	$prev_field_id = -1;
@@ -175,7 +182,7 @@ function xprofile_load_signup_meta() {
 	}
 	
 	// validate the avatar upload if there is one.
-	$avatar_error = false;
+	$bp_signup_avatar_has_errors = false;
 	$checked_upload = false;
 	$checked_size = false;
 	$checked_type = false;
@@ -221,22 +228,19 @@ function xprofile_load_signup_meta() {
 		}
 	}
 
-	if ( !$bp_signup_has_errors && !$bp_signup_avatar_has_errors ) {
-		/* Destroy and existing cookies */
-		setcookie( 'bp_xprofile_meta', false, time()-1000, COOKIEPATH );
-		
+	if ( !$bp_signup_has_errors && !$bp_signup_avatar_has_errors ) {		
 		$public = (int) $_POST['blog_public'];
 		
 		// put the user profile meta in a session ready to store.
 		for ( $i = 0; $i < count($bp_xprofile_callback); $i++ ) {
-			$bp_meta['field_' . $bp_xprofile_callback[$i]['field_id']] .= $bp_xprofile_callback[$i]['value'];
+			$bp_user_signup_meta['field_' . $bp_xprofile_callback[$i]['field_id']] .= $bp_xprofile_callback[$i]['value'];
 		}
 
-		$bp_meta['xprofile_field_ids'] = $_POST['xprofile_ids'];
-		$bp_meta['avatar_image_resized'] = $canvas;
-		$bp_meta['avatar_image_original'] = $original;
+		$bp_user_signup_meta['xprofile_field_ids'] = $_POST['xprofile_ids'];
+		$bp_user_signup_meta['avatar_image_resized'] = $canvas;
+		$bp_user_signup_meta['avatar_image_original'] = $original;
 		
-		setcookie( 'bp_xprofile_meta', serialize($bp_meta), time()+60*60*24, COOKIEPATH );
+		setcookie( 'bp_xprofile_meta', serialize($bp_user_signup_meta), time()+60*60*24, COOKIEPATH );
 	}
 }
 add_action( 'init', 'xprofile_load_signup_meta' );
@@ -245,7 +249,7 @@ function xprofile_load_blog_signup_meta() {
 	global $bp_blog_signup_meta;
 	
 	if ( $_POST['stage'] != 'validate-blog-signup' ) return;
-
+	
 	$blog_meta = array( 
 		'public' => $_POST['blog_public'],
 		'lang_id' => 1, // deprecated
@@ -276,7 +280,7 @@ function xprofile_on_activate_blog( $blog_id, $user_id, $password, $title, $meta
 add_action( 'wpmu_activate_blog', 'xprofile_on_activate_blog', 1, 5 );
 
 
-function xprofile_on_activate_user( $user_id, $password, $meta ) {
+function xprofile_on_activate_user( $user_id, $password, $meta ) {	
 	xprofile_extract_signup_meta( $user_id, $meta );
 	
 	if ( bp_has_custom_activation_page() )
