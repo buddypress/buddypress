@@ -453,7 +453,7 @@ add_action( 'edit_post', 'bp_blogs_record_post' );
 
 
 function bp_blogs_record_comment( $comment_id, $is_approved ) {
-	global $wpdb;
+	global $wpdb, $bp;
 	
 	if ( !$is_approved )
 		return false;
@@ -475,7 +475,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved ) {
 	$recorded_comment->date_created = strtotime( $comment->comment_date );
 
 	$recorded_commment_id = $recorded_comment->save();
-	
+
 	bp_blogs_update_blogmeta( $recorded_comment->blog_id, 'last_activity', time() );
 	bp_blogs_record_activity( array( 'item_id' => $recorded_comment->blog_id, 'secondary_item_id' => $recorded_commment_id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog_comment', 'is_private' => $is_private, 'user_id' => $recorded_comment->user_id, 'recorded_time' => $recorded_comment->date_created ) );	
 }
