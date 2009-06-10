@@ -221,7 +221,7 @@ class BP_Blogs_User_Blogs_Template {
 			wp_cache_set( 'bp_blogs_for_user_' . $user_id, $this->blogs, 'bp' );
 		}
 		
-		if ( !$max )
+		if ( !$max || $max >= (int)$this->blogs['count'] )
 			$this->total_blog_count = (int)$this->blogs['count'];
 		else
 			$this->total_blog_count = (int)$max;
@@ -397,7 +397,7 @@ class BP_Blogs_Blog_Post_Template {
 			wp_cache_set( 'bp_user_posts_' . $user_id, $this->posts, 'bp' );
 		}
 		
-		if ( !$max )
+		if ( !$max || $max >= (int)$this->posts['count'] )
 			$this->total_post_count = (int)$this->posts['count'];
 		else
 			$this->total_post_count = (int)$max;
@@ -831,7 +831,7 @@ class BP_Blogs_Post_Comment_Template {
 			wp_cache_set( 'bp_user_comments_' . $user_id, $this->comments, 'bp' );
 		}
 		
-		if ( !$max )
+		if ( !$max || $max >= (int)$this->comments['count'] )
 			$this->total_comment_count = (int)$this->comments['count'];
 		else
 			$this->total_comment_count = (int)$max;
@@ -1084,7 +1084,7 @@ class BP_Blogs_Site_Blogs_Template {
 			}
 		}
 		
-		if ( !$max )
+		if ( !$max || $max >= (int)$this->blogs['total'] )
 			$this->total_blog_count = (int)$this->blogs['total'];
 		else
 			$this->total_blog_count = (int)$max;

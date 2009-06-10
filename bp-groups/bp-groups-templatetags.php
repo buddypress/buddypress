@@ -467,7 +467,7 @@ class BP_Groups_User_Groups_Template {
 			$this->total_group_count = 1;
 			$this->group_count = 1;
 		} else {
-			if ( !$max )
+			if ( !$max || $max >= (int)$this->groups['total'] )
 				$this->total_group_count = (int)$this->groups['total'];
 			else
 				$this->total_group_count = (int)$max;
@@ -1641,7 +1641,7 @@ class BP_Groups_Group_Members_Template {
 		
 		$this->members = BP_Groups_Member::get_all_for_group( $group_id, $this->pag_num, $this->pag_page, $exclude_admins_mods, $exclude_banned );
 		
-		if ( !$max )
+		if ( !$max || $max >= (int)$this->members['count'] )
 			$this->total_member_count = (int)$this->members['count'];
 		else
 			$this->total_member_count = (int)$max;
@@ -1917,7 +1917,7 @@ class BP_Groups_Site_Groups_Template {
 			}
 		}
 		
-		if ( !$max )
+		if ( !$max || $max >= (int)$this->groups['total'] )
 			$this->total_group_count = (int)$this->groups['total'];
 		else
 			$this->total_group_count = (int)$max;
@@ -2222,7 +2222,7 @@ class BP_Groups_Membership_Requests_Template {
 		
 		$this->requests = BP_Groups_Group::get_membership_requests( $group_id, $this->pag_num, $this->pag_page );		
 
-		if ( !$max )
+		if ( !$max || $max >= (int)$this->requests['total'] )
 			$this->total_request_count = (int)$this->requests['total'];
 		else
 			$this->total_request_count = (int)$max;

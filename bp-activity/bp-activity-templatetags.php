@@ -33,7 +33,7 @@ class BP_Activity_Template {
 		if ( $type == 'friends' && ( bp_is_home() || is_site_admin() || $bp->loggedin_user->id == $user_id ) )
 			$this->activities = bp_activity_get_friends_activity( $user_id, $max, $timeframe, false, $this->pag_num, $this->pag_page );
 		
-		if ( !$max )
+		if ( !$max || $max >= (int)$this->activities['total'] )
 			$this->total_activity_count = (int)$this->activities['total'];
 		else
 			$this->total_activity_count = (int)$max;

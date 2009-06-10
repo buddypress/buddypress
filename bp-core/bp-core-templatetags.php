@@ -797,7 +797,7 @@ class BP_Core_Members_Template {
 			}
 		}
 		
-		if ( !$max )
+		if ( !$max || $max >= (int)$this->members['total'] )
 			$this->total_member_count = (int)$this->members['total'];
 		else
 			$this->total_member_count = (int)$max;

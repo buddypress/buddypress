@@ -30,11 +30,13 @@ Class BP_Messages_Template {
 			$this->thread_count = 0;
 			$this->total_thread_count = 0;
 		} else { 
-			if ( !$max ) {
+			$total_notice_count = BP_Messages_Notice::get_total_notice_count();
+			
+			if ( !$max || $max >= (int)$total_notice_count ) {
 				if ( 'notices' == $this->box )
-					$this->total_thread_count = BP_Messages_Notice::get_total_notice_count();
+					$this->total_thread_count = (int)$total_notice_count;
 				else
-					$this->total_thread_count = BP_Messages_Thread::get_total_threads_for_user( $this->user_id, $this->box, $type );
+					$this->total_thread_count = (int)BP_Messages_Thread::get_total_threads_for_user( $this->user_id, $this->box, $type );
 			} else {
 				$this->total_thread_count = (int)$max;
 			}

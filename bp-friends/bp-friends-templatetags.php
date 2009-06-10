@@ -46,7 +46,7 @@ class BP_Friendship_Template {
 			$this->friendships = $this->friendships['requests'];
 			$this->friendship_count = count($this->friendships);
 		} else {
-			if ( !$max )
+			if ( !$max || $max >= (int)$this->friendships['total'] )
 				$this->total_friend_count = (int)$this->friendships['total'];
 			else
 				$this->total_friend_count = (int)$max;
