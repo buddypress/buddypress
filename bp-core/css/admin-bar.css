@@ -199,7 +199,7 @@ body { padding-top: 28px !important; }
 
 #wp-admin-bar img.avatar {
 	float: left !important;
-	border: 2px solid #fff !important !important;
+	border: 2px solid #fff !important;
 	margin-right: 8px !important;
 }
 
