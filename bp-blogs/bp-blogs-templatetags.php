@@ -98,7 +98,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 	<p>
 		<label for="blog_public_on"><?php _e('Privacy:', 'buddypress') ?></label>
 		<?php _e('I would like my blog to appear in search engines like Google and Technorati, and in public listings around this site.', 'buddypress'); ?> 
-		<div style="clear:both;"></div>
+		<div class="clear"></div>
 		<label class="checkbox" for="blog_public_on">
 			<input type="radio" id="blog_public_on" name="blog_public" value="1" <?php if( !isset( $_POST['blog_public'] ) || '1' == $_POST['blog_public'] ) { ?>checked="checked"<?php } ?> />
 			<strong><?php _e( 'Yes' , 'buddypress'); ?></strong>
