@@ -28,10 +28,10 @@ class BP_Activity_Template {
 			$this->activities = bp_activity_get_sitewide_activity( $max, $this->pag_num, $this->pag_page );
 		
 		if ( $type == 'personal' )
-			$this->activities = bp_activity_get_user_activity( $user_id, $timeframe, $this->page_num, $this->pag_page );
+			$this->activities = bp_activity_get_user_activity( $user_id, $max, $timeframe, false, $this->page_num, $this->pag_page );
 
 		if ( $type == 'friends' && ( bp_is_home() || is_site_admin() || $bp->loggedin_user->id == $user_id ) )
-			$this->activities = bp_activity_get_friends_activity( $user_id, $timeframe, $this->pag_num, $this->pag_page );
+			$this->activities = bp_activity_get_friends_activity( $user_id, $max, $timeframe, false, $this->pag_num, $this->pag_page );
 		
 		if ( !$max )
 			$this->total_activity_count = (int)$this->activities['total'];
