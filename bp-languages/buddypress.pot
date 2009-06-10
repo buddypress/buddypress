@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-06-06 14:11+0000\n"
+"POT-Creation-Date: 2009-06-10 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,7 +56,7 @@ msgstr ""
 #: bp-groups/bp-groups-templatetags.php:1098
 #: bp-groups/bp-groups-templatetags.php:2048
 #: bp-groups/bp-groups-widgets.php:45
-#: bp-messages/bp-messages-templatetags.php:270
+#: bp-messages/bp-messages-templatetags.php:271
 #: bp-themes/bpmember/wire/post-list.php:10
 #: bp-themes/bpskeletonmember/wire/post-list.php:22
 #: bp-wire/bp-wire-ajax.php:12
@@ -843,18 +843,18 @@ msgid "Delete"
 msgstr ""
 
 #: bp-core/bp-core-avatars.php:125 bp-groups.php:1302
-#: bp-xprofile/bp-xprofile-signup.php:187
+#: bp-xprofile/bp-xprofile-signup.php:194
 msgid "There is no error, the file uploaded with success"
 msgstr ""
 
 #: bp-core/bp-core-avatars.php:126 bp-core/bp-core-avatars.php:127
-#: bp-xprofile/bp-xprofile-signup.php:188
-#: bp-xprofile/bp-xprofile-signup.php:189
+#: bp-xprofile/bp-xprofile-signup.php:195
+#: bp-xprofile/bp-xprofile-signup.php:196
 msgid "Your image was bigger than the maximum allowed file size of: "
 msgstr ""
 
 #: bp-core/bp-core-avatars.php:128 bp-groups.php:1305
-#: bp-xprofile/bp-xprofile-signup.php:190
+#: bp-xprofile/bp-xprofile-signup.php:197
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
@@ -863,7 +863,7 @@ msgid "No file was uploaded"
 msgstr ""
 
 #: bp-core/bp-core-avatars.php:130 bp-groups.php:1307
-#: bp-xprofile/bp-xprofile-signup.php:191
+#: bp-xprofile/bp-xprofile-signup.php:198
 msgid "Missing a temporary folder"
 msgstr ""
 
@@ -872,17 +872,17 @@ msgstr ""
 msgid "Your upload failed, please try again. Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:137 bp-xprofile/bp-xprofile-signup.php:205
+#: bp-core/bp-core-avatars.php:137 bp-xprofile/bp-xprofile-signup.php:212
 #, php-format
 msgid "The file you uploaded is too big. Please upload a file under %s"
 msgstr ""
 
 #: bp-core/bp-core-avatars.php:140 bp-groups.php:1323
-#: bp-xprofile/bp-xprofile-signup.php:210
+#: bp-xprofile/bp-xprofile-signup.php:217
 msgid "Please upload only JPG, GIF or PNG photos."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:144 bp-xprofile/bp-xprofile-signup.php:216
+#: bp-core/bp-core-avatars.php:144 bp-xprofile/bp-xprofile-signup.php:223
 #, php-format
 msgid "Upload Failed! Error was: %s"
 msgstr ""
@@ -2981,7 +2981,7 @@ msgstr ""
 msgid "There was a problem closing the notice."
 msgstr ""
 
-#: bp-messages/bp-messages-classes.php:284
+#: bp-messages/bp-messages-classes.php:294
 msgid " Recipients"
 msgstr ""
 
@@ -3004,80 +3004,80 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:269
+#: bp-messages/bp-messages-templatetags.php:270
 #, php-format
 msgid "Viewing message %d to %d (of %d messages)"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:312
+#: bp-messages/bp-messages-templatetags.php:313
 msgid "Select:"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:315
+#: bp-messages/bp-messages-templatetags.php:316
 msgid "Read"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:316
+#: bp-messages/bp-messages-templatetags.php:317
 msgid "Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:317
+#: bp-messages/bp-messages-templatetags.php:318
 msgid "All"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:319
+#: bp-messages/bp-messages-templatetags.php:320
 msgid "Mark as Read"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:320
+#: bp-messages/bp-messages-templatetags.php:321
 msgid "Mark as Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:322
+#: bp-messages/bp-messages-templatetags.php:323
 msgid "Delete Selected"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:331
+#: bp-messages/bp-messages-templatetags.php:332
 msgid "Currently Active"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:398
+#: bp-messages/bp-messages-templatetags.php:399
 msgid "Deactivate"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:400
+#: bp-messages/bp-messages-templatetags.php:401
 msgid "Activate"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:420
+#: bp-messages/bp-messages-templatetags.php:421
 msgid "Close"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:436
+#: bp-messages/bp-messages-templatetags.php:437
 msgid "Send Message"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:484
+#: bp-messages/bp-messages-templatetags.php:485
 msgid "There was an error when viewing that message"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:498
+#: bp-messages/bp-messages-templatetags.php:499
 msgid "Sent between "
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:499
+#: bp-messages/bp-messages-templatetags.php:500
 msgid "and"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:540
+#: bp-messages/bp-messages-templatetags.php:541
 msgid "Reply: "
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:548
+#: bp-messages/bp-messages-templatetags.php:549
 msgid "Send Reply"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:551
+#: bp-messages/bp-messages-templatetags.php:552
 msgid "Re: "
 msgstr ""
 
@@ -4484,31 +4484,31 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-signup.php:17
+#: bp-xprofile/bp-xprofile-signup.php:23
 msgid "Your Profile Details"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-signup.php:18
+#: bp-xprofile/bp-xprofile-signup.php:24
 msgid ""
 "Please fill in the following fields to start up your member profile. Fields\n"
 "\t\t\tmarked with a star are required."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-signup.php:46
+#: bp-xprofile/bp-xprofile-signup.php:52
 msgid "Profile Picture (Avatar)"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-signup.php:47
+#: bp-xprofile/bp-xprofile-signup.php:53
 msgid ""
 "You can upload an image from your computer to use as an avatar. This avatar "
 "will appear on your profile page."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-signup.php:59
+#: bp-xprofile/bp-xprofile-signup.php:65
 msgid "Select a file:"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-signup.php:166
+#: bp-xprofile/bp-xprofile-signup.php:173
 #, php-format
 msgid "%s cannot be left blank"
 msgstr ""
