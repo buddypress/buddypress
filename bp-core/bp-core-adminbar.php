@@ -259,6 +259,8 @@ function bp_adminbar_random_menu() {
 			<li><a href="<?php echo $bp->root_domain . '/' . $bp->blogs->slug . '/?random-blog' ?>"><?php _e( 'Random Blog', 'buddypress' ) ?></a></li>
 			
 			<?php endif; ?>
+			
+			<?php do_action( 'bp_adminbar_random_menu' ) ?>
 		</ul>
 	</li>
 	<?php
