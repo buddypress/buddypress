@@ -15,7 +15,7 @@ Class BP_Messages_Template {
 	var $pag_num;
 	var $pag_links;
 
-	function bp_messages_template( $user_id, $box, $per_page, $max ) {
+	function bp_messages_template( $user_id, $box, $per_page, $max, $type ) {
 		$this->pag_page = isset( $_GET['mpage'] ) ? intval( $_GET['mpage'] ) : 1;
 		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : $per_page;
 		$this->user_id = $user_id;
@@ -24,7 +24,7 @@ Class BP_Messages_Template {
 		if ( 'notices' == $this->box )
 			$this->threads = BP_Messages_Notice::get_notices();
 		else
-			$this->threads = BP_Messages_Thread::get_current_threads_for_user( $this->user_id, $this->box, $this->pag_num, $this->pag_page );
+			$this->threads = BP_Messages_Thread::get_current_threads_for_user( $this->user_id, $this->box, $this->pag_num, $this->pag_page, $type );
 		
 		if ( !$this->threads ) {
 			$this->thread_count = 0;
@@ -34,7 +34,7 @@ Class BP_Messages_Template {
 				if ( 'notices' == $this->box )
 					$this->total_thread_count = BP_Messages_Notice::get_total_notice_count();
 				else
-					$this->total_thread_count = BP_Messages_Thread::get_total_threads_for_user( $this->user_id, $this->box );
+					$this->total_thread_count = BP_Messages_Thread::get_total_threads_for_user( $this->user_id, $this->box, $type );
 			} else {
 				$this->total_thread_count = (int)$max;
 			}
@@ -112,7 +112,8 @@ function bp_has_message_threads( $args = '' ) {
 		'user_id' => $bp->loggedin_user->id,
 		'box' => 'inbox',
 		'per_page' => 10,
-		'max' => false
+		'max' => false,
+		'type' => 'all'
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -130,7 +131,7 @@ function bp_has_message_threads( $args = '' ) {
 		if ( 'notices' == $bp->current_action )
 			$box = 'notices';
 	
-		$messages_template = new BP_Messages_Template( $user_id, $box, $per_page, $max );
+		$messages_template = new BP_Messages_Template( $user_id, $box, $per_page, $max, $type );
 	}
 	
 	return $messages_template->has_threads();

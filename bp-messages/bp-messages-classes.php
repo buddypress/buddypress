@@ -178,14 +178,19 @@ Class BP_Messages_Thread {
 		return true;
 	}
 	
-	function get_current_threads_for_user( $user_id, $box = 'inbox', $limit = null, $page = null ) {
+	function get_current_threads_for_user( $user_id, $box = 'inbox', $limit = null, $page = null, $type = 'all' ) {
 		global $wpdb, $bp;
 
 		// If we have pagination values set we want to pass those to the query
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+		
+		if ( $type == 'unread' )
+			$type_sql = $wpdb->prepare( " AND r.unread_count != 0 " );
+		else if ( $type == 'read' )
+			$type_sql = $wpdb->prepare( " AND r.unread_count = 0 " );
 			
-		$sql = $wpdb->prepare( "SELECT r.thread_id FROM {$bp->messages->table_name_recipients} r, {$bp->messages->table_name_threads} t WHERE t.id = r.thread_id AND r.is_deleted = 0 AND r.user_id = %d$exclude_sender ORDER BY t.last_post_date DESC$pag_sql", $bp->loggedin_user->id );
+		$sql = $wpdb->prepare( "SELECT r.thread_id FROM {$bp->messages->table_name_recipients} r, {$bp->messages->table_name_threads} t WHERE t.id = r.thread_id AND r.is_deleted = 0 AND r.user_id = %d$exclude_sender $type_sql ORDER BY t.last_post_date DESC$pag_sql", $bp->loggedin_user->id );
 
 		if ( !$thread_ids = $wpdb->get_results($sql) )
 			return false;
@@ -217,14 +222,19 @@ Class BP_Messages_Thread {
 		$wpdb->query($sql);
 	}
 	
-	function get_total_threads_for_user( $user_id, $box = 'inbox' ) {
+	function get_total_threads_for_user( $user_id, $box = 'inbox', $type = 'all' ) {
 		global $wpdb, $bp;
 
 		$exclude_sender = '';
 		if ( $box != 'sentbox' )
 			$exclude_sender = ' AND sender_only != 1';
+		
+		if ( $type == 'unread' )
+			$type_sql = $wpdb->prepare( " AND unread_count != 0 " );
+		else if ( $type == 'read' )
+			$type_sql = $wpdb->prepare( " AND unread_count = 0 " );
 
-		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT count(thread_id) FROM {$bp->messages->table_name_recipients} WHERE user_id = %d AND is_deleted = 0$exclude_sender", $user_id ) );
+		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT count(thread_id) FROM {$bp->messages->table_name_recipients} WHERE user_id = %d AND is_deleted = 0$exclude_sender $type_sql", $user_id ) );
 	}
 	
 	function user_is_sender($thread_id) {

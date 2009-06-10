@@ -240,7 +240,7 @@ function friends_action_remove_friend() {
 		
 		if ( !check_admin_referer( 'friends_remove_friend' ) )
 			return false;
-			
+		
 		if ( !friends_remove_friend( $bp->loggedin_user->id, $potential_friend_id ) ) {
 			bp_core_add_message( __( 'Friendship could not be canceled.', 'buddypress' ), 'error' );
 		} else {
