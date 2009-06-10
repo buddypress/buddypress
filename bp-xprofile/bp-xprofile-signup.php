@@ -1,7 +1,7 @@
 <?php
 
 function xprofile_clear_signup_cookie() {
-	if ( $_POST['stage'] != 'validate-blog-signup' && $_POST['stage'] != 'validate-user-signup' )
+	if ( !isset( $_REQUEST['action'] ) && $_POST['stage'] != 'validate-blog-signup' && $_POST['stage'] != 'validate-user-signup' )
 		setcookie( 'bp_xprofile_meta', false, time()-1000, COOKIEPATH );
 }
 add_action( 'init', 'xprofile_clear_signup_cookie' );
