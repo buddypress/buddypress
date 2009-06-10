@@ -1199,7 +1199,7 @@ function bp_core_sort_nav_items( $nav_array ) {
 		$new_nav = array_merge( $new_nav, $nav_array );
 	}
 	
-	return $new_nav;
+	return apply_filters( 'bp_core_sort_nav_items', $new_nav );
 }
 
 /**
