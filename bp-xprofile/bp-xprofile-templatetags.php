@@ -312,7 +312,7 @@ function bp_profile_group_name( $deprecated = true ) {
 		echo bp_get_profile_group_name();
 	}
 }
-	function bp_get_profile_group_name( $deprecated = true ) {
+	function bp_get_profile_group_name() {
 		global $bp;
 
 		$group_id = $bp->action_variables[1];
