@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-06-10 14:11+0000\n"
+"POT-Creation-Date: 2009-06-11 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,15 +48,15 @@ msgstr ""
 #: bp-blogs/bp-blogs-templatetags.php:505
 #: bp-blogs/bp-blogs-templatetags.php:1208
 #: bp-core/bp-core-templatetags.php:925 bp-core/bp-core-widgets.php:103
-#: bp-forums/bp-forums-templatetags.php:356
-#: bp-forums/bp-forums-templatetags.php:570
+#: bp-forums/bp-forums-templatetags.php:358
+#: bp-forums/bp-forums-templatetags.php:572
 #: bp-friends/bp-friends-templatetags.php:291
 #: bp-friends/bp-friends-templatetags.php:303
 #: bp-groups/bp-groups-templatetags.php:1065
 #: bp-groups/bp-groups-templatetags.php:1098
 #: bp-groups/bp-groups-templatetags.php:2048
 #: bp-groups/bp-groups-widgets.php:45
-#: bp-messages/bp-messages-templatetags.php:271
+#: bp-messages/bp-messages-templatetags.php:273
 #: bp-themes/bpmember/wire/post-list.php:10
 #: bp-themes/bpskeletonmember/wire/post-list.php:22
 #: bp-wire/bp-wire-ajax.php:12
@@ -1567,22 +1567,22 @@ msgstr ""
 msgid "Number of topics to show:"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:281
+#: bp-forums/bp-forums-templatetags.php:283
 #, php-format
 msgid "%d post"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:283
+#: bp-forums/bp-forums-templatetags.php:285
 #, php-format
 msgid "%d posts"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:354
+#: bp-forums/bp-forums-templatetags.php:356
 #, php-format
 msgid "Viewing topic %d to %d (%d total topics)"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:568
+#: bp-forums/bp-forums-templatetags.php:570
 #: bp-wire/bp-wire-templatetags.php:248
 #, php-format
 msgid "Viewing post %d to %d (%d total posts)"
@@ -3004,80 +3004,80 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:270
+#: bp-messages/bp-messages-templatetags.php:272
 #, php-format
 msgid "Viewing message %d to %d (of %d messages)"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:313
+#: bp-messages/bp-messages-templatetags.php:315
 msgid "Select:"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:316
+#: bp-messages/bp-messages-templatetags.php:318
 msgid "Read"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:317
+#: bp-messages/bp-messages-templatetags.php:319
 msgid "Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:318
+#: bp-messages/bp-messages-templatetags.php:320
 msgid "All"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:320
+#: bp-messages/bp-messages-templatetags.php:322
 msgid "Mark as Read"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:321
+#: bp-messages/bp-messages-templatetags.php:323
 msgid "Mark as Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:323
+#: bp-messages/bp-messages-templatetags.php:325
 msgid "Delete Selected"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:332
+#: bp-messages/bp-messages-templatetags.php:334
 msgid "Currently Active"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:399
+#: bp-messages/bp-messages-templatetags.php:401
 msgid "Deactivate"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:401
+#: bp-messages/bp-messages-templatetags.php:403
 msgid "Activate"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:421
+#: bp-messages/bp-messages-templatetags.php:423
 msgid "Close"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:437
+#: bp-messages/bp-messages-templatetags.php:439
 msgid "Send Message"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:485
+#: bp-messages/bp-messages-templatetags.php:487
 msgid "There was an error when viewing that message"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:499
+#: bp-messages/bp-messages-templatetags.php:501
 msgid "Sent between "
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:500
+#: bp-messages/bp-messages-templatetags.php:502
 msgid "and"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:541
+#: bp-messages/bp-messages-templatetags.php:543
 msgid "Reply: "
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:549
+#: bp-messages/bp-messages-templatetags.php:551
 msgid "Send Reply"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:552
+#: bp-messages/bp-messages-templatetags.php:554
 msgid "Re: "
 msgstr ""
 
