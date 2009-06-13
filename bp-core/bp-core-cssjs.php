@@ -45,7 +45,7 @@ function bp_core_add_css() {
 	// Enable a sitewide CSS file that will apply styles to both the home blog theme
 	// and the member theme.
 	if ( file_exists( WP_CONTENT_DIR . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'stylesheet' ) . '/css/site-wide.css' ) )
-		wp_enqueue_style( 'site-wide-styles', WP_CONTENT_URL . '/themes/' . get_blog_option( 1, 'stylesheet' ) . '/css/site-wide.css' );
+		wp_enqueue_style( 'site-wide-styles', WP_CONTENT_URL . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'stylesheet' ) . '/css/site-wide.css' );
 	
 	wp_print_styles();
 }
