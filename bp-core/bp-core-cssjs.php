@@ -44,7 +44,7 @@ add_action( 'wp_head', 'bp_core_add_ajax_js' );
 function bp_core_add_css() {
 	// Enable a sitewide CSS file that will apply styles to both the home blog theme
 	// and the member theme.
-	if ( file_exists( WP_CONTENT_DIR . '/themes/' . get_blog_option( 1, 'stylesheet' ) . '/css/site-wide.css' ) )
+	if ( file_exists( WP_CONTENT_DIR . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'stylesheet' ) . '/css/site-wide.css' ) )
 		wp_enqueue_style( 'site-wide-styles', WP_CONTENT_URL . '/themes/' . get_blog_option( 1, 'stylesheet' ) . '/css/site-wide.css' );
 	
 	wp_print_styles();
@@ -63,7 +63,7 @@ function bp_core_admin_bar_css() {
 		return false;
 		
 	if ( is_user_logged_in() || ( !(int)get_site_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() ) ) {
-		wp_enqueue_style( 'bp-admin-bar', BP_PLUGIN_URL . '/bp-core/css/admin-bar.css' );
+		wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', BP_PLUGIN_URL . '/bp-core/css/admin-bar.css' ) );
 		
 		if ( 'rtl' == get_bloginfo('text_direction') && file_exists( BP_PLUGIN_DIR . '/bp-core/css/admin-bar-rtl.css' ) )
 			wp_enqueue_style( 'bp-admin-bar-rtl', BP_PLUGIN_URL . '/bp-core/css/admin-bar-rtl.css' );	
@@ -117,7 +117,7 @@ function bp_core_add_admin_css() {
 	if ( defined( 'BP_DISABLE_ADMIN_BAR') )
 		return false;
 		
-	wp_enqueue_style( 'bp-admin-bar', BP_PLUGIN_URL . '/bp-core/css/admin-bar.css' );
+	wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', BP_PLUGIN_URL . '/bp-core/css/admin-bar.css' ) );
 }
 add_action( 'admin_menu', 'bp_core_add_admin_css' );
 
