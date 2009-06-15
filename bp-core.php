@@ -1374,9 +1374,6 @@ function bp_core_delete_account() {
 
 	// Be careful with this function!
 	
-	if ( !check_admin_referer( 'delete-account' ) )
-		return false;
-	
 	/* Site admins should not be allowed to delete their accounts */
 	if ( is_site_admin() )
 		return false;

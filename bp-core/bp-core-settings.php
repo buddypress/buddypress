@@ -143,6 +143,9 @@ function bp_core_screen_delete_account() {
 	global $current_user, $bp_settings_updated, $pass_error;
 	
 	if ( isset( $_POST['delete-account-button'] ) && check_admin_referer('delete-account') ) {
+		if ( !check_admin_referer( 'delete-account' ) )
+			return false;
+		
 		// delete the users account
 		if ( bp_core_delete_account() )
 			bp_core_redirect( site_url() );

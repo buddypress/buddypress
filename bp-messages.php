@@ -193,6 +193,9 @@ function messages_screen_compose() {
 	}
 	
 	if ( $recipients || ( isset($_POST['send-notice']) && is_site_admin() ) ) {
+		if ( !check_admin_referer( 'messages_send_message' ) )
+			return false;
+			
 		messages_send_message( $recipients, $_POST['subject'], $_POST['content'], $_POST['thread_id'], false, true );
 	}
 	
@@ -302,7 +305,9 @@ function messages_action_delete_message() {
 	if ( !$thread_id || !is_numeric($thread_id) || !BP_Messages_Thread::check_access($thread_id) ) {
 		bp_core_redirect( $bp->displayed_user->domain . $bp->current_component . '/' . $bp->current_action );
 	} else {
-		//echo $bp->loggedin_user->domain . $bp->current_component . '/' . $bp->current_action; die;
+		if ( !check_admin_referer( 'messages_delete_thread' ) )
+			return false;
+
 		// delete message
 		if ( !messages_delete_thread($thread_id) ) {
 			bp_core_add_message( __('There was an error deleting that message.', 'buddypress'), 'error' );
@@ -326,6 +331,9 @@ function messages_action_bulk_delete() {
 	if ( !$thread_ids || !BP_Messages_Thread::check_access($thread_ids) ) {
 		bp_core_redirect( $bp->displayed_user->domain . $bp->current_component . '/' . $bp->current_action );			
 	} else {
+		if ( !check_admin_referer( 'messages_delete_thread' ) )
+			return false;
+			
 		if ( !messages_delete_thread( $thread_ids ) ) {
 			bp_core_add_message( __('There was an error deleting messages.', 'buddypress'), 'error' );
 		} else {
@@ -384,10 +392,7 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 	global $pmessage;
 	global $message, $type;
 	global $bp, $current_user;
-	
-	if ( !check_admin_referer( 'messages_send_message' ) )
-		return false;
-	
+		
 	messages_add_callback_values( $recipients, $subject, $content );
 	
 	if ( isset( $_POST['send-notice'] ) ) {
@@ -544,9 +549,6 @@ function messages_send_notice( $subject, $message, $from_template ) {
  **************************************************************************/
 
 function messages_delete_thread( $thread_ids ) {
-	if ( !check_admin_referer( 'messages_delete_thread' ) )
-		return false;
-	
 	if ( is_array($thread_ids) ) {
 		$error = 0;
 		for ( $i = 0; $i < count($thread_ids); $i++ ) {

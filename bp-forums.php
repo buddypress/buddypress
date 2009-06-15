@@ -154,9 +154,6 @@ function bp_forums_new_topic( $title = '', $topic_text = '', $topic_tags = '', $
 
 function bp_forums_new_post( $post_text = '', $topic_id = 0 ) {
 	global $bbpress_live;
-
-	if ( !check_admin_referer( 'bp_forums_new_reply' ) ) 
-		return false;
 	
 	if ( !is_object( $bbpress_live ) ) {
 		include_once( ABSPATH . WPINC . '/class-IXR.php' );
