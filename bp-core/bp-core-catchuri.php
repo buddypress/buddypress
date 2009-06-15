@@ -19,9 +19,9 @@ Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/
  * 
  *	Example:
  *    - http://domain.com/members/andy/profile/edit/group/5/
- *    - $current_component: string 'profile'
- *    - $current_action: string 'edit'
- *    - $action_variables: array ['group', 5]
+ *    - $bp->current_component: string 'profile'
+ *    - $bp->current_action: string 'edit'
+ *    - $bp->action_variables: array ['group', 5]
  * 
  * @package BuddyPress Core
  */

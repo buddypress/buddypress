@@ -533,7 +533,7 @@ function bp_core_add_subnav_item( $parent_id, $slug, $name, $link, $function, $c
 		'link' => $link . $slug,
 		'css_id' => $css_id
 	);
-	
+
 	if ( function_exists($function) && $user_has_access && $bp->current_action == $slug && $bp->current_component == $parent_id )
 		add_action( 'wp', $function, 3 );
 }

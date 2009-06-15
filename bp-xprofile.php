@@ -215,6 +215,8 @@ function xprofile_setup_nav() {
 			$bp->bp_options_title = $bp->displayed_user->fullname; 
 		}
 	}
+	
+	do_action( 'xprofile_setup_nav' );
 }
 add_action( 'wp', 'xprofile_setup_nav', 2 );
 add_action( 'admin_menu', 'xprofile_setup_nav', 2 );

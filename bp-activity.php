@@ -159,6 +159,8 @@ function bp_activity_setup_nav() {
 			$bp->bp_options_title = $bp->displayed_user->fullname; 
 		}
 	}
+	
+	do_action( 'bp_activity_setup_nav' );
 }
 add_action( 'wp', 'bp_activity_setup_nav', 2 );
 add_action( 'admin_menu', 'bp_activity_setup_nav', 2 );

@@ -283,6 +283,8 @@ function groups_setup_nav() {
 			}
 		}
 	}
+	
+	do_action( 'groups_setup_nav', $has_access );
 }
 add_action( 'wp', 'groups_setup_nav', 2 );
 add_action( 'admin_menu', 'groups_setup_nav', 2 );

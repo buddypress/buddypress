@@ -158,6 +158,8 @@ function messages_setup_nav() {
 			$bp->bp_options_title = $bp->displayed_user->fullname;
 		}
 	}
+	
+	do_action( 'messages_setup_nav' );
 }
 add_action( 'wp', 'messages_setup_nav', 2 );
 add_action( 'admin_menu', 'messages_setup_nav', 2 );
