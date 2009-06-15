@@ -582,7 +582,7 @@ function friends_check_friendship( $user_id, $possible_friend_id ) {
  Create a new friend relationship
 **************************************************************************/
 
-function friends_add_friend( $initiator_userid, $friend_userid ) {
+function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = false ) {
 	global $bp;
 	
 	$friendship = new BP_Friends_Friendship;
@@ -596,17 +596,24 @@ function friends_add_friend( $initiator_userid, $friend_userid ) {
 	$friendship->is_limited = 0;
 	$friendship->date_created = time();
 	
+	if ( $force_accept )
+		$friendship->is_confirmed = 1;
+	
 	if ( $friendship->save() ) {
 		
-		// Add the on screen notification
-		bp_core_add_notification( $friendship->initiator_user_id, $friendship->friend_user_id, 'friends', 'friendship_request' );	
-		
-		// Send the email notification
-		require_once( BP_PLUGIN_DIR . '/bp-friends/bp-friends-notifications.php' );
-		friends_notification_new_request( $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
-		
-		do_action( 'friends_friendship_requested', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );	
-		
+		if ( !$force_accept ) {
+			// Add the on screen notification
+			bp_core_add_notification( $friendship->initiator_user_id, $friendship->friend_user_id, 'friends', 'friendship_request' );	
+
+			// Send the email notification
+			require_once( BP_PLUGIN_DIR . '/bp-friends/bp-friends-notifications.php' );
+			friends_notification_new_request( $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
+			
+			do_action( 'friends_friendship_requested', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );	
+		} else {
+			do_action( 'friends_friendship_accepted', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
+		}
+			
 		return true;
 	}
 	
