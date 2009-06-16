@@ -1597,7 +1597,10 @@ function groups_create_group( $step, $group_id ) {
 
 function groups_check_slug( $slug ) {
 	global $bp;
-	
+
+	if ( 'wp-' == substr( $slug, 0, 3 ) )
+		$slug = substr( $slug, 3, strlen( $slug ) - 3 );
+			
 	if ( in_array( $slug, $bp->groups->forbidden_names ) ) {
 		$slug = $slug . '-' . rand();
 	}
@@ -1608,9 +1611,6 @@ function groups_check_slug( $slug ) {
 		}
 		while ( BP_Groups_Group::check_slug( $slug ) );
 	}
-	
-	if ( 'wp' == substr( $slug, 0, 2 ) )
-		$slug = substr( $slug, 2, strlen( $slug ) - 2 );
 	
 	return $slug;
 }
