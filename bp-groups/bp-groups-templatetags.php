@@ -980,7 +980,7 @@ function bp_group_all_members_permalink( $deprecated = true, $deprecated2 = fals
 		if ( !$group )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_get_group_all_members_permalink', bp_get_group_permalink( $group ) . '/' . BP_MEMBERS_SLUG );
+		return apply_filters( 'bp_get_group_all_members_permalink', bp_get_group_permalink( $group ) . '/members' );
 	}
 
 function bp_group_random_members( $group = false ) {
