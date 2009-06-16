@@ -681,8 +681,10 @@ function groups_screen_group_admin_settings() {
 			$enable_forum = ( isset($_POST['group-show-forum'] ) ) ? 1 : 0;
 			$enable_photos = ( isset($_POST['group-show-photos'] ) ) ? 1 : 0;
 			$photos_admin_only = ( $_POST['group-photos-status'] != 'all' ) ? 1 : 0;
-			$status = $_POST['group-status'];
-		
+			
+			$allowed_status = apply_filters( 'groups_allowed_status', array( 'public', 'private', 'hidden' ) );
+			$status = ( in_array( $_POST['group-status'], $allowed_status ) ) ? $_POST['group-status'] : 'public';
+			
 			/* Check the nonce first. */
 			if ( !check_admin_referer( 'groups_edit_group_settings' ) )
 				return false;
@@ -1161,11 +1163,11 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'new_membership_request':
 			$group_id = $secondary_item_id;
 			$requesting_user_id = $item_id;
-			
+
 			$group = new BP_Groups_Group( $group_id, false, false );
 			
 			$group_link = bp_get_group_permalink( $group );
-			
+
 			if ( (int)$total_items > 1 ) {
 				return apply_filters( 'bp_groups_multiple_new_membership_requests_notification', '<a href="' . $group_link . '/admin/membership-requests/" title="' . __( 'Group Membership Requests', 'buddypress' ) . '">' . sprintf( __('%d new membership requests for the group "%s"', 'buddypress' ), (int)$total_items, $group->name ) . '</a>', $group_link, $total_items, $group->name );		
 			} else {
@@ -1942,6 +1944,15 @@ function groups_edit_group_settings( $group_id, $enable_wire, $enable_forum, $en
 	$group->enable_forum = $enable_forum;
 	$group->enable_photos = $enable_photos;
 	$group->photos_admin_only = $photos_admin_only;
+	
+	/*** 
+	 * Before we potentially switch the group status, if it has been changed to public
+	 * from private and there are outstanding membership requests, auto-accept those requests.
+	 */
+	if ( 'private' == $group->status && 'public' == $status )
+		groups_accept_all_pending_membership_requests( $group->id );
+	
+	/* Now update the status */
 	$group->status = $status;
 	
 	if ( !$group->save() )
@@ -2042,10 +2053,14 @@ function groups_send_membership_request( $requesting_user_id, $group_id ) {
 	return false;
 }
 
-function groups_accept_membership_request( $membership_id ) {
+function groups_accept_membership_request( $membership_id, $user_id = false, $group_id = false ) {
 	global $bp;
 	
-	$membership = new BP_Groups_Member( false, false, $membership_id );
+	if ( $user_id && $group_id )
+		$membership = new BP_Groups_Member( $user_id, $group_id );
+	else
+		$membership = new BP_Groups_Member( false, false, $membership_id );
+
 	$membership->accept_request();
 	
 	if ( !$membership->save() )
@@ -2066,8 +2081,11 @@ function groups_accept_membership_request( $membership_id ) {
 	return true;
 }
 
-function groups_reject_membership_request( $membership_id ) {		
-	$membership = new BP_Groups_Member( false, false, $membership_id );
+function groups_reject_membership_request( $membership_id, $user_id = false, $group_id = false ) {		
+	if ( $user_id && $group_id )
+		$membership = new BP_Groups_Member( $user_id, $group_id );
+	else
+		$membership = new BP_Groups_Member( false, false, $membership_id );
 	
 	if ( !BP_Groups_Member::delete( $membership->user_id, $membership->group_id ) )
 		return false;
@@ -2077,6 +2095,21 @@ function groups_reject_membership_request( $membership_id ) {
 	groups_notification_membership_request_completed( $membership->user_id, $membership->group_id, false );
 	
 	do_action( 'groups_membership_rejected', $membership->user_id, $membership->group_id );
+	
+	return true;
+}
+
+function groups_accept_all_pending_membership_requests( $group_id ) {
+	$user_ids = BP_Groups_Member::get_all_membership_request_user_ids( $group_id );
+
+	if ( !$user_ids )
+		return false;
+	
+	foreach ( (array) $user_ids as $user_id ) {
+		groups_accept_membership_request( false, $user_id, $group_id );
+	}
+	
+	do_action( 'groups_accept_all_pending_membership_requests', $group_id );
 	
 	return true;
 }
