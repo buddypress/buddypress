@@ -57,7 +57,9 @@ function bp_core_get_avatar( $user, $version = 1, $width = null, $height = null,
 			$default_grav = $bp->grav_default;
 		}
 		
-		$gravatar = 'http://www.gravatar.com/avatar/' . md5( $ud->user_email ) . '?d=' . $default_grav . '&amp;s=';
+		$gravatar_url = apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' );
+		$gravatar = $gravatar_url . md5( $ud->user_email ) . '?d=' . $default_grav . '&amp;s=';
+		
 		if ( $no_tag )
 			return apply_filters( 'bp_core_get_avatar', $gravatar . constant('CORE_AVATAR_V' . $version . '_W'), $user, $version, $width, $height, $no_tag );
 		else
