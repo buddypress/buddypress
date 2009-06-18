@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-06-17 14:11+0000\n"
+"POT-Creation-Date: 2009-06-18 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -816,21 +816,21 @@ msgstr ""
 msgid "No members matched the current filter."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:102
+#: bp-core/bp-core-avatars.php:104
 msgid "Your avatar will be used on your profile and throughout the site."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:103
+#: bp-core/bp-core-avatars.php:105
 msgid ""
 "Click below to select a JPG, GIF or PNG format photo from your computer and "
 "then click 'Upload Photo' to proceed."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:111
+#: bp-core/bp-core-avatars.php:113
 msgid "This is your current avatar"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:114 bp-groups/bp-groups-admin.php:47
+#: bp-core/bp-core-avatars.php:116 bp-groups/bp-groups-admin.php:47
 #: bp-themes/bpmember/messages/index.php:38
 #: bp-themes/bpmember/messages/notices.php:33
 #: bp-themes/bpmember/messages/sentbox.php:33
@@ -842,112 +842,112 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:125 bp-groups.php:1370
+#: bp-core/bp-core-avatars.php:127 bp-groups.php:1370
 #: bp-xprofile/bp-xprofile-signup.php:194
 msgid "There is no error, the file uploaded with success"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:126 bp-core/bp-core-avatars.php:127
+#: bp-core/bp-core-avatars.php:128 bp-core/bp-core-avatars.php:129
 #: bp-xprofile/bp-xprofile-signup.php:195
 #: bp-xprofile/bp-xprofile-signup.php:196
 msgid "Your image was bigger than the maximum allowed file size of: "
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:128 bp-groups.php:1373
+#: bp-core/bp-core-avatars.php:130 bp-groups.php:1373
 #: bp-xprofile/bp-xprofile-signup.php:197
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:129 bp-groups.php:1374
+#: bp-core/bp-core-avatars.php:131 bp-groups.php:1374
 msgid "No file was uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:130 bp-groups.php:1375
+#: bp-core/bp-core-avatars.php:132 bp-groups.php:1375
 #: bp-xprofile/bp-xprofile-signup.php:198
 msgid "Missing a temporary folder"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:134
+#: bp-core/bp-core-avatars.php:136
 #, php-format
 msgid "Your upload failed, please try again. Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:137 bp-xprofile/bp-xprofile-signup.php:212
+#: bp-core/bp-core-avatars.php:139 bp-xprofile/bp-xprofile-signup.php:212
 #, php-format
 msgid "The file you uploaded is too big. Please upload a file under %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:140 bp-groups.php:1391
+#: bp-core/bp-core-avatars.php:142 bp-groups.php:1391
 #: bp-xprofile/bp-xprofile-signup.php:217
 msgid "Please upload only JPG, GIF or PNG photos."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:144 bp-xprofile/bp-xprofile-signup.php:223
+#: bp-core/bp-core-avatars.php:146 bp-xprofile/bp-xprofile-signup.php:223
 #, php-format
 msgid "Upload Failed! Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:158
+#: bp-core/bp-core-avatars.php:160
 msgid "Security error."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:161
+#: bp-core/bp-core-avatars.php:163
 msgid "Error when cropping, please go back and try again"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:164
+#: bp-core/bp-core-avatars.php:166
 msgid "Error when saving avatars, please go back and try again."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:167
+#: bp-core/bp-core-avatars.php:169
 msgid "Your new avatar was successfully created!"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:183
+#: bp-core/bp-core-avatars.php:185
 msgid "Avatar successfully removed."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:294
+#: bp-core/bp-core-avatars.php:296
 msgid "Please Crop Your Avatar!"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:295
+#: bp-core/bp-core-avatars.php:297
 msgid "Thumbnail Avatar"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:296
+#: bp-core/bp-core-avatars.php:298
 msgid "Please crop a small version of your avatar to use for thumbnails."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:299 bp-core/bp-core-avatars.php:324
+#: bp-core/bp-core-avatars.php:301 bp-core/bp-core-avatars.php:326
 msgid "Select the area to crop"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:302 bp-core/bp-core-avatars.php:327
+#: bp-core/bp-core-avatars.php:304 bp-core/bp-core-avatars.php:329
 msgid "Crop Preview"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:316
+#: bp-core/bp-core-avatars.php:318
 msgid "Crop Thumbnail &amp; Continue"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:320
+#: bp-core/bp-core-avatars.php:322
 msgid "Full Size Avatar"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:321
+#: bp-core/bp-core-avatars.php:323
 msgid "Please crop a full size version of your avatar."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:339 bp-core/bp-core-avatars.php:346
+#: bp-core/bp-core-avatars.php:341 bp-core/bp-core-avatars.php:348
 msgid "Crop Full Size &amp; Save"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:453
+#: bp-core/bp-core-avatars.php:455
 msgid "Upload Photo"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:485
+#: bp-core/bp-core-avatars.php:487
 msgid "Try Again"
 msgstr ""
 
