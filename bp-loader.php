@@ -9,7 +9,7 @@ Author URI: http://buddypress.org/developers/
 Site Wide Only: true
 */
 
-define( 'BP_VERSION', '1.0.1' );
+define( 'BP_VERSION', '1.0.2-pre' );
 
 /***
  * This file will load in each BuddyPress component based on which
