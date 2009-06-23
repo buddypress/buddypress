@@ -256,6 +256,15 @@ function bp_core_admin_component_setup() {
 					</td>
 				</tr>
 				<?php endif; ?>
+				<?php if ( file_exists( BP_PLUGIN_DIR . '/bp-statusupdates.php') ) : ?>
+				<tr>
+					<td><h3><?php _e( 'Status Updates', 'buddypress' ) ?></h3><p><?php _e( 'Allow users to post status updates.', 'buddypress' ) ?></p></td>
+					<td width="45%">
+						<input type="radio" name="bp_components[bp-statusupdates.php]" value="1"<?php if ( !isset( $disabled_components['bp-statusupdates.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?>  &nbsp;
+						<input type="radio" name="bp_components[bp-statusupdates.php]" value="0"<?php if ( isset( $disabled_components['bp-statusupdates.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
+					</td>
+				</tr>
+				<?php endif; ?>
 			</tbody>
 			</table>
 			

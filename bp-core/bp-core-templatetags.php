@@ -500,7 +500,7 @@ function bp_is_page($page) {
 }
 
 function bp_has_custom_signup_page() {
-	if ( file_exists( WP_CONTENT_DIR . '/themes/' . get_blog_option( 1, 'template') . '/register.php') )
+	if ( file_exists( WP_CONTENT_DIR . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'template') . '/register.php') )
 		return true;
 	
 	return false;
