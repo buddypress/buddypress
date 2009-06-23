@@ -301,6 +301,10 @@ div.avatar-block {
 		background: url(../images/wire_bullet.gif) 0 4px no-repeat;
 	}
 
+	.activity-list li.status {
+		background: url(../images/status_bullet.gif) 0 4px no-repeat;
+	}
+
 .activity-list li blockquote {
 	padding: 7px 15px 7px 40px;
 	background: url(../images/quotes_background.gif) 10px 9px no-repeat #eee;
