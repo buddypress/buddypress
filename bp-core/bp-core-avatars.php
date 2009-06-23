@@ -379,11 +379,11 @@ function bp_core_avatar_cropstore( $source, $canvas, $v1_x1, $v1_y1, $v1_w, $v1_
 		$filename_item_id = $item_id . '-';
 	
 	if ( $filename != 'avatar' ) {
-		$v1_filename = '-' . $filename_item_id . $filename . '-thumb';
-		$v2_filename = '-' . $filename_item_id . $filename . '-full';		
+		$v1_filename = '-' . md5( $filename_item_id . $filename . time() ) . '-thumb';
+		$v2_filename = '-' . md5( $filename_item_id . $filename . time() ) . '-full';
 	} else {
-		$v1_filename = '-avatar1';
-		$v2_filename = '-avatar2';		
+		$v1_filename = md5( $source . time() ) . '-avatar1';
+		$v2_filename = md5( $source . time() ) . '-avatar2';		
 	}
 	
 	$v1_filename = apply_filters( 'bp_avatar_v1_filename', $v1_filename );

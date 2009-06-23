@@ -1821,7 +1821,7 @@ function groups_leave_group( $group_id, $user_id = false ) {
 	if ( !groups_uninvite_user( $user_id, $group_id, true ) )
 		return false;
 
-	do_action( 'groups_leave_group', $group_id, $bp->loggedin_user->id );
+	do_action( 'groups_leave_group', $group_id, $user_id );
 
 	/* Modify group member count */
 	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') - 1 );
@@ -1857,7 +1857,7 @@ function groups_join_group( $group_id, $user_id = false ) {
 	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') + 1 );
 	groups_update_groupmeta( $group_id, 'last_activity', time() );
 
-	do_action( 'groups_join_group', $group_id, $bp->loggedin_user->id );
+	do_action( 'groups_join_group', $group_id, $user_id );
 
 	return true;
 }

@@ -309,6 +309,15 @@ function bp_activities_member_rss_link() {
 
 /* Template tags for RSS feed output */
 
+function bp_activity_feed_item_guid() {
+	echo bp_get_activity_feed_item_guid();
+}
+	function bp_get_activity_feed_item_guid() {
+		global $activities_template;
+
+		return apply_filters( 'bp_get_activity_feed_item_title', md5( $activities_template->activity->date_recorded . '-' . $activities_template->activity->content ) );	
+	}
+
 function bp_activity_feed_item_title() {
 	echo bp_get_activity_feed_item_title();
 }

@@ -21,10 +21,6 @@ if ( !defined( 'CUSTOM_USER_TABLE' ) )
 if ( !defined( 'CUSTOM_USER_META_TABLE' ) )
 	define( 'CUSTOM_USER_META_TABLE', $wpdb->base_prefix . 'usermeta' );
 
-/* Load the language file */ 
-if ( file_exists( BP_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() . '.mo' ) ) 
-	load_textdomain( 'buddypress', BP_PLUGIN_DIR . '/bp-languages/buddypress-' . get_locale() . '.mo' );
-
 /* Load the files containing functions that we globally will need. */
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-catchuri.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-classes.php' );
@@ -1506,6 +1502,23 @@ function bp_core_remove_data( $user_id ) {
 }
 add_action( 'wpmu_delete_user', 'bp_core_remove_data', 1 );
 add_action( 'delete_user', 'bp_core_remove_data', 1 );
+
+
+/**
+ * bp_load_buddypress_textdomain()
+ * 
+ * Load the buddypress translation file for current language
+ * 
+ * @package BuddyPress Core
+ */
+function bp_core_load_buddypress_textdomain() {
+	$locale = apply_filters( 'buddypress_locale', get_locale() );
+	$mofile = BP_PLUGIN_DIR . "/bp-languages/buddypress-$locale.mo";
+	
+	if ( file_exists( $mofile ) )
+		load_textdomain( 'buddypress', $mofile );
+}
+add_action ( 'plugins_loaded', 'bp_core_load_buddypress_textdomain', 9 );
 
 
 /**

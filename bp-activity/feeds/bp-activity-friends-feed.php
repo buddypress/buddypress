@@ -23,16 +23,17 @@ header('Status: 200 OK');
 	<link><?php echo $bp->displayed_user->domain . $bp->activity->slug . '/my-friends/feed' ?></link>
 	<description><?php printf( __( '%s - Friends Activity Feed', 'buddypress' ), $bp->displayed_user->fullname ) ?></description>
 	<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', bp_activity_get_last_updated(), false); ?></pubDate>
-	<generator>http://buddypress.org/?bp-activity-version=<?php echo BP_ACTIVITY_VERSION ?></generator>
+	<generator>http://buddypress.org/?v=<?php echo BP_VERSION ?></generator>
 	<language><?php echo get_option('rss_language'); ?></language>
 	<?php do_action('bp_activity_friends_feed_head'); ?>
 	
 	<?php if ( bp_has_activities( 'type=friends&max=50' ) ) : ?>
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<item>
+				<guid><?php bp_activity_feed_item_guid() ?></guid>
 				<title><![CDATA[<?php bp_activity_feed_item_title() ?>]]></title>
 				<link><?php echo bp_activity_feed_item_link() ?></link>
-				<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', bp_activity_feed_item_date(), false); ?></pubDate>
+				<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', bp_get_activity_feed_item_date(), false); ?></pubDate>
 
 				<description><![CDATA[<?php bp_activity_feed_item_description() ?>]]></description>
 			<?php do_action('bp_activity_personal_feed_item'); ?>

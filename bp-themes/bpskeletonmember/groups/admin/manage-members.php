@@ -59,7 +59,7 @@
 					<ul id="members-list" class="item-list single-line">
 					<?php while ( bp_group_members() ) : bp_group_the_member(); ?>
 					
-						<?php if ( bp_group_member_is_banned() ) : ?>
+						<?php if ( bp_get_group_member_is_banned() ) : ?>
 						
 							<li class="banned-user">
 								<?php bp_group_member_avatar_mini() ?>
