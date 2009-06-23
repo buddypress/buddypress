@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-06-18 14:11+0000\n"
+"POT-Creation-Date: 2009-06-23 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,22 +16,22 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: bp-activity.php:145 bp-activity/feeds/bp-activity-personal-feed.php:21
+#: bp-activity.php:92 bp-activity/feeds/bp-activity-personal-feed.php:21
 msgid "Activity"
 msgstr ""
 
-#: bp-activity.php:151
+#: bp-activity.php:98
 msgid "Just Me"
 msgstr ""
 
-#: bp-activity.php:152 bp-friends.php:94 bp-friends.php:99 bp-friends.php:343
+#: bp-activity.php:99 bp-friends.php:94 bp-friends.php:99 bp-friends.php:343
 #: bp-friends/bp-friends-templatetags.php:404
 #: bp-themes/bpmember/friends/index.php:10
 #: bp-themes/bpskeletonmember/friends/index.php:23
 msgid "My Friends"
 msgstr ""
 
-#: bp-activity.php:156 bp-themes/bpmember/activity/just-me.php:31
+#: bp-activity.php:103 bp-themes/bpmember/activity/just-me.php:31
 #: bp-themes/bpmember/profile/index.php:38
 #: bp-themes/bpskeletonmember/activity/just-me.php:43
 #: bp-themes/bpskeletonmember/profile/index.php:51
@@ -336,110 +336,110 @@ msgstr ""
 msgid "Max Number of Posts:"
 msgstr ""
 
-#: bp-core.php:309 bp-core/bp-core-adminbar.php:29
+#: bp-core.php:305 bp-core/bp-core-adminbar.php:29
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core.php:310 bp-core/bp-core-settings.php:58
+#: bp-core.php:306 bp-core/bp-core-settings.php:58
 msgid "General Settings"
 msgstr ""
 
-#: bp-core.php:311
+#: bp-core.php:307
 msgid "Component Setup"
 msgstr ""
 
-#: bp-core.php:348 bp-xprofile.php:200 bp-xprofile.php:299
+#: bp-core.php:344 bp-xprofile.php:200 bp-xprofile.php:299
 msgid "Profile"
 msgstr ""
 
-#: bp-core.php:354 bp-groups/bp-groups-templatetags.php:871
+#: bp-core.php:350 bp-groups/bp-groups-templatetags.php:871
 #: bp-xprofile.php:206
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:358 bp-core/bp-core-templatetags.php:290 bp-xprofile.php:212
+#: bp-core.php:354 bp-core/bp-core-templatetags.php:290 bp-xprofile.php:212
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:710 bp-wire/bp-wire-templatetags.php:340
+#: bp-core.php:706 bp-wire/bp-wire-templatetags.php:340
 msgid "You"
 msgstr ""
 
-#: bp-core.php:793
+#: bp-core.php:789
 #, php-format
 msgid "%s's"
 msgstr ""
 
-#: bp-core.php:910 bp-core/bp-core-templatetags.php:373
+#: bp-core.php:906 bp-core/bp-core-templatetags.php:373
 #: bp-themes/bphome/comments.php:42
 msgid "at"
 msgstr ""
 
-#: bp-core.php:975
+#: bp-core.php:971
 msgid "year"
 msgstr ""
 
-#: bp-core.php:975
+#: bp-core.php:971
 msgid "years"
 msgstr ""
 
-#: bp-core.php:976
+#: bp-core.php:972
 msgid "month"
 msgstr ""
 
-#: bp-core.php:976
+#: bp-core.php:972
 msgid "months"
 msgstr ""
 
-#: bp-core.php:977
+#: bp-core.php:973
 msgid "week"
 msgstr ""
 
-#: bp-core.php:977
+#: bp-core.php:973
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:978
+#: bp-core.php:974
 msgid "day"
 msgstr ""
 
-#: bp-core.php:978
+#: bp-core.php:974
 msgid "days"
 msgstr ""
 
-#: bp-core.php:979
+#: bp-core.php:975
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:979
+#: bp-core.php:975
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:980
+#: bp-core.php:976
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:980
+#: bp-core.php:976
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:981
+#: bp-core.php:977
 msgid "second"
 msgstr ""
 
-#: bp-core.php:981 bp-core.php:1027
+#: bp-core.php:977 bp-core.php:1023
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:992
+#: bp-core.php:988
 msgid "[Adjust Time Zone]"
 msgstr ""
 
-#: bp-core.php:1022
+#: bp-core.php:1018
 msgid ",|Separator in time since"
 msgstr ""
 
-#: bp-core.php:1071
+#: bp-core.php:1067
 msgid "not recently active"
 msgstr ""
 
@@ -596,7 +596,7 @@ msgstr ""
 msgid "MonsterID (Generated)"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:132 bp-core/bp-core-admin.php:263
+#: bp-core/bp-core-admin.php:132 bp-core/bp-core-admin.php:272
 #: bp-forums/bp-forums-admin.php:114
 msgid "Save Settings"
 msgstr ""
@@ -629,6 +629,7 @@ msgstr ""
 #: bp-core/bp-core-admin.php:209 bp-core/bp-core-admin.php:218
 #: bp-core/bp-core-admin.php:227 bp-core/bp-core-admin.php:236
 #: bp-core/bp-core-admin.php:245 bp-core/bp-core-admin.php:254
+#: bp-core/bp-core-admin.php:263
 msgid "Enabled"
 msgstr ""
 
@@ -636,6 +637,7 @@ msgstr ""
 #: bp-core/bp-core-admin.php:210 bp-core/bp-core-admin.php:219
 #: bp-core/bp-core-admin.php:228 bp-core/bp-core-admin.php:237
 #: bp-core/bp-core-admin.php:246 bp-core/bp-core-admin.php:255
+#: bp-core/bp-core-admin.php:264
 msgid "Disabled"
 msgstr ""
 
@@ -705,6 +707,14 @@ msgstr ""
 
 #: bp-core/bp-core-admin.php:252
 msgid "Activates customizable profiles and avatars for site users."
+msgstr ""
+
+#: bp-core/bp-core-admin.php:261
+msgid "Status Updates"
+msgstr ""
+
+#: bp-core/bp-core-admin.php:261
+msgid "Allow users to post status updates."
 msgstr ""
 
 #: bp-core/bp-core-adminbar.php:37 bp-core/bp-core-templatetags.php:600
@@ -2907,7 +2917,7 @@ msgstr ""
 msgid "There was an error deleting messages."
 msgstr ""
 
-#: bp-messages.php:340 bp-messages/bp-messages-ajax.php:88
+#: bp-messages.php:340 bp-messages/bp-messages-ajax.php:93
 msgid "Messages deleted."
 msgstr ""
 
@@ -2964,19 +2974,19 @@ msgstr ""
 msgid "View Message"
 msgstr ""
 
-#: bp-messages/bp-messages-ajax.php:50
+#: bp-messages/bp-messages-ajax.php:55
 msgid "There was a problem marking messages as unread."
 msgstr ""
 
-#: bp-messages/bp-messages-ajax.php:65
+#: bp-messages/bp-messages-ajax.php:70
 msgid "There was a problem marking messages as read."
 msgstr ""
 
-#: bp-messages/bp-messages-ajax.php:80
+#: bp-messages/bp-messages-ajax.php:85
 msgid "There was a problem deleting messages."
 msgstr ""
 
-#: bp-messages/bp-messages-ajax.php:97
+#: bp-messages/bp-messages-ajax.php:102
 msgid "There was a problem closing the notice."
 msgstr ""
 
@@ -3078,6 +3088,35 @@ msgstr ""
 
 #: bp-messages/bp-messages-templatetags.php:554
 msgid "Re: "
+msgstr ""
+
+#: bp-status.php:42
+#, php-format
+msgid "%s posted a new status update:"
+msgstr ""
+
+#: bp-status.php:63
+msgid "Your status was updated successfully!"
+msgstr ""
+
+#: bp-status.php:65
+msgid "There was a problem updating your status. Please try again."
+msgstr ""
+
+#: bp-status/bp-status-templatetags.php:22
+#: bp-status/bp-status-templatetags.php:81
+#: bp-xprofile/bp-xprofile-classes.php:492
+msgid "Clear"
+msgstr ""
+
+#: bp-status/bp-status-templatetags.php:23
+#: bp-status/bp-status-templatetags.php:58
+msgid "Update Your Status"
+msgstr ""
+
+#: bp-status/bp-status-templatetags.php:38
+#, php-format
+msgid "%s ago"
 msgstr ""
 
 #: bp-themes/bphome/404.php:10 bp-themes/bphome/404.php:21
@@ -4015,6 +4054,14 @@ msgstr ""
 msgid "Sorry, this person does not have a public profile."
 msgstr ""
 
+#: bp-themes/bpmember/status/post-form.php:2
+msgid "What are you up to?"
+msgstr ""
+
+#: bp-themes/bpmember/status/post-form.php:6
+msgid "Update"
+msgstr ""
+
 #: bp-themes/bpmember/userbar.php:2 bp-themes/bpskeletonmember/userbar.php:13
 msgid "Me"
 msgstr ""
@@ -4258,10 +4305,6 @@ msgstr ""
 
 #: bp-xprofile/bp-xprofile-classes.php:171
 msgid "Please make sure you give the group a name."
-msgstr ""
-
-#: bp-xprofile/bp-xprofile-classes.php:492
-msgid "Clear"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-classes.php:555
