@@ -22,6 +22,10 @@
 	#activity-list li.wire {
 		background: url(../images/wire_bullet.gif) 0 4px no-repeat;
 	}
+	
+	#activity-list li.status {
+		background: url(../images/status_bullet.gif) 0 4px no-repeat;
+	}
 
 
 #activity-list li blockquote {
@@ -479,4 +483,51 @@ td.data p {
 	font: normal 1em "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, sans-serif;
 }
 
+/**** STATUS UPDATES *************/
 
+div#user-status {
+	margin: 0 0 20px 0;
+	font: normal 1.3em Georgia, times, serif;
+}
+	div#user-status a#status-new-status {
+		font: normal 1.1em Georgia, times, serif;
+		color: #888;
+		font-style: italic;
+	}
+		div#user-status div.generic-button a#status-new-status {
+			font: normal 11px "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, sans-serif;
+		}
+		
+		input#status-update-input, textarea#status-update-input {
+			padding: 5px;
+			width: 98%;
+			font: normal 1em "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, sans-serif;
+			color: #888;
+		}
+	
+		div#status-update-buttons {
+			margin: 10px 0 0 0;
+		}	
+			div#status-update-buttons input {
+				width: auto;
+			}
+	
+		div#user-status label {
+			display: block;
+			font: normal 1em Georgia, times, serif;
+			color: #888;
+			font-style: italic;
+			padding: 0 0 5px 0;
+		}
+	
+		a#status-new-status, a#status-clear-status {
+			padding-top: 2px;
+			font: normal 11px "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, sans-serif;
+		}
+			a#status-clear-status { color: red; }
+	
+		div#user-status span.time-since {
+			color: #aaa;
+			font: normal 11px "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, sans-serif;
+			padding-left: 3px;
+		}
