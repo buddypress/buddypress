@@ -30,30 +30,28 @@ function bp_activity_widget_sitewide_activity($args) {
 	if ( !$options['max_items'] || empty( $options['max_items'] ) )
 		$options['max_items'] = 20;
 	?>
-	
-	<?php 
-	if ( !$activity = wp_cache_get( 'sitewide_activity', 'bp' ) ) {
-		$activity = bp_activity_get_sitewide_activity( $options['max_items'] );
-		wp_cache_set( 'sitewide_activity', $activity, 'bp' );
-	}
-	?>
 
-	<?php if ( $activity['activities'] ) : ?>
+	<?php if ( bp_has_activities( 'type=sitewide&max=' . $options['max_items'] ) ) : ?>
+
 		<div class="item-options" id="activity-list-options">
 			<img src="<?php echo $bp->activity->image_base; ?>/rss.png" alt="<?php _e( 'RSS Feed', 'buddypress' ) ?>" /> <a href="<?php bp_sitewide_activity_feed_link() ?>" title="<?php _e( 'Site Wide Activity RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a>
 		</div>
+
 		<ul id="site-wide-stream" class="activity-list">
-		<?php foreach( $activity['activities'] as $item ) : ?>
-			<li class="<?php echo $item['component_name'] ?>">
-				<?php echo apply_filters( 'bp_get_activity_content', bp_activity_content_filter( $item['content'], $item['date_recorded'], '', true, false, true ) ); ?>
+		<?php while ( bp_activities() ) : bp_the_activity(); ?>
+			<li class="<?php bp_activity_css_class() ?>">
+				<?php bp_activity_content() ?>
 			</li>
-		<?php endforeach; ?>
+		<?php endwhile; ?>
 		</ul>
+
 	<?php else: ?>
+
 		<div class="widget-error">
 			<?php _e('There has been no recent site activity.', 'buddypress') ?>
 		</div>
-	<?php endif; ?>
+
+	<?php endif;?>
 
 	<?php echo $after_widget; ?>
 <?php
