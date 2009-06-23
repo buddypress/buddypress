@@ -1,14 +1,10 @@
 <?php
 
-define ( 'BP_ACTIVITY_DB_VERSION', '1300' );
+define ( 'BP_ACTIVITY_DB_VERSION', '1716' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_ACTIVITY_SLUG' ) )
 	define ( 'BP_ACTIVITY_SLUG', 'activity' );
-
-/* How long before activity items in streams are re-cached? */
-if ( !defined( 'BP_ACTIVITY_CACHE_LENGTH' ) )
-	define ( 'BP_ACTIVITY_CACHE_LENGTH', '6 HOURS' );
 
 require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-classes.php' );
 require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-templatetags.php' );
@@ -29,23 +25,7 @@ function bp_activity_install() {
 	if ( !empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 	
-	$sql[] = "CREATE TABLE {$bp->activity->table_name_user_activity} (
-		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				user_id bigint(20) NOT NULL,
-				component_name varchar(75) NOT NULL,
-				component_action varchar(75) NOT NULL,
-				item_id bigint(20) NOT NULL,
-				secondary_item_id bigint(20) NOT NULL,
-		  		date_recorded datetime NOT NULL,
-				is_private tinyint(1) NOT NULL DEFAULT 0,
-				no_sitewide_cache tinyint(1) NOT NULL DEFAULT 0,
-			    KEY item_id (item_id),
-				KEY user_id (user_id),
-			    KEY is_private (is_private),
-				KEY component_name (component_name)
-		 	   ) {$charset_collate};";
-
-	$sql[] = "CREATE TABLE {$bp->activity->table_name_user_activity_cached} (
+	$sql[] = "CREATE TABLE {$bp->activity->table_name} (
 		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id bigint(20) NOT NULL,
 				component_name varchar(75) NOT NULL,
@@ -54,29 +34,8 @@ function bp_activity_install() {
 				primary_link varchar(150) NOT NULL,
 				item_id bigint(20) NOT NULL,
 				secondary_item_id bigint(20) NOT NULL,
-				date_cached datetime NOT NULL,
 				date_recorded datetime NOT NULL,
-				is_private tinyint(1) NOT NULL DEFAULT 0,
-				KEY date_cached (date_cached),
-				KEY date_recorded (date_recorded),
-			    KEY is_private (is_private),
-				KEY user_id (user_id),
-				KEY item_id (item_id),
-				KEY component_name (component_name)
-		 	   ) {$charset_collate};";
-
-	$sql[] = "CREATE TABLE {$bp->activity->table_name_sitewide} (
-		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				user_id bigint(20) NOT NULL,
-				item_id bigint(20) NOT NULL,
-				secondary_item_id bigint(20),
-		  		content longtext NOT NULL,
-				primary_link varchar(150) NOT NULL,
-				component_name varchar(75) NOT NULL,
-				component_action varchar(75) NOT NULL,
-				date_cached datetime NOT NULL,
-				date_recorded datetime NOT NULL,
-				KEY date_cached (date_cached),
+				hide_sitewide bool DEFAULT 0,
 				KEY date_recorded (date_recorded),
 				KEY user_id (user_id),
 				KEY item_id (item_id),
@@ -86,17 +45,10 @@ function bp_activity_install() {
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 	dbDelta($sql);
 	
-	if ( '' == get_site_option( 'bp-activity-db-merge' ) || !get_site_option( 'bp-activity-db-merge' ) ) {
-		$users = $wpdb->get_col( "SELECT ID FROM " . CUSTOM_USER_TABLE );
-		
-		foreach ( $users as $user_id ) {
-			BP_Activity_Activity::convert_tables_for_user( $user_id );
-			BP_Activity_Activity::kill_tables_for_user( $user_id );
-		}
-		
-		add_site_option( 'bp-activity-db-merge', 1 );
-	}
-
+	/* Drop the old sitewide and user activity tables */
+	$wpdb->query( "DROP TABLE {$wpdb->base_prefix}bp_activity_user_activity" );
+	$wpdb->query( "DROP TABLE {$wpdb->base_prefix}bp_activity_sitewide" );
+	
 	update_site_option( 'bp-activity-db-version', BP_ACTIVITY_DB_VERSION );
 }
 
@@ -110,14 +62,9 @@ function bp_activity_install() {
 function bp_activity_setup_globals() {
 	global $bp, $wpdb, $current_blog;
 
-	$bp->activity->table_name_user_activity	= $wpdb->base_prefix . 'bp_activity_user_activity';
-	$bp->activity->table_name_user_activity_cached = $wpdb->base_prefix . 'bp_activity_user_activity_cached';
-	$bp->activity->table_name_sitewide = $wpdb->base_prefix . 'bp_activity_sitewide';
-	
+	$bp->activity->table_name = $wpdb->base_prefix . 'bp_activity_user_activity_cached';
 	$bp->activity->image_base = BP_PLUGIN_URL . '/bp-activity/images';
 	$bp->activity->slug = BP_ACTIVITY_SLUG;
-	
-	$bp->version_numbers->activity = BP_ACTIVITY_VERSION;
 
 	if ( is_site_admin() && get_site_option( 'bp-activity-db-version' ) < BP_ACTIVITY_DB_VERSION  )
 		bp_activity_install();
@@ -126,7 +73,7 @@ add_action( 'plugins_loaded', 'bp_activity_setup_globals', 5 );
 add_action( 'admin_menu', 'bp_activity_setup_globals', 1 );
 
 function bp_activity_setup_root_component() {
-	/* Register 'groups' as a root component */
+	/* Register 'activity' as a root component (for RSS feed use) */
 	bp_core_add_root_component( BP_ACTIVITY_SLUG );
 }
 add_action( 'plugins_loaded', 'bp_activity_setup_root_component', 1 );
@@ -177,49 +124,7 @@ function bp_activity_screen_friends_activity() {
 	bp_core_load_template( apply_filters( 'bp_activity_template_friends_activity', 'activity/my-friends' ) );	
 }
 
-/***** Actions **********/
-
-function bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id = false, $user_id = false, $secondary_user_id = false, $recorded_time = false ) {
-	global $bp, $wpdb;
-	
-	if ( !$user_id )
-		$user_id = $bp->loggedin_user->id;
-
-	if ( !$recorded_time )
-		$recorded_time = time();
-	
-	$activity = new BP_Activity_Activity;
-	$activity->item_id = $item_id;
-	$activity->secondary_item_id = $secondary_item_id;
-	$activity->user_id = $user_id;
-	$activity->component_name = $component_name;
-	$activity->component_action = $component_action;
-	$activity->date_recorded = $recorded_time;
-	$activity->is_private = $is_private;
-
-	$loggedin_user_save = $activity->save();
-	
-	/* Save an activity entry for both logged in and secondary user. For example for a new friend connection
-	   you would want to show "X and Y are now friends" on both users activity stream */
-	if ( $secondary_user_id  ) {
-		$activity = new BP_Activity_Activity;
-		$activity->item_id = $item_id;
-		$activity->user_id = $secondary_user_id;
-		$activity->component_name = $component_name;
-		$activity->component_action = $component_action;
-		$activity->date_recorded = $recorded_time;
-		$activity->is_private = $is_private;
-
-		// We don't want to record this on the sitewide stream, otherwise we will get duplicates.
-		$activity->no_sitewide_cache = true;
-
-		$secondary_user_save = $activity->save();
-	}
-	
-	do_action( 'bp_activity_record', $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_user_id );
-	
-	return true;
-}
+/***** Actions *********/
 
 function bp_activity_action_sitewide_feed() {
 	global $bp, $wp_query;
@@ -263,6 +168,119 @@ function bp_activity_action_friends_feed() {
 }
 add_action( 'wp', 'bp_activity_action_friends_feed', 3 );
 
+
+/**** BUSINESS FUNCTIONS *********/
+
+function bp_activity_add( $args ) {
+	global $bp, $wpdb;
+	
+	$defaults = array(
+		'user_id' => $bp->loggedin_user->id,
+		'content' => false,
+		'primary_link' => false,
+		'component_name' => false,
+		'component_action' => false,
+		'item_id' => false,
+		'secondary_item_id' => false,
+		'recorded_time' => time(),
+		'hide_sitewide' => false
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+	
+	$activity = new BP_Activity_Activity;
+	$activity->user_id = $user_id;
+	$activity->content = $content;
+	$activity->primary_link = $primary_link;
+	$activity->component_name = $component_name;
+	$activity->component_action = $component_action;
+	$activity->item_id = $item_id;
+	$activity->secondary_item_id = $secondary_item_id;
+	$activity->date_recorded = $recorded_time;
+	$activity->hide_sitewide = $hide_sitewide;
+
+	if ( !$activity->save() )
+		return false;
+
+	do_action( 'bp_activity_add', $args );
+	
+	return true;
+}
+
+function bp_activity_update( $args ) {
+	global $bp, $wpdb;
+	
+	extract( $args );
+	
+	$defaults = array(
+		'user_id' => $bp->loggedin_user->id,
+		'content' => false,
+		'component_name' => false,
+		'component_action' => false,
+		'item_id' => false,
+		'secondary_item_id' => false,
+		'recorded_time' => time(),
+		'hide_sitewide' => false
+	);
+	
+	$activity = new BP_Activity_Activity( $user_id, $component_name, $component_action, $item_id, $secondary_item_id );
+	$activity->user_id = $user_id;
+	$activity->content = $content;
+	$activity->primary_link = $primary_link;
+	$activity->component_name = $component_name;
+	$activity->component_action = $component_action;
+	$activity->item_id = $item_id;
+	$activity->secondary_item_id = $secondary_item_id;
+	$activity->date_recorded = $recorded_time;
+	$activity->hide_sitewide = $hide_sitewide;
+		
+	if ( !$activity->save() )
+		return false;
+
+	do_action( 'bp_activity_update', $args );
+	
+	return true;
+}
+
+/* There are multiple ways to delete activity items, depending on the information you have at the time. */
+
+function bp_activity_delete_by_item_id( $user_id, $component_name, $component_action, $item_id, $secondary_item_id = false ) {	
+	if ( !BP_Activity_Activity::delete_by_item_id( $user_id, $component_name, $component_action, $item_id, $secondary_item_id ) )
+		return false;
+
+	do_action( 'bp_activity_delete_by_item_id', $user_id, $component_name, $component_action, $item_id, $secondary_item_id );
+
+	return true;
+}
+
+function bp_activity_delete_by_activity_id( $activity_id ) {
+	if ( !BP_Activity_Activity::delete_by_activity_id( $activity_id ) )
+		return false;
+
+	do_action( 'bp_activity_delete_by_activity_id', $activity_id );
+
+	return true;	
+}
+
+function bp_activity_delete_by_content( $user_id, $content, $component_name, $component_action ) {
+	if ( !BP_Activity_Activity::delete_by_content( $user_id, $content, $component_name, $component_action ) )
+		return false;
+
+	do_action( 'bp_activity_delete_by_content', $user_id, $content, $component_name, $component_action );
+
+	return true;
+}
+
+function bp_activity_delete_for_user_by_component( $user_id, $component_name ) {
+	if ( !BP_Activity_Activity::delete_for_user_by_component( $user_id, $component_name ) )
+		return false;
+		
+	do_action( 'bp_activity_delete_for_user_by_component', $user_id, $component_name );
+	
+	return true;
+}
+
 function bp_activity_get_last_updated() {
 	return BP_Activity_Activity::get_last_updated();
 }
@@ -279,22 +297,9 @@ function bp_activity_get_friends_activity( $user_id, $max_items = 30, $since = '
 	return BP_Activity_Activity::get_activity_for_friends( $user_id, $max_items, $since, $max_items_per_friend, $pag_num, $pag_page );
 }
 
-function bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id ) {	
-	if ( !BP_Activity_Activity::delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id ) )
-		return false;
-		
-	do_action( 'bp_activity_delete', $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
-	
-	return true;
-}
-
-function bp_activity_order_by_date( $a, $b ) {
-	return strcasecmp( $b['date_recorded'], $a['date_recorded'] );	
-}
-
 function bp_activity_remove_data( $user_id ) {
 	// Clear the user's activity from the sitewide stream and clear their activity tables
-	BP_Activity_Activity::delete_activity_for_user( $user_id );
+	BP_Activity_Activity::delete_for_user( $user_id );
 	
 	// Remove the deleted users activity tables
 	BP_Activity_Activity::kill_tables_for_user( $user_id );
@@ -304,5 +309,45 @@ function bp_activity_remove_data( $user_id ) {
 add_action( 'wpmu_delete_user', 'bp_activity_remove_data' );
 add_action( 'delete_user', 'bp_activity_remove_data' );
 
+/* Ordering function - don't call this directly */
+function bp_activity_order_by_date( $a, $b ) {
+	return strcasecmp( $b['date_recorded'], $a['date_recorded'] );	
+}
+
+/**** DEPRECATED FUNCTIONS (DO NOT USE IN YOUR CODE) **************/
+
+/* DEPRECATED - use bp_activity_add() */
+function bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id = false, $user_id = false, $secondary_user_id = false, $recorded_time = false ) {
+	global $bp, $wpdb;
+	
+	if ( !$user_id )
+		$user_id = $bp->loggedin_user->id;
+
+	if ( !$recorded_time )
+		$recorded_time = time();
+	
+	$args = compact( 'user_id', 'content', 'component_name', 'component_action', 'item_id', 'secondary_item_id', 'recorded_time' );
+	bp_activity_add( $args );
+	
+	if ( $secondary_user_id  ) {
+		$hide_sitewide = true;
+		$args = compact( 'user_id', 'content', 'component_name', 'component_action', 'item_id', 'secondary_item_id', 'recorded_time', 'hide_sitewide' );
+		bp_activity_add( $args );
+	}
+	
+	do_action( 'bp_activity_record', $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_user_id );
+	
+	return true;
+}
+
+/* DEPRECATED - use bp_activity_delete_by_item_id() */
+function bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id ) {	
+	if ( !bp_activity_delete_by_item_id( $user_id, $component_name, $component_action, $item_id, $secondary_item_id ) )
+		return false;
+		
+	do_action( 'bp_activity_delete', $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
+	
+	return true;
+}
 
 ?>
