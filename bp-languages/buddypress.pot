@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-06-23 14:11+0000\n"
+"POT-Creation-Date: 2009-06-24 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,7 +73,7 @@ msgstr ""
 msgid "Site Wide Activity"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:43
+#: bp-activity/bp-activity-widgets.php:37
 #: bp-themes/bpmember/activity/just-me.php:36
 #: bp-themes/bpmember/activity/my-friends.php:28
 #: bp-themes/bpmember/profile/index.php:43
@@ -81,16 +81,16 @@ msgstr ""
 msgid "RSS Feed"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:43 bp-themes/bphome/header.php:14
+#: bp-activity/bp-activity-widgets.php:37 bp-themes/bphome/header.php:14
 #: bp-themes/bpmember/header.php:18
 msgid "Site Wide Activity RSS Feed"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:54
+#: bp-activity/bp-activity-widgets.php:51
 msgid "There has been no recent site activity."
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:77
+#: bp-activity/bp-activity-widgets.php:75
 msgid "Max Number of Items:"
 msgstr ""
 
