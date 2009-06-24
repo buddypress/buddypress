@@ -306,7 +306,7 @@ function bp_groups_random_selection( $total_groups = 5 ) {
 			?>	
 			<li>
 				<div class="item-avatar">
-					<a href="<?php echo bp_get_group_permalink( $group ) ?>" title="<?php echo bp_get_group_name( $group ) ?>"><?php echo get_group_avatar_thumb( $group ) ?></a>
+					<a href="<?php echo bp_get_group_permalink( $group ) ?>" title="<?php echo bp_get_group_name( $group ) ?>"><?php echo bp_get_group_avatar_thumb( $group ) ?></a>
 				</div>
 
 				<div class="item">
