@@ -5,10 +5,10 @@ function bp_the_status( $args = false ) {
 	 * To support updating your status without JS, we can display the update form when the GET var "status" is set
 	 * to "new".
 	 */
-	if ( 'new' == $_GET['status'] ) {
+	if ( 'new' == $_GET['status'] && is_user_logged_in() ) {
 		load_template( TEMPLATEPATH . '/status/post-form.php' );
 	} else {
-		if ( 'clear' == $_GET['status'] )
+		if ( 'clear' == $_GET['status'] && is_user_logged_in() )
 			bp_status_clear_status();
 		
 		echo bp_get_the_status( $args );
