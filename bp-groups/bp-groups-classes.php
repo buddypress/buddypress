@@ -916,6 +916,12 @@ Class BP_Groups_Member {
 		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id, date_modified FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_mod = 1 AND is_banned = 0", $group_id ) );
 	}
 	
+	function get_all_membership_request_user_ids( $group_id ) {
+		global $bp, $wpdb;
+
+		return $wpdb->get_col( $wpdb->prepare( "SELECT user_id FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 0 AND inviter_id = 0", $group_id ) );		
+	}
+	
 	function get_all_for_group( $group_id, $limit = false, $page = false, $exclude_admins_mods = true, $exclude_banned = true ) {
 		global $bp, $wpdb;
 		

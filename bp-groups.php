@@ -646,7 +646,9 @@ function groups_screen_group_admin_settings() {
 			$enable_forum = ( isset($_POST['group-show-forum'] ) ) ? 1 : 0;
 			$enable_photos = ( isset($_POST['group-show-photos'] ) ) ? 1 : 0;
 			$photos_admin_only = ( $_POST['group-photos-status'] != 'all' ) ? 1 : 0;
-			$status = $_POST['group-status'];
+
+			$allowed_status = apply_filters( 'groups_allowed_status', array( 'public', 'private', 'hidden' ) );
+			$status = ( in_array( $_POST['group-status'], $allowed_status ) ) ? $_POST['group-status'] : 'public';
 			
 			if ( !groups_edit_group_settings( $_POST['group-id'], $enable_wire, $enable_forum, $enable_photos, $photos_admin_only, $status ) ) {
 				bp_core_add_message( __( 'There was an error updating group settings, please try again.', 'buddypress' ), 'error' );
@@ -1531,7 +1533,10 @@ function groups_create_group( $step, $group_id ) {
 
 function groups_check_slug( $slug ) {
 	global $bp;
-	
+
+	if ( 'wp' == substr( $slug, 0, 2 ) )
+		$slug = substr( $slug, 2, strlen( $slug ) - 2 );
+			
 	if ( in_array( $slug, $bp->groups->forbidden_names ) ) {
 		$slug = $slug . '-' . rand();
 	}
@@ -1542,9 +1547,6 @@ function groups_check_slug( $slug ) {
 		}
 		while ( BP_Groups_Group::check_slug( $slug ) );
 	}
-	
-	if ( 'wp' == substr( $slug, 0, 2 ) )
-		$slug = substr( $slug, 2, strlen( $slug ) - 2 );
 	
 	return $slug;
 }
@@ -1920,15 +1922,20 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $g
 function groups_edit_group_settings( $group_id, $enable_wire, $enable_forum, $enable_photos, $photos_admin_only, $status ) {
 	global $bp;
 	
-	/* Check the nonce first. */
-	if ( !check_admin_referer( 'groups_edit_group_settings' ) )
-		return false;
-	
 	$group = new BP_Groups_Group( $group_id, false, false );
 	$group->enable_wire = $enable_wire;
 	$group->enable_forum = $enable_forum;
 	$group->enable_photos = $enable_photos;
 	$group->photos_admin_only = $photos_admin_only;
+	
+	/*** 
+	 * Before we potentially switch the group status, if it has been changed to public
+	 * from private and there are outstanding membership requests, auto-accept those requests.
+	 */
+	if ( 'private' == $group->status && 'public' == $status )
+		groups_accept_all_pending_membership_requests( $group->id );
+	
+	/* Now update the status */
 	$group->status = $status;
 	
 	if ( !$group->save() )
@@ -2093,6 +2100,21 @@ function groups_reject_membership_request( $membership_id ) {
 	groups_notification_membership_request_completed( $membership->user_id, $membership->group_id, false );
 	
 	do_action( 'groups_membership_rejected', $membership->user_id, $membership->group_id );
+	
+	return true;
+}
+
+function groups_accept_all_pending_membership_requests( $group_id ) {
+	$user_ids = BP_Groups_Member::get_all_membership_request_user_ids( $group_id );
+
+	if ( !$user_ids )
+		return false;
+	
+	foreach ( (array) $user_ids as $user_id ) {
+		groups_accept_membership_request( false, $user_id, $group_id );
+	}
+	
+	do_action( 'groups_accept_all_pending_membership_requests', $group_id );
 	
 	return true;
 }
