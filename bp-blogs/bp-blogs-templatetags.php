@@ -98,7 +98,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 	<p>
 		<label for="blog_public_on"><?php _e('Privacy:', 'buddypress') ?></label>
 		<?php _e('I would like my blog to appear in search engines like Google and Technorati, and in public listings around this site.', 'buddypress'); ?> 
-		<div style="clear:both;"></div>
+		<div class="clear"></div>
 		<label class="checkbox" for="blog_public_on">
 			<input type="radio" id="blog_public_on" name="blog_public" value="1" <?php if( !isset( $_POST['blog_public'] ) || '1' == $_POST['blog_public'] ) { ?>checked="checked"<?php } ?> />
 			<strong><?php _e( 'Yes' , 'buddypress'); ?></strong>
@@ -221,7 +221,7 @@ class BP_Blogs_User_Blogs_Template {
 			wp_cache_set( 'bp_blogs_for_user_' . $user_id, $this->blogs, 'bp' );
 		}
 		
-		if ( !$max )
+		if ( !$max || $max >= (int)$this->blogs['count'] )
 			$this->total_blog_count = (int)$this->blogs['count'];
 		else
 			$this->total_blog_count = (int)$max;
@@ -397,7 +397,7 @@ class BP_Blogs_Blog_Post_Template {
 			wp_cache_set( 'bp_user_posts_' . $user_id, $this->posts, 'bp' );
 		}
 		
-		if ( !$max )
+		if ( !$max || $max >= (int)$this->posts['count'] )
 			$this->total_post_count = (int)$this->posts['count'];
 		else
 			$this->total_post_count = (int)$max;
@@ -831,7 +831,7 @@ class BP_Blogs_Post_Comment_Template {
 			wp_cache_set( 'bp_user_comments_' . $user_id, $this->comments, 'bp' );
 		}
 		
-		if ( !$max )
+		if ( !$max || $max >= (int)$this->comments['count'] )
 			$this->total_comment_count = (int)$this->comments['count'];
 		else
 			$this->total_comment_count = (int)$max;
@@ -1084,7 +1084,7 @@ class BP_Blogs_Site_Blogs_Template {
 			}
 		}
 		
-		if ( !$max )
+		if ( !$max || $max >= (int)$this->blogs['total'] )
 			$this->total_blog_count = (int)$this->blogs['total'];
 		else
 			$this->total_blog_count = (int)$max;
@@ -1227,7 +1227,7 @@ function bp_the_site_blog_avatar() {
 		 * In future BuddyPress versions you will be able to set the avatar for a blog.
 		 * Right now you can use a filter with the ID of the blog to change it if you wish.
 		 */
-		return apply_filters( 'bp_get_blogs_blog_avatar_' . $site_blogs_template->blog->blog_id, '<img src="http://www.gravatar.com/avatar/' . md5( $site_blogs_template->blog->blog_id . '.blogs@' . $bp->root_domain ) . '?d=identicon&amp;s=150" class="avatar blog-avatar" alt="' . __( 'Blog Avatar', 'buddypress' ) . '" />', $site_blogs_template->blog->blog_id );
+		return apply_filters( 'bp_get_blogs_blog_avatar_' . $site_blogs_template->blog->blog_id, '<img src="' . apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' ) . md5( $site_blogs_template->blog->blog_id . '.blogs@' . $bp->root_domain ) . '?d=identicon&amp;s=150" class="avatar blog-avatar" alt="' . __( 'Blog Avatar', 'buddypress' ) . '" />', $site_blogs_template->blog->blog_id );
 	}
 
 function bp_the_site_blog_avatar_thumb() {
@@ -1236,7 +1236,7 @@ function bp_the_site_blog_avatar_thumb() {
 	function bp_get_the_site_blog_avatar_thumb() {
 		global $site_blogs_template, $bp;
 
-		return apply_filters( 'bp_get_blogs_blog_avatar_thumb_' . $site_blogs_template->blog->blog_id, '<img src="http://www.gravatar.com/avatar/' . md5( $site_blogs_template->blog->blog_id . '.blogs@' . $bp->root_domain ) . '?d=identicon&amp;s=50" class="avatar blog-avatar thumb" alt="' . __( 'Blog Avatar', 'buddypress' ) . '" />', $site_blogs_template->blog->blog_id );
+		return apply_filters( 'bp_get_blogs_blog_avatar_thumb_' . $site_blogs_template->blog->blog_id, '<img src="' . apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' ) . md5( $site_blogs_template->blog->blog_id . '.blogs@' . $bp->root_domain ) . '?d=identicon&amp;s=50" class="avatar blog-avatar thumb" alt="' . __( 'Blog Avatar', 'buddypress' ) . '" />', $site_blogs_template->blog->blog_id );
 	}
 
 function bp_the_site_blog_avatar_mini() {
@@ -1245,7 +1245,7 @@ function bp_the_site_blog_avatar_mini() {
 	function bp_get_the_site_blog_avatar_mini() {
 		global $site_blogs_template, $bp;
 
-		return apply_filters( 'bp_get_blogs_blog_avatar_mini_' . $site_blogs_template->blog->blog_id, '<img src="http://www.gravatar.com/avatar/' . md5( $site_blogs_template->blog->blog_id . '.blogs@' . $bp->root_domain ) . '?d=identicon&amp;s=25" class="avatar blog-avatar mini" alt="' . __( 'Blog Avatar', 'buddypress' ) . '" />', $site_blogs_template->blog->blog_id );
+		return apply_filters( 'bp_get_blogs_blog_avatar_mini_' . $site_blogs_template->blog->blog_id, '<img src="' . apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' ) . md5( $site_blogs_template->blog->blog_id . '.blogs@' . $bp->root_domain ) . '?d=identicon&amp;s=25" class="avatar blog-avatar mini" alt="' . __( 'Blog Avatar', 'buddypress' ) . '" />', $site_blogs_template->blog->blog_id );
 	}
 
 function bp_the_site_blog_link() {

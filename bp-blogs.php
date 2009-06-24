@@ -453,7 +453,7 @@ add_action( 'edit_post', 'bp_blogs_record_post' );
 
 
 function bp_blogs_record_comment( $comment_id, $is_approved ) {
-	global $wpdb;
+	global $wpdb, $bp;
 	
 	if ( !$is_approved )
 		return false;

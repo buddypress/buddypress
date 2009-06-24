@@ -30,8 +30,10 @@ class BP_Forums_Template_Forum {
 			$this->topic_count = 0;
 			$this->total_topic_count = 0;
 		} else {
-			if ( !$max )
-				$this->total_topic_count = count( bp_forums_get_topics( $forum_id ) );
+			$forum_count = count( bp_forums_get_topics( $forum_id ) );
+			
+			if ( !$max || $max >= $forum_count )
+				$this->total_topic_count = $forum_count;
 			else
 				$this->total_topic_count = (int)$max;
 
@@ -394,7 +396,7 @@ class BP_Forums_Template_Topic {
 			$this->post_count = 0;
 			$this->total_post_count = 0;
 		} else {
-			if ( !$max )
+			if ( !$max || $max >= (int) $forum_template->topic->topic_posts )
 				$this->total_post_count = (int) $forum_template->topic->topic_posts;
 			else
 				$this->total_post_count = (int)$max;

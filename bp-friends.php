@@ -102,6 +102,8 @@ function friends_setup_nav() {
 			$bp->bp_options_title = $bp->displayed_user->fullname; 
 		}
 	}
+	
+	do_action( 'friends_setup_nav' );
 }
 add_action( 'wp', 'friends_setup_nav', 2 );
 add_action( 'admin_menu', 'friends_setup_nav', 2 );
@@ -123,7 +125,10 @@ function friends_screen_requests() {
 	global $bp;
 			
 	if ( isset($bp->action_variables) && 'accept' == $bp->action_variables[0] && is_numeric($bp->action_variables[1]) ) {
-		
+		/* Check the nonce */
+		if ( !check_admin_referer( 'friends_accept_friendship' ) ) 
+			return false;
+				
 		if ( friends_accept_friendship( $bp->action_variables[1] ) ) {
 			bp_core_add_message( __( 'Friendship accepted', 'buddypress' ) );
 		} else {
@@ -132,6 +137,9 @@ function friends_screen_requests() {
 		bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/' . $bp->current_action );
 		
 	} else if ( isset($bp->action_variables) && 'reject' == $bp->action_variables[0] && is_numeric($bp->action_variables[1]) ) {
+		/* Check the nonce */
+		if ( !check_admin_referer( 'friends_reject_friendship' ) ) 
+			return false;		
 		
 		if ( friends_reject_friendship( $bp->action_variables[1] ) ) {
 			bp_core_add_message( __( 'Friendship rejected', 'buddypress' ) );
@@ -240,7 +248,7 @@ function friends_action_remove_friend() {
 		
 		if ( !check_admin_referer( 'friends_remove_friend' ) )
 			return false;
-			
+		
 		if ( !friends_remove_friend( $bp->loggedin_user->id, $potential_friend_id ) ) {
 			bp_core_add_message( __( 'Friendship could not be canceled.', 'buddypress' ), 'error' );
 		} else {
@@ -574,12 +582,8 @@ function friends_check_friendship( $user_id, $possible_friend_id ) {
  Create a new friend relationship
 **************************************************************************/
 
-function friends_add_friend( $initiator_userid, $friend_userid ) {
+function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = false ) {
 	global $bp;
-	
-	/* Check the nonce */
-	if ( !check_admin_referer( 'friends_add_friend' ) ) 
-		return false;
 	
 	$friendship = new BP_Friends_Friendship;
 	
@@ -592,17 +596,24 @@ function friends_add_friend( $initiator_userid, $friend_userid ) {
 	$friendship->is_limited = 0;
 	$friendship->date_created = time();
 	
+	if ( $force_accept )
+		$friendship->is_confirmed = 1;
+	
 	if ( $friendship->save() ) {
 		
-		// Add the on screen notification
-		bp_core_add_notification( $friendship->initiator_user_id, $friendship->friend_user_id, 'friends', 'friendship_request' );	
-		
-		// Send the email notification
-		require_once( BP_PLUGIN_DIR . '/bp-friends/bp-friends-notifications.php' );
-		friends_notification_new_request( $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
-		
-		do_action( 'friends_friendship_requested', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );	
-		
+		if ( !$force_accept ) {
+			// Add the on screen notification
+			bp_core_add_notification( $friendship->initiator_user_id, $friendship->friend_user_id, 'friends', 'friendship_request' );	
+
+			// Send the email notification
+			require_once( BP_PLUGIN_DIR . '/bp-friends/bp-friends-notifications.php' );
+			friends_notification_new_request( $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
+			
+			do_action( 'friends_friendship_requested', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );	
+		} else {
+			do_action( 'friends_friendship_accepted', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
+		}
+			
 		return true;
 	}
 	
@@ -617,10 +628,6 @@ function friends_add_friend( $initiator_userid, $friend_userid ) {
 
 function friends_remove_friend( $initiator_userid, $friend_userid ) {
 	global $bp;
-
-	/* Check the nonce */
-	if ( !check_admin_referer( 'friends_remove_friend' ) ) 
-		return false;
 		
 	$friendship_id = BP_Friends_Friendship::get_friendship_id( $initiator_userid, $friend_userid );
 	$friendship = new BP_Friends_Friendship( $friendship_id );
@@ -641,10 +648,6 @@ function friends_remove_friend( $initiator_userid, $friend_userid ) {
 
 function friends_accept_friendship( $friendship_id ) {
 	global $bp;
-	
-	/* Check the nonce */
-	if ( !check_admin_referer( 'friends_accept_friendship' ) ) 
-		return false;
 		
 	$friendship = new BP_Friends_Friendship( $friendship_id, true, false );
 
@@ -672,11 +675,7 @@ function friends_accept_friendship( $friendship_id ) {
 	return false;
 }
 
-function friends_reject_friendship( $friendship_id ) {
-	/* Check the nonce */
-	if ( !check_admin_referer( 'friends_reject_friendship' ) ) 
-		return false;
-		
+function friends_reject_friendship( $friendship_id ) {		
 	$friendship = new BP_Friends_Friendship( $friendship_id, true, false );
 
 	if ( !$friendship->is_confirmed && BP_Friends_Friendship::reject( $friendship_id ) ) {
