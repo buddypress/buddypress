@@ -254,7 +254,7 @@ function xprofile_load_blog_signup_meta() {
 	);
 	
 	$bp_meta = unserialize( stripslashes( $_COOKIE['bp_xprofile_meta'] ) );
-	$bp_blog_signup_meta = array_merge( $bp_meta, $blog_meta );
+	$bp_blog_signup_meta = array_merge( (array)$bp_meta, (array)$blog_meta );
 }
 add_action( 'init', 'xprofile_load_blog_signup_meta' );
 

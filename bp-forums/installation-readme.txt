@@ -59,7 +59,7 @@ Follow these steps to get forums up and running:
     
         $bb->bb_xmlrpc_allow_user_switching = true;
 
-12. Log into your WPMU admin interface and head to "Site Admin > Group Forums" fill in the details on that
+12. Log into your WPMU admin interface and head to "BuddyPress > Forums Setup" fill in the details on that
     page. Make sure you don't leave out the ending slash on your bbPress URL. (http://example.com/bbpress/)
     Enter the username and password for the user that you signed up in step 8.
 
