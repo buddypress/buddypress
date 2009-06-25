@@ -159,9 +159,6 @@ Class BP_Activity_Activity {
 		if ( $max )
 			$max_sql = $wpdb->prepare( "LIMIT %d", $max );
 		
-		if ( !bp_is_home() )
-			$privacy_sql = " AND is_private = 0";
-
 		if ( $limit && $page && $max )
 			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE user_id = %d AND date_recorded >= FROM_UNIXTIME(%d) $privacy_sql ORDER BY date_recorded DESC $pag_sql", $user_id, $since ) );
 		else
@@ -170,14 +167,11 @@ Class BP_Activity_Activity {
 		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE user_id = %d AND date_recorded >= FROM_UNIXTIME(%d) $privacy_sql ORDER BY date_recorded DESC $max_sql", $user_id, $since ) );
 
 		for ( $i = 0; $i < count( $activities ); $i++ ) {
-			if ( !$activities[$i]->is_private ) {
-				$activities_formatted[$i]['content'] = $activities[$i]->content;
-				$activities_formatted[$i]['primary_link'] = $activities[$i]->primary_link;
-				$activities_formatted[$i]['date_recorded'] = $activities[$i]->date_recorded;
-				$activities_formatted[$i]['component_name'] = $activities[$i]->component_name;
-				$activities_formatted[$i]['component_action'] = $activities[$i]->component_action;
-				$activities_formatted[$i]['is_private'] = $activities[$i]->is_private;
-			}
+			$activities_formatted[$i]['content'] = $activities[$i]->content;
+			$activities_formatted[$i]['primary_link'] = $activities[$i]->primary_link;
+			$activities_formatted[$i]['date_recorded'] = $activities[$i]->date_recorded;
+			$activities_formatted[$i]['component_name'] = $activities[$i]->component_name;
+			$activities_formatted[$i]['component_action'] = $activities[$i]->component_action;
 		}
 		
 		return array( 'activities' => $activities_formatted, 'total' => (int)$total_activities );
