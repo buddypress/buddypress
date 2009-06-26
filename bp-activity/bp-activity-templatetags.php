@@ -27,7 +27,7 @@ class BP_Activity_Template {
 			$this->activities = bp_activity_get_sitewide_activity( $max, $this->pag_num, $this->pag_page, $filter );
 		
 		if ( $type == 'personal' )
-			$this->activities = bp_activity_get_user_activity( $user_id, $max, $timeframe, false, $this->page_num, $this->pag_page, $filter );
+			$this->activities = bp_activity_get_user_activity( $user_id, $max, $timeframe, $this->page_num, $this->pag_page, $filter );
 
 		if ( $type == 'friends' && ( bp_is_home() || is_site_admin() || $bp->loggedin_user->id == $user_id ) )
 			$this->activities = bp_activity_get_friends_activity( $user_id, $max, $timeframe, false, $this->pag_num, $this->pag_page, $filter );
@@ -128,7 +128,8 @@ function bp_has_activities( $args = '' ) {
 		'user_id' => false,
 		'per_page' => 25,
 		'max' => false,
-		'timeframe' => '-4 weeks'
+		'timeframe' => '-4 weeks',
+		'filter' => false
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -157,7 +158,10 @@ function bp_has_activities( $args = '' ) {
 			$per_page = $max;
 	}
 	
-	$activities_template = new BP_Activity_Template( $type, $user_id, $per_page, $max, $timeframe, $_GET['afilter'] );		
+	if ( isset( $_GET['filter'] ) )
+		$filter = $_GET['afilter'];
+
+	$activities_template = new BP_Activity_Template( $type, $user_id, $per_page, $max, $timeframe, $filter );		
 	return $activities_template->has_activities();
 }
 
