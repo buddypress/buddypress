@@ -321,10 +321,16 @@ function bp_activity_filter_links( $args = false ) {
 					$after = '</p>';
 				break;
 			}
-			$component_links[] = $before . '<a href="' . $link . '?afilter=' . $component_name . '">' . ucwords($component_name) . '</a>' . $after;
+			
+			if ( isset( $_GET['afilter'] ) && $component_name == $_GET['afilter'] )
+				$selected = ' class="selected"';
+			else
+				unset($selected);
+			
+			$component_links[] = $before . '<a href="' . $link . '?afilter=' . $component_name . '"' . $selected . '">' . ucwords($component_name) . '</a>' . $after;
 		}		
 
-		return implode( "\n", $component_links );
+ 		return apply_filters( 'bp_get_activity_filter_links', implode( "\n", $component_links ) );
 	}
 
 function bp_sitewide_activity_feed_link() {

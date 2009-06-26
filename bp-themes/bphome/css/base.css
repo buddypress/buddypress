@@ -349,6 +349,10 @@ div.avatar-block {
 		border: 1px solid #eee;
 		text-decoration: none;
 	}
+		.bp_activity_widget_sitewide_activity ul#activity-filter-links li a.selected {
+			border: 1px solid #ccc;
+			font-weight: bold;
+		}
 
 
 /*** LEFT COLUMN **********/
