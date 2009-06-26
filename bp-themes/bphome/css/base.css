@@ -353,7 +353,12 @@ div.avatar-block {
 			border: 1px solid #ccc;
 			font-weight: bold;
 		}
-
+		
+		ul#activity-filter-links li#afilter-clear a {
+			background: url(../images/error_icon.gif) 0 4px no-repeat;
+			border-color: #ffa6ac;
+			color: #ff5560;
+		}
 
 /*** LEFT COLUMN **********/
 

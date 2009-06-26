@@ -293,7 +293,7 @@ function bp_activity_filter_links( $args = false ) {
 	echo bp_get_activity_filter_links( $args );
 }
 	function bp_get_activity_filter_links( $args = false ) {
-		global $activities_template;
+		global $activities_template, $bp;
 		
 		$defaults = array(
 			'style' => 'list'
@@ -314,15 +314,23 @@ function bp_activity_filter_links( $args = false ) {
 			$link = $bp->root_domain;
 		
 		$component_links = array();
+
 		foreach ( (array) $component_names as $component_name ) {
 			switch ( $style ) {
 				case 'list':
+					$tag = 'li';
 					$before = '<li id="afilter-' . $component_name . '">';
 					$after = '</li>';
 				break;
 				case 'paragraph':
+					$tag = 'p';
 					$before = '<p id="afilter-' . $component_name . '">';
 					$after = '</p>';
+				break;
+				case 'span':
+					$tag = 'span';
+					$before = '<span id="afilter-' . $component_name . '">';
+					$after = '</span>';
 				break;
 			}
 			
@@ -332,8 +340,11 @@ function bp_activity_filter_links( $args = false ) {
 				unset($selected);
 			
 			$component_links[] = $before . '<a href="' . $link . '?afilter=' . $component_name . '"' . $selected . '">' . ucwords($component_name) . '</a>' . $after;
-		}		
+		}
 
+		if ( isset( $_GET['afilter'] ) )
+			$component_links[] = '<' . $tag . ' id="afilter-clear"><a href="' . $link . '"">' . __( 'Clear Filter', 'buddypress' ) . '</a></' . $tag . '>';
+		
  		return apply_filters( 'bp_get_activity_filter_links', implode( "\n", $component_links ) );
 	}
 
