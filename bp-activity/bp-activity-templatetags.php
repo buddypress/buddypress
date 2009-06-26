@@ -16,22 +16,21 @@ class BP_Activity_Template {
 
 	var $full_name;
 
-	function bp_activity_template( $type, $user_id, $per_page, $max, $timeframe ) {
+	function bp_activity_template( $type, $user_id, $per_page, $max, $timeframe, $filter ) {
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['acpage'] ) ? intval( $_REQUEST['acpage'] ) : 1;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
-		$this->filter_content = false;
 		$this->activity_type = $type;
 
 		if ( $type == 'sitewide' )
-			$this->activities = bp_activity_get_sitewide_activity( $max, $this->pag_num, $this->pag_page );
+			$this->activities = bp_activity_get_sitewide_activity( $max, $this->pag_num, $this->pag_page, $filter );
 		
 		if ( $type == 'personal' )
-			$this->activities = bp_activity_get_user_activity( $user_id, $max, $timeframe, false, $this->page_num, $this->pag_page );
+			$this->activities = bp_activity_get_user_activity( $user_id, $max, $timeframe, false, $this->page_num, $this->pag_page, $filter );
 
 		if ( $type == 'friends' && ( bp_is_home() || is_site_admin() || $bp->loggedin_user->id == $user_id ) )
-			$this->activities = bp_activity_get_friends_activity( $user_id, $max, $timeframe, false, $this->pag_num, $this->pag_page );
+			$this->activities = bp_activity_get_friends_activity( $user_id, $max, $timeframe, false, $this->pag_num, $this->pag_page, $filter );
 		
 		if ( !$max || $max >= (int)$this->activities['total'] )
 			$this->total_activity_count = (int)$this->activities['total'];
@@ -158,7 +157,7 @@ function bp_has_activities( $args = '' ) {
 			$per_page = $max;
 	}
 	
-	$activities_template = new BP_Activity_Template( $type, $user_id, $per_page, $max, $timeframe );		
+	$activities_template = new BP_Activity_Template( $type, $user_id, $per_page, $max, $timeframe, $_GET['afilter'] );		
 	return $activities_template->has_activities();
 }
 
@@ -284,6 +283,48 @@ function bp_activity_css_class() {
 		global $activities_template;
 		
 		return apply_filters( 'bp_get_activity_css_class', $activities_template->activity->component_name );
+	}
+
+function bp_activity_filter_links( $args = false ) {
+	echo bp_get_activity_filter_links( $args );
+}
+	function bp_get_activity_filter_links( $args = false ) {
+		global $activities_template;
+		
+		$defaults = array(
+			'style' => 'list'
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+		
+		/* Fetch the names of components that have activity recorded in the DB */
+		$component_names = BP_Activity_Activity::get_recorded_component_names();
+		
+		if ( !$component_names )
+			return false;
+		
+		if ( $bp->displayed_user->id )
+			$link = $bp->displayed_user->domain;
+		else
+			$link = $bp->root_domain;
+		
+		$component_links = array();
+		foreach ( (array) $component_names as $component_name ) {
+			switch ( $style ) {
+				case 'list':
+					$before = '<li id="afilter-' . $component_name . '">';
+					$after = '</li>';
+				break;
+				case 'paragraph':
+					$before = '<p id="afilter-' . $component_name . '">';
+					$after = '</p>';
+				break;
+			}
+			$component_links[] = $before . '<a href="' . $link . '?afilter=' . $component_name . '">' . ucwords($component_name) . '</a>' . $after;
+		}		
+
+		return implode( "\n", $component_links );
 	}
 
 function bp_sitewide_activity_feed_link() {

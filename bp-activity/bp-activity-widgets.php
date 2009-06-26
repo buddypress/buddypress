@@ -23,20 +23,31 @@ function bp_activity_widget_sitewide_activity($args) {
 ?>
 	<?php echo $before_widget; ?>
 	<?php echo $before_title
-		. $widget_name 
+		. $widget_name . 
+		' <a href="' . bp_get_sitewide_activity_feed_link() . '" title="' . __( 'Site Wide Activity RSS Feed', 'buddypress' ) . '"><img src="' . $bp->activity->image_base . '/rss.png" alt="' . __( 'RSS Feed', 'buddypress' ) . '" /></a>' 
 		. $after_title; ?>
 		
 	<?php 
+	if ( !$options['per_page'] || empty( $options['per_page'] ) )
+		$options['per_page'] = 20;
+
 	if ( !$options['max_items'] || empty( $options['max_items'] ) )
-		$options['max_items'] = 20;
+		$options['max_items'] = 200;
 	?>
 
-	<?php if ( bp_has_activities( 'type=sitewide&max=' . $options['max_items'] ) ) : ?>
-
-		<div class="item-options" id="activity-list-options">
-			<img src="<?php echo $bp->activity->image_base; ?>/rss.png" alt="<?php _e( 'RSS Feed', 'buddypress' ) ?>" /> <a href="<?php bp_sitewide_activity_feed_link() ?>" title="<?php _e( 'Site Wide Activity RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a>
+	<?php if ( bp_has_activities( 'type=sitewide&max=' . $options['max_items'] . '&per_page=' . $options['per_page'] ) ) : ?>
+		<div class="pag-count" id="activity-count">
+			<?php bp_activity_pagination_count() ?>
+		</div>
+		
+		<div class="pagination-links" id="activity-pag">
+			&nbsp; <?php bp_activity_pagination_links() ?>
 		</div>
 
+		<ul id="activity-filter-links">
+			<?php bp_activity_filter_links() ?>
+		</ul>
+		
 		<ul id="site-wide-stream" class="activity-list">
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<li class="<?php bp_activity_css_class() ?>">

@@ -143,6 +143,9 @@ h2.widgettitle {
 	margin-bottom: 5px;
 	height: 36px;
 	font-weight: bold;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
 }
 
 	h2.widgettitle a {
@@ -273,35 +276,41 @@ div.avatar-block {
 
 /** ACTIVITY FEED **********/
 
+.bp_activity_widget_sitewide_activity {
+	float: left;
+	width: 100%;
+}
+
 .activity-list {
 	padding: 0 5px;
+	clear: left;
 }
 
 .activity-list li {
-	margin: 15px 0;
+	margin: 15px;
 	padding-left: 21px;
 }
-	.activity-list li.blogs {
+	.activity-list li.blogs, ul#activity-filter-links li#afilter-blogs a {
 		background: url(../images/blog_bullet.gif) 0 4px no-repeat;		
 	}
 	
-	.activity-list li.profile {
+	.activity-list li.profile, ul#activity-filter-links li#afilter-profile a {
 		background: url(../images/profile_bullet.gif) 0 4px no-repeat;
 	}
 
-	.activity-list li.friends {
+	.activity-list li.friends, ul#activity-filter-links li#afilter-friends a {
 		background: url(../images/friends_bullet.gif) 0 4px no-repeat;
 	}
 	
-	.activity-list li.groups {
+	.activity-list li.groups, ul#activity-filter-links li#afilter-groups a {
 		background: url(../images/groups_bullet.gif) 0 4px no-repeat;
 	}
 	
-	.activity-list li.wire {
+	.activity-list li.wire, ul#activity-filter-links li#afilter-wire a {
 		background: url(../images/wire_bullet.gif) 0 4px no-repeat;
 	}
 
-	.activity-list li.status {
+	.activity-list li.status, ul#activity-filter-links li#afilter-status a {
 		background: url(../images/status_bullet.gif) 0 4px no-repeat;
 	}
 
@@ -309,12 +318,37 @@ div.avatar-block {
 	padding: 7px 15px 7px 40px;
 	background: url(../images/quotes_background.gif) 10px 9px no-repeat #eee;
 	margin: 5px 0;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
 }
 
 .activity-list li span.time-since {
 	font-size: 0.8em;
 	color: #999;
 }
+
+.bp_activity_widget_sitewide_activity ul#activity-filter-links {
+	background: url(../images/item_list_back.gif) top left repeat-x;
+	padding: 15px;
+	min-height: 22px;
+}
+
+.bp_activity_widget_sitewide_activity ul#activity-filter-links li {
+	float: left;
+}
+	.bp_activity_widget_sitewide_activity ul#activity-filter-links li a {
+		display: block;
+		padding: 2px 8px 2px 30px;
+		background-color: #fff !important;
+		background-position: 8px 6px !important;
+		border-radius: 5px;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		margin: 0 5px 0 0;
+		border: 1px solid #eee;
+		text-decoration: none;
+	}
 
 
 /*** LEFT COLUMN **********/
@@ -745,6 +779,19 @@ p.crop-preview {
 
 /**** PAGINATION ******/
 
+.pagination-links {
+	text-align: right;
+	margin-bottom: 5px;
+}
+	.pagination-links .page-numbers {
+		padding: 0.65em 0.7em;
+		height: 24px;
+	}
+	
+	.pagination-links .current {
+		padding: 0.5em 0.7em;
+	}
+
 a.page-numbers:hover { background: #e1e1e1; }
 
 	.pagination-links .current {
@@ -755,6 +802,7 @@ a.page-numbers:hover { background: #e1e1e1; }
 .pag-count {
 	font-size: 0.9em;
 	color: #888;
+	float: left;
 }
 
 /***** FEEDBACK MESSAGES ******/
