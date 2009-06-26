@@ -158,7 +158,7 @@ function bp_has_activities( $args = '' ) {
 			$per_page = $max;
 	}
 	
-	if ( isset( $_GET['filter'] ) )
+	if ( isset( $_GET['afilter'] ) )
 		$filter = $_GET['afilter'];
 
 	$activities_template = new BP_Activity_Template( $type, $user_id, $per_page, $max, $timeframe, $filter );		
