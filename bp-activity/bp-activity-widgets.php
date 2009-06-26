@@ -76,6 +76,10 @@ function bp_activity_widget_sitewide_activity_control() {
 	if ( $_POST['bp-activity-widget-sitewide-submit'] ) {
 		$newoptions['max_items'] = strip_tags( stripslashes( $_POST['bp-activity-widget-sitewide-items-max'] ) );
 	}
+
+	if ( $_POST['bp-activity-widget-sitewide-submit'] ) {
+		$newoptions['per_page'] = strip_tags( stripslashes( $_POST['bp-activity-widget-sitewide-per-page'] ) );
+	}
 	
 	if ( $options != $newoptions ) {
 		$options = $newoptions;
@@ -83,7 +87,9 @@ function bp_activity_widget_sitewide_activity_control() {
 	}
 
 ?>
+		<p><label for="bp-activity-widget-sitewide-per-page"><?php _e('Number of Items Per Page:', 'buddypress'); ?> <input class="widefat" id="bp-activity-widget-sitewide-per-page" name="bp-activity-widget-sitewide-per-page" type="text" value="<?php echo attribute_escape( $options['per_page'] ); ?>" style="width: 30%" /></label></p>
 		<p><label for="bp-activity-widget-sitewide-items-max"><?php _e('Max Number of Items:', 'buddypress'); ?> <input class="widefat" id="bp-activity-widget-sitewide-items-max" name="bp-activity-widget-sitewide-items-max" type="text" value="<?php echo attribute_escape( $options['max_items'] ); ?>" style="width: 30%" /></label></p>
+
 		<input type="hidden" id="bp-activity-widget-sitewide-submit" name="bp-activity-widget-sitewide-submit" value="1" />
 <?php
 }
