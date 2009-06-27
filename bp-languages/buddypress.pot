@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-06-24 14:11+0000\n"
+"POT-Creation-Date: 2009-06-27 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,12 +38,12 @@ msgstr ""
 msgid "My Activity"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:181
+#: bp-activity/bp-activity-templatetags.php:184
 #, php-format
 msgid "Viewing item %d to %d (of %d items)"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:182
+#: bp-activity/bp-activity-templatetags.php:185
 #: bp-blogs/bp-blogs-templatetags.php:329
 #: bp-blogs/bp-blogs-templatetags.php:505
 #: bp-blogs/bp-blogs-templatetags.php:1208
@@ -63,9 +63,13 @@ msgstr ""
 msgid "Loading"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:277
+#: bp-activity/bp-activity-templatetags.php:280
 #, php-format
 msgid "&nbsp; %s ago"
+msgstr ""
+
+#: bp-activity/bp-activity-templatetags.php:346
+msgid "Clear Filter"
 msgstr ""
 
 #: bp-activity/bp-activity-widgets.php:8 bp-activity/bp-activity-widgets.php:9
@@ -73,7 +77,12 @@ msgstr ""
 msgid "Site Wide Activity"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:37
+#: bp-activity/bp-activity-widgets.php:27 bp-themes/bphome/header.php:14
+#: bp-themes/bpmember/header.php:18
+msgid "Site Wide Activity RSS Feed"
+msgstr ""
+
+#: bp-activity/bp-activity-widgets.php:27
 #: bp-themes/bpmember/activity/just-me.php:36
 #: bp-themes/bpmember/activity/my-friends.php:28
 #: bp-themes/bpmember/profile/index.php:43
@@ -81,16 +90,15 @@ msgstr ""
 msgid "RSS Feed"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:37 bp-themes/bphome/header.php:14
-#: bp-themes/bpmember/header.php:18
-msgid "Site Wide Activity RSS Feed"
-msgstr ""
-
-#: bp-activity/bp-activity-widgets.php:51
+#: bp-activity/bp-activity-widgets.php:62
 msgid "There has been no recent site activity."
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:75
+#: bp-activity/bp-activity-widgets.php:90
+msgid "Number of Items Per Page:"
+msgstr ""
+
+#: bp-activity/bp-activity-widgets.php:91
 msgid "Max Number of Items:"
 msgstr ""
 
