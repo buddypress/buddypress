@@ -27,7 +27,7 @@ class BP_Activity_Template {
 			$this->activities = bp_activity_get_sitewide_activity( $max, $this->pag_num, $this->pag_page, $filter );
 		
 		if ( $type == 'personal' )
-			$this->activities = bp_activity_get_user_activity( $user_id, $max, $timeframe, $this->page_num, $this->pag_page, $filter );
+			$this->activities = bp_activity_get_user_activity( $user_id, $max, $timeframe, $this->pag_num, $this->pag_page, $filter );
 
 		if ( $type == 'friends' && ( bp_is_home() || is_site_admin() || $bp->loggedin_user->id == $user_id ) )
 			$this->activities = bp_activity_get_friends_activity( $user_id, $max, $timeframe, false, $this->pag_num, $this->pag_page, $filter );
@@ -308,12 +308,8 @@ function bp_activity_filter_links( $args = false ) {
 		if ( !$component_names )
 			return false;
 		
-		if ( $bp->displayed_user->id )
-			$link = $bp->displayed_user->domain;
-		else
-			$link = $bp->root_domain;
-		
-		$component_links = array();
+		$link = remove_query_arg( array( 'afilter' ), $_SERVER['REQUEST_URI'] );
+		$link = remove_query_arg( array( 'acpage' ), $link );
 
 		foreach ( (array) $component_names as $component_name ) {
 			switch ( $style ) {
@@ -334,14 +330,18 @@ function bp_activity_filter_links( $args = false ) {
 				break;
 			}
 			
+			$link = add_query_arg( 'afilter', $component_name );
+			
 			if ( isset( $_GET['afilter'] ) && $component_name == $_GET['afilter'] )
 				$selected = ' class="selected"';
 			else
 				unset($selected);
 			
-			$component_links[] = $before . '<a href="' . $link . '?afilter=' . $component_name . '"' . $selected . '">' . ucwords($component_name) . '</a>' . $after;
+			$component_links[] = $before . '<a href="' . $link . '"' . $selected . '">' . ucwords($component_name) . '</a>' . $after;
 		}
 
+		$link = remove_query_arg( array( 'afilter' ), $link );
+		
 		if ( isset( $_GET['afilter'] ) )
 			$component_links[] = '<' . $tag . ' id="afilter-clear"><a href="' . $link . '"">' . __( 'Clear Filter', 'buddypress' ) . '</a></' . $tag . '>';
 		
