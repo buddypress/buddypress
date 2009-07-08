@@ -195,7 +195,7 @@ function bp_core_do_catch_uri() {
 	global $bp_no_status_set;
 	global $wp_query;
 	
-	$pages = $bp_path;
+	$page = $bp_path;
 
 	/* Don't hijack any URLs on blog pages */
 	if ( !$bp_skip_blog_check ) {
@@ -212,22 +212,14 @@ function bp_core_do_catch_uri() {
 			$wp_query->is_page = true;
 	}
 
-	if ( is_array( $pages ) ) {
-		foreach( $pages as $page ) {
-			if ( file_exists( TEMPLATEPATH . "/" . $page . ".php" ) ) {
-				load_template( TEMPLATEPATH . "/" . $page . ".php" );
-			}
-		}
+	if ( file_exists( TEMPLATEPATH . "/" . $page . ".php" ) ) {
+		load_template( apply_filters( 'bp_load_template', TEMPLATEPATH . "/" . $page . ".php" ) );
 	} else {
-		if ( file_exists( TEMPLATEPATH . "/" . $pages . ".php" ) ) {
-			load_template( TEMPLATEPATH . "/" . $pages . ".php" );
+		if ( file_exists( TEMPLATEPATH . "/404.php" ) ) {
+			status_header( 404 );
+			load_template( TEMPLATEPATH . "/404.php" );
 		} else {
-			if ( file_exists( TEMPLATEPATH . "/404.php" ) ) {
-				status_header( 404 );
-				load_template( TEMPLATEPATH . "/404.php" );
-			} else {
-				wp_die( __( '<strong>You do not have any BuddyPress themes installed.</strong><br />Please move "/wp-content/plugins/buddypress/bp-themes/"  to "/wp-content/bp-themes/" and refresh this page. You can <a href="http://buddypress.org/extend/themes/">download more themes here</a>.', 'buddypress' ) );
-			}
+			wp_die( __( '<strong>You do not have any BuddyPress themes installed.</strong><br />Please move "/wp-content/plugins/buddypress/bp-themes/"  to "/wp-content/bp-themes/" and refresh this page. You can <a href="http://buddypress.org/extend/themes/">download more themes here</a>.', 'buddypress' ) );
 		}
 	}
 	die;
