@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-06-27 14:11+0000\n"
+"POT-Creation-Date: 2009-07-09 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -969,7 +969,7 @@ msgstr ""
 msgid "Try Again"
 msgstr ""
 
-#: bp-core/bp-core-catchuri.php:229
+#: bp-core/bp-core-catchuri.php:222
 msgid ""
 "<strong>You do not have any BuddyPress themes installed.</strong><br /"
 ">Please move \"/wp-content/plugins/buddypress/bp-themes/\"  to \"/wp-content/"
