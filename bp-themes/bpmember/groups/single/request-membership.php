@@ -8,7 +8,7 @@
 	<?php if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group(); ?>
 	
 	<div class="left-menu">
-		<?php load_template( TEMPLATEPATH . '/groups/group-menu.php' ) ?>
+		<?php load_template( TEMPLATEPATH . '/groups/single/menu.php' ) ?>
 	</div>
 
 	<div class="main-column">

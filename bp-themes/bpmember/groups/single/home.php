@@ -10,7 +10,7 @@
 	<?php if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group(); ?>
 	
 	<div class="left-menu">
-		<?php load_template( TEMPLATEPATH . '/groups/group-menu.php' ) ?>
+		<?php load_template( TEMPLATEPATH . '/groups/single/menu.php' ) ?>
 	</div>
 
 	<div class="main-column">
@@ -50,8 +50,21 @@
 		
 			<?php if ( bp_group_is_visible() ) : ?>
 				<div class="info-group">
-					<h4><?php printf( __( 'Members (%d) <a href="%s">See All &raquo;</a>', 'buddypress' ), bp_group_total_members( false ), bp_group_all_members_permalink( false ) ); ?></h4>
-					<?php bp_group_random_members() ?>
+					<h4><?php printf( __( 'Members (%d) <a href="%s">See All &raquo;</a>', 'buddypress' ), bp_get_group_total_members(), bp_get_group_all_members_permalink() ); ?></h4>
+
+					<?php if ( bp_group_has_members( 'max=5&exclude_admins_mods=0' ) ) : ?>
+						
+						<ul class="horiz-gallery">
+						<?php while ( bp_group_members() ) : bp_group_the_member(); ?>
+							<li>
+								<a href="<?php bp_group_member_url() ?>"><?php bp_group_member_avatar() ?></a>
+								<h5><?php bp_group_member_link() ?></h5>
+							</li>
+						<?php endwhile; ?>
+						</ul>
+						<div class="clear"></div>
+						
+					<?php endif; ?>
 				</div>
 			<?php endif; ?>
 			
@@ -59,7 +72,7 @@
 		
 			<?php if ( bp_group_is_visible() && bp_group_is_wire_enabled() ) : ?>
 				<?php if ( function_exists('bp_wire_get_post_list') ) : ?>
-					<?php bp_wire_get_post_list( bp_group_id( false, false ), __( 'Group Wire', 'buddypress' ), sprintf( __( 'There are no wire posts for %s', 'buddypress' ), bp_group_name( false ) ), bp_group_is_member(), true ) ?>
+					<?php bp_wire_get_post_list( bp_get_group_id(), __( 'Group Wire', 'buddypress' ), sprintf( __( 'There are no wire posts for %s', 'buddypress' ), bp_get_group_name() ), bp_group_is_member(), true ) ?>
 				<?php endif; ?>
 			<?php endif; ?>
 		

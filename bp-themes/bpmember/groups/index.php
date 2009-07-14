@@ -16,8 +16,7 @@
 	<div class="main-column">
 		<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 		
- 		<?php load_template( TEMPLATEPATH . '/groups/group-loop.php') ?>
-	
+		<?php load_template( TEMPLATEPATH . '/groups/group-loop.php' )?>
 	</div>
 </div>
 
