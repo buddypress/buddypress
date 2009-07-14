@@ -290,8 +290,14 @@ function bp_friend_pagination_count() {
 	echo sprintf( __( 'Viewing friend %d to %d (of %d friends)', 'buddypress' ), $from_num, $to_num, $friends_template->total_friend_count ); ?> &nbsp;
 	<img id="ajax-loader-friends" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" /><?php
 }
-	
 
+function bp_friend_total_for_member() {
+	echo bp_get_friend_total_for_member();
+}
+	function bp_get_friend_total_for_member() {
+		return apply_filters( 'bp_get_friend_total_for_member', BP_Friends_Friendship::total_friend_count() );
+	}
+	
 function bp_friend_search_form() {
 	global $friends_template, $bp;
 

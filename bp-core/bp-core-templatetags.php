@@ -15,12 +15,9 @@
  * @package BuddyPress Core
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
-function bp_get_nav() {
+function bp_get_loggedin_user_nav() {
 	global $bp, $current_blog;
 	
-	/* Sort the nav by key as the array has been put together in different locations */
-	$bp->bp_nav = bp_core_sort_nav_items( $bp->bp_nav );
-
 	/* Loop through each navigation item */
 	foreach( (array) $bp->bp_nav as $nav_item ) {
 		/* If the current component matches the nav item id, then add a highlight CSS class. */
@@ -55,7 +52,42 @@ function bp_get_nav() {
 		echo '<li><a id="wp-logout" href="' . site_url() . '/wp-login.php?action=logout&amp;redirect_to=' . site_url() . $_SERVER['REQUEST_URI'] . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';
 	}
 }
+	/* DEPRECATED - use bp_get_loggedin_user_nav() */
+	function bp_get_nav() { bp_get_loggedin_user_nav(); }
 
+/**
+ * bp_get_displayed_user_nav()
+ * TEMPLATE TAG
+ *
+ * Uses the $bp->bp_users_nav global to render out the user navigation when viewing another user other than
+ * yourself.
+ *
+ * @package BuddyPress Core
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ */
+function bp_get_displayed_user_nav() {
+	global $bp;
+
+	foreach ( $bp->bp_nav as $user_nav_item ) {
+		if ( !$user_nav_item['show_for_displayed_user'] ) 
+			continue;
+			
+		if ( $bp->current_component == $user_nav_item['css_id'] )
+			$selected = ' class="current"';
+		else
+			$selected = '';
+		
+		if ( $bp->loggedin_user->domain )
+			$link = str_replace( $bp->loggedin_user->domain, $bp->displayed_user->domain, $user_nav_item['link'] );
+		else
+			$link = $user_nav_item['link'];
+		
+		echo '<li' . $selected . '><a id="user-' . $user_nav_item['css_id'] . '" href="' . $link . '">' . $user_nav_item['name'] . '</a></li>';
+	}	
+}
+	/* DEPRECATED - use bp_get_displayed_user_nav() */
+	function bp_get_user_nav() { bp_get_displayed_user_nav(); }
+	
 /**
  * bp_get_options_nav()
  * TEMPLATE TAG
@@ -85,13 +117,14 @@ function bp_get_options_nav() {
 			return false;
 	
 		/* Loop through each navigation item */
-		foreach ( $bp->bp_options_nav[$bp->current_component] as $slug => $values ) {
-			$title = $values['name'];
-			$link = $values['link'];
-			$css_id = $values['css_id'];
+		foreach ( $bp->bp_options_nav[$bp->current_component] as $subnav_item ) {
+			$title = $subnav_item['name'];
+			$slug = $subnav_item['slug'];
+			$link = $subnav_item['link'];
+			$css_id = $subnav_item['css_id'];
 			
 			/* If the current action or an action variable matches the nav item id, then add a highlight CSS class. */
-			if ( $slug == $bp->current_action || in_array( $slug, $bp->action_variables ) ) {
+			if ( $slug == $bp->current_action ) {
 				$selected = ' class="current"';
 			} else {
 				$selected = '';
@@ -101,38 +134,9 @@ function bp_get_options_nav() {
 			echo '<li' . $selected . '><a id="' . $css_id . '" href="' . $link . '">' . $title . '</a></li>';		
 		}
 	} else {
-		if ( !$bp->bp_users_nav )
-			return false;
-
-		bp_get_user_nav();
+		/* If we get here we are viewing another user, so show the displayed user's nav items */
+		bp_get_displayed_user_nav();
 	}
-}
-
-/**
- * bp_get_user_nav()
- * TEMPLATE TAG
- *
- * Uses the $bp->bp_users_nav global to render out the user navigation when viewing another user other than
- * yourself.
- *
- * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- */
-function bp_get_user_nav() {
-	global $bp;
-
-	/* Sort the nav by key as the array has been put together in different locations */	
-	$bp->bp_users_nav = bp_core_sort_nav_items( $bp->bp_users_nav );
-
-	foreach ( $bp->bp_users_nav as $user_nav_item ) {	
-		if ( $bp->current_component == $user_nav_item['css_id'] ) {
-			$selected = ' class="current"';
-		} else {
-			$selected = '';
-		}
-		
-		echo '<li' . $selected . '><a id="user-' . $user_nav_item['css_id'] . '" href="' . $user_nav_item['link'] . '">' . $user_nav_item['name'] . '</a></li>';
-	}	
 }
 
 /**

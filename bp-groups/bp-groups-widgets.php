@@ -16,7 +16,6 @@ function groups_register_widgets() {
 }
 add_action( 'plugins_loaded', 'groups_register_widgets' );
 
-
 /*** GROUPS WIDGET *****************/
 
 function groups_widget_groups_list($args) {

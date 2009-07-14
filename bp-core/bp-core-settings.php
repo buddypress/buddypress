@@ -3,14 +3,15 @@ function bp_core_add_settings_nav() {
 	global $bp;
 
 	/* Add the settings navigation item */
-	bp_core_add_nav_item( __('Settings', 'buddypress'), 'settings', false, false );
-	bp_core_add_nav_default( 'settings', 'bp_core_screen_general_settings', 'general', false );
+	bp_core_new_nav_item( array( 'name' => __('Settings', 'buddypress'), 'slug' => 'settings', 'position' => 100, 'show_for_displayed_user' => false, 'screen_function' => 'bp_core_screen_general_settings', 'default_subnav_slug' => 'general' ) );
+
+	$settings_link = $bp->loggedin_user->domain . 'settings/';
 	
-	bp_core_add_subnav_item( 'settings', 'general', __('General', 'buddypress'), $bp->loggedin_user->domain . 'settings/', 'bp_core_screen_general_settings', false, bp_is_home() );
-	bp_core_add_subnav_item( 'settings', 'notifications', __('Notifications', 'buddypress'), $bp->loggedin_user->domain . 'settings/', 'bp_core_screen_notification_settings', false, bp_is_home() );
+	bp_core_new_subnav_item( array( 'name' => __( 'General', 'buddypress' ), 'slug' => 'general', 'parent_url' => $settings_link, 'parent_slug' => 'settings', 'screen_function' => 'bp_core_screen_general_settings', 'position' => 10, 'user_has_access' => bp_is_home() ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Notifications', 'buddypress' ), 'slug' => 'notifications', 'parent_url' => $settings_link, 'parent_slug' => 'settings', 'screen_function' => 'bp_core_screen_notification_settings', 'position' => 20, 'user_has_access' => bp_is_home() ) );
 	
 	if ( !is_site_admin() )
-		bp_core_add_subnav_item( 'settings', 'delete-account', __('Delete Account', 'buddypress'), $bp->loggedin_user->domain . 'settings/', 'bp_core_screen_delete_account', false, bp_is_home() );
+		bp_core_new_subnav_item( array( 'name' => __( 'Delete Account', 'buddypress' ), 'slug' => 'delete-account', 'parent_url' => $settings_link, 'parent_slug' => 'settings', 'screen_function' => 'bp_core_screen_delete_account', 'position' => 90, 'user_has_access' => bp_is_home() ) );
 }
 add_action( 'wp', 'bp_core_add_settings_nav', 2 );
 add_action( 'admin_menu', 'bp_core_add_settings_nav', 2 );

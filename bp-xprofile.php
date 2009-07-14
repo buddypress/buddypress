@@ -197,15 +197,14 @@ function xprofile_setup_nav() {
 	global $bp;
 	
 	/* Add 'Profile' to the main navigation */
-	bp_core_add_nav_item( __('Profile', 'buddypress'), $bp->profile->slug );
-	bp_core_add_nav_default( $bp->profile->slug, 'xprofile_screen_display_profile', 'public' );
-	
+	bp_core_new_nav_item( array( 'name' => __('Profile', 'buddypress'), 'slug' => $bp->profile->slug, 'position' => 20, 'screen_function' => 'xprofile_screen_display_profile', 'default_subnav_slug' => 'public' ) );
+
 	$profile_link = $bp->loggedin_user->domain . $bp->profile->slug . '/';
 	
 	/* Add the subnav items to the profile */
-	bp_core_add_subnav_item( $bp->profile->slug, 'public', __('Public', 'buddypress'), $profile_link, 'xprofile_screen_display_profile' );
-	bp_core_add_subnav_item( $bp->profile->slug, 'edit', __('Edit Profile', 'buddypress'), $profile_link, 'xprofile_screen_edit_profile' );
-	bp_core_add_subnav_item( $bp->profile->slug, 'change-avatar', __('Change Avatar', 'buddypress'), $profile_link, 'xprofile_screen_change_avatar' );
+	bp_core_new_subnav_item( array( 'name' => __( 'Public', 'buddypress' ), 'slug' => 'public', 'parent_url' => $profile_link, 'parent_slug' => $bp->profile->slug, 'screen_function' => 'xprofile_screen_display_profile', 'position' => 10 ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Edit Profile', 'buddypress' ), 'slug' => 'edit', 'parent_url' => $profile_link, 'parent_slug' => $bp->profile->slug, 'screen_function' => 'xprofile_screen_edit_profile', 'position' => 20 ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Change Avatar', 'buddypress' ), 'slug' => 'change-avatar', 'parent_url' => $profile_link, 'parent_slug' => $bp->profile->slug, 'screen_function' => 'xprofile_screen_change_avatar', 'position' => 30 ) );
 
 	if ( $bp->current_component == $bp->profile->slug ) {
 		if ( bp_is_home() ) {
@@ -221,8 +220,13 @@ function xprofile_setup_nav() {
 add_action( 'wp', 'xprofile_setup_nav', 2 );
 add_action( 'admin_menu', 'xprofile_setup_nav', 2 );
 
-/********
- * Functions to handle screens and URL based actions
+
+/********************************************************************************
+ * Screen Functions
+ *
+ * Screen functions are the controllers of BuddyPress. They will execute when their
+ * specific URL is caught. They will first save or manipulate data using business
+ * functions, then pass on the user to a template file.
  */
 
 /**
@@ -314,6 +318,15 @@ function xprofile_screen_notification_settings() {
 <?php	
 }
 add_action( 'bp_notification_settings', 'xprofile_screen_notification_settings', 1 );
+
+
+/********************************************************************************
+ * Action Functions
+ *
+ * Action functions are exactly the same as screen functions, however they do not
+ * have a template screen associated with them. Usually they will send the user
+ * back to the default screen after execution.
+ */
 
 /**
  * xprofile_action_delete_avatar()
@@ -434,8 +447,11 @@ function xprofile_action_delete_wire_post() {
 add_action( 'wp', 'xprofile_action_delete_wire_post', 3 );
 
 
-/********
- * Activity and notification recording functions
+/********************************************************************************
+ * Activity & Notification Functions
+ *
+ * These functions handle the recording, deleting and formatting of activity and
+ * notifications for the user and for this specific component.
  */
 
 /**
@@ -588,8 +604,13 @@ function xprofile_format_notifications( $action, $item_id, $secondary_item_id, $
 }
 
 
-/********
- * Core action functions
+/********************************************************************************
+ * Business Functions
+ *
+ * Business functions are where all the magic happens in BuddyPress. They will
+ * handle the actual saving or manipulation of information. Usually they will
+ * hand off to a database class for data access, then return
+ * true or false on success or failure.
  */
 
 /**
@@ -942,7 +963,6 @@ function xprofile_remove_data( $user_id ) {
 }
 add_action( 'wpmu_delete_user', 'xprofile_remove_data', 1 );
 add_action( 'delete_user', 'xprofile_remove_data', 1 );
-
 
 function xprofile_clear_profile_groups_object_cache( $group_obj ) {
 	wp_cache_delete( 'xprofile_groups', 'bp' );

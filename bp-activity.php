@@ -12,13 +12,6 @@ require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-widgets.php' );
 require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-cssjs.php' );
 require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-filters.php' );
 
-
-/**************************************************************************
- bp_bp_activity_install()
- 
- Sets up the component ready for use on a site installation.
- **************************************************************************/
-
 function bp_activity_install() {
 	global $wpdb, $bp;
 	
@@ -52,13 +45,6 @@ function bp_activity_install() {
 	update_site_option( 'bp-activity-db-version', BP_ACTIVITY_DB_VERSION );
 }
 
-/**************************************************************************
- bp_activity_setup_globals()
- 
- Set up and add all global variables for this component, and add them to 
- the $bp global variable array.
- **************************************************************************/
-
 function bp_activity_setup_globals() {
 	global $bp, $wpdb, $current_blog;
 
@@ -78,26 +64,18 @@ function bp_activity_setup_root_component() {
 }
 add_action( 'plugins_loaded', 'bp_activity_setup_root_component', 1 );
 
-
-/**************************************************************************
- bp_activity_setup_nav()
- 
- Set up front end navigation.
- **************************************************************************/
-
 function bp_activity_setup_nav() {
 	global $bp;
-	
+
 	/* Add 'Activity' to the main navigation */
-	bp_core_add_nav_item( __('Activity', 'buddypress'), $bp->activity->slug );
-	bp_core_add_nav_default( $bp->activity->slug, 'bp_activity_screen_my_activity', 'just-me' );
-		
+	bp_core_new_nav_item( array( 'name' => __( 'Activity', 'buddypress' ), 'slug' => $bp->activity->slug, 'position' => 10, 'screen_function' => 'bp_activity_screen_my_activity', 'default_subnav_slug' => 'just-me' ) );
+
 	$activity_link = $bp->loggedin_user->domain . $bp->activity->slug . '/';
-	
+
 	/* Add the subnav items to the activity nav item */
-	bp_core_add_subnav_item( $bp->activity->slug, 'just-me', __('Just Me', 'buddypress'), $activity_link, 'bp_activity_screen_my_activity' );
-	bp_core_add_subnav_item( $bp->activity->slug, 'my-friends', __('My Friends', 'buddypress'), $activity_link, 'bp_activity_screen_friends_activity', 'activity-my-friends', bp_is_home() );
-	
+	bp_core_new_subnav_item( array( 'name' => __( 'Just Me', 'buddypress' ), 'slug' => 'just-me', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_my_activity', 'position' => 10 ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'My Friends', 'buddypress' ), 'slug' => 'my-friends', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_friends_activity', 'position' => 20, 'item_css_id' => 'activity-my-friends' ) );
+
 	if ( $bp->current_component == $bp->activity->slug ) {
 		if ( bp_is_home() ) {
 			$bp->bp_options_title = __( 'My Activity', 'buddypress' );
@@ -106,13 +84,20 @@ function bp_activity_setup_nav() {
 			$bp->bp_options_title = $bp->displayed_user->fullname; 
 		}
 	}
-	
+
 	do_action( 'bp_activity_setup_nav' );
 }
 add_action( 'wp', 'bp_activity_setup_nav', 2 );
 add_action( 'admin_menu', 'bp_activity_setup_nav', 2 );
 
-/***** Screens **********/
+
+/********************************************************************************
+ * Screen Functions
+ *
+ * Screen functions are the controllers of BuddyPress. They will execute when their
+ * specific URL is caught. They will first save or manipulate data using business
+ * functions, then pass on the user to a template file.
+ */
 
 function bp_activity_screen_my_activity() {
 	do_action( 'bp_activity_screen_my_activity' );
@@ -124,7 +109,14 @@ function bp_activity_screen_friends_activity() {
 	bp_core_load_template( apply_filters( 'bp_activity_template_friends_activity', 'activity/my-friends' ) );	
 }
 
-/***** Actions *********/
+
+/********************************************************************************
+ * Action Functions
+ *
+ * Action functions are exactly the same as screen functions, however they do not
+ * have a template screen associated with them. Usually they will send the user
+ * back to the default screen after execution.
+ */
 
 function bp_activity_action_sitewide_feed() {
 	global $bp, $wp_query;
@@ -169,9 +161,16 @@ function bp_activity_action_friends_feed() {
 add_action( 'wp', 'bp_activity_action_friends_feed', 3 );
 
 
-/**** BUSINESS FUNCTIONS *********/
+/********************************************************************************
+ * Business Functions
+ *
+ * Business functions are where all the magic happens in BuddyPress. They will
+ * handle the actual saving or manipulation of information. Usually they will
+ * hand off to a database class for data access, then return
+ * true or false on success or failure.
+ */
 
-function bp_activity_add( $args ) {
+function bp_activity_add( $args = '' ) {
 	global $bp, $wpdb;
 	
 	$defaults = array(
@@ -208,7 +207,7 @@ function bp_activity_add( $args ) {
 	return true;
 }
 
-function bp_activity_update( $args ) {
+function bp_activity_update( $args = '' ) {
 	global $bp, $wpdb;
 	
 	extract( $args );
@@ -223,7 +222,10 @@ function bp_activity_update( $args ) {
 		'recorded_time' => time(),
 		'hide_sitewide' => false
 	);
-	
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+		
 	$activity = new BP_Activity_Activity( $user_id, $component_name, $component_action, $item_id, $secondary_item_id );
 	$activity->user_id = $user_id;
 	$activity->content = $content;

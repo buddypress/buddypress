@@ -12,13 +12,6 @@ require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-widgets.php' );
 require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-ajax.php' );
 
-
-/**************************************************************************
- bp_blogs_install()
- 
- Sets up the database tables ready for use on a site installation.
- **************************************************************************/
-
 function bp_blogs_install() {
 	global $wpdb, $bp;
 	
@@ -98,7 +91,6 @@ function bp_blogs_install() {
 	update_site_option( 'bp-blogs-db-version', BP_BLOGS_DB_VERSION );
 }
 
-
 function bp_blogs_check_installed() {	
 	global $wpdb, $bp, $userdata;
 	
@@ -109,14 +101,6 @@ function bp_blogs_check_installed() {
 	}
 }
 add_action( 'admin_menu', 'bp_blogs_check_installed' );
-
-
-/**************************************************************************
- bp_blogs_setup_globals()
- 
- Set up and add all global variables for this component, and add them to 
- the $bp global variable array.
- **************************************************************************/
 
 function bp_blogs_setup_globals() {
 	global $bp, $wpdb;
@@ -154,19 +138,16 @@ function bp_blogs_setup_nav() {
 	global $bp;
 	
 	/* Add 'Blogs' to the main navigation */
-	bp_core_add_nav_item( __( 'Blogs', 'buddypress' ), $bp->blogs->slug );
-
-	if ( $bp->displayed_user->id )
-		bp_core_add_nav_default( $bp->blogs->slug, 'bp_blogs_screen_my_blogs', 'my-blogs' );
+	bp_core_new_nav_item( array( 'name' => __( 'Blogs', 'buddypress' ), 'slug' => $bp->blogs->slug, 'position' => 30, 'screen_function' => 'bp_blogs_screen_my_blogs', 'default_subnav_slug' => 'my-blogs' ) );
 	
 	$blogs_link = $bp->loggedin_user->domain . $bp->blogs->slug . '/';
 	
 	/* Add the subnav items to the blogs nav item */
-	bp_core_add_subnav_item( $bp->blogs->slug, 'my-blogs', __('My Blogs', 'buddypress'), $blogs_link, 'bp_blogs_screen_my_blogs', 'my-blogs-list' );
-	bp_core_add_subnav_item( $bp->blogs->slug, 'recent-posts', __('Recent Posts', 'buddypress'), $blogs_link, 'bp_blogs_screen_recent_posts' );
-	bp_core_add_subnav_item( $bp->blogs->slug, 'recent-comments', __('Recent Comments', 'buddypress'), $blogs_link, 'bp_blogs_screen_recent_comments' );
-	bp_core_add_subnav_item( $bp->blogs->slug, 'create-a-blog', __('Create a Blog', 'buddypress'), $blogs_link, 'bp_blogs_screen_create_a_blog' );
-	
+	bp_core_new_subnav_item( array( 'name' => __( 'My Blogs', 'buddypress' ), 'slug' => 'my-blogs', 'parent_url' => $blogs_link, 'parent_slug' => $bp->blogs->slug, 'screen_function' => 'bp_blogs_screen_my_blogs', 'position' => 10, 'item_css_id' => 'my-blogs-list' ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Recent Posts', 'buddypress' ), 'slug' => 'recent-posts', 'parent_url' => $blogs_link, 'parent_slug' => $bp->blogs->slug, 'screen_function' => 'bp_blogs_screen_recent_posts', 'position' => 20 ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Recent Comments', 'buddypress' ), 'slug' => 'recent-comments', 'parent_url' => $blogs_link, 'parent_slug' => $bp->blogs->slug, 'screen_function' => 'bp_blogs_screen_recent_comments', 'position' => 30 ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Create a Blog', 'buddypress' ), 'slug' => 'create-a-blog', 'parent_url' => $blogs_link, 'parent_slug' => $bp->blogs->slug, 'screen_function' => 'bp_blogs_screen_create_a_blog', 'position' => 40 ) );
+
 	/* Set up the component options navigation for Blog */
 	if ( 'blogs' == $bp->current_component ) {
 		if ( bp_is_home() ) {
@@ -197,6 +178,15 @@ function bp_blogs_directory_blogs_setup() {
 }
 add_action( 'wp', 'bp_blogs_directory_blogs_setup', 2 );
 
+
+/********************************************************************************
+ * Screen Functions
+ *
+ * Screen functions are the controllers of BuddyPress. They will execute when their
+ * specific URL is caught. They will first save or manipulate data using business
+ * functions, then pass on the user to a template file.
+ */
+
 function bp_blogs_screen_my_blogs() {
 	do_action( 'bp_blogs_screen_my_blogs' );
 	bp_core_load_template( apply_filters( 'bp_blogs_template_my_blogs', 'blogs/my-blogs' ) );	
@@ -218,12 +208,12 @@ function bp_blogs_screen_create_a_blog() {
 }
 
 
-/**************************************************************************
- bp_blogs_record_activity()
- 
- Records activity for the logged in user within the friends component so that
- it will show in the users activity stream (if installed)
- **************************************************************************/
+/********************************************************************************
+ * Activity & Notification Functions
+ *
+ * These functions handle the recording, deleting and formatting of activity and
+ * notifications for the user and for this specific component.
+ */
 
 function bp_blogs_record_activity( $args = true ) {
 	global $bp;
@@ -246,12 +236,6 @@ function bp_blogs_delete_activity( $args = true ) {
 		bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
 	}
 }
-
-/**************************************************************************
- bp_blogs_format_activity()
- 
- Selects and formats recorded blogs component activity.
- **************************************************************************/
 
 function bp_blogs_format_activity( $item_id, $user_id, $action, $secondary_item_id = false, $for_secondary_user = false  ) {
 	global $bp;
@@ -334,6 +318,16 @@ function bp_blogs_format_activity( $item_id, $user_id, $action, $secondary_item_
 	return false;
 }
 
+
+/********************************************************************************
+ * Business Functions
+ *
+ * Business functions are where all the magic happens in BuddyPress. They will
+ * handle the actual saving or manipulation of information. Usually they will
+ * hand off to a database class for data access, then return
+ * true or false on success or failure.
+ */
+
 function bp_blogs_record_existing_blogs() {
 	global $wpdb;
 
@@ -354,7 +348,6 @@ function bp_blogs_record_existing_blogs() {
 		}
 	}
 }
-
 
 function bp_blogs_record_blog( $blog_id, $user_id ) {
 	global $bp;
@@ -452,7 +445,6 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 }
 add_action( 'publish_post', 'bp_blogs_record_post' );
 add_action( 'edit_post', 'bp_blogs_record_post' );
-
 
 function bp_blogs_record_comment( $comment_id, $is_approved ) {
 	global $wpdb, $bp;
@@ -787,8 +779,6 @@ function bp_blogs_force_buddypress_stylesheet( $stylesheet ) {
 }
 add_filter( 'stylesheet', 'bp_blogs_force_buddypress_stylesheet', 1, 1 );
 
-
-
 function bp_blogs_remove_data( $user_id ) {
 	/* If this is regular blog, delete all data for that blog. */
 	BP_Blogs_Blog::delete_blogs_for_user( $user_id );
@@ -799,7 +789,6 @@ function bp_blogs_remove_data( $user_id ) {
 }
 add_action( 'wpmu_delete_user', 'bp_blogs_remove_data', 1 );
 add_action( 'delete_user', 'bp_blogs_remove_data', 1 );
-
 
 function bp_blogs_clear_blog_object_cache( $blog_id, $user_id ) {
 	wp_cache_delete( 'bp_blogs_of_user_' . $user_id, 'bp' );
@@ -857,7 +846,5 @@ add_action( 'bp_blogs_new_blog_comment', 'bp_core_clear_cache' );
 add_action( 'bp_blogs_new_blog_post', 'bp_core_clear_cache' );
 add_action( 'bp_blogs_new_blog', 'bp_core_clear_cache' );
 add_action( 'bp_blogs_remove_data', 'bp_core_clear_cache' );
-
-
 
 ?>

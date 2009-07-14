@@ -347,7 +347,7 @@ function bp_core_setup_nav() {
 		$profile_link = $bp->loggedin_user->domain . '/profile/';
 
 		/* Add the subnav items to the profile */
-		bp_core_add_subnav_item( 'profile', 'public', __('Public', 'buddypress'), $profile_link, 'xprofile_screen_display_profile' );
+		bp_core_new_subnav_item( array( 'name' => __( 'Public', 'buddypress' ), 'slug' => 'public', 'parent_url' => $profile_link, 'parent_slug' => 'profile', 'screen_function' => 'xprofile_screen_display_profile', 'position' => 10 ) );
 
 		if ( 'profile' == $bp->current_component ) {
 			if ( bp_is_home() ) {
@@ -437,42 +437,103 @@ function bp_core_get_displayed_userid( $user_login ) {
 }
 
 /**
- * bp_core_add_nav_item()
+ * bp_core_new_nav_item()
  *
  * Adds a navigation item to the main navigation array used in BuddyPress themes.
  * 
  * @package BuddyPress Core
- * @param $id A unique id for the navigation item.
- * @param $name The display name for the navigation item, e.g. 'Profile' or 'Messages'
- * @param $slug The slug for the navigation item, e.g. 'profile' or 'messages'
- * @param $function The function to run when this sub nav item is selected.
- * @param $css_id The id to give the nav item in the HTML (for css highlighting)
- * @param $add_to_usernav Should this navigation item show up on the users home when not logged in? Or when another user views the user's page?
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
-function bp_core_add_nav_item( $name, $slug, $css_id = false, $add_to_usernav = true ) {
-	global $bp;
-	
-	$nav_key = count($bp->bp_nav) + 1;
-	$user_nav_key = count($bp->bp_users_nav) + 1;
-	
-	if ( !$css_id )
-		$css_id = $slug;
+function bp_core_new_nav_item( $args = '' ) {
+	global $bp, $temp_nav;
 
-	$bp->bp_nav[$nav_key] = array(
-		'name'   => $name, 
-		'link'   => $bp->loggedin_user->domain . $slug,
-		'css_id' => $css_id
-	);
+	$temp_nav[] = $args;
 	
-	if ( $add_to_usernav ) {
-		$bp->bp_users_nav[$user_nav_key] = array(
-			'name'   => $name, 
-			'link'   => $bp->displayed_user->domain . $slug,
-			'css_id' => $css_id
-		);
+	$defaults = array(
+		'name' => false, // Display name for the nav item
+		'slug' => false, // URL slug for the nav item
+		'item_css_id' => false, // The CSS ID to apply to the HTML of the nav item
+		'show_for_displayed_user' => true, // When viewing another user does this nav item show up?
+		'site_admin_only' => false, // Can only site admins see this nav item?
+		'position' => 99, // Index of where this nav item should be positioned
+		'screen_function' => false, // The name of the function to run when clicked
+		'default_subnav_slug' => false // The slug of the default subnav item to select when clicked
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	/* If we don't have the required info we need, don't create this subnav item */
+	if ( empty($name) || empty($slug) )
+		return false;
+			
+	/* If this is for site admins only and the user is not one, don't create the subnav item */
+	if ( $site_admin_only && !is_site_admin() )
+		return false;
+	
+	if ( empty( $item_css_id ) )
+		$item_css_id = $slug;
+
+	$bp->bp_nav[$slug] = array(
+		'name' => $name,
+		'link' => $bp->loggedin_user->domain . $slug . '/',
+		'css_id' => $item_css_id,
+		'show_for_displayed_user' => $show_for_displayed_user,
+		'position' => $position
+	);
+
+	/***
+	 * If we are not viewing a user, and this is a root component, don't attach the
+	 * default subnav function so we can display a directory or something else.
+	 */
+	if ( bp_core_is_root_component( $slug ) && !$bp->displayed_user->id )
+		return;
+
+	if ( $bp->current_component == $slug && !$bp->current_action ) {
+		if ( function_exists( $screen_function ) )
+			add_action( 'wp', $function, 3 );
+
+		if ( $default_subnav_slug )
+			$bp->current_action = $default_subnav_slug;
 	}
 }
+	/* DEPRECATED - use bp_core_new_nav_item() as it's more friendly and allows ordering */
+	function bp_core_add_nav_item( $name, $slug, $css_id = false, $show_for_displayed_user = true ) {
+		bp_core_new_nav_item( array( 'name' => $name, 'slug' => $slug, 'item_css_id' => $css_id, 'show_for_displayed_user' => $show_for_displayed_user ) );
+	}
+
+/**
+ * bp_core_sort_nav_items()
+ *
+ * We can only sort nav items by their position integer at a later point in time, once all
+ * plugins have registered their navigation items.
+ * 
+ * @package BuddyPress Core
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ */
+function bp_core_sort_nav_items() {
+	global $bp;
+	
+	if ( empty( $bp->bp_nav ) || !is_array( $bp->bp_nav ) )
+		return false;
+	
+	foreach ( $bp->bp_nav as $slug => $nav_item ) {
+		if ( empty( $temp[$nav_item['position']]) )
+			$temp[$nav_item['position']] = $nav_item;
+		else {
+			// increase numbers here to fit new items in.
+			do {
+				$nav_item['position']++;
+			} while ( !empty( $temp[$nav_item['position']] ) );
+			
+			$temp[$nav_item['position']] = $nav_item;
+		}
+	}
+	
+	ksort( $temp );
+	$bp->bp_nav = &$temp; 
+}
+add_action( 'wp_head', 'bp_core_sort_nav_items' );
 
 /**
  * bp_core_remove_nav_item()
@@ -500,39 +561,93 @@ function bp_core_remove_nav_item( $name ) {
 }
 
 /**
- * bp_core_add_subnav_item()
+ * bp_core_new_subnav_item()
  *
  * Adds a navigation item to the sub navigation array used in BuddyPress themes.
  * 
  * @package BuddyPress Core
- * @param $parent_id The id of the parent navigation item.
- * @param $slug The slug of the sub navigation item.
- * @param $name The display name for the sub navigation item, e.g. 'Public' or 'Change Avatar'
- * @param $link The url for the sub navigation item.
- * @param $function The function to run when this sub nav item is selected.
- * @param $css_id The id to give the nav item in the HTML (for css highlighting)
- * @param $user_has_access Should the logged in user be able to access this page?
- * @param $admin_only Should this sub nav item only be visible/accessible to the site admin?
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
-function bp_core_add_subnav_item( $parent_id, $slug, $name, $link, $function, $css_id = false, $user_has_access = true, $admin_only = false ) {
+function bp_core_new_subnav_item( $args = '' ) {
 	global $bp;
 
-	if ( $admin_only && !is_site_admin() )
+	$defaults = array(
+		'name' => false, // Display name for the nav item
+		'slug' => false, // URL slug for the nav item
+		'parent_slug' => false, // URL slug of the parent nav item
+		'parent_url' => false, // URL of the parent item
+		'item_css_id' => false, // The CSS ID to apply to the HTML of the nav item
+		'user_has_access' => true, // Can the user see this nav item?
+		'site_admin_only' => false, // Can only site admins see this nav item?
+		'position' => 90, // Index of where should this nav item be positioned
+		'screen_function' => false // The name of the function to run when clicked
+	);
+	
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	/* If we don't have the required info we need, don't create this subnav item */
+	if ( empty($name) || empty($slug) || empty($parent_slug) || empty($parent_url) || empty($screen_function) )
 		return false;
 	
-	if ( !$css_id )
-		$css_id = $slug;
+	if ( !$user_has_access )
+		return false;
+	
+	/* If this is for site admins only and the user is not one, don't create the subnav item */
+	if ( $site_admin_only && !is_site_admin() )
+		return false;
+	
+	if ( empty( $item_css_id ) )
+		$item_css_id = $slug;
 
-	$bp->bp_options_nav[$parent_id][$slug] = array(
+	$bp->bp_options_nav[$parent_slug][] = array(
 		'name' => $name,
-		'link' => $link . $slug,
-		'css_id' => $css_id
-	);
-
-	if ( function_exists($function) && $user_has_access && $bp->current_action == $slug && $bp->current_component == $parent_id )
-		add_action( 'wp', $function, 3 );
+		'link' => $parent_url . $slug . '/',
+		'slug' => $slug,
+		'css_id' => $item_css_id,
+		'position' => $position
+	);	 
+		
+	if ( $bp->current_action == $slug && $bp->current_component == $parent_slug ) {
+		if ( !is_object($screen_function[0]) )
+			add_action( 'wp', $screen_function, 3 );
+		else
+			add_action( 'wp', array( &$screen_function[0], $screen_function[1] ), 3 );
+	}
 }
+	/* DEPRECATED - use bp_core_new_subnav_item() as it's more friendly and allows ordering. */
+	function bp_core_add_subnav_item( $parent_id, $slug, $name, $link, $function, $css_id = false, $user_has_access = true, $admin_only = false ) {
+		bp_core_new_subnav_item( array( 'name' => $name, 'slug' => $slug, 'parent_slug' => $parent_id, 'parent_url' => $link, 'item_css_id' => $css_id, 'user_has_access' => $user_has_access, 'site_admin_only' => $admin_only, 'screen_function' => $function ) );
+	}
+
+function bp_core_sort_subnav_items() {
+	global $bp;
+	
+	if ( empty( $bp->bp_options_nav ) || !is_array( $bp->bp_options_nav ) )
+		return false;
+	
+	foreach ( $bp->bp_options_nav as $parent_slug => $subnav_items ) {
+		if ( !is_array( $subnav_items ) )
+			continue;
+		
+		foreach ( $subnav_items as $subnav_item ) {
+			if ( empty( $temp[$subnav_item['position']]) )
+				$temp[$subnav_item['position']] = $subnav_item;
+			else {
+				// increase numbers here to fit new items in.
+				do {
+					$subnav_item['position']++;
+				} while ( !empty( $temp[$subnav_item['position']] ) );
+			
+				$temp[$subnav_item['position']] = $subnav_item;
+			}
+		}
+		ksort( $temp );
+		$bp->bp_options_nav[$parent_slug] = &$temp;
+		unset($temp);
+	}
+}
+add_action( 'wp_head', 'bp_core_sort_subnav_items' );
 
 /**
  * bp_core_remove_subnav_item()
@@ -558,10 +673,10 @@ function bp_core_remove_subnav_item( $parent_id, $slug ) {
  * @param $parent_id The id of the parent navigation item.
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
-function bp_core_reset_subnav_items($parent_id) {
+function bp_core_reset_subnav_items($parent_slug) {
 	global $bp;
 
-	unset($bp->bp_options_nav[$parent_id]);
+	unset($bp->bp_options_nav[$parent_slug]);
 }
 
 /**
@@ -1136,69 +1251,6 @@ function bp_core_redirect( $location, $status = 302 ) {
 }
 
 /**
- * bp_core_sort_nav_items()
- *
- * Reorder the core component navigation array items into the desired order.
- * This is done this way because we cannot assume that any one component is present.
- * 
- * @package BuddyPress Core
- * @param $nav_array the navigation array variable
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @uses ksort() Sort an array by key
- * @return $new_nav array reordered navigation array
- */
-function bp_core_sort_nav_items( $nav_array ) {
-	global $bp;
-	
-	foreach ( (array)$nav_array as $key => $value ) {
-		switch ( $nav_array[$key]['css_id'] ) {
-			case $bp->activity->slug:
-				$new_nav[0] = $nav_array[$key];
-				unset($nav_array[$key]);
-			break;
-			case $bp->profile->slug:
-				$new_nav[1] = $nav_array[$key];
-				unset($nav_array[$key]);
-			break;
-			case 'profile': // For profiles without bp-xprofile installed
-				$new_nav[1] = $nav_array[$key];
-				unset($nav_array[$key]);
-			break;
-			case $bp->blogs->slug:
-				$new_nav[2] = $nav_array[$key];
-				unset($nav_array[$key]);
-			break;
-			case $bp->wire->slug:
-				$new_nav[3] = $nav_array[$key];
-				unset($nav_array[$key]);
-			break;
-			case $bp->messages->slug:
-				$new_nav[4] = $nav_array[$key];
-				unset($nav_array[$key]);
-			break;
-			case $bp->friends->slug:
-				$new_nav[5] = $nav_array[$key];
-				unset($nav_array[$key]);
-			break;
-			case $bp->groups->slug:
-				$new_nav[6] = $nav_array[$key];
-				unset($nav_array[$key]);
-			break;
-		}
-	}
-
-	if ( is_array( $new_nav ) ) {
-		/* Sort the navigation array by key */
-		ksort($new_nav);
-	
-		/* Merge the remaining nav items, so they can be appended on the end */
-		$new_nav = array_merge( $new_nav, $nav_array );
-	}
-	
-	return apply_filters( 'bp_core_sort_nav_items', $new_nav );
-}
-
-/**
  * bp_core_referrer()
  *
  * Returns the referrer URL without the http(s)://
@@ -1222,6 +1274,12 @@ function bp_core_referrer() {
  * @return An array containing all of the themes.
  */
 function bp_core_get_buddypress_themes() {
+	global $wp_themes;
+	
+	/* Remove the cached WP themes first */
+	$wp_existing_themes = &$wp_themes;
+	$wp_themes = null;
+	
 	add_filter( 'theme_root', 'bp_core_filter_buddypress_theme_root' );
 	$themes = get_themes();
 
@@ -1237,6 +1295,9 @@ function bp_core_get_buddypress_themes() {
 			);
 		}
 	}
+	
+	/* Restore the cached WP themes */
+	$wp_themes = $wp_existing_themes;
 	
 	return $member_themes;
 }

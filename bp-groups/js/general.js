@@ -31,8 +31,7 @@ jQuery(document).ready( function() {
 					jQuery("#message").hide();
 				
 				jQuery('#ajax-loader').toggle();
-				response = response.substr(0, response.length-1);
-			
+
 				if ( friend_action == 'invite' ) {
 					jQuery('#friend-list').append(response);	
 				} else if ( friend_action == 'uninvite' ) {

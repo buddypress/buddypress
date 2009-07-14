@@ -123,9 +123,12 @@ class BP_Friends_Friendship {
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->friends->table_name} WHERE ( initiator_user_id = %d AND friend_user_id = %d ) OR ( initiator_user_id = %d AND friend_user_id = %d ) AND is_confirmed = 1", $user_id, $friend_id, $friend_id, $user_id ) );
 	}
 	
-	function total_friend_count( $user_id ) {
+	function total_friend_count( $user_id = false) {
 		global $wpdb, $bp;
 		
+		if ( !$user_id )
+			$user_id = $bp->displayed_user->id;
+			
 		/* This is stored in 'total_friend_count' usermeta. 
 		   This function will recalculate, update and return. */
 		

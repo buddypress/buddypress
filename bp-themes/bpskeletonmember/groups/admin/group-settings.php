@@ -41,24 +41,7 @@
 				</div>
 
 			<?php endif; ?>
-		
-			<?php if ( function_exists('bp_albums_install') ) : ?>
-
-				<div class="checkbox with-suboptions">
-					<label><input type="checkbox" name="group-show-photos" id="group-show-photos" value="1"<?php bp_group_show_photos_setting() ?> /> <?php _e( 'Enable photo gallery', 'buddypress' ) ?></label>
-			
-					<?php if ( bp_group_photos_enabled() ) : ?>
-
-						<div class="sub-options">
-							<label><input type="radio" name="group-photos-status" value="all"<?php bp_group_show_photos_upload_setting('member') ?> /> <?php _e( 'All members can upload photos', 'buddypress' ) ?></label>
-							<label><input type="radio" name="group-photos-status" value="admins"<?php bp_group_show_photos_upload_setting('admin') ?> /> <?php _e( 'Only group admins can upload photos', 'buddypress' ) ?></label>
-						</div>
-
-					<?php endif; ?>
-				</div>
-
-			<?php endif; ?>
-		
+				
 			<h3><?php _e( 'Privacy Options', 'buddypress' ); ?></h3>
 	
 			<div class="radio">

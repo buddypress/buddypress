@@ -25,10 +25,7 @@ class BP_Core_User {
 	
 	var $last_active;
 	var $profile_last_updated;
-	
-	var $status;
-	var $status_last_updated;
-	
+
 	/* Extras */
 	var $total_friends;
 	var $total_blogs;

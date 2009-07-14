@@ -12,12 +12,6 @@ require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-cssjs.php' );
 require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-filters.php' );
 
-/**************************************************************************
- messages_install()
- 
- Sets up the database tables ready for use on a site installation.
- **************************************************************************/
-
 function messages_install() {
 	global $wpdb, $bp;
 	
@@ -78,14 +72,6 @@ function messages_install() {
 	add_site_option( 'bp-messages-db-version', BP_MESSAGES_DB_VERSION );
 }
 
-
-/**************************************************************************
- messages_setup_globals()
- 
- Set up and add all global variables for this component, and add them to 
- the $bp global variable array.
- **************************************************************************/
-
 function messages_setup_globals() {
 	global $bp, $wpdb;
 	
@@ -103,14 +89,6 @@ function messages_setup_globals() {
 add_action( 'plugins_loaded', 'messages_setup_globals', 5 );	
 add_action( 'admin_menu', 'messages_setup_globals', 1 );
 
-
-/**************************************************************************
- messages_add_admin_menu()
- 
- Creates the administration interface menus and checks to see if the DB
- tables are set up.
- **************************************************************************/
-
 function messages_check_installed() {	
 	global $wpdb, $bp;
 
@@ -123,12 +101,6 @@ function messages_check_installed() {
 }
 add_action( 'admin_menu', 'messages_check_installed', 1 );
 
-/**************************************************************************
- messages_setup_nav()
- 
- Set up front end navigation.
- **************************************************************************/
-
 function messages_setup_nav() {
 	global $bp;
 
@@ -137,18 +109,19 @@ function messages_setup_nav() {
 		$inbox_display = ( $inbox_count ) ? ' style="display:inline;"' : ' style="display:none;"';
 		$count_indicator = '&nbsp; <span' . $inbox_display . ' class="unread-count inbox-count">' . $inbox_count . '</span>';
 	}
-	
-	/* Add 'Profile' to the main navigation */
-	bp_core_add_nav_item( __('Messages', 'buddypress'), $bp->messages->slug, false, false );
-	bp_core_add_nav_default( $bp->messages->slug, 'messages_screen_inbox', 'inbox', bp_is_home() );
+
+	/* Add 'Messages' to the main navigation */
+	bp_core_new_nav_item( array( 'name' => __('Messages', 'buddypress'), 'slug' => $bp->messages->slug, 'position' => 50, 'show_for_displayed_user' => false, 'screen_function' => 'messages_screen_inbox', 'default_subnav_slug' => 'inbox'  ) );
 	
 	$messages_link = $bp->loggedin_user->domain . $bp->messages->slug . '/';
 	
 	/* Add the subnav items to the profile */
-	bp_core_add_subnav_item( $bp->messages->slug, 'inbox', __('Inbox', 'buddypress') . $count_indicator, $messages_link, 'messages_screen_inbox', false, bp_is_home() );
-	bp_core_add_subnav_item( $bp->messages->slug, 'sentbox', __('Sent Messages', 'buddypress'), $messages_link, 'messages_screen_sentbox', false, bp_is_home() );
-	bp_core_add_subnav_item( $bp->messages->slug, 'compose', __('Compose', 'buddypress'), $messages_link, 'messages_screen_compose', false, bp_is_home() );
-	bp_core_add_subnav_item( $bp->messages->slug, 'notices', __('Notices', 'buddypress'), $messages_link, 'messages_screen_notices', false, true, true );
+	bp_core_new_subnav_item( array( 'name' => __( 'Inbox', 'buddypress' ) . $count_indicator, 'slug' => 'inbox', 'parent_url' => $messages_link, 'parent_slug' => $bp->messages->slug, 'screen_function' => 'messages_screen_inbox', 'position' => 10, 'user_has_access' => bp_is_home() ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Sent Messages', 'buddypress' ), 'slug' => 'sentbox', 'parent_url' => $messages_link, 'parent_slug' => $bp->messages->slug, 'screen_function' => 'messages_screen_sentbox', 'position' => 20, 'user_has_access' => bp_is_home() ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Compose', 'buddypress' ), 'slug' => 'compose', 'parent_url' => $messages_link, 'parent_slug' => $bp->messages->slug, 'screen_function' => 'messages_screen_compose', 'position' => 30, 'user_has_access' => bp_is_home() ) );
+	
+	if ( is_site_admin() )
+		bp_core_new_subnav_item( array( 'name' => __( 'Notices', 'buddypress' ), 'slug' => 'notices', 'parent_url' => $messages_link, 'parent_slug' => $bp->messages->slug, 'screen_function' => 'messages_screen_notices', 'position' => 90, 'user_has_access' => is_site_admin() ) );
 
 	if ( $bp->current_component == $bp->messages->slug ) {
 		if ( bp_is_home() ) {
@@ -164,7 +137,14 @@ function messages_setup_nav() {
 add_action( 'wp', 'messages_setup_nav', 2 );
 add_action( 'admin_menu', 'messages_setup_nav', 2 );
 
-/***** Screens **********/
+
+/********************************************************************************
+ * Screen Functions
+ *
+ * Screen functions are the controllers of BuddyPress. They will execute when their
+ * specific URL is caught. They will first save or manipulate data using business
+ * functions, then pass on the user to a template file.
+ */
 
 function messages_screen_inbox() {
 	do_action( 'messages_screen_inbox' );
@@ -270,7 +250,14 @@ function messages_screen_notification_settings() {
 }
 add_action( 'bp_notification_settings', 'messages_screen_notification_settings', 2 );
 
-/***** Actions **********/
+
+/********************************************************************************
+ * Action Functions
+ *
+ * Action functions are exactly the same as screen functions, however they do not
+ * have a template screen associated with them. Usually they will send the user
+ * back to the default screen after execution.
+ */
 
 function messages_action_view_message() {
 	global $bp, $thread_id;
@@ -292,7 +279,6 @@ function messages_action_view_message() {
 	}
 }
 add_action( 'wp', 'messages_action_view_message', 3 );
-
 
 function messages_action_delete_message() {
 	global $bp, $thread_id;
@@ -319,7 +305,6 @@ function messages_action_delete_message() {
 }
 add_action( 'wp', 'messages_action_delete_message', 3 );
 
-
 function messages_action_bulk_delete() {
 	global $bp, $thread_ids;
 	
@@ -345,12 +330,12 @@ function messages_action_bulk_delete() {
 add_action( 'wp', 'messages_action_bulk_delete', 3 );
 
 
-/**************************************************************************
- messages_record_activity()
- 
- Records activity for the logged in user within the friends component so that
- it will show in the users activity stream (if installed)
- **************************************************************************/
+/********************************************************************************
+ * Activity & Notification Functions
+ *
+ * These functions handle the recording, deleting and formatting of activity and
+ * notifications for the user and for this specific component.
+ */
 
 function messages_record_activity( $args = true ) {
 	if ( function_exists('bp_activity_record') ) {
@@ -382,11 +367,14 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 }
 
 
-/**************************************************************************
- messages_send_message()
-  
- Send a message.
- **************************************************************************/
+/********************************************************************************
+ * Business Functions
+ *
+ * Business functions are where all the magic happens in BuddyPress. They will
+ * handle the actual saving or manipulation of information. Usually they will
+ * hand off to a database class for data access, then return
+ * true or false on success or failure.
+ */
 
 function messages_send_message( $recipients, $subject, $content, $thread_id, $from_ajax = false, $from_template = false, $is_reply = false ) {
 	global $pmessage;
@@ -516,12 +504,6 @@ function messages_remove_callback_values() {
 	setcookie( 'bp_messages_content', false, time()-1000, COOKIEPATH );
 }
 
-/**************************************************************************
- messages_send_notice()
-  
- Handles the sending of notices by an administrator
- **************************************************************************/
-
 function messages_send_notice( $subject, $message, $from_template ) {
 	
 	
@@ -541,12 +523,6 @@ function messages_send_notice( $subject, $message, $from_template ) {
 		return true;
 	}
 }
-
-/**************************************************************************
- messages_delete_thread()
-  
- Handles the deletion of a single or multiple threads.
- **************************************************************************/
 
 function messages_delete_thread( $thread_ids ) {
 	if ( is_array($thread_ids) ) {
@@ -572,7 +548,6 @@ function messages_delete_thread( $thread_ids ) {
 	}
 }
 
-
 function messages_get_unread_count( $user_id = false ) {
 	global $bp;
 	
@@ -589,8 +564,6 @@ function messages_is_user_sender( $user_id, $message_id ) {
 function messages_get_message_sender( $message_id ) {
 	return BP_Messages_Message::get_message_sender( $message_id );
 }
-
-
 
 // List actions to clear super cached pages on, if super cache is installed
 add_action( 'messages_delete_thread', 'bp_core_clear_cache' );

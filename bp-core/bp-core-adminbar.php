@@ -50,9 +50,6 @@ function bp_adminbar_account_menu() {
 	if ( !$bp->bp_nav )
 		return false;
 
-	/* Sort the nav by key as the array has been put together in different locations */
-	$bp->bp_nav = bp_core_sort_nav_items( $bp->bp_nav );
-	
 	if ( is_user_logged_in() ) {
 		
 		echo '<li id="bp-adminbar-account-menu"><a href="">';

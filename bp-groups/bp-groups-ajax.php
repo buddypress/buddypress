@@ -6,10 +6,10 @@ function groups_ajax_invite_user() {
 
 	if ( !$_POST['friend_id'] || !$_POST['friend_action'] || !$_POST['group_id'] )
 		return false;
-	
-	if ( !groups_is_user_admin( $bp->loggedin_user->id, $_POST['group_id'] ) )
+
+	if ( !groups_is_user_member( $bp->loggedin_user->id, $_POST['group_id'] ) )
 		return false;
-	
+
 	if ( !friends_check_friendship( $bp->loggedin_user->id, $_POST['friend_id'] ) )
 		return false;
 	
@@ -161,7 +161,6 @@ function groups_ajax_member_list() {
 <?php
 }
 add_action( 'wp_ajax_get_group_members', 'groups_ajax_member_list' );
-
 
 function groups_ajax_member_admin_list() {
 	global $bp;

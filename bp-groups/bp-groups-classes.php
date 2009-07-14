@@ -8,11 +8,8 @@ Class BP_Groups_Group {
 	var $description;
 	var $news;
 	var $status;
-	var $is_invitation_only;
 	var $enable_wire;
 	var $enable_forum;
-	var $enable_photos;
-	var $photos_admin_only;
 	var $date_created;
 	
 	var $avatar_thumb;
@@ -24,7 +21,6 @@ Class BP_Groups_Group {
 	var $total_member_count;
 	var $random_members;
 	var $latest_wire_posts;
-	var $random_photos;	
 	
 	function bp_groups_group( $id = null, $single = false, $get_user_dataset = true ) {
 		if ( $id ) {
@@ -42,26 +38,24 @@ Class BP_Groups_Group {
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$bp->groups->table_name} WHERE id = %d", $this->id );
 		$group = $wpdb->get_row($sql);
-
+		
 		if ( $group ) {
+			$this->id = $group->id;
 			$this->creator_id = $group->creator_id;
 			$this->name = stripslashes($group->name);
 			$this->slug = $group->slug;
 			$this->description = stripslashes($group->description);
 			$this->news = stripslashes($group->news);
 			$this->status = $group->status;
-			$this->is_invitation_only = $group->is_invitation_only;
 			$this->enable_wire = $group->enable_wire;
 			$this->enable_forum = $group->enable_forum;
-			$this->enable_photos = $group->enable_photos;
-			$this->photos_admin_only = $group->photos_admin_only;
 			$this->date_created = strtotime($group->date_created);
 			$this->total_member_count = groups_get_groupmeta( $this->id, 'total_member_count' );
 
 			$gravatar_url = apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' );
 			
 			if ( !$group->avatar_thumb || strpos( $group->avatar_thumb, 'none-thumbnail' ) )
-				$this->avatar_thumb =  gravatar_url . md5( $this->id . '@' . $bp->root_domain ) . '?d=identicon&amp;s=50';
+				$this->avatar_thumb =  $gravatar_url . md5( $this->id . '@' . $bp->root_domain ) . '?d=identicon&amp;s=50';
 			else
 				$this->avatar_thumb = $group->avatar_thumb;
 			
@@ -85,7 +79,6 @@ Class BP_Groups_Group {
 		if ( $this->id ) {
 			$this->admins = $this->get_administrators();
 			$this->random_members = $this->get_random_members();
-			$this->random_photos = $this->get_random_photos();
 		}
 	}
 	
@@ -98,11 +91,8 @@ Class BP_Groups_Group {
 		$this->description = apply_filters( 'groups_group_description_before_save', $this->description, $this->id );
  		$this->news = apply_filters( 'groups_group_news_before_save', $this->news, $this->id );
 		$this->status = apply_filters( 'groups_group_status_before_save', $this->status, $this->id );
-		$this->is_invitation_only = apply_filters( 'groups_group_is_invitation_only_before_save', $this->is_invitation_only, $this->id );
 		$this->enable_wire = apply_filters( 'groups_group_enable_wire_before_save', $this->enable_wire, $this->id );
 		$this->enable_forum = apply_filters( 'groups_group_enable_forum_before_save', $this->enable_forum, $this->id );
-		$this->enable_photos = apply_filters( 'groups_group_enable_photos_before_save', $this->enable_photos, $this->id );
-		$this->photos_admin_only = apply_filters( 'groups_group_photos_admin_only_before_save', $this->photos_admin_only, $this->id );
 		$this->date_created = apply_filters( 'groups_group_date_created_before_save', $this->date_created, $this->id );
 		$this->avatar_thumb = apply_filters( 'groups_group_avatar_thumb_before_save', $this->avatar_thumb, $this->id );
 		$this->avatar_full = apply_filters( 'groups_group_avatar_full_before_save', $this->avatar_full, $this->id );
@@ -118,11 +108,8 @@ Class BP_Groups_Group {
 					description = %s, 
 					news = %s, 
 					status = %s, 
-					is_invitation_only = %d, 
 					enable_wire = %d, 
 					enable_forum = %d, 
-					enable_photos = %d, 
-					photos_admin_only = %d, 
 					date_created = FROM_UNIXTIME(%d), 
 					avatar_thumb = %s, 
 					avatar_full = %s
@@ -135,11 +122,8 @@ Class BP_Groups_Group {
 					$this->description, 
 					$this->news, 
 					$this->status, 
-					$this->is_invitation_only, 
 					$this->enable_wire, 
 					$this->enable_forum, 
-					$this->enable_photos, 
-					$this->photos_admin_only, 
 					$this->date_created, 
 					$this->avatar_thumb, 
 					$this->avatar_full,
@@ -154,16 +138,13 @@ Class BP_Groups_Group {
 					description,
 					news,
 					status,
-					is_invitation_only,
 					enable_wire,
 					enable_forum,
-					enable_photos,
-					photos_admin_only,
 					date_created,
 					avatar_thumb,
 					avatar_full
 				) VALUES (
-					%d, %s, %s, %s, %s, %s, %d, %d, %d, %d, %d, FROM_UNIXTIME(%d), %s, %s
+					%d, %s, %s, %s, %s, %s, %d, %d, FROM_UNIXTIME(%d), %s, %s
 				)",
 					$this->creator_id, 
 					$this->name, 
@@ -171,11 +152,8 @@ Class BP_Groups_Group {
 					$this->description, 
 					$this->news, 
 					$this->status, 
-					$this->is_invitation_only, 
 					$this->enable_wire, 
-					$this->enable_forum, 
-					$this->enable_photos, 
-					$this->photos_admin_only, 
+					$this->enable_forum,
 					$this->date_created, 
 					$this->avatar_thumb, 
 					$this->avatar_full 
@@ -225,12 +203,6 @@ Class BP_Groups_Group {
 				$users[] = new BP_Groups_Member( $this->user_dataset[$i]->user_id, $this->id );
 		}
 		return $users;
-	}
-
-	function get_random_photos() {
-		global $wpdb, $bp;
-		
-		
 	}
 	
 	function is_member() {
@@ -937,7 +909,7 @@ Class BP_Groups_Member {
 			$banned_sql = $wpdb->prepare( " AND is_banned = 0" );
 		
 		$members = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, date_modified FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_sql} {$pag_sql}", $group_id ) );
-		
+
 		if ( !$members )
 			return false;
 		
@@ -955,5 +927,132 @@ Class BP_Groups_Member {
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d", $user_id ) ); 		
 	}
 }
+
+/**
+ * API for creating group extensions without having to hardcode the content into
+ * the theme. 
+ *
+ * This class must be extended for each group extension and the following methods overridden:
+ * 
+ * BP_Group_Extension::widget_display(), BP_Group_Extension::display(),
+ * BP_Group_Extension::edit_screen_save(), BP_Group_Extension::edit_screen(),
+ * BP_Group_Extension::create_screen_save(), BP_Group_Extension::create_screen()
+ *
+ * @package BuddyPress
+ * @subpackage Groups
+ * @since 1.1
+ */
+class BP_Group_Extension {
+	var $name = false;
+	var $slug = false;
+	
+	/* Will this extension be visible to non-members of a group? Options: public/private */
+	var $visibility = 'public';
+	
+	var $create_step_position = 81;
+	var $nav_item_position = 81;
+	
+	var $enable_create_step = true;
+	var $enable_nav_item = true;
+	var $enable_edit_item = true;
+	
+	var $nav_item_name = false;
+	
+	// Methods you should override
+	
+	function display() {
+		die( 'function BP_Group_Extension::display() must be over-ridden in a sub-class.' );
+	}
+	
+	function widget_display() {
+		die( 'function BP_Group_Extension::widget_display() must be over-ridden in a sub-class.' );
+	}
+	
+	function edit_screen() {
+		die( 'function BP_Group_Extension::edit_screen() must be over-ridden in a sub-class.' );
+	}
+	
+	function edit_screen_save() {
+		die( 'function BP_Group_Extension::edit_screen_save() must be over-ridden in a sub-class.' );
+	}
+	
+	function create_screen() {
+		die( 'function BP_Group_Extension::create_screen() must be over-ridden in a sub-class.' );
+	}
+	
+	function create_screen_save() {
+		die( 'function BP_Group_Extension::create_screen_save() must be over-ridden in a sub-class.' );	
+	}
+	
+	// Private Methods
+	
+	function _register() {
+		global $bp;
+
+		if ( $this->enable_create_step ) {
+			/* Insert the group creation step for the new group extension */
+			$bp->groups->group_creation_steps[$this->slug] = array( 'name' => $this->name, 'slug' => $this->slug, 'position' => $this->create_step_position );
+
+			/* Attach the group creation step display content action */
+			add_action( 'groups_custom_create_steps', array( &$this, 'create_screen' ) );
+	
+			/* Attach the group creation step save content action */
+			add_action( 'groups_create_group_step_save_' . $slug, array( &$this, 'create_screen_save' ) );
+		}
+	
+		/* Construct the admin edit tab for the new group extension */
+		if ( $this->enable_edit_item ) {
+			add_action( 'groups_admin_tabs', create_function( '$current, $group_slug', 'if ( "' . attribute_escape( $this->slug ) . '" == $current ) $selected = " class=\"current\""; echo "<li{$selected}><a href=\"' . $bp->root_domain . '/' . $bp->groups->slug . '/{$group_slug}/admin/' . attribute_escape( $this->slug ) . '\">' . attribute_escape( $this->name ) . '</a></li>";' ), 10, 2 );	
+
+			/* Catch the edit screen and forward it to the plugin template */
+			if ( $bp->current_component == $bp->groups->slug && 'admin' == $bp->current_action && $this->slug == $bp->action_variables[0] ) {
+				add_action( 'wp', array( &$this, 'edit_screen_save' ) );
+				add_action( 'groups_custom_edit_steps', array( &$this, 'edit_screen' ) );
+
+				if ( file_exists( TEMPLATEPATH . '/groups/single/admin.php' ) ) {
+					bp_core_load_template( apply_filters( 'groups_template_group_admin', 'groups/single/admin' ) );		
+				} else {
+					add_action( 'bp_template_content_header', create_function( '', 'echo "<ul class=\"content-header-nav\">"; bp_group_admin_tabs(); echo "</ul>";' ) );
+					add_action( 'bp_template_content', array( &$this, 'edit_screen' ) );
+					bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'plugin-template' ) );	
+				}
+			}
+		}
+
+		/* When we are viewing a single group, add the group extension nav item */
+		if ( $this->visbility == 'public' || ( $this->visbility != 'public' && $bp->groups->current_group->user_has_access ) ) {
+			if ( $this->enable_nav_item ) {
+				if ( $bp->current_component == $bp->groups->slug && $bp->is_single_item )
+					bp_core_new_subnav_item( array( 'name' => ( !$this->nav_item_name ) ? $this->name : $this->nav_item_name, 'slug' => $this->slug, 'parent_slug' => BP_GROUPS_SLUG, 'parent_url' => bp_get_group_permalink( $bp->groups->current_group ) . '/', 'position' => $this->nav_item_position, 'item_css_id' => 'nav-' . $this->slug, 'screen_function' => array( &$this, '_display_hook' ), 'user_has_access' => $this->enable_nav_item ) );			
+
+				/* When we are viewing the extension display page, set the title and options title */
+				if ( $bp->current_component == $bp->groups->slug && $bp->is_single_item && $bp->current_action == $this->slug ) {
+					add_action( 'bp_template_content_header', create_function( '', 'echo "' . attribute_escape( $this->name ) . '";' ) );
+			 		add_action( 'bp_template_title', create_function( '', 'echo "' . attribute_escape( $this->name ) . '";' ) );
+				}
+			}
+			
+			/* Hook the group home widget */
+			if ( $bp->current_component == $bp->groups->slug && $bp->is_single_item && ( !$bp->current_action || 'home' == $bp->current_action ) )
+				add_action( 'groups_custom_group_boxes', array( &$this, 'widget_display' ) );
+		}
+	}
+	
+	function _display_hook() {
+		add_action( 'bp_template_content', array( &$this, 'display' ) );
+		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'plugin-template' ) );			
+	}
+}
+
+function bp_register_group_extension( $group_extension_class ) {
+	global $bp;
+	
+	if ( !class_exists( $group_extension_class ) )
+		return false;
+	
+	$extension = new $group_extension_class;
+	add_action( 'wp', array( &$extension, '_register' ), 2 );
+}
+
 
 ?>

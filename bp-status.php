@@ -48,7 +48,13 @@ function bp_status_format_activity( $user_id, $content, $component_action = fals
 }
 
 
-/** ACTION FUNCTIONS **/
+/********************************************************************************
+ * Action Functions
+ *
+ * Action functions are exactly the same as screen functions, however they do not
+ * have a template screen associated with them. Usually they will send the user
+ * back to the default screen after execution.
+ */
 
 function bp_status_action_add() {
 	global $bp;
@@ -69,7 +75,14 @@ function bp_status_action_add() {
 add_action( 'init', 'bp_status_action_add' );
 
 
-/** BUSINESS FUNCTIONS **/
+/********************************************************************************
+ * Business Functions
+ *
+ * Business functions are where all the magic happens in BuddyPress. They will
+ * handle the actual saving or manipulation of information. Usually they will
+ * hand off to a database class for data access, then return
+ * true or false on success or failure.
+ */
 
 function bp_status_add_status( $user_id, $content ) {
 	global $bp;

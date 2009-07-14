@@ -10,13 +10,6 @@ require ( BP_PLUGIN_DIR . '/bp-wire/bp-wire-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-wire/bp-wire-cssjs.php' );
 require ( BP_PLUGIN_DIR . '/bp-wire/bp-wire-filters.php' );
 
-/**************************************************************************
- bp_wire_setup_globals()
- 
- Set up and add all global variables for this component, and add them to 
- the $bp global variable array.
- **************************************************************************/
-
 function bp_wire_install() {
 	// Tables are installed on a per component basis, where needed.
 }
@@ -32,22 +25,17 @@ function bp_wire_setup_globals() {
 add_action( 'plugins_loaded', 'bp_wire_setup_globals', 5 );	
 add_action( 'admin_menu', 'bp_wire_setup_globals', 1 );
 
-/**************************************************************************
- bp_wire_setup_nav()
- 
- Set up front end navigation.
- **************************************************************************/
-
 function bp_wire_setup_nav() {
 	global $bp;
 
 	/* Add 'Wire' to the main navigation */
-	bp_core_add_nav_item( __('Wire', 'buddypress'), $bp->wire->slug );
-	bp_core_add_nav_default( $bp->wire->slug, 'bp_wire_screen_latest', 'all-posts' );
+	bp_core_new_nav_item( array( 'name' => __('Wire', 'buddypress'), 'slug' => $bp->wire->slug, 'position' => 40, 'screen_function' => 'bp_wire_screen_latest', 'default_subnav_slug' => 'all-posts', '' ) );
 
-	/* Add the subnav items to the wire nav */
- 	bp_core_add_subnav_item( $bp->wire->slug, 'all-posts', __('All Posts', 'buddypress'), $bp->loggedin_user->domain . $bp->wire->slug . '/', 'bp_wire_screen_latest' );
+	$wire_link = $bp->loggedin_user->domain . $bp->wire->slug . '/';
 	
+	/* Add the subnav items to the wire nav */
+	bp_core_new_subnav_item( array( 'name' => __( 'All Posts', 'buddypress' ), 'slug' => 'all-posts', 'parent_url' => $wire_link, 'parent_slug' => $bp->wire->slug, 'screen_function' => 'bp_wire_screen_latest', 'position' => 10 ) );
+
 	if ( $bp->current_component == $bp->wire->slug ) {
 		if ( bp_is_home() ) {
 			$bp->bp_options_title = __('My Wire', 'buddypress');
@@ -62,12 +50,27 @@ function bp_wire_setup_nav() {
 add_action( 'wp', 'bp_wire_setup_nav', 2 );
 add_action( 'admin_menu', 'bp_wire_setup_nav', 2 );
 
-/***** Screens **********/
+
+/********************************************************************************
+ * Screen Functions
+ *
+ * Screen functions are the controllers of BuddyPress. They will execute when their
+ * specific URL is caught. They will first save or manipulate data using business
+ * functions, then pass on the user to a template file.
+ */
 
 function bp_wire_screen_latest() {
 	do_action( 'bp_wire_screen_latest' );
 	bp_core_load_template( apply_filters( 'bp_wire_template_latest', 'wire/latest' ) );	
 }
+
+
+/********************************************************************************
+ * Activity & Notification Functions
+ *
+ * These functions handle the recording, deleting and formatting of activity and
+ * notifications for the user and for this specific component.
+ */
 
 function bp_wire_record_activity( $args = true ) {
 	if ( function_exists('bp_activity_record') ) {
@@ -83,6 +86,16 @@ function bp_wire_delete_activity( $args = true ) {
 		bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
 	}
 }
+
+
+/********************************************************************************
+ * Business Functions
+ *
+ * Business functions are where all the magic happens in BuddyPress. They will
+ * handle the actual saving or manipulation of information. Usually they will
+ * hand off to a database class for data access, then return
+ * true or false on success or failure.
+ */
 
 function bp_wire_new_post( $item_id, $message, $component_name, $private_post = false, $table_name = null ) {
 	global $bp;
