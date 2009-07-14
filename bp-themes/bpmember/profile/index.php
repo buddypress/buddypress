@@ -8,34 +8,23 @@
 	<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 	
 	<div class="left-menu">
-		<?php bp_the_avatar() ?>
-		
-		<div class="button-block">
-			<?php if ( function_exists('bp_add_friend_button') ) : ?>
-				<?php bp_add_friend_button() ?>
-			<?php endif; ?>
-			
-			<?php if ( function_exists('bp_send_message_button') ) : ?>
-				<?php bp_send_message_button() ?>
-			<?php endif; ?>
-		</div>
-
-		<?php bp_custom_profile_sidebar_boxes() ?>
+		<!-- Profile Menu (Avatar, Add Friend, Send Message buttons etc) -->
+		<?php load_template( TEMPLATEPATH . '/profile/profile-menu.php' ) ?>
 	</div>
 
 	<div class="main-column">
 		<div class="inner-tube">
-			<?php bp_get_profile_header() ?>
-		
-			<?php if ( function_exists('xprofile_get_profile') ) : ?>
-				<?php xprofile_get_profile() ?>
-			<?php else : ?>
-				<?php bp_core_get_wp_profile() ?>
-			<?php endif; ?>
 			
+			<!-- Profile Header (Name & Status) -->
+			<?php load_template( TEMPLATEPATH . '/profile/profile-header.php' ) ?>
+		
+			<!-- Profile Data Loop -->
+			<?php load_template( TEMPLATEPATH . '/profile/profile-loop.php' ) ?>
+			
+			<!-- Latest Activity Loop -->
 			<?php if ( function_exists( 'bp_activity_install')) : ?>
 			<div class="info-group">
-				<h4><?php echo bp_word_or_name( __( "My Activity", 'buddypress' ), __( "%s's Activity", 'buddypress' ), true, false ) ?></h4>
+				<h4><?php echo bp_word_or_name( __( "My Latest Activity", 'buddypress' ), __( "%s's Latest Activity", 'buddypress' ), true, false ) ?> <a href="<?php echo bp_displayed_user_domain() . BP_ACTIVITY_SLUG ?>"><?php _e( 'See All', 'buddypress' ) ?> &rarr;</a></h4>
 
 				<?php if ( bp_has_activities( 'type=personal&max=5' ) ) : ?>
 
@@ -61,19 +50,60 @@
 			</div>
 			<?php endif; ?>
 		
-			<?php if ( function_exists('bp_groups_random_groups') ) : ?>
-				<?php bp_groups_random_groups() ?>
-			<?php endif; ?>
-		
-			<?php if ( function_exists('bp_friends_random_friends') ) : ?>
-				<?php bp_friends_random_friends() ?>
+			<!-- Random Groups Loop -->
+			<?php if ( function_exists( 'bp_has_groups' ) ) : ?>
+
+				<?php if ( bp_has_groups( 'type=random&max=5' ) ) : ?>
+					<div class="info-group">
+						<h4><?php bp_word_or_name( __( "My Groups", 'buddypress' ), __( "%s's Groups", 'buddypress' ) ) ?> (<?php bp_group_total_for_member() ?>) <a href="<?php echo bp_displayed_user_domain() . BP_GROUPS_SLUG ?>"><?php _e( 'See All', 'buddypress' ) ?> &rarr;</a></h4>
+						
+						<ul class="horiz-gallery">
+						<?php while ( bp_groups() ) : bp_the_group(); ?>
+							<li>
+								<a href="<?php bp_group_permalink() ?>"><?php bp_group_avatar_thumb() ?></a>
+								<h5><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a></h5>
+							</li>
+						<?php endwhile; ?>
+						</ul>
+					
+					<div class="clear"></div>	
+					</div>
+					
+				<?php endif; ?>
+					
 			<?php endif; ?>
 
-			<?php bp_custom_profile_boxes() ?>
+			<!-- Random Friends Loop -->
+			<?php if ( function_exists( 'bp_has_friendships' ) ) : ?>
 
+				<?php if ( bp_has_friendships( 'type=random&max=5' ) ) : ?>
+					<div class="info-group">
+						<h4><?php bp_word_or_name( __( "My Friends", 'buddypress' ), __( "%s's Friends", 'buddypress' ) ) ?> (<?php bp_friend_total_for_member() ?>) <a href="<?php echo bp_displayed_user_domain() . BP_FRIENDS_SLUG ?>"><?php _e( 'See All', 'buddypress' ) ?> &rarr;</a></h4>
+						
+						<ul class="horiz-gallery">
+						<?php while ( bp_user_friendships() ) : bp_the_friendship(); ?>
+							<li>
+								<a href="<?php bp_friend_url() ?>"><?php bp_friend_avatar_thumb() ?></a>
+								<h5><a href="<?php bp_friend_url() ?>"><?php bp_friend_name() ?></a></h5>
+							</li>
+						<?php endwhile; ?>
+						</ul>
+					
+					<div class="clear"></div>	
+					</div>
+					
+				<?php endif; ?>
+					
+			<?php endif; ?>
+			
+			<!-- Hook for including new profile boxes -->
+			<?php do_action( 'bp_custom_profile_boxes' ) ?>
+
+			<!-- Profile Wire Loop - uses [TEMPLATEPATH]/wire/post-list.php -->
 			<?php if ( function_exists('bp_wire_get_post_list') ) : ?>
 				<?php bp_wire_get_post_list( bp_current_user_id(), bp_word_or_name( __( "My Wire", 'buddypress' ), __( "%s's Wire", 'buddypress' ), true, false ), bp_word_or_name( __( "No one has posted to your wire yet.", 'buddypress' ), __( "No one has posted to %s's wire yet.", 'buddypress' ), true, false), bp_profile_wire_can_post() ) ?>
 			<?php endif; ?>
+			
 		</div>
 	</div>
 

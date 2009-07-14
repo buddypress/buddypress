@@ -28,12 +28,20 @@
 		<?php bp_get_profile_header() ?>
 
 		<div class="info-group">
-			<h4><?php echo bp_word_or_name( __( "My Activity", 'buddypress' ), __( "%s's Activity", 'buddypress' ), true, false ) ?></h4>
+			<h4><?php echo bp_word_or_name( __( "My Activity", 'buddypress' ), __( "%s's Activity", 'buddypress' ), true, false ) ?> <a href="<?php bp_activities_member_rss_link() ?>" title="<?php _e( 'RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a></h4>
 
-			<?php if ( bp_has_activities( 'type=personal&max=30' ) ) : ?>
+			<ul id="activity-filter-links">
+				<?php bp_activity_filter_links() ?>
+			</ul>
 
-				<div id="activity-rss">
-					<p><a href="<?php bp_activities_member_rss_link() ?>" title="<?php _e( 'RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a></p>
+			<?php if ( bp_has_activities( 'type=personal&per_page=25&max=500' ) ) : ?>
+
+				<div class="pag-count" id="activity-count">
+					<?php bp_activity_pagination_count() ?>
+				</div>
+		
+				<div class="pagination-links" id="activity-pag">
+					&nbsp; <?php bp_activity_pagination_links() ?>
 				</div>
 
 				<ul id="activity-list">

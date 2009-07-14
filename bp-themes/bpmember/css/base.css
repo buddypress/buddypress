@@ -481,6 +481,9 @@ ul.content-header-nav {
 			font-size: 0.9em;
 			color: #888;
 		}
+			div.info-group {
+				position: relative;
+			}
 	
 			div.info-group h4 {
 				background: url(../images/group_header.gif) top left;

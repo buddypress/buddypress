@@ -1,32 +1,36 @@
 /**** ACTIVITY STREAMS ***************************/
 
+#activity-list {
+	background: url(../images/item_list_back.gif) top left repeat-x;
+	padding: 5px 15px;
+}
+
 #activity-list li {
 	padding-left: 21px;
 }
-	#activity-list li.blogs {
+	#activity-list li.blogs, ul#activity-filter-links li#afilter-blogs a {
 		background: url(../images/blog_bullet.gif) 0 4px no-repeat;		
 	}
 	
-	#activity-list li.profile {
+	#activity-list li.profile, ul#activity-filter-links li#afilter-profile a {
 		background: url(../images/profile_bullet.gif) 0 4px no-repeat;
 	}
 
-	#activity-list li.friends {
+	#activity-list li.friends, ul#activity-filter-links li#afilter-friends a {
 		background: url(../images/friends_bullet.gif) 0 4px no-repeat;
 	}
 	
-	#activity-list li.groups {
+	#activity-list li.groups, ul#activity-filter-links li#afilter-groups a {
 		background: url(../images/groups_bullet.gif) 0 4px no-repeat;
 	}
 	
-	#activity-list li.wire {
+	#activity-list li.wire, ul#activity-filter-links li#afilter-wire a {
 		background: url(../images/wire_bullet.gif) 0 4px no-repeat;
 	}
 	
-	#activity-list li.status {
+	#activity-list li.status, ul#activity-filter-links li#afilter-status a {
 		background: url(../images/status_bullet.gif) 0 4px no-repeat;
 	}
-
 
 #activity-list li blockquote {
 	background: url(../images/quotes_background.gif) 10px 9px no-repeat #eee;
@@ -36,6 +40,14 @@
 	font-size: 0.8em;
 	color: #999;
 }
+
+#activity-count, #activity-pag {
+	position: absolute;
+	top: 45px;
+}
+	#activity-pag {
+		right: 0;
+	}
 
 #activity-rss p {
 		text-align: right;
@@ -47,6 +59,39 @@
 	background: url(../images/rss.png) center left no-repeat;
 	padding-left: 15px;
 }
+
+ul#activity-filter-links {
+	background: url(../images/item_list_back.gif) top left repeat-x;
+	padding: 15px;
+	min-height: 22px;
+	margin-top: 34px;
+}
+
+ul#activity-filter-links li {
+	float: left;
+}
+	ul#activity-filter-links li a {
+		display: block;
+		padding: 2px 8px 2px 30px;
+		background-color: #fff !important;
+		background-position: 8px 6px !important;
+		border-radius: 5px;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		margin: 0 5px 0 0;
+		border: 1px solid #eee;
+		text-decoration: none;
+	}
+		ul#activity-filter-links li a.selected {
+			border: 1px solid #ccc;
+			font-weight: bold;
+		}
+		
+		ul#activity-filter-links li#afilter-clear a {
+			background: url(../images/error_icon.gif) 0 4px no-repeat;
+			border-color: #ffa6ac;
+			color: #ff5560;
+		}
 
 /**** BLOGS *****************/
 		
@@ -215,13 +260,6 @@ div.sub-options {
 	border-left: 8px solid #eee;
 }
 
-div#skip-continue {
-	border-top: 1px solid #ddd;
-}
-	div#skip-continue input {
-		font-size: 1em;
-	}
-
 #create-group-form ul, #group-settings-form ul {
 	margin: 5px 0 0 33px;
 }
@@ -285,6 +323,20 @@ ul#group-list li, ul#member-list li, ul#blog-list li, ul#comment-list li, ul.ite
 		text-align: right;
 		margin-top: -20px;
 		padding-right: 10px;
+	}
+
+#previous-next {
+	margin: 25px 0 0 0;
+	padding: 5px 0 0 0;
+	border-top: 1px solid #ddd;
+}
+	#previous-next input#group-creation-previous {
+		width: auto;
+	}
+	
+	#previous-next input#group-creation-next, #previous-next input#group-creation-finish {
+		width: auto;
+		margin-left: 20px;
 	}
 
 #invite-list {
@@ -435,7 +487,7 @@ td.data p {
 		font-size: 0.9em;
 	}
 
-	input#save, .standard-form input[type='submit'] {
+	input#save, input#previous, .standard-form input[type='submit'] {
 		font-size: 1.4em;
 	}
 
