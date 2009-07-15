@@ -13,6 +13,11 @@ add_filter( 'messages_message_subject_before_save', 'wp_filter_kses', 1 );
 add_filter( 'messages_notice_message_before_save', 'wp_filter_kses', 1 );
 add_filter( 'messages_notice_subject_before_save', 'wp_filter_kses', 1 );
 
+add_filter( 'messages_message_content_before_save', 'force_balance_tags' );
+add_filter( 'messages_message_subject_before_save', 'force_balance_tags' );
+add_filter( 'messages_notice_message_before_save', 'force_balance_tags' );
+add_filter( 'messages_notice_subject_before_save', 'force_balance_tags' );
+
 add_filter( 'bp_get_message_notice_subject', 'wptexturize' );
 add_filter( 'bp_get_message_notice_text', 'wptexturize' );
 add_filter( 'bp_get_message_thread_subject', 'wptexturize' );
