@@ -111,18 +111,23 @@ Class BP_XProfile_Template {
 	
 	function has_fields() { 
 		$has_data = false;
+		$just_name = true;
+		
+		for ( $i = 0; $i < count( $this->group->fields ); $i++ ) { 
+			$field = &$this->group->fields[$i];
 
-		if ( count($this->group->fields) > 0 ) {
-			for ( $i = 0; $i < count($this->group->fields); $i++ ) { 
-				$field = $this->group->fields[$i];
-
-				if ( $field->data->value != null ) {
-					$has_data = true;
-				}
+			if ( $field->data->value != null ) {
+				$has_data = true;
+				
+				if ( 1 != $field->id )
+					$just_name = false;
 			}
 		}
+		
+		if ( 1 == $this->group->id && $just_name )
+			return false;
 
-		if($has_data)
+		if ( $has_data )
 			return true;
 		
 		return false;
@@ -143,6 +148,11 @@ Class BP_XProfile_Template {
 		global $field;
 
 		$field = $this->next_field();
+		
+		/* Skip the name field */
+		if ( 1 == $field->id )
+			$field = $this->next_field();
+			
 		$this->is_public = $field->is_public;	
 		if ( $field->data->value != '' ) {
 			$this->field_has_data = true;

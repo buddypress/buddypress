@@ -529,7 +529,7 @@ function bp_core_add_subnav_item( $parent_id, $slug, $name, $link, $function, $c
 		'link' => $link . $slug,
 		'css_id' => $css_id
 	);
-	
+
 	if ( function_exists($function) && $user_has_access && $bp->current_action == $slug && $bp->current_component == $parent_id )
 		add_action( 'wp', $function, 3 );
 }
@@ -847,7 +847,7 @@ function bp_core_get_user_displayname( $user_id ) {
 		wp_cache_set( 'bp_user_fullname_' . $user_id, $fullname, 'bp' );
 	}
 	
-	return apply_filters( 'bp_core_get_user_displayname', stripslashes( trim( $fullname ) ) );
+	return apply_filters( 'bp_core_get_user_displayname', stripslashes( strip_tags( trim( $fullname ) ) ) );
 }
 	/* DEPRECATED Use: bp_core_get_user_displayname */
 	function bp_core_global_user_fullname( $user_id ) { return bp_core_get_user_displayname( $user_id ); }
@@ -1195,7 +1195,7 @@ function bp_core_sort_nav_items( $nav_array ) {
 		$new_nav = array_merge( $new_nav, $nav_array );
 	}
 	
-	return $new_nav;
+	return apply_filters( 'bp_core_sort_nav_items', $new_nav );
 }
 
 /**
@@ -1222,12 +1222,6 @@ function bp_core_referrer() {
  * @return An array containing all of the themes.
  */
 function bp_core_get_buddypress_themes() {
-	global $wp_themes;
-	
-	/* Remove the cached WP themes first */
-	$wp_existing_themes = &$wp_themes;
-	$wp_themes = null;
-	
 	add_filter( 'theme_root', 'bp_core_filter_buddypress_theme_root' );
 	$themes = get_themes();
 
@@ -1243,9 +1237,6 @@ function bp_core_get_buddypress_themes() {
 			);
 		}
 	}
-	
-	/* Restore the cached WP themes */
-	$wp_themes = $wp_existing_themes;
 	
 	return $member_themes;
 }
@@ -1378,9 +1369,6 @@ function bp_core_delete_account() {
 	global $bp;
 
 	// Be careful with this function!
-	
-	if ( !check_admin_referer( 'delete-account' ) )
-		return false;
 	
 	/* Site admins should not be allowed to delete their accounts */
 	if ( is_site_admin() )

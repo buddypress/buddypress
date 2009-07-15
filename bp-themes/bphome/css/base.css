@@ -155,7 +155,7 @@ h2.widgettitle {
 		margin-right: 4px;
 	}
 
-	.bp_core_widget_welcome h2 {
+	.widget_bp_core_welcome_widget h2 {
 		background: url(../images/welcome_header_back.gif) top left no-repeat !important;
 		color: #fff !important;
 	}
@@ -179,7 +179,7 @@ h2.widgettitle {
 		margin: 0 0 7px 0;	
 	}
 	
-	.bp_blogs_widget_recent_posts img.avatar {
+	.widget_bp_blogs_widget_recent_posts img.avatar {
 		width: 50px !important;
 		height: 50px !important;
 	}	
@@ -187,8 +187,8 @@ h2.widgettitle {
 	.widget ul.item-list li .item {
 		margin-left: 71px;
 	}
-		.bp_blogs_widget_recent_posts ul.item-list li .item {
-			margin-left: 31px;
+		.widget_bp_blogs_recent_posts_widget ul.item-list li .item {
+			margin-left: 31px !important;
 		}
 	
 	.widget ul.item-list li .item-meta {
@@ -202,7 +202,7 @@ h2.widgettitle {
 		margin: -15px 0 0 0;
 	}
 	
-	.bp_core_widget_whos_online .item-avatar {
+	.widget_bp_core_widget_whos_online .item-avatar {
 		float: left;
 		margin-right: 10px;
 	}
