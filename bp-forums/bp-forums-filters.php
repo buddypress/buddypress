@@ -27,6 +27,12 @@ add_filter( 'bp_get_the_topic_latest_post_excerpt', 'stripslashes_deep' );
 
 add_filter( 'bp_get_the_topic_post_content', 'make_clickable' );
 
+add_filter( 'bp_get_activity_content', 'bp_forums_filter_decode' );
+add_filter( 'bp_forums_new_post_text', 'bp_forums_filter_encode' );
+
+add_filter( 'bp_get_the_topic_post_content', 'bp_forums_filter_decode' );
+add_filter( 'bp_get_the_topic_latest_post_excerpt', 'bp_forums_filter_decode' );
+
 function bp_forums_add_allowed_tags( $allowedtags ) {
 	$allowedtags['p'] = array();
 	$allowedtags['br'] = array();
@@ -34,5 +40,22 @@ function bp_forums_add_allowed_tags( $allowedtags ) {
 	return $allowedtags;
 }
 add_filter( 'edit_allowedtags', 'bp_forums_add_allowed_tags' );
+
+function bp_forums_filter_encode( $content ) {
+	$content = htmlentities( $content, ENT_COMPAT, "UTF-8" );
+	$content = str_replace( '&', '/amp/', $content );
+
+	return $content;
+}
+
+function bp_forums_filter_decode( $content ) {
+	$content = str_replace( '/amp/', '&', $content );
+	$content = @html_entity_decode( $content, ENT_COMPAT, "UTF-8" );
+	$content = str_replace( '[', '<', $content );
+	$content = str_replace( ']', '>', $content );
+	$content = stripslashes( wp_filter_kses( $content ) );
+
+	return $content;
+}
 
 ?>
