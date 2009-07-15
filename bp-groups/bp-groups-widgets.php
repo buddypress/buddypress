@@ -25,10 +25,6 @@ class BP_Groups_Widget extends WP_Widget {
 		echo $before_title
 		   . $widget_name 
 		   . $after_title; ?>
-	
-		<?php
-		if ( empty( $instance['max_groups'] ) || !$instance['max_groups'] )
-			$instance['max_groups'] = 5; ?>
 		
 		<?php if ( bp_has_site_groups( 'type=popular&max=' . $instance['max_groups'] ) ) : ?>
 			<div class="item-options" id="groups-list-options">

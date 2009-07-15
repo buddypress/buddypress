@@ -21,10 +21,6 @@ class BP_Activity_Widget extends WP_Widget {
 		echo $before_title
 		   . $widget_name 
 		   . $after_title; ?>
-	
-		<?php
-		if ( empty( $instance['max_items'] ) || !$instance['max_items'] )
-			$instance['max_items'] = 30; ?>
 		
 		<?php 
 		if ( !$activity = wp_cache_get( 'sitewide_activity', 'bp' ) ) {

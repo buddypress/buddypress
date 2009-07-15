@@ -22,10 +22,6 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 		   . $widget_name 
 		   . $after_title; ?>
 	
-		<?php
-		if ( empty( $instance['max_posts'] ) || !$instance['max_posts'] )
-			$instance['max_posts'] = 10; ?>
-		
 		<?php $posts = bp_blogs_get_latest_posts( null, $instance['max_posts'] ) ?>
 		<?php $counter = 0; ?>
 		

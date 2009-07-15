@@ -24,8 +24,8 @@ class BP_Core_Welcome_Widget extends WP_Widget {
 			. $instance['title']
 			. $after_title; ?>
 
-		<?php if ( $instance['title'] ) : ?><h3><?php echo attribute_escape( $instance['title'] ) ?></h3><?php endif; ?>
-		<?php if ( $instance['text'] ) : ?><p><?php echo attribute_escape( $instance['text'] ) ?></p><?php endif; ?>
+		<?php if ( $instance['title'] ) : ?><h3><?php echo attribute_escape( stripslashes( $instance['title'] ) ) ?></h3><?php endif; ?>
+		<?php if ( $instance['text'] ) : ?><p><?php echo apply_filters( 'bp_core_welcome_widget_text', $instance['text'] ) ?></p><?php endif; ?>
 
 		<?php if ( !is_user_logged_in() ) { ?>
 		<div class="create-account"><div class="visit generic-button"><a href="<?php bp_signup_page() ?>" title="<?php _e('Create Account', 'buddypress') ?>"><?php _e('Create Account', 'buddypress') ?></a></div></div>
@@ -48,15 +48,23 @@ class BP_Core_Welcome_Widget extends WP_Widget {
 		$title = strip_tags( $instance['title'] );
 		$text = strip_tags( $instance['text'] );
 		?>
-			<p><label for="bp-widget-welcome-title"><?php _e('Title:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo attribute_escape( $title ); ?>" /></label></p>
+			<p><label for="bp-widget-welcome-title"><?php _e('Title:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo attribute_escape( stripslashes( $title ) ); ?>" /></label></p>
 			<p>
 				<label for="bp-widget-welcome-text"><?php _e( 'Welcome Text:' , 'buddypress'); ?>
-					<textarea id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>" class="widefat" style="height: 100px"><?php echo attribute_escape( $text ); ?></textarea>
+					<textarea id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>" class="widefat" style="height: 100px"><?php echo attribute_escape( stripslashes( $text ) ); ?></textarea>
 				</label>
 			</p>
 	<?php
 	}
 }
+add_filter( 'bp_core_welcome_widget_text', 'attribute_escape' );
+add_filter( 'bp_core_welcome_widget_text', 'wptexturize' );
+add_filter( 'bp_core_welcome_widget_text', 'convert_smilies' );
+add_filter( 'bp_core_welcome_widget_text', 'convert_chars' );
+add_filter( 'bp_core_welcome_widget_text', 'stripslashes' );
+add_filter( 'bp_core_welcome_widget_text', 'wpautop' );
+add_filter( 'bp_core_welcome_widget_text', 'force_balance_tags' );
+
 
 /*** MEMBERS WIDGET *****************/
 
@@ -76,11 +84,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 		echo $before_title
 		   . $widget_name 
 		   . $after_title; ?>
-	
-		<?php
-		if ( empty( $instance['max_members'] ) || !$instance['max_members'] )
-			$instance['max_members'] = 5; ?>
-		
+
 		<?php if ( bp_has_site_members( 'type=newest&max=' . $instance['max_members'] ) ) : ?>
 			<div class="item-options" id="members-list-options">
 				<img id="ajax-loader-members" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( 'Loading', 'buddypress' ) ?>" style="display: none;" /> 
@@ -152,12 +156,8 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 		echo $before_title
 		   . $widget_name 
 		   . $after_title; ?>
-	
-		<?php
-		if ( empty( $instance['max_members'] ) || !$instance['max_members'] )
-			$instance['max_members'] = 5; ?>
 		
-		<?php if ( bp_has_site_members( 'type=online&max=' . $instance['max_members'] ) ) : ?>			
+		<?php if ( bp_has_site_members( 'type=online&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] ) ) : ?>			
 			<div class="avatar-block">
 				<?php while ( bp_site_members() ) : bp_the_site_member(); ?>
 					<div class="item-avatar">
@@ -185,7 +185,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	}
 
 	function form( $instance ) {
-		$instance = wp_parse_args( (array) $instance, array( 'max_members' => 5 ) );
+		$instance = wp_parse_args( (array) $instance, array( 'max_members' => 15 ) );
 		$max_members = strip_tags( $instance['max_members'] );
 		?>
 
@@ -210,12 +210,8 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 		echo $before_title
 		   . $widget_name 
 		   . $after_title; ?>
-	
-		<?php
-		if ( empty( $instance['max_members'] ) || !$instance['max_members'] )
-			$instance['max_members'] = 5; ?>
-		
-		<?php if ( bp_has_site_members( 'type=active&max=' . $instance['max_members'] ) ) : ?>			
+			
+		<?php if ( bp_has_site_members( 'type=active&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] ) ) : ?>			
 			<div class="avatar-block">
 				<?php while ( bp_site_members() ) : bp_the_site_member(); ?>
 					<div class="item-avatar">
@@ -243,7 +239,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	}
 
 	function form( $instance ) {
-		$instance = wp_parse_args( (array) $instance, array( 'max_members' => 5 ) );
+		$instance = wp_parse_args( (array) $instance, array( 'max_members' => 15 ) );
 		$max_members = strip_tags( $instance['max_members'] );
 		?>
 
