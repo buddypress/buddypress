@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-07-09 14:11+0000\n"
+"POT-Creation-Date: 2009-07-15 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,23 +16,23 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: bp-activity.php:92 bp-activity/feeds/bp-activity-personal-feed.php:21
+#: bp-activity.php:71 bp-activity/feeds/bp-activity-personal-feed.php:21
 msgid "Activity"
 msgstr ""
 
-#: bp-activity.php:98
+#: bp-activity.php:76
 msgid "Just Me"
 msgstr ""
 
-#: bp-activity.php:99 bp-friends.php:94 bp-friends.php:99 bp-friends.php:343
-#: bp-friends/bp-friends-templatetags.php:404
+#: bp-activity.php:77 bp-friends.php:73 bp-friends.php:78 bp-friends.php:327
+#: bp-friends/bp-friends-templatetags.php:410
 #: bp-themes/bpmember/friends/index.php:10
+#: bp-themes/bpmember/profile/index.php:81
 #: bp-themes/bpskeletonmember/friends/index.php:23
 msgid "My Friends"
 msgstr ""
 
-#: bp-activity.php:103 bp-themes/bpmember/activity/just-me.php:31
-#: bp-themes/bpmember/profile/index.php:38
+#: bp-activity.php:81 bp-themes/bpmember/activity/just-me.php:31
 #: bp-themes/bpskeletonmember/activity/just-me.php:43
 #: bp-themes/bpskeletonmember/profile/index.php:51
 msgid "My Activity"
@@ -47,15 +47,15 @@ msgstr ""
 #: bp-blogs/bp-blogs-templatetags.php:329
 #: bp-blogs/bp-blogs-templatetags.php:505
 #: bp-blogs/bp-blogs-templatetags.php:1208
-#: bp-core/bp-core-templatetags.php:925 bp-core/bp-core-widgets.php:103
+#: bp-core/bp-core-templatetags.php:929 bp-core/bp-core-widgets.php:103
 #: bp-forums/bp-forums-templatetags.php:358
 #: bp-forums/bp-forums-templatetags.php:572
 #: bp-friends/bp-friends-templatetags.php:291
-#: bp-friends/bp-friends-templatetags.php:303
-#: bp-groups/bp-groups-templatetags.php:1065
-#: bp-groups/bp-groups-templatetags.php:1098
-#: bp-groups/bp-groups-templatetags.php:2048
-#: bp-groups/bp-groups-widgets.php:45
+#: bp-friends/bp-friends-templatetags.php:309
+#: bp-groups/bp-groups-templatetags.php:740
+#: bp-groups/bp-groups-templatetags.php:773
+#: bp-groups/bp-groups-templatetags.php:1955
+#: bp-groups/bp-groups-widgets.php:44
 #: bp-messages/bp-messages-templatetags.php:273
 #: bp-themes/bpmember/wire/post-list.php:10
 #: bp-themes/bpskeletonmember/wire/post-list.php:22
@@ -83,9 +83,9 @@ msgid "Site Wide Activity RSS Feed"
 msgstr ""
 
 #: bp-activity/bp-activity-widgets.php:27
-#: bp-themes/bpmember/activity/just-me.php:36
-#: bp-themes/bpmember/activity/my-friends.php:28
-#: bp-themes/bpmember/profile/index.php:43
+#: bp-themes/bpmember/activity/just-me.php:31
+#: bp-themes/bpmember/activity/my-friends.php:23
+#: bp-themes/bpmember/profile/index.php:32
 #: bp-themes/bpskeletonmember/activity/activity-list.php:17
 msgid "RSS Feed"
 msgstr ""
@@ -120,45 +120,45 @@ msgstr ""
 msgid "Site Wide Activity Feed"
 msgstr ""
 
-#: bp-blogs.php:157 bp-core/bp-core-templatetags.php:567
-#: bp-core/bp-core-templatetags.php:659 bp-themes/bphome/header.php:55
+#: bp-blogs.php:141 bp-core/bp-core-templatetags.php:571
+#: bp-core/bp-core-templatetags.php:663 bp-themes/bphome/header.php:55
 #: bp-themes/bpmember/header.php:54 bp-themes/bpskeletonmember/header.php:56
 msgid "Blogs"
 msgstr ""
 
-#: bp-blogs.php:165 bp-blogs.php:174 bp-core/bp-core-adminbar.php:139
+#: bp-blogs.php:146 bp-blogs.php:155 bp-core/bp-core-adminbar.php:136
 #: bp-themes/bpmember/blogs/my-blogs.php:8
 #: bp-themes/bpskeletonmember/blogs/my-blogs.php:20
 msgid "My Blogs"
 msgstr ""
 
-#: bp-blogs.php:166 bp-themes/bpmember/blogs/recent-posts.php:8
+#: bp-blogs.php:147 bp-themes/bpmember/blogs/recent-posts.php:8
 #: bp-themes/bpskeletonmember/blogs/recent-posts.php:19
 msgid "Recent Posts"
 msgstr ""
 
-#: bp-blogs.php:167 bp-themes/bpmember/blogs/recent-comments.php:8
+#: bp-blogs.php:148 bp-themes/bpmember/blogs/recent-comments.php:8
 #: bp-themes/bpskeletonmember/blogs/recent-comments.php:18
 msgid "Recent Comments"
 msgstr ""
 
-#: bp-blogs.php:168 bp-blogs/bp-blogs-templatetags.php:171
+#: bp-blogs.php:149 bp-blogs/bp-blogs-templatetags.php:171
 #: bp-themes/bpmember/blogs/create.php:8
 #: bp-themes/bpskeletonmember/blogs/create.php:16
 msgid "Create a Blog"
 msgstr ""
 
-#: bp-blogs.php:275
+#: bp-blogs.php:259
 #, php-format
 msgid "%s created a new blog: %s"
 msgstr ""
 
-#: bp-blogs.php:292
+#: bp-blogs.php:276
 #, php-format
 msgid "%s wrote a new blog post: %s"
 msgstr ""
 
-#: bp-blogs.php:320
+#: bp-blogs.php:304
 #, php-format
 msgid "%s commented on the blog post %s"
 msgstr ""
@@ -227,20 +227,20 @@ msgstr ""
 #: bp-blogs/bp-blogs-templatetags.php:104 bp-core/bp-core-admin.php:60
 #: bp-core/bp-core-admin.php:68 bp-core/bp-core-admin.php:75
 #: bp-core/bp-core-admin.php:83 bp-core/bp-core-signup.php:76
-#: bp-friends.php:168 bp-groups.php:941 bp-messages.php:251
-#: bp-themes/bpmember/groups/admin/edit-details.php:31
+#: bp-friends.php:154 bp-groups.php:1069 bp-messages.php:231
+#: bp-themes/bpmember/groups/single/admin.php:34
 #: bp-themes/bpskeletonmember/groups/admin/edit-details.php:41
-#: bp-xprofile.php:300 bp-xprofile/bp-xprofile-admin.php:85
+#: bp-xprofile.php:304 bp-xprofile/bp-xprofile-admin.php:85
 msgid "Yes"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:108 bp-core/bp-core-admin.php:61
 #: bp-core/bp-core-admin.php:69 bp-core/bp-core-admin.php:76
 #: bp-core/bp-core-admin.php:84 bp-core/bp-core-signup.php:80
-#: bp-friends.php:169 bp-groups.php:942 bp-messages.php:252
-#: bp-themes/bpmember/groups/admin/edit-details.php:32
+#: bp-friends.php:155 bp-groups.php:1070 bp-messages.php:232
+#: bp-themes/bpmember/groups/single/admin.php:35
 #: bp-themes/bpskeletonmember/groups/admin/edit-details.php:42
-#: bp-xprofile.php:301
+#: bp-xprofile.php:305
 msgid "No"
 msgstr ""
 
@@ -299,9 +299,9 @@ msgid "Blog Avatar"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1284 bp-core/bp-core-ajax.php:52
-#: bp-core/bp-core-classes.php:67 bp-core/bp-core-templatetags.php:247
-#: bp-groups/bp-groups-ajax.php:102 bp-groups/bp-groups-templatetags.php:314
-#: bp-groups/bp-groups-templatetags.php:2120
+#: bp-core/bp-core-classes.php:64 bp-core/bp-core-templatetags.php:251
+#: bp-groups/bp-groups-ajax.php:102 bp-groups/bp-groups-templatetags.php:2027
+#: bp-groups/bp-groups-templatetags.php:2457
 #, php-format
 msgid "active %s ago"
 msgstr ""
@@ -312,14 +312,14 @@ msgid "Latest Post: %s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1315
-#: bp-core/bp-core-templatetags.php:1038
-#: bp-groups/bp-groups-templatetags.php:2194
+#: bp-core/bp-core-templatetags.php:1042
+#: bp-groups/bp-groups-templatetags.php:2101
 msgid "Search anything..."
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1316
-#: bp-core/bp-core-templatetags.php:581 bp-core/bp-core-templatetags.php:1039
-#: bp-groups/bp-groups-templatetags.php:2195 bp-themes/bphome/searchform.php:3
+#: bp-core/bp-core-templatetags.php:585 bp-core/bp-core-templatetags.php:1043
+#: bp-groups/bp-groups-templatetags.php:2102 bp-themes/bphome/searchform.php:3
 msgid "Search"
 msgstr ""
 
@@ -348,7 +348,7 @@ msgstr ""
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core.php:306 bp-core/bp-core-settings.php:58
+#: bp-core.php:306 bp-core/bp-core-settings.php:59
 msgid "General Settings"
 msgstr ""
 
@@ -356,98 +356,98 @@ msgstr ""
 msgid "Component Setup"
 msgstr ""
 
-#: bp-core.php:344 bp-xprofile.php:200 bp-xprofile.php:299
+#: bp-core.php:344 bp-xprofile.php:200 bp-xprofile.php:303
 msgid "Profile"
 msgstr ""
 
-#: bp-core.php:350 bp-groups/bp-groups-templatetags.php:871
-#: bp-xprofile.php:206
+#: bp-core.php:350 bp-groups/bp-groups-templatetags.php:566
+#: bp-xprofile.php:205
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:354 bp-core/bp-core-templatetags.php:290 bp-xprofile.php:212
+#: bp-core.php:354 bp-core/bp-core-templatetags.php:294 bp-xprofile.php:211
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:706 bp-wire/bp-wire-templatetags.php:340
+#: bp-core.php:821 bp-wire/bp-wire-templatetags.php:340
 msgid "You"
 msgstr ""
 
-#: bp-core.php:789
+#: bp-core.php:904
 #, php-format
 msgid "%s's"
 msgstr ""
 
-#: bp-core.php:906 bp-core/bp-core-templatetags.php:373
+#: bp-core.php:1021 bp-core/bp-core-templatetags.php:377
 #: bp-themes/bphome/comments.php:42
 msgid "at"
 msgstr ""
 
-#: bp-core.php:971
+#: bp-core.php:1086
 msgid "year"
 msgstr ""
 
-#: bp-core.php:971
+#: bp-core.php:1086
 msgid "years"
 msgstr ""
 
-#: bp-core.php:972
+#: bp-core.php:1087
 msgid "month"
 msgstr ""
 
-#: bp-core.php:972
+#: bp-core.php:1087
 msgid "months"
 msgstr ""
 
-#: bp-core.php:973
+#: bp-core.php:1088
 msgid "week"
 msgstr ""
 
-#: bp-core.php:973
+#: bp-core.php:1088
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:974
+#: bp-core.php:1089
 msgid "day"
 msgstr ""
 
-#: bp-core.php:974
+#: bp-core.php:1089
 msgid "days"
 msgstr ""
 
-#: bp-core.php:975
+#: bp-core.php:1090
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:975
+#: bp-core.php:1090
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:976
+#: bp-core.php:1091
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:976
+#: bp-core.php:1091
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:977
+#: bp-core.php:1092
 msgid "second"
 msgstr ""
 
-#: bp-core.php:977 bp-core.php:1023
+#: bp-core.php:1092 bp-core.php:1138
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:988
+#: bp-core.php:1103
 msgid "[Adjust Time Zone]"
 msgstr ""
 
-#: bp-core.php:1018
+#: bp-core.php:1133
 msgid ",|Separator in time since"
 msgstr ""
 
-#: bp-core.php:1067
+#: bp-core.php:1182
 msgid "not recently active"
 msgstr ""
 
@@ -669,7 +669,7 @@ msgid ""
 "component."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:216 bp-friends.php:88 bp-friends.php:167
+#: bp-core/bp-core-admin.php:216 bp-friends.php:68 bp-friends.php:153
 msgid "Friends"
 msgstr ""
 
@@ -677,10 +677,10 @@ msgstr ""
 msgid "Allows the creation of friend connections between users."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:225 bp-core/bp-core-templatetags.php:563
-#: bp-core/bp-core-templatetags.php:655 bp-groups.php:166 bp-groups.php:204
-#: bp-groups.php:940 bp-groups.php:1186 bp-groups.php:1199 bp-groups.php:1213
-#: bp-groups.php:1226 bp-groups/bp-groups-admin.php:33
+#: bp-core/bp-core-admin.php:225 bp-core/bp-core-templatetags.php:567
+#: bp-core/bp-core-templatetags.php:659 bp-groups.php:155 bp-groups.php:189
+#: bp-groups.php:1068 bp-groups.php:1356 bp-groups.php:1369 bp-groups.php:1383
+#: bp-groups.php:1396 bp-groups/bp-groups-admin.php:33
 #: bp-groups/bp-groups-widgets.php:8 bp-groups/bp-groups-widgets.php:9
 #: bp-themes/bphome/header.php:51 bp-themes/bpmember/header.php:50
 #: bp-themes/bpskeletonmember/header.php:50
@@ -725,95 +725,95 @@ msgstr ""
 msgid "Allow users to post status updates."
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:37 bp-core/bp-core-templatetags.php:600
+#: bp-core/bp-core-adminbar.php:37 bp-core/bp-core-templatetags.php:604
 #: bp-themes/bpmember/userbar.php:37 bp-themes/bpskeletonmember/userbar.php:50
 msgid "Log In"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:41 bp-core/bp-core-templatetags.php:601
+#: bp-core/bp-core-adminbar.php:41 bp-core/bp-core-templatetags.php:605
 msgid "Sign Up"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:60
+#: bp-core/bp-core-adminbar.php:57
 msgid "My Account"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:90 bp-core/bp-core-adminbar.php:92
-#: bp-core/bp-core-templatetags.php:53 bp-core/bp-core-templatetags.php:55
-#: bp-core/bp-core-templatetags.php:616 bp-core/bp-core-templatetags.php:618
+#: bp-core/bp-core-adminbar.php:87 bp-core/bp-core-adminbar.php:89
+#: bp-core/bp-core-templatetags.php:50 bp-core/bp-core-templatetags.php:52
+#: bp-core/bp-core-templatetags.php:620 bp-core/bp-core-templatetags.php:622
 msgid "Log Out"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:105 bp-core/bp-core-adminbar.php:118
-#: bp-groups.php:260
+#: bp-core/bp-core-adminbar.php:102 bp-core/bp-core-adminbar.php:115
+#: bp-groups.php:245
 msgid "Admin"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:110
+#: bp-core/bp-core-adminbar.php:107
 msgid "Subscriber"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:112
+#: bp-core/bp-core-adminbar.php:109
 msgid "Contributor"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:114
+#: bp-core/bp-core-adminbar.php:111
 msgid "Author"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:116
+#: bp-core/bp-core-adminbar.php:113
 msgid "Editor"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:155
+#: bp-core/bp-core-adminbar.php:152
 msgid "Dashboard"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:156
+#: bp-core/bp-core-adminbar.php:153
 msgid "New Post"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:157
+#: bp-core/bp-core-adminbar.php:154
 msgid "Manage Posts"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:158
+#: bp-core/bp-core-adminbar.php:155
 msgid "Manage Comments"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:160
+#: bp-core/bp-core-adminbar.php:157
 msgid "Switch Theme"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:172
+#: bp-core/bp-core-adminbar.php:169
 msgid "Create a Blog!"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:187 bp-core/bp-core-settings.php:10
+#: bp-core/bp-core-adminbar.php:184 bp-core/bp-core-settings.php:11
 msgid "Notifications"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:205
+#: bp-core/bp-core-adminbar.php:202
 msgid "No new notifications."
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:224
+#: bp-core/bp-core-adminbar.php:221
 msgid "Blog Authors"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:250
+#: bp-core/bp-core-adminbar.php:247
 msgid "Visit"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:252
+#: bp-core/bp-core-adminbar.php:249
 msgid "Random Member"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:255
+#: bp-core/bp-core-adminbar.php:252
 msgid "Random Group"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:259
+#: bp-core/bp-core-adminbar.php:256
 msgid "Random Blog"
 msgstr ""
 
@@ -860,7 +860,7 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:127 bp-groups.php:1370
+#: bp-core/bp-core-avatars.php:127 bp-groups.php:1828
 #: bp-xprofile/bp-xprofile-signup.php:194
 msgid "There is no error, the file uploaded with success"
 msgstr ""
@@ -871,16 +871,16 @@ msgstr ""
 msgid "Your image was bigger than the maximum allowed file size of: "
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:130 bp-groups.php:1373
+#: bp-core/bp-core-avatars.php:130 bp-groups.php:1831
 #: bp-xprofile/bp-xprofile-signup.php:197
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:131 bp-groups.php:1374
+#: bp-core/bp-core-avatars.php:131 bp-groups.php:1832
 msgid "No file was uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:132 bp-groups.php:1375
+#: bp-core/bp-core-avatars.php:132 bp-groups.php:1833
 #: bp-xprofile/bp-xprofile-signup.php:198
 msgid "Missing a temporary folder"
 msgstr ""
@@ -895,7 +895,7 @@ msgstr ""
 msgid "The file you uploaded is too big. Please upload a file under %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:142 bp-groups.php:1391
+#: bp-core/bp-core-avatars.php:142 bp-groups.php:1849
 #: bp-xprofile/bp-xprofile-signup.php:217
 msgid "Please upload only JPG, GIF or PNG photos."
 msgstr ""
@@ -977,41 +977,41 @@ msgid ""
 "extend/themes/\">download more themes here</a>."
 msgstr ""
 
-#: bp-core/bp-core-classes.php:82
+#: bp-core/bp-core-classes.php:79
 msgid "friend"
 msgstr ""
 
-#: bp-core/bp-core-classes.php:84
+#: bp-core/bp-core-classes.php:81
 msgid "friends"
 msgstr ""
 
-#: bp-core/bp-core-classes.php:86
+#: bp-core/bp-core-classes.php:83
 #, php-format
 msgid "%s's friend list"
 msgstr ""
 
-#: bp-core/bp-core-classes.php:93
+#: bp-core/bp-core-classes.php:90
 msgid "blog"
 msgstr ""
 
-#: bp-core/bp-core-classes.php:95
+#: bp-core/bp-core-classes.php:92
 msgid "blogs"
 msgstr ""
 
-#: bp-core/bp-core-classes.php:97
+#: bp-core/bp-core-classes.php:94
 #, php-format
 msgid "%s's blog list"
 msgstr ""
 
-#: bp-core/bp-core-classes.php:106
+#: bp-core/bp-core-classes.php:103
 msgid "group"
 msgstr ""
 
-#: bp-core/bp-core-classes.php:108
+#: bp-core/bp-core-classes.php:105
 msgid "groups"
 msgstr ""
 
-#: bp-core/bp-core-classes.php:110
+#: bp-core/bp-core-classes.php:107
 #, php-format
 msgid "%s's group list"
 msgstr ""
@@ -1020,69 +1020,69 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:9
+#: bp-core/bp-core-settings.php:10
 msgid "General"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:13 bp-core/bp-core-settings.php:189
+#: bp-core/bp-core-settings.php:14 bp-core/bp-core-settings.php:190
 msgid "Delete Account"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:66 bp-core/bp-core-settings.php:122
+#: bp-core/bp-core-settings.php:67 bp-core/bp-core-settings.php:123
 msgid "Changes Saved."
 msgstr ""
 
-#: bp-core/bp-core-settings.php:72
+#: bp-core/bp-core-settings.php:73
 msgid "Your passwords did not match"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:77
+#: bp-core/bp-core-settings.php:78
 msgid "Account Email"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:80
+#: bp-core/bp-core-settings.php:81
 msgid "Change Password <span>(leave blank for no change)</span>"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:81
+#: bp-core/bp-core-settings.php:82
 msgid "New Password"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:82
+#: bp-core/bp-core-settings.php:83
 msgid "Repeat New Password"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:84 bp-core/bp-core-settings.php:132
-#: bp-themes/bpmember/groups/admin/edit-details.php:37
-#: bp-themes/bpmember/groups/admin/group-settings.php:82
+#: bp-core/bp-core-settings.php:85 bp-core/bp-core-settings.php:133
+#: bp-themes/bpmember/groups/single/admin.php:38
+#: bp-themes/bpmember/groups/single/admin.php:96
 #: bp-themes/bpskeletonmember/groups/admin/edit-details.php:48
-#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:99
+#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:82
 msgid "Save Changes"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:114
+#: bp-core/bp-core-settings.php:115
 msgid "Notification Settings"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:127
+#: bp-core/bp-core-settings.php:128
 msgid "Email Notifications"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:128
+#: bp-core/bp-core-settings.php:129
 msgid "Send a notification by email when:"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:198
+#: bp-core/bp-core-settings.php:199
 msgid ""
 "WARNING: Deleting your account will completely remove ALL content associated "
 "with it. There is no way back, please be careful with this option."
 msgstr ""
 
-#: bp-core/bp-core-settings.php:201
+#: bp-core/bp-core-settings.php:202
 msgid "I understand the consequences of deleting my account."
 msgstr ""
 
-#: bp-core/bp-core-settings.php:202
+#: bp-core/bp-core-settings.php:203
 msgid "Delete My Account"
 msgstr ""
 
@@ -1275,56 +1275,56 @@ msgid ""
 "em></p>"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:177
+#: bp-core/bp-core-templatetags.php:181
 msgid "Options"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:296 bp-groups/bp-groups-admin.php:72
+#: bp-core/bp-core-templatetags.php:300 bp-groups/bp-groups-admin.php:72
 #: bp-themes/bphome/comments-popup.php:64 bp-themes/bphome/comments.php:90
 msgid "Name"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:306
+#: bp-core/bp-core-templatetags.php:310
 msgid "About Me"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:316 bp-themes/bphome/comments.php:96
+#: bp-core/bp-core-templatetags.php:320 bp-themes/bphome/comments.php:96
 msgid "Website"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:326
+#: bp-core/bp-core-templatetags.php:330
 msgid "Jabber"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:336
+#: bp-core/bp-core-templatetags.php:340
 msgid "AOL Messenger"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:346
+#: bp-core/bp-core-templatetags.php:350
 msgid "Yahoo Messenger"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:451 bp-core/bp-core-templatetags.php:650
-#: bp-groups.php:256 bp-themes/bphome/header.php:43
+#: bp-core/bp-core-templatetags.php:455 bp-core/bp-core-templatetags.php:654
+#: bp-groups.php:241 bp-themes/bphome/header.php:43
 #: bp-themes/bphome/header.php:46 bp-themes/bpmember/header.php:42
 #: bp-themes/bpmember/header.php:45 bp-themes/bpskeletonmember/header.php:36
 #: bp-themes/bpskeletonmember/header.php:41
 msgid "Home"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:454
+#: bp-core/bp-core-templatetags.php:458
 msgid "Blog &#8212; "
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:456
+#: bp-core/bp-core-templatetags.php:460
 msgid "Blog &#8212; Categories &#8212; "
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:458
+#: bp-core/bp-core-templatetags.php:462
 msgid "Blog &#8212; Tags &#8212; "
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:460 bp-core/bp-core-templatetags.php:651
+#: bp-core/bp-core-templatetags.php:464 bp-core/bp-core-templatetags.php:655
 #: bp-themes/bphome/archive.php:5 bp-themes/bphome/attachment.php:6
 #: bp-themes/bphome/header.php:47 bp-themes/bphome/index.php:6
 #: bp-themes/bphome/search.php:6 bp-themes/bphome/single.php:6
@@ -1332,43 +1332,43 @@ msgstr ""
 msgid "Blog"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:468 bp-core/bp-core-templatetags.php:470
+#: bp-core/bp-core-templatetags.php:472 bp-core/bp-core-templatetags.php:474
 #, php-format
 msgid "%s Directory"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:559 bp-core/bp-core-templatetags.php:652
+#: bp-core/bp-core-templatetags.php:563 bp-core/bp-core-templatetags.php:656
 #: bp-core/bp-core-widgets.php:12 bp-core/bp-core-widgets.php:13
-#: bp-groups.php:276 bp-groups/bp-groups-admin.php:81
+#: bp-groups.php:257 bp-groups/bp-groups-admin.php:81
 #: bp-themes/bphome/header.php:48
-#: bp-themes/bpmember/groups/admin/manage-members.php:30
+#: bp-themes/bpmember/groups/single/admin.php:136
 #: bp-themes/bpmember/header.php:47
 #: bp-themes/bpskeletonmember/groups/admin/manage-members.php:42
 #: bp-themes/bpskeletonmember/header.php:45
 msgid "Members"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:595 bp-themes/bpmember/userbar.php:28
+#: bp-core/bp-core-templatetags.php:599 bp-themes/bpmember/userbar.php:28
 #: bp-themes/bpskeletonmember/userbar.php:38
 msgid "Username"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:598 bp-themes/bpmember/userbar.php:35
+#: bp-core/bp-core-templatetags.php:602 bp-themes/bpmember/userbar.php:35
 #: bp-themes/bpskeletonmember/userbar.php:47
 msgid "Remember Me"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:924
+#: bp-core/bp-core-templatetags.php:928
 #, php-format
 msgid "Viewing member %d to %d (of %d members)"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1006
+#: bp-core/bp-core-templatetags.php:1010
 #, php-format
 msgid "%d friend"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1008
+#: bp-core/bp-core-templatetags.php:1012
 #, php-format
 msgid "%d friends"
 msgstr ""
@@ -1387,7 +1387,7 @@ msgstr ""
 
 #: bp-core/bp-core-widgets.php:68 bp-forums/bp-forums-bbpress-live.php:166
 #: bp-forums/bp-forums-bbpress-live.php:370
-#: bp-themes/bpmember/groups/forum/index.php:73
+#: bp-themes/bpmember/groups/single/forum/index.php:73
 #: bp-themes/bpskeletonmember/groups/forum/index.php:84
 msgid "Title:"
 msgstr ""
@@ -1396,17 +1396,17 @@ msgstr ""
 msgid "Welcome Text:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:104 bp-friends/bp-friends-templatetags.php:371
-#: bp-friends/bp-friends-templatetags.php:387
-#: bp-groups/bp-groups-widgets.php:46
+#: bp-core/bp-core-widgets.php:104 bp-friends/bp-friends-templatetags.php:377
+#: bp-friends/bp-friends-templatetags.php:393
+#: bp-groups/bp-groups-widgets.php:45
 msgid "Newest"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:105 bp-groups/bp-groups-widgets.php:47
+#: bp-core/bp-core-widgets.php:105 bp-groups/bp-groups-widgets.php:46
 msgid "Active"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:106 bp-groups/bp-groups-widgets.php:48
+#: bp-core/bp-core-widgets.php:106 bp-groups/bp-groups-widgets.php:47
 msgid "Popular"
 msgstr ""
 
@@ -1509,10 +1509,10 @@ msgstr ""
 msgid "bbPress Forum list"
 msgstr ""
 
-#: bp-forums/bp-forums-bbpress-live.php:89 bp-groups.php:267
-#: bp-groups.php:1653 bp-themes/bpmember/groups/forum/index.php:25
-#: bp-themes/bpmember/groups/forum/topic.php:28
-#: bp-themes/bpmember/groups/forum/topic.php:40
+#: bp-forums/bp-forums-bbpress-live.php:89 bp-groups.php:252
+#: bp-groups.php:1953 bp-themes/bpmember/groups/single/forum/index.php:25
+#: bp-themes/bpmember/groups/single/forum/topic.php:28
+#: bp-themes/bpmember/groups/single/forum/topic.php:40
 #: bp-themes/bpskeletonmember/groups/forum/index.php:29
 #: bp-themes/bpskeletonmember/groups/forum/topic.php:33
 #: bp-themes/bpskeletonmember/groups/forum/topic.php:45
@@ -1606,102 +1606,102 @@ msgstr ""
 msgid "Viewing post %d to %d (%d total posts)"
 msgstr ""
 
-#: bp-friends.php:95
+#: bp-friends.php:74
 msgid "Requests"
 msgstr ""
 
-#: bp-friends.php:133
+#: bp-friends.php:119
 msgid "Friendship accepted"
 msgstr ""
 
-#: bp-friends.php:135
+#: bp-friends.php:121
 msgid "Friendship could not be accepted"
 msgstr ""
 
-#: bp-friends.php:145
+#: bp-friends.php:131
 msgid "Friendship rejected"
 msgstr ""
 
-#: bp-friends.php:147
+#: bp-friends.php:133
 msgid "Friendship could not be rejected"
 msgstr ""
 
-#: bp-friends.php:173
+#: bp-friends.php:159
 msgid "A member sends you a friendship request"
 msgstr ""
 
-#: bp-friends.php:179
+#: bp-friends.php:165
 msgid "A member accepts your friendship request"
 msgstr ""
 
-#: bp-friends.php:215 bp-friends/bp-friends-ajax.php:29
+#: bp-friends.php:207 bp-friends/bp-friends-ajax.php:29
 msgid "Friendship could not be requested."
 msgstr ""
 
-#: bp-friends.php:217
+#: bp-friends.php:209
 msgid "Friendship requested"
 msgstr ""
 
-#: bp-friends.php:220
+#: bp-friends.php:212
 msgid "You are already friends with this user"
 msgstr ""
 
-#: bp-friends.php:222
+#: bp-friends.php:214
 msgid "You already have a pending friendship request with this user"
 msgstr ""
 
-#: bp-friends.php:253 bp-friends/bp-friends-ajax.php:20
+#: bp-friends.php:245 bp-friends/bp-friends-ajax.php:20
 msgid "Friendship could not be canceled."
 msgstr ""
 
-#: bp-friends.php:255
+#: bp-friends.php:247
 msgid "Friendship canceled"
 msgstr ""
 
-#: bp-friends.php:258
+#: bp-friends.php:250
 msgid "You are not yet friends with this user"
 msgstr ""
 
-#: bp-friends.php:260
+#: bp-friends.php:252
 msgid "You have a pending friendship request with this user"
 msgstr ""
 
-#: bp-friends.php:317 bp-friends.php:326
+#: bp-friends.php:301 bp-friends.php:310
 #, php-format
 msgid "%s and %s are now friends"
 msgstr ""
 
-#: bp-friends.php:343
+#: bp-friends.php:327
 #, php-format
 msgid "%d friends accepted your friendship requests"
 msgstr ""
 
-#: bp-friends.php:347 bp-friends/bp-friends-notifications.php:58
+#: bp-friends.php:331 bp-friends/bp-friends-notifications.php:58
 #, php-format
 msgid "%s accepted your friendship request"
 msgstr ""
 
-#: bp-friends.php:353 bp-friends.php:357
+#: bp-friends.php:337 bp-friends.php:341
 msgid "Friendship requests"
 msgstr ""
 
-#: bp-friends.php:353
+#: bp-friends.php:337
 #, php-format
 msgid "You have %d pending friendship requests"
 msgstr ""
 
-#: bp-friends.php:357
+#: bp-friends.php:341
 #, php-format
 msgid "You have a friendship request from %s"
 msgstr ""
 
 #: bp-friends/bp-friends-ajax.php:22
-#: bp-friends/bp-friends-templatetags.php:361
+#: bp-friends/bp-friends-templatetags.php:367
 msgid "Add Friend"
 msgstr ""
 
 #: bp-friends/bp-friends-ajax.php:31
-#: bp-friends/bp-friends-templatetags.php:357
+#: bp-friends/bp-friends-templatetags.php:363
 msgid "Friendship Requested"
 msgstr ""
 
@@ -1729,11 +1729,11 @@ msgstr ""
 #: bp-friends/bp-friends-notifications.php:33
 #: bp-friends/bp-friends-notifications.php:68
 #: bp-groups/bp-groups-notifications.php:44
-#: bp-groups/bp-groups-notifications.php:80
-#: bp-groups/bp-groups-notifications.php:124
-#: bp-groups/bp-groups-notifications.php:173
-#: bp-groups/bp-groups-notifications.php:215
-#: bp-groups/bp-groups-notifications.php:262
+#: bp-groups/bp-groups-notifications.php:79
+#: bp-groups/bp-groups-notifications.php:123
+#: bp-groups/bp-groups-notifications.php:172
+#: bp-groups/bp-groups-notifications.php:214
+#: bp-groups/bp-groups-notifications.php:261
 #: bp-messages/bp-messages-notifications.php:34
 #: bp-xprofile/bp-xprofile-notifications.php:49
 #, php-format
@@ -1751,7 +1751,7 @@ msgid ""
 msgstr ""
 
 #: bp-friends/bp-friends-templatetags.php:251
-#: bp-groups/bp-groups-templatetags.php:2346
+#: bp-groups/bp-groups-templatetags.php:2253
 #, php-format
 msgid "requested %s ago"
 msgstr ""
@@ -1761,405 +1761,433 @@ msgstr ""
 msgid "Viewing friend %d to %d (of %d friends)"
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:299
+#: bp-friends/bp-friends-templatetags.php:305
 msgid "Filter Friends"
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:359
+#: bp-friends/bp-friends-templatetags.php:365
 msgid "Cancel Friendship"
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:370
-#: bp-friends/bp-friends-templatetags.php:384
+#: bp-friends/bp-friends-templatetags.php:376
+#: bp-friends/bp-friends-templatetags.php:390
 #: bp-groups/bp-groups-templatetags.php:6
-#: bp-groups/bp-groups-templatetags.php:252
+#: bp-groups/bp-groups-templatetags.php:23
 msgid "Recently Active"
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:372
-#: bp-friends/bp-friends-templatetags.php:390
+#: bp-friends/bp-friends-templatetags.php:378
+#: bp-friends/bp-friends-templatetags.php:396
 #: bp-groups/bp-groups-templatetags.php:11
-#: bp-groups/bp-groups-templatetags.php:267
+#: bp-groups/bp-groups-templatetags.php:38
 msgid "Alphabetically"
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:404
+#: bp-friends/bp-friends-templatetags.php:410
 #: bp-themes/bpmember/friends/index.php:10
+#: bp-themes/bpmember/profile/index.php:81
 #: bp-themes/bpskeletonmember/friends/index.php:23
 #, php-format
 msgid "%s's Friends"
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:404
-#: bp-groups/bp-groups-templatetags.php:353
+#: bp-friends/bp-friends-templatetags.php:410
+#: bp-groups/bp-groups-templatetags.php:2497
+#: bp-themes/bpmember/profile/index.php:27
+#: bp-themes/bpmember/profile/index.php:58
+#: bp-themes/bpmember/profile/index.php:81
 msgid "See All"
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:417
+#: bp-friends/bp-friends-templatetags.php:423
 msgid "You haven't added any friend connections yet."
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:417
+#: bp-friends/bp-friends-templatetags.php:423
 #, php-format
 msgid "%s hasn't created any friend connections yet."
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:457
+#: bp-friends/bp-friends-templatetags.php:463
 msgid "There aren't enough site members to show a random sample just yet."
 msgstr ""
 
-#: bp-groups.php:212 bp-groups.php:220
-#: bp-groups/bp-groups-templatetags.php:353
+#: bp-groups.php:118
+msgid "Group Details"
+msgstr ""
+
+#: bp-groups.php:119 bp-groups/bp-groups-templatetags.php:1052
+#: bp-themes/bpmember/groups/single/admin.php:46
+#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:23
+msgid "Group Settings"
+msgstr ""
+
+#: bp-groups.php:120 bp-groups/bp-groups-templatetags.php:60
+#: bp-groups/bp-groups-templatetags.php:1053
+#: bp-groups/bp-groups-templatetags.php:2507
+#: bp-themes/bpmember/groups/create.php:95
+#: bp-themes/bpmember/groups/single/admin.php:104
+#: bp-themes/bpskeletonmember/groups/admin/group-avatar.php:23
+msgid "Group Avatar"
+msgstr ""
+
+#: bp-groups.php:121 bp-groups.php:1409 bp-groups.php:1411
+#: bp-themes/bpmember/groups/invites.php:12
+#: bp-themes/bpskeletonmember/groups/list-invites.php:15
+msgid "Group Invites"
+msgstr ""
+
+#: bp-groups.php:194 bp-groups.php:202
+#: bp-groups/bp-groups-templatetags.php:2497
 #: bp-themes/bpmember/groups/index.php:10
+#: bp-themes/bpmember/profile/index.php:58
 #: bp-themes/bpskeletonmember/groups/index.php:24
 msgid "My Groups"
 msgstr ""
 
-#: bp-groups.php:213 bp-themes/bpmember/groups/create.php:10
+#: bp-groups.php:195 bp-themes/bpmember/groups/create.php:10
 #: bp-themes/bpskeletonmember/groups/create.php:22
 msgid "Create a Group"
 msgstr ""
 
-#: bp-groups.php:214
+#: bp-groups.php:196
 msgid "Invites"
 msgstr ""
 
-#: bp-groups.php:264 bp-groups/bp-groups-ajax.php:264
-#: bp-groups/bp-groups-templatetags.php:1589
-#: bp-themes/bpmember/groups/request-membership.php:22
+#: bp-groups.php:249 bp-groups/bp-groups-ajax.php:263
+#: bp-groups/bp-groups-templatetags.php:1224
+#: bp-themes/bpmember/groups/single/request-membership.php:22
 #: bp-themes/bpskeletonmember/groups/request-membership.php:31
 msgid "Request Membership"
 msgstr ""
 
-#: bp-groups.php:270 bp-wire.php:45 bp-wire/bp-wire-templatetags.php:146
-#: bp-xprofile.php:578 bp-xprofile.php:581
+#: bp-groups.php:255 bp-wire.php:32 bp-wire/bp-wire-templatetags.php:146
+#: bp-xprofile.php:594 bp-xprofile.php:597
 msgid "Wire"
 msgstr ""
 
-#: bp-groups.php:273
-msgid "Photos"
-msgstr ""
-
-#: bp-groups.php:280 bp-themes/bpmember/groups/send-invite.php:15
-#: bp-themes/bpmember/groups/send-invite.php:24
+#: bp-groups.php:261 bp-themes/bpmember/groups/single/send-invite.php:15
+#: bp-themes/bpmember/groups/single/send-invite.php:66
 #: bp-themes/bpskeletonmember/groups/send-invite.php:21
 #: bp-themes/bpskeletonmember/groups/send-invite.php:30
 msgid "Send Invites"
 msgstr ""
 
-#: bp-groups.php:282 bp-groups/bp-groups-ajax.php:240
-#: bp-groups/bp-groups-templatetags.php:1579
-#: bp-groups/bp-groups-templatetags.php:1586
+#: bp-groups.php:263 bp-groups/bp-groups-ajax.php:239
+#: bp-groups/bp-groups-templatetags.php:1214
+#: bp-groups/bp-groups-templatetags.php:1221
 msgid "Leave Group"
 msgstr ""
 
-#: bp-groups.php:328
+#: bp-groups.php:316
 msgid "Group invite could not be accepted"
 msgstr ""
 
-#: bp-groups.php:330
+#: bp-groups.php:318
 msgid "Group invite accepted"
 msgstr ""
 
-#: bp-groups.php:344
+#: bp-groups.php:332
 msgid "Group invite could not be rejected"
 msgstr ""
 
-#: bp-groups.php:346
+#: bp-groups.php:334
 msgid "Group invite rejected"
 msgstr ""
 
-#: bp-groups.php:386
+#: bp-groups.php:370
 msgid "There was an error saving group details. Please try again."
 msgstr ""
 
-#: bp-groups.php:486
+#: bp-groups.php:390
+msgid "Please fill in all of the required fields"
+msgstr ""
+
+#: bp-groups.php:395 bp-groups.php:428 bp-groups.php:443
+msgid "There was an error saving group details, please try again."
+msgstr ""
+
+#: bp-groups.php:585
 msgid "Wire message could not be posted."
 msgstr ""
 
-#: bp-groups.php:488 bp-xprofile.php:376
+#: bp-groups.php:587 bp-xprofile.php:389
 msgid "Wire message successfully posted."
 msgstr ""
 
-#: bp-groups.php:505
+#: bp-groups.php:604
 msgid "There was an error deleting the wire message."
 msgstr ""
 
-#: bp-groups.php:507 bp-xprofile.php:421
+#: bp-groups.php:606 bp-xprofile.php:434
 msgid "Wire message successfully deleted."
 msgstr ""
 
-#: bp-groups.php:548
+#: bp-groups.php:654
 msgid "Group invites sent."
 msgstr ""
 
-#: bp-groups.php:569
+#: bp-groups.php:677
 msgid "As the only group administrator, you cannot leave this group."
 msgstr ""
 
-#: bp-groups.php:575
+#: bp-groups.php:683
 msgid "There was an error leaving the group. Please try again."
 msgstr ""
 
-#: bp-groups.php:578
+#: bp-groups.php:686
 msgid "You left the group successfully."
 msgstr ""
 
-#: bp-groups.php:611
+#: bp-groups.php:721
 msgid ""
 "There was an error sending your group membership request, please try again."
 msgstr ""
 
-#: bp-groups.php:613
+#: bp-groups.php:723
 msgid ""
 "Your membership request was sent to the group administrator successfully. "
 "You will be notified when the group administrator responds to your request."
 msgstr ""
 
-#: bp-groups.php:650
+#: bp-groups.php:763
 msgid "There was an error updating group details, please try again."
 msgstr ""
 
-#: bp-groups.php:652
+#: bp-groups.php:765
 msgid "Group details were successfully updated."
 msgstr ""
 
-#: bp-groups.php:693
+#: bp-groups.php:807
 msgid "There was an error updating group settings, please try again."
 msgstr ""
 
-#: bp-groups.php:695
+#: bp-groups.php:809
 msgid "Group settings were successfully updated."
 msgstr ""
 
-#: bp-groups.php:738
+#: bp-groups.php:855
 msgid "There was an error updating the group avatar, please try again."
 msgstr ""
 
-#: bp-groups.php:740
+#: bp-groups.php:857
 msgid "The group avatar was successfully updated."
 msgstr ""
 
-#: bp-groups.php:772
+#: bp-groups.php:892
 msgid "There was an error when promoting that user, please try again"
 msgstr ""
 
-#: bp-groups.php:774
+#: bp-groups.php:894
 msgid "User promoted successfully"
 msgstr ""
 
-#: bp-groups.php:791
+#: bp-groups.php:911
 msgid "There was an error when demoting that user, please try again"
 msgstr ""
 
-#: bp-groups.php:793
+#: bp-groups.php:913
 msgid "User demoted successfully"
 msgstr ""
 
-#: bp-groups.php:810
+#: bp-groups.php:930
 msgid "There was an error when banning that user, please try again"
 msgstr ""
 
-#: bp-groups.php:812
+#: bp-groups.php:932
 msgid "User banned successfully"
 msgstr ""
 
-#: bp-groups.php:829
+#: bp-groups.php:949
 msgid "There was an error when unbanning that user, please try again"
 msgstr ""
 
-#: bp-groups.php:831
+#: bp-groups.php:951
 msgid "User ban removed successfully"
 msgstr ""
 
-#: bp-groups.php:870
+#: bp-groups.php:992
 msgid "There was an error accepting the membership request, please try again."
 msgstr ""
 
-#: bp-groups.php:872
+#: bp-groups.php:994
 msgid "Group membership request accepted"
 msgstr ""
 
-#: bp-groups.php:882
+#: bp-groups.php:1004
 msgid "There was an error rejecting the membership request, please try again."
 msgstr ""
 
-#: bp-groups.php:884
+#: bp-groups.php:1006
 msgid "Group membership request rejected"
 msgstr ""
 
-#: bp-groups.php:916
+#: bp-groups.php:1041
 msgid "There was an error deleting the group, please try again."
 msgstr ""
 
-#: bp-groups.php:918
+#: bp-groups.php:1043
 msgid "The group was deleted successfully"
 msgstr ""
 
-#: bp-groups.php:946
+#: bp-groups.php:1074
 msgid "A member invites you to join a group"
 msgstr ""
 
-#: bp-groups.php:952
+#: bp-groups.php:1080
 msgid "Group information is updated"
 msgstr ""
 
-#: bp-groups.php:959
+#: bp-groups.php:1087
 msgid "A member posts on the wire of a group you belong to"
 msgstr ""
 
-#: bp-groups.php:966
+#: bp-groups.php:1094
 msgid "You are promoted to a group administrator or moderator"
 msgstr ""
 
-#: bp-groups.php:972
+#: bp-groups.php:1100
 msgid "A member requests to join a private group for which you are an admin"
 msgstr ""
 
-#: bp-groups.php:996
+#: bp-groups.php:1129
 msgid "There was an error joining the group."
 msgstr ""
 
-#: bp-groups.php:998
+#: bp-groups.php:1131
 msgid "You joined the group!"
 msgstr ""
 
-#: bp-groups.php:1064
+#: bp-groups.php:1223
 #, php-format
 msgid "%s joined the group %s"
 msgstr ""
 
-#: bp-groups.php:1078
+#: bp-groups.php:1237
 #, php-format
 msgid "%s created the group %s"
 msgstr ""
 
-#: bp-groups.php:1092
+#: bp-groups.php:1251
 #, php-format
 msgid "%s wrote on the wire of the group %s"
 msgstr ""
 
-#: bp-groups.php:1116
+#: bp-groups.php:1275
 #, php-format
 msgid "%s posted on the forum topic %s in the group %s:"
 msgstr ""
 
-#: bp-groups.php:1141
+#: bp-groups.php:1300
 #, php-format
 msgid "%s created the forum topic %s in the group %s:"
 msgstr ""
 
-#: bp-groups.php:1172
+#: bp-groups.php:1342
 msgid "Group Membership Requests"
 msgstr ""
 
-#: bp-groups.php:1172
+#: bp-groups.php:1342
 #, php-format
 msgid "%d new membership requests for the group \"%s\""
 msgstr ""
 
-#: bp-groups.php:1175
+#: bp-groups.php:1345
 #, php-format
 msgid "%s requests membership for the group \"%s\""
 msgstr ""
 
-#: bp-groups.php:1186
+#: bp-groups.php:1356
 #, php-format
 msgid "%d accepted group membership requests"
 msgstr ""
 
-#: bp-groups.php:1188
+#: bp-groups.php:1358
 #, php-format
 msgid "Membership for group \"%s\" accepted"
 msgstr ""
 
-#: bp-groups.php:1199
+#: bp-groups.php:1369
 #, php-format
 msgid "%d rejected group membership requests"
 msgstr ""
 
-#: bp-groups.php:1201
+#: bp-groups.php:1371
 #, php-format
 msgid "Membership for group \"%s\" rejected"
 msgstr ""
 
-#: bp-groups.php:1213
+#: bp-groups.php:1383
 #, php-format
 msgid "You were promoted to an admin in %d groups"
 msgstr ""
 
-#: bp-groups.php:1215
+#: bp-groups.php:1385
 #, php-format
 msgid "You were promoted to an admin in the group %s"
 msgstr ""
 
-#: bp-groups.php:1226
+#: bp-groups.php:1396
 #, php-format
 msgid "You were promoted to a mod in %d groups"
 msgstr ""
 
-#: bp-groups.php:1228
+#: bp-groups.php:1398
 #, php-format
 msgid "You were promoted to a mod in the group %s"
 msgstr ""
 
-#: bp-groups.php:1239 bp-groups.php:1241
-#: bp-themes/bpmember/groups/list-invites.php:12
-#: bp-themes/bpskeletonmember/groups/list-invites.php:15
-msgid "Group Invites"
-msgstr ""
-
-#: bp-groups.php:1239
+#: bp-groups.php:1409
 #, php-format
 msgid "You have %d new group invitations"
 msgstr ""
 
-#: bp-groups.php:1241
+#: bp-groups.php:1411
 #, php-format
 msgid "You have an invitation to the group: %s"
 msgstr ""
 
-#: bp-groups.php:1371
+#: bp-groups.php:1510
+msgid "Group Admin"
+msgstr ""
+
+#: bp-groups.php:1829
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr ""
 
-#: bp-groups.php:1372
+#: bp-groups.php:1830
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
 
-#: bp-groups.php:1380
+#: bp-groups.php:1838
 msgid "Your group avatar upload failed, please try again. Error was: "
 msgstr ""
 
-#: bp-groups.php:1386
+#: bp-groups.php:1844
 msgid "The file you uploaded is too big. Please upload a file under"
 msgstr ""
 
-#: bp-groups.php:1397
+#: bp-groups.php:1855
 msgid ""
 "Upload Failed! Please check the permissions on the group avatar upload "
 "directory."
 msgstr ""
 
-#: bp-groups.php:1491
-msgid "Group Admin"
-msgstr ""
-
-#: bp-groups.php:1664
+#: bp-groups.php:1964
 msgid "Reply posted successfully!"
 msgstr ""
 
-#: bp-groups.php:1674
+#: bp-groups.php:1974
 msgid "There was an error posting that reply."
 msgstr ""
 
-#: bp-groups.php:1682
+#: bp-groups.php:1982
 msgid "Topic posted successfully!"
 msgstr ""
 
-#: bp-groups.php:1692
+#: bp-groups.php:1992
 msgid "There was an error posting that topic."
 msgstr ""
 
@@ -2185,7 +2213,7 @@ msgid "Groups matching: \"%s\""
 msgstr ""
 
 #: bp-groups/bp-groups-admin.php:75
-#: bp-themes/bpmember/groups/group-home.php:31
+#: bp-themes/bpmember/groups/single/home.php:31
 #: bp-themes/bpskeletonmember/groups/group-home.php:41
 msgid "Description"
 msgstr ""
@@ -2215,7 +2243,9 @@ msgstr ""
 msgid "No groups found."
 msgstr ""
 
-#: bp-groups/bp-groups-ajax.php:28 bp-groups/bp-groups-templatetags.php:1538
+#: bp-groups/bp-groups-ajax.php:28 bp-groups/bp-groups-templatetags.php:2556
+#: bp-themes/bpmember/groups/create.php:146
+#: bp-themes/bpmember/groups/single/send-invite.php:54
 msgid "Remove Invite"
 msgstr ""
 
@@ -2224,11 +2254,11 @@ msgstr ""
 msgid "created %s ago"
 msgstr ""
 
-#: bp-groups/bp-groups-ajax.php:105 bp-groups/bp-groups-widgets.php:69
+#: bp-groups/bp-groups-ajax.php:105 bp-groups/bp-groups-widgets.php:68
 msgid " member"
 msgstr ""
 
-#: bp-groups/bp-groups-ajax.php:107 bp-groups/bp-groups-widgets.php:71
+#: bp-groups/bp-groups-ajax.php:107 bp-groups/bp-groups-widgets.php:70
 msgid " members"
 msgstr ""
 
@@ -2236,69 +2266,69 @@ msgstr ""
 msgid "No groups matched the current filter."
 msgstr ""
 
-#: bp-groups/bp-groups-ajax.php:156 bp-groups/bp-groups-ajax.php:201
-#: bp-themes/bpmember/groups/admin/manage-members.php:64
-#: bp-themes/bpmember/groups/list-members.php:68
+#: bp-groups/bp-groups-ajax.php:156 bp-groups/bp-groups-ajax.php:200
+#: bp-themes/bpmember/groups/single/admin.php:169
+#: bp-themes/bpmember/groups/single/members.php:68
 #: bp-themes/bpskeletonmember/groups/admin/manage-members.php:85
 #: bp-themes/bpskeletonmember/groups/list-members.php:87
 msgid "This group has no members."
 msgstr ""
 
-#: bp-groups/bp-groups-ajax.php:188
-#: bp-themes/bpmember/groups/admin/manage-members.php:51
+#: bp-groups/bp-groups-ajax.php:187
+#: bp-themes/bpmember/groups/single/admin.php:156
 #: bp-themes/bpskeletonmember/groups/admin/manage-members.php:67
 msgid "(banned)"
 msgstr ""
 
-#: bp-groups/bp-groups-ajax.php:188 bp-groups/bp-groups-ajax.php:192
-#: bp-themes/bpmember/groups/admin/manage-members.php:51
-#: bp-themes/bpmember/groups/admin/manage-members.php:55
+#: bp-groups/bp-groups-ajax.php:187 bp-groups/bp-groups-ajax.php:191
+#: bp-themes/bpmember/groups/single/admin.php:156
+#: bp-themes/bpmember/groups/single/admin.php:160
 #: bp-themes/bpskeletonmember/groups/admin/manage-members.php:67
 #: bp-themes/bpskeletonmember/groups/admin/manage-members.php:74
 msgid "Kick and ban this member"
 msgstr ""
 
-#: bp-groups/bp-groups-ajax.php:188
-#: bp-themes/bpmember/groups/admin/manage-members.php:51
+#: bp-groups/bp-groups-ajax.php:187
+#: bp-themes/bpmember/groups/single/admin.php:156
 #: bp-themes/bpskeletonmember/groups/admin/manage-members.php:67
 msgid "Remove Ban"
 msgstr ""
 
-#: bp-groups/bp-groups-ajax.php:192 bp-groups/bp-groups-templatetags.php:1251
-#: bp-themes/bpmember/groups/admin/manage-members.php:55
+#: bp-groups/bp-groups-ajax.php:191 bp-groups/bp-groups-templatetags.php:926
+#: bp-themes/bpmember/groups/single/admin.php:160
 #: bp-themes/bpskeletonmember/groups/admin/manage-members.php:74
 msgid "Kick &amp; Ban"
 msgstr ""
 
-#: bp-groups/bp-groups-ajax.php:192
-#: bp-themes/bpmember/groups/admin/manage-members.php:55
+#: bp-groups/bp-groups-ajax.php:191
+#: bp-themes/bpmember/groups/single/admin.php:160
 #: bp-themes/bpskeletonmember/groups/admin/manage-members.php:74
 msgid "Promote this member"
 msgstr ""
 
-#: bp-groups/bp-groups-ajax.php:192
-#: bp-themes/bpmember/groups/admin/manage-members.php:55
+#: bp-groups/bp-groups-ajax.php:191
+#: bp-themes/bpmember/groups/single/admin.php:160
 #: bp-themes/bpskeletonmember/groups/admin/manage-members.php:74
 msgid "Promote to Moderator"
 msgstr ""
 
-#: bp-groups/bp-groups-ajax.php:238
+#: bp-groups/bp-groups-ajax.php:237
 msgid "Error joining group"
 msgstr ""
 
-#: bp-groups/bp-groups-ajax.php:248
+#: bp-groups/bp-groups-ajax.php:247
 msgid "Error requesting membership"
 msgstr ""
 
-#: bp-groups/bp-groups-ajax.php:250
+#: bp-groups/bp-groups-ajax.php:249
 msgid "Membership Requested"
 msgstr ""
 
-#: bp-groups/bp-groups-ajax.php:259
+#: bp-groups/bp-groups-ajax.php:258
 msgid "Error leaving group"
 msgstr ""
 
-#: bp-groups/bp-groups-ajax.php:262 bp-groups/bp-groups-templatetags.php:1581
+#: bp-groups/bp-groups-ajax.php:261 bp-groups/bp-groups-templatetags.php:1216
 msgid "Join Group"
 msgstr ""
 
@@ -2323,11 +2353,11 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:59
+#: bp-groups/bp-groups-notifications.php:58
 msgid "Group Details Updated"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:73
+#: bp-groups/bp-groups-notifications.php:72
 #, php-format
 msgid ""
 "Group details for the group \"%s\" were updated:\n"
@@ -2337,12 +2367,12 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:109
+#: bp-groups/bp-groups-notifications.php:108
 #, php-format
 msgid "Membership request for group: %s"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:112
+#: bp-groups/bp-groups-notifications.php:111
 #, php-format
 msgid ""
 "%s wants to join the group \"%s\".\n"
@@ -2358,12 +2388,12 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:153
+#: bp-groups/bp-groups-notifications.php:152
 #, php-format
 msgid "Membership request for group \"%s\" accepted"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:155
+#: bp-groups/bp-groups-notifications.php:154
 #, php-format
 msgid ""
 "Your membership request for the group \"%s\" has been accepted.\n"
@@ -2373,12 +2403,12 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:163
+#: bp-groups/bp-groups-notifications.php:162
 #, php-format
 msgid "Membership request for group \"%s\" rejected"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:165
+#: bp-groups/bp-groups-notifications.php:164
 #, php-format
 msgid ""
 "Your membership request for the group \"%s\" has been rejected.\n"
@@ -2388,20 +2418,20 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:183
+#: bp-groups/bp-groups-notifications.php:182
 msgid "an administrator"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:186
+#: bp-groups/bp-groups-notifications.php:185
 msgid "a moderator"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:205
+#: bp-groups/bp-groups-notifications.php:204
 #, php-format
 msgid "You have been promoted in the group: \"%s\""
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:208
+#: bp-groups/bp-groups-notifications.php:207
 #, php-format
 msgid ""
 "You have been promoted to %s for the group: \"%s\".\n"
@@ -2411,12 +2441,12 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:248
+#: bp-groups/bp-groups-notifications.php:247
 #, php-format
 msgid "You have an invitation to the group: \"%s\""
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:251
+#: bp-groups/bp-groups-notifications.php:250
 #, php-format
 msgid ""
 "One of your friends %s has invited you to the group: \"%s\".\n"
@@ -2431,551 +2461,546 @@ msgid ""
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:7
-#: bp-groups/bp-groups-templatetags.php:255
+#: bp-groups/bp-groups-templatetags.php:26
 msgid "Recently Joined"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:8
-#: bp-groups/bp-groups-templatetags.php:258
+#: bp-groups/bp-groups-templatetags.php:29
 msgid "Most Popular"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:9
-#: bp-groups/bp-groups-templatetags.php:261
+#: bp-groups/bp-groups-templatetags.php:32
 msgid "Administrator Of"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:10
-#: bp-groups/bp-groups-templatetags.php:264
+#: bp-groups/bp-groups-templatetags.php:35
 msgid "Moderator Of"
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:20
-#: bp-groups/bp-groups-templatetags.php:33
-msgid "Group Details"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:21
-#: bp-groups/bp-groups-templatetags.php:37
-#: bp-groups/bp-groups-templatetags.php:1374
-#: bp-themes/bpmember/groups/admin/group-settings.php:13
-#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:23
-msgid "Group Settings"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:22
-#: bp-groups/bp-groups-templatetags.php:41
-#: bp-groups/bp-groups-templatetags.php:276
-#: bp-groups/bp-groups-templatetags.php:363
-#: bp-groups/bp-groups-templatetags.php:1378
-#: bp-themes/bpmember/groups/admin/group-avatar.php:13
-#: bp-themes/bpskeletonmember/groups/admin/group-avatar.php:23
-msgid "Group Avatar"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:23
-#: bp-groups/bp-groups-templatetags.php:45
-msgid "Invite Members"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:58
-#: bp-themes/bpmember/groups/admin/edit-details.php:18
-#: bp-themes/bpskeletonmember/groups/admin/edit-details.php:28
-msgid "Group Name"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:61
-#: bp-themes/bpmember/groups/admin/edit-details.php:21
-#: bp-themes/bpskeletonmember/groups/admin/edit-details.php:31
-msgid "Group Description"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:64
-#: bp-themes/bpmember/groups/admin/edit-details.php:24
-#: bp-themes/bpskeletonmember/groups/admin/edit-details.php:34
-msgid "Recent News"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:69
-msgid "Create Group and Continue"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:78
-#: bp-themes/bpmember/groups/admin/group-settings.php:21
-#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:32
-msgid "Enable comment wire"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:85
-#: bp-themes/bpmember/groups/admin/group-settings.php:28
-#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:40
-msgid "Enable discussion forum"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:91
-#, php-format
-msgid ""
-"<strong>Attention Site Admin:</strong> Group forums require the <a href=\"%s"
-"\">correct setup and configuration</a> of a bbPress installation."
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:100
-#: bp-themes/bpmember/groups/admin/group-settings.php:35
-#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:48
-msgid "Enable photo gallery"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:102
-#: bp-themes/bpmember/groups/admin/group-settings.php:39
-#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:53
-msgid "All members can upload photos"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:103
-#: bp-themes/bpmember/groups/admin/group-settings.php:40
-#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:54
-msgid "Only group admins can upload photos"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:108
-#: bp-themes/bpmember/groups/admin/group-settings.php:46
-#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:62
-msgid "Privacy Options"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:112
-#: bp-themes/bpmember/groups/admin/group-settings.php:51
-#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:67
-msgid "This is a public group"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:114
-#: bp-themes/bpmember/groups/admin/group-settings.php:53
-#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:69
-msgid "Any site member can join this group."
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:115
-#: bp-groups/bp-groups-templatetags.php:124
-#: bp-themes/bpmember/groups/admin/group-settings.php:54
-#: bp-themes/bpmember/groups/admin/group-settings.php:64
-#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:70
-#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:80
-msgid ""
-"This group will be listed in the groups directory and in search results."
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:116
-#: bp-themes/bpmember/groups/admin/group-settings.php:55
-#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:71
-msgid "Group content and activity will be visible to any site member."
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:121
-#: bp-themes/bpmember/groups/admin/group-settings.php:61
-#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:77
-msgid "This is a private group"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:123
-#: bp-themes/bpmember/groups/admin/group-settings.php:63
-#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:79
-msgid "Only users who request membership and are accepted can join the group."
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:125
-#: bp-groups/bp-groups-templatetags.php:134
-#: bp-themes/bpmember/groups/admin/group-settings.php:65
-#: bp-themes/bpmember/groups/admin/group-settings.php:75
-#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:81
-#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:91
-msgid ""
-"Group content and activity will only be visible to members of the group."
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:130
-#: bp-themes/bpmember/groups/admin/group-settings.php:71
-#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:87
-msgid "This is a hidden group"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:132
-#: bp-themes/bpmember/groups/admin/group-settings.php:73
-#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:89
-msgid "Only users who are invited can join the group."
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:133
-#: bp-themes/bpmember/groups/admin/group-settings.php:74
-#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:90
-msgid ""
-"This group will not be listed in the groups directory or search results."
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:139
-msgid "Save and Continue"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:144
-#: bp-groups/bp-groups-templatetags.php:174
-#: bp-groups/bp-groups-templatetags.php:202
-msgid "Please complete all previous steps first."
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:156
-#: bp-themes/bpmember/groups/admin/group-avatar.php:24
-#: bp-themes/bpskeletonmember/groups/admin/group-avatar.php:34
-msgid ""
-"Upload an image to use as an avatar for this group. The image will be shown "
-"on the main group page, and in search results."
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:167
-msgid "Skip"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:189
-msgid ""
-"Once you build up your friends list you will be able to invite friends to "
-"join your group."
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:195
-msgid "Finish"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:241
-msgid "No friends to invite."
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:278
+#: bp-groups/bp-groups-templatetags.php:62
 msgid "No Group Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:322
-#: bp-groups/bp-groups-templatetags.php:693
+#: bp-groups/bp-groups-templatetags.php:382
+msgid "Public Group"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:384
+msgid "Hidden Group"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:386
+msgid "Private Group"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:388
+#: bp-groups/bp-groups-templatetags.php:2465
 msgid "Group"
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:324
-#: bp-groups/bp-groups-templatetags.php:2163
+#: bp-groups/bp-groups-templatetags.php:445
+msgid "not yet active"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:568
+msgid "Private"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:623
+msgid "No Admins"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:644
+msgid "Group Mod"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:655
+msgid "No Mods"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:707
+#: bp-themes/bpmember/groups/single/forum/index.php:45
+#: bp-themes/bpskeletonmember/groups/forum/index.php:53
+msgid "Permalink"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:709
+#: bp-themes/bpmember/groups/single/forum/index.php:47
+#: bp-themes/bpskeletonmember/groups/forum/index.php:56
+#, php-format
+msgid "updated %s ago"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:712
+#: bp-themes/bpmember/groups/single/forum/index.php:50
+#: bp-themes/bpskeletonmember/groups/forum/index.php:59
+msgid "Latest by"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:724
+msgid "There are no active forum topics for this group"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:736
+msgid "Filter Groups"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:772
+#: bp-groups/bp-groups-templatetags.php:1954
+#, php-format
+msgid "Viewing group %d to %d (of %d groups)"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:894
+#: bp-groups/bp-groups-templatetags.php:932
+#: bp-groups/bp-groups-templatetags.php:1451
+#, php-format
+msgid "joined %s ago"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:907
+msgid "This group has no administrators"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:926
+msgid "Demote to Member"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:945
+msgid "This group has no moderators"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:1045
+#: bp-themes/bpmember/groups/single/admin.php:19
+#: bp-themes/bpskeletonmember/groups/admin/edit-details.php:23
+msgid "Edit Details"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:1054
+#: bp-themes/bpmember/groups/single/admin.php:121
+#: bp-themes/bpskeletonmember/groups/admin/manage-members.php:23
+msgid "Manage Members"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:1057
+#: bp-themes/bpmember/groups/single/admin.php:180
+#: bp-themes/bpskeletonmember/groups/admin/membership-requests.php:23
+msgid "Membership Requests"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:1062
+#: bp-themes/bpmember/groups/single/admin.php:220
+#: bp-themes/bpmember/groups/single/admin.php:227
+#: bp-themes/bpskeletonmember/groups/admin/delete-group.php:23
+#: bp-themes/bpskeletonmember/groups/admin/delete-group.php:34
+msgid "Delete Group"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:1226
+msgid "Request Sent"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:1243
+msgid ""
+"This is a private group and you must request group membership in order to "
+"join."
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:1245
+msgid ""
+"This is a private group. To join you must be a registered site member and "
+"request group membership."
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:1247
+msgid ""
+"This is a private group. Your membership request is awaiting approval from "
+"the group administrator."
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:1249
+msgid "This is a hidden group and only invited members can join."
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:1499
+#, php-format
+msgid "Viewing members %d to %d (of %d members)"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2070
+#: bp-groups/bp-groups-templatetags.php:2467
 #, php-format
 msgid "%d member"
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:326
-#: bp-groups/bp-groups-templatetags.php:2165
+#: bp-groups/bp-groups-templatetags.php:2072
+#: bp-groups/bp-groups-templatetags.php:2469
 #, php-format
 msgid "%d members"
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:337
+#: bp-groups/bp-groups-templatetags.php:2480
 msgid "There aren't enough groups to show a random sample just yet."
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:353
+#: bp-groups/bp-groups-templatetags.php:2497
 #: bp-themes/bpmember/groups/index.php:10
+#: bp-themes/bpmember/profile/index.php:58
 #: bp-themes/bpskeletonmember/groups/index.php:24
 #, php-format
 msgid "%s's Groups"
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:370
+#: bp-groups/bp-groups-templatetags.php:2514
 #: bp-themes/bpmember/groups/group-loop.php:28
 #: bp-themes/bpskeletonmember/groups/group-loop.php:42
 msgid "You haven't joined any groups yet."
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:370
+#: bp-groups/bp-groups-templatetags.php:2514
 #: bp-themes/bpmember/groups/group-loop.php:28
 #: bp-themes/bpskeletonmember/groups/group-loop.php:42
 #, php-format
 msgid "%s hasn't joined any groups yet."
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:687
-msgid "Public Group"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:689
-msgid "Hidden Group"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:691
-msgid "Private Group"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:750
-msgid "not yet active"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:873
-msgid "Private"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:928
-msgid "No Admins"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:949
-msgid "Group Mod"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:960
-msgid "No Mods"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:1032
-#: bp-themes/bpmember/groups/forum/index.php:45
-#: bp-themes/bpskeletonmember/groups/forum/index.php:53
-msgid "Permalink"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:1034
-#: bp-themes/bpmember/groups/forum/index.php:47
-#: bp-themes/bpskeletonmember/groups/forum/index.php:56
-#, php-format
-msgid "updated %s ago"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:1037
-#: bp-themes/bpmember/groups/forum/index.php:50
-#: bp-themes/bpskeletonmember/groups/forum/index.php:59
-msgid "Latest by"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:1049
-msgid "There are no active forum topics for this group"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:1061
-msgid "Filter Groups"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:1097
-#: bp-groups/bp-groups-templatetags.php:2047
-#, php-format
-msgid "Viewing group %d to %d (of %d groups)"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:1219
-#: bp-groups/bp-groups-templatetags.php:1257
-#: bp-groups/bp-groups-templatetags.php:1810
-#, php-format
-msgid "joined %s ago"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:1232
-msgid "This group has no administrators"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:1251
-msgid "Demote to Member"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:1270
-msgid "This group has no moderators"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:1370
-#: bp-themes/bpmember/groups/admin/edit-details.php:13
-#: bp-themes/bpskeletonmember/groups/admin/edit-details.php:23
-msgid "Edit Details"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:1382
-#: bp-themes/bpmember/groups/admin/manage-members.php:13
-#: bp-themes/bpskeletonmember/groups/admin/manage-members.php:23
-msgid "Manage Members"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:1386
-#: bp-themes/bpmember/groups/admin/membership-requests.php:13
-#: bp-themes/bpskeletonmember/groups/admin/membership-requests.php:23
-msgid "Membership Requests"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:1390
-#: bp-themes/bpmember/groups/admin/delete-group.php:13
-#: bp-themes/bpmember/groups/admin/delete-group.php:24
-#: bp-themes/bpskeletonmember/groups/admin/delete-group.php:23
-#: bp-themes/bpskeletonmember/groups/admin/delete-group.php:34
-msgid "Delete Group"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:1512
+#: bp-groups/bp-groups-templatetags.php:2530
+#: bp-themes/bpmember/groups/create.php:115
+#: bp-themes/bpmember/groups/single/send-invite.php:23
 msgid "Select Friends"
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:1521
+#: bp-groups/bp-groups-templatetags.php:2539
+#: bp-themes/bpmember/groups/create.php:130
+#: bp-themes/bpmember/groups/single/send-invite.php:38
 msgid "Select people to invite from your friends list."
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:1591
-msgid "Request Sent"
+#: bp-groups/bp-groups-templatetags.php:2599
+msgid "No friends to invite."
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:1608
-msgid ""
-"This is a private group and you must request group membership in order to "
-"join."
+#: bp-groups/bp-groups-templatetags.php:2631
+#: bp-themes/bpmember/groups/create.php:18
+#: bp-themes/bpmember/groups/single/admin.php:21
+#: bp-themes/bpskeletonmember/groups/admin/edit-details.php:28
+msgid "Group Name"
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:1610
-msgid ""
-"This is a private group. To join you must be a registered site member and "
-"request group membership."
+#: bp-groups/bp-groups-templatetags.php:2634
+#: bp-themes/bpmember/groups/create.php:21
+#: bp-themes/bpmember/groups/single/admin.php:24
+#: bp-themes/bpskeletonmember/groups/admin/edit-details.php:31
+msgid "Group Description"
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:1612
-msgid ""
-"This is a private group. Your membership request is awaiting approval from "
-"the group administrator."
+#: bp-groups/bp-groups-templatetags.php:2637
+#: bp-themes/bpmember/groups/create.php:24
+#: bp-themes/bpmember/groups/single/admin.php:27
+#: bp-themes/bpskeletonmember/groups/admin/edit-details.php:34
+msgid "Recent News"
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:1614
-msgid "This is a hidden group and only invited members can join."
+#: bp-groups/bp-groups-templatetags.php:2650
+#: bp-themes/bpmember/groups/create.php:38
+#: bp-themes/bpmember/groups/single/admin.php:50
+#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:32
+msgid "Enable comment wire"
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:1860
+#: bp-groups/bp-groups-templatetags.php:2657
+#: bp-themes/bpmember/groups/create.php:45
+#: bp-themes/bpmember/groups/single/admin.php:57
+#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:40
+msgid "Enable discussion forum"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2663
+#: bp-themes/bpmember/groups/create.php:50
 #, php-format
-msgid "Viewing members %d to %d (of %d members)"
+msgid ""
+"<strong>Attention Site Admin:</strong> Group forums require the <a href=\"%s"
+"\">correct setup and configuration</a> of a bbPress installation."
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:89
+#: bp-groups/bp-groups-templatetags.php:2672
+msgid "Enable photo gallery"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2674
+msgid "All members can upload photos"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2675
+msgid "Only group admins can upload photos"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2680
+#: bp-themes/bpmember/groups/create.php:56
+#: bp-themes/bpmember/groups/single/admin.php:62
+#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:45
+msgid "Privacy Options"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2684
+#: bp-themes/bpmember/groups/create.php:60
+#: bp-themes/bpmember/groups/single/admin.php:67
+#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:50
+msgid "This is a public group"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2686
+#: bp-themes/bpmember/groups/create.php:62
+#: bp-themes/bpmember/groups/single/admin.php:69
+#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:52
+msgid "Any site member can join this group."
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2687
+#: bp-groups/bp-groups-templatetags.php:2696
+#: bp-themes/bpmember/groups/create.php:63
+#: bp-themes/bpmember/groups/create.php:72
+#: bp-themes/bpmember/groups/single/admin.php:70
+#: bp-themes/bpmember/groups/single/admin.php:80
+#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:53
+#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:63
+msgid ""
+"This group will be listed in the groups directory and in search results."
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2688
+#: bp-themes/bpmember/groups/create.php:64
+#: bp-themes/bpmember/groups/single/admin.php:71
+#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:54
+msgid "Group content and activity will be visible to any site member."
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2693
+#: bp-themes/bpmember/groups/create.php:69
+#: bp-themes/bpmember/groups/single/admin.php:77
+#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:60
+msgid "This is a private group"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2695
+#: bp-themes/bpmember/groups/create.php:71
+#: bp-themes/bpmember/groups/single/admin.php:79
+#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:62
+msgid "Only users who request membership and are accepted can join the group."
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2697
+#: bp-groups/bp-groups-templatetags.php:2706
+#: bp-themes/bpmember/groups/create.php:73
+#: bp-themes/bpmember/groups/create.php:82
+#: bp-themes/bpmember/groups/single/admin.php:81
+#: bp-themes/bpmember/groups/single/admin.php:91
+#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:64
+#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:74
+msgid ""
+"Group content and activity will only be visible to members of the group."
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2702
+#: bp-themes/bpmember/groups/create.php:78
+#: bp-themes/bpmember/groups/single/admin.php:87
+#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:70
+msgid "This is a hidden group"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2704
+#: bp-themes/bpmember/groups/create.php:80
+#: bp-themes/bpmember/groups/single/admin.php:89
+#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:72
+msgid "Only users who are invited can join the group."
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2705
+#: bp-themes/bpmember/groups/create.php:81
+#: bp-themes/bpmember/groups/single/admin.php:90
+#: bp-themes/bpskeletonmember/groups/admin/group-settings.php:73
+msgid ""
+"This group will not be listed in the groups directory or search results."
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2714
+#: bp-groups/bp-groups-templatetags.php:2741
+#: bp-groups/bp-groups-templatetags.php:2770
+msgid "Please complete all previous steps first."
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2726
+#: bp-themes/bpmember/groups/create.php:99
+#: bp-themes/bpmember/groups/single/admin.php:111
+#: bp-themes/bpskeletonmember/groups/admin/group-avatar.php:34
+msgid ""
+"Upload an image to use as an avatar for this group. The image will be shown "
+"on the main group page, and in search results."
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2759
+msgid ""
+"Once you build up your friends list you will be able to invite friends to "
+"join your group."
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2786
+#: bp-themes/bpmember/groups/create.php:165
+msgid "Previous Step"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2791
+#: bp-themes/bpmember/groups/create.php:170
+msgid "Next Step"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2796
+#: bp-themes/bpmember/groups/create.php:175
+msgid "Create Group and Continue"
+msgstr ""
+
+#: bp-groups/bp-groups-templatetags.php:2801
+#: bp-themes/bpmember/groups/create.php:180
+msgid "Finish"
+msgstr ""
+
+#: bp-groups/bp-groups-widgets.php:88
 msgid "There are no groups to display."
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:112
+#: bp-groups/bp-groups-widgets.php:111
 msgid "Maximum number of groups to show:"
 msgstr ""
 
-#: bp-messages.php:142 bp-messages.php:250
+#: bp-messages.php:114 bp-messages.php:230
 msgid "Messages"
 msgstr ""
 
-#: bp-messages.php:148 bp-themes/bpmember/messages/index.php:12
+#: bp-messages.php:119 bp-themes/bpmember/messages/index.php:12
 #: bp-themes/bpskeletonmember/messages/index.php:26
 msgid "Inbox"
 msgstr ""
 
-#: bp-messages.php:149 bp-themes/bpmember/messages/sentbox.php:10
+#: bp-messages.php:120 bp-themes/bpmember/messages/sentbox.php:10
 #: bp-themes/bpskeletonmember/messages/sentbox.php:23
 msgid "Sent Messages"
 msgstr ""
 
-#: bp-messages.php:150
+#: bp-messages.php:121
 msgid "Compose"
 msgstr ""
 
-#: bp-messages.php:151
+#: bp-messages.php:124
 msgid "Notices"
 msgstr ""
 
-#: bp-messages.php:155
+#: bp-messages.php:128
 msgid "My Messages"
 msgstr ""
 
-#: bp-messages.php:220
+#: bp-messages.php:200
 msgid "There was a problem deactivating that notice."
 msgstr ""
 
-#: bp-messages.php:222
+#: bp-messages.php:202
 msgid "Notice deactivated."
 msgstr ""
 
-#: bp-messages.php:226
+#: bp-messages.php:206
 msgid "There was a problem activating that notice."
 msgstr ""
 
-#: bp-messages.php:228
+#: bp-messages.php:208
 msgid "Notice activated."
 msgstr ""
 
-#: bp-messages.php:232
+#: bp-messages.php:212
 msgid "There was a problem deleting that notice."
 msgstr ""
 
-#: bp-messages.php:234
+#: bp-messages.php:214
 msgid "Notice deleted."
 msgstr ""
 
-#: bp-messages.php:256
+#: bp-messages.php:236
 msgid "A member sends you a new message"
 msgstr ""
 
-#: bp-messages.php:262
+#: bp-messages.php:242
 msgid "A new site notice is posted"
 msgstr ""
 
-#: bp-messages.php:287
+#: bp-messages.php:274
 #, php-format
 msgid "From: %s"
 msgstr ""
 
-#: bp-messages.php:313
+#: bp-messages.php:299
 msgid "There was an error deleting that message."
 msgstr ""
 
-#: bp-messages.php:315
+#: bp-messages.php:301
 msgid "Message deleted."
 msgstr ""
 
-#: bp-messages.php:338
+#: bp-messages.php:323
 msgid "There was an error deleting messages."
 msgstr ""
 
-#: bp-messages.php:340 bp-messages/bp-messages-ajax.php:93
+#: bp-messages.php:325 bp-messages/bp-messages-ajax.php:93
 msgid "Messages deleted."
 msgstr ""
 
-#: bp-messages.php:374
+#: bp-messages.php:359
 #, php-format
 msgid "You have %d new messages"
 msgstr ""
 
-#: bp-messages.php:376
+#: bp-messages.php:361
 #, php-format
 msgid "You have %d new message"
 msgstr ""
 
-#: bp-messages.php:400
+#: bp-messages.php:388
 msgid "Notice posted successfully."
 msgstr ""
 
-#: bp-messages.php:402
+#: bp-messages.php:390
 msgid "There was an error posting that notice."
 msgstr ""
 
-#: bp-messages.php:413
+#: bp-messages.php:401
 msgid "Please enter at least one valid user to send this message to."
 msgstr ""
 
-#: bp-messages.php:416
+#: bp-messages.php:404
 msgid "There was an error sending the reply, please try again."
 msgstr ""
 
-#: bp-messages.php:421
+#: bp-messages.php:409
 msgid "You must send your message to one or more users not including yourself."
 msgstr ""
 
-#: bp-messages.php:427
+#: bp-messages.php:415
 msgid "Please make sure you fill in all the fields."
 msgstr ""
 
-#: bp-messages.php:430
+#: bp-messages.php:418
 msgid "Please make sure you have typed a message before sending a reply."
 msgstr ""
 
-#: bp-messages.php:459 bp-messages.php:493
+#: bp-messages.php:447 bp-messages.php:481
 msgid "Message could not be sent, please try again."
 msgstr ""
 
-#: bp-messages.php:469
+#: bp-messages.php:457
 msgid "Message sent successfully!"
 msgstr ""
 
-#: bp-messages.php:469 bp-themes/bpmember/messages/index.php:34
+#: bp-messages.php:457 bp-themes/bpmember/messages/index.php:34
 #: bp-themes/bpmember/messages/sentbox.php:29
 #: bp-themes/bpskeletonmember/messages/index.php:52
 #: bp-themes/bpskeletonmember/messages/sentbox.php:46
@@ -3103,11 +3128,11 @@ msgstr ""
 msgid "%s posted a new status update:"
 msgstr ""
 
-#: bp-status.php:63
+#: bp-status.php:69
 msgid "Your status was updated successfully!"
 msgstr ""
 
-#: bp-status.php:65
+#: bp-status.php:71
 msgid "There was a problem updating your status. Please try again."
 msgstr ""
 
@@ -3452,21 +3477,20 @@ msgid ""
 msgstr ""
 
 #: bp-themes/bpmember/activity/just-me.php:31
-#: bp-themes/bpmember/profile/index.php:38
 #: bp-themes/bpskeletonmember/activity/just-me.php:43
 #: bp-themes/bpskeletonmember/profile/index.php:51
 #, php-format
 msgid "%s's Activity"
 msgstr ""
 
-#: bp-themes/bpmember/activity/just-me.php:50
-#: bp-themes/bpmember/profile/index.php:57
+#: bp-themes/bpmember/activity/just-me.php:58
+#: bp-themes/bpmember/profile/index.php:46
 #: bp-themes/bpskeletonmember/activity/just-me.php:44
 msgid "You haven't done anything yet."
 msgstr ""
 
-#: bp-themes/bpmember/activity/just-me.php:50
-#: bp-themes/bpmember/profile/index.php:57
+#: bp-themes/bpmember/activity/just-me.php:58
+#: bp-themes/bpmember/profile/index.php:46
 #: bp-themes/bpskeletonmember/activity/just-me.php:44
 #, php-format
 msgid "%s hasn't done anything yet."
@@ -3477,7 +3501,7 @@ msgstr ""
 msgid "My Friends Activity"
 msgstr ""
 
-#: bp-themes/bpmember/activity/my-friends.php:42
+#: bp-themes/bpmember/activity/my-friends.php:50
 #: bp-themes/bpskeletonmember/activity/my-friends.php:38
 msgid "Your friends haven't done anything yet."
 msgstr ""
@@ -3703,8 +3727,8 @@ msgid "Friendship Requests"
 msgstr ""
 
 #: bp-themes/bpmember/friends/requests.php:24
-#: bp-themes/bpmember/groups/admin/membership-requests.php:27
-#: bp-themes/bpmember/groups/list-invites.php:27
+#: bp-themes/bpmember/groups/invites.php:27
+#: bp-themes/bpmember/groups/single/admin.php:192
 #: bp-themes/bpskeletonmember/friends/requests.php:36
 #: bp-themes/bpskeletonmember/groups/admin/membership-requests.php:40
 #: bp-themes/bpskeletonmember/groups/list-invites.php:36
@@ -3712,8 +3736,8 @@ msgid "Accept"
 msgstr ""
 
 #: bp-themes/bpmember/friends/requests.php:30
-#: bp-themes/bpmember/groups/admin/membership-requests.php:33
-#: bp-themes/bpmember/groups/list-invites.php:33
+#: bp-themes/bpmember/groups/invites.php:33
+#: bp-themes/bpmember/groups/single/admin.php:198
 #: bp-themes/bpskeletonmember/friends/requests.php:40
 #: bp-themes/bpskeletonmember/groups/admin/membership-requests.php:44
 #: bp-themes/bpskeletonmember/groups/list-invites.php:40
@@ -3725,141 +3749,12 @@ msgstr ""
 msgid "You have no pending friendship requests."
 msgstr ""
 
-#: bp-themes/bpmember/groups/admin/delete-group.php:20
-#: bp-themes/bpskeletonmember/groups/admin/delete-group.php:30
-msgid ""
-"WARNING: Deleting this group will completely remove ALL content associated "
-"with it. There is no way back, please be careful with this option."
-msgstr ""
-
-#: bp-themes/bpmember/groups/admin/delete-group.php:23
-#: bp-themes/bpskeletonmember/groups/admin/delete-group.php:33
-msgid "I understand the consequences of deleting this group."
-msgstr ""
-
-#: bp-themes/bpmember/groups/admin/edit-details.php:30
-#: bp-themes/bpskeletonmember/groups/admin/edit-details.php:40
-msgid "Notify group members of changes via email"
-msgstr ""
-
-#: bp-themes/bpmember/groups/admin/manage-members.php:18
-#: bp-themes/bpmember/groups/list-members.php:23
-#: bp-themes/bpskeletonmember/groups/admin/manage-members.php:28
-#: bp-themes/bpskeletonmember/groups/list-members.php:31
-msgid "Administrators"
-msgstr ""
-
-#: bp-themes/bpmember/groups/admin/manage-members.php:24
-#: bp-themes/bpmember/groups/list-members.php:29
-#: bp-themes/bpskeletonmember/groups/admin/manage-members.php:35
-#: bp-themes/bpskeletonmember/groups/list-members.php:40
-msgid "Moderators"
-msgstr ""
-
-#: bp-themes/bpmember/groups/admin/membership-requests.php:43
-#: bp-themes/bpskeletonmember/groups/admin/membership-requests.php:55
-msgid "There are no pending membership requests."
-msgstr ""
-
-#: bp-themes/bpmember/groups/forum/index.php:25
-#: bp-themes/bpskeletonmember/groups/forum/index.php:30
-msgid "Post New"
-msgstr ""
-
-#: bp-themes/bpmember/groups/forum/index.php:25
-#: bp-themes/bpskeletonmember/groups/forum/index.php:30
-msgid "Post New &raquo;"
-msgstr ""
-
-#: bp-themes/bpmember/groups/forum/index.php:59
-#: bp-themes/bpskeletonmember/groups/forum/index.php:70
-msgid "There are no topics for this group forum."
-msgstr ""
-
-#: bp-themes/bpmember/groups/forum/index.php:71
-#: bp-themes/bpskeletonmember/groups/forum/index.php:82
-msgid "Post a New Topic:"
-msgstr ""
-
-#: bp-themes/bpmember/groups/forum/index.php:76
-#: bp-themes/bpskeletonmember/groups/forum/index.php:87
-msgid "Content:"
-msgstr ""
-
-#: bp-themes/bpmember/groups/forum/index.php:79
-#: bp-themes/bpskeletonmember/groups/forum/index.php:90
-msgid "Tags:"
-msgstr ""
-
-#: bp-themes/bpmember/groups/forum/index.php:84
-#: bp-themes/bpskeletonmember/groups/forum/index.php:95
-msgid "Post Topic"
-msgstr ""
-
-#: bp-themes/bpmember/groups/forum/topic.php:47
-#: bp-themes/bpskeletonmember/groups/forum/topic.php:54
-#, php-format
-msgid "%s said %s ago:"
-msgstr ""
-
-#: bp-themes/bpmember/groups/forum/topic.php:63
-#: bp-themes/bpskeletonmember/groups/forum/topic.php:71
-msgid "Add a reply:"
-msgstr ""
-
-#: bp-themes/bpmember/groups/forum/topic.php:66
-#: bp-themes/bpskeletonmember/groups/forum/topic.php:74
-msgid "Post Reply"
-msgstr ""
-
-#: bp-themes/bpmember/groups/forum/topic.php:80
-#: bp-themes/bpskeletonmember/groups/forum/topic.php:89
-msgid "There are no posts for this topic."
-msgstr ""
-
-#: bp-themes/bpmember/groups/group-home.php:37
-#: bp-themes/bpskeletonmember/groups/group-home.php:48
-msgid "News"
-msgstr ""
-
-#: bp-themes/bpmember/groups/group-home.php:46
-#: bp-themes/bpskeletonmember/groups/group-home.php:59
-msgid "Active Forum Topics"
-msgstr ""
-
-#: bp-themes/bpmember/groups/group-home.php:46
-#: bp-themes/bpmember/wire/post-list.php:2
-#: bp-themes/bpskeletonmember/groups/group-home.php:59
-#: bp-themes/bpskeletonmember/wire/post-list.php:13
-msgid "See All &raquo;"
-msgstr ""
-
-#: bp-themes/bpmember/groups/group-home.php:53
-#: bp-themes/bpskeletonmember/groups/group-home.php:68
-#, php-format
-msgid "Members (%d) <a href=\"%s\">See All &raquo;</a>"
-msgstr ""
-
-#: bp-themes/bpmember/groups/group-home.php:62
-#: bp-themes/bpmember/groups/wire.php:26
-#: bp-themes/bpskeletonmember/groups/group-home.php:78
-#: bp-themes/bpskeletonmember/groups/wire.php:35
-msgid "Group Wire"
-msgstr ""
-
-#: bp-themes/bpmember/groups/group-home.php:62
-#: bp-themes/bpmember/groups/wire.php:26
-#, php-format
-msgid "There are no wire posts for %s"
-msgstr ""
-
-#: bp-themes/bpmember/groups/group-home.php:70
-#: bp-themes/bpskeletonmember/groups/group-home.php:87
-msgid "Sorry, the group does not exist."
+#: bp-themes/bpmember/groups/create.php:103
+msgid "To skip the avatar upload process, hit the \"Next Step\" button."
 msgstr ""
 
 #: bp-themes/bpmember/groups/group-loop.php:11
-#: bp-themes/bpmember/groups/list-invites.php:20
+#: bp-themes/bpmember/groups/invites.php:20
 #: bp-themes/bpskeletonmember/groups/group-loop.php:23
 #: bp-themes/bpskeletonmember/groups/list-invites.php:29
 #, php-format
@@ -3881,63 +3776,196 @@ msgstr ""
 msgid "No matching groups found."
 msgstr ""
 
-#: bp-themes/bpmember/groups/group-menu.php:10
-#: bp-themes/bpskeletonmember/groups/group-menu.php:26
-msgid "Admins"
-msgstr ""
-
-#: bp-themes/bpmember/groups/group-menu.php:16
-#: bp-themes/bpskeletonmember/groups/group-menu.php:34
-msgid "Mods"
-msgstr ""
-
-#: bp-themes/bpmember/groups/leave-group-confirm.php:23
-#: bp-themes/bpskeletonmember/groups/leave-group-confirm.php:30
-msgid "Confirm Leave Group"
-msgstr ""
-
-#: bp-themes/bpmember/groups/leave-group-confirm.php:24
-#: bp-themes/bpskeletonmember/groups/leave-group-confirm.php:31
-msgid "Are you sure you want to leave this group?"
-msgstr ""
-
-#: bp-themes/bpmember/groups/leave-group-confirm.php:27
-#: bp-themes/bpskeletonmember/groups/leave-group-confirm.php:34
-msgid "Yes, I'd like to leave this group."
-msgstr ""
-
-#: bp-themes/bpmember/groups/leave-group-confirm.php:28
-#: bp-themes/bpskeletonmember/groups/leave-group-confirm.php:35
-msgid "No, I'll stay!"
-msgstr ""
-
-#: bp-themes/bpmember/groups/list-invites.php:44
+#: bp-themes/bpmember/groups/invites.php:44
 #: bp-themes/bpskeletonmember/groups/list-invites.php:53
 msgid "You have no outstanding group invites."
 msgstr ""
 
-#: bp-themes/bpmember/groups/list-members.php:35
+#: bp-themes/bpmember/groups/single/admin.php:33
+#: bp-themes/bpskeletonmember/groups/admin/edit-details.php:40
+msgid "Notify group members of changes via email"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/admin.php:124
+#: bp-themes/bpmember/groups/single/members.php:23
+#: bp-themes/bpskeletonmember/groups/admin/manage-members.php:28
+#: bp-themes/bpskeletonmember/groups/list-members.php:31
+msgid "Administrators"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/admin.php:130
+#: bp-themes/bpmember/groups/single/members.php:29
+#: bp-themes/bpskeletonmember/groups/admin/manage-members.php:35
+#: bp-themes/bpskeletonmember/groups/list-members.php:40
+msgid "Moderators"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/admin.php:208
+#: bp-themes/bpskeletonmember/groups/admin/membership-requests.php:55
+msgid "There are no pending membership requests."
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/admin.php:223
+#: bp-themes/bpskeletonmember/groups/admin/delete-group.php:30
+msgid ""
+"WARNING: Deleting this group will completely remove ALL content associated "
+"with it. There is no way back, please be careful with this option."
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/admin.php:226
+#: bp-themes/bpskeletonmember/groups/admin/delete-group.php:33
+msgid "I understand the consequences of deleting this group."
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/forum/index.php:25
+#: bp-themes/bpskeletonmember/groups/forum/index.php:30
+msgid "Post New"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/forum/index.php:25
+#: bp-themes/bpskeletonmember/groups/forum/index.php:30
+msgid "Post New &raquo;"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/forum/index.php:59
+#: bp-themes/bpskeletonmember/groups/forum/index.php:70
+msgid "There are no topics for this group forum."
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/forum/index.php:71
+#: bp-themes/bpskeletonmember/groups/forum/index.php:82
+msgid "Post a New Topic:"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/forum/index.php:76
+#: bp-themes/bpskeletonmember/groups/forum/index.php:87
+msgid "Content:"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/forum/index.php:79
+#: bp-themes/bpskeletonmember/groups/forum/index.php:90
+msgid "Tags:"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/forum/index.php:84
+#: bp-themes/bpskeletonmember/groups/forum/index.php:95
+msgid "Post Topic"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/forum/topic.php:47
+#: bp-themes/bpskeletonmember/groups/forum/topic.php:54
+#, php-format
+msgid "%s said %s ago:"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/forum/topic.php:63
+#: bp-themes/bpskeletonmember/groups/forum/topic.php:71
+msgid "Add a reply:"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/forum/topic.php:66
+#: bp-themes/bpskeletonmember/groups/forum/topic.php:74
+msgid "Post Reply"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/forum/topic.php:80
+#: bp-themes/bpskeletonmember/groups/forum/topic.php:89
+msgid "There are no posts for this topic."
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/home.php:37
+#: bp-themes/bpskeletonmember/groups/group-home.php:48
+msgid "News"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/home.php:46
+#: bp-themes/bpskeletonmember/groups/group-home.php:59
+msgid "Active Forum Topics"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/home.php:46
+#: bp-themes/bpmember/wire/post-list.php:2
+#: bp-themes/bpskeletonmember/groups/group-home.php:59
+#: bp-themes/bpskeletonmember/wire/post-list.php:13
+msgid "See All &raquo;"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/home.php:53
+#: bp-themes/bpskeletonmember/groups/group-home.php:68
+#, php-format
+msgid "Members (%d) <a href=\"%s\">See All &raquo;</a>"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/home.php:75
+#: bp-themes/bpmember/groups/single/wire.php:26
+#: bp-themes/bpskeletonmember/groups/group-home.php:78
+#: bp-themes/bpskeletonmember/groups/wire.php:35
+msgid "Group Wire"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/home.php:75
+#: bp-themes/bpmember/groups/single/wire.php:26
+#, php-format
+msgid "There are no wire posts for %s"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/home.php:83
+#: bp-themes/bpskeletonmember/groups/group-home.php:87
+msgid "Sorry, the group does not exist."
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/leave-confirm.php:23
+#: bp-themes/bpskeletonmember/groups/leave-group-confirm.php:30
+msgid "Confirm Leave Group"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/leave-confirm.php:24
+#: bp-themes/bpskeletonmember/groups/leave-group-confirm.php:31
+msgid "Are you sure you want to leave this group?"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/leave-confirm.php:27
+#: bp-themes/bpskeletonmember/groups/leave-group-confirm.php:34
+msgid "Yes, I'd like to leave this group."
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/leave-confirm.php:28
+#: bp-themes/bpskeletonmember/groups/leave-group-confirm.php:35
+msgid "No, I'll stay!"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/members.php:35
 #: bp-themes/bpskeletonmember/groups/list-members.php:49
 msgid "Group Members"
 msgstr ""
 
-#: bp-themes/bpmember/groups/request-membership.php:27
+#: bp-themes/bpmember/groups/single/menu.php:10
+#: bp-themes/bpskeletonmember/groups/group-menu.php:26
+msgid "Admins"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/menu.php:16
+#: bp-themes/bpskeletonmember/groups/group-menu.php:34
+msgid "Mods"
+msgstr ""
+
+#: bp-themes/bpmember/groups/single/request-membership.php:27
 #: bp-themes/bpskeletonmember/groups/request-membership.php:37
 #, php-format
 msgid "You are requesting to become a member of the group '%s'."
 msgstr ""
 
-#: bp-themes/bpmember/groups/request-membership.php:30
+#: bp-themes/bpmember/groups/single/request-membership.php:30
 #: bp-themes/bpskeletonmember/groups/request-membership.php:40
 msgid "Comments (optional)"
 msgstr ""
 
-#: bp-themes/bpmember/groups/request-membership.php:33
+#: bp-themes/bpmember/groups/single/request-membership.php:33
 #: bp-themes/bpskeletonmember/groups/request-membership.php:43
 msgid "Send Request"
 msgstr ""
 
-#: bp-themes/bpmember/groups/send-invite.php:30
+#: bp-themes/bpmember/groups/single/send-invite.php:75
 #: bp-themes/bpskeletonmember/groups/send-invite.php:36
 msgid ""
 "You either need to build up your friends list, or your friends have already "
@@ -4019,7 +4047,7 @@ msgid "You have no sent messages."
 msgstr ""
 
 #: bp-themes/bpmember/profile/change-avatar.php:9
-#: bp-themes/bpskeletonmember/profile/change-avatar.php:15 bp-xprofile.php:208
+#: bp-themes/bpskeletonmember/profile/change-avatar.php:15 bp-xprofile.php:207
 msgid "Change Avatar"
 msgstr ""
 
@@ -4029,12 +4057,21 @@ msgstr ""
 msgid "Editing '%s'"
 msgstr ""
 
-#: bp-themes/bpmember/profile/index.php:75
-#: bp-themes/bpskeletonmember/profile/index.php:77 bp-wire.php:53
+#: bp-themes/bpmember/profile/index.php:27
+msgid "My Latest Activity"
+msgstr ""
+
+#: bp-themes/bpmember/profile/index.php:27
+#, php-format
+msgid "%s's Latest Activity"
+msgstr ""
+
+#: bp-themes/bpmember/profile/index.php:104
+#: bp-themes/bpskeletonmember/profile/index.php:77 bp-wire.php:41
 msgid "My Wire"
 msgstr ""
 
-#: bp-themes/bpmember/profile/index.php:75
+#: bp-themes/bpmember/profile/index.php:104
 #: bp-themes/bpmember/wire/latest.php:30
 #: bp-themes/bpskeletonmember/profile/index.php:77
 #: bp-themes/bpskeletonmember/wire/latest.php:25
@@ -4042,14 +4079,14 @@ msgstr ""
 msgid "%s's Wire"
 msgstr ""
 
-#: bp-themes/bpmember/profile/index.php:75
+#: bp-themes/bpmember/profile/index.php:104
 #: bp-themes/bpmember/wire/latest.php:30
 #: bp-themes/bpskeletonmember/profile/index.php:78
 #: bp-themes/bpskeletonmember/wire/latest.php:25
 msgid "No one has posted to your wire yet."
 msgstr ""
 
-#: bp-themes/bpmember/profile/index.php:75
+#: bp-themes/bpmember/profile/index.php:104
 #: bp-themes/bpmember/wire/latest.php:30
 #: bp-themes/bpskeletonmember/profile/index.php:78
 #: bp-themes/bpskeletonmember/wire/latest.php:25
@@ -4057,7 +4094,7 @@ msgstr ""
 msgid "No one has posted to %s's wire yet."
 msgstr ""
 
-#: bp-themes/bpmember/profile/profile-loop.php:38
+#: bp-themes/bpmember/profile/profile-loop.php:40
 #: bp-themes/bpskeletonmember/profile/profile-loop.php:58
 msgid "Sorry, this person does not have a public profile."
 msgstr ""
@@ -4124,7 +4161,7 @@ msgstr ""
 msgid "%s has not done anything recently."
 msgstr ""
 
-#: bp-wire.php:49
+#: bp-wire.php:37
 msgid "All Posts"
 msgstr ""
 
@@ -4140,74 +4177,74 @@ msgstr ""
 msgid "Profile Field Setup"
 msgstr ""
 
-#: bp-xprofile.php:207 bp-xprofile/bp-xprofile-templatetags.php:379
+#: bp-xprofile.php:206 bp-xprofile/bp-xprofile-templatetags.php:379
 msgid "Edit Profile"
 msgstr ""
 
-#: bp-xprofile.php:306
+#: bp-xprofile.php:310
 msgid "A member posts on your wire"
 msgstr ""
 
-#: bp-xprofile.php:374
+#: bp-xprofile.php:387
 msgid "Wire message could not be posted. Please try again."
 msgstr ""
 
-#: bp-xprofile.php:425
+#: bp-xprofile.php:438
 msgid "Wire post could not be deleted, please try again."
 msgstr ""
 
-#: bp-xprofile.php:514
+#: bp-xprofile.php:530
 #, php-format
 msgid "%s wrote on their own wire"
 msgstr ""
 
-#: bp-xprofile.php:522
+#: bp-xprofile.php:538
 #, php-format
 msgid "%s wrote on %s wire"
 msgstr ""
 
-#: bp-xprofile.php:550
+#: bp-xprofile.php:566
 #, php-format
 msgid "%s updated the \"%s\" information on their profile"
 msgstr ""
 
-#: bp-xprofile.php:578
+#: bp-xprofile.php:594
 #, php-format
 msgid "You have %d new posts on your wire"
 msgstr ""
 
-#: bp-xprofile.php:581
+#: bp-xprofile.php:597
 #, php-format
 msgid "%s posted on your wire"
 msgstr ""
 
-#: bp-xprofile.php:619
+#: bp-xprofile.php:640
 msgid "Information"
 msgstr ""
 
-#: bp-xprofile.php:658
+#: bp-xprofile.php:679
 #, php-format
 msgid "%s cannot be left blank."
 msgstr ""
 
-#: bp-xprofile.php:710
+#: bp-xprofile.php:731
 msgid "There was a problem saving changes to this field, please try again."
 msgstr ""
 
-#: bp-xprofile.php:727
+#: bp-xprofile.php:748
 msgid "Save Changes &raquo;"
 msgstr ""
 
-#: bp-xprofile.php:735
+#: bp-xprofile.php:756
 msgid ""
 "There were problems saving your information. Please fix the following:<br />"
 msgstr ""
 
-#: bp-xprofile.php:744
+#: bp-xprofile.php:765
 msgid "Changes saved."
 msgstr ""
 
-#: bp-xprofile.php:755
+#: bp-xprofile.php:776
 msgid "That group does not exist."
 msgstr ""
 
