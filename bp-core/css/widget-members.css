@@ -1,22 +1,22 @@
-.bp_core_widget_members ul#members-list {
+.widget_bp_core_members_widget ul#members-list {
 	margin: 15px 0 0 0;
 	padding: 0;
 	list-style: none;
 }
 	
-	.bp_core_widget_members ul#members-list li {
+	.widget_bp_core_members_widget ul#members-list li {
 		min-height: 60px;
 	}
 	
-	.bp_core_widget_members ul#members-list li img.avatar {
+	.widget_bp_core_members_widget ul#members-list li img.avatar {
 		float: left;
 		margin: 0 10px 0 0;
 	}
 	
-	.bp_core_widget_members ul#members-list li span.activity {
+	.widget_bp_core_members_widget ul#members-list li span.activity {
 		font-size: 11px;
 	}
 	
-.bp_core_widget_members img#ajax-loader-members {
+.widget_bp_core_members_widget img#ajax-loader-members {
 	float: right;
 }
