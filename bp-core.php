@@ -622,7 +622,7 @@ function bp_core_new_subnav_item( $args = '' ) {
 
 function bp_core_sort_subnav_items() {
 	global $bp;
-	
+
 	if ( empty( $bp->bp_options_nav ) || !is_array( $bp->bp_options_nav ) )
 		return false;
 	
@@ -962,7 +962,7 @@ function bp_core_get_user_displayname( $user_id ) {
 		wp_cache_set( 'bp_user_fullname_' . $user_id, $fullname, 'bp' );
 	}
 	
-	return apply_filters( 'bp_core_get_user_displayname', stripslashes( trim( $fullname ) ) );
+	return apply_filters( 'bp_core_get_user_displayname', stripslashes( strip_tags( trim( $fullname ) ) ) );
 }
 	/* DEPRECATED Use: bp_core_get_user_displayname */
 	function bp_core_global_user_fullname( $user_id ) { return bp_core_get_user_displayname( $user_id ); }

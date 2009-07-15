@@ -1,9 +1,14 @@
-.bp_activity_widget_sitewide_activity span.time-since {
+.widget_bp_activity_widget span.time-since {
 	font-size: 11px;
 }
 
-.bp_activity_widget_sitewide_activity ul#site-wide-stream {
+.widget_bp_activity_widget ul#site-wide-stream {
 	margin: 0;
 	padding: 0;
 	list-style: none;
+}
+
+.widget_bp_core_recently_active_widget div.item-avatar {
+	display: inline;
+	margin: 0 5px 5x 0;
 }

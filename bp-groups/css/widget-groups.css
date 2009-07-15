@@ -1,22 +1,21 @@
-.groups_widget_groups_list ul#groups-list {
+.widget_bp_groups_widget ul#groups-list {
 	margin: 15px 0 0 0;
 	padding: 0;
 	list-style: none;
 }
-	
-	.groups_widget_groups_list ul#groups-list li {
+	.widget_bp_groups_widget ul#groups-list li {
 		min-height: 60px;
 	}
 	
-	.groups_widget_groups_list ul#groups-list li img.avatar {
+	.widget_bp_groups_widget ul#groups-list li img.avatar {
 		float: left;
 		margin: 0 10px 0 0;
 	}
 	
-	.groups_widget_groups_list ul#groups-list li span.activity {
+	.widget_bp_groups_widget ul#groups-list li span.activity {
 		font-size: 11px;
 	}
 	
-.groups_widget_groups_list img#ajax-loader-groups {
+.widget_bp_groups_widget img#ajax-loader-groups {
 	float: right;
 }

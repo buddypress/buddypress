@@ -4,7 +4,11 @@ Plugin Name: BuddyPress
 Plugin URI: http://buddypress.org/download/
 Description: BuddyPress will add social networking features to a new or existing WordPress MU installation.
 Author: The BuddyPress Community
+<<<<<<< .working
 Version: 1.1-bleeding
+=======
+Version: 1.0.2
+>>>>>>> .merge-right.r1607
 Author URI: http://buddypress.org/developers/
 Site Wide Only: true
 */

@@ -41,9 +41,9 @@ add_filter( 'bp_get_group_news', 'wp_filter_kses', 1 );
 add_filter( 'bp_get_the_site_group_name', 'wp_filter_kses', 1 );
 add_filter( 'bp_get_the_site_group_description', 'wp_filter_kses', 1 );
 add_filter( 'bp_get_the_site_group_description_excerpt', 'wp_filter_kses', 1 );
-add_filter( 'groups_details_name_pre_save', 'wp_filter_kses', 1 );
-add_filter( 'groups_details_description_pre_save', 'wp_filter_kses', 1 );
-add_filter( 'groups_details_news_pre_save', 'wp_filter_kses', 1 );
+add_filter( 'groups_group_name_before_save', 'wp_filter_kses', 1 );
+add_filter( 'groups_group_description_before_save', 'wp_filter_kses', 1 );
+add_filter( 'groups_group_news_before_save', 'wp_filter_kses', 1 );
 
 add_filter( 'bp_get_group_description', 'stripslashes' );
 add_filter( 'bp_get_group_description_excerpt', 'stripslashes' );
@@ -51,5 +51,9 @@ add_filter( 'bp_get_group_news', 'stripslashes' );
 add_filter( 'bp_get_group_name', 'stripslashes' );
 
 add_filter( 'groups_new_group_forum_desc', 'bp_create_excerpt' );
+
+add_filter( 'groups_group_name_before_save', 'force_balance_tags' );
+add_filter( 'groups_group_description_before_save', 'force_balance_tags' );
+add_filter( 'groups_group_news_before_save', 'force_balance_tags' );
 
 ?>

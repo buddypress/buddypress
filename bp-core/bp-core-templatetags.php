@@ -868,12 +868,16 @@ class BP_Core_Members_Template {
 		$this->in_the_loop = true;
 		$this->member = $this->next_member();
 		$user_id = $this->member->user_id;
+		$user_registered = $this->member->user_registered;
 
 		if ( !$this->member = wp_cache_get( 'bp_user_' . $user_id, 'bp' ) ) {
 			$this->member = new BP_Core_User( $user_id );
 			wp_cache_set( 'bp_user_' . $user_id, $this->member, 'bp' );
 		}
 		
+		if ( $user_registered )
+			$this->member->user_registered = $user_registered;
+			
 		if ( 0 == $this->current_member ) // loop has just started
 			do_action('loop_start');
 	}
@@ -982,6 +986,15 @@ function bp_the_site_member_last_active() {
 		global $site_members_template;
 
 		return apply_filters( 'bp_the_site_member_last_active', $site_members_template->member->last_active );
+	}
+
+function bp_the_site_member_registered() {
+	echo bp_get_the_site_member_registered();
+}
+	function bp_get_the_site_member_registered() {
+		global $site_members_template;
+
+		return apply_filters( 'bp_the_site_member_last_active', strtotime( $site_members_template->member->user_registered ) );
 	}
 	
 function bp_the_site_member_add_friend_button() {
