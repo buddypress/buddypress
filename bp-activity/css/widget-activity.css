@@ -7,3 +7,8 @@
 	padding: 0;
 	list-style: none;
 }
+
+.widget_bp_core_recently_active_widget div.item-avatar {
+	display: inline;
+	margin: 0 5px 5x 0;
+}
