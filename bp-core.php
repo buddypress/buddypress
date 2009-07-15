@@ -1222,6 +1222,12 @@ function bp_core_referrer() {
  * @return An array containing all of the themes.
  */
 function bp_core_get_buddypress_themes() {
+	global $wp_themes;
+	
+	/* Remove the cached WP themes first */
+	$wp_existing_themes = &$wp_themes;
+	$wp_themes = null;
+	
 	add_filter( 'theme_root', 'bp_core_filter_buddypress_theme_root' );
 	$themes = get_themes();
 
@@ -1237,6 +1243,9 @@ function bp_core_get_buddypress_themes() {
 			);
 		}
 	}
+	
+	/* Restore the cached WP themes */
+	$wp_themes = $wp_existing_themes;
 	
 	return $member_themes;
 }
