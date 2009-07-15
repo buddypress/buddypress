@@ -24,12 +24,8 @@ class BP_Groups_Widget extends WP_Widget {
 		echo $before_title
 		   . $widget_name 
 		   . $after_title; ?>
-	
-		<?php
-		if ( empty( $instance['max_groups'] ) || !$instance['max_groups'] )
-			$instance['max_groups'] = 5; ?>
 		
-		<?php if ( bp_has_site_groups( 'type=popular&max=' . $instance['max_groups'] ) ) : ?>
+		<?php if ( bp_has_site_groups( 'type=popular&per_page=' . $instance['max_groups'] . '&max=' . $instance['max_groups'] ) ) : ?>
 			<div class="item-options" id="groups-list-options">
 				<img id="ajax-loader-groups" src="<?php echo $bp->groups->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( 'Loading', 'buddypress' ) ?>" style="display: none;" /> 
 				<a href="<?php echo site_url() . '/' . $bp->groups->slug ?>" id="newest-groups"><?php _e("Newest", 'buddypress') ?></a> | 

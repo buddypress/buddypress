@@ -64,7 +64,7 @@ class BP_Activity_Widget extends WP_Widget {
 	}
 
 	function form( $instance ) {
-		$instance = wp_parse_args( (array) $instance, array( 'max_items' => 30 ) );
+		$instance = wp_parse_args( (array) $instance, array( 'max_items' => 200, 'per_page' => 25 ) );
 		$per_page = strip_tags( $instance['per_page'] );
 		$max_items = strip_tags( $instance['max_items'] );
 		?>

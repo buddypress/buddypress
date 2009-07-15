@@ -76,11 +76,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 		echo $before_title
 		   . $widget_name 
 		   . $after_title; ?>
-	
-		<?php
-		if ( empty( $instance['max_members'] ) || !$instance['max_members'] )
-			$instance['max_members'] = 5; ?>
-		
+
 		<?php if ( bp_has_site_members( 'type=newest&max=' . $instance['max_members'] ) ) : ?>
 			<div class="item-options" id="members-list-options">
 				<img id="ajax-loader-members" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( 'Loading', 'buddypress' ) ?>" style="display: none;" /> 
@@ -152,12 +148,8 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 		echo $before_title
 		   . $widget_name 
 		   . $after_title; ?>
-	
-		<?php
-		if ( empty( $instance['max_members'] ) || !$instance['max_members'] )
-			$instance['max_members'] = 5; ?>
 		
-		<?php if ( bp_has_site_members( 'type=online&max=' . $instance['max_members'] ) ) : ?>			
+		<?php if ( bp_has_site_members( 'type=online&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] ) ) : ?>			
 			<div class="avatar-block">
 				<?php while ( bp_site_members() ) : bp_the_site_member(); ?>
 					<div class="item-avatar">
@@ -185,7 +177,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	}
 
 	function form( $instance ) {
-		$instance = wp_parse_args( (array) $instance, array( 'max_members' => 5 ) );
+		$instance = wp_parse_args( (array) $instance, array( 'max_members' => 15 ) );
 		$max_members = strip_tags( $instance['max_members'] );
 		?>
 
@@ -210,12 +202,8 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 		echo $before_title
 		   . $widget_name 
 		   . $after_title; ?>
-	
-		<?php
-		if ( empty( $instance['max_members'] ) || !$instance['max_members'] )
-			$instance['max_members'] = 5; ?>
-		
-		<?php if ( bp_has_site_members( 'type=active&max=' . $instance['max_members'] ) ) : ?>			
+			
+		<?php if ( bp_has_site_members( 'type=active&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] ) ) : ?>			
 			<div class="avatar-block">
 				<?php while ( bp_site_members() ) : bp_the_site_member(); ?>
 					<div class="item-avatar">
@@ -243,7 +231,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	}
 
 	function form( $instance ) {
-		$instance = wp_parse_args( (array) $instance, array( 'max_members' => 5 ) );
+		$instance = wp_parse_args( (array) $instance, array( 'max_members' => 15 ) );
 		$max_members = strip_tags( $instance['max_members'] );
 		?>
 
