@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-07-15 14:11+0000\n"
+"POT-Creation-Date: 2009-07-16 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,7 +47,7 @@ msgstr ""
 #: bp-blogs/bp-blogs-templatetags.php:329
 #: bp-blogs/bp-blogs-templatetags.php:505
 #: bp-blogs/bp-blogs-templatetags.php:1208
-#: bp-core/bp-core-templatetags.php:929 bp-core/bp-core-widgets.php:103
+#: bp-core/bp-core-templatetags.php:933 bp-core/bp-core-widgets.php:90
 #: bp-forums/bp-forums-templatetags.php:358
 #: bp-forums/bp-forums-templatetags.php:572
 #: bp-friends/bp-friends-templatetags.php:291
@@ -55,7 +55,7 @@ msgstr ""
 #: bp-groups/bp-groups-templatetags.php:740
 #: bp-groups/bp-groups-templatetags.php:773
 #: bp-groups/bp-groups-templatetags.php:1955
-#: bp-groups/bp-groups-widgets.php:44
+#: bp-groups/bp-groups-widgets.php:30
 #: bp-messages/bp-messages-templatetags.php:273
 #: bp-themes/bpmember/wire/post-list.php:10
 #: bp-themes/bpskeletonmember/wire/post-list.php:22
@@ -72,17 +72,12 @@ msgstr ""
 msgid "Clear Filter"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:8 bp-activity/bp-activity-widgets.php:9
-#: bp-activity/feeds/bp-activity-sitewide-feed.php:22
-msgid "Site Wide Activity"
-msgstr ""
-
-#: bp-activity/bp-activity-widgets.php:27 bp-themes/bphome/header.php:14
+#: bp-activity/bp-activity-widgets.php:23 bp-themes/bphome/header.php:14
 #: bp-themes/bpmember/header.php:18
 msgid "Site Wide Activity RSS Feed"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:27
+#: bp-activity/bp-activity-widgets.php:23
 #: bp-themes/bpmember/activity/just-me.php:31
 #: bp-themes/bpmember/activity/my-friends.php:23
 #: bp-themes/bpmember/profile/index.php:32
@@ -90,16 +85,16 @@ msgstr ""
 msgid "RSS Feed"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:62
+#: bp-activity/bp-activity-widgets.php:50
 msgid "There has been no recent site activity."
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:90
+#: bp-activity/bp-activity-widgets.php:72
 msgid "Number of Items Per Page:"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:91
-msgid "Max Number of Items:"
+#: bp-activity/bp-activity-widgets.php:73
+msgid "Max items to show:"
 msgstr ""
 
 #: bp-activity/feeds/bp-activity-friends-feed.php:21
@@ -114,6 +109,10 @@ msgstr ""
 #: bp-activity/feeds/bp-activity-personal-feed.php:24
 #, php-format
 msgid "%s - Activity Feed"
+msgstr ""
+
+#: bp-activity/feeds/bp-activity-sitewide-feed.php:22
+msgid "Site Wide Activity"
 msgstr ""
 
 #: bp-activity/feeds/bp-activity-sitewide-feed.php:25
@@ -312,36 +311,32 @@ msgid "Latest Post: %s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1315
-#: bp-core/bp-core-templatetags.php:1042
+#: bp-core/bp-core-templatetags.php:1055
 #: bp-groups/bp-groups-templatetags.php:2101
 msgid "Search anything..."
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1316
-#: bp-core/bp-core-templatetags.php:585 bp-core/bp-core-templatetags.php:1043
+#: bp-core/bp-core-templatetags.php:585 bp-core/bp-core-templatetags.php:1056
 #: bp-groups/bp-groups-templatetags.php:2102 bp-themes/bphome/searchform.php:3
 msgid "Search"
 msgstr ""
 
-#: bp-blogs/bp-blogs-widgets.php:8 bp-blogs/bp-blogs-widgets.php:9
-msgid "Recent Blog Posts"
-msgstr ""
-
-#: bp-blogs/bp-blogs-widgets.php:37
+#: bp-blogs/bp-blogs-widgets.php:34
 msgid "Site Wide"
 msgstr ""
 
-#: bp-blogs/bp-blogs-widgets.php:51
+#: bp-blogs/bp-blogs-widgets.php:48
 #, php-format
 msgid "by %s from the blog <a href=\"%s\">%s</a>"
 msgstr ""
 
-#: bp-blogs/bp-blogs-widgets.php:59
+#: bp-blogs/bp-blogs-widgets.php:56
 msgid "There are no recent blog posts, why not write one?"
 msgstr ""
 
-#: bp-blogs/bp-blogs-widgets.php:82
-msgid "Max Number of Posts:"
+#: bp-blogs/bp-blogs-widgets.php:76
+msgid "Max posts to show:"
 msgstr ""
 
 #: bp-core.php:305 bp-core/bp-core-adminbar.php:29
@@ -681,7 +676,6 @@ msgstr ""
 #: bp-core/bp-core-templatetags.php:659 bp-groups.php:155 bp-groups.php:189
 #: bp-groups.php:1068 bp-groups.php:1356 bp-groups.php:1369 bp-groups.php:1383
 #: bp-groups.php:1396 bp-groups/bp-groups-admin.php:33
-#: bp-groups/bp-groups-widgets.php:8 bp-groups/bp-groups-widgets.php:9
 #: bp-themes/bphome/header.php:51 bp-themes/bpmember/header.php:50
 #: bp-themes/bpskeletonmember/header.php:50
 msgid "Groups"
@@ -817,7 +811,7 @@ msgstr ""
 msgid "Random Blog"
 msgstr ""
 
-#: bp-core/bp-core-ajax.php:50 bp-core/bp-core-widgets.php:117
+#: bp-core/bp-core-ajax.php:50 bp-core/bp-core-widgets.php:105
 #, php-format
 msgid "registered %s ago"
 msgstr ""
@@ -1338,7 +1332,6 @@ msgid "%s Directory"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:563 bp-core/bp-core-templatetags.php:656
-#: bp-core/bp-core-widgets.php:12 bp-core/bp-core-widgets.php:13
 #: bp-groups.php:257 bp-groups/bp-groups-admin.php:81
 #: bp-themes/bphome/header.php:48
 #: bp-themes/bpmember/groups/single/admin.php:136
@@ -1358,72 +1351,65 @@ msgstr ""
 msgid "Remember Me"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:928
+#: bp-core/bp-core-templatetags.php:932
 #, php-format
 msgid "Viewing member %d to %d (of %d members)"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1010
+#: bp-core/bp-core-templatetags.php:1023
 #, php-format
 msgid "%d friend"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1012
+#: bp-core/bp-core-templatetags.php:1025
 #, php-format
 msgid "%d friends"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:8 bp-core/bp-core-widgets.php:9
-msgid "Welcome"
-msgstr ""
-
-#: bp-core/bp-core-widgets.php:21 bp-core/bp-core-widgets.php:22
-msgid "Who's Online"
-msgstr ""
-
-#: bp-core/bp-core-widgets.php:45
+#: bp-core/bp-core-widgets.php:31
 msgid "Create Account"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:68 bp-forums/bp-forums-bbpress-live.php:166
+#: bp-core/bp-core-widgets.php:51 bp-forums/bp-forums-bbpress-live.php:166
 #: bp-forums/bp-forums-bbpress-live.php:370
 #: bp-themes/bpmember/groups/single/forum/index.php:73
 #: bp-themes/bpskeletonmember/groups/forum/index.php:84
 msgid "Title:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:70
+#: bp-core/bp-core-widgets.php:53
 msgid "Welcome Text:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:104 bp-friends/bp-friends-templatetags.php:377
+#: bp-core/bp-core-widgets.php:91 bp-friends/bp-friends-templatetags.php:377
 #: bp-friends/bp-friends-templatetags.php:393
-#: bp-groups/bp-groups-widgets.php:45
+#: bp-groups/bp-groups-widgets.php:31
 msgid "Newest"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:105 bp-groups/bp-groups-widgets.php:46
+#: bp-core/bp-core-widgets.php:92 bp-groups/bp-groups-widgets.php:32
 msgid "Active"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:106 bp-groups/bp-groups-widgets.php:47
+#: bp-core/bp-core-widgets.php:93 bp-groups/bp-groups-widgets.php:33
 msgid "Popular"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:133
+#: bp-core/bp-core-widgets.php:117
 msgid "No one has signed up yet!"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:157
+#: bp-core/bp-core-widgets.php:138 bp-core/bp-core-widgets.php:192
+#: bp-core/bp-core-widgets.php:246
 msgid "Max Members to show:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:205
-msgid "There are no users currently online."
+#: bp-core/bp-core-widgets.php:171
+msgid "There are no users currently online"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:231
-msgid "Maximum number of members to show:"
+#: bp-core/bp-core-widgets.php:225
+msgid "There are no recently active members"
 msgstr ""
 
 #: bp-forums/bp-forums-admin.php:7 bp-forums/bp-forums-admin.php:54
@@ -2254,11 +2240,11 @@ msgstr ""
 msgid "created %s ago"
 msgstr ""
 
-#: bp-groups/bp-groups-ajax.php:105 bp-groups/bp-groups-widgets.php:68
+#: bp-groups/bp-groups-ajax.php:105
 msgid " member"
 msgstr ""
 
-#: bp-groups/bp-groups-ajax.php:107 bp-groups/bp-groups-widgets.php:70
+#: bp-groups/bp-groups-ajax.php:107
 msgid " members"
 msgstr ""
 
@@ -2867,12 +2853,12 @@ msgstr ""
 msgid "Finish"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:88
+#: bp-groups/bp-groups-widgets.php:57
 msgid "There are no groups to display."
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:111
-msgid "Maximum number of groups to show:"
+#: bp-groups/bp-groups-widgets.php:78
+msgid "Max groups to show:"
 msgstr ""
 
 #: bp-messages.php:114 bp-messages.php:230
@@ -4177,7 +4163,7 @@ msgstr ""
 msgid "Profile Field Setup"
 msgstr ""
 
-#: bp-xprofile.php:206 bp-xprofile/bp-xprofile-templatetags.php:379
+#: bp-xprofile.php:206 bp-xprofile/bp-xprofile-templatetags.php:389
 msgid "Edit Profile"
 msgstr ""
 
@@ -4600,17 +4586,17 @@ msgstr ""
 msgid "%s cannot be left blank"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:348
+#: bp-xprofile/bp-xprofile-templatetags.php:358
 msgid ""
 "Avatar uploads are currently disabled. Why not use a <a href=\"http://"
 "gravatar.com\" target=\"_blank\">gravatar</a> instead?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:357
+#: bp-xprofile/bp-xprofile-templatetags.php:367
 msgid "Profile not recently updated"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:368
+#: bp-xprofile/bp-xprofile-templatetags.php:378
 #, php-format
 msgid "Profile updated %s ago"
 msgstr ""
