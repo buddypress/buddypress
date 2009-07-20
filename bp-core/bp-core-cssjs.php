@@ -122,6 +122,25 @@ function bp_core_add_admin_css() {
 add_action( 'admin_menu', 'bp_core_add_admin_css' );
 
 /**
+ * bp_core_admin_menu_icon_css()
+ *
+ * Add a hover-able icon to the "BuddyPress" wp-admin area menu.
+ * 
+ * @package BuddyPress Core
+ */
+function bp_core_admin_menu_icon_css() {
+	global $bp;
+?>
+	<style type="text/css">
+		ul#adminmenu li.toplevel_page_bp-core .wp-menu-image a { background-image: url( <?php echo $bp->core->image_base . '/admin_menu_icon.png' ?> ) !important; background-position: -1px -32px; }
+		ul#adminmenu li.toplevel_page_bp-core:hover .wp-menu-image a { background-position: -1px 0; }
+		ul#adminmenu li.toplevel_page_bp-core .wp-menu-image a img { display: none; }
+	</style>
+<?php
+}
+add_action( 'admin_head', 'bp_core_admin_menu_icon_css' );
+
+/**
  * bp_core_add_cropper_js()
  *
  * Adds the JS needed for general avatar cropping.

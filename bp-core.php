@@ -296,15 +296,15 @@ add_action( 'init', 'bp_core_setup_cookies' );
  * @uses add_submenu_page() WP function to add a submenu item
  */
 function bp_core_add_admin_menu() {
-	global $wpdb, $bp;
+	global $wpdb, $bp, $menu;
 	
 	if ( !is_site_admin() )
 		return false;
 		
 	/* Add the administration tab under the "Site Admin" tab for site administrators */
-	add_menu_page( __("BuddyPress", 'buddypress'), __("BuddyPress", 'buddypress'), 2, 'bp-core.php', "bp_core_admin_settings" );
-	add_submenu_page( 'bp-core.php', __("General Settings", 'buddypress'), __("General Settings", 'buddypress'), 1, 'bp-core.php', "bp_core_admin_settings" );
-	add_submenu_page( 'bp-core.php', __("Component Setup", 'buddypress'), __("Component Setup", 'buddypress'), 2, __FILE__, "bp_core_admin_component_setup" );
+	bp_core_add_admin_menu_page( array( 'menu_title' => __( 'BuddyPress', 'buddypress' ), 'page_title' => __( 'BuddyPress', 'buddypress' ), 'access_level' => 10, 'file' => 'bp-core.php', 'function' => 'bp_core_admin_settings', 'position' => 2 ) );
+	add_submenu_page( 'bp-core.php', __( 'General Settings', 'buddypress'), __( 'General Settings', 'buddypress' ), 1, 'bp-core.php', 'bp_core_admin_settings' );
+	add_submenu_page( 'bp-core.php', __( 'Component Setup', 'buddypress'), __( 'Component Setup', 'buddypress' ), 2, __FILE__, 'bp_core_admin_component_setup' );
 }
 add_action( 'admin_menu', 'bp_core_add_admin_menu' );
 
@@ -1100,7 +1100,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	$since = $newer_date - $older_date;
 	
 	if ( 0 > $since )
-		return __( '[Adjust Time Zone]', 'buddypress' );
+		return __( '[Use GMT Timezone]', 'buddypress' );
 
 	/**
 	 * We only want to output two chunks of time here, eg:
@@ -1543,6 +1543,53 @@ function bp_core_print_generation_time() {
 	<?php
 }
 add_action( 'wp_footer', 'bp_core_print_generation_time' );
+
+/**
+ * bp_core_add_admin_menu_page()
+ * 
+ * A better version of add_admin_menu_page() that allows positioning of menus.
+ * 
+ * @package BuddyPress Core
+ */
+function bp_core_add_admin_menu_page( $args = '' ) {
+	global $menu, $admin_page_hooks, $_registered_pages;
+
+	$defaults = array(
+		'page_title' => '',
+		'menu_title' => '',
+		'access_level' => 2,
+		'file' => false,
+		'function' => false,
+		'icon_url' => false,
+		'position' => 100
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+	
+	$file = plugin_basename( $file );
+
+	$admin_page_hooks[$file] = sanitize_title( $menu_title );
+
+	$hookname = get_plugin_page_hookname( $file, '' );
+	if (!empty ( $function ) && !empty ( $hookname ))
+		add_action( $hookname, $function );
+
+	if ( empty($icon_url) )
+		$icon_url = 'images/generic.png';
+	elseif ( is_ssl() && 0 === strpos($icon_url, 'http://') )
+		$icon_url = 'https://' . substr($icon_url, 7);
+
+	do {
+		$position++;
+	} while ( !empty( $menu[$position] ) );
+	
+	$menu[$position] = array ( $menu_title, $access_level, $file, $page_title, 'menu-top ' . $hookname, $hookname, $icon_url );
+
+	$_registered_pages[$hookname] = true;
+
+	return $hookname;
+}
 
 
 /**
