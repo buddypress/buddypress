@@ -407,12 +407,12 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 			$recorded_post->user_id = $user_id;
 			$recorded_post->blog_id = $blog_id;
 			$recorded_post->post_id = $post_id;
-			$recorded_post->date_created = strtotime( $post->post_date );
+			$recorded_post->date_created = strtotime( $post->post_date_gmt );
 			
 			$recorded_post_id = $recorded_post->save();
 			
 			bp_blogs_update_blogmeta( $recorded_post->blog_id, 'last_activity', time() );
-			bp_blogs_record_activity( array( 'item_id' => $recorded_post->id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog_post', 'is_private' => bp_blogs_is_blog_hidden( $recorded_post->blog_id ), 'user_id' => $recorded_post->user_id, 'recorded_time' => strtotime( $post->post_date ) ) );
+			bp_blogs_record_activity( array( 'item_id' => $recorded_post->id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog_post', 'is_private' => bp_blogs_is_blog_hidden( $recorded_post->blog_id ), 'user_id' => $recorded_post->user_id, 'recorded_time' => strtotime( $post->post_date_gmt ) ) );
 		}
 	} else {
 		$existing_post = new BP_Blogs_Post( null, $blog_id, $post_id );
@@ -438,7 +438,7 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 
 		/* Delete and re-add the activity stream item to reflect potential content changes. */
 		bp_blogs_delete_activity( array( 'item_id' => $recorded_post->id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog_post', 'user_id' => $recorded_post->user_id ) );
-		bp_blogs_record_activity( array( 'item_id' => $recorded_post->id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog_post', 'is_private' => bp_blogs_is_blog_hidden( $recorded_post->blog_id ), 'user_id' => $recorded_post->user_id, 'recorded_time' => strtotime( $post->post_date ) ) );
+		bp_blogs_record_activity( array( 'item_id' => $recorded_post->id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog_post', 'is_private' => bp_blogs_is_blog_hidden( $recorded_post->blog_id ), 'user_id' => $recorded_post->user_id, 'recorded_time' => strtotime( $post->post_date_gmt ) ) );
 	}
 
 	do_action( 'bp_blogs_new_blog_post', $recorded_post, $is_private, $is_recorded );

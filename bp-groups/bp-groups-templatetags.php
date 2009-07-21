@@ -593,6 +593,18 @@ function bp_group_date_created( $deprecated = false ) {
 		return apply_filters( 'bp_get_group_date_created', date( get_option( 'date_format' ), $group->date_created ) );
 	}
 
+function bp_group_is_admin() {
+	global $bp;
+	
+	return $bp->is_item_admin;
+}
+
+function bp_group_is_mod() {
+	global $bp;
+	
+	return $bp->is_item_mod;
+}
+
 function bp_group_list_admins( $full_list = true, $group = false ) {
 	global $groups_template;
 	
@@ -688,7 +700,7 @@ function bp_group_active_forum_topics( $total_topics = 3, $group = false ) {
 
 	if ( $forum_id && $forum_id != '' ) {
 		if ( function_exists( 'bp_forums_setup' ) ) {
-			$latest_topics = bp_forums_get_topics( $forum_id, $total_topics, 1 );
+			$latest_topics = bp_forums_get_forum_topics( $forum_id );
 		
 			if ( $latest_topics ) { ?>
 				<ul class="item-list" id="recent-forum-topics"><?php
@@ -1631,7 +1643,7 @@ function bp_new_group_name() {
 }
 	function bp_get_new_group_name() {
 		global $bp;
-		return apply_filters( 'bp_get_new_group_name', $bp->groups->new_group->name );
+		return apply_filters( 'bp_get_new_group_name', $bp->groups->current_group->name );
 	}
 
 function bp_new_group_description() {
@@ -1639,7 +1651,7 @@ function bp_new_group_description() {
 }
 	function bp_get_new_group_description() {
 		global $bp;
-		return apply_filters( 'bp_get_new_group_description', $bp->groups->new_group->name );
+		return apply_filters( 'bp_get_new_group_description', $bp->groups->current_group->name );
 	}
 
 function bp_new_group_news() {
@@ -1647,7 +1659,7 @@ function bp_new_group_news() {
 }
 	function bp_get_new_group_news() {
 		global $bp;
-		return apply_filters( 'bp_get_new_group_news', $bp->groups->new_group->name );
+		return apply_filters( 'bp_get_new_group_news', $bp->groups->current_group->name );
 	}
 
 function bp_new_group_enable_wire() {
@@ -1655,7 +1667,7 @@ function bp_new_group_enable_wire() {
 }
 	function bp_get_new_group_enable_wire() {
 		global $bp;
-		return (int) apply_filters( 'bp_get_new_group_enable_wire', $bp->groups->new_group->enable_wire );
+		return (int) apply_filters( 'bp_get_new_group_enable_wire', $bp->groups->current_group->enable_wire );
 	}
 
 function bp_new_group_enable_forum() {
@@ -1663,7 +1675,7 @@ function bp_new_group_enable_forum() {
 }
 	function bp_get_new_group_enable_forum() {
 		global $bp;
-		return (int) apply_filters( 'bp_get_new_group_enable_forum', $bp->groups->new_group->enable_forum );
+		return (int) apply_filters( 'bp_get_new_group_enable_forum', $bp->groups->current_group->enable_forum );
 	}
 
 function bp_new_group_status() {
@@ -1671,7 +1683,7 @@ function bp_new_group_status() {
 }
 	function bp_get_new_group_status() {
 		global $bp;
-		return apply_filters( 'bp_get_new_group_status', $bp->groups->new_group->status );
+		return apply_filters( 'bp_get_new_group_status', $bp->groups->current_group->status );
 	}
 
 function bp_new_group_avatar_thumb() {
@@ -1679,7 +1691,7 @@ function bp_new_group_avatar_thumb() {
 }
 	function bp_get_new_group_avatar_thumb() {
 		global $bp;
-		return apply_filters( 'bp_get_new_group_avatar_thumb', $bp->groups->new_group->avatar_thumb );
+		return apply_filters( 'bp_get_new_group_avatar_thumb', $bp->groups->current_group->avatar_thumb );
 	}
 
 function bp_new_group_avatar_full() {
@@ -1687,7 +1699,7 @@ function bp_new_group_avatar_full() {
 }
 	function bp_get_new_group_avatar_full() {
 		global $bp;
-		return apply_filters( 'bp_get_new_group_avatar_full', $bp->groups->new_group->avatar_full );
+		return apply_filters( 'bp_get_new_group_avatar_full', $bp->groups->current_group->avatar_full );
 	}
 
 function bp_new_group_avatar_upload_form() {
@@ -1774,7 +1786,7 @@ function bp_new_group_invite_friend_list() {
 			}
 		}
 		
-		return implode( "\n", $items );
+		return implode( "\n", (array)$items );
 	}
 
 /********************************************************************************
@@ -2571,10 +2583,10 @@ function bp_group_list_invite_friends( $args = '' ) {
 	if ( !function_exists('friends_install') )
 		return false;
 
-		$friends = friends_get_friends_invite_list( $bp->loggedin_user->id, $bp->groups->new_group->id );
+		$friends = friends_get_friends_invite_list( $bp->loggedin_user->id, $bp->groups->current_group->id );
 
 		if ( $friends ) {
-			$invites = groups_get_invites_for_group( $bp->loggedin_user->id, $bp->groups->new_group->id );
+			$invites = groups_get_invites_for_group( $bp->loggedin_user->id, $bp->groups->current_group->id );
 
 	?>
 			<div id="invite-list">
@@ -2629,13 +2641,13 @@ function bp_group_create_form() {
 	<?php switch( $bp->groups->current_create_step ) {
 		case 'group-details': ?>
 			<label for="group-name">* <?php _e('Group Name', 'buddypress') ?></label>
-			<input type="text" name="group-name" id="group-name" value="<?php echo attribute_escape( ( $bp->groups->new_group ) ? $bp->groups->new_group->name : $_POST['group-name'] ); ?>" />
+			<input type="text" name="group-name" id="group-name" value="<?php echo attribute_escape( ( $bp->groups->new_group ) ? $bp->groups->current_group->name : $_POST['group-name'] ); ?>" />
 		
 			<label for="group-desc">* <?php _e('Group Description', 'buddypress') ?></label>
-			<textarea name="group-desc" id="group-desc"><?php echo htmlspecialchars( ( $bp->groups->new_group ) ? $bp->groups->new_group->description : $_POST['group-desc'] ); ?></textarea>
+			<textarea name="group-desc" id="group-desc"><?php echo htmlspecialchars( ( $bp->groups->new_group ) ? $bp->groups->current_group->description : $_POST['group-desc'] ); ?></textarea>
 		
 			<label for="group-news"><?php _e('Recent News', 'buddypress') ?></label>
-			<textarea name="group-news" id="group-news"><?php echo htmlspecialchars( ( $bp->groups->new_group ) ? $bp->groups->new_group->news : $_POST['group-news'] ); ?></textarea>
+			<textarea name="group-news" id="group-news"><?php echo htmlspecialchars( ( $bp->groups->new_group ) ? $bp->groups->current_group->news : $_POST['group-news'] ); ?></textarea>
 			
 			<?php do_action( 'groups_custom_group_fields_editable' ) ?>
 
@@ -2647,14 +2659,14 @@ function bp_group_create_form() {
 			<?php if ( bp_are_previous_group_creation_steps_complete( 'group-settings' ) ) { ?>
 				<?php if ( function_exists('bp_wire_install') ) : ?>
 				<div class="checkbox">
-					<label><input type="checkbox" name="group-show-wire" id="group-show-wire" value="1"<?php if ( $bp->groups->new_group->enable_wire ) { ?> checked="checked"<?php } ?> /> <?php _e('Enable comment wire', 'buddypress') ?></label>
+					<label><input type="checkbox" name="group-show-wire" id="group-show-wire" value="1"<?php if ( $bp->groups->current_group->enable_wire ) { ?> checked="checked"<?php } ?> /> <?php _e('Enable comment wire', 'buddypress') ?></label>
 				</div>
 				<?php endif; ?>
 				
 				<?php if ( function_exists('bp_forums_setup') ) : ?>
 					<?php if ( bp_forums_is_installed_correctly() ) { ?>
 						<div class="checkbox">
-							<label><input type="checkbox" name="group-show-forum" id="group-show-forum" value="1"<?php if ( $bp->groups->new_group->enable_forum ) { ?> checked="checked"<?php } ?> /> <?php _e('Enable discussion forum', 'buddypress') ?></label>
+							<label><input type="checkbox" name="group-show-forum" id="group-show-forum" value="1"<?php if ( $bp->groups->current_group->enable_forum ) { ?> checked="checked"<?php } ?> /> <?php _e('Enable discussion forum', 'buddypress') ?></label>
 						</div>
 					<?php } else {
 						if ( is_site_admin() ) {
@@ -2669,10 +2681,10 @@ function bp_group_create_form() {
 				
 				<?php if ( function_exists('bp_albums_install') ) : ?>
 				<div class="checkbox with-suboptions">
-					<label><input type="checkbox" name="group-show-photos" id="group-show-photos" value="1"<?php if ( $bp->groups->new_group->enable_photos ) { ?> checked="checked"<?php } ?> /> <?php _e('Enable photo gallery', 'buddypress') ?></label>
-					<div class="sub-options"<?php if ( !$bp->groups->new_group->enable_photos ) { ?> style="display: none;"<?php } ?>>
-						<label><input type="radio" name="group-photos-status" value="all"<?php if ( !$bp->groups->new_group->photos_admin_only ) { ?> checked="checked"<?php } ?> /> <?php _e('All members can upload photos', 'buddypress') ?></label>
-						<label><input type="radio" name="group-photos-status" value="admins"<?php if ( $bp->groups->new_group->photos_admin_only ) { ?> checked="checked"<?php } ?> /> <?php _e('Only group admins can upload photos', 'buddypress') ?></label>
+					<label><input type="checkbox" name="group-show-photos" id="group-show-photos" value="1"<?php if ( $bp->groups->current_group->enable_photos ) { ?> checked="checked"<?php } ?> /> <?php _e('Enable photo gallery', 'buddypress') ?></label>
+					<div class="sub-options"<?php if ( !$bp->groups->current_group->enable_photos ) { ?> style="display: none;"<?php } ?>>
+						<label><input type="radio" name="group-photos-status" value="all"<?php if ( !$bp->groups->current_group->photos_admin_only ) { ?> checked="checked"<?php } ?> /> <?php _e('All members can upload photos', 'buddypress') ?></label>
+						<label><input type="radio" name="group-photos-status" value="admins"<?php if ( $bp->groups->current_group->photos_admin_only ) { ?> checked="checked"<?php } ?> /> <?php _e('Only group admins can upload photos', 'buddypress') ?></label>
 					</div>
 				</div>
 				<?php endif; ?>
@@ -2680,7 +2692,7 @@ function bp_group_create_form() {
 				<h3><?php _e( 'Privacy Options', 'buddypress' ); ?></h3>
 			
 				<div class="radio">
-					<label><input type="radio" name="group-status" value="public"<?php if ( 'public' == $bp->groups->new_group->status ) { ?> checked="checked"<?php } ?> /> 
+					<label><input type="radio" name="group-status" value="public"<?php if ( 'public' == $bp->groups->current_group->status ) { ?> checked="checked"<?php } ?> /> 
 						<strong><?php _e( 'This is a public group', 'buddypress' ) ?></strong>
 						<ul>
 							<li><?php _e( 'Any site member can join this group.', 'buddypress' ) ?></li>
@@ -2689,7 +2701,7 @@ function bp_group_create_form() {
 						</ul>
 					</label>
 					
-					<label><input type="radio" name="group-status" value="private"<?php if ( 'private' == $bp->groups->new_group->status ) { ?> checked="checked"<?php } ?> />
+					<label><input type="radio" name="group-status" value="private"<?php if ( 'private' == $bp->groups->current_group->status ) { ?> checked="checked"<?php } ?> />
 						<strong><?php _e( 'This is a private group', 'buddypress' ) ?></strong>
 						<ul>
 							<li><?php _e( 'Only users who request membership and are accepted can join the group.', 'buddypress' ) ?></li>
@@ -2698,7 +2710,7 @@ function bp_group_create_form() {
 						</ul>
 					</label>
 					
-					<label><input type="radio" name="group-status" value="hidden"<?php if ( 'hidden' == $bp->groups->new_group->status ) { ?> checked="checked"<?php } ?> />
+					<label><input type="radio" name="group-status" value="hidden"<?php if ( 'hidden' == $bp->groups->current_group->status ) { ?> checked="checked"<?php } ?> />
 						<strong><?php _e('This is a hidden group', 'buddypress') ?></strong>
 						<ul>
 							<li><?php _e( 'Only users who are invited can join the group.', 'buddypress' ) ?></li>

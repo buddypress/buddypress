@@ -188,6 +188,24 @@ function bp_activity_add( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 	
+	/* Insert the "time-since" placeholder */
+	if ( $content ) {
+		if ( !$pos = strpos( $content, '<blockquote' ) ) {
+			if ( !$pos = strpos( $content, '<div' ) ) {
+				if ( !$pos = strpos( $content, '<ul' ) ) {
+					$content .= ' <span class="time-since">%s</span>';
+				}
+			}
+		}
+		
+		if ( $pos ) {
+			$before = substr( $content, 0, $pos );
+			$after = substr( $content, $pos, strlen( $content ) );
+			
+			$content = $before . ' <span class="time-since">%s</span>' . $after;
+		}
+	}
+
 	$activity = new BP_Activity_Activity;
 	$activity->user_id = $user_id;
 	$activity->content = $content;
@@ -207,51 +225,26 @@ function bp_activity_add( $args = '' ) {
 	return true;
 }
 
-function bp_activity_update( $args = '' ) {
-	global $bp, $wpdb;
-	
-	extract( $args );
-	
+/* There are multiple ways to delete activity items, depending on the information you have at the time. */
+
+function bp_activity_delete_by_item_id( $args = '' ) {
+	global $bp;
+
 	$defaults = array(
-		'user_id' => $bp->loggedin_user->id,
-		'content' => false,
+		'item_id' => false,
 		'component_name' => false,
 		'component_action' => false,
-		'item_id' => false,
-		'secondary_item_id' => false,
-		'recorded_time' => time(),
-		'hide_sitewide' => false
+		'user_id' => false, // optional
+		'secondary_item_id' => false // optional
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
-		
-	$activity = new BP_Activity_Activity( $user_id, $component_name, $component_action, $item_id, $secondary_item_id );
-	$activity->user_id = $user_id;
-	$activity->content = $content;
-	$activity->primary_link = $primary_link;
-	$activity->component_name = $component_name;
-	$activity->component_action = $component_action;
-	$activity->item_id = $item_id;
-	$activity->secondary_item_id = $secondary_item_id;
-	$activity->date_recorded = $recorded_time;
-	$activity->hide_sitewide = $hide_sitewide;
-		
-	if ( !$activity->save() )
+
+	if ( !BP_Activity_Activity::delete_by_item_id( $item_id, $component_name, $component_action, $user_id, $secondary_item_id ) )
 		return false;
 
-	do_action( 'bp_activity_update', $args );
-	
-	return true;
-}
-
-/* There are multiple ways to delete activity items, depending on the information you have at the time. */
-
-function bp_activity_delete_by_item_id( $user_id, $component_name, $component_action, $item_id, $secondary_item_id = false ) {	
-	if ( !BP_Activity_Activity::delete_by_item_id( $user_id, $component_name, $component_action, $item_id, $secondary_item_id ) )
-		return false;
-
-	do_action( 'bp_activity_delete_by_item_id', $user_id, $component_name, $component_action, $item_id, $secondary_item_id );
+	do_action( 'bp_activity_delete_by_item_id', $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
 
 	return true;
 }
@@ -344,7 +337,7 @@ function bp_activity_record( $item_id, $component_name, $component_action, $is_p
 
 /* DEPRECATED - use bp_activity_delete_by_item_id() */
 function bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id ) {	
-	if ( !bp_activity_delete_by_item_id( $user_id, $component_name, $component_action, $item_id, $secondary_item_id ) )
+	if ( !bp_activity_delete_by_item_id( array( 'item_id' => $item_id, 'component_name' => $component_name, 'component_action' => $component_action, 'user_id' => $user_id, 'secondary_item_id' => $secondary_item_id ) ) )
 		return false;
 		
 	do_action( 'bp_activity_delete', $item_id, $component_name, $component_action, $user_id, $secondary_item_id );

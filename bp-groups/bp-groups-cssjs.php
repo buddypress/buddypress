@@ -1,9 +1,4 @@
 <?php
-/**************************************************************************
- groups_add_js()
-  
- Inserts the Javascript needed for managing groups.
- **************************************************************************/	
 
 function groups_add_js() {
 	global $bp;

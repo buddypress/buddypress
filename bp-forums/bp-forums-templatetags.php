@@ -18,22 +18,23 @@ class BP_Forums_Template_Forum {
 	var $sort_by;
 	var $order;
 	
-	function BP_Forums_Template_Forum( $forum_id, $per_page, $max ) {
-		global $bp, $current_user;
+	function BP_Forums_Template_Forum( $forum_id, $per_page, $max, $no_stickies ) {
+		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['forum_page'] ) ? intval( $_REQUEST['forum_page'] ) : 1;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
-		$this->topics = bp_forums_get_topics( $forum_id, $this->pag_num, $this->pag_page );
-		
-		if ( !$this->topics ) {
+		$this->topics = bp_forums_get_forum_topics( array( 'forum_id' => $forum_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num ) );
+
+		if ( !(int)$this->topics ) {
 			$this->topic_count = 0;
 			$this->total_topic_count = 0;
 		} else {
-			$forum_count = count( bp_forums_get_topics( $forum_id ) );
+			$topic_count = bp_forums_get_forum( $forum_id );
+			$topic_count = (int)$topic_count->topics;
 			
-			if ( !$max || $max >= $forum_count )
-				$this->total_topic_count = $forum_count;
+			if ( !$max || $max >= $topic_count )
+				$this->total_topic_count = $topic_count;
 			else
 				$this->total_topic_count = (int)$max;
 
@@ -45,6 +46,17 @@ class BP_Forums_Template_Forum {
 			} else {
 				$this->topic_count = count( $this->topics );
 			}		
+		}
+		
+		if ( !$no_stickies) {
+			/* Place stickies at the top - not sure why bbPress doesn't do this? */
+			foreach( (array)$this->topics as $topic ) {
+				if ( 1 == (int)$topic->topic_sticky )
+					$stickies[] = $topic;
+				else
+					$standard[] = $topic; 
+			}
+			$this->topics = array_merge( (array)$stickies, (array)$standard );
 		}
 
 		$this->pag_links = paginate_links( array(
@@ -106,22 +118,22 @@ class BP_Forums_Template_Forum {
 
 function bp_has_topics( $args = '' ) {
 	global $forum_template, $bp;
-	global $group_obj;
 	
 	$defaults = array(
 		'forum_id' => false,
-		'per_page' => 10,
-		'max' => false
+		'per_page' => 15,
+		'max' => false,
+		'no_stickies' => false
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	if ( !$forum_id && $bp->current_component == $bp->groups->slug && 'forum' == $bp->current_action )
-		$forum_id = groups_get_groupmeta( $group_obj->id, 'forum_id' );
+	if ( !$forum_id && $bp->current_component == $bp->groups->slug )
+		$forum_id = groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' );
 	
 	if ( is_numeric( $forum_id ) )
-		$forum_template = new BP_Forums_Template_Forum( $forum_id, $per_page, $max );
+		$forum_template = new BP_Forums_Template_Forum( (int)$forum_id, $per_page, $max, $no_stickies );
 	else
 		return false;
 
@@ -165,6 +177,16 @@ function bp_the_topic_slug() {
 		return apply_filters( 'bp_get_the_topic_slug', $forum_template->topic->topic_slug );
 	}
 
+function bp_the_topic_text() {
+	echo bp_get_the_topic_text();
+}
+	function bp_get_the_topic_text() {
+		global $forum_template;
+
+		$post = bb_get_first_post( $forum_template->topic->topic_id );
+		return apply_filters( 'bp_get_the_topic_text', $post->post_text );
+	}
+
 function bp_the_topic_poster_id() {
 	echo bp_get_the_topic_poster_id();
 }
@@ -174,13 +196,32 @@ function bp_the_topic_poster_id() {
 		return apply_filters( 'bp_get_the_topic_poster_id', $forum_template->topic->topic_poster );
 	}
 
-function bp_the_topic_poster_avatar() {
-	echo bp_get_the_topic_poster_avatar();
+function bp_the_topic_poster_avatar( $args = '' ) {
+	echo bp_get_the_topic_poster_avatar( $args );
 }
-	function bp_get_the_topic_poster_avatar() {
+	function bp_get_the_topic_poster_avatar( $args = '' ) {
 		global $forum_template;
+	
+		$defaults = array(
+			'type' => 'thumb',
+			'width' => false,
+			'height' => false,
+		);
 
-		return apply_filters( 'bp_get_the_topic_poster_avatar', bp_core_get_avatar( $forum_template->topic->topic_poster, 1 ) ); 
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		if ( 'thumb' == $type )
+			$size = 1;
+		else
+			$size = 2;
+
+		if ( $width && $height )
+			$av = bp_core_get_avatar( $forum_template->topic->topic_poster, $size, $width, $height );
+		else
+			$av = bp_core_get_avatar( $forum_template->topic->topic_poster, $size );
+
+		return apply_filters( 'bp_get_the_topic_poster_avatar', $av ); 
 	}
 
 function bp_the_topic_poster_name() {
@@ -201,13 +242,32 @@ function bp_the_topic_last_poster_name() {
 		return apply_filters( 'bp_get_the_topic_last_poster_name', bp_core_get_userlink( $forum_template->topic->topic_last_poster ) );
 	}
 
-function bp_the_topic_last_poster_avatar() {
-	echo bp_get_the_topic_last_poster_avatar();
+function bp_the_topic_last_poster_avatar( $args = '' ) {
+	echo bp_get_the_topic_last_poster_avatar( $args );
 }
-	function bp_get_the_topic_last_poster_avatar() {
+	function bp_get_the_topic_last_poster_avatar( $args = '' ) {
 		global $forum_template;
 
-		return apply_filters( 'bp_get_the_topic_last_poster_avatar', bp_core_get_avatar( $forum_template->topic->topic_last_poster, 1 ) ); 
+		$defaults = array(
+			'type' => 'thumb',
+			'width' => false,
+			'height' => false,
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		if ( 'thumb' == $type )
+			$size = 1;
+		else
+			$size = 2;
+
+		if ( $width && $height )
+			$av = bp_core_get_avatar( $forum_template->topic->topic_last_poster, $size, $width, $height );
+		else
+			$av = bp_core_get_avatar( $forum_template->topic->topic_last_poster, $size );
+
+		return apply_filters( 'bp_get_the_topic_last_poster_avatar', $av ); 
 	}
 
 function bp_the_topic_start_time() {
@@ -298,11 +358,14 @@ function bp_the_topic_permalink() {
 	echo bp_get_the_topic_permalink();
 }
 	function bp_get_the_topic_permalink() {
-		global $forum_template, $bbpress_live, $group_obj;
-
-		$target_uri = $bbpress_live->fetch->options['target_uri'];
-
-		return apply_filters( 'bp_get_the_topic_permalink', bp_get_group_permalink( $group_obj ) . '/forum/topic/' . $forum_template->topic->topic_id );
+		global $forum_template, $bp;
+		
+		if ( $bp->is_single_item )
+			$permalink = $bp->root_domain . '/' . $bp->current_component . '/' . $bp->current_item . '/';
+		else
+			$permalink = $bp->root_domain . $bp->current_component . '/' . $bp->current_action . '/';
+			
+		return apply_filters( 'bp_get_the_topic_permalink', $permalink . 'forum/topic/' . $forum_template->topic->topic_slug );
 	}
 
 function bp_the_topic_time_since_created() {
@@ -311,17 +374,25 @@ function bp_the_topic_time_since_created() {
 	function bp_get_the_topic_time_since_created() {
 		global $forum_template;
 
-		return apply_filters( 'bp_get_the_topic_time_since_created', $forum_template->topic->topic_start_time_since );
+		return apply_filters( 'bp_get_the_topic_time_since_created', bp_core_time_since( bb_gmtstrtotime( $forum_template->topic->topic_start_time ) ) );
 	}
 	
-function bp_the_topic_latest_post_excerpt() {
-	echo bp_get_the_topic_latest_post_excerpt();
+function bp_the_topic_latest_post_excerpt( $args = '' ) {
+	echo bp_get_the_topic_latest_post_excerpt( $args );
 }
-	function bp_get_the_topic_latest_post_excerpt() {
+	function bp_get_the_topic_latest_post_excerpt( $args = '' ) {
 		global $forum_template;
 
+		$defaults = array(
+			'length' => 10
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
 		$post = bp_forums_get_post( $forum_template->topic->topic_last_post_id );
-		return apply_filters( 'bp_get_the_topic_latest_post_excerpt', $post['post_text'] );
+		$post = bp_create_excerpt( $post->post_text, $length );
+		return apply_filters( 'bp_get_the_topic_latest_post_excerpt', $post );
 	}
 
 function bp_the_topic_time_since_last_post( $deprecated = true ) {
@@ -335,8 +406,59 @@ function bp_the_topic_time_since_last_post( $deprecated = true ) {
 	function bp_get_the_topic_time_since_last_post() {
 		global $forum_template;
 
-		return apply_filters( 'bp_get_the_topic_time_since_last_post', $forum_template->topic->topic_time_since );
+		return apply_filters( 'bp_get_the_topic_time_since_last_post', bp_core_time_since( bb_gmtstrtotime( $forum_template->topic->topic_time ) ) );
 	}
+
+function bp_the_topic_admin_links( $args = '' ) {
+	echo bp_get_the_topic_admin_links( $args );
+}
+	function bp_get_the_topic_admin_links( $args = '' ) {
+		global $forum_template;	
+		
+		$defaults = array(
+			'seperator' => '|'
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		$links  = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . '/edit', 'bp_forums_edit_topic' ) . '">' . __( 'Edit', 'buddypress' ) . '</a> ' . $seperator . ' ';
+
+		if ( 0 == (int)$forum_template->topic->topic_sticky )
+			$links .= '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . '/stick', 'bp_forums_stick_topic' ) . '">' . __( 'Sticky', 'buddypress' ) . '</a> ' . $seperator . ' ';
+		else
+			$links .= '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . '/unstick', 'bp_forums_unstick_topic' ) . '">' . __( 'Un-stick', 'buddypress' ) . '</a> ' . $seperator . ' ';
+
+		if ( 0 == (int)$forum_template->topic->topic_open )
+			$links .= '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . '/open', 'bp_forums_open_topic' ) . '">' . __( 'Open', 'buddypress' ) . '</a> ' . $seperator . ' ';
+		else
+			$links .= '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . '/close', 'bp_forums_close_topic' ) . '">' . __( 'Close', 'buddypress' ) . '</a> ' . $seperator . ' ';
+
+		$links .= '<a id="topic-delete-link" href="' . wp_nonce_url( bp_get_the_topic_permalink() . '/delete', 'bp_forums_delete_topic' ) . '">' . __( 'Delete', 'buddypress' ) . '</a>';
+
+		return $links;
+	}
+
+function bp_the_topic_css_class() {
+	echo bp_get_the_topic_css_class();
+}
+
+	function bp_get_the_topic_css_class() {
+		global $forum_template;
+	
+		$class = false;
+	
+		if ( 1 == (int)$forum_template->topic->topic_sticky ) {
+			$class .= 'sticky';
+		}
+	
+		if ( 0 == (int)$forum_template->topic->topic_open ) {
+			$class .= ' closed';
+		}
+	
+		return trim( $class );
+	}
+
 
 function bp_forum_pagination() {
 	echo bp_get_forum_pagination();
@@ -357,6 +479,15 @@ function bp_forum_pagination_count() {
 ?>
 	<img id="ajax-loader-groups" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" />
 <?php
+}
+
+function bp_is_edit_topic() {
+	global $bp;
+	
+	if ( in_array( 'post', (array)$bp->action_variables ) && in_array( 'edit', (array)$bp->action_variables ) )
+		return false;
+	
+	return true;
 }
 
 
@@ -390,7 +521,7 @@ class BP_Forums_Template_Topic {
 		$this->topic_id = $topic_id;
 		$forum_template->topic = (object) bp_forums_get_topic_details( $this->topic_id );
 
-		$this->posts = bp_forums_get_posts( $this->topic_id, $this->pag_num, $this->pag_page );
+		$this->posts = bp_forums_get_topic_posts( array( 'topic_id' => $this->topic_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num ) );
 		
 		if ( !$this->posts ) {
 			$this->post_count = 0;
@@ -473,7 +604,7 @@ function bp_has_topic_posts( $args = '' ) {
 	
 	$defaults = array(
 		'topic_id' => false,
-		'per_page' => 10,
+		'per_page' => 15,
 		'max' => false
 	);
 
@@ -481,7 +612,7 @@ function bp_has_topic_posts( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	if ( !$topic_id && $bp->current_component == $bp->groups->slug && 'forum' == $bp->current_action && 'topic' == $bp->action_variables[0] )
-		$topic_id = $bp->action_variables[1];
+		$topic_id = bp_forums_get_topic_id_from_slug( $bp->action_variables[1] );
 
 	if ( is_numeric( $topic_id ) )
 		$topic_template = new BP_Forums_Template_Topic( $topic_id, $per_page, $max );
@@ -519,13 +650,32 @@ function bp_the_topic_post_content() {
 		return apply_filters( 'bp_get_the_topic_post_content', stripslashes( $topic_template->post->post_text ) );
 	}
 
-function bp_the_topic_post_poster_avatar() {
-	echo bp_get_the_topic_post_poster_avatar();
+function bp_the_topic_post_poster_avatar( $args = '' ) {
+	echo bp_get_the_topic_post_poster_avatar( $args );
 }
-	function bp_get_the_topic_post_poster_avatar() {
+	function bp_get_the_topic_post_poster_avatar( $args = '' ) {
 		global $topic_template;
 
-		return apply_filters( 'bp_get_the_topic_post_poster_avatar', bp_core_get_avatar( $topic_template->post->poster_id, 1, 20, 20 ) ); 
+		$defaults = array(
+			'type' => 'thumb',
+			'width' => 20,
+			'height' => 20,
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		if ( 'thumb' == $type )
+			$size = 1;
+		else
+			$size = 2;
+
+		if ( $width && $height )
+			$av = bp_core_get_avatar( $topic_template->post->poster_id, $size, $width, $height );
+		else
+			$av = bp_core_get_avatar( $topic_template->post->poster_id, $size );
+
+		return apply_filters( 'bp_get_the_topic_post_poster_avatar', $av ); 
 	}
 
 function bp_the_topic_post_poster_name( $deprecated = true ) {
@@ -549,7 +699,45 @@ function bp_the_topic_post_time_since( $deprecated = true ) {
 	function bp_get_the_topic_post_time_since() {
 		global $topic_template;
 
-		return apply_filters( 'bp_get_the_topic_post_time_since', $topic_template->post->post_time_since );
+		return apply_filters( 'bp_get_the_topic_post_time_since', bp_core_time_since( bb_gmtstrtotime( $topic_template->post->post_time ) ) );
+	}
+
+function bp_the_topic_post_is_mine() {
+	echo bp_the_topic_post_is_mine();
+}
+	function bp_get_the_topic_post_is_mine() {
+		global $bp, $topic_template;
+		
+		return $bp->loggedin_user->id == $topic_template->post->poster_id;
+	}
+
+function bp_the_topic_post_admin_links( $args = '' ) {
+	echo bp_get_the_topic_post_admin_links( $args );
+}
+	function bp_get_the_topic_post_admin_links( $args = '' ) {
+		global $topic_template;	
+		
+		$defaults = array(
+			'seperator' => '|'
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		$links  = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . $topic_template->post->id . '/post/' . $topic_template->post->post_id . '/edit/', 'bp_forums_edit_post' ) . '">' . __( 'Edit', 'buddypress' ) . '</a> ' . $seperator . ' ';
+		$links .= '<a id="post-delete-link" href="' . wp_nonce_url( bp_get_the_topic_permalink() . '/post/' . $topic_template->post->post_id . '/delete/', 'bp_forums_delete_post' ) . '">' . __( 'Delete', 'buddypress' ) . '</a>';
+
+		return $links;
+	}
+
+function bp_the_topic_post_edit_text() {
+	echo bp_get_the_topic_post_edit_text();
+}
+	function bp_get_the_topic_post_edit_text() {
+		global $bp;
+		
+		$post = bp_forums_get_post( $bp->action_variables[3] );
+		return attribute_escape( $post->post_text );
 	}
 
 function bp_the_topic_pagination() {
@@ -577,9 +765,14 @@ function bp_forum_permalink() {
 	echo bp_get_forum_permalink();
 }
 	function bp_get_forum_permalink() {
-		global $group_obj;
+		global $bp;
+		
+		if ( $bp->is_single_item )
+			$permalink = $bp->root_domain . '/' . $bp->current_component . '/' . $bp->current_item . '/';
+		else
+			$permalink = $bp->root_domain . $bp->current_component . '/' . $bp->current_action . '/';
 
-		return apply_filters( 'bp_get_forum_permalink', bp_get_group_permalink( $group_obj ) . '/forum' );
+		return apply_filters( 'bp_get_forum_permalink', $permalink . 'forum' );
 	}
 
 function bp_forum_action() {
@@ -588,16 +781,16 @@ function bp_forum_action() {
 	function bp_get_forum_action() {
 		global $topic_template;
 
-		return apply_filters( 'bp_get_forum_action', bp_get_group_permalink( $group_obj ) . '/forum' );	
+		return apply_filters( 'bp_get_forum_action', $bp->root_domain . attribute_escape( $_SERVER['REQUEST_URI'] ) );	
 	}
 
 function bp_forum_topic_action() {
 	echo bp_get_forum_topic_action();
 }
 	function bp_get_forum_topic_action() {
-		global $topic_template;
-
-		return apply_filters( 'bp_get_forum_topic_action', bp_get_group_permalink( $group_obj ) . '/forum/topic/' . $topic_template->topic_id );	
+		global $bp;
+		
+		return apply_filters( 'bp_get_forum_topic_action', $bp->root_domain . attribute_escape( $_SERVER['REQUEST_URI'] ) );	
 	}
 
 ?>

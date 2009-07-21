@@ -97,7 +97,7 @@ function bp_wire_delete_activity( $args = true ) {
  * true or false on success or failure.
  */
 
-function bp_wire_new_post( $item_id, $message, $component_name, $private_post = false, $table_name = null ) {
+function bp_wire_new_post( $item_id, $message, $component_name, $deprecated = false, $table_name = null ) {
 	global $bp;
 	
 	if ( empty($message) || !is_user_logged_in() )
@@ -118,11 +118,6 @@ function bp_wire_new_post( $item_id, $message, $component_name, $private_post = 
 	
 	if ( !$wire_post->save() )
 		return false;
-	
-	if ( !$private_post ) {
-		// Record in the activity streams
-		bp_wire_record_activity( array( 'item_id' => $wire_post->id, 'component_name' => $component_name, 'component_action' => 'new_wire_post', 'is_private' => 0 ) );
-	}
 	
 	do_action( 'bp_wire_post_posted', $wire_post->id, $wire_post->item_id, $wire_post->user_id );
 	
@@ -149,9 +144,6 @@ function bp_wire_delete_post( $wire_post_id, $component_name, $table_name = null
 	
 	if ( !$wire_post->delete() )
 		return false;
-
-	// Delete activity stream items
-	bp_wire_delete_activity( array( 'user_id' => $wire_post->user_id, 'item_id' => $wire_post->id, 'component_name' => $component_name, 'component_action' => 'new_wire_post' ) );	
 
 	do_action( 'bp_wire_post_deleted', $wire_post->id, $wire_post->item_id, $wire_post->user_id );
 	

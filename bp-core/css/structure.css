@@ -84,7 +84,7 @@ These structure styles can be overridden by the theme CSS file if needed.
 				margin-top: 1.5em;
 			}
 
-			div.info-group h4 a {
+			div.info-group h4 span {
 				position: absolute;
 				top: 0.31em;
 				right: 1em;

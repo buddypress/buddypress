@@ -14,7 +14,7 @@ Class BP_Activity_Activity {
 	function bp_activity_activity( $args = false, $populate = false ) {
 		global $bp;
 		
-		if ( $args ) {
+		if ( $args && is_array($args) ) {
 			extract( $args );
 			
 			$this->user_id = $user_id;
@@ -105,22 +105,22 @@ Class BP_Activity_Activity {
 	
 	/* Static Functions */ 
 
-	function delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id = false ) {
+	function delete( $item_id, $component_name, $component_action, $user_id = false, $secondary_item_id = false ) {
 		global $wpdb, $bp;
-				
-		if ( !$user_id )
-			return false;
 
 		if ( $secondary_item_id )
 			$secondary_sql = $wpdb->prepare( "AND secondary_item_id = %d", $secondary_item_id );
 		
 		if ( $component_action )
-			$component_action_sql = $wpdb->prepare( "AND component_action = %s AND user_id = %d", $component_action, $user_id );
-				
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE user_id = %d AND item_id = %d {$secondary_sql} AND component_name = %s {$cached_component_action_sql}", $user_id, $item_id, $component_name ) );
+			$component_action_sql = $wpdb->prepare( "AND component_action = %s", $component_action );
+		
+		if ( $user_id )
+			$user_sql = $wpdb->prepare( "AND user_id = %d", $user_id );
+
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE item_id = %d {$secondary_sql} AND component_name = %s {$component_action_sql} {$user_sql}", $item_id, $component_name ) );
 	}
 	
-	function delete_by_item_id( $user_id, $component_name, $component_action, $item_id, $secondary_item_id = false ) {
+	function delete_by_item_id( $item_id, $component_name, $component_action, $user_id = false, $secondary_item_id = false ) {
 		return BP_Activity_Activity::delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
 	}
 
