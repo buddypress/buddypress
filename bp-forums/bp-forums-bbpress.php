@@ -34,8 +34,6 @@ function bp_forums_load_bbpress() {
 	require_once( BACKPRESS_PATH . 'class.wp-taxonomy.php' );
 	require_once( BB_PATH . BB_INC . 'class.bb-taxonomy.php' );
 	
-	require_once( BB_PATH . 'bb-admin/includes/functions.bb-admin.php' );
-
 	$bb = new stdClass();
 	require_once( $bp->forums->bbconfig );
 
@@ -65,6 +63,12 @@ function bp_forums_load_bbpress() {
 
 	define( 'BB_INSTALLING', false );
 	
+	/* This must be loaded before functionss.bb-admin.php otherwise we get a function conflict. */
+	if ( !$tables_installed = (boolean) $bbdb->get_results( 'DESCRIBE `' . $bbdb->forums . '`;', ARRAY_A ) )
+		require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
+		
+	require_once( BB_PATH . 'bb-admin/includes/functions.bb-admin.php' );
+
 	if ( is_object( $wp_roles ) ) {
 		$bb_roles =& $wp_roles;
 		bb_init_roles( $bb_roles );
@@ -87,10 +91,9 @@ function bp_forums_load_bbpress() {
 		$bb->site_id = BP_ROOT_BLOG;
 
 	/* Check if the tables are installed, if not, install them */
-	if ( !(boolean) $bbdb->get_results( 'DESCRIBE `' . $bbdb->forums . '`;', ARRAY_A ) ) {
+	if ( !$tables_installed ) {
 		require_once( BB_PATH . 'bb-admin/includes/defaults.bb-schema.php' );
-		require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
-
+		
 		dbDelta( $bb_queries );
 		
 		require_once( BB_PATH . 'bb-admin/includes/functions.bb-upgrade.php' );
