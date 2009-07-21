@@ -35,7 +35,7 @@ function bp_forums_bbpress_install_wizard() {
 		case 'existing': 
 			if ( 1 == (int)$_REQUEST['doinstall'] ) {
 				if ( !bp_forums_configure_existing_install() )
-					echo "no go";
+					_e( 'The bb-config.php file was not found at that location, please try again.', 'buddypress' );
 			}
 				?>
 					<form action="" method="post">
@@ -90,14 +90,12 @@ function bp_forums_configure_existing_install() {
 	
 	check_admin_referer( 'bp_forums_existing_install_init' );
 	
-	if ( false === strpos( $_REQUEST['bbconfigloc'], 'bp-config.php' ) ) {
+	if ( false === strpos( $_REQUEST['bbconfigloc'], 'bb-config.php' ) ) {
 		if ( '/' != substr( $_REQUEST['bbconfigloc'], -1, 1 ) )
 			$_REQUEST['bbconfigloc'] .= '/';
 		
-		$_REQUEST['bbconfigloc'] .= 'bp-config.php';
+		$_REQUEST['bbconfigloc'] .= 'bb-config.php';
 	}
-
-	var_dump( $_REQUEST['bbconfigloc'], file_exists( $_REQUEST['bbconfigloc'] ) );
 
 	if ( !file_exists( $_REQUEST['bbconfigloc'] ) )
 		return false;
