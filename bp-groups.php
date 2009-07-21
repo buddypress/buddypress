@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_GROUPS_DB_VERSION', '1300' );
+define ( 'BP_GROUPS_DB_VERSION', '1350' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_GROUPS_SLUG' ) )
@@ -33,7 +33,7 @@ function groups_install() {
 			avatar_thumb varchar(250) NOT NULL,
 			avatar_full varchar(250) NOT NULL,
 		    KEY creator_id (creator_id),
-		    KEY status (status),
+		    KEY status (status)
 	 	   ) {$charset_collate};";
 	
 	$sql[] = "CREATE TABLE {$bp->groups->table_name_members} (
