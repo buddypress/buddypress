@@ -15,12 +15,10 @@ function bp_forums_bbpress_admin() {
 
 		<?php
 		
-		if ( !bp_forums_is_installed_correctly() )
+		if ( isset( $_REQUEST['reinstall']) || !bp_forums_is_installed_correctly() )
 			bp_forums_bbpress_install_wizard();
 		else { ?>
-			
-			<p>In development:<br />This screen will allow you to manage the relationships between existing groups and forums.</p>
-			
+			<p><?php printf( __( 'bbPress forum integration in BuddyPress has been set up correctly. If you are having problems you can <a href="%s" title="Reinstall bbPress">re-install</a>', 'buddypress' ), site_url( 'wp-admin/admin.php?page=buddypress/bp-forums.php&reinstall=1' ) ); ?>
 		<?php	
 		}
 		?>
