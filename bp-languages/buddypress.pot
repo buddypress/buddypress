@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-07-16 14:11+0000\n"
+"POT-Creation-Date: 2009-07-21 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -435,7 +435,7 @@ msgid "seconds"
 msgstr ""
 
 #: bp-core.php:1103
-msgid "[Adjust Time Zone]"
+msgid "[Use GMT Timezone]"
 msgstr ""
 
 #: bp-core.php:1133
