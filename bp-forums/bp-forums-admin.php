@@ -197,13 +197,9 @@ function bp_forums_bbpress_write( $file_source, $file_target, $alterations ) {
 		$dir_target = dirname( $file_target );
 
 		if ( file_exists( $dir_target ) ) {
-			@chmod( $dir_target, 0777 );
-
 			if ( !is_writable( $dir_target ) || !is_dir( $dir_target ) ) {
 				$writable = false;
 			}
-			
-			@chmod( $dir_target, 0666 );
 		} else {
 			$writable = false;
 		}
