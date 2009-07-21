@@ -10,7 +10,7 @@
 	<?php if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group(); ?>
 	
 	<div class="left-menu">
-		<?php load_template( TEMPLATEPATH . '/groups/group-menu.php' ) ?>
+		<?php load_template( TEMPLATEPATH . '/groups/single/menu.php' ) ?>
 	</div>
 
 	<div class="main-column">
@@ -22,7 +22,7 @@
 			</div>
 
 			<div class="info-group">
-				<h4><?php _e( 'Forum', 'buddypress' ); ?> <span><a href="#post-new" title="<?php _e( 'Post New', 'buddypress' ) ?>"><?php _e( 'Post New &raquo;', 'buddypress' ) ?></a></span></h4>
+				<h4><?php _e( 'Forum', 'buddypress' ); ?> <span><a href="#post-new" title="<?php _e( 'Post New', 'buddypress' ) ?>"><?php _e( 'Post New &rarr;', 'buddypress' ) ?></a></span></h4>
 				
 				<form action="<?php bp_forum_action() ?>" method="post" id="forum-topic-form">
 					<?php if ( bp_has_topics() ) : ?>									
@@ -37,19 +37,16 @@
 					
 						<ul id="forum-topic-list" class="item-list">
 						<?php while ( bp_topics() ) : bp_the_topic(); ?>
-							<li>
-								<div class="avatar">
-									<?php bp_the_topic_poster_avatar() ?>
-								</div>
-						
-								<a href="<?php bp_the_topic_permalink() ?>" title="<?php bp_the_topic_title() ?> - <?php _e( 'Permalink', 'buddypress' ) ?>"><?php bp_the_topic_title() ?></a> 
-								<span class="small">- <?php bp_the_topic_total_post_count() ?> </span>
-								<p><span class="activity"><?php echo sprintf( __( 'updated %s ago', 'buddypress' ), bp_the_topic_time_since_last_post( false ) ) ?></span></p>
-						
-								<div class="latest-post">
-									<?php _e( 'Latest by', 'buddypress' ) ?> <?php bp_the_topic_last_poster_name() ?>:
-									<?php bp_the_topic_latest_post_excerpt() ?>
-								</div>
+							<li<?php if ( bp_get_the_topic_css_class() ) : ?> class="<?php bp_the_topic_css_class() ?>"<?php endif; ?>>
+
+								<a class="topic-avatar" href="<?php bp_the_topic_permalink() ?>" title="<?php bp_the_topic_title() ?> - <?php _e( 'Permalink', 'buddypress' ) ?>"><?php bp_the_topic_last_poster_avatar( 'width=30&height=30') ?></a>
+								<a class="topic-title" href="<?php bp_the_topic_permalink() ?>" title="<?php bp_the_topic_title() ?> - <?php _e( 'Permalink', 'buddypress' ) ?>"><?php bp_the_topic_title() ?></a> 
+								<span class="small topic-meta">(<?php bp_the_topic_total_post_count() ?> &rarr; <?php bp_the_topic_time_since_last_post() ?> ago)</span>
+								<span class="small latest topic-excerpt"><?php bp_the_topic_latest_post_excerpt() ?></span>
+								
+								<?php if ( bp_group_is_admin() || bp_group_is_mod() ) : ?>
+									<div class="admin-links"><?php bp_the_topic_admin_links() ?></div>
+								<?php endif; ?>
 							</li>
 						<?php endwhile; ?>
 						</ul>

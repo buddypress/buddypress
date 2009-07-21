@@ -167,6 +167,46 @@ h4.archive {
 	
 /***** FORUMS ***************/
 
+ul#forum-topic-list li {
+	position: relative;
+	min-height: 0;
+	padding-bottom: 0;
+}
+	ul#forum-topic-list li.sticky {
+		background-image: url( ../images/message_thread_unread_back.gif ) !important;
+	}
+	
+	ul#forum-topic-list li.closed a.topic-title {
+		background: url( ../../../plugins/buddypress/bp-forums/images/closed.png ) no-repeat center left;
+		padding: 0 0 0 20px;
+	}
+	
+	ul#forum-topic-list li span.latest { 
+		display: block;
+		margin-left: 50px;
+	}
+	
+	ul#forum-topic-list li div.admin-links, ul#topic-post-list li div.admin-links {
+		position: absolute;
+		top: 1em;
+		right: 1em;
+		background: #eee;
+		display: none;
+		padding: 0.1em 0.5em;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		margin-left: 50px;
+		margin-bottom: 15px;
+		font-size: 11px;
+		color: #888;
+	}
+		ul#forum-topic-list li:hover div.admin-links, ul#topic-post-list:hover li div.admin-links { display: inline-block; }
+
+ul#topic-post-list li .poster-meta {
+	color: #888;
+}
+
 ul#topic-post-list li .poster-meta .avatar {
 	float: none !important;
 	margin: 0 0.3em 0 0;
@@ -174,13 +214,21 @@ ul#topic-post-list li .poster-meta .avatar {
 }
 
 ul#topic-post-list .post-content {
-	margin: 1em 0 0 0;
+	margin: 1em 0 0 14px;
+	border-left: 1px solid #ccc;
+	padding-left: 22px;
 }
 
 ul#topic-post-list li#topic-meta {
 	background-image: url( ../images/message_thread_unread_back.gif ) !important;
 	min-height: 20px;
 }
+
+	ul#topic-post-list li#topic-meta h3 {
+		margin: 5px 0 0 0;
+		font-size: 20px;
+	}
+
 
 ul#topic-post-list li input#submit_reply, input#submit_topic {
 	width: auto;
@@ -192,20 +240,30 @@ div.latest-post {
 	margin-left: 70px;
 }
 
-div#post-new-topic, div#post-topic-reply {
-	background: url( ../images/message_thread_back.gif ) top left repeat-x;
+div#post-new-topic, div#edit-topic, div#edit-post, div#post-topic-reply {
+	background: url( ../images/message_thread_unread_back.gif ) top left repeat-x;
 	padding: 15px
 }
+	div#edit-post, div#edit-topic { background-image: url( ../images/message_thread_back.gif ); }
 
 div#post-new-topic input,
 div#post-new-topic textarea,
+div#edit-topic input,
+div#edit-topic textarea,
+div#edit-post input,
+div#edit-post textarea,
 div#post-topic-reply input,
 div#post-topic-reply textarea {
 	padding: 5px;
 }
-	div#post-new-topic label, div#post-topic-reply label {
+	div#post-new-topic label, div#edit-topic label, div#edit-post lable div#post-topic-reply label {
 		display: block;
 		margin: 10px 0 3px 0;
+	}
+	
+	div#edit-post textarea {
+		height: 150px;
+		width: 98%;
 	}
 
 	input#topic_title { width: 80%; }

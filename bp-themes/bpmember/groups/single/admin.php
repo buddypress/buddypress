@@ -14,6 +14,7 @@
 
 		<form action="<?php bp_group_admin_form_action() ?>" name="group-settings-form" id="group-settings-form" class="standard-form" method="post">
 
+			<?php /* Edit Group Details */ ?>
 			<?php if ( bp_is_group_admin_screen( 'edit-details' ) ) : ?>
 
 				<h2><?php _e( 'Edit Details', 'buddypress' ); ?></h2>
@@ -40,7 +41,7 @@
 
 			<?php endif; ?>
 
-			<!-- Manage Member Settings -->
+			<?php /* Manage Group Settings */ ?>
 			<?php if ( bp_is_group_admin_screen( 'group-settings' ) ) : ?>
 
 				<h2><?php _e( 'Group Settings', 'buddypress' ); ?></h2>
@@ -98,7 +99,7 @@
 
 			<?php endif; ?>
 			
-			<!-- Group Avatar Settings -->
+			<?php /* Group Avatar Settings */ ?>
 			<?php if ( bp_is_group_admin_screen( 'group-avatar' ) ) : ?>
 
 				<h2><?php _e( 'Group Avatar', 'buddypress' ); ?></h2>
@@ -115,7 +116,7 @@
 
 			<?php endif; ?>
 		
-			<!-- Manage Member Settings -->
+			<?php /* Manage Group Members */ ?>
 			<?php if ( bp_is_group_admin_screen( 'manage-members' ) ) : ?>
 
 				<h2><?php _e( 'Manage Members', 'buddypress' ); ?></h2>
@@ -174,7 +175,7 @@
 			
 			<?php endif; ?>
 
-			<!-- Membership Request Settings -->
+			<?php /* Manage Membership Requests */ ?>
 			<?php if ( bp_is_group_admin_screen( 'membership-requests' ) ) : ?>
 
 				<h2><?php _e( 'Membership Requests', 'buddypress' ); ?></h2>
@@ -214,7 +215,7 @@
 			
 			<?php do_action( 'groups_custom_edit_steps' ) // Allow plugins to add custom group edit screens ?>
 			
-			<!-- Delete Group Settings -->
+			<?php /* Delete Group Option */ ?>
 			<?php if ( bp_is_group_admin_screen( 'delete-group' ) ) : ?>
 
 				<h2><?php _e( 'Delete Group', 'buddypress' ); ?></h2>

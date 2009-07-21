@@ -1,5 +1,5 @@
 <div class="info-group">
-	<h4><?php bp_wire_title() ?> <a href="<?php bp_wire_see_all_link() ?>"><?php _e( "See All &raquo;", "buddypress" ) ?></a></h4>
+	<h4><?php bp_wire_title() ?> <span><a href="<?php bp_wire_see_all_link() ?>"><?php _e( "See All", "buddypress" ) ?> &rarr;</a></span></h4>
 
 	<form name="wire-post-list-form" id="wire-post-list-form" action="" method="post">
 	<?php if ( bp_has_wire_posts( 'item_id=' . bp_wire_item_id() . '&can_post=' . bp_wire_can_post() ) ) : ?>
