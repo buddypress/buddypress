@@ -296,9 +296,6 @@ function bp_activity_remove_data( $user_id ) {
 	// Clear the user's activity from the sitewide stream and clear their activity tables
 	BP_Activity_Activity::delete_for_user( $user_id );
 	
-	// Remove the deleted users activity tables
-	BP_Activity_Activity::kill_tables_for_user( $user_id );
-	
 	do_action( 'bp_activity_remove_data', $user_id );
 }
 add_action( 'wpmu_delete_user', 'bp_activity_remove_data' );
