@@ -101,7 +101,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 						</div>
 
 						<div class="item">
-							<div class="item-title fn"><a href="<?php bp_the_site_member_name() ?>" title="<?php bp_the_site_member_name() ?>"><?php bp_the_site_member_name() ?></a></div>
+							<div class="item-title fn"><a href="<?php bp_the_site_member_link() ?>" title="<?php bp_the_site_member_name() ?>"><?php bp_the_site_member_name() ?></a></div>
 							<div class="item-meta"><span class="activity"><?php echo bp_core_get_last_activity( bp_get_the_site_member_registered(), __( 'registered %s ago', 'buddypress' ) ) ?></span></div>
 						</div>
 					</li>
