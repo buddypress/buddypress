@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-07-31 14:11+0000\n"
+"POT-Creation-Date: 2009-08-01 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -495,15 +495,15 @@ msgid ""
 msgstr ""
 
 #: bp-core/bp-core-activation.php:70 bp-core/bp-core-signup.php:99
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2033
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2059
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2036
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2062
 #: bp-forums/bbpress/bb-admin/install.php:359
 msgid "Username:"
 msgstr ""
 
 #: bp-core/bp-core-activation.php:71
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2035
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2061
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2038
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2064
 #: bp-forums/bbpress/bb-admin/install.php:361
 msgid "Password:"
 msgstr ""
@@ -1741,7 +1741,7 @@ msgid "Finished"
 msgstr ""
 
 #: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:240
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2178
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2181
 msgid "Installation complete!"
 msgstr ""
 
@@ -1757,110 +1757,110 @@ msgid ""
 "within bbPress"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:340
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:343
 msgid "Installation language"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:352
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:355
 msgid "Sets the language to be used during the installation process only."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:469
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:472
 msgid ""
 "An old <code>config.php</code> file has been detected in your installation. "
 "You should remove it and run the <a href=\"install.php\">installer</a> "
 "again. You can use the same database connection details if you do."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:482
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1114
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1122
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1134
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:485
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1117
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1125
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1137
 msgid "&laquo; completed"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:490
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:493
 msgid ""
 "A valid configuration file was found at <code>bb-config.php</code><br />You "
 "may continue to the next step."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:495
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:498
 msgid ""
 "An invalid configuration file was found at <code>bb-config.php</code><br /"
 ">The installation cannot continue."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:496
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:499
 msgid ""
 "Usually this is caused by one of the database connection settings being "
 "incorrect. Make sure that the specified user has appropriate permission to "
 "access the database."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:506
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:509
 msgid "bbPress is already installed, but appears to require an upgrade."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:508
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:511
 msgid "bbPress is already installed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:511
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:514
 #, php-format
 msgid "Perhaps you meant to run the <a href=\"%s\">upgrade script</a> instead?"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:521
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1320
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:524
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1323
 msgid ""
 "I could not find the file <code>bb-config-sample.php</code><br />Please "
 "upload it to the root directory of your bbPress installation."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:527
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:530
 msgid ""
 "There doesn't seem to be a <code>bb-config.php</code> file. This usually "
 "means that you want to install bbPress."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:614
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:617
 msgid "Go to step 1"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:622
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:625
 msgid "Database name"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:623
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:626
 msgid "The name of the database in which you want to run bbPress."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:627
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:630
 msgid "Database user"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:628
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:835
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:631
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:838
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:129
 msgid "The database user that has access to that database."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:634
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:637
 msgid "Database password"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:635
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:843
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:638
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:846
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:133
 msgid "That database user's password."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:640
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:643
 msgid "Language"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:641
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:644
 #, php-format
 msgid ""
 "The language which bbPress will be presented in once installed. Your current "
@@ -1868,148 +1868,148 @@ msgid ""
 "process."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:645
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:648
 msgid "Show advanced settings"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:646
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:649
 msgid "These settings usually do not have to be changed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:652
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:655
 msgid "Database host"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:653
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:656
 msgid ""
 "The domain name or IP address of the server where the database is located. "
 "If the database is on the same server as the web site, then this probably "
 "should remain <strong>localhost</strong>."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:658
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:661
 msgid "Database character set"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:659
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:856
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:662
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:859
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:141
 msgid ""
 "The best choice is <strong>utf8</strong>, but you will need to match the "
 "character set which you created the database with."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:664
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:667
 msgid "Database character collation"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:665
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:668
 msgid "The character collation value set when the database was created."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:696
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:699
 msgid "Table name prefix"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:697
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:700
 msgid ""
 "If you are running multiple bbPress sites in a single database, you will "
 "probably want to change this."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:702
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:705
 msgid "Contents for <code>bb-config.php</code>"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:703
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:706
 msgid ""
 "Once you have created the configuration file, you can check for it below."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:706
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:709
 msgid "Save database configuration file"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:709
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:881
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:928
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:712
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:884
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:931
 msgid "&laquo; Go back"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:712
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:715
 msgid "Check for configuration file"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:715
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:718
 msgid "Go to step 2"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:724
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:727
 msgid "Add integration settings"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:725
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:728
 msgid "If you want to integrate bbPress with an existing WordPress site."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:730
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:878
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:733
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:881
 msgid "Skip WordPress integration"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:731
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:734
 msgid "Save WordPress integration settings"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:736
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:739
 msgid "Add cookie integration settings"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:737
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:740
 msgid "If you want to allow shared logins with an existing WordPress site."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:744
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:747
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:67
 msgid "WordPress address (URL)"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:745
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:748
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:69
 msgid ""
 "This value should exactly match the <strong>WordPress address (URL)</strong> "
 "setting in your WordPress general settings."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:750
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:753
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:72
 msgid "Blog address (URL)"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:751
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:754
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:74
 msgid ""
 "This value should exactly match the <strong>Blog address (URL)</strong> "
 "setting in your WordPress general settings."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:756
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:759
 msgid "WordPress \"auth\" cookie key"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:757
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:760
 msgid ""
 "This value must match the value of the constant named \"AUTH_KEY\" in your "
 "WordPress <code>wp-config.php</code> file. This will replace the bbPress "
 "\"auth\" cookie key set in the first step."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:763
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:766
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:77
 msgid "WordPress \"auth\" cookie salt"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:764
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:767
 msgid ""
 "This must match the value of the WordPress setting named \"auth_salt\" in "
 "your WordPress site. Look for the option labeled \"auth_salt\" in <a href=\"#"
@@ -2018,23 +2018,23 @@ msgid ""
 "try to fetch the value based on your WordPress database integration settings."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:770
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:773
 msgid "WordPress \"secure auth\" cookie key"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:771
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:774
 msgid ""
 "This value must match the value of the constant named \"SECURE_AUTH_KEY\" in "
 "your WordPress <code>wp-config.php</code> file. This will replace the "
 "bbPress \"secure auth\" cookie key set in the first step."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:777
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:780
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:81
 msgid "WordPress \"secure auth\" cookie salt"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:778
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:781
 msgid ""
 "This must match the value of the WordPress setting named \"secure_auth_salt"
 "\" in your WordPress site. Look for the option labeled \"secure_auth_salt\" "
@@ -2045,23 +2045,23 @@ msgid ""
 "in that case you can leave this setting blank as well."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:784
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:787
 msgid "WordPress \"logged in\" cookie key"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:785
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:788
 msgid ""
 "This value must match the value of the constant named \"LOGGED_IN_KEY\" in "
 "your WordPress <code>wp-config.php</code> file. This will replace the "
 "bbPress \"logged in\" cookie key set in the first step."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:791
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:794
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:85
 msgid "WordPress \"logged in\" cookie salt"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:792
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:795
 msgid ""
 "This must match the value of the WordPress setting named \"logged_in_salt\" "
 "in your WordPress site. Look for the option labeled \"logged_in_salt\" in <a "
@@ -2071,20 +2071,20 @@ msgid ""
 "integration settings."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:798
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:801
 msgid "Add user database integration settings"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:799
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:802
 msgid "If you want to share user data with an existing WordPress site."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:807
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:810
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:103
 msgid "User database table prefix"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:808
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:811
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:104
 msgid ""
 "If your bbPress and WordPress sites share the same database, then this is "
@@ -2092,12 +2092,12 @@ msgid ""
 "config.php</code> file. It is usually <strong>wp_</strong>."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:814
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:817
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:107
 msgid "WordPress MU primary blog ID"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:815
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:818
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:108
 msgid ""
 "If you are integrating with a WordPress MU site you need to specify the "
@@ -2106,44 +2106,44 @@ msgid ""
 "site"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:820
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:823
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:111
 msgid "Show advanced database settings"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:821
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:824
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:115
 msgid ""
 "If your bbPress and WordPress site do not share the same database, then you "
 "will need to add advanced settings."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:828
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:831
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:124
 msgid "User database name"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:829
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:832
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:125
 msgid "The name of the database in which your user tables reside."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:834
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:837
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:128
 msgid "User database user"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:842
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:845
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:132
 msgid "User database password"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:849
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:852
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:136
 msgid "User database host"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:850
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:853
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:137
 msgid ""
 "The domain name or IP address of the server where the database is located. "
@@ -2151,204 +2151,204 @@ msgid ""
 "should be <strong>localhost</strong>."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:855
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:858
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:140
 msgid "User database character set"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:861
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:864
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:144
 msgid "User database character collation"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:862
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:865
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:145
 msgid "The character collation value set when the user database was created."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:867
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:870
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:151
 msgid "User database \"user\" table"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:868
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:874
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:871
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:877
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:152
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:156
 msgid "The complete table name, including any prefix."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:873
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:876
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:155
 msgid "User database \"user meta\" table"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:884
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:887
 msgid "Go to step 3"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:893
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:896
 msgid "Site name"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:894
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:897
 msgid "This is what you are going to call your bbPress site."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:898
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:901
 msgid "Site address (URL)"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:899
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:902
 msgid ""
 "We have attempted to guess this, it's usually correct, but change it here if "
 "you wish."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:904
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:907
 msgid "\"Key Master\" Username"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:905
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:908
 msgid ""
 "This is the user login for the initial bbPress administrator (known as a "
 "\"Key Master\")."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:911
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:914
 msgid "\"Key Master\" Email address"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:912
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:915
 msgid "The login details will be emailed to this address."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:921
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:924
 msgid "First forum name"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:922
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:925
 msgid ""
 "This can be changed after installation, so don't worry about it too much."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:925
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:928
 msgid "Save site settings"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:931
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:934
 msgid "Complete the installation"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:940
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:943
 msgid "Show installation messages"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:944
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:947
 msgid "Installation errors"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:948
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:951
 msgid "Installation log"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1249
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1252
 msgid ""
 "The table prefix can only contain letters, numbers and underscores.<br /"
 ">Please review the suggestion below."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1250
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1253
 msgid "&bull; Based on your input the following prefix is suggested."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1258
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1261
 msgid ""
 "The table prefix can not be blank.<br />Please review the suggestion below."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1259
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1262
 msgid "&bull; The default prefix has been inserted."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1293
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1296
 msgid ""
 "There was a problem connecting to the database you specified.<br />Please "
 "check the settings, then try again."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1326
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1329
 msgid ""
 "Your settings have been saved to the file <code>bb-config.php</code><br /"
 ">You can now continue to the next step."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1333
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1336
 msgid ""
 "Your settings could not be saved to a configuration file. You will need to "
 "save the text shown below into a file named <code>bb-config.php</code> in "
 "the root directory of your bbPress installation before you can continue."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1355
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1358
 msgid ""
 "You have chosen to skip the WordPress integration step. You can always "
 "integrate WordPress later from within the admin area of bbPress."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1431
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1434
 msgid ""
 "You must enter your settings for integration setup to complete. Choose which "
 "integration settings you wish to enter from the options below."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1449
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1452
 msgid ""
 "Your integration settings have not been processed due to errors with the "
 "items marked below."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1458
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1667
-msgid "&bull; This value is required to continue."
-msgstr ""
-
 #: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1461
 #: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1670
-msgid "&bull; This does not appear to be a valid URL."
+msgid "&bull; This value is required to continue."
 msgstr ""
 
 #: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1464
 #: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1673
-msgid "&bull; The URL must begin with \"http\" or \"https\"."
+msgid "&bull; This does not appear to be a valid URL."
 msgstr ""
 
 #: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1467
 #: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1676
+msgid "&bull; The URL must begin with \"http\" or \"https\"."
+msgstr ""
+
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1470
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1679
 msgid "&bull; The URL does not contain a host name."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1529
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1772
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2575
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1532
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1775
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2578
 #: bp-forums/bbpress/bb-settings.php:646
 msgid ""
 "Your user table prefix may only contain letters, numbers and underscores."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1566
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1569
 msgid ""
 "There was a problem connecting to the WordPress user database you specified. "
 "Please check the settings, then try again."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1580
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1583
 msgid ""
 "Existing WordPress user tables could not be found in the WordPress database "
 "you specified."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1582
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1585
 msgid ""
 "Existing WordPress user tables could not be found in the bbPress database "
 "you specified in step 1.<br /><br />This is probably because the database "
@@ -2356,11 +2356,11 @@ msgid ""
 "advanced database settings or leave integration until after installation."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1584
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1587
 msgid "&bull; This may not be a valid user table prefix."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1601
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1604
 msgid ""
 "Your WordPress integration cookie and database settings have been "
 "successfully validated. They will be saved after the next step.<br /><br /"
@@ -2370,347 +2370,347 @@ msgid ""
 "settings to add to your WordPress configuration file."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1658
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1661
 msgid ""
 "Your site settings have not been processed due to errors with the items "
 "marked below."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1679
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1682
 msgid "&bull; Contains disallowed characters which have been removed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1682
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1685
 msgid "&bull; The user email address appears to be invalid."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1701
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1704
 msgid ""
 "Your site settings have been saved and we are now ready to complete the "
 "installation. So what are you waiting for?"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1727
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1730
 msgid "Referrer is OK, beginning installation&hellip;"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1734
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1737
 msgid "Setting up custom user table constants"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1777
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1780
 msgid "Step 1 - Creating database tables"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1795
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1797
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1798
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1800
 msgid "Database installation failed!!!"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1796
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2006
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2039
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2065
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1799
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2009
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2042
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2068
 msgid "Halting installation!"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1800
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2008
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2042
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2068
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1803
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2011
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2045
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2071
 msgid "Installation failed!"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1801
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1804
 msgid ""
 "The database failed to install. You may need to replace bbPress with a fresh "
 "copy and start again."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1809
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1812
 msgid "Database is already installed!!!"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1814
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1817
 msgid "Step 2 - WordPress integration (optional)"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1818
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1821
 msgid "WordPress address (URL):"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1821
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1824
 msgid "Blog address (URL):"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1835
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1838
 msgid "WordPress cookie keys set."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1838
 #: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1841
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1844
 msgid "WordPress cookie keys not set."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1839
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1842
 msgid "Your \"bb-config.php\" file was not writable."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1840
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1843
 msgid ""
 "You will need to manually re-define \"BB_AUTH_KEY\", \"BB_SECURE_AUTH_KEY\" "
 "and \"BB_LOGGED_IN_KEY\" in your \"bb-config.php\" file."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1847
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1850
 msgid "WordPress \"auth\" cookie salt set from input."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1852
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1855
 msgid "WordPress \"secure auth\" cookie salt set from input."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1857
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1860
 msgid "WordPress \"logged in\" cookie salt set from input."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1867
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1870
 msgid "Fetching missing WordPress cookie salts."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1888
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1891
 msgid "WordPress \"auth\" cookie salt set."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1890
 #: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1893
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1896
 msgid "WordPress \"auth\" cookie salt not set."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1891
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1894
 msgid "Could not fetch \"auth\" cookie salt from the WordPress options table."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1892
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1895
 msgid ""
 "You will need to manually define the \"auth\" cookie salt in your database."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1901
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1904
 msgid "WordPress \"secure auth\" cookie salt set."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1904
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1907
 msgid "WordPress \"secure auth\" cookie salt not set."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1912
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1915
 msgid "WordPress \"logged in\" cookie salt set."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1914
 #: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1917
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1920
 msgid "WordPress \"logged in\" cookie salt not set."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1915
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1918
 msgid ""
 "Could not fetch \"logged in\" cookie salt from the WordPress options table."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1916
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1919
 msgid ""
 "You will need to manually define the \"logged in\" cookie salt in your "
 "database."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1924
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1927
 msgid "User database table prefix:"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1929
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1932
 msgid "WordPress MU primary blog ID:"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1935
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1938
 msgid "User database name:"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1939
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1942
 msgid "User database user:"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1943
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1946
 msgid "User database password:"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1947
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1950
 msgid "User database host:"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1951
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1954
 msgid "User database character set:"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1955
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1958
 msgid "User database collation:"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1959
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1962
 msgid "User database \"user\" table:"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1963
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1966
 msgid "User database \"user meta\" table:"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1968
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1971
 msgid "Integration not enabled"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1973
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1976
 msgid "Step 3 - Site settings"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1975
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1978
 msgid "Site name:"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1977
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1980
 msgid "Site address (URL):"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1979
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1982
 msgid "From email address:"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1990
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1992
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2038
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2040
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2066
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1993
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1995
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2041
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2043
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2069
 msgid "Key master could not be created!"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1991
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1994
 msgid "That login is already taken!"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1997
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2000
 msgid "Existing key master entered!"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:1998
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2001
 msgid "Your bbPress password"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2001
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2004
 msgid "Re-setting admin email address."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2005
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2008
 msgid "Existing user without key master role entered!"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2009
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2012
 msgid ""
 "The key master could not be created. An existing user was found with that "
 "user login."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2032
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2035
 msgid "Key master created"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2034
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2060
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2037
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2063
 msgid "Email address:"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2043
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2046
 msgid ""
 "The key master could not be created. You may need to replace bbPress with a "
 "fresh copy and start again."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2057
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2060
 msgid "Your existing password"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2058
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2061
 msgid "Key master role assigned to existing user"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2064
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2067
 msgid "Key master role could not be assigned to existing user!"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2069
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2072
 msgid ""
 "The key master could not be assigned. You may need to replace bbPress with a "
 "fresh copy and start again."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2088
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2091
 msgid "Just another bbPress community"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2097
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2100
 #: bp-themes/bpmember/directories/groups/index.php:88
 #: bp-themes/bpskeletonmember/directories/groups/index.php:100
 msgid "Description:"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2100
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2103
 msgid "Forum name:"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2108
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2111
 msgid "Your first topic"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2116
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2119
 msgid "First Post!  w00t."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2130
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2133
 #: bp-forums/bbpress/bb-templates/kakumei/edit-form.php:4
 msgid "Topic:"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2131
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2134
 #: bp-forums/bbpress/bb-templates/kakumei/edit-form.php:10
 msgid "Post:"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2133
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2134
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2136
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2137
 msgid "Forum could not be created!"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2137
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2140
 msgid "There are existing forums in this database."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2138
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2141
 msgid "No new forum created."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2139
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2142
 msgid "Forums already exist!"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2145
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2148
 #, php-format
 msgid "Making plugin directory at %s."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2152
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2155
 #, php-format
 msgid "Making theme directory at %s."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2158
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2161
 #, php-format
 msgid ""
 "Your new bbPress site has been successfully set up at:\n"
@@ -2728,38 +2728,38 @@ msgid ""
 "http://bbpress.org/"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2164
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2167
 msgid "New bbPress installation"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2165
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2168
 msgid "Key master email sent"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2167
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2168
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2170
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2171
 msgid "Key master email not sent!"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2173
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2176
 msgid "Installation completed with some errors!"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2174
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2177
 msgid ""
 "Your installation completed with some minor errors. See the error log below "
 "for more specific information."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2175
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2178
 msgid "There were some errors encountered during installation!"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2177
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2180
 msgid "Your installation completed successfully."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2619
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:2622
 msgid "Please select an existing bbPress Keymaster or WordPress administrator."
 msgstr ""
 
