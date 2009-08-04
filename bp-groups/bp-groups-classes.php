@@ -958,6 +958,8 @@ class BP_Group_Extension {
 	
 	var $nav_item_name = false;
 	
+	var $template_file = 'plugin-template';
+	
 	// Methods you should override
 	
 	function display() {
@@ -1040,7 +1042,7 @@ class BP_Group_Extension {
 	
 	function _display_hook() {
 		add_action( 'bp_template_content', array( &$this, 'display' ) );
-		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'plugin-template' ) );			
+		bp_core_load_template( $this->template_file );
 	}
 }
 
