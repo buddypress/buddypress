@@ -35,7 +35,7 @@ function groups_install() {
 			avatar_thumb varchar(250) NOT NULL,
 			avatar_full varchar(250) NOT NULL,
 		    KEY creator_id (creator_id),
-		    KEY status (status),
+		    KEY status (status)
 	 	   ) {$charset_collate};";
 	
 	$sql[] = "CREATE TABLE {$bp->groups->table_name_members} (
