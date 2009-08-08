@@ -261,43 +261,4 @@ function bp_core_catch_profile_uri() {
 		bp_core_load_template( apply_filters( 'bp_core_template_display_profile', 'profile/index' ) );
 }
 
-function bp_core_force_buddypress_theme( $template ) {
-	global $is_member_page, $bp;
-	
-	$member_theme = get_site_option( 'active-member-theme' );
-	
-	if ( empty( $member_theme ) )
-		$member_theme = 'bpmember';
-	
-	if ( $is_member_page ) {
-
-		add_filter( 'theme_root', 'bp_core_filter_buddypress_theme_root' );
-		add_filter( 'theme_root_uri', 'bp_core_filter_buddypress_theme_root_uri' );
-
-		return $member_theme;
-	} else {
-		return $template;
-	}
-}
-add_filter( 'template', 'bp_core_force_buddypress_theme', 1, 1 );
-
-function bp_core_force_buddypress_stylesheet( $stylesheet ) {
-	global $is_member_page;
-
-	$member_theme = get_site_option( 'active-member-theme' );
-	
-	if ( empty( $member_theme ) )
-		$member_theme = 'bpmember';
-
-	if ( $is_member_page ) {
-		add_filter( 'theme_root', 'bp_core_filter_buddypress_theme_root' );
-		add_filter( 'theme_root_uri', 'bp_core_filter_buddypress_theme_root_uri' );
-
-		return $member_theme;
-	} else {
-		return $stylesheet;
-	}
-}
-add_filter( 'stylesheet', 'bp_core_force_buddypress_stylesheet', 1, 1 );
-
 ?>

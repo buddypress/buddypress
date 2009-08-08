@@ -5,11 +5,14 @@ if ( !defined( 'BP_WIRE_SLUG' ) )
 	define ( 'BP_WIRE_SLUG', 'wire' );
 
 require ( BP_PLUGIN_DIR . '/bp-wire/bp-wire-classes.php' );
-require ( BP_PLUGIN_DIR . '/bp-wire/bp-wire-ajax.php' );
 require ( BP_PLUGIN_DIR . '/bp-wire/bp-wire-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-wire/bp-wire-cssjs.php' );
 require ( BP_PLUGIN_DIR . '/bp-wire/bp-wire-filters.php' );
 
+/* Include deprecated functions if settings allow */
+if ( !defined( 'BP_IGNORE_DEPRECATED' ) )
+	require ( BP_PLUGIN_DIR . '/bp-wire/deprecated/bp-wire-deprecated.php' );	
+	
 function bp_wire_install() {
 	// Tables are installed on a per component basis, where needed.
 }
@@ -40,7 +43,7 @@ function bp_wire_setup_nav() {
 		if ( bp_is_home() ) {
 			$bp->bp_options_title = __('My Wire', 'buddypress');
 		} else {
-			$bp->bp_options_avatar = bp_core_get_avatar( $bp->displayed_user->id, 1 );
+			$bp->bp_options_avatar = bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => 'thumb' ) );
 			$bp->bp_options_title = $bp->displayed_user->fullname; 
 		}
 	}

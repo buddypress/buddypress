@@ -291,7 +291,7 @@ function bp_wire_post_author_avatar() {
 	function bp_get_wire_post_author_avatar() {
 		global $wire_posts_template;
 
-		return apply_filters( 'bp_get_wire_post_author_avatar', bp_core_get_avatar( $wire_posts_template->wire_post->user_id, 1 ) );
+		return apply_filters( 'bp_get_wire_post_author_avatar', bp_core_fetch_avatar( array( 'item_id' => $wire_posts_template->wire_post->user_id, 'type' => 'thumb' ) ) );
 	}
 
 function bp_wire_get_post_form() {
@@ -325,7 +325,7 @@ function bp_wire_poster_avatar() {
 	function bp_get_wire_poster_avatar() {
 		global $bp;
 
-		return apply_filters( 'bp_get_wire_poster_avatar', bp_core_get_avatar( $bp->loggedin_user->id, 1 ) );
+		return apply_filters( 'bp_get_wire_poster_avatar',  bp_core_fetch_avatar( array( 'item_id' => $bp->loggedin_user->id, 'type' => 'thumb' ) ) );
 	}
 
 function bp_wire_poster_name( $deprecated = true ) {

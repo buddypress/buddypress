@@ -7,9 +7,11 @@ if ( !defined( 'BP_FRIENDS_SLUG' ) )
 	define ( 'BP_FRIENDS_SLUG', 'friends' );
 
 require ( BP_PLUGIN_DIR . '/bp-friends/bp-friends-classes.php' );
-require ( BP_PLUGIN_DIR . '/bp-friends/bp-friends-ajax.php' );
-require ( BP_PLUGIN_DIR . '/bp-friends/bp-friends-cssjs.php' );
 require ( BP_PLUGIN_DIR . '/bp-friends/bp-friends-templatetags.php' );
+
+/* Include deprecated functions if settings allow */
+if ( !defined( 'BP_IGNORE_DEPRECATED' ) )
+	require ( BP_PLUGIN_DIR . '/bp-friends/deprecated/bp-friends-deprecated.php' );
 
 function friends_install() {
 	global $wpdb, $bp;
@@ -38,7 +40,6 @@ function friends_setup_globals() {
 	global $bp, $wpdb;
 	
 	$bp->friends->table_name = $wpdb->base_prefix . 'bp_friends';
-	$bp->friends->image_base = BP_PLUGIN_URL . '/bp-friends/images';
 	$bp->friends->format_activity_function = 'friends_format_activity';
 	$bp->friends->format_notification_function = 'friends_format_notifications';
 
@@ -77,7 +78,7 @@ function friends_setup_nav() {
 		if ( bp_is_home() ) {
 			$bp->bp_options_title = __( 'My Friends', 'buddypress' );
 		} else {
-			$bp->bp_options_avatar = bp_core_get_avatar( $bp->displayed_user->id, 1 );
+			$bp->bp_options_avatar = bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => 'thumb' ) );
 			$bp->bp_options_title = $bp->displayed_user->fullname; 
 		}
 	}

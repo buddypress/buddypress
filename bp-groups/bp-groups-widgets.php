@@ -11,6 +11,7 @@ add_action( 'plugins_loaded', 'groups_register_widgets' );
 class BP_Groups_Widget extends WP_Widget {
 	function bp_groups_widget() {
 		parent::WP_Widget( false, $name = 'Groups' );
+		
 		wp_enqueue_script( 'groups_widget_groups_list-js', BP_PLUGIN_URL . '/bp-groups/js/widget-groups.js', array('jquery', 'jquery-livequery-pack') );		
 		wp_enqueue_style( 'groups_widget_members-css', BP_PLUGIN_URL . '/bp-groups/css/widget-groups.css' );		
 	}

@@ -265,25 +265,12 @@ function bp_forums_insert_post( $args = '' ) {
 	return bb_insert_post( array( 'post_id' => $post_id, 'topic_id' => $topic_id, 'post_text' => stripslashes( $post_text ), 'post_time' => $post_time, 'poster_id' => $poster_id, 'poster_ip' => $poster_ip, 'post_status' => $post_status, 'post_position' => $post_position ) );
 }
 
-function bp_forums_make_user_active_member( $user_id ) {
-	update_usermeta( $user_id, 'bb_capabilities', array( 'member' => true ) );
-}
-add_action( 'wpmu_new_user', 'bp_forums_make_user_active_member' );
-
-function bp_forums_get_keymaster() {
-	global $wpdb;
-	
-	$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT user_id FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = 'bb_capabilities' AND meta_value LIKE '%%keymaster%%'" ) );
-	
-	return get_userdata( $user_id );
-}
-
 // List actions to clear super cached pages on, if super cache is installed
 add_action( 'bp_forums_new_forum', 'bp_core_clear_cache' );
 add_action( 'bp_forums_new_topic', 'bp_core_clear_cache' );
 add_action( 'bp_forums_new_post', 'bp_core_clear_cache' );
 
-function bb_forums_filter_caps( $allcaps ) {
+function bp_forums_filter_caps( $allcaps ) {
 	global $bp, $wp_roles, $bb_table_prefix;
 	
 	$bb_cap = get_usermeta( $bp->loggedin_user->id, $bb_table_prefix . 'capabilities' );
@@ -297,5 +284,5 @@ function bb_forums_filter_caps( $allcaps ) {
 	
 	return array_merge( (array) $allcaps, (array) $bb_cap );
 }
-add_filter( 'user_has_cap', 'bb_forums_filter_caps' );
+add_filter( 'user_has_cap', 'bp_forums_filter_caps' );
 ?>

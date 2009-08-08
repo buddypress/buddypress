@@ -6,6 +6,9 @@ add_filter( 'xprofile_get_field_data', 'wp_filter_kses', 1 );
 add_filter( 'xprofile_field_name_before_save', 'wp_filter_kses', 1 );
 add_filter( 'xprofile_field_description_before_save', 'wp_filter_kses', 1 );
 
+add_filter( 'bp_get_the_profile_field_edit_value', 'wp_filter_kses', 1 );
+add_filter( 'bp_get_the_profile_field_description', 'wp_filter_kses', 1 );
+
 add_filter( 'xprofile_field_name_before_save', 'force_balance_tags' );
 add_filter( 'xprofile_field_description_before_save', 'force_balance_tags' );
 

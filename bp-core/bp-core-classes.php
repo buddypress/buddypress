@@ -39,7 +39,7 @@ class BP_Core_User {
 			if ( $populate_extras )
 				$this->populate_extras();
 		}
-	}
+	} 
 	
 	/**
 	 * populate()
@@ -52,7 +52,7 @@ class BP_Core_User {
 	 * @uses bp_core_get_userlink() Returns a HTML formatted link for a user with the user's full name as the link text
 	 * @uses bp_core_get_user_email() Returns the email address for the user based on user ID
 	 * @uses get_usermeta() WordPress function returns the value of passed usermeta name from usermeta table
-	 * @uses bp_core_get_avatar() Returns HTML formatted avatar for a user
+	 * @uses bp_core_fetch_avatar() Returns HTML formatted avatar for a user
 	 * @uses bp_profile_last_updated_date() Returns the last updated date for a user.
 	 */
 	function populate() {
@@ -63,9 +63,9 @@ class BP_Core_User {
 		$this->email = bp_core_get_user_email( $this->id );
 		$this->last_active = bp_core_get_last_activity( get_usermeta( $this->id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) );
 
-		$this->avatar = bp_core_get_avatar( $this->id, 2 );
-		$this->avatar_thumb = bp_core_get_avatar( $this->id, 1 );
-		$this->avatar_mini = bp_core_get_avatar( $this->id, 1, 25, 25, false );
+		$this->avatar = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'full' ) );
+		$this->avatar_thumb = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb' ) );
+		$this->avatar_mini = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb', 'width' => 25, 'height' => 25 ) );
 	}
 	
 	function populate_extras() {

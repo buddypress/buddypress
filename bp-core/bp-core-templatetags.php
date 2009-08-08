@@ -139,6 +139,18 @@ function bp_get_options_nav() {
 	}
 }
 
+function bp_get_options_title() {
+	global $bp;
+	
+	if ( empty( $bp->bp_options_title ) )
+		$bp->bp_options_title = __( 'Options', 'buddypress' );
+	
+	echo apply_filters( 'bp_get_options_avatar', attribute_escape( $bp->bp_options_title ) );
+}
+
+
+/** AVATAR TEMPLATE TAGS *******************************************************/
+
 /**
  * bp_has_options_avatar()
  * TEMPLATE TAG
@@ -158,36 +170,17 @@ function bp_has_options_avatar() {
 	return true;
 }
 
-/**
- * bp_get_options_avatar()
- * TEMPLATE TAG
- *
- * Gets the avatar for the current sub nav (eg friends avatar or group avatar).
- * Does not check if there is one - so always use if ( bp_has_options_avatar() )
- *
- * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- */
 function bp_get_options_avatar() {
 	global $bp;
 
 	echo apply_filters( 'bp_get_options_avatar', $bp->bp_options_avatar );
 }
 
-function bp_get_options_title() {
-	global $bp;
-	
-	if ( empty( $bp->bp_options_title ) )
-		$bp->bp_options_title = __( 'Options', 'buddypress' );
-	
-	echo apply_filters( 'bp_get_options_avatar', attribute_escape( $bp->bp_options_title ) );
-}
-
 function bp_comment_author_avatar() {
 	global $comment;
 	
-	if ( function_exists('bp_core_get_avatar') ) {
-		echo apply_filters( 'bp_comment_author_avatar', bp_core_get_avatar( $comment->user_id, 1 ) );	
+	if ( function_exists('bp_core_fetch_avatar') ) {
+		echo apply_filters( 'bp_comment_author_avatar', bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'type' => 'thumb' ) ) );	
 	} else if ( function_exists('get_avatar') ) {
 		get_avatar();
 	}
@@ -196,29 +189,80 @@ function bp_comment_author_avatar() {
 function bp_post_author_avatar() {
 	global $post;
 	
-	if ( function_exists('bp_core_get_avatar') ) {
-		echo apply_filters( 'bp_post_author_avatar', bp_core_get_avatar( $post->post_author, 1 ) );	
+	if ( function_exists('bp_core_fetch_avatar') ) {
+		echo apply_filters( 'bp_post_author_avatar', bp_core_fetch_avatar( array( 'item_id' => $post->post_author, 'type' => 'thumb' ) ) );	
 	} else if ( function_exists('get_avatar') ) {
 		get_avatar();
 	}
 }
 
-function bp_loggedinuser_avatar( $width = false, $height = false ) {
-	global $bp;
-	
-	if ( $width && $height )
-		echo apply_filters( 'bp_loggedinuser_avatar', bp_core_get_avatar( $bp->loggedin_user->id, 2, $width, $height ) );
-	else
-		echo apply_filters( 'bp_loggedinuser_avatar', bp_core_get_avatar( $bp->loggedin_user->id, 2 ) );
+function bp_loggedin_user_avatar( $args = '' ) {
+	echo bp_get_loggedin_user_avatar( $args );
 }
+	function bp_get_loggedin_user_avatar( $args = '' ) {
+		global $bp;
 
-function bp_loggedinuser_avatar_thumbnail( $width = false, $height = false ) {
+		$defaults = array(
+			'type' => 'thumb',
+			'width' => false,
+			'height' => false
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+		
+		return apply_filters( 'bp_get_loggedin_user_avatar', bp_core_fetch_avatar( array( 'user_id' => $bp->loggedin_user->id, 'type' => $type, 'width' => $width, 'height' => $height ) ) );
+	} 
+
+function bp_displayed_user_avatar( $args = '' ) {
+	echo bp_get_displayed_user_avatar( $args );
+}
+	function bp_get_displayed_user_avatar( $args = '' ) {
+		global $bp;
+
+		$defaults = array(
+			'type' => 'thumb',
+			'width' => false,
+			'height' => false
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+		
+		return apply_filters( 'bp_get_displayed_user_avatar', bp_core_fetch_avatar( array( 'user_id' => $bp->displayed_user->id, 'type' => $type, 'width' => $width, 'height' => $height ) ) );
+	} 
+
+function bp_avatar_admin_step() {
+	echo bp_get_avatar_admin_step();
+}
+	function bp_get_avatar_admin_step() {
+		global $bp;
+
+		return apply_filters( 'bp_get_avatar_admin_step', $bp->avatar_admin->step );
+	}
+
+function bp_avatar_to_crop() {
+	echo bp_get_avatar_to_crop();
+}
+	function bp_get_avatar_to_crop() {
+		global $bp;
+
+		return apply_filters( 'bp_get_avatar_to_crop', $bp->avatar_admin->image->url );
+	}
+
+function bp_avatar_to_crop_src() {
+	echo bp_get_avatar_to_crop_src();
+}
+	function bp_get_avatar_to_crop_src() {
+		global $bp;
+	
+		return apply_filters( 'bp_get_avatar_to_crop_src', str_replace( WP_CONTENT_DIR, '', $bp->avatar_admin->image->dir ) );
+	}
+	
+function bp_avatar_cropper() {
 	global $bp;
 	
-	if ( $width && $height )
-		echo apply_filters( 'bp_get_options_avatar', bp_core_get_avatar( $bp->loggedin_user->id, 1, $width, $height ) );
-	else
-		echo apply_filters( 'bp_get_options_avatar', bp_core_get_avatar( $bp->loggedin_user->id, 1 ) );
+	echo '<img id="avatar-to-crop" class="avatar" src="' . $bp->avatar_admin->image . '" />';
 }
 
 function bp_site_name() {
@@ -234,14 +278,6 @@ function bp_is_home() {
 	return false;
 }
 
-/* DEPRECATED Use: bp_core_get_user_displayname() */
-function bp_fetch_user_fullname( $user_id, $echo = true ) {
-	if ( $echo )
-		echo apply_filters( 'bp_fetch_user_fullname', bp_core_get_user_displayname( $user_id ) );
-	else
-		return apply_filters( 'bp_fetch_user_fullname', bp_core_get_user_displayname( $user_id ) );
-}
-
 function bp_last_activity( $user_id = false, $echo = true ) {
 	global $bp;
 	
@@ -254,16 +290,6 @@ function bp_last_activity( $user_id = false, $echo = true ) {
 		echo apply_filters( 'bp_last_activity', $last_activity );
 	else
 		return apply_filters( 'bp_last_activity', $last_activity );
-}
-
-function bp_the_avatar() {
-	global $bp;
-	echo apply_filters( 'bp_the_avatar', bp_core_get_avatar( $bp->displayed_user->id, 2 ) );
-}
-
-function bp_the_avatar_thumbnail() {
-	global $bp;
-	echo apply_filters( 'bp_the_avatar_thumbnail', bp_core_get_avatar( $bp->displayed_user->id, 1 ) );
 }
 
 function bp_user_link() {
@@ -746,6 +772,101 @@ function bp_is_serialized( $data ) {
 
    return false;
 }
+
+/*** Signup form template tags **********************/
+
+function bp_signup_username_value() {
+	echo bp_get_signup_username_value();
+}
+	function bp_get_signup_username_value() {
+		return apply_filters( 'bp_get_signup_username_value', $_POST['signup_username'] );
+	}
+
+function bp_signup_email_value() {
+	echo bp_get_signup_email_value();
+}
+	function bp_get_signup_email_value() {
+		return apply_filters( 'bp_get_signup_email_value', $_POST['signup_email'] );
+	}
+
+function bp_signup_with_blog_value() {
+	echo bp_get_signup_with_blog_value();
+}
+	function bp_get_signup_with_blog_value() {
+		return apply_filters( 'bp_get_signup_with_blog_value', $_POST['signup_with_blog'] );
+	}
+	
+function bp_signup_blog_url_value() {
+	echo bp_get_signup_blog_url_value();
+}
+	function bp_get_signup_blog_url_value() {
+		return apply_filters( 'bp_get_signup_blog_url_value', $_POST['signup_blog_url'] );
+	}
+
+function bp_signup_blog_title_value() {
+	echo bp_get_signup_blog_title_value();
+}
+	function bp_get_signup_blog_title_value() {
+		return apply_filters( 'bp_get_signup_blog_title_value', $_POST['signup_blog_title'] );
+	}
+
+function bp_signup_blog_privacy_value() {
+	echo bp_get_signup_blog_privacy_value();
+}
+	function bp_get_signup_blog_privacy_value() {
+		return apply_filters( 'bp_get_signup_blog_privacy_value', $_POST['signup_blog_privacy'] );
+	}
+
+function bp_signup_avatar_dir_value() {
+	echo bp_get_signup_avatar_dir_value();
+}
+	function bp_get_signup_avatar_dir_value() {
+		global $bp;
+		
+		return apply_filters( 'bp_get_signup_avatar_dir_value', $bp->signup->avatar_dir );
+	}
+
+function bp_current_signup_step() {
+	echo bp_get_current_signup_step();
+}
+	function bp_get_current_signup_step() {
+		global $bp;
+		
+		return $bp->signup->step;
+	}
+
+function bp_signup_avatar( $args = '' ) {
+	echo bp_get_signup_avatar( $args = '' );
+}
+	function bp_get_signup_avatar( $args = '' ) {
+		global $bp;
+		
+		$defaults = array(
+			'size' => BP_AVATAR_FULL_WIDTH,
+			'class' => 'avatar',
+			'alt' => __( 'Your Avatar', 'buddypress' )			
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+		
+		$signup_avatar_dir = ( !empty( $_POST['signup_avatar_dir'] ) ) ? $_POST['signup_avatar_dir'] : $bp->signup->avatar_dir;
+
+		if ( empty( $signup_avatar_dir) ) {
+			if ( empty( $bp->grav_default ) ) {
+				$default_grav = 'wavatar';
+			} else if ( 'mystery' == $bp->grav_default ) {
+				$default_grav = BP_PLUGIN_URL . '/bp-core/images/mystery-man.jpg';
+			} else {
+				$default_grav = $bp->grav_default;
+			}
+		
+			$gravatar_url = apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' );
+			return apply_filters( 'bp_get_signup_avatar', '<img src="' . $gravatar_url . md5( $_POST['signup_email'] ) . '?d=' . $default_grav . '&amp;s=' . $size ) . '" width="' . $size . ' height="' . $size . '" alt= "' . $alt . '" class="' . $class . '" />';
+		} else {
+			return apply_filters( 'bp_get_signup_avatar', bp_core_fetch_avatar( array( 'item_id' => $signup_avatar_dir, 'object' => 'signup', 'avatar_dir' => 'avatars/signups', 'type' => 'full', 'width' => $size, 'height' => $size, 'alt' => $alt, 'class' => $class ) ) );
+		}
+	}
 
 
 /*** CUSTOM LOOP TEMPLATE CLASSES *******************/

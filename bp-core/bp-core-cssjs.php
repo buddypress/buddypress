@@ -1,111 +1,5 @@
 <?php
 /**
- * bp_core_add_js()
- *
- * Add the JS required by the core, as well as shared JS used by other components.
- * [TODO] This needs to use wp_enqueue_script()
- * 
- * @package BuddyPress Core
- * @uses get_option() Selects a site setting from the DB.
- */
-function bp_core_add_js() {
-	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'jquery-livequery-pack', BP_PLUGIN_URL . '/bp-core/js/jquery/jquery.livequery.pack.js', 'jquery' );
-	wp_enqueue_script( 'bp-general-js', BP_PLUGIN_URL . '/bp-core/js/general.js' );
-}
-add_action( 'wp', 'bp_core_add_js' );
-add_action( 'admin_menu', 'bp_core_add_js' );
-
-/**
- * bp_core_add_ajax_js()
- *
- * Add the reference to ajaxurl used by all ajax functionality in BuddyPress.
- * 
- * @package BuddyPress Core
- * @uses get_option() Selects a site setting from the DB.
- */
-function bp_core_add_ajax_js() {
-	global $bp;
-	
-	echo 
-'<script type="text/javascript">var ajaxurl = "' . $bp->root_domain . str_replace( 'index.php', 'wp-load.php', $_SERVER['SCRIPT_NAME'] ) . '";</script>
-';
-}
-add_action( 'wp_head', 'bp_core_add_ajax_js' );
-
-/**
- * bp_core_add_css()
- *
- * Add the CSS required by all BP components, regardless of the current theme.
- * 
- * @package BuddyPress Core
- * @uses get_option() Selects a site setting from the DB.
- */
-function bp_core_add_css() {
-	// Enable a sitewide CSS file that will apply styles to both the home blog theme
-	// and the member theme.
-	if ( file_exists( WP_CONTENT_DIR . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'stylesheet' ) . '/css/site-wide.css' ) )
-		wp_enqueue_style( 'site-wide-styles', WP_CONTENT_URL . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'stylesheet' ) . '/css/site-wide.css' );
-	
-	wp_print_styles();
-}
-add_action( 'wp_head', 'bp_core_add_css', 2 );
-
-/**
- * bp_core_admin_bar_css()
- *
- * Add the CSS required for the global admin bar.
- * 
- * @package BuddyPress Core
- */
-function bp_core_admin_bar_css() {
-	if ( defined( 'BP_DISABLE_ADMIN_BAR') )
-		return false;
-		
-	if ( is_user_logged_in() || ( !(int)get_site_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() ) ) {
-		wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', BP_PLUGIN_URL . '/bp-core/css/admin-bar.css' ) );
-		
-		if ( 'rtl' == get_bloginfo('text_direction') && file_exists( BP_PLUGIN_DIR . '/bp-core/css/admin-bar-rtl.css' ) )
-			wp_enqueue_style( 'bp-admin-bar-rtl', BP_PLUGIN_URL . '/bp-core/css/admin-bar-rtl.css' );	
-	}
-	wp_print_styles();
-}
-add_action( 'wp_head', 'bp_core_admin_bar_css', 1 );
-
-/**
- * bp_core_add_structure_css()
- *
- * Add the CSS to add layout structure to BP pages in any WordPress theme.
- * 
- * @package BuddyPress Core
- * @uses get_option() Selects a site setting from the DB.
- */
-function bp_core_add_structure_css() {
-	/* Enqueue the structure CSS file to give basic positional formatting for components */
-	wp_enqueue_style( 'bp-core-structure', BP_PLUGIN_URL . '/bp-core/css/structure.css' );	
-}
-add_action( 'bp_styles', 'bp_core_add_structure_css' );
-
-/**
- * bp_core_add_admin_js()
- *
- * Add the JS needed for all components in the admin area.
- * 
- * @package BuddyPress Core
- * @uses get_option() Selects a site setting from the DB.
- */
-function bp_core_add_admin_js() {
-	if ( false !== strpos( $_GET['page'], 'bp-core' ) ) {
-		wp_enqueue_script( 'bp-account-admin-js', BP_PLUGIN_URL . '/bp-core/js/account-admin.js' );
-	}
-	
-	if ( false !== strpos( $_GET['page'], 'bp-core/admin-mods' ) ) {
-		wp_enqueue_script('password-strength-meter');
-	}
-}
-add_action( 'admin_menu', 'bp_core_add_admin_js' );
-
-/**
  * bp_core_add_admin_css()
  *
  * Add the CSS needed for all components in the admin area.
@@ -141,71 +35,103 @@ function bp_core_admin_menu_icon_css() {
 add_action( 'admin_head', 'bp_core_admin_menu_icon_css' );
 
 /**
- * bp_core_add_cropper_js()
+ * bp_core_add_jquery_cropper()
  *
- * Adds the JS needed for general avatar cropping.
+ * Makes sure the jQuery jCrop library is loaded.
  * 
  * @package BuddyPress Core
  */
-function bp_core_add_cropper_js() { 
+function bp_core_add_jquery_cropper() {
+	wp_enqueue_script( 'jcrop' );
+	add_action( 'wp_head', 'bp_core_add_cropper_inline_js' ); 
+	add_action( 'wp_head', 'bp_core_add_cropper_inline_css' ); 
+}
+
+/**
+ * bp_core_add_cropper_inline_js()
+ *
+ * Adds the inline JS needed for the cropper to work on a per-page basis.
+ * 
+ * @package BuddyPress Core
+ */
+function bp_core_add_cropper_inline_js() {
+	global $bp;
+	
+	$image = apply_filters( 'bp_inline_cropper_image', getimagesize( $bp->avatar_admin->image->dir ) );
 ?>
 	<script type="text/javascript">
-		function cropAndContinue() {
-			jQuery('#avatar_v1').slideUp();
-			jQuery('#avatar_v2').slideDown('normal', function(){
-				v2Cropper();
+		jQuery(window).load( function(){
+			jQuery('#avatar-to-crop').Jcrop({
+				onChange: showPreview,
+				onSelect: showPreview,
+				onSelect: updateCoords,
+				aspectRatio: 1,
+				setSelect: [ 50, 50, 200, 200 ]
 			});
-		}
+		});
 
-		function v1Cropper() {
-			v1Crop = new Cropper.ImgWithPreview( 
-				'crop-v1-img',
-				{ 
-					ratioDim: { x: <?php echo round(CORE_AVATAR_V1_W / CORE_AVATAR_V1_H, 5); ?>, y: 1 },
-					minWidth:   <?php echo CORE_AVATAR_V1_W; ?>,
-					minHeight:  <?php echo CORE_AVATAR_V1_H; ?>,
-					prevWidth:  <?php echo CORE_AVATAR_V1_W; ?>,
-					prevHeight: <?php echo CORE_AVATAR_V1_H; ?>,
-					onEndCrop: onEndCropv1,
-					previewWrap: 'crop-preview-v1'
-				}
-			);
-		}
+		function updateCoords(c) {
+			jQuery('#x').val(c.x);
+			jQuery('#y').val(c.y);
+			jQuery('#w').val(c.w);
+			jQuery('#h').val(c.h);
+		};
 
-		function onEndCropv1(coords, dimensions) {
-			jQuery('#v1_x1').val(coords.x1);
-			jQuery('#v1_y1').val(coords.y1);
-			jQuery('#v1_x2').val(coords.x2);
-			jQuery('#v1_y2').val(coords.y2);
-			jQuery('#v1_w').val(dimensions.width);
-			jQuery('#v1_h').val(dimensions.height);
-		}
+		function showPreview(coords) {
+			if ( parseInt(coords.w) > 0 ) {
+				var rx = 100 / coords.w;
+				var ry = 100 / coords.h;
 
-		<?php if ( CORE_AVATAR_V2_W !== false && CORE_AVATAR_V2_H !== false ) { ?>
-		function v2Cropper() {
-			v1Crop = new Cropper.ImgWithPreview( 
-				'crop-v2-img',
-				{ 
-					ratioDim: { x: <?php echo round(CORE_AVATAR_V2_W / CORE_AVATAR_V2_H, 5); ?>, y: 1 },
-					minWidth:   <?php echo CORE_AVATAR_V2_W; ?>,
-					minHeight:  <?php echo CORE_AVATAR_V2_H; ?>,
-					prevWidth:  <?php echo CORE_AVATAR_V2_W; ?>,
-					prevHeight: <?php echo CORE_AVATAR_V2_H; ?>,
-					onEndCrop: onEndCropv2,
-					previewWrap: 'crop-preview-v2'
-				}
-			);
-		}
-		<?php } ?>
-
-		function onEndCropv2(coords, dimensions) {
-			jQuery('#v2_x1').val(coords.x1);
-			jQuery('#v2_y1').val(coords.y1);
-			jQuery('#v2_x2').val(coords.x2);
-			jQuery('#v2_y2').val(coords.y2);
-			jQuery('#v2_w').val(dimensions.width);
-			jQuery('#v2_h').val(dimensions.height);
-		}
+				jQuery('#avatar-crop-preview').css({
+					width: Math.round(rx * <?php echo $image[0] ?>) + 'px',
+					height: Math.round(ry * <?php echo $image[1] ?>) + 'px',
+					marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+					marginTop: '-' + Math.round(ry * coords.y) + 'px'
+				});
+			}
+		}	
 	</script>
 <?php
 }
+
+/**
+ * bp_core_add_cropper_inline_css()
+ *
+ * Adds the inline CSS needed for the cropper to work on a per-page basis.
+ * 
+ * @package BuddyPress Core
+ */
+function bp_core_add_cropper_inline_css() {
+	global $bp;
+?>
+	<style type="text/css">
+		.jcrop-holder { text-align: left; }
+		.jcrop-vline, .jcrop-hline { font-size: 0; position: absolute; background: white top left repeat url( <?php echo $bp->core->image_base ?>/Jcrop.gif ); }
+		.jcrop-vline { height: 100%; width: 1px !important; }
+		.jcrop-hline { width: 100%; height: 1px !important; }
+		.jcrop-handle { font-size: 1px; width: 7px !important; height: 7px !important; border: 1px #eee solid; background-color: #333; *width: 9px; *height: 9px; }
+		.jcrop-tracker { width: 100%; height: 100%; }
+		.custom .jcrop-vline, .custom .jcrop-hline { background: yellow; }
+		.custom .jcrop-handle { border-color: black; background-color: #C7BB00; -moz-border-radius: 3px; -webkit-border-radius: 3px; }
+		
+	</style>
+<?php
+}
+
+/**
+ * bp_core_add_ajax_url_js()
+ *
+ * Adds AJAX target URL so themes can access the WordPress AJAX functionality.
+ * 
+ * @package BuddyPress Core
+ */
+function bp_core_add_ajax_url_js() {
+	global $bp;
+	
+	echo 
+'<script type="text/javascript">var ajaxurl = "' . $bp->root_domain . str_replace( 'index.php', 'wp-load.php', $_SERVER['SCRIPT_NAME'] ) . '";</script>
+';
+}
+add_action( 'wp_head', 'bp_core_add_ajax_url_js' );
+
+?>

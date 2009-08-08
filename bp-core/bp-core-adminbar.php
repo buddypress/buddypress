@@ -26,7 +26,7 @@ function bp_core_admin_bar() {
 function bp_adminbar_logo() {
 	global $bp;
 	
-	echo '<a href="' . $bp->root_domain . '"><img id="admin-bar-logo" src="' . apply_filters( 'bp_admin_bar_logo_src', BP_PLUGIN_URL . '/bp-core/images/admin_bar_logo.gif' ) . '" alt="' . apply_filters( 'bp_admin_bar_logo_alt_text', __( 'BuddyPress', 'buddypress' ) ) . '" /></a>';
+	echo '<a href="' . $bp->root_domain . '"><img id="admin-bar-logo" src="' . apply_filters( 'bp_admin_bar_logo_src', BP_PLUGIN_URL . '/bp-core/deprecated/images/admin_bar_logo.gif' ) . '" alt="' . apply_filters( 'bp_admin_bar_logo_alt_text', __( 'BuddyPress', 'buddypress' ) ) . '" /></a>';
 }
 
 // **** "Log In" and "Sign Up" links (Visible when not logged in) ********
@@ -64,10 +64,11 @@ function bp_adminbar_account_menu() {
 			
 			echo '<li' . $alt . '>';
 			echo '<a id="bp-admin-' . $nav_item['css_id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a>';
-
+			
 			if ( is_array( $bp->bp_options_nav[$nav_item['css_id']] ) ) {
 				echo '<ul>';
 				$sub_counter = 0;
+
 				foreach( $bp->bp_options_nav[$nav_item['css_id']] as $subnav_item ) {
 					$alt = ( 0 == $sub_counter % 2 ) ? ' class="alt"' : '';
 					echo '<li' . $alt . '><a id="bp-admin-' . $subnav_item['css_id'] . '" href="' . $subnav_item['link'] . '">' . $subnav_item['name'] . '</a></li>';				

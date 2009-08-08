@@ -292,8 +292,8 @@ Class BP_Messages_Thread {
 	function get_recipient_links($recipients) {
 		if ( count($recipients) >= 5 )
 			return count($recipients) . __(' Recipients', 'buddypress');
-			
-		for ( $i = 0; $i < count($recipients); $i++ ) {
+
+			for ( $i = 0; $i < count($recipients); $i++ ) {
 			$recipient_links[] = bp_core_get_userlink( $recipients[$i] );
 		}
 

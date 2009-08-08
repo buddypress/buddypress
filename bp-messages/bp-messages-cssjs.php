@@ -1,11 +1,8 @@
 <?php
 
-function messages_add_js() {
+function messages_add_autocomplete_js() {
 	global $bp;
-
-	if ( $bp->current_component == $bp->messages->slug )
-		wp_enqueue_script( 'bp-messages-js', BP_PLUGIN_URL . '/bp-messages/js/general.js' );
-
+	
 	// Include the autocomplete JS for composing a message.
 	if ( $bp->current_component == $bp->messages->slug && $bp->current_action == 'compose') {
 		add_action( 'wp_head', 'messages_autocomplete_init_jsblock' );
@@ -17,23 +14,17 @@ function messages_add_js() {
 	}
 
 }
-add_action( 'template_redirect', 'messages_add_js', 1 );
+add_action( 'template_redirect', 'messages_add_autocomplete_js', 1 );
 
-function messages_add_css() {
+function messages_add_autocomplete_css() {
 	global $bp;
-	
+
 	if ( $bp->current_component == $bp->messages->slug && $bp->current_action == 'compose') {
-		wp_enqueue_style( 'bp-messages-autocomplete', BP_PLUGIN_URL . '/bp-messages/css/autocomplete/jquery.autocompletefb.css' );	
+		wp_enqueue_style( 'bp-messages-autocomplete', BP_PLUGIN_URL . '/bp-messages/deprecated/css/autocomplete/jquery.autocompletefb.css' );	
 		wp_print_styles();
 	}
 }
-add_action( 'wp_head', 'messages_add_css' );
-
-function messages_add_structure_css() {
-	/* Enqueue the structure CSS file to give basic positional formatting for components */
-	wp_enqueue_style( 'bp-messages-structure', BP_PLUGIN_URL . '/bp-messages/css/structure.css' );	
-}
-add_action( 'bp_styles', 'messages_add_structure_css' );
+add_action( 'wp_head', 'messages_add_autocomplete_css' );
 
 function messages_autocomplete_init_jsblock() {
 ?>

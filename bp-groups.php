@@ -1,17 +1,19 @@
 <?php
 
-define ( 'BP_GROUPS_DB_VERSION', '1350' );
+define ( 'BP_GROUPS_DB_VERSION', '1300' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_GROUPS_SLUG' ) )
 	define ( 'BP_GROUPS_SLUG', 'groups' );
 
 require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-classes.php' );
-require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-ajax.php' );
-require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-cssjs.php' );
 require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-widgets.php' );
 require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-filters.php' );
+
+/* Include deprecated functions if settings allow */
+if ( !defined( 'BP_IGNORE_DEPRECATED' ) )
+	require ( BP_PLUGIN_DIR . '/bp-groups/deprecated/bp-groups-deprecated.php' );	
 
 function groups_install() {
 	global $wpdb, $bp;
@@ -26,14 +28,14 @@ function groups_install() {
 	  		slug varchar(100) NOT NULL,
 	  		description longtext NOT NULL,
 			news longtext NOT NULL,
-			status varchar(10) NOT NULL DEFAULT 'open',
+			status varchar(10) NOT NULL DEFAULT 'public',
 			enable_wire tinyint(1) NOT NULL DEFAULT '1',
 			enable_forum tinyint(1) NOT NULL DEFAULT '1',
 			date_created datetime NOT NULL,
 			avatar_thumb varchar(250) NOT NULL,
 			avatar_full varchar(250) NOT NULL,
 		    KEY creator_id (creator_id),
-		    KEY status (status)
+		    KEY status (status),
 	 	   ) {$charset_collate};";
 	
 	$sql[] = "CREATE TABLE {$bp->groups->table_name_members} (
@@ -95,16 +97,12 @@ function groups_wire_install() {
 	dbDelta($sql);
 }
 
-function groups_setup_globals( $no_global = false ) {
-	global $wpdb;
+function groups_setup_globals() {
+	global $bp, $wpdb;
 	
-	if ( !$no_global )
-		global $bp;
-
 	$bp->groups->table_name = $wpdb->base_prefix . 'bp_groups';
 	$bp->groups->table_name_members = $wpdb->base_prefix . 'bp_groups_members';
 	$bp->groups->table_name_groupmeta = $wpdb->base_prefix . 'bp_groups_groupmeta';
-	$bp->groups->image_base = BP_PLUGIN_URL . '/bp-groups/images';
 	$bp->groups->format_notification_function = 'groups_format_notifications';
 	$bp->groups->slug = BP_GROUPS_SLUG;
 	
@@ -125,7 +123,7 @@ function groups_setup_globals( $no_global = false ) {
 	return $bp;
 }
 add_action( 'plugins_loaded', 'groups_setup_globals', 5 );	
-add_action( 'admin_menu', 'groups_setup_globals', 1 );
+add_action( 'admin_menu', 'groups_setup_globals', 2 );
 
 function groups_setup_root_component() {
 	/* Register 'groups' as a root component */
@@ -202,7 +200,7 @@ function groups_setup_nav() {
 			
 		} else if ( !bp_is_home() && !$bp->is_single_item ) {
 
-			$bp->bp_options_avatar = bp_core_get_avatar( $bp->displayed_user->id, 1 );
+			$bp->bp_options_avatar = bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => 'thumb' ) );
 			$bp->bp_options_title = $bp->displayed_user->fullname;
 			
 		} else if ( $bp->is_single_item ) {
@@ -216,7 +214,9 @@ function groups_setup_nav() {
 			array_shift($bp->action_variables);
 									
 			$bp->bp_options_title = $bp->groups->current_group->name;
-			$bp->bp_options_avatar = '<img src="' . $bp->groups->current_group->avatar_thumb . '" alt="Group Avatar Thumbnail" />';
+			
+			if ( !$bp->bp_options_avatar = bp_core_fetch_avatar( array( 'item_id' => $bp->groups->current_group->id, 'object' => 'group', 'type' => 'thumb', 'avatar_dir' => 'group-avatars', 'alt' => __( 'Group Avatar', 'buddypress' ) ) ) )
+				$bp->bp_options_avatar = '<img src="' . attribute_escape( $group->avatar_full ) . '" class="avatar" alt="' . attribute_escape( $group->name ) . '" />';
 			
 			$group_link = $bp->root_domain . '/' . $bp->groups->slug . '/' . $bp->groups->current_group->slug . '/';
 			
@@ -275,7 +275,7 @@ function groups_directory_groups_setup() {
 	if ( $bp->current_component == $bp->groups->slug && empty( $bp->current_action ) ) {
 		$bp->is_directory = true;
 
-		wp_enqueue_script( 'bp-groups-directory-groups', BP_PLUGIN_URL . '/bp-groups/js/directory-groups.js', array( 'jquery', 'jquery-livequery-pack' ) );
+		do_action( 'groups_directory_groups_setup' );
 		bp_core_load_template( apply_filters( 'groups_template_directory_groups', 'directories/groups/index' ) );
 	}
 }
@@ -306,7 +306,7 @@ function groups_screen_group_invites() {
 	
 	$group_id = $bp->action_variables[1];
 	
-	if ( isset($bp->action_variables) && in_array( 'accept', $bp->action_variables ) && is_numeric($group_id) ) {
+	if ( isset($bp->action_variables) && in_array( 'accept', (array)$bp->action_variables ) && is_numeric($group_id) ) {
 		/* Check the nonce */
 		if ( !check_admin_referer( 'groups_accept_invite' ) )
 			return false;
@@ -329,7 +329,7 @@ function groups_screen_group_invites() {
 
 		bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/' . $bp->current_action );
 		
-	} else if ( isset($bp->action_variables) && in_array( 'reject', $bp->action_variables ) && is_numeric($group_id) ) {
+	} else if ( isset($bp->action_variables) && in_array( 'reject', (array)$bp->action_variables ) && is_numeric($group_id) ) {
 		/* Check the nonce */
 		if ( !check_admin_referer( 'groups_reject_invite' ) )
 			return false;
@@ -357,10 +357,12 @@ function groups_screen_group_invites() {
 function groups_screen_create_group() {
 	global $bp;
 	
-	$bp->groups->completed_create_steps = array();
+	error_log( $bp->action_variables[0] );
+	error_log( $bp->action_variables[1] );
 
 	/* If no current step is set, reset everything so we can start a fresh group creation */
 	if ( !$bp->groups->current_create_step = $bp->action_variables[1] ) {
+
 		unset( $bp->groups->current_create_step );
 		unset( $bp->groups->completed_create_steps );
 		
@@ -368,13 +370,13 @@ function groups_screen_create_group() {
 		setcookie( 'bp_completed_create_steps', false, time() - 1000, COOKIEPATH );
 		
 		$reset_steps = true;
-		bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . array_shift( array_keys( $bp->groups->group_creation_steps )  ) );
+		//bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . array_shift( array_keys( $bp->groups->group_creation_steps )  ) );
 	}
 	
 	/* If this is a creation step that is not recognized, just redirect them back to the first screen */
 	if ( $bp->action_variables[1] && !$bp->groups->group_creation_steps[$bp->action_variables[1]] ) {
 		bp_core_add_message( __('There was an error saving group details. Please try again.', 'buddypress'), 'error' );
-		bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create' );
+		//bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create' );
 	}
 
 	/* Fetch the currently completed steps variable */
@@ -386,9 +388,9 @@ function groups_screen_create_group() {
 		$bp->groups->new_group_id = $_COOKIE['bp_new_group_id'];
 		$bp->groups->current_group = new BP_Groups_Group( $bp->groups->new_group_id, false, false );
 	}
-	
-	/* If the save button is hit, lets calculate what we need to save */
-	if ( isset( $_POST['save'] ) || isset( $_POST['skip'] ) ) {
+
+	/* If the save, upload or skip button is hit, lets calculate what we need to save */
+	if ( isset( $_POST['save'] ) ) {
 		
 		/* Check the nonce */
 		check_admin_referer( 'groups_create_save_' . $bp->groups->current_create_step );
@@ -399,7 +401,7 @@ function groups_screen_create_group() {
 				bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step );
 			}
 			
-			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'name' => $_POST['group-name'], 'description' => $_POST['group-desc'], 'news' => $_POST['group-news'], 'slug' => groups_check_slug( sanitize_title($_POST['group-name']) ) ) ) ) {
+			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'name' => $_POST['group-name'], 'description' => $_POST['group-desc'], 'news' => $_POST['group-news'], 'slug' => groups_check_slug( sanitize_title($_POST['group-name']) ), 'date_created' => time() ) ) ) {
 				bp_core_add_message( __( 'There was an error saving group details, please try again.', 'buddypress' ), 'error' );
 				bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step );				
 			}
@@ -446,22 +448,6 @@ function groups_screen_create_group() {
 				bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step );				
 			}
 		}
-		
-		if ( 'group-avatar' == $bp->groups->current_create_step ) {
-			if ( !isset( $_POST['skip'] ) && $_POST['orig'] ) {
-				// Image already cropped and uploaded, lets store a reference in the DB.
-				if ( !wp_verify_nonce($_POST['nonce'], 'slick_avatars') || !$result = bp_core_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'], false, 'groupavatar', $bp->groups->new_group_id ) )
-					return false;
-
-				// Success on group avatar cropping, now save the results.
-				$avatar_hrefs = groups_get_avatar_hrefs($result);
-
-				if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'avatar_thumb' => stripslashes( $avatar_hrefs['thumb_href'] ), 'avatar_full' => stripslashes( $avatar_hrefs['full_href'] ) ) ) ) {
-					bp_core_add_message( __( 'There was an error saving group details, please try again.', 'buddypress' ), 'error' );
-					bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step );				
-				}
-			}
-		}
 
 		if ( 'group-invites' == $bp->groups->current_create_step ) {
 			groups_send_invites( $bp->groups->new_group_id, $bp->loggedin_user->id );
@@ -475,12 +461,8 @@ function groups_screen_create_group() {
 		 * we need to add the current step to the array of completed steps, then update the cookies
 		 * holding the information
 		 */
-		if ( !in_array( $bp->groups->current_create_step, $bp->groups->completed_create_steps ) )
+		if ( !in_array( $bp->groups->current_create_step, (array)$bp->groups->completed_create_steps ) )
 			$bp->groups->completed_create_steps[] = $bp->groups->current_create_step;
-		
-		/* Unset cookie info */
-		setcookie( 'bp_new_group_id', false, time() - 1000, COOKIEPATH );
-		setcookie( 'bp_completed_create_steps', false, time() - 1000, COOKIEPATH );
 		
 		/* Reset cookie info */
 		setcookie( 'bp_new_group_id', $bp->groups->new_group_id, time()+60*60*24, COOKIEPATH );
@@ -491,7 +473,7 @@ function groups_screen_create_group() {
 			unset( $bp->groups->current_create_step );
 			unset( $bp->groups->completed_create_steps );
 			
-			bp_core_redirect( bp_get_group_permalink( $bp->groups->new_group ) );
+			bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
 		} else {
 			/**
 			 * Since we don't know what the next step is going to be (any plugin can insert steps)
@@ -509,11 +491,39 @@ function groups_screen_create_group() {
 				}
 			}
 
-			/* Move onto the next step */
 			bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . $next_step );
 		}
 	}
+	
+	/* Group avatar is handled seperately */
+	if ( 'group-avatar' == $bp->groups->current_create_step && isset( $_POST['upload'] ) ) {
+		if ( !empty( $_FILES ) && isset( $_POST['upload'] ) ) {
+			/* Normally we would check a nonce here, but the group save nonce is used instead */
 
+			/* Pass the file to the avatar upload handler */
+			$errors = bp_core_avatar_handle_upload( $_FILES, 'groups_avatar_upload_dir' );
+
+			if ( !$errors ) {		
+				$bp->avatar_admin->step = 'crop-image';
+
+				/* Make sure we include the jQuery jCrop file for image cropping */
+				add_action( 'wp', 'bp_core_add_jquery_cropper' );
+			}
+			//var_dump($_COOKIE);
+		}
+
+		/* If the image cropping is done, crop the image and save a full/thumb version */
+		if ( isset( $_POST['avatar-crop-submit'] ) && isset( $_POST['upload'] ) ) {
+			/* Normally we would check a nonce here, but the group save nonce is used instead */
+			
+			if ( !bp_core_avatar_handle_crop( array( 'object' => 'group', 'avatar_dir' => 'group-avatars', 'item_id' => $bp->groups->current_group->id, 'original_file' => $_POST['image_src'], 'crop_x' => $_POST['x'], 'crop_y' => $_POST['y'], 'crop_w' => $_POST['w'], 'crop_h' => $_POST['h'] ) ) )
+				bp_core_add_message( __( 'There was an error saving the group avatar, please try uploading again.', 'buddypress' ), 'error' );
+			else
+				bp_core_add_message( __( 'The group avatar was uploaded successfully!', 'buddypress' ) );
+		}
+	}
+	
+	//var_dump($_COOKIE);
  	bp_core_load_template( apply_filters( 'groups_template_create_group', 'groups/create' ) );
 }
 
@@ -954,7 +964,7 @@ function groups_screen_group_admin_settings() {
 			$photos_admin_only = ( $_POST['group-photos-status'] != 'all' ) ? 1 : 0;
 			
 			$allowed_status = apply_filters( 'groups_allowed_status', array( 'public', 'private', 'hidden' ) );
-			$status = ( in_array( $_POST['group-status'], $allowed_status ) ) ? $_POST['group-status'] : 'public';
+			$status = ( in_array( $_POST['group-status'], (array)$allowed_status ) ) ? $_POST['group-status'] : 'public';
 			
 			/* Check the nonce first. */
 			if ( !check_admin_referer( 'groups_edit_group_settings' ) )
@@ -989,36 +999,38 @@ function groups_screen_group_admin_avatar() {
 		if ( !$bp->is_item_admin )
 			return false;
 		
-		if ( isset( $_POST['save'] ) ) {
-			
-			// Image already cropped and uploaded, lets store a reference in the DB.
-			if ( !wp_verify_nonce($_POST['nonce'], 'slick_avatars') || !$result = bp_core_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'], false, 'groupavatar', $bp->groups->current_group->id ) )
-				return false;
+		$bp->avatar_admin->step = 'upload-image';
 
-			// Success on group avatar cropping, now save the results.
-			$avatar_hrefs = groups_get_avatar_hrefs($result);
-			
-			// Delete the old group avatars first
-			$avatar_thumb_path = groups_get_avatar_path( $bp->groups->current_group->avatar_thumb );
-			$avatar_full_path = groups_get_avatar_path( $bp->groups->current_group->avatar_full );
-			
-			@unlink($avatar_thumb_path);
-			@unlink($avatar_full_path);
+		if ( !empty( $_FILES ) ) {
+	
+			/* Check the nonce */
+			check_admin_referer( 'bp_avatar_upload' );
 
-			$bp->groups->current_group->avatar_thumb = stripslashes( $avatar_hrefs['thumb_href'] );
-			$bp->groups->current_group->avatar_full = stripslashes( $avatar_hrefs['full_href'] );
+			/* Pass the file to the avatar upload handler */
+			$errors = bp_core_avatar_handle_upload( $_FILES, 'groups_avatar_upload_dir' );
+	
+			if ( !$errors ) {		
+				$bp->avatar_admin->step = 'crop-image';
 
-			if ( !$bp->groups->current_group->save() ) {
-				bp_core_add_message( __( 'There was an error updating the group avatar, please try again.', 'buddypress' ), 'error' );
-			} else {
-				bp_core_add_message( __( 'The group avatar was successfully updated.', 'buddypress' ) );
+				/* Make sure we include the jQuery jCrop file for image cropping */
+				add_action( 'wp', 'bp_core_add_jquery_cropper' );
 			}
-
-			do_action( 'groups_group_avatar_updated', $bp->groups->current_group->id );
-
-			bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/admin/group-avatar' );
+	
 		}
-		
+
+		/* If the image cropping is done, crop the image and save a full/thumb version */
+		if ( isset( $_POST['avatar-crop-submit'] ) ) {
+	
+			/* Check the nonce */
+			check_admin_referer( 'bp_avatar_cropstore' );
+
+			if ( !bp_core_avatar_handle_crop( array( 'object' => 'group', 'avatar_dir' => 'group-avatars', 'item_id' => $bp->groups->current_group->id, 'original_file' => $_POST['image_src'], 'crop_x' => $_POST['x'], 'crop_y' => $_POST['y'], 'crop_w' => $_POST['w'], 'crop_h' => $_POST['h'] ) ) )
+				bp_core_add_message( __( 'There was a problem cropping the avatar, please try uploading it again', 'buddypress' ) );
+			else
+				bp_core_add_message( __( 'The new group avatar was uploaded successfully!', 'buddypress' ) );
+
+		}
+
 		do_action( 'groups_screen_group_admin_avatar', $bp->groups->current_group->id );	
 		
 		if ( file_exists( TEMPLATEPATH . '/groups/single/admin.php' ) )
@@ -1485,7 +1497,7 @@ function groups_create_group( $args = '' ) {
 	extract( $args );
 	
 	/**
-	 * Possible parameters:
+	 * Possible parameters (pass as assoc array):
 	 *	'group_id'
 	 *	'creator_id'
 	 *	'name'
@@ -1655,7 +1667,7 @@ function groups_delete_group( $group_id ) {
 function groups_is_valid_status( $status ) {
 	global $bp;
 	
-	return in_array( $status, $bp->groups->valid_status );
+	return in_array( $status, (array)$bp->groups->valid_status );
 }
 
 function groups_check_slug( $slug ) {
@@ -1664,7 +1676,7 @@ function groups_check_slug( $slug ) {
 	if ( 'wp' == substr( $slug, 0, 2 ) )
 		$slug = substr( $slug, 2, strlen( $slug ) - 2 );
 			
-	if ( in_array( $slug, $bp->groups->forbidden_names ) ) {
+	if ( in_array( $slug, (array)$bp->groups->forbidden_names ) ) {
 		$slug = $slug . '-' . rand();
 	}
 	
@@ -1875,74 +1887,23 @@ function groups_filter_user_groups( $filter, $user_id = false, $order = false, $
 
 /*** Group Avatars *************************************************************/
 
-function groups_avatar_upload( $file ) {
-	// validate the group avatar upload if there is one.
-	$avatar_error = false;
-
-	// Set friendly error feedback.
-	$uploadErrors = array(
-	        0 => __("There is no error, the file uploaded with success", 'buddypress'), 
-	        1 => __("The uploaded file exceeds the upload_max_filesize directive in php.ini", 'buddypress'), 
-	        2 => __("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form", 'buddypress'),
-	        3 => __("The uploaded file was only partially uploaded", 'buddypress'),
-	        4 => __("No file was uploaded", 'buddypress'),
-	        6 => __("Missing a temporary folder", 'buddypress')
-	);
-
-	if ( !bp_core_check_avatar_upload($file) ) {
-		$avatar_error = true;
-		$avatar_error_msg = __('Your group avatar upload failed, please try again. Error was: ' . $uploadErrors[$file['file']['error']] , 'buddypress');
-	}
-
-	else if ( !bp_core_check_avatar_size($file) ) {
-		$avatar_error = true;
-		$avatar_size = size_format(1024 * CORE_MAX_FILE_SIZE);
-		$avatar_error_msg = __('The file you uploaded is too big. Please upload a file under', 'buddypress') . size_format(CORE_MAX_FILE_SIZE);
-	}
-	
-	else if ( !bp_core_check_avatar_type($file) ) {
-		$avatar_error = true;
-		$avatar_error_msg = __('Please upload only JPG, GIF or PNG photos.', 'buddypress');		
-	}
-
-	// "Handle" upload into temporary location
-	else if ( !$original = bp_core_handle_avatar_upload($file) ) {
-		$avatar_error = true;
-		$avatar_error_msg = __('Upload Failed! Please check the permissions on the group avatar upload directory.', 'buddypress');						
-	}
-	
-	if ( !$canvas = bp_core_resize_avatar($original) )
-		$canvas = $original;
-	
-	if ( $avatar_error ) { ?>
-		<div id="message" class="error">
-			<p><?php echo $avatar_error_msg ?></p>
-		</div>
-		<?php
-		bp_core_render_avatar_upload_form( '', true );
-	} else {
-		bp_core_render_avatar_cropper( $original, $canvas, null, null, false, $bp->loggedin_user->domain );
-	}
-}
-
-function groups_get_avatar_hrefs( $avatars ) {
-	global $bp;
-	
-	$src = $bp->root_domain . '/';
-
-	$thumb_href = str_replace( ABSPATH, $src, stripslashes( $avatars['v1_out'] ) );
-	$full_href = str_replace( ABSPATH, $src, stripslashes ( $avatars['v2_out'] ) );
-	
-	return array( 'thumb_href' => $thumb_href, 'full_href' => $full_href );
-}
-
-function groups_get_avatar_path( $avatar ) {
+function groups_avatar_upload_dir() {
 	global $bp;
 
-	$src = $bp->root_domain . '/';
+	$path  = get_blog_option( BP_ROOT_BLOG, 'upload_path' );
+	$newdir = path_join( ABSPATH, $path );
+	$newdir .= '/group-avatars/' . $bp->groups->current_group->id;
 
-	$path = str_replace( $src, ABSPATH, stripslashes( $avatar ) );
-	return $path;
+	$newbdir = $newdir;
+	
+	if ( !file_exists( $newdir ) )
+		@wp_mkdir_p( $newdir );
+
+	$newurl = WP_CONTENT_URL . '/blogs.dir/' . BP_ROOT_BLOG . '/files/group-avatars/' . $user_id;
+	$newburl = $newurl;
+	$newsubdir = '/group-avatars/' . $bp->groups->current_group->id;
+
+	return apply_filters( 'groups_avatar_upload_dir', array( 'path' => $newdir, 'url' => $newurl, 'subdir' => $newsubdir, 'basedir' => $newbdir, 'baseurl' => $newburl, 'error' => false ) );	
 }
 
 /*** Group Member Status Checks ************************************************/
@@ -2548,51 +2509,6 @@ function groups_update_groupmeta( $group_id, $meta_key, $meta_value ) {
 
 	return true;
 }
-
-/*** Group Theme Handling ****************************************************/
-
-/**
- * The following two functions will force the active member theme for
- * groups pages, even though they are technically under the root "home" blog
- * from a WordPress point of view.
- */
-
-function groups_force_buddypress_theme( $template ) {
-	global $bp;
-	
-	if ( $bp->current_component != $bp->groups->slug )
-		return $template;
-	
-	$member_theme = get_site_option('active-member-theme');
-	
-	if ( empty($member_theme) )
-		$member_theme = 'bpmember';
-
-	add_filter( 'theme_root', 'bp_core_filter_buddypress_theme_root' );
-	add_filter( 'theme_root_uri', 'bp_core_filter_buddypress_theme_root_uri' );
-
-	return $member_theme;
-}
-add_filter( 'template', 'groups_force_buddypress_theme' );
-
-function groups_force_buddypress_stylesheet( $stylesheet ) {
-	global $bp;
-
-	if ( $bp->current_component != $bp->groups->slug )
-		return $stylesheet;
-
-	$member_theme = get_site_option('active-member-theme');
-	
-	if ( empty( $member_theme ) )
-		$member_theme = 'bpmember';
-	
-	add_filter( 'theme_root', 'bp_core_filter_buddypress_theme_root' );
-	add_filter( 'theme_root_uri', 'bp_core_filter_buddypress_theme_root_uri' );
-	
-	return $member_theme;
-}
-add_filter( 'stylesheet', 'groups_force_buddypress_stylesheet', 1, 1 );
-
 
 /*** Group Cleanup Functions ****************************************************/
 

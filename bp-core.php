@@ -1,6 +1,7 @@
 <?php
+
 /* Define the current version number for checking if DB tables are up to date. */
-define( 'BP_CORE_DB_VERSION', '1300' );
+define( 'BP_CORE_DB_VERSION', '1400' );
 
 /* Define the path and url of the BuddyPress plugins directory */
 define( 'BP_PLUGIN_DIR', WP_PLUGIN_DIR . '/buddypress' );
@@ -29,12 +30,16 @@ require ( BP_PLUGIN_DIR . '/bp-core/bp-core-avatars.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-settings.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-widgets.php' );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-ajax.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-notifications.php' );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-signup.php' );
 
 /* If BP_DISABLE_ADMIN_BAR is defined, do not load the global admin bar */
-if ( !defined( 'BP_DISABLE_ADMIN_BAR') )
+if ( !defined( 'BP_DISABLE_ADMIN_BAR' ) )
 	require ( BP_PLUGIN_DIR . '/bp-core/bp-core-adminbar.php' );
+
+/* If BP_IGNORE_DEPRECATED is defined, do not load any deprecated functions for backwards support */
+if ( !defined( 'BP_IGNORE_DEPRECATED' ) )
+	require ( BP_PLUGIN_DIR . '/bp-core/deprecated/bp-core-deprecated.php' );
 
 /* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
 if ( !defined( 'BP_MEMBERS_SLUG' ) )
@@ -117,9 +122,6 @@ function bp_core_setup_globals() {
 	
 	/* Sets up the array container for the component navigation rendered by bp_get_nav() */
 	$bp->bp_nav = array();
-
-	/* Sets up the array container for the user navigation rendered by bp_get_user_nav() */
-	$bp->bp_users_nav = array();
 	
 	/* Sets up the array container for the component options navigation rendered by bp_get_options_nav() */
 	$bp->bp_options_nav = array();
@@ -145,8 +147,7 @@ function bp_core_setup_globals() {
 	
 	/* Used to determine if the logged in user is a moderator for the current content. */
 	$bp->is_item_mod = false;
-	
-	$bp->core->image_base = BP_PLUGIN_URL . '/bp-core/images';
+
 	$bp->core->table_name_notifications = $wpdb->base_prefix . 'bp_notifications';
 
 	if ( !$bp->current_component )
@@ -218,10 +219,6 @@ function bp_core_install() {
 	/* Add names of root components to the banned blog list to avoid conflicts */
 	bp_core_add_illegal_names();
 	
-	// dbDelta won't change character sets, so we need to do this seperately.
-	// This will only be in here pre v1.0
-	$wpdb->query( $wpdb->prepare( "ALTER TABLE {$bp->core->table_name_notifications} DEFAULT CHARACTER SET %s", $wpdb->charset ) );
-	
 	update_site_option( 'bp-core-db-version', BP_CORE_DB_VERSION );
 }
 
@@ -251,38 +248,6 @@ function bp_core_check_installed() {
 		bp_core_install();
 }
 add_action( 'admin_menu', 'bp_core_check_installed' );
-
-
-/**
- * bp_core_setup_cookies()
- *
- * Checks if there is a feedback message in the WP cookie, if so, adds a "template_notices" action
- * so that the message can be parsed into the template and displayed to the user.
- *
- * After the message is displayed, it removes the message vars from the cookie so that the message
- * is not shown to the user multiple times.
- * 
- * @package BuddyPress Core
- * @global $bp_message The message text
- * @global $bp_message_type The type of message (error/success)
- * @uses setcookie() Sets a cookie value for the user.
- */
-function bp_core_setup_cookies() {
-	global $bp_message, $bp_message_type;
-	
-	// Render any error/success feedback on the template
-	if ( $_COOKIE['bp-message'] == '' || !isset( $_COOKIE['bp-message'] ) )
-	 	return false;
-
-	$bp_message = $_COOKIE['bp-message'];
-	$bp_message_type = $_COOKIE['bp-message-type'];
-	add_action( 'template_notices', 'bp_core_render_notice' );
-
-	setcookie( 'bp-message', false, time() - 1000, COOKIEPATH );
-	setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH );
-}
-add_action( 'init', 'bp_core_setup_cookies' );
-
 
 /**
  * bp_core_add_admin_menu()
@@ -334,7 +299,7 @@ function bp_core_is_root_component( $component_name ) {
  * @uses bp_core_add_nav_default() Sets which sub navigation item is selected by default
  * @uses bp_core_add_subnav_item() Adds a sub navigation item to a nav item
  * @uses bp_is_home() Returns true if the current user being viewed is equal the logged in user
- * @uses bp_core_get_avatar() Returns the either the thumb (1) or full (2) avatar URL for the user_id passed
+ * @uses bp_core_fetch_avatar() Returns the either the thumb or full avatar URL for the user_id passed
  */
 function bp_core_setup_nav() {
 	global $bp;
@@ -353,7 +318,7 @@ function bp_core_setup_nav() {
 			if ( bp_is_home() ) {
 				$bp->bp_options_title = __('My Profile', 'buddypress');
 			} else {
-				$bp->bp_options_avatar = bp_core_get_avatar( $bp->displayed_user->id, 1 );
+				$bp->bp_options_avatar = bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => 'thumb' ) );
 				$bp->bp_options_title = $bp->displayed_user->fullname; 
 			}
 		}
@@ -380,7 +345,7 @@ function bp_core_action_directory_members() {
 		$bp->is_directory = true;
 		$bp->current_component = false;
 
-		wp_enqueue_script( 'bp-core-directory-members', BP_PLUGIN_URL . '/bp-core/js/directory-members.js', array( 'jquery', 'jquery-livequery-pack' ) );
+		do_action( 'bp_core_action_directory_members' );
 		bp_core_load_template( apply_filters( 'bp_core_template_directory_members', 'directories/members/index' ) );
 	}
 }
@@ -497,10 +462,7 @@ function bp_core_new_nav_item( $args = '' ) {
 			$bp->current_action = $default_subnav_slug;
 	}
 }
-	/* DEPRECATED - use bp_core_new_nav_item() as it's more friendly and allows ordering */
-	function bp_core_add_nav_item( $name, $slug, $css_id = false, $show_for_displayed_user = true ) {
-		bp_core_new_nav_item( array( 'name' => $name, 'slug' => $slug, 'item_css_id' => $css_id, 'show_for_displayed_user' => $show_for_displayed_user ) );
-	}
+
 
 /**
  * bp_core_sort_nav_items()
@@ -590,9 +552,6 @@ function bp_core_new_subnav_item( $args = '' ) {
 	if ( empty($name) || empty($slug) || empty($parent_slug) || empty($parent_url) || empty($screen_function) )
 		return false;
 	
-	if ( !$user_has_access )
-		return false;
-	
 	/* If this is for site admins only and the user is not one, don't create the subnav item */
 	if ( $site_admin_only && !is_site_admin() )
 		return false;
@@ -608,17 +567,13 @@ function bp_core_new_subnav_item( $args = '' ) {
 		'position' => $position
 	);	 
 		
-	if ( $bp->current_action == $slug && $bp->current_component == $parent_slug ) {
+	if ( $bp->current_action == $slug && $bp->current_component == $parent_slug && $user_has_access ) {
 		if ( !is_object($screen_function[0]) )
 			add_action( 'wp', $screen_function, 3 );
 		else
 			add_action( 'wp', array( &$screen_function[0], $screen_function[1] ), 3 );
 	}
 }
-	/* DEPRECATED - use bp_core_new_subnav_item() as it's more friendly and allows ordering. */
-	function bp_core_add_subnav_item( $parent_id, $slug, $name, $link, $function, $css_id = false, $user_has_access = true, $admin_only = false ) {
-		bp_core_new_subnav_item( array( 'name' => $name, 'slug' => $slug, 'parent_slug' => $parent_id, 'parent_url' => $link, 'item_css_id' => $css_id, 'user_has_access' => $user_has_access, 'site_admin_only' => $admin_only, 'screen_function' => $function ) );
-	}
 
 function bp_core_sort_subnav_items() {
 	global $bp;
@@ -798,9 +753,6 @@ function bp_core_get_userid( $username ) {
 	if ( !empty( $username ) )
 		return apply_filters( 'bp_core_get_userid', $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $username ) ) ); 
 }
-	function bp_core_get_userid_from_user_login( $deprecated ) {
-		return bp_core_get_userid( $deprecated );
-	}
 
 /**
  * bp_core_get_username()
@@ -964,9 +916,6 @@ function bp_core_get_user_displayname( $user_id ) {
 	
 	return apply_filters( 'bp_core_get_user_displayname', stripslashes( strip_tags( trim( $fullname ) ) ) );
 }
-	/* DEPRECATED Use: bp_core_get_user_displayname */
-	function bp_core_global_user_fullname( $user_id ) { return bp_core_get_user_displayname( $user_id ); }
-
 
 /**
  * bp_core_get_userlink_by_email()
@@ -983,7 +932,6 @@ function bp_core_get_userlink_by_email( $email ) {
 	$user = get_user_by_email( $email );
 	return apply_filters( 'bp_core_get_userlink_by_email', bp_core_get_userlink( $user->ID, false, false, true ) );
 }
-
 
 /**
  * bp_core_get_userlink_by_username()
@@ -1033,35 +981,75 @@ function bp_core_format_time( $time, $just_date = false ) {
  * @package BuddyPress Core
  */
 function bp_core_add_message( $message, $type = false ) {
+	global $bp;
+	
 	if ( !$type )
 		$type = 'success';
-
+	
+	/* Send the values to the cookie for page reload display */
 	setcookie( 'bp-message', $message, time()+60*60*24, COOKIEPATH );
 	setcookie( 'bp-message-type', $type, time()+60*60*24, COOKIEPATH );
+	
+	/***
+	 * Send the values to the $bp global so we can still output messages
+	 * without a page reload
+	 */
+	$bp->template_message = $message;
+	$bp->template_message_type = $type;
 }
 
+/**
+ * bp_core_setup_message()
+ *
+ * Checks if there is a feedback message in the WP cookie, if so, adds a "template_notices" action
+ * so that the message can be parsed into the template and displayed to the user.
+ *
+ * After the message is displayed, it removes the message vars from the cookie so that the message
+ * is not shown to the user multiple times.
+ * 
+ * @package BuddyPress Core
+ * @global $bp_message The message text
+ * @global $bp_message_type The type of message (error/success)
+ * @uses setcookie() Sets a cookie value for the user.
+ */
+function bp_core_setup_message() {
+	global $bp;
+
+	if ( empty( $bp->template_message ) )
+		$bp->template_message = $_COOKIE['bp-message'];
+	
+	if ( empty( $bp->template_message_type ) )
+		$bp->template_message_type = $_COOKIE['bp-message-type'];
+
+	add_action( 'template_notices', 'bp_core_render_message' );
+	
+	setcookie( 'bp-message', false, time() - 1000, COOKIEPATH );
+	setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH );
+}
+add_action( 'wp', 'bp_core_setup_message' );
 
 /**
- * bp_core_render_notice()
+ * bp_core_render_message()
  *
- * Renders a feedback notice (either error or success message) to the theme template.
+ * Renders a feedback message (either error or success message) to the theme template.
  * The hook action 'template_notices' is used to call this function, it is not called directly.
  * 
  * @package BuddyPress Core
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
-function bp_core_render_notice() {
-	if ( $_COOKIE['bp-message'] ) {
-		$type = ( 'success' == $_COOKIE['bp-message-type'] ) ? 'updated' : 'error';
+function bp_core_render_message() {
+	global $bp;
+	
+	if ( $bp->template_message ) {
+		$type = ( 'success' == $bp->template_message_type ) ? 'updated' : 'error';
 	?>
 		<div id="message" class="<?php echo $type; ?>">
-			<p><?php echo stripslashes( $_COOKIE['bp-message'] ); ?></p>
+			<p><?php echo stripslashes( attribute_escape( $bp->template_message ) ); ?></p>
 		</div>
 	<?php
-		do_action( 'bp_core_render_notice' );
-	}
+		do_action( 'bp_core_render_message' );
+	}	
 }
-
 
 /**
  * bp_core_time_since()
@@ -1265,94 +1253,6 @@ function bp_core_referrer() {
 }
 
 /**
- * bp_core_get_buddypress_themes()
- *
- * Gets an array of all the BuddyPress themes in the /bp-themes/ directory.
- * 
- * @package BuddyPress Core
- * @uses get_themes()
- * @return An array containing all of the themes.
- */
-function bp_core_get_buddypress_themes() {
-	global $wp_themes;
-	
-	/* Remove the cached WP themes first */
-	$wp_existing_themes = &$wp_themes;
-	$wp_themes = null;
-	
-	add_filter( 'theme_root', 'bp_core_filter_buddypress_theme_root' );
-	$themes = get_themes();
-
-	if ( $themes ) {
-		foreach ( $themes as $name => $values ) {
-			if ( $name == 'BuddyPress Default Home Theme' )
-				continue;
-			
-			$member_themes[] = array(
-				'name' => $name,
-				'template' => $values['Template'],
-				'version' => $values['Version']
-			);
-		}
-	}
-	
-	/* Restore the cached WP themes */
-	$wp_themes = $wp_existing_themes;
-	
-	return $member_themes;
-}
-function bp_core_get_member_themes() { return bp_core_get_buddypress_themes(); } // DEPRECATED
-
-
-/**
- * bp_get_buddypress_theme_uri()
- *
- * Get the url of the selected BuddyPress theme.
- * 
- * @package BuddyPress Core
- */
-function bp_get_buddypress_theme_uri() {
-	return apply_filters( 'bp_get_buddypress_theme_uri', WP_CONTENT_URL . '/bp-themes/' . get_site_option( 'active-member-theme' ) );
-}
-
-
-/**
- * bp_get_buddypress_theme_path()
- *
- * Get the path of the selected BuddyPress theme.
- * 
- * @package BuddyPress Core
- */
-function bp_get_buddypress_theme_path() {
-	return apply_filters( 'bp_get_buddypress_theme_path', WP_CONTENT_DIR . '/bp-themes/' . get_site_option( 'active-member-theme' ) );
-}
-
-
-/**
- * bp_core_filter_buddypress_theme_root()
- *
- * Adds a filter that changes the root path of the theme directory to the bp-themes directory.
- * 
- * @package BuddyPress Core
- */
-function bp_core_filter_buddypress_theme_root() {
-	return apply_filters( 'bp_core_filter_buddypress_theme_root', WP_CONTENT_DIR . "/bp-themes" );
-}
-
-
-/**
- * bp_core_filter_buddypress_theme_root_uri()
- *
- * Adds a filter that changes the root URI of the theme directory to the bp-themes directory.
- * 
- * @package BuddyPress Core
- */
-function bp_core_filter_buddypress_theme_root_uri() {
-	return apply_filters( 'bp_core_filter_buddypress_theme_root_uri', WP_CONTENT_URL . '/bp-themes' );
-}
-
-
-/**
  * bp_core_add_illegal_names()
  *
  * Adds illegal names to WP so that root components will not conflict with
@@ -1382,7 +1282,6 @@ function bp_core_add_illegal_names() {
 
 	update_site_option( 'illegal_names', $new );
 }
-
 
 /**
  * bp_core_email_from_name_filter()
@@ -1628,6 +1527,10 @@ function bp_core_load_buddypress_textdomain() {
 }
 add_action ( 'plugins_loaded', 'bp_core_load_buddypress_textdomain', 9 );
 
+function bp_core_add_ajax_hook() {
+	do_action( 'wp_ajax_' . $_REQUEST['action'] );
+}
+add_action( 'init', 'bp_core_add_ajax_hook' );
 
 /**
  * bp_core_clear_user_object_cache()

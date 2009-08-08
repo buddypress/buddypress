@@ -1,6 +1,10 @@
 <?php
 
-Class BP_Messages_Template {
+/*****************************************************************************
+ * Message Box Template Class
+ **/
+
+Class BP_Messages_Box_Template {
 	var $current_thread = -1;
 	var $current_thread_count;
 	var $total_thread_count;
@@ -15,7 +19,7 @@ Class BP_Messages_Template {
 	var $pag_num;
 	var $pag_links;
 
-	function bp_messages_template( $user_id, $box, $per_page, $max, $type ) {
+	function bp_messages_box_template( $user_id, $box, $per_page, $max, $type ) {
 		$this->pag_page = isset( $_GET['mpage'] ) ? intval( $_GET['mpage'] ) : 1;
 		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : $per_page;
 		$this->user_id = $user_id;
@@ -133,7 +137,7 @@ function bp_has_message_threads( $args = '' ) {
 		if ( 'notices' == $bp->current_action )
 			$box = 'notices';
 	
-		$messages_template = new BP_Messages_Template( $user_id, $box, $per_page, $max, $type );
+		$messages_template = new BP_Messages_Box_Template( $user_id, $box, $per_page, $max, $type );
 	}
 	
 	return $messages_template->has_threads();
@@ -239,7 +243,7 @@ function bp_message_thread_avatar() {
 }
 	function bp_get_message_thread_avatar() {
 		global $messages_template;
-		echo apply_filters( 'bp_get_message_thread_avatar', bp_core_get_avatar($messages_template->thread->last_sender_id, 1) );
+		echo apply_filters( 'bp_get_message_thread_avatar', bp_core_fetch_avatar( array( 'item_id' => $messages_template->thread->last_sender_id, 'type' => 'thumb' ) ) );
 	}
 
 function bp_message_thread_view() {
@@ -459,7 +463,7 @@ function bp_message_get_recipient_tabs() {
 			?>
 			<li id="un-<?php echo $_GET['r'] ?>" class="friend-tab">
 				<span>
-					<?php echo bp_core_get_avatar( $user_id, 1, 15, 15 ) ?>
+					<?php echo bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'thumb', 'width' => 15, 'height' => 15 ) ) ?>
 					<?php echo bp_core_get_userlink( $user_id ) ?>
 				</span>
 				<span class="p">X</span>
@@ -475,7 +479,204 @@ function bp_message_get_recipient_usernames() {
 	function bp_get_message_get_recipient_usernames() {
 		return apply_filters( 'bp_get_message_get_recipient_usernames', $_GET['r'] );
 	}
+
+
+/*****************************************************************************
+ * Message Thread Template Class
+ **/
+
+class BP_Messages_Thread_Template {
+	var $current_message = -1;
+	var $message_count;
+	var $message;
 	
+	var $thread;
+	
+	var $in_the_loop;
+	
+	var $pag_page;
+	var $pag_num;
+	var $pag_links;
+	var $total_message_count;
+	
+	function bp_messages_thread_template( $thread_id, $order ) {
+		global $bp;
+		
+		$this->thread = new BP_Messages_Thread( $thread_id, true );
+		$this->message_count = count( $this->thread->messages );
+	}
+	
+	function has_messages() {
+		if ( $this->message_count )
+			return true;
+		
+		return false;
+	}
+	
+	function next_message() {
+		$this->current_message++;
+		$this->message = $this->thread->messages[$this->current_message];
+		
+		return $this->message;
+	}
+	
+	function rewind_messages() {
+		$this->current_message = -1;
+		if ( $this->message_count > 0 ) {
+			$this->message = $this->thread->messages[0];
+		}
+	}
+	
+	function messages() { 
+		if ( $this->current_message + 1 < $this->message_count ) {
+			return true;
+		} elseif ( $this->current_message + 1 == $this->message_count ) {
+			do_action('thread_loop_end');
+			// Do some cleaning up after the loop
+			$this->rewind_messages();
+		}
+
+		$this->in_the_loop = false;
+		return false;
+	}
+	
+	function the_message() {
+		global $message;
+
+		$this->in_the_loop = true;
+		$this->message = $this->next_message();
+
+		if ( 0 == $this->current_message ) // loop has just started
+			do_action('thread_loop_start');
+	}
+}
+
+function bp_thread_has_messages( $args = '' ) {
+	global $bp, $thread_template, $group_id;
+	
+	$defaults = array(
+		'thread_id' => false,
+		'order' => 'ASC'
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	if ( !$thread_id && $bp->current_component == BP_MESSAGES_SLUG && 'view' == $bp->current_action )
+		$thread_id = (int)$bp->action_variables[0];
+
+	$thread_template = new BP_Messages_Thread_Template( $thread_id, $order );
+	return $thread_template->has_messages();
+}
+
+function bp_thread_messages() {
+	global $thread_template;
+	
+	return $thread_template->messages();
+}
+
+function bp_thread_the_message() {
+	global $thread_template;
+	
+	return $thread_template->the_message();
+}
+
+function bp_the_thread_subject() {
+	echo bp_get_the_thread_subject();
+}
+	function bp_get_the_thread_subject() {
+		global $thread_template;
+		
+		return apply_filters( 'bp_get_the_thread_subject', $thread_template->thread->subject );
+	}
+
+function bp_the_thread_recipients() {
+	echo bp_get_the_thread_recipients();
+}
+	function bp_get_the_thread_recipients() {
+		global $thread_template;
+		
+		if ( count($thread_template->thread->recipients) >= 5 )
+			return apply_filters( 'bp_get_the_thread_recipients', sprintf( __( '%d Recipients', 'buddypress' ), count($thread_template->thread->recipients) ) );
+		
+		foreach( $thread_template->thread->recipients as $recipient )
+			$recipient_links[] = bp_core_get_userlink( $recipient );
+
+		return apply_filters( 'bp_get_the_thread_recipients', implode( ', ', $recipient_links ) );
+	}
+
+function bp_the_thread_message_alt_class() {
+	echo bp_get_the_thread_message_alt_class();
+}
+	function bp_get_the_thread_message_alt_class() {
+		global $thread_template;
+		
+		if ( $thread_template->current_message % 2 == 1 )
+			$class = ' alt';
+		else
+			$class = '';
+		
+		return apply_filters( 'bp_get_the_thread_message_alt_class', $class );
+	}
+	
+function bp_the_thread_message_sender_avatar( $args = '' ) {
+	echo bp_get_the_thread_message_sender_avatar_thumb( $args );
+}
+	function bp_get_the_thread_message_sender_avatar_thumb( $args = '' ) {
+		global $thread_template;	
+			
+		$defaults = array(
+			'type' => 'thumb',
+			'width' => false,
+			'height' => false,
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		return apply_filters( 'bp_get_the_thread_message_sender_avatar_thumb', bp_core_fetch_avatar( array( 'item_id' => $thread_template->message->sender_id, 'type' => $type, 'width' => $width, 'height' => $height ) ) );
+	}
+
+function bp_the_thread_message_sender_link() {
+	echo bp_get_the_thread_message_sender_link();
+}
+	function bp_get_the_thread_message_sender_link() {
+		global $thread_template;
+		
+		return apply_filters( 'bp_get_the_thread_message_sender_link', bp_core_get_userlink( $thread_template->message->sender_id, false, true ) );
+	}
+	
+function bp_the_thread_message_sender_name() {
+	echo bp_get_the_thread_message_sender_name();
+}
+	function bp_get_the_thread_message_sender_name() {
+		global $thread_template;
+		
+		return apply_filters( 'bp_get_the_thread_message_sender_name', bp_core_get_user_displayname( $thread_template->message->sender_id ) );		
+	}
+
+function bp_the_thread_message_time_since() {
+	echo bp_get_the_thread_message_time_since();
+}
+	function bp_get_the_thread_message_time_since() {
+		global $thread_template;
+		
+		return apply_filters( 'bp_get_the_thread_message_time_since', sprintf( __( 'Sent %s ago', 'buddypress' ), bp_core_time_since( strtotime( $thread_template->message->date_sent ) ) ) );
+	}
+
+function bp_the_thread_message_content() {
+	echo bp_get_the_thread_message_content();
+}
+	function bp_get_the_thread_message_content() {
+		global $thread_template;
+		
+		return apply_filters( 'bp_get_the_thread_message_content', $thread_template->message->message );		
+	}
+	
+
+/*** DEPRECATED FUNCTIONS (DO NOT USE) **********************************************************/
+
+/* DEPRECATED - please use the view message template loop. */	
 function messages_view_thread( $thread_id ) {
 	global $bp;
 
@@ -514,7 +715,7 @@ function messages_view_thread( $thread_id ) {
 					<a name="<?php echo 'm-' . $message->id ?>"></a>
 					<div class="message-box<?php echo $alt ?>">
 						<div class="avatar-box">
-							<?php echo apply_filters( 'bp_get_message_sender_avatar', bp_core_get_avatar( $message->sender_id, 1 ) ) ?>
+							<?php echo apply_filters( 'bp_get_message_sender_avatar',  bp_core_fetch_avatar( array( 'item_id' => $message->sender_id, 'type' => 'thumb' ) ) ) ?>
 							<h3><?php echo apply_filters( 'bp_get_message_sender_id', bp_core_get_userlink( $message->sender_id ) ) ?></h3>
 							<small><?php echo apply_filters( 'bp_get_message_date_sent', bp_format_time( strtotime($message->date_sent ) ) ) ?></small>
 						</div>
@@ -536,9 +737,7 @@ function messages_view_thread( $thread_id ) {
 					<div class="message-box">
 							<div id="messagediv">
 								<div class="avatar-box">
-									<?php if ( function_exists('bp_core_get_avatar') ) 
-										echo bp_core_get_avatar($bp->loggedin_user->id, 1);
-									?>
+									<?php echo  bp_core_fetch_avatar( array( 'item_id' => $bp->loggedin_user->id, 'type' => 'thumb' ) ); ?>
 					
 									<h3><?php _e("Reply: ", 'buddypress') ?></h3>
 								</div>

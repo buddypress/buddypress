@@ -211,17 +211,7 @@ function bp_the_topic_poster_avatar( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		if ( 'thumb' == $type )
-			$size = 1;
-		else
-			$size = 2;
-
-		if ( $width && $height )
-			$av = bp_core_get_avatar( $forum_template->topic->topic_poster, $size, $width, $height );
-		else
-			$av = bp_core_get_avatar( $forum_template->topic->topic_poster, $size );
-
-		return apply_filters( 'bp_get_the_topic_poster_avatar', $av ); 
+		return apply_filters( 'bp_get_the_topic_poster_avatar', bp_core_fetch_avatar( array( 'item_id' => $forum_template->topic->topic_poster, 'type' => $type, 'width' => $width, 'height' => $height ) ) ); 
 	}
 
 function bp_the_topic_poster_name() {
@@ -257,17 +247,7 @@ function bp_the_topic_last_poster_avatar( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		if ( 'thumb' == $type )
-			$size = 1;
-		else
-			$size = 2;
-
-		if ( $width && $height )
-			$av = bp_core_get_avatar( $forum_template->topic->topic_last_poster, $size, $width, $height );
-		else
-			$av = bp_core_get_avatar( $forum_template->topic->topic_last_poster, $size );
-
-		return apply_filters( 'bp_get_the_topic_last_poster_avatar', $av ); 
+		return apply_filters( 'bp_get_the_topic_last_poster_avatar', bp_core_fetch_avatar( array( 'item_id' => $forum_template->topic->topic_last_poster, 'type' => $type, 'width' => $width, 'height' => $height ) ) ); 
 	}
 
 function bp_the_topic_start_time() {
@@ -665,17 +645,7 @@ function bp_the_topic_post_poster_avatar( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		if ( 'thumb' == $type )
-			$size = 1;
-		else
-			$size = 2;
-
-		if ( $width && $height )
-			$av = bp_core_get_avatar( $topic_template->post->poster_id, $size, $width, $height );
-		else
-			$av = bp_core_get_avatar( $topic_template->post->poster_id, $size );
-
-		return apply_filters( 'bp_get_the_topic_post_poster_avatar', $av ); 
+		return apply_filters( 'bp_get_the_topic_post_poster_avatar', bp_core_fetch_avatar( array( 'item_id' => $topic_template->post->poster_id, 'type' => $type, 'width' => $width, 'height' => $height ) ) ); 
 	}
 
 function bp_the_topic_post_poster_name( $deprecated = true ) {

@@ -7,11 +7,14 @@ if ( !defined( 'BP_MESSAGES_SLUG' ) )
 	define ( 'BP_MESSAGES_SLUG', 'messages' );
 
 require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-classes.php' );
-require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-ajax.php' );
 require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-cssjs.php' );
 require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-filters.php' );
 
+/* Include deprecated functions if settings allow */
+if ( !defined( 'BP_IGNORE_DEPRECATED' ) )
+	require ( BP_PLUGIN_DIR . '/bp-messages/deprecated/bp-messages-deprecated.php' );
+	
 function messages_install() {
 	global $wpdb, $bp;
 	
@@ -127,7 +130,7 @@ function messages_setup_nav() {
 		if ( bp_is_home() ) {
 			$bp->bp_options_title = __( 'My Messages', 'buddypress' );			
 		} else {
-			$bp_options_avatar = bp_core_get_avatar( $bp->displayed_user->id, 1 );
+			$bp_options_avatar =  bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => 'thumb' ) );
 			$bp->bp_options_title = $bp->displayed_user->fullname;
 		}
 	}
@@ -270,10 +273,8 @@ function messages_action_view_message() {
 	if ( !$thread_id || !is_numeric($thread_id) || !BP_Messages_Thread::check_access($thread_id) ) {
 		bp_core_redirect( $bp->displayed_user->domain . $bp->current_component );
 	} else {
-		$bp->bp_options_nav[$bp->messages->slug]['view'] = array(
-			'name' => sprintf( __( 'From: %s', 'buddypress'), BP_Messages_Thread::get_last_sender($thread_id) ),
-			'link' => $bp->loggedin_user->domain . $bp->messages->slug . '/'			
-		);
+
+		bp_core_new_subnav_item( array( 'name' => sprintf( __( 'From: %s', 'buddypress'), BP_Messages_Thread::get_last_sender($thread_id) ), 'slug' => 'view', 'parent_url' => $bp->loggedin_user->domain . $bp->messages->slug . '/', 'parent_slug' => $bp->messages->slug, 'screen_function' => true, 'position' => 40, 'user_has_access' => bp_is_home() ) );
 
 		bp_core_load_template( apply_filters( 'messages_template_view_message', 'messages/view' ) );
 	}
@@ -454,7 +455,7 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 					bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/compose' );
 				} 
 			} else {
-				$message = __('Message sent successfully!', 'buddypress') . ' <a href="' . $bp->loggedin_user->domain . $bp->messages->slug . '/view/' . $pmessage->thread_id . '">' . __('View Message', 'buddypress') . '</a> &raquo;';
+				$message = __('Message sent successfully!', 'buddypress');
 				$type = 'success';
 				
 				// Send screen notifications to the recipients
@@ -474,7 +475,7 @@ function messages_send_message( $recipients, $subject, $content, $thread_id, $fr
 					return array('status' => 1, 'message' => $message, 'reply' => $pmessage);
 				} else {
 					bp_core_add_message( $message );
-					bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/inbox' );
+					bp_core_redirect( $bp->loggedin_user->domain . $bp->messages->slug . '/view/' . $pmessage->thread_id );
 				}
 			}
 		} else {
@@ -505,8 +506,6 @@ function messages_remove_callback_values() {
 }
 
 function messages_send_notice( $subject, $message, $from_template ) {
-	
-	
 	if ( !is_site_admin() || empty( $subject ) || empty( $message ) ) {
 		return false;
 	} else {
@@ -564,6 +563,29 @@ function messages_is_user_sender( $user_id, $message_id ) {
 function messages_get_message_sender( $message_id ) {
 	return BP_Messages_Message::get_message_sender( $message_id );
 }
+
+function messages_ajax_autocomplete_results() {
+	global $bp;
+	
+	$friends = false;
+
+	// Get the friend ids based on the search terms
+	if ( function_exists( 'friends_search_friends' ) )
+		$friends = friends_search_friends( $_GET['q'], $bp->loggedin_user->id, $_GET['limit'], 1 );
+	
+	$friends = apply_filters( 'bp_friends_autocomplete_list', $friends, $_GET['q'], $_GET['limit'] );
+
+	if ( $friends['friends'] ) {
+		foreach ( $friends['friends'] as $user_id ) {
+			$ud = get_userdata($user_id);
+			$username = $ud->user_login;
+			echo  bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'thumb', 'width' => 15, 'height' => 15 ) )  . ' ' . bp_core_get_user_displayname( $user_id ) . ' (' . $username . ')
+			';
+		}		
+	}
+}
+add_action( 'wp_ajax_messages_autocomplete_results', 'messages_ajax_autocomplete_results' );
+
 
 // List actions to clear super cached pages on, if super cache is installed
 add_action( 'messages_delete_thread', 'bp_core_clear_cache' );

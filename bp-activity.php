@@ -9,9 +9,12 @@ if ( !defined( 'BP_ACTIVITY_SLUG' ) )
 require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-classes.php' );
 require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-widgets.php' );
-require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-cssjs.php' );
 require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-filters.php' );
 
+/* Include deprecated functions if settings allow */
+if ( !defined( 'BP_IGNORE_DEPRECATED' ) )
+	require ( BP_PLUGIN_DIR . '/bp-activity/deprecated/bp-activity-deprecated.php' );	
+	
 function bp_activity_install() {
 	global $wpdb, $bp;
 	
@@ -49,7 +52,6 @@ function bp_activity_setup_globals() {
 	global $bp, $wpdb, $current_blog;
 
 	$bp->activity->table_name = $wpdb->base_prefix . 'bp_activity_user_activity_cached';
-	$bp->activity->image_base = BP_PLUGIN_URL . '/bp-activity/images';
 	$bp->activity->slug = BP_ACTIVITY_SLUG;
 
 	if ( is_site_admin() && get_site_option( 'bp-activity-db-version' ) < BP_ACTIVITY_DB_VERSION  )
@@ -80,7 +82,7 @@ function bp_activity_setup_nav() {
 		if ( bp_is_home() ) {
 			$bp->bp_options_title = __( 'My Activity', 'buddypress' );
 		} else {
-			$bp->bp_options_avatar = bp_core_get_avatar( $bp->displayed_user->id, 1 );
+			$bp->bp_options_avatar = bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => 'thumb' ) );
 			$bp->bp_options_title = $bp->displayed_user->fullname; 
 		}
 	}
@@ -304,42 +306,6 @@ add_action( 'delete_user', 'bp_activity_remove_data' );
 /* Ordering function - don't call this directly */
 function bp_activity_order_by_date( $a, $b ) {
 	return strcasecmp( $b['date_recorded'], $a['date_recorded'] );	
-}
-
-/**** DEPRECATED FUNCTIONS (DO NOT USE IN YOUR CODE) **************/
-
-/* DEPRECATED - use bp_activity_add() */
-function bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id = false, $user_id = false, $secondary_user_id = false, $recorded_time = false ) {
-	global $bp, $wpdb;
-	
-	if ( !$user_id )
-		$user_id = $bp->loggedin_user->id;
-
-	if ( !$recorded_time )
-		$recorded_time = time();
-	
-	$args = compact( 'user_id', 'content', 'component_name', 'component_action', 'item_id', 'secondary_item_id', 'recorded_time' );
-	bp_activity_add( $args );
-	
-	if ( $secondary_user_id  ) {
-		$hide_sitewide = true;
-		$args = compact( 'user_id', 'content', 'component_name', 'component_action', 'item_id', 'secondary_item_id', 'recorded_time', 'hide_sitewide' );
-		bp_activity_add( $args );
-	}
-	
-	do_action( 'bp_activity_record', $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_user_id );
-	
-	return true;
-}
-
-/* DEPRECATED - use bp_activity_delete_by_item_id() */
-function bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id ) {	
-	if ( !bp_activity_delete_by_item_id( array( 'item_id' => $item_id, 'component_name' => $component_name, 'component_action' => $component_action, 'user_id' => $user_id, 'secondary_item_id' => $secondary_item_id ) ) )
-		return false;
-		
-	do_action( 'bp_activity_delete', $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
-	
-	return true;
 }
 
 ?>

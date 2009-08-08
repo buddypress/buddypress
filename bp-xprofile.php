@@ -13,6 +13,10 @@ require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-notifications.php' );
 require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-cssjs.php' );
 
+/* Include deprecated functions if settings allow */
+if ( !defined( 'BP_IGNORE_DEPRECATED' ) )
+	require ( BP_PLUGIN_DIR . '/bp-xprofile/deprecated/bp-xprofile-deprecated.php' );	
+
 /* Assign the base group and fullname field names to constants to use in SQL statements */
 define ( 'BP_XPROFILE_BASE_GROUP_NAME', get_site_option( 'bp-xprofile-base-group-name' ) );
 define ( 'BP_XPROFILE_FULLNAME_FIELD_NAME', get_site_option( 'bp-xprofile-fullname-field-name' ) );
@@ -59,11 +63,9 @@ function xprofile_install() {
 			  field_order bigint(20) NOT NULL DEFAULT '0',
 			  option_order bigint(20) NOT NULL DEFAULT '0',
 			  order_by varchar(15) NOT NULL,
-			  is_public int(2) NOT NULL DEFAULT '1',
 			  can_delete tinyint(1) NOT NULL DEFAULT '1',
 			  KEY group_id (group_id),
 			  KEY parent_id (parent_id),
-			  KEY is_public (is_public),
 			  KEY can_delete (can_delete),
 			  KEY is_required (is_required)
 	) {$charset_collate};";
@@ -138,6 +140,8 @@ function xprofile_setup_globals() {
 	$bp->profile->format_notification_function = 'xprofile_format_notifications';
 	$bp->profile->image_base = BP_PLUGIN_URL . '/bp-xprofile/images';
 	$bp->profile->slug = BP_XPROFILE_SLUG;
+	
+	$bp->profile->field_types = apply_filters( 'xprofile_field_types', array( 'textbox', 'textarea', 'radio', 'checkbox', 'selectbox', 'multiselectbox', 'datebox' ) );
 
 	$bp->version_numbers->profile = BP_XPROFILE_VERSION;
 	
@@ -191,7 +195,7 @@ add_action( 'admin_menu', 'xprofile_add_admin_menu' );
  * @uses bp_core_add_nav_default() Sets which sub navigation item is selected by default
  * @uses bp_core_add_subnav_item() Adds a sub navigation item to a nav item
  * @uses bp_is_home() Returns true if the current user being viewed is equal the logged in user
- * @uses bp_core_get_avatar() Returns the either the thumb (1) or full (2) avatar URL for the user_id passed
+ * @uses bp_core_fetch_avatar() Returns the either the thumb or full avatar URL for the user_id passed
  */
 function xprofile_setup_nav() {
 	global $bp;
@@ -210,7 +214,7 @@ function xprofile_setup_nav() {
 		if ( bp_is_home() ) {
 			$bp->bp_options_title = __('My Profile', 'buddypress');
 		} else {
-			$bp->bp_options_avatar = bp_core_get_avatar( $bp->displayed_user->id, 1 );
+			$bp->bp_options_avatar = bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => 'thumb' ) );
 			$bp->bp_options_title = $bp->displayed_user->fullname; 
 		}
 	}
@@ -260,28 +264,125 @@ function xprofile_screen_display_profile() {
  * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
  */
 function xprofile_screen_edit_profile() {
-	if ( bp_is_home() ) {
-		do_action( 'xprofile_screen_edit_profile' );
-		bp_core_load_template( apply_filters( 'xprofile_template_edit_profile', 'profile/edit' ) );
+	global $bp;
+	
+	if ( !bp_is_home() && !is_site_admin() )
+		return false;
+	
+	/* Check to see if any new information has been submitted */
+	if ( isset($_POST['field_ids']) ) {
+		
+		/* Check the nonce */
+		check_admin_referer( 'bp_xprofile_edit' );
+		
+		/* Check we have field ID's */
+		if ( empty( $_POST['field_ids'] ) )
+			bp_core_redirect( $bp->displayed_user->domain . BP_XPROFILE_SLUG . '/edit/group/' . $bp->action_variables[1] . '/' );
+		
+		/* Explode the posted field IDs into an array so we know which fields have been submitted */
+		$posted_field_ids = explode( ',', $_POST['field_ids'] );
+				
+		/* Loop through the posted fields formatting any datebox values then validate the field */
+		foreach ( $posted_field_ids as $field_id ) {		
+			
+			if ( !isset( $_POST['field_' . $field_id] ) ) {
+				
+				if ( isset( $_POST['field_' . $field_id . '_day'] ) ) {
+					/* Concatenate the values. */
+					$date_value = $_POST['field_' . $field_id . '_day'] . 
+							      $_POST['field_' . $field_id . '_month'] . 
+								  $_POST['field_' . $field_id . '_year'];
+				
+					/* Turn the concatenated value into a timestamp */
+					$_POST['field_' . $field_id] = strtotime( $date_value );					
+				}
+				
+			}
+			
+			if ( xprofile_check_is_required_field( $field_id ) && empty( $_POST['field_' . $field_id] ) )
+				$errors = true;
+		}
+		
+		if ( $errors )
+			bp_core_add_message( __( 'Please make sure you fill in all required fields in this profile field group before saving.', 'buddypress' ), 'error' );			
+		else {		
+			/* Reset the errors var */
+			$errors = false;
+		
+			/* Now we've checked for required fields, lets save the values. */
+			foreach ( $posted_field_ids as $field_id ) {		
+				if ( !xprofile_set_field_data( $field_id, $bp->displayed_user->id, $_POST['field_' . $field_id] ) )
+					$errors = true;
+				else
+					do_action( 'xprofile_profile_field_data_updated', $field_id, $_POST['field_' . $field_id] );
+			}
+				
+			do_action( 'xprofile_updated_profile', $posted_field_ids, $errors );
+		
+			/* Set the feedback messages */
+			if ( $errors )
+				bp_core_add_message( __( 'There was a problem updating some of your profile information, please try again.', 'buddypress' ), 'error' );
+			else
+				bp_core_add_message( __( 'Changes saved.', 'buddypress' ) );
+
+			/* Redirect back to the edit screen to display the updates and message */
+			bp_core_redirect( $bp->displayed_user->domain . BP_XPROFILE_SLUG . '/edit/group/' . $bp->action_variables[1] . '/' );
+		}
 	}
+
+	do_action( 'xprofile_screen_edit_profile' );
+	bp_core_load_template( apply_filters( 'xprofile_template_edit_profile', 'profile/edit' ) );			
 }
 
 /**
  * xprofile_screen_change_avatar()
  *
- * Handles the display of the change avatar page by loading the correct template file.
- * Also checks to make sure this can only be accessed for the logged in users profile.
+ * Handles the uploading and cropping of a user avatar. Displays the change avatar page.
  * 
  * @package BuddyPress Xprofile
  * @uses bp_is_home() Checks to make sure the current user being viewed equals the logged in user
  * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
  */
 function xprofile_screen_change_avatar() {
-	if ( bp_is_home() ) {
-		add_action( 'wp_head', 'bp_core_add_cropper_js' );
-		do_action( 'xprofile_screen_change_avatar' );
-		bp_core_load_template( apply_filters( 'xprofile_template_change_avatar', 'profile/change-avatar' ) );
+	global $bp;
+	
+	if ( !bp_is_home() && !is_site_admin() )
+		return false;
+	
+	$bp->avatar_admin->step = 'upload-image';
+	
+	if ( !empty( $_FILES ) ) {
+		
+		/* Check the nonce */
+		check_admin_referer( 'bp_avatar_upload' );
+
+		/* Pass the file to the avatar upload handler */
+		$errors = bp_core_avatar_handle_upload( $_FILES, 'xprofile_avatar_upload_dir' );
+		
+		if ( !$errors ) {		
+			$bp->avatar_admin->step = 'crop-image';
+
+			/* Make sure we include the jQuery jCrop file for image cropping */
+			add_action( 'wp', 'bp_core_add_jquery_cropper' );
+		}
+		
 	}
+	
+	/* If the image cropping is done, crop the image and save a full/thumb version */
+	if ( isset( $_POST['avatar-crop-submit'] ) ) {
+		
+		/* Check the nonce */
+		check_admin_referer( 'bp_avatar_cropstore' );
+
+		if ( !bp_core_avatar_handle_crop( array( 'item_id' => $bp->displayed_user->id, 'original_file' => $_POST['image_src'], 'crop_x' => $_POST['x'], 'crop_y' => $_POST['y'], 'crop_w' => $_POST['w'], 'crop_h' => $_POST['h'] ) ) )
+			bp_core_add_message( __( 'There was a problem cropping your avatar, please try uploading it again', 'buddypress' ) );
+		else
+			bp_core_add_message( __( 'Your new avatar was uploaded successfully!', 'buddypress' ) );
+
+	}
+
+	do_action( 'xprofile_screen_change_avatar' );
+	bp_core_load_template( apply_filters( 'xprofile_template_change_avatar', 'profile/change-avatar' ) );
 }
 
 /**
@@ -351,11 +452,12 @@ function xprofile_action_delete_avatar() {
 	if ( !check_admin_referer( 'bp_delete_avatar_link' ) )
 		return false;
 	
-	if ( bp_is_home() ) {
-		bp_core_delete_avatar();
-		add_action( 'wp_head', 'bp_core_add_cropper_js' );
-		bp_core_load_template( apply_filters( 'xprofile_template_delete_avatar', 'profile/change-avatar' ) );
-	}
+	if ( !bp_is_home() )
+		return false;
+
+	bp_core_delete_avatar();
+	add_action( 'wp_head', 'bp_core_add_cropper_js' );
+	bp_core_load_template( apply_filters( 'xprofile_template_delete_avatar', 'profile/change-avatar' ) );
 }
 add_action( 'wp', 'xprofile_action_delete_avatar', 3 );
 
@@ -613,199 +715,125 @@ function xprofile_format_notifications( $action, $item_id, $secondary_item_id, $
  * true or false on success or failure.
  */
 
-/**
- * xprofile_edit()
- *
- * Renders the edit form for the profile fields within a group as well as
- * handling the save action.
- *
- * [NOTE] This is old code that was written when editing was not done in the theme.
- * It is big and clunky and will be broken up in future versions.
- * 
- * @package BuddyPress XProfile
- * @param $group_id The ID of the group of fields to edit
- * @param $action The HTML form action
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @global $wpdb WordPress DB access object.
- * @global $userdata WordPress global object containing current logged in user userdata
- */
-function xprofile_edit( $group_id, $action ) {
-	global $wpdb, $userdata, $bp;
 
-	// Create a new group object based on the group ID.
-	$group = new BP_XProfile_Group($group_id);
-?>
-	<div class="wrap">
-		
-		<h2><?php echo attribute_escape( $group->name ) ?> <?php _e("Information", 'buddypress') ?></h2>
-		
-		<?php
-			// If this group has fields then continue
-			if ( $group->fields ) {
-				$errors    = null;
-				$list_html = '<ul class="forTab" id="' . strtolower($group_name) . '">';
-				
-				// Loop through each field in the group
-				for ( $j = 0; $j < count($group->fields); $j++ ) {
-										
-					// Create a new field object for this field based on the field ID.
-					$field = new BP_XProfile_Field( $group->fields[$j]->id );
-					
-					// Add the ID for this field to the field_ids array	
-					$field_ids[] = $group->fields[$j]->id;
-					
-					// If the user has submitted the form - validate and save the new value for this field
-					if ( isset($_GET['mode']) && 'save' == $_GET['mode'] ) {
-						
-						/* Check the nonce */
-						if ( !check_admin_referer( 'bp_xprofile_edit' ) ) 
-							return false;
-						
-						// If the current field is a datebox, we need to append '_day' to the end of the field name
-						// otherwise the field name will not exist
-						$post_field_string = ( 'datebox' == $group->fields[$j]->type ) ? '_day' : null;
-						
-						// Explode the posted field IDs into an array so we know which fields have been submitted
-						$posted_fields = explode( ',', $_POST['field_ids'] );
-						
-						// Fetch the current field from the _POST array based on field ID. 
-						$current_field = $_POST['field_' . $posted_fields[$j] . $post_field_string];
-						
-						// If the field is required and has been left blank then we need to add a callback error.
-						if ( ( $field->is_required && !isset($current_field) ) ||
-						     ( $field->is_required && empty( $current_field ) ) ) {
-							
-							// Add the error message to the errors array
-							$field->message = sprintf( __('%s cannot be left blank.', 'buddypress'), $field->name );
-							$errors[] = $field->message . "<br />";
-						
-						// If the field is not required and the field has been left blank, delete any values for the
-						// field from the database.
-						} else if ( !$field->is_required && ( empty( $current_field ) || is_null($current_field) ) ) {
-							
-							// Create a new profile data object for the logged in user based on field ID.								
-							$profile_data = new BP_Xprofile_ProfileData( $group->fields[$j]->id, $bp->loggedin_user->id );
-							
-							if ( $profile_data ) {					
-								// Delete any data
-								$profile_data->delete();
-								
-								// Also remove any selected profile field data from the $field object.
-								$field->data->value = null;
-							}
-							
-						// If we get to this point then the field validates ok and we have new data.
-						} else {
-							
-							// Create an empty profile data object and populate it with new data
-							$profile_data = new BP_Xprofile_ProfileData;
-							$profile_data->field_id = $group->fields[$j]->id;
-							$profile_data->user_id = $userdata->ID;
-							$profile_data->last_updated = time();
-							
-							// If the $post_field_string we set up earlier is not null, then this is a datebox
-							// we need to concatenate each of the three select boxes for day, month and year into
-							// one value.
-							if ( $post_field_string != null ) {
-								
-								// Concatenate the values.
-								$date_value = $_POST['field_' . $group->fields[$j]->id . '_day'] . 
-										      $_POST['field_' . $group->fields[$j]->id . '_month'] . 
-											  $_POST['field_' . $group->fields[$j]->id . '_year'];
-								
-								// Turn the concatenated value into a timestamp
-								$profile_data->value = strtotime($date_value);
-								
-							} else {
-								
-								// Checkbox and multi select box fields will submit an array as their value
-								// so we need to serialize them before saving to the DB.
-								if ( is_array($current_field) )
-									$current_field = serialize($current_field);
-									
-								$profile_data->value = $current_field;
-							}
-							
-							// Finally save the value to the database.
-							if( !$profile_data->save() ) {
-								$field->message = __('There was a problem saving changes to this field, please try again.', 'buddypress');
-							} else {
-								$field->data->value = $profile_data->value;
-							}
-						}
-					}
-					
-					// Each field object comes with HTML that can be rendered to edit that field.
-					// We just need to render that to the page by adding it to the $list_html variable
-					// that will be rendered when the field loop has finished.
-					$list_html .= '<li>' . $field->get_edit_html() . '</li>';
-				}
-				
-				// Now that the loop has finished put the final touches on the HTML including the submit button.
-				$list_html .= '</ul>';
-				
-				$list_html .= '<p class="submit">
-								<input type="submit" name="save" id="save" value="'.__('Save Changes &raquo;', 'buddypress').'" />
-							   </p>';
-							
-				$list_html .= wp_nonce_field( 'bp_xprofile_edit' );
+/*** Field Group Management **************************************************/
 
-				// If the user submitted the form to save new values, and there were errors, make sure we display them.
-				if ( $errors && isset($_POST['save']) ) {
-					$type = 'error';
-					$message = __('There were problems saving your information. Please fix the following:<br />', 'buddypress');
-					
-					for ( $i = 0; $i < count($errors); $i++ ) {
-						$message .= $errors[$i];
-					}
-					
-				// If there were no errors then we can display a nice "Changes saved." message.
-				} else if ( !$errors && isset($_POST['save'] ) ) {
-					$type = 'success';
-					$message = __('Changes saved.', 'buddypress');
-					
-					// Record in activity stream
-					xprofile_record_activity( array( 'item_id' => $group->id, 'component_name' => $bp->profile->slug, 'component_action' => 'updated_profile', 'is_private' => 0 ) );
-					
-					do_action( 'xprofile_updated_profile', $group->id ); 
-				}
-			}
-			// If this is an invalid group, then display an error.
-			else { ?>
-				<div id="message" class="error fade">
-					<p><?php _e('That group does not exist.', 'buddypress'); ?></p>
-				</div>
-			<?php
-			}
+function xprofile_insert_field_group( $args = '' ) {
+	$defaults = array(
+		'field_group_id' => false,
+		'name' => false,
+		'description' => '',
+		'can_delete' => true
+	);
 
-		?>
-		
-		<?php // Finally, we can now render everything to the screen. ?>
-		
-		<?php
-			if ( $message != '' ) {
-				$type = ( 'error' == $type ) ? 'error' : 'updated';
-		?>
-			<div id="message" class="<?php echo $type; ?> fade">
-				<p><?php echo $message; ?></p>
-			</div>
-		<?php } ?>
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );	
 
-		<p><form action="<?php echo $action ?>" method="post" id="profile-edit-form" class="generic-form">
-		<?php 
-			if ( $field_ids )
-				$field_ids = implode( ",", $field_ids );
-		?>
-		<input type="hidden" name="field_ids" id="field_ids" value="<?php echo attribute_escape( $field_ids ); ?>" />
+	if ( !$name )
+		return false;
 		
-		<?php echo $list_html; ?>
-
-		</form>
-		</p>
-		
-	</div> 
-<?php
+	$field_group = new BP_XProfile_Group( $field_group_id );
+	$field_group->name = $name;
+	$field_group->description = $description;
+	$field_group->can_delete = $can_delete;
+	
+	return $field_group->save();
 }
+
+function xprofile_get_field_group( $field_group_id ) {
+	return new BP_XProfile_Group( $field_group_id );
+}
+
+function xprofile_delete_field_group( $field_group_id ) {
+	$field_group = new BP_XProfile_Group( $field_group_id );
+	return $field_group->delete();
+}
+
+
+/*** Field Management *********************************************************/
+
+function xprofile_insert_field( $args = '' ) {
+	extract( $args );
+	
+	/**
+	 * Possible parameters (pass as assoc array):
+	 *	'field_id'
+	 *	'field_group_id'
+	 *	'parent_id'
+	 *	'type'
+	 *	'name'
+	 *	'description'
+	 *	'is_required'
+	 *	'can_delete'
+	 *	'field_order'
+	 *	'order_by'
+	 *	'is_default_option'
+	 *	'option_order'
+	 */
+	
+	/* Check we have the minimum details */
+	if ( !$field_group_id )
+		return false;
+	
+	/* Check this is a valid field type */
+	if ( !in_array( $type, $bp->profile->field_types ) )
+		return false;
+	
+	/* Instantiate a new field object */
+	if ( $field_id )
+		$field = new BP_XProfile_Field( $field_id );
+	else
+		$field = new BP_XProfile_Field;
+
+	$field->field_group_id = $field_group_id;
+	
+	if ( !empty( $parent_id ) )
+		$field->parent_id = $parent_id;
+	
+	if ( !empty( $type ) )
+		$field->type = $type;
+	
+	if ( !empty( $name ) )
+		$field->name = $name;
+
+	if ( !empty( $description ) )
+		$field->description = $description;
+	
+	if ( !empty( $is_required ) )
+		$field->is_required = $is_required;
+		
+	if ( !empty( $can_delete ) )
+		$field->can_delete = $can_delete;
+	
+	if ( !empty( $field_order ) )
+		$field->field_order = $field_order;
+	
+	if ( !empty( $order_by ) )
+		$field->order_by = $order_by;
+	
+	if ( !empty( $is_default_option ) )
+		$field->is_default_option = $is_default_option;
+	
+	if ( !empty( $option_order ) )
+		$field->option_order = $option_order;
+	
+	if ( !$field->save() )
+		return false;
+
+	return true;
+}
+
+function xprofile_get_field( $field_id ) {
+	return new BP_XProfile_Field( $field_id );
+}
+
+function xprofile_delete_field( $field_id ) {
+	$field = new BP_XProfile_Field( $field_id );
+	return $field->delete();
+}
+
+
+/*** Field Data Management *****************************************************/
 
 /**
  * xprofile_get_field_data()
@@ -813,19 +841,27 @@ function xprofile_edit( $group_id, $action ) {
  * Fetches profile data for a specific field for the user.
  * 
  * @package BuddyPress Core
- * @param $field_name The name of the field to get data for.
+ * @param $field The ID of the field, or the $name of the field.
  * @param $user_id The ID of the user
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  * @uses BP_XProfile_ProfileData::get_value_byfieldname() Fetches the value based on the params passed.
  * @return The profile field data.
  */
-function xprofile_get_field_data( $field_name, $user_id = null ) {
+function xprofile_get_field_data( $field, $user_id = null ) {
 	global $bp;
 	
 	if ( !$user_id )
 		$user_id = $bp->displayed_user->id;
+
+	if ( is_numeric( $field ) )
+		$field_id = $field;
+	else
+		$field_id = xprofile_get_field_id_from_name( $field );
+	
+	if ( !$field_id )
+		return false;
 		
-	return apply_filters( 'xprofile_get_field_data', BP_XProfile_ProfileData::get_value_byfieldname( $field_name, $user_id ) );
+	return apply_filters( 'xprofile_get_field_data', BP_XProfile_ProfileData::get_value_byid( $field_id, $user_id ) );
 }
 
 /**
@@ -834,25 +870,50 @@ function xprofile_get_field_data( $field_name, $user_id = null ) {
  * A simple function to set profile data for a specific field for a specific user.
  * 
  * @package BuddyPress Core
- * @param $field_name The name of the field to set data for.
+ * @param $field The ID of the field, or the $name of the field.
  * @param $user_id The ID of the user
  * @param $value The value for the field you want to set for the user.
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  * @uses xprofile_get_field_id_from_name() Gets the ID for the field based on the name.
  * @return true on success, false on failure.
  */
-function xprofile_set_field_data( $field_name, $user_id, $value ) {
-	global $bp;
+function xprofile_set_field_data( $field, $user_id, $value ) {
+	if ( is_numeric( $field ) )
+		$field_id = $field;
+	else
+		$field_id = xprofile_get_field_id_from_name( $field );
 	
-	if ( !$field_id = xprofile_get_field_id_from_name( $field_name ) )
+	if ( !$field_id )
 		return false;
 	
 	$field = new BP_XProfile_ProfileData();
 	$field->field_id = $field_id;
 	$field->user_id = $user_id;
-	$field->value = $value;
+	$field->value = maybe_serialize( $value );
 	
 	return $field->save();
+}
+
+function xprofile_delete_field_data( $field, $user_id ) {
+	if ( is_numeric( $field ) )
+		$field_id = $field;
+	else
+		$field_id = xprofile_get_field_id_from_name( $field );
+	
+	if ( !$field_id )
+		return false;
+	
+	$field = new BP_XProfile_ProfileData( $field_id );
+	return $field->delete();
+}
+
+function xprofile_check_is_required_field( $field_id ) {
+	$field = new BP_Xprofile_Field( $field_id );
+	
+	if ( (int)$field->is_required )
+		return true;
+	
+	return false;
 }
 
 /**
@@ -919,6 +980,29 @@ function xprofile_format_profile_field( $field_type, $field_value ) {
 	
 	return stripslashes( stripslashes( $field_value ) );
 }
+
+function xprofile_avatar_upload_dir( $directory = false, $user_id = false ) {
+	global $bp;
+
+	if ( !$user_id )
+		$user_id = $bp->displayed_user->id;
+
+	$path  = get_blog_option( BP_ROOT_BLOG, 'upload_path' );
+	$newdir = path_join( ABSPATH, $path );
+	$newdir .= '/avatars/' . $user_id;
+
+	$newbdir = $newdir;
+	
+	if ( !file_exists( $newdir ) )
+		@wp_mkdir_p( $newdir );
+
+	$newurl = WP_CONTENT_URL . '/blogs.dir/' . BP_ROOT_BLOG . '/files/avatars/' . $user_id;
+	$newburl = $newurl;
+	$newsubdir = '/avatars/' . $user_id;
+
+	return apply_filters( 'xprofile_avatar_upload_dir', array( 'path' => $newdir, 'url' => $newurl, 'subdir' => $newsubdir, 'basedir' => $newbdir, 'baseurl' => $newburl, 'error' => false ) );
+}
+
 
 /**
  * xprofile_remove_screen_notifications()
