@@ -92,7 +92,7 @@
 		<?php if ( bp_is_group_creation_step( 'group-avatar' ) ) : ?>
 
 			<div class="left-menu">
-				<img src="<?php bp_new_group_avatar_full() ?>" id="group-avatar" class="avatar" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" />
+				<?php bp_new_group_avatar( 'type=full' ) ?>
 			</div>
 		
 			<div class="main-column">
@@ -100,7 +100,7 @@
 			
 				<?php bp_new_group_avatar_upload_form() ?>
 				
-				<p><?php _e( 'To skip the avatar upload process, hit the "Next Step" button.', 'buddypress' ) ?></p>
+				<p><?php _e( 'To skip the avatar upload process or move onto the next step, hit the "Next Step" button.', 'buddypress' ) ?></p>
 			</div>
 
 			<?php wp_nonce_field( 'groups_create_save_group-avatar' ) ?>

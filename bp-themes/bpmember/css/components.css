@@ -534,13 +534,13 @@ td.data p {
 
 	/*----- Profile Edit Form ------------*/
 
-	.signup-field input, .signup-field select, .signup-field textarea {
+	.editfield input, .editfield select, .editfield textarea {
 		font-size: 1.3em;
 		font-family: inherit;
 		color: #777;
 	}
 
-	.signup-description {
+	.description {
 		color: #888;
 		font-size: 0.9em;
 	}

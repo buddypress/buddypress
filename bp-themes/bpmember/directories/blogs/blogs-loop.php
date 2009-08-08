@@ -1,4 +1,4 @@
-<?php if ( bp_has_site_blogs( 'type=active&per_page=10' ) ) : ?>
+<?php if ( bp_has_site_blogs( 'type=active&per_page=2' ) ) : ?>
 	
 	<div class="pag-count" id="blog-dir-count">
 		<?php bp_site_blogs_pagination_count() ?>

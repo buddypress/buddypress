@@ -540,6 +540,10 @@ ul.content-header-nav {
 			padding-left: 3.3em;
 		}
 
+#avatar-crop-pane {
+	width:100px;height:100px;overflow:hidden;
+}
+
 /*************************
  WP PROFILE FIELD FALLBACK  
 *************************/
