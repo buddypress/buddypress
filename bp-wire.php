@@ -6,7 +6,6 @@ if ( !defined( 'BP_WIRE_SLUG' ) )
 
 require ( BP_PLUGIN_DIR . '/bp-wire/bp-wire-classes.php' );
 require ( BP_PLUGIN_DIR . '/bp-wire/bp-wire-templatetags.php' );
-require ( BP_PLUGIN_DIR . '/bp-wire/bp-wire-cssjs.php' );
 require ( BP_PLUGIN_DIR . '/bp-wire/bp-wire-filters.php' );
 
 /* Include deprecated functions if settings allow */
