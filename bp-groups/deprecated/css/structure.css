@@ -6,7 +6,7 @@ These structure styles can be overridden by the theme CSS file if needed.
 */
 
 .group-button {
-	background: url(../../bp-core/images/button_back.gif) top left no-repeat;
+	background: url(../../../bp-core/deprecated/images/button_back.gif) top left no-repeat;
 	display: inline-block;
 	margin: 10px 0;
 }
@@ -26,13 +26,13 @@ These structure styles can be overridden by the theme CSS file if needed.
 	}
 
 	.group-button a.join-group, .group-button a.request-membership {
-		background: url(../../bp-core/images/add_button_side.gif) top right no-repeat;
+		background: url(../../../bp-core/deprecated/images/add_button_side.gif) top right no-repeat;
 	}
 	
 	.group-button a.leave-group {
-		background: url(../../bp-core/images/remove_button_side.gif) top right no-repeat;
+		background: url(../../../bp-core/deprecated/images/remove_button_side.gif) top right no-repeat;
 	}
 	
 	.group-button a.membership-requested {
-		background: url(../../bp-core/images/check_button_side.gif) top right no-repeat;
+		background: url(../../../bp-core/deprecated/images/check_button_side.gif) top right no-repeat;
 	}

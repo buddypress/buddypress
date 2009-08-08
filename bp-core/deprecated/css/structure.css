@@ -245,7 +245,7 @@ table.notification-settings {
 /* Buttons */
 
 .friendship-button {
-	background: url(../../bp-core/images/button_back.gif) top left no-repeat;
+	background: url(../../../bp-core/deprecated/images/button_back.gif) top left no-repeat;
 	display: inline-block;
 	margin-bottom: 10px;
 	margin-left: -6px;
@@ -268,19 +268,19 @@ table.notification-settings {
 	}
 
 	.friendship-button a.add {
-		background: url(../../bp-core/images/add_button_side.gif) top right no-repeat;
+		background: url(../../../bp-core/deprecated/images/add_button_side.gif) top right no-repeat;
 	}
 
 	.friendship-button a.remove {
-		background: url(../../bp-core/images/remove_button_side.gif) top right no-repeat;
+		background: url(../../../bp-core/deprecated/images/remove_button_side.gif) top right no-repeat;
 	}
 
 	.friendship-button a.requested {
-		background: url(../../bp-core/images/check_button_side.gif) top right no-repeat;
+		background: url(../../../bp-core/deprecated/images/check_button_side.gif) top right no-repeat;
 	}
 	
 	.loading a {
-		background: url(../../bp-core/images/loading_button_side.gif) top right no-repeat !important;		
+		background: url(../../../bp-core/deprecated/images/loading_button_side.gif) top right no-repeat !important;		
 	}
 
 .button-block {
@@ -289,7 +289,7 @@ table.notification-settings {
 }
 
 .generic-button {
-	background: url(../../bp-core/images/button_back.gif) top left no-repeat;
+	background: url(../../../bp-core/deprecated/images/button_back.gif) top left no-repeat;
 	display: inline-block;
 	margin: 0 5px 8px 0;
 }
@@ -303,10 +303,10 @@ table.notification-settings {
 	margin-right: -7px;
 	text-shadow: 0 1px 0 #fff;
 	text-decoration: none;
-	background: url(../../bp-core/images/view_button_side.gif) top right no-repeat;
+	background: url(../../../bp-core/deprecated/images/view_button_side.gif) top right no-repeat;
 }
-	.accept a { background-image: url(../../bp-core/images/accept_button_side.gif); }
-	.reject a { background-image: url(../../bp-core/images/reject_button_side.gif); }
+	.accept a { background-image: url(../../../bp-core/deprecated/images/accept_button_side.gif); }
+	.reject a { background-image: url(../../../bp-core/deprecated/images/reject_button_side.gif); }
 	
 	.generic-button a:hover {
 		color: #555;
