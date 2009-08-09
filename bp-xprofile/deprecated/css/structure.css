@@ -24,13 +24,13 @@ table.profile-fields {
  * Profile Field Editing
  */
 
-.signup-label {
+.editfield label {
 	display: block;
 	padding: 0 0 0.3em 0;
 	margin: 1em 0 0 0;
 }
 
-.signup-field input, .signup-field select, .signup-field textarea {
+.editfield input, .editfield select, .editfield textarea {
 	width: 65%;
 	padding: 0.2em;
 }
@@ -41,7 +41,7 @@ table.profile-fields {
 	display: block;
 }
 
-input#save, .standard-form input[type='submit'] {
+input#save, .generic-form input[type=submit], .standard-form input[type=submit] {
 	width: auto;
 	margin: 1.5em 0 0 0;
 	font-size: 1.4em;
@@ -51,12 +51,17 @@ input[type='radio'], input[type='checkbox'] {
 	width: auto !important;
 }
 
+.checkbox label, .radio label {
+	display: inline;
+	padding-right: 10px;
+}
+
 .checkbox label input, .radio label input {
 	width: auto;
 	display: inline;
 }
 
-.checkbox label, .checkbox input, .radio label, .radio input {
+span.label {
 	display: block;
 	padding: 0 0 0.2em 0;
 }
