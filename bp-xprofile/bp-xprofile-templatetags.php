@@ -14,7 +14,6 @@ Class BP_XProfile_Data_Template {
 	var $field_count;
 	var $field_has_data;
 	var $field;
-	var $is_public;
 	
 	var $in_the_loop;
 	var $user_id;
@@ -116,7 +115,7 @@ Class BP_XProfile_Data_Template {
 	function has_fields() { 
 		$has_data = false;
 		$just_name = true;
-		
+
 		for ( $i = 0; $i < count( $this->group->fields ); $i++ ) { 
 			$field = &$this->group->fields[$i];
 
@@ -153,7 +152,6 @@ Class BP_XProfile_Data_Template {
 
 		$field = $this->next_field();
 
-		$this->is_public = $field->is_public;	
 		if ( $field->data->value != '' ) {
 			$this->field_has_data = true;
 		}
@@ -219,7 +217,7 @@ function bp_field_has_data() {
 function bp_field_has_public_data() {
 	global $profile_template;
 	
-	if ( $profile_template->field_has_data && $profile_template->is_public == 1 )
+	if ( $profile_template->field_has_data )
 		return true;
 	
 	return false;
@@ -547,8 +545,9 @@ function bp_profile_group_tabs() {
 		} else {
 			$selected = '';
 		}
-
-		echo '<li' . $selected . '><a href="' . $bp->loggedin_user->domain . $bp->profile->slug . '/edit/group/' . $groups[$i]->id . '">' . $groups[$i]->name . '</a></li>';
+		
+		if ( $groups[$i]->fields )
+			echo '<li' . $selected . '><a href="' . $bp->loggedin_user->domain . $bp->profile->slug . '/edit/group/' . $groups[$i]->id . '">' . $groups[$i]->name . '</a></li>';
 	}
 	
 	do_action( 'xprofile_profile_group_tabs' );

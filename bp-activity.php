@@ -42,8 +42,8 @@ function bp_activity_install() {
 	dbDelta($sql);
 	
 	/* Drop the old sitewide and user activity tables */
-	$wpdb->query( "DROP TABLE {$wpdb->base_prefix}bp_activity_user_activity" );
-	$wpdb->query( "DROP TABLE {$wpdb->base_prefix}bp_activity_sitewide" );
+	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->base_prefix}bp_activity_user_activity" );
+	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->base_prefix}bp_activity_sitewide" );
 	
 	update_site_option( 'bp-activity-db-version', BP_ACTIVITY_DB_VERSION );
 }

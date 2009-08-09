@@ -196,7 +196,6 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 			$field->name = wp_filter_kses( $_POST['title'] );
 			$field->desc = wp_filter_kses( $_POST['description'] );
 			$field->is_required = wp_filter_kses( $_POST['required'] );
-			$field->is_public= wp_filter_kses( $_POST['public'] );
 			$field->type = wp_filter_kses( $_POST['fieldtype'] );
 			$field->order_by = wp_filter_kses( $_POST["sort_order_$field->type"] );
 			

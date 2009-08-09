@@ -185,5 +185,229 @@ function xprofile_add_structure_css() {
 }
 add_action( 'bp_styles', 'xprofile_add_structure_css' );
 
+// DEPRECATED BP_XProfile_Field class methods
+
+class BP_XProfile_Field_Deprecated extends BP_XProfile_Field {
+	function get_edit_html( $value = null ) {
+		global $bp;
+		
+		$asterisk = '';
+		if ( $this->is_required ) {
+			$asterisk = '* ';
+		}
+		
+		$error_class = '';
+		if ( $this->message ) {
+			$this->message = '<p class="' . $this->message_type . '">' . $this->message . '</p>';
+			$message_class = ' class="' . $this->message_type . '"';
+		}
+		
+		if ( !is_null($value) ) {
+			$this->data->value = $value;
+		}
+		
+		$this->data->value = stripslashes( wp_filter_kses( $this->data->value ) );
+		
+		switch ( $this->type ) {
+			case 'textbox':
+				$html .= '<div class="signup-field">';
+				$html .= '<label class="signup-label" for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
+				$html .= $this->message . '<input type="text" name="field_' . $this->id . '" id="field_' . $this->id . '" value="' . attribute_escape( $this->data->value ) . '" />';
+				$html .= '<span class="signup-description">' . $this->desc . '</span>';
+				$html .= '</div>';
+			break;
+			
+			case 'textarea':
+				$html .= '<div class="signup-field">';
+				$html .= '<label class="signup-label" for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
+				$html .= $this->message . '<textarea rows="5" cols="40" name="field_' . $this->id . '" id="field_' . $this->id . '">' . htmlspecialchars( $this->data->value ) . '</textarea>';
+				$html .= '<span class="signup-description">' . $this->desc . '</span>';
+				$html .= '</div>';
+			break;
+			
+			case 'selectbox':
+				$options = $this->get_children();
+				
+				$html .= '<div class="signup-field">';
+				$html .= '<label class="signup-label" for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
+				$html .= $this->message . '<select name="field_' . $this->id . '" id="field_' . $this->id . '">';
+				
+				$html .= '<option value="">--------</option>';	
+				for ( $k = 0; $k < count($options); $k++ ) {
+					$option_value = BP_XProfile_ProfileData::get_value_byid($options[$k]->parent_id);
+
+					if ( $option_value == $options[$k]->name || $value == $options[$k]->name || $options[$k]->is_default_option ) {
+						$selected = ' selected="selected"';
+					} else {
+						$selected = '';
+					}
+					
+					$html .= '<option' . $selected . ' value="' . attribute_escape( $options[$k]->name ) . '">' . $options[$k]->name . '</option>';
+				}
+				
+				$html .= '</select>';
+				$html .= '<span class="signup-description">' . $this->desc . '</span>';
+				$html .= '</div>';
+			break;
+			
+			case 'multiselectbox':
+				$options = $this->get_children();
+				
+				$html .= '<div class="signup-field">';
+				$html .= '<label class="signup-label" for="field_' . $this->id . '">' . $asterisk . $this->name . ':</label>';
+				$html .= $this->message . '<select class="multi-select" multiple="multiple" name="field_' . $this->id . '[]" id="field_' . $this->id . '">';
+
+				if ( $value ) {
+					$option_values = maybe_unserialize($value);
+				} else {
+					$option_values = BP_XProfile_ProfileData::get_value_byid($options[0]->parent_id);
+					$option_values = maybe_unserialize($option_values);
+				}
+
+				for ( $k = 0; $k < count($options); $k++ ) {
+					if ( @in_array( $options[$k]->name, $option_values ) ) {
+						$selected = ' selected="selected"';
+					} else {
+						$selected = '';
+					}
+					
+					$html .= '<option' . $selected . ' value="' . attribute_escape( $options[$k]->name ) . '">' . $options[$k]->name . '</option>';
+				}
+
+				$html .= '</select>';
+				$html .= '<span class="signup-description">' . $this->desc . '</span>';
+				$html .= '</div>';
+			break;
+			
+			case 'radio':
+				$options = $this->get_children();
+				
+				$html .= '<div class="radio signup-field" id="field_' . $this->id . '"><span class="signup-label">' . $asterisk . $this->name . ':</span>' . $this->message;
+				for ( $k = 0; $k < count($options); $k++ ) {
+					
+					$option_value = BP_XProfile_ProfileData::get_value_byid($options[$k]->parent_id);
+				
+					if ( $option_value == $options[$k]->name || $value == $options[$k]->name || $options[$k]->is_default_option ) {
+						$selected = ' checked="checked"';
+					} else {
+						$selected = '';
+					}
+					
+					$html .= '<label><input' . $selected . ' type="radio" name="field_' . $this->id . '" id="option_' . $options[$k]->id . '" value="' . attribute_escape( $options[$k]->name ) . '"> ' . $options[$k]->name . '</label>';
+				}
+				
+				if ( !$this->is_required ) {
+					$html .= '<a class="clear-value" style="text-decoration: none;" href="javascript:clear(\'field_' . $this->id . '\');"><img src="' . $bp->profile->image_base . '/cross.gif" alt="' . __( 'Clear', 'buddypress' ) . '" /> ' . __( 'Clear', 'buddypress' ) . '</a>';
+				}
+				
+				$html .= '<span class="signup-description">' . $this->desc . '</span>';	
+				$html .= '<div class="clear"></div></div>';
+				
+			break;
+			
+			case 'checkbox':
+				$options = $this->get_children();
+		
+				$html .= '<div class="checkbox signup-field" id="field_' . $this->id . '"><span class="signup-label">' . $asterisk . $this->name . ':</span>' . $this->message;
+				
+				if ( $value ) {
+					$option_values = maybe_unserialize($value);
+				} else {
+					$option_values = BP_XProfile_ProfileData::get_value_byid($options[0]->parent_id);
+					$option_values = maybe_unserialize($option_values);
+				}
+
+				for ( $k = 0; $k < count($options); $k++ ) {	
+					for ( $j = 0; $j < count($option_values); $j++ ) {
+						if ( $option_values[$j] == $options[$k]->name || @in_array( $options[$k]->name, $value ) || $options[$k]->is_default_option ) {
+							$selected = ' checked="checked"';
+							break;
+						}
+					}
+					
+					$html .= '<label><input' . $selected . ' type="checkbox" name="field_' . $this->id . '[]" id="field_' . $options[$k]->id . '_' . $k . '" value="' . attribute_escape( $options[$k]->name ) . '"> ' . $options[$k]->name . '</label>';
+					$selected = '';
+				}
+				
+				$html .= '<span class="signup-description">' . $this->desc . '</span>';				
+				$html .= '<div class="clear"></div></div>';
+				
+			break;
+			
+			case 'datebox':
+				if ( $this->data->value != '' ) {
+					$day = date("j", $this->data->value);
+					$month = date("F", $this->data->value);
+					$year = date("Y", $this->data->value);
+					$default_select = ' selected="selected"';
+				}
+				
+				$html .= '<div id="field_' . $this->id . '" class="datefield signup-field">';
+				$html .= '<label class="signup-label" for="field_' . $this->id . '_day">' . $asterisk . $this->name . ':</label>';
+				
+				$html .= $this->message . '
+				<select name="field_' . $this->id . '_day" id="field_' . $this->id . '_day">';
+				$html .= '<option value=""' . attribute_escape( $default_select ) . '>--</option>';
+				
+				for ( $i = 1; $i < 32; $i++ ) {
+					if ( $day == $i ) { 
+						$selected = ' selected = "selected"'; 
+					} else {
+						$selected = '';
+					}
+					$html .= '<option value="' . $i .'"' . $selected . '>' . $i . '</option>';
+				}
+				
+				$html .= '</select>';
+				
+				$months = array( __( 'January', 'buddypress' ), __( 'February', 'buddypress' ), __( 'March', 'buddypress' ), 
+								 __( 'April', 'buddypress' ), __( 'May', 'buddypress' ), __( 'June', 'buddypress' ),
+								 __( 'July', 'buddypress' ), __( 'August', 'buddypress' ), __( 'September', 'buddypress' ),
+								 __( 'October', 'buddypress' ), __( 'November', 'buddypress' ), __( 'December', 'buddypress' )
+								);
+
+				$html .= '
+				<select name="field_' . $this->id . '_month" id="field_' . $this->id . '_month">';
+				$html .= '<option value=""' . attribute_escape( $default_select ) . '>------</option>';
+				
+				for ( $i = 0; $i < 12; $i++ ) {
+					if ( $month == $months[$i] ) {
+						$selected = ' selected = "selected"';
+					} else {
+						$selected = '';
+					}
+					
+					$html .= '<option value="' . $months[$i] . '"' . $selected . '>' . $months[$i] . '</option>';
+				}
+
+				$html .= '</select>';
+				
+				$html .= '
+				<select name="field_' . $this->id . '_year" id="field_' . $this->id . '_year">';
+				$html .= '<option value=""' . attribute_escape( $default_select ) . '>----</option>';
+								
+				for ( $i = date( 'Y', time() ); $i > 1899; $i-- ) {
+					if ( $year == $i ) {
+						$selected = ' selected = "selected"'; 
+					} else {
+						$selected = '';
+					}
+				
+					$html .= '<option value="' . $i .'"' . $selected . '>' . $i . '</option>';
+				}
+				
+				$html .= '</select>';
+				$html .= '<span class="signup-description">' . $this->desc . '</span>';
+				$html .= '</div>';
+				
+			break;
+		}
+		
+		return $html;
+	}
+
+}
+
+
 
 ?>
