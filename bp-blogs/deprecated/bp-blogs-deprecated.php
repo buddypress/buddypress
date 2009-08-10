@@ -50,7 +50,7 @@ function bp_blogs_force_buddypress_stylesheet( $stylesheet ) {
 
 	/* If we are using a BuddyPress 1.1+ theme ignore this. */
 	if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
-		return $template;
+		return $stylesheet;
 		
 	if ( $bp->current_component == $bp->blogs->slug && empty( $bp->current_action ) ) {
 		$member_theme = get_site_option( 'active-member-theme' );

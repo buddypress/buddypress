@@ -118,7 +118,7 @@ function groups_force_buddypress_stylesheet( $stylesheet ) {
 
 	/* If we are using a BuddyPress 1.1+ theme ignore this. */
 	if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
-		return $template;
+		return $stylesheet;
 		
 	if ( $bp->current_component != $bp->groups->slug )
 		return $stylesheet;
@@ -732,7 +732,7 @@ function groups_ajax_member_admin_list() {
 	
 		<ul id="members-list" class="item-list single-line">
 		<?php while ( bp_group_members() ) : bp_group_the_member(); ?>
-			<?php if ( bp_group_member_is_banned() ) : ?>
+			<?php if ( bp_get_group_member_is_banned() ) : ?>
 				<li class="banned-user">
 					<?php bp_group_member_avatar_mini() ?>
 
