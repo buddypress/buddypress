@@ -860,6 +860,7 @@ function bp_core_admin_bar_css() {
 	wp_print_styles();
 }
 add_action( 'wp_head', 'bp_core_admin_bar_css', 1 );
+add_action( 'admin_menu', 'bp_core_admin_bar_css', 1 );
 
 /* DEPRECATED - Javascript is added by the theme on a per-theme basis. */
 function bp_core_add_js() {
