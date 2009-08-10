@@ -67,7 +67,7 @@ add_action( 'wp', 'bp_show_home_blog', 2 );
 function bp_show_register_page() {
 	global $bp, $current_blog;
 	
-	require ( BP_PLUGIN_DIR . '/bp-core/bp-core-signup.php' );
+	require_once ( BP_PLUGIN_DIR . '/bp-core/bp-core-signup.php' );
 	
 	if ( $bp->current_component == BP_REGISTER_SLUG && $bp->current_action == '' ) {
 		bp_core_signup_set_headers();
@@ -79,7 +79,7 @@ add_action( 'wp', 'bp_show_register_page', 2 );
 function bp_show_activation_page() {
 	global $bp, $current_blog;
 
-	require ( BP_PLUGIN_DIR . '/bp-core/bp-core-activation.php' );
+	require_once ( BP_PLUGIN_DIR . '/bp-core/bp-core-activation.php' );
 	
 	if ( $bp->current_component == BP_ACTIVATION_SLUG && $bp->current_action == '' ) {
 		bp_core_activation_set_headers();
