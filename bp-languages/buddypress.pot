@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-08-10 14:11+0000\n"
+"POT-Creation-Date: 2009-08-11 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -312,7 +312,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1284 bp-core/bp-core-classes.php:64
 #: bp-core/bp-core-templatetags.php:287
-#: bp-core/deprecated/bp-core-deprecated.php:936
+#: bp-core/deprecated/bp-core-deprecated.php:937
 #: bp-groups/bp-groups-templatetags.php:2038
 #: bp-groups/deprecated/bp-groups-deprecated.php:194
 #, php-format
@@ -1114,7 +1114,7 @@ msgid "Popular"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:105
-#: bp-core/deprecated/bp-core-deprecated.php:934
+#: bp-core/deprecated/bp-core-deprecated.php:935
 #, php-format
 msgid "registered %s ago"
 msgstr ""
@@ -1454,15 +1454,15 @@ msgstr ""
 msgid "Crop Image"
 msgstr ""
 
-#: bp-core/deprecated/bp-core-deprecated.php:939
+#: bp-core/deprecated/bp-core-deprecated.php:940
 msgid " friend"
 msgstr ""
 
-#: bp-core/deprecated/bp-core-deprecated.php:941
+#: bp-core/deprecated/bp-core-deprecated.php:942
 msgid " friends"
 msgstr ""
 
-#: bp-core/deprecated/bp-core-deprecated.php:951
+#: bp-core/deprecated/bp-core-deprecated.php:952
 msgid "No members matched the current filter."
 msgstr ""
 
