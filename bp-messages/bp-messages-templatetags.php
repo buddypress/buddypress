@@ -158,6 +158,7 @@ function bp_message_thread_id() {
 }
 	function bp_get_message_thread_id() {
 		global $messages_template;
+
 		return apply_filters( 'bp_get_message_thread_id', $messages_template->thread->thread_id );
 	}
 
@@ -283,7 +284,7 @@ function bp_messages_form_action() {
 	function bp_get_messages_form_action() {
 		global $bp;
 
-		return apply_filters( 'bp_get_messages_form_action', $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action );
+		return apply_filters( 'bp_get_messages_form_action', $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action . '/' . $bp->action_variables[0] . '/' );
 	}
 
 function bp_messages_username_value() {
@@ -581,13 +582,22 @@ function bp_thread_the_message() {
 	return $thread_template->the_message();
 }
 
+function bp_the_thread_id() {
+	echo bp_get_the_thread_id();
+}
+	function bp_get_the_thread_id() {
+		global $thread_template;
+		
+		return apply_filters( 'bp_get_the_thread_id', $thread_template->thread->thread_id );
+	}
+
 function bp_the_thread_subject() {
 	echo bp_get_the_thread_subject();
 }
 	function bp_get_the_thread_subject() {
 		global $thread_template;
-		
-		return apply_filters( 'bp_get_the_thread_subject', $thread_template->thread->subject );
+
+		return apply_filters( 'bp_get_the_thread_subject', $thread_template->thread->last_message_subject );
 	}
 
 function bp_the_thread_recipients() {

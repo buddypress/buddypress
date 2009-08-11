@@ -277,16 +277,13 @@ Class BP_Messages_Thread {
 		return $count;
 	}
 	
-	function check_access($id) {
+	function check_access( $thread_id, $user_id = false ) {
 		global $wpdb, $bp;
 		
-		$sql = $wpdb->prepare("SELECT id FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d AND user_id = %d", $id, $bp->loggedin_user->id );
-		$has_access = $wpdb->get_var($sql);
-
-		if ( $has_access )
-			return true;
-
-		return false;
+		if ( !$user_id )
+			$user_id = $bp->loggedin_user->id;
+		
+		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d AND user_id = %d", $thread_id, $user_id ) );
 	}
 	
 	function get_recipient_links($recipients) {
@@ -307,8 +304,6 @@ Class BP_Messages_Message {
 	var $subject;
 	var $message;
 	var $date_sent;
-	var $message_order;
-	var $sender_is_group;
 	
 	var $thread_id;
 	var $recipients = false;
@@ -335,8 +330,6 @@ Class BP_Messages_Message {
 			$this->subject = $message->subject;
 			$this->message = $message->message;
 			$this->date_sent = $message->date_sent;
-			$this->message_order = $message->message_order;
-			$this->sender_is_group = $message->sender_is_group;
 		}
 
 	}
@@ -348,13 +341,11 @@ Class BP_Messages_Message {
 		$this->subject = apply_filters( 'messages_message_subject_before_save', $this->subject, $this->id );
 		$this->message = apply_filters( 'messages_message_content_before_save', $this->message, $this->id );
 		$this->date_sent = apply_filters( 'messages_message_date_sent_before_save', $this->date_sent, $this->id ); 
-		$this->message_order = apply_filters( 'messages_message_order_before_save', $this->message_order, $this->id ); 
-		$this->sender_is_group = apply_filters( 'messages_message_sender_is_group_before_save', $this->sender_is_group, $this->id );
 
 		do_action( 'messages_message_before_save', $this );
 		
 		// First insert the message into the messages table
-		if ( !$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_messages} ( sender_id, subject, message, date_sent, message_order, sender_is_group ) VALUES ( %d, %s, %s, FROM_UNIXTIME(%d), %d, %d )", $this->sender_id, $this->subject, $this->message, $this->date_sent, $this->message_order, $this->sender_is_group ) ) )
+		if ( !$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_messages} ( sender_id, subject, message, date_sent ) VALUES ( %d, %s, %s, FROM_UNIXTIME(%d) )", $this->sender_id, $this->subject, $this->message, $this->date_sent ) ) )
 			return false;
 			
 		// Next, if thread_id is set, we are adding to an existing thread, if not, start a new one.
@@ -417,7 +408,7 @@ Class BP_Messages_Message {
 
 		do_action( 'messages_message_after_save', $this );
 		
-		return true;
+		return $this->thread_id;
 	}
 	
 	function get_recipients() {

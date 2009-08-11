@@ -161,4 +161,119 @@ function messages_ajax_close_notice() {
 }
 add_action( 'wp_ajax_messages_close_notice', 'messages_ajax_close_notice' );
 
+/* Deprecated -- use messages_new_message() */
+function messages_send_message( $recipients, $subject, $content, $thread_id, $from_ajax = false, $from_template = false, $is_reply = false ) {
+	global $pmessage;
+	global $message, $type;
+	global $bp, $current_user;
+		
+	messages_add_callback_values( $recipients, $subject, $content );
+	
+	if ( isset( $_POST['send-notice'] ) ) {
+		if ( messages_send_notice( $subject, $content, $from_template ) ) {
+			bp_core_add_message( __('Notice posted successfully.', 'buddypress') );
+		} else {
+			bp_core_add_message( __('There was an error posting that notice.', 'buddypress'), 'error' );			
+		}
+		bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/notices' );
+		return true;
+	}
+	
+	$recipients = explode( ' ', $recipients );
+	
+	// If there are no recipients
+	if ( count( $recipients ) < 1 ) {
+		if ( !$from_ajax ) {	
+			bp_core_add_message( __('Please enter at least one valid user to send this message to.', 'buddypress'), 'error' );
+			bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/compose' );
+		} else {
+			return array('status' => 0, 'message' => __('There was an error sending the reply, please try again.', 'buddypress'));
+		}
+		
+	// If there is only 1 recipient and it is the logged in user.
+	} else if ( 1 == count( $recipients ) && $recipients[0] == $current_user->user_login ) {
+		bp_core_add_message( __('You must send your message to one or more users not including yourself.', 'buddypress'), 'error' );
+		bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/compose' );	
+	
+	// If the subject or content boxes are empty.
+	} else if ( empty( $subject ) || empty( $content ) ) {
+		if ( !$from_ajax ) {
+			bp_core_add_message( __('Please make sure you fill in all the fields.', 'buddypress'), 'error' );
+			bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/compose' );
+		} else {
+			return array('status' => 0, 'message' => __('Please make sure you have typed a message before sending a reply.', 'buddypress'));
+		}
+		
+	// Passed validation continue.
+	} else {
+
+		// Strip the logged in user from the recipient list if they exist
+		if ( $key = array_search( $current_user->user_login, $recipients ) )
+			unset( $recipients[$key] );
+		
+		$pmessage = new BP_Messages_Message;
+
+		$pmessage->sender_id = $bp->loggedin_user->id;
+		$pmessage->subject = $subject;
+		$pmessage->message = $content;
+		$pmessage->thread_id = $thread_id;
+		$pmessage->date_sent = time();
+		
+		if ( $is_reply ) {
+			$thread = new BP_Messages_Thread($thread_id);
+			$pmessage->recipients = $thread->get_recipients();
+		} else {
+			$pmessage->recipients = BP_Messages_Message::get_recipient_ids( $recipients );
+		}
+
+		if ( !is_null( $pmessage->recipients ) ) {
+			if ( !$pmessage->send() ) {
+				$message = __('Message could not be sent, please try again.', 'buddypress');
+				$type = 'error';
+		
+				if ( $from_ajax ) {
+					return array('status' => 0, 'message' => $message);
+				} else {
+					bp_core_add_message( $message, $type );
+					bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/compose' );
+				} 
+			} else {
+				$message = __('Message sent successfully!', 'buddypress');
+				$type = 'success';
+				
+				// Send screen notifications to the recipients
+				for ( $i = 0; $i < count($pmessage->recipients); $i++ ) {
+					if ( $pmessage->recipients[$i] != $bp->loggedin_user->id ) {
+						bp_core_add_notification( $pmessage->id, $pmessage->recipients[$i], 'messages', 'new_message' );	
+					}
+				}
+				
+				// Send email notifications to the recipients
+				require_once( BP_PLUGIN_DIR . '/bp-messages/bp-messages-notifications.php' );
+				messages_notification_new_message( array( 'item_id' => $pmessage->id, 'recipient_ids' => $pmessage->recipients, 'thread_id' => $pmessage->thread_id, 'component_name' => $bp->messages->slug, 'component_action' => 'message_sent', 'is_private' => 1 ) );
+
+				do_action( 'messages_send_message', array( 'item_id' => $pmessage->id, 'recipient_ids' => $pmessage->recipients, 'thread_id' => $pmessage->thread_id, 'component_name' => $bp->messages->slug, 'component_action' => 'message_sent', 'is_private' => 1 ) );
+		
+				if ( $from_ajax ) {
+					return array('status' => 1, 'message' => $message, 'reply' => $pmessage);
+				} else {
+					bp_core_add_message( $message );
+					bp_core_redirect( $bp->loggedin_user->domain . $bp->messages->slug . '/view/' . $pmessage->thread_id );
+				}
+			}
+		} else {
+			$message = __('Message could not be sent, please try again.', 'buddypress');
+			$type = 'error';
+		
+			if ( $from_ajax ) {
+				return array('status' => 0, 'message' => $message);
+			} else {
+				bp_core_add_message( $message, $type );
+				bp_core_redirect( $bp->loggedin_user->domain . $bp->messages->slug . '/compose' );
+			}
+		}
+	}
+
+}
+
 ?>
