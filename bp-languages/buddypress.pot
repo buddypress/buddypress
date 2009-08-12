@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-08-11 14:11+0000\n"
+"POT-Creation-Date: 2009-08-12 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,7 +57,7 @@ msgstr ""
 #: bp-groups/bp-groups-templatetags.php:784
 #: bp-groups/bp-groups-templatetags.php:1966
 #: bp-groups/bp-groups-widgets.php:31
-#: bp-messages/bp-messages-templatetags.php:277
+#: bp-messages/bp-messages-templatetags.php:278
 #: bp-themes/bpmember/wire/post-list.php:10
 #: bp-themes/bpskeletonmember/wire/post-list.php:22
 #: bp-wire/deprecated/bp-wire-deprecated.php:46
@@ -238,7 +238,7 @@ msgstr ""
 #: bp-blogs/bp-blogs-templatetags.php:104 bp-core/bp-core-admin.php:60
 #: bp-core/bp-core-admin.php:68 bp-core/bp-core-admin.php:75
 #: bp-core/bp-core-admin.php:83 bp-core/deprecated/bp-core-deprecated.php:119
-#: bp-friends.php:155 bp-groups.php:1238 bp-messages.php:234
+#: bp-friends.php:155 bp-groups.php:1238 bp-messages.php:247
 #: bp-themes/bpmember/groups/single/admin.php:35
 #: bp-themes/bpskeletonmember/groups/admin/edit-details.php:41
 #: bp-xprofile.php:405 bp-xprofile/bp-xprofile-admin.php:85
@@ -248,7 +248,7 @@ msgstr ""
 #: bp-blogs/bp-blogs-templatetags.php:108 bp-core/bp-core-admin.php:61
 #: bp-core/bp-core-admin.php:69 bp-core/bp-core-admin.php:76
 #: bp-core/bp-core-admin.php:84 bp-core/deprecated/bp-core-deprecated.php:123
-#: bp-friends.php:156 bp-groups.php:1239 bp-messages.php:235
+#: bp-friends.php:156 bp-groups.php:1239 bp-messages.php:248
 #: bp-themes/bpmember/groups/single/admin.php:36
 #: bp-themes/bpskeletonmember/groups/admin/edit-details.php:42
 #: bp-xprofile.php:406
@@ -3738,12 +3738,12 @@ msgstr ""
 
 #: bp-forums/bbpress/bb-admin/plugins.php:202
 #: bp-forums/bbpress/bb-admin/themes.php:96
-#: bp-messages/bp-messages-templatetags.php:407
+#: bp-messages/bp-messages-templatetags.php:408
 msgid "Activate"
 msgstr ""
 
 #: bp-forums/bbpress/bb-admin/plugins.php:209
-#: bp-messages/bp-messages-templatetags.php:405
+#: bp-messages/bp-messages-templatetags.php:406
 msgid "Deactivate"
 msgstr ""
 
@@ -4064,7 +4064,7 @@ msgstr ""
 
 #: bp-forums/bbpress/bb-admin/topics.php:127
 #: bp-forums/bp-forums-templatetags.php:415
-#: bp-messages/bp-messages-templatetags.php:427
+#: bp-messages/bp-messages-templatetags.php:428
 msgid "Close"
 msgstr ""
 
@@ -4698,7 +4698,7 @@ msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-query.php:968
 #: bp-forums/bbpress/bb-includes/class.bb-query.php:1001
-#: bp-messages/bp-messages-templatetags.php:324
+#: bp-messages/bp-messages-templatetags.php:325
 msgid "All"
 msgstr ""
 
@@ -7947,132 +7947,112 @@ msgstr ""
 msgid "Error leaving group"
 msgstr ""
 
-#: bp-messages.php:117 bp-messages.php:233
+#: bp-messages.php:113 bp-messages.php:246
 msgid "Messages"
 msgstr ""
 
-#: bp-messages.php:122 bp-themes/bpmember/messages/index.php:12
+#: bp-messages.php:118 bp-themes/bpmember/messages/index.php:12
 #: bp-themes/bpskeletonmember/messages/index.php:26
 msgid "Inbox"
 msgstr ""
 
-#: bp-messages.php:123 bp-themes/bpmember/messages/sentbox.php:10
+#: bp-messages.php:119 bp-themes/bpmember/messages/sentbox.php:10
 #: bp-themes/bpskeletonmember/messages/sentbox.php:23
 msgid "Sent Messages"
 msgstr ""
 
-#: bp-messages.php:124
+#: bp-messages.php:120
 msgid "Compose"
 msgstr ""
 
-#: bp-messages.php:127
+#: bp-messages.php:123
 msgid "Notices"
 msgstr ""
 
-#: bp-messages.php:131
+#: bp-messages.php:127
 msgid "My Messages"
 msgstr ""
 
-#: bp-messages.php:203
+#: bp-messages.php:172 bp-messages.php:191
+msgid "There was an error sending that message, please try again"
+msgstr ""
+
+#: bp-messages.php:188 bp-messages/deprecated/bp-messages-deprecated.php:241
+msgid "Message sent successfully!"
+msgstr ""
+
+#: bp-messages.php:216
 msgid "There was a problem deactivating that notice."
 msgstr ""
 
-#: bp-messages.php:205
+#: bp-messages.php:218
 msgid "Notice deactivated."
 msgstr ""
 
-#: bp-messages.php:209
+#: bp-messages.php:222
 msgid "There was a problem activating that notice."
 msgstr ""
 
-#: bp-messages.php:211
+#: bp-messages.php:224
 msgid "Notice activated."
 msgstr ""
 
-#: bp-messages.php:215
+#: bp-messages.php:228
 msgid "There was a problem deleting that notice."
 msgstr ""
 
-#: bp-messages.php:217
+#: bp-messages.php:230
 msgid "Notice deleted."
 msgstr ""
 
-#: bp-messages.php:239
+#: bp-messages.php:252
 msgid "A member sends you a new message"
 msgstr ""
 
-#: bp-messages.php:245
+#: bp-messages.php:258
 msgid "A new site notice is posted"
 msgstr ""
 
-#: bp-messages.php:277
+#: bp-messages.php:297
+msgid "Your reply was sent successfully"
+msgstr ""
+
+#: bp-messages.php:299
+msgid "There was a problem sending your reply, please try again"
+msgstr ""
+
+#: bp-messages.php:304
 #, php-format
 msgid "From: %s"
 msgstr ""
 
-#: bp-messages.php:300
+#: bp-messages.php:325
 msgid "There was an error deleting that message."
 msgstr ""
 
-#: bp-messages.php:302
+#: bp-messages.php:327
 msgid "Message deleted."
 msgstr ""
 
-#: bp-messages.php:324
+#: bp-messages.php:349
 msgid "There was an error deleting messages."
 msgstr ""
 
-#: bp-messages.php:326 bp-messages/deprecated/bp-messages-deprecated.php:140
+#: bp-messages.php:351 bp-messages/deprecated/bp-messages-deprecated.php:140
 msgid "Messages deleted."
 msgstr ""
 
-#: bp-messages.php:360
+#: bp-messages.php:385
 #, php-format
 msgid "You have %d new messages"
 msgstr ""
 
-#: bp-messages.php:362
+#: bp-messages.php:387
 #, php-format
 msgid "You have %d new message"
 msgstr ""
 
-#: bp-messages.php:389
-msgid "Notice posted successfully."
-msgstr ""
-
-#: bp-messages.php:391
-msgid "There was an error posting that notice."
-msgstr ""
-
-#: bp-messages.php:402
-msgid "Please enter at least one valid user to send this message to."
-msgstr ""
-
-#: bp-messages.php:405
-msgid "There was an error sending the reply, please try again."
-msgstr ""
-
-#: bp-messages.php:410
-msgid "You must send your message to one or more users not including yourself."
-msgstr ""
-
-#: bp-messages.php:416
-msgid "Please make sure you fill in all the fields."
-msgstr ""
-
-#: bp-messages.php:419
-msgid "Please make sure you have typed a message before sending a reply."
-msgstr ""
-
-#: bp-messages.php:448 bp-messages.php:482
-msgid "Message could not be sent, please try again."
-msgstr ""
-
-#: bp-messages.php:458
-msgid "Message sent successfully!"
-msgstr ""
-
-#: bp-messages/bp-messages-classes.php:294
+#: bp-messages/bp-messages-classes.php:291
 msgid " Recipients"
 msgstr ""
 
@@ -8095,74 +8075,74 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:276
+#: bp-messages/bp-messages-templatetags.php:277
 #, php-format
 msgid "Viewing message %d to %d (of %d messages)"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:319
+#: bp-messages/bp-messages-templatetags.php:320
 msgid "Select:"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:322
+#: bp-messages/bp-messages-templatetags.php:323
 msgid "Read"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:323
+#: bp-messages/bp-messages-templatetags.php:324
 msgid "Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:326
+#: bp-messages/bp-messages-templatetags.php:327
 msgid "Mark as Read"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:327
+#: bp-messages/bp-messages-templatetags.php:328
 msgid "Mark as Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:329
+#: bp-messages/bp-messages-templatetags.php:330
 msgid "Delete Selected"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:338
+#: bp-messages/bp-messages-templatetags.php:339
 msgid "Currently Active"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:443
+#: bp-messages/bp-messages-templatetags.php:444
 msgid "Send Message"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:600
+#: bp-messages/bp-messages-templatetags.php:610
 #, php-format
 msgid "%d Recipients"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:664
+#: bp-messages/bp-messages-templatetags.php:674
 #, php-format
 msgid "Sent %s ago"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:688
+#: bp-messages/bp-messages-templatetags.php:698
 msgid "There was an error when viewing that message"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:702
+#: bp-messages/bp-messages-templatetags.php:712
 msgid "Sent between "
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:703
+#: bp-messages/bp-messages-templatetags.php:713
 msgid "and"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:742
+#: bp-messages/bp-messages-templatetags.php:752
 msgid "Reply: "
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:750
+#: bp-messages/bp-messages-templatetags.php:760
 msgid "Send Reply"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:753
+#: bp-messages/bp-messages-templatetags.php:763
 msgid "Re: "
 msgstr ""
 
@@ -8180,6 +8160,39 @@ msgstr ""
 
 #: bp-messages/deprecated/bp-messages-deprecated.php:153
 msgid "There was a problem closing the notice."
+msgstr ""
+
+#: bp-messages/deprecated/bp-messages-deprecated.php:174
+msgid "Notice posted successfully."
+msgstr ""
+
+#: bp-messages/deprecated/bp-messages-deprecated.php:176
+msgid "There was an error posting that notice."
+msgstr ""
+
+#: bp-messages/deprecated/bp-messages-deprecated.php:187
+msgid "Please enter at least one valid user to send this message to."
+msgstr ""
+
+#: bp-messages/deprecated/bp-messages-deprecated.php:190
+msgid "There was an error sending the reply, please try again."
+msgstr ""
+
+#: bp-messages/deprecated/bp-messages-deprecated.php:195
+msgid "You must send your message to one or more users not including yourself."
+msgstr ""
+
+#: bp-messages/deprecated/bp-messages-deprecated.php:201
+msgid "Please make sure you fill in all the fields."
+msgstr ""
+
+#: bp-messages/deprecated/bp-messages-deprecated.php:204
+msgid "Please make sure you have typed a message before sending a reply."
+msgstr ""
+
+#: bp-messages/deprecated/bp-messages-deprecated.php:231
+#: bp-messages/deprecated/bp-messages-deprecated.php:265
+msgid "Message could not be sent, please try again."
 msgstr ""
 
 #: bp-status.php:42
