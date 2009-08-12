@@ -27,13 +27,13 @@
 				</div>
 			<?php endif;?>
 		
-			<div class="info-group">
+			<div class="bp-widget">
 				<h4><?php _e( 'Description', 'buddypress' ); ?></h4>
 				<p><?php bp_group_description() ?></p>
 			</div>
 		
 			<?php if ( bp_group_is_visible() && bp_group_has_news() ) : ?>
-				<div class="info-group">
+				<div class="bp-widget">
 					<h4><?php _e( 'News', 'buddypress' ); ?></h4>
 					<p><?php bp_group_news() ?></p>
 				</div>
@@ -42,7 +42,7 @@
 			<?php do_action( 'groups_custom_group_fields' ) ?>
 			
 			<?php if ( bp_group_is_visible() && bp_group_is_forum_enabled() && function_exists( 'bp_forums_setup') ) : ?>
-				<div class="info-group">
+				<div class="bp-widget">
 					<h4><?php _e( 'Recently Active Topics', 'buddypress' ); ?> <span><a href="<?php bp_group_forum_permalink() ?>"><?php _e( 'See All', 'buddypress' ) ?> &rarr;</a></span></h4>
 				
 					<?php if ( bp_has_topics( 'no_stickies=true&max=5&per_page=5' ) ) : ?>									
@@ -69,7 +69,7 @@
 			<?php endif; ?>
 		
 			<?php if ( bp_group_is_visible() ) : ?>
-				<div class="info-group">
+				<div class="bp-widget">
 					<h4><?php printf( __( 'Members (%d)', 'buddypress' ), bp_get_group_total_members() ); ?> <span><a href="<?php bp_group_all_members_permalink() ?>"><?php _e( 'See All', 'buddypress' ) ?> &rarr;</a></h4>
 
 					<?php if ( bp_group_has_members( 'max=5&exclude_admins_mods=0' ) ) : ?>

@@ -1,4 +1,4 @@
-<div class="info-group">
+<div class="bp-widget">
 	<h4><?php bp_wire_title() ?> <span><a href="<?php bp_wire_see_all_link() ?>"><?php _e( "See All", "buddypress" ) ?> &rarr;</a></span></h4>
 
 	<form name="wire-post-list-form" id="wire-post-list-form" action="" method="post">

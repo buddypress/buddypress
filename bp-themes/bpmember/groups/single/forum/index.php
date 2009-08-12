@@ -21,7 +21,7 @@
 				<p class="status"><?php bp_group_type() ?></p>
 			</div>
 
-			<div class="info-group">
+			<div class="bp-widget">
 				<h4><?php _e( 'Forum', 'buddypress' ); ?> <span><a href="#post-new" title="<?php _e( 'Post New', 'buddypress' ) ?>"><?php _e( 'Post New &rarr;', 'buddypress' ) ?></a></span></h4>
 				
 				<form action="<?php bp_forum_action() ?>" method="post" id="forum-topic-form">

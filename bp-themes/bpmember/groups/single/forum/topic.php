@@ -21,7 +21,7 @@
 				<p class="status"><?php bp_group_type() ?></p>
 			</div>
 
-			<div class="info-group">
+			<div class="bp-widget">
 				<?php if ( bp_has_topic_posts() ) : ?>
 				<form action="<?php bp_forum_topic_action() ?>" method="post" id="forum-topic-form">
 			

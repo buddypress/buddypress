@@ -19,19 +19,19 @@
 				<p class="status"><?php bp_group_type() ?></p>
 			</div>
 		
-			<div class="info-group">
+			<div class="bp-widget">
 				<h4><?php _e( 'Administrators', 'buddypress' ); ?></h4>
 				<?php bp_group_admin_memberlist() ?>
 			</div>
 		
 			<?php if ( bp_group_has_moderators() ) : ?>
-			<div class="info-group">
+			<div class="bp-widget">
 				<h4><?php _e( 'Moderators', 'buddypress' ); ?></h4>
 				<?php bp_group_mod_memberlist() ?>
 			</div>
 			<?php endif; ?>
 
-			<div class="info-group">
+			<div class="bp-widget">
 				<h4><?php _e( 'Group Members', 'buddypress' ); ?></h4>
 			
 				<form action="<?php bp_group_form_action('members') ?>" method="post" id="group-members-form">

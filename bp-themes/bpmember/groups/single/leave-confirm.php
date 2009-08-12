@@ -19,7 +19,7 @@
 				<p class="status"><?php bp_group_type() ?></p>
 			</div>
 
-			<div class="info-group">
+			<div class="bp-widget">
 				<h4><?php _e( 'Confirm Leave Group', 'buddypress' ); ?></h4>
 				<h3><?php _e( 'Are you sure you want to leave this group?', 'buddypress' ); ?></h3>
 	

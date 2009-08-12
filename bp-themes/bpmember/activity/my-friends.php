@@ -19,7 +19,7 @@
 	<div class="main-column">
 		<?php bp_get_profile_header() ?>
 
-		<div class="info-group">
+		<div class="bp-widget">
 			<h4><?php _e( 'My Friends Activity', 'buddypress' ) ?> <a href="<?php bp_activities_member_rss_link() ?>" title="<?php _e( 'RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a></h4>
 
 			<ul id="activity-filter-links">

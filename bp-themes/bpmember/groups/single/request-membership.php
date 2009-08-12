@@ -18,7 +18,7 @@
 			<p class="status"><?php bp_group_type() ?></p>
 		</div>
 
-		<div class="info-group">
+		<div class="bp-widget">
 			<h4><?php _e( 'Request Membership', 'buddypress' ); ?></h4>
 			
 			<?php do_action( 'template_notices' ) // (error/success feedback) ?>

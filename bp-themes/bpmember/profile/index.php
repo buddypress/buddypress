@@ -23,7 +23,7 @@
 			
 			<!-- Latest Activity Loop -->
 			<?php if ( function_exists( 'bp_activity_install')) : ?>
-			<div class="info-group">
+			<div class="bp-widget">
 				<h4><?php echo bp_word_or_name( __( "My Latest Activity", 'buddypress' ), __( "%s's Latest Activity", 'buddypress' ), true, false ) ?> <span><a href="<?php echo bp_displayed_user_domain() . BP_ACTIVITY_SLUG ?>"><?php _e( 'See All', 'buddypress' ) ?> &rarr;</a></span></h4>
 
 				<?php if ( bp_has_activities( 'type=personal&max=5' ) ) : ?>
@@ -54,7 +54,7 @@
 			<?php if ( function_exists( 'bp_has_groups' ) ) : ?>
 
 				<?php if ( bp_has_groups( 'type=random&max=5' ) ) : ?>
-					<div class="info-group">
+					<div class="bp-widget">
 						<h4><?php bp_word_or_name( __( "My Groups", 'buddypress' ), __( "%s's Groups", 'buddypress' ) ) ?> (<?php bp_group_total_for_member() ?>) <span><a href="<?php echo bp_displayed_user_domain() . BP_GROUPS_SLUG ?>"><?php _e( 'See All', 'buddypress' ) ?> &rarr;</a></span></h4>
 						
 						<ul class="horiz-gallery">
@@ -77,7 +77,7 @@
 			<?php if ( function_exists( 'bp_has_friendships' ) ) : ?>
 
 				<?php if ( bp_has_friendships( 'type=random&max=5' ) ) : ?>
-					<div class="info-group">
+					<div class="bp-widget">
 						<h4><?php bp_word_or_name( __( "My Friends", 'buddypress' ), __( "%s's Friends", 'buddypress' ) ) ?> (<?php bp_friend_total_for_member() ?>) <span><a href="<?php echo bp_displayed_user_domain() . BP_FRIENDS_SLUG ?>"><?php _e( 'See All', 'buddypress' ) ?> &rarr;</a></span></h4>
 						
 						<ul class="horiz-gallery">

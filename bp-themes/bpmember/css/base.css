@@ -48,7 +48,7 @@ hr, div.clear {
 	visibility: hidden;
 	clear: right;
 }
-	.info-group div.clear, p.clear, body.directory div.clear {
+	.bp-widget div.clear, p.clear, body.directory div.clear {
 		clear: both;
 	}
 
@@ -481,23 +481,23 @@ ul.content-header-nav {
 			font-size: 0.9em;
 			color: #888;
 		}
-			div.info-group {
+			div.bp-widget {
 				position: relative;
 			}
 	
-			div.info-group h4 {
+			div.bp-widget h4 {
 				background: url(../images/group_header.gif) top left;
 				color: #fff;
 				font-size: 1em;
 				margin-bottom: 0.5em;
 				font-weight: bold;
 			}
-				.left-menu div.info-group h4 {
+				.left-menu div.bp-widget h4 {
 					background: url(../images/leftmenu_group_header.gif) top left no-repeat;
 					color: #555;				
 				}
 				
-				div.info-group h4 a {
+				div.bp-widget h4 a {
 					color: #fff;
 					font-weight: normal;
 				}
