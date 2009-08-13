@@ -16,11 +16,15 @@ body { padding-top: 28px !important; }
 
 #wp-admin-bar * { z-index: 999 !important; }
 
-#wp-admin-bar div#admin-bar-logo {
+#wp-admin-bar a#admin-bar-logo {
 	position: absolute !important;
 	top: 8px;
 	left: 10px;
 	background: url( ../images/admin_bar_logo.gif) top left no-repeat;
+	text-indent: -999em;
+	width: 61px;
+	height: 14px;
+	overflow: hidden;
 }
 
 #wp-admin-bar a img {
