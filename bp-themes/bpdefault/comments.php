@@ -19,7 +19,7 @@
 
 				<?php do_action( 'bp_before_blog_comment_list' ) ?>
 
-				<ol class="comment-list">
+				<ol class="commentlist">
 					<?php wp_list_comments( array( 'style' => 'ol', 'type' => 'all' ) ); ?>
 				</ol><!-- .comment-list -->
 

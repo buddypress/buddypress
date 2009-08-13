@@ -30,7 +30,7 @@
 			</div>
 
 			<div class="action">
-				<div class="blog-button visit">
+				<div class="generic-button blog-button visit">
 					<a href="<?php bp_the_site_blog_link() ?>" class="visit" title="<?php _e( 'Visit Blog', 'buddypress' ) ?>"><?php _e( 'Visit Blog', 'buddypress' ) ?></a>
 				</div>
 				
