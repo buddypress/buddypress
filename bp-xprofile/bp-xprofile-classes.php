@@ -554,6 +554,7 @@ Class BP_XProfile_Field {
 	<?php
 	}
 	
+	/* Deprecated - Signup fields are now in the template */
 	function get_signup_fields() {
 		global $wpdb, $bp;
 		
@@ -568,7 +569,8 @@ Class BP_XProfile_Field {
 		
 		return $fields;
 	}
-
+	
+	/* Deprecated, Validation is now done in the screen function */
 	function admin_validate() {
 		global $message;
 		

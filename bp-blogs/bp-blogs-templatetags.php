@@ -43,10 +43,11 @@ function bp_show_blog_signup_form($blogname = '', $blog_title = '', $errors = ''
 
 		<p><?php _e("If you&#8217;re not going to use a great blog domain, leave it for a new user. Now have at it!", 'buddypress') ?></p>
 
-		<form id="setupform" method="post" action="<?php echo $bp->loggedin_user->domain . $bp->blogs->slug . '/create-a-blog' ?>">
+		<form class="standard-form" id="setupform" method="post" action="<?php echo $bp->loggedin_user->domain . $bp->blogs->slug . '/create-a-blog' ?>">
 
 			<input type="hidden" name="stage" value="gimmeanotherblog" />
 			<?php do_action( "signup_hidden_fields" ); ?>
+			
 			<?php bp_blogs_signup_blog($blogname, $blog_title, $errors); ?>
 			<p>
 				<input id="submit" type="submit" name="submit" class="submit" value="<?php _e('Create Blog &raquo;', 'buddypress') ?>" />
@@ -98,7 +99,8 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 	<p>
 		<label for="blog_public_on"><?php _e('Privacy:', 'buddypress') ?></label>
 		<?php _e('I would like my blog to appear in search engines like Google and Technorati, and in public listings around this site.', 'buddypress'); ?> 
-		<div class="clear"></div>
+
+
 		<label class="checkbox" for="blog_public_on">
 			<input type="radio" id="blog_public_on" name="blog_public" value="1" <?php if( !isset( $_POST['blog_public'] ) || '1' == $_POST['blog_public'] ) { ?>checked="checked"<?php } ?> />
 			<strong><?php _e( 'Yes' , 'buddypress'); ?></strong>
