@@ -275,7 +275,7 @@ function bp_messages_pagination_count() {
 	$to_num = ( $from_num + ( $messages_template->pag_num - 1 ) > $messages_template->total_thread_count ) ? $messages_template->total_thread_count : $from_num + ( $messages_template->pag_num - 1) ;
 
 	echo sprintf( __( 'Viewing message %d to %d (of %d messages)', 'buddypress' ), $from_num, $to_num, $messages_template->total_thread_count ); ?> &nbsp;
-	<img id="ajax-loader-messages" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" /><?php
+	<span class="ajax-loader"></span><?php 
 }
 
 function bp_messages_form_action() {

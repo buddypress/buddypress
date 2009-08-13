@@ -32,6 +32,7 @@ require ( BP_PLUGIN_DIR . '/bp-core/bp-core-settings.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-widgets.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-notifications.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-signup.php' );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-activation.php' );
 
 /* If BP_DISABLE_ADMIN_BAR is defined, do not load the global admin bar */
 if ( !defined( 'BP_DISABLE_ADMIN_BAR' ) )
@@ -558,7 +559,7 @@ function bp_core_new_subnav_item( $args = '' ) {
 	
 	if ( empty( $item_css_id ) )
 		$item_css_id = $slug;
-
+	
 	$bp->bp_options_nav[$parent_slug][] = array(
 		'name' => $name,
 		'link' => $parent_url . $slug . '/',

@@ -326,7 +326,7 @@ function bp_blogs_pagination_count() {
 	$to_num = ( $from_num + ( $blogs_template->pag_num - 1 ) > $blogs_template->total_blog_count ) ? $blogs_template->total_blog_count : $from_num + ( $blogs_template->pag_num - 1 ) ;
 
 	echo sprintf( __( 'Viewing blog %d to %d (of %d blogs)', 'buddypress' ), $from_num, $to_num, $blogs_template->total_blog_count ); ?> &nbsp;
-	<img id="ajax-loader-blogs" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" /><?php
+	<span class="ajax-loader"></span><?php
 }
 
 function bp_blogs_pagination_links() {
@@ -502,7 +502,7 @@ function bp_post_pagination_count() {
 	$to_num = ( $from_num + ( $posts_template->pag_num - 1 ) > $posts_template->total_post_count ) ? $posts_template->total_post_count : $from_num + ( $posts_template->pag_num - 1 ) ;
 
 	echo sprintf( __( 'Viewing post %d to %d (of %d posts)', 'buddypress' ), $from_num, $to_num, $posts_template->total_post_count ); ?> &nbsp;
-	<img id="ajax-loader-blogs" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" /><?php
+	<span class="ajax-loader"></span><?php
 }
 
 function bp_post_pagination_links() {
@@ -1205,7 +1205,7 @@ function bp_site_blogs_pagination_count() {
 	$to_num = ( $from_num + ( $site_blogs_template->pag_num - 1 ) > $site_blogs_template->total_blog_count ) ? $site_blogs_template->total_blog_count : $from_num + ( $site_blogs_template->pag_num - 1 ) ;
 
 	echo sprintf( __( 'Viewing blog %d to %d (of %d blogs)', 'buddypress' ), $from_num, $to_num, $site_blogs_template->total_blog_count ); ?> &nbsp;
-	<img id="ajax-loader-blogs" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" /><?php
+	<span class="ajax-loader"></span><?php
 }
 
 function bp_site_blogs_pagination_links() {

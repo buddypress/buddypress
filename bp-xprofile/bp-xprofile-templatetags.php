@@ -618,6 +618,18 @@ function bp_profile_last_updated() {
 		
 		return false;
 	}
+
+function bp_current_profile_group_id() {
+	echo bp_get_current_profile_group_id();
+}
+	function bp_get_current_profile_group_id() {
+		global $bp;
+		
+		if ( !$profile_group_id = $bp->action_variables[1] )
+			$profile_group_id = 1;
+	
+		return apply_filters( 'bp_get_current_profile_group_id', $profile_group_id ); // admin/profile/edit/[group-id]
+	}
 	
 
 function bp_edit_profile_button() {

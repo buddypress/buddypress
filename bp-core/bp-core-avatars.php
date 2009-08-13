@@ -65,7 +65,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		$id = $object . '-' . $item_id . '-avatar'; 
 	
 	if ( $width )
-		$html_width = " width='{$width}";
+		$html_width = " width='{$width}'";
 	
 	if ( $height )
 		$html_height = " height='{$height}'";

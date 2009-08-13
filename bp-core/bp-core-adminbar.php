@@ -26,7 +26,7 @@ function bp_core_admin_bar() {
 function bp_adminbar_logo() {
 	global $bp;
 	
-	echo '<a href="' . $bp->root_domain . '"><img id="admin-bar-logo" src="' . apply_filters( 'bp_admin_bar_logo_src', BP_PLUGIN_URL . '/bp-core/deprecated/images/admin_bar_logo.gif' ) . '" alt="' . apply_filters( 'bp_admin_bar_logo_alt_text', __( 'BuddyPress', 'buddypress' ) ) . '" /></a>';
+	echo '<a href="' . $bp->root_domain . '" id="admin-bar-logo">' . get_blog_option( BP_ROOT_BLOG, 'blogname') . '</a>';
 }
 
 // **** "Log In" and "Sign Up" links (Visible when not logged in) ********
@@ -36,8 +36,8 @@ function bp_adminbar_login_menu() {
 	if ( !is_user_logged_in() ) {	
 		echo '<li class="bp-login no-arrow"><a href="' . $bp->root_domain . '/wp-login.php?redirect_to=' . urlencode( $bp->root_domain ) . '">' . __( 'Log In', 'buddypress' ) . '</a></li>';
 		
-		// Show "Sign Up" link if registrations are allowed
-		if ( get_site_option( 'registration' ) != 'none' ) {
+		// Show "Sign Up" link if user registrations are allowed
+		if ( get_site_option( 'registration' ) != 'none' && get_site_option( 'registration' ) != 'blog' ) {
 			echo '<li class="bp-signup no-arrow"><a href="' . bp_signup_page(false) . '">' . __( 'Sign Up', 'buddypress' ) . '</a></li>';
 		}
 	}

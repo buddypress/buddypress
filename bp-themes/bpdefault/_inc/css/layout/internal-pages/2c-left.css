@@ -1,0 +1,38 @@
+body { min-width: 600px; }
+
+#container {
+	overflow: hidden;
+}
+
+.internal-page #content, #optionsbar {
+	position: relative;
+	float: left;
+	padding-bottom: 20010px !important;  /* X + padding-bottom */
+	margin-bottom: -20000px !important;  /* X */
+}
+
+#optionsbar {
+	width: 140px;
+}
+
+.internal-page #content {
+	float: none;
+	margin-left: 140px;
+}
+
+#userbar {
+	overflow: auto;
+	width: 100%;
+}
+
+#userbar h3 { display: none; }
+
+#userbar ul, #userbar ul li, #userbar p {
+	float: left;
+}
+
+#userbar ul li {
+	padding-right: 15px;
+}
+
+#userbar img.avatar { width: 25px; }

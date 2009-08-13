@@ -1,0 +1,25 @@
+/*  
+Theme Name: BuddyPress Default
+Theme URI: http://buddypress.org/
+Description: The default social network theme for BuddyPress. This theme should be extended via a child theme.
+Version: 1.1
+Author: Andy Peatling
+Author URI: http://apeatling.wordpress.com
+*/
+
+/* Fetch the CSS Loader */
+@import url( _inc/css-loader.php );
+
+/* Font styles */
+@import url( _inc/css/fonts/12px.css );
+
+/* Layout styles for home page, internal pages and blog/directory pages */
+@import url( _inc/css/layout/home-page/3c-right.css );
+@import url( _inc/css/layout/internal-pages/3c-left.css );
+@import url( _inc/css/layout/blog-dir-pages/2c-right.css );
+
+/* Admin bar styles */
+@import url( _inc/css/adminbar.css );
+
+/* Default example styles -- these should be your own styles in a child theme */
+@import url( _inc/css/screen.css );

@@ -43,7 +43,7 @@ function bp_wire_ajax_get_wire_posts() {
 	<?php if ( bp_has_wire_posts( 'item_id=' . $_POST['bp_wire_item_id'] . '&can_post=1' ) ) : ?>
 		<div id="wire-count" class="pag-count">
 			<?php bp_wire_pagination_count() ?> &nbsp;
-			<img id="ajax-loader" src="<?php bp_wire_ajax_loader_src() ?>" height="7" alt="<?php _e( 'Loading', 'buddypress' ) ?>" style="display: none;" />
+			<span class="ajax-loader"></span>
 		</div>
 			
 		<div id="wire-pagination" class="pagination-links">

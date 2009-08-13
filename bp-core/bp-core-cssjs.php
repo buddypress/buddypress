@@ -1,4 +1,6 @@
 <?php
+
+
 /**
  * bp_core_add_admin_css()
  *
@@ -42,7 +44,7 @@ add_action( 'admin_head', 'bp_core_admin_menu_icon_css' );
  * @package BuddyPress Core
  */
 function bp_core_add_jquery_cropper() {
-	wp_enqueue_script( 'jcrop' );
+	wp_enqueue_script( 'jcrop', array( 'jquery' ) );
 	add_action( 'wp_head', 'bp_core_add_cropper_inline_js' ); 
 	add_action( 'wp_head', 'bp_core_add_cropper_inline_css' ); 
 }

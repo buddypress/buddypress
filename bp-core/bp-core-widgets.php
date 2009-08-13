@@ -87,7 +87,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 		<?php if ( bp_has_site_members( 'type=newest&max=' . $instance['max_members'] ) ) : ?>
 			<div class="item-options" id="members-list-options">
-				<img id="ajax-loader-members" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( 'Loading', 'buddypress' ) ?>" style="display: none;" /> 
+				<span class="ajax-loader"></span>
 				<a href="<?php echo site_url() . '/' . BP_MEMBERS_SLUG ?>" id="newest-members" class="selected"><?php _e( 'Newest', 'buddypress' ) ?></a> | 
 				<a href="<?php echo site_url() . '/' . BP_MEMBERS_SLUG ?>" id="recently-active-members"><?php _e( 'Active', 'buddypress' ) ?></a> | 
 				<a href="<?php echo site_url() . '/' . BP_MEMBERS_SLUG ?>" id="popular-members"><?php _e( 'Popular', 'buddypress' ) ?></a>
@@ -247,5 +247,72 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	<?php
 	}
 }
+
+/** Widget AJAX ******************/
+
+function bp_core_ajax_widget_members() {
+	global $bp;
+
+	check_ajax_referer('bp_core_widget_members');
+	
+	switch ( $_POST['filter'] ) {
+		case 'newest-members':
+			if ( !$users = wp_cache_get( 'newest_users', 'bp' ) ) {
+				$users = BP_Core_User::get_newest_users( $_POST['max-members'], 1 );
+				wp_cache_set( 'newest_users', $users, 'bp' );
+			}
+		break;
+		case 'recently-active-members':
+			if ( !$users = wp_cache_get( 'active_users', 'bp' ) ) {
+				$users = BP_Core_User::get_active_users( $_POST['max-members'], 1 );
+				wp_cache_set( 'active_users', $users, 'bp' );
+			}
+		break;
+		case 'popular-members':
+			if ( !$users = wp_cache_get( 'popular_users', 'bp' ) ) {
+				$users = BP_Core_User::get_popular_users( $_POST['max-members'], 1 );
+				wp_cache_set( 'popular_users', $users, 'bp' );
+			}
+		break;
+	}
+	
+	if ( $users['users'] ) {
+		echo '0[[SPLIT]]'; // return valid result.
+	
+		foreach ( (array) $users['users'] as $user ) {
+		?>
+			<li class="vcard">
+				<div class="item-avatar">
+					<a href="<?php echo bp_core_get_userlink( $user->user_id, false, true ) ?>"><?php echo bp_core_get_avatar( $user->user_id, 1 ) ?></a>
+				</div>
+
+				<div class="item">
+					<div class="item-title"><?php echo bp_core_get_userlink( $user->user_id ) ?></div>
+					<div class="item-meta">
+						<span class="activity">
+							<?php 
+							if ( 'newest-members' == $_POST['filter'] ) {
+								echo bp_core_get_last_activity( $user->user_registered, __( 'registered %s ago', 'buddypress' ) );
+							} else if ( 'recently-active-members' == $_POST['filter'] ) {
+								echo bp_core_get_last_activity( get_usermeta( $user->user_id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) );
+							} else if ( 'popular-members' == $_POST['filter'] ) {
+								if ( 1 == get_usermeta( $user->user_id, 'total_friend_count' ) )
+									echo get_usermeta( $user->user_id, 'total_friend_count' ) . __(' friend', 'buddypress');
+								else
+									echo get_usermeta( $user->user_id, 'total_friend_count' ) . __(' friends', 'buddypress');
+							}
+							?>
+						</span>
+					</div>
+				</div>
+			</li>
+			<?php	
+		}
+	} else {
+		echo "-1[[SPLIT]]<li>" . __("No members matched the current filter.", 'buddypress');
+	}
+}
+add_action( 'wp_ajax_widget_members', 'bp_core_ajax_widget_members' );
+
 
 ?>

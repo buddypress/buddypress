@@ -24,14 +24,16 @@ class BP_Activity_Widget extends WP_Widget {
 		   . $after_title; ?>
 	
 	<?php if ( bp_has_activities( 'type=sitewide&max=' . $instance['max_items'] . '&per_page=' . $instance['per_page'] ) ) : ?>
-		<div class="pag-count" id="activity-count">
-			<?php bp_activity_pagination_count() ?>
+		<div class="pagination">
+			<div class="pag-count" id="activity-count">
+				<?php bp_activity_pagination_count() ?>
+			</div>
+		
+			<div class="pagination-links" id="activity-pag">
+				&nbsp; <?php bp_activity_pagination_links() ?>
+			</div>
 		</div>
 		
-		<div class="pagination-links" id="activity-pag">
-			&nbsp; <?php bp_activity_pagination_links() ?>
-		</div>
-
 		<ul id="activity-filter-links">
 			<?php bp_activity_filter_links() ?>
 		</ul>

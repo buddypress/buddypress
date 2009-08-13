@@ -71,27 +71,27 @@ These structure styles can be overridden by the theme CSS file if needed.
 			margin: 0 0 1.2em 0;
 		}
 
-	div.info-group {
+	div.bp-widget {
 		margin-bottom: 2em;
 	}	
-		div.info-group h4 {
+		div.bp-widget h4 {
 			height: 30px;
 			padding: 3px 10px;
 			margin-bottom: 0.5em;
 			position: relative;
 		}
-			.left-menu div.info-group {
+			.left-menu div.bp-widget {
 				margin-top: 1.5em;
 			}
 
-			div.info-group h4 span {
+			div.bp-widget h4 span {
 				position: absolute;
 				top: 0.31em;
 				right: 1em;
 				font-weight: normal;
 			}
 
-			.left-menu div.info-group img.avatar {
+			.left-menu div.bp-widget img.avatar {
 				float: left;
 				margin-right: 1em;
 			}
@@ -129,7 +129,7 @@ These structure styles can be overridden by the theme CSS file if needed.
 		padding: 0.5em 0.7em;
 	}
 	
-	div.info-group .pagination-links {
+	div.bp-widget .pagination-links {
 		margin: 0 0 5px 0;
 		float: none;
 		text-align: right;

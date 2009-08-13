@@ -163,7 +163,7 @@ function bp_wire_title() {
 		return apply_filters( 'bp_get_wire_title', $bp_wire_header );
 	}
 	
-function bp_wire_item_id( $deprecated = false ) {
+function bp_wire_item_id( $deprecated = true ) {
 	global $bp_item_id;
 	
 	if ( $deprecated )

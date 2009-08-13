@@ -1,0 +1,20 @@
+.blog-page #container, .directory #container {
+	padding: 20px;
+}
+
+.blog-page #content, .directory #content {
+	float: left;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+.blog-page #sidebar, .directory #sidebar {
+	float: left;
+	width: 240px;
+	margin-left: -240px;
+}
+
+.blog-page .page, .directory .page {
+	margin-right: 260px;
+}

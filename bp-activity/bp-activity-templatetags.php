@@ -182,7 +182,7 @@ function bp_activity_pagination_count() {
 	$to_num = ( $from_num + ( $activities_template->pag_num - 1 ) > $activities_template->total_activity_count ) ? $activities_template->total_activity_count : $from_num + ( $activities_template->pag_num - 1) ;
 
 	echo sprintf( __( 'Viewing item %d to %d (of %d items)', 'buddypress' ), $from_num, $to_num, $activities_template->total_activity_count ); ?> &nbsp;
-	<img id="ajax-loader-activity" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" /><?php
+	<span class="ajax-loader"></span><?php
 }
 
 function bp_activity_pagination_links() {

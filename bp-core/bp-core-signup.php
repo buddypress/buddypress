@@ -13,7 +13,11 @@ function bp_core_screen_signup() {
 	 */
 	if ( function_exists('wp_insert_user') )
 		return false;
-	
+
+	/* If signups are disabled, just re-direct */
+	if ( 'none' == bp_get_signup_allowed() || 'blog' == bp_get_signup_allowed() )
+		bp_core_redirect( $bp->root_domain );
+		
 	$bp->signup->step = 'request-details';
 	
 	/* If the signup page is submitted, validate and save */
@@ -21,7 +25,7 @@ function bp_core_screen_signup() {
 		
 		/* Check the nonce */
 		check_admin_referer( 'bp_new_signup' );
-
+			
 		require_once( ABSPATH . WPINC . '/registration.php' );
 		
 		/* Check the base account details for problems */
@@ -100,6 +104,9 @@ function bp_core_screen_signup() {
 						$usermeta['field_' . $field_id] = $_POST['field_' . $field_id];
 				}
 				
+				/* Store the profile field ID's in usermeta */
+				$usermeta['profile_field_ids'] = $_POST['signup_profile_field_ids'];
+				
 				/* Hash and store the password */
 				$usermeta['password'] = wp_hash_password( $_POST['signup_password'] );
 				
@@ -111,9 +118,12 @@ function bp_core_screen_signup() {
 				}
 				
 				$usermeta = apply_filters( 'bp_signup_usermeta', $usermeta );
-				
-				/* Finally, sign up the user */
-				wpmu_signup_user( $_POST['signup_username'], $_POST['signup_email'], $usermeta );
+								
+				/* Finally, sign up the user and/or blog*/
+				if ( isset( $_POST['signup_with_blog'] ) )
+					wpmu_signup_blog( $blog_details['domain'], $blog_details['path'], $blog_details['blog_title'], $_POST['signup_username'], $_POST['signup_email'], $usermeta );
+				else
+					wpmu_signup_user( $_POST['signup_username'], $_POST['signup_email'], $usermeta );
 				
 				$bp->signup->step = 'completed-confirmation';
 			}
@@ -167,8 +177,7 @@ function bp_core_screen_signup() {
 			bp_core_add_message( __( 'Your new avatar was uploaded successfully', 'buddypress' ) );
 
 	}
-
-	bp_core_load_template( 'register' );	
+	bp_core_load_template( 'registration/register' );	
 }
 add_action( 'wp', 'bp_core_screen_signup', 3 );
 
@@ -193,6 +202,16 @@ function bp_core_signup_avatar_upload_dir() {
 
 	return apply_filters( 'bp_core_signup_avatar_upload_dir', array( 'path' => $newdir, 'url' => $newurl, 'subdir' => $newsubdir, 'basedir' => $newbdir, 'baseurl' => $newburl, 'error' => false ) );	
 }
+
+/* Kill the wp-signup.php if custom registration signup templates are present */
+function bp_core_wpsignup_redirect() {
+	if ( false === strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php') )
+		return false;
+		
+	if ( file_exists( TEMPLATEPATH . '/registration/register.php' ) || file_exists( TEMPLATEPATH . '/register.php' ) )
+		die;
+}
+add_action( 'signup_header', 'bp_core_wpsignup_redirect' );
 
 
 

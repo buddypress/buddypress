@@ -133,7 +133,7 @@ function groups_force_buddypress_stylesheet( $stylesheet ) {
 
 	return $member_theme;
 }
-add_filter( 'stylesheet', 'groups_force_buddypress_stylesheet', 1, 1 );
+add_filter( 'stylesheet', 'groups_force_buddypress_stylesheet' );
 
 function groups_add_js() {
 	global $bp;
@@ -230,7 +230,7 @@ function bp_groups_random_groups( $total_groups = 5 ) {
 	}
 	
 ?>	
-	<div class="info-group">
+	<div class="bp-widget">
 		<h4><?php bp_word_or_name( __( "My Groups", 'buddypress' ), __( "%s's Groups", 'buddypress' ) ) ?> (<?php echo BP_Groups_Member::total_group_count() ?>) <a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>"><?php _e('See All', 'buddypress') ?> &raquo;</a></h4>
 		<?php if ( $group_ids ) { ?>
 			<ul class="horiz-gallery">
@@ -264,7 +264,7 @@ function bp_group_send_invite_form( $group = false ) {
 		$group =& $groups_template->group;
 ?>
 	<div class="left-menu">
-		<h4><?php _e( 'Select Friends', 'buddypress' ) ?> <img id="ajax-loader" src="<?php echo $bp->groups->image_base ?>/ajax-loader.gif" height="7" alt="Loading" style="display: none;" /></h4>
+		<h4><?php _e( 'Select Friends', 'buddypress' ) ?> <span class="ajax-loader"></span></h4>
 		<?php bp_group_list_invite_friends() ?>
 		<?php wp_nonce_field( 'groups_invite_uninvite_user', '_wpnonce_invite_uninvite_user' ) ?>
 		<input type="hidden" name="group_id" id="group_id" value="<?php echo attribute_escape( $group->id ) ?>" />
@@ -599,69 +599,6 @@ function groups_ajax_group_filter() {
 	load_template( TEMPLATEPATH . '/groups/group-loop.php' );
 }
 add_action( 'wp_ajax_group_filter', 'groups_ajax_group_filter' );
-
-function groups_ajax_widget_groups_list() {
-	global $bp;
-
-	/* If we are using a BuddyPress 1.1+ theme ignore this. */
-	if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
-		return false;
-		
-	check_ajax_referer('groups_widget_groups_list');
-
-	switch ( $_POST['filter'] ) {
-		case 'newest-groups':
-			$type = 'newest';
-		break;
-		case 'recently-active-groups':
-			$type = 'active';
-		break;
-		case 'popular-groups':
-			$type = 'popular';
-		break;
-	}
-
-	if ( bp_has_site_groups( 'type=' . $type . '&per_page=' . $_POST['max_groups'] . '&max=' . $_POST['max_groups'] ) ) : ?>
-		<?php echo "0[[SPLIT]]"; ?>
-				
-		<ul id="groups-list" class="item-list">
-			<?php while ( bp_site_groups() ) : bp_the_site_group(); ?>
-				<li>
-					<div class="item-avatar">
-						<a href="<?php bp_the_site_group_link() ?>"><?php bp_the_site_group_avatar_thumb() ?></a>
-					</div>
-
-					<div class="item">
-						<div class="item-title"><a href="<?php bp_the_site_group_link() ?>" title="<?php bp_the_site_group_name() ?>"><?php bp_the_site_group_name() ?></a></div>
-						<div class="item-meta">
-							<span class="activity">
-								<?php 
-								if ( 'newest-groups' == $_POST['filter'] ) {
-									bp_the_site_group_date_created();
-								} else if ( 'recently-active-groups' == $_POST['filter'] ) {
-									bp_the_site_group_last_active();
-								} else if ( 'popular-groups' == $_POST['filter'] ) {
-									bp_the_site_group_member_count();
-								}
-								?>
-							</span>
-						</div>
-					</div>
-				</li>
-
-			<?php endwhile; ?>
-		</ul>		
-		<?php wp_nonce_field( 'groups_widget_groups_list', '_wpnonce-groups' ); ?>
-		<input type="hidden" name="groups_widget_max" id="groups_widget_max" value="<?php echo attribute_escape( $_POST['max_groups'] ); ?>" />
-		
-	<?php else: ?>
-
-		<?php echo "-1[[SPLIT]]<li>" . __("No groups matched the current filter.", 'buddypress'); ?>
-
-	<?php endif;
-	
-}
-add_action( 'wp_ajax_widget_groups_list', 'groups_ajax_widget_groups_list' );
 
 function groups_ajax_member_list() {
 	global $bp;

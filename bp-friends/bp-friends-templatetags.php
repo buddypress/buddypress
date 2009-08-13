@@ -288,7 +288,7 @@ function bp_friend_pagination_count() {
 	$to_num = ( $from_num + ( $friends_template->pag_num - 1 ) > $friends_template->total_friend_count ) ? $friends_template->total_friend_count : $from_num + ( $friends_template->pag_num - 1) ;
 
 	echo sprintf( __( 'Viewing friend %d to %d (of %d friends)', 'buddypress' ), $from_num, $to_num, $friends_template->total_friend_count ); ?> &nbsp;
-	<img id="ajax-loader-friends" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" /><?php
+	<span class="ajax-loader"></span><?php 
 }
 
 function bp_friend_total_for_member() {
@@ -306,7 +306,7 @@ function bp_friend_search_form() {
 ?>
 	<form action="<?php echo $action ?>" id="friend-search-form" method="post">
 
-		<label for="friend-search-box" id="friend-search-label"><?php echo $label ?> <img id="ajax-loader" src="<?php echo $bp->friends->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( 'Loading', 'buddypress' ) ?>" style="display: none;" /></label>
+		<label for="friend-search-box" id="friend-search-label"><?php echo $label ?> <span class="ajax-loader"></span></label>
 		<input type="search" name="friend-search-box" id="friend-search-box" value="<?php echo $value ?>"<?php echo $disabled ?> />
 		
 		<?php wp_nonce_field( 'friends_search', '_wpnonce_friend_search' ) ?>
@@ -358,7 +358,7 @@ function bp_add_friend_button( $potential_friend_id = false ) {
 
 		$friend_status = BP_Friends_Friendship::check_is_friend( $bp->loggedin_user->id, $potential_friend_id );
 
-		echo '<div class="friendship-button ' . $friend_status . '" id="friendship-button-' . $potential_friend_id . '">';
+		echo '<div class="generic-button friendship-button ' . $friend_status . '" id="friendship-button-' . $potential_friend_id . '">';
 		if ( 'pending' == $friend_status ) {
 			echo '<a class="requested" href="' . $bp->loggedin_user->domain . $bp->friends->slug . '">' . __( 'Friendship Requested', 'buddypress' ) . '</a>';
 		} else if ( 'is_friend' == $friend_status ) {
@@ -406,7 +406,7 @@ function bp_friends_random_friends() {
 		wp_cache_set( 'friends_friend_ids_' . $bp->displayed_user->id, $friend_ids, 'bp' );
 	}
 ?>	
-	<div class="info-group">
+	<div class="bp-widget">
 		<h4><?php bp_word_or_name( __( "My Friends", 'buddypress' ), __( "%s's Friends", 'buddypress' ) ) ?>  (<?php echo BP_Friends_Friendship::total_friend_count( $bp->displayed_user->id ) ?>)  <a href="<?php echo $bp->displayed_user->domain . $bp->friends->slug ?>"><?php _e('See All', 'buddypress') ?> &raquo;</a></h4>
 		
 		<?php if ( $friend_ids ) { ?>

@@ -1,0 +1,292 @@
+/**
+ * Base font styleheet
+ * Based on Hybrid theme by Justin Tadlock
+ * http://themehybrid.com/
+ */
+
+/* Reset values */
+html, body, div, span, object, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	vertical-align: baseline;
+	outline: none;
+	font-size: 100%;
+	background: transparent;
+	border: none;
+	text-decoration: none;
+}
+
+/*
+* Get rid of deprecated and non-semantic elements
+* These elements should not be used and replaced with proper alternatives
+*/
+b, i, hr, u, center, menu, layer, s, strike, font, xmp {
+	margin: 0;
+	padding: 0;
+	vertical-align: baseline;
+	outline: none;
+	font-size: 100%;
+	font-weight: normal;
+	font-style: normal;
+	background: transparent;
+	border: none;
+	text-decoration: none;
+}
+
+font {
+	color: #333;
+}
+
+center {
+	text-align: left;
+}
+
+/* End deprecated elements */
+
+/* Body */
+body {
+	line-height: 21px;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, Verdana, sans-serif;
+}
+
+/* Headers */
+h1, h2, h3, h4, h5, h6 {
+	font-style: normal;
+	font-weight: normal;
+	margin: 0 0 18px 0;
+}
+h1 {
+	font-size: 1.8em;
+}
+h2 {
+	font-size: 1.7em;
+}
+h3 {
+	font-size: 1.55em;;
+}
+h4 {
+	font-size: 1.4em;
+}
+h5 {
+	font-size: 1.25em;
+}
+h6 {
+	font-size: 1.1em;
+}
+
+/* Paragraphs */
+p {
+	margin: 0 0 18px 0;
+}
+
+/* Lists */
+ol, ul {
+	list-style: none;
+}
+ul {
+	list-style: disc;
+	margin: 0 0 18px 2.5em;
+}
+ol {
+	list-style-type: decimal;
+	margin: 0 0 18px 3em;
+}
+ol ol {
+	list-style: upper-roman;
+}
+ol ol ol {
+	list-style: lower-roman;
+}
+ol ol ol ol {
+	list-style: upper-alpha;
+}
+ol ol ol ol ol {
+	list-style: lower-alpha;
+}
+ul ul, ol ol, ul ol, ol ul {
+	margin-bottom: 0;
+}
+dl {
+	margin: 0 0 18px 3px;
+}
+dl dt {
+	font-weight: bold;
+	margin: 12px 0 0 0;
+}
+dl dd {
+	margin: 6px 0 0 1.5em;
+}
+
+/* Text elements */
+strong {
+	font-weight: bold;
+}
+strong strong {
+	font-weight: normal;
+}
+em, cite {
+	font-style: italic;
+}
+em em, cite cite {
+	font-style: normal;
+}
+abbr {
+	cursor: help;
+}
+acronym {
+	text-transform: uppercase;
+	border-bottom: 1px dashed #666;
+	cursor: help;
+}
+big {
+	font-size: 120%;
+}
+small, sup, sub {
+	font-size: 80%;
+}
+sup {
+	vertical-align: baseline;
+	position: relative;
+	bottom: 0.3em;
+}
+sub {
+	vertical-align: baseline;
+	position: relative;
+	top: 0.3em;
+}
+address {
+	font-style: italic;
+	margin: 0 0 18px 0;
+}
+li address, dd address {
+	margin: 0;
+}
+
+/* Blockquotes */
+blockquote {
+	margin: 0 2.5em;
+	font-style: normal;
+}
+blockquote em, blockquote cite {
+	font-style: italic;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+	content: '';
+	content: none;
+}
+
+/* Links */
+a {
+	cursor: pointer;
+}
+a img {
+	border: none;
+}
+
+/* Code */
+pre {
+	overflow: auto;
+	font: .9em Monaco, monospace, Courier, "Courier New";
+	line-height: 18px;
+	margin-bottom: 18px;
+	padding: 9px;
+}
+code {
+	font: .9em Monaco, monospace, Courier, "Courier New";
+}
+pre code {
+	font-size: 1em;
+}
+
+/* Delete and insert */
+ins, dfn {
+	font-style: italic;
+	text-decoration: none;
+	border-bottom: 1px solid #666;
+}
+del {
+	text-decoration: line-through;
+}
+
+/* Object */
+object {
+	margin-bottom: 18px;
+}
+
+/* Forms */
+input, textarea {
+	font-size: 1em;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, Verdana, sans-serif;
+	padding: 3px;
+}
+:focus {
+	outline: none;
+}
+form label {
+	cursor: pointer;
+}
+option {
+	padding: 1px 3px;
+}
+
+/* Tables */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	margin-bottom: 18px;
+}
+th, td {
+	text-align: left;
+}
+
+/* Horizontal rule */
+hr {
+	margin-bottom: 18px;
+}
+
+/* WP Smiley */
+img.wp-smiley {
+	max-height: 12px;
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+/* WP Gallery [gallery] */
+.gallery {
+	display: block;
+	text-align: center;
+	margin-bottom: 18px !important;
+}
+
+/* Alignment */
+.alignleft, .left {
+	float: left;
+	margin-right: 15px;
+}
+.alignright, .right {
+	float: right;
+	margin-left: 15px;
+}
+.aligncenter, .center {
+	display: block;
+	margin: 0 auto 18px auto;
+}
+.alignnone, .block {
+	clear: both;
+	margin: 0 0 18px 0;
+}
+.clear {
+	clear: both;
+}
+img.alignleft, img.alignright {
+	display: inline;
+}
+
+body { 
+	font-size: 18px;
+	line-height: 22px;
+}

@@ -32,11 +32,11 @@ function bp_the_status( $args = false ) {
 		
 		$status = get_usermeta( $user_id, 'bp_status' );
 		
-		if ( empty($status) || '' == $status || !$status )
+		if ( empty($status) )
 			return bp_get_update_status_button( 'text=' . $new_button_text );
 		
 		$time_since = sprintf( __( '%s ago', 'buddypress' ), bp_core_time_since( $status['recorded_time'] ) );
-		$content = apply_filters( 'bp_get_the_status', $status['content'] );
+		$content = apply_filters( 'the_status_content', $status['content'] );
 		
 		if ( !(int)$no_anchor && $user_id == $bp->loggedin_user->id )
 			$content = '<a href="' . bp_core_get_user_domain( $user_id ) . '?status=new" id="status-new-status">' . $content . '</a>';
@@ -44,7 +44,7 @@ function bp_the_status( $args = false ) {
 		$content .= ' <span class="time-since">' . $time_since . '</span>';
 		$content .= ' ' . bp_get_clear_status_button( 'text=' . $clear_button_text );
 		
-		return $content;
+		return apply_filters( 'bp_get_the_status', $content );
 	}
 	
 function bp_update_status_button( $args = false ) {
@@ -67,7 +67,7 @@ function bp_update_status_button( $args = false ) {
 		if ( $user_id != $bp->loggedin_user->id )
 			return false;
 		
-		return '<div class="generic-button"><a href="' . bp_core_get_user_domain( $user_id ) . '?status=new" id="status-new-status">' . $text . '</a></div>';
+		return apply_filters( 'bp_get_update_status_button', '<div class="generic-button"><a href="' . bp_core_get_user_domain( $user_id ) . '?status=new" id="status-new-status">' . $text . '</a></div>' );
 	}
 
 function bp_clear_status_button( $args = false ) {
@@ -90,7 +90,7 @@ function bp_clear_status_button( $args = false ) {
 		if ( $user_id != $bp->loggedin_user->id )
 			return false;
 		
-		return '<a href="' . bp_core_get_user_domain( $user_id ) . '?status=clear" id="status-clear-status">' . $text . '</a>';
+		return apply_filters( 'bp_get_clear_status_button', '<a href="' . bp_core_get_user_domain( $user_id ) . '?status=clear" id="status-clear-status">' . $text . '</a>' );
 	}
 
 function bp_status_form_action( $user_id = false ) {
@@ -99,7 +99,7 @@ function bp_status_form_action( $user_id = false ) {
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
 		
-	echo bp_core_get_user_domain( $user_id ) . BP_STATUS_SLUG . '/add';
+	echo apply_filters( 'bp_status_form_action', bp_core_get_user_domain( $user_id ) . BP_STATUS_SLUG . '/add' );
 }
 
 ?>

@@ -1,0 +1,65 @@
+<?php get_header() ?>
+
+	<div class="content-header">
+
+	</div>
+
+	<div id="content">
+	
+		<h2><?php _e( 'Change Avatar', 'buddypress' ) ?></h2>
+		
+		<?php do_action( 'template_notices' ) ?>
+	
+		<?php do_action( 'bp_before_profile_avatar_upload_content' ) ?>
+
+		<p><?php _e('Your avatar will be used on your profile and throughout the site.', 'buddypress') ?></p>
+		<p><?php _e( 'Click below to select a JPG, GIF or PNG format photo from your computer and then click \'Upload Photo\' to proceed.', 'buddypress' ) ?></p>
+		
+		<form action="" method="post" id="avatar-upload-form" enctype="multipart/form-data">	
+			
+			<?php if ( 'upload-image' == bp_get_avatar_admin_step() ) : ?>
+			
+				<h3><?php _e( 'Your Current Avatar', 'buddypress' ) ?></h3>
+		
+				<?php bp_displayed_user_avatar( 'type=full') ?>
+				<?php bp_displayed_user_avatar( 'type=thumb' ) ?>
+			
+				<p>
+					<input type="file" name="file" id="file" /> 
+					<input type="submit" name="upload" id="upload" value="<?php _e( 'Upload Image', 'buddypress' ) ?>" />
+					<input type="hidden" name="action" id="action" value="bp_avatar_upload" />
+				</p>
+
+				<?php wp_nonce_field( 'bp_avatar_upload' ) ?>
+				
+			<?php endif; ?>
+			
+			<?php if ( 'crop-image' == bp_get_avatar_admin_step() ) : ?>
+			
+				<h3><?php _e( 'Crop Your New Avatar', 'buddypress' ) ?></h3>
+				
+				<img src="<?php bp_avatar_to_crop() ?>" id="avatar-to-crop" class="avatar" alt="<?php _e( 'Avatar to crop', 'buddypress' ) ?>" />
+				
+				<div id="avatar-crop-pane" style="width:100px;height:100px;overflow:hidden;">
+					<img src="<?php bp_avatar_to_crop() ?>" id="avatar-crop-preview" class="avatar" alt="<?php _e( 'Avatar preview', 'buddypress' ) ?>" />
+				</div>
+
+				<input type="submit" name="avatar-crop-submit" id="avatar-crop-submit" value="<?php _e( 'Crop Image', 'buddypress' ) ?>" />
+				
+				<input type="hidden" name="image_src" id="image_src" value="<?php bp_avatar_to_crop_src() ?>" />
+				<input type="hidden" id="x" name="x" />
+				<input type="hidden" id="y" name="y" />
+				<input type="hidden" id="w" name="w" />
+				<input type="hidden" id="h" name="h" />
+
+				<?php wp_nonce_field( 'bp_avatar_cropstore' ) ?>
+				
+			<?php endif; ?>
+			
+		</form>
+		
+		<?php do_action( 'bp_after_profile_avatar_upload_content' ) ?>
+		
+	</div>
+
+<?php get_footer() ?>

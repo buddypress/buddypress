@@ -748,7 +748,7 @@ function bp_group_search_form() {
 	$name = 'group-filter-box';
 ?>
 	<form action="<?php echo $action ?>" id="group-search-form" method="post">
-		<label for="<?php echo $name ?>" id="<?php echo $name ?>-label"><?php echo $label ?> <img id="ajax-loader" src="<?php echo $bp->groups->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( 'Loading', 'buddypress' ) ?>" style="display: none;" /></label>
+		<label for="<?php echo $name ?>" id="<?php echo $name ?>-label"><?php echo $label ?> <span class="ajax-loader"></span></label>
 		<input type="search" name="<?php echo $name ?>" id="<?php echo $name ?>" value="<?php echo $value ?>"<?php echo $disabled ?> />
 	
 		<?php wp_nonce_field( 'group-filter-box', '_wpnonce_group_filter' ) ?>
@@ -781,7 +781,7 @@ function bp_group_pagination_count() {
 	$to_num = ( $from_num + ( $groups_template->pag_num - 1 ) > $groups_template->total_group_count ) ? $groups_template->total_group_count : $from_num + ( $groups_template->pag_num - 1) ;
 
 	echo sprintf( __( 'Viewing group %d to %d (of %d groups)', 'buddypress' ), $from_num, $to_num, $groups_template->total_group_count ); ?> &nbsp;
-	<img id="ajax-loader-groups" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" /><?php
+	<span class="ajax-loader"></span><?php 
 }
 
 function bp_total_group_count() {
@@ -1216,8 +1216,11 @@ function bp_group_join_button( $group = false ) {
 	// If they're not logged in or are banned from the group, no join button.
 	if ( !is_user_logged_in() || groups_is_user_banned( $bp->loggedin_user->id, $group->id ) )
 		return false;
+
+	if ( !$group->status )
+		return false;
 	
-	echo '<div class="group-button ' . $group->status . '" id="groupbutton-' . $group->id . '">';
+	echo '<div class="generic-button group-button ' . $group->status . '" id="groupbutton-' . $group->id . '">';
 	
 	switch ( $group->status ) {
 		case 'public':
@@ -1963,7 +1966,7 @@ function bp_site_groups_pagination_count() {
 	$to_num = ( $from_num + ( $site_groups_template->pag_num - 1 ) > $site_groups_template->total_group_count ) ? $site_groups_template->total_group_count : $from_num + ( $site_groups_template->pag_num - 1) ;
 
 	echo sprintf( __( 'Viewing group %d to %d (of %d groups)', 'buddypress' ), $from_num, $to_num, $site_groups_template->total_group_count ); ?> &nbsp;
-	<img id="ajax-loader-groups" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" /><?php
+	<span class="ajax-loader"></span><?php 
 }
 
 function bp_site_groups_pagination_links() {

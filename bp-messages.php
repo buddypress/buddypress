@@ -283,14 +283,14 @@ function messages_action_view_message() {
 		
 	$thread_id = $bp->action_variables[0];
 	
-	if ( !$thread_id || ( !messages_check_thread_access($thread_id) && !is_site_admin() ) )
+	if ( !$thread_id || !messages_is_valid_thread( $thread_id ) || ( !messages_check_thread_access($thread_id) && !is_site_admin() ) )
 		bp_core_redirect( $bp->displayed_user->domain . $bp->current_component );
 		
 	/* Check if a new reply has been submitted */
 	if ( isset( $_POST['send'] ) ) {
 		
 		/* Check the nonce */
-		check_admin_referer( 'messages_send_message' );
+		check_admin_referer( 'messages_send_message', 'send_message_nonce' );
 		
 		/* Send the reply */
 		if ( messages_new_message( array( 'thread_id' => $thread_id, 'subject' => $_POST['subject'], 'content' => $_POST['content'] ) ) )
@@ -309,7 +309,7 @@ add_action( 'wp', 'messages_action_view_message', 3 );
 function messages_action_delete_message() {
 	global $bp, $thread_id;
 	
-	if ( $bp->current_component != $bp->messages->slug || $bp->action_variables[0] != 'delete' )
+	if ( $bp->current_component != $bp->messages->slug || 'notices' == $bp->current_action || $bp->action_variables[0] != 'delete' )
 		return false;
 	
 	$thread_id = $bp->action_variables[1];
@@ -452,7 +452,23 @@ function messages_new_message( $args = '' ) {
 		$message->recipients = $recipient_ids; 
 	}
 	
-	return $message->send();
+	if ( $message->send() ) {
+		require_once( BP_PLUGIN_DIR . '/bp-messages/bp-messages-notifications.php' );
+
+		// Send screen notifications to the recipients
+		foreach ( $message->recipients as $recipient ) {
+			bp_core_add_notification( $message->id, $recipient, 'messages', 'new_message' );	
+		}
+		
+		// Send email notifications to the recipients
+		messages_notification_new_message( array( 'item_id' => $message->id, 'recipient_ids' => $message->recipients, 'thread_id' => $message->thread_id, 'component_name' => $bp->messages->slug, 'component_action' => 'message_sent', 'is_private' => 1 ) );
+	
+		do_action( 'messages_message_sent', &$message );
+		
+		return $message->thread_id;
+	}
+	
+	return false;
 }
 
 
@@ -536,6 +552,10 @@ function messages_get_message_sender( $message_id ) {
 	return BP_Messages_Message::get_message_sender( $message_id );
 }
 
+function messages_is_valid_thread( $thread_id ) {
+	return BP_Messages_Thread::is_valid( $thread_id );
+}
+
 function messages_ajax_autocomplete_results() {
 	global $bp;
 	
@@ -544,14 +564,14 @@ function messages_ajax_autocomplete_results() {
 	// Get the friend ids based on the search terms
 	if ( function_exists( 'friends_search_friends' ) )
 		$friends = friends_search_friends( $_GET['q'], $bp->loggedin_user->id, $_GET['limit'], 1 );
-	
+
 	$friends = apply_filters( 'bp_friends_autocomplete_list', $friends, $_GET['q'], $_GET['limit'] );
 
 	if ( $friends['friends'] ) {
 		foreach ( $friends['friends'] as $user_id ) {
 			$ud = get_userdata($user_id);
 			$username = $ud->user_login;
-			echo  bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'thumb', 'width' => 15, 'height' => 15 ) )  . ' ' . bp_core_get_user_displayname( $user_id ) . ' (' . $username . ')
+			echo bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'thumb', 'width' => 15, 'height' => 15 ) )  . ' ' . bp_core_get_user_displayname( $user_id ) . ' (' . $username . ')
 			';
 		}		
 	}

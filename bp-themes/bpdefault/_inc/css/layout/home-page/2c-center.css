@@ -1,0 +1,11 @@
+.widget-section {
+	float: left;
+	width: 48%;
+}
+
+#first-section {
+	margin-right: 2%;
+}
+
+/* Remember to remove this section from the home.php template */
+#third-section { display: none; }

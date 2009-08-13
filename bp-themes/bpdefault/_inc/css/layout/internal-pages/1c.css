@@ -1,0 +1,27 @@
+body { min-width: 600px; }
+
+#container {
+	overflow: hidden;
+}
+
+#userbar, #optionsbar {
+	overflow: auto;
+	width: 100%;
+}
+
+#userbar h3, #optionsbar h3 { display: none; }
+
+#userbar ul, #userbar ul li, #userbar p, 
+#optionsbar ul, #optionsbar ul li, #optionsbar p {
+	float: left;
+}
+
+#userbar ul, #optionsbar ul {
+	list-style: none;
+}
+
+#userbar ul li, #optionsbar ul li {
+	padding-right: 15px;
+}
+
+#userbar img.avatar, #optionsbar img.avatar { width: 25px; }

@@ -4,8 +4,6 @@ define ( 'BP_STATUS_IS_INSTALLED', 1 );
 if ( !defined( 'BP_STATUS_SLUG' ) )
 	define ( 'BP_STATUS_SLUG', 'status' );
 
-require ( BP_PLUGIN_DIR . '/bp-status/bp-status-ajax.php' );
-require ( BP_PLUGIN_DIR . '/bp-status/bp-status-cssjs.php' );
 require ( BP_PLUGIN_DIR . '/bp-status/bp-status-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-status/bp-status-filters.php' );
 

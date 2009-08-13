@@ -457,7 +457,7 @@ function bp_forum_pagination_count() {
 	
 	echo apply_filters( 'bp_forum_pagination_count', sprintf( __( 'Viewing topic %d to %d (%d total topics)', 'buddypress' ), $from_num, $to_num, $forum_template->total_topic_count ) );
 ?>
-	<img id="ajax-loader-groups" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" />
+<span class="ajax-loader"></span>
 <?php
 }
 
@@ -727,7 +727,7 @@ function bp_the_topic_pagination_count() {
 	
 	echo apply_filters( 'bp_the_topic_pagination_count', sprintf( __( 'Viewing post %d to %d (%d total posts)', 'buddypress' ), $from_num, $to_num, $topic_template->total_post_count ) );
 ?>
-	<img id="ajax-loader-groups" src="<?php echo $bp->core->image_base ?>/ajax-loader.gif" height="7" alt="<?php _e( "Loading", "buddypress" ) ?>" style="display: none;" />
+	<span class="ajax-loader"></span>
 <?php
 }
 

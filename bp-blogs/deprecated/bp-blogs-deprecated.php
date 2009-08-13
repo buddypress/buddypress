@@ -26,7 +26,7 @@ function bp_blogs_force_buddypress_theme( $template ) {
 	global $bp;
 
 	/* If we are using a BuddyPress 1.1+ theme ignore this. */
-	if ( file_exists( TEMPLATEPATH . '/groups' ) )
+	if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
 		return $template;
 		
 	if ( $bp->current_component == $bp->blogs->slug && empty( $bp->current_action ) ) {
@@ -43,7 +43,7 @@ function bp_blogs_force_buddypress_theme( $template ) {
 		return $template;
 	}
 }
-add_filter( 'template', 'bp_blogs_force_buddypress_theme', 1, 1 );
+add_filter( 'template', 'bp_blogs_force_buddypress_theme' );
 
 function bp_blogs_force_buddypress_stylesheet( $stylesheet ) {
 	global $bp;
@@ -66,7 +66,7 @@ function bp_blogs_force_buddypress_stylesheet( $stylesheet ) {
 		return $stylesheet;
 	}
 }
-add_filter( 'stylesheet', 'bp_blogs_force_buddypress_stylesheet', 1, 1 );
+add_filter( 'stylesheet', 'bp_blogs_force_buddypress_stylesheet' );
 
 function bp_blogs_add_structure_css() {
 	/* If we are using a BuddyPress 1.1+ theme ignore this. */

@@ -22,7 +22,7 @@ header('Status: 200 OK');
 	<atom:link href="<?php self_link(); ?>" rel="self" type="application/rss+xml" />
 	<link><?php echo $bp->displayed_user->domain . $bp->activity->slug . '/feed' ?></link>
 	<description><?php printf( __( '%s - Activity Feed', 'buddypress' ), $bp->displayed_user->fullname ) ?></description>
-	<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', bp_activity_get_last_updated(), false); ?></pubDate>
+	<pubDate><?php echo mysql2date('D, d M Y H:i:s O', bp_activity_get_last_updated(), false); ?></pubDate>
 	<generator>http://buddypress.org/?v=<?php echo BP_VERSION ?></generator>
 	<language><?php echo get_option('rss_language'); ?></language>
 	<?php do_action('bp_activity_personal_feed_head'); ?>
@@ -33,7 +33,7 @@ header('Status: 200 OK');
 				<guid><?php bp_activity_feed_item_guid() ?></guid>
 				<title><![CDATA[<?php bp_activity_feed_item_title() ?>]]></title>
 				<link><?php echo bp_activity_feed_item_link() ?></link>
-				<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', bp_get_activity_feed_item_date(), false); ?></pubDate>
+				<pubDate><?php echo mysql2date('D, d M Y H:i:s O', bp_get_activity_feed_item_date(), false); ?></pubDate>
 
 				<description><![CDATA[<?php bp_activity_feed_item_description() ?>]]></description>
 			<?php do_action('bp_activity_personal_feed_item'); ?>

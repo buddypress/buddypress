@@ -285,6 +285,12 @@ Class BP_Messages_Thread {
 		
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d AND user_id = %d", $thread_id, $user_id ) );
 	}
+
+	function is_valid( $thread_id ) {
+		global $wpdb, $bp;
+		
+		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_threads} WHERE id = %d", $thread_id ) );
+	}
 	
 	function get_recipient_links($recipients) {
 		if ( count($recipients) >= 5 )

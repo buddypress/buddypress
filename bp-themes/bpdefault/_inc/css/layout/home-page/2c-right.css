@@ -1,0 +1,11 @@
+#first-section {
+	float: right;
+	width: 260px;
+}
+
+#second-section {
+	margin-right: 280px;
+}
+
+/* Remember to remove this section from the home.php template */
+#third-section { display: none; }
