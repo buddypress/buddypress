@@ -6,13 +6,14 @@
 	float: left;
 	width: 100%;
 	padding: 0;
-	margin: 0;
 }
 
 .blog-page #sidebar, .directory #sidebar {
 	float: left;
 	width: 240px;
 	margin-left: -240px;
+	position: relative;
+	z-index: 999;
 }
 
 .blog-page .page, .directory .page {

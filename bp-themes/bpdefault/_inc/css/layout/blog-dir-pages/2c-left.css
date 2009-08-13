@@ -13,6 +13,8 @@
 	float: right;
 	width: 240px;
 	margin-right: -240px;
+	position: relative;
+	z-index: 999;
 }
 
 .blog-page .page, .directory .page {

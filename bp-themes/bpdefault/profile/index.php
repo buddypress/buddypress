@@ -40,7 +40,7 @@
 							<p><a href="<?php bp_activities_member_rss_link() ?>" title="<?php _e( 'RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a></p>
 						</div>
 
-						<ul id="activity-list">
+						<ul id="activity-list" class="activity-list item-list">
 						<?php while ( bp_activities() ) : bp_the_activity(); ?>
 							<li class="<?php bp_activity_css_class() ?>">
 								<?php bp_activity_content() ?>

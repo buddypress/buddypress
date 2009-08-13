@@ -10,6 +10,10 @@
 			<?php bp_wire_poster_avatar() ?>
 			<?php printf ( __( 'On %1$s %2$s said:', "buddypress" ), bp_wire_poster_date( null, false ), bp_wire_poster_name( false ) ) ?>
 			
+			<?php if ( bp_wire_show_email_notify() ) : ?>
+				<p id="wire-email-notify"><input type="checkbox" name="wire-post-email-notify" id="wire-post-email-notify" value="1" /> <?php _e( 'Notify members via email (will slow down posting)', 'buddypress' ) ?></p>
+			<?php endif; ?>
+			
 			<?php do_action( 'bp_after_wire_post_metadata' ) ?>
 			
 		</div>
@@ -19,10 +23,6 @@
 			<?php do_action( 'bp_before_wire_post_form' ); /* Deprecated -> */ do_action( 'bp_wire_custom_wire_boxes_after' ); ?>
 			
 			<textarea name="wire-post-textarea" id="wire-post-textarea"></textarea>
-
-			<?php if ( bp_wire_show_email_notify() ) : ?>
-				<p><input type="checkbox" name="wire-post-email-notify" id="wire-post-email-notify" value="1" /> <?php _e( 'Notify members via email (will slow down posting)', 'buddypress' ) ?></p>
-			<?php endif; ?>
 			
 			<?php do_action( 'bp_after_wire_post_form' ); /* Deprecated -> */ do_action( 'bp_wire_custom_wire_boxes_after' ); ?>
 			
