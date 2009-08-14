@@ -20,7 +20,7 @@ Template: bp-sn-framework
 @import url( ../bp-sn-framework/_inc/css/adminbar.css );
 
 
-/**** Callisto Styles **************************************************/
+/**** Begin Default Theme Styles **************************************************/
 
 body {
 	line-height: 170%;
@@ -42,6 +42,15 @@ a.selected {
 	color: #555; 
 	text-decoration: none;
 }
+
+h1, h2, h3 {
+	font-family: Georgia, Times, Serif;
+}
+	h2 {
+		border-bottom: 1px solid #ddd;
+		padding-bottom: 10px;
+		margin-bottom: 25px;
+	}
 
 
 /*** Search / Login Bar ************************************************/
@@ -273,6 +282,8 @@ div.content-header {
 			
 				li a#user-profile, li a#my-profile {
 					background: url(images/profile_bullet.gif) 88% 52% no-repeat;
+					padding: 0.55em 3em 0.55em 0 !important;
+					margin-right: 0.85em !important;
 				}
 
 				li a#user-messages, li a#my-messages {
@@ -281,22 +292,32 @@ div.content-header {
 				
 				li a#user-blogs, li a#my-blogs {
 					background: url(images/blog_bullet.gif) 87% 52% no-repeat;
+					padding: 0.55em 3em 0.55em 0 !important;
+					margin-right: 0.85em !important;
 				}
 				
 				li a#user-friends, li a#my-friends {
 					background: url(images/friends_bullet.gif) 87% 52% no-repeat;
+					padding: 0.55em 3em 0.55em 0 !important;
+					margin-right: 0.85em !important;
 				}
 				
 				li a#user-groups, li a#my-groups {
 					background: url(images/groups_bullet.gif) 88% 52% no-repeat;
+					padding: 0.55em 3em 0.55em 0 !important;
+					margin-right: 0.85em !important;
 				}
 				
 				li a#user-wire, li a#my-wire {
 					background: url(images/wire_bullet.gif) 88% 52% no-repeat;
+					padding: 0.55em 3em 0.55em 0 !important;
+					margin-right: 0.85em !important;
 				}
 
 				li a#user-activity, li a#my-activity {
 					background: url(images/activity_bullet.gif) 88% 52% no-repeat;
+					padding: 0.55em 3em 0.55em 0 !important;
+					margin-right: 0.85em !important;
 				}
 				
 				li a#user-settings, li a#my-settings {
@@ -452,10 +473,8 @@ div.bp-widget {
 	div.bp-widget h4 {
 		background: url(images/group_header.gif) top left;
 		color: #fff;
-		padding: 3px 5px 12px 12px;
-		font-size: 1em;
-		font-weight: bold;
-
+		padding: 6px 10px 15px 10px;
+		font: bold 1em "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif !important;
 	}
 		.left-menu div.bp-widget h4 {
 			background: url(images/leftmenu_group_header.gif) top left no-repeat;
@@ -707,11 +726,10 @@ h2.widgettitle, .directory h3 {
 	padding: 3px 8px;
 	margin-bottom: 5px;
 	height: 36px;
-	font-weight: bold;
 	border-radius: 3px;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
-	font-size: 1em;
+	font: bold 1em "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif !important;
 }
 
 	h2.widgettitle a {
@@ -792,7 +810,7 @@ span.activity, .message-metadata small {
 	border-right: 1px solid #FFE8C4;
 	border-bottom: 1px solid #FFE8C4;
 	display: inline-block;
-	font-size: 0.9em;
+	font: normal 0.9em "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif !important;
 }
 
 div.avatar-block {
@@ -1320,13 +1338,12 @@ h4.archive {
 /**** ACTIVITY STREAMS ***************************/
 
 .activity-list {
-	padding: 5px 0 5px 0 !important;
+	padding: 10px 0 5px 0 !important;
 }
 
 .activity-list li {
-	margin: 15px;
-	padding-left: 21px !important;
-	padding-top: 0 !important;
+	margin: 5px 15px;
+	padding: 0 0 0 21px !important;
 }
 	.activity-list li.blogs, ul#activity-filter-links li#afilter-blogs a {
 		background: url(images/blog_bullet.gif) 0 4px no-repeat;		
@@ -1355,7 +1372,7 @@ h4.archive {
 .activity-list li blockquote {
 	padding: 7px 15px 7px 40px;
 	background: url(images/quotes_background.gif) 10px 9px no-repeat #eee;
-	margin: 5px 0;
+	margin: -10px 0 15px 0;
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;

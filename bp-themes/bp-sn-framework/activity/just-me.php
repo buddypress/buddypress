@@ -39,7 +39,7 @@
 						
 					</div>
 					
-					<ul id="activity-list" class="activity-list item-list">
+					<ul id="activity-list" class="item-list activity-list">
 					<?php while ( bp_activities() ) : bp_the_activity(); ?>
 						<li class="<?php bp_activity_css_class() ?>">
 							<?php bp_activity_content() ?>
