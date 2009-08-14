@@ -501,9 +501,7 @@ function groups_screen_create_group() {
 			/* Normally we would check a nonce here, but the group save nonce is used instead */
 
 			/* Pass the file to the avatar upload handler */
-			$errors = bp_core_avatar_handle_upload( $_FILES, 'groups_avatar_upload_dir' );
-
-			if ( !$errors ) {		
+			if ( bp_core_avatar_handle_upload( $_FILES, 'groups_avatar_upload_dir' ) ) {		
 				$bp->avatar_admin->step = 'crop-image';
 
 				/* Make sure we include the jQuery jCrop file for image cropping */
@@ -1007,9 +1005,7 @@ function groups_screen_group_admin_avatar() {
 			check_admin_referer( 'bp_avatar_upload' );
 
 			/* Pass the file to the avatar upload handler */
-			$errors = bp_core_avatar_handle_upload( $_FILES, 'groups_avatar_upload_dir' );
-	
-			if ( !$errors ) {		
+			if ( bp_core_avatar_handle_upload( $_FILES, 'groups_avatar_upload_dir' ) ) {		
 				$bp->avatar_admin->step = 'crop-image';
 
 				/* Make sure we include the jQuery jCrop file for image cropping */

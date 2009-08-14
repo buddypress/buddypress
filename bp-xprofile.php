@@ -356,16 +356,13 @@ function xprofile_screen_change_avatar() {
 		/* Check the nonce */
 		check_admin_referer( 'bp_avatar_upload' );
 
-		/* Pass the file to the avatar upload handler */
-		$errors = bp_core_avatar_handle_upload( $_FILES, 'xprofile_avatar_upload_dir' );
-		
-		if ( !$errors ) {		
+		/* Pass the file to the avatar upload handler */		
+		if ( bp_core_avatar_handle_upload( $_FILES, 'xprofile_avatar_upload_dir' ) ) {		
 			$bp->avatar_admin->step = 'crop-image';
 
 			/* Make sure we include the jQuery jCrop file for image cropping */
 			add_action( 'wp', 'bp_core_add_jquery_cropper' );
 		}
-		
 	}
 	
 	/* If the image cropping is done, crop the image and save a full/thumb version */

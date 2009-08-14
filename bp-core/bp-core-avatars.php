@@ -166,8 +166,6 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	require_once( ABSPATH . '/wp-admin/includes/image.php' );
 	require_once( ABSPATH . '/wp-admin/includes/file.php' );
 	
-	$errors = false;
-	
 	$uploadErrors = array(
         0 => __("There is no error, the file uploaded with success", 'buddypress'), 
         1 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format(BP_AVATAR_ORIGINAL_MAX_FILESIZE), 
@@ -179,28 +177,30 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 
 	if ( !bp_core_check_avatar_upload( $file ) ) {
 		bp_core_add_message( sprintf( __( 'Your upload failed, please try again. Error was: %s', 'buddypress' ), $uploadErrors[$file['file']['error']] ), 'error' );
-		$errors = true;
+		return false;
 	}
 	
 	if ( !bp_core_check_avatar_size( $file ) ) {
 		bp_core_add_message( sprintf( __( 'The file you uploaded is too big. Please upload a file under %s', 'buddypress'), size_format(BP_AVATAR_ORIGINAL_MAX_FILESIZE) ), 'error' );
-		$errors = true;
+		return false;
 	}
 	
 	if ( !bp_core_check_avatar_type( $file ) ) {
 		bp_core_add_message( __( 'Please upload only JPG, GIF or PNG photos.', 'buddypress' ), 'error' );
-		$errors = true;
+		return false;
 	}
 	
 	// Filter the upload location
 	add_filter( 'upload_dir', $upload_dir_filter );
 	
-	// Move the file to the correct upload location.
-	if ( !$bp->avatar_admin->original = wp_handle_upload( $file['file'], array( 'action'=> 'bp_avatar_upload' ) ) ) {
-		bp_core_add_message( sprintf( __( 'Upload Failed! Error was: %s', 'buddypress' ), $bp->avatar_admin->original['error'] ), 'error' );
-		$errors = true;
-	}
+	$bp->avatar_admin->original = wp_handle_upload( $file['file'], array( 'action'=> 'bp_avatar_upload' ) );
 	
+	// Move the file to the correct upload location.
+	if ( !empty( $bp->avatar_admin->original['error'] ) ) {
+		bp_core_add_message( sprintf( __( 'Upload Failed! Error was: %s', 'buddypress' ), $bp->avatar_admin->original['error'] ), 'error' );
+		return false;
+	}
+		
 	// Resize the image down to something manageable and then delete the original
 	if ( getimagesize( $bp->avatar_admin->original['file'] ) > BP_AVATAR_ORIGINAL_MAX_WIDTH ) {
 		$bp->avatar_admin->resized = wp_create_thumbnail( $bp->avatar_admin->original['file'], BP_AVATAR_ORIGINAL_MAX_WIDTH );
@@ -219,7 +219,7 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	/* Set the url value for the image */
 	$bp->avatar_admin->image->url = str_replace( WP_CONTENT_DIR, WP_CONTENT_URL, $bp->avatar_admin->image->dir );
 
-	return $errors;
+	return true;
 }
 
 function bp_core_avatar_handle_crop( $args = '' ) {
