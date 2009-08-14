@@ -43,6 +43,10 @@
 						<ul id="activity-list" class="activity-list item-list">
 						<?php while ( bp_activities() ) : bp_the_activity(); ?>
 							<li class="<?php bp_activity_css_class() ?>">
+								<div class="activity-avatar">
+									<?php bp_activity_user_avatar() ?>
+								</div>
+							
 								<?php bp_activity_content() ?>
 							</li>
 						<?php endwhile; ?>

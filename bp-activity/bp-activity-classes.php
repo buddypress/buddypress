@@ -170,6 +170,7 @@ Class BP_Activity_Activity {
 		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE user_id = %d AND date_recorded >= FROM_UNIXTIME(%d) $privacy_sql $filter_sql ORDER BY date_recorded DESC $max_sql", $user_id, $since ) );
 
 		for ( $i = 0; $i < count( $activities ); $i++ ) {
+			$activities_formatted[$i]['user_id'] = $activities[$i]->user_id;
 			$activities_formatted[$i]['content'] = $activities[$i]->content;
 			$activities_formatted[$i]['primary_link'] = $activities[$i]->primary_link;
 			$activities_formatted[$i]['date_recorded'] = $activities[$i]->date_recorded;
@@ -236,6 +237,7 @@ Class BP_Activity_Activity {
 		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 $filter_sql ORDER BY date_recorded DESC $max_sql" ) );
 
 		for ( $i = 0; $i < count( $activities ); $i++ ) {
+			$activities_formatted[$i]['user_id'] = $activities[$i]->user_id;
 			$activities_formatted[$i]['content'] = $activities[$i]->content;
 			$activities_formatted[$i]['primary_link'] = $activities[$i]->primary_link;
 			$activities_formatted[$i]['date_recorded'] = $activities[$i]->date_recorded;

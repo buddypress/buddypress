@@ -216,9 +216,35 @@ function bp_activities_no_activity() {
 		return apply_filters( 'bp_get_activities_no_activity', $bp_activity_no_activity );
 	}
 
-function bp_activity_content() {
-	global $activities_template;
+function bp_activity_user_id() {
+	echo bp_get_activity_user_id();
+}
+	function bp_get_activity_user_id() {
+		global $activities_template;
+		return apply_filters( 'bp_get_activity_user_id', $activities_template->activity->user_id );
+	}
 
+function bp_activity_user_avatar( $args = '' ) {
+	echo bp_get_activity_user_avatar( $args );
+}
+	function bp_get_activity_user_avatar( $args = '' ) {
+		global $activities_template;
+
+		$defaults = array(
+			'type' => 'thumb',
+			'width' => 20,
+			'height' => 20,
+			'class' => 'avatar',
+			'alt' => __( 'Avatar', 'buddypress' ) 
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+	
+		return apply_filters( 'bp_get_group_avatar', bp_core_fetch_avatar( array( 'item_id' => $activities_template->activity->user_id, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height ) ) );
+	}
+
+function bp_activity_content() {
 	echo bp_get_activity_content();
 }
 	function bp_get_activity_content() {

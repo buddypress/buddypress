@@ -20,7 +20,7 @@ class BP_Activity_Widget extends WP_Widget {
 		echo $before_widget;
 		echo $before_title
 		   . $widget_name . 
-			 ' <a href="' . bp_get_sitewide_activity_feed_link() . '" title="' . __( 'Site Wide Activity RSS Feed', 'buddypress' ) . '"><img src="' . $bp->activity->image_base . '/rss.png" alt="' . __( 'RSS Feed', 'buddypress' ) . '" /></a>' 
+			 ' <a class="rss-image" href="' . bp_get_sitewide_activity_feed_link() . '" title="' . __( 'Site Wide Activity RSS Feed', 'buddypress' ) . '">' . __( '[RSS]', 'buddypress' ) . '</a>' 
 		   . $after_title; ?>
 	
 	<?php if ( bp_has_activities( 'type=sitewide&max=' . $instance['max_items'] . '&per_page=' . $instance['per_page'] ) ) : ?>
@@ -41,6 +41,10 @@ class BP_Activity_Widget extends WP_Widget {
 		<ul id="site-wide-stream" class="activity-list">
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<li class="<?php bp_activity_css_class() ?>">
+				<div class="activity-avatar">
+					<?php bp_activity_user_avatar() ?>
+				</div>
+				
 				<?php bp_activity_content() ?>
 			</li>
 		<?php endwhile; ?>
