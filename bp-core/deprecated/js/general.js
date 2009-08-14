@@ -87,7 +87,6 @@ jQuery("div#wire-pagination a").livequery('click',
 	}
 );
 
-
 function clear(container) {
 	if(!document.getElementById(container)) return false;
 	
@@ -99,14 +98,3 @@ function clear(container) {
 		radioButtons[i].checked = false;
 	}	
 }
-
-/* For admin-bar */
-jQuery(document).ready( function() {
-	jQuery("#wp-admin-bar ul.main-nav li").mouseover( function() {
-		jQuery(this).addClass('sfhover');
-	});
-	
-	jQuery("#wp-admin-bar ul.main-nav li").mouseout( function() {
-		jQuery(this).removeClass('sfhover');
-	});
-});

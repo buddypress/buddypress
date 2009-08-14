@@ -1,31 +1,48 @@
 <?php
 
-
 /**
- * bp_core_add_admin_css()
+ * bp_core_add_admin_bar_css()
  *
- * Add the CSS needed for all components in the admin area.
+ * Add the CSS needed for the admin bar on blogs (other than the root) and in the admin area.
  * 
  * @package BuddyPress Core
  * @uses get_option() Selects a site setting from the DB.
  */
-function bp_core_add_admin_css() {
+function bp_core_add_admin_bar_css() {
+	global $current_blog;
+	
 	if ( defined( 'BP_DISABLE_ADMIN_BAR') )
 		return false;
 	
+	if ( BP_ROOT_BLOG == $current_blog->blog_id && !is_admin() )
+		return false;
+			
 	/* Fetch the admin bar css from the active theme location */
-	if ( $located_css = locate_template( array( '_inc/css/adminbar.css' ) ) ) {
-		if ( false === strpos( TEMPLATEPATH, $located_css ) )
-			$admin_bar_css = get_stylesheet_directory_uri() . '/_inc/css/adminbar.css';
-		else
-			$admin_bar_css = get_template_directory_uri() . '/_inc/css/adminbar.css';			
-		
-		wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', $admin_bar_css ) );
-	}
+	if ( file_exists( WP_CONTENT_DIR . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'stylesheet' ) . '/_inc/css/adminbar.css' ) )
+		$admin_bar_css = WP_CONTENT_URL . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'stylesheet' ) . '/_inc/css/adminbar.css';
+	else if ( file_exists( WP_CONTENT_DIR . '/' . get_blog_option( BP_ROOT_BLOG, 'template' ) . '/_inc/css/adminbar.css' ) )
+		$admin_bar_css = WP_CONTENT_URL . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'template' ) . '/_inc/css/adminbar.css';
 	else
-		wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', BP_PLUGIN_URL . '/bp-core/deprecated//css/admin-bar.css' ) );
+		$admin_bar_css = BP_PLUGIN_URL . '/bp-core/deprecated/css/admin-bar.css';
+
+	wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', $admin_bar_css ) );
 }
-add_action( 'admin_menu', 'bp_core_add_admin_css' );
+add_action( 'admin_menu', 'bp_core_add_admin_bar_css' );
+add_action( 'template_redirect', 'bp_core_add_admin_bar_css' );
+
+/**
+ * bp_core_add_admin_bar_css()
+ *
+ * Add the minor JS needed for the admin bar.
+ * 
+ * @package BuddyPress Core
+ * @uses get_option() Selects a site setting from the DB.
+ */
+function bp_core_add_admin_bar_js() {
+	wp_enqueue_script( 'bp-admin-bar-js', BP_PLUGIN_URL . '/bp-core/js/admin-bar.js', array( 'jquery' ) );
+}
+add_action( 'admin_menu', 'bp_core_add_admin_bar_js' );
+add_action( 'template_redirect', 'bp_core_add_admin_bar_js' );
 
 /**
  * bp_core_admin_menu_icon_css()

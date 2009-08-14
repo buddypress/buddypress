@@ -8,6 +8,7 @@
 }
 	#wp-admin-bar a {
 		text-decoration: none;
+		text-align: left !important;
 	}
 		#wp-admin-bar a#admin-bar-logo {
 			color: #f0f0f0;
