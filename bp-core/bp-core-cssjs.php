@@ -12,8 +12,18 @@
 function bp_core_add_admin_css() {
 	if ( defined( 'BP_DISABLE_ADMIN_BAR') )
 		return false;
+	
+	/* Fetch the admin bar css from the active theme location */
+	if ( $located_css = locate_template( array( '_inc/css/adminbar.css' ) ) ) {
+		if ( false === strpos( TEMPLATEPATH, $located_css ) )
+			$admin_bar_css = get_stylesheet_directory_uri() . '/_inc/css/adminbar.css';
+		else
+			$admin_bar_css = get_template_directory_uri() . '/_inc/css/adminbar.css';			
 		
-	wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', BP_PLUGIN_URL . '/bp-core/css/admin-bar.css' ) );
+		wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', $admin_bar_css ) );
+	}
+	else
+		wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', BP_PLUGIN_URL . '/bp-core/deprecated//css/admin-bar.css' ) );
 }
 add_action( 'admin_menu', 'bp_core_add_admin_css' );
 
