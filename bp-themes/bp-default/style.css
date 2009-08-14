@@ -9,15 +9,15 @@ Template: bp-sn-framework
 */
 
 /* Font styles */
-@import url( ../bpdefault/_inc/css/fonts/12px.css );
+@import url( ../bp-sn-framework/_inc/css/fonts/12px.css );
 
 /* Layout styles for home page, internal pages and blog/directory pages */
-@import url( ../bpdefault/_inc/css/layout/home-page/3c-right.css );
-@import url( ../bpdefault/_inc/css/layout/internal-pages/3c-left.css );
-@import url( ../bpdefault/_inc/css/layout/blog-dir-pages/2c-right.css );
+@import url( ../bp-sn-framework/_inc/css/layout/home-page/3c-right.css );
+@import url( ../bp-sn-framework/_inc/css/layout/internal-pages/3c-left.css );
+@import url( ../bp-sn-framework/_inc/css/layout/blog-dir-pages/2c-right.css );
 
 /* Admin bar styles */
-@import url( ../bpdefault/_inc/css/adminbar.css );
+@import url( ../bp-sn-framework/_inc/css/adminbar.css );
 
 
 /**** Callisto Styles **************************************************/
