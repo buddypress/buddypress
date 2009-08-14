@@ -212,12 +212,12 @@ function bp_core_do_catch_uri() {
 			$wp_query->is_page = true;
 	}
 
-	if ( file_exists( TEMPLATEPATH . "/" . $page . ".php" ) ) {
-		load_template( apply_filters( 'bp_load_template', TEMPLATEPATH . "/" . $page . ".php" ) );
+	if ( $located_template = locate_template( array( $page . '.php' ) ) ) {
+		load_template( apply_filters( 'bp_load_template', $located_template ) );
 	} else {
-		if ( file_exists( TEMPLATEPATH . "/404.php" ) ) {
+		if ( $located_template = locate_template( array( '404.php' ) ) ) {
 			status_header( 404 );
-			load_template( TEMPLATEPATH . "/404.php" );
+			load_template( $located_template );
 		} else {
 			wp_die( __( '<strong>You do not have any BuddyPress themes installed.</strong><br />Please move "/wp-content/plugins/buddypress/bp-themes/"  to "/wp-content/bp-themes/" and refresh this page. You can <a href="http://buddypress.org/extend/themes/">download more themes here</a>.', 'buddypress' ) );
 		}
