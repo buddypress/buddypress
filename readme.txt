@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: apeatling
 Tags: wpmu, buddypress, social, networking, profiles, messaging, friends, groups, forums, activity
-Requires at least: 2.7.1
-Tested up to: 2.7.1
-Stable tag: 1.0.1
+Requires at least: 2.8.4
+Tested up to: 2.8.4
+Stable tag: 1.1-pre
 
 BuddyPress is a suite of WordPress MU social networking plugins and themes.
 
@@ -28,22 +28,24 @@ BuddyPress requires WordPress MU, it will not work on a single install of WordPr
 
 --- Themes: ---
 
-1. Move the "/wp-content/plugins/buddypress/bp-themes/" directory to "/wp-content/bp-themes/"
+1. Move "/wp-content/plugins/buddypress/bp-themes/bp-sn-framework" and
+   "/wp-content/plugins/buddypress/bp-themes/bp-default" to "/wp-content/themes/"
 
-The default home theme is not required, you can use a standard WordPress theme for your root blog if you wish.
+You must then login as an admin and head to the "Site Admin > Themes" directory and activate the default
+BuddyPress theme (bp-default).
 
-2. To install the default home theme move "/wp-content/bp-themes/bphome/ to /wp-content/themes/bphome/"
-
-There are a few more steps to get you going correctly, to read the full setup guide, please visit:
-http://codex.buddypress.org/getting-started/installing-buddypress/
+Next, you will want to head to the "Appearance" menu and activate the BuddyPress default theme for the root blog of your WordPress MU installation.
 
 --- Upgrading from an earlier version: ---
 
 1. Backup!
 2. Overwrite the /plugins/buddypress/ directory with the latest version.
-3. If you are using the default themes, overwrite them using the new versions in the /plugins/buddypress/
-directory. If you are using your own custom themes, they will continue to work with no changes needed.
+3. If you are using the default theme, move the themes in "/buddypress/bp-themes/" to "wp-content/themes"
+   and overwrite the existing ones.
 
+--- Forums Support ---
+
+To enable bbPress support please log in and head to "BuddyPress > Forums Setup" in the admin area.
 
 == Frequently Asked Questions ==
 
