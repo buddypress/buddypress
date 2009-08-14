@@ -10,16 +10,16 @@
 			
 			<?php if ( 'request-details' == bp_get_current_signup_step() ) : ?>
 		
+				<h2 class="pagetitle"><?php _e( 'Sign Up', 'buddypress' ) ?></h2>
+	
+				<?php do_action( 'template_notices' ) ?>
+	
+				<p><?php _e( 'Registering for this site is easy, just fill in the fields below and we\'ll get a new account set up for you in no time.', 'buddypress' ) ?></p>
+
+				<?php do_action( 'bp_before_account_details_fields' ) ?>
+			
 				<div class="register-section" id="basic-details-section">
 			
-					<h2 class="pagetitle"><?php _e( 'Sign Up', 'buddypress' ) ?></h2>
-		
-					<?php do_action( 'template_notices' ) ?>
-		
-					<p><?php _e( 'Registering for this site is easy, just fill in the fields below and we\'ll get a new account set up for you in no time.', 'buddypress' ) ?></p>
-
-					<?php do_action( 'bp_before_account_details_fields' ) ?>
-		
 					<?php /***** Basic Account Details ******/ ?>
 		
 					<h3><?php _e( 'Account Details', 'buddypress' ) ?></h3>

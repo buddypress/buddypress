@@ -722,11 +722,12 @@ form.standard-form { }
 	margin: 0 0 25px 0;
 }
 
-h2.widgettitle, .directory h3 {
-	padding: 3px 8px;
-	margin-bottom: 5px;
+h2.widgettitle, .directory h3, h2.pagetitle {
+	padding: 5px 8px 0 8px;
+	margin-bottom: 3px;
 	height: 36px;
 	border-radius: 3px;
+	border: none;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	font: bold 1em "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif !important;
@@ -864,7 +865,7 @@ div.avatar-block {
 	font-size: 1em;
 }
 
-	#third-section .widget h2 {
+	#third-section .widget h2, .page h2.pagetitle {
 		background: url(images/leftcol_header_back.gif) top left no-repeat;
 	}
 	
@@ -882,8 +883,8 @@ div.avatar-block {
 /*** Directory Styles *******************************************************/
 
 .directory h3, .directory #sidebar h3 {
-	padding: 3px 8px;
-	margin-bottom: 5px;
+	padding: 5px 8px 0 8px;
+	margin-bottom: 3px;
 	height: 36px;
 	font-weight: bold;
 	background: url(images/leftcol_header_back.gif) top left no-repeat;
@@ -1304,33 +1305,63 @@ h4.archive {
 
 /*** Regisration / Activation Styles ***********************************************/
 
+.registration h3 {
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 10px;
+	margin-bottom: 15px;
+}
+
 .register-section {
 	margin: 0 0 30px 0;
 }
-	#basic-details-section input, #basic-details-section textarea, 
-	#profile-details-section input, #profile-details-section textarea,
-	input#signup_blog_title {
-		width: 50% !important;
-	}
-		.register-section .checkbox input { width: auto !important; }
-		.register-section .radio input { width: auto !important; }
-		#basic-details-section input[type=password] { width: 25% !important; }
+	.registration .checkbox input { width: auto !important; }
+	.registration .radio input { width: auto !important; }
+	#basic-details-section input[type=password] { width: 35% !important; }
 
-	#blog-details-section input#signup_blog_url { width: 20%; }
+	#blog-details-section input#signup_blog_url { width: 35%; }
 
-	.register-section span.label {
-		margin-top: 20px;
-	}
+.registration span.label {
+	margin-top: 20px;
+	font-weight: normal;
+}
+
+.registration div.error {
+	border: 1px solid #dc7e7e;
+	background: #ffc9c9;
+	width: 65%;
+	padding: 5px;
+	margin: 5px 0 10px 0;
+}
+
+#basic-details-section input, #basic-details-section textarea, 
+#profile-details-section input, #profile-details-section textarea,
+input#signup_blog_title {
+	width: 90%;
+}
+
+#basic-details-section, #blog-details-section, #profile-details-section {
+	float: left;
+	width: 48%;
+}
+
+#profile-details-section {
+	float: right;
+}
+
+#blog-details-section {
+	margin-top: -10px;
+}
+
+#blog-details-section h3 { display: none; }
+
+.registration p.submit { clear: both; }
+.registration p.description { font-size: 0.9em; color: #888;}
+
+#signup-avatar {
+	margin: 0 25px 25px 0;
+	float: left;
+}
 	
-	.register-section div.error {
-		border: 1px solid #dc7e7e;
-		background: #ffc9c9;
-		padding: 5px;
-		width: 35%;
-		margin: 5px 0 10px 0;
-	}
-
-
 
 /*** Component Specific Styles ****************************************************/
 
@@ -1452,7 +1483,6 @@ ul#activity-filter-links li {
 			border-color: #ffa6ac;
 			color: #ff5560;
 		}
-	
 
 
 /**** BLOGS *****************/

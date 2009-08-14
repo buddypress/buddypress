@@ -58,4 +58,16 @@ function bp_core_screen_activation() {
 }
 add_action( 'wp', 'bp_core_screen_activation', 3 );
 
+
+/***
+ * bp_core_disable_welcome_email()
+ *
+ * Since the user now chooses their password, sending it over clear-text to an
+ * email address is no longer necessary. It's also a terrible idea security wise.
+ */
+function bp_core_disable_welcome_email() {
+	return false;
+}
+add_filter( 'wpmu_welcome_user_notification', 'bp_core_disable_welcome_email' );
+
 ?>
