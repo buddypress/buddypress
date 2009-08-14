@@ -8,10 +8,9 @@ function bp_core_screen_signup() {
 	
 	/***
 	 * For backwards compatibility with the old pre 1.1 two theme system, skip this screen function
-	 * if the user is using the old two theme method. We can check if function 'wp_insert_user' 
-	 * exists because the old method would already have included that function's file at this point.
+	 * if the user is using the old two theme method.
 	 */
-	if ( function_exists('wp_insert_user') )
+	if ( file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
 		return false;
 
 	/* If signups are disabled, just re-direct */
