@@ -218,9 +218,8 @@ function bp_core_do_catch_uri() {
 		if ( $located_template = locate_template( array( '404.php' ) ) ) {
 			status_header( 404 );
 			load_template( $located_template );
-		} else {
-			wp_die( __( '<strong>You do not have any BuddyPress themes installed.</strong><br />Please move "/wp-content/plugins/buddypress/bp-themes/"  to "/wp-content/bp-themes/" and refresh this page. You can <a href="http://buddypress.org/extend/themes/">download more themes here</a>.', 'buddypress' ) );
-		}
+		} else
+			bp_core_redirect( $bp->root_domain );
 	}
 	die;
 }

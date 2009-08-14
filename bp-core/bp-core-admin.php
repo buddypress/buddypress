@@ -85,6 +85,8 @@ function bp_core_admin_settings() {
 					</td>			
 				</tr>
 				<?php } ?>
+				
+				<?php if ( !locate_template( array( 'registration/register.php' ) ) ) :?>
 				<tr>
 					<th scope="row"><?php _e('Select theme to use for BuddyPress generated pages', 'buddypress' ) ?>:</th>
 					<td>
@@ -110,6 +112,7 @@ function bp_core_admin_settings() {
 						<?php endif; ?>
 					</td>			
 				</tr>
+				<?php endif; ?>
 				<tr>
 					<th scope="row"><?php _e( 'Default User Avatar', 'buddypress' ) ?></th>
 					<td>
