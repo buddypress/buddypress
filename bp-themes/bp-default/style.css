@@ -807,7 +807,7 @@ div.create-account {
 span.activity, .message-metadata small {
 	color: #888;
 	background: #FFF9DB;
-	padding: 1px 6px;
+	padding: 4px 6px;
 	border-right: 1px solid #FFE8C4;
 	border-bottom: 1px solid #FFE8C4;
 	display: inline-block;
@@ -1415,37 +1415,6 @@ input#signup_blog_title {
 	color: #999;
 }
 
-.widget_bp_activity_widget ul#activity-filter-links {
-	background: url(images/item_list_back.gif) top left repeat-x;
-	padding: 15px;
-	min-height: 22px;
-}
-
-.widget_bp_activity_widget ul#activity-filter-links li {
-	float: left;
-}
-	.widget_bp_activity_widget ul#activity-filter-links li a {
-		display: block;
-		padding: 2px 8px 2px 30px;
-		background-color: #fff !important;
-		background-position: 8px 6px !important;
-		border-radius: 5px;
-		-moz-border-radius: 5px;
-		-webkit-border-radius: 5px;
-		margin: 0 5px 0 0;
-		border: 1px solid #eee;
-		text-decoration: none;
-	}
-		.widget_bp_activity_widget ul#activity-filter-links li a.selected {
-			border: 1px solid #ccc;
-			font-weight: bold;
-		}
-		
-		ul#activity-filter-links li#afilter-clear a {
-			background: url(images/error_icon.gif) 0 4px no-repeat;
-			border-color: #ffa6ac;
-			color: #ff5560;
-		}
 ul#activity-filter-links {
 	margin: 0;
 	padding: 0;
@@ -1453,6 +1422,7 @@ ul#activity-filter-links {
 	background: url(images/item_list_back.gif) top left repeat-x;
 	padding: 15px;
 	min-height: 22px;
+	overflow: hidden;
 }
 	.activity ul#activity-filter-links {
 		margin-top: 35px;
@@ -1460,6 +1430,7 @@ ul#activity-filter-links {
 
 ul#activity-filter-links li {
 	float: left;
+	margin-bottom: 5px;
 }
 	ul#activity-filter-links li a {
 		display: block;
