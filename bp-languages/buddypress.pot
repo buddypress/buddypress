@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-08-15 14:11+0000\n"
+"POT-Creation-Date: 2009-08-17 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -318,7 +318,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1318
 #: bp-core/bp-core-templatetags.php:617 bp-core/bp-core-templatetags.php:1165
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:605
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:624
 #: bp-forums/bbpress/bb-includes/class.bb-query.php:1017
 #: bp-forums/bbpress/bb-templates/kakumei/rss2.php:18
 #: bp-forums/bbpress/bb-templates/kakumei/search.php:3
@@ -689,12 +689,12 @@ msgstr ""
 #: bp-core/bp-core-templatetags.php:628 bp-core/bp-core-templatetags.php:630
 #: bp-core/deprecated/bp-core-deprecated.php:928
 #: bp-core/deprecated/bp-core-deprecated.php:930
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2733
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2729
 msgid "Log Out"
 msgstr ""
 
 #: bp-core/bp-core-adminbar.php:103 bp-core/bp-core-adminbar.php:116
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2759
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2755
 #: bp-groups.php:244
 msgid "Admin"
 msgstr ""
@@ -708,8 +708,8 @@ msgid "Contributor"
 msgstr ""
 
 #: bp-core/bp-core-adminbar.php:112
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1063
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1071
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1082
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1090
 #: bp-forums/bbpress/bb-admin/topics.php:102
 #: bp-forums/bbpress/bb-admin/topics.php:111
 msgid "Author"
@@ -722,7 +722,7 @@ msgstr ""
 #: bp-core/bp-core-adminbar.php:153
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:55
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:56
-#: bp-forums/bbpress/bb-admin/index.php:38
+#: bp-forums/bbpress/bb-admin/index.php:46
 msgid "Dashboard"
 msgstr ""
 
@@ -897,7 +897,7 @@ msgid "Repeat New Password"
 msgstr ""
 
 #: bp-core/bp-core-settings.php:85 bp-core/bp-core-settings.php:133
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:897
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:916
 #: bp-forums/bbpress/bb-admin/options-discussion.php:123
 #: bp-forums/bbpress/bb-admin/options-general.php:236
 #: bp-forums/bbpress/bb-admin/options-permalinks.php:164
@@ -975,11 +975,11 @@ msgid "Options"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:326
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:627
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:631
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:641
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:645
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:907
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:646
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:650
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:660
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:664
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:926
 #: bp-groups/bp-groups-admin.php:72 bp-themes/bp-sn-framework/comments.php:92
 #: bp-themes/deprecated/bphome/comments-popup.php:64
 #: bp-themes/deprecated/bphome/comments.php:90
@@ -991,7 +991,7 @@ msgid "About Me"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:346
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:897
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:901
 #: bp-themes/bp-sn-framework/comments.php:102
 #: bp-themes/deprecated/bphome/comments.php:96
 msgid "Website"
@@ -1484,10 +1484,10 @@ msgid "Crop Image"
 msgstr ""
 
 #: bp-core/deprecated/bp-core-deprecated.php:907
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:626
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:630
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:640
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:644
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:645
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:649
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:659
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:663
 #: bp-forums/bbpress/bb-templates/kakumei/login-form.php:14
 #: bp-forums/bbpress/bb-templates/kakumei/login.php:17
 #: bp-forums/bbpress/bb-templates/kakumei/login.php:59
@@ -1511,7 +1511,13 @@ msgid "Forums Setup"
 msgstr ""
 
 #: bp-forums/bbpress/bb-admin/admin-base.php:13
-msgid "Nothing to see here."
+msgid "Page not found"
+msgstr ""
+
+#: bp-forums/bbpress/bb-admin/admin-base.php:15
+msgid ""
+"There is no administration page at the requested address. Please check the "
+"address you entered and try again."
 msgstr ""
 
 #: bp-forums/bbpress/bb-admin/admin-footer.php:8
@@ -1666,7 +1672,7 @@ msgid "Forum"
 msgstr ""
 
 #: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:193
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1206
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1210
 msgid "bbPress &rsaquo; Error"
 msgstr ""
 
@@ -2842,17 +2848,17 @@ msgstr ""
 
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:83
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:84
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:572
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:591
 msgid "Users"
 msgstr ""
 
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:85
-#: bp-forums/bbpress/bb-admin/tools-recount.php:173
+#: bp-forums/bbpress/bb-admin/tools-recount.php:68
 msgid "Tools"
 msgstr ""
 
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:86
-#: bp-forums/bbpress/bb-admin/tools-recount.php:178
+#: bp-forums/bbpress/bb-admin/tools-recount.php:73
 msgid "Re-count"
 msgstr ""
 
@@ -2876,23 +2882,23 @@ msgstr ""
 msgid "WordPress Integration"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:220
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:236
 #: bp-forums/bbpress/bb-admin/options-wordpress.php:249
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1113
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1117
 msgid "bbPress"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:399
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:865
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1085
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:415
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:884
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1104
 #: bp-forums/bbpress/bb-admin/topics.php:125
 msgid "View"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:401
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:867
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:842
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:1930
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:418
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:886
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:846
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:1926
 #: bp-forums/bp-forums-templatetags.php:405
 #: bp-forums/bp-forums-templatetags.php:697 bp-groups/bp-groups-admin.php:108
 #: bp-themes/bp-sn-framework/archive.php:35
@@ -2903,8 +2909,13 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:414
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1119
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:419
+#, php-format
+msgid "User ID: %d"
+msgstr ""
+
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:433
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1138
 #: bp-forums/bbpress/bb-admin/topics.php:144
 #: bp-forums/bbpress/bb-admin/topics.php:153
 #: bp-status/bp-status-templatetags.php:38
@@ -2912,79 +2923,79 @@ msgstr ""
 msgid "%s ago"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:424
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:443
 msgid "Inactive (no role)"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:436
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:455
 msgid "None"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:504
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:686
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:523
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:705
 msgid "<strong>No matching users were found!</strong>"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:517
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:536
 #: bp-forums/bbpress/bb-admin/posts.php:83
 #: bp-forums/bbpress/bb-admin/topics.php:70
 #, php-format
 msgid "%1$s to %2$s of %3$s"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:555
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:574
 #, php-format
 msgid "Users Matching \"%s\" by Role"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:565
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:584
 #: bp-forums/bbpress/bb-admin/posts.php:54
 #: bp-forums/bbpress/bb-admin/topics.php:48
 #, php-format
 msgid "containing &#8220;%s&#8221;"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:566
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:585
 #, php-format
 msgid "with role &#8220;%s&#8221;"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:569
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:588
 #, php-format
 msgid "%1$s%2$s"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:581
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:600
 #: bp-forums/bbpress/bb-includes/class.bb-query.php:936
 msgid "Search term"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:585
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:634
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:648
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:604
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:653
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:667
 msgid "Role"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:606
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:625
 #: bp-forums/bbpress/bb-admin/posts.php:77
 #: bp-forums/bbpress/bb-admin/topics.php:64
 msgid "Filter"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:628
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:642
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:647
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:661
 #: bp-themes/deprecated/bphome/comments-popup.php:71
 msgid "E-mail"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:633
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:647
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:652
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:666
 msgid "Registered"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:869
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:888
 #: bp-forums/bbpress/bb-admin/topics.php:128
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:1987
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:1983
 #: bp-forums/bp-forums-templatetags.php:417
 #: bp-forums/bp-forums-templatetags.php:698 bp-groups/bp-groups-admin.php:47
 #: bp-themes/bp-sn-framework/messages/index.php:52
@@ -2998,20 +3009,20 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:896
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:915
 msgid "Edit Forum"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:900
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:901
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:919
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:920
 msgid "Add Forum"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:911
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:930
 msgid "Slug"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:915
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:934
 #: bp-forums/bbpress/bb-admin/plugins.php:186
 #: bp-forums/bbpress/bb-admin/plugins.php:192 bp-groups/bp-groups-admin.php:75
 #: bp-themes/bp-sn-framework/groups/single/home.php:46
@@ -3019,42 +3030,42 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:920
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:939
 msgid "Parent"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:932
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:951
 msgid "Position"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:937
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:956
 #: bp-themes/deprecated/bphome/archive.php:11
 msgid "Category"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:941
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:960
 msgid "Make this forum a category"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:945
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:964
 msgid ""
 "Categories are forums where new topics cannot be created. Categories usually "
 "contain a group of sub-forums."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1055
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1074
 #: bp-forums/bbpress/xmlrpc.php:1700 bp-forums/bbpress/xmlrpc.php:2299
 msgid "No posts found."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1062
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1070
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1081
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1089
 #: bp-forums/bbpress/bb-templates/kakumei/post-form.php:9
 msgid "Post"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1064
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1072
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1083
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1091
 #: bp-forums/bbpress/bb-admin/topics.php:101
 #: bp-forums/bbpress/bb-admin/topics.php:110
 #: bp-forums/bbpress/bb-templates/kakumei/favorites.php:16
@@ -3065,55 +3076,55 @@ msgstr ""
 msgid "Topic"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1065
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1073
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1084
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1092
 #: bp-forums/bbpress/bb-admin/topics.php:104
 #: bp-forums/bbpress/bb-admin/topics.php:113
 msgid "Date"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1139
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1158
 msgid "Count posts of every topic"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1140
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1159
 msgid "Count voices of every topic"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1141
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1160
 msgid "Count deleted posts on every topic"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1142
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1161
 msgid "Count topics and posts in every forum"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1143
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1162
 msgid "Count topics to which each user has replied"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1144
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1163
 msgid "Count tags for every topic"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1145
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1164
 msgid "Count topics for every tag"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1146
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1165
 msgid "Delete tags with no topics"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1147
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1166
 msgid "Remove deleted topics from users' favorites"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1217
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1236
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-plugin.php:307
 msgid "Visit author homepage"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1227
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1246
 msgid "Visit porter homepage"
 msgstr ""
 
@@ -3132,6 +3143,73 @@ msgstr ""
 
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-plugin.php:437
 msgid "That type of plugin is not available in the specified location."
+msgstr ""
+
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:7
+#, php-format
+msgid "Counting the number of posts in each topic&hellip; %s"
+msgstr ""
+
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:8
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:24
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:45
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:66
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:82
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:98
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:214
+msgid "Failed!"
+msgstr ""
+
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:15
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:36
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:57
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:73
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:89
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:133
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:260
+msgid "Complete!"
+msgstr ""
+
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:23
+#, php-format
+msgid "Counting the number of voices in each topic&hellip; %s"
+msgstr ""
+
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:44
+#, php-format
+msgid "Counting the number of deleted posts in each topic&hellip; %s"
+msgstr ""
+
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:65
+#, php-format
+msgid "Counting the number of topics in each forum&hellip; %s"
+msgstr ""
+
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:81
+#, php-format
+msgid "Counting the number of posts in each forum&hellip; %s"
+msgstr ""
+
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:97
+#, php-format
+msgid "Counting the number of topics to which each user has replied&hellip; %s"
+msgstr ""
+
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:147
+msgid "Counted topic tags"
+msgstr ""
+
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:170
+msgid "Counted tagged topics"
+msgstr ""
+
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:193
+msgid "Deleted tags with no topics"
+msgstr ""
+
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-recount.php:213
+#, php-format
+msgid "Removing deleted topics from user favorites&hellip; %s"
 msgstr ""
 
 #: bp-forums/bbpress/bb-admin/index.php:6
@@ -3173,50 +3251,50 @@ msgid_plural "<span>%d</span> tags"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-forums/bbpress/bb-admin/index.php:42
+#: bp-forums/bbpress/bb-admin/index.php:50
 msgid "Right Now"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/index.php:47
+#: bp-forums/bbpress/bb-admin/index.php:55
 msgid "Totals"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/index.php:48
+#: bp-forums/bbpress/bb-admin/index.php:56
 msgid "Per Day"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/index.php:77
+#: bp-forums/bbpress/bb-admin/index.php:81
 msgid "Change Theme"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/index.php:77
+#: bp-forums/bbpress/bb-admin/index.php:81
 #, php-format
 msgid "Theme <a href=\"%1$s\">%2$s</a>"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/index.php:78
+#: bp-forums/bbpress/bb-admin/index.php:82
 #, php-format
 msgid "You are using <span class=\"b\">bbPress %s</span>"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/index.php:83
+#: bp-forums/bbpress/bb-admin/index.php:87
 msgid "Recently Moderated Items"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/index.php:91
+#: bp-forums/bbpress/bb-admin/index.php:95
 #, php-format
 msgid ""
 "<a href=\"%1$s\">Post</a> on <a href=\"%2$s\">%3$s</a> by <a href=\"%4$s\">%5"
 "$s</a>"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/index.php:104
+#: bp-forums/bbpress/bb-admin/index.php:108
 #, php-format
 msgid ""
 "Topic titled <a href=\"%1$s\">%2$s</a> started by <a href=\"%3$s\">%4$s</a>"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/index.php:116
+#: bp-forums/bbpress/bb-admin/index.php:120
 msgid ""
 "No moderated posts or topics&#8230; you must have very well behaved members."
 msgstr ""
@@ -3997,51 +4075,7 @@ msgstr ""
 msgid "Available Themes"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/tools-recount.php:10
-msgid "Counted posts"
-msgstr ""
-
-#: bp-forums/bbpress/bb-admin/tools-recount.php:21
-msgid "Counted voices"
-msgstr ""
-
-#: bp-forums/bbpress/bb-admin/tools-recount.php:37
-msgid "Counting deleted posts&#8230;"
-msgstr ""
-
-#: bp-forums/bbpress/bb-admin/tools-recount.php:47
-msgid "&#8230;counted deleted posts"
-msgstr ""
-
-#: bp-forums/bbpress/bb-admin/tools-recount.php:49
-msgid "&#8230;no deleted posts to count"
-msgstr ""
-
-#: bp-forums/bbpress/bb-admin/tools-recount.php:55
-msgid "Counted forum topics and posts"
-msgstr ""
-
-#: bp-forums/bbpress/bb-admin/tools-recount.php:72
-msgid "Counted topics to which each user has replied"
-msgstr ""
-
-#: bp-forums/bbpress/bb-admin/tools-recount.php:87
-msgid "Counted topic tags"
-msgstr ""
-
-#: bp-forums/bbpress/bb-admin/tools-recount.php:106
-msgid "Counted tagged topics"
-msgstr ""
-
-#: bp-forums/bbpress/bb-admin/tools-recount.php:125
-msgid "Deleted tags with no topics"
-msgstr ""
-
-#: bp-forums/bbpress/bb-admin/tools-recount.php:142
-msgid "Removed deleted topics from users' favorites"
-msgstr ""
-
-#: bp-forums/bbpress/bb-admin/tools-recount.php:179
+#: bp-forums/bbpress/bb-admin/tools-recount.php:74
 msgid ""
 "To minimize database queries, bbPress keeps it's own count of various items "
 "like posts in each topic and topics in each forum. Occasionally these "
@@ -4049,19 +4083,19 @@ msgid ""
 "items using this form."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/tools-recount.php:180
+#: bp-forums/bbpress/bb-admin/tools-recount.php:75
 msgid "You can also clean out some stale items here, like empty tags."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/tools-recount.php:187
+#: bp-forums/bbpress/bb-admin/tools-recount.php:82
 msgid "Items to re-count"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/tools-recount.php:200
+#: bp-forums/bbpress/bb-admin/tools-recount.php:95
 msgid "There are no re-count tools available."
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/tools-recount.php:207
+#: bp-forums/bbpress/bb-admin/tools-recount.php:102
 msgid "Recount Items"
 msgstr ""
 
@@ -4121,7 +4155,7 @@ msgid "Open"
 msgstr ""
 
 #: bp-forums/bbpress/bb-admin/topics.php:128
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2057
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2053
 msgid "Undelete"
 msgstr ""
 
@@ -4361,7 +4395,7 @@ msgid "Nicename already exists"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/backpress/class.wp-users.php:65
-#: bp-forums/bbpress/bb-includes/functions.bb-pluggable.php:583
+#: bp-forums/bbpress/bb-includes/functions.bb-pluggable.php:584
 #: bp-forums/bbpress/profile-edit.php:62
 msgid "Invalid email address"
 msgstr ""
@@ -4889,184 +4923,184 @@ msgid_plural "%d minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:742
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:746
 msgid "User not found."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:815
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:819
 msgid "REQUEST_URI"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:816
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:820
 msgid "should be"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:817
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:821
 msgid "full permalink"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:818
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:822
 msgid "PATH_INFO"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:843
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:847
 #: bp-forums/bbpress/bb-templates/kakumei/favorites.php:3
 msgid "Favorites"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:893
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:897
 msgid "First name"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:894
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:898
 msgid "Last name"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:895
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:899
 msgid "Display name as"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:896
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:900
 #: bp-themes/bp-sn-framework/comments.php:97
 msgid "Email"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:898
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:902
 msgid "Location"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:899
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:903
 msgid "Occupation"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:900
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:904
 msgid "Interests"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:907
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:911
 msgid "Custom Title"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:914
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:918
 #, php-format
 msgid "Ignore the %d second post throttling limit"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:991
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:995
 msgid "Topics with no replies"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:992
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:996
 msgid "Topics with no tags"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1100
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1104
 msgid "bbPress Failure Notice"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1103
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1107
 msgid "Please try again."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1214
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1218
 #, php-format
 msgid "Back to <a href=\"%s\">%s</a>."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1227
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1231
 msgid "Your attempt to submit this post has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1228
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1232
 msgid "Your attempt to edit this post has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1229
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1233
 msgid "Your attempt to delete this post has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1231
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1235
 msgid "Your attempt to create this topic has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1232
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1236
 msgid "Your attempt to change the resolution status of this topic has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1233
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1237
 msgid "Your attempt to delete this topic has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1234
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1238
 msgid "Your attempt to change the status of this topic has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1235
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1239
 msgid "Your attempt to change the sticky status of this topic has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1236
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1240
 msgid "Your attempt to move this topic has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1238
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1242
 msgid "Your attempt to add this tag to this topic has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1239
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1243
 msgid "Your attempt to rename this tag has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1240
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1244
 msgid "Your attempt to submit these tags has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1241
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1245
 msgid "Your attempt to destroy this tag has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1242
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1246
 msgid "Your attempt to remove this tag from this topic has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1244
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1248
 msgid "Your attempt to toggle your favorite status for this topic has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1246
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1250
 msgid "Your attempt to edit this user's profile has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1248
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1252
 msgid "Your attempt to add this forum has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1249
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1253
 msgid "Your attempt to update your forums has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1250
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1254
 msgid "Your attempt to delete that forum has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1252
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1256
 msgid "Your attempt to recount these items has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1254
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1258
 msgid "Your attempt to switch themes has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1269
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1273
 msgid "Your attempt to do this has failed."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1480
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1613
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1484
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1617
 msgid "Your search term was too short"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1560
+#: bp-forums/bbpress/bb-includes/functions.bb-core.php:1564
 msgid "Your query parameters are invalid"
 msgstr ""
 
@@ -5085,8 +5119,8 @@ msgstr ""
 msgid "Please give me a name!"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-pluggable.php:586
-#: bp-forums/bbpress/bb-includes/functions.bb-pluggable.php:595
+#: bp-forums/bbpress/bb-includes/functions.bb-pluggable.php:587
+#: bp-forums/bbpress/bb-includes/functions.bb-pluggable.php:596
 msgid "Invalid username"
 msgstr ""
 
@@ -5158,12 +5192,12 @@ msgid "%favAdd% (%favLinkNo%)"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/functions.bb-script-loader.php:93
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3361
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3357
 msgid "&times;"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/functions.bb-script-loader.php:94
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3359
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3355
 msgid "Add this topic to your favorites"
 msgstr ""
 
@@ -5301,160 +5335,160 @@ msgstr[1] ""
 msgid "+%d more"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:1530
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:1528
 msgid "Move to"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:1533
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:1531
 msgid "Move"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:1567
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:1563
 msgid "Add New &raquo;"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:1743
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:1739
 msgid "Anonymous"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2128
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2142
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2124
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2138
 msgid "PingBack"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2130
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2144
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2126
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2140
 msgid "Unregistered"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2232
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2228
 msgid "Delete User &raquo;"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2233
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2229
 msgid "Are you sure you want to delete this user?"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2360
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2356
 msgid "Member Since"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2513
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2662
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2509
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2658
 #: bp-forums/bbpress/bb-templates/kakumei/register.php:65
 msgid "These items are <span class=\"required\">required</span>."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2550
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2546
 msgid "User Type"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2575
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2571
 msgid "Allow this user to"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2665
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2661
 msgid ""
 "Inactive users can login and look around but not do anything. Blocked users "
 "just see a simple error message when they visit the site."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2666
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2662
 msgid ""
 "<strong>Note</strong>: Blocking a user does <em>not</em> block any IP "
 "addresses."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2689
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2685
 msgid "New password"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2702
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2698
 msgid "Password Strength"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2706
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2702
 msgid "Disabled (requires JavaScript)"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2712
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2708
 msgid "Disabled (requires jQuery)"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2719
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2715
 msgid ""
 "Hint: Use upper and lower case characters, numbers and symbols like !\"?$%"
 "^&amp;( in your password."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2778
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:2774
 msgid "View your profile"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3073
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3069
 msgid "Add &raquo;"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3109
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3105
 msgid "Rename tag:"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3113
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3109
 msgid "Rename"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3117
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3113
 msgid "Merge this tag into:"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3121
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3117
 msgid "Merge"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3122
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3118
 #, php-format
 msgid ""
 "Are you sure you want to merge the \"%s\" tag into the tag you specified? "
 "This is permanent and cannot be undone."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3126
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3122
 msgid "Destroy tag:"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3129
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3125
 msgid "Destroy"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3130
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3126
 #, php-format
 msgid ""
 "Are you sure you want to destroy the \"%s\" tag? This is permanent and "
 "cannot be undone."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3156
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3152
 msgid "Remove this tag"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3213
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3209
 #, php-format
 msgid "%d topics"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3278
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3274
 msgid "- None -"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3359
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3355
 msgid " (%?%)"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3361
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3357
 msgid "This topic is one of your %favorites% ["
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3361
+#: bp-forums/bbpress/bb-includes/functions.bb-template.php:3357
 msgid "]"
 msgstr ""
 
@@ -5464,11 +5498,11 @@ msgid ""
 "site's administrator."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-users.php:261
+#: bp-forums/bbpress/bb-includes/functions.bb-users.php:262
 msgid "The specified user does not exist."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-users.php:267
+#: bp-forums/bbpress/bb-includes/functions.bb-users.php:275
 #, php-format
 msgid ""
 "If you wanted to reset your password, you may do so by visiting the "
@@ -5479,30 +5513,30 @@ msgid ""
 "If you don't want to reset your password, just ignore this email. Thanks!"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-users.php:277
-#: bp-forums/bbpress/bb-templates/kakumei/password-reset.php:5
-msgid "Password Reset"
+#: bp-forums/bbpress/bb-includes/functions.bb-users.php:281
+#, php-format
+msgid "%s: Password Reset"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-users.php:282
+#: bp-forums/bbpress/bb-includes/functions.bb-users.php:293
 msgid "The email containing the password reset link could not be sent."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-users.php:304
-#: bp-forums/bbpress/bb-includes/functions.bb-users.php:306
-#: bp-forums/bbpress/bb-includes/functions.bb-users.php:321
-msgid "Key not found."
+#: bp-forums/bbpress/bb-includes/functions.bb-users.php:318
+#: bp-forums/bbpress/bb-includes/functions.bb-users.php:322
+#: bp-forums/bbpress/bb-includes/functions.bb-users.php:328
+msgid "Invalid key"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-users.php:311
+#: bp-forums/bbpress/bb-includes/functions.bb-users.php:336
 msgid "You are not allowed to change your password."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-users.php:315
+#: bp-forums/bbpress/bb-includes/functions.bb-users.php:342
 msgid "The email containing the new password could not be sent."
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-users.php:364
+#: bp-forums/bbpress/bb-includes/functions.bb-users.php:391
 #, php-format
 msgid ""
 "Your username is: %1$s \n"
@@ -5512,13 +5546,9 @@ msgid ""
 "Enjoy!"
 msgstr ""
 
-#: bp-forums/bbpress/bb-includes/functions.bb-users.php:368
-#: bp-forums/bbpress/bb-templates/kakumei/login-form.php:18
-#: bp-forums/bbpress/bb-templates/kakumei/login.php:27
-#: bp-forums/bbpress/bb-templates/kakumei/profile-edit.php:20
-#: bp-themes/bp-sn-framework/userbar.php:32
-#: bp-themes/deprecated/bpmember/userbar.php:32
-msgid "Password"
+#: bp-forums/bbpress/bb-includes/functions.bb-users.php:399
+#, php-format
+msgid "%s: Password"
 msgstr ""
 
 #: bp-forums/bbpress/bb-login.php:78
@@ -5783,6 +5813,14 @@ msgid ""
 "<a href=\"%1$s\">Register</a> or log in - <a href=\"%2$s\">lost password?</a>"
 msgstr ""
 
+#: bp-forums/bbpress/bb-templates/kakumei/login-form.php:18
+#: bp-forums/bbpress/bb-templates/kakumei/login.php:27
+#: bp-forums/bbpress/bb-templates/kakumei/profile-edit.php:20
+#: bp-themes/bp-sn-framework/userbar.php:32
+#: bp-themes/deprecated/bpmember/userbar.php:32
+msgid "Password"
+msgstr ""
+
 #: bp-forums/bbpress/bb-templates/kakumei/login-form.php:24
 #: bp-forums/bbpress/bb-templates/kakumei/login.php:43
 msgid "Log in &raquo;"
@@ -5819,6 +5857,10 @@ msgstr ""
 msgid "Recover Password &raquo;"
 msgstr ""
 
+#: bp-forums/bbpress/bb-templates/kakumei/password-reset.php:5
+msgid "Password Reset"
+msgstr ""
+
 #: bp-forums/bbpress/bb-templates/kakumei/password-reset.php:12
 msgid ""
 "An email has been sent to the address we have on file for you. If you "
@@ -5831,7 +5873,7 @@ msgid "Your password has been reset and a new one has been mailed to you."
 msgstr ""
 
 #: bp-forums/bbpress/bb-templates/kakumei/post-form.php:14
-msgid "Tags (comma seperated)"
+msgid "Tags (comma separated)"
 msgstr ""
 
 #: bp-forums/bbpress/bb-templates/kakumei/post-form.php:26
