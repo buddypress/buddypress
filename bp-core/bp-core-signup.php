@@ -5,6 +5,10 @@ function bp_core_screen_signup() {
 	
 	if ( $bp->current_component != BP_REGISTER_SLUG )
 		return false;
+		
+	/* If the user is logged in, and is not a site admin, redirect away from here */
+	if ( is_user_logged_in() && !is_site_admin() )
+		bp_core_redirect( $bp->root_domain );
 	
 	/***
 	 * For backwards compatibility with the old pre 1.1 two theme system, skip this screen function
