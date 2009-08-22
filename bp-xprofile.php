@@ -978,11 +978,24 @@ function xprofile_format_profile_field( $field_type, $field_value ) {
 	return stripslashes( stripslashes( $field_value ) );
 }
 
+/**
+ * xprofile_avatar_upload_dir()
+ *
+ * Setup the avatar upload directory for a user.
+ * 
+ * @package BuddyPress Core
+ * @param $directory The root directory name
+ * @param $user_id The user ID.
+ * @return array() containing the path and URL plus some other settings.
+ */
 function xprofile_avatar_upload_dir( $directory = false, $user_id = false ) {
 	global $bp;
 
 	if ( !$user_id )
 		$user_id = $bp->displayed_user->id;
+	
+	if ( !$directory )
+		$directory = 'avatars';
 
 	$path  = get_blog_option( BP_ROOT_BLOG, 'upload_path' );
 	$newdir = path_join( ABSPATH, $path );
@@ -993,12 +1006,45 @@ function xprofile_avatar_upload_dir( $directory = false, $user_id = false ) {
 	if ( !file_exists( $newdir ) )
 		@wp_mkdir_p( $newdir );
 
-	$newurl = WP_CONTENT_URL . '/blogs.dir/' . BP_ROOT_BLOG . '/files/avatars/' . $user_id;
+	$newurl = WP_CONTENT_URL . '/blogs.dir/' . BP_ROOT_BLOG . '/files/' . $directory . '/' . $user_id;
 	$newburl = $newurl;
 	$newsubdir = '/avatars/' . $user_id;
 
 	return apply_filters( 'xprofile_avatar_upload_dir', array( 'path' => $newdir, 'url' => $newurl, 'subdir' => $newsubdir, 'basedir' => $newbdir, 'baseurl' => $newburl, 'error' => false ) );
 }
+
+/**
+ * xprofile_sync_wp_profile()
+ *
+ * Syncs Xprofile data to the standard built in WordPress profile data.
+ * 
+ * @package BuddyPress Core
+ */
+function xprofile_sync_wp_profile() {
+	global $bp, $wpdb;
+	
+	if ( (int)get_site_option( 'bp-disable-profile-sync' ) )
+		return true;
+	
+	$fullname = xprofile_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $bp->loggedin_user->id );
+	$space = strpos( $fullname, ' ' );
+	
+	if ( false === $space ) {
+		$firstname = $fullname;
+		$lastname = '';
+	} else {
+		$firstname = substr( $fullname, 0, $space );
+		$lastname = trim( substr( $fullname, $space, strlen($fullname) ) );		
+	}
+	
+	update_usermeta( $bp->loggedin_user->id, 'nickname', $fullname );
+	update_usermeta( $bp->loggedin_user->id, 'first_name', $firstname );
+	update_usermeta( $bp->loggedin_user->id, 'last_name', $lastname );
+
+	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET display_name = %s WHERE ID = %d", $fullname, $bp->loggedin_user->id ) );
+	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET user_url = %s WHERE ID = %d", bp_core_get_user_domain( $bp->loggedin_user->id ), $bp->loggedin_user->id ) );
+}
+add_action( 'xprofile_updated_profile', 'xprofile_sync_wp_profile' );
 
 
 /**
