@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-08-17 14:11+0000\n"
+"POT-Creation-Date: 2009-08-23 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -945,28 +945,28 @@ msgstr ""
 msgid "Delete My Account"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:42
+#: bp-core/bp-core-signup.php:46
 msgid "Please make sure you enter your password twice"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:46
+#: bp-core/bp-core-signup.php:50
 msgid "The passwords you entered do not match."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:59
+#: bp-core/bp-core-signup.php:63
 msgid "This is a required field"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:145
+#: bp-core/bp-core-signup.php:149
 msgid ""
 "There was a problem uploading your avatar, please try uploading it again"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:174 bp-xprofile.php:375
+#: bp-core/bp-core-signup.php:178 bp-xprofile.php:375
 msgid "There was a problem cropping your avatar, please try uploading it again"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:176
+#: bp-core/bp-core-signup.php:180
 msgid "Your new avatar was uploaded successfully"
 msgstr ""
 
