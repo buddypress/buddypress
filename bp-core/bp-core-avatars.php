@@ -48,8 +48,8 @@ function bp_core_fetch_avatar( $args = '' ) {
 		'no_grav' => false // If there is no avatar found, return false instead of a grav?
 	);
 
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );	
+	$params = wp_parse_args( $args, $defaults );
+	extract( $params, EXTR_SKIP );	
 		
 	if ( !$item_id ) {
 		if ( 'user' == $object )
@@ -98,7 +98,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		$grav_email = apply_filters( 'bp_core_gravatar_email', $grav_email, $item_id, $object );	
 		$gravatar = apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' ) . md5( $grav_email ) . '?d=' . $default_grav . '&amp;s=' . $grav_size;
 		
-		return apply_filters( 'bp_core_fetch_avatar', "<img src='{$gravatar}' alt='{$alt}' id='{$css_id}' class='{$class}'{$html_width}{$html_height} />", $r );
+		return apply_filters( 'bp_core_fetch_avatar', "<img src='{$gravatar}' alt='{$alt}' id='{$css_id}' class='{$class}'{$html_width}{$html_height} />", $params );
 	} else if ( !file_exists( $avatar_folder_dir ) && $no_grav )
 		return false;
 	
@@ -126,7 +126,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		closedir($av_dir);
 	}
 
-	return apply_filters( 'bp_core_fetch_avatar', "<img src='{$avatar_url}' alt='{$alt}' class='{$class}'{$html_width}{$html_height} />", $item_id, $object, $height, $width, $class, $alt );	
+	return apply_filters( 'bp_core_fetch_avatar', "<img src='{$avatar_url}' alt='{$alt}' class='{$class}'{$html_width}{$html_height} />", $params );	
 }
 
 function bp_core_delete_existing_avatar( $args = '' ) {
