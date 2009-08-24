@@ -1,6 +1,4 @@
 <?php
-define ( 'BP_STATUS_IS_INSTALLED', 1 );
-
 if ( !defined( 'BP_STATUS_SLUG' ) )
 	define ( 'BP_STATUS_SLUG', 'status' );
 

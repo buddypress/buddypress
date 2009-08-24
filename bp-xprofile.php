@@ -1,6 +1,5 @@
 <?php
-
-define ( 'BP_XPROFILE_DB_VERSION', '1300' );
+define ( 'BP_XPROFILE_DB_VERSION', '1700' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_XPROFILE_SLUG' ) )

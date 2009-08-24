@@ -1,7 +1,7 @@
 <?php
 
 /* Define the current version number for checking if DB tables are up to date. */
-define( 'BP_CORE_DB_VERSION', '1400' );
+define( 'BP_CORE_DB_VERSION', '1700' );
 
 /* Define the path and url of the BuddyPress plugins directory */
 define( 'BP_PLUGIN_DIR', WP_PLUGIN_DIR . '/buddypress' );
@@ -133,8 +133,10 @@ function bp_core_setup_globals() {
 	/* Sets up container used for the avatar of the current component being viewed. Rendered by bp_get_options_avatar() */
 	$bp->bp_options_avatar = '';
 	
-	/* Fetches the default Gravatar image to use if the user has no avatar or gravatar */
-	$bp->grav_default = get_site_option( 'user-avatar-default' );
+	/* Fetches the default Gravatar image to use if the user/group/blog has no avatar or gravatar */
+	$bp->grav_default->user = apply_filters( 'bp_user_gravatar_default', get_site_option( 'user-avatar-default' ) );
+	$bp->grav_default->group = apply_filters( 'bp_group_gravatar_default', 'identicon' );
+	$bp->grav_default->blog = apply_filters( 'bp_blog_gravatar_default', 'identicon' );
 	
 	/* Fetch the full name for the logged in and current user */
 	$bp->loggedin_user->fullname = bp_core_get_user_displayname( $bp->loggedin_user->id );

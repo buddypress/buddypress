@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_GROUPS_DB_VERSION', '1300' );
+define ( 'BP_GROUPS_DB_VERSION', '1700' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_GROUPS_SLUG' ) )
@@ -31,9 +31,7 @@ function groups_install() {
 			status varchar(10) NOT NULL DEFAULT 'public',
 			enable_wire tinyint(1) NOT NULL DEFAULT '1',
 			enable_forum tinyint(1) NOT NULL DEFAULT '1',
-			date_created datetime NOT NULL,
-			avatar_thumb varchar(250) NOT NULL,
-			avatar_full varchar(250) NOT NULL,
+			date_created datetime NOT NULL
 		    KEY creator_id (creator_id),
 		    KEY status (status)
 	 	   ) {$charset_collate};";

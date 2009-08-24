@@ -31,7 +31,7 @@ add_action( 'admin_menu', 'bp_core_add_admin_bar_css' );
 add_action( 'template_redirect', 'bp_core_add_admin_bar_css' );
 
 /**
- * bp_core_add_admin_bar_css()
+ * bp_core_add_admin_bar_js()
  *
  * Add the minor JS needed for the admin bar.
  * 
@@ -42,7 +42,7 @@ function bp_core_add_admin_bar_js() {
 	wp_enqueue_script( 'bp-admin-bar-js', BP_PLUGIN_URL . '/bp-core/js/admin-bar.js', array( 'jquery' ) );
 }
 add_action( 'admin_menu', 'bp_core_add_admin_bar_js' );
-add_action( 'template_redirect', 'bp_core_add_admin_bar_js' );
+add_action( 'wp', 'bp_core_add_admin_bar_js' );
 
 /**
  * bp_core_admin_menu_icon_css()

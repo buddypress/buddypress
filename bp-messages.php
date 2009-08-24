@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_MESSAGES_DB_VERSION', '1300' );
+define ( 'BP_MESSAGES_DB_VERSION', '1700' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_MESSAGES_SLUG' ) )
