@@ -43,8 +43,9 @@ function bp_core_fetch_avatar( $args = '' ) {
 		'width' => false, 
 		'height' => false,
 		'class' => 'avatar',
-		'id' => false,
+		'css_id' => false,
 		'alt' => __( 'Avatar Image', 'buddypress' ),
+		'no_grav' => false // If there is no avatar found, return false instead of a grav?
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -61,8 +62,8 @@ function bp_core_fetch_avatar( $args = '' ) {
 		$item_id = apply_filters( 'bp_core_avatar_item_id', $item_id, $object );
 	}
 	
-	if ( !$id )
-		$id = $object . '-' . $item_id . '-avatar'; 
+	if ( !$css_id )
+		$css_id = $object . '-' . $item_id . '-avatar'; 
 	
 	if ( $width )
 		$html_width = " width='{$width}'";
@@ -74,7 +75,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', WP_CONTENT_DIR . '/blogs.dir/' . BP_ROOT_BLOG . '/files/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );	
 
 	/* If no avatars have been uploaded for this item, display a gravatar */	
-	if ( !file_exists( $avatar_folder_dir ) ) {
+	if ( !file_exists( $avatar_folder_dir ) && !$no_grav ) {
 		
 		if ( empty( $bp->grav_default->{$object} ) )
 			$default_grav = 'wavatar';
@@ -97,9 +98,9 @@ function bp_core_fetch_avatar( $args = '' ) {
 		$grav_email = apply_filters( 'bp_core_gravatar_email', $grav_email, $item_id, $object );	
 		$gravatar = apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' ) . md5( $grav_email ) . '?d=' . $default_grav . '&amp;s=' . $grav_size;
 		
-		return apply_filters( 'bp_core_fetch_avatar', "<img src='{$gravatar}' alt='{$alt}' id='{$class}' class='{$class}'{$html_width}{$html_height} />", $item_id, $object, $height, $width, $class, $alt );
-	
-	}
+		return apply_filters( 'bp_core_fetch_avatar', "<img src='{$gravatar}' alt='{$alt}' id='{$css_id}' class='{$class}'{$html_width}{$html_height} />", $r );
+	} else
+		return false;
 	
 	/* Set the file names to search for to select the full size or thumbnail image. */
 	$avatar_name = ( 'full' == $type ) ? '-bpfull' : '-bpthumb';	
@@ -285,7 +286,7 @@ function bp_core_fetch_avatar_filter( $avatar, $id_or_email, $size, $default, $a
 	if ( is_object ( $id_or_email ) )
 		$id_or_email = $id_or_email->user_id;
 	
-	$bp_avatar = bp_core_fetch_avatar( array( 'item_id' => $id_or_email, 'width' => $size, 'height' => $size, 'alt' => $alt ) );
+	$bp_avatar = bp_core_fetch_avatar( array( 'no_grav' => true, 'item_id' => $id_or_email, 'width' => $size, 'height' => $size, 'alt' => $alt ) );
 
 	return ( !$bp_avatar ) ? $avatar : $bp_avatar;
 }
