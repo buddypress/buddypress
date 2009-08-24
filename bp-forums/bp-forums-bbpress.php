@@ -117,9 +117,7 @@ function bp_forums_load_bbpress() {
 		// Set the site URI
 		bb_update_option( 'uri', BB_URL );
 	}
-	
-	add_action( 'wp_head', 'bp_forums_add_js' );
-	
+
 	register_shutdown_function( create_function( '', 'do_action("bb_shutdown");' ) );
 }
 add_action( 'bbpress_init', 'bp_forums_load_bbpress' );

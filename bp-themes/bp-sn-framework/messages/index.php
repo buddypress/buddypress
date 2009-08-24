@@ -49,7 +49,7 @@
 							<?php do_action( 'bp_messages_inbox_list_item' ) ?>
 							
 							<td width="10%">
-								<a href="<?php bp_message_thread_delete_link() ?>" title="<?php _e("Delete Message", "buddypress"); ?>" class="delete"><?php _e("Delete", "buddypress"); ?></a> &nbsp; 
+								<a href="<?php bp_message_thread_delete_link() ?>" title="<?php _e("Delete Message", "buddypress"); ?>" class="delete confirm"><?php _e("Delete", "buddypress"); ?></a> &nbsp; 
 								<input type="checkbox" name="message_ids[]" value="<?php bp_message_thread_id() ?>" />
 							</td>
 						</tr>

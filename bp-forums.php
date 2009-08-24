@@ -8,7 +8,6 @@ require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-bbpress.php' );
 require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-classes.php' );
 require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-filters.php' );
-require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-cssjs.php' );
 
 function bp_forums_setup() {
 	global $bp;

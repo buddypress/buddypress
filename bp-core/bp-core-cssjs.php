@@ -55,13 +55,20 @@ function bp_core_admin_menu_icon_css() {
 	global $bp;
 ?>
 	<style type="text/css">
-		ul#adminmenu li.toplevel_page_bp-core .wp-menu-image a { background-image: url( <?php echo $bp->core->image_base . '/admin_menu_icon.png' ?> ) !important; background-position: -1px -32px; }
+		ul#adminmenu li.toplevel_page_bp-core .wp-menu-image a { background-image: url( <?php echo BP_PLUGIN_URL . '/bp-core/images/admin_menu_icon.png' ?> ) !important; background-position: -1px -32px; }
 		ul#adminmenu li.toplevel_page_bp-core:hover .wp-menu-image a { background-position: -1px 0; }
 		ul#adminmenu li.toplevel_page_bp-core .wp-menu-image a img { display: none; }
 	</style>
 <?php
 }
 add_action( 'admin_head', 'bp_core_admin_menu_icon_css' );
+	
+function bp_core_confirmation_js() {
+?>
+	<script type="text/javascript"> jQuery(document).ready( function() { jQuery("a.confirm").click( function() { if ( confirm( '<?php _e( 'Are you sure?', 'buddypress' ) ?>' ) ) return true; else return false; }); });</script>
+<?php
+}
+add_action( 'wp_head', 'bp_core_confirmation_js', 100 );
 
 /**
  * bp_core_add_jquery_cropper()

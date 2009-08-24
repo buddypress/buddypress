@@ -42,8 +42,8 @@
 						<?php do_action( 'bp_messages_notices_list_item' ) ?>
 
 						<td width="4%">
-							<a href="<?php bp_message_activate_deactivate_link() ?>"><?php bp_message_activate_deactivate_text() ?></a> 
-							<a href="<?php bp_message_notice_delete_link() ?>" title="<?php _e("Delete Message", "buddypress"); ?>"><?php _e("Delete", "buddypress"); ?></a> 
+							<a href="<?php bp_message_activate_deactivate_link() ?>" class="confirm"><?php bp_message_activate_deactivate_text() ?></a> 
+							<a href="<?php bp_message_notice_delete_link() ?>" class="confirm" title="<?php _e("Delete Message", "buddypress"); ?>"><?php _e("Delete", "buddypress"); ?></a> 
 						</td>
 					</tr>
 					

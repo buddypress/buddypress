@@ -414,7 +414,7 @@ function bp_the_topic_admin_links( $args = '' ) {
 		else
 			$links .= '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . '/close', 'bp_forums_close_topic' ) . '">' . __( 'Close', 'buddypress' ) . '</a> ' . $seperator . ' ';
 
-		$links .= '<a id="topic-delete-link" href="' . wp_nonce_url( bp_get_the_topic_permalink() . '/delete', 'bp_forums_delete_topic' ) . '">' . __( 'Delete', 'buddypress' ) . '</a>';
+		$links .= '<a class="confirm" id="topic-delete-link" href="' . wp_nonce_url( bp_get_the_topic_permalink() . '/delete', 'bp_forums_delete_topic' ) . '">' . __( 'Delete', 'buddypress' ) . '</a>';
 
 		return $links;
 	}
@@ -695,7 +695,7 @@ function bp_the_topic_post_admin_links( $args = '' ) {
 		extract( $r, EXTR_SKIP );
 
 		$links  = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . $topic_template->post->id . '/post/' . $topic_template->post->post_id . '/edit/', 'bp_forums_edit_post' ) . '">' . __( 'Edit', 'buddypress' ) . '</a> ' . $seperator . ' ';
-		$links .= '<a id="post-delete-link" href="' . wp_nonce_url( bp_get_the_topic_permalink() . '/post/' . $topic_template->post->post_id . '/delete/', 'bp_forums_delete_post' ) . '">' . __( 'Delete', 'buddypress' ) . '</a>';
+		$links .= '<a class="confirm" id="post-delete-link" href="' . wp_nonce_url( bp_get_the_topic_permalink() . '/post/' . $topic_template->post->post_id . '/delete/', 'bp_forums_delete_post' ) . '">' . __( 'Delete', 'buddypress' ) . '</a>';
 
 		return $links;
 	}
