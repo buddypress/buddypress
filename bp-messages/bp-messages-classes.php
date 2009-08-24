@@ -382,7 +382,7 @@ Class BP_Messages_Message {
 			
 			for ( $i = 0; $i < count($this->recipients); $i++ ) {
 				if ( $this->recipients[$i]->user_id != $bp->loggedin_user->id )
-					$wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = unread_count + 1, sender_only = 0 WHERE thread_id = %d AND user_id = %d", $this->thread_id, $this->recipients[$i] ) );
+					$wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = unread_count + 1, sender_only = 0, is_deleted = 0 WHERE thread_id = %d AND user_id = %d", $this->thread_id, $this->recipients[$i] ) );
 			}
 		} else {
 			// Create a new thread.
