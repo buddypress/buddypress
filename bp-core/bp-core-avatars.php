@@ -99,7 +99,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		$gravatar = apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' ) . md5( $grav_email ) . '?d=' . $default_grav . '&amp;s=' . $grav_size;
 		
 		return apply_filters( 'bp_core_fetch_avatar', "<img src='{$gravatar}' alt='{$alt}' id='{$css_id}' class='{$class}'{$html_width}{$html_height} />", $r );
-	} else
+	} else if ( !file_exists( $avatar_folder_dir ) && $no_grav )
 		return false;
 	
 	/* Set the file names to search for to select the full size or thumbnail image. */
