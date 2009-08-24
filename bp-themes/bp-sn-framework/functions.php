@@ -62,5 +62,4 @@ function bp_dtheme_show_home_blog() {
 }
 add_action( 'wp', 'bp_dtheme_show_home_blog', 2 );
 
-
 ?>

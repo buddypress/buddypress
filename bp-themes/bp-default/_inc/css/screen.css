@@ -27,7 +27,7 @@ h1, h2, h3 {
 	h2 {
 		border-bottom: 1px solid #ddd;
 		padding-bottom: 10px;
-		margin-bottom: 25px;
+		margin-bottom: 15px;
 	}
 
 
@@ -381,13 +381,10 @@ div.content-header {
 		font: normal 1em "Georgia", Times, serif;
 		text-transform: uppercase;
 		text-align: center;
-		background: url(../images/optionsbar_header_noarrow.gif) top center repeat-x;
+		background: #c9c9c9 url(../images/optionsbar_header_arrow.gif) bottom center repeat-x;
 		padding: 8px 0 17px 0;
 		letter-spacing: 0.5px;
 	}
-		#optionsbar.arrow h3 {
-			background: #c9c9c9 url(../images/optionsbar_header_arrow.gif) bottom center no-repeat;
-		}
 	
 	#optionsbar ul#options-nav {
 		width: 148px;
@@ -480,6 +477,7 @@ ul.horiz-gallery {
 		float: left;
 		padding-right: 25px;
 		text-align: center;
+		width: 15%;
 	}
 		ul.horiz-gallery li h5 { font-size: 1em; }
 
@@ -1534,6 +1532,7 @@ div.sub-options {
 #create-group-form {
 	float: left;
 	width: 100%;
+	margin-bottom: 35px;
 }
 
 #create-group-form ul, #group-settings-form ul {
@@ -1543,9 +1542,12 @@ div.sub-options {
 		margin-left: 0;
 	}
 	
+	#invite-list { margin-bottom: 25px; }
+	
 	#invite-list ul, ul#friend-list {
 		margin: 0;
 	}
+		#invite-list input { width: auto !important; }
 	
 #create-group-form textarea {
 	height: 120px;
@@ -1554,8 +1556,7 @@ div.sub-options {
 #create-group-form .checkbox, #create-group-form .radio ul {
 	margin-bottom: 15px;
 }
-	#create-group-form input { width: auto !important; }
-	
+
 	#create-group-form img.avatar {
 		border: none;
 		margin-bottom: 20px;
@@ -1655,12 +1656,14 @@ table#message-threads {
 		vertical-align: middle;
 		padding: 10px;
 	}
+		table#message-threads td p {
+			margin: 0;
+		}
 
 /* .message-box -- holds each message in a thread */
 div.message-box {
 	padding: 15px;
 	overflow: hidden;
-	width: 100%;
 }
 	div.message-box .message-metadata {
 		float: left;
@@ -1669,6 +1672,12 @@ div.message-box {
 		div.message-box .message-metadata .avatar {
 			width: 30px;
 			margin-bottom: 10px;
+		}
+		
+		div.message-box .message-metadata h3 {
+			font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, Verdana, Arial, sans-serif;
+			font-size: 1em;
+			margin: 0 0 5px 0;
 		}
 		
 		div.message-box .message-metadata small {
@@ -1682,6 +1691,10 @@ div.message-box {
 	div.message-box .message-content {
 		margin-left: 130px;
 	}
+
+.ajax_reply {
+	padding: 15px;
+}
 
 table#message-threads tr, .message-box {
 	background: url(../images/message_thread_back.gif) top left repeat-x;
@@ -1731,23 +1744,22 @@ div.error-box {
 
 #send_message_form input {
 	font-size: 1.4em;
-	border: 1px solid #cdcdcd;
 }
 
 #send_message_form textarea {
-	border: 1px solid #cdcdcd;
 	height: 200px;
 	font-size: 1.1em;
+	width: 98%;
 }
 
 #send_message_form input#send, input#send_reply_button {
 	font-size: 1.2em;
 	font-weight: bold;
 }
-	input#send_reply_button {
-		width: auto;
-		color: #555;
-	}
+	
+form#send-reply textarea {
+	width: 98%;
+}
 
 a.delete {
 	overflow: hidden;
@@ -1839,6 +1851,7 @@ table.profile-fields {
 
 form#wire-post-new-form {
 	padding: 10px;
+	position: relative;
 }
 
 div#wire-post-new {
@@ -1849,18 +1862,26 @@ div#wire-post-new {
 		margin: 0;
 	}
 
-	div#wire-post-new-metadata img.avatar { 
+	div#wire-post-new-avatar { 
 		float: left;
-		margin-right: 10px;
 	}
 	
+	div#wire-post-new-metadata {
+		position: absolute;
+		bottom: 11px;
+		right: 10px;
+	}
+		span#wire-by-text {
+			display: none;
+		}
+	
 	div#wire-post-new-input {
-		margin-left: 65px;
+		margin-left: 70px;
 	}
 		div#wire-post-new-input textarea {
 			height: 45px;
-			width: 90%;
-			margin-top: 4px;
+			width: 98%;
+			margin: 5px 0 0 0;
 		}
 		
 		input#wire-post-submit { 

@@ -86,8 +86,6 @@
 							</li>
 						<?php endwhile; ?>
 						</ul>
-					
-						<div class="clear"></div>	
 					</div>
 
 					<?php do_action( 'bp_after_profile_groups_widget' ) ?>
@@ -116,9 +114,7 @@
 								<h5><a href="<?php bp_friend_url() ?>"><?php bp_friend_name() ?></a></h5>
 							</li>
 						<?php endwhile; ?>
-						</ul>
-
-						<div class="clear"></div>	
+						</ul>	
 					</div>
 					
 				<?php endif; ?>

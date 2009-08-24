@@ -155,8 +155,6 @@
 
 				<div class="left-menu">
 				
-					<h4><?php _e( 'Select Friends', 'buddypress' ) ?> <span class="ajax-loader"></span></h4>
-				
 					<div id="invite-list">
 						<ul>
 							<?php bp_new_group_invite_friend_list() ?>

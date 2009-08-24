@@ -195,21 +195,6 @@ jQuery(document).ready( function() {
 		}
 	);
 
-	/* For admin-bar */
-	jQuery("#wp-admin-bar ul.main-nav li").mouseover( function() {
-		jQuery(this).addClass('sfhover');
-	});
-
-	jQuery("#wp-admin-bar ul.main-nav li").mouseout( function() {
-		jQuery(this).removeClass('sfhover');
-	});
-
-	jQuery("form#friend-search-form").submit(
-		function() {
-			return false;
-		}
-	);
-	
 	jQuery("div#pag a").livequery('click',
 		function() { 
 			jQuery('.ajax-loader').toggle();
