@@ -637,7 +637,7 @@ function bp_edit_profile_button() {
 	
 	?>
 	<div class="generic-button">
-		<a class="edit" title="<?php _e( 'Edit Profile', 'buddypress' ) ?>" href="<?php echo $bp->loggedin_user->domain . $bp->profile->slug ?>/edit"><?php _e( 'Edit Profile', 'buddypress' ) ?></a>
+		<a class="edit" title="<?php _e( 'Edit Profile', 'buddypress' ) ?>" href="<?php echo $bp->displayed_user->domain . $bp->profile->slug ?>/edit"><?php _e( 'Edit Profile', 'buddypress' ) ?></a>
 	</div>
 	<?php
 }
