@@ -39,7 +39,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		'item_id' => false,
 		'object' => 'user', // user OR group OR blog OR custom type (if you use filters)
 		'type' => 'thumb',
-		'avatar_dir' => 'avatars',
+		'avatar_dir' => false,
 		'width' => false, 
 		'height' => false,
 		'class' => 'avatar',
@@ -60,6 +60,21 @@ function bp_core_fetch_avatar( $args = '' ) {
 			$item_id = $current_blog->id;
 			
 		$item_id = apply_filters( 'bp_core_avatar_item_id', $item_id, $object );
+	
+		if ( !$item_id ) return false;
+	}
+		
+	if ( !$avatar_dir ) {
+		if ( 'user' == $object )
+			$avatar_dir = 'avatars';
+		else if ( 'group' == $object )
+			$avatar_dir = 'group-avatars';
+		else if ( 'blog' == $object )
+			$avatar_dir = 'blog-avatars';
+			
+		$avatar_dir = apply_filters( 'bp_core_avatar_dir', $avatar_dir, $object );
+		
+		if ( !$avatar_dir ) return false;		
 	}
 	
 	if ( !$css_id )
