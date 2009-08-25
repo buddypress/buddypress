@@ -363,9 +363,9 @@ function bp_wire_delete_link() {
 
 		if ( ( $wire_posts_template->wire_post->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin || is_site_admin() ) {
 			if ( $bp->wire->slug == $bp->current_component || $bp->profile->slug == $bp->current_component ) {
-				return apply_filters( 'bp_get_wire_delete_link', '<a class="confirm" href="' . wp_nonce_url( $bp->displayed_user->domain . $bp->wire->slug . '/delete/' . $wire_posts_template->wire_post->id, 'bp_wire_delete_link' ) . '">[' . __('Delete', 'buddypress') . ']</a>' );
+				return apply_filters( 'bp_get_wire_delete_link', '<a class="item-button delete confirm" href="' . wp_nonce_url( $bp->displayed_user->domain . $bp->wire->slug . '/delete/' . $wire_posts_template->wire_post->id, 'bp_wire_delete_link' ) . '">' . __('Delete', 'buddypress') . '</a>' );
 			} else {
-				return apply_filters( 'bp_get_wire_delete_link', '<a class="confirm" href="' . wp_nonce_url( site_url( $bp->{$bp->current_component}->slug . '/' . $uri . '/wire/delete/' . $wire_posts_template->wire_post->id ), 'bp_wire_delete_link' ) . '">[' . __('Delete', 'buddypress') . ']</a>' );
+				return apply_filters( 'bp_get_wire_delete_link', '<a class="item-button delete confirm" href="' . wp_nonce_url( site_url( $bp->{$bp->current_component}->slug . '/' . $uri . '/wire/delete/' . $wire_posts_template->wire_post->id ), 'bp_wire_delete_link' ) . '">' . __('Delete', 'buddypress') . '</a>' );
 			}
 		}
 	}

@@ -13,6 +13,8 @@ add_filter( 'bp_get_activity_content', 'stripslashes_deep' );
 function bp_activity_add_allowed_tags( $allowedtags ) {
 	$allowedtags['span'] = array();
 	$allowedtags['span']['class'] = array();
+	$allowedtags['a']['class'] = array();
+	$allowedtags['img'] = array();
 	return $allowedtags;
 }
 add_filter( 'edit_allowedtags', 'bp_activity_add_allowed_tags', 1 );

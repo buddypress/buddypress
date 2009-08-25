@@ -120,6 +120,39 @@ function bp_activity_screen_friends_activity() {
  * back to the default screen after execution.
  */
 
+function bp_activity_action_delete_activity() {
+	global $bp;
+
+	if ( $bp->current_component != $bp->activity->slug || $bp->current_action != 'delete' )
+		return false;
+
+	if ( empty( $bp->action_variables[0] ) || !is_numeric( $bp->action_variables[0] ) )
+		return false;
+
+	/* Check the nonce */
+	check_admin_referer( 'bp_activity_delete_link' );
+	
+	$activity_id = $bp->action_variables[0];
+	
+	/* Check access */
+	if ( !is_site_admin() ) {
+		$activity = new BP_Activity_Activity( $activity_id );
+		
+		if ( $activity->user_id != $bp->loggedin_user->id )
+			return false;
+	}
+	
+	/* Now delete the activity item */
+	if ( bp_activity_delete_by_activity_id( $activity_id ) )
+		bp_core_add_message( __( 'Activity deleted', 'buddypress' ) );
+	else
+		bp_core_add_message( __( 'There was an error when deleting that activity', 'buddypress' ), 'error' );
+	
+	bp_core_redirect( $_SERVER['HTTP_REFERER'] );
+}
+add_action( 'wp', 'bp_activity_action_delete_activity', 3 );
+
+
 function bp_activity_action_sitewide_feed() {
 	global $bp, $wp_query;
 

@@ -11,20 +11,12 @@ Class BP_Activity_Activity {
 	var $date_recorded;
 	var $hide_sitewide = false;
 	
-	function bp_activity_activity( $args = false, $populate = false ) {
+	function bp_activity_activity( $id = false ) {
 		global $bp;
 		
-		if ( $args && is_array($args) ) {
-			extract( $args );
-			
-			$this->user_id = $user_id;
-			$this->component_name = $component_name;
-			$this->component_action = $component_action;
-			$this->item_id = $item_id;
-			$this->secondary_item_id = $secondary_item_id;
-			
-			if ( $populate )
-				$this->populate();
+		if ( $id ) {
+			$this->id = $id;
+			$this->populate();
 		}
 	}
 	
@@ -170,6 +162,7 @@ Class BP_Activity_Activity {
 		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE user_id = %d AND date_recorded >= FROM_UNIXTIME(%d) $privacy_sql $filter_sql ORDER BY date_recorded DESC $max_sql", $user_id, $since ) );
 
 		for ( $i = 0; $i < count( $activities ); $i++ ) {
+			$activities_formatted[$i]['id'] = $activities[$i]->id;
 			$activities_formatted[$i]['user_id'] = $activities[$i]->user_id;
 			$activities_formatted[$i]['content'] = $activities[$i]->content;
 			$activities_formatted[$i]['primary_link'] = $activities[$i]->primary_link;
@@ -237,6 +230,7 @@ Class BP_Activity_Activity {
 		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 $filter_sql ORDER BY date_recorded DESC $max_sql" ) );
 
 		for ( $i = 0; $i < count( $activities ); $i++ ) {
+			$activities_formatted[$i]['id'] = $activities[$i]->id;
 			$activities_formatted[$i]['user_id'] = $activities[$i]->user_id;
 			$activities_formatted[$i]['content'] = $activities[$i]->content;
 			$activities_formatted[$i]['primary_link'] = $activities[$i]->primary_link;

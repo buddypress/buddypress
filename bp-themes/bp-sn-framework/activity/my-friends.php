@@ -47,7 +47,7 @@
 							</div>
 							
 							<?php bp_activity_content() ?>
-							
+
 							<?php do_action( 'bp_friends_activity_item' ) ?>
 						</li>
 					<?php endwhile; ?>

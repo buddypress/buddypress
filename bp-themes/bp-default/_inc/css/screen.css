@@ -674,6 +674,38 @@ a.page-numbers:hover { background: #e1e1e1; }
 			float: right;
 		}
 
+a.item-button {
+	border: 1px solid #eee;
+	background: #f5f5f5;
+	color: #999;
+	padding: 0 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	font-size: 0.8em;
+	text-decoration: none;
+}
+	a.item-button:hover {
+		border-color: #ccc;
+		color: #777;
+	}
+
+	.activity-list li a.item-button {
+		display: none;
+		position: absolute;
+		right: 0 !important;
+		top: 0 !important;
+	}
+		.item-list li a.item-button {
+			display: none;
+			position: absolute;
+			top: 10px;
+			right: 10px;
+		}
+
+	.activity-list li:hover a.item-button, .item-list li:hover a.item-button {
+		display: inline;
+	}
 
 /*** Standard Form Styles ***************************************************/
 
@@ -1211,8 +1243,9 @@ input#signup_blog_title {
 }
 
 .activity-list li {
+	position: relative;
 	margin: 5px 15px;
-	padding: 0 0 0 34px !important;
+	padding: 0 50px 0 34px !important;
 	background: none !important;
 }
 	ul#activity-filter-links li#afilter-blogs a {
@@ -1257,7 +1290,7 @@ input#signup_blog_title {
 .activity-list li blockquote {
 	padding: 7px 15px 7px 40px;
 	background: url(../images/quotes_background.gif) 10px 9px no-repeat #eee;
-	margin: -10px 0 15px 0;
+	margin: -10px -50px 15px 0;
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -1319,6 +1352,8 @@ a.rss-image {
 	text-indent: -999em;
 	overflow: hidden;
 }
+
+
 /**** BLOGS *****************/
 		
 #blog-info {
@@ -1766,7 +1801,7 @@ form#send-reply textarea {
 	width: 98%;
 }
 
-a.delete {
+table#message-threads a.delete {
 	overflow: hidden;
 	text-indent: -999px;
 	display: block;
@@ -1777,7 +1812,7 @@ a.delete {
 	height: 13px;
 }
 
-span.unread-count {
+table#message-threads span.unread-count {
 	background: #c2582b;
 	border: 2px solid #c2582b;
 	padding: 0 0.5em;

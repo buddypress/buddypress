@@ -248,19 +248,19 @@ function bp_activity_content() {
 	echo bp_get_activity_content();
 }
 	function bp_get_activity_content() {
-		global $activities_template, $allowed_tags;
+		global $activities_template, $allowed_tags, $bp;
 
-		if ( bp_is_home() && $activities_template->activity_type == 'personal' ) {
+		if ( bp_is_home() && $activities_template->activity_type == 'personal' )
 			$content = bp_activity_content_filter( $activities_template->activity->content, $activities_template->activity->date_recorded, $activities_template->full_name );						
-		} else {
-			$activities_template->activity->content = bp_activity_insert_time_since( $activities_template->activity->content, $activities_template->activity->date_recorded );
-			$content = $activities_template->activity->content;
-		}
-		
+		else
+			$content = bp_activity_content_filter( $activities_template->activity->content, $activities_template->activity->date_recorded, $activities_template->full_name, true, false, false );
+
 		return apply_filters( 'bp_get_activity_content', $content );
 	}
 
 function bp_activity_content_filter( $content, $date_recorded, $full_name, $insert_time = true, $filter_words = true, $filter_you = true ) {
+	global $activities_template, $bp;
+	
 	if ( !$content )
 		return false;
 		
@@ -273,7 +273,7 @@ function bp_activity_content_filter( $content, $date_recorded, $full_name, $inse
 	/* Insert the time since */
 	if ( $insert_time )
 		$content[0] = bp_activity_insert_time_since( $content[0], $date_recorded );
-
+	
 	// The "You" and "Your" conversion is only done in english, if a translation file is present
 	// then do not translate as it causes problems in other languages.
 	if ( '' == get_locale() ) {
@@ -287,6 +287,10 @@ function bp_activity_content_filter( $content, $date_recorded, $full_name, $inse
 			$content[0] = preg_replace( "/{$full_name}[<]/", 'You<', $content[0] );				
 		}
 	}
+
+	/* Add the delete link if the user has permission on this item */
+	if ( ( $activities_template->activity->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin || is_site_admin() )
+		$content[1] = '</span> <span class="activity-delete-link">' . bp_get_activity_delete_link() . '</span>' . $content[1];	
 	
 	$content_new = '';
 	
@@ -313,6 +317,15 @@ function bp_activity_css_class() {
 		global $activities_template;
 		
 		return apply_filters( 'bp_get_activity_css_class', $activities_template->activity->component_name );
+	}
+
+function bp_activity_delete_link() {
+	echo bp_get_activity_delete_link();
+}
+	function bp_get_activity_delete_link() {
+		global $activities_template, $bp;
+
+		return apply_filters( 'bp_get_activity_delete_link', '<a href="' . wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/' . $activities_template->activity->id, 'bp_activity_delete_link' ) . '" class="item-button delete confirm">' . __( 'Delete', 'buddypress' ) . '</a>' );
 	}
 
 function bp_activity_filter_links( $args = false ) {
