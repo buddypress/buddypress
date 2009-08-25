@@ -1926,7 +1926,7 @@ function groups_new_wire_post( $group_id, $content ) {
 	if ( !function_exists( 'bp_wire_new_post' ) )
 		return false;
 	
-	if ( $wire_post_id = bp_wire_new_post( $group_id, $content, 'groups' ) ) {
+	if ( $wire_post = bp_wire_new_post( $group_id, $content, 'groups' ) ) {
 		$activity_content = sprintf( __( '%s wrote on the wire of the group %s:', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
 		$activity_content .= '<blockquote>' . bp_create_excerpt( attribute_escape( $content ) ) . '</blockquote>';
 		
@@ -1934,7 +1934,7 @@ function groups_new_wire_post( $group_id, $content ) {
 			'content' => $activity_content, 
 			'primary_link' => bp_get_group_permalink( $bp->groups->current_group ),
 			'component_action' => 'new_wire_post',
-			'item_id' => $wire_post_id,
+			'item_id' => $wire_post->item_id,
 			'secondary_item_id' => $bp->groups->current_group->id
 		) );
 
