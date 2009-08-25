@@ -132,18 +132,18 @@ function xprofile_wire_install() {
 function xprofile_setup_globals() {
 	global $bp, $wpdb;
 	
+	/* For internal identification */
+	$bp->profile->id = 'profile';
+		
 	$bp->profile->table_name_groups = $wpdb->base_prefix . 'bp_xprofile_groups';
 	$bp->profile->table_name_fields = $wpdb->base_prefix . 'bp_xprofile_fields';
 	$bp->profile->table_name_data = $wpdb->base_prefix . 'bp_xprofile_data';
-	$bp->profile->format_activity_function = 'xprofile_format_activity';
+
 	$bp->profile->format_notification_function = 'xprofile_format_notifications';
-	$bp->profile->image_base = BP_PLUGIN_URL . '/bp-xprofile/images';
 	$bp->profile->slug = BP_XPROFILE_SLUG;
 	
 	$bp->profile->field_types = apply_filters( 'xprofile_field_types', array( 'textbox', 'textarea', 'radio', 'checkbox', 'selectbox', 'multiselectbox', 'datebox' ) );
 
-	$bp->version_numbers->profile = BP_XPROFILE_VERSION;
-	
 	if ( function_exists('bp_wire_install') )
 		$bp->profile->table_name_wire = $wpdb->base_prefix . 'bp_xprofile_wire';
 }
@@ -481,17 +481,39 @@ function xprofile_action_new_wire_post() {
 	if ( !check_admin_referer( 'bp_wire_post' ) ) 
 		return false;
 		
-	if ( !$wire_post_id = bp_wire_new_post( $bp->displayed_user->id, $_POST['wire-post-textarea'], $bp->profile->slug, false, $bp->profile->table_name_wire ) ) {
+	if ( !$wire_post = bp_wire_new_post( $bp->displayed_user->id, $_POST['wire-post-textarea'], $bp->profile->slug, false, $bp->profile->table_name_wire ) ) {
 		bp_core_add_message( __( 'Wire message could not be posted. Please try again.', 'buddypress' ), 'error' );
 	} else {
 		bp_core_add_message( __( 'Wire message successfully posted.', 'buddypress' ) );
-
-		if ( !bp_is_home() ) {
-			/* Record the notification for the user */
-			bp_core_add_notification( $bp->loggedin_user->id, $bp->displayed_user->id, 'profile', 'new_wire_post' );	
-		}
 		
-		do_action( 'xprofile_new_wire_post', $wire_post_id );	
+		/* Record the notification for the reciever if it's not on their own wire */
+		if ( !bp_is_home() )
+			bp_core_add_notification( $bp->loggedin_user->id, $bp->displayed_user->id, 'profile', 'new_wire_post' );	
+		
+		/* Record this on the poster's activity screen */
+		if ( ( $wire_post->item_id == $bp->loggedin_user->id && $wire_post->user_id == $bp->loggedin_user->id ) || ( $wire_post->item_id == $bp->displayed_user->id && $wire_post->user_id == $bp->displayed_user->id ) ) {
+			$from_user_link = bp_core_get_userlink($wire_post->user_id);
+			$content = sprintf( __('%s wrote on their own wire', 'buddypress'), $from_user_link ) . ': <span class="time-since">%s</span>';				
+			$primary_link = bp_core_get_userlink( $wire_post->user_id, false, true );	
+		} else if ( ( $wire_post->item_id != $bp->loggedin_user->id && $wire_post->user_id == $bp->loggedin_user->id ) || ( $wire_post->item_id != $bp->displayed_user->id && $wire_post->user_id == $bp->displayed_user->id ) ) {
+			$from_user_link = bp_core_get_userlink($wire_post->user_id);
+			$to_user_link = bp_core_get_userlink( $wire_post->item_id, false, false, true, true );
+			$content = sprintf( __('%s wrote on %s wire', 'buddypress'), $from_user_link, $to_user_link ) . ': <span class="time-since">%s</span>';			
+			$primary_link = bp_core_get_userlink( $wire_post->item_id, false, true );
+		} 
+		
+		$content .= '<blockquote>' . bp_create_excerpt($wire_post->content) . '</blockquote>';
+
+		/* Now write the values */
+		xprofile_record_activity( array(
+			'user_id' => $bp->loggedin_user->id,
+			'content' => $content, 
+			'primary_link' => $primary_link,
+			'component_action' => 'new_wire_post',
+			'item_id' => $wire_post->item_id
+		) );
+				
+		do_action( 'xprofile_new_wire_post', &$wire_post );	
 	}
 
 	if ( !strpos( $_SERVER['HTTP_REFERER'], $bp->wire->slug ) ) {
@@ -564,10 +586,27 @@ add_action( 'wp', 'xprofile_action_delete_wire_post', 3 );
  * @uses bp_activity_record() Adds an entry to the activity component tables for a specific activity
  */
 function xprofile_record_activity( $args = true ) {
-	if ( function_exists('bp_activity_record') ) {
-		extract($args);
-		bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_user_id );
-	}
+	global $bp;
+	
+	if ( !function_exists( 'bp_activity_add' ) )
+		return false;
+
+	$defaults = array(
+		'user_id' => $bp->loggedin_user->id,
+		'content' => false,
+		'primary_link' => false,
+		'component_name' => $bp->profile->id,
+		'component_action' => false,
+		'item_id' => false,
+		'secondary_item_id' => false,
+		'recorded_time' => time(),
+		'hide_sitewide' => false
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );	
+	
+	return bp_activity_add( array( 'user_id' => $user_id, 'content' => $content, 'primary_link' => $primary_link, 'component_name' => $component_name, 'component_action' => $component_action, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
 }
 
 /**
@@ -586,89 +625,6 @@ function xprofile_delete_activity( $args = true ) {
 		extract($args);
 		bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
 	}
-}
-
-/**
- * xprofile_format_activity()
- *
- * The function xprofile_record_activity() simply records ID's, which component and action, and dates into
- * the database. These variables need to be formatted into something that can be read and displayed to
- * the user.
- *
- * This function will format an activity item based on the component action and return it for saving
- * in the activity cache database tables. It can then be selected and displayed with far less load on
- * the server.
- * 
- * @package BuddyPress Xprofile
- * @param $item_id The ID of the specific item for which the activity is recorded (could be a wire post id, user id etc)
- * @param $action The component action name e.g. 'new_wire_post' or 'updated_profile'
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @global $current_user WordPress global variable containing current logged in user information
- * @uses BP_Wire_Post Class Creates a new wire post object based on the table name and ID.
- * @uses BP_XProfile_Group Class Creates a new group object based on the group ID.
- * @return The readable activity item
- */
-function xprofile_format_activity( $item_id, $user_id, $action, $secondary_item_id = false, $for_secondary_user = false ) {
-	global $bp;
-	
-	switch( $action ) {
-		case 'new_wire_post':
-			if ( class_exists('BP_Wire_Post') ) {
-				$wire_post = new BP_Wire_Post( $bp->profile->table_name_wire, $item_id );
-			}
-			
-			if ( !$wire_post )
-				return false;
-			
-			if ( ( $wire_post->item_id == $bp->loggedin_user->id && $wire_post->user_id == $bp->loggedin_user->id ) || ( $wire_post->item_id == $bp->displayed_user->id && $wire_post->user_id == $bp->displayed_user->id ) ) {
-				
-				$from_user_link = bp_core_get_userlink($wire_post->user_id);
-				$to_user_link = false;
-								
-				$content = sprintf( __('%s wrote on their own wire', 'buddypress'), $from_user_link ) . ': <span class="time-since">%s</span>';				
-				$return_values['primary_link'] = bp_core_get_userlink( $wire_post->user_id, false, true );
-			
-			} else if ( ( $wire_post->item_id != $bp->loggedin_user->id && $wire_post->user_id == $bp->loggedin_user->id ) || ( $wire_post->item_id != $bp->displayed_user->id && $wire_post->user_id == $bp->displayed_user->id ) ) {
-			
-				$from_user_link = bp_core_get_userlink($wire_post->user_id);
-				$to_user_link = bp_core_get_userlink( $wire_post->item_id, false, false, true, true );
-				
-				$content = sprintf( __('%s wrote on %s wire', 'buddypress'), $from_user_link, $to_user_link ) . ': <span class="time-since">%s</span>';			
-				$return_values['primary_link'] = bp_core_get_userlink( $wire_post->item_id, false, true );
-			
-			} 
-			
-			if ( $content != '' ) {
-				$post_excerpt = bp_create_excerpt($wire_post->content);
-				
-				$content .= '<blockquote>' . $post_excerpt . '</blockquote>';
-				$return_values['content'] = $content;
-				
-				$return_values['content'] = apply_filters( 'xprofile_new_wire_post_activity', $content, $from_user_link, $to_user_link, $post_excerpt );
-				
-				return $return_values;
-			} 
-			
-			return false;
-		break;
-		case 'updated_profile':
-			$profile_group = new BP_XProfile_Group( $item_id );
-			
-			if ( !$profile_group )
-				return false;
-			
-			$user_link = bp_core_get_userlink($user_id);
-			
-			return array( 
-				'primary_link' => bp_core_get_userlink( $user_id, false, true ),
-				'content' => apply_filters( 'xprofile_updated_profile_activity', sprintf( __('%s updated the "%s" information on their profile', 'buddypress'), $user_link, '<a href="' . $bp->displayed_user->domain . $bp->profile->slug . '">' . $profile_group->name . '</a>' ) . ' <span class="time-since">%s</span>', $user_link, $profile_group->name )
-			);
-		break;
-	}
-	
-	do_action( 'xprofile_format_activity', $action, $item_id, $user_id, $action, $secondary_item_id, $for_secondary_user );
-	
-	return false;
 }
 
 /**

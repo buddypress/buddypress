@@ -82,4 +82,20 @@ function bp_wire_ajax_get_wire_posts() {
 }
 add_action( 'wp_ajax_get_wire_posts', 'bp_wire_ajax_get_wire_posts' );
 
+/* Use activity record functions in your specific component */
+function bp_wire_record_activity( $args = true ) {
+	if ( function_exists('bp_activity_record') ) {
+		extract($args);
+
+		bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_user_id );
+	}
+}
+
+/* Use activity delete functions in your specific component */
+function bp_wire_delete_activity( $args = true ) {
+	if ( function_exists('bp_activity_delete') ) {
+		extract($args);
+		bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
+	}
+}
 ?>

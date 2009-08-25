@@ -68,29 +68,6 @@ function bp_wire_screen_latest() {
 
 
 /********************************************************************************
- * Activity & Notification Functions
- *
- * These functions handle the recording, deleting and formatting of activity and
- * notifications for the user and for this specific component.
- */
-
-function bp_wire_record_activity( $args = true ) {
-	if ( function_exists('bp_activity_record') ) {
-		extract($args);
-
-		bp_activity_record( $item_id, $component_name, $component_action, $is_private, $secondary_item_id, $user_id, $secondary_user_id );
-	}
-}
-
-function bp_wire_delete_activity( $args = true ) {
-	if ( function_exists('bp_activity_delete') ) {
-		extract($args);
-		bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
-	}
-}
-
-
-/********************************************************************************
  * Business Functions
  *
  * Business functions are where all the magic happens in BuddyPress. They will
@@ -123,7 +100,7 @@ function bp_wire_new_post( $item_id, $message, $component_name, $deprecated = fa
 	
 	do_action( 'bp_wire_post_posted', $wire_post->id, $wire_post->item_id, $wire_post->user_id );
 	
-	return $wire_post->id;
+	return $wire_post;
 }
 
 function bp_wire_delete_post( $wire_post_id, $component_name, $table_name = null ) {
