@@ -14,7 +14,7 @@
 
 				<?php do_action( 'bp_before_group_admin_content' ) ?>
 
-				<form action="<?php bp_group_admin_form_action() ?>" name="group-settings-form" id="group-settings-form" class="standard-form" method="post">
+				<form action="<?php bp_group_admin_form_action() ?>" name="group-settings-form" id="group-settings-form" class="standard-form" method="post" enctype="multipart/form-data">
 
 					<?php /* Edit Group Details */ ?>
 					<?php if ( bp_is_group_admin_screen( 'edit-details' ) ) : ?>
