@@ -38,14 +38,15 @@ function friends_install() {
 
 function friends_setup_globals() {
 	global $bp, $wpdb;
-	
+
+	/* For internal identification */
+	$bp->friends->id = 'friends';
+		
 	$bp->friends->table_name = $wpdb->base_prefix . 'bp_friends';
 	$bp->friends->format_activity_function = 'friends_format_activity';
 	$bp->friends->format_notification_function = 'friends_format_notifications';
-
 	$bp->friends->slug = BP_FRIENDS_SLUG;
 
-	$bp->version_numbers->friends = BP_FRIENDS_VERSION;
 }
 add_action( 'plugins_loaded', 'friends_setup_globals', 5 );	
 add_action( 'admin_menu', 'friends_setup_globals', 1 );

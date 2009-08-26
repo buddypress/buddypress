@@ -18,11 +18,11 @@ function bp_wire_install() {
 
 function bp_wire_setup_globals() {
 	global $bp, $wpdb;
-	
-	$bp->wire->image_base = BP_PLUGIN_URL . '/bp-wire/images';
-	$bp->wire->slug = BP_WIRE_SLUG;
 
-	$bp->version_numbers->wire = BP_WIRE_VERSION;
+	/* For internal identification */
+	$bp->wire->id = 'wire';
+	
+	$bp->wire->slug = BP_WIRE_SLUG;
 }
 add_action( 'plugins_loaded', 'bp_wire_setup_globals', 5 );	
 add_action( 'admin_menu', 'bp_wire_setup_globals', 1 );

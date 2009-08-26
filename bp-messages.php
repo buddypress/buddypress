@@ -73,6 +73,9 @@ function messages_install() {
 
 function messages_setup_globals() {
 	global $bp, $wpdb;
+
+	/* For internal identification */
+	$bp->messages->id = 'messages';
 	
 	$bp->messages->table_name_threads = $wpdb->base_prefix . 'bp_messages_threads';
 	$bp->messages->table_name_messages = $wpdb->base_prefix . 'bp_messages_messages';
@@ -80,10 +83,7 @@ function messages_setup_globals() {
 	$bp->messages->table_name_notices = $wpdb->base_prefix . 'bp_messages_notices';
 	$bp->messages->format_activity_function = 'messages_format_activity';
 	$bp->messages->format_notification_function = 'messages_format_notifications';
-	$bp->messages->image_base = BP_PLUGIN_URL . '/bp-messages/images';
 	$bp->messages->slug = BP_MESSAGES_SLUG;
-
-	$bp->version_numbers->messages = BP_MESSAGES_VERSION;
 }
 add_action( 'plugins_loaded', 'messages_setup_globals', 5 );	
 add_action( 'admin_menu', 'messages_setup_globals', 1 );

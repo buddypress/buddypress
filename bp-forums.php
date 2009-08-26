@@ -11,7 +11,10 @@ require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-filters.php' );
 
 function bp_forums_setup() {
 	global $bp;
-	
+
+	/* For internal identification */
+	$bp->forums->id = 'forums';
+		
 	$bp->forums->image_base = BP_PLUGIN_URL . '/bp-forums/images';
 	$bp->forums->bbconfig = get_site_option( 'bb-config-location' );
 }

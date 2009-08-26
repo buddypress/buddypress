@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_ACTIVITY_DB_VERSION', '1700' );
+define ( 'BP_ACTIVITY_DB_VERSION', '1721' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_ACTIVITY_SLUG' ) )
@@ -45,26 +45,37 @@ function bp_activity_install() {
 	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->base_prefix}bp_activity_user_activity" );
 	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->base_prefix}bp_activity_sitewide" );
 	
+	/* Rename the old user activity cached table */
+	$wpdb->query( "RENAME TABLE {$wpdb->base_prefix}bp_activity_user_activity_cached TO {$bp->activity->table_name}" );
+
 	update_site_option( 'bp-activity-db-version', BP_ACTIVITY_DB_VERSION );
 }
 
 function bp_activity_setup_globals() {
 	global $bp, $wpdb, $current_blog;
 
-	$bp->activity->table_name = $wpdb->base_prefix . 'bp_activity_user_activity_cached';
+	/* Internal identifier */
+	$bp->activity->id = 'activity';
+	
+	$bp->activity->table_name = $wpdb->base_prefix . 'bp_activity';
 	$bp->activity->slug = BP_ACTIVITY_SLUG;
-
-	if ( is_site_admin() && get_site_option( 'bp-activity-db-version' ) < BP_ACTIVITY_DB_VERSION  )
-		bp_activity_install();
 }
 add_action( 'plugins_loaded', 'bp_activity_setup_globals', 5 );
-add_action( 'admin_menu', 'bp_activity_setup_globals', 1 );
+add_action( 'admin_menu', 'bp_activity_setup_globals', 2 );
+
+function bp_activity_check_installed() {	
+	global $wpdb, $bp;
+	
+//	if ( get_site_option('bp-activity-db-version') < BP_ACTIVITY_DB_VERSION )
+		bp_activity_install();
+}
+add_action( 'admin_menu', 'bp_activity_check_installed' );
 
 function bp_activity_setup_root_component() {
 	/* Register 'activity' as a root component (for RSS feed use) */
 	bp_core_add_root_component( BP_ACTIVITY_SLUG );
 }
-add_action( 'plugins_loaded', 'bp_activity_setup_root_component', 1 );
+add_action( 'plugins_loaded', 'bp_activity_setup_root_component', 2 );
 
 function bp_activity_setup_nav() {
 	global $bp;

@@ -106,8 +106,10 @@ add_action( 'admin_menu', 'bp_blogs_check_installed' );
 
 function bp_blogs_setup_globals() {
 	global $bp, $wpdb;
-
+	
+	/* For internal identification */
 	$bp->blogs->id = 'blogs';
+	
 	$bp->blogs->table_name = $wpdb->base_prefix . 'bp_user_blogs';
 	$bp->blogs->table_name_blog_posts = $wpdb->base_prefix . 'bp_user_blogs_posts';
 	$bp->blogs->table_name_blog_comments = $wpdb->base_prefix . 'bp_user_blogs_comments';

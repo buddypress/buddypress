@@ -97,7 +97,10 @@ function groups_wire_install() {
 
 function groups_setup_globals() {
 	global $bp, $wpdb;
-	
+
+	/* For internal identification */
+	$bp->groups->id = 'groups';
+		
 	$bp->groups->table_name = $wpdb->base_prefix . 'bp_groups';
 	$bp->groups->table_name_members = $wpdb->base_prefix . 'bp_groups_members';
 	$bp->groups->table_name_groupmeta = $wpdb->base_prefix . 'bp_groups_groupmeta';
