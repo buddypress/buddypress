@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_GROUPS_DB_VERSION', '1700' );
+define ( 'BP_GROUPS_DB_VERSION', '1705' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_GROUPS_SLUG' ) )
@@ -68,6 +68,22 @@ function groups_install() {
 	
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
+	
+	/* On upgrade, handle moving of old group avatars */
+	$groups = groups_get_all();
+	
+	foreach ( $groups as $group ) {
+		/* Don't fetch and move gravs */
+		if ( strpos( $group->avatar_thumb, 'gravatar.com' ) )
+			continue;
+
+		$upload_dir = groups_avatar_upload_dir( $group->id );
+		$avatar_thumb = str_replace( $bp->root_domain . '/' . basename( WP_CONTENT_DIR ), WP_CONTENT_PATH, $group->avatar_thumb );
+		$avatar_full = str_replace( $bp->root_domain . '/' . basename( WP_CONTENT_DIR ), WP_CONTENT_PATH, $group->avatar_full );
+
+		copy( $avatar_thumb, $upload_dir['path'] . basename($avatar_thumb) );
+		copy( $avatar_full, $upload_dir['path'] . basename($avatar_full) );
+	}
 	
 	if ( function_exists('bp_wire_install') )
 		groups_wire_install();
@@ -1501,8 +1517,6 @@ function groups_create_group( $args = '' ) {
 	 *	'status'
 	 *	'enable_wire'
 	 *	'enable_forum'
-	 *	'avatar_thumb'
-	 *	'avatar_full'
 	 *	'date_created'
 	 */
 
@@ -1544,12 +1558,6 @@ function groups_create_group( $args = '' ) {
 	else if ( !$group_id && !isset( $enable_forum ) )
 		$group->enable_forum = 1;
 			
-	if ( isset( $avatar_thumb ) )
-		$group->avatar_thumb = $avatar_thumb;
-	
-	if ( isset( $avatar_full ) )
-		$group->avatar_full = $avatar_full;
-	
 	if ( isset( $date_created ) )
 		$group->date_created = $date_created;
 	
@@ -1783,7 +1791,7 @@ function groups_get_popular( $limit = null, $page = 1 ) {
 	return BP_Groups_Group::get_popular( $limit, $page );
 }
 
-function groups_get_all( $limit = null, $page = 1, $only_public = true, $sort_by = false, $order = false ) {
+function groups_get_all( $limit = null, $page = 1, $only_public = false, $sort_by = false, $order = false ) {
 	return BP_Groups_Group::get_all( $limit, $page, $only_public, $sort_by, $order );
 }
 
@@ -1881,21 +1889,24 @@ function groups_filter_user_groups( $filter, $user_id = false, $order = false, $
 
 /*** Group Avatars *************************************************************/
 
-function groups_avatar_upload_dir() {
+function groups_avatar_upload_dir( $group_id = false ) {
 	global $bp;
 
+	if ( !$group_id )
+		$group_id = $bp->groups->current_group->id;
+		
 	$path  = get_blog_option( BP_ROOT_BLOG, 'upload_path' );
 	$newdir = path_join( ABSPATH, $path );
-	$newdir .= '/group-avatars/' . $bp->groups->current_group->id;
+	$newdir .= '/group-avatars/' . $group_id;
 
 	$newbdir = $newdir;
 	
 	if ( !file_exists( $newdir ) )
 		@wp_mkdir_p( $newdir );
 
-	$newurl = WP_CONTENT_URL . '/blogs.dir/' . BP_ROOT_BLOG . '/files/group-avatars/' . $user_id;
+	$newurl = WP_CONTENT_URL . '/blogs.dir/' . BP_ROOT_BLOG . '/files/group-avatars/' . $group_id;
 	$newburl = $newurl;
-	$newsubdir = '/group-avatars/' . $bp->groups->current_group->id;
+	$newsubdir = '/group-avatars/' . $group_id;
 
 	return apply_filters( 'groups_avatar_upload_dir', array( 'path' => $newdir, 'url' => $newurl, 'subdir' => $newsubdir, 'basedir' => $newbdir, 'baseurl' => $newburl, 'error' => false ) );	
 }
