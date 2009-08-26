@@ -49,7 +49,6 @@ To view %s\'s profile page: %s
 		unset( $message, $to );
 	}
 }
-add_action( 'groups_new_wire_post', 'groups_notification_new_wire_post', 10, 2 );
 
 function groups_notification_group_updated( $group_id ) {
 	global $bp;

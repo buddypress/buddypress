@@ -744,17 +744,15 @@ function groups_screen_group_wire() {
 			if ( !check_admin_referer( 'bp_wire_post' ) ) 
 				return false;
 		
-			if ( !groups_new_wire_post( $bp->groups->current_group->id, $_POST['wire-post-textarea'] ) ) {
+			if ( !groups_new_wire_post( $bp->groups->current_group->id, $_POST['wire-post-textarea'] ) )
 				bp_core_add_message( __('Wire message could not be posted.', 'buddypress'), 'error' );
-			} else {
+			else
 				bp_core_add_message( __('Wire message successfully posted.', 'buddypress') );
-			}
 
-			if ( !strpos( $_SERVER['HTTP_REFERER'], $bp->wire->slug ) ) {
+			if ( !strpos( $_SERVER['HTTP_REFERER'], $bp->wire->slug ) )
 				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
-			} else {
+			else
 				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/' . $bp->wire->slug );
-			}
 	
 		} else if ( 'delete' == $wire_action && groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
 			$wire_message_id = $bp->action_variables[1];
@@ -763,17 +761,15 @@ function groups_screen_group_wire() {
 			if ( !check_admin_referer( 'bp_wire_delete_link' ) )
 				return false;
 		
-			if ( !groups_delete_wire_post( $wire_message_id, $bp->groups->table_name_wire ) ) {
+			if ( !groups_delete_wire_post( $wire_message_id, $bp->groups->table_name_wire ) )
 				bp_core_add_message( __('There was an error deleting the wire message.', 'buddypress'), 'error' );
-			} else {
+			else
 				bp_core_add_message( __('Wire message successfully deleted.', 'buddypress') );
-			}
 			
-			if ( !strpos( $_SERVER['HTTP_REFERER'], $bp->wire->slug ) ) {
+			if ( !strpos( $_SERVER['HTTP_REFERER'], $bp->wire->slug ) )
 				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
-			} else {
+			else
 				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/' . $bp->wire->slug );
-			}
 		
 		} else if ( ( !$wire_action || 'latest' == $bp->action_variables[1] ) ) {
 			if ( file_exists( TEMPLATEPATH . '/groups/single/wire.php' ) )
@@ -1348,7 +1344,8 @@ function groups_record_activity( $args = '' ) {
 	
 	if ( !function_exists( 'bp_activity_add' ) )
 		return false;
-		
+	
+	/* If the group is not public, no recording of activity please. */
 	if ( 'public' != $bp->groups->current_group->status )	
 		return false;
 		
@@ -1927,6 +1924,12 @@ function groups_new_wire_post( $group_id, $content ) {
 		return false;
 	
 	if ( $wire_post = bp_wire_new_post( $group_id, $content, 'groups' ) ) {
+		
+		/* Post an email notification if settings allow */
+		require_once ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-notifications.php' );
+		groups_notification_new_wire_post( $group_id, $wire_post->id );
+		
+		/* Record this in activity streams */
 		$activity_content = sprintf( __( '%s wrote on the wire of the group %s:', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
 		$activity_content .= '<blockquote>' . bp_create_excerpt( attribute_escape( $content ) ) . '</blockquote>';
 		
@@ -1938,7 +1941,7 @@ function groups_new_wire_post( $group_id, $content ) {
 			'secondary_item_id' => $bp->groups->current_group->id
 		) );
 
-		do_action( 'groups_new_wire_post', $group_id, $wire_post_id );
+		do_action( 'groups_new_wire_post', $group_id, $wire_post->id );
 		
 		return true;
 	}
