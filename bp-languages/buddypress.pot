@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-08-25 14:11+0000\n"
+"POT-Creation-Date: 2009-08-26 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -248,7 +248,7 @@ msgstr ""
 #: bp-blogs/bp-blogs-templatetags.php:106 bp-core/bp-core-admin.php:60
 #: bp-core/bp-core-admin.php:68 bp-core/bp-core-admin.php:75
 #: bp-core/bp-core-admin.php:83 bp-core/deprecated/bp-core-deprecated.php:119
-#: bp-friends.php:155 bp-groups.php:1232 bp-messages.php:247
+#: bp-friends.php:155 bp-groups.php:1228 bp-messages.php:247
 #: bp-themes/bp-sn-framework/groups/single/admin.php:39
 #: bp-themes/bp-sn-framework/registration/register.php:192
 #: bp-themes/deprecated/bpmember/groups/single/admin.php:35
@@ -259,7 +259,7 @@ msgstr ""
 #: bp-blogs/bp-blogs-templatetags.php:110 bp-core/bp-core-admin.php:61
 #: bp-core/bp-core-admin.php:69 bp-core/bp-core-admin.php:76
 #: bp-core/bp-core-admin.php:84 bp-core/deprecated/bp-core-deprecated.php:123
-#: bp-friends.php:156 bp-groups.php:1233 bp-messages.php:248
+#: bp-friends.php:156 bp-groups.php:1229 bp-messages.php:248
 #: bp-themes/bp-sn-framework/groups/single/admin.php:40
 #: bp-themes/bp-sn-framework/registration/register.php:193
 #: bp-themes/deprecated/bpmember/groups/single/admin.php:36
@@ -644,8 +644,8 @@ msgstr ""
 
 #: bp-core/bp-core-admin.php:228 bp-core/bp-core-templatetags.php:599
 #: bp-core/bp-core-templatetags.php:660 bp-groups.php:150 bp-groups.php:184
-#: bp-groups.php:1231 bp-groups.php:1411 bp-groups.php:1424 bp-groups.php:1438
-#: bp-groups.php:1451 bp-groups/bp-groups-admin.php:33
+#: bp-groups.php:1227 bp-groups.php:1408 bp-groups.php:1421 bp-groups.php:1435
+#: bp-groups.php:1448 bp-groups/bp-groups-admin.php:33
 #: bp-themes/bp-sn-framework/header.php:86
 #: bp-themes/deprecated/bphome/header.php:51
 #: bp-themes/deprecated/bpmember/header.php:50
@@ -6845,11 +6845,11 @@ msgstr ""
 #: bp-friends/bp-friends-notifications.php:33
 #: bp-friends/bp-friends-notifications.php:68
 #: bp-groups/bp-groups-notifications.php:44
-#: bp-groups/bp-groups-notifications.php:79
-#: bp-groups/bp-groups-notifications.php:123
-#: bp-groups/bp-groups-notifications.php:172
-#: bp-groups/bp-groups-notifications.php:214
-#: bp-groups/bp-groups-notifications.php:261
+#: bp-groups/bp-groups-notifications.php:78
+#: bp-groups/bp-groups-notifications.php:122
+#: bp-groups/bp-groups-notifications.php:171
+#: bp-groups/bp-groups-notifications.php:213
+#: bp-groups/bp-groups-notifications.php:260
 #: bp-messages/bp-messages-notifications.php:34
 #: bp-xprofile/bp-xprofile-notifications.php:49
 #, php-format
@@ -6976,7 +6976,7 @@ msgstr ""
 msgid "Group Avatar"
 msgstr ""
 
-#: bp-groups.php:116 bp-groups.php:1464 bp-groups.php:1466
+#: bp-groups.php:116 bp-groups.php:1461 bp-groups.php:1463
 #: bp-themes/bp-sn-framework/groups/invites.php:8
 #: bp-themes/deprecated/bpmember/groups/invites.php:12
 msgid "Group Invites"
@@ -7036,7 +7036,7 @@ msgstr ""
 msgid "Group invite accepted"
 msgstr ""
 
-#: bp-groups.php:321 bp-groups.php:1739 bp-groups.php:2353
+#: bp-groups.php:321 bp-groups.php:1736 bp-groups.php:2356
 #, php-format
 msgid "%s joined the group %s"
 msgstr ""
@@ -7154,228 +7154,228 @@ msgstr ""
 msgid "Wire message successfully posted."
 msgstr ""
 
-#: bp-groups.php:767
+#: bp-groups.php:765
 msgid "There was an error deleting the wire message."
 msgstr ""
 
-#: bp-groups.php:769 bp-xprofile.php:554
+#: bp-groups.php:767 bp-xprofile.php:554
 msgid "Wire message successfully deleted."
 msgstr ""
 
-#: bp-groups.php:817
+#: bp-groups.php:813
 msgid "Group invites sent."
 msgstr ""
 
-#: bp-groups.php:840
+#: bp-groups.php:836
 msgid "As the only group administrator, you cannot leave this group."
 msgstr ""
 
-#: bp-groups.php:846
+#: bp-groups.php:842
 msgid "There was an error leaving the group. Please try again."
 msgstr ""
 
-#: bp-groups.php:849
+#: bp-groups.php:845
 msgid "You left the group successfully."
 msgstr ""
 
-#: bp-groups.php:884
+#: bp-groups.php:880
 msgid ""
 "There was an error sending your group membership request, please try again."
 msgstr ""
 
-#: bp-groups.php:886
+#: bp-groups.php:882
 msgid ""
 "Your membership request was sent to the group administrator successfully. "
 "You will be notified when the group administrator responds to your request."
 msgstr ""
 
-#: bp-groups.php:926
+#: bp-groups.php:922
 msgid "There was an error updating group details, please try again."
 msgstr ""
 
-#: bp-groups.php:928
+#: bp-groups.php:924
 msgid "Group details were successfully updated."
 msgstr ""
 
-#: bp-groups.php:970
+#: bp-groups.php:966
 msgid "There was an error updating group settings, please try again."
 msgstr ""
 
-#: bp-groups.php:972
+#: bp-groups.php:968
 msgid "Group settings were successfully updated."
 msgstr ""
 
-#: bp-groups.php:1022
+#: bp-groups.php:1018
 msgid "There was a problem cropping the avatar, please try uploading it again"
 msgstr ""
 
-#: bp-groups.php:1024
+#: bp-groups.php:1020
 msgid "The new group avatar was uploaded successfully!"
 msgstr ""
 
-#: bp-groups.php:1055
+#: bp-groups.php:1051
 msgid "There was an error when promoting that user, please try again"
 msgstr ""
 
-#: bp-groups.php:1057
+#: bp-groups.php:1053
 msgid "User promoted successfully"
 msgstr ""
 
-#: bp-groups.php:1074
+#: bp-groups.php:1070
 msgid "There was an error when demoting that user, please try again"
 msgstr ""
 
-#: bp-groups.php:1076
+#: bp-groups.php:1072
 msgid "User demoted successfully"
 msgstr ""
 
-#: bp-groups.php:1093
+#: bp-groups.php:1089
 msgid "There was an error when banning that user, please try again"
 msgstr ""
 
-#: bp-groups.php:1095
+#: bp-groups.php:1091
 msgid "User banned successfully"
 msgstr ""
 
-#: bp-groups.php:1112
+#: bp-groups.php:1108
 msgid "There was an error when unbanning that user, please try again"
 msgstr ""
 
-#: bp-groups.php:1114
+#: bp-groups.php:1110
 msgid "User ban removed successfully"
 msgstr ""
 
-#: bp-groups.php:1155
+#: bp-groups.php:1151
 msgid "There was an error accepting the membership request, please try again."
 msgstr ""
 
-#: bp-groups.php:1157
+#: bp-groups.php:1153
 msgid "Group membership request accepted"
 msgstr ""
 
-#: bp-groups.php:1167
+#: bp-groups.php:1163
 msgid "There was an error rejecting the membership request, please try again."
 msgstr ""
 
-#: bp-groups.php:1169
+#: bp-groups.php:1165
 msgid "Group membership request rejected"
 msgstr ""
 
-#: bp-groups.php:1204
+#: bp-groups.php:1200
 msgid "There was an error deleting the group, please try again."
 msgstr ""
 
-#: bp-groups.php:1206
+#: bp-groups.php:1202
 msgid "The group was deleted successfully"
 msgstr ""
 
-#: bp-groups.php:1237
+#: bp-groups.php:1233
 msgid "A member invites you to join a group"
 msgstr ""
 
-#: bp-groups.php:1243
+#: bp-groups.php:1239
 msgid "Group information is updated"
 msgstr ""
 
-#: bp-groups.php:1250
+#: bp-groups.php:1246
 msgid "A member posts on the wire of a group you belong to"
 msgstr ""
 
-#: bp-groups.php:1257
+#: bp-groups.php:1253
 msgid "You are promoted to a group administrator or moderator"
 msgstr ""
 
-#: bp-groups.php:1263
+#: bp-groups.php:1259
 msgid "A member requests to join a private group for which you are an admin"
 msgstr ""
 
-#: bp-groups.php:1292
+#: bp-groups.php:1288
 msgid "There was an error joining the group."
 msgstr ""
 
-#: bp-groups.php:1294
+#: bp-groups.php:1290
 msgid "You joined the group!"
 msgstr ""
 
-#: bp-groups.php:1397
+#: bp-groups.php:1394
 msgid "Group Membership Requests"
 msgstr ""
 
-#: bp-groups.php:1397
+#: bp-groups.php:1394
 #, php-format
 msgid "%d new membership requests for the group \"%s\""
 msgstr ""
 
-#: bp-groups.php:1400
+#: bp-groups.php:1397
 #, php-format
 msgid "%s requests membership for the group \"%s\""
 msgstr ""
 
-#: bp-groups.php:1411
+#: bp-groups.php:1408
 #, php-format
 msgid "%d accepted group membership requests"
 msgstr ""
 
-#: bp-groups.php:1413
+#: bp-groups.php:1410
 #, php-format
 msgid "Membership for group \"%s\" accepted"
 msgstr ""
 
-#: bp-groups.php:1424
+#: bp-groups.php:1421
 #, php-format
 msgid "%d rejected group membership requests"
 msgstr ""
 
-#: bp-groups.php:1426
+#: bp-groups.php:1423
 #, php-format
 msgid "Membership for group \"%s\" rejected"
 msgstr ""
 
-#: bp-groups.php:1438
+#: bp-groups.php:1435
 #, php-format
 msgid "You were promoted to an admin in %d groups"
 msgstr ""
 
-#: bp-groups.php:1440
+#: bp-groups.php:1437
 #, php-format
 msgid "You were promoted to an admin in the group %s"
 msgstr ""
 
-#: bp-groups.php:1451
+#: bp-groups.php:1448
 #, php-format
 msgid "You were promoted to a mod in %d groups"
 msgstr ""
 
-#: bp-groups.php:1453
+#: bp-groups.php:1450
 #, php-format
 msgid "You were promoted to a mod in the group %s"
 msgstr ""
 
-#: bp-groups.php:1464
+#: bp-groups.php:1461
 #, php-format
 msgid "You have %d new group invitations"
 msgstr ""
 
-#: bp-groups.php:1466
+#: bp-groups.php:1463
 #, php-format
 msgid "You have an invitation to the group: %s"
 msgstr ""
 
-#: bp-groups.php:1565
+#: bp-groups.php:1562
 msgid "Group Admin"
 msgstr ""
 
-#: bp-groups.php:1930
+#: bp-groups.php:1933
 #, php-format
 msgid "%s wrote on the wire of the group %s:"
 msgstr ""
 
-#: bp-groups.php:1990 bp-groups.php:2094
+#: bp-groups.php:1993 bp-groups.php:2097
 #, php-format
 msgid "%s posted on the forum topic %s in the group %s:"
 msgstr ""
 
-#: bp-groups.php:2016 bp-groups.php:2043
+#: bp-groups.php:2019 bp-groups.php:2046
 #, php-format
 msgid "%s started the forum topic %s in the group %s:"
 msgstr ""
@@ -7436,11 +7436,11 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:58
+#: bp-groups/bp-groups-notifications.php:57
 msgid "Group Details Updated"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:72
+#: bp-groups/bp-groups-notifications.php:71
 #, php-format
 msgid ""
 "Group details for the group \"%s\" were updated:\n"
@@ -7450,12 +7450,12 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:108
+#: bp-groups/bp-groups-notifications.php:107
 #, php-format
 msgid "Membership request for group: %s"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:111
+#: bp-groups/bp-groups-notifications.php:110
 #, php-format
 msgid ""
 "%s wants to join the group \"%s\".\n"
@@ -7471,12 +7471,12 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:152
+#: bp-groups/bp-groups-notifications.php:151
 #, php-format
 msgid "Membership request for group \"%s\" accepted"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:154
+#: bp-groups/bp-groups-notifications.php:153
 #, php-format
 msgid ""
 "Your membership request for the group \"%s\" has been accepted.\n"
@@ -7486,12 +7486,12 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:162
+#: bp-groups/bp-groups-notifications.php:161
 #, php-format
 msgid "Membership request for group \"%s\" rejected"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:164
+#: bp-groups/bp-groups-notifications.php:163
 #, php-format
 msgid ""
 "Your membership request for the group \"%s\" has been rejected.\n"
@@ -7501,20 +7501,20 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:182
+#: bp-groups/bp-groups-notifications.php:181
 msgid "an administrator"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:185
+#: bp-groups/bp-groups-notifications.php:184
 msgid "a moderator"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:204
+#: bp-groups/bp-groups-notifications.php:203
 #, php-format
 msgid "You have been promoted in the group: \"%s\""
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:207
+#: bp-groups/bp-groups-notifications.php:206
 #, php-format
 msgid ""
 "You have been promoted to %s for the group: \"%s\".\n"
@@ -7524,12 +7524,12 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:247
+#: bp-groups/bp-groups-notifications.php:246
 #, php-format
 msgid "You have an invitation to the group: \"%s\""
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:250
+#: bp-groups/bp-groups-notifications.php:249
 #, php-format
 msgid ""
 "One of your friends %s has invited you to the group: \"%s\".\n"
