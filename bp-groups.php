@@ -81,8 +81,8 @@ function groups_install() {
 		$avatar_thumb = str_replace( $bp->root_domain . '/' . basename( WP_CONTENT_DIR ), WP_CONTENT_PATH, $group->avatar_thumb );
 		$avatar_full = str_replace( $bp->root_domain . '/' . basename( WP_CONTENT_DIR ), WP_CONTENT_PATH, $group->avatar_full );
 
-		copy( $avatar_thumb, $upload_dir['path'] . basename($avatar_thumb) );
-		copy( $avatar_full, $upload_dir['path'] . basename($avatar_full) );
+		copy( $avatar_thumb, $upload_dir['path'] . '/' . basename($avatar_thumb) );
+		copy( $avatar_full, $upload_dir['path'] . '/' . basename($avatar_full) );
 	}
 	
 	if ( function_exists('bp_wire_install') )

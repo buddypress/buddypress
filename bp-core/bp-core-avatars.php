@@ -88,7 +88,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 	$avatar_folder_url = apply_filters( 'bp_core_avatar_folder_url', $bp->root_domain . '/' . basename( WP_CONTENT_DIR ) . '/blogs.dir/' . BP_ROOT_BLOG . '/files/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );	
 	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', WP_CONTENT_DIR . '/blogs.dir/' . BP_ROOT_BLOG . '/files/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );	
-
+	
 	/* If no avatars have been uploaded for this item, display a gravatar */	
 	if ( !file_exists( $avatar_folder_dir ) && !$no_grav ) {
 		
@@ -119,29 +119,18 @@ function bp_core_fetch_avatar( $args = '' ) {
 	
 	/* Set the file names to search for to select the full size or thumbnail image. */
 	$avatar_name = ( 'full' == $type ) ? '-bpfull' : '-bpthumb';	
+	$legacy_user_avatar_name = ( 'full' == $type ) ? '-avatar2' : '-avatar1';	
+	$legacy_group_avatar_name = ( 'full' == $type ) ? '-groupavatar-full' : '-groupavatar-thumb';	
 	
 	if ( $av_dir = opendir( $avatar_folder_dir ) ) {
 	    while ( false !== ( $avatar_file = readdir($av_dir) ) ) {
-			if ( preg_match( "/{$avatar_name}/", $avatar_file ) )
+			if ( preg_match( "/{$avatar_name}/", $avatar_file ) || preg_match( "/{$avatar_name}/", $legacy_user_avatar_file ) || preg_match( "/{$avatar_name}/", $legacy_group_avatar_file ) )
 				$avatar_url = $avatar_folder_url . '/' . $avatar_file;
 	    }
 	}
     closedir($av_dir);
 
-	/* If no avatar is found, check for the legacy file names of '-avatar1' and '-avatar2' */
-	if ( !$avatar_url && 'user' == $object ) {
-		if ( $av_dir = opendir( $avatar_folder_dir ) ) {
-			$avatar_name = ( 'full' == $type ) ? '-avatar2' : '-avatar1';	
-		
-		    while ( false !== ( $avatar_file = readdir($av_dir) ) ) {
-				if ( preg_match( "/{$avatar_name}/", $avatar_file ) )
-					$avatar_url = $avatar_folder_url . '/' . $avatar_file;
-		    }
-		}
-		closedir($av_dir);
-	}
-
-	return apply_filters( 'bp_core_fetch_avatar', "<img src='{$avatar_url}' alt='{$alt}' class='{$class}'{$html_width}{$html_height} />", $params );	
+	return apply_filters( 'bp_core_fetch_avatar', "<img src='{$avatar_url}' alt='{$alt}' id='{$css_id}' class='{$class}'{$html_width}{$html_height} />", $params );	
 }
 
 function bp_core_delete_existing_avatar( $args = '' ) {
