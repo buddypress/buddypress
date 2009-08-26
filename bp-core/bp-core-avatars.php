@@ -124,7 +124,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 	
 	if ( $av_dir = opendir( $avatar_folder_dir ) ) {
 	    while ( false !== ( $avatar_file = readdir($av_dir) ) ) {
-			if ( preg_match( "/{$avatar_name}/", $avatar_file ) || preg_match( "/{$avatar_name}/", $legacy_user_avatar_file ) || preg_match( "/{$avatar_name}/", $legacy_group_avatar_file ) )
+			if ( preg_match( "/{$avatar_name}/", $avatar_file ) || preg_match( "/{$legacy_user_avatar_name}/", $avatar_file ) || preg_match( "/{$legacy_group_avatar_name}/", $avatar_file ) )
 				$avatar_url = $avatar_folder_url . '/' . $avatar_file;
 	    }
 	}

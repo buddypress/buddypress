@@ -73,16 +73,24 @@ function groups_install() {
 	$groups = groups_get_all();
 	
 	foreach ( $groups as $group ) {
-		/* Don't fetch and move gravs */
-		if ( strpos( $group->avatar_thumb, 'gravatar.com' ) )
+		/* Don't fetch and move gravs, default images or empties */
+		if ( empty($group->avatar_thumb) || strpos( $group->avatar_thumb, 'gravatar.com' ) || strpos( $group->avatar_thumb, 'identicon' ) || strpos( $group->avatar_thumb, 'none-thumbnail' ) )
 			continue;
 
-		$upload_dir = groups_avatar_upload_dir( $group->id );
-		$avatar_thumb = str_replace( $bp->root_domain . '/' . basename( WP_CONTENT_DIR ), WP_CONTENT_PATH, $group->avatar_thumb );
-		$avatar_full = str_replace( $bp->root_domain . '/' . basename( WP_CONTENT_DIR ), WP_CONTENT_PATH, $group->avatar_full );
+		$start = strpos( $group->avatar_thumb, 'blogs.dir' );
 
-		copy( $avatar_thumb, $upload_dir['path'] . '/' . basename($avatar_thumb) );
-		copy( $avatar_full, $upload_dir['path'] . '/' . basename($avatar_full) );
+		if ( false !== $start ) {
+			$avatar_thumb = WP_CONTENT_DIR . '/' . substr( $group->avatar_thumb, $start, strlen( $group->avatar_thumb ) );
+			$avatar_full = WP_CONTENT_DIR . '/' . substr( $group->avatar_full, $start, strlen( $group->avatar_full ) );
+
+			if ( !file_exists( $avatar_thumb ) || !file_exists( $avatar_full ) )
+				continue;
+			
+			$upload_dir = groups_avatar_upload_dir( $group->id );
+
+			copy( $avatar_thumb, $upload_dir['path'] . '/' . basename($avatar_thumb) );
+			copy( $avatar_full, $upload_dir['path'] . '/' . basename($avatar_full) );
+		}
 	}
 	
 	if ( function_exists('bp_wire_install') )
