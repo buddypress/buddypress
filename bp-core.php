@@ -917,7 +917,7 @@ function bp_core_get_user_displayname( $user_id ) {
 		wp_cache_set( 'bp_user_fullname_' . $user_id, $fullname, 'bp' );
 	}
 	
-	return apply_filters( 'bp_core_get_user_displayname', stripslashes( strip_tags( trim( $fullname ) ) ) );
+	return apply_filters( 'bp_core_get_user_displayname', stripslashes( wp_filter_kses( trim( $fullname ) ) ) );
 }
 
 /**
