@@ -46,7 +46,7 @@ function bp_activity_install() {
 	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->base_prefix}bp_activity_sitewide" );
 	
 	/* Rename the old user activity cached table */
-	$wpdb->query( "RENAME TABLE {$wpdb->base_prefix}bp_activity_user_activity_cached TO {$bp->activity->table_name}" );
+	//$wpdb->query( "RENAME TABLE {$wpdb->base_prefix}bp_activity_user_activity_cached TO {$bp->activity->table_name}" );
 
 	update_site_option( 'bp-activity-db-version', BP_ACTIVITY_DB_VERSION );
 }
@@ -57,7 +57,7 @@ function bp_activity_setup_globals() {
 	/* Internal identifier */
 	$bp->activity->id = 'activity';
 	
-	$bp->activity->table_name = $wpdb->base_prefix . 'bp_activity';
+	$bp->activity->table_name = $wpdb->base_prefix . 'bp_activity_user_activity_cached';
 	$bp->activity->slug = BP_ACTIVITY_SLUG;
 }
 add_action( 'plugins_loaded', 'bp_activity_setup_globals', 5 );
