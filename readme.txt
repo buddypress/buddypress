@@ -42,6 +42,8 @@ Next, you will want to head to the "Appearance" menu and activate the BuddyPress
 2. Overwrite the /plugins/buddypress/ directory with the latest version.
 3. If you are using the default theme, move the themes in "/buddypress/bp-themes/" to "wp-content/themes"
    and overwrite the existing ones.
+4. IMPORTANT: If you are no longer using the old two-theme system from BuddyPress 1.0, please make sure to delete your
+   wp-content/bp-themes/ folder to activate the new one-theme setup.
 
 --- Forums Support ---
 
