@@ -1313,7 +1313,7 @@ function bp_the_site_blog_hidden_fields() {
 
 function bp_directory_blogs_search_form() {
 	global $bp; ?>
-	<form action="<?php echo $bp->root_domain . '/' . blogs_SLUG  . '/search/' ?>" method="post" id="search-blogs-form">
+	<form action="<?php echo $bp->root_domain . '/' . BP_BLOGS_SLUG  . '/search/' ?>" method="post" id="search-blogs-form">
 		<label><input type="text" name="blogs_search" id="blogs_search" value="<?php if ( isset( $_GET['s'] ) ) { echo $_GET['s']; } else { _e( 'Search anything...', 'buddypress' ); } ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
 		<input type="submit" id="blogs_search_submit" name="blogs_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
 	</form>
