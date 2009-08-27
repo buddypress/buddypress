@@ -13,7 +13,7 @@ if ( file_exists( WP_PLUGIN_DIR . '/bp-custom.php' ) )
 
 /* Define on which blog ID BuddyPress should run */
 if ( !defined( 'BP_ROOT_BLOG' ) )
-	define( 'BP_ROOT_BLOG', 2 );
+	define( 'BP_ROOT_BLOG', 1 );
 
 /* Define the user and usermeta table names, useful if you are using custom or shared tables */
 if ( !defined( 'CUSTOM_USER_TABLE' ) )
@@ -119,8 +119,11 @@ function bp_core_setup_globals() {
 	$bp->is_single_item = false;
 
 	/* The default component to use if none are set and someone visits: http://domain.com/members/andy */
-	$bp->default_component = 'profile';
-	
+	if ( defined( 'BP_XPROFILE_SLUG' ) )
+		$bp->default_component = BP_XPROFILE_SLUG;
+	else
+		$bp->default_component = 'profile';
+
 	/* Sets up the array container for the component navigation rendered by bp_get_nav() */
 	$bp->bp_nav = array();
 	
