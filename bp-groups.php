@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_GROUPS_DB_VERSION', '1710' );
+define ( 'BP_GROUPS_DB_VERSION', '1711' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_GROUPS_SLUG' ) )
@@ -31,7 +31,7 @@ function groups_install() {
 			status varchar(10) NOT NULL DEFAULT 'public',
 			enable_wire tinyint(1) NOT NULL DEFAULT '1',
 			enable_forum tinyint(1) NOT NULL DEFAULT '1',
-			date_created datetime NOT NULL
+			date_created datetime NOT NULL,
 		    KEY creator_id (creator_id),
 		    KEY status (status)
 	 	   ) {$charset_collate};";
@@ -532,7 +532,6 @@ function groups_screen_create_group() {
 				/* Make sure we include the jQuery jCrop file for image cropping */
 				add_action( 'wp', 'bp_core_add_jquery_cropper' );
 			}
-			//var_dump($_COOKIE);
 		}
 
 		/* If the image cropping is done, crop the image and save a full/thumb version */

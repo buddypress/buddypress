@@ -137,12 +137,14 @@ function bp_core_screen_signup() {
 	}
 
 	$bp->avatar_admin->step = 'upload-image';
-	
+
 	/* If user has uploaded a new avatar */
 	if ( !empty( $_FILES ) ) {
 		
 		/* Check the nonce */
 		check_admin_referer( 'bp_avatar_upload' );
+
+		$bp->signup->step = 'completed-confirmation';
 		
 		/* Get the activation key */
 		if ( !$bp->signup->key = $wpdb->get_var( $wpdb->prepare( "SELECT activation_key FROM {$wpdb->signups} WHERE user_login = %s AND user_email = %s", $_POST[ 'signup_username' ], $_POST[ 'signup_email' ] ) ) ) {
@@ -151,16 +153,13 @@ function bp_core_screen_signup() {
 			/* Hash the key to create the upload folder (added security so people don't sniff the activation key) */
 			$bp->signup->avatar_dir = wp_hash( $bp->signup->key );
 			
-			/* Pass the file to the avatar upload handler */
-			$errors = bp_core_avatar_handle_upload( $_FILES, 'bp_core_signup_avatar_upload_dir' );
-
-			if ( !$errors ) {
-				$bp->signup->step = 'completed-confirmation';
+			/* Pass the file to the avatar upload handler */		
+			if ( bp_core_avatar_handle_upload( $_FILES, 'bp_core_signup_avatar_upload_dir' ) ) {		
 				$bp->avatar_admin->step = 'crop-image';
 
 				/* Make sure we include the jQuery jCrop file for image cropping */
 				add_action( 'wp', 'bp_core_add_jquery_cropper' );
-			}
+			}			
 		}
 	}
 	
@@ -190,7 +189,7 @@ function bp_core_signup_avatar_upload_dir() {
 	if ( !$bp->signup->avatar_dir )
 		return false;
 	
-	$path  = get_blog_option( BP_ROOT_BLOG, 'upload_path' );
+	$path = get_blog_option( BP_ROOT_BLOG, 'upload_path' );
 	$newdir = path_join( ABSPATH, $path );
 	$newdir .= '/avatars/signups/' . $bp->signup->avatar_dir;
 

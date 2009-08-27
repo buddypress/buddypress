@@ -1,5 +1,5 @@
 <?php
-define ( 'BP_XPROFILE_DB_VERSION', '1700' );
+define ( 'BP_XPROFILE_DB_VERSION', '1705' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_XPROFILE_SLUG' ) )
@@ -83,9 +83,9 @@ function xprofile_install() {
 		$sql[] = "INSERT INTO {$bp->profile->table_name_groups} VALUES ( 1, '" . get_site_option( 'bp-xprofile-base-group-name' ) . "', '', 0 );";
 	
 		$sql[] = "INSERT INTO {$bp->profile->table_name_fields} ( 
-					id, group_id, parent_id, type, name, description, is_required, field_order, option_order, order_by, is_public, can_delete
+					id, group_id, parent_id, type, name, is_required, can_delete
 				  ) VALUES (
-					1, 1, 0, 'textbox', '" . get_site_option( 'bp-xprofile-fullname-field-name' ) . "', '', 1, 1, 0, '', 1, 0
+					1, 1, 0, 'textbox', '" . get_site_option( 'bp-xprofile-fullname-field-name' ) . "', 1, 0
 				  );";
 	}
 	
@@ -105,12 +105,11 @@ function xprofile_wire_install() {
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 
 	$sql[] = "CREATE TABLE {$bp->profile->table_name_wire} (
-	  		   id bigint(20) NOT NULL AUTO_INCREMENT,
+	  		   id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			   item_id bigint(20) NOT NULL,
 			   user_id bigint(20) NOT NULL,
 			   content longtext NOT NULL,
 			   date_posted datetime NOT NULL,
-			   PRIMARY KEY id (id),
 			   KEY item_id (item_id),
 		       KEY user_id (user_id)
 	 	       ) {$charset_collate};";
@@ -371,7 +370,7 @@ function xprofile_screen_change_avatar() {
 		check_admin_referer( 'bp_avatar_cropstore' );
 
 		if ( !bp_core_avatar_handle_crop( array( 'item_id' => $bp->displayed_user->id, 'original_file' => $_POST['image_src'], 'crop_x' => $_POST['x'], 'crop_y' => $_POST['y'], 'crop_w' => $_POST['w'], 'crop_h' => $_POST['h'] ) ) )
-			bp_core_add_message( __( 'There was a problem cropping your avatar, please try uploading it again', 'buddypress' ) );
+			bp_core_add_message( __( 'There was a problem cropping your avatar, please try uploading it again', 'buddypress' ), 'error' );
 		else
 			bp_core_add_message( __( 'Your new avatar was uploaded successfully!', 'buddypress' ) );
 

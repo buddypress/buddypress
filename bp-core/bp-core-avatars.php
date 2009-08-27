@@ -199,7 +199,7 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	add_filter( 'upload_dir', $upload_dir_filter, 10, 0 );
 	
 	$bp->avatar_admin->original = wp_handle_upload( $file['file'], array( 'action'=> 'bp_avatar_upload' ) );
-	
+
 	// Move the file to the correct upload location.
 	if ( !empty( $bp->avatar_admin->original['error'] ) ) {
 		bp_core_add_message( sprintf( __( 'Upload Failed! Error was: %s', 'buddypress' ), $bp->avatar_admin->original['error'] ), 'error' );

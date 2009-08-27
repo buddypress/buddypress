@@ -100,12 +100,12 @@ function bp_core_set_uri_globals() {
 	/* Reset the keys by merging with an empty array */
 	$bp_uri = array_merge( array(), $bp_uri );
 	$bp_unfiltered_uri = $bp_uri;
-	
+
 	/* Catch a member page and set the current member ID */
 	if ( $bp_uri[0] == BP_MEMBERS_SLUG || in_array( 'wp-load.php', $bp_uri ) ) {
 		$is_member_page = true;
 		$is_root_component = true;
-		
+
 		// We are within a member page, set up user id globals
 		$displayed_user_id = bp_core_get_displayed_userid( $bp_uri[1] );
 				
@@ -174,7 +174,7 @@ function bp_catch_uri( $pages, $skip_blog_check = false ) {
 	$bp_skip_blog_check = $skip_blog_check;
 
 	$bp_path = $pages;
-
+	
 	if ( !bp_is_blog_page() ) {
 		remove_action( 'template_redirect', 'redirect_canonical' );
 	}
@@ -244,7 +244,7 @@ function bp_core_catch_no_access() {
 		}
 	}
 }
-add_action( 'wp', 'bp_core_catch_no_access', 10 );
+add_action( 'wp', 'bp_core_catch_no_access' );
 
 /**
  * bp_core_catch_profile_uri()
