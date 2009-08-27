@@ -59,6 +59,9 @@ function bp_activity_setup_globals() {
 	
 	$bp->activity->table_name = $wpdb->base_prefix . 'bp_activity_user_activity_cached';
 	$bp->activity->slug = BP_ACTIVITY_SLUG;
+	
+	/* Register this in the active components array */
+	$bp->active_components[$bp->activity->slug] = $bp->activity->id;
 }
 add_action( 'plugins_loaded', 'bp_activity_setup_globals', 5 );
 add_action( 'admin_menu', 'bp_activity_setup_globals', 2 );
@@ -81,7 +84,7 @@ function bp_activity_setup_nav() {
 	global $bp;
 
 	/* Add 'Activity' to the main navigation */
-	bp_core_new_nav_item( array( 'name' => __( 'Activity', 'buddypress' ), 'slug' => $bp->activity->slug, 'position' => 10, 'screen_function' => 'bp_activity_screen_my_activity', 'default_subnav_slug' => 'just-me' ) );
+	bp_core_new_nav_item( array( 'name' => __( 'Activity', 'buddypress' ), 'slug' => $bp->activity->slug, 'position' => 10, 'screen_function' => 'bp_activity_screen_my_activity', 'default_subnav_slug' => 'just-me', 'item_css_id' => $bp->activity->id ) );
 
 	$activity_link = $bp->loggedin_user->domain . $bp->activity->slug . '/';
 

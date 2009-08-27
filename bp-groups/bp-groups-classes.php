@@ -11,10 +11,7 @@ Class BP_Groups_Group {
 	var $enable_wire;
 	var $enable_forum;
 	var $date_created;
-	
-	var $avatar_thumb;
-	var $avatar_full;
-	
+
 	var $user_dataset;
 	
 	var $admins;
@@ -51,18 +48,6 @@ Class BP_Groups_Group {
 			$this->enable_forum = $group->enable_forum;
 			$this->date_created = strtotime($group->date_created);
 			$this->total_member_count = groups_get_groupmeta( $this->id, 'total_member_count' );
-
-			$gravatar_url = apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' );
-			
-			if ( !$group->avatar_thumb || strpos( $group->avatar_thumb, 'none-thumbnail' ) )
-				$this->avatar_thumb =  $gravatar_url . md5( $this->id . '@' . $bp->root_domain ) . '?d=identicon&amp;s=50';
-			else
-				$this->avatar_thumb = $group->avatar_thumb;
-			
-			if ( !$group->avatar_full || strpos( $group->avatar_thumb, 'none-' ) )
-				$this->avatar_full = $gravatar_url . md5( $this->id . '@' . $bp->root_domain ) . '?d=identicon&amp;s=150';
-			else
-				$this->avatar_full = $group->avatar_full;
 			
 			if ( $get_user_dataset ) {
 				$this->user_dataset = $this->get_user_dataset();
@@ -94,8 +79,6 @@ Class BP_Groups_Group {
 		$this->enable_wire = apply_filters( 'groups_group_enable_wire_before_save', $this->enable_wire, $this->id );
 		$this->enable_forum = apply_filters( 'groups_group_enable_forum_before_save', $this->enable_forum, $this->id );
 		$this->date_created = apply_filters( 'groups_group_date_created_before_save', $this->date_created, $this->id );
-		$this->avatar_thumb = apply_filters( 'groups_group_avatar_thumb_before_save', $this->avatar_thumb, $this->id );
-		$this->avatar_full = apply_filters( 'groups_group_avatar_full_before_save', $this->avatar_full, $this->id );
 
 		do_action( 'groups_group_before_save', $this );
 		
@@ -110,9 +93,7 @@ Class BP_Groups_Group {
 					status = %s, 
 					enable_wire = %d, 
 					enable_forum = %d, 
-					date_created = FROM_UNIXTIME(%d), 
-					avatar_thumb = %s, 
-					avatar_full = %s
+					date_created = FROM_UNIXTIME(%d)
 				WHERE
 					id = %d
 				",
@@ -124,9 +105,7 @@ Class BP_Groups_Group {
 					$this->status, 
 					$this->enable_wire, 
 					$this->enable_forum, 
-					$this->date_created, 
-					$this->avatar_thumb, 
-					$this->avatar_full,
+					$this->date_created,
 					$this->id
 			);
 		} else {
@@ -140,11 +119,9 @@ Class BP_Groups_Group {
 					status,
 					enable_wire,
 					enable_forum,
-					date_created,
-					avatar_thumb,
-					avatar_full
+					date_created
 				) VALUES (
-					%d, %s, %s, %s, %s, %s, %d, %d, FROM_UNIXTIME(%d), %s, %s
+					%d, %s, %s, %s, %s, %s, %d, %d, FROM_UNIXTIME(%d)
 				)",
 					$this->creator_id, 
 					$this->name, 
@@ -154,9 +131,7 @@ Class BP_Groups_Group {
 					$this->status, 
 					$this->enable_wire, 
 					$this->enable_forum,
-					$this->date_created, 
-					$this->avatar_thumb, 
-					$this->avatar_full 
+					$this->date_created
 			);
 		}
 		

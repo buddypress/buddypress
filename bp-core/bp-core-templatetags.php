@@ -21,7 +21,7 @@ function bp_get_loggedin_user_nav() {
 	/* Loop through each navigation item */
 	foreach( (array) $bp->bp_nav as $nav_item ) {
 		/* If the current component matches the nav item id, then add a highlight CSS class. */
-		if ( $bp->current_component == $nav_item['css_id'] ) {
+		if ( $bp->active_components[$bp->current_component] == $nav_item['css_id'] ) {
 			$selected = ' class="current"';
 		} else {
 			$selected = '';
@@ -34,7 +34,7 @@ function bp_get_loggedin_user_nav() {
 			$selected = '';
 			
 			if ( function_exists('friends_install') ) {
-				if ( $nav_item['css_id'] == $bp->friends->slug ) {
+				if ( $nav_item['css_id'] == $bp->friends->id ) {
 					if ( friends_check_friendship( $bp->loggedin_user->id, $bp->displayed_user->id ) )
 						$selected = ' class="current"';
 				}

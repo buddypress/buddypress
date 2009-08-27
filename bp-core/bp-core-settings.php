@@ -1,17 +1,28 @@
 <?php
+
+if ( !defined( 'BP_SETTINGS_SLUG' ) )
+	define( 'BP_SETTINGS_SLUG', 'settings' );
+	
 function bp_core_add_settings_nav() {
 	global $bp;
+	
+	/* Set up settings as a sudo-component for identification and nav selection */
+	$bp->settings->id = 'settings';
+	$bp->settings->slug = BP_SETTINGS_SLUG;
+	
+	/* Register this in the active components array */
+	$bp->active_components[$bp->settings->slug] = $bp->settings->id;
 
 	/* Add the settings navigation item */
-	bp_core_new_nav_item( array( 'name' => __('Settings', 'buddypress'), 'slug' => 'settings', 'position' => 100, 'show_for_displayed_user' => false, 'screen_function' => 'bp_core_screen_general_settings', 'default_subnav_slug' => 'general' ) );
+	bp_core_new_nav_item( array( 'name' => __('Settings', 'buddypress'), 'slug' => $bp->settings->slug, 'position' => 100, 'show_for_displayed_user' => false, 'screen_function' => 'bp_core_screen_general_settings', 'default_subnav_slug' => 'general' ) );
 
 	$settings_link = $bp->loggedin_user->domain . 'settings/';
 	
-	bp_core_new_subnav_item( array( 'name' => __( 'General', 'buddypress' ), 'slug' => 'general', 'parent_url' => $settings_link, 'parent_slug' => 'settings', 'screen_function' => 'bp_core_screen_general_settings', 'position' => 10, 'user_has_access' => bp_is_home() ) );
-	bp_core_new_subnav_item( array( 'name' => __( 'Notifications', 'buddypress' ), 'slug' => 'notifications', 'parent_url' => $settings_link, 'parent_slug' => 'settings', 'screen_function' => 'bp_core_screen_notification_settings', 'position' => 20, 'user_has_access' => bp_is_home() ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'General', 'buddypress' ), 'slug' => 'general', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_general_settings', 'position' => 10, 'user_has_access' => bp_is_home() ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Notifications', 'buddypress' ), 'slug' => 'notifications', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_notification_settings', 'position' => 20, 'user_has_access' => bp_is_home() ) );
 	
 	if ( !is_site_admin() )
-		bp_core_new_subnav_item( array( 'name' => __( 'Delete Account', 'buddypress' ), 'slug' => 'delete-account', 'parent_url' => $settings_link, 'parent_slug' => 'settings', 'screen_function' => 'bp_core_screen_delete_account', 'position' => 90, 'user_has_access' => bp_is_home() ) );
+		bp_core_new_subnav_item( array( 'name' => __( 'Delete Account', 'buddypress' ), 'slug' => 'delete-account', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_delete_account', 'position' => 90, 'user_has_access' => bp_is_home() ) );
 }
 add_action( 'wp', 'bp_core_add_settings_nav', 2 );
 add_action( 'admin_menu', 'bp_core_add_settings_nav', 2 );
@@ -29,16 +40,14 @@ function bp_core_screen_general_settings() {
 		
 		// Form has been submitted and nonce checks out, lets do it.
 		
-		if ( $_POST['email'] != '' ) {
-			$current_user->user_email = wp_specialchars( trim( $_POST['email'] ));
-		}
+		if ( $_POST['email'] != '' )
+			$current_user->user_email = wp_specialchars( trim( $_POST['email'] ) );
 
 		if ( $_POST['pass1'] != '' && $_POST['pass2'] != '' ) {
-			if ( $_POST['pass1'] == $_POST['pass2'] && !strpos( " " . $_POST['pass1'], "\\" ) ) {
+			if ( $_POST['pass1'] == $_POST['pass2'] && !strpos( " " . $_POST['pass1'], "\\" ) )
 				$current_user->user_pass = $_POST['pass1'];
-			} else {
+			else
 				$pass_error = true;
-			}
 		} else if ( empty( $_POST['pass1'] ) && !empty( $_POST['pass2'] ) || !empty( $_POST['pass1'] ) && empty( $_POST['pass2'] ) ) {
 			$pass_error = true;
 		} else {

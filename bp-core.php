@@ -136,6 +136,9 @@ function bp_core_setup_globals() {
 	/* Sets up container used for the avatar of the current component being viewed. Rendered by bp_get_options_avatar() */
 	$bp->bp_options_avatar = '';
 	
+	/* Contains an array of all the active components. The key is the slug, value the internal ID of the component */
+	$bp->active_components = array();
+	
 	/* Fetches the default Gravatar image to use if the user/group/blog has no avatar or gravatar */
 	$bp->grav_default->user = apply_filters( 'bp_user_gravatar_default', get_site_option( 'user-avatar-default' ) );
 	$bp->grav_default->group = apply_filters( 'bp_group_gravatar_default', 'identicon' );
@@ -552,9 +555,9 @@ function bp_core_new_subnav_item( $args = '' ) {
 		'parent_slug' => false, // URL slug of the parent nav item
 		'parent_url' => false, // URL of the parent item
 		'item_css_id' => false, // The CSS ID to apply to the HTML of the nav item
-		'user_has_access' => true, // Can the user see this nav item?
+		'user_has_access' => true, // Can the logged in user see this nav item?
 		'site_admin_only' => false, // Can only site admins see this nav item?
-		'position' => 90, // Index of where should this nav item be positioned
+		'position' => 90, // Index of where this nav item should be positioned
 		'screen_function' => false // The name of the function to run when clicked
 	);
 	
@@ -578,7 +581,7 @@ function bp_core_new_subnav_item( $args = '' ) {
 		'slug' => $slug,
 		'css_id' => $item_css_id,
 		'position' => $position
-	);	 
+	);
 		
 	if ( $bp->current_action == $slug && $bp->current_component == $parent_slug && $user_has_access ) {
 		if ( !is_object($screen_function[0]) )
@@ -645,38 +648,6 @@ function bp_core_reset_subnav_items($parent_slug) {
 	global $bp;
 
 	unset($bp->bp_options_nav[$parent_slug]);
-}
-
-/**
- * bp_core_add_nav_default()
- *
- * Set a default action for a nav item, when a sub nav item has not yet been selected.
- * 
- * @package BuddyPress Core
- * @param $parent_id The id of the parent navigation item.
- * @param $function The function to run when this sub nav item is selected.
- * @param $slug The slug of the sub nav item to highlight.
- * @uses is_site_admin() returns true if the current user is a site admin, false if not
- * @uses bp_is_home() Returns true if the current user being viewed is equal the logged in user
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- */
-function bp_core_add_nav_default( $parent_id, $function, $slug = false, $user_has_access = true, $admin_only = false ) {
-	global $bp;
-	
-	if ( !$user_has_access && !bp_is_home() )
-		return false;
-		
-	if ( $admin_only && !is_site_admin() )
-		return false;
-
-	if ( $bp->current_component == $parent_id && !$bp->current_action ) {
-		if ( function_exists($function) ) {
-			add_action( 'wp', $function, 3 );
-		}
-		
-		if ( $slug )
-			$bp->current_action = $slug;
-	}
 }
 
 /**

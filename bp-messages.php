@@ -84,6 +84,9 @@ function messages_setup_globals() {
 	$bp->messages->format_activity_function = 'messages_format_activity';
 	$bp->messages->format_notification_function = 'messages_format_notifications';
 	$bp->messages->slug = BP_MESSAGES_SLUG;
+
+	/* Register this in the active components array */
+	$bp->active_components[$bp->messages->slug] = $bp->messages->id;
 }
 add_action( 'plugins_loaded', 'messages_setup_globals', 5 );	
 add_action( 'admin_menu', 'messages_setup_globals', 1 );
@@ -110,7 +113,7 @@ function messages_setup_nav() {
 	}
 
 	/* Add 'Messages' to the main navigation */
-	bp_core_new_nav_item( array( 'name' => __('Messages', 'buddypress'), 'slug' => $bp->messages->slug, 'position' => 50, 'show_for_displayed_user' => false, 'screen_function' => 'messages_screen_inbox', 'default_subnav_slug' => 'inbox'  ) );
+	bp_core_new_nav_item( array( 'name' => __('Messages', 'buddypress'), 'slug' => $bp->messages->slug, 'position' => 50, 'show_for_displayed_user' => false, 'screen_function' => 'messages_screen_inbox', 'default_subnav_slug' => 'inbox', 'item_css_id' => $bp->messages->id ) );
 	
 	$messages_link = $bp->loggedin_user->domain . $bp->messages->slug . '/';
 	

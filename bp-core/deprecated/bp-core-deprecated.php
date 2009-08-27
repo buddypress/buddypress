@@ -939,3 +939,23 @@ function bp_login_bar() {
 	<?php endif;
 }
 
+/* DEPRECATED - use the param 'default_subnav_slug' in bp_core_new_nav_item() */
+function bp_core_add_nav_default( $parent_id, $function, $slug = false, $user_has_access = true, $admin_only = false ) {
+	global $bp;
+	
+	if ( !$user_has_access && !bp_is_home() )
+		return false;
+		
+	if ( $admin_only && !is_site_admin() )
+		return false;
+
+	if ( $bp->current_component == $parent_id && !$bp->current_action ) {
+		if ( function_exists($function) ) {
+			add_action( 'wp', $function, 3 );
+		}
+		
+		if ( $slug )
+			$bp->current_action = $slug;
+	}
+}
+

@@ -140,7 +140,10 @@ function xprofile_setup_globals() {
 
 	$bp->profile->format_notification_function = 'xprofile_format_notifications';
 	$bp->profile->slug = BP_XPROFILE_SLUG;
-	
+
+	/* Register this in the active components array */
+	$bp->active_components[$bp->profile->slug] = $bp->profile->id;
+		
 	$bp->profile->field_types = apply_filters( 'xprofile_field_types', array( 'textbox', 'textarea', 'radio', 'checkbox', 'selectbox', 'multiselectbox', 'datebox' ) );
 
 	if ( function_exists('bp_wire_install') )
@@ -199,7 +202,7 @@ function xprofile_setup_nav() {
 	global $bp;
 	
 	/* Add 'Profile' to the main navigation */
-	bp_core_new_nav_item( array( 'name' => __('Profile', 'buddypress'), 'slug' => $bp->profile->slug, 'position' => 20, 'screen_function' => 'xprofile_screen_display_profile', 'default_subnav_slug' => 'public' ) );
+	bp_core_new_nav_item( array( 'name' => __('Profile', 'buddypress'), 'slug' => $bp->profile->slug, 'position' => 20, 'screen_function' => 'xprofile_screen_display_profile', 'default_subnav_slug' => 'public', 'item_css_id' => $bp->profile->id ) );
 
 	$profile_link = $bp->loggedin_user->domain . $bp->profile->slug . '/';
 	

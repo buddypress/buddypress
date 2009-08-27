@@ -47,6 +47,8 @@ function friends_setup_globals() {
 	$bp->friends->format_notification_function = 'friends_format_notifications';
 	$bp->friends->slug = BP_FRIENDS_SLUG;
 
+	/* Register this in the active components array */
+	$bp->active_components[$bp->friends->slug] = $bp->friends->id;
 }
 add_action( 'plugins_loaded', 'friends_setup_globals', 5 );	
 add_action( 'admin_menu', 'friends_setup_globals', 1 );
@@ -67,7 +69,7 @@ function friends_setup_nav() {
 	global $bp;
 	
 	/* Add 'Friends' to the main navigation */
-	bp_core_new_nav_item( array( 'name' => __('Friends', 'buddypress'), 'slug' => $bp->friends->slug, 'position' => 60, 'screen_function' => 'friends_screen_my_friends', 'default_subnav_slug' => 'my-friends' ) );
+	bp_core_new_nav_item( array( 'name' => __('Friends', 'buddypress'), 'slug' => $bp->friends->slug, 'position' => 60, 'screen_function' => 'friends_screen_my_friends', 'default_subnav_slug' => 'my-friends', 'item_css_id' => $bp->friends->id ) );
 	
 	$friends_link = $bp->loggedin_user->domain . $bp->friends->slug . '/';
 	

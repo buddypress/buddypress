@@ -116,6 +116,9 @@ function bp_blogs_setup_globals() {
 	$bp->blogs->table_name_blogmeta = $wpdb->base_prefix . 'bp_user_blogs_blogmeta';
 	$bp->blogs->format_notification_function = 'bp_blogs_format_notifications';
 	$bp->blogs->slug = BP_BLOGS_SLUG;
+
+	/* Register this in the active components array */
+	$bp->active_components[$bp->blogs->slug] = $bp->blogs->id;
 }
 add_action( 'plugins_loaded', 'bp_blogs_setup_globals', 5 );	
 add_action( 'admin_menu', 'bp_blogs_setup_globals', 1 );
@@ -139,7 +142,7 @@ function bp_blogs_setup_nav() {
 	global $bp;
 	
 	/* Add 'Blogs' to the main navigation */
-	bp_core_new_nav_item( array( 'name' => __( 'Blogs', 'buddypress' ), 'slug' => $bp->blogs->slug, 'position' => 30, 'screen_function' => 'bp_blogs_screen_my_blogs', 'default_subnav_slug' => 'my-blogs' ) );
+	bp_core_new_nav_item( array( 'name' => __( 'Blogs', 'buddypress' ), 'slug' => $bp->blogs->slug, 'position' => 30, 'screen_function' => 'bp_blogs_screen_my_blogs', 'default_subnav_slug' => 'my-blogs', 'item_css_id' => $bp->blogs->id ) );
 	
 	$blogs_link = $bp->loggedin_user->domain . $bp->blogs->slug . '/';
 	

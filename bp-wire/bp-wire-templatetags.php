@@ -28,7 +28,7 @@ class BP_Wire_Posts_Template {
 				bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, 'xprofile', 'new_wire_post' );
 			
 		} else {
-			$this->table_name = $bp->{$component_slug}->table_name_wire;
+			$this->table_name = $bp->{$bp->active_components[$component_slug]}->table_name_wire;
 		}
 		
 		$this->pag_page = isset( $_REQUEST['wpage'] ) ? intval( $_REQUEST['wpage'] ) : 1;
@@ -82,7 +82,7 @@ class BP_Wire_Posts_Template {
 		if ( $this->current_wire_post + 1 < $this->wire_post_count ) {
 			return true;
 		} elseif ( $this->current_wire_post + 1 == $this->wire_post_count ) {
-			do_action('loop_end');
+			do_action('bp_wire_loop_end');
 			// Do some cleaning up after the loop
 			$this->rewind_wire_posts();
 		}
@@ -98,7 +98,7 @@ class BP_Wire_Posts_Template {
 		$this->wire_post = $this->next_wire_post();
 
 		if ( 0 == $this->current_wire_post ) // loop has just started
-			do_action('loop_start');
+			do_action('bp_wire_loop_start');
 	}
 }
 
@@ -315,7 +315,7 @@ function bp_wire_get_action() {
 		if ( $bp->current_component == $bp->wire->slug || $bp->current_component == $bp->profile->slug ) {
 			return apply_filters( 'bp_get_wire_get_action', $bp->displayed_user->domain . $bp->wire->slug . '/post/' );
 		} else {
-			return apply_filters( 'bp_get_wire_get_action', site_url() . '/' . $bp->{$bp->current_component}->slug . '/' . $uri . '/' . $bp->wire->slug . '/post/' );
+			return apply_filters( 'bp_get_wire_get_action', site_url() . '/' . $bp->{$bp->active_components[$bp->current_component]}->slug . '/' . $uri . '/' . $bp->wire->slug . '/post/' );
 		}
 	}
 

@@ -2,7 +2,10 @@
 
 /* Define the parent forum ID */
 if ( !defined( 'BP_FORUMS_PARENT_FORUM_ID' ) )
-	define ( 'BP_FORUMS_PARENT_FORUM_ID', 1 );
+	define( 'BP_FORUMS_PARENT_FORUM_ID', 1 );
+	
+if ( !defined( 'BP_FORUMS_SLUG' ) )
+	define( 'BP_FORUMS_SLUG', 'forums' );
 
 require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-bbpress.php' );
 require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-classes.php' );
@@ -17,6 +20,10 @@ function bp_forums_setup() {
 		
 	$bp->forums->image_base = BP_PLUGIN_URL . '/bp-forums/images';
 	$bp->forums->bbconfig = get_site_option( 'bb-config-location' );
+	$bp->forums->slug = BP_FORUMS_SLUG;
+
+	/* Register this in the active components array */
+	$bp->active_components[$bp->forums->slug] = $bp->forums->id;
 }
 add_action( 'plugins_loaded', 'bp_forums_setup', 5 );
 add_action( 'admin_head', 'bp_forums_setup', 3 );

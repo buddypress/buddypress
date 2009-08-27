@@ -130,7 +130,10 @@ function groups_setup_globals() {
 	$bp->groups->table_name_groupmeta = $wpdb->base_prefix . 'bp_groups_groupmeta';
 	$bp->groups->format_notification_function = 'groups_format_notifications';
 	$bp->groups->slug = BP_GROUPS_SLUG;
-	
+
+	/* Register this in the active components array */
+	$bp->active_components[$bp->groups->slug] = $bp->groups->id;
+		
 	if ( function_exists('bp_wire_install') )
 		$bp->groups->table_name_wire = $wpdb->base_prefix . 'bp_groups_wire';
 	
@@ -208,7 +211,7 @@ function groups_setup_nav() {
 	}
 
 	/* Add 'Groups' to the main navigation */
-	bp_core_new_nav_item( array( 'name' => __('Groups', 'buddypress'), 'slug' => $bp->groups->slug, 'position' => 70, 'screen_function' => 'groups_screen_my_groups', 'default_subnav_slug' => 'my-groups' ) );
+	bp_core_new_nav_item( array( 'name' => __('Groups', 'buddypress'), 'slug' => $bp->groups->slug, 'position' => 70, 'screen_function' => 'groups_screen_my_groups', 'default_subnav_slug' => 'my-groups', 'item_css_id' => $bp->groups->id ) );
 	
 	$groups_link = $bp->loggedin_user->domain . $bp->groups->slug . '/';
 	
@@ -276,7 +279,7 @@ function groups_setup_nav() {
 				bp_core_new_subnav_item( array( 'name' => __( 'Forum', 'buddypress' ), 'slug' => 'forum', 'parent_url' => $group_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_forum', 'position' => 40, 'user_has_access' => $bp->groups->current_group->user_has_access, 'item_css_id' => 'group-forum' ) );
 
 			if ( $bp->groups->current_group->enable_wire && function_exists('bp_wire_install') )
-				bp_core_new_subnav_item( array( 'name' => __( 'Wire', 'buddypress' ), 'slug' => 'wire', 'parent_url' => $group_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_wire', 'position' => 50, 'user_has_access' => $bp->groups->current_group->user_has_access, 'item_css_id' => 'group-wire'  ) );
+				bp_core_new_subnav_item( array( 'name' => __( 'Wire', 'buddypress' ), 'slug' => BP_WIRE_SLUG, 'parent_url' => $group_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_wire', 'position' => 50, 'user_has_access' => $bp->groups->current_group->user_has_access, 'item_css_id' => 'group-wire'  ) );
 
 			bp_core_new_subnav_item( array( 'name' => __( 'Members', 'buddypress' ), 'slug' => 'members', 'parent_url' => $group_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_members', 'position' => 60, 'user_has_access' => $bp->groups->current_group->user_has_access, 'item_css_id' => 'group-members'  ) );
 			

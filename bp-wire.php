@@ -23,6 +23,9 @@ function bp_wire_setup_globals() {
 	$bp->wire->id = 'wire';
 	
 	$bp->wire->slug = BP_WIRE_SLUG;
+	
+	/* Register this in the active components array */
+	$bp->active_components[$bp->wire->slug] = $bp->wire->id;
 }
 add_action( 'plugins_loaded', 'bp_wire_setup_globals', 5 );	
 add_action( 'admin_menu', 'bp_wire_setup_globals', 1 );
@@ -31,7 +34,7 @@ function bp_wire_setup_nav() {
 	global $bp;
 
 	/* Add 'Wire' to the main navigation */
-	bp_core_new_nav_item( array( 'name' => __('Wire', 'buddypress'), 'slug' => $bp->wire->slug, 'position' => 40, 'screen_function' => 'bp_wire_screen_latest', 'default_subnav_slug' => 'all-posts', '' ) );
+	bp_core_new_nav_item( array( 'name' => __('Wire', 'buddypress'), 'slug' => $bp->wire->slug, 'position' => 40, 'screen_function' => 'bp_wire_screen_latest', 'default_subnav_slug' => 'all-posts', 'item_css_id' => $bp->wire->id ) );
 
 	$wire_link = $bp->loggedin_user->domain . $bp->wire->slug . '/';
 	
