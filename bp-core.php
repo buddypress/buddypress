@@ -13,7 +13,7 @@ if ( file_exists( WP_PLUGIN_DIR . '/bp-custom.php' ) )
 
 /* Define on which blog ID BuddyPress should run */
 if ( !defined( 'BP_ROOT_BLOG' ) )
-	define( 'BP_ROOT_BLOG', 1 );
+	define( 'BP_ROOT_BLOG', 2 );
 
 /* Define the user and usermeta table names, useful if you are using custom or shared tables */
 if ( !defined( 'CUSTOM_USER_TABLE' ) )
@@ -386,7 +386,14 @@ function bp_core_get_user_domain( $user_id ) {
  * @return $domain The domain URL for the blog.
  */
 function bp_core_get_root_domain() {
-	return apply_filters( 'bp_core_get_root_domain', get_blog_option( BP_ROOT_BLOG, 'siteurl' ) );
+	global $current_blog;
+	
+	if ( defined( 'BP_ENABLE_MULTIBLOG' ) )
+		$domain = get_blog_option( $current_blog->blog_id, 'siteurl' );
+	else
+		$domain = get_blog_option( BP_ROOT_BLOG, 'siteurl' );
+
+	return apply_filters( 'bp_core_get_root_domain', $domain );
 }
 
 /**
@@ -1296,7 +1303,7 @@ function bp_core_add_illegal_names() {
  * @return The blog name for the root blog
  */
 function bp_core_email_from_name_filter() {
-	return get_blog_option( 1, 'blogname' );
+	return get_blog_option( BP_ROOT_BLOG, 'blogname' );
 }
 add_filter( 'wp_mail_from_name', 'bp_core_email_from_name_filter' );
 

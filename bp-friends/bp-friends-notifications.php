@@ -18,7 +18,7 @@ function friends_notification_new_request( $friendship_id, $initiator_id, $frien
 
 	// Set up and send the message
 	$to = $ud->user_email;
-	$subject = '[' . get_blog_option( 1, 'blogname' ) . '] ' . sprintf( __( 'New friendship request from %s', 'buddypress' ), $initiator_name );
+	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'New friendship request from %s', 'buddypress' ), $initiator_name );
 
 	$message = sprintf( __( 
 "%s wants to add you as a friend.
@@ -55,7 +55,7 @@ function friends_notification_accepted_request( $friendship_id, $initiator_id, $
 		
 	// Set up and send the message
 	$to = $ud->user_email;
-	$subject = '[' . get_blog_option( 1, 'blogname' ) . '] ' . sprintf( __( '%s accepted your friendship request', 'buddypress' ), $friend_name );
+	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s accepted your friendship request', 'buddypress' ), $friend_name );
 
 	$message = sprintf( __( 
 '%s accepted your friend request.

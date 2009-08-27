@@ -17,7 +17,7 @@ function messages_notification_new_message( $args ) {
 		
 		// Set up and send the message
 		$to = $ud->user_email;
-		$subject = '[' . get_blog_option( 1, 'blogname' ) . '] ' . sprintf( __( 'New message from %s', 'buddypress' ), stripslashes($sender_name) );
+		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'New message from %s', 'buddypress' ), stripslashes($sender_name) );
 
 		$content = sprintf( __( 
 '%s sent you a new message:
@@ -64,7 +64,7 @@ To view the message: %s
 // To view the notice: %s
 // 
 // ---------------------
-// ', 'buddypress' ), get_blog_option( 1, 'blogname' ), stripslashes( strip_tags( $message_subject ) ), stripslashes( strip_tags( $message ) ), $message_link );
+// ', 'buddypress' ), get_blog_option( BP_ROOT_BLOG, 'blogname' ), stripslashes( strip_tags( $message_subject ) ), stripslashes( strip_tags( $message ) ), $message_link );
 // 
 // 		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 // 

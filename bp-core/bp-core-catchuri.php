@@ -37,7 +37,7 @@ function bp_core_set_uri_globals() {
 		if ( BP_ROOT_BLOG != (int) $current_blog->blog_id )
 			return false;
 	}
-	
+
 	if ( strpos( $_SERVER['REQUEST_URI'], 'wp-load.php' ) )
 		$path = bp_core_referrer();
 	else
@@ -49,25 +49,21 @@ function bp_core_set_uri_globals() {
 	// they are still registered in the global $_GET variable */
 	$noget = substr( $path, 0, strpos( $path, '?' ) );
 	if ( $noget != '' ) $path = $noget;
-	
+
 	/* Fetch the current URI and explode each part seperated by '/' into an array */
 	$bp_uri = explode( "/", $path );
-	
-	if ( defined( 'BP_ENABLE_MULTIBLOG' ) ) {
+
+	/* Loop and remove empties */
+	for ( $i = 0; $i <= count( $bp_uri ); $i++ )
+		if ( empty( $bp_uri[$i] ) ) unset( $bp_uri[$i] );
+
+	if ( defined( 'BP_ENABLE_MULTIBLOG' ) || 1 != BP_ROOT_BLOG ) {
 		/* If we are running BuddyPress on any blog, not just a root blog, we need to first
 		   shift off the blog name if we are running a subdirectory install of WPMU. */
 		if ( $current_blog->path != '/' )
 			array_shift( $bp_uri );
 	}
-	
-	/* Take empties off the end of complete URI */
-	if ( empty( $bp_uri[count($bp_uri) - 1] ) )
-		array_pop( $bp_uri );
 
-	/* Take empties off the start of complete URI */
-	if ( empty( $bp_uri[0] ) )
-		array_shift( $bp_uri );
-		
 	/* Get total URI segment count */
 	$bp_uri_count = count( $bp_uri ) - 1;
 	$is_member_page = false;
@@ -151,7 +147,7 @@ function bp_core_set_uri_globals() {
 	/* Reset the keys by merging with an empty array */
 	$action_variables = array_merge( array(), $action_variables );
 
-	//var_dump($current_component, $current_action, $action_variables);
+	//var_dump($current_component, $current_action, $action_variables); die;
 }
 add_action( 'plugins_loaded', 'bp_core_set_uri_globals', 3 );
 
@@ -174,7 +170,7 @@ function bp_catch_uri( $pages, $skip_blog_check = false ) {
 	$bp_skip_blog_check = $skip_blog_check;
 
 	$bp_path = $pages;
-	
+
 	if ( !bp_is_blog_page() ) {
 		remove_action( 'template_redirect', 'redirect_canonical' );
 	}

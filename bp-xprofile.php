@@ -241,7 +241,7 @@ add_action( 'admin_menu', 'xprofile_setup_nav', 2 );
  */
 function xprofile_screen_display_profile() {
 	global $bp, $is_new_friend;
-	
+
 	// If this is a first visit to a new friends profile, delete the friend accepted notifications for the
 	// logged in user. $is_new_friend is set in bp-core/bp-core-catchuri.php in bp_core_set_uri_globals()
 	if ( $is_new_friend )

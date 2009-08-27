@@ -13,7 +13,7 @@ function groups_notification_new_wire_post( $group_id, $wire_post_id ) {
 	$poster_ud = get_userdata( $wire_post->user_id );
 	$poster_profile_link = site_url() . '/' . BP_MEMBERS_SLUG . '/' . $poster_ud->user_login;
 
-	$subject = '[' . get_blog_option( 1, 'blogname' ) . '] ' . sprintf( __( 'New wire post on group: %s', 'buddypress' ), stripslashes($group->name) );
+	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'New wire post on group: %s', 'buddypress' ), stripslashes($group->name) );
 
 	foreach ( $group->user_dataset as $user ) {
 		if ( 'no' == get_usermeta( $user->user_id, 'notification_groups_wire_post' ) ) continue;
@@ -54,7 +54,7 @@ function groups_notification_group_updated( $group_id ) {
 	global $bp;
 	
 	$group = new BP_Groups_Group( $group_id, false, true );
-	$subject = '[' . get_blog_option( 1, 'blogname' ) . '] ' . __( 'Group Details Updated', 'buddypress' );
+	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . __( 'Group Details Updated', 'buddypress' );
 
 	foreach ( $group->user_dataset as $user ) {
 		if ( 'no' == get_usermeta( $user->user_id, 'notification_groups_group_updated' ) ) continue;
@@ -104,7 +104,7 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 
 	// Set up and send the message
 	$to = $ud->user_email;
-	$subject = '[' . get_blog_option( 1, 'blogname' ) . '] ' . sprintf( __( 'Membership request for group: %s', 'buddypress' ), stripslashes($group->name) );
+	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'Membership request for group: %s', 'buddypress' ), stripslashes($group->name) );
 
 $message = sprintf( __( 
 '%s wants to join the group "%s".
@@ -148,7 +148,7 @@ function groups_notification_membership_request_completed( $requesting_user_id, 
 	$to = $ud->user_email;
 	
 	if ( $accepted ) {
-		$subject = '[' . get_blog_option( 1, 'blogname' ) . '] ' . sprintf( __( 'Membership request for group "%s" accepted', 'buddypress' ), stripslashes($group->name) );
+		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'Membership request for group "%s" accepted', 'buddypress' ), stripslashes($group->name) );
 		$message = sprintf( __( 
 'Your membership request for the group "%s" has been accepted.
 
@@ -158,7 +158,7 @@ To view the group please login and visit: %s
 ', 'buddypress' ), stripslashes($group->name), $group_link );
 		
 	} else {
-		$subject = '[' . get_blog_option( 1, 'blogname' ) . '] ' . sprintf( __( 'Membership request for group "%s" rejected', 'buddypress' ), stripslashes($group->name) );
+		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'Membership request for group "%s" rejected', 'buddypress' ), stripslashes($group->name) );
 		$message = sprintf( __( 
 'Your membership request for the group "%s" has been rejected.
 
@@ -200,7 +200,7 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 	// Set up and send the message
 	$to = $ud->user_email;
 
-	$subject = '[' . get_blog_option( 1, 'blogname' ) . '] ' . sprintf( __( 'You have been promoted in the group: "%s"', 'buddypress' ), stripslashes($group->name) );
+	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'You have been promoted in the group: "%s"', 'buddypress' ), stripslashes($group->name) );
 
 	$message = sprintf( __( 
 'You have been promoted to %s for the group: "%s".
@@ -243,7 +243,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 		// Set up and send the message
 		$to = $invited_ud->user_email;
 
-		$subject = '[' . get_blog_option( 1, 'blogname' ) . '] ' . sprintf( __( 'You have an invitation to the group: "%s"', 'buddypress' ), stripslashes($group->name) );
+		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'You have an invitation to the group: "%s"', 'buddypress' ), stripslashes($group->name) );
 
 		$message = sprintf( __( 
 'One of your friends %s has invited you to the group: "%s".
