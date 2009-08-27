@@ -211,8 +211,7 @@
 				<?php wp_nonce_field( 'bp_new_signup' ) ?>
 
 			<?php endif; // request-details signup step ?>
-	
-	
+			
 			<?php if ( 'completed-confirmation' == bp_get_current_signup_step() ) : ?>
 		
 				<h2 class="pagetitle"><?php _e( 'Sign Up Complete!', 'buddypress' ) ?></h2>
