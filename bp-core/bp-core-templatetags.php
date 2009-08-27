@@ -1160,8 +1160,8 @@ function bp_the_site_member_hidden_fields() {
 
 function bp_directory_members_search_form() {
 	global $bp; ?>
-	<form action="<?php echo $bp->root_domain . '/' . BP_MEMBERS_SLUG  . '/search/' ?>" method="post" id="search-members-form">
-		<label><input type="text" name="members_search" id="members_search" value="<?php if ( isset( $_GET['s'] ) ) { echo attribute_escape( $_GET['s'] ); } else { _e( 'Search anything...', 'buddypress' ); } ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
+	<form action="" method="get" id="search-members-form">
+		<label><input type="text" name="s" id="members_search" value="<?php if ( isset( $_GET['s'] ) ) { echo attribute_escape( $_GET['s'] ); } else { _e( 'Search anything...', 'buddypress' ); } ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
 		<input type="submit" id="members_search_submit" name="members_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
 		<?php wp_nonce_field( 'directory_members', '_wpnonce-member-filter' ) ?>
 	</form>
