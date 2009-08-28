@@ -1087,6 +1087,7 @@ function bp_the_site_member_name() {
 		return apply_filters( 'bp_get_the_site_member_name', $site_members_template->member->fullname );
 	}
 	add_filter( 'bp_get_the_site_member_name', 'wp_filter_kses' );
+	add_filter( 'bp_get_the_site_member_name', 'stripslashes' );
 
 function bp_the_site_member_last_active() {
 	echo bp_get_the_site_member_last_active();
