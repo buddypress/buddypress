@@ -837,7 +837,7 @@ function groups_screen_group_invite() {
 				return false;
 		
 			// Send the invites.
-			groups_send_invites($bp->groups->current_group);
+			groups_send_invites( $bp->loggedin_user->id, $bp->groups->current_group->id );
 			
 			bp_core_add_message( __('Group invites sent.', 'buddypress') );
 

@@ -79,7 +79,8 @@
 					<div class="clear"></div>
 
 					<p class="clear"><input type="submit" name="submit" id="submit" value="<?php _e( 'Send Invites', 'buddypress' ) ?>" /></p>
-			
+					<?php wp_nonce_field( 'groups_send_invites', '_wpnonce_send_invites') ?>
+					
 					<!-- Don't leave out this hidden field -->
 					<input type="hidden" name="group_id" id="group_id" value="<?php bp_group_id() ?>" />
 				</form>
