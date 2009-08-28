@@ -346,7 +346,7 @@ function bp_wire_poster_date( $deprecated = null, $deprecated2 = true ) {
 		echo bp_get_wire_poster_date();	
 }
 	function bp_get_wire_poster_date() {
-		return apply_filters( 'bp_get_wire_poster_date', mysql2date( get_blog_option( BP_ROOT_BLOG, 'date_format' ), date("Y-m-d H:i:s") ) );	
+		return apply_filters( 'bp_get_wire_poster_date', mysql2date( get_blog_option( BP_ROOT_BLOG, 'date_format' ), date_i18n("Y-m-d H:i:s") ) );	
 	}
 
 function bp_wire_delete_link() {

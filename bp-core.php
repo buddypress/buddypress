@@ -951,10 +951,10 @@ function bp_core_get_userlink_by_username( $username ) {
  * @return str The email for the matched user.
  */
 function bp_core_format_time( $time, $just_date = false ) {
-	$date = date( "F j, Y ", $time );
+	$date = date_i18n( "F j, Y ", $time );
 	
 	if ( !$just_date ) {
-		$date .= __('at', 'buddypress') . date( ' g:iA', $time );
+		$date .= __('at', 'buddypress') . date_i18n( ' g:iA', $time );
 	}
 	
 	return $date;

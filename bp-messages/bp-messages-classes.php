@@ -510,7 +510,7 @@ Class BP_Messages_Notice {
 		// Now deactivate all notices apart from the new one.
 		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_notices} SET is_active = 0 WHERE id != %d", $id ) );
 		
-		update_usermeta( $bp->loggedin_user->id, 'last_activity', date( 'Y-m-d H:i:s' ) ); 
+		update_usermeta( $bp->loggedin_user->id, 'last_activity', date_i18n( 'Y-m-d H:i:s' ) ); 
 
 		do_action( 'messages_notice_after_save', $this );
 				
