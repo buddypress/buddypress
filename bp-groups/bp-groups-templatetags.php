@@ -743,7 +743,7 @@ function bp_group_active_forum_topics( $total_topics = 3, $group = false ) {
 function bp_group_search_form() {
 	global $groups_template, $bp;
 
-	$action = $bp->loggedin_user->domain . $bp->groups->slug . '/my-groups/search/';
+	$action = $bp->displayed_user->domain . $bp->groups->slug . '/my-groups/search/';
 	$label = __('Filter Groups', 'buddypress');
 	$name = 'group-filter-box';
 ?>
