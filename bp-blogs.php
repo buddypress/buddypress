@@ -121,13 +121,13 @@ function bp_blogs_setup_globals() {
 	$bp->active_components[$bp->blogs->slug] = $bp->blogs->id;
 }
 add_action( 'plugins_loaded', 'bp_blogs_setup_globals', 5 );	
-add_action( 'admin_menu', 'bp_blogs_setup_globals', 1 );
+add_action( 'admin_menu', 'bp_blogs_setup_globals', 2 );
 
 function bp_blogs_setup_root_component() {
 	/* Register 'groups' as a root component */
 	bp_core_add_root_component( BP_BLOGS_SLUG );
 }
-add_action( 'plugins_loaded', 'bp_blogs_setup_root_component', 1 );
+add_action( 'plugins_loaded', 'bp_blogs_setup_root_component', 2 );
 
 /**
  * bp_blogs_setup_nav()
@@ -172,7 +172,7 @@ add_action( 'admin_menu', 'bp_blogs_setup_nav', 2 );
 
 function bp_blogs_directory_blogs_setup() {
 	global $bp;
-	
+
 	if ( $bp->current_component == $bp->blogs->slug && empty( $bp->current_action ) ) {
 		$bp->is_directory = true;
 		

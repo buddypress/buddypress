@@ -114,10 +114,9 @@ function bp_core_set_uri_globals() {
 			$is_new_friend = 1;
 			unset($bp_uri[2]);
 		}
-
+		
 		/* Reset the keys by merging with an empty array */
 		$bp_uri = array_merge( array(), $bp_uri );
-
 	}
 
 	if ( !isset($is_root_component) )

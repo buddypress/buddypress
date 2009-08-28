@@ -157,7 +157,7 @@ function groups_setup_root_component() {
 	/* Register 'groups' as a root component */
 	bp_core_add_root_component( BP_GROUPS_SLUG );
 }
-add_action( 'plugins_loaded', 'groups_setup_root_component', 1 );
+add_action( 'plugins_loaded', 'groups_setup_root_component', 2 );
 
 function groups_check_installed() {	
 	global $wpdb, $bp;

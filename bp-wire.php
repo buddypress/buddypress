@@ -28,7 +28,7 @@ function bp_wire_setup_globals() {
 	$bp->active_components[$bp->wire->slug] = $bp->wire->id;
 }
 add_action( 'plugins_loaded', 'bp_wire_setup_globals', 5 );	
-add_action( 'admin_menu', 'bp_wire_setup_globals', 1 );
+add_action( 'admin_menu', 'bp_wire_setup_globals', 2 );
 
 function bp_wire_setup_nav() {
 	global $bp;

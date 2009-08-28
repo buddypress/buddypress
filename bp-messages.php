@@ -89,7 +89,7 @@ function messages_setup_globals() {
 	$bp->active_components[$bp->messages->slug] = $bp->messages->id;
 }
 add_action( 'plugins_loaded', 'messages_setup_globals', 5 );	
-add_action( 'admin_menu', 'messages_setup_globals', 1 );
+add_action( 'admin_menu', 'messages_setup_globals', 2 );
 
 function messages_check_installed() {	
 	global $wpdb, $bp;
@@ -101,7 +101,7 @@ function messages_check_installed() {
 	if ( get_site_option('bp-messages-db-version') < BP_MESSAGES_DB_VERSION )
 		messages_install();
 }
-add_action( 'admin_menu', 'messages_check_installed', 1 );
+add_action( 'admin_menu', 'messages_check_installed', 2 );
 
 function messages_setup_nav() {
 	global $bp;

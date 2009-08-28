@@ -19,7 +19,7 @@ class BP_Wire_Posts_Template {
 	
 	function bp_wire_posts_template( $item_id, $component_slug, $can_post, $per_page, $max ) {
 		global $bp;
-		
+
 		if ( $bp->current_component == $bp->wire->slug ) {
 			$this->table_name = $bp->profile->table_name_wire;
 			
@@ -27,9 +27,8 @@ class BP_Wire_Posts_Template {
 			if ( 'all-posts' == $bp->current_action && bp_is_home() )
 				bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, 'xprofile', 'new_wire_post' );
 			
-		} else {
+		} else
 			$this->table_name = $bp->{$bp->active_components[$component_slug]}->table_name_wire;
-		}
 		
 		$this->pag_page = isset( $_REQUEST['wpage'] ) ? intval( $_REQUEST['wpage'] ) : 1;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;

@@ -143,14 +143,14 @@ function xprofile_setup_globals() {
 
 	/* Register this in the active components array */
 	$bp->active_components[$bp->profile->slug] = $bp->profile->id;
-		
+
 	$bp->profile->field_types = apply_filters( 'xprofile_field_types', array( 'textbox', 'textarea', 'radio', 'checkbox', 'selectbox', 'multiselectbox', 'datebox' ) );
 
 	if ( function_exists('bp_wire_install') )
 		$bp->profile->table_name_wire = $wpdb->base_prefix . 'bp_xprofile_wire';
 }
-add_action( 'plugins_loaded', 'xprofile_setup_globals', 5 );	
-add_action( 'admin_menu', 'xprofile_setup_globals', 1 );
+add_action( 'plugins_loaded', 'xprofile_setup_globals', 5 );
+add_action( 'admin_menu', 'xprofile_setup_globals', 2 );
 
 /**
  * xprofile_add_admin_menu()
@@ -811,7 +811,7 @@ function xprofile_get_field_data( $field, $user_id = null ) {
 		$field_id = $field;
 	else
 		$field_id = xprofile_get_field_id_from_name( $field );
-	
+
 	if ( !$field_id )
 		return false;
 		

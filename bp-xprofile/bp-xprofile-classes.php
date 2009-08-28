@@ -696,6 +696,9 @@ Class BP_XProfile_ProfileData {
 
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
+			
+		if ( !$bp->profile )
+			xprofile_setup_globals();
 
 		$sql = $wpdb->prepare("SELECT * FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_id );
 

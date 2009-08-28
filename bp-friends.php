@@ -51,7 +51,7 @@ function friends_setup_globals() {
 	$bp->active_components[$bp->friends->slug] = $bp->friends->id;
 }
 add_action( 'plugins_loaded', 'friends_setup_globals', 5 );	
-add_action( 'admin_menu', 'friends_setup_globals', 1 );
+add_action( 'admin_menu', 'friends_setup_globals', 2 );
 
 function friends_check_installed() {	
 	global $wpdb, $bp;

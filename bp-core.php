@@ -162,8 +162,8 @@ function bp_core_setup_globals() {
 	if ( !$bp->current_component )
 		$bp->current_component = $bp->default_component;
 }
-add_action( 'plugins_loaded', 'bp_core_setup_globals', 3 );
-add_action( '_admin_menu', 'bp_core_setup_globals', 3 ); // must be _admin_menu hook.
+add_action( 'plugins_loaded', 'bp_core_setup_globals', 5 );
+add_action( '_admin_menu', 'bp_core_setup_globals', 2 ); // must be _admin_menu hook.
 
 
 /**
@@ -878,23 +878,27 @@ function bp_core_get_user_displayname( $user_id ) {
 		
 	if ( !$fullname = wp_cache_get( 'bp_user_fullname_' . $user_id, 'bp' ) ) {
 		if ( function_exists('xprofile_install') ) {
-			$fullname = xprofile_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id );
+			$fullname = xprofile_get_field_data( 1, $user_id );
 
 			if ( empty($fullname) || !$fullname ) {
 				$ud = get_userdata($user_id);
 
-				if ( empty( $ud->display_name ) )
-					$fullname = $ud->user_nicename;
-				else
+				if ( !empty( $ud->display_name ) )
 					$fullname = $ud->display_name;
+				else
+					$fullname = $ud->user_nicename;
 
-				xprofile_set_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id, $fullname );
+				xprofile_set_field_data( 1, $user_id, $fullname );
 			}
 		} else {
 			$ud = get_userdata($user_id);
-			$fullname = $ud->display_name;
+			
+			if ( !empty( $ud->display_name ) )
+				$fullname = $ud->display_name;
+			else
+				$fullname = $ud->user_nicename;
 		}
-
+		
 		wp_cache_set( 'bp_user_fullname_' . $user_id, $fullname, 'bp' );
 	}
 	

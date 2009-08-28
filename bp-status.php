@@ -16,7 +16,7 @@ function bp_status_setup_globals() {
 	$bp->active_components[$bp->status->slug] = $bp->status->id;
 }
 add_action( 'plugins_loaded', 'bp_status_setup_globals', 5 );	
-add_action( 'admin_menu', 'bp_status_setup_globals', 1 );
+add_action( 'admin_menu', 'bp_status_setup_globals', 2 );
 
 function bp_status_record_activity( $user_id, $content, $primary_link ) {
 	if ( !function_exists( 'bp_activity_add' ) )
