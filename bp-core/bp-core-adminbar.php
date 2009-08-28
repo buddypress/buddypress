@@ -3,6 +3,9 @@
 function bp_core_admin_bar() {
 	global $bp, $wpdb, $current_blog, $doing_admin_bar;
 	
+	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) )
+		return false;
+	
 	$doing_admin_bar = true;
 	
 	if ( (int)get_site_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() )
