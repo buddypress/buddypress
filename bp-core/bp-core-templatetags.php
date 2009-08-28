@@ -145,7 +145,7 @@ function bp_get_options_title() {
 	if ( empty( $bp->bp_options_title ) )
 		$bp->bp_options_title = __( 'Options', 'buddypress' );
 	
-	echo apply_filters( 'bp_get_options_avatar', attribute_escape( $bp->bp_options_title ) );
+	echo apply_filters( 'bp_get_options_title', attribute_escape( $bp->bp_options_title ) );
 }
 	
 
