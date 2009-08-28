@@ -239,17 +239,21 @@ function bp_activity_add( $args = '' ) {
 	
 	/* Insert the "time-since" placeholder */
 	if ( $content ) {
-		if ( !$pos = strpos( $content, '<blockquote' ) ) {
-			if ( !$pos = strpos( $content, '<div' ) ) {
-				if ( !$pos = strpos( $content, '<ul' ) ) {
-					$content .= ' <span class="time-since">%s</span>';
+		
+		/* Check a time-since span doesn't already exist */
+		if ( false === strpos( $content, '<span class="time-since">' ) ) {		
+			if ( !$pos = strpos( $content, '<blockquote' ) ) {
+				if ( !$pos = strpos( $content, '<div' ) ) {
+					if ( !$pos = strpos( $content, '<ul' ) ) {
+						$content .= ' <span class="time-since">%s</span>';
+					}
 				}
 			}
 		}
 		
-		if ( $pos ) {
-			$before = substr( $content, 0, $pos );
-			$after = substr( $content, $pos, strlen( $content ) );
+		if ( (int) $pos ) {
+			$before = substr( $content, 0, (int) $pos );
+			$after = substr( $content, (int) $pos, strlen( $content ) );
 			
 			$content = $before . ' <span class="time-since">%s</span>' . $after;
 		}
