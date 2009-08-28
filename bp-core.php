@@ -575,7 +575,7 @@ function bp_core_new_subnav_item( $args = '' ) {
 	if ( empty( $item_css_id ) )
 		$item_css_id = $slug;
 	
-	$bp->bp_options_nav[$parent_slug][] = array(
+	$bp->bp_options_nav[$parent_slug][$slug] = array(
 		'name' => $name,
 		'link' => $parent_url . $slug . '/',
 		'slug' => $slug,

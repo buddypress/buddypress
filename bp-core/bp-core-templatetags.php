@@ -486,9 +486,9 @@ function bp_get_page_title() {
 			$title = __( 'Blog &#8212; Categories &#8212; ' . ucwords( $wp_query->query_vars['category_name'] ), 'buddypress' );				
 		} else if ( is_tag() ) {
 			$title = __( 'Blog &#8212; Tags &#8212; ' . ucwords( $wp_query->query_vars['tag'] ), 'buddypress' );				
-		} else {
+		} else
 			$title = __( 'Blog', 'buddypress' );
-		}
+
 	} else if ( !empty( $bp->displayed_user->fullname ) ) {
 	 	$title = strip_tags( $bp->displayed_user->fullname . ' &#8212; ' . ucwords( $bp->current_component ) . ' &#8212; ' . $bp->bp_options_nav[$bp->current_component][$bp->current_action]['name'] );
 	} else if ( $bp->is_single_item ) {
