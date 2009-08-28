@@ -376,7 +376,7 @@ function bp_activity_filter_links( $args = false ) {
 			else
 				unset($selected);
 			
-			$component_links[] = $before . '<a href="' . $link . '"' . $selected . '">' . ucwords($component_name) . '</a>' . $after;
+			$component_links[] = $before . '<a href="' . $link . '"' . $selected . '">' . ucwords( __( $component_name, 'buddypress' ) ) . '</a>' . $after;
 		}
 
 		$link = remove_query_arg( array( 'afilter' ), $link );
