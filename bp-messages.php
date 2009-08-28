@@ -179,12 +179,9 @@ function messages_screen_compose() {
 				messages_send_notice( $_POST['subject'], $_POST['content'] );
 			} else {
 				/* Filter recipients into the format we need - array( 'username/userid', 'username/userid' ) */
-				if ( empty( $_POST['send_to_usernames'] ) ) {
-					if ( !empty( $_POST['send-to-input'] ) )
-						$recipients = explode( ',', $_POST['send-to-input'] );
-				} else {
-					$recipients = explode( ' ', $_POST['send_to_usernames'] );
-				}
+				$autocomplete_recipients = explode( ',', $_POST['send-to-input'] );
+				$typed_recipients = explode( ' ', $_POST['send_to_usernames'] );
+				$recipients = array_merge( (array) $autocomplete_recipients, (array) $typed_recipients );
 			
 				/* Send the message */
 				if ( $thread_id = messages_new_message( array( 'recipients' => $recipients, 'subject' => $_POST['subject'], 'content' => $_POST['content'] ) ) ) {
