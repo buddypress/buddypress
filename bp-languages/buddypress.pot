@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-08-28 14:11+0000\n"
+"POT-Creation-Date: 2009-08-29 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,7 +73,7 @@ msgstr ""
 #: bp-themes/deprecated/bpmember/messages/index.php:38
 #: bp-themes/deprecated/bpmember/messages/notices.php:33
 #: bp-themes/deprecated/bpmember/messages/sentbox.php:33
-#: bp-wire/bp-wire-templatetags.php:366 bp-wire/bp-wire-templatetags.php:368
+#: bp-wire/bp-wire-templatetags.php:365 bp-wire/bp-wire-templatetags.php:367
 #: bp-xprofile/bp-xprofile-admin.php:64 bp-xprofile/bp-xprofile-admin.php:87
 msgid "Delete"
 msgstr ""
@@ -135,7 +135,7 @@ msgstr ""
 msgid "Blogs"
 msgstr ""
 
-#: bp-blogs.php:150 bp-blogs.php:159 bp-core/bp-core-adminbar.php:137
+#: bp-blogs.php:150 bp-blogs.php:159 bp-core/bp-core-adminbar.php:140
 #: bp-themes/bp-sn-framework/blogs/my-blogs.php:11
 #: bp-themes/deprecated/bpmember/blogs/my-blogs.php:8
 msgid "My Blogs"
@@ -248,7 +248,7 @@ msgstr ""
 #: bp-blogs/bp-blogs-templatetags.php:106 bp-core/bp-core-admin.php:60
 #: bp-core/bp-core-admin.php:68 bp-core/bp-core-admin.php:75
 #: bp-core/bp-core-admin.php:83 bp-core/deprecated/bp-core-deprecated.php:119
-#: bp-friends.php:158 bp-groups.php:1257 bp-messages.php:250
+#: bp-friends.php:158 bp-groups.php:1257 bp-messages.php:247
 #: bp-themes/bp-sn-framework/groups/single/admin.php:39
 #: bp-themes/bp-sn-framework/registration/register.php:192
 #: bp-themes/deprecated/bpmember/groups/single/admin.php:35
@@ -259,7 +259,7 @@ msgstr ""
 #: bp-blogs/bp-blogs-templatetags.php:110 bp-core/bp-core-admin.php:61
 #: bp-core/bp-core-admin.php:69 bp-core/bp-core-admin.php:76
 #: bp-core/bp-core-admin.php:84 bp-core/deprecated/bp-core-deprecated.php:123
-#: bp-friends.php:159 bp-groups.php:1258 bp-messages.php:251
+#: bp-friends.php:159 bp-groups.php:1258 bp-messages.php:248
 #: bp-themes/bp-sn-framework/groups/single/admin.php:40
 #: bp-themes/bp-sn-framework/registration/register.php:193
 #: bp-themes/deprecated/bpmember/groups/single/admin.php:36
@@ -336,13 +336,13 @@ msgid "Latest Post: %s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1317
-#: bp-core/bp-core-templatetags.php:1164
+#: bp-core/bp-core-templatetags.php:1165
 #: bp-groups/bp-groups-templatetags.php:2115
 msgid "Search anything..."
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1318
-#: bp-core/bp-core-templatetags.php:617 bp-core/bp-core-templatetags.php:1165
+#: bp-core/bp-core-templatetags.php:617 bp-core/bp-core-templatetags.php:1166
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:624
 #: bp-forums/bbpress/bb-includes/class.bb-query.php:1017
 #: bp-forums/bbpress/bb-templates/kakumei/rss2.php:18
@@ -399,7 +399,7 @@ msgstr ""
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:757 bp-wire/bp-wire-templatetags.php:340
+#: bp-core.php:757 bp-wire/bp-wire-templatetags.php:339
 msgid "You"
 msgstr ""
 
@@ -408,76 +408,76 @@ msgstr ""
 msgid "%s's"
 msgstr ""
 
-#: bp-core.php:953 bp-core/bp-core-templatetags.php:403
+#: bp-core.php:957 bp-core/bp-core-templatetags.php:403
 #: bp-themes/deprecated/bphome/comments.php:42
 msgid "at"
 msgstr ""
 
-#: bp-core.php:1058
+#: bp-core.php:1062
 msgid "year"
 msgstr ""
 
-#: bp-core.php:1058
+#: bp-core.php:1062
 msgid "years"
 msgstr ""
 
-#: bp-core.php:1059
+#: bp-core.php:1063
 msgid "month"
 msgstr ""
 
-#: bp-core.php:1059
+#: bp-core.php:1063
 msgid "months"
 msgstr ""
 
-#: bp-core.php:1060
+#: bp-core.php:1064
 msgid "week"
 msgstr ""
 
-#: bp-core.php:1060
+#: bp-core.php:1064
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:1061
+#: bp-core.php:1065
 msgid "day"
 msgstr ""
 
-#: bp-core.php:1061
+#: bp-core.php:1065
 msgid "days"
 msgstr ""
 
-#: bp-core.php:1062
+#: bp-core.php:1066
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:1062 bp-forums/bbpress/bb-admin/options-general.php:116
+#: bp-core.php:1066 bp-forums/bbpress/bb-admin/options-general.php:116
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:1063
+#: bp-core.php:1067
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:1063 bp-forums/bbpress/bb-admin/options-writing.php:40
+#: bp-core.php:1067 bp-forums/bbpress/bb-admin/options-writing.php:40
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:1064
+#: bp-core.php:1068
 msgid "second"
 msgstr ""
 
-#: bp-core.php:1064 bp-core.php:1110
+#: bp-core.php:1068 bp-core.php:1114
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1075
+#: bp-core.php:1079
 msgid "[Use GMT Timezone]"
 msgstr ""
 
-#: bp-core.php:1105
+#: bp-core.php:1109
 msgid ",|Separator in time since"
 msgstr ""
 
-#: bp-core.php:1154
+#: bp-core.php:1158
 msgid "not recently active"
 msgstr ""
 
@@ -690,7 +690,7 @@ msgstr ""
 msgid "Allow users to post status updates."
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:37
+#: bp-core/bp-core-adminbar.php:40
 #: bp-core/deprecated/bp-core-deprecated.php:912
 #: bp-themes/bp-sn-framework/header.php:50
 #: bp-themes/bp-sn-framework/userbar.php:37
@@ -698,18 +698,18 @@ msgstr ""
 msgid "Log In"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:41
+#: bp-core/bp-core-adminbar.php:44
 #: bp-core/deprecated/bp-core-deprecated.php:913
 #: bp-themes/bp-sn-framework/header.php:53
 #: bp-themes/bp-sn-framework/registration/register.php:13
 msgid "Sign Up"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:57
+#: bp-core/bp-core-adminbar.php:60
 msgid "My Account"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:88 bp-core/bp-core-adminbar.php:90
+#: bp-core/bp-core-adminbar.php:91 bp-core/bp-core-adminbar.php:93
 #: bp-core/bp-core-templatetags.php:50 bp-core/bp-core-templatetags.php:52
 #: bp-core/bp-core-templatetags.php:628 bp-core/bp-core-templatetags.php:630
 #: bp-core/deprecated/bp-core-deprecated.php:928
@@ -718,21 +718,21 @@ msgstr ""
 msgid "Log Out"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:103 bp-core/bp-core-adminbar.php:116
+#: bp-core/bp-core-adminbar.php:106 bp-core/bp-core-adminbar.php:119
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:2755
 #: bp-groups.php:272
 msgid "Admin"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:108
+#: bp-core/bp-core-adminbar.php:111
 msgid "Subscriber"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:110
+#: bp-core/bp-core-adminbar.php:113
 msgid "Contributor"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:112
+#: bp-core/bp-core-adminbar.php:115
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1082
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1090
 #: bp-forums/bbpress/bb-admin/topics.php:102
@@ -740,62 +740,62 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:114
+#: bp-core/bp-core-adminbar.php:117
 msgid "Editor"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:153
+#: bp-core/bp-core-adminbar.php:156
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:55
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:56
 #: bp-forums/bbpress/bb-admin/index.php:46
 msgid "Dashboard"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:154
+#: bp-core/bp-core-adminbar.php:157
 msgid "New Post"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:155
+#: bp-core/bp-core-adminbar.php:158
 msgid "Manage Posts"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:156
+#: bp-core/bp-core-adminbar.php:159
 msgid "Manage Comments"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:158
+#: bp-core/bp-core-adminbar.php:161
 msgid "Switch Theme"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:170
+#: bp-core/bp-core-adminbar.php:173
 msgid "Create a Blog!"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:185 bp-core/bp-core-settings.php:22
+#: bp-core/bp-core-adminbar.php:188 bp-core/bp-core-settings.php:22
 msgid "Notifications"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:203
+#: bp-core/bp-core-adminbar.php:206
 msgid "No new notifications."
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:222
+#: bp-core/bp-core-adminbar.php:225
 msgid "Blog Authors"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:248
+#: bp-core/bp-core-adminbar.php:251
 msgid "Visit"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:250
+#: bp-core/bp-core-adminbar.php:253
 msgid "Random Member"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:253
+#: bp-core/bp-core-adminbar.php:256
 msgid "Random Group"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:257
+#: bp-core/bp-core-adminbar.php:260
 msgid "Random Blog"
 msgstr ""
 
@@ -1101,12 +1101,12 @@ msgstr ""
 msgid "Viewing member %d to %d (of %d members)"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1132
+#: bp-core/bp-core-templatetags.php:1133
 #, php-format
 msgid "%d friend"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1134
+#: bp-core/bp-core-templatetags.php:1135
 #, php-format
 msgid "%d friends"
 msgstr ""
@@ -6729,7 +6729,7 @@ msgid "Viewing topic %d to %d (%d total topics)"
 msgstr ""
 
 #: bp-forums/bp-forums-templatetags.php:728
-#: bp-wire/bp-wire-templatetags.php:248
+#: bp-wire/bp-wire-templatetags.php:247
 #, php-format
 msgid "Viewing post %d to %d (%d total posts)"
 msgstr ""
@@ -7008,7 +7008,7 @@ msgstr ""
 msgid "Request Membership"
 msgstr ""
 
-#: bp-groups.php:282 bp-wire.php:37 bp-wire/bp-wire-templatetags.php:146
+#: bp-groups.php:282 bp-wire.php:37 bp-wire/bp-wire-templatetags.php:145
 #: bp-xprofile.php:650 bp-xprofile.php:653
 msgid "Wire"
 msgstr ""
@@ -8098,7 +8098,7 @@ msgstr ""
 msgid "Error leaving group"
 msgstr ""
 
-#: bp-messages.php:116 bp-messages.php:249
+#: bp-messages.php:116 bp-messages.php:246
 msgid "Messages"
 msgstr ""
 
@@ -8124,82 +8124,82 @@ msgstr ""
 msgid "My Messages"
 msgstr ""
 
-#: bp-messages.php:175 bp-messages.php:194
+#: bp-messages.php:175 bp-messages.php:191
 msgid "There was an error sending that message, please try again"
 msgstr ""
 
-#: bp-messages.php:191 bp-messages/deprecated/bp-messages-deprecated.php:241
+#: bp-messages.php:188 bp-messages/deprecated/bp-messages-deprecated.php:241
 msgid "Message sent successfully!"
 msgstr ""
 
-#: bp-messages.php:219
+#: bp-messages.php:216
 msgid "There was a problem deactivating that notice."
 msgstr ""
 
-#: bp-messages.php:221
+#: bp-messages.php:218
 msgid "Notice deactivated."
 msgstr ""
 
-#: bp-messages.php:225
+#: bp-messages.php:222
 msgid "There was a problem activating that notice."
 msgstr ""
 
-#: bp-messages.php:227
+#: bp-messages.php:224
 msgid "Notice activated."
 msgstr ""
 
-#: bp-messages.php:231
+#: bp-messages.php:228
 msgid "There was a problem deleting that notice."
 msgstr ""
 
-#: bp-messages.php:233
+#: bp-messages.php:230
 msgid "Notice deleted."
 msgstr ""
 
-#: bp-messages.php:255
+#: bp-messages.php:252
 msgid "A member sends you a new message"
 msgstr ""
 
-#: bp-messages.php:261
+#: bp-messages.php:258
 msgid "A new site notice is posted"
 msgstr ""
 
-#: bp-messages.php:300
+#: bp-messages.php:297
 msgid "Your reply was sent successfully"
 msgstr ""
 
-#: bp-messages.php:302
+#: bp-messages.php:299
 msgid "There was a problem sending your reply, please try again"
 msgstr ""
 
-#: bp-messages.php:307
+#: bp-messages.php:304
 #, php-format
 msgid "From: %s"
 msgstr ""
 
-#: bp-messages.php:328
+#: bp-messages.php:325
 msgid "There was an error deleting that message."
 msgstr ""
 
-#: bp-messages.php:330
+#: bp-messages.php:327
 msgid "Message deleted."
 msgstr ""
 
-#: bp-messages.php:352
+#: bp-messages.php:349
 msgid "There was an error deleting messages."
 msgstr ""
 
-#: bp-messages.php:354 bp-messages/deprecated/bp-messages-deprecated.php:140
+#: bp-messages.php:351 bp-messages/deprecated/bp-messages-deprecated.php:140
 #: bp-themes/bp-sn-framework/_inc/ajax.php:355
 msgid "Messages deleted."
 msgstr ""
 
-#: bp-messages.php:388
+#: bp-messages.php:385
 #, php-format
 msgid "You have %d new messages"
 msgstr ""
 
-#: bp-messages.php:390
+#: bp-messages.php:387
 #, php-format
 msgid "You have %d new message"
 msgstr ""
@@ -9175,7 +9175,7 @@ msgstr ""
 msgid "Send Request"
 msgstr ""
 
-#: bp-themes/bp-sn-framework/groups/single/send-invite.php:90
+#: bp-themes/bp-sn-framework/groups/single/send-invite.php:91
 #: bp-themes/deprecated/bpmember/groups/single/send-invite.php:75
 msgid ""
 "You either need to build up your friends list, or your friends have already "
@@ -9740,7 +9740,7 @@ msgstr ""
 msgid "All Posts"
 msgstr ""
 
-#: bp-wire/bp-wire-templatetags.php:143
+#: bp-wire/bp-wire-templatetags.php:142
 msgid "There are currently no wire posts."
 msgstr ""
 
