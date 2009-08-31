@@ -460,7 +460,7 @@ function bp_get_plugin_sidebar() {
 
 function bp_is_blog_page() {
 	global $bp, $is_member_page;
-	
+
 	if ( $bp->current_component == BP_HOME_BLOG_SLUG )
 		return true;
 

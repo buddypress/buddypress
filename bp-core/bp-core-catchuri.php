@@ -28,7 +28,7 @@ Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/
 function bp_core_set_uri_globals() {
 	global $current_component, $current_action, $action_variables;
 	global $displayed_user_id;
-	global $is_member_page, $is_new_friend;
+	global $is_member_page;
 	global $bp_unfiltered_uri;
 	global $bp, $current_blog;
 	
@@ -98,27 +98,35 @@ function bp_core_set_uri_globals() {
 	$bp_unfiltered_uri = $bp_uri;
 
 	/* Catch a member page and set the current member ID */
-	if ( $bp_uri[0] == BP_MEMBERS_SLUG || in_array( 'wp-load.php', $bp_uri ) ) {
-		$is_member_page = true;
-		$is_root_component = true;
+	if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) ) {
+		if ( $bp_uri[0] == BP_MEMBERS_SLUG || in_array( 'wp-load.php', $bp_uri ) ) {
+			$is_member_page = true;
+			$is_root_component = true;
 
-		// We are within a member page, set up user id globals
-		$displayed_user_id = bp_core_get_displayed_userid( $bp_uri[1] );
+			// We are within a member page, set up user id globals
+			$displayed_user_id = bp_core_get_displayed_userid( $bp_uri[1] );
 				
-		unset($bp_uri[0]);
-		unset($bp_uri[1]);
+			unset($bp_uri[0]);
+			unset($bp_uri[1]);
 		
-		// if the get variable 'new' is set this the first visit to a new friends profile.
-		// this means we need to delete friend acceptance notifications, so we set a flag of is_new_friend.
-		if ( isset($_GET['new']) ) {
-			$is_new_friend = 1;
-			unset($bp_uri[2]);
+			/* Reset the keys by merging with an empty array */
+			$bp_uri = array_merge( array(), $bp_uri );
 		}
-		
-		/* Reset the keys by merging with an empty array */
-		$bp_uri = array_merge( array(), $bp_uri );
-	}
+	} else {
+		if ( get_userdatabylogin( $bp_uri[0] ) || in_array( 'wp-load.php', $bp_uri ) ) {
+			$is_member_page = true;
+			$is_root_component = true;
 
+			// We are within a member page, set up user id globals
+			$displayed_user_id = bp_core_get_displayed_userid( $bp_uri[0] );
+				
+			unset($bp_uri[0]);
+
+			/* Reset the keys by merging with an empty array */
+			$bp_uri = array_merge( array(), $bp_uri );
+		}
+	}
+	
 	if ( !isset($is_root_component) )
 		$is_root_component = in_array( $bp_uri[0], $bp->root_components );
 
@@ -192,13 +200,13 @@ function bp_core_do_catch_uri() {
 	global $wp_query;
 	
 	$page = $bp_path;
-
+	
 	/* Don't hijack any URLs on blog pages */
 	if ( !$bp_skip_blog_check ) {
 		if ( bp_is_blog_page() )
 			return false;
 	}
-	
+
 	/* Make sure this is not reported as a 404 */
 	if ( !$bp_no_status_set ) {
 		status_header( 200 );
@@ -207,6 +215,7 @@ function bp_core_do_catch_uri() {
 		if ( $bp->current_component != BP_HOME_BLOG_SLUG )
 			$wp_query->is_page = true;
 	}
+
 
 	if ( $located_template = locate_template( array( $page . '.php' ) ) ) {
 		load_template( apply_filters( 'bp_load_template', $located_template ) );

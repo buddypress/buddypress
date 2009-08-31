@@ -350,10 +350,12 @@ add_action( 'admin_menu', 'bp_core_setup_nav', 2 );
 function bp_core_action_directory_members() {
 	global $bp;
 	
-	if ( !is_home() && is_null( $bp->displayed_user->id ) && $bp->current_component == $bp->default_component ) {
+	if ( !is_home() && is_null( $bp->displayed_user->id ) && $bp->current_component == BP_MEMBERS_SLUG ) {
 		$bp->is_directory = true;
-		$bp->current_component = false;
-
+		
+		if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) )
+			$bp->current_component = false;
+		
 		do_action( 'bp_core_action_directory_members' );
 		bp_core_load_template( apply_filters( 'bp_core_template_directory_members', 'directories/members/index' ) );
 	}
@@ -378,7 +380,11 @@ function bp_core_get_user_domain( $user_id ) {
 	
 	$ud = get_userdata($user_id);
 	
-	return apply_filters( 'bp_core_get_user_domain', $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/' );
+	/* If we are using a members slug, include it. */
+	if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) )
+		return apply_filters( 'bp_core_get_user_domain', $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/' );
+	else
+		return apply_filters( 'bp_core_get_user_domain', $bp->root_domain . '/' . $ud->user_login . '/' );		
 }
 
 /**
@@ -715,7 +721,11 @@ function bp_core_get_random_member() {
 		$user = BP_Core_User::get_random_users(1);
 		
 		$ud = get_userdata( $user['users'][0]->user_id );
-		bp_core_redirect( $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login );
+		
+		if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) )
+			bp_core_redirect( $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login );
+		else
+			bp_core_redirect( $bp->root_domain . '/' . $ud->user_login );			
 	}
 }
 add_action( 'wp', 'bp_core_get_random_member' );
@@ -783,8 +793,11 @@ function bp_core_get_userurl( $uid ) {
 		return false;
 	
 	$ud = get_userdata($uid);
-		
-	return apply_filters( 'bp_core_get_userurl', $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/' );
+	
+	if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) )	
+		return apply_filters( 'bp_core_get_userurl', $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/' );
+	else
+		return apply_filters( 'bp_core_get_userurl', $bp->root_domain . '/' . $ud->user_login . '/' );	
 }
 
 /**

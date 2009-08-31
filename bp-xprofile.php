@@ -243,14 +243,14 @@ add_action( 'admin_menu', 'xprofile_setup_nav', 2 );
  * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
  */
 function xprofile_screen_display_profile() {
-	global $bp, $is_new_friend;
+	global $bp;
 
 	// If this is a first visit to a new friends profile, delete the friend accepted notifications for the
-	// logged in user. $is_new_friend is set in bp-core/bp-core-catchuri.php in bp_core_set_uri_globals()
-	if ( $is_new_friend )
+	// logged in user, only if $_GET['new'] is set.
+	if ( isset($_GET['new']) )
 		bp_core_delete_notifications_for_user_by_item_id( $bp->loggedin_user->id, $bp->displayed_user->id, 'friends', 'friendship_accepted' );
 	
-	do_action( 'xprofile_screen_display_profile', $is_new_friend );
+	do_action( 'xprofile_screen_display_profile', $_GET['new'] );
 	bp_core_load_template( apply_filters( 'xprofile_template_display_profile', 'profile/index' ) );
 }
 
