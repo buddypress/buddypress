@@ -42,7 +42,7 @@
 					<h3><?php _e( 'Blog Listing', 'buddypress' ) ?></h3>
 			
 					<div id="blog-dir-list">
-						<?php locate_template( array( '/directories/blogs/blogs-loop.php' ), true ) ?>
+						<?php locate_template( array( 'directories/blogs/blogs-loop.php' ), true ) ?>
 					</div>
 
 				</div>

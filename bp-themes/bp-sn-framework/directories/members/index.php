@@ -42,7 +42,7 @@
 					<h3><?php _e( 'Member Listing', 'buddypress' ) ?></h3>
 			
 					<div id="member-dir-list">
-						<?php locate_template( array( '/directories/members/members-loop.php' ), true ) ?>
+						<?php locate_template( array( 'directories/members/members-loop.php' ), true ) ?>
 					</div>
 
 					<?php do_action( 'bp_directory_members_content' ) ?>

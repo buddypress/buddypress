@@ -420,7 +420,7 @@ function bp_dtheme_ajax_get_wire_posts() {
 add_action( 'wp_ajax_get_wire_posts', 'bp_dtheme_ajax_get_wire_posts' );
 
 function bp_dtheme_ajax_show_form() {
-	locate_template( array( '/status/post-form.php' ), true );
+	locate_template( array( 'status/post-form.php' ), true );
 }
 add_action( 'wp_ajax_status_show_form', 'bp_dtheme_ajax_show_form' );
 

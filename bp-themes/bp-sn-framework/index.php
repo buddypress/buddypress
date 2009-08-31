@@ -44,7 +44,7 @@
 				<h2 class="center"><?php _e( 'Not Found', 'buddypress' ) ?></h2>
 				<p class="center"><?php _e( 'Sorry, but you are looking for something that isn\'t here.', 'buddypress' ) ?></p>
 
-				<?php locate_template( array( '/searchform.php' ), true ) ?>
+				<?php locate_template( array( 'searchform.php' ), true ) ?>
 
 			<?php endif; ?>
 		</div>

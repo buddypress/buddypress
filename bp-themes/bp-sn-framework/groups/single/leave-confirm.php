@@ -11,7 +11,7 @@
 			<?php do_action( 'bp_before_group_leave_confirm_content' ) ?>
 			
 			<div class="left-menu">
-				<?php locate_template( array( '/groups/single/menu.php' ), true ) ?>
+				<?php locate_template( array( 'groups/single/menu.php' ), true ) ?>
 			</div>
 
 			<div class="main-column">
