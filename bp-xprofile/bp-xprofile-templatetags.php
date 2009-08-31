@@ -291,8 +291,7 @@ function bp_the_profile_field_name() {
 }
 	function bp_get_the_profile_field_name() {
 		global $field;
-		
-		var_dump($field);
+
 		return apply_filters( 'bp_get_the_profile_field_name', $field->name );
 	}
 
