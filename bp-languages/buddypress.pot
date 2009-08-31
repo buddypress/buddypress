@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-08-29 14:11+0000\n"
+"POT-Creation-Date: 2009-08-31 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -336,13 +336,13 @@ msgid "Latest Post: %s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1317
-#: bp-core/bp-core-templatetags.php:1165
+#: bp-core/bp-core-templatetags.php:1167
 #: bp-groups/bp-groups-templatetags.php:2115
 msgid "Search anything..."
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1318
-#: bp-core/bp-core-templatetags.php:617 bp-core/bp-core-templatetags.php:1166
+#: bp-core/bp-core-templatetags.php:617 bp-core/bp-core-templatetags.php:1168
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:624
 #: bp-forums/bbpress/bb-includes/class.bb-query.php:1017
 #: bp-forums/bbpress/bb-templates/kakumei/rss2.php:18
@@ -767,35 +767,35 @@ msgstr ""
 msgid "Switch Theme"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:173
+#: bp-core/bp-core-adminbar.php:174
 msgid "Create a Blog!"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:188 bp-core/bp-core-settings.php:22
+#: bp-core/bp-core-adminbar.php:190 bp-core/bp-core-settings.php:22
 msgid "Notifications"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:206
+#: bp-core/bp-core-adminbar.php:208
 msgid "No new notifications."
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:225
+#: bp-core/bp-core-adminbar.php:227
 msgid "Blog Authors"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:251
+#: bp-core/bp-core-adminbar.php:253
 msgid "Visit"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:253
+#: bp-core/bp-core-adminbar.php:255
 msgid "Random Member"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:256
+#: bp-core/bp-core-adminbar.php:258
 msgid "Random Group"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:260
+#: bp-core/bp-core-adminbar.php:262
 msgid "Random Blog"
 msgstr ""
 
@@ -1096,17 +1096,17 @@ msgstr ""
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1041
+#: bp-core/bp-core-templatetags.php:1043
 #, php-format
 msgid "Viewing member %d to %d (of %d members)"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1133
+#: bp-core/bp-core-templatetags.php:1135
 #, php-format
 msgid "%d friend"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1135
+#: bp-core/bp-core-templatetags.php:1137
 #, php-format
 msgid "%d friends"
 msgstr ""
