@@ -13,15 +13,15 @@ function bp_dtheme_ajax_directory_blogs() {
 	global $bp;
 
 	check_ajax_referer('directory_blogs');
-	
-	load_template( TEMPLATEPATH . '/directories/blogs/blogs-loop.php' );
+
+	locate_template( array( 'directories/blogs/blogs-loop.php' ), true );
 }
 add_action( 'wp_ajax_directory_blogs', 'bp_dtheme_ajax_directory_blogs' );
 
 function bp_dtheme_ajax_directory_members() {
 	check_ajax_referer('directory_members');
-	
-	load_template( TEMPLATEPATH . '/directories/members/members-loop.php' );
+
+	locate_template( array( 'directories/members/members-loop.php' ), true );
 }
 add_action( 'wp_ajax_directory_members', 'bp_dtheme_ajax_directory_members' );
 
@@ -29,8 +29,8 @@ function bp_dtheme_ajax_friends_search() {
 	global $bp;
 
 	check_ajax_referer( 'friends_search' );
-	
-	load_template( get_template_directory() . '/friends/friends-loop.php' );
+
+	locate_template( array( 'directories/friends/friends-loop.php' ), true );
 }
 add_action( 'wp_ajax_friends_search', 'bp_dtheme_ajax_friends_search' );
 
@@ -111,7 +111,7 @@ function bp_dtheme_ajax_group_filter() {
 
 	check_ajax_referer( 'group-filter-box' );
 	
-	load_template( TEMPLATEPATH . '/groups/group-loop.php' );
+	locate_template( array( 'groups/group-loop.php' ), true );
 }
 add_action( 'wp_ajax_group_filter', 'bp_dtheme_ajax_group_filter' );
 
@@ -207,7 +207,7 @@ function bp_dtheme_ajax_directory_groups() {
 
 	check_ajax_referer('directory_groups');
 
-	load_template( TEMPLATEPATH . '/directories/groups/groups-loop.php' );
+	locate_template( array( 'directories/groups/groups-loop.php' ), true );
 }
 add_action( 'wp_ajax_directory_groups', 'bp_dtheme_ajax_directory_groups' );
 
@@ -420,7 +420,7 @@ function bp_dtheme_ajax_get_wire_posts() {
 add_action( 'wp_ajax_get_wire_posts', 'bp_dtheme_ajax_get_wire_posts' );
 
 function bp_dtheme_ajax_show_form() {
-	load_template( TEMPLATEPATH . '/status/post-form.php' );
+	locate_template( array( '/status/post-form.php' ), true );
 }
 add_action( 'wp_ajax_status_show_form', 'bp_dtheme_ajax_show_form' );
 

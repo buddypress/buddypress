@@ -104,8 +104,8 @@
 	
 			<?php if ( !bp_is_blog_page() && !bp_is_directory() && !bp_is_register_page() && !bp_is_activation_page() ) : ?>
 		
-				<?php load_template( TEMPLATEPATH . '/userbar.php' ) /* Load the user navigation */ ?>
-				<?php load_template( TEMPLATEPATH . '/optionsbar.php' ) /* Load the currently displayed object navigation */ ?>			
+				<?php locate_template( array( '/userbar.php' ), true ) /* Load the user navigation */ ?>
+				<?php locate_template( array( '/optionsbar.php' ), true ) /* Load the currently displayed object navigation */ ?>
 		
 			<?php endif; ?>
 			

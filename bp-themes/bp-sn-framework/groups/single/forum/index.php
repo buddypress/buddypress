@@ -10,7 +10,7 @@
 	<?php if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group(); ?>
 	
 	<div class="left-menu">
-		<?php load_template( TEMPLATEPATH . '/groups/single/menu.php' ) ?>
+		<?php locate_template( array( '/groups/single/menu.php' ), true ) ?>
 	</div>
 
 	<div class="main-column">

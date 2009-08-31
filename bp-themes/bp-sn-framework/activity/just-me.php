@@ -11,7 +11,7 @@
 	
 		<div class="left-menu">
 			<!-- Profile Menu (Avatar, Add Friend, Send Message buttons etc) -->
-			<?php load_template( TEMPLATEPATH . '/profile/profile-menu.php' ) ?>
+			<?php locate_template( array( 'profile/profile-menu.php' ), true ) ?>
 		</div>
 
 		<div class="main-column">

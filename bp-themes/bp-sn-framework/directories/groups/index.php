@@ -42,7 +42,7 @@
 					<h3><?php _e( 'Groups Listing', 'buddypress' ) ?></h3>
 			
 					<div id="group-dir-list">
-						<?php load_template( TEMPLATEPATH . '/directories/groups/groups-loop.php' ) ?>
+						<?php locate_template( array( '/directories/groups/groups-loop.php' ), true ) ?>
 					</div>
 
 				</div>

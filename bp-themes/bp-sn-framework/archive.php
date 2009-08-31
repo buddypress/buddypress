@@ -50,8 +50,8 @@
 			<?php else : ?>
 
 				<h2 class="center"><?php _e( 'Not Found', 'buddypress' ) ?></h2>
-				<?php load_template ( TEMPLATEPATH . '/searchform.php' ); ?>
-
+				<?php locate_template( array( 'searchform.php' ), true ) ?>
+			
 			<?php endif; ?>
 
 		</div>

@@ -22,7 +22,7 @@
 		<div class="main-column">
 			<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 		
-			<?php load_template( TEMPLATEPATH . '/friends/friends-loop.php') ?>
+			<?php locate_template( array( '/friends/friends-loop.php' ), true ) ?>
 		</div>
 
 		<?php do_action( 'bp_after_my_friends_content' ) ?>		
