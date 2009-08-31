@@ -926,15 +926,17 @@ class BP_Core_Members_Template {
 			$this->member_count = count($this->members);
 		}
 		
-		$this->pag_links = paginate_links( array(
-			'base' => add_query_arg( 'upage', '%#%' ),
-			'format' => '',
-			'total' => ceil( (int) $this->total_member_count / (int) $this->pag_num ),
-			'current' => (int) $this->pag_page,
-			'prev_text' => '&laquo;',
-			'next_text' => '&raquo;',
-			'mid_size' => 1
-		));		
+		if ( (int) $this->total_member_count && (int) $this->pag_num ) { 
+			$this->pag_links = paginate_links( array(
+				'base' => add_query_arg( 'upage', '%#%' ),
+				'format' => '',
+				'total' => ceil( (int) $this->total_member_count / (int) $this->pag_num ),
+				'current' => (int) $this->pag_page,
+				'prev_text' => '&laquo;',
+				'next_text' => '&raquo;',
+				'mid_size' => 1
+			));		
+		}
 	}
 	
 	function has_members() {
