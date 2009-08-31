@@ -99,7 +99,7 @@ function bp_core_set_uri_globals() {
 
 	/* Catch a member page and set the current member ID */
 	if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) ) {
-		if ( $bp_uri[0] == BP_MEMBERS_SLUG || in_array( 'wp-load.php', $bp_uri ) ) {
+		if ( ( $bp_uri[0] == BP_MEMBERS_SLUG && !empty( $bp_uri[1] ) ) || in_array( 'wp-load.php', $bp_uri ) ) {
 			$is_member_page = true;
 			$is_root_component = true;
 
@@ -126,7 +126,7 @@ function bp_core_set_uri_globals() {
 			$bp_uri = array_merge( array(), $bp_uri );
 		}
 	}
-	
+
 	if ( !isset($is_root_component) )
 		$is_root_component = in_array( $bp_uri[0], $bp->root_components );
 

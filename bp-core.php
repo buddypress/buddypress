@@ -349,13 +349,10 @@ add_action( 'admin_menu', 'bp_core_setup_nav', 2 );
  */
 function bp_core_action_directory_members() {
 	global $bp;
-	
+
 	if ( !is_home() && is_null( $bp->displayed_user->id ) && $bp->current_component == BP_MEMBERS_SLUG ) {
 		$bp->is_directory = true;
-		
-		if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) )
-			$bp->current_component = false;
-		
+
 		do_action( 'bp_core_action_directory_members' );
 		bp_core_load_template( apply_filters( 'bp_core_template_directory_members', 'directories/members/index' ) );
 	}
