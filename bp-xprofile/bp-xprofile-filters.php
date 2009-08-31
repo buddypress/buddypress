@@ -24,6 +24,7 @@ add_filter( 'bp_get_the_profile_field_value', 'xprofile_filter_link_profile_data
 add_filter( 'bp_get_the_profile_field_edit_value', 'stripslashes' );
 add_filter( 'bp_get_the_profile_field_value', 'stripslashes' );
 add_filter( 'xprofile_get_field_data', 'stripslashes' );
+add_filter( 'bp_get_the_profile_field_description', 'stripslashes' );
 
 /* Custom BuddyPress filters */
 
