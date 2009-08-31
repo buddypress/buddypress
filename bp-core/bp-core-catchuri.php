@@ -96,13 +96,16 @@ function bp_core_set_uri_globals() {
 	/* Reset the keys by merging with an empty array */
 	$bp_uri = array_merge( array(), $bp_uri );
 	$bp_unfiltered_uri = $bp_uri;
+	
+	/* If we are under anything with a members slug, set the correct globals */
+	if ( $bp_uri[0] == BP_MEMBERS_SLUG ) {
+		$is_member_page = true;
+		$is_root_component = true;		
+	}
 
 	/* Catch a member page and set the current member ID */
 	if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) ) {
-		if ( ( $bp_uri[0] == BP_MEMBERS_SLUG && !empty( $bp_uri[1] ) ) || in_array( 'wp-load.php', $bp_uri ) ) {
-			$is_member_page = true;
-			$is_root_component = true;
-
+		if ( ( $bp_uri[0] == BP_MEMBERS_SLUG && !empty( $bp_uri[1] ) ) || in_array( 'wp-load.php', $bp_uri ) ) {	
 			// We are within a member page, set up user id globals
 			$displayed_user_id = bp_core_get_displayed_userid( $bp_uri[1] );
 				
@@ -116,7 +119,7 @@ function bp_core_set_uri_globals() {
 		if ( get_userdatabylogin( $bp_uri[0] ) || in_array( 'wp-load.php', $bp_uri ) ) {
 			$is_member_page = true;
 			$is_root_component = true;
-
+		
 			// We are within a member page, set up user id globals
 			$displayed_user_id = bp_core_get_displayed_userid( $bp_uri[0] );
 				
@@ -126,6 +129,7 @@ function bp_core_set_uri_globals() {
 			$bp_uri = array_merge( array(), $bp_uri );
 		}
 	}
+
 
 	if ( !isset($is_root_component) )
 		$is_root_component = in_array( $bp_uri[0], $bp->root_components );
