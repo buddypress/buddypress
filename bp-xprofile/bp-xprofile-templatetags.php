@@ -278,11 +278,21 @@ function bp_the_profile_field() {
 	return $profile_template->the_profile_field();
 }
 
+function bp_the_profile_field_id() {
+	echo bp_get_the_profile_field_name();
+}
+	function bp_get_the_profile_field_id() {
+		global $field;
+		return apply_filters( 'bp_get_the_profile_field_id', $field->id );
+	}
+
 function bp_the_profile_field_name() {
 	echo bp_get_the_profile_field_name();
 }
 	function bp_get_the_profile_field_name() {
 		global $field;
+		
+		var_dump($field);
 		return apply_filters( 'bp_get_the_profile_field_name', $field->name );
 	}
 
