@@ -168,11 +168,13 @@ function bp_adminbar_blogs_menu() {
 			}
 	
 			$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
-
-			echo '<li' . $alt . '>';
-			echo '<a href="' . $bp->loggedin_user->domain . $bp->blogs->slug . '/create-a-blog">' . __('Create a Blog!', 'buddypress') . '</a>';
-			echo '</li>';
-	
+			
+			if ( bp_blog_signup_enabled() ) {
+				echo '<li' . $alt . '>';
+				echo '<a href="' . $bp->loggedin_user->domain . $bp->blogs->slug . '/create-a-blog">' . __('Create a Blog!', 'buddypress') . '</a>';
+				echo '</li>';
+			}
+			
 			echo '</ul>';
 			echo '</li>';
 		}
