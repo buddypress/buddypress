@@ -7,7 +7,6 @@ if ( !defined( 'BP_XPROFILE_SLUG' ) )
 
 require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-classes.php' );
 require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-filters.php' );
-require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-signup.php' );
 require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-notifications.php' );
 require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-cssjs.php' );
@@ -141,12 +140,16 @@ function xprofile_setup_globals() {
 	$bp->profile->format_notification_function = 'xprofile_format_notifications';
 	$bp->profile->slug = BP_XPROFILE_SLUG;
 
+	/* Register the activity stream actions for this component */
+	xprofile_register_activity_action( 'new_wire_post', __( 'New profile wire post', 'buddypress' ) );
+
 	/* Register this in the active components array */
 	$bp->active_components[$bp->profile->slug] = $bp->profile->id;
-
+	
+	/* Set the support field type ids */
 	$bp->profile->field_types = apply_filters( 'xprofile_field_types', array( 'textbox', 'textarea', 'radio', 'checkbox', 'selectbox', 'multiselectbox', 'datebox' ) );
 
-	if ( function_exists('bp_wire_install') )
+	if ( function_exists( 'bp_wire_install' ) )
 		$bp->profile->table_name_wire = $wpdb->base_prefix . 'bp_xprofile_wire';
 }
 add_action( 'plugins_loaded', 'xprofile_setup_globals', 5 );
@@ -627,6 +630,15 @@ function xprofile_delete_activity( $args = true ) {
 		extract($args);
 		bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
 	}
+}
+
+function xprofile_register_activity_action( $key, $value ) {
+	global $bp;
+	
+	if ( !function_exists( 'bp_activity_set_action' ) )
+		return false;
+	
+	return apply_filters( 'xprofile_register_activity_action', bp_activity_set_action( $bp->profile->id, $key, $value ), $key, $value );
 }
 
 /**

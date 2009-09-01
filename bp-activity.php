@@ -59,7 +59,7 @@ function bp_activity_setup_globals() {
 	
 	$bp->activity->table_name = $wpdb->base_prefix . 'bp_activity_user_activity_cached';
 	$bp->activity->slug = BP_ACTIVITY_SLUG;
-	
+		
 	/* Register this in the active components array */
 	$bp->active_components[$bp->activity->slug] = $bp->activity->id;
 }
@@ -327,6 +327,34 @@ function bp_activity_delete_for_user_by_component( $user_id, $component_name ) {
 	do_action( 'bp_activity_delete_for_user_by_component', $user_id, $component_name );
 	
 	return true;
+}
+
+function bp_activity_set_action( $component_id, $key, $value ) {
+	global $bp;
+	
+	if ( empty( $component_id ) || empty( $key ) || empty( $value ) )
+		return false;
+	
+	$bp->activity->actions->{$component_id}->{$key} = apply_filters( 'bp_activity_set_action', array(
+		'key' => $key,
+		'value' => $value
+	), $component_id, $key, $value );
+}
+
+function bp_activity_get_action( $component_id, $key ) {
+	global $bp;
+	
+	if ( empty( $component_id ) || empty( $key ) )
+		return false;
+	
+	return apply_filters( 'bp_activity_get_action', $bp->activity->actions->{$component_id}->{$key}, $component_id, $key );
+}
+
+function groups_get_activity_action( $key ) {
+	if ( !function_exists( 'bp_activity_get_action' ) )
+		return false;
+	
+	return apply_filters( 'groups_get_activity_action', bp_activity_get_action( $key ), $key );
 }
 
 function bp_activity_get_last_updated() {

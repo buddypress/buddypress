@@ -147,8 +147,13 @@ function groups_setup_globals() {
 	) );
 	
 	$bp->groups->valid_status = apply_filters( 'groups_valid_status', array( 'public', 'private', 'hidden' ) );
-	
-	return $bp;
+
+	/* Register the activity stream actions for this component */
+	groups_register_activity_action( 'created_group', __( 'Created a group', 'buddypress' ) );
+	groups_register_activity_action( 'joined_group', __( 'Joined a group', 'buddypress' ) );
+	groups_register_activity_action( 'new_wire_post', __( 'New group wire post', 'buddypress' ) );
+	groups_register_activity_action( 'new_forum_topic', __( 'New group forum topic', 'buddypress' ) );
+	groups_register_activity_action( 'new_forum_post', __( 'New group forum post', 'buddypress' ) );
 }
 add_action( 'plugins_loaded', 'groups_setup_globals', 5 );	
 add_action( 'admin_menu', 'groups_setup_globals', 2 );
@@ -1396,6 +1401,15 @@ function groups_record_activity( $args = '' ) {
 	return bp_activity_add( array( 'user_id' => $user_id, 'content' => $content, 'primary_link' => $primary_link, 'component_name' => $component_name, 'component_action' => $component_action, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
 }
 
+function groups_register_activity_action( $key, $value ) {
+	global $bp;
+	
+	if ( !function_exists( 'bp_activity_set_action' ) )
+		return false;
+	
+	return apply_filters( 'groups_register_activity_action', bp_activity_set_action( $bp->groups->id, $key, $value ), $key, $value );
+}
+
 function groups_update_last_activity( $group_id ) {
 	groups_update_groupmeta( $group_id, 'last_activity', time() );
 }
@@ -1662,7 +1676,7 @@ function groups_delete_group( $group_id ) {
 
 	/* Delete the activity stream item */
 	if ( function_exists( 'bp_activity_delete_by_item_id' ) ) {
-		bp_activity_delete_by_item_id( array( 'item_id' => $group_id, 'component_name' => 'groups', 'component_action' => 'created_group' ) );
+		bp_activity_delete_by_item_id( array( 'item_id' => $group_id, 'component_name' => 'groups', 'component_action' => $bp->activity->actions->groups['created_group'] ) );
 	}	
  
 	// Remove all outstanding invites for this group
@@ -1977,7 +1991,7 @@ function groups_delete_wire_post( $wire_post_id, $table_name ) {
 	if ( bp_wire_delete_post( $wire_post_id, 'groups', $table_name ) ) {
 		/* Delete the activity stream item */
 		if ( function_exists( 'bp_activity_delete_by_item_id' ) ) {
-			bp_activity_delete_by_item_id( array( 'item_id' => $wire_post_id, 'component_name' => 'groups', 'component_action' => 'new_wire_post' ) );
+			bp_activity_delete_by_item_id( array( 'item_id' => $wire_post_id, 'component_name' => 'groups', 'component_action' => $bp->activity->actions->groups['new_wire_post'] ) );
 		}
 			
 		do_action( 'groups_deleted_wire_post', $wire_post_id );
@@ -2065,7 +2079,7 @@ function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text )
 	
 	if ( $topic = bp_forums_update_topic( array( 'topic_title' => $topic_title, 'topic_text' => $topic_text, 'topic_id' => $topic_id ) ) ) {
 		/* Update the activity stream item */
-		bp_activity_delete_by_item_id( array( 'item_id' => $topic_id, 'component_name' => 'groups', 'component_action' => 'new_forum_topic' ) );
+		bp_activity_delete_by_item_id( array( 'item_id' => $topic_id, 'component_name' => 'groups', 'component_action' => $bp->activity->actions->groups['new_forum_topic'] ) );
 		
 		$activity_content = sprintf( __( '%s started the forum topic %s in the group %s:', 'buddypress'), bp_core_get_userlink( $topic->topic_poster ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '/forum/topic/' . $topic->topic_slug .'">' . attribute_escape( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
 		$activity_content .= '<blockquote>' . bp_create_excerpt( attribute_escape( $topic_text ) ) . '</blockquote>';
@@ -2095,7 +2109,7 @@ function groups_delete_forum_topic( $topic_id ) {
 	if ( bp_forums_delete_topic( array( 'topic_id' => $topic_id ) ) ) {
 		/* Delete the activity stream item */
 		if ( function_exists( 'bp_activity_delete_by_item_id' ) ) {
-			bp_activity_delete_by_item_id( array( 'item_id' => $topic_id, 'component_name' => 'groups', 'component_action' => 'new_forum_topic' ) );
+			bp_activity_delete_by_item_id( array( 'item_id' => $topic_id, 'component_name' => 'groups', 'component_action' => $bp->activity->actions->groups['new_forum_topic'] ) );
 			bp_activity_delete_by_item_id( array( 'item_id' => $topic_id, 'component_name' => 'groups', 'component_action' => 'new_forum_post' ) );
 		}
 

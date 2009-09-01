@@ -363,20 +363,6 @@ add_action( 'wp', 'messages_action_bulk_delete', 3 );
  * notifications for the user and for this specific component.
  */
 
-function messages_record_activity( $args = true ) {
-	if ( function_exists('bp_activity_record') ) {
-		extract($args);
-		bp_activity_record( $item_id, $component_name, $component_action, $is_private );
-	} 
-}
-
-function messages_delete_activity( $args = true ) {
-	if ( function_exists('bp_activity_delete') ) {
-		extract($args);
-		bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
-	}
-}
-
 function messages_format_notifications( $action, $item_id, $secondary_item_id, $total_items ) {
 	global $bp;
 	

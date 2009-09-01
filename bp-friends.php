@@ -47,6 +47,9 @@ function friends_setup_globals() {
 	$bp->friends->format_notification_function = 'friends_format_notifications';
 	$bp->friends->slug = BP_FRIENDS_SLUG;
 
+	/* Register the activity stream actions for this component */
+	friends_register_activity_action( 'friendship_created', __( 'New friendship created', 'buddypress' ) );
+
 	/* Register this in the active components array */
 	$bp->active_components[$bp->friends->slug] = $bp->friends->id;
 }
@@ -289,7 +292,7 @@ function friends_format_activity( $item_id, $user_id, $action, $secondary_item_i
 	global $bp;
 	
 	switch( $action ) {
-		case 'friendship_accepted':
+		case 'friendship_created':
 			$friendship = new BP_Friends_Friendship( $item_id, false, false );
 
 			if ( !$friendship->initiator_user_id || !$friendship->friend_user_id )
@@ -320,6 +323,15 @@ function friends_format_activity( $item_id, $user_id, $action, $secondary_item_i
 	do_action( 'friends_format_activity', $action, $item_id, $user_id, $action, $secondary_item_id, $for_secondary_user );
 	
 	return false;
+}
+
+function friends_register_activity_action( $key, $value ) {
+	global $bp;
+	
+	if ( !function_exists( 'bp_activity_set_action' ) )
+		return false;
+	
+	return apply_filters( 'friends_register_activity_action', bp_activity_set_action( $bp->friends->id, $key, $value ), $key, $value );
 }
 
 function friends_format_notifications( $action, $item_id, $secondary_item_id, $total_items ) {
@@ -635,7 +647,7 @@ function friends_accept_friendship( $friendship_id ) {
 		bp_core_add_notification( $friendship->friend_user_id, $friendship->initiator_user_id, 'friends', 'friendship_accepted' );
 		
 		// Record in activity streams
-		friends_record_activity( array( 'item_id' => $friendship_id, 'component_name' => $bp->friends->slug, 'component_action' => 'friendship_accepted', 'is_private' => 0, 'user_id' => $friendship->initiator_user_id, 'secondary_user_id' => $friendship->friend_user_id ) );
+		friends_record_activity( array( 'item_id' => $friendship_id, 'component_name' => $bp->friends->slug, 'component_action' => 'friendship_created', 'is_private' => 0, 'user_id' => $friendship->initiator_user_id, 'secondary_user_id' => $friendship->friend_user_id ) );
 		
 		// Send the email notification
 		require_once( BP_PLUGIN_DIR . '/bp-friends/bp-friends-notifications.php' );

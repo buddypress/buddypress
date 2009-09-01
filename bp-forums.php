@@ -21,7 +21,7 @@ function bp_forums_setup() {
 	$bp->forums->image_base = BP_PLUGIN_URL . '/bp-forums/images';
 	$bp->forums->bbconfig = get_site_option( 'bb-config-location' );
 	$bp->forums->slug = BP_FORUMS_SLUG;
-
+	
 	/* Register this in the active components array */
 	$bp->active_components[$bp->forums->slug] = $bp->forums->id;
 }

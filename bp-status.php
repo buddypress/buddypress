@@ -11,6 +11,9 @@ function bp_status_setup_globals() {
 	/* For internal identification */
 	$bp->status->id = 'status';
 	$bp->status->slug = BP_STATUS_SLUG;
+	
+	/* Register the activity stream actions for this component */
+	bp_status_register_activity_action( 'new_status', __( 'New status update', 'buddypress' ) );
 
 	/* Register this in the active components array */
 	$bp->active_components[$bp->status->slug] = $bp->status->id;
@@ -18,7 +21,15 @@ function bp_status_setup_globals() {
 add_action( 'plugins_loaded', 'bp_status_setup_globals', 5 );	
 add_action( 'admin_menu', 'bp_status_setup_globals', 2 );
 
-function bp_status_record_activity( $user_id, $content, $primary_link ) {
+
+/********************************************************************************
+ * Activity & Notification Functions
+ *
+ * These functions handle the recording, deleting and formatting of activity and
+ * notifications for the user and for this specific component.
+ */
+
+function bp_status_record_activity( $user_id, $content, $primary_link, $component_action = 'new_status' ) {
 	if ( !function_exists( 'bp_activity_add' ) )
 		return false;
 	
@@ -27,7 +38,7 @@ function bp_status_record_activity( $user_id, $content, $primary_link ) {
 			'content' => $content, 
 			'primary_link' => $primary_link, 
 			'component_name' => 'status',
-			'component_action' => 'new_status'
+			'component_action' => $component_action
 		   ) );
 }
 
@@ -54,6 +65,15 @@ function bp_status_format_activity( $user_id, $content, $component_action = fals
 	}
 	
 	return apply_filters( 'bp_status_format_activity', $stream_item, $user_id, $content, $component_action );
+}
+
+function bp_status_register_activity_action( $key, $value ) {
+	global $bp;
+	
+	if ( !function_exists( 'bp_activity_set_action' ) )
+		return false;
+	
+	return apply_filters( 'bp_status_register_activity_action', bp_activity_set_action( $bp->status->id, $key, $value ), $key, $value );
 }
 
 
