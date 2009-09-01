@@ -15,7 +15,7 @@ function bp_forums_bbpress_admin() {
 
 		<?php
 		
-		if ( isset( $_REQUEST['reinstall']) || !bp_forums_is_installed_correctly() )
+		if ( isset( $_REQUEST['reinstall'] ) || !bp_forums_is_installed_correctly() )
 			bp_forums_bbpress_install_wizard();
 		else { ?>
 			<p><?php printf( __( 'bbPress forum integration in BuddyPress has been set up correctly. If you are having problems you can <a href="%s" title="Reinstall bbPress">re-install</a>', 'buddypress' ), site_url( 'wp-admin/admin.php?page=buddypress/bp-forums.php&reinstall=1' ) ); ?>
@@ -30,11 +30,16 @@ function bp_forums_bbpress_install_wizard() {
 	$post_url = site_url( 'wp-admin/admin.php?page=' . 'buddypress/bp-forums.php' );
 
 	switch( $_REQUEST['step'] ) { 		
-		case 'existing': 
+		case 'existing':
 			if ( 1 == (int)$_REQUEST['doinstall'] ) {
-				if ( !bp_forums_configure_existing_install() )
+				if ( !bp_forums_configure_existing_install() ) {
 					_e( 'The bb-config.php file was not found at that location, please try again.', 'buddypress' );
-			}
+				} else {
+					?>
+					<h3><?php _e( 'Forums were set up correctly using your existing bbPress install!') ?></h3>
+					<p><?php _e( 'BuddyPress will now use its internal copy of bbPress to run the forums on your site. If you wish, you can remove your old bbPress installation files, as long as you keep the bb-config.php file in the same location.' ) ?></p><?php
+				}
+			} else {
 				?>
 					<form action="" method="post">
 						<h3><?php _e( 'Existing bbPress Installation', 'buddypress' ) ?></h3>
@@ -46,8 +51,9 @@ function bp_forums_bbpress_install_wizard() {
 						<?php wp_nonce_field( 'bp_forums_existing_install_init' ) ?>
 					</form>
 				<?php	
+			}
 		break;
-
+		
 		case 'new':
 			if ( 1 == (int)$_REQUEST['doinstall'] ) {
 				$result = bp_forums_bbpress_install();
@@ -87,6 +93,9 @@ function bp_forums_configure_existing_install() {
 	global $wpdb, $bbdb;
 	
 	check_admin_referer( 'bp_forums_existing_install_init' );
+	
+	/* Sanitize $_REQUEST['bbconfigloc'] */
+	$_REQUEST['bbconfigloc'] = apply_filters( 'bp_forums_bbconfig_location', $_REQUEST['bbconfigloc'] );
 	
 	if ( false === strpos( $_REQUEST['bbconfigloc'], 'bb-config.php' ) ) {
 		if ( '/' != substr( $_REQUEST['bbconfigloc'], -1, 1 ) )
