@@ -571,6 +571,10 @@ function bp_core_new_subnav_item( $args = '' ) {
 	if ( empty($name) || empty($slug) || empty($parent_slug) || empty($parent_url) || empty($screen_function) )
 		return false;
 	
+	/* If the logged in user does not have access */
+	if ( !$user_has_access )
+		return false;
+	
 	/* If this is for site admins only and the user is not one, don't create the subnav item */
 	if ( $site_admin_only && !is_site_admin() )
 		return false;
@@ -586,7 +590,7 @@ function bp_core_new_subnav_item( $args = '' ) {
 		'position' => $position
 	);
 		
-	if ( $bp->current_action == $slug && $bp->current_component == $parent_slug && $user_has_access ) {
+	if ( $bp->current_action == $slug && $bp->current_component == $parent_slug ) {
 		if ( !is_object($screen_function[0]) )
 			add_action( 'wp', $screen_function, 3 );
 		else
