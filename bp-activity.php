@@ -323,7 +323,7 @@ function bp_activity_delete_by_content( $user_id, $content, $component_name, $co
 function bp_activity_delete_for_user_by_component( $user_id, $component_name ) {
 	if ( !BP_Activity_Activity::delete_for_user_by_component( $user_id, $component_name ) )
 		return false;
-		
+
 	do_action( 'bp_activity_delete_for_user_by_component', $user_id, $component_name );
 	
 	return true;

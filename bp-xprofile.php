@@ -140,9 +140,6 @@ function xprofile_setup_globals() {
 	$bp->profile->format_notification_function = 'xprofile_format_notifications';
 	$bp->profile->slug = BP_XPROFILE_SLUG;
 
-	/* Register the activity stream actions for this component */
-	xprofile_register_activity_action( 'new_wire_post', __( 'New profile wire post', 'buddypress' ) );
-
 	/* Register this in the active components array */
 	$bp->active_components[$bp->profile->slug] = $bp->profile->id;
 	
@@ -578,6 +575,19 @@ add_action( 'wp', 'xprofile_action_delete_wire_post', 3 );
  * These functions handle the recording, deleting and formatting of activity and
  * notifications for the user and for this specific component.
  */
+
+function xprofile_register_activity_actions() {
+	global $bp;
+	
+	if ( !function_exists( 'bp_activity_set_action' ) )
+		return false;
+
+	/* Register the activity stream actions for this component */
+	bp_activity_set_action( $bp->profile->id, 'new_wire_post', __( 'New profile wire post', 'buddypress' ) );
+
+	do_action( 'xprofile_register_activity_actions' );
+}
+add_action( 'plugins_loaded', 'xprofile_register_activity_actions' );
 
 /**
  * xprofile_record_activity()

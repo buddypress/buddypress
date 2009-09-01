@@ -117,11 +117,6 @@ function bp_blogs_setup_globals() {
 	$bp->blogs->format_notification_function = 'bp_blogs_format_notifications';
 	$bp->blogs->slug = BP_BLOGS_SLUG;
 	
-	/* Register the activity stream actions for this component */
-	bp_blogs_register_activity_action( 'new_blog', __( 'New blog created', 'buddypress' ) );
-	bp_blogs_register_activity_action( 'new_blog_post', __( 'New blog post published', 'buddypress' ) );
-	bp_blogs_register_activity_action( 'new_blog_comment', __( 'New blog post comment posted', 'buddypress' ) );
-
 	/* Register this in the active components array */
 	$bp->active_components[$bp->blogs->slug] = $bp->blogs->id;
 }
@@ -224,6 +219,20 @@ function bp_blogs_screen_create_a_blog() {
  * notifications for the user and for this specific component.
  */
 
+function bp_blogs_register_activity_actions() {
+	global $bp;
+	
+	if ( !function_exists( 'bp_activity_set_action' ) )
+		return false;
+
+	bp_activity_set_action( $bp->blogs->id, 'new_blog', __( 'New blog created', 'buddypress' ) );
+	bp_activity_set_action( $bp->blogs->id, 'new_blog_post', __( 'New blog post published', 'buddypress' ) );
+	bp_activity_set_action( $bp->blogs->id, 'new_blog_comment', __( 'New blog post comment posted', 'buddypress' ) );
+
+	do_action( 'bp_blogs_register_activity_actions' );
+}
+add_action( 'plugins_loaded', 'bp_blogs_register_activity_actions' );
+
 function bp_blogs_record_activity( $args = '' ) {
 	global $bp;
 	
@@ -258,15 +267,6 @@ function bp_blogs_delete_activity( $args = true ) {
 		extract($args);
 		bp_activity_delete_by_item_id( $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
 	}
-}
-
-function bp_blogs_register_activity_action( $key, $value ) {
-	global $bp;
-	
-	if ( !function_exists( 'bp_activity_set_action' ) )
-		return false;
-	
-	return apply_filters( 'bp_blogs_register_activity_action', bp_activity_set_action( $bp->blogs->id, $key, $value ), $key, $value );
 }
 
 /********************************************************************************
@@ -328,7 +328,7 @@ function bp_blogs_record_blog( $blog_id, $user_id ) {
 		'user_id' => $recorded_blog->user_id,
 		'content' => sprintf( __( '%s created the blog %s', 'buddypress'), bp_core_get_userlink( $recorded_blog->user_id ), '<a href="' . get_blog_option( $recorded_blog->blog_id, 'siteurl' ) . '">' . attribute_escape( $name ) . '</a>' ), 
 		'primary_link' => get_blog_option( $recorded_blog->blog_id, 'siteurl' ),
-		'component_action' => $bp->activity->actions->blogs['new_blog'],
+		'component_action' => 'new_blog',
 		'item_id' => $recorded_blog_id
 	) );
 
@@ -376,7 +376,7 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 				'user_id' => (int)$post->post_author,
 				'content' => sprintf( __( '%s wrote a new blog post: %s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' ), 
 				'primary_link' => $post_permalink,
-				'component_action' => $bp->activity->actions->blogs['new_blog_post'],
+				'component_action' => 'new_blog_post',
 				'item_id' => $recorded_post->id,
 				'recorded_time' => $recorded_post->date_created
 			) );
@@ -411,7 +411,7 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 			'user_id' => (int)$post->post_author,
 			'content' => sprintf( __( '%s wrote a new blog post: %s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' ), 
 			'primary_link' => $post_permalink,
-			'component_action' => $bp->activity->actions->blogs['new_blog_post'],
+			'component_action' => 'new_blog_post',
 			'item_id' => $existing_post->id,
 			'recorded_time' => $existing_post->date_created
 		) );
@@ -457,7 +457,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved ) {
 		'user_id' => $recorded_comment->user_id,
 		'content' => $content, 
 		'primary_link' => $comment_link,
-		'component_action' => $bp->activity->actions->blogs['new_blog_comment'],
+		'component_action' => 'new_blog_comment',
 		'item_id' => $recorded_comment->blog_id,
 		'recorded_time' =>  $recorded_comment->date_created 
 	) );
@@ -481,7 +481,7 @@ function bp_blogs_approve_comment( $comment_id, $comment ) {
 		'user_id' => $recorded_comment->user_id,
 		'content' => $content, 
 		'primary_link' => $comment_link,
-		'component_action' => $bp->activity->actions->blogs['new_blog_comment'],
+		'component_action' => 'new_blog_comment',
 		'item_id' => $recorded_comment->blog_id,
 		'recorded_time' =>  $recorded_comment->date_created 
 	) );

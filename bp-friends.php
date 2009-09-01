@@ -46,10 +46,7 @@ function friends_setup_globals() {
 	$bp->friends->format_activity_function = 'friends_format_activity';
 	$bp->friends->format_notification_function = 'friends_format_notifications';
 	$bp->friends->slug = BP_FRIENDS_SLUG;
-
-	/* Register the activity stream actions for this component */
-	friends_register_activity_action( 'friendship_created', __( 'New friendship created', 'buddypress' ) );
-
+	
 	/* Register this in the active components array */
 	$bp->active_components[$bp->friends->slug] = $bp->friends->id;
 }
@@ -325,14 +322,17 @@ function friends_format_activity( $item_id, $user_id, $action, $secondary_item_i
 	return false;
 }
 
-function friends_register_activity_action( $key, $value ) {
+function friends_register_activity_actions() {
 	global $bp;
 	
 	if ( !function_exists( 'bp_activity_set_action' ) )
 		return false;
-	
-	return apply_filters( 'friends_register_activity_action', bp_activity_set_action( $bp->friends->id, $key, $value ), $key, $value );
+
+	bp_activity_set_action( $bp->friends->id, 'friends_register_activity_action', __( 'New friendship created', 'buddypress' ) );
+
+	do_action( 'friends_register_activity_actions' );
 }
+add_action( 'plugins_loaded', 'friends_register_activity_actions' );
 
 function friends_format_notifications( $action, $item_id, $secondary_item_id, $total_items ) {
 	global $bp;
