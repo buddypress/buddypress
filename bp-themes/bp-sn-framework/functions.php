@@ -51,9 +51,15 @@ wp_enqueue_script( 'dtheme-general-js', get_template_directory_uri() . '/_inc/js
 
 /* Make sure the blog index page shows under /[HOME_BLOG_SLUG] if enabled */
 function bp_dtheme_show_home_blog() {
-	global $bp, $query_string;
+	global $bp, $query_string, $paged;
 	
-	if ( $bp->current_component == BP_HOME_BLOG_SLUG && ( !$bp->current_action || 'page' == $bp->current_action ) ) {
+	if ( $bp->current_component == BP_HOME_BLOG_SLUG && ( !$bp->current_action || 'page' == $bp->current_action ) ) {		
+		if ( 'page' == $bp->current_action && $bp->action_variables[0] ) {
+			$query_string .= '&paged=' . $bp->action_variables[0];
+			$paged = $bp->action_variables[0];
+		}
+
+		$query_string = preg_replace( '/category_name=' . BP_HOME_BLOG_SLUG . '/', '', $query_string );
 		$query_string = preg_replace( '/pagename=' . BP_HOME_BLOG_SLUG . '/', '', $query_string );
 		query_posts($query_string);
 		
