@@ -287,8 +287,8 @@ Class BP_Groups_Group {
 			$order_sql = "ORDER BY $sort_by $order";
 		}
 		
-		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM {$bp->groups->table_name} WHERE status != 'hidden' AND name LIKE '%%$filter%%' OR description LIKE '%%$filter%%' {$order_sql} {$pag_sql}" ) );
-		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->groups->table_name} WHERE status != 'hidden' AND name LIKE '%%$filter%%' OR description LIKE '%%$filter%%'" ) );
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM {$bp->groups->table_name} WHERE status != 'hidden' AND ( name LIKE '%%$filter%%' OR description LIKE '%%$filter%%' ) {$order_sql} {$pag_sql}" ) );
+		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->groups->table_name} WHERE status != 'hidden' AND ( name LIKE '%%$filter%%' OR description LIKE '%%$filter%%' )" ) );
 		
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
