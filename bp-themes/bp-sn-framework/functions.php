@@ -53,14 +53,14 @@ wp_enqueue_script( 'dtheme-general-js', get_template_directory_uri() . '/_inc/js
 function bp_dtheme_show_home_blog() {
 	global $bp, $query_string, $paged;
 	
-	if ( $bp->current_component == BP_HOME_BLOG_SLUG && ( !$bp->current_action || 'page' == $bp->current_action ) ) {		
-		if ( 'page' == $bp->current_action && $bp->action_variables[0] ) {
+	if ( $bp->current_component == BP_HOME_BLOG_SLUG && ( !$bp->current_action || 'page' == $bp->current_action ) ) {				
+		unset( $query_string );
+		
+		if ( ( 'page' == $bp->current_action && $bp->action_variables[0] ) && false === strpos( $query_string, 'paged' ) ) {
 			$query_string .= '&paged=' . $bp->action_variables[0];
 			$paged = $bp->action_variables[0];
 		}
 
-		$query_string = preg_replace( '/category_name=' . BP_HOME_BLOG_SLUG . '/', '', $query_string );
-		$query_string = preg_replace( '/pagename=' . BP_HOME_BLOG_SLUG . '/', '', $query_string );
 		query_posts($query_string);
 		
 		bp_core_load_template( 'index', true );
