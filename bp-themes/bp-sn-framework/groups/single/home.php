@@ -1,7 +1,7 @@
 <?php get_header() ?>
 
 	<div class="content-header">
-		asdasd
+
 	</div>
 	
 	<div id="content">
