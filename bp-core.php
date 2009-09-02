@@ -965,17 +965,12 @@ function bp_core_get_userlink_by_username( $username ) {
 
 
 /**
- * bp_core_get_user_email()
- *
- * Returns the email address for the user based on user ID
- * 
- * @package BuddyPress Core
- * @param $uid int User ID to check.
- * @uses get_userdata() WordPress function to fetch the userdata for a user ID
- * @return false on no match
- * @return str The email for the matched user.
+ * bp_core_format_time()
  */
 function bp_core_format_time( $time, $just_date = false ) {
+	if ( !$time )
+		return false;
+		
 	$date = date_i18n( "F j, Y ", $time );
 	
 	if ( !$just_date ) {
