@@ -521,7 +521,7 @@ function bp_post_id() {
 }
 	function bp_get_post_id() {
 		global $posts_template;
-		echo apply_filters( 'bp_get_post_id', $posts_template->post->ID );	
+		return apply_filters( 'bp_get_post_id', $posts_template->post->ID );	
 	}
 	
 function bp_post_title( $deprecated = true ) {
