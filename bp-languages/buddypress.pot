@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-09-01 14:11+0000\n"
+"POT-Creation-Date: 2009-09-02 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -411,85 +411,85 @@ msgstr ""
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:764 bp-wire/bp-wire-templatetags.php:339
+#: bp-core.php:768 bp-wire/bp-wire-templatetags.php:339
 msgid "You"
 msgstr ""
 
-#: bp-core.php:850
+#: bp-core.php:854
 #, php-format
 msgid "%s's"
 msgstr ""
 
-#: bp-core.php:967 bp-core/bp-core-templatetags.php:403
+#: bp-core.php:971 bp-core/bp-core-templatetags.php:403
 #: bp-themes/deprecated/bphome/comments.php:42
 msgid "at"
 msgstr ""
 
-#: bp-core.php:1072
+#: bp-core.php:1076
 msgid "year"
 msgstr ""
 
-#: bp-core.php:1072
+#: bp-core.php:1076
 msgid "years"
 msgstr ""
 
-#: bp-core.php:1073
+#: bp-core.php:1077
 msgid "month"
 msgstr ""
 
-#: bp-core.php:1073
+#: bp-core.php:1077
 msgid "months"
 msgstr ""
 
-#: bp-core.php:1074
+#: bp-core.php:1078
 msgid "week"
 msgstr ""
 
-#: bp-core.php:1074
+#: bp-core.php:1078
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:1075
+#: bp-core.php:1079
 msgid "day"
 msgstr ""
 
-#: bp-core.php:1075
+#: bp-core.php:1079
 msgid "days"
 msgstr ""
 
-#: bp-core.php:1076
+#: bp-core.php:1080
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:1076 bp-forums/bbpress/bb-admin/options-general.php:116
+#: bp-core.php:1080 bp-forums/bbpress/bb-admin/options-general.php:116
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:1077
+#: bp-core.php:1081
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:1077 bp-forums/bbpress/bb-admin/options-writing.php:40
+#: bp-core.php:1081 bp-forums/bbpress/bb-admin/options-writing.php:40
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:1078
+#: bp-core.php:1082
 msgid "second"
 msgstr ""
 
-#: bp-core.php:1078 bp-core.php:1124
+#: bp-core.php:1082 bp-core.php:1128
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1089
+#: bp-core.php:1093
 msgid "[Use GMT Timezone]"
 msgstr ""
 
-#: bp-core.php:1119
+#: bp-core.php:1123
 msgid ",|Separator in time since"
 msgstr ""
 
-#: bp-core.php:1168
+#: bp-core.php:1172
 msgid "not recently active"
 msgstr ""
 
@@ -1653,7 +1653,7 @@ msgstr ""
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:65
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:66
 #: bp-forums/bbpress/bb-templates/kakumei/front-page.php:48
-#: bp-forums/bp-forums-admin.php:142
+#: bp-forums/bp-forums-admin.php:151
 msgid "Forums"
 msgstr ""
 
@@ -6669,28 +6669,39 @@ msgid ""
 "The bb-config.php file was not found at that location, please try again."
 msgstr ""
 
+#: bp-forums/bp-forums-admin.php:39
+msgid "Forums were set up correctly using your existing bbPress install!"
+msgstr ""
+
 #: bp-forums/bp-forums-admin.php:40
+msgid ""
+"BuddyPress will now use its internal copy of bbPress to run the forums on "
+"your site. If you wish, you can remove your old bbPress installation files, "
+"as long as you keep the bb-config.php file in the same location."
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:45
 msgid "Existing bbPress Installation"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:41
+#: bp-forums/bp-forums-admin.php:46
 msgid ""
 "BuddyPress can make use of your existing bbPress install. Just provide the "
 "location of your <code>bb-config.php</code> file, and BuddyPress will do the "
 "rest."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:43 bp-forums/bp-forums-admin.php:70
+#: bp-forums/bp-forums-admin.php:48 bp-forums/bp-forums-admin.php:76
 msgid "Complete Installation"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:57
+#: bp-forums/bp-forums-admin.php:63
 msgid ""
 "All done! Configuration settings have been saved to the file <code>bb-config."
 "php</code> in the root of your WordPress install."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:61
+#: bp-forums/bp-forums-admin.php:67
 msgid ""
 "A configuration file could not be created. No problem, but you will need to "
 "save the text shown below into a file named <code>bb-config.php</code> in "
@@ -6698,29 +6709,29 @@ msgid ""
 "the forum functionality."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:67
+#: bp-forums/bp-forums-admin.php:73
 msgid "New bbPress Installation"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:68
+#: bp-forums/bp-forums-admin.php:74
 msgid ""
 "You've decided to set up a new installation of bbPress for forum management "
 "in BuddyPress. This is very simple and is usually just a one click\n"
 "\t\t\t\tprocess. When you're ready, hit the link below."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:76
+#: bp-forums/bp-forums-admin.php:82
 msgid ""
 "Forums in BuddyPress make use of a bbPress installation to function. You can "
 "choose to either let BuddyPress set up a new bbPress install, or use an "
 "already existing bbPress install. Please choose one of the options below."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:78
+#: bp-forums/bp-forums-admin.php:84
 msgid "Set up a new bbPress installation"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:79
+#: bp-forums/bp-forums-admin.php:85
 msgid "Use an existing bbPress installation"
 msgstr ""
 
