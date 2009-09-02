@@ -39,7 +39,7 @@
 				<?php endif; ?>
 				<?php comment_text() ?>
 
-				<p class="commentmetadata"><a href="#comment-<?php comment_ID() ?>" title=""><?php comment_date('F jS, Y') ?> <?php _e( 'at', 'buddypress' ) ?> <?php comment_time() ?></a> <?php edit_comment_link('Edit','&nbsp; [ ',' ]'); ?></p>
+				<p class="commentmetadata"><a href="#comment-<?php comment_ID() ?>" title=""><?php comment_date('F jS, Y') ?> <?php _e( 'at', 'buddypress' ) ?> <?php comment_time() ?></a> <?php edit_comment_link( __( 'Edit', 'buddypress' ),'&nbsp; [ ',' ]'); ?></p>
 			</div>
 			<div class="clear"></div>
 		</li>
