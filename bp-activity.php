@@ -286,7 +286,7 @@ function bp_activity_delete_by_item_id( $args = '' ) {
 	$defaults = array(
 		'item_id' => false,
 		'component_name' => false,
-		'component_action' => false,
+		'component_action' => false, // optional
 		'user_id' => false, // optional
 		'secondary_item_id' => false // optional
 	);

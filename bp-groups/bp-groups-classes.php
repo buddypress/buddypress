@@ -147,14 +147,6 @@ Class BP_Groups_Group {
 		return true;
 	}
 	
-	function make_private() {
-		
-	}
-	
-	function make_public() {
-		
-	}
-	
 	function get_user_dataset() {
 		global $wpdb, $bp;
 		

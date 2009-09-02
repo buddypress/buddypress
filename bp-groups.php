@@ -459,15 +459,6 @@ function groups_screen_create_group() {
 				$group_status = 'private';
 			else if ( 'hidden' == $_POST['group-status'] )
 				$group_status = 'hidden';
-			
-			/* Once we get to the second step, record the group creation in the activity stream. As we now know the actual status of the group */
-			groups_record_activity( array(
-				'content' => sprintf( __( '%s created the group %s:', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' ), 
-				'primary_link' => bp_get_group_permalink( $bp->groups->current_group ),
-				'component_action' => 'created_group',
-				'item_id' => $bp->groups->current_group->id,
-				'user_id' => $user_id
-			) );
 		
 			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'status' => $group_status, 'enable_wire' => $group_enable_wire, 'enable_forum' => $group_enable_forum ) ) ) {
 				bp_core_add_message( __( 'There was an error saving group details, please try again.', 'buddypress' ), 'error' );
@@ -498,6 +489,14 @@ function groups_screen_create_group() {
 		if ( count( $bp->groups->completed_create_steps ) == count( $bp->groups->group_creation_steps ) && $bp->groups->current_create_step == array_pop( array_keys( $bp->groups->group_creation_steps ) ) ) {
 			unset( $bp->groups->current_create_step );
 			unset( $bp->groups->completed_create_steps );
+			
+			/* Once we compelete all steps, record the group creation in the activity stream. */
+			groups_record_activity( array(
+				'content' => sprintf( __( '%s created the group %s:', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' ), 
+				'primary_link' => bp_get_group_permalink( $bp->groups->current_group ),
+				'component_action' => 'created_group',
+				'item_id' => $bp->groups->new_group_id
+			) );
 			
 			bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
 		} else {
@@ -1227,7 +1226,7 @@ function groups_screen_group_admin_delete_group() {
 	
 	if ( $bp->current_component == $bp->groups->slug && 'delete-group' == $bp->action_variables[0] ) {
 		
-		if ( !$bp->is_item_admin )
+		if ( !$bp->is_item_admin && !is_site_admin() )
 			return false;
 		
 		if ( isset( $_POST['delete-group-button'] ) && isset( $_POST['delete-group-understand'] ) ) {
@@ -1236,7 +1235,7 @@ function groups_screen_group_admin_delete_group() {
 				return false;
 		
 			// Group admin has deleted the group, now do it.
-			if ( !groups_delete_group( $_POST['group-id']) ) {
+			if ( !groups_delete_group( $_POST['group-id'] ) ) {
 				bp_core_add_message( __( 'There was an error deleting the group, please try again.', 'buddypress' ), 'error' );
 			} else {
 				bp_core_add_message( __( 'The group was deleted successfully', 'buddypress' ) );
@@ -1419,7 +1418,7 @@ function groups_record_activity( $args = '' ) {
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );	
-	
+
 	return bp_activity_add( array( 'user_id' => $user_id, 'content' => $content, 'primary_link' => $primary_link, 'component_name' => $component_name, 'component_action' => $component_action, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
 }
 
@@ -1687,10 +1686,10 @@ function groups_delete_group( $group_id ) {
 	if ( !$group->delete() )
 		return false;
 
-	/* Delete the activity stream item */
+	/* Delete all group activity from activity streams */
 	if ( function_exists( 'bp_activity_delete_by_item_id' ) ) {
-		bp_activity_delete_by_item_id( array( 'item_id' => $group_id, 'component_name' => 'groups', 'component_action' => 'created_group' ) );
-	}	
+		bp_activity_delete_by_item_id( array( 'item_id' => $group_id, 'component_name' => $bp->groups->id ) );
+	}
  
 	// Remove all outstanding invites for this group
 	groups_delete_all_group_invites( $group_id );
@@ -1988,8 +1987,8 @@ function groups_new_wire_post( $group_id, $content ) {
 			'content' => $activity_content, 
 			'primary_link' => bp_get_group_permalink( $bp->groups->current_group ),
 			'component_action' => 'new_wire_post',
-			'item_id' => $wire_post->item_id,
-			'secondary_item_id' => $bp->groups->current_group->id
+			'item_id' => $bp->groups->current_group->id,
+			'secondary_item_id' => $wire_post->item_id
 		) );
 
 		do_action( 'groups_new_wire_post', $group_id, $wire_post->id );
@@ -2049,7 +2048,7 @@ function groups_new_group_forum_post( $post_text, $topic_id ) {
 			'content' => $activity_content, 
 			'primary_link' => bp_get_group_permalink( $bp->groups->current_group ),
 			'component_action' => 'new_forum_post',
-			'item_id' => $topic_id,
+			'item_id' => $bp->groups->current_group->id,
 			'secondary_item_id' => $forum_post->id
 		) );
 
@@ -2075,8 +2074,8 @@ function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $
 			'content' => $activity_content, 
 			'primary_link' => bp_get_group_permalink( $bp->groups->current_group ),
 			'component_action' => 'new_forum_topic',
-			'item_id' => $topic->topic_id,
-			'secondary_item_id' => $bp->groups->current_group->id
+			'item_id' => $bp->groups->current_group->id,
+			'secondary_item_id' => $topic->topic_id
 		) );
 		
 		do_action( 'groups_new_forum_topic', $bp->groups->current_group->id, &$topic );
@@ -2102,9 +2101,9 @@ function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text )
 			'content' => $activity_content, 
 			'primary_link' => bp_get_group_permalink( $bp->groups->current_group ),
 			'component_action' => 'new_forum_topic',
-			'item_id' => (int)$topic->topic_id,
+			'item_id' => (int)$bp->groups->current_group->id,
 			'user_id' => (int)$topic->topic_poster,
-			'secondary_item_id' => $bp->groups->current_group->id,
+			'secondary_item_id' => $topic->topic_id,
 			'recorded_time' => bb_gmtstrtotime( $topic->topic_time )
 		) );
 
@@ -2143,7 +2142,7 @@ function groups_update_group_forum_post( $post_id, $post_text, $topic_id ) {
 		$topic = bp_forums_get_topic_details( $topic_id );
 
 		/* Update the activity stream item */
-		bp_activity_delete_by_item_id( array( 'item_id' => $topic_id, 'secondary_item_id' => $post_id, 'component_name' => 'groups', 'component_action' => 'new_forum_post' ) );
+		bp_activity_delete_by_item_id( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $post_id, 'component_name' => 'groups', 'component_action' => 'new_forum_post' ) );
 		
 		$activity_content = sprintf( __( '%s posted on the forum topic %s in the group %s:', 'buddypress'), bp_core_get_userlink( $post->poster_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '/forum/topic/' . $topic->topic_slug .'">' . attribute_escape( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
 		$activity_content .= '<blockquote>' . bp_create_excerpt( attribute_escape( $post_text ) ) . '</blockquote>';
@@ -2153,7 +2152,7 @@ function groups_update_group_forum_post( $post_id, $post_text, $topic_id ) {
 			'content' => $activity_content, 
 			'primary_link' => bp_get_group_permalink( $bp->groups->current_group ),
 			'component_action' => 'new_forum_post',
-			'item_id' => $topic_id,
+			'item_id' => $bp->groups->current_group->id,
 			'secondary_item_id' => $post_id,
 			'recorded_time' => bb_gmtstrtotime( $post->post_time )
 		) );
@@ -2560,13 +2559,13 @@ function groups_update_groupmeta( $group_id, $meta_key, $meta_value ) {
 
 /*** Group Cleanup Functions ****************************************************/
 
-function groups_remove_data( $user_id ) {
+function groups_remove_data_for_user( $user_id ) {
 	BP_Groups_Member::delete_all_for_user($user_id);
 	
-	do_action( 'groups_remove_data', $user_id );
+	do_action( 'groups_remove_data_for_user', $user_id );
 }
-add_action( 'wpmu_delete_user', 'groups_remove_data', 1 );
-add_action( 'delete_user', 'groups_remove_data', 1 );
+add_action( 'wpmu_delete_user', 'groups_remove_data_for_user', 1 );
+add_action( 'delete_user', 'groups_remove_data_for_user', 1 );
 
 function groups_clear_group_object_cache( $group_id ) {
 	wp_cache_delete( 'groups_group_nouserdata_' . $group_id, 'bp' );
