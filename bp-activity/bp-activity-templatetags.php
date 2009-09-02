@@ -351,32 +351,32 @@ function bp_activity_filter_links( $args = false ) {
 		$link = remove_query_arg( array( 'acpage' ), $link );
 
 		foreach ( (array) $component_names as $component_name ) {
+			if ( isset( $_GET['afilter'] ) && $component_name == $_GET['afilter'] )
+				$selected = ' class="selected"';
+			else
+				unset($selected);
+
 			switch ( $style ) {
 				case 'list':
 					$tag = 'li';
-					$before = '<li id="afilter-' . $component_name . '">';
+					$before = '<li id="afilter-' . $component_name . '"' . $selected . '>';
 					$after = '</li>';
 				break;
 				case 'paragraph':
 					$tag = 'p';
-					$before = '<p id="afilter-' . $component_name . '">';
+					$before = '<p id="afilter-' . $component_name . '"' . $selected . '>';
 					$after = '</p>';
 				break;
 				case 'span':
 					$tag = 'span';
-					$before = '<span id="afilter-' . $component_name . '">';
+					$before = '<span id="afilter-' . $component_name . '"' . $selected . '>';
 					$after = '</span>';
 				break;
 			}
 			
 			$link = add_query_arg( 'afilter', $component_name );
 			
-			if ( isset( $_GET['afilter'] ) && $component_name == $_GET['afilter'] )
-				$selected = ' class="selected"';
-			else
-				unset($selected);
-			
-			$component_links[] = $before . '<a href="' . $link . '"' . $selected . '">' . ucwords( __( $component_name, 'buddypress' ) ) . '</a>' . $after;
+			$component_links[] = $before . '<a href="' . $link . '">' . ucwords( __( $component_name, 'buddypress' ) ) . '</a>' . $after;
 		}
 
 		$link = remove_query_arg( array( 'afilter' ), $link );
