@@ -533,26 +533,15 @@ add_action( 'wp_head', 'bp_core_sort_nav_items' );
 /**
  * bp_core_remove_nav_item()
  *
- * Removes a navigation item from the navigation array used in BuddyPress themes.
+ * Removes a navigation item from the main navigation array.
  * 
  * @package BuddyPress Core
- * @param $parent_id The id of the parent navigation item.
  * @param $slug The slug of the sub navigation item.
  */
-function bp_core_remove_nav_item( $name ) {
+function bp_core_remove_nav_item( $slug ) {
 	global $bp;
 
-	foreach( (array) $bp->bp_nav as $item_key => $item_value ) {
-		if ( $item_value['name'] == $name ) {
-			unset( $bp->bp_nav[$item_key] );
-		}
-	}
-	
-	foreach( (array) $bp->bp_users_nav as $item_key => $item_value ) {
-		if ( $item_value['name'] == $name ) {
-			unset( $bp->bp_nav[$item_key] );
-		}
-	}
+	unset( $bp->bp_nav[$slug] );
 }
 
 /**
