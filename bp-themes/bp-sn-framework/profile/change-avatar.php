@@ -12,8 +12,7 @@
 	
 		<?php do_action( 'bp_before_profile_avatar_upload_content' ) ?>
 
-		<p><?php _e('Your avatar will be used on your profile and throughout the site.', 'buddypress') ?></p>
-		<p><?php _e( 'Click below to select a JPG, GIF or PNG format photo from your computer and then click \'Upload Photo\' to proceed.', 'buddypress' ) ?></p>
+		<p><?php _e( 'Your avatar will be used on your profile and throughout the site. If there is a <a href="http://gravatar.com">Gravatar</a> associated with your account email we will use that, or you can upload an image from your computer.', 'buddypress') ?></p>
 		
 		<form action="" method="post" id="avatar-upload-form" enctype="multipart/form-data">	
 			
@@ -21,10 +20,22 @@
 			
 				<h3><?php _e( 'Your Current Avatar', 'buddypress' ) ?></h3>
 		
-				<?php bp_displayed_user_avatar( 'type=full') ?>
-				<?php bp_displayed_user_avatar( 'type=thumb' ) ?>
-			
-				<p>
+				<p id="current-avatar">
+					<?php bp_displayed_user_avatar( 'type=full') ?>
+					<?php bp_displayed_user_avatar( 'type=thumb' ) ?>
+				</p>
+				
+				<?php if ( bp_get_user_has_avatar() ) : ?>
+					<div class="generic-button" id="delete-avatar-button">
+						<a class="edit" href="<?php bp_avatar_delete_link() ?>" title="<?php _e( 'Delete Avatar', 'buddypress' ) ?>"><?php _e( 'Delete Avatar', 'buddypress' ) ?></a>
+					</div>
+				<?php endif; ?>
+				
+				<h3><?php _e( 'Upload a New Avatar', 'buddypress' ) ?></h3>
+
+				<p><?php _e( 'Click below to select a JPG, GIF or PNG format photo from your computer and then click \'Upload Image\' to proceed.', 'buddypress' ) ?></p>
+				
+				<p id="avatar-upload">
 					<input type="file" name="file" id="file" /> 
 					<input type="submit" name="upload" id="upload" value="<?php _e( 'Upload Image', 'buddypress' ) ?>" />
 					<input type="hidden" name="action" id="action" value="bp_avatar_upload" />

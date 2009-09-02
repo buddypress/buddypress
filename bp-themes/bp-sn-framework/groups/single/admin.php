@@ -122,6 +122,12 @@
 
 						<div class="left-menu">
 							<?php bp_group_avatar( 'type=full' ) ?>
+							
+							<?php if ( bp_get_group_has_avatar() ) : ?>
+								<div class="generic-button" id="delete-group-avatar-button">
+									<a class="edit" href="<?php bp_group_avatar_delete_link() ?>" title="<?php _e( 'Delete Avatar', 'buddypress' ) ?>"><?php _e( 'Delete Avatar', 'buddypress' ) ?></a>
+								</div>
+							<?php endif; ?>
 						</div>
 				
 						<div class="main-column">
