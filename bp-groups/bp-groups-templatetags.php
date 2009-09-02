@@ -1873,15 +1873,17 @@ class BP_Groups_Site_Groups_Template {
 			$this->group_count = count($this->groups);
 		}
 		
-		$this->pag_links = paginate_links( array(
-			'base' => add_query_arg( 'gpage', '%#%' ),
-			'format' => '',
-			'total' => ceil( (int) $this->total_group_count / (int) $this->pag_num ),
-			'current' => (int) $this->pag_page,
-			'prev_text' => '&laquo;',
-			'next_text' => '&raquo;',
-			'mid_size' => 1
-		));		
+		if ( (int) $this->total_group_count && (int) $this->pag_num ) {
+			$this->pag_links = paginate_links( array(
+				'base' => add_query_arg( 'gpage', '%#%' ),
+				'format' => '',
+				'total' => ceil( (int) $this->total_group_count / (int) $this->pag_num ),
+				'current' => (int) $this->pag_page,
+				'prev_text' => '&laquo;',
+				'next_text' => '&raquo;',
+				'mid_size' => 1
+			));		
+	}
 	}
 	
 	function has_groups() {
