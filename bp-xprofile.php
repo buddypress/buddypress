@@ -444,18 +444,21 @@ add_action( 'bp_notification_settings', 'xprofile_screen_notification_settings',
 function xprofile_action_delete_avatar() {
 	global $bp;
 
-	if ( 'delete-avatar' != $bp->current_action )
-		return false;
-
-	if ( !check_admin_referer( 'bp_delete_avatar_link' ) )
+	if ( $bp->profile->slug != $bp->current_component || 'change-avatar' != $bp->current_action || 'delete-avatar' != $bp->action_variables[0] )
 		return false;
 	
-	if ( !bp_is_home() )
+	/* Check the nonce */
+	check_admin_referer( 'bp_delete_avatar_link' );
+	
+	if ( !bp_is_home() && !is_site_admin() )
 		return false;
+	
+	if ( bp_core_delete_existing_avatar( array( 'item_id' => $bp->displayed_user->id ) ) )
+		bp_core_add_message( __( 'Your avatar was deleted successfully!', 'buddypress' ) );
+	else
+		bp_core_add_message( __( 'There was a problem deleting that avatar, please try again.', 'buddypress' ), 'error' );
 
-	bp_core_delete_avatar();
-	add_action( 'wp_head', 'bp_core_add_cropper_js' );
-	bp_core_load_template( apply_filters( 'xprofile_template_delete_avatar', 'profile/change-avatar' ) );
+	bp_core_redirect( $_SERVER['HTTP_REFERER'] ); 
 }
 add_action( 'wp', 'xprofile_action_delete_avatar', 3 );
 

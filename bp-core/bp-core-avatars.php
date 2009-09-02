@@ -139,14 +139,37 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 	$defaults = array(
 		'item_id' => false,
 		'object' => 'user', // user OR group OR blog OR custom type (if you use filters)
-		'avatar_path' => false
+		'avatar_dir' => false
 	);
 
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );	
+	$args = wp_parse_args( $args, $defaults );
+	extract( $args, EXTR_SKIP );	
 	
-	if ( !$avatar_path )
-		return false;
+	if ( !$item_id ) {
+		if ( 'user' == $object )
+			$item_id = $bp->displayed_user->id;
+		else if ( 'group' == $object )
+			$item_id = $bp->groups->current_group->id;
+		else if ( 'blog' == $object )
+			$item_id = $current_blog->id;
+			
+		$item_id = apply_filters( 'bp_core_avatar_item_id', $item_id, $object );
+	
+		if ( !$item_id ) return false;
+	}
+		
+	if ( !$avatar_dir ) {
+		if ( 'user' == $object )
+			$avatar_dir = 'avatars';
+		else if ( 'group' == $object )
+			$avatar_dir = 'group-avatars';
+		else if ( 'blog' == $object )
+			$avatar_dir = 'blog-avatars';
+			
+		$avatar_dir = apply_filters( 'bp_core_avatar_dir', $avatar_dir, $object );
+		
+		if ( !$avatar_dir ) return false;		
+	}
 
 	if ( 'user' == $object ) {
 		/* Delete any legacy meta entries if this is a user avatar */
@@ -156,13 +179,24 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 		delete_usermeta( $item_id, 'bp_core_avatar_v2' );
 	}
 
-	if ( $av_dir = opendir( $avatar_path ) ) {
+	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', WP_CONTENT_DIR . '/blogs.dir/' . BP_ROOT_BLOG . '/files/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );	
+
+	if ( !file_exists( $avatar_folder_dir ) )
+		return false;
+
+	if ( $av_dir = opendir( $avatar_folder_dir ) ) {
 	    while ( false !== ( $avatar_file = readdir($av_dir) ) ) {
 			if ( ( preg_match( "/-bpfull/", $avatar_file ) || preg_match( "/-bpthumb/", $avatar_file ) ) && '.' != $avatar_file && '..' != $avatar_file )
-				@unlink( $avatar_path . '/' . $avatar_file );
+				@unlink( $avatar_folder_dir . '/' . $avatar_file );				
 		}
 	}
     closedir($av_dir);
+
+	@rmdir( $avatar_folder_dir );
+
+	do_action( 'bp_core_delete_existing_avatar', $args );
+
+	return true;
 }
 
 function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {

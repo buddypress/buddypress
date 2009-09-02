@@ -639,7 +639,22 @@ function bp_current_profile_group_id() {
 	
 		return apply_filters( 'bp_get_current_profile_group_id', $profile_group_id ); // admin/profile/edit/[group-id]
 	}
+
+function bp_avatar_delete_link() {
+	echo bp_get_avatar_delete_link();
+}
+	function bp_get_avatar_delete_link() {
+		global $bp;
+		
+		return apply_filters( 'bp_get_avatar_delete_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->profile->slug . '/change-avatar/delete-avatar/', 'bp_delete_avatar_link' ) );
+	}
+
+function bp_get_user_has_avatar() {
+	if ( !bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'no_grav' => true ) ) )
+		return false;
 	
+	return true;
+}
 
 function bp_edit_profile_button() {
 	global $bp;

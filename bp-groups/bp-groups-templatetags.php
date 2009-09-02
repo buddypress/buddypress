@@ -63,6 +63,25 @@ function bp_group_current_avatar() {
 	<?php }
 }
 
+
+function bp_get_group_has_avatar() {
+	global $bp;
+
+	if ( !empty( $_FILES ) || !bp_core_fetch_avatar( array( 'item_id' => $bp->groups->current_group->id, 'object' => 'group', 'no_grav' => true ) ) )
+		return false;
+	
+	return true;
+}
+
+function bp_group_avatar_delete_link() {
+	echo bp_get_group_avatar_delete_link();
+}
+	function bp_get_group_avatar_delete_link() {
+		global $bp;
+		
+		return apply_filters( 'bp_get_group_avatar_delete_link', wp_nonce_url( bp_get_group_permalink( $bp->groups->current_group ) . '/admin/group-avatar/delete', 'bp_group_avatar_delete' ) );
+	}
+
 function bp_group_avatar_edit_form() {
 	groups_avatar_upload();
 }
@@ -398,7 +417,7 @@ function bp_group_avatar() {
 			'width' => false,
 			'height' => false,
 			'class' => 'avatar',
-			'id' => 'avatar-crop-preview',
+			'id' => false,
 			'alt' => __( 'Group avatar', 'buddypress' ) 
 		);
 
