@@ -23,7 +23,7 @@
 		
 		<p id="login-text"><?php _e( 'You must log in to access your account.', 'buddypress' ) ?></p>
 	
-		<form name="loginform" id="loginform" action="<?php echo site_url('wp-login.php') ?>" method="post">
+		<form name="loginform" id="loginform" action="<?php echo site_url( 'wp-login.php', 'login' ) ?>" method="post">
 			<p>
 				<label><?php _e( 'Username', 'buddypress' ) ?><br />
 				<input type="text" name="log" id="user_login" class="input" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" /></label>

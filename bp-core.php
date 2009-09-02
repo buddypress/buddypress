@@ -276,7 +276,14 @@ function bp_core_add_admin_menu() {
 		return false;
 		
 	/* Add the administration tab under the "Site Admin" tab for site administrators */
-	bp_core_add_admin_menu_page( array( 'menu_title' => __( 'BuddyPress', 'buddypress' ), 'page_title' => __( 'BuddyPress', 'buddypress' ), 'access_level' => 10, 'file' => 'bp-core.php', 'function' => 'bp_core_admin_settings', 'position' => 2 ) );
+	bp_core_add_admin_menu_page( array(
+		'menu_title' => __( 'BuddyPress', 'buddypress' ),
+		'page_title' => __( 'BuddyPress', 'buddypress' ),
+		'access_level' => 10, 'file' => 'bp-core.php',
+		'function' => 'bp_core_admin_settings',
+		'position' => 2
+	) );
+	
 	add_submenu_page( 'bp-core.php', __( 'General Settings', 'buddypress'), __( 'General Settings', 'buddypress' ), 1, 'bp-core.php', 'bp_core_admin_settings' );
 	add_submenu_page( 'bp-core.php', __( 'Component Setup', 'buddypress'), __( 'Component Setup', 'buddypress' ), 2, __FILE__, 'bp_core_admin_component_setup' );
 }
@@ -321,7 +328,14 @@ function bp_core_setup_nav() {
 		$profile_link = $bp->loggedin_user->domain . '/profile/';
 
 		/* Add the subnav items to the profile */
-		bp_core_new_subnav_item( array( 'name' => __( 'Public', 'buddypress' ), 'slug' => 'public', 'parent_url' => $profile_link, 'parent_slug' => 'profile', 'screen_function' => 'xprofile_screen_display_profile', 'position' => 10 ) );
+		bp_core_new_subnav_item( array(
+			'name' => __( 'Public', 'buddypress' ),
+			'slug' => 'public',
+			'parent_url' => $profile_link,
+			'parent_slug' => 'profile',
+			'screen_function' => 'xprofile_screen_display_profile',
+			'position' => 10
+		) );
 
 		if ( 'profile' == $bp->current_component ) {
 			if ( bp_is_home() ) {
@@ -571,10 +585,6 @@ function bp_core_new_subnav_item( $args = '' ) {
 	if ( empty($name) || empty($slug) || empty($parent_slug) || empty($parent_url) || empty($screen_function) )
 		return false;
 	
-	/* If the logged in user does not have access */
-	if ( !$user_has_access )
-		return false;
-	
 	/* If this is for site admins only and the user is not one, don't create the subnav item */
 	if ( $site_admin_only && !is_site_admin() )
 		return false;
@@ -587,10 +597,11 @@ function bp_core_new_subnav_item( $args = '' ) {
 		'link' => $parent_url . $slug . '/',
 		'slug' => $slug,
 		'css_id' => $item_css_id,
-		'position' => $position
+		'position' => $position,
+		'user_has_access' => $user_has_access
 	);
 		
-	if ( $bp->current_action == $slug && $bp->current_component == $parent_slug ) {
+	if ( ( $bp->current_action == $slug && $bp->current_component == $parent_slug ) && $user_has_access ) {
 		if ( !is_object($screen_function[0]) )
 			add_action( 'wp', $screen_function, 3 );
 		else

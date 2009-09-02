@@ -118,20 +118,18 @@ function bp_get_options_nav() {
 	
 		/* Loop through each navigation item */
 		foreach ( $bp->bp_options_nav[$bp->current_component] as $subnav_item ) {
-			$title = $subnav_item['name'];
-			$slug = $subnav_item['slug'];
-			$link = $subnav_item['link'];
-			$css_id = $subnav_item['css_id'];
+			if ( !$subnav_item['user_has_access'] )
+				continue;
 			
 			/* If the current action or an action variable matches the nav item id, then add a highlight CSS class. */
-			if ( $slug == $bp->current_action ) {
+			if ( $subnav_item['slug'] == $bp->current_action ) {
 				$selected = ' class="current"';
 			} else {
 				$selected = '';
 			}
 			
 			/* echo out the final list item */
-			echo '<li' . $selected . '><a id="' . $css_id . '" href="' . $link . '">' . $title . '</a></li>';		
+			echo '<li' . $selected . '><a id="' . $subnav_item['css_id'] . '" href="' . $subnav_item['link'] . '">' . $subnav_item['name'] . '</a></li>';		
 		}
 	} else {
 		/* If we get here we are viewing another user, so show the displayed user's nav items */
