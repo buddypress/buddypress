@@ -498,6 +498,8 @@ function groups_screen_create_group() {
 				'item_id' => $bp->groups->new_group_id
 			) );
 			
+			do_action( 'groups_group_create_complete', $bp->groups->new_group_id );
+			
 			bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
 		} else {
 			/**
