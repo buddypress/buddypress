@@ -148,7 +148,7 @@ Class BP_Activity_Activity {
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
-		if ( $max )
+		if ( $max_items )
 			$max_sql = $wpdb->prepare( "LIMIT %d", $max_items );
 		
 		if ( $filter )
