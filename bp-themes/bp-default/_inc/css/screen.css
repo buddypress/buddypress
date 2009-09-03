@@ -453,7 +453,7 @@ div.bp-widget {
 	margin-bottom: 20px;
 }
 	div.bp-widget h4 {
-		background: url(../images/group_header.gif) top left;
+		background: url(../images/group_header.gif) repeat-x top left;
 		color: #fff;
 		padding: 6px 10px 15px 10px;
 		font: bold 1em "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif !important;
@@ -1219,6 +1219,7 @@ input#signup_blog_title {
 }
 
 #blog-details-section {
+	clear: left;
 	margin-top: -10px;
 }
 
@@ -1331,7 +1332,7 @@ ul#activity-filter-links li {
 		border: 1px solid #eee;
 		text-decoration: none;
 	}
-		ul#activity-filter-links li a.selected {
+		ul#activity-filter-links li.selected a {
 			border: 1px solid #ccc;
 			font-weight: bold;
 		}
@@ -1569,10 +1570,9 @@ div.sub-options {
 	border-left: 8px solid #eee;
 }
 
-#create-group-form {
-	float: left;
+#create-group-form, #group-settings-form {
 	width: 100%;
-	margin-bottom: 35px;
+	margin: 0 0 35px 0;
 }
 
 #create-group-form ul, #group-settings-form ul {
@@ -1589,15 +1589,15 @@ div.sub-options {
 	}
 		#invite-list input { width: auto !important; }
 	
-#create-group-form textarea {
+#create-group-form textarea, #group-settings-form textarea {
 	height: 120px;
 }
 
-#create-group-form .checkbox, #create-group-form .radio ul {
+#create-group-form .checkbox, #create-group-form .radio ul, #group-settings-form .checkbox, #group-settings-form .checkbox {
 	margin-bottom: 15px;
 }
 
-	#create-group-form img.avatar {
+	#create-group-form img.avatar, #group-settings-form img.avatar {
 		border: none;
 		margin-bottom: 20px;
 	}
@@ -1630,9 +1630,19 @@ ul#group-list li, ul#member-list li, ul#blog-list li, ul#comment-list li, ul.ite
 	font-size: 0.9em;
 }
 
-#group-admins img.avatar {
+#group-admins img.avatar, #group-mods img.avatar {
 	border-width: 3px;
+	width: 30px;
+	float: left;
+	margin-right: 8px;
 }
+
+#group-name p.status {
+	font: italic 1.6em "Georgia", Times, serif;
+	margin: -10px 0 15px 0;
+	color: #888;
+}
+
 
 .request-pending {
 	text-transform: uppercase;
@@ -1867,6 +1877,14 @@ table.profile-fields {
 		width: 130px;
 	}
 
+#profile-edit-form p.description {
+	font-size: 0.9em;
+	color: #888;
+	margin-top: 5px;
+}
+	div#delete-avatar-button {
+		margin-bottom: 25px;
+	}
 
 
 /**** WIRE ***********************/
