@@ -223,6 +223,14 @@ function bp_field_has_public_data() {
 	return false;
 }
 
+function bp_the_profile_group_id() {
+	echo bp_get_the_profile_group_id();
+}
+	function bp_get_the_profile_group_id() {
+		global $group;
+		return apply_filters( 'bp_get_the_profile_group_id', $group->id );
+	}
+
 function bp_the_profile_group_name() {
 	echo bp_get_the_profile_group_name();
 }
