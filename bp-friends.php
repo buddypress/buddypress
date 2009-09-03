@@ -401,7 +401,7 @@ function friends_search_friends( $search_terms, $user_id, $pag_num = 10, $pag_pa
 function friends_get_friendship_requests( $user_id ) {
 	$fship_ids = friends_get_friendship_ids( $user_id, true );
 	
-	return array( 'requests' => $fship_ids, 'total' => count($requests) );
+	return array( 'requests' => $fship_ids, 'total' => count($fship_ids) );
 }
 
 function friends_get_recently_active( $user_id, $pag_num = false, $pag_page = false, $filter = false ) {
