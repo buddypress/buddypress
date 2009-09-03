@@ -1076,11 +1076,13 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	array( 60 , __( 'minute', 'buddypress' ), __( 'minutes', 'buddypress' ) ),
 	array( 1, __( 'second', 'buddypress' ), __( 'seconds', 'buddypress' ) )
 	);
+	
+	$older_date = strtotime( gmdate( 'Y-m-d H:i:s', $older_date ) );
 
 	/* $newer_date will equal false if we want to know the time elapsed between a date and the current time */
 	/* $newer_date will have a value if we want to work out time elapsed between two known dates */
-	$newer_date = ( !$newer_date ) ? ( time() + ( 60*60*0 ) ) : $newer_date;
-
+	$newer_date = ( !$newer_date ) ? ( strtotime( gmdate( 'Y-m-d H:i:s' ) ) + ( 60*60*0 ) ) : $newer_date;
+	
 	/* Difference in seconds */
 	$since = $newer_date - $older_date;
 	
