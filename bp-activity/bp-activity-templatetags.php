@@ -255,6 +255,9 @@ function bp_activity_content() {
 		else
 			$content = bp_activity_content_filter( $activities_template->activity->content, $activities_template->activity->date_recorded, $activities_template->full_name, true, false, false );
 
+		/* Add 'the_content' filter to activity to allow existing plugins to replace text as they would on post text. (extra smilies etc) */
+		$content = apply_filters( 'the_content', $content );
+		
 		return apply_filters( 'bp_get_activity_content', $content );
 	}
 
