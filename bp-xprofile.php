@@ -458,7 +458,7 @@ function xprofile_action_delete_avatar() {
 	else
 		bp_core_add_message( __( 'There was a problem deleting that avatar, please try again.', 'buddypress' ), 'error' );
 
-	bp_core_redirect( $_SERVER['HTTP_REFERER'] ); 
+	bp_core_redirect( wp_get_referer() ); 
 }
 add_action( 'wp', 'xprofile_action_delete_avatar', 3 );
 
@@ -521,7 +521,7 @@ function xprofile_action_new_wire_post() {
 		do_action( 'xprofile_new_wire_post', &$wire_post );	
 	}
 
-	if ( !strpos( $_SERVER['HTTP_REFERER'], $bp->wire->slug ) ) {
+	if ( !strpos( wp_get_referer(), $bp->wire->slug ) ) {
 		bp_core_redirect( $bp->displayed_user->domain );
 	} else {
 		bp_core_redirect( $bp->displayed_user->domain . $bp->wire->slug );
@@ -563,7 +563,7 @@ function xprofile_action_delete_wire_post() {
 		bp_core_add_message( __('Wire post could not be deleted, please try again.', 'buddypress'), 'error' );
 	}
 	
-	if ( !strpos( $_SERVER['HTTP_REFERER'], $bp->wire->slug ) ) {
+	if ( !strpos( wp_get_referer(), $bp->wire->slug ) ) {
 		bp_core_redirect( $bp->displayed_user->domain );
 	} else {
 		bp_core_redirect( $bp->displayed_user->domain. $bp->wire->slug );

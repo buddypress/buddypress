@@ -84,6 +84,9 @@ Class BP_Activity_Activity {
 	function exists() {
 		global $wpdb, $bp;
 		
+		/* This doesn't seem to be working correctly at the moment, so it is disabled [TODO] */
+		return false;
+		
 		/* If we have an item id, try and match on that, if not do a content match */
 		if ( $this->item_id ) {
 			if ( $this->secondary_item_id )

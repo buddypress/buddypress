@@ -92,10 +92,7 @@ function bp_wire_new_post( $item_id, $message, $component_name, $deprecated = fa
 	$wire_post->item_id = $item_id;
 	$wire_post->user_id = $bp->loggedin_user->id;
 	$wire_post->date_posted = time();
-
-	$allowed_tags = apply_filters( 'bp_wire_post_allowed_tags', '<a><b><strong><i><em><img>' );
-		
-	$wire_post->content = apply_filters( 'bp_wire_post_content', $message );
+	$wire_post->content = $message;
 	
 	if ( !$wire_post->save() )
 		return false;

@@ -777,7 +777,7 @@ function groups_screen_group_wire() {
 			else
 				bp_core_add_message( __('Wire message successfully posted.', 'buddypress') );
 
-			if ( !strpos( $_SERVER['HTTP_REFERER'], $bp->wire->slug ) )
+			if ( !strpos( wp_get_referer(), $bp->wire->slug ) )
 				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
 			else
 				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/' . $bp->wire->slug );
@@ -794,7 +794,7 @@ function groups_screen_group_wire() {
 			else
 				bp_core_add_message( __('Wire message successfully deleted.', 'buddypress') );
 			
-			if ( !strpos( $_SERVER['HTTP_REFERER'], $bp->wire->slug ) )
+			if ( !strpos( wp_get_referer(), $bp->wire->slug ) )
 				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
 			else
 				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/' . $bp->wire->slug );

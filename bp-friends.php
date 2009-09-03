@@ -218,7 +218,7 @@ function friends_action_add_friend() {
 		bp_core_add_message( __( 'You already have a pending friendship request with this user', 'buddypress' ), 'error' );		
 	}
 	
-	bp_core_redirect( $_SERVER['HTTP_REFERER'] );
+	bp_core_redirect( wp_get_referer() );
 	
 	return false;
 }
@@ -256,7 +256,7 @@ function friends_action_remove_friend() {
 		bp_core_add_message( __( 'You have a pending friendship request with this user', 'buddypress' ), 'error' );		
 	}
 	
-	bp_core_redirect( $_SERVER['HTTP_REFERER'] );
+	bp_core_redirect( wp_get_referer() );
 	
 	return false;
 }
