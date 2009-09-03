@@ -95,7 +95,6 @@ function bp_wire_new_post( $item_id, $message, $component_name, $deprecated = fa
 
 	$allowed_tags = apply_filters( 'bp_wire_post_allowed_tags', '<a><b><strong><i><em><img>' );
 		
-	$message = strip_tags( $message, $allowed_tags );
 	$wire_post->content = apply_filters( 'bp_wire_post_content', $message );
 	
 	if ( !$wire_post->save() )
