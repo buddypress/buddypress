@@ -1418,7 +1418,7 @@ function bp_group_member_avatar() {
 	function bp_get_group_member_avatar() {
 		global $members_template;
 
-		return apply_filters( 'bp_get_group_member_avatar', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'thumb' ) ) );
+		return apply_filters( 'bp_get_group_member_avatar', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'full' ) ) );
 	}
 
 function bp_group_member_avatar_thumb() {
@@ -1427,7 +1427,7 @@ function bp_group_member_avatar_thumb() {
 	function bp_get_group_member_avatar_thumb() {
 		global $members_template;
 
-		return apply_filters( 'bp_get_group_member_avatar_thumb', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'full' ) ) );
+		return apply_filters( 'bp_get_group_member_avatar_thumb', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'thumb' ) ) );
 	}
 
 function bp_group_member_avatar_mini( $width = 30, $height = 30 ) {
@@ -1436,7 +1436,7 @@ function bp_group_member_avatar_mini( $width = 30, $height = 30 ) {
 	function bp_get_group_member_avatar_mini( $width = 30, $height = 30 ) {
 		global $members_template;
 
-		return apply_filters( 'bp_get_group_member_avatar_mini', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'full', 'width' => $width, 'height' => $height ) ) );
+		return apply_filters( 'bp_get_group_member_avatar_mini', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'thumb', 'width' => $width, 'height' => $height ) ) );
 	}
 
 function bp_group_member_name() {
