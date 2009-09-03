@@ -1325,12 +1325,14 @@ add_filter( 'wp_mail_from', 'bp_core_email_from_address_filter' );
 function bp_core_delete_account() {
 	global $bp;
 
-	// Be careful with this function!
-	
+	/* Make sure account deletion is not disabled */
+	if ( 1 == (int)get_site_option( 'bp-disable-account-deletion' ) )
+		return false;
+
 	/* Site admins should not be allowed to delete their accounts */
 	if ( is_site_admin() )
 		return false;
-	
+
 	require_once( ABSPATH . '/wp-admin/includes/mu.php' );
 	require_once( ABSPATH . '/wp-admin/includes/user.php' );
 

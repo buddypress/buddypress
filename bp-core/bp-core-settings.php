@@ -21,7 +21,7 @@ function bp_core_add_settings_nav() {
 	bp_core_new_subnav_item( array( 'name' => __( 'General', 'buddypress' ), 'slug' => 'general', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_general_settings', 'position' => 10, 'user_has_access' => bp_is_home() ) );
 	bp_core_new_subnav_item( array( 'name' => __( 'Notifications', 'buddypress' ), 'slug' => 'notifications', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_notification_settings', 'position' => 20, 'user_has_access' => bp_is_home() ) );
 	
-	if ( !is_site_admin() )
+	if ( !is_site_admin() && 1 != (int)get_site_option( 'bp-disable-account-deletion' ) )
 		bp_core_new_subnav_item( array( 'name' => __( 'Delete Account', 'buddypress' ), 'slug' => 'delete-account', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_delete_account', 'position' => 90, 'user_has_access' => bp_is_home() ) );
 }
 add_action( 'wp', 'bp_core_add_settings_nav', 2 );
@@ -35,7 +35,9 @@ function bp_core_screen_general_settings() {
 	$bp_settings_updated = false;
 	$pass_error = false;
 	
-	if ( isset($_POST['submit']) && check_admin_referer('bp_settings_general') ) {
+	if ( isset($_POST['submit']) ) {
+		check_admin_referer('bp_settings_general');
+		
 		require_once( WPINC . '/registration.php' );
 		
 		// Form has been submitted and nonce checks out, lets do it.
@@ -104,7 +106,9 @@ function bp_core_screen_notification_settings() {
 	
 	$bp_settings_updated = false;
 	
-	if ( $_POST['submit'] && check_admin_referer('bp_settings_notifications') ) {
+	if ( $_POST['submit'] ) {
+		check_admin_referer('bp_settings_notifications');
+		
 		if ( $_POST['notifications'] ) {
 			foreach ( $_POST['notifications'] as $key => $value ) {
 				update_usermeta( (int)$current_user->id, $key, $value );
@@ -152,9 +156,8 @@ function bp_core_screen_notification_settings_content() {
 function bp_core_screen_delete_account() {
 	global $current_user, $bp_settings_updated, $pass_error;
 	
-	if ( isset( $_POST['delete-account-button'] ) && check_admin_referer('delete-account') ) {
-		if ( !check_admin_referer( 'delete-account' ) )
-			return false;
+	if ( isset( $_POST['delete-account-button'] ) ) {
+		check_admin_referer( 'delete-account' );
 		
 		// delete the users account
 		if ( bp_core_delete_account() )
@@ -164,7 +167,9 @@ function bp_core_screen_delete_account() {
 	$bp_settings_updated = false;
 	$pass_error = false;
 	
-	if ( isset($_POST['submit']) && check_admin_referer('bp_settings_general') ) {
+	if ( isset($_POST['submit']) ) {
+		check_admin_referer('bp_settings_general');
+		
 		require_once( WPINC . '/registration.php' );
 		
 		// Form has been submitted and nonce checks out, lets do it.

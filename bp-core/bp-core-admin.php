@@ -84,8 +84,14 @@ function bp_core_admin_settings() {
 						<input type="radio" name="bp-admin[non-friend-wire-posting]"<?php if ( !(int)get_site_option( 'non-friend-wire-posting' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-non-friend-wire-post" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
 					</td>			
 				</tr>
-				<?php } ?>
-				
+				<?php } ?>				
+				<tr>
+					<th scope="row"><?php _e( 'Disable user account deletion?', 'buddypress' ) ?>:</th>
+					<td>
+						<input type="radio" name="bp-admin[bp-disable-account-deletion]"<?php if ( (int)get_site_option( 'bp-disable-account-deletion' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-account-deletion" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
+						<input type="radio" name="bp-admin[bp-disable-account-deletion]"<?php if ( !(int)get_site_option( 'bp-disable-account-deletion' ) || '' == get_site_option( 'bp-disable-account-deletion' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-account-deletion" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
+					</td>			
+				</tr>				
 				<?php if ( !locate_template( array( 'registration/register.php' ) ) ) :?>
 				<tr>
 					<th scope="row"><?php _e('Select theme to use for BuddyPress generated pages', 'buddypress' ) ?>:</th>
