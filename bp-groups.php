@@ -382,9 +382,6 @@ function groups_screen_group_invites() {
 
 function groups_screen_create_group() {
 	global $bp;
-	
-	error_log( $bp->action_variables[0] );
-	error_log( $bp->action_variables[1] );
 
 	/* If no current step is set, reset everything so we can start a fresh group creation */
 	if ( !$bp->groups->current_create_step = $bp->action_variables[1] ) {
@@ -396,13 +393,13 @@ function groups_screen_create_group() {
 		setcookie( 'bp_completed_create_steps', false, time() - 1000, COOKIEPATH );
 		
 		$reset_steps = true;
-		//bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . array_shift( array_keys( $bp->groups->group_creation_steps )  ) );
+		bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . array_shift( array_keys( $bp->groups->group_creation_steps )  ) );
 	}
 	
 	/* If this is a creation step that is not recognized, just redirect them back to the first screen */
 	if ( $bp->action_variables[1] && !$bp->groups->group_creation_steps[$bp->action_variables[1]] ) {
 		bp_core_add_message( __('There was an error saving group details. Please try again.', 'buddypress'), 'error' );
-		//bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create' );
+		bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create' );
 	}
 
 	/* Fetch the currently completed steps variable */
