@@ -923,7 +923,7 @@ jQuery(document).ready( function() {
 		}
 	);
 
-	jQuery("div#user-status p, a#status-new-status").livequery('click', 
+	jQuery("div.status-editable p, a#status-new-status").livequery('click', 
 		function() {
 			jQuery.post( ajaxurl, {
 				action: 'status_show_form',

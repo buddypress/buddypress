@@ -5,7 +5,7 @@
 	
 	<?php if ( function_exists( 'bp_the_status' ) ) : ?>
 
-		<div id="user-status">
+		<div id="user-status" class="<?php bp_the_status_css_class() ?>">
 			<?php bp_the_status() ?>
 		</div>
 
