@@ -3,9 +3,13 @@
 /* Define the current version number for checking if DB tables are up to date. */
 define( 'BP_CORE_DB_VERSION', '1700' );
 
-/* Define the path and url of the BuddyPress plugins directory */
+/*** 
+ * Define the path and url of the BuddyPress plugins directory. 
+ * It is important to use plugins_url() core function to obtain 
+ * the correct scheme used (http or https). 
+ */ 
 define( 'BP_PLUGIN_DIR', WP_PLUGIN_DIR . '/buddypress' );
-define( 'BP_PLUGIN_URL', WP_PLUGIN_URL . '/buddypress' );
+define( 'BP_PLUGIN_URL', plugins_url( $path = '/buddypress' ) );
 
 /* Place your custom code (actions/filters) in a file called /plugins/bp-custom.php and it will be loaded before anything else. */
 if ( file_exists( WP_PLUGIN_DIR . '/bp-custom.php' ) )
