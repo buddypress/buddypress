@@ -249,7 +249,7 @@
 			
 						<img src="<?php bp_avatar_to_crop() ?>" id="avatar-to-crop" class="avatar" alt="<?php _e( 'Avatar to crop', 'buddypress' ) ?>" />
 			
-						<div id="avatar-crop-pane" style="width:100px;height:100px;overflow:hidden;">
+						<div id="avatar-crop-pane">
 							<img src="<?php bp_avatar_to_crop() ?>" id="avatar-crop-preview" class="avatar" alt="<?php _e( 'Avatar preview', 'buddypress' ) ?>" />
 						</div>
 
