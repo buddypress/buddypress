@@ -301,10 +301,10 @@ function bp_blogs_record_existing_blogs() {
 
 function bp_blogs_record_blog( $blog_id, $user_id ) {
 	global $bp;
-
+	
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
-		
+	
 	$name = get_blog_option( $blog_id, 'blogname' );
 	$description = get_blog_option( $blog_id, 'blogdescription' );
 	
@@ -317,12 +317,12 @@ function bp_blogs_record_blog( $blog_id, $user_id ) {
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'name', $name );
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'description', $description );
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'last_activity', time() );
-
+	
 	if ( (int)$_POST['blog_public'] )
 		$is_private = 0;
 	else
 		$is_private = 1;
-
+	
 	/* Record this in activity streams */
 	bp_blogs_record_activity( array(
 		'user_id' => $recorded_blog->user_id,
@@ -331,14 +331,14 @@ function bp_blogs_record_blog( $blog_id, $user_id ) {
 		'component_action' => 'new_blog',
 		'item_id' => $recorded_blog_id
 	) );
-
+	
 	do_action( 'bp_blogs_new_blog', $recorded_blog, $is_private, $is_recorded );
 }
 add_action( 'wpmu_new_blog', 'bp_blogs_record_blog', 10, 2 );
 
 function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 	global $bp, $wpdb;
-
+	
 	$post_id = (int)$post_id;
 	$post = get_post($post_id);
 	
@@ -347,11 +347,11 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 		
 	if ( !$blog_id )
 		$blog_id = (int)$wpdb->blogid;
-
+	
 	/* This is to stop infinate loops with Donncha's sitewide tags plugin */
 	if ( (int)get_site_option('tags_blog_id') == (int)$blog_id )
 		return false;
-		
+	
 	/* Don't record this if it's not a post */
 	if ( $post->post_type != 'post' )
 		return false;
@@ -363,7 +363,7 @@ function bp_blogs_record_post( $post_id, $blog_id = false, $user_id = false ) {
 			$recorded_post->user_id = $user_id;
 			$recorded_post->blog_id = $blog_id;
 			$recorded_post->post_id = $post_id;
-			$recorded_post->date_created = strtotime( $post->post_date );
+			$recorded_post->date_created = strtotime( $post->post_date_gmt );
 			
 			$recorded_post_id = $recorded_post->save();
 			
@@ -442,7 +442,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved ) {
 	$recorded_comment->blog_id = $wpdb->blogid;
 	$recorded_comment->comment_id = $comment_id;
 	$recorded_comment->comment_post_id = $comment->comment_post_ID;
-	$recorded_comment->date_created = strtotime( $comment->comment_date );
+	$recorded_comment->date_created = strtotime( $comment->comment_date_gmt );
 
 	$recorded_commment_id = $recorded_comment->save();
 	

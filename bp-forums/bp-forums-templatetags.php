@@ -354,7 +354,7 @@ function bp_the_topic_time_since_created() {
 	function bp_get_the_topic_time_since_created() {
 		global $forum_template;
 
-		return apply_filters( 'bp_get_the_topic_time_since_created', bp_core_time_since( bb_gmtstrtotime( $forum_template->topic->topic_start_time ) ) );
+		return apply_filters( 'bp_get_the_topic_time_since_created', bp_core_time_since( strtotime( $forum_template->topic->topic_start_time ) ) );
 	}
 	
 function bp_the_topic_latest_post_excerpt( $args = '' ) {
@@ -386,7 +386,7 @@ function bp_the_topic_time_since_last_post( $deprecated = true ) {
 	function bp_get_the_topic_time_since_last_post() {
 		global $forum_template;
 
-		return apply_filters( 'bp_get_the_topic_time_since_last_post', bp_core_time_since( bb_gmtstrtotime( $forum_template->topic->topic_time ) ) );
+		return apply_filters( 'bp_get_the_topic_time_since_last_post', bp_core_time_since( strtotime( $forum_template->topic->topic_time ) ) );
 	}
 
 function bp_the_topic_admin_links( $args = '' ) {
@@ -669,7 +669,7 @@ function bp_the_topic_post_time_since( $deprecated = true ) {
 	function bp_get_the_topic_post_time_since() {
 		global $topic_template;
 
-		return apply_filters( 'bp_get_the_topic_post_time_since', bp_core_time_since( bb_gmtstrtotime( $topic_template->post->post_time ) ) );
+		return apply_filters( 'bp_get_the_topic_post_time_since', bp_core_time_since( strtotime( $topic_template->post->post_time ) ) );
 	}
 
 function bp_the_topic_post_is_mine() {

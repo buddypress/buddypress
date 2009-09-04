@@ -102,4 +102,11 @@ function bp_status_form_action( $user_id = false ) {
 	echo apply_filters( 'bp_status_form_action', bp_core_get_user_domain( $user_id ) . BP_STATUS_SLUG . '/add' );
 }
 
+function bp_the_status_css_class() {
+	echo bp_get_the_status_css_class();
+}
+	function bp_get_the_status_css_class() {
+		return ( bp_loggedin_user_id() == bp_displayed_user_id() ) ? 'status-editable' : 'status-display';
+	}
+
 ?>

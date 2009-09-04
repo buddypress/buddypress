@@ -489,7 +489,7 @@ function groups_screen_create_group() {
 			
 			/* Once we compelete all steps, record the group creation in the activity stream. */
 			groups_record_activity( array(
-				'content' => sprintf( __( '%s created the group %s:', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' ), 
+				'content' => sprintf( __( '%s created the group %s', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' ), 
 				'primary_link' => bp_get_group_permalink( $bp->groups->current_group ),
 				'component_action' => 'created_group',
 				'item_id' => $bp->groups->new_group_id
@@ -2103,7 +2103,7 @@ function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text )
 			'item_id' => (int)$bp->groups->current_group->id,
 			'user_id' => (int)$topic->topic_poster,
 			'secondary_item_id' => $topic->topic_id,
-			'recorded_time' => bb_gmtstrtotime( $topic->topic_time )
+			'recorded_time' => strtotime( $topic->topic_time )
 		) );
 
 		do_action( 'groups_update_group_forum_topic', &$topic );
@@ -2153,7 +2153,7 @@ function groups_update_group_forum_post( $post_id, $post_text, $topic_id ) {
 			'component_action' => 'new_forum_post',
 			'item_id' => $bp->groups->current_group->id,
 			'secondary_item_id' => $post_id,
-			'recorded_time' => bb_gmtstrtotime( $post->post_time )
+			'recorded_time' => strtotime( $post->post_time )
 		) );
 
 		do_action( 'groups_update_group_forum_post', &$post, &$topic );
