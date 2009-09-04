@@ -397,9 +397,9 @@ function bp_core_get_user_domain( $user_id ) {
 	
 	/* If we are using a members slug, include it. */
 	if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) )
-		return apply_filters( 'bp_core_get_user_domain', $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/' );
+		return apply_filters( 'bp_core_get_user_domain', $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_nicename . '/' );
 	else
-		return apply_filters( 'bp_core_get_user_domain', $bp->root_domain . '/' . $ud->user_login . '/' );		
+		return apply_filters( 'bp_core_get_user_domain', $bp->root_domain . '/' . $ud->user_nicename . '/' );		
 }
 
 /**
