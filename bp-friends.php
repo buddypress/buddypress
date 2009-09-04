@@ -668,7 +668,7 @@ function friends_reject_friendship( $friendship_id ) {
 		// Remove the friend request notice
 		bp_core_delete_notifications_for_user_by_item_id( $friendship->friend_user_id, $friendship->initiator_user_id, 'friends', 'friendship_request' );	
 		
-		do_action( 'friends_friendship_rejected', $friendship_id );
+		do_action( 'friends_friendship_rejected', $friendship_id, &$friendship );
 		return true;
 	}
 	
