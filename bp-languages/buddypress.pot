@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-09-04 14:11+0000\n"
+"POT-Creation-Date: 2009-09-05 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,7 +78,7 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:388
+#: bp-activity/bp-activity-templatetags.php:389
 msgid "Clear Filter"
 msgstr ""
 
@@ -171,17 +171,17 @@ msgstr ""
 msgid "New blog post comment posted"
 msgstr ""
 
-#: bp-blogs.php:329
+#: bp-blogs.php:333
 #, php-format
 msgid "%s created the blog %s"
 msgstr ""
 
-#: bp-blogs.php:377 bp-blogs.php:412
+#: bp-blogs.php:377 bp-blogs.php:413
 #, php-format
 msgid "%s wrote a new blog post: %s"
 msgstr ""
 
-#: bp-blogs.php:452 bp-blogs.php:476
+#: bp-blogs.php:459 bp-blogs.php:487
 #, php-format
 msgid "%s commented on the blog post %s"
 msgstr ""
@@ -385,113 +385,113 @@ msgstr ""
 msgid "Max posts to show:"
 msgstr ""
 
-#: bp-core.php:280 bp-core.php:281
+#: bp-core.php:284 bp-core.php:285
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core.php:287 bp-core/bp-core-settings.php:70
+#: bp-core.php:291 bp-core/bp-core-settings.php:70
 #: bp-forums/bbpress/bb-admin/options-general.php:219
 msgid "General Settings"
 msgstr ""
 
-#: bp-core.php:288
+#: bp-core.php:292
 msgid "Component Setup"
 msgstr ""
 
-#: bp-core.php:325 bp-forums/bbpress/bb-includes/functions.bb-template.php:222
+#: bp-core.php:329 bp-forums/bbpress/bb-includes/functions.bb-template.php:222
 #: bp-forums/bbpress/bb-templates/kakumei/profile.php:3 bp-xprofile.php:205
 #: bp-xprofile.php:402
 msgid "Profile"
 msgstr ""
 
-#: bp-core.php:332 bp-groups/bp-groups-templatetags.php:584
+#: bp-core.php:336 bp-groups/bp-groups-templatetags.php:584
 #: bp-xprofile.php:210
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:342 bp-core/bp-core-templatetags.php:318 bp-xprofile.php:216
+#: bp-core.php:346 bp-core/bp-core-templatetags.php:318 bp-xprofile.php:216
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:768 bp-wire/bp-wire-templatetags.php:339
+#: bp-core.php:772 bp-wire/bp-wire-templatetags.php:339
 msgid "You"
 msgstr ""
 
-#: bp-core.php:854
+#: bp-core.php:858
 #, php-format
 msgid "%s's"
 msgstr ""
 
-#: bp-core.php:966 bp-core/bp-core-templatetags.php:401
+#: bp-core.php:970 bp-core/bp-core-templatetags.php:401
 #: bp-themes/deprecated/bphome/comments.php:42
 msgid "at"
 msgstr ""
 
-#: bp-core.php:1071
+#: bp-core.php:1075
 msgid "year"
 msgstr ""
 
-#: bp-core.php:1071
+#: bp-core.php:1075
 msgid "years"
 msgstr ""
 
-#: bp-core.php:1072
+#: bp-core.php:1076
 msgid "month"
 msgstr ""
 
-#: bp-core.php:1072
+#: bp-core.php:1076
 msgid "months"
 msgstr ""
 
-#: bp-core.php:1073
+#: bp-core.php:1077
 msgid "week"
 msgstr ""
 
-#: bp-core.php:1073
+#: bp-core.php:1077
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:1074
+#: bp-core.php:1078
 msgid "day"
 msgstr ""
 
-#: bp-core.php:1074
+#: bp-core.php:1078
 msgid "days"
 msgstr ""
 
-#: bp-core.php:1075
+#: bp-core.php:1079
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:1075 bp-forums/bbpress/bb-admin/options-general.php:116
+#: bp-core.php:1079 bp-forums/bbpress/bb-admin/options-general.php:116
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:1076
+#: bp-core.php:1080
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:1076 bp-forums/bbpress/bb-admin/options-writing.php:40
+#: bp-core.php:1080 bp-forums/bbpress/bb-admin/options-writing.php:40
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:1077
+#: bp-core.php:1081
 msgid "second"
 msgstr ""
 
-#: bp-core.php:1077 bp-core.php:1125
+#: bp-core.php:1081 bp-core.php:1129
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1090
+#: bp-core.php:1094
 msgid "[Use GMT Timezone]"
 msgstr ""
 
-#: bp-core.php:1120
+#: bp-core.php:1124
 msgid ",|Separator in time since"
 msgstr ""
 
-#: bp-core.php:1169
+#: bp-core.php:1173
 msgid "not recently active"
 msgstr ""
 
@@ -821,48 +821,48 @@ msgstr ""
 msgid "Avatar Image"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:209
+#: bp-core/bp-core-avatars.php:213
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:592
 msgid "There is no error, the file uploaded with success"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:210 bp-core/bp-core-avatars.php:211
+#: bp-core/bp-core-avatars.php:214 bp-core/bp-core-avatars.php:215
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:593
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:594
 msgid "Your image was bigger than the maximum allowed file size of: "
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:212
+#: bp-core/bp-core-avatars.php:216
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:595
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:213
+#: bp-core/bp-core-avatars.php:217
 msgid "No file was uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:214
+#: bp-core/bp-core-avatars.php:218
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:596
 msgid "Missing a temporary folder"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:218
+#: bp-core/bp-core-avatars.php:222
 #, php-format
 msgid "Your upload failed, please try again. Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:223
+#: bp-core/bp-core-avatars.php:227
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:610
 #, php-format
 msgid "The file you uploaded is too big. Please upload a file under %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:228
+#: bp-core/bp-core-avatars.php:232
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:615
 msgid "Please upload only JPG, GIF or PNG photos."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:239
+#: bp-core/bp-core-avatars.php:243
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:621
 #, php-format
 msgid "Upload Failed! Error was: %s"
@@ -7101,7 +7101,7 @@ msgstr ""
 
 #: bp-groups.php:492
 #, php-format
-msgid "%s created the group %s:"
+msgid "%s created the group %s"
 msgstr ""
 
 #: bp-groups.php:541
