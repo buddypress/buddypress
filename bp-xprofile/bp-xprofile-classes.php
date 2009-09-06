@@ -672,16 +672,16 @@ Class BP_XProfile_ProfileData {
 		
 		if ( $this->is_valid_field() ) {
 			if ( $this->exists() && $this->value != '' ) {
-				$sql = $wpdb->prepare( "UPDATE {$bp->profile->table_name_data} SET value = %s, last_updated = %s WHERE user_id = %d AND field_id = %d", $this->value, $this->last_updated, $this->user_id, $this->field_id );
+				$result = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_data} SET value = %s, last_updated = %s WHERE user_id = %d AND field_id = %d", $this->value, $this->last_updated, $this->user_id, $this->field_id ) );
 			} else if ( $this->exists() && empty( $this->value ) ) {
 				// Data removed, delete the entry.
-				$this->delete();
+				$result = $this->delete();
 			} else {
-				$sql = $wpdb->prepare("INSERT INTO {$bp->profile->table_name_data} (user_id, field_id, value, last_updated) VALUES (%d, %d, %s, %s)", $this->user_id, $this->field_id, $this->value, $this->last_updated );
+				$result = $wpdb->query( $wpdb->prepare("INSERT INTO {$bp->profile->table_name_data} (user_id, field_id, value, last_updated) VALUES (%d, %d, %s, %s)", $this->user_id, $this->field_id, $this->value, $this->last_updated ) );
 			}
-			
-			if ( $wpdb->query($sql) === false )
-				return false;
+
+			if ( !$result )
+				return false; 
 
 			do_action( 'xprofile_data_after_save', $this );
 			
