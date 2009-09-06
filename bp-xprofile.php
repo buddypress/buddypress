@@ -5,6 +5,7 @@ define ( 'BP_XPROFILE_DB_VERSION', '1705' );
 if ( !defined( 'BP_XPROFILE_SLUG' ) )
 	define ( 'BP_XPROFILE_SLUG', 'profile' );
 
+require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-admin.php' );
 require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-classes.php' );
 require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-filters.php' );
 require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-templatetags.php' );
@@ -173,9 +174,7 @@ function xprofile_add_admin_menu() {
 	
 	if ( !is_site_admin() )
 		return false;
-
-	require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-admin.php' );
-	
+			
 	/* Add the administration tab under the "Site Admin" tab for site administrators */
 	add_submenu_page( 'bp-core.php', __("Profile Field Setup", 'buddypress'), __("Profile Field Setup", 'buddypress'), 1, __FILE__, "xprofile_admin" );
 
@@ -958,6 +957,10 @@ function xprofile_format_profile_field( $field_type, $field_value ) {
 	}
 	
 	return stripslashes( stripslashes( $field_value ) );
+}
+
+function xprofile_update_field_position( $field_id, $position ) {
+	return BP_XProfile_Field::update_position( $field_id, $position);
 }
 
 /**
