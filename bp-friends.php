@@ -703,6 +703,7 @@ function friends_remove_data( $user_id ) {
 }
 add_action( 'wpmu_delete_user', 'friends_remove_data', 1 );
 add_action( 'delete_user', 'friends_remove_data', 1 );
+add_action( 'make_spam_user', 'friends_remove_data', 1 );
 
 function friends_clear_friend_object_cache( $friendship_id ) {
 	if ( !$friendship = new BP_Friends_Friendship( $friendship_id ) )

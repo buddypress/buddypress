@@ -564,7 +564,7 @@ function bp_profile_group_tabs() {
 		}
 		
 		if ( $groups[$i]->fields )
-			echo '<li' . $selected . '><a href="' . $bp->loggedin_user->domain . $bp->profile->slug . '/edit/group/' . $groups[$i]->id . '">' . $groups[$i]->name . '</a></li>';
+			echo '<li' . $selected . '><a href="' . $bp->displayed_user->domain . $bp->profile->slug . '/edit/group/' . $groups[$i]->id . '">' . $groups[$i]->name . '</a></li>';
 	}
 	
 	do_action( 'xprofile_profile_group_tabs' );
@@ -654,7 +654,7 @@ function bp_avatar_delete_link() {
 	function bp_get_avatar_delete_link() {
 		global $bp;
 		
-		return apply_filters( 'bp_get_avatar_delete_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->profile->slug . '/change-avatar/delete-avatar/', 'bp_delete_avatar_link' ) );
+		return apply_filters( 'bp_get_avatar_delete_link', wp_nonce_url( $bp->displayed_user->domain . $bp->profile->slug . '/change-avatar/delete-avatar/', 'bp_delete_avatar_link' ) );
 	}
 
 function bp_get_user_has_avatar() {

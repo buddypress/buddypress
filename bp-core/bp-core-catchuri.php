@@ -129,8 +129,7 @@ function bp_core_set_uri_globals() {
 			$bp_uri = array_merge( array(), $bp_uri );
 		}
 	}
-
-
+	
 	if ( !isset($is_root_component) )
 		$is_root_component = in_array( $bp_uri[0], $bp->root_components );
 
@@ -240,7 +239,15 @@ function bp_core_catch_no_access() {
 	// we are redirecting to an accessable page, so skip this check.
 	if ( $bp_no_status_set )
 		return false;
-		
+
+	/* If this user has been marked as a spammer and the logged in user is not a site admin, redirect. */
+	if ( isset( $bp->displayed_user->id ) && bp_core_is_user_spammer( $bp->displayed_user->id ) ) {
+		if ( !is_site_admin() )
+			bp_core_redirect( $bp->root_domain );
+		else
+			bp_core_add_message( __( 'This user has been marked as a spammer. Only site admins can view this profile.', 'buddypress' ), 'error' );
+	}
+
 	// If this user does not exist, redirect to the root domain.
 	if ( !$bp->displayed_user->id && $bp_unfiltered_uri[0] == BP_MEMBERS_SLUG && isset($bp_unfiltered_uri[1]) )
 		bp_core_redirect( $bp->root_domain );

@@ -225,6 +225,46 @@ add_action( 'wp', 'xprofile_setup_nav', 2 );
 add_action( 'admin_menu', 'xprofile_setup_nav', 2 );
 
 
+/**
+ * xprofile_setup_adminbar_menu()
+ *
+ * Adds an admin bar menu to any profile page providing site admin options for that user.
+ * 
+ * @package BuddyPress XProfile
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ */
+function xprofile_setup_adminbar_menu() {
+	global $bp;
+	
+	if ( !$bp->displayed_user->id )
+		return false;
+	
+	/* Don't show this menu to non site admins or if you're viewing your own profile */
+	if ( !is_site_admin() || bp_is_home() )
+		return false;
+	?>
+	<li id="bp-adminbar-adminoptions-menu">
+		<a href=""><?php _e( 'Admin Options', 'buddypress' ) ?></a>
+		
+		<ul>
+			<li><a href="<?php echo $bp->displayed_user->domain . $bp->profile->slug ?>/edit/"><?php printf( __( "Edit %s's Profile", 'buddypress' ), attribute_escape( $bp->displayed_user->fullname ) ) ?></a></li>
+			<li><a href="<?php echo $bp->displayed_user->domain . $bp->profile->slug ?>/change-avatar/"><?php printf( __( "Edit %s's Avatar", 'buddypress' ), attribute_escape( $bp->displayed_user->fullname ) ) ?></a></li>
+			
+			<?php if ( !bp_core_is_user_spammer( $bp->displayed_user->id ) ) : ?>
+				<li><a href="<?php echo $bp->displayed_user->domain ?>admin/mark-spammer/" class="confirm"><?php _e( "Mark as Spammer", 'buddypress' ) ?></a></li>
+			<?php else : ?>
+				<li><a href="<?php echo $bp->displayed_user->domain ?>admin/unmark-spammer/" class="confirm"><?php _e( "Not a Spammer", 'buddypress' ) ?></a></li>
+			<?php endif; ?>
+			
+			<li><a href="<?php echo $bp->displayed_user->domain ?>admin/delete-user/" class="confirm"><?php printf( __( "Delete %s", 'buddypress' ), attribute_escape( $bp->displayed_user->fullname ) ) ?></a></li>
+			
+			<?php do_action( 'xprofile_adminbar_menu_items' ) ?>
+		</ul>
+	</li>
+	<?php
+}
+add_action( 'bp_adminbar_menus', 'xprofile_setup_adminbar_menu', 20 );
+
 /********************************************************************************
  * Screen Functions
  *

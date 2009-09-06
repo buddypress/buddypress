@@ -354,6 +354,25 @@ function bp_core_setup_nav() {
 add_action( 'wp', 'bp_core_setup_nav', 2 );
 add_action( 'admin_menu', 'bp_core_setup_nav', 2 );
 
+
+/********************************************************************************
+ * Screen Functions
+ *
+ * Screen functions are the controllers of BuddyPress. They will execute when their
+ * specific URL is caught. They will first save or manipulate data using business
+ * functions, then pass on the user to a template file.
+ */
+
+
+/********************************************************************************
+ * Action Functions
+ *
+ * Action functions are exactly the same as screen functions, however they do not
+ * have a template screen associated with them. Usually they will send the user
+ * back to the default screen after execution.
+ */
+
+
 /**
  * bp_core_action_directory_members()
  *
@@ -376,6 +395,105 @@ function bp_core_action_directory_members() {
 	}
 }
 add_action( 'wp', 'bp_core_action_directory_members', 2 );
+
+/**
+ * bp_core_action_set_spammer_status()
+ *
+ * When a site admin selects "Mark as Spammer/Not Spammer" from the admin menu
+ * this action will fire and mark or unmark the user and their blogs as spam.
+ * Must be a site admin for this function to run.
+ * 
+ * @package BuddyPress Core
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ */
+function bp_core_action_set_spammer_status() {
+	global $bp;
+	
+	if ( !is_site_admin() || bp_is_home() || !$bp->displayed_user->id )
+		return false;
+
+	if ( 'admin' == $bp->current_component && ( 'mark-spammer' == $bp->current_action || 'unmark-spammer' == $bp->current_action ) ) {
+		/* Get the functions file */
+		require( ABSPATH . 'wp-admin/includes/mu.php' );
+		
+		if ( 'mark-spammer' == $bp->current_action )
+			$is_spam = 1;
+		else
+			$is_spam = 0;
+
+		/* Get the blogs for the user */
+		$blogs = get_blogs_of_user( $bp->displayed_user->id, true );
+	
+		foreach ( (array) $blogs as $key => $details ) {
+			/* Do not mark the main or current root blog as spam */
+			if ( 1 == $details->userblog_id || BP_ROOT_BLOG == $details->userblog_id ) 
+				continue; 
+		
+			/* Update the blog status */
+			update_blog_status( $details->userblog_id, 'spam', $is_spam );
+		
+			/* Fire the standard WPMU hook */
+			do_action( 'make_spam_blog', $details->userblog_id );
+		}
+	
+		/* Finally, mark this user as a spammer */
+		update_user_status( $bp->displayed_user->id, 'spam', $is_spam, 1 );
+		
+		if ( $is_spam )
+			bp_core_add_message( __( 'User marked as spammer. Spam users are visible only to site admins.', 'buddypress' ) );
+		else
+			bp_core_add_message( __( 'User removed as spammer.', 'buddypress' ) );
+			
+		do_action( 'bp_core_action_set_spammer_status' );
+		
+		bp_core_redirect( wp_get_referer() );
+	}
+}
+add_action( 'wp', 'bp_core_action_set_spammer_status', 3 );
+
+/**
+ * bp_core_action_delete_user()
+ *
+ * Allows a site admin to delete a user from the adminbar menu.
+ * 
+ * @package BuddyPress Core
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ */
+function bp_core_action_delete_user() {
+	global $bp;
+	
+	if ( !is_site_admin() || bp_is_home() || !$bp->displayed_user->id )
+		return false;
+	
+	if ( 'admin' == $bp->current_component && 'delete-user' == $bp->current_action ) {
+		$errors = false;
+		
+		if ( bp_core_delete_account( $bp->displayed_user->id ) ) {
+			bp_core_add_message( sprintf( __( '%s has been deleted from the system.', 'buddypress' ), $bp->displayed_user->fullname ) );
+		} else {
+			bp_core_add_message( sprintf( __( 'There was an error deleting %s from the system. Please try again.', 'buddypress' ), $bp->displayed_user->fullname ), 'error' );
+			$errors = true;
+		}
+		
+		do_action( 'bp_core_action_set_spammer_status', $errors );
+		
+		if ( $errors )
+			bp_core_redirect( $bp->displayed_user->domain );
+		else
+			bp_core_redirect( $bp->loggedin_user->domain );
+	}
+}
+add_action( 'wp', 'bp_core_action_delete_user', 3 );
+
+
+/********************************************************************************
+ * Business Functions
+ *
+ * Business functions are where all the magic happens in BuddyPress. They will
+ * handle the actual saving or manipulation of information. Usually they will
+ * hand off to a database class for data access, then return
+ * true or false on success or failure.
+ */
 
 /**
  * bp_core_get_user_domain()
@@ -956,6 +1074,35 @@ function bp_core_get_userlink_by_username( $username ) {
 	return apply_filters( 'bp_core_get_userlink_by_username', bp_core_get_userlink( $user_id, false, false, true ) );
 }
 
+/**
+ * bp_core_is_user_spammer()
+ *
+ * Checks if the user has been marked as a spammer.
+ *
+ * @package BuddyPress Core
+ * @param $user_id int The id for the user.
+ * @return int 1 if spammer, 0 if not.
+ */
+function bp_core_is_user_spammer( $user_id ) {
+	global $wpdb;
+	
+	return apply_filters( 'bp_core_is_user_spammer', (int) $wpdb->get_var( $wpdb->prepare( "SELECT spam FROM " . CUSTOM_USER_TABLE . " WHERE ID = %d", $user_id ) ) ); 
+}
+
+/**
+ * bp_core_is_user_deleted()
+ *
+ * Checks if the user has been marked as deleted.
+ *
+ * @package BuddyPress Core
+ * @param $user_id int The id for the user.
+ * @return int 1 if deleted, 0 if not.
+ */
+function bp_core_is_user_deleted( $user_id ) {
+	global $wpdb;
+	
+	return apply_filters( 'bp_core_is_user_spammer', (int) $wpdb->get_var( $wpdb->prepare( "SELECT deleted FROM " . CUSTOM_USER_TABLE . " WHERE ID = %d", $user_id ) ) ); 	
+}
 
 /**
  * bp_core_format_time()
@@ -1328,21 +1475,24 @@ add_filter( 'wp_mail_from', 'bp_core_email_from_address_filter' );
  * @uses is_site_admin() Checks to see if the user is a site administrator.
  * @uses wpmu_delete_user() Deletes a user from the system.
  */
-function bp_core_delete_account() {
+function bp_core_delete_account( $user_id = false ) {
 	global $bp;
 
+	if ( !$user_id )
+		$user_id = $bp->loggedin_user->id;
+
 	/* Make sure account deletion is not disabled */
-	if ( 1 == (int)get_site_option( 'bp-disable-account-deletion' ) )
+	if ( ( 1 == (int)get_site_option( 'bp-disable-account-deletion' ) && !is_site_admin() ) )
 		return false;
 
-	/* Site admins should not be allowed to delete their accounts */
-	if ( is_site_admin() )
+	/* Site admins should not be allowed to be deleted */
+	if ( is_site_admin( bp_core_get_username( $user_id ) ) )
 		return false;
 
 	require_once( ABSPATH . '/wp-admin/includes/mu.php' );
 	require_once( ABSPATH . '/wp-admin/includes/user.php' );
 
-	return wpmu_delete_user( $bp->loggedin_user->id  );
+	return wpmu_delete_user( $user_id );
 }
 
 
@@ -1514,7 +1664,7 @@ function bp_core_remove_data( $user_id ) {
 }
 add_action( 'wpmu_delete_user', 'bp_core_remove_data', 1 );
 add_action( 'delete_user', 'bp_core_remove_data', 1 );
-
+add_action( 'make_spam_user', 'bp_core_remove_data', 1 );
 
 /**
  * bp_load_buddypress_textdomain()

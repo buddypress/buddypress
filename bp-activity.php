@@ -381,6 +381,7 @@ function bp_activity_remove_data( $user_id ) {
 }
 add_action( 'wpmu_delete_user', 'bp_activity_remove_data' );
 add_action( 'delete_user', 'bp_activity_remove_data' );
+add_action( 'make_spam_user', 'bp_activity_remove_data' );
 
 /* Ordering function - don't call this directly */
 function bp_activity_order_by_date( $a, $b ) {
