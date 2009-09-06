@@ -78,22 +78,6 @@ function show_options(forWhat) {
 	}
 }
 
-function reorderFields(table, row, field_ids) {
-	jQuery.post( ajaxurl, {
-		action: 'xprofile_reorder_fields',
-		'cookie': encodeURIComponent(document.cookie),
-		'_wpnonce': jQuery("input#_wpnonce").val(),
-		'group': table.id.split('_')[1],
-		'row': row,
-		'field_ids': field_ids
-		},
-		function(response) {
-			
-		}, 
-		1250
-	);
-}
-
 function hide(id) {
 	if ( !document.getElementById(id) ) return false;
 	
@@ -103,16 +87,6 @@ function hide(id) {
 
 // Set up deleting options ajax
 jQuery(document).ready( function() {
-	var links = jQuery("a.ajax-option-delete");
-	
-	jQuery.each(links,
-		function(link, val) {
-			link.click(
-				function() {
-				}
-			);
-		}
-	);
 	
 	jQuery("a.ajax-option-delete").click( 
 		function() {
@@ -127,11 +101,36 @@ jQuery(document).ready( function() {
 				'option_id': theId
 			},
 			function(response)
-			{
-				alert(response);
-			});
-		
-			
+			{});
 		}
 	);				
 });
+
+var fixHelper = function(e, ui) {
+	ui.children().each(function() {
+		jQuery(this).width( jQuery(this).width() );
+	});
+	return ui;
+};
+
+jQuery(document).ready( function() {
+	jQuery("table.field-group tbody").sortable( {
+		cursor: 'move',
+		axis: 'y',
+		helper: fixHelper,
+		distance: 1,
+		cancel: 'tr.nodrag',
+		update: function() { 
+			jQuery.post( ajaxurl, {
+				action: 'xprofile_reorder_fields',
+				'cookie': encodeURIComponent(document.cookie),
+				'_wpnonce_reorder_fields': jQuery("input#_wpnonce_reorder_fields").val(),
+				
+				'field_order': jQuery(this).sortable('serialize')
+			},
+			function(response)
+			{});
+
+		}
+	});
+} );

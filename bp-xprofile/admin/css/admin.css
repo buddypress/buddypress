@@ -1,3 +1,14 @@
+table.field-group tbody {
+	cursor: move;
+}
+	table.field-group tbody tr.nodrag {
+		cursor: default !important;
+	}
+
+table.field-group tbody tr:hover {
+	background-color: #fffee9;
+}
+	
 tr.header td {
 	border-bottom: 2px solid #eee;
 	font-weight: bold;

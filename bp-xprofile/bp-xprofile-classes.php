@@ -81,7 +81,7 @@ Class BP_XProfile_Group {
 		global $wpdb, $bp;
 
 		// Get field ids for the current group.
-		if ( !$fields = $wpdb->get_results( $wpdb->prepare("SELECT id, type FROM {$bp->profile->table_name_fields} WHERE group_id = %d AND parent_id = 0 ORDER BY id", $this->id ) ) )
+		if ( !$fields = $wpdb->get_results( $wpdb->prepare("SELECT id, type FROM {$bp->profile->table_name_fields} WHERE group_id = %d AND parent_id = 0 ORDER BY field_order", $this->id ) ) )
 			return false;
 		
 		return $fields;
@@ -127,10 +127,10 @@ Class BP_XProfile_Group {
 		global $message;
 
 		if ( !$this->id ) {
-			$title = __('Add Group', 'buddypress');
+			$title = __('Add New Field Group', 'buddypress');
 			$action = "admin.php?page=" . BP_PLUGIN_DIR . "/bp-xprofile.php&amp;mode=add_group";
 		} else {
-			$title = __('Edit Group', 'buddypress');
+			$title = __('Edit Field Group', 'buddypress');
 			$action = "admin.php?page=" . BP_PLUGIN_DIR . "/bp-xprofile.php&amp;mode=edit_group&amp;group_id=" . $this->id;			
 		}
 	?>
@@ -151,7 +151,7 @@ Class BP_XProfile_Group {
 			<form action="<?php echo attribute_escape( $action ); ?>" method="post">
 				
 				<div id="titlediv">
-					<label for="group_name"><?php _e("Profile Group Name", 'buddypress') ?></label>
+					<label for="group_name"><?php _e( "Field Group Name", 'buddypress') ?></label>
 					<div>
 						<input type="text" name="group_name" id="group_name" value="<?php echo attribute_escape( $this->name ) ?>" style="width:50%" />
 					</div>
@@ -371,6 +371,8 @@ Class BP_XProfile_Field {
 
 		$wpdb->query($sql);
 	}
+	
+	// Static Functions
 		
 	function get_type( $field_id ) {
 		global $wpdb, $bp;
@@ -410,6 +412,15 @@ Class BP_XProfile_Field {
 			return false;
 		
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE name = %s", $field_name ) );
+	}
+	
+	function update_position( $field_id, $position ) {
+		global $wpdb, $bp;
+		
+		if ( !is_numeric( $position ) )
+			return false;
+		
+		return $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_fields} SET field_order = %d WHERE id = %d", $position, $field_id ) );
 	}
 	
 	// ADMIN AREA HTML. TODO: Get this out of here.
