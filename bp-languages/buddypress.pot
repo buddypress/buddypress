@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-09-06 14:11+0000\n"
+"POT-Creation-Date: 2009-09-07 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -265,7 +265,7 @@ msgstr ""
 #: bp-themes/bp-sn-framework/groups/single/admin.php:39
 #: bp-themes/bp-sn-framework/registration/register.php:192
 #: bp-themes/deprecated/bpmember/groups/single/admin.php:35
-#: bp-xprofile.php:402 bp-xprofile/bp-xprofile-admin.php:94
+#: bp-xprofile.php:442 bp-xprofile/bp-xprofile-admin.php:94
 msgid "Yes"
 msgstr ""
 
@@ -277,7 +277,7 @@ msgstr ""
 #: bp-themes/bp-sn-framework/groups/single/admin.php:40
 #: bp-themes/bp-sn-framework/registration/register.php:193
 #: bp-themes/deprecated/bpmember/groups/single/admin.php:36
-#: bp-xprofile.php:403
+#: bp-xprofile.php:443
 msgid "No"
 msgstr ""
 
@@ -400,7 +400,7 @@ msgstr ""
 
 #: bp-core.php:329 bp-forums/bbpress/bb-includes/functions.bb-template.php:222
 #: bp-forums/bbpress/bb-templates/kakumei/profile.php:3 bp-xprofile.php:204
-#: bp-xprofile.php:401
+#: bp-xprofile.php:441
 msgid "Profile"
 msgstr ""
 
@@ -413,85 +413,103 @@ msgstr ""
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:772 bp-wire/bp-wire-templatetags.php:339
+#: bp-core.php:443
+msgid "User marked as spammer. Spam users are visible only to site admins."
+msgstr ""
+
+#: bp-core.php:445
+msgid "User removed as spammer."
+msgstr ""
+
+#: bp-core.php:472
+#, php-format
+msgid "%s has been deleted from the system."
+msgstr ""
+
+#: bp-core.php:474
+#, php-format
+msgid "There was an error deleting %s from the system. Please try again."
+msgstr ""
+
+#: bp-core.php:890 bp-wire/bp-wire-templatetags.php:339
 msgid "You"
 msgstr ""
 
-#: bp-core.php:858
+#: bp-core.php:976
 #, php-format
 msgid "%s's"
 msgstr ""
 
-#: bp-core.php:970 bp-core/bp-core-templatetags.php:401
+#: bp-core.php:1117 bp-core/bp-core-templatetags.php:401
 #: bp-themes/deprecated/bphome/comments.php:42
 msgid "at"
 msgstr ""
 
-#: bp-core.php:1075
+#: bp-core.php:1222
 msgid "year"
 msgstr ""
 
-#: bp-core.php:1075
+#: bp-core.php:1222
 msgid "years"
 msgstr ""
 
-#: bp-core.php:1076
+#: bp-core.php:1223
 msgid "month"
 msgstr ""
 
-#: bp-core.php:1076
+#: bp-core.php:1223
 msgid "months"
 msgstr ""
 
-#: bp-core.php:1077
+#: bp-core.php:1224
 msgid "week"
 msgstr ""
 
-#: bp-core.php:1077
+#: bp-core.php:1224
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:1078
+#: bp-core.php:1225
 msgid "day"
 msgstr ""
 
-#: bp-core.php:1078
+#: bp-core.php:1225
 msgid "days"
 msgstr ""
 
-#: bp-core.php:1079
+#: bp-core.php:1226
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:1079 bp-forums/bbpress/bb-admin/options-general.php:116
+#: bp-core.php:1226 bp-forums/bbpress/bb-admin/options-general.php:116
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:1080
+#: bp-core.php:1227
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:1080 bp-forums/bbpress/bb-admin/options-writing.php:40
+#: bp-core.php:1227 bp-forums/bbpress/bb-admin/options-writing.php:40
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:1081
+#: bp-core.php:1228
 msgid "second"
 msgstr ""
 
-#: bp-core.php:1081 bp-core.php:1129
+#: bp-core.php:1228 bp-core.php:1276
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1094
+#: bp-core.php:1241
 msgid "[Use GMT Timezone]"
 msgstr ""
 
-#: bp-core.php:1124
+#: bp-core.php:1271
 msgid ",|Separator in time since"
 msgstr ""
 
-#: bp-core.php:1173
+#: bp-core.php:1320
 msgid "not recently active"
 msgstr ""
 
@@ -868,6 +886,12 @@ msgstr ""
 msgid "Upload Failed! Error was: %s"
 msgstr ""
 
+#: bp-core/bp-core-catchuri.php:248
+msgid ""
+"This user has been marked as a spammer. Only site admins can view this "
+"profile."
+msgstr ""
+
 #: bp-core/bp-core-classes.php:79
 msgid "friend"
 msgstr ""
@@ -1015,7 +1039,7 @@ msgid ""
 "There was a problem uploading your avatar, please try uploading it again"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:177 bp-xprofile.php:375
+#: bp-core/bp-core-signup.php:177 bp-xprofile.php:415
 msgid "There was a problem cropping your avatar, please try uploading it again"
 msgstr ""
 
@@ -7047,7 +7071,7 @@ msgid "Request Membership"
 msgstr ""
 
 #: bp-groups.php:280 bp-wire.php:37 bp-wire/bp-wire-templatetags.php:145
-#: bp-xprofile.php:674 bp-xprofile.php:677
+#: bp-xprofile.php:714 bp-xprofile.php:717
 msgid "Wire"
 msgstr ""
 
@@ -7188,7 +7212,7 @@ msgstr ""
 msgid "Wire message could not be posted."
 msgstr ""
 
-#: bp-groups.php:775 bp-xprofile.php:491
+#: bp-groups.php:775 bp-xprofile.php:531
 msgid "Wire message successfully posted."
 msgstr ""
 
@@ -7196,7 +7220,7 @@ msgstr ""
 msgid "There was an error deleting the wire message."
 msgstr ""
 
-#: bp-groups.php:792 bp-xprofile.php:558
+#: bp-groups.php:792 bp-xprofile.php:598
 msgid "Wire message successfully deleted."
 msgstr ""
 
@@ -7243,11 +7267,11 @@ msgstr ""
 msgid "Group settings were successfully updated."
 msgstr ""
 
-#: bp-groups.php:1026 bp-xprofile.php:456
+#: bp-groups.php:1026 bp-xprofile.php:496
 msgid "Your avatar was deleted successfully!"
 msgstr ""
 
-#: bp-groups.php:1028 bp-xprofile.php:458
+#: bp-groups.php:1028 bp-xprofile.php:498
 msgid "There was a problem deleting that avatar, please try again."
 msgstr ""
 
@@ -8425,17 +8449,17 @@ msgstr ""
 msgid "New status update"
 msgstr ""
 
-#: bp-status.php:72
-#, php-format
-msgid "%s posted a new status update:"
-msgstr ""
-
-#: bp-status.php:108
+#: bp-status.php:92
 msgid "Your status was updated successfully!"
 msgstr ""
 
-#: bp-status.php:110
+#: bp-status.php:94
 msgid "There was a problem updating your status. Please try again."
+msgstr ""
+
+#: bp-status.php:126 bp-status.php:157
+#, php-format
+msgid "%s posted a new status update:"
 msgstr ""
 
 #: bp-status/bp-status-templatetags.php:22
@@ -9841,58 +9865,85 @@ msgstr ""
 msgid "Profile Field Setup"
 msgstr ""
 
-#: bp-xprofile.php:307
+#: bp-xprofile.php:247
+msgid "Admin Options"
+msgstr ""
+
+#: bp-xprofile.php:250
+#, php-format
+msgid "Edit %s's Profile"
+msgstr ""
+
+#: bp-xprofile.php:251
+#, php-format
+msgid "Edit %s's Avatar"
+msgstr ""
+
+#: bp-xprofile.php:254
+msgid "Mark as Spammer"
+msgstr ""
+
+#: bp-xprofile.php:256
+msgid "Not a Spammer"
+msgstr ""
+
+#: bp-xprofile.php:259
+#, php-format
+msgid "Delete %s"
+msgstr ""
+
+#: bp-xprofile.php:347
 msgid ""
 "Please make sure you fill in all required fields in this profile field group "
 "before saving."
 msgstr ""
 
-#: bp-xprofile.php:324
+#: bp-xprofile.php:364
 msgid ""
 "There was a problem updating some of your profile information, please try "
 "again."
 msgstr ""
 
-#: bp-xprofile.php:326
+#: bp-xprofile.php:366
 msgid "Changes saved."
 msgstr ""
 
-#: bp-xprofile.php:377
+#: bp-xprofile.php:417
 msgid "Your new avatar was uploaded successfully!"
 msgstr ""
 
-#: bp-xprofile.php:408
+#: bp-xprofile.php:448
 msgid "A member posts on your wire"
 msgstr ""
 
-#: bp-xprofile.php:489
+#: bp-xprofile.php:529
 msgid "Wire message could not be posted. Please try again."
 msgstr ""
 
-#: bp-xprofile.php:500
+#: bp-xprofile.php:540
 #, php-format
 msgid "%s wrote on their own wire"
 msgstr ""
 
-#: bp-xprofile.php:505
+#: bp-xprofile.php:545
 #, php-format
 msgid "%s wrote on %s wire"
 msgstr ""
 
-#: bp-xprofile.php:562
+#: bp-xprofile.php:602
 msgid "Wire post could not be deleted, please try again."
 msgstr ""
 
-#: bp-xprofile.php:588
+#: bp-xprofile.php:628
 msgid "New profile wire post"
 msgstr ""
 
-#: bp-xprofile.php:674
+#: bp-xprofile.php:714
 #, php-format
 msgid "You have %d new posts on your wire"
 msgstr ""
 
-#: bp-xprofile.php:677
+#: bp-xprofile.php:717
 #, php-format
 msgid "%s posted on your wire"
 msgstr ""
