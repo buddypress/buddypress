@@ -118,20 +118,19 @@ function bp_status_add_status( $user_id, $content ) {
 	
 	bp_status_clear_existing_activity( $user_id );
 	
-	if ( update_usermeta( $user_id, 'bp_status', array( 'content' => $content, 'recorded_time' => $recorded_time ) ) ) {
-		
-		/* Recored in activity streams */
-		$user_link = bp_core_get_userlink( $user_id );
-		$activity_content = sprintf( __( '%s posted a new status update:', 'buddypress' ), $user_link );
-		$activity_content .= "<blockquote>$content</blockquote>";
+	/* Store the status in usermeta for easy access. */
+	update_usermeta( $user_id, 'bp_status', array( 'content' => $content, 'recorded_time' => $recorded_time ) );
 
-		bp_status_record_activity( $user_id, $activity_content, $user_link );
-		
-		do_action( 'bp_status_add_status', $user_id, $content );
-		return true;
-	}
+	/* Recored in activity streams */
+	$user_link = bp_core_get_userlink( $user_id );
+	$activity_content = sprintf( __( '%s posted a new status update:', 'buddypress' ), $user_link );
+	$activity_content .= "<blockquote>$content</blockquote>";
+
+	bp_status_record_activity( $user_id, $activity_content, $user_link );
 	
-	return false;
+	do_action( 'bp_status_add_status', $user_id, $content );
+
+	return true;
 }
 
 function bp_status_clear_status( $user_id = false ) {
