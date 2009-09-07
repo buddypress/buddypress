@@ -966,7 +966,7 @@ class BP_Group_Extension {
 			add_action( 'groups_custom_create_steps', array( &$this, 'create_screen' ) );
 	
 			/* Attach the group creation step save content action */
-			add_action( 'groups_create_group_step_save_' . $slug, array( &$this, 'create_screen_save' ) );
+			add_action( 'groups_create_group_step_save_' . $this->slug, array( &$this, 'create_screen_save' ) );
 		}
 	
 		/* Construct the admin edit tab for the new group extension */
