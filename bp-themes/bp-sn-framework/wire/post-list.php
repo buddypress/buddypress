@@ -36,7 +36,7 @@
 				
 				<div class="wire-post-metadata">
 					<?php bp_wire_post_author_avatar() ?>
-					<?php printf ( __( 'On %1$s %2$s said:', "buddypress" ), bp_wire_post_date( null, false ), bp_wire_post_author_name( false ) ) ?>
+					<?php printf ( __( 'On %1$s %2$s said:', "buddypress" ), bp_get_wire_post_date(), bp_get_wire_post_author_name() ) ?>
 					<?php bp_wire_delete_link() ?>
 					
 					<?php do_action( 'bp_wire_post_list_metadata' ) ?>
