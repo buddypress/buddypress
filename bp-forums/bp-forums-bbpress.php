@@ -1,10 +1,5 @@
 <?php
 
-function bp_forums_on_activation() {
-	echo "here"; die;
-}
-add_action( 'activate_bp-loader.php', 'bp_forums_on_activate' );
-
 function bp_forums_load_bbpress() {
 	global $bp, $wpdb, $wp_roles, $current_user, $wp_users_object;
 	global $bb, $bbdb, $bb_table_prefix, $bb_current_user;
