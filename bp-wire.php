@@ -52,8 +52,8 @@ function bp_wire_setup_nav() {
 	
 	do_action( 'bp_wire_setup_nav' );
 }
-add_action( 'wp', 'bp_wire_setup_nav', 2 );
-add_action( 'admin_menu', 'bp_wire_setup_nav', 2 );
+add_action( 'plugins_loaded', 'bp_wire_setup_nav' );
+add_action( 'admin_menu', 'bp_wire_setup_nav' );
 
 
 /********************************************************************************

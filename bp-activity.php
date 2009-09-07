@@ -103,8 +103,8 @@ function bp_activity_setup_nav() {
 
 	do_action( 'bp_activity_setup_nav' );
 }
-add_action( 'wp', 'bp_activity_setup_nav', 2 );
-add_action( 'admin_menu', 'bp_activity_setup_nav', 2 );
+add_action( 'plugins_loaded', 'bp_activity_setup_nav' );
+add_action( 'admin_menu', 'bp_activity_setup_nav' );
 
 
 /********************************************************************************

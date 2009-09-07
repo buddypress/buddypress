@@ -221,8 +221,8 @@ function xprofile_setup_nav() {
 	
 	do_action( 'xprofile_setup_nav' );
 }
-add_action( 'wp', 'xprofile_setup_nav', 2 );
-add_action( 'admin_menu', 'xprofile_setup_nav', 2 );
+add_action( 'plugins_loaded', 'xprofile_setup_nav' );
+add_action( 'admin_menu', 'xprofile_setup_nav' );
 
 
 /**

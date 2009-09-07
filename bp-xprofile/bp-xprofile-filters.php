@@ -17,6 +17,7 @@ add_filter( 'bp_get_the_profile_field_value', 'convert_smilies', 2 );
 add_filter( 'bp_get_the_profile_field_value', 'convert_chars' );
 add_filter( 'bp_get_the_profile_field_value', 'wpautop' );
 add_filter( 'bp_get_the_profile_field_value', 'make_clickable' );
+add_filter( 'bp_get_the_profile_field_value', 'force_balance_tags' );
 
 add_filter( 'bp_get_the_profile_field_value', 'xprofile_filter_format_field_value', 1, 2 );
 add_filter( 'bp_get_the_profile_field_value', 'xprofile_filter_link_profile_data', 2, 2 );
@@ -61,7 +62,7 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 				if ( count( explode( ' ', $value ) ) > 5 )
 					$new_values[] = $value;
 				else
-					$new_values[] = '<a href="' . site_url( BP_MEMBERS_SLUG ) . '/?s=' . $value . '">' . $value . '</a>';
+					$new_values[] = '<a href="' . site_url( BP_MEMBERS_SLUG ) . '/?s=' . strip_tags( $value ) . '">' . $value . '</a>';
 			}
 		}
 		

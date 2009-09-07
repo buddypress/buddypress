@@ -292,8 +292,8 @@ function groups_setup_nav() {
 	
 	do_action( 'groups_setup_nav', $bp->groups->current_group->user_has_access );
 }
-add_action( 'wp', 'groups_setup_nav', 2 );
-add_action( 'admin_menu', 'groups_setup_nav', 2 );
+add_action( 'plugins_loaded', 'groups_setup_nav' );
+add_action( 'admin_menu', 'groups_setup_nav' );
 
 function groups_directory_groups_setup() {
 	global $bp;
@@ -466,7 +466,7 @@ function groups_screen_create_group() {
 		if ( 'group-invites' == $bp->groups->current_create_step ) {
 			groups_send_invites( $bp->groups->new_group_id, $bp->loggedin_user->id );
 		}
-		
+
 		do_action( 'groups_create_group_step_save_' . $bp->groups->current_create_step );
 		do_action( 'groups_create_group_step_complete' ); // Mostly for clearing cache on a generic action name
 		
@@ -2529,7 +2529,6 @@ function groups_update_groupmeta( $group_id, $meta_key, $meta_value ) {
 		return false;
 	
 	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
-	$meta_value = (string)$meta_value;
 
 	if ( is_string($meta_value) )
 		$meta_value = stripslashes($wpdb->escape($meta_value));

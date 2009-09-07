@@ -925,6 +925,7 @@ class BP_Group_Extension {
 	
 	var $nav_item_name = false;
 	
+	var $display_hook = 'groups_custom_group_boxes';
 	var $template_file = 'plugin-template';
 	
 	// Methods you should override
@@ -1003,7 +1004,7 @@ class BP_Group_Extension {
 			
 			/* Hook the group home widget */
 			if ( $bp->current_component == $bp->groups->slug && $bp->is_single_item && ( !$bp->current_action || 'home' == $bp->current_action ) )
-				add_action( 'groups_custom_group_boxes', array( &$this, 'widget_display' ) );
+				add_action( $this->display_hook, array( &$this, 'widget_display' ) );
 		}
 	}
 	
@@ -1019,8 +1020,8 @@ function bp_register_group_extension( $group_extension_class ) {
 	if ( !class_exists( $group_extension_class ) )
 		return false;
 	
-	$extension = new $group_extension_class;
-	add_action( 'wp', array( &$extension, '_register' ), 2 );
+	/* Register the group extension on the plugins_loaded action so we have access to all plugins */
+	add_action( 'plugins_loaded', create_function( '', '$extension = new ' . $group_extension_class . '; add_action( "wp", array( &$extension, "_register" ), 2 );' ) );
 }
 
 

@@ -167,8 +167,8 @@ function bp_blogs_setup_nav() {
 	
 	do_action( 'bp_blogs_setup_nav' );
 }
-add_action( 'wp', 'bp_blogs_setup_nav', 2 );
-add_action( 'admin_menu', 'bp_blogs_setup_nav', 2 );
+add_action( 'plugins_loaded', 'bp_blogs_setup_nav' );
+add_action( 'admin_menu', 'bp_blogs_setup_nav' );
 
 function bp_blogs_directory_blogs_setup() {
 	global $bp;

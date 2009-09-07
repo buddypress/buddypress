@@ -351,8 +351,8 @@ function bp_core_setup_nav() {
 		}
 	}	
 }
-add_action( 'wp', 'bp_core_setup_nav', 2 );
-add_action( 'admin_menu', 'bp_core_setup_nav', 2 );
+add_action( 'plugins_loaded', 'bp_core_setup_nav' );
+add_action( 'admin_menu', 'bp_core_setup_nav' );
 
 
 /********************************************************************************
@@ -1038,8 +1038,13 @@ function bp_core_get_user_displayname( $user_id ) {
 		wp_cache_set( 'bp_user_fullname_' . $user_id, $fullname, 'bp' );
 	}
 	
-	return apply_filters( 'bp_core_get_user_displayname', stripslashes( wp_filter_kses( trim( $fullname ) ) ) );
+	return apply_filters( 'bp_core_get_user_displayname', $fullname );
 }
+add_filter( 'bp_core_get_user_displayname', 'wp_filter_kses', 1 );
+add_filter( 'bp_core_get_user_displayname', 'force_balance_tags' );
+add_filter( 'bp_core_get_user_displayname', 'trim' );
+add_filter( 'bp_core_get_user_displayname', 'stripslashes' );
+
 
 /**
  * bp_core_get_userlink_by_email()
