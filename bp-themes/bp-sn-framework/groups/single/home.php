@@ -113,7 +113,7 @@
 									<?php while ( bp_group_members() ) : bp_group_the_member(); ?>
 									
 										<li>
-											<a href="<?php bp_group_member_url() ?>"><?php bp_group_member_avatar() ?></a>
+											<a href="<?php bp_group_member_url() ?>"><?php bp_group_member_avatar_thumb() ?></a>
 											<h5><?php bp_group_member_link() ?></h5>
 										</li>
 									<?php endwhile; ?>
