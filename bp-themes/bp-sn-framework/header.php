@@ -27,7 +27,7 @@
 
 	</head>
 
-	<body class="<?php do_action( 'bp_body_class' ) ?>">
+	<body <?php body_class() ?>>
 		
 		<div id="search-login-bar">
 	

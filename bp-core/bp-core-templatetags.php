@@ -1583,143 +1583,142 @@ function bp_is_register_page() {
 function bp_the_body_class() {
 	echo bp_get_the_body_class();
 }
-add_action( 'bp_body_class', 'bp_the_body_class' );
-
-	function bp_get_the_body_class() {
+	function bp_get_the_body_class( $wp_classes ) {
 		if ( bp_is_blog_page() || bp_is_activation_page() || bp_is_register_page() )
-			$class[] = 'blog-page';
+			$bp_classes[] = 'blog-page';
 			
 		if ( !bp_is_blog_page() && !is_home() && !bp_is_register_page() && !bp_is_activation_page() )
-			$class[] = 'internal-page';
+			$bp_classes[] = 'internal-page';
 		
 		if ( bp_is_blog_page() && is_home() )
-			$class[] = 'home-page';
+			$bp_classes[] = 'home-page';
 		
 		if ( bp_is_directory() )
-			$class[] = 'directory';
+			$bp_classes[] = 'directory';
 			
 		if ( bp_is_profile() && !bp_is_blog_page() )
-			$class[] = 'profile';
+			$bp_classes[] = 'profile';
 		
 		if ( bp_is_activity() && !bp_is_blog_page()  )
-			$class[] = 'activity';		
+			$bp_classes[] = 'activity';		
 
 		if ( bp_is_blogs() && !bp_is_blog_page()  )
-			$class[] = 'blogs';
+			$bp_classes[] = 'blogs';
 
 		if ( bp_is_wire() && !bp_is_blog_page()  )
-			$class[] = 'wire';
+			$bp_classes[] = 'wire';
 
 		if ( bp_is_messages() && !bp_is_blog_page()  )
-			$class[] = 'messages';					
+			$bp_classes[] = 'messages';					
 		
 		if ( bp_is_friends() && !bp_is_blog_page()  )
-			$class[] = 'friends';
+			$bp_classes[] = 'friends';
 			
 		if ( bp_is_groups() && !bp_is_blog_page()  )
-			$class[] = 'groups';
+			$bp_classes[] = 'groups';
 
 		if ( bp_is_settings() && !bp_is_blog_page()  )
-			$class[] = 'settings';
+			$bp_classes[] = 'settings';
 			
 		if ( bp_is_site_item() )
-			$class[] = 'single-item';
+			$bp_classes[] = 'single-item';
 			
 		if ( bp_is_inbox() )
-			$class[] = 'inbox';
+			$bp_classes[] = 'inbox';
 			
 		if ( bp_is_friend_requests() )
-			$class[] = 'friend-requests';
+			$bp_classes[] = 'friend-requests';
 
 		if ( bp_is_friends_screen() )
-			$class[] = 'my-friends';
+			$bp_classes[] = 'my-friends';
 			
 		if ( bp_is_create_blog() )
-			$class[] = 'create-blog';
+			$bp_classes[] = 'create-blog';
 			
 		if ( bp_is_recent_commments() )
-			$class[] = 'recent-comments';
+			$bp_classes[] = 'recent-comments';
 			
 		if ( bp_is_recent_posts() )
-			$class[] = 'recent-posts';
+			$bp_classes[] = 'recent-posts';
 			
 		if ( bp_is_my_blogs() && !bp_is_directory() )
-			$class[] = 'my-blogs';
+			$bp_classes[] = 'my-blogs';
 			
 		if ( bp_is_my_groups() && !bp_is_directory() )
-			$class[] = 'my-groups';
+			$bp_classes[] = 'my-groups';
 			
 		if ( bp_is_group_leave() )
-			$class[] = 'leave-group';
+			$bp_classes[] = 'leave-group';
 			
 		if ( bp_is_group_invites() )
-			$class[] = 'group-invites';
+			$bp_classes[] = 'group-invites';
 			
 		if ( bp_is_group_members() )
-			$class[] = 'group-members';
+			$bp_classes[] = 'group-members';
 			
 		if ( bp_is_group_forum_topic() )
-			$class[] = 'group-forum-topic';
+			$bp_classes[] = 'group-forum-topic';
 			
 		if ( bp_is_group_forum() )
-			$class[] = 'group-forum';
+			$bp_classes[] = 'group-forum';
 			
 		if ( bp_is_group_wire() )
-			$class[] = 'group-wire';
+			$bp_classes[] = 'group-wire';
 		
 		if ( bp_is_group_admin_page() )
-			$class[] = 'group-admin';
+			$bp_classes[] = 'group-admin';
 			
 		if ( bp_is_group_create() )
-			$class[] = 'group-create';
+			$bp_classes[] = 'group-create';
 		
 		if ( bp_is_group_home() )
-			$class[] = 'group-home';
+			$bp_classes[] = 'group-home';
 			
 		if ( bp_is_profile_wire() )
-			$class[] = 'profile-wire';
+			$bp_classes[] = 'profile-wire';
 			
 		if ( bp_is_change_avatar() )
-			$class[] = 'change-avatar';
+			$bp_classes[] = 'change-avatar';
 			
 		if ( bp_is_profile_edit() )
-			$class[] = 'profile-edit';
+			$bp_classes[] = 'profile-edit';
 			
 		if ( bp_is_friends_activity() )
-			$class[] = 'friends-activity';
+			$bp_classes[] = 'friends-activity';
 			
 		if ( bp_is_my_activity() )
-			$class[] = 'my-activity';
+			$bp_classes[] = 'my-activity';
 		
 		if ( bp_is_register_page() )
-			$class[] = 'registration';
+			$bp_classes[] = 'registration';
 		
 		if ( bp_is_activation_page() )
-			$class[] = 'activation';
+			$bp_classes[] = 'activation';
 			
 		if ( is_single() )
-			$class[] = 'blog-single';
+			$bp_classes[] = 'blog-single';
 
 		if ( is_category() )
-			$class[] = 'blog-category';
+			$bp_classes[] = 'blog-category';
 
 		if ( is_tag() )
-			$class[] = 'blog-tag';
+			$bp_classes[] = 'blog-tag';
 			
 		if ( is_search() )
-			$class[] = 'blog-search';
+			$bp_classes[] = 'blog-search';
 
 		if ( is_day() )
-			$class[] = 'blog-day';
+			$bp_classes[] = 'blog-day';
 
 		if ( is_month() )
-			$class[] = 'blog-month';
+			$bp_classes[] = 'blog-month';
 
 		if ( is_year() )		
-			$class[] = 'blog-year';
+			$bp_classes[] = 'blog-year';
 		
-		return implode( ' ', $class );
+		return apply_filters( 'bp_get_the_body_class', array_merge( (array) $bp_classes, (array) $wp_classes ), $bp_classes, $wp_classes );
 	}
+	add_filter( 'body_class', 'bp_get_the_body_class' )
 
 
 ?>
