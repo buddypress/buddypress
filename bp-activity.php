@@ -238,26 +238,8 @@ function bp_activity_add( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 	
 	/* Insert the "time-since" placeholder */
-	if ( $content ) {
-		
-		/* Check a time-since span doesn't already exist */
-		if ( false === strpos( $content, '<span class="time-since">' ) ) {		
-			if ( !$pos = strpos( $content, '<blockquote' ) ) {
-				if ( !$pos = strpos( $content, '<div' ) ) {
-					if ( !$pos = strpos( $content, '<ul' ) ) {
-						$content .= ' <span class="time-since">%s</span>';
-					}
-				}
-			}
-		}
-		
-		if ( (int) $pos ) {
-			$before = substr( $content, 0, (int) $pos );
-			$after = substr( $content, (int) $pos, strlen( $content ) );
-			
-			$content = $before . ' <span class="time-since">%s</span>' . $after;
-		}
-	}
+	if ( $content )
+		$content = bp_activity_add_timesince_placeholder( $content );
 
 	$activity = new BP_Activity_Activity;
 	$activity->user_id = $user_id;
@@ -269,7 +251,7 @@ function bp_activity_add( $args = '' ) {
 	$activity->secondary_item_id = $secondary_item_id;
 	$activity->date_recorded = $recorded_time;
 	$activity->hide_sitewide = $hide_sitewide;
-
+	
 	if ( !$activity->save() )
 		return false;
 
@@ -312,6 +294,9 @@ function bp_activity_delete_by_activity_id( $activity_id ) {
 }
 
 function bp_activity_delete_by_content( $user_id, $content, $component_name, $component_action ) {
+	/* Insert the "time-since" placeholder to match the existing content in the DB */
+	$content = bp_activity_add_timesince_placeholder( $content );
+
 	if ( !BP_Activity_Activity::delete_by_content( $user_id, $content, $component_name, $component_action ) )
 		return false;
 
@@ -328,6 +313,29 @@ function bp_activity_delete_for_user_by_component( $user_id, $component_name ) {
 	
 	return true;
 }
+
+function bp_activity_add_timesince_placeholder( $content ) {
+	/* Check a time-since span doesn't already exist */
+	if ( false === strpos( $content, '<span class="time-since">' ) ) {		
+		if ( !$pos = strpos( $content, '<blockquote' ) ) {
+			if ( !$pos = strpos( $content, '<div' ) ) {
+				if ( !$pos = strpos( $content, '<ul' ) ) {
+					$content .= ' <span class="time-since">%s</span>';
+				}
+			}
+		}
+	}
+	
+	if ( (int) $pos ) {
+		$before = substr( $content, 0, (int) $pos );
+		$after = substr( $content, (int) $pos, strlen( $content ) );
+		
+		$content = $before . ' <span class="time-since">%s</span>' . $after;
+	}
+
+	return $content;
+}
+
 
 function bp_activity_set_action( $component_id, $key, $value ) {
 	global $bp;
