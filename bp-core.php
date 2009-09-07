@@ -845,10 +845,7 @@ function bp_core_get_random_member() {
 		
 		$ud = get_userdata( $user['users'][0]->user_id );
 		
-		if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) )
-			bp_core_redirect( $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login );
-		else
-			bp_core_redirect( $bp->root_domain . '/' . $ud->user_login );			
+		bp_core_redirect( bp_core_get_user_domain( $user['users'][0]->user_id ) );		
 	}
 }
 add_action( 'wp', 'bp_core_get_random_member' );
@@ -914,13 +911,8 @@ function bp_core_get_userurl( $uid ) {
 	
 	if ( !is_numeric($uid) )
 		return false;
-	
-	$ud = get_userdata($uid);
-	
-	if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) )	
-		return apply_filters( 'bp_core_get_userurl', $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_login . '/' );
-	else
-		return apply_filters( 'bp_core_get_userurl', $bp->root_domain . '/' . $ud->user_login . '/' );	
+
+	return apply_filters( 'bp_core_get_userurl', bp_core_get_user_domain( $uid ) );
 }
 
 /**
