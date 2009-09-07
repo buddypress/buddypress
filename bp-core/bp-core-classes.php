@@ -59,13 +59,13 @@ class BP_Core_User {
 		$this->user_url = bp_core_get_userurl( $this->id );
 		$this->user_link = bp_core_get_userlink( $this->id );
 		
-		$this->fullname = bp_core_get_user_displayname( $this->id );
-		$this->email = bp_core_get_user_email( $this->id );
-		$this->last_active = bp_core_get_last_activity( get_usermeta( $this->id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) );
+		$this->fullname = attribute_escape( bp_core_get_user_displayname( $this->id ) );
+		$this->email = attribute_escape( bp_core_get_user_email( $this->id ) );
+		$this->last_active = attribute_escape( bp_core_get_last_activity( get_usermeta( $this->id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) ) );
 
 		$this->avatar = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'full' ) );
 		$this->avatar_thumb = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb' ) );
-		$this->avatar_mini = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb', 'width' => 25, 'height' => 25 ) );
+		$this->avatar_mini = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb', 'width' => 30, 'height' => 30 ) );
 	}
 	
 	function populate_extras() {

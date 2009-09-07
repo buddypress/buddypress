@@ -637,7 +637,7 @@ function bp_group_list_admins( $full_list = true, $group = false ) {
 			<ul id="group-admins">
 			<?php for ( $i = 0; $i < count($admins); $i++ ) { ?>
 				<li>
-					<a href="<?php echo $admins[$i]->user->user_url ?>" title="<?php echo $admins[$i]->user->fullname ?>"><?php echo $admins[$i]->user->avatar_thumb ?></a>
+					<a href="<?php echo $admins[$i]->user->user_url ?>" title="<?php echo $admins[$i]->user->fullname ?>"><?php echo $admins[$i]->user->avatar_mini ?></a>
 					<h5><?php echo $admins[$i]->user->user_link ?></h5>
 					<span class="activity"><?php echo $admins[$i]->user_title ?></span>
 					<hr />
