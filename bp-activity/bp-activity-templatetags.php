@@ -287,7 +287,7 @@ function bp_activity_content_filter( $content, $date_recorded, $full_name, $inse
 
 		/* Remove the 'You' and replace if with the persons name */
 		if ( $filter_you && $full_name != '' ) {
-			$content[0] = preg_replace( "/{$full_name}[<]/", 'You<', $content[0] );				
+			$content[0] = preg_replace( "/{$full_name}[<]/", 'You<', $content[0], 1 );				
 		}
 	}
 
