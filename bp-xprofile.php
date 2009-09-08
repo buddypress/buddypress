@@ -1024,7 +1024,7 @@ function xprofile_avatar_upload_dir( $directory = false, $user_id = false ) {
 		$directory = 'avatars';
 
 	$path  = get_blog_option( BP_ROOT_BLOG, 'upload_path' );
-	$newdir = path_join( ABSPATH, $path );
+	$newdir = WP_CONTENT_DIR . str_replace( 'wp-content', '', $path );
 	$newdir .= '/avatars/' . $user_id;
 
 	$newbdir = $newdir;

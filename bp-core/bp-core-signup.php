@@ -190,7 +190,7 @@ function bp_core_signup_avatar_upload_dir() {
 		return false;
 	
 	$path = get_blog_option( BP_ROOT_BLOG, 'upload_path' );
-	$newdir = path_join( ABSPATH, $path );
+	$newdir = WP_CONTENT_DIR . str_replace( 'wp-content', '', $path );
 	$newdir .= '/avatars/signups/' . $bp->signup->avatar_dir;
 
 	$newbdir = $newdir;

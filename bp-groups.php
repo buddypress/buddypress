@@ -1932,7 +1932,7 @@ function groups_avatar_upload_dir( $group_id = false ) {
 		$group_id = $bp->groups->current_group->id;
 		
 	$path  = get_blog_option( BP_ROOT_BLOG, 'upload_path' );
-	$newdir = path_join( ABSPATH, $path );
+	$newdir = WP_CONTENT_DIR . str_replace( 'wp-content', '', $path );
 	$newdir .= '/group-avatars/' . $group_id;
 
 	$newbdir = $newdir;
