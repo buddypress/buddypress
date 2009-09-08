@@ -119,8 +119,6 @@
 									<?php endwhile; ?>
 								</ul>
 								
-								<div class="clear"></div>
-						
 							<?php endif; ?>
 							
 						</div>
