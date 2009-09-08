@@ -397,13 +397,14 @@ function bp_the_profile_field_options( $args = '' ) {
 						$selected = '';
 					}
 					
-					$html .= '<option' . $selected . ' value="' . attribute_escape( $options[$k]->name ) . '">' . attribute_escape( $options[$k]->name ) . '</option>';
+					 
+					
+					$html .= apply_filters( 'bp_get_the_profile_field_options_select', '<option' . $selected . ' value="' . attribute_escape( $options[$k]->name ) . '">' . attribute_escape( $options[$k]->name ) . '</option>', $options[$k] );
 				}
 				break;
 				
 			case 'radio':
-				for ( $k = 0; $k < count($options); $k++ ) {
-					
+				for ( $k = 0; $k < count($options); $k++ ) {				
 					$option_value = BP_XProfile_ProfileData::get_value_byid($options[$k]->parent_id);
 
 					/* Check for updated posted values, but errors preventing them from being saved first time */
@@ -418,7 +419,7 @@ function bp_the_profile_field_options( $args = '' ) {
 						$selected = '';
 					}
 					
-					$html .= '<label><input' . $selected . ' type="radio" name="field_' . $field->id . '" id="option_' . $options[$k]->id . '" value="' . attribute_escape( $options[$k]->name ) . '"> ' . attribute_escape( $options[$k]->name ) . '</label>';
+					$html .= apply_filters( 'bp_get_the_profile_field_options_radio', '<label><input' . $selected . ' type="radio" name="field_' . $field->id . '" id="option_' . $options[$k]->id . '" value="' . attribute_escape( $options[$k]->name ) . '"> ' . attribute_escape( $options[$k]->name ) . '</label>', $options[$k] );
 				}
 				break;
 				
@@ -433,7 +434,7 @@ function bp_the_profile_field_options( $args = '' ) {
 		
 				$option_values = maybe_unserialize($option_values);
 
-				for ( $k = 0; $k < count($options); $k++ ) {	
+				for ( $k = 0; $k < count($options); $k++ ) {				
 					for ( $j = 0; $j < count($option_values); $j++ ) {
 						if ( $option_values[$j] == $options[$k]->name || @in_array( $options[$k]->name, $value ) || $options[$k]->is_default_option ) {
 							$selected = ' checked="checked"';
@@ -441,7 +442,7 @@ function bp_the_profile_field_options( $args = '' ) {
 						}
 					}
 					
-					$html .= '<label><input' . $selected . ' type="checkbox" name="field_' . $field->id . '[]" id="field_' . $options[$k]->id . '_' . $k . '" value="' . attribute_escape( $options[$k]->name ) . '"> ' . attribute_escape( $options[$k]->name ) . '</label>';
+					$html .= apply_filters( 'bp_get_the_profile_field_options_checkbox', '<label><input' . $selected . ' type="checkbox" name="field_' . $field->id . '[]" id="field_' . $options[$k]->id . '_' . $k . '" value="' . attribute_escape( $options[$k]->name ) . '"> ' . attribute_escape( $options[$k]->name ) . '</label>', $options[$k] );
 					$selected = '';
 				}
 				break;
@@ -519,6 +520,8 @@ function bp_the_profile_field_options( $args = '' ) {
 						}
 						break;
 				}
+				
+				apply_filters( 'bp_get_the_profile_field_datebox', $html, $day, $month, $year, $default_select ); 
 
 				break;
 		}
@@ -564,7 +567,7 @@ function bp_profile_group_tabs() {
 		}
 		
 		if ( $groups[$i]->fields )
-			echo '<li' . $selected . '><a href="' . $bp->displayed_user->domain . $bp->profile->slug . '/edit/group/' . $groups[$i]->id . '">' . $groups[$i]->name . '</a></li>';
+			echo '<li' . $selected . '><a href="' . $bp->displayed_user->domain . $bp->profile->slug . '/edit/group/' . $groups[$i]->id . '">' . attribute_escape( $groups[$i]->name ) . '</a></li>';
 	}
 	
 	do_action( 'xprofile_profile_group_tabs' );
