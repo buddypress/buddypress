@@ -42,7 +42,7 @@ Class BP_Activity_Activity {
 		
 		do_action( 'bp_activity_before_save', $this );
 
-		if ( !$this->user_id || !$this->component_name || !$this->component_action )
+		if ( !$this->component_name || !$this->component_action )
 			return false;
 		
 		/***
@@ -67,12 +67,12 @@ Class BP_Activity_Activity {
 		
 		/* If we have an existing ID, update the activity item, otherwise insert it. */
 		if ( $this->id ) {
-			if ( $wpdb->query( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET user_id = %d, component_name = %s, component_action = %s, content = %s, primary_link = %s, date_recorded = FROM_UNIXTIME(%d), item_id = %d, secondary_item_id = %d, hide_sitewide = %d WHERE id = %d", $this->user_id, $this->component_name, $this->component_action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide, $this->id ) ) ) {
+			if ( $wpdb->query( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET user_id = %d, component_name = %s, component_action = %s, content = %s, primary_link = %s, date_recorded = FROM_UNIXTIME(%d), item_id = %s, secondary_item_id = %s, hide_sitewide = %d WHERE id = %d", $this->user_id, $this->component_name, $this->component_action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide, $this->id ) ) ) {
 				do_action( 'bp_activity_after_save', $this );
 				return true;
 			}
 		} else {
-			if ( $wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->activity->table_name} ( user_id, component_name, component_action, content, primary_link, date_recorded, item_id, secondary_item_id, hide_sitewide ) VALUES ( %d, %s, %s, %s, %s, FROM_UNIXTIME(%d), %d, %d, %d )", $this->user_id, $this->component_name, $this->component_action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide ) ) ) {
+			if ( $wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->activity->table_name} ( user_id, component_name, component_action, content, primary_link, date_recorded, item_id, secondary_item_id, hide_sitewide ) VALUES ( %d, %s, %s, %s, %s, FROM_UNIXTIME(%d), %s, %s, %d )", $this->user_id, $this->component_name, $this->component_action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide ) ) ) {
 				do_action( 'bp_activity_after_save', $this );
 				return true;
 			}
@@ -90,9 +90,9 @@ Class BP_Activity_Activity {
 		/* If we have an item id, try and match on that, if not do a content match */
 		if ( $this->item_id ) {
 			if ( $this->secondary_item_id )
-				$secondary_sql = $wpdb->prepare( " AND secondary_item_id = %d", $secondary_item_id );
+				$secondary_sql = $wpdb->prepare( " AND secondary_item_id = %s", $secondary_item_id );
 				
-			return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE user_id = %d AND item_id = %d{$secondary_sql} AND component_name = %s AND component_action = %s", $this->user_id, $this->item_id, $this->component_name, $this->component_action ) );		
+			return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE user_id = %d AND item_id = %s{$secondary_sql} AND component_name = %s AND component_action = %s", $this->user_id, $this->item_id, $this->component_name, $this->component_action ) );		
 		} else {
 			return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE user_id = %d AND content = %s AND component_name = %s AND component_action = %s", $this->user_id, $this->content, $this->component_name, $this->component_action ) );				
 		}
@@ -104,15 +104,15 @@ Class BP_Activity_Activity {
 		global $wpdb, $bp;
 
 		if ( $secondary_item_id )
-			$secondary_sql = $wpdb->prepare( "AND secondary_item_id = %d", $secondary_item_id );
+			$secondary_sql = $wpdb->prepare( "AND secondary_item_id = %s", $secondary_item_id );
 		
 		if ( $component_action )
 			$component_action_sql = $wpdb->prepare( "AND component_action = %s", $component_action );
 		
 		if ( $user_id )
 			$user_sql = $wpdb->prepare( "AND user_id = %d", $user_id );
-
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE item_id = %d {$secondary_sql} AND component_name = %s {$component_action_sql} {$user_sql}", $item_id, $component_name ) );
+		
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE item_id = %s {$secondary_sql} AND component_name = %s {$component_action_sql} {$user_sql}", $item_id, $component_name ) );
 	}
 	
 	function delete_by_item_id( $item_id, $component_name, $component_action, $user_id = false, $secondary_item_id = false ) {
@@ -163,18 +163,8 @@ Class BP_Activity_Activity {
 			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE user_id = %d AND date_recorded >= FROM_UNIXTIME(%d) $privacy_sql $filter_sql ORDER BY date_recorded DESC $pag_sql $max_sql", $user_id, $since ) );
 		
 		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE user_id = %d AND date_recorded >= FROM_UNIXTIME(%d) $privacy_sql $filter_sql ORDER BY date_recorded DESC $max_sql", $user_id, $since ) );
-
-		for ( $i = 0; $i < count( $activities ); $i++ ) {
-			$activities_formatted[$i]['id'] = $activities[$i]->id;
-			$activities_formatted[$i]['user_id'] = $activities[$i]->user_id;
-			$activities_formatted[$i]['content'] = $activities[$i]->content;
-			$activities_formatted[$i]['primary_link'] = $activities[$i]->primary_link;
-			$activities_formatted[$i]['date_recorded'] = $activities[$i]->date_recorded;
-			$activities_formatted[$i]['component_name'] = $activities[$i]->component_name;
-			$activities_formatted[$i]['component_action'] = $activities[$i]->component_action;
-		}
 		
-		return array( 'activities' => $activities_formatted, 'total' => (int)$total_activities );
+		return array( 'activities' => $activities, 'total' => (int)$total_activities );
 	}
 	
 	function get_activity_for_friends( $user_id, $max_items, $since, $max_items_per_friend, $limit, $page, $filter ) {
@@ -232,17 +222,7 @@ Class BP_Activity_Activity {
 
 		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 $filter_sql ORDER BY date_recorded DESC $max_sql" ) );
 
-		for ( $i = 0; $i < count( $activities ); $i++ ) {
-			$activities_formatted[$i]['id'] = $activities[$i]->id;
-			$activities_formatted[$i]['user_id'] = $activities[$i]->user_id;
-			$activities_formatted[$i]['content'] = $activities[$i]->content;
-			$activities_formatted[$i]['primary_link'] = $activities[$i]->primary_link;
-			$activities_formatted[$i]['date_recorded'] = $activities[$i]->date_recorded;
-			$activities_formatted[$i]['component_name'] = $activities[$i]->component_name;
-			$activities_formatted[$i]['component_action'] = $activities[$i]->component_action;
-		}
-
-		return array( 'activities' => $activities_formatted, 'total' => (int)$total_activities );
+		return array( 'activities' => $activities, 'total' => (int)$total_activities );
 	}
 	
 	function get_recorded_component_names() {
@@ -271,6 +251,12 @@ Class BP_Activity_Activity {
 		global $bp, $wpdb;
 		
 		return $wpdb->get_var( $wpdb->prepare( "SELECT date_recorded FROM {$bp->activity->table_name} ORDER BY date_recorded ASC LIMIT 1" ) );
+	}
+	
+	function check_exists_by_content( $content ) {
+		global $wpdb, $bp;
+
+		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE content = %s", $content ) );
 	}
 }
 

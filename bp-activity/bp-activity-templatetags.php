@@ -226,11 +226,11 @@ function bp_activity_user_id() {
 		return apply_filters( 'bp_get_activity_user_id', $activities_template->activity->user_id );
 	}
 
-function bp_activity_user_avatar( $args = '' ) {
-	echo bp_get_activity_user_avatar( $args );
+function bp_activity_avatar( $args = '' ) {
+	echo bp_get_activity_avatar( $args );
 }
-	function bp_get_activity_user_avatar( $args = '' ) {
-		global $activities_template;
+	function bp_get_activity_avatar( $args = '' ) {
+		global $bp, $activities_template;
 
 		$defaults = array(
 			'type' => 'thumb',
@@ -242,8 +242,22 @@ function bp_activity_user_avatar( $args = '' ) {
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
-	
-		return apply_filters( 'bp_get_group_avatar', bp_core_fetch_avatar( array( 'item_id' => $activities_template->activity->user_id, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height ) ) );
+		
+		$item_id = false;
+		if ( (int)$activities_template->activity->user_id )
+			$item_id = $activities_template->activity->user_id;
+		else if ( $activities_template->activity->item_id )
+			$item_id = $activities_template->activity->item_id;
+
+		$object = 'user';
+		if ( $bp->groups->id == $activities_template->activity->component_name && !(int) $activities_template->activity->user_id )
+			$object = 'group';
+		if ( $bp->blogs->id == $activities_template->activity->component_name && !(int) $activities_template->activity->user_id )
+			$object = 'blog';
+		
+		$object = apply_filters( 'bp_get_activity_avatar_object_' . $activities_template->activity->component_name, $object );
+		
+		return apply_filters( 'bp_get_group_avatar', bp_core_fetch_avatar( array( 'item_id' => $item_id, 'object' => $object, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height ) ) );
 	}
 
 function bp_activity_content() {
