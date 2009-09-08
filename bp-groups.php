@@ -1077,15 +1077,16 @@ function groups_screen_group_admin_manage_members() {
 		if ( !$bp->is_item_admin )
 			return false;
 		
-		if ( 'promote' == $bp->action_variables[1] && is_numeric( $bp->action_variables[2] ) ) {
-			$user_id = $bp->action_variables[2];
+		if ( 'promote' == $bp->action_variables[1] && ( 'mod' == $bp->action_variables[2] || 'admin' == $bp->action_variables[2] ) && is_numeric( $bp->action_variables[3] ) ) {
+			$user_id = $bp->action_variables[3];
+			$status = $bp->action_variables[2];
 			
 			/* Check the nonce first. */
 			if ( !check_admin_referer( 'groups_promote_member' ) )
 				return false;
 		
 			// Promote a user.
-			if ( !groups_promote_member( $user_id, $bp->groups->current_group->id ) ) {
+			if ( !groups_promote_member( $user_id, $bp->groups->current_group->id, $status ) ) {
 				bp_core_add_message( __( 'There was an error when promoting that user, please try again', 'buddypress' ), 'error' );
 			} else {
 				bp_core_add_message( __( 'User promoted successfully', 'buddypress' ) );
@@ -2297,7 +2298,7 @@ function groups_delete_all_group_invites( $group_id ) {
 
 /*** Group Promotion & Banning *************************************************/
 
-function groups_promote_member( $user_id, $group_id ) {
+function groups_promote_member( $user_id, $group_id, $status ) {
 	global $bp;
 	
 	if ( !$bp->is_item_admin )
@@ -2305,17 +2306,14 @@ function groups_promote_member( $user_id, $group_id ) {
 		
 	$member = new BP_Groups_Member( $user_id, $group_id );
 
-	do_action( 'groups_premote_member', $user_id, $group_id );
+	do_action( 'groups_premote_member', $user_id, $group_id, $status );
 	
-	return $member->promote();
+	return $member->promote( $status );
 }
 
 function groups_demote_member( $user_id, $group_id ) {
 	global $bp;
-	
-	if ( !$bp->is_item_admin )
-		return false;
-		
+
 	$member = new BP_Groups_Member( $user_id, $group_id );
 	
 	do_action( 'groups_demote_member', $user_id, $group_id );

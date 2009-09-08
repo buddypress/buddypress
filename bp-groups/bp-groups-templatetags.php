@@ -915,7 +915,7 @@ function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
 			<?php if ( $admin_list ) { ?>
 			<li>
 				<?php echo bp_core_fetch_avatar( array( 'item_id' => $admin->user_id, 'type' => 'thumb', 'width' => 30, 'height' => 30 ) ) ?>
-				<h5><?php echo bp_core_get_userlink( $admin->user_id ) ?></h5>
+				<h5><?php echo bp_core_get_userlink( $admin->user_id ) ?>  <span class="small"> &mdash; <a class="confirm" href="<?php bp_group_member_demote_link($admin->user_id) ?>"><?php _e( 'Demote to Member', 'buddypress' ) ?></a></span></h5>
 			</li>
 			<?php } else { ?>
 			<li>
@@ -953,7 +953,7 @@ function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 				<?php if ( $admin_list ) { ?>
 				<li>
 					<?php echo bp_core_fetch_avatar( array( 'item_id' => $mod->user_id, 'type' => 'thumb', 'width' => 30, 'height' => 30 ) ) ?>
-					<h5><?php echo bp_core_get_userlink( $mod->user_id ) ?>  <span class="small"> &mdash; <a href="<?php bp_group_member_ban_link() ?>"><?php _e( 'Kick &amp; Ban', 'buddypress' ) ?></a> | <a href="<?php bp_group_member_demote_link($mod->user_id) ?>"><?php _e( 'Demote to Member', 'buddypress' ) ?></a></span></h5>
+					<h5><?php echo bp_core_get_userlink( $mod->user_id ) ?>  <span class="small"> &mdash; <a class="confirm" href="<?php bp_group_member_demote_link($mod->user_id) ?>"><?php _e( 'Demote to Member', 'buddypress' ) ?></a></span></h5>
 				</li>
 				<?php } else { ?>
 				<li>
@@ -986,24 +986,38 @@ function bp_group_has_moderators( $group = false ) {
 	return apply_filters( 'bp_group_has_moderators', groups_get_group_mods( $group->id ) );
 }
 
-function bp_group_member_promote_link( $user_id = false, $deprecated = false ) {
-	global $members_template;
-
-	if ( !$user_id )
-		$user_id = $members_template->member->user_id;
-		
-	echo bp_get_group_member_promote_link( $user_id );
+function bp_group_member_promote_mod_link( $args = '' ) {
+	echo bp_get_group_member_promote_mod_link( $args );
 }
-	function bp_get_group_member_promote_link( $user_id = false, $group = false ) {
+	function bp_get_group_member_promote_mod_link( $args = '' ) {
 		global $members_template, $groups_template, $bp;
 
-		if ( !$user_id )
-			$user_id = $members_template->member->user_id;
-			
-		if ( !$group )
-			$group =& $groups_template->group;
+		$defaults = array(
+			'user_id' => $members_template->member->user_id,
+			'group' => &$groups_template->group
+		);
 
-		return apply_filters( 'bp_get_group_member_promote_link', wp_nonce_url( bp_get_group_permalink( $group ) . '/admin/manage-members/promote/' . $user_id, 'groups_promote_member' ) );
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		return apply_filters( 'bp_get_group_member_promote_mod_link', wp_nonce_url( bp_get_group_permalink( $group ) . '/admin/manage-members/promote/mod/' . $user_id, 'groups_promote_member' ) );
+	}
+
+function bp_group_member_promote_admin_link( $args = '' ) {
+	echo bp_get_group_member_promote_admin_link( $args );
+}
+	function bp_get_group_member_promote_admin_link( $args = '' ) {
+		global $members_template, $groups_template, $bp;
+
+		$defaults = array(
+			'user_id' => $members_template->member->user_id,
+			'group' => &$groups_template->group
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		return apply_filters( 'bp_get_group_member_promote_admin_link', wp_nonce_url( bp_get_group_permalink( $group ) . '/admin/manage-members/promote/admin/' . $user_id, 'groups_promote_member' ) );
 	}
 
 function bp_group_member_demote_link( $user_id = false, $deprecated = false ) {

@@ -358,6 +358,28 @@ function bp_group_random_members( $group = false ) {
 <?php
 }
 
+/* Deprecated please use bp_group_member_promote_mod_link() or bp_group_member_promote_admin_link() */
+function bp_group_member_promote_link( $user_id = false, $deprecated = false ) {
+	global $members_template;
+
+	if ( !$user_id )
+		$user_id = $members_template->member->user_id;
+		
+	echo bp_get_group_member_promote_link( $user_id );
+}
+	function bp_get_group_member_promote_link( $user_id = false, $group = false ) {
+		global $members_template, $groups_template, $bp;
+
+		if ( !$user_id )
+			$user_id = $members_template->member->user_id;
+			
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_member_promote_link', wp_nonce_url( bp_get_group_permalink( $group ) . '/admin/manage-members/promote/mod/' . $user_id, 'groups_promote_member' ) );
+	}
+
+
 /* DEPRECATED - see latest default BuddyPress theme /groups/create.php for replacement template tags */
 function bp_group_create_form() {
 	global $bp, $invites;

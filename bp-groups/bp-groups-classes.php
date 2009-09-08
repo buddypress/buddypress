@@ -541,25 +541,27 @@ Class BP_Groups_Member {
 		return true;
 	}
 	
-	function promote() {
-		// Check the users current status
+	function promote( $status = 'mod' ) {
+		if ( 'mod' == $status ) {
+			$this->is_admin = 0;
+			$this->is_mod = 1;
+			$this->user_title = __( 'Group Mod', 'buddypress' );
+		}
 		
-		// Not letting mods be promoted to admins right now. In the future though yes.
-		if ( $this->is_admin || $this->is_mod )
-			return false;
+		if ( 'admin' == $status ) {
+			$this->is_admin = 1;
+			$this->is_mod = 0;
+			$this->user_title = __( 'Group Admin', 'buddypress' );
+		}
 		
-		$this->is_mod = 1;
 		return $this->save();
 	}
 	
-	function demote() {
-		if ( $this->is_admin ) 
-			return false;
-		
-		if ( !$this->is_mod )
-			return false;
-		
+	function demote() {		
 		$this->is_mod = 0;
+		$this->is_admin = 0;
+		$this->user_title = false;
+		
 		return $this->save();		
 	}
 	
