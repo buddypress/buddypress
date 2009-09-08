@@ -222,13 +222,13 @@
 											<li class="banned-user">
 												<?php bp_group_member_avatar_mini() ?>
 
-												<h5><?php bp_group_member_link() ?> <?php _e( '(banned)', 'buddypress') ?> <span class="small"> &mdash; <a href="<?php bp_group_member_unban_link() ?>" title="<?php _e( 'Kick and ban this member', 'buddypress' ) ?>"><?php _e( 'Remove Ban', 'buddypress' ); ?></a> </h5>
+												<h5><?php bp_group_member_link() ?> <?php _e( '(banned)', 'buddypress') ?> <span class="small"> &mdash; <a href="<?php bp_group_member_unban_link() ?>" class="confirm" title="<?php _e( 'Kick and ban this member', 'buddypress' ) ?>"><?php _e( 'Remove Ban', 'buddypress' ); ?></a> </h5>
 						
 										<?php else : ?>
 							
 											<li>
 												<?php bp_group_member_avatar_mini() ?>
-												<h5><?php bp_group_member_link() ?>  <span class="small"> &mdash; <a href="<?php bp_group_member_ban_link() ?>" title="<?php _e( 'Kick and ban this member', 'buddypress' ); ?>"><?php _e( 'Kick &amp; Ban', 'buddypress' ); ?></a> | <a href="<?php bp_group_member_promote_link() ?>" title="<?php _e( 'Promote this member', 'buddypress' ); ?>"><?php _e( 'Promote to Moderator', 'buddypress' ); ?></a></span></h5>
+												<h5><?php bp_group_member_link() ?>  <span class="small"> &mdash; <a href="<?php bp_group_member_ban_link() ?>" class="confirm" title="<?php _e( 'Kick and ban this member', 'buddypress' ); ?>"><?php _e( 'Kick &amp; Ban', 'buddypress' ); ?></a> | <a href="<?php bp_group_member_promote_mod_link() ?>" class="confirm" title="<?php _e( 'Promote to Mod', 'buddypress' ); ?>"><?php _e( 'Promote to Mod', 'buddypress' ); ?></a> | <a href="<?php bp_group_member_promote_admin_link() ?>" class="confirm" title="<?php _e( 'Promote to Admin', 'buddypress' ); ?>"><?php _e( 'Promote to Admin', 'buddypress' ); ?></a></span></h5>
 
 										<?php endif; ?>
 							
