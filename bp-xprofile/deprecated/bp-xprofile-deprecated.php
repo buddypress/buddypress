@@ -336,9 +336,9 @@ class BP_XProfile_Field_Deprecated extends BP_XProfile_Field {
 			
 			case 'datebox':
 				if ( $this->data->value != '' ) {
-					$day = date_i18n("j", $this->data->value);
-					$month = date_i18n("F", $this->data->value);
-					$year = date_i18n("Y", $this->data->value);
+					$day = date("j", $this->data->value);
+					$month = date("F", $this->data->value);
+					$year = date("Y", $this->data->value);
 					$default_select = ' selected="selected"';
 				}
 				
@@ -386,7 +386,7 @@ class BP_XProfile_Field_Deprecated extends BP_XProfile_Field {
 				<select name="field_' . $this->id . '_year" id="field_' . $this->id . '_year">';
 				$html .= '<option value=""' . attribute_escape( $default_select ) . '>----</option>';
 								
-				for ( $i = date_i18n( 'Y', time() ); $i > 1899; $i-- ) {
+				for ( $i = date( 'Y', time() ); $i > 1899; $i-- ) {
 					if ( $year == $i ) {
 						$selected = ' selected = "selected"'; 
 					} else {

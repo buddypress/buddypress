@@ -608,7 +608,7 @@ function bp_group_date_created( $deprecated = false ) {
 		if ( !$group )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_get_group_date_created', date_i18n( get_option( 'date_format' ), $group->date_created ) );
+		return apply_filters( 'bp_get_group_date_created', date( get_option( 'date_format' ), $group->date_created ) );
 	}
 
 function bp_group_is_admin() {

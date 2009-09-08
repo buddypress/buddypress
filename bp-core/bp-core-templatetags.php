@@ -395,10 +395,10 @@ function bp_exists( $component_name ) {
 }
 
 function bp_format_time( $time, $just_date = false ) {
-	$date = date_i18n( get_option('date_format'), $time );
+	$date = date( get_option('date_format'), $time );
 	
 	if ( !$just_date ) {
-		$date .= ' ' . __( 'at', 'buddypress' ) . date_i18n( ' ' . get_option('time_format'), $time );
+		$date .= ' ' . __( 'at', 'buddypress' ) . date( ' ' . get_option('time_format'), $time );
 	}
 	
 	return apply_filters( 'bp_format_time', $date );

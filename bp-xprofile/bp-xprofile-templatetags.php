@@ -450,9 +450,9 @@ function bp_the_profile_field_options( $args = '' ) {
 			case 'datebox':
 				
 				if ( $field->data->value != '' ) {
-					$day = date_i18n("j", $field->data->value);
-					$month = date_i18n("F", $field->data->value);
-					$year = date_i18n("Y", $field->data->value);
+					$day = date("j", $field->data->value);
+					$month = date("F", $field->data->value);
+					$year = date("Y", $field->data->value);
 					$default_select = ' selected="selected"';
 					
 					/* Check for updated posted values, but errors preventing them from being saved first time */
@@ -466,7 +466,7 @@ function bp_the_profile_field_options( $args = '' ) {
 							$month = $_POST['field_' . $field->id . '_month'];
 					}
 					
-					if ( isset( $_POST['field_' . $field->id . '_year'] ) && $year != date_i18n("j", $_POST['field_' . $field->id . '_year'] ) ) {
+					if ( isset( $_POST['field_' . $field->id . '_year'] ) && $year != date("j", $_POST['field_' . $field->id . '_year'] ) ) {
 						if ( !empty( $_POST['field_' . $field->id . '_year'] ) )
 							$year = $_POST['field_' . $field->id . '_year'];
 					}
@@ -509,7 +509,7 @@ function bp_the_profile_field_options( $args = '' ) {
 					case 'year':
 						$html .= '<option value=""' . attribute_escape( $default_select ) . '>----</option>';
 								
-						for ( $i = date_i18n( 'Y', time() ); $i > 1899; $i-- ) {
+						for ( $i = date( 'Y', time() ); $i > 1899; $i-- ) {
 							if ( $year == $i ) {
 								$selected = ' selected = "selected"'; 
 							} else {
