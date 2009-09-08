@@ -711,7 +711,7 @@ Class BP_XProfile_ProfileData {
 		if ( !$bp->profile )
 			xprofile_setup_globals();
 
-		$sql = $wpdb->prepare("SELECT * FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_id );
+		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_id );
 
 		if ( $profile_data = $wpdb->get_row($sql) ) {
 			return $profile_data->value;
