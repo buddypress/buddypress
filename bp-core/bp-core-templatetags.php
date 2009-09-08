@@ -1716,6 +1716,10 @@ function bp_the_body_class() {
 		if ( is_year() )		
 			$bp_classes[] = 'blog-year';
 		
+		/* We don't want WordPress blog classes to appear on non-blog pages. */
+		if ( !bp_is_blog_page() ) 
+ 			$wp_classes = array();
+		
 		return apply_filters( 'bp_get_the_body_class', array_merge( (array) $bp_classes, (array) $wp_classes ), $bp_classes, $wp_classes );
 	}
 	add_filter( 'body_class', 'bp_get_the_body_class' )
