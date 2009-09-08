@@ -44,7 +44,7 @@
 						<?php while ( bp_activities() ) : bp_the_activity(); ?>
 							<li class="<?php bp_activity_css_class() ?>">
 								<div class="activity-avatar">
-									<?php bp_activity_user_avatar() ?>
+									<?php bp_activity_avatar() ?>
 								</div>
 							
 								<?php bp_activity_content() ?>
