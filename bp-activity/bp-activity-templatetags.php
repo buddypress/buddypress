@@ -50,7 +50,7 @@ class BP_Activity_Template {
 		
 		$this->full_name = $bp->displayed_user->fullname;
 
-		if ( (int) $this->total_activity_count && (int) $this->page_num ) {
+		if ( (int) $this->total_activity_count && (int) $this->pag_num ) {
 			$this->pag_links = paginate_links( array(
 				'base' => add_query_arg( 'acpage', '%#%' ),
 				'format' => '',
