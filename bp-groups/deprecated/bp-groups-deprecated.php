@@ -230,8 +230,8 @@ function bp_groups_random_groups( $total_groups = 5 ) {
 	}
 	
 ?>	
-	<div class="bp-widget">
-		<h4><?php bp_word_or_name( __( "My Groups", 'buddypress' ), __( "%s's Groups", 'buddypress' ) ) ?> (<?php echo BP_Groups_Member::total_group_count() ?>) <a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>"><?php _e('See All', 'buddypress') ?> &raquo;</a></h4>
+	<div class="info-group">
+		<h4><?php bp_word_or_name( __( "My Groups", 'buddypress' ), __( "%s's Groups", 'buddypress' ) ) ?> (<?php echo BP_Groups_Member::total_group_count() ?>) <span><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>"><?php _e('See All', 'buddypress') ?> &raquo;</a></span></h4>
 		<?php if ( $group_ids ) { ?>
 			<ul class="horiz-gallery">
 			<?php 
@@ -241,7 +241,7 @@ function bp_groups_random_groups( $total_groups = 5 ) {
 					wp_cache_set( 'groups_group_nouserdata_' . $group_ids[$i], $group, 'bp' );
 				}
 			?>				<li>
-					<a href="<?php echo bp_get_group_permalink( $group ) ?>"><img src="<?php echo attribute_escape( $group->avatar_thumb ); ?>" class="avatar" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" /></a>
+					<a href="<?php echo bp_get_group_permalink( $group ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $group->id, 'object' => 'group', 'type' => 'thumb' ) ) ?></a>
 					<h5><a href="<?php echo bp_get_group_permalink( $group ) ?>"><?php echo attribute_escape( $group->name ) ?></a></h5>
 				</li>
 			<?php } ?>
@@ -255,6 +255,59 @@ function bp_groups_random_groups( $total_groups = 5 ) {
 	</div>
 <?php
 }
+
+/* DEPRECATED - use bp_has_topics() template loop */
+function bp_group_active_forum_topics( $total_topics = 3, $group = false ) {
+	global $groups_template, $forum_template;
+
+	if ( !$group )
+		$group =& $groups_template->group;
+		
+	$forum_id = groups_get_groupmeta( $group->id, 'forum_id' );
+
+	if ( $forum_id && $forum_id != '' ) {
+		if ( function_exists( 'bp_forums_setup' ) ) {
+			$latest_topics = bp_forums_get_forum_topics( array( 'forum_id' => $forum_id ) );
+		
+			if ( $latest_topics ) { ?>
+				<ul class="item-list" id="recent-forum-topics"><?php
+				
+				$counter = 0;
+				
+				foreach( $latest_topics as $topic ) {
+					$alt = ( $counter % 2 == 1 ) ? ' class="alt"' : '';
+					$forum_template->topic = (object)$topic; ?>
+					
+					<li<?php echo $alt ?>>
+						<div class="avatar">
+							<?php bp_the_topic_poster_avatar() ?>
+						</div>
+
+						<a href="<?php bp_the_topic_permalink() ?>" title="<?php bp_the_topic_title() ?> - <?php _e( 'Permalink', 'buddypress' ) ?>"><?php bp_the_topic_title() ?></a> 
+						<span class="small">- <?php bp_the_topic_total_post_count() ?> </span>
+						<p><span class="activity"><?php echo sprintf( __( 'updated %s ago', 'buddypress' ), bp_the_topic_time_since_last_post( false ) ) ?></span></p>
+				
+						<div class="latest-post">
+							<?php _e( 'Latest by', 'buddypress' ) ?> <?php bp_the_topic_last_poster_name() ?>:
+							<?php bp_the_topic_latest_post_excerpt() ?>
+						</div>
+					</li>
+					<?php $counter++ ?>
+					
+				<?php } ?>
+				</ul>
+				<?php
+			} else {
+			?>
+				<div id="message" class="info">
+					<p><?php _e( 'There are no active forum topics for this group', 'buddypress' ) ?></p>
+				</div>
+			<?php
+			}
+		}
+	}
+}
+
 
 /* DEPRECATED - use group invite template loop (see groups/create.php in skeleton BuddyPress theme) */
 function bp_group_send_invite_form( $group = false ) {
@@ -478,7 +531,7 @@ function bp_group_create_form() {
 		<?php case 'group-avatar': ?>
 			<?php if ( bp_are_previous_group_creation_steps_complete( 'group-avatar' ) ) { ?>
 				<div class="left-menu">
-					<?php bp_group_current_avatar() ?>
+					<?php bp_new_group_avatar() ?>
 				</div>
 				
 				<div class="main-column">

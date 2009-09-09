@@ -708,57 +708,6 @@ function bp_group_all_members_permalink( $deprecated = true, $deprecated2 = fals
 		return apply_filters( 'bp_get_group_all_members_permalink', bp_get_group_permalink( $group ) . '/members' );
 	}
 
-function bp_group_active_forum_topics( $total_topics = 3, $group = false ) {
-	global $groups_template, $forum_template;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-
-	$forum_id = groups_get_groupmeta( $group->id, 'forum_id' );
-
-	if ( $forum_id && $forum_id != '' ) {
-		if ( function_exists( 'bp_forums_setup' ) ) {
-			$latest_topics = bp_forums_get_forum_topics( $forum_id );
-		
-			if ( $latest_topics ) { ?>
-				<ul class="item-list" id="recent-forum-topics"><?php
-				
-				$counter = 0;
-				
-				foreach( $latest_topics as $topic ) {
-					$alt = ( $counter % 2 == 1 ) ? ' class="alt"' : '';
-					$forum_template->topic = (object)$topic; ?>
-					
-					<li<?php echo $alt ?>>
-						<div class="avatar">
-							<?php bp_the_topic_poster_avatar() ?>
-						</div>
-
-						<a href="<?php bp_the_topic_permalink() ?>" title="<?php bp_the_topic_title() ?> - <?php _e( 'Permalink', 'buddypress' ) ?>"><?php bp_the_topic_title() ?></a> 
-						<span class="small">- <?php bp_the_topic_total_post_count() ?> </span>
-						<p><span class="activity"><?php echo sprintf( __( 'updated %s ago', 'buddypress' ), bp_the_topic_time_since_last_post( false ) ) ?></span></p>
-				
-						<div class="latest-post">
-							<?php _e( 'Latest by', 'buddypress' ) ?> <?php bp_the_topic_last_poster_name() ?>:
-							<?php bp_the_topic_latest_post_excerpt() ?>
-						</div>
-					</li>
-					<?php $counter++ ?>
-					
-				<?php } ?>
-				</ul>
-				<?php
-			} else {
-			?>
-				<div id="message" class="info">
-					<p><?php _e( 'There are no active forum topics for this group', 'buddypress' ) ?></p>
-				</div>
-			<?php
-			}
-		}
-	}
-}
-
 function bp_group_search_form() {
 	global $groups_template, $bp;
 

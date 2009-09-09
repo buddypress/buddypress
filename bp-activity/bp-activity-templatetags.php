@@ -344,7 +344,7 @@ function bp_activity_delete_link() {
 	function bp_get_activity_delete_link() {
 		global $activities_template, $bp;
 
-		return apply_filters( 'bp_get_activity_delete_link', '<a href="' . wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/' . $activities_template->activity->id, 'bp_activity_delete_link' ) . '" class="item-button delete confirm">' . __( 'Delete', 'buddypress' ) . '</a>' );
+		return apply_filters( 'bp_get_activity_delete_link', '<a href="' . wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/' . $activities_template->activity->id, 'bp_activity_delete_link' ) . '" class="item-button delete-activity confirm">' . __( 'Delete', 'buddypress' ) . '</a>' );
 	}
 
 function bp_activity_filter_links( $args = false ) {

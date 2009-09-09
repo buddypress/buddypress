@@ -24,26 +24,31 @@ class BP_Activity_Widget extends WP_Widget {
 		   . $after_title; ?>
 	
 	<?php if ( bp_has_activities( 'type=sitewide&max=' . $instance['max_items'] . '&per_page=' . $instance['per_page'] ) ) : ?>
-		<div class="pagination">
-			<div class="pag-count" id="activity-count">
-				<?php bp_activity_pagination_count() ?>
+
+		<?php if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) ) : ?>
+			<div class="pagination">
+				<div class="pag-count" id="activity-count">
+					<?php bp_activity_pagination_count() ?>
+				</div>
+		
+				<div class="pagination-links" id="activity-pag">
+					&nbsp; <?php bp_activity_pagination_links() ?>
+				</div>
 			</div>
 		
-			<div class="pagination-links" id="activity-pag">
-				&nbsp; <?php bp_activity_pagination_links() ?>
-			</div>
-		</div>
-		
-		<ul id="activity-filter-links">
-			<?php bp_activity_filter_links() ?>
-		</ul>
+			<ul id="activity-filter-links">
+				<?php bp_activity_filter_links() ?>
+			</ul>
+		<?php endif; ?>
 		
 		<ul id="site-wide-stream" class="activity-list">
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<li class="<?php bp_activity_css_class() ?>">
-				<div class="activity-avatar">
-					<?php bp_activity_avatar() ?>
-				</div>
+				<?php if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) ) : ?>
+					<div class="activity-avatar">
+						<?php bp_activity_avatar() ?>
+					</div>
+				<?php endif; ?>
 				
 				<?php bp_activity_content() ?>
 			</li>
