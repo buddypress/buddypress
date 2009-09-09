@@ -15,6 +15,7 @@ jQuery(document).ready( function() {
 			},
 			function(response)
 			{	
+				jQuery('#ajax-loader-groups').toggle();
 				groups_wiget_response(response);
 			});
 		
@@ -30,7 +31,6 @@ function groups_wiget_response(response) {
 	if ( response[0] != "-1" ) {
 		jQuery("ul#groups-list").fadeOut(200, 
 			function() {
-				jQuery('#ajax-loader-groups').toggle();
 				jQuery("ul#groups-list").html(response[1]);
 				jQuery("ul#groups-list").fadeIn(200);
 			}
@@ -39,7 +39,6 @@ function groups_wiget_response(response) {
 	} else {					
 		jQuery("ul#groups-list").fadeOut(200, 
 			function() {
-				jQuery('#ajax-loader-groups').toggle();
 				var message = '<p>' + response[1] + '</p>';
 				jQuery("ul#groups-list").html(message);
 				jQuery("ul#groups-list").fadeIn(200);
