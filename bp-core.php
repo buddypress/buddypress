@@ -1032,8 +1032,7 @@ function bp_core_get_user_displayname( $user_id ) {
 	
 	return apply_filters( 'bp_core_get_user_displayname', $fullname );
 }
-add_filter( 'bp_core_get_user_displayname', 'wp_filter_kses', 1 );
-add_filter( 'bp_core_get_user_displayname', 'force_balance_tags' );
+add_filter( 'bp_core_get_user_displayname', 'strip_tags', 1 );
 add_filter( 'bp_core_get_user_displayname', 'trim' );
 add_filter( 'bp_core_get_user_displayname', 'stripslashes' );
 
