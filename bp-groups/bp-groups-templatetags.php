@@ -435,14 +435,14 @@ function bp_group_avatar_thumb() {
 	echo bp_get_group_avatar_thumb();
 }
 	function bp_get_group_avatar_thumb( $group = false ) {
-		return bp_get_group_avatar( 'type=thumb' );
+		return bp_get_group_avatar( array( 'type' => 'thumb' ) );
 	}
 
 function bp_group_avatar_mini() {
 	echo bp_get_group_avatar_mini();
 }
 	function bp_get_group_avatar_mini( $group = false ) {
-		return bp_get_group_avatar( 'type=thumb&width=30&height=30' );
+		return bp_get_group_avatar( array( 'type' => 'thumb', 'width' => 30, 'height' => 30 ) );
 	}
 
 function bp_group_last_active( $deprecated = true, $deprecated2 = false ) {
