@@ -487,6 +487,8 @@ function bp_the_profile_field_options( $args = '' ) {
 						break;
 					
 					case 'month':
+						$eng_months = array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' );
+						
 						$months = array( __( 'January', 'buddypress' ), __( 'February', 'buddypress' ), __( 'March', 'buddypress' ), 
 								 __( 'April', 'buddypress' ), __( 'May', 'buddypress' ), __( 'June', 'buddypress' ),
 								 __( 'July', 'buddypress' ), __( 'August', 'buddypress' ), __( 'September', 'buddypress' ),
@@ -496,13 +498,13 @@ function bp_the_profile_field_options( $args = '' ) {
 						$html .= '<option value=""' . attribute_escape( $default_select ) . '>------</option>';
 				
 						for ( $i = 0; $i < 12; $i++ ) {
-							if ( $month == $months[$i] ) {
+							if ( $month == $eng_months[$i] ) {
 								$selected = ' selected = "selected"';
 							} else {
 								$selected = '';
 							}
 					
-							$html .= '<option value="' . $months[$i] . '"' . $selected . '>' . $months[$i] . '</option>';
+							$html .= '<option value="' . $eng_months[$i] . '"' . $selected . '>' . $months[$i] . '</option>';
 						}
 						break;
 						
