@@ -406,8 +406,8 @@ function bp_group_type() {
 		return apply_filters( 'bp_get_group_type', $type );	
 	}
 
-function bp_group_avatar() {
-	echo bp_get_group_avatar();
+function bp_group_avatar( $args = '' ) {
+	echo bp_get_group_avatar( $args );
 }
 	function bp_get_group_avatar( $args = '' ) {
 		global $bp, $groups_template;
@@ -425,7 +425,7 @@ function bp_group_avatar() {
 		extract( $r, EXTR_SKIP );
 	
 		/* Fetch the avatar from the folder, if not provide backwards compat. */
-		if ( !$avatar = bp_core_fetch_avatar( array( 'item_id' => $groups_template->group->id, 'object' => 'group', 'type' => $type, 'avatar_dir' => 'group-avatars', 'alt' => $alt, 'css_id' => $id, 'class' => $class ) ) )
+		if ( !$avatar = bp_core_fetch_avatar( array( 'item_id' => $groups_template->group->id, 'object' => 'group', 'type' => $type, 'avatar_dir' => 'group-avatars', 'alt' => $alt, 'css_id' => $id, 'class' => $class, 'width' => $width, 'height' => $height ) ) )
 			$avatar = '<img src="' . attribute_escape( $groups_template->group->avatar_thumb ) . '" class="avatar" alt="' . attribute_escape( $groups_template->group->name ) . '" />';
 
 		return apply_filters( 'bp_get_group_avatar', $avatar );
@@ -435,14 +435,14 @@ function bp_group_avatar_thumb() {
 	echo bp_get_group_avatar_thumb();
 }
 	function bp_get_group_avatar_thumb( $group = false ) {
-		return bp_get_group_avatar( array( 'type' => 'thumb' ) );
+		return bp_get_group_avatar( 'type=thumb' );
 	}
 
 function bp_group_avatar_mini() {
 	echo bp_get_group_avatar_mini();
 }
 	function bp_get_group_avatar_mini( $group = false ) {
-		return bp_get_group_avatar( array( 'type' => 'thumb', 'width' => 30, 'height' => 30 ) );
+		return bp_get_group_avatar( 'type=thumb&width=30&height=30' );
 	}
 
 function bp_group_last_active( $deprecated = true, $deprecated2 = false ) {
