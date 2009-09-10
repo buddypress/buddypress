@@ -111,7 +111,7 @@ Class BP_Activity_Activity {
 		
 		if ( $user_id )
 			$user_sql = $wpdb->prepare( "AND user_id = %d", $user_id );
-		
+
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE item_id = %s {$secondary_sql} AND component_name = %s {$component_action_sql} {$user_sql}", $item_id, $component_name ) );
 	}
 	

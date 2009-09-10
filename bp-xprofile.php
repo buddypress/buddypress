@@ -554,9 +554,9 @@ function xprofile_action_new_wire_post() {
 			'content' => $content, 
 			'primary_link' => $primary_link,
 			'component_action' => 'new_wire_post',
-			'item_id' => $wire_post->item_id
+			'item_id' => $wire_post->id
 		) );
-				
+
 		do_action( 'xprofile_new_wire_post', &$wire_post );	
 	}
 
@@ -593,10 +593,13 @@ function xprofile_action_delete_wire_post() {
 		return false;
 			
 	$wire_post_id = $bp->action_variables[0];
-	
+
 	if ( bp_wire_delete_post( $wire_post_id, $bp->profile->slug, $bp->profile->table_name_wire ) ) {
 		bp_core_add_message( __('Wire message successfully deleted.', 'buddypress') );
 
+		/* Delete the post from activity streams */
+		xprofile_delete_activity( array( 'item_id' => $wire_post_id, 'component_action' => 'new_wire_post' ) );
+		
 		do_action( 'xprofile_delete_wire_post', $wire_post_id );						
 	} else {
 		bp_core_add_message( __('Wire post could not be deleted, please try again.', 'buddypress'), 'error' );
@@ -678,10 +681,12 @@ function xprofile_record_activity( $args = true ) {
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  * @uses bp_activity_delete() Deletes an entry to the activity component tables for a specific activity
  */
-function xprofile_delete_activity( $args = true ) {
-	if ( function_exists('bp_activity_delete') ) {
+function xprofile_delete_activity( $args = '' ) {
+	global $bp;
+	
+	if ( function_exists('bp_activity_delete_by_item_id') ) {
 		extract($args);
-		bp_activity_delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
+		bp_activity_delete_by_item_id( array( 'item_id' => $item_id, 'component_name' => $bp->profile->id, 'component_action' => $component_action, 'user_id' => $user_id, 'secondary_item_id' => $secondary_item_id ) );
 	}
 }
 
