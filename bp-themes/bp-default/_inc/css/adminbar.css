@@ -1,5 +1,5 @@
 /* Admin bar framework styles */
-@import url( ../../../bp-sn-framework/_inc/css/adminbar.css );
+@import url( ../../../bp-sn-parent/_inc/css/adminbar.css );
 
 #wp-admin-bar {
 	color: #fff !important;
