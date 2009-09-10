@@ -1902,6 +1902,10 @@ table.profile-fields {
 		color: #888;
 		font-size: 0.9em;
 	}
+	
+	.wire-post-content {
+		margin-left: 68px;
+	}
 
 #wire-post-new:hover {
 	position: relative;
