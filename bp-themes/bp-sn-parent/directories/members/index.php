@@ -45,9 +45,12 @@
 						<?php locate_template( array( 'directories/members/members-loop.php' ), true ) ?>
 					</div>
 
-					<?php do_action( 'bp_directory_members_content' ) ?>
 				</div>
-		
+
+				<?php do_action( 'bp_directory_members_content' ) ?>
+				
+				<?php wp_nonce_field( 'directory_members', '_wpnonce-member-filter' ) ?> 
+				
 			</form>
 	
 		</div>
@@ -58,6 +61,8 @@
 	<?php do_action( 'bp_before_directory_members_sidebar' ) ?>		
 
 	<div id="sidebar" class="directory-sidebar">
+		
+		<?php do_action( 'bp_before_directory_members_search' ) ?>
 
 		<div id="members-directory-search" class="directory-widget">
 			<h3><?php _e( 'Find Members', 'buddypress' ) ?></h3>
@@ -114,5 +119,7 @@
 		<?php do_action( 'bp_after_directory_members_featured' ) ?>	
 
 	</div>
+
+	<?php do_action( 'bp_after_directory_members_sidebar' ) ?>		
 
 <?php get_footer() ?>

@@ -132,5 +132,7 @@
 		<?php do_action( 'bp_after_directory_groups_featured' ) ?>	
 
 	</div>
+	
+	<?php do_action( 'bp_after_directory_groups_sidebar' ) ?> 
 
 <?php get_footer() ?>
