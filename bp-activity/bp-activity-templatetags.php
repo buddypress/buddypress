@@ -16,7 +16,7 @@ class BP_Activity_Template {
 
 	var $full_name;
 
-	function bp_activity_template( $type, $user_id, $per_page, $max, $timeframe, $filter ) {
+	function bp_activity_template( $type, $user_id, $per_page, $max, $filter ) {
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['acpage'] ) ? intval( $_REQUEST['acpage'] ) : 1;
@@ -27,10 +27,10 @@ class BP_Activity_Template {
 			$this->activities = bp_activity_get_sitewide_activity( $max, $this->pag_num, $this->pag_page, $filter );
 		
 		if ( $type == 'personal' )
-			$this->activities = bp_activity_get_user_activity( $user_id, $max, $timeframe, $this->pag_num, $this->pag_page, $filter );
+			$this->activities = bp_activity_get_user_activity( $user_id, $max, $this->pag_num, $this->pag_page, $filter );
 
 		if ( $type == 'friends' && ( bp_is_home() || is_site_admin() || $bp->loggedin_user->id == $user_id ) )
-			$this->activities = bp_activity_get_friends_activity( $user_id, $max, $timeframe, false, $this->pag_num, $this->pag_page, $filter );
+			$this->activities = bp_activity_get_friends_activity( $user_id, $max, false, $this->pag_num, $this->pag_page, $filter );
 		
 		if ( !$max || $max >= (int)$this->activities['total'] )
 			$this->total_activity_count = (int)$this->activities['total'];
@@ -88,7 +88,7 @@ class BP_Activity_Template {
 		if ( $this->current_activity + 1 < $this->activity_count ) {
 			return true;
 		} elseif ( $this->current_activity + 1 == $this->activity_count ) {
-			do_action('loop_end');
+			do_action('activity_loop_end');
 			// Do some cleaning up after the loop
 			$this->rewind_activities();
 		}
@@ -107,7 +107,7 @@ class BP_Activity_Template {
 			$this->activity = (object) $this->activity;
 
 		if ( $this->current_activity == 0 ) // loop has just started
-			do_action('loop_start');
+			do_action('activity_loop_start');
 	}
 }
 
@@ -124,14 +124,18 @@ function bp_activity_get_list( $user_id, $title, $no_activity, $limit = false ) 
 
 function bp_has_activities( $args = '' ) {
 	global $bp, $activities_template, $bp_activity_user_id, $bp_activity_limit;
-
+	
+	/* Note: any params used for filtering can be a single value, or multiple values comma seperated. */
+	
 	$defaults = array(
 		'type' => 'sitewide',
-		'user_id' => false,
 		'per_page' => 25,
 		'max' => false,
-		'timeframe' => '-4 weeks',
-		'filter' => false
+		'user_id' => false, // user_id to filter on
+		'object' => false, // object to filter on e.g. groups, profile, status, friends
+		'action' => false, // action to filter on e.g. new_wire_post, new_forum_post, profile_updated
+		'primary_id' => false, // object ID to filter on e.g. a group_id or forum_id or blog_id etc.
+		'secondary_id' => false, // secondary object ID to filter on e.g. a post_id
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -161,9 +165,11 @@ function bp_has_activities( $args = '' ) {
 	}
 	
 	if ( isset( $_GET['afilter'] ) )
-		$filter = $_GET['afilter'];
-
-	$activities_template = new BP_Activity_Template( $type, $user_id, $per_page, $max, $timeframe, $filter );		
+		$filter = array( 'object' => $_GET['afilter'] );
+	else
+		$filter = array( 'object' => $object, 'action' => $action, 'primary_id' => $primary_id, 'secondary_id' => $secondary_id );
+	
+	$activities_template = new BP_Activity_Template( $type, $user_id, $per_page, $max, $filter );		
 	return $activities_template->has_activities();
 }
 
