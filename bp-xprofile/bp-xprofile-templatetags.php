@@ -177,7 +177,7 @@ function bp_has_profile( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 	
 	$profile_template = new BP_XProfile_Data_Template( $user_id, $profile_group_id );
-	return apply_filters( 'bp_has_profile', $profile_template->has_groups(), $profile_template );
+	return apply_filters( 'bp_has_profile', $profile_template->has_groups(), &$profile_template );
 }
 
 function bp_profile_groups() { 

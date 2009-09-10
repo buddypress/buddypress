@@ -363,7 +363,7 @@ jQuery(document).ready( function() {
 		}
 	);
 	
-	jQuery("div.group-button a").livequery('click',
+	jQuery(".directory-listing div.group-button a").livequery('click',
 		function() {
 			var gid = jQuery(this).parent().attr('id');
 			gid = gid.split('-');
