@@ -552,8 +552,8 @@ function xprofile_action_new_wire_post() {
 		/* Now write the values */
 		xprofile_record_activity( array(
 			'user_id' => $bp->loggedin_user->id,
-			'content' => $content, 
-			'primary_link' => $primary_link,
+			'content' => apply_filters( 'xprofile_activity_new_wire_post', $content, &$wire_post ),
+			'primary_link' => apply_filters( 'xprofile_activity_new_wire_post_primary_link', $primary_link ),
 			'component_action' => 'new_wire_post',
 			'item_id' => $wire_post->id
 		) );

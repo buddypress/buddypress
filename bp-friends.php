@@ -627,25 +627,22 @@ function friends_accept_friendship( $friendship_id ) {
 		$initiator_link = bp_core_get_userlink( $friendship->initiator_user_id );
 		$friend_link = bp_core_get_userlink( $friendship->friend_user_id );
 		
-		$primary_link = apply_filters( 'bp_friends_friendship_accepted_primary_link', bp_core_get_userlink( $friendship->initiator_user_id ), &$friendship );
-		$activity_content = apply_filters( 'bp_friends_friendship_accepted_activity', sprintf( __( '%s and %s are now friends', 'buddypress' ), $initiator_link, $friend_link ), &$friendship );
-			
+		$primary_link = apply_filters( 'friends_activity_friendship_accepted_primary_link', bp_core_get_userlink( $friendship->initiator_user_id ), &$friendship );
+		
 		/* Record in activity streams for the initiator */
 		friends_record_activity( array( 
 			'user_id' => $friendship->initiator_user_id,
 			'component_action' => 'friendship_created',
-			'content' => $activity_content,
+			'content' => apply_filters( 'friends_activity_friendship_accepted', sprintf( __( '%s and %s are now friends', 'buddypress' ), $initiator_link, $friend_link ), &$friendship ),
 			'primary_link' => $primary_link,
 			'item_id' => $friendship_id
 		) );
 
-		$activity_content = apply_filters( 'bp_friends_friendship_accepted_activity', sprintf( __( '%s and %s are now friends', 'buddypress' ), $friend_link, $initiator_link ), &$friendship );
-		
 		/* Record in activity streams for the friend */
 		friends_record_activity( array( 
 			'user_id' => $friendship->friend_user_id,
 			'component_action' => 'friendship_created',
-			'content' => $activity_content,
+			'content' => apply_filters( 'friends_activity_friendship_accepted', sprintf( __( '%s and %s are now friends', 'buddypress' ), $friend_link, $initiator_link ), &$friendship ),
 			'primary_link' => $primary_link,
 			'item_id' => $friendship_id,
 			'hide_sitewide' => true /* We've already got the first entry site wide */

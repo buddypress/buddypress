@@ -126,7 +126,7 @@ function bp_status_add_status( $user_id, $content ) {
 	$activity_content = sprintf( __( '%s posted a new status update:', 'buddypress' ), $user_link );
 	$activity_content .= "<blockquote>$content</blockquote>";
 
-	bp_status_record_activity( $user_id, $activity_content, $user_link );
+	bp_status_record_activity( $user_id, apply_filters( 'bp_status_activity_new', $activity_content, $content, $user_link ), apply_filters( 'bp_status_activity_new_primary_link', $user_link, $user_id ) );
 	
 	do_action( 'bp_status_add_status', $user_id, $content );
 
