@@ -48,6 +48,19 @@ function bp_core_screen_activation() {
 			@rename( WP_CONTENT_DIR . '/blogs.dir/' . BP_ROOT_BLOG . '/files/avatars/signups/' . $hashed_key, WP_CONTENT_DIR . '/blogs.dir/' . BP_ROOT_BLOG . '/files/avatars/' . $signup['user_id'] );
 		}
 		
+		/* Record the new user in the activity streams */
+		if ( function_exists( 'bp_activity_add' ) ) {
+			$userlink = bp_core_get_userlink( $signup['user_id'] );
+			
+			bp_activity_add( array(
+				'user_id' => $signup['user_id'],
+				'content' => apply_filters( 'bp_core_activity_registered_member', sprintf( '%s is now a registered member', $userlink ), $signup['user_id'] ),
+				'primary_link' => apply_filters( 'bp_core_actiivty_registered_member_primary_link', $userlink ),
+				'component_name' => 'profile',
+				'component_action' => 'new_member'	
+			) );
+		}
+
 		do_action( 'bp_core_account_activated', &$signup, $_GET['key'] );
 		bp_core_add_message( __( 'Your account is now active!', 'buddypress' ) );
 		

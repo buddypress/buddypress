@@ -419,6 +419,7 @@ function xprofile_screen_change_avatar() {
 	}
 
 	do_action( 'xprofile_screen_change_avatar' );
+	
 	bp_core_load_template( apply_filters( 'xprofile_template_change_avatar', 'profile/change-avatar' ) );
 }
 
@@ -628,6 +629,7 @@ function xprofile_register_activity_actions() {
 		return false;
 
 	/* Register the activity stream actions for this component */
+	bp_activity_set_action( $bp->profile->id, 'new_member', __( 'New member registered', 'buddypress' ) );
 	bp_activity_set_action( $bp->profile->id, 'updated_profile', __( 'Updated Profile', 'buddypress' ) );
 	bp_activity_set_action( $bp->profile->id, 'new_wire_post', __( 'New profile wire post', 'buddypress' ) );
 
