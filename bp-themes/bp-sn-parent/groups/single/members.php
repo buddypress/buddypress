@@ -74,7 +74,7 @@
 									<?php while ( bp_group_members() ) : bp_group_the_member(); ?>
 										
 										<li>
-											<?php bp_group_member_avatar() ?>
+											<?php bp_group_member_avatar_thumb() ?>
 											<h5><?php bp_group_member_link() ?></h5>
 											<span class="activity"><?php bp_group_member_joined_since() ?></span>
 						
