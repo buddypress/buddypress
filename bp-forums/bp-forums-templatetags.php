@@ -137,7 +137,7 @@ function bp_has_topics( $args = '' ) {
 	else
 		return false;
 
-	return $forum_template->has_topics();
+	return apply_filters( 'bp_has_topics', $forum_template->has_topics(), &$forum_template );
 }
 
 function bp_topics() {
@@ -599,7 +599,7 @@ function bp_has_topic_posts( $args = '' ) {
 	else
 		return false;
 
-	return $topic_template->has_posts();
+	return apply_filters( 'bp_has_topic_posts', $topic_template->has_posts(), &$topic_template );
 }
 
 function bp_topic_posts() {

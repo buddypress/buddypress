@@ -170,7 +170,7 @@ function bp_has_activities( $args = '' ) {
 		$filter = array( 'object' => $object, 'action' => $action, 'primary_id' => $primary_id, 'secondary_id' => $secondary_id );
 	
 	$activities_template = new BP_Activity_Template( $type, $user_id, $per_page, $max, $filter );		
-	return $activities_template->has_activities();
+	return apply_filters( 'bp_has_activities', $activities_template->has_activities(), &$activities_template );
 }
 
 function bp_activities() {

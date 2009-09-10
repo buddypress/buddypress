@@ -50,10 +50,9 @@ Class BP_XProfile_Data_Template {
 		$this->current_group++;
 
 		$this->group = $this->groups[$this->current_group];
-		$this->field_count = count($this->group->fields);
 		
 		if ( !$fields = wp_cache_get( 'xprofile_fields_' . $this->group->id . '_' . $this->user_id, 'bp' ) ) {
-			for ( $i = 0; $i < $this->field_count; $i++ ) {
+			for ( $i = 0; $i < count($this->group->fields); $i++ ) {
 				$field = new BP_XProfile_Field( $this->group->fields[$i]->id, $this->user_id );
 				$fields[$i] = $field;
 			}
@@ -61,7 +60,8 @@ Class BP_XProfile_Data_Template {
 			wp_cache_set( 'xprofile_fields_' . $this->group->id . '_' . $this->user_id, $fields, 'bp' );
 		}
 		
-		$this->group->fields = $fields;
+		$this->group->fields = apply_filters( 'xprofile_group_fields', $fields, $this->group->id );
+		$this->field_count = count( $this->group->fields );
 		
 		return $this->group;
 	}
@@ -177,8 +177,7 @@ function bp_has_profile( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 	
 	$profile_template = new BP_XProfile_Data_Template( $user_id, $profile_group_id );
-	
-	return $profile_template->has_groups();
+	return apply_filters( 'bp_has_profile', $profile_template->has_groups(), $profile_template );
 }
 
 function bp_profile_groups() { 

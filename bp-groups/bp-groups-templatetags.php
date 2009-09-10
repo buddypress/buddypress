@@ -308,7 +308,7 @@ function bp_has_groups( $args = '' ) {
 		$filter = $_REQUEST['group-filter-box'];
 	
 	$groups_template = new BP_Groups_User_Groups_Template( $user_id, $type, $per_page, $max, $slug, $filter );
-	return $groups_template->has_groups();
+	return apply_filters( 'bp_has_groups', $groups_template->has_groups(), &$groups_template );
 }
 
 function bp_groups() {
@@ -1359,8 +1359,7 @@ function bp_group_has_members( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	$members_template = new BP_Groups_Group_Members_Template( $group_id, $per_page, $max, (int)$exclude_admins_mods, (int)$exclude_banned );
-	
-	return $members_template->has_members();
+	return apply_filters( 'bp_group_has_members', $members_template->has_members(), &$members_template );
 }
 
 function bp_group_members() {
@@ -1927,8 +1926,7 @@ function bp_has_site_groups( $args = '' ) {
 	}
 		
 	$site_groups_template = new BP_Groups_Site_Groups_Template( $type, $per_page, $max );
-
-	return $site_groups_template->has_groups();
+	return apply_filters( 'bp_has_site_groups', $site_groups_template->has_groups(), &$site_groups_template );
 }
 
 function bp_site_groups() {
@@ -2212,7 +2210,7 @@ function bp_group_has_membership_requests( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	$requests_template = new BP_Groups_Membership_Requests_Template( $group_id, $per_page, $max );
-	return $requests_template->has_requests();
+	return apply_filters( 'bp_group_has_membership_requests', $requests_template->has_requests(), &$requests_template );
 }
 
 function bp_group_membership_requests() {
@@ -2358,7 +2356,7 @@ function bp_group_has_invites( $args = '' ) {
 		return false;
 
 	$invites_template = new BP_Groups_Invite_Template( $user_id, $group_id );
-	return $invites_template->has_invites();
+	return apply_filters( 'bp_group_has_invites', $invites_template->has_invites(), &$invites_template );
 }
 
 function bp_group_invites() {

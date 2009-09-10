@@ -140,7 +140,7 @@ function bp_has_message_threads( $args = '' ) {
 		$messages_template = new BP_Messages_Box_Template( $user_id, $box, $per_page, $max, $type );
 	}
 	
-	return $messages_template->has_threads();
+	return apply_filters( 'bp_has_message_threads', $messages_template->has_threads(), &$messages_template );
 }
 
 function bp_message_threads() { 
@@ -433,20 +433,20 @@ function bp_message_get_notices() {
 }
 
 function bp_send_message_button() {
-	global $bp;
-	
-	if ( bp_is_home() || !is_user_logged_in() )
-		return false;
-	
-	$ud = get_userdata( $bp->displayed_user->id ); 
-	?>
-	<div class="generic-button">
-		<a class="send-message" title="<?php _e( 'Send Message', 'buddypress' ) ?>" href="<?php echo $bp->loggedin_user->domain . $bp->messages->slug ?>/compose/?r=<?php echo $ud->user_login ?>"><?php _e( 'Send Message', 'buddypress' ) ?></a>
-	</div>
-	<?php
+	echo bp_get_send_message_button();
 }
+	function bp_get_send_message_button() {
+		global $bp;
+	
+		if ( bp_is_home() || !is_user_logged_in() )
+			return false;
+	
+		$ud = get_userdata( $bp->displayed_user->id ); 
+		
+		return apply_filters( 'bp_get_send_message_button', '<div class="generic-button"><a class="send-message" title="' . __( 'Send Message', 'buddypress' ) . '" href="' . $bp->loggedin_user->domain . $bp->messages->slug . '/compose/?r=' . $ud->user_login . '">' . __( 'Send Message', 'buddypress' ) . '</a></div>' );
+	}
 
-function bp_message_loading_image_src() {
+function bp_message_loading_imAage_src() {
 	echo bp_get_message_loading_image_src();
 }
 	function bp_get_message_loading_image_src() {

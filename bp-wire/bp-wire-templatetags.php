@@ -119,7 +119,7 @@ function bp_has_wire_posts( $args = '' ) {
 		return false;
 		
 	$wire_posts_template = new BP_Wire_Posts_Template( $item_id, $component_slug, $can_post, $per_page, $max );		
-	return $wire_posts_template->has_wire_posts();
+	return apply_filters( 'bp_has_wire_posts', $wire_posts_template->has_wire_posts(), &$wire_posts_template );
 }
 
 function bp_wire_posts() {

@@ -308,7 +308,7 @@ function bp_has_blogs( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	$blogs_template = new BP_Blogs_User_Blogs_Template( $user_id, $per_page, $max );
-	return $blogs_template->has_blogs();
+	return apply_filters( 'bp_has_blogs', $blogs_template->has_blogs(), &$blogs_template );
 }
 
 function bp_blogs() {
@@ -484,7 +484,7 @@ function bp_has_posts( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	$posts_template = new BP_Blogs_Blog_Post_Template( $user_id, $per_page, $max );	
-	return $posts_template->has_posts();
+	return apply_filters( 'bp_has_posts', $posts_template->has_posts(), &$posts_template );
 }
 
 function bp_posts() {
@@ -919,8 +919,7 @@ function bp_has_comments( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 	
 	$comments_template = new BP_Blogs_Post_Comment_Template( $user_id, $per_page, $max );
-	
-	return $comments_template->has_comments();
+	return apply_filters( 'bp_has_comments', $comments_template->has_comments(), &$comments_template );
 }
 
 function bp_comments() {

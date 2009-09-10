@@ -161,6 +161,8 @@ function bp_activity_action_delete_activity() {
 		bp_core_add_message( __( 'Activity deleted', 'buddypress' ) );
 	else
 		bp_core_add_message( __( 'There was an error when deleting that activity', 'buddypress' ), 'error' );
+		
+	do_action( 'bp_activity_action_delete_activity', $activity_id );
 	
 	bp_core_redirect( $_SERVER['HTTP_REFERER'] );
 }
@@ -333,30 +335,30 @@ function bp_activity_add_timesince_placeholder( $content ) {
 		$content = $before . ' <span class="time-since">%s</span>' . $after;
 	}
 
-	return $content;
+	return apply_filters( 'bp_activity_add_timesince_placeholder', $content );
 }
 
 function bp_activity_check_exists_by_content( $content ) {
 	/* Insert the "time-since" placeholder to match the existing content in the DB */
 	$content = bp_activity_add_timesince_placeholder( $content );
 
-	return BP_Activity_Activity::check_exists_by_content( $content );
+	return apply_filters( 'bp_activity_check_exists_by_content', BP_Activity_Activity::check_exists_by_content( $content ) );
 }
 
 function bp_activity_get_last_updated() {
-	return BP_Activity_Activity::get_last_updated();
+	return apply_filters( 'bp_activity_get_last_updated', BP_Activity_Activity::get_last_updated() );
 }
 
 function bp_activity_get_sitewide_activity( $max_items = 30, $pag_num = false, $pag_page = false, $filter = false ) {
-	return BP_Activity_Activity::get_sitewide_activity( $max_items, $pag_num, $pag_page, $filter );
+ 	return apply_filters( 'bp_activity_get_sitewide_activity', BP_Activity_Activity::get_sitewide_activity( $max_items, $pag_num, $pag_page, $filter ), $max_items, $pag_num, $pag_page, $filter );
 }
 
 function bp_activity_get_user_activity( $user_id, $max_items = 30, $pag_num = false, $pag_page = false, $filter = false ) {
-	return BP_Activity_Activity::get_activity_for_user( $user_id, $max_items, $pag_num, $pag_page, $filter );
+	return apply_filters( 'bp_activity_get_user_activity', BP_Activity_Activity::get_activity_for_user( $user_id, $max_items, $pag_num, $pag_page, $filter ), $user_id, $max_items, $pag_num, $pag_page, $filter );
 }
 
 function bp_activity_get_friends_activity( $user_id, $max_items = 30, $max_items_per_friend = false, $pag_num = false, $pag_page = false, $filter = false ) {
-	return BP_Activity_Activity::get_activity_for_friends( $user_id, $max_items, $max_items_per_friend, $pag_num, $pag_page, $filter );
+	return apply_filters( 'bp_activity_get_friends_activity', BP_Activity_Activity::get_activity_for_friends( $user_id, $max_items, $max_items_per_friend, $pag_num, $pag_page, $filter ), $user_id, $max_items, $max_items_per_friend, $pag_num, $pag_page, $filter );
 }
 
 function bp_activity_remove_data( $user_id ) {
@@ -371,7 +373,7 @@ add_action( 'make_spam_user', 'bp_activity_remove_data' );
 
 /* Ordering function - don't call this directly */
 function bp_activity_order_by_date( $a, $b ) {
-	return strcasecmp( $b['date_recorded'], $a['date_recorded'] );	
+	return apply_filters( 'bp_activity_order_by_date', strcasecmp( $b['date_recorded'], $a['date_recorded'] ) );	
 }
 
 ?>
