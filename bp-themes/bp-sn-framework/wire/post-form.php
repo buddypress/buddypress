@@ -37,7 +37,7 @@
 			<?php do_action( 'bp_after_wire_post_form' ); /* Deprecated -> */ do_action( 'bp_wire_custom_wire_boxes_after' ); ?>
 			
 			<input type="submit" name="wire-post-submit" id="wire-post-submit" value="<?php _e( 'Post &raquo;', 'buddypress' ) ?>" />
-			<input type="hidden" name="bp_wire_item_id" id="bp_wire_item_id" value="<?php bp_wire_item_id() ?>" />
+			<input type="hidden" name="bp_wire_item_id" id="bp_wire_item_id" value="<?php echo bp_get_wire_item_id() ?>" />
 
 			<?php wp_nonce_field( 'bp_wire_post' ) ?>
 			

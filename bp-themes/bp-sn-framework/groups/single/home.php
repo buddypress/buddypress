@@ -61,6 +61,45 @@
 						<?php do_action( 'bp_after_group_news' ) ?>
 						
 					<?php endif; ?>
+					
+					<?php if ( bp_group_is_visible() ) : ?>
+											
+						<?php if ( bp_has_activities( 'object=groups&primary_id=' . bp_get_group_id() . '&max=150&per_page=5' ) ) : ?>
+
+							<?php do_action( 'bp_before_group_activity' ) ?>
+
+							<div class="bp-widget">
+								<h4><?php _e( 'Group Activity', 'buddypress' ); ?></h4>
+								
+								<div class="pagination">
+									<div class="pag-count" id="activity-count">
+										<?php bp_activity_pagination_count() ?>
+									</div>
+		
+									<div class="pagination-links" id="activity-pag">
+										&nbsp; <?php bp_activity_pagination_links() ?>
+									</div>
+								</div>
+
+								<ul id="activity-list" class="activity-list item-list">
+								<?php while ( bp_activities() ) : bp_the_activity(); ?>
+									<li class="<?php bp_activity_css_class() ?>">
+										<div class="activity-avatar">
+											<?php bp_activity_avatar() ?>
+										</div>
+						
+										<?php bp_activity_content() ?>
+									</li>
+								<?php endwhile; ?>
+								</ul>
+
+							</div>
+							
+							<?php do_action( 'bp_after_group_activity' ) ?>
+							
+						<?php endif; ?> 
+						
+					<?php endif; ?>
 			
 					<?php if ( bp_group_is_visible() && bp_group_is_forum_enabled() && function_exists( 'bp_forums_setup') ) : ?>
 						

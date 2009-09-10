@@ -1014,7 +1014,7 @@ jQuery(document).ready( function() {
 	
 		jQuery("ul#letter-list li a").livequery('click',
 		function() { 
-			jQuery('#ajax-loader-blogs').toggle();
+			jQuery('.ajax-loader').toggle();
 
 			jQuery("div#blogs-list-options a").removeClass("selected");
 			jQuery(this).addClass('selected');
@@ -1035,7 +1035,7 @@ jQuery(document).ready( function() {
 				response = response.substr(0, response.length-1);
 				jQuery("#blog-dir-list").fadeOut(200, 
 					function() {
-						jQuery('#ajax-loader-blogs').toggle();
+						jQuery('.ajax-loader').toggle();
 						jQuery("#blog-dir-list").html(response);
 						jQuery("#blog-dir-list").fadeIn(200);
 					}
@@ -1047,7 +1047,7 @@ jQuery(document).ready( function() {
 	);
 	
 	jQuery("form#search-blogs-form").submit( function() { 
-			jQuery('#ajax-loader-blogs').toggle();
+			jQuery('.ajax-loader').toggle();
 
 			jQuery.post( ajaxurl, {
 				action: 'directory_blogs',
@@ -1061,7 +1061,7 @@ jQuery(document).ready( function() {
 				response = response.substr(0, response.length-1);
 				jQuery("#blog-dir-list").fadeOut(200, 
 					function() {
-						jQuery('#ajax-loader-blogs').toggle();
+						jQuery('.ajax-loader').toggle();
 						jQuery("#blog-dir-list").html(response);
 						jQuery("#blog-dir-list").fadeIn(200);
 					}
@@ -1074,7 +1074,7 @@ jQuery(document).ready( function() {
 	
 	jQuery("div#blog-dir-pag a").livequery('click',
 		function() { 
-			jQuery('#ajax-loader-blogs').toggle();
+			jQuery('.ajax-loader').toggle();
 
 			var page = jQuery(this).attr('href');
 			page = page.split('bpage=');
@@ -1104,7 +1104,7 @@ jQuery(document).ready( function() {
 				response = response.substr(0, response.length-1);
 				jQuery("#blog-dir-list").fadeOut(200, 
 					function() {
-						jQuery('#ajax-loader-blogs').toggle();
+						jQuery('.ajax-loader').toggle();
 						jQuery("#blog-dir-list").html(response);
 						jQuery("#blog-dir-list").fadeIn(200);
 					}
