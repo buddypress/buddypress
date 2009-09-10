@@ -446,7 +446,7 @@ function bp_send_message_button() {
 		return apply_filters( 'bp_get_send_message_button', '<div class="generic-button"><a class="send-message" title="' . __( 'Send Message', 'buddypress' ) . '" href="' . $bp->loggedin_user->domain . $bp->messages->slug . '/compose/?r=' . $ud->user_login . '">' . __( 'Send Message', 'buddypress' ) . '</a></div>' );
 	}
 
-function bp_message_loading_imAage_src() {
+function bp_message_loading_image_src() {
 	echo bp_get_message_loading_image_src();
 }
 	function bp_get_message_loading_image_src() {
