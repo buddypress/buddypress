@@ -215,7 +215,7 @@ Class BP_Activity_Activity {
 		/* Sort out filtering */
 		if ( $filter )
 			$filter_sql = BP_Activity_Activity::get_filter_sql( $filter );
-		
+
 		if ( $limit && $page && $max )
 			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 $filter_sql ORDER BY date_recorded DESC $pag_sql" ) );
 		else
@@ -286,7 +286,7 @@ Class BP_Activity_Activity {
 		}
 
 		if ( !empty( $filter_array['primary_id'] ) ) {
-			$pid_filter = explode( ',', $filter_array['action'] );
+			$pid_filter = explode( ',', $filter_array['primary_id'] );
 			$pid_sql = ' AND ( ';
 			
 			$counter = 1;
@@ -303,7 +303,7 @@ Class BP_Activity_Activity {
 		}
 
 		if ( !empty( $filter_array['secondary_id'] ) ) {
-			$sid_filter = explode( ',', $filter_array['action'] );
+			$sid_filter = explode( ',', $filter_array['secondary_id'] );
 			$sid_sql = ' AND ( ';
 			
 			$counter = 1;
