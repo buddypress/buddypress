@@ -344,7 +344,7 @@ function bp_friend_recent_status_link() {
 }
 
 function bp_add_friend_button( $potential_friend_id = false ) {
-	echo bp_get_add_friend_button();
+	echo bp_get_add_friend_button( $potential_friend_id );
 }
 	function bp_get_add_friend_button( $potential_friend_id = false ) {
 		global $bp, $friends_template;
