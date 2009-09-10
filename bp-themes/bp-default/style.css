@@ -5,16 +5,16 @@ Description: The default theme for BuddyPress.
 Version: 1.1-pre
 Author: BuddyPress.org
 Author URI: http://buddypress.org
-Template: bp-sn-framework
+Template: bp-sn-parent
 */
 
 /* Font styles */
-@import url( ../bp-sn-framework/_inc/css/fonts/12px.css );
+@import url( ../bp-sn-parent/_inc/css/fonts/12px.css );
 
 /* Layout styles for home page, internal pages and blog/directory pages */
-@import url( ../bp-sn-framework/_inc/css/layout/home-page/3c-right.css );
-@import url( ../bp-sn-framework/_inc/css/layout/internal-pages/3c-left.css );
-@import url( ../bp-sn-framework/_inc/css/layout/blog-dir-pages/2c-right.css );
+@import url( ../bp-sn-parent/_inc/css/layout/home-page/3c-right.css );
+@import url( ../bp-sn-parent/_inc/css/layout/internal-pages/3c-left.css );
+@import url( ../bp-sn-parent/_inc/css/layout/blog-dir-pages/2c-right.css );
 
 /* Default theme admin bar styles */
 @import url( _inc/css/adminbar.css );
