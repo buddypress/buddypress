@@ -362,7 +362,7 @@ function xprofile_screen_edit_profile() {
 			/* Set the feedback messages */
 			if ( $errors )
 				bp_core_add_message( __( 'There was a problem updating some of your profile information, please try again.', 'buddypress' ), 'error' );
-			else
+			else 
 				bp_core_add_message( __( 'Changes saved.', 'buddypress' ) );
 
 			/* Redirect back to the edit screen to display the updates and message */
@@ -413,9 +413,10 @@ function xprofile_screen_change_avatar() {
 
 		if ( !bp_core_avatar_handle_crop( array( 'item_id' => $bp->displayed_user->id, 'original_file' => $_POST['image_src'], 'crop_x' => $_POST['x'], 'crop_y' => $_POST['y'], 'crop_w' => $_POST['w'], 'crop_h' => $_POST['h'] ) ) )
 			bp_core_add_message( __( 'There was a problem cropping your avatar, please try uploading it again', 'buddypress' ), 'error' );
-		else
+		else {
 			bp_core_add_message( __( 'Your new avatar was uploaded successfully!', 'buddypress' ) );
-
+			do_action( 'xprofile_avatar_uploaded' );
+		}
 	}
 
 	do_action( 'xprofile_screen_change_avatar' );
