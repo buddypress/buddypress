@@ -580,20 +580,24 @@ function groups_screen_group_forum() {
 		$forum_id = groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' );
 		
 		if ( $topic_slug && $topic_id ) {
-			
+
 			/* Posting a reply */
 			if ( !$bp->action_variables[2] && isset( $_POST['submit_reply'] ) ) {
 				/* Check the nonce */
 				check_admin_referer( 'bp_forums_new_reply' );
-		
+				
+				/* Auto join this user if they are not yet a member of this group */
+				if ( !is_site_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
+					groups_join_group( $bp->groups->current_group->id, $bp->loggedin_user->id );
+				
 				if ( !groups_new_group_forum_post( $_POST['reply_text'], $topic_id ) )
 					bp_core_add_message( __( 'There was an error when replying to that topic', 'buddypress'), 'error' );
 				else
 					bp_core_add_message( __( 'Your reply was posted successfully', 'buddypress') );
 				
 				if ( $_SERVER['QUERY_STRING'] )
-					$query_vars = '?' . $_SERVER['QUERY_STRING'];
-					
+					$query_vars = '?' . $_SERVER['QUERY_STRING'];			
+				
 				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/forum/topic/' . $topic_slug . '/' . $query_vars );
 			}
 			
@@ -608,7 +612,7 @@ function groups_screen_group_forum() {
 					bp_core_add_message( __( 'The topic was made sticky successfully', 'buddypress' ) );
 			
 				do_action( 'groups_stick_topic', $topic_id );
-				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/forum/' );
+				bp_core_redirect( wp_get_referer() );
 			}
 			
 			/* Un-Sticky a topic */
@@ -622,7 +626,7 @@ function groups_screen_group_forum() {
 					bp_core_add_message( __( 'The topic was unstuck successfully', 'buddypress') );
 			
 				do_action( 'groups_unstick_topic', $topic_id );
-				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/forum/' );
+				bp_core_redirect( wp_get_referer() );
 			}
 			
 			/* Close a topic */
@@ -636,7 +640,7 @@ function groups_screen_group_forum() {
 					bp_core_add_message( __( 'The topic was closed successfully', 'buddypress') );
 			
 				do_action( 'groups_close_topic', $topic_id );
-				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/forum/' );
+				bp_core_redirect( wp_get_referer() );
 			}
 
 			/* Open a topic */
@@ -650,25 +654,24 @@ function groups_screen_group_forum() {
 					bp_core_add_message( __( 'The topic was opened successfully', 'buddypress') );
 			
 				do_action( 'groups_open_topic', $topic_id );
-				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/forum/' );
+				bp_core_redirect( wp_get_referer() );
 			}
 
 			/* Delete a topic */
-			else if ( 'delete' == $bp->action_variables[2] && ( $bp->is_item_admin || $bp->is_item_mod ) ) {
+			else if ( 'delete' == $bp->action_variables[2] && empty( $bp->action_variables[3] ) && ( $bp->is_item_admin || $bp->is_item_mod ) ) {
 				/* Check the nonce */
 				check_admin_referer( 'bp_forums_delete_topic' );
 	
-				if ( !groups_delete_forum_topic( $topic_id ) )
+				if ( !groups_delete_group_forum_topic( $topic_id ) )
 					bp_core_add_message( __( 'There was an error deleting the topic', 'buddypress'), 'error' );
 				else
 					bp_core_add_message( __( 'The topic was deleted successfully', 'buddypress') );
-								
-				do_action( 'groups_delete_topic', $topic_id );
-				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/forum/' );
+
+				bp_core_redirect( wp_get_referer() );
 			}
 			
 			/* Editing a topic */
-			else if ( 'edit' == $bp->action_variables[2] && ( $bp->is_item_admin || $bp->is_item_mod ) ) {
+			else if ( 'edit' == $bp->action_variables[2] && empty( $bp->action_variables[3] ) && ( $bp->is_item_admin || $bp->is_item_mod ) ) {
 				if ( isset( $_POST['save_changes'] ) ) {
 					/* Check the nonce */
 					check_admin_referer( 'bp_forums_edit_topic' );
@@ -690,26 +693,25 @@ function groups_screen_group_forum() {
 			}
 			
 			/* Delete a post */
-			else if ( 'delete' == $bp->action_variables[2] && ( $bp->is_item_admin || $bp->is_item_mod ) ) {
-				/* Check the nonce */
-				check_admin_referer( 'bp_forums_delete_topic' );
-	
-				if ( !groups_delete_forum_topic( $topic_id ) )
-					bp_core_add_message( __( 'There was an error deleting the topic', 'buddypress'), 'error' );
-				else
-					bp_core_add_message( __( 'The topic was deleted successfully', 'buddypress') );
-
-				do_action( 'groups_delete_topic', $topic_id );
-				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/forum/' );
-			}
 			
-						
+			else if ( 'delete' == $bp->action_variables[2] && $bp->action_variables[4] && ( $bp->is_item_admin || $bp->is_item_mod ) ) {
+				/* Check the nonce */
+				check_admin_referer( 'bp_forums_delete_post' );
+	
+				if ( !groups_delete_group_forum_post( $bp->action_variables[3], $topic_id ) )
+					bp_core_add_message( __( 'There was an error deleting that post', 'buddypress'), 'error' );
+				else
+					bp_core_add_message( __( 'The post was deleted successfully', 'buddypress') );
+
+				bp_core_redirect( wp_get_referer() );
+			}
+				
 			/* Editing a post */
-			else if ( 'edit' == $bp->action_variables[4] && $post_id = $bp->action_variables[3] ) {
+			else if ( 'edit' == $bp->action_variables[2] && $post_id = $bp->action_variables[4] ) {
 				if ( isset( $_POST['save_changes'] ) ) {
 					/* Check the nonce */
 					check_admin_referer( 'bp_forums_edit_post' );
-		
+							
 					if ( !groups_update_group_forum_post( $post_id, $_POST['post_text'], $topic_id ) )
 						bp_core_add_message( __( 'There was an error when editing that post', 'buddypress'), 'error' );
 					else
@@ -740,12 +742,16 @@ function groups_screen_group_forum() {
 				/* Check the nonce */	
 				check_admin_referer( 'bp_forums_new_topic' );
 				
-				if ( !groups_new_group_forum_topic( $_POST['topic_title'], $_POST['topic_text'], $_POST['topic_tags'], $forum_id ) )
+				/* Auto join this user if they are not yet a member of this group */
+				if ( !is_site_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
+					groups_join_group( $bp->groups->current_group->id, $bp->loggedin_user->id );
+
+				if ( !$topic = groups_new_group_forum_topic( $_POST['topic_title'], $_POST['topic_text'], $_POST['topic_tags'], $forum_id ) )
 					bp_core_add_message( __( 'There was an error when creating the topic', 'buddypress'), 'error' );
 				else
 					bp_core_add_message( __( 'The topic was created successfully', 'buddypress') );
 					
-				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/forum/' );
+				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/forum/topic/' . $topic->topic_slug . '/' );
 			}
 			
 			do_action( 'groups_screen_group_forum', $topic_id, $forum_id );
@@ -2027,8 +2033,8 @@ function groups_new_group_forum( $group_id = false, $group_name = false, $group_
 	if ( !$group_desc )
 		$group_desc = $bp->groups->current_group->description;
 	
-	$forum_id = bp_forums_new_forum( array( 'forum_name' => $group_name, 'forum_description' => $group_desc ) );
-	
+	$forum_id = bp_forums_new_forum( array( 'forum_name' => $group_name, 'forum_desc' => $group_desc ) );
+
 	groups_update_groupmeta( $group_id, 'forum_id', $forum_id );
 	
 	do_action( 'groups_new_group_forum', $forum, $group_id );
@@ -2036,6 +2042,9 @@ function groups_new_group_forum( $group_id = false, $group_name = false, $group_
 
 function groups_new_group_forum_post( $post_text, $topic_id ) {
 	global $bp;
+	
+	if ( empty( $post_text ) )
+		return false;
 	
 	if ( $forum_post = bp_forums_insert_post( array( 'post_text' => $post_text, 'topic_id' => $topic_id ) ) ) {
 		$topic = bp_forums_get_topic_details( $topic_id );
@@ -2062,6 +2071,9 @@ function groups_new_group_forum_post( $post_text, $topic_id ) {
 
 function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $forum_id ) {
 	global $bp;
+	
+	if ( empty( $topic_title ) || empty( $topic_text ) )
+		return false;
 	
 	if ( $topic_id = bp_forums_new_topic( array( 'topic_title' => $topic_title, 'topic_text' => $topic_text, 'topic_tags' => $topic_tags, 'forum_id' => $forum_id ) ) ) {
 		$topic = bp_forums_get_topic_details( $topic_id );
@@ -2115,24 +2127,6 @@ function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text )
 	return false;
 }
 
-function groups_delete_forum_topic( $topic_id ) {
-	global $bp;
-	
-	if ( bp_forums_delete_topic( array( 'topic_id' => $topic_id ) ) ) {
-		/* Delete the activity stream item */
-		if ( function_exists( 'bp_activity_delete_by_item_id' ) ) {
-			bp_activity_delete_by_item_id( array( 'item_id' => $topic_id, 'component_name' => 'groups', 'component_action' => 'new_forum_topic' ) );
-			bp_activity_delete_by_item_id( array( 'item_id' => $topic_id, 'component_name' => 'groups', 'component_action' => 'new_forum_post' ) );
-		}
-
-		do_action( 'groups_delete_forum_topic', $topic_id );
-		
-		return true;
-	}
-	
-	return false;
-}
-
 function groups_update_group_forum_post( $post_id, $post_text, $topic_id ) {
 	global $bp;
 	
@@ -2165,22 +2159,45 @@ function groups_update_group_forum_post( $post_id, $post_text, $topic_id ) {
 	return false;
 }
 
-// function groups_delete_forum_post( $post_id, $topic_id ) {
-// 	global $bp;
-// 	
-// 	if ( bp_forums_delete_topic( array( 'topic_id' => $topic_id ) ) ) {
-// 		/* Delete the activity stream item */
-// 		if ( function_exists( 'bp_activity_delete_by_item_id' ) ) {
-// 			bp_activity_delete_by_item_id( array( 'item_id' => $topic_id, 'secondary_item_id' => $post_id 'component_name' => 'groups', 'component_action' => 'new_forum_post' ) );
-// 		}
-// 
-// 		do_action( 'groups_delete_forum_topic', $topic_id );
-// 		
-// 		return true;
-// 	}
-// 	
-// 	return false;
-// }
+function groups_delete_group_forum_topic( $topic_id ) {
+	global $bp;
+	
+	if ( bp_forums_delete_topic( array( 'topic_id' => $topic_id ) ) ) {
+		/* Delete the activity stream item */
+		if ( function_exists( 'bp_activity_delete_by_item_id' ) ) {
+			bp_activity_delete_by_item_id( array( 'item_id' => $topic_id, 'component_name' => 'groups', 'component_action' => 'new_forum_topic' ) );
+			bp_activity_delete_by_item_id( array( 'item_id' => $topic_id, 'component_name' => 'groups', 'component_action' => 'new_forum_post' ) );
+		}
+
+		do_action( 'groups_delete_group_forum_topic', $topic_id );
+		
+		return true;
+	}
+	
+	return false;
+}
+
+function groups_delete_group_forum_post( $post_id, $topic_id ) {
+	global $bp;
+	
+	if ( bp_forums_delete_post( array( 'post_id' => $post_id ) ) ) {
+		/* Delete the activity stream item */
+		if ( function_exists( 'bp_activity_delete_by_item_id' ) ) {
+			bp_activity_delete_by_item_id( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $post_id, 'component_name' => $bp->groups->id, 'component_action' => 'new_forum_post' ) );
+		}
+
+		do_action( 'groups_delete_group_forum_post', $post_id, $topic_id );
+		
+		return true;
+	}
+	
+	return false;
+}
+
+
+function groups_total_public_forum_topic_count( $type = 'newest' ) {
+	return apply_filters( 'groups_total_public_forum_topic_count', BP_Groups_Group::get_global_forum_topic_count( $type ) );
+}
 
 /*** Group Invitations *********************************************************/
 

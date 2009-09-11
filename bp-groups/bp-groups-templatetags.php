@@ -406,6 +406,18 @@ function bp_group_type() {
 		return apply_filters( 'bp_get_group_type', $type );	
 	}
 
+function bp_group_status() {
+	echo bp_get_group_status();
+}
+	function bp_get_group_status( $group = false ) {
+		global $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_status', $group->status );	
+	}
+
 function bp_group_avatar( $args = '' ) {
 	echo bp_get_group_avatar( $args );
 }

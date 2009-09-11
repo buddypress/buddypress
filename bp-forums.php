@@ -37,6 +37,24 @@ function bp_forums_is_installed_correctly() {
 	return false;
 }
 
+function bp_forums_setup_root_component() {
+	/* Register 'forums' as a root component */
+	bp_core_add_root_component( BP_FORUMS_SLUG );
+}
+add_action( 'plugins_loaded', 'bp_forums_setup_root_component', 2 );
+
+function bp_forums_directory_forums_setup() {
+	global $bp;
+
+	if ( $bp->current_component == $bp->forums->slug ) {
+		$bp->is_directory = true;
+		
+		do_action( 'bp_forums_directory_forums_setup' );
+		bp_core_load_template( apply_filters( 'bp_forums_template_directory_forums_setup', 'directories/forums/index' ) );
+	}
+}
+add_action( 'wp', 'bp_forums_directory_forums_setup', 2 );
+
 function bp_forums_add_admin_menu() {
 	global $bp;
 	
@@ -56,19 +74,51 @@ function bp_forums_get_forum( $forum_id ) {
 }
 
 function bp_forums_get_forum_topics( $args = '' ) {
+	global $bp;
+	
 	do_action( 'bbpress_init' );
 	
-	$defaults = array( 
+	$defaults = array(
+		'type' => 'newest',
 		'forum_id' => false, 
 		'page' => 1, 
 		'per_page' => 15, 
-		'exclude' => false
+		'exclude' => false,
+		'show_stickies' => 'all',
+		'filter' => false // if $type = tag then filter is the tag name, otherwise it's terms to search on.
 	);
-
+	
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
-	
-	return get_latest_topics( array( 'forum' => $forum_id, 'page' => $page_num, 'number' => $per_page, 'exclude' => $exclude ) );
+
+	switch ( $type ) {
+		case 'newest':
+			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'per_page' => $per_page, 'page' => $page, 'number' => $per_page, 'exclude' => $exclude, 'topic_title' => $filter, 'sticky' => $show_stickies ), 'get_latest_topics' );
+			$topics = $query->results;
+		break;
+		
+		case 'popular':
+			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_posts', 'topic_title' => $filter, 'sticky' => $show_stickies ) );
+			$topics =& $query->results;
+		break;
+		
+		case 'unreplied':
+			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'post_count' => 1, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_time', 'topic_title' => $filter, 'sticky' => $show_stickies ) );
+			$topics =& $query->results;
+		break;	
+		
+		case 'personal':
+			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'per_page' => $per_page, 'page' => $page, 'topic_author_id' => $bp->loggedin_user->id, 'order_by' => 't.topic_time', 'topic_title' => $filter, 'sticky' => $show_stickies ), 'get_recent_user_threads' );
+			$topics =& $query->results;
+		break;
+		
+		case 'tag':
+			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'tag' => $filter, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_time', 'sticky' => $show_stickies ) );
+			$topics =& $query->results;
+		break;
+	}
+
+	return apply_filters( 'bp_forums_get_forum_topics', $topics, &$r );
 }
 
 function bp_forums_get_topic_details( $topic_id ) {
@@ -134,6 +184,7 @@ function bp_forums_new_topic( $args = '' ) {
 		'topic_start_time' => date( 'Y-m-d H:i:s' ),
 		'topic_time' => date( 'Y-m-d H:i:s' ),
 		'topic_open' => 1,
+		'topic_tags' => false, // accepts array or comma delim
 		'forum_id' => 0 // accepts ids or slugs
 	);
 
@@ -143,7 +194,7 @@ function bp_forums_new_topic( $args = '' ) {
 	if ( empty( $topic_slug ) )
 		$topic_slug = sanitize_title( $topic_title );
 		
-	if ( !$topic_id = bb_insert_topic( array( 'topic_title' => stripslashes( $topic_title ), 'topic_slug' => $topic_slug, 'topic_poster' => $topic_poster, 'topic_poster_name' => $topic_poster_name, 'topic_last_poster' => $topic_last_poster, 'topic_last_poster_name' => $topic_last_poster_name, 'topic_start_time' => $topic_start_time, 'topic_time' => $topic_time, 'topic_open' => $topic_open, 'forum_id' => (int)$forum_id ) ) )
+	if ( !$topic_id = bb_insert_topic( array( 'topic_title' => stripslashes( $topic_title ), 'topic_slug' => $topic_slug, 'topic_poster' => $topic_poster, 'topic_poster_name' => $topic_poster_name, 'topic_last_poster' => $topic_last_poster, 'topic_last_poster_name' => $topic_last_poster_name, 'topic_start_time' => $topic_start_time, 'topic_time' => $topic_time, 'topic_open' => $topic_open, 'forum_id' => (int)$forum_id, 'tags' => $topic_tags ) ) )
 		return false;
 	
 	/* Now insert the first post. */
@@ -235,6 +286,21 @@ function bp_forums_delete_topic( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	return bb_delete_topic( $topic_id, 1 );
+}
+
+function bp_forums_delete_post( $args = '' ) {
+	global $bp;
+	
+	do_action( 'bbpress_init' );
+	
+	$defaults = array(
+		'post_id' => false
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	return bb_delete_post( $post_id, 1 );	
 }
 
 function bp_forums_insert_post( $args = '' ) {

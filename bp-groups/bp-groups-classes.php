@@ -444,6 +444,17 @@ Class BP_Groups_Group {
 		
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE group_id = %d AND invite_sent = 1", $group_id ) );
 	}
+	
+	function get_global_forum_topic_count( $type ) {
+		global $bbdb, $wpdb, $bp;
+		
+		if ( 'unreplied' == $type )
+			$bp->groups->filter_sql = ' AND t.topic_posts = 1';
+		
+		$extra_sql = apply_filters( 'groups_total_public_forum_topic_count', $bp->groups->filter_sql, $type );
+
+		return $wpdb->get_var( "SELECT count(t.topic_id) FROM {$bbdb->topics} AS t, {$bp->groups->table_name} AS g LEFT JOIN {$bp->groups->table_name_groupmeta} AS gm ON g.id = gm.group_id WHERE (gm.meta_key = 'forum_id' AND gm.meta_value = t.forum_id) AND g.status = 'public' AND t.topic_status = '0' AND t.topic_sticky != '2' {$extra_sql} " );
+	}
 }
 
 Class BP_Groups_Member {
