@@ -34,7 +34,7 @@
 				<a href="<?php bp_the_topic_permalink() ?>">
 					<?php bp_the_topic_last_poster_avatar( 'type=thumb&width=20&height=20' ) ?>
 				</a> 
-				<?php bp_the_topic_poster_name() ?>
+				<?php bp_the_topic_last_poster_name() ?>
 			</td>
 			<td class="td-group">
 				<a href="<?php bp_the_topic_object_permalink() ?>forum/"><?php bp_the_topic_object_avatar( 'type=thumb&width=20&height=20' ) ?></a> 
