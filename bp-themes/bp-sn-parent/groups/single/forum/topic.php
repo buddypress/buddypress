@@ -41,7 +41,7 @@
 					
 					<ul id="topic-post-list" class="item-list">
 						<li id="topic-meta">
-							<span class="small"><a href="<?php bp_forum_permalink() ?>">&larr;<?php _e( 'Back to Forum', 'buddypress') ?></a></span>
+							<span class="small"><a href="<?php bp_forum_permalink() ?>">&larr; <?php _e( 'Group Forum', 'buddypress' ) ?></a> | <a href="<?php bp_forum_directory_permalink() ?>"><?php _e( 'Forum Topic Directory', 'buddypress') ?></a></span>
 							<h3><?php bp_the_topic_title() ?> (<?php bp_the_topic_total_post_count() ?>)</h3>
 							
 							<?php if ( bp_group_is_admin() || bp_group_is_mod() ) : ?>
@@ -70,16 +70,21 @@
 					
 					</ul>
 					
-					<?php if ( bp_group_is_member() ) : ?>
+					<?php if ( ( is_user_logged_in() && 'public' == bp_get_group_status() ) || bp_group_is_member() ) : ?>
 											
 						<?php if ( bp_get_the_topic_is_topic_open() ) : ?>
 							
 							<div id="post-topic-reply">	
 								<a name="post-reply"></a>
 
+								<?php if ( !bp_group_is_member() ) : ?>
+									<p><?php _e( 'You will auto join this group when you reply to this topic.', 'buddypress' ) ?></p>
+								<?php endif; ?>
+							
 								<?php do_action( 'groups_forum_new_reply_before' ) ?>
 						
-								<p><?php _e( 'Add a reply:', 'buddypress' ) ?></p>
+								<p><strong><?php _e( 'Add a reply:', 'buddypress' ) ?></strong></p>
+																
 								<textarea name="reply_text" id="reply_text"></textarea>
 					
 								<p class="submit"><input type="submit" name="submit_reply" id="submit" value="<?php _e( 'Post Reply', 'buddypress' ) ?>" /></p>

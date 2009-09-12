@@ -62,11 +62,15 @@
 
 					<?php endif;?>
 					
-					<?php if ( bp_group_is_member() ) : ?>
+					<?php if ( ( is_user_logged_in() && 'public' == bp_get_group_status() ) || bp_group_is_member() ) : ?>
 				
 						<div id="post-new-topic">
 
 							<?php do_action( 'groups_forum_new_topic_before' ) ?>
+							
+							<?php if ( !bp_group_is_member() ) : ?>
+								<p><?php _e( 'You will auto join this group when you start a new topic.', 'buddypress' ) ?></p>
+							<?php endif; ?>
 
 							<a name="post-new"></a>
 							<p><strong><?php _e( 'Post a New Topic:', 'buddypress' ) ?></strong></p>
@@ -77,7 +81,7 @@
 							<label><?php _e( 'Content:', 'buddypress' ) ?></label>
 							<textarea name="topic_text" id="topic_text"></textarea>
 					
-							<label><?php _e( 'Tags:', 'buddypress' ) ?></label>
+							<label><?php _e( 'Tags (comma seperated):', 'buddypress' ) ?></label>
 							<input type="text" name="topic_tags" id="topic_tags" value="" />
 
 							<?php do_action( 'groups_forum_new_topic_after' ) ?>
