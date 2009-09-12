@@ -21,7 +21,7 @@ function bp_core_add_settings_nav() {
 	bp_core_new_subnav_item( array( 'name' => __( 'General', 'buddypress' ), 'slug' => 'general', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_general_settings', 'position' => 10, 'user_has_access' => bp_is_home() ) );
 	bp_core_new_subnav_item( array( 'name' => __( 'Notifications', 'buddypress' ), 'slug' => 'notifications', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_notification_settings', 'position' => 20, 'user_has_access' => bp_is_home() ) );
 	
-	if ( !is_site_admin() && 1 != (int)get_site_option( 'bp-disable-account-deletion' ) )
+	if ( !is_site_admin() && !(int) get_site_option( 'bp-disable-account-deletion' ) )
 		bp_core_new_subnav_item( array( 'name' => __( 'Delete Account', 'buddypress' ), 'slug' => 'delete-account', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_delete_account', 'position' => 90, 'user_has_access' => bp_is_home() ) );
 }
 add_action( 'wp', 'bp_core_add_settings_nav', 2 );

@@ -91,8 +91,18 @@ function bp_core_admin_settings() {
 						<input type="radio" name="bp-admin[bp-disable-account-deletion]"<?php if ( (int)get_site_option( 'bp-disable-account-deletion' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-account-deletion" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
 						<input type="radio" name="bp-admin[bp-disable-account-deletion]"<?php if ( !(int)get_site_option( 'bp-disable-account-deletion' ) || '' == get_site_option( 'bp-disable-account-deletion' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-account-deletion" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
 					</td>			
+				</tr>
+				<?php if ( function_exists( 'bp_forums_setup') ) : ?>
+				<tr>
+					<th scope="row"><?php _e( 'Disable global forum directory?', 'buddypress' ) ?>:</th>
+					<td>
+						<input type="radio" name="bp-admin[bp-disable-forum-directory]"<?php if ( (int)get_site_option( 'bp-disable-forum-directory' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-forum-directory" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
+						<input type="radio" name="bp-admin[bp-disable-forum-directory]"<?php if ( !(int)get_site_option( 'bp-disable-forum-directory' ) || '' == get_site_option( 'bp-disable-forum-directory' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-forum-directory" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
+					</td>			
 				</tr>				
-				<?php if ( !locate_template( array( 'registration/register.php' ) ) ) :?>
+				<?php endif; ?>
+							
+				<?php if ( !locate_template( array( 'registration/register.php' ) ) ) : ?>
 				<tr>
 					<th scope="row"><?php _e('Select theme to use for BuddyPress generated pages', 'buddypress' ) ?>:</th>
 					<td>
