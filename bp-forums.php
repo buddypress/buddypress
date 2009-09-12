@@ -47,6 +47,9 @@ function bp_forums_directory_forums_setup() {
 	global $bp;
 
 	if ( $bp->current_component == $bp->forums->slug ) {
+		if ( (int) get_site_option( 'bp-disable-forum-directory' ) )
+			return false;
+			
 		$bp->is_directory = true;
 		
 		do_action( 'bp_forums_directory_forums_setup' );
