@@ -1435,12 +1435,12 @@ ul#forum-topic-list li {
 	min-height: 0;
 	padding-bottom: 0;
 }
-	ul#forum-topic-list li.sticky {
+	.sticky {
 		background-image: url( ../images/message_thread_unread_back.gif ) !important;
 	}
 	
-	ul#forum-topic-list li.closed a.topic-title {
-		background: url( ../../../plugins/buddypress/bp-forums/../images/closed.png ) no-repeat center left;
+	.closed a.topic-title {
+		background: url( ../images/closed.png ) no-repeat center left;
 		padding: 0 0 0 20px;
 	}
 	
@@ -1488,7 +1488,7 @@ ul#topic-post-list li#topic-meta {
 }
 
 	ul#topic-post-list li#topic-meta h3 {
-		margin: 5px 0 0 0;
+		margin: 12px 0 10px 0;
 		font-size: 20px;
 	}
 
@@ -1536,6 +1536,101 @@ div#post-topic-reply textarea {
 	input#submit_topic, input#submit_reply {
 		display: block;
 		margin-top: 20px;
+	}
+
+div#global-forum-topic-filters ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	background: url(../images/item_list_back.gif) top left repeat-x;
+	padding: 15px;
+	min-height: 22px;
+	overflow: hidden;
+}
+
+div#global-forum-topic-filters ul li {
+	float: left;
+	margin-bottom: 5px;
+}
+	div#global-forum-topic-filters ul li a {
+		display: block;
+		padding: 2px 8px;
+		background-color: #fff !important;
+		background-position: 8px 6px !important;
+		border-radius: 5px;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		margin: 0 5px 0 0;
+		border: 1px solid #eee;
+		text-decoration: none;
+	}
+		div#global-forum-topic-filters ul li.selected a {
+			border: 1px solid #ccc;
+			font-weight: bold;
+			color: #555;
+		}
+
+div#forum-dir-list {
+	position: relative;
+	margin-top: 30px;
+}
+	div#forum-dir-list div.pagination {
+		position: absolute;
+		top: -25px;
+	}
+	
+table#global-forum-topic-list {
+	width: 97%;
+	margin: 0 10px;
+}
+		table#global-forum-topic-list tr.alt {
+			background: url( ../images/message_thread_back.gif ) 0 -2px;
+		}
+		
+		table#global-forum-topic-list td {
+			border-top: 1px solid #eee;
+			position: relative;
+		}
+			table#global-forum-topic-list td p.topic-text {
+				color: #888;
+				font-size: 0.9em;
+			}
+		
+		table#global-forum-topic-list tr th, table#global-forum-topic-list td.td-postcount,
+		table#global-forum-topic-list td.td-freshness { 
+			text-align: center;
+		}
+
+		
+		table#global-forum-topic-list tr th#th-title, table#global-forum-topic-list tr th#th-poster,
+		table#global-forum-topic-list tr th#th-group { text-align: left; }
+		
+		table#global-forum-topic-list tr td, table#global-forum-topic-list tr th {
+			padding: 5px 10px;
+			vertical-align: middle;
+		}
+		
+		table#global-forum-topic-list td.td-freshness {
+			font-size: 0.9em;
+			color: #888;
+		}
+		
+		table#global-forum-topic-list td.td-poster, table#global-forum-topic-list td.td-group  {
+			min-width: 130px;
+		}
+
+	table#global-forum-topic-list th#th-title {
+		width: 40%;
+	}
+	
+	table#global-forum-topic-list th#th-postcount {
+		width: 1%;
+	}
+	
+	table#global-forum-topic-list td img {
+		vertical-align: middle;
+		margin-right: 4px;
+		border-width: 3px !important; 
 	}
 
 /**** FRIENDS *****************/
