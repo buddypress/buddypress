@@ -52,6 +52,7 @@ function bp_forums_directory_forums_setup() {
 			
 		$bp->is_directory = true;
 		
+		do_action( 'bbpress_init' ); 
 		do_action( 'bp_forums_directory_forums_setup' );
 		bp_core_load_template( apply_filters( 'bp_forums_template_directory_forums_setup', 'directories/forums/index' ) );
 	}
