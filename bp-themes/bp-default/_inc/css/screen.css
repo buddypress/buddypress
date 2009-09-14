@@ -1486,7 +1486,7 @@ ul#forum-topic-list li {
 		font-size: 11px;
 		color: #888;
 	}
-		ul#forum-topic-list li:hover div.admin-links, ul#topic-post-list:hover li div.admin-links { display: inline-block; }
+		ul#forum-topic-list li:hover div.admin-links, ul#topic-post-list li:hover div.admin-links { display: inline-block; }
 
 ul#topic-post-list li .poster-meta {
 	color: #888;
