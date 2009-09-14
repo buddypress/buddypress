@@ -79,9 +79,15 @@ Class BP_XProfile_Group {
 	
 	function get_fields() {
 		global $wpdb, $bp;
+		
+		/* Find the max value for field_order, if it is zero, order by field_id instead -- provides backwards compat ordering */
+		if ( !(int) $wpdb->get_var( $wpdb->prepare( "SELECT MAX(field_order) FROM {$bp->profile->table_name_fields} WHERE group_id = %d", $this->id ) ) )
+			$order_sql = "ORDER BY id";
+		else
+			$order_sql = "ORDER BY field_order";
 
 		// Get field ids for the current group.
-		if ( !$fields = $wpdb->get_results( $wpdb->prepare("SELECT id, type FROM {$bp->profile->table_name_fields} WHERE group_id = %d AND parent_id = 0 ORDER BY field_order", $this->id ) ) )
+		if ( !$fields = $wpdb->get_results( $wpdb->prepare("SELECT id, type FROM {$bp->profile->table_name_fields} WHERE group_id = %d AND parent_id = 0 {$order_sql}", $this->id ) ) )
 			return false;
 		
 		return $fields;
