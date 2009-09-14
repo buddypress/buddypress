@@ -840,7 +840,7 @@ function bp_core_add_root_component( $slug ) {
 function bp_core_get_random_member() {
 	global $bp, $wpdb;
 	
-	if ( !$bp->current_component && isset( $_GET['random-member'] ) ) {
+	if ( isset( $_GET['random-member'] ) ) {
 		$user = BP_Core_User::get_random_users(1);
 		
 		$ud = get_userdata( $user['users'][0]->user_id );
