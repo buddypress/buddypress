@@ -249,13 +249,14 @@ Class BP_XProfile_Field {
 		$this->desc = apply_filters( 'xprofile_field_description_before_save', $this->desc, $this->id );
 		$this->is_required = apply_filters( 'xprofile_field_is_required_before_save', $this->is_required, $this->id );
 		$this->order_by = apply_filters( 'xprofile_field_order_by_before_save', $this->order_by, $this->id );
+		$this->field_order = apply_filters( 'xprofile_field_field_order_before_save', $this->field_order, $this->id );
 
 		do_action( 'xprofile_field_before_save', $this );
 		
 		if ( $this->id != null )
-			$sql = $wpdb->prepare("UPDATE {$bp->profile->table_name_fields} SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d, order_by = %s WHERE id = %d", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->order_by, $this->id);
+			$sql = $wpdb->prepare("UPDATE {$bp->profile->table_name_fields} SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d, order_by = %s, field_order = %d WHERE id = %d", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->order_by, $this->field_order, $this->id);
 		else
-			$sql = $wpdb->prepare("INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, order_by) VALUES (%d, 0, %s, %s, %s, %d, %d)", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->order_by);
+			$sql = $wpdb->prepare("INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, order_by, field_order ) VALUES (%d, 0, %s, %s, %s, %d, %s, %d )", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->order_by, $this->field_order );
 
 		if ( $wpdb->query($sql) ) {
 			
@@ -565,23 +566,6 @@ Class BP_XProfile_Field {
 	<?php
 	}
 	
-	/* Deprecated - Signup fields are now in the template */
-	function get_signup_fields() {
-		global $wpdb, $bp;
-		
-		$sql = $wpdb->prepare( "SELECT f.id FROM {$bp->profile->table_name_fields} AS f, {$bp->profile->table_name_groups} AS g WHERE g.name = %s AND f.parent_id = 0	AND g.id = f.group_id ORDER BY f.id", get_site_option('bp-xprofile-base-group-name') );
-
-		if ( !$temp_fields = $wpdb->get_results($sql) )
-			return false;
-		
-		for ( $i = 0; $i < count($temp_fields); $i++ ) {
-			$fields[] = new BP_XProfile_Field( $temp_fields[$i]->id, null, false );
-		}
-		
-		return $fields;
-	}
-	
-	/* Deprecated, Validation is now done in the screen function */
 	function admin_validate() {
 		global $message;
 		
@@ -605,6 +589,23 @@ Class BP_XProfile_Field {
 			return true;
 		}
 	}
+
+	/* Deprecated - Signup fields are now in the template */
+	function get_signup_fields() {
+		global $wpdb, $bp;
+		
+		$sql = $wpdb->prepare( "SELECT f.id FROM {$bp->profile->table_name_fields} AS f, {$bp->profile->table_name_groups} AS g WHERE g.name = %s AND f.parent_id = 0	AND g.id = f.group_id ORDER BY f.id", get_site_option('bp-xprofile-base-group-name') );
+
+		if ( !$temp_fields = $wpdb->get_results($sql) )
+			return false;
+		
+		for ( $i = 0; $i < count($temp_fields); $i++ ) {
+			$fields[] = new BP_XProfile_Field( $temp_fields[$i]->id, null, false );
+		}
+		
+		return $fields;
+	}
+
 }
 
 

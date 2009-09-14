@@ -208,18 +208,20 @@ function xprofile_admin_delete_group( $group_id ) {
  **************************************************************************/
 
 function xprofile_admin_manage_field( $group_id, $field_id = null ) {
-	global $message, $groups;
+	global $bp, $wpdb, $message, $groups;
 	
 	$field = new BP_XProfile_Field($field_id);
 	$field->group_id = $group_id;
 
 	if ( isset($_POST['saveField']) ) {
-		if ( BP_XProfile_Field::admin_validate($_POST) ) {
+		if ( BP_XProfile_Field::admin_validate() ) {
 			$field->name = wp_filter_kses( $_POST['title'] );
 			$field->desc = wp_filter_kses( $_POST['description'] );
 			$field->is_required = wp_filter_kses( $_POST['required'] );
 			$field->type = wp_filter_kses( $_POST['fieldtype'] );
 			$field->order_by = wp_filter_kses( $_POST["sort_order_$field->type"] );
+			$field->field_order = (int) $wpdb->get_var( $wpdb->prepare( "SELECT max(field_order) FROM {$bp->profile->table_name_fields} WHERE group_id = %d", $group_id ) );
+			$field->field_order++;
 			
 			if ( !$field->save() ) {
 				$message = __('There was an error saving the field. Please try again', 'buddypress');
