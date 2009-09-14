@@ -3,7 +3,7 @@ Contributors: apeatling
 Tags: wpmu, buddypress, social, networking, profiles, messaging, friends, groups, forums, activity
 Requires at least: 2.8.4
 Tested up to: 2.8.4
-Stable tag: 1.1-pre
+Stable tag: 1.1-beta
 
 BuddyPress is a suite of WordPress MU social networking plugins and themes.
 
@@ -28,7 +28,7 @@ BuddyPress requires WordPress MU, it will not work on a single install of WordPr
 
 --- Themes: ---
 
-1. Move "/wp-content/plugins/buddypress/bp-themes/bp-sn-framework" and
+1. Move "/wp-content/plugins/buddypress/bp-themes/bp-sn-parent" and
    "/wp-content/plugins/buddypress/bp-themes/bp-default" to "/wp-content/themes/"
 
 You must then login as an admin and head to the "Site Admin > Themes" directory and activate the default

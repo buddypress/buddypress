@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_FRIENDS_DB_VERSION', '1700' );
+define ( 'BP_FRIENDS_DB_VERSION', '1800' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_FRIENDS_SLUG' ) )

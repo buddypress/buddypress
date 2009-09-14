@@ -1,7 +1,7 @@
 <?php
 
 /* Define the current version number for checking if DB tables are up to date. */
-define( 'BP_CORE_DB_VERSION', '1700' );
+define( 'BP_CORE_DB_VERSION', '1800' );
 
 /*** 
  * Define the path and url of the BuddyPress plugins directory. 
