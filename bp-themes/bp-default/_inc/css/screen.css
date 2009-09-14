@@ -947,7 +947,12 @@ ul#letter-list {
 			background: #fff9df;
 			color: #f7740a;
 		}
-
+		
+		ul#letter-list li a.selected {
+			font-weight: bold;
+			background: #aaa;
+			color: #fff;
+		}
 
 
 /*** WordPress Blog Styles ***************************************************/
