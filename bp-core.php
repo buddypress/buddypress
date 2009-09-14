@@ -1516,6 +1516,9 @@ function bp_core_action_search_site( $slug = false ) {
 				case 'groups':
 					$slug = BP_GROUPS_SLUG;
 					break;
+				case 'forums':
+					$slug = BP_FORUMS_SLUG;
+					break;
 				case 'blogs':
 					$slug = BP_BLOGS_SLUG;
 					break;

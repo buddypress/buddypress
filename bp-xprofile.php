@@ -65,6 +65,7 @@ function xprofile_install() {
 			  can_delete tinyint(1) NOT NULL DEFAULT '1',
 			  KEY group_id (group_id),
 			  KEY parent_id (parent_id),
+			  KEY field_order (field_order),
 			  KEY can_delete (can_delete),
 			  KEY is_required (is_required)
 	) {$charset_collate};";

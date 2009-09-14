@@ -596,6 +596,10 @@ function bp_search_form_type_select() {
 	if ( function_exists( 'groups_install' ) ) {
 		$selection_box .= '<option value="groups">' . __( 'Groups', 'buddypress' ) . '</option>';
 	}
+
+	if ( function_exists( 'bp_forums_setup' ) && !(int) get_site_option( 'bp-disable-forum-directory' ) ) {
+		$selection_box .= '<option value="forums">' . __( 'Forums', 'buddypress' ) . '</option>';
+	}
 	
 	if ( function_exists( 'bp_blogs_install' ) ) {
 		$selection_box .= '<option value="blogs">' . __( 'Blogs', 'buddypress' ) . '</option>';
