@@ -1238,6 +1238,12 @@ input#signup_blog_title {
 	margin: 0 25px 25px 0;
 	float: left;
 }
+
+#signup_form p.submit {
+	float: right;
+	margin: 0;
+	font-size: 1.4em;
+}
 	
 
 /*** Component Specific Styles ****************************************************/
@@ -1358,6 +1364,17 @@ a.rss-image {
 	float: right;
 	text-indent: -999em;
 	overflow: hidden;
+}
+
+#activity-rss p {
+		text-align: right;
+		font-size: 0.9em;
+		margin: -20px 0 5px 0;
+}
+
+#activity-rss p a {
+	background: url(../images/rss.png) center left no-repeat;
+	padding-left: 15px;
 }
 
 
