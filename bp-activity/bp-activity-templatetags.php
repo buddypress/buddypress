@@ -119,7 +119,7 @@ function bp_activity_get_list( $user_id, $title, $no_activity, $limit = false ) 
 	$bp_activity_title = $title;
 	$bp_activity_no_activity = $no_activity;
 	
-	load_template( TEMPLATEPATH . '/activity/activity-list.php' );
+	locate_template( array( '/activity/activity-list.php' ), true );
 }
 
 function bp_has_activities( $args = '' ) {

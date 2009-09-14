@@ -151,7 +151,7 @@ function bp_wire_get_post_list( $item_id = null, $title = null, $empty_message =
 	$bp_wire_can_post = $can_post;
 	$bp_wire_show_email_notify = $show_email_notify;
 	
-	load_template( TEMPLATEPATH . '/wire/post-list.php' );
+	locate_template( array( '/wire/post-list.php' ), true );
 }
 
 function bp_wire_title() {
@@ -297,7 +297,7 @@ function bp_wire_get_post_form() {
 	global $wire_posts_template;
 	
 	if ( is_user_logged_in() && $wire_posts_template->can_post )
-		load_template( TEMPLATEPATH . '/wire/post-form.php' );		
+		locate_template( array( '/wire/post-form.php' ), true );	
 }
 
 function bp_wire_get_action() {

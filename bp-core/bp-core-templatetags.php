@@ -384,7 +384,7 @@ function bp_core_get_wp_profile() {
 }
 
 function bp_get_profile_header() {
-	load_template( TEMPLATEPATH . '/profile/profile-header.php' );
+	locate_template( array( '/profile/profile-header.php' ), true );
 }
 
 function bp_exists( $component_name ) {
@@ -452,8 +452,8 @@ function bp_loggedinuser_link() {
 }
 
 function bp_get_plugin_sidebar() {
-	if ( file_exists(TEMPLATEPATH . '/plugin-sidebar.php') )
-		load_template( TEMPLATEPATH . '/plugin-sidebar.php' );
+	if ( file_exists(TEMPLATEPATH . '/plugin-sidebar.php' ) )
+		locate_template( array( '/plugin-sidebar.php' ), true );
 }
 
 function bp_is_blog_page() {
