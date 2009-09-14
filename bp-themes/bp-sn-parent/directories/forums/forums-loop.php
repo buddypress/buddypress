@@ -11,6 +11,8 @@
 		</div>
 	
 	</div>
+
+	<?php do_action( 'bp_before_directory_forums_list' ) ?>		
 	
 	<table id="global-forum-topic-list">
 		
@@ -46,11 +48,17 @@
 			<td class="td-freshness">
 				<?php bp_the_topic_time_since_last_post() ?>
 			</td>
+
+			<?php do_action( 'bp_directory_forums_extra_cell' ) ?>		
 		</tr>
+
+		<?php do_action( 'bp_directory_forums_extra_row' ) ?>		
 		
 		<?php endwhile; ?>
 		
 	</table>
+
+	<?php do_action( 'bp_after_directory_forums_list' ) ?>		
 	
 <?php else: ?>
 

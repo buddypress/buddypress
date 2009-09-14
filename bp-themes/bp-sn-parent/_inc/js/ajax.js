@@ -3,7 +3,9 @@ jQuery(document).ready( function() {
 		function() { 
 			jQuery('.ajax-loader').toggle();
 
-			jQuery("div#members-list-options a").removeClass("selected");
+			jQuery("div#members-list-options a.selected").removeClass("selected"); 
+			jQuery("#letter-list li a.selected").removeClass("selected"); 
+
 			jQuery(this).addClass('selected');
 			jQuery("input#members_search").val('');
 			
@@ -264,7 +266,9 @@ jQuery(document).ready( function() {
 		function() { 
 			jQuery('.ajax-loader').toggle();
 
-			jQuery("div#groups-list-options a").removeClass("selected");
+			jQuery("div#groups-list-options a.selected").removeClass("selected"); 
+			jQuery("#letter-list li a.selected").removeClass("selected"); 
+
 			jQuery(this).addClass('selected');
 			jQuery("input#groups_search").val('');
 
@@ -1016,7 +1020,9 @@ jQuery(document).ready( function() {
 		function() { 
 			jQuery('.ajax-loader').toggle();
 
-			jQuery("div#blogs-list-options a").removeClass("selected");
+			jQuery("div#blogs-list-options a.selected").removeClass("selected"); 
+			jQuery("#letter-list li a.selected").removeClass("selected"); 
+			
 			jQuery(this).addClass('selected');
 			jQuery("input#blogs_search").val('');
 
