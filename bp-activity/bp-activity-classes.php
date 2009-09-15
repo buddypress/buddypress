@@ -159,11 +159,11 @@ Class BP_Activity_Activity {
 			$filter_sql = BP_Activity_Activity::get_filter_sql( $filter );
 		
 		if ( $limit && $page && $max_items )
-			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE user_id = %d $privacy_sql $filter_sql ORDER BY date_recorded DESC $pag_sql", $user_id ) );
+			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE user_id = %d $filter_sql ORDER BY date_recorded DESC $pag_sql", $user_id ) );
 		else
-			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE user_id = %d $privacy_sql $filter_sql ORDER BY date_recorded DESC $pag_sql $max_sql", $user_id ) );
+			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE user_id = %d $filter_sql ORDER BY date_recorded DESC $pag_sql $max_sql", $user_id ) );
 		
-		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE user_id = %d $privacy_sql $filter_sql ORDER BY date_recorded DESC $max_sql", $user_id ) );
+		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE user_id = %d $filter_sql ORDER BY date_recorded DESC $max_sql", $user_id ) );
 		
 		return array( 'activities' => $activities, 'total' => (int)$total_activities );
 	}
