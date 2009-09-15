@@ -8,7 +8,7 @@ add_action( 'plugins_loaded', 'bp_blogs_register_widgets' );
 
 class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 	function bp_blogs_recent_posts_widget() {
-		parent::WP_Widget( false, $name = 'Recent Site Wide Posts' );
+		parent::WP_Widget( false, $name = __( 'Recent Site Wide Posts', 'buddypress' ) );
 		wp_enqueue_style( 'bp-blogs-widget-posts-css', BP_PLUGIN_URL . '/bp-blogs/css/widget-blogs.css' );		
 	}
 

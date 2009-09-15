@@ -8,7 +8,7 @@ add_action( 'plugins_loaded', 'bp_activity_register_widgets' );
 
 class BP_Activity_Widget extends WP_Widget {
 	function bp_activity_widget() {
-		parent::WP_Widget( false, $name = 'Site Wide Activity' );
+		parent::WP_Widget( false, $name = __( 'Site Wide Activity', 'buddypress' ) );
 		wp_enqueue_style( 'bp-activity-widget-activity-css', BP_PLUGIN_URL . '/bp-activity/css/widget-activity.css' );		
 	}
 
