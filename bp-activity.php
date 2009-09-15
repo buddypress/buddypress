@@ -338,6 +338,27 @@ function bp_activity_add_timesince_placeholder( $content ) {
 	return apply_filters( 'bp_activity_add_timesince_placeholder', $content );
 }
 
+function bp_activity_set_action( $component_id, $key, $value ) { 
+	global $bp; 
+
+	if ( empty( $component_id ) || empty( $key ) || empty( $value ) ) 
+		return false; 
+
+	$bp->activity->actions->{$component_id}->{$key} = apply_filters( 'bp_activity_set_action', array( 
+		'key' => $key, 
+		'value' => $value 
+	), $component_id, $key, $value ); 
+} 
+
+function bp_activity_get_action( $component_id, $key ) { 
+	global $bp; 
+
+	if ( empty( $component_id ) || empty( $key ) ) 
+		return false; 
+
+	return apply_filters( 'bp_activity_get_action', $bp->activity->actions->{$component_id}->{$key}, $component_id, $key ); 
+} 
+
 function bp_activity_check_exists_by_content( $content ) {
 	/* Insert the "time-since" placeholder to match the existing content in the DB */
 	$content = bp_activity_add_timesince_placeholder( $content );
