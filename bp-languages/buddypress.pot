@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-09-12 14:11+0000\n"
+"POT-Creation-Date: 2009-09-15 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -126,8 +126,8 @@ msgstr ""
 msgid "Site Wide Activity Feed"
 msgstr ""
 
-#: bp-blogs.php:145 bp-core/bp-core-templatetags.php:601
-#: bp-core/bp-core-templatetags.php:662 bp-themes/bp-sn-parent/header.php:94
+#: bp-blogs.php:145 bp-core/bp-core-templatetags.php:605
+#: bp-core/bp-core-templatetags.php:666 bp-themes/bp-sn-parent/header.php:94
 #: bp-themes/deprecated/bphome/header.php:55
 #: bp-themes/deprecated/bpmember/header.php:54
 msgid "Blogs"
@@ -263,7 +263,7 @@ msgstr ""
 #: bp-themes/bp-sn-parent/groups/single/admin.php:39
 #: bp-themes/bp-sn-parent/registration/register.php:192
 #: bp-themes/deprecated/bpmember/groups/single/admin.php:35
-#: bp-xprofile.php:444 bp-xprofile/bp-xprofile-admin.php:94
+#: bp-xprofile.php:445 bp-xprofile/bp-xprofile-admin.php:94
 msgid "Yes"
 msgstr ""
 
@@ -275,7 +275,7 @@ msgstr ""
 #: bp-themes/bp-sn-parent/groups/single/admin.php:40
 #: bp-themes/bp-sn-parent/registration/register.php:193
 #: bp-themes/deprecated/bpmember/groups/single/admin.php:36
-#: bp-xprofile.php:445
+#: bp-xprofile.php:446
 msgid "No"
 msgstr ""
 
@@ -348,14 +348,14 @@ msgid "Latest Post: %s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1316
-#: bp-core/bp-core-templatetags.php:1165
+#: bp-core/bp-core-templatetags.php:1169
 #: bp-forums/bp-forums-templatetags.php:923
 #: bp-groups/bp-groups-templatetags.php:2109
 msgid "Search anything..."
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1317
-#: bp-core/bp-core-templatetags.php:615 bp-core/bp-core-templatetags.php:1166
+#: bp-core/bp-core-templatetags.php:619 bp-core/bp-core-templatetags.php:1170
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:624
 #: bp-forums/bbpress/bb-includes/class.bb-query.php:1017
 #: bp-forums/bbpress/bb-templates/kakumei/rss2.php:18
@@ -400,17 +400,17 @@ msgid "Component Setup"
 msgstr ""
 
 #: bp-core.php:329 bp-forums/bbpress/bb-includes/functions.bb-template.php:222
-#: bp-forums/bbpress/bb-templates/kakumei/profile.php:3 bp-xprofile.php:204
-#: bp-xprofile.php:443
+#: bp-forums/bbpress/bb-templates/kakumei/profile.php:3 bp-xprofile.php:205
+#: bp-xprofile.php:444
 msgid "Profile"
 msgstr ""
 
 #: bp-core.php:336 bp-groups/bp-groups-templatetags.php:596
-#: bp-xprofile.php:209
+#: bp-xprofile.php:210
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:346 bp-core/bp-core-templatetags.php:318 bp-xprofile.php:215
+#: bp-core.php:346 bp-core/bp-core-templatetags.php:318 bp-xprofile.php:216
 msgid "My Profile"
 msgstr ""
 
@@ -516,6 +516,11 @@ msgstr ""
 
 #: bp-core/bp-core-activation.php:19
 msgid "There was an error activating your account, please try again."
+msgstr ""
+
+#: bp-core/bp-core-activation.php:57
+#, php-format
+msgid "%s became a registered member"
 msgstr ""
 
 #: bp-core/bp-core-activation.php:65
@@ -684,7 +689,7 @@ msgid "Allows the creation of friend connections between users."
 msgstr ""
 
 #: bp-core/bp-core-admin.php:244 bp-core/bp-core-templatetags.php:597
-#: bp-core/bp-core-templatetags.php:658 bp-groups.php:178 bp-groups.php:212
+#: bp-core/bp-core-templatetags.php:662 bp-groups.php:178 bp-groups.php:212
 #: bp-groups.php:1272 bp-groups.php:1469 bp-groups.php:1482 bp-groups.php:1496
 #: bp-groups.php:1509 bp-groups/bp-groups-admin.php:33
 #: bp-themes/bp-sn-parent/header.php:86
@@ -751,7 +756,7 @@ msgstr ""
 
 #: bp-core/bp-core-adminbar.php:91 bp-core/bp-core-adminbar.php:93
 #: bp-core/bp-core-templatetags.php:50 bp-core/bp-core-templatetags.php:52
-#: bp-core/bp-core-templatetags.php:626 bp-core/bp-core-templatetags.php:628
+#: bp-core/bp-core-templatetags.php:630 bp-core/bp-core-templatetags.php:632
 #: bp-core/deprecated/bp-core-deprecated.php:928
 #: bp-core/deprecated/bp-core-deprecated.php:930
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:2729
@@ -1043,7 +1048,7 @@ msgid ""
 "There was a problem uploading your avatar, please try uploading it again"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:177 bp-xprofile.php:415
+#: bp-core/bp-core-signup.php:177 bp-xprofile.php:416
 msgid "There was a problem cropping your avatar, please try uploading it again"
 msgstr ""
 
@@ -1090,7 +1095,7 @@ msgstr ""
 msgid "Yahoo Messenger"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:479 bp-core/bp-core-templatetags.php:653
+#: bp-core/bp-core-templatetags.php:479 bp-core/bp-core-templatetags.php:657
 #: bp-groups.php:266 bp-themes/bp-sn-parent/header.php:78
 #: bp-themes/bp-sn-parent/header.php:81
 #: bp-themes/deprecated/bphome/header.php:43
@@ -1112,7 +1117,7 @@ msgstr ""
 msgid "Blog &#8212; Tags &#8212; "
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:488 bp-core/bp-core-templatetags.php:654
+#: bp-core/bp-core-templatetags.php:488 bp-core/bp-core-templatetags.php:658
 #: bp-themes/bp-sn-parent/archive.php:9
 #: bp-themes/bp-sn-parent/attachment.php:9
 #: bp-themes/bp-sn-parent/header.php:82 bp-themes/bp-sn-parent/index.php:9
@@ -1132,7 +1137,7 @@ msgstr ""
 msgid "%s Directory"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:593 bp-core/bp-core-templatetags.php:655
+#: bp-core/bp-core-templatetags.php:593 bp-core/bp-core-templatetags.php:659
 #: bp-groups.php:282 bp-groups/bp-groups-admin.php:81
 #: bp-themes/bp-sn-parent/groups/single/admin.php:197
 #: bp-themes/bp-sn-parent/header.php:83
@@ -1142,21 +1147,30 @@ msgstr ""
 msgid "Members"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:820
+#: bp-core/bp-core-templatetags.php:601
+#: bp-forums/bbpress/bb-admin/forums.php:42
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:65
+#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:66
+#: bp-forums/bbpress/bb-templates/kakumei/front-page.php:48
+#: bp-forums/bp-forums-admin.php:153 bp-themes/bp-sn-parent/header.php:90
+msgid "Forums"
+msgstr ""
+
+#: bp-core/bp-core-templatetags.php:824
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1041
+#: bp-core/bp-core-templatetags.php:1045
 #, php-format
 msgid "Viewing member %d to %d (of %d members)"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1133
+#: bp-core/bp-core-templatetags.php:1137
 #, php-format
 msgid "%d friend"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1135
+#: bp-core/bp-core-templatetags.php:1139
 #, php-format
 msgid "%d friends"
 msgstr ""
@@ -1582,7 +1596,7 @@ msgstr ""
 msgid "Remember Me"
 msgstr ""
 
-#: bp-forums.php:70 bp-forums/bp-forums-admin.php:8
+#: bp-forums.php:71 bp-forums/bp-forums-admin.php:8
 msgid "Forums Setup"
 msgstr ""
 
@@ -1678,14 +1692,6 @@ msgstr ""
 msgid "Are you sure you want to delete the \"<strong>%s</strong>\" forum?"
 msgstr ""
 
-#: bp-forums/bbpress/bb-admin/forums.php:42
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:65
-#: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:66
-#: bp-forums/bbpress/bb-templates/kakumei/front-page.php:48
-#: bp-forums/bp-forums-admin.php:152 bp-themes/bp-sn-parent/header.php:90
-msgid "Forums"
-msgstr ""
-
 #: bp-forums/bbpress/bb-admin/forums.php:51
 #: bp-forums/bbpress/bb-admin/forums.php:80
 msgid "Delete Forum"
@@ -1729,7 +1735,7 @@ msgid "Replacement forum"
 msgstr ""
 
 #: bp-forums/bbpress/bb-admin/forums.php:79
-#: bp-xprofile/bp-xprofile-classes.php:553
+#: bp-xprofile/bp-xprofile-classes.php:560
 msgid "Cancel"
 msgstr ""
 
@@ -2903,7 +2909,7 @@ msgstr ""
 #: bp-forums/bbpress/bb-templates/kakumei/stats.php:8
 #: bp-forums/bbpress/bb-templates/kakumei/tag-single.php:12
 #: bp-forums/bbpress/bb-templates/kakumei/view.php:10
-#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:21
+#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:23
 msgid "Posts"
 msgstr ""
 
@@ -4201,7 +4207,7 @@ msgstr ""
 #: bp-forums/bbpress/bb-templates/kakumei/front-page.php:21
 #: bp-forums/bbpress/bb-templates/kakumei/tag-single.php:15
 #: bp-forums/bbpress/bb-templates/kakumei/view.php:13
-#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:22
+#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:24
 msgid "Freshness"
 msgstr ""
 
@@ -4646,84 +4652,84 @@ msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:147
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:162
-#: bp-xprofile/bp-xprofile-templatetags.php:491
+#: bp-xprofile/bp-xprofile-templatetags.php:489
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:363
 msgid "January"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:148
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:163
-#: bp-xprofile/bp-xprofile-templatetags.php:491
+#: bp-xprofile/bp-xprofile-templatetags.php:489
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:363
 msgid "February"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:149
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:164
-#: bp-xprofile/bp-xprofile-templatetags.php:491
+#: bp-xprofile/bp-xprofile-templatetags.php:489
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:363
 msgid "March"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:150
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:165
-#: bp-xprofile/bp-xprofile-templatetags.php:492
+#: bp-xprofile/bp-xprofile-templatetags.php:490
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:364
 msgid "April"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:151
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:166
-#: bp-xprofile/bp-xprofile-templatetags.php:492
+#: bp-xprofile/bp-xprofile-templatetags.php:490
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:364
 msgid "May"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:152
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:167
-#: bp-xprofile/bp-xprofile-templatetags.php:492
+#: bp-xprofile/bp-xprofile-templatetags.php:490
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:364
 msgid "June"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:153
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:168
-#: bp-xprofile/bp-xprofile-templatetags.php:493
+#: bp-xprofile/bp-xprofile-templatetags.php:491
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:365
 msgid "July"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:154
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:169
-#: bp-xprofile/bp-xprofile-templatetags.php:493
+#: bp-xprofile/bp-xprofile-templatetags.php:491
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:365
 msgid "August"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:155
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:170
-#: bp-xprofile/bp-xprofile-templatetags.php:493
+#: bp-xprofile/bp-xprofile-templatetags.php:491
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:365
 msgid "September"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:156
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:171
-#: bp-xprofile/bp-xprofile-templatetags.php:494
+#: bp-xprofile/bp-xprofile-templatetags.php:492
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:366
 msgid "October"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:157
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:172
-#: bp-xprofile/bp-xprofile-templatetags.php:494
+#: bp-xprofile/bp-xprofile-templatetags.php:492
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:366
 msgid "November"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:158
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:173
-#: bp-xprofile/bp-xprofile-templatetags.php:494
+#: bp-xprofile/bp-xprofile-templatetags.php:492
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:366
 msgid "December"
 msgstr ""
@@ -5814,7 +5820,7 @@ msgstr ""
 #: bp-forums/bbpress/bb-templates/kakumei/front-page.php:20
 #: bp-forums/bbpress/bb-templates/kakumei/tag-single.php:14
 #: bp-forums/bbpress/bb-templates/kakumei/view.php:12
-#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:19
+#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:21
 msgid "Last Poster"
 msgstr ""
 
@@ -5955,7 +5961,7 @@ msgid "Posted %s ago"
 msgstr ""
 
 #: bp-forums/bbpress/bb-templates/kakumei/profile-edit.php:3
-#: bp-xprofile.php:210 bp-xprofile/bp-xprofile-templatetags.php:676
+#: bp-xprofile.php:211 bp-xprofile/bp-xprofile-templatetags.php:674
 msgid "Edit Profile"
 msgstr ""
 
@@ -6689,7 +6695,7 @@ msgstr ""
 msgid "Settings Saved."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:21
+#: bp-forums/bp-forums-admin.php:22
 #, php-format
 msgid ""
 "bbPress forum integration in BuddyPress has been set up correctly. If you "
@@ -6697,51 +6703,51 @@ msgid ""
 "install</a>"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:22
+#: bp-forums/bp-forums-admin.php:23
 msgid ""
 "NOTE: The forums directory will only work if your bbPress tables are in the "
 "same database as your WordPress tables. If you are not using an existing "
 "bbPress install you can ignore this message."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:37
+#: bp-forums/bp-forums-admin.php:38
 msgid ""
 "The bb-config.php file was not found at that location, please try again."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:40
+#: bp-forums/bp-forums-admin.php:41
 msgid "Forums were set up correctly using your existing bbPress install!"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:41
+#: bp-forums/bp-forums-admin.php:42
 msgid ""
 "BuddyPress will now use its internal copy of bbPress to run the forums on "
 "your site. If you wish, you can remove your old bbPress installation files, "
 "as long as you keep the bb-config.php file in the same location."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:46
+#: bp-forums/bp-forums-admin.php:47
 msgid "Existing bbPress Installation"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:47
+#: bp-forums/bp-forums-admin.php:48
 msgid ""
 "BuddyPress can make use of your existing bbPress install. Just provide the "
 "location of your <code>bb-config.php</code> file, and BuddyPress will do the "
 "rest."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:49 bp-forums/bp-forums-admin.php:77
+#: bp-forums/bp-forums-admin.php:50 bp-forums/bp-forums-admin.php:78
 msgid "Complete Installation"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:64
+#: bp-forums/bp-forums-admin.php:65
 msgid ""
 "All done! Configuration settings have been saved to the file <code>bb-config."
 "php</code> in the root of your WordPress install."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:68
+#: bp-forums/bp-forums-admin.php:69
 msgid ""
 "A configuration file could not be created. No problem, but you will need to "
 "save the text shown below into a file named <code>bb-config.php</code> in "
@@ -6749,29 +6755,29 @@ msgid ""
 "the forum functionality."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:74
+#: bp-forums/bp-forums-admin.php:75
 msgid "New bbPress Installation"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:75
+#: bp-forums/bp-forums-admin.php:76
 msgid ""
 "You've decided to set up a new installation of bbPress for forum management "
 "in BuddyPress. This is very simple and is usually just a one click\n"
 "\t\t\t\tprocess. When you're ready, hit the link below."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:83
+#: bp-forums/bp-forums-admin.php:84
 msgid ""
 "Forums in BuddyPress make use of a bbPress installation to function. You can "
 "choose to either let BuddyPress set up a new bbPress install, or use an "
 "already existing bbPress install. Please choose one of the options below."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:85
+#: bp-forums/bp-forums-admin.php:86
 msgid "Set up a new bbPress installation"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:86
+#: bp-forums/bp-forums-admin.php:87
 msgid "Use an existing bbPress installation"
 msgstr ""
 
@@ -7082,7 +7088,7 @@ msgid "Request Membership"
 msgstr ""
 
 #: bp-groups.php:280 bp-wire.php:37 bp-wire/bp-wire-templatetags.php:145
-#: bp-xprofile.php:723 bp-xprofile.php:726
+#: bp-xprofile.php:724 bp-xprofile.php:727
 msgid "Wire"
 msgstr ""
 
@@ -7230,7 +7236,7 @@ msgstr ""
 msgid "Wire message could not be posted."
 msgstr ""
 
-#: bp-groups.php:781 bp-xprofile.php:533
+#: bp-groups.php:781 bp-xprofile.php:534
 msgid "Wire message successfully posted."
 msgstr ""
 
@@ -7238,7 +7244,7 @@ msgstr ""
 msgid "There was an error deleting the wire message."
 msgstr ""
 
-#: bp-groups.php:798 bp-xprofile.php:600
+#: bp-groups.php:798 bp-xprofile.php:601
 msgid "Wire message successfully deleted."
 msgstr ""
 
@@ -7285,11 +7291,11 @@ msgstr ""
 msgid "Group settings were successfully updated."
 msgstr ""
 
-#: bp-groups.php:1032 bp-xprofile.php:498
+#: bp-groups.php:1032 bp-xprofile.php:499
 msgid "Your avatar was deleted successfully!"
 msgstr ""
 
-#: bp-groups.php:1034 bp-xprofile.php:500
+#: bp-groups.php:1034 bp-xprofile.php:501
 msgid "There was a problem deleting that avatar, please try again."
 msgstr ""
 
@@ -7872,7 +7878,7 @@ msgid "%s hasn't joined any groups yet."
 msgstr ""
 
 #: bp-groups/deprecated/bp-groups-deprecated.php:286
-#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:29
+#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:31
 #: bp-themes/bp-sn-parent/groups/single/forum/index.php:46
 #: bp-themes/bp-sn-parent/groups/single/forum/index.php:47
 #: bp-themes/bp-sn-parent/groups/single/home.php:117
@@ -8898,15 +8904,15 @@ msgstr ""
 msgid "There are not enough blogs to feature."
 msgstr ""
 
-#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:18
+#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:20
 msgid "Topic Title"
 msgstr ""
 
-#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:20
+#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:22
 msgid "Posted In"
 msgstr ""
 
-#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:58
+#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:66
 msgid "Sorry, there were no forum topics found."
 msgstr ""
 
@@ -9523,7 +9529,7 @@ msgstr ""
 
 #: bp-themes/bp-sn-parent/profile/change-avatar.php:9
 #: bp-themes/deprecated/bpmember/profile/change-avatar.php:9
-#: bp-xprofile.php:211
+#: bp-xprofile.php:212
 msgid "Change Avatar"
 msgstr ""
 
@@ -9961,97 +9967,97 @@ msgstr ""
 msgid "There are currently no wire posts."
 msgstr ""
 
-#: bp-xprofile.php:179 bp-xprofile/bp-xprofile-admin.php:36
+#: bp-xprofile.php:180 bp-xprofile/bp-xprofile-admin.php:36
 msgid "Profile Field Setup"
 msgstr ""
 
-#: bp-xprofile.php:247
+#: bp-xprofile.php:248
 msgid "Admin Options"
-msgstr ""
-
-#: bp-xprofile.php:250
-#, php-format
-msgid "Edit %s's Profile"
 msgstr ""
 
 #: bp-xprofile.php:251
 #, php-format
+msgid "Edit %s's Profile"
+msgstr ""
+
+#: bp-xprofile.php:252
+#, php-format
 msgid "Edit %s's Avatar"
 msgstr ""
 
-#: bp-xprofile.php:254
+#: bp-xprofile.php:255
 msgid "Mark as Spammer"
 msgstr ""
 
-#: bp-xprofile.php:256
+#: bp-xprofile.php:257
 msgid "Not a Spammer"
 msgstr ""
 
-#: bp-xprofile.php:259
+#: bp-xprofile.php:260
 #, php-format
 msgid "Delete %s"
 msgstr ""
 
-#: bp-xprofile.php:347
+#: bp-xprofile.php:348
 msgid ""
 "Please make sure you fill in all required fields in this profile field group "
 "before saving."
 msgstr ""
 
-#: bp-xprofile.php:364
+#: bp-xprofile.php:365
 msgid ""
 "There was a problem updating some of your profile information, please try "
 "again."
 msgstr ""
 
-#: bp-xprofile.php:366
+#: bp-xprofile.php:367
 msgid "Changes saved."
 msgstr ""
 
-#: bp-xprofile.php:417
+#: bp-xprofile.php:418
 msgid "Your new avatar was uploaded successfully!"
 msgstr ""
 
-#: bp-xprofile.php:450
+#: bp-xprofile.php:451
 msgid "A member posts on your wire"
 msgstr ""
 
-#: bp-xprofile.php:531
+#: bp-xprofile.php:532
 msgid "Wire message could not be posted. Please try again."
 msgstr ""
 
-#: bp-xprofile.php:542
+#: bp-xprofile.php:543
 #, php-format
 msgid "%s wrote on their own wire"
 msgstr ""
 
-#: bp-xprofile.php:547
+#: bp-xprofile.php:548
 #, php-format
 msgid "%s wrote on %s wire"
 msgstr ""
 
-#: bp-xprofile.php:607
+#: bp-xprofile.php:608
 msgid "Wire post could not be deleted, please try again."
 msgstr ""
 
-#: bp-xprofile.php:633
+#: bp-xprofile.php:634
 msgid "New member registered"
 msgstr ""
 
-#: bp-xprofile.php:634
+#: bp-xprofile.php:635
 msgid "Updated Profile"
 msgstr ""
 
-#: bp-xprofile.php:635
+#: bp-xprofile.php:636
 msgid "New profile wire post"
 msgstr ""
 
-#: bp-xprofile.php:723
+#: bp-xprofile.php:724
 #, php-format
 msgid "You have %d new posts on your wire"
 msgstr ""
 
-#: bp-xprofile.php:726
+#: bp-xprofile.php:727
 #, php-format
 msgid "%s posted on your wire"
 msgstr ""
@@ -10073,7 +10079,7 @@ msgid "Field Name"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-admin.php:75
-#: bp-xprofile/bp-xprofile-classes.php:537
+#: bp-xprofile/bp-xprofile-classes.php:544
 msgid "Field Type"
 msgstr ""
 
@@ -10094,7 +10100,7 @@ msgid "Add New Field"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-admin.php:125
-#: bp-xprofile/bp-xprofile-classes.php:130
+#: bp-xprofile/bp-xprofile-classes.php:136
 msgid "Add New Field Group"
 msgstr ""
 
@@ -10122,159 +10128,159 @@ msgstr ""
 msgid "The group was deleted successfully."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:225
+#: bp-xprofile/bp-xprofile-admin.php:227
 msgid "There was an error saving the field. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:231
+#: bp-xprofile/bp-xprofile-admin.php:233
 msgid "The field was saved successfully."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:259
+#: bp-xprofile/bp-xprofile-admin.php:261
 msgid "field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:261
+#: bp-xprofile/bp-xprofile-admin.php:263
 msgid "option"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:267
+#: bp-xprofile/bp-xprofile-admin.php:269
 #, php-format
 msgid "There was an error deleting the %s. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:270
+#: bp-xprofile/bp-xprofile-admin.php:272
 #, php-format
 msgid "The %s was deleted successfully!"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:117
+#: bp-xprofile/bp-xprofile-classes.php:123
 msgid "Please make sure you give the group a name."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:133
+#: bp-xprofile/bp-xprofile-classes.php:139
 msgid "Edit Field Group"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:154
+#: bp-xprofile/bp-xprofile-classes.php:160
 msgid "Field Group Name"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:442
+#: bp-xprofile/bp-xprofile-classes.php:449
 msgid "Please enter options for this Field:"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:443
+#: bp-xprofile/bp-xprofile-classes.php:450
 msgid "Order By:"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:446
+#: bp-xprofile/bp-xprofile-classes.php:453
 msgid "Order Entered"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:447
+#: bp-xprofile/bp-xprofile-classes.php:454
 msgid "Name - Ascending"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:448
+#: bp-xprofile/bp-xprofile-classes.php:455
 msgid "Name - Descending"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:462
-#: bp-xprofile/bp-xprofile-classes.php:476
+#: bp-xprofile/bp-xprofile-classes.php:469
+#: bp-xprofile/bp-xprofile-classes.php:483
 msgid "Option"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:464
-#: bp-xprofile/bp-xprofile-classes.php:477
+#: bp-xprofile/bp-xprofile-classes.php:471
+#: bp-xprofile/bp-xprofile-classes.php:484
 msgid "Default Value"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:482
+#: bp-xprofile/bp-xprofile-classes.php:489
 msgid "Add Another Option"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:490
+#: bp-xprofile/bp-xprofile-classes.php:497
 msgid "Add Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:493
+#: bp-xprofile/bp-xprofile-classes.php:500
 msgid "Edit Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:515
+#: bp-xprofile/bp-xprofile-classes.php:522
 msgid "Field Title"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:522
+#: bp-xprofile/bp-xprofile-classes.php:529
 msgid "Field Description"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:529
+#: bp-xprofile/bp-xprofile-classes.php:536
 msgid "Is This Field Required?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:531
+#: bp-xprofile/bp-xprofile-classes.php:538
 msgid "Not Required"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:532
+#: bp-xprofile/bp-xprofile-classes.php:539
 msgid "Required"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:539
+#: bp-xprofile/bp-xprofile-classes.php:546
 msgid "Text Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:540
+#: bp-xprofile/bp-xprofile-classes.php:547
 msgid "Multi-line Text Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:541
+#: bp-xprofile/bp-xprofile-classes.php:548
 msgid "Date Selector"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:542
+#: bp-xprofile/bp-xprofile-classes.php:549
 msgid "Radio Buttons"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:543
+#: bp-xprofile/bp-xprofile-classes.php:550
 msgid "Drop Down Select Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:544
+#: bp-xprofile/bp-xprofile-classes.php:551
 msgid "Multi Select Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:545
+#: bp-xprofile/bp-xprofile-classes.php:552
 msgid "Checkboxes"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:552
+#: bp-xprofile/bp-xprofile-classes.php:559
 msgid "Save"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:553
+#: bp-xprofile/bp-xprofile-classes.php:560
 msgid "or"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:590
+#: bp-xprofile/bp-xprofile-classes.php:580
 msgid "Please make sure you fill out all required fields."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:593
+#: bp-xprofile/bp-xprofile-classes.php:583
 msgid ""
 "Radio button field types require at least one option. Please add options "
 "below."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:596
-#: bp-xprofile/bp-xprofile-classes.php:599
+#: bp-xprofile/bp-xprofile-classes.php:586
+#: bp-xprofile/bp-xprofile-classes.php:589
 msgid ""
 "Select box field types require at least one option. Please add options below."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:602
+#: bp-xprofile/bp-xprofile-classes.php:592
 msgid ""
 "Checkbox field types require at least one option. Please add options below."
 msgstr ""
@@ -10296,17 +10302,17 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:618
+#: bp-xprofile/bp-xprofile-templatetags.php:616
 msgid ""
 "Avatar uploads are currently disabled. Why not use a <a href=\"http://"
 "gravatar.com\" target=\"_blank\">gravatar</a> instead?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:627
+#: bp-xprofile/bp-xprofile-templatetags.php:625
 msgid "Profile not recently updated"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:638
+#: bp-xprofile/bp-xprofile-templatetags.php:636
 #, php-format
 msgid "Profile updated %s ago"
 msgstr ""
