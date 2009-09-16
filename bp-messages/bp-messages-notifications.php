@@ -9,7 +9,7 @@ function messages_notification_new_message( $args ) {
 	$sender_name = bp_core_get_user_displayname( $message->sender_id );
 
 	for ( $i = 0; $i < count($recipient_ids); $i++ ) {
-		if ( $message->sender_id == $recipient_ids[$i] || 'no' == get_userdata( $recipient_ids[$i], 'notification-messages-new-message' ) ) continue;
+		if ( $message->sender_id == $recipient_ids[$i] || 'no' == get_usermeta( $recipient_ids[$i], 'notification_messages_new_message' ) ) continue;
 
 		$ud = get_userdata( $recipient_ids[$i] );
 		$message_link = bp_core_get_user_domain( $recipient_ids[$i] ) . 'messages/view/' . $message->id; 
@@ -46,7 +46,7 @@ function messages_notification_new_notice( $message_subject, $message ) {
 	$users = $wpdb->get_results( $wpdb->prepare( "SELECT ID as user_id, user_email, user_login FROM {$wpdb->base_prefix}users WHERE user_status = 0 AND spam = 0 AND deleted = 0" ) );
 	
 	for ( $i = 0; $i < count($users); $i++ ) {
-		if ( get_userdata( $users[$i]->user_id, 'notification-messages-new-notice' ) == 'no' ) continue;
+		if ( get_usermeta( $users[$i]->user_id, 'notification_messages_new_notice' ) == 'no' ) continue;
 
 		$message_link = bp_core_get_user_domain( $users[$i]->user_id ) . 'messages'; 
 		$settings_link = bp_core_get_user_domain( $users[$i]->user_id ) . 'settings/notifications'; 
