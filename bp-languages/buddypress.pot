@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-09-15 14:11+0000\n"
+"POT-Creation-Date: 2009-09-16 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,6 +82,11 @@ msgstr ""
 msgid "Clear Filter"
 msgstr ""
 
+#: bp-activity/bp-activity-widgets.php:11
+#: bp-activity/feeds/bp-activity-sitewide-feed.php:22
+msgid "Site Wide Activity"
+msgstr ""
+
 #: bp-activity/bp-activity-widgets.php:23 bp-themes/bp-sn-parent/header.php:18
 #: bp-themes/deprecated/bphome/header.php:14
 #: bp-themes/deprecated/bpmember/header.php:18
@@ -116,10 +121,6 @@ msgstr ""
 #: bp-activity/feeds/bp-activity-personal-feed.php:24
 #, php-format
 msgid "%s - Activity Feed"
-msgstr ""
-
-#: bp-activity/feeds/bp-activity-sitewide-feed.php:22
-msgid "Site Wide Activity"
 msgstr ""
 
 #: bp-activity/feeds/bp-activity-sitewide-feed.php:25
@@ -367,6 +368,10 @@ msgstr ""
 #: bp-themes/bp-sn-parent/searchform.php:5
 #: bp-themes/deprecated/bphome/searchform.php:3
 msgid "Search"
+msgstr ""
+
+#: bp-blogs/bp-blogs-widgets.php:11
+msgid "Recent Site Wide Posts"
 msgstr ""
 
 #: bp-blogs/bp-blogs-widgets.php:34
@@ -692,7 +697,7 @@ msgstr ""
 #: bp-core/bp-core-templatetags.php:662 bp-groups.php:178 bp-groups.php:212
 #: bp-groups.php:1272 bp-groups.php:1469 bp-groups.php:1482 bp-groups.php:1496
 #: bp-groups.php:1509 bp-groups/bp-groups-admin.php:33
-#: bp-themes/bp-sn-parent/header.php:86
+#: bp-groups/bp-groups-widgets.php:13 bp-themes/bp-sn-parent/header.php:86
 #: bp-themes/deprecated/bphome/header.php:51
 #: bp-themes/deprecated/bpmember/header.php:50
 msgid "Groups"
@@ -1138,7 +1143,8 @@ msgid "%s Directory"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:593 bp-core/bp-core-templatetags.php:659
-#: bp-groups.php:282 bp-groups/bp-groups-admin.php:81
+#: bp-core/bp-core-widgets.php:73 bp-groups.php:282
+#: bp-groups/bp-groups-admin.php:81
 #: bp-themes/bp-sn-parent/groups/single/admin.php:197
 #: bp-themes/bp-sn-parent/header.php:83
 #: bp-themes/deprecated/bphome/header.php:48
@@ -1173,6 +1179,11 @@ msgstr ""
 #: bp-core/bp-core-templatetags.php:1139
 #, php-format
 msgid "%d friends"
+msgstr ""
+
+#: bp-core/bp-core-widgets.php:16
+#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:198
+msgid "Welcome"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:31
@@ -1219,8 +1230,16 @@ msgstr ""
 msgid "Max Members to show:"
 msgstr ""
 
+#: bp-core/bp-core-widgets.php:147
+msgid "Who's Online Avatars"
+msgstr ""
+
 #: bp-core/bp-core-widgets.php:171
 msgid "There are no users currently online"
+msgstr ""
+
+#: bp-core/bp-core-widgets.php:201
+msgid "Recently Active Member Avatars"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:225
@@ -1777,10 +1796,6 @@ msgstr ""
 #: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:228
 #: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:239
 msgid "bbPress installer"
-msgstr ""
-
-#: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:198
-msgid "Welcome"
 msgstr ""
 
 #: bp-forums/bbpress/bb-admin/includes/class.bb-install.php:199
