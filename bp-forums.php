@@ -51,7 +51,7 @@ function bp_forums_directory_forums_setup() {
 			return false;
 			
 		if ( !bp_forums_is_installed_correctly() ) {
-			bp_core_add_message( 'The forums component has not been set up yet.', 'buddypress' );
+			bp_core_add_message( __( 'The forums component has not been set up yet.', 'buddypress' ), 'error' );
 			bp_core_redirect( $bp->root_domain );
 		}
 		
