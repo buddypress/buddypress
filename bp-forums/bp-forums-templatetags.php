@@ -294,7 +294,7 @@ function bp_the_topic_object_name() {
 
 		return apply_filters( 'bp_get_the_topic_object_name', $forum_template->topic->object_name );
 	}
-
+	
 function bp_the_topic_object_slug() {
 	echo bp_get_the_topic_object_slug();
 }
@@ -308,10 +308,10 @@ function bp_the_topic_object_permalink() {
 	echo bp_get_the_topic_object_permalink();
 }
 	function bp_get_the_topic_object_permalink() {
-		global $forum_template;
-				
+		global $bp, $forum_template;
+		
 		/* Currently this will only work with group forums, extended support in the future */
-		return apply_filters( 'bp_get_the_topic_object_permalink', $bp->root_domain . '/' . BP_GROUPS_SLUG . '/' . $forum_template->topic->object_slug . '/' );
+		return apply_filters( 'bp_get_the_topic_object_permalink', $bp->root_domain . '/' . BP_GROUPS_SLUG . '/' . $forum_template->topic->object_slug . '/forum/' );
 	}
 	
 function bp_the_topic_last_poster_name() {
@@ -322,7 +322,7 @@ function bp_the_topic_last_poster_name() {
 
 		return apply_filters( 'bp_get_the_topic_last_poster_name', bp_core_get_userlink( $forum_template->topic->topic_last_poster ) );
 	}
-
+	
 function bp_the_topic_object_avatar( $args = '' ) {
 	echo bp_get_the_topic_object_avatar( $args );
 }
@@ -340,7 +340,7 @@ function bp_the_topic_object_avatar( $args = '' ) {
 
 		return apply_filters( 'bp_get_the_topic_object_avatar', bp_core_fetch_avatar( array( 'item_id' => $forum_template->topic->object_id, 'type' => $type, 'object' => 'group', 'width' => $width, 'height' => $height ) ) ); 		
 	}
-
+	
 function bp_the_topic_last_poster_avatar( $args = '' ) {
 	echo bp_get_the_topic_last_poster_avatar( $args );
 }

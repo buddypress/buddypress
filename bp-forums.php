@@ -50,6 +50,11 @@ function bp_forums_directory_forums_setup() {
 		if ( (int) get_site_option( 'bp-disable-forum-directory' ) )
 			return false;
 			
+		if ( !bp_forums_is_installed_correctly() ) {
+			bp_core_add_message( 'The forums component has not been set up yet.', 'buddypress' );
+			bp_core_redirect( $bp->root_domain );
+		}
+		
 		$bp->is_directory = true;
 		
 		do_action( 'bbpress_init' ); 

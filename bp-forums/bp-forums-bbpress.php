@@ -66,9 +66,8 @@ function bp_forums_load_bbpress() {
 	/* This must be loaded before functionss.bb-admin.php otherwise we get a function conflict. */
 	if ( !$tables_installed = (boolean) $bbdb->get_results( 'DESCRIBE `' . $bbdb->forums . '`;', ARRAY_A ) )
 		require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
-		
+	
 	require_once( BB_PATH . 'bb-admin/includes/functions.bb-admin.php' );
-
 	
 	if ( is_object( $wp_roles ) ) {
 		$bb_roles =& $wp_roles;
@@ -90,7 +89,6 @@ function bp_forums_load_bbpress() {
 	// Set a site id if there isn't one already
 	if ( !isset( $bb->site_id ) )
 		$bb->site_id = BP_ROOT_BLOG;
-
 
 	/* Check if the tables are installed, if not, install them */
 	if ( !$tables_installed ) {

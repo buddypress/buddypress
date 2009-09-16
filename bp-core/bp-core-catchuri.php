@@ -54,8 +54,8 @@ function bp_core_set_uri_globals() {
 	$bp_uri = explode( "/", $path );
 
 	/* Loop and remove empties */
-	for ( $i = 0; $i <= count( $bp_uri ); $i++ )
-		if ( empty( $bp_uri[$i] ) ) unset( $bp_uri[$i] );
+	foreach ( (array)$bp_uri as $key => $uri_chunk )
+		if ( empty( $bp_uri[$key] ) ) unset( $bp_uri[$key] );
 
 	if ( defined( 'BP_ENABLE_MULTIBLOG' ) || 1 != BP_ROOT_BLOG ) {
 		/* If we are running BuddyPress on any blog, not just a root blog, we need to first
@@ -63,10 +63,6 @@ function bp_core_set_uri_globals() {
 		if ( $current_blog->path != '/' )
 			array_shift( $bp_uri );
 	}
-
-	/* Get total URI segment count */
-	$bp_uri_count = count( $bp_uri ) - 1;
-	$is_member_page = false;
 	
 	/* Set the indexes, these are incresed by one if we are not on a VHOST install */
 	$component_index = 0;
@@ -87,9 +83,9 @@ function bp_core_set_uri_globals() {
 	if ( empty( $paths[0] ) )
 		array_shift( $paths );
 
-	for ( $i = 0; $i < $bp_uri_count; $i++ ) {
-		if ( in_array( $bp_uri[$i], $paths )) {
-			unset( $bp_uri[$i] );
+	foreach ( (array)$bp_uri as $key => $uri_chunk ) {
+		if ( in_array( $uri_chunk, $paths )) {
+			unset( $bp_uri[$key] );
 		}
 	}
 
@@ -104,11 +100,11 @@ function bp_core_set_uri_globals() {
 	}
 
 	/* Catch a member page and set the current member ID */
-	if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) ) {
+	if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) ) {		
 		if ( ( $bp_uri[0] == BP_MEMBERS_SLUG && !empty( $bp_uri[1] ) ) || in_array( 'wp-load.php', $bp_uri ) ) {	
 			// We are within a member page, set up user id globals
 			$displayed_user_id = bp_core_get_displayed_userid( $bp_uri[1] );
-				
+
 			unset($bp_uri[0]);
 			unset($bp_uri[1]);
 		
@@ -205,9 +201,11 @@ function bp_core_do_catch_uri() {
 	$page = $bp_path;
 	
 	/* Don't hijack any URLs on blog pages */
-	if ( !$bp_skip_blog_check ) {
-		if ( bp_is_blog_page() )
+	if ( bp_is_blog_page() ) {
+		if ( !$bp_skip_blog_check )
 			return false;
+	} else {
+		$wp_query->is_home = false;
 	}
 
 	/* Make sure this is not reported as a 404 */
@@ -254,7 +252,7 @@ function bp_core_catch_no_access() {
 
 	if ( !$bp_path && !bp_is_blog_page() ) {
 		if ( is_user_logged_in() ) {
-			wp_redirect( $bp->loggedin_user->domain );
+			wp_redirect( $bp->root_domain );
 		} else {
 			wp_redirect( site_url( 'wp-login.php?redirect_to=' . site_url() . $_SERVER['REQUEST_URI'] ) );
 		}

@@ -387,7 +387,7 @@ add_action( 'admin_menu', 'bp_core_setup_nav' );
 function bp_core_action_directory_members() {
 	global $bp;
 
-	if ( !is_home() && is_null( $bp->displayed_user->id ) && $bp->current_component == BP_MEMBERS_SLUG ) {
+	if ( is_null( $bp->displayed_user->id ) && $bp->current_component == BP_MEMBERS_SLUG ) {
 		$bp->is_directory = true;
 
 		do_action( 'bp_core_action_directory_members' );
