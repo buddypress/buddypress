@@ -33,6 +33,10 @@ add_action( 'admin_menu', 'bp_wire_setup_globals', 2 );
 function bp_wire_setup_nav() {
 	global $bp;
 
+	/* Profile wire's will only work if xprofile is enabled */
+	if ( !function_exists( 'xprofile_install' ) )
+		return false;
+		
 	/* Add 'Wire' to the main navigation */
 	bp_core_new_nav_item( array( 'name' => __('Wire', 'buddypress'), 'slug' => $bp->wire->slug, 'position' => 40, 'screen_function' => 'bp_wire_screen_latest', 'default_subnav_slug' => 'all-posts', 'item_css_id' => $bp->wire->id ) );
 

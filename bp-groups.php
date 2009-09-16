@@ -2210,8 +2210,22 @@ function groups_get_invites_for_user( $user_id = false ) {
 	return BP_Groups_Member::get_invites( $user_id );
 }
 
-function groups_invite_user( $user_id, $group_id ) {
+function groups_invite_user( $args = '' ) {
 	global $bp;
+	
+	$defaults = array(
+		'user_id' => false,
+		'group_id' => false,
+		'inviter_id' => $bp->loggedin_user->id,
+		'date_modified' => time(),
+		'is_confirmed' => 0
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+	extract( $args, EXTR_SKIP );	
+
+	if ( !$user_id || !$group_id )
+		return false;
 	
 	if ( groups_is_user_member( $user_id, $group_id ) )
 		return false;
@@ -2219,19 +2233,19 @@ function groups_invite_user( $user_id, $group_id ) {
 	$invite = new BP_Groups_Member;
 	$invite->group_id = $group_id;
 	$invite->user_id = $user_id;
-	$invite->date_modified = time();
-	$invite->inviter_id = $bp->loggedin_user->id;
-	$invite->is_confirmed = 0;
+	$invite->date_modified = $date_modified;
+	$invite->inviter_id = $inviter_id;
+	$invite->is_confirmed = $is_confirmed;
 	
 	if ( !$invite->save() )
 		return false;
 	
-	do_action( 'groups_invite_user', $group_id, $user_id );
+	do_action( 'groups_invite_user', $args );
 		
 	return true;
 }
 
-function groups_uninvite_user( $user_id, $group_id, $deprecated = true ) {
+function groups_uninvite_user( $user_id, $group_id ) {
 	global $bp;
 	
 	if ( !BP_Groups_Member::delete( $user_id, $group_id ) )

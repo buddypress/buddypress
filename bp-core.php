@@ -324,22 +324,35 @@ function bp_core_is_root_component( $component_name ) {
 function bp_core_setup_nav() {
 	global $bp;
 	
-	if ( !function_exists('xprofile_install') ) {
+	/*** 
+	 * If the extended profiles component is disabled, we need to revert to using the
+	 * built in WordPress profile information
+	 */
+	if ( !function_exists( 'xprofile_install' ) ) {
+		/* Fallback wire values if xprofile is disabled */
+		$bp->core->profile->slug = 'profile';
+		$bp->active_components[$bp->core->profile->slug] = $bp->core->profile->slug;
+
 		/* Add 'Profile' to the main navigation */
-		bp_core_add_nav_item( __('Profile', 'buddypress'), 'profile' );
-		bp_core_add_nav_default( 'profile', 'bp_core_catch_profile_uri', 'public' );
+		bp_core_new_nav_item( array( 
+			'name' => __('Profile', 'buddypress'),
+			'slug' => $bp->core->profile->slug,
+			'position' => 20,
+			'screen_function' => 'bp_core_catch_profile_uri',
+			'default_subnav_slug' => 'public'
+		) );
 
 		$profile_link = $bp->loggedin_user->domain . '/profile/';
-
+		
 		/* Add the subnav items to the profile */
 		bp_core_new_subnav_item( array(
 			'name' => __( 'Public', 'buddypress' ),
 			'slug' => 'public',
 			'parent_url' => $profile_link,
-			'parent_slug' => 'profile',
-			'screen_function' => 'xprofile_screen_display_profile',
-			'position' => 10
+			'parent_slug' => $bp->core->profile->slug,
+			'screen_function' => 'bp_core_catch_profile_uri'
 		) );
+		
 
 		if ( 'profile' == $bp->current_component ) {
 			if ( bp_is_home() ) {

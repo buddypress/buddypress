@@ -127,7 +127,7 @@
 			<?php do_action( 'bp_before_profile_wire_loop' ); /* Deprecated -> */ do_action( 'bp_custom_profile_boxes' ) ?>
 
 			<?php /* Profile Wire Loop - uses [TEMPLATEPATH]/wire/post-list.php */ ?>
-			<?php if ( function_exists('bp_wire_get_post_list') ) : ?>
+			<?php if ( function_exists('bp_wire_get_post_list') && function_exists( 'xprofile_install' ) ) : ?>
 
 				<?php do_action( 'bp_before_profile_wire_widget' ) ?>
 

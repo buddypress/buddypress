@@ -79,7 +79,7 @@ function bp_dtheme_ajax_invite_user() {
 	
 	if ( 'invite' == $_POST['friend_action'] ) {
 				
-		if ( !groups_invite_user( $_POST['friend_id'], $_POST['group_id'] ) )
+		if ( !groups_invite_user( array( 'user_id' => $_POST['friend_id'], 'group_id' => $_POST['group_id'] ) ) )
 			return false;
 		
 		$user = new BP_Core_User( $_POST['friend_id'] );

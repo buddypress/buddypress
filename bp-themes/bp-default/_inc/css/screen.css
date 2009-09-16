@@ -1971,11 +1971,11 @@ table#message-threads span.unread-count {
 
 /**** PROFILES ************************/
 
-table.profile-fields tr.alt {
+table.profile-fields tr.alt, table.wp-profile-fields tr.alt {
 	background: #f0f0f0;
 }
 
-table.profile-fields tr td.label {
+table.profile-fields tr td.label, table.wp-profile-fields tr td.label {
 	border-right: 1px solid #dadada;
 	font-weight: bold;
 }
@@ -1984,14 +1984,14 @@ td.data p {
 	margin: 0.2em 0;
 }
 
-table.profile-fields {
+table.profile-fields, table.wp-profile-fields {
 	width: 100%;
 }
-	table.profile-fields tr td {
+	table.profile-fields tr td, table.wp-profile-fields tr td {
 		padding: 0.5em 1em;
 	}
 	
-	table.profile-fields tr td.label {
+	table.profile-fields tr td.label, table.wp-profile-fields tr td.label {
 		width: 130px;
 	}
 
