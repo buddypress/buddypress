@@ -38,8 +38,8 @@ function bp_forums_bbpress_install_wizard() {
 					_e( 'The bb-config.php file was not found at that location, please try again.', 'buddypress' );
 				} else {
 					?>
-					<h3><?php _e( 'Forums were set up correctly using your existing bbPress install!') ?></h3>
-					<p><?php _e( 'BuddyPress will now use its internal copy of bbPress to run the forums on your site. If you wish, you can remove your old bbPress installation files, as long as you keep the bb-config.php file in the same location.' ) ?></p><?php
+					<h3><?php _e( 'Forums were set up correctly using your existing bbPress install!', 'buddypress' ) ?></h3>
+					<p><?php _e( 'BuddyPress will now use its internal copy of bbPress to run the forums on your site. If you wish, you can remove your old bbPress installation files, as long as you keep the bb-config.php file in the same location.', 'buddypress' ) ?></p><?php
 				}
 			} else {
 				?>
@@ -66,7 +66,7 @@ function bp_forums_bbpress_install_wizard() {
 						break;
 					default:
 						// Just write the contents to screen
-						_e( 'A configuration file could not be created. No problem, but you will need to save the text shown below into a file named <code>bb-config.php</code> in the root directory of your WordPress installation before you can start using the forum functionality.' );
+						_e( 'A configuration file could not be created. No problem, but you will need to save the text shown below into a file named <code>bb-config.php</code> in the root directory of your WordPress installation before you can start using the forum functionality.', 'buddypress' );
 						?><code style="display:block; margin-top: 30px;"><pre><?php echo htmlspecialchars( $result ) ?></pre></code><?php
 						break;
 				}
@@ -80,13 +80,19 @@ function bp_forums_bbpress_install_wizard() {
 			}
 		break;
 	
-		default: ?>
-			<p><?php _e( 'Forums in BuddyPress make use of a bbPress installation to function. You can choose to either let BuddyPress set up a new bbPress install, or use an already existing bbPress install. Please choose one of the options below.', 'buddypress' ) ?></p>
+		default: 
+			if ( !file_exists( BP_PLUGIN_DIR . '/bp-forums/bbpress/' ) ) { ?>
+				<div id="message" class="error">
+					<p><?php printf( __( 'bbPress files were not found. To install the forums component you must download a copy of bbPress and make sure it is in the folder: "%s"', 'buddypress' ), 'wp-content/plugins/buddypress/bp-forums/bbpress/' ) ?></p>
+				</div>
+			<?php } else { ?>
 			
-			<a class="button" href="<?php echo $post_url . '&step=new' ?>"><?php _e( 'Set up a new bbPress installation', 'buddypress' ) ?></a> &nbsp;
-			<a class="button" href="<?php echo $post_url . '&step=existing' ?>"><?php _e( 'Use an existing bbPress installation', 'buddypress' ) ?></a>
+				<p><?php _e( 'Forums in BuddyPress make use of a bbPress installation to function. You can choose to either let BuddyPress set up a new bbPress install, or use an already existing bbPress install. Please choose one of the options below.', 'buddypress' ) ?></p>
+			
+				<a class="button" href="<?php echo $post_url . '&step=new' ?>"><?php _e( 'Set up a new bbPress installation', 'buddypress' ) ?></a> &nbsp;
+				<a class="button" href="<?php echo $post_url . '&step=existing' ?>"><?php _e( 'Use an existing bbPress installation', 'buddypress' ) ?></a>
 
-		<?php 
+			<?php } 
 		break;
 	}
 }
