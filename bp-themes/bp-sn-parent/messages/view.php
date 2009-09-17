@@ -28,7 +28,7 @@
 						
 						<?php do_action( 'bp_before_message_meta' ) ?>
 						
-						<?php bp_the_thread_message_sender_avatar( 'type=thumb' ) ?>
+						<?php bp_the_thread_message_sender_avatar( 'type=thumb&width=30&height=30' ) ?>
 						<h3><a href="<?php bp_the_thread_message_sender_link() ?>" title="<?php bp_the_thread_message_sender_name() ?>"><?php bp_the_thread_message_sender_name() ?></a></h3>
 						
 						<small>
@@ -68,7 +68,7 @@
 						<?php do_action( 'bp_before_message_meta' ) ?>					
 						
 						<div class="avatar-box">
-							<?php echo bp_core_fetch_avatar( array( 'item_id' => bp_loggedin_user_id(), 'type' => 'thumb' ) ); ?>
+							<?php echo bp_core_fetch_avatar( array( 'item_id' => bp_loggedin_user_id(), 'type' => 'thumb', 'width' => 30, 'height' => 30 ) ); ?>
 
 							<h3><?php _e( 'Reply: ', 'buddypress' ) ?></h3>
 						</div>

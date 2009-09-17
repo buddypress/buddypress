@@ -681,7 +681,7 @@ function bp_group_list_mods( $full_list = true, $group = false ) {
 			<ul id="group-mods" class="mods-list">
 			<?php for ( $i = 0; $i < count($group_mods); $i++ ) { ?>
 				<li>
-					<a href="<?php echo bp_core_get_userlink( $group_mods[$i]->user_id, false, true ) ?>" title="<?php echo bp_core_get_user_displayname( $group_mods[$i]->user->user_id ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $group_mods[$i]->user_id, 'type' => 'thumb' ) ) ?></a>
+					<a href="<?php echo bp_core_get_userlink( $group_mods[$i]->user_id, false, true ) ?>" title="<?php echo bp_core_get_user_displayname( $group_mods[$i]->user->user_id ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $group_mods[$i]->user_id, 'type' => 'thumb', 'width' => 30, 'height' => 30 ) ) ?></a>
 					<h5><?php echo bp_core_get_userlink( $group_mods[$i]->user_id ) ?></h5>
 					<span class="activity"><?php _e( 'Group Mod', 'buddypress' ) ?></span>
 					<div class="clear"></div>

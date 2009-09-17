@@ -241,8 +241,10 @@ div.content-header {
 		padding: 1em 1.5em 1em 1em;
 	}
 		#userbar form input {
-			width: 100%;
+			width: 95%;
 		}
+			#userbar form input#rememberme { width: auto; }
+			#userbar form input#wp-submit { width: auto; }
 	
 	#userbar ul#bp-nav {
 		width: 149px;
@@ -575,7 +577,7 @@ a.page-numbers:hover { background: #e1e1e1; }
 	font-size: 0.9em;
 	color: #888;
 	float: left;
-	width: 40%;
+	width: 60%;
 }
 
 /*** Feedback Messages *******************************************************/
@@ -828,6 +830,7 @@ span.activity, .message-metadata small {
 	border-bottom: 1px solid #FFE8C4;
 	display: inline-block;
 	font: normal 0.9em "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif !important;
+	max-width: 60%;
 }
 
 div.avatar-block {
