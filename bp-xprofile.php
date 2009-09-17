@@ -781,6 +781,8 @@ function xprofile_delete_field_group( $field_group_id ) {
 /*** Field Management *********************************************************/
 
 function xprofile_insert_field( $args = '' ) {
+	global $bp;
+	
 	extract( $args );
 	
 	/**
@@ -804,7 +806,7 @@ function xprofile_insert_field( $args = '' ) {
 		return false;
 	
 	/* Check this is a valid field type */
-	if ( !in_array( $type, $bp->profile->field_types ) )
+	if ( !in_array( (array) $type, $bp->profile->field_types ) )
 		return false;
 	
 	/* Instantiate a new field object */
