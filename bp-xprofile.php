@@ -806,7 +806,7 @@ function xprofile_insert_field( $args = '' ) {
 		return false;
 	
 	/* Check this is a valid field type */
-	if ( !in_array( (array) $type, $bp->profile->field_types ) )
+	if ( !in_array( $type, (array) $bp->profile->field_types ) )
 		return false;
 	
 	/* Instantiate a new field object */
