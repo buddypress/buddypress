@@ -472,7 +472,7 @@ Class BP_XProfile_Field {
 						<a href="admin.php?page=<?php echo BP_PLUGIN_DIR ?>/bp-xprofile.php&amp;mode=delete_option&amp;option_id=<?php echo $options[$i]->id ?>" class="ajax-option-delete" id="delete-<?php echo $options[$i]->id ?>">[x]</a></p>
 						</p>
 					<?php } // end for ?>
-					<input type="hidden" name="<?php echo $type ?>_option_number" id="<?php echo $type ?>_option_number" value="<?php echo $j ?>" />
+					<input type="hidden" name="<?php echo $type ?>_option_number" id="<?php echo $type ?>_option_number" value="<?php echo $j + 1 ?>" />
 				
 				<?php 
 				} else { 
