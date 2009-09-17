@@ -283,7 +283,7 @@ function bp_dtheme_ajax_send_reply() {
 			</div>
 		<?php
 	} else {
-		echo "-1[[split]]" . __( 'There was a problem sending that reply. Please try again.'. 'buddypress' );;
+		echo "-1[[split]]" . __( 'There was a problem sending that reply. Please try again.', 'buddypress' );
 	}
 }
 add_action( 'wp_ajax_messages_send_reply', 'bp_dtheme_ajax_send_reply' );
