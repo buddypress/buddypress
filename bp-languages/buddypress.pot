@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-09-16 14:11+0000\n"
+"POT-Creation-Date: 2009-09-17 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -404,118 +404,118 @@ msgstr ""
 msgid "Component Setup"
 msgstr ""
 
-#: bp-core.php:329 bp-forums/bbpress/bb-includes/functions.bb-template.php:222
+#: bp-core.php:338 bp-forums/bbpress/bb-includes/functions.bb-template.php:222
 #: bp-forums/bbpress/bb-templates/kakumei/profile.php:3 bp-xprofile.php:205
 #: bp-xprofile.php:444
 msgid "Profile"
 msgstr ""
 
-#: bp-core.php:336 bp-groups/bp-groups-templatetags.php:596
+#: bp-core.php:349 bp-groups/bp-groups-templatetags.php:596
 #: bp-xprofile.php:210
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:346 bp-core/bp-core-templatetags.php:318 bp-xprofile.php:216
+#: bp-core.php:359 bp-core/bp-core-templatetags.php:318 bp-xprofile.php:216
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:443
+#: bp-core.php:456
 msgid "User marked as spammer. Spam users are visible only to site admins."
 msgstr ""
 
-#: bp-core.php:445
+#: bp-core.php:458
 msgid "User removed as spammer."
 msgstr ""
 
-#: bp-core.php:472
+#: bp-core.php:485
 #, php-format
 msgid "%s has been deleted from the system."
 msgstr ""
 
-#: bp-core.php:474
+#: bp-core.php:487
 #, php-format
 msgid "There was an error deleting %s from the system. Please try again."
 msgstr ""
 
-#: bp-core.php:887 bp-wire/bp-wire-templatetags.php:339
+#: bp-core.php:900 bp-wire/bp-wire-templatetags.php:339
 msgid "You"
 msgstr ""
 
-#: bp-core.php:968
+#: bp-core.php:981
 #, php-format
 msgid "%s's"
 msgstr ""
 
-#: bp-core.php:1113 bp-core/bp-core-templatetags.php:401
+#: bp-core.php:1126 bp-core/bp-core-templatetags.php:401
 #: bp-themes/deprecated/bphome/comments.php:42
 msgid "at"
 msgstr ""
 
-#: bp-core.php:1218
+#: bp-core.php:1231
 msgid "year"
 msgstr ""
 
-#: bp-core.php:1218
+#: bp-core.php:1231
 msgid "years"
 msgstr ""
 
-#: bp-core.php:1219
+#: bp-core.php:1232
 msgid "month"
 msgstr ""
 
-#: bp-core.php:1219
+#: bp-core.php:1232
 msgid "months"
 msgstr ""
 
-#: bp-core.php:1220
+#: bp-core.php:1233
 msgid "week"
 msgstr ""
 
-#: bp-core.php:1220
+#: bp-core.php:1233
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:1221
+#: bp-core.php:1234
 msgid "day"
 msgstr ""
 
-#: bp-core.php:1221
+#: bp-core.php:1234
 msgid "days"
 msgstr ""
 
-#: bp-core.php:1222
+#: bp-core.php:1235
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:1222 bp-forums/bbpress/bb-admin/options-general.php:116
+#: bp-core.php:1235 bp-forums/bbpress/bb-admin/options-general.php:116
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:1223
+#: bp-core.php:1236
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:1223 bp-forums/bbpress/bb-admin/options-writing.php:40
+#: bp-core.php:1236 bp-forums/bbpress/bb-admin/options-writing.php:40
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:1224
+#: bp-core.php:1237
 msgid "second"
 msgstr ""
 
-#: bp-core.php:1224 bp-core.php:1272
+#: bp-core.php:1237 bp-core.php:1285
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1237
+#: bp-core.php:1250
 msgid "[Use GMT Timezone]"
 msgstr ""
 
-#: bp-core.php:1267
+#: bp-core.php:1280
 msgid ",|Separator in time since"
 msgstr ""
 
-#: bp-core.php:1316
+#: bp-core.php:1329
 msgid "not recently active"
 msgstr ""
 
@@ -900,7 +900,7 @@ msgstr ""
 msgid "Upload Failed! Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-catchuri.php:248
+#: bp-core/bp-core-catchuri.php:246
 msgid ""
 "This user has been marked as a spammer. Only site admins can view this "
 "profile."
@@ -1158,7 +1158,7 @@ msgstr ""
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:65
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:66
 #: bp-forums/bbpress/bb-templates/kakumei/front-page.php:48
-#: bp-forums/bp-forums-admin.php:153 bp-themes/bp-sn-parent/header.php:90
+#: bp-forums/bp-forums-admin.php:159 bp-themes/bp-sn-parent/header.php:90
 msgid "Forums"
 msgstr ""
 
@@ -1615,7 +1615,11 @@ msgstr ""
 msgid "Remember Me"
 msgstr ""
 
-#: bp-forums.php:71 bp-forums/bp-forums-admin.php:8
+#: bp-forums.php:54
+msgid "The forums component has not been set up yet."
+msgstr ""
+
+#: bp-forums.php:76 bp-forums/bp-forums-admin.php:8
 msgid "Forums Setup"
 msgstr ""
 
@@ -6781,18 +6785,25 @@ msgid ""
 "\t\t\t\tprocess. When you're ready, hit the link below."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:84
+#: bp-forums/bp-forums-admin.php:86
+#, php-format
+msgid ""
+"bbPress files were not found. To install the forums component you must "
+"download a copy of bbPress and make sure it is in the folder: \"%s\""
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:90
 msgid ""
 "Forums in BuddyPress make use of a bbPress installation to function. You can "
 "choose to either let BuddyPress set up a new bbPress install, or use an "
 "already existing bbPress install. Please choose one of the options below."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:86
+#: bp-forums/bp-forums-admin.php:92
 msgid "Set up a new bbPress installation"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:87
+#: bp-forums/bp-forums-admin.php:93
 msgid "Use an existing bbPress installation"
 msgstr ""
 
@@ -7102,7 +7113,7 @@ msgstr ""
 msgid "Request Membership"
 msgstr ""
 
-#: bp-groups.php:280 bp-wire.php:37 bp-wire/bp-wire-templatetags.php:145
+#: bp-groups.php:280 bp-wire.php:41 bp-wire/bp-wire-templatetags.php:145
 #: bp-xprofile.php:724 bp-xprofile.php:727
 msgid "Wire"
 msgstr ""
@@ -7129,7 +7140,7 @@ msgstr ""
 msgid "Group invite accepted"
 msgstr ""
 
-#: bp-groups.php:349 bp-groups.php:1789 bp-groups.php:2420
+#: bp-groups.php:349 bp-groups.php:1789 bp-groups.php:2434
 #, php-format
 msgid "%s joined the group %s"
 msgstr ""
@@ -9593,7 +9604,7 @@ msgid "%s hasn't done anything recently."
 msgstr ""
 
 #: bp-themes/bp-sn-parent/profile/index.php:134
-#: bp-themes/deprecated/bpmember/profile/index.php:104 bp-wire.php:46
+#: bp-themes/deprecated/bpmember/profile/index.php:104 bp-wire.php:50
 msgid "My Wire"
 msgstr ""
 
@@ -9974,7 +9985,7 @@ msgstr ""
 msgid "Back to Forum"
 msgstr ""
 
-#: bp-wire.php:42
+#: bp-wire.php:46
 msgid "All Posts"
 msgstr ""
 
