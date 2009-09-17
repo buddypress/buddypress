@@ -74,7 +74,7 @@ function friends_setup_nav() {
 	
 	/* Add the subnav items to the friends nav item */
 	bp_core_new_subnav_item( array( 'name' => __( 'My Friends', 'buddypress' ), 'slug' => 'my-friends', 'parent_url' => $friends_link, 'parent_slug' => $bp->friends->slug, 'screen_function' => 'friends_screen_my_friends', 'position' => 10, 'item_css_id' => 'friends-my-friends' ) );
-	bp_core_new_subnav_item( array( 'name' => __( 'Requests', 'buddypress' ), 'slug' => 'requests', 'parent_url' => $friends_link, 'parent_slug' => $bp->friends->slug, 'screen_function' => 'friends_screen_requests', 'position' => 20 ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Requests', 'buddypress' ), 'slug' => 'requests', 'parent_url' => $friends_link, 'parent_slug' => $bp->friends->slug, 'screen_function' => 'friends_screen_requests', 'position' => 20, 'user_has_access' => bp_is_home() ) );
 	
 	if ( $bp->current_component == $bp->friends->slug ) {
 		if ( bp_is_home() ) {
