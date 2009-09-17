@@ -815,7 +815,7 @@ function xprofile_insert_field( $args = '' ) {
 	else
 		$field = new BP_XProfile_Field;
 
-	$field->field_group_id = $field_group_id;
+	$field->group_id = $field_group_id;
 	
 	if ( !empty( $parent_id ) )
 		$field->parent_id = $parent_id;
