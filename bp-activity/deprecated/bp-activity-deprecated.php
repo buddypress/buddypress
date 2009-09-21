@@ -68,6 +68,19 @@ function bp_activity_delete( $item_id, $component_name, $component_action, $user
 	return true;
 }
 
+/* DEPRECATED - use the activity template loop directly */
+function bp_activity_get_list( $user_id, $title, $no_activity, $limit = false ) {
+	global $bp_activity_user_id, $bp_activity_limit, $bp_activity_title, $bp_activity_no_activity;
+	
+	$bp_activity_user_id = $user_id;
+	$bp_activity_limit = $limit;
+	$bp_activity_title = $title;
+	$bp_activity_no_activity = $no_activity;
+	
+	locate_template( array( '/activity/activity-list.php' ), true );
+}
+
+
 /* DEPRECATED - Structural CSS is now theme based. */
 function bp_activity_add_structure_css() {
 	/* If we are using a BuddyPress 1.1+ theme ignore this. */
