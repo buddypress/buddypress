@@ -7,7 +7,9 @@ if ( !defined( 'BP_FORUMS_PARENT_FORUM_ID' ) )
 if ( !defined( 'BP_FORUMS_SLUG' ) )
 	define( 'BP_FORUMS_SLUG', 'forums' );
 
-require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-bbpress.php' );
+if ( !defined( 'BB_PATH' ) )
+	require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-bbpress.php' );
+
 require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-classes.php' );
 require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-filters.php' );
