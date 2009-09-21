@@ -121,8 +121,8 @@ function bp_core_add_cropper_inline_js() {
 
 		function showPreview(coords) {
 			if ( parseInt(coords.w) > 0 ) {
-				var rx = 100 / coords.w;
-				var ry = 100 / coords.h;
+				var rx = <?php echo (int) constant( 'BP_AVATAR_FULL_WIDTH' ) ?> / coords.w;
+				var ry = <?php echo (int) constant( 'BP_AVATAR_FULL_HEIGHT' ) ?> / coords.h;
 
 				jQuery('#avatar-crop-preview').css({
 					width: Math.round(rx * <?php echo $image[0] ?>) + 'px',
