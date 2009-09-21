@@ -202,7 +202,7 @@ function xprofile_setup_nav() {
 	global $bp;
 	
 	/* Add 'Profile' to the main navigation */
-	bp_core_new_nav_item( array( 'name' => __('Profile', 'buddypress'), 'slug' => $bp->profile->slug, 'position' => 20, 'screen_function' => 'xprofile_screen_display_profile', 'default_subnav_slug' => 'public', 'item_css_id' => $bp->profile->id ) );
+	bp_core_new_nav_item( array( 'name' => __( 'Profile', 'buddypress' ), 'slug' => $bp->profile->slug, 'position' => 20, 'screen_function' => 'xprofile_screen_display_profile', 'default_subnav_slug' => 'public', 'item_css_id' => $bp->profile->id ) );
 
 	$profile_link = $bp->loggedin_user->domain . $bp->profile->slug . '/';
 	
@@ -213,7 +213,7 @@ function xprofile_setup_nav() {
 
 	if ( $bp->current_component == $bp->profile->slug ) {
 		if ( bp_is_home() ) {
-			$bp->bp_options_title = __('My Profile', 'buddypress');
+			$bp->bp_options_title = __( 'My Profile', 'buddypress' );
 		} else {
 			$bp->bp_options_avatar = bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => 'thumb' ) );
 			$bp->bp_options_title = $bp->displayed_user->fullname; 

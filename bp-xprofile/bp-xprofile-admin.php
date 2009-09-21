@@ -219,9 +219,14 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 			$field->desc = wp_filter_kses( $_POST['description'] );
 			$field->is_required = wp_filter_kses( $_POST['required'] );
 			$field->type = wp_filter_kses( $_POST['fieldtype'] );
-			$field->order_by = wp_filter_kses( $_POST["sort_order_$field->type"] );
-			$field->field_order = (int) $wpdb->get_var( $wpdb->prepare( "SELECT max(field_order) FROM {$bp->profile->table_name_fields} WHERE group_id = %d", $group_id ) );
-			$field->field_order++;
+			$field->order_by = wp_filter_kses( $_POST["sort_order_{$field->type}"] );
+
+			$field->field_order = $wpdb->get_var( $wpdb->prepare( "SELECT field_order FROM {$bp->profile->table_name_fields} WHERE id = %d", $field_id ) );
+
+			if ( !$field->field_order ) {
+				$field->field_order = (int) $wpdb->get_var( $wpdb->prepare( "SELECT max(field_order) FROM {$bp->profile->table_name_fields} WHERE group_id = %d", $group_id ) );
+				$field->field_order++;
+			}
 			
 			if ( !$field->save() ) {
 				$message = __('There was an error saving the field. Please try again', 'buddypress');

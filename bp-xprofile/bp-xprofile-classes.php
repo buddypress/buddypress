@@ -231,9 +231,13 @@ Class BP_XProfile_Field {
 	function delete() {
 		global $wpdb, $bp;
 		
-		if ( !$this->id )
+		if ( !$this->id ||
+			// Prevent deletion by url when can_delete is false.
+			!$this->can_delete ||
+			// Prevent deletion of option 1 since this invalidates fields with options.
+			( $this->parent_id && $this->option_order == 1 ) )
 			return false;
-			
+
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_fields} WHERE id = %d OR parent_id = %d", $this->id, $this->id ) ) )
 			return false;
 		
@@ -264,7 +268,9 @@ Class BP_XProfile_Field {
 		else
 			$sql = $wpdb->prepare("INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, order_by, field_order ) VALUES (%d, 0, %s, %s, %s, %d, %s, %d )", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->order_by, $this->field_order );
 
-		if ( $wpdb->query($sql) ) {
+		// Check for null so field options can be changed without changing any other part of the field.
+		// The described situation will return 0 here.
+		if ( $wpdb->query($sql) !== null ) {
 			
 			// Only do this if we are editing an existing field
 			if ( $this->id != null ) {
@@ -456,11 +462,25 @@ Class BP_XProfile_Field {
 					</select>
 	
 				<?php
-				$options = $this->get_children(true);
-				
+				if ( !$options = $this->get_children(true) ) {
+					$i = 1;
+					while ( isset( $_POST[$type . '_option'][$i] ) ) {
+						(array) $options[] = (object) array(
+							'id' => -1,
+							'name' => $_POST[$type . '_option'][$i],
+							'is_default_option' => ( 'multiselectbox' != $type &&
+								'checkbox' != $type &&
+								$_POST["isDefault_{$type}_option"] == $i ) ?
+									1 :
+									$_POST["isDefault_{$type}_option"][$i]
+						);
+
+						$i++;
+					}
+				}
+
 				if ( !empty($options) ) {
 					for ( $i = 0; $i < count($options); $i++ ) { 
-						//var_dump($options[$i]);
 						$j = $i + 1;
 						
 						if ( 'multiselectbox' == $type || 'checkbox' == $type )
@@ -468,20 +488,21 @@ Class BP_XProfile_Field {
 					?>
 						<p><?php _e('Option', 'buddypress') ?> <?php echo $j ?>: 
 						   <input type="text" name="<?php echo $type ?>_option[<?php echo $j ?>]" id="<?php echo $type ?>_option<?php echo $j ?>" value="<?php echo attribute_escape( $options[$i]->name ) ?>" />
-						   <input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" <?php if ( (int) $options[$i]->is_default_option ) {?> checked="checked"<?php } ?> " value="<?php echo $j ?>" /> <?php _e( 'Default Value', 'buddypress' ) ?> 
-						<a href="admin.php?page=<?php echo BP_PLUGIN_DIR ?>/bp-xprofile.php&amp;mode=delete_option&amp;option_id=<?php echo $options[$i]->id ?>" class="ajax-option-delete" id="delete-<?php echo $options[$i]->id ?>">[x]</a></p>
+						   <input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name ?>" <?php if ( (int) $options[$i]->is_default_option ) {?> checked="checked"<?php } ?> " value="<?php echo $j ?>" /> <?php _e( 'Default Value', 'buddypress' ) ?> 
+							<?php if ( $j != 1 &&
+								$options[$i]->id != -1 ) : ?><a href="admin.php?page=<?php echo BP_PLUGIN_DIR ?>/bp-xprofile.php&amp;mode=delete_option&amp;option_id=<?php echo $options[$i]->id ?>" class="ajax-option-delete" id="delete-<?php echo $options[$i]->id ?>">[x]</a><?php endif ?></p>
 						</p>
 					<?php } // end for ?>
 					<input type="hidden" name="<?php echo $type ?>_option_number" id="<?php echo $type ?>_option_number" value="<?php echo $j + 1 ?>" />
 				
 				<?php 
 				} else { 
-					if ( 'multiselectbox' == $type || 'checkxbox' == $type )
+					if ( 'multiselectbox' == $type || 'checkbox' == $type )
 						$default_name = '[1]';
 				?>
 					
 					<p><?php _e('Option', 'buddypress') ?> 1: <input type="text" name="<?php echo $type ?>_option[1]" id="<?php echo $type ?>_option1" />
-					<input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" id="isDefault_<?php echo $type ?>_option" <?php if ( (int) $options[$i]->is_default_option ) {?> checked="checked"<?php } ?>" value="1" /> <?php _e( 'Default Value', 'buddypress' ) ?>
+					<input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" id="isDefault_<?php echo $type ?>_option" <?php if ( $default_input == 'radio' ) {?> checked="checked"<?php } ?>" value="1" /> <?php _e( 'Default Value', 'buddypress' ) ?>
 					<input type="hidden" name="<?php echo $type ?>_option_number" id="<?php echo $type ?>_option_number" value="2" />
 				
 				<?php } // end if ?>
@@ -496,10 +517,15 @@ Class BP_XProfile_Field {
 		if ( !$this->id ) {
 			$title = __('Add Field', 'buddypress');
 			$action = "admin.php?page=" . BP_PLUGIN_DIR . "/bp-xprofile.php&amp;group_id=" . $this->group_id . "&amp;mode=add_field";
+
+			$this->name			= $_POST['title'];
+			$this->desc			= $_POST['description'];
+			$this->is_required	= $_POST['required'];
+			$this->type			= $_POST['fieldtype'];
+			$this->order_by		= $_POST["sort_order_{$this->type}"];
 		} else {
 			$title = __('Edit Field', 'buddypress');
 			$action = "admin.php?page=" . BP_PLUGIN_DIR . "/bp-xprofile.php&amp;mode=edit_field&amp;group_id=" . $this->group_id . "&amp;field_id=" . $this->id;			
-			$options = $this->get_children();
 		}
 	?>
 	
@@ -528,7 +554,7 @@ Class BP_XProfile_Field {
 				<div id="titlediv" class="inside">
 					<h3><label for="description"><?php _e("Field Description", 'buddypress') ?></label></h3>
 					<div id="titlewrap">
-						<textarea name="description" id="description" rows="8" cols="60"> <?php echo htmlspecialchars( $this->desc ); ?></textarea>
+						<textarea name="description" id="description" rows="8" cols="60"><?php echo htmlspecialchars( $this->desc ); ?></textarea>
 					</div>
 				</div>
 	
