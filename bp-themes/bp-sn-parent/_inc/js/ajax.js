@@ -1,23 +1,25 @@
 jQuery(document).ready( function() {
-	jQuery("ul#letter-list li a").livequery('click',
+	var j = jQuery;
+
+	j("div#members-directory-page ul#letter-list li a").livequery('click',
 		function() { 
-			jQuery('.ajax-loader').toggle();
+			j('.ajax-loader').toggle();
 
-			jQuery("div#members-list-options a.selected").removeClass("selected"); 
-			jQuery("#letter-list li a.selected").removeClass("selected"); 
+			j("div#members-list-options a.selected").removeClass("selected"); 
+			j("#letter-list li a.selected").removeClass("selected"); 
 
-			jQuery(this).addClass('selected');
-			jQuery("input#members_search").val('');
+			j(this).addClass('selected');
+			j("input#members_search").val('');
 			
-			var letter = jQuery(this).attr('id')
+			var letter = j(this).attr('id')
 			letter = letter.split('-');
 			
-			var page = ( jQuery('input#members-page-num').val() ) ? jQuery('input#members-page-num').val() : 1;
+			var page = ( j('input#members-page-num').val() ) ? j('input#members-page-num').val() : 1;
 
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'directory_members',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce-member-filter").val(),
+				'_wpnonce': j("input#_wpnonce-member-filter").val(),
 				'letter': letter[1],
 				'page': page
 			},
@@ -25,11 +27,11 @@ jQuery(document).ready( function() {
 			{
 				response = response.substr(0, response.length-1);
 				
-				jQuery("#member-dir-list").fadeOut(200, 
+				j("#member-dir-list").fadeOut(200, 
 					function() {
-						jQuery('.ajax-loader').toggle();
-						jQuery("#member-dir-list").html(response);
-						jQuery("#member-dir-list").fadeIn(200);
+						j('.ajax-loader').toggle();
+						j("#member-dir-list").html(response);
+						j("#member-dir-list").fadeIn(200);
 					}
 				);
 			});
@@ -38,27 +40,27 @@ jQuery(document).ready( function() {
 		}
 	);
 	
-	jQuery("form#search-members-form").submit( function() { 
-			jQuery('.ajax-loader').toggle();
+	j("form#search-members-form").submit( function() { 
+			j('.ajax-loader').toggle();
 
-			var page = ( jQuery('input#members-page-num').val() ) ? jQuery('input#members-page-num').val() : 1;
+			var page = ( j('input#members-page-num').val() ) ? j('input#members-page-num').val() : 1;
 
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'directory_members',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce-member-filter").val(),
-				's': jQuery("input#members_search").val(),
+				'_wpnonce': j("input#_wpnonce-member-filter").val(),
+				's': j("input#members_search").val(),
 				'page': page
 			},
 			function(response)
 			{	
 				response = response.substr(0, response.length-1);
 				
-				jQuery("#member-dir-list").fadeOut(200, 
+				j("#member-dir-list").fadeOut(200, 
 					function() {
-						jQuery('.ajax-loader').toggle();
-						jQuery("#member-dir-list").html(response);
-						jQuery("#member-dir-list").fadeIn(200);
+						j('.ajax-loader').toggle();
+						j("#member-dir-list").html(response);
+						j("#member-dir-list").fadeIn(200);
 					}
 				);
 			});
@@ -67,29 +69,29 @@ jQuery(document).ready( function() {
 		}
 	);
 	
-	jQuery("div#member-dir-pag a").livequery('click',
+	j("div#member-dir-pag a").livequery('click',
 		function() { 
-			jQuery('.ajax-loader').toggle();
+			j('.ajax-loader').toggle();
 
-			var page = jQuery(this).attr('href');
+			var page = j(this).attr('href');
 			page = page.split('upage=');
 			
-			if ( !jQuery("input#selected_letter").val() )
+			if ( !j("input#selected_letter").val() )
 				var letter = '';
 			else
-				var letter = jQuery("input#selected_letter").val();
+				var letter = j("input#selected_letter").val();
 						
-			if ( !jQuery("input#search_terms").val() )
+			if ( !j("input#search_terms").val() )
 				var search_terms = '';
 			else
-				var search_terms = jQuery("input#search_terms").val();
+				var search_terms = j("input#search_terms").val();
 			
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'directory_members',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce").val(),
+				'_wpnonce': j("input#_wpnonce").val(),
 				'upage': page[1],
-				'_wpnonce': jQuery("input#_wpnonce-member-filter").val(),
+				'_wpnonce': j("input#_wpnonce-member-filter").val(),
 				
 				'letter': letter,
 				's': search_terms
@@ -98,11 +100,11 @@ jQuery(document).ready( function() {
 			{	
 				response = response.substr(0, response.length-1);
 				
-				jQuery("#member-dir-list").fadeOut(200, 
+				j("#member-dir-list").fadeOut(200, 
 					function() {
-						jQuery('.ajax-loader').toggle();
-						jQuery("#member-dir-list").html(response);
-						jQuery("#member-dir-list").fadeIn(200);
+						j('.ajax-loader').toggle();
+						j("#member-dir-list").html(response);
+						j("#member-dir-list").fadeIn(200);
 					}
 				);
 			});
@@ -111,21 +113,21 @@ jQuery(document).ready( function() {
 		}
 	);
 	
-	jQuery("div.friendship-button a").livequery('click',
+	j("div.friendship-button a").livequery('click',
 		function() {
-			jQuery(this).parent().addClass('loading');
-			var fid = jQuery(this).attr('id');
+			j(this).parent().addClass('loading');
+			var fid = j(this).attr('id');
 			fid = fid.split('-');
 			fid = fid[1];
 		
-			var nonce = jQuery(this).attr('href');
+			var nonce = j(this).attr('href');
 			nonce = nonce.split('?_wpnonce=');
 			nonce = nonce[1].split('&');
 			nonce = nonce[0];
 
-			var thelink = jQuery(this);
+			var thelink = j(this);
 
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'addremove_friend',
 				'cookie': encodeURIComponent(document.cookie),
 				'fid': fid,
@@ -139,7 +141,7 @@ jQuery(document).ready( function() {
 				var parentdiv = thelink.parent();
 			
 				if ( action == 'add' ) {
-					jQuery(parentdiv).fadeOut(200, 
+					j(parentdiv).fadeOut(200, 
 						function() {
 							parentdiv.removeClass('add_friend');
 							parentdiv.removeClass('loading');
@@ -149,7 +151,7 @@ jQuery(document).ready( function() {
 					);
 
 				} else if ( action == 'remove' ) {
-					jQuery(parentdiv).fadeOut(200, 
+					j(parentdiv).fadeOut(200, 
 						function() {
 							parentdiv.removeClass('remove_friend');
 							parentdiv.removeClass('loading');
@@ -163,30 +165,30 @@ jQuery(document).ready( function() {
 		}
 	);
 
-	jQuery("div#wire-pagination a").livequery('click',
+	j("div#wire-pagination a").livequery('click',
 		function() { 
-			jQuery('.ajax-loader').toggle();
+			j('.ajax-loader').toggle();
 
-			var fpage = jQuery(this).attr('href');
+			var fpage = j(this).attr('href');
 			fpage = fpage.split('=');
 
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'get_wire_posts',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce").val(),
+				'_wpnonce': j("input#_wpnonce").val(),
 				'wpage': fpage[1],
-				'bp_wire_item_id': jQuery("input#bp_wire_item_id").val()
+				'bp_wire_item_id': j("input#bp_wire_item_id").val()
 			},
 			function(response)
 			{	
-				jQuery('.ajax-loader').toggle();
+				j('.ajax-loader').toggle();
 			
 				response = response.substr(0, response.length-1);
 
-				jQuery("#wire-post-list-content").fadeOut(200, 
+				j("#wire-post-list-content").fadeOut(200, 
 					function() {
-						jQuery("#wire-post-list-content").html(response);
-						jQuery("#wire-post-list-content").fadeIn(200);
+						j("#wire-post-list-content").html(response);
+						j("#wire-post-list-content").fadeIn(200);
 					}
 				);
 
@@ -197,31 +199,31 @@ jQuery(document).ready( function() {
 		}
 	);
 
-	jQuery("div#pag a").livequery('click',
+	j("div#pag a").livequery('click',
 		function() { 
-			jQuery('.ajax-loader').toggle();
+			j('.ajax-loader').toggle();
 
-			var frpage = jQuery(this).attr('href');
+			var frpage = j(this).attr('href');
 			frpage = frpage.split('=');
 
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'friends_search',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce_friend_search").val(),
-				'initiator_id': jQuery("input#initiator").val(),
+				'_wpnonce': j("input#_wpnonce_friend_search").val(),
+				'initiator_id': j("input#initiator").val(),
 				'frpage': frpage[1],
 
-				'friend-search-box': jQuery("#friend-search-box").val()
+				'friend-search-box': j("#friend-search-box").val()
 			},
 			function(response)
 			{	
 				response = response.substr( 0, response.length - 1 );
 
-				jQuery("div#friends-loop").fadeOut(200, 
+				j("div#friends-loop").fadeOut(200, 
 					function() {
-						jQuery('.ajax-loader').toggle();
-						jQuery("div#friends-loop").html(response);
-						jQuery("div#friends-loop").fadeIn(200);
+						j('.ajax-loader').toggle();
+						j("div#friends-loop").html(response);
+						j("div#friends-loop").fadeIn(200);
 					}
 				);
 			});
@@ -230,28 +232,28 @@ jQuery(document).ready( function() {
 		}
 	);
 	
-	jQuery("input#friend-search-box").keyup(
+	j("input#friend-search-box").keyup(
 
 		function(e) {
 			if ( e.which == 13 ) {
-				jQuery('.ajax-loader').toggle();
+				j('.ajax-loader').toggle();
 				
-				jQuery.post( ajaxurl, {
+				j.post( ajaxurl, {
 					action: 'friends_search',
 					'cookie': encodeURIComponent(document.cookie),
-					'_wpnonce': jQuery("input#_wpnonce_friend_search").val(),
+					'_wpnonce': j("input#_wpnonce_friend_search").val(),
 
-					'friend-search-box': jQuery("#friend-search-box").val()
+					'friend-search-box': j("#friend-search-box").val()
 				},
 				function(response)
 				{
 					response = response.substr( 0, response.length - 1 );
 
-					jQuery("div#friends-loop").fadeOut(200, 
+					j("div#friends-loop").fadeOut(200, 
 						function() {
-							jQuery('.ajax-loader').toggle();
-							jQuery("div#friends-loop").html(response);
-							jQuery("div#friends-loop").fadeIn(200);
+							j('.ajax-loader').toggle();
+							j("div#friends-loop").html(response);
+							j("div#friends-loop").fadeIn(200);
 						}
 					);
 					
@@ -262,34 +264,34 @@ jQuery(document).ready( function() {
 		}
 	);
 
-	jQuery("ul#letter-list li a").livequery('click',
+	j("div#groups-directory-page ul#letter-list li a").livequery('click',
 		function() { 
-			jQuery('.ajax-loader').toggle();
+			j('.ajax-loader').toggle();
 
-			jQuery("div#groups-list-options a.selected").removeClass("selected"); 
-			jQuery("#letter-list li a.selected").removeClass("selected"); 
+			j("div#groups-list-options a.selected").removeClass("selected"); 
+			j("#letter-list li a.selected").removeClass("selected"); 
 
-			jQuery(this).addClass('selected');
-			jQuery("input#groups_search").val('');
+			j(this).addClass('selected');
+			j("input#groups_search").val('');
 
-			var letter = jQuery(this).attr('id')
+			var letter = j(this).attr('id')
 			letter = letter.split('-');
 
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'directory_groups',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce-group-filter").val(),
+				'_wpnonce': j("input#_wpnonce-group-filter").val(),
 				'letter': letter[1],
 				'page': 1
 			},
 			function(response)
 			{	
 				response = response.substr(0, response.length-1);
-				jQuery("#group-dir-list").fadeOut(200, 
+				j("#group-dir-list").fadeOut(200, 
 					function() {
-						jQuery('.ajax-loader').toggle();
-						jQuery("#group-dir-list").html(response);
-						jQuery("#group-dir-list").fadeIn(200);
+						j('.ajax-loader').toggle();
+						j("#group-dir-list").html(response);
+						j("#group-dir-list").fadeIn(200);
 					}
 				);
 			});
@@ -298,24 +300,24 @@ jQuery(document).ready( function() {
 		}
 	);
 	
-	jQuery("form#search-groups-form").submit( function() { 
-			jQuery('.ajax-loader').toggle();
+	j("form#search-groups-form").submit( function() { 
+			j('.ajax-loader').toggle();
 
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'directory_groups',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce-group-filter").val(),
-				's': jQuery("input#groups_search").val(),
+				'_wpnonce': j("input#_wpnonce-group-filter").val(),
+				's': j("input#groups_search").val(),
 				'page': 1
 			},
 			function(response)
 			{	
 				response = response.substr(0, response.length-1);
-				jQuery("#group-dir-list").fadeOut(200, 
+				j("#group-dir-list").fadeOut(200, 
 					function() {
-						jQuery('.ajax-loader').toggle();
-						jQuery("#group-dir-list").html(response);
-						jQuery("#group-dir-list").fadeIn(200);
+						j('.ajax-loader').toggle();
+						j("#group-dir-list").html(response);
+						j("#group-dir-list").fadeIn(200);
 					}
 				);
 			});
@@ -324,29 +326,29 @@ jQuery(document).ready( function() {
 		}
 	);
 	
-	jQuery("div#group-dir-pag a").livequery('click',
+	j("div#group-dir-pag a").livequery('click',
 		function() { 
-			jQuery('.ajax-loader').toggle();
+			j('.ajax-loader').toggle();
 
-			var page = jQuery(this).attr('href');
+			var page = j(this).attr('href');
 			page = page.split('gpage=');
 			
-			if ( !jQuery("input#selected_letter").val() )
+			if ( !j("input#selected_letter").val() )
 				var letter = '';
 			else
-				var letter = jQuery("input#selected_letter").val();
+				var letter = j("input#selected_letter").val();
 						
-			if ( !jQuery("input#search_terms").val() )
+			if ( !j("input#search_terms").val() )
 				var search_terms = '';
 			else
-				var search_terms = jQuery("input#search_terms").val();
+				var search_terms = j("input#search_terms").val();
 				
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'directory_groups',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce").val(),
+				'_wpnonce': j("input#_wpnonce").val(),
 				'gpage': page[1],
-				'_wpnonce': jQuery("input#_wpnonce-group-filter").val(),
+				'_wpnonce': j("input#_wpnonce-group-filter").val(),
 				
 				'letter': letter,
 				's': search_terms
@@ -354,11 +356,11 @@ jQuery(document).ready( function() {
 			function(response)
 			{	
 				response = response.substr(0, response.length-1);
-				jQuery("#group-dir-list").fadeOut(200, 
+				j("#group-dir-list").fadeOut(200, 
 					function() {
-						jQuery('.ajax-loader').toggle();
-						jQuery("#group-dir-list").html(response);
-						jQuery("#group-dir-list").fadeIn(200);
+						j('.ajax-loader').toggle();
+						j("#group-dir-list").html(response);
+						j("#group-dir-list").fadeIn(200);
 					}
 				);		
 			});
@@ -367,20 +369,20 @@ jQuery(document).ready( function() {
 		}
 	);
 	
-	jQuery(".directory-listing div.group-button a").livequery('click',
+	j(".directory-listing div.group-button a").livequery('click',
 		function() {
-			var gid = jQuery(this).parent().attr('id');
+			var gid = j(this).parent().attr('id');
 			gid = gid.split('-');
 			gid = gid[1];
 			
-			var nonce = jQuery(this).attr('href');
+			var nonce = j(this).attr('href');
 			nonce = nonce.split('?_wpnonce=');
 			nonce = nonce[1].split('&');
 			nonce = nonce[0];
 			
-			var thelink = jQuery(this);
+			var thelink = j(this);
 
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'joinleave_group',
 				'cookie': encodeURIComponent(document.cookie),
 				'gid': gid,
@@ -391,7 +393,7 @@ jQuery(document).ready( function() {
 				response = response.substr(0, response.length-1);
 				var parentdiv = thelink.parent();
 
-				jQuery(parentdiv).fadeOut(200, 
+				j(parentdiv).fadeOut(200, 
 					function() {
 						parentdiv.fadeIn(200).html(response);
 					}
@@ -401,99 +403,99 @@ jQuery(document).ready( function() {
 		}
 	);
 
-	jQuery("form#group-search-form").submit(
+	j("form#group-search-form").submit(
 		function() {
 			return false;
 		}
 	);
 	
-	jQuery("div#invite-list input").click(
+	j("div#invite-list input").click(
 		function() {
-			jQuery('.ajax-loader').toggle();
+			j('.ajax-loader').toggle();
 
-			var friend_id = jQuery(this).val();
+			var friend_id = j(this).val();
 
-			if ( jQuery(this).attr('checked') == true ) {
+			if ( j(this).attr('checked') == true ) {
 				var friend_action = 'invite';
 			} else {
 				var friend_action = 'uninvite';
 			}
 						
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'groups_invite_user',
 				'friend_action': friend_action,
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce_invite_uninvite_user").val(),
+				'_wpnonce': j("input#_wpnonce_invite_uninvite_user").val(),
 				'friend_id': friend_id,
-				'group_id': jQuery("input#group_id").val()
+				'group_id': j("input#group_id").val()
 			},
 			function(response)
 			{	
-				if ( jQuery("#message") )
-					jQuery("#message").hide();
+				if ( j("#message") )
+					j("#message").hide();
 				
-				jQuery('.ajax-loader').toggle();
+				j('.ajax-loader').toggle();
 
 				if ( friend_action == 'invite' ) {
-					jQuery('#friend-list').append(response);	
+					j('#friend-list').append(response);	
 				} else if ( friend_action == 'uninvite' ) {
-					jQuery('#friend-list li#uid-' + friend_id).remove();
+					j('#friend-list li#uid-' + friend_id).remove();
 				}
 			});
 		}
 	);
 	
-	jQuery("#friend-list li a.remove").livequery('click',
+	j("#friend-list li a.remove").livequery('click',
 		function() {
-			jQuery('.ajax-loader').toggle();
+			j('.ajax-loader').toggle();
 			
-			var friend_id = jQuery(this).attr('id');
+			var friend_id = j(this).attr('id');
 			friend_id = friend_id.split('-');
 			friend_id = friend_id[1];
 			
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'groups_invite_user',
 				'friend_action': 'uninvite',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce_invite_uninvite_user").val(),
+				'_wpnonce': j("input#_wpnonce_invite_uninvite_user").val(),
 				'friend_id': friend_id,
-				'group_id': jQuery("input#group_id").val()
+				'group_id': j("input#group_id").val()
 			},
 			function(response)
 			{	
-				jQuery('.ajax-loader').toggle();
-				jQuery('#friend-list li#uid-' + friend_id).remove();
-				jQuery('#invite-list input#f-' + friend_id).attr('checked', false);
+				j('.ajax-loader').toggle();
+				j('#friend-list li#uid-' + friend_id).remove();
+				j('#invite-list input#f-' + friend_id).attr('checked', false);
 			});
 			
 			return false;
 		}
 	);
 	
-	jQuery("div#pag a").livequery('click',
+	j("div#pag a").livequery('click',
 		function() { 
-			jQuery('.ajax-loader').toggle();
+			j('.ajax-loader').toggle();
 
-			var grpage = jQuery(this).attr('href');
+			var grpage = j(this).attr('href');
 			grpage = grpage.split('=');
 
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'group_filter',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce_group_filter").val(),
+				'_wpnonce': j("input#_wpnonce_group_filter").val(),
 				'grpage': grpage[1],
 
-				'group-filter-box': jQuery("#group-filter-box").val()
+				'group-filter-box': j("#group-filter-box").val()
 			},
 			function(response)
 			{	
 				response = response.substr( 0, response.length - 1 );
 				
-				jQuery("div#group-loop").fadeOut(200, 
+				j("div#group-loop").fadeOut(200, 
 					function() {
-						jQuery('.ajax-loader').toggle();
-						jQuery("div#group-loop").html(response);
-						jQuery("div#group-loop").fadeIn(200);
+						j('.ajax-loader').toggle();
+						j("div#group-loop").html(response);
+						j("div#group-loop").fadeIn(200);
 					}
 				);
 			});
@@ -502,27 +504,27 @@ jQuery(document).ready( function() {
 		}
 	);
 	
-	jQuery("input#group-filter-box").keyup(	
+	j("input#group-filter-box").keyup(	
 		function(e) {
 			if ( e.which == 13 ) {
-				jQuery('.ajax-loader').toggle();
+				j('.ajax-loader').toggle();
 				
-				jQuery.post( ajaxurl, {
+				j.post( ajaxurl, {
 					action: 'group_filter',
 					'cookie': encodeURIComponent(document.cookie),
-					'_wpnonce': jQuery("input#_wpnonce_group_filter").val(),
+					'_wpnonce': j("input#_wpnonce_group_filter").val(),
 
-					'group-filter-box': jQuery("#group-filter-box").val()
+					'group-filter-box': j("#group-filter-box").val()
 				},
 				function(response)
 				{
 					response = response.substr( 0, response.length - 1 );
 
-					jQuery("div#group-loop").fadeOut(200, 
+					j("div#group-loop").fadeOut(200, 
 						function() {
-							jQuery('.ajax-loader').toggle();
-							jQuery("div#group-loop").html(response);
-							jQuery("div#group-loop").fadeIn(200);
+							j('.ajax-loader').toggle();
+							j("div#group-loop").html(response);
+							j("div#group-loop").fadeIn(200);
 						}
 					);
 				});
@@ -532,28 +534,28 @@ jQuery(document).ready( function() {
 		}
 	);
 		
-	jQuery("div#member-pagination a").livequery('click',
+	j("div#member-pagination a").livequery('click',
 		function() { 
-			jQuery('.ajax-loader').toggle();
+			j('.ajax-loader').toggle();
 
-			var mlpage = jQuery(this).attr('href');
+			var mlpage = j(this).attr('href');
 			mlpage = mlpage.split('=');
 
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'get_group_members',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_member_pag_nonce").val(),
-				'group_id': jQuery("#group_id").val(),
+				'_wpnonce': j("input#_member_pag_nonce").val(),
+				'group_id': j("#group_id").val(),
 				'mlpage': mlpage[1]
 			},
 			function(response)
 			{	
 				response = response.substr(0, response.length-1);
 
-				jQuery("form#group-members-form").fadeOut(200, 
+				j("form#group-members-form").fadeOut(200, 
 					function() {
-						jQuery("form#group-members-form").html(response);
-						jQuery("form#group-members-form").fadeIn(200);
+						j("form#group-members-form").html(response);
+						j("form#group-members-form").fadeIn(200);
 					}
 				);
 
@@ -564,28 +566,28 @@ jQuery(document).ready( function() {
 		}
 	);
 	
-	jQuery("div#member-admin-pagination a").livequery('click',
+	j("div#member-admin-pagination a").livequery('click',
 		function() { 
-			jQuery('.ajax-loader').toggle();
+			j('.ajax-loader').toggle();
 
-			var mlpage = jQuery(this).attr('href');
+			var mlpage = j(this).attr('href');
 			mlpage = mlpage.split('=');
 
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'get_group_members_admin',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_member_admin_pag_nonce").val(),
-				'group_id': jQuery("#group_id").val(),
+				'_wpnonce': j("input#_member_admin_pag_nonce").val(),
+				'group_id': j("#group_id").val(),
 				'mlpage': mlpage[1]
 			},
 			function(response)
 			{	
 				response = response.substr(0, response.length-1);
 
-				jQuery("form#group-members-form").fadeOut(200, 
+				j("form#group-members-form").fadeOut(200, 
 					function() {
-						jQuery("form#group-members-form").html(response);
-						jQuery("form#group-members-form").fadeIn(200);
+						j("form#group-members-form").html(response);
+						j("form#group-members-form").fadeIn(200);
 					}
 				);
 
@@ -596,31 +598,31 @@ jQuery(document).ready( function() {
 		}
 	);
 
-	jQuery("input#send-notice").click(	
+	j("input#send-notice").click(	
 		function() {
-			if ( jQuery("#send_to") ) {
-				jQuery("#send_to").val('');
+			if ( j("#send_to") ) {
+				j("#send_to").val('');
 			}
 		}
 	);
 
-	jQuery("input#send_reply_button").click( 
+	j("input#send_reply_button").click( 
 		function() {
 			//tinyMCE.triggerSave(true, true);
 			
 			var rand = Math.floor(Math.random()*100001);
-			jQuery("form#send-reply").before('<div style="display:none;" class="ajax_reply" id="' + rand + '">Sending Message...</div>');
-			jQuery("div#" + rand).fadeIn();
+			j("form#send-reply").before('<div style="display:none;" class="ajax_reply" id="' + rand + '">Sending Message...</div>');
+			j("div#" + rand).fadeIn();
 		
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'messages_send_reply',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#send_message_nonce").val(),
+				'_wpnonce': j("input#send_message_nonce").val(),
 				
-				'content': jQuery("#message_content").val(),
-				'send_to': jQuery("input#send_to").val(),
-				'subject': jQuery("input#subject").val(),
-				'thread_id': jQuery("input#thread_id").val()
+				'content': j("#message_content").val(),
+				'send_to': j("input#send_to").val(),
+				'subject': j("input#subject").val(),
+				'thread_id': j("input#thread_id").val()
 			},
 			function(response)
 			{
@@ -628,7 +630,7 @@ jQuery(document).ready( function() {
 				var css_class = 'message-box';
 				
 				setTimeout( function() {
-					jQuery("div#" + rand).slideUp();
+					j("div#" + rand).slideUp();
 				}, 500);
 				
 				setTimeout( function() {
@@ -639,9 +641,9 @@ jQuery(document).ready( function() {
 					}
 					
 					//tinyMCE.activeEditor.setContent('')
-					jQuery("#message_content").val('');
+					j("#message_content").val('');
 					
-					jQuery("div#" + rand).html(response).attr('class', css_class).slideDown();
+					j("div#" + rand).html(response).attr('class', css_class).slideDown();
 				}, 1250);	
 			});
 		
@@ -649,23 +651,23 @@ jQuery(document).ready( function() {
 		}
 	);
 	
-	jQuery("a#mark_as_read").click(
+	j("a#mark_as_read").click(
 		function() {
 			checkboxes_tosend = '';
-			checkboxes = jQuery("#message-threads tr td input[type='checkbox']");
+			checkboxes = j("#message-threads tr td input[type='checkbox']");
 			for(var i=0; i<checkboxes.length; i++) {
 				if(checkboxes[i].checked) {
-					if ( jQuery('tr#m-' + checkboxes[i].value).hasClass('unread') ) {
+					if ( j('tr#m-' + checkboxes[i].value).hasClass('unread') ) {
 						checkboxes_tosend += checkboxes[i].value;
-						jQuery('tr#m-' + checkboxes[i].value).removeClass('unread');
-						jQuery('tr#m-' + checkboxes[i].value).addClass('read');
-						jQuery('tr#m-' + checkboxes[i].value + ' td span.unread-count').html('0');
-						var inboxcount = jQuery('.inbox-count').html();
+						j('tr#m-' + checkboxes[i].value).removeClass('unread');
+						j('tr#m-' + checkboxes[i].value).addClass('read');
+						j('tr#m-' + checkboxes[i].value + ' td span.unread-count').html('0');
+						var inboxcount = j('.inbox-count').html();
 						if ( parseInt(inboxcount) == 1 ) {
-							jQuery('.inbox-count').css('display', 'none');
-							jQuery('.inbox-count').html('0');
+							j('.inbox-count').css('display', 'none');
+							j('.inbox-count').html('0');
 						} else {
-							jQuery('.inbox-count').html(parseInt(inboxcount) - 1);	
+							j('.inbox-count').html(parseInt(inboxcount) - 1);	
 						}
 						
 						if ( i != checkboxes.length - 1 ) {
@@ -675,7 +677,7 @@ jQuery(document).ready( function() {
 				}
 			}
 			
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'messages_markread',
 				'thread_ids': checkboxes_tosend
 			},
@@ -684,31 +686,31 @@ jQuery(document).ready( function() {
 				var err_num = response.split('[[split]]');
 				if ( err_num[0] == "-1" ) {
 					// error
-					jQuery('table#message-threads').before('<div id="message" class="error fade"><p>' + err_num[1] + '</p></div>')
+					j('table#message-threads').before('<div id="message" class="error fade"><p>' + err_num[1] + '</p></div>')
 				}
 			});
 			return false;			
 		}
 	);
 	
-	jQuery("a#mark_as_unread").click(
+	j("a#mark_as_unread").click(
 		function() {
 			checkboxes_tosend = '';
-			checkboxes = jQuery("#message-threads tr td input[type='checkbox']");
+			checkboxes = j("#message-threads tr td input[type='checkbox']");
 			for(var i=0; i<checkboxes.length; i++) {
 				if(checkboxes[i].checked) {
-					if ( jQuery('tr#m-' + checkboxes[i].value).hasClass('read') ) {
+					if ( j('tr#m-' + checkboxes[i].value).hasClass('read') ) {
 						checkboxes_tosend += checkboxes[i].value;
-						jQuery('tr#m-' + checkboxes[i].value).removeClass('read');
-						jQuery('tr#m-' + checkboxes[i].value).addClass('unread');
-						jQuery('tr#m-' + checkboxes[i].value + ' td span.unread-count').html('1');
-						var inboxcount = jQuery('.inbox-count').html();
+						j('tr#m-' + checkboxes[i].value).removeClass('read');
+						j('tr#m-' + checkboxes[i].value).addClass('unread');
+						j('tr#m-' + checkboxes[i].value + ' td span.unread-count').html('1');
+						var inboxcount = j('.inbox-count').html();
 						
 						if ( parseInt(inboxcount) == 0 ) {
-							jQuery('.inbox-count').css('display', 'inline');
-							jQuery('.inbox-count').html('1');
+							j('.inbox-count').css('display', 'inline');
+							j('.inbox-count').html('1');
 						} else {
-							jQuery('.inbox-count').html(parseInt(inboxcount) + 1);
+							j('.inbox-count').html(parseInt(inboxcount) + 1);
 						}
 
 						if ( i != checkboxes.length - 1 ) {
@@ -718,7 +720,7 @@ jQuery(document).ready( function() {
 				}
 			}
 			
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'messages_markunread',
 				'thread_ids': checkboxes_tosend
 			},
@@ -727,30 +729,30 @@ jQuery(document).ready( function() {
 				var err_num = response.split('[[split]]');
 				if ( err_num[0] == "-1" ) {
 					// error
-					jQuery('table#message-threads').before('<div id="message" class="error fade"><p>' + err_num[1] + '</p></div>')
+					j('table#message-threads').before('<div id="message" class="error fade"><p>' + err_num[1] + '</p></div>')
 				}
 			});
 			return false;			
 		}
 	);
 	
-	jQuery("a#delete_inbox_messages").click(
+	j("a#delete_inbox_messages").click(
 		function() {
 			checkboxes_tosend = '';
-			checkboxes = jQuery("#message-threads tr td input[type='checkbox']");
+			checkboxes = j("#message-threads tr td input[type='checkbox']");
 
 			for(var i=0; i<checkboxes.length; i++) {
 				if(checkboxes[i].checked) {
 					checkboxes_tosend += checkboxes[i].value;
 					
-					if ( jQuery('tr#m-' + checkboxes[i].value).hasClass('unread') ) {
-						var inboxcount = jQuery('.inbox-count').html();
+					if ( j('tr#m-' + checkboxes[i].value).hasClass('unread') ) {
+						var inboxcount = j('.inbox-count').html();
 					
 						if ( parseInt(inboxcount) == 1 ) {
-							jQuery('.inbox-count').css('display', 'none');
-							jQuery('.inbox-count').html('0');
+							j('.inbox-count').css('display', 'none');
+							j('.inbox-count').html('0');
 						} else {
-							jQuery('.inbox-count').html(parseInt(inboxcount) - 1);
+							j('.inbox-count').html(parseInt(inboxcount) - 1);
 						}
 					}
 					
@@ -758,13 +760,13 @@ jQuery(document).ready( function() {
 						checkboxes_tosend += ','
 					}
 					
-					jQuery('tr#m-' + checkboxes[i].value).remove();					
+					j('tr#m-' + checkboxes[i].value).remove();					
 				}
 			}
 
 			if ( !checkboxes_tosend ) return false;
 
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'messages_delete',
 				'thread_ids': checkboxes_tosend
 			},
@@ -772,23 +774,23 @@ jQuery(document).ready( function() {
 				response = response.substr(0, response.length-1);
 				var err_num = response.split('[[split]]');
 				
-				jQuery('#message').remove();
+				j('#message').remove();
 				
 				if ( err_num[0] == "-1" ) {
 					// error
-					jQuery('table#message-threads').before('<div id="message" class="error fade"><p>' + err_num[1] + '</p></div>')
+					j('table#message-threads').before('<div id="message" class="error fade"><p>' + err_num[1] + '</p></div>')
 				} else {
-					jQuery('table#message-threads').before('<div id="message" class="updated"><p>' + response + '</p></div>')
+					j('table#message-threads').before('<div id="message" class="updated"><p>' + response + '</p></div>')
 				}
 			});
 			return false;			
 		}
 	);
 	
-	jQuery("a#delete_sentbox_messages").click(
+	j("a#delete_sentbox_messages").click(
 		function() {
 			checkboxes_tosend = '';
-			checkboxes = jQuery("#message-threads tr td input[type='checkbox']");
+			checkboxes = j("#message-threads tr td input[type='checkbox']");
 			
 			if ( !checkboxes.length ) return false;
 			
@@ -799,13 +801,13 @@ jQuery(document).ready( function() {
 					if ( i != checkboxes.length - 1 ) {
 						checkboxes_tosend += ','
 					}
-					jQuery('tr#m-' + checkboxes[i].value).remove();					
+					j('tr#m-' + checkboxes[i].value).remove();					
 				}
 			}
 
 			if ( !checkboxes_tosend ) return false;
 
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'messages_delete',
 				'thread_ids': checkboxes_tosend
 			},
@@ -813,13 +815,13 @@ jQuery(document).ready( function() {
 				response = response.substr(0, response.length-1);
 				var err_num = response.split('[[split]]');
 				
-				jQuery('#message').remove();
+				j('#message').remove();
 				
 				if ( err_num[0] == "-1" ) {
 					// error
-					jQuery('table#message-threads').before('<div id="message" class="error fade"><p>' + err_num[1] + '</p></div>')
+					j('table#message-threads').before('<div id="message" class="error fade"><p>' + err_num[1] + '</p></div>')
 				} else {
-					jQuery('table#message-threads').before('<div id="message" class="updated"><p>' + response + '</p></div>')
+					j('table#message-threads').before('<div id="message" class="updated"><p>' + response + '</p></div>')
 				}
 			});
 			return false;			
@@ -827,11 +829,11 @@ jQuery(document).ready( function() {
 	);
 	
 	
-	jQuery("a#close-notice").click(
+	j("a#close-notice").click(
 		function() {
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'messages_close_notice',
-				'notice_id': jQuery('.notice').attr('id')
+				'notice_id': j('.notice').attr('id')
 			},
 			function(response) {
 				response = response.substr(0, response.length-1);
@@ -839,32 +841,32 @@ jQuery(document).ready( function() {
 
 				if ( err_num[0] == "-1" ) {
 					// error
-					jQuery('.notice').before('<div id="message" class="error fade"><p>' + err_num[1] + '</p></div>')
+					j('.notice').before('<div id="message" class="error fade"><p>' + err_num[1] + '</p></div>')
 				} else {
-					jQuery('.notice').remove();
+					j('.notice').remove();
 				}
 			});
 			return false;			
 		}
 	);
 	
-	jQuery("select#message-type-select").change(
+	j("select#message-type-select").change(
 		function() {
-			var selection = jQuery("select#message-type-select").val();
-			var checkboxes = jQuery("td input[type='checkbox']");
+			var selection = j("select#message-type-select").val();
+			var checkboxes = j("td input[type='checkbox']");
 			for(var i=0; i<checkboxes.length; i++) {
 				checkboxes[i].checked = "";
 			}
 
 			switch(selection) {
 				case 'unread':
-					var checkboxes = jQuery("tr.unread td input[type='checkbox']");
+					var checkboxes = j("tr.unread td input[type='checkbox']");
 					for(var i=0; i<checkboxes.length; i++) {
 						checkboxes[i].checked = "checked";
 					}
 				break;
 				case 'read':
-					var checkboxes = jQuery("tr.read td input[type='checkbox']");
+					var checkboxes = j("tr.read td input[type='checkbox']");
 					for(var i=0; i<checkboxes.length; i++) {
 						checkboxes[i].checked = "checked";
 					}
@@ -878,26 +880,26 @@ jQuery(document).ready( function() {
 		}
 	);
 
-	jQuery("form#status-update-form").livequery('submit', 
+	j("form#status-update-form").livequery('submit', 
 		function() {
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'status_new_status',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery('input#_wpnonce_add_status').val(),
-				'status-update-input': jQuery('#status-update-input').val()
+				'_wpnonce': j('input#_wpnonce_add_status').val(),
+				'status-update-input': j('#status-update-input').val()
 			},
 			function(response) {
 				if ( response == "1" ) {			
-					jQuery("div#user-status").slideUp(400,
+					j("div#user-status").slideUp(400,
 						function() {
-							jQuery.post( ajaxurl, {
+							j.post( ajaxurl, {
 								action: 'status_show_status',
 								'cookie': encodeURIComponent(document.cookie)
 							},
 							function(response) {				
-								jQuery("div#user-status").html(response);
-								jQuery("div#user-status").slideDown(400);
-								jQuery(window).unbind('click');
+								j("div#user-status").html(response);
+								j("div#user-status").slideDown(400);
+								j(window).unbind('click');
 							});
 						} 
 					);
@@ -908,17 +910,17 @@ jQuery(document).ready( function() {
 		}
 	);
 
-	jQuery("a#status-clear-status").livequery('click', 
+	j("a#status-clear-status").livequery('click', 
 		function() {
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'status_clear_status',
 				'cookie': encodeURIComponent(document.cookie)
 			},
 			function(response) {				
-				jQuery("div#user-status").fadeOut(300, 
+				j("div#user-status").fadeOut(300, 
 					function() {
-						jQuery("div#user-status").html(response);
-						jQuery("div#user-status").fadeIn(300);
+						j("div#user-status").html(response);
+						j("div#user-status").fadeIn(300);
 					}
 				);
 			});
@@ -927,37 +929,37 @@ jQuery(document).ready( function() {
 		}
 	);
 
-	jQuery("div.status-editable p, a#status-new-status").livequery('click', 
+	j("div.status-editable p, a#status-new-status").livequery('click', 
 		function() {
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'status_show_form',
 				'cookie': encodeURIComponent(document.cookie)
 			},
 			function(response) {				
-				jQuery("div#user-status").slideUp(400, 
+				j("div#user-status").slideUp(400, 
 					function() {
-						jQuery("div#user-status").html(response);
-						jQuery("div#user-status").slideDown(400, function() {
-							jQuery("#status-update-input").focus();
+						j("div#user-status").html(response);
+						j("div#user-status").slideDown(400, function() {
+							j("#status-update-input").focus();
 						});
 					}
 				);
 				
-				jQuery(window).bind('click', function(ev) {
-					if ( !jQuery(ev.target).is('div#user-status') && !jQuery(ev.target).parents('div#user-status').length ) {
-						jQuery.post( ajaxurl, {
+				j(window).bind('click', function(ev) {
+					if ( !j(ev.target).is('div#user-status') && !j(ev.target).parents('div#user-status').length ) {
+						j.post( ajaxurl, {
 							action: 'status_show_status',
 							'cookie': encodeURIComponent(document.cookie)
 						},
 						function(response) {				
-							jQuery("div#user-status").slideUp(400, 
+							j("div#user-status").slideUp(400, 
 								function() {
-									jQuery("div#user-status").html(response);
-									jQuery("div#user-status").slideDown(400);
+									j("div#user-status").html(response);
+									j("div#user-status").slideDown(400);
 								}
 							);
 							
-							jQuery(window).unbind('click');
+							j(window).unbind('click');
 						});
 					}
 				});
@@ -967,26 +969,26 @@ jQuery(document).ready( function() {
 		}
 	);
 
-	jQuery("form#status-update-form").livequery('submit', 
+	j("form#status-update-form").livequery('submit', 
 		function() {
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'status_new_status',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery('input#_wpnonce_add_status').val(),
-				'status-update-input': jQuery('#status-update-input').val()
+				'_wpnonce': j('input#_wpnonce_add_status').val(),
+				'status-update-input': j('#status-update-input').val()
 			},
 			function(response) {
 				if ( response == "1" ) {			
-					jQuery("div#user-status").slideUp(400,
+					j("div#user-status").slideUp(400,
 						function() {
-							jQuery.post( ajaxurl, {
+							j.post( ajaxurl, {
 								action: 'status_show_status',
 								'cookie': encodeURIComponent(document.cookie)
 							},
 							function(response) {				
-								jQuery("div#user-status").html(response);
-								jQuery("div#user-status").slideDown(400);
-								jQuery(window).unbind('click');
+								j("div#user-status").html(response);
+								j("div#user-status").slideDown(400);
+								j(window).unbind('click');
 							});
 						} 
 					);
@@ -997,17 +999,17 @@ jQuery(document).ready( function() {
 		}
 	);
 
-	jQuery("a#status-clear-status").livequery('click', 
+	j("a#status-clear-status").livequery('click', 
 		function() {
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'status_clear_status',
 				'cookie': encodeURIComponent(document.cookie)
 			},
 			function(response) {				
-				jQuery("div#user-status").fadeOut(300, 
+				j("div#user-status").fadeOut(300, 
 					function() {
-						jQuery("div#user-status").html(response);
-						jQuery("div#user-status").fadeIn(300);
+						j("div#user-status").html(response);
+						j("div#user-status").fadeIn(300);
 					}
 				);
 			});
@@ -1016,34 +1018,34 @@ jQuery(document).ready( function() {
 		}
 	);
 	
-		jQuery("ul#letter-list li a").livequery('click',
+		j("div#blogs-directory-page ul#letter-list li a").livequery('click',
 		function() { 
-			jQuery('.ajax-loader').toggle();
+			j('.ajax-loader').toggle();
 
-			jQuery("div#blogs-list-options a.selected").removeClass("selected"); 
-			jQuery("#letter-list li a.selected").removeClass("selected"); 
+			j("div#blogs-list-options a.selected").removeClass("selected"); 
+			j("#letter-list li a.selected").removeClass("selected"); 
 			
-			jQuery(this).addClass('selected');
-			jQuery("input#blogs_search").val('');
+			j(this).addClass('selected');
+			j("input#blogs_search").val('');
 
-			var letter = jQuery(this).attr('id')
+			var letter = j(this).attr('id')
 			letter = letter.split('-');
 
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'directory_blogs',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce-blog-filter").val(),
+				'_wpnonce': j("input#_wpnonce-blog-filter").val(),
 				'letter': letter[1],
 				'page': 1
 			},
 			function(response)
 			{	
 				response = response.substr(0, response.length-1);
-				jQuery("#blog-dir-list").fadeOut(200, 
+				j("#blog-dir-list").fadeOut(200, 
 					function() {
-						jQuery('.ajax-loader').toggle();
-						jQuery("#blog-dir-list").html(response);
-						jQuery("#blog-dir-list").fadeIn(200);
+						j('.ajax-loader').toggle();
+						j("#blog-dir-list").html(response);
+						j("#blog-dir-list").fadeIn(200);
 					}
 				);
 			});
@@ -1052,24 +1054,24 @@ jQuery(document).ready( function() {
 		}
 	);
 	
-	jQuery("form#search-blogs-form").submit( function() { 
-			jQuery('.ajax-loader').toggle();
+	j("form#search-blogs-form").submit( function() { 
+			j('.ajax-loader').toggle();
 
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'directory_blogs',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce-blog-filter").val(),
-				's': jQuery("input#blogs_search").val(),
+				'_wpnonce': j("input#_wpnonce-blog-filter").val(),
+				's': j("input#blogs_search").val(),
 				'page': 1
 			},
 			function(response)
 			{	
 				response = response.substr(0, response.length-1);
-				jQuery("#blog-dir-list").fadeOut(200, 
+				j("#blog-dir-list").fadeOut(200, 
 					function() {
-						jQuery('.ajax-loader').toggle();
-						jQuery("#blog-dir-list").html(response);
-						jQuery("#blog-dir-list").fadeIn(200);
+						j('.ajax-loader').toggle();
+						j("#blog-dir-list").html(response);
+						j("#blog-dir-list").fadeIn(200);
 					}
 				);
 			});
@@ -1078,29 +1080,29 @@ jQuery(document).ready( function() {
 		}
 	);
 	
-	jQuery("div#blog-dir-pag a").livequery('click',
+	j("div#blog-dir-pag a").livequery('click',
 		function() { 
-			jQuery('.ajax-loader').toggle();
+			j('.ajax-loader').toggle();
 
-			var page = jQuery(this).attr('href');
+			var page = j(this).attr('href');
 			page = page.split('bpage=');
 			
-			if ( !jQuery("input#selected_letter").val() )
+			if ( !j("input#selected_letter").val() )
 				var letter = '';
 			else
-				var letter = jQuery("input#selected_letter").val();
+				var letter = j("input#selected_letter").val();
 						
-			if ( !jQuery("input#search_terms").val() )
+			if ( !j("input#search_terms").val() )
 				var search_terms = '';
 			else
-				var search_terms = jQuery("input#search_terms").val();
+				var search_terms = j("input#search_terms").val();
 						
-			jQuery.post( ajaxurl, {
+			j.post( ajaxurl, {
 				action: 'directory_blogs',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': jQuery("input#_wpnonce").val(),
+				'_wpnonce': j("input#_wpnonce").val(),
 				'bpage': page[1],
-				'_wpnonce': jQuery("input#_wpnonce-blog-filter").val(),
+				'_wpnonce': j("input#_wpnonce-blog-filter").val(),
 				
 				'letter': letter,
 				's': search_terms
@@ -1108,11 +1110,11 @@ jQuery(document).ready( function() {
 			function(response)
 			{	
 				response = response.substr(0, response.length-1);
-				jQuery("#blog-dir-list").fadeOut(200, 
+				j("#blog-dir-list").fadeOut(200, 
 					function() {
-						jQuery('.ajax-loader').toggle();
-						jQuery("#blog-dir-list").html(response);
-						jQuery("#blog-dir-list").fadeIn(200);
+						j('.ajax-loader').toggle();
+						j("#blog-dir-list").html(response);
+						j("#blog-dir-list").fadeIn(200);
 					}
 				);
 			});
