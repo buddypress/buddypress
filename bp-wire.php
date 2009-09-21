@@ -127,7 +127,7 @@ function bp_wire_delete_post( $wire_post_id, $component_name, $table_name = null
 	if ( !$wire_post->delete() )
 		return false;
 
-	do_action( 'bp_wire_post_deleted', $wire_post->id, $wire_post->item_id, $wire_post->user_id );
+	do_action( 'bp_wire_post_deleted', $wire_post->id, $wire_post->item_id, $wire_post->user_id, $component_name );
 	
 	return true;
 }
