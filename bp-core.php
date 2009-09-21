@@ -622,8 +622,10 @@ function bp_core_new_nav_item( $args = '' ) {
 		return;
 
 	if ( $bp->current_component == $slug && !$bp->current_action ) {
-		if ( function_exists( $screen_function ) )
-			add_action( 'wp', $function, 3 );
+		if ( !is_object( $screen_function[0] ) )
+			add_action( 'wp', $screen_function, 3 );
+		else
+			add_action( 'wp', array( &$screen_function[0], $screen_function[1] ), 3 );
 
 		if ( $default_subnav_slug )
 			$bp->current_action = $default_subnav_slug;
@@ -725,7 +727,7 @@ function bp_core_new_subnav_item( $args = '' ) {
 	);
 		
 	if ( ( $bp->current_action == $slug && $bp->current_component == $parent_slug ) && $user_has_access ) {
-		if ( !is_object($screen_function[0]) )
+		if ( !is_object( $screen_function[0] ) )
 			add_action( 'wp', $screen_function, 3 );
 		else
 			add_action( 'wp', array( &$screen_function[0], $screen_function[1] ), 3 );

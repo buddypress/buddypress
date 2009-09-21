@@ -252,8 +252,8 @@ Class BP_Groups_Group {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		
 		// Get all the group ids for the current user's groups.
-		$gids = BP_Groups_Member::get_group_ids( $user_id, false, false, false, true );
-
+		$gids = BP_Groups_Member::get_group_ids( $user_id );
+		
 		if ( !$gids['groups'] )
 			return false;
 			
@@ -620,7 +620,7 @@ Class BP_Groups_Member {
 		return $delete_result;
 	}
 	
-	function get_group_ids( $user_id, $limit = false, $page = false, $get_total = true, $as_col = false ) {
+	function get_group_ids( $user_id, $limit = false, $page = false ) {
 		global $wpdb, $bp;
 
 		if ( $limit && $page )
@@ -635,12 +635,9 @@ Class BP_Groups_Member {
 			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.inviter_id = 0 AND m.is_banned = 0", $user_id ) );
 		}
 		
-		if ( $as_col )
-			$paged_groups = $wpdb->get_col( $group_sql );
-		else
-			$paged_groups = $wpdb->get_results( $group_sql );
+		$groups = $wpdb->get_col( $group_sql );
 
-		return array( 'groups' => $paged_groups, 'total' => $total_groups );
+		return array( 'groups' => $groups, 'total' => (int) $total_groups );
 	}
 	
 	function get_recently_joined( $user_id, $limit = false, $page = false, $filter = false ) {

@@ -1841,12 +1841,13 @@ function groups_get_random_group() {
 	return BP_Groups_Group::get_random();
 }
 
-function groups_get_user_groups( $pag_num, $pag_page ) {
+function groups_get_user_groups( $user_id = false, $pag_num = false, $pag_page = false ) {
 	global $bp;
 	
-	$groups = BP_Groups_Member::get_group_ids( $bp->displayed_user->id, $pag_num, $pag_page );
-
-	return array( 'groups' => $groups['ids'], 'total' => $groups['total'] );
+	if ( !$user_id )
+		$user_id = $bp->displayed_user->id;
+	
+	return BP_Groups_Member::get_group_ids( $user_id, $pag_num, $pag_page );
 }
 
 function groups_get_recently_joined_for_user( $user_id = false, $pag_num = false, $pag_page = false, $filter = false ) {
