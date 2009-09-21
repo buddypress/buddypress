@@ -96,7 +96,7 @@ function bp_blogs_ajax_directory_blogs() {
 		
 	check_ajax_referer('directory_blogs');
 	
-	load_template( TEMPLATEPATH . '/directories/blogs/blogs-loop.php' );
+	locate_template( array( 'directories/blogs/blogs-loop.php' ), true );
 }
 add_action( 'wp_ajax_directory_blogs', 'bp_blogs_ajax_directory_blogs' );
 

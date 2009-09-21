@@ -671,7 +671,7 @@ function groups_ajax_group_filter() {
 		
 	check_ajax_referer( 'group-filter-box' );
 	
-	load_template( TEMPLATEPATH . '/groups/group-loop.php' );
+	locate_template( array( 'groups/group-loop.php' ), true );
 }
 add_action( 'wp_ajax_group_filter', 'groups_ajax_group_filter' );
 
@@ -779,7 +779,7 @@ function bp_core_ajax_directory_groups() {
 		
 	check_ajax_referer('directory_groups');
 
-	load_template( TEMPLATEPATH . '/directories/groups/groups-loop.php' );
+	locate_template( array( 'directories/groups/groups-loop.php' ), true );
 }
 add_action( 'wp_ajax_directory_groups', 'bp_core_ajax_directory_groups' );
 

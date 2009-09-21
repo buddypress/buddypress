@@ -1,3 +1,3 @@
 <div class="wrap">
-<?php require( TEMPLATEPATH . "/blogs/recent-posts.php" ); ?>
+<?php locate_template( array( 'blogs/recent-posts.php' ), true ); ?>
 </div>

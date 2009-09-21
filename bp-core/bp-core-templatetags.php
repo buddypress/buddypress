@@ -452,8 +452,7 @@ function bp_loggedinuser_link() {
 }
 
 function bp_get_plugin_sidebar() {
-	if ( file_exists(TEMPLATEPATH . '/plugin-sidebar.php' ) )
-		locate_template( array( '/plugin-sidebar.php' ), true );
+	locate_template( array( 'plugin-sidebar.php' ), true );
 }
 
 function bp_is_blog_page() {
@@ -683,7 +682,7 @@ function bp_get_userbar( $hide_on_directory = true ) {
 	if ( $hide_on_directory && $bp->is_directory )
 		return false;
 	
-	include_once( TEMPLATEPATH . '/userbar.php' );
+	locate_template( array( 'userbar.php' ), true );
 }
 
 function bp_get_optionsbar( $hide_on_directory = true ) {
@@ -691,8 +690,8 @@ function bp_get_optionsbar( $hide_on_directory = true ) {
 	
 	if ( $hide_on_directory && $bp->is_directory )
 		return false;
-	
-	include_once( TEMPLATEPATH . '/optionsbar.php' );
+		
+	locate_template( array( 'optionsbar.php' ), true );
 }
 
 function bp_is_directory() {

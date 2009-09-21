@@ -6,7 +6,7 @@ function bp_the_status( $args = false ) {
 	 * to "new".
 	 */
 	if ( 'new' == $_GET['status'] && is_user_logged_in() ) {
-		load_template( TEMPLATEPATH . '/status/post-form.php' );
+		locate_template( array( 'status/post-form.php' ), true );
 	} else {
 		if ( 'clear' == $_GET['status'] && is_user_logged_in() )
 			bp_status_clear_status();

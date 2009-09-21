@@ -893,7 +893,7 @@ function bp_core_ajax_directory_members() {
 		
 	check_ajax_referer('directory_members');
 	
-	load_template( TEMPLATEPATH . '/directories/members/members-loop.php' );
+	locate_template( array( 'directories/members/members-loop.php' ), true );
 }
 add_action( 'wp_ajax_directory_members', 'bp_core_ajax_directory_members' );
 

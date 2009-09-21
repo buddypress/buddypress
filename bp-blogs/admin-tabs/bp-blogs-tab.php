@@ -1,3 +1,3 @@
 <div class="wrap">
-<?php require( TEMPLATEPATH . "/blogs/my-blogs.php" ); ?>
+<?php locate_template( array( 'blogs/my-blogs.php' ), true ); ?>
 </div>

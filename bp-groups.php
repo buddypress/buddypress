@@ -374,7 +374,7 @@ function groups_screen_group_invites() {
 
 	do_action( 'groups_screen_group_invites', $group_id );
 	
-	if ( file_exists( TEMPLATEPATH . '/groups/invites.php' ) )
+	if ( '' != locate_template( array( 'groups/invites.php' ), false ) )
 		bp_core_load_template( apply_filters( 'groups_template_group_invites', 'groups/invites' ) );
 	else
 		bp_core_load_template( apply_filters( 'groups_template_group_invites', 'groups/list-invites' ) );		
@@ -564,7 +564,7 @@ function groups_screen_group_home() {
 
 		do_action( 'groups_screen_group_home' );	
 		
-		if ( file_exists( TEMPLATEPATH . '/groups/single/home.php' ) )
+		if ( '' != locate_template( array( 'groups/single/home.php' ), false ) )
 			bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
 		else
 			bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/group-home' ) );
@@ -730,7 +730,7 @@ function groups_screen_group_forum() {
 
 			/* Standard topic display */
 			else {
-				if ( file_exists( TEMPLATEPATH . '/groups/single/forum/topic.php' ) )
+				if ( '' != locate_template( array( 'groups/single/forum/topic.php' ), false ) )
 					bp_core_load_template( apply_filters( 'groups_template_group_forum_topic', 'groups/single/forum/topic' ) );
 				else
 					bp_core_load_template( apply_filters( 'groups_template_group_forum_topic', 'groups/forum/topic' ) );
@@ -756,7 +756,7 @@ function groups_screen_group_forum() {
 			
 			do_action( 'groups_screen_group_forum', $topic_id, $forum_id );
 			
-			if ( file_exists( TEMPLATEPATH . '/groups/single/forum/index.php' ) )
+			if ( '' != locate_template( array( 'groups/single/forum/index.php' ), false ) )
 				bp_core_load_template( apply_filters( 'groups_template_group_forum', 'groups/single/forum/index' ) );
 			else
 				bp_core_load_template( apply_filters( 'groups_template_group_forum', 'groups/forum/index' ) );				
@@ -803,12 +803,12 @@ function groups_screen_group_wire() {
 				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/' . $bp->wire->slug );
 		
 		} else if ( ( !$wire_action || 'latest' == $bp->action_variables[1] ) ) {
-			if ( file_exists( TEMPLATEPATH . '/groups/single/wire.php' ) )
+			if ( '' != locate_template( array( 'groups/single/wire.php' ), false ) )
 				bp_core_load_template( apply_filters( 'groups_template_group_wire', 'groups/single/wire' ) );
 			else	
 				bp_core_load_template( apply_filters( 'groups_template_group_wire', 'groups/wire' ) );
 		} else {
-			if ( file_exists( TEMPLATEPATH . '/groups/single/home.php' ) )
+			if ( '' != locate_template( array( 'groups/single/home.php' ), false ) )
 				bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
 			else	
 				bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/group-home' ) );
@@ -822,7 +822,7 @@ function groups_screen_group_members() {
 	if ( $bp->is_single_item ) {
 		do_action( 'groups_screen_group_members', $bp->groups->current_group->id );
 
-		if ( file_exists( TEMPLATEPATH . '/groups/single/members.php' ) )
+		if ( '' != locate_template( array( 'groups/single/members.php' ), false ) )
 			bp_core_load_template( apply_filters( 'groups_template_group_forum', 'groups/single/members' ) );
 		else
 			bp_core_load_template( apply_filters( 'groups_template_group_forum', 'groups/list-members' ) );		
@@ -848,7 +848,7 @@ function groups_screen_group_invite() {
 			bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
 		} else {
 			// Show send invite page
-			if ( file_exists( TEMPLATEPATH . '/groups/single/send-invite.php' ) )
+			if ( '' != locate_template( array( 'groups/single/send-invite.php' ), false ) )
 				bp_core_load_template( apply_filters( 'groups_template_group_invite', 'groups/single/send-invite' ) );	
 			else
 				bp_core_load_template( apply_filters( 'groups_template_group_invite', 'groups/send-invite' ) );	
@@ -886,7 +886,7 @@ function groups_screen_group_leave() {
 			do_action( 'groups_screen_group_leave', $bp->groups->current_group->id );
 			
 			// Show leave group page
-			if ( file_exists( TEMPLATEPATH . '/groups/single/leave-confirm.php' ) )
+			if ( '' != locate_template( array( 'groups/single/leave-confirm.php' ), false ) )
 				bp_core_load_template( apply_filters( 'groups_template_group_leave', 'groups/single/leave-confirm' ) );
 			else
 				bp_core_load_template( apply_filters( 'groups_template_group_leave', 'groups/leave-group-confirm' ) );				
@@ -917,7 +917,7 @@ function groups_screen_group_request_membership() {
 		
 		do_action( 'groups_screen_group_request_membership', $bp->groups->current_group->id );
 		
-		if ( file_exists( TEMPLATEPATH . '/groups/single/request-membership.php' ) )
+		if ( '' != locate_template( array( 'groups/single/request-membership.php' ), false ) )
 			bp_core_load_template( apply_filters( 'groups_template_group_request_membership', 'groups/single/request-membership' ) );
 		else
 			bp_core_load_template( apply_filters( 'groups_template_group_request_membership', 'groups/request-membership' ) );			
@@ -962,7 +962,7 @@ function groups_screen_group_admin_edit_details() {
 
 			do_action( 'groups_screen_group_admin_edit_details', $bp->groups->current_group->id );
 
-			if ( file_exists( TEMPLATEPATH . '/groups/single/admin.php' ) )
+			if ( '' != locate_template( array( 'groups/single/admin.php' ), false ) )
 				bp_core_load_template( apply_filters( 'groups_template_group_admin', 'groups/single/admin' ) );		
 			else
 				bp_core_load_template( apply_filters( 'groups_template_group_admin', 'groups/admin/edit-details' ) );			
@@ -1006,7 +1006,7 @@ function groups_screen_group_admin_settings() {
 
 		do_action( 'groups_screen_group_admin_settings', $bp->groups->current_group->id );
 		
-		if ( file_exists( TEMPLATEPATH . '/groups/single/admin.php' ) )
+		if ( '' != locate_template( array( 'groups/single/admin.php' ), false ) )
 			bp_core_load_template( apply_filters( 'groups_template_group_admin_settings', 'groups/single/admin' ) );		
 		else
 			bp_core_load_template( apply_filters( 'groups_template_group_admin_settings', 'groups/admin/group-settings' ) );
@@ -1067,7 +1067,7 @@ function groups_screen_group_admin_avatar() {
 
 		do_action( 'groups_screen_group_admin_avatar', $bp->groups->current_group->id );	
 		
-		if ( file_exists( TEMPLATEPATH . '/groups/single/admin.php' ) )
+		if ( '' != locate_template( array( 'groups/single/admin.php' ), false ) )
 			bp_core_load_template( apply_filters( 'groups_template_group_admin_avatar', 'groups/single/admin' ) );		
 		else
 			bp_core_load_template( apply_filters( 'groups_template_group_admin_avatar', 'groups/admin/group-avatar' ) );		
@@ -1162,7 +1162,7 @@ function groups_screen_group_admin_manage_members() {
 
 		do_action( 'groups_screen_group_admin_manage_members', $bp->groups->current_group->id );
 		
-		if ( file_exists( TEMPLATEPATH . '/groups/single/admin.php' ) )
+		if ( '' != locate_template( array( 'groups/single/admin.php' ), false ) )
 			bp_core_load_template( apply_filters( 'groups_template_group_admin_manage_members', 'groups/single/admin' ) );		
 		else
 			bp_core_load_template( apply_filters( 'groups_template_group_admin_manage_members', 'groups/admin/manage-members' ) );
@@ -1219,7 +1219,7 @@ function groups_screen_group_admin_requests() {
 
 		do_action( 'groups_screen_group_admin_requests', $bp->groups->current_group->id );
 
-		if ( file_exists( TEMPLATEPATH . '/groups/single/admin.php' ) )
+		if ( '' != locate_template( array( 'groups/single/admin.php' ), false ) )
 			bp_core_load_template( apply_filters( 'groups_template_group_admin_requests', 'groups/single/admin' ) );		
 		else
 			bp_core_load_template( apply_filters( 'groups_template_group_admin_requests', 'groups/admin/membership-requests' ) );		
@@ -1256,7 +1256,7 @@ function groups_screen_group_admin_delete_group() {
 
 		do_action( 'groups_screen_group_admin_delete_group', $bp->groups->current_group->id );
 
-		if ( file_exists( TEMPLATEPATH . '/groups/single/admin.php' ) )
+		if ( '' != locate_template( array( 'groups/single/admin.php' ), false ) )
 			bp_core_load_template( apply_filters( 'groups_template_group_admin_delete_group', 'groups/single/admin' ) );		
 		else
 			bp_core_load_template( apply_filters( 'groups_template_group_admin_delete_group', 'groups/admin/delete-group' ) );		
@@ -1337,7 +1337,7 @@ function groups_action_join_group() {
 		bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
 	}
 
-	if ( file_exists( TEMPLATEPATH . '/groups/single/admin.php' ) )
+	if ( '' != locate_template( array( 'groups/single/admin.php' ), false ) )
 		bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );		
 	else
 		bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/group-home' ) );

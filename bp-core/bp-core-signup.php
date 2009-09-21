@@ -210,7 +210,7 @@ function bp_core_wpsignup_redirect() {
 	if ( false === strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php') )
 		return false;
 		
-	if ( file_exists( TEMPLATEPATH . '/registration/register.php' ) || file_exists( TEMPLATEPATH . '/register.php' ) )
+	if ( '' != locate_template( array( 'registration/register.php' ), false ) || '' != locate_template( array( 'register.php' ), false ) )
 		die;
 }
 add_action( 'signup_header', 'bp_core_wpsignup_redirect' );
