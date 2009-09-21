@@ -111,19 +111,8 @@ class BP_Activity_Template {
 	}
 }
 
-function bp_activity_get_list( $user_id, $title, $no_activity, $limit = false ) {
-	global $bp_activity_user_id, $bp_activity_limit, $bp_activity_title, $bp_activity_no_activity;
-	
-	$bp_activity_user_id = $user_id;
-	$bp_activity_limit = $limit;
-	$bp_activity_title = $title;
-	$bp_activity_no_activity = $no_activity;
-	
-	locate_template( array( '/activity/activity-list.php' ), true );
-}
-
 function bp_has_activities( $args = '' ) {
-	global $bp, $activities_template, $bp_activity_user_id, $bp_activity_limit;
+	global $bp, $activities_template;
 	
 	/* Note: any params used for filtering can be a single value, or multiple values comma seperated. */
 	
@@ -140,21 +129,6 @@ function bp_has_activities( $args = '' ) {
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
-	
-	// The following lines are for backwards template compatibility.
-	if ( 'my-friends' == $bp->current_action && $bp->activity->slug == $bp->current_component )
-		$type = 'friends';
-	
-	if ( $bp->displayed_user->id && $bp->activity->slug == $bp->current_component && ( !$bp->current_action || 'just-me' == $bp->current_action ) )
-		$type = 'personal';
-	
-	if ( $bp->displayed_user->id && $bp->profile->slug == $bp->current_component )
-		$type = 'personal';
-
-	if ( $bp_activity_limit )
-		$max = $bp_activity_limit;
-
-	// END backwards compatibility ---
 
 	if ( ( 'personal' == $type || 'friends' == $type ) && !$user_id )
 		$user_id = (int)$bp->displayed_user->id;
