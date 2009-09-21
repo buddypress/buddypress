@@ -346,9 +346,6 @@ function bp_activity_filter_links( $args = false ) {
 		if ( !$component_names )
 			return false;
 		
-		$link = remove_query_arg( array( 'afilter' ), $_SERVER['REQUEST_URI'] );
-		$link = remove_query_arg( array( 'acpage' ), $link );
-
 		foreach ( (array) $component_names as $component_name ) {
 			if ( isset( $_GET['afilter'] ) && $component_name == $_GET['afilter'] )
 				$selected = ' class="selected"';
@@ -374,13 +371,15 @@ function bp_activity_filter_links( $args = false ) {
 			}
 			
 			$link = add_query_arg( 'afilter', $component_name );
+			$link = remove_query_arg( 'acpage' , $link );
+
 			$link = apply_filters( 'bp_get_activity_filter_link_href', $link, $component_name );
-			
+
 			$component_links[] = $before . '<a href="' . $link . '">' . ucwords( __( $component_name, 'buddypress' ) ) . '</a>' . $after;
 		}
 
-		$link = remove_query_arg( array( 'afilter' ), $link );
-		
+		$link = remove_query_arg( 'afilter' , $link );
+
 		if ( isset( $_GET['afilter'] ) )
 			$component_links[] = '<' . $tag . ' id="afilter-clear"><a href="' . $link . '"">' . __( 'Clear Filter', 'buddypress' ) . '</a></' . $tag . '>';
 		
