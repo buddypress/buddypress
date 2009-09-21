@@ -535,7 +535,7 @@ function xprofile_action_new_wire_post() {
 		
 		/* Record the notification for the reciever if it's not on their own wire */
 		if ( !bp_is_home() )
-			bp_core_add_notification( $bp->loggedin_user->id, $bp->displayed_user->id, 'profile', 'new_wire_post' );	
+			bp_core_add_notification( $bp->loggedin_user->id, $bp->displayed_user->id, $bp->profile->id, 'new_wire_post' );	
 		
 		/* Record this on the poster's activity screen */
 		if ( ( $wire_post->item_id == $bp->loggedin_user->id && $wire_post->user_id == $bp->loggedin_user->id ) || ( $wire_post->item_id == $bp->displayed_user->id && $wire_post->user_id == $bp->displayed_user->id ) ) {
@@ -1095,7 +1095,7 @@ add_action( 'xprofile_updated_profile', 'xprofile_sync_wp_profile' );
 function xprofile_remove_screen_notifications() {
 	global $bp;
 	
-	bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, 'profile', 'new_wire_post' );
+	bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, $bp->profile->id, 'new_wire_post' );
 }
 add_action( 'bp_wire_screen_latest', 'xprofile_remove_screen_notifications' );
 

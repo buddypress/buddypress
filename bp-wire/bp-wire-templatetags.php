@@ -22,11 +22,6 @@ class BP_Wire_Posts_Template {
 
 		if ( $bp->current_component == $bp->wire->slug ) {
 			$this->table_name = $bp->profile->table_name_wire;
-			
-			// If the user is viewing their own wire, delete the notifications.
-			if ( 'all-posts' == $bp->current_action && bp_is_home() )
-				bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, 'xprofile', 'new_wire_post' );
-			
 		} else
 			$this->table_name = $bp->{$bp->active_components[$component_slug]}->table_name_wire;
 		
