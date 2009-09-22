@@ -1835,6 +1835,10 @@ class BP_Groups_Site_Groups_Template {
 				case 'most-forum-topics':
 					$this->groups = groups_get_by_most_forum_topics( $this->pag_num, $this->pag_page );
 					break;
+				
+				case 'most-forum-posts':
+					$this->groups = groups_get_by_most_forum_posts( $this->pag_num, $this->pag_page );
+					break;
 			}
 		}
 		

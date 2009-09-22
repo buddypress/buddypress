@@ -1868,6 +1868,10 @@ function groups_get_by_most_forum_topics( $limit = null, $page = 1 ) {
 	return BP_Groups_Group::get_by_most_forum_topics( $limit, $page );
 }
 
+function groups_get_by_most_forum_posts( $limit = null, $page = 1 ) {
+	return BP_Groups_Group::get_by_most_forum_posts( $limit, $page );
+}
+
 function groups_get_user_groups( $user_id = false, $pag_num = false, $pag_page = false ) {
 	global $bp;
 	

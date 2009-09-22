@@ -373,11 +373,25 @@ Class BP_Groups_Group {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		}
 			
-		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT gm.group_id FROM {$bbdb->topics} AS t, {$bp->groups->table_name} AS g LEFT JOIN {$bp->groups->table_name_groupmeta} AS gm ON g.id = gm.group_id WHERE (gm.meta_key = 'forum_id' AND gm.meta_value = t.forum_id) AND g.status = 'public' AND t.topic_status = '0' AND t.topic_sticky = '0' GROUP BY t.forum_id ORDER BY COUNT(t.topic_posts) DESC {$pag_sql}" ) );
-		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT COUNT(gm.group_id) FROM {$bbdb->topics} AS t, {$bp->groups->table_name} AS g LEFT JOIN {$bp->groups->table_name_groupmeta} AS gm ON g.id = gm.group_id WHERE (gm.meta_key = 'forum_id' AND gm.meta_value = t.forum_id) AND g.status = 'public' AND t.topic_status = '0' AND t.topic_sticky = '0' GROUP BY t.forum_id ORDER BY COUNT(t.topic_posts) DESC" ) );
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT gm.group_id FROM {$bbdb->forums} AS f, {$bp->groups->table_name} AS g LEFT JOIN {$bp->groups->table_name_groupmeta} AS gm ON g.id = gm.group_id WHERE (gm.meta_key = 'forum_id' AND gm.meta_value = f.forum_id) AND g.status = 'public' ORDER BY f.topics DESC {$pag_sql}" ) );
+		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT COUNT(gm.group_id) FROM {$bbdb->forums} AS f, {$bp->groups->table_name} AS g LEFT JOIN {$bp->groups->table_name_groupmeta} AS gm ON g.id = gm.group_id WHERE (gm.meta_key = 'forum_id' AND gm.meta_value = f.forum_id) AND g.status = 'public' ORDER BY f.topics DESC" ) );
 
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );		
 	}
+
+	function get_by_most_forum_posts( $limit = null, $page = null ) {
+		global $wpdb, $bp, $bbdb;
+		
+		if ( $limit && $page ) {
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+		}
+			
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT gm.group_id FROM {$bbdb->forums} AS f, {$bp->groups->table_name} AS g LEFT JOIN {$bp->groups->table_name_groupmeta} AS gm ON g.id = gm.group_id WHERE (gm.meta_key = 'forum_id' AND gm.meta_value = f.forum_id) AND g.status = 'public' ORDER BY f.posts DESC {$pag_sql}" ) );
+		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT COUNT(gm.group_id) FROM {$bbdb->forums} AS f, {$bp->groups->table_name} AS g LEFT JOIN {$bp->groups->table_name_groupmeta} AS gm ON g.id = gm.group_id WHERE (gm.meta_key = 'forum_id' AND gm.meta_value = f.forum_id) AND g.status = 'public' ORDER BY f.posts DESC" ) );
+
+		return array( 'groups' => $paged_groups, 'total' => $total_groups );		
+	}
+
 	
 	function get_all( $limit = null, $page = null, $only_public = true, $sort_by = false, $order = false ) {
 		global $wpdb, $bp;
