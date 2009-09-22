@@ -1803,31 +1803,38 @@ class BP_Groups_Site_Groups_Template {
 	
 	function bp_groups_site_groups_template( $type, $per_page, $max ) {
 		global $bp;
-
+		
+		/* TODO: Move $_REQUEST vars out of here */
+		
 		$this->pag_page = isset( $_REQUEST['gpage'] ) ? intval( $_REQUEST['gpage'] ) : 1;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
-				
+
 		if ( isset( $_REQUEST['s'] ) && '' != $_REQUEST['s'] && $type != 'random' ) {
 			$this->groups = BP_Groups_Group::search_groups( $_REQUEST['s'], $this->pag_num, $this->pag_page );
 		} else if ( isset( $_REQUEST['letter'] ) && '' != $_REQUEST['letter'] ) {
 			$this->groups = BP_Groups_Group::get_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page );
+		
 		} else {
 			switch ( $type ) {
-				case 'random':
-					$this->groups = BP_Groups_Group::get_random( $this->pag_num, $this->pag_page );
+				case 'active': default:
+					$this->groups = groups_get_active( $this->pag_num, $this->pag_page );
+					break;	
+				
+				case 'random':		
+					$this->groups = groups_get_random_groups( $this->pag_num, $this->pag_page );
 					break;
 				
 				case 'newest':
-					$this->groups = BP_Groups_Group::get_newest( $this->pag_num, $this->pag_page );
+					$this->groups = groups_get_newest( $this->pag_num, $this->pag_page );
 					break;
 
 				case 'popular':
-					$this->groups = BP_Groups_Group::get_popular( $this->pag_num, $this->pag_page );
+					$this->groups = groups_get_popular( $this->pag_num, $this->pag_page );
 					break;	
-				
-				case 'active': default:
-					$this->groups = BP_Groups_Group::get_active( $this->pag_num, $this->pag_page );
-					break;					
+
+				case 'most-forum-posts':
+					$this->groups = groups_get_by_most_forum_posts( $this->pag_num, $this->pag_page );
+					break;		
 			}
 		}
 		

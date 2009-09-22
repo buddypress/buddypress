@@ -200,13 +200,16 @@ function bp_profile_group_has_fields() {
 	}
 
 
-function bp_field_css_class() {
-	echo bp_get_field_css_class();
+function bp_field_css_class( $class = false ) {
+	echo bp_get_field_css_class( $class );
 }
-	function bp_get_field_css_class() {
+	function bp_get_field_css_class( $class = false ) {
 		global $profile_template;
 	
 		$css_classes = array();
+		
+		if ( $class )
+			$css_classes[] = sanitize_title( attribute_escape( $class ) );
 		
 		/* Set a class with the field ID */
 		$css_classes[] = 'field_' . $profile_template->field->id;

@@ -24,7 +24,7 @@
 			
 				<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
 				
-					<div class="editfield">
+					<div<?php bp_field_css_class( 'editfield' ) ?>>
 					
 						<?php if ( 'textbox' == bp_get_the_profile_field_type() ) : ?>
 					

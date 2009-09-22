@@ -366,6 +366,19 @@ Class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 	
+	function get_by_most_forum_posts( $limit = null, $page = null ) {
+		global $wpdb, $bp;
+		
+		if ( $limit && $page ) {
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+		}
+			
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT gm.group_id FROM {$bp->groups->table_name_groupmeta} gm, {$bp->groups->table_name} g WHERE g.id = gm.group_id AND g.status != 'hidden' AND gm.meta_key = 'total_member_count' ORDER BY CONVERT(gm.meta_value, SIGNED) DESC {$pag_sql}", $limit ) );
+		$total_groups = count( $wpdb->get_results( $wpdb->prepare( "SELECT gm.group_id FROM {$bp->groups->table_name_groupmeta} gm, {$bp->groups->table_name} g WHERE g.id = gm.group_id AND g.status != 'hidden' AND gm.meta_key = 'total_member_count' ORDER BY CONVERT(gm.meta_value, SIGNED) DESC", $limit ) ) );
+
+		return array( 'groups' => $paged_groups, 'total' => $total_groups );		
+	}
+	
 	function get_all( $limit = null, $page = null, $only_public = true, $sort_by = false, $order = false ) {
 		global $wpdb, $bp;
 		
@@ -421,7 +434,6 @@ Class BP_Groups_Group {
 		
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
-	
 	
 	function get_random( $limit = null, $page = null ) {
 		global $wpdb, $bp;

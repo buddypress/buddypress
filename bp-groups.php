@@ -307,6 +307,29 @@ function groups_directory_groups_setup() {
 }
 add_action( 'wp', 'groups_directory_groups_setup', 2 );
 
+function groups_setup_adminbar_menu() {
+	global $bp;
+	
+	if ( !$bp->groups->current_group )
+		return false;
+
+	/* Don't show this menu to non site admins or if you're viewing your own profile */
+	if ( !is_site_admin() )
+		return false;
+	?>
+	<li id="bp-adminbar-adminoptions-menu">
+		<a href=""><?php _e( 'Admin Options', 'buddypress' ) ?></a>
+		
+		<ul>
+			<li><a class="confirm" href="<?php echo wp_nonce_url( bp_get_group_permalink( $bp->groups->current_group ) . '/admin/delete-group/', 'groups_delete_group' ) ?>&amp;delete-group-button=1&amp;delete-group-understand=1"><?php _e( "Delete Group", 'buddypress' ) ?></a></li>
+			
+			<?php do_action( 'groups_adminbar_menu_items' ) ?>
+		</ul>
+	</li>
+	<?php
+}
+add_action( 'bp_adminbar_menus', 'groups_setup_adminbar_menu', 20 );
+
 
 /********************************************************************************
  * Screen Functions
@@ -1235,18 +1258,18 @@ function groups_screen_group_admin_delete_group() {
 		if ( !$bp->is_item_admin && !is_site_admin() )
 			return false;
 		
-		if ( isset( $_POST['delete-group-button'] ) && isset( $_POST['delete-group-understand'] ) ) {
+		if ( isset( $_REQUEST['delete-group-button'] ) && isset( $_REQUEST['delete-group-understand'] ) ) {
 			/* Check the nonce first. */
 			if ( !check_admin_referer( 'groups_delete_group' ) )
 				return false;
 		
 			// Group admin has deleted the group, now do it.
-			if ( !groups_delete_group( $_POST['group-id'] ) ) {
+			if ( !groups_delete_group( $bp->groups->current_group->id ) ) {
 				bp_core_add_message( __( 'There was an error deleting the group, please try again.', 'buddypress' ), 'error' );
 			} else {
 				bp_core_add_message( __( 'The group was deleted successfully', 'buddypress' ) );
 
-				do_action( 'groups_group_deleted', $_POST['group-id'] );
+				do_action( 'groups_group_deleted', $bp->groups->current_group->id );
 
 				bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/' );
 			}
@@ -1369,7 +1392,7 @@ function groups_aciton_redirect_to_random_group() {
 	global $bp, $wpdb;
 	
 	if ( $bp->current_component == $bp->groups->slug && isset( $_GET['random-group'] ) ) {
-		$group = groups_get_random_group();
+		$group = groups_get_random_groups( 1, 1 );
 
 		bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/' . $group['groups'][0]->slug );
 	}
@@ -1821,6 +1844,10 @@ function groups_get_group_members( $group_id, $limit = false, $page = false ) {
 
 /*** Group Fetching, Filtering & Searching  *************************************/
 
+function groups_get_all( $limit = null, $page = 1, $only_public = false, $sort_by = false, $order = false ) {
+	return BP_Groups_Group::get_all( $limit, $page, $only_public, $sort_by, $order );
+}
+
 function groups_get_newest( $limit = null, $page = 1 ) {
 	return BP_Groups_Group::get_newest( $limit, $page );
 }
@@ -1833,12 +1860,12 @@ function groups_get_popular( $limit = null, $page = 1 ) {
 	return BP_Groups_Group::get_popular( $limit, $page );
 }
 
-function groups_get_all( $limit = null, $page = 1, $only_public = false, $sort_by = false, $order = false ) {
-	return BP_Groups_Group::get_all( $limit, $page, $only_public, $sort_by, $order );
+function groups_get_random_groups( $limit = null, $page = 1 ) {
+	return BP_Groups_Group::get_random( $limit, $page );
 }
 
-function groups_get_random_group() {
-	return BP_Groups_Group::get_random();
+function groups_get_by_most_forum_posts( $limit = null, $page = 1 ) {
+	return BP_Groups_Group::get_by_most_forum_posts( $limit, $page );
 }
 
 function groups_get_user_groups( $user_id = false, $pag_num = false, $pag_page = false ) {
@@ -1849,6 +1876,8 @@ function groups_get_user_groups( $user_id = false, $pag_num = false, $pag_page =
 	
 	return BP_Groups_Member::get_group_ids( $user_id, $pag_num, $pag_page );
 }
+
+/* TODO: These user group functions could be merged with the above with an optional user ID param */
 
 function groups_get_recently_joined_for_user( $user_id = false, $pag_num = false, $pag_page = false, $filter = false ) {
 	global $bp;
