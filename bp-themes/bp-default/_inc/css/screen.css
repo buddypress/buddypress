@@ -830,7 +830,6 @@ span.activity, .message-metadata small {
 	border-bottom: 1px solid #FFE8C4;
 	display: inline-block;
 	font: normal 0.9em "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif !important;
-	max-width: 60%;
 }
 
 div.avatar-block {
@@ -1005,6 +1004,7 @@ ul#letter-list {
 .post p.date, .small, h3 span {
 	color: #888;
 	font-size: 0.95em;
+	margin: 5px 0 15px 0;
 }
 	.post p.date em {
 		color: #f7740a;
@@ -1657,6 +1657,34 @@ table#global-forum-topic-list {
 		margin-right: 4px;
 		border-width: 3px !important; 
 	}
+
+div#popular-group-forum-listing {
+	overflow: hidden;
+}
+	div#popular-group-forum-listing div.group-forum {
+		width: 47%;
+		float: left;
+		min-height: 60px;
+		background: url( ../images/message_thread_back.gif ) top left repeat-x;
+		padding: 15px 1.5%;
+	}
+		div.group-forum div.item-avatar {
+			float: left;
+		}
+		
+		div.group-forum div.item {
+			margin-left: 70px;
+		}
+			div.group-forum div.item div.item-title {
+				font-size: 1.2em;
+				font-family: Georgia, times, serif;
+			}
+			
+			div.group-forum div.desc {
+				font-size: 0.95em;
+				color: #888;
+				margin-top: 5px;
+			}
 
 /**** FRIENDS *****************/
 

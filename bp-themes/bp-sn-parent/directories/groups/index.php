@@ -104,7 +104,7 @@
 							
 									<div class="field-name">
 										<strong><?php _e( 'Description:', 'buddypress' ) ?></strong>
-										<?php bp_the_site_group_description() ?>
+										<?php bp_the_site_group_description_excerpt() ?>
 									</div>
 								</div>
 						

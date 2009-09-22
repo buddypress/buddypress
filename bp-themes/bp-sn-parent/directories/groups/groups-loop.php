@@ -26,7 +26,7 @@
 				<div class="item-title"><a href="<?php bp_the_site_group_link() ?>"><?php bp_the_site_group_name() ?></a></div>
 				<div class="item-meta"><span class="activity"><?php bp_the_site_group_last_active() ?></span></div>
 
-				<div class="item-meta desc"><?php bp_the_site_group_description() ?></div>
+				<div class="item-meta desc"><?php bp_the_site_group_description_excerpt() ?></div>
 
 				<?php do_action( 'bp_directory_groups_item' ) ?>
 			</div>

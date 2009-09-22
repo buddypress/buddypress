@@ -322,7 +322,7 @@ Class BP_Groups_Group {
 		}
 		
 		$paged_requests = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 0 AND inviter_id = 0{$pag_sql}", $group_id ) );
-		$total_requests = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 0 AND inviter_id = 0", $group_id ) );
+		$total_requests = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 0 AND inviter_id = 0", $group_id ) );
 
 		return array( 'requests' => $paged_requests, 'total' => $total_requests );
 	}
@@ -335,7 +335,7 @@ Class BP_Groups_Group {
 		}
 		
 		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM {$bp->groups->table_name} WHERE status != 'hidden' ORDER BY date_created DESC {$pag_sql}" ) );
-		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->groups->table_name} WHERE status != 'hidden' ORDER BY date_created DESC", $limit ) );
+		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name} WHERE status != 'hidden' ORDER BY date_created DESC", $limit ) );
 
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
@@ -347,8 +347,8 @@ Class BP_Groups_Group {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		}
 		
-		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT group_id FROM {$bp->groups->table_name_groupmeta} gm, {$bp->groups->table_name} g WHERE g.id = gm.group_id AND g.status != 'hidden' AND gm.meta_key = 'last_activity' ORDER BY CONVERT(gm.meta_value, SIGNED) DESC {$pag_sql}", $limit ) );
-		$total_groups = count( $wpdb->get_results( $wpdb->prepare( "SELECT group_id FROM {$bp->groups->table_name_groupmeta} gm, {$bp->groups->table_name} g WHERE g.id = gm.group_id AND g.status != 'hidden' AND gm.meta_key = 'last_activity' ORDER BY CONVERT(gm.meta_value, SIGNED) DESC", $limit ) ) );
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT group_id FROM {$bp->groups->table_name_groupmeta} gm, {$bp->groups->table_name} g WHERE g.id = gm.group_id AND g.status != 'hidden' AND gm.meta_key = 'last_activity' ORDER BY CONVERT(gm.meta_value, SIGNED) DESC {$pag_sql}" ) );
+		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(group_id) FROM {$bp->groups->table_name_groupmeta} gm, {$bp->groups->table_name} g WHERE g.id = gm.group_id AND g.status != 'hidden' AND gm.meta_key = 'last_activity' ORDER BY CONVERT(gm.meta_value, SIGNED) DESC" ) );
 
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
@@ -360,21 +360,21 @@ Class BP_Groups_Group {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		}
 			
-		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT gm.group_id FROM {$bp->groups->table_name_groupmeta} gm, {$bp->groups->table_name} g WHERE g.id = gm.group_id AND g.status != 'hidden' AND gm.meta_key = 'total_member_count' ORDER BY CONVERT(gm.meta_value, SIGNED) DESC {$pag_sql}", $limit ) );
-		$total_groups = count( $wpdb->get_results( $wpdb->prepare( "SELECT gm.group_id FROM {$bp->groups->table_name_groupmeta} gm, {$bp->groups->table_name} g WHERE g.id = gm.group_id AND g.status != 'hidden' AND gm.meta_key = 'total_member_count' ORDER BY CONVERT(gm.meta_value, SIGNED) DESC", $limit ) ) );
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT gm.group_id FROM {$bp->groups->table_name_groupmeta} gm, {$bp->groups->table_name} g WHERE g.id = gm.group_id AND g.status != 'hidden' AND gm.meta_key = 'total_member_count' ORDER BY CONVERT(gm.meta_value, SIGNED) DESC {$pag_sql}" ) );
+		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(gm.group_id) FROM {$bp->groups->table_name_groupmeta} gm, {$bp->groups->table_name} g WHERE g.id = gm.group_id AND g.status != 'hidden' AND gm.meta_key = 'total_member_count' ORDER BY CONVERT(gm.meta_value, SIGNED) DESC" ) );
 
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 	
-	function get_by_most_forum_posts( $limit = null, $page = null ) {
-		global $wpdb, $bp;
+	function get_by_most_forum_topics( $limit = null, $page = null ) {
+		global $wpdb, $bp, $bbdb;
 		
 		if ( $limit && $page ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		}
 			
-		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT gm.group_id FROM {$bp->groups->table_name_groupmeta} gm, {$bp->groups->table_name} g WHERE g.id = gm.group_id AND g.status != 'hidden' AND gm.meta_key = 'total_member_count' ORDER BY CONVERT(gm.meta_value, SIGNED) DESC {$pag_sql}", $limit ) );
-		$total_groups = count( $wpdb->get_results( $wpdb->prepare( "SELECT gm.group_id FROM {$bp->groups->table_name_groupmeta} gm, {$bp->groups->table_name} g WHERE g.id = gm.group_id AND g.status != 'hidden' AND gm.meta_key = 'total_member_count' ORDER BY CONVERT(gm.meta_value, SIGNED) DESC", $limit ) ) );
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT gm.group_id FROM {$bbdb->topics} AS t, {$bp->groups->table_name} AS g LEFT JOIN {$bp->groups->table_name_groupmeta} AS gm ON g.id = gm.group_id WHERE (gm.meta_key = 'forum_id' AND gm.meta_value = t.forum_id) AND g.status = 'public' AND t.topic_status = '0' AND t.topic_sticky = '0' GROUP BY t.forum_id ORDER BY COUNT(t.topic_posts) DESC {$pag_sql}" ) );
+		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT COUNT(gm.group_id) FROM {$bbdb->topics} AS t, {$bp->groups->table_name} AS g LEFT JOIN {$bp->groups->table_name_groupmeta} AS gm ON g.id = gm.group_id WHERE (gm.meta_key = 'forum_id' AND gm.meta_value = t.forum_id) AND g.status = 'public' AND t.topic_status = '0' AND t.topic_sticky = '0' GROUP BY t.forum_id ORDER BY COUNT(t.topic_posts) DESC" ) );
 
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );		
 	}

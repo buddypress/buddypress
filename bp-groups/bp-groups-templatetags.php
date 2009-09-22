@@ -1832,9 +1832,9 @@ class BP_Groups_Site_Groups_Template {
 					$this->groups = groups_get_popular( $this->pag_num, $this->pag_page );
 					break;	
 
-				case 'most-forum-posts':
-					$this->groups = groups_get_by_most_forum_posts( $this->pag_num, $this->pag_page );
-					break;		
+				case 'most-forum-topics':
+					$this->groups = groups_get_by_most_forum_topics( $this->pag_num, $this->pag_page );
+					break;
 			}
 		}
 		
@@ -2032,6 +2032,7 @@ function bp_the_site_group_name() {
 
 		return apply_filters( 'bp_get_the_site_group_name', bp_get_group_name( $site_groups_template->group ) );
 	}
+	
 
 function bp_the_site_group_last_active() {
 	echo bp_get_the_site_group_last_active();
@@ -2063,7 +2064,7 @@ function bp_the_site_group_description_excerpt() {
 	function bp_get_the_site_group_description_excerpt() {
 		global $site_groups_template;
 
-		return apply_filters( 'bp_get_the_site_group_description_excerpt', bp_create_excerpt( bp_get_group_description( $site_groups_template->group, false ), 35 ) );	
+		return apply_filters( 'bp_get_the_site_group_description_excerpt', bp_create_excerpt( bp_get_group_description( $site_groups_template->group, false ), 25 ) );	
 	}
 
 function bp_the_site_group_date_created() {
@@ -2094,6 +2095,74 @@ function bp_the_site_group_type() {
 		global $site_groups_template;
 
 		return apply_filters( 'bp_get_the_site_group_type', bp_get_group_type( $site_groups_template->group ) );
+	}
+
+function bp_the_site_group_forum_topic_count( $args = '' ) {
+	echo bp_get_the_site_group_forum_topic_count( $args );
+}
+	function bp_get_the_site_group_forum_topic_count( $args = '' ) {
+		global $site_groups_template;
+
+		$defaults = array(
+			'showtext' => false
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		if ( !$forum_id = groups_get_groupmeta( $site_groups_template->group->id, 'forum_id' ) )
+			return false;
+
+		if ( !function_exists( 'bp_forums_get_forum_topicpost_count' ) )
+			return false;
+			
+		if ( !$site_groups_template->group->forum_counts )
+			$site_groups_template->group->forum_counts = bp_forums_get_forum_topicpost_count( (int)$forum_id );
+
+		if ( (bool) $showtext ) {
+			if ( 1 == (int) $site_groups_template->group->forum_counts[0]->topics )
+				$total_topics = sprintf( __( '%d topic'), (int) $site_groups_template->group->forum_counts[0]->topics );
+			else
+				$total_topics = sprintf( __( '%d topics'), (int) $site_groups_template->group->forum_counts[0]->topics );	
+		} else {
+			$total_topics = (int) $site_groups_template->group->forum_counts[0]->topics;
+		}
+		
+		return apply_filters( 'bp_get_the_site_group_forum_topic_count', $total_topics, (bool)$showtext );
+	}
+
+function bp_the_site_group_forum_post_count( $args = '' ) {
+	echo bp_get_the_site_group_forum_post_count( $args );
+}
+	function bp_get_the_site_group_forum_post_count( $args = '' ) {
+		global $site_groups_template;
+		
+		$defaults = array(
+			'showtext' => false
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+		
+		if ( !$forum_id = groups_get_groupmeta( $site_groups_template->group->id, 'forum_id' ) )
+			return false;
+
+		if ( !function_exists( 'bp_forums_get_forum_topicpost_count' ) )
+			return false;
+			
+		if ( !$site_groups_template->group->forum_counts )
+			$site_groups_template->group->forum_counts = bp_forums_get_forum_topicpost_count( (int)$forum_id );
+
+		if ( (bool) $showtext ) {
+			if ( 1 == (int) $site_groups_template->group->forum_counts[0]->posts )
+				$total_posts = sprintf( __( '%d post'), (int) $site_groups_template->group->forum_counts[0]->posts );
+			else
+				$total_posts = sprintf( __( '%d posts'), (int) $site_groups_template->group->forum_counts[0]->posts );	
+		} else {
+			$total_posts = (int) $site_groups_template->group->forum_counts[0]->posts;
+		}
+		
+		return apply_filters( 'bp_get_the_site_group_forum_post_count', $total_posts, (bool)$showtext );
 	}
 
 function bp_the_site_group_hidden_fields() {
