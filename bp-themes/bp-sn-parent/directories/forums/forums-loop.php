@@ -36,11 +36,11 @@
 				<a href="<?php bp_the_topic_permalink() ?>">
 					<?php bp_the_topic_last_poster_avatar( 'type=thumb&width=20&height=20' ) ?>
 				</a> 
-				<?php bp_the_topic_last_poster_name() ?>
+				<div class="poster-name"><?php bp_the_topic_last_poster_name() ?></div>
 			</td>
 			<td class="td-group">
 				<a href="<?php bp_the_topic_object_permalink() ?>"><?php bp_the_topic_object_avatar( 'type=thumb&width=20&height=20' ) ?></a> 
-				<a href="<?php bp_the_topic_object_permalink() ?>" title="<?php bp_the_topic_object_name() ?>"><?php bp_the_topic_object_name() ?></a>
+				<div class="object-name"><a href="<?php bp_the_topic_object_permalink() ?>" title="<?php bp_the_topic_object_name() ?>"><?php bp_the_topic_object_name() ?></a></div>
 			</td>
 			<td class="td-postcount">
 				<?php bp_the_topic_total_posts() ?>

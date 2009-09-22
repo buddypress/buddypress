@@ -830,6 +830,7 @@ span.activity, .message-metadata small {
 	border-bottom: 1px solid #FFE8C4;
 	display: inline-block;
 	font: normal 0.9em "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif !important;
+	max-width: 60%; 
 }
 
 div.avatar-block {
@@ -1642,6 +1643,12 @@ table#global-forum-topic-list {
 		
 		table#global-forum-topic-list td.td-poster, table#global-forum-topic-list td.td-group  {
 			min-width: 130px;
+		}
+		
+		table#global-forum-topic-list img.avatar { float:left; }
+		
+		table#global-forum-topic-list div.poster-name, table#global-forum-topic-list div.object-name {
+			margin-left: 35px;
 		}
 
 	table#global-forum-topic-list th#th-title {

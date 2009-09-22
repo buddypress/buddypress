@@ -25,7 +25,7 @@ class BP_Forums_Template_Forum {
 		$this->pag_num = isset( $_REQUEST['n'] ) ? intval( $_REQUEST['n'] ) : $per_page;
 		
 		/* Only show stickies if we are viewing a single group forum, otherwise we could end up with hundreds globally */
-		if ( !$forum_id )
+		if ( $no_stickies )
 			$show_stickies = 'no'; // bbPress needs str 'no'
 
 		switch ( $type ) {
