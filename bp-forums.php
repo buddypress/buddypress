@@ -49,7 +49,7 @@ function bp_forums_directory_forums_setup() {
 	global $bp;
 
 	if ( $bp->current_component == $bp->forums->slug ) {
-		if ( (int) get_site_option( 'bp-disable-forum-directory' ) )
+		if ( (int) get_site_option( 'bp-disable-forum-directory' ) || !function_exists( 'groups_install' ) )
 			return false;
 			
 		if ( !bp_forums_is_installed_correctly() ) {
