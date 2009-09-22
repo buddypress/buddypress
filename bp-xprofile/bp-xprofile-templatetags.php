@@ -200,13 +200,21 @@ function bp_profile_group_has_fields() {
 	}
 
 
-
 function bp_field_css_class() {
-	global $profile_template;
-	
-	if ( $profile_template->current_field % 2 )
-		echo apply_filters( 'bp_field_css_class', ' class="alt"' );
+	echo bp_get_field_css_class();
 }
+	function bp_get_field_css_class() {
+		global $profile_template;
+	
+		$css_classes = array();
+	
+		if ( $profile_template->current_field % 2 )
+			$css_classes[] = 'alt';
+		
+		$css_classes = apply_filters( 'bp_field_css_classes', &$css_classes );
+
+		return apply_filters( 'bp_get_field_css_class', ' class="' . implode( ' ', $css_classes ) . '"' );
+	}
 
 function bp_field_has_data() {
 	global $profile_template;
