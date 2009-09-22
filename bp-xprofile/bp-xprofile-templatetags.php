@@ -207,7 +207,13 @@ function bp_field_css_class() {
 		global $profile_template;
 	
 		$css_classes = array();
-	
+		
+		/* Set a class with the field ID */
+		$css_classes[] = 'field_' . $profile_template->field->id;
+		
+		/* Set a class with the field name (sanitized) */
+		$css_classes[] = 'field_' . sanitize_title( $profile_template->field->name );
+		
 		if ( $profile_template->current_field % 2 )
 			$css_classes[] = 'alt';
 		
