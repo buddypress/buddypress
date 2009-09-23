@@ -1819,6 +1819,10 @@ class BP_Groups_Site_Groups_Template {
 				case 'active': default:
 					$this->groups = groups_get_active( $this->pag_num, $this->pag_page );
 					break;	
+
+				case 'alphabetical': default:
+					$this->groups = groups_get_alphabetically( $this->pag_num, $this->pag_page );
+					break;	
 				
 				case 'random':		
 					$this->groups = groups_get_random_groups( $this->pag_num, $this->pag_page );

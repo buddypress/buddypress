@@ -1864,6 +1864,10 @@ function groups_get_random_groups( $limit = null, $page = 1 ) {
 	return BP_Groups_Group::get_random( $limit, $page );
 }
 
+function groups_get_alphabetically( $limit = null, $page = 1 ) {
+	return BP_Groups_Group::get_alphabetically( $limit, $page );	
+}
+
 function groups_get_by_most_forum_topics( $limit = null, $page = 1 ) {
 	return BP_Groups_Group::get_by_most_forum_topics( $limit, $page );
 }

@@ -376,6 +376,21 @@ Class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 	
+	function get_alphabetically( $limit = null, $page = null ) {
+		global $wpdb, $bp;
+				
+		if ( $limit && $page )
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+		
+		if ( !is_site_admin() )
+			$hidden_sql = "WHERE status != 'hidden'";
+		
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM {$bp->groups->table_name} {$hidden_sql} ORDER BY name ASC {$pag_sql}" ) );
+		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name} {$hidden_sql} ORDER BY name ASC", $limit ) );
+
+		return array( 'groups' => $paged_groups, 'total' => $total_groups );
+	}
+	
 	function get_by_most_forum_topics( $limit = null, $page = null ) {
 		global $wpdb, $bp, $bbdb;
 		
