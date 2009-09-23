@@ -71,8 +71,9 @@ add_filter( 'bp_core_welcome_widget_text', 'force_balance_tags' );
 class BP_Core_Members_Widget extends WP_Widget {
 	function bp_core_members_widget() {
 		parent::WP_Widget( false, $name = __( 'Members', 'buddypress' ) );
-		wp_enqueue_script( 'bp_core_widget_members-js', BP_PLUGIN_URL . '/bp-core/js/widget-members.js', array('jquery', 'jquery-livequery-pack') );		
-		wp_enqueue_style( 'bp_core_widget_members-css', BP_PLUGIN_URL . '/bp-core/css/widget-members.css' );
+
+		if ( is_active_widget( false, false, $this->id_base ) )
+			wp_enqueue_script( 'bp_core_widget_members-js', BP_PLUGIN_URL . '/bp-core/js/widget-members.js', array('jquery', 'jquery-livequery-pack') );		
 	}
 
 	function widget($args, $instance) {

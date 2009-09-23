@@ -47,7 +47,6 @@ require_once( TEMPLATEPATH . '/_inc/ajax.php' );
 /* Load the javascript for the theme */
 wp_enqueue_script( 'jquery-livequery-pack', get_template_directory_uri() . '/_inc/js/jquery-livequery.js', array( 'jquery' ) );
 wp_enqueue_script( 'dtheme-ajax-js', get_template_directory_uri() . '/_inc/js/ajax.js', array( 'jquery', 'jquery-livequery-pack' ) );
-wp_enqueue_script( 'dtheme-general-js', get_template_directory_uri() . '/_inc/js/general.js', array( 'jquery', 'jquery-livequery-pack' ) );
 
 /* Make sure the blog index page shows under /[HOME_BLOG_SLUG] if enabled */
 function bp_dtheme_show_home_blog() {

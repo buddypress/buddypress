@@ -12,8 +12,8 @@ class BP_Groups_Widget extends WP_Widget {
 	function bp_groups_widget() {
 		parent::WP_Widget( false, $name = __( 'Groups', 'buddypress' ) );
 		
-		wp_enqueue_script( 'groups_widget_groups_list-js', BP_PLUGIN_URL . '/bp-groups/js/widget-groups.js', array('jquery', 'jquery-livequery-pack') );		
-		wp_enqueue_style( 'groups_widget_members-css', BP_PLUGIN_URL . '/bp-groups/css/widget-groups.css' );		
+		if ( is_active_widget( false, false, $this->id_base ) )
+			wp_enqueue_script( 'groups_widget_groups_list-js', BP_PLUGIN_URL . '/bp-groups/js/widget-groups.js', array('jquery', 'jquery-livequery-pack') );		
 	}
 
 	function widget($args, $instance) {
