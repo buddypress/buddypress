@@ -163,7 +163,9 @@ function bp_forums_get_forum_topics( $args = '' ) {
 
 function bp_forums_get_topic_details( $topic_id ) {
 	do_action( 'bbpress_init' );
-	return get_topic( $topic_id );
+
+	$query = new BB_Query( 'topic', 'topic_id=' . $topic_id ); 
+	return $query->results[0];
 }
 
 function bp_forums_get_topic_id_from_slug( $topic_slug ) {
