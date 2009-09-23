@@ -252,12 +252,12 @@ function xprofile_setup_adminbar_menu() {
 			<li><a href="<?php echo $bp->displayed_user->domain . $bp->profile->slug ?>/change-avatar/"><?php printf( __( "Edit %s's Avatar", 'buddypress' ), attribute_escape( $bp->displayed_user->fullname ) ) ?></a></li>
 			
 			<?php if ( !bp_core_is_user_spammer( $bp->displayed_user->id ) ) : ?>
-				<li><a href="<?php echo $bp->displayed_user->domain ?>admin/mark-spammer/" class="confirm"><?php _e( "Mark as Spammer", 'buddypress' ) ?></a></li>
+				<li><a href="<?php echo wp_nonce_url( $bp->displayed_user->domain . 'admin/mark-spammer/', 'mark-unmark-spammer' ) ?>" class="confirm"><?php _e( "Mark as Spammer", 'buddypress' ) ?></a></li>
 			<?php else : ?>
-				<li><a href="<?php echo $bp->displayed_user->domain ?>admin/unmark-spammer/" class="confirm"><?php _e( "Not a Spammer", 'buddypress' ) ?></a></li>
+				<li><a href="<?php echo wp_nonce_url( $bp->displayed_user->domain . 'admin/unmark-spammer/', 'mark-unmark-spammer' ) ?>" class="confirm"><?php _e( "Not a Spammer", 'buddypress' ) ?></a></li>
 			<?php endif; ?>
 			
-			<li><a href="<?php echo $bp->displayed_user->domain ?>admin/delete-user/" class="confirm"><?php printf( __( "Delete %s", 'buddypress' ), attribute_escape( $bp->displayed_user->fullname ) ) ?></a></li>
+			<li><a href="<?php echo wp_nonce_url( $bp->displayed_user->domain . 'admin/delete-user/', 'delete-user' ) ?>" class="confirm"><?php printf( __( "Delete %s", 'buddypress' ), attribute_escape( $bp->displayed_user->fullname ) ) ?></a></li>
 			
 			<?php do_action( 'xprofile_adminbar_menu_items' ) ?>
 		</ul>

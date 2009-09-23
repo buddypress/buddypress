@@ -423,8 +423,11 @@ function bp_core_action_set_spammer_status() {
 	
 	if ( !is_site_admin() || bp_is_home() || !$bp->displayed_user->id )
 		return false;
-
+			
 	if ( 'admin' == $bp->current_component && ( 'mark-spammer' == $bp->current_action || 'unmark-spammer' == $bp->current_action ) ) {
+		/* Check the nonce */
+		check_admin_referer( 'mark-unmark-spammer' );
+
 		/* Get the functions file */
 		require( ABSPATH . 'wp-admin/includes/mu.php' );
 		
@@ -476,8 +479,11 @@ function bp_core_action_delete_user() {
 	
 	if ( !is_site_admin() || bp_is_home() || !$bp->displayed_user->id )
 		return false;
-	
+			
 	if ( 'admin' == $bp->current_component && 'delete-user' == $bp->current_action ) {
+		/* Check the nonce */
+		check_admin_referer( 'delete-user' );
+
 		$errors = false;
 		
 		if ( bp_core_delete_account( $bp->displayed_user->id ) ) {
