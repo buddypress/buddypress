@@ -216,9 +216,8 @@ function bp_core_do_catch_uri() {
 		if ( $bp->current_component != BP_HOME_BLOG_SLUG )
 			$wp_query->is_page = true;
 	}
-
-
-	if ( $located_template = locate_template( array( $page . '.php' ) ) ) {
+	
+	if ( $located_template = apply_filters( 'bp_located_template', locate_template( array( $page . '.php' ), $page ) ) ) {
 		load_template( apply_filters( 'bp_load_template', $located_template ) );
 	} else {
 		if ( $located_template = locate_template( array( '404.php' ) ) ) {
