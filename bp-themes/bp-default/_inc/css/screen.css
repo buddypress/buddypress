@@ -885,7 +885,8 @@ div.avatar-block {
 }
 
 	#third-section .widget h2, .page h2.pagetitle {
-		background: url(../images/leftcol_header_back.gif) top left no-repeat;
+		background: url(../images/rightcol_header_back.gif) top left no-repeat;
+		color: #fff;
 	}
 	
 	#second-section .widget h2 {
@@ -894,8 +895,8 @@ div.avatar-block {
 	}
 
 	#first-section .widget h2, #sidebar h2.widgettitle {
-		background: url(../images/rightcol_header_back.gif) top left no-repeat;
-		color: #fff;
+		background: url(../images/leftcol_header_back.gif) top left no-repeat;
+
 	}
 
 
