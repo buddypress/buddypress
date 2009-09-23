@@ -712,8 +712,7 @@ function bp_is_directory() {
  */
 function bp_create_excerpt( $text, $excerpt_length = 55, $filter_shortcodes = true ) { // Fakes an excerpt if needed
 	$text = str_replace(']]>', ']]&gt;', $text);
-	$text = strip_tags($text);
-	
+
 	if ( $filter_shortcodes )
 		$text = preg_replace( '|\[(.+?)\](.+?\[/\\1\])?|s', '', $text );
 
