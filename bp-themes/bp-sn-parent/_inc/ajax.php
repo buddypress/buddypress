@@ -272,7 +272,7 @@ function bp_dtheme_ajax_send_reply() {
 
 	if ( $result ) { ?>
 			<div class="message-metadata">
-				<?php echo bp_loggedin_user_avatar(); ?>
+				<?php echo bp_loggedin_user_avatar( 'type=thumb&width=30&height=30' ); ?>
 	
 				<h3><a href="<?php echo $bp->loggedin_user->domain ?>"><?php echo $bp->loggedin_user->fullname ?></a></h3>
 				<small><?php printf( __( 'Sent %s ago', 'buddypress' ), bp_core_time_since( time() ) ) ?></small>
