@@ -374,7 +374,10 @@ function bp_activity_filter_links( $args = false ) {
 			$link = remove_query_arg( 'acpage' , $link );
 
 			$link = apply_filters( 'bp_get_activity_filter_link_href', $link, $component_name );
-
+			
+			/* Make sure all core internal component names are translatable */
+			$translatable_component_names = array( __( 'profile', 'buddypress'), __( 'friends', 'buddypress' ), __( 'groups', 'buddypress' ), __( 'status', 'buddypress' ), __( 'blogs', 'buddypress' ) );
+			
 			$component_links[] = $before . '<a href="' . $link . '">' . ucwords( __( $component_name, 'buddypress' ) ) . '</a>' . $after;
 		}
 
