@@ -199,9 +199,6 @@ function bp_friend_avatar_thumb() {
 	function bp_get_friend_avatar_thumb() {
 		global $friends_template;
 
-		if ( !$template )
-			$template = &$friends_template->friendship->friend;
-
 		return apply_filters( 'bp_get_friend_avatar_thumb', $friends_template->friendship->friend->avatar_thumb );
 	}
 
