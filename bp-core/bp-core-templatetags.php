@@ -463,7 +463,7 @@ function bp_is_blog_page() {
 
 	if ( !$is_member_page && !in_array( $bp->current_component, $bp->root_components ) )
 		return true;
-		
+
 	return false;
 }
 
@@ -1587,13 +1587,10 @@ function bp_the_body_class() {
 }
 	function bp_get_the_body_class( $wp_classes, $custom_classes ) {
 		global $bp;
-
-		if ( $bp->current_component != BP_HOME_BLOG_SLUG && !bp_is_register_page() && !bp_is_activation_page() && !bp_is_directory() && bp_is_blog_page() )
-			$bp_classes[] = 'home-page';
 		
-		if ( ( $bp->current_component == BP_HOME_BLOG_SLUG || bp_is_activation_page() || bp_is_register_page() ) )
+		if ( bp_is_blog_page() )
 			$bp_classes[] = 'blog-page';
-			
+		
 		if ( !bp_is_blog_page() && !bp_is_register_page() && !bp_is_activation_page() )
 			$bp_classes[] = 'internal-page';
 		
@@ -1698,6 +1695,9 @@ function bp_the_body_class() {
 		
 		if ( bp_is_activation_page() )
 			$bp_classes[] = 'activation';
+			
+		if ( is_user_logged_in() )
+			$bp_classes[] = 'logged-in';
 
 		/* Add the current_component, current_action into the bp classes */
 		if ( !bp_is_blog_page() ) {
