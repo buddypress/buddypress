@@ -138,8 +138,8 @@ h1, h2, h3 {
 		margin-left: 0;
 	}
 
-.blog-page #container, .directory #container {
-	padding-top: 5px;
+.blog-page #container, .directory #container, .home-page #container {
+	padding: 5px 20px 20px 20px;
 }
 
 /*** Content Header *************************************************************/
@@ -884,7 +884,7 @@ div.avatar-block {
 	font-size: 1em;
 }
 
-	#third-section .widget h2, .page h2.pagetitle {
+	#third-section .widget h2{
 		background: url(../images/rightcol_header_back.gif) top left no-repeat;
 		color: #fff;
 	}
@@ -894,7 +894,7 @@ div.avatar-block {
 		color: #fff;
 	}
 
-	#first-section .widget h2, #sidebar h2.widgettitle {
+	#first-section .widget h2, #sidebar h2.widgettitle, .page h2.pagetitle  {
 		background: url(../images/leftcol_header_back.gif) top left no-repeat;
 
 	}

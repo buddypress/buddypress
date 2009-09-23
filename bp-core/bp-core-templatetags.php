@@ -1585,15 +1585,17 @@ function bp_is_register_page() {
 function bp_the_body_class() {
 	echo bp_get_the_body_class();
 }
-	function bp_get_the_body_class( $wp_classes ) {
-		if ( bp_is_blog_page() || bp_is_activation_page() || bp_is_register_page() )
+	function bp_get_the_body_class( $wp_classes, $custom_classes ) {
+		global $bp;
+
+		if ( $bp->current_component != BP_HOME_BLOG_SLUG && !bp_is_register_page() && !bp_is_activation_page() && !bp_is_directory() && bp_is_blog_page() )
+			$bp_classes[] = 'home-page';
+		
+		if ( ( $bp->current_component == BP_HOME_BLOG_SLUG || bp_is_activation_page() || bp_is_register_page() ) )
 			$bp_classes[] = 'blog-page';
 			
-		if ( !bp_is_blog_page() && !is_home() && !bp_is_register_page() && !bp_is_activation_page() )
+		if ( !bp_is_blog_page() && !bp_is_register_page() && !bp_is_activation_page() )
 			$bp_classes[] = 'internal-page';
-		
-		if ( bp_is_blog_page() && is_home() )
-			$bp_classes[] = 'home-page';
 		
 		if ( bp_is_directory() )
 			$bp_classes[] = 'directory';
@@ -1696,35 +1698,34 @@ function bp_the_body_class() {
 		
 		if ( bp_is_activation_page() )
 			$bp_classes[] = 'activation';
-			
-		if ( is_single() )
-			$bp_classes[] = 'blog-single';
 
-		if ( is_category() )
-			$bp_classes[] = 'blog-category';
-
-		if ( is_tag() )
-			$bp_classes[] = 'blog-tag';
-			
-		if ( is_search() )
-			$bp_classes[] = 'blog-search';
-
-		if ( is_day() )
-			$bp_classes[] = 'blog-day';
-
-		if ( is_month() )
-			$bp_classes[] = 'blog-month';
-
-		if ( is_year() )		
-			$bp_classes[] = 'blog-year';
+		/* Add the current_component, current_action into the bp classes */
+		if ( !bp_is_blog_page() ) {
+			if ( !empty( $bp->current_component ) )
+				$bp_classes[] = $bp->current_component;
+		
+			if ( !empty( $bp->current_action ) )
+				$bp_classes[] = $bp->current_action;
+		}
 		
 		/* We don't want WordPress blog classes to appear on non-blog pages. */
-		if ( !bp_is_blog_page() ) 
- 			$wp_classes = array();
+		if ( !bp_is_blog_page() || is_home() ) {
+			/* Preserve any custom classes already set */
+			if ( !empty( $custom_classes ) )
+				$wp_classes = (array) $custom_classes;
+			else
+				$wp_classes = array();
+		}
+ 
+		/* Merge WP classes with BP classes */
+		$classes = array_merge( (array) $bp_classes, (array) $wp_classes );
 		
-		return apply_filters( 'bp_get_the_body_class', array_merge( (array) $bp_classes, (array) $wp_classes ), $bp_classes, $wp_classes );
+		/* Remove any duplicates */
+		$classes = array_unique( $classes );
+		
+		return apply_filters( 'bp_get_the_body_class', $classes, $bp_classes, $wp_classes, $custom_classes );
 	}
-	add_filter( 'body_class', 'bp_get_the_body_class' )
+	add_filter( 'body_class', 'bp_get_the_body_class', 10, 2 )
 
 
 ?>
