@@ -194,9 +194,9 @@ Class BP_Activity_Activity {
 		$friend_ids = implode( ',', $friend_ids );
 		
 		if ( $limit && $page && $max_items )
-			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT user_id, content, primary_link, date_recorded, component_name, component_action FROM {$bp->activity->table_name} WHERE user_id IN ({$friend_ids}) $filter_sql ORDER BY date_recorded DESC $pag_sql"  ) ); 
+			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT id, user_id, content, primary_link, date_recorded, component_name, component_action FROM {$bp->activity->table_name} WHERE user_id IN ({$friend_ids}) $filter_sql ORDER BY date_recorded DESC $pag_sql"  ) ); 
 		else
-			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT user_id, content, primary_link, date_recorded, component_name, component_action FROM {$bp->activity->table_name} WHERE user_id IN ({$friend_ids}) $filter_sql ORDER BY date_recorded DESC $pag_sql $max_sql" ) ); 			
+			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT id, user_id, content, primary_link, date_recorded, component_name, component_action FROM {$bp->activity->table_name} WHERE user_id IN ({$friend_ids}) $filter_sql ORDER BY date_recorded DESC $pag_sql $max_sql" ) ); 			
 
 		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(user_id) FROM {$bp->activity->table_name} WHERE user_id IN ({$friend_ids}) $filter_sql ORDER BY date_recorded DESC $max_sql" ) ); 
 		
