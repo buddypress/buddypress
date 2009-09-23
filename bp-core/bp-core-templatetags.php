@@ -1587,6 +1587,9 @@ function bp_the_body_class() {
 }
 	function bp_get_the_body_class( $wp_classes, $custom_classes ) {
 		global $bp;
+
+		if ( bp_is_blog_page() && is_front_page() && $bp->current_component != BP_HOME_BLOG_SLUG ) 
+			$bp_classes[] = 'home-page'; 
 		
 		if ( bp_is_blog_page() )
 			$bp_classes[] = 'blog-page';
