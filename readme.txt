@@ -3,7 +3,7 @@ Contributors: apeatling
 Tags: wpmu, buddypress, social, networking, profiles, messaging, friends, groups, forums, activity
 Requires at least: 2.8.4
 Tested up to: 2.8.4
-Stable tag: 1.1-beta
+Stable tag: 1.1-rc
 
 BuddyPress is a suite of WordPress MU social networking plugins and themes.
 
@@ -24,6 +24,7 @@ BuddyPress requires WordPress MU, it will not work on a single install of WordPr
 --- Plugins: ---
 
 1. Upload everything into the "/wp-content/plugins/buddypress/" directory of your installation.
+
 2. Activate BuddyPress in the "Plugins" admin panel using the "Activate Site Wide" or "Activate" link (both work).
 
 --- Themes: ---
@@ -39,15 +40,16 @@ Next, you will want to head to the "Appearance" menu and activate the BuddyPress
 --- Upgrading from an earlier version: ---
 
 1. Backup!
+
 2. Overwrite the /plugins/buddypress/ directory with the latest version.
-3. If you are using the default theme, move the themes in "/buddypress/bp-themes/" to "wp-content/themes"
-   and overwrite the existing ones.
-4. IMPORTANT: If you are no longer using the old two-theme system from BuddyPress 1.0, please make sure to delete your
-   wp-content/bp-themes/ folder to activate the new one-theme setup.
+
+3. If you are using the default theme, move the themes in "wp-content/plugins/buddypress/bp-themes/" to "wp-content/themes" and overwrite any existing themes.
+
+4. VERY IMPORTANT: If you are no longer using the old two-theme system from BuddyPress 1.0, please make sure to delete your /wp-content/bp-themes/ folder to activate the new one-theme setup.
 
 --- Forums Support ---
 
-To enable bbPress support please log in and head to "BuddyPress > Forums Setup" in the admin area.
+To enable forums please log in and head to "BuddyPress > Forums Setup" in the admin area.
 
 == Frequently Asked Questions ==
 
