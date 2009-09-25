@@ -1151,8 +1151,8 @@ function bp_core_add_message( $message, $type = false ) {
 		$type = 'success';
 	
 	/* Send the values to the cookie for page reload display */
-	setcookie( 'bp-message', $message, time()+60*60*24, COOKIEPATH );
-	setcookie( 'bp-message-type', $type, time()+60*60*24, COOKIEPATH );
+	@setcookie( 'bp-message', $message, time()+60*60*24, COOKIEPATH );
+	@setcookie( 'bp-message-type', $type, time()+60*60*24, COOKIEPATH );
 	
 	/***
 	 * Send the values to the $bp global so we can still output messages
@@ -1187,8 +1187,8 @@ function bp_core_setup_message() {
 
 	add_action( 'template_notices', 'bp_core_render_message' );
 	
-	setcookie( 'bp-message', false, time() - 1000, COOKIEPATH );
-	setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH );
+	@setcookie( 'bp-message', false, time() - 1000, COOKIEPATH );
+	@setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH );
 }
 add_action( 'wp', 'bp_core_setup_message' );
 
