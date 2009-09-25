@@ -1706,7 +1706,9 @@ function bp_core_load_buddypress_textdomain() {
 add_action ( 'plugins_loaded', 'bp_core_load_buddypress_textdomain', 9 );
 
 function bp_core_add_ajax_hook() {
-	do_action( 'wp_ajax_' . $_REQUEST['action'] );
+	/* Theme only, we already have the wp_ajax_ hook firing in wp-admin */
+	if ( !defined( 'WP_ADMIN' ) )
+		do_action( 'wp_ajax_' . $_REQUEST['action'] );
 }
 add_action( 'init', 'bp_core_add_ajax_hook' );
 
