@@ -597,9 +597,9 @@ function bp_post_comment_count() {
 
 function bp_post_comments( $zero = 'No Comments', $one = '1 Comment', $more = '% Comments', $css_class = '', $none = 'Comments Off' ) {
 	global $posts_template, $wpdb;
-
-	$number = get_comments_number( $posts_template->post->ID );
-
+	
+	$number = (int)$posts_template->post->comment_count;
+	
 	if ( 0 == $number && 'closed' == $posts_template->postcomment_status && 'closed' == $posts_template->postping_status ) {
 		echo '<span' . ((!empty($css_class)) ? ' class="' . $css_class . '"' : '') . '>' . $none . '</span>';
 		return;
@@ -628,7 +628,12 @@ function bp_post_comments( $zero = 'No Comments', $one = '1 Comment', $more = '%
 	echo apply_filters( 'comments_popup_link_attributes', '' );
 
 	echo ' title="' . sprintf( __('Comment on %s', 'buddypress'), $title ) . '">';
-	comments_number( $zero, $one, $more, $number );
+	
+	if ( 1 == $number )
+		printf( __( '%d Comment', 'buddypress' ), $number );
+	else
+		printf( __( '%d Comments', 'buddypress' ), $number );
+		
 	echo '</a>';
 }
 
@@ -663,6 +668,9 @@ function bp_post_category( $separator = '', $parents = '', $post_id = false, $de
 
 function bp_post_tags( $before = '', $sep = ', ', $after = '' ) {
 	global $posts_template, $wpdb;
+	
+	/* Disabling this for now as it's too expensive and there is no global tags directory */
+	return false;
 	
 	switch_to_blog( $posts_template->post->blog_id );
 	$terms = bp_post_get_term_list( $before, $sep, $after );
