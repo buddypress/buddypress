@@ -301,6 +301,11 @@ function messages_action_view_message() {
 		bp_core_redirect( $bp->displayed_user->domain . $bp->current_component . '/view/' . $thread_id . '/' );		
 	}
 	
+	/* Mark message read */
+	messages_mark_thread_read( $thread_id );
+	
+	do_action( 'messages_action_view_message' );
+	
 	bp_core_new_subnav_item( array( 'name' => sprintf( __( 'From: %s', 'buddypress'), BP_Messages_Thread::get_last_sender($thread_id) ), 'slug' => 'view', 'parent_url' => $bp->loggedin_user->domain . $bp->messages->slug . '/', 'parent_slug' => $bp->messages->slug, 'screen_function' => true, 'position' => 40, 'user_has_access' => bp_is_home() ) );
 	bp_core_load_template( apply_filters( 'messages_template_view_message', 'messages/view' ) );
 }
@@ -507,6 +512,14 @@ function messages_check_thread_access( $thread_id, $user_id = false ) {
 		$user_id = $bp->loggedin_user->id;
 	
 	return BP_Messages_Thread::check_access( $thread_id, $user_id );
+}
+
+function messages_mark_thread_read( $thread_id ) {
+	return BP_Messages_Thread::mark_as_read( $thread_id );
+}
+
+function messages_mark_thread_unread( $thread_id ) {
+	return BP_Messages_Thread::mark_as_unread( $thread_id );	
 }
 
 function messages_add_callback_values( $recipients, $subject, $content ) {

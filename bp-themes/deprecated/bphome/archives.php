@@ -8,7 +8,7 @@ Template Name: Archives
 
 <div id="content" class="widecolumn">
 
-<?php include (TEMPLATEPATH . '/searchform.php'); ?>
+<?php locate_template( array( '/searchform.php'), true ) ?>
 
 <h2><?php _e( 'Archives by Month:', 'buddypress' ) ?></h2>
 	<ul>

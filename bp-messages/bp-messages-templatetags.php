@@ -167,7 +167,7 @@ function bp_message_thread_subject() {
 }
 	function bp_get_message_thread_subject() {
 		global $messages_template;
-		return apply_filters( 'bp_message_thread_subject', stripslashes_deep( $messages_template->thread->last_message_subject ) );
+		return apply_filters( 'bp_get_message_thread_subject', stripslashes_deep( $messages_template->thread->last_message_subject ) );
 	}
 
 function bp_message_thread_excerpt() {
@@ -732,7 +732,7 @@ function messages_view_thread( $thread_id ) {
 						
 						<?php do_action( 'messages_custom_fields_output_before' ) ?>
 						
-						<?php echo apply_filters( 'bp_get_message_content', stripslashes($message->message) ); ?>
+						<?php echo apply_filters( 'bp_get_the_message_thread_content', stripslashes($message->message) ); ?>
 						
 						<?php do_action( 'messages_custom_fields_output_after' ) ?>
 		

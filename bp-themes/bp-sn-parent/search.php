@@ -44,7 +44,7 @@
 			<?php else : ?>
 
 				<h2 class="center"><?php _e( 'No posts found. Try a different search?', 'buddypress' ) ?></h2>
-				<?php include (TEMPLATEPATH . '/searchform.php'); ?>
+				<?php locate_template( array( '/searchform.php'), true ) ?>
 
 			<?php endif; ?>
 
