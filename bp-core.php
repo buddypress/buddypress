@@ -1532,20 +1532,24 @@ function bp_core_action_search_site( $slug = false ) {
 			switch ( $search_which ) {
 				case 'members': default:
 					$slug = BP_MEMBERS_SLUG;
+					$var = '/?s=';
 					break;
 				case 'groups':
 					$slug = BP_GROUPS_SLUG;
+					$var = '/?s=';
 					break;
 				case 'forums':
 					$slug = BP_FORUMS_SLUG;
+					$var = '/?fs=';
 					break;
 				case 'blogs':
 					$slug = BP_BLOGS_SLUG;
+					$var = '/?s=';
 					break;
 			}
 		}
-
-		$search_url = apply_filters( 'bp_core_search_site', site_url( $slug . '/?s=' . urlencode($search_terms) ), $search_terms );
+		
+		$search_url = apply_filters( 'bp_core_search_site', site_url( $slug . $var . urlencode($search_terms) ), $search_terms );
 		
 		bp_core_redirect( $search_url );
 	}

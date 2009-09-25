@@ -180,8 +180,8 @@ function bp_has_forum_topics( $args = '' ) {
 		$filter = $bp->action_variables[0];
 
 	/* If $_GET['s'] is set, let's auto populate the filter var */
-	if ( $bp->is_directory && !empty( $_GET['s'] ) )
-		$filter = $_GET['s'];
+	if ( $bp->is_directory && !empty( $_GET['fs'] ) )
+		$filter = $_GET['fs'];
 		
 	$forum_template = new BP_Forums_Template_Forum( $type, $forum_id, $per_page, $max, $no_stickies, $filter );
 
@@ -920,7 +920,7 @@ function bp_the_topic_pagination_count() {
 function bp_directory_forums_search_form() {
 	global $bp; ?>
 	<form action="<?php echo $bp->root_domain . '/' . $bp->forums->slug . '/'; ?>" method="get" id="search-forums-form">
-		<label><input type="text" name="s" id="forums_search" value="<?php if ( isset( $_GET['s'] ) ) { echo attribute_escape( $_GET['s'] ); } else { _e( 'Search anything...', 'buddypress' ); } ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
+		<label><input type="text" name="fs" id="forums_search" value="<?php if ( isset( $_GET['fs'] ) ) { echo attribute_escape( $_GET['fs'] ); } else { _e( 'Search anything...', 'buddypress' ); } ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
 		<input type="submit" id="forums_search_submit" name="submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
 	</form>
 <?php
