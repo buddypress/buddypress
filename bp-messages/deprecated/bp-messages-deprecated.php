@@ -161,6 +161,32 @@ function messages_ajax_close_notice() {
 }
 add_action( 'wp_ajax_messages_close_notice', 'messages_ajax_close_notice' );
 
+function messages_ajax_autocomplete_results() {
+	global $bp;
+
+	/* If we are using a BuddyPress 1.1+ theme ignore this. */
+	if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
+		return false;
+			
+	$friends = false;
+
+	// Get the friend ids based on the search terms
+	if ( function_exists( 'friends_search_friends' ) )
+		$friends = friends_search_friends( $_GET['q'], $bp->loggedin_user->id, $_GET['limit'], 1 );
+
+	$friends = apply_filters( 'bp_friends_autocomplete_list', $friends, $_GET['q'], $_GET['limit'] );
+
+	if ( $friends['friends'] ) {
+		foreach ( $friends['friends'] as $user_id ) {
+			$ud = get_userdata($user_id);
+			$username = $ud->user_login;
+			echo bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'thumb', 'width' => 15, 'height' => 15 ) )  . ' ' . bp_core_get_user_displayname( $user_id ) . ' (' . $username . ')
+			';
+		}		
+	}
+}
+add_action( 'wp_ajax_messages_autocomplete_results', 'messages_ajax_autocomplete_results' );
+
 /* Deprecated -- use messages_new_message() */
 function messages_send_message( $recipients, $subject, $content, $thread_id, $from_ajax = false, $from_template = false, $is_reply = false ) {
 	global $pmessage;
