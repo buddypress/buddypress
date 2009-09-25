@@ -884,6 +884,8 @@ jQuery(document).ready( function() {
 
 	j("form#status-update-form").livequery('submit', 
 		function() {
+			j('input#status-update-post').attr( 'disabled', 'disabled' );
+		
 			j.post( ajaxurl, {
 				action: 'status_new_status',
 				'cookie': encodeURIComponent(document.cookie),
@@ -933,6 +935,8 @@ jQuery(document).ready( function() {
 
 	j("div.status-editable p, a#status-new-status").livequery('click', 
 		function() {
+			j('div.generic-button a#status-new-status').parent().addClass('loading');
+			
 			j.post( ajaxurl, {
 				action: 'status_show_form',
 				'cookie': encodeURIComponent(document.cookie)
@@ -1003,6 +1007,9 @@ jQuery(document).ready( function() {
 
 	j("a#status-clear-status").livequery('click', 
 		function() {
+			j(this).addClass('ajax-loader');
+			j(this).attr('style', 'vertical-align: middle; display: inline-block; overflow: hidden; width: 10px; text-indent: -999em' );
+			
 			j.post( ajaxurl, {
 				action: 'status_clear_status',
 				'cookie': encodeURIComponent(document.cookie)
