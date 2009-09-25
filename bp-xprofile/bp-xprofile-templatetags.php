@@ -418,6 +418,8 @@ function bp_the_profile_field_options( $args = '' ) {
 				break;
 				
 			case 'radio':
+				$html = '<div id="field_' . $field->id . '">';
+				
 				for ( $k = 0; $k < count($options); $k++ ) {				
 					$option_value = BP_XProfile_ProfileData::get_value_byid($options[$k]->parent_id);
 
@@ -435,6 +437,8 @@ function bp_the_profile_field_options( $args = '' ) {
 					
 					$html .= apply_filters( 'bp_get_the_profile_field_options_radio', '<label><input' . $selected . ' type="radio" name="field_' . $field->id . '" id="option_' . $options[$k]->id . '" value="' . attribute_escape( $options[$k]->name ) . '"> ' . attribute_escape( $options[$k]->name ) . '</label>', $options[$k] );
 				}
+				
+				$html .= '</div>';
 				break;
 				
 			case 'checkbox':

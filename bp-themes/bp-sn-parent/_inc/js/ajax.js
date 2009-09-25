@@ -1151,13 +1151,15 @@ function checkAll() {
 }
 
 function clear(container) {
-	if(!document.getElementById(container)) return false;
+	if( !document.getElementById(container) ) return;
 
 	var container = document.getElementById(container);
 
 	radioButtons = container.getElementsByTagName('INPUT');
 
 	for(var i=0; i<radioButtons.length; i++) {
-		radioButtons[i].checked = false;
-	}	
+		radioButtons[i].checked = '';
+	}
+	
+	return;
 }
