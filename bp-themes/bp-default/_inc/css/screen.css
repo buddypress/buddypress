@@ -1994,9 +1994,9 @@ table#message-threads a.delete {
 	height: 13px;
 }
 
-table#message-threads span.unread-count {
-	background: #c2582b;
-	border: 2px solid #c2582b;
+span.unread-count {
+	background: #f7740a;
+	border: 2px solid #f7740a;
 	padding: 0 0.5em;
 	color: #fff;
 	font-size: 0.8em;
