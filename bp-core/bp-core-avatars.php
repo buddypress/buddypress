@@ -90,7 +90,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 	else
 		$html_height = ( 'thumb' == $type ) ? ' height="' . BP_AVATAR_THUMB_HEIGHT . '"' : ' height="' . BP_AVATAR_FULL_HEIGHT . '"';
 	
-	$avatar_folder_url = apply_filters( 'bp_core_avatar_folder_url', $bp->root_domain . '/' . basename( WP_CONTENT_DIR ) . '/blogs.dir/' . BP_ROOT_BLOG . '/files/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );	
+	$avatar_folder_url = apply_filters( 'bp_core_avatar_folder_url', get_blog_option( BP_ROOT_BLOG, 'siteurl' ) . '/' . basename( WP_CONTENT_DIR ) . '/blogs.dir/' . BP_ROOT_BLOG . '/files/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );	
 	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', WP_CONTENT_DIR . '/blogs.dir/' . BP_ROOT_BLOG . '/files/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );	
 	
 	/* If no avatars have been uploaded for this item, display a gravatar */	
