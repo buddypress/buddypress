@@ -283,13 +283,13 @@ function bp_core_add_admin_menu() {
 	bp_core_add_admin_menu_page( array(
 		'menu_title' => __( 'BuddyPress', 'buddypress' ),
 		'page_title' => __( 'BuddyPress', 'buddypress' ),
-		'access_level' => 10, 'file' => 'bp-core.php',
+		'access_level' => 10, 'file' => 'bp-general-settings',
 		'function' => 'bp_core_admin_settings',
 		'position' => 2
 	) );
 	
-	add_submenu_page( 'bp-core.php', __( 'General Settings', 'buddypress'), __( 'General Settings', 'buddypress' ), 1, 'bp-core.php', 'bp_core_admin_settings' );
-	add_submenu_page( 'bp-core.php', __( 'Component Setup', 'buddypress'), __( 'Component Setup', 'buddypress' ), 2, __FILE__, 'bp_core_admin_component_setup' );
+	add_submenu_page( 'bp-general-settings', __( 'General Settings', 'buddypress'), __( 'General Settings', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_settings' );
+	add_submenu_page( 'bp-general-settings', __( 'Component Setup', 'buddypress'), __( 'Component Setup', 'buddypress' ), 'manage_options', 'bp-component-setup', 'bp_core_admin_component_setup' );
 }
 add_action( 'admin_menu', 'bp_core_add_admin_menu' );
 

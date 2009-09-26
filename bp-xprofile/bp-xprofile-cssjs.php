@@ -6,7 +6,7 @@ function xprofile_add_admin_css() {
 add_action( 'admin_menu', 'xprofile_add_admin_css' );
 
 function xprofile_add_admin_js() {
-	if ( strpos( $_GET['page'], 'xprofile' ) !== false ) {
+	if ( strpos( $_GET['page'], 'bp-profile-setup' ) !== false ) {
 		wp_enqueue_script( array( "jquery-ui-sortable" ) );
 		wp_enqueue_script( 'xprofile-admin-js', BP_PLUGIN_URL . '/bp-xprofile/admin/js/admin.js', array( 'jquery' ) );
 	}

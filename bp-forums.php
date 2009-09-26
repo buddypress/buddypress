@@ -74,7 +74,7 @@ function bp_forums_add_admin_menu() {
 	require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-admin.php' );
 	
 	/* Add the administration tab under the "Site Admin" tab for site administrators */
-	add_submenu_page( 'bp-core.php', __( 'Forums Setup', 'buddypress' ), __( 'Forums Setup', 'buddypress' ), 2, __FILE__, "bp_forums_bbpress_admin" );
+	add_submenu_page( 'bp-general-settings', __( 'Forums Setup', 'buddypress' ), __( 'Forums Setup', 'buddypress' ), 'manage_options', 'bb-forums-setup', "bp_forums_bbpress_admin" );
 }
 add_action( 'admin_menu', 'bp_forums_add_admin_menu' );
 

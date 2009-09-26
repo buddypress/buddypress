@@ -11,7 +11,7 @@
 function bp_core_add_admin_bar_css() {
 	global $current_blog;
 	
-	if ( defined( 'BP_DISABLE_ADMIN_BAR') )
+	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) )
 		return false;
 	
 	if ( BP_ROOT_BLOG == $current_blog->blog_id && !is_admin() )
