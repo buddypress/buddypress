@@ -1,7 +1,7 @@
 <?php
 
 function bp_core_admin_settings() {
-	global $wpdb, $bp;
+	global $wpdb, $bp, $current_blog;
 ?>
 	
 	<?php
@@ -101,8 +101,8 @@ function bp_core_admin_settings() {
 					</td>			
 				</tr>				
 				<?php endif; ?>
-							
-				<?php if ( !locate_template( array( 'registration/register.php' ) ) ) : ?>
+
+				<?php if ( '' == locate_template( array( 'registration/register.php' ), false ) && $current_blog->blog_id == BP_ROOT_BLOG ) : ?>
 				<tr>
 					<th scope="row"><?php _e('Select theme to use for BuddyPress generated pages', 'buddypress' ) ?>:</th>
 					<td>
