@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-09-23 14:11+0000\n"
+"POT-Creation-Date: 2009-09-26 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -331,7 +331,7 @@ msgid "%s's Recent Comments"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:330
-#: bp-blogs/bp-blogs-templatetags.php:1208
+#: bp-blogs/bp-blogs-templatetags.php:1216
 #, php-format
 msgid "Viewing blog %d to %d (of %d blogs)"
 msgstr ""
@@ -350,13 +350,23 @@ msgstr ""
 msgid "Comment on %s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:1231
-#: bp-blogs/bp-blogs-templatetags.php:1240
-#: bp-blogs/bp-blogs-templatetags.php:1249
+#: bp-blogs/bp-blogs-templatetags.php:633
+#, php-format
+msgid "%d Comment"
+msgstr ""
+
+#: bp-blogs/bp-blogs-templatetags.php:635
+#, php-format
+msgid "%d Comments"
+msgstr ""
+
+#: bp-blogs/bp-blogs-templatetags.php:1239
+#: bp-blogs/bp-blogs-templatetags.php:1248
+#: bp-blogs/bp-blogs-templatetags.php:1257
 msgid "Blog Avatar"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:1285 bp-core/bp-core-classes.php:64
+#: bp-blogs/bp-blogs-templatetags.php:1293 bp-core/bp-core-classes.php:64
 #: bp-core/bp-core-templatetags.php:285 bp-core/bp-core-widgets.php:298
 #: bp-groups/bp-groups-templatetags.php:2051
 #: bp-groups/deprecated/bp-groups-deprecated.php:194
@@ -364,20 +374,20 @@ msgstr ""
 msgid "active %s ago"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:1295
+#: bp-blogs/bp-blogs-templatetags.php:1303
 #, php-format
 msgid "Latest Post: %s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:1316
-#: bp-core/bp-core-templatetags.php:1167
+#: bp-blogs/bp-blogs-templatetags.php:1324
+#: bp-core/bp-core-templatetags.php:1174
 #: bp-forums/bp-forums-templatetags.php:923
 #: bp-groups/bp-groups-templatetags.php:2193
 msgid "Search anything..."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:1317
-#: bp-core/bp-core-templatetags.php:618 bp-core/bp-core-templatetags.php:1168
+#: bp-blogs/bp-blogs-templatetags.php:1325
+#: bp-core/bp-core-templatetags.php:618 bp-core/bp-core-templatetags.php:1175
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:624
 #: bp-forums/bbpress/bb-includes/class.bb-query.php:1017
 #: bp-forums/bbpress/bb-templates/kakumei/rss2.php:18
@@ -1171,21 +1181,21 @@ msgstr ""
 msgid "Forums"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:822
+#: bp-core/bp-core-templatetags.php:829
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1043
+#: bp-core/bp-core-templatetags.php:1050
 #, php-format
 msgid "Viewing member %d to %d (of %d members)"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1135
+#: bp-core/bp-core-templatetags.php:1142
 #, php-format
 msgid "%d friend"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1137
+#: bp-core/bp-core-templatetags.php:1144
 #, php-format
 msgid "%d friends"
 msgstr ""
@@ -4683,84 +4693,84 @@ msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:147
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:162
-#: bp-xprofile/bp-xprofile-templatetags.php:506
+#: bp-xprofile/bp-xprofile-templatetags.php:510
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:363
 msgid "January"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:148
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:163
-#: bp-xprofile/bp-xprofile-templatetags.php:506
+#: bp-xprofile/bp-xprofile-templatetags.php:510
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:363
 msgid "February"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:149
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:164
-#: bp-xprofile/bp-xprofile-templatetags.php:506
+#: bp-xprofile/bp-xprofile-templatetags.php:510
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:363
 msgid "March"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:150
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:165
-#: bp-xprofile/bp-xprofile-templatetags.php:507
+#: bp-xprofile/bp-xprofile-templatetags.php:511
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:364
 msgid "April"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:151
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:166
-#: bp-xprofile/bp-xprofile-templatetags.php:507
+#: bp-xprofile/bp-xprofile-templatetags.php:511
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:364
 msgid "May"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:152
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:167
-#: bp-xprofile/bp-xprofile-templatetags.php:507
+#: bp-xprofile/bp-xprofile-templatetags.php:511
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:364
 msgid "June"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:153
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:168
-#: bp-xprofile/bp-xprofile-templatetags.php:508
+#: bp-xprofile/bp-xprofile-templatetags.php:512
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:365
 msgid "July"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:154
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:169
-#: bp-xprofile/bp-xprofile-templatetags.php:508
+#: bp-xprofile/bp-xprofile-templatetags.php:512
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:365
 msgid "August"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:155
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:170
-#: bp-xprofile/bp-xprofile-templatetags.php:508
+#: bp-xprofile/bp-xprofile-templatetags.php:512
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:365
 msgid "September"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:156
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:171
-#: bp-xprofile/bp-xprofile-templatetags.php:509
+#: bp-xprofile/bp-xprofile-templatetags.php:513
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:366
 msgid "October"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:157
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:172
-#: bp-xprofile/bp-xprofile-templatetags.php:509
+#: bp-xprofile/bp-xprofile-templatetags.php:513
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:366
 msgid "November"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:158
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:173
-#: bp-xprofile/bp-xprofile-templatetags.php:509
+#: bp-xprofile/bp-xprofile-templatetags.php:513
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:366
 msgid "December"
 msgstr ""
@@ -5993,7 +6003,7 @@ msgid "Posted %s ago"
 msgstr ""
 
 #: bp-forums/bbpress/bb-templates/kakumei/profile-edit.php:3
-#: bp-xprofile.php:211 bp-xprofile/bp-xprofile-templatetags.php:691
+#: bp-xprofile.php:211 bp-xprofile/bp-xprofile-templatetags.php:695
 msgid "Edit Profile"
 msgstr ""
 
@@ -8291,7 +8301,7 @@ msgstr ""
 msgid "There was an error sending that message, please try again"
 msgstr ""
 
-#: bp-messages.php:188 bp-messages/deprecated/bp-messages-deprecated.php:241
+#: bp-messages.php:188 bp-messages/deprecated/bp-messages-deprecated.php:267
 msgid "Message sent successfully!"
 msgstr ""
 
@@ -8335,34 +8345,34 @@ msgstr ""
 msgid "There was a problem sending your reply, please try again"
 msgstr ""
 
-#: bp-messages.php:304
+#: bp-messages.php:309
 #, php-format
 msgid "From: %s"
 msgstr ""
 
-#: bp-messages.php:325
+#: bp-messages.php:330
 msgid "There was an error deleting that message."
 msgstr ""
 
-#: bp-messages.php:327
+#: bp-messages.php:332
 msgid "Message deleted."
 msgstr ""
 
-#: bp-messages.php:349
+#: bp-messages.php:354
 msgid "There was an error deleting messages."
 msgstr ""
 
-#: bp-messages.php:351 bp-messages/deprecated/bp-messages-deprecated.php:140
+#: bp-messages.php:356 bp-messages/deprecated/bp-messages-deprecated.php:140
 #: bp-themes/bp-sn-parent/_inc/ajax.php:355
 msgid "Messages deleted."
 msgstr ""
 
-#: bp-messages.php:371
+#: bp-messages.php:376
 #, php-format
 msgid "You have %d new messages"
 msgstr ""
 
-#: bp-messages.php:373
+#: bp-messages.php:378
 #, php-format
 msgid "You have %d new message"
 msgstr ""
@@ -8501,36 +8511,36 @@ msgstr ""
 msgid "There was a problem closing the notice."
 msgstr ""
 
-#: bp-messages/deprecated/bp-messages-deprecated.php:174
+#: bp-messages/deprecated/bp-messages-deprecated.php:200
 msgid "Notice posted successfully."
 msgstr ""
 
-#: bp-messages/deprecated/bp-messages-deprecated.php:176
+#: bp-messages/deprecated/bp-messages-deprecated.php:202
 msgid "There was an error posting that notice."
 msgstr ""
 
-#: bp-messages/deprecated/bp-messages-deprecated.php:187
+#: bp-messages/deprecated/bp-messages-deprecated.php:213
 msgid "Please enter at least one valid user to send this message to."
 msgstr ""
 
-#: bp-messages/deprecated/bp-messages-deprecated.php:190
+#: bp-messages/deprecated/bp-messages-deprecated.php:216
 msgid "There was an error sending the reply, please try again."
 msgstr ""
 
-#: bp-messages/deprecated/bp-messages-deprecated.php:195
+#: bp-messages/deprecated/bp-messages-deprecated.php:221
 msgid "You must send your message to one or more users not including yourself."
 msgstr ""
 
-#: bp-messages/deprecated/bp-messages-deprecated.php:201
+#: bp-messages/deprecated/bp-messages-deprecated.php:227
 msgid "Please make sure you fill in all the fields."
 msgstr ""
 
-#: bp-messages/deprecated/bp-messages-deprecated.php:204
+#: bp-messages/deprecated/bp-messages-deprecated.php:230
 msgid "Please make sure you have typed a message before sending a reply."
 msgstr ""
 
-#: bp-messages/deprecated/bp-messages-deprecated.php:231
-#: bp-messages/deprecated/bp-messages-deprecated.php:265
+#: bp-messages/deprecated/bp-messages-deprecated.php:257
+#: bp-messages/deprecated/bp-messages-deprecated.php:291
 msgid "Message could not be sent, please try again."
 msgstr ""
 
@@ -10346,17 +10356,17 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:633
+#: bp-xprofile/bp-xprofile-templatetags.php:637
 msgid ""
 "Avatar uploads are currently disabled. Why not use a <a href=\"http://"
 "gravatar.com\" target=\"_blank\">gravatar</a> instead?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:642
+#: bp-xprofile/bp-xprofile-templatetags.php:646
 msgid "Profile not recently updated"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:653
+#: bp-xprofile/bp-xprofile-templatetags.php:657
 #, php-format
 msgid "Profile updated %s ago"
 msgstr ""
