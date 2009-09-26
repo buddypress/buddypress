@@ -55,9 +55,9 @@ function bp_core_admin_menu_icon_css() {
 	global $bp;
 ?>
 	<style type="text/css">
-		ul#adminmenu li.toplevel_page_bp-core .wp-menu-image a { background-image: url( <?php echo BP_PLUGIN_URL . '/bp-core/images/admin_menu_icon.png' ?> ) !important; background-position: -1px -32px; }
-		ul#adminmenu li.toplevel_page_bp-core:hover .wp-menu-image a { background-position: -1px 0; }
-		ul#adminmenu li.toplevel_page_bp-core .wp-menu-image a img { display: none; }
+		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a { background-image: url( <?php echo BP_PLUGIN_URL . '/bp-core/images/admin_menu_icon.png' ?> ) !important; background-position: -1px -32px; }
+		ul#adminmenu li.toplevel_page_bp-general-settings:hover .wp-menu-image a { background-position: -1px 0; }
+		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a img { display: none; }
 	</style>
 <?php
 }
