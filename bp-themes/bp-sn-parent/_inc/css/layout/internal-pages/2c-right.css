@@ -7,8 +7,6 @@ body { min-width: 600px; }
 .internal-page #content, #optionsbar {
 	position: relative;
 	float: right;
-	padding-bottom: 20010px !important;  /* X + padding-bottom */
-	margin-bottom: -20000px !important;  /* X */
 }
 
 #optionsbar {
