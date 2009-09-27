@@ -144,7 +144,7 @@
 						<?php do_action( 'bp_before_group_member_widget' ) ?>
 						
 						<div class="bp-widget">
-							<h4><?php printf( __( 'Members (%d)', 'buddypress' ), bp_get_group_total_members() ); ?> <span><a href="<?php bp_group_all_members_permalink() ?>"><?php _e( 'See All', 'buddypress' ) ?> &rarr;</a></h4>
+							<h4><?php printf( __( 'Members (%d)', 'buddypress' ), bp_get_group_total_members() ); ?> <span><a href="<?php bp_group_all_members_permalink() ?>"><?php _e( 'See All', 'buddypress' ) ?> &rarr;</a></span></h4>
 
 							<?php if ( bp_group_has_members( 'max=5&exclude_admins_mods=0' ) ) : ?>
 						
