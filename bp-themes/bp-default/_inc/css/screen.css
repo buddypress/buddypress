@@ -4,6 +4,7 @@ body {
 	line-height: 170%;
 	color: #555;
 	min-width: 960px;
+	background: #fff;
 }
 
 a { 
@@ -76,6 +77,7 @@ h1, h2, h3 {
 #header {
 	overflow: auto;
 	width: 100%;
+	background: #fff;
 }
 	#header ul#nav {
 		float: right;
@@ -86,7 +88,8 @@ h1, h2, h3 {
 
 	#header h1#logo { 
 		float: left;
-		margin: 35px 0 30px 20px;
+		margin: 20px 0 15px 20px;
+		padding: 15px 0;
 	}
 	
 	#header h1#logo a {
@@ -141,6 +144,13 @@ h1, h2, h3 {
 .blog-page #container, .directory #container, .home-page #container {
 	padding: 5px 20px 20px 20px;
 }
+
+.internal-page 	#container {
+	background: url( ../images/background.gif ) top left repeat-y;
+}
+	.directory #container {
+		background: #fff;
+	}
 
 /*** Content Header *************************************************************/
 	
@@ -200,6 +210,7 @@ div.content-header {
 	#userbar ul li {
 		float: none;
 		margin-right: 0;
+		list-style: none;
 	}
 	
 	#userbar h3 {
@@ -455,6 +466,7 @@ div.bp-widget {
 	margin-bottom: 20px;
 }
 	div.bp-widget h4 {
+		position: relative;
 		background: url(../images/group_header.gif) repeat-x top left;
 		color: #fff;
 		padding: 6px 10px 15px 10px;
@@ -466,7 +478,7 @@ div.bp-widget {
 		}
 
 		/* "See All" links in widget headers */
-		div.bp-widget h4 span { float: right; }
+		div.bp-widget h4 span { position: absolute; right: 10px; }
 		
 		div.bp-widget h4 a {
 			color: #fff;
@@ -479,6 +491,7 @@ ul.horiz-gallery {
 	width: 100%;
 	margin: 0;
 	padding: 0;
+	position: relative;
 }
 	ul.horiz-gallery li {
 		float: left;
@@ -2025,6 +2038,8 @@ span.unread-count {
 
 /**** PROFILES ************************/
 
+table.profile-fields tr { position: relative; }
+
 table.profile-fields tr.alt, table.wp-profile-fields tr.alt {
 	background: #f0f0f0;
 }
@@ -2032,6 +2047,7 @@ table.profile-fields tr.alt, table.wp-profile-fields tr.alt {
 table.profile-fields tr td.label, table.wp-profile-fields tr td.label {
 	border-right: 1px solid #dadada;
 	font-weight: bold;
+	position: relative;
 }
 
 td.data p {
@@ -2258,4 +2274,7 @@ input.settings-input {
 	text-align: center;
 	padding: 15px;
 	font: normal 1.1em Georgia, times, serif;
+	height: 45px;
+	position: relative;
+	z-index: 999;
 }
