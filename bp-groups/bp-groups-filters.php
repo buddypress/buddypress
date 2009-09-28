@@ -57,10 +57,12 @@ add_filter( 'groups_group_description_before_save', 'force_balance_tags' );
 add_filter( 'groups_group_news_before_save', 'force_balance_tags' );
 
 /**** Filters for group forums ****/
+
 function groups_add_forum_privacy_sql() {
 	global $bp;
 	
-	if ( !$bp->groups->current_group ) {
+	/* Only filter the forum SQL on group pages or on the forums directory */
+	if ( $bp->groups->current_group || bp_is_directory() ) {
 		add_filter( 'get_topics_fields', 'groups_add_forum_fields_sql' );
 		add_filter( 'get_topics_index_hint', 'groups_add_forum_tables_sql' );
 		add_filter( 'get_topics_where', 'groups_add_forum_where_sql' );
