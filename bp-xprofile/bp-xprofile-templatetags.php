@@ -336,6 +336,10 @@ function bp_the_profile_field_edit_value() {
 	function bp_get_the_profile_field_edit_value() {
 		global $field;
 		
+		/* Don't ever return an edit value if this is the registration page and nothing has been posted */
+		if ( bp_is_register_page() && !isset( $_POST['field_' . $field->id] ) )
+			return;
+		
 		/**
 		 * Check to see if the posted value is different, if it is re-display this
 		 * value as long as it's not empty and a required field.
