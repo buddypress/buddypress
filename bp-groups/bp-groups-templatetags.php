@@ -2129,9 +2129,9 @@ function bp_the_site_group_forum_topic_count( $args = '' ) {
 
 		if ( (bool) $showtext ) {
 			if ( 1 == (int) $site_groups_template->group->forum_counts[0]->topics )
-				$total_topics = sprintf( __( '%d topic'), (int) $site_groups_template->group->forum_counts[0]->topics );
+				$total_topics = sprintf( __( '%d topic', 'buddypress' ), (int) $site_groups_template->group->forum_counts[0]->topics );
 			else
-				$total_topics = sprintf( __( '%d topics'), (int) $site_groups_template->group->forum_counts[0]->topics );	
+				$total_topics = sprintf( __( '%d topics', 'buddypress' ), (int) $site_groups_template->group->forum_counts[0]->topics );	
 		} else {
 			$total_topics = (int) $site_groups_template->group->forum_counts[0]->topics;
 		}
@@ -2163,9 +2163,9 @@ function bp_the_site_group_forum_post_count( $args = '' ) {
 
 		if ( (bool) $showtext ) {
 			if ( 1 == (int) $site_groups_template->group->forum_counts[0]->posts )
-				$total_posts = sprintf( __( '%d post'), (int) $site_groups_template->group->forum_counts[0]->posts );
+				$total_posts = sprintf( __( '%d post', 'buddypress' ), (int) $site_groups_template->group->forum_counts[0]->posts );
 			else
-				$total_posts = sprintf( __( '%d posts'), (int) $site_groups_template->group->forum_counts[0]->posts );	
+				$total_posts = sprintf( __( '%d posts', 'buddypress' ), (int) $site_groups_template->group->forum_counts[0]->posts );	
 		} else {
 			$total_posts = (int) $site_groups_template->group->forum_counts[0]->posts;
 		}
