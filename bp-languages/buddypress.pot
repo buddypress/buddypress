@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-09-26 14:11+0000\n"
+"POT-Creation-Date: 2009-09-28 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -563,6 +563,10 @@ msgstr ""
 #: bp-core/deprecated/bp-core-deprecated.php:509
 #: bp-core/deprecated/bp-core-deprecated.php:527
 msgid "Your account is now active!"
+msgstr ""
+
+#: bp-core/bp-core-activation.php:101
+msgid "After you activate, you will receive *another email* with your login."
 msgstr ""
 
 #: bp-core/bp-core-admin.php:32
@@ -10143,6 +10147,10 @@ msgstr ""
 
 #: bp-xprofile/bp-xprofile-admin.php:91
 msgid "Drag"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-admin.php:92
+msgid "(Core Field)"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-admin.php:104
