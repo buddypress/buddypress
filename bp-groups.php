@@ -239,7 +239,7 @@ function groups_setup_nav() {
 			$bp->current_action = $bp->action_variables[0];
 			array_shift($bp->action_variables);
 									
-			$bp->bp_options_title = $bp->groups->current_group->namee;
+			$bp->bp_options_title = $bp->groups->current_group->name;
 			
 			if ( !$bp->bp_options_avatar = bp_core_fetch_avatar( array( 'item_id' => $bp->groups->current_group->id, 'object' => 'group', 'type' => 'thumb', 'avatar_dir' => 'group-avatars', 'alt' => __( 'Group Avatar', 'buddypress' ) ) ) )
 				$bp->bp_options_avatar = '<img src="' . attribute_escape( $group->avatar_full ) . '" class="avatar" alt="' . attribute_escape( $group->name ) . '" />';
