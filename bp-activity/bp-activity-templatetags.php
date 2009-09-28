@@ -114,7 +114,7 @@ class BP_Activity_Template {
 function bp_has_activities( $args = '' ) {
 	global $bp, $activities_template;
 	
-	/* Note: any params used for filtering can be a single value, or multiple values comma seperated. */
+	/* Note: any params used for filtering can be a single value, or multiple values comma separated. */
 	
 	$defaults = array(
 		'type' => 'sitewide',

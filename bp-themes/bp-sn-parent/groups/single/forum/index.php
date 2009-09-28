@@ -81,7 +81,7 @@
 							<label><?php _e( 'Content:', 'buddypress' ) ?></label>
 							<textarea name="topic_text" id="topic_text"></textarea>
 					
-							<label><?php _e( 'Tags (comma seperated):', 'buddypress' ) ?></label>
+							<label><?php _e( 'Tags (comma separated):', 'buddypress' ) ?></label>
 							<input type="text" name="topic_tags" id="topic_tags" value="" />
 
 							<?php do_action( 'groups_forum_new_topic_after' ) ?>

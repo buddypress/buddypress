@@ -7,7 +7,7 @@ define( 'BP_CORE_DB_VERSION', '1800' );
  * Define the path and url of the BuddyPress plugins directory. 
  * It is important to use plugins_url() core function to obtain 
  * the correct scheme used (http or https). 
- */ 
+ */
 define( 'BP_PLUGIN_DIR', WP_PLUGIN_DIR . '/buddypress' );
 define( 'BP_PLUGIN_URL', plugins_url( $path = '/buddypress' ) );
 
