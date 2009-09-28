@@ -470,28 +470,28 @@ function bp_the_profile_field_options( $args = '' ) {
 				break;
 			
 			case 'datebox':
-				
+			
 				if ( $field->data->value != '' ) {
 					$day = date("j", $field->data->value);
 					$month = date("F", $field->data->value);
 					$year = date("Y", $field->data->value);
 					$default_select = ' selected="selected"';
-					
-					/* Check for updated posted values, but errors preventing them from being saved first time */
-					if ( isset( $_POST['field_' . $field->id . '_day'] ) && $day != $_POST['field_' . $field->id . '_day'] ) {
-						if ( !empty( $_POST['field_' . $field->id . '_day'] ) )
-							$day = $_POST['field_' . $field->id . '_day'];
-					}
-					
-					if ( isset( $_POST['field_' . $field->id . '_month'] ) && $month != $_POST['field_' . $field->id . '_month'] ) {
-						if ( !empty( $_POST['field_' . $field->id . '_month'] ) )
-							$month = $_POST['field_' . $field->id . '_month'];
-					}
-					
-					if ( isset( $_POST['field_' . $field->id . '_year'] ) && $year != date("j", $_POST['field_' . $field->id . '_year'] ) ) {
-						if ( !empty( $_POST['field_' . $field->id . '_year'] ) )
-							$year = $_POST['field_' . $field->id . '_year'];
-					}
+				}
+				
+				/* Check for updated posted values, but errors preventing them from being saved first time */
+				if ( isset( $_POST['field_' . $field->id . '_day'] ) && $day != $_POST['field_' . $field->id . '_day'] ) {
+					if ( !empty( $_POST['field_' . $field->id . '_day'] ) )
+						$day = $_POST['field_' . $field->id . '_day'];
+				}
+				
+				if ( isset( $_POST['field_' . $field->id . '_month'] ) && $month != $_POST['field_' . $field->id . '_month'] ) {
+					if ( !empty( $_POST['field_' . $field->id . '_month'] ) )
+						$month = $_POST['field_' . $field->id . '_month'];
+				}
+				
+				if ( isset( $_POST['field_' . $field->id . '_year'] ) && $year != date("j", $_POST['field_' . $field->id . '_year'] ) ) {
+					if ( !empty( $_POST['field_' . $field->id . '_year'] ) )
+						$year = $_POST['field_' . $field->id . '_year'];
 				}
 				
 				switch ( $type ) {

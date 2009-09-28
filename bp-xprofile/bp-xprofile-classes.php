@@ -502,7 +502,7 @@ Class BP_XProfile_Field {
 				?>
 					
 					<p><?php _e('Option', 'buddypress') ?> 1: <input type="text" name="<?php echo $type ?>_option[1]" id="<?php echo $type ?>_option1" />
-					<input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" id="isDefault_<?php echo $type ?>_option" <?php if ( $default_input == 'radio' ) {?> checked="checked"<?php } ?>" value="1" /> <?php _e( 'Default Value', 'buddypress' ) ?>
+					<input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" id="isDefault_<?php echo $type ?>_option" value="1" /> <?php _e( 'Default Value', 'buddypress' ) ?>
 					<input type="hidden" name="<?php echo $type ?>_option_number" id="<?php echo $type ?>_option_number" value="2" />
 				
 				<?php } // end if ?>

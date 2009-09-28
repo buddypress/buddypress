@@ -882,6 +882,9 @@ function xprofile_get_field_data( $field, $user_id = null ) {
 	
 	if ( !$user_id )
 		$user_id = $bp->displayed_user->id;
+	
+	if ( !$user_id )
+		return false;
 
 	if ( is_numeric( $field ) )
 		$field_id = $field;
@@ -890,7 +893,7 @@ function xprofile_get_field_data( $field, $user_id = null ) {
 
 	if ( !$field_id )
 		return false;
-		
+
 	return apply_filters( 'xprofile_get_field_data', BP_XProfile_ProfileData::get_value_byid( $field_id, $user_id ) );
 }
 

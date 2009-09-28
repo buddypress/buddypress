@@ -27,7 +27,7 @@ function add_option(forWhat) {
 	}
 	
 	isDefault.setAttribute('value', theId);
-
+	
 	var label1 = document.createElement('label');
 	var txt1 = document.createTextNode(" Default Value ");
 	

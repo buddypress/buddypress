@@ -6,8 +6,8 @@ function bp_core_screen_signup() {
 	if ( $bp->current_component != BP_REGISTER_SLUG )
 		return false;
 		
-	/* If the user is logged in, and is not a site admin, redirect away from here */
-	if ( is_user_logged_in() && !is_site_admin() )
+	/* If the user is logged in, redirect away from here */
+	if ( is_user_logged_in() )
 		bp_core_redirect( $bp->root_domain );
 	
 	/***
@@ -209,7 +209,7 @@ function bp_core_signup_avatar_upload_dir() {
 function bp_core_wpsignup_redirect() {
 	if ( false === strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php') )
 		return false;
-		
+
 	if ( '' != locate_template( array( 'registration/register.php' ), false ) || '' != locate_template( array( 'register.php' ), false ) )
 		die;
 }
