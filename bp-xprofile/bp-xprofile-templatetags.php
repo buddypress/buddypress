@@ -303,7 +303,7 @@ function bp_the_profile_field() {
 }
 
 function bp_the_profile_field_id() {
-	echo bp_get_the_profile_field_name();
+	echo bp_get_the_profile_field_id();
 }
 	function bp_get_the_profile_field_id() {
 		global $field;
