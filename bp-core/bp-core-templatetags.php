@@ -676,24 +676,6 @@ function bp_custom_profile_sidebar_boxes() {
 	do_action( 'bp_custom_profile_sidebar_boxes' );
 }
 
-function bp_get_userbar( $hide_on_directory = true ) {
-	global $bp;
-	
-	if ( $hide_on_directory && $bp->is_directory )
-		return false;
-	
-	locate_template( array( 'userbar.php' ), true );
-}
-
-function bp_get_optionsbar( $hide_on_directory = true ) {
-	global $bp;
-	
-	if ( $hide_on_directory && $bp->is_directory )
-		return false;
-		
-	locate_template( array( 'optionsbar.php' ), true );
-}
-
 function bp_is_directory() {
 	global $bp;
 	

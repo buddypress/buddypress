@@ -959,3 +959,23 @@ function bp_core_add_nav_default( $parent_id, $function, $slug = false, $user_ha
 	}
 }
 
+/* DEPRECATED - use <?php locate_template( array( 'userbar.php' ), true ) ?> */
+function bp_get_userbar( $hide_on_directory = true ) {
+	global $bp;
+	
+	if ( $hide_on_directory && $bp->is_directory )
+		return false;
+	
+	load_template( TEMPLATEPATH . '/userbar.php' );
+}
+
+/* DEPRECATED - use <?php locate_template( array( 'optionsbar.php' ), true ) ?> */
+function bp_get_optionsbar( $hide_on_directory = true ) {
+	global $bp;
+	
+	if ( $hide_on_directory && $bp->is_directory )
+		return false;
+		
+	load_template( TEMPLATEPATH . '/optionsbar.php' );
+}
+
