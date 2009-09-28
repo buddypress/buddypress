@@ -27,7 +27,7 @@
 					</div>
 					
 					<?php do_action( 'bp_after_group_name' ) ?>
-		
+					
 					<?php if ( !bp_group_is_visible() ) : ?>
 						
 						<?php do_action( 'bp_before_group_status_message' ) ?>

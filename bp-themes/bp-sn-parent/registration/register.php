@@ -177,7 +177,7 @@
 							<?php do_action( 'bp_signup_blog_url_errors' ) ?>
 			
 							<?php if ( 'yes' == VHOST ) : ?>
-								http:// <input type="text" name="signup_blog_url" id="signup_blog_url" value="<?php bp_signup_blog_url_value() ?>" /> <?php echo str_replace( 'http://', '', site_url() ) ?>
+								http:// <input type="text" name="signup_blog_url" id="signup_blog_url" value="<?php bp_signup_blog_url_value() ?>" /> .<?php echo str_replace( 'http://', '', site_url() ) ?>
 							<?php else : ?>
 								<?php echo site_url() ?>/ <input type="text" name="signup_blog_url" id="signup_blog_url" value="<?php bp_signup_blog_url_value() ?>" />				
 							<?php endif; ?>
@@ -186,7 +186,7 @@
 							<?php do_action( 'bp_signup_blog_title_errors' ) ?>
 							<input type="text" name="signup_blog_title" id="signup_blog_title" value="<?php bp_signup_blog_title_value() ?>" />
 
-							<span class="label"><?php _e( 'I would like my blog to appear in search engines, and in public listings around this site', 'buddypress' ) ?></span>
+							<span class="label"><?php _e( 'I would like my blog to appear in search engines, and in public listings around this site', 'buddypress' ) ?>:</span>
 							<?php do_action( 'bp_signup_blog_privacy_errors' ) ?>
 			
 							<label><input type="radio" name="signup_blog_privacy" id="signup_blog_privacy_public" value="public"<?php if ( 'public' == bp_get_signup_blog_privacy_value() ) : ?> checked="checked"<?php endif; ?> /> <?php _e( 'Yes' ) ?></label>
