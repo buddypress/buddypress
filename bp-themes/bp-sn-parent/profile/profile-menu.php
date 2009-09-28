@@ -1,6 +1,6 @@
 <?php do_action( 'bp_before_profile_menu' ) ?>
 
-<?php bp_the_avatar() ?>
+<?php bp_displayed_user_avatar( 'type=full' ) ?>
 
 <div class="button-block">
 	

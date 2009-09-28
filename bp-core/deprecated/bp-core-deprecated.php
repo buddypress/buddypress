@@ -939,7 +939,7 @@ function bp_login_bar() {
 	<?php endif;
 }
 
-/* DEPRECATED - use the param 'default_subnav_slug' in bp_core_new_nav_item() */
+/* DEPRECATED - use the param 'default_subnav_slug' in bp_core_new_nav_item() OR bp_core_new_nav_default() */
 function bp_core_add_nav_default( $parent_id, $function, $slug = false, $user_has_access = true, $admin_only = false ) {
 	global $bp;
 	

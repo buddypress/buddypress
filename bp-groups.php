@@ -260,7 +260,7 @@ function groups_setup_nav() {
 			bp_core_reset_subnav_items($bp->groups->slug);
 			
 			/* Add a new default subnav item for when the groups nav is selected. */
-			bp_core_add_nav_default( $bp->groups->slug, 'groups_screen_group_home', 'home' );
+			bp_core_new_nav_default( array( 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_home', 'subnav_slug' => 'home' ) );
 			
 			/* Add the "Home" subnav item, as this will always be present */
 			bp_core_new_subnav_item( array( 'name' => __( 'Home', 'buddypress' ), 'slug' => 'home', 'parent_url' => $group_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_home', 'position' => 10, 'item_css_id' => 'group-home' ) );
@@ -298,7 +298,7 @@ add_action( 'admin_menu', 'groups_setup_nav' );
 function groups_directory_groups_setup() {
 	global $bp;
 
-	if ( $bp->current_component == $bp->groups->slug && empty( $bp->current_action ) ) {
+	if ( $bp->current_component == $bp->groups->slug && empty( $bp->current_action ) && empty( $bp->current_item ) ) {
 		$bp->is_directory = true;
 
 		do_action( 'groups_directory_groups_setup' );

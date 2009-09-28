@@ -8,7 +8,7 @@
 	<?php if ( is_user_logged_in() ) : ?>
 		
 		<p class="avatar">
-			<?php bp_loggedinuser_avatar_thumbnail() ?>
+			<?php bp_loggedin_user_avatar( 'type=thumb' ) ?>
 		</p>
 		
 		<ul id="bp-nav">

@@ -571,7 +571,7 @@ function bp_core_get_root_domain() {
  * @return The user id for the user that is currently being displayed, return zero if this is not a user home and just a normal blog.
  */
 function bp_core_get_displayed_userid( $user_login ) {
-	return apply_filters( 'bp_core_get_displayed_userid', bp_core_get_userid_from_user_login( $user_login ) );
+	return apply_filters( 'bp_core_get_displayed_userid', bp_core_get_userid( $user_login ) );
 }
 
 /**
@@ -583,10 +583,8 @@ function bp_core_get_displayed_userid( $user_login ) {
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
 function bp_core_new_nav_item( $args = '' ) {
-	global $bp, $temp_nav;
+	global $bp;
 
-	$temp_nav[] = $args;
-	
 	$defaults = array(
 		'name' => false, // Display name for the nav item
 		'slug' => false, // URL slug for the nav item
@@ -638,6 +636,36 @@ function bp_core_new_nav_item( $args = '' ) {
 	}
 }
 
+/**
+ * bp_core_new_nav_default()
+ *
+ * Modify the default subnav item to load when a top level nav item is clicked.
+ * 
+ * @package BuddyPress Core
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ */
+function bp_core_new_nav_default( $args = '' ) {
+	global $bp;
+	
+	$defaults = array(
+		'parent_slug' => false, // Slug of the parent
+		'screen_function' => false, // The name of the function to run when clicked
+		'subnav_slug' => false // The slug of the subnav item to select when clicked
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	if ( $bp->current_component == $parent_slug && !$bp->current_action ) {
+		if ( !is_object( $screen_function[0] ) )
+			add_action( 'wp', $screen_function, 3 );
+		else
+			add_action( 'wp', array( &$screen_function[0], $screen_function[1] ), 3 );
+
+		if ( $subnav_slug )
+			$bp->current_action = $subnav_slug;
+	}
+}
 
 /**
  * bp_core_sort_nav_items()

@@ -8,7 +8,7 @@
 	<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 	
 	<div class="left-menu">
-		<?php bp_the_avatar() ?>
+		<?php bp_displayed_user_avatar() ?>
 		
 		<div class="button-block">
 			<?php if ( function_exists('bp_add_friend_button') ) : ?>
