@@ -53,7 +53,10 @@ Class BP_XProfile_Data_Template {
 		
 		if ( !$fields = wp_cache_get( 'xprofile_fields_' . $this->group->id . '_' . $this->user_id, 'bp' ) ) {
 			for ( $i = 0; $i < count($this->group->fields); $i++ ) {
-				$field = new BP_XProfile_Field( $this->group->fields[$i]->id, $this->user_id );
+				/* Don't try and fetch any existing profile data if we are using this loop on the registration page */
+				$get_data = ( !bp_is_register_page() ) ? true : false;
+
+				$field = new BP_XProfile_Field( $this->group->fields[$i]->id, $this->user_id, $get_data );
 				$fields[$i] = $field;
 			}
 			
@@ -335,11 +338,7 @@ function bp_the_profile_field_edit_value() {
 }
 	function bp_get_the_profile_field_edit_value() {
 		global $field;
-		
-		/* Don't ever return an edit value if this is the registration page and nothing has been posted */
-		if ( bp_is_register_page() && !isset( $_POST['field_' . $field->id] ) )
-			return;
-		
+
 		/**
 		 * Check to see if the posted value is different, if it is re-display this
 		 * value as long as it's not empty and a required field.
