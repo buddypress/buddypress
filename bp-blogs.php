@@ -474,8 +474,11 @@ function bp_blogs_record_comment( $comment_id, $is_approved ) {
 }
 add_action( 'comment_post', 'bp_blogs_record_comment', 10, 2 );
 
-function bp_blogs_approve_comment( $comment_id, $comment ) {
+function bp_blogs_approve_comment( $comment_id, $comment_status ) {
 	global $bp, $wpdb;
+	
+	if ( 'approve' != $comment_status )
+		return false;
 
 	$recorded_comment = bp_blogs_record_comment( $comment_id, true );
 	$comment = get_comment($comment_id);
@@ -483,9 +486,9 @@ function bp_blogs_approve_comment( $comment_id, $comment ) {
 	
 	bp_blogs_delete_activity( array( 'item_id' => $comment_id, 'secondary_item_id' => $recorded_comment->blog_id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog_comment' ) );
 
-	$comment_link = bp_post_get_permalink( $comment->post, $comment->blog_id );
-	$content = sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink( $recorded_comment->user_id ), '<a href="' . $comment_link . '#comment-' . $comment->comment_ID . '">' . $comment->post->post_title . '</a>' );			
-	$content .= '<blockquote>' . bp_create_excerpt( $comment->comment_content ) . '</blockquote>';
+	$comment_link = bp_post_get_permalink( $comment->post, $recorded_comment->blog_id );
+	$activity_content = sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink( $recorded_comment->user_id ), '<a href="' . $comment_link . '#comment-' . $comment->comment_ID . '">' . $comment->post->post_title . '</a>' );			
+	$activity_content .= '<blockquote>' . bp_create_excerpt( $comment->comment_content ) . '</blockquote>';
 
 	/* Record this in activity streams */
 	bp_blogs_record_activity( array(
@@ -498,13 +501,12 @@ function bp_blogs_approve_comment( $comment_id, $comment ) {
 		'recorded_time' =>  $recorded_comment->date_created 
 	) );
 }
-add_action( 'comment_approved_', 'bp_blogs_approve_comment', 10, 2 );
+add_action( 'wp_set_comment_status', 'bp_blogs_approve_comment', 10, 2 );
 
-function bp_blogs_unapprove_comment( $comment_id, $status = false ) {
-	if ( 'spam' == $status || !$status )
+function bp_blogs_unapprove_comment( $comment_id, $comment_status ) {
+	if ( 'spam' == $comment_status || 'hold' == $comment_status || 'delete' == $comment_status )
 		bp_blogs_remove_comment( $comment_id ); 	
 }
-add_action( 'comment_unapproved_', 'bp_blogs_unapprove_comment' );
 add_action( 'wp_set_comment_status', 'bp_blogs_unapprove_comment', 10, 2 );
 
 function bp_blogs_add_user_to_blog( $user_id, $role, $blog_id ) {
