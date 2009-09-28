@@ -77,10 +77,30 @@ add_action( 'wp', 'bp_core_screen_activation', 3 );
  *
  * Since the user now chooses their password, sending it over clear-text to an
  * email address is no longer necessary. It's also a terrible idea security wise.
+ *
+ * This will only disable the email if a custom registration template is being used.
  */
 function bp_core_disable_welcome_email() {
+	if ( '' == locate_template( array( 'registration/register.php' ), false ) && '' == locate_template( array( 'register.php' ), false ) )
+		return true;
+	
 	return false;
 }
 add_filter( 'wpmu_welcome_user_notification', 'bp_core_disable_welcome_email' );
+
+/***
+ * bp_core_filter_activation_email()
+ *
+ * Filter the activation email to remove the line stating that another email will be sent
+ * with the generated login details. This is not the case due to bp_core_disable_welcome_email()
+ */
+function bp_core_filter_activation_email( $email ) {
+	if ( '' == locate_template( array( 'registration/register.php' ), false ) && '' == locate_template( array( 'register.php' ), false ) )
+		return $email;
+
+	return str_replace( __( 'After you activate, you will receive *another email* with your login.', 'buddypress' ), '', $email );
+}
+add_filter( 'wpmu_signup_user_notification_email', 'bp_core_filter_activation_email' );
+add_filter( 'wpmu_signup_blog_notification_email', 'bp_core_filter_activation_email' );
 
 ?>
