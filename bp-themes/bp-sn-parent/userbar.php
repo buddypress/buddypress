@@ -35,7 +35,7 @@
 			<p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="userbar_rememberme" value="forever" /> <?php _e( 'Remember Me', 'buddypress' ) ?></label></p>
 			<p class="submit">
 				<input type="submit" name="wp-submit" id="userbar_wp-submit" value="<?php _e('Log In'); ?>" tabindex="100" />
-				<input type="hidden" name="redirect_to" value="<?php echo wp_get_referer() ?>" />
+				<input type="hidden" name="redirect_to" value="<?php echo bp_root_domain() ?>" />
 				<input type="hidden" name="testcookie" value="1" />
 			</p>
 		</form>
