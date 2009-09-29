@@ -90,7 +90,7 @@ function bp_core_screen_general_settings_content() {
 		<input type="text" name="email" id="email" value="<?php echo attribute_escape( $current_user->user_email ); ?>" class="settings-input" />
 			
 		<label for="pass1"><?php _e( 'Change Password <span>(leave blank for no change)</span>', 'buddypress' ) ?></label>
-		<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small" /> &nbsp;<?php _e( 'New Password', 'buddypress' ) ?>
+		<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small" /> &nbsp;<?php _e( 'New Password', 'buddypress' ) ?><br />
 		<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small" /> &nbsp;<?php _e( 'Repeat New Password', 'buddypress' ) ?>
 	
 		<p class="submit"><input type="submit" name="submit" value="<?php _e( 'Save Changes', 'buddypress' ) ?>" id="submit" class="auto"/></p>
