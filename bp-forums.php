@@ -25,6 +25,8 @@ function bp_forums_setup() {
 	
 	/* Register this in the active components array */
 	$bp->active_components[$bp->forums->slug] = $bp->forums->id;
+
+	do_action( 'bp_forums_setup' );
 }
 add_action( 'plugins_loaded', 'bp_forums_setup', 5 );
 add_action( 'admin_head', 'bp_forums_setup', 2 );

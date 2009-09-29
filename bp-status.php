@@ -14,6 +14,8 @@ function bp_status_setup_globals() {
 	
 	/* Register this in the active components array */
 	$bp->active_components[$bp->status->slug] = $bp->status->id;
+
+	do_action( 'bp_status_setup_globals' );
 }
 add_action( 'plugins_loaded', 'bp_status_setup_globals', 5 );	
 add_action( 'admin_menu', 'bp_status_setup_globals', 2 );

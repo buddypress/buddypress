@@ -147,6 +147,8 @@ function groups_setup_globals() {
 	) );
 	
 	$bp->groups->valid_status = apply_filters( 'groups_valid_status', array( 'public', 'private', 'hidden' ) );
+
+	do_action( 'groups_setup_globals' );
 }
 add_action( 'plugins_loaded', 'groups_setup_globals', 5 );	
 add_action( 'admin_menu', 'groups_setup_globals', 2 );

@@ -87,6 +87,8 @@ function messages_setup_globals() {
 
 	/* Register this in the active components array */
 	$bp->active_components[$bp->messages->slug] = $bp->messages->id;
+
+	do_action( 'messages_setup_globals' );
 }
 add_action( 'plugins_loaded', 'messages_setup_globals', 5 );	
 add_action( 'admin_menu', 'messages_setup_globals', 2 );

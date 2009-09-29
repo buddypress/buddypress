@@ -48,6 +48,8 @@ function friends_setup_globals() {
 	
 	/* Register this in the active components array */
 	$bp->active_components[$bp->friends->slug] = $bp->friends->id;
+
+	do_action( 'friends_setup_globals' );
 }
 add_action( 'plugins_loaded', 'friends_setup_globals', 5 );	
 add_action( 'admin_menu', 'friends_setup_globals', 2 );

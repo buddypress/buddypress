@@ -150,6 +150,8 @@ function xprofile_setup_globals() {
 
 	if ( function_exists( 'bp_wire_install' ) )
 		$bp->profile->table_name_wire = $wpdb->base_prefix . 'bp_xprofile_wire';
+	
+	do_action( 'xprofile_setup_globals' );
 }
 add_action( 'plugins_loaded', 'xprofile_setup_globals', 5 );
 add_action( 'admin_menu', 'xprofile_setup_globals', 2 );

@@ -12,7 +12,7 @@
 		</p>
 		
 		<ul id="bp-nav">
-			<?php bp_get_nav() ?>
+			<?php bp_get_loggedin_user_nav() ?>
 		</ul>
 		
 	<?php else : ?>

@@ -119,6 +119,8 @@ function bp_blogs_setup_globals() {
 	
 	/* Register this in the active components array */
 	$bp->active_components[$bp->blogs->slug] = $bp->blogs->id;
+
+	do_action( 'bp_blogs_setup_globals' );
 }
 add_action( 'plugins_loaded', 'bp_blogs_setup_globals', 5 );	
 add_action( 'admin_menu', 'bp_blogs_setup_globals', 2 );
