@@ -279,7 +279,7 @@ function bp_dtheme_ajax_send_reply() {
 			</div>
 			
 			<div class="message-content">
-				<?php echo stripslashes( apply_filters( 'bp_get_message_content', $_REQUEST['content'] ) ) ?>
+				<?php echo stripslashes( apply_filters( 'bp_get_the_thread_message_content', $_REQUEST['content'] ) ) ?>
 			</div>
 		<?php
 	} else {
