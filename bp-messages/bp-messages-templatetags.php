@@ -466,8 +466,7 @@ function bp_message_get_recipient_tabs() {
 				<span>
 					<?php echo bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'thumb', 'width' => 15, 'height' => 15 ) ) ?>
 					<?php echo bp_core_get_userlink( $user_id ) ?>
-				</span>
-				<span class="p">X</span>
+				</span> 
 			</li>
 			<?php
 		}
