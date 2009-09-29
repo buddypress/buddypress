@@ -29,9 +29,9 @@
 						<p class="request-pending"><?php _e( 'Membership Pending Approval', 'buddypress' ); ?></p>
 					<?php endif; ?>
 					
-					<p class="desc">
+					<div class="desc">
 						<?php bp_group_description_excerpt() ?>
-					</p>
+					</div>
 				
 					<?php do_action( 'bp_before_my_groups_list_item' ) ?>
 				</li>

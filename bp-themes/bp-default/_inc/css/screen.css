@@ -536,8 +536,9 @@ ul.item-list {
 	ul.item-list li .desc {
 		font-size: 0.9em;
 		color: #888;
-		margin: 10px 200px 0 65px;
+		margin: 10px 10px 0 68px;
 	}
+		#group-dir-list .desc { margin-right: 200px; }
 
 div.action {
 	position: absolute;
