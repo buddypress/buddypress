@@ -53,7 +53,7 @@
 						<input type="button" name="signup-submit" id="signup-submit" value="<?php _e( 'Sign Up', 'buddypress' ) ?>" onclick="location.href='<?php echo bp_signup_page() ?>'" />
 					<?php endif; ?>
 					
-					<input type="hidden" name="redirect_to" value="<?php bp_root_domain() ?>" />
+					<input type="hidden" name="redirect_to" value="<?php echo wp_get_referer() ?>" />
 					<input type="hidden" name="testcookie" value="1" />
 						
 					<?php do_action( 'bp_login_bar_logged_out' ) ?>
