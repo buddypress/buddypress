@@ -1226,6 +1226,11 @@ function bp_current_action() {
 	return apply_filters( 'bp_current_action', $bp->current_action );		
 }
 
+function bp_current_item() {
+	global $bp;
+	return apply_filters( 'bp_current_item', $bp->current_item );		
+}
+
 function bp_action_variables() {
 	global $bp;
 	return apply_filters( 'bp_action_variables', $bp->action_variables );		
