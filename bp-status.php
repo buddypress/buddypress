@@ -110,7 +110,7 @@ add_action( 'init', 'bp_status_action_add' );
 function bp_status_add_status( $user_id, $content ) {
 	global $bp;
 	
-	$content = apply_filters( 'bp_status_content', $content );
+	$content = apply_filters( 'bp_status_content_before_save', $content );
 	$recorded_time = time();
 	
 	if ( !$content || empty($content) )
