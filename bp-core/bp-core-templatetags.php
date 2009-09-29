@@ -1242,7 +1242,7 @@ function bp_root_domain() {
 
 /* Template is_() functions to determine the current page */
 
-function bp_is_profile() {
+function bp_is_profile_component() {
 	global $bp;
 	
 	if ( BP_XPROFILE_SLUG == $bp->current_component )
@@ -1251,7 +1251,7 @@ function bp_is_profile() {
 	return false;
 }
 
-function bp_is_activity() {
+function bp_is_activity_component() {
 	global $bp;
 	
 	if ( BP_ACTIVITY_SLUG == $bp->current_component )
@@ -1260,7 +1260,7 @@ function bp_is_activity() {
 	return false;	
 }
 
-function bp_is_blogs() {
+function bp_is_blogs_component() {
 	global $bp;
 	
 	if ( BP_BLOGS_SLUG == $bp->current_component )
@@ -1269,7 +1269,7 @@ function bp_is_blogs() {
 	return false;	
 }
 
-function bp_is_wire() {
+function bp_is_wire_component() {
 	global $bp;
 	
 	if ( BP_WIRE_SLUG == $bp->current_action || in_array( BP_WIRE_SLUG, (array)$bp->action_variables ) )
@@ -1278,7 +1278,7 @@ function bp_is_wire() {
 	return false;	
 }
 
-function bp_is_messages() {
+function bp_is_messages_component() {
 	global $bp;
 	
 	if ( BP_MESSAGES_SLUG == $bp->current_component )
@@ -1287,7 +1287,7 @@ function bp_is_messages() {
 	return false;	
 }
 
-function bp_is_friends() {
+function bp_is_friends_component() {
 	global $bp;
 	
 	if ( BP_FRIENDS_SLUG == $bp->current_component )
@@ -1296,7 +1296,7 @@ function bp_is_friends() {
 	return false;	
 }
 
-function bp_is_groups() {
+function bp_is_groups_component() {
 	global $bp;
 	
 	if ( BP_GROUPS_SLUG == $bp->current_component )
@@ -1305,7 +1305,7 @@ function bp_is_groups() {
 	return false;	
 }
 
-function bp_is_settings() {
+function bp_is_settings_component() {
 	global $bp;
 	
 	if ( BP_SETTINGS_SLUG == $bp->current_component )
@@ -1314,7 +1314,7 @@ function bp_is_settings() {
 	return false;	
 }
 
-function bp_is_my_activity() {
+function bp_is_user_activity() {
 	global $bp;
 	
 	if ( BP_ACTIVITY_SLUG == $bp->current_component && ( !$bp->current_action || 'my-activity' == $bp->current_action ) )
@@ -1323,10 +1323,19 @@ function bp_is_my_activity() {
 	return false;
 }	
 
-function bp_is_friends_activity() {
+function bp_is_user_friends_activity() {
 	global $bp;
 	
 	if ( BP_ACTIVITY_SLUG == $bp->current_component && 'my-friends' == $bp->current_action )
+		return true;
+	
+	return false;	
+}
+
+function bp_is_user_profile() {
+	global $bp;
+	
+	if ( BP_XPROFILE_SLUG == $bp->current_component )
 		return true;
 	
 	return false;	
@@ -1359,7 +1368,7 @@ function bp_is_profile_wire() {
 	return false;	
 }
 
-function bp_is_my_groups() {
+function bp_is_user_groups() {
 	global $bp;
 	
 	if ( BP_GROUPS_SLUG == $bp->current_component && ( !$bp->current_action || 'my-groups' == $bp->current_action ) )
@@ -1450,7 +1459,7 @@ function bp_is_group_leave() {
 	return false;	
 }
 
-function bp_is_my_blogs() {
+function bp_is_user_blogs() {
 	global $bp;
 	
 	if ( BP_BLOGS_SLUG == $bp->current_component && ( !$bp->current_action || 'my-blogs' == $bp->current_action ) )
@@ -1459,7 +1468,7 @@ function bp_is_my_blogs() {
 	return false;		
 }
 
-function bp_is_recent_posts() {
+function bp_is_user_recent_posts() {
 	global $bp;
 	
 	if ( BP_BLOGS_SLUG == $bp->current_component && 'recent-posts' == $bp->current_action )
@@ -1468,7 +1477,7 @@ function bp_is_recent_posts() {
 	return false;	
 }
 
-function bp_is_recent_commments() {
+function bp_is_user_recent_commments() {
 	global $bp;
 	
 	if ( BP_BLOGS_SLUG == $bp->current_component && 'recent-comments' == $bp->current_action )
@@ -1486,7 +1495,7 @@ function bp_is_create_blog() {
 	return false;	
 }
 
-function bp_is_friends_screen() {
+function bp_is_user_friends() {
 	global $bp;
 	
 	if ( BP_FRIENDS_SLUG == $bp->current_component && ( !$bp->current_action || 'my-friends' == $bp->current_action ) )
@@ -1504,7 +1513,7 @@ function bp_is_friend_requests() {
 	return false;	
 }
 
-function bp_is_inbox() {
+function bp_is_messages_inbox() {
 	global $bp;
 	
 	if ( BP_MESSAGES_SLUG == $bp->current_component && ( !$bp->current_action || 'inbox' == $bp->current_action ) )
@@ -1513,7 +1522,7 @@ function bp_is_inbox() {
 	return false;	
 }
 
-function bp_is_sentbox() {
+function bp_is_messages_sentbox() {
 	global $bp;
 	
 	if ( BP_MESSAGES_SLUG == $bp->current_component && 'sentbox' == $bp->current_action )
@@ -1533,7 +1542,7 @@ function bp_is_notices() {
 }
 
 
-function bp_is_compose_screen() {
+function bp_is_messages_compose_screen() {
 	global $bp;
 	
 	if ( BP_MESSAGES_SLUG == $bp->current_component && 'compose' == $bp->current_action )
@@ -1542,7 +1551,7 @@ function bp_is_compose_screen() {
 	return false;	
 }
 
-function bp_is_site_item() {
+function bp_is_single_item() {
 	global $bp;
 	
 	if ( $bp->is_single_item )
@@ -1589,55 +1598,64 @@ function bp_the_body_class() {
 		if ( bp_is_directory() )
 			$bp_classes[] = 'directory';
 			
-		if ( bp_is_profile() && !bp_is_blog_page() )
+		if ( bp_is_user_profile() && !bp_is_blog_page() )
 			$bp_classes[] = 'profile';
 		
-		if ( bp_is_activity() && !bp_is_blog_page()  )
+		if ( bp_is_activity_component() && !bp_is_blog_page()  )
 			$bp_classes[] = 'activity';		
 
-		if ( bp_is_blogs() && !bp_is_blog_page()  )
+		if ( bp_is_blogs_component() && !bp_is_blog_page()  )
 			$bp_classes[] = 'blogs';
 
-		if ( bp_is_wire() && !bp_is_blog_page()  )
+		if ( bp_is_wire_component() && !bp_is_blog_page()  )
 			$bp_classes[] = 'wire';
 
-		if ( bp_is_messages() && !bp_is_blog_page()  )
+		if ( bp_is_messages_component() && !bp_is_blog_page()  )
 			$bp_classes[] = 'messages';					
 		
-		if ( bp_is_friends() && !bp_is_blog_page()  )
+		if ( bp_is_friends_component() && !bp_is_blog_page()  )
 			$bp_classes[] = 'friends';
 			
-		if ( bp_is_groups() && !bp_is_blog_page()  )
+		if ( bp_is_groups_component() && !bp_is_blog_page()  )
 			$bp_classes[] = 'groups';
 
-		if ( bp_is_settings() && !bp_is_blog_page()  )
+		if ( bp_is_settings_component() && !bp_is_blog_page()  )
 			$bp_classes[] = 'settings';
 			
-		if ( bp_is_site_item() )
+		if ( bp_is_single_item() )
 			$bp_classes[] = 'single-item';
 			
-		if ( bp_is_inbox() )
+		if ( bp_is_messages_inbox() )
 			$bp_classes[] = 'inbox';
-			
+
+		if ( bp_is_messages_sentbox() )
+			$bp_classes[] = 'sentbox';
+
+		if ( bp_is_messages_compose_screen() )
+			$bp_classes[] = 'compose';
+
+		if ( bp_is_notices() )
+			$bp_classes[] = 'notices';
+						
 		if ( bp_is_friend_requests() )
 			$bp_classes[] = 'friend-requests';
 
-		if ( bp_is_friends_screen() )
+		if ( bp_is_user_friends() )
 			$bp_classes[] = 'my-friends';
 			
 		if ( bp_is_create_blog() )
 			$bp_classes[] = 'create-blog';
 			
-		if ( bp_is_recent_commments() )
+		if ( bp_is_user_recent_commments() )
 			$bp_classes[] = 'recent-comments';
 			
-		if ( bp_is_recent_posts() )
+		if ( bp_is_user_recent_posts() )
 			$bp_classes[] = 'recent-posts';
 			
-		if ( bp_is_my_blogs() && !bp_is_directory() )
+		if ( bp_is_user_blogs() && !bp_is_directory() )
 			$bp_classes[] = 'my-blogs';
 			
-		if ( bp_is_my_groups() && !bp_is_directory() )
+		if ( bp_is_user_groups() && !bp_is_directory() )
 			$bp_classes[] = 'my-groups';
 			
 		if ( bp_is_group_leave() )
@@ -1676,10 +1694,10 @@ function bp_the_body_class() {
 		if ( bp_is_profile_edit() )
 			$bp_classes[] = 'profile-edit';
 			
-		if ( bp_is_friends_activity() )
+		if ( bp_is_user_friends_activity() )
 			$bp_classes[] = 'friends-activity';
 			
-		if ( bp_is_my_activity() )
+		if ( bp_is_user_activity() )
 			$bp_classes[] = 'my-activity';
 		
 		if ( bp_is_register_page() )
