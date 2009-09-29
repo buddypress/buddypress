@@ -27,7 +27,7 @@ function bp_core_deprecated_globals() {
 	
 	/* If we are using a BuddyPress 1.1+ theme ignore this. */
 	if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
-		return $template;
+		return false;
 
 	$bp->core->image_base = BP_PLUGIN_URL . '/bp-core/deprecated/images';
 }
@@ -820,7 +820,7 @@ add_filter( 'stylesheet', 'bp_core_force_buddypress_stylesheet' );
 function bp_core_add_structure_css() {
 	/* If we are using a BuddyPress 1.1+ theme ignore this. */
 	if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
-		return $template;
+		return false;
 
 	/* Enqueue the structure CSS file to give basic positional formatting for components */
 	wp_enqueue_style( 'bp-core-structure', BP_PLUGIN_URL . '/bp-core/deprecated/css/structure.css' );	
@@ -831,7 +831,7 @@ add_action( 'bp_styles', 'bp_core_add_structure_css' );
 function bp_core_add_css() {
 	/* If we are using a BuddyPress 1.1+ theme ignore this. */
 	if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
-		return $template;
+		return false;
 	
 	// Enable a sitewide CSS file that will apply styles to both the home blog theme
 	// and the member theme.
@@ -846,7 +846,7 @@ add_action( 'wp_head', 'bp_core_add_css', 2 );
 function bp_core_admin_bar_css() {
 	/* If we are using a BuddyPress 1.1+ theme ignore this. */
 	if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
-		return $template;
+		return false;
 
 	if ( defined( 'BP_DISABLE_ADMIN_BAR') )
 		return false;
@@ -857,10 +857,9 @@ function bp_core_admin_bar_css() {
 		if ( 'rtl' == get_bloginfo('text_direction') && file_exists( BP_PLUGIN_DIR . '/bp-core/deprecated/css/admin-bar-rtl.css' ) )
 			wp_enqueue_style( 'bp-admin-bar-rtl', BP_PLUGIN_URL . '/bp-core/deprecated/css/admin-bar-rtl.css' );	
 	}
-	wp_print_styles();
 }
-add_action( 'wp_head', 'bp_core_admin_bar_css', 1 );
-add_action( 'admin_menu', 'bp_core_admin_bar_css', 1 );
+add_action( 'wp_head', 'bp_core_admin_bar_css' );
+add_action( 'admin_menu', 'bp_core_admin_bar_css' );
 
 /* DEPRECATED - Javascript is added by the theme on a per-theme basis. */
 function bp_core_add_js() {
