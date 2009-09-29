@@ -13,7 +13,7 @@
 
 			<?php do_action( 'bp_before_messages_compose_content' ) ?>
 			
-			<label for="send-to-input"><?php _e("Send To", 'buddypress') ?> &nbsp;<img src="<?php bp_message_loading_image_src() ?>" alt="Loading" id="send-to-loading" style="display: none" height="7" /></label>
+			<label for="send-to-input"><?php _e("Send To", 'buddypress') ?> &nbsp; <span class="ajax-loader"></span></label>
 			<ul class="first acfb-holder">
 				<li>
 					<?php bp_message_get_recipient_tabs() ?>
