@@ -13,10 +13,7 @@ function bp_core_add_admin_bar_css() {
 	
 	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) )
 		return false;
-	
-	if ( BP_ROOT_BLOG == $current_blog->blog_id && !is_admin() )
-		return false;
-			
+
 	/* Fetch the admin bar css from the active theme location */
 	if ( file_exists( WP_CONTENT_DIR . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'stylesheet' ) . '/_inc/css/adminbar.css' ) )
 		$admin_bar_css = WP_CONTENT_URL . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'stylesheet' ) . '/_inc/css/adminbar.css';
