@@ -1646,7 +1646,7 @@ function bp_core_clear_cache() {
 function bp_core_print_generation_time() {
 	global $wpdb;
 	?>
-<!-- Generated in <?php timer_stop(1); ?> seconds. <?php echo $wpdb->num_queries; ?> queries.-->
+<!-- Generated in <?php timer_stop(1); ?> seconds. -->
 	<?php
 }
 add_action( 'wp_footer', 'bp_core_print_generation_time' );
