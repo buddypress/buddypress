@@ -227,11 +227,12 @@ function bp_activity_add( $args = '' ) {
 	global $bp, $wpdb;
 	
 	$defaults = array(
-		'user_id' => $bp->loggedin_user->id, // The user to record the activity for
 		'content' => false, // The content of the activity item
 		'primary_link' => false, // The primary URL for this item in RSS feeds
 		'component_name' => false, // The name/ID of the component e.g. groups, profile, mycomponent
 		'component_action' => false, // The component action e.g. new_wire_post, profile_updated
+		
+		'user_id' => $bp->loggedin_user->id, // Optional: The user to record the activity for, can be false if this activity is not for a user.
 		'item_id' => false, // Optional: The ID of the specific item being recorded, e.g. a blog_id, or wire_post_id
 		'secondary_item_id' => false, // Optional: A second ID used to further filter e.g. a comment_id
 		'recorded_time' => time(), // The time that this activity was recorded
