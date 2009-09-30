@@ -1750,7 +1750,7 @@ add_action( 'init', 'bp_core_add_ajax_hook' );
  * @package BuddyPress Core
  */
 function bp_core_update_message() {
-	echo '<p style="color: red; margin: 3px 0 0 0; border-top: 1px solid #ddd; padding-top: 3px">IMPORTANT: <a href="http://codex.buddypress.org/getting-started/upgrading-from-10x/">Read this before attempting to update BuddyPress</p>';
+	echo '<p style="color: red; margin: 3px 0 0 0; border-top: 1px solid #ddd; padding-top: 3px">' . __( 'IMPORTANT: <a href="http://codex.buddypress.org/getting-started/upgrading-from-10x/">Read this before attempting to update BuddyPress</a>', 'buddypress' ) . '</p>';
 }
 add_action( 'in_plugin_update_message-buddypress/bp-loader.php', 'bp_core_update_message' );
 

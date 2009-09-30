@@ -44,7 +44,7 @@
 							<span class="small"><a href="<?php bp_forum_permalink() ?>">&larr; <?php _e( 'Group Forum', 'buddypress' ) ?></a> | <a href="<?php bp_forum_directory_permalink() ?>"><?php _e( 'Forum Topic Directory', 'buddypress') ?></a></span>
 							<h3><?php bp_the_topic_title() ?> (<?php bp_the_topic_total_post_count() ?>)</h3>
 							
-							<?php if ( bp_group_is_admin() || bp_group_is_mod() ) : ?>
+							<?php if ( bp_group_is_admin() || bp_group_is_mod() || bp_get_the_topic_is_mine() ) : ?>
 								<div class="admin-links"><?php bp_the_topic_admin_links() ?></div>
 							<?php endif; ?>
 						</li>
