@@ -347,7 +347,7 @@ class BP_Core_Notification {
 		global $wpdb, $bp;
 		
 		if ( $component_action )
-			$component_action_sql = $wpdb->prepare( "AND component_action = %s", $compoennt_action );
+			$component_action_sql = $wpdb->prepare( "AND component_action = %s", $component_action );
 		
 		if ( $secondary_item_id )
 			$secondary_item_sql = $wpdb->prepare( "AND secondary_item_id = %d", $secondary_item_id );
