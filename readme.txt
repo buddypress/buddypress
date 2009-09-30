@@ -72,8 +72,3 @@ Bugs can be reported here: http://trac.buddypress.org/newticket
 = Where can checkout the latest bleeding edge? =
 
 BuddyPress subversion trunk can be found at: http://svn.buddypress.org/trunk/
-
-== Changelog ==
-
-= 1.1 =
-* IMPORTANT: <a href="http://codex.buddypress.org/getting-started/upgrading-from-10x/">Read this before attempting to update BuddyPress</a>.
