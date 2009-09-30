@@ -25,7 +25,7 @@
 				<?php if ( bp_has_topic_posts() ) : ?>
 				<form action="<?php bp_forum_topic_action() ?>" method="post" id="forum-topic-form" class="standard-form">
 			
-					<h4><a href="<?php bp_forum_permalink() ?>">&larr; <?php _e( 'Forum', 'buddypress' ); ?></a> <span><a href="#footer" title="<?php _e( 'Post New', 'buddypress' ) ?>"><?php _e( 'Post Reply &rarr;', 'buddypress' ) ?></a></span></h4>
+					<h4><a href="<?php bp_forum_permalink() ?>">&larr; <?php _e( 'Forum', 'buddypress' ); ?></a> <span><a href="#post-topic-reply" title="<?php _e( 'Post New', 'buddypress' ) ?>"><?php _e( 'Post Reply &rarr;', 'buddypress' ) ?></a></span></h4>
 					
 					<div class="pagination">
 

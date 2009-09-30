@@ -22,7 +22,7 @@
 			</div>
 
 			<div class="bp-widget">
-				<h4><?php _e( 'Forum', 'buddypress' ); ?> <span><a href="#footer" title="<?php _e( 'Post New', 'buddypress' ) ?>"><?php _e( 'Post New &rarr;', 'buddypress' ) ?></a></span></h4>
+				<h4><?php _e( 'Forum', 'buddypress' ); ?> <span><a href="#post-new-topic" title="<?php _e( 'Post New', 'buddypress' ) ?>"><?php _e( 'Post New &rarr;', 'buddypress' ) ?></a></span></h4>
 				
 				<form action="<?php bp_forum_action() ?>" method="post" id="forum-topic-form" class="standard-form">
 					<?php if ( bp_has_topics() ) : ?>									
