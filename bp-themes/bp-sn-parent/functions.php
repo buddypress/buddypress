@@ -67,4 +67,13 @@ function bp_dtheme_show_home_blog() {
 }
 add_action( 'wp', 'bp_dtheme_show_home_blog', 2 );
 
+/* Override the Admin Bar CSS if it has been disabled */
+function bp_dtheme_override_adminbar_css() { 
+	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) || ( get_site_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() ) ) {
+	?>
+<style type="text/css">body { padding-top: 0 !important; }</style>
+	<?php }
+}
+add_action( 'wp_footer', 'bp_dtheme_override_adminbar_css' );
+
 ?>
