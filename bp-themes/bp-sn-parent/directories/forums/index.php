@@ -47,7 +47,7 @@
 						
 						<div id="global-forum-topic-filters">
 							<ul>
-								<li<?php if ( '' == bp_current_action() && !isset( $_GET['s'] ) ) : ?> class="selected"<?php endif; ?> id="forums-newest"><a href="<?php bp_newest_forum_topics_link() ?>" title="<?php _e( 'Newest Topics', 'buddypress' ) ?>"><?php _e( 'Newest Topics', 'buddypress') ?></a></li>
+								<li<?php if ( '' == bp_current_action() && !isset( $_GET['fs'] ) ) : ?> class="selected"<?php endif; ?> id="forums-newest"><a href="<?php bp_newest_forum_topics_link() ?>" title="<?php _e( 'Newest Topics', 'buddypress' ) ?>"><?php _e( 'Newest Topics', 'buddypress') ?></a></li>
 								<li<?php if ( 'popular' == bp_current_action() ) : ?> class="selected"<?php endif; ?> id="forums-popular"><a href="<?php bp_popular_forum_topics_link() ?>" title="<?php _e( 'Most Popular Topics', 'buddypress' ) ?>"><?php _e( 'Most Popular Topics', 'buddypress') ?></a></li>
 								<li<?php if ( 'unreplied' == bp_current_action() ) : ?> class="selected"<?php endif; ?> id="forums-unreplied"><a href="<?php bp_unreplied_forum_topics_link() ?>" title="<?php _e( 'Unreplied Topics', 'buddypress' ) ?>"><?php _e( 'Unreplied Topics', 'buddypress') ?></a></li>
 		
@@ -59,8 +59,8 @@
 									<li class="selected" id="forums-tag"><a href="<?php bp_newest_forum_topics_link() ?>" title="<?php _e( 'Tag', 'buddypress' ) ?>"><?php printf( __( 'Tagged: %s', 'buddypress' ), bp_get_forums_tag_name() ) ?></a></li>
 								<?php endif; ?>
 								
-								<?php if ( isset( $_GET['s'] ) ) : ?>
-									<li class="selected" id="forums-search"><a href="<?php bp_newest_forum_topics_link() ?>" title="<?php _e( 'Search', 'buddypress' ) ?>"><?php printf( __( 'Matching: %s', 'buddypress' ), attribute_escape( $_GET['s'] ) ) ?></a></li>
+								<?php if ( isset( $_GET['fs'] ) ) : ?>
+									<li class="selected" id="forums-search"><a href="<?php bp_newest_forum_topics_link() ?>" title="<?php _e( 'Search', 'buddypress' ) ?>"><?php printf( __( 'Matching: %s', 'buddypress' ), attribute_escape( $_GET['fs'] ) ) ?></a></li>
 								<?php endif; ?>
 								
 								<?php do_action( 'bp_directory_forums_topic_filters' ) ?>
