@@ -42,15 +42,17 @@ function bp_get_loggedin_user_nav() {
 		}
 		
 		/* echo out the final list item */
-		echo '<li id="li-nav-' . $nav_item['css_id'] . '" ' . $selected . '><a id="my-' . $nav_item['css_id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a></li>';
+		echo apply_filters( 'bp_get_loggedin_user_nav_' . $nav_item['css_id'], '<li id="li-nav-' . $nav_item['css_id'] . '" ' . $selected . '><a id="my-' . $nav_item['css_id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a></li>', &$nav_item );
 	}
 	
 	/* Always add a log out list item to the end of the navigation */
 	if ( function_exists( 'wp_logout_url' ) ) {
-		echo '<li><a id="wp-logout" href="' .  wp_logout_url( $bp->root_domain ) . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';		
+		$logout_link = '<li><a id="wp-logout" href="' .  wp_logout_url( $bp->root_domain ) . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';		
 	} else {
-		echo '<li><a id="wp-logout" href="' . site_url() . '/wp-login.php?action=logout&amp;redirect_to=' . $bp->root_domain . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';
+		$logout_link = '<li><a id="wp-logout" href="' . site_url() . '/wp-login.php?action=logout&amp;redirect_to=' . $bp->root_domain . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';
 	}
+	
+	echo apply_filters( 'bp_logout_nav_link', $logout_link );
 }
 	/* DEPRECATED - use bp_get_loggedin_user_nav() */
 	function bp_get_nav() { bp_get_loggedin_user_nav(); }
@@ -82,7 +84,7 @@ function bp_get_displayed_user_nav() {
 		else
 			$link = $bp->displayed_user->domain . $user_nav_item['link'];
 		
-		echo '<li id="li-subnav-' . $user_nav_item['css_id'] . '" ' . $selected . '><a id="user-' . $user_nav_item['css_id'] . '" href="' . $link . '">' . $user_nav_item['name'] . '</a></li>';
+		echo apply_filters( 'bp_get_displayed_user_nav_' . $user_nav_item['css_id'], '<li id="li-subnav-' . $user_nav_item['css_id'] . '" ' . $selected . '><a id="user-' . $user_nav_item['css_id'] . '" href="' . $link . '">' . $user_nav_item['name'] . '</a></li>', &$user_nav_item );
 	}	
 }
 	/* DEPRECATED - use bp_get_displayed_user_nav() */
@@ -129,7 +131,7 @@ function bp_get_options_nav() {
 			}
 			
 			/* echo out the final list item */
-			echo '<li id="li-subnav-' . $subnav_item['css_id'] . '" ' . $selected . '><a id="' . $subnav_item['css_id'] . '" href="' . $subnav_item['link'] . '">' . $subnav_item['name'] . '</a></li>';		
+			echo apply_filters( 'bp_get_options_nav_' . $subnav_item['css_id'], '<li id="li-subnav-' . $subnav_item['css_id'] . '" ' . $selected . '><a id="' . $subnav_item['css_id'] . '" href="' . $subnav_item['link'] . '">' . $subnav_item['name'] . '</a></li>', $subnav_item );		
 		}
 	} else {
 		/* If we get here we are viewing another user, so show the displayed user's nav items */
