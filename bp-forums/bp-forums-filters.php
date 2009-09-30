@@ -5,7 +5,9 @@ add_filter( 'bp_forums_bbconfig_location', 'wp_filter_kses', 1 );
 add_filter( 'bp_forums_bbconfig_location', 'attribute_escape', 1 );
 
 add_filter( 'bp_get_the_topic_title', 'wp_filter_kses', 1 );
+add_filter( 'bp_get_the_topic_latest_post_excerpt', 'wp_filter_kses', 1 );
 add_filter( 'bp_get_the_topic_post_content', 'wp_filter_kses', 1 );
+
 add_filter( 'bp_get_the_topic_title', 'attribute_escape' );
 add_filter( 'bp_get_the_topic_post_content', 'attribute_escape' );
 
