@@ -178,4 +178,18 @@ function bp_core_add_ajax_url_js() {
 }
 add_action( 'wp_head', 'bp_core_add_ajax_url_js' );
 
+/**
+ * bp_core_override_adminbar_css()
+ *
+ * Overrides the theme's admin bar CSS to hide the adminbar if disabled.
+ * 
+ * @package BuddyPress Core
+ */
+function bp_core_override_adminbar_css() { 
+	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) || ( get_site_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() ) ) {
+	?>
+<style type="text/css">body { padding-top: 0 !important; } #wp-admin-bar { display: none; }</style>
+	<?php }
+}
+add_action( 'wp_footer', 'bp_core_override_adminbar_css' );
 ?>
