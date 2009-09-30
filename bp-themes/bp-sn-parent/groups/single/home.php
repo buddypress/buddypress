@@ -62,7 +62,7 @@
 						
 					<?php endif; ?>
 					
-					<?php if ( bp_group_is_visible() ) : ?>
+					<?php if ( function_exists( 'bp_has_activities' ) && bp_group_is_visible() ) : ?>
 											
 						<?php if ( bp_has_activities( 'object=groups&primary_id=' . bp_get_group_id() . '&max=150&per_page=5' ) ) : ?>
 
