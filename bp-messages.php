@@ -439,9 +439,15 @@ function messages_new_message( $args = '' ) {
 		}
 
 		/* Strip the sender from the recipient list if they exist */
-		if ( $key = array_search( $sender_id, $recipient_ids ) )
-			unset( $recipient_ids[$key] );	
+		if ( $key = array_search( $sender_id, (array)$recipient_ids ) )
+			unset( $recipient_ids[$key] );
 
+		/* Remove duplicates */
+		$recipient_ids = array_unique( (array)$recipient_ids );
+		
+		if ( empty( $recipient_ids ) )
+			return false;
+		
 		$message->recipients = $recipient_ids; 
 	}
 	
@@ -449,7 +455,7 @@ function messages_new_message( $args = '' ) {
 		require_once( BP_PLUGIN_DIR . '/bp-messages/bp-messages-notifications.php' );
 
 		// Send screen notifications to the recipients
-		foreach ( $message->recipients as $recipient ) {
+		foreach ( (array)$message->recipients as $recipient ) {
 			bp_core_add_notification( $message->id, $recipient, 'messages', 'new_message' );	
 		}
 		

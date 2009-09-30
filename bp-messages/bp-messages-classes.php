@@ -300,7 +300,7 @@ Class BP_Messages_Thread {
 			$recipient_links[] = bp_core_get_userlink( $recipients[$i] );
 		}
 
-		return implode( ', ', $recipient_links);
+		return implode( ', ', (array) $recipient_links );
 	}
 }
 
@@ -403,7 +403,7 @@ Class BP_Messages_Message {
 				$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_recipients} ( user_id, thread_id, unread_count ) VALUES ( %d, %d, 1 )", $this->recipients[$i], $this->thread_id ) );
 			}
 			
-			if ( !in_array( $this->sender_id, $this->recipients ) ) {
+			if ( !in_array( $this->sender_id, (array)$this->recipients ) ) {
 				// Finally, add a recipient entry for the sender, as replies need to go to this person too.
 				$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_recipients} ( user_id, thread_id, unread_count, sender_only ) VALUES ( %d, %d, 0, 0 )", $this->sender_id, $this->thread_id ) );
 			}
