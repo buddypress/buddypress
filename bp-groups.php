@@ -600,6 +600,8 @@ function groups_screen_group_forum() {
 	global $bp;
 	
 	if ( $bp->is_single_item && $bp->groups->current_group->user_has_access ) {
+		
+		/* Fetch the details we need */
 		$topic_slug = $bp->action_variables[1];
 		$topic_id = bp_forums_get_topic_id_from_slug( $topic_slug );
 		$forum_id = groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' );
@@ -636,7 +638,7 @@ function groups_screen_group_forum() {
 				else
 					bp_core_add_message( __( 'The topic was made sticky successfully', 'buddypress' ) );
 			
-				do_action( 'groups_stick_topic', $topic_id );
+				do_action( 'groups_stick_forum_topic', $topic_id );
 				bp_core_redirect( wp_get_referer() );
 			}
 			
@@ -650,7 +652,7 @@ function groups_screen_group_forum() {
 				else
 					bp_core_add_message( __( 'The topic was unstuck successfully', 'buddypress') );
 			
-				do_action( 'groups_unstick_topic', $topic_id );
+				do_action( 'groups_unstick_forum_topic', $topic_id );
 				bp_core_redirect( wp_get_referer() );
 			}
 			
@@ -664,7 +666,7 @@ function groups_screen_group_forum() {
 				else
 					bp_core_add_message( __( 'The topic was closed successfully', 'buddypress') );
 			
-				do_action( 'groups_close_topic', $topic_id );
+				do_action( 'groups_close_forum_topic', $topic_id );
 				bp_core_redirect( wp_get_referer() );
 			}
 
@@ -678,12 +680,19 @@ function groups_screen_group_forum() {
 				else
 					bp_core_add_message( __( 'The topic was opened successfully', 'buddypress') );
 			
-				do_action( 'groups_open_topic', $topic_id );
+				do_action( 'groups_open_forum_topic', $topic_id );
 				bp_core_redirect( wp_get_referer() );
 			}
 
 			/* Delete a topic */
-			else if ( 'delete' == $bp->action_variables[2] && empty( $bp->action_variables[3] ) && ( $bp->is_item_admin || $bp->is_item_mod ) ) {
+			else if ( 'delete' == $bp->action_variables[2] && empty( $bp->action_variables[3] ) ) {
+				/* Fetch the topic */
+				$topic = bp_forums_get_topic_details( $topic_id );
+
+				/* Check the logged in user can delete this topic */
+				if ( !$bp->is_item_admin && !$bp->is_item_mod && (int)$bp->loggedin_user->id != (int)$topic->topic_poster )
+					bp_core_redirect( wp_get_referer() );
+				
 				/* Check the nonce */
 				check_admin_referer( 'bp_forums_delete_topic' );
 	
@@ -691,12 +700,20 @@ function groups_screen_group_forum() {
 					bp_core_add_message( __( 'There was an error deleting the topic', 'buddypress'), 'error' );
 				else
 					bp_core_add_message( __( 'The topic was deleted successfully', 'buddypress') );
-
+				
+				do_action( 'groups_delete_forum_topic', $topic_id );
 				bp_core_redirect( wp_get_referer() );
 			}
 			
 			/* Editing a topic */
-			else if ( 'edit' == $bp->action_variables[2] && empty( $bp->action_variables[3] ) && ( $bp->is_item_admin || $bp->is_item_mod ) ) {
+			else if ( 'edit' == $bp->action_variables[2] && empty( $bp->action_variables[3] ) ) {
+				/* Fetch the topic */
+				$topic = bp_forums_get_topic_details( $topic_id );
+
+				/* Check the logged in user can edit this topic */
+				if ( !$bp->is_item_admin && !$bp->is_item_mod && (int)$bp->loggedin_user->id != (int)$topic->topic_poster )
+					bp_core_redirect( wp_get_referer() );
+
 				if ( isset( $_POST['save_changes'] ) ) {
 					/* Check the nonce */
 					check_admin_referer( 'bp_forums_edit_topic' );
@@ -706,19 +723,22 @@ function groups_screen_group_forum() {
 					else
 						bp_core_add_message( __( 'The topic was edited successfully', 'buddypress') );
 				
+					do_action( 'groups_edit_forum_topic', $topic_id );
 					bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/forum/topic/' . $topic_slug . '/' );
 				}
-
-				/* Check that the user has access to edit this topic, if not, redirect. */
-				$topic = bp_forums_get_topic_details( $topic_id );
-				if ( ( !$bp->is_item_admin && !$bp->is_item_mod ) && $bp->loggedin_user->id != $topic->topic_poster )
-					bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/forum/topic/' . $topic_slug . '/' );
-
+				
 				bp_core_load_template( apply_filters( 'groups_template_group_forum_topic_edit', 'groups/single/forum/edit' ) );
 			}
 			
 			/* Delete a post */
-			else if ( 'delete' == $bp->action_variables[2] && $bp->action_variables[4] && ( $bp->is_item_admin || $bp->is_item_mod ) ) {
+			else if ( 'delete' == $bp->action_variables[2] && $post_id = $bp->action_variables[4] ) {
+				/* Fetch the post */
+				$post = bp_forums_get_post( $post_id );
+
+				/* Check the logged in user can edit this topic */
+				if ( !$bp->is_item_admin && !$bp->is_item_mod && (int)$bp->loggedin_user->id != (int)$post->poster_id )
+					bp_core_redirect( wp_get_referer() );
+
 				/* Check the nonce */
 				check_admin_referer( 'bp_forums_delete_post' );
 
@@ -726,12 +746,20 @@ function groups_screen_group_forum() {
 					bp_core_add_message( __( 'There was an error deleting that post', 'buddypress'), 'error' );
 				else
 					bp_core_add_message( __( 'The post was deleted successfully', 'buddypress') );
-
+				
+				do_action( 'groups_delete_forum_post', $post_id );
 				bp_core_redirect( wp_get_referer() );
 			}
 				
 			/* Editing a post */
 			else if ( 'edit' == $bp->action_variables[2] && $post_id = $bp->action_variables[4] ) {
+				/* Fetch the post */
+				$post = bp_forums_get_post( $bp->action_variables[4] );
+
+				/* Check the logged in user can edit this topic */
+				if ( !$bp->is_item_admin && !$bp->is_item_mod && (int)$bp->loggedin_user->id != (int)$post->poster_id )
+					bp_core_redirect( wp_get_referer() );
+
 				if ( isset( $_POST['save_changes'] ) ) {
 					/* Check the nonce */
 					check_admin_referer( 'bp_forums_edit_post' );
@@ -740,15 +768,11 @@ function groups_screen_group_forum() {
 						bp_core_add_message( __( 'There was an error when editing that post', 'buddypress'), 'error' );
 					else
 						bp_core_add_message( __( 'The post was edited successfully', 'buddypress') );
-				
+					
+					do_action( 'groups_edit_forum_post', $post_id );
 					bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/forum/topic/' . $topic_slug . '/' );
 				}
 				
-				/* Check that the user has access to edit this post, if not, redirect. */
-				$post = bp_forums_get_post( $post_id );
-				if ( ( !$bp->is_item_admin && !$bp->is_item_mod ) && $bp->loggedin_user->id != $post->poster_id )
-					bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/forum/topic/' . $topic_slug . '/' );
-
 				bp_core_load_template( apply_filters( 'groups_template_group_forum_topic_edit', 'groups/single/forum/edit' ) );
 			}
 
@@ -759,6 +783,7 @@ function groups_screen_group_forum() {
 				else
 					bp_core_load_template( apply_filters( 'groups_template_group_forum_topic', 'groups/forum/topic' ) );
 			}
+			
 		} else {
 
 			/* Posting a topic */
@@ -2097,7 +2122,7 @@ function groups_new_group_forum_post( $post_text, $topic_id ) {
 			'primary_link' => apply_filters( 'groups_activity_new_forum_post_primary_link', bp_get_group_permalink( $bp->groups->current_group ) ),
 			'component_action' => 'new_forum_post',
 			'item_id' => $bp->groups->current_group->id,
-			'secondary_item_id' => $forum_post->id
+			'secondary_item_id' => $forum_post
 		) );
 
 		do_action( 'groups_new_forum_topic_post', $bp->groups->current_group->id, $forum_post );
@@ -2142,7 +2167,8 @@ function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text )
 	
 	if ( $topic = bp_forums_update_topic( array( 'topic_title' => $topic_title, 'topic_text' => $topic_text, 'topic_id' => $topic_id ) ) ) {
 		/* Update the activity stream item */
-		bp_activity_delete_by_item_id( array( 'item_id' => $topic_id, 'component_name' => 'groups', 'component_action' => 'new_forum_topic' ) );
+		if ( function_exists( 'bp_activity_delete_by_item_id' ) )
+			bp_activity_delete_by_item_id( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $topic_id, 'component_name' => $bp->groups->id, 'component_action' => 'new_forum_topic' ) );
 		
 		$activity_content = sprintf( __( '%s started the forum topic %s in the group %s:', 'buddypress'), bp_core_get_userlink( $topic->topic_poster ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '/forum/topic/' . $topic->topic_slug .'">' . attribute_escape( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
 		$activity_content .= '<blockquote>' . bp_create_excerpt( attribute_escape( $topic_text ) ) . '</blockquote>';
@@ -2171,12 +2197,13 @@ function groups_update_group_forum_post( $post_id, $post_text, $topic_id ) {
 	
 	$post = bp_forums_get_post( $post_id );
 		
-	if ( $post_id = bp_forums_insert_post( array( 'post_id' => $post_id, 'post_text' => $post_text, 'post_time' => $post->post_time, 'topic_id' => $topic_id ) ) ) {
+	if ( $post_id = bp_forums_insert_post( array( 'post_id' => $post_id, 'post_text' => $post_text, 'post_time' => $post->post_time, 'topic_id' => $topic_id, 'poster_id' => $post->poster_id ) ) ) {
 		$topic = bp_forums_get_topic_details( $topic_id );
 
 		/* Update the activity stream item */
-		bp_activity_delete_by_item_id( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $post_id, 'component_name' => 'groups', 'component_action' => 'new_forum_post' ) );
-		
+		if ( function_exists( 'bp_activity_delete_by_item_id' ) )
+			bp_activity_delete_by_item_id( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $post_id, 'component_name' => $bp->groups->id, 'component_action' => 'new_forum_post' ) );
+			
 		$activity_content = sprintf( __( '%s posted on the forum topic %s in the group %s:', 'buddypress'), bp_core_get_userlink( $post->poster_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '/forum/topic/' . $topic->topic_slug .'">' . attribute_escape( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
 		$activity_content .= '<blockquote>' . bp_create_excerpt( attribute_escape( $post_text ) ) . '</blockquote>';
 		
@@ -2185,7 +2212,8 @@ function groups_update_group_forum_post( $post_id, $post_text, $topic_id ) {
 			'content' => apply_filters( 'groups_activity_new_forum_post', $activity_content, $post_text, &$topic, &$forum_post ), 
 			'primary_link' => apply_filters( 'groups_activity_new_forum_post_primary_link', bp_get_group_permalink( $bp->groups->current_group ) ),
 			'component_action' => 'new_forum_post',
-			'item_id' => $bp->groups->current_group->id,
+			'item_id' => (int)$bp->groups->current_group->id,
+			'user_id' => (int)$post->poster_id,
 			'secondary_item_id' => $post_id,
 			'recorded_time' => strtotime( $post->post_time )
 		) );
@@ -2204,8 +2232,8 @@ function groups_delete_group_forum_topic( $topic_id ) {
 	if ( bp_forums_delete_topic( array( 'topic_id' => $topic_id ) ) ) {
 		/* Delete the activity stream item */
 		if ( function_exists( 'bp_activity_delete_by_item_id' ) ) {
-			bp_activity_delete_by_item_id( array( 'item_id' => $topic_id, 'component_name' => 'groups', 'component_action' => 'new_forum_topic' ) );
-			bp_activity_delete_by_item_id( array( 'item_id' => $topic_id, 'component_name' => 'groups', 'component_action' => 'new_forum_post' ) );
+			bp_activity_delete_by_item_id( array( 'item_id' => $topic_id, 'component_name' => $bp->groups->id, 'component_action' => 'new_forum_topic' ) );
+			bp_activity_delete_by_item_id( array( 'item_id' => $topic_id, 'component_name' => $bp->groups->id, 'component_action' => 'new_forum_post' ) );
 		}
 
 		do_action( 'groups_delete_group_forum_topic', $topic_id );

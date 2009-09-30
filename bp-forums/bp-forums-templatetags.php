@@ -237,7 +237,7 @@ function bp_the_topic_text() {
 	function bp_get_the_topic_text() {
 		global $forum_template;
 
-		$post = bb_get_first_post( $forum_template->topic->topic_id );
+		$post = bb_get_first_post( (int)$forum_template->topic->topic_id, false );
 		return apply_filters( 'bp_get_the_topic_text', $post->post_text );
 	}
 
@@ -872,6 +872,10 @@ function bp_the_topic_post_admin_links( $args = '' ) {
 }
 	function bp_get_the_topic_post_admin_links( $args = '' ) {
 		global $topic_template;	
+		
+		/* Never show for the first post in a topic. */
+		if ( 0 == $topic_template->current_post )
+			return;
 		
 		$defaults = array(
 			'seperator' => '|'
