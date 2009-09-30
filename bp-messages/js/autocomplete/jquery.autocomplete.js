@@ -223,7 +223,7 @@ $.Autocompleter = function(input, options) {
 		currentValue = lastWord(currentValue);
 		if ( currentValue.length >= options.minChars) {
 			$input.addClass(options.loadingClass);
-			jQuery('.ajax-loader').toggle();
+			jQuery('.ajax-loader').show();
 			if (!options.matchCase)
 				currentValue = currentValue.toLowerCase();
 			request(currentValue, receiveData, hideResultsNow);
@@ -358,7 +358,7 @@ $.Autocompleter = function(input, options) {
 
 	function stopLoading() {
 		$input.removeClass(options.loadingClass);
-		jQuery('.ajax-loader').toggle();
+		jQuery('.ajax-loader').hide();
 	};
 
 };
