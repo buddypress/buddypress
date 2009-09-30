@@ -29,6 +29,8 @@
 
 	<body <?php body_class() ?>>
 		
+		<?php do_action( 'bp_before_search_login_bar' ) ?>	
+		
 		<div id="search-login-bar">
 	
 			<form action="<?php echo bp_search_form_action() ?>" method="post" id="search-form">
@@ -68,9 +70,12 @@
 				</div>
 		
 			<?php endif; ?>
+			
+			<?php do_action( 'bp_search_login_bar' ) ?>
 
 		</div>
-		
+
+		<?php do_action( 'bp_after_search_login_bar' ) ?>			
 		<?php do_action( 'bp_before_header' ) ?>		
 
 		<div id="header">	
