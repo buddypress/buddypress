@@ -6,6 +6,10 @@ function bp_core_screen_activation() {
 	if ( BP_ACTIVATION_SLUG != $bp->current_component )
 		return false;
 		
+	/* If we are using a BuddyPress 1.0 theme ignore this. */
+	if ( file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
+		return false;
+		
 	/* Check if an activation key has been passed */
 	if ( isset( $_GET['key'] ) ) {
 		
@@ -67,7 +71,10 @@ function bp_core_screen_activation() {
 		$bp->activation_complete = true;
 	}
 	
-	bp_core_load_template( 'registration/activate' );
+	if ( '' != locate_template( array( 'registration/activate' ), false ) )
+		bp_core_load_template( apply_filters( 'bp_core_template_activate', 'activate' ) );		
+	else
+		bp_core_load_template( apply_filters( 'bp_core_template_activate', 'registration/activate' ) );		
 }
 add_action( 'wp', 'bp_core_screen_activation', 3 );
 

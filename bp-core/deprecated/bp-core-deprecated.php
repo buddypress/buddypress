@@ -711,6 +711,37 @@ function bp_core_avatar_admin( $message = null, $action, $delete_action) { ?>
 	</form> <?php
 }
 
+function bp_core_handle_avatar_upload($file) {
+	global $wp_upload_error;
+	
+	require_once( ABSPATH . '/wp-admin/includes/file.php' );
+	
+	// Change the upload file location to /avatars/user_id
+	add_filter( 'upload_dir', 'xprofile_avatar_upload_dir' );
+
+	$res = wp_handle_upload( $file['file'], array('action'=>'slick_avatars') );
+
+	if ( !in_array('error', array_keys($res) ) ) {
+		return $res['file'];
+	} else {
+		$wp_upload_error = $res['error'];
+		return false;
+	}
+}
+
+function bp_core_resize_avatar( $file, $size = false ) {
+	require_once( ABSPATH . '/wp-admin/includes/image.php' );
+
+	if ( !$size )
+		$size = CORE_CROPPING_CANVAS_MAX;
+
+	$canvas = wp_create_thumbnail( $file, $size );
+
+	if ( $canvas->errors )
+		return false;
+
+	return $canvas = str_replace( '//', '/', $canvas );
+}
 
 /*** END OLD AVATAR CROPPING SUPPORT **************************/
 

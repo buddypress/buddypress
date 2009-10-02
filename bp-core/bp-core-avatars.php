@@ -282,7 +282,7 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
-	
+
 	if ( !$original_file )
 		return false;
 
@@ -317,7 +317,7 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 	/* Crop the image */
 	$full_cropped = wp_crop_image( WP_CONTENT_DIR . $original_file, (int)$crop_x, (int)$crop_y, (int)$crop_w, (int)$crop_h, BP_AVATAR_FULL_WIDTH, BP_AVATAR_FULL_HEIGHT, false, $avatar_folder_dir . '/' . $full_filename );
 	$thumb_cropped = wp_crop_image( WP_CONTENT_DIR . $original_file, (int)$crop_x, (int)$crop_y, (int)$crop_w, (int)$crop_h, BP_AVATAR_THUMB_WIDTH, BP_AVATAR_THUMB_HEIGHT, false, $avatar_folder_dir . '/' . $thumb_filename );
-	
+
 	/* Remove the original */
 	@unlink( WP_CONTENT_DIR . $original_file );
 

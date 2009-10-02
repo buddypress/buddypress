@@ -568,8 +568,7 @@ function groups_screen_create_group() {
 				bp_core_add_message( __( 'The group avatar was uploaded successfully!', 'buddypress' ) );
 		}
 	}
-	
-	//var_dump($_COOKIE);
+
  	bp_core_load_template( apply_filters( 'groups_template_create_group', 'groups/create' ) );
 }
 

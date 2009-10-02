@@ -122,8 +122,10 @@ function bp_core_add_cropper_inline_js() {
 				var ry = <?php echo (int) constant( 'BP_AVATAR_FULL_HEIGHT' ) ?> / coords.h;
 
 				jQuery('#avatar-crop-preview').css({
+				<?php if ( $image ) : ?>
 					width: Math.round(rx * <?php echo $image[0] ?>) + 'px',
 					height: Math.round(ry * <?php echo $image[1] ?>) + 'px',
+				<?php endif; ?>
 					marginLeft: '-' + Math.round(rx * coords.x) + 'px',
 					marginTop: '-' + Math.round(ry * coords.y) + 'px'
 				});

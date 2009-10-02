@@ -405,6 +405,23 @@ class BP_XProfile_Field_Deprecated extends BP_XProfile_Field {
 		
 		return $html;
 	}
+	
+	/* Deprecated - Signup fields are now in the template */
+	function get_signup_fields() {
+		global $wpdb, $bp;
+		
+		$sql = $wpdb->prepare( "SELECT f.id FROM {$bp->profile->table_name_fields} AS f, {$bp->profile->table_name_groups} AS g WHERE g.name = %s AND f.parent_id = 0	AND g.id = f.group_id ORDER BY f.id", get_site_option('bp-xprofile-base-group-name') );
+
+		if ( !$temp_fields = $wpdb->get_results($sql) )
+			return false;
+		
+		for ( $i = 0; $i < count($temp_fields); $i++ ) {
+			$fields[] = new BP_XProfile_Field_Deprecated( $temp_fields[$i]->id, null, false );
+		}
+		
+		return $fields;
+	}
+
 
 }
 
@@ -424,7 +441,7 @@ function xprofile_add_signup_fields() {
 	global $bp_xprofile_callback, $avatar_error, $avatar_error_msg;
 
 	/* Fetch the fields needed for the signup form */
-	$fields = BP_XProfile_Field::get_signup_fields();
+	$fields = BP_XProfile_Field_Deprecated::get_signup_fields();
 
 	if ( $fields ) {
 	?>
@@ -536,7 +553,7 @@ function xprofile_load_signup_meta() {
 	$prev_field_id = -1;
 	
 	// Validate all sign up fields
-	$fields = BP_XProfile_Field::get_signup_fields();
+	$fields = BP_XProfile_Field_Deprecated::get_signup_fields();
 
 	if ( $fields ) {
 		foreach ( $fields as $field ) {
@@ -618,7 +635,8 @@ function xprofile_load_signup_meta() {
 			// "Handle" upload into temporary location
 			if ( $checked_upload && $checked_size && $checked_type && !$original = bp_core_handle_avatar_upload($_FILES) ) {
 				$bp_signup_avatar_has_errors = true;
-				$avatar_error_msg = sprintf( __('Upload Failed! Error was: %s', 'buddypress'), $wp_upload_error );						
+				$avatar_error_msg = sprintf( __('Upload Failed! Error was: %s', 'buddypress'), $wp_upload_error );	
+				die;					
 			}
 	
 			if ( $checked_upload && $checked_size && $checked_type && $original && !$canvas = bp_core_resize_avatar($original) )
@@ -638,10 +656,17 @@ function xprofile_load_signup_meta() {
 		$bp_user_signup_meta['avatar_image_resized'] = $canvas;
 		$bp_user_signup_meta['avatar_image_original'] = $original;
 		
-		setcookie( 'bp_xprofile_meta', serialize($bp_user_signup_meta), time()+60*60*24, COOKIEPATH );
+		$bp_user_signup_meta = serialize( $bp_user_signup_meta );
 	}
 }
 add_action( 'init', 'xprofile_load_signup_meta' );
+
+function xprofile_render_user_signup_meta() {
+	global $bp_user_signup_meta;
+	
+	echo '<input type="hidden" name="bp_xprofile_meta" id="bp_xprofile_meta" value="' . attribute_escape( $bp_user_signup_meta ) . '" />';
+}
+add_action( 'signup_blogform', 'xprofile_render_user_signup_meta' );
 
 function xprofile_load_blog_signup_meta() {
 	global $bp_blog_signup_meta;
@@ -655,8 +680,8 @@ function xprofile_load_blog_signup_meta() {
 		'blog_title' => $_POST['blog_title']
 	);
 	
-	$bp_meta = unserialize( stripslashes( $_COOKIE['bp_xprofile_meta'] ) );
-	$bp_blog_signup_meta = array_merge( $bp_meta, $blog_meta );
+	$bp_meta = unserialize( stripslashes( $_POST['bp_xprofile_meta'] ) );
+	$bp_blog_signup_meta = array_merge( (array)$bp_meta, (array)$blog_meta );
 }
 add_action( 'init', 'xprofile_load_blog_signup_meta' );
 
@@ -670,7 +695,6 @@ function xprofile_on_activate_blog( $blog_id, $user_id, $password, $title, $meta
 }
 add_action( 'wpmu_activate_blog', 'xprofile_on_activate_blog', 1, 5 );
 
-
 function xprofile_on_activate_user( $user_id, $password, $meta ) {	
 	xprofile_extract_signup_meta( $user_id, $meta );
 	
@@ -679,7 +703,7 @@ function xprofile_on_activate_user( $user_id, $password, $meta ) {
 	else 
 		xprofile_handle_signup_avatar( $user_id, $meta );
 }
-add_action( 'wpmu_activate_user', 'xprofile_on_activate_user', 1, 3 );
+add_action( 'wpmu_activate_user', 'xprofile_on_activate_user', 1, 5 );
 
 function xprofile_extract_signup_meta( $user_id, $meta ) {
 	// Extract signup meta fields to fill out profile
@@ -705,12 +729,16 @@ function xprofile_extract_signup_meta( $user_id, $meta ) {
 }
 
 function xprofile_handle_signup_avatar( $user_id, $meta ) {
+	global $bp;
+	
+	$meta = maybe_unserialize( $meta );
+	
 	$resized = $meta['avatar_image_resized'];
 	$original = $meta['avatar_image_original'];	
-	
+
 	if ( !empty($resized) && !empty($original) ) {
 		// Create and set up the upload dir first.
-		$upload_dir = bp_core_avatar_upload_dir( false, $user_id );
+		$upload_dir = xprofile_avatar_upload_dir( false, $user_id );
 		
 		$resized_strip_path = explode( '/', $resized );
 		$original_strip_path = explode( '/', $original );
@@ -729,37 +757,65 @@ function xprofile_handle_signup_avatar( $user_id, $meta ) {
 
 		$resized = $resized_new;
 		$original = $original_new;
-	
-		// Render the cropper UI
-		$action = bp_activation_page( false ) . '?key=' . $_GET['key'] . '&amp;cropped=true';
-		bp_core_render_avatar_cropper($original, $resized, $action, $user_id);
+
+		$bp->avatar_admin->image = new stdClass;
+		$bp->avatar_admin->image->dir = $resized;
+		
+		/* Set the url value for the image */
+		$bp->avatar_admin->image->url = str_replace( WP_CONTENT_DIR, WP_CONTENT_URL, $bp->avatar_admin->image->dir );
+
+		?>
+		<form action="<?php echo $bp->root_domain . '/' . BP_ACTIVATION_SLUG ?>" method="post">
+			<h3><?php _e( 'Crop Your New Avatar', 'buddypress' ) ?></h3>
+
+			<img src="<?php echo attribute_escape( $bp->avatar_admin->image->url ) ?>" id="avatar-to-crop" class="avatar" alt="<?php _e( 'Avatar to crop', 'buddypress' ) ?>" />
+
+			<input type="submit" name="avatar-crop-submit" id="avatar-crop-submit" value="<?php _e( 'Crop Image', 'buddypress' ) ?>" />
+
+			<input type="hidden" name="image_src" id="image_src" value="<?php echo attribute_escape( $bp->avatar_admin->image->dir ) ?>" />
+			<input type="hidden" id="x" name="x" />
+			<input type="hidden" id="y" name="y" />
+			<input type="hidden" id="w" name="w" />
+			<input type="hidden" id="h" name="h" />
+			<input type="hidden" id="cropped" name="cropped" />
+			<input type="hidden" id="key" name="key" value="<?php echo attribute_escape( $_GET['key'] ) ?>"/>
+
+			<?php wp_nonce_field( 'bp_avatar_cropstore' ); ?>
+		</form><?php
 	}
 }
 
-function xprofile_catch_activate_crop() {
-	if ( isset( $_GET['cropped'] ) ) {
-		// The user has cropped their avatar after activating account
-		
-		// Confirm that the nonce is valid
-		if ( !isset( $_POST['nonce'] ) || !wp_verify_nonce( $_POST['nonce'], 'slick_avatars' ) )
-			bp_core_redirect( get_option('home') );
-		
-		$user_id = xprofile_get_user_by_key($_GET['key']);
+function xprofile_deprecated_add_cropper_js() {	
+	global $bp;
+	
+	/* If we are using a BuddyPress 1.1+ theme ignore this. */
+	if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
+		return false;
+	
+	if ( $bp->current_component == BP_ACTIVATION_SLUG )
+		add_action( 'wp', 'bp_core_add_jquery_cropper' );
+}
+add_action( 'init', 'xprofile_deprecated_add_cropper_js' );
 
-		if ( $user_id && isset( $_POST['orig'] ) && isset( $_POST['canvas'] ) ) {
-			bp_core_check_crop( $_POST['orig'], $_POST['canvas'] );
-			$result = bp_core_avatar_cropstore( $_POST['orig'], $_POST['canvas'], $_POST['v1_x1'], $_POST['v1_y1'], $_POST['v1_w'], $_POST['v1_h'], $_POST['v2_x1'], $_POST['v2_y1'], $_POST['v2_w'], $_POST['v2_h'] );
-			bp_core_avatar_save( $result, $user_id );
-		}
-		
+function xprofile_catch_activate_crop() {
+	if ( isset( $_POST['cropped'] ) ) {
+
+		// The user has cropped their avatar after activating account
+
+		// Confirm that the nonce is valid
+		check_admin_referer( 'bp_avatar_cropstore' );
+
+		$user_id = xprofile_get_user_by_key( $_POST['key'] );
+
+		bp_core_avatar_handle_crop( array( 'item_id' => $user_id, 'original_file' => str_replace( WP_CONTENT_DIR, '', $_POST['image_src'] ), 'crop_x' => $_POST['x'], 'crop_y' => $_POST['y'], 'crop_w' => $_POST['w'], 'crop_h' => $_POST['h'] ) );
+
 		$ud = get_userdata($user_id);
 		$url = site_url( BP_MEMBERS_SLUG . '/' . $ud->user_login );
-		
+
 		bp_core_redirect( $url );
 	}
 }
 add_action( 'activate_header', 'xprofile_catch_activate_crop' );
-
 
 function xprofile_get_user_by_key($key) {
 	global $wpdb;

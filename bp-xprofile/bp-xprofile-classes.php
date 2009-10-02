@@ -621,23 +621,6 @@ Class BP_XProfile_Field {
 			return true;
 		}
 	}
-
-	/* Deprecated - Signup fields are now in the template */
-	function get_signup_fields() {
-		global $wpdb, $bp;
-		
-		$sql = $wpdb->prepare( "SELECT f.id FROM {$bp->profile->table_name_fields} AS f, {$bp->profile->table_name_groups} AS g WHERE g.name = %s AND f.parent_id = 0	AND g.id = f.group_id ORDER BY f.id", get_site_option('bp-xprofile-base-group-name') );
-
-		if ( !$temp_fields = $wpdb->get_results($sql) )
-			return false;
-		
-		for ( $i = 0; $i < count($temp_fields); $i++ ) {
-			$fields[] = new BP_XProfile_Field( $temp_fields[$i]->id, null, false );
-		}
-		
-		return $fields;
-	}
-
 }
 
 
