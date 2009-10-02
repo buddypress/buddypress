@@ -198,7 +198,8 @@ function bp_core_do_catch_uri() {
 	global $bp_no_status_set;
 	global $wp_query;
 	
-	$page = $bp_path;
+	/* Can be a single template or an array of templates */ 
+	$templates = $bp_path;
 	
 	/* Don't hijack any URLs on blog pages */
 	if ( bp_is_blog_page() ) {
@@ -217,7 +218,10 @@ function bp_core_do_catch_uri() {
 			$wp_query->is_page = true;
 	}
 	
-	if ( $located_template = apply_filters( 'bp_located_template', locate_template( array( $page . '.php' ), $page ) ) ) {
+	foreach ( (array)$templates as $template )
+		$filtered_templates[] = $template . '.php';
+	
+	if ( $located_template = apply_filters( 'bp_located_template', locate_template( (array) $filtered_templates, false ), $filtered_templates ) ) {
 		load_template( apply_filters( 'bp_load_template', $located_template ) );
 	} else {
 		if ( $located_template = locate_template( array( '404.php' ) ) ) {
