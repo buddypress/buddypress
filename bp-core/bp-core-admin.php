@@ -101,34 +101,34 @@ function bp_core_admin_settings() {
 					</td>			
 				</tr>				
 				<?php endif; ?>
-
-				<?php if ( '' == locate_template( array( 'registration/register.php' ), false ) && $current_blog->blog_id == BP_ROOT_BLOG ) : ?>
-				<tr>
-					<th scope="row"><?php _e('Select theme to use for BuddyPress generated pages', 'buddypress' ) ?>:</th>
-					<td>
-						<?php $themes = bp_core_get_buddypress_themes() ?>
-						<?php if ( $themes ) : ?>
-						<select name="bp-admin[active-member-theme]" id="active-member-theme">
-							<?php 
-							for ( $i = 0; $i < count($themes); $i++ ) { 
-								if ( $themes[$i]['template'] == get_site_option( 'active-member-theme' ) ) {
-									$selected = ' selected="selected"';
-								} else {
-									$selected = '';
-								}
-							?>
-							<option<?php echo $selected ?> value="<?php echo $themes[$i]['template'] ?>"><?php echo $themes[$i]['name'] ?> (<?php echo $themes[$i]['version'] ?>)</option>
-							<?php } ?>
-						</select>
-						<?php else : ?>
-							<div class="error">
-								<p><?php printf( __( '<strong>You do not have any BuddyPress themes installed.</strong><p style="line-height: 150%%">Please move the default BuddyPress themes to their correct location (move %s to %s) and reload this page. You can <a href="http://buddypress.org/extend/themes" title="Download">download more themes here</a>.</p>', 'buddypress' ), BP_PLUGIN_DIR . '/bp-themes/', WP_CONTENT_DIR . '/bp-themes/' ) ?></p>
-							</div>
-							<p><?php _e( 'No Themes Installed.', 'buddypress' ) ?></p>
-						<?php endif; ?>
-					</td>			
-				</tr>
+				
+				<?php $themes = bp_core_get_buddypress_themes() ?>
+				<?php if ( $themes ) : ?>
+					<tr>
+						<th scope="row"><?php _e('Select theme to use for BuddyPress generated pages', 'buddypress' ) ?>:</th>
+						<td>
+								<select name="bp-admin[active-member-theme]" id="active-member-theme">
+								<?php 
+								for ( $i = 0; $i < count($themes); $i++ ) { 
+									if ( $themes[$i]['template'] == get_site_option( 'active-member-theme' ) ) {
+										$selected = ' selected="selected"';
+									} else {
+										$selected = '';
+									}
+								?>
+								<option<?php echo $selected ?> value="<?php echo $themes[$i]['template'] ?>"><?php echo $themes[$i]['name'] ?> (<?php echo $themes[$i]['version'] ?>)</option>
+								<?php } ?>
+							</select>
+						</td>			
+					</tr>
+				<?php else : ?>
+					<?php if ( '' == locate_template( array( 'registration/register.php' ), false ) && $current_blog->blog_id == BP_ROOT_BLOG ) : ?>
+						<div class="error">
+							<p><?php _e( '<strong>Your currently active theme is not BuddyPress enabled.</strong><p style="margin: 2px 0">Visit <a href="http://buddypress.org/extend/themes/">http://buddypress.org/extend/themes/</a> to browse themes that include support for BuddyPress features.</p>', 'buddypress' ) ?></p>
+						</div>
+					<?php endif; ?>
 				<?php endif; ?>
+							
 				<tr>
 					<th scope="row"><?php _e( 'Default User Avatar', 'buddypress' ) ?></th>
 					<td>
