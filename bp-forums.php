@@ -167,6 +167,7 @@ function bp_forums_get_topic_details( $topic_id ) {
 	do_action( 'bbpress_init' );
 
 	$query = new BB_Query( 'topic', 'topic_id=' . $topic_id ); 
+
 	return $query->results[0];
 }
 
@@ -202,7 +203,7 @@ function bp_forums_new_topic( $args = '' ) {
 		
 	if ( !$topic_id = bb_insert_topic( array( 'topic_title' => stripslashes( $topic_title ), 'topic_slug' => $topic_slug, 'topic_poster' => $topic_poster, 'topic_poster_name' => $topic_poster_name, 'topic_last_poster' => $topic_last_poster, 'topic_last_poster_name' => $topic_last_poster_name, 'topic_start_time' => $topic_start_time, 'topic_time' => $topic_time, 'topic_open' => $topic_open, 'forum_id' => (int)$forum_id, 'tags' => $topic_tags ) ) )
 		return false;
-	
+
 	/* Now insert the first post. */
 	if ( !bp_forums_insert_post( array( 'topic_id' => $topic_id, 'post_text' => $topic_text, 'post_time' => $topic_time, 'poster_id' => $topic_poster ) ) )
 		return false;

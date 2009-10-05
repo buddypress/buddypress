@@ -303,7 +303,7 @@ function bp_friend_search_form() {
 ?>
 	<form action="<?php echo $action ?>" id="friend-search-form" method="post">
 
-		<label for="friend-search-box" id="friend-search-label"><?php echo $label ?> <span class="ajax-loader"></span></label>
+		<label for="friend-search-box" id="friend-search-label"><?php echo $label ?></label>
 		<input type="search" name="friend-search-box" id="friend-search-box" value="<?php echo $value ?>"<?php echo $disabled ?> />
 		
 		<?php wp_nonce_field( 'friends_search', '_wpnonce_friend_search' ) ?>

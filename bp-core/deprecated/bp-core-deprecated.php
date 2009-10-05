@@ -757,6 +757,10 @@ function bp_core_resize_avatar( $file, $size = false ) {
 function bp_core_get_buddypress_themes() {
 	global $wp_themes;
 	
+	/* If we are using a BuddyPress 1.1+ theme ignore this. */
+	if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
+		return false;
+	
 	/* Remove the cached WP themes first */
 	$wp_existing_themes = &$wp_themes;
 	$wp_themes = null;

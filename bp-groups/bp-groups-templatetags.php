@@ -728,7 +728,7 @@ function bp_group_search_form() {
 	$name = 'group-filter-box';
 ?>
 	<form action="<?php echo $action ?>" id="group-search-form" method="post">
-		<label for="<?php echo $name ?>" id="<?php echo $name ?>-label"><?php echo $label ?> <span class="ajax-loader"></span></label>
+		<label for="<?php echo $name ?>" id="<?php echo $name ?>-label"><?php echo $label ?></label>
 		<input type="search" name="<?php echo $name ?>" id="<?php echo $name ?>" value="<?php echo $value ?>"<?php echo $disabled ?> />
 	
 		<?php wp_nonce_field( 'group-filter-box', '_wpnonce_group_filter' ) ?>
