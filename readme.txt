@@ -3,7 +3,7 @@ Contributors: apeatling
 Tags: wpmu, buddypress, social, networking, profiles, messaging, friends, groups, forums, activity
 Requires at least: WordPress MU 2.8.4
 Tested up to: WordPress MU 2.8.4
-Stable tag: 1.1
+Stable tag: 1.1.1
 
 BuddyPress is a suite of WordPress MU social networking plugins and themes.
 
@@ -72,3 +72,7 @@ Bugs can be reported here: http://trac.buddypress.org/newticket
 = Where can checkout the latest bleeding edge? =
 
 BuddyPress subversion trunk can be found at: http://svn.buddypress.org/trunk/
+
+== Changelog ==
+
+See http://buddypress.org/about/release-history/ for a list of changes.
