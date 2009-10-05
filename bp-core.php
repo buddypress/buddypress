@@ -533,11 +533,16 @@ function bp_core_get_user_domain( $user_id ) {
 	
 	$ud = get_userdata($user_id);
 	
+	if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
+		$username = $ud->user_login;
+	else
+		$username = $ud->user_nicename;
+	
 	/* If we are using a members slug, include it. */
 	if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) )
-		return apply_filters( 'bp_core_get_user_domain', $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $ud->user_nicename . '/' );
+		return apply_filters( 'bp_core_get_user_domain', $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $username . '/' );
 	else
-		return apply_filters( 'bp_core_get_user_domain', $bp->root_domain . '/' . $ud->user_nicename . '/' );		
+		return apply_filters( 'bp_core_get_user_domain', $bp->root_domain . '/' . $username . '/' );		
 }
 
 /**
