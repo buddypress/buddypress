@@ -109,11 +109,13 @@ add_action( 'init', 'bp_status_action_add' );
  * true or false on success or failure.
  */
 
-function bp_status_add_status( $user_id, $content ) {
+function bp_status_add_status( $user_id, $content, $recorded_time = false ) {
 	global $bp;
 	
 	$content = apply_filters( 'bp_status_content_before_save', $content );
-	$recorded_time = time();
+	
+	if ( !$recorded_time )	
+		$recorded_time = time();
 	
 	if ( !$content || empty($content) )
 		return false;
