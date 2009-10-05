@@ -166,13 +166,13 @@ function bp_forums_get_forum_topics( $args = '' ) {
 function bp_forums_get_topic_details( $topic_id ) {
 	do_action( 'bbpress_init' );
 
-	$query = new BB_Query( 'topic', 'topic_id=' . $topic_id ); 
+	$query = new BB_Query( 'topic', 'topic_id=' . $topic_id . '&page=1' /* Page override so bbPress doesn't use the URI */ ); 
 
 	return $query->results[0];
 }
 
 function bp_forums_get_topic_id_from_slug( $topic_slug ) {
-	do_action( 'bbpress_init' );	
+	do_action( 'bbpress_init' );
 	return bb_get_id_from_slug( 'topic', $topic_slug );
 }
 
