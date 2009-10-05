@@ -30,7 +30,7 @@ function bp_the_status( $args = false ) {
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
 		
-		$status = get_usermeta( $user_id, 'bp_status' );
+		$status = apply_filters( 'bp_status_from_usermeta', get_usermeta( $user_id, 'bp_status' ) ); 
 		
 		if ( empty($status) )
 			return bp_get_update_status_button( 'text=' . $new_button_text );
