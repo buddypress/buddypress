@@ -84,7 +84,7 @@ function bp_status_register_activity_action( $key, $value ) {
 function bp_status_action_add() {
 	global $bp;
 
-	if ( $bp->current_component != BP_STATUS_SLUG && 'add' != $bp->current_action )
+	if ( $bp->current_component != BP_STATUS_SLUG || 'add' != $bp->current_action )
 		return false;
 	
 	if ( !check_admin_referer( 'bp_status_add_status', '_wpnonce_add_status' ) )
