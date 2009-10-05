@@ -145,9 +145,7 @@ Class BP_Activity_Activity {
 	
 	function get_activity_for_user( $user_id, $max_items, $limit, $page, $filter ) {
 		global $wpdb, $bp;
-
-		$since = strtotime($since);
-		
+				
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
