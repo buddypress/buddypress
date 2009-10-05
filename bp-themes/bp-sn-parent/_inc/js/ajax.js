@@ -201,18 +201,17 @@ jQuery(document).ready( function() {
 		}
 	);
 
-	j("div#pag a").livequery('click',
+	j(".friends div#pag a").livequery('click',
 		function() { 
 			j('.ajax-loader').toggle();
 
 			var frpage = j(this).attr('href');
 			frpage = frpage.split('=');
-
+			
 			j.post( ajaxurl, {
-				action: 'friends_search',
+				action: 'my_friends_search',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': j("input#_wpnonce_friend_search").val(),
-				'initiator_id': j("input#initiator").val(),
 				'frpage': frpage[1],
 
 				'friend-search-box': j("#friend-search-box").val()
@@ -235,22 +234,21 @@ jQuery(document).ready( function() {
 	);
 	
 	j("input#friend-search-box").keyup(
-
 		function(e) {
 			if ( e.which == 13 ) {
 				j('.ajax-loader').toggle();
 				
 				j.post( ajaxurl, {
-					action: 'friends_search',
+					action: 'my_friends_search',
 					'cookie': encodeURIComponent(document.cookie),
 					'_wpnonce': j("input#_wpnonce_friend_search").val(),
-
+	
 					'friend-search-box': j("#friend-search-box").val()
 				},
 				function(response)
-				{
+				{	
 					response = response.substr( 0, response.length - 1 );
-
+	
 					j("div#friends-loop").fadeOut(200, 
 						function() {
 							j('.ajax-loader').toggle();
@@ -258,9 +256,8 @@ jQuery(document).ready( function() {
 							j("div#friends-loop").fadeIn(200);
 						}
 					);
-					
 				});
-
+				
 				return false;
 			}
 		}
@@ -405,7 +402,7 @@ jQuery(document).ready( function() {
 		}
 	);
 
-	j("form#group-search-form").submit(
+	j("form#group-search-form, form#friend-search-form").submit(
 		function() {
 			return false;
 		}
@@ -474,7 +471,7 @@ jQuery(document).ready( function() {
 		}
 	);
 	
-	j("div#pag a").livequery('click',
+	j(".groups div#pag a").livequery('click',
 		function() { 
 			j('.ajax-loader').toggle();
 

@@ -10,29 +10,25 @@
  */
 
 function bp_dtheme_ajax_directory_blogs() {
-	global $bp;
-
 	check_ajax_referer('directory_blogs');
 
-	locate_template( array( 'directories/blogs/blogs-loop.php' ), true );
+	locate_template( array( '/directories/blogs/blogs-loop.php' ), true );
 }
 add_action( 'wp_ajax_directory_blogs', 'bp_dtheme_ajax_directory_blogs' );
 
 function bp_dtheme_ajax_directory_members() {
 	check_ajax_referer('directory_members');
 
-	locate_template( array( 'directories/members/members-loop.php' ), true );
+	locate_template( array( '/directories/members/members-loop.php' ), true );
 }
 add_action( 'wp_ajax_directory_members', 'bp_dtheme_ajax_directory_members' );
 
-function bp_dtheme_ajax_friends_search() {
-	global $bp;
+function bp_dtheme_ajax_directory_groups() {
+	check_ajax_referer('directory_groups');
 
-	check_ajax_referer( 'friends_search' );
-
-	locate_template( array( 'directories/friends/friends-loop.php' ), true );
+	locate_template( array( 'directories/groups/groups-loop.php' ), true );
 }
-add_action( 'wp_ajax_friends_search', 'bp_dtheme_ajax_friends_search' );
+add_action( 'wp_ajax_directory_groups', 'bp_dtheme_ajax_directory_groups' );
 
 function bp_dtheme_ajax_addremove_friend() {
 	global $bp;
@@ -62,6 +58,11 @@ function bp_dtheme_ajax_addremove_friend() {
 	return false;
 }
 add_action( 'wp_ajax_addremove_friend', 'bp_dtheme_ajax_addremove_friend' );
+
+function bp_dtheme_ajax_my_friends() {
+	locate_template( array( 'friends/friends-loop.php' ), true );	
+}
+add_action( 'wp_ajax_my_friends_search', 'bp_dtheme_ajax_my_friends' );
 
 function bp_dtheme_ajax_invite_user() {
 	global $bp;
@@ -201,15 +202,6 @@ function bp_dtheme_ajax_member_admin_list() {
 <?php
 }
 add_action( 'wp_ajax_get_group_members_admin', 'bp_dtheme_ajax_member_admin_list' );
-
-function bp_dtheme_ajax_directory_groups() {
-	global $bp;
-
-	check_ajax_referer('directory_groups');
-
-	locate_template( array( 'directories/groups/groups-loop.php' ), true );
-}
-add_action( 'wp_ajax_directory_groups', 'bp_dtheme_ajax_directory_groups' );
 
 function bp_dtheme_ajax_joinleave_group() {
 	global $bp;
