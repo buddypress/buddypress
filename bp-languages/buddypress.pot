@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-10-03 14:11+0000\n"
+"POT-Creation-Date: 2009-10-06 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -449,88 +449,88 @@ msgstr ""
 msgid "There was an error deleting %s from the system. Please try again."
 msgstr ""
 
-#: bp-core.php:937 bp-wire/bp-wire-templatetags.php:334
+#: bp-core.php:942 bp-wire/bp-wire-templatetags.php:334
 msgid "You"
 msgstr ""
 
-#: bp-core.php:1018
+#: bp-core.php:1023
 #, php-format
 msgid "%s's"
 msgstr ""
 
-#: bp-core.php:1163 bp-core/bp-core-templatetags.php:403
+#: bp-core.php:1168 bp-core/bp-core-templatetags.php:403
 msgid "at"
 msgstr ""
 
-#: bp-core.php:1268
+#: bp-core.php:1273
 msgid "year"
 msgstr ""
 
-#: bp-core.php:1268
+#: bp-core.php:1273
 msgid "years"
 msgstr ""
 
-#: bp-core.php:1269
+#: bp-core.php:1274
 msgid "month"
 msgstr ""
 
-#: bp-core.php:1269
+#: bp-core.php:1274
 msgid "months"
 msgstr ""
 
-#: bp-core.php:1270
+#: bp-core.php:1275
 msgid "week"
 msgstr ""
 
-#: bp-core.php:1270
+#: bp-core.php:1275
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:1271
+#: bp-core.php:1276
 msgid "day"
 msgstr ""
 
-#: bp-core.php:1271
+#: bp-core.php:1276
 msgid "days"
 msgstr ""
 
-#: bp-core.php:1272
+#: bp-core.php:1277
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:1272 bp-forums/bbpress/bb-admin/options-general.php:116
+#: bp-core.php:1277 bp-forums/bbpress/bb-admin/options-general.php:116
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:1273
+#: bp-core.php:1278
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:1273 bp-forums/bbpress/bb-admin/options-writing.php:40
+#: bp-core.php:1278 bp-forums/bbpress/bb-admin/options-writing.php:40
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:1274
+#: bp-core.php:1279
 msgid "second"
 msgstr ""
 
-#: bp-core.php:1274 bp-core.php:1322
+#: bp-core.php:1279 bp-core.php:1327
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1287
+#: bp-core.php:1292
 msgid "[Use GMT Timezone]"
 msgstr ""
 
-#: bp-core.php:1317
+#: bp-core.php:1322
 msgid ",|Separator in time since"
 msgstr ""
 
-#: bp-core.php:1366
+#: bp-core.php:1371
 msgid "not recently active"
 msgstr ""
 
-#: bp-core.php:1753
+#: bp-core.php:1758
 msgid ""
 "IMPORTANT: <a href=\"http://codex.buddypress.org/getting-started/upgrading-"
 "from-10x/\">Read this before attempting to update BuddyPress</a>"
@@ -755,13 +755,13 @@ msgid "Allow users to post status updates."
 msgstr ""
 
 #: bp-core/bp-core-adminbar.php:40
-#: bp-core/deprecated/bp-core-deprecated.php:942
+#: bp-core/deprecated/bp-core-deprecated.php:946
 #: bp-themes/bp-sn-parent/header.php:52 bp-themes/bp-sn-parent/userbar.php:37
 msgid "Log In"
 msgstr ""
 
 #: bp-core/bp-core-adminbar.php:44
-#: bp-core/deprecated/bp-core-deprecated.php:943
+#: bp-core/deprecated/bp-core-deprecated.php:947
 #: bp-themes/bp-sn-parent/header.php:55
 #: bp-themes/bp-sn-parent/registration/register.php:13
 msgid "Sign Up"
@@ -774,8 +774,8 @@ msgstr ""
 #: bp-core/bp-core-adminbar.php:91 bp-core/bp-core-adminbar.php:93
 #: bp-core/bp-core-templatetags.php:50 bp-core/bp-core-templatetags.php:52
 #: bp-core/bp-core-templatetags.php:631 bp-core/bp-core-templatetags.php:633
-#: bp-core/deprecated/bp-core-deprecated.php:958
-#: bp-core/deprecated/bp-core-deprecated.php:960
+#: bp-core/deprecated/bp-core-deprecated.php:962
+#: bp-core/deprecated/bp-core-deprecated.php:964
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:2729
 msgid "Log Out"
 msgstr ""
@@ -1569,7 +1569,7 @@ msgstr ""
 msgid "Crop Image"
 msgstr ""
 
-#: bp-core/deprecated/bp-core-deprecated.php:937
+#: bp-core/deprecated/bp-core-deprecated.php:941
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:645
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:649
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:659
@@ -1584,7 +1584,7 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: bp-core/deprecated/bp-core-deprecated.php:940
+#: bp-core/deprecated/bp-core-deprecated.php:944
 #: bp-themes/bp-sn-parent/header.php:50 bp-themes/bp-sn-parent/userbar.php:35
 msgid "Remember Me"
 msgstr ""
@@ -6829,7 +6829,7 @@ msgid "A member accepts your friendship request"
 msgstr ""
 
 #: bp-friends.php:212 bp-friends/deprecated/bp-friends-deprecated.php:90
-#: bp-themes/bp-sn-parent/_inc/ajax.php:54
+#: bp-themes/bp-sn-parent/_inc/ajax.php:50
 msgid "Friendship could not be requested."
 msgstr ""
 
@@ -6846,7 +6846,7 @@ msgid "You already have a pending friendship request with this user"
 msgstr ""
 
 #: bp-friends.php:250 bp-friends/deprecated/bp-friends-deprecated.php:81
-#: bp-themes/bp-sn-parent/_inc/ajax.php:45
+#: bp-themes/bp-sn-parent/_inc/ajax.php:41
 msgid "Friendship could not be canceled."
 msgstr ""
 
@@ -6954,7 +6954,7 @@ msgstr ""
 
 #: bp-friends/bp-friends-templatetags.php:365
 #: bp-friends/deprecated/bp-friends-deprecated.php:92
-#: bp-themes/bp-sn-parent/_inc/ajax.php:56
+#: bp-themes/bp-sn-parent/_inc/ajax.php:52
 msgid "Friendship Requested"
 msgstr ""
 
@@ -6964,7 +6964,7 @@ msgstr ""
 
 #: bp-friends/bp-friends-templatetags.php:369
 #: bp-friends/deprecated/bp-friends-deprecated.php:83
-#: bp-themes/bp-sn-parent/_inc/ajax.php:47
+#: bp-themes/bp-sn-parent/_inc/ajax.php:43
 msgid "Add Friend"
 msgstr ""
 
@@ -7014,7 +7014,7 @@ msgid "There aren't enough site members to show a random sample just yet."
 msgstr ""
 
 #: bp-friends/deprecated/bp-friends-deprecated.php:95
-#: bp-themes/bp-sn-parent/_inc/ajax.php:59
+#: bp-themes/bp-sn-parent/_inc/ajax.php:55
 msgid "Request Pending"
 msgstr ""
 
@@ -7058,7 +7058,7 @@ msgstr ""
 
 #: bp-groups.php:276 bp-groups/bp-groups-templatetags.php:1232
 #: bp-groups/deprecated/bp-groups-deprecated.php:835
-#: bp-themes/bp-sn-parent/_inc/ajax.php:259
+#: bp-themes/bp-sn-parent/_inc/ajax.php:251
 #: bp-themes/bp-sn-parent/groups/single/request-membership.php:28
 msgid "Request Membership"
 msgstr ""
@@ -7076,7 +7076,7 @@ msgstr ""
 #: bp-groups.php:290 bp-groups/bp-groups-templatetags.php:1222
 #: bp-groups/bp-groups-templatetags.php:1229
 #: bp-groups/deprecated/bp-groups-deprecated.php:811
-#: bp-themes/bp-sn-parent/_inc/ajax.php:235
+#: bp-themes/bp-sn-parent/_inc/ajax.php:227
 msgid "Leave Group"
 msgstr ""
 
@@ -7759,7 +7759,7 @@ msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1224
 #: bp-groups/deprecated/bp-groups-deprecated.php:833
-#: bp-themes/bp-sn-parent/_inc/ajax.php:257
+#: bp-themes/bp-sn-parent/_inc/ajax.php:249
 msgid "Join Group"
 msgstr ""
 
@@ -7881,7 +7881,7 @@ msgstr ""
 
 #: bp-groups/deprecated/bp-groups-deprecated.php:346
 #: bp-groups/deprecated/bp-groups-deprecated.php:648
-#: bp-themes/bp-sn-parent/_inc/ajax.php:92
+#: bp-themes/bp-sn-parent/_inc/ajax.php:93
 #: bp-themes/bp-sn-parent/groups/create.php:187
 #: bp-themes/bp-sn-parent/groups/single/send-invite.php:64
 msgid "Remove Invite"
@@ -8058,67 +8058,67 @@ msgstr ""
 
 #: bp-groups/deprecated/bp-groups-deprecated.php:716
 #: bp-groups/deprecated/bp-groups-deprecated.php:764
-#: bp-themes/bp-sn-parent/_inc/ajax.php:152
-#: bp-themes/bp-sn-parent/_inc/ajax.php:196
+#: bp-themes/bp-sn-parent/_inc/ajax.php:153
+#: bp-themes/bp-sn-parent/_inc/ajax.php:197
 #: bp-themes/bp-sn-parent/groups/single/admin.php:244
 #: bp-themes/bp-sn-parent/groups/single/members.php:103
 msgid "This group has no members."
 msgstr ""
 
 #: bp-groups/deprecated/bp-groups-deprecated.php:751
-#: bp-themes/bp-sn-parent/_inc/ajax.php:183
+#: bp-themes/bp-sn-parent/_inc/ajax.php:184
 #: bp-themes/bp-sn-parent/groups/single/admin.php:225
 msgid "(banned)"
 msgstr ""
 
 #: bp-groups/deprecated/bp-groups-deprecated.php:751
 #: bp-groups/deprecated/bp-groups-deprecated.php:755
-#: bp-themes/bp-sn-parent/_inc/ajax.php:183
-#: bp-themes/bp-sn-parent/_inc/ajax.php:187
+#: bp-themes/bp-sn-parent/_inc/ajax.php:184
+#: bp-themes/bp-sn-parent/_inc/ajax.php:188
 #: bp-themes/bp-sn-parent/groups/single/admin.php:225
 #: bp-themes/bp-sn-parent/groups/single/admin.php:231
 msgid "Kick and ban this member"
 msgstr ""
 
 #: bp-groups/deprecated/bp-groups-deprecated.php:751
-#: bp-themes/bp-sn-parent/_inc/ajax.php:183
+#: bp-themes/bp-sn-parent/_inc/ajax.php:184
 #: bp-themes/bp-sn-parent/groups/single/admin.php:225
 msgid "Remove Ban"
 msgstr ""
 
 #: bp-groups/deprecated/bp-groups-deprecated.php:755
-#: bp-themes/bp-sn-parent/_inc/ajax.php:187
+#: bp-themes/bp-sn-parent/_inc/ajax.php:188
 #: bp-themes/bp-sn-parent/groups/single/admin.php:231
 msgid "Kick &amp; Ban"
 msgstr ""
 
 #: bp-groups/deprecated/bp-groups-deprecated.php:755
-#: bp-themes/bp-sn-parent/_inc/ajax.php:187
+#: bp-themes/bp-sn-parent/_inc/ajax.php:188
 msgid "Promote this member"
 msgstr ""
 
 #: bp-groups/deprecated/bp-groups-deprecated.php:755
-#: bp-themes/bp-sn-parent/_inc/ajax.php:187
+#: bp-themes/bp-sn-parent/_inc/ajax.php:188
 msgid "Promote to Moderator"
 msgstr ""
 
 #: bp-groups/deprecated/bp-groups-deprecated.php:809
-#: bp-themes/bp-sn-parent/_inc/ajax.php:233
+#: bp-themes/bp-sn-parent/_inc/ajax.php:225
 msgid "Error joining group"
 msgstr ""
 
 #: bp-groups/deprecated/bp-groups-deprecated.php:819
-#: bp-themes/bp-sn-parent/_inc/ajax.php:243
+#: bp-themes/bp-sn-parent/_inc/ajax.php:235
 msgid "Error requesting membership"
 msgstr ""
 
 #: bp-groups/deprecated/bp-groups-deprecated.php:821
-#: bp-themes/bp-sn-parent/_inc/ajax.php:245
+#: bp-themes/bp-sn-parent/_inc/ajax.php:237
 msgid "Membership Requested"
 msgstr ""
 
 #: bp-groups/deprecated/bp-groups-deprecated.php:830
-#: bp-themes/bp-sn-parent/_inc/ajax.php:254
+#: bp-themes/bp-sn-parent/_inc/ajax.php:246
 msgid "Error leaving group"
 msgstr ""
 
@@ -8212,7 +8212,7 @@ msgid "There was an error deleting messages."
 msgstr ""
 
 #: bp-messages.php:358 bp-messages/deprecated/bp-messages-deprecated.php:140
-#: bp-themes/bp-sn-parent/_inc/ajax.php:355
+#: bp-themes/bp-sn-parent/_inc/ajax.php:347
 msgid "Messages deleted."
 msgstr ""
 
@@ -8308,7 +8308,7 @@ msgid "%d Recipients"
 msgstr ""
 
 #: bp-messages/bp-messages-templatetags.php:673
-#: bp-themes/bp-sn-parent/_inc/ajax.php:278
+#: bp-themes/bp-sn-parent/_inc/ajax.php:270
 #, php-format
 msgid "Sent %s ago"
 msgstr ""
@@ -8341,22 +8341,22 @@ msgid "Re: "
 msgstr ""
 
 #: bp-messages/deprecated/bp-messages-deprecated.php:94
-#: bp-themes/bp-sn-parent/_inc/ajax.php:317
+#: bp-themes/bp-sn-parent/_inc/ajax.php:309
 msgid "There was a problem marking messages as unread."
 msgstr ""
 
 #: bp-messages/deprecated/bp-messages-deprecated.php:113
-#: bp-themes/bp-sn-parent/_inc/ajax.php:332
+#: bp-themes/bp-sn-parent/_inc/ajax.php:324
 msgid "There was a problem marking messages as read."
 msgstr ""
 
 #: bp-messages/deprecated/bp-messages-deprecated.php:132
-#: bp-themes/bp-sn-parent/_inc/ajax.php:347
+#: bp-themes/bp-sn-parent/_inc/ajax.php:339
 msgid "There was a problem deleting messages."
 msgstr ""
 
 #: bp-messages/deprecated/bp-messages-deprecated.php:153
-#: bp-themes/bp-sn-parent/_inc/ajax.php:364
+#: bp-themes/bp-sn-parent/_inc/ajax.php:356
 msgid "There was a problem closing the notice."
 msgstr ""
 
@@ -8405,7 +8405,7 @@ msgstr ""
 msgid "There was a problem updating your status. Please try again."
 msgstr ""
 
-#: bp-status.php:128 bp-status.php:159
+#: bp-status.php:130 bp-status.php:161
 #, php-format
 msgid "%s posted a new status update:"
 msgstr ""
@@ -8432,21 +8432,21 @@ msgstr ""
 msgid "The page you were looking for was not found."
 msgstr ""
 
-#: bp-themes/bp-sn-parent/_inc/ajax.php:286
+#: bp-themes/bp-sn-parent/_inc/ajax.php:278
 msgid "There was a problem sending that reply. Please try again."
 msgstr ""
 
-#: bp-themes/bp-sn-parent/_inc/ajax.php:396
+#: bp-themes/bp-sn-parent/_inc/ajax.php:388
 #: bp-wire/deprecated/bp-wire-deprecated.php:59
 msgid "On"
 msgstr ""
 
-#: bp-themes/bp-sn-parent/_inc/ajax.php:397
+#: bp-themes/bp-sn-parent/_inc/ajax.php:389
 #: bp-wire/deprecated/bp-wire-deprecated.php:60
 msgid "said:"
 msgstr ""
 
-#: bp-themes/bp-sn-parent/_inc/ajax.php:412
+#: bp-themes/bp-sn-parent/_inc/ajax.php:404
 msgid "No wire posts were found"
 msgstr ""
 
