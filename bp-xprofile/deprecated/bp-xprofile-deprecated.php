@@ -676,8 +676,6 @@ function xprofile_load_blog_signup_meta() {
 	$blog_meta = array( 
 		'public' => $_POST['blog_public'],
 		'lang_id' => 1, // deprecated
-		'blogname' => $_POST['blogname'],
-		'blog_title' => $_POST['blog_title']
 	);
 	
 	$bp_meta = unserialize( stripslashes( $_POST['bp_xprofile_meta'] ) );
