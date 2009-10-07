@@ -116,8 +116,6 @@ function bp_core_screen_signup() {
 				/* If the user decided to create a blog, save those details to usermeta */
 				if ( 'blog' == $active_signup || 'all' == $active_signup ) {
 					$usermeta['public'] = ( 'public' == $_POST['signup_blog_privacy'] ) ? true : false;
-					$usermeta['blogname'] = $_POST['signup_blog_url'];
-					$usermeta['blog_title'] = $_POST['signup_blog_title'];
 				}
 				
 				$usermeta = apply_filters( 'bp_signup_usermeta', $usermeta );
