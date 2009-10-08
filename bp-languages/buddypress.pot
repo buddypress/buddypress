@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-10-06 14:11+0000\n"
+"POT-Creation-Date: 2009-10-08 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1044,16 +1044,16 @@ msgstr ""
 msgid "This is a required field"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:151
+#: bp-core/bp-core-signup.php:149
 msgid ""
 "There was a problem uploading your avatar, please try uploading it again"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:177 bp-xprofile.php:418
+#: bp-core/bp-core-signup.php:175 bp-xprofile.php:418
 msgid "There was a problem cropping your avatar, please try uploading it again"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:179
+#: bp-core/bp-core-signup.php:177
 msgid "Your new avatar was uploaded successfully"
 msgstr ""
 
@@ -1537,7 +1537,7 @@ msgstr ""
 #: bp-core/deprecated/bp-core-deprecated.php:691
 #: bp-themes/bp-sn-parent/profile/change-avatar.php:50
 #: bp-themes/bp-sn-parent/registration/register.php:248
-#: bp-xprofile/deprecated/bp-xprofile-deprecated.php:769
+#: bp-xprofile/deprecated/bp-xprofile-deprecated.php:767
 msgid "Crop Your New Avatar"
 msgstr ""
 
@@ -1547,7 +1547,7 @@ msgstr ""
 #: bp-themes/bp-sn-parent/groups/single/admin.php:153
 #: bp-themes/bp-sn-parent/profile/change-avatar.php:52
 #: bp-themes/bp-sn-parent/registration/register.php:250
-#: bp-xprofile/deprecated/bp-xprofile-deprecated.php:771
+#: bp-xprofile/deprecated/bp-xprofile-deprecated.php:769
 msgid "Avatar to crop"
 msgstr ""
 
@@ -1565,7 +1565,7 @@ msgstr ""
 #: bp-themes/bp-sn-parent/groups/single/admin.php:159
 #: bp-themes/bp-sn-parent/profile/change-avatar.php:58
 #: bp-themes/bp-sn-parent/registration/register.php:256
-#: bp-xprofile/deprecated/bp-xprofile-deprecated.php:773
+#: bp-xprofile/deprecated/bp-xprofile-deprecated.php:771
 msgid "Crop Image"
 msgstr ""
 
