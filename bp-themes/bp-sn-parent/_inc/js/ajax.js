@@ -972,36 +972,6 @@ jQuery(document).ready( function() {
 		}
 	);
 
-	j("form#status-update-form").livequery('submit', 
-		function() {
-			j.post( ajaxurl, {
-				action: 'status_new_status',
-				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce': j('input#_wpnonce_add_status').val(),
-				'status-update-input': j('#status-update-input').val()
-			},
-			function(response) {
-				if ( response == "1" ) {			
-					j("div#user-status").slideUp(400,
-						function() {
-							j.post( ajaxurl, {
-								action: 'status_show_status',
-								'cookie': encodeURIComponent(document.cookie)
-							},
-							function(response) {				
-								j("div#user-status").html(response);
-								j("div#user-status").slideDown(400);
-								j(window).unbind('click');
-							});
-						} 
-					);
-				}
-			});
-
-			return false;
-		}
-	);
-
 	j("a#status-clear-status").livequery('click', 
 		function() {
 			j(this).addClass('ajax-loader');
