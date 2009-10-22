@@ -58,7 +58,8 @@
 		</ul>
 		
 		<?php do_action( 'bp_after_wire_post_list' ) ?>
-	
+
+		<input type="hidden" name="bp_wire_item_id" id="bp_wire_item_id" value="<?php echo bp_get_wire_item_id() ?>" />	
 	</div>
 	<?php else: ?>
 
