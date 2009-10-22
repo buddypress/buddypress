@@ -65,6 +65,10 @@ if ( !defined( 'BP_SEARCH_SLUG' ) )
 /* Define the slug for the search page */
 if ( !defined( 'BP_HOME_BLOG_SLUG' ) )
 	define( 'BP_HOME_BLOG_SLUG', 'blog' );
+	
+/* Register BuddyPress themes contained within the theme folder */
+if ( function_exists( 'register_theme_folder' ) )
+	register_theme_folder( 'buddypress/bp-themes' );
 
 
 /* "And now for something completely different" .... */

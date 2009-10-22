@@ -246,7 +246,7 @@ Class BP_Groups_Group {
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
 		
-		like_escape($filter);
+		like_escape( $wpdb->escape( $filter ) );
 		
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
@@ -268,7 +268,7 @@ Class BP_Groups_Group {
 	function search_groups( $filter, $limit = null, $page = null, $sort_by = false, $order = false ) {
 		global $wpdb, $bp;
 		
-		like_escape($filter);
+		like_escape( $wpdb->escape( $filter ) );
 		
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
@@ -462,7 +462,7 @@ Class BP_Groups_Group {
 		if ( !is_site_admin() )
 			$hidden_sql = $wpdb->prepare( " AND status != 'hidden'");
 		
-		like_escape($letter);
+		like_escape( $wpdb->escape( $letter ) );
 				
 		if ( $limit && $page ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
@@ -698,7 +698,7 @@ Class BP_Groups_Member {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		if ( $filter ) {
-			like_escape($filter);
+			like_escape( $wpdb->escape( $filter ) );
 			$filter_sql = " AND ( g.name LIKE '{$filter}%%' OR g.description LIKE '{$filter}%%' )";			
 		}
 
@@ -718,7 +718,7 @@ Class BP_Groups_Member {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		if ( $filter ) {
-			like_escape($filter);
+			like_escape( $wpdb->escape( $filter ) );
 			$filter_sql = " AND ( g.name LIKE '{$filter}%%' OR g.description LIKE '{$filter}%%' )";			
 		}
 
@@ -738,7 +738,7 @@ Class BP_Groups_Member {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 			
 		if ( $filter ) {
-			like_escape($filter);
+			like_escape( $wpdb->escape( $filter ) );
 			$filter_sql = " AND ( g.name LIKE '{$filter}%%' OR g.description LIKE '{$filter}%%' )";			
 		}
 
@@ -758,7 +758,7 @@ Class BP_Groups_Member {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		if ( $filter ) {
-			like_escape($filter);
+			like_escape( $wpdb->escape( $filter ) );
 			$filter_sql = " AND ( g.name LIKE '{$filter}%%' OR g.description LIKE '{$filter}%%' )";			
 		}
 
@@ -778,7 +778,7 @@ Class BP_Groups_Member {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		if ( $filter ) {
-			like_escape($filter);
+			like_escape( $wpdb->escape( $filter ) );
 			$filter_sql = " AND ( g.name LIKE '{$filter}%%' OR g.description LIKE '{$filter}%%' )";			
 		}
 
@@ -798,7 +798,7 @@ Class BP_Groups_Member {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		if ( $filter ) {
-			like_escape($filter);
+			like_escape( $wpdb->escape( $filter ) );
 			$filter_sql = " AND ( g.name LIKE '{$filter}%%' OR g.description LIKE '{$filter}%%' )";			
 		}
 
