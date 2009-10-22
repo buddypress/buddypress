@@ -78,12 +78,12 @@ jQuery(document).ready( function() {
 			var page = j(this).attr('href');
 			page = page.split('upage=');
 			
-			if ( !j("input#selected_letter").val() )
+			if ( undefined === j("input#selected_letter").val() )
 				var letter = '';
 			else
 				var letter = j("input#selected_letter").val();
 						
-			if ( !j("input#search_terms").val() )
+			if ( undefined === j("input#search_terms").val() )
 				var search_terms = '';
 			else
 				var search_terms = j("input#search_terms").val();
@@ -332,12 +332,12 @@ jQuery(document).ready( function() {
 			var page = j(this).attr('href');
 			page = page.split('gpage=');
 			
-			if ( !j("input#selected_letter").val() )
+			if ( undefined === j("input#selected_letter").val() )
 				var letter = '';
 			else
 				var letter = j("input#selected_letter").val();
 						
-			if ( !j("input#search_terms").val() )
+			if ( undefined === j("input#search_terms").val() )
 				var search_terms = '';
 			else
 				var search_terms = j("input#search_terms").val();
@@ -1063,12 +1063,12 @@ jQuery(document).ready( function() {
 			var page = j(this).attr('href');
 			page = page.split('bpage=');
 			
-			if ( !j("input#selected_letter").val() )
+			if ( undefined === j("input#selected_letter").val() )
 				var letter = '';
 			else
 				var letter = j("input#selected_letter").val();
 						
-			if ( !j("input#search_terms").val() )
+			if ( undefined === j("input#search_terms").val() )
 				var search_terms = '';
 			else
 				var search_terms = j("input#search_terms").val();
