@@ -1649,7 +1649,7 @@ function bp_new_group_description() {
 }
 	function bp_get_new_group_description() {
 		global $bp;
-		return apply_filters( 'bp_get_new_group_description', $bp->groups->current_group->name );
+		return apply_filters( 'bp_get_new_group_description', $bp->groups->current_group->description );
 	}
 
 function bp_new_group_news() {
@@ -1657,7 +1657,7 @@ function bp_new_group_news() {
 }
 	function bp_get_new_group_news() {
 		global $bp;
-		return apply_filters( 'bp_get_new_group_news', $bp->groups->current_group->name );
+		return apply_filters( 'bp_get_new_group_news', $bp->groups->current_group->news );
 	}
 
 function bp_new_group_enable_wire() {
