@@ -327,25 +327,25 @@ function xprofile_screen_edit_profile() {
 				
 		/* Loop through the posted fields formatting any datebox values then validate the field */
 		foreach ( $posted_field_ids as $field_id ) {		
-			
+
 			if ( !isset( $_POST['field_' . $field_id] ) ) {
-				
-				if ( isset( $_POST['field_' . $field_id . '_day'] ) ) {
+
+				if ( is_numeric( $_POST['field_' . $field_id . '_day'] ) ) {
 					/* Concatenate the values. */
 					$date_value = $_POST['field_' . $field_id . '_day'] . ' ' .  
 							      $_POST['field_' . $field_id . '_month'] . ' ' .
 								  $_POST['field_' . $field_id . '_year'];
-						
+
 					/* Turn the concatenated value into a timestamp */
 					$_POST['field_' . $field_id] = strtotime( $date_value );
 				}
-				
+
 			}
-			
+
 			if ( xprofile_check_is_required_field( $field_id ) && empty( $_POST['field_' . $field_id] ) )
 				$errors = true;
 		}
-		
+
 		if ( $errors )
 			bp_core_add_message( __( 'Please make sure you fill in all required fields in this profile field group before saving.', 'buddypress' ), 'error' );			
 		else {		

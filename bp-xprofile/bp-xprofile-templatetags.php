@@ -469,8 +469,8 @@ function bp_the_profile_field_options( $args = '' ) {
 				break;
 			
 			case 'datebox':
-			
-				if ( $field->data->value != '' ) {
+
+				if ( !empty( $field->data->value ) ) {
 					$day = date("j", $field->data->value);
 					$month = date("F", $field->data->value);
 					$year = date("Y", $field->data->value);
