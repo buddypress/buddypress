@@ -1545,7 +1545,7 @@ function bp_core_delete_account( $user_id = false ) {
 		$user_id = $bp->loggedin_user->id;
 
 	/* Make sure account deletion is not disabled */
-	if ( ( !(int) get_site_option( 'bp-disable-account-deletion' ) && !is_site_admin() ) )
+	if ( ( '' != get_site_option( 'bp-disable-account-deletion' ) || (int) get_site_option( 'bp-disable-account-deletion' ) ) && !is_site_admin() )
 		return false;
 
 	/* Site admins should not be allowed to be deleted */
@@ -1715,6 +1715,25 @@ function bp_core_add_admin_menu_page( $args = '' ) {
 	return $hookname;
 }
 
+/**
+ * bp_core_boot_spammer()
+ *
+ * When a user logs in, check if they have been marked as a spammer. If then simply
+ * redirect them to the home page and stop them from logging in.
+ * 
+ * @package BuddyPress Core
+ * @param $username The username of the user
+ * @uses delete_usermeta() deletes a row from the wp_usermeta table based on meta_key
+ */
+function bp_core_boot_spammer( $auth_obj, $username ) {
+	global $bp;
+	
+	$user = get_userdatabylogin( $username );
+
+	if ( (int)$user->spam )
+		bp_core_redirect( $bp->root_domain );
+}
+add_filter( 'authenticate', 'bp_core_boot_spammer', 11, 2 );
 
 /**
  * bp_core_remove_data()
