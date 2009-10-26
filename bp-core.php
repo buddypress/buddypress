@@ -65,6 +65,10 @@ if ( !defined( 'BP_SEARCH_SLUG' ) )
 /* Define the slug for the search page */
 if ( !defined( 'BP_HOME_BLOG_SLUG' ) )
 	define( 'BP_HOME_BLOG_SLUG', 'blog' );
+	
+/* Register BuddyPress themes contained within the theme folder */
+if ( function_exists( 'register_theme_folder' ) )
+	register_theme_folder( 'buddypress/bp-themes' );
 
 
 /* "And now for something completely different" .... */
@@ -625,10 +629,18 @@ function bp_core_new_nav_item( $args = '' ) {
 		'position' => $position
 	);
 
-	/***
-	 * If we are not viewing a user, and this is a root component, don't attach the
-	 * default subnav function so we can display a directory or something else.
+ 	/***
+	 * If this nav item is hidden for the displayed user, and
+	 * the logged in user is not the displayed user
+	 * looking at their own profile, don't create the nav item.
 	 */
+	if ( !$show_for_displayed_user && !bp_is_home() )
+		return false;
+		
+	/***
+ 	 * If we are not viewing a user, and this is a root component, don't attach the
+ 	 * default subnav function so we can display a directory or something else.
+ 	 */
 	if ( bp_core_is_root_component( $slug ) && !$bp->displayed_user->id )
 		return;
 

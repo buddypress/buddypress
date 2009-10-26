@@ -180,7 +180,7 @@ Class BP_Blogs_Blog {
 		if ( !$bp->blogs )
 			bp_blogs_setup_globals();
 		
-		like_escape($letter);
+		$letter = like_escape( $wpdb->escape( $letter ) );
 				
 		if ( $limit && $page ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
@@ -198,7 +198,7 @@ Class BP_Blogs_Blog {
 		if ( !$bp->blogs )
 			bp_blogs_setup_globals();
 		
-		like_escape($filter);
+		$filter = like_escape( $wpdb->escape( $filter ) );
 		
 		if ( $limit && $page ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );

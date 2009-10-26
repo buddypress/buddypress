@@ -149,7 +149,7 @@ class BP_Friends_Friendship {
 		if ( !$user_id )
 			$user_id = $bp->loggedin_user->id;
 		
-		like_escape($filter);
+		$filter = like_escape( $wpdb->escape( $filter ) );
 		
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
@@ -221,7 +221,7 @@ class BP_Friends_Friendship {
 	function search_users( $filter, $user_id, $limit = null, $page = null ) {
 		global $wpdb, $bp;
 		
-		like_escape($filter);
+		$filter = like_escape( $wpdb->escape( $filter ) );
 		$usermeta_table = $wpdb->base_prefix . 'usermeta';
 		$users_table = $wpdb->base_prefix . 'users';
 
@@ -246,7 +246,7 @@ class BP_Friends_Friendship {
 	function search_users_count( $filter ) {
 		global $wpdb, $bp;
 		
-		like_escape($filter);
+		$filter = like_escape( $wpdb->escape( $filter ) );
 		$usermeta_table = $wpdb->prefix . 'usermeta';
 		$users_table = $wpdb->base_prefix . 'users';
 		
