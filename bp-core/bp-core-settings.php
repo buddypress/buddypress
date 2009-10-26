@@ -153,45 +153,13 @@ function bp_core_screen_notification_settings_content() {
 
 /**** DELETE ACCOUNT ****/
 
-function bp_core_screen_delete_account() {
-	global $current_user, $bp_settings_updated, $pass_error;
-	
-	if ( isset( $_POST['delete-account-button'] ) ) {
+function bp_core_screen_delete_account() {	
+	if ( isset( $_POST['delete-account-understand'] ) ) {
 		check_admin_referer( 'delete-account' );
-		
+
 		// delete the users account
 		if ( bp_core_delete_account() )
 			bp_core_redirect( site_url() );
-	}
-	
-	$bp_settings_updated = false;
-	$pass_error = false;
-	
-	if ( isset($_POST['submit']) ) {
-		check_admin_referer('bp_settings_general');
-		
-		require_once( WPINC . '/registration.php' );
-		
-		// Form has been submitted and nonce checks out, lets do it.
-		
-		if ( $_POST['email'] != '' ) {
-			$current_user->user_email = wp_specialchars( trim( $_POST['email'] ));
-		}
-
-		if ( $_POST['pass1'] != '' && $_POST['pass2'] != '' ) {
-			if ( $_POST['pass1'] == $_POST['pass2'] && !strpos( " " . $_POST['pass1'], "\\" ) ) {
-				$current_user->user_pass = $_POST['pass1'];
-			} else {
-				$pass_error = true;
-			}
-		} else if ( empty( $_POST['pass1'] ) && !empty( $_POST['pass2'] ) || !empty( $_POST['pass1'] ) && empty( $_POST['pass2'] ) ) {
-			$pass_error = true;
-		} else {
-			unset( $current_user->user_pass );
-		}
-		
-		if ( !$pass_error && wp_update_user( get_object_vars( $current_user ) ) )
-			$bp_settings_updated = true;
 	}
 	
 	add_action( 'bp_template_title', 'bp_core_screen_delete_account_title' );
