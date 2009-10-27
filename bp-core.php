@@ -280,8 +280,6 @@ add_action( 'admin_menu', 'bp_core_check_installed' );
  * @uses add_submenu_page() WP function to add a submenu item
  */
 function bp_core_add_admin_menu() {
-	global $wpdb, $bp, $menu;
-	
 	if ( !is_site_admin() )
 		return false;
 		
