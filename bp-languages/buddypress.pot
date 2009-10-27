@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-10-08 14:11+0000\n"
+"POT-Creation-Date: 2009-10-27 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,28 +72,28 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:379
+#: bp-activity/bp-activity-templatetags.php:381
 msgid "profile"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:379 bp-core/bp-core-classes.php:81
+#: bp-activity/bp-activity-templatetags.php:381 bp-core/bp-core-classes.php:81
 msgid "friends"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:379
+#: bp-activity/bp-activity-templatetags.php:381
 #: bp-core/bp-core-classes.php:105
 msgid "groups"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:379
+#: bp-activity/bp-activity-templatetags.php:381
 msgid "status"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:379 bp-core/bp-core-classes.php:92
+#: bp-activity/bp-activity-templatetags.php:381 bp-core/bp-core-classes.php:92
 msgid "blogs"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:387
+#: bp-activity/bp-activity-templatetags.php:389
 msgid "Clear Filter"
 msgstr ""
 
@@ -182,12 +182,12 @@ msgstr ""
 msgid "%s created the blog %s"
 msgstr ""
 
-#: bp-blogs.php:379 bp-blogs.php:415
+#: bp-blogs.php:380 bp-blogs.php:416
 #, php-format
 msgid "%s wrote a new blog post: %s"
 msgstr ""
 
-#: bp-blogs.php:461 bp-blogs.php:492
+#: bp-blogs.php:465 bp-blogs.php:499
 #, php-format
 msgid "%s commented on the blog post %s"
 msgstr ""
@@ -403,134 +403,134 @@ msgstr ""
 msgid "Max posts to show:"
 msgstr ""
 
-#: bp-core.php:286 bp-core.php:287
+#: bp-core.php:290 bp-core.php:291
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core.php:293 bp-core/bp-core-settings.php:70
+#: bp-core.php:297 bp-core/bp-core-settings.php:70
 #: bp-forums/bbpress/bb-admin/options-general.php:219
 msgid "General Settings"
 msgstr ""
 
-#: bp-core.php:294
+#: bp-core.php:298
 msgid "Component Setup"
 msgstr ""
 
-#: bp-core.php:339 bp-forums/bbpress/bb-includes/functions.bb-template.php:222
+#: bp-core.php:343 bp-forums/bbpress/bb-includes/functions.bb-template.php:222
 #: bp-forums/bbpress/bb-templates/kakumei/profile.php:3 bp-xprofile.php:207
 #: bp-xprofile.php:446
 msgid "Profile"
 msgstr ""
 
-#: bp-core.php:350 bp-groups/bp-groups-templatetags.php:596
+#: bp-core.php:354 bp-groups/bp-groups-templatetags.php:596
 #: bp-xprofile.php:212
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:360 bp-core/bp-core-templatetags.php:320 bp-xprofile.php:218
+#: bp-core.php:364 bp-core/bp-core-templatetags.php:320 bp-xprofile.php:218
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:460
+#: bp-core.php:464
 msgid "User marked as spammer. Spam users are visible only to site admins."
 msgstr ""
 
-#: bp-core.php:462
+#: bp-core.php:466
 msgid "User removed as spammer."
 msgstr ""
 
-#: bp-core.php:492
+#: bp-core.php:496
 #, php-format
 msgid "%s has been deleted from the system."
 msgstr ""
 
-#: bp-core.php:494
+#: bp-core.php:498
 #, php-format
 msgid "There was an error deleting %s from the system. Please try again."
 msgstr ""
 
-#: bp-core.php:942 bp-wire/bp-wire-templatetags.php:334
+#: bp-core.php:954 bp-wire/bp-wire-templatetags.php:334
 msgid "You"
 msgstr ""
 
-#: bp-core.php:1023
+#: bp-core.php:1035
 #, php-format
 msgid "%s's"
 msgstr ""
 
-#: bp-core.php:1168 bp-core/bp-core-templatetags.php:403
+#: bp-core.php:1180 bp-core/bp-core-templatetags.php:403
 msgid "at"
 msgstr ""
 
-#: bp-core.php:1273
+#: bp-core.php:1285
 msgid "year"
 msgstr ""
 
-#: bp-core.php:1273
+#: bp-core.php:1285
 msgid "years"
 msgstr ""
 
-#: bp-core.php:1274
+#: bp-core.php:1286
 msgid "month"
 msgstr ""
 
-#: bp-core.php:1274
+#: bp-core.php:1286
 msgid "months"
 msgstr ""
 
-#: bp-core.php:1275
+#: bp-core.php:1287
 msgid "week"
 msgstr ""
 
-#: bp-core.php:1275
+#: bp-core.php:1287
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:1276
+#: bp-core.php:1288
 msgid "day"
 msgstr ""
 
-#: bp-core.php:1276
+#: bp-core.php:1288
 msgid "days"
 msgstr ""
 
-#: bp-core.php:1277
+#: bp-core.php:1289
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:1277 bp-forums/bbpress/bb-admin/options-general.php:116
+#: bp-core.php:1289 bp-forums/bbpress/bb-admin/options-general.php:116
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:1278
+#: bp-core.php:1290
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:1278 bp-forums/bbpress/bb-admin/options-writing.php:40
+#: bp-core.php:1290 bp-forums/bbpress/bb-admin/options-writing.php:40
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:1279
+#: bp-core.php:1291
 msgid "second"
 msgstr ""
 
-#: bp-core.php:1279 bp-core.php:1327
+#: bp-core.php:1291 bp-core.php:1339
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1292
+#: bp-core.php:1304
 msgid "[Use GMT Timezone]"
 msgstr ""
 
-#: bp-core.php:1322
+#: bp-core.php:1334
 msgid ",|Separator in time since"
 msgstr ""
 
-#: bp-core.php:1371
+#: bp-core.php:1383
 msgid "not recently active"
 msgstr ""
 
-#: bp-core.php:1758
+#: bp-core.php:1789
 msgid ""
 "IMPORTANT: <a href=\"http://codex.buddypress.org/getting-started/upgrading-"
 "from-10x/\">Read this before attempting to update BuddyPress</a>"
@@ -959,7 +959,7 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:25 bp-core/bp-core-settings.php:204
+#: bp-core/bp-core-settings.php:25 bp-core/bp-core-settings.php:172
 msgid "Delete Account"
 msgstr ""
 
@@ -1018,17 +1018,17 @@ msgstr ""
 msgid "Send a notification by email when:"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:213
+#: bp-core/bp-core-settings.php:181
 msgid ""
 "WARNING: Deleting your account will completely remove ALL content associated "
 "with it. There is no way back, please be careful with this option."
 msgstr ""
 
-#: bp-core/bp-core-settings.php:216
+#: bp-core/bp-core-settings.php:184
 msgid "I understand the consequences of deleting my account."
 msgstr ""
 
-#: bp-core/bp-core-settings.php:217
+#: bp-core/bp-core-settings.php:185
 msgid "Delete My Account"
 msgstr ""
 
