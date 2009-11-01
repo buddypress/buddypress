@@ -172,7 +172,7 @@ function bp_core_screen_signup() {
 		$bp->avatar_admin->step = 'upload-image';
 
 		if ( !bp_core_avatar_handle_crop( array( 'original_file' => $_POST['image_src'], 'crop_x' => $_POST['x'], 'crop_y' => $_POST['y'], 'crop_w' => $_POST['w'], 'crop_h' => $_POST['h'] ) ) )
-			bp_core_add_message( __( 'There was a problem cropping your avatar, please try uploading it again', 'buddypress' ) );
+			bp_core_add_message( __( 'There was a problem cropping your avatar, please try uploading it again', 'buddypress' ), 'error' );
 		else
 			bp_core_add_message( __( 'Your new avatar was uploaded successfully', 'buddypress' ) );
 
