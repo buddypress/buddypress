@@ -368,7 +368,7 @@ function bp_the_profile_field_description() {
 	function bp_get_the_profile_field_description() {
 		global $field;
 		
-		return apply_filters( 'bp_get_the_profile_field_description', $field->desc );
+		return apply_filters( 'bp_get_the_profile_field_description', $field->description );
 	}
 	
 function bp_the_profile_field_input_name() {

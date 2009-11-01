@@ -181,7 +181,7 @@ Class BP_XProfile_Field {
 	var $parent_id;
 	var $type;
 	var $name;
-	var $desc;
+	var $description;
 	var $is_required;
 	var $can_delete;
 	var $field_order;
@@ -256,7 +256,7 @@ Class BP_XProfile_Field {
 		$this->parent_id = apply_filters( 'xprofile_field_parent_id_before_save', $this->parent_id, $this->id );
 		$this->type = apply_filters( 'xprofile_field_type_before_save', $this->type, $this->id );
 		$this->name = apply_filters( 'xprofile_field_name_before_save', $this->name, $this->id );
-		$this->desc = apply_filters( 'xprofile_field_description_before_save', $this->desc, $this->id );
+		$this->description = apply_filters( 'xprofile_field_description_before_save', $this->description, $this->id );
 		$this->is_required = apply_filters( 'xprofile_field_is_required_before_save', $this->is_required, $this->id );
 		$this->order_by = apply_filters( 'xprofile_field_order_by_before_save', $this->order_by, $this->id );
 		$this->field_order = apply_filters( 'xprofile_field_field_order_before_save', $this->field_order, $this->id );
@@ -264,9 +264,9 @@ Class BP_XProfile_Field {
 		do_action( 'xprofile_field_before_save', $this );
 		
 		if ( $this->id != null )
-			$sql = $wpdb->prepare("UPDATE {$bp->profile->table_name_fields} SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d, order_by = %s, field_order = %d WHERE id = %d", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->order_by, $this->field_order, $this->id);
+			$sql = $wpdb->prepare("UPDATE {$bp->profile->table_name_fields} SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d, order_by = %s, field_order = %d WHERE id = %d", $this->group_id, $this->type, $this->name, $this->description, $this->is_required, $this->order_by, $this->field_order, $this->id);
 		else
-			$sql = $wpdb->prepare("INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, order_by, field_order ) VALUES (%d, 0, %s, %s, %s, %d, %s, %d )", $this->group_id, $this->type, $this->name, $this->desc, $this->is_required, $this->order_by, $this->field_order );
+			$sql = $wpdb->prepare("INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, order_by, field_order ) VALUES (%d, 0, %s, %s, %s, %d, %s, %d )", $this->group_id, $this->type, $this->name, $this->description, $this->is_required, $this->order_by, $this->field_order );
 
 		// Check for null so field options can be changed without changing any other part of the field.
 		// The described situation will return 0 here.
@@ -519,7 +519,7 @@ Class BP_XProfile_Field {
 			$action = "admin.php?page=bp-profile-setup&amp;group_id=" . $this->group_id . "&amp;mode=add_field";
 
 			$this->name			= $_POST['title'];
-			$this->desc			= $_POST['description'];
+			$this->description	= $_POST['description'];
 			$this->is_required	= $_POST['required'];
 			$this->type			= $_POST['fieldtype'];
 			$this->order_by		= $_POST["sort_order_{$this->type}"];
@@ -554,7 +554,7 @@ Class BP_XProfile_Field {
 				<div id="titlediv" class="inside">
 					<h3><label for="description"><?php _e("Field Description", 'buddypress') ?></label></h3>
 					<div id="titlewrap">
-						<textarea name="description" id="description" rows="8" cols="60"><?php echo htmlspecialchars( $this->desc ); ?></textarea>
+						<textarea name="description" id="description" rows="8" cols="60"><?php echo htmlspecialchars( $this->description ); ?></textarea>
 					</div>
 				</div>
 	

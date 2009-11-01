@@ -89,7 +89,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 							
 									<tr id="field_<?php echo attribute_escape( $field->id ); ?>" class="sortable<?php if ( $class ) { echo ' ' . $class; } ?>">
 								    	<td width="10"><img src="<?php echo BP_PLUGIN_URL ?>/bp-xprofile/admin/images/move.gif" alt="<?php _e( 'Drag', 'buddypress' ) ?>" /></td>
-										<td><span title="<?php echo $field->desc; ?>"><?php echo attribute_escape( $field->name ); ?> <?php if(!$field->can_delete) { ?> <?php _e( '(Core Field)', 'buddypress' ) ?><?php } ?></span></td>
+										<td><span title="<?php echo $field->description; ?>"><?php echo attribute_escape( $field->name ); ?> <?php if(!$field->can_delete) { ?> <?php _e( '(Core Field)', 'buddypress' ) ?><?php } ?></span></td>
 								    	<td><?php echo attribute_escape( $field->type ); ?></td>
 								    	<td style="text-align:center;"><?php if ( $field->is_required ) { echo '<img src="' . BP_PLUGIN_URL . '/bp-xprofile/admin/images/tick.gif" alt="' . __( 'Yes', 'buddypress' ) . '" />'; } else { ?>--<?php } ?></td>
 								    	<td style="text-align:center;"><?php if ( !$field->can_delete ) { ?><strike><?php _e( 'Edit', 'buddypress' ) ?></strike><?php } else { ?><a class="edit" href="admin.php?page=bp-profile-setup&amp;group_id=<?php echo attribute_escape( $groups[$i]->id ); ?>&amp;field_id=<?php echo attribute_escape( $field->id ); ?>&amp;mode=edit_field"><?php _e( 'Edit', 'buddypress' ) ?></a><?php } ?></td>
@@ -216,7 +216,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 	if ( isset($_POST['saveField']) ) {
 		if ( BP_XProfile_Field::admin_validate() ) {
 			$field->name = wp_filter_kses( $_POST['title'] );
-			$field->desc = wp_filter_kses( $_POST['description'] );
+			$field->description = wp_filter_kses( $_POST['description'] );
 			$field->is_required = wp_filter_kses( $_POST['required'] );
 			$field->type = wp_filter_kses( $_POST['fieldtype'] );
 			$field->order_by = wp_filter_kses( $_POST["sort_order_{$field->type}"] );
