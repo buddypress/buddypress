@@ -92,9 +92,31 @@ function bp_core_fetch_avatar( $args = '' ) {
 	
 	$avatar_folder_url = apply_filters( 'bp_core_avatar_folder_url', get_blog_option( BP_ROOT_BLOG, 'siteurl' ) . '/' . basename( WP_CONTENT_DIR ) . '/blogs.dir/' . BP_ROOT_BLOG . '/files/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );	
 	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', WP_CONTENT_DIR . '/blogs.dir/' . BP_ROOT_BLOG . '/files/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );	
-	
+
+	/****
+	 * Look for uploaded avatar first. Use it if it exists.
+	 * Set the file names to search for, to select the full size
+	 * or thumbnail image.
+	 */
+	$avatar_name = ( 'full' == $type ) ? '-bpfull' : '-bpthumb';
+	$legacy_user_avatar_name = ( 'full' == $type ) ? '-avatar2' : '-avatar1';
+	$legacy_group_avatar_name = ( 'full' == $type ) ? '-groupavatar-full' : '-groupavatar-thumb';
+
+	if ( file_exists( $avatar_folder_dir ) ) {
+		if ( $av_dir = opendir( $avatar_folder_dir ) ) {
+			while ( false !== ( $avatar_file = readdir($av_dir) ) ) {
+				if ( preg_match( "/{$avatar_name}/", $avatar_file ) || preg_match( "/{$legacy_user_avatar_name}/", $avatar_file ) || preg_match( "/{$legacy_group_avatar_name}/", $avatar_file ) )
+					$avatar_url = $avatar_folder_url . '/' . $avatar_file;
+			}
+		}
+		closedir($av_dir);
+
+		if ( $avatar_url )
+			return apply_filters( 'bp_core_fetch_avatar', "<img src='{$avatar_url}' alt='{$alt}' id='{$css_id}' class='{$class}'{$html_width}{$html_height} />", $params );
+	}
+
 	/* If no avatars have been uploaded for this item, display a gravatar */	
-	if ( !file_exists( $avatar_folder_dir ) && !$no_grav ) {
+	if ( !file_exists( $avatar_url ) && !$no_grav ) {
 		
 		if ( empty( $bp->grav_default->{$object} ) )
 			$default_grav = 'wavatar';
@@ -119,23 +141,9 @@ function bp_core_fetch_avatar( $args = '' ) {
 		
 		return apply_filters( 'bp_core_fetch_avatar', "<img src='{$gravatar}' alt='{$alt}' id='{$css_id}' class='{$class}'{$html_width}{$html_height} />", $params );
 	
-	} else if ( !file_exists( $avatar_folder_dir ) && $no_grav )
+	} else if ( !file_exists( $avatar_url ) && $no_grav )
 		return false;
 	
-	/* Set the file names to search for to select the full size or thumbnail image. */
-	$avatar_name = ( 'full' == $type ) ? '-bpfull' : '-bpthumb';	
-	$legacy_user_avatar_name = ( 'full' == $type ) ? '-avatar2' : '-avatar1';	
-	$legacy_group_avatar_name = ( 'full' == $type ) ? '-groupavatar-full' : '-groupavatar-thumb';	
-	
-	if ( $av_dir = opendir( $avatar_folder_dir ) ) {
-	    while ( false !== ( $avatar_file = readdir($av_dir) ) ) {
-			if ( preg_match( "/{$avatar_name}/", $avatar_file ) || preg_match( "/{$legacy_user_avatar_name}/", $avatar_file ) || preg_match( "/{$legacy_group_avatar_name}/", $avatar_file ) )
-				$avatar_url = $avatar_folder_url . '/' . $avatar_file;
-	    }
-	}
-    closedir($av_dir);
-
-	return apply_filters( 'bp_core_fetch_avatar', "<img src='{$avatar_url}' alt='{$alt}' id='{$css_id}' class='{$class}'{$html_width}{$html_height} />", $params );	
 }
 
 function bp_core_delete_existing_avatar( $args = '' ) {

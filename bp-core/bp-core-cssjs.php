@@ -146,7 +146,7 @@ function bp_core_add_cropper_inline_css() {
 	global $bp;
 ?>
 	<style type="text/css">
-		.jcrop-holder { text-align: left; }
+		.jcrop-holder { float: left; margin: 0 20px 20px 0; text-align: left; }
 		.jcrop-vline, .jcrop-hline { font-size: 0; position: absolute; background: white top left repeat url( <?php echo BP_PLUGIN_URL ?>/bp-core/images/Jcrop.gif ); }
 		.jcrop-vline { height: 100%; width: 1px !important; }
 		.jcrop-hline { width: 100%; height: 1px !important; }
@@ -156,7 +156,7 @@ function bp_core_add_cropper_inline_css() {
 		.custom .jcrop-handle { border-color: black; background-color: #C7BB00; -moz-border-radius: 3px; -webkit-border-radius: 3px; }
 		#avatar-crop-pane { width: <?php echo BP_AVATAR_FULL_WIDTH ?>px; height: <?php echo BP_AVATAR_FULL_HEIGHT ?>px; overflow: hidden; }
 		#avatar-crop-submit { margin: 20px 0; }
-		#avatar-upload-form img { border: none !important; }
+		#avatar-upload-form img, #create-group-form img, #group-settings-form img { border: none !important; }
 	</style>
 <?php
 }
