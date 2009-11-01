@@ -1154,6 +1154,12 @@ function groups_screen_group_admin_manage_members() {
 		if ( 'demote' == $bp->action_variables[1] && is_numeric( $bp->action_variables[2] ) ) {
 			$user_id = $bp->action_variables[2];
 
+			/* Check if the user is the group admin first. */
+			if ( groups_is_user_admin( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
+				bp_core_add_message(  __('As the only group administrator, you cannot demote yourself.', 'buddypress'), 'error' );
+				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
+			}
+
 			/* Check the nonce first. */
 			if ( !check_admin_referer( 'groups_demote_member' ) )
 				return false;
@@ -1172,6 +1178,12 @@ function groups_screen_group_admin_manage_members() {
 		
 		if ( 'ban' == $bp->action_variables[1] && is_numeric( $bp->action_variables[2] ) ) {
 			$user_id = $bp->action_variables[2];
+
+			/* Check if the user is the group admin first. */
+			if ( groups_is_user_admin( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
+				bp_core_add_message(  __('As the only group administrator, you cannot ban yourself.', 'buddypress'), 'error' );
+				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
+			}
 
 			/* Check the nonce first. */
 			if ( !check_admin_referer( 'groups_ban_member' ) )
