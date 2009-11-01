@@ -208,12 +208,9 @@ function bp_core_wpsignup_redirect() {
 	if ( false === strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php') )
 		return false;
 
-	if ( '' != locate_template( array( 'registration/register.php' ), false ) || '' != locate_template( array( 'register.php' ), false ) )
-		die;
+	if ( locate_template( array( 'registration/register.php' ), false ) || locate_template( array( 'register.php' ), false ) )
+		 wp_redirect( bp_root_domain() . BP_REGISTER_SLUG );
 }
 add_action( 'signup_header', 'bp_core_wpsignup_redirect' );
-
-
-
 
 ?>
