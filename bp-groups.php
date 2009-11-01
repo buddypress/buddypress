@@ -544,7 +544,7 @@ function groups_screen_create_group() {
 		}
 	}
 	
-	/* Group avatar is handled seperately */
+	/* Group avatar is handled separately */
 	if ( 'group-avatar' == $bp->groups->current_create_step && isset( $_POST['upload'] ) ) {
 		if ( !empty( $_FILES ) && isset( $_POST['upload'] ) ) {
 			/* Normally we would check a nonce here, but the group save nonce is used instead */
