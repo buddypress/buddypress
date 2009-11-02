@@ -1466,6 +1466,15 @@ function bp_is_group_leave() {
 	return false;	
 }
 
+function bp_is_single_group_item() {
+	global $bp;
+
+	if ( BP_GROUPS_SLUG == $bp->current_component && $bp->is_single_item )
+		return true;
+
+	return false;
+}
+
 function bp_is_user_blogs() {
 	global $bp;
 	
