@@ -1466,7 +1466,7 @@ function bp_is_group_leave() {
 	return false;	
 }
 
-function bp_is_single_group_item() {
+function bp_is_group_single() {
 	global $bp;
 
 	if ( BP_GROUPS_SLUG == $bp->current_component && $bp->is_single_item )
