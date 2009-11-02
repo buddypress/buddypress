@@ -4,14 +4,14 @@ function bp_forums_load_bbpress() {
 	global $bp, $wpdb, $wp_roles, $current_user, $wp_users_object;
 	global $bb, $bbdb, $bb_table_prefix, $bb_current_user;
 	global $bb_roles, $wp_taxonomy_object;
-	
+
 	/* Return if we've already run this function. */
 	if ( is_object( $bbdb ) && is_object( $bb_roles ) )
 		return;
-	
+
 	if ( !bp_forums_is_installed_correctly() )
 		return false;
-	
+
 	define( 'BB_PATH', BP_PLUGIN_DIR . '/bp-forums/bbpress/' );
 	define( 'BACKPRESS_PATH', BP_PLUGIN_DIR . '/bp-forums/bbpress/bb-includes/backpress/' );
 	define( 'BB_URL', BP_PLUGIN_URL . '/bp-forums/bbpress/' );
@@ -19,7 +19,7 @@ function bp_forums_load_bbpress() {
 
 	require_once( BB_PATH . BB_INC . 'class.bb-query.php' );
 	require_once( BB_PATH . BB_INC . 'class.bb-walker.php' );
-	
+
 	require_once( BB_PATH . BB_INC . 'functions.bb-core.php' );
 	require_once( BB_PATH . BB_INC . 'functions.bb-forums.php' );
 	require_once( BB_PATH . BB_INC . 'functions.bb-topics.php' );
@@ -30,16 +30,16 @@ function bp_forums_load_bbpress() {
 	require_once( BB_PATH . BB_INC . 'functions.bb-pluggable.php' );
 	require_once( BB_PATH . BB_INC . 'functions.bb-formatting.php' );
 	require_once( BB_PATH . BB_INC . 'functions.bb-template.php' );
-	
+
 	require_once( BACKPRESS_PATH . 'class.wp-taxonomy.php' );
 	require_once( BB_PATH . BB_INC . 'class.bb-taxonomy.php' );
-	
+
 	$bb = new stdClass();
 	require_once( $bp->forums->bbconfig );
 
 	// Setup the global database connection
 	$bbdb = new BPDB ( BBDB_USER, BBDB_PASSWORD, BBDB_NAME, BBDB_HOST );
-	
+
 	/* Set the table names */
 	$bbdb->forums = $bb_table_prefix . 'forums';
 	$bbdb->meta = $bb_table_prefix . 'meta';
@@ -48,17 +48,17 @@ function bp_forums_load_bbpress() {
 	$bbdb->term_relationships = $bb_table_prefix . 'term_relationships';
 	$bbdb->term_taxonomy = $bb_table_prefix . 'term_taxonomy';
 	$bbdb->topics = $bb_table_prefix . 'topics';
-	
+
 	if ( isset( $bb->custom_user_table ) )
 		$bbdb->users = $bb->custom_user_table;
 	else
 		$bbdb->users = $wpdb->users;
-	
+
 	if ( isset( $bb->custom_user_meta_table ) )
 		$bbdb->usermeta = $bb->custom_user_meta_table;
 	else
 		$bbdb->usermeta = $wpdb->usermeta;
-		
+
 	$bbdb->prefix = $bb_table_prefix;
 
 	define( 'BB_INSTALLING', false );
@@ -66,9 +66,9 @@ function bp_forums_load_bbpress() {
 	/* This must be loaded before functionss.bb-admin.php otherwise we get a function conflict. */
 	if ( !$tables_installed = (boolean) $bbdb->get_results( 'DESCRIBE `' . $bbdb->forums . '`;', ARRAY_A ) )
 		require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
-	
+
 	require_once( BB_PATH . 'bb-admin/includes/functions.bb-admin.php' );
-	
+
 	if ( is_object( $wp_roles ) ) {
 		$bb_roles =& $wp_roles;
 		bb_init_roles( $bb_roles );
@@ -83,7 +83,7 @@ function bp_forums_load_bbpress() {
 
 	if ( !isset( $wp_taxonomy_object ) )
 		$wp_taxonomy_object = new BB_Taxonomy( $bbdb );
-	
+
 	$wp_taxonomy_object->register_taxonomy( 'bb_topic_tag', 'bb_topic' );
 
 	// Set a site id if there isn't one already
@@ -95,10 +95,10 @@ function bp_forums_load_bbpress() {
 		require_once( BB_PATH . 'bb-admin/includes/defaults.bb-schema.php' );
 
 		dbDelta( $bb_queries );
-		
+
 		require_once( BB_PATH . 'bb-admin/includes/functions.bb-upgrade.php' );
 		bb_update_db_version();
-		
+
 		/* Set the site admins as the keymasters */
 		$site_admins = get_site_option( 'site_admins', array('admin') );
 		foreach ( (array)$site_admins as $site_admin )
@@ -106,7 +106,7 @@ function bp_forums_load_bbpress() {
 
 		// Create the first forum.
 		bb_new_forum( array( 'forum_name' => 'Default Forum' ) );
-		
+
 		// Set the site URI
 		bb_update_option( 'uri', BB_URL );
 	}
@@ -128,7 +128,7 @@ class BP_Forums_BB_Auth {
 		$defaults = array( 'id' => 0, 'meta_key' => null, 'meta_value' => null, 'meta_table' => 'usermeta', 'meta_field' => 'user_id', 'cache_group' => 'users' );
 		$args = wp_parse_args( $args, $defaults );
 		extract( $args, EXTR_SKIP );
-		
+
 		return update_usermeta( $id, $meta_key, $meta_value );
 	}
 }

@@ -1,14 +1,14 @@
 <?php get_header() ?>
 
-	<?php do_action( 'bp_before_directory_blogs_content' ) ?>		
+	<?php do_action( 'bp_before_directory_blogs_content' ) ?>
 
 	<div id="content">
-	
+
 		<div class="page" id="blogs-directory-page">
-	
+
 			<form action="<?php echo site_url() . '/' ?>" method="post" id="blogs-directory-form">
 				<h3><?php _e( 'Blog Directory', 'buddypress' ) ?></h3>
-		
+
 				<ul id="letter-list">
 					<li><a href="#a" id="letter-a">A</a></li>
 					<li><a href="#b" id="letter-b">B</a></li>
@@ -40,7 +40,7 @@
 
 				<div id="blogs-directory-listing" class="directory-listing">
 					<h3><?php _e( 'Blog Listing', 'buddypress' ) ?></h3>
-			
+
 					<div id="blog-dir-list">
 						<?php locate_template( array( 'directories/blogs/blogs-loop.php' ), true ) ?>
 					</div>
@@ -48,39 +48,39 @@
 				</div>
 
 				<?php do_action( 'bp_directory_blogs_content' ) ?>
-		
+
 				<?php wp_nonce_field( 'directory_blogs', '_wpnonce-blog-filter' ) ?>
 
 			</form>
-	
+
 		</div>
-	
+
 	</div>
 
-	<?php do_action( 'bp_after_directory_blogs_content' ) ?>		
-	<?php do_action( 'bp_before_directory_blogs_sidebar' ) ?>		
+	<?php do_action( 'bp_after_directory_blogs_content' ) ?>
+	<?php do_action( 'bp_before_directory_blogs_sidebar' ) ?>
 
 	<div id="sidebar" class="directory-sidebar">
 
-		<?php do_action( 'bp_before_directory_blogs_search' ) ?>	
+		<?php do_action( 'bp_before_directory_blogs_search' ) ?>
 
 		<div id="blogs-directory-search" class="directory-widget">
-			
+
 			<h3><?php _e( 'Find Blogs', 'buddypress' ) ?></h3>
 
 			<?php bp_directory_blogs_search_form() ?>
 
-			<?php do_action( 'bp_directory_blogs_search' ) ?>	
+			<?php do_action( 'bp_directory_blogs_search' ) ?>
 
 		</div>
 
-		<?php do_action( 'bp_after_directory_blogs_search' ) ?>	
-		<?php do_action( 'bp_before_directory_blogs_featured' ) ?>	
+		<?php do_action( 'bp_after_directory_blogs_search' ) ?>
+		<?php do_action( 'bp_before_directory_blogs_featured' ) ?>
 
 		<div id="blogs-directory-featured" class="directory-widget">
-			
+
 			<h3><?php _e( 'Random Blogs', 'buddypress' ) ?></h3>
-		
+
 			<?php if ( bp_has_site_blogs( 'type=random&max=3' ) ) : ?>
 
 				<ul id="featured-blogs-list" class="item-list">
@@ -94,23 +94,23 @@
 							<div class="item">
 								<div class="item-title"><a href="<?php bp_the_site_blog_link() ?>"><?php bp_the_site_blog_name() ?></a></div>
 								<div class="item-meta"><span class="activity"><?php bp_the_site_blog_last_active() ?></span></div>
-						
+
 								<div class="field-data">
 									<div class="field-name">
 										<strong><?php _e( 'Description: ', 'buddypress' ) ?></strong>
 										<?php bp_the_site_blog_description() ?>
 									</div>
 								</div>
-						
+
 								<?php do_action( 'bp_directory_blogs_featured_item' ) ?>
 							</div>
 						</li>
 
 					<?php endwhile; ?>
-				</ul>			
+				</ul>
 
-				<?php do_action( 'bp_directory_blogs_featured' ) ?>	
-		
+				<?php do_action( 'bp_directory_blogs_featured' ) ?>
+
 			<?php else: ?>
 
 				<div id="message" class="info">
@@ -118,13 +118,13 @@
 				</div>
 
 			<?php endif; ?>
-	
+
 		</div>
 
-		<?php do_action( 'bp_after_directory_blogs_featured' ) ?>	
+		<?php do_action( 'bp_after_directory_blogs_featured' ) ?>
 
 	</div>
 
-	<?php do_action( 'bp_after_directory_blogs_sidebar' ) ?>		
+	<?php do_action( 'bp_after_directory_blogs_sidebar' ) ?>
 
 <?php get_footer() ?>

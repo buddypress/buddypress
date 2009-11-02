@@ -16,9 +16,9 @@ add_filter( 'bp_get_wire_post_content', 'force_balance_tags' );
 
 function bp_wire_filter_kses( $content ) {
 	global $allowedtags;
-	
+
 	$wire_allowedtags = $allowedtags;
-	$wire_allowedtags['img'] = array();	
+	$wire_allowedtags['img'] = array();
 	$wire_allowedtags['img']['src'] = array();
 	$wire_allowedtags['img']['alt'] = array();
 	$wire_allowedtags['img']['class'] = array();

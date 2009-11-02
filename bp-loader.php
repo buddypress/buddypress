@@ -39,19 +39,19 @@ if ( !isset( $deactivated['bp-friends.php'] ) && file_exists( BP_PLUGIN_DIR . '/
 if ( !isset( $deactivated['bp-groups.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-groups.php') )
 	include( BP_PLUGIN_DIR . '/bp-groups.php' );
 
-/* Private Messaging */	
+/* Private Messaging */
 if ( !isset( $deactivated['bp-messages.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-messages.php') )
 	include( BP_PLUGIN_DIR . '/bp-messages.php' );
-	
+
 /* Wire Support */
 if ( !isset( $deactivated['bp-wire.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-wire.php') )
 	include( BP_PLUGIN_DIR . '/bp-wire.php' );
 
-/* Extended Profiles */	
+/* Extended Profiles */
 if ( !isset( $deactivated['bp-xprofile.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-xprofile.php') )
 	include( BP_PLUGIN_DIR . '/bp-xprofile.php' );
 
-/* Status Updates */	
+/* Status Updates */
 if ( !isset( $deactivated['bp-status.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-status.php') )
 	include( BP_PLUGIN_DIR . '/bp-status.php' );
 

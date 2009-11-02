@@ -1,11 +1,11 @@
 <?php
 
-function groups_admin_settings() { 
-	
+function groups_admin_settings() {
+
 	if ( isset( $_POST['groups_admin_delete']) && isset( $_POST['allgroups'] ) ) {
 		if ( !check_admin_referer('bp-groups-admin') )
 			return false;
-		
+
 		$errors = false;
 		foreach ( $_POST['allgroups'] as $group_id ) {
 			$group = new BP_Groups_Group( $group_id );
@@ -13,7 +13,7 @@ function groups_admin_settings() {
 				$errors = true;
 			}
 		}
-		
+
 		if ( $errors ) {
 			$message = __( 'There were errors when deleting groups, please try again', 'buddypress' );
 			$type = 'error';
@@ -31,12 +31,12 @@ function groups_admin_settings() {
 
 	<div class="wrap" style="position: relative">
 		<h2><?php _e( 'Groups', 'buddypress' ) ?></h2>
-	
+
 		<form id="wpmu-search" method="post" action="">
 			<input type="text" size="17" value="<?php echo attribute_escape( stripslashes( $_REQUEST['s'] ) ); ?>" name="s" />
 			<input id="post-query-submit" class="button" type="submit" value="<?php _e( 'Search Groups', 'buddypress' ) ?>" />
 		</form>
-		
+
 		<?php if ( bp_has_site_groups( 'type=active&per_page=10' ) ) : ?>
 			<form id="bp-group-admin-list" method="post" action="">
 				<div class="tablenav">
@@ -49,9 +49,9 @@ function groups_admin_settings() {
 						<br class="clear"/>
 					</div>
 				</div>
-				
+
 				<br class="clear"/>
-				
+
 				<?php if ( isset( $_REQUEST['s'] ) && $_REQUEST['s'] != '' ) { ?>
 					<p><?php echo sprintf( __( 'Groups matching: "%s"', 'buddypress' ), $_REQUEST['s'] ) ?></p>
 				<?php } ?>
@@ -110,7 +110,7 @@ function groups_admin_settings() {
 						<?php $counter++ ?>
 					<?php endwhile; ?>
 					</tbody>
-				</table>	
+				</table>
 
 		<?php else: ?>
 
@@ -123,7 +123,7 @@ function groups_admin_settings() {
 		<?php bp_the_site_group_hidden_fields() ?>
 		</form>
 	</div>
-<?php 
+<?php
 }
 
 ?>

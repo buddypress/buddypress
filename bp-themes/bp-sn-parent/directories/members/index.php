@@ -1,14 +1,14 @@
 <?php get_header() ?>
 
-	<?php do_action( 'bp_before_directory_members_content' ) ?>		
+	<?php do_action( 'bp_before_directory_members_content' ) ?>
 
 	<div id="content">
-	
+
 		<div class="page" id="members-directory-page">
-	
+
 			<form action="<?php echo site_url() . '/' ?>" method="post" id="members-directory-form">
 				<h3><?php _e( 'Members Directory', 'buddypress' ) ?></h3>
-		
+
 				<ul id="letter-list">
 					<li><a href="#a" id="letter-a">A</a></li>
 					<li><a href="#b" id="letter-b">B</a></li>
@@ -40,7 +40,7 @@
 
 				<div id="members-directory-listing" class="directory-widget">
 					<h3><?php _e( 'Member Listing', 'buddypress' ) ?></h3>
-			
+
 					<div id="member-dir-list">
 						<?php locate_template( array( 'directories/members/members-loop.php' ), true ) ?>
 					</div>
@@ -48,20 +48,20 @@
 				</div>
 
 				<?php do_action( 'bp_directory_members_content' ) ?>
-				
-				<?php wp_nonce_field( 'directory_members', '_wpnonce-member-filter' ) ?> 
-				
+
+				<?php wp_nonce_field( 'directory_members', '_wpnonce-member-filter' ) ?>
+
 			</form>
-	
+
 		</div>
 
 	</div>
-	
-	<?php do_action( 'bp_after_directory_members_content' ) ?>		
-	<?php do_action( 'bp_before_directory_members_sidebar' ) ?>		
+
+	<?php do_action( 'bp_after_directory_members_content' ) ?>
+	<?php do_action( 'bp_before_directory_members_sidebar' ) ?>
 
 	<div id="sidebar" class="directory-sidebar">
-		
+
 		<?php do_action( 'bp_before_directory_members_search' ) ?>
 
 		<div id="members-directory-search" class="directory-widget">
@@ -72,12 +72,12 @@
 			<?php do_action( 'bp_directory_members_search' ) ?>
 		</div>
 
-		<?php do_action( 'bp_after_directory_members_search' ) ?>	
-		<?php do_action( 'bp_before_directory_members_featured' ) ?>	
+		<?php do_action( 'bp_after_directory_members_search' ) ?>
+		<?php do_action( 'bp_before_directory_members_featured' ) ?>
 
 		<div id="members-directory-featured" class="directory-widget">
 			<h3><?php _e( 'Random Members', 'buddypress' ) ?></h3>
-		
+
 			<?php if ( bp_has_site_members( 'type=random&max=3' ) ) : ?>
 
 				<ul id="featured-members-list" class="item-list">
@@ -91,21 +91,21 @@
 						<div class="item">
 							<div class="item-title"><a href="<?php bp_the_site_member_link() ?>"><?php bp_the_site_member_name() ?></a></div>
 							<div class="item-meta"><span class="activity"><?php bp_the_site_member_last_active() ?></span></div>
-						
+
 							<div class="field-data">
 								<div class="field-name"><?php bp_the_site_member_total_friend_count() ?></div>
 								<div class="field-name xprofile-data"><?php bp_the_site_member_random_profile_data() ?></div>
 							</div>
-						
+
 							<?php do_action( 'bp_directory_members_featured_item' ) ?>
 						</div>
 					</li>
 
 				<?php endwhile; ?>
-				</ul>			
+				</ul>
 
-				<?php do_action( 'bp_directory_members_featured' ) ?>	
-			
+				<?php do_action( 'bp_directory_members_featured' ) ?>
+
 			<?php else: ?>
 
 				<div id="message" class="info">
@@ -113,13 +113,13 @@
 				</div>
 
 			<?php endif; ?>
-	
+
 		</div>
 
-		<?php do_action( 'bp_after_directory_members_featured' ) ?>	
+		<?php do_action( 'bp_after_directory_members_featured' ) ?>
 
 	</div>
 
-	<?php do_action( 'bp_after_directory_members_sidebar' ) ?>		
+	<?php do_action( 'bp_after_directory_members_sidebar' ) ?>
 
 <?php get_footer() ?>

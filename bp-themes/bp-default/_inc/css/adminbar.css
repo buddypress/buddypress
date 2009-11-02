@@ -26,7 +26,7 @@
 		background: none;
 		padding-right: 0;
 	}
-	
+
 #wp-admin-bar ul li ul a {
 	color: #666 !important;
 	text-decoration: none;
@@ -143,4 +143,4 @@
 	-khtml-border-radius: 2px !important;
 	-webkit-border-radius: 2px !important;
 	margin-left: 2px !important;
-} 
+}

@@ -7,18 +7,18 @@ body {
 	background: #fff;
 }
 
-a { 
-	color: #f7740a; 
+a {
+	color: #f7740a;
 	text-decoration: underline;
 }
 
 a:hover {
-	color: #555; 
+	color: #555;
 	text-decoration: none;
 }
 
-a.selected { 
-	color: #555; 
+a.selected {
+	color: #555;
 	text-decoration: none;
 }
 
@@ -64,11 +64,11 @@ h1, h2, h3 {
 		float: right;
 		padding: 7px 20px;
 	}
-	
+
 	#logout-link img {
 		vertical-align: middle;
 	}
-	
+
 	#search-login-bar #rememberme { display: none; }
 
 
@@ -86,12 +86,12 @@ h1, h2, h3 {
 		padding: 0;
 	}
 
-	#header h1#logo { 
+	#header h1#logo {
 		float: left;
 		margin: 20px 0 15px 20px;
 		padding: 15px 0;
 	}
-	
+
 	#header h1#logo a {
 		font-size: 2em;
 		color: #aaa;
@@ -99,8 +99,8 @@ h1, h2, h3 {
 		font-family: Georgia, times, serif;
 		display: block;
 		text-decoration: none;
-	} 
-	
+	}
+
 	#header ul {
 		float: right;
 		margin: 0;
@@ -120,7 +120,7 @@ h1, h2, h3 {
 				-webkit-border-radius: 3px;
 				text-decoration: none;
 			}
-			
+
 			#header ul li.selected a {
 				background: #fff9df;
 				color: #ff7900;
@@ -153,7 +153,7 @@ h1, h2, h3 {
 	}
 
 /*** Content Header *************************************************************/
-	
+
 div.content-header {
 	font: normal 1em "Georgia", Times, serif;
 	text-transform: uppercase;
@@ -185,11 +185,11 @@ div.content-header {
 					color: #555;
 					text-decoration: none;
 				}
-		
+
 			ul.content-header-nav li span {
 				color: #999;
 			}
-	
+
 		ul.content-header-nav li.current {
 			background: url(../images/topoption_selected_back.gif) top center no-repeat;
 		}
@@ -212,7 +212,7 @@ div.content-header {
 		margin-right: 0;
 		list-style: none;
 	}
-	
+
 	#userbar h3 {
 		font: normal 1em "Georgia", Times, serif;
 		text-transform: uppercase;
@@ -237,17 +237,17 @@ div.content-header {
 		text-align: center;
 		margin: 0.4em 0;
 		float: none;
-	}	
-	
+	}
+
 	#userbar p#login-text {
 		padding: 0.5em 1em 0 1em;
 	}
-	
+
 		p.avatar img {
 			border: 4px solid #fff;
 		}
 			img#avatar-to-crop { border: none !important; }
-	
+
 	#userbar form {
 		padding: 1em 1.5em 1em 1em;
 	}
@@ -256,7 +256,7 @@ div.content-header {
 		}
 			#userbar form input#userbar_rememberme { width: auto; }
 			#userbar form input#wp-submit { width: auto; }
-	
+
 	#userbar ul#bp-nav {
 		width: 149px;
 		margin: 1.75em 0 0 0;
@@ -277,7 +277,7 @@ div.content-header {
 				#userbar ul#bp-nav li.current a {
 					color: #fff;
 				}
-			
+
 				li a#user-profile, li a#my-profile {
 					background: url(../images/profile_bullet.gif) 88% 52% no-repeat;
 					padding: 0.55em 3em 0.55em 0 !important;
@@ -286,26 +286,26 @@ div.content-header {
 
 				li a#user-messages, li a#my-messages {
 					background: url(../images/messages_bullet.gif) 89% 52% no-repeat;
-				}			
-				
+				}
+
 				li a#user-blogs, li a#my-blogs {
 					background: url(../images/blog_bullet.gif) 87% 52% no-repeat;
 					padding: 0.55em 3em 0.55em 0 !important;
 					margin-right: 0.85em !important;
 				}
-				
+
 				li a#user-friends, li a#my-friends {
 					background: url(../images/friends_bullet.gif) 87% 52% no-repeat;
 					padding: 0.55em 3em 0.55em 0 !important;
 					margin-right: 0.85em !important;
 				}
-				
+
 				li a#user-groups, li a#my-groups {
 					background: url(../images/groups_bullet.gif) 88% 52% no-repeat;
 					padding: 0.55em 3em 0.55em 0 !important;
 					margin-right: 0.85em !important;
 				}
-				
+
 				li a#user-wire, li a#my-wire {
 					background: url(../images/wire_bullet.gif) 88% 52% no-repeat;
 					padding: 0.55em 3em 0.55em 0 !important;
@@ -317,15 +317,15 @@ div.content-header {
 					padding: 0.55em 3em 0.55em 0 !important;
 					margin-right: 0.85em !important;
 				}
-				
+
 				li a#user-settings, li a#my-settings {
-					background: url(../images/settings_bullet.gif) 88% 52% no-repeat;					
+					background: url(../images/settings_bullet.gif) 88% 52% no-repeat;
 				}
-				
+
 				li a#wp-logout {
 					background: url(../images/logout_bullet.gif) 87% 52% no-repeat;
 				}
-				
+
 				li a#group-home, li a#group-wire, li a#group-photos, li a#group-forum,
 				li a#group-members, li a#group-invite, li a#group-leave, li a#group-admin
 				li a#request-membership, li a#group-admin {
@@ -335,29 +335,29 @@ div.content-header {
 					margin-right: 0.85em;
 				}
 					li a#group-forum {
-						background: url(../images/forum_bullet.gif) 88% 52% no-repeat;	
+						background: url(../images/forum_bullet.gif) 88% 52% no-repeat;
 					}
 
 					li a#group-members {
-						background: url(../images/friends_bullet.gif) 87% 52% no-repeat;	
+						background: url(../images/friends_bullet.gif) 87% 52% no-repeat;
 					}
-					
+
 					li a#group-invite {
-						background: url(../images/invite_bullet.gif) 89% 52% no-repeat;	
+						background: url(../images/invite_bullet.gif) 89% 52% no-repeat;
 					}
 
 					li a#group-leave {
-						background: url(../images/cross_bullet.gif) 88% 52% no-repeat;	
+						background: url(../images/cross_bullet.gif) 88% 52% no-repeat;
 					}
-					
+
 					li a#group-wire {
 						background: url(../images/wire_bullet.gif) 88% 52% no-repeat;
-					}	
-					
+					}
+
 					li a#group-admin {
 						background: url(../images/blogadmin_icon.gif) 87% 52% no-repeat;
 					}
-					
+
 					li a#request-membership {
 						background: url(../images/request_bullet.gif) 87% 25% no-repeat;
 					}
@@ -372,18 +372,18 @@ div.content-header {
 	background: #f0f0f0;
 }
 	#optionsbar a { text-decoration: none; }
-	
+
 	#optionsbar ul {
 		margin: 0;
 		padding: 0;
 		list-style: none;
 	}
-	
+
 	#optionsbar ul li {
 		float: none;
 		margin-right: 0;
 	}
-	
+
 	#optionsbar p.avatar {
 		text-align: center !important;
 		float: none;
@@ -394,7 +394,7 @@ div.content-header {
 		margin: 0;
 		float: none;
 	}
-	
+
 	#optionsbar h3 {
 		font: normal 1em "Georgia", Times, serif;
 		text-transform: uppercase;
@@ -403,7 +403,7 @@ div.content-header {
 		padding: 8px 0 17px 0;
 		letter-spacing: 0.5px;
 	}
-	
+
 	#optionsbar ul#options-nav {
 		width: 148px;
 		margin: 1.75em 0 0 0;
@@ -420,14 +420,14 @@ div.content-header {
 				display: block;
 				text-align: right;
 			}
-			
+
 			#optionsbar ul.icons li a {
 				padding-right: 3.1em !important;
 				margin-right: 0.7em;
 			}
 
 /*** Internal Page Left Menu / Main Column **************************************/
-		
+
 .internal-page .left-menu {
 	position: relative;
 	float: left;
@@ -439,11 +439,11 @@ div.content-header {
 		padding: 0;
 	}
 	.left-menu h5 { margin: 0; font-size: 1em; }
-	
+
 	.left-menu div.button-block {
 		margin: 20px 0;
 	}
-	
+
 	.left-menu input { width: 90%; }
 
 .internal-page .main-column {
@@ -474,17 +474,17 @@ div.bp-widget {
 	}
 		.left-menu div.bp-widget h4 {
 			background: url(../images/leftmenu_group_header.gif) top left no-repeat;
-			color: #555;				
+			color: #555;
 		}
 
 		/* "See All" links in widget headers */
 		div.bp-widget h4 span { position: absolute; right: 10px; }
-		
+
 		div.bp-widget h4 a {
 			color: #fff;
 			font-weight: normal;
 		}
-		
+
 ul.horiz-gallery {
 	list-style: none;
 	overflow: auto;
@@ -515,24 +515,24 @@ ul.item-list {
 		padding: 10px 10px 10px 10px;
 		overflow: hidden;
 	}
-	
+
 	ul.item-list img.avatar {
 		float: left;
 		margin-right: 10px;
 	}
-	
-	ul.item-list h4, ul.item-list h5, ul.item-list .item-title { 
+
+	ul.item-list h4, ul.item-list h5, ul.item-list .item-title {
 		font-size: 1em;
 		margin: 0 0 4px 0;
 	}
-	
+
 		ul.item-list li .field-data {
 			margin-left: 68px;
 			margin-top: 10px;
 			font-size: 0.9em;
 			color: #888;
 		}
-	
+
 	ul.item-list li .desc {
 		font-size: 0.9em;
 		color: #888;
@@ -545,10 +545,6 @@ div.action {
 	right: 15px;
 	top: 15px;
 	text-align: right;
-}
-
-div#avatar-crop-pane {
-	display: none;
 }
 
 div#avatar-crop-submit {
@@ -566,7 +562,7 @@ div#avatar-crop-submit {
 		position: absolute;
 		top: 45px;
 	}
-	
+
 .pagination-links {
 	text-align: right;
 	margin-bottom: 5px;
@@ -586,7 +582,7 @@ a.page-numbers:hover { background: #e1e1e1; }
 		background: #d5d5d5;
 		border-bottom: 2px solid #f28935;
 	}
-	
+
 .pag-count {
 	font-size: 0.9em;
 	color: #888;
@@ -648,12 +644,12 @@ a.page-numbers:hover { background: #e1e1e1; }
 }
 	.accept a { background-image: url(../images/accept_button_side.gif); }
 	.reject a { background-image: url(../images/reject_button_side.gif); }
-	
+
 	.generic-button a:hover {
 		color: #555;
 		text-decoration: none;
 	}
-	
+
 	.friendship-button a.add {
 		background: url(../images/add_button_side.gif) top right no-repeat;
 	}
@@ -665,23 +661,23 @@ a.page-numbers:hover { background: #e1e1e1; }
 	.friendship-button a.requested {
 		background: url(../images/check_button_side.gif) top right no-repeat;
 	}
-	
+
 	.loading a {
-		background: url(../images/loading_button_side.gif) top right no-repeat !important;		
+		background: url(../images/loading_button_side.gif) top right no-repeat !important;
 	}
 
 	.group-button a.join-group, .group-button a.request-membership {
 		background: url(../images/add_button_side.gif) top right no-repeat;
 	}
-	
+
 	.group-button a.leave-group {
 		background: url(../images/remove_button_side.gif) top right no-repeat;
 	}
-	
+
 	.group-button a.membership-requested {
 		background: url(../images/check_button_side.gif) top right no-repeat;
 	}
-	
+
 	.main-column .button-block {
 		overflow: hidden;
 		width: 100%;
@@ -733,7 +729,7 @@ form.standard-form { }
 		font-weight: bold;
 		margin: 10px 0 5px 0;
 	}
-	
+
 	form.standard-form input[type=text] {
 		width: 65%;
 	}
@@ -741,7 +737,7 @@ form.standard-form { }
 	form.standard-form textarea {
 		width: 65%;
 	}
-	
+
 	form.standard-form .checkbox label, form.standard-form .radio label {
 		font-weight: normal;
 		display: inline;
@@ -787,39 +783,39 @@ h2.widgettitle, .directory h3, h2.pagetitle {
 	.widget ul.item-list {
 		margin-top: 5px !important;
 	}
-	
+
 	.widget ul.item-list li .item-avatar img, img.avatar {
 		border: 3px solid #ddd;
 	}
-	
+
 	.widget ul.item-list li h4.item-title {
 		font: normal 1.4em "Georgia", Times, serif;
-		margin: 0 0 7px 0;	
+		margin: 0 0 7px 0;
 	}
-	
+
 	.widget_bp_blogs_widget_recent_posts img.avatar {
 		width: 50px !important;
 		height: 50px !important;
-	}	
-	
+	}
+
 	.widget ul.item-list li .item {
 		margin-left: 71px;
 	}
 		.widget_bp_blogs_recent_posts_widget ul.item-list li .item {
 			margin-left: 31px !important;
 		}
-	
+
 	.widget ul.item-list li .item-meta {
 		font: normal 1em "Georgia", Times, serif;
 		margin: 10px 0;
 	}
-	
+
 	.widget .item-options {
 		text-align: right;
 		font-size: 0.9em;
 		margin: -15px 0 0 0;
 	}
-	
+
 	.widget_bp_core_widget_whos_online .item-avatar {
 		float: left;
 		margin-right: 10px;
@@ -830,7 +826,7 @@ div.create-account {
 	margin: 10px 0;
 	text-align: right;
 }
-	
+
 .widget-error {
 	padding: 10px;
 	background: #fff9df;
@@ -844,7 +840,7 @@ span.activity, .message-metadata small {
 	border-bottom: 1px solid #FFE8C4;
 	display: inline-block;
 	font: normal 0.9em "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif !important;
-	max-width: 60%; 
+	max-width: 60%;
 }
 
 div.avatar-block {
@@ -880,11 +876,11 @@ div.avatar-block {
 		background: #ccc;
 		cursor: pointer;
 	}
-	
+
 	.widget table#wp-calendar td#today {
 		background: #fff9df;
 	}
-	
+
 	.widget table#wp-calendar td.pad {
 		background: none;
 	}
@@ -902,7 +898,7 @@ div.avatar-block {
 		background: url(../images/rightcol_header_back.gif) top left no-repeat;
 		color: #fff;
 	}
-	
+
 	#second-section .widget h2 {
 		background: url(../images/centercol_header_back.gif) top left no-repeat;
 		color: #fff;
@@ -959,13 +955,13 @@ ul#letter-list {
 			font-family: Georgia, Times, serif;
 			padding: 3px 5px;
 		}
-	
+
 		ul#letter-list li a:hover {
 			font-weight: bold;
 			background: #fff9df;
 			color: #f7740a;
 		}
-		
+
 		ul#letter-list li a.selected {
 			font-weight: bold;
 			background: #aaa;
@@ -985,14 +981,14 @@ ul#letter-list {
 
 .post, #comments-template, #compose-reply {
 	background: url(../images/item_list_back.gif) top left repeat-x;
-	padding: 20px 15px;	
+	padding: 20px 15px;
 }
 	#comments-section, #compose-reply {
 		background: none;
 	}
-	
-	ol.commentlist { 
-		list-style: none; 
+
+	ol.commentlist {
+		list-style: none;
 		margin: 0;
 		padding: 0;
 	}
@@ -1030,7 +1026,7 @@ ul#letter-list {
 .post .entry {
 	margin: 10px 0;
 }
-	
+
 .post span.tags {
 	background: url(../images/tag_icon.gif) center left no-repeat;
 	padding-left: 1.6em;
@@ -1178,15 +1174,15 @@ h4.archive {
 	}
 
 		.commentlist li.alt { background: #f0f0f0; }
-		.commentlist li img.avatar { 
+		.commentlist li img.avatar {
 			padding: 0;
 			margin: 0 10px 10px 0;
 			float: left;
-			
+
 		}
 		.commentlist li.alt img.avatar { border-color: #fff !important; }
 
-	.commentmetadata { 
+	.commentmetadata {
         font-size: 0.9em;
         border-bottom: 1px solid #ddd;
 		padding-bottom: 10px;
@@ -1228,7 +1224,7 @@ h4.archive {
 	margin: 5px 0 10px 0;
 }
 
-#basic-details-section input, #basic-details-section textarea, 
+#basic-details-section input, #basic-details-section textarea,
 #profile-details-section input, #profile-details-section textarea,
 input#signup_blog_title {
 	width: 90%;
@@ -1263,7 +1259,7 @@ input#signup_blog_title {
 	margin: 0;
 	font-size: 1.4em;
 }
-	
+
 
 /*** Component Specific Styles ****************************************************/
 
@@ -1281,9 +1277,9 @@ input#signup_blog_title {
 	background: none !important;
 }
 	ul#activity-filter-links li#afilter-blogs a {
-		background: url(../images/blog_bullet.gif) 20px 4px no-repeat;		
+		background: url(../images/blog_bullet.gif) 20px 4px no-repeat;
 	}
-	
+
 	ul#activity-filter-links li#afilter-profile a {
 		background: url(../images/profile_bullet.gif) 0 4px no-repeat;
 	}
@@ -1291,11 +1287,11 @@ input#signup_blog_title {
 	ul#activity-filter-links li#afilter-friends a {
 		background: url(../images/friends_bullet.gif) 0 4px no-repeat;
 	}
-	
+
 	ul#activity-filter-links li#afilter-groups a {
 		background: url(../images/groups_bullet.gif) 0 4px no-repeat;
 	}
-	
+
 	ul#activity-filter-links li#afilter-wire a {
 		background: url(../images/wire_bullet.gif) 0 4px no-repeat;
 	}
@@ -1303,7 +1299,7 @@ input#signup_blog_title {
 	ul#activity-filter-links li#afilter-status a {
 		background: url(../images/status_bullet.gif) 0 4px no-repeat;
 	}
-	
+
 	.activity-list li div.activity-avatar {
 		position: absolute;
 		margin: -1px 0 0 -35px;
@@ -1311,7 +1307,7 @@ input#signup_blog_title {
 		.widget .activity-list li div.activity-avatar img.avatar {
 			border-width: 2px;
 		}
-		
+
 		.internal-page .activity-list li div.activity-avatar img.avatar {
 			border-top-width: 3px !important;
 			border-right-width: 2px !important;
@@ -1367,7 +1363,7 @@ ul#activity-filter-links li {
 			border: 1px solid #ccc;
 			font-weight: bold;
 		}
-		
+
 		ul#activity-filter-links li#afilter-clear a {
 			background: url(../images/error_icon.gif) 0 4px no-repeat;
 			border-color: #ffa6ac;
@@ -1413,7 +1409,7 @@ a.rss-image {
 
 
 /**** BLOGS *****************/
-		
+
 #blog-info {
 	border-bottom: 1px solid #e1e1e1;
 }
@@ -1438,7 +1434,7 @@ a.rss-image {
 		color: #f7740a;
 		font: italic 1em Georgia, times, serif;
 	}
-	
+
 .post span.tags {
 	background: url(../images/tag_icon.gif) center left no-repeat;
 }
@@ -1456,8 +1452,8 @@ h4.archive {
 	text-transform: uppercase;
 	border-bottom: 1px solid #e1e1e1;
 }
-		
-	
+
+
 	/*---- Blog Signup Form --------*/
 
 	#setupform label {
@@ -1468,7 +1464,7 @@ h4.archive {
 			background-color: #ff3a3a;
 			color: #fff;
 		}
-	
+
 		.suffix_address, .prefix_address {
 			font-size: 1.4em;
 		}
@@ -1479,11 +1475,11 @@ h4.archive {
 		#setupform input#blogname {
 			text-align: right;
 		}
-	
+
 	#setupform input#submit {
 		font-size: 1.4em;
 	}
-	
+
 /***** FORUMS ***************/
 
 ul#forum-topic-list li {
@@ -1494,17 +1490,17 @@ ul#forum-topic-list li {
 	.sticky {
 		background-image: url( ../images/message_thread_unread_back.gif ) !important;
 	}
-	
+
 	.closed a.topic-title {
 		background: url( ../images/closed.png ) no-repeat center left;
 		padding: 0 0 0 20px;
 	}
-	
-	ul#forum-topic-list li span.latest { 
+
+	ul#forum-topic-list li span.latest {
 		display: block;
 		margin-left: 50px;
 	}
-	
+
 	ul#forum-topic-list li div.admin-links, ul#topic-post-list li div.admin-links {
 		position: absolute;
 		top: 1em;
@@ -1579,7 +1575,7 @@ div#post-topic-reply textarea {
 		display: block;
 		margin: 10px 0 3px 0;
 	}
-	
+
 	div#edit-post textarea {
 		height: 150px;
 		width: 98%;
@@ -1634,7 +1630,7 @@ div#forum-dir-list {
 		position: absolute;
 		top: -25px;
 	}
-	
+
 table#global-forum-topic-list {
 	width: 97%;
 	margin: 0 10px;
@@ -1642,7 +1638,7 @@ table#global-forum-topic-list {
 		table#global-forum-topic-list tr.alt {
 			background: url( ../images/message_thread_back.gif ) 0 -2px;
 		}
-		
+
 		table#global-forum-topic-list td {
 			border-top: 1px solid #eee;
 			position: relative;
@@ -1651,32 +1647,32 @@ table#global-forum-topic-list {
 				color: #888;
 				font-size: 0.9em;
 			}
-		
+
 		table#global-forum-topic-list tr th, table#global-forum-topic-list td.td-postcount,
-		table#global-forum-topic-list td.td-freshness { 
+		table#global-forum-topic-list td.td-freshness {
 			text-align: center;
 		}
 
-		
+
 		table#global-forum-topic-list tr th#th-title, table#global-forum-topic-list tr th#th-poster,
 		table#global-forum-topic-list tr th#th-group { text-align: left; }
-		
+
 		table#global-forum-topic-list tr td, table#global-forum-topic-list tr th {
 			padding: 5px 10px;
 			vertical-align: middle;
 		}
-		
+
 		table#global-forum-topic-list td.td-freshness {
 			font-size: 0.9em;
 			color: #888;
 		}
-		
+
 		table#global-forum-topic-list td.td-poster, table#global-forum-topic-list td.td-group  {
 			min-width: 130px;
 		}
-		
+
 		table#global-forum-topic-list img.avatar { float:left; }
-		
+
 		table#global-forum-topic-list div.poster-name, table#global-forum-topic-list div.object-name {
 			margin-left: 35px;
 		}
@@ -1684,15 +1680,15 @@ table#global-forum-topic-list {
 	table#global-forum-topic-list th#th-title {
 		width: 40%;
 	}
-	
+
 	table#global-forum-topic-list th#th-postcount {
 		width: 1%;
 	}
-	
+
 	table#global-forum-topic-list td img {
 		vertical-align: middle;
 		margin-right: 4px;
-		border-width: 3px !important; 
+		border-width: 3px !important;
 	}
 
 div#popular-group-forum-listing {
@@ -1708,7 +1704,7 @@ div#popular-group-forum-listing {
 		div.group-forum div.item-avatar {
 			float: left;
 		}
-		
+
 		div.group-forum div.item {
 			margin-left: 70px;
 		}
@@ -1716,7 +1712,7 @@ div#popular-group-forum-listing {
 				font-size: 1.2em;
 				font-family: Georgia, times, serif;
 			}
-			
+
 			div.group-forum div.desc {
 				font-size: 0.95em;
 				color: #888;
@@ -1767,14 +1763,14 @@ div.sub-options {
 	#group-settings-form .bp-widget ul {
 		margin-left: 0;
 	}
-	
+
 	#invite-list { margin-bottom: 25px; }
-	
+
 	#invite-list ul, ul#friend-list {
 		margin: 0;
 	}
 		#invite-list input { width: auto !important; }
-	
+
 #create-group-form textarea, #group-settings-form textarea {
 	height: 120px;
 }
@@ -1805,7 +1801,7 @@ ul#group-list li, ul#member-list li, ul#blog-list li, ul#comment-list li, ul.ite
 		border-color: red !important;
 	}
 		ul.item-list li.banned-user a { color: red; }
-	
+
 #group-list li span.small, #member-list li span.small, #comment-list li span.small, ul.item-list li span.small {
 	font-size: 0.95em;
 	color: #888;
@@ -1845,11 +1841,11 @@ ul#group-list li, ul#member-list li, ul#blog-list li, ul#comment-list li, ul.ite
 	#random-groups-list .desc, #random-groups-list .meta {
 		font-size: 0.9em;
 	}
-	
+
 	#random-groups-list .desc {
-		margin-left: 70px;	
+		margin-left: 70px;
 	}
-	
+
 	#random-groups-list .action {
 		text-align: right;
 		margin-top: -20px;
@@ -1865,7 +1861,7 @@ ul#group-list li, ul#member-list li, ul#blog-list li, ul#comment-list li, ul.ite
 	#previous-next input#group-creation-previous {
 		width: auto;
 	}
-	
+
 	#previous-next input#group-creation-next, #previous-next input#group-creation-finish {
 		width: auto;
 		margin-left: 20px;
@@ -1909,18 +1905,18 @@ div.message-box {
 			width: 30px;
 			margin-bottom: 10px;
 		}
-		
+
 		div.message-box .message-metadata h3 {
 			font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, Verdana, Arial, sans-serif;
 			font-size: 1em;
 			margin: 0 0 5px 0;
 		}
-		
+
 		div.message-box .message-metadata small {
 			font-size: 0.9em;
 			color: #888;
 		}
-		
+
 		div.message-box .message-metadata h3 {
 			font-size: 1.1em;
 		}
@@ -1943,25 +1939,25 @@ table#message-threads tr.unread {
 		color: #888;
 		font-size: 0.95em;
 	}
-			
-.avatar-box { 
+
+.avatar-box {
 	border: none !important;
 }
 
 	#main #content .avatar-box h3 {
 		font: bold 1em "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, Verdana, Arial, sans-serif;;
 	}
-	
+
 	.avatar-box small {
 		line-height: 1.5;
 		font-size: 0.9em;
 		color: #888;
 	}
-	
+
 #message_content_tbl { border: 1px solid #ddd; }
 .mceToolbar, .mceStatusbar { background: #eee; }
 .mceToolbar a { color: #bbb !important; }
-		
+
 div.ajax_reply, div.error-box {
 	text-align: center;
 	background: #EAF3FA;
@@ -1992,7 +1988,7 @@ div.error-box {
 	font-size: 1.2em;
 	font-weight: bold;
 }
-	
+
 form#send-reply textarea {
 	width: 98%;
 }
@@ -2061,7 +2057,7 @@ table.profile-fields, table.wp-profile-fields {
 	table.profile-fields tr td, table.wp-profile-fields tr td {
 		padding: 0.5em 1em;
 	}
-	
+
 	table.profile-fields tr td.label, table.wp-profile-fields tr td.label {
 		width: 130px;
 	}
@@ -2090,7 +2086,7 @@ table.profile-fields, table.wp-profile-fields {
 		color: #888;
 		font-size: 0.9em;
 	}
-	
+
 	.wire-post-content {
 		margin-left: 68px;
 	}
@@ -2117,10 +2113,10 @@ div#wire-post-new {
 		margin: 0;
 	}
 
-	div#wire-post-new-avatar { 
+	div#wire-post-new-avatar {
 		float: left;
 	}
-	
+
 	div#wire-post-new-metadata {
 		position: absolute;
 		bottom: 11px;
@@ -2129,7 +2125,7 @@ div#wire-post-new {
 		span#wire-by-text {
 			display: none;
 		}
-	
+
 	div#wire-post-new-input {
 		margin-left: 70px;
 	}
@@ -2138,8 +2134,8 @@ div#wire-post-new {
 			width: 98%;
 			margin: 5px 0 0 0;
 		}
-		
-		input#wire-post-submit { 
+
+		input#wire-post-submit {
 			margin-top: 10px;
 		}
 
@@ -2158,21 +2154,21 @@ div#user-status {
 		div#user-status div.generic-button a#status-new-status {
 			font: normal 11px "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, sans-serif;
 		}
-		
+
 		input#status-update-input, textarea#status-update-input {
 			padding: 5px;
 			width: 98%;
 			font: normal 1em "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, sans-serif;
 			color: #888;
 		}
-	
+
 		div#status-update-buttons {
 			margin: 10px 0 0 0;
-		}	
+		}
 			div#status-update-buttons input {
 				width: auto;
 			}
-	
+
 		div#user-status label {
 			display: block;
 			font: normal 1em Georgia, times, serif;
@@ -2180,13 +2176,13 @@ div#user-status {
 			font-style: italic;
 			padding: 0 0 5px 0;
 		}
-	
+
 		a#status-new-status, a#status-clear-status {
 			padding-top: 2px;
 			font: normal 11px "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, sans-serif;
 		}
 			a#status-clear-status { color: red; }
-	
+
 		div#user-status span.time-since {
 			color: #aaa;
 			font: normal 11px "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, sans-serif;
@@ -2215,15 +2211,15 @@ table.notification-settings {
 	table.notification-settings td {
 		padding: 3px 0;
 	}
-	
+
 	table.notification-settings th.icon {
 		width: 35px;
 	}
-	
+
 	table.notification-settings th.title {
 		width: 80%;
 	}
-	
+
 	table.notification-settings .yes, table.notification-settings .no {
 		width: 40px;
 	}
@@ -2237,11 +2233,11 @@ input.settings-input {
 	table.notification-settings th {
 		font-weight: bold;
 	}
-	
+
 	table.notification-settings tr {
 		border-bottom: 1px solid #eee;
 	}
-	
+
 	table.notification-settings th.icon {
 		background: center center no-repeat;
 	}

@@ -4,25 +4,25 @@
 	<h3><?php _e( 'Me', 'buddypress' ) ?></h3>
 
 	<?php do_action( 'bp_inside_before_user_bar' ) ?>
-	
+
 	<?php if ( is_user_logged_in() ) : ?>
-		
+
 		<p class="avatar">
 			<?php bp_loggedin_user_avatar( 'type=thumb' ) ?>
 		</p>
-		
+
 		<ul id="bp-nav">
 			<?php bp_get_loggedin_user_nav() ?>
 		</ul>
-		
+
 	<?php else : ?>
-		
+
 		<p class="avatar">
 			<img src="<?php echo get_template_directory_uri() . '/_inc/images/mystery-man.jpg' ?>" alt="No User" width="50" height="50" />
 		</p>
-		
+
 		<p id="login-text"><?php _e( 'You must log in to access your account.', 'buddypress' ) ?></p>
-	
+
 		<form name="userbar_loginform" id="userbar_loginform" action="<?php echo site_url( 'wp-login.php', 'login' ) ?>" method="post">
 			<p>
 				<label><?php _e( 'Username', 'buddypress' ) ?><br />
@@ -39,9 +39,9 @@
 				<input type="hidden" name="testcookie" value="1" />
 			</p>
 		</form>
-	
+
 	<?php endif ?>
-	
+
 	<?php do_action( 'bp_inside_after_user_bar' ) ?>
 
 </div>

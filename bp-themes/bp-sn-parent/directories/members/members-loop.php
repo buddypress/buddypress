@@ -1,7 +1,7 @@
 <?php if ( bp_has_site_members( 'type=active&per_page=10' ) ) : ?>
-	
+
 	<div class="pagination">
-		
+
 		<div class="pag-count" id="member-dir-count">
 			<?php bp_site_members_pagination_count() ?>
 		</div>
@@ -11,8 +11,8 @@
 		</div>
 
 	</div>
-	
-	<?php do_action( 'bp_before_directory_members_list' ) ?>		
+
+	<?php do_action( 'bp_before_directory_members_list' ) ?>
 
 	<ul id="members-list" class="item-list">
 	<?php while ( bp_site_members() ) : bp_the_site_member(); ?>
@@ -39,10 +39,10 @@
 		</li>
 
 	<?php endwhile; ?>
-	</ul>		
+	</ul>
 
-	<?php do_action( 'bp_after_directory_members_list' ) ?>		
-			
+	<?php do_action( 'bp_after_directory_members_list' ) ?>
+
 <?php else: ?>
 
 	<div id="message" class="info">

@@ -37,14 +37,14 @@ add_filter( 'bp_get_the_topic_post_content', 'make_clickable' );
 function bp_forums_add_allowed_tags( $allowedtags ) {
 	$allowedtags['p'] = array();
 	$allowedtags['br'] = array();
-	
+
 	return $allowedtags;
 }
 add_filter( 'edit_allowedtags', 'bp_forums_add_allowed_tags' );
 
 function bp_forums_filter_tag_link( $link, $tag, $page, $context ) {
 	global $bp;
-	
+
 	return apply_filters( 'bp_forums_filter_tag_link', $bp->root_domain . '/' . $bp->forums->slug . '/tag/' . $tag . '/' );
 }
 add_filter( 'bb_get_tag_link', 'bp_forums_filter_tag_link', 10, 4);

@@ -1,33 +1,33 @@
 <?php get_header() ?>
 
 	<div class="content-header">
-		<div class="messages-options">	
+		<div class="messages-options">
 			<?php bp_messages_options() ?>
 		</div>
 	</div>
 
-	<div id="content">	
+	<div id="content">
 		<h2><?php _e("Sent Messages", "buddypress"); ?></h2>
-	
+
 		<?php do_action( 'template_notices' ) // (error/success feedback) ?>
 
 		<?php do_action( 'bp_before_messages_sentbox_content' ) ?>
 
 		<?php if ( bp_has_message_threads() ) : ?>
-			
+
 			<div class="pagination">
 
 				<div class="pagination-links">
 					<?php bp_messages_pagination() ?>
 				</div>
-			
+
 			</div>
 
 			<?php do_action( 'bp_before_messages_sentbox_list' ) ?>
-				
+
 			<table id="message-threads">
 				<?php while ( bp_message_threads() ) : bp_message_thread(); ?>
-				
+
 					<tr id="m-<?php bp_message_thread_id() ?>">
 						<td width="1%">
 						</td>
@@ -44,26 +44,26 @@
 						<?php do_action( 'bp_messages_sentbox_list' ) ?>
 
 						<td width="10%">
-							<a href="<?php bp_message_thread_delete_link() ?>" title="<?php _e("Delete Message", "buddypress"); ?>" class="delete confirm"><?php _e("Delete", "buddypress"); ?></a> &nbsp;  
+							<a href="<?php bp_message_thread_delete_link() ?>" title="<?php _e("Delete Message", "buddypress"); ?>" class="delete confirm"><?php _e("Delete", "buddypress"); ?></a> &nbsp;
 							<input type="checkbox" name="message_ids[]" value="<?php bp_message_thread_id() ?>" />
 						</td>
 					</tr>
-				
+
 				<?php endwhile; ?>
 			</table>
-		
+
 			<?php do_action( 'bp_after_messages_sentbox_list' ) ?>
-			
+
 		<?php else: ?>
-		
+
 			<div id="message" class="info">
 				<p><?php _e("You have no sent messages.", "buddypress"); ?></p>
-			</div>	
+			</div>
 
 		<?php endif;?>
 
 		<?php do_action( 'bp_after_messages_sentbox_content' ) ?>
-		
+
 	</div>
 
 <?php get_footer() ?>

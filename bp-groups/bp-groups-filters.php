@@ -60,7 +60,7 @@ add_filter( 'groups_group_news_before_save', 'force_balance_tags' );
 
 function groups_add_forum_privacy_sql() {
 	global $bp;
-	
+
 	/* Only filter the forum SQL on group pages or on the forums directory */
 	if ( ( $bp->groups->current_group && 'public' == $bp->groups->current_group->status ) || bp_is_directory() ) {
 		add_filter( 'get_topics_fields', 'groups_add_forum_fields_sql' );
@@ -81,7 +81,7 @@ function groups_add_forum_tables_sql( $sql ) {
 
 function groups_add_forum_where_sql( $sql ) {
 	global $bp;
-	
+
 	$bp->groups->filter_sql = ' AND ' . $sql;
 	return "(gm.meta_key = 'forum_id' AND gm.meta_value = t.forum_id) AND g.status = 'public' AND " . $sql;
 }
@@ -91,13 +91,13 @@ function groups_filter_bbpress_caps( $value, $cap, $args ) {
 
 	if ( is_site_admin() )
 		return true;
-	
+
 	if ( 'add_tag_to' == $cap )
 		if ( $bp->groups->current_group->user_has_access ) return true;
-	
+
 	if ( 'manage_forums' == $cap && is_user_logged_in() )
 		return true;
-	
+
 	return $value;
 }
 add_filter( 'bb_current_user_can', 'groups_filter_bbpress_caps', 10, 3 );

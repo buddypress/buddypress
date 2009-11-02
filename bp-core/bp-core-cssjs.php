@@ -4,13 +4,13 @@
  * bp_core_add_admin_bar_css()
  *
  * Add the CSS needed for the admin bar on blogs (other than the root) and in the admin area.
- * 
+ *
  * @package BuddyPress Core
  * @uses get_option() Selects a site setting from the DB.
  */
 function bp_core_add_admin_bar_css() {
 	global $current_blog;
-	
+
 	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) )
 		return false;
 
@@ -31,7 +31,7 @@ add_action( 'template_redirect', 'bp_core_add_admin_bar_css' );
  * bp_core_add_admin_bar_js()
  *
  * Add the minor JS needed for the admin bar.
- * 
+ *
  * @package BuddyPress Core
  * @uses get_option() Selects a site setting from the DB.
  */
@@ -45,7 +45,7 @@ add_action( 'wp', 'bp_core_add_admin_bar_js' );
  * bp_core_admin_menu_icon_css()
  *
  * Add a hover-able icon to the "BuddyPress" wp-admin area menu.
- * 
+ *
  * @package BuddyPress Core
  */
 function bp_core_admin_menu_icon_css() {
@@ -59,7 +59,7 @@ function bp_core_admin_menu_icon_css() {
 <?php
 }
 add_action( 'admin_head', 'bp_core_admin_menu_icon_css' );
-	
+
 function bp_core_confirmation_js() {
 ?>
 	<script type="text/javascript"> jQuery(document).ready( function() { jQuery("a.confirm").click( function() { if ( confirm( '<?php _e( 'Are you sure?', 'buddypress' ) ?>' ) ) return true; else return false; }); });</script>
@@ -71,31 +71,31 @@ add_action( 'wp_head', 'bp_core_confirmation_js', 100 );
  * bp_core_add_jquery_cropper()
  *
  * Makes sure the jQuery jCrop library is loaded.
- * 
+ *
  * @package BuddyPress Core
  */
 function bp_core_add_jquery_cropper() {
 	wp_enqueue_script( 'jcrop', array( 'jquery' ) );
-	add_action( 'wp_head', 'bp_core_add_cropper_inline_js' ); 
-	add_action( 'wp_head', 'bp_core_add_cropper_inline_css' ); 
+	add_action( 'wp_head', 'bp_core_add_cropper_inline_js' );
+	add_action( 'wp_head', 'bp_core_add_cropper_inline_css' );
 }
 
 /**
  * bp_core_add_cropper_inline_js()
  *
  * Adds the inline JS needed for the cropper to work on a per-page basis.
- * 
+ *
  * @package BuddyPress Core
  */
 function bp_core_add_cropper_inline_js() {
 	global $bp;
-	
+
 	$image = apply_filters( 'bp_inline_cropper_image', getimagesize( $bp->avatar_admin->image->dir ) );
 
-	$aspect_ratio = 1; 
-	
+	$aspect_ratio = 1;
+
 	/* Calculate Aspect Ratio */
-	if ( (int) constant( 'BP_AVATAR_FULL_HEIGHT' ) && ( (int) constant( 'BP_AVATAR_FULL_WIDTH' ) != (int) constant( 'BP_AVATAR_FULL_HEIGHT' ) ) ) 
+	if ( (int) constant( 'BP_AVATAR_FULL_HEIGHT' ) && ( (int) constant( 'BP_AVATAR_FULL_WIDTH' ) != (int) constant( 'BP_AVATAR_FULL_HEIGHT' ) ) )
 	     $aspect_ratio = (int) constant( 'BP_AVATAR_FULL_WIDTH' ) / (int) constant( 'BP_AVATAR_FULL_HEIGHT' );
 ?>
 	<script type="text/javascript">
@@ -130,7 +130,7 @@ function bp_core_add_cropper_inline_js() {
 					marginTop: '-' + Math.round(ry * coords.y) + 'px'
 				});
 			}
-		}	
+		}
 	</script>
 <?php
 }
@@ -139,14 +139,14 @@ function bp_core_add_cropper_inline_js() {
  * bp_core_add_cropper_inline_css()
  *
  * Adds the inline CSS needed for the cropper to work on a per-page basis.
- * 
+ *
  * @package BuddyPress Core
  */
 function bp_core_add_cropper_inline_css() {
 	global $bp;
 ?>
 	<style type="text/css">
-		.jcrop-holder { text-align: left; }
+		.jcrop-holder { float: left; margin: 0 20px 20px 0; text-align: left; }
 		.jcrop-vline, .jcrop-hline { font-size: 0; position: absolute; background: white top left repeat url( <?php echo BP_PLUGIN_URL ?>/bp-core/images/Jcrop.gif ); }
 		.jcrop-vline { height: 100%; width: 1px !important; }
 		.jcrop-hline { width: 100%; height: 1px !important; }
@@ -156,7 +156,7 @@ function bp_core_add_cropper_inline_css() {
 		.custom .jcrop-handle { border-color: black; background-color: #C7BB00; -moz-border-radius: 3px; -webkit-border-radius: 3px; }
 		#avatar-crop-pane { width: <?php echo BP_AVATAR_FULL_WIDTH ?>px; height: <?php echo BP_AVATAR_FULL_HEIGHT ?>px; overflow: hidden; }
 		#avatar-crop-submit { margin: 20px 0; }
-		#avatar-upload-form img { border: none !important; }
+		#avatar-upload-form img, #create-group-form img, #group-settings-form img { border: none !important; }
 	</style>
 <?php
 }
@@ -165,13 +165,13 @@ function bp_core_add_cropper_inline_css() {
  * bp_core_add_ajax_url_js()
  *
  * Adds AJAX target URL so themes can access the WordPress AJAX functionality.
- * 
+ *
  * @package BuddyPress Core
  */
 function bp_core_add_ajax_url_js() {
 	global $bp;
-	
-	echo 
+
+	echo
 '<script type="text/javascript">var ajaxurl = "' . $bp->root_domain . str_replace( 'index.php', 'wp-load.php', $_SERVER['SCRIPT_NAME'] ) . '";</script>
 ';
 }
@@ -181,10 +181,10 @@ add_action( 'wp_head', 'bp_core_add_ajax_url_js' );
  * bp_core_override_adminbar_css()
  *
  * Overrides the theme's admin bar CSS to hide the adminbar if disabled.
- * 
+ *
  * @package BuddyPress Core
  */
-function bp_core_override_adminbar_css() { 
+function bp_core_override_adminbar_css() {
 	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) || ( get_site_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() ) ) {
 	?>
 <style type="text/css">body { padding-top: 0 !important; } #wp-admin-bar { display: none; }</style>

@@ -5,19 +5,19 @@
 		<?php do_action( 'bp_before_blog_home' ) ?>
 
 		<div class="page" id="blog-latest">
-		
+
 			<h2 class="pagetitle"><?php _e( 'Blog', 'buddypress' ) ?></h2>
-		
+
 			<?php if ( have_posts() ) : ?>
 
 				<?php while (have_posts()) : the_post(); ?>
-				
+
 					<?php do_action( 'bp_before_blog_post' ) ?>
-				
+
 					<div class="post" id="post-<?php the_ID(); ?>">
-					
+
 						<h3><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php _e( 'Permanent Link to', 'buddypress' ) ?> <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h3>
-					
+
 						<p class="date"><?php the_time('F j, Y') ?> <em><?php _e( 'in', 'buddypress' ) ?> <?php the_category(', ') ?> <?php printf( __( 'by %s', 'buddypress' ), bp_core_get_userlink($post->post_author) ) ?></em></p>
 
 						<div class="entry">
@@ -33,10 +33,10 @@
 				<?php endwhile; ?>
 
 				<div class="navigation">
-				
+
 					<div class="alignleft"><?php next_posts_link( __( '&laquo; Previous Entries', 'buddypress' ) ) ?></div>
 					<div class="alignright"><?php previous_posts_link( __( 'Next Entries &raquo;', 'buddypress' ) ) ?></div>
-				
+
 				</div>
 
 			<?php else : ?>
