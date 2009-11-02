@@ -237,7 +237,7 @@ function bp_activity_avatar( $args = '' ) {
 		
 		$object = apply_filters( 'bp_get_activity_avatar_object_' . $activities_template->activity->component_name, $object );
 		
-		return apply_filters( 'bp_get_group_avatar', bp_core_fetch_avatar( array( 'item_id' => $item_id, 'object' => $object, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height ) ) );
+		return apply_filters( 'bp_get_activity_avatar', bp_core_fetch_avatar( array( 'item_id' => $item_id, 'object' => $object, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height ) ) );
 	}
 
 function bp_activity_content() {

@@ -749,7 +749,7 @@ function bp_core_resize_avatar( $file, $size = false ) {
 /*** BEGIN DEPRECATED OLD BUDDYPRESS THEME SUPPORT ************/
 
 /***
- * In older versions of BuddyPress, BuddyPress templates were in a seperate theme.
+ * In older versions of BuddyPress, BuddyPress templates were in a separate theme.
  * The child theme setup makes upgrades and extending themes much easier, so the
  * old method was deprecated.
  */
