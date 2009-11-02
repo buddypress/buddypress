@@ -38,23 +38,23 @@ function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
 	} else {
 		$field_value = str_replace(']]>', ']]&gt;', $field_value );
 	}
-	
+
 	return stripslashes( stripslashes( $field_value ) );
 }
 
 function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox' ) {
 	if ( 'datebox' == $field_type )
 		return $field_value;
-	
+
 	if ( !strpos( $field_value, ',' ) && ( count( explode( ' ', $field_value ) ) > 5 ) )
 		return $field_value;
-	
+
 	$values = explode( ',', $field_value );
 
 	if ( $values ) {
 		foreach ( $values as $value ) {
 			$value = trim( $value );
-			
+
 			/* If the value is a URL, skip it and just make it clickable. */
 			if ( preg_match( '@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@', $value ) ) {
 				$new_values[] = make_clickable( $value );
@@ -65,10 +65,10 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 					$new_values[] = '<a href="' . site_url( BP_MEMBERS_SLUG ) . '/?s=' . strip_tags( $value ) . '">' . $value . '</a>';
 			}
 		}
-		
+
 		$values = implode( ', ', $new_values );
 	}
-	
+
 	return $values;
 }
 

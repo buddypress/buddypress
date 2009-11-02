@@ -7,28 +7,28 @@
 	<div id="content">
 
 		<?php do_action( 'template_notices' ) // (error/success feedback) ?>
-		
+
 		<h2><?php bp_word_or_name( __( "My Blogs", 'buddypress' ), __( "%s's Blogs", 'buddypress' ) ) ?></h2>
 
 		<?php do_action( 'bp_before_my_blogs_content' ) ?>
 
 		<?php if ( bp_has_blogs() ) : ?>
-			
+
 			<ul id="blog-list" class="item-list">
 				<?php while ( bp_blogs() ) : bp_the_blog(); ?>
-					
+
 					<li>
 						<h4><a href="<?php bp_blog_permalink() ?>"><?php bp_blog_title() ?></a></h4>
 						<p><?php bp_blog_description() ?></p>
 
 						<?php do_action( 'bp_my_blogs_item' ) ?>
 					</li>
-					
+
 				<?php endwhile; ?>
 			</ul>
-			
+
 			<?php do_action( 'bp_my_blogs_content' ) ?>
-			
+
 		<?php else: ?>
 
 			<div id="message" class="info">

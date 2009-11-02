@@ -26,9 +26,9 @@
 				<?php do_action( 'bp_after_blog_comment_list' ) ?>
 
 				<?php if ( get_option( 'page_comments' ) ) : ?>
-			
+
 					<div class="comment-navigation paged-navigation">
-				
+
 						<?php paginate_comments_links(); ?>
 
 					</div>
@@ -75,7 +75,7 @@
 				<?php else : ?>
 
 					<?php do_action( 'bp_before_blog_comment_form' ) ?>
-			
+
 					<form action="<?php echo get_option( 'siteurl' ); ?>/wp-comments-post.php" method="post" id="commentform" class="standard-form">
 
 						<?php if ( $user_ID ) : ?>
@@ -131,6 +131,5 @@
 			</div>
 
 		<?php endif; ?>
-	
+
 	</div>
-	

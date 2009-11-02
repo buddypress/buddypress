@@ -3,7 +3,7 @@
  * Deprecated Core Functionality
  *
  * This file contains functions that are deprecated.
- * You should not under any circumstance use these functions as they are 
+ * You should not under any circumstance use these functions as they are
  * either no longer valid, or have been replaced with something much more awesome.
  *
  * If you are using functions in this file you should slap the back of your head
@@ -12,9 +12,9 @@
  *
  * Of course, things will still work if you use these functions but you will
  * be the laughing stock of the BuddyPress community. We will all point and laugh at
- * you. You'll also be making things harder for yourself in the long run, 
+ * you. You'll also be making things harder for yourself in the long run,
  * and you will miss out on lovely performance and functionality improvements.
- * 
+ *
  * If you've checked you are not using any deprecated functions and finished your little
  * dance, you can add the following line to your wp-config.php file to prevent any of
  * these old functions from being loaded:
@@ -24,7 +24,7 @@
 
 function bp_core_deprecated_globals() {
 	global $bp;
-	
+
 	/* If we are using a BuddyPress 1.1+ theme ignore this. */
 	if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
 		return false;
@@ -64,16 +64,16 @@ function bp_core_signup_register_headers() {
 
 function bp_core_signup_show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 	global $current_site;
-	
+
 	?>
 	<h3><?php _e( 'Blog Details', 'buddypress' ) ?></h3>
 	<p id="blog-details-help">
 		<?php _e( "To register your first blog, just fill in the details below and your registration is complete.", 'buddypress' ) ?>
 	</p>
-	
+
 	<div id="blog-details-fields">
 		<?php
-	
+
 		// Blog name
 		if ( 'no' == constant( "VHOST" ) )
 			echo '<label for="blogname">' . __('Blog Name:', 'buddypress') . '</label>';
@@ -89,7 +89,7 @@ function bp_core_signup_show_blog_form( $blogname = '', $blog_title = '', $error
 		} else {
 			echo '<input name="blogname" type="text" id="blogname" value="'.$blogname.'" maxlength="50" /><span class="suffix_address">.' . $current_site->domain . $current_site->path . '</span><br />';
 		}
-		
+
 		if ( !is_user_logged_in() ) {
 			echo '<p class="help-text">';
 			print '(<strong>' . __( 'Your address will be ', 'buddypress'  );
@@ -104,7 +104,7 @@ function bp_core_signup_show_blog_form( $blogname = '', $blog_title = '', $error
 
 		// Blog Title
 		?>
-		<label for="blog_title"><?php _e( 'Blog Title:', 'buddypress' ) ?></label>	
+		<label for="blog_title"><?php _e( 'Blog Title:', 'buddypress' ) ?></label>
 		<?php if ( $errmsg = $errors->get_error_message('blog_title') ) { ?>
 			<p class="error"><?php echo $errmsg ?></p>
 		<?php }
@@ -113,7 +113,7 @@ function bp_core_signup_show_blog_form( $blogname = '', $blog_title = '', $error
 
 		<p>
 			<label for="blog_public_on"><?php _e( 'Privacy:', 'buddypress' ) ?></label>
-			<?php _e( 'I would like my blog to appear in search engines like Google and Technorati, and in public listings around this site.', 'buddypress' ); ?> 
+			<?php _e( 'I would like my blog to appear in search engines like Google and Technorati, and in public listings around this site.', 'buddypress' ); ?>
 			<label class="checkbox" for="blog_public_on">
 				<input type="radio" id="blog_public_on" name="blog_public" value="1" <?php if( !isset( $_POST['blog_public'] ) || '1' == $_POST['blog_public'] ) { ?>checked="checked"<?php } ?> />
 				 &nbsp;<?php _e( 'Yes', 'buddypress' ); ?>
@@ -152,14 +152,14 @@ function bp_core_signup_show_user_form($user_name = '', $user_email = '', $error
 	<label for="user_email"><?php _e( 'Email&nbsp;Address:', 'buddypress' ) ?></label>
 	<?php if ( $errmsg = $errors->get_error_message('user_email') ) { ?>
 		<p class="error"><?php echo $errmsg ?></p>
-	<?php } ?>		
+	<?php } ?>
 	<input name="user_email" type="text" id="user_email" value="<?php  echo wp_specialchars($user_email, 1) ?>" maxlength="200" /><p class="help-text"><?php _e( '(We&#8217;ll send your password to this address, so <strong>triple-check it</strong>.)', 'buddypress' ) ?></p>
 	<?php
 	if ( $errmsg = $errors->get_error_message('generic') ) {
 		echo '<p class="error">'.$errmsg.'</p>';
 	}
 	echo '</div>';
-	
+
 	echo '<div id="extra-fields">';
 	do_action( 'signup_extra_fields', $errors );
 	echo '</div>';
@@ -171,7 +171,7 @@ function bp_core_signup_validate_user_form() {
 
 function bp_core_signup_signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
 	global $current_user, $current_site;
-	
+
 	if ( ! is_wp_error($errors) ) {
 		$errors = new WP_Error();
 	}
@@ -185,10 +185,10 @@ function bp_core_signup_signup_another_blog($blogname = '', $blog_title = '', $e
 	?>
 	<h3><?php _e( "You're already registered!", 'buddypress' )?></h3>
 	<p><?php _e( 'You can still create another blog however. Fill in the form below to add another blog to your account.', 'buddypress' ) ?>
-	 
+
 
 	<p><?php _e( "There is no limit to the number of blogs you can have, so create to your heart's content, but blog responsibly. If you&#8217;re not going to use a great blog domain, leave it for a new user. Now have at it!", 'buddypress' ) ?></p>
-	
+
 	<form id="setupform" method="post" action="<?php echo site_url(BP_REGISTER_SLUG) ?>">
 		<input type="hidden" name="stage" value="gimmeanotherblog" />
 		<?php do_action( "signup_hidden_fields" ); ?>
@@ -253,14 +253,14 @@ function bp_core_signup_signup_user($user_name = '', $user_email = '', $errors =
 	$errors = $filtered_results['errors'];
 
 	?>
-	
+
 	<form id="setupform" method="post" action="<?php echo site_url(BP_REGISTER_SLUG) ?>">
 		<p id="intro-text"><?php _e( 'Registering for a new account is easy, just fill in the form below and you\'ll be a new member in no time at all.', 'buddypress' ) ?></p>
 		<input type="hidden" name="stage" value="validate-user-signup" />
 		<?php do_action( "signup_hidden_fields" ); ?>
-		
+
 		<?php bp_core_signup_show_user_form($user_name, $user_email, $errors); ?>
-		
+
 		<?php if( 'blog' == $active_signup ) { ?>
 			<input id="signupblog" type="hidden" name="signup_for" value="blog" />
 		<?php } elseif( 'user' == $active_signup ) { ?>
@@ -269,15 +269,15 @@ function bp_core_signup_signup_user($user_name = '', $user_email = '', $errors =
 			<div id="blog-or-username">
 				<h3><?php _e( 'Create a Blog?', 'buddypress' ) ?></h3>
 				<p id="blog-help-text"><?php _e( 'If you want to create your first blog, select the option below and you\'ll be asked for a few more details.', 'buddypress' ) ?></p>
-				
+
 				<div id="blog-or-username-fields">
 					<p>
 						<input id="signupblog" type="radio" name="signup_for" value="blog" <?php echo $signup['blog'] ?> />
-						<label class="checkbox" for="signupblog"><?php _e( 'Gimme a blog!', 'buddypress' ) ?></label>			
+						<label class="checkbox" for="signupblog"><?php _e( 'Gimme a blog!', 'buddypress' ) ?></label>
 					</p>
-				
+
 					<p>
-						<input id="signupuser" type="radio" name="signup_for" value="user" <?php echo $signup['user'] ?> />			
+						<input id="signupuser" type="radio" name="signup_for" value="user" <?php echo $signup['user'] ?> />
 						<label class="checkbox" for="signupuser"><?php _e( 'Just a username, please.', 'buddypress' ) ?></label>
 					</p>
 				</div>
@@ -377,10 +377,10 @@ function bp_core_signup_validate_blog_signup() {
 function bp_core_signup_confirm_blog_signup($domain, $path, $blog_title, $user_name = '', $user_email = '', $meta) {
 	?>
 	<h3><?php _e('Congratulations, You are now registered!', 'buddypress' ) ?></h3>
-	
+
 	<p><?php printf( __('But, before you can start using your blog, <strong>you must activate it</strong>. Check your inbox at <strong>%s</strong> and click the link given. It should arrive within 30 minutes.', 'buddypress' ),  $user_email) ?></p>
 	<p>&nbsp;</p>
-	
+
 	<h3><?php _e( 'Still waiting for your email?', 'buddypress' ); ?></h3>
 	<p>
 		<?php _e( "If you haven't received your email yet, there are a number of things you can do:", 'buddypress' ) ?>
@@ -464,26 +464,26 @@ function bp_core_signup_do_signup() {
 
 function bp_core_activation_set_headers() {
 	global $wp_object_cache;
-	
+
 	define( "WP_INSTALLING", true );
-	
+
 	require_once( ABSPATH . WPINC . '/registration.php');
-	
+
 	if( is_object( $wp_object_cache ) )
 		$wp_object_cache->cache_enabled = false;
-		
+
 	do_action("activate_header");
 }
 
 function bp_core_activation_do_activation() {
 	global $current_site, $blog_id, $user_id; ?>
-	
+
 	<?php if ( empty( $_GET['key'] ) && empty( $_POST['key'] ) ) { ?>
 
 		<h3><?php _e( 'Activation Key Required', 'buddypress' ) ?></h3>
-		
+
 		<p id="intro-text"><?php _e( 'This is the key contained in the email you were sent after registering for this site.', 'buddypress' ) ?></p>
-			
+
 		<div class="field-box">
 			<form name="activateform" id="activateform" method="post" action="<?php echo 'http://' . $current_site->domain . $current_site->path ?>wp-activate.php">
 				<p>
@@ -495,22 +495,22 @@ function bp_core_activation_do_activation() {
 				</p>
 			</form>
 		</div>
-		
+
 	<?php } else {
 
 		$key = !empty($_GET['key']) ? $_GET['key'] : $_POST['key'];
 		$result = wpmu_activate_signup($key);
-				
+
 		if ( is_wp_error($result) ) {
 			if ( 'already_active' == $result->get_error_code() || 'blog_taken' == $result->get_error_code() ) {
 			    $signup = $result->get_error_data();
 				?>
-				
+
 				<h3><?php _e('Your account is now active!', 'buddypress' ); ?></h3>
-				
+
 				<?php
 			  	_e( 'Your account has already been activated. You can now log in with the account details that were emailed to you.' );
-			
+
 			} else {
 				?>
 				<h2><?php _e('An error occurred during the activation', 'buddypress' ); ?></h2>
@@ -521,19 +521,19 @@ function bp_core_activation_do_activation() {
 			extract($result);
 
 			$user = new WP_User( (int) $user_id);
-			
+
 			?>
-			
+
 			<h3><?php _e('Your account is now active!', 'buddypress' ); ?></h3>
-			
+
 			<p class="view"><?php printf( __( 'Your account is now activated. <a href="%1$s">Login</a> or go back to the <a href="%2$s">homepage</a>.', 'buddypress' ), site_url( 'wp-login.php?redirect_to=' . site_url() ), site_url() ); ?></p>
-			
+
 			<div class="field-box" id="signup-welcome">
 				<p><span class="label"><?php _e( 'Username:', 'buddypress' ); ?></span> <?php echo $user->user_login ?></p>
 				<p><span class="label"><?php _e( 'Password:', 'buddypress' ); ?></span> <?php echo $password; ?></p>
 			</div>
-			
-			<?php 
+
+			<?php
 			do_action( 'bp_activation_extras', $user_id, $meta );
 		}
 	}
@@ -549,20 +549,20 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 	} else {
 		$activate_url = bp_activation_page( false ) ."?key=$key";
 	}
-	
+
 	$activate_url = clean_url($activate_url);
 	$admin_email = get_site_option( "admin_email" );
-	
+
 	if ( empty( $admin_email ) )
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
-	
+
 	$from_name = ( '' == get_site_option( "site_name" ) ) ? 'WordPress' : wp_specialchars( get_site_option( "site_name" ) );
 	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 	$message = sprintf(__("To activate your blog, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\nAfter you activate, you can visit your blog here:\n\n%s", 'buddypress' ), $activate_url, clean_url("http://{$domain}{$path}" ) );
 	$subject = '[' . $from_name . '] ' . sprintf(__('Activate %s', 'buddypress' ), clean_url('http://' . $domain . $path));
-	
+
 	wp_mail($user_email, $subject, $message, $message_headers);
-	
+
 	// Return false to stop the original WPMU function from continuing
 	return false;
 }
@@ -573,17 +573,17 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 
 	// Send email with activation link.
 	$admin_email = get_site_option( "admin_email" );
-	
+
 	if ( empty( $admin_email ) )
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
-	
+
 	$from_name = ( '' == get_site_option( "site_name" ) ) ? 'WordPress' : wp_specialchars( get_site_option( "site_name" ) );
 	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 	$message = apply_filters( 'wpmu_signup_user_notification_email', sprintf( __( "To activate your user, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\n", 'buddypress' ), clean_url( bp_activation_page( false ) . "?key=$key" ) ) );
-	$subject = apply_filters( 'wpmu_signup_user_notification_subject', sprintf( __(  'Activate %s', 'buddypress' ), $user ) ); 
+	$subject = apply_filters( 'wpmu_signup_user_notification_subject', sprintf( __(  'Activate %s', 'buddypress' ), $user ) );
 
 	wp_mail( $user_email, $subject, $message, $message_headers );
-	
+
 	// Return false to stop the original WPMU function from continuing
 	return false;
 }
@@ -631,14 +631,14 @@ function bp_the_avatar_thumbnail() {
 /* DEPRECATED - use bp_loggedin_user_avatar( 'type=full' ); */
 function bp_loggedinuser_avatar( $width = false, $height = false ) {
 	global $bp;
-	
+
 	echo apply_filters( 'bp_loggedinuser_avatar', bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => 'thumb', 'width' => $width, 'height' => $height ) ) );
 }
 
 /* DEPRECATED - use bp_loggedin_user_avatar( 'type=thumb' ); */
 function bp_loggedinuser_avatar_thumbnail( $width = false, $height = false ) {
 	global $bp;
-	
+
 	echo apply_filters( 'bp_get_options_avatar', bp_core_fetch_avatar( array( 'item_id' => $bp->loggedin_user->id, 'type' => 'thumb', 'width' => $width, 'height' => $height ) ) );
 }
 
@@ -666,38 +666,38 @@ define( 'CORE_DEFAULT_AVATAR_THUMB', apply_filters( 'bp_core_avatar_default_thum
 function bp_core_avatar_admin( $message = null, $action, $delete_action) { ?>
 	<p><?php _e('Your avatar will be used on your profile and throughout the site.', 'buddypress') ?></p>
 	<p><?php _e( 'Click below to select a JPG, GIF or PNG format photo from your computer and then click \'Upload Photo\' to proceed.', 'buddypress' ) ?></p>
-	
-	<form action="" method="post" id="avatar-upload-form" enctype="multipart/form-data">	
+
+	<form action="" method="post" id="avatar-upload-form" enctype="multipart/form-data">
 
 	<?php if ( 'upload-image' == bp_get_avatar_admin_step() ) : ?>
-	
+
 		<h3><?php _e( 'Your Current Avatar', 'buddypress' ) ?></h3>
 
 		<?php bp_displayed_user_avatar( 'type=full') ?>
 		<?php bp_displayed_user_avatar( 'type=thumb' ) ?>
-	
+
 		<p>
-			<input type="file" name="file" id="file" /> 
+			<input type="file" name="file" id="file" />
 			<input type="submit" name="upload" id="upload" value="<?php _e( 'Upload Image', 'buddypress' ) ?>" />
 			<input type="hidden" name="action" id="action" value="bp_avatar_upload" />
 		</p>
 
 		<?php wp_nonce_field( 'bp_avatar_upload' ) ?>
-		
+
 	<?php endif; ?>
-	
+
 	<?php if ( 'crop-image' == bp_get_avatar_admin_step() ) : ?>
-	
+
 		<h3><?php _e( 'Crop Your New Avatar', 'buddypress' ) ?></h3>
-		
+
 		<img src="<?php bp_avatar_to_crop() ?>" id="avatar-to-crop" class="avatar" alt="<?php _e( 'Avatar to crop', 'buddypress' ) ?>" />
-		
+
 		<div id="avatar-crop-pane" style="width:100px;height:100px;overflow:hidden;">
 			<img src="<?php bp_avatar_to_crop() ?>" id="avatar-crop-preview" class="avatar" alt="<?php _e( 'Avatar preview', 'buddypress' ) ?>" />
 		</div>
 
 		<input type="submit" name="avatar-crop-submit" id="avatar-crop-submit" value="<?php _e( 'Crop Image', 'buddypress' ) ?>" />
-		
+
 		<input type="hidden" name="image_src" id="image_src" value="<?php bp_avatar_to_crop_src() ?>" />
 		<input type="hidden" id="x" name="x" />
 		<input type="hidden" id="y" name="y" />
@@ -705,17 +705,17 @@ function bp_core_avatar_admin( $message = null, $action, $delete_action) { ?>
 		<input type="hidden" id="h" name="h" />
 
 		<?php wp_nonce_field( 'bp_avatar_cropstore' ) ?>
-		
+
 	<?php endif; ?>
-	
+
 	</form> <?php
 }
 
 function bp_core_handle_avatar_upload($file) {
 	global $wp_upload_error;
-	
+
 	require_once( ABSPATH . '/wp-admin/includes/file.php' );
-	
+
 	// Change the upload file location to /avatars/user_id
 	add_filter( 'upload_dir', 'xprofile_avatar_upload_dir' );
 
@@ -756,23 +756,23 @@ function bp_core_resize_avatar( $file, $size = false ) {
 
 function bp_core_get_buddypress_themes() {
 	global $wp_themes;
-	
+
 	/* If we are using a BuddyPress 1.1+ theme ignore this. */
 	if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
 		return false;
-	
+
 	/* Remove the cached WP themes first */
 	$wp_existing_themes = &$wp_themes;
 	$wp_themes = null;
-	
+
 	add_filter( 'theme_root', 'bp_core_filter_buddypress_theme_root' );
 	$themes = get_themes();
-	
+
 	if ( $themes ) {
 		foreach ( $themes as $name => $values ) {
 			if ( $name == 'BuddyPress Default Home Theme' )
 				continue;
-			
+
 			$member_themes[] = array(
 				'name' => $name,
 				'template' => $values['Template'],
@@ -780,10 +780,10 @@ function bp_core_get_buddypress_themes() {
 			);
 		}
 	}
-	
+
 	/* Restore the cached WP themes */
 	$wp_themes = $wp_existing_themes;
-	
+
 	return $member_themes;
 }
 function bp_core_get_member_themes() { return bp_core_get_buddypress_themes(); } // DEPRECATED
@@ -806,14 +806,14 @@ function bp_core_filter_buddypress_theme_root_uri() {
 
 function bp_core_force_buddypress_theme( $template ) {
 	global $is_member_page, $bp;
-	
+
 	/* If we are using a BuddyPress 1.1+ theme ignore this. */
 	if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
 		return $template;
-		
+
 	if ( $is_member_page ) {
 		$member_theme = get_site_option( 'active-member-theme' );
-	
+
 		if ( empty( $member_theme ) )
 			$member_theme = 'bpmember';
 
@@ -829,13 +829,13 @@ add_filter( 'template', 'bp_core_force_buddypress_theme' );
 
 function bp_core_force_buddypress_stylesheet( $stylesheet ) {
 	global $is_member_page;
-	
+
 	/* If we are using a BuddyPress 1.1+ theme ignore this. */
 	if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
 		return $stylesheet;
 
 	$member_theme = get_site_option( 'active-member-theme' );
-	
+
 	if ( empty( $member_theme ) )
 		$member_theme = 'bpmember';
 
@@ -858,7 +858,7 @@ function bp_core_add_structure_css() {
 		return false;
 
 	/* Enqueue the structure CSS file to give basic positional formatting for components */
-	wp_enqueue_style( 'bp-core-structure', BP_PLUGIN_URL . '/bp-core/deprecated/css/structure.css' );	
+	wp_enqueue_style( 'bp-core-structure', BP_PLUGIN_URL . '/bp-core/deprecated/css/structure.css' );
 }
 add_action( 'bp_styles', 'bp_core_add_structure_css' );
 
@@ -867,12 +867,12 @@ function bp_core_add_css() {
 	/* If we are using a BuddyPress 1.1+ theme ignore this. */
 	if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
 		return false;
-	
+
 	// Enable a sitewide CSS file that will apply styles to both the home blog theme
 	// and the member theme.
 	if ( file_exists( WP_CONTENT_DIR . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'stylesheet' ) . '/css/site-wide.css' ) )
 		wp_enqueue_style( 'site-wide-styles', WP_CONTENT_URL . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'stylesheet' ) . '/css/site-wide.css' );
-	
+
 	wp_print_styles();
 }
 add_action( 'wp_head', 'bp_core_add_css', 2 );
@@ -885,12 +885,12 @@ function bp_core_admin_bar_css() {
 
 	if ( defined( 'BP_DISABLE_ADMIN_BAR') )
 		return false;
-		
+
 	if ( is_user_logged_in() || ( !(int)get_site_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() ) ) {
 		wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', BP_PLUGIN_URL . '/bp-core/deprecated/css/admin-bar.css' ) );
-		
+
 		if ( 'rtl' == get_bloginfo('text_direction') && file_exists( BP_PLUGIN_DIR . '/bp-core/deprecated/css/admin-bar-rtl.css' ) )
-			wp_enqueue_style( 'bp-admin-bar-rtl', BP_PLUGIN_URL . '/bp-core/deprecated/css/admin-bar-rtl.css' );	
+			wp_enqueue_style( 'bp-admin-bar-rtl', BP_PLUGIN_URL . '/bp-core/deprecated/css/admin-bar-rtl.css' );
 	}
 }
 add_action( 'wp_head', 'bp_core_admin_bar_css' );
@@ -901,7 +901,7 @@ function bp_core_add_js() {
 	/* If we are using a BuddyPress 1.1+ theme ignore this. */
 	if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
 		return $template;
-	
+
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'jquery-livequery-pack', BP_PLUGIN_URL . '/bp-core/deprecated/js/jquery/jquery.livequery.pack.js', 'jquery' );
 	wp_enqueue_script( 'bp-general-js', BP_PLUGIN_URL . '/bp-core/deprecated/js/general.js' );
@@ -913,10 +913,10 @@ function bp_core_directory_members_js() {
 	/* If we are using a BuddyPress 1.1+ theme ignore this. */
 	if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
 		return $template;
-			
+
 	wp_enqueue_script( 'bp-core-directory-members', BP_PLUGIN_URL . '/bp-core/deprecated/js/directory-members.js', array( 'jquery', 'jquery-livequery-pack' ) );
 }
-add_action( 'bp_core_action_directory_members', 'bp_core_directory_members_js' ); 
+add_action( 'bp_core_action_directory_members', 'bp_core_directory_members_js' );
 
 /*** END DEPRECATED OLD BUDDYPRESS THEME SUPPORT ************/
 
@@ -924,9 +924,9 @@ function bp_core_ajax_directory_members() {
 	/* If we are using a BuddyPress 1.1+ theme ignore this. */
 	if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
 		return false;
-		
+
 	check_ajax_referer('directory_members');
-	
+
 	locate_template( array( 'directories/members/members-loop.php' ), true );
 }
 add_action( 'wp_ajax_directory_members', 'bp_core_ajax_directory_members' );
@@ -934,52 +934,52 @@ add_action( 'wp_ajax_directory_members', 'bp_core_ajax_directory_members' );
 /* DEPRECATED -- This should now be directly in the template */
 function bp_login_bar() {
 	global $bp;
-	
+
 	if ( !is_user_logged_in() ) : ?>
-		
+
 		<form name="login-form" id="login-form" action="<?php echo $bp->root_domain . '/wp-login.php' ?>" method="post">
 			<input type="text" name="log" id="user_login" value="<?php _e( 'Username', 'buddypress' ) ?>" onfocus="if (this.value == '<?php _e( 'Username', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Username', 'buddypress' ) ?>';}" />
 			<input type="password" name="pwd" id="user_pass" class="input" value="" />
-			
+
 			<input type="checkbox" name="rememberme" id="rememberme" value="forever" title="<?php _e( 'Remember Me', 'buddypress' ) ?>" />
-			
-			<input type="submit" name="wp-submit" id="wp-submit" value="<?php _e( 'Log In', 'buddypress' ) ?>"/>				
+
+			<input type="submit" name="wp-submit" id="wp-submit" value="<?php _e( 'Log In', 'buddypress' ) ?>"/>
 			<input type="button" name="signup-submit" id="signup-submit" value="<?php _e( 'Sign Up', 'buddypress' ) ?>" onclick="location.href='<?php echo bp_signup_page() ?>'" />
 
 			<input type="hidden" name="redirect_to" value="http://<?php echo $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] ?>" />
 			<input type="hidden" name="testcookie" value="1" />
-						
+
 			<?php do_action( 'bp_login_bar_logged_out' ) ?>
 		</form>
-	
+
 	<?php else : ?>
-		
+
 		<div id="logout-link">
 			<?php bp_loggedinuser_avatar_thumbnail( 20, 20 ) ?> &nbsp;
 			<?php bp_loggedinuser_link() ?>
-			<?php 
+			<?php
 				if ( function_exists('wp_logout_url') ) {
 					$logout_link = '/ <a href="' . wp_logout_url( $bp->root_domain ) . '">' . __( 'Log Out', 'buddypress' ) . '</a>';
 				} else {
-					$logout_link = '/ <a href="' . $bp->root_domain . '/wp-login.php?action=logout&amp;redirect_to=' . $bp->root_domain . '">' . __( 'Log Out', 'buddypress' ) . '</a>';					
-				}			
-				
+					$logout_link = '/ <a href="' . $bp->root_domain . '/wp-login.php?action=logout&amp;redirect_to=' . $bp->root_domain . '">' . __( 'Log Out', 'buddypress' ) . '</a>';
+				}
+
 				echo apply_filters( 'bp_logout_link', $logout_link );
 			?>
-			
+
 			<?php do_action( 'bp_login_bar_logged_in' ) ?>
 		</div>
-		
+
 	<?php endif;
 }
 
 /* DEPRECATED - use the param 'default_subnav_slug' in bp_core_new_nav_item() OR bp_core_new_nav_default() */
 function bp_core_add_nav_default( $parent_id, $function, $slug = false, $user_has_access = true, $admin_only = false ) {
 	global $bp;
-	
+
 	if ( !$user_has_access && !bp_is_home() )
 		return false;
-		
+
 	if ( $admin_only && !is_site_admin() )
 		return false;
 
@@ -987,7 +987,7 @@ function bp_core_add_nav_default( $parent_id, $function, $slug = false, $user_ha
 		if ( function_exists($function) ) {
 			add_action( 'wp', $function, 3 );
 		}
-		
+
 		if ( $slug )
 			$bp->current_action = $slug;
 	}
@@ -996,20 +996,20 @@ function bp_core_add_nav_default( $parent_id, $function, $slug = false, $user_ha
 /* DEPRECATED - use <?php locate_template( array( 'userbar.php' ), true ) ?> */
 function bp_get_userbar( $hide_on_directory = true ) {
 	global $bp;
-	
+
 	if ( $hide_on_directory && $bp->is_directory )
 		return false;
-	
+
 	load_template( TEMPLATEPATH . '/userbar.php' );
 }
 
 /* DEPRECATED - use <?php locate_template( array( 'optionsbar.php' ), true ) ?> */
 function bp_get_optionsbar( $hide_on_directory = true ) {
 	global $bp;
-	
+
 	if ( $hide_on_directory && $bp->is_directory )
 		return false;
-		
+
 	load_template( TEMPLATEPATH . '/optionsbar.php' );
 }
 

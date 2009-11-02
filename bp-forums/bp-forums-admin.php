@@ -1,12 +1,12 @@
 <?php
 
-function bp_forums_bbpress_admin() { 
+function bp_forums_bbpress_admin() {
 	global $bp;
 ?>
 	<div class="wrap">
 
 		<h2><?php _e( 'Forums Setup', 'buddypress' ) ?></h2>
-		
+
 		<?php if ( isset( $_POST['submit'] ) ) : ?>
 			<div id="message" class="updated fade">
 				<p><?php _e( 'Settings Saved.', 'buddypress' ) ?></p>
@@ -14,24 +14,24 @@ function bp_forums_bbpress_admin() {
 		<?php endif; ?>
 
 		<?php
-		
+
 		if ( isset( $_REQUEST['reinstall'] ) || !bp_forums_is_installed_correctly() ) {
 			update_site_option( 'bb-config-location', false );
 			bp_forums_bbpress_install_wizard();
 		} else { ?>
 			<p><?php printf( __( 'bbPress forum integration in BuddyPress has been set up correctly. If you are having problems you can <a href="%s" title="Reinstall bbPress">re-install</a>', 'buddypress' ), site_url( 'wp-admin/admin.php?page=bb-forums-setup&reinstall=1' ) ); ?>
 			<p><?php _e( 'NOTE: The forums directory will only work if your bbPress tables are in the same database as your WordPress tables. If you are not using an existing bbPress install you can ignore this message.', 'buddypress' ) ?></p>
-		<?php	
+		<?php
 		}
 		?>
 	</div>
 <?php
 }
 
-function bp_forums_bbpress_install_wizard() { 
+function bp_forums_bbpress_install_wizard() {
 	$post_url = site_url( 'wp-admin/admin.php?page=bb-forums-setup' );
 
-	switch( $_REQUEST['step'] ) { 		
+	switch( $_REQUEST['step'] ) {
 		case 'existing':
 			if ( 1 == (int)$_REQUEST['doinstall'] ) {
 				if ( !bp_forums_configure_existing_install() ) {
@@ -52,14 +52,14 @@ function bp_forums_bbpress_install_wizard() {
 						<input type="hidden" name="doinstall" value="1" />
 						<?php wp_nonce_field( 'bp_forums_existing_install_init' ) ?>
 					</form>
-				<?php	
+				<?php
 			}
 		break;
-		
+
 		case 'new':
 			if ( 1 == (int)$_REQUEST['doinstall'] ) {
 				$result = bp_forums_bbpress_install();
-			
+
 				switch ( $result ) {
 					case 1:
 						_e( 'All done! Configuration settings have been saved to the file <code>bb-config.php</code> in the root of your WordPress install.' );
@@ -79,36 +79,36 @@ function bp_forums_bbpress_install_wizard() {
 			<?php
 			}
 		break;
-	
-		default: 
+
+		default:
 			if ( !file_exists( BP_PLUGIN_DIR . '/bp-forums/bbpress/' ) ) { ?>
 				<div id="message" class="error">
 					<p><?php printf( __( 'bbPress files were not found. To install the forums component you must download a copy of bbPress and make sure it is in the folder: "%s"', 'buddypress' ), 'wp-content/plugins/buddypress/bp-forums/bbpress/' ) ?></p>
 				</div>
 			<?php } else { ?>
-			
+
 				<p><?php _e( 'Forums in BuddyPress make use of a bbPress installation to function. You can choose to either let BuddyPress set up a new bbPress install, or use an already existing bbPress install. Please choose one of the options below.', 'buddypress' ) ?></p>
-			
+
 				<a class="button" href="<?php echo $post_url . '&step=new' ?>"><?php _e( 'Set up a new bbPress installation', 'buddypress' ) ?></a> &nbsp;
 				<a class="button" href="<?php echo $post_url . '&step=existing' ?>"><?php _e( 'Use an existing bbPress installation', 'buddypress' ) ?></a>
 
-			<?php } 
+			<?php }
 		break;
 	}
 }
 
 function bp_forums_configure_existing_install() {
 	global $wpdb, $bbdb;
-	
+
 	check_admin_referer( 'bp_forums_existing_install_init' );
-	
+
 	/* Sanitize $_REQUEST['bbconfigloc'] */
 	$_REQUEST['bbconfigloc'] = apply_filters( 'bp_forums_bbconfig_location', $_REQUEST['bbconfigloc'] );
-	
+
 	if ( false === strpos( $_REQUEST['bbconfigloc'], 'bb-config.php' ) ) {
 		if ( '/' != substr( $_REQUEST['bbconfigloc'], -1, 1 ) )
 			$_REQUEST['bbconfigloc'] .= '/';
-		
+
 		$_REQUEST['bbconfigloc'] .= 'bb-config.php';
 	}
 
@@ -116,13 +116,13 @@ function bp_forums_configure_existing_install() {
 		return false;
 
 	update_site_option( 'bb-config-location', $_REQUEST['bbconfigloc'] );
-	
+
 	return true;
 }
 
 function bp_forums_bbpress_install() {
 	global $wpdb, $bbdb;
-	
+
 	check_admin_referer( 'bp_forums_new_install_init' );
 
 	/* Create the bb-config.php file */
@@ -144,7 +144,7 @@ function bp_forums_bbpress_install() {
 			"define( 'BB_LANG', '" 			=> array( "''",                          	"'" . WPLANG . "'" )
 		)
 	);
-	
+
 	/* Add the custom user and usermeta entries to the config file */
 	if ( $initial_write == 1 ) {
 		$file = file_get_contents( ABSPATH . 'bb-config.php' );
@@ -153,17 +153,17 @@ function bp_forums_bbpress_install() {
 	}
 
 	$file = substr( $file, 0, -2 );
-	$file .= "\n" .   '$bb->custom_user_table = "' . $wpdb->users . '";'; 
+	$file .= "\n" .   '$bb->custom_user_table = "' . $wpdb->users . '";';
 	$file .= "\n" .   '$bb->custom_user_meta_table = "' . $wpdb->usermeta . '";';
 	$file .= "\n\n" . '$bb->uri = "' . BP_PLUGIN_URL . '/bp-forums/bbpress/";';
 	$file .= "\n" .   '$bb->name = "' . get_blog_option( BP_ROOT_BLOG, 'name' ) . ' ' . __( 'Forums', 'buddypress' ) . '";';
 	$file .= "\n" .   '$bb->wordpress_mu_primary_blog_id = ' . BP_ROOT_BLOG . ';';
-	$file .= "\n\n" . 'define(\'BB_AUTH_SALT\', "' . AUTH_SALT . '");';	
-	$file .= "\n" .   'define(\'BB_LOGGED_IN_SALT\', "' . LOGGED_IN_SALT . '");';	
-	$file .= "\n" .   'define(\'BB_SECURE_AUTH_SALT\', "' . SECURE_AUTH_SALT . '");';	
-	$file .= "\n\n" . 'define(\'WP_AUTH_COOKIE_VERSION\', 2);';	
+	$file .= "\n\n" . 'define(\'BB_AUTH_SALT\', "' . AUTH_SALT . '");';
+	$file .= "\n" .   'define(\'BB_LOGGED_IN_SALT\', "' . LOGGED_IN_SALT . '");';
+	$file .= "\n" .   'define(\'BB_SECURE_AUTH_SALT\', "' . SECURE_AUTH_SALT . '");';
+	$file .= "\n\n" . 'define(\'WP_AUTH_COOKIE_VERSION\', 2);';
 	$file .= "\n\n" . '?>';
-	
+
 	if ( $initial_write == 1 ) {
 		$file_handle = fopen( ABSPATH . 'bb-config.php', 'w' );
 		fwrite( $file_handle, $file );
@@ -188,7 +188,7 @@ function bp_forums_bbpress_write( $file_source, $file_target, $alterations ) {
 	if ( !$alterations || !is_array( $alterations ) ) {
 		return -2;
 	}
-	
+
 	// Get the existing lines in the file
 	$lines = file( $file_source );
 
@@ -204,7 +204,7 @@ function bp_forums_bbpress_write( $file_source, $file_target, $alterations ) {
 			$modified_lines[] = $line;
 		}
 	}
-	
+
 	$writable = true;
 	if ( file_exists( $file_target ) ) {
 		if ( !is_writable( $file_target ) ) {

@@ -2,31 +2,31 @@
 
 function groups_notification_new_wire_post( $group_id, $wire_post_id ) {
 	global $bp;
-	
+
 	if ( !isset( $_POST['wire-post-email-notify'] ) )
 		return false;
-	
+
 	$wire_post = new BP_Wire_Post( $bp->groups->table_name_wire, $wire_post_id );
 	$group = new BP_Groups_Group( $group_id, false, true );
-	
+
 	$poster_name = bp_core_get_user_displayname( $wire_post->user_id );
-	$poster_profile_link = bp_core_get_user_domain( $wire_post->user_id ); 
+	$poster_profile_link = bp_core_get_user_domain( $wire_post->user_id );
 
 	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'New wire post on group: %s', 'buddypress' ), stripslashes( attribute_escape( $group->name ) ) );
 
 	foreach ( $group->user_dataset as $user ) {
 		if ( 'no' == get_usermeta( $user->user_id, 'notification_groups_wire_post' ) ) continue;
-		
+
 		$ud = get_userdata( $user->user_id );
-		
+
 		// Set up and send the message
 		$to = $ud->user_email;
 
 		$wire_link = site_url( $bp->groups->slug . '/' . $group->slug . '/wire/' );
 		$group_link = site_url( $bp->groups->slug . '/' . $group->slug . '/' );
-		$settings_link = bp_core_get_user_domain( $user->user_id ) . 'settings/notifications/'; 
+		$settings_link = bp_core_get_user_domain( $user->user_id ) . 'settings/notifications/';
 
-		$message = sprintf( __( 
+		$message = sprintf( __(
 '%s posted on the wire of the group "%s":
 
 "%s"
@@ -44,29 +44,29 @@ To view %s\'s profile page: %s
 
 		// Send it
 		wp_mail( $to, $subject, $message );
-		
+
 		unset( $message, $to );
 	}
 }
 
 function groups_notification_group_updated( $group_id ) {
 	global $bp;
-	
+
 	$group = new BP_Groups_Group( $group_id, false, true );
 	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . __( 'Group Details Updated', 'buddypress' );
 
 	foreach ( $group->user_dataset as $user ) {
 		if ( 'no' == get_usermeta( $user->user_id, 'notification_groups_group_updated' ) ) continue;
-		
+
 		$ud = get_userdata( $user->user_id );
-		
+
 		// Set up and send the message
 		$to = $ud->user_email;
 
 		$group_link = site_url( $bp->groups->slug . '/' . $group->slug );
 		$settings_link = bp_core_get_user_domain( $user->user_id ) . 'settings/notifications/';
 
-		$message = sprintf( __( 
+		$message = sprintf( __(
 'Group details for the group "%s" were updated:
 
 To view the group: %s
@@ -90,10 +90,10 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 
 	if ( 'no' == get_usermeta( $admin_id, 'notification_groups_membership_request' ) )
 		return false;
-		
+
 	$requesting_user_name = bp_core_get_user_displayname( $requesting_user_id );
 	$group = new BP_Groups_Group( $group_id, false, false );
-	
+
 	$ud = get_userdata($admin_id);
 	$requesting_ud = get_userdata($requesting_user_id);
 
@@ -105,7 +105,7 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 	$to = $ud->user_email;
 	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'Membership request for group: %s', 'buddypress' ), stripslashes( attribute_escape( $group->name ) ) );
 
-$message = sprintf( __( 
+$message = sprintf( __(
 '%s wants to join the group "%s".
 
 Because you are the administrator of this group, you must either accept or reject the membership request.
@@ -121,23 +121,23 @@ To view %s\'s profile: %s
 	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
 	// Send it
-	wp_mail( $to, $subject, $message );	
+	wp_mail( $to, $subject, $message );
 }
 
 function groups_notification_membership_request_completed( $requesting_user_id, $group_id, $accepted = true ) {
 	global $bp;
-	
+
 	// Post a screen notification first.
 	if ( $accepted )
 		bp_core_add_notification( $group_id, $requesting_user_id, 'groups', 'membership_request_accepted' );
 	else
 		bp_core_add_notification( $group_id, $requesting_user_id, 'groups', 'membership_request_rejected' );
-	
+
 	if ( 'no' == get_usermeta( $requesting_user_id, 'notification_membership_request_completed' ) )
 		return false;
-		
+
 	$group = new BP_Groups_Group( $group_id, false, false );
-	
+
 	$ud = get_userdata($requesting_user_id);
 
 	$group_link = bp_get_group_permalink( $group );
@@ -145,20 +145,20 @@ function groups_notification_membership_request_completed( $requesting_user_id, 
 
 	// Set up and send the message
 	$to = $ud->user_email;
-	
+
 	if ( $accepted ) {
 		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'Membership request for group "%s" accepted', 'buddypress' ), stripslashes( attribute_escape( $group->name ) ) );
-		$message = sprintf( __( 
+		$message = sprintf( __(
 'Your membership request for the group "%s" has been accepted.
 
 To view the group please login and visit: %s
 
 ---------------------
 ', 'buddypress' ), stripslashes( attribute_escape( $group->name ) ), $group_link );
-		
+
 	} else {
 		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'Membership request for group "%s" rejected', 'buddypress' ), stripslashes( attribute_escape( $group->name ) ) );
-		$message = sprintf( __( 
+		$message = sprintf( __(
 'Your membership request for the group "%s" has been rejected.
 
 To submit another request please log in and visit: %s
@@ -166,11 +166,11 @@ To submit another request please log in and visit: %s
 ---------------------
 ', 'buddypress' ), stripslashes( attribute_escape( $group->name ) ), $group_link );
 	}
-	
+
 	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
 	// Send it
-	wp_mail( $to, $subject, $message );	
+	wp_mail( $to, $subject, $message );
 }
 
 function groups_notification_promoted_member( $user_id, $group_id ) {
@@ -183,7 +183,7 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 		$promoted_to = __( 'a moderator', 'buddypress' );
 		$type = 'member_promoted_to_mod';
 	}
-	
+
 	// Post a screen notification first.
 	bp_core_add_notification( $group_id, $user_id, 'groups', $type );
 
@@ -201,7 +201,7 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 
 	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'You have been promoted in the group: "%s"', 'buddypress' ), stripslashes( attribute_escape( $group->name ) ) );
 
-	$message = sprintf( __( 
+	$message = sprintf( __(
 'You have been promoted to %s for the group: "%s".
 
 To view the group please visit: %s
@@ -218,13 +218,13 @@ add_action( 'groups_promoted_member', 'groups_notification_promoted_member', 10,
 
 function groups_notification_group_invites( &$group, &$member, $inviter_user_id ) {
 	global $bp;
-	
+
 	$inviter_ud = get_userdata( $inviter_user_id );
 	$inviter_name = bp_core_get_userlink( $inviter_user_id, true, false, true );
 	$inviter_link = bp_core_get_user_domain( $inviter_user_id );
-	
+
 	$group_link = bp_get_group_permalink( $group );
-	
+
 	if ( !$member->invite_sent ) {
 		$invited_user_id = $member->user_id;
 
@@ -235,7 +235,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 			return false;
 
 		$invited_ud = get_userdata($invited_user_id);
-		
+
 		$settings_link = bp_core_get_user_domain( $invited_user_id ) . 'settings/notifications/';
 		$invited_link = bp_core_get_user_domain( $invited_user_id );
 		$invites_link = $invited_link . '/' . $bp->groups->slug . '/invites';
@@ -245,7 +245,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 
 		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'You have an invitation to the group: "%s"', 'buddypress' ), stripslashes( attribute_escape( $group->name ) ) );
 
-		$message = sprintf( __( 
+		$message = sprintf( __(
 'One of your friends %s has invited you to the group: "%s".
 
 To view your group invites visit: %s

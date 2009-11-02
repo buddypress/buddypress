@@ -5,7 +5,7 @@
  *
  * Records a notification for a new profile wire post to the database and sends out a notification
  * email if the user has this setting enabled.
- * 
+ *
  * @package BuddyPress XProfile
  * @param $wire_post_id The ID of the wire post
  * @param $user_id The id of the user that the wire post was sent to
@@ -20,7 +20,7 @@
  */
 function xprofile_record_wire_post_notification( $wire_post_id, $user_id, $poster_id ) {
 	global $bp, $current_user;
-	
+
 	if ( $bp->current_component == $bp->wire->slug && !bp_is_home() ) {
 		bp_core_add_notification( $poster_id, $user_id, 'xprofile', 'new_wire_post' );
 
@@ -28,15 +28,15 @@ function xprofile_record_wire_post_notification( $wire_post_id, $user_id, $poste
 			$poster_name = bp_core_get_user_displayname( $poster_id );
 			$wire_post = new BP_Wire_Post( $bp->profile->table_name_wire, $wire_post_id, true );
 			$ud = get_userdata( $user_id );
-			
+
 			$wire_link = bp_core_get_user_domain( $user_id ) . 'wire';
 			$settings_link = bp_core_get_user_domain( $user_id ) . 'settings/notifications';
-			
+
 			// Set up and send the message
 			$to = $ud->user_email;
 			$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s posted on your wire.', 'buddypress' ), stripslashes($poster_name) );
 
-$message = sprintf( __( 
+$message = sprintf( __(
 '%s posted on your wire:
 
 "%s"
@@ -47,12 +47,12 @@ To view your wire: %s
 ', 'buddypress' ), $poster_name, stripslashes($wire_post->content), $wire_link );
 
 			$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
-			
+
 			// Send it
 			wp_mail( $to, $subject, $message );
 		}
 	}
-		
+
 }
 add_action( 'bp_wire_post_posted', 'xprofile_record_wire_post_notification', 10, 3 );
 

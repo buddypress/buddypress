@@ -1,14 +1,14 @@
 <?php get_header() ?>
 
-	<?php do_action( 'bp_before_directory_groups_content' ) ?>		
+	<?php do_action( 'bp_before_directory_groups_content' ) ?>
 
 	<div id="content">
-	
+
 		<div class="page" id="groups-directory-page">
-	
+
 			<form action="<?php echo site_url() . '/' ?>" method="post" id="groups-directory-form">
 				<h3><?php _e( 'Groups Directory', 'buddypress' ) ?></h3>
-		
+
 				<ul id="letter-list">
 					<li><a href="#a" id="letter-a">A</a></li>
 					<li><a href="#b" id="letter-b">B</a></li>
@@ -40,47 +40,47 @@
 
 				<div id="groups-directory-listing" class="directory-listing">
 					<h3><?php _e( 'Groups Listing', 'buddypress' ) ?></h3>
-			
+
 					<div id="group-dir-list">
 						<?php locate_template( array( 'directories/groups/groups-loop.php' ), true ) ?>
 					</div>
 
 				</div>
-			
+
 				<?php do_action( 'bp_directory_groups_content' ) ?>
 
 				<?php wp_nonce_field( 'directory_groups', '_wpnonce-group-filter' ) ?>
 
 			</form>
-	
+
 		</div>
-	
+
 	</div>
 
-	<?php do_action( 'bp_after_directory_groups_content' ) ?>		
-	<?php do_action( 'bp_before_directory_groups_sidebar' ) ?>		
+	<?php do_action( 'bp_after_directory_groups_content' ) ?>
+	<?php do_action( 'bp_before_directory_groups_sidebar' ) ?>
 
 	<div id="sidebar" class="directory-sidebar">
 
-		<?php do_action( 'bp_before_directory_groups_search' ) ?>	
+		<?php do_action( 'bp_before_directory_groups_search' ) ?>
 
 		<div id="groups-directory-search" class="directory-widget">
-			
+
 			<h3><?php _e( 'Find Groups', 'buddypress' ) ?></h3>
 
 			<?php bp_directory_groups_search_form() ?>
 
 			<?php do_action( 'bp_directory_groups_search' ) ?>
-				
+
 		</div>
 
-		<?php do_action( 'bp_after_directory_groups_search' ) ?>	
-		<?php do_action( 'bp_before_directory_groups_featured' ) ?>	
+		<?php do_action( 'bp_after_directory_groups_search' ) ?>
+		<?php do_action( 'bp_before_directory_groups_featured' ) ?>
 
 		<div id="groups-directory-featured" class="directory-widget">
-			
+
 			<h3><?php _e( 'Random Groups', 'buddypress' ) ?></h3>
-		
+
 			<?php if ( bp_has_site_groups( 'type=random&max=3' ) ) : ?>
 
 				<ul id="groups-list" class="item-list">
@@ -92,33 +92,33 @@
 							</div>
 
 							<div class="item">
-							
+
 								<div class="item-title"><a href="<?php bp_the_site_group_link() ?>"><?php bp_the_site_group_name() ?></a></div>
 								<div class="item-meta"><span class="activity"><?php bp_the_site_group_last_active() ?></span></div>
-						
+
 								<div class="field-data">
 									<div class="field-name">
 										<strong><?php _e( 'Members:', 'buddypress' ) ?></strong>
 										<?php bp_the_site_group_member_count() ?>
 									</div>
-							
+
 									<div class="field-name">
 										<strong><?php _e( 'Description:', 'buddypress' ) ?></strong>
 										<?php bp_the_site_group_description_excerpt() ?>
 									</div>
 								</div>
-						
+
 								<?php do_action( 'bp_directory_groups_featured_item' ) ?>
-							
+
 							</div>
 
 						</li>
 
 					<?php endwhile; ?>
-				</ul>		
+				</ul>
 
-				<?php do_action( 'bp_directory_groups_featured' ) ?>	
-				
+				<?php do_action( 'bp_directory_groups_featured' ) ?>
+
 			<?php else: ?>
 
 				<div id="message" class="info">
@@ -126,13 +126,13 @@
 				</div>
 
 			<?php endif; ?>
-	
+
 		</div>
 
-		<?php do_action( 'bp_after_directory_groups_featured' ) ?>	
+		<?php do_action( 'bp_after_directory_groups_featured' ) ?>
 
 	</div>
-	
-	<?php do_action( 'bp_after_directory_groups_sidebar' ) ?> 
+
+	<?php do_action( 'bp_after_directory_groups_sidebar' ) ?>
 
 <?php get_footer() ?>

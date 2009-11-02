@@ -13,15 +13,15 @@ class BP_Activity_Widget extends WP_Widget {
 
 	function widget($args, $instance) {
 		global $bp;
-		
+
 		extract( $args );
-		
+
 		echo $before_widget;
 		echo $before_title
-		   . $widget_name . 
-			 ' <a class="rss-image" href="' . bp_get_sitewide_activity_feed_link() . '" title="' . __( 'Site Wide Activity RSS Feed', 'buddypress' ) . '">' . __( '[RSS]', 'buddypress' ) . '</a>' 
+		   . $widget_name .
+			 ' <a class="rss-image" href="' . bp_get_sitewide_activity_feed_link() . '" title="' . __( 'Site Wide Activity RSS Feed', 'buddypress' ) . '">' . __( '[RSS]', 'buddypress' ) . '</a>'
 		   . $after_title; ?>
-	
+
 	<?php if ( bp_has_activities( 'type=sitewide&max=' . $instance['max_items'] . '&per_page=' . $instance['per_page'] ) ) : ?>
 
 		<?php if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) ) : ?>
@@ -29,17 +29,17 @@ class BP_Activity_Widget extends WP_Widget {
 				<div class="pag-count" id="activity-count">
 					<?php bp_activity_pagination_count() ?>
 				</div>
-		
+
 				<div class="pagination-links" id="activity-pag">
 					&nbsp; <?php bp_activity_pagination_links() ?>
 				</div>
 			</div>
-		
+
 			<ul id="activity-filter-links">
 				<?php bp_activity_filter_links() ?>
 			</ul>
 		<?php endif; ?>
-		
+
 		<ul id="site-wide-stream" class="activity-list">
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<li class="<?php bp_activity_css_class() ?>">
@@ -48,7 +48,7 @@ class BP_Activity_Widget extends WP_Widget {
 						<?php bp_activity_avatar() ?>
 					</div>
 				<?php endif; ?>
-				
+
 				<?php bp_activity_content() ?>
 			</li>
 		<?php endwhile; ?>
@@ -60,7 +60,7 @@ class BP_Activity_Widget extends WP_Widget {
 			<?php _e('There has been no recent site activity.', 'buddypress') ?>
 		</div>
 	<?php endif;?>
-	
+
 	<?php echo $after_widget; ?>
 	<?php
 	}

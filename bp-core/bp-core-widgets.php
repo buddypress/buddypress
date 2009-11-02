@@ -30,7 +30,7 @@ class BP_Core_Welcome_Widget extends WP_Widget {
 		<?php if ( !is_user_logged_in() ) { ?>
 		<div class="create-account"><div class="visit generic-button"><a href="<?php bp_signup_page() ?>" title="<?php _e('Create Account', 'buddypress') ?>"><?php _e('Create Account', 'buddypress') ?></a></div></div>
 		<?php } ?>
-	
+
 		<?php echo $after_widget; ?>
 	<?php
 	}
@@ -73,27 +73,27 @@ class BP_Core_Members_Widget extends WP_Widget {
 		parent::WP_Widget( false, $name = __( 'Members', 'buddypress' ) );
 
 		if ( is_active_widget( false, false, $this->id_base ) )
-			wp_enqueue_script( 'bp_core_widget_members-js', BP_PLUGIN_URL . '/bp-core/js/widget-members.js', array('jquery', 'jquery-livequery-pack') );		
+			wp_enqueue_script( 'bp_core_widget_members-js', BP_PLUGIN_URL . '/bp-core/js/widget-members.js', array('jquery', 'jquery-livequery-pack') );
 	}
 
 	function widget($args, $instance) {
 		global $bp;
-		
+
 	    extract( $args );
-		
+
 		echo $before_widget;
 		echo $before_title
-		   . $widget_name 
+		   . $widget_name
 		   . $after_title; ?>
 
 		<?php if ( bp_has_site_members( 'type=newest&max=' . $instance['max_members'] ) ) : ?>
 			<div class="item-options" id="members-list-options">
 				<span class="ajax-loader" id="ajax-loader-members"></span>
-				<a href="<?php echo site_url() . '/' . BP_MEMBERS_SLUG ?>" id="newest-members" class="selected"><?php _e( 'Newest', 'buddypress' ) ?></a> | 
-				<a href="<?php echo site_url() . '/' . BP_MEMBERS_SLUG ?>" id="recently-active-members"><?php _e( 'Active', 'buddypress' ) ?></a> | 
+				<a href="<?php echo site_url() . '/' . BP_MEMBERS_SLUG ?>" id="newest-members" class="selected"><?php _e( 'Newest', 'buddypress' ) ?></a> |
+				<a href="<?php echo site_url() . '/' . BP_MEMBERS_SLUG ?>" id="recently-active-members"><?php _e( 'Active', 'buddypress' ) ?></a> |
 				<a href="<?php echo site_url() . '/' . BP_MEMBERS_SLUG ?>" id="popular-members"><?php _e( 'Popular', 'buddypress' ) ?></a>
 			</div>
-			
+
 			<ul id="members-list" class="item-list">
 				<?php while ( bp_site_members() ) : bp_the_site_member(); ?>
 					<li class="vcard">
@@ -108,10 +108,10 @@ class BP_Core_Members_Widget extends WP_Widget {
 					</li>
 
 				<?php endwhile; ?>
-			</ul>		
+			</ul>
 			<?php wp_nonce_field( 'bp_core_widget_members', '_wpnonce-members' ); ?>
 			<input type="hidden" name="members_widget_max" id="members_widget_max" value="<?php echo attribute_escape( $instance['max_members'] ); ?>" />
-			
+
 		<?php else: ?>
 
 			<div class="widget-error">
@@ -119,7 +119,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 			</div>
 
 		<?php endif; ?>
-			
+
 		<?php echo $after_widget; ?>
 	<?php
 	}
@@ -150,22 +150,22 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 
 	function widget($args, $instance) {
 		global $bp;
-		
+
 	    extract( $args );
-		
+
 		echo $before_widget;
 		echo $before_title
-		   . $widget_name 
+		   . $widget_name
 		   . $after_title; ?>
-		
-		<?php if ( bp_has_site_members( 'type=online&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] ) ) : ?>			
+
+		<?php if ( bp_has_site_members( 'type=online&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] ) ) : ?>
 			<div class="avatar-block">
 				<?php while ( bp_site_members() ) : bp_the_site_member(); ?>
 					<div class="item-avatar">
 						<a href="<?php bp_the_site_member_link() ?>" title="<?php bp_the_site_member_name() ?>"><?php bp_the_site_member_avatar() ?></a>
 					</div>
 				<?php endwhile; ?>
-			</div>					
+			</div>
 		<?php else: ?>
 
 			<div class="widget-error">
@@ -173,7 +173,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 			</div>
 
 		<?php endif; ?>
-			
+
 		<?php echo $after_widget; ?>
 	<?php
 	}
@@ -204,22 +204,22 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 
 	function widget($args, $instance) {
 		global $bp;
-		
+
 	    extract( $args );
-		
+
 		echo $before_widget;
 		echo $before_title
-		   . $widget_name 
+		   . $widget_name
 		   . $after_title; ?>
-			
-		<?php if ( bp_has_site_members( 'type=active&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] ) ) : ?>			
+
+		<?php if ( bp_has_site_members( 'type=active&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] ) ) : ?>
 			<div class="avatar-block">
 				<?php while ( bp_site_members() ) : bp_the_site_member(); ?>
 					<div class="item-avatar">
 						<a href="<?php bp_the_site_member_link() ?>" title="<?php bp_the_site_member_name() ?>"><?php bp_the_site_member_avatar() ?></a>
 					</div>
 				<?php endwhile; ?>
-			</div>					
+			</div>
 		<?php else: ?>
 
 			<div class="widget-error">
@@ -227,7 +227,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 			</div>
 
 		<?php endif; ?>
-			
+
 		<?php echo $after_widget; ?>
 	<?php
 	}
@@ -255,7 +255,7 @@ function bp_core_ajax_widget_members() {
 	global $bp;
 
 	check_ajax_referer('bp_core_widget_members');
-	
+
 	switch ( $_POST['filter'] ) {
 		case 'newest-members':
 			if ( !$users = wp_cache_get( 'newest_users', 'bp' ) ) {
@@ -276,10 +276,10 @@ function bp_core_ajax_widget_members() {
 			}
 		break;
 	}
-	
+
 	if ( $users['users'] ) {
 		echo '0[[SPLIT]]'; // return valid result.
-	
+
 		foreach ( (array) $users['users'] as $user ) {
 		?>
 			<li class="vcard">
@@ -291,7 +291,7 @@ function bp_core_ajax_widget_members() {
 					<div class="item-title"><?php echo bp_core_get_userlink( $user->user_id ) ?></div>
 					<div class="item-meta">
 						<span class="activity">
-							<?php 
+							<?php
 							if ( 'newest-members' == $_POST['filter'] ) {
 								echo bp_core_get_last_activity( $user->user_registered, __( 'registered %s ago', 'buddypress' ) );
 							} else if ( 'recently-active-members' == $_POST['filter'] ) {
@@ -307,7 +307,7 @@ function bp_core_ajax_widget_members() {
 					</div>
 				</div>
 			</li>
-			<?php	
+			<?php
 		}
 	} else {
 		echo "-1[[SPLIT]]<li>" . __("No members matched the current filter.", 'buddypress');

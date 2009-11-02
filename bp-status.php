@@ -11,13 +11,13 @@ function bp_status_setup_globals() {
 	/* For internal identification */
 	$bp->status->id = 'status';
 	$bp->status->slug = BP_STATUS_SLUG;
-	
+
 	/* Register this in the active components array */
 	$bp->active_components[$bp->status->slug] = $bp->status->id;
 
 	do_action( 'bp_status_setup_globals' );
 }
-add_action( 'plugins_loaded', 'bp_status_setup_globals', 5 );	
+add_action( 'plugins_loaded', 'bp_status_setup_globals', 5 );
 add_action( 'admin_menu', 'bp_status_setup_globals', 2 );
 
 
@@ -30,7 +30,7 @@ add_action( 'admin_menu', 'bp_status_setup_globals', 2 );
 
 function bp_status_register_activity_actions() {
 	global $bp;
-	
+
 	if ( !function_exists( 'bp_activity_set_action' ) )
 		return false;
 
@@ -43,14 +43,14 @@ add_action( 'plugins_loaded', 'bp_status_register_activity_actions' );
 
 function bp_status_record_activity( $user_id, $content, $primary_link, $component_action = 'new_status' ) {
 	global $bp;
-	
+
 	if ( !function_exists( 'bp_activity_add' ) )
 		return false;
-	
-	return bp_activity_add( array( 
-			'user_id' => $user_id, 
-			'content' => $content, 
-			'primary_link' => $primary_link, 
+
+	return bp_activity_add( array(
+			'user_id' => $user_id,
+			'content' => $content,
+			'primary_link' => $primary_link,
 			'component_name' => $bp->status->id,
 			'component_action' => $component_action
 	) );
@@ -65,10 +65,10 @@ function bp_status_delete_activity( $user_id, $content ) {
 
 function bp_status_register_activity_action( $key, $value ) {
 	global $bp;
-	
+
 	if ( !function_exists( 'bp_activity_set_action' ) )
 		return false;
-	
+
 	return apply_filters( 'bp_status_register_activity_action', bp_activity_set_action( $bp->status->id, $key, $value ), $key, $value );
 }
 
@@ -86,7 +86,7 @@ function bp_status_action_add() {
 
 	if ( $bp->current_component != BP_STATUS_SLUG || 'add' != $bp->current_action )
 		return false;
-	
+
 	if ( !check_admin_referer( 'bp_status_add_status', '_wpnonce_add_status' ) )
 		return false;
 
@@ -94,7 +94,7 @@ function bp_status_action_add() {
 		bp_core_add_message( __( 'Your status was updated successfully!', 'buddypress' ) );
 	else
 		bp_core_add_message( __( 'There was a problem updating your status. Please try again.', 'buddypress' ), 'error' );
-	
+
 	bp_core_redirect( $bp->loggedin_user->domain );
 }
 add_action( 'init', 'bp_status_action_add' );
@@ -111,17 +111,17 @@ add_action( 'init', 'bp_status_action_add' );
 
 function bp_status_add_status( $user_id, $content, $recorded_time = false ) {
 	global $bp;
-	
+
 	$content = apply_filters( 'bp_status_content_before_save', $content );
-	
-	if ( !$recorded_time )	
+
+	if ( !$recorded_time )
 		$recorded_time = time();
-	
+
 	if ( !$content || empty($content) )
 		return false;
-	
+
 	bp_status_clear_existing_activity( $user_id );
-	
+
 	/* Store the status in usermeta for easy access. */
 	update_usermeta( $user_id, 'bp_status', array( 'content' => $content, 'recorded_time' => $recorded_time ) );
 
@@ -131,7 +131,7 @@ function bp_status_add_status( $user_id, $content, $recorded_time = false ) {
 	$activity_content .= "<blockquote>$content</blockquote>";
 
 	bp_status_record_activity( $user_id, apply_filters( 'bp_status_activity_new', $activity_content, $content, $user_link ), apply_filters( 'bp_status_activity_new_primary_link', $user_link, $user_id ) );
-	
+
 	do_action( 'bp_status_add_status', $user_id, $content );
 
 	return true;
@@ -139,19 +139,19 @@ function bp_status_add_status( $user_id, $content, $recorded_time = false ) {
 
 function bp_status_clear_status( $user_id = false ) {
 	global $bp;
-	
+
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
-	
+
 	bp_status_clear_existing_activity( $user_id );
-	
+
 	return delete_usermeta( $user_id, 'bp_status' );
 }
 
 function bp_status_clear_existing_activity( $user_id ) {
 	/* Fetch existing status update if there is one. */
 	$existing_status = get_usermeta( $user_id, 'bp_status' );
-	
+
 	if ( '' != $existing_status ) {
 		if ( strtotime( '+5 minutes', $existing_status['recorded_time'] ) >= time() ) {
 			/***

@@ -14,12 +14,12 @@ add_filter( 'bp_get_activity_content', 'stripslashes_deep' );
 
 function bp_activity_filter_kses( $content ) {
 	global $allowedtags;
-	
+
 	$activity_allowedtags = $allowedtags;
 	$activity_allowedtags['span'] = array();
 	$activity_allowedtags['span']['class'] = array();
 	$activity_allowedtags['a']['class'] = array();
-	$activity_allowedtags['img'] = array();	
+	$activity_allowedtags['img'] = array();
 	$activity_allowedtags['img']['src'] = array();
 	$activity_allowedtags['img']['alt'] = array();
 	$activity_allowedtags['img']['class'] = array();
