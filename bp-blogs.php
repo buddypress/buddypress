@@ -126,7 +126,7 @@ add_action( 'plugins_loaded', 'bp_blogs_setup_globals', 5 );
 add_action( 'admin_menu', 'bp_blogs_setup_globals', 2 );
 
 function bp_blogs_setup_root_component() {
-	/* Register 'groups' as a root component */
+	/* Register 'blogs' as a root component */
 	bp_core_add_root_component( BP_BLOGS_SLUG );
 }
 add_action( 'plugins_loaded', 'bp_blogs_setup_root_component', 2 );
