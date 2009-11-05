@@ -1767,7 +1767,7 @@ function bp_core_load_buddypress_textdomain() {
 	if ( file_exists( $mofile ) )
 		load_textdomain( 'buddypress', $mofile );
 }
-add_action ( 'plugins_loaded', 'bp_core_load_buddypress_textdomain', 9 );
+add_action ( 'plugins_loaded', 'bp_core_load_buddypress_textdomain', 5 );
 
 function bp_core_add_ajax_hook() {
 	/* Theme only, we already have the wp_ajax_ hook firing in wp-admin */
