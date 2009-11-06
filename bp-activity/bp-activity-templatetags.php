@@ -420,7 +420,7 @@ function bp_activity_feed_item_guid() {
 	function bp_get_activity_feed_item_guid() {
 		global $activities_template;
 
-		return apply_filters( 'bp_get_activity_feed_item_title', md5( $activities_template->activity->date_recorded . '-' . $activities_template->activity->content ) );
+		return apply_filters( 'bp_get_activity_feed_item_guid', md5( $activities_template->activity->date_recorded . '-' . $activities_template->activity->content ) );
 	}
 
 function bp_activity_feed_item_title() {
