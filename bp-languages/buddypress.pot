@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-11-03 14:11+0000\n"
+"POT-Creation-Date: 2009-11-06 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -806,58 +806,58 @@ msgstr ""
 msgid "Editor"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:156
+#: bp-core/bp-core-adminbar.php:157
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:55
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:56
 #: bp-forums/bbpress/bb-admin/index.php:46
 msgid "Dashboard"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:157
+#: bp-core/bp-core-adminbar.php:158
 msgid "New Post"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:158
+#: bp-core/bp-core-adminbar.php:159
 msgid "Manage Posts"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:159
+#: bp-core/bp-core-adminbar.php:160
 msgid "Manage Comments"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:161
+#: bp-core/bp-core-adminbar.php:162
 msgid "Switch Theme"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:174
+#: bp-core/bp-core-adminbar.php:175
 msgid "Create a Blog!"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:190 bp-core/bp-core-settings.php:22
+#: bp-core/bp-core-adminbar.php:191 bp-core/bp-core-settings.php:22
 msgid "Notifications"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:208
+#: bp-core/bp-core-adminbar.php:209
 msgid "No new notifications."
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:227
+#: bp-core/bp-core-adminbar.php:228
 msgid "Blog Authors"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:253
+#: bp-core/bp-core-adminbar.php:254
 msgid "Visit"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:255
+#: bp-core/bp-core-adminbar.php:256
 msgid "Random Member"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:258
+#: bp-core/bp-core-adminbar.php:259
 msgid "Random Group"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:262
+#: bp-core/bp-core-adminbar.php:263
 msgid "Random Blog"
 msgstr ""
 
