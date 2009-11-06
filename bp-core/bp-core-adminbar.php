@@ -131,7 +131,7 @@ function bp_adminbar_blogs_menu() {
 		if ( function_exists('bp_blogs_install') ) {
 
 			if ( !$blogs = wp_cache_get( 'bp_blogs_of_user_' . $bp->loggedin_user->id, 'bp' ) ) {
-				$blogs = get_blogs_of_user( $bp->loggedin_user->id );
+				$blogs = bp_blogs_get_blogs_for_user( $bp->loggedin_user->id );
 				wp_cache_set( 'bp_blogs_of_user_' . $bp->loggedin_user->id, $blogs, 'bp' );
 			}
 
@@ -142,23 +142,24 @@ function bp_adminbar_blogs_menu() {
 			echo '</a>';
 
 			echo '<ul>';
-			if ( is_array( $blogs )) {
+
+			if ( is_array( $blogs['blogs'] ) && (int)$blogs['count'] ) {
 
 				$counter = 0;
-				foreach( $blogs as $blog ) {
-					$role = get_blog_role_for_user( $bp->loggedin_user->id, $blog->userblog_id );
+				foreach ( $blogs['blogs'] as $blog ) {
+					$role = get_blog_role_for_user( $bp->loggedin_user->id, $blog->id );
 
 					$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
 					echo '<li' . $alt . '>';
-					echo '<a href="' . $blog->siteurl . '">' . $blog->blogname . ' (' . $role . ')</a>';
+					echo '<a href="' . $blog->siteurl . '">' . $blog->name . ' (' . $role . ')</a>';
 					if ( !( 'Subscriber' == $role ) ) { // then they have something to display on the flyout menu
 						echo '<ul>';
-						echo '<li class="alt"><a href="' . $blog->siteurl  . '/wp-admin/">' . __('Dashboard', 'buddypress') . '</a></li>';
-						echo '<li><a href="' . $blog->siteurl  . '/wp-admin/post-new.php">' . __('New Post', 'buddypress') . '</a></li>';
-						echo '<li class="alt"><a href="' . $blog->siteurl  . '/wp-admin/edit.php">' . __('Manage Posts', 'buddypress') . '</a></li>';
-						echo '<li><a href="' . $blog->siteurl  . '/wp-admin/edit-comments.php">' . __('Manage Comments', 'buddypress') . '</a></li>';
+						echo '<li class="alt"><a href="' . $blog->siteurl  . 'wp-admin/">' . __('Dashboard', 'buddypress') . '</a></li>';
+						echo '<li><a href="' . $blog->siteurl  . 'wp-admin/post-new.php">' . __('New Post', 'buddypress') . '</a></li>';
+						echo '<li class="alt"><a href="' . $blog->siteurl  . 'wp-admin/edit.php">' . __('Manage Posts', 'buddypress') . '</a></li>';
+						echo '<li><a href="' . $blog->siteurl  . 'wp-admin/edit-comments.php">' . __('Manage Comments', 'buddypress') . '</a></li>';
 						if ( 'Admin' == $role ) {
-							echo '<li class="alt"><a href="' . $blog->siteurl  . '/wp-admin/themes.php">' . __('Switch Theme', 'buddypress') . '</a></li>';
+							echo '<li class="alt"><a href="' . $blog->siteurl  . 'wp-admin/themes.php">' . __('Switch Theme', 'buddypress') . '</a></li>';
 						}
 						echo '</ul>';
 					}
