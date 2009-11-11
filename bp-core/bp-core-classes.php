@@ -198,10 +198,10 @@ class BP_Core_User {
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
-		$total_users_sql = apply_filters( 'bp_core_alphabetical_users_count_sql', $wpdb->prepare( "SELECT DISTINCT count(u.ID) FROM " . CUSTOM_USER_TABLE . " u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE u.spam = 0 AND u.deleted = 0 AND u.user_status = 0 AND pf.name = %s ORDER BY pd.value ASC", BP_XPROFILE_FULLNAME_FIELD_NAME ) );
-		$paged_users_sql = apply_filters( 'bp_core_alphabetical_users_sql', $wpdb->prepare( "SELECT DISTINCT u.ID as user_id FROM " . CUSTOM_USER_TABLE . " u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE u.spam = 0 AND u.deleted = 0 AND u.user_status = 0 AND pf.name = %s ORDER BY pd.value ASC{$pag_sql}", BP_XPROFILE_FULLNAME_FIELD_NAME ), $pag_sql );
+		$total_users_sql = apply_filters( 'bp_core_search_users_count_sql', "SELECT DISTINCT u.ID as user_id FROM " . CUSTOM_USER_TABLE . " u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE u.spam = 0 AND u.deleted = 0 AND u.user_status = 0 AND pd.value LIKE '%%$search_terms%%' ORDER BY pd.value ASC", $search_terms );
+		$paged_users_sql = apply_filters( 'bp_core_search_users_sql', "SELECT DISTINCT u.ID as user_id FROM " . CUSTOM_USER_TABLE . " u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE u.spam = 0 AND u.deleted = 0 AND u.user_status = 0 AND pd.value LIKE '%%$search_terms%%' ORDER BY pd.value ASC{$pag_sql}", $search_terms, $pag_sql );
 
-		$total_users = $wpdb->get_var( $total_users_sql );
+		$total_users = count( $wpdb->get_results( $total_users_sql ) );
 		$paged_users = $wpdb->get_results( $paged_users_sql );
 
 		return array( 'users' => $paged_users, 'total' => $total_users );
