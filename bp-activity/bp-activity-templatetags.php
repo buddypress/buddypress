@@ -408,6 +408,33 @@ function bp_activity_comments( $args = '' ) {
 			return $content;
 		}
 
+function bp_activity_comment_count() {
+	echo bp_activity_get_comment_count();
+}
+	function bp_activity_get_comment_count( $args = '' ) {
+		global $activities_template, $bp;
+
+		if ( !$activities_template->activity->children )
+			return 0;
+
+		$count = bp_activity_recurse_comment_count( $activities_template->activity );
+
+		return apply_filters( 'bp_activity_get_comment_count', (int)$count );
+	}
+		function bp_activity_recurse_comment_count( $comment, $count = 0 ) {
+			global $activities_template, $bp;
+
+			if ( !$comment->children )
+				return $count;
+
+			foreach ( $comment->children as $comment ) {
+				$count++;
+				$count = bp_activity_recurse_comment_count( $comment, $count );
+			}
+
+			return $count;
+		}
+
 function bp_activity_insert_time_since( $content, $date ) {
 	if ( !$content || !$date )
 		return false;
