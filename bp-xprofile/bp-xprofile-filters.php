@@ -2,6 +2,7 @@
 
 /* Apply WordPress defined filters */
 add_filter( 'bp_get_the_profile_field_value', 'wp_filter_kses', 1 );
+add_filter( 'bp_get_the_site_member_profile_data', 'wp_filter_kses', 1 );
 add_filter( 'xprofile_get_field_data', 'wp_filter_kses', 1 );
 add_filter( 'xprofile_field_name_before_save', 'wp_filter_kses', 1 );
 add_filter( 'xprofile_field_description_before_save', 'wp_filter_kses', 1 );
@@ -19,13 +20,21 @@ add_filter( 'bp_get_the_profile_field_value', 'wpautop' );
 add_filter( 'bp_get_the_profile_field_value', 'make_clickable' );
 add_filter( 'bp_get_the_profile_field_value', 'force_balance_tags' );
 
+add_filter( 'bp_get_the_site_member_profile_data', 'wptexturize' );
+add_filter( 'bp_get_the_site_member_profile_data', 'convert_smilies', 2 );
+add_filter( 'bp_get_the_site_member_profile_data', 'convert_chars' );
+add_filter( 'bp_get_the_site_member_profile_data', 'make_clickable' );
+add_filter( 'bp_get_the_site_member_profile_data', 'force_balance_tags' );
+
 add_filter( 'bp_get_the_profile_field_value', 'xprofile_filter_format_field_value', 1, 2 );
+add_filter( 'bp_get_the_site_member_profile_data', 'xprofile_filter_format_field_value', 1, 2 );
 add_filter( 'bp_get_the_profile_field_value', 'xprofile_filter_link_profile_data', 2, 2 );
 
 add_filter( 'bp_get_the_profile_field_edit_value', 'stripslashes' );
 add_filter( 'bp_get_the_profile_field_value', 'stripslashes' );
 add_filter( 'xprofile_get_field_data', 'stripslashes' );
 add_filter( 'bp_get_the_profile_field_description', 'stripslashes' );
+add_filter( 'bp_get_the_site_member_profile_data', 'stripslashes' );
 
 /* Custom BuddyPress filters */
 

@@ -25,16 +25,18 @@ Class BP_Activity_Activity {
 
 		$activity = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE id = %d", $this->id ) );
 
-		$this->id = $activity->id;
-		$this->item_id = $activity->item_id;
-		$this->secondary_item_id = $activity->secondary_item_id;
-		$this->user_id = $activity->user_id;
-		$this->content = $activity->content;
-		$this->primary_link = $activity->primary_link;
-		$this->component_name = $activity->component_name;
-		$this->component_action = $activity->component_action;
-		$this->date_recorded = $activity->date_recorded;
-		$this->hide_sitewide = $activity->hide_sitewide;
+		if ( $activity ) {
+			$this->id = $activity->id;
+			$this->item_id = $activity->item_id;
+			$this->secondary_item_id = $activity->secondary_item_id;
+			$this->user_id = $activity->user_id;
+			$this->content = $activity->content;
+			$this->primary_link = $activity->primary_link;
+			$this->component_name = $activity->component_name;
+			$this->component_action = $activity->component_action;
+			$this->date_recorded = $activity->date_recorded;
+			$this->hide_sitewide = $activity->hide_sitewide;
+		}
 	}
 
 	function save() {
@@ -62,40 +64,19 @@ Class BP_Activity_Activity {
 		if ( !$this->primary_link )
 			$this->primary_link = $bp->loggedin_user->domain;
 
-		if ( $existing_activity_id = $this->exists() )
-			BP_Activity_Activity::delete_by_activity_id( $existing_activity_id );
-
 		/* If we have an existing ID, update the activity item, otherwise insert it. */
-		if ( $this->id ) {
-			if ( $wpdb->query( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET user_id = %d, component_name = %s, component_action = %s, content = %s, primary_link = %s, date_recorded = FROM_UNIXTIME(%d), item_id = %s, secondary_item_id = %s, hide_sitewide = %d WHERE id = %d", $this->user_id, $this->component_name, $this->component_action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide, $this->id ) ) ) {
-				do_action( 'bp_activity_after_save', $this );
-				return true;
-			}
-		} else {
-			if ( $wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->activity->table_name} ( user_id, component_name, component_action, content, primary_link, date_recorded, item_id, secondary_item_id, hide_sitewide ) VALUES ( %d, %s, %s, %s, %s, FROM_UNIXTIME(%d), %s, %s, %d )", $this->user_id, $this->component_name, $this->component_action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide ) ) ) {
-				do_action( 'bp_activity_after_save', $this );
-				return true;
-			}
-		}
+		if ( $this->id )
+			$q = $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET user_id = %d, component_name = %s, component_action = %s, content = %s, primary_link = %s, date_recorded = FROM_UNIXTIME(%d), item_id = %s, secondary_item_id = %s, hide_sitewide = %d WHERE id = %d", $this->user_id, $this->component_name, $this->component_action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide, $this->id );
+		else
+			$q = $wpdb->prepare( "INSERT INTO {$bp->activity->table_name} ( user_id, component_name, component_action, content, primary_link, date_recorded, item_id, secondary_item_id, hide_sitewide ) VALUES ( %d, %s, %s, %s, %s, FROM_UNIXTIME(%d), %s, %s, %d )", $this->user_id, $this->component_name, $this->component_action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide );
 
-		return false;
-	}
+		if ( !$wpdb->query( $q ) )
+			return false;
 
-	function exists() {
-		global $wpdb, $bp;
+		$this->id = $wpdb->insert_id;
 
-		/* This doesn't seem to be working correctly at the moment, so it is disabled [TODO] */
-		return false;
-
-		/* If we have an item id, try and match on that, if not do a content match */
-		if ( $this->item_id ) {
-			if ( $this->secondary_item_id )
-				$secondary_sql = $wpdb->prepare( " AND secondary_item_id = %s", $secondary_item_id );
-
-			return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE user_id = %d AND item_id = %s{$secondary_sql} AND component_name = %s AND component_action = %s", $this->user_id, $this->item_id, $this->component_name, $this->component_action ) );
-		} else {
-			return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE user_id = %d AND content = %s AND component_name = %s AND component_action = %s", $this->user_id, $this->content, $this->component_name, $this->component_action ) );
-		}
+		do_action( 'bp_activity_after_save', $this );
+		return true;
 	}
 
 	/* Static Functions */
@@ -143,25 +124,51 @@ Class BP_Activity_Activity {
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE user_id = %d", $user_id ) );
 	}
 
-	function get_activity_for_user( $user_id, $max_items, $limit, $page, $filter ) {
+	function get_activity_for_user( $user_id, $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false ) {
 		global $wpdb, $bp;
 
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
-		if ( $max_items )
-			$max_sql = $wpdb->prepare( "LIMIT %d", $max_items );
+		if ( $max )
+			$max_sql = $wpdb->prepare( "LIMIT %d", $max );
 
-		/* Sort out filtering */
+		/* Searching */
+		if ( $search_terms ) {
+			$search_terms = $wpdb->escape( $search_terms );
+			$search_sql = "AND content LIKE '%%" . like_escape( $search_terms ) . "%%'";
+		}
+
+		/* Filtering */
 		if ( $filter )
 			$filter_sql = BP_Activity_Activity::get_filter_sql( $filter );
 
-		if ( $limit && $page && $max_items )
-			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE user_id = %d $filter_sql ORDER BY date_recorded DESC $pag_sql", $user_id ) );
-		else
-			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE user_id = %d $filter_sql ORDER BY date_recorded DESC $pag_sql $max_sql", $user_id ) );
+		/* Sorting */
+		if ( $sort != 'ASC' && $sort != 'DESC' )
+			$sort = 'DESC';
 
-		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE user_id = %d $filter_sql ORDER BY date_recorded DESC $max_sql", $user_id ) );
+		/* Alter the query based on whether we want to show activity item comments in the stream like normal comments or threaded below the activity */
+		if ( !$display_comments || 'threaded' == $display_comments ) {
+			if ( $per_page && $page && $max )
+				$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE user_id = %d {$search_sql} {$filter_sql} AND component_action != 'activity_comment' ORDER BY date_recorded {$sort} {$pag_sql}", $user_id ) );
+			else
+				$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE user_id = %d {$search_sql} {$filter_sql} AND component_action != 'activity_comment' ORDER BY date_recorded {$sort} {$pag_sql} {$max_sql}", $user_id ) );
+
+			$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE user_id = %d {$search_sql} {$filter_sql} AND component_action != 'activity_comment' ORDER BY date_recorded {$sort} {$max_sql}", $user_id ) );
+
+			if ( $activities && $display_comments )
+				$activities = BP_Activity_Activity::append_comments( &$activities );
+		} else {
+			if ( $per_page && $page && $max )
+				$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE user_id = %d {$search_sql} {$filter_sql} ORDER BY date_recorded {$sort} {$pag_sql}", $user_id ) );
+			else
+				$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE user_id = %d {$search_sql} {$filter_sql} ORDER BY date_recorded {$sort} {$pag_sql} {$max_sql}", $user_id ) );
+
+			$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE user_id = %d {$search_sql} {$filter_sql} ORDER BY date_recorded {$sort} {$max_sql}", $user_id ) );
+
+			if ( $activities )
+				$activities = BP_Activity_Activity::append_comments( &$activities );
+		}
 
 		return array( 'activities' => $activities, 'total' => (int)$total_activities );
 	}
@@ -189,7 +196,7 @@ Class BP_Activity_Activity {
 		if ( !$friend_ids )
 			return false;
 
-		$friend_ids = implode( ',', $friend_ids );
+		$friend_ids = $wpdb->escape( implode( ',', $friend_ids ) );
 
 		if ( $limit && $page && $max_items )
 			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT id, user_id, content, primary_link, date_recorded, component_name, component_action FROM {$bp->activity->table_name} WHERE user_id IN ({$friend_ids}) $filter_sql ORDER BY date_recorded DESC $pag_sql"  ) );
@@ -201,27 +208,146 @@ Class BP_Activity_Activity {
 		return array( 'activities' => $activities, 'total' => (int)$total_activities );
 	}
 
-	function get_sitewide_activity( $max, $limit, $page, $filter ) {
+	function get_sitewide_activity( $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false ) {
 		global $wpdb, $bp;
 
-		if ( $limit && $page )
-			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+		if ( $per_page && $page )
+			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
 
 		if ( $max )
 			$max_sql = $wpdb->prepare( "LIMIT %d", $max );
 
-		/* Sort out filtering */
+		/* Searching */
+		if ( $search_terms ) {
+			$search_terms = $wpdb->escape( $search_terms );
+			$search_sql = "AND content LIKE '%%" . like_escape( $search_terms ) . "%%'";
+		}
+
+		/* Filtering */
 		if ( $filter )
 			$filter_sql = BP_Activity_Activity::get_filter_sql( $filter );
 
-		if ( $limit && $page && $max )
-			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 $filter_sql ORDER BY date_recorded DESC $pag_sql" ) );
-		else
-			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 $filter_sql ORDER BY date_recorded DESC $pag_sql $max_sql" ) );
+		/* Sorting */
+		if ( $sort != 'ASC' && $sort != 'DESC' )
+			$sort = 'DESC';
 
-		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 $filter_sql ORDER BY date_recorded DESC $max_sql" ) );
+		/* Alter the query based on whether we want to show activity item comments in the stream like normal comments or threaded below the activity */
+		if ( !$display_comments || 'threaded' == $display_comments ) {
+			if ( $per_page && $page && $max )
+				$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 {$search_sql} {$filter_sql} AND component_action != 'activity_comment' ORDER BY date_recorded {$sort} {$pag_sql}" ) );
+			else
+				$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 {$search_sql} {$filter_sql} AND component_action != 'activity_comment' ORDER BY date_recorded {$sort} {$pag_sql} {$max_sql}" ) );
+
+			$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 {$search_sql} {$filter_sql} AND component_action != 'activity_comment' ORDER BY date_recorded {$sort} {$max_sql}" ) );
+
+			if ( $activities && $display_comments )
+				$activities = BP_Activity_Activity::append_comments( &$activities );
+		} else {
+			if ( $per_page && $page && $max )
+				$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 {$search_sql} {$filter_sql} ORDER BY date_recorded {$sort} {$pag_sql}" ) );
+			else
+				$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 {$search_sql} {$filter_sql} ORDER BY date_recorded {$sort} {$pag_sql} {$max_sql}" ) );
+
+			$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 {$search_sql} {$filter_sql} ORDER BY date_recorded {$sort} {$max_sql}" ) );
+
+			if ( $activities )
+				$activities = BP_Activity_Activity::append_comments( &$activities );
+		}
 
 		return array( 'activities' => $activities, 'total' => (int)$total_activities );
+	}
+
+	function get_specific( $activity_ids, $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $display_comments = false ) {
+		global $wpdb, $bp;
+
+		if ( is_array( $activity_ids ) )
+			$activity_ids = implode( ',', $activity_ids );
+
+		$activity_ids = $wpdb->escape( $activity_ids );
+
+		if ( $per_page && $page )
+			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
+
+		if ( $max )
+			$max_sql = $wpdb->prepare( "LIMIT %d", $max );
+
+		if ( $sort != 'ASC' && $sort != 'DESC' )
+			$sort = 'DESC';
+
+		$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE id IN ({$activity_ids}) ORDER BY date_recorded {$sort} $pag_sql $max_sql" ) );
+		$total_activities = $wpdb->get_results( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE id IN ({$activity_ids}) ORDER BY date_recorded {$sort}" ) );
+
+		if ( $display_comments )
+			$activities = BP_Activity_Activity::append_comments( $activities );
+
+		return array( 'activities' => $activities, 'total' => (int)$total_activities );
+	}
+
+	function append_comments( $activities ) {
+		global $bp, $wpdb;
+
+		/* Now fetch the activity comments and parse them into the correct position in the activities array. */
+		foreach( $activities as $activity ) {
+			if ( 'activity_comment' != $activity->component_action )
+				$activity_comments[$activity->id] = BP_Activity_Activity::get_activity_comments( $activity->id, $activity->mptt_left, $activity->mptt_right );
+		}
+
+		/* Merge the comments with the activity items */
+		foreach( $activities as $key => $activity )
+			$activities[$key]->children = $activity_comments[$activity->id];
+
+		return $activities;
+	}
+
+	function get_activity_comments( $activity_id, $left, $right ) {
+		global $wpdb, $bp;
+
+		/* Start with an empty $stack */
+		$stack = array();
+
+		/* Retrieve all descendants of the $root node */
+		$descendants = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE component_action = 'activity_comment' AND item_id = %d AND mptt_left BETWEEN %d AND %d", $activity_id, $left, $right ) );
+
+		/* Loop descendants and build an assoc array */
+		foreach ( $descendants as $d ) {
+		    $d->children = array();
+
+			/* We have a reference on its parent */
+		    if ( isset( $ref[ $d->secondary_item_id ] ) ) {
+		        $ref[ $d->secondary_item_id ]->children[ $d->id ] = $d;
+		        $ref[ $d->id ] =& $ref[ $d->secondary_item_id ]->children[ $d->id ];
+
+			/* We don't have a reference on its parent, put it a root level */
+		    } else {
+		        $menu[ $d->id ] = $d;
+		        $ref[ $d->id ] =& $menu[ $d->id ];
+		    }
+		}
+
+		return $menu;
+	}
+
+	function rebuild_activity_comment_tree( $parent_id, $left = 1 ) {
+		global $wpdb, $bp;
+
+		/* The right value of this node is the left value + 1 */
+		$right = $left + 1;
+
+		/* Get all descendants of this node */
+		$descendants = $wpdb->get_results( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE component_action = 'activity_comment' AND secondary_item_id = %d", $parent_id ) );
+
+		/* Loop the descendants and recalculate the left and right values */
+		foreach ( $descendants as $descendant )
+			$right = BP_Activity_Activity::rebuild_activity_comment_tree( $descendant->id, $right );
+
+		/* We've got the left value, and now that we've processed the children of this node we also know the right value */
+		if ( 1 == $left )
+			$wpdb->query( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET mptt_left = %d, mptt_right = %d WHERE id = %d", $left, $right, $parent_id ) );
+		else
+			$wpdb->query( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET mptt_left = %d, mptt_right = %d WHERE component_action = 'activity_comment' AND id = %d", $left, $right, $parent_id ) );
+
+		/* Return the right value of this node + 1 */
+		return $right + 1;
 	}
 
 	function get_recorded_component_names() {
@@ -233,7 +359,8 @@ Class BP_Activity_Activity {
 	function get_sitewide_items_for_feed( $limit = 35 ) {
 		global $wpdb, $bp;
 
-		$activities = bp_activity_get_sitewide_activity( $limit );
+		$activities = bp_activity_get_sitewide( array( 'max' => $limit ) );
+
 		for ( $i = 0; $i < count($activities); $i++ ) {
 				$title = explode( '<span', $activities[$i]['content'] );
 

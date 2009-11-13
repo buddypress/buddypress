@@ -16,21 +16,26 @@ class BP_Activity_Template {
 
 	var $full_name;
 
-	function bp_activity_template( $type, $user_id, $per_page, $max, $filter ) {
+	function bp_activity_template( $type, $user_id, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments ) {
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['acpage'] ) ? intval( $_REQUEST['acpage'] ) : 1;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 		$this->activity_type = $type;
 
-		if ( $type == 'sitewide' )
-			$this->activities = bp_activity_get_sitewide_activity( $max, $this->pag_num, $this->pag_page, $filter );
+		if ( !empty( $include ) ) {
+			/* Fetch specific activity items based on ID's */
+			$this->activities = bp_activity_get_specific( array( 'activity_ids' => explode( ',', $include ), 'max' => $max, 'page' => $page, 'per_page' => $per_page, 'sort' => $sort, 'display_comments' => $display_comments ) );
+		} else {
+			if ( $type == 'sitewide' )
+				$this->activities = bp_activity_get_sitewide( array( 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'filter' => $filter ) );
 
-		if ( $type == 'personal' )
-			$this->activities = bp_activity_get_user_activity( $user_id, $max, $this->pag_num, $this->pag_page, $filter );
+			if ( $type == 'personal' )
+				$this->activities = bp_activity_get_for_user( array( 'user_id' => $user_id, 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'filter' => $filter ) );
 
-		if ( $type == 'friends' && ( bp_is_home() || is_site_admin() || $bp->loggedin_user->id == $user_id ) )
-			$this->activities = bp_activity_get_friends_activity( $user_id, $max, false, $this->pag_num, $this->pag_page, $filter );
+			if ( $type == 'friends' && ( bp_is_home() || is_site_admin() || $bp->loggedin_user->id == $user_id ) )
+				$this->activities = bp_activity_get_friends_activity( $user_id, $max, false, $this->pag_num, $this->pag_page, $filter );
+		}
 
 		if ( !$max || $max >= (int)$this->activities['total'] )
 			$this->total_activity_count = (int)$this->activities['total'];
@@ -118,13 +123,21 @@ function bp_has_activities( $args = '' ) {
 
 	$defaults = array(
 		'type' => 'sitewide',
-		'per_page' => 25,
-		'max' => false,
+		'display_comments' => false, // false for none, stream/threaded - show comments in the stream or threaded under items
+		'include' => false, // pass an activity_id or string of ID's comma separated
+		'sort' => 'DESC', // sort DESC or ASC
+		'per_page' => 25, // number of items per page
+		'max' => false, // max number to return
+
+		/* Filtering */
 		'user_id' => false, // user_id to filter on
 		'object' => false, // object to filter on e.g. groups, profile, status, friends
 		'action' => false, // action to filter on e.g. new_wire_post, new_forum_post, profile_updated
 		'primary_id' => false, // object ID to filter on e.g. a group_id or forum_id or blog_id etc.
 		'secondary_id' => false, // secondary object ID to filter on e.g. a post_id
+
+		/* Searching */
+		'search_terms' => false // specify terms to search on
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -143,7 +156,8 @@ function bp_has_activities( $args = '' ) {
 	else
 		$filter = array( 'object' => $object, 'action' => $action, 'primary_id' => $primary_id, 'secondary_id' => $secondary_id );
 
-	$activities_template = new BP_Activity_Template( $type, $user_id, $per_page, $max, $filter );
+	$activities_template = new BP_Activity_Template( $type, $user_id, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments );
+
 	return apply_filters( 'bp_has_activities', $activities_template->has_activities(), &$activities_template );
 }
 
@@ -196,6 +210,54 @@ function bp_activities_no_activity() {
 		global $bp_activity_no_activity;
 
 		return apply_filters( 'bp_get_activities_no_activity', $bp_activity_no_activity );
+	}
+
+function bp_activity_id() {
+	echo bp_get_activity_id();
+}
+	function bp_get_activity_id() {
+		global $activities_template;
+		return apply_filters( 'bp_get_activity_id', $activities_template->activity->id );
+	}
+
+function bp_activity_item_id() {
+	echo bp_get_activity_item_id();
+}
+	function bp_get_activity_item_id() {
+		global $activities_template;
+		return apply_filters( 'bp_get_activity_item_id', $activities_template->activity->item_id );
+	}
+
+function bp_activity_secondary_item_id() {
+	echo bp_get_activity_secondary_item_id();
+}
+	function bp_get_activity_secondary_item_id() {
+		global $activities_template;
+		return apply_filters( 'bp_get_activity_secondary_item_id', $activities_template->activity->secondary_item_id );
+	}
+
+function bp_activity_date_recorded() {
+	echo bp_get_activity_date_recorded();
+}
+	function bp_get_activity_date_recorded() {
+		global $activities_template;
+		return apply_filters( 'bp_get_activity_date_recorded', $activities_template->activity->date_recorded );
+	}
+
+function bp_activity_object_name() {
+	echo bp_get_activity_object_name();
+}
+	function bp_get_activity_object_name() {
+		global $activities_template;
+		return apply_filters( 'bp_get_activity_object_name', $activities_template->activity->component_name );
+	}
+
+function bp_activity_action_name() {
+	echo bp_get_activity_action_name();
+}
+	function bp_get_activity_action_name() {
+		global $activities_template;
+		return apply_filters( 'bp_get_activity_action_name', $activities_template->activity->component_action );
 	}
 
 function bp_activity_user_id() {
@@ -254,7 +316,7 @@ function bp_activity_content() {
 		/* Add 'the_content' filter to activity to allow existing plugins to replace text as they would on post text. (extra smilies etc) */
 		$content = apply_filters( 'the_content', $content );
 
-		return apply_filters( 'bp_get_activity_content', $content );
+		return apply_filters( 'bp_get_activity_content', $content, $activities_template->activity->component_name, $activities_template->activity->component_action );
 	}
 
 function bp_activity_content_filter( $content, $date_recorded, $full_name, $insert_time = true, $filter_words = true, $filter_you = true ) {
@@ -298,6 +360,53 @@ function bp_activity_content_filter( $content, $date_recorded, $full_name, $inse
 
 	return apply_filters( 'bp_activity_content_filter', $content_new );
 }
+
+function bp_activity_comments( $args = '' ) {
+	echo bp_activity_get_comments( $args );
+}
+	function bp_activity_get_comments( $args = '' ) {
+		global $activities_template, $bp;
+
+		if ( !$activities_template->activity->children )
+			return false;
+
+		$comments_html = bp_activity_recurse_comments( $activities_template->activity );
+
+		return apply_filters( 'bp_activity_get_comments', $comments_html );
+	}
+		/* The HTML in this function is temporary, it will be move to template tags once comments are working. */
+		function bp_activity_recurse_comments( $comment ) {
+			global $activities_template, $bp;
+
+			if ( !$comment->children )
+				return false;
+
+			$content .= '<ul>';
+			foreach ( $comment->children as $comment ) {
+				$content .= '<li id="acomment-' . $comment->id . '">';
+
+				$content .= '<div class="acomment-avatar">' . bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'width' => 25, 'height' => 25 ) ) . '</div>';
+
+				$content .= '<div class="acomment-meta">' . bp_core_get_userlink( $comment->user_id ) . ' &middot; ' . sprintf( __( '%s ago', 'buddypress' ), bp_core_time_since( strtotime( $comment->date_recorded ) ) );
+
+				/* Reply link */
+				if ( is_user_logged_in() )
+					$content .= ' &middot; <a href="#acomment-' . $comment->id . '" class="acomment-reply" id="acomment-reply-' . $activities_template->activity->id . '">' . __( 'Reply', 'buddypress' ) . '</a>';
+
+				/* Delete link */
+				if ( is_site_admin() || $bp->loggedin_user->id == $comment->user_id )
+					$content .= ' &middot; <a href="' . wp_nonce_url( $bp->activity->id . '/delete/?cid=' . $comment->id, 'delete_activity_comment' ) . '" class="delete acomment-delete">' . __( 'Delete', 'buddypress' ) . '</a>';
+
+				$content .= '</div>';
+				$content .= '<div class="acomment-content">' . apply_filters( 'bp_get_activity_content', $comment->content ) . '</div>';
+
+				$content .= bp_activity_recurse_comments( $comment );
+				$content .= '</li>';
+			}
+			$content .= '</ul>';
+
+			return $content;
+		}
 
 function bp_activity_insert_time_since( $content, $date ) {
 	if ( !$content || !$date )
@@ -390,7 +499,7 @@ function bp_activity_filter_links( $args = false ) {
 		if ( isset( $_GET['afilter'] ) )
 			$component_links[] = '<' . $tag . ' id="afilter-clear"><a href="' . attribute_escape( $link ) . '"">' . __( 'Clear Filter', 'buddypress' ) . '</a></' . $tag . '>';
 
-		return apply_filters( 'bp_get_activity_filter_links', implode( "\n", $component_links ) );
+ 		return apply_filters( 'bp_get_activity_filter_links', implode( "\n", $component_links ) );
 	}
 
 function bp_sitewide_activity_feed_link() {

@@ -109,10 +109,12 @@ function groups_wire_install() {
 	  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			item_id bigint(20) NOT NULL,
 			user_id bigint(20) NOT NULL,
+			parent_id bigint(20) NOT NULL,
 			content longtext NOT NULL,
 			date_posted datetime NOT NULL,
 			KEY item_id (item_id),
-			KEY user_id (user_id)
+			KEY user_id (user_id),
+			KEY parent_id (parent_id)
 	 	   ) {$charset_collate};";
 
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');

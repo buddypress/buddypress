@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_ACTIVITY_DB_VERSION', '1800' );
+define ( 'BP_ACTIVITY_DB_VERSION', '1900' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_ACTIVITY_SLUG' ) )
@@ -32,6 +32,8 @@ function bp_activity_install() {
 				secondary_item_id varchar(75) NOT NULL,
 				date_recorded datetime NOT NULL,
 				hide_sitewide bool DEFAULT 0,
+				mptt_left int(11) NOT NULL,
+				mptt_right int(11) NOT NULL,
 				KEY date_recorded (date_recorded),
 				KEY user_id (user_id),
 				KEY item_id (item_id),
@@ -223,6 +225,76 @@ add_action( 'wp', 'bp_activity_action_friends_feed', 3 );
  * true or false on success or failure.
  */
 
+function bp_activity_get_sitewide( $args = '' ) {
+	$defaults = array(
+		'max' => false, // Maximum number of results to return
+		'page' => 1, // page 1 without a per_page will result in no pagination.
+		'per_page' => false, // results per page
+		'sort' => 'DESC', // sort ASC or DESC
+		'display_comments' => false, // false for no comments. 'stream' for within stream display, 'threaded' for below each activity item
+
+		'search_terms' => false, // Pass search terms as a string
+
+		/**
+		 * Pass filters as an array:
+		 * array(
+		 * 	'user_id' => false, // user_id to filter on
+		 *	'object' => false, // object to filter on e.g. groups, profile, status, friends
+		 *	'action' => false, // action to filter on e.g. new_wire_post, new_forum_post, profile_updated
+		 *	'primary_id' => false, // object ID to filter on e.g. a group_id or forum_id or blog_id etc.
+		 *	'secondary_id' => false, // secondary object ID to filter on e.g. a post_id
+		 * );
+		 */
+		'filter' => array()
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	return apply_filters( 'bp_activity_get_sitewide', BP_Activity_Activity::get_sitewide_activity( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments ), &$r );
+}
+
+function bp_activity_get_for_user( $args = '' ) {
+	global $bp;
+
+	$defaults = array(
+		'user_id' => $bp->displayed_user->id,
+		'max' => false, // Maximum number of results to return
+		'page' => 1, // page 1 without a per_page will result in no pagination.
+		'per_page' => false, // results per page
+		'sort' => 'DESC', // sort ASC or DESC
+		'display_comments' => 'stream', // false for no comments. 'stream' for within stream display, 'threaded' for below each activity item
+
+		'search_terms' => false, // Pass search terms as a string
+		'filter' => array()
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	return apply_filters( 'bp_activity_get_for_user', BP_Activity_Activity::get_activity_for_user( $user_id, $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments ), &$r );
+}
+
+function bp_activity_get_friends_activity( $user_id, $max = 30, $max_items_per_friend = false, $pag_num = false, $pag_page = false, $filter = false ) {
+	return apply_filters( 'bp_activity_get_friends_activity', BP_Activity_Activity::get_activity_for_friends( $user_id, $max_items, $max_items_per_friend, $pag_num, $pag_page, $filter ), $user_id, $max_items, $max_items_per_friend, $pag_num, $pag_page, $filter );
+}
+
+function bp_activity_get_specific( $args = '' ) {
+	$defaults = array(
+		'activity_ids' => false, // A single activity_id or array of IDs.
+		'max' => false, // Maximum number of results to return
+		'page' => 1, // page 1 without a per_page will result in no pagination.
+		'per_page' => false, // results per page
+		'sort' => 'DESC', // sort ASC or DESC
+		'display_comments' => false // true or false to display threaded comments for these specific activity items
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	return apply_filters( 'bp_activity_get_specific', BP_Activity_Activity::get_specific( $activity_ids, $max, $page, $per_page, $sort, $display_comments ) );
+}
+
 function bp_activity_add( $args = '' ) {
 	global $bp, $wpdb;
 
@@ -246,7 +318,9 @@ function bp_activity_add( $args = '' ) {
 	if ( $content )
 		$content = bp_activity_add_timesince_placeholder( $content );
 
-	$activity = new BP_Activity_Activity;
+	/* Pass certain values so we can update an activity item if it already exists */
+	$activity = new BP_Activity_Activity();
+
 	$activity->user_id = $user_id;
 	$activity->content = $content;
 	$activity->primary_link = $primary_link;
@@ -260,9 +334,13 @@ function bp_activity_add( $args = '' ) {
 	if ( !$activity->save() )
 		return false;
 
-	do_action( 'bp_activity_add', $args );
+	/* If this is an activity comment, rebuild the tree */
+	if ( 'activity_comment' == $activity->component_action )
+		BP_Activity_Activity::rebuild_activity_comment_tree( $activity->item_id );
 
-	return true;
+	do_action( 'bp_activity_add', $r );
+
+	return $activity->id;
 }
 
 /* There are multiple ways to delete activity items, depending on the information you have at the time. */
@@ -371,18 +449,6 @@ function bp_activity_check_exists_by_content( $content ) {
 
 function bp_activity_get_last_updated() {
 	return apply_filters( 'bp_activity_get_last_updated', BP_Activity_Activity::get_last_updated() );
-}
-
-function bp_activity_get_sitewide_activity( $max_items = 30, $pag_num = false, $pag_page = false, $filter = false ) {
- 	return apply_filters( 'bp_activity_get_sitewide_activity', BP_Activity_Activity::get_sitewide_activity( $max_items, $pag_num, $pag_page, $filter ), $max_items, $pag_num, $pag_page, $filter );
-}
-
-function bp_activity_get_user_activity( $user_id, $max_items = 30, $pag_num = false, $pag_page = false, $filter = false ) {
-	return apply_filters( 'bp_activity_get_user_activity', BP_Activity_Activity::get_activity_for_user( $user_id, $max_items, $pag_num, $pag_page, $filter ), $user_id, $max_items, $pag_num, $pag_page, $filter );
-}
-
-function bp_activity_get_friends_activity( $user_id, $max_items = 30, $max_items_per_friend = false, $pag_num = false, $pag_page = false, $filter = false ) {
-	return apply_filters( 'bp_activity_get_friends_activity', BP_Activity_Activity::get_activity_for_friends( $user_id, $max_items, $max_items_per_friend, $pag_num, $pag_page, $filter ), $user_id, $max_items, $max_items_per_friend, $pag_num, $pag_page, $filter );
 }
 
 function bp_activity_remove_data( $user_id ) {

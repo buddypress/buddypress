@@ -253,6 +253,10 @@ function bp_core_catch_no_access() {
 	if ( !$bp->displayed_user->id && $bp_unfiltered_uri[0] == BP_MEMBERS_SLUG && isset($bp_unfiltered_uri[1]) )
 		bp_core_redirect( $bp->root_domain );
 
+	// If the template file doesn't exist, redirect to the root domain.
+	if ( !bp_is_blog_page() && !file_exists( locate_template( array( $bp_path . '.php' ), false ) ) )
+		bp_core_redirect( $bp->root_domain );
+
 	if ( !$bp_path && !bp_is_blog_page() ) {
 		if ( is_user_logged_in() ) {
 			wp_redirect( $bp->root_domain );

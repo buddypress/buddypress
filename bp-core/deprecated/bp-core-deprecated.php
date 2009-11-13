@@ -331,7 +331,7 @@ function bp_core_signup_signup_blog($user_name = '', $user_email = '', $blogname
 	$blogname = $filtered_results['blogname'];
 	$blog_title = $filtered_results['blog_title'];
 	$errors = $filtered_results['errors'];
-
+	
 	if ( empty($blogname) )
 		$blogname = $user_name;
 	?>

@@ -92,4 +92,15 @@ function bp_activity_add_structure_css() {
 }
 add_action( 'bp_styles', 'bp_activity_add_structure_css' );
 
+/* DEPRECATED - use bp_activity_get_sitewide( $args ) */
+function bp_activity_get_sitewide_activity( $max_items = 30, $pag_num = false, $pag_page = false, $filter = false ) {
+	return apply_filters( 'bp_activity_get_sitewide_activity', bp_activity_get_sitewide( array( 'max' => $max_items, 'limit' => $pag_num, 'page' => $pag_page, 'filter' => $filter ) ), $max_items, $pag_num, $pag_page, $filter );
+}
+
+/* DEPRECATED - use bp_activity_get_for_user( $args ) */
+function bp_activity_get_user_activity( $user_id, $max = 30, $pag_num = false, $pag_page = false, $filter = false ) {
+	return apply_filters( 'bp_activity_get_user_activity', BP_Activity_Activity::get_activity_for_user( $user_id, $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments ), $user_id, $max_items, $pag_num, $pag_page, $filter );
+}
+
+
 ?>

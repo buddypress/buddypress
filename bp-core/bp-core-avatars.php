@@ -129,8 +129,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		else if ( 'thumb' == $type ) $grav_size = BP_AVATAR_THUMB_WIDTH;
 
 		if ( 'user' == $object ) {
-			$ud = get_userdata( $item_id );
-			$grav_email = $ud->user_email;
+			$grav_email = bp_core_get_user_email( $item_id );
 		} else if ( 'group' == $object || 'blog' == $object ) {
 			$grav_email = "{$item_id}-{$object}@{$bp->root_domain}";
 		}
@@ -139,6 +138,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		$gravatar = apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' ) . md5( $grav_email ) . '?d=' . $default_grav . '&amp;s=' . $grav_size;
 
 		return apply_filters( 'bp_core_fetch_avatar', "<img src='{$gravatar}' alt='{$alt}' id='{$css_id}' class='{$class}'{$html_width}{$html_height} />", $params );
+
 	} else if ( !file_exists( $avatar_url ) && $no_grav )
 		return false;
 }

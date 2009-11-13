@@ -56,12 +56,25 @@ class BP_Core_User {
 	 * @uses bp_profile_last_updated_date() Returns the last updated date for a user.
 	 */
 	function populate() {
-		$this->user_url = bp_core_get_userurl( $this->id );
-		$this->user_link = bp_core_get_userlink( $this->id );
+		if ( function_exists( 'xprofile_install' ) )
+			$this->profile_data = $this->get_profile_data();
 
-		$this->fullname = attribute_escape( bp_core_get_user_displayname( $this->id ) );
-		$this->email = attribute_escape( bp_core_get_user_email( $this->id ) );
-		$this->last_active = attribute_escape( bp_core_get_last_activity( get_usermeta( $this->id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) ) );
+		if ( $this->profile_data ) {
+			$this->user_url = bp_core_get_user_domain( $this->id, $this->profile_data['user_nicename'], $this->profile_data['user_login'] );
+			$this->fullname = attribute_escape( $this->profile_data[BP_XPROFILE_FULLNAME_FIELD_NAME]['field_data'] );
+			$this->user_link = "<a href='{$this->user_url}'>{$this->fullname}</a>";
+			$this->email = attribute_escape( $this->profile_data['user_email'] );
+		} else {
+			$this->user_url = bp_core_get_userurl( $this->id );
+			$this->user_link = bp_core_get_userlink( $this->id );
+			$this->fullname = attribute_escape( bp_core_get_user_displayname( $this->id ) );
+			$this->email = attribute_escape( bp_core_get_user_email( $this->id ) );
+		}
+
+		/* Cache a few things that are fetched often */
+		wp_cache_set( 'bp_user_fullname_' . $this->id, $this->fullname, 'bp' );
+		wp_cache_set( 'bp_user_email_' . $this->id, $this->email, 'bp' );
+		wp_cache_set( 'bp_user_url_' . $this->id, $this->user_url, 'bp' );
 
 		$this->avatar = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'full' ) );
 		$this->avatar_thumb = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb' ) );
@@ -71,42 +84,15 @@ class BP_Core_User {
 	function populate_extras() {
 		global $bp;
 
-		if ( function_exists('friends_install') ) {
+		if ( function_exists('friends_install') )
 			$this->total_friends = BP_Friends_Friendship::total_friend_count( $this->id );
 
-			if ( $this->total_friends ) {
-				if ( 1 == $this->total_friends )
-					$this->total_friends .= ' ' . __( 'friend', 'buddypress' );
-				else
-					$this->total_friends .= ' ' . __( 'friends', 'buddypress' );
-
-				$this->total_friends = '<a href="' . $this->user_url . $bp->friends->slug . '" title="' . sprintf( __( "%s's friend list", 'buddypress' ), $this->fullname ) . '">' . $this->total_friends . '</a>';
-			}
-		}
-
-		if ( function_exists('bp_blogs_install') ) {
-			if ( $this->total_blogs ) {
-				if ( 1 == $this->total_blogs )
-					$this->total_blogs .= ' ' . __( 'blog', 'buddypress' );
-				else
-					$this->total_blogs .= ' ' . __( 'blogs', 'buddypress' );
-
-				$this->total_blogs = '<a href="' . $this->user_url . $bp->blogs->slug . '" title="' . sprintf( __( "%s's blog list", 'buddypress' ), $this->fullname ) . '">' . $this->total_blogs . '</a>';
-			}
-		}
-
-		if ( function_exists('groups_install') ) {
+		if ( function_exists('groups_install') )
 			$this->total_groups = BP_Groups_Member::total_group_count( $this->id );
+	}
 
-			if ( $this->total_groups ) {
-				if ( 1 == $this->total_groups )
-					$this->total_groups .= ' ' . __( 'group', 'buddypress' );
-				else
-					$this->total_groups .= ' ' . __( 'groups', 'buddypress' );
-
-				$this->total_groups = '<a href="' . $this->user_url . $bp->groups->slug . '" title="' . sprintf( __( "%s's group list", 'buddypress' ), $this->fullname ) . '">' . $this->total_groups . '</a>';
-			}
-		}
+	function get_profile_data() {
+		return BP_XProfile_ProfileData::get_all_for_user( $this->id );
 	}
 
 	/* Static Functions */

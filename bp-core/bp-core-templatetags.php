@@ -1053,13 +1053,29 @@ function bp_the_site_member_user_id() {
 		return apply_filters( 'bp_get_the_site_member_user_id', $site_members_template->member->id );
 	}
 
-function bp_the_site_member_avatar() {
-	echo apply_filters( 'bp_the_site_member_avatar', bp_get_the_site_member_avatar() );
+function bp_the_site_member_avatar( $args = '' ) {
+	echo apply_filters( 'bp_the_site_member_avatar', bp_get_the_site_member_avatar( $args ) );
 }
-	function bp_get_the_site_member_avatar() {
-		global $site_members_template;
+	function bp_get_the_site_member_avatar( $args = '' ) {
+		global $bp, $site_members_template;
 
-		return apply_filters( 'bp_get_the_site_member_avatar', $site_members_template->member->avatar_thumb );
+		$defaults = array(
+			'type' => 'thumb',
+			'width' => false,
+			'height' => false,
+			'class' => 'avatar',
+			'id' => false,
+			'alt' => __( 'Member avatar', 'buddypress' )
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		/* Fetch the avatar from the folder, if not provide backwards compat. */
+		if ( !$avatar = bp_core_fetch_avatar( array( 'item_id' => $site_members_template->member->id, 'type' => $type, 'alt' => $alt, 'css_id' => $id, 'class' => $class, 'width' => $width, 'height' => $height ) ) )
+			$avatar = '<img src="' . attribute_escape( $site_members_template->member->avatar_thumb ) . '" class="avatar" alt="' . __( 'Member avatar', 'buddypress' ) . '" />';
+
+		return apply_filters( 'bp_get_the_site_member_avatar', $avatar );
 	}
 
 function bp_the_site_member_link() {
@@ -1088,7 +1104,21 @@ function bp_the_site_member_last_active() {
 	function bp_get_the_site_member_last_active() {
 		global $site_members_template;
 
-		return apply_filters( 'bp_the_site_member_last_active', $site_members_template->member->last_active );
+		$last_activity = attribute_escape( bp_core_get_last_activity( get_usermeta( $site_members_template->member->id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) ) );
+
+		return apply_filters( 'bp_the_site_member_last_active', $last_activity );
+	}
+
+function bp_the_site_member_profile_data( $field_name = false ) {
+	echo bp_get_the_site_member_profile_data( $field_name );
+}
+	function bp_get_the_site_member_profile_data( $field_name = false ) {
+		global $site_members_template;
+
+		if ( !$field_name || !function_exists( 'xprofile_install' ) )
+			return false;
+
+		return apply_filters( 'bp_get_the_site_member_profile_data', $site_members_template->member->profile_data[$field_name]['field_data'], $site_members_template->member->profile_data[$field_name]['field_type'] );
 	}
 
 function bp_the_site_member_registered() {
@@ -1207,7 +1237,9 @@ function bp_user_fullname() {
 	echo apply_filters( 'bp_user_fullname', $bp->displayed_user->fullname );
 }
 	function bp_displayed_user_fullname() {
-		return bp_user_fullname();
+		global $bp;
+
+		return apply_filters( 'bp_displayed_user_fullname', $bp->displayed_user->fullname );
 	}
 
 function bp_loggedin_user_fullname() {

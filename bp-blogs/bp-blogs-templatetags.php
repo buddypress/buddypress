@@ -4,22 +4,22 @@
 
 function bp_blog_signup_enabled() {
 	$active_signup = get_site_option( 'registration' );
-	
+
 	if ( !$active_signup )
 		$active_signup = 'all';
-		
+
 	$active_signup = apply_filters( 'wpmu_active_signup', $active_signup ); // return "all", "none", "blog" or "user"
-	
+
 	if ( 'none' == $active_signup || 'user' == $active_signup )
 		return false;
-	
+
 	return true;
 }
 
 function bp_show_blog_signup_form($blogname = '', $blog_title = '', $errors = '') {
 	global $current_user, $current_site;
 	global $bp;
-		
+
 	require_once( ABSPATH . WPINC . '/registration.php' );
 
 	if ( isset($_POST['submit']) ) {
@@ -47,12 +47,12 @@ function bp_show_blog_signup_form($blogname = '', $blog_title = '', $errors = ''
 
 			<input type="hidden" name="stage" value="gimmeanotherblog" />
 			<?php do_action( "signup_hidden_fields" ); ?>
-			
+
 			<?php bp_blogs_signup_blog($blogname, $blog_title, $errors); ?>
 			<p>
 				<input id="submit" type="submit" name="submit" class="submit" value="<?php _e('Create Blog &raquo;', 'buddypress') ?>" />
 			</p>
-			
+
 			<?php wp_nonce_field( 'bp_blog_signup_form' ) ?>
 		</form>
 		<?php
@@ -61,7 +61,7 @@ function bp_show_blog_signup_form($blogname = '', $blog_title = '', $errors = ''
 
 function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) {
 	global $current_site;
-	
+
 	// Blog name
 	if( 'no' == constant( "VHOST" ) )
 		echo '<label for="blogname">' . __('Blog Name:', 'buddypress') . '</label>';
@@ -89,7 +89,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 
 	// Blog Title
 	?>
-	<label for="blog_title"><?php _e('Blog Title:', 'buddypress') ?></label>	
+	<label for="blog_title"><?php _e('Blog Title:', 'buddypress') ?></label>
 	<?php if ( $errmsg = $errors->get_error_message('blog_title') ) { ?>
 		<p class="error"><?php echo $errmsg ?></p>
 	<?php }
@@ -98,7 +98,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 
 	<p>
 		<label for="blog_public_on"><?php _e('Privacy:', 'buddypress') ?></label>
-		<?php _e('I would like my blog to appear in search engines like Google and Technorati, and in public listings around this site.', 'buddypress'); ?> 
+		<?php _e('I would like my blog to appear in search engines like Google and Technorati, and in public listings around this site.', 'buddypress'); ?>
 
 
 		<label class="checkbox" for="blog_public_on">
@@ -118,11 +118,11 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 function bp_blogs_validate_blog_signup() {
 	global $wpdb, $current_user, $blogname, $blog_title, $errors, $domain, $path;
 
-	if ( !check_admin_referer( 'bp_blog_signup_form' ) ) 
+	if ( !check_admin_referer( 'bp_blog_signup_form' ) )
 		return false;
 
 	$current_user = wp_get_current_user();
-	
+
 	if( !is_user_logged_in() )
 		die();
 
@@ -136,13 +136,13 @@ function bp_blogs_validate_blog_signup() {
 	}
 
 	$public = (int) $_POST['blog_public'];
-	
+
 	$meta = apply_filters( 'signup_create_blog_meta', array( 'lang_id' => 1, 'public' => $public ) ); // depreciated
 	$meta = apply_filters( 'add_signup_meta', $meta );
-	
+
 	/* If this is a VHOST install, remove the username from the domain as we are setting this blog
 	   up inside a user domain, not the root domain. */
-	
+
 	wpmu_create_blog( $domain, $path, $blog_title, $current_user->id, $meta, $wpdb->siteid );
 	bp_blogs_confirm_blog_signup($domain, $path, $blog_title, $current_user->user_login, $current_user->user_email, $meta);
 	return true;
@@ -168,7 +168,7 @@ function bp_blogs_confirm_blog_signup( $domain, $path, $blog_title, $user_name, 
 
 function bp_create_blog_link() {
 	global $bp;
-	
+
 	if ( bp_is_home() )	{
 		echo apply_filters( 'bp_create_blog_link', '<a href="' . $bp->loggedin_user->domain . $bp->blogs->slug . '/create-a-blog">' . __('Create a Blog', 'buddypress') . '</a>' );
 	}
@@ -176,17 +176,17 @@ function bp_create_blog_link() {
 
 function bp_blogs_blog_tabs() {
 	global $bp, $groups_template;
-	
+
 	// Don't show these tabs on a user's own profile
 	if ( bp_is_home() )
 		return false;
-	
+
 	$current_tab = $bp->current_action
 ?>
 	<ul class="content-header-nav">
 		<li<?php if ( 'my-blogs' == $current_tab || empty( $current_tab ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->blogs->slug ?>/my-blogs"><?php printf( __( "%s's Blogs", 'buddypress' ), $bp->displayed_user->fullname )  ?></a></li>
 		<li<?php if ( 'recent-posts' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->blogs->slug ?>/recent-posts"><?php printf( __( "%s's Recent Posts", 'buddypress' ), $bp->displayed_user->fullname )  ?></a></li>
-		<li<?php if ( 'recent-comments' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->blogs->slug ?>/recent-comments"><?php printf( __( "%s's Recent Comments", 'buddypress' ), $bp->displayed_user->fullname )  ?></a></li>	
+		<li<?php if ( 'recent-comments' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->blogs->slug ?>/recent-comments"><?php printf( __( "%s's Recent Comments", 'buddypress' ), $bp->displayed_user->fullname )  ?></a></li>
 	</ul>
 <?php
 	do_action( 'bp_blogs_blog_tabs', $current_tab );
@@ -201,17 +201,17 @@ class BP_Blogs_User_Blogs_Template {
 	var $blog_count;
 	var $blogs;
 	var $blog;
-	
+
 	var $in_the_loop;
-	
+
 	var $pag_page;
 	var $pag_num;
 	var $pag_links;
 	var $total_blog_count;
-	
+
 	function bp_blogs_user_blogs_template( $user_id, $per_page, $max ) {
 		global $bp;
-		
+
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
 
@@ -222,14 +222,14 @@ class BP_Blogs_User_Blogs_Template {
 			$this->blogs = bp_blogs_get_blogs_for_user( $user_id );
 			wp_cache_set( 'bp_blogs_for_user_' . $user_id, $this->blogs, 'bp' );
 		}
-		
+
 		if ( !$max || $max >= (int)$this->blogs['count'] )
 			$this->total_blog_count = (int)$this->blogs['count'];
 		else
 			$this->total_blog_count = (int)$max;
-		
+
 		$this->blogs = array_slice( (array)$this->blogs['blogs'], intval( ( $this->pag_page - 1 ) * $this->pag_num), intval( $this->pag_num ) );
-		
+
 		if ( $max ) {
 			if ( $max >= count($this->blogs) )
 				$this->blog_count = count($this->blogs);
@@ -238,7 +238,7 @@ class BP_Blogs_User_Blogs_Template {
 		} else {
 			$this->blog_count = count($this->blogs);
 		}
-		
+
 		$this->pag_links = paginate_links( array(
 			'base' => add_query_arg( 'fpage', '%#%' ),
 			'format' => '',
@@ -249,29 +249,29 @@ class BP_Blogs_User_Blogs_Template {
 			'mid_size' => 1
 		));
 	}
-	
+
 	function has_blogs() {
 		if ( $this->blog_count )
 			return true;
-		
+
 		return false;
 	}
-	
+
 	function next_blog() {
 		$this->current_blog++;
 		$this->blog = $this->blogs[$this->current_blog];
-		
+
 		return $this->blog;
 	}
-	
+
 	function rewind_blogs() {
 		$this->current_blog = -1;
 		if ( $this->blog_count > 0 ) {
 			$this->blog = $this->blogs[0];
 		}
 	}
-	
-	function user_blogs() { 
+
+	function user_blogs() {
 		if ( $this->current_blog + 1 < $this->blog_count ) {
 			return true;
 		} elseif ( $this->current_blog + 1 == $this->blog_count ) {
@@ -283,13 +283,13 @@ class BP_Blogs_User_Blogs_Template {
 		$this->in_the_loop = false;
 		return false;
 	}
-	
+
 	function the_blog() {
 		global $blog;
 
 		$this->in_the_loop = true;
 		$blog = $this->next_blog();
-		
+
 		if ( 0 == $this->current_blog ) // loop has just started
 			do_action('loop_start');
 	}
@@ -323,7 +323,7 @@ function bp_the_blog() {
 
 function bp_blogs_pagination_count() {
 	global $bp, $blogs_template;
-	
+
 	$from_num = intval( ( $blogs_template->pag_page - 1 ) * $blogs_template->pag_num ) + 1;
 	$to_num = ( $from_num + ( $blogs_template->pag_num - 1 ) > $blogs_template->total_blog_count ) ? $blogs_template->total_blog_count : $from_num + ( $blogs_template->pag_num - 1 ) ;
 
@@ -345,8 +345,8 @@ function bp_blog_title() {
 }
 	function bp_get_blog_title() {
 		global $blogs_template;
-			
-		return apply_filters( 'bp_get_blog_title', $blogs_template->blog['title'] );
+
+		return apply_filters( 'bp_get_blog_title', $blogs_template->blog->name );
 	}
 
 function bp_blog_description() {
@@ -354,17 +354,17 @@ function bp_blog_description() {
 }
 	function bp_get_blog_description() {
 		global $blogs_template;
-		
-		return apply_filters( 'bp_get_blog_description', $blogs_template->blog['description'] );
+
+		return apply_filters( 'bp_get_blog_description', $blogs_template->blog->description );
 	}
 
 function bp_blog_permalink() {
 	echo bp_get_blog_permalink();
 }
 	function bp_get_blog_permalink() {
-		global $blogs_template;	
-		
-		return apply_filters( 'bp_get_blog_permalink', $blogs_template->blog['siteurl'] );
+		global $blogs_template;
+
+		return apply_filters( 'bp_get_blog_permalink', $blogs_template->blog->siteurl );
 	}
 
 
@@ -377,33 +377,33 @@ class BP_Blogs_Blog_Post_Template {
 	var $post_count;
 	var $posts;
 	var $post;
-	
+
 	var $in_the_loop;
-	
+
 	var $pag_page;
 	var $pag_num;
 	var $pag_links;
 	var $total_post_count;
-	
+
 	function bp_blogs_blog_post_template( $user_id, $per_page, $max ) {
 		global $bp;
-		
+
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
 
 		$this->pag_page = isset( $_GET['fpage'] ) ? intval( $_GET['fpage'] ) : 1;
 		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : $per_page;
-		
+
 		if ( !$this->posts = wp_cache_get( 'bp_user_posts_' . $user_id, 'bp' ) ) {
 			$this->posts = bp_blogs_get_posts_for_user( $user_id );
 			wp_cache_set( 'bp_user_posts_' . $user_id, $this->posts, 'bp' );
 		}
-		
+
 		if ( !$max || $max >= (int)$this->posts['count'] )
 			$this->total_post_count = (int)$this->posts['count'];
 		else
 			$this->total_post_count = (int)$max;
-		
+
 		$this->posts = array_slice( (array)$this->posts['posts'], intval( ( $this->pag_page - 1 ) * $this->pag_num), intval( $this->pag_num ) );
 
 		if ( $max ) {
@@ -414,7 +414,7 @@ class BP_Blogs_Blog_Post_Template {
 		} else {
 			$this->post_count = count($this->posts);
 		}
-		
+
 		$this->pag_links = paginate_links( array(
 			'base' => add_query_arg( 'fpage', '%#%' ),
 			'format' => '',
@@ -423,31 +423,31 @@ class BP_Blogs_Blog_Post_Template {
 			'prev_text' => '&laquo;',
 			'next_text' => '&raquo;',
 			'mid_size' => 1
-		));	
+		));
 	}
-	
+
 	function has_posts() {
 		if ( $this->post_count )
 			return true;
-		
+
 		return false;
 	}
-	
+
 	function next_post() {
 		$this->current_post++;
 		$this->post = $this->posts[$this->current_post];
-		
+
 		return $this->post;
 	}
-	
+
 	function rewind_posts() {
 		$this->current_post = -1;
 		if ( $this->post_count > 0 ) {
 			$this->post = $this->posts[0];
 		}
 	}
-	
-	function user_posts() { 
+
+	function user_posts() {
 		if ( $this->current_post + 1 < $this->post_count ) {
 			return true;
 		} elseif ( $this->current_post + 1 == $this->post_count ) {
@@ -459,13 +459,13 @@ class BP_Blogs_Blog_Post_Template {
 		$this->in_the_loop = false;
 		return false;
 	}
-	
+
 	function the_post() {
 		global $post;
 
 		$this->in_the_loop = true;
 		$post = $this->next_post();
-		
+
 		if ( 0 == $this->current_post ) // loop has just started
 			do_action('loop_start');
 	}
@@ -483,7 +483,7 @@ function bp_has_posts( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	$posts_template = new BP_Blogs_Blog_Post_Template( $user_id, $per_page, $max );	
+	$posts_template = new BP_Blogs_Blog_Post_Template( $user_id, $per_page, $max );
 	return apply_filters( 'bp_has_posts', $posts_template->has_posts(), &$posts_template );
 }
 
@@ -499,7 +499,7 @@ function bp_the_post() {
 
 function bp_post_pagination_count() {
 	global $bp, $posts_template;
-	
+
 	$from_num = intval( ( $posts_template->pag_page - 1 ) * $posts_template->pag_num ) + 1;
 	$to_num = ( $from_num + ( $posts_template->pag_num - 1 ) > $posts_template->total_post_count ) ? $posts_template->total_post_count : $from_num + ( $posts_template->pag_num - 1 ) ;
 
@@ -521,9 +521,9 @@ function bp_post_id() {
 }
 	function bp_get_post_id() {
 		global $posts_template;
-		return apply_filters( 'bp_get_post_id', $posts_template->post->ID );	
+		return apply_filters( 'bp_get_post_id', $posts_template->post->ID );
 	}
-	
+
 function bp_post_title( $deprecated = true ) {
 	if ( !$deprecated )
 		bp_get_post_title();
@@ -532,22 +532,22 @@ function bp_post_title( $deprecated = true ) {
 }
 	function bp_get_post_title() {
 		global $posts_template;
-		
+
 		return apply_filters( 'bp_get_post_title', $posts_template->post->post_title );
 	}
 
 function bp_post_permalink() {
 	global $posts_template;
-	
-	echo bp_post_get_permalink();	
+
+	echo bp_post_get_permalink();
 }
 
 function bp_post_excerpt() {
-	echo bp_get_post_excerpt();	
+	echo bp_get_post_excerpt();
 }
 	function bp_get_post_excerpt() {
 		global $posts_template;
-		echo apply_filters( 'bp_get_post_excerpt', $posts_template->post->post_excerpt );	
+		echo apply_filters( 'bp_get_post_excerpt', $posts_template->post->post_excerpt );
 	}
 
 function bp_post_content() {
@@ -566,13 +566,13 @@ function bp_post_status() {
 }
 	function bp_get_post_status() {
 		global $posts_template;
-		return apply_filters( 'bp_get_post_status', $posts_template->post->post_status );	
+		return apply_filters( 'bp_get_post_status', $posts_template->post->post_status );
 	}
-	
+
 function bp_post_date( $date_format = null, $deprecated = true ) {
 	if ( !$date_format )
 		$date_format = get_option('date_format');
-		
+
 	if ( !$deprecated )
 		return bp_get_post_date( $date_format );
 	else
@@ -592,14 +592,14 @@ function bp_post_comment_count() {
 }
 	function bp_get_post_comment_count() {
 		global $posts_template;
-		return apply_filters( 'bp_get_post_comment_count', $posts_template->post->comment_count );	
+		return apply_filters( 'bp_get_post_comment_count', $posts_template->post->comment_count );
 	}
 
 function bp_post_comments( $zero = 'No Comments', $one = '1 Comment', $more = '% Comments', $css_class = '', $none = 'Comments Off' ) {
 	global $posts_template, $wpdb;
-	
+
 	$number = (int)$posts_template->post->comment_count;
-	
+
 	if ( 0 == $number && 'closed' == $posts_template->postcomment_status && 'closed' == $posts_template->postping_status ) {
 		echo '<span' . ((!empty($css_class)) ? ' class="' . $css_class . '"' : '') . '>' . $none . '</span>';
 		return;
@@ -613,13 +613,13 @@ function bp_post_comments( $zero = 'No Comments', $one = '1 Comment', $more = '%
 	}
 
 	echo '<a href="';
-	
+
 	if ( 0 == $number )
 		echo bp_post_get_permalink() . '#respond';
 	else
 		echo bp_post_get_permalink() . '#comments';
 	echo '"';
-	
+
 	if ( !empty( $css_class ) ) {
 		echo ' class="'.$css_class.'" ';
 	}
@@ -628,12 +628,12 @@ function bp_post_comments( $zero = 'No Comments', $one = '1 Comment', $more = '%
 	echo apply_filters( 'comments_popup_link_attributes', '' );
 
 	echo ' title="' . sprintf( __('Comment on %s', 'buddypress'), $title ) . '">';
-	
+
 	if ( 1 == $number )
 		printf( __( '%d Comment', 'buddypress' ), $number );
 	else
 		printf( __( '%d Comments', 'buddypress' ), $number );
-		
+
 	echo '</a>';
 }
 
@@ -645,7 +645,7 @@ function bp_post_author( $deprecated = true ) {
 }
 	function bp_get_post_author() {
 		global $posts_template;
-		
+
 		return apply_filters( 'bp_get_post_author', bp_core_get_userlink( $posts_template->post->post_author ) );
 	}
 
@@ -663,15 +663,15 @@ function bp_post_category( $separator = '', $parents = '', $post_id = false, $de
 		if ( !$post_id )
 			$post_id = $posts_template->post->ID;
 
-		return apply_filters( 'bp_get_post_category', get_the_category_list( $separator, $parents, $post_id ) );	
+		return apply_filters( 'bp_get_post_category', get_the_category_list( $separator, $parents, $post_id ) );
 	}
 
 function bp_post_tags( $before = '', $sep = ', ', $after = '' ) {
 	global $posts_template, $wpdb;
-	
+
 	/* Disabling this for now as it's too expensive and there is no global tags directory */
 	return false;
-	
+
 	switch_to_blog( $posts_template->post->blog_id );
 	$terms = bp_post_get_term_list( $before, $sep, $after );
 	restore_current_blog();
@@ -691,29 +691,29 @@ function bp_post_blog_name() {
 }
 	function bp_get_post_blog_name() {
 		global $posts_template;
-		return apply_filters( 'bp_get_post_blog_name', get_blog_option( $posts_template->post->blog_id, 'blogname' ) );	
+		return apply_filters( 'bp_get_post_blog_name', get_blog_option( $posts_template->post->blog_id, 'blogname' ) );
 	}
 
 function bp_post_blog_permalink() {
-	echo bp_get_post_blog_permalink();	
+	echo bp_get_post_blog_permalink();
 }
 	function bp_get_post_blog_permalink() {
 		global $posts_template;
-		return apply_filters( 'bp_get_post_blog_permalink', get_blog_option( $posts_template->post->blog_id, 'siteurl' ) );	
+		return apply_filters( 'bp_get_post_blog_permalink', get_blog_option( $posts_template->post->blog_id, 'siteurl' ) );
 	}
-	
+
 function bp_post_get_permalink( $post = null, $blog_id = null ) {
 	global $current_blog, $posts_template;
-	
+
 	if ( !$post )
-		$post = $posts_template->post;	
-		
+		$post = $posts_template->post;
+
 	if ( !$blog_id )
 		$blog_id = $posts_template->post->blog_id;
-		
+
 	if ( !$post || !$blog_id )
 		return false;
-		
+
 	$rewritecode = array(
 		'%year%',
 		'%monthnum%',
@@ -734,7 +734,7 @@ function bp_post_get_permalink( $post = null, $blog_id = null ) {
 		return get_attachment_link($post->ID);
 
 	$permalink = get_blog_option( $blog_id, 'permalink_structure' );
-	$site_url = get_blog_option( $blog_id, 'siteurl' ); 
+	$site_url = get_blog_option( $blog_id, 'siteurl' );
 
 	if ( '' != $permalink && !in_array($post->post_status, array('draft', 'pending')) ) {
 		$unixtime = strtotime($post->post_date);
@@ -752,7 +752,7 @@ function bp_post_get_permalink( $post = null, $blog_id = null ) {
 			// having to assign it explicitly
 			if ( empty($category) ) {
 				$default_category = get_category( get_option( 'default_category' ) );
-				$category = is_wp_error( $default_category ) ? '' : $default_category->slug; 
+				$category = is_wp_error( $default_category ) ? '' : $default_category->slug;
 			}
 		}
 
@@ -788,7 +788,7 @@ function bp_post_get_permalink( $post = null, $blog_id = null ) {
 
 function bp_post_get_term_list( $before = '', $sep = '', $after = '' ) {
 	global $posts_template;
-	
+
 	$terms = get_the_terms( $posts_template->post->ID, 'post_tag' );
 
 	if ( is_wp_error($terms) )
@@ -800,7 +800,7 @@ function bp_post_get_term_list( $before = '', $sep = '', $after = '' ) {
 	foreach ( $terms as $term ) {
 		$link = get_blog_option( BP_ROOT_BLOG, 'siteurl') . '/tag/' . $term->slug;
 		$link = apply_filters('term_link', $link);
-		
+
 		$term_links[] = '<a href="' . $link . '" rel="tag">' . $term->name . '</a>';
 	}
 
@@ -819,33 +819,33 @@ class BP_Blogs_Post_Comment_Template {
 	var $comment_count;
 	var $comments;
 	var $comment;
-	
+
 	var $in_the_loop;
-	
+
 	var $pag_page;
 	var $pag_num;
 	var $pag_links;
 	var $total_comment_count;
-	
+
 	function bp_blogs_post_comment_template( $user_id, $per_page, $max ) {
 		global $bp;
-		
+
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
 
 		$this->pag_page = isset( $_GET['compage'] ) ? intval( $_GET['compage'] ) : 1;
 		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : $per_page;
-		
+
 		if ( !$this->comments = wp_cache_get( 'bp_user_comments_' . $user_id, 'bp' ) ) {
 			$this->comments = bp_blogs_get_comments_for_user( $user_id );
 			wp_cache_set( 'bp_user_comments_' . $user_id, $this->comments, 'bp' );
 		}
-		
+
 		if ( !$max || $max >= (int)$this->comments['count'] )
 			$this->total_comment_count = (int)$this->comments['count'];
 		else
 			$this->total_comment_count = (int)$max;
-		
+
 		$this->comments = array_slice( (array)$this->comments['comments'], intval( ( $this->pag_page - 1 ) * $this->pag_num), intval( $this->pag_num ) );
 
 		if ( $max ) {
@@ -856,7 +856,7 @@ class BP_Blogs_Post_Comment_Template {
 		} else {
 			$this->comment_count = count($this->comments);
 		}
-		
+
 		$this->pag_links = paginate_links( array(
 			'base' => add_query_arg( 'compage', '%#%' ),
 			'format' => '',
@@ -866,31 +866,31 @@ class BP_Blogs_Post_Comment_Template {
 			'next_text' => '&raquo;',
 			'mid_size' => 1
 		));
-				
+
 	}
-	
+
 	function has_comments() {
 		if ( $this->comment_count )
 			return true;
-		
+
 		return false;
 	}
-	
+
 	function next_comment() {
 		$this->current_comment++;
 		$this->comment = $this->comments[$this->current_comment];
-		
+
 		return $this->comment;
 	}
-	
+
 	function rewind_comments() {
 		$this->current_comment = -1;
 		if ( $this->comment_count > 0 ) {
 			$this->comment = $this->comments[0];
 		}
 	}
-	
-	function user_comments() { 
+
+	function user_comments() {
 		if ( $this->current_comment + 1 < $this->comment_count ) {
 			return true;
 		} elseif ( $this->current_comment + 1 == $this->comment_count ) {
@@ -902,13 +902,13 @@ class BP_Blogs_Post_Comment_Template {
 		$this->in_the_loop = false;
 		return false;
 	}
-	
+
 	function the_comment() {
 		global $comment;
 
 		$this->in_the_loop = true;
 		$comment = $this->next_comment();
-		
+
 		if ( 0 == $this->current_comment ) // loop has just started
 			do_action('loop_start');
 	}
@@ -925,7 +925,7 @@ function bp_has_comments( $args = '' ) {
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
-	
+
 	$comments_template = new BP_Blogs_Post_Comment_Template( $user_id, $per_page, $max );
 	return apply_filters( 'bp_has_comments', $comments_template->has_comments(), &$comments_template );
 }
@@ -945,7 +945,7 @@ function bp_comments_pagination() {
 }
 	function bp_get_comments_pagination() {
 		global $comments_template;
-		
+
 		return apply_filters( 'bp_get_comments_pagination', $comments_template->pag_links );
 	}
 
@@ -965,7 +965,7 @@ function bp_comment_post_permalink( $depricated = true ) {
 }
 	function bp_get_comment_post_permalink() {
 		global $comments_template;
-		
+
 		return apply_filters( 'bp_get_comment_post_permalink', bp_post_get_permalink( $comments_template->comment->post, $comments_template->comment->blog_id ) . '#comment-' . $comments_template->comment->comment_ID );
 	}
 
@@ -977,13 +977,13 @@ function bp_comment_post_title( $deprecated = true ) {
 }
 	function bp_get_comment_post_title( $deprecated = true ) {
 		global $comments_template;
-		
+
 		return apply_filters( 'bp_get_comment_post_title', $comments_template->comment->post->post_title );
 	}
 
 function bp_comment_author( $deprecated = true ) {
 	global $comments_template;
-	
+
 	if ( !$deprecated )
 		return bp_get_comment_author();
 	else
@@ -1009,10 +1009,10 @@ function bp_comment_content() {
 function bp_comment_date( $date_format = null, $deprecated = true ) {
 	if ( !$date_format )
 		$date_format = get_option('date_format');
-		
+
 	if ( !$deprecated )
 		return bp_get_comment_date( $date_format );
-	else 
+	else
 		echo bp_get_comment_date( $date_format );
 }
 	function bp_get_comment_date( $date_format = null ) {
@@ -1026,7 +1026,7 @@ function bp_comment_date( $date_format = null, $deprecated = true ) {
 
 function bp_comment_blog_permalink( $deprecated = true ) {
 	if ( !$deprecated )
-		return bp_get_comment_blog_permalink();	
+		return bp_get_comment_blog_permalink();
 	else
 		echo bp_get_comment_blog_permalink();
 }
@@ -1038,11 +1038,11 @@ function bp_comment_blog_permalink( $deprecated = true ) {
 
 function bp_comment_blog_name( $deprecated = true ) {
 	global $comments_template;
-	
+
 	if ( !$deprecated )
-		return bp_get_comment_blog_permalink();	
+		return bp_get_comment_blog_permalink();
 	else
-		echo bp_get_comment_blog_permalink();	
+		echo bp_get_comment_blog_permalink();
 }
 	function bp_get_comment_blog_name( $deprecated = true ) {
 		global $comments_template;
@@ -1059,20 +1059,20 @@ class BP_Blogs_Site_Blogs_Template {
 	var $blog_count;
 	var $blogs;
 	var $blog;
-	
+
 	var $in_the_loop;
-	
+
 	var $pag_page;
 	var $pag_num;
 	var $pag_links;
 	var $total_blog_count;
-	
+
 	function bp_blogs_site_blogs_template( $type, $per_page, $max ) {
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['bpage'] ) ? intval( $_REQUEST['bpage'] ) : 1;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
-				
+
 		if ( isset( $_REQUEST['s'] ) && '' != $_REQUEST['s'] && $type != 'random' ) {
 			$this->blogs = BP_Blogs_Blog::search_blogs( $_REQUEST['s'], $this->pag_num, $this->pag_page );
 		} else if ( isset( $_REQUEST['letter'] ) && '' != $_REQUEST['letter'] ) {
@@ -1082,17 +1082,17 @@ class BP_Blogs_Site_Blogs_Template {
 				case 'random':
 					$this->blogs = BP_Blogs_Blog::get_random( $this->pag_num, $this->pag_page );
 					break;
-				
+
 				case 'newest':
 					$this->blogs = BP_Blogs_Blog::get_newest( $this->pag_num, $this->pag_page );
-					break;	
-				
+					break;
+
 				case 'active': default:
 					$this->blogs = BP_Blogs_Blog::get_active( $this->pag_num, $this->pag_page );
-					break;					
+					break;
 			}
 		}
-		
+
 		if ( !$max || $max >= (int)$this->blogs['total'] )
 			$this->total_blog_count = (int)$this->blogs['total'];
 		else
@@ -1108,7 +1108,7 @@ class BP_Blogs_Site_Blogs_Template {
 		} else {
 			$this->blog_count = count($this->blogs);
 		}
-		
+
 		$this->pag_links = paginate_links( array(
 			'base' => add_query_arg( 'bpage', '%#%' ),
 			'format' => '',
@@ -1117,31 +1117,31 @@ class BP_Blogs_Site_Blogs_Template {
 			'prev_text' => '&laquo;',
 			'next_text' => '&raquo;',
 			'mid_size' => 1
-		));		
+		));
 	}
-	
+
 	function has_blogs() {
 		if ( $this->blog_count )
 			return true;
-		
+
 		return false;
 	}
-	
+
 	function next_blog() {
 		$this->current_blog++;
 		$this->blog = $this->blogs[$this->current_blog];
-		
+
 		return $this->blog;
 	}
-	
+
 	function rewind_blogs() {
 		$this->current_blog = -1;
 		if ( $this->blog_count > 0 ) {
 			$this->blog = $this->blogs[0];
 		}
 	}
-	
-	function blogs() { 
+
+	function blogs() {
 		if ( $this->current_blog + 1 < $this->blog_count ) {
 			return true;
 		} elseif ( $this->current_blog + 1 == $this->blog_count ) {
@@ -1153,13 +1153,13 @@ class BP_Blogs_Site_Blogs_Template {
 		$this->in_the_loop = false;
 		return false;
 	}
-	
+
 	function the_blog() {
 		global $blog;
 
 		$this->in_the_loop = true;
 		$this->blog = $this->next_blog();
-		
+
 		if ( 0 == $this->current_blog ) // loop has just started
 			do_action('loop_start');
 	}
@@ -1167,8 +1167,8 @@ class BP_Blogs_Site_Blogs_Template {
 
 function bp_rewind_site_blogs() {
 	global $site_blogs_template;
-	
-	$site_blogs_template->rewind_blogs();	
+
+	$site_blogs_template->rewind_blogs();
 }
 
 function bp_has_site_blogs( $args = '' ) {
@@ -1182,14 +1182,14 @@ function bp_has_site_blogs( $args = '' ) {
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
-	
+
 	// type: active ( default ) | random | newest | popular
-	
+
 	if ( $max ) {
 		if ( $per_page > $max )
 			$per_page = $max;
 	}
-		
+
 	$site_blogs_template = new BP_Blogs_Site_Blogs_Template( $type, $per_page, $max );
 
 	return $site_blogs_template->has_blogs();
@@ -1197,19 +1197,19 @@ function bp_has_site_blogs( $args = '' ) {
 
 function bp_site_blogs() {
 	global $site_blogs_template;
-	
+
 	return $site_blogs_template->blogs();
 }
 
 function bp_the_site_blog() {
 	global $site_blogs_template;
-	
+
 	return $site_blogs_template->the_blog();
 }
 
 function bp_site_blogs_pagination_count() {
 	global $bp, $site_blogs_template;
-	
+
 	$from_num = intval( ( $site_blogs_template->pag_page - 1 ) * $site_blogs_template->pag_num ) + 1;
 	$to_num = ( $from_num + ( $site_blogs_template->pag_num - 1 ) > $site_blogs_template->total_blog_count ) ? $site_blogs_template->total_blog_count : $from_num + ( $site_blogs_template->pag_num - 1 ) ;
 
@@ -1225,13 +1225,13 @@ function bp_site_blogs_pagination_links() {
 
 		return apply_filters( 'bp_get_site_blogs_pagination_links', $site_blogs_template->pag_links );
 	}
-	
+
 function bp_the_site_blog_avatar() {
 	echo bp_get_the_site_blog_avatar();
 }
 	function bp_get_the_site_blog_avatar() {
 		global $site_blogs_template, $bp;
-		
+
 		/***
 		 * In future BuddyPress versions you will be able to set the avatar for a blog.
 		 * Right now you can use a filter with the ID of the blog to change it if you wish.
@@ -1308,11 +1308,11 @@ function bp_the_site_blog_hidden_fields() {
 	if ( isset( $_REQUEST['s'] ) ) {
 		echo '<input type="hidden" id="search_terms" value="' . attribute_escape( $_REQUEST['s'] ). '" name="search_terms" />';
 	}
-	
+
 	if ( isset( $_REQUEST['letter'] ) ) {
 		echo '<input type="hidden" id="selected_letter" value="' . attribute_escape( $_REQUEST['letter'] ) . '" name="selected_letter" />';
 	}
-	
+
 	if ( isset( $_REQUEST['blogs_search'] ) ) {
 		echo '<input type="hidden" id="search_terms" value="' . attribute_escape( $_REQUEST['blogs_search'] ) . '" name="search_terms" />';
 	}
