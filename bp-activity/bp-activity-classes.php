@@ -93,12 +93,6 @@ Class BP_Activity_Activity {
 		if ( $user_id )
 			$user_sql = $wpdb->prepare( "AND user_id = %d", $user_id );
 
-		/* Fetch the activity IDs so we can delete any comments for this activity item */
-		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE item_id = %s {$secondary_sql} AND component_name = %s {$component_action_sql} {$user_sql}", $item_id, $component_name ) );
-
-		if ( $activity_ids )
-			BP_Activity_Activity::delete_activity_item_comments( $activity_ids );
-
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE item_id = %s {$secondary_sql} AND component_name = %s {$component_action_sql} {$user_sql}", $item_id, $component_name ) );
 	}
 
@@ -109,20 +103,11 @@ Class BP_Activity_Activity {
 	function delete_by_activity_id( $activity_id ) {
 		global $bp, $wpdb;
 
-		/* Delete the comments for this activity ID */
-		BP_Activity_Activity::delete_activity_item_comments( $activity_id );
-
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE id = %d", $activity_id ) );
 	}
 
 	function delete_by_content( $user_id, $content, $component_name, $component_action ) {
 		global $bp, $wpdb;
-
-		/* Fetch the activity ID so we can delete any comments for this activity item */
-		$activity_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE user_id = %d AND content = %s AND component_name = %s AND component_action = %s", $user_id, $content, $component_name, $component_action ) );
-
-		if ( $activity_id )
-			BP_Activity_Activity::delete_activity_item_comments( $activity_id );
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE user_id = %d AND content = %s AND component_name = %s AND component_action = %s", $user_id, $content, $component_name, $component_action ) );
 	}
@@ -130,36 +115,13 @@ Class BP_Activity_Activity {
 	function delete_for_user_by_component( $user_id, $component_name ) {
 		global $bp, $wpdb;
 
-		/* Fetch the activity IDs so we can delete any comments for this activity item */
-		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE user_id = %d AND component_name = %s", $user_id, $component_name ) );
-
-		if ( $activity_ids )
-			BP_Activity_Activity::delete_activity_item_comments( $activity_ids );
-
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE user_id = %d AND component_name = %s", $user_id, $component_name ) );
 	}
 
 	function delete_for_user( $user_id ) {
 		global $wpdb, $bp;
 
-		/* Fetch the activity IDs so we can delete any comments for this activity item */
-		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE user_id = %d", $user_id ) );
-
-		if ( $activity_ids )
-			BP_Activity_Activity::delete_activity_item_comments( $activity_ids );
-
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE user_id = %d", $user_id ) );
-	}
-
-	function delete_activity_item_comments( $activity_ids ) {
-		global $bp, $wpdb;
-
-		if ( is_array($activity_ids) )
-			$activity_ids = implode( ',', $activity_ids );
-
-		$activity_ids = $wpdb->escape( $activity_ids );
-
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE component_action = 'activity_comment' AND item_id IN ({$activity_ids})" ) );
 	}
 
 	function get_activity_for_user( $user_id, $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false ) {
@@ -281,13 +243,44 @@ Class BP_Activity_Activity {
 			if ( $activities && $display_comments )
 				$activities = BP_Activity_Activity::append_comments( &$activities );
 		} else {
-			if ( $per_page && $page && $max )
-				$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 {$search_sql} {$filter_sql} ORDER BY date_recorded {$sort} {$pag_sql}" ) );
-			else
-				$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 {$search_sql} {$filter_sql} ORDER BY date_recorded {$sort} {$pag_sql} {$max_sql}" ) );
+			/***
+			 * If we are filtering, this is going to stop activity comments showing in the stream,
+			 * we will need to do things slightly differently.
+			 */
+			 if ( !empty( $filter_sql ) ) {
+				$all_activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 {$search_sql} {$filter_sql} ORDER BY id {$sort}" ) );
 
-			$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 {$search_sql} {$filter_sql} ORDER BY date_recorded {$sort} {$max_sql}" ) );
+				foreach ( (array)$all_activities as $activity ) {
+					$tmp_activities[$activity->id] = $activity;
+					$a_ids[] = $activity->id;
+				}
+				$activity_ids = $wpdb->escape( implode( ',', $a_ids ) );
 
+				/* Fetch the comments for the activity items */
+				$all_comments = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 AND item_id IN ({$activity_ids}) {$search_sql} ORDER BY id {$sort}" ) );
+
+				foreach ( (array)$all_comments as $comment ) {
+					$tmp_comments[$comment->id] = $comment;
+				}
+
+				/* Merge, sort and splice the activities and comments */
+				$activities = $tmp_comments + $tmp_activities;
+				ksort( $activities );
+				$activities = array_reverse( array_merge( array(), (array)$activities ) );
+				$activities = array_slice( (array)$activities, intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
+
+			 	/* Fetch the totals */
+				$total_activities = count($all_activities) + count($all_comments);
+			 } else {
+				if ( $per_page && $page && $max )
+					$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 {$search_sql} {$filter_sql} ORDER BY id {$sort} {$pag_sql}" ) );
+				else
+					$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 {$search_sql} {$filter_sql} ORDER BY id {$sort} {$pag_sql} {$max_sql}" ) );
+
+				$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 {$search_sql} {$filter_sql} ORDER BY date_recorded {$sort} {$max_sql}" ) );
+			 }
+
+			/* Append threaded comments to those activites that have them */
 			if ( $activities )
 				$activities = BP_Activity_Activity::append_comments( &$activities );
 		}
