@@ -306,7 +306,7 @@ Class BP_Activity_Activity {
 		$stack = array();
 
 		/* Retrieve all descendants of the $root node */
-		$descendants = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE component_action = 'activity_comment' AND item_id = %d AND mptt_left BETWEEN %d AND %d", $activity_id, $left, $right ) );
+		$descendants = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE component_action = 'activity_comment' AND item_id = %d AND mptt_left BETWEEN %d AND %d ORDER BY date_recorded ASC", $activity_id, $left, $right ) );
 
 		/* Loop descendants and build an assoc array */
 		foreach ( $descendants as $d ) {
