@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-11-13 14:11+0000\n"
+"POT-Creation-Date: 2009-11-14 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,7 +70,7 @@ msgid "Reply"
 msgstr ""
 
 #: bp-activity/bp-activity-templatetags.php:398
-#: bp-activity/bp-activity-templatetags.php:436
+#: bp-activity/bp-activity-templatetags.php:463
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:888
 #: bp-forums/bbpress/bb-admin/topics.php:128
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:1983
@@ -84,32 +84,32 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:418
+#: bp-activity/bp-activity-templatetags.php:445
 #, php-format
 msgid "&nbsp; %s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:492
+#: bp-activity/bp-activity-templatetags.php:519
 msgid "profile"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:492
+#: bp-activity/bp-activity-templatetags.php:519
 msgid "friends"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:492
+#: bp-activity/bp-activity-templatetags.php:519
 msgid "groups"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:492
+#: bp-activity/bp-activity-templatetags.php:519
 msgid "status"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:492
+#: bp-activity/bp-activity-templatetags.php:519
 msgid "blogs"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:500
+#: bp-activity/bp-activity-templatetags.php:527
 msgid "Clear Filter"
 msgstr ""
 
