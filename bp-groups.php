@@ -818,7 +818,7 @@ function groups_screen_group_wire() {
 	$wire_action = $bp->action_variables[0];
 
 	if ( $bp->is_single_item ) {
-		if ( 'post' == $wire_action && groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
+		if ( 'post' == $wire_action && ( is_site_admin() || groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) ) {
 			/* Check the nonce first. */
 			if ( !check_admin_referer( 'bp_wire_post' ) )
 				return false;
@@ -833,7 +833,7 @@ function groups_screen_group_wire() {
 			else
 				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/' . $bp->wire->slug );
 
-		} else if ( 'delete' == $wire_action && groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
+		} else if ( 'delete' == $wire_action && ( is_site_admin() || groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) ) {
 			$wire_message_id = $bp->action_variables[1];
 
 			/* Check the nonce first. */
