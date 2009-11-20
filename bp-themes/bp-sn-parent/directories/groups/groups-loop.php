@@ -49,6 +49,8 @@
 
 	<?php do_action( 'bp_after_directory_groups_list' ) ?>
 
+	<?php bp_the_site_group_hidden_fields() ?>
+
 <?php else: ?>
 
 	<div id="message" class="info">
@@ -56,5 +58,3 @@
 	</div>
 
 <?php endif; ?>
-
-<?php bp_the_site_group_hidden_fields() ?>

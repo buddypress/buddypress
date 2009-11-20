@@ -43,6 +43,8 @@
 
 	<?php do_action( 'bp_after_directory_members_list' ) ?>
 
+	<?php bp_the_site_member_hidden_fields() ?>
+
 <?php else: ?>
 
 	<div id="message" class="info">
@@ -50,5 +52,3 @@
 	</div>
 
 <?php endif; ?>
-
-<?php bp_the_site_member_hidden_fields() ?>
