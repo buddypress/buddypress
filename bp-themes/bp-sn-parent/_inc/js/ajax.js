@@ -294,8 +294,6 @@ jQuery(document).ready( function() {
 						j('.ajax-loader').toggle();
 						j("#group-dir-list").html(response);
 						j("#group-dir-list").fadeIn(200);
-
-						alert(letter[1]);
 					}
 				);
 			});
@@ -344,8 +342,6 @@ jQuery(document).ready( function() {
 				var letter = '';
 			else
 				var letter = j("input#selected_letter").val();
-
-			alert(j("input#selected_letter").val());
 
 			if ( undefined === j("input#search_terms").val() )
 				var search_terms = '';
