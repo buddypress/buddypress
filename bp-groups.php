@@ -909,11 +909,12 @@ function groups_screen_group_leave() {
 
 	if ( $bp->is_single_item ) {
 		if ( isset($bp->action_variables) && 'yes' == $bp->action_variables[0] ) {
-
 			// Check if the user is the group admin first.
-			if ( groups_is_user_admin( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
-				bp_core_add_message(  __('As the only group administrator, you cannot leave this group.', 'buddypress'), 'error' );
-				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
+			if ( count( groups_get_group_admins( $bp->groups->current_group->id ) ) < 2 ) {
+				if ( groups_is_user_admin( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
+					bp_core_add_message(  __('As the only group administrator, you cannot leave this group.', 'buddypress'), 'error' );
+					bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
+				}
 			}
 
 			// remove the user from the group.
@@ -1794,10 +1795,6 @@ function groups_leave_group( $group_id, $user_id = false ) {
 
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
-
-	// Admins cannot leave a group, that is until promotion to admin support is implemented.
-	if ( groups_is_user_admin( $user_id, $group_id ) )
-		return false;
 
 	// This is exactly the same as deleting and invite, just is_confirmed = 1 NOT 0.
 	if ( !groups_uninvite_user( $user_id, $group_id, true ) )
