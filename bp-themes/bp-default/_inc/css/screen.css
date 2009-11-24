@@ -1323,7 +1323,10 @@ input#signup_blog_title {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 }
-	.activity-list li blockquote p { margin: 0; }
+	.activity-list li blockquote p {
+		margin: 0;
+		overflow: hidden;
+	}
 
 .activity-list li span.time-since {
 	font-size: 0.8em;
