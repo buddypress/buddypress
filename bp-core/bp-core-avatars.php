@@ -116,7 +116,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 	}
 
 	/* If no avatars have been uploaded for this item, display a gravatar */
-	if ( !file_exists( $avatar_url ) && !$no_grav ) {
+	if ( !$no_grav ) {
 		if ( empty( $bp->grav_default->{$object} ) )
 			$default_grav = 'wavatar';
 		else if ( 'mystery' == $bp->grav_default->{$object} )
@@ -139,8 +139,9 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 		return apply_filters( 'bp_core_fetch_avatar', "<img src='{$gravatar}' alt='{$alt}' id='{$css_id}' class='{$class}'{$html_width}{$html_height} />", $params );
 
-	} else if ( !file_exists( $avatar_url ) && $no_grav )
+	} else {
 		return false;
+	}
 }
 
 function bp_core_delete_existing_avatar( $args = '' ) {

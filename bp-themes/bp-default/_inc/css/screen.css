@@ -1323,7 +1323,10 @@ input#signup_blog_title {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 }
-	.activity-list li blockquote p { margin: 0; }
+	.activity-list li blockquote p {
+		margin: 0;
+		overflow: hidden;
+	}
 
 .activity-list li span.time-since {
 	font-size: 0.8em;
@@ -1404,7 +1407,7 @@ a.rss-image {
 
 .widget_bp_core_recently_active_widget div.item-avatar {
 	display: inline;
-	margin: 0 5px 5x 0;
+	margin: 0 5px 5px 0;
 }
 
 
@@ -2143,7 +2146,8 @@ div#wire-post-new {
 /**** STATUS UPDATES *************/
 
 div#user-status {
-	margin: 0 0 20px 0;
+	margin: 0;
+	padding-bottom: 20px;
 	font: normal 1.3em Georgia, times, serif;
 }
 	div#user-status a#status-new-status {

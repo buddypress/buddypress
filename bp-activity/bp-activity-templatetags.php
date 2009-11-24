@@ -313,9 +313,6 @@ function bp_activity_content() {
 		else
 			$content = bp_activity_content_filter( $activities_template->activity->content, $activities_template->activity->date_recorded, $activities_template->full_name, true, false, false );
 
-		/* Add 'the_content' filter to activity to allow existing plugins to replace text as they would on post text. (extra smilies etc) */
-		$content = apply_filters( 'the_content', $content );
-
 		return apply_filters( 'bp_get_activity_content', $content, $activities_template->activity->component_name, $activities_template->activity->component_action );
 	}
 
@@ -490,8 +487,6 @@ function bp_activity_filter_links( $args = false ) {
 
 			$component_name = attribute_escape( $component_name );
 
-			$component_name = attribute_escape( $component_name );
-
 			switch ( $style ) {
 				case 'list':
 					$tag = 'li';
@@ -558,7 +553,7 @@ function bp_activity_feed_item_guid() {
 	function bp_get_activity_feed_item_guid() {
 		global $activities_template;
 
-		return apply_filters( 'bp_get_activity_feed_item_title', md5( $activities_template->activity->date_recorded . '-' . $activities_template->activity->content ) );
+		return apply_filters( 'bp_get_activity_feed_item_guid', md5( $activities_template->activity->date_recorded . '-' . $activities_template->activity->content ) );
 	}
 
 function bp_activity_feed_item_title() {

@@ -1056,6 +1056,7 @@ function bp_the_site_member_user_id() {
 function bp_the_site_member_avatar( $args = '' ) {
 	echo apply_filters( 'bp_the_site_member_avatar', bp_get_the_site_member_avatar( $args ) );
 }
+
 	function bp_get_the_site_member_avatar( $args = '' ) {
 		global $bp, $site_members_template;
 
@@ -1631,7 +1632,7 @@ function bp_is_register_page() {
 function bp_the_body_class() {
 	echo bp_get_the_body_class();
 }
-	function bp_get_the_body_class( $wp_classes, $custom_classes ) {
+	function bp_get_the_body_class( $wp_classes, $custom_classes = false ) {
 		global $bp;
 
 		if ( bp_is_blog_page() && is_front_page() && $bp->current_component != BP_HOME_BLOG_SLUG )

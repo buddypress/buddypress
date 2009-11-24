@@ -103,7 +103,7 @@ function messages_check_installed() {
 	if ( get_site_option('bp-messages-db-version') < BP_MESSAGES_DB_VERSION )
 		messages_install();
 }
-add_action( 'admin_menu', 'messages_check_installed', 2 );
+add_action( 'admin_menu', 'messages_check_installed' );
 
 function messages_setup_nav() {
 	global $bp;

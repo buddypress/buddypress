@@ -241,7 +241,7 @@ Class BP_Activity_Activity {
 		else
 			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT id, user_id, content, primary_link, date_recorded, component_name, component_action FROM {$bp->activity->table_name} WHERE user_id IN ({$friend_ids}) $filter_sql ORDER BY date_recorded DESC $pag_sql $max_sql" ) );
 
-		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT count(user_id) FROM {$bp->activity->table_name} WHERE user_id IN ({$friend_ids}) $filter_sql ORDER BY date_recorded DESC $max_sql" ) );
+		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT user_id) FROM {$bp->activity->table_name} WHERE user_id IN ({$friend_ids}) $filter_sql ORDER BY date_recorded DESC $max_sql" ) );
 
 		return array( 'activities' => $activities, 'total' => (int)$total_activities );
 	}

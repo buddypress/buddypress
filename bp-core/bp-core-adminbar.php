@@ -140,11 +140,9 @@ function bp_adminbar_blogs_menu() {
 			_e( 'My Blogs', 'buddypress' );
 
 			echo '</a>';
-
 			echo '<ul>';
 
 			if ( is_array( $blogs['blogs'] ) && (int)$blogs['count'] ) {
-
 				$counter = 0;
 				foreach ( $blogs['blogs'] as $blog ) {
 					$role = get_blog_role_for_user( $bp->loggedin_user->id, $blog->id );

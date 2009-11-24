@@ -1581,7 +1581,7 @@ function bp_core_delete_account( $user_id = false ) {
 		$user_id = $bp->loggedin_user->id;
 
 	/* Make sure account deletion is not disabled */
-	if ( ( '' != get_site_option( 'bp-disable-account-deletion' ) || (int) get_site_option( 'bp-disable-account-deletion' ) ) && !is_site_admin() )
+	if ( (int)get_site_option( 'bp-disable-account-deletion' ) )
 		return false;
 
 	/* Site admins should not be allowed to be deleted */
@@ -1805,7 +1805,7 @@ function bp_core_load_buddypress_textdomain() {
 	if ( file_exists( $mofile ) )
 		load_textdomain( 'buddypress', $mofile );
 }
-add_action ( 'plugins_loaded', 'bp_core_load_buddypress_textdomain', 9 );
+add_action ( 'plugins_loaded', 'bp_core_load_buddypress_textdomain', 5 );
 
 function bp_core_add_ajax_hook() {
 	/* Theme only, we already have the wp_ajax_ hook firing in wp-admin */

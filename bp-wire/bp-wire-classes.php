@@ -104,7 +104,7 @@ class BP_Wire_Post {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		$wire_posts = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table_name} WHERE item_id = %d ORDER BY date_posted DESC $pag_sql", $item_id ) );
-		$count = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$table_name} WHERE item_id = %d", $item_id ) );
+		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$table_name} WHERE item_id = %d", $item_id ) );
 
 		return array( 'wire_posts' => $wire_posts, 'count' => $count );
 	}

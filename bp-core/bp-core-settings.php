@@ -161,6 +161,7 @@ function bp_core_screen_delete_account() {
 		if ( bp_core_delete_account() )
 			bp_core_redirect( site_url() );
 	}
+
 	add_action( 'bp_template_title', 'bp_core_screen_delete_account_title' );
 	add_action( 'bp_template_content', 'bp_core_screen_delete_account_content' );
 

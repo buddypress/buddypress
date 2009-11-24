@@ -234,7 +234,7 @@ Class BP_Messages_Thread {
 		else if ( $type == 'read' )
 			$type_sql = $wpdb->prepare( " AND unread_count = 0 " );
 
-		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT count(thread_id) FROM {$bp->messages->table_name_recipients} WHERE user_id = %d AND is_deleted = 0$exclude_sender $type_sql", $user_id ) );
+		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(thread_id) FROM {$bp->messages->table_name_recipients} WHERE user_id = %d AND is_deleted = 0$exclude_sender $type_sql", $user_id ) );
 	}
 
 	function user_is_sender($thread_id) {
@@ -556,7 +556,8 @@ Class BP_Messages_Notice {
 	function get_total_notice_count() {
 		global $wpdb, $bp;
 
-		$notice_count = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM " . $bp->messages->table_name_notices ) );
+		$notice_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM " . $bp->messages->table_name_notices ) );
+
 		return $notice_count;
 	}
 

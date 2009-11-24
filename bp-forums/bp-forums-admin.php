@@ -62,7 +62,7 @@ function bp_forums_bbpress_install_wizard() {
 
 				switch ( $result ) {
 					case 1:
-						_e( 'All done! Configuration settings have been saved to the file <code>bb-config.php</code> in the root of your WordPress install.' );
+						_e( 'All done! Configuration settings have been saved to the file <code>bb-config.php</code> in the root of your WordPress install.', 'buddypress' );
 						break;
 					default:
 						// Just write the contents to screen

@@ -82,7 +82,7 @@ function bp_activity_setup_root_component() {
 	/* Register 'activity' as a root component (for RSS feed use) */
 	bp_core_add_root_component( BP_ACTIVITY_SLUG );
 }
-add_action( 'plugins_loaded', 'bp_activity_setup_root_component', 2 );
+add_action( 'plugins_loaded', 'bp_activity_setup_root_component' );
 
 function bp_activity_setup_nav() {
 	global $bp;
@@ -125,6 +125,12 @@ function bp_activity_screen_my_activity() {
 }
 
 function bp_activity_screen_friends_activity() {
+	global $bp;
+
+	/* Make sure delete links do not show for friends activity items */
+	if ( !is_site_admin() )
+		$bp->is_item_admin = false;
+
 	do_action( 'bp_activity_screen_friends_activity' );
 	bp_core_load_template( apply_filters( 'bp_activity_template_friends_activity', 'activity/my-friends' ) );
 }
