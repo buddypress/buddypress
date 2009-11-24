@@ -422,7 +422,7 @@ Class BP_Groups_Group {
 		global $wpdb, $bp;
 
 		if ( $only_public )
-			$public_sql = $wpdb->prepare( " WHERE g.status = 'public'" );
+			$public_sql = $wpdb->prepare( " AND g.status = 'public'" );
 
 		if ( !is_site_admin() )
 			$hidden_sql = $wpdb->prepare( " AND g.status != 'hidden'");
@@ -437,7 +437,7 @@ Class BP_Groups_Group {
 
 			switch ( $sort_by ) {
 				default:
-					$sql = $wpdb->prepare( "SELECT * FROM {$bp->groups->table_name} g {$public_sql} {$hidden_sql} {$order_sql} {$pag_sql}" );
+					$sql = $wpdb->prepare( "SELECT * FROM {$bp->groups->table_name} g WHERE 1=1 {$public_sql} {$hidden_sql} {$order_sql} {$pag_sql}" );
 					break;
 				case 'members':
 					$sql = $wpdb->prepare( "SELECT * FROM {$bp->groups->table_name} g, {$bp->groups->table_name_groupmeta} gm WHERE g.id = gm.group_id AND gm.meta_key = 'total_member_count' {$hidden_sql} {$public_sql} ORDER BY CONVERT(gm.meta_value, SIGNED) {$order} {$pag_sql}" );
