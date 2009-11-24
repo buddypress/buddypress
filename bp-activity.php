@@ -80,7 +80,7 @@ function bp_activity_setup_root_component() {
 	/* Register 'activity' as a root component (for RSS feed use) */
 	bp_core_add_root_component( BP_ACTIVITY_SLUG );
 }
-add_action( 'plugins_loaded', 'bp_activity_setup_root_component', 2 );
+add_action( 'plugins_loaded', 'bp_activity_setup_root_component' );
 
 function bp_activity_setup_nav() {
 	global $bp;
