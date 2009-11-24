@@ -1832,6 +1832,9 @@ function groups_join_group( $group_id, $user_id = false ) {
 	if ( groups_check_user_has_invite( $user_id, $group_id ) )
 		groups_delete_invite( $user_id, $group_id );
 
+	if ( !$bp->groups->current_group )
+		$bp->groups->current_group = new BP_Groups_Group( $group_id, false, false );
+
 	$new_member = new BP_Groups_Member;
 	$new_member->group_id = $group_id;
 	$new_member->user_id = $user_id;
@@ -1849,7 +1852,7 @@ function groups_join_group( $group_id, $user_id = false ) {
 		'content' => apply_filters( 'groups_activity_joined_group', sprintf( __( '%s joined the group %s', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' ) ),
 		'primary_link' => apply_filters( 'groups_activity_joined_group_primary_link', bp_get_group_permalink( $bp->groups->current_group ) ),
 		'component_action' => 'joined_group',
-		'item_id' => $bp->groups->current_group->id
+		'item_id' => $group_id
 	) );
 
 	/* Modify group meta */
