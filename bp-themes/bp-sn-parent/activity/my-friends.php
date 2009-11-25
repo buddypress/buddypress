@@ -21,10 +21,6 @@
 			<div class="bp-widget">
 				<h4><?php _e( 'My Friends Activity', 'buddypress' ) ?> <a href="<?php bp_activities_member_rss_link() ?>" title="<?php _e( 'RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a></h4>
 
-				<ul id="activity-filter-links">
-					<?php bp_activity_filter_links() ?>
-				</ul>
-
 				<?php if ( bp_has_activities( 'type=friends&per_page=25&max=500' ) ) : ?>
 
 					<div class="pagination">

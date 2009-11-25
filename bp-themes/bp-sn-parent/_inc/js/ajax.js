@@ -3,6 +3,197 @@
 jQuery(document).ready( function() {
 	var j = jQuery;
 
+	/* Hide all activity comment forms */
+	j('form.ac-form').hide();
+
+	/* Delegate events instead of binding on every element */
+	j('ul.activity-list').click( function(event) {
+		var target = j(event.target);
+
+		/* Comment / comment reply links */
+		if ( target.attr('class') == 'acomment-reply' ) {
+			var id = target.attr('id');
+			ids = id.split('-');
+
+			var a_id = ids[2]
+			var c_id = target.attr('href').substr( 10, target.attr('href').length );
+			var form = j( '#ac-form-' + a_id );
+
+			var form = j( '#ac-form-' + ids[2] );
+
+			form.css( 'display', 'none' );
+			form.removeClass('root');
+			j('.ac-form').hide();
+
+			/* Hide any error messages */
+			form.children('div').each( function() {
+				if ( j(this).hasClass( 'error' ) )
+					j(this).hide();
+			});
+
+			if ( ids[1] != 'comment' ) {
+				j('div.activity-comments li#acomment-' + c_id).append( form );
+			} else {
+				j('li#activity-' + a_id + ' div.activity-comments').append( form );
+			}
+
+	 		if ( form.parent().attr( 'class' ) == 'activity-comments' )
+				form.addClass('root');
+
+			form.slideDown( 200 );
+			j.scrollTo( form, 500, { offset:-100, easing:'easeout' } );
+			j('#ac-form-' + ids[2] + ' textarea').focus();
+
+			return false;
+		}
+
+		/* Activity comment posting */
+		if ( target.attr('name') == 'ac-form-submit' ) {
+			var form = target.parent().parent();
+			var form_parent = form.parent();
+			var form_id = form.attr('id').split('-');
+
+			if ( 'activity-comments' !== form_parent.attr('class') ) {
+				var tmp_id = form_parent.attr('id').split('-');
+				var comment_id = tmp_id[1];
+			} else {
+				var comment_id = form_id[2];
+			}
+
+			/* Hide any error messages */
+			j( 'form#' + form + ' div.error').hide();
+
+			j.post( ajaxurl, {
+				action: 'new_activity_comment',
+				'cookie': encodeURIComponent(document.cookie),
+				'_wpnonce_new_activity_comment': j("input#_wpnonce_new_activity_comment").val(),
+				'comment_id': comment_id,
+				'form_id': form_id[2],
+				'content': j('form#' + form.attr('id') + ' textarea').val()
+			},
+			function(response)
+			{
+				/* Check for errors and append if found. */
+				if ( response[0] + response[1] == '-1' ) {
+					form.append( response.substr( 2, response.length ) ).hide().fadeIn( 200 );
+				} else {
+					form.fadeOut( 200,
+						function() {
+							if ( 0 == form.parent().children('ul').length ) {
+								if ( form.parent().attr('class') == 'activity-comments' )
+									form.parent().prepend('<ul></ul>');
+								else
+									form.parent().append('<ul></ul>');
+							}
+
+							form.parent().children('ul').append(response).hide().fadeIn( 200 );
+							form.children('textarea').val('');
+						}
+					);
+					j( 'form#' + form + ' textarea').val('');
+				}
+			});
+
+			return false;
+		}
+
+		/* Deleting an activity comment */
+		if ( target.hasClass('acomment-delete') ) {
+			var link_href = target.attr('href');
+			var comment_li = target.parent().parent();
+
+			var nonce = link_href.split('_wpnonce=');
+				nonce = nonce[1];
+
+			var comment_id = link_href.split('cid=');
+				comment_id = comment_id[1].split('&');
+				comment_id = comment_id[0];
+
+			/* Remove any error messages */
+			j('div.activity-comments ul div.error').remove();
+
+			j.post( ajaxurl, {
+				action: 'delete_activity_comment',
+				'cookie': encodeURIComponent(document.cookie),
+				'_wpnonce': nonce,
+				'comment_id': comment_id
+			},
+			function(response)
+			{
+				/* Check for errors and append if found. */
+				if ( response[0] + response[1] == '-1' ) {
+					comment_li.prepend( response.substr( 2, response.length ) ).hide().fadeIn( 200 );
+				} else {
+					comment_li.fadeOut( 200, function() {
+						var children_html = j( 'li#' + comment_li.attr('id') + ' ul:first' ).html();
+
+						/* Fade in sub comments if any were found. */
+						if ( children_html.length )
+							comment_li.parent().append( children_html ).hide().fadeIn( 200 );
+				 	});
+				}
+			});
+
+			return false;
+		}
+	});
+
+	/* New posts */
+	j("input#whats-new-submit").click( function() {
+		var button = j(this);
+		var form = button.parent().parent().parent().parent();
+
+		form.children().each( function() {
+			if ( j.nodeName(this, "textarea") || j.nodeName(this, "input") )
+				j(this).attr( 'disabled', 'disabled' );
+		});
+
+		j( 'form#' + form.attr('id') + ' span.ajax-loader' ).show();
+
+		/* Remove any errors */
+		j('div.error').remove();
+		button.attr('disabled','disabled');
+
+		j.post( ajaxurl, {
+			action: 'post_update',
+			'cookie': encodeURIComponent(document.cookie),
+			'_wpnonce_post_update': j("input#_wpnonce_post_update").val(),
+			'content': j("textarea#whats-new").val(),
+			'group': j("#whats-new-post-in").val()
+		},
+		function(response)
+		{
+			j( 'form#' + form.attr('id') + ' span.ajax-loader' ).hide();
+
+			form.children().each( function() {
+				if ( j.nodeName(this, "textarea") || j.nodeName(this, "input") )
+					j(this).attr( 'disabled', '' );
+			});
+
+			/* Check for errors and append if found. */
+			if ( response[0] + response[1] == '-1' ) {
+				form.prepend( response.substr( 2, response.length ) );
+				j( 'form#' + form.attr('id') + ' div.error').hide().fadeIn( 200 );
+				button.attr("disabled", '');
+			} else {
+				if ( 0 == j("ul#activity-list").length ) {
+					j("div.error").slideUp(100).remove();
+					j("div.activity").append( '<ul id="activity-list" class="activity-list item-list">' );
+				}
+
+				j("ul#activity-list").prepend(response);
+				j("li.new-update").hide().slideDown( 300 );
+				j("li.new-update").removeClass( 'new-update' );
+				j("textarea#whats-new").val('');
+
+				/* Re-enable the submit button after 8 seconds. */
+				setTimeout( function() { button.attr("disabled", ''); }, 8000 );
+			}
+		});
+
+		return false;
+	});
+
 	j("div#members-directory-page ul#letter-list li a").livequery('click',
 		function() {
 			j('.ajax-loader').toggle();
@@ -1108,6 +1299,9 @@ jQuery(document).ready( function() {
 		}
 	);
 
+	/* ScrollTo plugin - just inline and minified */
+	;(function(d){var k=d.scrollTo=function(a,i,e){d(window).scrollTo(a,i,e)};k.defaults={axis:'xy',duration:parseFloat(d.fn.jquery)>=1.3?0:1};k.window=function(a){return d(window)._scrollable()};d.fn._scrollable=function(){return this.map(function(){var a=this,i=!a.nodeName||d.inArray(a.nodeName.toLowerCase(),['iframe','#document','html','body'])!=-1;if(!i)return a;var e=(a.contentWindow||a).document||a.ownerDocument||a;return d.browser.safari||e.compatMode=='BackCompat'?e.body:e.documentElement})};d.fn.scrollTo=function(n,j,b){if(typeof j=='object'){b=j;j=0}if(typeof b=='function')b={onAfter:b};if(n=='max')n=9e9;b=d.extend({},k.defaults,b);j=j||b.speed||b.duration;b.queue=b.queue&&b.axis.length>1;if(b.queue)j/=2;b.offset=p(b.offset);b.over=p(b.over);return this._scrollable().each(function(){var q=this,r=d(q),f=n,s,g={},u=r.is('html,body');switch(typeof f){case'number':case'string':if(/^([+-]=)?\d+(\.\d+)?(px|%)?$/.test(f)){f=p(f);break}f=d(f,this);case'object':if(f.is||f.style)s=(f=d(f)).offset()}d.each(b.axis.split(''),function(a,i){var e=i=='x'?'Left':'Top',h=e.toLowerCase(),c='scroll'+e,l=q[c],m=k.max(q,i);if(s){g[c]=s[h]+(u?0:l-r.offset()[h]);if(b.margin){g[c]-=parseInt(f.css('margin'+e))||0;g[c]-=parseInt(f.css('border'+e+'Width'))||0}g[c]+=b.offset[h]||0;if(b.over[h])g[c]+=f[i=='x'?'width':'height']()*b.over[h]}else{var o=f[h];g[c]=o.slice&&o.slice(-1)=='%'?parseFloat(o)/100*m:o}if(/^\d+$/.test(g[c]))g[c]=g[c]<=0?0:Math.min(g[c],m);if(!a&&b.queue){if(l!=g[c])t(b.onAfterFirst);delete g[c]}});t(b.onAfter);function t(a){r.animate(g,j,b.easing,a&&function(){a.call(this,n,b)})}}).end()};k.max=function(a,i){var e=i=='x'?'Width':'Height',h='scroll'+e;if(!d(a).is('html,body'))return a[h]-d(a)[e.toLowerCase()]();var c='client'+e,l=a.ownerDocument.documentElement,m=a.ownerDocument.body;return Math.max(l[h],m[h])-Math.min(l[c],m[c])};function p(a){return typeof a=='object'?a:{top:a,left:a}}})(jQuery);
+	j.extend({easing:{easein:function(x,t,b,c,d){return c*(t/=d)*t+b},easeinout:function(x,t,b,c,d){if(t<d/2)return 2*c*t*t/(d*d)+b;var ts=t-d/2;return-2*c*ts*ts/(d*d)+2*c*ts/d+c/2+b},easeout:function(x,t,b,c,d){return-c*t*t/(d*d)+2*c*t/d+b},expoin:function(x,t,b,c,d){var flip=1;if(c<0){flip*=-1;c*=-1}return flip*(Math.exp(Math.log(c)/d*t))+b},expoout:function(x,t,b,c,d){var flip=1;if(c<0){flip*=-1;c*=-1}return flip*(-Math.exp(-Math.log(c)/d*(t-d))+c+1)+b},expoinout:function(x,t,b,c,d){var flip=1;if(c<0){flip*=-1;c*=-1}if(t<d/2)return flip*(Math.exp(Math.log(c/2)/(d/2)*t))+b;return flip*(-Math.exp(-2*Math.log(c/2)/d*(t-d))+c+1)+b},bouncein:function(x,t,b,c,d){return c-jQuery.easing['bounceout'](x,d-t,0,c,d)+b},bounceout:function(x,t,b,c,d){if((t/=d)<(1/2.75)){return c*(7.5625*t*t)+b}else if(t<(2/2.75)){return c*(7.5625*(t-=(1.5/2.75))*t+.75)+b}else if(t<(2.5/2.75)){return c*(7.5625*(t-=(2.25/2.75))*t+.9375)+b}else{return c*(7.5625*(t-=(2.625/2.75))*t+.984375)+b}},bounceinout:function(x,t,b,c,d){if(t<d/2)return jQuery.easing['bouncein'](x,t*2,0,c,d)*.5+b;return jQuery.easing['bounceout'](x,t*2-d,0,c,d)*.5+c*.5+b},elasin:function(x,t,b,c,d){var s=1.70158;var p=0;var a=c;if(t==0)return b;if((t/=d)==1)return b+c;if(!p)p=d*.3;if(a<Math.abs(c)){a=c;var s=p/4}else var s=p/(2*Math.PI)*Math.asin(c/a);return-(a*Math.pow(2,10*(t-=1))*Math.sin((t*d-s)*(2*Math.PI)/p))+b},elasout:function(x,t,b,c,d){var s=1.70158;var p=0;var a=c;if(t==0)return b;if((t/=d)==1)return b+c;if(!p)p=d*.3;if(a<Math.abs(c)){a=c;var s=p/4}else var s=p/(2*Math.PI)*Math.asin(c/a);return a*Math.pow(2,-10*t)*Math.sin((t*d-s)*(2*Math.PI)/p)+c+b},elasinout:function(x,t,b,c,d){var s=1.70158;var p=0;var a=c;if(t==0)return b;if((t/=d/2)==2)return b+c;if(!p)p=d*(.3*1.5);if(a<Math.abs(c)){a=c;var s=p/4}else var s=p/(2*Math.PI)*Math.asin(c/a);if(t<1)return-.5*(a*Math.pow(2,10*(t-=1))*Math.sin((t*d-s)*(2*Math.PI)/p))+b;return a*Math.pow(2,-10*(t-=1))*Math.sin((t*d-s)*(2*Math.PI)/p)*.5+c+b},backin:function(x,t,b,c,d){var s=1.70158;return c*(t/=d)*t*((s+1)*t-s)+b},backout:function(x,t,b,c,d){var s=1.70158;return c*((t=t/d-1)*t*((s+1)*t+s)+1)+b},backinout:function(x,t,b,c,d){var s=1.70158;if((t/=d/2)<1)return c/2*(t*t*(((s*=(1.525))+1)*t-s))+b;return c/2*((t-=2)*t*(((s*=(1.525))+1)*t+s)+2)+b},linear:function(x,t,b,c,d){return c*t/d+b}}});
 });
 
 // Helper JS Functions

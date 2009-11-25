@@ -18,51 +18,99 @@
 
 			<?php bp_get_profile_header() ?>
 
-			<div class="bp-widget">
-				<h4><?php echo bp_word_or_name( __( "My Activity", 'buddypress' ), __( "%s's Activity", 'buddypress' ), true, false ) ?> <a href="<?php bp_activities_member_rss_link() ?>" title="<?php _e( 'RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a></h4>
+			<?php if ( function_exists( 'bp_activity_install')) : ?>
 
-				<ul id="activity-filter-links">
-					<?php bp_activity_filter_links() ?>
-				</ul>
+				<?php do_action( 'bp_before_profile_activity_widget' ) ?>
 
-				<?php if ( bp_has_activities( 'type=personal&per_page=25&max=500' ) ) : ?>
+				<div class="bp-widget">
+					<h4><?php echo bp_word_or_name( __( "My Activity", 'buddypress' ), __( "%s's Activity", 'buddypress' ), true, false ) ?> <a href="<?php bp_activities_member_rss_link() ?>" title="<?php _e( 'RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a></h4>
 
-					<div class="pagination">
+					<?php if ( is_user_logged_in() && bp_is_home() ) : ?>
 
-						<div class="pag-count" id="activity-count">
-							<?php bp_activity_pagination_count() ?>
+					<form action="" method="post" id="whats-new-form" name="whats-new-form">
+						<div id="whats-new-avatar">
+							<?php bp_loggedin_user_avatar('width=40&height=40') ?>
+							<span class="loading"></span>
 						</div>
 
-						<div class="pagination-links" id="activity-pag">
-							&nbsp; <?php bp_activity_pagination_links() ?>
-						</div>
+						<h5><?php printf( __( "What's new %s?", 'buddypress' ), bp_dtheme_firstname() ) ?></h5>
 
-					</div>
+						<div id="whats-new-content">
+							<textarea name="whats-new" id="whats-new" value="" /></textarea>
 
-					<ul id="activity-list" class="item-list activity-list">
-					<?php while ( bp_activities() ) : bp_the_activity(); ?>
-						<li class="<?php bp_activity_css_class() ?>">
-							<div class="activity-avatar">
-								<?php bp_activity_avatar() ?>
+							<div id="whats-new-options">
+								<div id="whats-new-submit">
+									<span class="ajax-loader"></span> &nbsp;
+									<input type="submit" name="whats-new-submit" id="whats-new-submit" value="<?php _e( 'Post Update', 'callisto' ) ?>" />
+								</div>
 							</div>
 
-							<?php bp_activity_content() ?>
+						</div>
 
-							<?php do_action( 'bp_my_activity_item' ) ?>
-						</li>
-					<?php endwhile; ?>
-					</ul>
+						<?php wp_nonce_field( 'post_update', '_wpnonce_post_update' ); ?>
+					</form>
 
-					<?php do_action( 'bp_my_activity_content' ) ?>
+					<?php endif; ?>
 
-				<?php else: ?>
+					<div class="activity">
 
-					<div id="message" class="info">
-						<p><?php echo bp_word_or_name( __( "You haven't done anything yet.", 'buddypress' ), __( "%s hasn't done anything yet.", 'buddypress' ), true, false ) ?></p>
+					<?php if ( bp_has_activities( 'type=personal&max=20&per_page=20&display_comments=stream' ) ) : ?>
+
+						<ul id="activity-list" class="activity-list item-list">
+						<?php while ( bp_activities() ) : bp_the_activity(); ?>
+
+							<li class="<?php bp_activity_css_class() ?>" id="activity-<?php bp_activity_id() ?>">
+								<div class="activity-avatar">
+									<?php bp_activity_avatar('width=40&height=40') ?>
+								</div>
+
+								<div class="activity-content">
+									<?php bp_activity_content() ?>
+
+									<?php if ( is_user_logged_in() && 'activity_comment' != bp_get_activity_action_name() ) : ?>
+									<div class="activity-meta">
+										<a href="#acomment-<?php bp_activity_id() ?>" class="acomment-reply" id="acomment-comment-<?php bp_activity_id() ?>"><?php _e( 'Comment', 'callisto' ) ?> (<?php bp_activity_comment_count() ?>)</a>
+									</div>
+									<?php endif; ?>
+								</div>
+
+								<div class="activity-comments">
+									<?php bp_activity_comments() ?>
+
+									<?php if ( is_user_logged_in() ) : ?>
+									<form action="" method="post" name="activity-comment-form" id="ac-form-<?php bp_activity_id() ?>" class="ac-form">
+										<div class="ac-reply-avatar"><?php bp_loggedin_user_avatar( 'width=25&height=25' ) ?></div>
+										<div class="ac-reply-content">
+											<textarea id="ac-input-<?php bp_activity_id() ?>" class="ac-input" name="ac-input-<?php bp_activity_id() ?>"></textarea>
+											<input type="submit" name="ac-form-submit" value="<?php _e( 'Post', 'callisto' ) ?> &rarr;" />
+										</div>
+										<?php wp_nonce_field( 'new_activity_comment', '_wpnonce_new_activity_comment' ) ?>
+									</form>
+									<?php endif; ?>
+								</div>
+
+							</li>
+
+						<?php endwhile; ?>
+						</ul>
+
+					<?php else: ?>
+
+						<div id="message" class="info">
+							<p><?php echo bp_word_or_name( __( "You haven't done anything recently.", 'buddypress' ), __( "%s hasn't done anything recently.", 'buddypress' ), true, false ) ?></p>
+						</div>
+
+					<?php endif;?>
+
 					</div>
 
-				<?php endif;?>
-			</div>
+				</div>
+
+				<?php do_action( 'bp_after_profile_activity_widget' ) ?>
+
+			<?php endif; ?>
+
+			<?php do_action( 'bp_after_profile_activity_loop' ) ?>
 
 		</div>
 

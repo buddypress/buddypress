@@ -67,4 +67,18 @@ function bp_dtheme_show_home_blog() {
 }
 add_action( 'wp', 'bp_dtheme_show_home_blog', 2 );
 
+function bp_dtheme_firstname( $name = false, $echo = false ) {
+	global $bp;
+
+	if ( !$name )
+		$name = $bp->loggedin_user->fullname;
+
+	$fullname = (array)explode( ' ', $name );
+
+	if ( $echo )
+		echo $fullname[0];
+	else
+		return $fullname[0];
+}
+
 ?>
