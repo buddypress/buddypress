@@ -371,7 +371,7 @@ Class BP_Activity_Activity {
 
 		/* Now fetch the activity comments and parse them into the correct position in the activities array. */
 		foreach( $activities as $activity ) {
-			if ( 'activity_comment' != $activity->component_action )
+			if ( 'activity_comment' != $activity->component_action && $activity->mptt_left && $activity->mptt_right )
 				$activity_comments[$activity->id] = BP_Activity_Activity::get_activity_comments( $activity->id, $activity->mptt_left, $activity->mptt_right );
 		}
 
