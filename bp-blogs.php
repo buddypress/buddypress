@@ -448,6 +448,10 @@ function bp_blogs_record_comment( $comment_id, $is_approved ) {
 	if ( !$user_id )
 		return false;
 
+	/* If this is a password protected post, don't record the comment */
+	if ( !empty( $post->post_password ) )
+		return false;
+
 	$recorded_comment = new BP_Blogs_Comment;
 	$recorded_comment->user_id = $user_id;
 	$recorded_comment->blog_id = $wpdb->blogid;
