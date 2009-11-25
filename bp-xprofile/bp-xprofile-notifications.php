@@ -30,7 +30,7 @@ function xprofile_record_wire_post_notification( $wire_post_id, $user_id, $poste
 			$ud = get_userdata( $user_id );
 
 			$wire_link = bp_core_get_user_domain( $user_id ) . 'wire';
-			$settings_link = bp_core_get_user_domain( $user_id ) . 'settings/notifications';
+			$settings_link = bp_core_get_user_domain( $user_id ) . $bp->settings->slug . '/notifications';
 
 			// Set up and send the message
 			$to = $ud->user_email;

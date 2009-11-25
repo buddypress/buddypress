@@ -12,8 +12,8 @@ function messages_notification_new_message( $args ) {
 		if ( $message->sender_id == $recipient_ids[$i] || 'no' == get_usermeta( $recipient_ids[$i], 'notification_messages_new_message' ) ) continue;
 
 		$ud = get_userdata( $recipient_ids[$i] );
-		$message_link = bp_core_get_user_domain( $recipient_ids[$i] ) . 'messages/view/' . $message->id;
-		$settings_link = bp_core_get_user_domain( $recipient_ids[$i] ) . 'settings/notifications';
+		$message_link = bp_core_get_user_domain( $recipient_ids[$i] ) . $bp->messages->slug . '/view/' . $message->id;
+		$settings_link = bp_core_get_user_domain( $recipient_ids[$i] ) . $bp->settings->slug . '/notifications';
 
 		// Set up and send the message
 		$to = $ud->user_email;
@@ -48,8 +48,8 @@ function messages_notification_new_notice( $message_subject, $message ) {
 	for ( $i = 0; $i < count($users); $i++ ) {
 		if ( get_usermeta( $users[$i]->user_id, 'notification_messages_new_notice' ) == 'no' ) continue;
 
-		$message_link = bp_core_get_user_domain( $users[$i]->user_id ) . 'messages';
-		$settings_link = bp_core_get_user_domain( $users[$i]->user_id ) . 'settings/notifications';
+		$message_link = bp_core_get_user_domain( $users[$i]->user_id ) . $bp->messages->slug;
+		$settings_link = bp_core_get_user_domain( $users[$i]->user_id ) . $bp->settings->slug . '/notifications';
 
 		// Set up and send the message
 		$to = $users[$i]->user_email;
