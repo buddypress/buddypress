@@ -1003,7 +1003,7 @@ function bp_comment_content() {
 		$content = $comments_template->comment->comment_content;
 		$content = apply_filters('the_content', $content);
 		$content = str_replace(']]>', ']]&gt;', $content);
-		echo apply_filters( 'bp_get_comment_content', $content );
+		return apply_filters( 'bp_get_comment_content', $content );
 	}
 
 function bp_comment_date( $date_format = null, $deprecated = true ) {
