@@ -221,12 +221,12 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	require_once( ABSPATH . '/wp-admin/includes/file.php' );
 
 	$uploadErrors = array(
-        0 => __("There is no error, the file uploaded with success", 'buddypress'),
-        1 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format(BP_AVATAR_ORIGINAL_MAX_FILESIZE),
-        2 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format(BP_AVATAR_ORIGINAL_MAX_FILESIZE),
-        3 => __("The uploaded file was only partially uploaded", 'buddypress'),
-        4 => __("No file was uploaded", 'buddypress'),
-        6 => __("Missing a temporary folder", 'buddypress')
+		0 => __("There is no error, the file uploaded with success", 'buddypress'),
+		1 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format(BP_AVATAR_ORIGINAL_MAX_FILESIZE),
+		2 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format(BP_AVATAR_ORIGINAL_MAX_FILESIZE),
+		3 => __("The uploaded file was only partially uploaded", 'buddypress'),
+		4 => __("No file was uploaded", 'buddypress'),
+		6 => __("Missing a temporary folder", 'buddypress')
 	);
 
 	if ( !bp_core_check_avatar_upload( $file ) ) {
@@ -268,6 +268,12 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	else {
 		$bp->avatar_admin->image->dir = $bp->avatar_admin->resized;
 		@unlink( $bp->avatar_admin->original['file'] );
+	}
+
+	/* Check for WP_Error on what should be an image */
+	if ( is_wp_error( $bp->avatar_admin->image->dir ) ) {
+		bp_core_add_message( sprintf( __( 'Upload failed! Error was: %s', 'buddypress' ), $bp->avatar_admin->image->dir->get_error_message() ), 'error' );
+		return false;
 	}
 
 	/* Set the url value for the image */
