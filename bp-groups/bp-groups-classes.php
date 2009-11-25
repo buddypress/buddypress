@@ -421,11 +421,20 @@ Class BP_Groups_Group {
 	function get_all( $limit = null, $page = null, $only_public = true, $sort_by = false, $order = false ) {
 		global $wpdb, $bp;
 
+		// Default sql WHERE conditions are blank. TODO: generic handler function.
+		$where_sql = null;
+		$where_conditions = array();
+
+		// Limit results to public status
 		if ( $only_public )
-			$public_sql = $wpdb->prepare( " AND g.status = 'public'" );
+			$where_conditions[] = $wpdb->prepare( "g.status = 'public'" );
 
 		if ( !is_site_admin() )
-			$hidden_sql = $wpdb->prepare( " AND g.status != 'hidden'");
+			$where_conditions[] = $wpdb->prepare( "g.status != 'hidden'");
+
+		// Build where sql statement if necessary
+		if ( !empty( $where_conditions ) )
+			$where_sql = 'WHERE ' . join( ' AND ', $where_conditions );
 
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
@@ -437,7 +446,7 @@ Class BP_Groups_Group {
 
 			switch ( $sort_by ) {
 				default:
-					$sql = $wpdb->prepare( "SELECT * FROM {$bp->groups->table_name} g WHERE 1=1 {$public_sql} {$hidden_sql} {$order_sql} {$pag_sql}" );
+					$sql = $wpdb->prepare( "SELECT * FROM {$bp->groups->table_name} g {$where_sql} {$order_sql} {$pag_sql}" );
 					break;
 				case 'members':
 					$sql = $wpdb->prepare( "SELECT * FROM {$bp->groups->table_name} g, {$bp->groups->table_name_groupmeta} gm WHERE g.id = gm.group_id AND gm.meta_key = 'total_member_count' {$hidden_sql} {$public_sql} ORDER BY CONVERT(gm.meta_value, SIGNED) {$order} {$pag_sql}" );
@@ -447,7 +456,7 @@ Class BP_Groups_Group {
 					break;
 			}
 		} else {
-			$sql = $wpdb->prepare( "SELECT * FROM {$bp->groups->table_name} g {$public_sql} {$hidden_sql} {$order_sql} {$pag_sql}" );
+			$sql = $wpdb->prepare( "SELECT * FROM {$bp->groups->table_name} g {$where_sql} {$order_sql} {$pag_sql}" );
 		}
 
 		return $wpdb->get_results($sql);
