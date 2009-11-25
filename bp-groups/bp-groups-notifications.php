@@ -238,7 +238,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 
 		$settings_link = bp_core_get_user_domain( $invited_user_id ) . 'settings/notifications/';
 		$invited_link = bp_core_get_user_domain( $invited_user_id );
-		$invites_link = $invited_link . '/' . $bp->groups->slug . '/invites';
+		$invites_link = $invited_link . $bp->groups->slug . '/invites';
 
 		// Set up and send the message
 		$to = $invited_ud->user_email;

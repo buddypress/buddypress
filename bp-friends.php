@@ -117,8 +117,7 @@ function friends_screen_requests() {
 
 	if ( isset($bp->action_variables) && 'accept' == $bp->action_variables[0] && is_numeric($bp->action_variables[1]) ) {
 		/* Check the nonce */
-		if ( !check_admin_referer( 'friends_accept_friendship' ) )
-			return false;
+		check_admin_referer( 'friends_accept_friendship' );
 
 		if ( friends_accept_friendship( $bp->action_variables[1] ) ) {
 			bp_core_add_message( __( 'Friendship accepted', 'buddypress' ) );
@@ -129,8 +128,8 @@ function friends_screen_requests() {
 
 	} else if ( isset($bp->action_variables) && 'reject' == $bp->action_variables[0] && is_numeric($bp->action_variables[1]) ) {
 		/* Check the nonce */
-		if ( !check_admin_referer( 'friends_reject_friendship' ) )
-			return false;
+		check_admin_referer( 'friends_reject_friendship' );
+
 
 		if ( friends_reject_friendship( $bp->action_variables[1] ) ) {
 			bp_core_add_message( __( 'Friendship rejected', 'buddypress' ) );
@@ -629,7 +628,7 @@ function friends_accept_friendship( $friendship_id ) {
 		$initiator_link = bp_core_get_userlink( $friendship->initiator_user_id );
 		$friend_link = bp_core_get_userlink( $friendship->friend_user_id );
 
-		$primary_link = apply_filters( 'friends_activity_friendship_accepted_primary_link', bp_core_get_userlink( $friendship->initiator_user_id ), &$friendship );
+		$primary_link = apply_filters( 'friends_activity_friendship_accepted_primary_link', bp_core_get_userurl( $friendship->initiator_user_id ), &$friendship );
 
 		/* Record in activity streams for the initiator */
 		friends_record_activity( array(

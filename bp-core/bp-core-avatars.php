@@ -77,8 +77,11 @@ function bp_core_fetch_avatar( $args = '' ) {
 		if ( !$avatar_dir ) return false;
 	}
 
-	if ( !$css_id )
-		$css_id = $object . '-' . $item_id . '-avatar';
+	/* Add an identifying class to each item */
+	$class .= ' ' . $object . '-' . $item_id . '-avatar';
+
+	if ( !empty($css_id) )
+		$css_id = " id='{$css_id}'";
 
 	if ( $width )
 		$html_width = " width='{$width}'";
@@ -112,7 +115,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		closedir($av_dir);
 
 		if ( $avatar_url )
-			return apply_filters( 'bp_core_fetch_avatar', "<img src='{$avatar_url}' alt='{$alt}' id='{$css_id}' class='{$class}'{$html_width}{$html_height} />", $params );
+			return apply_filters( 'bp_core_fetch_avatar', "<img src='{$avatar_url}' alt='{$alt}' class='{$class}'{$css_id}{$html_width}{$html_height} />", $params );
 	}
 
 	/* If no avatars have been uploaded for this item, display a gravatar */
@@ -137,7 +140,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		$grav_email = apply_filters( 'bp_core_gravatar_email', $grav_email, $item_id, $object );
 		$gravatar = apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' ) . md5( $grav_email ) . '?d=' . $default_grav . '&amp;s=' . $grav_size;
 
-		return apply_filters( 'bp_core_fetch_avatar', "<img src='{$gravatar}' alt='{$alt}' id='{$css_id}' class='{$class}'{$html_width}{$html_height} />", $params );
+		return apply_filters( 'bp_core_fetch_avatar', "<img src='{$gravatar}' alt='{$alt}' class='{$class}'{$css_id}{$html_width}{$html_height} />", $params );
 
 	} else {
 		return false;
