@@ -471,6 +471,7 @@ div.bp-widget {
 		color: #fff;
 		padding: 6px 10px 15px 10px;
 		font: bold 1em "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif !important;
+		margin-bottom: 10px;
 	}
 		.left-menu div.bp-widget h4 {
 			background: url(../images/leftmenu_group_header.gif) top left no-repeat;
@@ -1267,14 +1268,15 @@ input#signup_blog_title {
 /**** ACTIVITY STREAMS ***************************/
 
 .activity-list {
-	padding: 10px 0 5px 0 !important;
+	padding: 5px 0 5px 0 !important;
 }
 
 .activity-list li {
 	position: relative;
-	margin: 5px 15px;
-	padding: 0 50px 0 34px !important;
+	margin: 0 15px;
+	padding: 10px 50px 0 55px !important;
 	background: none !important;
+	border-bottom: 1px solid #eee;
 }
 	ul#activity-filter-links li#afilter-blogs a {
 		background: url(../images/blog_bullet.gif) 20px 4px no-repeat;
@@ -1302,7 +1304,7 @@ input#signup_blog_title {
 
 	.activity-list li div.activity-avatar {
 		position: absolute;
-		margin: -1px 0 0 -35px;
+		margin: 1px 0 0 -55px;
 	}
 		.widget .activity-list li div.activity-avatar img.avatar {
 			border-width: 2px;
@@ -1410,6 +1412,158 @@ a.rss-image {
 	margin: 0 5px 5px 0;
 }
 
+/** Activity Stream Comments *********************/
+
+	div.activity-comments {
+		padding-top: 8px;
+		margin-bottom: 20px;
+	}
+		div.activity-comments a {
+			color: #888;
+		}
+
+	div.activity-comments ul, div.activity-comments ul li {
+		border: none;
+		list-style: none;
+	}
+		div.activity-comments ul {
+			clear: left;
+		}
+			div.activity-comments > ul:first-child {
+				padding-left: 0;
+				margin: 0;
+			}
+
+		div.activity-comments ul li {
+			border-top: 1px solid #eee;
+			padding: 10px 0 !important;
+			margin-left: 0;
+		}
+			div.activity-comments ul li p:last-child {
+				margin-bottom: 0;
+			}
+
+			div.activity-comments > ul > li:first-child {
+				border-top: none;
+				margin-left: 0 !important;
+			}
+
+			div.activity-comments > ul:first-child > li:first-child {
+				background: url( ../images/comment_topline.gif) top left no-repeat !important;
+				padding-top: 20px !important;
+			}
+
+			div.activity-comments ul li:first-child {
+				margin-left: 10px;
+			}
+
+			div.activity-comments ul li:last-child {
+				margin-bottom: -8px;
+			}
+
+		div.activity-comments ul li > ul {
+			margin-top: 5px;
+		}
+
+		div.activity-comments div.acomment-avatar img {
+			border-width: 2px !important;
+			float: left;
+			margin-right: 10px;
+		}
+
+		div.activity-comments div.acomment-content {
+			font-size: 11px;
+			margin-left: 39px;
+			margin-top: 5px;
+		}
+			div.acomment-content .time-since { display: none; }
+			div.acomment-content .activity-delete-link { display: none; }
+			div.acomment-content .comment-header { display: none; }
+
+		div.activity-comments div.acomment-meta {
+			font-size: 11px;
+			color: #888;
+		}
+
+		div.activity-comments form.ac-form {
+			display: none;
+			margin: 10px 0 10px 33px;
+			background: #f0f0f0;
+			padding: 8px;
+		}
+			div.activity-comments form.root {
+				margin-left: -8px !important;
+			}
+
+			div.activity-comments form textarea {
+				width: 93%;
+				font-family: inherit;
+				font-size: 11px;
+				color: #555;
+				padding: 8px;
+				height: 60px;
+			}
+				div.activity-comments form input {
+					margin-top: 5px;
+				}
+
+			div.activity-comments form div.ac-reply-avatar {
+				float: left;
+			}
+				div.ac-reply-avatar img {
+					border: 2px solid #fff !important;
+				}
+
+			div.activity-comments form div.ac-reply-content {
+				margin-left: 25px;
+				padding-left: 15px;
+			}
+
+/** What's New Box ***********************************/
+
+form#whats-new-form {
+	background: url( ../images/message_thread_back.gif ) top left repeat-x;
+	padding: 15px;
+	margin: 10px 0 20px 0;
+}
+	form#whats-new-form h5 {
+		margin: 0;
+		font-weight: normal;
+		font-size: 12px;
+		color: #888;
+		margin-left: 58px;
+		padding: 0 0 3px 0;
+	}
+
+	form#whats-new-form #whats-new-avatar {
+		float: left;
+	}
+
+	form#whats-new-form #whats-new-content {
+		margin-left: 38px;
+		padding-left: 22px;
+	}
+
+	form#whats-new-form textarea {
+		width: 96.5%;
+		height: 60px;
+		padding: 10px;
+		font-size: 1.2em;
+		font-family: Arial, tahoma, verdana, sans-serif;
+		color: #555;
+		margin-bottom: 10px;
+	}
+
+	form#whats-new-form #whats-new-latest {
+		float: left;
+		width: 35%;
+		font-size: 11px;
+		color: #888;
+	}
+
+	form#whats-new-form #whats-new-options {
+		float: right;
+	}
 
 /**** BLOGS *****************/
 
