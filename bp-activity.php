@@ -240,6 +240,7 @@ function bp_activity_get_sitewide( $args = '' ) {
 		'display_comments' => false, // false for no comments. 'stream' for within stream display, 'threaded' for below each activity item
 
 		'search_terms' => false, // Pass search terms as a string
+		'show_hidden' => false, // Show activity items that are hidden site-wide?
 
 		/**
 		 * Pass filters as an array:
@@ -257,7 +258,7 @@ function bp_activity_get_sitewide( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	return apply_filters( 'bp_activity_get_sitewide', BP_Activity_Activity::get_sitewide_activity( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments ), &$r );
+	return apply_filters( 'bp_activity_get_sitewide', BP_Activity_Activity::get_sitewide_activity( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden ), &$r );
 }
 
 function bp_activity_get_for_user( $args = '' ) {
@@ -272,13 +273,16 @@ function bp_activity_get_for_user( $args = '' ) {
 		'display_comments' => 'stream', // false for no comments. 'stream' for within stream display, 'threaded' for below each activity item
 
 		'search_terms' => false, // Pass search terms as a string
+		'show_hidden' => false, // Show activity items that are hidden site-wide?
+
+		/* See bp_activity_get_sitewide() for filters */
 		'filter' => array()
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	return apply_filters( 'bp_activity_get_for_user', BP_Activity_Activity::get_activity_for_user( $user_id, $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments ), &$r );
+	return apply_filters( 'bp_activity_get_for_user', BP_Activity_Activity::get_activity_for_user( $user_id, $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden ), &$r );
 }
 
 function bp_activity_get_friends_activity( $user_id, $max = 30, $max_items_per_friend = false, $pag_num = false, $pag_page = false, $filter = false ) {

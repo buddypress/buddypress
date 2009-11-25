@@ -131,10 +131,14 @@ function bp_core_setup_globals() {
 	$bp->is_single_item = false;
 
 	/* The default component to use if none are set and someone visits: http://domain.com/members/andy */
-	if ( defined( 'BP_XPROFILE_SLUG' ) )
-		$bp->default_component = BP_XPROFILE_SLUG;
-	else
-		$bp->default_component = 'profile';
+	if ( !defined( 'BP_DEFAULT_COMPONENT' ) ) {
+		if ( defined( 'BP_ACTIVITY_SLUG' ) )
+			$bp->default_component = BP_ACTIVITY_SLUG;
+		else
+			$bp->default_component = 'profile';
+	} else {
+		$bp->default_component = BP_DEFAULT_COMPONENT;
+	}
 
 	/* Sets up the array container for the component navigation rendered by bp_get_nav() */
 	$bp->bp_nav = array();
@@ -1336,8 +1340,9 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	/* Difference in seconds */
 	$since = $newer_date - $older_date;
 
+	/* Something went wrong with date calculation and we ended up with a negative date. */
 	if ( 0 > $since )
-		return __( '[Use GMT Timezone]', 'buddypress' );
+		return __( 'sometime', 'buddypress' );
 
 	/**
 	 * We only want to output two chunks of time here, eg:

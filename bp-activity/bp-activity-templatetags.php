@@ -16,7 +16,7 @@ class BP_Activity_Template {
 
 	var $full_name;
 
-	function bp_activity_template( $type, $user_id, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments ) {
+	function bp_activity_template( $type, $user_id, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden ) {
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['acpage'] ) ? intval( $_REQUEST['acpage'] ) : 1;
@@ -28,7 +28,7 @@ class BP_Activity_Template {
 			$this->activities = bp_activity_get_specific( array( 'activity_ids' => explode( ',', $include ), 'max' => $max, 'page' => $page, 'per_page' => $per_page, 'sort' => $sort, 'display_comments' => $display_comments ) );
 		} else {
 			if ( $type == 'sitewide' )
-				$this->activities = bp_activity_get_sitewide( array( 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'filter' => $filter ) );
+				$this->activities = bp_activity_get_sitewide( array( 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'filter' => $filter, 'show_hidden' => $show_hidden ) );
 
 			if ( $type == 'personal' )
 				$this->activities = bp_activity_get_for_user( array( 'user_id' => $user_id, 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'filter' => $filter ) );
@@ -128,6 +128,7 @@ function bp_has_activities( $args = '' ) {
 		'sort' => 'DESC', // sort DESC or ASC
 		'per_page' => 25, // number of items per page
 		'max' => false, // max number to return
+		'show_hidden' => false, // Show activity items that are hidden site-wide?
 
 		/* Filtering */
 		'user_id' => false, // user_id to filter on
@@ -156,7 +157,7 @@ function bp_has_activities( $args = '' ) {
 	else
 		$filter = array( 'object' => $object, 'action' => $action, 'primary_id' => $primary_id, 'secondary_id' => $secondary_id );
 
-	$activities_template = new BP_Activity_Template( $type, $user_id, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments );
+	$activities_template = new BP_Activity_Template( $type, $user_id, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden );
 
 	return apply_filters( 'bp_has_activities', $activities_template->has_activities(), &$activities_template );
 }
@@ -480,6 +481,10 @@ function bp_activity_filter_links( $args = false ) {
 			return false;
 
 		foreach ( (array) $component_names as $component_name ) {
+			/* Skip the activity comment filter */
+			if ( 'activity' == $component_name )
+				continue;
+
 			if ( isset( $_GET['afilter'] ) && $component_name == $_GET['afilter'] )
 				$selected = ' class="selected"';
 			else

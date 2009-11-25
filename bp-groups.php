@@ -1469,9 +1469,11 @@ function groups_record_activity( $args = '' ) {
 	if ( !function_exists( 'bp_activity_add' ) )
 		return false;
 
-	/* If the group is not public, no recording of activity please. */
-	if ( 'public' != $bp->groups->current_group->status )
-		return false;
+	/* If the group is not public, hide the activity sitewide, or basically when not looking at the group feed. */
+	if ( 'public' == $bp->groups->current_group->status )
+		$hide_sitewide = false;
+	else
+		$hide_sitewide = true;
 
 	$defaults = array(
 		'user_id' => $bp->loggedin_user->id,
@@ -1482,7 +1484,7 @@ function groups_record_activity( $args = '' ) {
 		'item_id' => false,
 		'secondary_item_id' => false,
 		'recorded_time' => time(),
-		'hide_sitewide' => false
+		'hide_sitewide' => $hide_sitewide
 	);
 
 	$r = wp_parse_args( $args, $defaults );

@@ -162,7 +162,7 @@ Class BP_Activity_Activity {
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE component_action = 'activity_comment' AND item_id IN ({$activity_ids})" ) );
 	}
 
-	function get_activity_for_user( $user_id, $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false ) {
+	function get_activity_for_user( $user_id, $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false, $show_hidden = false ) {
 		global $wpdb, $bp;
 
 		if ( $limit && $page )
@@ -246,8 +246,10 @@ Class BP_Activity_Activity {
 		return array( 'activities' => $activities, 'total' => (int)$total_activities );
 	}
 
-	function get_sitewide_activity( $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false ) {
+	function get_sitewide_activity( $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false, $show_hidden = false ) {
 		global $wpdb, $bp;
+
+		$where_conditions = array();
 
 		if ( $per_page && $page )
 			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
@@ -258,25 +260,32 @@ Class BP_Activity_Activity {
 		/* Searching */
 		if ( $search_terms ) {
 			$search_terms = $wpdb->escape( $search_terms );
-			$search_sql = "AND content LIKE '%%" . like_escape( $search_terms ) . "%%'";
+			$where_conditions['search_sql'] = "content LIKE '%%" . like_escape( $search_terms ) . "%%'";
 		}
 
 		/* Filtering */
-		if ( $filter )
-			$filter_sql = BP_Activity_Activity::get_filter_sql( $filter );
+		if ( $filter && $filter_sql = BP_Activity_Activity::get_filter_sql( $filter ) )
+			$where_conditions['filter_sql'] = $filter_sql;
 
 		/* Sorting */
 		if ( $sort != 'ASC' && $sort != 'DESC' )
 			$sort = 'DESC';
 
+		/* Hide Hidden Items? */
+		if ( !$show_hidden )
+			$where_conditions['hidden_sql'] = "hide_sitewide = 0";
+
 		/* Alter the query based on whether we want to show activity item comments in the stream like normal comments or threaded below the activity */
 		if ( !$display_comments || 'threaded' == $display_comments ) {
-			if ( $per_page && $page && $max )
-				$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 {$search_sql} {$filter_sql} AND component_action != 'activity_comment' ORDER BY date_recorded {$sort} {$pag_sql}" ) );
-			else
-				$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 {$search_sql} {$filter_sql} AND component_action != 'activity_comment' ORDER BY date_recorded {$sort} {$pag_sql} {$max_sql}" ) );
+			$where_conditions[] = "component_action != 'activity_comment'";
+			$where_sql = 'WHERE ' . join( ' AND ', $where_conditions );
 
-			$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 {$search_sql} {$filter_sql} AND component_action != 'activity_comment' ORDER BY date_recorded {$sort} {$max_sql}" ) );
+			if ( $per_page && $page && $max )
+				$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} {$where_sql} ORDER BY date_recorded {$sort} {$pag_sql}" ) );
+			else
+				$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} {$where_sql} ORDER BY date_recorded {$sort} {$pag_sql} {$max_sql}" ) );
+
+			$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} {$where_sql} ORDER BY date_recorded {$sort} {$max_sql}" ) );
 
 			if ( $activities && $display_comments )
 				$activities = BP_Activity_Activity::append_comments( &$activities );
@@ -285,8 +294,11 @@ Class BP_Activity_Activity {
 			 * If we are filtering, this is going to stop activity comments showing in the stream,
 			 * we will need to do things slightly differently.
 			 */
+			if ( !empty( $where_conditions ) )
+				$where_sql = 'WHERE ' . join( ' AND ', $where_conditions );
+
 			 if ( !empty( $filter_sql ) ) {
-				$all_activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 {$search_sql} {$filter_sql} ORDER BY id {$sort}" ) );
+				$all_activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} {$where_sql} ORDER BY id {$sort}" ) );
 
 				foreach ( (array)$all_activities as $activity ) {
 					$tmp_activities[$activity->id] = $activity;
@@ -295,7 +307,8 @@ Class BP_Activity_Activity {
 				$activity_ids = $wpdb->escape( implode( ',', $a_ids ) );
 
 				/* Fetch the comments for the activity items */
-				$all_comments = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 AND item_id IN ({$activity_ids}) {$search_sql} ORDER BY id {$sort}" ) );
+				$search_sql = $where_conditions['search_sql'];
+				$all_comments = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE item_id IN ({$activity_ids}) {$search_sql} ORDER BY id {$sort}" ) );
 
 				foreach ( (array)$all_comments as $comment ) {
 					$tmp_comments[$comment->id] = $comment;
@@ -312,11 +325,11 @@ Class BP_Activity_Activity {
 
 			 } else {
 				if ( $per_page && $page && $max )
-					$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 {$search_sql} {$filter_sql} ORDER BY id {$sort} {$pag_sql}" ) );
+					$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} {$where_sql} ORDER BY id {$sort} {$pag_sql}" ) );
 				else
-					$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 {$search_sql} {$filter_sql} ORDER BY id {$sort} {$pag_sql} {$max_sql}" ) );
+					$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} {$where_sql} ORDER BY id {$sort} {$pag_sql} {$max_sql}" ) );
 
-				$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE hide_sitewide = 0 {$search_sql} {$filter_sql} ORDER BY date_recorded {$sort} {$max_sql}" ) );
+				$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} {$where_sql} ORDER BY date_recorded {$sort} {$max_sql}" ) );
 			 }
 
 			/* Append threaded comments to those activites that have them */
@@ -448,7 +461,7 @@ Class BP_Activity_Activity {
 
 		if ( !empty( $filter_array['object'] ) ) {
 			$object_filter = explode( ',', $filter_array['object'] );
-			$object_sql = ' AND ( ';
+			$object_sql = ' ( ';
 
 			$counter = 1;
 			foreach( (array) $object_filter as $object ) {
@@ -461,11 +474,12 @@ Class BP_Activity_Activity {
 			}
 
 			$object_sql .= ' )';
+			$filter_sql[] = $object_sql;
 		}
 
 		if ( !empty( $filter_array['action'] ) ) {
 			$action_filter = explode( ',', $filter_array['action'] );
-			$action_sql = ' AND ( ';
+			$action_sql = ' ( ';
 
 			$counter = 1;
 			foreach( (array) $action_filter as $action ) {
@@ -478,11 +492,12 @@ Class BP_Activity_Activity {
 			}
 
 			$action_sql .= ' )';
+			$filter_sql[] = $action_sql;
 		}
 
 		if ( !empty( $filter_array['primary_id'] ) ) {
 			$pid_filter = explode( ',', $filter_array['primary_id'] );
-			$pid_sql = ' AND ( ';
+			$pid_sql = ' ( ';
 
 			$counter = 1;
 			foreach( (array) $pid_filter as $pid ) {
@@ -495,11 +510,12 @@ Class BP_Activity_Activity {
 			}
 
 			$pid_sql .= ' )';
+			$filter_sql[] = $pid_sql;
 		}
 
 		if ( !empty( $filter_array['secondary_id'] ) ) {
 			$sid_filter = explode( ',', $filter_array['secondary_id'] );
-			$sid_sql = ' AND ( ';
+			$sid_sql = ' ( ';
 
 			$counter = 1;
 			foreach( (array) $sid_filter as $sid ) {
@@ -512,9 +528,13 @@ Class BP_Activity_Activity {
 			}
 
 			$sid_sql .= ' )';
+			$filter_sql[] = $sid_sql;
 		}
 
-		return $object_sql . $action_sql . $pid_sql . $sid_sql;
+		if ( empty($filter_sql) )
+			return false;
+
+		return join( ' AND ', $filter_sql );
 	}
 
 	function get_last_updated() {

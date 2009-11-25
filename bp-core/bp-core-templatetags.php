@@ -463,7 +463,7 @@ function bp_is_blog_page() {
 	if ( $bp->current_component == BP_HOME_BLOG_SLUG )
 		return true;
 
-	if ( !$is_member_page && !in_array( $bp->current_component, $bp->root_components ) )
+	if ( is_front_page() || ( !$is_member_page && !in_array( $bp->current_component, $bp->root_components ) ) )
 		return true;
 
 	return false;

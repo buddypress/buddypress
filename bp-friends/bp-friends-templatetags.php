@@ -193,13 +193,25 @@ function bp_friend_id() {
 		return apply_filters( 'bp_get_friend_id', $friends_template->friendship->friend->user_id );
 	}
 
-function bp_friend_avatar_thumb() {
-	echo bp_get_friend_avatar_thumb();
+function bp_friend_avatar_thumb( $args = '' ) {
+	echo bp_get_friend_avatar_thumb( $args );
 }
-	function bp_get_friend_avatar_thumb() {
-		global $friends_template;
+	function bp_get_friend_avatar_thumb( $args = '' ) {
+		global $bp, $friends_template;
 
-		return apply_filters( 'bp_get_friend_avatar_thumb', $friends_template->friendship->friend->avatar_thumb );
+		$defaults = array(
+			'type' => 'thumb',
+			'width' => false,
+			'height' => false,
+			'class' => 'avatar',
+			'id' => false,
+			'alt' => __( 'Group avatar', 'buddypress' )
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		return apply_filters( 'bp_get_friend_avatar_thumb', bp_core_fetch_avatar( array( 'item_id' => $friends_template->friendship->friend->id, 'type' => $type, 'alt' => $alt, 'width' => $width, 'height' => $height, 'class' => $class ) ) );
 	}
 
 function bp_friend_name() {
