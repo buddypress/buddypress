@@ -408,6 +408,10 @@ function groups_screen_group_invites() {
 function groups_screen_create_group() {
 	global $bp;
 
+	/* Initial check of action variable[0] to prevent conflicts */
+	if ( !empty( $bp->action_variables[0] ) && $bp->action_variables[0] != 'step' )
+		return false;
+
 	/* If no current step is set, reset everything so we can start a fresh group creation */
 	if ( !$bp->groups->current_create_step = $bp->action_variables[1] ) {
 
