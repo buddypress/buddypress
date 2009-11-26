@@ -1313,7 +1313,8 @@ input#signup_blog_title {
 			margin: 0;
 		}
 
-		.activity-list li.mini .activity-avatar img.avatar {
+		.activity-list li.mini .activity-avatar img.avatar,
+		.activity-list li.mini .activity-avatar img.FB_profile_pic {
 			width: 20px;
 			height: 20px;
 			margin-left: 20px;
