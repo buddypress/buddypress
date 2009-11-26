@@ -68,24 +68,30 @@
 									<?php bp_activity_content() ?>
 
 									<?php if ( is_user_logged_in() && 'activity_comment' != bp_get_activity_action_name() ) : ?>
-									<div class="activity-meta">
-										<a href="#acomment-<?php bp_activity_id() ?>" class="acomment-reply" id="acomment-comment-<?php bp_activity_id() ?>"><?php _e( 'Comment', 'buddypress' ) ?> (<?php bp_activity_comment_count() ?>)</a>
-									</div>
+										<div class="activity-meta">
+											<a href="#acomment-<?php bp_activity_id() ?>" class="acomment-reply" id="acomment-comment-<?php bp_activity_id() ?>"><?php _e( 'Comment', 'buddypress' ) ?> (<?php bp_activity_comment_count() ?>)</a>
+										</div>
 									<?php endif; ?>
 								</div>
+
+								<?php if ( 'activity_comment' == bp_get_activity_action_name() ) : ?>
+									<div class="activity-inreplyto">
+										<strong><?php _e( 'In reply to', 'buddypress' ) ?></strong> - <?php bp_activity_parent_content() ?>
+									</div>
+								<?php endif; ?>
 
 								<div class="activity-comments">
 									<?php bp_activity_comments() ?>
 
 									<?php if ( is_user_logged_in() ) : ?>
-									<form action="" method="post" name="activity-comment-form" id="ac-form-<?php bp_activity_id() ?>" class="ac-form">
-										<div class="ac-reply-avatar"><?php bp_loggedin_user_avatar( 'width=25&height=25' ) ?></div>
-										<div class="ac-reply-content">
-											<textarea id="ac-input-<?php bp_activity_id() ?>" class="ac-input" name="ac-input-<?php bp_activity_id() ?>"></textarea>
-											<input type="submit" name="ac-form-submit" value="<?php _e( 'Post', 'buddypress' ) ?> &rarr;" />
-										</div>
-										<?php wp_nonce_field( 'new_activity_comment', '_wpnonce_new_activity_comment' ) ?>
-									</form>
+										<form action="" method="post" name="activity-comment-form" id="ac-form-<?php bp_activity_id() ?>" class="ac-form">
+											<div class="ac-reply-avatar"><?php bp_loggedin_user_avatar( 'width=25&height=25' ) ?></div>
+											<div class="ac-reply-content">
+												<textarea id="ac-input-<?php bp_activity_id() ?>" class="ac-input" name="ac-input-<?php bp_activity_id() ?>"></textarea>
+												<input type="submit" name="ac-form-submit" value="<?php _e( 'Post', 'buddypress' ) ?> &rarr;" />
+											</div>
+											<?php wp_nonce_field( 'new_activity_comment', '_wpnonce_new_activity_comment' ) ?>
+										</form>
 									<?php endif; ?>
 								</div>
 

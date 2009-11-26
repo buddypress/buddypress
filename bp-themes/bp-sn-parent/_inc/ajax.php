@@ -441,7 +441,7 @@ function bp_dtheme_post_update() {
 		$activity_content = sprintf( __('%s posted an update:', 'buddypress'), $from_user_link ) . ' <span class="time-since">%s</span></p><p>
 		';
 		$primary_link = bp_core_get_userlink( $wire_post->user_id, false, true );
-		$activity_content .= '<blockquote>' . $_POST['content'] . '</blockquote>';
+		$activity_content .= '<div class="activity-inner">' . $_POST['content'] . '</div>';
 
 		/* Now write the values */
 		$activity_id = xprofile_record_activity( array(
@@ -458,7 +458,7 @@ function bp_dtheme_post_update() {
 		/* Record this in activity streams */
 		$activity_content = sprintf( __( '%s posted an update in the group %s:', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' ) . ' <span class="time-since">%s</span>
 		';
-		$activity_content .= '<blockquote>' . $_POST['content'] . '</blockquote>';
+		$activity_content .= '<div class="activity-inner">' . $_POST['content'] . '</div>';
 
 		$activity_id = groups_record_activity( array(
 			'content' => apply_filters( 'groups_activity_new_wire_post', $activity_content ),
@@ -509,7 +509,7 @@ function bp_dtheme_new_activity_comment() {
 
 	/* Insert the activity comment */
 	$comment_id = bp_activity_add( array(
-		'content' => apply_filters( 'bp_activity_comment_content', $comment_header . $_POST['content'] ),
+		'content' => apply_filters( 'bp_activity_comment_content', $comment_header . '<div class="activity-inner">' . $_POST['content'] . '</div>' ),
 		'primary_link' => '',
 		'component_name' => $bp->activity->id,
 		'component_action' => 'activity_comment',
