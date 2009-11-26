@@ -119,12 +119,15 @@ h1, h2, h3 {
 				-moz-border-radius: 3px;
 				-webkit-border-radius: 3px;
 				text-decoration: none;
+				border-bottom: 1px solid #ddd;
+				border-right: 1px solid #ddd;
 			}
 
 			#header ul li.selected a {
 				background: #fff9df;
 				color: #ff7900;
 				font-weight: bold;
+				border-color: #FFE8C4;
 			}
 
 
@@ -689,37 +692,10 @@ a.page-numbers:hover { background: #e1e1e1; }
 		}
 
 a.item-button {
-	border: 1px solid #eee;
-	background: #f5f5f5;
-	color: #999;
-	padding: 0 3px;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	font-size: 0.8em;
-	text-decoration: none;
+	font-size: 0.9em;
+	padding-left: 5px;
+	color: #888;
 }
-	a.item-button:hover {
-		border-color: #ccc;
-		color: #777;
-	}
-
-	.activity-list li a.item-button {
-		display: none;
-		position: absolute;
-		right: 0 !important;
-		top: 0 !important;
-	}
-		.item-list li a.item-button {
-			display: none;
-			position: absolute;
-			top: 10px;
-			right: 10px;
-		}
-
-	.activity-list li:hover a.item-button, .item-list li:hover a.item-button {
-		display: inline;
-	}
 
 /*** Standard Form Styles ***************************************************/
 
@@ -1148,7 +1124,7 @@ h4.archive {
 	}
 
 	.entry dd.wp-caption p.wp-caption-text, .entry .wp-caption p.wp-caption-text {
-		font-size: 11px;
+		font-size: 0.9em;
 		line-height: 17px;
 		padding: 0 4px 5px 0;
 		margin: 0;
@@ -1277,7 +1253,7 @@ input#signup_blog_title {
 .activity-list li {
 	position: relative;
 	margin: 0 15px;
-	padding: 10px 50px 0 55px !important;
+	padding: 10px 10px 0 55px !important;
 	background: none !important;
 	border-bottom: 1px solid #eee;
 }
@@ -1306,7 +1282,7 @@ input#signup_blog_title {
 	}
 
 	.activity-list li.mini {
-		font-size: 11px;
+		font-size: 0.9em;
 		min-height: 35px;
 	}
 		.activity-list li.mini div.activity-meta {
@@ -1315,8 +1291,8 @@ input#signup_blog_title {
 
 		.activity-list li.mini .activity-avatar img.avatar,
 		.activity-list li.mini .activity-avatar img.FB_profile_pic {
-			width: 20px;
-			height: 20px;
+			width: 20px !important;
+			height: 20px !important;
 			margin-left: 20px;
 		}
 
@@ -1351,7 +1327,7 @@ input#signup_blog_title {
 .activity-list li blockquote, .activity-list li div.activity-inner {
 	padding: 7px 15px 7px 40px;
 	background: url(../images/quotes_background.gif) 10px 9px no-repeat #eee;
-	margin: -10px -50px 15px 0;
+	margin: -10px 0 15px 0;
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -1378,12 +1354,12 @@ input#signup_blog_title {
 		}
 
 .activity-list li span.time-since {
-	font-size: 0.8em;
+	font-size: 0.85em;
 	color: #999;
 }
 
 .activity-list li .activity-inreplyto {
-	font-size: 11px;
+	font-size: 0.9em;
 	color: #888;
 	padding-left: 25px;
 	background: url( ../images/replyto_arrow.gif ) 7px 0 no-repeat;
@@ -1396,6 +1372,7 @@ input#signup_blog_title {
 	.activity-list li .activity-inreplyto blockquote,
 	.activity-list li .activity-inreplyto div.activity-inner {
 		background: none;
+		border: none;
 		display: inline;
 		padding: 0;
 		margin: 0;
@@ -1464,7 +1441,7 @@ a.rss-image {
 }
 
 .widget_bp_activity_widget span.time-since {
-	font-size: 11px;
+	font-size: 0.9em;
 }
 
 .widget_bp_activity_widget ul#site-wide-stream {
@@ -1490,7 +1467,7 @@ a.rss-image {
 	div.activity-meta { margin: -2px 0 10px 0; }
 
 	div.activity-meta a.acomment-reply {
-		font-size: 11px;
+		font-size: 0.9em;
 		background: #FFF9DB;
 		border-bottom:1px solid #FFE8C4;
 		border-right:1px solid #FFE8C4;
@@ -1558,7 +1535,7 @@ a.rss-image {
 		}
 
 		div.activity-comments div.acomment-content {
-			font-size: 11px;
+			font-size: 0.9em;
 			margin-left: 39px;
 			margin-top: 5px;
 		}
@@ -1567,7 +1544,7 @@ a.rss-image {
 			div.acomment-content .comment-header { display: none; }
 
 		div.activity-comments div.acomment-meta {
-			font-size: 11px;
+			font-size: 0.9em;
 			color: #888;
 		}
 
@@ -1600,7 +1577,7 @@ a.rss-image {
 			div.activity-comments form textarea {
 				width: 93%;
 				font-family: inherit;
-				font-size: 11px;
+				font-size: 0.9em;
 				color: #555;
 				padding: 8px;
 				height: 60px;
@@ -1659,7 +1636,7 @@ form#whats-new-form {
 	form#whats-new-form #whats-new-latest {
 		float: left;
 		width: 35%;
-		font-size: 11px;
+		font-size: 0.9em;
 		color: #888;
 	}
 
@@ -1772,7 +1749,7 @@ ul#forum-topic-list li {
 		border-radius: 3px;
 		margin-left: 50px;
 		margin-bottom: 15px;
-		font-size: 11px;
+		font-size: 0.9em;
 		color: #888;
 	}
 		ul#forum-topic-list li:hover div.admin-links, ul#topic-post-list li:hover div.admin-links { display: inline-block; }
@@ -2378,7 +2355,7 @@ div#wire-post-new {
 
 	div#wire-post-new-metadata {
 		position: absolute;
-		bottom: 11px;
+		bottom: 0.9em;
 		right: 10px;
 	}
 		span#wire-by-text {
@@ -2412,7 +2389,7 @@ div#user-status {
 		font-style: italic;
 	}
 		div#user-status div.generic-button a#status-new-status {
-			font: normal 11px "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, sans-serif;
+			font: normal 0.9em "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, sans-serif;
 		}
 
 		input#status-update-input, textarea#status-update-input {
@@ -2439,13 +2416,13 @@ div#user-status {
 
 		a#status-new-status, a#status-clear-status {
 			padding-top: 2px;
-			font: normal 11px "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, sans-serif;
+			font: normal 0.9em "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, sans-serif;
 		}
 			a#status-clear-status { color: red; }
 
 		div#user-status span.time-since {
 			color: #aaa;
-			font: normal 11px "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, sans-serif;
+			font: normal 0.9em "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, sans-serif;
 			padding-left: 3px;
 		}
 
