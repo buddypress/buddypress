@@ -449,7 +449,20 @@ function bp_activity_css_class() {
 	function bp_get_activity_css_class() {
 		global $activities_template;
 
-		return apply_filters( 'bp_get_activity_css_class', $activities_template->activity->component_name . ' ' . $activities_template->activity->component_action );
+		$mini_activity_actions = apply_filters( 'bp_activity_mini_activity_actions', array(
+			'friendship_accepted',
+			'friendship_created',
+			'new_blog',
+			'joined_group',
+			'created_group',
+			'new_member'
+		) );
+
+		$mini_class = '';
+		if ( in_array( $activities_template->activity->component_action, (array)$mini_activity_actions ) )
+			$mini_class = ' mini';
+
+		return apply_filters( 'bp_get_activity_css_class', $activities_template->activity->component_name . ' ' . $activities_template->activity->component_action . $mini_class );
 	}
 
 function bp_activity_delete_link() {
