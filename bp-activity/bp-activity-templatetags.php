@@ -449,7 +449,7 @@ function bp_activity_css_class() {
 	function bp_get_activity_css_class() {
 		global $activities_template;
 
-		return apply_filters( 'bp_get_activity_css_class', $activities_template->activity->component_name );
+		return apply_filters( 'bp_get_activity_css_class', $activities_template->activity->component_name . ' ' . $activities_template->activity->component_action );
 	}
 
 function bp_activity_delete_link() {
