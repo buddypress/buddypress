@@ -1551,6 +1551,12 @@ a.rss-image {
 				margin-left: -8px !important;
 			}
 
+			div.activity-comments form.loading {
+				background-image: url( ../images/ajax-loader.gif );
+				background-position: 2% 95%;
+				background-repeat: no-repeat;
+			}
+
 			div.activity-comments form textarea {
 				width: 93%;
 				font-family: inherit;

@@ -62,6 +62,8 @@ jQuery(document).ready( function() {
 
 			/* Hide any error messages */
 			j( 'form#' + form + ' div.error').hide();
+			form.addClass('loading');
+			target.css('disabled', 'disabled');
 
 			j.post( ajaxurl, {
 				action: 'new_activity_comment',
@@ -73,9 +75,12 @@ jQuery(document).ready( function() {
 			},
 			function(response)
 			{
+				form.removeClass('loading');
+
 				/* Check for errors and append if found. */
 				if ( response[0] + response[1] == '-1' ) {
 					form.append( response.substr( 2, response.length ) ).hide().fadeIn( 200 );
+					target.attr("disabled", '');
 				} else {
 					form.fadeOut( 200,
 						function() {
@@ -91,6 +96,9 @@ jQuery(document).ready( function() {
 						}
 					);
 					j( 'form#' + form + ' textarea').val('');
+
+					/* Re-enable the submit button after 5 seconds. */
+					setTimeout( function() { target.attr("disabled", ''); }, 5000 );
 				}
 			});
 
