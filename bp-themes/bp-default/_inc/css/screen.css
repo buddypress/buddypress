@@ -1439,6 +1439,7 @@ a.rss-image {
 	div.activity-comments {
 		padding-top: 8px;
 		margin-bottom: 3px;
+		margin-right: -70px;
 	}
 		div.activity-comments a {
 			color: #888;
