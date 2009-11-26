@@ -1339,7 +1339,7 @@ input#signup_blog_title {
 			border-left-width: 3px !important;
 		}
 
-.activity-list li blockquote {
+.activity-list li blockquote, .activity-list li div.activity-inner {
 	padding: 7px 15px 7px 40px;
 	background: url(../images/quotes_background.gif) 10px 9px no-repeat #eee;
 	margin: -10px -50px 15px 0;
@@ -1351,11 +1351,42 @@ input#signup_blog_title {
 		margin: 0;
 		overflow: hidden;
 	}
+		.activity-list li div.activity-inner p:last-child {
+			margin-bottom: 0;
+		}
+
+		.activity-list .acomment-content div.activity-inner {
+			background: none;
+			padding: 5px 0;
+		}
+
+		.activity-list li.activity_comment div.comment-header {
+			margin-bottom: 18px;
+		}
 
 .activity-list li span.time-since {
 	font-size: 0.8em;
 	color: #999;
 }
+
+.activity-list li .activity-inreplyto {
+	font-size: 11px;
+	color: #888;
+	padding-left: 25px;
+	background: url( ../images/replyto_arrow.gif ) 7px 0 no-repeat;
+}
+	.activity-list li .activity-inreplyto > p {
+		margin: 0;
+		display: inline;
+	}
+
+	.activity-list li .activity-inreplyto blockquote,
+	.activity-list li .activity-inreplyto div.activity-inner {
+		background: none;
+		display: inline;
+		padding: 0;
+		margin: 0;
+	}
 
 ul#activity-filter-links {
 	margin: 0;
@@ -1462,6 +1493,7 @@ a.rss-image {
 			border-top: 1px solid #eee;
 			padding: 10px 0 !important;
 			margin-left: 0;
+			overflow: hidden;
 		}
 			div.activity-comments ul li p:last-child {
 				margin-bottom: 0;
