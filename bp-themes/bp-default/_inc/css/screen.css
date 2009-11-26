@@ -470,15 +470,16 @@ div.bp-widget {
 }
 	div.bp-widget h4 {
 		position: relative;
-		background: url(../images/group_header.gif) repeat-x top left;
+		background: url(../images/group_header.gif) repeat-x bottom left;
 		color: #fff;
 		padding: 6px 10px 15px 10px;
 		font: bold 1em "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif !important;
 		margin-bottom: 10px;
 	}
 		.left-menu div.bp-widget h4 {
-			background: url(../images/leftmenu_group_header.gif) top left no-repeat;
+			background: #d5d5d5 url(../images/leftmenu_group_header.gif) bottom left no-repeat;
 			color: #555;
+			padding-bottom: 20px;
 		}
 
 		/* "See All" links in widget headers */
@@ -488,6 +489,10 @@ div.bp-widget {
 			color: #fff;
 			font-weight: normal;
 		}
+			.left-menu div.bp-widget h4 a {
+				color: inherit;
+				font-weight: inherit;
+			}
 
 ul.horiz-gallery {
 	list-style: none;
@@ -1296,17 +1301,24 @@ input#signup_blog_title {
 			margin-left: 20px;
 		}
 
+		.activity-list li.mini .activity-content {
+			margin-right: 70px;
+		}
+
 		.activity-list li.mini .activity-content p {
 			margin: 0;
 			float: left;
 		}
 
 		.activity-list li.mini .activity-meta {
-			float: right;
+			position: absolute;
+			right: 0;
 		}
 
 		.activity-list li.mini .activity-comments {
 			clear: left;
+			font-size: 1.1em;
+			margin-top: 30px;
 		}
 
 	.activity-list li div.activity-avatar {
@@ -1469,8 +1481,8 @@ a.rss-image {
 	div.activity-meta a.acomment-reply {
 		font-size: 0.9em;
 		background: #FFF9DB;
-		border-bottom:1px solid #FFE8C4;
-		border-right:1px solid #FFE8C4;
+		border-bottom: 1px solid #FFE8C4;
+		border-right: 1px solid #FFE8C4;
 		color: #888;
 		padding: 4px 8px;
 		text-decoration: none;
@@ -1495,12 +1507,13 @@ a.rss-image {
 				padding-left: 0;
 				margin: 0;
 				margin-bottom: 20px;
+				margin-left: -10px !important;
 			}
 
 		div.activity-comments ul li {
 			border-top: 1px solid #eee;
-			padding: 10px 0 !important;
-			margin-left: 0;
+			padding: 10px 0 0 0 !important;
+			margin-left: 10px;
 		}
 			div.activity-comments ul li p:last-child {
 				margin-bottom: 0;
@@ -1508,7 +1521,6 @@ a.rss-image {
 
 			div.activity-comments > ul > li:first-child {
 				border-top: none;
-				margin-left: 0 !important;
 			}
 
 			div.activity-comments > ul:first-child > li:first-child {
@@ -1516,12 +1528,8 @@ a.rss-image {
 				padding-top: 20px !important;
 			}
 
-			div.activity-comments ul li:first-child {
-				margin-left: 10px;
-			}
-
 			div.activity-comments ul li:last-child {
-				margin-bottom: -8px;
+				margin-bottom: 0;
 			}
 
 		div.activity-comments ul li > ul {

@@ -117,21 +117,14 @@ Class BP_XProfile_Data_Template {
 
 	function has_fields() {
 		$has_data = false;
-		$just_name = true;
 
 		for ( $i = 0; $i < count( $this->group->fields ); $i++ ) {
 			$field = &$this->group->fields[$i];
 
 			if ( $field->data->value != null ) {
 				$has_data = true;
-
-				if ( 1 != $field->id )
-					$just_name = false;
 			}
 		}
-
-		if ( 1 == $this->group->id && $just_name )
-			return false;
 
 		if ( $has_data )
 			return true;
@@ -155,7 +148,7 @@ Class BP_XProfile_Data_Template {
 
 		$field = $this->next_field();
 
-		if ( $field->data->value != '' ) {
+		if ( !empty( $field->data->value ) ) {
 			$this->field_has_data = true;
 		}
 		else {

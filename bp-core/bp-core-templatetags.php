@@ -418,7 +418,8 @@ function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true 
 		else
 			return apply_filters( 'bp_word_or_name', $youtext );
 	} else {
-		$nametext = sprintf( $nametext, $bp->displayed_user->fullname );
+		$fullname = (array)explode( ' ', $bp->displayed_user->fullname );
+		$nametext = sprintf( $nametext, $fullname[0] );
 		if ( $echo )
 			echo apply_filters( 'bp_word_or_name', $nametext );
 		else
