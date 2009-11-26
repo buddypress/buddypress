@@ -23,7 +23,7 @@
 				<?php do_action( 'bp_before_profile_activity_widget' ) ?>
 
 				<div class="bp-widget">
-					<h4><?php echo bp_word_or_name( __( "My Activity", 'buddypress' ), __( "%s's Activity", 'buddypress' ), true, false ) ?> <a href="<?php bp_activities_member_rss_link() ?>" title="<?php _e( 'RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a></h4>
+					<h4><?php echo bp_word_or_name( __( "My Activity", 'buddypress' ), __( "%s's Activity", 'buddypress' ), true, false ) ?> <span><a href="<?php bp_activities_member_rss_link() ?>" title="<?php _e( 'RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a></span></h4>
 
 					<?php if ( is_user_logged_in() && bp_is_home() ) : ?>
 
@@ -41,7 +41,7 @@
 							<div id="whats-new-options">
 								<div id="whats-new-submit">
 									<span class="ajax-loader"></span> &nbsp;
-									<input type="submit" name="whats-new-submit" id="whats-new-submit" value="<?php _e( 'Post Update', 'callisto' ) ?>" />
+									<input type="submit" name="whats-new-submit" id="whats-new-submit" value="<?php _e( 'Post Update', 'buddypress' ) ?>" />
 								</div>
 							</div>
 
@@ -69,7 +69,7 @@
 
 									<?php if ( is_user_logged_in() && 'activity_comment' != bp_get_activity_action_name() ) : ?>
 									<div class="activity-meta">
-										<a href="#acomment-<?php bp_activity_id() ?>" class="acomment-reply" id="acomment-comment-<?php bp_activity_id() ?>"><?php _e( 'Comment', 'callisto' ) ?> (<?php bp_activity_comment_count() ?>)</a>
+										<a href="#acomment-<?php bp_activity_id() ?>" class="acomment-reply" id="acomment-comment-<?php bp_activity_id() ?>"><?php _e( 'Comment', 'buddypress' ) ?> (<?php bp_activity_comment_count() ?>)</a>
 									</div>
 									<?php endif; ?>
 								</div>
@@ -82,7 +82,7 @@
 										<div class="ac-reply-avatar"><?php bp_loggedin_user_avatar( 'width=25&height=25' ) ?></div>
 										<div class="ac-reply-content">
 											<textarea id="ac-input-<?php bp_activity_id() ?>" class="ac-input" name="ac-input-<?php bp_activity_id() ?>"></textarea>
-											<input type="submit" name="ac-form-submit" value="<?php _e( 'Post', 'callisto' ) ?> &rarr;" />
+											<input type="submit" name="ac-form-submit" value="<?php _e( 'Post', 'buddypress' ) ?> &rarr;" />
 										</div>
 										<?php wp_nonce_field( 'new_activity_comment', '_wpnonce_new_activity_comment' ) ?>
 									</form>
