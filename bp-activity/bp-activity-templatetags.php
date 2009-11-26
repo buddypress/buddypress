@@ -359,6 +359,49 @@ function bp_activity_content_filter( $content, $date_recorded, $full_name, $inse
 	return apply_filters( 'bp_activity_content_filter', $content_new );
 }
 
+function bp_activity_parent_content( $args = '' ) {
+	echo bp_get_activity_parent_content($args);
+}
+	function bp_get_activity_parent_content( $args = '' ) {
+		global $bp, $activities_template;
+
+		$defaults = array(
+			'hide_user' => false
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		/* Get the ID of the parent activity content */
+		if ( !$parent_id = $activities_template->activity->item_id )
+			return false;
+
+		/* Get the content of the parent by first checking to see if we already have it */
+		$parent_activity = false;
+
+		foreach( $activities_template->activities as $activity ) {
+			if ( $parent_id == $activity->id ) {
+				/* Need a copy not a reference, this was the only PHP4 compat way I could find. */
+				$parent_activity = (array)$activity;
+				$parent_activity = (object)$parent_activity;
+			}
+		}
+
+		/* We didn't find it, so let's get it from the DB */
+		if ( !$parent_activity ) {
+			$parent_activity = bp_activity_get_specific( array( 'activity_ids' => $parent_id ) );
+			$parent_activity = $parent_activity['activities'][0];
+		}
+
+		if ( !$parent_activity )
+			return false;
+
+		/* Remove the time since content */
+		$parent_activity->content = str_replace( '<span class="time-since">%s</span>', '', $parent_activity->content );
+
+		return apply_filters( 'bp_get_activity_parent_content', $parent_activity->content );
+	}
+
 function bp_activity_comments( $args = '' ) {
 	echo bp_activity_get_comments( $args );
 }

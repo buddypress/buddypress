@@ -395,12 +395,12 @@ Class BP_Activity_Activity {
 		foreach ( $descendants as $d ) {
 		    $d->children = array();
 
-			/* We have a reference on its parent */
+			/* If we have a reference on the parent */
 		    if ( isset( $ref[ $d->secondary_item_id ] ) ) {
 		        $ref[ $d->secondary_item_id ]->children[ $d->id ] = $d;
 		        $ref[ $d->id ] =& $ref[ $d->secondary_item_id ]->children[ $d->id ];
 
-			/* We don't have a reference on its parent, put it a root level */
+			/* If we don't have a reference on the parent, put in the root level */
 		    } else {
 		        $menu[ $d->id ] = $d;
 		        $ref[ $d->id ] =& $menu[ $d->id ];
