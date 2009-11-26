@@ -1302,6 +1302,41 @@ input#signup_blog_title {
 		background: url(../images/status_bullet.gif) 0 4px no-repeat;
 	}
 
+	.activity-list li.friendship_created,
+	.activity-list li.joined_group,
+	.activity-list li.new_member {
+		font-size: 11px;
+	}
+		.activity-list li.friendship_created .activity-avatar img.avatar,
+		.activity-list li.joined_group .activity-avatar img.avatar,
+		.activity-list li.new_member .activity-avatar img.avatar {
+			width: 20px;
+			height: 20px;
+			margin-left: 20px;
+		}
+
+		.activity-list li.friendship_created .activity-content p,
+		.activity-list li.joined_group .activity-content p,
+		.activity-list li.new_member .activity-content p {
+			margin: 0;
+			float: left;
+		}
+
+		.activity-list li.friendship_created .activity-meta,
+		.activity-list li.joined_group .activity-meta,
+		.activity-list li.new_member .activity-meta {
+			float: right;
+		}
+
+		.activity-list li.friendship_created .activity-comments,
+		.activity-list li.joined_group .activity-comments,
+		.activity-list li.new_member .activity-comments {
+			clear: left;
+		}
+
+
+
+
 	.activity-list li div.activity-avatar {
 		position: absolute;
 		margin: 1px 0 0 -55px;
@@ -1416,7 +1451,7 @@ a.rss-image {
 
 	div.activity-comments {
 		padding-top: 8px;
-		margin-bottom: 20px;
+		margin-bottom: 3px;
 	}
 		div.activity-comments a {
 			color: #888;
@@ -1432,6 +1467,7 @@ a.rss-image {
 			div.activity-comments > ul:first-child {
 				padding-left: 0;
 				margin: 0;
+				margin-bottom: 20px;
 			}
 
 		div.activity-comments ul li {
