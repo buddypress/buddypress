@@ -842,6 +842,9 @@ span.activity, .message-metadata small {
 	display: inline-block;
 	font: normal 0.9em "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif !important;
 	max-width: 60%;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
 }
 
 div.avatar-block {
@@ -1304,7 +1307,12 @@ input#signup_blog_title {
 
 	.activity-list li.mini {
 		font-size: 11px;
+		min-height: 35px;
 	}
+		.activity-list li.mini div.activity-meta {
+			margin: 0;
+		}
+
 		.activity-list li.mini .activity-avatar img.avatar {
 			width: 20px;
 			height: 20px;
@@ -1346,6 +1354,9 @@ input#signup_blog_title {
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
+	z-index: 50;
+	border-bottom: 1px solid #ddd;
+	border-right: 1px solid #ddd;
 }
 	.activity-list li blockquote p {
 		margin: 0;
@@ -1358,6 +1369,7 @@ input#signup_blog_title {
 		.activity-list .acomment-content div.activity-inner {
 			background: none;
 			padding: 5px 0;
+			border: none;
 		}
 
 		.activity-list li.activity_comment div.comment-header {
@@ -1468,12 +1480,30 @@ a.rss-image {
 /** Activity Stream Comments *********************/
 
 	div.activity-comments {
-		padding-top: 8px;
-		margin-bottom: 3px;
-		margin-right: -70px;
+		margin-top: 15px;
 	}
 		div.activity-comments a {
 			color: #888;
+		}
+
+	div.activity-meta { margin: -2px 0 10px 0; }
+
+	div.activity-meta a.acomment-reply {
+		font-size: 11px;
+		background: #FFF9DB;
+		border-bottom:1px solid #FFE8C4;
+		border-right:1px solid #FFE8C4;
+		color: #888;
+		padding: 4px 8px;
+		text-decoration: none;
+		-moz-border-radius: 4px;
+		-webkit-border-radius: 4px;
+		border-radius: 4px;
+	}
+		div.activity-meta a.acomment-reply:hover {
+			background: #f7740a;
+			color: #fff;
+			border-color: #f7740a;
 		}
 
 	div.activity-comments ul, div.activity-comments ul li {
@@ -1493,7 +1523,6 @@ a.rss-image {
 			border-top: 1px solid #eee;
 			padding: 10px 0 !important;
 			margin-left: 0;
-			overflow: hidden;
 		}
 			div.activity-comments ul li p:last-child {
 				margin-bottom: 0;
@@ -1545,10 +1574,20 @@ a.rss-image {
 			display: none;
 			margin: 10px 0 10px 33px;
 			background: #f0f0f0;
+			border-bottom: 1px solid #ddd;
+			border-right: 1px solid #ddd;
+			-moz-border-radius: 4px;
+			-webkit-border-radius: 4px;
+			border-radius: 4px;
 			padding: 8px;
 		}
 			div.activity-comments form.root {
-				margin-left: -8px !important;
+				margin-left: 0;
+			}
+
+			div.activity-comments div#message {
+				margin-top: 15px;
+				margin-bottom: 0;
 			}
 
 			div.activity-comments form.loading {
