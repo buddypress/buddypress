@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-11-26 14:11+0000\n"
+"POT-Creation-Date: 2009-11-27 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,7 +53,7 @@ msgstr ""
 msgid "Avatar"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:388
+#: bp-activity/bp-activity-templatetags.php:431
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:433
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1138
 #: bp-forums/bbpress/bb-admin/topics.php:144
@@ -64,14 +64,14 @@ msgstr ""
 msgid "%s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:392
+#: bp-activity/bp-activity-templatetags.php:435
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:274
 #: bp-themes/bp-sn-parent/_inc/ajax.php:534
 msgid "Reply"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:396
-#: bp-activity/bp-activity-templatetags.php:474
+#: bp-activity/bp-activity-templatetags.php:439
+#: bp-activity/bp-activity-templatetags.php:517
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:888
 #: bp-forums/bbpress/bb-admin/topics.php:128
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:1983
@@ -86,32 +86,32 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:443
+#: bp-activity/bp-activity-templatetags.php:486
 #, php-format
 msgid "&nbsp; %s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:532
+#: bp-activity/bp-activity-templatetags.php:575
 msgid "profile"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:532
+#: bp-activity/bp-activity-templatetags.php:575
 msgid "friends"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:532 bp-core/bp-core-classes.php:97
+#: bp-activity/bp-activity-templatetags.php:575 bp-core/bp-core-classes.php:97
 msgid "groups"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:532
+#: bp-activity/bp-activity-templatetags.php:575
 msgid "status"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:532
+#: bp-activity/bp-activity-templatetags.php:575
 msgid "blogs"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:540
+#: bp-activity/bp-activity-templatetags.php:583
 msgid "Clear Filter"
 msgstr ""
 
@@ -141,7 +141,7 @@ msgstr ""
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1089
 #: bp-forums/bbpress/bb-templates/kakumei/post-form.php:9
 #: bp-themes/bp-sn-parent/activity/entry.php:25
-#: bp-themes/bp-sn-parent/activity/just-me.php:85
+#: bp-themes/bp-sn-parent/activity/just-me.php:91
 #: bp-themes/bp-sn-parent/groups/single/home.php:120
 msgid "Post"
 msgstr ""
@@ -176,8 +176,8 @@ msgstr ""
 msgid "Site Wide Activity Feed"
 msgstr ""
 
-#: bp-blogs.php:147 bp-core/bp-core-templatetags.php:609
-#: bp-core/bp-core-templatetags.php:670 bp-themes/bp-sn-parent/header.php:99
+#: bp-blogs.php:147 bp-core/bp-core-templatetags.php:610
+#: bp-core/bp-core-templatetags.php:671 bp-themes/bp-sn-parent/header.php:99
 msgid "Blogs"
 msgstr ""
 
@@ -385,7 +385,7 @@ msgid "Blog Avatar"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1293
-#: bp-core/bp-core-templatetags.php:287 bp-core/bp-core-templatetags.php:1111
+#: bp-core/bp-core-templatetags.php:287 bp-core/bp-core-templatetags.php:1112
 #: bp-core/bp-core-widgets.php:298 bp-groups/bp-groups-templatetags.php:2056
 #: bp-groups/deprecated/bp-groups-deprecated.php:194
 #, php-format
@@ -398,14 +398,14 @@ msgid "Latest Post: %s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1324
-#: bp-core/bp-core-templatetags.php:1192
+#: bp-core/bp-core-templatetags.php:1193
 #: bp-forums/bp-forums-templatetags.php:938
 #: bp-groups/bp-groups-templatetags.php:2198
 msgid "Search anything..."
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1325
-#: bp-core/bp-core-templatetags.php:623 bp-core/bp-core-templatetags.php:1193
+#: bp-core/bp-core-templatetags.php:624 bp-core/bp-core-templatetags.php:1194
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:624
 #: bp-forums/bbpress/bb-includes/class.bb-query.php:1017
 #: bp-forums/bbpress/bb-templates/kakumei/rss2.php:18
@@ -744,8 +744,8 @@ msgstr ""
 msgid "Allows the creation of friend connections between users."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:244 bp-core/bp-core-templatetags.php:601
-#: bp-core/bp-core-templatetags.php:666 bp-groups.php:182 bp-groups.php:216
+#: bp-core/bp-core-admin.php:244 bp-core/bp-core-templatetags.php:602
+#: bp-core/bp-core-templatetags.php:667 bp-groups.php:182 bp-groups.php:216
 #: bp-groups.php:1335 bp-groups.php:1534 bp-groups.php:1547 bp-groups.php:1561
 #: bp-groups.php:1574 bp-groups/bp-groups-admin.php:33
 #: bp-groups/bp-groups-widgets.php:13 bp-themes/bp-sn-parent/header.php:91
@@ -809,7 +809,7 @@ msgstr ""
 
 #: bp-core/bp-core-adminbar.php:91 bp-core/bp-core-adminbar.php:93
 #: bp-core/bp-core-templatetags.php:50 bp-core/bp-core-templatetags.php:52
-#: bp-core/bp-core-templatetags.php:634 bp-core/bp-core-templatetags.php:636
+#: bp-core/bp-core-templatetags.php:635 bp-core/bp-core-templatetags.php:637
 #: bp-core/deprecated/bp-core-deprecated.php:974
 #: bp-core/deprecated/bp-core-deprecated.php:976
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:2729
@@ -1106,25 +1106,25 @@ msgstr ""
 msgid "Yahoo Messenger"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:483 bp-core/bp-core-templatetags.php:661
+#: bp-core/bp-core-templatetags.php:484 bp-core/bp-core-templatetags.php:662
 #: bp-groups.php:270 bp-themes/bp-sn-parent/header.php:83
 #: bp-themes/bp-sn-parent/header.php:86
 msgid "Home"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:486
+#: bp-core/bp-core-templatetags.php:487
 msgid "Blog &#8212; "
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:488
+#: bp-core/bp-core-templatetags.php:489
 msgid "Blog &#8212; Categories &#8212; "
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:490
+#: bp-core/bp-core-templatetags.php:491
 msgid "Blog &#8212; Tags &#8212; "
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:492 bp-core/bp-core-templatetags.php:662
+#: bp-core/bp-core-templatetags.php:493 bp-core/bp-core-templatetags.php:663
 #: bp-themes/bp-sn-parent/archive.php:9
 #: bp-themes/bp-sn-parent/attachment.php:9
 #: bp-themes/bp-sn-parent/header.php:87 bp-themes/bp-sn-parent/index.php:9
@@ -1132,12 +1132,12 @@ msgstr ""
 msgid "Blog"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:500 bp-core/bp-core-templatetags.php:502
+#: bp-core/bp-core-templatetags.php:501 bp-core/bp-core-templatetags.php:503
 #, php-format
 msgid "%s Directory"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:597 bp-core/bp-core-templatetags.php:663
+#: bp-core/bp-core-templatetags.php:598 bp-core/bp-core-templatetags.php:664
 #: bp-core/bp-core-widgets.php:73 bp-groups.php:286
 #: bp-groups/bp-groups-admin.php:81
 #: bp-themes/bp-sn-parent/groups/single/admin.php:196
@@ -1145,7 +1145,7 @@ msgstr ""
 msgid "Members"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:605
+#: bp-core/bp-core-templatetags.php:606
 #: bp-forums/bbpress/bb-admin/forums.php:42
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:65
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:66
@@ -1154,25 +1154,25 @@ msgstr ""
 msgid "Forums"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:816
+#: bp-core/bp-core-templatetags.php:817
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1037
+#: bp-core/bp-core-templatetags.php:1038
 #, php-format
 msgid "Viewing member %d to %d (of %d members)"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1072 bp-core/bp-core-templatetags.php:1080
+#: bp-core/bp-core-templatetags.php:1073 bp-core/bp-core-templatetags.php:1081
 msgid "Member avatar"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1160
+#: bp-core/bp-core-templatetags.php:1161
 #, php-format
 msgid "%d friend"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1162
+#: bp-core/bp-core-templatetags.php:1163
 #, php-format
 msgid "%d friends"
 msgstr ""
@@ -4636,84 +4636,84 @@ msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:147
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:162
-#: bp-xprofile/bp-xprofile-templatetags.php:513
+#: bp-xprofile/bp-xprofile-templatetags.php:506
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:363
 msgid "January"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:148
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:163
-#: bp-xprofile/bp-xprofile-templatetags.php:513
+#: bp-xprofile/bp-xprofile-templatetags.php:506
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:363
 msgid "February"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:149
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:164
-#: bp-xprofile/bp-xprofile-templatetags.php:513
+#: bp-xprofile/bp-xprofile-templatetags.php:506
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:363
 msgid "March"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:150
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:165
-#: bp-xprofile/bp-xprofile-templatetags.php:514
+#: bp-xprofile/bp-xprofile-templatetags.php:507
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:364
 msgid "April"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:151
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:166
-#: bp-xprofile/bp-xprofile-templatetags.php:514
+#: bp-xprofile/bp-xprofile-templatetags.php:507
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:364
 msgid "May"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:152
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:167
-#: bp-xprofile/bp-xprofile-templatetags.php:514
+#: bp-xprofile/bp-xprofile-templatetags.php:507
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:364
 msgid "June"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:153
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:168
-#: bp-xprofile/bp-xprofile-templatetags.php:515
+#: bp-xprofile/bp-xprofile-templatetags.php:508
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:365
 msgid "July"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:154
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:169
-#: bp-xprofile/bp-xprofile-templatetags.php:515
+#: bp-xprofile/bp-xprofile-templatetags.php:508
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:365
 msgid "August"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:155
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:170
-#: bp-xprofile/bp-xprofile-templatetags.php:515
+#: bp-xprofile/bp-xprofile-templatetags.php:508
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:365
 msgid "September"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:156
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:171
-#: bp-xprofile/bp-xprofile-templatetags.php:516
+#: bp-xprofile/bp-xprofile-templatetags.php:509
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:366
 msgid "October"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:157
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:172
-#: bp-xprofile/bp-xprofile-templatetags.php:516
+#: bp-xprofile/bp-xprofile-templatetags.php:509
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:366
 msgid "November"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:158
 #: bp-forums/bbpress/bb-includes/class.bb-locale.php:173
-#: bp-xprofile/bp-xprofile-templatetags.php:516
+#: bp-xprofile/bp-xprofile-templatetags.php:509
 #: bp-xprofile/deprecated/bp-xprofile-deprecated.php:366
 msgid "December"
 msgstr ""
@@ -5941,7 +5941,7 @@ msgid "Posted %s ago"
 msgstr ""
 
 #: bp-forums/bbpress/bb-templates/kakumei/profile-edit.php:3
-#: bp-xprofile.php:215 bp-xprofile/bp-xprofile-templatetags.php:698
+#: bp-xprofile.php:215 bp-xprofile/bp-xprofile-templatetags.php:691
 msgid "Edit Profile"
 msgstr ""
 
@@ -6994,7 +6994,6 @@ msgstr ""
 
 #: bp-friends/bp-friends-templatetags.php:426
 #: bp-groups/deprecated/bp-groups-deprecated.php:234
-#: bp-themes/bp-sn-parent/groups/single/menu.php:45
 msgid "See All"
 msgstr ""
 
@@ -8501,11 +8500,15 @@ msgstr ""
 msgid "Post Update"
 msgstr ""
 
-#: bp-themes/bp-sn-parent/activity/just-me.php:100
+#: bp-themes/bp-sn-parent/activity/just-me.php:79
+msgid "In reply to"
+msgstr ""
+
+#: bp-themes/bp-sn-parent/activity/just-me.php:106
 msgid "You haven't done anything recently."
 msgstr ""
 
-#: bp-themes/bp-sn-parent/activity/just-me.php:100
+#: bp-themes/bp-sn-parent/activity/just-me.php:106
 #, php-format
 msgid "%s hasn't done anything recently."
 msgstr ""
@@ -9788,17 +9791,17 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:640
+#: bp-xprofile/bp-xprofile-templatetags.php:633
 msgid ""
 "Avatar uploads are currently disabled. Why not use a <a href=\"http://"
 "gravatar.com\" target=\"_blank\">gravatar</a> instead?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:649
+#: bp-xprofile/bp-xprofile-templatetags.php:642
 msgid "Profile not recently updated"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:660
+#: bp-xprofile/bp-xprofile-templatetags.php:653
 #, php-format
 msgid "Profile updated %s ago"
 msgstr ""
