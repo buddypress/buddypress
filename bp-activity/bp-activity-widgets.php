@@ -49,7 +49,7 @@ class BP_Activity_Widget extends WP_Widget {
 	</div>
 	<?php endif; ?>
 
-	<div class="astream">
+	<div class="activity">
 		<?php // The loop will be loaded here via AJAX on page load to retain settings. ?>
 	</div>
 

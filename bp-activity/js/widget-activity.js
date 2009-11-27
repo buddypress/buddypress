@@ -66,12 +66,12 @@ jQuery(document).ready( function() {
 
 			/* Check for errors and append if found. */
 			if ( response[0] + response[1] == '-1' ) {
-				j('div.astream').fadeOut( 100, function() {
+				j('div.activity').fadeOut( 100, function() {
 					j(this).html( response.substr( 2, response.length ) ).hide().fadeIn( 200 );
 					j(this).fadeIn(100);
 				});
 			} else {
-				j('div.astream').fadeOut( 100, function() {
+				j('div.activity').fadeOut( 100, function() {
 					j(this).html(response);
 					j(this).fadeIn(100);
 				});

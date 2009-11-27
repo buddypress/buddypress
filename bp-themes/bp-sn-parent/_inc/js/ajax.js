@@ -7,7 +7,7 @@ jQuery(document).ready( function() {
 	j('form.ac-form').hide();
 
 	/* Delegate events instead of binding on every element */
-	j('ul.activity-list').click( function(event) {
+	j('div.activity').click( function(event) {
 		var target = j(event.target);
 
 		/* Comment / comment reply links */
