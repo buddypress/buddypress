@@ -178,8 +178,10 @@ Class BP_Activity_Activity {
 		}
 
 		/* Filtering */
-		if ( $filter )
+		if ( $filter ) {
+			unset($filter['user_id']); // Unset duplicate user_id filter - TODO: merge all to sitewide.
 			$filter_sql = BP_Activity_Activity::get_filter_sql( $filter );
+		}
 
 		/* Sorting */
 		if ( $sort != 'ASC' && $sort != 'DESC' )
