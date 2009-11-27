@@ -9,6 +9,9 @@ add_action( 'plugins_loaded', 'bp_activity_register_widgets' );
 class BP_Activity_Widget extends WP_Widget {
 	function bp_activity_widget() {
 		parent::WP_Widget( false, $name = __( 'Site Wide Activity', 'buddypress' ) );
+
+		if ( is_active_widget( false, false, $this->id_base ) )
+			wp_enqueue_script( 'activity_widget_js', BP_PLUGIN_URL . '/bp-activity/js/widget-activity.js' );
 	}
 
 	function widget($args, $instance) {
@@ -19,27 +22,91 @@ class BP_Activity_Widget extends WP_Widget {
 		echo $before_widget;
 		echo $before_title
 		   . $widget_name .
-			 ' <a class="rss-image" href="' . bp_get_sitewide_activity_feed_link() . '" title="' . __( 'Site Wide Activity RSS Feed', 'buddypress' ) . '">' . __( '[RSS]', 'buddypress' ) . '</a>'
+			 ' &nbsp;<span class="ajax-loader"></span>
+			  <a class="rss-image" href="' . bp_get_sitewide_activity_feed_link() . '" title="' . __( 'Site Wide Activity RSS Feed', 'buddypress' ) . '">' . __( '[RSS]', 'buddypress' ) . '</a>'
 		   . $after_title; ?>
 
-	<?php if ( bp_has_activities( 'type=sitewide&max=' . $instance['max_items'] . '&per_page=' . $instance['per_page'] . '&display_comments=threaded' ) ) : ?>
+	<?php if ( is_user_logged_in() ) : ?>
+	<div class="item-list-tabs">
+		<ul>
+			<li class="selected" id="activity-all"><a href="<?php bp_root_domain() ?>"><?php _e( 'All Members', 'buddypress' ) ?></a></li>
+			<li id="activity-friends"><a href="<?php echo bp_loggedin_user_domain() . BP_ACTIVITY_SLUG . '/my-friends/' ?>"><?php _e( 'My Friends', 'buddypress') ?></a></li>
+			<li id="activity-groups"><a href="<?php echo bp_loggedin_user_domain() . BP_ACTIVITY_SLUG . '/my-groups/' ?>"><?php _e( 'My Groups', 'buddypress') ?></a></li>
 
-		<?php if ( !file_exists( WP_CONTENT_DIR . '/bp-themes' ) ) : ?>
-			<div class="pagination">
-				<div class="pag-count" id="activity-count">
-					<?php bp_activity_pagination_count() ?>
-				</div>
+			<?php do_action( 'bp_activity_types' ) ?>
 
-				<div class="pagination-links" id="activity-pag">
-					&nbsp; <?php bp_activity_pagination_links() ?>
-				</div>
-			</div>
+			<li id="activity-filter-select">
+				<select>
+					<option value="-1"><?php _e( 'No Filter', 'buddypress' ) ?></option>
+					<option value="new_wire_post"><?php _e( 'Updates Only', 'buddypress' ) ?></option>
+					<option value="new_forum_post,new_forum_topic"><?php _e( 'Group Forum Activity Only', 'buddypress' ) ?></option>
+					<option value="new_blog_post,new_blog_comment"><?php _e( 'Blog Activity Only', 'buddypress' ) ?></option>
 
-			<ul id="activity-filter-links">
-				<?php bp_activity_filter_links() ?>
-			</ul>
-		<?php endif; ?>
+					<?php do_action( 'bp_activity_filter_options' ) ?>
+				</select>
+			</li>
+		</ul>
+	</div>
+	<?php endif; ?>
 
+	<div class="astream">
+		<?php // The loop will be loaded here via AJAX on page load to retain settings. ?>
+	</div>
+
+	<?php echo $after_widget; ?>
+	<?php
+	}
+
+	function update( $new_instance, $old_instance ) {
+		$instance = $old_instance;
+		$instance['max_items'] = strip_tags( $new_instance['max_items'] );
+		$instance['per_page'] = strip_tags( $new_instance['per_page'] );
+
+		return $instance;
+	}
+
+	function form( $instance ) {
+		$instance = wp_parse_args( (array) $instance, array( 'max_items' => 200, 'per_page' => 25 ) );
+		$per_page = strip_tags( $instance['per_page'] );
+		$max_items = strip_tags( $instance['max_items'] );
+		?>
+
+		<p><label for="bp-activity-widget-sitewide-per-page"><?php _e('Number of Items Per Page:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'per_page' ); ?>" name="<?php echo $this->get_field_name( 'per_page' ); ?>" type="text" value="<?php echo attribute_escape( $per_page ); ?>" style="width: 30%" /></label></p>
+		<p><label for="bp-core-widget-members-max"><?php _e('Max items to show:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_items' ); ?>" name="<?php echo $this->get_field_name( 'max_items' ); ?>" type="text" value="<?php echo attribute_escape( $max_items ); ?>" style="width: 30%" /></label></p>
+	<?php
+	}
+}
+
+function bp_activity_widget_loop( $type = 'all', $filter = false, $per_page = 20 ) {
+	global $bp;
+
+	/* Set a valid type */
+	if ( !$type || ( 'all' != $type && 'friends' != $type && 'groups' != $type ) )
+		$type = 'all';
+
+	if ( ( 'friends' == $type || 'groups' == $type ) && !is_user_logged_in() )
+		$type = 'all';
+
+	switch( $type ) {
+		case 'friends':
+			$friend_ids = implode( ',', friends_get_friend_user_ids( $bp->loggedin_user->id ) );
+			$query_string = 'user_id=' . $friend_ids;
+			break;
+		case 'groups':
+			$groups = groups_get_user_groups( $bp->loggedin_user->id );
+			$group_ids = implode( ',', $groups['groups'] );
+			$query_string = 'object=groups&primary_id=' . $group_ids;
+			break;
+	}
+
+	/* Build the filter */
+	if ( $filter && $filter != '-1' )
+		$query_string .= '&action=' . $filter;
+
+	/* Add the per_page param */
+	$query_string .= '&per_page=' . $per_page;
+
+	if ( bp_has_activities( $query_string . '&display_comments=threaded' ) ) : ?>
 		<ul id="site-wide-stream" class="activity-list">
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<li class="<?php bp_activity_css_class() ?>" id="activity-<?php bp_activity_id() ?>">
@@ -77,33 +144,16 @@ class BP_Activity_Widget extends WP_Widget {
 		</ul>
 
 	<?php else: ?>
-
-		<div class="widget-error">
-			<?php _e('There has been no recent site activity.', 'buddypress') ?>
-		</div>
-	<?php endif;?>
-
-	<?php echo $after_widget; ?>
-	<?php
-	}
-
-	function update( $new_instance, $old_instance ) {
-		$instance = $old_instance;
-		$instance['max_items'] = strip_tags( $new_instance['max_items'] );
-		$instance['per_page'] = strip_tags( $new_instance['per_page'] );
-
-		return $instance;
-	}
-
-	function form( $instance ) {
-		$instance = wp_parse_args( (array) $instance, array( 'max_items' => 200, 'per_page' => 25 ) );
-		$per_page = strip_tags( $instance['per_page'] );
-		$max_items = strip_tags( $instance['max_items'] );
-		?>
-
-		<p><label for="bp-activity-widget-sitewide-per-page"><?php _e('Number of Items Per Page:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'per_page' ); ?>" name="<?php echo $this->get_field_name( 'per_page' ); ?>" type="text" value="<?php echo attribute_escape( $per_page ); ?>" style="width: 30%" /></label></p>
-		<p><label for="bp-core-widget-members-max"><?php _e('Max items to show:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_items' ); ?>" name="<?php echo $this->get_field_name( 'max_items' ); ?>" type="text" value="<?php echo attribute_escape( $max_items ); ?>" style="width: 30%" /></label></p>
-	<?php
-	}
+<?php echo "-1<div id='message' class='info'><p>" . __( 'No activity found', 'buddypress' ) . '</p></div>'; ?>
+	<?php endif;
 }
+
+/* The ajax function to reload the activity widget. In here because this is a self contained widget. */
+function bp_activity_ajax_widget_filter() {
+	bp_activity_widget_loop( $_POST['type'], $_POST['filter'] );
+}
+add_action( 'wp_ajax_activity_widget_filter', 'bp_activity_ajax_widget_filter' );
+
+
+
 ?>

@@ -1262,30 +1262,6 @@ input#signup_blog_title {
 	background: none !important;
 	border-bottom: 1px solid #eee;
 }
-	ul#activity-filter-links li#afilter-blogs a {
-		background: url(../images/blog_bullet.gif) 20px 4px no-repeat;
-	}
-
-	ul#activity-filter-links li#afilter-profile a {
-		background: url(../images/profile_bullet.gif) 0 4px no-repeat;
-	}
-
-	ul#activity-filter-links li#afilter-friends a {
-		background: url(../images/friends_bullet.gif) 0 4px no-repeat;
-	}
-
-	ul#activity-filter-links li#afilter-groups a {
-		background: url(../images/groups_bullet.gif) 0 4px no-repeat;
-	}
-
-	ul#activity-filter-links li#afilter-wire a {
-		background: url(../images/wire_bullet.gif) 0 4px no-repeat;
-	}
-
-	ul#activity-filter-links li#afilter-status a {
-		background: url(../images/status_bullet.gif) 0 4px no-repeat;
-	}
-
 	.activity-list li.mini {
 		font-size: 0.9em;
 		min-height: 35px;
@@ -1390,26 +1366,21 @@ input#signup_blog_title {
 		margin: 0;
 	}
 
-ul#activity-filter-links {
+div.item-list-tabs ul {
 	margin: 0;
 	padding: 0;
 	list-style: none;
 	background: url(../images/item_list_back.gif) top left repeat-x;
 	padding: 15px;
-	min-height: 22px;
 	overflow: hidden;
 }
-	.activity ul#activity-filter-links {
-		margin-top: 35px;
-	}
 
-ul#activity-filter-links li {
+div.item-list-tabs ul li {
 	float: left;
-	margin-bottom: 5px;
 }
-	ul#activity-filter-links li a {
+	div.item-list-tabs ul li a {
 		display: block;
-		padding: 2px 8px 2px 30px;
+		padding: 2px 8px;
 		background-color: #fff !important;
 		background-position: 8px 6px !important;
 		border-radius: 5px;
@@ -1419,16 +1390,24 @@ ul#activity-filter-links li {
 		border: 1px solid #eee;
 		text-decoration: none;
 	}
-		ul#activity-filter-links li.selected a {
+		div.item-list-tabs ul li.selected a {
 			border: 1px solid #ccc;
+			color: #555;
 			font-weight: bold;
 		}
 
-		ul#activity-filter-links li#afilter-clear a {
+		div.item-list-tabs ul li.afilter-clear a {
 			background: url(../images/error_icon.gif) 0 4px no-repeat;
 			border-color: #ffa6ac;
 			color: #ff5560;
 		}
+
+		div.item-list-tabs li#activity-filter-select {
+			float: right;
+		}
+			div.item-list-tabs li#activity-filter-select select {
+				max-width: 120px;
+			}
 
 a.rss-image {
 	background: url( ../images/rss.png ) top left no-repeat;

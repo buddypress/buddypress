@@ -155,7 +155,7 @@ function bp_has_activities( $args = '' ) {
 	if ( isset( $_GET['afilter'] ) )
 		$filter = array( 'object' => $_GET['afilter'] );
 	else
-		$filter = array( 'object' => $object, 'action' => $action, 'primary_id' => $primary_id, 'secondary_id' => $secondary_id );
+		$filter = array( 'user_id' => $user_id, 'object' => $object, 'action' => $action, 'primary_id' => $primary_id, 'secondary_id' => $secondary_id );
 
 	$activities_template = new BP_Activity_Template( $type, $user_id, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden );
 

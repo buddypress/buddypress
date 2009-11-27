@@ -459,6 +459,24 @@ Class BP_Activity_Activity {
 	function get_filter_sql( $filter_array ) {
 		global $wpdb;
 
+		if ( !empty( $filter_array['user_id'] ) ) {
+			$user_filter = explode( ',', $filter_array['user_id'] );
+			$user_sql = ' ( ';
+
+			$counter = 1;
+			foreach( (array) $user_filter as $user ) {
+				$user_sql .= $wpdb->prepare( "user_id = %d", trim( $user ) );
+
+				if ( $counter != count( $user_filter ) )
+					$user_sql .= ' || ';
+
+				$counter++;
+			}
+
+			$user_sql .= ' )';
+			$filter_sql[] = $user_sql;
+		}
+
 		if ( !empty( $filter_array['object'] ) ) {
 			$object_filter = explode( ',', $filter_array['object'] );
 			$object_sql = ' ( ';

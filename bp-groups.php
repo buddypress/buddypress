@@ -1917,6 +1917,8 @@ function groups_get_by_most_forum_posts( $limit = null, $page = 1 ) {
 	return BP_Groups_Group::get_by_most_forum_posts( $limit, $page );
 }
 
+/* TODO: These user group functions could be merged with the above with an optional user ID param */
+
 function groups_get_user_groups( $user_id = false, $pag_num = false, $pag_page = false ) {
 	global $bp;
 
@@ -1925,8 +1927,6 @@ function groups_get_user_groups( $user_id = false, $pag_num = false, $pag_page =
 
 	return BP_Groups_Member::get_group_ids( $user_id, $pag_num, $pag_page );
 }
-
-/* TODO: These user group functions could be merged with the above with an optional user ID param */
 
 function groups_get_recently_joined_for_user( $user_id = false, $pag_num = false, $pag_page = false, $filter = false ) {
 	global $bp;
