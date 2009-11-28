@@ -32,6 +32,42 @@ jQuery(document).ready( function() {
 		return false;
 	});
 
+	/* Stream event delegation */
+	j('div.widget_bp_activity_widget').click( function(event) {
+		var target = j(event.target).parent();
+
+		/* Load more updates at the end of the page */
+		if ( target.attr('class') == 'load-more' ) {
+			j("li.load-more span.ajax-loader").show();
+			var oldest_page = ( j("input#aw-oldestpage").val() * 1 ) + 1;
+
+			j.post( ajaxurl, {
+				action: 'aw_get_older_updates',
+				'cookie': encodeURIComponent(document.cookie),
+				'query_string': j("input#aw-querystring").val(),
+				'acpage': oldest_page
+			},
+			function(response)
+			{
+				j("li.load-more span.ajax-loader").hide();
+
+				/* Check for errors and append if found. */
+				if ( response[0] + response[1] != '-1' ) {
+					var response = response.split('||');
+					j("input#aw-querystring").val(response[0]);
+
+					j("ul.activity-list").append(response[1]);
+					j("input#aw-oldestpage").val( oldest_page );
+				}
+
+				target.hide();
+			});
+
+			return false;
+		}
+	});
+
+
 	function bp_activity_widget_post(type, filter) {
 		if ( null == type )
 			var type = 'all';
@@ -71,8 +107,11 @@ jQuery(document).ready( function() {
 					j(this).fadeIn(100);
 				});
 			} else {
+				var response = response.split('||');
+				j("input#aw-querystring").val(response[0]);
+
 				j('div.activity').fadeOut( 100, function() {
-					j(this).html(response);
+					j(this).html(response[1]);
 					j(this).fadeIn(100);
 				});
 			}

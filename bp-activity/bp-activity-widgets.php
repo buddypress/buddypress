@@ -53,6 +53,12 @@ class BP_Activity_Widget extends WP_Widget {
 		<?php // The loop will be loaded here via AJAX on page load to retain settings. ?>
 	</div>
 
+	<form action="" name="activity-widget-form" id="activity-widget-form" method="post">
+		<?php wp_nonce_field( 'activity_filter', '_wpnonce_activity_filter' ) ?>
+		<input type="hidden" id="aw-querystring" name="aw-querystring" value="" />
+		<input type="hidden" id="aw-oldestpage" name="aw-oldestpage" value="1" />
+	</div>
+
 	<?php echo $after_widget; ?>
 	<?php
 	}
@@ -77,37 +83,44 @@ class BP_Activity_Widget extends WP_Widget {
 	}
 }
 
-function bp_activity_widget_loop( $type = 'all', $filter = false, $per_page = 20 ) {
+function bp_activity_widget_loop( $type = 'all', $filter = false, $query_string = false, $per_page = 20 ) {
 	global $bp;
 
-	/* Set a valid type */
-	if ( !$type || ( 'all' != $type && 'friends' != $type && 'groups' != $type ) )
-		$type = 'all';
+	if ( !$query_string ) {
+		/* Set a valid type */
+		if ( !$type || ( 'all' != $type && 'friends' != $type && 'groups' != $type ) )
+			$type = 'all';
 
-	if ( ( 'friends' == $type || 'groups' == $type ) && !is_user_logged_in() )
-		$type = 'all';
+		if ( ( 'friends' == $type || 'groups' == $type ) && !is_user_logged_in() )
+			$type = 'all';
 
-	switch( $type ) {
-		case 'friends':
-			$friend_ids = implode( ',', friends_get_friend_user_ids( $bp->loggedin_user->id ) );
-			$query_string = 'user_id=' . $friend_ids;
-			break;
-		case 'groups':
-			$groups = groups_get_user_groups( $bp->loggedin_user->id );
-			$group_ids = implode( ',', $groups['groups'] );
-			$query_string = 'object=groups&primary_id=' . $group_ids;
-			break;
+		switch( $type ) {
+			case 'friends':
+				$friend_ids = implode( ',', friends_get_friend_user_ids( $bp->loggedin_user->id ) );
+				$query_string = 'user_id=' . $friend_ids;
+				break;
+			case 'groups':
+				$groups = groups_get_user_groups( $bp->loggedin_user->id );
+				$group_ids = implode( ',', $groups['groups'] );
+				$query_string = 'object=groups&primary_id=' . $group_ids;
+				break;
+		}
+
+		/* Build the filter */
+		if ( $filter && $filter != '-1' )
+			$query_string .= '&action=' . $filter;
+
+		/* Add the per_page param */
+		$query_string .= '&per_page=' . $per_page;
 	}
 
-	/* Build the filter */
-	if ( $filter && $filter != '-1' )
-		$query_string .= '&action=' . $filter;
-
-	/* Add the per_page param */
-	$query_string .= '&per_page=' . $per_page;
-
 	if ( bp_has_activities( $query_string . '&display_comments=threaded' ) ) : ?>
-		<ul id="site-wide-stream" class="activity-list">
+		<?php echo $query_string . '&display_comments=threaded||'; // Pass the qs back to the JS. ?>
+
+		<?php if ( !$_POST['acpage'] || 1 == $_POST['acpage'] ) : ?>
+			<ul id="site-wide-stream" class="activity-list">
+		<?php endif; ?>
+
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<li class="<?php bp_activity_css_class() ?>" id="activity-<?php bp_activity_id() ?>">
 				<div class="activity-avatar">
@@ -141,7 +154,13 @@ function bp_activity_widget_loop( $type = 'all', $filter = false, $per_page = 20
 
 			</li>
 		<?php endwhile; ?>
-		</ul>
+			<li class="load-more">
+				<a href="#more"><?php _e( 'Load More', 'buddypress' ) ?></a> &nbsp; <span class="ajax-loader"></span>
+			</li>
+
+		<?php if ( !$_POST['acpage'] || 1 == $_POST['acpage']  ) : ?>
+			</ul>
+		<?php endif; ?>
 
 	<?php else: ?>
 <?php echo "-1<div id='message' class='info'><p>" . __( 'No activity found', 'buddypress' ) . '</p></div>'; ?>
@@ -153,6 +172,12 @@ function bp_activity_ajax_widget_filter() {
 	bp_activity_widget_loop( $_POST['type'], $_POST['filter'] );
 }
 add_action( 'wp_ajax_activity_widget_filter', 'bp_activity_ajax_widget_filter' );
+
+/* The ajax function to load older updates at the end of the list */
+function bp_activity_ajax_load_older_updates() {
+	bp_activity_widget_loop( false, false, $_POST['query_string'] );
+}
+add_action( 'wp_ajax_aw_get_older_updates', 'bp_activity_ajax_load_older_updates' );
 
 
 

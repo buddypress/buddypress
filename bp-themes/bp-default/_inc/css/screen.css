@@ -1366,6 +1366,19 @@ input#signup_blog_title {
 		margin: 0;
 	}
 
+.activity-list li.load-more {
+	margin: 15px !important;
+	padding: 10px 15px !important;
+	background: #f0f0f0 !important;
+	text-align: center;
+	font-size: 1.2em;
+	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+	.activity-list li.load-more a {
+		color: #555;
+	}
+
 div.item-list-tabs ul {
 	margin: 0;
 	padding: 0;
