@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-11-27 14:11+0000\n"
+"POT-Creation-Date: 2009-11-28 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,7 +25,8 @@ msgstr ""
 msgid "Just Me"
 msgstr ""
 
-#: bp-activity.php:97 bp-friends.php:78 bp-friends.php:83 bp-friends.php:322
+#: bp-activity.php:97 bp-activity/bp-activity-widgets.php:33 bp-friends.php:78
+#: bp-friends.php:83 bp-friends.php:322
 #: bp-friends/bp-friends-templatetags.php:426
 #: bp-themes/bp-sn-parent/friends/index.php:10
 #: bp-themes/bp-sn-parent/profile/profile-menu.php:59
@@ -120,15 +121,50 @@ msgstr ""
 msgid "Site Wide Activity"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:22 bp-themes/bp-sn-parent/header.php:18
+#: bp-activity/bp-activity-widgets.php:26 bp-themes/bp-sn-parent/header.php:18
 msgid "Site Wide Activity RSS Feed"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:22
+#: bp-activity/bp-activity-widgets.php:26
 msgid "[RSS]"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:55
+#: bp-activity/bp-activity-widgets.php:32
+msgid "All Members"
+msgstr ""
+
+#: bp-activity/bp-activity-widgets.php:34 bp-groups.php:221 bp-groups.php:229
+#: bp-groups/deprecated/bp-groups-deprecated.php:234
+#: bp-themes/bp-sn-parent/groups/index.php:11
+#: bp-themes/bp-sn-parent/profile/profile-menu.php:31
+msgid "My Groups"
+msgstr ""
+
+#: bp-activity/bp-activity-widgets.php:40
+msgid "No Filter"
+msgstr ""
+
+#: bp-activity/bp-activity-widgets.php:41
+msgid "Updates Only"
+msgstr ""
+
+#: bp-activity/bp-activity-widgets.php:42
+msgid "Group Forum Activity Only"
+msgstr ""
+
+#: bp-activity/bp-activity-widgets.php:43
+msgid "Blog Activity Only"
+msgstr ""
+
+#: bp-activity/bp-activity-widgets.php:74
+msgid "Number of Items Per Page:"
+msgstr ""
+
+#: bp-activity/bp-activity-widgets.php:75
+msgid "Max items to show:"
+msgstr ""
+
+#: bp-activity/bp-activity-widgets.php:122
 #: bp-themes/bp-sn-parent/activity/entry.php:12
 #: bp-themes/bp-sn-parent/activity/just-me.php:72
 #: bp-themes/bp-sn-parent/comments.php:109
@@ -136,7 +172,7 @@ msgstr ""
 msgid "Comment"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:68
+#: bp-activity/bp-activity-widgets.php:135
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1081
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1089
 #: bp-forums/bbpress/bb-templates/kakumei/post-form.php:9
@@ -146,16 +182,8 @@ msgstr ""
 msgid "Post"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:82
-msgid "There has been no recent site activity."
-msgstr ""
-
-#: bp-activity/bp-activity-widgets.php:104
-msgid "Number of Items Per Page:"
-msgstr ""
-
-#: bp-activity/bp-activity-widgets.php:105
-msgid "Max items to show:"
+#: bp-activity/bp-activity-widgets.php:147
+msgid "No activity found"
 msgstr ""
 
 #: bp-activity/feeds/bp-activity-friends-feed.php:21
@@ -7035,13 +7063,6 @@ msgstr ""
 #: bp-groups.php:148 bp-groups.php:1587 bp-groups.php:1589
 #: bp-themes/bp-sn-parent/groups/invites.php:8
 msgid "Group Invites"
-msgstr ""
-
-#: bp-groups.php:221 bp-groups.php:229
-#: bp-groups/deprecated/bp-groups-deprecated.php:234
-#: bp-themes/bp-sn-parent/groups/index.php:11
-#: bp-themes/bp-sn-parent/profile/profile-menu.php:31
-msgid "My Groups"
 msgstr ""
 
 #: bp-groups.php:222 bp-themes/bp-sn-parent/groups/create.php:10
