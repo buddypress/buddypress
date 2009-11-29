@@ -1385,10 +1385,13 @@ a.rss-image {
 }
 
 #activity-rss p {
-		text-align: right;
-		font-size: 0.9em;
-		margin: -20px 0 5px 0;
+	text-align: right;
+	font-size: 0.9em;
+	margin: -20px 0 5px 0;
 }
+	.profile #activity-rss p {
+		margin-top: 0;
+	}
 
 #activity-rss p a {
 	background: url(../images/rss.png) center left no-repeat;
