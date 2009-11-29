@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-11-28 14:11+0000\n"
+"POT-Creation-Date: 2009-11-29 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -156,15 +156,15 @@ msgstr ""
 msgid "Blog Activity Only"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:74
+#: bp-activity/bp-activity-widgets.php:80
 msgid "Number of Items Per Page:"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:75
+#: bp-activity/bp-activity-widgets.php:81
 msgid "Max items to show:"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:122
+#: bp-activity/bp-activity-widgets.php:135
 #: bp-themes/bp-sn-parent/activity/entry.php:12
 #: bp-themes/bp-sn-parent/activity/just-me.php:72
 #: bp-themes/bp-sn-parent/comments.php:109
@@ -172,7 +172,7 @@ msgstr ""
 msgid "Comment"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:135
+#: bp-activity/bp-activity-widgets.php:148
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1081
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1089
 #: bp-forums/bbpress/bb-templates/kakumei/post-form.php:9
@@ -182,7 +182,11 @@ msgstr ""
 msgid "Post"
 msgstr ""
 
-#: bp-activity/bp-activity-widgets.php:147
+#: bp-activity/bp-activity-widgets.php:158
+msgid "Load More"
+msgstr ""
+
+#: bp-activity/bp-activity-widgets.php:166
 msgid "No activity found"
 msgstr ""
 
