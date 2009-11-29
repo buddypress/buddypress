@@ -36,15 +36,14 @@
 						<h5><?php printf( __( "What's new %s?", 'buddypress' ), bp_dtheme_firstname() ) ?></h5>
 
 						<div id="whats-new-content">
-							<textarea name="whats-new" id="whats-new" value="" /></textarea>
-
-							<div id="whats-new-options">
-								<div id="whats-new-submit">
-									<span class="ajax-loader"></span> &nbsp;
-									<input type="submit" name="whats-new-submit" id="whats-new-submit" value="<?php _e( 'Post Update', 'buddypress' ) ?>" />
-								</div>
+							<div id="whats-new-textarea">
+								<textarea name="whats-new" id="whats-new" value="" /></textarea>
 							</div>
 
+								<div id="whats-new-submit">
+									<span class="ajax-loader"></span>
+									<input type="submit" name="whats-new-submit" id="whats-new-submit" value="<?php _e( 'Post Update', 'buddypress' ) ?>" />
+								</div>
 						</div>
 
 						<?php wp_nonce_field( 'post_update', '_wpnonce_post_update' ); ?>
@@ -87,7 +86,9 @@
 										<form action="" method="post" name="activity-comment-form" id="ac-form-<?php bp_activity_id() ?>" class="ac-form">
 											<div class="ac-reply-avatar"><?php bp_loggedin_user_avatar( 'width=25&height=25' ) ?></div>
 											<div class="ac-reply-content">
-												<textarea id="ac-input-<?php bp_activity_id() ?>" class="ac-input" name="ac-input-<?php bp_activity_id() ?>"></textarea>
+												<div class="ac-textarea">
+													<textarea id="ac-input-<?php bp_activity_id() ?>" class="ac-input" name="ac-input-<?php bp_activity_id() ?>"></textarea>
+												</div>
 												<input type="submit" name="ac-form-submit" value="<?php _e( 'Post', 'buddypress' ) ?> &rarr;" />
 											</div>
 											<?php wp_nonce_field( 'new_activity_comment', '_wpnonce_new_activity_comment' ) ?>

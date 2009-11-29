@@ -1444,6 +1444,11 @@ a.rss-image {
 	padding-left: 15px;
 }
 
+.widget_bp_activity_widget {
+	float: left;
+	width: 100%;
+}
+
 .widget_bp_activity_widget span.time-since {
 	font-size: 0.9em;
 }
@@ -1574,17 +1579,27 @@ a.rss-image {
 				background-repeat: no-repeat;
 			}
 
-			div.activity-comments form textarea {
-				width: 93%;
-				font-family: inherit;
-				font-size: 0.9em;
-				color: #555;
+			div.activity-comments form .ac-textarea {
 				padding: 8px;
-				height: 60px;
+				border: 1px inset #ccc;
+				background: #fff;
+				margin-bottom: 10px;
+				-moz-border-radius: 3px;
+				-webkit-border-radius: 3px;
+				border-radius: 3px;
 			}
-				div.activity-comments form input {
-					margin-top: 5px;
+				div.activity-comments form textarea {
+					width: 100%;
+					font-family: inherit;
+					font-size: 0.9em;
+					color: #555;
+					height: 60px;
+					border: none;
+					padding: 0;
 				}
+					div.activity-comments form input {
+						margin-top: 5px;
+					}
 
 			div.activity-comments form div.ac-reply-avatar {
 				float: left;
@@ -1605,6 +1620,10 @@ form#whats-new-form {
 	padding: 15px;
 	margin: 10px 0 20px 0;
 }
+	.widget_bp_activity_widget form#whats-new-form {
+		margin-bottom: 5px;
+	}
+
 	form#whats-new-form h5 {
 		margin: 0;
 		font-weight: normal;
@@ -1623,25 +1642,33 @@ form#whats-new-form {
 		padding-left: 22px;
 	}
 
-	form#whats-new-form textarea {
-		width: 96.5%;
-		height: 60px;
-		padding: 10px;
-		font-size: 1.2em;
-		font-family: Arial, tahoma, verdana, sans-serif;
-		color: #555;
+	form#whats-new-form #whats-new-textarea {
+		padding: 8px;
+		border: 1px inset #ccc;
+		background: #fff;
 		margin-bottom: 10px;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+	}
+	form#whats-new-form textarea {
+		width: 100%;
+		height: 60px;
+		font-size: 1.1em;
+		font-family: inherit;
+		color: #555;
+		border: none;
+		margin: 0;
+		padding: 0;
 	}
 
-	form#whats-new-form #whats-new-latest {
-		float: left;
-		width: 35%;
-		font-size: 0.9em;
-		color: #888;
+	form#whats-new-form #whats-new-options select {
+		max-width: 150px;
 	}
 
-	form#whats-new-form #whats-new-options {
+	form#whats-new-form #whats-new-submit {
 		float: right;
+		margin: 0;
 	}
 
 /**** BLOGS *****************/

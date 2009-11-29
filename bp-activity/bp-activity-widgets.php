@@ -26,38 +26,85 @@ class BP_Activity_Widget extends WP_Widget {
 			  <a class="rss-image" href="' . bp_get_sitewide_activity_feed_link() . '" title="' . __( 'Site Wide Activity RSS Feed', 'buddypress' ) . '">' . __( '[RSS]', 'buddypress' ) . '</a>'
 		   . $after_title; ?>
 
-	<?php if ( is_user_logged_in() ) : ?>
-	<div class="item-list-tabs">
-		<ul>
-			<li class="selected" id="activity-all"><a href="<?php bp_root_domain() ?>"><?php _e( 'All Members', 'buddypress' ) ?></a></li>
-			<li id="activity-friends"><a href="<?php echo bp_loggedin_user_domain() . BP_ACTIVITY_SLUG . '/my-friends/' ?>"><?php _e( 'My Friends', 'buddypress') ?></a></li>
-			<li id="activity-groups"><a href="<?php echo bp_loggedin_user_domain() . BP_ACTIVITY_SLUG . '/my-groups/' ?>"><?php _e( 'My Groups', 'buddypress') ?></a></li>
+		<?php if ( is_user_logged_in() ) : ?>
+		<form action="" method="post" id="whats-new-form" name="whats-new-form">
+			<div id="whats-new-avatar">
+				<?php bp_loggedin_user_avatar('width=40&height=40') ?>
+				<span class="loading"></span>
+			</div>
 
-			<?php do_action( 'bp_activity_types' ) ?>
+			<h5>
+				<?php
+					$fullname = (array)explode( ' ', $bp->loggedin_user->fullname );
+					printf( __( "What's new %s?", 'buddypress' ), $fullname[0] )
+				?>
+			</h5>
 
-			<li id="activity-filter-select">
-				<select>
-					<option value="-1"><?php _e( 'No Filter', 'buddypress' ) ?></option>
-					<option value="new_wire_post"><?php _e( 'Updates Only', 'buddypress' ) ?></option>
-					<option value="new_forum_post,new_forum_topic"><?php _e( 'Group Forum Activity Only', 'buddypress' ) ?></option>
-					<option value="new_blog_post,new_blog_comment"><?php _e( 'Blog Activity Only', 'buddypress' ) ?></option>
+			<div id="whats-new-content">
+				<div id="whats-new-textarea">
+					<textarea name="whats-new" id="whats-new" value="" /></textarea>
+				</div>
 
-					<?php do_action( 'bp_activity_filter_options' ) ?>
-				</select>
-			</li>
-		</ul>
-	</div>
-	<?php endif; ?>
+				<div id="whats-new-options">
+					<div id="whats-new-submit">
+						<span class="ajax-loader"></span> &nbsp;
+						<input type="submit" name="aw-whats-new-submit" id="aw-whats-new-submit" value="<?php _e( 'Update', 'callisto' ) ?>" />
+					</div>
 
-	<div class="activity">
-		<?php // The loop will be loaded here via AJAX on page load to retain settings. ?>
-	</div>
+					<div id="whats-new-post-in-box">
+						<?php _e( 'Post in', 'callisto' ) ?>:
 
-	<form action="" name="activity-widget-form" id="activity-widget-form" method="post">
-		<?php wp_nonce_field( 'activity_filter', '_wpnonce_activity_filter' ) ?>
-		<input type="hidden" id="aw-querystring" name="aw-querystring" value="" />
-		<input type="hidden" id="aw-oldestpage" name="aw-oldestpage" value="1" />
-	</div>
+						<select id="whats-new-post-in" name="whats-new-post-in">
+							<option selected="selected" value="0"><?php _e( 'My Profile', 'buddypress' ) ?></option>
+							<?php if ( bp_has_groups( 'user_id=' . bp_loggedin_user_id() . '&type=alphabetical' ) ) : while ( bp_groups() ) : bp_the_group(); ?>
+								<option value="<?php bp_group_id() ?>"><?php bp_group_name() ?></option>
+							<?php endwhile; endif; ?>
+						</select>
+					</div>
+				</div>
+
+				<div class="clear"></div>
+
+			</div>
+
+			<?php wp_nonce_field( 'post_update', '_wpnonce_post_update' ); ?>
+		</form>
+		<?php endif; ?>
+
+		<div class="item-list-tabs">
+			<ul>
+				<li class="selected" id="activity-all"><a href="<?php bp_root_domain() ?>"><?php _e( 'All Members', 'buddypress' ) ?></a></li>
+
+				<?php if ( is_user_logged_in() ) : ?>
+					<li id="activity-friends"><a href="<?php echo bp_loggedin_user_domain() . BP_ACTIVITY_SLUG . '/my-friends/' ?>"><?php _e( 'My Friends', 'buddypress') ?></a></li>
+					<li id="activity-groups"><a href="<?php echo bp_loggedin_user_domain() . BP_ACTIVITY_SLUG . '/my-groups/' ?>"><?php _e( 'My Groups', 'buddypress') ?></a></li>
+				<?php endif; ?>
+
+				<?php do_action( 'bp_activity_types' ) ?>
+
+				<li id="activity-filter-select">
+					<select>
+						<option value="-1"><?php _e( 'No Filter', 'buddypress' ) ?></option>
+						<option value="new_wire_post"><?php _e( 'Updates Only', 'buddypress' ) ?></option>
+						<option value="new_forum_post,new_forum_topic"><?php _e( 'Group Forum Activity Only', 'buddypress' ) ?></option>
+						<option value="new_blog_post,new_blog_comment"><?php _e( 'Blog Activity Only', 'buddypress' ) ?></option>
+
+						<?php do_action( 'bp_activity_filter_options' ) ?>
+					</select>
+				</li>
+			</ul>
+		</div>
+
+
+		<div class="activity">
+			<?php // The loop will be loaded here via AJAX on page load to retain settings. ?>
+		</div>
+
+		<form action="" name="activity-widget-form" id="activity-widget-form" method="post">
+			<?php wp_nonce_field( 'activity_filter', '_wpnonce_activity_filter' ) ?>
+			<input type="hidden" id="aw-querystring" name="aw-querystring" value="" />
+			<input type="hidden" id="aw-oldestpage" name="aw-oldestpage" value="1" />
+		</div>
 
 	<?php echo $after_widget; ?>
 	<?php
@@ -144,7 +191,9 @@ function bp_activity_widget_loop( $type = 'all', $filter = false, $query_string 
 					<form action="" method="post" name="activity-comment-form" id="ac-form-<?php bp_activity_id() ?>" class="ac-form">
 						<div class="ac-reply-avatar"><?php bp_loggedin_user_avatar( 'width=25&height=25' ) ?></div>
 						<div class="ac-reply-content">
-							<textarea id="ac-input-<?php bp_activity_id() ?>" class="ac-input" name="ac-input-<?php bp_activity_id() ?>"></textarea>
+							<div class="ac-textarea">
+								<textarea id="ac-input-<?php bp_activity_id() ?>" class="ac-input" name="ac-input-<?php bp_activity_id() ?>"></textarea>
+							</div>
 							<input type="submit" name="ac-form-submit" value="<?php _e( 'Post', 'buddypress' ) ?> &rarr;" />
 						</div>
 						<?php wp_nonce_field( 'new_activity_comment', '_wpnonce_new_activity_comment' ) ?>
