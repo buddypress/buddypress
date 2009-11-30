@@ -21,7 +21,10 @@
 		<form action="" method="post" name="activity-comment-form" id="ac-form-<?php bp_activity_id() ?>" class="ac-form">
 			<div class="ac-reply-avatar"><?php bp_loggedin_user_avatar( 'width=25&height=25' ) ?></div>
 			<div class="ac-reply-content">
-				<textarea id="ac-input-<?php bp_activity_id() ?>" class="ac-input" name="ac-input-<?php bp_activity_id() ?>"></textarea>
+				<div class="ac-textarea">
+					<textarea id="ac-input-<?php bp_activity_id() ?>" class="ac-input" name="ac-input-<?php bp_activity_id() ?>"></textarea>
+				</div>
+
 				<input type="submit" name="ac-form-submit" value="<?php _e( 'Post', 'buddypress' ) ?> &rarr;" />
 			</div>
 			<?php wp_nonce_field( 'new_activity_comment', '_wpnonce_new_activity_comment' ) ?>

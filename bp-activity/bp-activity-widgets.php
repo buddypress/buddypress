@@ -48,7 +48,7 @@ class BP_Activity_Widget extends WP_Widget {
 				<div id="whats-new-options">
 					<div id="whats-new-submit">
 						<span class="ajax-loader"></span> &nbsp;
-						<input type="submit" name="aw-whats-new-submit" id="aw-whats-new-submit" value="<?php _e( 'Update', 'callisto' ) ?>" />
+						<input type="submit" name="aw-whats-new-submit" id="aw-whats-new-submit" value="<?php _e( 'Post Update', 'callisto' ) ?>" />
 					</div>
 
 					<div id="whats-new-post-in-box">

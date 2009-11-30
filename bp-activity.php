@@ -82,7 +82,7 @@ function bp_activity_setup_root_component() {
 	/* Register 'activity' as a root component (for RSS feed use) */
 	bp_core_add_root_component( BP_ACTIVITY_SLUG );
 }
-add_action( 'plugins_loaded', 'bp_activity_setup_root_component' );
+add_action( 'plugins_loaded', 'bp_activity_setup_root_component', 2 );
 
 function bp_activity_setup_nav() {
 	global $bp;
@@ -135,6 +135,47 @@ function bp_activity_screen_friends_activity() {
 	bp_core_load_template( apply_filters( 'bp_activity_template_friends_activity', 'activity/my-friends' ) );
 }
 
+function bp_activity_screen_single_activity_permalink() {
+	global $bp;
+
+	if ( !$bp->displayed_user->id || $bp->current_component != $bp->activity->slug )
+		return false;
+
+	if ( empty( $bp->current_action ) || !is_numeric( $bp->current_action ) )
+		return false;
+
+	/* Get the activity details */
+	$activity = bp_activity_get_specific( array( 'activity_ids' => $bp->current_action ) );
+
+	if ( !$activity = $activity['activities'][0] )
+		bp_core_redirect( $bp->root_domain );
+
+	$has_access = true;
+	/* Redirect based on the type of activity */
+	if ( $activity->component_name == $bp->groups->id ) {
+		if ( !function_exists( 'groups_get_group' ) )
+			bp_core_redirect( $bp->root_domain );
+
+		if ( $group = groups_get_group( array( 'group_id' => $activity->item_id ) ) ) {
+			/* Check to see if the group is not public, if so, check the user has access to see this activity */
+			if ( 'public' != $group->status ) {
+				if ( !groups_is_user_member( $bp->loggedin_user->id, $group->id ) )
+					$has_access = false;
+			}
+		}
+	}
+
+	$has_access = apply_filters( 'bp_activity_permalink_access', $has_access, &$activity );
+
+	if ( !$has_access ) {
+		bp_core_add_message( __( 'You do not have access to this activity.', 'buddypress' ), 'error' );
+		bp_core_redirect( $bp->loggedin_user->domain );
+	}
+
+	bp_core_load_template( apply_filters( 'bp_activity_template_profile_activity_permalink', 'activity/single' ) );
+}
+/* This screen is not attached to a nav item, so we need to add an action for it. */
+add_action( 'wp', 'bp_activity_screen_single_activity_permalink', 3 );
 
 /********************************************************************************
  * Action Functions
@@ -143,6 +184,41 @@ function bp_activity_screen_friends_activity() {
  * have a template screen associated with them. Usually they will send the user
  * back to the default screen after execution.
  */
+
+function bp_activity_action_permalink_router() {
+	global $bp;
+
+	if ( $bp->current_component != $bp->activity->slug || $bp->current_action != 'p' )
+		return false;
+
+	if ( empty( $bp->action_variables[0] ) || !is_numeric( $bp->action_variables[0] ) )
+		return false;
+
+	/* Get the activity details */
+	$activity = bp_activity_get_specific( array( 'activity_ids' => $bp->action_variables[0] ) );
+
+	if ( !$activity = $activity['activities'][0] )
+		bp_core_redirect( $bp->root_domain );
+
+	$redirect = false;
+	/* Redirect based on the type of activity */
+	if ( $activity->component_name == $bp->groups->id ) {
+		if ( $activity->user_id )
+			$redirect = bp_core_get_userurl( $activity->user_id ) . $bp->activity->slug . '/' . $activity->id;
+		else {
+			if ( $group = groups_get_group( array( 'group_id' => $activity->item_id ) ) )
+				$redirect = bp_get_group_permalink( $group ) . $bp->activity->slug . '/' . $activity->id;
+		}
+	} else
+		$redirect = bp_core_get_userurl( $activity->user_id ) . $bp->activity->slug . '/' . $activity->id;
+
+	if ( !$redirect )
+		bp_core_redirect( $bp->root_domain );
+
+	/* Redirect to the actual activity permalink page */
+	bp_core_redirect( apply_filters( 'bp_activity_action_permalink_url', $redirect . '/', &$activity ) );
+}
+add_action( 'wp', 'bp_activity_action_permalink_router', 3 );
 
 function bp_activity_action_delete_activity() {
 	global $bp;
@@ -177,7 +253,6 @@ function bp_activity_action_delete_activity() {
 	bp_core_redirect( $_SERVER['HTTP_REFERER'] );
 }
 add_action( 'wp', 'bp_activity_action_delete_activity', 3 );
-
 
 function bp_activity_action_sitewide_feed() {
 	global $bp, $wp_query;

@@ -1341,6 +1341,13 @@ input#signup_blog_title {
 			margin-bottom: 18px;
 		}
 
+.activity-list li span.activity-header-meta {
+	font-size: 0.95em;
+}
+	.activity-list li span.activity-header-meta a {
+		color: #888;
+	}
+
 .activity-list li span.time-since {
 	font-size: 0.85em;
 	color: #999;

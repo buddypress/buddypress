@@ -31,7 +31,7 @@ class BP_Activity_Template {
 				$this->activities = bp_activity_get_sitewide( array( 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'filter' => $filter, 'show_hidden' => $show_hidden ) );
 
 			if ( $type == 'personal' )
-				$this->activities = bp_activity_get_for_user( array( 'user_id' => $user_id, 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'filter' => $filter ) );
+				$this->activities = bp_activity_get_for_user( array( 'user_id' => $user_id, 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'filter' => $filter, 'show_hidden' => $show_hidden ) );
 
 			if ( $type == 'friends' && ( bp_is_home() || is_site_admin() || $bp->loggedin_user->id == $user_id ) )
 				$this->activities = bp_activity_get_friends_activity( $user_id, $max, false, $this->pag_num, $this->pag_page, $filter );
@@ -151,6 +151,10 @@ function bp_has_activities( $args = '' ) {
 		if ( $per_page > $max )
 			$per_page = $max;
 	}
+
+	/* Support for permalinks on single item pages: /groups/my-group/activity/124/ */
+	if ( $bp->current_action == $bp->activity->slug )
+		$include = $bp->action_variables[0];
 
 	if ( isset( $_GET['afilter'] ) )
 		$filter = array( 'object' => $_GET['afilter'] );
@@ -347,10 +351,16 @@ function bp_activity_content_filter( $content, $date_recorded, $full_name, $inse
 		}
 	}
 
+	if ( 'activity_comment' == $activities_template->activity->component_action )
+		$meta = '</span> <span class="activity-header-meta"> &middot; <a href="' . $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $activities_template->activity->item_id . '">' . __( 'View Thread', 'buddypress' ) . '</a>';
+	else
+		$meta = '</span> <span class="activity-header-meta"> &middot; <a href="' . $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $activities_template->activity->id . '">' . __( 'Permalink', 'buddypress' ) . '</a>';
+
 	/* Add the delete link if the user has permission on this item */
 	if ( ( $activities_template->activity->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin || is_site_admin() )
-		$content[1] = '</span> <span class="activity-delete-link">' . bp_get_activity_delete_link() . '</span>' . $content[1];
+		 $meta .= ' &middot;' . bp_get_activity_delete_link();
 
+	$content[1] = $meta . '</span>' . $content[1];
 	$content_new = '';
 
 	for ( $i = 0; $i < count($content); $i++ )
@@ -485,6 +495,15 @@ function bp_activity_insert_time_since( $content, $date ) {
 
 	return apply_filters( 'bp_activity_insert_time_since', @sprintf( $content, @sprintf( __( '&nbsp; %s ago', 'buddypress' ), bp_core_time_since( strtotime( $date ) ) ) ) );
 }
+
+function bp_activity_permalink_id() {
+	echo bp_get_activity_permalink_id();
+}
+	function bp_get_activity_permalink_id() {
+		global $bp;
+
+		return apply_filters( 'bp_get_activity_permalink_id', $bp->current_action );
+	}
 
 function bp_activity_css_class() {
 	echo bp_get_activity_css_class();

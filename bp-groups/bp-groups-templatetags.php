@@ -483,7 +483,7 @@ function bp_group_permalink( $deprecated = false, $deprecated2 = true ) {
 		if ( !$group )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_get_group_permalink', $bp->root_domain . '/' . $bp->groups->slug . '/' . $group->slug );
+		return apply_filters( 'bp_get_group_permalink', $bp->root_domain . '/' . $bp->groups->slug . '/' . $group->slug . '/' );
 	}
 
 function bp_group_admin_permalink( $deprecated = true, $deprecated2 = false ) {
@@ -736,6 +736,15 @@ function bp_group_show_no_groups_message() {
 		return true;
 
 	return false;
+}
+
+function bp_group_is_activity_permalink() {
+	global $bp;
+
+	if ( !$bp->is_single_item || $bp->current_component != $bp->groups->slug || $bp->current_action != $bp->activity->slug )
+		return false;
+
+	return true;
 }
 
 function bp_group_pagination() {

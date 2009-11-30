@@ -574,12 +574,10 @@ function groups_screen_create_group() {
  	bp_core_load_template( apply_filters( 'groups_template_create_group', 'groups/create' ) );
 }
 
-
 function groups_screen_group_home() {
 	global $bp;
 
 	if ( $bp->is_single_item ) {
-
 		if ( isset($_GET['new']) ) {
 			// Delete group request notifications for the user
 			bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, $bp->groups->slug, 'membership_request_accepted' );
@@ -974,6 +972,19 @@ function groups_screen_group_request_membership() {
 			bp_core_load_template( apply_filters( 'groups_template_group_request_membership', 'groups/request-membership' ) );
 	}
 }
+
+function groups_screen_group_activity_permalink() {
+	global $bp;
+
+	if ( !$bp->is_single_item || $bp->current_component != $bp->groups->slug || $bp->current_action != $bp->activity->slug )
+		return false;
+
+	if ( '' != locate_template( array( 'groups/single/home.php' ), false ) )
+		bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
+	else
+		bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/group-home' ) );
+}
+add_action( 'wp', 'groups_screen_group_activity_permalink', 3 );
 
 function groups_screen_group_admin() {
 	global $bp;
@@ -1605,6 +1616,18 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
  * hand off to a database class for data access, then return
  * true or false on success or failure.
  */
+
+function groups_get_group( $args = '' ) {
+	$defaults = array(
+		'group_id' => false,
+		'load_users' => false
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+	extract( $args, EXTR_SKIP );
+
+	return apply_filters( 'groups_get_group', new BP_Groups_Group( $group_id, true, $load_users ) );
+}
 
 /*** Group Creation, Editing & Deletion *****************************************/
 

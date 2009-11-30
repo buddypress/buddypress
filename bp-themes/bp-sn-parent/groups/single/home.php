@@ -58,7 +58,7 @@
 						<div class="bp-widget">
 							<h4><?php _e( 'Group Activity', 'buddypress' ); ?></h4>
 
-							<?php if ( is_user_logged_in() && bp_group_is_member() ) : ?>
+							<?php if ( is_user_logged_in() && bp_group_is_member() && !bp_group_is_activity_permalink() ) : ?>
 
 							<form action="" method="post" id="whats-new-form" name="whats-new-form">
 								<div id="whats-new-avatar">
