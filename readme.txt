@@ -2,8 +2,8 @@
 Contributors: apeatling
 Tags: wpmu, buddypress, social, networking, profiles, messaging, friends, groups, forums, activity
 Requires at least: WordPress MU 2.8.4
-Tested up to: WordPress MU 2.8.4
-Stable tag: 1.1.2
+Tested up to: WordPress MU 2.8.6
+Stable tag: 1.1.3
 
 BuddyPress is a suite of WordPress MU social networking plugins and themes.
 
@@ -11,10 +11,10 @@ BuddyPress is a suite of WordPress MU social networking plugins and themes.
 
 BuddyPress will extend WordPress MU and bring social networking features to a new or existing installation.
 
-BuddyPress is a suite of WordPress plugins and themes, each adding a distinct new feature. BuddyPress 
+BuddyPress is a suite of WordPress plugins and themes, each adding a distinct new feature. BuddyPress
 contains all the features you'd expect from WordPress but aims to let members socially interact.
 
-All BuddyPress plugins can be themed to match your own style, in just the same way as a WordPress blog. 
+All BuddyPress plugins can be themed to match your own style, in just the same way as a WordPress blog.
 The BuddyPress plugins are bundled with a default theme to get you going out of the box.
 
 == Installation ==
