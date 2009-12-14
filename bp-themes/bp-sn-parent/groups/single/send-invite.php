@@ -6,14 +6,6 @@
 
 	<div id="content">
 
-		<div class="pagination">
-
-			<div class="pagination-links" id="pag">
-				<?php bp_group_pagination() ?>
-			</div>
-
-		</div>
-
 		<?php if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group(); ?>
 
 			<h2><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a> &raquo; <?php _e( 'Send Invites', 'buddypress' ); ?></h2>

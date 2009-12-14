@@ -8,23 +8,23 @@
 
 			<form action="<?php echo site_url() . '/' ?>" method="post" id="forums-directory-form">
 
-				<?php if ( bp_has_site_groups( 'type=most-forum-topics&max=6' ) ) : ?>
+				<?php if ( bp_has_groups( 'type=most-forum-topics&max=6' ) ) : ?>
 
 					<div id="popular-group-forum-listing">
 						<h3><?php _e( 'Popular Group Forums', 'buddypress' ) ?></h3>
 
 						<?php do_action( 'bp_before_directory_popular_group_forums' ) ?>
 
-						<?php while ( bp_site_groups() ) : bp_the_site_group(); ?>
+						<?php while ( bp_groups() ) : bp_the_group(); ?>
 
 							<div class="group-forum">
 								<div class="item-avatar">
-									<a href="<?php bp_the_site_group_link() ?>/forum/"><?php bp_the_site_group_avatar_thumb() ?></a>
+									<a href="<?php bp_group_permalink() ?>/forum/"><?php bp_group_avatar_thumb() ?></a>
 								</div>
 
 								<div class="item">
-									<div class="item-title"><a href="<?php bp_the_site_group_link() ?>/forum/"><?php bp_the_site_group_name() ?></a> (<?php bp_the_site_group_forum_topic_count( 'showtext=true' ) ?>, <?php bp_the_site_group_forum_post_count( 'showtext=true' ) ?>)</div>
-									<div class="item-meta desc"><?php bp_the_site_group_description_excerpt() ?></div>
+									<div class="item-title"><a href="<?php bp_group_link() ?>/forum/"><?php bp_group_name() ?></a> (<?php bp_group_forum_topic_count( 'showtext=true' ) ?>, <?php bp_group_forum_post_count( 'showtext=true' ) ?>)</div>
+									<div class="item-meta desc"><?php bp_group_description_excerpt() ?></div>
 
 									<?php do_action( 'bp_directory_popular_group_forums_item' ) ?>
 								</div>

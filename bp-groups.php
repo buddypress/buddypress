@@ -11,10 +11,6 @@ require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-widgets.php' );
 require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-filters.php' );
 
-/* Include deprecated functions if settings allow */
-if ( !defined( 'BP_IGNORE_DEPRECATED' ) )
-	require ( BP_PLUGIN_DIR . '/bp-groups/deprecated/bp-groups-deprecated.php' );
-
 function groups_install() {
 	global $wpdb, $bp;
 
@@ -142,10 +138,10 @@ function groups_setup_globals() {
 	$bp->groups->forbidden_names = apply_filters( 'groups_forbidden_names', array( 'my-groups', 'group-finder', 'create', 'invites', 'delete', 'add', 'admin', 'request-membership' ) );
 
 	$bp->groups->group_creation_steps = apply_filters( 'groups_create_group_steps', array(
-		'group-details' => array( 'name' => __( 'Group Details', 'buddypress' ), 'position' => 0 ),
-		'group-settings' => array( 'name' => __( 'Group Settings', 'buddypress' ), 'position' => 10 ),
-		'group-avatar' => array( 'name' => __( 'Group Avatar', 'buddypress' ), 'position' => 20 ),
-		'group-invites' => array( 'name' => __( 'Group Invites', 'buddypress' ), 'position' => 30 )
+		'group-details' => array( 'name' => __( 'Details', 'buddypress' ), 'position' => 0 ),
+		'group-settings' => array( 'name' => __( 'Settings', 'buddypress' ), 'position' => 10 ),
+		'group-avatar' => array( 'name' => __( 'Avatar', 'buddypress' ), 'position' => 20 ),
+		'group-invites' => array( 'name' => __( 'Invites', 'buddypress' ), 'position' => 30 )
 	) );
 
 	$bp->groups->valid_status = apply_filters( 'groups_valid_status', array( 'public', 'private', 'hidden' ) );
@@ -213,13 +209,12 @@ function groups_setup_nav() {
 	}
 
 	/* Add 'Groups' to the main navigation */
-	bp_core_new_nav_item( array( 'name' => __('Groups', 'buddypress'), 'slug' => $bp->groups->slug, 'position' => 70, 'screen_function' => 'groups_screen_my_groups', 'default_subnav_slug' => 'my-groups', 'item_css_id' => $bp->groups->id ) );
+	bp_core_new_nav_item( array( 'name' => sprintf( __( 'Groups (%d)', 'buddypress' ), groups_total_groups_for_user() ), 'slug' => $bp->groups->slug, 'position' => 70, 'screen_function' => 'groups_screen_my_groups', 'default_subnav_slug' => 'my-groups', 'item_css_id' => $bp->groups->id ) );
 
 	$groups_link = $bp->loggedin_user->domain . $bp->groups->slug . '/';
 
 	/* Add the subnav items to the groups nav item */
 	bp_core_new_subnav_item( array( 'name' => __( 'My Groups', 'buddypress' ), 'slug' => 'my-groups', 'parent_url' => $groups_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_my_groups', 'position' => 10, 'item_css_id' => 'groups-my-groups' ) );
-	bp_core_new_subnav_item( array( 'name' => __( 'Create a Group', 'buddypress' ), 'slug' => 'create', 'parent_url' => $groups_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_create_group', 'position' => 20, 'user_has_access' => bp_is_home() ) );
 	bp_core_new_subnav_item( array( 'name' => __( 'Invites', 'buddypress' ), 'slug' => 'invites', 'parent_url' => $groups_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_invites', 'position' => 30, 'user_has_access' => bp_is_home() ) );
 
 	if ( $bp->current_component == $bp->groups->slug ) {
@@ -289,7 +284,7 @@ function groups_setup_nav() {
 				if ( function_exists('friends_install') )
 					bp_core_new_subnav_item( array( 'name' => __( 'Send Invites', 'buddypress' ), 'slug' => 'send-invites', 'parent_url' => $group_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_invite', 'item_css_id' => 'group-invite', 'position' => 70, 'user_has_access' => $bp->groups->current_group->user_has_access ) );
 
-				bp_core_new_subnav_item( array( 'name' => __( 'Leave Group', 'buddypress' ), 'slug' => 'leave-group', 'parent_url' => $group_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_leave', 'item_css_id' => 'group-leave', 'position' => 110, 'user_has_access' => $bp->groups->current_group->user_has_access ) );
+				//bp_core_new_subnav_item( array( 'name' => __( 'Leave Group', 'buddypress' ), 'slug' => 'leave-group', 'parent_url' => $group_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_leave', 'item_css_id' => 'group-leave', 'position' => 110, 'user_has_access' => $bp->groups->current_group->user_has_access ) );
 			}
 		}
 	}
@@ -306,7 +301,7 @@ function groups_directory_groups_setup() {
 		$bp->is_directory = true;
 
 		do_action( 'groups_directory_groups_setup' );
-		bp_core_load_template( apply_filters( 'groups_template_directory_groups', 'directories/groups/index' ) );
+		bp_core_load_template( apply_filters( 'groups_template_directory_groups', 'groups/index' ) );
 	}
 }
 add_action( 'wp', 'groups_directory_groups_setup', 2 );
@@ -351,7 +346,7 @@ function groups_screen_my_groups() {
 
 	do_action( 'groups_screen_my_groups' );
 
-	bp_core_load_template( apply_filters( 'groups_template_my_groups', 'groups/index' ) );
+	bp_core_load_template( apply_filters( 'groups_template_my_groups', 'members/single/groups' ) );
 }
 
 function groups_screen_group_invites() {
@@ -401,177 +396,7 @@ function groups_screen_group_invites() {
 
 	do_action( 'groups_screen_group_invites', $group_id );
 
-	if ( '' != locate_template( array( 'groups/invites.php' ), false ) )
-		bp_core_load_template( apply_filters( 'groups_template_group_invites', 'groups/invites' ) );
-	else
-		bp_core_load_template( apply_filters( 'groups_template_group_invites', 'groups/list-invites' ) );
-}
-
-function groups_screen_create_group() {
-	global $bp;
-
-	/* If no current step is set, reset everything so we can start a fresh group creation */
-	if ( !$bp->groups->current_create_step = $bp->action_variables[1] ) {
-
-		unset( $bp->groups->current_create_step );
-		unset( $bp->groups->completed_create_steps );
-
-		setcookie( 'bp_new_group_id', false, time() - 1000, COOKIEPATH );
-		setcookie( 'bp_completed_create_steps', false, time() - 1000, COOKIEPATH );
-
-		$reset_steps = true;
-		bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . array_shift( array_keys( $bp->groups->group_creation_steps )  ) );
-	}
-
-	/* If this is a creation step that is not recognized, just redirect them back to the first screen */
-	if ( $bp->action_variables[1] && !$bp->groups->group_creation_steps[$bp->action_variables[1]] ) {
-		bp_core_add_message( __('There was an error saving group details. Please try again.', 'buddypress'), 'error' );
-		bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create' );
-	}
-
-	/* Fetch the currently completed steps variable */
-	if ( isset( $_COOKIE['bp_completed_create_steps'] ) && !$reset_steps )
-		$bp->groups->completed_create_steps = unserialize( stripslashes( $_COOKIE['bp_completed_create_steps'] ) );
-
-	/* Set the ID of the new group, if it has already been created in a previous step */
-	if ( isset( $_COOKIE['bp_new_group_id'] ) ) {
-		$bp->groups->new_group_id = $_COOKIE['bp_new_group_id'];
-		$bp->groups->current_group = new BP_Groups_Group( $bp->groups->new_group_id, false, false );
-	}
-
-	/* If the save, upload or skip button is hit, lets calculate what we need to save */
-	if ( isset( $_POST['save'] ) ) {
-
-		/* Check the nonce */
-		check_admin_referer( 'groups_create_save_' . $bp->groups->current_create_step );
-
-		if ( 'group-details' == $bp->groups->current_create_step ) {
-			if ( empty( $_POST['group-name'] ) || empty( $_POST['group-desc'] ) ) {
-				bp_core_add_message( __( 'Please fill in all of the required fields', 'buddypress' ), 'error' );
-				bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step );
-			}
-
-			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'name' => $_POST['group-name'], 'description' => $_POST['group-desc'], 'news' => $_POST['group-news'], 'slug' => groups_check_slug( sanitize_title($_POST['group-name']) ), 'date_created' => time() ) ) ) {
-				bp_core_add_message( __( 'There was an error saving group details, please try again.', 'buddypress' ), 'error' );
-				bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step );
-			}
-
-			groups_update_groupmeta( $bp->groups->new_group_id, 'total_member_count', 1 );
-			groups_update_groupmeta( $bp->groups->new_group_id, 'last_activity', time() );
-			groups_update_groupmeta( $bp->groups->new_group_id, 'theme', 'buddypress' );
-			groups_update_groupmeta( $bp->groups->new_group_id, 'stylesheet', 'buddypress' );
-		}
-
-		if ( 'group-settings' == $bp->groups->current_create_step ) {
-			$group_status = 'public';
-			$group_enable_wire = 1;
-			$group_enable_forum = 1;
-
-			if ( !isset($_POST['group-show-wire']) )
-				$group_enable_wire = 0;
-
-			if ( !isset($_POST['group-show-forum']) ) {
-				$group_enable_forum = 0;
-			} else {
-				/* Create the forum if enable_forum = 1 */
-				if ( function_exists( 'bp_forums_setup' ) && '' == groups_get_groupmeta( $bp->groups->new_group_id, 'forum_id' ) ) {
-					groups_new_group_forum();
-				}
-			}
-
-			if ( 'private' == $_POST['group-status'] )
-				$group_status = 'private';
-			else if ( 'hidden' == $_POST['group-status'] )
-				$group_status = 'hidden';
-
-			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'status' => $group_status, 'enable_wire' => $group_enable_wire, 'enable_forum' => $group_enable_forum ) ) ) {
-				bp_core_add_message( __( 'There was an error saving group details, please try again.', 'buddypress' ), 'error' );
-				bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step );
-			}
-		}
-
-		if ( 'group-invites' == $bp->groups->current_create_step ) {
-			groups_send_invites( $bp->groups->new_group_id, $bp->loggedin_user->id );
-		}
-
-		do_action( 'groups_create_group_step_save_' . $bp->groups->current_create_step );
-		do_action( 'groups_create_group_step_complete' ); // Mostly for clearing cache on a generic action name
-
-		/**
-		 * Once we have successfully saved the details for this step of the creation process
-		 * we need to add the current step to the array of completed steps, then update the cookies
-		 * holding the information
-		 */
-		if ( !in_array( $bp->groups->current_create_step, (array)$bp->groups->completed_create_steps ) )
-			$bp->groups->completed_create_steps[] = $bp->groups->current_create_step;
-
-		/* Reset cookie info */
-		setcookie( 'bp_new_group_id', $bp->groups->new_group_id, time()+60*60*24, COOKIEPATH );
-		setcookie( 'bp_completed_create_steps', serialize( $bp->groups->completed_create_steps ), time()+60*60*24, COOKIEPATH );
-
-		/* If we have completed all steps and hit done on the final step we can redirect to the completed group */
-		if ( count( $bp->groups->completed_create_steps ) == count( $bp->groups->group_creation_steps ) && $bp->groups->current_create_step == array_pop( array_keys( $bp->groups->group_creation_steps ) ) ) {
-			unset( $bp->groups->current_create_step );
-			unset( $bp->groups->completed_create_steps );
-
-			/* Once we compelete all steps, record the group creation in the activity stream. */
-			groups_record_activity( array(
-				'content' => apply_filters( 'groups_activity_created_group', sprintf( __( '%s created the group %s', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' ) ),
-				'primary_link' => apply_filters( 'groups_activity_created_group_primary_link', bp_get_group_permalink( $bp->groups->current_group ) ),
-				'component_action' => 'created_group',
-				'item_id' => $bp->groups->new_group_id
-			) );
-
-			do_action( 'groups_group_create_complete', $bp->groups->new_group_id );
-
-			bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
-		} else {
-			/**
-			 * Since we don't know what the next step is going to be (any plugin can insert steps)
-			 * we need to loop the step array and fetch the next step that way.
-			 */
-			foreach ( $bp->groups->group_creation_steps as $key => $value ) {
-				if ( $key == $bp->groups->current_create_step ) {
-					$next = 1;
-					continue;
-				}
-
-				if ( $next ) {
-					$next_step = $key;
-					break;
-				}
-			}
-
-			bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . $next_step );
-		}
-	}
-
-	/* Group avatar is handled separately */
-	if ( 'group-avatar' == $bp->groups->current_create_step && isset( $_POST['upload'] ) ) {
-		if ( !empty( $_FILES ) && isset( $_POST['upload'] ) ) {
-			/* Normally we would check a nonce here, but the group save nonce is used instead */
-
-			/* Pass the file to the avatar upload handler */
-			if ( bp_core_avatar_handle_upload( $_FILES, 'groups_avatar_upload_dir' ) ) {
-				$bp->avatar_admin->step = 'crop-image';
-
-				/* Make sure we include the jQuery jCrop file for image cropping */
-				add_action( 'wp', 'bp_core_add_jquery_cropper' );
-			}
-		}
-
-		/* If the image cropping is done, crop the image and save a full/thumb version */
-		if ( isset( $_POST['avatar-crop-submit'] ) && isset( $_POST['upload'] ) ) {
-			/* Normally we would check a nonce here, but the group save nonce is used instead */
-
-			if ( !bp_core_avatar_handle_crop( array( 'object' => 'group', 'avatar_dir' => 'group-avatars', 'item_id' => $bp->groups->current_group->id, 'original_file' => $_POST['image_src'], 'crop_x' => $_POST['x'], 'crop_y' => $_POST['y'], 'crop_w' => $_POST['w'], 'crop_h' => $_POST['h'] ) ) )
-				bp_core_add_message( __( 'There was an error saving the group avatar, please try uploading again.', 'buddypress' ), 'error' );
-			else
-				bp_core_add_message( __( 'The group avatar was uploaded successfully!', 'buddypress' ) );
-		}
-	}
-
- 	bp_core_load_template( apply_filters( 'groups_template_create_group', 'groups/create' ) );
+	bp_core_load_template( apply_filters( 'groups_template_group_invites', 'members/single/groups' ) );
 }
 
 function groups_screen_group_home() {
@@ -588,10 +413,7 @@ function groups_screen_group_home() {
 
 		do_action( 'groups_screen_group_home' );
 
-		if ( '' != locate_template( array( 'groups/single/home.php' ), false ) )
-			bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
-		else
-			bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/group-home' ) );
+		bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
 	}
 }
 
@@ -726,7 +548,7 @@ function groups_screen_group_forum() {
 					bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/forum/topic/' . $topic_slug . '/' );
 				}
 
-				bp_core_load_template( apply_filters( 'groups_template_group_forum_topic_edit', 'groups/single/forum/edit' ) );
+				bp_core_load_template( apply_filters( 'groups_template_group_forum_topic_edit', 'groups/single/home' ) );
 			}
 
 			/* Delete a post */
@@ -772,15 +594,12 @@ function groups_screen_group_forum() {
 					bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/forum/topic/' . $topic_slug . '/' );
 				}
 
-				bp_core_load_template( apply_filters( 'groups_template_group_forum_topic_edit', 'groups/single/forum/edit' ) );
+				bp_core_load_template( apply_filters( 'groups_template_group_forum_topic_edit', 'groups/single/home' ) );
 			}
 
 			/* Standard topic display */
 			else {
-				if ( '' != locate_template( array( 'groups/single/forum/topic.php' ), false ) )
-					bp_core_load_template( apply_filters( 'groups_template_group_forum_topic', 'groups/single/forum/topic' ) );
-				else
-					bp_core_load_template( apply_filters( 'groups_template_group_forum_topic', 'groups/forum/topic' ) );
+				bp_core_load_template( apply_filters( 'groups_template_group_forum_topic', 'groups/single/home' ) );
 			}
 
 		} else {
@@ -804,10 +623,7 @@ function groups_screen_group_forum() {
 
 			do_action( 'groups_screen_group_forum', $topic_id, $forum_id );
 
-			if ( '' != locate_template( array( 'groups/single/forum/index.php' ), false ) )
-				bp_core_load_template( apply_filters( 'groups_template_group_forum', 'groups/single/forum/index' ) );
-			else
-				bp_core_load_template( apply_filters( 'groups_template_group_forum', 'groups/forum/index' ) );
+			bp_core_load_template( apply_filters( 'groups_template_group_forum', 'groups/single/home' ) );
 		}
 	}
 }
@@ -851,15 +667,9 @@ function groups_screen_group_wire() {
 				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/' . $bp->wire->slug );
 
 		} else if ( ( !$wire_action || 'latest' == $bp->action_variables[1] ) ) {
-			if ( '' != locate_template( array( 'groups/single/wire.php' ), false ) )
-				bp_core_load_template( apply_filters( 'groups_template_group_wire', 'groups/single/wire' ) );
-			else
-				bp_core_load_template( apply_filters( 'groups_template_group_wire', 'groups/wire' ) );
+			bp_core_load_template( apply_filters( 'groups_template_group_wire', 'groups/single/wire' ) );
 		} else {
-			if ( '' != locate_template( array( 'groups/single/home.php' ), false ) )
-				bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
-			else
-				bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/group-home' ) );
+			bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
 		}
 	}
 }
@@ -869,11 +679,7 @@ function groups_screen_group_members() {
 
 	if ( $bp->is_single_item ) {
 		do_action( 'groups_screen_group_members', $bp->groups->current_group->id );
-
-		if ( '' != locate_template( array( 'groups/single/members.php' ), false ) )
-			bp_core_load_template( apply_filters( 'groups_template_group_forum', 'groups/single/members' ) );
-		else
-			bp_core_load_template( apply_filters( 'groups_template_group_forum', 'groups/list-members' ) );
+		bp_core_load_template( apply_filters( 'groups_screen_group_members', 'groups/single/home' ) );
 	}
 }
 
@@ -896,10 +702,7 @@ function groups_screen_group_invite() {
 			bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
 		} else {
 			// Show send invite page
-			if ( '' != locate_template( array( 'groups/single/send-invite.php' ), false ) )
-				bp_core_load_template( apply_filters( 'groups_template_group_invite', 'groups/single/send-invite' ) );
-			else
-				bp_core_load_template( apply_filters( 'groups_template_group_invite', 'groups/send-invite' ) );
+			bp_core_load_template( apply_filters( 'groups_template_group_invite', 'groups/single/home' ) );
 		}
 	}
 }
@@ -935,10 +738,7 @@ function groups_screen_group_leave() {
 			do_action( 'groups_screen_group_leave', $bp->groups->current_group->id );
 
 			// Show leave group page
-			if ( '' != locate_template( array( 'groups/single/leave-confirm.php' ), false ) )
-				bp_core_load_template( apply_filters( 'groups_template_group_leave', 'groups/single/leave-confirm' ) );
-			else
-				bp_core_load_template( apply_filters( 'groups_template_group_leave', 'groups/leave-group-confirm' ) );
+			bp_core_load_template( apply_filters( 'groups_template_group_leave', 'groups/single/home' ) );
 		}
 	}
 }
@@ -966,10 +766,7 @@ function groups_screen_group_request_membership() {
 
 		do_action( 'groups_screen_group_request_membership', $bp->groups->current_group->id );
 
-		if ( '' != locate_template( array( 'groups/single/request-membership.php' ), false ) )
-			bp_core_load_template( apply_filters( 'groups_template_group_request_membership', 'groups/single/request-membership' ) );
-		else
-			bp_core_load_template( apply_filters( 'groups_template_group_request_membership', 'groups/request-membership' ) );
+		bp_core_load_template( apply_filters( 'groups_template_group_request_membership', 'groups/single/home' ) );
 	}
 }
 
@@ -979,10 +776,7 @@ function groups_screen_group_activity_permalink() {
 	if ( !$bp->is_single_item || $bp->current_component != $bp->groups->slug || $bp->current_action != $bp->activity->slug )
 		return false;
 
-	if ( '' != locate_template( array( 'groups/single/home.php' ), false ) )
-		bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
-	else
-		bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/group-home' ) );
+	bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
 }
 add_action( 'wp', 'groups_screen_group_activity_permalink', 3 );
 
@@ -1024,10 +818,7 @@ function groups_screen_group_admin_edit_details() {
 
 			do_action( 'groups_screen_group_admin_edit_details', $bp->groups->current_group->id );
 
-			if ( '' != locate_template( array( 'groups/single/admin.php' ), false ) )
-				bp_core_load_template( apply_filters( 'groups_template_group_admin', 'groups/single/admin' ) );
-			else
-				bp_core_load_template( apply_filters( 'groups_template_group_admin', 'groups/admin/edit-details' ) );
+			bp_core_load_template( apply_filters( 'groups_template_group_admin', 'groups/single/home' ) );
 		}
 	}
 }
@@ -1068,10 +859,7 @@ function groups_screen_group_admin_settings() {
 
 		do_action( 'groups_screen_group_admin_settings', $bp->groups->current_group->id );
 
-		if ( '' != locate_template( array( 'groups/single/admin.php' ), false ) )
-			bp_core_load_template( apply_filters( 'groups_template_group_admin_settings', 'groups/single/admin' ) );
-		else
-			bp_core_load_template( apply_filters( 'groups_template_group_admin_settings', 'groups/admin/group-settings' ) );
+		bp_core_load_template( apply_filters( 'groups_template_group_admin_settings', 'groups/single/home' ) );
 	}
 }
 add_action( 'wp', 'groups_screen_group_admin_settings', 4 );
@@ -1129,10 +917,7 @@ function groups_screen_group_admin_avatar() {
 
 		do_action( 'groups_screen_group_admin_avatar', $bp->groups->current_group->id );
 
-		if ( '' != locate_template( array( 'groups/single/admin.php' ), false ) )
-			bp_core_load_template( apply_filters( 'groups_template_group_admin_avatar', 'groups/single/admin' ) );
-		else
-			bp_core_load_template( apply_filters( 'groups_template_group_admin_avatar', 'groups/admin/group-avatar' ) );
+		bp_core_load_template( apply_filters( 'groups_template_group_admin_avatar', 'groups/single/home' ) );
 	}
 }
 add_action( 'wp', 'groups_screen_group_admin_avatar', 4 );
@@ -1236,10 +1021,7 @@ function groups_screen_group_admin_manage_members() {
 
 		do_action( 'groups_screen_group_admin_manage_members', $bp->groups->current_group->id );
 
-		if ( '' != locate_template( array( 'groups/single/admin.php' ), false ) )
-			bp_core_load_template( apply_filters( 'groups_template_group_admin_manage_members', 'groups/single/admin' ) );
-		else
-			bp_core_load_template( apply_filters( 'groups_template_group_admin_manage_members', 'groups/admin/manage-members' ) );
+		bp_core_load_template( apply_filters( 'groups_template_group_admin_manage_members', 'groups/single/home' ) );
 	}
 }
 add_action( 'wp', 'groups_screen_group_admin_manage_members', 4 );
@@ -1293,10 +1075,7 @@ function groups_screen_group_admin_requests() {
 
 		do_action( 'groups_screen_group_admin_requests', $bp->groups->current_group->id );
 
-		if ( '' != locate_template( array( 'groups/single/admin.php' ), false ) )
-			bp_core_load_template( apply_filters( 'groups_template_group_admin_requests', 'groups/single/admin' ) );
-		else
-			bp_core_load_template( apply_filters( 'groups_template_group_admin_requests', 'groups/admin/membership-requests' ) );
+		bp_core_load_template( apply_filters( 'groups_template_group_admin_requests', 'groups/single/home' ) );
 	}
 }
 add_action( 'wp', 'groups_screen_group_admin_requests', 4 );
@@ -1330,10 +1109,7 @@ function groups_screen_group_admin_delete_group() {
 
 		do_action( 'groups_screen_group_admin_delete_group', $bp->groups->current_group->id );
 
-		if ( '' != locate_template( array( 'groups/single/admin.php' ), false ) )
-			bp_core_load_template( apply_filters( 'groups_template_group_admin_delete_group', 'groups/single/admin' ) );
-		else
-			bp_core_load_template( apply_filters( 'groups_template_group_admin_delete_group', 'groups/admin/delete-group' ) );
+		bp_core_load_template( apply_filters( 'groups_template_group_admin_delete_group', 'groups/single/home' ) );
 	}
 }
 add_action( 'wp', 'groups_screen_group_admin_delete_group', 4 );
@@ -1395,6 +1171,182 @@ add_action( 'bp_notification_settings', 'groups_screen_notification_settings' );
  * back to the default screen after execution.
  */
 
+function groups_action_create_group() {
+	global $bp;
+
+	/* If we're not at domain.org/groups/create/ then return false */
+	if ( $bp->current_component != $bp->groups->slug || 'create' != $bp->current_action )
+		return false;
+
+	if ( !is_user_logged_in() )
+		return false;
+
+	/* Make sure creation steps are in the right order */
+	groups_action_sort_creation_steps();
+
+	/* If no current step is set, reset everything so we can start a fresh group creation */
+	if ( !$bp->groups->current_create_step = $bp->action_variables[1] ) {
+
+		unset( $bp->groups->current_create_step );
+		unset( $bp->groups->completed_create_steps );
+
+		setcookie( 'bp_new_group_id', false, time() - 1000, COOKIEPATH );
+		setcookie( 'bp_completed_create_steps', false, time() - 1000, COOKIEPATH );
+
+		$reset_steps = true;
+		bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/create/step/' . array_shift( array_keys( $bp->groups->group_creation_steps ) ) . '/' );
+	}
+
+	/* If this is a creation step that is not recognized, just redirect them back to the first screen */
+	if ( $bp->action_variables[1] && !$bp->groups->group_creation_steps[$bp->action_variables[1]] ) {
+		bp_core_add_message( __('There was an error saving group details. Please try again.', 'buddypress'), 'error' );
+		bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/create/' );
+	}
+
+	/* Fetch the currently completed steps variable */
+	if ( isset( $_COOKIE['bp_completed_create_steps'] ) && !$reset_steps )
+		$bp->groups->completed_create_steps = unserialize( stripslashes( $_COOKIE['bp_completed_create_steps'] ) );
+
+	/* Set the ID of the new group, if it has already been created in a previous step */
+	if ( isset( $_COOKIE['bp_new_group_id'] ) ) {
+		$bp->groups->new_group_id = $_COOKIE['bp_new_group_id'];
+		$bp->groups->current_group = new BP_Groups_Group( $bp->groups->new_group_id, false, false );
+	}
+
+	/* If the save, upload or skip button is hit, lets calculate what we need to save */
+	if ( isset( $_POST['save'] ) ) {
+
+		/* Check the nonce */
+		check_admin_referer( 'groups_create_save_' . $bp->groups->current_create_step );
+
+		if ( 'group-details' == $bp->groups->current_create_step ) {
+			if ( empty( $_POST['group-name'] ) || empty( $_POST['group-desc'] ) ) {
+				bp_core_add_message( __( 'Please fill in all of the required fields', 'buddypress' ), 'error' );
+				bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step . '/' );
+			}
+
+			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'name' => $_POST['group-name'], 'description' => $_POST['group-desc'], 'news' => $_POST['group-news'], 'slug' => groups_check_slug( sanitize_title($_POST['group-name']) ), 'date_created' => time() ) ) ) {
+				bp_core_add_message( __( 'There was an error saving group details, please try again.', 'buddypress' ), 'error' );
+				bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step . '/' );
+			}
+
+			groups_update_groupmeta( $bp->groups->new_group_id, 'total_member_count', 1 );
+			groups_update_groupmeta( $bp->groups->new_group_id, 'last_activity', time() );
+		}
+
+		if ( 'group-settings' == $bp->groups->current_create_step ) {
+			$group_status = 'public';
+			$group_enable_wire = 1;
+			$group_enable_forum = 1;
+
+			if ( !isset($_POST['group-show-wire']) )
+				$group_enable_wire = 0;
+
+			if ( !isset($_POST['group-show-forum']) ) {
+				$group_enable_forum = 0;
+			} else {
+				/* Create the forum if enable_forum = 1 */
+				if ( function_exists( 'bp_forums_setup' ) && '' == groups_get_groupmeta( $bp->groups->new_group_id, 'forum_id' ) ) {
+					groups_new_group_forum();
+				}
+			}
+
+			if ( 'private' == $_POST['group-status'] )
+				$group_status = 'private';
+			else if ( 'hidden' == $_POST['group-status'] )
+				$group_status = 'hidden';
+
+			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'status' => $group_status, 'enable_wire' => $group_enable_wire, 'enable_forum' => $group_enable_forum ) ) ) {
+				bp_core_add_message( __( 'There was an error saving group details, please try again.', 'buddypress' ), 'error' );
+				bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step . '/' );
+			}
+		}
+
+		if ( 'group-invites' == $bp->groups->current_create_step ) {
+			groups_send_invites( $bp->groups->new_group_id, $bp->loggedin_user->id );
+		}
+
+		do_action( 'groups_create_group_step_save_' . $bp->groups->current_create_step );
+		do_action( 'groups_create_group_step_complete' ); // Mostly for clearing cache on a generic action name
+
+		/**
+		 * Once we have successfully saved the details for this step of the creation process
+		 * we need to add the current step to the array of completed steps, then update the cookies
+		 * holding the information
+		 */
+		if ( !in_array( $bp->groups->current_create_step, (array)$bp->groups->completed_create_steps ) )
+			$bp->groups->completed_create_steps[] = $bp->groups->current_create_step;
+
+		/* Reset cookie info */
+		setcookie( 'bp_new_group_id', $bp->groups->new_group_id, time()+60*60*24, COOKIEPATH );
+		setcookie( 'bp_completed_create_steps', serialize( $bp->groups->completed_create_steps ), time()+60*60*24, COOKIEPATH );
+
+		/* If we have completed all steps and hit done on the final step we can redirect to the completed group */
+		if ( count( $bp->groups->completed_create_steps ) == count( $bp->groups->group_creation_steps ) && $bp->groups->current_create_step == array_pop( array_keys( $bp->groups->group_creation_steps ) ) ) {
+			unset( $bp->groups->current_create_step );
+			unset( $bp->groups->completed_create_steps );
+
+			/* Once we compelete all steps, record the group creation in the activity stream. */
+			groups_record_activity( array(
+				'content' => apply_filters( 'groups_activity_created_group', sprintf( __( '%s created the group %s', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' ) ),
+				'primary_link' => apply_filters( 'groups_activity_created_group_primary_link', bp_get_group_permalink( $bp->groups->current_group ) ),
+				'component_action' => 'created_group',
+				'item_id' => $bp->groups->new_group_id
+			) );
+
+			do_action( 'groups_group_create_complete', $bp->groups->new_group_id );
+
+			bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
+		} else {
+			/**
+			 * Since we don't know what the next step is going to be (any plugin can insert steps)
+			 * we need to loop the step array and fetch the next step that way.
+			 */
+			foreach ( $bp->groups->group_creation_steps as $key => $value ) {
+				if ( $key == $bp->groups->current_create_step ) {
+					$next = 1;
+					continue;
+				}
+
+				if ( $next ) {
+					$next_step = $key;
+					break;
+				}
+			}
+
+			bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/create/step/' . $next_step . '/' );
+		}
+	}
+
+	/* Group avatar is handled separately */
+	if ( 'group-avatar' == $bp->groups->current_create_step && isset( $_POST['upload'] ) ) {
+		if ( !empty( $_FILES ) && isset( $_POST['upload'] ) ) {
+			/* Normally we would check a nonce here, but the group save nonce is used instead */
+
+			/* Pass the file to the avatar upload handler */
+			if ( bp_core_avatar_handle_upload( $_FILES, 'groups_avatar_upload_dir' ) ) {
+				$bp->avatar_admin->step = 'crop-image';
+
+				/* Make sure we include the jQuery jCrop file for image cropping */
+				add_action( 'wp', 'bp_core_add_jquery_cropper' );
+			}
+		}
+
+		/* If the image cropping is done, crop the image and save a full/thumb version */
+		if ( isset( $_POST['avatar-crop-submit'] ) && isset( $_POST['upload'] ) ) {
+			/* Normally we would check a nonce here, but the group save nonce is used instead */
+
+			if ( !bp_core_avatar_handle_crop( array( 'object' => 'group', 'avatar_dir' => 'group-avatars', 'item_id' => $bp->groups->current_group->id, 'original_file' => $_POST['image_src'], 'crop_x' => $_POST['x'], 'crop_y' => $_POST['y'], 'crop_w' => $_POST['w'], 'crop_h' => $_POST['h'] ) ) )
+				bp_core_add_message( __( 'There was an error saving the group avatar, please try uploading again.', 'buddypress' ), 'error' );
+			else
+				bp_core_add_message( __( 'The group avatar was uploaded successfully!', 'buddypress' ) );
+		}
+	}
+
+ 	bp_core_load_template( apply_filters( 'groups_template_create_group', 'groups/create' ) );
+}
+add_action( 'wp', 'groups_action_create_group', 3 );
+
 function groups_action_join_group() {
 	global $bp;
 
@@ -1411,10 +1363,7 @@ function groups_action_join_group() {
 		bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
 	}
 
-	if ( '' != locate_template( array( 'groups/single/admin.php' ), false ) )
-		bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
-	else
-		bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/group-home' ) );
+	bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
 }
 add_action( 'wp', 'groups_action_join_group', 3 );
 
@@ -1437,9 +1386,8 @@ function groups_action_sort_creation_steps() {
 	foreach( $temp as $position => $step )
 		$bp->groups->group_creation_steps[$step['slug']] = array( 'name' => $step['name'], 'position' => $position );
 }
-add_action( 'wp', 'groups_action_sort_creation_steps', 3 );
 
-function groups_aciton_redirect_to_random_group() {
+function groups_action_redirect_to_random_group() {
 	global $bp, $wpdb;
 
 	if ( $bp->current_component == $bp->groups->slug && isset( $_GET['random-group'] ) ) {
@@ -1448,7 +1396,7 @@ function groups_aciton_redirect_to_random_group() {
 		bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/' . $group['groups'][0]->slug );
 	}
 }
-add_action( 'wp', 'groups_aciton_redirect_to_random_group', 6 );
+add_action( 'wp', 'groups_action_redirect_to_random_group', 6 );
 
 
 /********************************************************************************
@@ -1912,35 +1860,42 @@ function groups_get_all( $limit = null, $page = 1, $only_public = false, $sort_b
 	return BP_Groups_Group::get_all( $limit, $page, $only_public, $sort_by, $order );
 }
 
-function groups_get_newest( $limit = null, $page = 1 ) {
-	return BP_Groups_Group::get_newest( $limit, $page );
+/***
+ * All of the following get_() functions will return groups for the site globally.
+ * If you pass a $user_id then the groups will be restricted to only those that the
+ * user has joined.
+ */
+function groups_get_newest( $limit = null, $page = 1, $user_id = false, $search_terms = false ) {
+	return BP_Groups_Group::get_newest( $limit, $page, $user_id, $search_terms );
 }
 
-function groups_get_active( $limit = null, $page = 1 ) {
-	return BP_Groups_Group::get_active( $limit, $page );
+function groups_get_active( $limit = null, $page = 1, $user_id = false, $search_terms = false ) {
+	return BP_Groups_Group::get_active( $limit, $page, $user_id, $search_terms );
 }
 
-function groups_get_popular( $limit = null, $page = 1 ) {
-	return BP_Groups_Group::get_popular( $limit, $page );
+function groups_get_popular( $limit = null, $page = 1, $user_id = false, $search_terms = false ) {
+	return BP_Groups_Group::get_popular( $limit, $page, $user_id, $search_terms );
 }
 
-function groups_get_random_groups( $limit = null, $page = 1 ) {
-	return BP_Groups_Group::get_random( $limit, $page );
+function groups_get_random_groups( $limit = null, $page = 1, $user_id = false, $search_terms = false ) {
+	return BP_Groups_Group::get_random( $limit, $page, $user_id, $search_terms );
 }
 
-function groups_get_alphabetically( $limit = null, $page = 1 ) {
-	return BP_Groups_Group::get_alphabetically( $limit, $page );
+function groups_get_alphabetically( $limit = null, $page = 1, $user_id = false, $search_terms = false ) {
+	return BP_Groups_Group::get_alphabetically( $limit, $page, $user_id, $search_terms );
 }
 
-function groups_get_by_most_forum_topics( $limit = null, $page = 1 ) {
-	return BP_Groups_Group::get_by_most_forum_topics( $limit, $page );
+function groups_get_by_most_forum_topics( $limit = null, $page = 1, $user_id = false, $search_terms = false ) {
+	return BP_Groups_Group::get_by_most_forum_topics( $limit, $page, $user_id, $search_terms );
 }
 
-function groups_get_by_most_forum_posts( $limit = null, $page = 1 ) {
-	return BP_Groups_Group::get_by_most_forum_posts( $limit, $page );
+function groups_get_by_most_forum_posts( $limit = null, $page = 1, $user_id = false, $search_terms = false ) {
+	return BP_Groups_Group::get_by_most_forum_posts( $limit, $page, $user_id, $search_terms );
 }
 
-/* TODO: These user group functions could be merged with the above with an optional user ID param */
+function groups_get_total_group_count() {
+	return BP_Groups_Group::get_total_group_count();
+}
 
 function groups_get_user_groups( $user_id = false, $pag_num = false, $pag_page = false ) {
 	global $bp;
@@ -1958,33 +1913,6 @@ function groups_get_recently_joined_for_user( $user_id = false, $pag_num = false
 		$user_id = $bp->displayed_user->id;
 
 	return BP_Groups_Member::get_recently_joined( $user_id, $pag_num, $pag_page, $filter );
-}
-
-function groups_get_most_popular_for_user( $user_id = false, $pag_num = false, $pag_page = false, $filter = false ) {
-	global $bp;
-
-	if ( !$user_id )
-		$user_id = $bp->displayed_user->id;
-
-	return BP_Groups_Member::get_most_popular( $user_id, $pag_num, $pag_page, $filter );
-}
-
-function groups_get_recently_active_for_user( $user_id = false, $pag_num = false, $pag_page = false, $filter = false ) {
-	global $bp;
-
-	if ( !$user_id )
-		$user_id = $bp->displayed_user->id;
-
-	return BP_Groups_Member::get_recently_active( $user_id, $pag_num, $pag_page, $filter );
-}
-
-function groups_get_alphabetically_for_user( $user_id = false, $pag_num = false, $pag_page = false, $filter = false ) {
-	global $bp;
-
-	if ( !$user_id )
-		$user_id = $bp->displayed_user->id;
-
-	return BP_Groups_Member::get_alphabetically( $user_id, $pag_num, $pag_page, $filter );
 }
 
 function groups_get_user_is_admin_of( $user_id = false, $pag_num = false, $pag_page = false, $filter = false ) {
@@ -2009,18 +1937,9 @@ function groups_total_groups_for_user( $user_id = false ) {
 	global $bp;
 
 	if ( !$user_id )
-		$user_id = $bp->displayed_user->id;
+		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 
 	return BP_Groups_Member::total_group_count( $user_id );
-}
-
-function groups_get_random_groups_for_user( $user_id = false, $total_groups = 5 ) {
-	global $bp;
-
-	if ( !$user_id )
-		$user_id = $bp->displayed_user->id;
-
-	return BP_Groups_Member::get_random_groups( $user_id, $total_groups );
 }
 
 function groups_search_groups( $search_terms, $pag_num_per_page = 5, $pag_page = 1, $sort_by = false, $order = false ) {
@@ -2690,6 +2609,37 @@ function groups_update_groupmeta( $group_id, $meta_key, $meta_value ) {
 }
 
 /*** Group Cleanup Functions ****************************************************/
+
+/**
+ * groups_filter_template_paths()
+ *
+ * Add fallback for the bp-sn-parent theme template locations used in BuddyPress versions
+ * older than 1.2.
+ *
+ * @package BuddyPress Core
+ */
+function groups_filter_template_paths() {
+	if ( 'bp-sn-parent' != basename( TEMPLATEPATH ) && !defined( 'BP_CLASSIC_TEMPLATE_STRUCTURE' ) )
+		return false;
+
+	add_filter( 'groups_template_directory_groups', create_function( '', 'return "directories/groups/index";' ) );
+	add_filter( 'groups_template_my_groups', create_function( '', 'return "groups/index";' ) );
+	add_filter( 'groups_template_group_invites', create_function( '', 'return "groups/invites";' ) );
+	add_filter( 'groups_template_group_admin', create_function( '', 'return "groups/single/admin";' ) );
+	add_filter( 'groups_template_group_forum_topic_edit', create_function( '', 'return "groups/single/forum/edit";' ) );
+	add_filter( 'groups_template_group_forum_topic', create_function( '', 'return "groups/single/forum/topic";' ) );
+	add_filter( 'groups_template_group_forum', create_function( '', 'return "groups/single/forum/index";' ) );
+	add_filter( 'groups_template_group_leave', create_function( '', 'return "groups/single/leave-confirm";' ) );
+	add_filter( 'groups_template_group_request_membership', create_function( '', 'return "groups/single/request-membership";' ) );
+	add_filter( 'groups_template_group_invite', create_function( '', 'return "groups/single/send-invite";' ) );
+	add_filter( 'groups_screen_group_members', create_function( '', 'return "groups/single/members";' ) );
+	add_filter( 'groups_template_group_admin_settings', create_function( '', 'return "groups/single/admin";' ) );
+	add_filter( 'groups_template_group_admin_avatar', create_function( '', 'return "groups/single/admin";' ) );
+	add_filter( 'groups_template_group_admin_manage_members', create_function( '', 'return "groups/single/admin";' ) );
+	add_filter( 'groups_template_group_admin_requests', create_function( '', 'return "groups/single/admin";' ) );
+	add_filter( 'groups_template_group_admin_delete_group', create_function( '', 'return "groups/single/admin";' ) );
+}
+add_action( 'init', 'groups_filter_template_paths' );
 
 function groups_remove_data_for_user( $user_id ) {
 	BP_Groups_Member::delete_all_for_user($user_id);

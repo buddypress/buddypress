@@ -6,19 +6,19 @@
 
 		<div class="pagination">
 
-			<div class="pag-count">
-				<?php bp_group_pagination_count() ?>
+			<div class="pag-count" id="group-dir-count">
+				<?php bp_groups_pagination_count() ?>
 			</div>
 
-			<div class="pagination-links" id="<?php bp_group_pag_id() ?>">
-				<?php bp_group_pagination() ?>
+			<div class="pagination-links" id="group-dir-pag">
+				<?php bp_groups_pagination_links() ?>
 			</div>
 
 		</div>
 
-		<?php do_action( 'bp_before_my_groups_list' ) ?>
+		<?php do_action( 'bp_before_directory_groups_list' ) ?>
 
-		<ul id="group-list" class="item-list">
+		<ul id="groups-list" class="item-list">
 			<?php while ( bp_groups() ) : bp_the_group(); ?>
 
 				<li>

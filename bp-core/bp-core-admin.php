@@ -76,15 +76,6 @@ function bp_core_admin_settings() {
 						<input type="radio" name="bp-admin[bp-disable-avatar-uploads]"<?php if ( !(int)get_site_option( 'bp-disable-avatar-uploads' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-disable-avatar-uploads-no" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
 					</td>
 				</tr>
-				<?php if ( function_exists('bp_wire_install') ) { ?>
-				<tr>
-					<th scope="row"><?php _e( 'Allow non-friends to post on profile wires?', 'buddypress' ) ?>:</th>
-					<td>
-						<input type="radio" name="bp-admin[non-friend-wire-posting]"<?php if ( (int)get_site_option( 'non-friend-wire-posting' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-non-friend-wire-post" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
-						<input type="radio" name="bp-admin[non-friend-wire-posting]"<?php if ( !(int)get_site_option( 'non-friend-wire-posting' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-non-friend-wire-post" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
-					</td>
-				</tr>
-				<?php } ?>
 				<tr>
 					<th scope="row"><?php _e( 'Disable user account deletion?', 'buddypress' ) ?>:</th>
 					<td>
@@ -100,33 +91,6 @@ function bp_core_admin_settings() {
 						<input type="radio" name="bp-admin[bp-disable-forum-directory]"<?php if ( !(int)get_site_option( 'bp-disable-forum-directory' ) || '' == get_site_option( 'bp-disable-forum-directory' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-forum-directory" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
 					</td>
 				</tr>
-				<?php endif; ?>
-
-				<?php $themes = bp_core_get_buddypress_themes() ?>
-				<?php if ( $themes ) : ?>
-					<tr>
-						<th scope="row"><?php _e('Select theme to use for BuddyPress generated pages', 'buddypress' ) ?>:</th>
-						<td>
-								<select name="bp-admin[active-member-theme]" id="active-member-theme">
-								<?php
-								for ( $i = 0; $i < count($themes); $i++ ) {
-									if ( $themes[$i]['template'] == get_site_option( 'active-member-theme' ) ) {
-										$selected = ' selected="selected"';
-									} else {
-										$selected = '';
-									}
-								?>
-								<option<?php echo $selected ?> value="<?php echo $themes[$i]['template'] ?>"><?php echo $themes[$i]['name'] ?> (<?php echo $themes[$i]['version'] ?>)</option>
-								<?php } ?>
-							</select>
-						</td>
-					</tr>
-				<?php else : ?>
-					<?php if ( '' == locate_template( array( 'registration/register.php' ), false ) && $current_blog->blog_id == BP_ROOT_BLOG ) : ?>
-						<div class="error">
-							<p><?php _e( '<strong>Your currently active theme is not BuddyPress enabled.</strong><p style="margin: 2px 0">Visit <a href="http://buddypress.org/extend/themes/">http://buddypress.org/extend/themes/</a> to browse themes that include support for BuddyPress features.</p>', 'buddypress' ) ?></p>
-						</div>
-					<?php endif; ?>
 				<?php endif; ?>
 
 				<tr>
@@ -205,7 +169,7 @@ function bp_core_admin_component_setup() {
 			<tbody>
 				<?php if ( file_exists( BP_PLUGIN_DIR . '/bp-activity.php') ) : ?>
 				<tr>
-					<td><h3><?php _e( 'Activity Streams', 'buddypress' ) ?></h3><p><?php _e( 'Tracks user activity across the entire site.', 'buddypress' ) ?></p></td>
+					<td><h3><?php _e( 'Activity Streams', 'buddypress' ) ?></h3><p><?php _e( 'Allow users to post activity updates and track all activity across the entire site.', 'buddypress' ) ?></p></td>
 					<td>
 						<input type="radio" name="bp_components[bp-activity.php]" value="1"<?php if ( !isset( $disabled_components['bp-activity.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?> &nbsp;
 						<input type="radio" name="bp_components[bp-activity.php]" value="0"<?php if ( isset( $disabled_components['bp-activity.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
@@ -257,30 +221,12 @@ function bp_core_admin_component_setup() {
 					</td>
 				</tr>
 				<?php endif; ?>
-				<?php if ( file_exists( BP_PLUGIN_DIR . '/bp-wire.php') ) : ?>
-				<tr>
-					<td><h3><?php _e( 'Comment Wire', 'buddypress' ) ?></h3><p><?php _e( 'Let users leave a comment on groups, profiles and custom components.', 'buddypress' ) ?></p></td>
-					<td>
-						<input type="radio" name="bp_components[bp-wire.php]" value="1"<?php if ( !isset( $disabled_components['bp-wire.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?>  &nbsp;
-						<input type="radio" name="bp_components[bp-wire.php]" value="0"<?php if ( isset( $disabled_components['bp-wire.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
-					</td>
-				</tr>
-				<?php endif; ?>
 				<?php if ( file_exists( BP_PLUGIN_DIR . '/bp-xprofile.php') ) : ?>
 				<tr>
 					<td><h3><?php _e( 'Extended Profiles', 'buddypress' ) ?></h3><p><?php _e( 'Activates customizable profiles and avatars for site users.', 'buddypress' ) ?></p></td>
 					<td width="45%">
 						<input type="radio" name="bp_components[bp-xprofile.php]" value="1"<?php if ( !isset( $disabled_components['bp-xprofile.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?>  &nbsp;
 						<input type="radio" name="bp_components[bp-xprofile.php]" value="0"<?php if ( isset( $disabled_components['bp-xprofile.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
-					</td>
-				</tr>
-				<?php endif; ?>
-				<?php if ( file_exists( BP_PLUGIN_DIR . '/bp-status.php') ) : ?>
-				<tr>
-					<td><h3><?php _e( 'Status Updates', 'buddypress' ) ?></h3><p><?php _e( 'Allow users to post status updates.', 'buddypress' ) ?></p></td>
-					<td width="45%">
-						<input type="radio" name="bp_components[bp-status.php]" value="1"<?php if ( !isset( $disabled_components['bp-status.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?>  &nbsp;
-						<input type="radio" name="bp_components[bp-status.php]" value="0"<?php if ( isset( $disabled_components['bp-status.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
 					</td>
 				</tr>
 				<?php endif; ?>

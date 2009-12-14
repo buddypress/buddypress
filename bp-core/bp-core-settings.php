@@ -63,7 +63,7 @@ function bp_core_screen_general_settings() {
 	add_action( 'bp_template_title', 'bp_core_screen_general_settings_title' );
 	add_action( 'bp_template_content', 'bp_core_screen_general_settings_content' );
 
-	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'plugin-template' ) );
+	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 }
 
 function bp_core_screen_general_settings_title() {
@@ -93,7 +93,10 @@ function bp_core_screen_general_settings_content() {
 		<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small" /> &nbsp;<?php _e( 'New Password', 'buddypress' ) ?><br />
 		<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small" /> &nbsp;<?php _e( 'Repeat New Password', 'buddypress' ) ?>
 
-		<p class="submit"><input type="submit" name="submit" value="<?php _e( 'Save Changes', 'buddypress' ) ?>" id="submit" class="auto"/></p>
+		<div class="submit">
+			<input type="submit" name="submit" value="<?php _e( 'Save Changes', 'buddypress' ) ?>" id="submit" class="auto"/></p>
+		</div>
+
 		<?php wp_nonce_field('bp_settings_general') ?>
 	</form>
 <?php
@@ -121,7 +124,7 @@ function bp_core_screen_notification_settings() {
 	add_action( 'bp_template_title', 'bp_core_screen_notification_settings_title' );
 	add_action( 'bp_template_content', 'bp_core_screen_notification_settings_content' );
 
-	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'plugin-template' ) );
+	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 }
 
 function bp_core_screen_notification_settings_title() {
@@ -143,7 +146,9 @@ function bp_core_screen_notification_settings_content() {
 
 		<?php do_action( 'bp_notification_settings' ) ?>
 
-		<p class="submit"><input type="submit" name="submit" value="<?php _e( 'Save Changes', 'buddypress' ) ?>" id="submit" class="auto"/></p>
+		<div class="submit">
+			<input type="submit" name="submit" value="<?php _e( 'Save Changes', 'buddypress' ) ?>" id="submit" class="auto"/></p>
+		</div>
 
 		<?php wp_nonce_field('bp_settings_notifications') ?>
 
@@ -165,7 +170,7 @@ function bp_core_screen_delete_account() {
 	add_action( 'bp_template_title', 'bp_core_screen_delete_account_title' );
 	add_action( 'bp_template_content', 'bp_core_screen_delete_account_content' );
 
-	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'plugin-template' ) );
+	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 }
 
 function bp_core_screen_delete_account_title() {
@@ -182,7 +187,11 @@ function bp_core_screen_delete_account_content() {
 		</div>
 
 		<input type="checkbox" name="delete-account-understand" id="delete-account-understand" value="1" onclick="if(this.checked) { document.getElementById('delete-account-button').disabled = ''; } else { document.getElementById('delete-account-button').disabled = 'disabled'; }" /> <?php _e( 'I understand the consequences of deleting my account.', 'buddypress' ); ?>
-		<p><input type="submit" disabled="disabled" value="<?php _e( 'Delete My Account', 'buddypress' ) ?> &raquo;" id="delete-account-button" name="delete-account-button" /></p>
+
+		<div class="submit">
+			<input type="submit" disabled="disabled" value="<?php _e( 'Delete My Account', 'buddypress' ) ?> &raquo;" id="delete-account-button" name="delete-account-button" /></p>
+		</div>
+
 		<?php wp_nonce_field('delete-account') ?>
 	</form>
 <?php

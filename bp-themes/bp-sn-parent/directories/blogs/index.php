@@ -81,29 +81,24 @@
 
 			<h3><?php _e( 'Random Blogs', 'buddypress' ) ?></h3>
 
-			<?php if ( bp_has_site_blogs( 'type=random&max=3' ) ) : ?>
+			<?php if ( bp_has_blogs( 'type=random&max=3' ) ) : ?>
 
 				<ul id="featured-blogs-list" class="item-list">
-					<?php while ( bp_site_blogs() ) : bp_the_site_blog(); ?>
+					<?php while ( bp_blogs() ) : bp_the_blog(); ?>
 
 						<li>
 							<div class="item-avatar">
-								<a href="<?php bp_the_site_blog_link() ?>"><?php bp_the_site_blog_avatar_thumb() ?></a>
+								<a href="<?php bp_blog_permalink() ?>"><?php bp_blog_avatar_thumb() ?></a>
 							</div>
 
 							<div class="item">
-								<div class="item-title"><a href="<?php bp_the_site_blog_link() ?>"><?php bp_the_site_blog_name() ?></a></div>
-								<div class="item-meta"><span class="activity"><?php bp_the_site_blog_last_active() ?></span></div>
+								<div class="item-title"><a href="<?php bp_blog_permalink() ?>"><?php bp_blog_name() ?></a></div>
+								<div class="item-meta"><span class="activity"><?php bp_blog_last_active() ?></span></div>
 
-								<div class="field-data">
-									<div class="field-name">
-										<strong><?php _e( 'Description: ', 'buddypress' ) ?></strong>
-										<?php bp_the_site_blog_description() ?>
-									</div>
-								</div>
-
-								<?php do_action( 'bp_directory_blogs_featured_item' ) ?>
+								<?php do_action( 'bp_core_directory_blogs_item' ) ?>
 							</div>
+
+							<div class="clear"></div>
 						</li>
 
 					<?php endwhile; ?>

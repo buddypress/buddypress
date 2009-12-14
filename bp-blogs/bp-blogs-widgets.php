@@ -4,7 +4,7 @@
 function bp_blogs_register_widgets() {
 	add_action('widgets_init', create_function('', 'return register_widget("BP_Blogs_Recent_Posts_Widget");') );
 }
-add_action( 'plugins_loaded', 'bp_blogs_register_widgets' );
+add_action( 'template_redirect', 'bp_blogs_register_widgets' );
 
 class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 	function bp_blogs_recent_posts_widget() {
@@ -13,21 +13,21 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 
 	function widget($args, $instance) {
 		global $bp;
-		
+
 	    extract( $args );
-		
+
 		echo $before_widget;
 		echo $before_title
-		   . $widget_name 
+		   . $widget_name
 		   . $after_title; ?>
-	
+
 		<?php
 		if ( empty( $instance['max_posts'] ) || !$instance['max_posts'] )
 			$instance['max_posts'] = 10; ?>
-		
+
 		<?php $posts = bp_blogs_get_latest_posts( null, $instance['max_posts'] ) ?>
 		<?php $counter = 0; ?>
-		
+
 		<?php if ( $posts ) : ?>
 			<div class="item-options" id="recent-posts-options">
 				<?php _e("Site Wide", 'buddypress') ?>
@@ -47,7 +47,7 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 							<div class="item-meta"><em><?php printf( __( 'by %s from the blog <a href="%s">%s</a>', 'buddypress' ), bp_core_get_userlink( $post->post_author ), get_blog_option( $post->blog_id, 'siteurl' ), get_blog_option( $post->blog_id, 'blogname' ) ) ?></em></div>
 						</div>
 					</li>
-					<?php $counter++; ?>	
+					<?php $counter++; ?>
 				<?php endforeach; ?>
 			</ul>
 		<?php else: ?>
@@ -55,7 +55,7 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 				<?php _e('There are no recent blog posts, why not write one?', 'buddypress') ?>
 			</div>
 		<?php endif; ?>
-			
+
 		<?php echo $after_widget; ?>
 	<?php
 	}

@@ -11,10 +11,6 @@ require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-cssjs.php' );
 require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-filters.php' );
 
-/* Include deprecated functions if settings allow */
-if ( !defined( 'BP_IGNORE_DEPRECATED' ) )
-	require ( BP_PLUGIN_DIR . '/bp-messages/deprecated/bp-messages-deprecated.php' );
-
 function messages_install() {
 	global $wpdb, $bp;
 
@@ -152,12 +148,12 @@ add_action( 'admin_menu', 'messages_setup_nav' );
 
 function messages_screen_inbox() {
 	do_action( 'messages_screen_inbox' );
-	bp_core_load_template( apply_filters( 'messages_template_inbox', 'messages/index' ) );
+	bp_core_load_template( apply_filters( 'messages_template_inbox', 'members/single/messages' ) );
 }
 
 function messages_screen_sentbox() {
 	do_action( 'messages_screen_sentbox' );
-	bp_core_load_template( apply_filters( 'messages_template_sentbox', 'messages/sentbox' ) );
+	bp_core_load_template( apply_filters( 'messages_template_sentbox', 'members/single/messages' ) );
 }
 
 function messages_screen_compose() {
@@ -199,7 +195,7 @@ function messages_screen_compose() {
 
 	do_action( 'messages_screen_compose' );
 
-	bp_core_load_template( apply_filters( 'messages_template_compose', 'messages/compose' ) );
+	bp_core_load_template( apply_filters( 'messages_template_compose', 'members/single/messages' ) );
 }
 
 function messages_screen_notices() {
@@ -237,7 +233,7 @@ function messages_screen_notices() {
 
 	do_action( 'messages_screen_notices' );
 
-	bp_core_load_template( apply_filters( 'messages_template_notices', 'messages/notices' ) );
+	bp_core_load_template( apply_filters( 'messages_template_notices', 'members/single/messages' ) );
 }
 
 function messages_screen_notification_settings() {
@@ -309,7 +305,7 @@ function messages_action_view_message() {
 	do_action( 'messages_action_view_message' );
 
 	bp_core_new_subnav_item( array( 'name' => sprintf( __( 'From: %s', 'buddypress'), BP_Messages_Thread::get_last_sender($thread_id) ), 'slug' => 'view', 'parent_url' => $bp->loggedin_user->domain . $bp->messages->slug . '/', 'parent_slug' => $bp->messages->slug, 'screen_function' => true, 'position' => 40, 'user_has_access' => bp_is_home() ) );
-	bp_core_load_template( apply_filters( 'messages_template_view_message', 'messages/view' ) );
+	bp_core_load_template( apply_filters( 'messages_template_view_message', 'members/single/messages' ) );
 }
 add_action( 'wp', 'messages_action_view_message', 3 );
 
@@ -562,6 +558,27 @@ function messages_get_message_sender( $message_id ) {
 function messages_is_valid_thread( $thread_id ) {
 	return BP_Messages_Thread::is_valid( $thread_id );
 }
+
+/**
+ * messages_filter_template_paths()
+ *
+ * Add fallback for the bp-sn-parent theme template locations used in BuddyPress versions
+ * older than 1.2.
+ *
+ * @package BuddyPress Core
+ */
+function messages_filter_template_paths() {
+	if ( 'bp-sn-parent' != basename( TEMPLATEPATH ) && !defined( 'BP_CLASSIC_TEMPLATE_STRUCTURE' ) )
+		return false;
+
+	add_filter( 'messages_template_compose', create_function( '', 'return "messages/compose";' ) );
+	add_filter( 'messages_template_sentbox', create_function( '', 'return "messages/sentbox";' ) );
+	add_filter( 'messages_template_inbox', create_function( '', 'return "messages/index";' ) );
+	add_filter( 'messages_template_notices', create_function( '', 'return "messages/notices";' ) );
+	add_filter( 'messages_template_view_message', create_function( '', 'return "messages/view";' ) );
+}
+add_action( 'init', 'messages_filter_template_paths' );
+
 
 // List actions to clear super cached pages on, if super cache is installed
 add_action( 'messages_delete_thread', 'bp_core_clear_cache' );

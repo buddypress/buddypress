@@ -10,10 +10,6 @@ require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-classes.php' );
 require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-widgets.php' );
 
-/* Include deprecated functions if settings allow */
-if ( !defined( 'BP_IGNORE_DEPRECATED' ) )
-	require ( BP_PLUGIN_DIR . '/bp-blogs/deprecated/bp-blogs-deprecated.php' );
-
 function bp_blogs_install() {
 	global $wpdb, $bp;
 
@@ -144,7 +140,7 @@ function bp_blogs_setup_nav() {
 	global $bp;
 
 	/* Add 'Blogs' to the main navigation */
-	bp_core_new_nav_item( array( 'name' => __( 'Blogs', 'buddypress' ), 'slug' => $bp->blogs->slug, 'position' => 30, 'screen_function' => 'bp_blogs_screen_my_blogs', 'default_subnav_slug' => 'my-blogs', 'item_css_id' => $bp->blogs->id ) );
+	bp_core_new_nav_item( array( 'name' => sprintf( __( 'Blogs (%d)', 'buddypress' ), bp_blogs_total_blogs_for_user() ), 'slug' => $bp->blogs->slug, 'position' => 30, 'screen_function' => 'bp_blogs_screen_my_blogs', 'default_subnav_slug' => 'my-blogs', 'item_css_id' => $bp->blogs->id ) );
 
 	$blogs_link = $bp->loggedin_user->domain . $bp->blogs->slug . '/';
 
@@ -152,7 +148,6 @@ function bp_blogs_setup_nav() {
 	bp_core_new_subnav_item( array( 'name' => __( 'My Blogs', 'buddypress' ), 'slug' => 'my-blogs', 'parent_url' => $blogs_link, 'parent_slug' => $bp->blogs->slug, 'screen_function' => 'bp_blogs_screen_my_blogs', 'position' => 10, 'item_css_id' => 'my-blogs-list' ) );
 	bp_core_new_subnav_item( array( 'name' => __( 'Recent Posts', 'buddypress' ), 'slug' => 'recent-posts', 'parent_url' => $blogs_link, 'parent_slug' => $bp->blogs->slug, 'screen_function' => 'bp_blogs_screen_recent_posts', 'position' => 20 ) );
 	bp_core_new_subnav_item( array( 'name' => __( 'Recent Comments', 'buddypress' ), 'slug' => 'recent-comments', 'parent_url' => $blogs_link, 'parent_slug' => $bp->blogs->slug, 'screen_function' => 'bp_blogs_screen_recent_comments', 'position' => 30 ) );
-	bp_core_new_subnav_item( array( 'name' => __( 'Create a Blog', 'buddypress' ), 'slug' => 'create-a-blog', 'parent_url' => $blogs_link, 'parent_slug' => $bp->blogs->slug, 'screen_function' => 'bp_blogs_screen_create_a_blog', 'position' => 40 ) );
 
 	/* Set up the component options navigation for Blog */
 	if ( 'blogs' == $bp->current_component ) {
@@ -179,7 +174,7 @@ function bp_blogs_directory_blogs_setup() {
 		$bp->is_directory = true;
 
 		do_action( 'bp_blogs_directory_blogs_setup' );
-		bp_core_load_template( apply_filters( 'bp_blogs_template_directory_blogs_setup', 'directories/blogs/index' ) );
+		bp_core_load_template( apply_filters( 'bp_blogs_template_directory_blogs_setup', 'blogs/index' ) );
 	}
 }
 add_action( 'wp', 'bp_blogs_directory_blogs_setup', 2 );
@@ -195,23 +190,33 @@ add_action( 'wp', 'bp_blogs_directory_blogs_setup', 2 );
 
 function bp_blogs_screen_my_blogs() {
 	do_action( 'bp_blogs_screen_my_blogs' );
-	bp_core_load_template( apply_filters( 'bp_blogs_template_my_blogs', 'blogs/my-blogs' ) );
+	bp_core_load_template( apply_filters( 'bp_blogs_template_my_blogs', 'members/single/blogs' ) );
 }
 
 function bp_blogs_screen_recent_posts() {
 	do_action( 'bp_blogs_screen_recent_posts' );
-	bp_core_load_template( apply_filters( 'bp_blogs_template_recent_posts', 'blogs/recent-posts' ) );
+	bp_core_load_template( apply_filters( 'bp_blogs_template_recent_posts', 'members/single/blogs' ) );
 }
 
 function bp_blogs_screen_recent_comments() {
 	do_action( 'bp_blogs_screen_recent_comments' );
-	bp_core_load_template( apply_filters( 'bp_blogs_template_recent_comments', 'blogs/recent-comments' ) );
+	bp_core_load_template( apply_filters( 'bp_blogs_template_recent_comments', 'members/single/blogs' ) );
 }
 
 function bp_blogs_screen_create_a_blog() {
+	global $bp;
+
+	if ( $bp->current_component != $bp->blogs->slug || 'create' != $bp->current_action )
+		return false;
+
+	if ( !is_user_logged_in() || !bp_blog_signup_enabled() )
+		return false;
+
 	do_action( 'bp_blogs_screen_create_a_blog' );
 	bp_core_load_template( apply_filters( 'bp_blogs_template_create_a_blog', 'blogs/create' ) );
 }
+/* The create screen is not attached to a nav item, so we need to attach it to an action */
+add_action( 'wp', 'bp_blogs_screen_create_a_blog', 3 );
 
 
 /********************************************************************************
@@ -598,6 +603,20 @@ function bp_blogs_remove_comment( $comment_id ) {
 }
 add_action( 'delete_comment', 'bp_blogs_remove_comment' );
 
+function bp_blogs_total_blogs() {
+	$blogs = BP_Blogs_Blog::get_all();
+	return $blogs['total'];
+}
+
+function bp_blogs_total_blogs_for_user( $user_id = false ) {
+	global $bp;
+
+	if ( !$user_id )
+		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+
+	return BP_Blogs_Blog::total_blog_count_for_user( $user_id );
+}
+
 function bp_blogs_remove_data_for_blog( $blog_id ) {
 	global $bp;
 
@@ -774,6 +793,26 @@ function bp_blogs_update_blogmeta( $blog_id, $meta_key, $meta_value ) {
 
 	return true;
 }
+
+/**
+ * bp_blogs_filter_template_paths()
+ *
+ * Add fallback for the bp-sn-parent theme template locations used in BuddyPress versions
+ * older than 1.2.
+ *
+ * @package BuddyPress Core
+ */
+function bp_blogs_filter_template_paths() {
+	if ( 'bp-sn-parent' != basename( TEMPLATEPATH ) && !defined( 'BP_CLASSIC_TEMPLATE_STRUCTURE' ) )
+		return false;
+
+	add_filter( 'bp_blogs_template_directory_blogs_setup', create_function( '', 'return "directories/blogs/index";' ) );
+	add_filter( 'bp_blogs_template_my_blogs', create_function( '', 'return "blogs/my-blogs";' ) );
+	add_filter( 'bp_blogs_template_recent_posts', create_function( '', 'return "blogs/recent-posts";' ) );
+	add_filter( 'bp_blogs_template_recent_comments', create_function( '', 'return "blogs/recent-comments";' ) );
+	add_filter( 'bp_blogs_template_create_a_blog', create_function( '', 'return "blogs/create";' ) );
+}
+add_action( 'init', 'bp_blogs_filter_template_paths' );
 
 function bp_blogs_remove_data( $user_id ) {
 	/* If this is regular blog, delete all data for that blog. */

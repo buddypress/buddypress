@@ -1,11 +1,5 @@
 <?php
 
-/* Register widgets for blogs component */
-function bp_activity_register_widgets() {
-	add_action('widgets_init', create_function('', 'return register_widget("BP_Activity_Widget");') );
-}
-add_action( 'plugins_loaded', 'bp_activity_register_widgets' );
-
 class BP_Activity_Widget extends WP_Widget {
 	function bp_activity_widget() {
 		parent::WP_Widget( false, $name = __( 'Site Wide Activity', 'buddypress' ) );
@@ -95,7 +89,6 @@ class BP_Activity_Widget extends WP_Widget {
 			</ul>
 		</div>
 
-
 		<div class="activity">
 			<?php // The loop will be loaded here via AJAX on page load to retain settings. ?>
 		</div>
@@ -129,6 +122,7 @@ class BP_Activity_Widget extends WP_Widget {
 	<?php
 	}
 }
+register_widget( "BP_Activity_Widget" );
 
 function bp_activity_widget_loop( $type = 'all', $filter = false, $query_string = false, $per_page = 20 ) {
 	global $bp;
@@ -165,13 +159,13 @@ function bp_activity_widget_loop( $type = 'all', $filter = false, $query_string 
 		<?php echo $query_string . '&display_comments=threaded||'; // Pass the qs back to the JS. ?>
 
 		<?php if ( !$_POST['acpage'] || 1 == $_POST['acpage'] ) : ?>
-			<ul id="site-wide-stream" class="activity-list">
+			<ul id="site-wide-stream" class="activity-list item-list">
 		<?php endif; ?>
 
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<li class="<?php bp_activity_css_class() ?>" id="activity-<?php bp_activity_id() ?>">
 				<div class="activity-avatar">
-					<?php bp_activity_avatar('width=40&height=40') ?>
+					<?php bp_activity_avatar('type=full&width=40&height=40') ?>
 				</div>
 
 				<div class="activity-content">

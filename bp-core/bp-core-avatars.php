@@ -45,6 +45,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		'class' => 'avatar',
 		'css_id' => false,
 		'alt' => __( 'Avatar Image', 'buddypress' ),
+		'email' => false, // Pass the user email (for gravatar) to prevent querying the DB for it
 		'no_grav' => false // If there is no avatar found, return false instead of a grav?
 	);
 
@@ -93,7 +94,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 	else
 		$html_height = ( 'thumb' == $type ) ? ' height="' . BP_AVATAR_THUMB_HEIGHT . '"' : ' height="' . BP_AVATAR_FULL_HEIGHT . '"';
 
-	$avatar_folder_url = apply_filters( 'bp_core_avatar_folder_url', get_blog_option( BP_ROOT_BLOG, 'siteurl' ) . '/' . basename( WP_CONTENT_DIR ) . '/blogs.dir/' . BP_ROOT_BLOG . '/files/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
+	$avatar_folder_url = apply_filters( 'bp_core_avatar_folder_url', $bp->root_domain . '/' . basename( WP_CONTENT_DIR ) . '/blogs.dir/' . BP_ROOT_BLOG . '/files/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
 	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', WP_CONTENT_DIR . '/blogs.dir/' . BP_ROOT_BLOG . '/files/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
 
 	/****
@@ -132,13 +133,14 @@ function bp_core_fetch_avatar( $args = '' ) {
 		else if ( 'thumb' == $type ) $grav_size = BP_AVATAR_THUMB_WIDTH;
 
 		if ( 'user' == $object ) {
-			$grav_email = bp_core_get_user_email( $item_id );
+			if ( empty( $email ) )
+				$email = bp_core_get_user_email( $item_id );
 		} else if ( 'group' == $object || 'blog' == $object ) {
-			$grav_email = "{$item_id}-{$object}@{$bp->root_domain}";
+			$email = "{$item_id}-{$object}@{$bp->root_domain}";
 		}
 
-		$grav_email = apply_filters( 'bp_core_gravatar_email', $grav_email, $item_id, $object );
-		$gravatar = apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' ) . md5( $grav_email ) . '?d=' . $default_grav . '&amp;s=' . $grav_size;
+		$email = apply_filters( 'bp_core_gravatar_email', $email, $item_id, $object );
+		$gravatar = apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' ) . md5( $email ) . '?d=' . $default_grav . '&amp;s=' . $grav_size;
 
 		return apply_filters( 'bp_core_fetch_avatar', "<img src='{$gravatar}' alt='{$alt}' class='{$class}'{$css_id}{$html_width}{$html_height} />", $params );
 

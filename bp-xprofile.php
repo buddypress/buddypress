@@ -12,10 +12,6 @@ require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-notifications.php' );
 require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-cssjs.php' );
 
-/* Include deprecated functions if settings allow */
-if ( !defined( 'BP_IGNORE_DEPRECATED' ) )
-	require ( BP_PLUGIN_DIR . '/bp-xprofile/deprecated/bp-xprofile-deprecated.php' );
-
 /* Assign the base group and fullname field names to constants to use in SQL statements */
 define ( 'BP_XPROFILE_BASE_GROUP_NAME', get_site_option( 'bp-xprofile-base-group-name' ) );
 define ( 'BP_XPROFILE_FULLNAME_FIELD_NAME', get_site_option( 'bp-xprofile-fullname-field-name' ) );
@@ -295,7 +291,7 @@ function xprofile_screen_display_profile() {
 		bp_core_delete_notifications_for_user_by_item_id( $bp->loggedin_user->id, $bp->displayed_user->id, 'friends', 'friendship_accepted' );
 
 	do_action( 'xprofile_screen_display_profile', $_GET['new'] );
-	bp_core_load_template( apply_filters( 'xprofile_template_display_profile', 'profile/index' ) );
+	bp_core_load_template( apply_filters( 'xprofile_template_display_profile', 'members/single/profile' ) );
 }
 
 /**
@@ -375,7 +371,7 @@ function xprofile_screen_edit_profile() {
 	}
 
 	do_action( 'xprofile_screen_edit_profile' );
-	bp_core_load_template( apply_filters( 'xprofile_template_edit_profile', 'profile/edit' ) );
+	bp_core_load_template( apply_filters( 'xprofile_template_edit_profile', 'members/single/profile' ) );
 }
 
 /**
@@ -425,7 +421,7 @@ function xprofile_screen_change_avatar() {
 
 	do_action( 'xprofile_screen_change_avatar' );
 
-	bp_core_load_template( apply_filters( 'xprofile_template_change_avatar', 'profile/change-avatar' ) );
+	bp_core_load_template( apply_filters( 'xprofile_template_change_avatar', 'members/single/profile' ) );
 }
 
 /**
@@ -1104,6 +1100,24 @@ function xprofile_remove_screen_notifications() {
 	bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, $bp->profile->id, 'new_wire_post' );
 }
 add_action( 'bp_wire_screen_latest', 'xprofile_remove_screen_notifications' );
+
+/**
+ * xprofile_filter_template_paths()
+ *
+ * Add fallback for the bp-sn-parent theme template locations used in BuddyPress versions
+ * older than 1.2.
+ *
+ * @package BuddyPress Core
+ */
+function xprofile_filter_template_paths() {
+	if ( 'bp-sn-parent' != basename( TEMPLATEPATH ) && !defined( 'BP_CLASSIC_TEMPLATE_STRUCTURE' ) )
+		return false;
+
+	add_filter( 'xprofile_template_display_profile', create_function( '', 'return "profile/index";' ) );
+	add_filter( 'xprofile_template_edit_profile', create_function( '', 'return "profile/edit";' ) );
+	add_filter( 'xprofile_template_change_avatar', create_function( '', 'return "profile/change-avatar";' ) );
+}
+add_action( 'init', 'xprofile_filter_template_paths' );
 
 /**
  * xprofile_remove_data_on_user_deletion()

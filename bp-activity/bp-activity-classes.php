@@ -162,97 +162,7 @@ Class BP_Activity_Activity {
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE component_action = 'activity_comment' AND item_id IN ({$activity_ids})" ) );
 	}
 
-	function get_activity_for_user( $user_id, $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false, $show_hidden = false ) {
-		global $wpdb, $bp;
-
-		if ( $limit && $page )
-			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
-
-		if ( $max )
-			$max_sql = $wpdb->prepare( "LIMIT %d", $max );
-
-		/* Searching */
-		if ( $search_terms ) {
-			$search_terms = $wpdb->escape( $search_terms );
-			$search_sql = "AND content LIKE '%%" . like_escape( $search_terms ) . "%%'";
-		}
-
-		/* Filtering */
-		if ( $filter ) {
-			unset($filter['user_id']); // Unset duplicate user_id filter - TODO: merge all to sitewide.
-			$filter_sql = BP_Activity_Activity::get_filter_sql( $filter );
-		}
-
-		/* Sorting */
-		if ( $sort != 'ASC' && $sort != 'DESC' )
-			$sort = 'DESC';
-
-		/* Hide Hidden Items? */
-		if ( !$show_hidden )
-			$hidden_sql = "AND hide_sitewide = 0";
-
-		/* Alter the query based on whether we want to show activity item comments in the stream like normal comments or threaded below the activity */
-		if ( !$display_comments || 'threaded' == $display_comments ) {
-			if ( $per_page && $page && $max )
-				$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE user_id = %d {$search_sql} {$filter_sql} {$hidden_sql} AND component_action != 'activity_comment' ORDER BY date_recorded {$sort} {$pag_sql}", $user_id ) );
-			else
-				$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE user_id = %d {$search_sql} {$filter_sql} {$hidden_sql} AND component_action != 'activity_comment' ORDER BY date_recorded {$sort} {$pag_sql} {$max_sql}", $user_id ) );
-
-			$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE user_id = %d {$search_sql} {$filter_sql} {$hidden_sql} AND component_action != 'activity_comment' ORDER BY date_recorded {$sort} {$max_sql}", $user_id ) );
-
-			if ( $activities && $display_comments )
-				$activities = BP_Activity_Activity::append_comments( &$activities );
-		} else {
-			if ( $per_page && $page && $max )
-				$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE user_id = %d {$search_sql} {$filter_sql} {$hidden_sql} ORDER BY date_recorded {$sort} {$pag_sql}", $user_id ) );
-			else
-				$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE user_id = %d {$search_sql} {$filter_sql} {$hidden_sql} ORDER BY date_recorded {$sort} {$pag_sql} {$max_sql}", $user_id ) );
-
-			$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE user_id = %d {$search_sql} {$filter_sql} {$hidden_sql} ORDER BY date_recorded {$sort} {$max_sql}", $user_id ) );
-
-			if ( $activities )
-				$activities = BP_Activity_Activity::append_comments( &$activities );
-		}
-
-		return array( 'activities' => $activities, 'total' => (int)$total_activities );
-	}
-
-	function get_activity_for_friends( $user_id, $max_items, $max_items_per_friend, $limit, $page, $filter ) {
-		global $wpdb, $bp;
-
-		// TODO: Max items per friend not yet implemented.
-
-		if ( !function_exists('friends_get_friend_user_ids') )
-			return false;
-
-		if ( $limit && $page )
-			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
-
-		if ( $max_items )
-			$max_sql = $wpdb->prepare( "LIMIT %d", $max_items );
-
-		/* Sort out filtering */
-		if ( $filter )
-			$filter_sql = BP_Activity_Activity::get_filter_sql( $filter );
-
-		$friend_ids = friends_get_friend_user_ids( $user_id );
-
-		if ( !$friend_ids )
-			return false;
-
-		$friend_ids = $wpdb->escape( implode( ',', $friend_ids ) );
-
-		if ( $limit && $page && $max_items )
-			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT id, user_id, content, primary_link, date_recorded, component_name, component_action FROM {$bp->activity->table_name} WHERE user_id IN ({$friend_ids}) $filter_sql ORDER BY date_recorded DESC $pag_sql"  ) );
-		else
-			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT id, user_id, content, primary_link, date_recorded, component_name, component_action FROM {$bp->activity->table_name} WHERE user_id IN ({$friend_ids}) $filter_sql ORDER BY date_recorded DESC $pag_sql $max_sql" ) );
-
-		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT user_id) FROM {$bp->activity->table_name} WHERE user_id IN ({$friend_ids}) $filter_sql ORDER BY date_recorded DESC $max_sql" ) );
-
-		return array( 'activities' => $activities, 'total' => (int)$total_activities );
-	}
-
-	function get_sitewide_activity( $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false, $show_hidden = false ) {
+	function get( $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false, $show_hidden = false ) {
 		global $wpdb, $bp;
 
 		$where_conditions = array();
@@ -284,64 +194,19 @@ Class BP_Activity_Activity {
 		/* Alter the query based on whether we want to show activity item comments in the stream like normal comments or threaded below the activity */
 		if ( !$display_comments || 'threaded' == $display_comments ) {
 			$where_conditions[] = "component_action != 'activity_comment'";
-			$where_sql = 'WHERE ' . join( ' AND ', $where_conditions );
-
-			if ( $per_page && $page && $max )
-				$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} {$where_sql} ORDER BY date_recorded {$sort} {$pag_sql}" ) );
-			else
-				$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} {$where_sql} ORDER BY date_recorded {$sort} {$pag_sql} {$max_sql}" ) );
-
-			$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} {$where_sql} ORDER BY date_recorded {$sort} {$max_sql}" ) );
-
-			if ( $activities && $display_comments )
-				$activities = BP_Activity_Activity::append_comments( &$activities );
-		} else {
-			/***
-			 * If we are filtering, this is going to stop activity comments showing in the stream,
-			 * we will need to do things slightly differently.
-			 */
-			if ( !empty( $where_conditions ) )
-				$where_sql = 'WHERE ' . join( ' AND ', $where_conditions );
-
-			 if ( !empty( $filter_sql ) ) {
-				$all_activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} {$where_sql} ORDER BY id {$sort}" ) );
-
-				foreach ( (array)$all_activities as $activity ) {
-					$tmp_activities[$activity->id] = $activity;
-					$a_ids[] = $activity->id;
-				}
-				$activity_ids = $wpdb->escape( implode( ',', $a_ids ) );
-
-				/* Fetch the comments for the activity items */
-				$search_sql = $where_conditions['search_sql'];
-				$all_comments = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE item_id IN ({$activity_ids}) {$search_sql} ORDER BY id {$sort}" ) );
-
-				foreach ( (array)$all_comments as $comment ) {
-					$tmp_comments[$comment->id] = $comment;
-				}
-
-				/* Merge, sort and splice the activities and comments */
-				$activities = $tmp_comments + $tmp_activities;
-				ksort( $activities );
-				$activities = array_reverse( array_merge( array(), (array)$activities ) );
-				$activities = array_slice( (array)$activities, intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
-
-			 	/* Fetch the totals */
-				$total_activities = count($all_activities) + count($all_comments);
-
-			 } else {
-				if ( $per_page && $page && $max )
-					$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} {$where_sql} ORDER BY id {$sort} {$pag_sql}" ) );
-				else
-					$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} {$where_sql} ORDER BY id {$sort} {$pag_sql} {$max_sql}" ) );
-
-				$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} {$where_sql} ORDER BY date_recorded {$sort} {$max_sql}" ) );
-			 }
-
-			/* Append threaded comments to those activites that have them */
-			if ( $activities )
-				$activities = BP_Activity_Activity::append_comments( &$activities );
 		}
+
+		$where_sql = 'WHERE ' . join( ' AND ', $where_conditions );
+
+		if ( $per_page && $page && $max )
+			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} {$where_sql} ORDER BY date_recorded {$sort} {$pag_sql}" ) );
+		else
+			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} {$where_sql} ORDER BY date_recorded {$sort} {$pag_sql} {$max_sql}" ) );
+
+		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} {$where_sql} ORDER BY date_recorded {$sort} {$max_sql}" ) );
+
+		if ( $activities && $display_comments )
+			$activities = BP_Activity_Activity::append_comments( &$activities );
 
 		return array( 'activities' => $activities, 'total' => (int)$total_activities );
 	}

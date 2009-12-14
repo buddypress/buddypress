@@ -42,10 +42,6 @@ require ( BP_PLUGIN_DIR . '/bp-core/bp-core-activation.php' );
 if ( !defined( 'BP_DISABLE_ADMIN_BAR' ) )
 	require ( BP_PLUGIN_DIR . '/bp-core/bp-core-adminbar.php' );
 
-/* If BP_IGNORE_DEPRECATED is defined, do not load any deprecated functions for backwards support */
-if ( !defined( 'BP_IGNORE_DEPRECATED' ) )
-	require ( BP_PLUGIN_DIR . '/bp-core/deprecated/bp-core-deprecated.php' );
-
 /* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
 if ( !defined( 'BP_MEMBERS_SLUG' ) )
 	define( 'BP_MEMBERS_SLUG', 'members' );
@@ -65,10 +61,6 @@ if ( !defined( 'BP_SEARCH_SLUG' ) )
 /* Define the slug for the search page */
 if ( !defined( 'BP_HOME_BLOG_SLUG' ) )
 	define( 'BP_HOME_BLOG_SLUG', 'blog' );
-
-/* Register BuddyPress themes contained within the theme folder */
-if ( function_exists( 'register_theme_folder' ) )
-	register_theme_folder( 'buddypress/bp-themes' );
 
 /* Register BuddyPress themes contained within the theme folder */
 if ( function_exists( 'register_theme_folder' ) )
@@ -380,22 +372,12 @@ add_action( 'admin_menu', 'bp_core_setup_nav' );
 
 
 /********************************************************************************
- * Screen Functions
- *
- * Screen functions are the controllers of BuddyPress. They will execute when their
- * specific URL is caught. They will first save or manipulate data using business
- * functions, then pass on the user to a template file.
- */
-
-
-/********************************************************************************
  * Action Functions
  *
  * Action functions are exactly the same as screen functions, however they do not
  * have a template screen associated with them. Usually they will send the user
  * back to the default screen after execution.
  */
-
 
 /**
  * bp_core_action_directory_members()
@@ -415,7 +397,7 @@ function bp_core_action_directory_members() {
 		$bp->is_directory = true;
 
 		do_action( 'bp_core_action_directory_members' );
-		bp_core_load_template( apply_filters( 'bp_core_template_directory_members', 'directories/members/index' ) );
+		bp_core_load_template( apply_filters( 'bp_core_template_directory_members', 'members/index' ) );
 	}
 }
 add_action( 'wp', 'bp_core_action_directory_members', 2 );
@@ -652,7 +634,7 @@ function bp_core_new_nav_item( $args = '' ) {
 	 * the logged in user is not the displayed user
 	 * looking at their own profile, don't create the nav item.
 	 */
-	if ( !$show_for_displayed_user && !bp_is_home() )
+	if ( !$show_for_displayed_user && !bp_is_my_profile() )
 		return false;
 
 	/***
@@ -1175,6 +1157,21 @@ function bp_core_get_userlink_by_username( $username ) {
 
 	$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $username ) );
 	return apply_filters( 'bp_core_get_userlink_by_username', bp_core_get_userlink( $user_id, false, false, true ) );
+}
+
+/**
+ * bp_core_get_total_member_count()
+ *
+ * Returns the total number of members for the installation.
+ *
+ * @package BuddyPress Core
+ * @return int The total number of members.
+ */
+function bp_core_get_total_member_count() {
+	global $wpdb;
+
+	$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM " . CUSTOM_USER_TABLE . " WHERE spam = 0" ) );
+	return apply_filters( 'bp_core_get_total_member_count', (int)$count );
 }
 
 /**
@@ -1759,7 +1756,7 @@ function bp_core_add_admin_menu_page( $args = '' ) {
 /**
  * bp_core_boot_spammer()
  *
- * When a user logs in, check if they have been marked as a spammer. If then simply
+ * When a user logs in, check if they have been marked as a spammer. If yes then simply
  * redirect them to the home page and stop them from logging in.
  *
  * @package BuddyPress Core
@@ -1830,6 +1827,23 @@ function bp_core_update_message() {
 	echo '<p style="color: red; margin: 3px 0 0 0; border-top: 1px solid #ddd; padding-top: 3px">' . __( 'IMPORTANT: <a href="http://codex.buddypress.org/getting-started/upgrading-from-10x/">Read this before attempting to update BuddyPress</a>', 'buddypress' ) . '</p>';
 }
 add_action( 'in_plugin_update_message-buddypress/bp-loader.php', 'bp_core_update_message' );
+
+/**
+ * bp_core_filter_template_paths()
+ *
+ * Add fallback for the bp-sn-parent theme template locations used in BuddyPress versions
+ * older than 1.2.
+ *
+ * @package BuddyPress Core
+ */
+function bp_core_filter_template_paths() {
+	if ( 'bp-sn-parent' != basename( TEMPLATEPATH ) && !defined( 'BP_CLASSIC_TEMPLATE_STRUCTURE' ) )
+		return false;
+
+	add_filter( 'bp_core_template_directory_members', create_function( '', 'return "directories/members/index";' ) );
+	add_filter( 'bp_core_template_plugin', create_function( '', 'return "plugin-template";' ) );
+}
+add_action( 'init', 'bp_core_filter_template_paths' );
 
 /**
  * bp_core_clear_user_object_cache()

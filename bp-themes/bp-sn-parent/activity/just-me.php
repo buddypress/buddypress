@@ -53,7 +53,7 @@
 
 					<div class="activity">
 
-					<?php if ( bp_has_activities( 'type=personal&max=20&per_page=20&display_comments=stream&show_hidden=' . bp_is_home() ) ) : ?>
+					<?php if ( bp_has_activities( 'user_id=' . bp_displayed_user_id() . '&per_page=25&max=500&display_comments=stream&show_hidden=' . bp_is_home() ) ) : ?>
 
 						<ul id="activity-list" class="activity-list item-list">
 						<?php while ( bp_activities() ) : bp_the_activity(); ?>

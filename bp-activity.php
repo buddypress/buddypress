@@ -8,12 +8,7 @@ if ( !defined( 'BP_ACTIVITY_SLUG' ) )
 
 require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-classes.php' );
 require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-templatetags.php' );
-require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-widgets.php' );
 require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-filters.php' );
-
-/* Include deprecated functions if settings allow */
-if ( !defined( 'BP_IGNORE_DEPRECATED' ) )
-	require ( BP_PLUGIN_DIR . '/bp-activity/deprecated/bp-activity-deprecated.php' );
 
 function bp_activity_install() {
 	global $wpdb, $bp;
@@ -121,7 +116,7 @@ add_action( 'admin_menu', 'bp_activity_setup_nav' );
 
 function bp_activity_screen_my_activity() {
 	do_action( 'bp_activity_screen_my_activity' );
-	bp_core_load_template( apply_filters( 'bp_activity_template_my_activity', 'activity/just-me' ) );
+	bp_core_load_template( apply_filters( 'bp_activity_template_my_activity', 'members/single/activity' ) );
 }
 
 function bp_activity_screen_friends_activity() {
@@ -172,7 +167,7 @@ function bp_activity_screen_single_activity_permalink() {
 		bp_core_redirect( $bp->loggedin_user->domain );
 	}
 
-	bp_core_load_template( apply_filters( 'bp_activity_template_profile_activity_permalink', 'activity/single' ) );
+	bp_core_load_template( apply_filters( 'bp_activity_template_profile_activity_permalink', 'members/single/activity/permalink' ) );
 }
 /* This screen is not attached to a nav item, so we need to add an action for it. */
 add_action( 'wp', 'bp_activity_screen_single_activity_permalink', 3 );
@@ -306,7 +301,7 @@ add_action( 'wp', 'bp_activity_action_friends_feed', 3 );
  * true or false on success or failure.
  */
 
-function bp_activity_get_sitewide( $args = '' ) {
+function bp_activity_get( $args = '' ) {
 	$defaults = array(
 		'max' => false, // Maximum number of results to return
 		'page' => 1, // page 1 without a per_page will result in no pagination.
@@ -318,7 +313,7 @@ function bp_activity_get_sitewide( $args = '' ) {
 		'show_hidden' => false, // Show activity items that are hidden site-wide?
 
 		/**
-		 * Pass filters as an array:
+		 * Pass filters as an array -- all filter items can be multiple values comma separated:
 		 * array(
 		 * 	'user_id' => false, // user_id to filter on
 		 *	'object' => false, // object to filter on e.g. groups, profile, status, friends
@@ -333,35 +328,7 @@ function bp_activity_get_sitewide( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	return apply_filters( 'bp_activity_get_sitewide', BP_Activity_Activity::get_sitewide_activity( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden ), &$r );
-}
-
-function bp_activity_get_for_user( $args = '' ) {
-	global $bp;
-
-	$defaults = array(
-		'user_id' => $bp->displayed_user->id,
-		'max' => false, // Maximum number of results to return
-		'page' => 1, // page 1 without a per_page will result in no pagination.
-		'per_page' => false, // results per page
-		'sort' => 'DESC', // sort ASC or DESC
-		'display_comments' => 'stream', // false for no comments. 'stream' for within stream display, 'threaded' for below each activity item
-
-		'search_terms' => false, // Pass search terms as a string
-		'show_hidden' => false, // Show activity items that are hidden site-wide?
-
-		/* See bp_activity_get_sitewide() for filters */
-		'filter' => array()
-	);
-
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	return apply_filters( 'bp_activity_get_for_user', BP_Activity_Activity::get_activity_for_user( $user_id, $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden ), &$r );
-}
-
-function bp_activity_get_friends_activity( $user_id, $max = 30, $max_items_per_friend = false, $pag_num = false, $pag_page = false, $filter = false ) {
-	return apply_filters( 'bp_activity_get_friends_activity', BP_Activity_Activity::get_activity_for_friends( $user_id, $max_items, $max_items_per_friend, $pag_num, $pag_page, $filter ), $user_id, $max_items, $max_items_per_friend, $pag_num, $pag_page, $filter );
+	return apply_filters( 'bp_activity_get', BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden ), &$r );
 }
 
 function bp_activity_get_specific( $args = '' ) {
@@ -536,6 +503,27 @@ function bp_activity_get_last_updated() {
 	return apply_filters( 'bp_activity_get_last_updated', BP_Activity_Activity::get_last_updated() );
 }
 
+/**
+ * bp_activity_filter_template_paths()
+ *
+ * Add fallback for the bp-sn-parent theme template locations used in BuddyPress versions
+ * older than 1.2.
+ *
+ * @package BuddyPress Core
+ */
+function bp_activity_filter_template_paths() {
+	if ( 'bp-sn-parent' != basename( TEMPLATEPATH ) && !defined( 'BP_CLASSIC_TEMPLATE_STRUCTURE' ) )
+		return false;
+
+	add_filter( 'bp_activity_template_my_activity', create_function( '', 'return "activity/just-me";' ) );
+	add_filter( 'bp_activity_template_friends_activity', create_function( '', 'return "activity/my-friends";' ) );
+	add_filter( 'bp_activity_template_profile_activity_permalink', create_function( '', 'return "activity/single";' ) );
+
+	/* Activity widget should only be available to older themes since the new default has it all in the template */
+	require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-widgets.php' );
+}
+add_action( 'widgets_init', 'bp_activity_filter_template_paths' );
+
 function bp_activity_remove_data( $user_id ) {
 	// Clear the user's activity from the sitewide stream and clear their activity tables
 	BP_Activity_Activity::delete_for_user( $user_id );
@@ -545,10 +533,5 @@ function bp_activity_remove_data( $user_id ) {
 add_action( 'wpmu_delete_user', 'bp_activity_remove_data' );
 add_action( 'delete_user', 'bp_activity_remove_data' );
 add_action( 'make_spam_user', 'bp_activity_remove_data' );
-
-/* Ordering function - don't call this directly */
-function bp_activity_order_by_date( $a, $b ) {
-	return apply_filters( 'bp_activity_order_by_date', strcasecmp( $b['date_recorded'], $a['date_recorded'] ) );
-}
 
 ?>

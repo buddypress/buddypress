@@ -12,13 +12,13 @@
 
 		<?php do_action( 'bp_before_my_blogs_content' ) ?>
 
-		<?php if ( bp_has_blogs() ) : ?>
+		<?php if ( bp_has_blogs( 'user_id=' . bp_displayed_user_id() ) ) : ?>
 
 			<ul id="blog-list" class="item-list">
-				<?php while ( bp_blogs() ) : bp_the_blog(); ?>
+			<?php while ( bp_blogs() ) : bp_the_blog(); ?>
 
 					<li>
-						<h4><a href="<?php bp_blog_permalink() ?>"><?php bp_blog_title() ?></a></h4>
+						<h4><a href="<?php bp_blog_permalink() ?>"><?php bp_blog_name() ?></a></h4>
 						<p><?php bp_blog_description() ?></p>
 
 						<?php do_action( 'bp_my_blogs_item' ) ?>

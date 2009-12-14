@@ -6,7 +6,6 @@ class BP_Activity_Template {
 	var $total_activity_count;
 	var $activities;
 	var $activity;
-	var $activity_type;
 
 	var $in_the_loop;
 
@@ -16,25 +15,17 @@ class BP_Activity_Template {
 
 	var $full_name;
 
-	function bp_activity_template( $type, $user_id, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden ) {
+	function bp_activity_template( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden ) {
 		global $bp;
 
-		$this->pag_page = isset( $_REQUEST['acpage'] ) ? intval( $_REQUEST['acpage'] ) : 1;
+		$this->pag_page = isset( $_REQUEST['acpage'] ) ? intval( $_REQUEST['acpage'] ) : $page;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
-		$this->activity_type = $type;
 
 		if ( !empty( $include ) ) {
 			/* Fetch specific activity items based on ID's */
-			$this->activities = bp_activity_get_specific( array( 'activity_ids' => explode( ',', $include ), 'max' => $max, 'page' => $page, 'per_page' => $per_page, 'sort' => $sort, 'display_comments' => $display_comments ) );
+			$this->activities = bp_activity_get_specific( array( 'activity_ids' => explode( ',', $include ), 'max' => $max, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'sort' => $sort, 'display_comments' => $display_comments ) );
 		} else {
-			if ( $type == 'sitewide' )
-				$this->activities = bp_activity_get_sitewide( array( 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'filter' => $filter, 'show_hidden' => $show_hidden ) );
-
-			if ( $type == 'personal' )
-				$this->activities = bp_activity_get_for_user( array( 'user_id' => $user_id, 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'filter' => $filter, 'show_hidden' => $show_hidden ) );
-
-			if ( $type == 'friends' && ( bp_is_home() || is_site_admin() || $bp->loggedin_user->id == $user_id ) )
-				$this->activities = bp_activity_get_friends_activity( $user_id, $max, false, $this->pag_num, $this->pag_page, $filter );
+			$this->activities = bp_activity_get( array( 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'filter' => $filter, 'show_hidden' => $show_hidden ) );
 		}
 
 		if ( !$max || $max >= (int)$this->activities['total'] )
@@ -122,10 +113,10 @@ function bp_has_activities( $args = '' ) {
 	/* Note: any params used for filtering can be a single value, or multiple values comma separated. */
 
 	$defaults = array(
-		'type' => 'sitewide',
 		'display_comments' => false, // false for none, stream/threaded - show comments in the stream or threaded under items
 		'include' => false, // pass an activity_id or string of ID's comma separated
 		'sort' => 'DESC', // sort DESC or ASC
+		'page' => 1, // which page to load
 		'per_page' => 25, // number of items per page
 		'max' => false, // max number to return
 		'show_hidden' => false, // Show activity items that are hidden site-wide?
@@ -161,7 +152,7 @@ function bp_has_activities( $args = '' ) {
 	else
 		$filter = array( 'user_id' => $user_id, 'object' => $object, 'action' => $action, 'primary_id' => $primary_id, 'secondary_id' => $secondary_id );
 
-	$activities_template = new BP_Activity_Template( $type, $user_id, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden );
+	$activities_template = new BP_Activity_Template( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden );
 
 	return apply_filters( 'bp_has_activities', $activities_template->has_activities(), &$activities_template );
 }
@@ -351,14 +342,16 @@ function bp_activity_content_filter( $content, $date_recorded, $full_name, $inse
 		}
 	}
 
-	if ( 'activity_comment' == $activities_template->activity->component_action )
-		$meta = '</span> <span class="activity-header-meta"> &middot; <a href="' . $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $activities_template->activity->item_id . '">' . __( 'View Thread', 'buddypress' ) . '</a>';
-	else
-		$meta = '</span> <span class="activity-header-meta"> &middot; <a href="' . $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $activities_template->activity->id . '">' . __( 'Permalink', 'buddypress' ) . '</a>';
+	if ( !bp_is_activity_permalink() ) {
+		if ( 'activity_comment' == $activities_template->activity->component_action )
+			$meta = '</span> <span class="activity-header-meta"> &middot; <a href="' . $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $activities_template->activity->item_id . '">' . __( 'View Thread', 'buddypress' ) . '</a>';
+		else
+			$meta = '</span> <span class="activity-header-meta"> &middot; <a href="' . $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $activities_template->activity->id . '">' . __( 'View Thread', 'buddypress' ) . '</a>';
+	}
 
 	/* Add the delete link if the user has permission on this item */
 	if ( ( $activities_template->activity->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin || is_site_admin() )
-		 $meta .= ' &middot;' . bp_get_activity_delete_link();
+		 $meta .= ' &middot; ' . bp_get_activity_delete_link();
 
 	$content[1] = $meta . '</span>' . $content[1];
 	$content_new = '';
@@ -534,6 +527,24 @@ function bp_activity_delete_link() {
 		global $activities_template, $bp;
 
 		return apply_filters( 'bp_get_activity_delete_link', '<a href="' . wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/' . $activities_template->activity->id, 'bp_activity_delete_link' ) . '" class="item-button delete-activity confirm">' . __( 'Delete', 'buddypress' ) . '</a>' );
+	}
+
+function bp_activity_latest_update( $user_id = false ) {
+	echo bp_get_activity_latest_update( $user_id );
+}
+	function bp_get_activity_latest_update( $user_id = false ) {
+		global $bp;
+
+		if ( !$user_id )
+			$user_id = $bp->displayed_user->id;
+
+		if ( !$update = get_usermeta( $user_id, 'bp_latest_update' ) )
+			return false;
+
+		$latest_update = '&quot;' . strip_tags( bp_create_excerpt( $update['content'], 40 ) ) . '&quot;';
+		$latest_update .= ' &middot; <a href="' . $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $update['id'] . '/"> ' . __( 'View Thread', 'buddypress' ) . '</a>';
+
+		return apply_filters( 'bp_get_activity_latest_update', $latest_update  );
 	}
 
 function bp_activity_filter_links( $args = false ) {

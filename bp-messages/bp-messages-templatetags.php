@@ -175,7 +175,7 @@ function bp_message_thread_excerpt() {
 }
 	function bp_get_message_thread_excerpt() {
 		global $messages_template;
-		return apply_filters( 'bp_get_message_thread_excerpt', bp_create_excerpt($messages_template->thread->last_message_message, 20) );
+		return apply_filters( 'bp_get_message_thread_excerpt', strip_tags( bp_create_excerpt($messages_template->thread->last_message_message, 10 ) ) );
 	}
 
 function bp_message_thread_from() {

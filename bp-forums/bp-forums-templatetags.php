@@ -18,10 +18,10 @@ class BP_Forums_Template_Forum {
 	var $sort_by;
 	var $order;
 
-	function BP_Forums_Template_Forum( $type, $forum_id, $per_page, $max, $no_stickies, $filter ) {
+	function BP_Forums_Template_Forum( $type, $forum_id, $page, $per_page, $max, $no_stickies, $filter ) {
 		global $bp;
 
-		$this->pag_page = isset( $_REQUEST['p'] ) ? intval( $_REQUEST['p'] ) : 1;
+		$this->pag_page = isset( $_REQUEST['p'] ) ? intval( $_REQUEST['p'] ) : $page;
 		$this->pag_num = isset( $_REQUEST['n'] ) ? intval( $_REQUEST['n'] ) : $per_page;
 
 		/* Only show stickies if we are viewing a single group forum, otherwise we could end up with hundreds globally */
@@ -99,8 +99,8 @@ class BP_Forums_Template_Forum {
 			'format' => '',
 			'total' => ceil($this->total_topic_count / $this->pag_num),
 			'current' => $this->pag_page,
-			'prev_text' => '&laquo;',
-			'next_text' => '&raquo;',
+			'prev_text' => '&larr;',
+			'next_text' => '&rarr;',
 			'mid_size' => 1
 		));
 	}
@@ -157,6 +157,7 @@ function bp_has_forum_topics( $args = '' ) {
 	$defaults = array(
 		'type' => 'newest',
 		'forum_id' => false,
+		'page' => 1,
 		'per_page' => 15,
 		'max' => false,
 		'no_stickies' => false,
@@ -183,7 +184,7 @@ function bp_has_forum_topics( $args = '' ) {
 	if ( $bp->is_directory && !empty( $_GET['fs'] ) )
 		$filter = $_GET['fs'];
 
-	$forum_template = new BP_Forums_Template_Forum( $type, $forum_id, $per_page, $max, $no_stickies, $filter );
+	$forum_template = new BP_Forums_Template_Forum( $type, $forum_id, $page, $per_page, $max, $no_stickies, $filter );
 
 	return apply_filters( 'bp_has_topics', $forum_template->has_topics(), &$forum_template );
 }
@@ -531,20 +532,20 @@ function bp_the_topic_admin_links( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		$links[] = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'edit', 'bp_forums_edit_topic' ) . '">' . __( 'Edit', 'buddypress' ) . '</a>';
+		$links[] = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'edit', 'bp_forums_edit_topic' ) . '">' . __( 'Edit Topic', 'buddypress' ) . '</a>';
 
 		if ( $bp->is_item_admin || $bp->is_item_mod || is_site_admin() ) {
 			if ( 0 == (int)$forum_template->topic->topic_sticky )
-				$links[] = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'stick', 'bp_forums_stick_topic' ) . '">' . __( 'Sticky', 'buddypress' ) . '</a>';
+				$links[] = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'stick', 'bp_forums_stick_topic' ) . '">' . __( 'Sticky Topic', 'buddypress' ) . '</a>';
 			else
-				$links[] = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'unstick', 'bp_forums_unstick_topic' ) . '">' . __( 'Un-stick', 'buddypress' ) . '</a>';
+				$links[] = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'unstick', 'bp_forums_unstick_topic' ) . '">' . __( 'Un-stick Topic', 'buddypress' ) . '</a>';
 
 			if ( 0 == (int)$forum_template->topic->topic_open )
-				$links[] = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'open', 'bp_forums_open_topic' ) . '">' . __( 'Open', 'buddypress' ) . '</a>';
+				$links[] = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'open', 'bp_forums_open_topic' ) . '">' . __( 'Open Topic', 'buddypress' ) . '</a>';
 			else
-				$links[] = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'close', 'bp_forums_close_topic' ) . '">' . __( 'Close', 'buddypress' ) . '</a>';
+				$links[] = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'close', 'bp_forums_close_topic' ) . '">' . __( 'Close Topic', 'buddypress' ) . '</a>';
 
-			$links[] = '<a class="confirm" id="topic-delete-link" href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'delete', 'bp_forums_delete_topic' ) . '">' . __( 'Delete', 'buddypress' ) . '</a>';
+			$links[] = '<a class="confirm" id="topic-delete-link" href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'delete', 'bp_forums_delete_topic' ) . '">' . __( 'Delete Topic', 'buddypress' ) . '</a>';
 		}
 
 		return implode( ' ' . $seperator . ' ', (array) $links );
@@ -895,8 +896,8 @@ function bp_the_topic_post_admin_links( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		$links  = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . $topic_template->post->id . 'edit/post/' . $topic_template->post->post_id, 'bp_forums_edit_post' ) . '">' . __( 'Edit', 'buddypress' ) . '</a> ' . $seperator . ' ';
-		$links .= '<a class="confirm" id="post-delete-link" href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'delete/post/' . $topic_template->post->post_id, 'bp_forums_delete_post' ) . '">' . __( 'Delete', 'buddypress' ) . '</a>';
+		$links  = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . $topic_template->post->id . 'edit/post/' . $topic_template->post->post_id, 'bp_forums_edit_post' ) . '">' . __( 'Edit Post', 'buddypress' ) . '</a> ' . $seperator . ' ';
+		$links .= '<a class="confirm" id="post-delete-link" href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'delete/post/' . $topic_template->post->post_id, 'bp_forums_delete_post' ) . '">' . __( 'Delete Post', 'buddypress' ) . '</a>';
 
 		return $links;
 	}

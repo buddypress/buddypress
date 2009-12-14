@@ -564,6 +564,21 @@ function bp_unserialize_profile_field( $value ) {
 	return $value;
 }
 
+function bp_profile_field_data( $args = '' ) {
+	echo bp_get_profile_field_data( $args );
+}
+	function bp_get_profile_field_data( $args = '' ) {
+		$defaults = array(
+			'field' => false, // Field name or ID.
+			'user_id' => $bp->displayed_user->id
+			);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		return apply_filters( 'bp_get_profile_field_data', xprofile_get_field_data( $field, $user_id ) );
+	}
+
 function bp_profile_group_tabs() {
 	global $bp, $group_name;
 

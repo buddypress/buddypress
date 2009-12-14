@@ -1,113 +1,10 @@
 <?php
 
-function bp_groups_header_tabs() {
-	global $bp, $create_group_step, $completed_to_step;
-?>
-	<li<?php if ( !isset($bp->action_variables[0]) || 'recently-active' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/recently-active"><?php _e( 'Recently Active', 'buddypress' ) ?></a></li>
-	<li<?php if ( 'recently-joined' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/recently-joined"><?php _e( 'Recently Joined', 'buddypress' ) ?></a></li>
-	<li<?php if ( 'most-popular' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/most-popular""><?php _e( 'Most Popular', 'buddypress' ) ?></a></li>
-	<li<?php if ( 'admin-of' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/admin-of""><?php _e( 'Administrator Of', 'buddypress' ) ?></a></li>
-	<li<?php if ( 'mod-of' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/mod-of""><?php _e( 'Moderator Of', 'buddypress' ) ?></a></li>
-	<li<?php if ( 'alphabetically' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/alphabetically""><?php _e( 'Alphabetically', 'buddypress' ) ?></a></li>
-<?php
-	do_action( 'groups_header_tabs' );
-}
-
-function bp_groups_filter_title() {
-	global $bp;
-
-	$current_filter = $bp->action_variables[0];
-
-	switch ( $current_filter ) {
-		case 'recently-active': default:
-			_e( 'Recently Active', 'buddypress' );
-			break;
-		case 'recently-joined':
-			_e( 'Recently Joined', 'buddypress' );
-			break;
-		case 'most-popular':
-			_e( 'Most Popular', 'buddypress' );
-			break;
-		case 'admin-of':
-			_e( 'Administrator Of', 'buddypress' );
-			break;
-		case 'mod-of':
-			_e( 'Moderator Of', 'buddypress' );
-			break;
-		case 'alphabetically':
-			_e( 'Alphabetically', 'buddypress' );
-		break;
-	}
-	do_action( 'bp_groups_filter_title' );
-}
-
-function bp_is_group_admin_screen( $slug ) {
-	global $bp;
-
-	if ( $bp->current_component != BP_GROUPS_SLUG || 'admin' != $bp->current_action )
-		return false;
-
-	if ( $bp->action_variables[0] == $slug )
-		return true;
-
-	return false;
-}
-
-function bp_group_current_avatar() {
-	global $bp;
-
-	if ( $bp->groups->current_group->avatar_full ) { ?>
-		<img src="<?php echo attribute_escape( $bp->groups->current_group->avatar_full ) ?>" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" class="avatar" />
-	<?php } else { ?>
-		<img src="<?php echo $bp->groups->image_base . '/none.gif' ?>" alt="<?php _e( 'No Group Avatar', 'buddypress' ) ?>" class="avatar" />
-	<?php }
-}
-
-
-function bp_get_group_has_avatar() {
-	global $bp;
-
-	if ( !empty( $_FILES ) || !bp_core_fetch_avatar( array( 'item_id' => $bp->groups->current_group->id, 'object' => 'group', 'no_grav' => true ) ) )
-		return false;
-
-	return true;
-}
-
-function bp_group_avatar_delete_link() {
-	echo bp_get_group_avatar_delete_link();
-}
-	function bp_get_group_avatar_delete_link() {
-		global $bp;
-
-		return apply_filters( 'bp_get_group_avatar_delete_link', wp_nonce_url( bp_get_group_permalink( $bp->groups->current_group ) . '/admin/group-avatar/delete', 'bp_group_avatar_delete' ) );
-	}
-
-function bp_group_avatar_edit_form() {
-	groups_avatar_upload();
-}
-
-function bp_custom_group_boxes() {
-	do_action( 'groups_custom_group_boxes' );
-}
-
-function bp_custom_group_admin_tabs() {
-	do_action( 'groups_custom_group_admin_tabs' );
-}
-
-function bp_custom_group_fields_editable() {
-	do_action( 'groups_custom_group_fields_editable' );
-}
-
-function bp_custom_group_fields() {
-	do_action( 'groups_custom_group_fields' );
-}
-
-
 /*****************************************************************************
- * User Groups Template Class/Tags
+ * Groups Template Class/Tags
  **/
 
-class BP_Groups_User_Groups_Template {
+class BP_Groups_Template {
 	var $current_group = -1;
 	var $group_count;
 	var $groups;
@@ -125,48 +22,60 @@ class BP_Groups_User_Groups_Template {
 	var $sort_by;
 	var $order;
 
-	function bp_groups_user_groups_template( $user_id, $type, $per_page, $max, $slug, $filter ) {
+	function bp_groups_template( $user_id, $type, $page, $per_page, $max, $slug, $search_terms ) {
 		global $bp;
 
-		if ( !$user_id )
-			$user_id = $bp->displayed_user->id;
-
-		$this->pag_page = isset( $_REQUEST['grpage'] ) ? intval( $_REQUEST['grpage'] ) : 1;
+		$this->pag_page = isset( $_REQUEST['grpage'] ) ? intval( $_REQUEST['grpage'] ) : $page;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
 		switch ( $type ) {
-			case 'recently-joined':
-				$this->groups = groups_get_recently_joined_for_user( $user_id, $this->pag_num, $this->pag_page, $filter );
+			case 'active': default:
+				$this->groups = groups_get_active( $this->pag_num, $this->pag_page, $user_id, $search_terms );
+				break;
+
+			case 'alphabetical': default:
+				$this->groups = groups_get_alphabetically( $this->pag_num, $this->pag_page, $user_id, $search_terms );
+				break;
+
+			case 'random':
+				$this->groups = groups_get_random_groups( $this->pag_num, $this->pag_page, $user_id, $search_terms );
+				break;
+
+			case 'newest':
+				$this->groups = groups_get_newest( $this->pag_num, $this->pag_page, $user_id, $search_terms );
 				break;
 
 			case 'popular':
-				$this->groups = groups_get_most_popular_for_user( $user_id, $this->pag_num, $this->pag_page, $filter );
+				$this->groups = groups_get_popular( $this->pag_num, $this->pag_page, $user_id, $search_terms );
+				break;
+
+			case 'most-forum-topics':
+				$this->groups = groups_get_by_most_forum_topics( $this->pag_num, $this->pag_page, $user_id, $search_terms );
+				break;
+
+			case 'most-forum-posts':
+				$this->groups = groups_get_by_most_forum_posts( $this->pag_num, $this->pag_page, $user_id, $search_terms );
 				break;
 
 			case 'admin-of':
-				$this->groups = groups_get_user_is_admin_of( $user_id, $this->pag_num, $this->pag_page, $filter );
+				if ( $user_id )
+					$this->groups = groups_get_user_is_admin_of( $user_id, $this->pag_num, $this->pag_page, $search_terms );
 				break;
 
 			case 'mod-of':
-				$this->groups = groups_get_user_is_mod_of( $user_id, $this->pag_num, $this->pag_page, $filter );
-				break;
-
-			case 'alphabetical':
-				$this->groups = groups_get_alphabetically_for_user( $user_id, $this->pag_num, $this->pag_page, $filter );
+				if ( $user_id )
+					$this->groups = groups_get_user_is_mod_of( $user_id, $this->pag_num, $this->pag_page, $filter );
 				break;
 
 			case 'invites':
-				$this->groups = groups_get_invites_for_user();
+				if ( $user_id )
+					$this->groups = groups_get_invites_for_user();
 				break;
 
 			case 'single-group':
 				$group = new stdClass;
 				$group->group_id = BP_Groups_Group::get_id_from_slug($slug);
 				$this->groups = array( $group );
-				break;
-
-			case 'active': default:
-				$this->groups = groups_get_recently_active_for_user( $user_id, $this->pag_num, $this->pag_page, $filter );
 				break;
 		}
 
@@ -200,8 +109,8 @@ class BP_Groups_User_Groups_Template {
 			'format' => '',
 			'total' => ceil($this->total_group_count / $this->pag_num),
 			'current' => $this->pag_page,
-			'prev_text' => '&laquo;',
-			'next_text' => '&raquo;',
+			'prev_text' => '&larr;',
+			'next_text' => '&rarr;',
 			'mid_size' => 1
 		));
 	}
@@ -227,7 +136,7 @@ class BP_Groups_User_Groups_Template {
 		}
 	}
 
-	function user_groups() {
+	function groups() {
 		if ( $this->current_group + 1 < $this->group_count ) {
 			return true;
 		} elseif ( $this->current_group + 1 == $this->group_count ) {
@@ -248,6 +157,10 @@ class BP_Groups_User_Groups_Template {
 
 		if ( $this->single_group )
 			$this->group = new BP_Groups_Group( $this->group->group_id, true, true );
+		else {
+			if ( $this->group )
+				wp_cache_set( 'groups_group_nouserdata_' . $group->group_id, $this->group, 'bp' );
+		}
 
 		if ( 0 == $this->current_group ) // loop has just started
 			do_action('loop_start');
@@ -259,11 +172,13 @@ function bp_has_groups( $args = '' ) {
 
 	$defaults = array(
 		'type' => 'active',
-		'user_id' => false,
-		'per_page' => 10,
+		'page' => 1,
+		'per_page' => 20,
 		'max' => false,
-		'slug' => false,
-		'filter' => false
+
+		'user_id' => false, // Pass a user ID to limit to groups this user has joined
+		'slug' => false, // Pass a group slug to only return that group
+		'search_terms' => false // Pass search terms to return only matching groups
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -294,16 +209,16 @@ function bp_has_groups( $args = '' ) {
 		}
 	}
 
-	if ( isset( $_REQUEST['group-filter-box'] ) )
-		$filter = $_REQUEST['group-filter-box'];
+	if ( isset( $_REQUEST['group-filter-box'] ) || isset( $_REQUEST['s'] ) )
+		$search_terms = ( isset( $_REQUEST['group-filter-box'] ) ) ? $_REQUEST['group-filter-box'] : $_REQUEST['s'];
 
-	$groups_template = new BP_Groups_User_Groups_Template( $user_id, $type, $per_page, $max, $slug, $filter );
+	$groups_template = new BP_Groups_Template( $user_id, $type, $page, $per_page, $max, $slug, $search_terms );
 	return apply_filters( 'bp_has_groups', $groups_template->has_groups(), &$groups_template );
 }
 
 function bp_groups() {
 	global $groups_template;
-	return $groups_template->user_groups();
+	return $groups_template->groups();
 }
 
 function bp_the_group() {
@@ -613,7 +528,7 @@ function bp_group_date_created( $deprecated = false ) {
 		if ( !$group )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_get_group_date_created', date( get_option( 'date_format' ), $group->date_created ) );
+		return apply_filters( 'bp_get_group_date_created', bp_core_time_since( strtotime( $group->date_created ) ) );
 	}
 
 function bp_group_is_admin() {
@@ -719,6 +634,7 @@ function bp_group_search_form() {
 	$action = $bp->displayed_user->domain . $bp->groups->slug . '/my-groups/search/';
 	$label = __('Filter Groups', 'buddypress');
 	$name = 'group-filter-box';
+
 ?>
 	<form action="<?php echo $action ?>" id="group-search-form" method="post">
 		<label for="<?php echo $name ?>" id="<?php echo $name ?>-label"><?php echo $label ?></label>
@@ -747,16 +663,16 @@ function bp_group_is_activity_permalink() {
 	return true;
 }
 
-function bp_group_pagination() {
-	echo bp_get_group_pagination();
+function bp_groups_pagination_links() {
+	echo bp_get_groups_pagination_links();
 }
-	function bp_get_group_pagination() {
+	function bp_get_groups_pagination_links() {
 		global $groups_template;
 
-		return apply_filters( 'bp_get_group_pagination', $groups_template->pag_links );
+		return apply_filters( 'bp_get_groups_pagination_links', $groups_template->pag_links );
 	}
 
-function bp_group_pagination_count() {
+function bp_groups_pagination_count() {
 	global $bp, $groups_template;
 
 	$from_num = intval( ( $groups_template->pag_page - 1 ) * $groups_template->pag_num ) + 1;
@@ -788,6 +704,18 @@ function bp_group_total_members( $deprecated = true, $deprecated2 = false ) {
 			$group =& $groups_template->group;
 
 		return apply_filters( 'bp_get_group_total_members', $group->total_member_count );
+	}
+
+function bp_group_member_count() {
+	echo bp_get_group_member_count();
+}
+	function bp_get_group_member_count() {
+		global $groups_template;
+
+		if ( 1 == (int) $groups_template->group->total_member_count )
+			return apply_filters( 'bp_get_group_member_count', sprintf( __( '%d member', 'buddypress' ), (int) $groups_template->group->total_member_count ) );
+		else
+			return apply_filters( 'bp_get_group_member_count', sprintf( __( '%d members', 'buddypress' ), (int) $groups_template->group->total_member_count ) );
 	}
 
 function bp_group_show_wire_setting( $group = false ) {
@@ -1260,6 +1188,20 @@ function bp_group_status_message( $group = false ) {
 	}
 }
 
+function bp_group_hidden_fields() {
+	if ( isset( $_REQUEST['s'] ) ) {
+		echo '<input type="hidden" id="search_terms" value="' . attribute_escape( $_REQUEST['s'] ) . '" name="search_terms" />';
+	}
+
+	if ( isset( $_REQUEST['letter'] ) ) {
+		echo '<input type="hidden" id="selected_letter" value="' . attribute_escape( $_REQUEST['letter'] ) . '" name="selected_letter" />';
+	}
+
+	if ( isset( $_REQUEST['groups_search'] ) ) {
+		echo '<input type="hidden" id="search_terms" value="' . attribute_escape( $_REQUEST['groups_search'] ) . '" name="search_terms" />';
+	}
+}
+
 
 /***************************************************************************
  * Group Members Template Tags
@@ -1307,8 +1249,8 @@ class BP_Groups_Group_Members_Template {
 			'format' => '',
 			'total' => ceil( $this->total_member_count / $this->pag_num ),
 			'current' => $this->pag_page,
-			'prev_text' => '&laquo;',
-			'next_text' => '&raquo;',
+			'prev_text' => '&larr;',
+			'next_text' => '&rarr;',
 			'mid_size' => 1
 		));
 	}
@@ -1536,7 +1478,7 @@ function bp_group_creation_tabs() {
 	foreach ( $bp->groups->group_creation_steps as $slug => $step ) {
 		$is_enabled = bp_are_previous_group_creation_steps_complete( $slug ); ?>
 
-		<li<?php if ( $bp->groups->current_create_step == $slug ) : ?> class="current"<?php endif; ?>><?php if ( $is_enabled ) : ?><a href="<?php echo $bp->loggedin_user->domain . $bp->groups->slug ?>/create/step/<?php echo $slug ?>"><?php endif; ?><?php echo $counter ?>. <?php echo $step['name'] ?><?php if ( $is_enabled ) : ?></a><?php endif; ?></li><?php
+		<li<?php if ( $bp->groups->current_create_step == $slug ) : ?> class="current"<?php endif; ?>><?php if ( $is_enabled ) : ?><a href="<?php echo $bp->root_domain . '/' . $bp->groups->slug ?>/create/step/<?php echo $slug ?>/"><?php else: ?><span><?php endif; ?><?php echo $counter ?>. <?php echo $step['name'] ?><?php if ( $is_enabled ) : ?></a><?php else: ?></span><?php endif ?></li><?php
 		$counter++;
 	}
 
@@ -1560,7 +1502,7 @@ function bp_group_creation_form_action() {
 		if ( empty( $bp->action_variables[1] ) )
 			$bp->action_variables[1] = array_shift( array_keys( $bp->groups->group_creation_steps ) );
 
-		return apply_filters( 'bp_get_group_creation_form_action', $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . $bp->action_variables[1] );
+		return apply_filters( 'bp_get_group_creation_form_action', $bp->root_domain . '/' . $bp->groups->slug . '/create/step/' . $bp->action_variables[1] );
 	}
 
 function bp_is_group_creation_step( $step_slug ) {
@@ -1786,429 +1728,129 @@ function bp_new_group_invite_friend_list() {
 		return implode( "\n", (array)$items );
 	}
 
-/********************************************************************************
- * Site Groups Template Tags
- **/
-
-class BP_Groups_Site_Groups_Template {
-	var $current_group = -1;
-	var $group_count;
-	var $groups;
-	var $group;
-
-	var $in_the_loop;
-
-	var $pag_page;
-	var $pag_num;
-	var $pag_links;
-	var $total_group_count;
-
-	function bp_groups_site_groups_template( $type, $per_page, $max ) {
-		global $bp;
-
-		/* TODO: Move $_REQUEST vars out of here */
-
-		$this->pag_page = isset( $_REQUEST['gpage'] ) ? intval( $_REQUEST['gpage'] ) : 1;
-		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
-
-		if ( isset( $_REQUEST['s'] ) && '' != $_REQUEST['s'] && $type != 'random' ) {
-			$this->groups = BP_Groups_Group::search_groups( $_REQUEST['s'], $this->pag_num, $this->pag_page );
-		} else if ( isset( $_REQUEST['letter'] ) && '' != $_REQUEST['letter'] ) {
-			$this->groups = BP_Groups_Group::get_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page );
-
-		} else {
-			switch ( $type ) {
-				case 'active': default:
-					$this->groups = groups_get_active( $this->pag_num, $this->pag_page );
-					break;
-
-				case 'alphabetical': default:
-					$this->groups = groups_get_alphabetically( $this->pag_num, $this->pag_page );
-					break;
-
-				case 'random':
-					$this->groups = groups_get_random_groups( $this->pag_num, $this->pag_page );
-					break;
-
-				case 'newest':
-					$this->groups = groups_get_newest( $this->pag_num, $this->pag_page );
-					break;
-
-				case 'popular':
-					$this->groups = groups_get_popular( $this->pag_num, $this->pag_page );
-					break;
-
-				case 'most-forum-topics':
-					$this->groups = groups_get_by_most_forum_topics( $this->pag_num, $this->pag_page );
-					break;
-
-				case 'most-forum-posts':
-					$this->groups = groups_get_by_most_forum_posts( $this->pag_num, $this->pag_page );
-					break;
-			}
-		}
-
-		if ( !$max || $max >= (int)$this->groups['total'] )
-			$this->total_group_count = (int)$this->groups['total'];
-		else
-			$this->total_group_count = (int)$max;
-
-		$this->groups = $this->groups['groups'];
-
-		if ( $max ) {
-			if ( $max >= count($this->groups) )
-				$this->group_count = count($this->groups);
-			else
-				$this->group_count = (int)$max;
-		} else {
-			$this->group_count = count($this->groups);
-		}
-
-		if ( (int) $this->total_group_count && (int) $this->pag_num ) {
-			$this->pag_links = paginate_links( array(
-				'base' => add_query_arg( 'gpage', '%#%' ),
-				'format' => '',
-				'total' => ceil( (int) $this->total_group_count / (int) $this->pag_num ),
-				'current' => (int) $this->pag_page,
-				'prev_text' => '&laquo;',
-				'next_text' => '&raquo;',
-				'mid_size' => 1
-			));
-	}
-	}
-
-	function has_groups() {
-		if ( $this->group_count )
-			return true;
-
-		return false;
-	}
-
-	function next_group() {
-		$this->current_group++;
-		$this->group = $this->groups[$this->current_group];
-
-		return $this->group;
-	}
-
-	function rewind_groups() {
-		$this->current_group = -1;
-		if ( $this->group_count > 0 ) {
-			$this->group = $this->groups[0];
-		}
-	}
-
-	function groups() {
-		if ( $this->current_group + 1 < $this->group_count ) {
-			return true;
-		} elseif ( $this->current_group + 1 == $this->group_count ) {
-			do_action('loop_end');
-			// Do some cleaning up after the loop
-			$this->rewind_groups();
-		}
-
-		$this->in_the_loop = false;
-		return false;
-	}
-
-	function the_group() {
-		global $group;
-
-		$this->in_the_loop = true;
-		$this->group = $this->next_group();
-
-		if ( !$group = wp_cache_get( 'groups_group_nouserdata_' . $this->group->group_id, 'bp' ) ) {
-			$group = new BP_Groups_Group( $this->group->group_id, false, false );
-			wp_cache_set( 'groups_group_nouserdata_' . $this->group->group_id, $group, 'bp' );
-		}
-
-		$this->group = $group;
-
-		if ( 0 == $this->current_group ) // loop has just started
-			do_action('loop_start');
-	}
-}
-
-function bp_rewind_site_groups() {
-	global $site_groups_template;
-
-	$site_groups_template->rewind_groups();
-}
-
-function bp_has_site_groups( $args = '' ) {
-	global $site_groups_template;
-
-	$defaults = array(
-		'type' => 'active',
-		'per_page' => 10,
-		'max' => false
-	);
-
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	// type: active ( default ) | random | newest | popular
-
-	if ( $max ) {
-		if ( $per_page > $max )
-			$per_page = $max;
-	}
-
-	$site_groups_template = new BP_Groups_Site_Groups_Template( $type, $per_page, $max );
-	return apply_filters( 'bp_has_site_groups', $site_groups_template->has_groups(), &$site_groups_template );
-}
-
-function bp_site_groups() {
-	global $site_groups_template;
-
-	return $site_groups_template->groups();
-}
-
-function bp_the_site_group() {
-	global $site_groups_template;
-
-	return $site_groups_template->the_group();
-}
-
-function bp_site_groups_pagination_count() {
-	global $bp, $site_groups_template;
-
-	$from_num = intval( ( $site_groups_template->pag_page - 1 ) * $site_groups_template->pag_num ) + 1;
-	$to_num = ( $from_num + ( $site_groups_template->pag_num - 1 ) > $site_groups_template->total_group_count ) ? $site_groups_template->total_group_count : $from_num + ( $site_groups_template->pag_num - 1) ;
-
-	echo sprintf( __( 'Viewing group %d to %d (of %d groups)', 'buddypress' ), $from_num, $to_num, $site_groups_template->total_group_count ); ?> &nbsp;
-	<span class="ajax-loader"></span><?php
-}
-
-function bp_site_groups_pagination_links() {
-	echo bp_get_site_groups_pagination_links();
-}
-	function bp_get_site_groups_pagination_links() {
-		global $site_groups_template;
-
-		return apply_filters( 'bp_get_site_groups_pagination_links', $site_groups_template->pag_links );
-	}
-
-function bp_the_site_group_id() {
-	echo bp_get_the_site_group_id();
-}
-	function bp_get_the_site_group_id() {
-		global $site_groups_template;
-
-		return apply_filters( 'bp_get_the_site_group_id', $site_groups_template->group->id );
-	}
-
-function bp_the_site_group_avatar( $args = '' ) {
-	echo bp_get_the_site_group_avatar( $args );
-}
-	function bp_get_the_site_group_avatar( $args = '' ) {
-		global $site_groups_template;
-
-		$defaults = array(
-			'type' => 'full',
-			'width' => false,
-			'height' => false,
-			'class' => 'avatar',
-			'id' => false,
-			'alt' => __( 'Group avatar', 'buddypress' )
-		);
-
-		$r = wp_parse_args( $args, $defaults );
-		extract( $r, EXTR_SKIP );
-
-		return apply_filters( 'bp_the_site_group_avatar', bp_core_fetch_avatar( array( 'item_id' => $site_groups_template->group->id, 'object' => 'group', 'type' => $type, 'alt' => $alt, 'css_id' => $id, 'class' => $class, 'width' => $width, 'height' => $height ) ) );
-	}
-
-function bp_the_site_group_avatar_thumb() {
-	echo bp_get_the_site_group_avatar_thumb();
-}
-	function bp_get_the_site_group_avatar_thumb() {
-		global $site_groups_template;
-
-		return apply_filters( 'bp_get_the_site_group_avatar_thumb', bp_core_fetch_avatar( array( 'item_id' => $site_groups_template->group->id, 'object' => 'group', 'type' => 'thumb', 'avatar_dir' => 'group-avatars', 'alt' => __( 'Group Avatar', 'buddypress' ) ) ) );
-	}
-
-function bp_the_site_group_avatar_mini() {
-	echo bp_get_the_site_group_avatar_mini();
-}
-	function bp_get_the_site_group_avatar_mini() {
-		global $site_groups_template;
-
-		return apply_filters( 'bp_get_the_site_group_avatar_mini', bp_core_fetch_avatar( array( 'item_id' => $site_groups_template->group->id, 'object' => 'group', 'type' => 'thumb', 'width' => 30, 'height' => 30, 'avatar_dir' => 'group-avatars', 'alt' => __( 'Group Avatar', 'buddypress' ) ) ) );
-	}
-
-function bp_the_site_group_link() {
-	echo bp_get_the_site_group_link();
-}
-	function bp_get_the_site_group_link() {
-		global $site_groups_template;
-
-		return apply_filters( 'bp_get_the_site_group_link', bp_get_group_permalink( $site_groups_template->group ) );
-	}
-
-function bp_the_site_group_name() {
-	echo bp_get_the_site_group_name();
-}
-	function bp_get_the_site_group_name() {
-		global $site_groups_template;
-
-		return apply_filters( 'bp_get_the_site_group_name', bp_get_group_name( $site_groups_template->group ) );
-	}
-
-
-function bp_the_site_group_last_active() {
-	echo bp_get_the_site_group_last_active();
-}
-	function bp_get_the_site_group_last_active() {
-		global $site_groups_template;
-
-		return apply_filters( 'bp_get_the_site_group_last_active', sprintf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active( $site_groups_template->group ) ) );
-	}
-
-function bp_the_site_group_join_button() {
-	global $site_groups_template;
-
-	echo bp_group_join_button( $site_groups_template->group );
-}
-
-function bp_the_site_group_description() {
-	echo bp_get_the_site_group_description();
-}
-	function bp_get_the_site_group_description() {
-		global $site_groups_template;
-
-		return apply_filters( 'bp_get_the_site_group_description', bp_get_group_description( $site_groups_template->group ) );
-	}
-
-function bp_the_site_group_description_excerpt() {
-	echo bp_get_the_site_group_description_excerpt();
-}
-	function bp_get_the_site_group_description_excerpt() {
-		global $site_groups_template;
-
-		return apply_filters( 'bp_get_the_site_group_description_excerpt', bp_create_excerpt( bp_get_group_description( $site_groups_template->group, false ), 25 ) );
-	}
-
-function bp_the_site_group_date_created() {
-	echo bp_get_the_site_group_date_created();
-}
-	function bp_get_the_site_group_date_created() {
-		global $site_groups_template;
-
-		return apply_filters( 'bp_get_the_site_group_date_created', bp_core_time_since( $site_groups_template->group->date_created ) );
-	}
-
-function bp_the_site_group_member_count() {
-	echo bp_get_the_site_group_member_count();
-}
-	function bp_get_the_site_group_member_count() {
-		global $site_groups_template;
-
-		if ( 1 == (int) $site_groups_template->group->total_member_count )
-			return apply_filters( 'bp_get_the_site_group_member_count', sprintf( __( '%d member', 'buddypress' ), (int) $site_groups_template->group->total_member_count ) );
-		else
-			return apply_filters( 'bp_get_the_site_group_member_count', sprintf( __( '%d members', 'buddypress' ), (int) $site_groups_template->group->total_member_count ) );
-	}
-
-function bp_the_site_group_type() {
-	echo bp_get_the_site_group_type();
-}
-	function bp_get_the_site_group_type() {
-		global $site_groups_template;
-
-		return apply_filters( 'bp_get_the_site_group_type', bp_get_group_type( $site_groups_template->group ) );
-	}
-
-function bp_the_site_group_forum_topic_count( $args = '' ) {
-	echo bp_get_the_site_group_forum_topic_count( $args );
-}
-	function bp_get_the_site_group_forum_topic_count( $args = '' ) {
-		global $site_groups_template;
-
-		$defaults = array(
-			'showtext' => false
-		);
-
-		$r = wp_parse_args( $args, $defaults );
-		extract( $r, EXTR_SKIP );
-
-		if ( !$forum_id = groups_get_groupmeta( $site_groups_template->group->id, 'forum_id' ) )
-			return false;
-
-		if ( !function_exists( 'bp_forums_get_forum_topicpost_count' ) )
-			return false;
-
-		if ( !$site_groups_template->group->forum_counts )
-			$site_groups_template->group->forum_counts = bp_forums_get_forum_topicpost_count( (int)$forum_id );
-
-		if ( (bool) $showtext ) {
-			if ( 1 == (int) $site_groups_template->group->forum_counts[0]->topics )
-				$total_topics = sprintf( __( '%d topic', 'buddypress' ), (int) $site_groups_template->group->forum_counts[0]->topics );
-			else
-				$total_topics = sprintf( __( '%d topics', 'buddypress' ), (int) $site_groups_template->group->forum_counts[0]->topics );
-		} else {
-			$total_topics = (int) $site_groups_template->group->forum_counts[0]->topics;
-		}
-
-		return apply_filters( 'bp_get_the_site_group_forum_topic_count', $total_topics, (bool)$showtext );
-	}
-
-function bp_the_site_group_forum_post_count( $args = '' ) {
-	echo bp_get_the_site_group_forum_post_count( $args );
-}
-	function bp_get_the_site_group_forum_post_count( $args = '' ) {
-		global $site_groups_template;
-
-		$defaults = array(
-			'showtext' => false
-		);
-
-		$r = wp_parse_args( $args, $defaults );
-		extract( $r, EXTR_SKIP );
-
-		if ( !$forum_id = groups_get_groupmeta( $site_groups_template->group->id, 'forum_id' ) )
-			return false;
-
-		if ( !function_exists( 'bp_forums_get_forum_topicpost_count' ) )
-			return false;
-
-		if ( !$site_groups_template->group->forum_counts )
-			$site_groups_template->group->forum_counts = bp_forums_get_forum_topicpost_count( (int)$forum_id );
-
-		if ( (bool) $showtext ) {
-			if ( 1 == (int) $site_groups_template->group->forum_counts[0]->posts )
-				$total_posts = sprintf( __( '%d post', 'buddypress' ), (int) $site_groups_template->group->forum_counts[0]->posts );
-			else
-				$total_posts = sprintf( __( '%d posts', 'buddypress' ), (int) $site_groups_template->group->forum_counts[0]->posts );
-		} else {
-			$total_posts = (int) $site_groups_template->group->forum_counts[0]->posts;
-		}
-
-		return apply_filters( 'bp_get_the_site_group_forum_post_count', $total_posts, (bool)$showtext );
-	}
-
-function bp_the_site_group_hidden_fields() {
-	if ( isset( $_REQUEST['s'] ) ) {
-		echo '<input type="hidden" id="search_terms" value="' . attribute_escape( $_REQUEST['s'] ) . '" name="search_terms" />';
-	}
-
-	if ( isset( $_REQUEST['letter'] ) ) {
-		echo '<input type="hidden" id="selected_letter" value="' . attribute_escape( $_REQUEST['letter'] ) . '" name="selected_letter" />';
-	}
-
-	if ( isset( $_REQUEST['groups_search'] ) ) {
-		echo '<input type="hidden" id="search_terms" value="' . attribute_escape( $_REQUEST['groups_search'] ) . '" name="search_terms" />';
-	}
-}
-
 function bp_directory_groups_search_form() {
-	global $bp; ?>
+	global $bp;
+
+	$search_value = __( 'Search anything...', 'buddypress' );
+	if ( !empty( $_REQUEST['s'] ) )
+	 	$search_value = $_REQUEST['s'];
+
+	else if ( !empty( $_COOKIE['bp-groups-search-terms'] ) && 'false' != $_COOKIE['bp-groups-search-terms'] )
+	 	$search_value = $_COOKIE['bp-groups-search-terms'];
+
+?>
 	<form action="" method="get" id="search-groups-form">
-		<label><input type="text" name="s" id="groups_search" value="<?php if ( isset( $_GET['s'] ) ) { echo attribute_escape( $_GET['s'] ); } else { _e( 'Search anything...', 'buddypress' ); } ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
+		<label><input type="text" name="s" id="groups_search" value="<?php echo attribute_escape($search_value) ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
 		<input type="submit" id="groups_search_submit" name="groups_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
 	</form>
 <?php
 }
+
+function bp_groups_header_tabs() {
+	global $bp, $create_group_step, $completed_to_step;
+?>
+	<li<?php if ( !isset($bp->action_variables[0]) || 'recently-active' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/recently-active"><?php _e( 'Recently Active', 'buddypress' ) ?></a></li>
+	<li<?php if ( 'recently-joined' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/recently-joined"><?php _e( 'Recently Joined', 'buddypress' ) ?></a></li>
+	<li<?php if ( 'most-popular' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/most-popular""><?php _e( 'Most Popular', 'buddypress' ) ?></a></li>
+	<li<?php if ( 'admin-of' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/admin-of""><?php _e( 'Administrator Of', 'buddypress' ) ?></a></li>
+	<li<?php if ( 'mod-of' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/mod-of""><?php _e( 'Moderator Of', 'buddypress' ) ?></a></li>
+	<li<?php if ( 'alphabetically' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->groups->slug ?>/my-groups/alphabetically""><?php _e( 'Alphabetically', 'buddypress' ) ?></a></li>
+<?php
+	do_action( 'groups_header_tabs' );
+}
+
+function bp_groups_filter_title() {
+	global $bp;
+
+	$current_filter = $bp->action_variables[0];
+
+	switch ( $current_filter ) {
+		case 'recently-active': default:
+			_e( 'Recently Active', 'buddypress' );
+			break;
+		case 'recently-joined':
+			_e( 'Recently Joined', 'buddypress' );
+			break;
+		case 'most-popular':
+			_e( 'Most Popular', 'buddypress' );
+			break;
+		case 'admin-of':
+			_e( 'Administrator Of', 'buddypress' );
+			break;
+		case 'mod-of':
+			_e( 'Moderator Of', 'buddypress' );
+			break;
+		case 'alphabetically':
+			_e( 'Alphabetically', 'buddypress' );
+		break;
+	}
+	do_action( 'bp_groups_filter_title' );
+}
+
+function bp_is_group_admin_screen( $slug ) {
+	global $bp;
+
+	if ( $bp->current_component != BP_GROUPS_SLUG || 'admin' != $bp->current_action )
+		return false;
+
+	if ( $bp->action_variables[0] == $slug )
+		return true;
+
+	return false;
+}
+
+/************************************************************************************
+ * Group Avatar Template Tags
+ **/
+
+function bp_group_current_avatar() {
+	global $bp;
+
+	if ( $bp->groups->current_group->avatar_full ) { ?>
+		<img src="<?php echo attribute_escape( $bp->groups->current_group->avatar_full ) ?>" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" class="avatar" />
+	<?php } else { ?>
+		<img src="<?php echo $bp->groups->image_base . '/none.gif' ?>" alt="<?php _e( 'No Group Avatar', 'buddypress' ) ?>" class="avatar" />
+	<?php }
+}
+
+function bp_get_group_has_avatar() {
+	global $bp;
+
+	if ( !empty( $_FILES ) || !bp_core_fetch_avatar( array( 'item_id' => $bp->groups->current_group->id, 'object' => 'group', 'no_grav' => true ) ) )
+		return false;
+
+	return true;
+}
+
+function bp_group_avatar_delete_link() {
+	echo bp_get_group_avatar_delete_link();
+}
+	function bp_get_group_avatar_delete_link() {
+		global $bp;
+
+		return apply_filters( 'bp_get_group_avatar_delete_link', wp_nonce_url( bp_get_group_permalink( $bp->groups->current_group ) . '/admin/group-avatar/delete', 'bp_group_avatar_delete' ) );
+	}
+
+function bp_group_avatar_edit_form() {
+	groups_avatar_upload();
+}
+
+function bp_custom_group_boxes() {
+	do_action( 'groups_custom_group_boxes' );
+}
+
+function bp_custom_group_admin_tabs() {
+	do_action( 'groups_custom_group_admin_tabs' );
+}
+
+function bp_custom_group_fields_editable() {
+	do_action( 'groups_custom_group_fields_editable' );
+}
+
+function bp_custom_group_fields() {
+	do_action( 'groups_custom_group_fields' );
+}
+
 
 /************************************************************************************
  * Membership Requests Template Tags
@@ -2256,8 +1898,8 @@ class BP_Groups_Membership_Requests_Template {
 			'format' => '',
 			'total' => ceil( $this->total_request_count / $this->pag_num ),
 			'current' => $this->pag_page,
-			'prev_text' => '&laquo;',
-			'next_text' => '&raquo;',
+			'prev_text' => '&larr;',
+			'next_text' => '&rarr;',
 			'mid_size' => 1
 		));
 	}

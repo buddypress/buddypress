@@ -2,16 +2,16 @@
 
 <div id="friends-loop">
 
-	<?php if ( bp_has_friendships() ) : ?>
+	<?php if ( bp_has_members( 'user_id=' . bp_displayed_user_id() ) ) : ?>
 
 		<div class="pagination">
 
-			<div class="pag-count">
-				<?php bp_friend_pagination_count() ?>
+			<div class="pag-count" id="member-dir-count">
+				<?php bp_members_pagination_count() ?>
 			</div>
 
-			<div class="pagination-links" id="pag">
-				<?php bp_friend_pagination() ?>
+			<div class="pagination-links" id="member-dir-pag">
+				<?php bp_members_pagination_links() ?>
 			</div>
 
 		</div>
@@ -19,14 +19,25 @@
 		<?php do_action( 'bp_before_my_friends_list' ) ?>
 
 		<ul id="friend-list" class="item-list">
-			<?php while ( bp_user_friendships() ) : bp_the_friendship(); ?>
+
+			<?php while ( bp_members() ) : bp_the_member(); ?>
 
 				<li>
-					<?php bp_friend_avatar_thumb() ?>
-					<h4><?php bp_friend_link() ?></h4>
-					<span class="activity"><?php bp_friend_last_active() ?></span>
+					<div class="item-avatar">
+						<a href="<?php bp_member_link() ?>"><?php bp_member_avatar() ?></a>
+					</div>
 
-					<?php do_action( 'bp_my_friends_list_item' ) ?>
+					<div class="item">
+						<div class="item-title"><a href="<?php bp_member_link() ?>"><?php bp_member_name() ?></a></div>
+						<div class="item-meta"><span class="activity"><?php bp_member_last_active() ?></span></div>
+
+						<div class="field-data">
+							<div class="field-name"><?php bp_member_total_friend_count() ?></div>
+							<div class="field-name xprofile-data"><?php bp_member_random_profile_data() ?></div>
+						</div>
+
+						<?php do_action( 'bp_directory_members_featured_item' ) ?>
+					</div>
 
 					<div class="action">
 						<?php bp_add_friend_button() ?>
@@ -36,38 +47,18 @@
 				</li>
 
 			<?php endwhile; ?>
-		</ul>
 
-		<?php do_action( 'bp_after_my_friends_list' ) ?>
+			<?php do_action( 'bp_after_my_friends_list' ) ?>
+
+		</ul>
 
 	<?php else: ?>
 
-		<?php if ( bp_friends_is_filtered() ) : ?>
+		<div id="message" class="info">
+			<p><?php _e( "No friends were found.", 'buddypress' ) ?></p>
+		</div>
 
-			<div id="message" class="info">
-				<p><?php _e( "No friends matched your search filter terms", 'buddypress' ) ?></p>
-			</div>
-
-		<?php else : ?>
-
-			<div id="message" class="info">
-				<p><?php bp_word_or_name( __( "Your friends list is currently empty", 'buddypress' ), __( "%s's friends list is currently empty", 'buddypress' ) ) ?></p>
-			</div>
-
-		<?php endif; ?>
-
-		<?php if ( bp_is_home() && !bp_friends_is_filtered() ) : ?>
-
-			<?php do_action( 'bp_before_random_members_list' ) ?>
-
-			<h3><?php _e( 'Why not make friends with some of these members?', 'buddypress' ) ?></h3>
-			<?php bp_friends_random_members() ?>
-
-			<?php do_action( 'bp_after_random_members_list' ) ?>
-
-		<?php endif; ?>
-
-	<?php endif;?>
+	<?php endif; ?>
 
 </div>
 

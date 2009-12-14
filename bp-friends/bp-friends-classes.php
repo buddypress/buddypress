@@ -103,31 +103,23 @@ class BP_Friends_Friendship {
 		return $fids;
 	}
 
-	function get_friendship_ids( $user_id, $friend_requests_only = false ) {
-		global $wpdb, $bp;
-
-		if ( $friend_requests_only ) {
-			$oc_sql = $wpdb->prepare( "AND is_confirmed = 0" );
-			$friend_sql = $wpdb->prepare ( " WHERE friend_user_id = %d", $user_id );
-		} else {
-			$oc_sql = $wpdb->prepare( "AND is_confirmed = 1" );
-			$friend_sql = $wpdb->prepare ( " WHERE (initiator_user_id = %d OR friend_user_id = %d)", $user_id, $user_id );
-		}
-
-		return $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->friends->table_name} $friend_sql $oc_sql" ) );
-	}
-
 	function get_friendship_id( $user_id, $friend_id ) {
 		global $wpdb, $bp;
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->friends->table_name} WHERE ( initiator_user_id = %d AND friend_user_id = %d ) OR ( initiator_user_id = %d AND friend_user_id = %d ) AND is_confirmed = 1", $user_id, $friend_id, $friend_id, $user_id ) );
 	}
 
-	function total_friend_count( $user_id = false) {
+	function get_friendship_request_user_ids( $user_id ) {
+		global $wpdb, $bp;
+
+		return $wpdb->get_col( $wpdb->prepare( "SELECT initiator_user_id FROM {$bp->friends->table_name} WHERE friend_user_id = %d AND is_confirmed = 0", $user_id ) );
+	}
+
+	function total_friend_count( $user_id = false ) {
 		global $wpdb, $bp;
 
 		if ( !$user_id )
-			$user_id = $bp->displayed_user->id;
+			$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 
 		/* This is stored in 'total_friend_count' usermeta.
 		   This function will recalculate, update and return. */

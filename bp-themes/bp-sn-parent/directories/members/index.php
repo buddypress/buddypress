@@ -78,23 +78,22 @@
 		<div id="members-directory-featured" class="directory-widget">
 			<h3><?php _e( 'Random Members', 'buddypress' ) ?></h3>
 
-			<?php if ( bp_has_site_members( 'type=random&max=3' ) ) : ?>
+			<?php if ( bp_has_members( 'type=random&max=3' ) ) : ?>
 
 				<ul id="featured-members-list" class="item-list">
-				<?php while ( bp_site_members() ) : bp_the_site_member(); ?>
+				<?php while ( bp_members() ) : bp_the_member(); ?>
 
 					<li>
 						<div class="item-avatar">
-							<a href="<?php bp_the_site_member_link() ?>"><?php bp_the_site_member_avatar() ?></a>
+							<a href="<?php bp_member_link() ?>"><?php bp_member_avatar() ?></a>
 						</div>
 
 						<div class="item">
-							<div class="item-title"><a href="<?php bp_the_site_member_link() ?>"><?php bp_the_site_member_name() ?></a></div>
-							<div class="item-meta"><span class="activity"><?php bp_the_site_member_last_active() ?></span></div>
+							<div class="item-title"><a href="<?php bp_member_link() ?>"><?php bp_member_name() ?></a></div>
+							<div class="item-meta"><span class="activity"><?php bp_member_last_active() ?></span></div>
 
 							<div class="field-data">
-								<div class="field-name"><?php bp_the_site_member_total_friend_count() ?></div>
-								<div class="field-name xprofile-data"><?php bp_the_site_member_random_profile_data() ?></div>
+								<div class="field-name xprofile-data"><?php bp_member_random_profile_data() ?></div>
 							</div>
 
 							<?php do_action( 'bp_directory_members_featured_item' ) ?>
