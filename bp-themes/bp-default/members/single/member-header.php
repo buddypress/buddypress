@@ -4,15 +4,19 @@
 	<h2 class="fn"><a href="<?php bp_user_link() ?>"><?php bp_displayed_user_fullname() ?></a> <span class="activity"><?php bp_last_activity( bp_displayed_user_id() ) ?></span></h2>
 
 	<div id="item-meta">
-		<?php bp_activity_latest_update( bp_displayed_user_id() ) ?>
+		<div id="latest-update">
+			<?php bp_activity_latest_update( bp_displayed_user_id() ) ?>
+		</div>
 
-		<?php if ( function_exists('bp_add_friend_button') ) : ?>
-			<?php bp_add_friend_button() ?>
-		<?php endif; ?>
+		<div id="item-buttons">
+			<?php if ( function_exists('bp_add_friend_button') ) : ?>
+				<?php bp_add_friend_button() ?>
+			<?php endif; ?>
 
-		<?php if ( function_exists('bp_send_message_button') ) : ?>
-			<?php bp_send_message_button() ?>
-		<?php endif; ?>
+			<?php if ( function_exists('bp_send_message_button') ) : ?>
+				<?php bp_send_message_button() ?>
+			<?php endif; ?>
+		</div>
 
 		<?php
 		 /***

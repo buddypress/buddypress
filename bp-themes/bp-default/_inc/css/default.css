@@ -296,6 +296,7 @@ div#content .padder {
 
 div#item-header {
 	overflow: hidden;
+	padding-bottom: 10px
 }
 	div#item-header img.avatar {
 		float: left;
@@ -323,7 +324,7 @@ div#item-header {
 		clear: right;
 		font-size: 14px;
 		color: #aaa;
-		margin: 15px 0 5px 0;
+		margin: 15px 0 5px 170px;
 	}
 
 	div#item-header div.generic-button {

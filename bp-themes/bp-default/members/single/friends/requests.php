@@ -1,14 +1,19 @@
 <?php do_action( 'bp_before_friend_requests_content' ) ?>
 
-<?php if ( bp_has_friendships() ) : ?>
+<?php if ( bp_has_members( 'include=' . bp_get_friendship_requests() ) ) : ?>
 
 	<ul id="friend-list" class="item-list">
-		<?php while ( bp_user_friendships() ) : bp_the_friendship(); ?>
+		<?php while ( bp_members() ) : bp_the_member(); ?>
 
 			<li>
-				<?php bp_friend_avatar_thumb() ?>
-				<h4><?php bp_friend_link() ?></h4>
-				<span class="activity"><?php bp_friend_time_since_requested() ?></span>
+				<div class="item-avatar">
+					<a href="<?php bp_member_link() ?>"><?php bp_member_avatar() ?></a>
+				</div>
+
+				<div class="item">
+					<div class="item-title"><a href="<?php bp_member_link() ?>"><?php bp_member_name() ?></a></div>
+					<div class="item-meta"><span class="activity"><?php bp_member_last_active() ?></span></div>
+				</div>
 
 				<?php do_action( 'bp_friend_requests_item' ) ?>
 
