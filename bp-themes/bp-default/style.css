@@ -1,0 +1,18 @@
+/*
+Theme Name: BuddyPress Default
+Theme URI: http://buddypress.org/extend/themes/
+Description: The default theme for BuddyPress.
+Version: 1.2-bleeding
+Author: BuddyPress.org
+Author URI: http://buddypress.org
+*/
+
+/***
+ * The default theme styles.
+ */
+@import url( _inc/css/default.css );
+
+/***
+ * The admin bar styles.
+ */
+@import url( _inc/css/adminbar.css );
