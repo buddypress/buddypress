@@ -4,13 +4,12 @@
 
 	<div id="content">
 		<div class="padder">
-			<?php do_action( 'template_notices' ) ?>
-
 			<?php if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group(); ?>
 
 			<?php locate_template( array( 'groups/single/group-header.php' ), true ) ?>
 
 			<div id="item-body">
+				<?php do_action( 'template_notices' ) ?>
 
 				<?php if ( 'admin' == bp_current_action() ) : ?>
 					<?php locate_template( array( 'groups/single/admin.php' ), true ) ?>
