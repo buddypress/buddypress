@@ -70,7 +70,7 @@
 
 					<?php if ( bp_has_groups( 'user_id=' . bp_displayed_user_id() . '&type=random&max=20' ) ) : ?>
 
-						<h3><a href="<?php echo bp_displayed_user_domain() . BP_GROUPS_SLUG ?>"><?php bp_word_or_name( __( "My Groups", 'buddypress' ), __( "%s's Groups", 'buddypress' ) ) ?></a></h4>
+						<h3><a href="<?php echo bp_displayed_user_domain() . BP_GROUPS_SLUG ?>"><?php bp_word_or_name( __( "My Groups", 'buddypress' ), __( "%s's Groups", 'buddypress' ) ) ?></a></h3>
 
 						<ul class="avatars">
 						<?php while ( bp_groups() ) : bp_the_group(); ?>
