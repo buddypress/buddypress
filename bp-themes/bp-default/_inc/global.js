@@ -168,7 +168,7 @@ jQuery(document).ready( function() {
 			j(this).removeClass('selected');
 		});
 		j('li#activity-' + type).addClass('selected');
-		j('li#activity-' + type).addClass('loading');
+		j('div.item-list-tabs li.selected').addClass('loading');
 		j('#activity-filter-select select option[value=' + filter + ']').attr( 'selected', 'selected' );
 
 		/* Reload the activity stream based on the selection */
@@ -191,7 +191,7 @@ jQuery(document).ready( function() {
 				j(this).fadeIn(100);
 			});
 
-			j('li#activity-' + type).removeClass('loading');
+			j('div.item-list-tabs li.selected').removeClass('loading');
 
 		}, 'json' );
 	}
@@ -541,7 +541,7 @@ jQuery(document).ready( function() {
 			j(this).removeClass('selected');
 		});
 		j('div.item-list-tabs li#' + id + '-' + type).addClass('selected');
-		j('div.item-list-tabs li#' + id + '-' + type).addClass('loading');
+		j('div.item-list-tabs li.selected').addClass('loading');
 		j('div.item-list-tabs select option[value=' + filter + ']').attr( 'selected', 'selected' );
 
 		j.post( ajaxurl, {
@@ -558,7 +558,7 @@ jQuery(document).ready( function() {
 				j(this).html(response);
 				j(this).fadeIn(100);
 		 	});
-			j('div.item-list-tabs li#' + id + '-' + type).removeClass('loading');
+			j('div.item-list-tabs li.selected').removeClass('loading');
 		});
 	}
 

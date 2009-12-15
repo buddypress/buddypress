@@ -1,50 +1,32 @@
-<?php get_header() ?>
+<div class="item-list-tabs no-ajax" id="user-subnav">
+	<ul>
+		<?php if ( bp_is_my_profile() ) : ?>
+			<?php bp_get_options_nav() ?>
+		<?php endif; ?>
 
-	<?php do_action( 'bp_before_directory_members_content' ) ?>
+		<li id="members-order-select" class="last filter">
 
-	<div id="content">
-		<div class="padder">
+			<?php _e( 'Order By:', 'buddypress' ) ?>
+			<select id="members-all">
+				<option value="active"><?php _e( 'Last Active', 'buddypress' ) ?></option>
+				<option value="newest"><?php _e( 'Newest Registered', 'buddypress' ) ?></option>
+				<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ) ?></option>
 
-			<?php locate_template( array( 'members/single/member-header.php' ), true ) ?>
+				<?php do_action( 'bp_members_directory_order_options' ) ?>
+			</select>
+		</li>
+	</ul>
+</div>
 
-			<div class="item-list-tabs no-ajax" id="user-subnav">
-				<ul>
-					<?php if ( bp_is_my_profile() ) : ?>
-						<?php bp_get_options_nav() ?>
-					<?php endif; ?>
+<?php if ( 'requests' == bp_current_action() ) : ?>
+	<?php locate_template( array( 'members/single/friends/requests.php' ), true ) ?>
 
-					<li id="members-order-select" class="last filter">
+<?php else : ?>
 
-						<?php _e( 'Order By:', 'buddypress' ) ?>
-						<select id="members-all">
-							<option value="active"><?php _e( 'Last Active', 'buddypress' ) ?></option>
-							<option value="newest"><?php _e( 'Newest Registered', 'buddypress' ) ?></option>
-							<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ) ?></option>
+	<div class="members friends">
+		<?php // 'members/members-loop.php' loaded here via AJAX. ?>
+	</div>
 
-							<?php do_action( 'bp_members_directory_order_options' ) ?>
-						</select>
-					</li>
-				</ul>
-			</div>
+<?php endif; ?>
 
-			<?php if ( 'requests' == bp_current_action() ) : ?>
-				<?php locate_template( array( 'members/single/friends/requests.php' ), true ) ?>
-
-			<?php else : ?>
-
-				<div class="members friends">
-					<?php // 'members/members-loop.php' loaded here via AJAX. ?>
-				</div>
-
-			<?php endif; ?>
-
-			<?php do_action( 'bp_directory_members_content' ) ?>
-
-		</div><!-- .padder -->
-	</div><!-- #content -->
-
-	<?php locate_template( array( 'sidebar.php' ), true ) ?>
-
-	<?php do_action( 'bp_after_directory_members_content' ) ?>
-
-<?php get_footer() ?>
+<?php do_action( 'bp_directory_members_content' ) ?>

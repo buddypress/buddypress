@@ -105,7 +105,7 @@ function friends_screen_my_friends() {
 
 	do_action( 'friends_screen_my_friends' );
 
-	bp_core_load_template( apply_filters( 'friends_template_my_friends', 'members/single/friends' ) );
+	bp_core_load_template( apply_filters( 'friends_template_my_friends', 'members/single/home' ) );
 }
 
 function friends_screen_requests() {
@@ -136,7 +136,7 @@ function friends_screen_requests() {
 
 	do_action( 'friends_screen_requests' );
 
-	bp_core_load_template( apply_filters( 'friends_template_requests', 'members/single/friends' ) );
+	bp_core_load_template( apply_filters( 'friends_template_requests', 'members/single/home' ) );
 }
 
 function friends_screen_notification_settings() {

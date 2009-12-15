@@ -291,7 +291,7 @@ function xprofile_screen_display_profile() {
 		bp_core_delete_notifications_for_user_by_item_id( $bp->loggedin_user->id, $bp->displayed_user->id, 'friends', 'friendship_accepted' );
 
 	do_action( 'xprofile_screen_display_profile', $_GET['new'] );
-	bp_core_load_template( apply_filters( 'xprofile_template_display_profile', 'members/single/profile' ) );
+	bp_core_load_template( apply_filters( 'xprofile_template_display_profile', 'members/single/home' ) );
 }
 
 /**
@@ -371,7 +371,7 @@ function xprofile_screen_edit_profile() {
 	}
 
 	do_action( 'xprofile_screen_edit_profile' );
-	bp_core_load_template( apply_filters( 'xprofile_template_edit_profile', 'members/single/profile' ) );
+	bp_core_load_template( apply_filters( 'xprofile_template_edit_profile', 'members/single/home' ) );
 }
 
 /**
@@ -421,7 +421,7 @@ function xprofile_screen_change_avatar() {
 
 	do_action( 'xprofile_screen_change_avatar' );
 
-	bp_core_load_template( apply_filters( 'xprofile_template_change_avatar', 'members/single/profile' ) );
+	bp_core_load_template( apply_filters( 'xprofile_template_change_avatar', 'members/single/home' ) );
 }
 
 /**

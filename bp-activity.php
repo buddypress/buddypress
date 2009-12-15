@@ -116,7 +116,7 @@ add_action( 'admin_menu', 'bp_activity_setup_nav' );
 
 function bp_activity_screen_my_activity() {
 	do_action( 'bp_activity_screen_my_activity' );
-	bp_core_load_template( apply_filters( 'bp_activity_template_my_activity', 'members/single/activity' ) );
+	bp_core_load_template( apply_filters( 'bp_activity_template_my_activity', 'members/single/home' ) );
 }
 
 function bp_activity_screen_friends_activity() {

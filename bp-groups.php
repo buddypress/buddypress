@@ -346,7 +346,7 @@ function groups_screen_my_groups() {
 
 	do_action( 'groups_screen_my_groups' );
 
-	bp_core_load_template( apply_filters( 'groups_template_my_groups', 'members/single/groups' ) );
+	bp_core_load_template( apply_filters( 'groups_template_my_groups', 'members/single/home' ) );
 }
 
 function groups_screen_group_invites() {
@@ -396,7 +396,7 @@ function groups_screen_group_invites() {
 
 	do_action( 'groups_screen_group_invites', $group_id );
 
-	bp_core_load_template( apply_filters( 'groups_template_group_invites', 'members/single/groups' ) );
+	bp_core_load_template( apply_filters( 'groups_template_group_invites', 'members/single/home' ) );
 }
 
 function groups_screen_group_home() {
