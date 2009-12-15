@@ -20,12 +20,12 @@
 		<div id="whats-new-options">
 			<div id="whats-new-submit">
 				<span class="ajax-loader"></span> &nbsp;
-				<input type="submit" name="aw-whats-new-submit" id="aw-whats-new-submit" value="<?php _e( 'Post Update', 'callisto' ) ?>" />
+				<input type="submit" name="aw-whats-new-submit" id="aw-whats-new-submit" value="<?php _e( 'Post Update', 'buddypress' ) ?>" />
 			</div>
 
 			<?php if ( !bp_is_my_profile() && !bp_is_group_home() ) : ?>
 			<div id="whats-new-post-in-box">
-				<?php _e( 'Post in', 'callisto' ) ?>:
+				<?php _e( 'Post in', 'buddypress' ) ?>:
 
 				<select id="whats-new-post-in" name="whats-new-post-in">
 					<option selected="selected" value="0"><?php _e( 'My Profile', 'buddypress' ) ?></option>

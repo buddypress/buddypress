@@ -1114,6 +1114,10 @@ div.activity-comments {
 	-webkit-border-radius: 4px;
 	width: 75%;
 }
+	body.internal-page div.activity-comments {
+		width: auto;
+	}
+
 	body.activity-permalink div.activity-comments {
 		width: auto;
 		margin-left: 80px;
@@ -1129,7 +1133,7 @@ div.activity-comments ul, div.activity-comments ul li {
 	}
 
 	div.activity-comments ul li {
-		border-top: 1px solid #fff;
+		border-top: 2px solid #fff;
 		padding: 10px 0;
 		margin-left: 15px;
 	}

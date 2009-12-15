@@ -43,6 +43,7 @@ body {
 	margin: 0;
 	padding: 0;
 	line-height: 100%;
+	text-align: left;
 }
 
 #wp-admin-bar li a {
