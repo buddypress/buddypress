@@ -27,8 +27,12 @@ Class BP_Messages_Box_Template {
 
 		if ( 'notices' == $this->box )
 			$this->threads = BP_Messages_Notice::get_notices();
-		else
-			$this->threads = BP_Messages_Thread::get_current_threads_for_user( $this->user_id, $this->box, $this->pag_num, $this->pag_page, $type );
+		else {
+			$threads = BP_Messages_Thread::get_current_threads_for_user( $this->user_id, $this->box, $this->pag_num, $this->pag_page, $type );
+
+			$this->threads = $threads['threads'];
+			$this->total_thread_count = $threads['total'];
+		}
 
 		if ( !$this->threads ) {
 			$this->thread_count = 0;
@@ -39,8 +43,6 @@ Class BP_Messages_Box_Template {
 			if ( !$max || $max >= (int)$total_notice_count ) {
 				if ( 'notices' == $this->box )
 					$this->total_thread_count = (int)$total_notice_count;
-				else
-					$this->total_thread_count = (int)BP_Messages_Thread::get_total_threads_for_user( $this->user_id, $this->box, $type );
 			} else {
 				$this->total_thread_count = (int)$max;
 			}
@@ -60,8 +62,8 @@ Class BP_Messages_Box_Template {
 			'format' => '',
 			'total' => ceil($this->total_thread_count / $this->pag_num),
 			'current' => $this->pag_page,
-			'prev_text' => '&laquo;',
-			'next_text' => '&raquo;',
+			'prev_text' => '&larr;',
+			'next_text' => '&rarr;',
 			'mid_size' => 1
 		));
 	}

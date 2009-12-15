@@ -190,22 +190,24 @@ Class BP_Messages_Thread {
 		else if ( $type == 'read' )
 			$type_sql = $wpdb->prepare( " AND r.unread_count = 0 " );
 
-		$sql = $wpdb->prepare( "SELECT r.thread_id FROM {$bp->messages->table_name_recipients} r, {$bp->messages->table_name_threads} t WHERE t.id = r.thread_id AND r.is_deleted = 0 AND r.user_id = %d$exclude_sender $type_sql ORDER BY t.last_post_date DESC$pag_sql", $bp->loggedin_user->id );
+		$exclude_sender = false;
+		if ( 'inbox' == $box )
+			$exclude_sender = $wpdb->prepare( " AND r.sender_only = 0" );
 
-		if ( !$thread_ids = $wpdb->get_results($sql) )
-			return false;
+		$thread_ids = $wpdb->get_col( $wpdb->prepare( "SELECT r.thread_id FROM {$bp->messages->table_name_recipients} r, {$bp->messages->table_name_threads} t WHERE t.id = r.thread_id AND r.is_deleted = 0 AND r.user_id = %d$exclude_sender $type_sql ORDER BY t.last_post_date DESC$pag_sql", $bp->loggedin_user->id ) );
+		$total_threads = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(r.thread_id) FROM {$bp->messages->table_name_recipients} r, {$bp->messages->table_name_threads} t WHERE t.id = r.thread_id AND r.is_deleted = 0 AND r.user_id = %d$exclude_sender $type_sql", $bp->loggedin_user->id ) );
 
 		$threads = false;
+		foreach ( $thread_ids as $thread_id ) {
+			if ( 'sentbox' == $box && !BP_Messages_Thread::user_is_sender( $thread_id ) ) {
+				$total_threads--;
+				continue;
+			}
 
-		for ( $i = 0; $i < count($thread_ids); $i++ ) {
-			$threads[$i] = new BP_Messages_Thread( $thread_ids[$i]->thread_id, false, $box );
-
-			if ( !$threads[$i]->message_ids )
-				unset($threads[$i]);
+			$threads[] = new BP_Messages_Thread( $thread_id, false, $box );
 		}
 
-		// reset keys
-		return array_reverse( array_reverse( $threads ) );
+		return array( 'threads' => &$threads, 'total' => (int)$total_threads );
 	}
 
 	function mark_as_read( $thread_id ) {
@@ -395,7 +397,6 @@ Class BP_Messages_Message {
 			if ( false === $wpdb->query($sql) )
 				return false;
 
-
 			$this->thread_id = $wpdb->insert_id;
 
 			// Add a new entry for each recipient;
@@ -405,7 +406,7 @@ Class BP_Messages_Message {
 
 			if ( !in_array( $this->sender_id, (array)$this->recipients ) ) {
 				// Finally, add a recipient entry for the sender, as replies need to go to this person too.
-				$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_recipients} ( user_id, thread_id, unread_count, sender_only ) VALUES ( %d, %d, 0, 0 )", $this->sender_id, $this->thread_id ) );
+				$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_recipients} ( user_id, thread_id, unread_count, sender_only ) VALUES ( %d, %d, 0, 1 )", $this->sender_id, $this->thread_id ) );
 			}
 		}
 
