@@ -547,18 +547,27 @@ Class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	function get_random( $limit = null, $page = null ) {
+	function get_random( $limit = null, $page = null, $user_id = false, $search_terms = false ) {
 		global $wpdb, $bp;
 
-		if ( !is_site_admin() )
-			$hidden_sql = $wpdb->prepare( " AND status != 'hidden'");
-
-		if ( $limit && $page ) {
+		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
-			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND g.status = 'public' {$hidden_sql} {$search_sql}" ) );
+
+		if ( !is_site_admin() )
+			$hidden_sql = "AND g.status != 'hidden'";
+
+		if ( $search_terms ) {
+			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
+			$search_sql = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
 		}
 
-		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND g.status = 'public' {$hidden_sql} {$search_sql} ORDER BY rand() {$pag_sql}" ) );
+		if ( $user_id ) {
+			$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' {$hidden_sql} {$search_sql} AND m.user_id = %d AND m.inviter_id = 0 AND m.is_banned = 0 ORDER BY rand() {$pag_sql}", $user_id ) );
+			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m LEFT JOIN {$bp->groups->table_name_groupmeta} gm ON m.group_id = gm.group_id INNER JOIN {$bp->groups->table_name} g ON m.group_id = g.id WHERE gm.meta_key = 'last_activity'{$hidden_sql} {$search_sql} AND m.user_id = %d AND m.inviter_id = 0 AND m.is_banned = 0", $user_id ) );
+		} else {
+			$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' {$hidden_sql} {$search_sql} ORDER BY rand() {$pag_sql}" ) );
+			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name_groupmeta} gm INNER JOIN {$bp->groups->table_name} g ON gm.group_id = g.id WHERE gm.meta_key = 'last_activity'{$hidden_sql} {$search_sql}" ) );
+		}
 
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
