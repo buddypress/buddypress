@@ -585,6 +585,12 @@ div#message p {
 		border-color: #a71a1a;
 	}
 
+	div#message.updated p {
+		background: #dffcd9;
+		color: #1a9b00;
+		border-color: #c4e9bd;
+	}
+
 form.standard-form#signup_form div div.error {
 	color: white;
 	background: red;

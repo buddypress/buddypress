@@ -8,8 +8,6 @@
 
 <form action="<?php bp_group_admin_form_action() ?>" name="group-settings-form" id="group-settings-form" class="standard-form" method="post" enctype="multipart/form-data">
 
-<?php do_action( 'template_notices' ) ?>
-
 <?php /* Edit Group Details */ ?>
 <?php if ( bp_is_group_admin_screen( 'edit-details' ) ) : ?>
 

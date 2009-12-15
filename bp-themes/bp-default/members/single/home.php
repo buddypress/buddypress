@@ -10,7 +10,6 @@
 			</div>
 
 			<div id="item-body">
-
 				<?php if ( 'home' == bp_current_component() || 'activity' == bp_current_component() || !bp_current_component() ) : ?>
 					<?php locate_template( array( 'members/single/activity.php' ), true ) ?>
 

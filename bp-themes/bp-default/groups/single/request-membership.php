@@ -1,7 +1,5 @@
 <?php do_action( 'bp_before_group_request_membership_content' ) ?>
 
-<?php do_action( 'template_notices' ) // (error/success feedback) ?>
-
 <?php if ( !bp_group_has_requested_membership() ) : ?>
 	<p><?php printf( __( "You are requesting to become a member of the group '%s'.", "buddypress" ), bp_group_name( false, false ) ); ?></p>
 

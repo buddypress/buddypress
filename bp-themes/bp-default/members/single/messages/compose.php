@@ -1,5 +1,3 @@
-<?php do_action( 'template_notices' ) ?>
-
 <form action="<?php bp_messages_form_action('compose') ?>" method="post" id="send_message_form" class="standard-form">
 
 	<?php do_action( 'bp_before_messages_compose_content' ) ?>

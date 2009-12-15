@@ -1,7 +1,5 @@
 <h3><?php _e( 'Change Avatar', 'buddypress' ) ?></h3>
 
-<?php do_action( 'template_notices' ) ?>
-
 <?php do_action( 'bp_before_profile_avatar_upload_content' ) ?>
 
 <p><?php _e( 'Your avatar will be used on your profile and throughout the site. If there is a <a href="http://gravatar.com">Gravatar</a> associated with your account email we will use that, or you can upload an image from your computer.', 'buddypress') ?></p>

@@ -1376,6 +1376,15 @@ function bp_is_settings_component() {
 	return false;
 }
 
+function bp_is_member() {
+	global $bp;
+
+	if ( $bp->displayed_user->id )
+		return true;
+
+	return false;
+}
+
 function bp_is_user_activity() {
 	global $bp;
 
@@ -1443,6 +1452,15 @@ function bp_is_user_groups() {
 	global $bp;
 
 	if ( BP_GROUPS_SLUG == $bp->current_component && ( !$bp->current_action || 'my-groups' == $bp->current_action ) )
+		return true;
+
+	return false;
+}
+
+function bp_is_group() {
+	global $bp;
+
+	if ( BP_GROUPS_SLUG == $bp->current_component && $bp->groups->current_group )
 		return true;
 
 	return false;

@@ -1,5 +1,3 @@
-<?php do_action( 'template_notices' ) ?>
-
 <?php if ( bp_is_group_forum_topic() ) : ?>
 
 	<?php locate_template( array( 'groups/single/forum/topic.php' ), true ) ?>

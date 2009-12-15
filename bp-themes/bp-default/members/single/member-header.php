@@ -26,6 +26,8 @@
 
 </div>
 
+<?php do_action( 'template_notices' ) ?>
+
 <div class="item-list-tabs no-ajax" id="user-nav">
 	<ul>
 		<?php bp_get_user_nav() ?>
