@@ -1,3 +1,7 @@
+body {
+	padding-top: 25px;
+}
+
 #wp-admin-bar {
 	position: fixed;
 	top: 0;
@@ -10,7 +14,7 @@
 	#wp-admin-bar .padder {
 		position: relative;
 		padding: 0;
-		width: 90%;
+		width: 100%;
 		min-width: 960px;
 		max-width: 1250px;
 		margin: 0 auto;
@@ -37,6 +41,8 @@
 #wp-admin-bar li {
 	list-style: none;
 	margin: 0;
+	padding: 0;
+	line-height: 100%;
 }
 
 #wp-admin-bar li a {
@@ -44,6 +50,7 @@
 	color: #fff;
 	text-decoration: none;
 	color: #f0f0f0;
+	font-size: 11px;
 }
 	#wp-admin-bar li.no-arrow a {
 		padding-right: 15px;

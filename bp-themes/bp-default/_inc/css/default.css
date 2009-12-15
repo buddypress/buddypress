@@ -13,6 +13,7 @@ body {
 	min-width: 960px;
 	max-width: 1250px;
 	margin: 0 auto;
+	padding-top: 0 !important; /* Remove the top padding space for the admin bar in this theme */
 }
 	body.activity-permalink {
 		min-width: 500px;
@@ -69,6 +70,13 @@ span.activity, div#message p {
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+}
+
+/* > Admin Bar
+-------------------------------------------------------------- */
+
+#wp-admin-bar .padder {
+	width: 90% !important; /* Line up the admin bar with the content body in this theme */
 }
 
 /* > Header
