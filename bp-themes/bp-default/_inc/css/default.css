@@ -926,9 +926,17 @@ form#whats-new-form {
 /* > Activity Stream Listing
 -------------------------------------------------------------- */
 
+ul.activity-list li {
+	padding: 20px 0 0 0;
+}
+	ul.activity-list li.has-comments {
+		padding-bottom: 20px;
+	}
+
 .activity-list li.mini {
 	font-size: 11px;
 	min-height: 35px;
+	padding: 12px 0 0 0;
 }
 	.activity-list li.mini div.activity-meta {
 		margin: 0;
@@ -1086,29 +1094,42 @@ form#whats-new-form {
 -------------------------------------------------------------- */
 
 div.activity-meta {
-	margin-left: 3px;
+	margin: 0 0 20px 3px;
 }
 
-.activity-list div.activity-meta a.acomment-reply {
+.activity-list div.activity-meta a {
 	font-size: 11px;
-	background: #FFF9DB;
-	border-bottom: 1px solid #FFE8C4;
-	border-right: 1px solid #FFE8C4;
-	color: #ffa200;
+	background: #f4f4f4;
+	border-bottom: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	color: #999;
 	padding: 4px 8px;
 	text-decoration: none;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
+	margin-right: 3px;
 }
-	div.activity-meta a.acomment-reply:hover {
-		background: #f7740a;
-		color: #fff;
-		border-color: #f7740a;
+	.activity-list div.activity-meta a.acomment-reply {
+		background: #FFF9DB;
+		border-bottom: 1px solid #FFE8C4;
+		border-right: 1px solid #FFE8C4;
+		color: #ffa200;
 	}
 
+	div.activity-meta a:hover {
+		background: #aaa;
+		color: #fff;
+		border-color: #aaa;
+	}
+		div.activity-meta a.acomment-reply:hover {
+			background: #f7740a;
+			color: #fff;
+			border-color: #f7740a;
+		}
+
 div.activity-comments {
-	margin: 20px 0 5px 75px;
+	margin: 0 0 0 75px;
 	background: #f5f5f5;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;

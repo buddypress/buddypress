@@ -342,13 +342,6 @@ function bp_activity_content_filter( $content, $date_recorded, $full_name, $inse
 		}
 	}
 
-	if ( !bp_is_activity_permalink() ) {
-		if ( 'activity_comment' == $activities_template->activity->component_action )
-			$meta = '</span> <span class="activity-header-meta"> &middot; <a href="' . $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $activities_template->activity->item_id . '">' . __( 'View Thread', 'buddypress' ) . '</a>';
-		else
-			$meta = '</span> <span class="activity-header-meta"> &middot; <a href="' . $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $activities_template->activity->id . '">' . __( 'View Thread', 'buddypress' ) . '</a>';
-	}
-
 	/* Add the delete link if the user has permission on this item */
 	if ( ( $activities_template->activity->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin || is_site_admin() )
 		 $meta .= ' &middot; ' . bp_get_activity_delete_link();
@@ -498,6 +491,24 @@ function bp_activity_permalink_id() {
 		return apply_filters( 'bp_get_activity_permalink_id', $bp->current_action );
 	}
 
+function bp_activity_thread_permalink() {
+	echo bp_get_activity_thread_permalink();
+}
+	function bp_get_activity_thread_permalink() {
+		global $bp, $activities_template;
+
+		if ( 'new_blog_post' == bp_get_activity_action_name() || 'new_blog_comment' == bp_get_activity_action_name() || 'new_forum_topic' == bp_get_activity_action_name() || 'new_forum_post' == bp_get_activity_action_name() )
+			$link = bp_activity_feed_item_link();
+		else {
+			if ( 'activity_comment' == bp_get_activity_action_name() )
+				$link = $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $activities_template->activity->item_id;
+			else
+				$link = $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $activities_template->activity->id;
+		}
+
+	 	return apply_filters( 'bp_get_activity_thread_permalink', $link );
+	}
+
 function bp_activity_css_class() {
 	echo bp_get_activity_css_class();
 }
@@ -513,11 +524,14 @@ function bp_activity_css_class() {
 			'new_member'
 		) );
 
-		$mini_class = '';
+		$class = '';
 		if ( in_array( $activities_template->activity->component_action, (array)$mini_activity_actions ) )
-			$mini_class = ' mini';
+			$class = ' mini';
 
-		return apply_filters( 'bp_get_activity_css_class', $activities_template->activity->component_name . ' ' . $activities_template->activity->component_action . $mini_class );
+		if ( bp_activity_get_comment_count() && bp_activity_can_comment() )
+			$class .= ' has-comments';
+
+		return apply_filters( 'bp_get_activity_css_class', $activities_template->activity->component_name . ' ' . $activities_template->activity->component_action . $class );
 	}
 
 function bp_activity_delete_link() {
@@ -614,6 +628,20 @@ function bp_activity_filter_links( $args = false ) {
 
  		return apply_filters( 'bp_get_activity_filter_links', implode( "\n", $component_links ) );
 	}
+
+function bp_activity_can_comment() {
+	global $bp;
+
+	if ( false === get_site_option( 'bp-disable-blogforum-comments' ) || (int)get_site_option( 'bp-disable-blogforum-comments' ) ) {
+		if ( 'new_blog_post' == bp_get_activity_action_name() || 'new_blog_comment' == bp_get_activity_action_name() || 'new_forum_topic' == bp_get_activity_action_name() || 'new_forum_post' == bp_get_activity_action_name() )
+			return false;
+	}
+
+	if ( 'activity_comment' == bp_get_activity_action_name() )
+		return false;
+
+	return true;
+}
 
 function bp_sitewide_activity_feed_link() {
 	echo bp_get_sitewide_activity_feed_link();

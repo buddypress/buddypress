@@ -289,6 +289,7 @@ jQuery(document).ready( function() {
 
 							form.parent().children('ul').append(response).hide().fadeIn( 200 );
 							form.children('textarea').val('');
+							form.parent().parent().addClass('has-comments');
 						}
 					);
 					j( 'form#' + form + ' textarea').val('');

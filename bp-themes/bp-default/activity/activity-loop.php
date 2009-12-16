@@ -15,36 +15,43 @@
 			<div class="activity-content">
 				<?php bp_activity_content() ?>
 
-				<?php if ( is_user_logged_in() && 'activity_comment' != bp_get_activity_action_name() ) : ?>
 				<div class="activity-meta">
-					<a href="#acomment-<?php bp_activity_id() ?>" class="acomment-reply" id="acomment-comment-<?php bp_activity_id() ?>"><?php _e( 'Comment', 'buddypress' ) ?> (<?php bp_activity_comment_count() ?>)</a>
-				</div>
-				<?php endif; ?>
-			</div>
+					<?php if ( is_user_logged_in() && bp_activity_can_comment() ) : ?>
+							<a href="#acomment-<?php bp_activity_id() ?>" class="acomment-reply" id="acomment-comment-<?php bp_activity_id() ?>"><?php _e( 'Comment', 'buddypress' ) ?> (<?php bp_activity_comment_count() ?>)</a>
+					<?php endif; ?>
 
-			<?php if ( 'activity_comment' == bp_get_activity_action_name() ) : ?>
-				<div class="activity-inreplyto">
-					<strong><?php _e( 'In reply to', 'buddypress' ) ?></strong> - <?php bp_activity_parent_content() ?>
-				</div>
-			<?php else : ?>
-				<div class="activity-comments">
-					<?php bp_activity_comments() ?>
-
-					<?php if ( is_user_logged_in() ) : ?>
-					<form action="" method="post" name="activity-comment-form" id="ac-form-<?php bp_activity_id() ?>" class="ac-form">
-						<div class="ac-reply-avatar"><?php bp_loggedin_user_avatar( 'width=25&height=25' ) ?></div>
-						<div class="ac-reply-content">
-							<div class="ac-textarea">
-								<textarea id="ac-input-<?php bp_activity_id() ?>" class="ac-input" name="ac-input-<?php bp_activity_id() ?>"></textarea>
-							</div>
-							<input type="submit" name="ac-form-submit" value="<?php _e( 'Post', 'buddypress' ) ?> &rarr;" /> &nbsp; <?php _e( 'or press esc to cancel.', 'buddypress' ) ?>
-						</div>
-						<?php wp_nonce_field( 'new_activity_comment', '_wpnonce_new_activity_comment' ) ?>
-					</form>
+					<?php if ( !bp_is_activity_permalink() ) : ?>
+						<a href="<?php bp_activity_thread_permalink() ?>" title="<?php _e( 'View Thread', 'buddypress' ) ?>"><?php _e( 'View Thread', 'buddypress' ) ?></a>
 					<?php endif; ?>
 				</div>
-			<?php endif; ?>
+			</div>
 
+			<?php if ( bp_activity_can_comment() ) : ?>
+
+				<?php if ( 'activity_comment' == bp_get_activity_action_name() ) : ?>
+					<div class="activity-inreplyto">
+						<strong><?php _e( 'In reply to', 'buddypress' ) ?></strong> - <?php bp_activity_parent_content() ?>
+					</div>
+				<?php else : ?>
+					<div class="activity-comments">
+						<?php bp_activity_comments() ?>
+
+						<?php if ( is_user_logged_in() ) : ?>
+						<form action="" method="post" name="activity-comment-form" id="ac-form-<?php bp_activity_id() ?>" class="ac-form">
+							<div class="ac-reply-avatar"><?php bp_loggedin_user_avatar( 'width=25&height=25' ) ?></div>
+							<div class="ac-reply-content">
+								<div class="ac-textarea">
+									<textarea id="ac-input-<?php bp_activity_id() ?>" class="ac-input" name="ac-input-<?php bp_activity_id() ?>"></textarea>
+								</div>
+								<input type="submit" name="ac-form-submit" value="<?php _e( 'Post', 'buddypress' ) ?> &rarr;" /> &nbsp; <?php _e( 'or press esc to cancel.', 'buddypress' ) ?>
+							</div>
+							<?php wp_nonce_field( 'new_activity_comment', '_wpnonce_new_activity_comment' ) ?>
+						</form>
+						<?php endif; ?>
+					</div>
+				<?php endif; ?>
+
+			<?php endif;?>
 		</li>
 
 	<?php endwhile; ?>
