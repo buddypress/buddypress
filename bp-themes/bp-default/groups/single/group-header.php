@@ -1,22 +1,33 @@
-<div id="item-header">
-	<h2><a href="<?php bp_group_permalink() ?>" title="<?php bp_group_name() ?>"><?php bp_group_name() ?></a></h2>
+<div id="item-actions">
+	<?php if ( bp_group_is_visible() ) : ?>
 
-	<span class="highlight"><?php bp_group_type() ?></span> <span class="activity"><?php printf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active() ) ?></span>
+		<h3><?php _e( 'Group Admins', 'buddypress' ) ?></h3>
+		<?php bp_group_list_admins() ?>
 
-	<div id="item-meta">
-		<?php bp_group_description() ?>
+		<?php do_action( 'bp_after_group_menu_admins' ) ?>
 
-		<?php bp_group_join_button() ?>
+		<?php if ( bp_group_has_moderators() ) : ?>
+			<?php do_action( 'bp_before_group_menu_mods' ) ?>
 
-		<?php do_action( 'bp_group_header_content' ) ?>
-	</div>
+			<h3><?php _e( 'Group Mods' , 'buddypress' ) ?></h3>
+			<?php bp_group_list_mods() ?>
 
-	<div class="item-list-tabs no-ajax" id="user-nav">
-		<ul>
-			<?php bp_get_options_nav() ?>
+			<?php do_action( 'bp_after_group_menu_mods' ) ?>
+		<?php endif; ?>
 
-			<?php do_action( 'bp_members_directory_member_types' ) ?>
-		</ul>
-	</div>
+	<?php endif; ?>
+</div>
 
+<?php bp_group_avatar() ?>
+
+<h2><a href="<?php bp_group_permalink() ?>" title="<?php bp_group_name() ?>"><?php bp_group_name() ?></a></h2>
+
+<span class="highlight"><?php bp_group_type() ?></span> <span class="activity"><?php printf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active() ) ?></span>
+
+<div id="item-meta">
+	<?php bp_group_description() ?>
+
+	<?php bp_group_join_button() ?>
+
+	<?php do_action( 'bp_group_header_content' ) ?>
 </div>

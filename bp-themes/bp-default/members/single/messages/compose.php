@@ -26,6 +26,7 @@
 
 	<div class="submit">
 		<input type="submit" value="<?php _e( "Send Message", 'buddypress' ) ?> &rarr;" name="send" id="send" />
+		<span class="ajax-loader"></span>
 	</div>
 
 	<?php wp_nonce_field( 'messages_send_message' ) ?>

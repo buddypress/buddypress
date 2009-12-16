@@ -221,7 +221,7 @@ div#sidebar {
 			padding: 10px 15px;
 		}
 
-	div#sidebar h3.widgettitle, div#item-menu h3 {
+	div#sidebar h3.widgettitle {
 		margin: 25px -15px 10px -14px;
 		background: #eaeaea;
 		padding: 5px 15px;
@@ -303,9 +303,8 @@ div#content .padder {
 -------------------------------------------------------------- */
 
 div#item-header {
-	padding: 15px 0 10px 15px;
-	margin: -15px 0 0 170px;
-	border-left: 1px solid #eaeaea;
+	margin-bottom: 20px;
+	overflow: hidden;
 }
 	div#item-header img.avatar {
 		float: left;
@@ -332,7 +331,6 @@ div#item-header {
 	}
 
 	div#item-header div#item-meta {
-		clear: right;
 		font-size: 14px;
 		color: #aaa;
 		margin: 15px 0 5px 0;
@@ -340,58 +338,39 @@ div#item-header {
 		overflow: hidden;
 	}
 
+	div#item-header div#item-actions {
+		float: right;
+		width: 20%;
+		margin: 0 0 15px 15px;
+		text-align: right;
+	}
+		div#item-header div#item-actions h3 {
+			font-size: 12px;
+			margin: 0 0 5px 0;
+		}
+
+		div#item-header ul {
+			overflow: hidden;
+			margin-bottom: 15px;
+		}
+
+		div#item-header ul h5, div#item-header ul span, div#item-header ul hr {
+			display: none;
+		}
+
+		div#item-header ul li {
+			float: right;
+		}
+
+		div#item-header ul img.avatar, div#item-header ul.avatars img.avatar {
+			width: 30px;
+			height: 30px;
+			margin: 2px;
+		}
+
 	div#item-header div.generic-button {
 		float: left;
 		margin: 10px 10px 0 0;
-	}
-
-/* > Item Body (Profile/Group/.. content)
--------------------------------------------------------------- */
-
-div#item-body {
-	margin-left: 170px;
-	border-left: 1px solid #f0f0f0;
-	padding-left: 15px;
-}
-
-/* > Item Menu (Profile/Group/.. left menu)
--------------------------------------------------------------- */
-
-div#item-menu {
-	width: 155px;
-	padding-right: 15px;
-	position: absolute;
-	top: 20px;
-	border-right: 1px solid #f0f0f0;
-}
-	div#item-menu h3 {
-		margin-right: -14px;
-	}
-
-	div#item-menu img.avatar {
-		margin-bottom: 20px;
-	}
-
-	div#item-menu ul#group-admins, div#item-menu ul#group-mods,
-	div#item-menu ul.avatars {
-		overflow: hidden;
-	}
-
-	div#item-menu ul#group-admins h5, div#item-menu ul#group-mods h5,
-	div#item-menu ul#group-admins span, div#item-menu ul#group-mods span,
-	div#item-menu ul#group-admins hr, div#item-menu ul#group-mods hr {
-		display: none;
-	}
-
-	div#item-menu ul#group-admins li, div#item-menu ul#group-mods li {
-		float: left;
-	}
-
-	div#item-menu ul#group-admins img.avatar, div#item-menu ul#group-mods img.avatar,
-	div#item-menu ul.avatars img.avatar {
-		width: 30px;
-		height: 30px;
-		margin: 2px;
 	}
 
 
@@ -500,14 +479,9 @@ div.item-list-tabs {
 	div.item-list-tabs#user-subnav,
 	div.item-list-tabs#group-subnav {
 		background: #fff;
-		margin: -10px -15px 20px -15px;
+		margin: 0 -15px 20px -15px;
 		border-bottom: 1px solid #eaeaea;
-		min-height: 32px;
-	}
-
-	ul#messages-options-nav {
-		margin: 30px 0 20px;
-		text-align: right;
+		min-height: 35px;
 	}
 
 /* > Item Body
@@ -769,6 +743,7 @@ table {
 }
 	table#message-threads {
 		margin: 0 -15px;
+		width: auto;
 	}
 
 	div#sidebar table {
@@ -1279,6 +1254,39 @@ div.activity-comments ul, div.activity-comments ul li {
 /* > Private Message Threads
 -------------------------------------------------------------- */
 
+table#message-threads tr.unread td {
+	background: #FFF9DB;
+	border-top: 1px solid #FFE8C4;
+	border-bottom: 1px solid #FFE8C4;
+	font-weight: bold;
+}
+	table#message-threads tr.unread td span.activity {
+		background: #fff;
+	}
+
+	li span.unread-count, tr.unread span.unread-count {
+		background: #dd0000;
+		padding: 2px 8px;
+		color: #fff;
+		font-weight: bold;
+		-moz-border-radius: 3px;
+		-khtml-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+	}
+		div.item-list-tabs ul li a span.unread-count {
+			padding: 1px 6px;
+			color: #fff;
+		}
+
+	div.messages-options-nav {
+		font-size: 11px;
+		background: #eee;
+		text-align: right;
+		margin: 0 -15px;
+		padding: 5px 15px;
+	}
+
 div#message-thread div.message-box {
 	margin: 0 -15px;
 	padding: 15px;
@@ -1316,6 +1324,13 @@ div#message-thread div.message-box {
 	div#message-thread div.message-content {
 		margin-left: 45px;
 	}
+
+	div#message-thread div.message-options {
+		text-align: right;
+	}
+		a#delete_inbox_messages, .sentbox div.messages-options-nav {
+			display: none;
+		}
 
 /* > Group Forum Topics
 -------------------------------------------------------------- */

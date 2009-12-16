@@ -1,3 +1,5 @@
+<?php bp_displayed_user_avatar( 'type=full' ) ?>
+
 <h2 class="fn"><a href="<?php bp_user_link() ?>"><?php bp_displayed_user_fullname() ?></a> <span class="activity"><?php bp_last_activity( bp_displayed_user_id() ) ?></span></h2>
 
 <div id="item-meta">
@@ -27,11 +29,3 @@
 </div>
 
 <?php do_action( 'template_notices' ) ?>
-
-<div class="item-list-tabs no-ajax" id="user-nav">
-	<ul>
-		<?php bp_get_user_nav() ?>
-
-		<?php do_action( 'bp_members_directory_member_types' ) ?>
-	</ul>
-</div>

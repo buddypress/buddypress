@@ -6,7 +6,19 @@
 		<div class="padder">
 			<?php if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group(); ?>
 
-			<?php locate_template( array( 'groups/single/group-header.php' ), true ) ?>
+			<div id="item-header">
+				<?php locate_template( array( 'groups/single/group-header.php' ), true ) ?>
+			</div>
+
+			<div id="item-nav">
+				<div class="item-list-tabs no-ajax" id="user-nav">
+					<ul>
+						<?php bp_get_options_nav() ?>
+
+						<?php do_action( 'bp_members_directory_member_types' ) ?>
+					</ul>
+				</div>
+			</div>
 
 			<div id="item-body">
 				<?php do_action( 'template_notices' ) ?>
@@ -33,37 +45,6 @@
 
 				<?php do_action( 'bp_directory_members_content' ) ?>
 
-			</div>
-
-			<div id="item-menu">
-				<?php bp_group_avatar() ?>
-
-				<?php if ( bp_group_is_visible() ) : ?>
-
-					<?php if ( bp_group_has_news() ) : ?>
-						<?php do_action( 'bp_before_group_news' ) ?>
-
-						<h3><?php _e( 'Latest News', 'buddypress' ); ?></h3>
-						<p><?php bp_group_news() ?></p>
-
-						<?php do_action( 'bp_after_group_news' ) ?>
-					<?php endif; ?>
-
-					<h3><?php _e( 'Group Admins', 'buddypress' ) ?></h3>
-					<?php bp_group_list_admins() ?>
-
-					<?php do_action( 'bp_after_group_menu_admins' ) ?>
-
-					<?php if ( bp_group_has_moderators() ) : ?>
-						<?php do_action( 'bp_before_group_menu_mods' ) ?>
-
-						<h3><?php _e( 'Group Mods' , 'buddypress' ) ?></h3>
-						<?php bp_group_list_mods() ?>
-
-						<?php do_action( 'bp_after_group_menu_mods' ) ?>
-					<?php endif; ?>
-
-				<?php endif; ?>
 			</div>
 
 			<?php endwhile; endif; ?>

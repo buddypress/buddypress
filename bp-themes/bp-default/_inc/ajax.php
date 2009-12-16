@@ -518,5 +518,108 @@ function bp_dtheme_ajax_joinleave_group() {
 }
 add_action( 'wp_ajax_joinleave_group', 'bp_dtheme_ajax_joinleave_group' );
 
+function bp_dtheme_ajax_messages_send_reply() {
+	global $bp;
+
+	check_ajax_referer( 'messages_send_message' );
+
+	$result = messages_new_message( array( 'thread_id' => $_REQUEST['thread_id'], 'subject' => $_REQUEST['subject'], 'content' => $_REQUEST['content'] ) );
+
+	if ( $result ) { ?>
+		<div class="message-box new-message">
+			<div class="message-metadata">
+				<?php do_action( 'bp_before_message_meta' ) ?>
+				<?php echo bp_loggedin_user_avatar( 'type=thumb&width=30&height=30' ); ?>
+
+				<h3><a href="<?php echo $bp->loggedin_user->domain ?>"><?php echo $bp->loggedin_user->fullname ?></a> <span class="activity"><?php printf( __( 'Sent %s ago', 'buddypress' ), bp_core_time_since( time() ) ) ?></span></h3>
+
+				<?php do_action( 'bp_after_message_meta' ) ?>
+			</div>
+
+			<?php do_action( 'bp_before_message_content' ) ?>
+
+			<div class="message-content">
+				<?php echo stripslashes( apply_filters( 'bp_get_the_thread_message_content', $_REQUEST['content'] ) ) ?>
+			</div>
+
+			<?php do_action( 'bp_after_message_content' ) ?>
+
+			<div class="clear"></div>
+		</div>
+	<?php
+	} else {
+		echo "-1<div id='message' class='error'><p>" . __( 'There was a problem sending that reply. Please try again.', 'buddypress' ) . '</p></div>';
+	}
+}
+add_action( 'wp_ajax_messages_send_reply', 'bp_dtheme_ajax_messages_send_reply' );
+
+function bp_dtheme_ajax_markunread() {
+	global $bp;
+
+	if ( !isset($_POST['thread_ids']) ) {
+		echo "-1<div id='message' class='error'><p>" . __('There was a problem marking messages as unread.', 'buddypress' ) . '</p></div>';
+	} else {
+		$thread_ids = explode( ',', $_POST['thread_ids'] );
+
+		for ( $i = 0; $i < count($thread_ids); $i++ ) {
+			BP_Messages_Thread::mark_as_unread($thread_ids[$i]);
+		}
+	}
+}
+add_action( 'wp_ajax_messages_markunread', 'bp_dtheme_ajax_markunread' );
+
+function bp_dtheme_ajax_message_markread() {
+	global $bp;
+
+	if ( !isset($_POST['thread_ids']) ) {
+		echo "-1<div id='message' class='error'><p>" . __('There was a problem marking messages as read.', 'buddypress' ) . '</p></div>';
+	} else {
+		$thread_ids = explode( ',', $_POST['thread_ids'] );
+
+		for ( $i = 0; $i < count($thread_ids); $i++ ) {
+			BP_Messages_Thread::mark_as_read($thread_ids[$i]);
+		}
+	}
+}
+add_action( 'wp_ajax_messages_markread', 'bp_dtheme_ajax_messages_markread' );
+
+function bp_dtheme_ajax_messages_delete() {
+	global $bp;
+
+	if ( !isset($_POST['thread_ids']) ) {
+		echo "-1[[split]]" . __( 'There was a problem deleting messages.', 'buddypress' );
+	} else {
+		$thread_ids = explode( ',', $_POST['thread_ids'] );
+
+		for ( $i = 0; $i < count($thread_ids); $i++ ) {
+			BP_Messages_Thread::delete($thread_ids[$i]);
+		}
+
+		_e('Messages deleted.', 'buddypress');
+	}
+}
+add_action( 'wp_ajax_messages_delete', 'bp_dtheme_ajax_messages_delete' );
+
+function bp_dtheme_ajax_messages_autocomplete_results() {
+	global $bp;
+
+	$friends = false;
+
+	// Get the friend ids based on the search terms
+	if ( function_exists( 'friends_search_friends' ) )
+		$friends = friends_search_friends( $_GET['q'], $bp->loggedin_user->id, $_GET['limit'], 1 );
+
+	$friends = apply_filters( 'bp_friends_autocomplete_list', $friends, $_GET['q'], $_GET['limit'] );
+
+	if ( $friends['friends'] ) {
+		foreach ( $friends['friends'] as $user_id ) {
+			$ud = get_userdata($user_id);
+			$username = $ud->user_login;
+			echo bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'thumb', 'width' => 15, 'height' => 15 ) ) . ' &nbsp;' . bp_core_get_user_displayname( $user_id ) . ' (' . $username . ')
+			';
+		}
+	}
+}
+add_action( 'wp_ajax_messages_autocomplete_results', 'bp_dtheme_ajax_messages_autocomplete_results' );
 
 ?>

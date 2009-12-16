@@ -754,8 +754,131 @@ jQuery(document).ready( function() {
 			j(this).addClass('alt');
 	});
 
-	/* Auto expand textareas */
-	j("textarea").TextAreaExpander( 80, 1000 );
+	/** Private Messaging ******************************************/
+
+	j("input#send_reply_button").click(
+		function() {
+			j('form#send-reply span.ajax-loader').toggle();
+
+			j.post( ajaxurl, {
+				action: 'messages_send_reply',
+				'cookie': encodeURIComponent(document.cookie),
+				'_wpnonce': j("input#send_message_nonce").val(),
+
+				'content': j("#message_content").val(),
+				'send_to': j("input#send_to").val(),
+				'subject': j("input#subject").val(),
+				'thread_id': j("input#thread_id").val()
+			},
+			function(response)
+			{
+				if ( response[0] + response[1] == "-1" ) {
+					j('form#send-reply').prepend( response.substr( 2, response.length ) );
+				} else {
+					j('form#send-reply div#message').remove();
+					j("#message_content").val('');
+					j('form#send-reply').before( response );
+
+					j("div.new-message").hide().slideDown( 200, function() {
+						j('form#send-reply span.ajax-loader').toggle();
+						j('div.new-message').removeClass('new-message');
+					});
+
+					j('div.message-box').each( function(i) {
+						j(this).removeClass('alt');
+						if ( i % 2 != 1 )
+							j(this).addClass('alt');
+					});
+				}
+			});
+
+			return false;
+		}
+	);
+
+	j("a#mark_as_read, a#mark_as_unread").click(
+		function() {
+			var checkboxes_tosend = '';
+			var checkboxes = j("#message-threads tr td input[type='checkbox']");
+
+			if ( 'mark_as_unread' == j(this).attr('id') ) {
+				var currentClass = 'read'
+				var newClass = 'unread'
+				var unreadCount = 1;
+				var inboxCount = 0;
+				var unreadCountDisplay = 'inline';
+				var action = 'messages_markunread';
+			} else {
+				var currentClass = 'unread'
+				var newClass = 'read'
+				var unreadCount = 0;
+				var inboxCount = 1;
+				var unreadCountDisplay = 'none';
+				var action = 'messages_markread';
+			}
+
+			checkboxes.each( function(i) {
+				if(checkboxes[i].checked) {
+					if ( j('tr#m-' + checkboxes[i].value).hasClass(currentClass) ) {
+						checkboxes_tosend += checkboxes[i].value;
+						j('tr#m-' + checkboxes[i].value).removeClass(currentClass);
+						j('tr#m-' + checkboxes[i].value).addClass(newClass);
+						j('tr#m-' + checkboxes[i].value + ' td span.unread-count').html(unreadCount);
+						j('tr#m-' + checkboxes[i].value + ' td span.unread-count').css('display', unreadCountDisplay);
+						var inboxcount = j('.inbox-count').html();
+
+						if ( parseInt(inboxcount) == inboxCount ) {
+							j('.inbox-count').css('display', unreadCountDisplay);
+							j('.inbox-count').html(unreadCount);
+						} else {
+							if ( 'read' == currentClass )
+								j('.inbox-count').html(parseInt(inboxcount) + 1);
+							else
+								j('.inbox-count').html(parseInt(inboxcount) - 1);
+						}
+
+						if ( i != checkboxes.length - 1 ) {
+							checkboxes_tosend += ','
+						}
+					}
+				}
+			});
+			j.post( ajaxurl, {
+				action: action,
+				'thread_ids': checkboxes_tosend
+			});
+			return false;
+		}
+	);
+
+	j("select#message-type-select").change(
+		function() {
+			var selection = j("select#message-type-select").val();
+			var checkboxes = j("td input[type='checkbox']");
+			checkboxes.each( function(i) {
+				checkboxes[i].checked = "";
+			});
+
+			switch(selection) {
+				case 'unread':
+					var checkboxes = j("tr.unread td input[type='checkbox']");
+				break;
+				case 'read':
+					var checkboxes = j("tr.read td input[type='checkbox']");
+				break;
+			}
+			if ( selection != '' ) {
+				checkboxes.each( function(i) {
+					checkboxes[i].checked = "checked";
+				});
+			} else {
+				checkboxes.each( function(i) {
+					checkboxes[i].checked = "";
+				});
+			}
+		}
+	);
+
 });
 
 // Helper JS Functions
@@ -794,6 +917,3 @@ jQuery.extend({easing:{easein:function(x,t,b,c,d){return c*(t/=d)*t+b},easeinout
 
 /* jQuery Cookie plugin */
 eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('o.5=B(9,b,2){6(h b!=\'E\'){2=2||{};6(b===n){b=\'\';2.3=-1}4 3=\'\';6(2.3&&(h 2.3==\'j\'||2.3.k)){4 7;6(h 2.3==\'j\'){7=w u();7.t(7.q()+(2.3*r*l*l*x))}m{7=2.3}3=\'; 3=\'+7.k()}4 8=2.8?\'; 8=\'+(2.8):\'\';4 a=2.a?\'; a=\'+(2.a):\'\';4 c=2.c?\'; c\':\'\';d.5=[9,\'=\',C(b),3,8,a,c].y(\'\')}m{4 e=n;6(d.5&&d.5!=\'\'){4 g=d.5.A(\';\');s(4 i=0;i<g.f;i++){4 5=o.z(g[i]);6(5.p(0,9.f+1)==(9+\'=\')){e=D(5.p(9.f+1));v}}}F e}};',42,42,'||options|expires|var|cookie|if|date|path|name|domain|value|secure|document|cookieValue|length|cookies|typeof||number|toUTCString|60|else|null|jQuery|substring|getTime|24|for|setTime|Date|break|new|1000|join|trim|split|function|encodeURIComponent|decodeURIComponent|undefined|return'.split('|'),0,{}))
-
-/* Textarea autoexpand */
-eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('(5($){$.C.B=5(g,r){6 k=!($.u.A||$.u.L);5 7(e){e=e.E||e;6 4=e.z.y,9=e.D;8(4!=e.f||9!=e.b){8(k&&(4<e.f||9!=e.b))e.a.o="H";6 h=m.M(e.l,m.G(e.q,e.j));e.a.I=(e.q>h?"K":"F");e.a.o=h+"J";e.f=4;e.b=9}c x};3.Z(5(){8(3.V.X()!="N")c;6 p=3.U.T(/P(\\d+)\\-*(\\d+)*/i);3.l=g||(p?n(\'0\'+p[1],10):0);3.j=r||(p?n(\'0\'+p[2],10):S);7(3);8(!3.w){3.w=x;$(3).s("t-R",0).s("t-Q",0);$(3).v("O",7).v("W",7)}});c 3}})(Y);',62,63,'|||this|vlen|function|var|ResizeTextarea|if|ewidth|style|boxWidth|return|||valLength|minHeight|||expandMax|hCheck|expandMin|Math|parseInt|height||scrollHeight|maxHeight|css|padding|browser|bind|Initialized|true|length|value|msie|TextAreaExpander|fn|offsetWidth|target|hidden|min|0px|overflow|px|auto|opera|max|textarea|keyup|expand|bottom|top|99999|match|className|nodeName|focus|toLowerCase|jQuery|each|'.split('|'),0,{}))
