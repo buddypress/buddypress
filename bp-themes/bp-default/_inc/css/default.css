@@ -942,6 +942,10 @@ ul.activity-list li {
 		margin: 0;
 	}
 
+	.activity-list li.mini div.activity-meta a {
+		padding: 3px 8px;
+	}
+
 	.activity-list li.mini .activity-avatar img.avatar,
 	.activity-list li.mini .activity-avatar img.FB_profile_pic {
 		width: 20px;
@@ -963,7 +967,7 @@ ul.activity-list li {
 		}
 
 	.activity-list li.mini .activity-content {
-		margin-right: 70px;
+		margin-right: 175px;
 	}
 
 	.activity-list li.mini .activity-content p {
@@ -1030,16 +1034,16 @@ ul.activity-list li {
 	.activity-list .activity-content .comment-header {
 		font-size: 11px;
 		color: #888;
-		line-height: 200%;
+		line-height: 220%;
 	}
 
-	.activity-list .activity-content p > a:first-child, span.highlight,
-	.activity-list .activity-content .comment-header > a:first-child {
+	.activity-list .activity-content > p > a:first-child, span.highlight,
+	.activity-list .activity-content > .comment-header > a:first-child {
 		background: #EBF7FF;
 		border-bottom: 1px solid #a1dcfa;
 		border-right: 1px solid #a1dcfa;
 		color: #059AE7;
-		padding: 4px 8px;
+		padding: 3px 8px;
 		text-decoration: none;
 		-moz-border-radius: 4px;
 		-webkit-border-radius: 4px;

@@ -1,6 +1,6 @@
 <?php do_action( 'bp_before_friend_requests_content' ) ?>
 
-<?php if ( bp_has_members( 'include=' . bp_get_friendship_requests() ) ) : ?>
+<?php if ( bp_has_members( 'include=' . bp_get_friendship_requests() . '&page=1&per_page=0' ) ) : ?>
 
 	<ul id="friend-list" class="item-list">
 		<?php while ( bp_members() ) : bp_the_member(); ?>
