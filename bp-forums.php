@@ -127,15 +127,6 @@ function bp_forums_new_forum( $args = '' ) {
 	return bb_new_forum( array( 'forum_name' => stripslashes( $forum_name ), 'forum_desc' => stripslashes( $forum_desc ), 'forum_parent' => $forum_parent_id, 'forum_order' => $forum_order, 'forum_is_category' => $forum_is_category ) );
 }
 
-function bp_forums_get_forum_topicpost_count( $forum_id ) {
-	global $wpdb, $bbdb;
-
-	do_action( 'bbpress_init' );
-
-	/* Need to find a bbPress function that does this */
-	return $wpdb->get_results( $wpdb->prepare( "SELECT topics, posts from {$bbdb->forums} WHERE forum_id = %d", $forum_id ) );
-}
-
 /* Topic Functions */
 
 function bp_forums_get_forum_topics( $args = '' ) {
@@ -146,6 +137,7 @@ function bp_forums_get_forum_topics( $args = '' ) {
 	$defaults = array(
 		'type' => 'newest',
 		'forum_id' => false,
+		'user_id' => false,
 		'page' => 1,
 		'per_page' => 15,
 		'exclude' => false,
@@ -158,27 +150,22 @@ function bp_forums_get_forum_topics( $args = '' ) {
 
 	switch ( $type ) {
 		case 'newest':
-			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'per_page' => $per_page, 'page' => $page, 'number' => $per_page, 'exclude' => $exclude, 'topic_title' => $filter, 'sticky' => $show_stickies ), 'get_latest_topics' );
-			$topics = $query->results;
+			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'per_page' => $per_page, 'page' => $page, 'number' => $per_page, 'exclude' => $exclude, 'topic_title' => $filter, 'sticky' => $show_stickies ), 'get_latest_topics' );
+			$topics =& $query->results;
 		break;
 
 		case 'popular':
-			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_posts', 'topic_title' => $filter, 'sticky' => $show_stickies ) );
+			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_posts', 'topic_title' => $filter, 'sticky' => $show_stickies ) );
 			$topics =& $query->results;
 		break;
 
 		case 'unreplied':
-			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'post_count' => 1, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_time', 'topic_title' => $filter, 'sticky' => $show_stickies ) );
-			$topics =& $query->results;
-		break;
-
-		case 'personal':
-			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'per_page' => $per_page, 'page' => $page, 'topic_author_id' => $bp->loggedin_user->id, 'order_by' => 't.topic_time', 'topic_title' => $filter, 'sticky' => $show_stickies ), 'get_recent_user_threads' );
+			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'post_count' => 1, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_time', 'topic_title' => $filter, 'sticky' => $show_stickies ) );
 			$topics =& $query->results;
 		break;
 
 		case 'tag':
-			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'tag' => $filter, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_time', 'sticky' => $show_stickies ) );
+			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'tag' => $filter, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_time', 'sticky' => $show_stickies ) );
 			$topics =& $query->results;
 		break;
 	}
@@ -316,6 +303,25 @@ function bp_forums_delete_topic( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	return bb_delete_topic( $topic_id, 1 );
+}
+
+function bp_forums_total_topic_count() {
+	do_action( 'bbpress_init' );
+
+	$query = new BB_Query( 'topic', array( 'page' => 1, 'per_page' => false, 'count' => true ) );
+	return $query->count;
+}
+
+function bp_forums_total_topic_count_for_user( $user_id = false ) {
+	global $bp;
+
+	do_action( 'bbpress_init' );
+
+	if ( !$user_id )
+		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+
+	$query = new BB_Query( 'topic', array( 'topic_author_id' => $user_id, 'page' => 1, 'per_page' => false, 'count' => true ) );
+	return $query->count;
 }
 
 /* Post Functions */

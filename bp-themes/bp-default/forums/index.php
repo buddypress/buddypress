@@ -9,14 +9,14 @@
 			<h2><?php _e( 'Group Forums Directory', 'buddypress' ) ?><?php if ( is_user_logged_in() ) : ?> &nbsp;<a class="button" href="#new-topic" id="new-topic-button"><?php _e( 'New Topic', 'buddypress' ) ?></a><?php endif; ?></h2>
 
 			<div id="forums-dir-search" class="dir-search">
-				<?php bp_directory_groups_search_form() ?>
+				<?php bp_directory_forums_search_form() ?>
 			</div>
 		</form>
 
 			<div id="new-topic-post">
 				<?php if ( is_user_logged_in() ) : ?>
 
-					<?php if ( bp_has_groups( 'user_id=' . bp_loggedin_user_id() . '&type=alphabetical&max=20&per_page=20' ) ) : ?>
+					<?php if ( bp_has_groups( 'user_id=' . bp_loggedin_user_id() . '&type=alphabetical&max=100&per_page=100' ) ) : ?>
 
 						<form action="" method="post" id="forum-topic-form" class="standard-form">
 
@@ -69,7 +69,11 @@
 
 			<div class="item-list-tabs">
 				<ul>
-					<li class="selected" id="forums-all"><a href="<?php bp_root_domain() ?>"><?php _e( 'All Group Forums', 'buddypress' ) ?></a></li>
+					<li class="selected" id="forums-all"><a href="<?php bp_root_domain() ?>"><?php printf( __( 'All Topics (%d)', 'buddypress' ), bp_forums_total_topic_count() ) ?></a></li>
+
+					<?php if ( is_user_logged_in() && bp_forums_total_topic_count_for_user( bp_loggedin_user_id() ) ) : ?>
+						<li id="forums-mytopics"><a href="<?php echo bp_loggedin_user_domain() . BP_GROUPS_SLUG . '/' ?>"><?php printf( __( 'My Topics (%d)', 'buddypress' ), bp_forums_total_topic_count_for_user( bp_loggedin_user_id() ) ) ?></a></li>
+					<?php endif; ?>
 
 					<?php do_action( 'bp_members_directory_group_types' ) ?>
 
@@ -79,7 +83,7 @@
 						<select>
 							<option value="active"><?php _e( 'Last Active', 'buddypress' ) ?></option>
 							<option value="popular"><?php _e( 'Most Posts', 'buddypress' ) ?></option>
-							<option value="newest"><?php _e( 'Unreplied', 'buddypress' ) ?></option>
+							<option value="unreplied"><?php _e( 'Unreplied', 'buddypress' ) ?></option>
 
 							<?php do_action( 'bp_groups_directory_order_options' ) ?>
 						</select>

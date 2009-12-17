@@ -22,10 +22,10 @@
 
 		<tr>
 			<th id="th-title"><?php _e( 'Topic Title', 'buddypress' ) ?></th>
-			<th id="th-poster"><?php _e( 'Last Poster', 'buddypress' ) ?></th>
+			<th id="th-poster"><?php _e( 'Latest Poster', 'buddypress' ) ?></th>
 
 			<?php if ( !bp_is_group_forum() ) : ?>
-				<th id="th-group"><?php _e( 'Posted In', 'buddypress' ) ?></th>
+				<th id="th-group"><?php _e( 'Posted In Group', 'buddypress' ) ?></th>
 			<?php endif; ?>
 
 			<th id="th-postcount"><?php _e( 'Posts', 'buddypress' ) ?></th>

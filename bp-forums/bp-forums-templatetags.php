@@ -18,7 +18,7 @@ class BP_Forums_Template_Forum {
 	var $sort_by;
 	var $order;
 
-	function BP_Forums_Template_Forum( $type, $forum_id, $page, $per_page, $max, $no_stickies, $filter ) {
+	function BP_Forums_Template_Forum( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms ) {
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['p'] ) ? intval( $_REQUEST['p'] ) : $page;
@@ -30,23 +30,19 @@ class BP_Forums_Template_Forum {
 
 		switch ( $type ) {
 			case 'newest': default:
-				$this->topics = bp_forums_get_forum_topics( array( 'forum_id' => $forum_id, 'filter' => $filter, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $show_stickies ) );
+				$this->topics = bp_forums_get_forum_topics( array( 'user_id' => $user_id, 'forum_id' => $forum_id, 'filter' => $search_terms, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $show_stickies ) );
 				break;
 
 			case 'popular':
-				$this->topics = bp_forums_get_forum_topics( array( 'type' => 'popular', 'filter' => $filter, 'forum_id' => $forum_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $show_stickies ) );
+				$this->topics = bp_forums_get_forum_topics( array( 'user_id' => $user_id, 'type' => 'popular', 'filter' => $search_terms, 'forum_id' => $forum_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $show_stickies ) );
 				break;
 
 			case 'unreplied':
-				$this->topics = bp_forums_get_forum_topics( array( 'type' => 'unreplied', 'filter' => $filter, 'forum_id' => $forum_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $show_stickies ) );
-				break;
-
-			case 'personal':
-				$this->topics = bp_forums_get_forum_topics( array( 'type' => 'personal', 'filter' => $filter, 'forum_id' => $forum_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $show_stickies ) );
+				$this->topics = bp_forums_get_forum_topics( array( 'user_id' => $user_id, 'type' => 'unreplied', 'filter' => $search_terms, 'forum_id' => $forum_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $show_stickies ) );
 				break;
 
 			case 'tag':
-				$this->topics = bp_forums_get_forum_topics( array( 'type' => 'tag', 'filter' => $filter, 'forum_id' => $forum_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $show_stickies ) );
+				$this->topics = bp_forums_get_forum_topics( array( 'user_id' => $user_id, 'type' => 'tag', 'filter' => $search_terms, 'forum_id' => $forum_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $show_stickies ) );
 				break;
 		}
 
@@ -157,11 +153,12 @@ function bp_has_forum_topics( $args = '' ) {
 	$defaults = array(
 		'type' => 'newest',
 		'forum_id' => false,
+		'user_id' => false,
 		'page' => 1,
 		'per_page' => 15,
 		'max' => false,
 		'no_stickies' => false,
-		'filter' => false
+		'search_terms' => false
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -169,22 +166,22 @@ function bp_has_forum_topics( $args = '' ) {
 
 	/* If we're in a single group, set this group's forum_id */
 	if ( !$forum_id && $bp->groups->current_group ) {
-		$forum_id = groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' );
+		$bp->groups->current_group->forum_id = groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' );
 
 		/* If it turns out there is no forum for this group, return false so we don't fetch all global topics */
-		if ( !$forum_id )
+		if ( !$bp->groups->current_group->forum_id )
 			return false;
 	}
 
 	/* If we're viewing a tag in the directory, let's auto set the filter to the tag name */
 	if ( $bp->is_directory && 'tag' == $type && !empty( $bp->action_variables[0] ) )
-		$filter = $bp->action_variables[0];
+		$search_terms = $bp->action_variables[0];
 
-	/* If $_GET['s'] is set, let's auto populate the filter var */
+	/* If $_GET['fs'] is set, let's auto populate the search_terms var */
 	if ( $bp->is_directory && !empty( $_GET['fs'] ) )
-		$filter = $_GET['fs'];
+		$search_terms = $_GET['fs'];
 
-	$forum_template = new BP_Forums_Template_Forum( $type, $forum_id, $page, $per_page, $max, $no_stickies, $filter );
+	$forum_template = new BP_Forums_Template_Forum( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms );
 
 	return apply_filters( 'bp_has_topics', $forum_template->has_topics(), &$forum_template );
 }
@@ -934,14 +931,22 @@ function bp_the_topic_pagination_count() {
 }
 
 function bp_directory_forums_search_form() {
-	global $bp; ?>
-	<form action="<?php echo $bp->root_domain . '/' . $bp->forums->slug . '/'; ?>" method="get" id="search-forums-form">
-		<label><input type="text" name="fs" id="forums_search" value="<?php if ( isset( $_GET['fs'] ) ) { echo attribute_escape( $_GET['fs'] ); } else { _e( 'Search anything...', 'buddypress' ); } ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
-		<input type="submit" id="forums_search_submit" name="submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
+	global $bp;
+
+	$search_value = __( 'Search anything...', 'buddypress' );
+	if ( !empty( $_REQUEST['fs'] ) )
+	 	$search_value = $_REQUEST['fs'];
+
+	else if ( !empty( $_COOKIE['bp-forums-search-terms'] ) && 'false' != $_COOKIE['bp-forums-search-terms'] )
+	 	$search_value = $_COOKIE['bp-forums-search-terms'];
+
+?>
+	<form action="" method="get" id="search-forums-form">
+		<label><input type="text" name="s" id="forums_search" value="<?php echo attribute_escape($search_value) ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
+		<input type="submit" id="forums_search_submit" name="forums_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
 	</form>
 <?php
 }
-
 function bp_forum_permalink() {
 	echo bp_get_forum_permalink();
 }

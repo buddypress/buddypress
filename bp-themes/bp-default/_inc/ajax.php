@@ -137,7 +137,7 @@ function bp_dtheme_forums_filter() {
 	/* Build the querystring */
 
 	/* Sort out type ordering */
-	if ( 'active' != $filter && 'newest' != $filter && 'alphabetical' != $filter )
+	if ( 'active' != $filter && 'popular' != $filter && 'unreplied' != $filter )
 		$type = 'active';
 
 	$bp->ajax_querystring = 'type=' . $filter . '&page=' . $page;
@@ -145,13 +145,13 @@ function bp_dtheme_forums_filter() {
 	if ( $search_terms )
 		$bp->ajax_querystring .= '&search_terms=' . $search_terms;
 
-	if ( !$type || ( 'all' != $type && 'myblogs' != $type ) )
+	if ( !$type || ( 'all' != $type && 'mytopics' != $type ) )
 		$type = 'all';
 
-	if ( ( 'myblogs' == $type ) && !is_user_logged_in() )
+	if ( ( 'mytopics' == $type ) && !is_user_logged_in() )
 		$type = 'all';
 
-	if ( 'my' == $type || $bp->displayed_user->id ) {
+	if ( 'mytopics' == $type || $bp->displayed_user->id ) {
 		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 		$bp->ajax_querystring .= '&user_id=' . $user_id;
 	}

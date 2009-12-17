@@ -197,7 +197,11 @@ div#sidebar {
 	float: left;
 	width: 224px;
 	margin-left: -226px;
+	margin-top: 1px;
 	border-left: 1px solid #e4e4e4;
+	-moz-border-radius-topright: 3px;
+	-webkit-border-top-right-radius: 3px;
+	background: url( ../images/sidebar_back.gif ) top left repeat-x;
 }
 	div#sidebar div#sidebar-me img.avatar {
 		float: left;
@@ -479,9 +483,10 @@ div.item-list-tabs {
 	div.item-list-tabs#user-subnav,
 	div.item-list-tabs#group-subnav {
 		background: #fff;
-		margin: 0 -15px 20px -15px;
+		margin: 0 -15px 0 -15px;
 		border-bottom: 1px solid #eaeaea;
 		min-height: 35px;
+		overflow: hidden;
 	}
 
 /* > Item Body
@@ -518,7 +523,6 @@ div.pagination {
 	.mygroups div.pagination, .myblogs div.pagination {
 		background: #f8f8f8;
 		border: none;
-		margin-top: -20px;
 		padding: 8px 15px;
 	}
 
