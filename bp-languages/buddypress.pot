@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-12-16 14:11+0000\n"
+"POT-Creation-Date: 2009-12-17 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -473,7 +473,8 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:1167
 #: bp-core/bp-core-templatetags.php:327 bp-core/bp-core-templatetags.php:336
-#: bp-forums/bp-forums-templatetags.php:939
+#: bp-forums/bp-forums-templatetags.php:936
+#: bp-forums/bp-forums-templatetags.php:945
 #: bp-groups/bp-groups-templatetags.php:1734
 #: bp-groups/bp-groups-templatetags.php:1743
 #: bp-themes/bp-default/_inc/ajax.php:20 bp-themes/bp-default/_inc/ajax.php:58
@@ -488,7 +489,7 @@ msgstr ""
 #: bp-forums/bbpress/bb-includes/class.bb-query.php:1017
 #: bp-forums/bbpress/bb-templates/kakumei/rss2.php:18
 #: bp-forums/bbpress/bb-templates/kakumei/search.php:3
-#: bp-forums/bp-forums-templatetags.php:940
+#: bp-forums/bp-forums-templatetags.php:946
 #: bp-groups/bp-groups-templatetags.php:1744
 #: bp-themes/bp-default/header.php:65 bp-themes/bp-default/searchform.php:5
 #: bp-themes/bp-sn-parent/directories/forums/index.php:63
@@ -1464,7 +1465,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: bp-forums/bbpress/bb-admin/forums.php:55
-#: bp-forums/bp-forums-templatetags.php:433
+#: bp-forums/bp-forums-templatetags.php:430
 #, php-format
 msgid "%d post"
 msgid_plural "%d posts"
@@ -5530,7 +5531,7 @@ msgid "Put code in between <code>`backticks`</code>."
 msgstr ""
 
 #: bp-forums/bbpress/bb-templates/kakumei/edit-post.php:2
-#: bp-forums/bp-forums-templatetags.php:899
+#: bp-forums/bp-forums-templatetags.php:896
 msgid "Edit Post"
 msgstr ""
 
@@ -5565,7 +5566,6 @@ msgstr ""
 #: bp-forums/bbpress/bb-templates/kakumei/front-page.php:20
 #: bp-forums/bbpress/bb-templates/kakumei/tag-single.php:14
 #: bp-forums/bbpress/bb-templates/kakumei/view.php:12
-#: bp-themes/bp-default/forums/topics-loop.php:25
 #: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:21
 msgid "Last Poster"
 msgstr ""
@@ -6532,45 +6532,45 @@ msgstr ""
 msgid "Use an existing bbPress installation"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:435
+#: bp-forums/bp-forums-templatetags.php:432
 #, php-format
 msgid "%d posts"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:535
+#: bp-forums/bp-forums-templatetags.php:532
 msgid "Edit Topic"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:539
+#: bp-forums/bp-forums-templatetags.php:536
 msgid "Sticky Topic"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:541
+#: bp-forums/bp-forums-templatetags.php:538
 msgid "Un-stick Topic"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:544
+#: bp-forums/bp-forums-templatetags.php:541
 msgid "Open Topic"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:546
+#: bp-forums/bp-forums-templatetags.php:543
 msgid "Close Topic"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:548
+#: bp-forums/bp-forums-templatetags.php:545
 msgid "Delete Topic"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:650
+#: bp-forums/bp-forums-templatetags.php:647
 #, php-format
 msgid "Viewing topic %d to %d (%d total topics)"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:900
+#: bp-forums/bp-forums-templatetags.php:897
 msgid "Delete Post"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:930
+#: bp-forums/bp-forums-templatetags.php:927
 #, php-format
 msgid "Viewing post %d to %d (%d total posts)"
 msgstr ""
@@ -7241,7 +7241,7 @@ msgid "Created"
 msgstr ""
 
 #: bp-groups/bp-groups-admin.php:87 bp-themes/bp-default/blogs/index.php:30
-#: bp-themes/bp-default/forums/index.php:80
+#: bp-themes/bp-default/forums/index.php:84
 #: bp-themes/bp-default/groups/index.php:29
 #: bp-themes/bp-default/members/index.php:30
 #: bp-themes/bp-default/members/single/blogs.php:6
@@ -8080,7 +8080,7 @@ msgid "My Blogs (%d)"
 msgstr ""
 
 #: bp-themes/bp-default/blogs/index.php:28
-#: bp-themes/bp-default/forums/index.php:78
+#: bp-themes/bp-default/forums/index.php:82
 #: bp-themes/bp-default/groups/index.php:27
 #: bp-themes/bp-default/members/index.php:28
 #: bp-themes/bp-default/members/single/blogs.php:4
@@ -8234,14 +8234,20 @@ msgid ""
 msgstr ""
 
 #: bp-themes/bp-default/forums/index.php:72
-msgid "All Group Forums"
+#, php-format
+msgid "All Topics (%d)"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:81
+#: bp-themes/bp-default/forums/index.php:75
+#, php-format
+msgid "My Topics (%d)"
+msgstr ""
+
+#: bp-themes/bp-default/forums/index.php:85
 msgid "Most Posts"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:82
+#: bp-themes/bp-default/forums/index.php:86
 msgid "Unreplied"
 msgstr ""
 
@@ -8250,9 +8256,12 @@ msgstr ""
 msgid "Topic Title"
 msgstr ""
 
+#: bp-themes/bp-default/forums/topics-loop.php:25
+msgid "Latest Poster"
+msgstr ""
+
 #: bp-themes/bp-default/forums/topics-loop.php:28
-#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:22
-msgid "Posted In"
+msgid "Posted In Group"
 msgstr ""
 
 #: bp-themes/bp-default/forums/topics-loop.php:39
@@ -9254,6 +9263,10 @@ msgstr ""
 
 #: bp-themes/bp-sn-parent/directories/blogs/index.php:112
 msgid "There are not enough blogs to feature."
+msgstr ""
+
+#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:22
+msgid "Posted In"
 msgstr ""
 
 #: bp-themes/bp-sn-parent/directories/forums/index.php:14
