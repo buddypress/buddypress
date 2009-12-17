@@ -514,7 +514,7 @@ div.dir-search {
 div.pagination {
 	margin: 0 -15px 9px -15px;
 	border-bottom: 1px solid #eaeaea;
-	padding: 0 15px 10px 15px;
+	padding: 10px 15px 10px 15px;
 	color: #888;
 	font-size: 11px;
 	height: 16px;
@@ -803,6 +803,19 @@ table.forum {
 		background: #fafafa;
 	}
 
+	table.forum tr.sticky td {
+		background: #FFF9DB;
+		border-top: 1px solid #FFE8C4;
+		border-bottom: 1px solid #FFE8C4;
+	}
+
+	table.forum tr.closed td.td-title {
+		padding-left: 35px;
+		background-image: url( ../images/closed.png );
+		background-position: 15px 50%;
+		background-repeat: no-repeat;
+	}
+
 	table.forum td p.topic-text {
 		color: #888;
 		font-size: 11px;
@@ -850,6 +863,10 @@ form#whats-new-form {
 	overflow: hidden;
 	padding-bottom: 20px;
 }
+	#item-body form#whats-new-form {
+		margin-top: 20px;
+	}
+
 	.home-page form#whats-new-form {
 		border-bottom: none;
 		padding-bottom: 0;

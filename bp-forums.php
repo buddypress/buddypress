@@ -308,8 +308,11 @@ function bp_forums_delete_topic( $args = '' ) {
 function bp_forums_total_topic_count() {
 	do_action( 'bbpress_init' );
 
-	$query = new BB_Query( 'topic', array( 'page' => 1, 'per_page' => false, 'count' => true ) );
-	return $query->count;
+	$query = new BB_Query( 'topic', array( 'page' => 1, 'per_page' => -1, 'count' => true ) );
+	$count = $query->count;
+	$query = null;
+
+	return $count;
 }
 
 function bp_forums_total_topic_count_for_user( $user_id = false ) {
@@ -320,8 +323,11 @@ function bp_forums_total_topic_count_for_user( $user_id = false ) {
 	if ( !$user_id )
 		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 
-	$query = new BB_Query( 'topic', array( 'topic_author_id' => $user_id, 'page' => 1, 'per_page' => false, 'count' => true ) );
-	return $query->count;
+	$query = new BB_Query( 'topic', array( 'topic_author_id' => $user_id, 'page' => 1, 'per_page' => -1, 'count' => true ) );
+	$count = $query->count;
+	$query = null;
+
+	return $count;
 }
 
 /* Post Functions */

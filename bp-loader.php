@@ -47,4 +47,19 @@ if ( !isset( $deactivated['bp-messages.php'] ) && file_exists( BP_PLUGIN_DIR . '
 if ( !isset( $deactivated['bp-xprofile.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-xprofile.php') )
 	include( BP_PLUGIN_DIR . '/bp-xprofile.php' );
 
+/* Deactivation Function */
+function bp_loader_deactivate() {
+	if ( !function_exists( 'delete_site_option') )
+		return false;
+
+	delete_site_option( 'bp-core-db-version' );
+	delete_site_option( 'bp-activity-db-version' );
+	delete_site_option( 'bp-blogs-db-version' );
+	delete_site_option( 'bp-friends-db-version' );
+	delete_site_option( 'bp-groups-db-version' );
+	delete_site_option( 'bp-messages-db-version' );
+	delete_site_option( 'bp-xprofile-db-version' );
+}
+register_deactivation_hook( __FILE__, 'bp_loader_deactivate' );
+
 ?>
