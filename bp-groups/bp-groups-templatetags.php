@@ -677,8 +677,9 @@ function bp_groups_pagination_count() {
 
 	$from_num = number_format( intval( ( $groups_template->pag_page - 1 ) * $groups_template->pag_num ) + 1 );
 	$to_num = number_format( ( $from_num + ( $groups_template->pag_num - 1 ) > $groups_template->total_group_count ) ? $groups_template->total_group_count : $from_num + ( $groups_template->pag_num - 1 ) );
+	$total = number_format( $groups_template->total_group_count );
 
-	echo sprintf( __( 'Viewing group %d to %d (of %d groups)', 'buddypress' ), $from_num, $to_num, $groups_template->total_group_count ); ?> &nbsp;
+	echo sprintf( __( 'Viewing group %s to %s (of %s groups)', 'buddypress' ), $from_num, $to_num, $total ); ?> &nbsp;
 	<span class="ajax-loader"></span><?php
 }
 
@@ -1449,10 +1450,11 @@ function bp_group_member_pagination_count() {
 	function bp_get_group_member_pagination_count() {
 		global $members_template;
 
-		$from_num = intval( ( $members_template->pag_page - 1 ) * $members_template->pag_num ) + 1;
-		$to_num = ( $from_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $from_num + ( $members_template->pag_num - 1 );
+		$from_num = number_format( intval( ( $members_template->pag_page - 1 ) * $members_template->pag_num ) + 1 );
+		$to_num = number_format( ( $from_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $from_num + ( $members_template->pag_num - 1 ) );
+		$total = number_format( $members_template->total_member_count );
 
-		return apply_filters( 'bp_get_group_member_pagination_count', sprintf( __( 'Viewing members %d to %d (of %d members)', 'buddypress' ), $from_num, $to_num, $members_template->total_member_count ) );
+		return apply_filters( 'bp_get_group_member_pagination_count', sprintf( __( 'Viewing members %s to %s (of %s members)', 'buddypress' ), $from_num, $to_num, $total ) );
 	}
 
 function bp_group_member_admin_pagination() {

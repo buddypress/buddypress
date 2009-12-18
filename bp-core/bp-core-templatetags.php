@@ -163,15 +163,16 @@ function bp_members_pagination_count() {
 
 	$from_num = number_format( intval( ( $members_template->pag_page - 1 ) * $members_template->pag_num ) + 1 );
 	$to_num = number_format( ( $from_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $from_num + ( $members_template->pag_num - 1) );
+	$total = number_format( $members_template->total_member_count );
 
 	if ( 'active' == $members_template->type )
-		echo sprintf( __( 'Viewing member %d to %d (of %d active members)', 'buddypress' ), $from_num, $to_num, $members_template->total_member_count );
+		echo sprintf( __( 'Viewing member %s to %s (of %s active members)', 'buddypress' ), $from_num, $to_num, $total );
 	else if ( 'popular' == $members_template->type )
-		echo sprintf( __( 'Viewing member %d to %d (of %d members with friends)', 'buddypress' ), $from_num, $to_num, $members_template->total_member_count );
+		echo sprintf( __( 'Viewing member %s to %s (of %s members with friends)', 'buddypress' ), $from_num, $to_num, $total );
 	else if ( 'online' == $members_template->type )
-		echo sprintf( __( 'Viewing member %d to %d (of %d members online)', 'buddypress' ), $from_num, $to_num, $members_template->total_member_count );
+		echo sprintf( __( 'Viewing member %s to %s (of %s members online)', 'buddypress' ), $from_num, $to_num, $total );
 	else
-		echo sprintf( __( 'Viewing member %d to %d (of %d members)', 'buddypress' ), $from_num, $to_num, $members_template->total_member_count );
+		echo sprintf( __( 'Viewing member %s to %s (of %s members)', 'buddypress' ), $from_num, $to_num, $total );
 
 	?><span class="ajax-loader"></span><?php
 }
