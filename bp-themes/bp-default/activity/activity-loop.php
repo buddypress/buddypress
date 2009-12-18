@@ -26,32 +26,30 @@
 				</div>
 			</div>
 
+			<?php if ( 'activity_comment' == bp_get_activity_action_name() ) : ?>
+				<div class="activity-inreplyto">
+					<strong><?php _e( 'In reply to', 'buddypress' ) ?></strong> - <?php bp_activity_parent_content() ?>
+				</div>
+			<?php endif; ?>
+
 			<?php if ( bp_activity_can_comment() ) : ?>
+				<div class="activity-comments">
+					<?php bp_activity_comments() ?>
 
-				<?php if ( 'activity_comment' == bp_get_activity_action_name() ) : ?>
-					<div class="activity-inreplyto">
-						<strong><?php _e( 'In reply to', 'buddypress' ) ?></strong> - <?php bp_activity_parent_content() ?>
-					</div>
-				<?php else : ?>
-					<div class="activity-comments">
-						<?php bp_activity_comments() ?>
-
-						<?php if ( is_user_logged_in() ) : ?>
-						<form action="" method="post" name="activity-comment-form" id="ac-form-<?php bp_activity_id() ?>" class="ac-form">
-							<div class="ac-reply-avatar"><?php bp_loggedin_user_avatar( 'width=25&height=25' ) ?></div>
-							<div class="ac-reply-content">
-								<div class="ac-textarea">
-									<textarea id="ac-input-<?php bp_activity_id() ?>" class="ac-input" name="ac-input-<?php bp_activity_id() ?>"></textarea>
-								</div>
-								<input type="submit" name="ac-form-submit" value="<?php _e( 'Post', 'buddypress' ) ?> &rarr;" /> &nbsp; <?php _e( 'or press esc to cancel.', 'buddypress' ) ?>
+					<?php if ( is_user_logged_in() ) : ?>
+					<form action="" method="post" name="activity-comment-form" id="ac-form-<?php bp_activity_id() ?>" class="ac-form">
+						<div class="ac-reply-avatar"><?php bp_loggedin_user_avatar( 'width=25&height=25' ) ?></div>
+						<div class="ac-reply-content">
+							<div class="ac-textarea">
+								<textarea id="ac-input-<?php bp_activity_id() ?>" class="ac-input" name="ac-input-<?php bp_activity_id() ?>"></textarea>
 							</div>
-							<?php wp_nonce_field( 'new_activity_comment', '_wpnonce_new_activity_comment' ) ?>
-						</form>
-						<?php endif; ?>
-					</div>
-				<?php endif; ?>
-
-			<?php endif;?>
+							<input type="submit" name="ac-form-submit" value="<?php _e( 'Post', 'buddypress' ) ?> &rarr;" /> &nbsp; <?php _e( 'or press esc to cancel.', 'buddypress' ) ?>
+						</div>
+						<?php wp_nonce_field( 'new_activity_comment', '_wpnonce_new_activity_comment' ) ?>
+					</form>
+					<?php endif; ?>
+				</div>
+			<?php endif; ?>
 		</li>
 
 	<?php endwhile; ?>

@@ -986,6 +986,7 @@ ul.activity-list li {
 	font-size: 11px;
 	color: #888;
 	margin-left: 70px;
+	margin-bottom: 15px;
 	padding-left: 25px;
 	background: url( ../images/replyto_arrow.gif ) 7px 0 no-repeat;
 }
