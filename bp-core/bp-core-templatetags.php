@@ -161,8 +161,8 @@ function bp_members() {
 function bp_members_pagination_count() {
 	global $bp, $members_template;
 
-	$from_num = intval( ( $members_template->pag_page - 1 ) * $members_template->pag_num ) + 1;
-	$to_num = ( $from_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $from_num + ( $members_template->pag_num - 1) ;
+	$from_num = number_format( intval( ( $members_template->pag_page - 1 ) * $members_template->pag_num ) + 1 );
+	$to_num = number_format( ( $from_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $from_num + ( $members_template->pag_num - 1) );
 
 	if ( 'active' == $members_template->type )
 		echo sprintf( __( 'Viewing member %d to %d (of %d active members)', 'buddypress' ), $from_num, $to_num, $members_template->total_member_count );
@@ -1109,6 +1109,14 @@ function bp_is_serialized( $data ) {
 
    return false;
 }
+
+function bp_total_member_count() {
+	echo bp_get_total_member_count();
+}
+	function bp_get_total_member_count() {
+		return apply_filters( 'bp_get_total_member_count', bp_core_get_total_member_count() );
+	}
+	add_filter( 'bp_get_total_member_count', 'number_format' );
 
 /*** Signup form template tags **********************/
 

@@ -1171,7 +1171,7 @@ function bp_core_get_total_member_count() {
 	global $wpdb;
 
 	$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM " . CUSTOM_USER_TABLE . " WHERE spam = 0" ) );
-	return apply_filters( 'bp_core_get_total_member_count', (int)$count );
+	return apply_filters( 'bp_core_get_total_member_count', $count );
 }
 
 /**

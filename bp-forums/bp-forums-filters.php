@@ -34,6 +34,9 @@ add_filter( 'bp_get_the_topic_latest_post_excerpt', 'stripslashes_deep' );
 
 add_filter( 'bp_get_the_topic_post_content', 'make_clickable' );
 
+add_filter( 'bp_get_forum_topic_count_for_user', 'number_format' );
+add_filter( 'bp_get_forum_topic_count', 'number_format' );
+
 function bp_forums_add_allowed_tags( $allowedtags ) {
 	$allowedtags['p'] = array();
 	$allowedtags['br'] = array();

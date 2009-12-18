@@ -15,10 +15,10 @@
 
 			<div class="item-list-tabs">
 				<ul>
-					<li class="selected" id="members-all"><a href="<?php bp_root_domain() ?>"><?php printf( __( 'All Members (%d)', 'buddypress' ), bp_get_total_site_member_count() ) ?></a></li>
+					<li class="selected" id="members-all"><a href="<?php bp_root_domain() ?>"><?php printf( __( 'All Members (%s)', 'buddypress' ), bp_get_total_member_count() ) ?></a></li>
 
-					<?php if ( is_user_logged_in() && friends_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
-						<li id="members-friends"><a href="<?php echo bp_loggedin_user_domain() . BP_FRIENDS_SLUG . '/my-friends/' ?>"><?php printf( __( 'My Friends (%d)', 'buddypress' ), friends_get_total_friend_count( bp_loggedin_user_id() ) ) ?></a></li>
+					<?php if ( is_user_logged_in() && bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
+						<li id="members-friends"><a href="<?php echo bp_loggedin_user_domain() . BP_FRIENDS_SLUG . '/my-friends/' ?>"><?php printf( __( 'My Friends (%s)', 'buddypress' ), bp_get_total_friend_count( bp_loggedin_user_id() ) ) ?></a></li>
 					<?php endif; ?>
 
 					<?php do_action( 'bp_members_directory_member_types' ) ?>

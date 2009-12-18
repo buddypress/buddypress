@@ -19,11 +19,11 @@
 
 				<div class="item-list-tabs">
 					<ul>
-						<li class="selected" id="activity-all"><a href="<?php bp_root_domain() ?>"><?php printf( __( 'All Members (%d)', 'buddypress' ), bp_get_total_site_member_count() ) ?></a></li>
+						<li class="selected" id="activity-all"><a href="<?php bp_root_domain() ?>"><?php printf( __( 'All Members (%s)', 'buddypress' ), bp_get_total_site_member_count() ) ?></a></li>
 
 						<?php if ( is_user_logged_in() ) : ?>
-							<li id="activity-friends"><a href="<?php echo bp_loggedin_user_domain() . BP_ACTIVITY_SLUG . '/my-friends/' ?>"><?php printf( __( 'My Friends (%d)', 'buddypress' ), friends_get_total_friend_count( bp_loggedin_user_id() ) ) ?></a></li>
-							<li id="activity-groups"><a href="<?php echo bp_loggedin_user_domain() . BP_ACTIVITY_SLUG . '/my-groups/' ?>"><?php printf( __( 'My Groups (%d)', 'buddypress' ), groups_total_groups_for_user( bp_loggedin_user_id() ) ) ?></a></li>
+							<li id="activity-friends"><a href="<?php echo bp_loggedin_user_domain() . BP_ACTIVITY_SLUG . '/my-friends/' ?>"><?php printf( __( 'My Friends (%s)', 'buddypress' ), friends_get_total_friend_count( bp_loggedin_user_id() ) ) ?></a></li>
+							<li id="activity-groups"><a href="<?php echo bp_loggedin_user_domain() . BP_ACTIVITY_SLUG . '/my-groups/' ?>"><?php printf( __( 'My Groups (%s)', 'buddypress' ), groups_total_groups_for_user( bp_loggedin_user_id() ) ) ?></a></li>
 						<?php endif; ?>
 
 						<?php do_action( 'bp_activity_types' ) ?>

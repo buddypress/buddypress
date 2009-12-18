@@ -192,4 +192,11 @@ function bp_friend_reject_request_link() {
 		return apply_filters( 'bp_get_friend_reject_request_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->friends->slug . '/requests/reject/' . $friendship_id, 'friends_reject_friendship' ) );
 	}
 
+function bp_total_friend_count( $user_id = false ) {
+	echo bp_get_total_friend_count( $user_id );
+}
+	function bp_get_total_friend_count( $user_id = false ) {
+		return apply_filters( 'bp_get_total_friend_count', friends_get_total_friend_count( $user_id ) );
+	}
+	add_filter( 'bp_get_total_friend_count', 'number_format' );
 ?>

@@ -675,21 +675,12 @@ function bp_groups_pagination_links() {
 function bp_groups_pagination_count() {
 	global $bp, $groups_template;
 
-	$from_num = intval( ( $groups_template->pag_page - 1 ) * $groups_template->pag_num ) + 1;
-	$to_num = ( $from_num + ( $groups_template->pag_num - 1 ) > $groups_template->total_group_count ) ? $groups_template->total_group_count : $from_num + ( $groups_template->pag_num - 1) ;
+	$from_num = number_format( intval( ( $groups_template->pag_page - 1 ) * $groups_template->pag_num ) + 1 );
+	$to_num = number_format( ( $from_num + ( $groups_template->pag_num - 1 ) > $groups_template->total_group_count ) ? $groups_template->total_group_count : $from_num + ( $groups_template->pag_num - 1 ) );
 
 	echo sprintf( __( 'Viewing group %d to %d (of %d groups)', 'buddypress' ), $from_num, $to_num, $groups_template->total_group_count ); ?> &nbsp;
 	<span class="ajax-loader"></span><?php
 }
-
-function bp_total_group_count() {
-	echo bp_get_total_group_count();
-}
-	function bp_get_total_group_count() {
-		global $groups_template;
-
-		return apply_filters( 'bp_get_total_group_count', $groups_template->total_group_count );
-	}
 
 function bp_group_total_members( $deprecated = true, $deprecated2 = false ) {
 	if ( !$deprecated )
@@ -713,9 +704,9 @@ function bp_group_member_count() {
 		global $groups_template;
 
 		if ( 1 == (int) $groups_template->group->total_member_count )
-			return apply_filters( 'bp_get_group_member_count', sprintf( __( '%d member', 'buddypress' ), (int) $groups_template->group->total_member_count ) );
+			return apply_filters( 'bp_get_group_member_count', sprintf( __( '%d member', 'buddypress' ), number_format( (int) $groups_template->group->total_member_count ) ) );
 		else
-			return apply_filters( 'bp_get_group_member_count', sprintf( __( '%d members', 'buddypress' ), (int) $groups_template->group->total_member_count ) );
+			return apply_filters( 'bp_get_group_member_count', sprintf( __( '%d members', 'buddypress' ), number_format( (int) $groups_template->group->total_member_count ) ) );
 	}
 
 function bp_group_show_wire_setting( $group = false ) {
@@ -1201,6 +1192,20 @@ function bp_group_hidden_fields() {
 		echo '<input type="hidden" id="search_terms" value="' . attribute_escape( $_REQUEST['groups_search'] ) . '" name="search_terms" />';
 	}
 }
+
+function bp_total_group_count() {
+	echo bp_get_total_blog_count();
+}
+	function bp_get_total_group_count() {
+		return apply_filters( 'bp_get_total_group_count', groups_get_total_group_count() );
+	}
+
+function bp_total_group_count_for_user( $user_id = false ) {
+	echo bp_get_total_blog_count_for_user( $user_id );
+}
+	function bp_get_total_group_count_for_user( $user_id = false ) {
+		return apply_filters( 'bp_get_total_group_count_for_user', groups_total_groups_for_user( $user_id ) );
+	}
 
 
 /***************************************************************************

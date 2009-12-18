@@ -641,8 +641,8 @@ function bp_forum_pagination() {
 function bp_forum_pagination_count() {
 	global $bp, $forum_template;
 
-	$from_num = intval( ( $forum_template->pag_page - 1 ) * $forum_template->pag_num ) + 1;
-	$to_num = ( $from_num + ( $forum_template->pag_num - 1  ) > $forum_template->total_topic_count ) ? $forum_template->total_topic_count : $from_num + ( $forum_template->pag_num - 1 );
+	$from_num = number_format( intval( ( $forum_template->pag_page - 1 ) * $forum_template->pag_num ) + 1 );
+	$to_num = number_format( ( $from_num + ( $forum_template->pag_num - 1  ) > $forum_template->total_topic_count ) ? $forum_template->total_topic_count : $from_num + ( $forum_template->pag_num - 1 ) );
 
 	echo apply_filters( 'bp_forum_pagination_count', sprintf( __( 'Viewing topic %d to %d (%d total topics)', 'buddypress' ), $from_num, $to_num, $forum_template->total_topic_count ) );
 ?>
@@ -1002,4 +1002,17 @@ function bp_forum_topic_action() {
 		return apply_filters( 'bp_get_forum_topic_action', $bp->root_domain . attribute_escape( $_SERVER['REQUEST_URI'] ) );
 	}
 
+function bp_forum_topic_count_for_user( $user_id = false ) {
+	echo bp_get_forum_topic_count_for_user( $user_id );
+}
+	function bp_get_forum_topic_count_for_user( $user_id = false ) {
+		return apply_filters( 'bp_get_forum_topic_count_for_user', bp_forums_total_topic_count_for_user( $user_id ) );
+	}
+
+function bp_forum_topic_count( $user_id = false ) {
+	echo bp_get_forum_topic_count( $user_id );
+}
+	function bp_get_forum_topic_count( $user_id = false ) {
+		return apply_filters( 'bp_get_forum_topic_count', bp_forums_total_topic_count( $user_id ) );
+	}
 ?>

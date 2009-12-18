@@ -169,8 +169,8 @@ function bp_the_blog() {
 function bp_blogs_pagination_count() {
 	global $bp, $blogs_template;
 
-	$from_num = intval( ( $blogs_template->pag_page - 1 ) * $blogs_template->pag_num ) + 1;
-	$to_num = ( $from_num + ( $blogs_template->pag_num - 1 ) > $blogs_template->total_blog_count ) ? $blogs_template->total_blog_count : $from_num + ( $blogs_template->pag_num - 1 ) ;
+	$from_num = number_format( intval( ( $blogs_template->pag_page - 1 ) * $blogs_template->pag_num ) + 1 );
+	$to_num = number_format( ( $from_num + ( $blogs_template->pag_num - 1 ) > $blogs_template->total_blog_count ) ? $blogs_template->total_blog_count : $from_num + ( $blogs_template->pag_num - 1 ) );
 
 	echo sprintf( __( 'Viewing blog %d to %d (of %d blogs)', 'buddypress' ), $from_num, $to_num, $blogs_template->total_blog_count ); ?> &nbsp;
 	<span class="ajax-loader"></span><?php
@@ -276,6 +276,20 @@ function bp_blog_hidden_fields() {
 		echo '<input type="hidden" id="search_terms" value="' . attribute_escape( $_REQUEST['blogs_search'] ) . '" name="search_terms" />';
 	}
 }
+
+function bp_total_blog_count() {
+	echo bp_get_total_blog_count();
+}
+	function bp_get_total_blog_count() {
+		return apply_filters( 'bp_get_total_blog_count', bp_blogs_total_blogs() );
+	}
+
+function bp_total_blog_count_for_user( $user_id = false ) {
+	echo bp_get_total_blog_count_for_user( $user_id );
+}
+	function bp_get_total_blog_count_for_user( $user_id = false ) {
+		return apply_filters( 'bp_get_total_blog_count_for_user', bp_blogs_total_blogs_for_user( $user_id ) );
+	}
 
 /***
  * Technically the template loops for blog posts and comments are deprecated.
@@ -1168,19 +1182,6 @@ function bp_directory_blogs_search_form() {
 		<input type="submit" id="blogs_search_submit" name="blogs_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
 	</form>
 <?php
-}
-
-function bp_total_blogs_for_user( $user_id = false ) {
-	global $bp;
-
-	if ( !$user_id )
-		$user_id = $bp->displayed_user->id;
-
-	return apply_filters( 'bp_total_blogs_for_user', bp_blogs_total_blogs_for_user( $user_id ) );
-}
-
-function bp_get_total_blog_count() {
-	return apply_filters( 'bp_get_total_blog_count', bp_blogs_total_blogs() );
 }
 
 ?>
