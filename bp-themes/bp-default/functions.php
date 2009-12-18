@@ -54,6 +54,53 @@ function bp_dtheme_firstname( $name = false, $echo = false ) {
 		return $fullname[0];
 }
 
+function bp_dtheme_add_blog_comments_js() {
+	if ( is_singular() ) wp_enqueue_script( 'comment-reply' );
+}
+add_action( 'template_redirect', 'bp_dtheme_add_blog_comments_js' );
+
+function bp_dtheme_comments( $comment, $args, $depth ) {
+    $GLOBALS['comment'] = $comment;
+	$comment_type = get_comment_type();
+
+	if ( $comment->user_id )
+		$userlink = bp_core_get_userurl( $comment->user_id );
+
+	if ( $comment_type == 'comment' ) { ?>
+        <li <?php comment_class(); ?> id="comment-<?php comment_ID(); ?>">
+
+			<div class="comment-avatar-box<?php if ( $comment->user_id ) : ?> extra<?php endif; ?>">
+				<div class="avb">
+					<a href="<?php if ( $userlink ) : echo $userlink; else : echo get_comment_author_url(); endif;?>">
+						<?php echo get_avatar( $comment, 50 ); ?>
+					</a>
+				</div>
+			</div>
+
+			<div class="comment-content">
+
+				<div class="comment-meta">
+					<a href="<?php if ( $userlink ) : echo $userlink; else : echo get_comment_author_url(); endif;?>"><?php echo get_comment_author(); ?></a> <?php _e( 'said:', 'buddypress' ) ?>
+					<em><?php _e( 'On', 'buddypress' ) ?> <a href="#comment-<?php comment_ID() ?>" title=""><?php comment_date() ?></a></em>
+	            </div>
+
+				<?php if ($comment->comment_approved == '0') : ?>
+	            	<em class="moderate"><?php _e('Your comment is awaiting moderation.'); ?></em><br />
+	            <?php endif; ?>
+
+				<?php comment_text() ?>
+
+				<div class="comment-options">
+					<?php echo comment_reply_link( array('depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ?>
+					<?php edit_comment_link( __( 'Edit' ),'','' ); ?>
+				</div>
+
+			</div>
+        </li>
+	<?php } ?>
+<?php
+}
+
 function bp_dtheme_remove_redundant() {
 	global $bp;
 

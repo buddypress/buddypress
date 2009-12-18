@@ -1370,12 +1370,12 @@ ul#topic-post-list {
 		background: #f4f4f4;
 	}
 
-	ul#topic-post-list li div.poster-meta {
+	ul#topic-post-list li divdiv.poster-meta {
 		margin-bottom: 10px;
 		color: #888;
 	}
 
-	ul#topic-post-list li div.post-content {
+	ul#topic-post-list li divdiv.post-content {
 		margin-left: 54px;
 	}
 
@@ -1407,52 +1407,72 @@ div#new-topic-post {
 /* > WordPress Blog Styles
 -------------------------------------------------------------- */
 
-.post {
-	margin: 0 0 40px 0;
+div.post {
+	margin: 0 0 60px 0;
 }
-	.post h3 {
+	div.post div.author-box, div.comment-avatar-box {
+		background: #f0f0f0;
+		padding: 10px;
+		float: left;
+		margin: 0 15px 15px 0;
+		text-align: center;
+		width: 70px;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+	}
+		div.post div.author-box img, div.comment-avatar-box img {
+			float: none;
+			border: 4px solid #fff;
+		}
+
+	div.post div.post-content, div.comment-content {
+		margin-left: 105px;
+	}
+
+	div.post h3 {
 		font-size: 24px;
 		margin-bottom: 5px;
+		line-height: 120%;
 	}
-		.post h3 a {
+		div.post h3 a {
 			text-decoration: none;
 			color: #666;
 			font-weight: normal;
 		}
 
-	.post p.date, .post p.postmetadata {
+	div.post p.date, div.post p.postmetadata, div.comment-meta, div.comment-options {
 		color: #888;
 		font-size: 11px;
-		padding-bottom: 5px;
+		padding: 3px 0;
+		margin: 10px 0;
 		border-bottom: 1px solid #e4e4e4;
+		border-top: 1px solid #e4e4e4;
 	}
 
-	.post p.postmetadata {
-		padding-top: 5px;
-		border-top: 1px solid #e4e4e4;
-		border-bottom: none;
+	div.post p.postmetadata {
 		margin-top: 15px;
 		overflow: hidden;
 	}
 
-	.post .tags { float: left; }
-	.post .comments { float: right; }
+	div.post .tags { float: left; }
+	div.post .comments { float: right; }
 
-	.post img.wp-smiley { padding: 0 !important; margin: 0 !important; border: none !important; float: none !important; clear: none !important; }
+	div.post img.wp-smiley { padding: 0 !important; margin: 0 !important; border: none !important; float: none !important; clear: none !important; }
 
-	.post img.centered, img.aligncenter {
+	div.post img.centered, img.aligncenter {
 		display: block;
 		margin-left: auto;
 		margin-right: auto;
 	}
 
-	.post img.alignright {
+	div.post img.alignright {
 		padding: 4px;
 		margin: 0 0 2px 7px;
 		display: inline;
 	}
 
-	.post img.alignleft {
+	div.post img.alignleft {
 		padding: 4px;
 		margin: 0 7px 2px 0;
 		display: inline;
@@ -1469,75 +1489,73 @@ div#new-topic-post {
 			float: left;
 		}
 
-	.post .aligncenter, .post div.aligncenter {
+	div.post .aligncenter, div.post div.aligncenter {
 		display: block;
 		margin-left: auto;
 		margin-right: auto;
 	}
 
-	.post .wp-caption {
+	div.post .wp-caption {
 		border: 1px solid #ddd;
 		text-align: center;
 		background-color: #f3f3f3;
 		padding-top: 4px;
 		margin: 10px 0;
 		-moz-border-radius: 3px;
-		-khtml-border-radius: 3px;
 		-webkit-border-radius: 3px;
 		border-radius: 3px;
 	}
 
-	.post .wp-caption img {
+	div.post .wp-caption img {
 		margin: 0;
 		padding: 0;
 		border: 0 none;
 	}
 
-	.post dd.wp-caption p.wp-caption-text, .post .wp-caption p.wp-caption-text {
+	div.post dd.wp-caption p.wp-caption-text, div.post .wp-caption p.wp-caption-text {
 		font-size: 0.9em;
 		line-height: 17px;
 		padding: 0 4px 5px 0;
 		margin: 0;
 	}
 
-	/* WordPress comment form styles */
+/* > WordPress Blog Comment Styles
+-------------------------------------------------------------- */
 
-	#commentform { padding: 1em 1.5em; }
-	#commentform textarea { width: 100%;}
-	#comment-textarea { float: right; width: 80%; }
+#trackbacks {
+	margin-top: 30px;
+}
 
-	.comment-details { float: left; width: 20%; }
-	.comment-content { float: right; width: 80%; }
+#comments h3, #trackbacks h3, #respond h3 {
+	font-size: 20px;
+	margin: 5px 0 25px 0;
+	font-weight: normal;
+	color: #555;
+}
 
-	.commentlist li {
-	        padding: 15px;
-	        background: #fff;
-	        margin-bottom: 1em;
-			-moz-border-radius: 3px;
-			-khtml-border-radius: 3px;
-			-webkit-border-radius: 3px;
-			border-radius: 3px;
+#comments span.title, #trackbacks span.title {
+	color: #aaa;
+}
+
+ol.commentlist li {
+	margin: 0 0 30px 0;
+}
+
+	div.comment-meta {
+		border-top: none;
+		padding-top: 0;
 	}
 
-		.commentlist li.alt { background: #f0f0f0; }
-		.commentlist li img.avatar {
-			padding: 0;
-			margin: 0 10px 10px 0;
-			float: left;
-
-		}
-		.commentlist li.alt img.avatar { border-color: #fff !important; }
-
-	.commentmetadata {
-        font-size: 0.9em;
-        border-bottom: 1px solid #ddd;
-		padding-bottom: 10px;
-		margin-bottom: 15px;
+	div.comment-meta h5 {
+		font-weight: normal;
 	}
-		.commentmetadata a { color: #888; }
 
-	#commentform input, #commentform textarea {
-		margin: 0 5px 8px 0;
+	div.comment-meta em {
+		float: right;
+	}
+
+	div.comment-options {
+		border-bottom: none;
 	}
 
 /* > Footer

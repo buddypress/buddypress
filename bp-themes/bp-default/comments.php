@@ -9,61 +9,80 @@
 			return;
 	?>
 
-	<div id="comments-template">
+	<?php if ( have_comments() ) : ?>
 
-		<?php if ( have_comments() ) : ?>
+		<div id="comments">
 
-			<div id="comments">
+			<?php
+			$numTrackBacks = 0; $numComments = 0;
+			foreach ( $comments as $comment ) if ( get_comment_type() != "comment") $numTrackBacks++; else $numComments++;
+			?>
 
-				<h3 id="comments-number" class="comments-header"><?php comments_number( sprintf( __('No responses to %1$s', 'buddypress'), the_title( '&#8220;', '&#8221;', false ) ), sprintf( __('One response to %1$s', 'buddypress'), the_title( '&#8220;', '&#8221;', false ) ), sprintf( __('%1$s responses to %2$s', 'buddypress'), '%', the_title( '&#8220;', '&#8221;', false ) ) ); ?></h3>
+			<span class="title"><?php the_title() ?></span>
+			<h3 id="comments"><?php comments_number( 'No Comments', 'One Comment', $numComments . ' Comments' );?></h3>
 
-				<?php do_action( 'bp_before_blog_comment_list' ) ?>
+			<?php do_action( 'bp_before_blog_comment_list' ) ?>
 
-				<ol class="commentlist">
-					<?php wp_list_comments( array( 'style' => 'ol', 'type' => 'all' ) ); ?>
-				</ol><!-- .comment-list -->
+			<ol class="commentlist">
+				<?php wp_list_comments( array( 'callback' => 'bp_dtheme_comments' ) ); ?>
+			</ol><!-- .comment-list -->
 
-				<?php do_action( 'bp_after_blog_comment_list' ) ?>
+			<?php do_action( 'bp_after_blog_comment_list' ) ?>
 
-				<?php if ( get_option( 'page_comments' ) ) : ?>
+			<?php if ( get_option( 'page_comments' ) ) : ?>
 
-					<div class="comment-navigation paged-navigation">
+				<div class="comment-navigation paged-navigation">
 
-						<?php paginate_comments_links(); ?>
+					<?php paginate_comments_links(); ?>
 
-					</div>
-				<?php endif; ?>
-
-			</div><!-- #comments -->
-
-		<?php else : ?>
-
-			<?php if ( pings_open() && !comments_open() && is_single() ) : ?>
-
-				<p class="comments-closed pings-open">
-					<?php printf( __('Comments are closed, but <a href="%1$s" title="Trackback URL for this post">trackbacks</a> and pingbacks are open.', 'buddypress'), trackback_url( '0' ) ); ?>
-				</p>
-
-			<?php elseif ( !comments_open() && is_single() ) : ?>
-
-				<p class="comments-closed">
-					<?php _e('Comments are closed.', 'buddypress'); ?>
-				</p>
+				</div>
 
 			<?php endif; ?>
 
+		</div><!-- #comments -->
+
+	<?php else : ?>
+
+		<?php if ( pings_open() && !comments_open() && is_single() ) : ?>
+
+			<p class="comments-closed pings-open">
+				<?php printf( __('Comments are closed, but <a href="%1$s" title="Trackback URL for this post">trackbacks</a> and pingbacks are open.', 'buddypress'), trackback_url( '0' ) ); ?>
+			</p>
+
+		<?php elseif ( !comments_open() && is_single() ) : ?>
+
+			<p class="comments-closed">
+				<?php _e('Comments are closed.', 'buddypress'); ?>
+			</p>
+
 		<?php endif; ?>
+
+	<?php endif; ?>
 
 		<?php if ( comments_open() ) : ?>
 
-			<div id="respond">
+		<div id="respond">
+
+			<div class="comment-avatar-box">
+				<div class="avb">
+					<?php if ( bp_loggedin_user_id() ) : ?>
+						<a href="<?php echo bp_loggedin_user_domain() ?>">
+							<?php echo get_avatar( bp_loggedin_user_id(), 50 ); ?>
+						</a>
+					<?php else : ?>
+						<?php echo get_avatar( 0, 50 ); ?>
+					<?php endif; ?>
+				</div>
+			</div>
+
+			<div class="comment-content">
 
 				<h3 id="reply" class="comments-header">
-					<?php comment_form_title( __('Leave a Reply', 'buddypress'), __('Leave a Reply to %s', 'buddypress'), true ); ?>
+					<?php comment_form_title( __( 'Leave a Reply', 'buddypress' ), __( 'Leave a Reply to %s', 'buddypress' ), true ); ?>
 				</h3>
 
 				<p id="cancel-comment-reply">
-					<?php cancel_comment_reply_link( __('Click here to cancel reply.', 'buddypress') ); ?>
+					<?php cancel_comment_reply_link( __( 'Click here to cancel reply.', 'buddypress' ) ); ?>
 				</p>
 
 				<?php if ( get_option( 'comment_registration' ) && !$user_ID ) : ?>
@@ -127,8 +146,29 @@
 
 				<?php endif; ?>
 
-			</div>
+			</div><!-- .comment-content -->
+		</div><!-- #respond -->
 
 		<?php endif; ?>
 
-	</div>
+		<?php if ( $numTrackBacks ) : ?>
+			<div id="trackbacks">
+
+				<span class="title"><?php the_title() ?></span>
+
+				<?php if ( 1 == $numTrackBacks ) : ?>
+					<h3><?php printf( __( '%d Trackback', 'buddypress' ), $numTrackBacks ) ?></h3>
+				<?php else : ?>
+					<h3><?php printf( __( '%d Trackbacks', 'buddypress' ), $numTrackBacks ) ?></h3>
+				<?php endif; ?>
+
+				<ul id="trackbacklist">
+					<?php foreach ( $comments as $comment ) : ?>
+
+						<?php if ( get_comment_type() != 'comment' ) : ?>
+							<li><h5><?php comment_author_link() ?></h5><em>on <?php comment_date() ?></em></li>
+	  					<?php endif; ?>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+		<?php endif; ?>
