@@ -154,8 +154,8 @@ class BP_Core_User {
 		}
 
 		switch ( $type ) {
-			case 'active': default:
-				$sql[] = "ORDER BY um.meta_value DESC";
+			case 'active': case 'online': default:
+				$sql[] = "ORDER BY FROM_UNIXTIME(um.meta_value) DESC";
 				break;
 			case 'newest':
 				$sql[] = "ORDER BY u.user_registered DESC";
@@ -165,9 +165,6 @@ class BP_Core_User {
 				break;
 			case 'random':
 				$sql[] = "ORDER BY rand()";
-				break;
-			case 'online':
-				$sql[] = "ORDER BY FROM_UNIXTIME(um.meta_value) DESC";
 				break;
 			case 'popular':
 				$sql[] = "ORDER BY CONVERT(um.meta_value, SIGNED) DESC";
@@ -179,8 +176,6 @@ class BP_Core_User {
 
 		/* Get paginated results */
 		$paged_users = $wpdb->get_results( $wpdb->prepare( join( ' ', (array)$sql ) ) );
-
-	//	var_dump( join( ' ', $sql ) );
 
 		/* Re-jig the SQL so we can get the total user count */
 		unset( $sql['select_main'] );
