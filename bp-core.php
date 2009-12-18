@@ -1770,6 +1770,8 @@ function bp_core_boot_spammer( $auth_obj, $username ) {
 
 	if ( (int)$user->spam )
 		bp_core_redirect( $bp->root_domain );
+	else
+		return $auth_obj;
 }
 add_filter( 'authenticate', 'bp_core_boot_spammer', 11, 2 );
 
