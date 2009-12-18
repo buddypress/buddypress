@@ -6,13 +6,30 @@
 		<div class="padder">
 			<?php if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group(); ?>
 
-			<?php locate_template( array( 'groups/single/group-header.php' ), true ) ?>
+			<div id="item-header">
+				<?php locate_template( array( 'groups/single/group-header.php' ), true ) ?>
+			</div>
 
-			<?php do_action( 'bp_template_content' ) ?>
+			<div id="item-nav">
+				<div class="item-list-tabs no-ajax" id="user-nav">
+					<ul>
+						<?php bp_get_options_nav() ?>
 
-			<?php do_action( 'bp_directory_members_content' ) ?>
+						<?php do_action( 'bp_members_directory_member_types' ) ?>
+					</ul>
+				</div>
+			</div>
+
+			<div id="item-body">
+
+				<?php do_action( 'bp_template_content' ) ?>
+
+				<?php do_action( 'bp_directory_members_content' ) ?>
+
+			</div><!-- #item-body -->
 
 			<?php endwhile; endif; ?>
+
 		</div><!-- .padder -->
 	</div><!-- #content -->
 

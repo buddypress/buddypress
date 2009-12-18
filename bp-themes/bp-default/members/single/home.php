@@ -20,27 +20,23 @@
 			</div>
 
 			<div id="item-body">
-
-				<?php if ( 'home' == bp_current_component() || 'activity' == bp_current_component() || !bp_current_component() ) : ?>
+				<?php if ( bp_is_user_activity() || !bp_current_component() ) : ?>
 					<?php locate_template( array( 'members/single/activity.php' ), true ) ?>
 
-				<?php elseif ( 'blogs' == bp_current_component() ) : ?>
+				<?php elseif ( bp_is_user_blogs() ) : ?>
 					<?php locate_template( array( 'members/single/blogs.php' ), true ) ?>
 
-				<?php elseif ( 'friends' == bp_current_component() ) : ?>
+				<?php elseif ( bp_is_user_friends() ) : ?>
 					<?php locate_template( array( 'members/single/friends.php' ), true ) ?>
 
-				<?php elseif ( 'groups' == bp_current_component() ) : ?>
+				<?php elseif ( bp_is_user_groups() ) : ?>
 					<?php locate_template( array( 'members/single/groups.php' ), true ) ?>
 
-				<?php elseif ( 'messages' == bp_current_component() ) : ?>
+				<?php elseif ( bp_is_user_messages() ) : ?>
 					<?php locate_template( array( 'members/single/messages.php' ), true ) ?>
 
-				<?php elseif ( 'profile' == bp_current_component() ) : ?>
+				<?php elseif ( bp_is_user_profile() ) : ?>
 					<?php locate_template( array( 'members/single/profile.php' ), true ) ?>
-
-				<?php else : ?>
-					<?php locate_template( array( 'members/single/plugins.php' ), true ) ?>
 
 				<?php endif; ?>
 

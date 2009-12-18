@@ -1388,7 +1388,7 @@ function bp_is_member() {
 function bp_is_user_activity() {
 	global $bp;
 
-	if ( BP_ACTIVITY_SLUG == $bp->current_component && ( !$bp->current_action || 'my-activity' == $bp->current_action ) )
+	if ( BP_ACTIVITY_SLUG == $bp->current_component )
 		return true;
 
 	return false;
@@ -1451,7 +1451,7 @@ function bp_is_profile_wire() {
 function bp_is_user_groups() {
 	global $bp;
 
-	if ( BP_GROUPS_SLUG == $bp->current_component && ( !$bp->current_action || 'my-groups' == $bp->current_action ) )
+	if ( BP_GROUPS_SLUG == $bp->current_component )
 		return true;
 
 	return false;
@@ -1521,6 +1521,15 @@ function bp_is_group_forum_topic() {
 	return false;
 }
 
+function bp_is_group_forum_topic_edit() {
+	global $bp;
+
+	if ( BP_GROUPS_SLUG == $bp->current_component && $bp->is_single_item && 'forum' == $bp->current_action && 'topic' == $bp->action_variables[0] && 'edit' == $bp->action_variables[2] )
+		return true;
+
+	return false;
+}
+
 function bp_is_group_members() {
 	global $bp;
 
@@ -1533,7 +1542,16 @@ function bp_is_group_members() {
 function bp_is_group_invites() {
 	global $bp;
 
-	if ( BP_GROUPS_SLUG == $bp->current_component && 'invites' == $bp->current_action )
+	if ( BP_GROUPS_SLUG == $bp->current_component && 'send-invites' == $bp->current_action )
+		return true;
+
+	return false;
+}
+
+function bp_is_group_membership_request() {
+	global $bp;
+
+	if ( BP_GROUPS_SLUG == $bp->current_component && 'request-membership' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1560,7 +1578,7 @@ function bp_is_group_single() {
 function bp_is_user_blogs() {
 	global $bp;
 
-	if ( BP_BLOGS_SLUG == $bp->current_component && ( !$bp->current_action || 'my-blogs' == $bp->current_action ) )
+	if ( BP_BLOGS_SLUG == $bp->current_component )
 		return true;
 
 	return false;
@@ -1596,7 +1614,7 @@ function bp_is_create_blog() {
 function bp_is_user_friends() {
 	global $bp;
 
-	if ( BP_FRIENDS_SLUG == $bp->current_component && ( !$bp->current_action || 'my-friends' == $bp->current_action ) )
+	if ( BP_FRIENDS_SLUG == $bp->current_component )
 		return true;
 
 	return false;
@@ -1606,6 +1624,15 @@ function bp_is_friend_requests() {
 	global $bp;
 
 	if ( BP_FRIENDS_SLUG == $bp->current_component && 'requests' == $bp->current_action )
+		return true;
+
+	return false;
+}
+
+function bp_is_user_messages() {
+	global $bp;
+
+	if ( BP_MESSAGES_SLUG == $bp->current_component )
 		return true;
 
 	return false;
@@ -1767,6 +1794,9 @@ function bp_the_body_class() {
 
 		if ( bp_is_group_forum_topic() )
 			$bp_classes[] = 'group-forum-topic';
+
+		if ( bp_is_group_forum_topic_edit() )
+			$bp_classes[] = 'group-forum-topic-edit';
 
 		if ( bp_is_group_forum() )
 			$bp_classes[] = 'group-forum';

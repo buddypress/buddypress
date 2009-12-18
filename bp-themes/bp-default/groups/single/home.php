@@ -23,19 +23,19 @@
 			<div id="item-body">
 				<?php do_action( 'template_notices' ) ?>
 
-				<?php if ( 'admin' == bp_current_action() ) : ?>
+				<?php if ( bp_is_group_admin_page() ) : ?>
 					<?php locate_template( array( 'groups/single/admin.php' ), true ) ?>
 
-				<?php elseif ( 'members' == bp_current_action() ) : ?>
+				<?php elseif ( bp_is_group_members() ) : ?>
 					<?php locate_template( array( 'groups/single/members.php' ), true ) ?>
 
-				<?php elseif ( 'send-invites' == bp_current_action() ) : ?>
+				<?php elseif ( bp_is_group_invites() ) : ?>
 					<?php locate_template( array( 'groups/single/send-invites.php' ), true ) ?>
 
-				<?php elseif ( 'request-membership' == bp_current_action() ) : ?>
+				<?php elseif ( bp_is_group_membership_request() ) : ?>
 					<?php locate_template( array( 'groups/single/request-membership.php' ), true ) ?>
 
-				<?php elseif ( 'forum' == bp_current_action() ) : ?>
+				<?php elseif ( bp_is_group_forum() ) : ?>
 					<?php locate_template( array( 'groups/single/forum.php' ), true ) ?>
 
 				<?php else : ?>
