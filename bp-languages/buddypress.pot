@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-12-18 14:11+0000\n"
+"POT-Creation-Date: 2009-12-19 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -208,7 +208,7 @@ msgstr ""
 #: bp-activity/bp-activity-widgets.php:176
 #: bp-themes/bp-default/activity/activity-loop.php:20
 #: bp-themes/bp-default/activity/entry.php:12
-#: bp-themes/bp-default/comments.php:109
+#: bp-themes/bp-default/comments.php:128
 #: bp-themes/bp-sn-parent/activity/entry.php:12
 #: bp-themes/bp-sn-parent/activity/just-me.php:71
 #: bp-themes/bp-sn-parent/activity/single.php:45
@@ -491,7 +491,7 @@ msgstr ""
 #: bp-forums/bbpress/bb-templates/kakumei/search.php:3
 #: bp-forums/bp-forums-templatetags.php:947
 #: bp-groups/bp-groups-templatetags.php:1751
-#: bp-themes/bp-default/header.php:65 bp-themes/bp-default/searchform.php:5
+#: bp-themes/bp-default/header.php:79 bp-themes/bp-default/searchform.php:5
 #: bp-themes/bp-sn-parent/directories/forums/index.php:63
 #: bp-themes/bp-sn-parent/header.php:40
 #: bp-themes/bp-sn-parent/searchform.php:5
@@ -836,7 +836,7 @@ msgstr ""
 #: bp-core/bp-core-templatetags.php:1035 bp-groups.php:178 bp-groups.php:1122
 #: bp-groups.php:1493 bp-groups.php:1506 bp-groups.php:1520 bp-groups.php:1533
 #: bp-groups/bp-groups-admin.php:33 bp-groups/bp-groups-widgets.php:13
-#: bp-themes/bp-default/header.php:44 bp-themes/bp-sn-parent/header.php:91
+#: bp-themes/bp-default/header.php:53 bp-themes/bp-sn-parent/header.php:91
 msgid "Groups"
 msgstr ""
 
@@ -1184,7 +1184,7 @@ msgstr ""
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:660
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:664
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:926
-#: bp-groups/bp-groups-admin.php:72 bp-themes/bp-default/comments.php:92
+#: bp-groups/bp-groups-admin.php:72 bp-themes/bp-default/comments.php:111
 #: bp-themes/bp-sn-parent/comments.php:92
 msgid "Name"
 msgstr ""
@@ -1195,7 +1195,7 @@ msgstr ""
 
 #: bp-core/bp-core-templatetags.php:714
 #: bp-forums/bbpress/bb-includes/functions.bb-core.php:901
-#: bp-themes/bp-default/comments.php:102
+#: bp-themes/bp-default/comments.php:121
 #: bp-themes/bp-sn-parent/comments.php:102
 msgid "Website"
 msgstr ""
@@ -1214,7 +1214,7 @@ msgstr ""
 
 #: bp-core/bp-core-templatetags.php:852 bp-core/bp-core-templatetags.php:1030
 #: bp-groups.php:265 bp-themes/bp-default/header.php:36
-#: bp-themes/bp-default/header.php:39 bp-themes/bp-sn-parent/header.php:83
+#: bp-themes/bp-default/header.php:40 bp-themes/bp-sn-parent/header.php:83
 #: bp-themes/bp-sn-parent/header.php:86
 msgid "Home"
 msgstr ""
@@ -1232,9 +1232,8 @@ msgid "Blog &#8212; Tags &#8212; "
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:861 bp-core/bp-core-templatetags.php:1031
-#: bp-themes/bp-default/archive.php:10 bp-themes/bp-default/attachment.php:9
-#: bp-themes/bp-default/header.php:40 bp-themes/bp-default/search.php:10
-#: bp-themes/bp-sn-parent/archive.php:9
+#: bp-themes/bp-default/attachment.php:9 bp-themes/bp-default/header.php:44
+#: bp-themes/bp-default/search.php:10 bp-themes/bp-sn-parent/archive.php:9
 #: bp-themes/bp-sn-parent/attachment.php:9
 #: bp-themes/bp-sn-parent/header.php:87 bp-themes/bp-sn-parent/index.php:9
 #: bp-themes/bp-sn-parent/search.php:9 bp-themes/bp-sn-parent/single.php:9
@@ -1250,7 +1249,7 @@ msgstr ""
 #: bp-core/bp-core-widgets.php:73 bp-groups.php:281
 #: bp-groups/bp-groups-admin.php:81
 #: bp-themes/bp-default/groups/single/admin.php:175
-#: bp-themes/bp-default/header.php:41
+#: bp-themes/bp-default/header.php:48
 #: bp-themes/bp-sn-parent/groups/single/admin.php:196
 #: bp-themes/bp-sn-parent/header.php:88
 msgid "Members"
@@ -1261,13 +1260,13 @@ msgstr ""
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:65
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:66
 #: bp-forums/bbpress/bb-templates/kakumei/front-page.php:48
-#: bp-forums/bp-forums-admin.php:159 bp-themes/bp-default/header.php:48
+#: bp-forums/bp-forums-admin.php:159 bp-themes/bp-default/header.php:59
 #: bp-themes/bp-sn-parent/header.php:95
 msgid "Forums"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:978 bp-core/bp-core-templatetags.php:1039
-#: bp-themes/bp-default/header.php:52 bp-themes/bp-sn-parent/header.php:99
+#: bp-themes/bp-default/header.php:65 bp-themes/bp-sn-parent/header.php:99
 msgid "Blogs"
 msgstr ""
 
@@ -2742,10 +2741,9 @@ msgstr ""
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:886
 #: bp-forums/bbpress/bb-includes/functions.bb-core.php:846
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:1926
-#: bp-groups/bp-groups-admin.php:108 bp-themes/bp-default/archive.php:36
-#: bp-themes/bp-default/search.php:30 bp-themes/bp-sn-parent/archive.php:35
-#: bp-themes/bp-sn-parent/search.php:29 bp-xprofile/bp-xprofile-admin.php:68
-#: bp-xprofile/bp-xprofile-admin.php:95
+#: bp-groups/bp-groups-admin.php:108 bp-themes/bp-default/functions.php:95
+#: bp-themes/bp-sn-parent/archive.php:35 bp-themes/bp-sn-parent/search.php:29
+#: bp-xprofile/bp-xprofile-admin.php:68 bp-xprofile/bp-xprofile-admin.php:95
 msgid "Edit"
 msgstr ""
 
@@ -3743,7 +3741,11 @@ msgid "with tag &#8220;%s&#8221;"
 msgstr ""
 
 #: bp-forums/bbpress/bb-admin/posts.php:57
-#: bp-forums/bbpress/bb-admin/topics.php:51 bp-themes/bp-default/index.php:20
+#: bp-forums/bbpress/bb-admin/topics.php:51
+#: bp-themes/bp-default/archive.php:29 bp-themes/bp-default/archive.php:35
+#: bp-themes/bp-default/index.php:20 bp-themes/bp-default/index.php:26
+#: bp-themes/bp-default/search.php:29 bp-themes/bp-default/search.php:35
+#: bp-themes/bp-default/single.php:23 bp-themes/bp-default/single.php:29
 #: bp-themes/bp-sn-parent/index.php:21
 #, php-format
 msgid "by %s"
@@ -4777,7 +4779,8 @@ msgid "Display name as"
 msgstr ""
 
 #: bp-forums/bbpress/bb-includes/functions.bb-core.php:900
-#: bp-themes/bp-default/comments.php:97 bp-themes/bp-sn-parent/comments.php:97
+#: bp-themes/bp-default/comments.php:116
+#: bp-themes/bp-sn-parent/comments.php:97
 msgid "Email"
 msgstr ""
 
@@ -7974,71 +7977,89 @@ msgstr ""
 msgid "What's new in %s, %s?"
 msgstr ""
 
-#: bp-themes/bp-default/archive.php:14 bp-themes/bp-sn-parent/archive.php:13
+#: bp-themes/bp-default/archive.php:10 bp-themes/bp-sn-parent/archive.php:13
 #, php-format
 msgid "You are browsing the archive for %1$s."
 msgstr ""
 
-#: bp-themes/bp-default/archive.php:18 bp-themes/bp-default/archive.php:46
-#: bp-themes/bp-default/index.php:36 bp-themes/bp-default/search.php:17
-#: bp-themes/bp-default/search.php:41 bp-themes/bp-default/single.php:14
+#: bp-themes/bp-default/archive.php:16 bp-themes/bp-default/archive.php:52
+#: bp-themes/bp-default/index.php:43 bp-themes/bp-default/search.php:17
+#: bp-themes/bp-default/search.php:51 bp-themes/bp-default/single.php:14
 #: bp-themes/bp-sn-parent/archive.php:17 bp-themes/bp-sn-parent/archive.php:45
 #: bp-themes/bp-sn-parent/index.php:37 bp-themes/bp-sn-parent/search.php:16
 #: bp-themes/bp-sn-parent/search.php:40 bp-themes/bp-sn-parent/single.php:15
 msgid "&laquo; Previous Entries"
 msgstr ""
 
-#: bp-themes/bp-default/archive.php:19 bp-themes/bp-default/archive.php:47
-#: bp-themes/bp-default/index.php:37 bp-themes/bp-default/search.php:18
-#: bp-themes/bp-default/search.php:42 bp-themes/bp-default/single.php:15
+#: bp-themes/bp-default/archive.php:17 bp-themes/bp-default/archive.php:53
+#: bp-themes/bp-default/index.php:44 bp-themes/bp-default/search.php:18
+#: bp-themes/bp-default/search.php:52 bp-themes/bp-default/single.php:15
 #: bp-themes/bp-sn-parent/archive.php:18 bp-themes/bp-sn-parent/archive.php:46
 #: bp-themes/bp-sn-parent/index.php:38 bp-themes/bp-sn-parent/search.php:17
 #: bp-themes/bp-sn-parent/search.php:41 bp-themes/bp-sn-parent/single.php:16
 msgid "Next Entries &raquo;"
 msgstr ""
 
-#: bp-themes/bp-default/archive.php:29 bp-themes/bp-default/index.php:18
-#: bp-themes/bp-default/search.php:27 bp-themes/bp-sn-parent/archive.php:28
-#: bp-themes/bp-sn-parent/index.php:19 bp-themes/bp-sn-parent/search.php:26
+#: bp-themes/bp-default/archive.php:33 bp-themes/bp-default/index.php:24
+#: bp-themes/bp-default/search.php:33 bp-themes/bp-default/single.php:27
+#: bp-themes/bp-sn-parent/archive.php:28 bp-themes/bp-sn-parent/index.php:19
+#: bp-themes/bp-sn-parent/search.php:26
 msgid "Permanent Link to"
 msgstr ""
 
-#: bp-themes/bp-default/archive.php:36 bp-themes/bp-default/search.php:30
-#: bp-themes/bp-sn-parent/archive.php:35 bp-themes/bp-sn-parent/search.php:29
-msgid "Posted in"
+#: bp-themes/bp-default/archive.php:35 bp-themes/bp-default/index.php:26
+#: bp-themes/bp-default/search.php:35 bp-themes/bp-default/single.php:29
+#: bp-themes/bp-sn-parent/index.php:21
+msgid "in"
 msgstr ""
 
-#: bp-themes/bp-default/archive.php:36 bp-themes/bp-default/index.php:26
-#: bp-themes/bp-default/search.php:30 bp-themes/bp-sn-parent/archive.php:35
-#: bp-themes/bp-sn-parent/index.php:27 bp-themes/bp-sn-parent/search.php:29
+#: bp-themes/bp-default/archive.php:38 bp-themes/bp-default/index.php:29
+#: bp-themes/bp-default/search.php:38 bp-themes/bp-default/single.php:32
+#: bp-themes/bp-sn-parent/blogs/recent-posts.php:24
+#: bp-themes/bp-sn-parent/index.php:24
+msgid "Read the rest of this entry &raquo;"
+msgstr ""
+
+#: bp-themes/bp-default/archive.php:41 bp-themes/bp-default/index.php:32
+#: bp-themes/bp-default/search.php:41 bp-themes/bp-default/single.php:37
+#: bp-themes/bp-sn-parent/index.php:27
+msgid "Tags: "
+msgstr ""
+
+#: bp-themes/bp-default/archive.php:41 bp-themes/bp-default/index.php:32
+#: bp-themes/bp-default/search.php:41 bp-themes/bp-default/single.php:37
+#: bp-themes/bp-sn-parent/archive.php:35 bp-themes/bp-sn-parent/index.php:27
+#: bp-themes/bp-sn-parent/search.php:29
 msgid "No Comments &#187;"
 msgstr ""
 
-#: bp-themes/bp-default/archive.php:36 bp-themes/bp-default/index.php:26
-#: bp-themes/bp-default/search.php:30 bp-themes/bp-sn-parent/archive.php:35
-#: bp-themes/bp-sn-parent/index.php:27 bp-themes/bp-sn-parent/search.php:29
+#: bp-themes/bp-default/archive.php:41 bp-themes/bp-default/index.php:32
+#: bp-themes/bp-default/search.php:41 bp-themes/bp-default/single.php:37
+#: bp-themes/bp-sn-parent/archive.php:35 bp-themes/bp-sn-parent/index.php:27
+#: bp-themes/bp-sn-parent/search.php:29
 msgid "1 Comment &#187;"
 msgstr ""
 
-#: bp-themes/bp-default/archive.php:36 bp-themes/bp-default/index.php:26
-#: bp-themes/bp-default/search.php:30 bp-themes/bp-sn-parent/archive.php:35
-#: bp-themes/bp-sn-parent/index.php:27 bp-themes/bp-sn-parent/search.php:29
+#: bp-themes/bp-default/archive.php:41 bp-themes/bp-default/index.php:32
+#: bp-themes/bp-default/search.php:41 bp-themes/bp-default/single.php:37
+#: bp-themes/bp-sn-parent/archive.php:35 bp-themes/bp-sn-parent/index.php:27
+#: bp-themes/bp-sn-parent/search.php:29
 msgid "% Comments &#187;"
 msgstr ""
 
-#: bp-themes/bp-default/archive.php:53 bp-themes/bp-default/index.php:43
+#: bp-themes/bp-default/archive.php:59 bp-themes/bp-default/index.php:50
 #: bp-themes/bp-sn-parent/archive.php:52 bp-themes/bp-sn-parent/index.php:44
 msgid "Not Found"
 msgstr ""
 
-#: bp-themes/bp-default/attachment.php:25 bp-themes/bp-default/single.php:27
+#: bp-themes/bp-default/attachment.php:25
 #: bp-themes/bp-sn-parent/attachment.php:25
 #: bp-themes/bp-sn-parent/single.php:28
 msgid "<p class=\"serif\">Read the rest of this entry &raquo;</p>"
 msgstr ""
 
 #: bp-themes/bp-default/attachment.php:27 bp-themes/bp-default/page.php:20
-#: bp-themes/bp-default/single.php:29 bp-themes/bp-sn-parent/attachment.php:27
+#: bp-themes/bp-default/single.php:34 bp-themes/bp-sn-parent/attachment.php:27
 #: bp-themes/bp-sn-parent/page.php:19 bp-themes/bp-sn-parent/single.php:30
 msgid "<p><strong>Pages:</strong> "
 msgstr ""
@@ -8105,74 +8126,72 @@ msgstr ""
 msgid "Enter the password to view comments."
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:18 bp-themes/bp-sn-parent/comments.php:18
-#, php-format
-msgid "No responses to %1$s"
-msgstr ""
-
-#: bp-themes/bp-default/comments.php:18 bp-themes/bp-sn-parent/comments.php:18
-#, php-format
-msgid "One response to %1$s"
-msgstr ""
-
-#: bp-themes/bp-default/comments.php:18 bp-themes/bp-sn-parent/comments.php:18
-#, php-format
-msgid "%1$s responses to %2$s"
-msgstr ""
-
-#: bp-themes/bp-default/comments.php:44 bp-themes/bp-sn-parent/comments.php:44
+#: bp-themes/bp-default/comments.php:49 bp-themes/bp-sn-parent/comments.php:44
 #, php-format
 msgid ""
 "Comments are closed, but <a href=\"%1$s\" title=\"Trackback URL for this post"
 "\">trackbacks</a> and pingbacks are open."
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:50 bp-themes/bp-sn-parent/comments.php:50
+#: bp-themes/bp-default/comments.php:55 bp-themes/bp-sn-parent/comments.php:50
 msgid "Comments are closed."
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:62 bp-themes/bp-sn-parent/comments.php:62
+#: bp-themes/bp-default/comments.php:81 bp-themes/bp-sn-parent/comments.php:62
 msgid "Leave a Reply"
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:62 bp-themes/bp-sn-parent/comments.php:62
+#: bp-themes/bp-default/comments.php:81 bp-themes/bp-sn-parent/comments.php:62
 #, php-format
 msgid "Leave a Reply to %s"
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:66 bp-themes/bp-sn-parent/comments.php:66
+#: bp-themes/bp-default/comments.php:85 bp-themes/bp-sn-parent/comments.php:66
 msgid "Click here to cancel reply."
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:72 bp-themes/bp-sn-parent/comments.php:72
+#: bp-themes/bp-default/comments.php:91 bp-themes/bp-sn-parent/comments.php:72
 #, php-format
 msgid ""
 "You must be <a href=\"%1$s\" title=\"Log in\">logged in</a> to post a "
 "comment."
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:84 bp-themes/bp-sn-parent/comments.php:84
+#: bp-themes/bp-default/comments.php:103
+#: bp-themes/bp-sn-parent/comments.php:84
 #, php-format
 msgid "Logged in as <a href=\"%1$s\" title=\"%2$s\">%2$s</a>."
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:84 bp-themes/bp-sn-parent/comments.php:84
+#: bp-themes/bp-default/comments.php:103
+#: bp-themes/bp-sn-parent/comments.php:84
 msgid "Log out of this account"
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:84 bp-themes/bp-sn-parent/comments.php:84
+#: bp-themes/bp-default/comments.php:103
+#: bp-themes/bp-sn-parent/comments.php:84
 msgid "Log out &raquo;"
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:92 bp-themes/bp-default/comments.php:97
+#: bp-themes/bp-default/comments.php:111 bp-themes/bp-default/comments.php:116
 #: bp-themes/bp-sn-parent/comments.php:92
 #: bp-themes/bp-sn-parent/comments.php:97
 msgid "*"
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:116
+#: bp-themes/bp-default/comments.php:135
 #: bp-themes/bp-sn-parent/comments.php:116
 msgid "Submit"
+msgstr ""
+
+#: bp-themes/bp-default/comments.php:160
+#, php-format
+msgid "%d Trackback"
+msgstr ""
+
+#: bp-themes/bp-default/comments.php:162
+#, php-format
+msgid "%d Trackbacks"
 msgstr ""
 
 #: bp-themes/bp-default/footer.php:7 bp-themes/bp-sn-parent/footer.php:10
@@ -8272,6 +8291,20 @@ msgstr ""
 #: bp-themes/bp-default/forums/topics-loop.php:76
 #: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:66
 msgid "Sorry, there were no forum topics found."
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:83
+#: bp-themes/bp-sn-parent/_inc/ajax.php:389
+msgid "said:"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:84
+#: bp-themes/bp-sn-parent/_inc/ajax.php:388
+msgid "On"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:88
+msgid "Your comment is awaiting moderation."
 msgstr ""
 
 #: bp-themes/bp-default/groups/create.php:9
@@ -8792,21 +8825,7 @@ msgstr ""
 msgid "Blog Posts Atom Feed"
 msgstr ""
 
-#: bp-themes/bp-default/index.php:20 bp-themes/bp-sn-parent/index.php:21
-msgid "in"
-msgstr ""
-
-#: bp-themes/bp-default/index.php:23
-#: bp-themes/bp-sn-parent/blogs/recent-posts.php:24
-#: bp-themes/bp-sn-parent/index.php:24
-msgid "Read the rest of this entry &raquo;"
-msgstr ""
-
-#: bp-themes/bp-default/index.php:26 bp-themes/bp-sn-parent/index.php:27
-msgid "Tags: "
-msgstr ""
-
-#: bp-themes/bp-default/index.php:44 bp-themes/bp-sn-parent/index.php:45
+#: bp-themes/bp-default/index.php:51 bp-themes/bp-sn-parent/index.php:45
 msgid "Sorry, but you are looking for something that isn't here."
 msgstr ""
 
@@ -9088,7 +9107,7 @@ msgstr ""
 msgid "Search Results"
 msgstr ""
 
-#: bp-themes/bp-default/search.php:47 bp-themes/bp-sn-parent/search.php:46
+#: bp-themes/bp-default/search.php:57 bp-themes/bp-sn-parent/search.php:46
 msgid "No posts found. Try a different search?"
 msgstr ""
 
@@ -9104,11 +9123,7 @@ msgstr ""
 msgid "Remember Me"
 msgstr ""
 
-#: bp-themes/bp-default/single.php:23 bp-themes/bp-sn-parent/single.php:24
-msgid "Permanent link to"
-msgstr ""
-
-#: bp-themes/bp-default/single.php:41 bp-themes/bp-sn-parent/single.php:42
+#: bp-themes/bp-default/single.php:46 bp-themes/bp-sn-parent/single.php:42
 msgid "Sorry, no posts matched your criteria."
 msgstr ""
 
@@ -9122,14 +9137,6 @@ msgstr ""
 
 #: bp-themes/bp-sn-parent/_inc/ajax.php:356
 msgid "There was a problem closing the notice."
-msgstr ""
-
-#: bp-themes/bp-sn-parent/_inc/ajax.php:388
-msgid "On"
-msgstr ""
-
-#: bp-themes/bp-sn-parent/_inc/ajax.php:389
-msgid "said:"
 msgstr ""
 
 #: bp-themes/bp-sn-parent/_inc/ajax.php:404
@@ -9167,6 +9174,10 @@ msgstr ""
 
 #: bp-themes/bp-sn-parent/activity/single.php:81
 msgid "There was a problem fetching that activity item."
+msgstr ""
+
+#: bp-themes/bp-sn-parent/archive.php:35 bp-themes/bp-sn-parent/search.php:29
+msgid "Posted in"
 msgstr ""
 
 #: bp-themes/bp-sn-parent/blogs/my-blogs.php:35
@@ -9233,6 +9244,21 @@ msgstr ""
 #: bp-themes/bp-sn-parent/blogs/recent-posts.php:40
 #, php-format
 msgid "%s hasn't made any posts yet."
+msgstr ""
+
+#: bp-themes/bp-sn-parent/comments.php:18
+#, php-format
+msgid "No responses to %1$s"
+msgstr ""
+
+#: bp-themes/bp-sn-parent/comments.php:18
+#, php-format
+msgid "One response to %1$s"
+msgstr ""
+
+#: bp-themes/bp-sn-parent/comments.php:18
+#, php-format
+msgid "%1$s responses to %2$s"
 msgstr ""
 
 #: bp-themes/bp-sn-parent/comments.php:117
@@ -9521,6 +9547,10 @@ msgstr ""
 
 #: bp-themes/bp-sn-parent/sidebar.php:10
 msgid "Please log in and add widgets to this column."
+msgstr ""
+
+#: bp-themes/bp-sn-parent/single.php:24
+msgid "Permanent link to"
 msgstr ""
 
 #: bp-themes/bp-sn-parent/userbar.php:4
