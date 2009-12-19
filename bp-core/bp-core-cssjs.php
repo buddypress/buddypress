@@ -20,7 +20,7 @@ function bp_core_add_admin_bar_css() {
 	else if ( file_exists( WP_CONTENT_DIR . '/' . get_blog_option( BP_ROOT_BLOG, 'template' ) . '/_inc/css/adminbar.css' ) )
 		$admin_bar_css = WP_CONTENT_URL . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'template' ) . '/_inc/css/adminbar.css';
 	else
-		$admin_bar_css = BP_PLUGIN_URL . '/bp-core/deprecated/css/admin-bar.css';
+		$admin_bar_css = BP_PLUGIN_URL . '/bp-core/css/admin-bar-fallback.css';
 
 	wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', $admin_bar_css ) );
 }
