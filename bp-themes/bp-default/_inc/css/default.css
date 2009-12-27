@@ -465,6 +465,12 @@ div.item-list-tabs {
 				color: #aaa;
 			}
 
+			div.item-list-tabs ul li a span {
+				display: inline;
+				padding: 0;
+				color: inherit;
+			}
+
 		div.item-list-tabs ul li.selected a,
 		div.item-list-tabs ul li.current a {
 			background-color: #fff;

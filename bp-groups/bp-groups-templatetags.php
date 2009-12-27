@@ -1195,14 +1195,14 @@ function bp_group_hidden_fields() {
 }
 
 function bp_total_group_count() {
-	echo bp_get_total_blog_count();
+	echo bp_get_total_group_count();
 }
 	function bp_get_total_group_count() {
 		return apply_filters( 'bp_get_total_group_count', groups_get_total_group_count() );
 	}
 
 function bp_total_group_count_for_user( $user_id = false ) {
-	echo bp_get_total_blog_count_for_user( $user_id );
+	echo bp_get_total_group_count_for_user( $user_id );
 }
 	function bp_get_total_group_count_for_user( $user_id = false ) {
 		return apply_filters( 'bp_get_total_group_count_for_user', groups_total_groups_for_user( $user_id ) );

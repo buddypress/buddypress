@@ -93,7 +93,8 @@ jQuery(document).ready( function() {
 		/* Activity Stream Tabs */
 		if ( target.attr('id') == 'activity-all' ||
 		 	 target.attr('id') == 'activity-friends' ||
-			 target.attr('id') == 'activity-groups' ) {
+			 target.attr('id') == 'activity-groups' ||
+			 target.attr('id') == 'activity-favorites' ) {
 
 			var type = target.attr('id').substr( 9, target.attr('id').length );
 			var filter = j("#activity-filter-select select").val();
@@ -121,10 +122,59 @@ jQuery(document).ready( function() {
 
 	/* Stream event delegation */
 	j('div.activity').click( function(event) {
-		var target = j(event.target).parent();
+		var target = j(event.target);
+
+		/* Favoriting activity stream items */
+		if ( target.attr('class') == 'fav' || target.attr('class') == 'unfav' ) {
+			var type = target.attr('class')
+			var parent = target.parent().parent().parent();
+			var parent_id = parent.attr('id').substr( 9, parent.attr('id').length );
+
+			target.addClass('loading');
+
+			j.post( ajaxurl, {
+				action: 'activity_mark_' + type,
+				'cookie': encodeURIComponent(document.cookie),
+				'id': parent_id
+			},
+			function(response) {
+				target.removeClass('loading');
+
+				target.fadeOut( 100, function() {
+					j(this).html(response);
+					j(this).fadeIn(100);
+				});
+
+				if ( 'fav' == type ) {
+					if ( !j('div.item-list-tabs li#activity-favorites').length )
+						j('div.item-list-tabs ul').append( '<li id="activity-favorites"><a href="">My Favorites (<span>0</span>)</a></li>').fadeIn(100);
+
+					target.removeClass('fav');
+					target.addClass('unfav');
+
+					j('div.item-list-tabs ul li#activity-favorites span').html( Number( j('div.item-list-tabs ul li#activity-favorites span').html() ) + 1 );
+				} else {
+					target.removeClass('unfav');
+					target.addClass('fav');
+
+					j('div.item-list-tabs ul li#activity-favorites span').html( Number( j('div.item-list-tabs ul li#activity-favorites span').html() ) - 1 );
+
+					if ( !Number( j('div.item-list-tabs ul li#activity-favorites span').html() ) ) {
+						j('div.item-list-tabs ul li#activity-favorites').remove();
+
+						bp_activity_request( null, null );
+					}
+				}
+
+				if ( 'activity-favorites' == j( 'div.item-list-tabs li.selected').attr('id') )
+					target.parent().parent().parent().slideUp(100);
+			});
+
+			return false;
+		}
 
 		/* Load more updates at the end of the page */
-		if ( target.attr('class') == 'load-more' ) {
+		if ( target.parent().attr('class') == 'load-more' ) {
 			j("li.load-more span.ajax-loader").show();
 
 			var oldest_page = ( j.cookie('bp-activity-oldestpage') * 1 ) + 1;

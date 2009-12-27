@@ -399,6 +399,17 @@ function bp_activity_parent_content( $args = '' ) {
 		return apply_filters( 'bp_get_activity_parent_content', $parent_activity->content );
 	}
 
+function bp_activity_is_favorite() {
+	echo bp_get_is_activity_favorite();
+}
+	function bp_get_activity_is_favorite() {
+		global $bp, $activities_template;
+
+		$my_favs = maybe_unserialize( get_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities' ) );
+
+ 		return apply_filters( 'bp_get_activity_is_favorite', in_array( $activities_template->activity->id, (array)$my_favs ) );
+	}
+
 function bp_activity_comments( $args = '' ) {
 	echo bp_activity_get_comments( $args );
 }
@@ -643,6 +654,16 @@ function bp_activity_can_comment() {
 
 	return true;
 }
+
+function bp_total_favorite_count_for_user( $user_id = false ) {
+	echo bp_get_total_favorite_count_for_user( $user_id );
+}
+	function bp_get_total_favorite_count_for_user( $user_id = false ) {
+		return apply_filters( 'bp_get_total_favorite_count_for_user', bp_activity_total_favorites_for_user( $user_id ) );
+	}
+
+
+/* RSS Feed Template Tags ***************************/
 
 function bp_sitewide_activity_feed_link() {
 	echo bp_get_sitewide_activity_feed_link();

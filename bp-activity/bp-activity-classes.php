@@ -432,6 +432,15 @@ Class BP_Activity_Activity {
 		return $wpdb->get_var( $wpdb->prepare( "SELECT date_recorded FROM {$bp->activity->table_name} ORDER BY date_recorded ASC LIMIT 1" ) );
 	}
 
+	function total_favorite_count( $user_id ) {
+		global $bp;
+
+		if ( !$favorite_activity_entries = get_usermeta( $user_id, 'bp_favorite_activities' ) )
+			return 0;
+
+		return count( maybe_unserialize( $favorite_activity_entries ) );
+	}
+
 	function check_exists_by_content( $content ) {
 		global $wpdb, $bp;
 

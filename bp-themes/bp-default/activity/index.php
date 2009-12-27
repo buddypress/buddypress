@@ -27,13 +27,17 @@
 								<li id="activity-friends"><a href="<?php echo bp_loggedin_user_domain() . BP_ACTIVITY_SLUG . '/my-friends/' ?>"><?php printf( __( 'My Friends (%s)', 'buddypress' ), bp_get_total_friend_count( bp_loggedin_user_id() ) ) ?></a></li>
 							<?php endif; ?>
 
-							<?php if ( bp_get_total_group_count( bp_loggedin_user_id() ) ) : ?>
+							<?php if ( bp_get_total_group_count_for_user( bp_loggedin_user_id() ) ) : ?>
 								<li id="activity-groups"><a href="<?php echo bp_loggedin_user_domain() . BP_ACTIVITY_SLUG . '/my-groups/' ?>"><?php printf( __( 'My Groups (%s)', 'buddypress' ), bp_get_total_group_count_for_user( bp_loggedin_user_id() ) ) ?></a></li>
+							<?php endif; ?>
+
+							<?php if ( bp_get_total_favorite_count_for_user( bp_loggedin_user_id() ) ) : ?>
+								<li id="activity-favorites"><a href="<?php echo bp_loggedin_user_domain() . BP_ACTIVITY_SLUG . '/my-favorites/' ?>"><?php printf( __( 'My Favorites (<span>%s</span>)', 'buddypress' ), bp_get_total_favorite_count_for_user( bp_loggedin_user_id() ) ) ?></a></li>
 							<?php endif; ?>
 
 						<?php endif; ?>
 
-						<?php do_action( 'bp_activity_types' ) ?>
+						<?php do_action( 'bp_activity_type_tabs' ) ?>
 
 						<li id="activity-filter-select" class="last">
 							<select>

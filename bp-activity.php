@@ -503,6 +503,15 @@ function bp_activity_get_last_updated() {
 	return apply_filters( 'bp_activity_get_last_updated', BP_Activity_Activity::get_last_updated() );
 }
 
+function bp_activity_total_favorites_for_user( $user_id = false ) {
+	global $bp;
+
+	if ( !$user_id )
+		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+
+	return BP_Activity_Activity::total_favorite_count( $user_id );
+}
+
 /**
  * bp_activity_filter_template_paths()
  *

@@ -166,17 +166,6 @@ function groups_check_installed() {
 }
 add_action( 'admin_menu', 'groups_check_installed' );
 
-function groups_add_admin_menu() {
-	global $wpdb, $bp;
-
-	if ( !is_site_admin() )
-		return false;
-
-	/* Add the administration tab under the "Site Admin" tab for site administrators */
-	add_submenu_page( 'wpmu-admin.php', __("Groups", 'buddypress'), __("Groups", 'buddypress'), 1, "groups_admin_settings", "groups_admin_settings" );
-}
-add_action( 'admin_menu', 'groups_add_admin_menu' );
-
 function groups_setup_nav() {
 	global $bp, $current_blog, $group_obj;
 

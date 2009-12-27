@@ -161,7 +161,6 @@ function bp_dtheme_forums_filter() {
 }
 add_action( 'wp_ajax_forums_filter', 'bp_dtheme_forums_filter' );
 
-
 function bp_dtheme_post_update() {
 	global $bp;
 
@@ -185,6 +184,8 @@ function bp_dtheme_post_update() {
 		$item_id = $_POST['group'];
 		$component = $bp->groups->id;
 	}
+
+	/* TODO - move the business login to the activity plugin and make it extensible */
 
 	if ( $bp->profile->id == $component ) {
 		/* Record this on the poster's activity screen */
@@ -258,6 +259,8 @@ function bp_dtheme_new_activity_comment() {
 		return false;
 	}
 
+	/* TODO - move the business logic to the activity plugin */
+
 	/* Insert the "user posted a new activity comment header text" */
 	$comment_header = '<div class="comment-header">' . sprintf( __( '%s posted a new activity comment:', 'buddypress' ), bp_core_get_userlink( $bp->loggedin_user->id ) ) . ' <span class="time-since">%s</span></div> ';
 
@@ -326,13 +329,13 @@ function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string 
 			$query_string = 'user_id=' . $bp->displayed_user->id;
 		} else {
 			/* Set a valid type */
-			if ( !$type || ( 'all' != $type && 'friends' != $type && 'groups' != $type ) )
+			if ( !$type || ( 'all' != $type && 'friends' != $type && 'groups' != $type && 'favorites' != $type ) )
 				$type = 'all';
 
-			if ( ( 'friends' == $type || 'groups' == $type ) && !is_user_logged_in() )
+			if ( ( 'friends' == $type || 'groups' == $type || 'favorites' == $type ) && !is_user_logged_in() )
 				$type = 'all';
 
-			switch( $type ) {
+			switch ( $type ) {
 				case 'friends':
 					$friend_ids = implode( ',', friends_get_friend_user_ids( $bp->loggedin_user->id ) );
 					$query_string = 'user_id=' . $friend_ids;
@@ -341,6 +344,10 @@ function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string 
 					$groups = groups_get_user_groups( $bp->loggedin_user->id );
 					$group_ids = implode( ',', $groups['groups'] );
 					$query_string = 'object=groups&primary_id=' . $group_ids;
+					break;
+				case 'favorites':
+					$favorite_ids = implode( ',', (array)get_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities' ) );
+					$query_string = 'include=' . $favorite_ids;
 					break;
 			}
 		}
@@ -392,6 +399,36 @@ function bp_dtheme_ajax_load_older_updates() {
 	bp_dtheme_activity_loop( false, false, $_POST['query_string'], 20, $_POST['page'] );
 }
 add_action( 'wp_ajax_activity_get_older_updates', 'bp_dtheme_ajax_load_older_updates' );
+
+function bp_dtheme_mark_activity_favorite() {
+	global $bp;
+
+	$my_favs = maybe_unserialize( get_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities' ) );
+	$my_favs[] = $_POST['id'];
+
+	update_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities', $my_favs );
+
+	_e( 'Remove Favorite', 'buddypress' );
+}
+add_action( 'wp_ajax_activity_mark_fav', 'bp_dtheme_mark_activity_favorite' );
+
+function bp_dtheme_unmark_activity_favorite() {
+	global $bp;
+
+	$my_favs = maybe_unserialize( get_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities' ) );
+	$new_favs = array();
+
+	foreach( (array)$my_favs as $fav ) {
+		if ( $fav != $_POST['id'] )
+			$new_favs[] = $fav;
+	}
+
+
+	update_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities', $new_favs );
+
+	_e( 'Mark Favorite', 'buddypress' );
+}
+add_action( 'wp_ajax_activity_mark_unfav', 'bp_dtheme_unmark_activity_favorite' );
 
 function bp_dtheme_ajax_invite_user() {
 	global $bp;

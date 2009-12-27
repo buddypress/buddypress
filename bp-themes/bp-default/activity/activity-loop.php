@@ -17,11 +17,17 @@
 
 				<div class="activity-meta">
 					<?php if ( is_user_logged_in() && bp_activity_can_comment() ) : ?>
-							<a href="#acomment-<?php bp_activity_id() ?>" class="acomment-reply" id="acomment-comment-<?php bp_activity_id() ?>"><?php _e( 'Comment', 'buddypress' ) ?> (<?php bp_activity_comment_count() ?>)</a>
+						<a href="#acomment-<?php bp_activity_id() ?>" class="acomment-reply" id="acomment-comment-<?php bp_activity_id() ?>"><?php _e( 'Comment', 'buddypress' ) ?> (<?php bp_activity_comment_count() ?>)</a>
 					<?php endif; ?>
 
 					<?php if ( !bp_is_activity_permalink() ) : ?>
-						<a href="<?php bp_activity_thread_permalink() ?>" title="<?php _e( 'View Thread', 'buddypress' ) ?>"><?php _e( 'View Thread', 'buddypress' ) ?></a>
+						<a href="<?php bp_activity_thread_permalink() ?>" class="view" title="<?php _e( 'View Thread', 'buddypress' ) ?>"><?php _e( 'View Thread', 'buddypress' ) ?></a>
+					<?php endif; ?>
+
+					<?php if ( !bp_get_activity_is_favorite() ) : ?>
+						<a href="" class="fav" title="<?php _e( 'Mark Favorite', 'buddypress' ) ?>"><?php _e( 'Mark Favorite', 'buddypress' ) ?></a>
+					<?php else : ?>
+						<a href="" class="unfav" title="<?php _e( 'Remove Favorite', 'buddypress' ) ?>"><?php _e( 'Remove Favorite', 'buddypress' ) ?></a>
 					<?php endif; ?>
 				</div>
 			</div>
