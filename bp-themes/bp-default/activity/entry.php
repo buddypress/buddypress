@@ -1,5 +1,5 @@
 <?php /* This template is used by permalink pages and AJAX functions to load in new updates */ ?>
-<li class="<?php bp_activity_css_class() ?> new-update" id="activity-<?php bp_activity_id() ?>">
+<li class="<?php bp_activity_css_class() ?>" id="activity-<?php bp_activity_id() ?>">
 	<div class="activity-avatar">
 		<?php bp_activity_avatar( 'type=full&width=60&height=60' ) ?>
 	</div>

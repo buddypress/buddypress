@@ -718,6 +718,16 @@ function xprofile_register_activity_action( $key, $value ) {
 function xprofile_format_notifications( $action, $item_id, $secondary_item_id, $total_items ) {
 	global $bp;
 
+	if ( 'new_at_mention' == $action ) {
+		$user_fullname = bp_core_get_user_displayname( $secondary_item_id );
+
+		if ( (int)$total_items > 1 ) {
+			return apply_filters( 'bp_xprofile_multiple_at_mentions_notification', '<a href="' . bp_core_get_user_domain( $secondary_item_id ) . 'activity/" title="' . __( 'View User', 'buddypress' ) . '">' . sprintf( __( '%s mentioned you in %d updates', 'buddypress' ), $user_fullname, (int)$total_items ) . '</a>', $total_items );
+		} else {
+			return apply_filters( 'bp_xprofile_single_at_mention_notification', '<a href="' . bp_activity_get_permalink( $item_id ) . '" title="' . __( 'View Thread', 'buddypress' ) . '">' . sprintf( __( '%s mentioned you in an update', 'buddypress' ), $user_fullname ) . '</a>', $user_fullname );
+		}
+	}
+
 	if ( 'new_wire_post' == $action ) {
 		if ( (int)$total_items > 1 ) {
 			return apply_filters( 'bp_xprofile_multiple_new_wire_post_notification', '<a href="' . $bp->loggedin_user->domain . $bp->wire->slug . '" title="' . __( 'Wire', 'buddypress' ) . '">' . sprintf( __( 'You have %d new posts on your wire', 'buddypress' ), (int)$total_items ) . '</a>', $total_items );
@@ -766,13 +776,15 @@ function xprofile_post_update( $args = '' ) {
 	/* Now write the values */
 	$activity_id = xprofile_record_activity( array(
 		'user_id' => $user_id,
-		'content' => apply_filters( 'xprofile_activity_new_update', $activity_content ),
+		'content' => apply_filters( 'xprofile_activity_new_update_content', $activity_content ),
 		'primary_link' => apply_filters( 'xprofile_activity_new_update_primary_link', $primary_link ),
 		'component_action' => 'new_wire_post'
 	) );
 
 	/* Add this update to the "latest update" usermeta so it can be fetched anywhere. */
 	update_usermeta( $bp->loggedin_user->id, 'bp_latest_update', array( 'id' => $activity_id, 'content' => wp_filter_kses( $content ) ) );
+
+	do_action( 'xprofile_posted_update', $content, $user_id, $activity_id );
 
 	return $activity_id;
 }
@@ -1128,9 +1140,12 @@ add_action( 'xprofile_updated_profile', 'xprofile_sync_wp_profile' );
 function xprofile_remove_screen_notifications() {
 	global $bp;
 
+	bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, $bp->profile->id, 'new_at_mention' );
 	bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, $bp->profile->id, 'new_wire_post' );
 }
 add_action( 'bp_wire_screen_latest', 'xprofile_remove_screen_notifications' );
+add_action( 'bp_activity_screen_my_activity', 'xprofile_remove_screen_notifications' );
+add_action( 'bp_activity_screen_single_activity_permalink', 'xprofile_remove_screen_notifications' );
 
 /**
  * xprofile_filter_template_paths()

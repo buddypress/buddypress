@@ -2001,8 +2001,8 @@ function groups_post_update( $args = '' ) {
 
 	$activity_id = groups_record_activity( array(
 		'user_id' => $user_id,
-		'content' => apply_filters( 'groups_activity_new_wire_post', $activity_content ),
-		'primary_link' => apply_filters( 'groups_activity_new_wire_post_primary_link', bp_get_group_permalink( $group ) ),
+		'content' => apply_filters( 'groups_activity_new_update_content', $activity_content ),
+		'primary_link' => apply_filters( 'groups_activity_new_update_primary_link', bp_get_group_permalink( $group ) ),
 		'component_action' => 'new_wire_post',
 		'item_id' => $item_id
 	) );

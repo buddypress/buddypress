@@ -509,14 +509,7 @@ function bp_activity_thread_permalink() {
 	function bp_get_activity_thread_permalink() {
 		global $bp, $activities_template;
 
-		if ( 'new_blog_post' == bp_get_activity_action_name() || 'new_blog_comment' == bp_get_activity_action_name() || 'new_forum_topic' == bp_get_activity_action_name() || 'new_forum_post' == bp_get_activity_action_name() )
-			$link = bp_activity_feed_item_link();
-		else {
-			if ( 'activity_comment' == bp_get_activity_action_name() )
-				$link = $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $activities_template->activity->item_id;
-			else
-				$link = $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $activities_template->activity->id;
-		}
+		$link = bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity );
 
 	 	return apply_filters( 'bp_get_activity_thread_permalink', $link );
 	}

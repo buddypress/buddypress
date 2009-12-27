@@ -110,7 +110,7 @@ if ( !function_exists( 'update_blog_status' ) ) {
 }
 
 if ( !function_exists( 'wpmu_validate_user_signup' ) ) {
-	function wpmu_validate_user_signup($user_name, $user_email) {
+	function wpmu_validate_user_signup( $user_name, $user_email ) {
 		global $wpdb;
 
 		$errors = new WP_Error();
@@ -168,33 +168,6 @@ if ( !function_exists( 'wpmu_validate_user_signup' ) ) {
 		// Check if the email address has been used already.
 		if ( email_exists($user_email) )
 			$errors->add('user_email', __("Sorry, that email address is already used!"));
-
-		// Has someone already signed up for this username?
-		$signup = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->signups WHERE user_login = %s", $user_name) );
-		if ( $signup != null ) {
-			$registered_at =  mysql2date('U', $signup->registered);
-			$now = current_time( 'timestamp', true );
-			$diff = $now - $registered_at;
-			// If registered more than two days ago, cancel registration and let this signup go through.
-			if ( $diff > 172800 ) {
-				$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->signups WHERE user_login = %s", $user_name) );
-			} else {
-				$errors->add('user_name', __("That username is currently reserved but may be available in a couple of days."));
-			}
-			if( $signup->active == 0 && $signup->user_email == $user_email )
-				$errors->add('user_email_used', __("username and email used"));
-		}
-
-		$signup = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->signups WHERE user_email = %s", $user_email) );
-		if ( $signup != null ) {
-			$diff = current_time( 'timestamp', true ) - mysql2date('U', $signup->registered);
-			// If registered more than two days ago, cancel registration and let this signup go through.
-			if ( $diff > 172800 ) {
-				$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->signups WHERE user_email = %s", $user_email) );
-			} else {
-				$errors->add('user_email', __("That email address has already been used. Please check your inbox for an activation email. It will become available in a couple of days if you do nothing."));
-			}
-		}
 
 		$result = array('user_name' => $user_name, 'user_email' => $user_email,	'errors' => $errors);
 

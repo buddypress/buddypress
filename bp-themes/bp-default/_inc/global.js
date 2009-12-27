@@ -74,6 +74,7 @@ jQuery(document).ready( function() {
 				}
 
 				j("ul.activity-list").prepend(response);
+				j("ul.activity-list li:first").addClass('new-update');
 				j("li.new-update").hide().slideDown( 300 );
 				j("li.new-update").removeClass( 'new-update' );
 				j("textarea#whats-new").val('');
@@ -290,7 +291,6 @@ jQuery(document).ready( function() {
 			form.slideDown( 200 );
 			j.scrollTo( form, 500, { offset:-100, easing:'easeout' } );
 			j('#ac-form-' + ids[2] + ' textarea').focus();
-			j('#ac-form-' + ids[2] + ' textarea').TextAreaExpander( 60, 1000 );
 
 			return false;
 		}

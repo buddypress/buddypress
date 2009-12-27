@@ -376,7 +376,6 @@ function bp_dtheme_unmark_activity_favorite() {
 			$new_favs[] = $fav;
 	}
 
-
 	update_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities', $new_favs );
 
 	_e( 'Mark Favorite', 'buddypress' );

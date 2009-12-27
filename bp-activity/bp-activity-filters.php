@@ -54,5 +54,26 @@ function bp_activity_filter_kses( $content ) {
 	return wp_kses( $content, $activity_allowedtags );
 }
 
+function bp_activity_at_name_filter( $content ) {
+	include_once( ABSPATH . WPINC . '/registration.php' );
+
+	$pattern = '/[@]+([A-Za-z0-9-_]+)/';
+	preg_match_all( $pattern, $content, $usernames );
+
+	/* Make sure there's only one instance of each username */
+	if ( !$usernames = array_unique( $usernames[1] ) )
+		return $content;
+
+	foreach( (array)$usernames as $username ) {
+		if ( !username_exists( $username ) )
+			continue;
+
+		$content = str_replace( "@$username", "<a href='" . bp_core_get_user_domain( bp_core_get_userid( $username ) ) . "' rel='nofollow'>@$username</a>", $content );
+	}
+
+	return $content;
+}
+add_filter( 'xprofile_activity_new_update_content', 'bp_activity_at_name_filter' );
+add_filter( 'groups_activity_new_update_content', 'bp_activity_at_name_filter' );
 
 ?>

@@ -162,6 +162,8 @@ function bp_activity_screen_single_activity_permalink() {
 
 	$has_access = apply_filters( 'bp_activity_permalink_access', $has_access, &$activity );
 
+	do_action( 'bp_activity_screen_single_activity_permalink', $activity, $has_access );
+
 	if ( !$has_access ) {
 		bp_core_add_message( __( 'You do not have access to this activity.', 'buddypress' ), 'error' );
 		bp_core_redirect( $bp->loggedin_user->domain );
@@ -483,6 +485,24 @@ function bp_activity_delete_for_user_by_component( $user_id, $component_name ) {
 	do_action( 'bp_activity_delete_for_user_by_component', $user_id, $component_name );
 
 	return true;
+}
+
+function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
+	global $bp;
+
+	if ( !$activity_obj )
+		$activity_obj = new BP_Activity_Activity( $activity_id );
+
+	if ( 'new_blog_post' == $activity_obj->component_action || 'new_blog_comment' == $activity_obj->component_action || 'new_forum_topic' == $activity_obj->component_action || 'new_forum_post' == $activity_obj->component_action )
+		$link = $activity_obj->primary_link;
+	else {
+		if ( 'activity_comment' == $activity_obj->component_action )
+			$link = $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $activity_obj->item_id . '/';
+		else
+			$link = $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $activity_obj->id . '/';
+	}
+
+	return apply_filters( 'bp_activity_get_permalink', $link );
 }
 
 function bp_activity_add_timesince_placeholder( $content ) {
