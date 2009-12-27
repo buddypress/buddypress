@@ -479,6 +479,34 @@ jQuery(document).ready( function() {
 		});
 	}
 
+	/* Pagination Links */
+	j('div#content').click( function(event) {
+		var target = j(event.target);
+
+		if ( target.parent().parent().hasClass('pagination') ) {
+			if ( j('div.item-list-tabs li.selected').length )
+				var el = j('div.item-list-tabs li.selected');
+			else
+				var el = j('li.filter select');
+
+			var page_number = 1;
+			var css_id = el.attr('id').split( '-' );
+			var object = css_id[0];
+
+			if ( j(target).hasClass('next') )
+				var page_number = Number( j('div.pagination span.current').html() ) + 1;
+			else if ( j(target).hasClass('prev') )
+				var page_number = Number( j('div.pagination span.current').html() ) - 1;
+			else
+				var page_number = Number( j(target).html() );
+
+			bp_filter_request( j.cookie('bp-' + object + '-type'), j.cookie('bp-' + object + '-filter'), object, 'div.' + object, page_number, j.cookie('bp-' + object + '-search-terms') );
+
+			return false;
+		}
+
+	});
+
 	/**** New Forum Directory Post **************************************/
 
 	j('a#new-topic-button').click( function() {
