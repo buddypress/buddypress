@@ -921,10 +921,7 @@ function bp_signup_page() {
 	}
 
 function bp_has_custom_activation_page() {
-	if ( file_exists( WP_CONTENT_DIR . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'template') . '/activate.php') )
-		return true;
-
-	if ( file_exists( WP_CONTENT_DIR . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'template') . '/registration/activate.php') )
+	if ( locate_template( array( 'activate.php' ), false ) || locate_template( array( '/registration/activate.php' ), false ) )
 		return true;
 
 	return false;

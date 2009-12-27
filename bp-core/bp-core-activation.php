@@ -123,13 +123,7 @@ add_filter( 'wpmu_signup_blog_notification', 'bp_core_activation_signup_blog_not
 function bp_core_activation_signup_user_notification( $user, $user_email, $key, $meta ) {
 	global $current_site;
 
-	// Send email with activation link.
-	if ( 'no' == constant( "VHOST" ) ) {
-		$activate_url = bp_activation_page( false ) . "?key=$key";
-	} else {
-		$activate_url = bp_activation_page( false ) ."?key=$key";
-	}
-
+	$activate_url = bp_get_activation_page() ."?key=$key";
 	$activate_url = clean_url($activate_url);
 	$admin_email = get_site_option( "admin_email" );
 
@@ -138,9 +132,11 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 
 	$from_name = ( '' == get_site_option( "site_name" ) ) ? 'WordPress' : wp_specialchars( get_site_option( "site_name" ) );
 	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
-	$message = sprintf(__("Thanks for registering! To complete the activation of your account please click the following link:\n\n%s\n\n", 'buddypress' ), $activate_url, clean_url("http://{$domain}{$path}" ) );
-	$subject = '[' . $from_name . '] ' . sprintf(__('Activate %s', 'buddypress' ), clean_url('http://' . $domain . $path));
+	$message = sprintf( __( "Thanks for registering! To complete the activation of your account please click the following link:\n\n%s\n\n", 'buddypress' ), $activate_url, clean_url("http://{$domain}{$path}" ) );
+	$subject = '[' . $from_name . '] ' . __( 'Activate Your Account', 'buddypress' );
 
+
+	var_dump($user_email, $subject, $message, $message_headers); die;
 	wp_mail($user_email, $subject, $message, $message_headers);
 
 	// Return false to stop the original WPMU function from continuing
