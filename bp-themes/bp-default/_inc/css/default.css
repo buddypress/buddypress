@@ -1119,6 +1119,13 @@ div.activity-meta {
 	border-radius: 4px;
 	margin-right: 3px;
 }
+	.activity-list div.activity-meta a.loading {
+		background-image: url( ../images/ajax-loader.gif );
+		background-position: 95% 50%;
+		padding-right: 25px;
+		background-repeat: no-repeat;
+	}
+
 	.activity-list div.activity-meta a.acomment-reply {
 		background: #FFF9DB;
 		border-bottom: 1px solid #FFE8C4;

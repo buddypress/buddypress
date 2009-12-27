@@ -47,6 +47,13 @@ if ( !isset( $deactivated['bp-messages.php'] ) && file_exists( BP_PLUGIN_DIR . '
 if ( !isset( $deactivated['bp-xprofile.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-xprofile.php') )
 	include( BP_PLUGIN_DIR . '/bp-xprofile.php' );
 
+/* Activation Function */
+function bp_loader_activate() {
+	/* Force refresh theme roots. */
+	delete_site_transient( 'theme_roots' );
+}
+register_activation_hook( __FILE__, 'bp_loader_activate' );
+
 /* Deactivation Function */
 function bp_loader_deactivate() {
 	if ( !function_exists( 'delete_site_option') )

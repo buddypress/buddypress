@@ -147,7 +147,7 @@ jQuery(document).ready( function() {
 
 				if ( 'fav' == type ) {
 					if ( !j('div.item-list-tabs li#activity-favorites').length )
-						j('div.item-list-tabs ul').append( '<li id="activity-favorites"><a href="">My Favorites (<span>0</span>)</a></li>').fadeIn(100);
+						j('div.item-list-tabs ul').append( '<li id="activity-favorites"><a href="">My Favorites (<span>0</span>)</a></li>');
 
 					target.removeClass('fav');
 					target.addClass('unfav');
@@ -160,9 +160,10 @@ jQuery(document).ready( function() {
 					j('div.item-list-tabs ul li#activity-favorites span').html( Number( j('div.item-list-tabs ul li#activity-favorites span').html() ) - 1 );
 
 					if ( !Number( j('div.item-list-tabs ul li#activity-favorites span').html() ) ) {
-						j('div.item-list-tabs ul li#activity-favorites').remove();
+						if ( j('div.item-list-tabs ul li#activity-favorites').hasClass('selected') )
+							bp_activity_request( null, null );
 
-						bp_activity_request( null, null );
+						j('div.item-list-tabs ul li#activity-favorites').remove();
 					}
 				}
 
