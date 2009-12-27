@@ -177,56 +177,13 @@ function bp_dtheme_post_update() {
 		return false;
 	}
 
-	if ( !(int)$_POST['group'] ) {
-		$item_id = $bp->loggedin_user->id;
-		$component = $bp->profile->id;
-	} else {
-		$item_id = $_POST['group'];
-		$component = $bp->groups->id;
-	}
-
-	/* TODO - move the business login to the activity plugin and make it extensible */
-
-	if ( $bp->profile->id == $component ) {
-		/* Record this on the poster's activity screen */
-		$from_user_link = bp_core_get_userlink($bp->loggedin_user->id);
-		$activity_content = sprintf( __('%s posted an update:', 'buddypress'), $from_user_link ) . ' <span class="time-since">%s</span></p><p>
-		';
-		$primary_link = bp_core_get_userlink( $wire_post->user_id, false, true );
-		$activity_content .= '<div class="activity-inner">' . $_POST['content'] . '</div>';
-
-		/* Now write the values */
-		$activity_id = xprofile_record_activity( array(
-			'user_id' => $bp->loggedin_user->id,
-			'content' => apply_filters( 'xprofile_activity_new_wire_post', $activity_content, &$wire_post ),
-			'primary_link' => apply_filters( 'xprofile_activity_new_wire_post_primary_link', $primary_link ),
-			'component_action' => 'new_wire_post'
-		) );
-
-		/* Add this update to the "latest update" usermeta so it can be fetched anywhere. */
-		update_usermeta( $bp->loggedin_user->id, 'bp_latest_update', array( 'id' => $activity_id, 'content' => wp_filter_kses( $_POST['content'] ) ) );
-
-		do_action( 'xprofile_new_wire_post', &$wire_post );
-	} else {
-		$bp->groups->current_group = new BP_Groups_Group( $item_id );
-
-		/* Record this in activity streams */
-		$activity_content = sprintf( __( '%s posted an update in the group %s:', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' ) . ' <span class="time-since">%s</span>
-		';
-		$activity_content .= '<div class="activity-inner">' . $_POST['content'] . '</div>';
-
-		$activity_id = groups_record_activity( array(
-			'content' => apply_filters( 'groups_activity_new_wire_post', $activity_content ),
-			'primary_link' => apply_filters( 'groups_activity_new_wire_post_primary_link', bp_get_group_permalink( $bp->groups->current_group ) ),
-			'component_action' => 'new_wire_post',
-			'item_id' => $item_id
-		) );
-
-		do_action( 'groups_new_wire_post', $item_id, $wire_post->id );
-	}
+	if ( (int)$_POST['group'] )
+		$activity_id = groups_post_update( $_POST['content'], $bp->loggedin_user->id, $_POST['group'] );
+	else
+		$activity_id = xprofile_post_update( $_POST['content'], $bp->loggedin_user->id );
 
 	if ( !$activity_id ) {
-		echo '-1<div class="error"><p>' . __( 'There was a problem posting your update, please try again.', 'buddypress' ) . '</p></div>';
+		echo '-1<div id="message" class="error"><p>' . __( 'There was a problem posting your update, please try again.', 'buddypress' ) . '</p></div>';
 		return false;
 	}
 

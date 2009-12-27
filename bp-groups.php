@@ -1976,7 +1976,39 @@ function groups_is_user_banned( $user_id, $group_id ) {
 	return BP_Groups_Member::check_is_banned( $user_id, $group_id );
 }
 
-/*** Group Wire ****************************************************************/
+/*** Group Activity Posting **************************************************/
+
+function groups_post_update( $content, $user_id = false, $group_id = false ) {
+	global $bp;
+
+	if ( !$user_id )
+		$user_id = $bp->loggedin_user->id;
+
+	if ( !$group_id )
+		$group_id = $bp->groups->current_group->id;
+
+	if ( !$group_id )
+		return false;
+
+	if ( !$bp->groups->current_group )
+		$bp->groups->current_group = new BP_Groups_Group( $group_id );
+
+	/* Record this in activity streams */
+	$activity_content = sprintf( __( '%s posted an update in the group %s:', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
+	$activity_content .= '<div class="activity-inner">' . $content . '</div>';
+
+	$activity_id = groups_record_activity( array(
+		'user_id' => $user_id,
+		'content' => apply_filters( 'groups_activity_new_wire_post', $activity_content ),
+		'primary_link' => apply_filters( 'groups_activity_new_wire_post_primary_link', bp_get_group_permalink( $bp->groups->current_group ) ),
+		'component_action' => 'new_wire_post',
+		'item_id' => $item_id
+	) );
+
+	return $activity_id;
+}
+
+/*** Group Wire [DEPRECATED] ****************************************************************/
 
 function groups_new_wire_post( $group_id, $content ) {
 	global $bp;
