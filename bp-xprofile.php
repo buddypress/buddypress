@@ -742,11 +742,19 @@ function xprofile_format_notifications( $action, $item_id, $secondary_item_id, $
  * true or false on success or failure.
  */
 
-function xprofile_post_update( $content, $user_id = false ) {
+function xprofile_post_update( $args = '' ) {
 	global $bp;
 
-	if ( !$user_id )
-		$user_id = $bp->loggedin_user->id;
+	$defaults = array(
+		'content' => false,
+		'user_id' => $bp->loggedin_user->id
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	if ( empty($content) || empty($content) )
+		return false;
 
 	/* Record this on the user's profile */
 	$from_user_link = bp_core_get_userlink( $user_id );

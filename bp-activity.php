@@ -395,6 +395,42 @@ function bp_activity_add( $args = '' ) {
 	return $activity->id;
 }
 
+function bp_activity_new_comment( $args = '' ) {
+	global $bp;
+
+	$defaults = array(
+		'content' => false,
+		'user_id' => $bp->loggedin_user->id,
+		'activity_id' => false, // ID of the root activity item
+		'parent_id' => false // ID of a parent comment (optional)
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	if ( empty($content) || empty($user_id) || empty($activity_id) )
+		return false;
+
+	if ( empty($parent_id) )
+		$parent_id = $activity_id;
+
+	/* Insert the "user posted a new activity comment header text" */
+	$comment_header = '<div class="comment-header">' . sprintf( __( '%s posted a new activity comment:', 'buddypress' ), bp_core_get_userlink( $user_id ) ) . ' <span class="time-since">%s</span></div> ';
+
+	/* Insert the activity comment */
+	$comment_id = bp_activity_add( array(
+		'content' => apply_filters( 'bp_activity_comment_content', $comment_header . '<div class="activity-inner">' . $content . '</div>' ),
+		'primary_link' => '',
+		'component_name' => $bp->activity->id,
+		'component_action' => 'activity_comment',
+		'user_id' => $user_id,
+		'item_id' => $activity_id,
+		'secondary_item_id' => $parent_id
+	) );
+
+	return $comment_id;
+}
+
 /* There are multiple ways to delete activity items, depending on the information you have at the time. */
 
 function bp_activity_delete_by_item_id( $args = '' ) {

@@ -1978,29 +1978,31 @@ function groups_is_user_banned( $user_id, $group_id ) {
 
 /*** Group Activity Posting **************************************************/
 
-function groups_post_update( $content, $user_id = false, $group_id = false ) {
+function groups_post_update( $args = '' ) {
 	global $bp;
 
-	if ( !$user_id )
-		$user_id = $bp->loggedin_user->id;
+	$defaults = array(
+		'content' => false,
+		'user_id' => $bp->loggedin_user->id,
+		'group_id' => false
+	);
 
-	if ( !$group_id )
-		$group_id = $bp->groups->current_group->id;
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
 
-	if ( !$group_id )
+	if ( empty($content) || empty($user_id) || empty($group_id) )
 		return false;
 
-	if ( !$bp->groups->current_group )
-		$bp->groups->current_group = new BP_Groups_Group( $group_id );
+	$group = new BP_Groups_Group( $group_id );
 
 	/* Record this in activity streams */
-	$activity_content = sprintf( __( '%s posted an update in the group %s:', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
+	$activity_content = sprintf( __( '%s posted an update in the group %s:', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . attribute_escape( $group->name ) . '</a>' );
 	$activity_content .= '<div class="activity-inner">' . $content . '</div>';
 
 	$activity_id = groups_record_activity( array(
 		'user_id' => $user_id,
 		'content' => apply_filters( 'groups_activity_new_wire_post', $activity_content ),
-		'primary_link' => apply_filters( 'groups_activity_new_wire_post_primary_link', bp_get_group_permalink( $bp->groups->current_group ) ),
+		'primary_link' => apply_filters( 'groups_activity_new_wire_post_primary_link', bp_get_group_permalink( $group ) ),
 		'component_action' => 'new_wire_post',
 		'item_id' => $item_id
 	) );

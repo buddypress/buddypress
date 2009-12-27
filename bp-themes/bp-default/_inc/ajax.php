@@ -177,10 +177,16 @@ function bp_dtheme_post_update() {
 		return false;
 	}
 
-	if ( (int)$_POST['group'] )
-		$activity_id = groups_post_update( $_POST['content'], $bp->loggedin_user->id, $_POST['group'] );
-	else
-		$activity_id = xprofile_post_update( $_POST['content'], $bp->loggedin_user->id );
+	if ( (int)$_POST['group'] ) {
+		$activity_id = groups_post_update( array(
+			'content' => $_POST['content'],
+			'group_id' => $_POST['group']
+		));
+	} else {
+		$activity_id = xprofile_post_update( array(
+			'content' => $_POST['content']
+		));
+	}
 
 	if ( !$activity_id ) {
 		echo '-1<div id="message" class="error"><p>' . __( 'There was a problem posting your update, please try again.', 'buddypress' ) . '</p></div>';
@@ -216,21 +222,11 @@ function bp_dtheme_new_activity_comment() {
 		return false;
 	}
 
-	/* TODO - move the business logic to the activity plugin */
-
-	/* Insert the "user posted a new activity comment header text" */
-	$comment_header = '<div class="comment-header">' . sprintf( __( '%s posted a new activity comment:', 'buddypress' ), bp_core_get_userlink( $bp->loggedin_user->id ) ) . ' <span class="time-since">%s</span></div> ';
-
-	/* Insert the activity comment */
-	$comment_id = bp_activity_add( array(
-		'content' => apply_filters( 'bp_activity_comment_content', $comment_header . '<div class="activity-inner">' . $_POST['content'] . '</div>' ),
-		'primary_link' => '',
-		'component_name' => $bp->activity->id,
-		'component_action' => 'activity_comment',
-		'user_id' => $bp->loggedin_user->id,
-		'item_id' => $_POST['form_id'],
-		'secondary_item_id' => $_POST['comment_id']
-	) );
+	$comment_id = bp_activity_new_comment( array(
+		'content' => $_POST['content'],
+		'activity_id' => $_POST['form_id'],
+		'parent_id' => $_POST['comment_id']
+	));
 
 	if ( !$comment_id ) {
 		echo '-1<div id="message" class="error"><p>' . __( 'There was an error posting that reply, please try again.', 'buddypress' ) . '</p></div>';
