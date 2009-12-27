@@ -160,8 +160,6 @@ add_action( 'plugins_loaded', 'groups_setup_root_component', 2 );
 function groups_check_installed() {
 	global $wpdb, $bp;
 
-	require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-admin.php' );
-
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 	if ( get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION )
 		groups_install();
