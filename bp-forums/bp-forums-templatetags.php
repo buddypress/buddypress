@@ -171,6 +171,8 @@ function bp_has_forum_topics( $args = '' ) {
 		/* If it turns out there is no forum for this group, return false so we don't fetch all global topics */
 		if ( !$bp->groups->current_group->forum_id )
 			return false;
+
+		$forum_id = $bp->groups->current_group->forum_id;
 	}
 
 	/* If we're viewing a tag in the directory, let's auto set the filter to the tag name */

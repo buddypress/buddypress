@@ -1,0 +1,203 @@
+<?php
+/*****
+ * WordPress Abstraction
+ *
+ * The functions within this file will detect the version of WordPress you are running
+ * and will alter the environment so BuddyPress can run regardless.
+ *
+ * The code below mostly contains function mappings. This code is subject to change once
+ * the 3.0 WordPress version merge takes place.
+ */
+
+if ( !bp_core_is_multiblog_install() ) {
+	$wpdb->base_prefix = $wpdb->prefix;
+	$wpdb->blogid = 1;
+}
+
+function bp_core_is_multiblog_install() {
+	if ( !function_exists( 'wpmu_signup_blog' ) )
+		return false;
+
+	return true;
+}
+
+function bp_core_get_status_sql( $prefix = false ) {
+	if ( !bp_core_is_multiblog_install() )
+		return "{$prefix}user_status = 0";
+	else
+		return "{$prefix}spam = 0 AND {$prefix}deleted = 0 AND {$prefix}user_status = 0";
+}
+
+if ( !function_exists( 'get_site_option' ) ) {
+	function get_site_option( $option_value ) {
+		return get_option( $option_value );
+	}
+}
+
+if ( !function_exists( 'add_site_option' ) ) {
+	function add_site_option( $option_name, $option_value ) {
+		return add_option( $option_name, $option_value );
+	}
+}
+
+if ( !function_exists( 'update_site_option' ) ) {
+	function update_site_option( $option_name, $option_value ) {
+		return update_option( $option_name, $option_value );
+	}
+}
+
+if ( !function_exists( 'get_blog_option' ) ) {
+	function get_blog_option( $blog_id, $option_name ) {
+		return get_option( $option_name );
+	}
+}
+
+if ( !function_exists( 'add_blog_option' ) ) {
+	function add_blog_option( $blog_id, $option_name, $option_value ) {
+		return add_option( $option_name, $option_value );
+	}
+}
+
+if ( !function_exists( 'update_blog_option' ) ) {
+	function update_blog_option( $blog_id, $option_name, $option_value ) {
+		return update_option( $option_name, $option_value );
+	}
+}
+
+if ( !function_exists( 'switch_to_blog' ) ) {
+	function switch_to_blog() {
+		return 1;
+	}
+}
+
+if ( !function_exists( 'restore_current_blog' ) ) {
+	function restore_current_blog() {
+		return 1;
+	}
+}
+
+if ( !function_exists( 'get_blogs_of_user' ) ) {
+	function get_blogs_of_user() {
+		return false;
+	}
+}
+
+if ( !function_exists( 'is_site_admin' ) ) {
+	function is_site_admin() {
+		global $user_level;
+
+		get_currentuserinfo();
+
+		if ( 10 == $user_level )
+			return true;
+
+		return false;
+	}
+}
+
+if ( !function_exists( 'get_current_user_id' ) ) {
+	function get_current_user_id() {
+		global $current_user;
+		get_currentuserinfo();
+		return $current_user->data->ID;
+	}
+}
+
+if ( !function_exists( 'update_blog_status' ) ) {
+	function update_blog_status() {
+		return true;
+	}
+}
+
+if ( !function_exists( 'wpmu_validate_user_signup' ) ) {
+	function wpmu_validate_user_signup($user_name, $user_email) {
+		global $wpdb;
+
+		$errors = new WP_Error();
+
+		$user_name = preg_replace( "/\s+/", '', sanitize_user( $user_name, true ) );
+		$user_email = sanitize_email( $user_email );
+
+		if ( empty( $user_name ) )
+		   	$errors->add('user_name', __("Please enter a username"));
+
+		$maybe = array();
+		preg_match( "/[a-z0-9]+/", $user_name, $maybe );
+
+		if( $user_name != $maybe[0] ) {
+		    $errors->add('user_name', __("Only lowercase letters and numbers allowed"));
+		}
+
+		$illegal_names = get_site_option( "illegal_names" );
+		if( is_array( $illegal_names ) == false ) {
+			$illegal_names = array(  "www", "web", "root", "admin", "main", "invite", "administrator" );
+			add_site_option( "illegal_names", $illegal_names );
+		}
+		if( in_array( $user_name, $illegal_names ) == true ) {
+		    $errors->add('user_name',  __("That username is not allowed"));
+		}
+
+		if( strlen( $user_name ) < 4 ) {
+		    $errors->add('user_name',  __("Username must be at least 4 characters"));
+		}
+
+		if ( strpos( " " . $user_name, "_" ) != false )
+			$errors->add('user_name', __("Sorry, usernames may not contain the character '_'!"));
+
+		// all numeric?
+		$match = array();
+		preg_match( '/[0-9]*/', $user_name, $match );
+		if ( $match[0] == $user_name )
+			$errors->add('user_name', __("Sorry, usernames must have letters too!"));
+
+		if ( !is_email( $user_email ) )
+			$errors->add('user_email', __("Please check your email address."));
+
+		$limited_email_domains = get_site_option( 'limited_email_domains' );
+		if ( is_array( $limited_email_domains ) && empty( $limited_email_domains ) == false ) {
+			$emaildomain = substr( $user_email, 1 + strpos( $user_email, '@' ) );
+			if( in_array( $emaildomain, $limited_email_domains ) == false ) {
+				$errors->add('user_email', __("Sorry, that email address is not allowed!"));
+			}
+		}
+
+		// Check if the username has been used already.
+		if ( username_exists($user_name) )
+			$errors->add('user_name', __("Sorry, that username already exists!"));
+
+		// Check if the email address has been used already.
+		if ( email_exists($user_email) )
+			$errors->add('user_email', __("Sorry, that email address is already used!"));
+
+		// Has someone already signed up for this username?
+		$signup = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->signups WHERE user_login = %s", $user_name) );
+		if ( $signup != null ) {
+			$registered_at =  mysql2date('U', $signup->registered);
+			$now = current_time( 'timestamp', true );
+			$diff = $now - $registered_at;
+			// If registered more than two days ago, cancel registration and let this signup go through.
+			if ( $diff > 172800 ) {
+				$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->signups WHERE user_login = %s", $user_name) );
+			} else {
+				$errors->add('user_name', __("That username is currently reserved but may be available in a couple of days."));
+			}
+			if( $signup->active == 0 && $signup->user_email == $user_email )
+				$errors->add('user_email_used', __("username and email used"));
+		}
+
+		$signup = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->signups WHERE user_email = %s", $user_email) );
+		if ( $signup != null ) {
+			$diff = current_time( 'timestamp', true ) - mysql2date('U', $signup->registered);
+			// If registered more than two days ago, cancel registration and let this signup go through.
+			if ( $diff > 172800 ) {
+				$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->signups WHERE user_email = %s", $user_email) );
+			} else {
+				$errors->add('user_email', __("That email address has already been used. Please check your inbox for an activation email. It will become available in a couple of days if you do nothing."));
+			}
+		}
+
+		$result = array('user_name' => $user_name, 'user_email' => $user_email,	'errors' => $errors);
+
+		return apply_filters('wpmu_validate_user_signup', $result);
+	}
+}

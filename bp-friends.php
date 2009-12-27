@@ -480,7 +480,12 @@ function friends_get_total_friend_count( $user_id = false ) {
 	if ( !$user_id )
 		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 
-	return apply_filters( 'friends_get_total_friend_count', get_usermeta( $user_id, 'total_friend_count' ) );
+	$count = get_usermeta( $user_id, 'total_friend_count' );
+
+	if ( empty( $count ) )
+		$count = 0;
+
+	return apply_filters( 'friends_get_total_friend_count', $count );
 }
 
 function friends_check_user_has_friends( $user_id ) {

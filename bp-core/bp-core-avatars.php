@@ -8,6 +8,9 @@
  * Set up the constants we need for avatar support
  */
 
+if ( !defined( 'BP_AVATAR_UPLOAD_PATH' ) )
+	define( 'BP_AVATAR_UPLOAD_PATH', bp_core_avatar_upload_path() );
+
 if ( !defined( 'BP_AVATAR_THUMB_WIDTH' ) )
 	define( 'BP_AVATAR_THUMB_WIDTH', 50 );
 
@@ -23,8 +26,12 @@ if ( !defined( 'BP_AVATAR_FULL_HEIGHT' ) )
 if ( !defined( 'BP_AVATAR_ORIGINAL_MAX_WIDTH' ) )
 	define( 'BP_AVATAR_ORIGINAL_MAX_WIDTH', 450 );
 
-if ( !defined( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE' ) )
-	define( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE', get_site_option( 'fileupload_maxk' ) * 1024 );
+if ( !defined( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE' ) ) {
+	if ( !get_site_option( 'fileupload_maxk' ) )
+		define( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE', 5120000 ); /* 5mb */
+	else
+		define( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE', get_site_option( 'fileupload_maxk' ) * 1024 );
+}
 
 if ( !defined( 'BP_AVATAR_DEFAULT' ) )
 	define( 'BP_AVATAR_DEFAULT', BP_PLUGIN_URL . '/bp-xprofile/images/none.gif' );
@@ -94,8 +101,8 @@ function bp_core_fetch_avatar( $args = '' ) {
 	else
 		$html_height = ( 'thumb' == $type ) ? ' height="' . BP_AVATAR_THUMB_HEIGHT . '"' : ' height="' . BP_AVATAR_FULL_HEIGHT . '"';
 
-	$avatar_folder_url = apply_filters( 'bp_core_avatar_folder_url', $bp->root_domain . '/' . basename( WP_CONTENT_DIR ) . '/blogs.dir/' . BP_ROOT_BLOG . '/files/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
-	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', WP_CONTENT_DIR . '/blogs.dir/' . BP_ROOT_BLOG . '/files/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
+	$avatar_folder_url = apply_filters( 'bp_core_avatar_folder_url', str_replace( WP_CONTENT_DIR, WP_CONTENT_URL, BP_AVATAR_UPLOAD_PATH ) . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
+	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', BP_AVATAR_UPLOAD_PATH . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
 
 	/****
 	 * Look for uploaded avatar first. Use it if it exists.
@@ -187,15 +194,7 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 		if ( !$avatar_dir ) return false;
 	}
 
-	if ( 'user' == $object ) {
-		/* Delete any legacy meta entries if this is a user avatar */
-		delete_usermeta( $item_id, 'bp_core_avatar_v1_path' );
-		delete_usermeta( $item_id, 'bp_core_avatar_v1' );
-		delete_usermeta( $item_id, 'bp_core_avatar_v2_path' );
-		delete_usermeta( $item_id, 'bp_core_avatar_v2' );
-	}
-
-	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', WP_CONTENT_DIR . '/blogs.dir/' . BP_ROOT_BLOG . '/files/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
+	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', BP_AVATAR_UPLOAD_PATH . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
 
 	if ( !file_exists( $avatar_folder_dir ) )
 		return false;
@@ -303,7 +302,7 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 	if ( !$item_id )
 		$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', WP_CONTENT_DIR . dirname( $original_file ), $item_id, $object, $avatar_dir );
 	else
-		$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', WP_CONTENT_DIR . '/blogs.dir/' . BP_ROOT_BLOG . '/files/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
+		$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', BP_AVATAR_UPLOAD_PATH . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
 
 	if ( !file_exists( $avatar_folder_dir ) )
 		return false;
@@ -365,6 +364,15 @@ function bp_core_check_avatar_type($file) {
 		return false;
 
 	return true;
+}
+
+function bp_core_avatar_upload_path() {
+	if ( bp_core_is_multiblog_install() )
+		$path = ABSPATH . get_blog_option( BP_ROOT_BLOG, 'upload_path' );
+	else
+		$path = get_option( 'upload_path' );
+
+	return apply_filters( 'bp_core_avatar_upload_path', $path );
 }
 
 ?>

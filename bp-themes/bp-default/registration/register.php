@@ -11,7 +11,7 @@
 
 			<?php if ( 'request-details' == bp_get_current_signup_step() ) : ?>
 
-				<h2 class="pagetitle"><?php _e( 'Create an Account', 'buddypress' ) ?></h2>
+				<h2><?php _e( 'Create an Account', 'buddypress' ) ?></h2>
 
 				<?php do_action( 'template_notices' ) ?>
 
@@ -160,7 +160,7 @@
 
 				<?php do_action( 'bp_after_signup_profile_fields' ) ?>
 
-				<?php if ( 'all' == bp_get_signup_allowed() || 'blog' == bp_get_signup_allowed() ) : ?>
+				<?php if ( bp_core_is_multiblog_install() && 'all' == bp_get_signup_allowed() || 'blog' == bp_get_signup_allowed() ) : ?>
 
 					<?php do_action( 'bp_before_blog_details_fields' ) ?>
 
@@ -215,18 +215,22 @@
 
 			<?php if ( 'completed-confirmation' == bp_get_current_signup_step() ) : ?>
 
-				<h2 class="pagetitle"><?php _e( 'Sign Up Complete!', 'buddypress' ) ?></h2>
+				<h2><?php _e( 'Sign Up Complete!', 'buddypress' ) ?></h2>
 
 				<?php do_action( 'template_notices' ) ?>
 
-				<p><?php _e( 'You have successfully created your account! To begin using this site you will need to activate your account via the email we have just sent to your address.', 'buddypress' ) ?></p>
+				<?php if ( bp_registration_needs_activation() ) : ?>
+					<p><?php _e( 'You have successfully created your account! To begin using this site you will need to activate your account via the email we have just sent to your address.', 'buddypress' ) ?></p>
+				<?php else : ?>
+					<p><?php _e( 'You have successfully created your account! Please log in using the username and password you have just created.', 'buddypress' ) ?></p>
+				<?php endif; ?>
 
 				<?php if ( !(int)get_site_option( 'bp-disable-avatar-uploads' ) ) : ?>
 
 					<?php if ( 'upload-image' == bp_get_avatar_admin_step() ) : ?>
 
 						<h3><?php _e( 'Your Current Avatar', 'buddypress' ) ?></h3>
-						<p><?php _e( "We've fetched an avatar for your new account. If you'd like to change this, why not upload a new one while you wait for your activation email?", 'buddypress' ) ?></p>
+						<p><?php _e( "We've fetched an avatar for your new account. If you'd like to change this, why not upload a new one?", 'buddypress' ) ?></p>
 
 						<div id="signup-avatar">
 							<?php bp_signup_avatar() ?>

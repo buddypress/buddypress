@@ -18,7 +18,7 @@ function bp_core_screen_signup() {
 		return false;
 
 	/* If signups are disabled, just re-direct */
-	if ( 'none' == bp_get_signup_allowed() || 'blog' == bp_get_signup_allowed() )
+	if ( !bp_get_signup_allowed() || 'none' == bp_get_signup_allowed() || 'blog' == bp_get_signup_allowed() )
 		bp_core_redirect( $bp->root_domain );
 
 	$bp->signup->step = 'request-details';
@@ -32,7 +32,7 @@ function bp_core_screen_signup() {
 		require_once( ABSPATH . WPINC . '/registration.php' );
 
 		/* Check the base account details for problems */
-		$account_details = wpmu_validate_user_signup( $_POST['signup_username'] , $_POST['signup_email'] );
+		$account_details = wpmu_validate_user_signup( $_POST['signup_username'], $_POST['signup_email'] );
 
 		/* If there are errors with account details, set them for display */
 		if ( !empty( $account_details['errors']->errors['user_name'] ) )
@@ -48,6 +48,9 @@ function bp_core_screen_signup() {
 		/* Check that the passwords match */
 		if ( ( !empty( $_POST['signup_password'] ) && !empty( $_POST['signup_password_confirm'] ) ) && $_POST['signup_password'] != $_POST['signup_password_confirm'] )
 			$bp->signup->errors['signup_password'] = __( 'The passwords you entered do not match.', 'buddypress' );
+
+		$bp->signup->username = $_POST['signup_username'];
+		$bp->signup->email = $_POST['signup_email'];
 
 		/* Now we've checked account details, we can check profile information */
 		$profile_field_ids = explode( ',', $_POST['signup_profile_field_ids'] );
@@ -121,10 +124,11 @@ function bp_core_screen_signup() {
 				$usermeta = apply_filters( 'bp_signup_usermeta', $usermeta );
 
 				/* Finally, sign up the user and/or blog*/
-				if ( isset( $_POST['signup_with_blog'] ) )
+				if ( isset( $_POST['signup_with_blog'] ) && bp_core_is_multiblog_install() )
 					wpmu_signup_blog( $blog_details['domain'], $blog_details['path'], $blog_details['blog_title'], $_POST['signup_username'], $_POST['signup_email'], $usermeta );
-				else
-					wpmu_signup_user( $_POST['signup_username'], $_POST['signup_email'], $usermeta );
+				else {
+					bp_core_signup_user( $_POST['signup_username'], $_POST['signup_password'], $_POST['signup_email'], $usermeta );
+				}
 
 				$bp->signup->step = 'completed-confirmation';
 			}
@@ -144,20 +148,23 @@ function bp_core_screen_signup() {
 
 		$bp->signup->step = 'completed-confirmation';
 
-		/* Get the activation key */
-		if ( !$bp->signup->key = $wpdb->get_var( $wpdb->prepare( "SELECT activation_key FROM {$wpdb->signups} WHERE user_login = %s AND user_email = %s", $_POST[ 'signup_username' ], $_POST[ 'signup_email' ] ) ) ) {
-			bp_core_add_message( __( 'There was a problem uploading your avatar, please try uploading it again', 'buddypress' ) );
-		} else {
-			/* Hash the key to create the upload folder (added security so people don't sniff the activation key) */
-			$bp->signup->avatar_dir = wp_hash( $bp->signup->key );
-
-			/* Pass the file to the avatar upload handler */
-			if ( bp_core_avatar_handle_upload( $_FILES, 'bp_core_signup_avatar_upload_dir' ) ) {
-				$bp->avatar_admin->step = 'crop-image';
-
-				/* Make sure we include the jQuery jCrop file for image cropping */
-				add_action( 'wp', 'bp_core_add_jquery_cropper' );
+		if ( bp_core_is_multiblog_install() ) {
+			/* Get the activation key */
+			if ( !$bp->signup->key = $wpdb->get_var( $wpdb->prepare( "SELECT activation_key FROM {$wpdb->signups} WHERE user_login = %s AND user_email = %s", $_POST[ 'signup_username' ], $_POST[ 'signup_email' ] ) ) ) {
+				bp_core_add_message( __( 'There was a problem uploading your avatar, please try uploading it again', 'buddypress' ) );
+			} else {
+				/* Hash the key to create the upload folder (added security so people don't sniff the activation key) */
+				$bp->signup->avatar_dir = wp_hash( $bp->signup->key );
 			}
+		} else
+			$bp->signup->avatar_dir = wp_hash( $bp->signup->username );
+
+		/* Pass the file to the avatar upload handler */
+		if ( bp_core_avatar_handle_upload( $_FILES, 'bp_core_signup_avatar_upload_dir' ) ) {
+			$bp->avatar_admin->step = 'crop-image';
+
+			/* Make sure we include the jQuery jCrop file for image cropping */
+			add_action( 'wp', 'bp_core_add_jquery_cropper' );
 		}
 	}
 
@@ -181,26 +188,58 @@ function bp_core_screen_signup() {
 }
 add_action( 'wp', 'bp_core_screen_signup', 3 );
 
+function bp_core_signup_user( $user_login, $user_password, $user_email, $usermeta ) {
+	global $bp;
+
+	if ( bp_core_is_multiblog_install() )
+		return wpmu_signup_user( $user_login, $user_email, $usermeta );
+
+	$errors = new WP_Error();
+
+	$user_id = wp_create_user( $user_login, $user_password, $user_email );
+	if ( !$user_id ) {
+		$errors->add('registerfail', sprintf(__('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !'), get_option('admin_email')));
+		return $errors;
+	}
+
+	/* Set any profile data */
+	if ( function_exists( 'xprofile_set_field_data' ) ) {
+		if ( !empty( $usermeta['profile_field_ids'] ) ) {
+			$profile_field_ids = explode( ',', $usermeta['profile_field_ids'] );
+
+			foreach( $profile_field_ids as $field_id ) {
+				$current_field = $usermeta["field_{$field_id}"];
+
+				if ( !empty( $current_field ) )
+					xprofile_set_field_data( $field_id, $user_id, $current_field );
+			}
+		}
+	}
+
+	wp_new_user_notification( $user_id, $user_pass );
+
+	$bp->signup->username = $user_login;
+
+	return $user_id;
+}
+
 function bp_core_signup_avatar_upload_dir() {
 	global $bp;
 
 	if ( !$bp->signup->avatar_dir )
 		return false;
 
-	$path = get_blog_option( BP_ROOT_BLOG, 'upload_path' );
-	$newdir = WP_CONTENT_DIR . str_replace( 'wp-content', '', $path );
-	$newdir .= '/avatars/signups/' . $bp->signup->avatar_dir;
+	$path  = BP_AVATAR_UPLOAD_PATH . '/avatars/signups/' . $bp->signup->avatar_dir;
+	$newbdir = $path;
 
-	$newbdir = $newdir;
+	if ( !file_exists( $path ) )
+		@wp_mkdir_p( $path );
 
-	if ( !file_exists( $newdir ) )
-		@wp_mkdir_p( $newdir );
-
-	$newurl = WP_CONTENT_URL . '/blogs.dir/' . BP_ROOT_BLOG . '/files/avatars/signups/' . $bp->signup->avatar_dir;
+	$newurl = str_replace( WP_CONTENT_DIR, WP_CONTENT_URL, $path );
 	$newburl = $newurl;
 	$newsubdir = '/avatars/signups/' . $bp->signup->avatar_dir;
 
-	return apply_filters( 'bp_core_signup_avatar_upload_dir', array( 'path' => $newdir, 'url' => $newurl, 'subdir' => $newsubdir, 'basedir' => $newbdir, 'baseurl' => $newburl, 'error' => false ) );
+	return apply_filters( 'bp_core_signup_avatar_upload_dir', array( 'path' => $path, 'url' => $newurl, 'subdir' => $newsubdir, 'basedir' => $newbdir, 'baseurl' => $newburl, 'error' => false ) );
 }
 
 /* Kill the wp-signup.php if custom registration signup templates are present */

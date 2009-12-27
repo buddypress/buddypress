@@ -611,10 +611,10 @@ function bp_the_thread_recipients() {
 		if ( count($thread_template->thread->recipients) >= 5 )
 			return apply_filters( 'bp_get_the_thread_recipients', sprintf( __( '%d Recipients', 'buddypress' ), count($thread_template->thread->recipients) ) );
 
-		foreach( $thread_template->thread->recipients as $recipient )
+		foreach( (array)$thread_template->thread->recipients as $recipient )
 			$recipient_links[] = bp_core_get_userlink( $recipient );
 
-		return apply_filters( 'bp_get_the_thread_recipients', implode( ', ', $recipient_links ) );
+		return apply_filters( 'bp_get_the_thread_recipients', implode( ', ', (array)$recipient_links ) );
 	}
 
 function bp_the_thread_message_alt_class() {

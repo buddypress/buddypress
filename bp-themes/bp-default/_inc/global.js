@@ -69,7 +69,8 @@ jQuery(document).ready( function() {
 			} else {
 				if ( 0 == j("ul.activity-list").length ) {
 					j("div.error").slideUp(100).remove();
-					j("div.activity").append( '<ul id="site-wide-stream" class="activity-list item-list">' );
+					j("div#message").slideUp(100).remove();
+					j("div.activity").append( '<ul id="activity-stream" class="activity-list item-list">' );
 				}
 
 				j("ul.activity-list").prepend(response);
@@ -365,91 +366,6 @@ jQuery(document).ready( function() {
 					j(element).parent().parent().parent().slideUp( 200 );
 			}
 		}
-	});
-
-	/* New posts */
-	j("input#whats-new-submit").click( function() {
-		var button = j(this);
-		var form = button.parent().parent().parent().parent();
-
-		form.children().each( function() {
-			if ( j.nodeName(this, "textarea") || j.nodeName(this, "input") )
-				j(this).attr( 'disabled', 'disabled' );
-		});
-
-		j( 'form#' + form.attr('id') + ' span.ajax-loader' ).show();
-
-		/* Remove any errors */
-		j('div.error').remove();
-		button.attr('disabled','disabled');
-
-		j.post( ajaxurl, {
-			action: 'post_update',
-			'cookie': encodeURIComponent(document.cookie),
-			'_wpnonce_post_update': j("input#_wpnonce_post_update").val(),
-			'content': j("textarea#whats-new").val(),
-			'group': j("#whats-new-post-in").val()
-		},
-		function(response)
-		{
-			j( 'form#' + form.attr('id') + ' span.ajax-loader' ).hide();
-
-			form.children().each( function() {
-				if ( j.nodeName(this, "textarea") || j.nodeName(this, "input") )
-					j(this).attr( 'disabled', '' );
-			});
-
-			/* Check for errors and append if found. */
-			if ( response[0] + response[1] == '-1' ) {
-				form.prepend( response.substr( 2, response.length ) );
-				j( 'form#' + form.attr('id') + ' div.error').hide().fadeIn( 200 );
-				button.attr("disabled", '');
-			} else {
-				if ( 0 == j("ul#activity-stream").length ) {
-					j("div.error").slideUp(100).remove();
-					j("div.activity").append( '<ul id="activity-stream" class="activity-list item-list">' );
-				}
-
-				j("ul#activity-stream").prepend(response);
-				j("li.new-update").hide().slideDown( 300 );
-				j("li.new-update").removeClass( 'new-update' );
-				j("textarea#whats-new").val('');
-
-				/* Re-enable the submit button after 8 seconds. */
-				setTimeout( function() { button.attr("disabled", ''); }, 8000 );
-			}
-		});
-
-		return false;
-	});
-
-	/**** Pagination Links ****************************************************/
-
-	j('div#content').click( function(event) {
-		var target = j(event.target);
-
-		if ( target.parent().parent().hasClass('pagination') ) {
-			if ( j('div.item-list-tabs li.selected').length )
-				var el = j('div.item-list-tabs li.selected');
-			else
-				var el = j('li.filter select');
-
-			var page_number = 1;
-			var css_id = el.attr('id').split( '-' );
-			var object = css_id[0];
-
-			if ( j(target).hasClass('next') )
-				var page_number = Number( j('div.pagination span.current').html() ) + 1;
-			else if ( j(target).hasClass('prev') )
-				var page_number = Number( j('div.pagination span.current').html() ) - 1;
-			else
-				var page_number = Number( j(target).html() );
-
-			bp_filter_request( j.cookie('bp-' + object + '-type'), j.cookie('bp-' + object + '-filter'), object, 'div.' + object, page_number, j.cookie('bp-' + object + '-search-terms') );
-
-			return false;
-		}
-
 	});
 
 	/**** Directory Search ****************************************************/

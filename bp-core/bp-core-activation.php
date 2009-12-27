@@ -3,11 +3,7 @@
 function bp_core_screen_activation() {
 	global $bp, $wpdb;
 
-	if ( BP_ACTIVATION_SLUG != $bp->current_component )
-		return false;
-
-	/* If we are using a BuddyPress 1.0 theme ignore this. */
-	if ( file_exists( WP_CONTENT_DIR . '/bp-themes' ) )
+	if ( !bp_core_is_multiblog_install() || BP_ACTIVATION_SLUG != $bp->current_component )
 		return false;
 
 	/* Check if an activation key has been passed */

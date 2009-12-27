@@ -43,7 +43,8 @@ To view the message: %s
 function messages_notification_new_notice( $message_subject, $message ) {
 	global $bp, $wpdb;
 
-	$users = $wpdb->get_results( $wpdb->prepare( "SELECT ID as user_id, user_email, user_login FROM {$wpdb->base_prefix}users WHERE user_status = 0 AND spam = 0 AND deleted = 0" ) );
+	$status_sql = bp_core_get_status_sql( 'u.' );
+	$users = $wpdb->get_results( $wpdb->prepare( "SELECT ID as user_id, user_email, user_login FROM {$wpdb->base_prefix}users WHERE {$status_sql}" ) );
 
 	for ( $i = 0; $i < count($users); $i++ ) {
 		if ( get_usermeta( $users[$i]->user_id, 'notification_messages_new_notice' ) == 'no' ) continue;

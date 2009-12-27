@@ -1036,20 +1036,17 @@ function xprofile_avatar_upload_dir( $directory = false, $user_id = false ) {
 	if ( !$directory )
 		$directory = 'avatars';
 
-	$path  = get_blog_option( BP_ROOT_BLOG, 'upload_path' );
-	$newdir = WP_CONTENT_DIR . str_replace( 'wp-content', '', $path );
-	$newdir .= '/avatars/' . $user_id;
+	$path  = BP_AVATAR_UPLOAD_PATH . '/avatars/' . $user_id;
+	$newbdir = $path;
 
-	$newbdir = $newdir;
+	if ( !file_exists( $path ) )
+		@wp_mkdir_p( $path );
 
-	if ( !file_exists( $newdir ) )
-		@wp_mkdir_p( $newdir );
-
-	$newurl = WP_CONTENT_URL . '/blogs.dir/' . BP_ROOT_BLOG . '/files/' . $directory . '/' . $user_id;
+	$newurl = str_replace( WP_CONTENT_DIR, WP_CONTENT_URL, $path );
 	$newburl = $newurl;
 	$newsubdir = '/avatars/' . $user_id;
 
-	return apply_filters( 'xprofile_avatar_upload_dir', array( 'path' => $newdir, 'url' => $newurl, 'subdir' => $newsubdir, 'basedir' => $newbdir, 'baseurl' => $newburl, 'error' => false ) );
+	return apply_filters( 'xprofile_avatar_upload_dir', array( 'path' => $path, 'url' => $newurl, 'subdir' => $newsubdir, 'basedir' => $newbdir, 'baseurl' => $newburl, 'error' => false ) );
 }
 
 /**

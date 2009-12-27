@@ -9,23 +9,20 @@
  * @uses get_option() Selects a site setting from the DB.
  */
 function bp_core_add_admin_bar_css() {
-	global $current_blog;
+	global $bp;
 
 	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) )
 		return false;
 
-	/* Fetch the admin bar css from the active theme location */
-	if ( file_exists( WP_CONTENT_DIR . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'stylesheet' ) . '/_inc/css/adminbar.css' ) )
-		$admin_bar_css = WP_CONTENT_URL . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'stylesheet' ) . '/_inc/css/adminbar.css';
-	else if ( file_exists( WP_CONTENT_DIR . '/' . get_blog_option( BP_ROOT_BLOG, 'template' ) . '/_inc/css/adminbar.css' ) )
-		$admin_bar_css = WP_CONTENT_URL . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'template' ) . '/_inc/css/adminbar.css';
-	else
-		$admin_bar_css = BP_PLUGIN_URL . '/bp-core/css/admin-bar-fallback.css';
-
-	wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', $admin_bar_css ) );
+	/* Check there is admin bar css in the currently active theme. If not fallback to the css in the plugin. */
+	if ( !locate_template( array( '_inc/css/adminbar.css' ), false ) )
+		wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', BP_PLUGIN_URL . '/bp-core/css/admin-bar-fallback.css' ) );
+	else {
+		if ( is_admin() )
+			wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', str_replace( ABSPATH, $bp->root_domain . '/', locate_template( array( '_inc/css/adminbar.css' ), false ) ) ) );
+	}
 }
-add_action( 'admin_menu', 'bp_core_add_admin_bar_css' );
-add_action( 'template_redirect', 'bp_core_add_admin_bar_css' );
+add_action( 'init', 'bp_core_add_admin_bar_css' );
 
 /**
  * bp_core_add_admin_bar_js()
@@ -38,8 +35,7 @@ add_action( 'template_redirect', 'bp_core_add_admin_bar_css' );
 function bp_core_add_admin_bar_js() {
 	wp_enqueue_script( 'bp-admin-bar-js', BP_PLUGIN_URL . '/bp-core/js/admin-bar.js', array( 'jquery' ) );
 }
-add_action( 'admin_menu', 'bp_core_add_admin_bar_js' );
-add_action( 'wp', 'bp_core_add_admin_bar_js' );
+add_action( 'init', 'bp_core_add_admin_bar_js' );
 
 /**
  * bp_core_admin_menu_icon_css()

@@ -60,7 +60,7 @@
 					</li>
 				<?php endif; ?>
 
-				<?php if ( function_exists( 'bp_blogs_install' ) ) : ?>
+				<?php if ( function_exists( 'bp_blogs_install' ) && bp_core_is_multiblog_install() ) : ?>
 					<li<?php if ( bp_is_page( BP_BLOGS_SLUG ) ) : ?> class="selected"<?php endif; ?>>
 						<a href="<?php echo site_url() ?>/<?php echo BP_BLOGS_SLUG ?>" title="<?php _e( 'Blogs', 'buddypress' ) ?>"><?php _e( 'Blogs', 'buddypress' ) ?></a>
 					</li>

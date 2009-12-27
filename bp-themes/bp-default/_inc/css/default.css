@@ -22,13 +22,15 @@ body {
 
 h2 {
 	margin: 10px 0;
-	font-size: 20px;
+	font-size: 22px;
+	font-weight: normal;
 }
 
 h3 {
-	font-size: 16px;
+	font-size: 18px;
 	margin: 15px 0;
 	color: #888;
+	font-weight: normal;
 }
 
 h4 {
@@ -570,8 +572,8 @@ div#message p {
 	}
 
 form.standard-form#signup_form div div.error {
-	color: white;
-	background: red;
+	color: #fff;
+	background: #e41717;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
@@ -1431,7 +1433,7 @@ div.post {
 	}
 
 	div.post h3 {
-		font-size: 24px;
+		font-size: 26px;
 		margin-bottom: 5px;
 		line-height: 120%;
 	}

@@ -1,12 +1,10 @@
 <?php
 
 function bp_core_admin_bar() {
-	global $bp, $wpdb, $current_blog, $doing_admin_bar;
+	global $bp, $wpdb, $current_blog;
 
 	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) )
 		return false;
-
-	$doing_admin_bar = true;
 
 	if ( (int)get_site_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() )
 		return false;
@@ -42,8 +40,8 @@ function bp_adminbar_login_menu() {
 	echo '<li class="bp-login no-arrow"><a href="' . $bp->root_domain . '/wp-login.php?redirect_to=' . urlencode( $bp->root_domain ) . '">' . __( 'Log In', 'buddypress' ) . '</a></li>';
 
 	// Show "Sign Up" link if user registrations are allowed
-	if ( get_site_option( 'registration' ) != 'none' && get_site_option( 'registration' ) != 'blog' ) {
-		echo '<li class="bp-signup no-arrow"><a href="' . bp_signup_page(false) . '">' . __( 'Sign Up', 'buddypress' ) . '</a></li>';
+	if ( bp_get_signup_allowed() ) {
+		echo '<li class="bp-signup no-arrow"><a href="' . bp_get_signup_page(false) . '">' . __( 'Sign Up', 'buddypress' ) . '</a></li>';
 	}
 }
 
@@ -250,7 +248,7 @@ function bp_adminbar_random_menu() {
 			<li class="alt"><a href="<?php echo $bp->root_domain . '/' . $bp->groups->slug . '/?random-group' ?>"><?php _e( 'Random Group', 'buddypress' ) ?></a></li>
 			<?php endif; ?>
 
-			<?php if ( function_exists('bp_blogs_install') ) : ?>
+			<?php if ( function_exists('bp_blogs_install') && bp_core_is_multiblog_install() ) : ?>
 			<li><a href="<?php echo $bp->root_domain . '/' . $bp->blogs->slug . '/?random-blog' ?>"><?php _e( 'Random Blog', 'buddypress' ) ?></a></li>
 
 			<?php endif; ?>
@@ -259,16 +257,20 @@ function bp_adminbar_random_menu() {
 		</ul>
 	</li>
 	<?php
-
-	$doing_admin_bar = false;
 }
 
 add_action( 'bp_adminbar_logo', 'bp_adminbar_logo' );
 add_action( 'bp_adminbar_menus', 'bp_adminbar_login_menu', 2 );
 add_action( 'bp_adminbar_menus', 'bp_adminbar_account_menu', 4 );
-add_action( 'bp_adminbar_menus', 'bp_adminbar_blogs_menu', 6 );
+
+if ( bp_core_is_multiblog_install() )
+	add_action( 'bp_adminbar_menus', 'bp_adminbar_blogs_menu', 6 );
+
 add_action( 'bp_adminbar_menus', 'bp_adminbar_notifications_menu', 8 );
-add_action( 'bp_adminbar_menus', 'bp_adminbar_authors_menu', 12 );
+
+if ( bp_core_is_multiblog_install() )
+	add_action( 'bp_adminbar_menus', 'bp_adminbar_authors_menu', 12 );
+
 add_action( 'bp_adminbar_menus', 'bp_adminbar_random_menu', 100 );
 
 add_action( 'wp_footer', 'bp_core_admin_bar', 8 );

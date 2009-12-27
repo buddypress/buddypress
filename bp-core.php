@@ -11,6 +11,9 @@ define( 'BP_CORE_DB_VERSION', '1800' );
 define( 'BP_PLUGIN_DIR', WP_PLUGIN_DIR . '/buddypress' );
 define( 'BP_PLUGIN_URL', plugins_url( $path = '/buddypress' ) );
 
+/* Load the WP abstraction file so BuddyPress can run on all WordPress setups. */
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-wpabstraction.php' );
+
 /* Place your custom code (actions/filters) in a file called /plugins/bp-custom.php and it will be loaded before anything else. */
 if ( file_exists( WP_PLUGIN_DIR . '/bp-custom.php' ) )
 	require( WP_PLUGIN_DIR . '/bp-custom.php' );
@@ -62,9 +65,9 @@ if ( !defined( 'BP_SEARCH_SLUG' ) )
 if ( !defined( 'BP_HOME_BLOG_SLUG' ) )
 	define( 'BP_HOME_BLOG_SLUG', 'blog' );
 
-/* Register BuddyPress themes contained within the theme folder */
-if ( function_exists( 'register_theme_folder' ) )
-	register_theme_folder( 'buddypress/bp-themes' );
+/* Register BuddyPress themes contained within the bp-theme folder */
+if ( function_exists( 'register_theme_directory') )
+	register_theme_directory( WP_PLUGIN_DIR . '/buddypress/bp-themes' );
 
 
 /* "And now for something completely different" .... */
@@ -413,7 +416,7 @@ add_action( 'wp', 'bp_core_action_directory_members', 2 );
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
 function bp_core_action_set_spammer_status() {
-	global $bp;
+	global $bp, $wpdb;
 
 	if ( !is_site_admin() || bp_is_home() || !$bp->displayed_user->id )
 		return false;
@@ -423,7 +426,8 @@ function bp_core_action_set_spammer_status() {
 		check_admin_referer( 'mark-unmark-spammer' );
 
 		/* Get the functions file */
-		require( ABSPATH . 'wp-admin/includes/mu.php' );
+		if ( file_exists( ABSPATH . 'wp-admin/includes/mu.php' ) && bp_core_is_multiblog_install() )
+			require( ABSPATH . 'wp-admin/includes/mu.php' );
 
 		if ( 'mark-spammer' == $bp->current_action )
 			$is_spam = 1;
@@ -446,7 +450,10 @@ function bp_core_action_set_spammer_status() {
 		}
 
 		/* Finally, mark this user as a spammer */
-		update_user_status( $bp->displayed_user->id, 'spam', $is_spam, 1 );
+		if ( bp_core_is_multiblog_install() )
+			$wpdb->update( $wpdb->users, array( 'spam' => $is_spam ), array( 'ID' => $bp->displayed_user->id ) );
+
+		$wpdb->update( $wpdb->users, array( 'user_status' => $is_spam ), array( 'ID' => $bp->displayed_user->id ) );
 
 		if ( $is_spam )
 			bp_core_add_message( __( 'User marked as spammer. Spam users are visible only to site admins.', 'buddypress' ) );
@@ -1168,9 +1175,11 @@ function bp_core_get_userlink_by_username( $username ) {
  * @return int The total number of members.
  */
 function bp_core_get_total_member_count() {
-	global $wpdb;
+	global $wpdb, $bp;
 
-	$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM " . CUSTOM_USER_TABLE . " WHERE spam = 0" ) );
+	$status_sql = bp_core_get_status_sql();
+
+	$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM " . CUSTOM_USER_TABLE . " WHERE {$status_sql}" ) );
 	return apply_filters( 'bp_core_get_total_member_count', $count );
 }
 
@@ -1186,7 +1195,12 @@ function bp_core_get_total_member_count() {
 function bp_core_is_user_spammer( $user_id ) {
 	global $wpdb;
 
-	return apply_filters( 'bp_core_is_user_spammer', (int) $wpdb->get_var( $wpdb->prepare( "SELECT spam FROM " . CUSTOM_USER_TABLE . " WHERE ID = %d", $user_id ) ) );
+	if ( bp_core_is_multiblog_install() )
+		$is_spammer = (int) $wpdb->get_var( $wpdb->prepare( "SELECT spam FROM " . CUSTOM_USER_TABLE . " WHERE ID = %d", $user_id ) );
+	else
+		$is_spammer = (int) $wpdb->get_var( $wpdb->prepare( "SELECT user_status FROM " . CUSTOM_USER_TABLE . " WHERE ID = %d", $user_id ) );
+
+	return apply_filters( 'bp_core_is_user_spammer', $is_spammer );
 }
 
 /**

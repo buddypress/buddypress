@@ -1,5 +1,4 @@
 <?php
-
 /***
  * Members template loop that will allow you to loop all members or friends of a member
  * if you pass a user_id.
@@ -901,29 +900,24 @@ function bp_is_page($page) {
 }
 
 function bp_has_custom_signup_page() {
-	if ( file_exists( WP_CONTENT_DIR . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'template') . '/register.php') )
-		return true;
-
-	if ( file_exists( WP_CONTENT_DIR . '/themes/' . get_blog_option( BP_ROOT_BLOG, 'template') . '/registration/register.php') )
+	if ( locate_template( array( 'register.php' ), false ) || locate_template( array( '/registration/register.php' ), false ) )
 		return true;
 
 	return false;
 }
 
-function bp_signup_page( $deprecated = true ) {
-	if ( !$deprecated )
-		return bp_get_signup_page();
-	else
-		echo bp_get_signup_page();
+function bp_signup_page() {
+	echo bp_get_signup_page();
 }
 	function bp_get_signup_page() {
 		global $bp;
 
-		if ( bp_has_custom_signup_page() ) {
-				return apply_filters( 'bp_get_signup_page', $bp->root_domain . '/' . BP_REGISTER_SLUG );
-		} else {
-				return apply_filters( 'bp_get_signup_page', $bp->root_domain . '/wp-signup.php' );
-		}
+		if ( bp_has_custom_signup_page() )
+			$page = $bp->root_domain . '/' . BP_REGISTER_SLUG;
+		else
+			$page = $bp->root_domain . '/wp-signup.php';
+
+		return apply_filters( 'bp_get_signup_page', $page );
 	}
 
 function bp_has_custom_activation_page() {
@@ -936,21 +930,19 @@ function bp_has_custom_activation_page() {
 	return false;
 }
 
-function bp_activation_page( $echo = true ) {
-	global $bp;
-
-	if ( bp_has_custom_activation_page() ) {
-		if ( $echo )
-			echo $bp->root_domain . '/' . BP_ACTIVATION_SLUG;
-		else
-			return $bp->root_domain . '/' . BP_ACTIVATION_SLUG;
-	} else {
-		if ( $echo )
-			echo $bp->root_domain . '/wp-activate.php';
-		else
-			return $bp->root_domain . '/wp-activate.php';
-	}
+function bp_activation_page() {
+	echo bp_get_activation_page();
 }
+	function bp_get_activation_page() {
+		global $bp;
+
+		if ( bp_has_custom_activation_page() )
+			$page = $bp->root_domain . '/' . BP_ACTIVATION_SLUG;
+		else
+			$page = $bp->root_domain . '/wp-activate.php';
+
+		return apply_filters( 'bp_get_activation_page', $page );
+	}
 
 function bp_search_form_action() {
 	global $bp;
@@ -1218,13 +1210,24 @@ function bp_signup_allowed() {
 	echo bp_get_signup_allowed();
 }
 	function bp_get_signup_allowed() {
-		return get_site_option( 'registration' );
+		if ( bp_core_is_multiblog_install() )
+			return get_site_option( 'registration' );
+		else {
+			if ( (int)get_option( 'users_can_register') )
+				return 'user';
+		}
+
+		return false;
 	}
 
 function bp_account_was_activated() {
 	global $bp;
 
 	return $bp->activation_complete;
+}
+
+function bp_registration_needs_activation() {
+	return apply_filters( 'bp_registration_needs_activation', bp_core_is_multiblog_install() );
 }
 
 

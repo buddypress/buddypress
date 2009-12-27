@@ -32,7 +32,7 @@ function bp_core_set_uri_globals() {
 	global $bp_unfiltered_uri;
 	global $bp, $current_blog;
 
-	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) {
+	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && bp_core_is_multiblog_install() ) {
 		/* Only catch URI's on the root blog if we are not running BP on multiple blogs */
 		if ( BP_ROOT_BLOG != (int) $current_blog->blog_id )
 			return false;

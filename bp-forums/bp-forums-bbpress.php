@@ -94,7 +94,8 @@ function bp_forums_load_bbpress() {
 	if ( !$tables_installed ) {
 		require_once( BB_PATH . 'bb-admin/includes/defaults.bb-schema.php' );
 
-		dbDelta( $bb_queries );
+		/* Backticks and "IF NOT EXISTS" break the dbDelta function. */
+		dbDelta( str_replace( ' IF NOT EXISTS', '', str_replace( '`', '', $bb_queries ) ) );
 
 		require_once( BB_PATH . 'bb-admin/includes/functions.bb-upgrade.php' );
 		bb_update_db_version();
