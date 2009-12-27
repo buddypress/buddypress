@@ -24,11 +24,13 @@
 						<a href="<?php bp_activity_thread_permalink() ?>" class="view" title="<?php _e( 'View Thread', 'buddypress' ) ?>"><?php _e( 'View Thread', 'buddypress' ) ?></a>
 					<?php endif; ?>
 
-					<?php if ( !bp_get_activity_is_favorite() ) : ?>
-						<a href="" class="fav" title="<?php _e( 'Mark Favorite', 'buddypress' ) ?>"><?php _e( 'Mark Favorite', 'buddypress' ) ?></a>
-					<?php else : ?>
-						<a href="" class="unfav" title="<?php _e( 'Remove Favorite', 'buddypress' ) ?>"><?php _e( 'Remove Favorite', 'buddypress' ) ?></a>
-					<?php endif; ?>
+					<?php if ( is_user_logged_in() ) : ?>
+						<?php if ( !bp_get_activity_is_favorite() ) : ?>
+							<a href="" class="fav" title="<?php _e( 'Mark Favorite', 'buddypress' ) ?>"><?php _e( 'Mark Favorite', 'buddypress' ) ?></a>
+						<?php else : ?>
+							<a href="" class="unfav" title="<?php _e( 'Remove Favorite', 'buddypress' ) ?>"><?php _e( 'Remove Favorite', 'buddypress' ) ?></a>
+						<?php endif; ?>
+					<?php endif;?>
 				</div>
 			</div>
 
