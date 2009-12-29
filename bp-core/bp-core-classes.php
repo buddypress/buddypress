@@ -61,7 +61,7 @@ class BP_Core_User {
 		if ( $this->profile_data ) {
 			$this->user_url = bp_core_get_user_domain( $this->id, $this->profile_data['user_nicename'], $this->profile_data['user_login'] );
 			$this->fullname = attribute_escape( $this->profile_data[BP_XPROFILE_FULLNAME_FIELD_NAME]['field_data'] );
-			$this->user_link = "<a href='{$this->user_url}'>{$this->fullname}</a>";
+			$this->user_link = "<a href='{$this->user_url}' title='{$this->fullname}'>{$this->fullname}</a>";
 			$this->email = attribute_escape( $this->profile_data['user_email'] );
 		} else {
 			$this->user_url = bp_core_get_userurl( $this->id );
@@ -252,7 +252,7 @@ class BP_Core_User {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		$user_sql = " AND user_id IN ( " . $wpdb->escape( $user_ids ) . " ) ";
-		$status_sql = bp_core_get_status_sql( 'u.' );
+		$status_sql = bp_core_get_status_sql();
 
 		$total_users_sql = apply_filters( 'bp_core_get_specific_users_count_sql', $wpdb->prepare( "SELECT COUNT(DISTINCT ID) FROM " . CUSTOM_USER_TABLE . " WHERE {$status_sql} AND ID IN ( " . $wpdb->escape( $user_ids ) . " ) " ), $wpdb->escape( $user_ids ) );
 		$paged_users_sql = apply_filters( 'bp_core_get_specific_users_count_sql', $wpdb->prepare( "SELECT DISTINCT ID as id, user_registered, user_nicename, user_login, user_email FROM " . CUSTOM_USER_TABLE . " WHERE {$status_sql} AND ID IN ( " . $wpdb->escape( $user_ids ) . " ) {$pag_sql}" ), $wpdb->escape( $user_ids ) );
@@ -267,6 +267,7 @@ class BP_Core_User {
 
 		/* Add additional data to the returned results */
 		$paged_users = BP_Core_User::get_user_extras( &$paged_users, &$user_ids );
+
 
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}

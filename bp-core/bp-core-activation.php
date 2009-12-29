@@ -113,7 +113,7 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 	$message = sprintf(__("Thanks for registering! To complete the activation of your account and blog, please click the following link:\n\n%s\n\n\n\nAfter you activate, you can visit your blog here:\n\n%s", 'buddypress' ), $activate_url, clean_url("http://{$domain}{$path}" ) );
 	$subject = '[' . $from_name . '] ' . sprintf(__('Activate %s', 'buddypress' ), clean_url('http://' . $domain . $path));
 
-	wp_mail($user_email, $subject, $message, $message_headers);
+	wp_mail( $user_email, $subject, $message, $message_headers );
 
 	// Return false to stop the original WPMU function from continuing
 	return false;
@@ -135,7 +135,7 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 	$message = sprintf( __( "Thanks for registering! To complete the activation of your account please click the following link:\n\n%s\n\n", 'buddypress' ), $activate_url, clean_url("http://{$domain}{$path}" ) );
 	$subject = '[' . $from_name . '] ' . __( 'Activate Your Account', 'buddypress' );
 
-	wp_mail($user_email, $subject, $message, $message_headers);
+	wp_mail( $user_email, $subject, $message, $message_headers );
 
 	// Return false to stop the original WPMU function from continuing
 	return false;

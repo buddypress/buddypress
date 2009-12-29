@@ -19,6 +19,8 @@ define( 'BP_VERSION', '1.2-bleeding' );
 require_once( WP_PLUGIN_DIR . '/buddypress/bp-core.php' );
 $deactivated = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) );
 
+do_action( 'bp_core_loaded' );
+
 /* Activity Streams */
 if ( !isset( $deactivated['bp-activity.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-activity.php') )
 	include( BP_PLUGIN_DIR . '/bp-activity.php' );
@@ -47,10 +49,14 @@ if ( !isset( $deactivated['bp-messages.php'] ) && file_exists( BP_PLUGIN_DIR . '
 if ( !isset( $deactivated['bp-xprofile.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-xprofile.php') )
 	include( BP_PLUGIN_DIR . '/bp-xprofile.php' );
 
+do_action( 'bp_init' );
+
 /* Activation Function */
 function bp_loader_activate() {
 	/* Force refresh theme roots. */
 	delete_site_transient( 'theme_roots' );
+
+	do_action( 'bp_loader_activate' );
 }
 register_activation_hook( __FILE__, 'bp_loader_activate' );
 
@@ -66,6 +72,8 @@ function bp_loader_deactivate() {
 	delete_site_option( 'bp-groups-db-version' );
 	delete_site_option( 'bp-messages-db-version' );
 	delete_site_option( 'bp-xprofile-db-version' );
+
+	do_action( 'bp_loader_deactivate' );
 }
 register_deactivation_hook( __FILE__, 'bp_loader_deactivate' );
 
