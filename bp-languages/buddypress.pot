@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-12-28 14:11+0000\n"
+"POT-Creation-Date: 2009-12-30 14:11+0000\n"
 "PO-Revision-Date: 2009-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: bp-activity.php:86 bp-activity/feeds/bp-activity-personal-feed.php:21
+#: bp-themes/bp-default/header.php:45
 msgid "Activity"
 msgstr ""
 
@@ -38,19 +39,19 @@ msgstr ""
 msgid "My Activity"
 msgstr ""
 
-#: bp-activity.php:168
+#: bp-activity.php:180
 msgid "You do not have access to this activity."
 msgstr ""
 
-#: bp-activity.php:244
+#: bp-activity.php:256
 msgid "Activity deleted"
 msgstr ""
 
-#: bp-activity.php:246
+#: bp-activity.php:258
 msgid "There was an error when deleting that activity"
 msgstr ""
 
-#: bp-activity.php:420 bp-themes/bp-sn-parent/_inc/ajax.php:508
+#: bp-activity.php:432 bp-themes/bp-sn-parent/_inc/ajax.php:508
 #, php-format
 msgid "%s posted a new activity comment:"
 msgstr ""
@@ -77,6 +78,7 @@ msgstr ""
 #: bp-activity/bp-activity-templatetags.php:443
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:274
 #: bp-themes/bp-default/_inc/ajax.php:243
+#: bp-themes/bp-default/activity/entry.php:12
 #: bp-themes/bp-sn-parent/_inc/ajax.php:534
 msgid "Reply"
 msgstr ""
@@ -100,8 +102,7 @@ msgstr ""
 msgid "&nbsp; %s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:564
-#: bp-themes/bp-default/activity/entry.php:16 bp-xprofile.php:727
+#: bp-activity/bp-activity-templatetags.php:564 bp-xprofile.php:727
 msgid "View Thread"
 msgstr ""
 
@@ -179,14 +180,14 @@ msgid "My Groups"
 msgstr ""
 
 #: bp-activity/bp-activity-widgets.php:81
-#: bp-themes/bp-default/activity/index.php:44
+#: bp-themes/bp-default/activity/index.php:46
 #: bp-themes/bp-default/groups/single/activity.php:5
 #: bp-themes/bp-default/members/single/activity.php:5
 msgid "No Filter"
 msgstr ""
 
 #: bp-activity/bp-activity-widgets.php:82
-#: bp-themes/bp-default/activity/index.php:45
+#: bp-themes/bp-default/activity/index.php:47
 #: bp-themes/bp-default/groups/single/activity.php:6
 #: bp-themes/bp-default/members/single/activity.php:6
 msgid "Updates Only"
@@ -211,7 +212,6 @@ msgid "Max items to show:"
 msgstr ""
 
 #: bp-activity/bp-activity-widgets.php:176
-#: bp-themes/bp-default/activity/entry.php:12
 #: bp-themes/bp-default/comments.php:128
 #: bp-themes/bp-sn-parent/activity/entry.php:12
 #: bp-themes/bp-sn-parent/activity/just-me.php:71
@@ -262,7 +262,7 @@ msgstr ""
 
 #: bp-blogs.php:130
 #, php-format
-msgid "Blogs (%d)"
+msgid "Blogs <span>(%d)</span>"
 msgstr ""
 
 #: bp-blogs.php:135 bp-blogs.php:143 bp-core/bp-core-adminbar.php:131
@@ -494,7 +494,7 @@ msgstr ""
 #: bp-forums/bbpress/bb-templates/kakumei/search.php:3
 #: bp-forums/bp-forums-templatetags.php:949
 #: bp-groups/bp-groups-templatetags.php:1751
-#: bp-themes/bp-default/header.php:79 bp-themes/bp-default/searchform.php:5
+#: bp-themes/bp-default/header.php:85 bp-themes/bp-default/searchform.php:5
 #: bp-themes/bp-sn-parent/directories/forums/index.php:63
 #: bp-themes/bp-sn-parent/header.php:40
 #: bp-themes/bp-sn-parent/searchform.php:5
@@ -842,7 +842,7 @@ msgstr ""
 #: bp-core/bp-core-admin.php:217 bp-core/bp-core-templatetags.php:959
 #: bp-core/bp-core-templatetags.php:1024 bp-groups.php:1109 bp-groups.php:1480
 #: bp-groups.php:1493 bp-groups.php:1507 bp-groups.php:1520
-#: bp-groups/bp-groups-widgets.php:13 bp-themes/bp-default/header.php:53
+#: bp-groups/bp-groups-widgets.php:13 bp-themes/bp-default/header.php:59
 #: bp-themes/bp-sn-parent/header.php:91
 msgid "Groups"
 msgstr ""
@@ -1246,7 +1246,7 @@ msgid "Blog &#8212; Tags &#8212; "
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:860 bp-core/bp-core-templatetags.php:1020
-#: bp-themes/bp-default/attachment.php:9 bp-themes/bp-default/header.php:44
+#: bp-themes/bp-default/attachment.php:9 bp-themes/bp-default/header.php:49
 #: bp-themes/bp-default/search.php:10 bp-themes/bp-sn-parent/archive.php:9
 #: bp-themes/bp-sn-parent/attachment.php:9
 #: bp-themes/bp-sn-parent/header.php:87 bp-themes/bp-sn-parent/index.php:9
@@ -1262,7 +1262,7 @@ msgstr ""
 #: bp-core/bp-core-templatetags.php:955 bp-core/bp-core-templatetags.php:1021
 #: bp-core/bp-core-widgets.php:73 bp-groups.php:268
 #: bp-themes/bp-default/groups/single/admin.php:175
-#: bp-themes/bp-default/header.php:48
+#: bp-themes/bp-default/header.php:54
 #: bp-themes/bp-sn-parent/groups/single/admin.php:196
 #: bp-themes/bp-sn-parent/header.php:88
 msgid "Members"
@@ -1273,13 +1273,13 @@ msgstr ""
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:65
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:66
 #: bp-forums/bbpress/bb-templates/kakumei/front-page.php:48
-#: bp-forums/bp-forums-admin.php:159 bp-themes/bp-default/header.php:59
+#: bp-forums/bp-forums-admin.php:159 bp-themes/bp-default/header.php:65
 #: bp-themes/bp-sn-parent/header.php:95
 msgid "Forums"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:967 bp-core/bp-core-templatetags.php:1028
-#: bp-themes/bp-default/header.php:65 bp-themes/bp-sn-parent/header.php:99
+#: bp-themes/bp-default/header.php:71 bp-themes/bp-sn-parent/header.php:99
 msgid "Blogs"
 msgstr ""
 
@@ -6631,7 +6631,7 @@ msgstr ""
 
 #: bp-friends.php:69
 #, php-format
-msgid "Friends (%d)"
+msgid "Friends <span>(%d)</span>"
 msgstr ""
 
 #: bp-friends.php:75
@@ -6840,7 +6840,7 @@ msgstr ""
 
 #: bp-groups.php:199
 #, php-format
-msgid "Groups (%d)"
+msgid "Groups <span>(%d)</span>"
 msgstr ""
 
 #: bp-groups.php:230 bp-groups/bp-groups-templatetags.php:980
@@ -7858,13 +7858,13 @@ msgid "There was a problem deleting that comment. Please try again."
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:364
-#: bp-themes/bp-default/activity/entry.php:23
+#: bp-themes/bp-default/activity/entry.php:19
 msgid "Remove Favorite"
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:381
-#: bp-themes/bp-default/activity/entry.php:21
-msgid "Mark Favorite"
+#: bp-themes/bp-default/activity/entry.php:17
+msgid "Favorite"
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:411
@@ -7921,8 +7921,45 @@ msgstr ""
 msgid "There was a problem deleting messages."
 msgstr ""
 
+#: bp-themes/bp-default/_inc/options.php:9
+#: bp-themes/bp-default/_inc/options.php:27
+msgid "Theme Options"
+msgstr ""
+
+#: bp-themes/bp-default/_inc/options.php:22
+msgid "Settings saved."
+msgstr ""
+
+#: bp-themes/bp-default/_inc/options.php:34
+msgid "On front page show:"
+msgstr ""
+
+#: bp-themes/bp-default/_inc/options.php:36
+msgid "Blog Posts"
+msgstr ""
+
+#: bp-themes/bp-default/_inc/options.php:37
+msgid "Activity Stream"
+msgstr ""
+
+#: bp-themes/bp-default/_inc/options.php:44
+msgid "Update Settings"
+msgstr ""
+
 #: bp-themes/bp-default/activity/activity-loop.php:24
 msgid "No activity found."
+msgstr ""
+
+#: bp-themes/bp-default/activity/entry.php:17
+msgid "Mark as Favorite"
+msgstr ""
+
+#: bp-themes/bp-default/activity/entry.php:24
+msgid "View Thread / Permalink"
+msgstr ""
+
+#: bp-themes/bp-default/activity/entry.php:24
+msgid "#"
 msgstr ""
 
 #: bp-themes/bp-default/activity/entry.php:31
@@ -7939,50 +7976,50 @@ msgstr ""
 msgid "Site Activity"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:22
+#: bp-themes/bp-default/activity/index.php:24
 #: bp-themes/bp-default/members/index.php:18
 #, php-format
 msgid "All Members (%s)"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:27
+#: bp-themes/bp-default/activity/index.php:29
 #: bp-themes/bp-default/members/index.php:21
 #, php-format
 msgid "My Friends (%s)"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:31
+#: bp-themes/bp-default/activity/index.php:33
 #: bp-themes/bp-default/groups/index.php:20
 #, php-format
 msgid "My Groups (%s)"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:35
+#: bp-themes/bp-default/activity/index.php:37
 #, php-format
 msgid "My Favorites (<span>%s</span>)"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:46
+#: bp-themes/bp-default/activity/index.php:48
 #: bp-themes/bp-default/members/single/activity.php:7
 msgid "New Blog Posts Only"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:47
+#: bp-themes/bp-default/activity/index.php:49
 #: bp-themes/bp-default/members/single/activity.php:8
 msgid "New Blog Comments Only"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:48
+#: bp-themes/bp-default/activity/index.php:50
 #: bp-themes/bp-default/members/single/activity.php:9
 msgid "New Group Forum Topics Only"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:49
+#: bp-themes/bp-default/activity/index.php:51
 #: bp-themes/bp-default/members/single/activity.php:10
 msgid "New Group Forum Replies Only"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:50
+#: bp-themes/bp-default/activity/index.php:52
 #: bp-themes/bp-default/members/single/activity.php:11
 msgid "New Friendships Only"
 msgstr ""
@@ -8337,6 +8374,14 @@ msgstr ""
 
 #: bp-themes/bp-default/functions.php:88
 msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:199
+#, php-format
+msgid ""
+"Theme activated! This theme contains <a href=\"%s\">customization options</"
+"a> and <a href=\"%s\">custom header image</a> support. <a href=\"%s"
+"\">Sidebar widgets</a> are also supported."
 msgstr ""
 
 #: bp-themes/bp-default/groups/create.php:9
