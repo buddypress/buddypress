@@ -127,7 +127,7 @@ function bp_blogs_setup_nav() {
 		return false;
 
 	/* Add 'Blogs' to the main navigation */
-	bp_core_new_nav_item( array( 'name' => sprintf( __( 'Blogs (%d)', 'buddypress' ), bp_blogs_total_blogs_for_user() ), 'slug' => $bp->blogs->slug, 'position' => 30, 'screen_function' => 'bp_blogs_screen_my_blogs', 'default_subnav_slug' => 'my-blogs', 'item_css_id' => $bp->blogs->id ) );
+	bp_core_new_nav_item( array( 'name' => sprintf( __( 'Blogs <span>(%d)</span>', 'buddypress' ), bp_blogs_total_blogs_for_user() ), 'slug' => $bp->blogs->slug, 'position' => 30, 'screen_function' => 'bp_blogs_screen_my_blogs', 'default_subnav_slug' => 'my-blogs', 'item_css_id' => $bp->blogs->id ) );
 
 	$blogs_link = $bp->loggedin_user->domain . $bp->blogs->slug . '/';
 

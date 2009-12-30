@@ -58,12 +58,7 @@ body {
 	}
 
 	#wp-admin-bar li a span {
-		background: #fff;
-		padding:2px 5px;
-		color: #555;
-		-moz-border-radius: 3px;
-		-webkit-border-radius: 3px;
-		border-radius: 3px;
+		display: none;
 	}
 
 #wp-admin-bar li:hover, #wp-admin-bar li.hover {

@@ -378,7 +378,7 @@ function bp_dtheme_unmark_activity_favorite() {
 
 	update_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities', $new_favs );
 
-	_e( 'Mark Favorite', 'buddypress' );
+	_e( 'Favorite', 'buddypress' );
 }
 add_action( 'wp_ajax_activity_mark_unfav', 'bp_dtheme_unmark_activity_favorite' );
 

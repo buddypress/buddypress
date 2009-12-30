@@ -66,7 +66,7 @@ function friends_setup_nav() {
 	global $bp;
 
 	/* Add 'Friends' to the main navigation */
-	bp_core_new_nav_item( array( 'name' => sprintf( __( 'Friends (%d)', 'buddypress' ), friends_get_total_friend_count() ), 'slug' => $bp->friends->slug, 'position' => 60, 'screen_function' => 'friends_screen_my_friends', 'default_subnav_slug' => 'my-friends', 'item_css_id' => $bp->friends->id ) );
+	bp_core_new_nav_item( array( 'name' => sprintf( __( 'Friends <span>(%d)</span>', 'buddypress' ), friends_get_total_friend_count() ), 'slug' => $bp->friends->slug, 'position' => 60, 'screen_function' => 'friends_screen_my_friends', 'default_subnav_slug' => 'my-friends', 'item_css_id' => $bp->friends->id ) );
 
 	$friends_link = $bp->loggedin_user->domain . $bp->friends->slug . '/';
 

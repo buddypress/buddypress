@@ -17,6 +17,8 @@
 
 				<div class="clear"></div>
 
+				<?php do_action( 'template_notices' ) ?>
+
 				<div class="item-list-tabs">
 					<ul>
 						<li class="selected" id="activity-all"><a href="<?php bp_root_domain() ?>"><?php printf( __( 'All Members (%s)', 'buddypress' ), bp_get_total_site_member_count() ) ?></a></li>

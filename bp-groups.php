@@ -173,7 +173,7 @@ function groups_setup_nav() {
 
 		/* This is a single group page. */
 		$bp->is_single_item = true;
-		$bp->groups->current_group = &new BP_Groups_Group( $group_id );
+		$bp->groups->current_group = new BP_Groups_Group( $group_id );
 
 		/* Using "item" not "group" for generic support in other components. */
 		if ( is_site_admin() )
@@ -196,13 +196,13 @@ function groups_setup_nav() {
 	}
 
 	/* Add 'Groups' to the main navigation */
-	bp_core_new_nav_item( array( 'name' => sprintf( __( 'Groups (%d)', 'buddypress' ), groups_total_groups_for_user() ), 'slug' => $bp->groups->slug, 'position' => 70, 'screen_function' => 'groups_screen_my_groups', 'default_subnav_slug' => 'my-groups', 'item_css_id' => $bp->groups->id ) );
+	bp_core_new_nav_item( array( 'name' => sprintf( __( 'Groups <span>(%d)</span>', 'buddypress' ), groups_total_groups_for_user() ), 'slug' => $bp->groups->slug, 'position' => 70, 'screen_function' => 'groups_screen_my_groups', 'default_subnav_slug' => 'my-groups', 'item_css_id' => $bp->groups->id ) );
 
 	$groups_link = $bp->loggedin_user->domain . $bp->groups->slug . '/';
 
 	/* Add the subnav items to the groups nav item */
 	bp_core_new_subnav_item( array( 'name' => __( 'My Groups', 'buddypress' ), 'slug' => 'my-groups', 'parent_url' => $groups_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_my_groups', 'position' => 10, 'item_css_id' => 'groups-my-groups' ) );
-	bp_core_new_subnav_item( array( 'name' => __( 'Invites', 'buddypress' ), 'slug' => 'invites', 'parent_url' => $groups_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_invites', 'position' => 30, 'user_has_access' => bp_is_home() ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Invites', 'buddypress' ), 'slug' => 'invites', 'parent_url' => $groups_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_invites', 'position' => 30, 'user_has_access' => bp_is_my_profile() ) );
 
 	if ( $bp->current_component == $bp->groups->slug ) {
 
