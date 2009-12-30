@@ -834,7 +834,7 @@ function bp_is_blog_page() {
 	if ( $wp_query->is_home && !$bp->is_directory )
 		return true;
 
-	if ( !$bp->displayed_user->id && !$bp->is_single_item && !$bp->is_directory )
+	if ( !$bp->displayed_user->id && !$bp->is_single_item && !$bp->is_directory && !bp_core_is_root_component( $bp->current_component ) )
 		return true;
 
 	return false;
