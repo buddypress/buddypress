@@ -851,18 +851,18 @@ function bp_get_page_title() {
 		$title = __( 'Home', 'buddypress' );
 	} else if ( bp_is_blog_page() ) {
 		if ( is_single() ) {
-			$title = __( 'Blog &#8212; ' . $post->post_title, 'buddypress' );
+			$title = __( 'Blog &#124; ' . $post->post_title, 'buddypress' );
 		} else if ( is_category() ) {
-			$title = __( 'Blog &#8212; Categories &#8212; ' . ucwords( $wp_query->query_vars['category_name'] ), 'buddypress' );
+			$title = __( 'Blog &#124; Categories &#124; ' . ucwords( $wp_query->query_vars['category_name'] ), 'buddypress' );
 		} else if ( is_tag() ) {
-			$title = __( 'Blog &#8212; Tags &#8212; ' . ucwords( $wp_query->query_vars['tag'] ), 'buddypress' );
+			$title = __( 'Blog &#124; Tags &#124; ' . ucwords( $wp_query->query_vars['tag'] ), 'buddypress' );
 		} else
 			$title = __( 'Blog', 'buddypress' );
 
 	} else if ( !empty( $bp->displayed_user->fullname ) ) {
-	 	$title = strip_tags( $bp->displayed_user->fullname . ' &#8212; ' . ucwords( $bp->current_component ) . ' &#8212; ' . $bp->bp_options_nav[$bp->current_component][$bp->current_action]['name'] );
+	 	$title = strip_tags( $bp->displayed_user->fullname . ' &#124; ' . ucwords( $bp->current_component ) . ' &#124; ' . $bp->bp_options_nav[$bp->current_component][$bp->current_action]['name'] );
 	} else if ( $bp->is_single_item ) {
-		$title = ucwords( $bp->current_component ) . ' &#8212; ' . $bp->bp_options_title;
+		$title = ucwords( $bp->current_component ) . ' &#124; ' . $bp->bp_options_title;
 	} else if ( $bp->is_directory ) {
 		if ( !$bp->current_component )
 			$title = sprintf( __( '%s Directory', 'buddypress' ), ucwords( BP_MEMBERS_SLUG ) );
@@ -879,7 +879,7 @@ function bp_get_page_title() {
 		$blog_title = get_blog_option( BP_ROOT_BLOG, 'blogname' );
 	}
 
-	return apply_filters( 'bp_page_title', $blog_title . ' &#8212; ' . attribute_escape( $title ), attribute_escape( $title ) );
+	return apply_filters( 'bp_page_title', $blog_title . ' &#124; ' . attribute_escape( $title ), attribute_escape( $title ) );
 }
 
 function bp_styles() {

@@ -168,7 +168,7 @@ function bp_core_add_ajax_url_js() {
 	global $bp;
 
 	echo
-'<script type="text/javascript">var ajaxurl = "' . $bp->root_domain . str_replace( 'index.php', 'wp-load.php', $_SERVER['SCRIPT_NAME'] ) . '";</script>
+'<script type="text/javascript">var ajaxurl = "' . site_url( 'wp-load.php' ) . '";</script>
 ';
 }
 add_action( 'wp_head', 'bp_core_add_ajax_url_js' );

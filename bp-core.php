@@ -1477,9 +1477,26 @@ function bp_core_get_all_posts_for_user( $user_id = null ) {
  * @uses bp_core_get_userlink_by_email() Fetches a userlink via email address.
  */
 function bp_core_get_site_path() {
-	global $current_site;
+	global $bp, $current_site;
 
-	return $current_site->path;
+	if ( bp_core_is_multiblog_install() )
+		$path = $current_site->path;
+	else {
+		$site_path = (array) explode( '/', site_url() );
+
+		if ( count( $site_path ) < 2 )
+			$site_path = '/';
+		else {
+			/* Unset the first three segments (http(s):// part) */
+			unset( $site_path[0] );
+			unset( $site_path[1] );
+			unset( $site_path[2] );
+
+			$site_path = implode( '/', $site_path );
+		}
+	}
+
+	return apply_filters( 'bp_core_get_site_path', $site_path );
 }
 
 /**
