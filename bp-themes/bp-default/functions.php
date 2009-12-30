@@ -59,7 +59,7 @@ function bp_dtheme_add_blog_comments_js() {
 }
 add_action( 'template_redirect', 'bp_dtheme_add_blog_comments_js' );
 
-function bp_dtheme_comments( $comment, $args, $depth ) {
+function bp_dtheme_blog_comments( $comment, $args, $depth ) {
     $GLOBALS['comment'] = $comment;
 	$comment_type = get_comment_type();
 
@@ -99,6 +99,15 @@ function bp_dtheme_comments( $comment, $args, $depth ) {
         </li>
 	<?php } ?>
 <?php
+}
+
+function bp_dtheme_show_on_frontpage() {
+	$settings = get_option( 'bp_dtheme_options' );
+
+	if ( empty( $settings['show_on_frontpage'] ) || 'blog' == $settings['show_on_frontpage'] )
+		return 'blog';
+
+	return 'activity';
 }
 
 /* Set the defaults for the custom header image (http://ryan.boren.me/2007/01/07/custom-image-header-api/) */
@@ -184,5 +193,23 @@ function bp_dtheme_remove_redundant() {
 	bp_core_remove_subnav_item( $bp->blogs->slug, 'recent-comments' );
 }
 add_action( 'init', 'bp_dtheme_remove_redundant' );
+
+function bp_dtheme_show_notice() { ?>
+	<div id="message" class="updated fade">
+		<p><?php printf( __( 'Theme activated! This theme contains <a href="%s">customization options</a> and <a href="%s">custom header image</a> support. <a href="%s">Sidebar widgets</a> are also supported.', 'buddypress' ), '', admin_url( 'themes.php?page=custom-header' ), '' ) ?></p>
+	</div>
+
+	<style type="text/css">#message2, #message0 { display: none; }</style>
+	<?php
+}
+
+/* Show a notice when the theme is activated - workaround by Ozh (http://old.nabble.com/Activation-hook-exist-for-themes--td25211004.html) */
+if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" ) {
+	add_action( 'admin_notices', 'bp_dtheme_show_notice' );
+}
+
+/* Load the options page */
+if ( is_admin() )
+	require( TEMPLATEPATH . '/_inc/options.php' );
 
 ?>

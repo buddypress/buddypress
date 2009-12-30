@@ -826,15 +826,15 @@ function bp_get_plugin_sidebar() {
 }
 
 function bp_is_blog_page() {
-	global $bp, $is_member_page;
+	global $bp, $is_member_page, $wp_query;
 
 	if ( $bp->current_component == BP_HOME_BLOG_SLUG )
 		return true;
 
-	if ( !$is_member_page && $bp->current_component == $bp->default_component )
+	if ( $wp_query->is_home && !$bp->is_directory )
 		return true;
 
-	if ( ( !$is_member_page && !in_array( $bp->current_component, $bp->root_components ) ) )
+	if ( !$bp->displayed_user->id && !$bp->is_single_item && !$bp->is_directory )
 		return true;
 
 	return false;
@@ -890,10 +890,10 @@ function bp_styles() {
 function bp_is_page($page) {
 	global $bp;
 
-	if ( $bp->displayed_user->id || $bp->is_single_item )
-		return false;
+	if ( !$bp->displayed_user->id && $bp->current_component == $page )
+		return true;
 
-	if ( $page == $bp->current_component || ( is_home() && $page == 'home' && $bp->current_component == $bp->default_component ) || ( $page == BP_MEMBERS_SLUG && !$bp->current_component ) )
+	if ( 'home' == $page && !$bp->current_component )
 		return true;
 
 	return false;

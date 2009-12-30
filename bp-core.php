@@ -170,7 +170,7 @@ function bp_core_setup_globals() {
 
 	$bp->core->table_name_notifications = $wpdb->base_prefix . 'bp_notifications';
 
-	if ( !$bp->current_component )
+	if ( !$bp->current_component && $bp->displayed_user->id )
 		$bp->current_component = $bp->default_component;
 
 	do_action( 'bp_core_setup_globals' );
