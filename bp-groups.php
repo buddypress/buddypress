@@ -1969,18 +1969,18 @@ function groups_post_update( $args = '' ) {
 	if ( empty($content) || empty($user_id) || empty($group_id) )
 		return false;
 
-	$group = new BP_Groups_Group( $group_id );
+	$bp->groups->current_group = new BP_Groups_Group( $group_id );
 
 	/* Record this in activity streams */
-	$activity_content = sprintf( __( '%s posted an update in the group %s:', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . attribute_escape( $group->name ) . '</a>' );
+	$activity_content = sprintf( __( '%s posted an update in the group %s:', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
 	$activity_content .= '<div class="activity-inner">' . $content . '</div>';
 
 	$activity_id = groups_record_activity( array(
 		'user_id' => $user_id,
 		'content' => apply_filters( 'groups_activity_new_update_content', $activity_content ),
-		'primary_link' => apply_filters( 'groups_activity_new_update_primary_link', bp_get_group_permalink( $group ) ),
+		'primary_link' => apply_filters( 'groups_activity_new_update_primary_link', bp_get_group_permalink( $bp->groups->current_group ) ),
 		'component_action' => 'new_wire_post',
-		'item_id' => $item_id
+		'item_id' => $bp->groups->current_group->id
 	) );
 
 	return $activity_id;
