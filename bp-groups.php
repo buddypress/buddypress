@@ -65,30 +65,6 @@ function groups_install() {
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
 
-	/* On upgrade, handle moving of old group avatars */
-	$groups = groups_get_all();
-
-	foreach ( $groups as $group ) {
-		/* Don't fetch and move gravs, default images or empties */
-		if ( empty($group->avatar_thumb) || strpos( $group->avatar_thumb, 'gravatar.com' ) || strpos( $group->avatar_thumb, 'identicon' ) || strpos( $group->avatar_thumb, 'none-thumbnail' ) )
-			continue;
-
-		$start = strpos( $group->avatar_thumb, 'blogs.dir' );
-
-		if ( false !== $start ) {
-			$avatar_thumb = WP_CONTENT_DIR . '/' . substr( $group->avatar_thumb, $start, strlen( $group->avatar_thumb ) );
-			$avatar_full = WP_CONTENT_DIR . '/' . substr( $group->avatar_full, $start, strlen( $group->avatar_full ) );
-
-			if ( !file_exists( $avatar_thumb ) || !file_exists( $avatar_full ) )
-				continue;
-
-			$upload_dir = groups_avatar_upload_dir( $group->id );
-
-			copy( $avatar_thumb, $upload_dir['path'] . '/' . basename($avatar_thumb) );
-			copy( $avatar_full, $upload_dir['path'] . '/' . basename($avatar_full) );
-		}
-	}
-
 	if ( function_exists('bp_wire_install') )
 		groups_wire_install();
 

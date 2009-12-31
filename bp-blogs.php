@@ -74,7 +74,7 @@ function bp_blogs_install() {
 function bp_blogs_check_installed() {
 	global $wpdb, $bp, $userdata;
 
-	if ( is_site_admin() ) {
+	if ( is_site_admin() && bp_core_is_multiblog_install() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 		if ( get_site_option('bp-blogs-db-version') < BP_BLOGS_DB_VERSION )
 			bp_blogs_install();

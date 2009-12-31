@@ -299,7 +299,12 @@ function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string 
 					$query_string = 'object=groups&primary_id=' . $group_ids;
 					break;
 				case 'favorites':
-					$favorite_ids = implode( ',', (array)get_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities' ) );
+					$favs = bp_activity_get_user_favorites( $bp->loggedin_user->id );
+
+					if ( empty( $favs ) )
+						$favorite_ids = false;
+
+					$favorite_ids = implode( ',', (array)$favs );
 					$query_string = 'include=' . $favorite_ids;
 					break;
 			}
@@ -356,11 +361,7 @@ add_action( 'wp_ajax_activity_get_older_updates', 'bp_dtheme_ajax_load_older_upd
 function bp_dtheme_mark_activity_favorite() {
 	global $bp;
 
-	$my_favs = maybe_unserialize( get_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities' ) );
-	$my_favs[] = $_POST['id'];
-
-	update_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities', $my_favs );
-
+	bp_activity_add_user_favorite( $_POST['id'] );
 	_e( 'Remove Favorite', 'buddypress' );
 }
 add_action( 'wp_ajax_activity_mark_fav', 'bp_dtheme_mark_activity_favorite' );
@@ -368,16 +369,7 @@ add_action( 'wp_ajax_activity_mark_fav', 'bp_dtheme_mark_activity_favorite' );
 function bp_dtheme_unmark_activity_favorite() {
 	global $bp;
 
-	$my_favs = maybe_unserialize( get_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities' ) );
-	$new_favs = array();
-
-	foreach( (array)$my_favs as $fav ) {
-		if ( $fav != $_POST['id'] )
-			$new_favs[] = $fav;
-	}
-
-	update_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities', $new_favs );
-
+	bp_activity_remove_user_favorite( $_POST['id'] );
 	_e( 'Favorite', 'buddypress' );
 }
 add_action( 'wp_ajax_activity_mark_unfav', 'bp_dtheme_unmark_activity_favorite' );

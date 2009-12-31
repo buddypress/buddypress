@@ -96,10 +96,17 @@ Class BP_Activity_Activity {
 		/* Fetch the activity IDs so we can delete any comments for this activity item */
 		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE item_id = %s {$secondary_sql} AND component_name = %s {$component_action_sql} {$user_sql}", $item_id, $component_name ) );
 
-		if ( $activity_ids )
-			BP_Activity_Activity::delete_activity_item_comments( $activity_ids );
+		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE item_id = %s {$secondary_sql} AND component_name = %s {$component_action_sql} {$user_sql}", $item_id, $component_name ) ) )
+			return false;
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE item_id = %s {$secondary_sql} AND component_name = %s {$component_action_sql} {$user_sql}", $item_id, $component_name ) );
+		if ( $activity_ids ) {
+			BP_Activity_Activity::delete_activity_item_comments( $activity_ids );
+			BP_Activity_Activity::delete_activity_meta_entries( $activity_ids );
+
+			return $activity_ids;
+		}
+
+		return true;
 	}
 
 	function delete_by_item_id( $item_id, $component_name, $component_action, $user_id = false, $secondary_item_id = false ) {
@@ -109,22 +116,33 @@ Class BP_Activity_Activity {
 	function delete_by_activity_id( $activity_id ) {
 		global $bp, $wpdb;
 
+		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE id = %d", $activity_id ) ) )
+			return false;
+
 		/* Delete the comments for this activity ID */
 		BP_Activity_Activity::delete_activity_item_comments( $activity_id );
+		BP_Activity_Activity::delete_activity_meta_entries( $activity_id );
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE id = %d", $activity_id ) );
+		return true;
 	}
 
 	function delete_by_content( $user_id, $content, $component_name, $component_action ) {
 		global $bp, $wpdb;
 
 		/* Fetch the activity ID so we can delete any comments for this activity item */
-		$activity_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE user_id = %d AND content = %s AND component_name = %s AND component_action = %s", $user_id, $content, $component_name, $component_action ) );
+		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE user_id = %d AND content = %s AND component_name = %s AND component_action = %s", $user_id, $content, $component_name, $component_action ) );
 
-		if ( $activity_id )
-			BP_Activity_Activity::delete_activity_item_comments( $activity_id );
+		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE user_id = %d AND content = %s AND component_name = %s AND component_action = %s", $user_id, $content, $component_name, $component_action ) ) )
+			return false;
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE user_id = %d AND content = %s AND component_name = %s AND component_action = %s", $user_id, $content, $component_name, $component_action ) );
+		if ( $activity_ids ) {
+			BP_Activity_Activity::delete_activity_item_comments( $activity_ids );
+			BP_Activity_Activity::delete_activity_meta_entries( $activity_ids );
+
+			return $activity_ids;
+		}
+
+		return true;
 	}
 
 	function delete_for_user_by_component( $user_id, $component_name ) {
@@ -133,10 +151,17 @@ Class BP_Activity_Activity {
 		/* Fetch the activity IDs so we can delete any comments for this activity item */
 		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE user_id = %d AND component_name = %s", $user_id, $component_name ) );
 
-		if ( $activity_ids )
-			BP_Activity_Activity::delete_activity_item_comments( $activity_ids );
+		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE user_id = %d AND component_name = %s", $user_id, $component_name ) ) )
+			return false;
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE user_id = %d AND component_name = %s", $user_id, $component_name ) );
+		if ( $activity_ids ) {
+			BP_Activity_Activity::delete_activity_item_comments( $activity_ids );
+			BP_Activity_Activity::delete_activity_meta_entries( $activity_ids );
+
+			return $activity_ids;
+		}
+
+		return true;
 	}
 
 	function delete_for_user( $user_id ) {
@@ -145,10 +170,15 @@ Class BP_Activity_Activity {
 		/* Fetch the activity IDs so we can delete any comments for this activity item */
 		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE user_id = %d", $user_id ) );
 
-		if ( $activity_ids )
-			BP_Activity_Activity::delete_activity_item_comments( $activity_ids );
+		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE user_id = %d", $user_id ) ) )
+			return false;
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE user_id = %d", $user_id ) );
+		if ( $activity_ids ) {
+			BP_Activity_Activity::delete_activity_item_comments( $activity_ids );
+			BP_Activity_Activity::delete_activity_meta_entries( $activity_ids );
+
+			return $activity_ids;
+		}
 	}
 
 	function delete_activity_item_comments( $activity_ids ) {
@@ -160,6 +190,17 @@ Class BP_Activity_Activity {
 		$activity_ids = $wpdb->escape( $activity_ids );
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE component_action = 'activity_comment' AND item_id IN ({$activity_ids})" ) );
+	}
+
+	function delete_activity_meta_entries( $activity_ids ) {
+		global $bp, $wpdb;
+
+		if ( is_array($activity_ids) )
+			$activity_ids = implode( ',', $activity_ids );
+
+		$activity_ids = $wpdb->escape( $activity_ids );
+
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id IN ({$activity_ids})" ) );
 	}
 
 	function get( $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false, $show_hidden = false ) {
@@ -229,7 +270,7 @@ Class BP_Activity_Activity {
 			$sort = 'DESC';
 
 		$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE id IN ({$activity_ids}) ORDER BY date_recorded {$sort} $pag_sql $max_sql" ) );
-		$total_activities = $wpdb->get_results( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE id IN ({$activity_ids}) ORDER BY date_recorded {$sort}" ) );
+		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE id IN ({$activity_ids})" ) );
 
 		if ( $display_comments )
 			$activities = BP_Activity_Activity::append_comments( $activities );

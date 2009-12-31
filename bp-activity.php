@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_ACTIVITY_DB_VERSION', '1900' );
+define ( 'BP_ACTIVITY_DB_VERSION', '2020' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_ACTIVITY_SLUG' ) )
@@ -15,6 +15,9 @@ function bp_activity_install() {
 
 	if ( !empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+
+	/* Rename the old user activity cached table if needed. */
+	$wpdb->query( "RENAME TABLE {$wpdb->base_prefix}bp_activity_user_activity_cached TO {$bp->activity->table_name}" );
 
 	$sql[] = "CREATE TABLE {$bp->activity->table_name} (
 		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -35,15 +38,17 @@ function bp_activity_install() {
 				KEY component_name (component_name)
 		 	   ) {$charset_collate};";
 
+	$sql[] = "CREATE TABLE {$bp->activity->table_name_meta} (
+				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				activity_id bigint(20) NOT NULL,
+				meta_key varchar(255) DEFAULT NULL,
+				meta_value longtext DEFAULT NULL,
+				KEY activity_id (activity_id),
+				KEY meta_key (meta_key)
+		   	   ) {$charset_collate};";
+
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 	dbDelta($sql);
-
-	/* Drop the old sitewide and user activity tables */
-	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->base_prefix}bp_activity_user_activity" );
-	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->base_prefix}bp_activity_sitewide" );
-
-	/* TODO: Rename the old user activity cached table */
-	//$wpdb->query( "RENAME TABLE {$wpdb->base_prefix}bp_activity_user_activity_cached TO {$bp->activity->table_name}" );
 
 	update_site_option( 'bp-activity-db-version', BP_ACTIVITY_DB_VERSION );
 }
@@ -54,7 +59,8 @@ function bp_activity_setup_globals() {
 	/* Internal identifier */
 	$bp->activity->id = 'activity';
 
-	$bp->activity->table_name = $wpdb->base_prefix . 'bp_activity_user_activity_cached';
+	$bp->activity->table_name = $wpdb->base_prefix . 'bp_activity';
+	$bp->activity->table_name_meta = $wpdb->base_prefix . 'bp_activity_meta';
 	$bp->activity->slug = BP_ACTIVITY_SLUG;
 
 	/* Register this in the active components array */
@@ -377,9 +383,9 @@ function bp_activity_get( $args = '' ) {
 function bp_activity_get_specific( $args = '' ) {
 	$defaults = array(
 		'activity_ids' => false, // A single activity_id or array of IDs.
-		'max' => false, // Maximum number of results to return
 		'page' => 1, // page 1 without a per_page will result in no pagination.
 		'per_page' => false, // results per page
+		'max' => false, // Maximum number of results to return
 		'sort' => 'DESC', // sort ASC or DESC
 		'display_comments' => false // true or false to display threaded comments for these specific activity items
 	);
@@ -480,7 +486,20 @@ function bp_activity_new_comment( $args = '' ) {
 	return $comment_id;
 }
 
-/* There are multiple ways to delete activity items, depending on the information you have at the time. */
+/***
+ * Deleting Activity
+ *
+ * There are multiple ways to delete activity items, depending on
+ * the information you have at the time.
+ *
+ * If you're looking to hook into one action that provides the ID(s) of
+ * the activity/activities deleted, then use:
+ *
+ * add_action( 'bp_activity_deleted_activities', 'my_function' );
+ *
+ * The action passes one parameter that is a single activity ID or an
+ * array of activity IDs depending on the number deleted.
+*/
 
 function bp_activity_delete_by_item_id( $args = '' ) {
 	global $bp;
@@ -496,10 +515,11 @@ function bp_activity_delete_by_item_id( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	if ( !BP_Activity_Activity::delete_by_item_id( $item_id, $component_name, $component_action, $user_id, $secondary_item_id ) )
+	if ( !$activity_ids_deleted = BP_Activity_Activity::delete_by_item_id( $item_id, $component_name, $component_action, $user_id, $secondary_item_id ) )
 		return false;
 
 	do_action( 'bp_activity_delete_by_item_id', $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
+	do_action( 'bp_activity_deleted_activities', $activity_ids_deleted );
 
 	return true;
 }
@@ -509,6 +529,7 @@ function bp_activity_delete_by_activity_id( $activity_id ) {
 		return false;
 
 	do_action( 'bp_activity_delete_by_activity_id', $activity_id );
+	do_action( 'bp_activity_deleted_activities', $activity_id );
 
 	return true;
 }
@@ -517,19 +538,21 @@ function bp_activity_delete_by_content( $user_id, $content, $component_name, $co
 	/* Insert the "time-since" placeholder to match the existing content in the DB */
 	$content = bp_activity_add_timesince_placeholder( $content );
 
-	if ( !BP_Activity_Activity::delete_by_content( $user_id, $content, $component_name, $component_action ) )
+	if ( !$activity_ids_deleted = BP_Activity_Activity::delete_by_content( $user_id, $content, $component_name, $component_action ) )
 		return false;
 
 	do_action( 'bp_activity_delete_by_content', $user_id, $content, $component_name, $component_action );
+	do_action( 'bp_activity_deleted_activities', $activity_ids_deleted );
 
 	return true;
 }
 
 function bp_activity_delete_for_user_by_component( $user_id, $component_name ) {
-	if ( !BP_Activity_Activity::delete_for_user_by_component( $user_id, $component_name ) )
+	if ( !$activity_ids_deleted = BP_Activity_Activity::delete_for_user_by_component( $user_id, $component_name ) )
 		return false;
 
 	do_action( 'bp_activity_delete_for_user_by_component', $user_id, $component_name );
+	do_action( 'bp_activity_deleted_activities', $activity_ids_deleted );
 
 	return true;
 }
@@ -595,6 +618,70 @@ function bp_activity_get_action( $component_id, $key ) {
 	return apply_filters( 'bp_activity_get_action', $bp->activity->actions->{$component_id}->{$key}, $component_id, $key );
 }
 
+function bp_activity_get_user_favorites( $user_id ) {
+	global $bp;
+
+	$my_favs = maybe_unserialize( get_usermeta( $user_id, 'bp_favorite_activities' ) );
+	$existing_favs = bp_activity_get_specific( array( 'activity_ids' => $my_favs ) );
+
+	foreach( (array)$existing_favs['activities'] as $fav )
+		$new_favs[] = $fav->id;
+
+	$new_favs = array_unique( (array)$new_favs );
+	update_usermeta( $user_id, 'bp_favorite_activities', $new_favs );
+
+	return apply_filters( 'bp_activity_get_user_favorites', $new_favs );
+}
+
+function bp_activity_add_user_favorite( $activity_id, $user_id = false ) {
+	global $bp;
+
+	if ( !$user_id )
+		$user_id = $bp->loggedin_user->id;
+
+	/* Update the user's personal favorites */
+	$my_favs = maybe_unserialize( get_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities' ) );
+	$my_favs[] = $_POST['id'];
+
+	/* Update the total number of users who have favorited this activity */
+	$fav_count = bp_activity_get_meta( $_POST['id'], 'favorite_count' );
+
+	if ( !empty( $fav_count ) )
+		$fav_count = (int)$fav_count + 1;
+	else
+		$fav_count = 1;
+
+	update_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities', $my_favs );
+	bp_activity_update_meta( $_POST['id'], 'favorite_count', $fav_count );
+
+	return true;
+}
+
+function bp_activity_remove_user_favorite( $activity_id, $user_id = false ) {
+	global $bp;
+
+	if ( !$user_id )
+		$user_id = $bp->loggedin_user->id;
+
+	/* Remove the fav from the user's favs */
+	$my_favs = maybe_unserialize( get_usermeta( $user_id, 'bp_favorite_activities' ) );
+	$my_favs = array_flip( (array) $my_favs );
+	unset( $my_favs[$_POST['id']] );
+	$my_favs = array_unique( array_flip( $my_favs ) );
+
+	/* Update the total number of users who have favorited this activity */
+	$fav_count = bp_activity_get_meta( $_POST['id'], 'favorite_count' );
+
+	if ( !empty( $fav_count ) ) {
+		$fav_count = (int)$fav_count - 1;
+		bp_activity_update_meta( $_POST['id'], 'favorite_count', $fav_count );
+	}
+
+	update_usermeta( $user_id, 'bp_favorite_activities', $my_favs );
+
+	return true;
+}
+
 function bp_activity_check_exists_by_content( $content ) {
 	/* Insert the "time-since" placeholder to match the existing content in the DB */
 	$content = bp_activity_add_timesince_placeholder( $content );
@@ -614,6 +701,100 @@ function bp_activity_total_favorites_for_user( $user_id = false ) {
 
 	return BP_Activity_Activity::total_favorite_count( $user_id );
 }
+
+/********************************************************************************
+ * Activity Meta Functions
+ *
+ * Meta functions allow you to store extra data for a particular item.
+ */
+
+function bp_activity_delete_meta( $activity_id, $meta_key = false, $meta_value = false ) {
+	global $wpdb, $bp;
+
+	if ( !is_numeric( $activity_id ) )
+		return false;
+
+	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
+
+	if ( is_array( $meta_value ) || is_object( $meta_value ) )
+		$meta_value = serialize( $meta_value );
+
+	$meta_value = trim( $meta_value );
+
+	if ( !$meta_key ) {
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id = %d", $activity_id ) );
+	} else if ( $meta_value ) {
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id = %d AND meta_key = %s AND meta_value = %s", $activity_id, $meta_key, $meta_value ) );
+	} else {
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id = %d AND meta_key = %s", $activity_id, $meta_key ) );
+	}
+
+	wp_cache_delete( 'bp_activity_meta_' . $meta_key . '_' . $activity_id, 'bp' );
+
+	return true;
+}
+
+function bp_activity_get_meta( $activity_id, $meta_key = '' ) {
+	global $wpdb, $bp;
+
+	$activity_id = (int)$activity_id;
+
+	if ( !$activity_id )
+		return false;
+
+	if ( !empty($meta_key) ) {
+		$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
+
+		if ( !$metas = wp_cache_get( 'bp_activity_meta_' . $meta_key . '_' . $activity_id, 'bp' ) ) {
+			$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM {$bp->activity->table_name_meta} WHERE activity_id = %d AND meta_key = %s", $activity_id, $meta_key ) );
+			wp_cache_set( 'bp_activity_meta_' . $meta_key . '_' . $activity_id, $metas, 'bp' );
+		}
+	} else
+		$metas = $wpdb->get_col( $wpdb->prepare( "SELECT meta_value FROM {$bp->activity->table_name_meta} WHERE activity_id = %d", $activity_id ) );
+
+	if ( empty($metas) )
+		return false;
+
+	$metas = array_map( 'maybe_unserialize', $metas );
+
+	if ( 1 == count($metas) )
+		return $metas[0];
+	else
+		return $metas;
+}
+
+function bp_activity_update_meta( $activity_id, $meta_key, $meta_value ) {
+	global $wpdb, $bp;
+
+	if ( !is_numeric( $activity_id ) )
+		return false;
+
+	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
+
+	if ( is_string( $meta_value ) )
+		$meta_value = stripslashes( $wpdb->escape( $meta_value ) );
+
+	$meta_value = maybe_serialize( $meta_value );
+
+	if ( empty( $meta_value ) ) {
+		return bp_activity_delete_meta( $activity_id, $meta_key );
+	}
+
+	$cur = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name_meta} WHERE activity_id = %d AND meta_key = %s", $activity_id, $meta_key ) );
+
+	if ( !$cur ) {
+		$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->activity->table_name_meta} ( activity_id, meta_key, meta_value ) VALUES ( %d, %s, %s )", $activity_id, $meta_key, $meta_value ) );
+	} else if ( $cur->meta_value != $meta_value ) {
+		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->activity->table_name_meta} SET meta_value = %s WHERE activity_id = %d AND meta_key = %s", $meta_value, $activity_id, $meta_key ) );
+	} else {
+		return false;
+	}
+
+	wp_cache_replace( 'bp_activity_meta_' . $meta_key . '_' . $activity_id, $meta_value, 'bp' );
+
+	return true;
+}
+
 
 /**
  * bp_activity_filter_template_paths()

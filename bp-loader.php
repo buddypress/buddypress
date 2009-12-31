@@ -4,12 +4,12 @@ Plugin Name: BuddyPress
 Plugin URI: http://buddypress.org/download/
 Description: BuddyPress will add social networking features to a new or existing WordPress MU installation.
 Author: The BuddyPress Community
-Version: 1.2-bleeding
+Version: 1.2-rare
 Author URI: http://buddypress.org/developers/
 Site Wide Only: true
 */
 
-define( 'BP_VERSION', '1.2-bleeding' );
+define( 'BP_VERSION', '1.2-rare' );
 
 /***
  * This file will load in each BuddyPress component based on which
@@ -17,36 +17,36 @@ define( 'BP_VERSION', '1.2-bleeding' );
  */
 
 require_once( WP_PLUGIN_DIR . '/buddypress/bp-core.php' );
-$deactivated = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) );
+$bp_deactivated = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) );
 
 do_action( 'bp_core_loaded' );
 
 /* Activity Streams */
-if ( !isset( $deactivated['bp-activity.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-activity.php') )
+if ( !isset( $bp_deactivated['bp-activity.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-activity.php') )
 	include( BP_PLUGIN_DIR . '/bp-activity.php' );
 
 /* Blog Tracking */
-if ( !isset( $deactivated['bp-blogs.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-blogs.php') )
+if ( !isset( $bp_deactivated['bp-blogs.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-blogs.php') )
 	include( BP_PLUGIN_DIR . '/bp-blogs.php' );
 
 /* bbPress Forum Integration */
-if ( !isset( $deactivated['bp-forums.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-forums.php') )
+if ( !isset( $bp_deactivated['bp-forums.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-forums.php') )
 	include( BP_PLUGIN_DIR . '/bp-forums.php' );
 
 /* Friend Connections */
-if ( !isset( $deactivated['bp-friends.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-friends.php') )
+if ( !isset( $bp_deactivated['bp-friends.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-friends.php') )
 	include( BP_PLUGIN_DIR . '/bp-friends.php' );
 
 /* Groups Support */
-if ( !isset( $deactivated['bp-groups.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-groups.php') )
+if ( !isset( $bp_deactivated['bp-groups.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-groups.php') )
 	include( BP_PLUGIN_DIR . '/bp-groups.php' );
 
 /* Private Messaging */
-if ( !isset( $deactivated['bp-messages.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-messages.php') )
+if ( !isset( $bp_deactivated['bp-messages.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-messages.php') )
 	include( BP_PLUGIN_DIR . '/bp-messages.php' );
 
 /* Extended Profiles */
-if ( !isset( $deactivated['bp-xprofile.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-xprofile.php') )
+if ( !isset( $bp_deactivated['bp-xprofile.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-xprofile.php') )
 	include( BP_PLUGIN_DIR . '/bp-xprofile.php' );
 
 do_action( 'bp_init' );
@@ -72,6 +72,7 @@ function bp_loader_deactivate() {
 	delete_site_option( 'bp-groups-db-version' );
 	delete_site_option( 'bp-messages-db-version' );
 	delete_site_option( 'bp-xprofile-db-version' );
+	delete_site_option( 'bp-deactivated-components' );
 
 	do_action( 'bp_loader_deactivate' );
 }
