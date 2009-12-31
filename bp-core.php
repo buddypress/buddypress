@@ -1879,6 +1879,23 @@ function bp_core_filter_template_paths() {
 add_action( 'init', 'bp_core_filter_template_paths' );
 
 /**
+ * bp_core_filter_parent_theme()
+ *
+ * Remove social network parent theme from the theme list.
+ *
+ * @package BuddyPress Core
+ */
+function bp_core_filter_parent_theme() {
+	global $wp_themes, $pagenow;
+
+	if ( is_admin() && 'themes.php' == $pagenow )
+		$wp_themes = get_themes();
+
+	unset( $wp_themes['BuddyPress Classic Parent'] );
+}
+add_filter( 'admin_menu', 'bp_core_filter_parent_theme' );
+
+/**
  * bp_core_clear_user_object_cache()
  *
  * Clears all cached objects for a user, or a user is part of.
