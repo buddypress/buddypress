@@ -1480,7 +1480,7 @@ function bp_core_get_site_path() {
 	global $bp, $current_site;
 
 	if ( bp_core_is_multiblog_install() )
-		$path = $current_site->path;
+		$site_path = $current_site->path;
 	else {
 		$site_path = (array) explode( '/', site_url() );
 
