@@ -186,6 +186,35 @@ function bp_activity_screen_single_activity_permalink() {
 /* This screen is not attached to a nav item, so we need to add an action for it. */
 add_action( 'wp', 'bp_activity_screen_single_activity_permalink', 3 );
 
+function bp_activity_screen_notification_settings() {
+	global $current_user; ?>
+	<table class="notification-settings" id="activity-notification-settings">
+		<tr>
+			<th class="icon"></th>
+			<th class="title"><?php _e( 'Activity', 'buddypress' ) ?></th>
+			<th class="yes"><?php _e( 'Yes', 'buddypress' ) ?></th>
+			<th class="no"><?php _e( 'No', 'buddypress' )?></th>
+		</tr>
+
+		<tr>
+			<td></td>
+			<td><?php printf( __( 'A member mentions you in an update using "@%s"', 'buddypress' ), $current_user->user_login ) ?></td>
+			<td class="yes"><input type="radio" name="notifications[notification_activity_new_mention]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_activity_new_mention' ) || 'yes' == get_usermeta( $current_user->id, 'notification_activity_new_mention' ) ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_activity_new_mention]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_activity_new_mention' ) ) { ?>checked="checked" <?php } ?>/></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><?php printf( __( "A member replies to an update you've posted", 'buddypress' ), $current_user->user_login ) ?></td>
+			<td class="yes"><input type="radio" name="notifications[notification_activity_new_reply]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_activity_new_reply' ) || 'yes' == get_usermeta( $current_user->id, 'notification_activity_new_reply' ) ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_activity_new_reply]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_activity_new_reply' ) ) { ?>checked="checked" <?php } ?>/></td>
+		</tr>
+
+		<?php do_action( 'bp_activity_screen_notification_settings' ) ?>
+	</table>
+<?php
+}
+add_action( 'bp_notification_settings', 'bp_activity_screen_notification_settings', 1 );
+
 /********************************************************************************
  * Action Functions
  *
@@ -377,8 +406,8 @@ function bp_activity_add( $args = '' ) {
 		'hide_sitewide' => false // Should this be hidden on the sitewide activity stream?
 	);
 
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
+	$params = wp_parse_args( $args, $defaults );
+	extract( $params, EXTR_SKIP );
 
 	/* Insert the "time-since" placeholder */
 	if ( $content )
@@ -404,7 +433,7 @@ function bp_activity_add( $args = '' ) {
 	if ( 'activity_comment' == $activity->component_action )
 		BP_Activity_Activity::rebuild_activity_comment_tree( $activity->item_id );
 
-	do_action( 'bp_activity_add', $r );
+	do_action( 'bp_activity_add', $params );
 
 	return $activity->id;
 }
@@ -419,8 +448,8 @@ function bp_activity_new_comment( $args = '' ) {
 		'parent_id' => false // ID of a parent comment (optional)
 	);
 
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
+	$params = wp_parse_args( $args, $defaults );
+	extract( $params, EXTR_SKIP );
 
 	if ( empty($content) || empty($user_id) || empty($activity_id) )
 		return false;
@@ -441,6 +470,12 @@ function bp_activity_new_comment( $args = '' ) {
 		'item_id' => $activity_id,
 		'secondary_item_id' => $parent_id
 	) );
+
+	/* Send an email notification if settings allow */
+	require_once( BP_PLUGIN_DIR . '/bp-activity/bp-activity-notifications.php' );
+	bp_activity_new_comment_notification( $comment_id, $params );
+
+	do_action( 'bp_activity_comment_posted', $comment_id, $params );
 
 	return $comment_id;
 }

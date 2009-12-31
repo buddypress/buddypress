@@ -196,7 +196,7 @@ add_action( 'init', 'bp_dtheme_remove_redundant' );
 
 function bp_dtheme_show_notice() { ?>
 	<div id="message" class="updated fade">
-		<p><?php printf( __( 'Theme activated! This theme contains <a href="%s">customization options</a> and <a href="%s">custom header image</a> support. <a href="%s">Sidebar widgets</a> are also supported.', 'buddypress' ), '', admin_url( 'themes.php?page=custom-header' ), '' ) ?></p>
+		<p><?php printf( __( 'Theme activated! This theme contains <a href="%s">customization options</a> and <a href="%s">custom header image</a> support. <a href="%s">Sidebar widgets</a> are also supported.', 'buddypress' ), admin_url( 'themes.php?page=theme-options-page' ), admin_url( 'themes.php?page=custom-header' ), admin_url( 'widgets.php' ) ) ?></p>
 	</div>
 
 	<style type="text/css">#message2, #message0 { display: none; }</style>
