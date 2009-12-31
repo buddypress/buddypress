@@ -19,16 +19,13 @@
 					<a href="" class="unfav" title="<?php _e( 'Remove Favorite', 'buddypress' ) ?>"><?php _e( 'Remove Favorite', 'buddypress' ) ?></a>
 				<?php endif; ?>
 			<?php endif;?>
-
-			<?php if ( !bp_is_activity_permalink() ) : ?>
-				<a href="<?php bp_activity_thread_permalink() ?>" class="view" title="<?php _e( 'View Thread / Permalink', 'buddypress' ) ?>"><?php _e( '#', 'buddypress' ) ?></a>
-			<?php endif; ?>
 		</div>
 	</div>
 
 	<?php if ( 'activity_comment' == bp_get_activity_action_name() ) : ?>
 		<div class="activity-inreplyto">
 			<strong><?php _e( 'In reply to', 'buddypress' ) ?></strong> - <?php bp_activity_parent_content() ?>
+			<a href="<?php bp_activity_thread_permalink() ?>" class="view" title="<?php _e( 'View Thread / Permalink', 'buddypress' ) ?>">#</a>
 		</div>
 	<?php endif; ?>
 
