@@ -1935,14 +1935,14 @@ function bp_core_activation_notice() {
 	if ( !is_site_admin() )
 		return false;
 
-	/* Get current theme info */
-	$ct = current_theme_info();
-
 	if ( empty( $wp_rewrite->permalink_structure ) ) { ?>
 		<div id="message" class="updated fade">
 			<p><?php printf( __( '<strong>BuddyPress is almost ready</strong>. You must <a href="%s">update your permalink structure</a> to something other than the default for it to work.', 'buddypress' ), admin_url( 'options-permalink.php' ) ) ?></p>
 		</div><?php
 	} else {
+		/* Get current theme info */
+		$ct = current_theme_info();
+
 		if ( !in_array( 'buddypress', (array)$ct->tags ) ) { ?>
 			<div id="message" class="updated fade">
 				<p style="line-height: 150%"><?php printf( __( "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a BuddyPress compatible theme</a> to take advantage of all of the features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a>.", 'buddypress' ), admin_url( 'themes.php' ), admin_url( 'theme-install.php?type=tag&s=buddypress&tab=search' ) ) ?></p>
