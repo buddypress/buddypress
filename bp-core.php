@@ -1896,6 +1896,63 @@ function bp_core_filter_parent_theme() {
 add_filter( 'admin_menu', 'bp_core_filter_parent_theme' );
 
 /**
+ * bp_core_allow_default_theme()
+ *
+ * On multiblog installations you must first allow themes to be activated and show
+ * up on the theme selection screen. This function will let the BuddyPress bundled
+ * themes show up on the root blog selection screen and bypass this step. It also
+ * means that the themes won't show for selection on other blogs.
+ *
+ * @package BuddyPress Core
+ */
+function bp_core_allow_default_theme( $themes ) {
+	global $bp, $current_blog;
+
+	if ( $current_blog->ID == $bp->root_blog ) {
+		$themes['bp-default'] = 1;
+		$themes['bp-classic'] = 1;
+	}
+
+	return $themes;
+}
+add_filter( 'allowed_themes', 'bp_core_allow_default_theme' );
+
+/**
+ * bp_core_activation_notice()
+ *
+ * When BuddyPress is activated we must make sure that mod_rewrite is enabled.
+ * We must also make sure a BuddyPress compatible theme is enabled. This function
+ * will show helpful messages to the administrator.
+ *
+ * @package BuddyPress Core
+ */
+function bp_core_activation_notice() {
+	global $wp_rewrite;
+
+	if ( isset( $_POST['permalink_structure'] ) )
+		return false;
+
+	if ( !is_site_admin() )
+		return false;
+
+	/* Get current theme info */
+	$ct = current_theme_info();
+
+	if ( empty( $wp_rewrite->permalink_structure ) ) { ?>
+		<div id="message" class="updated fade">
+			<p><?php printf( __( '<strong>BuddyPress is almost ready</strong>. You must <a href="%s">update your permalink structure</a> to something other than the default for it to work.', 'buddypress' ), admin_url( 'options-permalink.php' ) ) ?></p>
+		</div><?php
+	} else {
+		if ( !in_array( 'buddypress', (array)$ct->tags ) ) { ?>
+			<div id="message" class="updated fade">
+				<p style="line-height: 150%"><?php printf( __( "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a BuddyPress compatible theme</a> to take advantage of all of the features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a>.", 'buddypress' ), admin_url( 'themes.php' ), admin_url( 'theme-install.php?type=tag&s=buddypress&tab=search' ) ) ?></p>
+			</div><?php
+		}
+	}
+}
+add_action( 'admin_notices', 'bp_core_activation_notice' );
+
+/**
  * bp_core_clear_user_object_cache()
  *
  * Clears all cached objects for a user, or a user is part of.

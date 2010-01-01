@@ -56,6 +56,9 @@ function bp_loader_activate() {
 	/* Force refresh theme roots. */
 	delete_site_transient( 'theme_roots' );
 
+	/* Show activation notice with some setup instructions */
+	add_action( 'admin_notices', 'bp_core_activation_notice' );
+
 	do_action( 'bp_loader_activate' );
 }
 register_activation_hook( __FILE__, 'bp_loader_activate' );

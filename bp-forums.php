@@ -67,18 +67,18 @@ function bp_forums_directory_forums_setup() {
 			/* Check the nonce */
 			check_admin_referer( 'bp_forums_new_topic' );
 
-			if ( $group = groups_get_group( array( 'group_id' => $_POST['topic_group_id'] ) ) ) {
+			if ( $bp->groups->current_group = groups_get_group( array( 'group_id' => $_POST['topic_group_id'] ) ) ) {
 				/* Auto join this user if they are not yet a member of this group */
-				if ( !is_site_admin() && 'public' == $group->status && !groups_is_user_member( $bp->loggedin_user->id, $group->id ) )
-					groups_join_group( $group->id, $group->id );
+				if ( !is_site_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
+					groups_join_group( $bp->groups->current_group->id, $bp->groups->current_group->id );
 
-				if ( $forum_id = groups_get_groupmeta( $group->id, 'forum_id' ) ) {
+				if ( $forum_id = groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' ) ) {
 					if ( !$topic = groups_new_group_forum_topic( $_POST['topic_title'], $_POST['topic_text'], $_POST['topic_tags'], $forum_id ) )
 						bp_core_add_message( __( 'There was an error when creating the topic', 'buddypress'), 'error' );
 					else
 						bp_core_add_message( __( 'The topic was created successfully', 'buddypress') );
 
-					bp_core_redirect( bp_get_group_permalink( $group ) . '/forum/topic/' . $topic->topic_slug . '/' );
+					bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/forum/topic/' . $topic->topic_slug . '/' );
 				}
 			}
 		}
