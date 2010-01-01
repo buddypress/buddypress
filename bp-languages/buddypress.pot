@@ -1,15 +1,15 @@
 # Translation of BuddyPress.
-# Copyright (C) 2009 BuddyPress
+# Copyright (C) 2010 BuddyPress
 # This file is distributed under the same license as the BuddyPress package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2009-12-31 14:11+0000\n"
-"PO-Revision-Date: 2009-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2010-01-01 14:11+0000\n"
+"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -134,7 +134,12 @@ msgstr ""
 msgid "Avatar"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:439
+#: bp-activity/bp-activity-templatetags.php:347
+#: bp-themes/bp-default/activity/entry.php:28
+msgid "View Thread / Permalink"
+msgstr ""
+
+#: bp-activity/bp-activity-templatetags.php:442
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:433
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1138
 #: bp-forums/bbpress/bb-admin/topics.php:144
@@ -144,7 +149,7 @@ msgstr ""
 msgid "%s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:443
+#: bp-activity/bp-activity-templatetags.php:446
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:274
 #: bp-themes/bp-default/_inc/ajax.php:243
 #: bp-themes/bp-default/activity/entry.php:12
@@ -152,8 +157,8 @@ msgstr ""
 msgid "Reply"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:447
-#: bp-activity/bp-activity-templatetags.php:548
+#: bp-activity/bp-activity-templatetags.php:450
+#: bp-activity/bp-activity-templatetags.php:551
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:888
 #: bp-forums/bbpress/bb-admin/topics.php:128
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:1983
@@ -166,36 +171,36 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:494
+#: bp-activity/bp-activity-templatetags.php:497
 #, php-format
 msgid "&nbsp; %s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:564 bp-xprofile.php:727
+#: bp-activity/bp-activity-templatetags.php:567 bp-xprofile.php:727
 msgid "View Thread"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:624
+#: bp-activity/bp-activity-templatetags.php:627
 msgid "profile"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:624
+#: bp-activity/bp-activity-templatetags.php:627
 msgid "friends"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:624 bp-core/bp-core-classes.php:98
+#: bp-activity/bp-activity-templatetags.php:627 bp-core/bp-core-classes.php:98
 msgid "groups"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:624
+#: bp-activity/bp-activity-templatetags.php:627
 msgid "status"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:624
+#: bp-activity/bp-activity-templatetags.php:627
 msgid "blogs"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:632
+#: bp-activity/bp-activity-templatetags.php:635
 msgid "Clear Filter"
 msgstr ""
 
@@ -294,7 +299,7 @@ msgstr ""
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1081
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1089
 #: bp-forums/bbpress/bb-templates/kakumei/post-form.php:9
-#: bp-themes/bp-default/activity/entry.php:46
+#: bp-themes/bp-default/activity/entry.php:43
 #: bp-themes/bp-sn-parent/activity/entry.php:28
 #: bp-themes/bp-sn-parent/activity/just-me.php:92
 #: bp-themes/bp-sn-parent/activity/single.php:66
@@ -7984,21 +7989,13 @@ msgstr ""
 msgid "Mark as Favorite"
 msgstr ""
 
-#: bp-themes/bp-default/activity/entry.php:24
-msgid "View Thread / Permalink"
-msgstr ""
-
-#: bp-themes/bp-default/activity/entry.php:24
-msgid "#"
-msgstr ""
-
-#: bp-themes/bp-default/activity/entry.php:31
+#: bp-themes/bp-default/activity/entry.php:27
 #: bp-themes/bp-sn-parent/activity/just-me.php:78
 #: bp-themes/bp-sn-parent/activity/single.php:52
 msgid "In reply to"
 msgstr ""
 
-#: bp-themes/bp-default/activity/entry.php:46
+#: bp-themes/bp-default/activity/entry.php:43
 msgid "or press esc to cancel."
 msgstr ""
 
