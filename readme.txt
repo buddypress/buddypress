@@ -1,65 +1,60 @@
 === Plugin Name ===
 Contributors: apeatling
-Tags: wpmu, buddypress, social, networking, profiles, messaging, friends, groups, forums, activity
-Requires at least: WordPress MU 2.8.4
-Tested up to: WordPress MU 2.8.4
-Stable tag: 1.1.2
-
-BuddyPress is a suite of WordPress MU social networking plugins and themes.
+Tags: buddypress, wpmu, social networking, activity, profiles, messaging, friends, groups, forums, microblogging
+Requires at least: WordPress 2.9
+Tested up to: WordPress 2.9
+Stable tag: 1.1.3
 
 == Description ==
 
-BuddyPress will extend WordPress MU and bring social networking features to a new or existing installation.
+BuddyPress is designed to extend WordPress and bring along a whole host of new social features. BuddyPress
+will let users register on your site and start creating profiles, posting messages, making connections,
+creating and interacting in groups and much more. If you're looking to use WordPress to build a niche community
+or communication tool then BuddyPress will enable that with a click of a button.
 
-BuddyPress is a suite of WordPress plugins and themes, each adding a distinct new feature. BuddyPress 
-contains all the features you'd expect from WordPress but aims to let members socially interact.
+<h4>Try the Demo</h4>
 
-All BuddyPress plugins can be themed to match your own style, in just the same way as a WordPress blog. 
-The BuddyPress plugins are bundled with a default theme to get you going out of the box.
+If you're interested in seeing what a default installation of BuddyPress has to offer, try out the BuddyPress test
+drive! This site is a community of BuddyPress users looking to try out and discuss the latest features of BuddyPress.
+
+<a href="http://testbp.org/">BuddyPress Test Drive</a>
+
+<h4>Who's Using BuddyPress?</h4>
+
+More and more WordPress with BuddyPress powered sites are popping up. You can take a look at some of the best
+sites on the <a href="http://wordpress.org/showcase/flavor/buddypress/">BuddyPress section of the WordPress showcase site</a>.
 
 == Installation ==
 
-BuddyPress requires WordPress MU, it will not work on a single install of WordPress (yet).
+You can download and install BuddyPress using the built in WordPress plugin installer. If you download BuddyPress
+manually, make sure it is uploaded to "/wp-content/plugins/buddypress/".
 
---- Plugins: ---
+Activate BuddyPress in the "Plugins" admin panel using the "Activate" link.
 
-1. Upload everything into the "/wp-content/plugins/buddypress/" directory of your installation.
+You will need to enable permalink support in your WordPress installation for BuddyPress pages to function correctly.
+You can set this up using the "Settings > Permalinks" menu in your WordPress admin area.
 
-2. Activate BuddyPress in the "Plugins" admin panel using the "Activate Site Wide" or "Activate" link (both work).
-
---- Themes: ---
-
-1. Move "/wp-content/plugins/buddypress/bp-themes/bp-sn-parent" and
-   "/wp-content/plugins/buddypress/bp-themes/bp-default" to "/wp-content/themes/"
-
-You must then login as an admin and head to the "Site Admin > Themes" directory and activate the default
-BuddyPress theme (bp-default).
-
-Next, you will want to head to the "Appearance" menu and activate the BuddyPress default theme for the root blog of your WordPress MU installation.
-
---- Upgrading from an earlier version: ---
-
-1. Backup!
-
-2. Overwrite the /plugins/buddypress/ directory with the latest version.
-
-3. If you are using the default theme, move the themes in "wp-content/plugins/buddypress/bp-themes/" to "wp-content/themes" and overwrite any existing themes.
-
-4. VERY IMPORTANT: If you are no longer using the old two-theme system from BuddyPress 1.0, please make sure to delete your /wp-content/bp-themes/ folder to activate the new one-theme setup.
+Finally, you will need to activate a BuddyPress compatible theme. Two BuddyPress themes are bundled with the plugin,
+you can activate these using the "Appearance > Themes" menu in your WordPress admin area. To install other BuddyPress
+compatible themes, use the "Appearance > Add New Themes" menu and select the "buddypress" checkbox before hitting the
+"Find Themes" button.
 
 --- Forums Support ---
 
-To enable forums please log in and head to "BuddyPress > Forums Setup" in the admin area.
+BuddyPress also includes support for discussion forums. Each group created on your site can have its own discussion forum.
+If you'd like to enable this feature please use the "BuddyPress > Forums Setup" menu in your WordPress admin area and
+follow the on screen instructions.
 
 == Frequently Asked Questions ==
 
-= Will this work on standard WordPress? =
+= Will this work on standard WordPress and WordPress MU? =
 
-No, this will only work on WordPress MU for the time being, but watch this space.
+Yes! BuddyPress will run on both versions of WordPress. If you are using WordPress MU then BuddyPress will support
+the global tracking of blogs, posts and comments.
 
 = Where can I get support? =
 
-The support forums can be found here: http://buddypress.org/forums
+The support forums can be found here: http://buddypress.org/forums/
 
 = Where can I find documentation? =
 
@@ -67,7 +62,7 @@ The documentation codex can be found here: http://codex.buddypress.org/
 
 = Where can I report a bug? =
 
-Bugs can be reported here: http://trac.buddypress.org/newticket
+Bugs can be reported here: http://trac.buddypress.org/newticket/
 
 = Where can checkout the latest bleeding edge? =
 
