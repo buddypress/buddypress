@@ -161,7 +161,7 @@ function bp_adminbar_blogs_menu() {
 
 	if ( bp_blog_signup_enabled() ) {
 		echo '<li' . $alt . '>';
-		echo '<a href="' . $bp->loggedin_user->domain . $bp->blogs->slug . '/create-a-blog">' . __('Create a Blog!', 'buddypress') . '</a>';
+		echo '<a href="' . site_url( $bp->blogs->slug . '/create/' ) . '">' . __('Create a Blog!', 'buddypress') . '</a>';
 		echo '</li>';
 	}
 
