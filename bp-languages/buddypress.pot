@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-01-01 14:11+0000\n"
+"POT-Creation-Date: 2010-01-02 14:11+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -151,7 +151,7 @@ msgstr ""
 
 #: bp-activity/bp-activity-templatetags.php:446
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:274
-#: bp-themes/bp-default/_inc/ajax.php:243
+#: bp-themes/bp-default/_inc/ajax.php:132
 #: bp-themes/bp-default/activity/entry.php:12
 #: bp-themes/bp-sn-parent/_inc/ajax.php:534
 msgid "Reply"
@@ -162,7 +162,7 @@ msgstr ""
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:888
 #: bp-forums/bbpress/bb-admin/topics.php:128
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:1983
-#: bp-themes/bp-default/_inc/ajax.php:245
+#: bp-themes/bp-default/_inc/ajax.php:134
 #: bp-themes/bp-sn-parent/_inc/ajax.php:536
 #: bp-themes/bp-sn-parent/messages/index.php:52
 #: bp-themes/bp-sn-parent/messages/notices.php:46
@@ -531,9 +531,7 @@ msgstr ""
 #: bp-forums/bp-forums-templatetags.php:948
 #: bp-groups/bp-groups-templatetags.php:1741
 #: bp-groups/bp-groups-templatetags.php:1750
-#: bp-themes/bp-default/_inc/ajax.php:20 bp-themes/bp-default/_inc/ajax.php:58
-#: bp-themes/bp-default/_inc/ajax.php:96
-#: bp-themes/bp-default/_inc/ajax.php:134
+#: bp-themes/bp-default/_inc/ajax.php:21
 msgid "Search anything..."
 msgstr ""
 
@@ -700,6 +698,23 @@ msgstr ""
 msgid ""
 "IMPORTANT: <a href=\"http://codex.buddypress.org/getting-started/upgrading-"
 "from-10x/\">Read this before attempting to update BuddyPress</a>"
+msgstr ""
+
+#: bp-core.php:1940
+#, php-format
+msgid ""
+"<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update "
+"your permalink structure</a> to something other than the default for it to "
+"work."
+msgstr ""
+
+#: bp-core.php:1948
+#, php-format
+msgid ""
+"<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a "
+"BuddyPress compatible theme</a> to take advantage of all of the features. "
+"We've bundled a default theme, but you can always <a href='%s'>install some "
+"other compatible themes</a>."
 msgstr ""
 
 #: bp-core/bp-core-activation.php:19
@@ -2771,7 +2786,7 @@ msgstr ""
 #: bp-forums/bbpress/bb-templates/kakumei/stats.php:8
 #: bp-forums/bbpress/bb-templates/kakumei/tag-single.php:12
 #: bp-forums/bbpress/bb-templates/kakumei/view.php:10
-#: bp-themes/bp-default/forums/topics-loop.php:31
+#: bp-themes/bp-default/forums/forums-loop.php:31
 #: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:23
 msgid "Posts"
 msgstr ""
@@ -4067,7 +4082,7 @@ msgstr ""
 #: bp-forums/bbpress/bb-templates/kakumei/front-page.php:21
 #: bp-forums/bbpress/bb-templates/kakumei/tag-single.php:15
 #: bp-forums/bbpress/bb-templates/kakumei/view.php:13
-#: bp-themes/bp-default/forums/topics-loop.php:32
+#: bp-themes/bp-default/forums/forums-loop.php:32
 #: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:24
 msgid "Freshness"
 msgstr ""
@@ -6713,7 +6728,7 @@ msgstr ""
 msgid "A member accepts your friendship request"
 msgstr ""
 
-#: bp-friends.php:201 bp-themes/bp-default/_inc/ajax.php:438
+#: bp-friends.php:201 bp-themes/bp-default/_inc/ajax.php:327
 #: bp-themes/bp-sn-parent/_inc/ajax.php:50
 msgid "Friendship could not be requested."
 msgstr ""
@@ -6730,7 +6745,7 @@ msgstr ""
 msgid "You already have a pending friendship request with this user"
 msgstr ""
 
-#: bp-friends.php:239 bp-themes/bp-default/_inc/ajax.php:428
+#: bp-friends.php:239 bp-themes/bp-default/_inc/ajax.php:317
 #: bp-themes/bp-sn-parent/_inc/ajax.php:41
 msgid "Friendship could not be canceled."
 msgstr ""
@@ -6850,7 +6865,7 @@ msgid "Filter Friends"
 msgstr ""
 
 #: bp-friends/bp-friends-templatetags.php:139
-#: bp-themes/bp-default/_inc/ajax.php:440
+#: bp-themes/bp-default/_inc/ajax.php:329
 #: bp-themes/bp-sn-parent/_inc/ajax.php:52
 msgid "Friendship Requested"
 msgstr ""
@@ -6860,7 +6875,7 @@ msgid "Cancel Friendship"
 msgstr ""
 
 #: bp-friends/bp-friends-templatetags.php:143
-#: bp-themes/bp-default/_inc/ajax.php:430
+#: bp-themes/bp-default/_inc/ajax.php:319
 #: bp-themes/bp-sn-parent/_inc/ajax.php:43
 msgid "Add Friend"
 msgstr ""
@@ -6885,7 +6900,7 @@ msgid "Group Avatar"
 msgstr ""
 
 #: bp-groups.php:236 bp-groups/bp-groups-templatetags.php:1154
-#: bp-themes/bp-default/_inc/ajax.php:495
+#: bp-themes/bp-default/_inc/ajax.php:384
 #: bp-themes/bp-sn-parent/_inc/ajax.php:251
 #: bp-themes/bp-sn-parent/groups/single/request-membership.php:28
 msgid "Request Membership"
@@ -7547,13 +7562,13 @@ msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1144
 #: bp-groups/bp-groups-templatetags.php:1151
-#: bp-themes/bp-default/_inc/ajax.php:471
+#: bp-themes/bp-default/_inc/ajax.php:360
 #: bp-themes/bp-sn-parent/_inc/ajax.php:227
 msgid "Leave Group"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1146
-#: bp-themes/bp-default/_inc/ajax.php:493
+#: bp-themes/bp-default/_inc/ajax.php:382
 #: bp-themes/bp-sn-parent/_inc/ajax.php:249
 msgid "Join Group"
 msgstr ""
@@ -7724,7 +7739,7 @@ msgstr ""
 msgid "There was an error deleting messages."
 msgstr ""
 
-#: bp-messages.php:354 bp-themes/bp-default/_inc/ajax.php:579
+#: bp-messages.php:354 bp-themes/bp-default/_inc/ajax.php:468
 #: bp-themes/bp-sn-parent/_inc/ajax.php:347
 msgid "Messages deleted."
 msgstr ""
@@ -7822,7 +7837,7 @@ msgid "%d Recipients"
 msgstr ""
 
 #: bp-messages/bp-messages-templatetags.php:676
-#: bp-themes/bp-default/_inc/ajax.php:515
+#: bp-themes/bp-default/_inc/ajax.php:404
 #: bp-themes/bp-sn-parent/_inc/ajax.php:270
 #, php-format
 msgid "Sent %s ago"
@@ -7865,44 +7880,44 @@ msgstr ""
 msgid "The page you were looking for was not found."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:176
+#: bp-themes/bp-default/_inc/ajax.php:65
 #: bp-themes/bp-sn-parent/_inc/ajax.php:426
 msgid "Please enter some content to post."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:192
+#: bp-themes/bp-default/_inc/ajax.php:81
 #: bp-themes/bp-sn-parent/_inc/ajax.php:474
 msgid "There was a problem posting your update, please try again."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:216
+#: bp-themes/bp-default/_inc/ajax.php:105
 #: bp-themes/bp-sn-parent/_inc/ajax.php:498
 msgid "Please do not leave the comment area blank."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:221
-#: bp-themes/bp-default/_inc/ajax.php:232
+#: bp-themes/bp-default/_inc/ajax.php:110
+#: bp-themes/bp-default/_inc/ajax.php:121
 #: bp-themes/bp-sn-parent/_inc/ajax.php:503
 #: bp-themes/bp-sn-parent/_inc/ajax.php:522
 msgid "There was an error posting that reply, please try again."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:267
+#: bp-themes/bp-default/_inc/ajax.php:156
 #: bp-themes/bp-sn-parent/_inc/ajax.php:558
 msgid "There was a problem deleting that comment. Please try again."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:365
+#: bp-themes/bp-default/_inc/ajax.php:254
 #: bp-themes/bp-default/activity/entry.php:19
 msgid "Remove Favorite"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:373
+#: bp-themes/bp-default/_inc/ajax.php:262
 #: bp-themes/bp-default/activity/entry.php:17
 msgid "Favorite"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:403
+#: bp-themes/bp-default/_inc/ajax.php:292
 #: bp-themes/bp-default/groups/create.php:191
 #: bp-themes/bp-default/groups/single/send-invites.php:42
 #: bp-themes/bp-sn-parent/_inc/ajax.php:93
@@ -7911,47 +7926,47 @@ msgstr ""
 msgid "Remove Invite"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:443
+#: bp-themes/bp-default/_inc/ajax.php:332
 #: bp-themes/bp-sn-parent/_inc/ajax.php:55
 msgid "Request Pending"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:469
+#: bp-themes/bp-default/_inc/ajax.php:358
 #: bp-themes/bp-sn-parent/_inc/ajax.php:225
 msgid "Error joining group"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:479
+#: bp-themes/bp-default/_inc/ajax.php:368
 #: bp-themes/bp-sn-parent/_inc/ajax.php:235
 msgid "Error requesting membership"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:481
+#: bp-themes/bp-default/_inc/ajax.php:370
 #: bp-themes/bp-sn-parent/_inc/ajax.php:237
 msgid "Membership Requested"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:490
+#: bp-themes/bp-default/_inc/ajax.php:379
 #: bp-themes/bp-sn-parent/_inc/ajax.php:246
 msgid "Error leaving group"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:532
+#: bp-themes/bp-default/_inc/ajax.php:421
 #: bp-themes/bp-sn-parent/_inc/ajax.php:278
 msgid "There was a problem sending that reply. Please try again."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:541
+#: bp-themes/bp-default/_inc/ajax.php:430
 #: bp-themes/bp-sn-parent/_inc/ajax.php:309
 msgid "There was a problem marking messages as unread."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:556
+#: bp-themes/bp-default/_inc/ajax.php:445
 #: bp-themes/bp-sn-parent/_inc/ajax.php:324
 msgid "There was a problem marking messages as read."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:571
+#: bp-themes/bp-default/_inc/ajax.php:460
 #: bp-themes/bp-sn-parent/_inc/ajax.php:339
 msgid "There was a problem deleting messages."
 msgstr ""
@@ -8297,13 +8312,38 @@ msgid ""
 "<a href=\"http://buddypress.org\">BuddyPress</a>"
 msgstr ""
 
+#: bp-themes/bp-default/forums/forums-loop.php:7
 #: bp-themes/bp-default/forums/index.php:9
-msgid "Group Forums Directory"
+msgid "New Topic"
+msgstr ""
+
+#: bp-themes/bp-default/forums/forums-loop.php:24
+#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:20
+msgid "Topic Title"
+msgstr ""
+
+#: bp-themes/bp-default/forums/forums-loop.php:25
+msgid "Latest Poster"
+msgstr ""
+
+#: bp-themes/bp-default/forums/forums-loop.php:28
+msgid "Posted In Group"
+msgstr ""
+
+#: bp-themes/bp-default/forums/forums-loop.php:39
+#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:31
+#: bp-themes/bp-sn-parent/groups/single/forum/index.php:46
+#: bp-themes/bp-sn-parent/groups/single/forum/index.php:47
+msgid "Permalink"
+msgstr ""
+
+#: bp-themes/bp-default/forums/forums-loop.php:76
+#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:66
+msgid "Sorry, there were no forum topics found."
 msgstr ""
 
 #: bp-themes/bp-default/forums/index.php:9
-#: bp-themes/bp-default/forums/topics-loop.php:7
-msgid "New Topic"
+msgid "Group Forums Directory"
 msgstr ""
 
 #: bp-themes/bp-default/forums/index.php:26
@@ -8362,31 +8402,6 @@ msgstr ""
 
 #: bp-themes/bp-default/forums/index.php:86
 msgid "Unreplied"
-msgstr ""
-
-#: bp-themes/bp-default/forums/topics-loop.php:24
-#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:20
-msgid "Topic Title"
-msgstr ""
-
-#: bp-themes/bp-default/forums/topics-loop.php:25
-msgid "Latest Poster"
-msgstr ""
-
-#: bp-themes/bp-default/forums/topics-loop.php:28
-msgid "Posted In Group"
-msgstr ""
-
-#: bp-themes/bp-default/forums/topics-loop.php:39
-#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:31
-#: bp-themes/bp-sn-parent/groups/single/forum/index.php:46
-#: bp-themes/bp-sn-parent/groups/single/forum/index.php:47
-msgid "Permalink"
-msgstr ""
-
-#: bp-themes/bp-default/forums/topics-loop.php:76
-#: bp-themes/bp-sn-parent/directories/forums/forums-loop.php:66
-msgid "Sorry, there were no forum topics found."
 msgstr ""
 
 #: bp-themes/bp-default/functions.php:83
