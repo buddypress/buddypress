@@ -9,19 +9,19 @@
  * your own _inc/ajax.php file and add/remove AJAX functionality as you see fit.
  */
 
-function bp_dtheme_members_filter() {
+function bp_dtheme_content_filter() {
 	global $bp;
 
-	$type = $_POST['type'];
-	$filter = $_POST['filter'];
-	$page = $_POST['page'];
-	$search_terms = $_POST['search_terms'];
+	$content = esc_attr( $_POST['content'] );
+	$type = esc_attr( $_POST['type'] );
+	$filter = esc_attr( $_POST['filter'] );
+	$page = esc_attr( $_POST['page'] );
+	$search_terms = esc_attr( $_POST['search_terms'] );
 
 	if ( __( 'Search anything...', 'buddypress' ) == $search_terms || 'false' == $search_terms )
 		$search_terms = false;
 
 	/* Build the querystring */
-
 	/* Sort out type ordering */
 	if ( 'active' != $filter && 'newest' != $filter && 'popular' != $filter && 'online' != $filter && 'alphabetical' != $filter )
 		$filter = 'active';
@@ -31,135 +31,24 @@ function bp_dtheme_members_filter() {
 	if ( $search_terms )
 		$bp->ajax_querystring .= '&search_terms=' . $search_terms;
 
-	if ( !$type || ( 'all' != $type && 'friends' != $type ) )
+	if ( !$type )
 		$type = 'all';
 
-	if ( ( 'friends' == $type ) && !is_user_logged_in() )
+	if ( ( 'all' != $type ) && !is_user_logged_in() )
 		$filter = 'all';
 
-	if ( 'friends' == $type || $bp->displayed_user->id ) {
+	if ( 'all' != $type || $bp->displayed_user->id ) {
 		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 		$bp->ajax_querystring .= '&user_id=' . $user_id;
 	}
 
 	$bp->is_directory = true;
-	locate_template( array( 'members/members-loop.php' ), true );
+	locate_template( array( "$content/$content-loop.php" ), true );
 }
-add_action( 'wp_ajax_members_filter', 'bp_dtheme_members_filter' );
-
-function bp_dtheme_groups_filter() {
-	global $bp;
-
-	$type = $_POST['type'];
-	$filter = $_POST['filter'];
-	$page = $_POST['page'];
-	$search_terms = $_POST['search_terms'];
-
-	if ( __( 'Search anything...', 'buddypress' ) == $search_terms || 'false' == $search_terms )
-		$search_terms = false;
-
-	/* Build the querystring */
-
-	/* Sort out type ordering */
-	if ( 'active' != $filter && 'newest' != $filter && 'popular' != $filter && 'online' != $filter && 'alphabetical' != $filter )
-		$type = 'active';
-
-	$bp->ajax_querystring = 'type=' . $filter . '&page=' . $page;
-
-	if ( $search_terms )
-		$bp->ajax_querystring .= '&search_terms=' . $search_terms;
-
-	if ( !$type || ( 'all' != $type && 'mygroups' != $type ) )
-		$type = 'all';
-
-	if ( ( 'mygroups' == $type ) && !is_user_logged_in() )
-		$type = 'all';
-
-	if ( 'mygroups' == $type || $bp->displayed_user->id ) {
-		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
-		$bp->ajax_querystring .= '&user_id=' . $user_id;
-	}
-
-	$bp->is_directory = true;
-	locate_template( array( 'groups/groups-loop.php' ), true );
-}
-add_action( 'wp_ajax_groups_filter', 'bp_dtheme_groups_filter' );
-
-function bp_dtheme_blogs_filter() {
-	global $bp;
-
-	$type = $_POST['type'];
-	$filter = $_POST['filter'];
-	$page = $_POST['page'];
-	$search_terms = $_POST['search_terms'];
-
-	if ( __( 'Search anything...', 'buddypress' ) == $search_terms || 'false' == $search_terms )
-		$search_terms = false;
-
-	/* Build the querystring */
-
-	/* Sort out type ordering */
-	if ( 'active' != $filter && 'newest' != $filter && 'alphabetical' != $filter )
-		$type = 'active';
-
-	$bp->ajax_querystring = 'type=' . $filter . '&page=' . $page;
-
-	if ( $search_terms )
-		$bp->ajax_querystring .= '&search_terms=' . $search_terms;
-
-	if ( !$type || ( 'all' != $type && 'myblogs' != $type ) )
-		$type = 'all';
-
-	if ( ( 'myblogs' == $type ) && !is_user_logged_in() )
-		$type = 'all';
-
-	if ( 'myblogs' == $type || $bp->displayed_user->id ) {
-		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
-		$bp->ajax_querystring .= '&user_id=' . $user_id;
-	}
-
-	$bp->is_directory = true;
-	locate_template( array( 'blogs/blogs-loop.php' ), true );
-}
-add_action( 'wp_ajax_blogs_filter', 'bp_dtheme_blogs_filter' );
-
-function bp_dtheme_forums_filter() {
-	global $bp;
-
-	$type = $_POST['type'];
-	$filter = $_POST['filter'];
-	$page = $_POST['page'];
-	$search_terms = $_POST['search_terms'];
-
-	if ( __( 'Search anything...', 'buddypress' ) == $search_terms || 'false' == $search_terms )
-		$search_terms = false;
-
-	/* Build the querystring */
-
-	/* Sort out type ordering */
-	if ( 'active' != $filter && 'popular' != $filter && 'unreplied' != $filter )
-		$type = 'active';
-
-	$bp->ajax_querystring = 'type=' . $filter . '&page=' . $page;
-
-	if ( $search_terms )
-		$bp->ajax_querystring .= '&search_terms=' . $search_terms;
-
-	if ( !$type || ( 'all' != $type && 'mytopics' != $type ) )
-		$type = 'all';
-
-	if ( ( 'mytopics' == $type ) && !is_user_logged_in() )
-		$type = 'all';
-
-	if ( 'mytopics' == $type || $bp->displayed_user->id ) {
-		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
-		$bp->ajax_querystring .= '&user_id=' . $user_id;
-	}
-
-	$bp->is_directory = true;
-	locate_template( array( 'forums/topics-loop.php' ), true );
-}
-add_action( 'wp_ajax_forums_filter', 'bp_dtheme_forums_filter' );
+add_action( 'wp_ajax_members_filter', 'bp_dtheme_content_filter' );
+add_action( 'wp_ajax_groups_filter', 'bp_dtheme_content_filter' );
+add_action( 'wp_ajax_blogs_filter', 'bp_dtheme_content_filter' );
+add_action( 'wp_ajax_forums_filter', 'bp_dtheme_content_filter' );
 
 function bp_dtheme_post_update() {
 	global $bp;

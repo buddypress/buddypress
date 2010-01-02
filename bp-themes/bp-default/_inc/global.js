@@ -518,6 +518,7 @@ jQuery(document).ready( function() {
 			'type': type,
 			'filter': filter,
 			'page': page,
+			'content': id,
 			'search_terms': search_terms
 		},
 		function(response)

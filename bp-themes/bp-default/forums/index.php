@@ -92,7 +92,7 @@
 			</div>
 
 			<div id="forums-dir-list" class="forums dir-list">
-				<?php /* 'forums/topic-loop.php' is loaded here via AJAX */ ?>
+				<?php /* 'forums/forums-loop.php' is loaded here via AJAX */ ?>
 			</div>
 
 			<?php do_action( 'bp_directory_groups_content' ) ?>

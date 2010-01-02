@@ -32,6 +32,9 @@ add_filter( 'bp_get_activity_latest_update', 'stripslashes_deep' );
 
 add_filter( 'bp_get_activity_parent_content', 'bp_create_excerpt' );
 
+/* Allow shortcodes in activity posts */
+add_filter( 'bp_get_activity_content', 'do_shortcode' );
+
 function bp_activity_filter_kses( $content ) {
 	global $allowedtags;
 
