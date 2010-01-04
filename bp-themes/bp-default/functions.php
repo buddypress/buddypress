@@ -188,9 +188,12 @@ add_custom_image_header( 'bp_dtheme_header_style', 'bp_dtheme_admin_header_style
 function bp_dtheme_remove_redundant() {
 	global $bp;
 
-	/* Remove the redundant "My Posts and My Comments" options since we can use filters on the activity stream. */
+	/* Remove the navigation options we do not need in this theme. */
+	bp_core_remove_subnav_item( $bp->blogs->slug, 'my-blogs' );
 	bp_core_remove_subnav_item( $bp->blogs->slug, 'recent-posts' );
 	bp_core_remove_subnav_item( $bp->blogs->slug, 'recent-comments' );
+	bp_core_remove_subnav_item( $bp->activity->slug, 'just-me' );
+	bp_core_remove_subnav_item( $bp->activity->slug, 'my-friends' );
 }
 add_action( 'init', 'bp_dtheme_remove_redundant' );
 
