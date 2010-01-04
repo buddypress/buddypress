@@ -933,11 +933,8 @@ function bp_core_get_random_member() {
 	global $bp, $wpdb;
 
 	if ( isset( $_GET['random-member'] ) ) {
-		$user = BP_Core_User::get_users( 'random', 1);
-
-		$ud = get_userdata( $user['users'][0]->user_id );
-
-		bp_core_redirect( bp_core_get_user_domain( $user['users'][0]->user_id ) );
+		$user = BP_Core_User::get_users( 'random', 1 );
+		bp_core_redirect( bp_core_get_user_domain( $user['users'][0]->id ) );
 	}
 }
 add_action( 'wp', 'bp_core_get_random_member' );
