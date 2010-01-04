@@ -203,12 +203,13 @@ function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string 
 			$query_string .= '&action=' . $filter;
 
 		/* If we are viewing a group then filter the activity just for this group */
-		if ( $bp->groups->current_group )
+		if ( $bp->groups->current_group ) {
 			$query_string .= '&object=' . $bp->groups->id . '&primary_id=' . $bp->groups->current_group->id;
 
-		/* If we're viewing a non-private group and the user is a member, show the hidden activity for the group */
-		if ( 'public' != $bp->groups->current_group->status && groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
-			$query_string .= '&show_hidden=1';
+			/* If we're viewing a non-private group and the user is a member, show the hidden activity for the group */
+			if ( 'public' != $bp->groups->current_group->status && groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
+				$query_string .= '&show_hidden=1';
+		}
 
 		/* Add the per_page param */
 		$query_string .= '&per_page=' . $per_page;
