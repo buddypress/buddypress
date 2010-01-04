@@ -360,15 +360,18 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 	if ( !$is_recorded = BP_Blogs_Post::is_recorded( $post_id, $blog_id, $user_id ) ) {
 		if ( 'publish' == $post->post_status && '' == $post->post_password ) {
 
-			$recorded_post = new BP_Blogs_Post;
-			$recorded_post->user_id = $user_id;
-			$recorded_post->blog_id = $blog_id;
-			$recorded_post->post_id = $post_id;
-			$recorded_post->date_created = strtotime( $post->post_date );
+			/* If we're on a multiblog install, record this post */
+			if ( bp_core_is_multiblog_install() ) {
+				$recorded_post = new BP_Blogs_Post;
+				$recorded_post->user_id = $user_id;
+				$recorded_post->blog_id = $blog_id;
+				$recorded_post->post_id = $post_id;
+				$recorded_post->date_created = strtotime( $post->post_date );
 
-			$recorded_post_id = $recorded_post->save();
+				$recorded_post_id = $recorded_post->save();
 
-			bp_blogs_update_blogmeta( $recorded_post->blog_id, 'last_activity', time() );
+				bp_blogs_update_blogmeta( $recorded_post->blog_id, 'last_activity', time() );
+			}
 
 			if ( (int)get_blog_option( $blog_id, 'blog_public' ) || !bp_core_is_multiblog_install() ) {
 				/* Record this in activity streams */
@@ -382,7 +385,8 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 					'content' => apply_filters( 'bp_blogs_activity_new_post', $activity_content, &$post, $post_permalink ),
 					'primary_link' => apply_filters( 'bp_blogs_activity_new_post_primary_link', $post_permalink, $post_id ),
 					'component_action' => 'new_blog_post',
-					'item_id' => $recorded_post_id,
+					'item_id' => $blog_id,
+					'secondary_item_id' => $post_id,
 					'recorded_time' => strtotime( $post->post_date )
 				));
 			}
@@ -449,32 +453,35 @@ function bp_blogs_record_comment( $comment_id, $is_approved ) {
 	if ( !empty( $post->post_password ) )
 		return false;
 
-	$recorded_comment = new BP_Blogs_Comment;
-	$recorded_comment->user_id = $user_id;
-	$recorded_comment->blog_id = $wpdb->blogid;
-	$recorded_comment->comment_id = $comment_id;
-	$recorded_comment->comment_post_id = $comment->comment_post_ID;
-	$recorded_comment->date_created = strtotime( $comment->comment_date );
+	/* If we're on a multiblog install, record this post */
+	if ( bp_core_is_multiblog_install() ) {
+		$recorded_comment = new BP_Blogs_Comment;
+		$recorded_comment->user_id = $user_id;
+		$recorded_comment->blog_id = $wpdb->blogid;
+		$recorded_comment->comment_id = $comment_id;
+		$recorded_comment->comment_post_id = $comment->comment_post_ID;
+		$recorded_comment->date_created = strtotime( $comment->comment_date );
 
-	$recorded_commment_id = $recorded_comment->save();
+		$recorded_commment_id = $recorded_comment->save();
 
-	bp_blogs_update_blogmeta( $recorded_comment->blog_id, 'last_activity', time() );
+		bp_blogs_update_blogmeta( $recorded_comment->blog_id, 'last_activity', time() );
+	}
 
 	if ( (int)get_blog_option( $recorded_comment->blog_id, 'blog_public' ) || !bp_core_is_multiblog_install() ) {
 		/* Record in activity streams */
-		$comment_link = bp_post_get_permalink( $comment->post, $recorded_comment->blog_id );
+		$comment_link = bp_post_get_permalink( $comment->post, $wpdb->blogid ) . '#comment-' . $comment_id;
 		$activity_content = sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $comment_link . '#comment-' . $comment->comment_ID . '">' . $comment->post->post_title . '</a>' );
 		$activity_content .= '<blockquote>' . bp_create_excerpt( $comment->comment_content ) . '</blockquote>';
 
 		/* Record this in activity streams */
 		bp_blogs_record_activity( array(
-			'user_id' => $recorded_comment->user_id,
+			'user_id' => $user_id,
 			'content' => apply_filters( 'bp_blogs_activity_new_comment', $activity_content, &$comment, &$recorded_comment, $comment_link ),
 			'primary_link' => apply_filters( 'bp_blogs_activity_new_comment_primary_link', $comment_link, &$comment, &$recorded_comment ),
 			'component_action' => 'new_blog_comment',
-			'item_id' => $comment_id,
-			'secondary_item_id' => $recorded_comment->blog_id,
-			'recorded_time' =>  $recorded_comment->date_created
+			'item_id' => $wpdb->blogid,
+			'secondary_item_id' => $comment_id,
+			'recorded_time' => strtotime( $comment->comment_date )
 		) );
 	}
 
