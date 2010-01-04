@@ -139,11 +139,12 @@ function bp_core_fetch_avatar( $args = '' ) {
 		else if ( 'full' == $type ) $grav_size = BP_AVATAR_FULL_WIDTH;
 		else if ( 'thumb' == $type ) $grav_size = BP_AVATAR_THUMB_WIDTH;
 
-		if ( 'user' == $object ) {
-			if ( empty( $email ) )
+		if ( empty( $email ) ) {
+			if ( 'user' == $object ) {
 				$email = bp_core_get_user_email( $item_id );
-		} else if ( 'group' == $object || 'blog' == $object ) {
-			$email = "{$item_id}-{$object}@{$bp->root_domain}";
+			} else if ( 'group' == $object || 'blog' == $object ) {
+				$email = "{$item_id}-{$object}@{$bp->root_domain}";
+			}
 		}
 
 		$email = apply_filters( 'bp_core_gravatar_email', $email, $item_id, $object );

@@ -186,36 +186,33 @@ function bp_blogs_pagination_links() {
 		return apply_filters( 'bp_get_blogs_pagination_links', $blogs_template->pag_links );
 	}
 
-function bp_blog_avatar() {
-	echo bp_get_blog_avatar();
+function bp_blog_avatar( $args = '' ) {
+	echo bp_get_blog_avatar( $args );
 }
-	function bp_get_blog_avatar() {
+	function bp_get_blog_avatar( $args = '' ) {
 		global $blogs_template, $bp;
+
+		$defaults = array(
+			'type' => 'full',
+			'width' => false,
+			'height' => false,
+			'class' => 'avatar',
+			'id' => false,
+			'alt' => __( 'Blog avatar', 'buddypress' )
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
 
 		/***
 		 * In future BuddyPress versions you will be able to set the avatar for a blog.
 		 * Right now you can use a filter with the ID of the blog to change it if you wish.
 		 */
-		return apply_filters( 'bp_get_blog_avatar_' . $blogs_template->blog->blog_id, '<img src="' . apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' ) . md5( $blogs_template->blog->blog_id . '.blogs@' . $bp->root_domain ) . '?d=identicon&amp;s=150" class="avatar blog-avatar" alt="' . __( 'Blog Avatar', 'buddypress' ) . '" />', $blogs_template->blog->blog_id );
+		return apply_filters( 'bp_get_blog_avatar_' . $blogs_template->blog->blog_id, bp_core_fetch_avatar( array( 'item_id' => $blogs_template->blog->blog_id, 'object' => 'blog', 'type' => $type, 'avatar_dir' => 'blog-avatars', 'alt' => $alt, 'width' => $width, 'height' => $height, 'class' => $class, 'email' => get_blog_option( $blogs_template->blog->blog_id, 'admin_email' ) ) ) );
 	}
-
-function bp_blog_avatar_thumb() {
-	echo bp_get_blog_avatar_thumb();
-}
-	function bp_get_blog_avatar_thumb() {
-		global $blogs_template, $bp;
-
-		return apply_filters( 'bp_get_blog_avatar_thumb_' . $blogs_template->blog->blog_id, '<img src="' . apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' ) . md5( $blogs_template->blog->blog_id . '.blogs@' . $bp->root_domain ) . '?d=identicon&amp;s=50" class="avatar blog-avatar thumb" alt="' . __( 'Blog Avatar', 'buddypress' ) . '" />', $blogs_template->blog->blog_id );
-	}
-
-function bp_blog_avatar_mini() {
-	echo bp_get_blog_avatar_mini();
-}
-	function bp_get_blog_avatar_mini() {
-		global $blogs_template, $bp;
-
-		return apply_filters( 'bp_get_blog_avatar_mini_' . $blogs_template->blog->blog_id, '<img src="' . apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' ) . md5( $blogs_template->blog->blog_id . '.blogs@' . $bp->root_domain ) . '?d=identicon&amp;s=25" class="avatar blog-avatar mini" alt="' . __( 'Blog Avatar', 'buddypress' ) . '" />', $blogs_template->blog->blog_id );
-	}
+		/* DEPRECATED */
+		function bp_blog_avatar_thumb() { echo bp_get_blog_avatar('type=thumb'); }
+		function bp_blog_avatar_mini() { echo bp_get_blog_avatar_mini('type=thumb&width=30&height=30'); }
 
 function bp_blog_permalink() {
 	echo bp_get_blog_permalink();
