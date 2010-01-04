@@ -96,13 +96,9 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 	global $current_site;
 
 	// Send email with activation link.
-	if ( 'no' == constant( "VHOST" ) ) {
-		$activate_url = bp_activation_page( false ) . "?key=$key";
-	} else {
-		$activate_url = bp_activation_page( false ) ."?key=$key";
-	}
-
+	$activate_url = bp_get_activation_page() ."?key=$key";
 	$activate_url = clean_url($activate_url);
+
 	$admin_email = get_site_option( "admin_email" );
 
 	if ( empty( $admin_email ) )
