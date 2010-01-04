@@ -254,7 +254,7 @@ function bp_member_latest_update( $args = '' ) {
 	echo bp_get_member_latest_update( $args );
 }
 	function bp_get_member_latest_update( $args = '' ) {
-		global $members_template;
+		global $members_template, $bp;
 
 		$defaults = array(
 			'length' => 140
@@ -264,8 +264,12 @@ function bp_member_latest_update( $args = '' ) {
 		extract( $r, EXTR_SKIP );
 
 		$update = maybe_unserialize( $members_template->member->latest_update );
+		$update_content = apply_filters( 'bp_get_activity_latest_update', strip_tags( bp_create_excerpt( $update['content'], $length ) ) );
 
-		return apply_filters( 'bp_get_activity_latest_update', strip_tags( bp_create_excerpt( $update['content'], $length ) ) );
+		if ( !empty( $update['id'] ) )
+			$update_content .= ' <a href="' . $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $update['id'] . '">#</a>';
+
+		return apply_filters( 'bp_get_member_latest_update', $update_content );
 	}
 
 function bp_member_profile_data( $field_name = false ) {
