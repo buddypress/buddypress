@@ -22,7 +22,6 @@ function bp_dtheme_content_filter() {
 		$search_terms = false;
 
 	/* Build the querystring */
-	/* Sort out type ordering */
 	if ( 'active' != $filter && 'newest' != $filter && 'popular' != $filter && 'online' != $filter && 'alphabetical' != $filter )
 		$filter = 'active';
 
@@ -185,7 +184,7 @@ function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string 
 				case 'groups':
 					$groups = groups_get_user_groups( $bp->loggedin_user->id );
 					$group_ids = implode( ',', $groups['groups'] );
-					$query_string = 'object=groups&primary_id=' . $group_ids;
+					$query_string = 'object=groups&primary_id=' . $group_ids . '&show_hidden=1';
 					break;
 				case 'favorites':
 					$favs = bp_activity_get_user_favorites( $bp->loggedin_user->id );
@@ -206,6 +205,10 @@ function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string 
 		/* If we are viewing a group then filter the activity just for this group */
 		if ( $bp->groups->current_group )
 			$query_string .= '&object=' . $bp->groups->id . '&primary_id=' . $bp->groups->current_group->id;
+
+		/* If we're viewing a non-private group and the user is a member, show the hidden activity for the group */
+		if ( 'public' != $bp->groups->current_group->status && groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
+			$query_string .= '&show_hidden=1';
 
 		/* Add the per_page param */
 		$query_string .= '&per_page=' . $per_page;
