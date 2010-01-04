@@ -147,6 +147,7 @@ function bp_has_activities( $args = '' ) {
 	if ( $bp->current_action == $bp->activity->slug )
 		$include = $bp->action_variables[0];
 
+	/* Support for basic filters in earlier BP versions. */
 	if ( isset( $_GET['afilter'] ) )
 		$filter = array( 'object' => $_GET['afilter'] );
 	else

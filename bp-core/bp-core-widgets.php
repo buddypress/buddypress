@@ -158,11 +158,11 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 		   . $widget_name
 		   . $after_title; ?>
 
-		<?php if ( bp_has_members( 'type=online&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] ) ) : ?>
+		<?php if ( bp_has_members( 'type=online&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
 			<div class="avatar-block">
 				<?php while ( bp_members() ) : bp_the_member(); ?>
 					<div class="item-avatar">
-						<a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name() ?>"><?php bp_member_avatar() ?></a>
+						<a href="<?php bp_member_permalink() ?>"><?php bp_member_avatar() ?></a>
 					</div>
 				<?php endwhile; ?>
 			</div>
@@ -212,11 +212,11 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 		   . $widget_name
 		   . $after_title; ?>
 
-		<?php if ( bp_has_members( 'type=active&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] ) ) : ?>
+		<?php if ( bp_has_members( 'type=active&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
 			<div class="avatar-block">
 				<?php while ( bp_members() ) : bp_the_member(); ?>
 					<div class="item-avatar">
-						<a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name() ?>"><?php bp_member_avatar() ?></a>
+						<a href="<?php bp_member_permalink() ?>"><?php bp_member_avatar() ?></a>
 					</div>
 				<?php endwhile; ?>
 			</div>

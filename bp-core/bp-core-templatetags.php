@@ -17,21 +17,21 @@ class BP_Core_Members_Template {
 	var $pag_links;
 	var $total_member_count;
 
-	function bp_core_members_template( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include ) {
-		global $bp, $bp_the_member_query;
+	function bp_core_members_template( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras ) {
+		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['upage'] ) ? intval( $_REQUEST['upage'] ) : $page_number;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 		$this->type = $type;
 
 		if ( isset( $_REQUEST['letter'] ) && '' != $_REQUEST['letter'] ) {
-			$this->members = BP_Core_User::get_users_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page );
+			$this->members = BP_Core_User::get_users_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page, $populate_extras );
 		}
 		else if ( false !== $include ) {
-			$this->members = BP_Core_User::get_specific_users( $include, $this->pag_num, $this->pag_page );
+			$this->members = BP_Core_User::get_specific_users( $include, $this->pag_num, $this->pag_page, $populate_extras );
 		}
 		else {
-			$this->members = BP_Core_User::get_users( $this->type, $this->pag_num, $this->pag_page, $user_id, $search_terms );
+			$this->members = BP_Core_User::get_users( $this->type, $this->pag_num, $this->pag_page, $user_id, $search_terms, $populate_extras );
 		}
 
 		if ( !$max || $max >= (int)$this->members['total'] )
@@ -127,7 +127,9 @@ function bp_has_members( $args = '' ) {
 		'include' => false, // Pass a user_id or comma separated list of user_ids to only show these users
 
 		'user_id' => false, // Pass a user_id to only show friends of this user
-		'search_terms' => false // Pass search_terms to filter users by their profile data
+		'search_terms' => false, // Pass search_terms to filter users by their profile data
+
+		'populate_extras' => true // Fetch usermeta? Friend count, last active etc.
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -142,7 +144,7 @@ function bp_has_members( $args = '' ) {
 	if ( $_REQUEST['s'] )
 		$search_terms = $_REQUEST['s'];
 
-	$members_template = new BP_Core_Members_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $include );
+	$members_template = new BP_Core_Members_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $include, (bool)$populate_extras );
 
 	return $members_template->has_members();
 }
@@ -246,6 +248,24 @@ function bp_member_last_active() {
 		$last_activity = attribute_escape( bp_core_get_last_activity( $members_template->member->last_activity, __( 'active %s ago', 'buddypress' ) ) );
 
 		return apply_filters( 'bp_member_last_active', $last_activity );
+	}
+
+function bp_member_latest_update( $args = '' ) {
+	echo bp_get_member_latest_update( $args );
+}
+	function bp_get_member_latest_update( $args = '' ) {
+		global $members_template;
+
+		$defaults = array(
+			'length' => 140
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		$update = maybe_unserialize( $members_template->member->latest_update );
+
+		return apply_filters( 'bp_get_activity_latest_update', strip_tags( bp_create_excerpt( $update['content'], $length ) ) );
 	}
 
 function bp_member_profile_data( $field_name = false ) {

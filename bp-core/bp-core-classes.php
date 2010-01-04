@@ -106,7 +106,7 @@ class BP_Core_User {
 
 	/* Static Functions */
 
-	function get_users( $type, $limit = null, $page = 1, $user_id = false, $search_terms = false ) {
+	function get_users( $type, $limit = null, $page = 1, $user_id = false, $search_terms = false, $populate_extras = true ) {
 		global $wpdb, $bp;
 
 		$sql = array();
@@ -207,12 +207,13 @@ class BP_Core_User {
 		$user_ids = $wpdb->escape( join( ',', (array)$user_ids ) );
 
 		/* Add additional data to the returned results */
-		$paged_users = BP_Core_User::get_user_extras( &$paged_users, $user_ids, $type );
+		if ( $populate_extras )
+			$paged_users = BP_Core_User::get_user_extras( &$paged_users, $user_ids, $type );
 
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
 
-	function get_users_by_letter( $letter, $limit = null, $page = 1 ) {
+	function get_users_by_letter( $letter, $limit = null, $page = 1, $populate_extras = true ) {
 		global $wpdb, $bp;
 
 		if ( $limit && $page )
@@ -240,12 +241,13 @@ class BP_Core_User {
 		$user_ids = $wpdb->escape( join( ',', (array)$user_ids ) );
 
 		/* Add additional data to the returned results */
-		$paged_users = BP_Core_User::get_user_extras( &$paged_users, &$user_ids );
+		if ( $populate_extras )
+			$paged_users = BP_Core_User::get_user_extras( &$paged_users, &$user_ids );
 
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
 
-	function get_specific_users( $user_ids, $limit = null, $page = 1 ) {
+	function get_specific_users( $user_ids, $limit = null, $page = 1, $populate_extras = true ) {
 		global $wpdb, $bp;
 
 		if ( $limit && $page )
@@ -266,13 +268,14 @@ class BP_Core_User {
 		 */
 
 		/* Add additional data to the returned results */
-		$paged_users = BP_Core_User::get_user_extras( &$paged_users, &$user_ids );
+		if ( $populate_extras )
+			$paged_users = BP_Core_User::get_user_extras( &$paged_users, &$user_ids );
 
 
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
 
-	function search_users( $search_terms, $limit = null, $page = 1 ) {
+	function search_users( $search_terms, $limit = null, $page = 1, $populate_extras = true ) {
 		global $wpdb, $bp;
 
 		if ( $limit && $page )
@@ -297,7 +300,8 @@ class BP_Core_User {
 		$user_ids = $wpdb->escape( join( ',', (array)$user_ids ) );
 
 		/* Add additional data to the returned results */
-		$paged_users = BP_Core_User::get_user_extras( &$paged_users, &$user_ids );
+		if ( $populate_extras )
+			$paged_users = BP_Core_User::get_user_extras( &$paged_users, &$user_ids );
 
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
@@ -338,6 +342,16 @@ class BP_Core_User {
 					if ( $activity->id == $paged_users[$i]->id )
 						$paged_users[$i]->last_activity = (int)$activity->last_activity;
 				}
+			}
+		}
+
+		/* Fetch the user's latest update */
+		$user_update = $wpdb->get_results( "SELECT user_id as id, meta_value as latest_update FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = 'bp_latest_update' AND user_id IN ( {$user_ids} )" );
+
+		for ( $i = 0; $i < count( $paged_users ); $i++ ) {
+			foreach ( $user_update as $update ) {
+				if ( $update->id == $paged_users[$i]->id )
+					$paged_users[$i]->latest_update = $update->latest_update;
 			}
 		}
 

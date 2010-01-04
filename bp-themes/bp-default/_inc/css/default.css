@@ -398,7 +398,12 @@ ul.item-list {
 
 		ul.item-list li div.item-title {
 			font-size: 14px;
+			width: 75%;
 		}
+			ul.item-list li div.item-title span {
+				font-size: 12px;
+				color: #999;
+			}
 
 		ul.item-list li div.item-desc {
 			margin: 10px 0 0 64px;
@@ -454,6 +459,9 @@ div.item-list-tabs {
 				float: right;
 				margin: 7px 15px 0 0;
 			}
+				div.item-list-tabs ul li.last select {
+					max-width: 175px;
+				}
 
 		div.item-list-tabs ul li a,
 		div.item-list-tabs ul li span {
@@ -491,7 +499,7 @@ div.item-list-tabs {
 	div.item-list-tabs#user-subnav,
 	div.item-list-tabs#group-subnav {
 		background: #fff;
-		margin: 0 -15px 0 -15px;
+		margin: 0 -15px 15px -15px;
 		border-bottom: 1px solid #eaeaea;
 		min-height: 35px;
 		overflow: hidden;
@@ -533,6 +541,9 @@ div.pagination {
 		border: none;
 		padding: 8px 15px;
 	}
+		div#item-body div.item-list-tabs + div div.pagination {
+			margin-top: -15px;
+		}
 
 	div.pagination .pag-count {
 		float: left;
@@ -919,7 +930,7 @@ form#whats-new-form {
 	}
 
 	form#whats-new-form #whats-new-options select {
-		max-width: 150px;
+		max-width: 200px;
 	}
 
 	form#whats-new-form #whats-new-submit {

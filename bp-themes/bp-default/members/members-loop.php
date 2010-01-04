@@ -24,7 +24,12 @@
 			</div>
 
 			<div class="item">
-				<div class="item-title"><a href="<?php bp_member_permalink() ?>"><?php bp_member_name() ?></a></div>
+				<div class="item-title">
+					<a href="<?php bp_member_permalink() ?>"><?php bp_member_name() ?></a>
+					<?php if ( bp_get_member_latest_update() ) : ?>
+						<span class="update"> - <?php bp_member_latest_update( 'length=10' ) ?></span>
+					<?php endif; ?>
+				</div>
 				<div class="item-meta"><span class="activity"><?php bp_member_last_active() ?></span></div>
 
 				<?php do_action( 'bp_directory_members_item' ) ?>

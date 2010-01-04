@@ -93,7 +93,7 @@ function bp_activity_setup_nav() {
 
 	$activity_link = $bp->loggedin_user->domain . $bp->activity->slug . '/';
 
-	/* Add the subnav items to the activity nav item */
+	/* Add the subnav items to the activity nav item if we are using a theme that supports this */
 	bp_core_new_subnav_item( array( 'name' => __( 'Just Me', 'buddypress' ), 'slug' => 'just-me', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_my_activity', 'position' => 10 ) );
 	bp_core_new_subnav_item( array( 'name' => __( 'My Friends', 'buddypress' ), 'slug' => 'my-friends', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_friends_activity', 'position' => 20, 'item_css_id' => 'activity-my-friends' ) );
 

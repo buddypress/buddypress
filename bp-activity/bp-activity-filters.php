@@ -78,5 +78,6 @@ function bp_activity_at_name_filter( $content ) {
 }
 add_filter( 'xprofile_activity_new_update_content', 'bp_activity_at_name_filter' );
 add_filter( 'groups_activity_new_update_content', 'bp_activity_at_name_filter' );
+add_filter( 'bp_activity_comment_content', 'bp_activity_at_name_filter' );
 
 ?>
