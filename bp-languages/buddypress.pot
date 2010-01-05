@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-01-04 14:11+0000\n"
+"POT-Creation-Date: 2010-01-05 14:11+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -91,12 +91,12 @@ msgstr ""
 msgid "%s posted a new activity comment:"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:17
+#: bp-activity/bp-activity-notifications.php:21
 #, php-format
 msgid "%s replied to one of your updates"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:20
+#: bp-activity/bp-activity-notifications.php:24
 #, php-format
 msgid ""
 "%s replied to one of your updates:\n"
@@ -108,7 +108,7 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:29
+#: bp-activity/bp-activity-notifications.php:33
 #: bp-friends/bp-friends-notifications.php:33
 #: bp-friends/bp-friends-notifications.php:67
 #: bp-groups/bp-groups-notifications.php:43
