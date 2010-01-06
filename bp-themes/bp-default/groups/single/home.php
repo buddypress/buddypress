@@ -23,24 +23,26 @@
 			<div id="item-body">
 				<?php do_action( 'template_notices' ) ?>
 
-				<?php if ( bp_is_group_admin_page() ) : ?>
+				<?php if ( bp_is_group_admin_page() && bp_group_is_visible() ) : ?>
 					<?php locate_template( array( 'groups/single/admin.php' ), true ) ?>
 
-				<?php elseif ( bp_is_group_members() ) : ?>
+				<?php elseif ( bp_is_group_members() && bp_group_is_visible() ) : ?>
 					<?php locate_template( array( 'groups/single/members.php' ), true ) ?>
 
-				<?php elseif ( bp_is_group_invites() ) : ?>
+				<?php elseif ( bp_is_group_invites() && bp_group_is_visible() ) : ?>
 					<?php locate_template( array( 'groups/single/send-invites.php' ), true ) ?>
+
+				<?php elseif ( bp_is_group_forum() && bp_group_is_visible() ) : ?>
+					<?php locate_template( array( 'groups/single/forum.php' ), true ) ?>
 
 				<?php elseif ( bp_is_group_membership_request() ) : ?>
 					<?php locate_template( array( 'groups/single/request-membership.php' ), true ) ?>
 
-				<?php elseif ( bp_is_group_forum() ) : ?>
-					<?php locate_template( array( 'groups/single/forum.php' ), true ) ?>
-
-				<?php else : ?>
+				<?php elseif ( bp_group_is_visible() ) : ?>
 					<?php locate_template( array( 'groups/single/activity.php' ), true ) ?>
 
+				<?php else : ?>
+					<p>This group is not visible.</p>
 				<?php endif; ?>
 
 				<?php do_action( 'bp_directory_members_content' ) ?>

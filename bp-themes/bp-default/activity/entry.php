@@ -1,7 +1,8 @@
-<?php /* This template is used by permalink pages and AJAX functions to load in new updates */ ?>
+<?php /* This template is used by activity-loop.php and AJAX functions to show each activity */ ?>
+
 <li class="<?php bp_activity_css_class() ?>" id="activity-<?php bp_activity_id() ?>">
 	<div class="activity-avatar">
-		<?php bp_activity_avatar( 'type=full&width=60&height=60' ) ?>
+		<?php bp_activity_avatar( 'type=full&width=100&height=100' ) ?>
 	</div>
 
 	<div class="activity-content">

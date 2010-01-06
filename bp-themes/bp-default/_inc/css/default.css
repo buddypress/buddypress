@@ -16,7 +16,7 @@ body {
 	padding-top: 0 !important; /* Remove the top padding space for the admin bar in this theme */
 }
 	body.activity-permalink {
-		min-width: 500px;
+		min-width: 600px;
 		max-width: 760px;
 	}
 
@@ -375,6 +375,7 @@ ul.item-list {
 		border-bottom: 1px solid #eaeaea;
 	}
 		ul.single-line li { border: none; }
+		body.activity-permalink ul.item-list li { padding-top: 0; }
 
 		ul.item-list li img.avatar {
 			float: left;
@@ -980,11 +981,11 @@ ul.activity-list li {
 			margin-left: 20px;
 		}
 
-		body.activity-permalink .activity-list li.mini .activity-avatar img.avatar,
-		body.activity-permalink .activity-list li.mini .activity-avatar img.FB_profile_pic {
-			width: 50px;
-			height: 50px;
-			margin-left: 30px;
+		body.activity-permalink .activity-list li .activity-avatar img.avatar,
+		body.activity-permalink .activity-list li .activity-avatar img.FB_profile_pic {
+			width: 100px;
+			height: 100px;
+			margin-left: 0;
 		}
 
 	.activity-list li.mini .activity-content {
@@ -1000,6 +1001,10 @@ ul.activity-list li {
 		position: absolute;
 		right: 0;
 	}
+		body.activity-permalink .activity-list li.mini .activity-meta {
+			position: absolute;
+			right: 15px;
+		}
 
 	.activity-list li.mini .activity-comments {
 		clear: left;
@@ -1033,11 +1038,15 @@ ul.activity-list li {
 	width: 60px;
 	height: 60px;
 }
+		body.activity-permalink .activity-list .activity-avatar img {
+			width: 100px;
+			height: 100px;
+		}
 
 .activity-list .activity-content {
 	margin-left: 70px;
 }
-	body.activity-permalink .activity-content {
+	body.activity-permalink .activity-list li .activity-content {
 		-moz-border-radius: 4px;
 		-webkit-border-radius: 4px;
 		border-radius: 4px;
@@ -1045,12 +1054,19 @@ ul.activity-list li {
 		padding: 15px;
 		border-bottom: 1px solid #ddd;
 		border-right: 1px solid #ddd;
-		margin-left: 80px;
+		margin-left: 135px;
 		font-size: 16px;
 		line-height: 150%;
-		overflow: hidden;
-		width: auto;
+		min-height: 35px;
+		margin-right: 0;
 	}
+		body.activity-permalink .activity-list li .activity-content p {
+			background: url( ../images/activity_arrow.gif ) top left no-repeat;
+			margin-left: -35px;
+			padding: 5px 0 0 38px;
+			height: 35px;
+			margin-bottom: 0;
+		}
 
 	.activity-list .activity-content > p:first-child,
 	.activity-list .activity-content .comment-header {
@@ -1099,6 +1115,10 @@ ul.activity-list li {
 	.activity-list .activity-content blockquote {
 		margin: 15px 0 15px 5px;
 	}
+		body.activity-permalink .activity-content .activity-inner,
+		body.activity-permalink .activity-content blockquote {
+			margin-top: 5px;
+		}
 
 .activity-list li.load-more {
 	margin: 15px  0 !important;
@@ -1175,7 +1195,7 @@ div.activity-comments {
 
 	body.activity-permalink div.activity-comments {
 		width: auto;
-		margin-left: 80px;
+		margin-left: 135px;
 		background: none;
 	}
 
@@ -1190,11 +1210,11 @@ div.activity-comments ul, div.activity-comments ul li {
 
 	div.activity-comments ul li {
 		border-top: 2px solid #fff;
-		padding: 10px 0;
+		padding: 10px 15px 10px 0;
 		margin-left: 15px;
 	}
 		body.activity-permalink div.activity-comments ul li {
-			padding: 15px 0;
+			padding: 15px 15px 15px 0;
 		}
 
 		div.activity-comments ul li p:last-child {
