@@ -66,7 +66,7 @@ function groups_add_forum_privacy_sql() {
 	global $bp;
 
 	/* Only filter the forum SQL on group pages or on the forums directory */
-	if ( ( $bp->groups->current_group && 'public' == $bp->groups->current_group->status ) || $bp->is_directory ) {
+	if ( ( $bp->groups->current_group && 'public' == $bp->groups->current_group->status ) || !$bp->groups->current_group ) {
 		add_filter( 'get_topics_fields', 'groups_add_forum_fields_sql' );
 		add_filter( 'get_topics_index_hint', 'groups_add_forum_tables_sql' );
 		add_filter( 'get_topics_where', 'groups_add_forum_where_sql' );

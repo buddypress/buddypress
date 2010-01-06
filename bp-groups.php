@@ -916,12 +916,6 @@ function groups_screen_group_admin_manage_members() {
 		if ( 'demote' == $bp->action_variables[1] && is_numeric( $bp->action_variables[2] ) ) {
 			$user_id = $bp->action_variables[2];
 
-			/* Check if the user is the group admin first. */
-			if ( groups_is_user_admin( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
-			        bp_core_add_message(  __('As the only group administrator, you cannot demote yourself.', 'buddypress'), 'error' );
-			        bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
-			}
-
 			/* Check the nonce first. */
 			if ( !check_admin_referer( 'groups_demote_member' ) )
 				return false;
@@ -940,12 +934,6 @@ function groups_screen_group_admin_manage_members() {
 
 		if ( 'ban' == $bp->action_variables[1] && is_numeric( $bp->action_variables[2] ) ) {
 			$user_id = $bp->action_variables[2];
-
-			/* Check if the user is the group admin first. */
-			if ( groups_is_user_admin( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
-			        bp_core_add_message(  __('As the only group administrator, you cannot ban yourself.', 'buddypress'), 'error' );
-			        bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
-			}
 
 			/* Check the nonce first. */
 			if ( !check_admin_referer( 'groups_ban_member' ) )
@@ -1764,8 +1752,17 @@ function groups_join_group( $group_id, $user_id = false ) {
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
 
+	/* Check if the user has an outstanding invite, is so delete it. */
 	if ( groups_check_user_has_invite( $user_id, $group_id ) )
 		groups_delete_invite( $user_id, $group_id );
+
+	/* Check if the user has an outstanding request, is so delete it. */
+	if ( groups_check_for_membership_request( $user_id, $group_id ) )
+		groups_delete_membership_request( $user_id, $group_id );
+
+	/* User is already a member, just return true */
+	if ( groups_is_user_member( $user_id, $group_id ) )
+		return true;
 
 	if ( !$bp->groups->current_group )
 		$bp->groups->current_group = new BP_Groups_Group( $group_id, false, false );
@@ -2405,6 +2402,14 @@ function groups_unban_member( $user_id, $group_id ) {
 function groups_send_membership_request( $requesting_user_id, $group_id ) {
 	global $bp;
 
+	/* Prevent duplicate requests */
+	if ( groups_check_for_membership_request( $requesting_user_id, $group_id ) )
+		return false;
+
+	/* Check if the user is already a member or is banned */
+	if ( groups_is_user_member( $requesting_user_id, $group_id ) || groups_is_user_banned( $requesting_user_id, $group_id ) )
+		return false;
+
 	$requesting_user = new BP_Groups_Member;
 	$requesting_user->group_id = $group_id;
 	$requesting_user->user_id = $requesting_user_id;
@@ -2470,12 +2475,7 @@ function groups_accept_membership_request( $membership_id, $user_id = false, $gr
 }
 
 function groups_reject_membership_request( $membership_id, $user_id = false, $group_id = false ) {
-	if ( $user_id && $group_id )
-		$membership = new BP_Groups_Member( $user_id, $group_id );
-	else
-		$membership = new BP_Groups_Member( false, false, $membership_id );
-
-	if ( !BP_Groups_Member::delete( $membership->user_id, $membership->group_id ) )
+	if ( !$membership = groups_delete_membership_request( $membership_id, $user_id, $group_id ) )
 		return false;
 
 	// Send a notification to the user.
@@ -2485,6 +2485,18 @@ function groups_reject_membership_request( $membership_id, $user_id = false, $gr
 	do_action( 'groups_membership_rejected', $membership->user_id, $membership->group_id );
 
 	return true;
+}
+
+function groups_delete_membership_request( $membership_id, $user_id = false, $group_id = false ) {
+	if ( $user_id && $group_id )
+		$membership = new BP_Groups_Member( $user_id, $group_id );
+	else
+		$membership = new BP_Groups_Member( false, false, $membership_id );
+
+	if ( !BP_Groups_Member::delete( $membership->user_id, $membership->group_id ) )
+		return false;
+
+	return $membership;
 }
 
 function groups_check_for_membership_request( $user_id, $group_id ) {

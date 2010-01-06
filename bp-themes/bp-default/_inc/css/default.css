@@ -382,9 +382,11 @@ ul.item-list {
 			margin: 0 10px 10px 0;
 		}
 
-		ul.item-list li div.item-title {
+		ul.item-list li div.item-title, ul.item-list li h4 {
+			font-weight: normal;
 			font-size: 14px;
 			width: 75%;
+			margin: 0;
 		}
 			ul.item-list li div.item-title span {
 				font-size: 12px;
@@ -484,8 +486,11 @@ div.item-list-tabs {
 				background-image: url( ../images/ajax-loader.gif );
 				background-position: 92% 50%;
 				background-repeat: no-repeat;
-				padding-right: 30px;
+				padding-right: 30px !important;
 			}
+				div#item-nav ul li.loading a {
+					background-position: 88% 50%;
+				}
 
 	div.item-list-tabs#user-subnav,
 	div.item-list-tabs#group-subnav {
@@ -629,6 +634,11 @@ ul.button-nav li a, div.generic-button a {
 	div.generic-button a:hover {
 		border-color: #aaa;
 		color: #555;
+	}
+
+	div.accept, div.reject {
+		float: left;
+		margin-left: 10px;
 	}
 
 ul.button-nav li {

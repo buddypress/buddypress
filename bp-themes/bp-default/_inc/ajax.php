@@ -41,7 +41,6 @@ function bp_dtheme_content_filter() {
 		$bp->ajax_querystring .= '&user_id=' . $user_id;
 	}
 
-	$bp->is_directory = true;
 	locate_template( array( "$content/$content-loop.php" ), true );
 }
 add_action( 'wp_ajax_members_filter', 'bp_dtheme_content_filter' );
