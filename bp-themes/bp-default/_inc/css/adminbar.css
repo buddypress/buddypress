@@ -57,7 +57,7 @@ body {
 		padding-right: 15px;
 	}
 
-	#wp-admin-bar li a span {
+	#wp-admin-bar ul li ul li a span {
 		display: none;
 	}
 
@@ -185,4 +185,9 @@ body {
 #wp-admin-bar ul li#bp-adminbar-notifications-menu a span {
 	padding: 0 6px;
 	margin-left: 2px;
+	background: #fff;
+	color: #000;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }

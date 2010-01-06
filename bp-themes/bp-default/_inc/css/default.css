@@ -58,22 +58,6 @@ img.avatar {
 	display: none;
 }
 
-span.activity, div#message p {
-	display: inline-block;
-	font-size: 11px;
-	font-weight: normal;
-	background: #FFF9DB;
-	border-bottom: 1px solid #FFE8C4;
-	border-right: 1px solid #FFE8C4;
-	color: #ffa200;
-	padding: 2px 8px;
-	margin-top: 8px;
-	text-decoration: none;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-}
-
 /* > Admin Bar
 -------------------------------------------------------------- */
 
@@ -96,7 +80,7 @@ span.activity, div#message p {
 	height: 100px;
 	padding-top: 25px;
 }
-	body.activity-permalink #header { height: 65px; }
+	body.activity-permalink #header { height: 75px; }
 
 	#header #search-bar {
 		position: absolute;
@@ -153,7 +137,6 @@ ul#nav {
 	list-style: none;
 	bottom: 4px;
 }
-	body.activity-permalink ul#nav { display: none; }
 
 	ul#nav li {
 		float: left;
@@ -517,6 +500,22 @@ div.item-list-tabs {
 
 .item-body {
 	margin: 20px 0;
+}
+
+span.activity, div#message p {
+	display: inline-block;
+	font-size: 11px;
+	font-weight: normal;
+	background: #FFF9DB;
+	border-bottom: 1px solid #FFE8C4;
+	border-right: 1px solid #FFE8C4;
+	color: #ffa200;
+	padding: 2px 8px;
+	margin-top: 8px;
+	text-decoration: none;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 /* > Directories (Members, Groups, Blogs, Forums)
@@ -1163,6 +1162,7 @@ div.activity-meta {
 		}
 
 div.activity-comments {
+	position: relative;
 	margin: 0 0 0 75px;
 	background: #f5f5f5;
 	-moz-border-radius: 4px;
@@ -1183,6 +1183,7 @@ div.activity-comments ul, div.activity-comments ul li {
 	border: none;
 	list-style: none;
 }
+
 	div.activity-comments ul {
 		clear: left;
 	}
