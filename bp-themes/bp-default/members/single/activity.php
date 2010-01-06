@@ -1,5 +1,9 @@
-<div class="item-list-tabs" id="user-subnav">
+<div class="item-list-tabs no-ajax" id="user-subnav">
 	<ul>
+		<li class="feed"><a href="<?php bp_activities_member_rss_link() ?>" title="RSS Feed"><?php _e( 'RSS', 'buddypress' ) ?></a></li>
+
+		<?php do_action('bp_activity_member_syndication_options') ?>
+
 		<li id="activity-filter-select" class="last">
 			<select>
 				<option value="-1"><?php _e( 'No Filter', 'buddypress' ) ?></option>

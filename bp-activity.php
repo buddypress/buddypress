@@ -301,7 +301,7 @@ add_action( 'wp', 'bp_activity_action_delete_activity', 3 );
 function bp_activity_action_sitewide_feed() {
 	global $bp, $wp_query;
 
-	if ( $bp->current_component != $bp->activity->slug || $bp->current_action != 'feed' || $bp->displayed_user->id )
+	if ( $bp->current_component != $bp->activity->slug || $bp->current_action != 'feed' || $bp->displayed_user->id || $bp->groups->current_group )
 		return false;
 
 	$wp_query->is_404 = false;
@@ -339,7 +339,6 @@ function bp_activity_action_friends_feed() {
 	die;
 }
 add_action( 'wp', 'bp_activity_action_friends_feed', 3 );
-
 
 /********************************************************************************
  * Business Functions

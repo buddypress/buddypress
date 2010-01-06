@@ -668,20 +668,24 @@ function bp_sitewide_activity_feed_link() {
 	function bp_get_sitewide_activity_feed_link() {
 		global $bp;
 
-		return apply_filters( 'bp_get_sitewide_activity_feed_link', site_url( $bp->activity->slug . '/feed' ) );
+		return apply_filters( 'bp_get_sitewide_activity_feed_link', site_url( $bp->activity->slug . '/feed/' ) );
 	}
 
-function bp_activities_member_rss_link() {
-	echo bp_get_activities_member_rss_link();
+function bp_member_activity_feed_link() {
+	echo bp_get_member_activity_feed_link();
 }
-	function bp_get_activities_member_rss_link() {
+function bp_activities_member_rss_link() { echo bp_get_member_activity_feed_link(); }
+
+	function bp_get_member_activity_feed_link() {
 		global $bp;
 
 		if ( ( $bp->current_component == $bp->profile->slug ) || 'just-me' == $bp->current_action )
-			return apply_filters( 'bp_get_activities_member_rss_link', $bp->displayed_user->domain . $bp->activity->slug . '/feed' );
+			return apply_filters( 'bp_get_activities_member_rss_link', $bp->displayed_user->domain . $bp->activity->slug . '/feed/' );
 		else
-			return apply_filters( 'bp_get_activities_member_rss_link', $bp->displayed_user->domain . $bp->activity->slug . '/my-friends/feed' );
+			return apply_filters( 'bp_get_activities_member_rss_link', $bp->displayed_user->domain . $bp->activity->slug . '/my-friends/feed/' );
 	}
+	function bp_get_activities_member_rss_link() { return bp_get_member_activity_feed_link(); }
+
 
 /* Template tags for RSS feed output */
 

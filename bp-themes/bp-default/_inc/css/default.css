@@ -501,6 +501,11 @@ div.item-list-tabs {
 		overflow: hidden;
 	}
 
+	div.item-list-tabs ul li.feed a {
+		background: url( ../images/rss.png ) center left no-repeat;
+		padding-left: 20px;
+	}
+
 /* > Item Body
 -------------------------------------------------------------- */
 

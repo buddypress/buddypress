@@ -4,9 +4,11 @@
 add_filter( 'bp_get_activity_content', 'bp_activity_filter_kses', 1 );
 add_filter( 'bp_get_activity_parent_content', 'bp_activity_filter_kses', 1 );
 add_filter( 'bp_get_activity_latest_update', 'bp_activity_filter_kses', 1 );
+add_filter( 'bp_get_activity_feed_item_description', 'bp_activity_filter_kses', 1 );
 
 add_filter( 'bp_get_activity_content', 'force_balance_tags' );
 add_filter( 'bp_get_activity_latest_update', 'force_balance_tags' );
+add_filter( 'bp_get_activity_feed_item_description', 'force_balance_tags' );
 
 add_filter( 'bp_get_activity_content', 'wptexturize' );
 add_filter( 'bp_get_activity_parent_content', 'wptexturize' );
@@ -21,14 +23,17 @@ add_filter( 'bp_get_activity_parent_content', 'convert_chars' );
 add_filter( 'bp_get_activity_latest_update', 'convert_chars' );
 
 add_filter( 'bp_get_activity_content', 'wpautop' );
+add_filter( 'bp_get_activity_feed_item_description', 'wpautop' );
 
 add_filter( 'bp_get_activity_content', 'make_clickable' );
 add_filter( 'bp_get_activity_parent_content', 'make_clickable' );
 add_filter( 'bp_get_activity_latest_update', 'make_clickable' );
+add_filter( 'bp_get_activity_feed_item_description', 'make_clickable' );
 
 add_filter( 'bp_get_activity_content', 'stripslashes_deep' );
 add_filter( 'bp_get_activity_parent_content', 'stripslashes_deep' );
 add_filter( 'bp_get_activity_latest_update', 'stripslashes_deep' );
+add_filter( 'bp_get_activity_feed_item_description', 'stripslashes_deep' );
 
 add_filter( 'bp_get_activity_parent_content', 'bp_create_excerpt' );
 
@@ -79,5 +84,6 @@ function bp_activity_at_name_filter( $content ) {
 add_filter( 'xprofile_activity_new_update_content', 'bp_activity_at_name_filter' );
 add_filter( 'groups_activity_new_update_content', 'bp_activity_at_name_filter' );
 add_filter( 'bp_activity_comment_content', 'bp_activity_at_name_filter' );
+add_filter( 'bp_get_activity_feed_item_description', 'bp_activity_at_name_filter' );
 
 ?>

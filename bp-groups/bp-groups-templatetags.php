@@ -2178,4 +2178,26 @@ function bp_group_invite_user_remove_invite_url() {
 		return wp_nonce_url( site_url( BP_GROUPS_SLUG . '/' . $invites_template->invite->group_id . '/invites/remove/' . $invites_template->invite->user->id ), 'groups_invite_uninvite_user' );
 	}
 
+/***
+ * Groups RSS Feed Template Tags
+ */
+
+function bp_group_activity_feed_link() {
+	echo bp_get_group_activity_feed_link();
+}
+	function bp_get_group_activity_feed_link() {
+		global $bp;
+
+		return apply_filters( 'bp_get_group_activity_feed_link', bp_get_group_permalink( $bp->groups->current_group ) . 'feed/' );
+	}
+
+function bp_current_group_name() {
+	echo bp_get_current_group_name();
+}
+	function bp_get_current_group_name() {
+		global $bp;
+
+		$name = apply_filters( 'bp_get_group_name', $bp->groups->current_group->name );
+		return apply_filters( 'bp_get_current_group_name', $name );
+	}
 ?>

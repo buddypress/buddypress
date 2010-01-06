@@ -1,13 +1,18 @@
-<div class="item-list-tabs" id="user-subnav">
+<div class="item-list-tabs no-ajax" id="user-subnav">
 	<ul>
+		<li class="feed"><a href="<?php bp_group_activity_feed_link() ?>" title="RSS Feed"><?php _e( 'RSS', 'buddypress' ) ?></a></li>
+
+		<?php do_action('bp_activity_group_syndication_options') ?>
+
 		<li id="activity-filter-select" class="last">
 			<select>
 				<option value="-1"><?php _e( 'No Filter', 'buddypress' ) ?></option>
-				<option value="new_wire_post"><?php _e( 'Updates Only', 'buddypress' ) ?></option>
-				<option value="new_forum_post,new_forum_topic"><?php _e( 'Group Forum Activity Only', 'buddypress' ) ?></option>
-				<option value="new_blog_post,new_blog_comment"><?php _e( 'Blog Activity Only', 'buddypress' ) ?></option>
+				<option value="new_wire_post"><?php _e( 'Show Updates', 'buddypress' ) ?></option>
+				<option value="new_forum_topic"><?php _e( 'Show New Forum Topics', 'buddypress' ) ?></option>
+				<option value="new_forum_post"><?php _e( 'Show Forum Replies', 'buddypress' ) ?></option>
+				<option value="joined_group"><?php _e( 'Show New Group Memberships', 'buddypress' ) ?></option>
 
-				<?php do_action( 'bp_activity_filter_options' ) ?>
+				<?php do_action( 'bp_activity_group_filter_options' ) ?>
 			</select>
 		</li>
 	</ul>

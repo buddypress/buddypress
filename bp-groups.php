@@ -1349,6 +1349,25 @@ function groups_action_redirect_to_random_group() {
 }
 add_action( 'wp', 'groups_action_redirect_to_random_group', 6 );
 
+function groups_action_groups_feed() {
+	global $bp, $wp_query;
+
+	if ( $bp->current_component != $bp->groups->slug || !$bp->groups->current_group || $bp->current_action != 'feed' )
+		return false;
+
+	$wp_query->is_404 = false;
+	status_header( 200 );
+
+	if ( 'public' != $bp->groups->current_group->status ) {
+		if ( !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
+			return false;
+	}
+
+	include_once( 'bp-activity/feeds/bp-activity-group-feed.php' );
+	die;
+}
+add_action( 'wp', 'groups_action_groups_feed', 3 );
+
 
 /********************************************************************************
  * Activity & Notification Functions
