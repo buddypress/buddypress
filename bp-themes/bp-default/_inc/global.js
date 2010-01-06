@@ -382,11 +382,11 @@ jQuery(document).ready( function() {
 					comment_li.prepend( response.substr( 2, response.length ) ).hide().fadeIn( 200 );
 				} else {
 					comment_li.fadeOut( 200, function() {
-						var children_html = j( 'li#' + comment_li.attr('id') + ' ul:first' ).html();
+						var children = j( 'li#' + comment_li.attr('id') + ' ul:first' );
 
 						/* Fade in sub comments if any were found. */
-						if ( children_html.length )
-							comment_li.parent().append( children_html ).hide().fadeIn( 200 );
+						if ( children.length )
+							comment_li.parent().append( children.html() ).hide().fadeIn( 200 );
 				 	});
 				}
 			});
