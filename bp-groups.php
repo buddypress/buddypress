@@ -210,7 +210,7 @@ function groups_setup_nav() {
 
 			// If this is a private or hidden group, does the user have access?
 			if ( 'private' == $bp->groups->current_group->status || 'hidden' == $bp->groups->current_group->status ) {
-				if ( $bp->groups->current_group->is_user_member && is_user_logged_in() )
+				if ( $bp->groups->current_group->is_user_member && is_user_logged_in() || is_site_admin() )
 					$bp->groups->current_group->user_has_access = true;
 				else
 					$bp->groups->current_group->user_has_access = false;
@@ -232,7 +232,7 @@ function groups_setup_nav() {
 				bp_core_new_subnav_item( array( 'name' => __( 'Admin', 'buddypress' ), 'slug' => 'admin', 'parent_url' => $group_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_admin', 'position' => 20, 'user_has_access' => ( $bp->is_item_admin + (int)$bp->is_item_mod ), 'item_css_id' => 'group-admin' ) );
 
 			// If this is a private group, and the user is not a member, show a "Request Membership" nav item.
-			if ( is_user_logged_in() && !$bp->groups->current_group->is_user_member && !groups_check_for_membership_request( $bp->loggedin_user->id, $bp->groups->current_group->id ) && $bp->groups->current_group->status == 'private' )
+			if ( !is_site_admin() && is_user_logged_in() && !$bp->groups->current_group->is_user_member && !groups_check_for_membership_request( $bp->loggedin_user->id, $bp->groups->current_group->id ) && $bp->groups->current_group->status == 'private' )
 				bp_core_new_subnav_item( array( 'name' => __( 'Request Membership', 'buddypress' ), 'slug' => 'request-membership', 'parent_url' => $group_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_request_membership', 'position' => 30 ) );
 
 			if ( $bp->groups->current_group->enable_forum && function_exists('bp_forums_setup') )
@@ -1970,6 +1970,10 @@ function groups_post_update( $args = '' ) {
 		return false;
 
 	$bp->groups->current_group = new BP_Groups_Group( $group_id );
+
+	/* Be sure the user is a member of the group before posting. */
+	if ( !groups_is_user_member( $user_id, $group_id ) )
+		return false;
 
 	/* Record this in activity streams */
 	$activity_content = sprintf( __( '%s posted an update in the group %s:', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );

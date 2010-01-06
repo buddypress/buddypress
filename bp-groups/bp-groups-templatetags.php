@@ -1039,6 +1039,9 @@ function bp_group_has_requested_membership( $group = false ) {
 function bp_group_is_member( $group = false ) {
 	global $bp, $groups_template;
 
+	if ( is_site_admin() )
+		return true;
+
 	if ( !$group )
 		$group =& $groups_template->group;
 

@@ -42,11 +42,18 @@
 					<?php locate_template( array( 'groups/single/activity.php' ), true ) ?>
 
 				<?php else : ?>
-					<p>This group is not visible.</p>
+					<?php /* The group is not visible, show the status message */ ?>
+
+					<?php do_action( 'bp_before_group_status_message' ) ?>
+
+					<div id="message" class="info">
+						<p><?php bp_group_status_message() ?></p>
+					</div>
+
+					<?php do_action( 'bp_after_group_status_message' ) ?>
 				<?php endif; ?>
 
 				<?php do_action( 'bp_directory_members_content' ) ?>
-
 			</div>
 
 			<?php endwhile; endif; ?>
