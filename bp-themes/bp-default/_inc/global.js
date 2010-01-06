@@ -106,6 +106,7 @@ jQuery(document).ready( function() {
 		}
 	});
 
+	/* Activity filter select */
 	j('#activity-filter-select select').change( function() {
 		var selected_tab = j( '.' + j(this).parent().parent().parent().attr('class') + ' li.selected');
 
@@ -246,6 +247,9 @@ jQuery(document).ready( function() {
 
 			j('div.item-list-tabs li.selected, div.item-list-tabs li.current').removeClass('loading');
 
+			/* Selectively hide comments */
+			bp_dtheme_hide_comments();
+
 		}, 'json' );
 	}
 
@@ -253,6 +257,10 @@ jQuery(document).ready( function() {
 
 	/* Hide all activity comment forms */
 	j('form.ac-form').hide();
+
+	/* Hide excess comments */
+	if ( j('div.activity-comments').length )
+		bp_dtheme_hide_comments();
 
 	/* Activity list event delegation */
 	j('div.activity').click( function(event) {
@@ -346,6 +354,9 @@ jQuery(document).ready( function() {
 					);
 					j( 'form#' + form + ' textarea').val('');
 
+					/* Increase the "Reply (X)" button count */
+					j('li#activity-' + form_id[2] + ' a.acomment-reply span').html( Number( j('li#activity-' + form_id[2] + ' a.acomment-reply span').html() ) + 1 );
+
 					/* Re-enable the submit button after 5 seconds. */
 					setTimeout( function() { target.attr("disabled", ''); }, 5000 );
 				}
@@ -388,8 +399,25 @@ jQuery(document).ready( function() {
 						if ( children.length )
 							comment_li.parent().append( children.html() ).hide().fadeIn( 200 );
 				 	});
+
+					/* Decrease the "Reply (X)" button count */
+					var parent_li = comment_li.parents('ul#activity-stream > li');
+					j('li#' + parent_li.attr('id') + ' a.acomment-reply span').html( j('li#' + parent_li.attr('id') + ' a.acomment-reply span').html() - 1 );
 				}
 			});
+
+			return false;
+		}
+
+		/* Showing hidden comments - pause for half a second */
+		if ( target.parent().hasClass('show-all') ) {
+			target.parent().addClass('loading');
+
+			setTimeout( function() {
+				target.parent().parent().children('li').fadeIn(200, function() {
+					target.parent().remove();
+				});
+			}, 600 );
 
 			return false;
 		}
@@ -418,6 +446,33 @@ jQuery(document).ready( function() {
 			}
 		}
 	});
+
+	function bp_dtheme_hide_comments() {
+		var comments_divs = j('div.activity-comments');
+
+		if ( !comments_divs.length )
+			return false;
+
+		comments_divs.each( function() {
+			if ( j(this).children('ul').children('li').length < 5 ) return;
+
+			var comments_div = j(this);
+			var parent_li = comments_div.parents('ul#activity-stream > li');
+			var comment_lis = j(this).children('ul').children('li');
+
+			comment_lis.each( function(i) {
+				/* Show the latest 5 root comments */
+				if ( i < comment_lis.length - 5 ) {
+					j(this).addClass('hidden');
+					j(this).toggle();
+
+					if ( !i )
+						j(this).before( '<li class="show-all"><a href="#' + parent_li.attr('id') + '/show-all/" title="Show all comments for this thread">Show all ' +  j('li#' + parent_li.attr('id') + ' a.acomment-reply span').html() + ' comments</a></li>' );
+				}
+			});
+
+		});
+	}
 
 	/**** Directory Search ****************************************************/
 

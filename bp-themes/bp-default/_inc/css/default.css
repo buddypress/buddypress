@@ -480,7 +480,7 @@ div.item-list-tabs {
 			-moz-border-radius-topright: 3px;
 			-webkit-border-top-right-radius: 3px;
 		}
-			div.item-list-tabs ul li.loading a {
+			ul li.loading a {
 				background-image: url( ../images/ajax-loader.gif );
 				background-position: 92% 50%;
 				background-repeat: no-repeat;

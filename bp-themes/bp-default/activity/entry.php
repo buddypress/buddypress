@@ -10,7 +10,7 @@
 
 		<div class="activity-meta">
 			<?php if ( is_user_logged_in() && bp_activity_can_comment() ) : ?>
-				<a href="#acomment-<?php bp_activity_id() ?>" class="acomment-reply" id="acomment-comment-<?php bp_activity_id() ?>"><?php _e( 'Reply', 'buddypress' ) ?> (<?php bp_activity_comment_count() ?>)</a>
+				<a href="#acomment-<?php bp_activity_id() ?>" class="acomment-reply" id="acomment-comment-<?php bp_activity_id() ?>"><?php _e( 'Reply', 'buddypress' ) ?> (<span><?php bp_activity_comment_count() ?></span>)</a>
 			<?php endif; ?>
 
 			<?php if ( is_user_logged_in() ) : ?>
