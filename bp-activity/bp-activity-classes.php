@@ -206,7 +206,25 @@ Class BP_Activity_Activity {
 	function get( $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false, $show_hidden = false ) {
 		global $wpdb, $bp;
 
+		/* Select conditions */
+		$select_sql = "SELECT a.*, u.user_email, u.user_nicename, u.user_login";
+
+		if ( function_exists( 'xprofile_install' ) )
+			$select_sql .= ", pd.value as user_fullname";
+
+		$from_sql = " FROM {$bp->activity->table_name} a, {$wpdb->users} u";
+
+		if ( function_exists( 'xprofile_install' ) )
+			$from_sql .= ", {$bp->profile->table_name_data} pd";
+
+		/* Where conditions */
 		$where_conditions = array();
+		$where_conditions['user_join'] = "a.user_id = u.ID";
+
+		if ( function_exists( 'xprofile_install' ) ) {
+			$where_conditions['xprofile_join'] = "a.user_id = pd.user_id";
+			$where_conditions['xprofile_filter'] = "pd.field_id = 1";
+		}
 
 		if ( $per_page && $page )
 			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
@@ -217,7 +235,7 @@ Class BP_Activity_Activity {
 		/* Searching */
 		if ( $search_terms ) {
 			$search_terms = $wpdb->escape( $search_terms );
-			$where_conditions['search_sql'] = "content LIKE '%%" . like_escape( $search_terms ) . "%%'";
+			$where_conditions['search_sql'] = "a.content LIKE '%%" . like_escape( $search_terms ) . "%%'";
 		}
 
 		/* Filtering */
@@ -230,21 +248,21 @@ Class BP_Activity_Activity {
 
 		/* Hide Hidden Items? */
 		if ( !$show_hidden )
-			$where_conditions['hidden_sql'] = "hide_sitewide = 0";
+			$where_conditions['hidden_sql'] = "a.hide_sitewide = 0";
 
 		/* Alter the query based on whether we want to show activity item comments in the stream like normal comments or threaded below the activity */
 		if ( !$display_comments || 'threaded' == $display_comments ) {
-			$where_conditions[] = "component_action != 'activity_comment'";
+			$where_conditions[] = "a.component_action != 'activity_comment'";
 		}
 
 		$where_sql = 'WHERE ' . join( ' AND ', $where_conditions );
 
 		if ( $per_page && $page && $max )
-			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} {$where_sql} ORDER BY date_recorded {$sort} {$pag_sql}" ) );
+			$activities = $wpdb->get_results( $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}" ) );
 		else
-			$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} {$where_sql} ORDER BY date_recorded {$sort} {$pag_sql} {$max_sql}" ) );
+			$activities = $wpdb->get_results( $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql} {$max_sql}" ) );
 
-		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} {$where_sql} ORDER BY date_recorded {$sort} {$max_sql}" ) );
+		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(a.id) {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$max_sql}" ) );
 
 		if ( $activities && $display_comments )
 			$activities = BP_Activity_Activity::append_comments( &$activities );
@@ -301,7 +319,15 @@ Class BP_Activity_Activity {
 		$stack = array();
 
 		/* Retrieve all descendants of the $root node */
-		$descendants = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE component_action = 'activity_comment' AND item_id = %d AND mptt_left BETWEEN %d AND %d ORDER BY date_recorded ASC", $activity_id, $left, $right ) );
+
+		/* Select the user's fullname with the query so we don't have to fetch it for each comment */
+		if ( function_exists( 'xprofile_install' ) ) {
+			$fullname_select = ", pd.value as user_fullname";
+			$fullname_from = ", {$bp->profile->table_name_data} pd ";
+			$fullname_where = "AND pd.user_id = a.user_id AND pd.field_id = 1";
+		}
+
+		$descendants = $wpdb->get_results( $wpdb->prepare( "SELECT a.*, u.user_email, u.user_nicename, u.user_login{$fullname_select} FROM {$bp->activity->table_name} a, {$wpdb->users} u{$fullname_from} WHERE u.ID = a.user_id {$fullname_where} AND a.component_action = 'activity_comment' AND a.item_id = %d AND a.mptt_left BETWEEN %d AND %d ORDER BY a.date_recorded ASC", $activity_id, $left, $right ) );
 
 		/* Loop descendants and build an assoc array */
 		foreach ( $descendants as $d ) {
@@ -377,7 +403,7 @@ Class BP_Activity_Activity {
 
 			$counter = 1;
 			foreach( (array) $user_filter as $user ) {
-				$user_sql .= $wpdb->prepare( "user_id = %d", trim( $user ) );
+				$user_sql .= $wpdb->prepare( "a.user_id = %d", trim( $user ) );
 
 				if ( $counter != count( $user_filter ) )
 					$user_sql .= ' || ';
@@ -395,7 +421,7 @@ Class BP_Activity_Activity {
 
 			$counter = 1;
 			foreach( (array) $object_filter as $object ) {
-				$object_sql .= $wpdb->prepare( "component_name = %s", trim( $object ) );
+				$object_sql .= $wpdb->prepare( "a.component_name = %s", trim( $object ) );
 
 				if ( $counter != count( $object_filter ) )
 					$object_sql .= ' || ';
@@ -413,7 +439,7 @@ Class BP_Activity_Activity {
 
 			$counter = 1;
 			foreach( (array) $action_filter as $action ) {
-				$action_sql .= $wpdb->prepare( "component_action = %s", trim( $action ) );
+				$action_sql .= $wpdb->prepare( "a.component_action = %s", trim( $action ) );
 
 				if ( $counter != count( $action_filter ) )
 					$action_sql .= ' || ';
@@ -431,7 +457,7 @@ Class BP_Activity_Activity {
 
 			$counter = 1;
 			foreach( (array) $pid_filter as $pid ) {
-				$pid_sql .= $wpdb->prepare( "item_id = %s", trim( $pid ) );
+				$pid_sql .= $wpdb->prepare( "a.item_id = %s", trim( $pid ) );
 
 				if ( $counter != count( $pid_filter ) )
 					$pid_sql .= ' || ';
@@ -449,7 +475,7 @@ Class BP_Activity_Activity {
 
 			$counter = 1;
 			foreach( (array) $sid_filter as $sid ) {
-				$sid_sql .= $wpdb->prepare( "secondary_item_id = %s", trim( $sid ) );
+				$sid_sql .= $wpdb->prepare( "a.secondary_item_id = %s", trim( $sid ) );
 
 				if ( $counter != count( $sid_filter ) )
 					$sid_sql .= ' || ';

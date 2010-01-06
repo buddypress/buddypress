@@ -277,7 +277,8 @@ function bp_activity_avatar( $args = '' ) {
 			'width' => 20,
 			'height' => 20,
 			'class' => 'avatar',
-			'alt' => __( 'Avatar', 'buddypress' )
+			'alt' => __( 'Avatar', 'buddypress' ),
+			'email' => false
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -297,7 +298,11 @@ function bp_activity_avatar( $args = '' ) {
 
 		$object = apply_filters( 'bp_get_activity_avatar_object_' . $activities_template->activity->component_name, $object );
 
-		return apply_filters( 'bp_get_activity_avatar', bp_core_fetch_avatar( array( 'item_id' => $item_id, 'object' => $object, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height ) ) );
+		/* If this is a user object pass the users' email address for Gravatar so we don't have to refetch it. */
+		if ( 'user' == $object && empty($email) )
+			$email = $activities_template->activity->user_email;
+
+		return apply_filters( 'bp_get_activity_avatar', bp_core_fetch_avatar( array( 'item_id' => $item_id, 'object' => $object, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height, 'email' => $email ) ) );
 	}
 
 function bp_activity_content() {
@@ -427,7 +432,7 @@ function bp_activity_comments( $args = '' ) {
 
 		return apply_filters( 'bp_activity_get_comments', $comments_html );
 	}
-		/* The HTML in this function is temporary, it will be move to template tags once comments are working. */
+		/* TODO: The HTML in this function is temporary and will be moved to the template in a future version. */
 		function bp_activity_recurse_comments( $comment ) {
 			global $activities_template, $bp;
 
@@ -436,11 +441,12 @@ function bp_activity_comments( $args = '' ) {
 
 			$content .= '<ul>';
 			foreach ( $comment->children as $comment ) {
+				if ( !$comment->user_fullname )
+					$comment->user_fullname = $comment->user_nicename;
+
 				$content .= '<li id="acomment-' . $comment->id . '">';
-
-				$content .= '<div class="acomment-avatar">' . bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'width' => 25, 'height' => 25 ) ) . '</div>';
-
-				$content .= '<div class="acomment-meta">' . bp_core_get_userlink( $comment->user_id ) . ' &middot; ' . sprintf( __( '%s ago', 'buddypress' ), bp_core_time_since( strtotime( $comment->date_recorded ) ) );
+				$content .= '<div class="acomment-avatar">' . bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'width' => 25, 'height' => 25, 'email' => $comment->user_email ) ) . '</div>';
+				$content .= '<div class="acomment-meta"><a href="' . bp_core_get_user_domain( $comment->user_id, $comment->user_nicename, $comment->user_login ) . '">' . esc_attr( $comment->user_fullname ) . '</a> &middot; ' . sprintf( __( '%s ago', 'buddypress' ), bp_core_time_since( strtotime( $comment->date_recorded ) ) );
 
 				/* Reply link */
 				if ( is_user_logged_in() )
