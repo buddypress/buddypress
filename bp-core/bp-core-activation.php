@@ -3,7 +3,7 @@
 function bp_core_screen_activation() {
 	global $bp, $wpdb;
 
-	if ( !bp_core_is_multiblog_install() || BP_ACTIVATION_SLUG != $bp->current_component )
+	if ( !bp_core_is_multisite() || BP_ACTIVATION_SLUG != $bp->current_component )
 		return false;
 
 	/* Check if an activation key has been passed */

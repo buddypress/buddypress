@@ -74,7 +74,7 @@ function bp_blogs_install() {
 function bp_blogs_check_installed() {
 	global $wpdb, $bp, $userdata;
 
-	if ( is_site_admin() && bp_core_is_multiblog_install() ) {
+	if ( is_site_admin() && bp_core_is_multisite() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 		if ( get_site_option('bp-blogs-db-version') < BP_BLOGS_DB_VERSION )
 			bp_blogs_install();
@@ -123,7 +123,7 @@ function bp_blogs_setup_nav() {
 
 	/* Blog/post/comment menus should not appear on single WordPress setups. Although comments
 	   and posts made by users will still show on their activity stream .*/
-	if ( !bp_core_is_multiblog_install() )
+	if ( !bp_core_is_multisite() )
 		return false;
 
 	/* Add 'Blogs' to the main navigation */
@@ -157,7 +157,7 @@ add_action( 'admin_menu', 'bp_blogs_setup_nav' );
 function bp_blogs_directory_blogs_setup() {
 	global $bp;
 
-	if ( bp_core_is_multiblog_install() && $bp->current_component == $bp->blogs->slug && empty( $bp->current_action ) ) {
+	if ( bp_core_is_multisite() && $bp->current_component == $bp->blogs->slug && empty( $bp->current_action ) ) {
 		$bp->is_directory = true;
 
 		do_action( 'bp_blogs_directory_blogs_setup' );
@@ -178,7 +178,7 @@ add_action( 'wp', 'bp_blogs_directory_blogs_setup', 2 );
 function bp_blogs_screen_my_blogs() {
 	global $bp;
 
-	if ( !bp_core_is_multiblog_install() )
+	if ( !bp_core_is_multisite() )
 		return false;
 
 	do_action( 'bp_blogs_screen_my_blogs' );
@@ -198,7 +198,7 @@ function bp_blogs_screen_recent_comments() {
 function bp_blogs_screen_create_a_blog() {
 	global $bp;
 
-	if ( !bp_core_is_multiblog_install() || $bp->current_component != $bp->blogs->slug || 'create' != $bp->current_action )
+	if ( !bp_core_is_multisite() || $bp->current_component != $bp->blogs->slug || 'create' != $bp->current_action )
 		return false;
 
 	if ( !is_user_logged_in() || !bp_blog_signup_enabled() )
@@ -361,7 +361,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 		if ( 'publish' == $post->post_status && '' == $post->post_password ) {
 
 			/* If we're on a multiblog install, record this post */
-			if ( bp_core_is_multiblog_install() ) {
+			if ( bp_core_is_multisite() ) {
 				$recorded_post = new BP_Blogs_Post;
 				$recorded_post->user_id = $user_id;
 				$recorded_post->blog_id = $blog_id;
@@ -373,7 +373,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 				bp_blogs_update_blogmeta( $recorded_post->blog_id, 'last_activity', time() );
 			}
 
-			if ( (int)get_blog_option( $blog_id, 'blog_public' ) || !bp_core_is_multiblog_install() ) {
+			if ( (int)get_blog_option( $blog_id, 'blog_public' ) || !bp_core_is_multisite() ) {
 				/* Record this in activity streams */
 				$post_permalink = bp_post_get_permalink( $post, $blog_id );
 
@@ -410,7 +410,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 			bp_blogs_record_post( $post_id );
 		}
 
-		if ( (int)get_blog_option( $blog_id, 'blog_public' ) || !bp_core_is_multiblog_install() ) {
+		if ( (int)get_blog_option( $blog_id, 'blog_public' ) || !bp_core_is_multisite() ) {
 			/* Now re-record the post in the activity streams */
 			$post_permalink = bp_post_get_permalink( $post, $blog_id );
 
@@ -454,7 +454,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved ) {
 		return false;
 
 	/* If we're on a multiblog install, record this post */
-	if ( bp_core_is_multiblog_install() ) {
+	if ( bp_core_is_multisite() ) {
 		$recorded_comment = new BP_Blogs_Comment;
 		$recorded_comment->user_id = $user_id;
 		$recorded_comment->blog_id = $wpdb->blogid;
@@ -467,7 +467,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved ) {
 		bp_blogs_update_blogmeta( $recorded_comment->blog_id, 'last_activity', time() );
 	}
 
-	if ( (int)get_blog_option( $recorded_comment->blog_id, 'blog_public' ) || !bp_core_is_multiblog_install() ) {
+	if ( (int)get_blog_option( $recorded_comment->blog_id, 'blog_public' ) || !bp_core_is_multisite() ) {
 		/* Record in activity streams */
 		$comment_link = bp_post_get_permalink( $comment->post, $wpdb->blogid ) . '#comment-' . $comment_id;
 		$activity_content = sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $comment_link . '#comment-' . $comment->comment_ID . '">' . $comment->post->post_title . '</a>' );
@@ -501,7 +501,7 @@ function bp_blogs_approve_comment( $comment_id, $comment_status ) {
 
 	bp_blogs_delete_activity( array( 'item_id' => $comment_id, 'secondary_item_id' => $recorded_comment->blog_id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog_comment' ) );
 
-	if ( (int)get_blog_option( $recorded_comment->blog_id, 'blog_public' ) || !bp_core_is_multiblog_install() ) {
+	if ( (int)get_blog_option( $recorded_comment->blog_id, 'blog_public' ) || !bp_core_is_multisite() ) {
 		/* Record in activity streams */
 		$comment_link = bp_post_get_permalink( $comment->post, $recorded_comment->blog_id );
 		$activity_content = sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink( $recorded_comment->user_id ), '<a href="' . $comment_link . '#comment-' . $comment->comment_ID . '">' . $comment->post->post_title . '</a>' );

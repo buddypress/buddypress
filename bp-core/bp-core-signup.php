@@ -124,7 +124,7 @@ function bp_core_screen_signup() {
 				$usermeta = apply_filters( 'bp_signup_usermeta', $usermeta );
 
 				/* Finally, sign up the user and/or blog*/
-				if ( isset( $_POST['signup_with_blog'] ) && bp_core_is_multiblog_install() )
+				if ( isset( $_POST['signup_with_blog'] ) && bp_core_is_multisite() )
 					wpmu_signup_blog( $blog_details['domain'], $blog_details['path'], $blog_details['blog_title'], $_POST['signup_username'], $_POST['signup_email'], $usermeta );
 				else {
 					bp_core_signup_user( $_POST['signup_username'], $_POST['signup_password'], $_POST['signup_email'], $usermeta );
@@ -148,7 +148,7 @@ function bp_core_screen_signup() {
 
 		$bp->signup->step = 'completed-confirmation';
 
-		if ( bp_core_is_multiblog_install() ) {
+		if ( bp_core_is_multisite() ) {
 			/* Get the activation key */
 			if ( !$bp->signup->key = $wpdb->get_var( $wpdb->prepare( "SELECT activation_key FROM {$wpdb->signups} WHERE user_login = %s AND user_email = %s", $_POST[ 'signup_username' ], $_POST[ 'signup_email' ] ) ) ) {
 				bp_core_add_message( __( 'There was a problem uploading your avatar, please try uploading it again', 'buddypress' ) );
@@ -191,7 +191,7 @@ add_action( 'wp', 'bp_core_screen_signup', 3 );
 function bp_core_signup_user( $user_login, $user_password, $user_email, $usermeta ) {
 	global $bp;
 
-	if ( bp_core_is_multiblog_install() )
+	if ( bp_core_is_multisite() )
 		return wpmu_signup_user( $user_login, $user_email, $usermeta );
 
 	$errors = new WP_Error();

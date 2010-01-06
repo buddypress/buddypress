@@ -9,12 +9,15 @@
  * the 3.0 WordPress version merge takes place.
  */
 
-if ( !bp_core_is_multiblog_install() ) {
+if ( !bp_core_is_multisite() ) {
 	$wpdb->base_prefix = $wpdb->prefix;
 	$wpdb->blogid = 1;
 }
 
-function bp_core_is_multiblog_install() {
+function bp_core_is_multisite() {
+	if ( function_exists( 'is_multisite' ) )
+		return is_multisite();
+
 	if ( !function_exists( 'wpmu_signup_blog' ) )
 		return false;
 
@@ -22,7 +25,7 @@ function bp_core_is_multiblog_install() {
 }
 
 function bp_core_get_status_sql( $prefix = false ) {
-	if ( !bp_core_is_multiblog_install() )
+	if ( !bp_core_is_multisite() )
 		return "{$prefix}user_status = 0";
 	else
 		return "{$prefix}spam = 0 AND {$prefix}deleted = 0 AND {$prefix}user_status = 0";

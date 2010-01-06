@@ -426,7 +426,7 @@ function bp_core_action_set_spammer_status() {
 		check_admin_referer( 'mark-unmark-spammer' );
 
 		/* Get the functions file */
-		if ( file_exists( ABSPATH . 'wp-admin/includes/mu.php' ) && bp_core_is_multiblog_install() )
+		if ( file_exists( ABSPATH . 'wp-admin/includes/mu.php' ) && bp_core_is_multisite() )
 			require( ABSPATH . 'wp-admin/includes/mu.php' );
 
 		if ( 'mark-spammer' == $bp->current_action )
@@ -450,7 +450,7 @@ function bp_core_action_set_spammer_status() {
 		}
 
 		/* Finally, mark this user as a spammer */
-		if ( bp_core_is_multiblog_install() )
+		if ( bp_core_is_multisite() )
 			$wpdb->update( $wpdb->users, array( 'spam' => $is_spam ), array( 'ID' => $bp->displayed_user->id ) );
 
 		$wpdb->update( $wpdb->users, array( 'user_status' => $is_spam ), array( 'ID' => $bp->displayed_user->id ) );
@@ -1192,7 +1192,7 @@ function bp_core_get_total_member_count() {
 function bp_core_is_user_spammer( $user_id ) {
 	global $wpdb;
 
-	if ( bp_core_is_multiblog_install() )
+	if ( bp_core_is_multisite() )
 		$is_spammer = (int) $wpdb->get_var( $wpdb->prepare( "SELECT spam FROM " . CUSTOM_USER_TABLE . " WHERE ID = %d", $user_id ) );
 	else
 		$is_spammer = (int) $wpdb->get_var( $wpdb->prepare( "SELECT user_status FROM " . CUSTOM_USER_TABLE . " WHERE ID = %d", $user_id ) );
@@ -1476,7 +1476,7 @@ function bp_core_get_all_posts_for_user( $user_id = null ) {
 function bp_core_get_site_path() {
 	global $bp, $current_site;
 
-	if ( bp_core_is_multiblog_install() )
+	if ( bp_core_is_multisite() )
 		$site_path = $current_site->path;
 	else {
 		$site_path = (array) explode( '/', site_url() );

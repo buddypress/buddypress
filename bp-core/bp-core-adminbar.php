@@ -248,7 +248,7 @@ function bp_adminbar_random_menu() {
 			<li class="alt"><a href="<?php echo $bp->root_domain . '/' . $bp->groups->slug . '/?random-group' ?>"><?php _e( 'Random Group', 'buddypress' ) ?></a></li>
 			<?php endif; ?>
 
-			<?php if ( function_exists('bp_blogs_install') && bp_core_is_multiblog_install() ) : ?>
+			<?php if ( function_exists('bp_blogs_install') && bp_core_is_multisite() ) : ?>
 			<li><a href="<?php echo $bp->root_domain . '/' . $bp->blogs->slug . '/?random-blog' ?>"><?php _e( 'Random Blog', 'buddypress' ) ?></a></li>
 
 			<?php endif; ?>
@@ -263,12 +263,12 @@ add_action( 'bp_adminbar_logo', 'bp_adminbar_logo' );
 add_action( 'bp_adminbar_menus', 'bp_adminbar_login_menu', 2 );
 add_action( 'bp_adminbar_menus', 'bp_adminbar_account_menu', 4 );
 
-if ( bp_core_is_multiblog_install() )
+if ( bp_core_is_multisite() )
 	add_action( 'bp_adminbar_menus', 'bp_adminbar_blogs_menu', 6 );
 
 add_action( 'bp_adminbar_menus', 'bp_adminbar_notifications_menu', 8 );
 
-if ( bp_core_is_multiblog_install() )
+if ( bp_core_is_multisite() )
 	add_action( 'bp_adminbar_menus', 'bp_adminbar_authors_menu', 12 );
 
 add_action( 'bp_adminbar_menus', 'bp_adminbar_random_menu', 100 );

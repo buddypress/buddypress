@@ -368,7 +368,7 @@ function bp_core_check_avatar_type($file) {
 }
 
 function bp_core_avatar_upload_path() {
-	if ( bp_core_is_multiblog_install() )
+	if ( bp_core_is_multisite() )
 		$path = ABSPATH . get_blog_option( BP_ROOT_BLOG, 'upload_path' );
 	else {
 		if ( !$path = get_option( 'upload_path' ) )

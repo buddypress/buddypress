@@ -1234,7 +1234,7 @@ function bp_signup_allowed() {
 	echo bp_get_signup_allowed();
 }
 	function bp_get_signup_allowed() {
-		if ( bp_core_is_multiblog_install() )
+		if ( bp_core_is_multisite() )
 			return get_site_option( 'registration' );
 		else {
 			if ( (int)get_option( 'users_can_register') )
@@ -1251,7 +1251,7 @@ function bp_account_was_activated() {
 }
 
 function bp_registration_needs_activation() {
-	return apply_filters( 'bp_registration_needs_activation', bp_core_is_multiblog_install() );
+	return apply_filters( 'bp_registration_needs_activation', bp_core_is_multisite() );
 }
 
 
