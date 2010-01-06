@@ -207,7 +207,7 @@ Class BP_Activity_Activity {
 		global $wpdb, $bp;
 
 		/* Select conditions */
-		$select_sql = "SELECT a.*, u.user_email, u.user_nicename, u.user_login";
+		$select_sql = "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name";
 
 		if ( function_exists( 'xprofile_install' ) )
 			$select_sql .= ", pd.value as user_fullname";
@@ -327,7 +327,7 @@ Class BP_Activity_Activity {
 			$fullname_where = "AND pd.user_id = a.user_id AND pd.field_id = 1";
 		}
 
-		$descendants = $wpdb->get_results( $wpdb->prepare( "SELECT a.*, u.user_email, u.user_nicename, u.user_login{$fullname_select} FROM {$bp->activity->table_name} a, {$wpdb->users} u{$fullname_from} WHERE u.ID = a.user_id {$fullname_where} AND a.component_action = 'activity_comment' AND a.item_id = %d AND a.mptt_left BETWEEN %d AND %d ORDER BY a.date_recorded ASC", $activity_id, $left, $right ) );
+		$descendants = $wpdb->get_results( $wpdb->prepare( "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name{$fullname_select} FROM {$bp->activity->table_name} a, {$wpdb->users} u{$fullname_from} WHERE u.ID = a.user_id {$fullname_where} AND a.component_action = 'activity_comment' AND a.item_id = %d AND a.mptt_left BETWEEN %d AND %d ORDER BY a.date_recorded ASC", $activity_id, $left, $right ) );
 
 		/* Loop descendants and build an assoc array */
 		foreach ( $descendants as $d ) {

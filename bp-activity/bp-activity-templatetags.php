@@ -442,7 +442,7 @@ function bp_activity_comments( $args = '' ) {
 			$content .= '<ul>';
 			foreach ( $comment->children as $comment ) {
 				if ( !$comment->user_fullname )
-					$comment->user_fullname = $comment->user_nicename;
+					$comment->user_fullname = $comment->display_name;
 
 				$content .= '<li id="acomment-' . $comment->id . '">';
 				$content .= '<div class="acomment-avatar">' . bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'width' => 25, 'height' => 25, 'email' => $comment->user_email ) ) . '</div>';

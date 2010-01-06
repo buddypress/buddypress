@@ -234,6 +234,9 @@ function bp_member_name() {
 	function bp_get_member_name() {
 		global $members_template;
 
+		if ( empty($members_template->member->fullname) )
+			$members_template->member->fullname = $members_template->member->display_name;
+
 		return apply_filters( 'bp_get_member_name', $members_template->member->fullname );
 	}
 	add_filter( 'bp_get_member_name', 'wp_filter_kses' );
