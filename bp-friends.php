@@ -474,6 +474,11 @@ function friends_check_friendship( $user_id, $possible_friend_id ) {
 	return false;
 }
 
+function friends_check_friendship_status( $user_id, $possible_friend_id ) {
+	/* Returns - 'is_friend', 'not_friends', 'pending' */
+	return BP_Friends_Friendship::check_is_friend( $user_id, $possible_friend_id );
+}
+
 function friends_get_total_friend_count( $user_id = false ) {
 	global $bp;
 

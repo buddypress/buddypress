@@ -8,12 +8,20 @@
 	</div>
 
 	<div id="item-buttons">
-		<?php if ( function_exists('bp_add_friend_button') ) : ?>
+		<?php if ( function_exists( 'bp_add_friend_button' ) ) : ?>
 			<?php bp_add_friend_button() ?>
 		<?php endif; ?>
 
-		<?php if ( function_exists('bp_send_message_button') ) : ?>
-			<?php bp_send_message_button() ?>
+		<?php if ( is_user_logged_in() && !bp_is_my_profile() && function_exists( 'bp_send_public_message_link' ) ) : ?>
+			<div class="generic-button" id="send-public-message">
+				<a href="<?php bp_send_public_message_link() ?>" title="<?php _e( 'Send a public message to this user', 'buddypress' ) ?>"><?php _e( 'Send Public Message', 'buddypress' ) ?></a>
+			</div>
+		<?php endif; ?>
+
+		<?php if ( is_user_logged_in() && !bp_is_my_profile() && function_exists( 'bp_send_private_message_link' ) ) : ?>
+			<div class="generic-button" id="send-private-message">
+				<a href="<?php bp_send_private_message_link() ?>" title="<?php _e( 'Send a private message to this user', 'buddypress' ) ?>"><?php _e( 'Send Private Message', 'buddypress' ) ?></a>
+			</div>
 		<?php endif; ?>
 	</div>
 

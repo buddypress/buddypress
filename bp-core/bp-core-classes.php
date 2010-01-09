@@ -357,6 +357,15 @@ class BP_Core_User {
 
 		return $paged_users;
 	}
+
+	function get_core_userdata( $user_id ) {
+		global $wpdb;
+
+		if ( !$user = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->users WHERE ID = %d LIMIT 1", $user_id ) ) )
+			return false;
+
+		return $user;
+	}
 }
 
 

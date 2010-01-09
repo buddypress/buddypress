@@ -2,7 +2,7 @@
 
 /* Stop the theme from killing WordPress if BuddyPress is not enabled. */
 if ( !class_exists( 'BP_Core_User' ) )
-	return false;
+	return;
 
 /* Register the widget columns */
 register_sidebars( 1,

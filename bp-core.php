@@ -102,13 +102,19 @@ function bp_core_setup_globals() {
 	$bp->loggedin_user->id = $current_user->ID;
 
 	/* The domain for the user currently logged in. eg: http://domain.com/members/andy */
-	$bp->loggedin_user->domain = bp_core_get_user_domain($current_user->ID);
+	$bp->loggedin_user->domain = bp_core_get_user_domain( $bp->loggedin_user->id );
+
+	/* The core userdata of the user who is currently logged in. */
+	$bp->loggedin_user->userdata = bp_core_get_core_userdata( $bp->loggedin_user->id );
 
 	/* The user id of the user currently being viewed, set in /bp-core/bp-core-catchuri.php */
 	$bp->displayed_user->id = $displayed_user_id;
 
 	/* The domain for the user currently being displayed */
-	$bp->displayed_user->domain = bp_core_get_user_domain($displayed_user_id);
+	$bp->displayed_user->domain = bp_core_get_user_domain( $bp->displayed_user->id );
+
+	/* The core userdata of the user who is currently being displayed */
+	$bp->displayed_user->userdata = bp_core_get_core_userdata( $bp->displayed_user->id );
 
 	/* The component being used eg: http://domain.com/members/andy/ [profile] */
 	$bp->current_component = $current_component; // type: string
@@ -160,10 +166,10 @@ function bp_core_setup_globals() {
 	$bp->displayed_user->fullname = bp_core_get_user_displayname( $bp->displayed_user->id );
 
 	/* Used to determine if user has admin rights on current content. If the logged in user is viewing
-	   their own profile and wants to delete a post on their wire, is_item_admin is used. This is a
-	   generic variable so it can be used in other components. It can also be modified, so when viewing a group
+	   their own profile and wants to delete something, is_item_admin is used. This is a
+	   generic variable so it can be used by other components. It can also be modified, so when viewing a group
 	   'is_item_admin' would be 1 if they are a group admin, 0 if they are not. */
-	$bp->is_item_admin = bp_is_home();
+	$bp->is_item_admin = bp_is_my_profile();
 
 	/* Used to determine if the logged in user is a moderator for the current content. */
 	$bp->is_item_mod = false;
@@ -184,7 +190,7 @@ add_action( '_admin_menu', 'bp_core_setup_globals', 2 ); // must be _admin_menu 
  *
  * Adds the core URIs that should run in the root of the installation.
  *
- * For example: http://example.org/search or http://example.org/members
+ * For example: http://example.org/search/ or http://example.org/members/
  *
  * @package BuddyPress Core
  * @uses bp_core_add_root_component() Adds a slug to the root components global variable.
@@ -554,6 +560,22 @@ function bp_core_get_user_domain( $user_id, $user_nicename = false, $user_login 
 	wp_cache_set( 'bp_user_domain_' . $user_id, $domain, 'bp' );
 
 	return apply_filters( 'bp_core_get_user_domain', $domain );
+}
+
+/**
+ * bp_core_get_core_userdata()
+ *
+ * Fetch everything in the wp_users table for a user, without any usermeta.
+ *
+ * @package BuddyPress Core
+ * @param user_id The ID of the user.
+ * @uses BP_Core_User::get_core_userdata() Performs the query.
+ */
+function bp_core_get_core_userdata( $user_id ) {
+	if ( empty( $user_id ) )
+		return false;
+
+	return apply_filters( 'bp_core_get_core_userdata', BP_Core_User::get_core_userdata( $user_id ) );
 }
 
 /**
@@ -1021,6 +1043,9 @@ function bp_core_get_user_email( $uid ) {
 		$ud = get_userdata($uid);
 		$email = $ud->user_email;
 	}
+
+	wp_cache_set( 'bp_user_email_' . $uid, $email, 'bp' );
+
 	return apply_filters( 'bp_core_get_user_email', $email );
 }
 
@@ -1047,22 +1072,11 @@ function bp_core_get_user_email( $uid ) {
  * @return str The link text based on passed parameters.
  */
 function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false, $deprecated = false, $with_s = false ) {
-	global $userdata;
 
-	$ud = get_userdata($user_id);
+	$display_name = bp_core_get_user_displayname( $user_id );
 
-	if ( !$ud )
-		return false;
-
-	if ( function_exists( 'bp_core_get_user_displayname' ) ) {
-		$display_name = bp_core_get_user_displayname( $user_id );
-
-		if ( $with_s )
-			$display_name = sprintf( __( "%s's", 'buddypress' ), $display_name );
-
-	} else {
-		$display_name = $ud->display_name;
-	}
+	if ( $with_s )
+		$display_name = sprintf( __( "%s's", 'buddypress' ), $display_name );
 
 	if ( $no_anchor )
 		return $display_name;
@@ -1101,8 +1115,8 @@ function bp_core_get_user_displayname( $user_id ) {
 		if ( function_exists('xprofile_install') ) {
 			$fullname = xprofile_get_field_data( 1, $user_id );
 
-			if ( empty($fullname) || !$fullname ) {
-				$ud = get_userdata($user_id);
+			if ( empty($fullname) ) {
+				$ud = get_userdata( $user_id );
 
 				if ( !empty( $ud->display_name ) )
 					$fullname = $ud->display_name;

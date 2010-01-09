@@ -32,8 +32,8 @@ function bp_core_get_status_sql( $prefix = false ) {
 }
 
 if ( !function_exists( 'get_site_option' ) ) {
-	function get_site_option( $option_value ) {
-		return get_option( $option_value );
+	function get_site_option( $option_value, $default = false ) {
+		return get_option( $option_value, $default );
 	}
 }
 
@@ -50,8 +50,8 @@ if ( !function_exists( 'update_site_option' ) ) {
 }
 
 if ( !function_exists( 'get_blog_option' ) ) {
-	function get_blog_option( $blog_id, $option_name ) {
-		return get_option( $option_name );
+	function get_blog_option( $blog_id, $option_name, $default = false ) {
+		return get_option( $option_name, $default );
 	}
 }
 

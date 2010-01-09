@@ -357,7 +357,7 @@ div#item-header {
 			margin: 2px;
 		}
 
-	div#item-header div.generic-button {
+	div#item-header div.generic-button, div#item-header a.button {
 		float: left;
 		margin: 10px 10px 0 0;
 	}

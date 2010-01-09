@@ -27,6 +27,14 @@ jQuery(document).ready( function() {
 		bp_filter_request( j.cookie('bp-forums-type'), j.cookie('bp-forums-filter'), 'forums', 'div.forums', j.cookie('bp-forums-page'), j.cookie('bp-forums-search-terms') );
 	}
 
+	/* @message Compose Scrolling */
+	if ( j.query.get('r') ) {
+		if ( j('textarea#whats-new').length ) {
+			j.scrollTo( j('textarea#whats-new'), 500, { offset:-75, easing:'easeout' } );
+			j('textarea#whats-new').focus();
+		}
+	}
+
 	/**** Activity Posting ********************************************************/
 
 	/* New posts */
