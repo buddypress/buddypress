@@ -288,7 +288,7 @@ function xprofile_screen_display_profile() {
 	// If this is a first visit to a new friends profile, delete the friend accepted notifications for the
 	// logged in user, only if $_GET['new'] is set.
 	if ( isset($_GET['new']) )
-		bp_core_delete_notifications_for_user_by_item_id( $bp->loggedin_user->id, $bp->displayed_user->id, 'friends', 'friendship_accepted' );
+		bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, 'friends', 'friendship_accepted' );
 
 	do_action( 'xprofile_screen_display_profile', $_GET['new'] );
 	bp_core_load_template( apply_filters( 'xprofile_template_display_profile', 'members/single/home' ) );

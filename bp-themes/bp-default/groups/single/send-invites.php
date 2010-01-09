@@ -74,4 +74,4 @@
 
 <?php endif; ?>
 
-<?php do_action( 'bp_before_group_send_invites_content' ) ?>
+<?php do_action( 'bp_after_group_send_invites_content' ) ?>

@@ -6,6 +6,8 @@
 	</div>
 <?php endif; ?>
 
+<?php do_action( 'bp_before_profile_content' ) ?>
+
 <div class="profile">
 	<?php if ( 'edit' == bp_current_action() ) : ?>
 		<?php locate_template( array( 'members/single/profile/edit.php' ), true ) ?>
@@ -17,6 +19,6 @@
 		<?php locate_template( array( 'members/single/profile/profile-loop.php' ), true ) ?>
 
 	<?php endif; ?>
-</div>
+</div><!-- .profile -->
 
-<?php do_action( 'bp_directory_members_content' ) ?>
+<?php do_action( 'bp_after_profile_content' ) ?>

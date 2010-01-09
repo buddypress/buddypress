@@ -1,3 +1,5 @@
+<?php do_action( 'bp_before_group_forum_content' ) ?>
+
 <?php if ( bp_is_group_forum_topic_edit() ) : ?>
 	<?php locate_template( array( 'groups/single/forum/edit.php' ), true ) ?>
 
@@ -7,15 +9,22 @@
 <?php else : ?>
 
 	<div class="forums single-forum">
-		<?php // 'forums/topic-loop.php' loaded here via AJAX. ?>
-	</div>
+		<?php
+			// The loop will be loaded here via AJAX on page load to retain selected settings and not waste cycles.
+			// If you're concerned about no-script functionality, uncomment the following line.
+
+			// locate_template( array( 'forums/forums-loop.php' ), true );
+		?>
+	</div><!-- .forums -->
+
+	<?php do_action( 'bp_after_group_forum_content' ) ?>
 
 	<?php if ( ( is_user_logged_in() && 'public' == bp_get_group_status() ) || bp_group_is_member() ) : ?>
 
 		<form action="" method="post" id="forum-topic-form" class="standard-form">
 			<div id="post-new-topic">
 
-				<?php do_action( 'groups_forum_new_topic_before' ) ?>
+				<?php do_action( 'bp_before_group_forum_post_new' ) ?>
 
 				<?php if ( !bp_group_is_member() ) : ?>
 					<p><?php _e( 'You will auto join this group when you start a new topic.', 'buddypress' ) ?></p>
@@ -33,14 +42,14 @@
 				<label><?php _e( 'Tags (comma separated):', 'buddypress' ) ?></label>
 				<input type="text" name="topic_tags" id="topic_tags" value="" />
 
-				<?php do_action( 'groups_forum_new_topic_after' ) ?>
+				<?php do_action( 'bp_after_group_forum_post_new' ) ?>
 
 				<div class="submit">
 					<input type="submit" name="submit_topic" id="submit" value="<?php _e( 'Post Topic', 'buddypress' ) ?>" />
 				</div>
 
 				<?php wp_nonce_field( 'bp_forums_new_topic' ) ?>
-			</div>
+			</div><!-- #post-new-topic -->
 		</form>
 
 	<?php endif; ?>

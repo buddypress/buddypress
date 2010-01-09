@@ -1,3 +1,5 @@
+<?php do_action( 'bp_before_profile_loop_content' ) ?>
+
 <?php if ( function_exists('xprofile_get_profile') ) : ?>
 
 	<?php if ( bp_has_profile() ) : ?>
@@ -50,3 +52,6 @@
 	<?php bp_core_get_wp_profile() ?>
 
 <?php endif; ?>
+
+<?php do_action( 'bp_after_profile_loop_content' ) ?>
+

@@ -12,7 +12,7 @@
 				<option value="newest"><?php _e( 'Newest Registered', 'buddypress' ) ?></option>
 				<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ) ?></option>
 
-				<?php do_action( 'bp_members_directory_order_options' ) ?>
+				<?php do_action( 'bp_member_blog_order_options' ) ?>
 			</select>
 		</li>
 	</ul>
@@ -23,10 +23,12 @@
 
 <?php else : ?>
 
+	<?php do_action( 'bp_before_member_friends_content' ) ?>
+
 	<div class="members friends">
 		<?php // 'members/members-loop.php' loaded here via AJAX. ?>
 	</div>
 
-<?php endif; ?>
+	<?php do_action( 'bp_after_member_friends_content' ) ?>
 
-<?php do_action( 'bp_directory_members_content' ) ?>
+<?php endif; ?>

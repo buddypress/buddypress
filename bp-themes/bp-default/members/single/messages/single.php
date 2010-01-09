@@ -1,6 +1,6 @@
-<?php do_action( 'bp_before_message_thread_content' ) ?>
-
 <div id="message-thread">
+
+	<?php do_action( 'bp_before_message_thread_content' ) ?>
 
 	<?php if ( bp_thread_has_messages() ) : ?>
 
@@ -27,7 +27,7 @@
 
 					<?php do_action( 'bp_after_message_meta' ) ?>
 
-				</div>
+				</div><!-- .message-metadata -->
 
 				<?php do_action( 'bp_before_message_content' ) ?>
 
@@ -35,13 +35,13 @@
 
 					<?php bp_the_thread_message_content() ?>
 
-				</div>
+				</div><!-- .message-content -->
 
 				<?php do_action( 'bp_after_message_content' ) ?>
 
 				<div class="clear"></div>
 
-			</div>
+			</div><!-- .message-box -->
 
 		<?php endwhile; ?>
 
@@ -65,7 +65,7 @@
 
 					<?php do_action( 'bp_after_message_meta' ) ?>
 
-				</div>
+				</div><!-- .message-metadata -->
 
 				<div class="message-content">
 
@@ -84,11 +84,11 @@
 					<input type="hidden" name="subject" id="subject" value="<?php _e( 'Re: ', 'buddypress' ); echo str_replace( 'Re: ', '', bp_get_the_thread_subject() ); ?>" />
 					<?php wp_nonce_field( 'messages_send_message', 'send_message_nonce' ) ?>
 
-				</div>
+				</div><!-- .message-content -->
 
-			</div>
+			</div><!-- .message-box -->
 
-		</form>
+		</form><!-- #send-reply -->
 
 		<?php do_action( 'bp_after_message_thread_reply' ) ?>
 

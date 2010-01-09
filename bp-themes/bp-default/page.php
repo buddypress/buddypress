@@ -26,7 +26,7 @@
 
 			<?php endwhile; endif; ?>
 
-		</div>
+		</div><!-- .page -->
 
 		<?php do_action( 'bp_after_blog_page' ) ?>
 

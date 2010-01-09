@@ -1,3 +1,5 @@
+<?php do_action( 'bp_before_member_messages_loop' ) ?>
+
 <?php if ( bp_has_message_threads() ) : ?>
 
 	<div class="pagination" id="user-pag">
@@ -10,13 +12,15 @@
 			<?php bp_messages_pagination() ?>
 		</div>
 
-	</div>
+	</div><!-- .pagination -->
 
-	<?php do_action( 'bp_before_messages_inbox_list' ) ?>
+	<?php do_action( 'bp_after_member_messages_pagination' ) ?>
 
 	<div class="messages-options-nav">
 		<?php bp_messages_options() ?>
-	</div>
+	</div><!-- .messages-options-nav -->
+
+	<?php do_action( 'bp_before_member_messages_threads' ) ?>
 
 	<table id="message-threads">
 		<?php while ( bp_message_threads() ) : bp_message_thread(); ?>
@@ -44,13 +48,15 @@
 			</tr>
 
 		<?php endwhile; ?>
-	</table>
+	</table><!-- #message-threads -->
+
+	<?php do_action( 'bp_after_member_messages_threads' ) ?>
 
 	<div class="messages-options-nav">
 		<?php bp_messages_options() ?>
 	</div>
 
-	<?php do_action( 'bp_after_messages_inbox_list' ) ?>
+	<?php do_action( 'bp_after_member_messages_options' ) ?>
 
 <?php else: ?>
 
@@ -59,3 +65,5 @@
 	</div>
 
 <?php endif;?>
+
+<?php do_action( 'bp_after_member_messages_loop' ) ?>

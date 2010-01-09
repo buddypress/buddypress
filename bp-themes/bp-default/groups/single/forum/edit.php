@@ -17,7 +17,7 @@
 
 				<div id="edit-topic">
 
-					<?php do_action( 'groups_forum_edit_topic_before' ) ?>
+					<?php do_action( 'bp_group_before_edit_forum_topic' ) ?>
 
 					<p><strong><?php _e( 'Edit Topic:', 'buddypress' ) ?></strong></p>
 
@@ -27,7 +27,7 @@
 					<label for="topic_text"><?php _e( 'Content:', 'buddypress' ) ?></label>
 					<textarea name="topic_text" id="topic_text"><?php bp_the_topic_text() ?></textarea>
 
-					<?php do_action( 'groups_forum_edit_topic_after' ) ?>
+					<?php do_action( 'bp_group_after_edit_forum_topic' ) ?>
 
 					<p class="submit"><input type="submit" name="save_changes" id="save_changes" value="<?php _e( 'Save Changes', 'buddypress' ) ?>" /></p>
 
@@ -39,13 +39,13 @@
 
 				<div id="edit-post">
 
-					<?php do_action( 'groups_forum_edit_post_before' ) ?>
+					<?php do_action( 'bp_group_before_edit_forum_post' ) ?>
 
 					<p><strong><?php _e( 'Edit Post:', 'buddypress' ) ?></strong></p>
 
 					<textarea name="post_text" id="post_text"><?php bp_the_topic_post_edit_text() ?></textarea>
 
-					<?php do_action( 'groups_forum_edit_post_after' ) ?>
+					<?php do_action( 'bp_group_after_edit_forum_post' ) ?>
 
 					<p class="submit"><input type="submit" name="save_changes" id="save_changes" value="<?php _e( 'Save Changes', 'buddypress' ) ?>" /></p>
 

@@ -4,14 +4,10 @@
 		<?php do_action( 'bp_before_footer' ) ?>
 
 		<div id="footer">
-			<?php if ( bp_core_is_multisite() ) : ?>
-		    	<p><?php printf( __( '%s is proudly powered by <a href="http://mu.wordpress.org">WordPress MU</a> and <a href="http://buddypress.org">BuddyPress</a>', 'buddypress' ), bloginfo('name') ); ?></p>
-			<?php else : ?>
-		    	<p><?php printf( __( '%s is proudly powered by <a href="http://wordpress.org">WordPress</a> and <a href="http://buddypress.org">BuddyPress</a>', 'buddypress' ), bloginfo('name') ); ?></p>
-			<?php endif; ?>
+	    	<p><?php printf( __( '%s is proudly powered by <a href="http://wordpress.org">WordPress</a> and <a href="http://buddypress.org">BuddyPress</a>', 'buddypress' ), bloginfo('name') ); ?></p>
 
 			<?php do_action( 'bp_footer' ) ?>
-		</div>
+		</div><!-- #footer -->
 
 		<?php do_action( 'bp_after_footer' ) ?>
 

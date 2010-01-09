@@ -1,4 +1,7 @@
-<?php /* Querystring is set via AJAX in _inc/ajax.php - bp_dtheme_blogs_filter() */ ?>
+<?php /* Querystring is set via AJAX in _inc/ajax.php - bp_dtheme_content_filter() */ ?>
+
+<?php do_action( 'bp_before_blogs_loop' ) ?>
+
 <?php if ( bp_has_blogs( bp_ajax_querystring() ) ) : ?>
 
 	<div class="pagination">
@@ -13,8 +16,6 @@
 
 	</div>
 
-	<?php do_action( 'bp_before_directory_blogs_list' ) ?>
-
 	<ul id="blogs-list" class="item-list">
 	<?php while ( bp_blogs() ) : bp_the_blog(); ?>
 
@@ -27,7 +28,7 @@
 				<div class="item-title"><a href="<?php bp_blog_permalink() ?>"><?php bp_blog_name() ?></a></div>
 				<div class="item-meta"><span class="activity"><?php bp_blog_last_active() ?></span></div>
 
-				<?php do_action( 'bp_core_directory_blogs_item' ) ?>
+				<?php do_action( 'bp_directory_blogs_item' ) ?>
 			</div>
 
 			<div class="action">
@@ -59,3 +60,5 @@
 	</div>
 
 <?php endif; ?>
+
+<?php do_action( 'bp_after_blogs_loop' ) ?>

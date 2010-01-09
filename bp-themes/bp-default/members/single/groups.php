@@ -14,7 +14,7 @@
 				<option value="newest"><?php _e( 'Newly Created', 'buddypress' ) ?></option>
 				<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ) ?></option>
 
-				<?php do_action( 'bp_groups_directory_order_options' ) ?>
+				<?php do_action( 'bp_member_group_order_options' ) ?>
 			</select>
 		</li>
 		<?php endif; ?>
@@ -26,10 +26,12 @@
 
 <?php else : ?>
 
+	<?php do_action( 'bp_before_member_groups_content' ) ?>
+
 	<div class="groups mygroups">
 		<?php // 'members/members-loop.php' loaded here via AJAX. ?>
 	</div>
 
-<?php endif; ?>
+	<?php do_action( 'bp_after_member_groups_content' ) ?>
 
-<?php do_action( 'bp_directory_members_content' ) ?>
+<?php endif; ?>

@@ -81,7 +81,7 @@
 				<?php endif; ?>
 
 				<?php do_action( 'bp_nav_items' ); ?>
-			</ul>
+			</ul><!-- #nav -->
 
 			<div id="search-bar">
 				<div class="padder">
@@ -92,16 +92,16 @@
 
 					<input type="submit" name="search-submit" id="search-submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
 					<?php wp_nonce_field( 'bp_search_form' ) ?>
-				</form>
+				</form><!-- #search-form -->
 
 				<?php do_action( 'bp_search_login_bar' ) ?>
 
-				</div>
-			</div>
+				</div><!-- .padder -->
+			</div><!-- #search-bar -->
 
 			<?php do_action( 'bp_header' ) ?>
 
-		</div>
+		</div><!-- #header -->
 
 		<?php do_action( 'bp_after_header' ) ?>
 		<?php do_action( 'bp_before_container' ) ?>

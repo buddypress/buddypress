@@ -1,4 +1,7 @@
-<?php /* Querystring is set via AJAX in _inc/ajax.php - bp_dtheme_members_directory_filter() */ ?>
+<?php /* Querystring is set via AJAX in _inc/ajax.php - bp_dtheme_content_filter() */ ?>
+
+<?php do_action( 'bp_before_members_loop' ) ?>
+
 <?php if ( bp_has_members( bp_ajax_querystring() ) ) : ?>
 
 	<div class="pagination">
@@ -36,8 +39,11 @@
 
 				<?php
 				 /***
-				  * If you want to show specific profile fields here you can:
-				  * bp_member_profile_data( 'the field name' );
+				  * If you want to show specific profile fields here you can,
+				  * but it'll add an extra query for each member in the loop
+				  * (only one regadless of the number of fields you show):
+				  *
+				  * bp_member_profile_field_data( 'field=the field name' );
 				  */
 				?>
 			</div>
@@ -65,3 +71,5 @@
 	</div>
 
 <?php endif; ?>
+
+<?php do_action( 'bp_after_members_loop' ) ?>

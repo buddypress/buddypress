@@ -276,20 +276,27 @@ function bp_member_latest_update( $args = '' ) {
 		return apply_filters( 'bp_get_member_latest_update', $update_content );
 	}
 
-function bp_member_profile_data( $field_name = false ) {
-	echo bp_get_member_profile_data( $field_name );
+function bp_member_profile_data( $args = '' ) {
+	echo bp_get_member_profile_data( $args );
 }
-	function bp_get_member_profile_data( $field_name = false ) {
+	function bp_get_member_profile_data( $args = '' ) {
 		global $members_template;
 
-		if ( !$field_name || !function_exists( 'xprofile_install' ) )
+		if ( !function_exists( 'xprofile_install' ) )
 			return false;
+
+		$defaults = array(
+			'field' => false, // Field name
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
 
 		// Populate the user if it hasn't been already.
 		if ( empty( $members_template->member->profile_data ) )
 			$members_template->member = new BP_Core_User( $members_template->member->id );
 
-		return apply_filters( 'bp_get_member_profile_data', $members_template->member->profile_data[$field_name]['field_data'], $members_template->member->profile_data[$field_name]['field_type'] );
+		return apply_filters( 'bp_get_member_profile_data', $members_template->member->profile_data[$field]['field_data'], $members_template->member->profile_data[$field]['field_type'] );
 	}
 
 function bp_member_registered() {

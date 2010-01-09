@@ -1,4 +1,4 @@
-<?php do_action( 'bp_before_friend_requests_content' ) ?>
+<?php do_action( 'bp_before_member_friend_requests_content' ) ?>
 
 <?php if ( bp_has_members( 'include=' . bp_get_friendship_requests() . '&per_page=0' ) ) : ?>
 
@@ -38,4 +38,4 @@
 
 <?php endif;?>
 
-<?php do_action( 'bp_after_friend_requests_content' ) ?>
+<?php do_action( 'bp_after_member_friend_requests_content' ) ?>

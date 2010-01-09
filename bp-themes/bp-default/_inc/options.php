@@ -1,12 +1,12 @@
 <?php
 
-class Bp_Dtheme_Options_Page {
+class BP_Dtheme_Options_Page {
 	function init() {
 		add_action( 'admin_menu', array( 'Bp_Dtheme_Options_Page', 'add_options_page' ) );
 	}
 
 	function add_options_page() {
-  		add_theme_page( __( 'Theme Options', 'buddypress' ), __( 'Theme Options', 'buddypress' ), 8, 'theme-options-page', array( 'Bp_Dtheme_Options_Page', 'page' ) );
+  		add_theme_page( __( 'Theme Options', 'buddypress' ), __( 'Theme Options', 'buddypress' ), 8, 'theme-options-page', array( 'BP_Dtheme_Options_Page', 'page' ) );
 	}
 
 	function page() {
@@ -50,4 +50,4 @@ class Bp_Dtheme_Options_Page {
 		</div><?php
 	}
 }
-add_action( 'init', array( 'Bp_Dtheme_Options_Page', 'init' ) );
+add_action( 'init', array( 'BP_Dtheme_Options_Page', 'init' ) );

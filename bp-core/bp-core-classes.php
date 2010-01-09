@@ -347,7 +347,6 @@ class BP_Core_User {
 
 		/* Fetch the user's latest update */
 		$user_update = $wpdb->get_results( "SELECT user_id as id, meta_value as latest_update FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = 'bp_latest_update' AND user_id IN ( {$user_ids} )" );
-
 		for ( $i = 0; $i < count( $paged_users ); $i++ ) {
 			foreach ( $user_update as $update ) {
 				if ( $update->id == $paged_users[$i]->id )

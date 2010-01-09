@@ -1,7 +1,5 @@
 <?php get_header() ?>
 
-	<?php do_action( 'bp_before_directory_members_content' ) ?>
-
 	<div id="content">
 		<div class="padder">
 
@@ -9,9 +7,11 @@
 
 			<h2><?php _e( 'Members Directory', 'buddypress' ) ?></h2>
 
+			<?php do_action( 'bp_before_directory_members_content' ) ?>
+
 			<div id="members-dir-search" class="dir-search">
 				<?php bp_directory_members_search_form() ?>
-			</div>
+			</div><!-- #members-dir-search -->
 
 			<div class="item-list-tabs">
 				<ul>
@@ -35,23 +35,28 @@
 						</select>
 					</li>
 				</ul>
-			</div>
+			</div><!-- .item-list-tabs -->
 
 			<div id="members-dir-list" class="members dir-list">
-				<?php /* 'members/members-loop.php' is loaded here via AJAX */ ?>
-			</div>
+				<?php
+					// The loop will be loaded here via AJAX on page load to retain selected settings and not waste cycles.
+					// If you're concerned about no-script functionality, uncomment the following line.
+
+					// locate_template( array( 'members/members-loop.php' ), true );
+				?>
+			</div><!-- #members-dir-list -->
 
 			<?php do_action( 'bp_directory_members_content' ) ?>
 
 			<?php wp_nonce_field( 'directory_members', '_wpnonce-member-filter' ) ?>
 
-		</form>
+			<?php do_action( 'bp_after_directory_members_content' ) ?>
+
+		</form><!-- #members-directory-form -->
 
 		</div><!-- .padder -->
 	</div><!-- #content -->
 
 	<?php locate_template( array( 'sidebar.php' ), true ) ?>
-
-	<?php do_action( 'bp_after_directory_members_content' ) ?>
 
 <?php get_footer() ?>

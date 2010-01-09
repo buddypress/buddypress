@@ -797,7 +797,6 @@ jQuery(document).ready( function() {
 		return false;
 	} );
 
-
 	/** Button disabling ************************************************/
 
 	j('div.pending').click(function() {

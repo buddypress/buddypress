@@ -5,7 +5,7 @@
 	<div id="content">
 		<div class="padder">
 
-		<?php do_action( 'template_notices' ) // (error/success feedback) ?>
+		<?php do_action( 'template_notices' ) ?>
 
 		<h2><?php _e( 'Create a Blog', 'buddypress' ) ?> &nbsp;<a class="button" href="<?php echo bp_root_domain() . '/' . BP_BLOGS_SLUG . '/' ?>"><?php _e( 'Blogs Directory', 'buddypress' ) ?></a></h2>
 
@@ -24,7 +24,6 @@
 		<?php endif; ?>
 
 		<?php do_action( 'bp_after_create_blog_content' ) ?>
-
 
 		</div><!-- .padder -->
 	</div><!-- #content -->

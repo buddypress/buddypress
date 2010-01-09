@@ -1,12 +1,12 @@
 <?php get_header() ?>
 
-	<?php do_action( 'bp_before_directory_groups_content' ) ?>
-
 	<div id="content">
 		<div class="padder">
 
 		<form action="<?php bp_group_creation_form_action() ?>" method="post" id="create-group-form" class="standard-form" enctype="multipart/form-data">
 			<h2><?php _e( 'Create a Group', 'buddypress' ) ?> &nbsp;<a class="button" href="<?php echo bp_root_domain() . '/' . BP_GROUPS_SLUG . '/' ?>"><?php _e( 'Groups Directory', 'buddypress' ) ?></a></h2>
+
+			<?php do_action( 'bp_before_create_group' ) ?>
 
 			<div class="item-list-tabs no-ajax" id="group-create-tabs">
 				<ul>
@@ -18,7 +18,7 @@
 
 			<div class="item-body" id="group-create-body">
 
-				<!-- Group creation step 1: Basic group details -->
+				<?php /* Group creation step 1: Basic group details */ ?>
 				<?php if ( bp_is_group_creation_step( 'group-details' ) ) : ?>
 
 					<?php do_action( 'bp_before_group_details_creation_step' ); ?>
@@ -38,7 +38,7 @@
 
 				<?php endif; ?>
 
-				<!-- Group creation step 2: Group settings -->
+				<?php /* Group creation step 2: Group settings */ ?>
 				<?php if ( bp_is_group_creation_step( 'group-settings' ) ) : ?>
 
 					<?php do_action( 'bp_before_group_settings_creation_step' ); ?>
@@ -100,7 +100,7 @@
 
 				<?php endif; ?>
 
-				<!-- Group creation step 3: Avatar Uploads -->
+				<?php /* Group creation step 3: Avatar Uploads */ ?>
 				<?php if ( bp_is_group_creation_step( 'group-avatar' ) ) : ?>
 
 					<?php do_action( 'bp_before_group_avatar_creation_step' ); ?>
@@ -109,7 +109,7 @@
 
 						<div class="left-menu">
 							<?php bp_new_group_avatar() ?>
-						</div>
+						</div><!-- .left-menu -->
 
 						<div class="main-column">
 							<p><?php _e("Upload an image to use as an avatar for this group. The image will be shown on the main group page, and in search results.", 'buddypress') ?></p>
@@ -121,7 +121,7 @@
 							</p>
 
 							<p><?php _e( 'To skip the avatar upload process, hit the "Next Step" button.', 'buddypress' ) ?></p>
-						</div>
+						</div><!-- .main-column -->
 
 					<?php endif; ?>
 
@@ -152,7 +152,7 @@
 
 				<?php endif; ?>
 
-				<!-- Group creation step 4: Invite friends to group -->
+				<?php /* Group creation step 4: Invite friends to group */ ?>
 				<?php if ( bp_is_group_creation_step( 'group-invites' ) ) : ?>
 
 					<?php do_action( 'bp_before_group_invites_creation_step' ); ?>
@@ -167,7 +167,7 @@
 							<?php wp_nonce_field( 'groups_invite_uninvite_user', '_wpnonce_invite_uninvite_user' ) ?>
 						</div>
 
-					</div>
+					</div><!-- .left-menu -->
 
 					<div class="main-column">
 
@@ -200,7 +200,7 @@
 
 						<?php wp_nonce_field( 'groups_create_save_group-invites' ) ?>
 
-					</div>
+					</div><!-- .main-column -->
 
 					<?php do_action( 'bp_after_group_invites_creation_step' ); ?>
 
@@ -212,22 +212,22 @@
 
 				<?php if ( 'crop-image' != bp_get_avatar_admin_step() ) : ?>
 					<div class="submit" id="previous-next">
-						<!-- Previous Button -->
+						<?php /* Previous Button */ ?>
 						<?php if ( !bp_is_first_group_creation_step() ) : ?>
 							<input type="button" value="&larr; <?php _e('Previous Step', 'buddypress') ?>" id="group-creation-previous" name="previous" onclick="location.href='<?php bp_group_creation_previous_link() ?>'" />
 						<?php endif; ?>
 
-						<!-- Next Button -->
+						<?php /* Next Button */ ?>
 						<?php if ( !bp_is_last_group_creation_step() && !bp_is_first_group_creation_step() ) : ?>
 							<input type="submit" value="<?php _e('Next Step', 'buddypress') ?> &rarr;" id="group-creation-next" name="save" />
 						<?php endif;?>
 
-						<!-- Create Button -->
+						<?php /* Create Button */ ?>
 						<?php if ( bp_is_first_group_creation_step() ) : ?>
 							<input type="submit" value="<?php _e('Create Group and Continue', 'buddypress') ?> &rarr;" id="group-creation-create" name="save" />
 						<?php endif; ?>
 
-						<!-- Finish Button -->
+						<?php /* Finish Button */ ?>
 						<?php if ( bp_is_last_group_creation_step() ) : ?>
 							<input type="submit" value="<?php _e('Finish', 'buddypress') ?> &rarr;" id="group-creation-finish" name="save" />
 						<?php endif; ?>
@@ -236,12 +236,14 @@
 
 				<?php do_action( 'bp_after_group_creation_step_buttons' ); ?>
 
-				<!-- Don't leave out this hidden field -->
+				<?php /* Don't leave out this hidden field */ ?>
 				<input type="hidden" name="group_id" id="group_id" value="<?php bp_new_group_id() ?>" />
 
 				<?php do_action( 'bp_directory_groups_content' ) ?>
 
 			</div><!-- .item-body -->
+
+			<?php do_action( 'bp_after_create_group' ) ?>
 
 		</form>
 
@@ -249,7 +251,5 @@
 	</div><!-- #content -->
 
 	<?php locate_template( array( 'sidebar.php' ), true ) ?>
-
-	<?php do_action( 'bp_after_directory_groups_content' ) ?>
 
 <?php get_footer() ?>

@@ -2,11 +2,11 @@
 	<ul>
 		<?php bp_group_admin_tabs(); ?>
 	</ul>
-</div>
-
-<?php do_action( 'bp_before_group_admin_content' ) ?>
+</div><!-- .item-list-tabs -->
 
 <form action="<?php bp_group_admin_form_action() ?>" name="group-settings-form" id="group-settings-form" class="standard-form" method="post" enctype="multipart/form-data">
+
+<?php do_action( 'bp_before_group_admin_content' ) ?>
 
 <?php /* Edit Group Details */ ?>
 <?php if ( bp_is_group_admin_screen( 'edit-details' ) ) : ?>
@@ -307,6 +307,7 @@
 <?php /* This is important, don't forget it */ ?>
 <input type="hidden" name="group-id" id="group-id" value="<?php bp_group_id() ?>" />
 
+<?php do_action( 'bp_after_group_admin_content' ) ?>
+
 </form>
 
-<?php do_action( 'bp_after_group_admin_content' ) ?>

@@ -1,5 +1,7 @@
 <?php /* This template is used by activity-loop.php and AJAX functions to show each activity */ ?>
 
+<?php do_action( 'bp_before_activity_entry' ) ?>
+
 <li class="<?php bp_activity_css_class() ?>" id="activity-<?php bp_activity_id() ?>">
 	<div class="activity-avatar">
 		<?php bp_activity_avatar( 'type=full&width=100&height=100' ) ?>
@@ -7,6 +9,8 @@
 
 	<div class="activity-content">
 		<?php bp_activity_content() ?>
+
+		<?php do_action( 'bp_activity_entry_content' ) ?>
 
 		<div class="activity-meta">
 			<?php if ( is_user_logged_in() && bp_activity_can_comment() ) : ?>
@@ -20,6 +24,8 @@
 					<a href="" class="unfav" title="<?php _e( 'Remove Favorite', 'buddypress' ) ?>"><?php _e( 'Remove Favorite', 'buddypress' ) ?></a>
 				<?php endif; ?>
 			<?php endif;?>
+
+			<?php do_action( 'bp_activity_entry_meta' ) ?>
 		</div>
 	</div>
 
@@ -29,6 +35,8 @@
 			<a href="<?php bp_activity_thread_permalink() ?>" class="view" title="<?php _e( 'View Thread / Permalink', 'buddypress' ) ?>">#</a>
 		</div>
 	<?php endif; ?>
+
+	<?php do_action( 'bp_before_activity_entry_comments' ) ?>
 
 	<?php if ( bp_activity_can_comment() ) : ?>
 		<div class="activity-comments">
@@ -48,4 +56,9 @@
 			<?php endif; ?>
 		</div>
 	<?php endif; ?>
+
+	<?php do_action( 'bp_after_activity_entry_comments' ) ?>
 </li>
+
+<?php do_action( 'bp_after_activity_entry' ) ?>
+

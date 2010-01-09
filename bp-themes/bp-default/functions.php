@@ -2,7 +2,7 @@
 
 /* Stop the theme from killing WordPress if BuddyPress is not enabled. */
 if ( !class_exists( 'BP_Core_User' ) )
-	return;
+	return false;
 
 /* Register the widget columns */
 register_sidebars( 1,
@@ -118,17 +118,11 @@ define( 'HEADER_IMAGE_HEIGHT', 125 );
 
 function bp_dtheme_header_style() { ?>
 	<style type="text/css">
-		#header{
-			background-image: url(<?php header_image() ?>);
-		}
+		#header { background-image: url(<?php header_image() ?>); }
 		<?php if ( 'blank' == get_header_textcolor() ) { ?>
-		#header h1, #header #desc {
-			display: none;
-		}
+		#header h1, #header #desc { display: none; }
 		<?php } else { ?>
-		#header h1 a, #desc {
-			color:#<?php header_textcolor() ?>;
-		}
+		#header h1 a, #desc { color:#<?php header_textcolor() ?>; }
 		<?php } ?>
 	</style>
 <?php

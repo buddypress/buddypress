@@ -1,3 +1,5 @@
+<?php do_action( 'bp_before_group_header' ) ?>
+
 <div id="item-actions">
 	<?php if ( bp_group_is_visible() ) : ?>
 
@@ -21,13 +23,16 @@
 <?php bp_group_avatar() ?>
 
 <h2><a href="<?php bp_group_permalink() ?>" title="<?php bp_group_name() ?>"><?php bp_group_name() ?></a></h2>
-
 <span class="highlight"><?php bp_group_type() ?></span> <span class="activity"><?php printf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active() ) ?></span>
+
+<?php do_action( 'bp_before_group_header_meta' ) ?>
 
 <div id="item-meta">
 	<?php bp_group_description() ?>
 
 	<?php bp_group_join_button() ?>
 
-	<?php do_action( 'bp_group_header_content' ) ?>
+	<?php do_action( 'bp_group_header_meta' ) ?>
 </div>
+
+<?php do_action( 'bp_after_group_header' ) ?>

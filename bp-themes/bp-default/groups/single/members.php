@@ -1,5 +1,7 @@
 <?php if ( bp_group_has_members( 'exclude_admins_mods=0' ) ) : ?>
 
+	<?php do_action( 'bp_before_group_members_content' ) ?>
+
 	<div class="pagination">
 
 		<div id="member-count" class="pag-count">
@@ -39,7 +41,7 @@
 
 	</ul>
 
-	<?php do_action( 'bp_after_group_members_list' ) ?>
+	<?php do_action( 'bp_after_group_members_content' ) ?>
 
 <?php else: ?>
 

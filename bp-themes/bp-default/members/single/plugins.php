@@ -1,9 +1,9 @@
 <?php get_header() ?>
 
-	<?php do_action( 'bp_before_directory_members_content' ) ?>
-
 	<div id="content">
 		<div class="padder">
+
+			<?php do_action( 'bp_before_member_plugin_template' ) ?>
 
 			<div id="item-header">
 				<?php locate_template( array( 'members/single/member-header.php' ), true ) ?>
@@ -33,11 +33,13 @@
 
 			</div><!-- #item-body -->
 
+			<?php do_action( 'bp_after_member_plugin_template' ) ?>
+
 		</div><!-- .padder -->
 	</div><!-- #content -->
 
 	<?php locate_template( array( 'sidebar.php' ), true ) ?>
 
-	<?php do_action( 'bp_after_directory_members_content' ) ?>
+	<?php do_action( 'bp_after_member_plugin_template' ) ?>
 
 <?php get_footer() ?>

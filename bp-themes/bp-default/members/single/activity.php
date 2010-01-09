@@ -2,7 +2,7 @@
 	<ul>
 		<li class="feed"><a href="<?php bp_activities_member_rss_link() ?>" title="RSS Feed"><?php _e( 'RSS', 'buddypress' ) ?></a></li>
 
-		<?php do_action('bp_activity_member_syndication_options') ?>
+		<?php do_action( 'bp_member_activity_syndication_options' ) ?>
 
 		<li id="activity-filter-select" class="last">
 			<select>
@@ -16,18 +16,28 @@
 				<option value="joined_group"><?php _e( 'Show New Group Memberships', 'buddypress' ) ?></option>
 				<option value="friendship_accepted,friendship_created"><?php _e( 'Show Friendship Connections', 'buddypress' ) ?></option>
 
-				<?php do_action( 'bp_activity_personal_filter_options' ) ?>
+				<?php do_action( 'bp_member_activity_filter_options' ) ?>
 			</select>
 		</li>
 	</ul>
-</div>
+</div><!-- .item-list-tabs -->
+
+<?php do_action( 'bp_before_member_activity_post_form' ) ?>
 
 <?php if ( is_user_logged_in() && bp_is_my_profile() ) : ?>
 	<?php locate_template( array( 'activity/post-form.php'), true ) ?>
 <?php endif; ?>
 
-<div class="activity">
-	<?php // 'activity/activity-loop.php' loaded here via AJAX. ?>
-</div>
+<?php do_action( 'bp_after_member_activity_post_form' ) ?>
+<?php do_action( 'bp_before_member_activity_content' ) ?>
 
-<?php do_action( 'bp_directory_members_content' ) ?>
+<div class="activity">
+	<?php
+		// The loop will be loaded here via AJAX on page load to retain selected settings and not waste cycles.
+		// If you're concerned about no-script functionality, uncomment the following line.
+
+		// locate_template( array( 'activity/activity-loop.php' ), true );
+	?>
+</div><!-- .activity -->
+
+<?php do_action( 'bp_after_member_activity_content' ) ?>

@@ -1,16 +1,16 @@
 <?php get_header() ?>
 
-	<?php do_action( 'bp_before_directory_groups_content' ) ?>
-
 	<div id="content">
 		<div class="padder">
 
 		<form action="" method="post" id="groups-directory-form" class="dir-form">
 			<h2><?php _e( 'Groups Directory', 'buddypress' ) ?><?php if ( is_user_logged_in() ) : ?> &nbsp;<a class="button" href="<?php echo bp_root_domain() . '/' . BP_GROUPS_SLUG . '/create/' ?>"><?php _e( 'Create a Group', 'buddypress' ) ?></a><?php endif; ?></h2>
 
+			<?php do_action( 'bp_before_directory_groups_content' ) ?>
+
 			<div id="group-dir-search" class="dir-search">
 				<?php bp_directory_groups_search_form() ?>
-			</div>
+			</div><!-- #group-dir-search -->
 
 			<div class="item-list-tabs">
 				<ul>
@@ -20,7 +20,7 @@
 						<li id="groups-mygroups"><a href="<?php echo bp_loggedin_user_domain() . BP_GROUPS_SLUG . '/my-groups/' ?>"><?php printf( __( 'My Groups (%s)', 'buddypress' ), bp_get_total_group_count_for_user( bp_loggedin_user_id() ) ) ?></a></li>
 					<?php endif; ?>
 
-					<?php do_action( 'bp_members_directory_group_types' ) ?>
+					<?php do_action( 'bp_groups_directory_group_types' ) ?>
 
 					<li id="groups-order-select" class="last filter">
 
@@ -35,23 +35,28 @@
 						</select>
 					</li>
 				</ul>
-			</div>
+			</div><!-- .item-list-tabs -->
 
 			<div id="groups-dir-list" class="groups dir-list">
-				<?php /* 'groups/groups-loop.php' is loaded here via AJAX */ ?>
-			</div>
+				<?php
+					// The loop will be loaded here via AJAX on page load to retain selected settings and not waste cycles.
+					// If you're concerned about no-script functionality, uncomment the following line.
+
+					// locate_template( array( 'groups/groups-loop.php' ), true );
+				?>
+			</div><!-- #groups-dir-list -->
 
 			<?php do_action( 'bp_directory_groups_content' ) ?>
 
-			<?php wp_nonce_field( 'directory_members', '_wpnonce-member-filter' ) ?>
+			<?php wp_nonce_field( 'directory_groups', '_wpnonce-groups-filter' ) ?>
 
-		</form>
+		</form><!-- #groups-directory-form -->
+
+		<?php do_action( 'bp_after_directory_groups_content' ) ?>
 
 		</div><!-- .padder -->
 	</div><!-- #content -->
 
 	<?php locate_template( array( 'sidebar.php' ), true ) ?>
-
-	<?php do_action( 'bp_after_directory_groups_content' ) ?>
 
 <?php get_footer() ?>

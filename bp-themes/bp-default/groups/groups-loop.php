@@ -1,4 +1,7 @@
-<?php /* Querystring is set via AJAX in _inc/ajax.php - bp_dtheme_groups_directory_filter() */ ?>
+<?php /* Querystring is set via AJAX in _inc/ajax.php - bp_dtheme_content_filter() */ ?>
+
+<?php do_action( 'bp_before_groups_loop' ) ?>
+
 <?php if ( bp_has_groups( bp_ajax_querystring() ) ) : ?>
 
 	<div class="pagination">
@@ -12,8 +15,6 @@
 		</div>
 
 	</div>
-
-	<?php do_action( 'bp_before_directory_groups_list' ) ?>
 
 	<ul id="groups-list" class="item-list">
 	<?php while ( bp_groups() ) : bp_the_group(); ?>
@@ -48,7 +49,7 @@
 	<?php endwhile; ?>
 	</ul>
 
-	<?php do_action( 'bp_after_directory_groups_list' ) ?>
+	<?php do_action( 'bp_after_groups_loop' ) ?>
 
 <?php else: ?>
 
