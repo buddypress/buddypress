@@ -21,7 +21,7 @@
 					<h2><a href="<?php bp_post_permalink() ?>" rel="bookmark" title="<?php printf ( __( 'Permanent Link to %s', 'buddypress' ), bp_post_title( false ) ); ?>"><?php bp_post_title(); ?></a></h2>
 
 					<p class="date"><?php printf( __( '%1$s <em>in %2$s by %3$s</em>', 'buddypress' ), bp_post_date(__('F jS, Y', 'buddypress'), false ), bp_post_category( ', ', '', null, false ), bp_post_author( false ) ); ?></p>
-					<?php bp_post_content(__('Read the rest of this entry &raquo;')); ?>
+					<?php bp_post_content(__('Read the rest of this entry &rarr;')); ?>
 					<p class="postmetadata"><?php bp_post_tags( '<span class="tags">', ', ', '</span>' ); ?>  <span class="comments"><?php bp_post_comments( __('No Comments'), __('1 Comment'), __('% Comments') ); ?></span></p>
 
 					<?php do_action( 'bp_recent_posts_item' ) ?>

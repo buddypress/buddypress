@@ -9,7 +9,7 @@
 
 		<?php do_action( 'bp_group_request_membership_content' ) ?>
 
-		<p><input type="submit" name="group-request-send" id="group-request-send" value="<?php _e( 'Send Request', 'buddypress' ) ?> &raquo;" />
+		<p><input type="submit" name="group-request-send" id="group-request-send" value="<?php _e( 'Send Request', 'buddypress' ) ?> &rarr;" />
 
 		<?php wp_nonce_field( 'groups_request_membership' ) ?>
 	</form>

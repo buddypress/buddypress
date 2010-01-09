@@ -7,7 +7,7 @@
 	</div>
 
 	<div id="content">
-		<h2><?php bp_word_or_name( __( "My Friends", 'buddypress' ), __( "%s's Friends", 'buddypress' ) ) ?> &raquo; <?php bp_friends_filter_title() ?></h2>
+		<h2><?php bp_word_or_name( __( "My Friends", 'buddypress' ), __( "%s's Friends", 'buddypress' ) ) ?> &rarr; <?php bp_friends_filter_title() ?></h2>
 
 		<?php do_action( 'bp_before_my_friends_content' ) ?>
 

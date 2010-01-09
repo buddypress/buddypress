@@ -8,7 +8,7 @@
 
 	<div id="content">
 
-		<h2><?php bp_word_or_name( __( "My Groups", 'buddypress' ), __( "%s's Groups", 'buddypress' ) ) ?> &raquo; <?php bp_groups_filter_title() ?></h2>
+		<h2><?php bp_word_or_name( __( "My Groups", 'buddypress' ), __( "%s's Groups", 'buddypress' ) ) ?> &rarr; <?php bp_groups_filter_title() ?></h2>
 
 		<?php do_action( 'bp_before_my_groups_content' ) ?>
 

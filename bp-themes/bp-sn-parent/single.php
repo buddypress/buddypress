@@ -13,7 +13,7 @@
 				<div class="item-options">
 
 					<div class="alignleft"><?php next_posts_link( __( '&larr; Previous Entries', 'buddypress' ) ) ?></div>
-					<div class="alignright"><?php previous_posts_link( __( 'Next Entries &raquo;', 'buddypress' ) ) ?></div>
+					<div class="alignright"><?php previous_posts_link( __( 'Next Entries &rarr;', 'buddypress' ) ) ?></div>
 
 				</div>
 
@@ -25,7 +25,7 @@
 
 					<div class="entry">
 
-						<?php the_content( __( '<p class="serif">Read the rest of this entry &raquo;</p>', 'buddypress' ) ); ?>
+						<?php the_content( __( '<p class="serif">Read the rest of this entry &rarr;</p>', 'buddypress' ) ); ?>
 
 						<?php wp_link_pages(array('before' => __( '<p><strong>Pages:</strong> ', 'buddypress' ), 'after' => '</p>', 'next_or_number' => 'number')); ?>
 

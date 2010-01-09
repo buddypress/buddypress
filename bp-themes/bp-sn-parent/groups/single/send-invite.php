@@ -8,7 +8,7 @@
 
 		<?php if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group(); ?>
 
-			<h2><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a> &raquo; <?php _e( 'Send Invites', 'buddypress' ); ?></h2>
+			<h2><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a> &rarr; <?php _e( 'Send Invites', 'buddypress' ); ?></h2>
 
 			<?php do_action( 'bp_before_group_send_invites_content' ) ?>
 
