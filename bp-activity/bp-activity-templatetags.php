@@ -52,8 +52,8 @@ class BP_Activity_Template {
 				'format' => '',
 				'total' => ceil( (int)$this->total_activity_count / (int)$this->pag_num ),
 				'current' => (int)$this->pag_page,
-				'prev_text' => '&laquo;',
-				'next_text' => '&raquo;',
+				'prev_text' => '&larr;',
+				'next_text' => '&rarr;',
 				'mid_size' => 1
 			));
 		}
@@ -446,7 +446,7 @@ function bp_activity_comments( $args = '' ) {
 
 				$content .= '<li id="acomment-' . $comment->id . '">';
 				$content .= '<div class="acomment-avatar">' . bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'width' => 25, 'height' => 25, 'email' => $comment->user_email ) ) . '</div>';
-				$content .= '<div class="acomment-meta"><a href="' . bp_core_get_user_domain( $comment->user_id, $comment->user_nicename, $comment->user_login ) . '">' . esc_attr( $comment->user_fullname ) . '</a> &middot; ' . sprintf( __( '%s ago', 'buddypress' ), bp_core_time_since( strtotime( $comment->date_recorded ) ) );
+				$content .= '<div class="acomment-meta"><a href="' . bp_core_get_user_domain( $comment->user_id, $comment->user_nicename, $comment->user_login ) . '">' . apply_filters( 'bp_get_member_name', $comment->user_fullname ) . '</a> &middot; ' . sprintf( __( '%s ago', 'buddypress' ), bp_core_time_since( strtotime( $comment->date_recorded ) ) );
 
 				/* Reply link */
 				if ( is_user_logged_in() )

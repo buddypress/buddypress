@@ -241,6 +241,7 @@ function bp_member_name() {
 	}
 	add_filter( 'bp_get_member_name', 'wp_filter_kses' );
 	add_filter( 'bp_get_member_name', 'stripslashes' );
+	add_filter( 'bp_get_member_name', 'strip_tags' );
 
 function bp_member_last_active() {
 	echo bp_get_member_last_active();

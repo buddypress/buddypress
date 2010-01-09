@@ -17,12 +17,12 @@
 
 					<div class="post" id="post-<?php the_ID(); ?>">
 
-						<h2><a href="<?php echo get_permalink($post->post_parent); ?>" rev="attachment"><?php echo get_the_title($post->post_parent); ?></a> &raquo; <a href="<?php echo get_permalink() ?>" rel="bookmark" title="Permanent Link: <?php the_title(); ?>"><?php the_title(); ?></a></h2>
+						<h2><a href="<?php echo get_permalink($post->post_parent); ?>" rev="attachment"><?php echo get_the_title($post->post_parent); ?></a> &rarr; <a href="<?php echo get_permalink() ?>" rel="bookmark" title="Permanent Link: <?php the_title(); ?>"><?php the_title(); ?></a></h2>
 
 						<div class="entry">
 							<p class="<?php echo $classname; ?>"><?php echo $attachment_link; ?><br /><?php echo basename($post->guid); ?></p>
 
-							<?php the_content( __('<p class="serif">Read the rest of this entry &raquo;</p>', 'buddypress' ) ); ?>
+							<?php the_content( __('<p class="serif">Read the rest of this entry &rarr;</p>', 'buddypress' ) ); ?>
 
 							<?php wp_link_pages( array( 'before' => __( '<p><strong>Pages:</strong> ', 'buddypress' ), 'after' => '</p>', 'next_or_number' => 'number')); ?>
 						</div>

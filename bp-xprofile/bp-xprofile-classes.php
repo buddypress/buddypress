@@ -164,7 +164,7 @@ Class BP_XProfile_Group {
 				</div>
 
 				<p class="submit" style="text-align: left">
-					<input type="submit" name="saveGroup" value="<?php echo attribute_escape( $title ); ?> &raquo;" />
+					<input type="submit" name="saveGroup" value="<?php echo attribute_escape( $title ); ?> &rarr;" />
 				</p>
 
 			</form>
@@ -582,7 +582,7 @@ Class BP_XProfile_Field {
 				<?php $this->render_admin_form_children() ?>
 
 				<p class="submit">
-						&nbsp;<input type="submit" value="<?php _e("Save", 'buddypress') ?> &raquo;" name="saveField" id="saveField" style="font-weight: bold" />
+						&nbsp;<input type="submit" value="<?php _e("Save", 'buddypress') ?> &rarr;" name="saveField" id="saveField" style="font-weight: bold" />
 						 <?php _e('or', 'buddypress') ?> <a href="admin.php?page=bp-profile-setup" style="color: red"><?php _e( 'Cancel', 'buddypress' ) ?></a>
 				</p>
 

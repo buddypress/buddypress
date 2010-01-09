@@ -352,8 +352,8 @@ class BP_Blogs_Blog_Post_Template {
 			'format' => '',
 			'total' => ceil($this->total_post_count / $this->pag_num),
 			'current' => $this->pag_page,
-			'prev_text' => '&laquo;',
-			'next_text' => '&raquo;',
+			'prev_text' => '&larr;',
+			'next_text' => '&rarr;',
 			'mid_size' => 1
 		));
 	}
@@ -1033,7 +1033,7 @@ function bp_show_blog_signup_form($blogname = '', $blog_title = '', $errors = ''
 
 			<?php bp_blogs_signup_blog($blogname, $blog_title, $errors); ?>
 			<p>
-				<input id="submit" type="submit" name="submit" class="submit" value="<?php _e('Create Blog &raquo;', 'buddypress') ?>" />
+				<input id="submit" type="submit" name="submit" class="submit" value="<?php _e('Create Blog &rarr;', 'buddypress') ?>" />
 			</p>
 
 			<?php wp_nonce_field( 'bp_blog_signup_form' ) ?>

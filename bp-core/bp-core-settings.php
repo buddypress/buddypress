@@ -189,7 +189,7 @@ function bp_core_screen_delete_account_content() {
 		<input type="checkbox" name="delete-account-understand" id="delete-account-understand" value="1" onclick="if(this.checked) { document.getElementById('delete-account-button').disabled = ''; } else { document.getElementById('delete-account-button').disabled = 'disabled'; }" /> <?php _e( 'I understand the consequences of deleting my account.', 'buddypress' ); ?>
 
 		<div class="submit">
-			<input type="submit" disabled="disabled" value="<?php _e( 'Delete My Account', 'buddypress' ) ?> &raquo;" id="delete-account-button" name="delete-account-button" /></p>
+			<input type="submit" disabled="disabled" value="<?php _e( 'Delete My Account', 'buddypress' ) ?> &rarr;" id="delete-account-button" name="delete-account-button" /></p>
 		</div>
 
 		<?php wp_nonce_field('delete-account') ?>

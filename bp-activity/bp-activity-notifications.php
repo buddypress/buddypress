@@ -18,7 +18,7 @@ function bp_activity_new_comment_notification( $comment_id, $params ) {
 		// Set up and send the message
 		$ud = get_userdata( $original_activity->user_id );
 		$to = $ud->user_email;
-		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s replied to one of your updates', 'buddypress' ), stripslashes($poster_name) );
+		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s replied to one of your updates', 'buddypress' ), stripslashes_deep( $poster_name ) );
 
 $message = sprintf( __(
 '%s replied to one of your updates:
@@ -28,7 +28,7 @@ $message = sprintf( __(
 To view your original update and all comments, log in and visit: %s
 
 ---------------------
-', 'buddypress' ), $poster_name, wp_filter_kses( stripslashes($content) ), $thread_link );
+', 'buddypress' ), $poster_name, wp_filter_kses( stripslashes_deep( $content ) ), $thread_link );
 
 		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 

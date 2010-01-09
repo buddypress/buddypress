@@ -719,8 +719,8 @@ class BP_Forums_Template_Topic {
 			'format' => '',
 			'total' => ceil($this->total_post_count / $this->pag_num),
 			'current' => $this->pag_page,
-			'prev_text' => '&laquo;',
-			'next_text' => '&raquo;',
+			'prev_text' => '&larr;',
+			'next_text' => '&rarr;',
 			'mid_size' => 1
 		));
 	}

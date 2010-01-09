@@ -13,7 +13,7 @@
 				<h3 class="pagetitle"><?php _e( 'Search Results', 'buddypress' ) ?></h3>
 
 				<div class="navigation">
-					<div class="alignleft"><?php next_posts_link( __( '&laquo; Previous Entries', 'buddypress' ) ) ?></div>
+					<div class="alignleft"><?php next_posts_link( __( '&larr; Previous Entries', 'buddypress' ) ) ?></div>
 					<div class="alignright"><?php previous_posts_link( __( 'Next Entries &raquo;', 'buddypress' ) ) ?></div>
 				</div>
 
@@ -37,7 +37,7 @@
 				<?php endwhile; ?>
 
 				<div class="navigation">
-					<div class="alignleft"><?php next_posts_link( __( '&laquo; Previous Entries', 'buddypress' ) ) ?></div>
+					<div class="alignleft"><?php next_posts_link( __( '&larr; Previous Entries', 'buddypress' ) ) ?></div>
 					<div class="alignright"><?php previous_posts_link( __( 'Next Entries &raquo;', 'buddypress' ) ) ?></div>
 				</div>
 
