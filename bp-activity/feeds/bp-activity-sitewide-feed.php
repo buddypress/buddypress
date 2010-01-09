@@ -28,12 +28,12 @@ header('Status: 200 OK');
 	<language><?php echo get_option('rss_language'); ?></language>
 	<?php do_action('bp_activity_sitewide_feed_head'); ?>
 
-	<?php if ( bp_has_activities( 'type=sitewide&max=50' ) ) : ?>
+	<?php if ( bp_has_activities( 'type=sitewide&max=50&display_comments=threaded' ) ) : ?>
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<item>
 				<guid><?php bp_activity_thread_permalink() ?></guid>
 				<title><![CDATA[<?php bp_activity_feed_item_title() ?>]]></title>
-				<link><?php bp_activity_feed_item_link() ?></link>
+				<link><?php bp_activity_thread_permalink() ?></link>
 				<pubDate><?php echo mysql2date('D, d M Y H:i:s O', bp_get_activity_feed_item_date(), false); ?></pubDate>
 
 				<description>

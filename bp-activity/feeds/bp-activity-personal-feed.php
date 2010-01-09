@@ -27,15 +27,28 @@ header('Status: 200 OK');
 	<language><?php echo get_option('rss_language'); ?></language>
 	<?php do_action('bp_activity_personal_feed_head'); ?>
 
-	<?php if ( bp_has_activities( 'user_id=' . $bp->displayed_user->id . '&max=50' ) ) : ?>
+	<?php if ( bp_has_activities( 'user_id=' . $bp->displayed_user->id . '&max=50&display_comments=inline' ) ) : ?>
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<item>
 				<guid><?php bp_activity_thread_permalink() ?></guid>
 				<title><![CDATA[<?php bp_activity_feed_item_title() ?>]]></title>
-				<link><?php echo bp_activity_feed_item_link() ?></link>
+				<link><?php echo bp_activity_thread_permalink() ?></link>
 				<pubDate><?php echo mysql2date('D, d M Y H:i:s O', bp_get_activity_feed_item_date(), false); ?></pubDate>
 
-				<description><![CDATA[<?php bp_activity_feed_item_description() ?>]]></description>
+				<description>
+					<![CDATA[
+					<?php bp_activity_feed_item_description() ?>
+
+					<?php if ( bp_activity_can_comment() ) : ?>
+						<p><?php printf( __( 'Comments: %s', 'buddypress' ), bp_activity_get_comment_count() ); ?></p>
+					<?php endif; ?>
+
+					<?php if ( 'activity_comment' == bp_get_activity_action_name() ) : ?>
+						<br /><strong><?php _e( 'In reply to', 'buddypress' ) ?></strong> -
+						<?php bp_activity_parent_content() ?>
+					<?php endif; ?>
+					]]>
+				</description>
 				<?php do_action('bp_activity_personal_feed_item'); ?>
 			</item>
 		<?php endwhile; ?>
