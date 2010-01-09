@@ -810,9 +810,6 @@ function bp_activity_filter_template_paths() {
 	add_filter( 'bp_activity_template_my_activity', create_function( '', 'return "activity/just-me";' ) );
 	add_filter( 'bp_activity_template_friends_activity', create_function( '', 'return "activity/my-friends";' ) );
 	add_filter( 'bp_activity_template_profile_activity_permalink', create_function( '', 'return "activity/single";' ) );
-
-	/* Activity widget should only be available to older themes since the new default has it all in the template */
-	require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-widgets.php' );
 }
 add_action( 'widgets_init', 'bp_activity_filter_template_paths' );
 
