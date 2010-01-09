@@ -1439,12 +1439,12 @@ ul#topic-post-list {
 		background: #f4f4f4;
 	}
 
-	ul#topic-post-list li divdiv.poster-meta {
+	ul#topic-post-list li div.poster-meta {
 		margin-bottom: 10px;
 		color: #888;
 	}
 
-	ul#topic-post-list li divdiv.post-content {
+	ul#topic-post-list li div.post-content {
 		margin-left: 54px;
 	}
 
