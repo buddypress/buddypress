@@ -25,19 +25,6 @@ function bp_core_add_admin_bar_css() {
 add_action( 'init', 'bp_core_add_admin_bar_css' );
 
 /**
- * bp_core_add_admin_bar_js()
- *
- * Add the minor JS needed for the admin bar.
- *
- * @package BuddyPress Core
- * @uses get_option() Selects a site setting from the DB.
- */
-function bp_core_add_admin_bar_js() {
-	wp_enqueue_script( 'bp-admin-bar-js', BP_PLUGIN_URL . '/bp-core/js/admin-bar.js', array( 'jquery' ) );
-}
-add_action( 'init', 'bp_core_add_admin_bar_js' );
-
-/**
  * bp_core_admin_menu_icon_css()
  *
  * Add a hover-able icon to the "BuddyPress" wp-admin area menu.

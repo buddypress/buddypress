@@ -941,6 +941,14 @@ jQuery(document).ready( function() {
 		}
 	);
 
+	/* Admin Bar Javascript */
+	j("#wp-admin-bar ul.main-nav li").mouseover( function() {
+		j(this).addClass('sfhover');
+	});
+
+	j("#wp-admin-bar ul.main-nav li").mouseout( function() {
+		j(this).removeClass('sfhover');
+	});
 });
 
 // Helper JS Functions
