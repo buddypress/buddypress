@@ -43,7 +43,7 @@ function bp_friends_random_friends() {
 			<ul class="horiz-gallery">
 			<?php for ( $i = 0; $i < count( $friend_ids ); $i++ ) { ?>
 				<li>
-					<a href="<?php echo bp_core_get_userurl( $friend_ids[$i] ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $friend_ids[$i], 'type' => 'thumb' ) ) ?></a>
+					<a href="<?php echo bp_core_get_domain( $friend_ids[$i] ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $friend_ids[$i], 'type' => 'thumb' ) ) ?></a>
 					<h5><?php echo bp_core_get_userlink($friend_ids[$i]) ?></h5>
 				</li>
 			<?php } ?>
@@ -70,7 +70,7 @@ function bp_friends_random_members( $total_members = 5 ) {
 		<ul class="item-list" id="random-members-list">
 		<?php for ( $i = 0; $i < count( $user_ids['users'] ); $i++ ) { ?>
 			<li>
-				<a href="<?php echo bp_core_get_userurl( $user_ids['users'][$i]->user_id ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $user_ids['users'][$i]->user_id, 'type' => 'thumb' ) ) ?></a>
+				<a href="<?php echo bp_core_get_user_domain( $user_ids['users'][$i]->user_id ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $user_ids['users'][$i]->user_id, 'type' => 'thumb' ) ) ?></a>
 				<h5><?php echo bp_core_get_userlink($user_ids['users'][$i]->user_id) ?></h5>
 				<?php if ( function_exists( 'xprofile_get_random_profile_data' ) ) { ?>
 					<?php $random_data = xprofile_get_random_profile_data( $user_ids['users'][$i]->user_id, true ); ?>

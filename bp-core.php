@@ -536,31 +536,23 @@ function bp_core_get_user_domain( $user_id, $user_nicename = false, $user_login 
 
 	if ( !$user_id ) return;
 
-	if ( $domain = wp_cache_get( 'bp_user_domain_' . $user_id, 'bp' ) )
-		return apply_filters( 'bp_core_get_user_domain', $domain );
+	if ( !$domain = wp_cache_get( 'bp_user_domain_' . $user_id, 'bp' ) ) {
+		$username = bp_core_get_username( $user_id, $user_nicename, $user_login );
 
-	if ( !$user_nicename && !$user_login ) {
-		$ud = get_userdata($user_id);
-		$user_nicename = $ud->user_nicename;
-		$user_login = $ud->user_login;
+		/* If we are using a members slug, include it. */
+		if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) )
+			$domain = $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $username . '/';
+		else
+			$domain = $bp->root_domain . '/' . $username . '/';
+
+		/* Cache the link */
+		wp_cache_set( 'bp_user_domain_' . $user_id, $domain, 'bp' );
 	}
-
-	if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
-		$username = $user_login;
-	else
-		$username = $user_nicename;
-
-	/* If we are using a members slug, include it. */
-	if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) )
-		$domain = $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $username . '/';
-	else
-		$domain = $bp->root_domain . '/' . $username . '/';
-
-	/* Cache the link */
-	wp_cache_set( 'bp_user_domain_' . $user_id, $domain, 'bp' );
 
 	return apply_filters( 'bp_core_get_user_domain', $domain );
 }
+/* DEPRECATED */
+function bp_core_get_userurl( $uid ) { return bp_core_get_user_domain( $uid ); }
 
 /**
  * bp_core_get_core_userdata()
@@ -991,40 +983,38 @@ function bp_core_get_userid( $username ) {
  * @return false on no match
  * @return str the username of the matched user.
  */
-function bp_core_get_username( $uid ) {
-	global $userdata;
-
-	if ( $uid == $userdata->ID )
-		$username =  __( 'You', 'buddypress' );
-
-	if ( !$ud = get_userdata($uid) )
-		return false;
-
-	$username = $ud->user_login;
-
-	return apply_filters( 'bp_core_get_username', $username );
-}
-
-/**
- * bp_core_get_userurl()
- *
- * Returns the URL with no HTML markup for a user based on their user id.
- *
- * @package BuddyPress Core
- * @param $uid int User ID to check.
- * @global $userdata WordPress user data for the current logged in user.
- * @uses get_userdata() WordPress function to fetch the userdata for a user ID
- * @return false on no match
- * @return str The URL for the user with no HTML formatting.
- */
-function bp_core_get_userurl( $uid ) {
+function bp_core_get_username( $uid, $user_nicename = false, $user_login = false ) {
 	global $bp;
 
-	if ( !$url = wp_cache_get( 'bp_user_url_' . $uid, 'bp' ) ) {
-		$url = bp_core_get_user_domain( $uid );
+	if ( !$username = wp_cache_get( 'bp_user_username_' . $uid, 'bp' ) ) {
+		if ( empty( $user_nicename ) && empty( $user_login ) ) {
+			$ud = false;
+
+			if ( $bp->loggedin_user->id == $uid )
+				$ud = &$bp->loggedin_user->userdata;
+
+			if ( $bp->displayed_user->id == $uid )
+				$ud = &$bp->displayed_user->userdata;
+
+			if ( empty( $ud ) ) {
+				if ( !$ud = bp_core_get_core_userdata($uid) )
+					return false;
+
+				$user_nicename = $ud->user_nicename;
+				$user_login = $ud->user_login;
+			}
+		}
+
+		if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
+			$username = $user_login;
+		else
+			$username = $user_nicename;
 	}
 
-	return apply_filters( 'bp_core_get_userurl', $url );
+	/* Add this to cache */
+	wp_cache_set( 'bp_user_username_' . $uid, 'bp' );
+
+	return apply_filters( 'bp_core_get_username', $username );
 }
 
 /**
@@ -1081,7 +1071,7 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false,
 	if ( $no_anchor )
 		return $display_name;
 
-	if ( !$url = bp_core_get_userurl($user_id) )
+	if ( !$url = bp_core_get_user_domain($user_id) )
 		return false;
 
 	if ( $just_link )

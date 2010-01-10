@@ -312,7 +312,7 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 				return apply_filters( 'bp_friends_multiple_friendship_accepted_notification', '<a href="' . $bp->loggedin_user->domain . $bp->friends->slug . '/my-friends/newest" title="' . __( 'My Friends', 'buddypress' ) . '">' . sprintf( __('%d friends accepted your friendship requests', 'buddypress' ), (int)$total_items ) . '</a>', (int)$total_items );
 			} else {
 				$user_fullname = bp_core_get_user_displayname( $item_id );
-				$user_url = bp_core_get_userurl( $item_id );
+				$user_url = bp_core_get_domain( $item_id );
 				return apply_filters( 'bp_friends_single_friendship_accepted_notification', '<a href="' . $user_url . '?new" title="' . $user_fullname .'\'s profile">' . sprintf( __( '%s accepted your friendship request', 'buddypress' ), $user_fullname ) . '</a>', $user_fullname );
 			}
 		break;
@@ -322,7 +322,7 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 				return apply_filters( 'bp_friends_multiple_friendship_request_notification', '<a href="' . $bp->loggedin_user->domain . $bp->friends->slug . '/requests" title="' . __( 'Friendship requests', 'buddypress' ) . '">' . sprintf( __('You have %d pending friendship requests', 'buddypress' ), (int)$total_items ) . '</a>', $total_items );
 			} else {
 				$user_fullname = bp_core_get_user_displayname( $item_id );
-				$user_url = bp_core_get_userurl( $item_id );
+				$user_url = bp_core_get_user_domain( $item_id );
 				return apply_filters( 'bp_friends_single_friendship_request_notification', '<a href="' . $bp->loggedin_user->domain . $bp->friends->slug . '/requests" title="' . __( 'Friendship requests', 'buddypress' ) . '">' . sprintf( __('You have a friendship request from %s', 'buddypress' ), $user_fullname ) . '</a>', $user_fullname );
 			}
 		break;
@@ -418,7 +418,7 @@ function friends_accept_friendship( $friendship_id ) {
 		$initiator_link = bp_core_get_userlink( $friendship->initiator_user_id );
 		$friend_link = bp_core_get_userlink( $friendship->friend_user_id );
 
-		$primary_link = apply_filters( 'friends_activity_friendship_accepted_primary_link', bp_core_get_userurl( $friendship->initiator_user_id ), &$friendship );
+		$primary_link = apply_filters( 'friends_activity_friendship_accepted_primary_link', bp_core_get_user_domain( $friendship->initiator_user_id ), &$friendship );
 
 		/* Record in activity streams for the initiator */
 		friends_record_activity( array(

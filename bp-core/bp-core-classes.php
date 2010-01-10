@@ -64,7 +64,7 @@ class BP_Core_User {
 			$this->user_link = "<a href='{$this->user_url}' title='{$this->fullname}'>{$this->fullname}</a>";
 			$this->email = attribute_escape( $this->profile_data['user_email'] );
 		} else {
-			$this->user_url = bp_core_get_userurl( $this->id );
+			$this->user_url = bp_core_get_user_domain( $this->id );
 			$this->user_link = bp_core_get_userlink( $this->id );
 			$this->fullname = attribute_escape( bp_core_get_user_displayname( $this->id ) );
 			$this->email = attribute_escape( bp_core_get_user_email( $this->id ) );

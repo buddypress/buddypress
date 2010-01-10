@@ -248,13 +248,13 @@ function bp_activity_action_permalink_router() {
 	/* Redirect based on the type of activity */
 	if ( $activity->component_name == $bp->groups->id ) {
 		if ( $activity->user_id )
-			$redirect = bp_core_get_userurl( $activity->user_id ) . $bp->activity->slug . '/' . $activity->id;
+			$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . $bp->activity->slug . '/' . $activity->id;
 		else {
 			if ( $group = groups_get_group( array( 'group_id' => $activity->item_id ) ) )
 				$redirect = bp_get_group_permalink( $group ) . $bp->activity->slug . '/' . $activity->id;
 		}
 	} else
-		$redirect = bp_core_get_userurl( $activity->user_id ) . $bp->activity->slug . '/' . $activity->id;
+		$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . $bp->activity->slug . '/' . $activity->id;
 
 	if ( !$redirect )
 		bp_core_redirect( $bp->root_domain );
