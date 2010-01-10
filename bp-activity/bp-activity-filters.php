@@ -58,7 +58,9 @@ function bp_activity_filter_kses( $content ) {
 	$activity_allowedtags['img']['height'] = array();
 	$activity_allowedtags['img']['class'] = array();
 	$activity_allowedtags['img']['id'] = array();
+	$activity_allowedtags['code'] = array();
 
+	$activity_allowedtags = apply_filters( 'bp_activity_allowed_tags', $activity_allowedtags );
 	return wp_kses( $content, $activity_allowedtags );
 }
 
@@ -87,7 +89,8 @@ function bp_activity_at_name_filter( $content ) {
 }
 add_filter( 'bp_activity_new_update_content', 'bp_activity_at_name_filter' );
 add_filter( 'groups_activity_new_update_content', 'bp_activity_at_name_filter' );
-add_filter( 'bp_activity_comment_content', 'bp_activity_at_name_filter' );
-add_filter( 'bp_get_activity_feed_item_description', 'bp_activity_at_name_filter' );
+add_filter( 'pre_comment_content', 'bp_activity_at_name_filter' );
+add_filter( 'group_forum_topic_text_before_save', 'bp_activity_at_name_filter' );
+add_filter( 'group_forum_post_text_before_save', 'bp_activity_at_name_filter' );
 
 ?>

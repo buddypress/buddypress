@@ -350,7 +350,7 @@ function bp_activity_content_filter( $content, $date_recorded, $full_name, $inse
 	}
 
 	/* Add the permalink */
-	$meta = ' &middot; <a href="' . bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ) . '" class="view" title="' . __( 'View Thread / Permalink', 'buddypress' ) . '">#</a>';
+	$meta = ' &middot; <a href="' . bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ) . '" class="view" title="' . __( 'View Thread / Permalink', 'buddypress' ) . '">' . __( 'View', 'buddypress' ) . '</a>';
 
 	/* Add the delete link if the user has permission on this item */
 	if ( ( $activities_template->activity->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin || is_site_admin() )
