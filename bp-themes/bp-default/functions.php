@@ -64,7 +64,7 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 	$comment_type = get_comment_type();
 
 	if ( $comment->user_id )
-		$userlink = bp_core_get_userurl( $comment->user_id );
+		$userlink = bp_core_get_user_domain( $comment->user_id );
 
 	if ( $comment_type == 'comment' ) { ?>
         <li <?php comment_class(); ?> id="comment-<?php comment_ID(); ?>">

@@ -193,7 +193,7 @@ function bp_activity_screen_single_activity_permalink() {
 add_action( 'wp', 'bp_activity_screen_single_activity_permalink', 3 );
 
 function bp_activity_screen_notification_settings() {
-	global $current_user; ?>
+	global $bp; ?>
 	<table class="notification-settings" id="activity-notification-settings">
 		<tr>
 			<th class="icon"></th>
@@ -204,15 +204,15 @@ function bp_activity_screen_notification_settings() {
 
 		<tr>
 			<td></td>
-			<td><?php printf( __( 'A member mentions you in an update using "@%s"', 'buddypress' ), $current_user->user_login ) ?></td>
-			<td class="yes"><input type="radio" name="notifications[notification_activity_new_mention]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_activity_new_mention' ) || 'yes' == get_usermeta( $current_user->id, 'notification_activity_new_mention' ) ) { ?>checked="checked" <?php } ?>/></td>
-			<td class="no"><input type="radio" name="notifications[notification_activity_new_mention]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_activity_new_mention' ) ) { ?>checked="checked" <?php } ?>/></td>
+			<td><?php printf( __( 'A member mentions you in an update using "@%s"', 'buddypress' ), bp_core_get_username( $bp->displayed_user->user_id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) ) ?></td>
+			<td class="yes"><input type="radio" name="notifications[notification_activity_new_mention]" value="yes" <?php if ( !get_usermeta( $bp->loggedin_user->id, 'notification_activity_new_mention' ) || 'yes' == get_usermeta( $bp->loggedin_user->id, 'notification_activity_new_mention' ) ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_activity_new_mention]" value="no" <?php if ( 'no' == get_usermeta( $bp->loggedin_user->id, 'notification_activity_new_mention' ) ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
 		<tr>
 			<td></td>
 			<td><?php printf( __( "A member replies to an update you've posted", 'buddypress' ), $current_user->user_login ) ?></td>
-			<td class="yes"><input type="radio" name="notifications[notification_activity_new_reply]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_activity_new_reply' ) || 'yes' == get_usermeta( $current_user->id, 'notification_activity_new_reply' ) ) { ?>checked="checked" <?php } ?>/></td>
-			<td class="no"><input type="radio" name="notifications[notification_activity_new_reply]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_activity_new_reply' ) ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="yes"><input type="radio" name="notifications[notification_activity_new_reply]" value="yes" <?php if ( !get_usermeta( $bp->loggedin_user->id, 'notification_activity_new_reply' ) || 'yes' == get_usermeta( $bp->loggedin_user->id, 'notification_activity_new_reply' ) ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_activity_new_reply]" value="no" <?php if ( 'no' == get_usermeta( $bp->loggedin_user->id, 'notification_activity_new_reply' ) ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
 
 		<?php do_action( 'bp_activity_screen_notification_settings' ) ?>
@@ -441,6 +441,44 @@ function bp_activity_add( $args = '' ) {
 	do_action( 'bp_activity_add', $params );
 
 	return $activity->id;
+}
+
+function bp_activity_post_update( $args = '' ) {
+	global $bp;
+
+	$defaults = array(
+		'content' => false,
+		'user_id' => $bp->loggedin_user->id
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	if ( empty($content) || empty($content) )
+		return false;
+
+	/* Record this on the user's profile */
+	$from_user_link = bp_core_get_userlink( $user_id );
+	$activity_content = sprintf( __('%s posted an update:', 'buddypress'), $from_user_link );
+	$activity_content .= '<div class="activity-inner">' . $content . '</div>';
+
+	$primary_link = bp_core_get_userlink( $user_id, false, true );
+
+	/* Now write the values */
+	$activity_id = bp_activity_add( array(
+		'user_id' => $user_id,
+		'content' => apply_filters( 'bp_activity_new_update_content', $activity_content ),
+		'primary_link' => apply_filters( 'bp_activity_new_update_primary_link', $primary_link ),
+		'component_name' => $bp->activity->id,
+		'component_action' => 'new_wire_post'
+	) );
+
+	/* Add this update to the "latest update" usermeta so it can be fetched anywhere. */
+	update_usermeta( $bp->loggedin_user->id, 'bp_latest_update', array( 'id' => $activity_id, 'content' => wp_filter_kses( $content ) ) );
+
+	do_action( 'bp_activity_posted_update', $content, $user_id, $activity_id );
+
+	return $activity_id;
 }
 
 function bp_activity_new_comment( $args = '' ) {

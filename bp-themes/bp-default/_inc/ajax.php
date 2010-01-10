@@ -70,7 +70,7 @@ function bp_dtheme_post_update() {
 			'group_id' => $_POST['group']
 		));
 	} else {
-		$activity_id = xprofile_post_update( array(
+		$activity_id = bp_activity_post_update( array(
 			'content' => $_POST['content']
 		));
 	}
@@ -168,11 +168,8 @@ function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string 
 		if ( $bp->displayed_user->id ) {
 			$query_string = 'user_id=' . $bp->displayed_user->id;
 		} else {
-			/* Set a valid type */
-			if ( !$type || ( 'all' != $type && 'friends' != $type && 'groups' != $type && 'favorites' != $type ) )
-				$type = 'all';
-
-			if ( ( 'friends' == $type || 'groups' == $type || 'favorites' == $type ) && !is_user_logged_in() )
+			/* Make sure a type is set. */
+			if ( empty($type) )
 				$type = 'all';
 
 			switch ( $type ) {
@@ -193,6 +190,12 @@ function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string 
 
 					$favorite_ids = implode( ',', (array)$favs );
 					$query_string = 'include=' . $favorite_ids;
+					break;
+				case 'atme':
+					$query_string = 'search_terms=@' . bp_core_get_username( $bp->loggedin_user->id, $bp->loggedin_user->userdata->user_nicename, $bp->loggedin_user->userdata->user_login );
+
+					/* Reset the number of new @ mentions for the user */
+					delete_usermeta( $bp->loggedin_user->id, 'bp_new_mention_count' );
 					break;
 			}
 		}

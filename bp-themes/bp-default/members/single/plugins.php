@@ -10,7 +10,7 @@
 			</div>
 
 			<div id="item-nav">
-				<div class="item-list-tabs no-ajax" id="user-nav">
+				<div class="item-list-tabs no-ajax" id="sub-nav">
 					<ul>
 						<?php bp_get_user_nav() ?>
 
@@ -21,7 +21,7 @@
 
 			<div id="item-body">
 
-				<div class="item-list-tabs no-ajax" id="user-subnav">
+				<div class="item-list-tabs no-ajax" id="subnav">
 					<ul>
 						<?php bp_get_options_nav() ?>
 					</ul>

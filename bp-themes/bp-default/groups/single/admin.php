@@ -1,4 +1,4 @@
-<div class="item-list-tabs no-ajax" id="group-subnav">
+<div class="item-list-tabs no-ajax" id="subnav">
 	<ul>
 		<?php bp_group_admin_tabs(); ?>
 	</ul>

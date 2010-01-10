@@ -96,27 +96,24 @@ jQuery(document).ready( function() {
 	});
 
 	/* List tabs event delegation */
-	j('div.item-list-tabs').click( function(event) {
+	j('div.activity-type-tabs').click( function(event) {
 		var target = j(event.target).parent();
 
 		/* Activity Stream Tabs */
-		if ( target.attr('id') == 'activity-all' ||
-		 	 target.attr('id') == 'activity-friends' ||
-			 target.attr('id') == 'activity-groups' ||
-			 target.attr('id') == 'activity-favorites' ) {
+		var type = target.attr('id').substr( 9, target.attr('id').length );
+		var filter = j("#activity-filter-select select").val();
 
-			var type = target.attr('id').substr( 9, target.attr('id').length );
-			var filter = j("#activity-filter-select select").val();
+		if ( type == 'atme' )
+			j( 'li#' + target.attr('id') + ' a strong' ).remove();
 
-			bp_activity_request(type, filter, target);
+		bp_activity_request(type, filter, target);
 
-			return false;
-		}
+		return false;
 	});
 
 	/* Activity filter select */
 	j('#activity-filter-select select').change( function() {
-		var selected_tab = j( '.' + j(this).parent().parent().parent().attr('class') + ' li.selected');
+		var selected_tab = j( 'div.activity-type-tabs li.selected' );
 
 		if ( !selected_tab.length )
 			var type = 'all';
@@ -157,7 +154,7 @@ jQuery(document).ready( function() {
 
 				if ( 'fav' == type ) {
 					if ( !j('div.item-list-tabs li#activity-favorites').length )
-						j('div.item-list-tabs ul').append( '<li id="activity-favorites"><a href="">My Favorites (<span>0</span>)</a></li>');
+						j('div.item-list-tabs ul li#activity-atme').before( '<li id="activity-favorites"><a href="">My Favorites (<span>0</span>)</a></li>');
 
 					target.removeClass('fav');
 					target.addClass('unfav');

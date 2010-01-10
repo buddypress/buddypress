@@ -1,4 +1,4 @@
-<div class="item-list-tabs no-ajax" id="user-subnav">
+<div class="item-list-tabs no-ajax" id="subnav">
 	<ul>
 		<li class="feed"><a href="<?php bp_activities_member_rss_link() ?>" title="RSS Feed"><?php _e( 'RSS', 'buddypress' ) ?></a></li>
 

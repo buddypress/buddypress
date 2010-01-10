@@ -752,43 +752,6 @@ function xprofile_format_notifications( $action, $item_id, $secondary_item_id, $
  * true or false on success or failure.
  */
 
-function xprofile_post_update( $args = '' ) {
-	global $bp;
-
-	$defaults = array(
-		'content' => false,
-		'user_id' => $bp->loggedin_user->id
-	);
-
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	if ( empty($content) || empty($content) )
-		return false;
-
-	/* Record this on the user's profile */
-	$from_user_link = bp_core_get_userlink( $user_id );
-	$activity_content = sprintf( __('%s posted an update:', 'buddypress'), $from_user_link );
-	$activity_content .= '<div class="activity-inner">' . $content . '</div>';
-
-	$primary_link = bp_core_get_userlink( $user_id, false, true );
-
-	/* Now write the values */
-	$activity_id = xprofile_record_activity( array(
-		'user_id' => $user_id,
-		'content' => apply_filters( 'xprofile_activity_new_update_content', $activity_content ),
-		'primary_link' => apply_filters( 'xprofile_activity_new_update_primary_link', $primary_link ),
-		'component_action' => 'new_wire_post'
-	) );
-
-	/* Add this update to the "latest update" usermeta so it can be fetched anywhere. */
-	update_usermeta( $bp->loggedin_user->id, 'bp_latest_update', array( 'id' => $activity_id, 'content' => wp_filter_kses( $content ) ) );
-
-	do_action( 'xprofile_posted_update', $content, $user_id, $activity_id );
-
-	return $activity_id;
-}
-
 /*** Field Group Management **************************************************/
 
 function xprofile_insert_field_group( $args = '' ) {

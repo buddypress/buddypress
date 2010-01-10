@@ -1,5 +1,5 @@
 <?php if ( bp_is_my_profile() ) : ?>
-	<div class="item-list-tabs no-ajax" id="user-subnav">
+	<div class="item-list-tabs no-ajax" id="subnav">
 		<ul>
 			<?php bp_get_options_nav() ?>
 		</ul>

@@ -441,7 +441,7 @@ function bp_send_private_message_link() {
 	function bp_get_send_private_message_link() {
 		global $bp;
 
-		return apply_filters( 'bp_get_send_public_message_link', $bp->loggedin_user->domain . $bp->messages->slug . '/compose/?r=' . $bp->displayed_user->userdata->user_login );
+		return apply_filters( 'bp_get_send_public_message_link', $bp->loggedin_user->domain . $bp->messages->slug . '/compose/?r=' . bp_core_get_username( $bp->displayed_user->user_id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) );
 	}
 
 function bp_send_message_button() {
@@ -453,7 +453,7 @@ function bp_send_message_button() {
 		if ( bp_is_home() || !is_user_logged_in() )
 			return false;
 
-		return apply_filters( 'bp_get_send_message_button', '<div class="generic-button"><a class="send-message" title="' . __( 'Send Message', 'buddypress' ) . '" href="' . $bp->loggedin_user->domain . $bp->messages->slug . '/compose/?r=' . $bp->displayed_user->userdata->user_login . '">' . __( 'Send Message', 'buddypress' ) . '</a></div>' );
+		return apply_filters( 'bp_get_send_message_button', '<div class="generic-button"><a class="send-message" title="' . __( 'Send Message', 'buddypress' ) . '" href="' . $bp->loggedin_user->domain . $bp->messages->slug . '/compose/?r=' . bp_core_get_username( $bp->displayed_user->user_id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) . '">' . __( 'Send Message', 'buddypress' ) . '</a></div>' );
 	}
 
 function bp_message_loading_image_src() {

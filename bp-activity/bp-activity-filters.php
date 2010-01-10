@@ -73,15 +73,19 @@ function bp_activity_at_name_filter( $content ) {
 		return $content;
 
 	foreach( (array)$usernames as $username ) {
-		if ( !username_exists( $username ) )
+		if ( !$user_id = username_exists( $username ) )
 			continue;
+
+		/* Increase the number of new @ mentions for the user */
+		$new_mention_count = (int)get_usermeta( $user_id, 'bp_new_mention_count' );
+		update_usermeta( $user_id, 'bp_new_mention_count', $new_mention_count + 1 );
 
 		$content = str_replace( "@$username", "<a href='" . bp_core_get_user_domain( bp_core_get_userid( $username ) ) . "' rel='nofollow'>@$username</a>", $content );
 	}
 
 	return $content;
 }
-add_filter( 'xprofile_activity_new_update_content', 'bp_activity_at_name_filter' );
+add_filter( 'bp_activity_new_update_content', 'bp_activity_at_name_filter' );
 add_filter( 'groups_activity_new_update_content', 'bp_activity_at_name_filter' );
 add_filter( 'bp_activity_comment_content', 'bp_activity_at_name_filter' );
 add_filter( 'bp_get_activity_feed_item_description', 'bp_activity_at_name_filter' );

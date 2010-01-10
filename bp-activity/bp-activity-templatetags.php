@@ -665,14 +665,22 @@ function bp_total_favorite_count_for_user( $user_id = false ) {
 		return apply_filters( 'bp_get_total_favorite_count_for_user', bp_activity_total_favorites_for_user( $user_id ) );
 	}
 
+function bp_total_mention_count_for_user( $user_id = false ) {
+	echo bp_get_total_favorite_count_for_user( $user_id );
+}
+	function bp_get_total_mention_count_for_user( $user_id = false ) {
+		return apply_filters( 'bp_get_total_mention_count_for_user', get_usermeta( $user_id, 'bp_new_mention_count' ) );
+	}
+
 function bp_send_public_message_link() {
 	echo bp_get_send_public_message_link();
 }
 	function bp_get_send_public_message_link() {
 		global $bp;
 
-		return apply_filters( 'bp_get_send_public_message_link', $bp->loggedin_user->domain . $bp->activity->slug . '/?r=' . $bp->displayed_user->userdata->user_login );
+		return apply_filters( 'bp_get_send_public_message_link', $bp->loggedin_user->domain . $bp->activity->slug . '/?r=' . bp_core_get_username( $bp->displayed_user->user_id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) );
 	}
+
 
 /* RSS Feed Template Tags ***************************/
 

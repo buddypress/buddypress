@@ -11,7 +11,7 @@
 			</div>
 
 			<div id="item-nav">
-				<div class="item-list-tabs no-ajax" id="group-nav">
+				<div class="item-list-tabs no-ajax" id="sub-nav">
 					<ul>
 						<?php bp_get_options_nav() ?>
 
