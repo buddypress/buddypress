@@ -15,9 +15,6 @@ function bp_activity_at_message_notification( $content, $poster_user_id, $activi
 		if ( !$receiver_user_id = bp_core_get_userid($username) )
 			continue;
 
-		// Add a screen notification of an @message
-		bp_core_add_notification( $activity_id, $receiver_user_id, $bp->activity->id, 'new_at_mention', $poster_user_id );
-
 		// Now email the user with the contents of the message (if they have enabled email notifications)
 		if ( !get_usermeta( $user_id, 'notification_activity_new_mention' ) || 'yes' == get_usermeta( $user_id, 'notification_activity_new_mention' ) ) {
 			$poster_name = bp_core_get_user_displayname( $poster_user_id );

@@ -718,16 +718,6 @@ function xprofile_register_activity_action( $key, $value ) {
 function xprofile_format_notifications( $action, $item_id, $secondary_item_id, $total_items ) {
 	global $bp;
 
-	if ( 'new_at_mention' == $action ) {
-		$user_fullname = bp_core_get_user_displayname( $secondary_item_id );
-
-		if ( (int)$total_items > 1 ) {
-			return apply_filters( 'bp_xprofile_multiple_at_mentions_notification', '<a href="' . bp_core_get_user_domain( $secondary_item_id ) . 'activity/" title="' . __( 'View User', 'buddypress' ) . '">' . sprintf( __( '%s mentioned you in %d updates', 'buddypress' ), $user_fullname, (int)$total_items ) . '</a>', $total_items );
-		} else {
-			return apply_filters( 'bp_xprofile_single_at_mention_notification', '<a href="' . bp_activity_get_permalink( $item_id ) . '" title="' . __( 'View Thread', 'buddypress' ) . '">' . sprintf( __( '%s mentioned you in an update', 'buddypress' ), $user_fullname ) . '</a>', $user_fullname );
-		}
-	}
-
 	if ( 'new_wire_post' == $action ) {
 		if ( (int)$total_items > 1 ) {
 			return apply_filters( 'bp_xprofile_multiple_new_wire_post_notification', '<a href="' . $bp->loggedin_user->domain . $bp->wire->slug . '" title="' . __( 'Wire', 'buddypress' ) . '">' . sprintf( __( 'You have %d new posts on your wire', 'buddypress' ), (int)$total_items ) . '</a>', $total_items );

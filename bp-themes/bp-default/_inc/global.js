@@ -96,7 +96,7 @@ jQuery(document).ready( function() {
 	});
 
 	/* List tabs event delegation */
-	j('div.activity-type-tabs').click( function(event) {
+	j('div.activity-type-tabs li a').click( function(event) {
 		var target = j(event.target).parent();
 
 		/* Activity Stream Tabs */

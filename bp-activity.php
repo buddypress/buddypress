@@ -62,6 +62,7 @@ function bp_activity_setup_globals() {
 	$bp->activity->table_name = $wpdb->base_prefix . 'bp_activity';
 	$bp->activity->table_name_meta = $wpdb->base_prefix . 'bp_activity_meta';
 	$bp->activity->slug = BP_ACTIVITY_SLUG;
+	$bp->activity->format_notification_function = 'bp_activity_format_notifications';
 
 	/* Register this in the active components array */
 	$bp->active_components[$bp->activity->slug] = $bp->activity->id;
@@ -339,6 +340,7 @@ function bp_activity_action_friends_feed() {
 	die;
 }
 add_action( 'wp', 'bp_activity_action_friends_feed', 3 );
+
 
 /********************************************************************************
  * Business Functions
