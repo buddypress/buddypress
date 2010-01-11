@@ -96,8 +96,11 @@ jQuery(document).ready( function() {
 	});
 
 	/* List tabs event delegation */
-	j('div.activity-type-tabs li a').click( function(event) {
+	j('div.activity-type-tabs').click( function(event) {
 		var target = j(event.target).parent();
+
+		if ( event.target.nodeName != 'A' )
+			return false;
 
 		/* Activity Stream Tabs */
 		var type = target.attr('id').substr( 9, target.attr('id').length );
@@ -154,7 +157,7 @@ jQuery(document).ready( function() {
 
 				if ( 'fav' == type ) {
 					if ( !j('div.item-list-tabs li#activity-favorites').length )
-						j('div.item-list-tabs ul li#activity-atme').before( '<li id="activity-favorites"><a href="">My Favorites (<span>0</span>)</a></li>');
+						j('div.item-list-tabs ul li#activity-atme').before( '<li id="activity-favorites"><a href="#">My Favorites (<span>0</span>)</a></li>');
 
 					target.removeClass('fav');
 					target.addClass('unfav');
@@ -465,6 +468,10 @@ jQuery(document).ready( function() {
 			var comments_div = j(this);
 			var parent_li = comments_div.parents('ul#activity-stream > li');
 			var comment_lis = j(this).children('ul').children('li');
+			var comment_count = ' ';
+
+			if ( j('li#' + parent_li.attr('id') + ' a.acomment-reply span').length )
+				var comment_count = j('li#' + parent_li.attr('id') + ' a.acomment-reply span').html();
 
 			comment_lis.each( function(i) {
 				/* Show the latest 5 root comments */
@@ -473,7 +480,7 @@ jQuery(document).ready( function() {
 					j(this).toggle();
 
 					if ( !i )
-						j(this).before( '<li class="show-all"><a href="#' + parent_li.attr('id') + '/show-all/" title="Show all comments for this thread">Show all ' +  j('li#' + parent_li.attr('id') + ' a.acomment-reply span').html() + ' comments</a></li>' );
+						j(this).before( '<li class="show-all"><a href="#' + parent_li.attr('id') + '/show-all/" title="Show all comments for this thread">Show all ' +  comment_count + ' comments</a></li>' );
 				}
 			});
 
