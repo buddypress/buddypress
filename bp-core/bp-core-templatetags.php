@@ -223,7 +223,7 @@ function bp_member_permalink() {
 	function bp_get_member_permalink() {
 		global $members_template;
 
-		echo apply_filters( 'bp_get_member_permalink', bp_core_get_user_domain( $members_template->member->id, $members_template->member->user_nicename, $members_template->member->user_login ) );
+		return apply_filters( 'bp_get_member_permalink', bp_core_get_user_domain( $members_template->member->id, $members_template->member->user_nicename, $members_template->member->user_login ) );
 	}
 	function bp_member_link() { echo bp_get_member_permalink(); }
 	function bp_get_member_link() { return bp_get_member_permalink(); }
