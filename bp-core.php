@@ -836,8 +836,10 @@ function bp_core_remove_nav_item( $parent_id ) {
 	global $bp;
 
 	/* Unset subnav items for this nav item */
-	foreach( $bp->bp_options_nav[$parent_id] as $subnav_item ) {
-		bp_core_remove_subnav_item( $parent_id, $subnav_item['slug'] );
+	if ( is_array( $bp->bp_options_nav[$parent_id] ) ) {
+		foreach( $bp->bp_options_nav[$parent_id] as $subnav_item ) {
+			bp_core_remove_subnav_item( $parent_id, $subnav_item['slug'] );
+		}
 	}
 
 	unset( $bp->bp_nav[$parent_id] );
