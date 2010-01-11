@@ -172,15 +172,19 @@ function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string 
 			if ( empty($type) )
 				$type = 'all';
 
+			$feed_url = site_url( BP_ACTIVITY_SLUG . '/feed/' );
+
 			switch ( $type ) {
 				case 'friends':
 					$friend_ids = implode( ',', friends_get_friend_user_ids( $bp->loggedin_user->id ) );
 					$query_string = 'user_id=' . $friend_ids;
+					$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/my-friends/feed/';
 					break;
 				case 'groups':
 					$groups = groups_get_user_groups( $bp->loggedin_user->id );
 					$group_ids = implode( ',', $groups['groups'] );
 					$query_string = 'object=groups&primary_id=' . $group_ids . '&show_hidden=1';
+					$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/my-groups/feed/';
 					break;
 				case 'favorites':
 					$favs = bp_activity_get_user_favorites( $bp->loggedin_user->id );
@@ -190,9 +194,11 @@ function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string 
 
 					$favorite_ids = implode( ',', (array)$favs );
 					$query_string = 'include=' . $favorite_ids;
+					$feed_url = $bp->loggedin_user->domain  . BP_ACTIVITY_SLUG . '/my-favorites/feed/';
 					break;
 				case 'atme':
 					$query_string = 'search_terms=@' . bp_core_get_username( $bp->loggedin_user->id, $bp->loggedin_user->userdata->user_nicename, $bp->loggedin_user->userdata->user_login );
+					$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/mentions/feed/';
 
 					/* Reset the number of new @ mentions for the user */
 					delete_usermeta( $bp->loggedin_user->id, 'bp_new_mention_count' );
@@ -233,6 +239,7 @@ function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string 
 
 	$bp->ajax_querystring = $query_string;
 	$result['query_string'] = $bp->ajax_querystring;
+	$result['feed_url'] = $feed_url;
 
 	/* Buffer the loop in the template to a var for JS to spit out. */
 	ob_start();

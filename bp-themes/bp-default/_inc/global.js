@@ -250,6 +250,7 @@ jQuery(document).ready( function() {
 				j(this).fadeIn(100);
 			});
 
+			j('div#subnav li.feed a').attr('href', response.feed_url);
 			j('div.item-list-tabs li.selected, div.item-list-tabs li.current').removeClass('loading');
 
 			/* Selectively hide comments */

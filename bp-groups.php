@@ -1354,7 +1354,7 @@ function groups_action_redirect_to_random_group() {
 }
 add_action( 'wp', 'groups_action_redirect_to_random_group', 6 );
 
-function groups_action_groups_feed() {
+function groups_action_group_feed() {
 	global $bp, $wp_query;
 
 	if ( $bp->current_component != $bp->groups->slug || !$bp->groups->current_group || $bp->current_action != 'feed' )
@@ -1371,7 +1371,7 @@ function groups_action_groups_feed() {
 	include_once( 'bp-activity/feeds/bp-activity-group-feed.php' );
 	die;
 }
-add_action( 'wp', 'groups_action_groups_feed', 3 );
+add_action( 'wp', 'groups_action_group_feed', 3 );
 
 
 /********************************************************************************

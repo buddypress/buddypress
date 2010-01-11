@@ -726,8 +726,18 @@ function bp_activity_feed_item_title() {
 	function bp_get_activity_feed_item_title() {
 		global $activities_template;
 
-		$title = explode( '<span', $activities_template->activity->content );
-		return apply_filters( 'bp_get_activity_feed_item_title', trim( strip_tags( html_entity_decode( $title[0] ) ) ) );
+		$content = explode( '<span', $activities_template->activity->content );
+		$title = trim( strip_tags( html_entity_decode( $content[0] ) ) );
+
+		if ( ':' == substr( $title, -1 ) )
+			$title = substr( $title, 0, -1 );
+
+		if ( 'new_wire_post' == $activities_template->activity->component_action ) {
+			$content = explode( '<div class="activity-inner">', $activities_template->activity->content );
+			$title .= ': ' . strip_tags( bp_create_excerpt( $content[1], 15 ));
+		}
+
+		return apply_filters( 'bp_get_activity_feed_item_title', $title );
 	}
 
 function bp_activity_feed_item_link() {

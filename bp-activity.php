@@ -341,6 +341,34 @@ function bp_activity_action_friends_feed() {
 }
 add_action( 'wp', 'bp_activity_action_friends_feed', 3 );
 
+function bp_activity_action_my_groups_feed() {
+	global $bp, $wp_query;
+
+	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != 'my-groups' || $bp->action_variables[0] != 'feed' )
+		return false;
+
+	$wp_query->is_404 = false;
+	status_header( 200 );
+
+	include_once( 'bp-activity/feeds/bp-activity-mygroups-feed.php' );
+	die;
+}
+add_action( 'wp', 'bp_activity_action_my_groups_feed', 3 );
+
+function bp_activity_action_mentions_feed() {
+	global $bp, $wp_query;
+
+	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != 'mentions' || $bp->action_variables[0] != 'feed' )
+		return false;
+
+	$wp_query->is_404 = false;
+	status_header( 200 );
+
+	include_once( 'bp-activity/feeds/bp-activity-mentions-feed.php' );
+	die;
+}
+add_action( 'wp', 'bp_activity_action_mentions_feed', 3 );
+
 
 /********************************************************************************
  * Business Functions
