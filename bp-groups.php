@@ -647,7 +647,7 @@ function groups_screen_group_members() {
 
 	if ( $bp->is_single_item ) {
 		do_action( 'groups_screen_group_members', $bp->groups->current_group->id );
-		bp_core_load_template( apply_filters( 'groups_screen_group_members', 'groups/single/home' ) );
+		bp_core_load_template( apply_filters( 'groups_template_group_members', 'groups/single/home' ) );
 	}
 }
 
@@ -2680,7 +2680,7 @@ function groups_filter_template_paths() {
 	add_filter( 'groups_template_group_leave', create_function( '', 'return "groups/single/leave-confirm";' ) );
 	add_filter( 'groups_template_group_request_membership', create_function( '', 'return "groups/single/request-membership";' ) );
 	add_filter( 'groups_template_group_invite', create_function( '', 'return "groups/single/send-invite";' ) );
-	add_filter( 'groups_screen_group_members', create_function( '', 'return "groups/single/members";' ) );
+	add_filter( 'groups_template_group_members', create_function( '', 'return "groups/single/members";' ) );
 	add_filter( 'groups_template_group_admin_settings', create_function( '', 'return "groups/single/admin";' ) );
 	add_filter( 'groups_template_group_admin_avatar', create_function( '', 'return "groups/single/admin";' ) );
 	add_filter( 'groups_template_group_admin_manage_members', create_function( '', 'return "groups/single/admin";' ) );
