@@ -1005,11 +1005,10 @@ function xprofile_format_profile_field( $field_type, $field_value ) {
 		$field_value = bp_format_time( $field_value, true );
 	} else {
 		$content = $field_value;
-		$content = apply_filters('the_content', $content);
 		$field_value = str_replace(']]>', ']]&gt;', $content);
 	}
 
-	return stripslashes( stripslashes( $field_value ) );
+	return stripslashes_deep( $field_value );
 }
 
 function xprofile_update_field_position( $field_id, $position ) {
