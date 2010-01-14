@@ -296,7 +296,9 @@ function bp_member_profile_data( $args = '' ) {
 		if ( empty( $members_template->member->profile_data ) )
 			$members_template->member = new BP_Core_User( $members_template->member->id );
 
-		return apply_filters( 'bp_get_member_profile_data', $members_template->member->profile_data[$field]['field_data'], $members_template->member->profile_data[$field]['field_type'] );
+		$data = xprofile_format_profile_field( $members_template->member->profile_data[$field]['field_type'], $members_template->member->profile_data[$field]['field_data'] );
+
+		return apply_filters( 'bp_get_member_profile_data', $data );
 	}
 
 function bp_member_registered() {
