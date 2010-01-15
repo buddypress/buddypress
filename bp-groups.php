@@ -1629,6 +1629,8 @@ function groups_create_group( $args = '' ) {
 		$member->save();
 	}
 
+	do_action( 'groups_created_group', $group->id );
+
 	return $group->id;
 }
 
