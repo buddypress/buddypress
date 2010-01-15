@@ -219,6 +219,8 @@ function bp_forums_new_topic( $args = '' ) {
 	if ( !bp_forums_insert_post( array( 'topic_id' => $topic_id, 'post_text' => $topic_text, 'post_time' => $topic_time, 'poster_id' => $topic_poster ) ) )
 		return false;
 
+	do_action( 'bp_forums_new_topic', $topic_id );
+
 	return $topic_id;
 }
 
@@ -403,7 +405,12 @@ function bp_forums_insert_post( $args = '' ) {
 	if ( !isset( $post_position ) )
 		$post_position = $post->post_position;
 
-	return bb_insert_post( array( 'post_id' => $post_id, 'topic_id' => $topic_id, 'post_text' => stripslashes( $post_text ), 'post_time' => $post_time, 'poster_id' => $poster_id, 'poster_ip' => $poster_ip, 'post_status' => $post_status, 'post_position' => $post_position ) );
+	$post = bb_insert_post( array( 'post_id' => $post_id, 'topic_id' => $topic_id, 'post_text' => stripslashes( $post_text ), 'post_time' => $post_time, 'poster_id' => $poster_id, 'poster_ip' => $poster_ip, 'post_status' => $post_status, 'post_position' => $post_position ) );
+
+	if ( $post )
+		do_action( 'bp_forums_new_post', $post_id );
+
+	return $post;
 }
 
 // List actions to clear super cached pages on, if super cache is installed
