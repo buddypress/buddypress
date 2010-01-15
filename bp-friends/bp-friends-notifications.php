@@ -11,7 +11,7 @@ function friends_notification_new_request( $friendship_id, $initiator_id, $frien
 	$ud = get_userdata( $friend_id );
 	$initiator_ud = get_userdata( $initiator_id );
 
-	$all_requests_link = bp_core_get_user_domain( $friend_id ) . 'friends/requests/';
+	$all_requests_link = bp_core_get_user_domain( $friend_id ) . BP_FRIENDS_SLUG . '/requests/';
 	$settings_link = bp_core_get_user_domain( $friend_id ) . 'settings/notifications';
 
 	$initiator_link = bp_core_get_user_domain( $initiator_id );
