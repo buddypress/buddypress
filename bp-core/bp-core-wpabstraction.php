@@ -87,11 +87,7 @@ if ( !function_exists( 'get_blogs_of_user' ) ) {
 
 if ( !function_exists( 'is_site_admin' ) ) {
 	function is_site_admin() {
-		global $user_level;
-
-		get_currentuserinfo();
-
-		if ( 10 == $user_level )
+		if ( current_user_can( 'manage_options' ) )
 			return true;
 
 		return false;
