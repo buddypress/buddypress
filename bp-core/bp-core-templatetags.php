@@ -477,7 +477,7 @@ function bp_get_displayed_user_nav() {
 		if ( !$user_nav_item['show_for_displayed_user'] && !bp_is_my_profile() )
 			continue;
 
-		if ( $bp->current_component == $user_nav_item['css_id'] )
+		if ( $bp->current_component == $user_nav_item['slug'] )
 			$selected = ' class="current"';
 		else
 			$selected = '';

@@ -644,6 +644,7 @@ function bp_core_new_nav_item( $args = '' ) {
 
 	$bp->bp_nav[$slug] = array(
 		'name' => $name,
+		'slug' => $slug,
 		'link' => $bp->loggedin_user->domain . $slug . '/',
 		'css_id' => $item_css_id,
 		'show_for_displayed_user' => $show_for_displayed_user,

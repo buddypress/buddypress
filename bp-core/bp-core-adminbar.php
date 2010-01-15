@@ -45,6 +45,7 @@ function bp_adminbar_login_menu() {
 	}
 }
 
+
 // **** "My Account" Menu ******
 function bp_adminbar_account_menu() {
 	global $bp;
@@ -65,11 +66,11 @@ function bp_adminbar_account_menu() {
 		echo '<li' . $alt . '>';
 		echo '<a id="bp-admin-' . $nav_item['css_id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a>';
 
-		if ( is_array( $bp->bp_options_nav[$nav_item['css_id']] ) ) {
+		if ( is_array( $bp->bp_options_nav[$nav_item['slug']] ) ) {
 			echo '<ul>';
 			$sub_counter = 0;
 
-			foreach( $bp->bp_options_nav[$nav_item['css_id']] as $subnav_item ) {
+			foreach( $bp->bp_options_nav[$nav_item['slug']] as $subnav_item ) {
 				$alt = ( 0 == $sub_counter % 2 ) ? ' class="alt"' : '';
 				echo '<li' . $alt . '><a id="bp-admin-' . $subnav_item['css_id'] . '" href="' . $subnav_item['link'] . '">' . $subnav_item['name'] . '</a></li>';
 				$sub_counter++;
