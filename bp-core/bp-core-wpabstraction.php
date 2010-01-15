@@ -49,6 +49,12 @@ if ( !function_exists( 'update_site_option' ) ) {
 	}
 }
 
+if ( !function_exists( 'delete_site_option' ) ) {
+	function delete_site_option( $option_name ) {
+		return delete_option( $option_name );
+	}
+}
+
 if ( !function_exists( 'get_blog_option' ) ) {
 	function get_blog_option( $blog_id, $option_name, $default = false ) {
 		return get_option( $option_name, $default );

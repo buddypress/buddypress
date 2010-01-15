@@ -43,7 +43,7 @@
 				  * but it'll add an extra query for each member in the loop
 				  * (only one regadless of the number of fields you show):
 				  *
-				  * bp_member_profile_field_data( 'field=the field name' );
+				  * bp_member_profile_data( 'field=the field name' );
 				  */
 				?>
 			</div>

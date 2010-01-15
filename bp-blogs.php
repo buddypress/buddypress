@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_BLOGS_DB_VERSION', '1800' );
+define ( 'BP_BLOGS_DB_VERSION', '2000' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_BLOGS_SLUG' ) )
@@ -63,7 +63,7 @@ function bp_blogs_install() {
 	dbDelta($sql);
 
 	// On first installation - record all existing blogs in the system.
-	if ( !(int)get_site_option( 'bp-blogs-first-install') ) {
+	if ( !(int)get_site_option( 'bp-blogs-first-install') && bp_core_is_multisite() ) {
 		bp_blogs_record_existing_blogs();
 		add_site_option( 'bp-blogs-first-install', 1 );
 	}

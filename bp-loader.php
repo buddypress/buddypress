@@ -73,6 +73,7 @@ function bp_loader_deactivate() {
 	delete_site_option( 'bp-messages-db-version' );
 	delete_site_option( 'bp-xprofile-db-version' );
 	delete_site_option( 'bp-deactivated-components' );
+	delete_site_option( 'bp-blogs-first-install' );
 
 	do_action( 'bp_loader_deactivate' );
 }

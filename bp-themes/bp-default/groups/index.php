@@ -4,7 +4,7 @@
 		<div class="padder">
 
 		<form action="" method="post" id="groups-directory-form" class="dir-form">
-			<h2><?php _e( 'Groups Directory', 'buddypress' ) ?><?php if ( is_user_logged_in() ) : ?> &nbsp;<a class="button" href="<?php echo bp_root_domain() . '/' . BP_GROUPS_SLUG . '/create/' ?>"><?php _e( 'Create a Group', 'buddypress' ) ?></a><?php endif; ?></h2>
+			<h2><?php _e( 'Groups Directory', 'buddypress' ) ?><?php if ( is_user_logged_in() ) : ?> &nbsp;<a class="button" href="<?php bp_root_domain() . '/' . BP_GROUPS_SLUG . '/create/' ?>"><?php _e( 'Create a Group', 'buddypress' ) ?></a><?php endif; ?></h2>
 
 			<?php do_action( 'bp_before_directory_groups_content' ) ?>
 
