@@ -58,7 +58,7 @@ function bp_loader_activate() {
 
 	do_action( 'bp_loader_activate' );
 }
-register_activation_hook( __FILE__, 'bp_loader_activate' );
+register_activation_hook( 'buddypress/bp-loader.php', 'bp_loader_activate' );
 
 /* Deactivation Function */
 function bp_loader_deactivate() {
@@ -76,6 +76,6 @@ function bp_loader_deactivate() {
 
 	do_action( 'bp_loader_deactivate' );
 }
-register_deactivation_hook( __FILE__, 'bp_loader_deactivate' );
+register_deactivation_hook( 'buddypress/bp-loader.php', 'bp_loader_deactivate' );
 
 ?>
