@@ -396,7 +396,7 @@ function bp_total_site_member_count() {
 	echo bp_get_total_site_member_count();
 }
 	function bp_get_total_site_member_count() {
-		return apply_filters( 'bp_get_total_site_member_count', bp_core_get_total_member_count() );
+		return apply_filters( 'bp_get_total_site_member_count', number_format( bp_core_get_total_member_count() ) );
 	}
 
 
