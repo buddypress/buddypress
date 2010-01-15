@@ -639,6 +639,14 @@ ul.button-nav li a, div.generic-button a {
 		color: #555;
 	}
 
+	/* Buttons that are disabled */
+	div.pending a, a.disabled {
+		border-color: #eee;
+		color: #bbb;
+		cursor: default;
+	}
+	div.pending a:hover, a.disabled:hover { border-color: #eee; color: #bbb; }
+
 	div.accept, div.reject {
 		float: left;
 		margin-left: 10px;
