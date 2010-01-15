@@ -141,7 +141,7 @@ function bp_adminbar_blogs_menu() {
 			$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
 			echo '<li' . $alt . '>';
 			echo '<a href="' . $blog->siteurl . '">' . $blog->name . ' (' . $role . ')</a>';
-			if ( !( 'Subscriber' == $role ) ) { // then they have something to display on the flyout menu
+			if ( !( __( 'Subscriber', 'buddypress' ) == $role ) ) { // then they have something to display on the flyout menu
 				echo '<ul>';
 				echo '<li class="alt"><a href="' . $blog->siteurl  . 'wp-admin/">' . __('Dashboard', 'buddypress') . '</a></li>';
 				echo '<li><a href="' . $blog->siteurl  . 'wp-admin/post-new.php">' . __('New Post', 'buddypress') . '</a></li>';
