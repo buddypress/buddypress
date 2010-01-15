@@ -2027,7 +2027,7 @@ function groups_new_wire_post( $group_id, $content ) {
 
 		/* Record this in activity streams */
 		$activity_content = sprintf( __( '%s wrote on the wire of the group %s:', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
-		$activity_content .= '<blockquote>' . bp_create_excerpt( attribute_escape( $content ) ) . '</blockquote>';
+		$activity_content .= '<blockquote>' . bp_create_excerpt( $content ) . '</blockquote>';
 
 		groups_record_activity( array(
 			'content' => apply_filters( 'groups_activity_new_wire_post', $activity_content ),
