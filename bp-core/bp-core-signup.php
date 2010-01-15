@@ -244,11 +244,15 @@ function bp_core_signup_avatar_upload_dir() {
 
 /* Kill the wp-signup.php if custom registration signup templates are present */
 function bp_core_wpsignup_redirect() {
-	if ( false === strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php') )
+	if ( false === strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php') && $_GET['action'] != 'register' )
 		return false;
 
 	if ( locate_template( array( 'registration/register.php' ), false ) || locate_template( array( 'register.php' ), false ) )
-		wp_redirect( bp_root_domain() . BP_REGISTER_SLUG );
+		wp_redirect( bp_get_root_domain() . '/' . BP_REGISTER_SLUG );
 }
-add_action( 'signup_header', 'bp_core_wpsignup_redirect' );
+if ( bp_core_is_multisite() )
+	add_action( 'wp', 'bp_core_wpsignup_redirect' );
+else
+	add_action( 'init', 'bp_core_wpsignup_redirect' );
+
 ?>
