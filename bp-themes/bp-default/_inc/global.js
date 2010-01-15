@@ -205,7 +205,7 @@ jQuery(document).ready( function() {
 
 				j("ul.activity-list").append(response.contents);
 
-				target.hide();
+				target.parent().hide();
 			}, 'json' );
 
 			return false;
