@@ -1491,7 +1491,7 @@ function bp_core_get_site_path() {
 		if ( count( $site_path ) < 2 )
 			$site_path = '/';
 		else {
-			/* Unset the first three segments (http(s):// part) */
+			/* Unset the first three segments (http(s)://domain.com part) */
 			unset( $site_path[0] );
 			unset( $site_path[1] );
 			unset( $site_path[2] );
@@ -1594,11 +1594,11 @@ add_filter( 'wp_mail_from_name', 'bp_core_email_from_name_filter' );
  * @return noreply@sitedomain email address
  */
 function bp_core_email_from_address_filter() {
-	global $current_site;
-	return 'noreply@' . $current_site->domain;
+	$domain = (array) explode( '/', site_url() );
+
+	return __( 'noreply', 'buddypress' ) . '@' . $domain[2];
 }
 add_filter( 'wp_mail_from', 'bp_core_email_from_address_filter' );
-
 
 /**
  * bp_core_delete_account()
