@@ -658,6 +658,9 @@ function bp_activity_add_timesince_placeholder( $content ) {
 		$before = substr( $content, 0, (int) $pos );
 		$after = substr( $content, (int) $pos, strlen( $content ) );
 
+		/* Escape any existing % signs */
+		$before = str_replace( '%', '%%', $before );
+
 		$content = $before . ' <span class="time-since">%s</span>' . $after;
 	}
 
