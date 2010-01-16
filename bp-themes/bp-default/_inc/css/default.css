@@ -809,7 +809,7 @@ table {
 		table tr td.label {
 			border-right: 1px solid #eaeaea;
 			font-weight: bold;
-			min-width: 25%;
+			width: 25%;
 		}
 
 		table tr td.thread-info p {
