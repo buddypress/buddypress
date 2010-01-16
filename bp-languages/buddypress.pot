@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-01-15 14:11+0000\n"
+"POT-Creation-Date: 2010-01-16 14:11+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -301,7 +301,7 @@ msgstr ""
 msgid "Blogs <span>(%d)</span>"
 msgstr ""
 
-#: bp-blogs.php:135 bp-blogs.php:143 bp-core/bp-core-adminbar.php:131
+#: bp-blogs.php:135 bp-blogs.php:143 bp-core/bp-core-adminbar.php:132
 #: bp-themes/bp-sn-parent/blogs/my-blogs.php:11
 msgid "My Blogs"
 msgstr ""
@@ -579,90 +579,94 @@ msgstr ""
 msgid "There was an error deleting %s from the system. Please try again."
 msgstr ""
 
-#: bp-core.php:1071
+#: bp-core.php:1072
 #, php-format
 msgid "%s's"
 msgstr ""
 
-#: bp-core.php:1234 bp-core/bp-core-templatetags.php:807
+#: bp-core.php:1235 bp-core/bp-core-templatetags.php:807
 msgid "at"
 msgstr ""
 
-#: bp-core.php:1339
+#: bp-core.php:1340
 msgid "year"
 msgstr ""
 
-#: bp-core.php:1339
+#: bp-core.php:1340
 msgid "years"
 msgstr ""
 
-#: bp-core.php:1340
+#: bp-core.php:1341
 msgid "month"
 msgstr ""
 
-#: bp-core.php:1340
+#: bp-core.php:1341
 msgid "months"
 msgstr ""
 
-#: bp-core.php:1341
+#: bp-core.php:1342
 msgid "week"
 msgstr ""
 
-#: bp-core.php:1341
+#: bp-core.php:1342
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:1342
+#: bp-core.php:1343
 msgid "day"
 msgstr ""
 
-#: bp-core.php:1342
+#: bp-core.php:1343
 msgid "days"
 msgstr ""
 
-#: bp-core.php:1343
+#: bp-core.php:1344
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:1343 bp-forums/bbpress/bb-admin/options-general.php:116
+#: bp-core.php:1344 bp-forums/bbpress/bb-admin/options-general.php:116
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:1344
+#: bp-core.php:1345
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:1344 bp-forums/bbpress/bb-admin/options-writing.php:40
+#: bp-core.php:1345 bp-forums/bbpress/bb-admin/options-writing.php:40
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:1345
+#: bp-core.php:1346
 msgid "second"
 msgstr ""
 
-#: bp-core.php:1345 bp-core.php:1394
+#: bp-core.php:1346 bp-core.php:1395
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1359
+#: bp-core.php:1360
 msgid "sometime"
 msgstr ""
 
-#: bp-core.php:1389
+#: bp-core.php:1390
 msgid ",|Separator in time since"
 msgstr ""
 
-#: bp-core.php:1438
+#: bp-core.php:1439
 msgid "not recently active"
 msgstr ""
 
-#: bp-core.php:1863
+#: bp-core.php:1599
+msgid "noreply"
+msgstr ""
+
+#: bp-core.php:1864
 msgid ""
 "IMPORTANT: <a href=\"http://codex.buddypress.org/getting-started/upgrading-"
 "from-10x/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core.php:1943
+#: bp-core.php:1944
 #, php-format
 msgid ""
 "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update "
@@ -670,7 +674,7 @@ msgid ""
 "work."
 msgstr ""
 
-#: bp-core.php:1951
+#: bp-core.php:1952
 #, php-format
 msgid ""
 "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a "
@@ -907,11 +911,11 @@ msgstr ""
 msgid "Sign Up"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:57
+#: bp-core/bp-core-adminbar.php:58
 msgid "My Account"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:87 bp-core/bp-core-templatetags.php:453
+#: bp-core/bp-core-adminbar.php:88 bp-core/bp-core-templatetags.php:453
 #: bp-core/bp-core-templatetags.php:455 bp-core/bp-core-templatetags.php:1029
 #: bp-core/bp-core-templatetags.php:1031
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:2729
@@ -919,21 +923,21 @@ msgstr ""
 msgid "Log Out"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:97 bp-core/bp-core-adminbar.php:110
+#: bp-core/bp-core-adminbar.php:98 bp-core/bp-core-adminbar.php:111
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:2755
 #: bp-groups.php:232
 msgid "Admin"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:102
+#: bp-core/bp-core-adminbar.php:103 bp-core/bp-core-adminbar.php:145
 msgid "Subscriber"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:104
+#: bp-core/bp-core-adminbar.php:105
 msgid "Contributor"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:106
+#: bp-core/bp-core-adminbar.php:107
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1082
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1090
 #: bp-forums/bbpress/bb-admin/topics.php:102
@@ -941,62 +945,62 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:108
+#: bp-core/bp-core-adminbar.php:109
 msgid "Editor"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:146
+#: bp-core/bp-core-adminbar.php:147
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:55
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:56
 #: bp-forums/bbpress/bb-admin/index.php:46
 msgid "Dashboard"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:147
+#: bp-core/bp-core-adminbar.php:148
 msgid "New Post"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:148
+#: bp-core/bp-core-adminbar.php:149
 msgid "Manage Posts"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:149
+#: bp-core/bp-core-adminbar.php:150
 msgid "Manage Comments"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:151
+#: bp-core/bp-core-adminbar.php:152
 msgid "Switch Theme"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:164
+#: bp-core/bp-core-adminbar.php:165
 msgid "Create a Blog!"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:180 bp-core/bp-core-settings.php:22
+#: bp-core/bp-core-adminbar.php:181 bp-core/bp-core-settings.php:22
 msgid "Notifications"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:198
+#: bp-core/bp-core-adminbar.php:199
 msgid "No new notifications."
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:218
+#: bp-core/bp-core-adminbar.php:219
 msgid "Blog Authors"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:243
+#: bp-core/bp-core-adminbar.php:244
 msgid "Visit"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:245
+#: bp-core/bp-core-adminbar.php:246
 msgid "Random Member"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:248
+#: bp-core/bp-core-adminbar.php:249
 msgid "Random Group"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:252
+#: bp-core/bp-core-adminbar.php:253
 msgid "Random Blog"
 msgstr ""
 
