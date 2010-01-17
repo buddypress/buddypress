@@ -1,5 +1,7 @@
 <div class="item-list-tabs" id="subnav">
 	<ul>
+		<?php bp_get_options_nav() ?>
+
 		<li id="blogs-filter-select" class="last filter">
 			<?php _e( 'Order By:', 'buddypress' ) ?>
 			<select id="blogs-all">

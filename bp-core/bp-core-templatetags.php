@@ -537,8 +537,9 @@ function bp_get_options_nav() {
 			echo apply_filters( 'bp_get_options_nav_' . $subnav_item['css_id'], '<li id="li-subnav-' . $subnav_item['css_id'] . '" ' . $selected . '><a id="' . $subnav_item['css_id'] . '" href="' . $subnav_item['link'] . '">' . $subnav_item['name'] . '</a></li>', $subnav_item );
 		}
 	} else {
-		/* If we get here we are viewing another user, so show the displayed user's nav items */
-		bp_get_displayed_user_nav();
+		/* If we're using the classic template structure, show the displayed user nav instead */
+		if ( 'bp-sn-parent' == basename( TEMPLATEPATH ) || defined( 'BP_CLASSIC_TEMPLATE_STRUCTURE' ) )
+			bp_get_displayed_user_nav();
 	}
 }
 
