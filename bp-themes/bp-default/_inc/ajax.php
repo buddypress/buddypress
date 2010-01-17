@@ -18,28 +18,30 @@ function bp_dtheme_content_filter() {
 	$page = esc_attr( $_POST['page'] );
 	$search_terms = esc_attr( $_POST['search_terms'] );
 
+	/* Plugins can pass extra parameters and use the bp_dtheme_ajax_querystring_content_filter filter to parse them */
+	$extras = esc_attr( $_POST['extras'] );
+
 	if ( __( 'Search anything...', 'buddypress' ) == $search_terms || 'false' == $search_terms )
 		$search_terms = false;
 
 	/* Build the querystring */
-	if ( 'active' != $filter && 'newest' != $filter && 'popular' != $filter && 'online' != $filter && 'alphabetical' != $filter )
+	if ( empty( $filter ) )
 		$filter = 'active';
+
+	if ( empty( $type ) )
+		$type = 'all';
 
 	$bp->ajax_querystring = 'type=' . $filter . '&page=' . $page;
 
-	if ( $search_terms )
+	if ( !empty( $search_terms ) )
 		$bp->ajax_querystring .= '&search_terms=' . $search_terms;
 
-	if ( !$type )
-		$type = 'all';
-
-	if ( ( 'all' != $type ) && !is_user_logged_in() )
-		$filter = 'all';
-
-	if ( 'all' != $type || $bp->displayed_user->id ) {
+	if ( $bp->displayed_user->id ) {
 		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 		$bp->ajax_querystring .= '&user_id=' . $user_id;
 	}
+
+	$bp->ajax_querystring = apply_filters( 'bp_dtheme_ajax_querystring_content_filter', $bp->ajax_querystring, $extras );
 
 	locate_template( array( "$content/$content-loop.php" ), true );
 }
@@ -163,7 +165,6 @@ function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string 
 	global $bp;
 
 	if ( !$query_string ) {
-
 		/* If we are on a profile page we only want to show that users activity */
 		if ( $bp->displayed_user->id ) {
 			$query_string = 'user_id=' . $bp->displayed_user->id;
@@ -237,9 +238,9 @@ function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string 
 	}
 	$query_string = implode( '&', $new_args ) . '&page=' . $page;
 
-	$bp->ajax_querystring = $query_string;
+	$bp->ajax_querystring = apply_filters( 'bp_dtheme_ajax_querystring_activity_filter', $query_string, $type );
 	$result['query_string'] = $bp->ajax_querystring;
-	$result['feed_url'] = $feed_url;
+	$result['feed_url'] = apply_filters( 'bp_dtheme_ajax_feed_url', $feed_url );
 
 	/* Buffer the loop in the template to a var for JS to spit out. */
 	ob_start();

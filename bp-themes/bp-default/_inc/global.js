@@ -11,7 +11,7 @@ jQuery(document).ready( function() {
 
 	/* Members */
 	if ( j('div.members').length )
-		bp_filter_request( j.cookie('bp-members-type'), j.cookie('bp-members-filter'), 'members', 'div.members', j.cookie('bp-members-page'), j.cookie('bp-members-search-terms') );
+		bp_filter_request( j.cookie('bp-members-type'), j.cookie('bp-members-filter'), 'members', 'div.members', j.cookie('bp-members-page'), j.cookie('bp-members-search-terms'), 'test' );
 
 	/* Groups */
 	if ( j('div.groups').length )
@@ -553,7 +553,7 @@ jQuery(document).ready( function() {
 		return false;
 	});
 
-	function bp_filter_request( type, filter, id, target, page, search_terms ) {
+	function bp_filter_request( type, filter, id, target, page, search_terms, extras ) {
 		if ( 'activity' == id )
 			return false;
 
@@ -568,6 +568,9 @@ jQuery(document).ready( function() {
 
 		if ( null == search_terms )
 			var search_terms = false;
+
+		if ( null == extras )
+			var extras = false;
 
 		if ( j.query.get('s') )
 			search_terms = j.query.get('s');
@@ -593,7 +596,8 @@ jQuery(document).ready( function() {
 			'filter': filter,
 			'page': page,
 			'content': id,
-			'search_terms': search_terms
+			'search_terms': search_terms,
+			'extras': extras
 		},
 		function(response)
 		{
