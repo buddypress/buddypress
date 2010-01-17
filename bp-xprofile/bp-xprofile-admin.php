@@ -13,7 +13,9 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 
 	$type = preg_replace( '|[^a-z]|i', '', $type );
 
-	$groups = BP_XProfile_Group::get_all();
+	$groups = BP_XProfile_Group::get( array(
+		'fetch_fields' => true
+	) );
 
 	if ( isset($_GET['mode']) && isset($_GET['group_id']) && 'add_field' == $_GET['mode'] ) {
 		xprofile_admin_manage_field($_GET['group_id']);

@@ -25,9 +25,6 @@ Class BP_XProfile_Group {
 			$this->name = $group->name;
 			$this->description = $group->description;
 			$this->can_delete = $group->can_delete;
-
-			// get the fields for this group.
-			$this->fields = $this->get_fields();
 		}
 
 	}
@@ -77,39 +74,74 @@ Class BP_XProfile_Group {
 		}
 	}
 
-	function get_fields() {
-		global $wpdb, $bp;
-
-		/* Find the max value for field_order, if it is zero, order by field_id instead -- provides backwards compat ordering */
-		if ( !(int) $wpdb->get_var( $wpdb->prepare( "SELECT MAX(field_order) FROM {$bp->profile->table_name_fields} WHERE group_id = %d", $this->id ) ) )
-			$order_sql = "ORDER BY id";
-		else
-			$order_sql = "ORDER BY field_order";
-
-		// Get field ids for the current group.
-		if ( !$fields = $wpdb->get_results( $wpdb->prepare("SELECT id, type FROM {$bp->profile->table_name_fields} WHERE group_id = %d AND parent_id = 0 {$order_sql}", $this->id ) ) )
-			return false;
-
-		return $fields;
-	}
-
 	/** Static Functions **/
 
-	function get_all( $hide_empty = false ) {
+	function get( $args = '' ) {
 		global $wpdb, $bp;
 
-		if ( $hide_empty ) {
-			$sql = $wpdb->prepare( "SELECT DISTINCT g.id FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id ORDER BY g.id ASC" );
-		} else {
-			$sql = $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_groups} ORDER BY id ASC" );
+		$defaults = array(
+			'profile_group_id' => false,
+			'user_id' => $bp->displayed_user->id,
+			'hide_empty_groups' => false,
+			'fetch_fields' => false,
+			'fetch_field_data' => false
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		if ( $profile_group_id )
+			$group_id_sql = $wpdb->prepare( 'WHERE g.id = %d', $profile_group_id );
+
+		if ( $hide_empty_groups )
+			$groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id {$group_id_sql} ORDER BY g.id ASC" ) );
+		else
+			$groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g {$group_id_sql} ORDER BY g.id ASC" ) );
+
+		if ( !$fetch_fields )
+			return $groups;
+
+		/* Get the group ids */
+		foreach( (array)$groups as $group )
+			$group_ids[] = $group->id;
+
+		$group_ids = implode( ',', (array) $group_ids );
+
+		if ( empty( $group_ids ) )
+			return $groups;
+
+		/* Fetch the fields */
+		$fields = $wpdb->get_results( $wpdb->prepare( "SELECT id, name, type, group_id FROM {$bp->profile->table_name_fields} WHERE group_id IN ( {$group_ids} ) AND parent_id = 0 ORDER BY field_order" ) );
+
+		if ( empty( $fields ) )
+			return $groups;
+
+		if ( $fetch_field_data ) {
+			/* Fetch the field data for the user. */
+			foreach( (array)$fields as $field )
+				$field_ids[] = $field->id;
+
+			$field_ids = implode( ',', (array) $field_ids );
+
+			if ( !empty( $field_ids ) )
+				$field_data = $wpdb->get_results( $wpdb->prepare( "SELECT field_id, value FROM {$bp->profile->table_name_data} WHERE field_id IN ( {$field_ids} ) AND user_id = %d", $user_id ) );
+
+			if ( !empty( $field_data ) ) {
+				foreach( (array)$fields as $field_key => $field ) {
+					foreach( (array)$field_data as $data ) {
+						if ( $field->id == $data->field_id )
+							$fields[$field_key]->data->value = $data->value;
+					}
+				}
+			}
 		}
 
-		if ( !$groups_temp = $wpdb->get_results($sql) )
-			return false;
-
-		for ( $i = 0; $i < count($groups_temp); $i++ ) {
-			$group = new BP_XProfile_Group($groups_temp[$i]->id);
-			$groups[] = $group;
+		/* Merge the field array back in with the group array */
+		foreach( (array)$groups as $group_key => $group ) {
+			foreach( (array)$fields as $field ) {
+				if ( $group->id == $field->group_id )
+					$groups[$group_key]->fields[] = $field;
+			}
 		}
 
 		return $groups;
@@ -726,7 +758,7 @@ Class BP_XProfile_ProfileData {
 	function get_all_for_user( $user_id ) {
 		global $wpdb, $bp;
 
-		$results = $wpdb->get_results( $wpdb->prepare( "SELECT g.name as field_group_name, f.name as field_name, f.type as field_type, d.value as field_data, u.user_login, u.user_nicename, u.user_email FROM {$bp->profile->table_name_groups} g LEFT JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id INNER JOIN {$bp->profile->table_name_data} d ON f.id = d.field_id LEFT JOIN {$wpdb->users} u ON d.user_id = u.ID WHERE d.user_id = %d AND d.value != ''", $user_id ) );
+		$results = $wpdb->get_results( $wpdb->prepare( "SELECT g.id as field_group_id, g.name as field_group_name, f.id as field_id, f.name as field_name, f.type as field_type, d.value as field_data, u.user_login, u.user_nicename, u.user_email FROM {$bp->profile->table_name_groups} g LEFT JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id INNER JOIN {$bp->profile->table_name_data} d ON f.id = d.field_id LEFT JOIN {$wpdb->users} u ON d.user_id = u.ID WHERE d.user_id = %d AND d.value != ''", $user_id ) );
 
 		if ( $results ) {
 			$profile_data['user_login'] = $results[0]->user_login;
@@ -734,7 +766,13 @@ Class BP_XProfile_ProfileData {
 			$profile_data['user_email'] = $results[0]->user_email;
 
 			foreach( (array) $results as $field ) {
-				$profile_data[$field->field_name] = array( 'field_group' => $field->field_group_name, 'field_type' => $field->field_type, 'field_data' => $field->field_data );
+				$profile_data[$field->field_name] = array(
+					'field_group_id' => $field->field_group_id,
+					'field_group_name' => $field->field_group_name,
+					'field_id' => $field->field_id,
+					'field_type' => $field->field_type,
+					'field_data' => $field->field_data
+				);
 			}
 		}
 

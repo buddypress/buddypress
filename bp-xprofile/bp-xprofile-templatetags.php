@@ -19,21 +19,13 @@ Class BP_XProfile_Data_Template {
 	var $user_id;
 
 	function bp_xprofile_data_template( $user_id, $profile_group_id ) {
-
-		if ( !$profile_group_id ) {
-			if ( !$this->groups = wp_cache_get( 'xprofile_groups', 'bp' ) ) {
-				$this->groups = BP_XProfile_Group::get_all(true);
-				wp_cache_set( 'xprofile_groups', $this->groups, 'bp' );
-			}
-		} else {
-			if ( !$this->groups = wp_cache_get( 'xprofile_group_' . $profile_group_id, 'bp' ) ) {
-				$this->groups = new BP_XProfile_Group( $profile_group_id );
-				wp_cache_set( 'xprofile_group_' . $profile_group_id, 'bp' );
-			}
-
-			/* We need to put this single group into the same format as multiple group (an array) */
-			$this->groups = array( $this->groups );
-		}
+		$this->groups = BP_XProfile_Group::get( array(
+			'profile_group_id' => $profile_group_id,
+			'user_id' => $user_id,
+			'hide_empty_groups' => true,
+			'fetch_fields' => true,
+			'fetch_field_data' => true
+		) );
 
 		$this->group_count = count($this->groups);
 		$this->user_id = $user_id;
@@ -50,20 +42,7 @@ Class BP_XProfile_Data_Template {
 		$this->current_group++;
 
 		$this->group = $this->groups[$this->current_group];
-
-		if ( !$fields = wp_cache_get( 'xprofile_fields_' . $this->group->id . '_' . $this->user_id, 'bp' ) ) {
-			for ( $i = 0; $i < count($this->group->fields); $i++ ) {
-				/* Don't try and fetch any existing profile data if we are using this loop on the registration page */
-				$get_data = ( !bp_is_register_page() ) ? true : false;
-
-				$field = new BP_XProfile_Field( $this->group->fields[$i]->id, $this->user_id, $get_data );
-				$fields[$i] = $field;
-			}
-
-			wp_cache_set( 'xprofile_fields_' . $this->group->id . '_' . $this->user_id, $fields, 'bp' );
-		}
-
-		$this->group->fields = apply_filters( 'xprofile_group_fields', $fields, $this->group->id );
+		$this->group->fields = apply_filters( 'xprofile_group_fields', $this->group->fields, $this->group->id );
 		$this->field_count = count( $this->group->fields );
 
 		return $this->group;
@@ -386,6 +365,9 @@ function bp_the_profile_field_options( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
+		if ( !method_exists( $field, 'get_children' ) )
+			$field = new BP_XProfile_Field( $field->id );
+
 		$options = $field->get_children();
 
 		switch ( $field->type ) {
@@ -583,7 +565,7 @@ function bp_profile_group_tabs() {
 	global $bp, $group_name;
 
 	if ( !$groups = wp_cache_get( 'xprofile_groups_inc_empty', 'bp' ) ) {
-		$groups = BP_XProfile_Group::get_all();
+		$groups = BP_XProfile_Group::get( array( 'fetch_fields' => true ) );
 		wp_cache_set( 'xprofile_groups_inc_empty', $groups, 'bp' );
 	}
 
