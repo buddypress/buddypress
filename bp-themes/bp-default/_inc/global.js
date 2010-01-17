@@ -11,7 +11,7 @@ jQuery(document).ready( function() {
 
 	/* Members */
 	if ( j('div.members').length )
-		bp_filter_request( j.cookie('bp-members-type'), j.cookie('bp-members-filter'), 'members', 'div.members', j.cookie('bp-members-page'), j.cookie('bp-members-search-terms'), 'test' );
+		bp_filter_request( j.cookie('bp-members-type'), j.cookie('bp-members-filter'), 'members', 'div.members', j.cookie('bp-members-page'), j.cookie('bp-members-search-terms') );
 
 	/* Groups */
 	if ( j('div.groups').length )
