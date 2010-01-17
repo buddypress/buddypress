@@ -145,7 +145,12 @@ class BP_Core_User {
 			$friend_ids = friends_get_friend_user_ids( $user_id );
 			$friend_ids = $wpdb->escape( implode( ',', (array)$friend_ids ) );
 
-			$sql['where_friends'] = "AND u.ID IN ({$friend_ids})";
+			if ( !empty( $friend_ids ) )
+				$sql['where_friends'] = "AND u.ID IN ({$friend_ids})";
+			else {
+				/* User has no friends, return false since there will be no users to fetch. */
+				return false;
+			}
 		}
 
 		if ( $search_terms && function_exists( 'xprofile_install' ) ) {
