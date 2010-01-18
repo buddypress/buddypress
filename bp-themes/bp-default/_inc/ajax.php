@@ -36,7 +36,7 @@ function bp_dtheme_content_filter() {
 	if ( !empty( $search_terms ) )
 		$bp->ajax_querystring .= '&search_terms=' . $search_terms;
 
-	if ( $bp->displayed_user->id ) {
+	if ( $type != 'all' || $bp->displayed_user->id ) {
 		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 		$bp->ajax_querystring .= '&user_id=' . $user_id;
 	}
