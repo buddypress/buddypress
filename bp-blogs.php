@@ -298,14 +298,14 @@ function bp_blogs_record_existing_blogs() {
 					$role = unserialize( $user->meta_value );
 
 					if ( !isset( $role['subscriber'] ) )
-						bp_blogs_record_blog( $blog_id, $user->user_id );
+						bp_blogs_record_blog( $blog_id, $user->user_id, true );
 				}
 			}
 		}
 	}
 }
 
-function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = true ) {
+function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	global $bp;
 
 	if ( !$user_id )
@@ -325,7 +325,7 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = true ) {
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'last_activity', time() );
 
 	/* Only record this activity if the blog is public */
-	if ( (int)$_POST['blog_public'] || !$no_activity ) {
+	if ( (int)$_POST['blog_public'] && !$no_activity ) {
 		/* Record this in activity streams */
 		bp_blogs_record_activity( array(
 			'user_id' => $recorded_blog->user_id,
@@ -529,7 +529,7 @@ add_action( 'wp_set_comment_status', 'bp_blogs_unapprove_comment', 10, 2 );
 
 function bp_blogs_add_user_to_blog( $user_id, $role, $blog_id ) {
 	if ( $role != 'subscriber' ) {
-		bp_blogs_record_blog( $blog_id, $user_id );
+		bp_blogs_record_blog( $blog_id, $user_id, true );
 	}
 }
 add_action( 'add_user_to_blog', 'bp_blogs_add_user_to_blog', 10, 3 );
