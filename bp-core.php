@@ -546,7 +546,8 @@ function bp_core_get_user_domain( $user_id, $user_nicename = false, $user_login 
 			$domain = $bp->root_domain . '/' . $username . '/';
 
 		/* Cache the link */
-		wp_cache_set( 'bp_user_domain_' . $user_id, $domain, 'bp' );
+		if ( !empty( $domain ) )
+			wp_cache_set( 'bp_user_domain_' . $user_id, $domain, 'bp' );
 	}
 
 	return apply_filters( 'bp_core_get_user_domain', $domain );
@@ -986,26 +987,26 @@ function bp_core_get_userid( $username ) {
  * @return false on no match
  * @return str the username of the matched user.
  */
-function bp_core_get_username( $uid, $user_nicename = false, $user_login = false ) {
+function bp_core_get_username( $user_id, $user_nicename = false, $user_login = false ) {
 	global $bp;
 
-	if ( !$username = wp_cache_get( 'bp_user_username_' . $uid, 'bp' ) ) {
+	if ( !$username = wp_cache_get( 'bp_user_username_' . $user_id, 'bp' ) ) {
 		if ( empty( $user_nicename ) && empty( $user_login ) ) {
 			$ud = false;
 
-			if ( $bp->loggedin_user->id == $uid )
+			if ( $bp->loggedin_user->id == $user_id )
 				$ud = &$bp->loggedin_user->userdata;
 
-			if ( $bp->displayed_user->id == $uid )
+			if ( $bp->displayed_user->id == $user_id )
 				$ud = &$bp->displayed_user->userdata;
 
 			if ( empty( $ud ) ) {
-				if ( !$ud = bp_core_get_core_userdata($uid) )
+				if ( !$ud = bp_core_get_core_userdata( $user_id ) )
 					return false;
-
-				$user_nicename = $ud->user_nicename;
-				$user_login = $ud->user_login;
 			}
+
+			$user_nicename = $ud->user_nicename;
+			$user_login = $ud->user_login;
 		}
 
 		if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
@@ -1015,7 +1016,8 @@ function bp_core_get_username( $uid, $user_nicename = false, $user_login = false
 	}
 
 	/* Add this to cache */
-	wp_cache_set( 'bp_user_username_' . $uid, 'bp' );
+	if ( !empty( $username ) )
+		wp_cache_set( 'bp_user_username_' . $user_id, $username, 'bp' );
 
 	return apply_filters( 'bp_core_get_username', $username );
 }
@@ -1033,7 +1035,7 @@ function bp_core_get_username( $uid, $user_nicename = false, $user_login = false
  */
 function bp_core_get_user_email( $uid ) {
 	if ( !$email = wp_cache_get( 'bp_user_email_' . $uid, 'bp' ) ) {
-		$ud = get_userdata($uid);
+		$ud = bp_core_get_core_userdata($uid);
 		$email = $ud->user_email;
 	}
 
@@ -1065,7 +1067,6 @@ function bp_core_get_user_email( $uid ) {
  * @return str The link text based on passed parameters.
  */
 function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false, $deprecated = false, $with_s = false ) {
-
 	$display_name = bp_core_get_user_displayname( $user_id );
 
 	if ( $with_s )
@@ -1109,7 +1110,7 @@ function bp_core_get_user_displayname( $user_id ) {
 			$fullname = xprofile_get_field_data( 1, $user_id );
 
 			if ( empty($fullname) ) {
-				$ud = get_userdata( $user_id );
+				$ud = bp_core_get_core_userdata( $user_id );
 
 				if ( !empty( $ud->display_name ) )
 					$fullname = $ud->display_name;
@@ -1119,7 +1120,7 @@ function bp_core_get_user_displayname( $user_id ) {
 				xprofile_set_field_data( 1, $user_id, $fullname );
 			}
 		} else {
-			$ud = get_userdata($user_id);
+			$ud = bp_core_get_core_userdata($user_id);
 
 			if ( !empty( $ud->display_name ) )
 				$fullname = $ud->display_name;
@@ -1127,7 +1128,8 @@ function bp_core_get_user_displayname( $user_id ) {
 				$fullname = $ud->user_nicename;
 		}
 
-		wp_cache_set( 'bp_user_fullname_' . $user_id, $fullname, 'bp' );
+		if ( !empty( $fullname ) )
+			wp_cache_set( 'bp_user_fullname_' . $user_id, $fullname, 'bp' );
 	}
 
 	return apply_filters( 'bp_core_get_user_displayname', $fullname );
