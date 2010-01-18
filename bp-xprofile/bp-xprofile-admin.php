@@ -244,7 +244,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 
 				do_action( 'xprofile_fields_saved_field', $field );
 
-				$groups = BP_XProfile_Group::get_all();
+				$groups = BP_XProfile_Group::get();
 				xprofile_admin( $message, $type );
 			}
 		} else {
