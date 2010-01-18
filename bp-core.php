@@ -1939,8 +1939,10 @@ function bp_core_activation_notice() {
 	if ( !is_site_admin() )
 		return false;
 
-	if ( $current_blog->blog_id != BP_ROOT_BLOG )
-		return false;
+	if ( !empty( $current_blog ) ) {
+		if ( $current_blog->blog_id != BP_ROOT_BLOG )
+			return false;
+	}
 
 	if ( empty( $wp_rewrite->permalink_structure ) ) { ?>
 		<div id="message" class="updated fade">
