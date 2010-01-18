@@ -124,7 +124,7 @@ function bp_has_activities( $args = '' ) {
 		/* Filtering */
 		'user_id' => false, // user_id to filter on
 		'object' => false, // object to filter on e.g. groups, profile, status, friends
-		'action' => false, // action to filter on e.g. new_wire_post, new_forum_post, profile_updated
+		'action' => false, // action to filter on e.g. activity_update, new_forum_post, profile_updated
 		'primary_id' => false, // object ID to filter on e.g. a group_id or forum_id or blog_id etc.
 		'secondary_id' => false, // secondary object ID to filter on e.g. a post_id
 
@@ -732,7 +732,7 @@ function bp_activity_feed_item_title() {
 		if ( ':' == substr( $title, -1 ) )
 			$title = substr( $title, 0, -1 );
 
-		if ( 'new_wire_post' == $activities_template->activity->component_action ) {
+		if ( 'activity_update' == $activities_template->activity->component_action ) {
 			$content = explode( '<div class="activity-inner">', $activities_template->activity->content );
 			$title .= ': ' . strip_tags( bp_create_excerpt( $content[1], 15 ));
 		}

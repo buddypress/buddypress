@@ -446,12 +446,12 @@ function bp_dtheme_post_update() {
 		/* Now write the values */
 		$activity_id = xprofile_record_activity( array(
 			'user_id' => $bp->loggedin_user->id,
-			'content' => apply_filters( 'xprofile_activity_new_wire_post', $activity_content, &$wire_post ),
-			'primary_link' => apply_filters( 'xprofile_activity_new_wire_post_primary_link', $primary_link ),
-			'component_action' => 'new_wire_post'
+			'content' => apply_filters( 'xprofile_activity_update', $activity_content, &$wire_post ),
+			'primary_link' => apply_filters( 'xprofile_activity_update_primary_link', $primary_link ),
+			'component_action' => 'activity_update'
 		) );
 
-		do_action( 'xprofile_new_wire_post', &$wire_post );
+		do_action( 'xprofile_activity_update', &$wire_post );
 	} else {
 		$bp->groups->current_group = new BP_Groups_Group( $item_id );
 
@@ -461,13 +461,13 @@ function bp_dtheme_post_update() {
 		$activity_content .= '<div class="activity-inner">' . $_POST['content'] . '</div>';
 
 		$activity_id = groups_record_activity( array(
-			'content' => apply_filters( 'groups_activity_new_wire_post', $activity_content ),
-			'primary_link' => apply_filters( 'groups_activity_new_wire_post_primary_link', bp_get_group_permalink( $bp->groups->current_group ) ),
-			'component_action' => 'new_wire_post',
+			'content' => apply_filters( 'groups_activity_update', $activity_content ),
+			'primary_link' => apply_filters( 'groups_activity_update_primary_link', bp_get_group_permalink( $bp->groups->current_group ) ),
+			'component_action' => 'activity_update',
 			'item_id' => $item_id
 		) );
 
-		do_action( 'groups_new_wire_post', $item_id, $wire_post->id );
+		do_action( 'groups_activity_update', $item_id, $wire_post->id );
 	}
 
 	if ( !$activity_id ) {

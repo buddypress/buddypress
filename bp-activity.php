@@ -395,7 +395,7 @@ function bp_activity_get( $args = '' ) {
 		 * array(
 		 * 	'user_id' => false, // user_id to filter on
 		 *	'object' => false, // object to filter on e.g. groups, profile, status, friends
-		 *	'action' => false, // action to filter on e.g. new_wire_post, profile_updated
+		 *	'action' => false, // action to filter on e.g. activity_update, profile_updated
 		 *	'primary_id' => false, // object ID to filter on e.g. a group_id or forum_id or blog_id etc.
 		 *	'secondary_id' => false, // secondary object ID to filter on e.g. a post_id
 		 * );
@@ -434,7 +434,7 @@ function bp_activity_add( $args = '' ) {
 		'content' => false, // The content of the activity item
 		'primary_link' => false, // The primary URL for this item in RSS feeds
 		'component_name' => false, // The name/ID of the component e.g. groups, profile, mycomponent
-		'component_action' => false, // The component action e.g. new_wire_post, profile_updated
+		'component_action' => false, // The component action e.g. activity_update, profile_updated
 
 		'user_id' => $bp->loggedin_user->id, // Optional: The user to record the activity for, can be false if this activity is not for a user.
 		'item_id' => false, // Optional: The ID of the specific item being recorded, e.g. a blog_id
@@ -501,7 +501,7 @@ function bp_activity_post_update( $args = '' ) {
 		'content' => apply_filters( 'bp_activity_new_update_content', $activity_content ),
 		'primary_link' => apply_filters( 'bp_activity_new_update_primary_link', $primary_link ),
 		'component_name' => $bp->activity->id,
-		'component_action' => 'new_wire_post'
+		'component_action' => 'activity_update'
 	) );
 
 	/* Add this update to the "latest update" usermeta so it can be fetched anywhere. */

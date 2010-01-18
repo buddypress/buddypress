@@ -1917,7 +1917,7 @@ function groups_post_update( $args = '' ) {
 		'user_id' => $user_id,
 		'content' => apply_filters( 'groups_activity_new_update_content', $activity_content ),
 		'primary_link' => apply_filters( 'groups_activity_new_update_primary_link', bp_get_group_permalink( $bp->groups->current_group ) ),
-		'component_action' => 'new_wire_post',
+		'component_action' => 'activity_update',
 		'item_id' => $bp->groups->current_group->id
 	) );
 

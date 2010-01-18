@@ -7,7 +7,7 @@
 		<li id="activity-filter-select" class="last">
 			<select>
 				<option value="-1"><?php _e( 'No Filter', 'buddypress' ) ?></option>
-				<option value="new_wire_post"><?php _e( 'Show Updates', 'buddypress' ) ?></option>
+				<option value="activity_update"><?php _e( 'Show Updates', 'buddypress' ) ?></option>
 				<option value="new_forum_topic"><?php _e( 'Show New Forum Topics', 'buddypress' ) ?></option>
 				<option value="new_forum_post"><?php _e( 'Show Forum Replies', 'buddypress' ) ?></option>
 				<option value="joined_group"><?php _e( 'Show New Group Memberships', 'buddypress' ) ?></option>

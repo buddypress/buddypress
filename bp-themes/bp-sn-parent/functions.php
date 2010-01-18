@@ -162,7 +162,7 @@ class BP_Activity_Widget extends WP_Widget {
 				<li id="activity-filter-select">
 					<select>
 						<option value="-1"><?php _e( 'No Filter', 'buddypress' ) ?></option>
-						<option value="new_wire_post"><?php _e( 'Updates Only', 'buddypress' ) ?></option>
+						<option value="activity_update"><?php _e( 'Updates Only', 'buddypress' ) ?></option>
 						<option value="new_forum_post,new_forum_topic"><?php _e( 'Group Forum Activity Only', 'buddypress' ) ?></option>
 						<option value="new_blog_post,new_blog_comment"><?php _e( 'Blog Activity Only', 'buddypress' ) ?></option>
 
