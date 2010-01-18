@@ -395,7 +395,7 @@ function bp_activity_get( $args = '' ) {
 		 * array(
 		 * 	'user_id' => false, // user_id to filter on
 		 *	'object' => false, // object to filter on e.g. groups, profile, status, friends
-		 *	'action' => false, // action to filter on e.g. new_wire_post, new_forum_post, profile_updated
+		 *	'action' => false, // action to filter on e.g. new_wire_post, profile_updated
 		 *	'primary_id' => false, // object ID to filter on e.g. a group_id or forum_id or blog_id etc.
 		 *	'secondary_id' => false, // secondary object ID to filter on e.g. a post_id
 		 * );
@@ -437,7 +437,7 @@ function bp_activity_add( $args = '' ) {
 		'component_action' => false, // The component action e.g. new_wire_post, profile_updated
 
 		'user_id' => $bp->loggedin_user->id, // Optional: The user to record the activity for, can be false if this activity is not for a user.
-		'item_id' => false, // Optional: The ID of the specific item being recorded, e.g. a blog_id, or wire_post_id
+		'item_id' => false, // Optional: The ID of the specific item being recorded, e.g. a blog_id
 		'secondary_item_id' => false, // Optional: A second ID used to further filter e.g. a comment_id
 		'recorded_time' => time(), // The time that this activity was recorded
 		'hide_sitewide' => false // Should this be hidden on the sitewide activity stream?

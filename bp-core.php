@@ -341,7 +341,7 @@ function bp_core_setup_nav() {
 	 * built in WordPress profile information
 	 */
 	if ( !function_exists( 'xprofile_install' ) ) {
-		/* Fallback wire values if xprofile is disabled */
+		/* Fallback values if xprofile is disabled */
 		$bp->core->profile->slug = 'profile';
 		$bp->active_components[$bp->core->profile->slug] = $bp->core->profile->slug;
 

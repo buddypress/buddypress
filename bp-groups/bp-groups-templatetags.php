@@ -710,28 +710,6 @@ function bp_group_member_count() {
 			return apply_filters( 'bp_get_group_member_count', sprintf( __( '%d members', 'buddypress' ), number_format( (int) $groups_template->group->total_member_count ) ) );
 	}
 
-function bp_group_show_wire_setting( $group = false ) {
-	global $groups_template;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-
-	if ( $group->enable_wire )
-		echo ' checked="checked"';
-}
-
-function bp_group_is_wire_enabled( $group = false ) {
-	global $groups_template;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-
-	if ( $group->enable_wire )
-		return true;
-
-	return false;
-}
-
 function bp_group_forum_permalink( $deprecated = false ) {
 	echo bp_get_group_forum_permalink();
 }
@@ -1612,14 +1590,6 @@ function bp_new_group_news() {
 	function bp_get_new_group_news() {
 		global $bp;
 		return apply_filters( 'bp_get_new_group_news', $bp->groups->current_group->news );
-	}
-
-function bp_new_group_enable_wire() {
-	echo bp_get_new_group_enable_wire();
-}
-	function bp_get_new_group_enable_wire() {
-		global $bp;
-		return (int) apply_filters( 'bp_get_new_group_enable_wire', $bp->groups->current_group->enable_wire );
 	}
 
 function bp_new_group_enable_forum() {

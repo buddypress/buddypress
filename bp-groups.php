@@ -23,9 +23,7 @@ function groups_install() {
 	  		name varchar(100) NOT NULL,
 	  		slug varchar(100) NOT NULL,
 	  		description longtext NOT NULL,
-			news longtext NOT NULL,
 			status varchar(10) NOT NULL DEFAULT 'public',
-			enable_wire tinyint(1) NOT NULL DEFAULT '1',
 			enable_forum tinyint(1) NOT NULL DEFAULT '1',
 			date_created datetime NOT NULL,
 		    KEY creator_id (creator_id),
@@ -65,32 +63,9 @@ function groups_install() {
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 	dbDelta($sql);
 
-	if ( function_exists('bp_wire_install') )
-		groups_wire_install();
+	do_action( 'groups_install' );
 
 	update_site_option( 'bp-groups-db-version', BP_GROUPS_DB_VERSION );
-}
-
-function groups_wire_install() {
-	global $wpdb, $bp;
-
-	if ( !empty($wpdb->charset) )
-		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-
-	$sql[] = "CREATE TABLE {$bp->groups->table_name_wire} (
-	  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			item_id bigint(20) NOT NULL,
-			user_id bigint(20) NOT NULL,
-			parent_id bigint(20) NOT NULL,
-			content longtext NOT NULL,
-			date_posted datetime NOT NULL,
-			KEY item_id (item_id),
-			KEY user_id (user_id),
-			KEY parent_id (parent_id)
-	 	   ) {$charset_collate};";
-
-	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
-	dbDelta($sql);
 }
 
 function groups_setup_globals() {
@@ -107,9 +82,6 @@ function groups_setup_globals() {
 
 	/* Register this in the active components array */
 	$bp->active_components[$bp->groups->slug] = $bp->groups->id;
-
-	if ( function_exists('bp_wire_install') )
-		$bp->groups->table_name_wire = $wpdb->base_prefix . 'bp_groups_wire';
 
 	$bp->groups->forbidden_names = apply_filters( 'groups_forbidden_names', array( 'my-groups', 'group-finder', 'create', 'invites', 'delete', 'add', 'admin', 'request-membership' ) );
 
@@ -237,9 +209,6 @@ function groups_setup_nav() {
 
 			if ( $bp->groups->current_group->enable_forum && function_exists('bp_forums_setup') )
 				bp_core_new_subnav_item( array( 'name' => __( 'Forum', 'buddypress' ), 'slug' => 'forum', 'parent_url' => $group_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_forum', 'position' => 40, 'user_has_access' => $bp->groups->current_group->user_has_access, 'item_css_id' => 'forums' ) );
-
-			if ( $bp->groups->current_group->enable_wire && function_exists('bp_wire_install') )
-				bp_core_new_subnav_item( array( 'name' => __( 'Wire', 'buddypress' ), 'slug' => BP_WIRE_SLUG, 'parent_url' => $group_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_wire', 'position' => 50, 'user_has_access' => $bp->groups->current_group->user_has_access, 'item_css_id' => 'wire'  ) );
 
 			bp_core_new_subnav_item( array( 'name' => __( 'Members', 'buddypress' ), 'slug' => 'members', 'parent_url' => $group_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_members', 'position' => 60, 'user_has_access' => $bp->groups->current_group->user_has_access, 'item_css_id' => 'members'  ) );
 
@@ -592,52 +561,6 @@ function groups_screen_group_forum() {
 			do_action( 'groups_screen_group_forum', $topic_id, $forum_id );
 
 			bp_core_load_template( apply_filters( 'groups_template_group_forum', 'groups/single/home' ) );
-		}
-	}
-}
-
-function groups_screen_group_wire() {
-	global $bp;
-
-	$wire_action = $bp->action_variables[0];
-
-	if ( $bp->is_single_item ) {
-		if ( 'post' == $wire_action && ( is_site_admin() || groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) ) {
-			/* Check the nonce first. */
-			if ( !check_admin_referer( 'bp_wire_post' ) )
-				return false;
-
-			if ( !groups_new_wire_post( $bp->groups->current_group->id, $_POST['wire-post-textarea'] ) )
-				bp_core_add_message( __('Wire message could not be posted.', 'buddypress'), 'error' );
-			else
-				bp_core_add_message( __('Wire message successfully posted.', 'buddypress') );
-
-			if ( !strpos( wp_get_referer(), $bp->wire->slug ) )
-				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
-			else
-				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . $bp->wire->slug );
-
-		} else if ( 'delete' == $wire_action && ( is_site_admin() || groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) ) {
-			$wire_message_id = $bp->action_variables[1];
-
-			/* Check the nonce first. */
-			if ( !check_admin_referer( 'bp_wire_delete_link' ) )
-				return false;
-
-			if ( !groups_delete_wire_post( $wire_message_id, $bp->groups->table_name_wire ) )
-				bp_core_add_message( __('There was an error deleting the wire message.', 'buddypress'), 'error' );
-			else
-				bp_core_add_message( __('Wire message successfully deleted.', 'buddypress') );
-
-			if ( !strpos( wp_get_referer(), $bp->wire->slug ) )
-				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
-			else
-				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . $bp->wire->slug );
-
-		} else if ( ( !$wire_action || 'latest' == $bp->action_variables[1] ) ) {
-			bp_core_load_template( apply_filters( 'groups_template_group_wire', 'groups/single/wire' ) );
-		} else {
-			bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
 		}
 	}
 }
@@ -1091,14 +1014,6 @@ function groups_screen_notification_settings() {
 			<td class="yes"><input type="radio" name="notifications[notification_groups_group_updated]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_groups_group_updated') || 'yes' == get_usermeta( $current_user->id, 'notification_groups_group_updated') ) { ?>checked="checked" <?php } ?>/></td>
 			<td class="no"><input type="radio" name="notifications[notification_groups_group_updated]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_groups_group_updated') ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
-		<?php if ( function_exists('bp_wire_install') ) { ?>
-		<tr>
-			<td></td>
-			<td><?php _e( 'A member posts on the wire of a group you belong to', 'buddypress' ) ?></td>
-			<td class="yes"><input type="radio" name="notifications[notification_groups_wire_post]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_groups_wire_post') || 'yes' == get_usermeta( $current_user->id, 'notification_groups_wire_post') ) { ?>checked="checked" <?php } ?>/></td>
-			<td class="no"><input type="radio" name="notifications[notification_groups_wire_post]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_groups_wire_post') ) { ?>checked="checked" <?php } ?>/></td>
-		</tr>
-		<?php } ?>
 		<tr>
 			<td></td>
 			<td><?php _e( 'You are promoted to a group administrator or moderator', 'buddypress' ) ?></td>
@@ -1389,7 +1304,6 @@ function groups_register_activity_actions() {
 
 	bp_activity_set_action( $bp->groups->id, 'created_group', __( 'Created a group', 'buddypress' ) );
 	bp_activity_set_action( $bp->groups->id, 'joined_group', __( 'Joined a group', 'buddypress' ) );
-	bp_activity_set_action( $bp->groups->id, 'new_wire_post', __( 'New group wire post', 'buddypress' ) );
 	bp_activity_set_action( $bp->groups->id, 'new_forum_topic', __( 'New group forum topic', 'buddypress' ) );
 	bp_activity_set_action( $bp->groups->id, 'new_forum_post', __( 'New group forum post', 'buddypress' ) );
 
@@ -1430,8 +1344,6 @@ function groups_record_activity( $args = '' ) {
 function groups_update_last_activity( $group_id ) {
 	groups_update_groupmeta( $group_id, 'last_activity', time() );
 }
-add_action( 'groups_deleted_wire_post', 'groups_update_last_activity' );
-add_action( 'groups_new_wire_post', 'groups_update_last_activity' );
 add_action( 'groups_joined_group', 'groups_update_last_activity' );
 add_action( 'groups_leave_group', 'groups_update_last_activity' );
 add_action( 'groups_created_group', 'groups_update_last_activity' );
@@ -1578,11 +1490,10 @@ function groups_create_group( $args = '' ) {
 	else
 		$group = new BP_Groups_Group;
 
-	if ( $creator_id ) {
+	if ( $creator_id )
 		$group->creator_id = $creator_id;
-	} else {
+	else
 		$group->creator_id = $bp->loggedin_user->id;
-	}
 
 	if ( isset( $name ) )
 		$group->name = $name;
@@ -2011,54 +1922,6 @@ function groups_post_update( $args = '' ) {
 	) );
 
 	return $activity_id;
-}
-
-/*** Group Wire [DEPRECATED] ****************************************************************/
-
-function groups_new_wire_post( $group_id, $content ) {
-	global $bp;
-
-	if ( !function_exists( 'bp_wire_new_post' ) )
-		return false;
-
-	if ( $wire_post = bp_wire_new_post( $group_id, $content, 'groups' ) ) {
-
-		/* Post an email notification if settings allow */
-		require_once ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-notifications.php' );
-		groups_notification_new_wire_post( $group_id, $wire_post->id );
-
-		/* Record this in activity streams */
-		$activity_content = sprintf( __( '%s wrote on the wire of the group %s:', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
-		$activity_content .= '<blockquote>' . bp_create_excerpt( $content ) . '</blockquote>';
-
-		groups_record_activity( array(
-			'content' => apply_filters( 'groups_activity_new_wire_post', $activity_content ),
-			'primary_link' => apply_filters( 'groups_activity_new_wire_post_primary_link', bp_get_group_permalink( $bp->groups->current_group ) ),
-			'component_action' => 'new_wire_post',
-			'item_id' => $bp->groups->current_group->id,
-			'secondary_item_id' => $wire_post->item_id
-		) );
-
-		do_action( 'groups_new_wire_post', $group_id, $wire_post->id );
-
-		return true;
-	}
-
-	return false;
-}
-
-function groups_delete_wire_post( $wire_post_id, $table_name ) {
-	if ( bp_wire_delete_post( $wire_post_id, 'groups', $table_name ) ) {
-		/* Delete the activity stream item */
-		if ( function_exists( 'bp_activity_delete_by_item_id' ) ) {
-			bp_activity_delete_by_item_id( array( 'item_id' => $wire_post_id, 'component_name' => 'groups', 'component_action' => 'new_wire_post' ) );
-		}
-
-		do_action( 'groups_deleted_wire_post', $wire_post_id );
-		return true;
-	}
-
-	return false;
 }
 
 /*** Group Forums **************************************************************/
@@ -2715,8 +2578,6 @@ add_action( 'groups_details_updated', 'groups_clear_group_object_cache' );
 add_action( 'groups_group_avatar_updated', 'groups_clear_group_object_cache' );
 
 // List actions to clear super cached pages on, if super cache is installed
-add_action( 'groups_new_wire_post', 'bp_core_clear_cache' );
-add_action( 'groups_deleted_wire_post', 'bp_core_clear_cache' );
 add_action( 'groups_join_group', 'bp_core_clear_cache' );
 add_action( 'groups_leave_group', 'bp_core_clear_cache' );
 add_action( 'groups_accept_invite', 'bp_core_clear_cache' );

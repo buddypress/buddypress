@@ -204,10 +204,7 @@ Class BP_Groups_Group {
 			BP_Groups_Member::delete( $user->user_id, $this->id, false );
 		}
 
-		// Delete the wire posts for this group if the wire is installed
-		if ( function_exists('bp_wire_install') ) {
-			BP_Wire_Post::delete_all_for_item( $this->id, $bp->groups->table_name_wire );
-		}
+		do_action( 'bp_groups_delete_group', $this );
 
 		// Finally remove the group entry from the DB
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name} WHERE id = %d", $this->id ) ) )

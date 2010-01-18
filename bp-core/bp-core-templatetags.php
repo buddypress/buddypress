@@ -1034,22 +1034,6 @@ function bp_log_out_link() {
 	echo apply_filters( 'bp_logout_link', $logout_link );
 }
 
-function bp_profile_wire_can_post() {
-	global $bp;
-
-	if ( bp_is_home() )
-		return true;
-
-	if ( function_exists('friends_install') ) {
-		if ( friends_check_friendship( $bp->loggedin_user->id, $bp->displayed_user->id ) )
-			return true;
-		else
-			return false;
-	}
-
-	return true;
-}
-
 function bp_nav_items() {
 	global $bp;
 	// This is deprecated, you should put these navigation items in your template header.php for easy editing.
@@ -1394,15 +1378,6 @@ function bp_is_blogs_component() {
 	return false;
 }
 
-function bp_is_wire_component() {
-	global $bp;
-
-	if ( BP_WIRE_SLUG == $bp->current_action || in_array( BP_WIRE_SLUG, (array)$bp->action_variables ) )
-		return true;
-
-	return false;
-}
-
 function bp_is_messages_component() {
 	global $bp;
 
@@ -1502,15 +1477,6 @@ function bp_is_change_avatar() {
 	return false;
 }
 
-function bp_is_profile_wire() {
-	global $bp;
-
-	if ( BP_XPROFILE_SLUG == $bp->current_component && 'wire' == $bp->current_action )
-		return true;
-
-	return false;
-}
-
 function bp_is_user_groups() {
 	global $bp;
 
@@ -1552,15 +1518,6 @@ function bp_is_group_admin_page() {
 	global $bp;
 
 	if ( BP_GROUPS_SLUG == $bp->current_component && $bp->is_single_item && 'admin' == $bp->current_action )
-		return true;
-
-	return false;
-}
-
-function bp_is_group_wire() {
-	global $bp;
-
-	if ( BP_GROUPS_SLUG == $bp->current_component && $bp->is_single_item && 'wire' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1795,9 +1752,6 @@ function bp_the_body_class() {
 		if ( bp_is_blogs_component() && !bp_is_blog_page()  )
 			$bp_classes[] = 'blogs';
 
-		if ( bp_is_wire_component() && !bp_is_blog_page()  )
-			$bp_classes[] = 'wire';
-
 		if ( bp_is_messages_component() && !bp_is_blog_page()  )
 			$bp_classes[] = 'messages';
 
@@ -1864,9 +1818,6 @@ function bp_the_body_class() {
 		if ( bp_is_group_forum() )
 			$bp_classes[] = 'group-forum';
 
-		if ( bp_is_group_wire() )
-			$bp_classes[] = 'group-wire';
-
 		if ( bp_is_group_admin_page() )
 			$bp_classes[] = 'group-admin';
 
@@ -1875,9 +1826,6 @@ function bp_the_body_class() {
 
 		if ( bp_is_group_home() )
 			$bp_classes[] = 'group-home';
-
-		if ( bp_is_profile_wire() )
-			$bp_classes[] = 'profile-wire';
 
 		if ( bp_is_change_avatar() )
 			$bp_classes[] = 'change-avatar';
