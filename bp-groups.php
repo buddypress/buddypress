@@ -2260,13 +2260,13 @@ function groups_total_public_forum_topic_count( $type = 'newest' ) {
 
 /*** Group Invitations *********************************************************/
 
-function groups_get_invites_for_user( $user_id = false ) {
+function groups_get_invites_for_user( $user_id = false, $limit = false, $page = false ) {
 	global $bp;
 
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
 
-	return BP_Groups_Member::get_invites( $user_id );
+	return BP_Groups_Member::get_invites( $user_id, $limit, $page );
 }
 
 function groups_invite_user( $args = '' ) {
@@ -2286,20 +2286,19 @@ function groups_invite_user( $args = '' ) {
 	if ( !$user_id || !$group_id )
 		return false;
 
-	if ( groups_is_user_member( $user_id, $group_id ) )
-		return false;
+	if ( !groups_is_user_member( $user_id, $group_id ) && !groups_check_user_has_invite( $user_id, $group_id ) ) {
+		$invite = new BP_Groups_Member;
+		$invite->group_id = $group_id;
+		$invite->user_id = $user_id;
+		$invite->date_modified = $date_modified;
+		$invite->inviter_id = $inviter_id;
+		$invite->is_confirmed = $is_confirmed;
 
-	$invite = new BP_Groups_Member;
-	$invite->group_id = $group_id;
-	$invite->user_id = $user_id;
-	$invite->date_modified = $date_modified;
-	$invite->inviter_id = $inviter_id;
-	$invite->is_confirmed = $is_confirmed;
+		if ( !$invite->save() )
+			return false;
 
-	if ( !$invite->save() )
-		return false;
-
-	do_action( 'groups_invite_user', $args );
+		do_action( 'groups_invite_user', $args );
+	}
 
 	return true;
 }

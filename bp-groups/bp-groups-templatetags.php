@@ -68,8 +68,7 @@ class BP_Groups_Template {
 				break;
 
 			case 'invites':
-				if ( $user_id )
-					$this->groups = groups_get_invites_for_user();
+				$this->groups = groups_get_invites_for_user( $user_id, $this->pag_num, $this->pag_page );
 				break;
 
 			case 'single-group':
@@ -80,8 +79,9 @@ class BP_Groups_Template {
 		}
 
 		if ( 'invites' == $type ) {
-			$this->total_group_count = count($this->groups);
-			$this->group_count = count($this->groups);
+			$this->total_group_count = (int)$this->groups['total'];
+			$this->group_count = (int)$this->groups['total'];
+			$this->groups = $this->groups['groups'];
 		} else if ( 'single-group' == $type ) {
 			$this->single_group = true;
 			$this->total_group_count = 1;

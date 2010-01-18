@@ -1,6 +1,6 @@
 <?php do_action( 'bp_before_group_send_invites_content' ) ?>
 
-<?php if ( bp_has_friends_to_invite() ) : ?>
+<?php if ( bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
 
 	<form action="<?php bp_group_send_invite_form_action() ?>" method="post" id="send-invite-form" class="standard-form">
 
@@ -69,7 +69,7 @@
 <?php else : ?>
 
 	<div id="message" class="info">
-		<p><?php _e( 'You either need to build up your friends list, or your friends have already been invited or are current members.', 'buddypress' ); ?></p>
+		<p><?php _e( 'Once you have built up friend connections you will be able to invite others to your group. You can send invites any time in the future by selecting the "Send Invites" option when viewing your new group.', 'buddypress' ); ?></p>
 	</div>
 
 <?php endif; ?>
