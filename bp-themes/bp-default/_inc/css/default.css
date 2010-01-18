@@ -771,9 +771,8 @@ form.standard-form #profile-details-section {
 form#send-invite-form {
 	margin-top: 20px;
 }
-
-	form#send-invite-form #invite-list {
-		height: 275px;
+	div#invite-list {
+		height: 400px;
 		overflow: auto;
 		-moz-border-radius: 3px;
 		-webkit-border-radius: 3px;

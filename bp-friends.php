@@ -537,65 +537,22 @@ function friends_get_bulk_last_active( $friend_ids ) {
 	return BP_Friends_Friendship::get_bulk_last_active( $friend_ids );
 }
 
-function friends_get_friends_list( $user_id ) {
-	global $bp;
-
-	$friend_ids = BP_Friends_Friendship::get_friend_user_ids( $user_id );
-
-	if ( !$friend_ids )
-		return false;
-
-	for ( $i = 0; $i < count($friend_ids); $i++ ) {
-		if ( function_exists('bp_user_fullname') )
-			$display_name = bp_core_get_user_displayname( $friend_ids[$i] );
-
-		if ( $display_name != ' ' ) {
-			$friends[] = array(
-				'id' => $friend_ids[$i],
-				'full_name' => $display_name
-			);
-		}
-	}
-
-	if ( $friends && is_array($friends) )
-		usort($friends, 'friends_sort_by_name');
-
-	if ( !$friends )
-		return false;
-
-	return $friends;
-}
-
-	function friends_sort_by_name($a, $b) {
-	    return strcasecmp($a['full_name'], $b['full_name']);
-	}
-
 function friends_get_friends_invite_list( $user_id = false, $group_id ) {
 	global $bp;
 
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
 
-	$friend_ids = friends_get_alphabetically( $user_id );
-
-	if ( (int) $friend_ids['total'] < 1 )
-		return false;
-
-	for ( $i = 0; $i < count($friend_ids['friends']); $i++ ) {
-		if ( groups_check_user_has_invite( $friend_ids['friends'][$i]->user_id, $group_id ) || groups_is_user_member( $friend_ids['friends'][$i]->user_id, $group_id ) )
-			continue;
-
-		$display_name = bp_core_get_user_displayname( $friend_ids['friends'][$i]->user_id );
-
-		if ( $display_name != ' ' ) {
+	if ( bp_has_members( 'user_id=' . $user_id . '&type=alphabetical&per_page=0' ) ) {
+		while ( bp_members() ) : bp_the_member();
 			$friends[] = array(
-				'id' => $friend_ids['friends'][$i]->user_id,
-				'full_name' => $display_name
+				'id' => bp_get_member_user_id(),
+				'full_name' => bp_get_member_name()
 			);
-		}
+		endwhile;
 	}
 
-	if ( !$friends )
+	if ( empty($friends) )
 		return false;
 
 	return $friends;

@@ -157,50 +157,59 @@
 
 					<?php do_action( 'bp_before_group_invites_creation_step' ); ?>
 
-					<div class="left-menu">
+					<?php if ( bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
+						<div class="left-menu">
 
-						<div id="invite-list">
-							<ul>
-								<?php bp_new_group_invite_friend_list() ?>
+							<div id="invite-list">
+								<ul>
+									<?php bp_new_group_invite_friend_list() ?>
+								</ul>
+
+								<?php wp_nonce_field( 'groups_invite_uninvite_user', '_wpnonce_invite_uninvite_user' ) ?>
+							</div>
+
+						</div><!-- .left-menu -->
+
+						<div class="main-column">
+
+							<div id="message" class="info">
+								<p><?php _e('Select people to invite from your friends list.', 'buddypress'); ?></p>
+							</div>
+
+							<?php /* The ID 'friend-list' is important for AJAX support. */ ?>
+							<ul id="friend-list" class="item-list">
+							<?php if ( bp_group_has_invites() ) : ?>
+
+								<?php while ( bp_group_invites() ) : bp_group_the_invite(); ?>
+
+									<li id="<?php bp_group_invite_item_id() ?>">
+										<?php bp_group_invite_user_avatar() ?>
+
+										<h4><?php bp_group_invite_user_link() ?></h4>
+										<span class="activity"><?php bp_group_invite_user_last_active() ?></span>
+
+										<div class="action">
+											<a class="remove" href="<?php bp_group_invite_user_remove_invite_url() ?>" id="<?php bp_group_invite_item_id() ?>"><?php _e( 'Remove Invite', 'buddypress' ) ?></a>
+										</div>
+									</li>
+
+								<?php endwhile; ?>
+
+								<?php wp_nonce_field( 'groups_send_invites', '_wpnonce_send_invites' ) ?>
+							<?php endif; ?>
 							</ul>
 
-							<?php wp_nonce_field( 'groups_invite_uninvite_user', '_wpnonce_invite_uninvite_user' ) ?>
-						</div>
+							<?php wp_nonce_field( 'groups_create_save_group-invites' ) ?>
 
-					</div><!-- .left-menu -->
+						</div><!-- .main-column -->
 
-					<div class="main-column">
+					<?php else : ?>
 
 						<div id="message" class="info">
-							<p><?php _e('Select people to invite from your friends list.', 'buddypress'); ?></p>
+							<p><?php _e( 'Once you have built up friend connections you will be able to invite others to your group. You can send invites any time in the future by selecting the "Send Invites" option when viewing your new group.', 'buddypress' ); ?></p>
 						</div>
 
-						<?php /* The ID 'friend-list' is important for AJAX support. */ ?>
-						<ul id="friend-list" class="item-list">
-						<?php if ( bp_group_has_invites() ) : ?>
-
-							<?php while ( bp_group_invites() ) : bp_group_the_invite(); ?>
-
-								<li id="<?php bp_group_invite_item_id() ?>">
-									<?php bp_group_invite_user_avatar() ?>
-
-									<h4><?php bp_group_invite_user_link() ?></h4>
-									<span class="activity"><?php bp_group_invite_user_last_active() ?></span>
-
-									<div class="action">
-										<a class="remove" href="<?php bp_group_invite_user_remove_invite_url() ?>" id="<?php bp_group_invite_item_id() ?>"><?php _e( 'Remove Invite', 'buddypress' ) ?></a>
-									</div>
-								</li>
-
-							<?php endwhile; ?>
-
-							<?php wp_nonce_field( 'groups_send_invites', '_wpnonce_send_invites' ) ?>
-						<?php endif; ?>
-						</ul>
-
-						<?php wp_nonce_field( 'groups_create_save_group-invites' ) ?>
-
-					</div><!-- .main-column -->
+					<?php endif; ?>
 
 					<?php do_action( 'bp_after_group_invites_creation_step' ); ?>
 
