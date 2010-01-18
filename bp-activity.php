@@ -429,6 +429,8 @@ function bp_activity_add( $args = '' ) {
 	global $bp, $wpdb;
 
 	$defaults = array(
+		'id' => false, // Pass an existing activity ID to update an existing entry.
+
 		'content' => false, // The content of the activity item
 		'primary_link' => false, // The primary URL for this item in RSS feeds
 		'component_name' => false, // The name/ID of the component e.g. groups, profile, mycomponent
@@ -448,8 +450,7 @@ function bp_activity_add( $args = '' ) {
 	if ( $content )
 		$content = bp_activity_add_timesince_placeholder( $content );
 
-	/* Pass certain values so we can update an activity item if it already exists */
-	$activity = new BP_Activity_Activity();
+	$activity = new BP_Activity_Activity( $id );
 
 	$activity->user_id = $user_id;
 	$activity->content = $content;

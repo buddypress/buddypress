@@ -47,20 +47,6 @@ Class BP_Activity_Activity {
 		if ( !$this->component_name || !$this->component_action )
 			return false;
 
-		/***
-		 * Before v1.1 of BuddyPress, activity content was calculated at a later point. This is no longer the
-		 * case, to to be backwards compatible we need to fetch content here to continue.
-		 */
-		if ( empty( $this->content ) || !$this->content ) {
-			if ( function_exists( $bp->{$this->component_name}->format_activity_function ) ) {
-				if ( !$fetched_content = call_user_func( $bp->{$this->component_name}->format_activity_function, $this->item_id, $this->user_id, $this->component_action, $this->secondary_item_id, $this->for_secondary_user ) )
-					return false;
-
-				$this->content = $fetched_content['content'];
-				$this->primary_link = $fetched_content['primary_link'];
-			}
-		}
-
 		if ( !$this->primary_link )
 			$this->primary_link = $bp->loggedin_user->domain;
 
@@ -95,6 +81,8 @@ Class BP_Activity_Activity {
 
 		/* Fetch the activity IDs so we can delete any comments for this activity item */
 		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE item_id = %s {$secondary_sql} AND component_name = %s {$component_action_sql} {$user_sql}", $item_id, $component_name ) );
+
+		error_log( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE item_id = %s {$secondary_sql} AND component_name = %s {$component_action_sql} {$user_sql}", $item_id, $component_name ) );
 
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE item_id = %s {$secondary_sql} AND component_name = %s {$component_action_sql} {$user_sql}", $item_id, $component_name ) ) )
 			return false;
