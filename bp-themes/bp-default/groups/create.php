@@ -199,8 +199,6 @@
 							<?php endif; ?>
 							</ul>
 
-							<?php wp_nonce_field( 'groups_create_save_group-invites' ) ?>
-
 						</div><!-- .main-column -->
 
 					<?php else : ?>
@@ -211,6 +209,7 @@
 
 					<?php endif; ?>
 
+					<?php wp_nonce_field( 'groups_create_save_group-invites' ) ?>
 					<?php do_action( 'bp_after_group_invites_creation_step' ); ?>
 
 				<?php endif; ?>
