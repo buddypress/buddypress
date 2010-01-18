@@ -613,6 +613,9 @@ jQuery(document).ready( function() {
 	j('div#content').click( function(event) {
 		var target = j(event.target);
 
+		if ( target.hasClass('button') )
+			return true;
+
 		if ( target.parent().parent().hasClass('pagination') && !target.parent().parent().hasClass('no-ajax') ) {
 			if ( j('div.item-list-tabs li.selected').length )
 				var el = j('div.item-list-tabs li.selected');
