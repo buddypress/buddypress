@@ -11,20 +11,20 @@ jQuery(document).ready( function() {
 
 	/* Members */
 	if ( j('div.members').length )
-		bp_filter_request( j.cookie('bp-members-type'), j.cookie('bp-members-filter'), 'members', 'div.members', j.cookie('bp-members-page'), j.cookie('bp-members-search-terms') );
+		bp_filter_request( j.cookie('bp-members-type'), j.cookie('bp-members-filter'), 'members', 'div.members', 1, j.cookie('bp-members-search-terms') );
 
 	/* Groups */
 	if ( j('div.groups').length )
-		bp_filter_request( j.cookie('bp-groups-type'), j.cookie('bp-groups-filter'), 'groups', 'div.groups', j.cookie('bp-groups-page'), j.cookie('bp-groups-search-terms') );
+		bp_filter_request( j.cookie('bp-groups-type'), j.cookie('bp-groups-filter'), 'groups', 'div.groups', 1, j.cookie('bp-groups-search-terms') );
 
 	/* Blogs */
 	if ( j('div.blogs').length )
-		bp_filter_request( j.cookie('bp-blogs-type'), j.cookie('bp-blogs-filter'), 'blogs', 'div.blogs', j.cookie('bp-blogs-page'), j.cookie('bp-blogs-search-terms') );
+		bp_filter_request( j.cookie('bp-blogs-type'), j.cookie('bp-blogs-filter'), 'blogs', 'div.blogs', 1, j.cookie('bp-blogs-search-terms') );
 
 	/* Forums */
 	if ( j('div.forums').length ) {
 		j('div#new-topic-post').hide();
-		bp_filter_request( j.cookie('bp-forums-type'), j.cookie('bp-forums-filter'), 'forums', 'div.forums', j.cookie('bp-forums-page'), j.cookie('bp-forums-search-terms') );
+		bp_filter_request( j.cookie('bp-forums-type'), j.cookie('bp-forums-filter'), 'forums', 'div.forums', 1, j.cookie('bp-forums-search-terms') );
 	}
 
 	/* @message Compose Scrolling */
@@ -230,7 +230,7 @@ jQuery(document).ready( function() {
 			j(this).removeClass('selected');
 		});
 		j('li#activity-' + type).addClass('selected');
-		j('div.item-list-tabs li.selected, div.item-list-tabs li.current').addClass('loading');
+		j('div.item-list-tabs li.selected, div.item-list-tabs li.selected').addClass('loading');
 		j('#activity-filter-select select option[value=' + filter + ']').attr( 'selected', 'selected' );
 
 		/* Reload the activity stream based on the selection */
@@ -257,7 +257,7 @@ jQuery(document).ready( function() {
 			if ( null != response.feed_url )
 				j('div#subnav li.feed a').attr('href', response.feed_url);
 
-			j('div.item-list-tabs li.selected, div.item-list-tabs li.current').removeClass('loading');
+			j('div.item-list-tabs li.selected, div.item-list-tabs li.selected').removeClass('loading');
 
 			/* Selectively hide comments */
 			bp_dtheme_hide_comments();
@@ -585,8 +585,8 @@ jQuery(document).ready( function() {
 		j('div.item-list-tabs li').each( function() {
 			j(this).removeClass('selected');
 		});
-		j('div.item-list-tabs li#' + id + '-' + type).addClass('selected');
-		j('div.item-list-tabs li.selected, div.item-list-tabs li.current').addClass('loading');
+		j('div.item-list-tabs li#' + id + '-' + type + ', div.item-list-tabs li.current').addClass('selected');
+		j('div.item-list-tabs li.selected, div.item-list-tabs li.selected').addClass('loading');
 		j('div.item-list-tabs select option[value=' + filter + ']').attr( 'selected', 'selected' );
 
 		j.post( ajaxurl, {
@@ -605,7 +605,7 @@ jQuery(document).ready( function() {
 				j(this).html(response);
 				j(this).fadeIn(100);
 		 	});
-			j('div.item-list-tabs li.selected, div.item-list-tabs li.current').removeClass('loading');
+			j('div.item-list-tabs li.selected, div.item-list-tabs li.selected').removeClass('loading');
 		});
 	}
 
@@ -613,7 +613,7 @@ jQuery(document).ready( function() {
 	j('div#content').click( function(event) {
 		var target = j(event.target);
 
-		if ( target.parent().parent().hasClass('pagination') ) {
+		if ( target.parent().parent().hasClass('pagination') && !target.parent().parent().hasClass('no-ajax') ) {
 			if ( j('div.item-list-tabs li.selected').length )
 				var el = j('div.item-list-tabs li.selected');
 			else
@@ -621,7 +621,12 @@ jQuery(document).ready( function() {
 
 			var page_number = 1;
 			var css_id = el.attr('id').split( '-' );
-			var object = css_id[0];
+
+			/* Sub nav li ID's are slightly different */
+			if ( 'sub-nav' == j('div.item-list-tabs').attr('id') )
+				var object = css_id[2];
+			else
+				var object = css_id[0];
 
 			if ( j(target).hasClass('next') )
 				var page_number = Number( j('div.pagination span.current').html() ) + 1;

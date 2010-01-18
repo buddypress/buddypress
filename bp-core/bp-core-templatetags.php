@@ -425,7 +425,7 @@ function bp_get_loggedin_user_nav() {
 	foreach( (array) $bp->bp_nav as $nav_item ) {
 		/* If the current component matches the nav item id, then add a highlight CSS class. */
 		if ( $bp->active_components[$bp->current_component] == $nav_item['css_id'] ) {
-			$selected = ' class="current"';
+			$selected = ' class="current selected"';
 		} else {
 			$selected = '';
 		}
@@ -439,7 +439,7 @@ function bp_get_loggedin_user_nav() {
 			if ( function_exists('friends_install') ) {
 				if ( $nav_item['css_id'] == $bp->friends->id ) {
 					if ( friends_check_friendship( $bp->loggedin_user->id, $bp->displayed_user->id ) )
-						$selected = ' class="current"';
+						$selected = ' class="current selected"';
 				}
 			}
 		}
@@ -478,7 +478,7 @@ function bp_get_displayed_user_nav() {
 			continue;
 
 		if ( $bp->current_component == $user_nav_item['slug'] )
-			$selected = ' class="current"';
+			$selected = ' class="current selected"';
 		else
 			$selected = '';
 
@@ -528,7 +528,7 @@ function bp_get_options_nav() {
 
 			/* If the current action or an action variable matches the nav item id, then add a highlight CSS class. */
 			if ( $subnav_item['slug'] == $bp->current_action ) {
-				$selected = ' class="current"';
+				$selected = ' class="current selected"';
 			} else {
 				$selected = '';
 			}
