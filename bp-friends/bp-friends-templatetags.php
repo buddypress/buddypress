@@ -43,7 +43,7 @@ function bp_friends_random_friends() {
 			<ul class="horiz-gallery">
 			<?php for ( $i = 0; $i < count( $friend_ids ); $i++ ) { ?>
 				<li>
-					<a href="<?php echo bp_core_get_domain( $friend_ids[$i] ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $friend_ids[$i], 'type' => 'thumb' ) ) ?></a>
+					<a href="<?php echo bp_core_get_user_domain( $friend_ids[$i] ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $friend_ids[$i], 'type' => 'thumb' ) ) ?></a>
 					<h5><?php echo bp_core_get_userlink($friend_ids[$i]) ?></h5>
 				</li>
 			<?php } ?>
