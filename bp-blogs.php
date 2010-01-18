@@ -387,7 +387,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 					'component_action' => 'new_blog_post',
 					'item_id' => $blog_id,
 					'secondary_item_id' => $post_id,
-					'recorded_time' => strtotime( $post->post_date )
+					'recorded_time' => strtotime( $post->post_date_gmt )
 				));
 			}
 		}
@@ -424,7 +424,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 				'primary_link' => apply_filters( 'bp_blogs_activity_new_post_primary_link', $post_permalink, $post_id ),
 				'component_action' => 'new_blog_post',
 				'item_id' => $existing_post->id,
-				'recorded_time' => strtotime( $post->post_date )
+				'recorded_time' => strtotime( $post->post_date_gmt )
 			) );
 		}
 	}
@@ -460,7 +460,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved ) {
 		$recorded_comment->blog_id = $wpdb->blogid;
 		$recorded_comment->comment_id = $comment_id;
 		$recorded_comment->comment_post_id = $comment->comment_post_ID;
-		$recorded_comment->date_created = strtotime( $comment->comment_date );
+		$recorded_comment->date_created = strtotime( $comment->comment_date_gmt );
 
 		$recorded_commment_id = $recorded_comment->save();
 
@@ -481,7 +481,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved ) {
 			'component_action' => 'new_blog_comment',
 			'item_id' => $wpdb->blogid,
 			'secondary_item_id' => $comment_id,
-			'recorded_time' => strtotime( $comment->comment_date )
+			'recorded_time' => strtotime( $comment->comment_date_gmt )
 		) );
 	}
 
