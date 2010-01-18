@@ -157,11 +157,11 @@ class BP_Friends_Friendship {
 
 		// filter the user_ids based on the search criteria.
 		if ( function_exists('xprofile_install') ) {
-			$sql = $wpdb->prepare( "SELECT DISTINCT user_id FROM {$bp->profile->table_name_data} WHERE user_id IN ($fids) AND value LIKE '$filter%%' {$pag_sql}" );
-			$total_sql = $wpdb->prepare( "SELECT COUNT(DISTINCT user_id) FROM {$bp->profile->table_name_data} WHERE user_id IN ($fids) AND value LIKE '$filter%%'" );
+			$sql = "SELECT DISTINCT user_id FROM {$bp->profile->table_name_data} WHERE user_id IN ($fids) AND value LIKE '$filter%%' {$pag_sql}";
+			$total_sql = "SELECT COUNT(DISTINCT user_id) FROM {$bp->profile->table_name_data} WHERE user_id IN ($fids) AND value LIKE '$filter%%'";
 		} else {
-			$sql = $wpdb->prepare( "SELECT DISTINCT user_id FROM " . CUSTOM_USER_META_TABLE . " WHERE user_id IN ($fids) AND meta_key = 'nickname' AND meta_value LIKE '$filter%%' {$pag_sql}" );
-			$total_sql = $wpdb->prepare( "SELECT COUNT(DISTINCT user_id) FROM " . CUSTOM_USER_META_TABLE . " WHERE user_id IN ($fids) AND meta_key = 'nickname' AND meta_value LIKE '$filter%%'" );
+			$sql = "SELECT DISTINCT user_id FROM " . CUSTOM_USER_META_TABLE . " WHERE user_id IN ($fids) AND meta_key = 'nickname' AND meta_value LIKE '$filter%%' {$pag_sql}";
+			$total_sql = "SELECT COUNT(DISTINCT user_id) FROM " . CUSTOM_USER_META_TABLE . " WHERE user_id IN ($fids) AND meta_key = 'nickname' AND meta_value LIKE '$filter%%'";
 		}
 
 		$filtered_friend_ids = $wpdb->get_col($sql);
