@@ -48,7 +48,10 @@ Class BP_XProfile_Group {
 
 		do_action( 'xprofile_group_after_save', $this );
 
-		return true;
+		if ( $this->id )
+			return $this->id;
+		else
+			return $wpdb->insert_id;
 	}
 
 	function delete() {
@@ -304,6 +307,11 @@ Class BP_XProfile_Field {
 		// The described situation will return 0 here.
 		if ( $wpdb->query($sql) !== null ) {
 
+			if ( $this->id )
+				$field_id = $this->id;
+			else
+				$field_id = $wpdb->insert_id;
+
 			// Only do this if we are editing an existing field
 			if ( $this->id != null ) {
 				// Remove any radio or dropdown options for this
@@ -372,7 +380,7 @@ Class BP_XProfile_Field {
 
 		if ( !$error ) {
 			do_action( 'xprofile_field_after_save', $this );
-			return true;
+			return $field_id;
 		} else {
 			return false;
 		}
