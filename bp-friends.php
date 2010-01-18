@@ -683,6 +683,14 @@ function friends_clear_friend_object_cache( $friendship_id ) {
 	wp_cache_delete( 'sitewide_activity', 'bp' );
 }
 
+function friends_clear_friend_notifications() {
+	global $bp;
+
+	if ( isset($_GET['new']) )
+		bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, 'friends', 'friendship_accepted' );
+}
+add_action( 'bp_activity_screen_my_activity', 'friends_clear_friend_notifications' );
+
 // List actions to clear object caches on
 add_action( 'friends_friendship_accepted', 'friends_clear_friend_object_cache' );
 add_action( 'friends_friendship_deleted', 'friends_clear_friend_object_cache' );
