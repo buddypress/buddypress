@@ -1931,12 +1931,15 @@ add_filter( 'allowed_themes', 'bp_core_allow_default_theme' );
  * @package BuddyPress Core
  */
 function bp_core_activation_notice() {
-	global $wp_rewrite;
+	global $wp_rewrite, $current_blog, $bp;
 
 	if ( isset( $_POST['permalink_structure'] ) )
 		return false;
 
 	if ( !is_site_admin() )
+		return false;
+
+	if ( $current_blog->blog_id != BP_ROOT_BLOG )
 		return false;
 
 	if ( empty( $wp_rewrite->permalink_structure ) ) { ?>
