@@ -92,5 +92,6 @@ add_filter( 'groups_activity_new_update_content', 'bp_activity_at_name_filter' )
 add_filter( 'pre_comment_content', 'bp_activity_at_name_filter' );
 add_filter( 'group_forum_topic_text_before_save', 'bp_activity_at_name_filter' );
 add_filter( 'group_forum_post_text_before_save', 'bp_activity_at_name_filter' );
+add_filter( 'bp_activity_comment_content', 'bp_activity_at_name_filter' );
 
 ?>

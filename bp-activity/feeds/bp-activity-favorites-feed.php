@@ -32,7 +32,7 @@ header('Status: 200 OK');
 		$fav_ids = implode( ',', (array)$favs );
 	?>
 
-	<?php if ( bp_has_activities( 'include=' . $fav_ids . '&max=50&display_comments=inline' ) ) : ?>
+	<?php if ( bp_has_activities( 'include=' . $fav_ids . '&max=50&display_comments=stream' ) ) : ?>
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<item>
 				<guid><?php bp_activity_thread_permalink() ?></guid>

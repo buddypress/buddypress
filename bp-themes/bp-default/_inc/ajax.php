@@ -121,23 +121,26 @@ function bp_dtheme_new_activity_comment() {
 		echo '-1<div id="message" class="error"><p>' . __( 'There was an error posting that reply, please try again.', 'buddypress' ) . '</p></div>';
 		return false;
 	}
-?>
-	<li id="acomment-<?php echo $comment_id ?>">
-		<div class="acomment-avatar">
-			<?php echo bp_core_fetch_avatar( array( 'item_id' => $bp->loggedin_user->id, 'width' => 25, 'height' => 25 ) ) ?>
-		</div>
 
-		<div class="acomment-meta">
-			<?php echo bp_core_get_userlink( $bp->loggedin_user->id ) ?> &middot; <?php echo bp_core_time_since( time() ) ?> &middot;
-			<a class="acomment-reply" href="#acomment-<?php echo $comment_id ?>" id="acomment-reply-<?php echo attribute_escape( $_POST['form_id'] ) ?>"><?php _e( 'Reply', 'buddypress' ) ?></a>
-			 &middot; <a href="<?php echo wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/' . $comment_id, 'bp_activity_delete_link' ) ?>" class="item-button delete-activity confirm"><?php _e( 'Delete', 'buddypress' ) ?></a>
-		</div>
+	if ( bp_has_activities ( 'include=' . $comment_id ) ) : ?>
+		<?php while ( bp_activities() ) : bp_the_activity(); ?>
+			<li id="acomment-<?php bp_activity_id() ?>">
+				<div class="acomment-avatar">
+					<?php bp_activity_avatar( array( 'width' => 25, 'height' => 25 ) ) ?>
+				</div>
 
-		<div class="acomment-content">
-			<?php echo apply_filters( 'bp_get_activity_content', $_POST['content'] ) ?>
-		</div>
-	</li>
-<?php
+				<div class="acomment-meta">
+					<?php echo bp_core_get_userlink( bp_get_activity_user_id() ) ?> &middot; <?php printf( __( '%s ago', 'buddypress' ), bp_core_time_since( time() ) ) ?> &middot;
+					<a class="acomment-reply" href="#acomment-<?php bp_activity_id() ?>" id="acomment-reply-<?php echo attribute_escape( $_POST['form_id'] ) ?>"><?php _e( 'Reply', 'buddypress' ) ?></a>
+					 &middot; <a href="<?php echo wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/' . bp_get_activity_id(), 'bp_activity_delete_link' ) ?>" class="item-button delete-activity confirm"><?php _e( 'Delete', 'buddypress' ) ?></a>
+				</div>
+
+				<div class="acomment-content">
+					<?php bp_activity_content() ?>
+				</div>
+			</li>
+		<?php endwhile; ?>
+	 <?php endif;
 }
 add_action( 'wp_ajax_new_activity_comment', 'bp_dtheme_new_activity_comment' );
 
@@ -222,7 +225,7 @@ function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string 
 		$query_string .= '&per_page=' . $per_page;
 
 		/* Add the comments param */
-		if ( $bp->displayed_user->id )
+		if ( $bp->displayed_user->id || 'atme' == $type )
 			$query_string .= '&display_comments=stream';
 		else
 			$query_string .= '&display_comments=threaded';

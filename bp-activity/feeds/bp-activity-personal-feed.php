@@ -27,7 +27,7 @@ header('Status: 200 OK');
 	<language><?php echo get_option('rss_language'); ?></language>
 	<?php do_action('bp_activity_personal_feed_head'); ?>
 
-	<?php if ( bp_has_activities( 'user_id=' . $bp->displayed_user->id . '&max=50&display_comments=inline' ) ) : ?>
+	<?php if ( bp_has_activities( 'user_id=' . $bp->displayed_user->id . '&max=50&display_comments=stream' ) ) : ?>
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<item>
 				<guid><?php bp_activity_thread_permalink() ?></guid>

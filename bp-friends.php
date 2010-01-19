@@ -537,7 +537,7 @@ function friends_get_bulk_last_active( $friend_ids ) {
 	return BP_Friends_Friendship::get_bulk_last_active( $friend_ids );
 }
 
-function friends_get_friends_invite_list( $user_id = false, $group_id ) {
+function friends_get_friends_invite_list( $user_id = false ) {
 	global $bp;
 
 	if ( !$user_id )

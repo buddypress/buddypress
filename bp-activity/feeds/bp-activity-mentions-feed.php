@@ -27,7 +27,7 @@ header('Status: 200 OK');
 	<language><?php echo get_option('rss_language'); ?></language>
 	<?php do_action('bp_activity_mentions_feed_head'); ?>
 
-	<?php if ( bp_has_activities( 'max=50&display_comments=inline&search_terms=@' . bp_core_get_username( $bp->displayed_user->id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) ) ) : ?>
+	<?php if ( bp_has_activities( 'max=50&display_comments=stream&search_terms=@' . bp_core_get_username( $bp->displayed_user->id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) ) ) : ?>
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<item>
 				<guid><?php bp_activity_thread_permalink() ?></guid>

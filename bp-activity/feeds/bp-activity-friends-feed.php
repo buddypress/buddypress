@@ -28,7 +28,7 @@ header('Status: 200 OK');
 	<?php do_action('bp_activity_friends_feed_head'); ?>
 
 	<?php $friend_ids = implode( ',', friends_get_friend_user_ids( $bp->displayed_user->id ) ); ?>
-	<?php if ( bp_has_activities( 'user_id=' . $friend_ids . '&max=50&display_comments=inline' ) ) : ?>
+	<?php if ( bp_has_activities( 'user_id=' . $friend_ids . '&max=50&display_comments=stream' ) ) : ?>
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<item>
 				<guid><?php bp_activity_thread_permalink() ?></guid>

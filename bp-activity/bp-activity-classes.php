@@ -242,7 +242,7 @@ Class BP_Activity_Activity {
 
 		$where_sql = 'WHERE ' . join( ' AND ', $where_conditions );
 
-		if ( $per_page && $page && $max )
+		if ( $per_page && $page )
 			$activities = $wpdb->get_results( $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}" ) );
 		else
 			$activities = $wpdb->get_results( $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}" ) );
