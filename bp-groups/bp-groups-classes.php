@@ -326,6 +326,8 @@ Class BP_Groups_Group {
 		return array( 'requests' => $paged_requests, 'total' => $total_requests );
 	}
 
+	/* TODO: Merge all these get_() functions into one. */
+
 	function get_newest( $limit = null, $page = null, $user_id = false, $search_terms = false ) {
 		global $wpdb, $bp;
 
@@ -333,7 +335,7 @@ Class BP_Groups_Group {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		if ( !is_site_admin() )
-			$hidden_sql = "WHERE status != 'hidden'";
+			$hidden_sql = "AND g.status != 'hidden'";
 
 		if ( $search_terms ) {
 			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
@@ -409,11 +411,11 @@ Class BP_Groups_Group {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		if ( !is_site_admin() )
-			$hidden_sql = " AND status != 'hidden'";
+			$hidden_sql = " AND g.status != 'hidden'";
 
 		if ( $search_terms ) {
 			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
-			$search_sql = " AND ( name LIKE '%%{$search_terms}%%' OR description LIKE '%%{$search_terms}%%' )";
+			$search_sql = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
 		}
 
 		if ( $user_id ) {
