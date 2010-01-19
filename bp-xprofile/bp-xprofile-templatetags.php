@@ -322,7 +322,7 @@ function bp_the_profile_field_edit_value() {
 
 		$field->data->value = bp_unserialize_profile_field( $field->data->value );
 
-		return apply_filters( 'bp_get_the_profile_field_edit_value', $field->data->value );
+		return apply_filters( 'bp_get_the_profile_field_edit_value', esc_html( $field->data->value ) );
 	}
 
 function bp_the_profile_field_type() {
