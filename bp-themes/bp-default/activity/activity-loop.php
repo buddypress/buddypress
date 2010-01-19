@@ -14,9 +14,11 @@
 
 	<?php endwhile; ?>
 
+	<?php if ( bp_get_activity_count() == bp_get_activity_per_page() ) : ?>
 		<li class="load-more">
 			<a href="#more"><?php _e( 'Load More', 'buddypress' ) ?></a> &nbsp; <span class="ajax-loader"></span>
 		</li>
+	<?php endif; ?>
 
 	<?php if ( empty( $_POST['page'] ) ) : ?>
 		</ul>

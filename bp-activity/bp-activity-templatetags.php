@@ -188,6 +188,24 @@ function bp_activity_pagination_links() {
 		return apply_filters( 'bp_get_activity_pagination_links', $activities_template->pag_links );
 	}
 
+function bp_activity_count() {
+	echo bp_get_activity_count();
+}
+	function bp_get_activity_count() {
+		global $activities_template;
+
+		return apply_filters( 'bp_get_activity_count', (int)$activities_template->activity_count );
+	}
+
+function bp_activity_per_page() {
+	echo bp_get_activity_per_page();
+}
+	function bp_get_activity_per_page() {
+		global $activities_template;
+
+		return apply_filters( 'bp_get_activity_per_page', (int)$activities_template->pag_num );
+	}
+
 function bp_activities_title() {
 	global $bp_activity_title;
 
