@@ -679,6 +679,8 @@ jQuery(document).ready( function() {
 		else
 			var friend_action = 'uninvite';
 
+		j('div.item-list-tabs li.selected').addClass('loading');
+
 		j.post( ajaxurl, {
 			action: 'groups_invite_user',
 			'friend_action': friend_action,
@@ -699,6 +701,8 @@ jQuery(document).ready( function() {
 			} else if ( friend_action == 'uninvite' ) {
 				j('#friend-list li#uid-' + friend_id).remove();
 			}
+
+			j('div.item-list-tabs li.selected').removeClass('loading');
 		});
 	});
 
