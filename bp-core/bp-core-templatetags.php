@@ -982,7 +982,7 @@ function bp_activation_page() {
 function bp_search_form_action() {
 	global $bp;
 
-	return apply_filters( 'bp_search_form_action', $bp->root_domain . '/search' );
+	return apply_filters( 'bp_search_form_action', $bp->root_domain . '/' . BP_SEARCH_SLUG );
 }
 
 function bp_search_form_type_select() {
