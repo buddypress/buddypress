@@ -31,7 +31,7 @@
 
 	<?php if ( 'activity_comment' == bp_get_activity_action_name() ) : ?>
 		<div class="activity-inreplyto">
-			<strong><?php _e( 'In reply to', 'buddypress' ) ?></strong> - <?php bp_activity_parent_content() ?>
+			<strong><?php _e( 'In reply to', 'buddypress' ) ?></strong> - <?php bp_activity_parent_content() ?> &middot;
 			<a href="<?php bp_activity_thread_permalink() ?>" class="view" title="<?php _e( 'View Thread / Permalink', 'buddypress' ) ?>">#</a>
 		</div>
 	<?php endif; ?>
