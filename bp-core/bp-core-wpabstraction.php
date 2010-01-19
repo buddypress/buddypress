@@ -31,30 +31,6 @@ function bp_core_get_status_sql( $prefix = false ) {
 		return "{$prefix}spam = 0 AND {$prefix}deleted = 0 AND {$prefix}user_status = 0";
 }
 
-if ( !function_exists( 'get_site_option' ) ) {
-	function get_site_option( $option_value, $default = false ) {
-		return get_option( $option_value, $default );
-	}
-}
-
-if ( !function_exists( 'add_site_option' ) ) {
-	function add_site_option( $option_name, $option_value ) {
-		return add_option( $option_name, $option_value );
-	}
-}
-
-if ( !function_exists( 'update_site_option' ) ) {
-	function update_site_option( $option_name, $option_value ) {
-		return update_option( $option_name, $option_value );
-	}
-}
-
-if ( !function_exists( 'delete_site_option' ) ) {
-	function delete_site_option( $option_name ) {
-		return delete_option( $option_name );
-	}
-}
-
 if ( !function_exists( 'get_blog_option' ) ) {
 	function get_blog_option( $blog_id, $option_name, $default = false ) {
 		return get_option( $option_name, $default );
