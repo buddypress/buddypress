@@ -297,4 +297,15 @@
 
 	<?php do_action( 'bp_after_directory_activity_content' ) ?>
 
+	<script type="text/javascript">
+		jQuery(document).ready( function() {
+			if ( jQuery('div#blog-details').length )
+				jQuery('div#blog-details').toggle();
+
+			jQuery( 'input#signup_with_blog' ).click( function() {
+				jQuery('div#blog-details').fadeOut().toggle();
+			});
+		});
+	</script>
+
 <?php get_footer() ?>
