@@ -52,12 +52,6 @@ img.avatar {
 	border: 2px solid #eee;
 }
 
-.ajax-loader {
-	background: url( ../images/ajax-loader.gif ) center left no-repeat !important;
-	padding: 8px;
-	display: none;
-}
-
 /* > Admin Bar
 -------------------------------------------------------------- */
 
@@ -607,6 +601,22 @@ form.standard-form#signup_form div div.error {
 	padding: 6px;
 	width: 90%;
 	margin: 0 0 10px 0;
+}
+
+/* > AJAX Loaders
+-------------------------------------------------------------- */
+
+.ajax-loader {
+	background: url( ../images/ajax-loader.gif ) center left no-repeat !important;
+	padding: 8px;
+	display: none;
+}
+
+a.loading {
+	background-image: url( ../images/ajax-loader.gif );
+	background-position: 95% 50%;
+	padding-right: 25px;
+	background-repeat: no-repeat;
 }
 
 /* > Buttons
@@ -1171,13 +1181,6 @@ div.activity-meta {
 	border-radius: 4px;
 	margin-right: 3px;
 }
-	.activity-list div.activity-meta a.loading {
-		background-image: url( ../images/ajax-loader.gif );
-		background-position: 95% 50%;
-		padding-right: 25px;
-		background-repeat: no-repeat;
-	}
-
 	.activity-list div.activity-meta a.acomment-reply {
 		background: #FFF9DB;
 		border-bottom: 1px solid #FFE8C4;

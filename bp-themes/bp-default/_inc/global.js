@@ -389,6 +389,8 @@ jQuery(document).ready( function() {
 				comment_id = comment_id[1].split('&');
 				comment_id = comment_id[0];
 
+			target.addClass('loading');
+
 			/* Remove any error messages */
 			j('div.activity-comments ul div.error').remove();
 

@@ -130,9 +130,7 @@ function bp_dtheme_new_activity_comment() {
 		<div class="acomment-meta">
 			<?php echo bp_core_get_userlink( $bp->loggedin_user->id ) ?> &middot; <?php echo bp_core_time_since( time() ) ?> &middot;
 			<a class="acomment-reply" href="#acomment-<?php echo $comment_id ?>" id="acomment-reply-<?php echo attribute_escape( $_POST['form_id'] ) ?>"><?php _e( 'Reply', 'buddypress' ) ?></a>
-			<?php if ( is_site_admin() || $bp->loggedin_user->id == $comment->user_id ) : ?>
-				 &middot; <a href="<?php echo wp_nonce_url( $bp->activity->id . '/delete/?cid=' . $comment_id, 'delete_activity_comment' ) ?>" class="delete acomment-delete"><?php _e( 'Delete', 'buddypress' ) ?></a>
-			<?php endif; ?>
+			 &middot; <a href="<?php echo wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/' . $comment_id, 'bp_activity_delete_link' ) ?>" class="item-button delete-activity confirm"><?php _e( 'Delete', 'buddypress' ) ?></a>
 		</div>
 
 		<div class="acomment-content">
