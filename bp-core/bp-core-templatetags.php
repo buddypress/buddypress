@@ -887,6 +887,7 @@ function bp_get_page_title() {
 
 	if ( is_home() && bp_is_page( 'home' ) ) {
 		$title = __( 'Home', 'buddypress' );
+
 	} else if ( bp_is_blog_page() ) {
 		if ( is_single() ) {
 			$title = __( 'Blog &#124; ' . $post->post_title, 'buddypress' );
@@ -898,17 +899,22 @@ function bp_get_page_title() {
 			$title = __( 'Blog', 'buddypress' );
 
 	} else if ( !empty( $bp->displayed_user->fullname ) ) {
-	 	$title = strip_tags( $bp->displayed_user->fullname . ' &#124; ' . ucwords( $bp->current_component ) . ' &#124; ' . $bp->bp_options_nav[$bp->current_component][$bp->current_action]['name'] );
+ 		$title = strip_tags( $bp->displayed_user->fullname . ' &#124; ' . ucwords( $bp->current_component ) );
+
 	} else if ( $bp->is_single_item ) {
-		$title = ucwords( $bp->current_component ) . ' &#124; ' . $bp->bp_options_title;
+		$title = ucwords( $bp->current_component ) . ' &#124; ' . $bp->bp_options_title . ' &#124; ' . $bp->bp_options_nav[$bp->current_component][$bp->current_action]['name'];
+
 	} else if ( $bp->is_directory ) {
 		if ( !$bp->current_component )
 			$title = sprintf( __( '%s Directory', 'buddypress' ), ucwords( BP_MEMBERS_SLUG ) );
 		else
 			$title = sprintf( __( '%s Directory', 'buddypress' ), ucwords( $bp->current_component ) );
-	} else {
-		global $post;
-		$title = get_the_title($post->ID);
+
+	} else if ( bp_is_register_page() ) {
+		$title = __( 'Create an Account', 'buddypress' );
+
+	} else if ( bp_is_activation_page() ) {
+		$title = __( 'Activate your Account', 'buddypress' );
 	}
 
 	if ( defined( 'BP_ENABLE_MULTIBLOG' ) ) {
@@ -917,7 +923,7 @@ function bp_get_page_title() {
 		$blog_title = get_blog_option( BP_ROOT_BLOG, 'blogname' );
 	}
 
-	return apply_filters( 'bp_page_title', $blog_title . ' &#124; ' . attribute_escape( $title ), attribute_escape( $title ) );
+	return apply_filters( 'bp_page_title', $blog_title . ' &#124; ' . esc_attr( $title ), esc_attr( $title ) );
 }
 
 function bp_styles() {
