@@ -705,9 +705,9 @@ function bp_group_member_count() {
 		global $groups_template;
 
 		if ( 1 == (int) $groups_template->group->total_member_count )
-			return apply_filters( 'bp_get_group_member_count', sprintf( __( '%d member', 'buddypress' ), number_format( (int) $groups_template->group->total_member_count ) ) );
+			return apply_filters( 'bp_get_group_member_count', sprintf( __( '%s member', 'buddypress' ), number_format( $groups_template->group->total_member_count ) ) );
 		else
-			return apply_filters( 'bp_get_group_member_count', sprintf( __( '%d members', 'buddypress' ), number_format( (int) $groups_template->group->total_member_count ) ) );
+			return apply_filters( 'bp_get_group_member_count', sprintf( __( '%s members', 'buddypress' ), number_format( $groups_template->group->total_member_count ) ) );
 	}
 
 function bp_group_forum_permalink( $deprecated = false ) {
