@@ -587,9 +587,12 @@ jQuery(document).ready( function() {
 		j('div.item-list-tabs li').each( function() {
 			j(this).removeClass('selected');
 		});
-		j('div.item-list-tabs li#' + id + '-' + type + ', div.item-list-tabs li.current').addClass('selected');
-		j('div.item-list-tabs li.selected, div.item-list-tabs li.selected').addClass('loading');
+		j('div.item-list-tabs li#' + id + '-' + type + ', div.item-list-tabs#object-nav li.current').addClass('selected');
+		j('div.item-list-tabs li.selected').addClass('loading');
 		j('div.item-list-tabs select option[value=' + filter + ']').attr( 'selected', 'selected' );
+
+		if ( 'friends' == id )
+			id = 'members';
 
 		j.post( ajaxurl, {
 			action: id + '_filter',
@@ -607,7 +610,7 @@ jQuery(document).ready( function() {
 				j(this).html(response);
 				j(this).fadeIn(100);
 		 	});
-			j('div.item-list-tabs li.selected, div.item-list-tabs li.selected').removeClass('loading');
+			j('div.item-list-tabs li.selected').removeClass('loading');
 		});
 	}
 
@@ -628,7 +631,7 @@ jQuery(document).ready( function() {
 			var css_id = el.attr('id').split( '-' );
 
 			/* Sub nav li ID's are slightly different */
-			if ( 'sub-nav' == j('div.item-list-tabs').attr('id') )
+			if ( 'object-nav' == j('div.item-list-tabs').attr('id') )
 				var object = css_id[2];
 			else
 				var object = css_id[0];
