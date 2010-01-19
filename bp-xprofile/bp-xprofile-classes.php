@@ -11,22 +11,22 @@ Class BP_XProfile_Group {
 		global $bp, $wpdb;
 
 		if ( $id ) {
-			$this->populate($id);
+			$this->populate( $id );
 		}
 	}
 
 	function populate( $id ) {
 		global $wpdb, $bp;
 
-		$sql = $wpdb->prepare("SELECT * FROM {$bp->profile->table_name_groups} WHERE id = %d", $id);
+		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_groups} WHERE id = %d", $id );
 
-		if ( $group = $wpdb->get_row($sql) ) {
-			$this->id = $group->id;
-			$this->name = $group->name;
-			$this->description = $group->description;
-			$this->can_delete = $group->can_delete;
-		}
+		if ( !$group = $wpdb->get_row($sql) )
+			return false;
 
+		$this->id = $group->id;
+		$this->name = $group->name;
+		$this->description = $group->description;
+		$this->can_delete = $group->can_delete;
 	}
 
 	function save() {

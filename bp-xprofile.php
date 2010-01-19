@@ -275,11 +275,19 @@ function xprofile_screen_display_profile() {
 function xprofile_screen_edit_profile() {
 	global $bp;
 
-	if ( !bp_is_home() && !is_site_admin() )
+	if ( !bp_is_my_profile() && !is_site_admin() )
 		return false;
 
+	/* Make sure a group is set. */
+	if ( empty( $bp->action_variables[1] ) )
+		bp_core_redirect( $bp->displayed_user->domain . BP_XPROFILE_SLUG . '/edit/group/1' );
+
+	/* Check the field group exists */
+	if ( !xprofile_get_field_group( $bp->action_variables[1] ) )
+		bp_core_redirect( $bp->root_domain );
+
 	/* Check to see if any new information has been submitted */
-	if ( isset($_POST['field_ids']) ) {
+	if ( isset( $_POST['field_ids'] ) ) {
 
 		/* Check the nonce */
 		check_admin_referer( 'bp_xprofile_edit' );
@@ -555,7 +563,12 @@ function xprofile_insert_field_group( $args = '' ) {
 }
 
 function xprofile_get_field_group( $field_group_id ) {
-	return new BP_XProfile_Group( $field_group_id );
+	$field_group = new BP_XProfile_Group( $field_group_id );
+
+	if ( empty( $field_group->id ) )
+		return false;
+
+	return $field_group;
 }
 
 function xprofile_delete_field_group( $field_group_id ) {
