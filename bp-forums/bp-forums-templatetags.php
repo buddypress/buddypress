@@ -274,7 +274,10 @@ function bp_the_topic_poster_name() {
 	function bp_get_the_topic_poster_name() {
 		global $forum_template;
 
-		return apply_filters( 'bp_get_the_topic_poster_name', bp_core_get_userlink( $forum_template->topic->topic_poster ) );
+		if ( !$name = bp_core_get_userlink( $forum_template->topic->poster_id ) )
+			return __( 'Deleted User', 'buddypress' );
+
+		return apply_filters( 'bp_get_the_topic_poster_name', $name );
 	}
 
 function bp_the_topic_object_id() {
@@ -320,7 +323,10 @@ function bp_the_topic_last_poster_name() {
 	function bp_get_the_topic_last_poster_name() {
 		global $forum_template;
 
-		return apply_filters( 'bp_get_the_topic_last_poster_name', bp_core_get_userlink( $forum_template->topic->topic_last_poster ) );
+		if ( !$name = bp_core_get_userlink( $forum_template->topic->topic_last_poster ) )
+			return __( 'Deleted User', 'buddypress' );
+
+		return apply_filters( 'bp_get_the_topic_last_poster_name', $name );
 	}
 
 function bp_the_topic_object_avatar( $args = '' ) {
@@ -854,6 +860,9 @@ function bp_the_topic_post_poster_name( $deprecated = true ) {
 }
 	function bp_get_the_topic_post_poster_name() {
 		global $topic_template;
+
+		if ( !$name = bp_core_get_userlink( $topic_template->post->poster_id ) )
+			return __( 'Deleted User', 'buddypress' );
 
 		return apply_filters( 'bp_get_the_topic_post_poster_name', bp_core_get_userlink( $topic_template->post->poster_id ) );
 	}

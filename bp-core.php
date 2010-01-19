@@ -1069,6 +1069,9 @@ function bp_core_get_user_email( $uid ) {
 function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false, $deprecated = false, $with_s = false ) {
 	$display_name = bp_core_get_user_displayname( $user_id );
 
+	if ( empty( $display_name ) )
+		return false;
+
 	if ( $with_s )
 		$display_name = sprintf( __( "%s's", 'buddypress' ), $display_name );
 
