@@ -217,9 +217,6 @@ Class BP_Activity_Activity {
 		if ( $per_page && $page )
 			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
 
-		if ( $max )
-			$max_sql = $wpdb->prepare( "LIMIT %d", $max );
-
 		/* Searching */
 		if ( $search_terms ) {
 			$search_terms = $wpdb->escape( $search_terms );
@@ -248,12 +245,16 @@ Class BP_Activity_Activity {
 		if ( $per_page && $page && $max )
 			$activities = $wpdb->get_results( $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}" ) );
 		else
-			$activities = $wpdb->get_results( $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql} {$max_sql}" ) );
+			$activities = $wpdb->get_results( $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}" ) );
 
-		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(a.id) {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$max_sql}" ) );
+		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(a.id) {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort}" ) );
 
 		if ( $activities && $display_comments )
 			$activities = BP_Activity_Activity::append_comments( &$activities );
+
+		/* If $max is set, only return up to the max results */
+		if ( (int)$total_activities > (int)$max )
+			$total_activities = $max;
 
 		return array( 'activities' => $activities, 'total' => (int)$total_activities );
 	}
@@ -269,17 +270,20 @@ Class BP_Activity_Activity {
 		if ( $per_page && $page )
 			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
 
-		if ( $max )
-			$max_sql = $wpdb->prepare( "LIMIT %d", $max );
-
 		if ( $sort != 'ASC' && $sort != 'DESC' )
 			$sort = 'DESC';
 
-		$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE id IN ({$activity_ids}) ORDER BY date_recorded {$sort} $pag_sql $max_sql" ) );
+		$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE id IN ({$activity_ids}) ORDER BY date_recorded {$sort} $pag_sql" ) );
 		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE id IN ({$activity_ids})" ) );
 
 		if ( $display_comments )
 			$activities = BP_Activity_Activity::append_comments( $activities );
+
+		/* If $max is set, only return up to the max results */
+		if ( !empty( $max ) ) {
+			if ( (int)$total_activities > (int)$max )
+				$total_activities = $max;
+		}
 
 		return array( 'activities' => $activities, 'total' => (int)$total_activities );
 	}

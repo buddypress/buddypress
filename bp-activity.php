@@ -369,6 +369,19 @@ function bp_activity_action_mentions_feed() {
 }
 add_action( 'wp', 'bp_activity_action_mentions_feed', 3 );
 
+function bp_activity_action_favorites_feed() {
+	global $bp, $wp_query;
+
+	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != 'favorites' || $bp->action_variables[0] != 'feed' )
+		return false;
+
+	$wp_query->is_404 = false;
+	status_header( 200 );
+
+	include_once( 'bp-activity/feeds/bp-activity-favorites-feed.php' );
+	die;
+}
+add_action( 'wp', 'bp_activity_action_favorites_feed', 3 );
 
 /********************************************************************************
  * Business Functions
@@ -690,8 +703,6 @@ function bp_activity_get_action( $component_id, $key ) {
 }
 
 function bp_activity_get_user_favorites( $user_id ) {
-	global $bp;
-
 	$my_favs = maybe_unserialize( get_usermeta( $user_id, 'bp_favorite_activities' ) );
 	$existing_favs = bp_activity_get_specific( array( 'activity_ids' => $my_favs ) );
 

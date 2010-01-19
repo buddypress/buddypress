@@ -193,7 +193,7 @@ function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string 
 
 					$favorite_ids = implode( ',', (array)$favs );
 					$query_string = 'include=' . $favorite_ids;
-					$feed_url = $bp->loggedin_user->domain  . BP_ACTIVITY_SLUG . '/my-favorites/feed/';
+					$feed_url = $bp->loggedin_user->domain  . BP_ACTIVITY_SLUG . '/favorites/feed/';
 					break;
 				case 'atme':
 					$query_string = 'search_terms=@' . bp_core_get_username( $bp->loggedin_user->id, $bp->loggedin_user->userdata->user_nicename, $bp->loggedin_user->userdata->user_login );
