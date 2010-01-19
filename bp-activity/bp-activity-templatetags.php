@@ -571,7 +571,7 @@ function bp_activity_latest_update( $user_id = false ) {
 			return false;
 
 		$latest_update = '&quot;' . strip_tags( bp_create_excerpt( $update['content'], 40 ) ) . '&quot;';
-		$latest_update .= ' &middot; <a href="' . $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $update['id'] . '/"> ' . __( 'View Thread', 'buddypress' ) . '</a>';
+		$latest_update .= ' &middot; <a href="' . $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $update['id'] . '/"> ' . __( 'View', 'buddypress' ) . '</a>';
 
 		return apply_filters( 'bp_get_activity_latest_update', $latest_update  );
 	}
