@@ -243,17 +243,6 @@ function bp_group_is_visible( $group = false ) {
 	return false;
 }
 
-function bp_group_has_news( $group = false ) {
-	global $groups_template;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-
-	if ( empty( $group->news ) )
-		return false;
-
-	return true;
-}
 
 function bp_group_id( $deprecated = true, $deprecated2 = false ) {
 	global $groups_template;
@@ -467,29 +456,6 @@ function bp_group_description_excerpt( $deprecated = false ) {
 		return apply_filters( 'bp_get_group_description_excerpt', bp_create_excerpt( $group->description, 20 ) );
 	}
 
-function bp_group_news( $deprecated = false ) {
-	echo bp_get_group_news();
-}
-	function bp_get_group_news( $group = false ) {
-		global $groups_template;
-
-		if ( !$group )
-			$group =& $groups_template->group;
-
-		return apply_filters( 'bp_get_group_news', stripslashes($groups_template->group->news) );
-	}
-
-function bp_group_news_editable( $deprecated = false ) {
-	echo bp_get_group_news_editable();
-}
-	function bp_get_group_news_editable( $group = false ) {
-		global $groups_template;
-
-		if ( !$group )
-			$group =& $groups_template->group;
-
-		return apply_filters( 'bp_get_group_news_editable', $group->news );
-	}
 
 function bp_group_public_status( $deprecated = false ) {
 	echo bp_get_group_public_status();
@@ -1582,14 +1548,6 @@ function bp_new_group_description() {
 	function bp_get_new_group_description() {
 		global $bp;
 		return apply_filters( 'bp_get_new_group_description', $bp->groups->current_group->description );
-	}
-
-function bp_new_group_news() {
-	echo bp_get_new_group_news();
-}
-	function bp_get_new_group_news() {
-		global $bp;
-		return apply_filters( 'bp_get_new_group_news', $bp->groups->current_group->news );
 	}
 
 function bp_new_group_enable_forum() {

@@ -6,9 +6,7 @@ Class BP_Groups_Group {
 	var $name;
 	var $slug;
 	var $description;
-	var $news;
 	var $status;
-	var $enable_wire;
 	var $enable_forum;
 	var $date_created;
 
@@ -17,7 +15,6 @@ Class BP_Groups_Group {
 	var $admins;
 	var $total_member_count;
 	var $random_members;
-	var $latest_wire_posts;
 
 	function bp_groups_group( $id = null, $single = false, $get_user_dataset = true ) {
 		if ( $id ) {
@@ -42,9 +39,7 @@ Class BP_Groups_Group {
 			$this->name = stripslashes($group->name);
 			$this->slug = $group->slug;
 			$this->description = stripslashes($group->description);
-			$this->news = stripslashes($group->news);
 			$this->status = $group->status;
-			$this->enable_wire = $group->enable_wire;
 			$this->enable_forum = $group->enable_forum;
 			$this->date_created = strtotime($group->date_created);
 			$this->total_member_count = groups_get_groupmeta( $this->id, 'total_member_count' );
@@ -74,9 +69,7 @@ Class BP_Groups_Group {
 		$this->name = apply_filters( 'groups_group_name_before_save', $this->name, $this->id );
  		$this->slug = apply_filters( 'groups_group_slug_before_save', $this->slug, $this->id );
 		$this->description = apply_filters( 'groups_group_description_before_save', $this->description, $this->id );
- 		$this->news = apply_filters( 'groups_group_news_before_save', $this->news, $this->id );
-		$this->status = apply_filters( 'groups_group_status_before_save', $this->status, $this->id );
-		$this->enable_wire = apply_filters( 'groups_group_enable_wire_before_save', $this->enable_wire, $this->id );
+ 		$this->status = apply_filters( 'groups_group_status_before_save', $this->status, $this->id );
 		$this->enable_forum = apply_filters( 'groups_group_enable_forum_before_save', $this->enable_forum, $this->id );
 		$this->date_created = apply_filters( 'groups_group_date_created_before_save', $this->date_created, $this->id );
 
@@ -89,9 +82,7 @@ Class BP_Groups_Group {
 					name = %s,
 					slug = %s,
 					description = %s,
-					news = %s,
 					status = %s,
-					enable_wire = %d,
 					enable_forum = %d,
 					date_created = FROM_UNIXTIME(%d)
 				WHERE
@@ -101,9 +92,7 @@ Class BP_Groups_Group {
 					$this->name,
 					$this->slug,
 					$this->description,
-					$this->news,
 					$this->status,
-					$this->enable_wire,
 					$this->enable_forum,
 					$this->date_created,
 					$this->id
@@ -115,21 +104,17 @@ Class BP_Groups_Group {
 					name,
 					slug,
 					description,
-					news,
 					status,
-					enable_wire,
 					enable_forum,
 					date_created
 				) VALUES (
-					%d, %s, %s, %s, %s, %s, %d, %d, FROM_UNIXTIME(%d)
+					%d, %s, %s, %s, %s, %d, FROM_UNIXTIME(%d)
 				)",
 					$this->creator_id,
 					$this->name,
 					$this->slug,
 					$this->description,
-					$this->news,
 					$this->status,
-					$this->enable_wire,
 					$this->enable_forum,
 					$this->date_created
 			);

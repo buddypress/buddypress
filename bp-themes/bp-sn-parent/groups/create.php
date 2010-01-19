@@ -25,9 +25,6 @@
 				<label for="group-desc"><?php _e('* Group Description', 'buddypress') ?> <? _e( '(required)', 'buddypress' )?></label>
 				<textarea name="group-desc" id="group-desc"><?php bp_new_group_description() ?></textarea>
 
-				<label for="group-news"><?php _e('Recent News', 'buddypress') ?></label>
-				<textarea name="group-news" id="group-news"><?php bp_new_group_news() ?></textarea>
-
 				<?php do_action( 'bp_after_group_details_creation_step' ); /* Deprecated -> */ do_action( 'groups_custom_group_fields_editable' ); ?>
 
 				<?php wp_nonce_field( 'groups_create_save_group-details' ) ?>

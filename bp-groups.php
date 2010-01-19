@@ -696,7 +696,7 @@ function groups_screen_group_admin_edit_details() {
 				if ( !check_admin_referer( 'groups_edit_group_details' ) )
 					return false;
 
-				if ( !groups_edit_base_group_details( $_POST['group-id'], $_POST['group-name'], $_POST['group-desc'], $_POST['group-news'], (int)$_POST['group-notify-members'] ) ) {
+				if ( !groups_edit_base_group_details( $_POST['group-id'], $_POST['group-name'], $_POST['group-desc'], (int)$_POST['group-notify-members'] ) ) {
 					bp_core_add_message( __( 'There was an error updating group details, please try again.', 'buddypress' ), 'error' );
 				} else {
 					bp_core_add_message( __( 'Group details were successfully updated.', 'buddypress' ) );
@@ -725,7 +725,6 @@ function groups_screen_group_admin_settings() {
 
 		// If the edit form has been submitted, save the edited details
 		if ( isset( $_POST['save'] ) ) {
-			$enable_wire = ( isset($_POST['group-show-wire'] ) ) ? 1 : 0;
 			$enable_forum = ( isset($_POST['group-show-forum'] ) ) ? 1 : 0;
 			$enable_photos = ( isset($_POST['group-show-photos'] ) ) ? 1 : 0;
 			$photos_admin_only = ( $_POST['group-photos-status'] != 'all' ) ? 1 : 0;
@@ -737,7 +736,7 @@ function groups_screen_group_admin_settings() {
 			if ( !check_admin_referer( 'groups_edit_group_settings' ) )
 				return false;
 
-			if ( !groups_edit_group_settings( $_POST['group-id'], $enable_wire, $enable_forum, $enable_photos, $photos_admin_only, $status ) ) {
+			if ( !groups_edit_group_settings( $_POST['group-id'], $enable_forum, $enable_photos, $photos_admin_only, $status ) ) {
 				bp_core_add_message( __( 'There was an error updating group settings, please try again.', 'buddypress' ), 'error' );
 			} else {
 				bp_core_add_message( __( 'Group settings were successfully updated.', 'buddypress' ) );
@@ -1096,7 +1095,7 @@ function groups_action_create_group() {
 				bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step . '/' );
 			}
 
-			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'name' => $_POST['group-name'], 'description' => $_POST['group-desc'], 'news' => $_POST['group-news'], 'slug' => groups_check_slug( sanitize_title($_POST['group-name']) ), 'date_created' => time() ) ) ) {
+			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'name' => $_POST['group-name'], 'description' => $_POST['group-desc'], 'slug' => groups_check_slug( sanitize_title($_POST['group-name']) ), 'date_created' => time() ) ) ) {
 				bp_core_add_message( __( 'There was an error saving group details, please try again.', 'buddypress' ), 'error' );
 				bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step . '/' );
 			}
@@ -1107,11 +1106,7 @@ function groups_action_create_group() {
 
 		if ( 'group-settings' == $bp->groups->current_create_step ) {
 			$group_status = 'public';
-			$group_enable_wire = 1;
 			$group_enable_forum = 1;
-
-			if ( !isset($_POST['group-show-wire']) )
-				$group_enable_wire = 0;
 
 			if ( !isset($_POST['group-show-forum']) ) {
 				$group_enable_forum = 0;
@@ -1127,7 +1122,7 @@ function groups_action_create_group() {
 			else if ( 'hidden' == $_POST['group-status'] )
 				$group_status = 'hidden';
 
-			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'status' => $group_status, 'enable_wire' => $group_enable_wire, 'enable_forum' => $group_enable_forum ) ) ) {
+			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'status' => $group_status, 'enable_forum' => $group_enable_forum ) ) ) {
 				bp_core_add_message( __( 'There was an error saving group details, please try again.', 'buddypress' ), 'error' );
 				bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step . '/' );
 			}
@@ -1477,10 +1472,8 @@ function groups_create_group( $args = '' ) {
 	 *	'creator_id'
 	 *	'name'
 	 *	'description'
-	 *	'news'
 	 *	'slug'
 	 *	'status'
-	 *	'enable_wire'
 	 *	'enable_forum'
 	 *	'date_created'
 	 */
@@ -1501,9 +1494,6 @@ function groups_create_group( $args = '' ) {
 	if ( isset( $description ) )
 		$group->description = $description;
 
-	if ( isset( $news ) )
-		$group->news = $news;
-
 	if ( isset( $slug ) && groups_check_slug( $slug ) )
 		$group->slug = $slug;
 
@@ -1511,11 +1501,6 @@ function groups_create_group( $args = '' ) {
 		if ( groups_is_valid_status( $status ) )
 			$group->status = $status;
 	}
-
-	if ( isset( $enable_wire ) )
-		$group->enable_wire = $enable_wire;
-	else if ( !$group_id && !isset( $enable_wire ) )
-		$group->enable_wire = 1;
 
 	if ( isset( $enable_forum ) )
 		$group->enable_forum = $enable_forum;
@@ -1545,7 +1530,7 @@ function groups_create_group( $args = '' ) {
 	return $group->id;
 }
 
-function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $group_news, $notify_members ) {
+function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $notify_members ) {
 	global $bp;
 
 	if ( empty( $group_name ) || empty( $group_desc ) )
@@ -1554,7 +1539,6 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $g
 	$group = new BP_Groups_Group( $group_id, false, false );
 	$group->name = $group_name;
 	$group->description = $group_desc;
-	$group->news = $group_news;
 
 	if ( !$group->save() )
 		return false;
@@ -1569,11 +1553,10 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $g
 	return true;
 }
 
-function groups_edit_group_settings( $group_id, $enable_wire, $enable_forum, $enable_photos, $photos_admin_only, $status ) {
+function groups_edit_group_settings( $group_id, $enable_forum, $enable_photos, $photos_admin_only, $status ) {
 	global $bp;
 
 	$group = new BP_Groups_Group( $group_id, false, false );
-	$group->enable_wire = $enable_wire;
 	$group->enable_forum = $enable_forum;
 	$group->enable_photos = $enable_photos;
 	$group->photos_admin_only = $photos_admin_only;
