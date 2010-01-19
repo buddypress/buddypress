@@ -5,7 +5,7 @@
 	<ul id="friend-list" class="item-list">
 		<?php while ( bp_members() ) : bp_the_member(); ?>
 
-			<li>
+			<li id="friendship-<?php bp_friend_friendship_id() ?>">
 				<div class="item-avatar">
 					<a href="<?php bp_member_link() ?>"><?php bp_member_avatar() ?></a>
 				</div>
@@ -19,7 +19,7 @@
 
 				<div class="action">
 					<a class="button accept" href="<?php bp_friend_accept_request_link() ?>"><?php _e( 'Accept', 'buddypress' ); ?></a> &nbsp;
-					<a class="button reject confirm" href="<?php bp_friend_reject_request_link() ?>"><?php _e( 'Reject', 'buddypress' ); ?></a>
+					<a class="button reject" href="<?php bp_friend_reject_request_link() ?>"><?php _e( 'Reject', 'buddypress' ); ?></a>
 
 					<?php do_action( 'bp_friend_requests_item_action' ) ?>
 				</div>

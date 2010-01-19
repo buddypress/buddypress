@@ -767,7 +767,53 @@ jQuery(document).ready( function() {
 		return false;
 	});
 
-	/** Friendship Request Buttons **************************************/
+	/** Friendship Requests **************************************/
+
+	j("ul#friend-list a.accept, ul#friend-list a.reject").click( function() {
+		var button = j(this);
+		var li = j(this).parents('ul#friend-list li');
+		var action_div = j(this).parents('li div.action');
+
+		var id = li.attr('id').substr( 11, li.attr('id').length );
+		var link_href = button.attr('href');
+
+		var nonce = link_href.split('_wpnonce=');
+			nonce = nonce[1];
+
+		if ( j(this).hasClass('accept') ) {
+			var action = 'accept_friendship';
+			action_div.children('a.reject').css( 'visibility', 'hidden' );
+		} else {
+			var action = 'reject_friendship';
+			action_div.children('a.accept').css( 'visibility', 'hidden' );
+		}
+
+		button.addClass('loading');
+
+		j.post( ajaxurl, {
+			action: action,
+			'cookie': encodeURIComponent(document.cookie),
+			'id': id,
+			'_wpnonce': nonce
+		},
+		function(response) {
+			button.removeClass('loading');
+
+			if ( response[0] + response[1] == '-1' ) {
+				li.prepend( response.substr( 2, response.length ) );
+				li.children('div#message').hide().fadeIn(200);
+			} else {
+				button.fadeOut( 100, function() {
+					if ( j(this).hasClass('accept') )
+						j(this).html( 'Accepted' ).fadeIn(50);
+					else
+						j(this).html( 'Rejected' ).fadeIn(50);
+				});
+			}
+		});
+
+		return false;
+	});
 
 	j("div.friendship-button a").live('click', function() {
 		j(this).parent().addClass('loading');

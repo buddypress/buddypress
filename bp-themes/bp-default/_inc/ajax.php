@@ -352,6 +352,26 @@ function bp_dtheme_ajax_addremove_friend() {
 }
 add_action( 'wp_ajax_addremove_friend', 'bp_dtheme_ajax_addremove_friend' );
 
+function bp_dtheme_ajax_accept_friendship() {
+	check_admin_referer( 'friends_accept_friendship' );
+
+	if ( !friends_accept_friendship( $_POST['id'] ) )
+		echo "-1<div id='message' class='error'><p>" . __( 'There was a problem accepting that request. Please try again.', 'buddypress' ) . '</p></div>';
+
+	return true;
+}
+add_action( 'wp_ajax_accept_friendship', 'bp_dtheme_ajax_accept_friendship' );
+
+function bp_dtheme_ajax_reject_friendship() {
+	check_admin_referer( 'friends_reject_friendship' );
+
+	if ( !friends_reject_friendship( $_POST['id'] ) )
+		echo "-1<div id='message' class='error'><p>" . __( 'There was a problem rejecting that request. Please try again.', 'buddypress' ) . '</p></div>';
+
+	return true;
+}
+add_action( 'wp_ajax_reject_friendship', 'bp_dtheme_ajax_reject_friendship' );
+
 function bp_dtheme_ajax_joinleave_group() {
 	global $bp;
 

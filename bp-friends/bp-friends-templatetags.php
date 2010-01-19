@@ -160,11 +160,23 @@ function bp_get_friendship_requests() {
 	return apply_filters( 'bp_get_friendship_requests', implode( ',', (array) friends_get_friendship_request_user_ids( $bp->loggedin_user->id ) ) );
 }
 
+function bp_friend_friendship_id() {
+	echo bp_get_friend_friendship_id();
+}
+	function bp_get_friend_friendship_id() {
+		global $members_template, $bp;
+
+		if ( !$friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . $bp->loggedin_user->id ) ) {
+			$friendship_id = friends_get_friendship_id( $members_template->member->id, $bp->loggedin_user->id );
+			wp_cache_set( 'friendship_id_' . $members_template->member->id . '_' . $bp->loggedin_user->id, $friendship_id, 'bp' );
+		}
+
+		return apply_filters( 'bp_get_friend_friendship_id', $friendship_id );
+	}
+
 function bp_friend_accept_request_link() {
 	echo bp_get_friend_accept_request_link();
 }
-	// You only have the user ID but you need the friendship ID !!
-
 	function bp_get_friend_accept_request_link() {
 		global $members_template, $bp;
 
