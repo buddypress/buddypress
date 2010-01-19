@@ -563,7 +563,7 @@ function bp_group_list_mods( $full_list = true, $group = false ) {
 			<?php } ?>
 			</ul>
 		<?php } else { ?>
-			<?php for ( $i = 0; $i < count($admins); $i++ ) { ?>
+			<?php for ( $i = 0; $i < count($group_mods); $i++ ) { ?>
 				<?php echo bp_core_get_userlink( $group_mods[$i]->user_id ) . ' ' ?>
 			<?php } ?>
 		<?php } ?>
