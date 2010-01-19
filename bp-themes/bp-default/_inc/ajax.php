@@ -144,23 +144,24 @@ function bp_dtheme_new_activity_comment() {
 }
 add_action( 'wp_ajax_new_activity_comment', 'bp_dtheme_new_activity_comment' );
 
-function bp_dtheme_delete_activity_comment() {
+function bp_dtheme_delete_activity() {
 	/* Check the nonce */
-	check_admin_referer( 'delete_activity_comment' );
+	check_admin_referer( 'bp_activity_delete_link' );
 
 	if ( !is_user_logged_in() ) {
 		echo '-1';
 		return false;
 	}
 
-	if ( empty( $_POST['comment_id'] ) || !is_numeric( $_POST['comment_id'] ) || !bp_activity_delete_by_activity_id( $_POST['comment_id'] ) ) {
-		echo '-1<div class="error"><p>' . __( 'There was a problem deleting that comment. Please try again.', 'buddypress' ) . '</p></div>';
+	if ( empty( $_POST['id'] ) || !is_numeric( $_POST['id'] ) || !bp_activity_delete_by_activity_id( $_POST['id'] ) ) {
+		echo '-1<div class="error"><p>' . __( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>';
 		return false;
 	}
 
 	return true;
 }
-add_action( 'wp_ajax_delete_activity_comment', 'bp_dtheme_delete_activity_comment' );
+add_action( 'wp_ajax_delete_activity_comment', 'bp_dtheme_delete_activity' );
+add_action( 'wp_ajax_delete_activity', 'bp_dtheme_delete_activity' );
 
 function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string = false, $per_page = 20, $page = 1 ) {
 	global $bp;

@@ -184,6 +184,37 @@ jQuery(document).ready( function() {
 			return false;
 		}
 
+		/* Delete activity stream items */
+		if ( target.hasClass('delete-activity') ) {
+			var li = target.parents('div.activity ul li');
+			var id = li.attr('id').substr( 9, li.attr('id').length );
+			var link_href = target.attr('href');
+
+			var nonce = link_href.split('_wpnonce=');
+				nonce = nonce[1];
+
+			target.addClass('loading');
+
+			j.post( ajaxurl, {
+				action: 'delete_activity',
+				'cookie': encodeURIComponent(document.cookie),
+				'id': id,
+				'_wpnonce': nonce
+			},
+			function(response) {
+				target.removeClass('loading');
+
+				if ( response[0] + response[1] == '-1' ) {
+					li.prepend( response.substr( 2, response.length ) );
+					li.children('div#message').hide().fadeIn(200);
+				} else {
+					li.slideUp(200);
+				}
+			});
+
+			return false;
+		}
+
 		/* Load more updates at the end of the page */
 		if ( target.parent().attr('class') == 'load-more' ) {
 			j("li.load-more span.ajax-loader").show();
@@ -395,10 +426,10 @@ jQuery(document).ready( function() {
 			j('div.activity-comments ul div.error').remove();
 
 			j.post( ajaxurl, {
-				action: 'delete_activity_comment',
+				action: 'delete_activity',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': nonce,
-				'comment_id': comment_id
+				'id': comment_id
 			},
 			function(response)
 			{
