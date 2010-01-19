@@ -20,7 +20,7 @@ function bp_core_admin_bar() {
 	do_action( 'bp_adminbar_menus' );
 
 	echo '</ul>';
-	echo '</div></div>';
+	echo "</div></div><!-- #wp-admin-bar -->\n\n";
 }
 
 // **** Default BuddyPress admin bar logo ********

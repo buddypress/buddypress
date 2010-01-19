@@ -157,7 +157,7 @@ jQuery(document).ready( function() {
 
 				if ( 'fav' == type ) {
 					if ( !j('div.item-list-tabs li#activity-favorites').length )
-						j('div.item-list-tabs ul li#activity-atme').before( '<li id="activity-favorites"><a href="#">My Favorites (<span>0</span>)</a></li>');
+						j('div.item-list-tabs ul li#activity-atme').before( '<li id="activity-favorites"><a href="#">' + bp_terms_my_favs + ' (<span>0</span>)</a></li>');
 
 					target.removeClass('fav');
 					target.addClass('unfav');
@@ -516,7 +516,7 @@ jQuery(document).ready( function() {
 					j(this).toggle();
 
 					if ( !i )
-						j(this).before( '<li class="show-all"><a href="#' + parent_li.attr('id') + '/show-all/" title="Show all comments for this thread">Show all ' +  comment_count + ' comments</a></li>' );
+						j(this).before( '<li class="show-all"><a href="#' + parent_li.attr('id') + '/show-all/" title="' + bp_terms_show_all_comments + '">' + bp_terms_show_all + ' ' + comment_count + ' ' + bp_terms_comments + '</a></li>' );
 				}
 			});
 
@@ -805,9 +805,9 @@ jQuery(document).ready( function() {
 			} else {
 				button.fadeOut( 100, function() {
 					if ( j(this).hasClass('accept') )
-						j(this).html( 'Accepted' ).fadeIn(50);
+						j(this).html( bp_terms_accepted ).fadeIn(50);
 					else
-						j(this).html( 'Rejected' ).fadeIn(50);
+						j(this).html( bp_terms_rejected ).fadeIn(50);
 				});
 			}
 		});

@@ -200,6 +200,20 @@ function bp_dtheme_show_notice() { ?>
 	<?php
 }
 
+/* Add words that we need to use in JS to the end of the page so they can be translated and still used. */
+function bp_dtheme_js_terms() { ?>
+<script type="text/javascript">
+	var bp_terms_my_favs = '<?php _e( "My Favorites", "buddypress" ) ?>';
+	var bp_terms_accepted = '<?php _e( "Accepted", "buddypress" ) ?>';
+	var bp_terms_rejected = '<?php _e( "Rejected", "buddypress" ) ?>';
+	var bp_terms_show_all_comments = '<?php _e( "Show all comments for this thread", "buddypress" ) ?>';
+	var bp_terms_show_all = '<?php _e( "Show all", "buddypress" ) ?>';
+	var bp_terms_comments = '<?php _e( "comments", "buddypress" ) ?>';
+	</script>
+<?php
+}
+add_action( 'wp_footer', 'bp_dtheme_js_terms' );
+
 /* Show a notice when the theme is activated - workaround by Ozh (http://old.nabble.com/Activation-hook-exist-for-themes--td25211004.html) */
 if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" ) {
 	add_action( 'admin_notices', 'bp_dtheme_show_notice' );
