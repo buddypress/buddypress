@@ -291,12 +291,11 @@ div#content .padder {
 -------------------------------------------------------------- */
 
 div#item-header {
-	margin-bottom: 20px;
 	overflow: hidden;
 }
 	div#item-header img.avatar {
 		float: left;
-		margin: 0 15px 0 0;
+		margin: 0 15px 15px 0;
 	}
 
 	div#item-header h2 {
@@ -430,12 +429,6 @@ div.item-list-tabs {
 		text-decoration: none;
 	}
 
-	div.item-list-tabs#user-nav,
-	div.item-list-tabs#group-nav {
-		margin-top: 15px;
-		margin-bottom: 0;
-	}
-
 	div.item-list-tabs ul {
 		width: 100%;
 	}
@@ -490,6 +483,10 @@ div.item-list-tabs {
 				div#item-nav ul li.loading a {
 					background-position: 88% 50%;
 				}
+
+	div.item-list-tabs#object-nav {
+		margin-top: 0;
+	}
 
 	div.item-list-tabs#subnav {
 		background: #fff;
@@ -580,11 +577,9 @@ div.pagination {
 -------------------------------------------------------------- */
 
 div#message {
-	margin: 15px 0 25px 0;
+	clear: both;
+	margin: 15px 0;
 }
-	div#message.error {
-		margin-top: 0;
-	}
 
 div#message p {
 	padding: 10px 15px;

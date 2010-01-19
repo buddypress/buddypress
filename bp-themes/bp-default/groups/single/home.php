@@ -11,7 +11,7 @@
 			</div>
 
 			<div id="item-nav">
-				<div class="item-list-tabs no-ajax" id="sub-nav">
+				<div class="item-list-tabs no-ajax" id="object-nav">
 					<ul>
 						<?php bp_get_options_nav() ?>
 
@@ -21,8 +21,6 @@
 			</div>
 
 			<div id="item-body">
-				<?php do_action( 'template_notices' ) ?>
-
 				<?php do_action( 'bp_before_group_body' ) ?>
 
 				<?php if ( bp_is_group_admin_page() && bp_group_is_visible() ) : ?>

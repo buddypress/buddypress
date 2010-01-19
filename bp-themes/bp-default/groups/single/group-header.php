@@ -36,3 +36,5 @@
 </div>
 
 <?php do_action( 'bp_after_group_header' ) ?>
+
+<?php do_action( 'template_notices' ) ?>
