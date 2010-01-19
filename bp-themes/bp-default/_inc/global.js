@@ -229,8 +229,8 @@ jQuery(document).ready( function() {
 		j('div.item-list-tabs li').each( function() {
 			j(this).removeClass('selected');
 		});
-		j('li#activity-' + type).addClass('selected');
-		j('div.item-list-tabs li.selected, div.item-list-tabs li.selected').addClass('loading');
+		j('li#activity-' + type + ', div.item-list-tabs li.current').addClass('selected');
+		j('div.item-list-tabs li.selected').addClass('loading');
 		j('#activity-filter-select select option[value=' + filter + ']').attr( 'selected', 'selected' );
 
 		/* Reload the activity stream based on the selection */
@@ -257,7 +257,7 @@ jQuery(document).ready( function() {
 			if ( null != response.feed_url )
 				j('div#subnav li.feed a').attr('href', response.feed_url);
 
-			j('div.item-list-tabs li.selected, div.item-list-tabs li.selected').removeClass('loading');
+			j('div.item-list-tabs li.selected').removeClass('loading');
 
 			/* Selectively hide comments */
 			bp_dtheme_hide_comments();
