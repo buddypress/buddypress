@@ -131,7 +131,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		if ( empty( $bp->grav_default->{$object} ) )
 			$default_grav = 'wavatar';
 		else if ( 'mystery' == $bp->grav_default->{$object} )
-			$default_grav = BP_PLUGIN_URL . '/bp-core/images/mystery-man.jpg';
+			$default_grav = apply_filters( 'bp_core_mysteryman_src', BP_PLUGIN_URL . '/bp-core/images/mystery-man.jpg' );
 		else
 			$default_grav = $bp->grav_default->{$object};
 
