@@ -1482,6 +1482,7 @@ div#new-topic-post {
 
 div.post {
 	margin: 0 0 60px 0;
+	overflow: auto;
 }
 	div.post div.author-box, div.comment-avatar-box {
 		background: #f0f0f0;
@@ -1506,6 +1507,7 @@ div.post {
 	div.post h3 {
 		font-size: 26px;
 		margin-bottom: 5px;
+		margin-top: 0;
 		line-height: 120%;
 	}
 		div.post h3 a {
@@ -1525,6 +1527,7 @@ div.post {
 
 	div.post p.postmetadata {
 		margin-top: 15px;
+		clear: left;
 		overflow: hidden;
 	}
 

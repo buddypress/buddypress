@@ -268,10 +268,11 @@ function friends_record_activity( $args = '' ) {
 
 	$defaults = array(
 		'user_id' => $bp->loggedin_user->id,
-		'content' => false,
-		'primary_link' => false,
-		'component_name' => $bp->friends->id,
-		'component_action' => false,
+		'action' => '',
+		'content' => '',
+		'primary_link' => '',
+		'component' => $bp->friends->id,
+		'type' => false,
 		'item_id' => false,
 		'secondary_item_id' => false,
 		'recorded_time' => time(),
@@ -281,13 +282,13 @@ function friends_record_activity( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	return bp_activity_add( array( 'user_id' => $user_id, 'content' => $content, 'primary_link' => $primary_link, 'component_name' => $component_name, 'component_action' => $component_action, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
+	return bp_activity_add( array( 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
 }
 
 function friends_delete_activity( $args ) {
 	if ( function_exists('bp_activity_delete_by_item_id') ) {
 		extract( (array)$args );
-		bp_activity_delete_by_item_id( array( 'item_id' => $item_id, 'component_name' => $bp->friends->id, 'component_action' => $component_action, 'user_id' => $user_id, 'secondary_item_id' => $secondary_item_id ) );
+		bp_activity_delete_by_item_id( array( 'item_id' => $item_id, 'component' => $bp->friends->id, 'type' => $type, 'user_id' => $user_id, 'secondary_item_id' => $secondary_item_id ) );
 	}
 }
 
@@ -388,7 +389,7 @@ function friends_remove_friend( $initiator_userid, $friend_userid ) {
 	$friendship = new BP_Friends_Friendship( $friendship_id );
 
 	// Remove the activity stream item for the user who canceled the friendship
-	friends_delete_activity( array( 'item_id' => $friendship_id, 'component_action' => 'friendship_accepted', 'user_id' => $bp->displayed_user->id ) );
+	friends_delete_activity( array( 'item_id' => $friendship_id, 'type' => 'friendship_accepted', 'user_id' => $bp->displayed_user->id ) );
 
 	do_action( 'friends_friendship_deleted', $friendship_id, $initiator_userid, $friend_userid );
 
@@ -418,23 +419,19 @@ function friends_accept_friendship( $friendship_id ) {
 		$initiator_link = bp_core_get_userlink( $friendship->initiator_user_id );
 		$friend_link = bp_core_get_userlink( $friendship->friend_user_id );
 
-		$primary_link = apply_filters( 'friends_activity_friendship_accepted_primary_link', bp_core_get_user_domain( $friendship->initiator_user_id ), &$friendship );
-
 		/* Record in activity streams for the initiator */
 		friends_record_activity( array(
 			'user_id' => $friendship->initiator_user_id,
-			'component_action' => 'friendship_created',
-			'content' => apply_filters( 'friends_activity_friendship_accepted', sprintf( __( '%s and %s are now friends', 'buddypress' ), $initiator_link, $friend_link ), &$friendship ),
-			'primary_link' => $primary_link,
+			'type' => 'friendship_created',
+			'action' => apply_filters( 'friends_activity_friendship_accepted_action', sprintf( __( '%s and %s are now friends', 'buddypress' ), $initiator_link, $friend_link ), &$friendship ),
 			'item_id' => $friendship_id
 		) );
 
 		/* Record in activity streams for the friend */
 		friends_record_activity( array(
 			'user_id' => $friendship->friend_user_id,
-			'component_action' => 'friendship_created',
-			'content' => apply_filters( 'friends_activity_friendship_accepted', sprintf( __( '%s and %s are now friends', 'buddypress' ), $friend_link, $initiator_link ), &$friendship ),
-			'primary_link' => $primary_link,
+			'type' => 'friendship_created',
+			'action' => apply_filters( 'friends_activity_friendship_accepted_action', sprintf( __( '%s and %s are now friends', 'buddypress' ), $friend_link, $initiator_link ), &$friendship ),
 			'item_id' => $friendship_id,
 			'hide_sitewide' => true /* We've already got the first entry site wide */
 		) );

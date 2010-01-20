@@ -245,7 +245,8 @@ function bp_core_install() {
 	dbDelta( $sql );
 
 	/* Add names of root components to the banned blog list to avoid conflicts */
-	bp_core_add_illegal_names();
+	if ( bp_core_is_multisite() )
+		bp_core_add_illegal_names();
 
 	update_site_option( 'bp-core-db-version', BP_CORE_DB_VERSION );
 }

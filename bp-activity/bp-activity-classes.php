@@ -6,8 +6,10 @@ Class BP_Activity_Activity {
 	var $secondary_item_id;
 	var $user_id;
 	var $primary_link;
-	var $component_name;
-	var $component_action;
+	var $component;
+	var $type;
+	var $action;
+	var $content;
 	var $date_recorded;
 	var $hide_sitewide = false;
 
@@ -23,19 +25,20 @@ Class BP_Activity_Activity {
 	function populate() {
 		global $wpdb, $bp;
 
-		$activity = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE id = %d", $this->id ) );
+		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE id = %d", $this->id ) );
 
 		if ( $activity ) {
-			$this->id = $activity->id;
-			$this->item_id = $activity->item_id;
-			$this->secondary_item_id = $activity->secondary_item_id;
-			$this->user_id = $activity->user_id;
-			$this->content = $activity->content;
-			$this->primary_link = $activity->primary_link;
-			$this->component_name = $activity->component_name;
-			$this->component_action = $activity->component_action;
-			$this->date_recorded = $activity->date_recorded;
-			$this->hide_sitewide = $activity->hide_sitewide;
+			$this->id = $row->id;
+			$this->item_id = $row->item_id;
+			$this->secondary_item_id = $row->secondary_item_id;
+			$this->user_id = $row->user_id;
+			$this->primary_link = $row->primary_link;
+			$this->component = $row->component;
+			$this->type = $row->type;
+			$this->action = $row->type;
+			$this->content = $row->content;
+			$this->date_recorded = $row->date_recorded;
+			$this->hide_sitewide = $row->hide_sitewide;
 		}
 	}
 
@@ -44,7 +47,7 @@ Class BP_Activity_Activity {
 
 		do_action( 'bp_activity_before_save', $this );
 
-		if ( !$this->component_name || !$this->component_action )
+		if ( !$this->component || !$this->type )
 			return false;
 
 		if ( !$this->primary_link )
@@ -52,9 +55,9 @@ Class BP_Activity_Activity {
 
 		/* If we have an existing ID, update the activity item, otherwise insert it. */
 		if ( $this->id )
-			$q = $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET user_id = %d, component_name = %s, component_action = %s, content = %s, primary_link = %s, date_recorded = FROM_UNIXTIME(%d), item_id = %s, secondary_item_id = %s, hide_sitewide = %d WHERE id = %d", $this->user_id, $this->component_name, $this->component_action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide, $this->id );
+			$q = $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET user_id = %d, component = %s, type = %s, action = %s, content = %s, primary_link = %s, date_recorded = FROM_UNIXTIME(%d), item_id = %s, secondary_item_id = %s, hide_sitewide = %d WHERE id = %d", $this->user_id, $this->component, $this->type, $this->action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide, $this->id );
 		else
-			$q = $wpdb->prepare( "INSERT INTO {$bp->activity->table_name} ( user_id, component_name, component_action, content, primary_link, date_recorded, item_id, secondary_item_id, hide_sitewide ) VALUES ( %d, %s, %s, %s, %s, FROM_UNIXTIME(%d), %s, %s, %d )", $this->user_id, $this->component_name, $this->component_action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide );
+			$q = $wpdb->prepare( "INSERT INTO {$bp->activity->table_name} ( user_id, component, type, action, content, primary_link, date_recorded, item_id, secondary_item_id, hide_sitewide ) VALUES ( %d, %s, %s, %s, %s, %s, FROM_UNIXTIME(%d), %s, %s, %d )", $this->user_id, $this->component, $this->type, $this->action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide );
 
 		if ( !$wpdb->query( $q ) )
 			return false;
@@ -67,24 +70,24 @@ Class BP_Activity_Activity {
 
 	/* Static Functions */
 
-	function delete( $item_id, $component_name, $component_action, $user_id = false, $secondary_item_id = false ) {
+	function delete( $item_id, $component, $type, $user_id = false, $secondary_item_id = false ) {
 		global $wpdb, $bp;
 
 		if ( $secondary_item_id )
 			$secondary_sql = $wpdb->prepare( "AND secondary_item_id = %s", $secondary_item_id );
 
-		if ( $component_action )
-			$component_action_sql = $wpdb->prepare( "AND component_action = %s", $component_action );
+		if ( $type )
+			$type_sql = $wpdb->prepare( "AND type = %s", $type );
 
 		if ( $user_id )
 			$user_sql = $wpdb->prepare( "AND user_id = %d", $user_id );
 
 		/* Fetch the activity IDs so we can delete any comments for this activity item */
-		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE item_id = %s {$secondary_sql} AND component_name = %s {$component_action_sql} {$user_sql}", $item_id, $component_name ) );
+		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE item_id = %s {$secondary_sql} AND component = %s {$type_sql} {$user_sql}", $item_id, $component ) );
 
-		error_log( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE item_id = %s {$secondary_sql} AND component_name = %s {$component_action_sql} {$user_sql}", $item_id, $component_name ) );
+		error_log( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE item_id = %s {$secondary_sql} AND component = %s {$type_sql} {$user_sql}", $item_id, $component ) );
 
-		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE item_id = %s {$secondary_sql} AND component_name = %s {$component_action_sql} {$user_sql}", $item_id, $component_name ) ) )
+		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE item_id = %s {$secondary_sql} AND component = %s {$type_sql} {$user_sql}", $item_id, $component ) ) )
 			return false;
 
 		if ( $activity_ids ) {
@@ -97,8 +100,8 @@ Class BP_Activity_Activity {
 		return true;
 	}
 
-	function delete_by_item_id( $item_id, $component_name, $component_action, $user_id = false, $secondary_item_id = false ) {
-		return BP_Activity_Activity::delete( $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
+	function delete_by_item_id( $item_id, $component, $type, $user_id = false, $secondary_item_id = false ) {
+		return BP_Activity_Activity::delete( $item_id, $component, $type, $user_id, $secondary_item_id );
 	}
 
 	function delete_by_activity_id( $activity_id ) {
@@ -114,13 +117,13 @@ Class BP_Activity_Activity {
 		return true;
 	}
 
-	function delete_by_content( $user_id, $content, $component_name, $component_action ) {
+	function delete_by_content( $user_id, $content, $component, $type ) {
 		global $bp, $wpdb;
 
 		/* Fetch the activity ID so we can delete any comments for this activity item */
-		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE user_id = %d AND content = %s AND component_name = %s AND component_action = %s", $user_id, $content, $component_name, $component_action ) );
+		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE user_id = %d AND content = %s AND component = %s AND type = %s", $user_id, $content, $component, $type ) );
 
-		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE user_id = %d AND content = %s AND component_name = %s AND component_action = %s", $user_id, $content, $component_name, $component_action ) ) )
+		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE user_id = %d AND content = %s AND component = %s AND type = %s", $user_id, $content, $component, $type ) ) )
 			return false;
 
 		if ( $activity_ids ) {
@@ -133,13 +136,13 @@ Class BP_Activity_Activity {
 		return true;
 	}
 
-	function delete_for_user_by_component( $user_id, $component_name ) {
+	function delete_for_user_by_component( $user_id, $component ) {
 		global $bp, $wpdb;
 
 		/* Fetch the activity IDs so we can delete any comments for this activity item */
-		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE user_id = %d AND component_name = %s", $user_id, $component_name ) );
+		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE user_id = %d AND component = %s", $user_id, $component ) );
 
-		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE user_id = %d AND component_name = %s", $user_id, $component_name ) ) )
+		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE user_id = %d AND component = %s", $user_id, $component ) ) )
 			return false;
 
 		if ( $activity_ids ) {
@@ -177,7 +180,7 @@ Class BP_Activity_Activity {
 
 		$activity_ids = $wpdb->escape( $activity_ids );
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE component_action = 'activity_comment' AND item_id IN ({$activity_ids})" ) );
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE type = 'activity_comment' AND item_id IN ({$activity_ids})" ) );
 	}
 
 	function delete_activity_meta_entries( $activity_ids ) {
@@ -237,7 +240,7 @@ Class BP_Activity_Activity {
 
 		/* Alter the query based on whether we want to show activity item comments in the stream like normal comments or threaded below the activity */
 		if ( !$display_comments || 'threaded' == $display_comments ) {
-			$where_conditions[] = "a.component_action != 'activity_comment'";
+			$where_conditions[] = "a.type != 'activity_comment'";
 		}
 
 		$where_sql = 'WHERE ' . join( ' AND ', $where_conditions );
@@ -267,6 +270,9 @@ Class BP_Activity_Activity {
 
 		$activity_ids = $wpdb->escape( $activity_ids );
 
+		if ( empty( $activity_ids ) )
+			return false;
+
 		if ( $per_page && $page )
 			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
 
@@ -293,7 +299,7 @@ Class BP_Activity_Activity {
 
 		/* Now fetch the activity comments and parse them into the correct position in the activities array. */
 		foreach( $activities as $activity ) {
-			if ( 'activity_comment' != $activity->component_action && $activity->mptt_left && $activity->mptt_right )
+			if ( 'activity_comment' != $activity->type && $activity->mptt_left && $activity->mptt_right )
 				$activity_comments[$activity->id] = BP_Activity_Activity::get_activity_comments( $activity->id, $activity->mptt_left, $activity->mptt_right );
 		}
 
@@ -319,7 +325,7 @@ Class BP_Activity_Activity {
 			$fullname_where = "AND pd.user_id = a.user_id AND pd.field_id = 1";
 		}
 
-		$descendants = $wpdb->get_results( $wpdb->prepare( "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name{$fullname_select} FROM {$bp->activity->table_name} a, {$wpdb->users} u{$fullname_from} WHERE u.ID = a.user_id {$fullname_where} AND a.component_action = 'activity_comment' AND a.item_id = %d AND a.mptt_left BETWEEN %d AND %d ORDER BY a.date_recorded ASC", $activity_id, $left, $right ) );
+		$descendants = $wpdb->get_results( $wpdb->prepare( "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name{$fullname_select} FROM {$bp->activity->table_name} a, {$wpdb->users} u{$fullname_from} WHERE u.ID = a.user_id {$fullname_where} AND a.type = 'activity_comment' AND a.item_id = %d AND a.mptt_left BETWEEN %d AND %d ORDER BY a.date_recorded ASC", $activity_id, $left, $right ) );
 
 		/* Loop descendants and build an assoc array */
 		foreach ( $descendants as $d ) {
@@ -347,7 +353,7 @@ Class BP_Activity_Activity {
 		$right = $left + 1;
 
 		/* Get all descendants of this node */
-		$descendants = $wpdb->get_results( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE component_action = 'activity_comment' AND secondary_item_id = %d", $parent_id ) );
+		$descendants = $wpdb->get_results( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE type = 'activity_comment' AND secondary_item_id = %d", $parent_id ) );
 
 		/* Loop the descendants and recalculate the left and right values */
 		foreach ( $descendants as $descendant )
@@ -357,16 +363,16 @@ Class BP_Activity_Activity {
 		if ( 1 == $left )
 			$wpdb->query( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET mptt_left = %d, mptt_right = %d WHERE id = %d", $left, $right, $parent_id ) );
 		else
-			$wpdb->query( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET mptt_left = %d, mptt_right = %d WHERE component_action = 'activity_comment' AND id = %d", $left, $right, $parent_id ) );
+			$wpdb->query( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET mptt_left = %d, mptt_right = %d WHERE type = 'activity_comment' AND id = %d", $left, $right, $parent_id ) );
 
 		/* Return the right value of this node + 1 */
 		return $right + 1;
 	}
 
-	function get_recorded_component_names() {
+	function get_recorded_components() {
 		global $wpdb, $bp;
 
-		return $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT component_name FROM {$bp->activity->table_name} ORDER BY component_name ASC" ) );
+		return $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT component FROM {$bp->activity->table_name} ORDER BY component ASC" ) );
 	}
 
 	function get_sitewide_items_for_feed( $limit = 35 ) {
@@ -413,7 +419,7 @@ Class BP_Activity_Activity {
 
 			$counter = 1;
 			foreach( (array) $object_filter as $object ) {
-				$object_sql .= $wpdb->prepare( "a.component_name = %s", trim( $object ) );
+				$object_sql .= $wpdb->prepare( "a.component = %s", trim( $object ) );
 
 				if ( $counter != count( $object_filter ) )
 					$object_sql .= ' || ';
@@ -431,7 +437,7 @@ Class BP_Activity_Activity {
 
 			$counter = 1;
 			foreach( (array) $action_filter as $action ) {
-				$action_sql .= $wpdb->prepare( "a.component_action = %s", trim( $action ) );
+				$action_sql .= $wpdb->prepare( "a.type = %s", trim( $action ) );
 
 				if ( $counter != count( $action_filter ) )
 					$action_sql .= ' || ';

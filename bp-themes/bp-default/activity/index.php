@@ -71,7 +71,7 @@
 					// The loop will be loaded here via AJAX on page load to retain selected settings and not waste cycles.
 					// If you're concerned about no-script functionality, uncomment the following line.
 
-					// locate_template( array( 'activity/activity-loop.php' ), true );
+					//locate_template( array( 'activity/activity-loop.php' ), true );
 				?>
 			</div><!-- .activity -->
 

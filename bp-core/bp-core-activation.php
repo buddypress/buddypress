@@ -54,10 +54,9 @@ function bp_core_screen_activation() {
 
 			bp_activity_add( array(
 				'user_id' => $signup['user_id'],
-				'content' => apply_filters( 'bp_core_activity_registered_member', sprintf( __( '%s became a registered member', 'buddypress' ), $userlink ), $signup['user_id'] ),
-				'primary_link' => apply_filters( 'bp_core_actiivty_registered_member_primary_link', $userlink ),
-				'component_name' => 'profile',
-				'component_action' => 'new_member'
+				'action' => apply_filters( 'bp_core_activity_registered_member_action', sprintf( __( '%s became a registered member', 'buddypress' ), $userlink ), $signup['user_id'] ),
+				'component' => 'profile',
+				'type' => 'new_member'
 			) );
 		}
 

@@ -245,10 +245,11 @@ function bp_blogs_record_activity( $args = '' ) {
 
 	$defaults = array(
 		'user_id' => $bp->loggedin_user->id,
-		'content' => false,
-		'primary_link' => false,
-		'component_name' => $bp->blogs->id,
-		'component_action' => false,
+		'action' => '',
+		'content' => '',
+		'primary_link' => '',
+		'component' => $bp->blogs->id,
+		'type' => false,
 		'item_id' => false,
 		'secondary_item_id' => false,
 		'recorded_time' => time(),
@@ -258,7 +259,7 @@ function bp_blogs_record_activity( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	return bp_activity_add( array( 'user_id' => $user_id, 'content' => $content, 'primary_link' => $primary_link, 'component_name' => $component_name, 'component_action' => $component_action, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
+	return bp_activity_add( array( 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
 }
 
 function bp_blogs_delete_activity( $args = true ) {
@@ -267,8 +268,8 @@ function bp_blogs_delete_activity( $args = true ) {
 	if ( function_exists('bp_activity_delete_by_item_id') ) {
 		$defaults = array(
 			'item_id' => false,
-			'component_name' => $bp->blogs->id,
-			'component_action' => false,
+			'component' => $bp->blogs->id,
+			'type' => false,
 			'user_id' => false,
 			'secondary_item_id' => false
 		);
@@ -278,8 +279,8 @@ function bp_blogs_delete_activity( $args = true ) {
 
 		bp_activity_delete_by_item_id( array(
 			'item_id' => $item_id,
-			'component_name' => $component_name,
-			'component_action' => $component_action,
+			'component' => $component,
+			'type' => $type,
 			'user_id' => $user_id,
 			'secondary_item_id' => $secondary_item_id
 		) );
@@ -340,9 +341,9 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 		/* Record this in activity streams */
 		bp_blogs_record_activity( array(
 			'user_id' => $recorded_blog->user_id,
-			'content' => apply_filters( 'bp_blogs_activity_created_blog', sprintf( __( '%s created the blog %s', 'buddypress'), bp_core_get_userlink( $recorded_blog->user_id ), '<a href="' . get_blog_option( $recorded_blog->blog_id, 'siteurl' ) . '">' . attribute_escape( $name ) . '</a>' ), &$recorded_blog, $name, $description ),
+			'action' => apply_filters( 'bp_blogs_activity_created_blog_action', sprintf( __( '%s created the blog %s', 'buddypress'), bp_core_get_userlink( $recorded_blog->user_id ), '<a href="' . get_blog_option( $recorded_blog->blog_id, 'siteurl' ) . '">' . attribute_escape( $name ) . '</a>' ), &$recorded_blog, $name, $description ),
 			'primary_link' => apply_filters( 'bp_blogs_activity_created_blog_primary_link', get_blog_option( $recorded_blog->blog_id, 'siteurl' ), $recorded_blog->blog_id ),
-			'component_action' => 'new_blog',
+			'type' => 'new_blog',
 			'item_id' => $recorded_blog->blog_id
 		) );
 	}
@@ -388,14 +389,15 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 				/* Record this in activity streams */
 				$post_permalink = bp_post_get_permalink( $post, $blog_id );
 
-				$activity_content = sprintf( __( '%s wrote a new blog post: %s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' );
-				$activity_content .= "<blockquote>" . bp_create_excerpt( $post->post_content ) . "</blockquote>";
+				$activity_action = sprintf( __( '%s wrote a new blog post: %s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' );
+				$activity_content = "<blockquote>" . bp_create_excerpt( $post->post_content ) . "</blockquote>";
 
 				bp_blogs_record_activity( array(
 					'user_id' => (int)$post->post_author,
-					'content' => apply_filters( 'bp_blogs_activity_new_post', $activity_content, &$post, $post_permalink ),
+					'action' => apply_filters( 'bp_blogs_activity_new_post_action', $activity_action, &$post, $post_permalink ),
+					'content' => apply_filters( 'bp_blogs_activity_new_post_content', $activity_content, &$post, $post_permalink ),
 					'primary_link' => apply_filters( 'bp_blogs_activity_new_post_primary_link', $post_permalink, $post_id ),
-					'component_action' => 'new_blog_post',
+					'type' => 'new_blog_post',
 					'item_id' => $blog_id,
 					'secondary_item_id' => $post_id,
 					'recorded_time' => strtotime( $post->post_date_gmt )
@@ -406,7 +408,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 		$existing_post = new BP_Blogs_Post( null, $blog_id, $post_id );
 
 		/* Delete and the activity stream item as we are probably going to re-add it later with new info. */
-		bp_blogs_delete_activity( array( 'item_id' => $existing_post->id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog_post' ) );
+		bp_blogs_delete_activity( array( 'item_id' => $existing_post->id, 'component' => $bp->blogs->slug, 'type' => 'new_blog_post' ) );
 
 		/* Delete the recorded post if the status is not published or it is password protected */
 		if ( 'publish' != $post->post_status || '' != $post->post_password ) {
@@ -425,15 +427,16 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 			/* Now re-record the post in the activity streams */
 			$post_permalink = bp_post_get_permalink( $post, $blog_id );
 
-			$activity_content = sprintf( __( '%s wrote a new blog post: %s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' );
-			$activity_content .= "<blockquote>" . bp_create_excerpt( $post->post_content ) . "</blockquote>";
+			$activity_action = sprintf( __( '%s wrote a new blog post: %s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' );
+			$activity_content = "<blockquote>" . bp_create_excerpt( $post->post_content ) . "</blockquote>";
 
 			/* Record this in activity streams */
 			bp_blogs_record_activity( array(
 				'user_id' => (int)$post->post_author,
-				'content' => apply_filters( 'bp_blogs_activity_new_post', $activity_content, &$post, $post_permalink ),
+				'action' => apply_filters( 'bp_blogs_activity_new_post_action', $activity_action, &$post, $post_permalink ),
+				'content' => apply_filters( 'bp_blogs_activity_new_post_content', $activity_content, &$post, $post_permalink ),
 				'primary_link' => apply_filters( 'bp_blogs_activity_new_post_primary_link', $post_permalink, $post_id ),
-				'component_action' => 'new_blog_post',
+				'type' => 'new_blog_post',
 				'item_id' => $blog_id,
 				'secondary_item_id' => $existing_post->id,
 				'recorded_time' => strtotime( $post->post_date_gmt )
@@ -482,15 +485,16 @@ function bp_blogs_record_comment( $comment_id, $is_approved ) {
 	if ( (int)get_blog_option( $recorded_comment->blog_id, 'blog_public' ) || !bp_core_is_multisite() ) {
 		/* Record in activity streams */
 		$comment_link = bp_post_get_permalink( $comment->post, $wpdb->blogid ) . '#comment-' . $comment_id;
-		$activity_content = sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $comment_link . '#comment-' . $comment->comment_ID . '">' . $comment->post->post_title . '</a>' );
-		$activity_content .= '<blockquote>' . bp_create_excerpt( $comment->comment_content ) . '</blockquote>';
+		$activity_action = sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $comment_link . '#comment-' . $comment->comment_ID . '">' . $comment->post->post_title . '</a>' );
+		$activity_content = '<blockquote>' . bp_create_excerpt( $comment->comment_content ) . '</blockquote>';
 
 		/* Record this in activity streams */
 		bp_blogs_record_activity( array(
 			'user_id' => $user_id,
-			'content' => apply_filters( 'bp_blogs_activity_new_comment', $activity_content, &$comment, &$recorded_comment, $comment_link ),
+			'action' => apply_filters( 'bp_blogs_activity_new_comment_action', $activity_action, &$comment, &$recorded_comment, $comment_link ),
+			'content' => apply_filters( 'bp_blogs_activity_new_comment_content', $activity_content, &$comment, &$recorded_comment, $comment_link ),
 			'primary_link' => apply_filters( 'bp_blogs_activity_new_comment_primary_link', $comment_link, &$comment, &$recorded_comment ),
-			'component_action' => 'new_blog_comment',
+			'type' => 'new_blog_comment',
 			'item_id' => $wpdb->blogid,
 			'secondary_item_id' => $comment_id,
 			'recorded_time' => strtotime( $comment->comment_date_gmt )
@@ -529,7 +533,7 @@ function bp_blogs_remove_blog( $blog_id ) {
 	BP_Blogs_Blog::delete_blog_for_all( $blog_id );
 
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog' ) );
+	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component' => $bp->blogs->slug, 'type' => 'new_blog' ) );
 
 	do_action( 'bp_blogs_remove_blog', $blog_id );
 }
@@ -544,7 +548,7 @@ function bp_blogs_remove_blog_for_user( $user_id, $blog_id ) {
 	BP_Blogs_Blog::delete_blog_for_user( $blog_id, $user_id );
 
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component_name' => $bp->blogs->slug, 'component_action' => 'new_blog' ) );
+	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component' => $bp->blogs->slug, 'type' => 'new_blog' ) );
 
 	do_action( 'bp_blogs_remove_blog_for_user', $blog_id, $user_id );
 }
@@ -565,7 +569,7 @@ function bp_blogs_remove_post( $post_id, $blog_id = false, $existing_post = fals
 	BP_Blogs_Post::delete( $post_id, $blog_id );
 
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $wpdb->blogid, 'component_name' => $existing_post->id, 'component_action' => 'new_blog_post' ) );
+	bp_blogs_delete_activity( array( 'item_id' => $wpdb->blogid, 'component' => $existing_post->id, 'type' => 'new_blog_post' ) );
 
 	do_action( 'bp_blogs_remove_post', $blog_id, $post_id, $post->user_id );
 }
@@ -578,7 +582,7 @@ function bp_blogs_remove_comment( $comment_id ) {
 	BP_Blogs_Comment::delete( $comment_id, $wpdb->blogid );
 
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $wpdb->blogid, 'secondary_item_id' => $comment_id, 'component_action' => 'new_blog_comment' ) );
+	bp_blogs_delete_activity( array( 'item_id' => $wpdb->blogid, 'secondary_item_id' => $comment_id, 'type' => 'new_blog_comment' ) );
 
 	do_action( 'bp_blogs_remove_comment', $blog_id, $comment_id, $bp->loggedin_user->id );
 }
@@ -607,7 +611,7 @@ function bp_blogs_remove_data_for_blog( $blog_id ) {
 	BP_Blogs_Comment::delete_comments_for_blog( $blog_id );
 
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component_name' => $bp->blogs->slug, 'component_action' => false ) );
+	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component' => $bp->blogs->slug, 'type' => false ) );
 
 	do_action( 'bp_blogs_remove_data_for_blog', $blog_id );
 }

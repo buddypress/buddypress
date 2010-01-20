@@ -265,16 +265,18 @@ function bp_activity_object_name() {
 }
 	function bp_get_activity_object_name() {
 		global $activities_template;
-		return apply_filters( 'bp_get_activity_object_name', $activities_template->activity->component_name );
+		return apply_filters( 'bp_get_activity_object_name', $activities_template->activity->component );
 	}
 
-function bp_activity_action_name() {
-	echo bp_get_activity_action_name();
+function bp_activity_type() {
+	echo bp_get_activity_type();
 }
-	function bp_get_activity_action_name() {
+	function bp_get_activity_type() {
 		global $activities_template;
-		return apply_filters( 'bp_get_activity_action_name', $activities_template->activity->component_action );
+		return apply_filters( 'bp_get_activity_type', $activities_template->activity->type );
 	}
+	function bp_activity_action_name() { echo bp_activity_type(); }
+	function bp_get_activity_action_name() { return bp_get_activity_type(); }
 
 function bp_activity_user_id() {
 	echo bp_get_activity_user_id();
@@ -309,12 +311,12 @@ function bp_activity_avatar( $args = '' ) {
 			$item_id = $activities_template->activity->item_id;
 
 		$object = 'user';
-		if ( $bp->groups->id == $activities_template->activity->component_name && !(int) $activities_template->activity->user_id )
+		if ( $bp->groups->id == $activities_template->activity->component && !(int) $activities_template->activity->user_id )
 			$object = 'group';
-		if ( $bp->blogs->id == $activities_template->activity->component_name && !(int) $activities_template->activity->user_id )
+		if ( $bp->blogs->id == $activities_template->activity->component && !(int) $activities_template->activity->user_id )
 			$object = 'blog';
 
-		$object = apply_filters( 'bp_get_activity_avatar_object_' . $activities_template->activity->component_name, $object );
+		$object = apply_filters( 'bp_get_activity_avatar_object_' . $activities_template->activity->component, $object );
 
 		/* If this is a user object pass the users' email address for Gravatar so we don't have to refetch it. */
 		if ( 'user' == $object && empty($email) )
@@ -323,21 +325,44 @@ function bp_activity_avatar( $args = '' ) {
 		return apply_filters( 'bp_get_activity_avatar', bp_core_fetch_avatar( array( 'item_id' => $item_id, 'object' => $object, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height, 'email' => $email ) ) );
 	}
 
+function bp_activity_action() {
+	echo bp_get_activity_action();
+}
+	function bp_get_activity_action() {
+		global $activities_template;
+
+		return apply_filters( 'bp_get_activity_action', bp_activity_content_filter( $activities_template->activity->action, $activities_template->activity->date_recorded ), $activities_template->activity->component, $activities_template->activity->type );
+	}
+
+function bp_activity_content_body() {
+	echo bp_get_activity_content_body();
+}
+	function bp_get_activity_content_body() {
+		global $activities_template;
+
+		if ( empty( $activities_template->activity->action ) )
+			$activities_template->activity->content = bp_activity_content_filter( $activities_template->activity->content, $activities_template->activity->date_recorded );
+
+		return apply_filters( 'bp_get_activity_content_body', $activities_template->activity->content );
+	}
+
 function bp_activity_content() {
 	echo bp_get_activity_content();
 }
 	function bp_get_activity_content() {
-		global $activities_template, $allowed_tags, $bp;
+		global $activities_template;
 
-		if ( bp_is_home() && $activities_template->activity_type == 'personal' )
-			$content = bp_activity_content_filter( $activities_template->activity->content, $activities_template->activity->date_recorded, $activities_template->full_name );
-		else
-			$content = bp_activity_content_filter( $activities_template->activity->content, $activities_template->activity->date_recorded, $activities_template->full_name, true, false, false );
+		if ( empty( $activities_template->activity->action ) )
+			$content = bp_activity_content_filter( $activities_template->activity->content, $activities_template->activity->date_recorded );
+		else {
+			$content = bp_activity_content_filter( $activities_template->activity->action, $activities_template->activity->date_recorded );
+			$content .= $activities_template->activity->content;
+		}
 
-		return apply_filters( 'bp_get_activity_content', $content, $activities_template->activity->component_name, $activities_template->activity->component_action );
+		return apply_filters( 'bp_get_activity_content', $content, $activities_template->activity->component, $activities_template->activity->type );
 	}
 
-function bp_activity_content_filter( $content, $date_recorded, $full_name, $insert_time = true, $filter_words = true, $filter_you = true ) {
+function bp_activity_content_filter( $content, $date_recorded ) {
 	global $activities_template, $bp;
 
 	if ( !$content )
@@ -350,22 +375,7 @@ function bp_activity_content_filter( $content, $date_recorded, $full_name, $inse
 	$content[0] .= '%s';
 
 	/* Insert the time since */
-	if ( $insert_time )
-		$content[0] = bp_activity_insert_time_since( $content[0], $date_recorded );
-
-	// The "You" and "Your" conversion is only done in english, if a translation file is present
-	// then do not translate as it causes problems in other languages.
-	if ( '' == get_locale() ) {
-		/* Switch 'their/your' depending on whether the user is logged in or not and viewing their profile */
-		if ( $filter_words ) {
-			$content[0] = preg_replace( '/their\s/', 'your ', $content[0] );
-		}
-
-		/* Remove the 'You' and replace if with the persons name */
-		if ( $filter_you && $full_name != '' ) {
-			$content[0] = preg_replace( "/{$full_name}[<]/", 'You<', $content[0], 1 );
-		}
-	}
+	$content[0] = bp_activity_insert_time_since( $content[0], $date_recorded );
 
 	/* Add the permalink */
 	$meta = ' &middot; <a href="' . bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ) . '" class="view" title="' . __( 'View Thread / Permalink', 'buddypress' ) . '">' . __( 'View', 'buddypress' ) . '</a>';
@@ -558,13 +568,13 @@ function bp_activity_css_class() {
 		) );
 
 		$class = '';
-		if ( in_array( $activities_template->activity->component_action, (array)$mini_activity_actions ) )
+		if ( in_array( $activities_template->activity->type, (array)$mini_activity_actions ) )
 			$class = ' mini';
 
 		if ( bp_activity_get_comment_count() && bp_activity_can_comment() )
 			$class .= ' has-comments';
 
-		return apply_filters( 'bp_get_activity_css_class', $activities_template->activity->component_name . ' ' . $activities_template->activity->component_action . $class );
+		return apply_filters( 'bp_get_activity_css_class', $activities_template->activity->component . ' ' . $activities_template->activity->type . $class );
 	}
 
 function bp_activity_delete_link() {
@@ -608,50 +618,50 @@ function bp_activity_filter_links( $args = false ) {
 		extract( $r, EXTR_SKIP );
 
 		/* Fetch the names of components that have activity recorded in the DB */
-		$component_names = BP_Activity_Activity::get_recorded_component_names();
+		$components = BP_Activity_Activity::get_recorded_components();
 
-		if ( !$component_names )
+		if ( !$components )
 			return false;
 
-		foreach ( (array) $component_names as $component_name ) {
+		foreach ( (array) $components as $component ) {
 			/* Skip the activity comment filter */
-			if ( 'activity' == $component_name )
+			if ( 'activity' == $component )
 				continue;
 
-			if ( isset( $_GET['afilter'] ) && $component_name == $_GET['afilter'] )
+			if ( isset( $_GET['afilter'] ) && $component == $_GET['afilter'] )
 				$selected = ' class="selected"';
 			else
 				unset($selected);
 
-			$component_name = attribute_escape( $component_name );
+			$component = attribute_escape( $component );
 
 			switch ( $style ) {
 				case 'list':
 					$tag = 'li';
-					$before = '<li id="afilter-' . $component_name . '"' . $selected . '>';
+					$before = '<li id="afilter-' . $component . '"' . $selected . '>';
 					$after = '</li>';
 				break;
 				case 'paragraph':
 					$tag = 'p';
-					$before = '<p id="afilter-' . $component_name . '"' . $selected . '>';
+					$before = '<p id="afilter-' . $component . '"' . $selected . '>';
 					$after = '</p>';
 				break;
 				case 'span':
 					$tag = 'span';
-					$before = '<span id="afilter-' . $component_name . '"' . $selected . '>';
+					$before = '<span id="afilter-' . $component . '"' . $selected . '>';
 					$after = '</span>';
 				break;
 			}
 
-			$link = add_query_arg( 'afilter', $component_name );
+			$link = add_query_arg( 'afilter', $component );
 			$link = remove_query_arg( 'acpage' , $link );
 
-			$link = apply_filters( 'bp_get_activity_filter_link_href', $link, $component_name );
+			$link = apply_filters( 'bp_get_activity_filter_link_href', $link, $component );
 
 			/* Make sure all core internal component names are translatable */
-			$translatable_component_names = array( __( 'profile', 'buddypress'), __( 'friends', 'buddypress' ), __( 'groups', 'buddypress' ), __( 'status', 'buddypress' ), __( 'blogs', 'buddypress' ) );
+			$translatable_components = array( __( 'profile', 'buddypress'), __( 'friends', 'buddypress' ), __( 'groups', 'buddypress' ), __( 'status', 'buddypress' ), __( 'blogs', 'buddypress' ) );
 
-			$component_links[] = $before . '<a href="' . attribute_escape( $link ) . '">' . ucwords( __( $component_name, 'buddypress' ) ) . '</a>' . $after;
+			$component_links[] = $before . '<a href="' . attribute_escape( $link ) . '">' . ucwords( __( $component, 'buddypress' ) ) . '</a>' . $after;
 		}
 
 		$link = remove_query_arg( 'afilter' , $link );
@@ -744,13 +754,18 @@ function bp_activity_feed_item_title() {
 	function bp_get_activity_feed_item_title() {
 		global $activities_template;
 
-		$content = explode( '<span', $activities_template->activity->content );
+		if ( !empty( $activities_template->activity->action ) )
+			$content = $activities_template->activity->action;
+		else
+			$content = $activities_template->activity->content;
+
+		$content = explode( '<span', $content );
 		$title = trim( strip_tags( html_entity_decode( $content[0] ) ) );
 
 		if ( ':' == substr( $title, -1 ) )
 			$title = substr( $title, 0, -1 );
 
-		if ( 'activity_update' == $activities_template->activity->component_action ) {
+		if ( 'activity_update' == $activities_template->activity->type ) {
 			$content = explode( '<div class="activity-inner">', $activities_template->activity->content );
 			$title .= ': ' . strip_tags( bp_create_excerpt( $content[1], 15 ));
 		}
@@ -782,7 +797,12 @@ function bp_activity_feed_item_description() {
 	function bp_get_activity_feed_item_description() {
 		global $activities_template;
 
-		return apply_filters( 'bp_get_activity_feed_item_description', html_entity_decode( str_replace( '%s', '', $activities_template->activity->content ), ENT_COMPAT, 'UTF-8' ) );
+		if ( empty( $activities_template->activity->action ) )
+			$content = $activities_template->activity->content;
+		else
+			$content = $activities_template->activity->action . $activities_template->activity->content;
+
+		return apply_filters( 'bp_get_activity_feed_item_description', html_entity_decode( str_replace( '%s', '', $content ), ENT_COMPAT, 'UTF-8' ) );
 	}
 
 ?>

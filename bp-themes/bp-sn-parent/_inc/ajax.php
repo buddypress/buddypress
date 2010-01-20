@@ -448,7 +448,7 @@ function bp_dtheme_post_update() {
 			'user_id' => $bp->loggedin_user->id,
 			'content' => apply_filters( 'xprofile_activity_update', $activity_content, &$wire_post ),
 			'primary_link' => apply_filters( 'xprofile_activity_update_primary_link', $primary_link ),
-			'component_action' => 'activity_update'
+			'type' => 'activity_update'
 		) );
 
 		do_action( 'xprofile_activity_update', &$wire_post );
@@ -463,7 +463,7 @@ function bp_dtheme_post_update() {
 		$activity_id = groups_record_activity( array(
 			'content' => apply_filters( 'groups_activity_update', $activity_content ),
 			'primary_link' => apply_filters( 'groups_activity_update_primary_link', bp_get_group_permalink( $bp->groups->current_group ) ),
-			'component_action' => 'activity_update',
+			'type' => 'activity_update',
 			'item_id' => $item_id
 		) );
 
@@ -511,8 +511,8 @@ function bp_dtheme_new_activity_comment() {
 	$comment_id = bp_activity_add( array(
 		'content' => apply_filters( 'bp_activity_comment_content', $comment_header . '<div class="activity-inner">' . $_POST['content'] . '</div>' ),
 		'primary_link' => '',
-		'component_name' => $bp->activity->id,
-		'component_action' => 'activity_comment',
+		'component' => $bp->activity->id,
+		'type' => 'activity_comment',
 		'user_id' => $bp->loggedin_user->id,
 		'item_id' => $_POST['form_id'],
 		'secondary_item_id' => $_POST['comment_id']

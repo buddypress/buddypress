@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_ACTIVITY_DB_VERSION', '2020' );
+define ( 'BP_ACTIVITY_DB_VERSION', '2031' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_ACTIVITY_SLUG' ) )
@@ -17,17 +17,29 @@ function bp_activity_install() {
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 
 	/* Rename the old user activity cached table if needed. */
-	$wpdb->query( "RENAME TABLE {$wpdb->base_prefix}bp_activity_user_activity_cached TO {$bp->activity->table_name}" );
+	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$wpdb->base_prefix}bp_activity_user_activity_cached%'" ) ) {
+		$wpdb->query( "RENAME TABLE {$wpdb->base_prefix}bp_activity_user_activity_cached TO {$bp->activity->table_name}" );
+	}
 
+	/* Rename fields from pre BP 1.2 */
+	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->activity->table_name}%'" ) ) {
+		$wpdb->query( "ALTER TABLE {$bp->activity->table_name} CHANGE type type varchar(75) NOT NULL" );
+		$wpdb->query( "ALTER TABLE {$bp->activity->table_name} CHANGE component component varchar(75) NOT NULL" );
+	}
+
+	/**
+	 * Build the tables
+	 */
 	$sql[] = "CREATE TABLE {$bp->activity->table_name} (
 		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id bigint(20) NOT NULL,
-				component_name varchar(75) NOT NULL,
-				component_action varchar(75) NOT NULL,
+				component varchar(75) NOT NULL,
+				type varchar(75) NOT NULL,
+				action text NOT NULL
 				content longtext NOT NULL,
 				primary_link varchar(150) NOT NULL,
 				item_id varchar(75) NOT NULL,
-				secondary_item_id varchar(75) NOT NULL,
+				secondary_item_id varchar(75) DEFAULT NULL,
 				date_recorded datetime NOT NULL,
 				hide_sitewide bool DEFAULT 0,
 				mptt_left int(11) NOT NULL,
@@ -35,7 +47,7 @@ function bp_activity_install() {
 				KEY date_recorded (date_recorded),
 				KEY user_id (user_id),
 				KEY item_id (item_id),
-				KEY component_name (component_name)
+				KEY component (component)
 		 	   ) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE {$bp->activity->table_name_meta} (
@@ -166,7 +178,7 @@ function bp_activity_screen_single_activity_permalink() {
 
 	$has_access = true;
 	/* Redirect based on the type of activity */
-	if ( $activity->component_name == $bp->groups->id ) {
+	if ( $activity->component == $bp->groups->id ) {
 		if ( !function_exists( 'groups_get_group' ) )
 			bp_core_redirect( $bp->root_domain );
 
@@ -247,7 +259,7 @@ function bp_activity_action_permalink_router() {
 
 	$redirect = false;
 	/* Redirect based on the type of activity */
-	if ( $activity->component_name == $bp->groups->id ) {
+	if ( $activity->component == $bp->groups->id ) {
 		if ( $activity->user_id )
 			$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . $bp->activity->slug . '/' . $activity->id;
 		else {
@@ -444,10 +456,12 @@ function bp_activity_add( $args = '' ) {
 	$defaults = array(
 		'id' => false, // Pass an existing activity ID to update an existing entry.
 
-		'content' => false, // The content of the activity item
-		'primary_link' => false, // The primary URL for this item in RSS feeds
-		'component_name' => false, // The name/ID of the component e.g. groups, profile, mycomponent
-		'component_action' => false, // The component action e.g. activity_update, profile_updated
+		'action' => '', // The activity action - e.g. "Jon Doe posted an update"
+		'content' => '', // Optional: The content of the activity item e.g. "BuddyPress is awesome guys!"
+
+		'component' => false, // The name/ID of the component e.g. groups, profile, mycomponent
+		'type' => false, // The activity type e.g. activity_update, profile_updated
+		'primary_link' => '', // Optional: The primary URL for this item in RSS feeds (defaults to activity permalink)
 
 		'user_id' => $bp->loggedin_user->id, // Optional: The user to record the activity for, can be false if this activity is not for a user.
 		'item_id' => false, // Optional: The ID of the specific item being recorded, e.g. a blog_id
@@ -459,17 +473,30 @@ function bp_activity_add( $args = '' ) {
 	$params = wp_parse_args( $args, $defaults );
 	extract( $params, EXTR_SKIP );
 
-	/* Insert the "time-since" placeholder */
-	if ( $content )
+	/* Make sure we are backwards compatible */
+	if ( empty( $component ) && !empty( $component_name ) )
+		$component = $component_name;
+
+	if ( empty( $type ) && !empty( $component_action ) )
+		$type = $component_action;
+
+	/* Insert the "time-since" placeholder (use content if action empty for backwards compat) */
+	if ( !empty( $action ) )
+		$action = bp_activity_add_timesince_placeholder( $action );
+	else if ( empty( $action ) && !empty( $content ) )
 		$content = bp_activity_add_timesince_placeholder( $content );
+
+	/* Remove any images and replace the first image with a thumbnail */
+	//$content = bp_activity_thumbnail_images( $content );
 
 	$activity = new BP_Activity_Activity( $id );
 
 	$activity->user_id = $user_id;
+	$activity->component = $component;
+	$activity->type = $type;
+	$activity->action = $action;
 	$activity->content = $content;
 	$activity->primary_link = $primary_link;
-	$activity->component_name = $component_name;
-	$activity->component_action = $component_action;
 	$activity->item_id = $item_id;
 	$activity->secondary_item_id = $secondary_item_id;
 	$activity->date_recorded = $recorded_time;
@@ -479,7 +506,7 @@ function bp_activity_add( $args = '' ) {
 		return false;
 
 	/* If this is an activity comment, rebuild the tree */
-	if ( 'activity_comment' == $activity->component_action )
+	if ( 'activity_comment' == $activity->type )
 		BP_Activity_Activity::rebuild_activity_comment_tree( $activity->item_id );
 
 	do_action( 'bp_activity_add', $params );
@@ -498,23 +525,24 @@ function bp_activity_post_update( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	if ( empty($content) || empty($content) )
+	if ( empty( $content ) )
 		return false;
 
 	/* Record this on the user's profile */
 	$from_user_link = bp_core_get_userlink( $user_id );
-	$activity_content = sprintf( __('%s posted an update:', 'buddypress'), $from_user_link );
-	$activity_content .= '<div class="activity-inner">' . $content . '</div>';
+	$activity_action = sprintf( __( '%s posted an update:', 'buddypress' ), $from_user_link );
+	$activity_content = '<div class="activity-inner">' . $content . '</div>';
 
 	$primary_link = bp_core_get_userlink( $user_id, false, true );
 
 	/* Now write the values */
 	$activity_id = bp_activity_add( array(
 		'user_id' => $user_id,
+		'action' => apply_filters( 'bp_activity_new_update_action', $activity_action ),
 		'content' => apply_filters( 'bp_activity_new_update_content', $activity_content ),
 		'primary_link' => apply_filters( 'bp_activity_new_update_primary_link', $primary_link ),
-		'component_name' => $bp->activity->id,
-		'component_action' => 'activity_update'
+		'component' => $bp->activity->id,
+		'type' => 'activity_update'
 	) );
 
 	/* Add this update to the "latest update" usermeta so it can be fetched anywhere. */
@@ -551,8 +579,8 @@ function bp_activity_new_comment( $args = '' ) {
 	$comment_id = bp_activity_add( array(
 		'content' => apply_filters( 'bp_activity_comment_content', $comment_header . '<div class="activity-inner">' . $content . '</div>' ),
 		'primary_link' => '',
-		'component_name' => $bp->activity->id,
-		'component_action' => 'activity_comment',
+		'component' => $bp->activity->id,
+		'type' => 'activity_comment',
 		'user_id' => $user_id,
 		'item_id' => $activity_id,
 		'secondary_item_id' => $parent_id
@@ -587,8 +615,8 @@ function bp_activity_delete_by_item_id( $args = '' ) {
 
 	$defaults = array(
 		'item_id' => false,
-		'component_name' => false,
-		'component_action' => false, // optional
+		'component' => false,
+		'type' => false, // optional
 		'user_id' => false, // optional
 		'secondary_item_id' => false // optional
 	);
@@ -596,10 +624,10 @@ function bp_activity_delete_by_item_id( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	if ( !$activity_ids_deleted = BP_Activity_Activity::delete_by_item_id( $item_id, $component_name, $component_action, $user_id, $secondary_item_id ) )
+	if ( !$activity_ids_deleted = BP_Activity_Activity::delete_by_item_id( $item_id, $component, $type, $user_id, $secondary_item_id ) )
 		return false;
 
-	do_action( 'bp_activity_delete_by_item_id', $item_id, $component_name, $component_action, $user_id, $secondary_item_id );
+	do_action( 'bp_activity_delete_by_item_id', $item_id, $component, $type, $user_id, $secondary_item_id );
 	do_action( 'bp_activity_deleted_activities', $activity_ids_deleted );
 
 	return true;
@@ -615,24 +643,24 @@ function bp_activity_delete_by_activity_id( $activity_id ) {
 	return true;
 }
 
-function bp_activity_delete_by_content( $user_id, $content, $component_name, $component_action ) {
+function bp_activity_delete_by_content( $user_id, $content, $component, $type ) {
 	/* Insert the "time-since" placeholder to match the existing content in the DB */
 	$content = bp_activity_add_timesince_placeholder( $content );
 
-	if ( !$activity_ids_deleted = BP_Activity_Activity::delete_by_content( $user_id, $content, $component_name, $component_action ) )
+	if ( !$activity_ids_deleted = BP_Activity_Activity::delete_by_content( $user_id, $content, $component, $type ) )
 		return false;
 
-	do_action( 'bp_activity_delete_by_content', $user_id, $content, $component_name, $component_action );
+	do_action( 'bp_activity_delete_by_content', $user_id, $content, $component, $type );
 	do_action( 'bp_activity_deleted_activities', $activity_ids_deleted );
 
 	return true;
 }
 
-function bp_activity_delete_for_user_by_component( $user_id, $component_name ) {
-	if ( !$activity_ids_deleted = BP_Activity_Activity::delete_for_user_by_component( $user_id, $component_name ) )
+function bp_activity_delete_for_user_by_component( $user_id, $component ) {
+	if ( !$activity_ids_deleted = BP_Activity_Activity::delete_for_user_by_component( $user_id, $component ) )
 		return false;
 
-	do_action( 'bp_activity_delete_for_user_by_component', $user_id, $component_name );
+	do_action( 'bp_activity_delete_for_user_by_component', $user_id, $component );
 	do_action( 'bp_activity_deleted_activities', $activity_ids_deleted );
 
 	return true;
@@ -644,10 +672,10 @@ function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
 	if ( !$activity_obj )
 		$activity_obj = new BP_Activity_Activity( $activity_id );
 
-	if ( 'new_blog_post' == $activity_obj->component_action || 'new_blog_comment' == $activity_obj->component_action || 'new_forum_topic' == $activity_obj->component_action || 'new_forum_post' == $activity_obj->component_action )
+	if ( 'new_blog_post' == $activity_obj->type || 'new_blog_comment' == $activity_obj->type || 'new_forum_topic' == $activity_obj->type || 'new_forum_post' == $activity_obj->type )
 		$link = $activity_obj->primary_link;
 	else {
-		if ( 'activity_comment' == $activity_obj->component_action )
+		if ( 'activity_comment' == $activity_obj->type )
 			$link = $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $activity_obj->item_id . '/';
 		else
 			$link = $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $activity_obj->id . '/';
@@ -679,6 +707,27 @@ function bp_activity_add_timesince_placeholder( $content ) {
 	}
 
 	return apply_filters( 'bp_activity_add_timesince_placeholder', $content );
+}
+
+function bp_activity_thumbnail_images( $content ) {
+	preg_match_all( '/<img[^>]*>/Ui', $content, $matches );
+	$content = preg_replace('/<img[^>]*>/Ui', '', $content );
+
+	if ( !empty( $matches ) ) {
+		/* Get the SRC value */
+		preg_match( '/<img.*?(src\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i', $matches[0][0], $src );
+
+		if ( !empty( $src ) ) {
+			$src = substr( substr( str_replace( 'src=', '', $src[1] ), 0, -1 ), 1 );
+			$pos = strpos( $content, '<blockquote>' );
+			$before = substr( $content, 0, (int) $pos );
+			$after = substr( $content, (int) $pos, strlen( $content ) );
+
+			$content = $before . '<img src="' . esc_attr( $src) . '" width="100" height="100" alt="thumb" class="align-left thumbnail" />' . $after;
+		}
+	}
+
+	return $content;
 }
 
 function bp_activity_set_action( $component_id, $key, $value ) {
