@@ -895,7 +895,7 @@ function bp_the_topic_post_admin_links( $args = '' ) {
 		global $topic_template;
 
 		/* Never show for the first post in a topic. */
-		if ( 0 == $topic_template->current_post )
+		if ( 0 == $topic_template->current_post && $topic_template->pag_page == 1 )
 			return;
 
 		$defaults = array(
