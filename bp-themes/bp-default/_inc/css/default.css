@@ -975,6 +975,7 @@ form#whats-new-form {
 
 ul.activity-list li {
 	padding: 20px 0 0 0;
+	overflow: auto;
 }
 	ul.activity-list li.has-comments {
 		padding-bottom: 20px;
@@ -1067,6 +1068,10 @@ ul.activity-list li {
 			width: 100px;
 			height: 100px;
 		}
+
+.activity-list li img {
+	margin: 0 10px 10px 0;
+}
 
 .activity-list .activity-content {
 	margin-left: 70px;

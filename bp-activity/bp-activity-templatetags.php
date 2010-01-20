@@ -171,9 +171,9 @@ function bp_the_activity() {
 function bp_activity_pagination_count() {
 	global $bp, $activities_template;
 
-	$from_num = number_format( intval( ( $activities_template->pag_page - 1 ) * $activities_template->pag_num ) + 1 );
-	$to_num = number_format( ( $from_num + ( $activities_template->pag_num - 1 ) > $activities_template->total_activity_count ) ? $activities_template->total_activity_count : $from_num + ( $activities_template->pag_num - 1 ) );
-	$total = number_format( $activities_template->total_activity_count );
+	$from_num = bp_core_number_format( intval( ( $activities_template->pag_page - 1 ) * $activities_template->pag_num ) + 1 );
+	$to_num = bp_core_number_format( ( $from_num + ( $activities_template->pag_num - 1 ) > $activities_template->total_activity_count ) ? $activities_template->total_activity_count : $from_num + ( $activities_template->pag_num - 1 ) );
+	$total = bp_core_number_format( $activities_template->total_activity_count );
 
 	echo sprintf( __( 'Viewing item %s to %s (of %s items)', 'buddypress' ), $from_num, $to_num, $total ); ?> &nbsp;
 	<span class="ajax-loader"></span><?php

@@ -649,9 +649,9 @@ function bp_forum_pagination() {
 function bp_forum_pagination_count() {
 	global $bp, $forum_template;
 
-	$from_num = number_format( intval( ( $forum_template->pag_page - 1 ) * $forum_template->pag_num ) + 1 );
-	$to_num = number_format( ( $from_num + ( $forum_template->pag_num - 1  ) > $forum_template->total_topic_count ) ? $forum_template->total_topic_count : $from_num + ( $forum_template->pag_num - 1 ) );
-	$total = number_format( $forum_template->total_topic_count );
+	$from_num = bp_core_number_format( intval( ( $forum_template->pag_page - 1 ) * $forum_template->pag_num ) + 1 );
+	$to_num = bp_core_number_format( ( $from_num + ( $forum_template->pag_num - 1  ) > $forum_template->total_topic_count ) ? $forum_template->total_topic_count : $from_num + ( $forum_template->pag_num - 1 ) );
+	$total = bp_core_number_format( $forum_template->total_topic_count );
 
 	echo apply_filters( 'bp_forum_pagination_count', sprintf( __( 'Viewing topic %s to %s (%s total topics)', 'buddypress' ), $from_num, $to_num, $total ) );
 ?>

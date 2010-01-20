@@ -208,5 +208,5 @@ function bp_total_friend_count( $user_id = false ) {
 	function bp_get_total_friend_count( $user_id = false ) {
 		return apply_filters( 'bp_get_total_friend_count', friends_get_total_friend_count( $user_id ) );
 	}
-	add_filter( 'bp_get_total_friend_count', 'number_format' );
+	add_filter( 'bp_get_total_friend_count', 'bp_core_number_format' );
 ?>

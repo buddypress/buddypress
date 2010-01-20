@@ -169,9 +169,9 @@ function bp_the_blog() {
 function bp_blogs_pagination_count() {
 	global $bp, $blogs_template;
 
-	$from_num = number_format( intval( ( $blogs_template->pag_page - 1 ) * $blogs_template->pag_num ) + 1 );
-	$to_num = number_format( ( $from_num + ( $blogs_template->pag_num - 1 ) > $blogs_template->total_blog_count ) ? $blogs_template->total_blog_count : $from_num + ( $blogs_template->pag_num - 1 ) );
-	$total = number_format( $blogs_template->total_blog_count );
+	$from_num = bp_core_number_format( intval( ( $blogs_template->pag_page - 1 ) * $blogs_template->pag_num ) + 1 );
+	$to_num = bp_core_number_format( ( $from_num + ( $blogs_template->pag_num - 1 ) > $blogs_template->total_blog_count ) ? $blogs_template->total_blog_count : $from_num + ( $blogs_template->pag_num - 1 ) );
+	$total = bp_core_number_format( $blogs_template->total_blog_count );
 
 	echo sprintf( __( 'Viewing blog %s to %s (of %s blogs)', 'buddypress' ), $from_num, $to_num, $total ); ?> &nbsp;
 	<span class="ajax-loader"></span><?php
@@ -281,7 +281,7 @@ function bp_total_blog_count() {
 	function bp_get_total_blog_count() {
 		return apply_filters( 'bp_get_total_blog_count', bp_blogs_total_blogs() );
 	}
-	add_filter( 'bp_get_total_blog_count', 'number_format' );
+	add_filter( 'bp_get_total_blog_count', 'bp_core_number_format' );
 
 function bp_total_blog_count_for_user( $user_id = false ) {
 	echo bp_get_total_blog_count_for_user( $user_id );
@@ -289,7 +289,7 @@ function bp_total_blog_count_for_user( $user_id = false ) {
 	function bp_get_total_blog_count_for_user( $user_id = false ) {
 		return apply_filters( 'bp_get_total_blog_count_for_user', bp_blogs_total_blogs_for_user( $user_id ) );
 	}
-	add_filter( 'bp_get_total_blog_count_for_user', 'number_format' );
+	add_filter( 'bp_get_total_blog_count_for_user', 'bp_core_number_format' );
 
 /***
  * Technically the template loops for blog posts and comments are deprecated.
@@ -432,8 +432,8 @@ function bp_the_post() {
 function bp_post_pagination_count() {
 	global $bp, $posts_template;
 
-	$from_num = number_format( intval( ( $posts_template->pag_page - 1 ) * $posts_template->pag_num ) + 1 );
-	$to_num = number_format( ( $from_num + ( $posts_template->pag_num - 1 ) > $posts_template->total_post_count ) ? $posts_template->total_post_count : $from_num + ( $posts_template->pag_num - 1 ) );
+	$from_num = bp_core_number_format( intval( ( $posts_template->pag_page - 1 ) * $posts_template->pag_num ) + 1 );
+	$to_num = bp_core_number_format( ( $from_num + ( $posts_template->pag_num - 1 ) > $posts_template->total_post_count ) ? $posts_template->total_post_count : $from_num + ( $posts_template->pag_num - 1 ) );
 
 	echo sprintf( __( 'Viewing post %s to %s (of %s posts)', 'buddypress' ), $from_num, $to_num, $posts_template->total_post_count ); ?> &nbsp;
 	<span class="ajax-loader"></span><?php

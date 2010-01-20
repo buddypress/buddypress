@@ -162,9 +162,9 @@ function bp_members() {
 function bp_members_pagination_count() {
 	global $bp, $members_template;
 
-	$from_num = number_format( intval( ( $members_template->pag_page - 1 ) * $members_template->pag_num ) + 1 );
-	$to_num = number_format( ( $from_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $from_num + ( $members_template->pag_num - 1) );
-	$total = number_format( $members_template->total_member_count );
+	$from_num = bp_core_number_format( intval( ( $members_template->pag_page - 1 ) * $members_template->pag_num ) + 1 );
+	$to_num = bp_core_number_format( ( $from_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $from_num + ( $members_template->pag_num - 1) );
+	$total = bp_core_number_format( $members_template->total_member_count );
 
 	if ( 'active' == $members_template->type )
 		echo sprintf( __( 'Viewing member %s to %s (of %s active members)', 'buddypress' ), $from_num, $to_num, $total );
@@ -396,7 +396,7 @@ function bp_total_site_member_count() {
 	echo bp_get_total_site_member_count();
 }
 	function bp_get_total_site_member_count() {
-		return apply_filters( 'bp_get_total_site_member_count', number_format( bp_core_get_total_member_count() ) );
+		return apply_filters( 'bp_get_total_site_member_count', bp_core_number_format( bp_core_get_total_member_count() ) );
 	}
 
 
@@ -1134,7 +1134,7 @@ function bp_total_member_count() {
 	function bp_get_total_member_count() {
 		return apply_filters( 'bp_get_total_member_count', bp_core_get_total_member_count() );
 	}
-	add_filter( 'bp_get_total_member_count', 'number_format' );
+	add_filter( 'bp_get_total_member_count', 'bp_core_number_format' );
 
 /*** Signup form template tags **********************/
 

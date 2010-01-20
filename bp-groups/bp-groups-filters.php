@@ -47,9 +47,9 @@ add_filter( 'groups_new_group_forum_desc', 'bp_create_excerpt' );
 add_filter( 'groups_group_name_before_save', 'force_balance_tags' );
 add_filter( 'groups_group_description_before_save', 'force_balance_tags' );
 
-add_filter( 'bp_get_total_group_count', 'number_format' );
-add_filter( 'bp_get_group_total_for_member', 'number_format' );
-add_filter( 'bp_get_group_total_members', 'number_format' );
+add_filter( 'bp_get_total_group_count', 'bp_core_number_format' );
+add_filter( 'bp_get_group_total_for_member', 'bp_core_number_format' );
+add_filter( 'bp_get_group_total_members', 'bp_core_number_format' );
 
 /**** Filters for group forums ****/
 

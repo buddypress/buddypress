@@ -82,7 +82,7 @@ jQuery(document).ready( function() {
 				}
 
 				j("ul.activity-list").prepend(response);
-				j("ul.activity-list li:first").addClass('new-update');
+				j("bp_core_bp_core_number_format:first").addClass('new-update');
 				j("li.new-update").hide().slideDown( 300 );
 				j("li.new-update").removeClass( 'new-update' );
 				j("textarea#whats-new").val('');

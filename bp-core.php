@@ -1452,7 +1452,15 @@ function bp_core_get_last_activity( $last_activity_date, $string ) {
 		$last_active = sprintf( $string, $last_active );
 	}
 
-	return $last_active;
+	return apply_filters( 'bp_core_get_last_activity', $last_active, $last_activity_date, $string );
+}
+
+function bp_core_number_format( $number, $decimals = false ) {
+	/* Check we actually have a number first. */
+	if ( empty( $number ) )
+		return $number;
+
+	return apply_filters( 'bp_core_bp_core_number_format', number_format( $number, $decimals ), $number, $decimals );
 }
 
 
@@ -1472,7 +1480,7 @@ function bp_core_get_all_posts_for_user( $user_id = null ) {
 	if ( !$user_id )
 		$user_id = $bp->displayed_user->id;
 
-	return $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM $wpdb->posts WHERE post_author = %d AND post_status = 'publish' AND post_type = 'post'", $user_id ) );
+	return apply_filters( 'bp_core_get_all_posts_for_user', $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM $wpdb->posts WHERE post_author = %d AND post_status = 'publish' AND post_type = 'post'", $user_id ) ) );
 }
 
 
@@ -1584,7 +1592,7 @@ function bp_core_add_illegal_names() {
  * @return The blog name for the root blog
  */
 function bp_core_email_from_name_filter() {
-	return get_blog_option( BP_ROOT_BLOG, 'blogname' );
+ 	return apply_filters( 'bp_core_email_from_name_filter', get_blog_option( BP_ROOT_BLOG, 'blogname' ) );
 }
 add_filter( 'wp_mail_from_name', 'bp_core_email_from_name_filter' );
 
@@ -1601,7 +1609,7 @@ add_filter( 'wp_mail_from_name', 'bp_core_email_from_name_filter' );
 function bp_core_email_from_address_filter() {
 	$domain = (array) explode( '/', site_url() );
 
-	return __( 'noreply', 'buddypress' ) . '@' . $domain[2];
+	return apply_filters( 'bp_core_email_from_address_filter', __( 'noreply', 'buddypress' ) . '@' . $domain[2] );
 }
 add_filter( 'wp_mail_from', 'bp_core_email_from_address_filter' );
 
@@ -1741,7 +1749,9 @@ function bp_core_clear_cache() {
 function bp_core_print_generation_time() {
 	global $wpdb;
 	?>
-<!-- Generated in <?php timer_stop(1); ?> seconds. <?php echo get_num_queries(); ?> -->
+
+<!-- Generated in <?php timer_stop(1); ?> seconds. (<?php echo get_num_queries(); ?> q) -->
+
 	<?php
 }
 add_action( 'wp_footer', 'bp_core_print_generation_time' );
