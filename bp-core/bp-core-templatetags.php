@@ -1095,10 +1095,6 @@ function bp_create_excerpt( $text, $excerpt_length = 55, $filter_shortcodes = tr
 
 	return apply_filters( 'bp_create_excerpt', $text );
 }
-add_filter( 'bp_create_excerpt', 'wptexturize' );
-add_filter( 'bp_create_excerpt', 'convert_smilies' );
-add_filter( 'bp_create_excerpt', 'convert_chars' );
-add_filter( 'bp_create_excerpt', 'wpautop' );
 add_filter( 'bp_create_excerpt', 'wp_trim_excerpt' );
 add_filter( 'bp_create_excerpt', 'stripslashes_deep' );
 add_filter( 'bp_create_excerpt', 'force_balance_tags' );

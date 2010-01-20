@@ -259,6 +259,13 @@ function bp_blogs_record_activity( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
+	/* Remove large images and replace them with just one image thumbnail */
+ 	if ( function_exists( 'bp_activity_thumnail_content_images' ) && !empty( $content ) )
+		$content = bp_activity_thumnail_content_images( $content );
+
+	$action = apply_filters( 'bp_blogs_record_activity_action', $action );
+	$content = apply_filters( 'bp_blogs_record_activity_content', "<blockquote>" . bp_create_excerpt( $content ) . "</blockquote>" );
+
 	return bp_activity_add( array( 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
 }
 
@@ -390,7 +397,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 				$post_permalink = bp_post_get_permalink( $post, $blog_id );
 
 				$activity_action = sprintf( __( '%s wrote a new blog post: %s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' );
-				$activity_content = "<blockquote>" . bp_create_excerpt( $post->post_content ) . "</blockquote>";
+				$activity_content = $post->post_content;
 
 				bp_blogs_record_activity( array(
 					'user_id' => (int)$post->post_author,
@@ -428,7 +435,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 			$post_permalink = bp_post_get_permalink( $post, $blog_id );
 
 			$activity_action = sprintf( __( '%s wrote a new blog post: %s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' );
-			$activity_content = "<blockquote>" . bp_create_excerpt( $post->post_content ) . "</blockquote>";
+			$activity_content = $post->post_content;
 
 			/* Record this in activity streams */
 			bp_blogs_record_activity( array(
@@ -486,7 +493,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved ) {
 		/* Record in activity streams */
 		$comment_link = bp_post_get_permalink( $comment->post, $wpdb->blogid ) . '#comment-' . $comment_id;
 		$activity_action = sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $comment_link . '#comment-' . $comment->comment_ID . '">' . $comment->post->post_title . '</a>' );
-		$activity_content = '<blockquote>' . bp_create_excerpt( $comment->comment_content ) . '</blockquote>';
+		$activity_content = $comment->comment_content;
 
 		/* Record this in activity streams */
 		bp_blogs_record_activity( array(

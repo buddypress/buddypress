@@ -486,9 +486,6 @@ function bp_activity_add( $args = '' ) {
 	else if ( empty( $action ) && !empty( $content ) )
 		$content = bp_activity_add_timesince_placeholder( $content );
 
-	/* Remove any images and replace the first image with a thumbnail */
-	//$content = bp_activity_thumbnail_images( $content );
-
 	$activity = new BP_Activity_Activity( $id );
 
 	$activity->user_id = $user_id;
@@ -709,7 +706,7 @@ function bp_activity_add_timesince_placeholder( $content ) {
 	return apply_filters( 'bp_activity_add_timesince_placeholder', $content );
 }
 
-function bp_activity_thumbnail_images( $content ) {
+function bp_activity_thumnail_content_images( $content ) {
 	preg_match_all( '/<img[^>]*>/Ui', $content, $matches );
 	$content = preg_replace('/<img[^>]*>/Ui', '', $content );
 
@@ -717,13 +714,25 @@ function bp_activity_thumbnail_images( $content ) {
 		/* Get the SRC value */
 		preg_match( '/<img.*?(src\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i', $matches[0][0], $src );
 
+		/* Get the width and height */
+		preg_match( '/<img.*?(height\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i', $matches[0][0], $height );
+		preg_match( '/<img.*?(width\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i', $matches[0][0], $width );
+
 		if ( !empty( $src ) ) {
 			$src = substr( substr( str_replace( 'src=', '', $src[1] ), 0, -1 ), 1 );
-			$pos = strpos( $content, '<blockquote>' );
-			$before = substr( $content, 0, (int) $pos );
-			$after = substr( $content, (int) $pos, strlen( $content ) );
+			$height = substr( substr( str_replace( 'height=', '', $height[1] ), 0, -1 ), 1 );
+			$width = substr( substr( str_replace( 'width=', '', $width[1] ), 0, -1 ), 1 );
 
-			$content = $before . '<img src="' . esc_attr( $src) . '" width="100" height="100" alt="thumb" class="align-left thumbnail" />' . $after;
+			if ( empty( $width ) || empty( $height ) ) {
+				$width = 100;
+				$height = 100;
+			}
+
+			$ratio = (int)$width / (int)$height;
+			$new_height = 100;
+			$new_width = $new_height * $ratio;
+
+			$content = '<img src="' . esc_attr( $src) . '" width="' . $new_width . '" height="' . $new_height . '" alt="' . __( 'Thumbnail', 'buddypress' ) . '" class="align-left thumbnail" />' . $content;
 		}
 	}
 

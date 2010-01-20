@@ -1058,6 +1058,7 @@ ul.activity-list li {
 		display: inline;
 		padding: 0;
 		margin: 0;
+		overflow: auto;
 	}
 
 .activity-list .activity-avatar img {
@@ -1140,11 +1141,18 @@ ul.activity-list li {
 	.activity-list .activity-content .activity-inner,
 	.activity-list .activity-content blockquote {
 		margin: 15px 0 15px 5px;
+		overflow: auto;
 	}
 		body.activity-permalink .activity-content .activity-inner,
 		body.activity-permalink .activity-content blockquote {
 			margin-top: 5px;
 		}
+
+	.activity-list .activity-content img.thumbnail {
+		float: left;
+		margin: 0 10px 5px 0;
+		border: 2px solid #eee;
+	}
 
 .activity-list li.load-more {
 	margin: 15px  0 !important;
@@ -1167,6 +1175,7 @@ ul.activity-list li {
 
 div.activity-meta {
 	margin: 0 0 20px 3px;
+	clear: left;
 }
 
 .activity-list div.activity-meta a {

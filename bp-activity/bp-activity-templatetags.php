@@ -558,7 +558,7 @@ function bp_activity_css_class() {
 	function bp_get_activity_css_class() {
 		global $activities_template;
 
-		$mini_activity_actions = apply_filters( 'bp_activity_mini_activity_actions', array(
+		$mini_activity_actions = apply_filters( 'bp_activity_mini_activity_types', array(
 			'friendship_accepted',
 			'friendship_created',
 			'new_blog',
@@ -568,7 +568,7 @@ function bp_activity_css_class() {
 		) );
 
 		$class = '';
-		if ( in_array( $activities_template->activity->type, (array)$mini_activity_actions ) )
+		if ( in_array( $activities_template->activity->type, (array)$mini_activity_actions ) || empty( $activities_template->activity->content ) )
 			$class = ' mini';
 
 		if ( bp_activity_get_comment_count() && bp_activity_can_comment() )
