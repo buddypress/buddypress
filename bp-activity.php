@@ -23,8 +23,8 @@ function bp_activity_install() {
 
 	/* Rename fields from pre BP 1.2 */
 	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->activity->table_name}%'" ) ) {
-		$wpdb->query( "ALTER TABLE {$bp->activity->table_name} CHANGE type type varchar(75) NOT NULL" );
-		$wpdb->query( "ALTER TABLE {$bp->activity->table_name} CHANGE component component varchar(75) NOT NULL" );
+		$wpdb->query( "ALTER TABLE {$bp->activity->table_name} CHANGE component_action type varchar(75) NOT NULL" );
+		$wpdb->query( "ALTER TABLE {$bp->activity->table_name} CHANGE component_name component varchar(75) NOT NULL" );
 	}
 
 	/**
