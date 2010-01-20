@@ -11,20 +11,20 @@ jQuery(document).ready( function() {
 
 	/* Members */
 	if ( j('div.members').length )
-		bp_filter_request( j.cookie('bp-members-type'), j.cookie('bp-members-filter'), 'members', 'div.members', 1, j.cookie('bp-members-search-terms') );
+		bp_filter_request( j.cookie('bp-members-type'), j.cookie('bp-members-filter'), 'members', 'div.members' );
 
 	/* Groups */
 	if ( j('div.groups').length )
-		bp_filter_request( j.cookie('bp-groups-type'), j.cookie('bp-groups-filter'), 'groups', 'div.groups', 1, j.cookie('bp-groups-search-terms') );
+		bp_filter_request( j.cookie('bp-groups-type'), j.cookie('bp-groups-filter'), 'groups', 'div.groups' );
 
 	/* Blogs */
 	if ( j('div.blogs').length )
-		bp_filter_request( j.cookie('bp-blogs-type'), j.cookie('bp-blogs-filter'), 'blogs', 'div.blogs', 1, j.cookie('bp-blogs-search-terms') );
+		bp_filter_request( j.cookie('bp-blogs-type'), j.cookie('bp-blogs-filter'), 'blogs', 'div.blogs' );
 
 	/* Forums */
 	if ( j('div.forums').length ) {
 		j('div#new-topic-post').hide();
-		bp_filter_request( j.cookie('bp-forums-type'), j.cookie('bp-forums-filter'), 'forums', 'div.forums', 1, j.cookie('bp-forums-search-terms') );
+		bp_filter_request( j.cookie('bp-forums-type'), j.cookie('bp-forums-filter'), 'forums', 'div.forums' );
 	}
 
 	/* @message Compose Scrolling */

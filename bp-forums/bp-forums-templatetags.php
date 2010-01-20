@@ -949,9 +949,6 @@ function bp_directory_forums_search_form() {
 	if ( !empty( $_REQUEST['fs'] ) )
 	 	$search_value = $_REQUEST['fs'];
 
-	else if ( !empty( $_COOKIE['bp-forums-search-terms'] ) && 'false' != $_COOKIE['bp-forums-search-terms'] )
-	 	$search_value = $_COOKIE['bp-forums-search-terms'];
-
 ?>
 	<form action="" method="get" id="search-forums-form">
 		<label><input type="text" name="s" id="forums_search" value="<?php echo attribute_escape($search_value) ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>

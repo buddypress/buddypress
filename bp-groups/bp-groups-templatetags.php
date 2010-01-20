@@ -1673,9 +1673,6 @@ function bp_directory_groups_search_form() {
 	if ( !empty( $_REQUEST['s'] ) )
 	 	$search_value = $_REQUEST['s'];
 
-	else if ( !empty( $_COOKIE['bp-groups-search-terms'] ) && 'false' != $_COOKIE['bp-groups-search-terms'] )
-	 	$search_value = $_COOKIE['bp-groups-search-terms'];
-
 ?>
 	<form action="" method="get" id="search-groups-form">
 		<label><input type="text" name="s" id="groups_search" value="<?php echo attribute_escape($search_value) ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>

@@ -365,9 +365,6 @@ function bp_directory_members_search_form() {
 	if ( !empty( $_GET['s'] ) )
 	 	$search_value = $_GET['s'];
 
-	else if ( !empty( $_COOKIE['bp-members-search-terms'] ) && 'false' != $_COOKIE['bp-members-search-terms'] )
-	 	$search_value = $_COOKIE['bp-members-search-terms'];
-
 	?>
 	<form action="" method="get" id="search-members-form">
 		<label><input type="text" name="s" id="members_search" value="<?php echo attribute_escape( $search_value ) ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
