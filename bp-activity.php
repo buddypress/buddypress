@@ -35,7 +35,7 @@ function bp_activity_install() {
 				user_id bigint(20) NOT NULL,
 				component varchar(75) NOT NULL,
 				type varchar(75) NOT NULL,
-				action text NOT NULL
+				action text NOT NULL,
 				content longtext NOT NULL,
 				primary_link varchar(150) NOT NULL,
 				item_id varchar(75) NOT NULL,
