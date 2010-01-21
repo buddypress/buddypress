@@ -165,9 +165,8 @@ add_action( 'admin_menu', 'xprofile_add_admin_menu' );
  *
  * @package BuddyPress XProfile
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @uses bp_core_add_nav_item() Adds a navigation item to the top level buddypress navigation
- * @uses bp_core_add_nav_default() Sets which sub navigation item is selected by default
- * @uses bp_core_add_subnav_item() Adds a sub navigation item to a nav item
+ * @uses bp_core_new_nav_item() Adds a navigation item to the top level buddypress navigation
+ * @uses bp_core_new_subnav_item() Adds a sub navigation item to a nav item
  * @uses bp_is_my_profile() Returns true if the current user being viewed is equal the logged in user
  * @uses bp_core_fetch_avatar() Returns the either the thumb or full avatar URL for the user_id passed
  */
