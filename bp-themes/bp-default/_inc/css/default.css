@@ -1432,7 +1432,7 @@ div#message-thread div.message-box {
 	div#message-thread div.message-options {
 		text-align: right;
 	}
-		a#delete_inbox_messages, .sentbox div.messages-options-nav {
+		a#delete_inbox_messages {
 			display: none;
 		}
 

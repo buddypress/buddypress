@@ -269,7 +269,16 @@ function bp_blogs_record_activity( $args = '' ) {
 	if ( !empty( $content ) )
 		$content = apply_filters( 'bp_blogs_record_activity_content', "<blockquote>" . bp_create_excerpt( $content ) . "</blockquote>" );
 
-	return bp_activity_add( array( 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
+	/* Check for an existing entry and update if one exists. */
+	$id = bp_activity_get_activity_id( array(
+		'user_id' => $user_id,
+		'component' => $component,
+		'type' => $type,
+		'item_id' => $item_id,
+		'secondary_item_id' => $secondary_item_id
+	) );
+
+	return bp_activity_add( array( 'id' => $id, 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
 }
 
 function bp_blogs_delete_activity( $args = true ) {
@@ -417,9 +426,6 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 	} else {
 		$existing_post = new BP_Blogs_Post( null, $blog_id, $post_id );
 
-		/* Delete and the activity stream item as we are probably going to re-add it later with new info. */
-		bp_blogs_delete_activity( array( 'item_id' => $existing_post->id, 'component' => $bp->blogs->slug, 'type' => 'new_blog_post' ) );
-
 		/* Delete the recorded post if the status is not published or it is password protected */
 		if ( 'publish' != $post->post_status || '' != $post->post_password ) {
 			return bp_blogs_remove_post( $post_id, $blog_id, $existing_post );
@@ -440,7 +446,6 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 			$activity_action = sprintf( __( '%s wrote a new blog post: %s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' );
 			$activity_content = $post->post_content;
 
-			/* Record this in activity streams */
 			bp_blogs_record_activity( array(
 				'user_id' => (int)$post->post_author,
 				'action' => apply_filters( 'bp_blogs_activity_new_post_action', $activity_action, &$post, $post_permalink ),
@@ -448,7 +453,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 				'primary_link' => apply_filters( 'bp_blogs_activity_new_post_primary_link', $post_permalink, $post_id ),
 				'type' => 'new_blog_post',
 				'item_id' => $blog_id,
-				'secondary_item_id' => $existing_post->id,
+				'secondary_item_id' => $post_id,
 				'recorded_time' => strtotime( $post->post_date_gmt )
 			) );
 		}

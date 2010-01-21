@@ -15,7 +15,13 @@
 	<?php do_action( 'bp_before_member_messages_content' ) ?>
 
 	<div class="messages">
-		<?php locate_template( array( 'members/single/messages/messages-loop.php' ), true ) ?>
+		<?php if ( 'notices' == bp_current_action() ) : ?>
+			<?php locate_template( array( 'members/single/messages/notices-loop.php' ), true ) ?>
+
+		<?php else : ?>
+			<?php locate_template( array( 'members/single/messages/messages-loop.php' ), true ) ?>
+
+		<?php endif; ?>
 	</div>
 
 	<?php do_action( 'bp_after_member_messages_content' ) ?>

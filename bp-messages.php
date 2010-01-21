@@ -173,8 +173,13 @@ function messages_screen_compose() {
 			bp_core_add_message( __( 'There was an error sending that message, please try again', 'buddypress' ), 'error' );
 		} else {
 			/* If this is a notice, send it */
-			if ( isset($_POST['send-notice']) ) {
-				messages_send_notice( $_POST['subject'], $_POST['content'] );
+			if ( isset( $_POST['send-notice'] ) ) {
+				if ( messages_send_notice( $_POST['subject'], $_POST['content'] ) ) {
+					bp_core_add_message( __( 'Notice sent successfully!', 'buddypress' ) );
+					bp_core_redirect( $bp->loggedin_user->domain . $bp->messages->slug . '/inbox/' );
+				} else {
+					bp_core_add_message( __( 'There was an error sending that notice, please try again', 'buddypress' ), 'error' );
+				}
 			} else {
 				/* Filter recipients into the format we need - array( 'username/userid', 'username/userid' ) */
 				$autocomplete_recipients = explode( ',', $_POST['send-to-input'] );
@@ -419,7 +424,7 @@ function messages_new_message( $args = '' ) {
 
 	/* If we have a thread ID, use the existing recipients, otherwise use the recipients passed */
 	if ( $thread_id ) {
-		$thread = new BP_Messages_Thread($thread_id);
+		$thread = new BP_Messages_Thread( $thread_id );
 		$message->recipients = $thread->get_recipients();
 	} else {
 		if ( empty( $recipients ) )

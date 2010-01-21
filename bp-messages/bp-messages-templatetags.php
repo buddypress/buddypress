@@ -161,7 +161,13 @@ function bp_message_thread_id() {
 	function bp_get_message_thread_id() {
 		global $messages_template;
 
-		return apply_filters( 'bp_get_message_thread_id', $messages_template->thread->thread_id );
+		/* Notice support */
+		if ( empty( $messages_template->thread->thread_id ) )
+			$id = $messages_template->thread->id;
+		else
+			$id = $messages_template->thread->thread_id;
+
+		return apply_filters( 'bp_get_message_thread_id', $id );
 	}
 
 function bp_message_thread_subject() {
@@ -169,7 +175,14 @@ function bp_message_thread_subject() {
 }
 	function bp_get_message_thread_subject() {
 		global $messages_template;
-		return apply_filters( 'bp_get_message_thread_subject', stripslashes_deep( $messages_template->thread->last_message_subject ) );
+
+		/* Notice support */
+		if ( empty( $messages_template->thread->last_message_subject ) )
+			$subject = $messages_template->thread->subject;
+		else
+			$subject = $messages_template->thread->last_message_subject;
+
+		return apply_filters( 'bp_get_message_thread_subject', stripslashes_deep( $subject ) );
 	}
 
 function bp_message_thread_excerpt() {
@@ -177,15 +190,29 @@ function bp_message_thread_excerpt() {
 }
 	function bp_get_message_thread_excerpt() {
 		global $messages_template;
-		return apply_filters( 'bp_get_message_thread_excerpt', strip_tags( bp_create_excerpt($messages_template->thread->last_message_message, 10 ) ) );
+
+		/* Notice support */
+		if ( empty( $messages_template->thread->last_message_message ) )
+			$message = $messages_template->thread->message;
+		else
+			$message = $messages_template->thread->last_message_message;
+
+		return apply_filters( 'bp_get_message_thread_excerpt', strip_tags( bp_create_excerpt( $message, 10 ) ) );
 	}
 
 function bp_message_thread_from() {
 	echo bp_get_message_thread_from();
 }
 	function bp_get_message_thread_from() {
-		global $messages_template;
-		return apply_filters( 'bp_get_message_thread_from', bp_core_get_userlink($messages_template->thread->last_sender_id) );
+		global $messages_template, $bp;
+
+		/* Notice support */
+		if ( empty( $messages_template->thread->last_sender_id ) )
+			$sender = $bp->loggedin_user->id;
+		else
+			$sender = $messages_template->thread->last_sender_id;
+
+		return apply_filters( 'bp_get_message_thread_from', bp_core_get_userlink($sender) );
 	}
 
 function bp_message_thread_to() {
@@ -238,15 +265,29 @@ function bp_message_thread_last_post_date() {
 }
 	function bp_get_message_thread_last_post_date() {
 		global $messages_template;
-		echo apply_filters( 'bp_get_message_thread_last_post_date', bp_format_time( strtotime($messages_template->thread->last_post_date) ) );
+
+		/* Notice support */
+		if ( empty( $messages_template->thread->last_post_date ) )
+			$date = $messages_template->thread->date_sent;
+		else
+			$date = $messages_template->thread->last_post_date;
+
+		echo apply_filters( 'bp_get_message_thread_last_post_date', bp_format_time( strtotime($date) ) );
 	}
 
 function bp_message_thread_avatar() {
 	echo bp_get_message_thread_avatar();
 }
 	function bp_get_message_thread_avatar() {
-		global $messages_template;
-		echo apply_filters( 'bp_get_message_thread_avatar', bp_core_fetch_avatar( array( 'item_id' => $messages_template->thread->last_sender_id, 'type' => 'thumb' ) ) );
+		global $messages_template, $bp;
+
+		/* Notice support */
+		if ( empty( $messages_template->thread->last_sender_id ) )
+			$sender = $bp->loggedin_user->id;
+		else
+			$sender = $messages_template->thread->last_sender_id;
+
+		echo apply_filters( 'bp_get_message_thread_avatar', bp_core_fetch_avatar( array( 'item_id' => $sender, 'type' => 'thumb' ) ) );
 	}
 
 function bp_message_thread_view() {
@@ -317,19 +358,18 @@ function bp_messages_content_value() {
 
 function bp_messages_options() {
 	global $bp;
-
-	if ( $bp->current_action != 'sentbox' ) {
 ?>
-		<?php _e( 'Select:', 'buddypress' ) ?>
-		<select name="message-type-select" id="message-type-select">
-			<option value=""></option>
-			<option value="read"><?php _e('Read', 'buddypress') ?></option>
-			<option value="unread"><?php _e('Unread', 'buddypress') ?></option>
-			<option value="all"><?php _e('All', 'buddypress') ?></option>
-		</select> &nbsp;
+	<?php _e( 'Select:', 'buddypress' ) ?>
+	<select name="message-type-select" id="message-type-select">
+		<option value=""></option>
+		<option value="read"><?php _e('Read', 'buddypress') ?></option>
+		<option value="unread"><?php _e('Unread', 'buddypress') ?></option>
+		<option value="all"><?php _e('All', 'buddypress') ?></option>
+	</select> &nbsp;
+	<?php if ( $bp->current_action != 'sentbox' && $bp->current_action != 'notices' ) : ?>
 		<a href="#" id="mark_as_read"><?php _e('Mark as Read', 'buddypress') ?></a> &nbsp;
 		<a href="#" id="mark_as_unread"><?php _e('Mark as Unread', 'buddypress') ?></a> &nbsp;
-	<?php } ?>
+	<?php endif; ?>
 	<a href="#" id="delete_<?php echo $bp->current_action ?>_messages"><?php _e('Delete Selected', 'buddypress') ?></a> &nbsp;
 <?php
 }
@@ -417,7 +457,11 @@ function bp_message_get_notices() {
 	global $userdata;
 
 	$notice = BP_Messages_Notice::get_active();
-	$closed_notices = get_usermeta( $userdata->ID, 'closed_notices');
+
+	if ( empty( $notice ) )
+		return false;
+
+	$closed_notices = get_usermeta( $userdata->ID, 'closed_notices' );
 
 	if ( !$closed_notices )
 		$closed_notices = array();
@@ -425,10 +469,12 @@ function bp_message_get_notices() {
 	if ( is_array($closed_notices) ) {
 		if ( !in_array( $notice->id, $closed_notices ) && $notice->id ) {
 			?>
-			<div class="notice" id="<?php echo $notice->id ?>">
-				<h5><?php echo stripslashes($notice->subject) ?></h5>
-				<?php echo stripslashes($notice->message) ?>
-				<a href="#" id="close-notice"><?php _e( 'Close', 'buddypress' ) ?></a>
+			<div id="message" class="info notice" rel="n-<?php echo $notice->id ?>">
+				<p>
+					<strong><?php echo stripslashes( wp_filter_kses( $notice->subject ) ) ?></strong><br />
+					<?php echo stripslashes( wp_filter_kses( $notice->message) ) ?>
+					<a href="#" id="close-notice"><?php _e( 'Close', 'buddypress' ) ?></a>
+				</p>
 			</div>
 			<?php
 		}

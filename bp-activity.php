@@ -597,6 +597,28 @@ function bp_activity_new_comment( $args = '' ) {
 	return $comment_id;
 }
 
+/**
+ * bp_activity_get_activity_id()
+ *
+ * Fetch the activity_id for an existing activity entry in the DB.
+ *
+ * @package BuddyPress Activity
+ */
+function bp_activity_get_activity_id( $args = '' ) {
+	$defaults = array(
+		'user_id' => false,
+		'component' => false,
+		'type' => false,
+		'item_id' => false,
+		'secondary_item_id' => false
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+ 	return apply_filters( 'bp_activity_get_activity_id', BP_Activity_Activity::get_id( $user_id, $component, $type, $item_id, $secondary_item_id ) );
+}
+
 /***
  * Deleting Activity
  *
@@ -711,6 +733,15 @@ function bp_activity_add_timesince_placeholder( $content ) {
 	return apply_filters( 'bp_activity_add_timesince_placeholder', $content );
 }
 
+/**
+ * bp_activity_thumnail_content_images()
+ *
+ * Take content, remove all images and replace them with one thumbnail image.
+ *
+ * @package BuddyPress Activity
+ * @param $content str - The content to work with
+ * @return $content str - The content with images stripped and replaced with a single thumb.
+ */
 function bp_activity_thumnail_content_images( $content ) {
 	preg_match_all( '/<img[^>]*>/Ui', $content, $matches );
 	$content = preg_replace('/<img[^>]*>/Ui', '', $content );
@@ -741,7 +772,7 @@ function bp_activity_thumnail_content_images( $content ) {
 		}
 	}
 
-	return $content;
+	return apply_filters( 'bp_activity_thumnail_content_images', $content, $matches );
 }
 
 function bp_activity_set_action( $component_id, $key, $value ) {

@@ -294,6 +294,34 @@ Class BP_Activity_Activity {
 		return array( 'activities' => $activities, 'total' => (int)$total_activities );
 	}
 
+	function get_id( $user_id, $component, $type, $item_id, $secondary_item_id ) {
+		global $bp, $wpdb;
+
+		$where_args = false;
+
+		if ( !empty( $user_id ) )
+			$where_args[] = $wpdb->prepare( "user_id = %d", $user_id );
+
+		if ( !empty( $component ) )
+			$where_args[] = $wpdb->prepare( "component = %s", $component );
+
+		if ( !empty( $type ) )
+			$where_args[] = $wpdb->prepare( "type = %s", $type );
+
+		if ( !empty( $item_id ) )
+			$where_args[] = $wpdb->prepare( "item_id = %s", $item_id );
+
+		if ( !empty( $secondary_item_id ) )
+			$where_args[] = $wpdb->prepare( "secondary_item_id = %s", $secondary_item_id );
+
+		if ( !empty( $where_args ) )
+			$where_sql = 'WHERE ' . join( ' AND ', $where_args );
+		else
+			return false;
+
+		return $wpdb->get_var( "SELECT id FROM {$bp->activity->table_name} {$where_sql}" );
+	}
+
 	function append_comments( $activities ) {
 		global $bp, $wpdb;
 

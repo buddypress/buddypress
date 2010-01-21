@@ -11,7 +11,12 @@
 			<?php bp_loggedin_user_avatar( 'type=thumb&width=40&height=40' ) ?>
 			<h3><?php bp_loggedinuser_link() ?></h3>
 			<a class="button" href="<?php echo wp_logout_url(wp_get_referer()) ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>
+
 		</div>
+
+		<?php if ( function_exists( 'bp_message_get_notices' ) ) : ?>
+			<?php bp_message_get_notices(); /* Site wide notices to all users */ ?>
+		<?php endif; ?>
 
 	<?php else : ?>
 

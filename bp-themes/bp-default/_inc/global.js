@@ -492,6 +492,7 @@ jQuery(document).ready( function() {
 		}
 	});
 
+	/* Hide long lists of activity comments, only show the latest five root comments. */
 	function bp_dtheme_hide_comments() {
 		var comments_divs = j('div.activity-comments');
 
@@ -525,6 +526,7 @@ jQuery(document).ready( function() {
 
 	/**** Directory Search ****************************************************/
 
+	/* The search form on all directory pages */
 	j('div.dir-search').click( function(event) {
 		var target = j(event.target);
 
@@ -540,6 +542,7 @@ jQuery(document).ready( function() {
 
 	/**** Tabs and Filters ****************************************************/
 
+	/* When a navigation tab is clicked - e.g. | All Groups | My Groups | */
 	j('div.item-list-tabs').click( function(event) {
 		if ( j(this).hasClass('no-ajax') )
 			return;
@@ -569,6 +572,7 @@ jQuery(document).ready( function() {
 		}
 	});
 
+	/* When the filter select box is changed re-query */
 	j('li.filter select').change( function() {
 		if ( j('div.item-list-tabs li.selected').length )
 			var el = j('div.item-list-tabs li.selected');
@@ -586,6 +590,7 @@ jQuery(document).ready( function() {
 		return false;
 	});
 
+	/* Filter the current content list (groups/members/blogs/topics) */
 	function bp_filter_request( type, filter, id, target, page, search_terms, extras ) {
 		if ( 'activity' == id )
 			return false;
@@ -645,7 +650,7 @@ jQuery(document).ready( function() {
 		});
 	}
 
-	/* Pagination Links */
+	/* All pagination links run through this function */
 	j('div#content').click( function(event) {
 		var target = j(event.target);
 
@@ -683,6 +688,7 @@ jQuery(document).ready( function() {
 
 	/**** New Forum Directory Post **************************************/
 
+	/* Hit the "New Topic" button on the forums directory page */
 	j('a#new-topic-button').click( function() {
 		if ( !j('div#new-topic-post').length )
 			return false;
@@ -695,6 +701,7 @@ jQuery(document).ready( function() {
 		return false;
 	});
 
+	/* Cancel the posting of a new forum topic */
 	j('input#submit_topic_cancel').click( function() {
 		if ( !j('div#new-topic-post').length )
 			return false;
@@ -705,6 +712,7 @@ jQuery(document).ready( function() {
 
 	/** Invite Friends Interface ****************************************/
 
+	/* Select a user from the list of friends and add them to the invite list */
 	j("div#invite-list input").click( function() {
 		j('.ajax-loader').toggle();
 
@@ -742,6 +750,7 @@ jQuery(document).ready( function() {
 		});
 	});
 
+	/* Remove a user from the list of users to invite to a group */
 	j("#friend-list li a.remove").live('click', function() {
 		j('.ajax-loader').toggle();
 
@@ -769,6 +778,7 @@ jQuery(document).ready( function() {
 
 	/** Friendship Requests **************************************/
 
+	/* Accept and Reject friendship request buttons */
 	j("ul#friend-list a.accept, ul#friend-list a.reject").click( function() {
 		var button = j(this);
 		var li = j(this).parents('ul#friend-list li');
@@ -815,6 +825,7 @@ jQuery(document).ready( function() {
 		return false;
 	});
 
+	/* Add / Remove friendship buttons */
 	j("div.friendship-button a").live('click', function() {
 		j(this).parent().addClass('loading');
 		var fid = j(this).attr('id');
@@ -923,6 +934,7 @@ jQuery(document).ready( function() {
 
 	/** Private Messaging ******************************************/
 
+	/* AJAX send reply functionality */
 	j("input#send_reply_button").click(
 		function() {
 			j('form#send-reply span.ajax-loader').toggle();
@@ -963,6 +975,7 @@ jQuery(document).ready( function() {
 		}
 	);
 
+	/* Marking private messages as read and unread */
 	j("a#mark_as_read, a#mark_as_unread").click(
 		function() {
 			var checkboxes_tosend = '';
@@ -1018,6 +1031,7 @@ jQuery(document).ready( function() {
 		}
 	);
 
+	/* Selecting unread and read messages in inbox */
 	j("select#message-type-select").change(
 		function() {
 			var selection = j("select#message-type-select").val();
@@ -1045,6 +1059,28 @@ jQuery(document).ready( function() {
 			}
 		}
 	);
+
+	/* Close site wide notices in the sidebar */
+	j("a#close-notice").click( function() {
+		j(this).addClass('loading');
+		j('div#sidebar div.error').remove();
+
+		j.post( ajaxurl, {
+			action: 'messages_close_notice',
+			'notice_id': j('.notice').attr('rel').substr( 2, j('.notice').attr('rel').length )
+		},
+		function(response) {
+			j("a#close-notice").removeClass('loading');
+
+			if ( response[0] + response[1] == '-1' ) {
+				j('.notice').prepend( response.substr( 2, response.length ) );
+				j( 'div#sidebar div.error').hide().fadeIn( 200 );
+			} else {
+				j('.notice').slideUp( 100 );
+			}
+		});
+		return false;
+	});
 
 	/* Admin Bar Javascript */
 	j("#wp-admin-bar ul.main-nav li").mouseover( function() {

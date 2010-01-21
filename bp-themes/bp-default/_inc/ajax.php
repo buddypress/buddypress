@@ -424,6 +424,21 @@ function bp_dtheme_ajax_joinleave_group() {
 }
 add_action( 'wp_ajax_joinleave_group', 'bp_dtheme_ajax_joinleave_group' );
 
+function bp_dtheme_ajax_close_notice() {
+	global $userdata;
+
+	if ( !isset( $_POST['notice_id'] ) ) {
+		echo "-1<div id='message' class='error'><p>" . __('There was a problem closing the notice.', 'buddypress') . '</p></div>';
+	} else {
+		$notice_ids = get_usermeta( $userdata->ID, 'closed_notices' );
+
+		$notice_ids[] = (int) $_POST['notice_id'];
+
+		update_usermeta( $userdata->ID, 'closed_notices', $notice_ids );
+	}
+}
+add_action( 'wp_ajax_messages_close_notice', 'bp_dtheme_ajax_close_notice' );
+
 function bp_dtheme_ajax_messages_send_reply() {
 	global $bp;
 
@@ -459,7 +474,7 @@ function bp_dtheme_ajax_messages_send_reply() {
 }
 add_action( 'wp_ajax_messages_send_reply', 'bp_dtheme_ajax_messages_send_reply' );
 
-function bp_dtheme_ajax_markunread() {
+function bp_dtheme_ajax_message_markunread() {
 	global $bp;
 
 	if ( !isset($_POST['thread_ids']) ) {
@@ -472,7 +487,7 @@ function bp_dtheme_ajax_markunread() {
 		}
 	}
 }
-add_action( 'wp_ajax_messages_markunread', 'bp_dtheme_ajax_markunread' );
+add_action( 'wp_ajax_messages_markunread', 'bp_dtheme_ajax_message_markunread' );
 
 function bp_dtheme_ajax_message_markread() {
 	global $bp;
@@ -487,7 +502,7 @@ function bp_dtheme_ajax_message_markread() {
 		}
 	}
 }
-add_action( 'wp_ajax_messages_markread', 'bp_dtheme_ajax_messages_markread' );
+add_action( 'wp_ajax_messages_markread', 'bp_dtheme_ajax_message_markread' );
 
 function bp_dtheme_ajax_messages_delete() {
 	global $bp;

@@ -15,11 +15,6 @@
 	</div><!-- .pagination -->
 
 	<?php do_action( 'bp_after_member_messages_pagination' ) ?>
-
-	<div class="messages-options-nav">
-		<?php bp_messages_options() ?>
-	</div><!-- .messages-options-nav -->
-
 	<?php do_action( 'bp_before_member_messages_threads' ) ?>
 
 	<table id="message-threads">
@@ -31,7 +26,7 @@
 				</td>
 				<td width="1%" class="thread-avatar"><?php bp_message_thread_avatar() ?></td>
 				<td width="30%" class="thread-from">
-					<?php _e("From:", "buddypress"); ?> <?php bp_message_thread_from() ?><br />
+					<?php _e( 'From:', 'buddypress' ); ?> <?php bp_message_thread_from() ?><br />
 					<span class="activity"><?php bp_message_thread_last_post_date() ?></span>
 				</td>
 				<td width="50%" class="thread-info">
@@ -50,11 +45,11 @@
 		<?php endwhile; ?>
 	</table><!-- #message-threads -->
 
-	<?php do_action( 'bp_after_member_messages_threads' ) ?>
-
 	<div class="messages-options-nav">
 		<?php bp_messages_options() ?>
-	</div>
+	</div><!-- .messages-options-nav -->
+
+	<?php do_action( 'bp_after_member_messages_threads' ) ?>
 
 	<?php do_action( 'bp_after_member_messages_options' ) ?>
 

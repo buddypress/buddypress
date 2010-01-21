@@ -1332,7 +1332,16 @@ function groups_record_activity( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	return bp_activity_add( array( 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
+	/* Check for an existing entry and update if one exists. */
+	$id = bp_activity_get_activity_id( array(
+		'user_id' => $user_id,
+		'component' => $component,
+		'type' => $type,
+		'item_id' => $item_id,
+		'secondary_item_id' => $secondary_item_id
+	) );
+
+	return bp_activity_add( array( 'id' => $id, 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
 }
 
 function groups_update_last_activity( $group_id ) {
