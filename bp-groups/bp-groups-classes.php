@@ -758,13 +758,13 @@ Class BP_Groups_Member {
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
-		// If the user is logged in and viewing their own groups, we can show hidden and private groupss
+		// If the user is logged in and viewing their own groups, we can show hidden and private groups
 		if ( $user_id != $bp->loggedin_user->id ) {
+			$group_sql = $wpdb->prepare( "SELECT DISTINCT m.group_id FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.status != 'hidden' m.user_id = %d AND m.inviter_id = 0 AND m.is_banned = 0{$pag_sql}", $user_id );
+			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.status != 'hidden' AND m.user_id = %d AND m.inviter_id = 0 AND m.is_banned = 0", $user_id ) );
+		} else {
 			$group_sql = $wpdb->prepare( "SELECT DISTINCT group_id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND inviter_id = 0 AND is_banned = 0{$pag_sql}", $user_id );
 			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT group_id) FROM {$bp->groups->table_name_members} WHERE user_id = %d AND inviter_id = 0 AND is_banned = 0", $user_id ) );
-		} else {
-			$group_sql = $wpdb->prepare( "SELECT DISTINCT m.group_id FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.inviter_id = 0 AND m.is_banned = 0{$pag_sql}", $user_id );
-			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.inviter_id = 0 AND m.is_banned = 0", $user_id ) );
 		}
 
 		$groups = $wpdb->get_col( $group_sql );
