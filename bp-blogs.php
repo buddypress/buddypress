@@ -263,8 +263,11 @@ function bp_blogs_record_activity( $args = '' ) {
  	if ( function_exists( 'bp_activity_thumnail_content_images' ) && !empty( $content ) )
 		$content = bp_activity_thumnail_content_images( $content );
 
-	$action = apply_filters( 'bp_blogs_record_activity_action', $action );
-	$content = apply_filters( 'bp_blogs_record_activity_content', "<blockquote>" . bp_create_excerpt( $content ) . "</blockquote>" );
+	if ( !empty( $action ) )
+		$action = apply_filters( 'bp_blogs_record_activity_action', $action );
+
+	if ( !empty( $content ) )
+		$content = apply_filters( 'bp_blogs_record_activity_content', "<blockquote>" . bp_create_excerpt( $content ) . "</blockquote>" );
 
 	return bp_activity_add( array( 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
 }
