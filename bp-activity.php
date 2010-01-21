@@ -47,7 +47,9 @@ function bp_activity_install() {
 				KEY date_recorded (date_recorded),
 				KEY user_id (user_id),
 				KEY item_id (item_id),
-				KEY component (component)
+				KEY component (component),
+				KEY mptt_left (mptt_left),
+				KEY mptt_right (mptt_right)
 		 	   ) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE {$bp->activity->table_name_meta} (
@@ -544,6 +546,9 @@ function bp_activity_post_update( $args = '' ) {
 
 	/* Add this update to the "latest update" usermeta so it can be fetched anywhere. */
 	update_usermeta( $bp->loggedin_user->id, 'bp_latest_update', array( 'id' => $activity_id, 'content' => wp_filter_kses( $content ) ) );
+
+ 	/* Require the notifications code so email notifications can be set on the 'bp_activity_posted_update' action. */
+	require_once( BP_PLUGIN_DIR . '/bp-activity/bp-activity-notifications.php' );
 
 	do_action( 'bp_activity_posted_update', $content, $user_id, $activity_id );
 
