@@ -11,6 +11,9 @@
 if ( !defined( 'BP_AVATAR_UPLOAD_PATH' ) )
 	define( 'BP_AVATAR_UPLOAD_PATH', bp_core_avatar_upload_path() );
 
+if ( !defined( 'BP_AVATAR_URL' ) )
+	define( 'BP_AVATAR_URL', bp_core_avatar_url() );
+
 if ( !defined( 'BP_AVATAR_THUMB_WIDTH' ) )
 	define( 'BP_AVATAR_THUMB_WIDTH', 50 );
 
@@ -101,7 +104,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 	else
 		$html_height = ( 'thumb' == $type ) ? ' height="' . BP_AVATAR_THUMB_HEIGHT . '"' : ' height="' . BP_AVATAR_FULL_HEIGHT . '"';
 
-	$avatar_folder_url = apply_filters( 'bp_core_avatar_folder_url', str_replace( WP_CONTENT_DIR, WP_CONTENT_URL, BP_AVATAR_UPLOAD_PATH ) . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
+	$avatar_folder_url = apply_filters( 'bp_core_avatar_folder_url', str_replace( WP_CONTENT_DIR, BP_AVATAR_URL, BP_AVATAR_UPLOAD_PATH ) . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
 	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', BP_AVATAR_UPLOAD_PATH . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
 
 	/****
@@ -272,7 +275,7 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	}
 
 	/* Set the url value for the image */
-	$bp->avatar_admin->image->url = str_replace( WP_CONTENT_DIR, WP_CONTENT_URL, $bp->avatar_admin->image->dir );
+	$bp->avatar_admin->image->url = str_replace( WP_CONTENT_DIR, BP_AVATAR_URL, $bp->avatar_admin->image->dir );
 
 	return true;
 }
@@ -376,6 +379,13 @@ function bp_core_avatar_upload_path() {
 	}
 
 	return apply_filters( 'bp_core_avatar_upload_path', $path );
+}
+
+function bp_core_avatar_url() {
+	if ( !bp_core_is_multisite() )
+		return WP_CONTENT_URL;
+
+	return apply_filters( 'bp_core_avatar_upload_path', get_blog_option( BP_ROOT_BLOG, 'siteurl' ) );
 }
 
 ?>
