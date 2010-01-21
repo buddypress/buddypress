@@ -30,7 +30,7 @@ add_filter( 'bp_get_the_site_member_profile_data', 'force_balance_tags' );
 
 add_filter( 'bp_get_the_profile_field_value', 'xprofile_filter_format_field_value', 1, 2 );
 add_filter( 'bp_get_the_site_member_profile_data', 'xprofile_filter_format_field_value', 1, 2 );
-add_filter( 'bp_get_the_profile_field_value', 'xprofile_filter_link_profile_data', 2, 2 );
+add_filter( 'bp_get_the_profile_field_value', 'xprofile_filter_link_profile_data', 50, 2 );
 
 add_filter( 'bp_get_the_profile_field_edit_value', 'stripslashes' );
 add_filter( 'bp_get_the_profile_field_value', 'stripslashes' );
