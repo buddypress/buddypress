@@ -26,6 +26,10 @@ body {
 			max-width: 760px;
 		}
 
+		body.wp-admin #wp-admin-bar .padder {
+			max-width: none;
+		}
+
 #wp-admin-bar * { z-index: 999; }
 
 #wp-admin-bar div#admin-bar-logo {
