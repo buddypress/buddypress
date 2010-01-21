@@ -274,10 +274,6 @@
 
 					<?php endif; ?>
 
-				<?php else : ?>
-
-					<p><?php _e( "We've fetched an avatar for your new account. If you'd like to change this you can use the <a href=\"http://gravatar.com\">Gravatar</a> service to upload a new one.", 'buddypress' ) ?></p>
-
 				<?php endif; ?>
 
 			<?php endif; // completed-confirmation signup step ?>

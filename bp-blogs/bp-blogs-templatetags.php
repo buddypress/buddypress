@@ -1152,7 +1152,7 @@ function bp_blogs_confirm_blog_signup( $domain, $path, $blog_title, $user_name, 
 function bp_create_blog_link() {
 	global $bp;
 
-	if ( bp_is_home() )	{
+	if ( bp_is_my_profile() )	{
 		echo apply_filters( 'bp_create_blog_link', '<a href="' . $bp->loggedin_user->domain . $bp->blogs->slug . '/create-a-blog">' . __('Create a Blog', 'buddypress') . '</a>' );
 	}
 }
@@ -1161,7 +1161,7 @@ function bp_blogs_blog_tabs() {
 	global $bp, $groups_template;
 
 	// Don't show these tabs on a user's own profile
-	if ( bp_is_home() )
+	if ( bp_is_my_profile() )
 		return false;
 
 	$current_tab = $bp->current_action

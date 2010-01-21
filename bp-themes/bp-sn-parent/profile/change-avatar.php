@@ -23,7 +23,7 @@
 					<h3><?php _e( 'Your Current Avatar', 'buddypress' ) ?></h3>
 
 					<p id="current-avatar">
-						<?php bp_displayed_user_avatar( 'type=full') ?>
+						<?php bp_displayed_user_avatar( 'type=full' ) ?>
 						<?php bp_displayed_user_avatar( 'type=thumb' ) ?>
 					</p>
 

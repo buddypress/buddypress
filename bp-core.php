@@ -331,7 +331,7 @@ function bp_core_is_root_component( $component_name ) {
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  * @uses bp_core_new_nav_item() Adds a navigation item to the top level buddypress navigation
  * @uses bp_core_new_subnav_item() Adds a sub navigation item to a nav item
- * @uses bp_is_home() Returns true if the current user being viewed is equal the logged in user
+ * @uses bp_is_my_profile() Returns true if the current user being viewed is equal the logged in user
  * @uses bp_core_fetch_avatar() Returns the either the thumb or full avatar URL for the user_id passed
  */
 function bp_core_setup_nav() {
@@ -368,7 +368,7 @@ function bp_core_setup_nav() {
 
 
 		if ( 'profile' == $bp->current_component ) {
-			if ( bp_is_home() ) {
+			if ( bp_is_my_profile() ) {
 				$bp->bp_options_title = __('My Profile', 'buddypress');
 			} else {
 				$bp->bp_options_avatar = bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => 'thumb' ) );
@@ -425,7 +425,7 @@ add_action( 'wp', 'bp_core_action_directory_members', 2 );
 function bp_core_action_set_spammer_status() {
 	global $bp, $wpdb;
 
-	if ( !is_site_admin() || bp_is_home() || !$bp->displayed_user->id )
+	if ( !is_site_admin() || bp_is_my_profile() || !$bp->displayed_user->id )
 		return false;
 
 	if ( 'admin' == $bp->current_component && ( 'mark-spammer' == $bp->current_action || 'unmark-spammer' == $bp->current_action ) ) {
@@ -485,7 +485,7 @@ add_action( 'wp', 'bp_core_action_set_spammer_status', 3 );
 function bp_core_action_delete_user() {
 	global $bp;
 
-	if ( !is_site_admin() || bp_is_home() || !$bp->displayed_user->id )
+	if ( !is_site_admin() || bp_is_my_profile() || !$bp->displayed_user->id )
 		return false;
 
 	if ( 'admin' == $bp->current_component && 'delete-user' == $bp->current_action ) {

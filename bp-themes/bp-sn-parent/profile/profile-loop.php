@@ -40,7 +40,7 @@
 		<?php endwhile; ?>
 
 		<div class="button-block">
-			<?php if ( bp_is_home() || is_site_admin() ) : ?>
+			<?php if ( bp_is_my_profile() || is_site_admin() ) : ?>
 
 				<?php bp_edit_profile_button() ?>
 

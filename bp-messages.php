@@ -116,15 +116,15 @@ function messages_setup_nav() {
 	$messages_link = $bp->loggedin_user->domain . $bp->messages->slug . '/';
 
 	/* Add the subnav items to the profile */
-	bp_core_new_subnav_item( array( 'name' => __( 'Inbox', 'buddypress' ) . $count_indicator, 'slug' => 'inbox', 'parent_url' => $messages_link, 'parent_slug' => $bp->messages->slug, 'screen_function' => 'messages_screen_inbox', 'position' => 10, 'user_has_access' => bp_is_home() ) );
-	bp_core_new_subnav_item( array( 'name' => __( 'Sent Messages', 'buddypress' ), 'slug' => 'sentbox', 'parent_url' => $messages_link, 'parent_slug' => $bp->messages->slug, 'screen_function' => 'messages_screen_sentbox', 'position' => 20, 'user_has_access' => bp_is_home() ) );
-	bp_core_new_subnav_item( array( 'name' => __( 'Compose', 'buddypress' ), 'slug' => 'compose', 'parent_url' => $messages_link, 'parent_slug' => $bp->messages->slug, 'screen_function' => 'messages_screen_compose', 'position' => 30, 'user_has_access' => bp_is_home() ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Inbox', 'buddypress' ) . $count_indicator, 'slug' => 'inbox', 'parent_url' => $messages_link, 'parent_slug' => $bp->messages->slug, 'screen_function' => 'messages_screen_inbox', 'position' => 10, 'user_has_access' => bp_is_my_profile() ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Sent Messages', 'buddypress' ), 'slug' => 'sentbox', 'parent_url' => $messages_link, 'parent_slug' => $bp->messages->slug, 'screen_function' => 'messages_screen_sentbox', 'position' => 20, 'user_has_access' => bp_is_my_profile() ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Compose', 'buddypress' ), 'slug' => 'compose', 'parent_url' => $messages_link, 'parent_slug' => $bp->messages->slug, 'screen_function' => 'messages_screen_compose', 'position' => 30, 'user_has_access' => bp_is_my_profile() ) );
 
 	if ( is_site_admin() )
 		bp_core_new_subnav_item( array( 'name' => __( 'Notices', 'buddypress' ), 'slug' => 'notices', 'parent_url' => $messages_link, 'parent_slug' => $bp->messages->slug, 'screen_function' => 'messages_screen_notices', 'position' => 90, 'user_has_access' => is_site_admin() ) );
 
 	if ( $bp->current_component == $bp->messages->slug ) {
-		if ( bp_is_home() ) {
+		if ( bp_is_my_profile() ) {
 			$bp->bp_options_title = __( 'My Messages', 'buddypress' );
 		} else {
 			$bp_options_avatar =  bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => 'thumb' ) );
@@ -304,7 +304,7 @@ function messages_action_view_message() {
 
 	do_action( 'messages_action_view_message' );
 
-	bp_core_new_subnav_item( array( 'name' => sprintf( __( 'From: %s', 'buddypress'), BP_Messages_Thread::get_last_sender($thread_id) ), 'slug' => 'view', 'parent_url' => $bp->loggedin_user->domain . $bp->messages->slug . '/', 'parent_slug' => $bp->messages->slug, 'screen_function' => true, 'position' => 40, 'user_has_access' => bp_is_home() ) );
+	bp_core_new_subnav_item( array( 'name' => sprintf( __( 'From: %s', 'buddypress'), BP_Messages_Thread::get_last_sender($thread_id) ), 'slug' => 'view', 'parent_url' => $bp->loggedin_user->domain . $bp->messages->slug . '/', 'parent_slug' => $bp->messages->slug, 'screen_function' => true, 'position' => 40, 'user_has_access' => bp_is_my_profile() ) );
 	bp_core_load_template( apply_filters( 'messages_template_view_message', 'members/single/home' ) );
 }
 add_action( 'wp', 'messages_action_view_message', 3 );

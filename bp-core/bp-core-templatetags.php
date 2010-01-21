@@ -514,7 +514,7 @@ function bp_get_options_nav() {
 	 * Only render this navigation when the logged in user is looking at one of their own pages, or we are using it to display nav
 	 * menus for something like a group, or event.
 	 */
-	if ( bp_is_home() || $bp->is_single_item ) {
+	if ( bp_is_my_profile() || $bp->is_single_item ) {
 		if ( count( $bp->bp_options_nav[$bp->current_component] ) < 1 )
 			return false;
 

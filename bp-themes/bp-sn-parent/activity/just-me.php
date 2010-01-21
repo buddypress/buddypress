@@ -25,7 +25,7 @@
 				<div class="bp-widget">
 					<h4><?php echo bp_word_or_name( __( "My Activity", 'buddypress' ), __( "%s's Activity", 'buddypress' ), true, false ) ?> <span><a href="<?php bp_activities_member_rss_link() ?>" title="<?php _e( 'RSS Feed', 'buddypress' ) ?>"><?php _e( 'RSS Feed', 'buddypress' ) ?></a></span></h4>
 
-					<?php if ( is_user_logged_in() && bp_is_home() ) : ?>
+					<?php if ( is_user_logged_in() && bp_is_my_profile() ) : ?>
 
 					<form action="" method="post" id="whats-new-form" name="whats-new-form">
 						<div id="whats-new-avatar">
@@ -53,7 +53,7 @@
 
 					<div class="activity">
 
-					<?php if ( bp_has_activities( 'user_id=' . bp_displayed_user_id() . '&per_page=25&max=500&display_comments=stream&show_hidden=' . bp_is_home() ) ) : ?>
+					<?php if ( bp_has_activities( 'user_id=' . bp_displayed_user_id() . '&per_page=25&max=500&display_comments=stream&show_hidden=' . bp_is_my_profile() ) ) : ?>
 
 						<ul id="activity-list" class="activity-list item-list">
 						<?php while ( bp_activities() ) : bp_the_activity(); ?>

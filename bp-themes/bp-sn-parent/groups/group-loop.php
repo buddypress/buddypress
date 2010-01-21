@@ -49,7 +49,7 @@
 				<p><?php bp_word_or_name( __( "You haven't joined any groups yet.", 'buddypress' ), __( "%s hasn't joined any groups yet.", 'buddypress' ) ) ?></p>
 			</div>
 
-			<?php if ( bp_is_home() ) : ?>
+			<?php if ( bp_is_my_profile() ) : ?>
 
 				<?php do_action( 'bp_before_random_groups_list' ) ?>
 

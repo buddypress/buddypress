@@ -450,7 +450,7 @@ function bp_send_message_button() {
 	function bp_get_send_message_button() {
 		global $bp;
 
-		if ( bp_is_home() || !is_user_logged_in() )
+		if ( bp_is_my_profile() || !is_user_logged_in() )
 			return false;
 
 		return apply_filters( 'bp_get_send_message_button', '<div class="generic-button"><a class="send-message" title="' . __( 'Send Message', 'buddypress' ) . '" href="' . $bp->loggedin_user->domain . $bp->messages->slug . '/compose/?r=' . bp_core_get_username( $bp->displayed_user->user_id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) . '">' . __( 'Send Message', 'buddypress' ) . '</a></div>' );

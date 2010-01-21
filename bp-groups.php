@@ -154,11 +154,11 @@ function groups_setup_nav() {
 
 	if ( $bp->current_component == $bp->groups->slug ) {
 
-		if ( bp_is_home() && !$bp->is_single_item ) {
+		if ( bp_is_my_profile() && !$bp->is_single_item ) {
 
 			$bp->bp_options_title = __( 'My Groups', 'buddypress' );
 
-		} else if ( !bp_is_home() && !$bp->is_single_item ) {
+		} else if ( !bp_is_my_profile() && !$bp->is_single_item ) {
 
 			$bp->bp_options_avatar = bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => 'thumb' ) );
 			$bp->bp_options_title = $bp->displayed_user->fullname;
@@ -1901,6 +1901,8 @@ function groups_post_update( $args = '' ) {
 		'type' => 'activity_update',
 		'item_id' => $bp->groups->current_group->id
 	) );
+
+	do_action( 'bp_groups_posted_update', $content, $user_id, $group_id, $activity_id );
 
 	return $activity_id;
 }

@@ -114,7 +114,7 @@ Class BP_Blogs_Blog {
 			$user_id = $bp->displayed_user->id;
 
 		// Show logged in users their hidden blogs.
-		if ( !bp_is_home() )
+		if ( !bp_is_my_profile() )
 			$blogs = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT b.id, bm1.meta_value as name, bm2.meta_value as description, wb.domain, wb.path FROM {$bp->blogs->table_name} b, {$wpdb->base_prefix}blogs wb, {$bp->blogs->table_name_blogmeta} bm1, {$bp->blogs->table_name_blogmeta} bm2 WHERE b.blog_id = wb.blog_id AND b.blog_id = bm1.blog_id AND b.blog_id = bm2.blog_id AND bm1.meta_key = 'name' AND bm2.meta_key = 'description' AND wb.public = 1 AND wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND b.user_id = %d ", $user_id) );
 		else
 			$blogs = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT b.id, bm1.meta_value as name, bm2.meta_value as description, wb.domain, wb.path FROM {$bp->blogs->table_name} b, {$wpdb->base_prefix}blogs wb, {$bp->blogs->table_name_blogmeta} bm1, {$bp->blogs->table_name_blogmeta} bm2 WHERE b.blog_id = wb.blog_id AND b.blog_id = bm1.blog_id AND b.blog_id = bm2.blog_id AND bm1.meta_key = 'name' AND bm2.meta_key = 'description' AND wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND b.user_id = %d ", $user_id) );
@@ -475,7 +475,7 @@ Class BP_Blogs_Post {
 			$user_id = $bp->displayed_user->id;
 
 		// Show a logged in user their posts on private blogs, but not anyone else.
-		if ( !bp_is_home() ) {
+		if ( !bp_is_my_profile() ) {
 			$post_ids = $wpdb->get_results( $wpdb->prepare( "SELECT p.post_id, p.blog_id FROM {$bp->blogs->table_name_blog_posts} p LEFT JOIN {$wpdb->base_prefix}blogs b ON p.blog_id = b.blog_id WHERE b.public = 1 AND b.deleted = 0 AND b.archived = '0' AND b.spam = 0 AND b.mature = 0 AND p.user_id = %d ORDER BY p.date_created DESC", $user_id) );
 			$total_post_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(p.post_id) FROM {$bp->blogs->table_name_blog_posts} p LEFT JOIN {$wpdb->base_prefix}blogs b ON p.blog_id = b.blog_id WHERE b.public = 1 AND b.deleted = 0 AND b.archived = '0' AND b.spam = 0 AND b.mature = 0 AND p.user_id = %d", $user_id) );
 		} else {
@@ -669,7 +669,7 @@ Class BP_Blogs_Comment {
 			$user_id = $bp->displayed_user->id;
 
 		// Show the logged in user their comments on hidden blogs, but not to anyone else.
-		if ( !bp_is_home() ) {
+		if ( !bp_is_my_profile() ) {
 			$comment_ids = $wpdb->get_results( $wpdb->prepare( "SELECT c.comment_id, c.blog_id FROM {$bp->blogs->table_name_blog_comments} c LEFT JOIN {$wpdb->base_prefix}blogs b ON c.blog_id = b.blog_id WHERE b.public = 1 AND b.deleted = 0 AND b.archived = '0' AND b.spam = 0 AND b.mature = 0 AND c.user_id = %d ORDER BY c.date_created ASC", $user_id) );
 			$total_comment_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(c.comment_id) FROM {$bp->blogs->table_name_blog_comments} c LEFT JOIN {$wpdb->base_prefix}blogs b ON c.blog_id = b.blog_id WHERE b.public = 1 AND b.deleted = 0 AND b.archived = '0' AND b.spam = 0 AND b.mature = 0 AND c.user_id = %d", $user_id) );
 		} else {

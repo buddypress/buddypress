@@ -116,7 +116,7 @@ add_action( 'plugins_loaded', 'bp_blogs_setup_root_component', 2 );
  *
  * @package BuddyPress Blogs
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @uses bp_is_home() Checks to see if the current user being viewed is the logged in user
+ * @uses bp_is_my_profile() Checks to see if the current user being viewed is the logged in user
  */
 function bp_blogs_setup_nav() {
 	global $bp;
@@ -138,7 +138,7 @@ function bp_blogs_setup_nav() {
 
 	/* Set up the component options navigation for Blog */
 	if ( 'blogs' == $bp->current_component ) {
-		if ( bp_is_home() ) {
+		if ( bp_is_my_profile() ) {
 			if ( function_exists('xprofile_setup_nav') ) {
 				$bp->bp_options_title = __('My Blogs', 'buddypress');
 			}

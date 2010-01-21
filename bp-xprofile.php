@@ -168,7 +168,7 @@ add_action( 'admin_menu', 'xprofile_add_admin_menu' );
  * @uses bp_core_add_nav_item() Adds a navigation item to the top level buddypress navigation
  * @uses bp_core_add_nav_default() Sets which sub navigation item is selected by default
  * @uses bp_core_add_subnav_item() Adds a sub navigation item to a nav item
- * @uses bp_is_home() Returns true if the current user being viewed is equal the logged in user
+ * @uses bp_is_my_profile() Returns true if the current user being viewed is equal the logged in user
  * @uses bp_core_fetch_avatar() Returns the either the thumb or full avatar URL for the user_id passed
  */
 function xprofile_setup_nav() {
@@ -185,7 +185,7 @@ function xprofile_setup_nav() {
 	bp_core_new_subnav_item( array( 'name' => __( 'Change Avatar', 'buddypress' ), 'slug' => 'change-avatar', 'parent_url' => $profile_link, 'parent_slug' => $bp->profile->slug, 'screen_function' => 'xprofile_screen_change_avatar', 'position' => 30 ) );
 
 	if ( $bp->current_component == $bp->profile->slug ) {
-		if ( bp_is_home() ) {
+		if ( bp_is_my_profile() ) {
 			$bp->bp_options_title = __( 'My Profile', 'buddypress' );
 		} else {
 			$bp->bp_options_avatar = bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => 'thumb' ) );
@@ -214,7 +214,7 @@ function xprofile_setup_adminbar_menu() {
 		return false;
 
 	/* Don't show this menu to non site admins or if you're viewing your own profile */
-	if ( !is_site_admin() || bp_is_home() )
+	if ( !is_site_admin() || bp_is_my_profile() )
 		return false;
 	?>
 	<li id="bp-adminbar-adminoptions-menu">
@@ -269,7 +269,7 @@ function xprofile_screen_display_profile() {
  * Also checks to make sure this can only be accessed for the logged in users profile.
  *
  * @package BuddyPress Xprofile
- * @uses bp_is_home() Checks to make sure the current user being viewed equals the logged in user
+ * @uses bp_is_my_profile() Checks to make sure the current user being viewed equals the logged in user
  * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
  */
 function xprofile_screen_edit_profile() {
@@ -356,13 +356,13 @@ function xprofile_screen_edit_profile() {
  * Handles the uploading and cropping of a user avatar. Displays the change avatar page.
  *
  * @package BuddyPress Xprofile
- * @uses bp_is_home() Checks to make sure the current user being viewed equals the logged in user
+ * @uses bp_is_my_profile() Checks to make sure the current user being viewed equals the logged in user
  * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
  */
 function xprofile_screen_change_avatar() {
 	global $bp;
 
-	if ( !bp_is_home() && !is_site_admin() )
+	if ( !bp_is_my_profile() && !is_site_admin() )
 		return false;
 
 	$bp->avatar_admin->step = 'upload-image';
@@ -431,7 +431,7 @@ function xprofile_action_delete_avatar() {
 	/* Check the nonce */
 	check_admin_referer( 'bp_delete_avatar_link' );
 
-	if ( !bp_is_home() && !is_site_admin() )
+	if ( !bp_is_my_profile() && !is_site_admin() )
 		return false;
 
 	if ( bp_core_delete_existing_avatar( array( 'item_id' => $bp->displayed_user->id ) ) )

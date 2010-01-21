@@ -113,7 +113,7 @@ function bp_activity_setup_nav() {
 	bp_core_new_subnav_item( array( 'name' => __( 'My Friends', 'buddypress' ), 'slug' => 'my-friends', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_friends_activity', 'position' => 20, 'item_css_id' => 'activity-my-friends' ) );
 
 	if ( $bp->current_component == $bp->activity->slug ) {
-		if ( bp_is_home() ) {
+		if ( bp_is_my_profile() ) {
 			$bp->bp_options_title = __( 'My Activity', 'buddypress' );
 		} else {
 			$bp->bp_options_avatar = bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => 'thumb' ) );
