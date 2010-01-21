@@ -319,7 +319,7 @@ Class BP_Groups_Group {
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
-		if ( !is_site_admin() )
+		if ( !is_user_logged_in() || ( !is_site_admin() && ( $user_id != $bp->loggedin_user->id ) ) )
 			$hidden_sql = "AND g.status != 'hidden'";
 
 		if ( $search_terms ) {
@@ -344,7 +344,7 @@ Class BP_Groups_Group {
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
-		if ( !is_site_admin() && ( $user_id != $bp->loggedin_user->id ) )
+		if ( !is_user_logged_in() || ( !is_site_admin() && ( $user_id != $bp->loggedin_user->id ) ) )
 			$hidden_sql = "AND g.status != 'hidden'";
 
 		if ( $search_terms ) {
@@ -370,7 +370,7 @@ Class BP_Groups_Group {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		}
 
-		if ( !is_site_admin() && ( $user_id != $bp->loggedin_user->id ) )
+		if ( !is_user_logged_in() || ( !is_site_admin() && ( $user_id != $bp->loggedin_user->id ) ) )
 			$hidden_sql = "AND g.status != 'hidden'";
 
 		if ( $search_terms ) {
@@ -395,7 +395,7 @@ Class BP_Groups_Group {
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
-		if ( !is_site_admin() && ( $user_id != $bp->loggedin_user->id ) )
+		if ( !is_user_logged_in() || ( !is_site_admin() && ( $user_id != $bp->loggedin_user->id ) ) )
 			$hidden_sql = " AND g.status != 'hidden'";
 
 		if ( $search_terms ) {
@@ -424,7 +424,7 @@ Class BP_Groups_Group {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		}
 
-		if ( !is_site_admin() && ( $user_id != $bp->loggedin_user->id ) )
+		if ( !is_user_logged_in() || ( !is_site_admin() && ( $user_id != $bp->loggedin_user->id ) ) )
 			$hidden_sql = " AND g.status != 'hidden'";
 
 		if ( $search_terms ) {
@@ -453,7 +453,7 @@ Class BP_Groups_Group {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		}
 
-		if ( !is_site_admin() && ( $user_id != $bp->loggedin_user->id ) )
+		if ( !is_user_logged_in() || ( !is_site_admin() && ( $user_id != $bp->loggedin_user->id ) ) )
 			$hidden_sql = " AND g.status != 'hidden'";
 
 		if ( $search_terms ) {
@@ -543,7 +543,7 @@ Class BP_Groups_Group {
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
-		if ( !is_site_admin() )
+		if ( !is_user_logged_in() || ( !is_site_admin() && ( $user_id != $bp->loggedin_user->id ) ) )
 			$hidden_sql = "AND g.status != 'hidden'";
 
 		if ( $search_terms ) {
