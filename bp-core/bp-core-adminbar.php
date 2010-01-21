@@ -90,31 +90,6 @@ function bp_adminbar_account_menu() {
 	echo '</li>';
 }
 
-// return a string indicating user's role in that blog
-function get_blog_role_for_user( $user, $blog ) {
-
-	// If the user is a site admin, just display admin.
-	if ( is_site_admin() )
-		return __( 'Admin', 'buddypress' );
-
-	$roles = get_usermeta( $user, 'wp_' . $blog . '_capabilities' );
-
-	if ( isset( $roles['subscriber'] ) )
-		$role = __( 'Subscriber', 'buddypress' );
-	elseif	( isset( $roles['contributor'] ) )
-		$role = __( 'Contributor', 'buddypress' );
-	elseif	( isset( $roles['author'] ) )
-		$role = __( 'Author', 'buddypress' );
-	elseif ( isset( $roles['editor'] ) )
-		$role = __( 'Editor', 'buddypress' );
-	elseif ( isset( $roles['administrator'] ) )
-		$role = __( 'Admin', 'buddypress' );
-	else
-		return false;
-
-	return $role;
-}
-
 // *** "My Blogs" Menu ********
 function bp_adminbar_blogs_menu() {
 	global $bp;
@@ -122,9 +97,9 @@ function bp_adminbar_blogs_menu() {
 	if ( !is_user_logged_in() || !function_exists('bp_blogs_install') )
 		return false;
 
-	if ( !$blogs = wp_cache_get( 'bp_blogs_of_user_' . $bp->loggedin_user->id, 'bp' ) ) {
-		$blogs = bp_blogs_get_blogs_for_user( $bp->loggedin_user->id );
-		wp_cache_set( 'bp_blogs_of_user_' . $bp->loggedin_user->id, $blogs, 'bp' );
+	if ( !$blogs = wp_cache_get( 'bp_blogs_of_user_' . $bp->loggedin_user->id . '_inc_hidden', 'bp' ) ) {
+		$blogs = bp_blogs_get_blogs_for_user( $bp->loggedin_user->id, true );
+		wp_cache_set( 'bp_blogs_of_user_' . $bp->loggedin_user->id . '_inc_hidden', $blogs, 'bp' );
 	}
 
 	echo '<li id="bp-adminbar-blogs-menu"><a href="' . $bp->loggedin_user->domain . $bp->blogs->slug . '/my-blogs">';
@@ -137,22 +112,18 @@ function bp_adminbar_blogs_menu() {
 	if ( is_array( $blogs['blogs'] ) && (int)$blogs['count'] ) {
 		$counter = 0;
 		foreach ( $blogs['blogs'] as $blog ) {
-			$role = get_blog_role_for_user( $bp->loggedin_user->id, $blog->id );
-
 			$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
+
 			echo '<li' . $alt . '>';
-			echo '<a href="' . $blog->siteurl . '">' . $blog->name . ' (' . $role . ')</a>';
-			if ( !( __( 'Subscriber', 'buddypress' ) == $role ) ) { // then they have something to display on the flyout menu
-				echo '<ul>';
-				echo '<li class="alt"><a href="' . $blog->siteurl  . 'wp-admin/">' . __('Dashboard', 'buddypress') . '</a></li>';
-				echo '<li><a href="' . $blog->siteurl  . 'wp-admin/post-new.php">' . __('New Post', 'buddypress') . '</a></li>';
-				echo '<li class="alt"><a href="' . $blog->siteurl  . 'wp-admin/edit.php">' . __('Manage Posts', 'buddypress') . '</a></li>';
-				echo '<li><a href="' . $blog->siteurl  . 'wp-admin/edit-comments.php">' . __('Manage Comments', 'buddypress') . '</a></li>';
-				if ( 'Admin' == $role ) {
-					echo '<li class="alt"><a href="' . $blog->siteurl  . 'wp-admin/themes.php">' . __('Switch Theme', 'buddypress') . '</a></li>';
-				}
-				echo '</ul>';
-			}
+			echo '<a href="' . esc_attr( $blog->siteurl ) . '">' . esc_html( $blog->name ) . '</a>';
+
+			echo '<ul>';
+			echo '<li class="alt"><a href="' . esc_attr( $blog->siteurl ) . 'wp-admin/">' . __( 'Dashboard', 'buddypress' ) . '</a></li>';
+			echo '<li><a href="' . esc_attr( $blog->siteurl ) . 'wp-admin/post-new.php">' . __( 'New Post', 'buddypress' ) . '</a></li>';
+			echo '<li class="alt"><a href="' . esc_attr( $blog->siteurl ) . 'wp-admin/edit.php">' . __( 'Manage Posts', 'buddypress' ) . '</a></li>';
+			echo '<li><a href="' . esc_attr( $blog->siteurl ) . 'wp-admin/edit-comments.php">' . __( 'Manage Comments', 'buddypress' ) . '</a></li>';
+			echo '</ul>';
+
 			echo '</li>';
 			$counter++;
 		}
@@ -162,7 +133,7 @@ function bp_adminbar_blogs_menu() {
 
 	if ( bp_blog_signup_enabled() ) {
 		echo '<li' . $alt . '>';
-		echo '<a href="' . $bp->root_domain . '/' . $bp->blogs->slug . '/create/">' . __('Create a Blog!', 'buddypress') . '</a>';
+		echo '<a href="' . $bp->root_domain . '/' . $bp->blogs->slug . '/create/">' . __( 'Create a Blog!', 'buddypress' ) . '</a>';
 		echo '</li>';
 	}
 

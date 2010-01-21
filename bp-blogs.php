@@ -627,8 +627,8 @@ function bp_blogs_remove_data_for_blog( $blog_id ) {
 }
 add_action( 'delete_blog', 'bp_blogs_remove_data_for_blog', 1 );
 
-function bp_blogs_get_blogs_for_user( $user_id ) {
-	return BP_Blogs_Blog::get_blogs_for_user( $user_id );
+function bp_blogs_get_blogs_for_user( $user_id, $show_hidden = false ) {
+	return BP_Blogs_Blog::get_blogs_for_user( $user_id, $show_hidden );
 }
 
 function bp_blogs_get_posts_for_user( $user_id ) {
