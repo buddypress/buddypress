@@ -237,12 +237,12 @@ function bp_message_thread_unread_count() {
 	}
 
 function bp_message_thread_last_post_date() {
-	return bp_get_message_thread_last_post_date();
+	echo bp_get_message_thread_last_post_date();
 }
 	function bp_get_message_thread_last_post_date() {
 		global $messages_template;
 
-		echo apply_filters( 'bp_get_message_thread_last_post_date', bp_format_time( strtotime($date) ) );
+		return apply_filters( 'bp_get_message_thread_last_post_date', bp_format_time( strtotime($date) ) );
 	}
 
 function bp_message_thread_avatar() {
@@ -251,7 +251,7 @@ function bp_message_thread_avatar() {
 	function bp_get_message_thread_avatar() {
 		global $messages_template, $bp;
 
-		echo apply_filters( 'bp_get_message_thread_avatar', bp_core_fetch_avatar( array( 'item_id' => $sender, 'type' => 'thumb' ) ) );
+		return apply_filters( 'bp_get_message_thread_avatar', bp_core_fetch_avatar( array( 'item_id' => $sender, 'type' => 'thumb' ) ) );
 	}
 
 function bp_message_thread_view() {
