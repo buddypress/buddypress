@@ -8,12 +8,12 @@ function messages_notification_new_message( $args ) {
 
 	$sender_name = bp_core_get_user_displayname( $message->sender_id );
 
-	for ( $i = 0; $i < count($recipient_ids); $i++ ) {
-		if ( $message->sender_id == $recipient_ids[$i] || 'no' == get_usermeta( $recipient_ids[$i], 'notification_messages_new_message' ) ) continue;
+	for ( $i = 0; $i < count($recipients); $i++ ) {
+		if ( $message->sender_id == $recipients[$i]->user_id || 'no' == get_usermeta( $recipients[$i]->user_id, 'notification_messages_new_message' ) ) continue;
 
-		$ud = get_userdata( $recipient_ids[$i] );
-		$message_link = bp_core_get_user_domain( $recipient_ids[$i] ) . 'messages/view/' . $message->id;
-		$settings_link = bp_core_get_user_domain( $recipient_ids[$i] ) . 'settings/notifications';
+		$ud = get_userdata( $recipients[$i]->user_id );
+		$message_link = bp_core_get_user_domain( $recipients[$i]->user_id ) . 'messages/view/' . $message->id;
+		$settings_link = bp_core_get_user_domain( $recipients[$i]->user_id ) . 'settings/notifications';
 
 		// Set up and send the message
 		$to = $ud->user_email;

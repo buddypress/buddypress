@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_MESSAGES_DB_VERSION', '1800' );
+define ( 'BP_MESSAGES_DB_VERSION', '2000' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_MESSAGES_SLUG' ) )
@@ -17,39 +17,29 @@ function messages_install() {
 	if ( !empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 
-	$sql[] = "CREATE TABLE {$bp->messages->table_name_threads} (
-		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-		  		message_ids longtext NOT NULL,
-				sender_ids longtext NOT NULL,
-		  		first_post_date datetime NOT NULL,
-		  		last_post_date datetime NOT NULL,
-		  		last_message_id bigint(20) NOT NULL,
-				last_sender_id bigint(20) NOT NULL,
-			    KEY last_message_id (last_message_id),
-			    KEY last_sender_id (last_sender_id)
-		 	   ) {$charset_collate};";
-
 	$sql[] = "CREATE TABLE {$bp->messages->table_name_recipients} (
 		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  		user_id bigint(20) NOT NULL,
 		  		thread_id bigint(20) NOT NULL,
-				sender_only tinyint(1) NOT NULL DEFAULT '0',
 		  		unread_count int(10) NOT NULL DEFAULT '0',
+				sender_only tinyint(1) NOT NULL DEFAULT '0',
 				is_deleted tinyint(1) NOT NULL DEFAULT '0',
 			    KEY user_id (user_id),
 			    KEY thread_id (thread_id),
 				KEY is_deleted (is_deleted),
-			    KEY sender_only (sender_only),
+				KEY sender_only (sender_only),
 			    KEY unread_count (unread_count)
 		 	   ) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE {$bp->messages->table_name_messages} (
 		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+		  		thread_id bigint(20) NOT NULL,
 		  		sender_id bigint(20) NOT NULL,
 		  		subject varchar(200) NOT NULL,
 		  		message longtext NOT NULL,
 		  		date_sent datetime NOT NULL,
-			    KEY sender_id (sender_id)
+			    KEY sender_id (sender_id),
+			    KEY thread_id (thread_id)
 		 	   ) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE {$bp->messages->table_name_notices} (
@@ -64,6 +54,14 @@ function messages_install() {
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
 	dbDelta($sql);
 
+	/* Upgrade and remove the message threads table if it exists */
+	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$wpdb->base_prefix}bp_messages_threads%'" ) ) {
+		$upgrade = BP_Messages_Thread::upgrade_tables();
+
+		if ( $upgrade )
+			$wpdb->query( "DROP TABLE {$wpdb->base_prefix}bp_messages_threads" );
+	}
+
 	add_site_option( 'bp-messages-db-version', BP_MESSAGES_DB_VERSION );
 }
 
@@ -73,11 +71,9 @@ function messages_setup_globals() {
 	/* For internal identification */
 	$bp->messages->id = 'messages';
 
-	$bp->messages->table_name_threads = $wpdb->base_prefix . 'bp_messages_threads';
 	$bp->messages->table_name_messages = $wpdb->base_prefix . 'bp_messages_messages';
 	$bp->messages->table_name_recipients = $wpdb->base_prefix . 'bp_messages_recipients';
 	$bp->messages->table_name_notices = $wpdb->base_prefix . 'bp_messages_notices';
-	$bp->messages->format_activity_function = 'messages_format_activity';
 	$bp->messages->format_notification_function = 'messages_format_notifications';
 	$bp->messages->slug = BP_MESSAGES_SLUG;
 
@@ -411,7 +407,7 @@ function messages_new_message( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	if ( !$sender_id || !$subject || !$content )
+	if ( !$sender_id || !$content )
 		return false;
 
 	/* Create a new message object */
@@ -426,9 +422,16 @@ function messages_new_message( $args = '' ) {
 	if ( $thread_id ) {
 		$thread = new BP_Messages_Thread( $thread_id );
 		$message->recipients = $thread->get_recipients();
+
+		if ( empty( $message->subject ) )
+			$message->subject = sprintf( __( 'Re: %s', 'buddypress' ), $thread->messages[0]->subject );
+
 	} else {
 		if ( empty( $recipients ) )
 			return false;
+
+		if ( empty( $message->subject ) )
+			$message->subject = __( 'No Subject', 'buddypress' );
 
 		/* Loop the recipients and convert all usernames to user_ids where needed */
 		foreach( (array) $recipients as $recipient ) {
@@ -456,9 +459,8 @@ function messages_new_message( $args = '' ) {
 		require_once( BP_PLUGIN_DIR . '/bp-messages/bp-messages-notifications.php' );
 
 		// Send screen notifications to the recipients
-		foreach ( (array)$message->recipients as $recipient ) {
-			bp_core_add_notification( $message->id, $recipient, 'messages', 'new_message' );
-		}
+		foreach ( (array)$message->recipients as $recipient )
+			bp_core_add_notification( $message->id, $recipient->user_id, 'messages', 'new_message' );
 
 		// Send email notifications to the recipients
 		messages_notification_new_message( array( 'item_id' => $message->id, 'recipient_ids' => $message->recipients, 'thread_id' => $message->thread_id, 'component_name' => $bp->messages->slug, 'component_action' => 'message_sent', 'is_private' => 1 ) );
@@ -491,6 +493,7 @@ function messages_send_notice( $subject, $message ) {
 }
 
 function messages_delete_thread( $thread_ids ) {
+
 	if ( is_array($thread_ids) ) {
 		$error = 0;
 		for ( $i = 0; $i < count($thread_ids); $i++ ) {
