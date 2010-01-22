@@ -733,8 +733,12 @@ function bp_activity_add_timesince_placeholder( $content ) {
 	return apply_filters( 'bp_activity_add_timesince_placeholder', $content );
 }
 
+function bp_activity_hide_user_activity( $user_id ) {
+	return BP_Activity_Activity::hide_all_for_user( $user_id );
+}
+
 /**
- * bp_activity_thumnail_content_images()
+ * bp_activity_thumbnail_content_images()
  *
  * Take content, remove all images and replace them with one thumbnail image.
  *
@@ -742,7 +746,7 @@ function bp_activity_add_timesince_placeholder( $content ) {
  * @param $content str - The content to work with
  * @return $content str - The content with images stripped and replaced with a single thumb.
  */
-function bp_activity_thumnail_content_images( $content ) {
+function bp_activity_thumbnail_content_images( $content ) {
 	preg_match_all( '/<img[^>]*>/Ui', $content, $matches );
 	$content = preg_replace('/<img[^>]*>/Ui', '', $content );
 
@@ -772,7 +776,7 @@ function bp_activity_thumnail_content_images( $content ) {
 		}
 	}
 
-	return apply_filters( 'bp_activity_thumnail_content_images', $content, $matches );
+	return apply_filters( 'bp_activity_thumbnail_content_images', $content, $matches );
 }
 
 function bp_activity_set_action( $component_id, $key, $value ) {

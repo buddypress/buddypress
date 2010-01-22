@@ -467,7 +467,11 @@ function bp_core_action_set_spammer_status() {
 		else
 			bp_core_add_message( __( 'User removed as spammer.', 'buddypress' ) );
 
-		do_action( 'bp_core_action_set_spammer_status' );
+		/* Hide this user's activity */
+		if ( $is_spam && function_exists( 'bp_activity_hide_user_activity' ) )
+			bp_activity_hide_user_activity( $bp->displayed_user->id );
+
+		do_action( 'bp_core_action_set_spammer_status', $bp->displayed_user->id, $is_spam );
 
 		bp_core_redirect( wp_get_referer() );
 	}
@@ -1811,8 +1815,11 @@ function bp_core_add_admin_menu_page( $args = '' ) {
  * redirect them to the home page and stop them from logging in.
  *
  * @package BuddyPress Core
- * @param $username The username of the user
- * @uses delete_usermeta() deletes a row from the wp_usermeta table based on meta_key
+ * @param $auth_obj The WP authorization object
+ * @param $username The username of the user logging in.
+ * @uses get_userdatabylogin() Get the userdata object for a user based on their username
+ * @uses bp_core_redirect() Safe redirect to a page
+ * @return $auth_obj If the user is not a spammer, return the authorization object
  */
 function bp_core_boot_spammer( $auth_obj, $username ) {
 	global $bp;

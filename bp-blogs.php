@@ -260,8 +260,8 @@ function bp_blogs_record_activity( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	/* Remove large images and replace them with just one image thumbnail */
- 	if ( function_exists( 'bp_activity_thumnail_content_images' ) && !empty( $content ) )
-		$content = bp_activity_thumnail_content_images( $content );
+ 	if ( function_exists( 'bp_activity_thumbnail_content_images' ) && !empty( $content ) )
+		$content = bp_activity_thumbnail_content_images( $content );
 
 	if ( !empty( $action ) )
 		$action = apply_filters( 'bp_blogs_record_activity_action', $action );

@@ -539,6 +539,12 @@ Class BP_Activity_Activity {
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE content = %s", $content ) );
 	}
+
+	function hide_all_for_user( $user_id ) {
+		global $wpdb, $bp;
+
+		return $wpdb->get_var( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET hide_sitewide = 1 WHERE user_id = %d", $user_id ) );
+	}
 }
 
 ?>

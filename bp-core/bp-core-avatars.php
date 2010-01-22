@@ -385,7 +385,7 @@ function bp_core_avatar_url() {
 	if ( !bp_core_is_multisite() )
 		return WP_CONTENT_URL;
 
-	return apply_filters( 'bp_core_avatar_upload_path', get_blog_option( BP_ROOT_BLOG, 'siteurl' ) );
+	return apply_filters( 'bp_core_avatar_url', get_blog_option( BP_ROOT_BLOG, 'siteurl' ) );
 }
 
 ?>
