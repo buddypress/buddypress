@@ -161,7 +161,7 @@ function bp_message_thread_id() {
 	function bp_get_message_thread_id() {
 		global $messages_template;
 
-		return apply_filters( 'bp_get_message_thread_id', $id );
+		return apply_filters( 'bp_get_message_thread_id', $messages_template->thread->thread_id );
 	}
 
 function bp_message_thread_subject() {
@@ -170,7 +170,7 @@ function bp_message_thread_subject() {
 	function bp_get_message_thread_subject() {
 		global $messages_template;
 
-		return apply_filters( 'bp_get_message_thread_subject', stripslashes_deep( $subject ) );
+		return apply_filters( 'bp_get_message_thread_subject', stripslashes_deep( $messages_template->thread->last_message_subject ) );
 	}
 
 function bp_message_thread_excerpt() {
@@ -179,7 +179,7 @@ function bp_message_thread_excerpt() {
 	function bp_get_message_thread_excerpt() {
 		global $messages_template;
 
-		return apply_filters( 'bp_get_message_thread_excerpt', strip_tags( bp_create_excerpt( $message, 10 ) ) );
+		return apply_filters( 'bp_get_message_thread_excerpt', strip_tags( bp_create_excerpt( $messages_template->thread->last_message_message, 10 ) ) );
 	}
 
 function bp_message_thread_from() {
@@ -188,7 +188,7 @@ function bp_message_thread_from() {
 	function bp_get_message_thread_from() {
 		global $messages_template, $bp;
 
-		return apply_filters( 'bp_get_message_thread_from', bp_core_get_userlink($sender) );
+		return apply_filters( 'bp_get_message_thread_from', bp_core_get_userlink( $messages_template->thread->last_sender_id ) );
 	}
 
 function bp_message_thread_to() {
@@ -242,7 +242,7 @@ function bp_message_thread_last_post_date() {
 	function bp_get_message_thread_last_post_date() {
 		global $messages_template;
 
-		return apply_filters( 'bp_get_message_thread_last_post_date', bp_format_time( strtotime($date) ) );
+		return apply_filters( 'bp_get_message_thread_last_post_date', bp_format_time( strtotime( $messages_template->thread->last_post_date ) ) );
 	}
 
 function bp_message_thread_avatar() {
@@ -251,7 +251,7 @@ function bp_message_thread_avatar() {
 	function bp_get_message_thread_avatar() {
 		global $messages_template, $bp;
 
-		return apply_filters( 'bp_get_message_thread_avatar', bp_core_fetch_avatar( array( 'item_id' => $sender, 'type' => 'thumb' ) ) );
+		return apply_filters( 'bp_get_message_thread_avatar', bp_core_fetch_avatar( array( 'item_id' => $messages_template->thread->last_sender_id, 'type' => 'thumb' ) ) );
 	}
 
 function bp_message_thread_view() {
