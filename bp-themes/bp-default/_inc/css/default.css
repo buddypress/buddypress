@@ -128,17 +128,17 @@ ul#nav {
 	position: absolute;
 	right: 15px;
 	list-style: none;
-	bottom: 4px;
+	bottom: 0;
 }
-
 	ul#nav li {
 		float: left;
-		margin: 0 6px 0 0;
+		margin: 0 5px 0 0;
 	}
 		ul#nav li a {
+			display: block;
 			color: #fff;
 			text-decoration: none;
-			padding: 7px 15px;
+			padding: 5px 15px;
 			background: url( ../images/60pc_black.png );
 			-moz-border-radius-topleft: 3px;
 			-webkit-border-top-left-radius: 3px;
