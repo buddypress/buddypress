@@ -161,12 +161,6 @@ function bp_message_thread_id() {
 	function bp_get_message_thread_id() {
 		global $messages_template;
 
-		/* Notice support */
-		if ( empty( $messages_template->thread->thread_id ) )
-			$id = $messages_template->thread->id;
-		else
-			$id = $messages_template->thread->thread_id;
-
 		return apply_filters( 'bp_get_message_thread_id', $id );
 	}
 
@@ -175,12 +169,6 @@ function bp_message_thread_subject() {
 }
 	function bp_get_message_thread_subject() {
 		global $messages_template;
-
-		/* Notice support */
-		if ( empty( $messages_template->thread->last_message_subject ) )
-			$subject = $messages_template->thread->subject;
-		else
-			$subject = $messages_template->thread->last_message_subject;
 
 		return apply_filters( 'bp_get_message_thread_subject', stripslashes_deep( $subject ) );
 	}
@@ -191,12 +179,6 @@ function bp_message_thread_excerpt() {
 	function bp_get_message_thread_excerpt() {
 		global $messages_template;
 
-		/* Notice support */
-		if ( empty( $messages_template->thread->last_message_message ) )
-			$message = $messages_template->thread->message;
-		else
-			$message = $messages_template->thread->last_message_message;
-
 		return apply_filters( 'bp_get_message_thread_excerpt', strip_tags( bp_create_excerpt( $message, 10 ) ) );
 	}
 
@@ -205,12 +187,6 @@ function bp_message_thread_from() {
 }
 	function bp_get_message_thread_from() {
 		global $messages_template, $bp;
-
-		/* Notice support */
-		if ( empty( $messages_template->thread->last_sender_id ) )
-			$sender = $bp->loggedin_user->id;
-		else
-			$sender = $messages_template->thread->last_sender_id;
 
 		return apply_filters( 'bp_get_message_thread_from', bp_core_get_userlink($sender) );
 	}
@@ -261,16 +237,10 @@ function bp_message_thread_unread_count() {
 	}
 
 function bp_message_thread_last_post_date() {
-	echo bp_get_message_thread_last_post_date();
+	return bp_get_message_thread_last_post_date();
 }
 	function bp_get_message_thread_last_post_date() {
 		global $messages_template;
-
-		/* Notice support */
-		if ( empty( $messages_template->thread->last_post_date ) )
-			$date = $messages_template->thread->date_sent;
-		else
-			$date = $messages_template->thread->last_post_date;
 
 		echo apply_filters( 'bp_get_message_thread_last_post_date', bp_format_time( strtotime($date) ) );
 	}
@@ -280,12 +250,6 @@ function bp_message_thread_avatar() {
 }
 	function bp_get_message_thread_avatar() {
 		global $messages_template, $bp;
-
-		/* Notice support */
-		if ( empty( $messages_template->thread->last_sender_id ) )
-			$sender = $bp->loggedin_user->id;
-		else
-			$sender = $messages_template->thread->last_sender_id;
 
 		echo apply_filters( 'bp_get_message_thread_avatar', bp_core_fetch_avatar( array( 'item_id' => $sender, 'type' => 'thumb' ) ) );
 	}
