@@ -286,7 +286,7 @@ jQuery(document).ready( function() {
 
 			/* Update the feed link */
 			if ( null != response.feed_url )
-				j('.directory div#subnav li.feed a').attr('href', response.feed_url);
+				j('.directory div#subnav li.feed a, .home-page div#subnav li.feed a').attr('href', response.feed_url);
 
 			j('div.item-list-tabs li.selected').removeClass('loading');
 
