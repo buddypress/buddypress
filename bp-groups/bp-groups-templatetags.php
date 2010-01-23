@@ -591,7 +591,7 @@ function bp_group_all_members_permalink( $deprecated = true, $deprecated2 = fals
 		if ( !$group )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_get_group_all_members_permalink', bp_get_group_permalink( $group ) . '/members' );
+		return apply_filters( 'bp_get_group_all_members_permalink', bp_get_group_permalink( $group ) . 'members' );
 	}
 
 function bp_group_search_form() {
@@ -685,7 +685,7 @@ function bp_group_forum_permalink( $deprecated = false ) {
 		if ( !$group )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_get_group_forum_permalink', bp_get_group_permalink( $group ) . '/forum' );
+		return apply_filters( 'bp_get_group_forum_permalink', bp_get_group_permalink( $group ) . 'forum' );
 	}
 
 function bp_group_is_forum_enabled( $group = false ) {
@@ -827,7 +827,7 @@ function bp_group_member_promote_mod_link( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		return apply_filters( 'bp_get_group_member_promote_mod_link', wp_nonce_url( bp_get_group_permalink( $group ) . '/admin/manage-members/promote/mod/' . $user_id, 'groups_promote_member' ) );
+		return apply_filters( 'bp_get_group_member_promote_mod_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/promote/mod/' . $user_id, 'groups_promote_member' ) );
 	}
 
 function bp_group_member_promote_admin_link( $args = '' ) {
@@ -844,7 +844,7 @@ function bp_group_member_promote_admin_link( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		return apply_filters( 'bp_get_group_member_promote_admin_link', wp_nonce_url( bp_get_group_permalink( $group ) . '/admin/manage-members/promote/admin/' . $user_id, 'groups_promote_member' ) );
+		return apply_filters( 'bp_get_group_member_promote_admin_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/promote/admin/' . $user_id, 'groups_promote_member' ) );
 	}
 
 function bp_group_member_demote_link( $user_id = false, $deprecated = false ) {
@@ -864,7 +864,7 @@ function bp_group_member_demote_link( $user_id = false, $deprecated = false ) {
 		if ( !$user_id )
 			$user_id = $members_template->member->user_id;
 
-		return apply_filters( 'bp_get_group_member_demote_link', wp_nonce_url( bp_get_group_permalink( $group ) . '/admin/manage-members/demote/' . $user_id, 'groups_demote_member' ) );
+		return apply_filters( 'bp_get_group_member_demote_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/demote/' . $user_id, 'groups_demote_member' ) );
 	}
 
 function bp_group_member_ban_link( $user_id = false, $deprecated = false ) {
@@ -881,7 +881,7 @@ function bp_group_member_ban_link( $user_id = false, $deprecated = false ) {
 		if ( !$group )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_get_group_member_ban_link', wp_nonce_url( bp_get_group_permalink( $group ) . '/admin/manage-members/ban/' . $user_id, 'groups_ban_member' ) );
+		return apply_filters( 'bp_get_group_member_ban_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/ban/' . $user_id, 'groups_ban_member' ) );
 	}
 
 function bp_group_member_unban_link( $user_id = false, $deprecated = false ) {
@@ -901,7 +901,7 @@ function bp_group_member_unban_link( $user_id = false, $deprecated = false ) {
 		if ( !$group )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_get_group_member_unban_link', wp_nonce_url( bp_get_group_permalink( $group ) . '/admin/manage-members/unban/' . $user_id, 'groups_unban_member' ) );
+		return apply_filters( 'bp_get_group_member_unban_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/unban/' . $user_id, 'groups_unban_member' ) );
 	}
 
 function bp_group_admin_tabs( $group = false ) {
@@ -950,7 +950,7 @@ function bp_group_form_action( $page, $deprecated = false ) {
 		if ( !$group )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_group_form_action', bp_get_group_permalink( $group ) . '/' . $page );
+		return apply_filters( 'bp_group_form_action', bp_get_group_permalink( $group ) . $page );
 	}
 
 function bp_group_admin_form_action( $page = false, $deprecated = false ) {
@@ -965,7 +965,7 @@ function bp_group_admin_form_action( $page = false, $deprecated = false ) {
 		if ( !$page )
 			$page = $bp->action_variables[0];
 
-		return apply_filters( 'bp_group_admin_form_action', bp_get_group_permalink( $group ) . '/admin/' . $page );
+		return apply_filters( 'bp_group_admin_form_action', bp_get_group_permalink( $group ) . 'admin/' . $page );
 	}
 
 function bp_group_has_requested_membership( $group = false ) {
@@ -1028,7 +1028,7 @@ function bp_group_leave_confirm_link( $deprecated = false ) {
 		if ( !$group )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_group_leave_confirm_link', wp_nonce_url( bp_get_group_permalink( $group ) . '/leave-group/yes', 'groups_leave_group' ) );
+		return apply_filters( 'bp_group_leave_confirm_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group/yes', 'groups_leave_group' ) );
 	}
 
 function bp_group_leave_reject_link( $deprecated = false ) {
@@ -1052,7 +1052,7 @@ function bp_group_send_invite_form_action( $deprecated = false ) {
 		if ( !$group )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_group_send_invite_form_action', bp_get_group_permalink( $group ) . '/send-invites/send' );
+		return apply_filters( 'bp_group_send_invite_form_action', bp_get_group_permalink( $group ) . 'send-invites/send' );
 	}
 
 function bp_has_friends_to_invite( $group = false ) {
@@ -1088,17 +1088,17 @@ function bp_group_join_button( $group = false ) {
 	switch ( $group->status ) {
 		case 'public':
 			if ( BP_Groups_Member::check_is_member( $bp->loggedin_user->id, $group->id ) )
-				echo '<a class="leave-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . '/leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
+				echo '<a class="leave-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
 			else
-				echo '<a class="join-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . '/join', 'groups_join_group' ) . '">' . __( 'Join Group', 'buddypress' ) . '</a>';
+				echo '<a class="join-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'join', 'groups_join_group' ) . '">' . __( 'Join Group', 'buddypress' ) . '</a>';
 		break;
 
 		case 'private':
 			if ( BP_Groups_Member::check_is_member( $bp->loggedin_user->id, $group->id ) ) {
-				echo '<a class="leave-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . '/leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
+				echo '<a class="leave-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
 			} else {
 				if ( !bp_group_has_requested_membership( $group ) )
-					echo '<a class="request-membership" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . '/request-membership', 'groups_request_membership' ) . '">' . __('Request Membership', 'buddypress') . '</a>';
+					echo '<a class="request-membership" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'request-membership', 'groups_request_membership' ) . '">' . __('Request Membership', 'buddypress') . '</a>';
 				else
 					echo '<a class="membership-requested" href="' . bp_get_group_permalink( $group ) . '">' . __( 'Request Sent', 'buddypress' ) . '</a>';
 			}

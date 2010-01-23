@@ -48,7 +48,7 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 	$ud = get_userdata($admin_id);
 	$requesting_ud = get_userdata($requesting_user_id);
 
-	$group_requests = bp_get_group_permalink( $group ) . '/admin/membership-requests';
+	$group_requests = bp_get_group_permalink( $group ) . 'admin/membership-requests';
 	$profile_link = bp_core_get_user_domain( $requesting_user_id );
 	$settings_link = bp_core_get_user_domain( $requesting_user_id ) . 'settings/notifications/';
 
