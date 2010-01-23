@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-01-22 14:11+0000\n"
+"POT-Creation-Date: 2010-01-23 14:11+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,7 +48,7 @@ msgstr ""
 #: bp-core/bp-core-admin.php:60 bp-core/bp-core-admin.php:68
 #: bp-core/bp-core-admin.php:75 bp-core/bp-core-admin.php:82
 #: bp-core/bp-core-admin.php:90 bp-core/bp-core-admin.php:99
-#: bp-friends.php:148 bp-groups.php:1000 bp-messages.php:250
+#: bp-friends.php:148 bp-groups.php:1000 bp-messages.php:246
 #: bp-themes/bp-default/groups/single/admin.php:26
 #: bp-themes/bp-default/registration/register.php:193
 #: bp-themes/bp-sn-parent/groups/single/admin.php:36
@@ -61,7 +61,7 @@ msgstr ""
 #: bp-core/bp-core-admin.php:61 bp-core/bp-core-admin.php:69
 #: bp-core/bp-core-admin.php:76 bp-core/bp-core-admin.php:83
 #: bp-core/bp-core-admin.php:91 bp-core/bp-core-admin.php:100
-#: bp-friends.php:149 bp-groups.php:1001 bp-messages.php:251
+#: bp-friends.php:149 bp-groups.php:1001 bp-messages.php:247
 #: bp-themes/bp-default/groups/single/admin.php:27
 #: bp-themes/bp-default/registration/register.php:194
 #: bp-themes/bp-sn-parent/groups/single/admin.php:37
@@ -874,8 +874,8 @@ msgid "Allows the creation of friend connections between users."
 msgstr ""
 
 #: bp-core/bp-core-admin.php:210 bp-core/bp-core-templatetags.php:1000
-#: bp-core/bp-core-templatetags.php:1049 bp-groups.php:999 bp-groups.php:1383
-#: bp-groups.php:1396 bp-groups.php:1410 bp-groups.php:1423
+#: bp-core/bp-core-templatetags.php:1049 bp-groups.php:999 bp-groups.php:1374
+#: bp-groups.php:1387 bp-groups.php:1401 bp-groups.php:1414
 #: bp-groups/bp-groups-widgets.php:13 bp-themes/bp-default/header.php:67
 #: bp-themes/bp-sn-parent/header.php:91
 msgid "Groups"
@@ -3759,14 +3759,14 @@ msgstr ""
 
 #: bp-forums/bbpress/bb-admin/plugins.php:202
 #: bp-forums/bbpress/bb-admin/themes.php:96
-#: bp-messages/bp-messages-templatetags.php:415
+#: bp-messages/bp-messages-templatetags.php:445
 #: bp-themes/bp-default/registration/activate.php:37
 #: bp-themes/bp-sn-parent/registration/activate.php:36
 msgid "Activate"
 msgstr ""
 
 #: bp-forums/bbpress/bb-admin/plugins.php:209
-#: bp-messages/bp-messages-templatetags.php:413
+#: bp-messages/bp-messages-templatetags.php:443
 msgid "Deactivate"
 msgstr ""
 
@@ -4049,7 +4049,7 @@ msgid "Freshness"
 msgstr ""
 
 #: bp-forums/bbpress/bb-admin/topics.php:127
-#: bp-messages/bp-messages-templatetags.php:440
+#: bp-messages/bp-messages-templatetags.php:470
 msgid "Close"
 msgstr ""
 
@@ -4672,7 +4672,7 @@ msgstr ""
 
 #: bp-forums/bbpress/bb-includes/class.bb-query.php:968
 #: bp-forums/bbpress/bb-includes/class.bb-query.php:1001
-#: bp-messages/bp-messages-templatetags.php:331
+#: bp-messages/bp-messages-templatetags.php:361
 msgid "All"
 msgstr ""
 
@@ -6910,7 +6910,7 @@ msgstr ""
 msgid "Group invite accepted"
 msgstr ""
 
-#: bp-groups.php:308 bp-groups.php:1712 bp-groups.php:2359
+#: bp-groups.php:308 bp-groups.php:1703 bp-groups.php:2350
 #, php-format
 msgid "%s joined the group %s"
 msgstr ""
@@ -7175,90 +7175,90 @@ msgstr ""
 msgid "New group forum post"
 msgstr ""
 
-#: bp-groups.php:1369
+#: bp-groups.php:1360
 msgid "Group Membership Requests"
 msgstr ""
 
-#: bp-groups.php:1369
+#: bp-groups.php:1360
 #, php-format
 msgid "%d new membership requests for the group \"%s\""
 msgstr ""
 
-#: bp-groups.php:1372
+#: bp-groups.php:1363
 #, php-format
 msgid "%s requests membership for the group \"%s\""
 msgstr ""
 
-#: bp-groups.php:1383
+#: bp-groups.php:1374
 #, php-format
 msgid "%d accepted group membership requests"
 msgstr ""
 
-#: bp-groups.php:1385
+#: bp-groups.php:1376
 #, php-format
 msgid "Membership for group \"%s\" accepted"
 msgstr ""
 
-#: bp-groups.php:1396
+#: bp-groups.php:1387
 #, php-format
 msgid "%d rejected group membership requests"
 msgstr ""
 
-#: bp-groups.php:1398
+#: bp-groups.php:1389
 #, php-format
 msgid "Membership for group \"%s\" rejected"
 msgstr ""
 
-#: bp-groups.php:1410
+#: bp-groups.php:1401
 #, php-format
 msgid "You were promoted to an admin in %d groups"
 msgstr ""
 
-#: bp-groups.php:1412
+#: bp-groups.php:1403
 #, php-format
 msgid "You were promoted to an admin in the group %s"
 msgstr ""
 
-#: bp-groups.php:1423
+#: bp-groups.php:1414
 #, php-format
 msgid "You were promoted to a mod in %d groups"
 msgstr ""
 
-#: bp-groups.php:1425
+#: bp-groups.php:1416
 #, php-format
 msgid "You were promoted to a mod in the group %s"
 msgstr ""
 
-#: bp-groups.php:1436 bp-groups.php:1438
+#: bp-groups.php:1427 bp-groups.php:1429
 #: bp-themes/bp-sn-parent/groups/invites.php:8
 msgid "Group Invites"
 msgstr ""
 
-#: bp-groups.php:1436
+#: bp-groups.php:1427
 #, php-format
 msgid "You have %d new group invitations"
 msgstr ""
 
-#: bp-groups.php:1438
+#: bp-groups.php:1429
 #, php-format
 msgid "You have an invitation to the group: %s"
 msgstr ""
 
-#: bp-groups.php:1530 bp-groups/bp-groups-classes.php:697
+#: bp-groups.php:1521 bp-groups/bp-groups-classes.php:697
 msgid "Group Admin"
 msgstr ""
 
-#: bp-groups.php:1903 bp-themes/bp-sn-parent/_inc/ajax.php:459
+#: bp-groups.php:1894 bp-themes/bp-sn-parent/_inc/ajax.php:459
 #, php-format
 msgid "%s posted an update in the group %s:"
 msgstr ""
 
-#: bp-groups.php:1952 bp-groups.php:2057
+#: bp-groups.php:1943 bp-groups.php:2048
 #, php-format
 msgid "%s posted on the forum topic %s in the group %s:"
 msgstr ""
 
-#: bp-groups.php:1987 bp-groups.php:2019
+#: bp-groups.php:1978 bp-groups.php:2010
 #, php-format
 msgid "%s started the forum topic %s in the group %s:"
 msgstr ""
@@ -7570,119 +7570,128 @@ msgstr ""
 msgid "No groups matched the current filter."
 msgstr ""
 
-#: bp-messages.php:114 bp-messages.php:249
+#: bp-messages.php:110 bp-messages.php:245
 msgid "Messages"
 msgstr ""
 
-#: bp-messages.php:119 bp-themes/bp-sn-parent/messages/index.php:12
+#: bp-messages.php:115 bp-themes/bp-sn-parent/messages/index.php:12
 msgid "Inbox"
 msgstr ""
 
-#: bp-messages.php:120 bp-themes/bp-sn-parent/messages/sentbox.php:10
+#: bp-messages.php:116 bp-themes/bp-sn-parent/messages/sentbox.php:10
 msgid "Sent Messages"
 msgstr ""
 
-#: bp-messages.php:121
+#: bp-messages.php:117
 msgid "Compose"
 msgstr ""
 
-#: bp-messages.php:124
+#: bp-messages.php:120
 msgid "Notices"
 msgstr ""
 
-#: bp-messages.php:128
+#: bp-messages.php:124
 msgid "My Messages"
 msgstr ""
 
-#: bp-messages.php:173 bp-messages.php:194
+#: bp-messages.php:169 bp-messages.php:190
 msgid "There was an error sending that message, please try again"
 msgstr ""
 
-#: bp-messages.php:178
+#: bp-messages.php:174
 msgid "Notice sent successfully!"
 msgstr ""
 
-#: bp-messages.php:181
+#: bp-messages.php:177
 msgid "There was an error sending that notice, please try again"
 msgstr ""
 
-#: bp-messages.php:191
+#: bp-messages.php:187
 msgid "Message sent successfully!"
 msgstr ""
 
-#: bp-messages.php:219
+#: bp-messages.php:215
 msgid "There was a problem deactivating that notice."
 msgstr ""
 
-#: bp-messages.php:221
+#: bp-messages.php:217
 msgid "Notice deactivated."
 msgstr ""
 
-#: bp-messages.php:225
+#: bp-messages.php:221
 msgid "There was a problem activating that notice."
 msgstr ""
 
-#: bp-messages.php:227
+#: bp-messages.php:223
 msgid "Notice activated."
 msgstr ""
 
-#: bp-messages.php:231
+#: bp-messages.php:227
 msgid "There was a problem deleting that notice."
 msgstr ""
 
-#: bp-messages.php:233
+#: bp-messages.php:229
 msgid "Notice deleted."
 msgstr ""
 
-#: bp-messages.php:255
+#: bp-messages.php:251
 msgid "A member sends you a new message"
 msgstr ""
 
-#: bp-messages.php:261
+#: bp-messages.php:257
 msgid "A new site notice is posted"
 msgstr ""
 
-#: bp-messages.php:300
+#: bp-messages.php:296
 msgid "Your reply was sent successfully"
 msgstr ""
 
-#: bp-messages.php:302
+#: bp-messages.php:298
 msgid "There was a problem sending your reply, please try again"
 msgstr ""
 
-#: bp-messages.php:312
+#: bp-messages.php:308
 #, php-format
 msgid "From: %s"
 msgstr ""
 
-#: bp-messages.php:333
+#: bp-messages.php:329
 msgid "There was an error deleting that message."
 msgstr ""
 
-#: bp-messages.php:335
+#: bp-messages.php:331
 msgid "Message deleted."
 msgstr ""
 
-#: bp-messages.php:357
+#: bp-messages.php:353
 msgid "There was an error deleting messages."
 msgstr ""
 
-#: bp-messages.php:359 bp-themes/bp-default/_inc/ajax.php:519
+#: bp-messages.php:355 bp-themes/bp-default/_inc/ajax.php:519
 #: bp-themes/bp-sn-parent/_inc/ajax.php:347
 msgid "Messages deleted."
 msgstr ""
 
-#: bp-messages.php:379
+#: bp-messages.php:375
 #, php-format
 msgid "You have %d new messages"
 msgstr ""
 
-#: bp-messages.php:381
+#: bp-messages.php:377
 #, php-format
 msgid "You have %d new message"
 msgstr ""
 
-#: bp-messages/bp-messages-classes.php:299
+#: bp-messages.php:427
+#, php-format
+msgid "Re: %s"
+msgstr ""
+
+#: bp-messages.php:434
+msgid "No Subject"
+msgstr ""
+
+#: bp-messages/bp-messages-classes.php:193
 msgid " Recipients"
 msgstr ""
 
@@ -7721,83 +7730,54 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:285
+#: bp-messages/bp-messages-templatetags.php:315
 #, php-format
 msgid "Viewing message %s to %s (of %s messages)"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:326
+#: bp-messages/bp-messages-templatetags.php:356
 msgid "Select:"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:329
+#: bp-messages/bp-messages-templatetags.php:359
 msgid "Read"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:330
+#: bp-messages/bp-messages-templatetags.php:360
 msgid "Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:334
+#: bp-messages/bp-messages-templatetags.php:364
 msgid "Mark as Read"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:335
+#: bp-messages/bp-messages-templatetags.php:365
 msgid "Mark as Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:337
+#: bp-messages/bp-messages-templatetags.php:367
 msgid "Delete Selected"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:346
+#: bp-messages/bp-messages-templatetags.php:376
 msgid "Currently Active"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:466
+#: bp-messages/bp-messages-templatetags.php:496
 #: bp-themes/bp-default/members/single/messages/compose.php:28
 msgid "Send Message"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:629
+#: bp-messages/bp-messages-templatetags.php:659
 #, php-format
 msgid "%d Recipients"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:693
+#: bp-messages/bp-messages-templatetags.php:725
 #: bp-themes/bp-default/_inc/ajax.php:455
 #: bp-themes/bp-sn-parent/_inc/ajax.php:270
 #, php-format
 msgid "Sent %s ago"
-msgstr ""
-
-#: bp-messages/bp-messages-templatetags.php:717
-msgid "There was an error when viewing that message"
-msgstr ""
-
-#: bp-messages/bp-messages-templatetags.php:731
-msgid "Sent between "
-msgstr ""
-
-#: bp-messages/bp-messages-templatetags.php:732
-msgid "and"
-msgstr ""
-
-#: bp-messages/bp-messages-templatetags.php:771
-#: bp-themes/bp-sn-parent/messages/view.php:73
-msgid "Reply: "
-msgstr ""
-
-#: bp-messages/bp-messages-templatetags.php:779
-#: bp-themes/bp-default/members/single/messages/single.php:79
-#: bp-themes/bp-sn-parent/messages/view.php:89
-msgid "Send Reply"
-msgstr ""
-
-#: bp-messages/bp-messages-templatetags.php:782
-#: bp-themes/bp-default/members/single/messages/single.php:84
-#: bp-themes/bp-sn-parent/messages/view.php:93
-msgid "Re: "
 msgstr ""
 
 #: bp-themes/bp-default/404.php:10 bp-themes/bp-sn-parent/404.php:9
@@ -9112,6 +9092,11 @@ msgstr ""
 msgid "Send a Reply"
 msgstr ""
 
+#: bp-themes/bp-default/members/single/messages/single.php:79
+#: bp-themes/bp-sn-parent/messages/view.php:89
+msgid "Send Reply"
+msgstr ""
+
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:1
 #: bp-themes/bp-sn-parent/profile/change-avatar.php:9 bp-xprofile.php:184
 msgid "Change Avatar"
@@ -9768,6 +9753,14 @@ msgstr ""
 
 #: bp-themes/bp-sn-parent/messages/sentbox.php:60
 msgid "You have no sent messages."
+msgstr ""
+
+#: bp-themes/bp-sn-parent/messages/view.php:73
+msgid "Reply: "
+msgstr ""
+
+#: bp-themes/bp-sn-parent/messages/view.php:93
+msgid "Re: "
 msgstr ""
 
 #: bp-themes/bp-sn-parent/profile/change-avatar.php:36
