@@ -896,14 +896,6 @@ Class BP_Groups_Member {
 	function check_is_member( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
-		if ( $user_id != $bp->loggedin_user->id ) {
-			$user = get_userdata( $user_id );
-			$user_login = $user->user_login;
-		}
-
-		if ( is_site_admin( $user_login ) )
-			return true;
-
 		if ( !$user_id )
 			return false;
 

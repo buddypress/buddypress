@@ -1887,7 +1887,7 @@ function groups_post_update( $args = '' ) {
 	$bp->groups->current_group = new BP_Groups_Group( $group_id );
 
 	/* Be sure the user is a member of the group before posting. */
-	if ( !groups_is_user_member( $user_id, $group_id ) )
+	if ( !is_site_admin() && !groups_is_user_member( $user_id, $group_id ) )
 		return false;
 
 	/* Record this in activity streams */
