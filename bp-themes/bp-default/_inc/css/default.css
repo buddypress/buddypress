@@ -571,9 +571,9 @@ div.pagination {
 -------------------------------------------------------------- */
 
 div#message {
-	clear: both;
 	margin: 15px 0;
 }
+	div#message.updated { clear: both; }
 
 div#message p {
 	padding: 10px 15px;
