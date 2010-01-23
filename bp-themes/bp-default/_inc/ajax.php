@@ -444,7 +444,7 @@ function bp_dtheme_ajax_messages_send_reply() {
 
 	check_ajax_referer( 'messages_send_message' );
 
-	$result = messages_new_message( array( 'thread_id' => $_REQUEST['thread_id'], 'subject' => $_REQUEST['subject'], 'content' => $_REQUEST['content'] ) );
+	$result = messages_new_message( array( 'thread_id' => $_REQUEST['thread_id'], 'content' => $_REQUEST['content'] ) );
 
 	if ( $result ) { ?>
 		<div class="message-box new-message">

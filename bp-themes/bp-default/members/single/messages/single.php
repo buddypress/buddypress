@@ -81,7 +81,6 @@
 					</div>
 
 					<input type="hidden" id="thread_id" name="thread_id" value="<?php bp_the_thread_id(); ?>" />
-					<input type="hidden" name="subject" id="subject" value="<?php _e( 'Re: ', 'buddypress' ); echo str_replace( 'Re: ', '', bp_get_the_thread_subject() ); ?>" />
 					<?php wp_nonce_field( 'messages_send_message', 'send_message_nonce' ) ?>
 
 				</div><!-- .message-content -->
