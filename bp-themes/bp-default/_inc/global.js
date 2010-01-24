@@ -251,6 +251,10 @@ jQuery(document).ready( function() {
 		if ( null == filter )
 			var filter = '-1';
 
+		/* If there's a hash URL, try and use it. */
+		if ( location.hash.length )
+			var scope = location.hash.substr( 1, location.hash.length - 2 );
+
 		/* Save the type and filter to a session cookie */
 		j.cookie( 'bp-activity-scope', scope, null );
 		j.cookie( 'bp-activity-filter', filter, null );

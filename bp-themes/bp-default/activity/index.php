@@ -22,15 +22,15 @@
 					<?php if ( is_user_logged_in() ) : ?>
 
 						<?php if ( bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
-							<li id="activity-friends"><a href="<?php echo site_url( BP_ACTIVITY_SLUG . '/#my-friends/' ) ?>" title="<?php _e( 'The activity of my friends only.', 'buddypress' ) ?>"><?php printf( __( 'My Friends (%s)', 'buddypress' ), bp_get_total_friend_count( bp_loggedin_user_id() ) ) ?></a></li>
+							<li id="activity-friends"><a href="<?php echo site_url( BP_ACTIVITY_SLUG . '/#friends/' ) ?>" title="<?php _e( 'The activity of my friends only.', 'buddypress' ) ?>"><?php printf( __( 'My Friends (%s)', 'buddypress' ), bp_get_total_friend_count( bp_loggedin_user_id() ) ) ?></a></li>
 						<?php endif; ?>
 
 						<?php if ( bp_get_total_group_count_for_user( bp_loggedin_user_id() ) ) : ?>
-							<li id="activity-groups"><a href="<?php echo site_url( BP_ACTIVITY_SLUG . '/#my-groups/' ) ?>" title="<?php _e( 'The activity of groups I am a member of.', 'buddypress' ) ?>"><?php printf( __( 'My Groups (%s)', 'buddypress' ), bp_get_total_group_count_for_user( bp_loggedin_user_id() ) ) ?></a></li>
+							<li id="activity-groups"><a href="<?php echo site_url( BP_ACTIVITY_SLUG . '/#groups/' ) ?>" title="<?php _e( 'The activity of groups I am a member of.', 'buddypress' ) ?>"><?php printf( __( 'My Groups (%s)', 'buddypress' ), bp_get_total_group_count_for_user( bp_loggedin_user_id() ) ) ?></a></li>
 						<?php endif; ?>
 
 						<?php if ( bp_get_total_favorite_count_for_user( bp_loggedin_user_id() ) ) : ?>
-							<li id="activity-favorites"><a href="<?php echo site_url( BP_ACTIVITY_SLUG . '/#my-favorites/' ) ?>" title="<?php _e( "The activity I've marked as a favorite.", 'buddypress' ) ?>"><?php printf( __( 'My Favorites (<span>%s</span>)', 'buddypress' ), bp_get_total_favorite_count_for_user( bp_loggedin_user_id() ) ) ?></a></li>
+							<li id="activity-favorites"><a href="<?php echo site_url( BP_ACTIVITY_SLUG . '/#favorites/' ) ?>" title="<?php _e( "The activity I've marked as a favorite.", 'buddypress' ) ?>"><?php printf( __( 'My Favorites (<span>%s</span>)', 'buddypress' ), bp_get_total_favorite_count_for_user( bp_loggedin_user_id() ) ) ?></a></li>
 						<?php endif; ?>
 
 						<li id="activity-atme"><a href="<?php echo site_url( BP_ACTIVITY_SLUG . '/#atme/' ) ?>" title="<?php _e( 'Activity that I have been mentioned in.', 'buddypress' ) ?>"><?php printf( __( '@%s Mentions', 'buddypress' ), bp_get_loggedin_user_username() ) ?><?php if ( bp_get_total_mention_count_for_user( bp_loggedin_user_id() ) ) : ?> <strong><?php printf( __( '(%s new)', 'buddypress' ), bp_get_total_mention_count_for_user( bp_loggedin_user_id() ) ) ?></strong><?php endif; ?></a></li>

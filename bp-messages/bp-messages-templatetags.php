@@ -554,6 +554,13 @@ class BP_Messages_Thread_Template {
 
 		$this->thread = new BP_Messages_Thread( $thread_id, true );
 		$this->message_count = count( $this->thread->messages );
+
+		$last_message_index = $this->message_count - 1;
+		$this->thread->last_message_id = $this->thread->messages[$last_message_index]->id;
+		$this->thread->last_message_date = $this->thread->messages[$last_message_index]->date_sent;
+		$this->thread->last_sender_id = $this->thread->messages[$last_message_index]->sender_id;
+		$this->thread->last_message_subject = $this->thread->messages[$last_message_index]->subject;
+		$this->thread->last_message_content = $this->thread->messages[$last_message_index]->message;
 	}
 
 	function has_messages() {
