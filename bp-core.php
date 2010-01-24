@@ -1107,8 +1107,16 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false,
  * @uses wp_cache_set() Adds a value to the cache.
  * @return str The display name for the user in question.
  */
-function bp_core_get_user_displayname( $user_id ) {
+function bp_core_get_user_displayname( $user_id_or_username ) {
 	global $bp;
+
+	if ( !$user_id_or_username )
+		return false;
+
+	if ( !is_numeric( $user_id_or_username ) )
+		$user_id = bp_core_get_userid( $user_id_or_username );
+	else
+		$user_id = $user_id_or_username;
 
 	if ( !$user_id )
 		return false;

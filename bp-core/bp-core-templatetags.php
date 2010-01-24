@@ -1254,6 +1254,16 @@ function bp_registration_needs_activation() {
 	return apply_filters( 'bp_registration_needs_activation', bp_core_is_multisite() );
 }
 
+function bp_mentioned_user_display_name( $user_id_or_username ) {
+	echo bp_get_mentioned_user_display_name( $user_id_or_username );
+}
+	function bp_get_mentioned_user_display_name( $user_id_or_username ) {
+		if ( !$name = bp_core_get_user_displayname( $user_id_or_username ) )
+			$name = __( 'a user' );
+
+		return apply_filters( 'bp_get_mentioned_user_display_name', $name, $user_id_or_username );
+	}
+
 
 /*** CUSTOM LOOP TEMPLATE CLASSES *******************/
 
@@ -1281,7 +1291,6 @@ function bp_loggedin_user_domain() {
 	global $bp;
 	return apply_filters( 'bp_loggedin_user_domain', $bp->loggedin_user->domain );
 }
-
 
 function bp_displayed_user_fullname() {
 	echo bp_get_displayed_user_fullname();

@@ -4,7 +4,7 @@
 
 	<?php if ( isset( $_GET['r'] ) ) : ?>
 		<div id="message" class="info">
-			<p><?php _e( 'You are mentioning a user in a new update, this user will be sent a notification of your message.', 'buddypress' ) ?></p>
+			<p><?php printf( __( 'You are mentioning %s in a new update, this user will be sent a notification of your message.', 'buddypress' ), bp_get_mentioned_user_display_name( $_GET['r'] ) ) ?></p>
 		</div>
 	<?php endif; ?>
 

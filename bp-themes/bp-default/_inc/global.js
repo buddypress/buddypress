@@ -30,7 +30,7 @@ jQuery(document).ready( function() {
 	/* @message Compose Scrolling */
 	if ( j.query.get('r') ) {
 		if ( j('textarea#whats-new').length ) {
-			j.scrollTo( j('textarea#whats-new'), 500, { offset:-75, easing:'easeout' } );
+			j.scrollTo( j('textarea#whats-new'), 500, { offset:-125, easing:'easeout' } );
 			j('textarea#whats-new').focus();
 		}
 	}
