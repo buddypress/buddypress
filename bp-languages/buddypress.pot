@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-01-23 14:11+0000\n"
+"POT-Creation-Date: 2010-01-24 14:11+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,7 @@ msgstr ""
 msgid "Just Me"
 msgstr ""
 
-#: bp-activity.php:113 bp-friends.php:74 bp-friends.php:79 bp-friends.php:313
+#: bp-activity.php:113 bp-friends.php:74 bp-friends.php:79 bp-friends.php:312
 #: bp-friends/bp-friends-templatetags.php:40
 #: bp-themes/bp-sn-parent/friends/index.php:10
 #: bp-themes/bp-sn-parent/functions.php:156
@@ -334,17 +334,17 @@ msgstr ""
 msgid "New blog post comment posted"
 msgstr ""
 
-#: bp-blogs.php:363
+#: bp-blogs.php:362
 #, php-format
 msgid "%s created the blog %s"
 msgstr ""
 
-#: bp-blogs.php:411 bp-blogs.php:446
+#: bp-blogs.php:410 bp-blogs.php:445
 #, php-format
 msgid "%s wrote a new blog post: %s"
 msgstr ""
 
-#: bp-blogs.php:503
+#: bp-blogs.php:502
 #, php-format
 msgid "%s commented on the blog post %s"
 msgstr ""
@@ -646,33 +646,33 @@ msgstr ""
 msgid "second"
 msgstr ""
 
-#: bp-core.php:1356 bp-core.php:1405
+#: bp-core.php:1356 bp-core.php:1404
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1370
+#: bp-core.php:1371
 msgid "sometime"
 msgstr ""
 
-#: bp-core.php:1400
+#: bp-core.php:1399
 msgid ",|Separator in time since"
 msgstr ""
 
-#: bp-core.php:1449
+#: bp-core.php:1448
 msgid "not recently active"
 msgstr ""
 
-#: bp-core.php:1617
+#: bp-core.php:1616
 msgid "noreply"
 msgstr ""
 
-#: bp-core.php:1887
+#: bp-core.php:1891
 msgid ""
 "IMPORTANT: <a href=\"http://codex.buddypress.org/getting-started/upgrading-"
 "from-10x/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core.php:1972
+#: bp-core.php:1976
 #, php-format
 msgid ""
 "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update "
@@ -680,7 +680,7 @@ msgid ""
 "work."
 msgstr ""
 
-#: bp-core.php:1980
+#: bp-core.php:1984
 #, php-format
 msgid ""
 "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a "
@@ -874,8 +874,8 @@ msgid "Allows the creation of friend connections between users."
 msgstr ""
 
 #: bp-core/bp-core-admin.php:210 bp-core/bp-core-templatetags.php:1000
-#: bp-core/bp-core-templatetags.php:1049 bp-groups.php:999 bp-groups.php:1374
-#: bp-groups.php:1387 bp-groups.php:1401 bp-groups.php:1414
+#: bp-core/bp-core-templatetags.php:1049 bp-groups.php:999 bp-groups.php:1373
+#: bp-groups.php:1386 bp-groups.php:1400 bp-groups.php:1413
 #: bp-groups/bp-groups-widgets.php:13 bp-themes/bp-default/header.php:67
 #: bp-themes/bp-sn-parent/header.php:91
 msgid "Groups"
@@ -1298,7 +1298,7 @@ msgstr ""
 msgid "Blogs"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1203
+#: bp-core/bp-core-templatetags.php:1209
 msgid "Your Avatar"
 msgstr ""
 
@@ -6734,35 +6734,35 @@ msgstr ""
 msgid "You have a pending friendship request with this user"
 msgstr ""
 
-#: bp-friends.php:301
+#: bp-friends.php:300
 msgid "New friendship created"
 msgstr ""
 
-#: bp-friends.php:313
+#: bp-friends.php:312
 #, php-format
 msgid "%d friends accepted your friendship requests"
 msgstr ""
 
-#: bp-friends.php:317 bp-friends/bp-friends-notifications.php:57
+#: bp-friends.php:316 bp-friends/bp-friends-notifications.php:57
 #, php-format
 msgid "%s accepted your friendship request"
 msgstr ""
 
-#: bp-friends.php:323 bp-friends.php:327
+#: bp-friends.php:322 bp-friends.php:326
 msgid "Friendship requests"
 msgstr ""
 
-#: bp-friends.php:323
+#: bp-friends.php:322
 #, php-format
 msgid "You have %d pending friendship requests"
 msgstr ""
 
-#: bp-friends.php:327
+#: bp-friends.php:326
 #, php-format
 msgid "You have a friendship request from %s"
 msgstr ""
 
-#: bp-friends.php:426 bp-friends.php:434
+#: bp-friends.php:425 bp-friends.php:433
 #, php-format
 msgid "%s and %s are now friends"
 msgstr ""
@@ -6910,7 +6910,7 @@ msgstr ""
 msgid "Group invite accepted"
 msgstr ""
 
-#: bp-groups.php:308 bp-groups.php:1703 bp-groups.php:2350
+#: bp-groups.php:308 bp-groups.php:1702 bp-groups.php:2349
 #, php-format
 msgid "%s joined the group %s"
 msgstr ""
@@ -7175,90 +7175,90 @@ msgstr ""
 msgid "New group forum post"
 msgstr ""
 
-#: bp-groups.php:1360
+#: bp-groups.php:1359
 msgid "Group Membership Requests"
 msgstr ""
 
-#: bp-groups.php:1360
+#: bp-groups.php:1359
 #, php-format
 msgid "%d new membership requests for the group \"%s\""
 msgstr ""
 
-#: bp-groups.php:1363
+#: bp-groups.php:1362
 #, php-format
 msgid "%s requests membership for the group \"%s\""
 msgstr ""
 
-#: bp-groups.php:1374
+#: bp-groups.php:1373
 #, php-format
 msgid "%d accepted group membership requests"
 msgstr ""
 
-#: bp-groups.php:1376
+#: bp-groups.php:1375
 #, php-format
 msgid "Membership for group \"%s\" accepted"
 msgstr ""
 
-#: bp-groups.php:1387
+#: bp-groups.php:1386
 #, php-format
 msgid "%d rejected group membership requests"
 msgstr ""
 
-#: bp-groups.php:1389
+#: bp-groups.php:1388
 #, php-format
 msgid "Membership for group \"%s\" rejected"
 msgstr ""
 
-#: bp-groups.php:1401
+#: bp-groups.php:1400
 #, php-format
 msgid "You were promoted to an admin in %d groups"
 msgstr ""
 
-#: bp-groups.php:1403
+#: bp-groups.php:1402
 #, php-format
 msgid "You were promoted to an admin in the group %s"
 msgstr ""
 
-#: bp-groups.php:1414
+#: bp-groups.php:1413
 #, php-format
 msgid "You were promoted to a mod in %d groups"
 msgstr ""
 
-#: bp-groups.php:1416
+#: bp-groups.php:1415
 #, php-format
 msgid "You were promoted to a mod in the group %s"
 msgstr ""
 
-#: bp-groups.php:1427 bp-groups.php:1429
+#: bp-groups.php:1426 bp-groups.php:1428
 #: bp-themes/bp-sn-parent/groups/invites.php:8
 msgid "Group Invites"
 msgstr ""
 
-#: bp-groups.php:1427
+#: bp-groups.php:1426
 #, php-format
 msgid "You have %d new group invitations"
 msgstr ""
 
-#: bp-groups.php:1429
+#: bp-groups.php:1428
 #, php-format
 msgid "You have an invitation to the group: %s"
 msgstr ""
 
-#: bp-groups.php:1521 bp-groups/bp-groups-classes.php:697
+#: bp-groups.php:1520 bp-groups/bp-groups-classes.php:697
 msgid "Group Admin"
 msgstr ""
 
-#: bp-groups.php:1894 bp-themes/bp-sn-parent/_inc/ajax.php:459
+#: bp-groups.php:1893 bp-themes/bp-sn-parent/_inc/ajax.php:459
 #, php-format
 msgid "%s posted an update in the group %s:"
 msgstr ""
 
-#: bp-groups.php:1943 bp-groups.php:2048
+#: bp-groups.php:1942 bp-groups.php:2047
 #, php-format
 msgid "%s posted on the forum topic %s in the group %s:"
 msgstr ""
 
-#: bp-groups.php:1978 bp-groups.php:2010
+#: bp-groups.php:1977 bp-groups.php:2009
 #, php-format
 msgid "%s started the forum topic %s in the group %s:"
 msgstr ""
