@@ -529,7 +529,7 @@ function bp_activity_insert_time_since( $content, $date ) {
 	// Make sure we don't have any URL encoding in links when trying to insert the time.
 	$content = urldecode($content);
 
-	return apply_filters( 'bp_activity_insert_time_since', @sprintf( $content, @sprintf( __( '&nbsp; %s ago', 'buddypress' ), bp_core_time_since( strtotime( $date ) ) ) ) );
+	return apply_filters( 'bp_activity_insert_time_since', @sprintf( $content, @sprintf( __( '&nbsp; %s ago', 'buddypress' ), bp_core_time_since( $date ) ) ) );
 }
 
 function bp_activity_permalink_id() {

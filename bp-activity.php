@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_ACTIVITY_DB_VERSION', '2031' );
+define ( 'BP_ACTIVITY_DB_VERSION', '2040' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_ACTIVITY_SLUG' ) )
@@ -468,7 +468,7 @@ function bp_activity_add( $args = '' ) {
 		'user_id' => $bp->loggedin_user->id, // Optional: The user to record the activity for, can be false if this activity is not for a user.
 		'item_id' => false, // Optional: The ID of the specific item being recorded, e.g. a blog_id
 		'secondary_item_id' => false, // Optional: A second ID used to further filter e.g. a comment_id
-		'recorded_time' => time(), // The time that this activity was recorded
+		'recorded_time' => gmdate( "Y-m-d H:i:s" ), // The GMT time that this activity was recorded
 		'hide_sitewide' => false // Should this be hidden on the sitewide activity stream?
 	);
 

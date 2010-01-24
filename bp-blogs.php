@@ -252,7 +252,6 @@ function bp_blogs_record_activity( $args = '' ) {
 		'type' => false,
 		'item_id' => false,
 		'secondary_item_id' => false,
-		'recorded_time' => time(),
 		'hide_sitewide' => false
 	);
 
@@ -278,7 +277,7 @@ function bp_blogs_record_activity( $args = '' ) {
 		'secondary_item_id' => $secondary_item_id
 	) );
 
-	return bp_activity_add( array( 'id' => $id, 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
+	return bp_activity_add( array( 'id' => $id, 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'hide_sitewide' => $hide_sitewide ) );
 }
 
 function bp_blogs_delete_activity( $args = true ) {
@@ -419,7 +418,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 					'type' => 'new_blog_post',
 					'item_id' => $blog_id,
 					'secondary_item_id' => $post_id,
-					'recorded_time' => strtotime( $post->post_date_gmt )
+					'recorded_time' => $post->post_date_gmt
 				));
 			}
 		}
@@ -454,7 +453,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 				'type' => 'new_blog_post',
 				'item_id' => $blog_id,
 				'secondary_item_id' => $post_id,
-				'recorded_time' => strtotime( $post->post_date_gmt )
+				'recorded_time' => $post->post_date_gmt
 			) );
 		}
 	}
@@ -512,7 +511,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved ) {
 			'type' => 'new_blog_comment',
 			'item_id' => $wpdb->blogid,
 			'secondary_item_id' => $comment_id,
-			'recorded_time' => strtotime( $comment->comment_date_gmt )
+			'recorded_time' => $comment->comment_date_gmt
 		) );
 	}
 
