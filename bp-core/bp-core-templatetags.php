@@ -892,6 +892,8 @@ function bp_get_page_title() {
 			$title = __( 'Blog &#124; Categories &#124; ' . ucwords( $wp_query->query_vars['category_name'] ), 'buddypress' );
 		} else if ( is_tag() ) {
 			$title = __( 'Blog &#124; Tags &#124; ' . ucwords( $wp_query->query_vars['tag'] ), 'buddypress' );
+		} else if ( is_page() ){
+			$title = $post->post_title;
 		} else
 			$title = __( 'Blog', 'buddypress' );
 
