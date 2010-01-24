@@ -6,8 +6,15 @@ jQuery(document).ready( function() {
 	/**** Page Load Actions *******************************************************/
 
 	/* Activity */
-	if ( j('div.activity').length && !j('div.activity').hasClass('no-ajax') )
-		bp_activity_request( j.cookie('bp-activity-scope'), j.cookie('bp-activity-filter') );
+	if ( j('div.activity').length && !j('div.activity').hasClass('no-ajax') ) {
+		/* If there's a hash URL, try and use it. */
+		if ( location.hash.length )
+			var scope = location.hash.substr( 1, location.hash.length - 2 );
+		else
+			var scope = j.cookie('bp-activity-scope');
+
+		bp_activity_request( scope, j.cookie('bp-activity-filter') );
+	}
 
 	/* Members */
 	if ( j('div.members').length )
@@ -250,10 +257,6 @@ jQuery(document).ready( function() {
 
 		if ( null == filter )
 			var filter = '-1';
-
-		/* If there's a hash URL, try and use it. */
-		if ( location.hash.length )
-			var scope = location.hash.substr( 1, location.hash.length - 2 );
 
 		/* Save the type and filter to a session cookie */
 		j.cookie( 'bp-activity-scope', scope, null );
