@@ -165,7 +165,7 @@ function bp_dtheme_delete_activity() {
 add_action( 'wp_ajax_delete_activity_comment', 'bp_dtheme_delete_activity' );
 add_action( 'wp_ajax_delete_activity', 'bp_dtheme_delete_activity' );
 
-function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string = false, $per_page = 20, $page = 1 ) {
+function bp_dtheme_activity_loop( $scope = 'all', $filter = false, $query_string = false, $per_page = 20, $page = 1 ) {
 	global $bp;
 
 	if ( !$query_string ) {
@@ -173,13 +173,13 @@ function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string 
 		if ( $bp->displayed_user->id ) {
 			$query_string = 'user_id=' . $bp->displayed_user->id;
 		} else {
-			/* Make sure a type is set. */
-			if ( empty($type) )
+			/* Make sure a scope is set. */
+			if ( empty($scope) )
 				$type = 'all';
 
 			$feed_url = site_url( BP_ACTIVITY_SLUG . '/feed/' );
 
-			switch ( $type ) {
+			switch ( $scope ) {
 				case 'friends':
 					$friend_ids = implode( ',', friends_get_friend_user_ids( $bp->loggedin_user->id ) );
 					$query_string = 'user_id=' . $friend_ids;
@@ -228,7 +228,7 @@ function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string 
 		$query_string .= '&per_page=' . $per_page;
 
 		/* Add the comments param */
-		if ( $bp->displayed_user->id || 'atme' == $type )
+		if ( $bp->displayed_user->id || 'atme' == $scope )
 			$query_string .= '&display_comments=stream';
 		else
 			$query_string .= '&display_comments=threaded';
@@ -242,7 +242,7 @@ function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string 
 	}
 	$query_string = implode( '&', $new_args ) . '&page=' . $page;
 
-	$bp->ajax_querystring = apply_filters( 'bp_dtheme_ajax_querystring_activity_filter', $query_string, $type );
+	$bp->ajax_querystring = apply_filters( 'bp_dtheme_ajax_querystring_activity_filter', $query_string, $scope );
 	$result['query_string'] = $bp->ajax_querystring;
 	$result['feed_url'] = apply_filters( 'bp_dtheme_ajax_feed_url', $feed_url );
 
@@ -256,7 +256,7 @@ function bp_dtheme_activity_loop( $type = 'all', $filter = false, $query_string 
 }
 
 function bp_dtheme_ajax_widget_filter() {
-	bp_dtheme_activity_loop( $_POST['type'], $_POST['filter'] );
+	bp_dtheme_activity_loop( $_POST['scope'], $_POST['filter'] );
 }
 add_action( 'wp_ajax_activity_widget_filter', 'bp_dtheme_ajax_widget_filter' );
 

@@ -603,22 +603,6 @@ form.standard-form#signup_form div div.error {
 	margin: 0 0 10px 0;
 }
 
-/* > AJAX Loaders
--------------------------------------------------------------- */
-
-.ajax-loader {
-	background: url( ../images/ajax-loader.gif ) center left no-repeat !important;
-	padding: 8px;
-	display: none;
-}
-
-a.loading {
-	background-image: url( ../images/ajax-loader.gif );
-	background-position: 95% 50%;
-	padding-right: 25px;
-	background-repeat: no-repeat;
-}
-
 /* > Buttons
 -------------------------------------------------------------- */
 
@@ -664,6 +648,22 @@ ul.button-nav li {
 	ul.button-nav li.current a {
 		font-weight: bold;
 	}
+
+/* > AJAX Loaders
+-------------------------------------------------------------- */
+
+.ajax-loader {
+	background: url( ../images/ajax-loader.gif ) center left no-repeat !important;
+	padding: 8px;
+	display: none;
+}
+
+a.loading {
+	background-image: url( ../images/ajax-loader.gif ) !important;
+	background-position: 95% 50% !important;
+	background-repeat: no-repeat !important;
+	padding-right: 25px !important;
+}
 
 /* > Input Forms
 -------------------------------------------------------------- */

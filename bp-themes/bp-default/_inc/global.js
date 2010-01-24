@@ -7,7 +7,7 @@ jQuery(document).ready( function() {
 
 	/* Activity */
 	if ( j('div.activity').length && !j('div.activity').hasClass('no-ajax') )
-		bp_activity_request( j.cookie('bp-activity-type'), j.cookie('bp-activity-filter') );
+		bp_activity_request( j.cookie('bp-activity-scope'), j.cookie('bp-activity-filter') );
 
 	/* Members */
 	if ( j('div.members').length )
@@ -103,13 +103,13 @@ jQuery(document).ready( function() {
 			return false;
 
 		/* Activity Stream Tabs */
-		var type = target.attr('id').substr( 9, target.attr('id').length );
+		var scope = target.attr('id').substr( 9, target.attr('id').length );
 		var filter = j("#activity-filter-select select").val();
 
-		if ( type == 'atme' )
+		if ( scope == 'atme' )
 			j( 'li#' + target.attr('id') + ' a strong' ).remove();
 
-		bp_activity_request(type, filter, target);
+		bp_activity_request(scope, filter, target);
 
 		return false;
 	});
@@ -119,13 +119,13 @@ jQuery(document).ready( function() {
 		var selected_tab = j( 'div.activity-type-tabs li.selected' );
 
 		if ( !selected_tab.length )
-			var type = 'all';
+			var scope = 'all';
 		else
-			var type = selected_tab.attr('id').substr( 9, selected_tab.attr('id').length );
+			var scope = selected_tab.attr('id').substr( 9, selected_tab.attr('id').length );
 
 		var filter = j(this).val();
 
-		bp_activity_request(type, filter);
+		bp_activity_request(scope, filter);
 
 		return false;
 	});
@@ -244,15 +244,15 @@ jQuery(document).ready( function() {
 	});
 
 	/* Activity Loop Requesting */
-	function bp_activity_request(type, filter) {
-		if ( null == type )
-			var type = 'all';
+	function bp_activity_request(scope, filter) {
+		if ( null == scope )
+			var scope = 'all';
 
 		if ( null == filter )
 			var filter = '-1';
 
 		/* Save the type and filter to a session cookie */
-		j.cookie( 'bp-activity-type', type, null );
+		j.cookie( 'bp-activity-scope', scope, null );
 		j.cookie( 'bp-activity-filter', filter, null );
 		j.cookie( 'bp-activity-oldestpage', 1 );
 
@@ -260,7 +260,7 @@ jQuery(document).ready( function() {
 		j('div.item-list-tabs li').each( function() {
 			j(this).removeClass('selected');
 		});
-		j('li#activity-' + type + ', div.item-list-tabs li.current').addClass('selected');
+		j('li#activity-' + scope + ', div.item-list-tabs li.current').addClass('selected');
 		j('div.item-list-tabs li.selected').addClass('loading');
 		j('#activity-filter-select select option[value=' + filter + ']').attr( 'selected', 'selected' );
 
@@ -271,7 +271,7 @@ jQuery(document).ready( function() {
 			action: 'activity_widget_filter',
 			'cookie': encodeURIComponent(document.cookie),
 			'_wpnonce_activity_filter': j("input#_wpnonce_activity_filter").val(),
-			'type': type,
+			'scope': scope,
 			'filter': filter
 		},
 		function(response)
