@@ -160,7 +160,7 @@ class BP_Core_User {
 
 		switch ( $type ) {
 			case 'active': case 'online': default:
-				$sql[] = "ORDER BY FROM_UNIXTIME(um.meta_value) DESC";
+				$sql[] = "ORDER BY um.meta_value DESC";
 				break;
 			case 'newest':
 				$sql[] = "ORDER BY u.user_registered DESC";
