@@ -1094,13 +1094,13 @@ function groups_action_create_group() {
 				bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step . '/' );
 			}
 
-			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'name' => $_POST['group-name'], 'description' => $_POST['group-desc'], 'slug' => groups_check_slug( sanitize_title($_POST['group-name']) ), 'date_created' => time() ) ) ) {
+			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'name' => $_POST['group-name'], 'description' => $_POST['group-desc'], 'slug' => groups_check_slug( sanitize_title($_POST['group-name']) ), 'date_created' => gmdate( "Y-m-d H:i:s" ) ) ) ) {
 				bp_core_add_message( __( 'There was an error saving group details, please try again.', 'buddypress' ), 'error' );
 				bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step . '/' );
 			}
 
 			groups_update_groupmeta( $bp->groups->new_group_id, 'total_member_count', 1 );
-			groups_update_groupmeta( $bp->groups->new_group_id, 'last_activity', time() );
+			groups_update_groupmeta( $bp->groups->new_group_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
 		}
 
 		if ( 'group-settings' == $bp->groups->current_create_step ) {
@@ -1335,7 +1335,7 @@ function groups_record_activity( $args = '' ) {
 }
 
 function groups_update_last_activity( $group_id ) {
-	groups_update_groupmeta( $group_id, 'last_activity', time() );
+	groups_update_groupmeta( $group_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
 }
 add_action( 'groups_joined_group', 'groups_update_last_activity' );
 add_action( 'groups_leave_group', 'groups_update_last_activity' );
@@ -1519,6 +1519,7 @@ function groups_create_group( $args = '' ) {
 		$member->is_admin = 1;
 		$member->user_title = __( 'Group Admin', 'buddypress' );
 		$member->is_confirmed = 1;
+		$member->date_modified = gmdate( "Y-m-d H:i:s" );
 
 		$member->save();
 	}
@@ -1691,7 +1692,7 @@ function groups_join_group( $group_id, $user_id = false ) {
 	$new_member->inviter_id = 0;
 	$new_member->is_admin = 0;
 	$new_member->user_title = '';
-	$new_member->date_modified = time();
+	$new_member->date_modified = gmdate( "Y-m-d H:i:s" );
 	$new_member->is_confirmed = 1;
 
 	if ( !$new_member->save() )
@@ -1706,7 +1707,7 @@ function groups_join_group( $group_id, $user_id = false ) {
 
 	/* Modify group meta */
 	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') + 1 );
-	groups_update_groupmeta( $group_id, 'last_activity', time() );
+	groups_update_groupmeta( $group_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
 
 	do_action( 'groups_join_group', $group_id, $user_id );
 
@@ -2125,7 +2126,7 @@ function groups_invite_user( $args = '' ) {
 		'user_id' => false,
 		'group_id' => false,
 		'inviter_id' => $bp->loggedin_user->id,
-		'date_modified' => time(),
+		'date_modified' => gmdate( "Y-m-d H:i:s" ),
 		'is_confirmed' => 0
 	);
 
@@ -2304,7 +2305,7 @@ function groups_send_membership_request( $requesting_user_id, $group_id ) {
 	$requesting_user->inviter_id = 0;
 	$requesting_user->is_admin = 0;
 	$requesting_user->user_title = '';
-	$requesting_user->date_modified = time();
+	$requesting_user->date_modified = gmdate( "Y-m-d H:i:s" );
 	$requesting_user->is_confirmed = 0;
 	$requesting_user->comments = $_POST['group-request-membership-comments'];
 

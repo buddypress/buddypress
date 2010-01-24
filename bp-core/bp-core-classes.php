@@ -136,7 +136,7 @@ class BP_Core_User {
 			$sql['where_popular'] = "AND um.meta_key = 'total_friend_count'";
 
 		if ( 'online' == $type )
-			$sql['where_online'] = "AND DATE_ADD( FROM_UNIXTIME(um.meta_value), INTERVAL 5 MINUTE ) >= NOW()";
+			$sql['where_online'] = "AND DATE_ADD( um.meta_value, INTERVAL 5 MINUTE ) >= NOW()";
 
 		if ( 'alphabetical' == $type )
 			$sql['where_alpha'] = "AND pd.field_id = 1";

@@ -1426,8 +1426,11 @@ function bp_core_record_activity() {
 
 	$activity = get_usermeta( $bp->loggedin_user->id, 'last_activity' );
 
-	if ( '' == $activity || time() >= strtotime( '+5 minutes', $activity ) )
-		update_usermeta( $bp->loggedin_user->id, 'last_activity', time() );
+	if ( !is_numeric( $activity ) )
+		$activity = strtotime( $activity );
+
+	if ( '' == $activity || strtotime( gmdate( "Y-m-d H:i:s" ) ) >= strtotime( '+5 minutes', $activity ) )
+		update_usermeta( $bp->loggedin_user->id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
 }
 add_action( 'wp_head', 'bp_core_record_activity' );
 

@@ -267,7 +267,7 @@ function bp_dtheme_ajax_send_reply() {
 				<?php echo bp_loggedin_user_avatar( 'type=thumb&width=30&height=30' ); ?>
 
 				<h3><a href="<?php echo $bp->loggedin_user->domain ?>"><?php echo $bp->loggedin_user->fullname ?></a></h3>
-				<small><?php printf( __( 'Sent %s ago', 'buddypress' ), bp_core_time_since( time() ) ) ?></small>
+				<small><?php printf( __( 'Sent %s ago', 'buddypress' ), bp_core_time_since( gmdate( "Y-m-d H:i:s" ) ) ) ?></small>
 			</div>
 
 			<div class="message-content">
@@ -530,7 +530,7 @@ function bp_dtheme_new_activity_comment() {
 		</div>
 
 		<div class="acomment-meta">
-			<?php echo bp_core_get_userlink( $bp->loggedin_user->id ) ?> &middot; <?php echo bp_core_time_since( time() ) ?> &middot;
+			<?php echo bp_core_get_userlink( $bp->loggedin_user->id ) ?> &middot; <?php echo bp_core_time_since( gmdate( "Y-m-d H:i:s" ) ) ?> &middot;
 			<a class="acomment-reply" href="#acomment-<?php echo $comment_id ?>" id="acomment-reply-<?php echo attribute_escape( $_POST['form_id'] ) ?>"><?php _e( 'Reply', 'buddypress' ) ?></a>
 			<?php if ( is_site_admin() || $bp->loggedin_user->id == $comment->user_id ) : ?>
 				 &middot; <a href="<?php echo wp_nonce_url( $bp->activity->id . '/delete/?cid=' . $comment_id, 'delete_activity_comment' ) ?>" class="delete acomment-delete"><?php _e( 'Delete', 'buddypress' ) ?></a>

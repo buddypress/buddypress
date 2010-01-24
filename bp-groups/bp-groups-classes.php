@@ -41,7 +41,7 @@ Class BP_Groups_Group {
 			$this->description = stripslashes($group->description);
 			$this->status = $group->status;
 			$this->enable_forum = $group->enable_forum;
-			$this->date_created = strtotime($group->date_created);
+			$this->date_created = $group->date_created;
 			$this->total_member_count = groups_get_groupmeta( $this->id, 'total_member_count' );
 
 			if ( $get_user_dataset ) {
@@ -84,7 +84,7 @@ Class BP_Groups_Group {
 					description = %s,
 					status = %s,
 					enable_forum = %d,
-					date_created = FROM_UNIXTIME(%d)
+					date_created = %s
 				WHERE
 					id = %d
 				",
@@ -108,7 +108,7 @@ Class BP_Groups_Group {
 					enable_forum,
 					date_created
 				) VALUES (
-					%d, %s, %s, %s, %s, %d, FROM_UNIXTIME(%d)
+					%d, %s, %s, %s, %s, %d, %s
 				)",
 					$this->creator_id,
 					$this->name,
@@ -642,7 +642,7 @@ Class BP_Groups_Member {
 			$this->is_mod = $member->is_mod;
 			$this->is_banned = $member->is_banned;
 			$this->user_title = $member->user_title;
-			$this->date_modified = strtotime($member->date_modified);
+			$this->date_modified = $member->date_modified;
 			$this->is_confirmed = $member->is_confirmed;
 			$this->comments = $member->comments;
 			$this->invite_sent = $member->invite_sent;
@@ -669,9 +669,9 @@ Class BP_Groups_Member {
 		do_action( 'groups_member_before_save', $this );
 
 		if ( $this->id ) {
-			$sql = $wpdb->prepare( "UPDATE {$bp->groups->table_name_members} SET inviter_id = %d, is_admin = %d, is_mod = %d, is_banned = %d, user_title = %s, date_modified = FROM_UNIXTIME(%d), is_confirmed = %d, comments = %s, invite_sent = %d WHERE id = %d", $this->inviter_id, $this->is_admin, $this->is_mod, $this->is_banned, $this->user_title, $this->date_modified, $this->is_confirmed, $this->comments, $this->invite_sent, $this->id );
+			$sql = $wpdb->prepare( "UPDATE {$bp->groups->table_name_members} SET inviter_id = %d, is_admin = %d, is_mod = %d, is_banned = %d, user_title = %s, date_modified = %s, is_confirmed = %d, comments = %s, invite_sent = %d WHERE id = %d", $this->inviter_id, $this->is_admin, $this->is_mod, $this->is_banned, $this->user_title, $this->date_modified, $this->is_confirmed, $this->comments, $this->invite_sent, $this->id );
 		} else {
-			$sql = $wpdb->prepare( "INSERT INTO {$bp->groups->table_name_members} ( user_id, group_id, inviter_id, is_admin, is_mod, is_banned, user_title, date_modified, is_confirmed, comments, invite_sent ) VALUES ( %d, %d, %d, %d, %d, %d, %s, FROM_UNIXTIME(%d), %d, %s, %d )", $this->user_id, $this->group_id, $this->inviter_id, $this->is_admin, $this->is_mod, $this->is_banned, $this->user_title, $this->date_modified, $this->is_confirmed, $this->comments, $this->invite_sent );
+			$sql = $wpdb->prepare( "INSERT INTO {$bp->groups->table_name_members} ( user_id, group_id, inviter_id, is_admin, is_mod, is_banned, user_title, date_modified, is_confirmed, comments, invite_sent ) VALUES ( %d, %d, %d, %d, %d, %d, %s, %s, %d, %s, %d )", $this->user_id, $this->group_id, $this->inviter_id, $this->is_admin, $this->is_mod, $this->is_banned, $this->user_title, $this->date_modified, $this->is_confirmed, $this->comments, $this->invite_sent );
 		}
 
 		if ( !$wpdb->query($sql) )
