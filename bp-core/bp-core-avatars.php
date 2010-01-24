@@ -339,10 +339,20 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 }
 
 // Override internal "get_avatar()" function to use our own where possible
-function bp_core_fetch_avatar_filter( $avatar, $id_or_email, $size, $default, $alt ) {
+function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt ) {
 	global $authordata;
 
-	$bp_avatar = bp_core_fetch_avatar( array( 'item_id' => $authordata->ID, 'width' => $size, 'height' => $size, 'alt' => $alt ) );
+	if ( is_object( $user ) )
+		$id = $user->user_id;
+	else if ( is_numeric( $user ) )
+		$id = $user;
+	else
+		$id = $authordata->ID;
+
+	if ( empty( $user ) )
+		return $avatar;
+
+	$bp_avatar = bp_core_fetch_avatar( array( 'item_id' => $id, 'width' => $size, 'height' => $size, 'alt' => $alt ) );
 
 	return ( !$bp_avatar ) ? $avatar : $bp_avatar;
 }
