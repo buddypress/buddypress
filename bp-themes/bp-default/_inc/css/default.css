@@ -223,7 +223,7 @@ div#sidebar {
 		div#sidebar div.item-avatar img {
 			width: 40px;
 			height: 40px;
-			margin: 2px;
+			margin: 1px;
 		}
 
 		div#sidebar .avatar-block { overflow: hidden; }
