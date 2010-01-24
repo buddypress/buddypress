@@ -1649,18 +1649,8 @@ function bp_core_delete_account( $user_id = false ) {
 		return wpmu_delete_user( $user_id );
 	}
 
-	$delete_user = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->users WHERE ID = %d", $user_id ) );
-	$delete_usermeta = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->usermeta WHERE user_id = %d", $user_id ) );
-
-	$user = bp_core_get_core_userdata( $user_id );
-
-	wp_cache_delete( $user_id, 'users' );
-	wp_cache_delete( $user->user_login, 'userlogins' );
-
-	if ( !$delete_user || !$delete_usermeta )
-		return false;
-
-	return true;
+	require_once( ABSPATH . '/wp-admin/includes/user.php' );
+	return wp_delete_user( $user_id );
 }
 
 
