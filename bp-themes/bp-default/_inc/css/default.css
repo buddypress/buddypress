@@ -21,7 +21,7 @@ body {
 	}
 
 h1, h2, h3, h4, h5, h6 {
-	margin: 15px 0 15px 0;
+	margin: 5px 0 15px 0;
 }
 
 h1 { font-size: 28px; margin-bottom: 35px; }
@@ -513,7 +513,7 @@ span.activity, div#message p {
 
 div.dir-search {
 	float: right;
-	margin: -32px 0 0 0;
+	margin: -37px 0 0 0;
 }
 	div.dir-search input[type=text] {
 		padding: 4px;
