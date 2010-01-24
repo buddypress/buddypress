@@ -1629,7 +1629,7 @@ add_filter( 'wp_mail_from', 'bp_core_email_from_address_filter' );
  * @uses wpmu_delete_user() Deletes a user from the system.
  */
 function bp_core_delete_account( $user_id = false ) {
-	global $bp;
+	global $bp, $wpdb;
 
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
@@ -1639,13 +1639,28 @@ function bp_core_delete_account( $user_id = false ) {
 		return false;
 
 	/* Site admins should not be allowed to be deleted */
-	if ( is_site_admin( bp_core_get_username( $user_id ) ) )
+	if ( bp_core_is_multisite() && is_site_admin( bp_core_get_username( $user_id ) ) )
 		return false;
 
-	require_once( ABSPATH . '/wp-admin/includes/mu.php' );
-	require_once( ABSPATH . '/wp-admin/includes/user.php' );
+	if ( bp_core_is_multisite() && function_exists('wpmu_delete_user') ) {
+		require_once( ABSPATH . '/wp-admin/includes/mu.php' );
+		require_once( ABSPATH . '/wp-admin/includes/user.php' );
 
-	return wpmu_delete_user( $user_id );
+		return wpmu_delete_user( $user_id );
+	}
+
+	$delete_user = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->users WHERE ID = %d", $user_id ) );
+	$delete_usermeta = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->usermeta WHERE user_id = %d", $user_id ) );
+
+	$user = bp_core_get_core_userdata( $user_id );
+
+	wp_cache_delete( $user_id, 'users' );
+	wp_cache_delete( $user->user_login, 'userlogins' );
+
+	if ( !$delete_user || !$delete_usermeta )
+		return false;
+
+	return true;
 }
 
 
