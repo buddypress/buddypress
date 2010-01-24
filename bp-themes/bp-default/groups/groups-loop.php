@@ -1,4 +1,4 @@
-<?php /* Querystring is set via AJAX in _inc/ajax.php - bp_dtheme_content_filter() */ ?>
+<?php /* Querystring is set via AJAX in _inc/ajax.php - bp_dtheme_object_filter() */ ?>
 
 <?php do_action( 'bp_before_groups_loop' ) ?>
 

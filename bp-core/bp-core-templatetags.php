@@ -484,7 +484,7 @@ function bp_get_displayed_user_nav() {
 		else
 			$link = $bp->displayed_user->domain . $user_nav_item['link'];
 
-		echo apply_filters( 'bp_get_displayed_user_nav_' . $user_nav_item['css_id'], '<li id="li-subnav-' . $user_nav_item['css_id'] . '" ' . $selected . '><a id="user-' . $user_nav_item['css_id'] . '" href="' . $link . '">' . $user_nav_item['name'] . '</a></li>', &$user_nav_item );
+		echo apply_filters( 'bp_get_displayed_user_nav_' . $user_nav_item['css_id'], '<li id="' . $user_nav_item['css_id'] . '-personal" ' . $selected . '><a id="user-' . $user_nav_item['css_id'] . '" href="' . $link . '">' . $user_nav_item['name'] . '</a></li>', &$user_nav_item );
 	}
 }
 	/* DEPRECATED - use bp_get_displayed_user_nav() */
@@ -531,7 +531,7 @@ function bp_get_options_nav() {
 			}
 
 			/* echo out the final list item */
-			echo apply_filters( 'bp_get_options_nav_' . $subnav_item['css_id'], '<li id="li-subnav-' . $subnav_item['css_id'] . '" ' . $selected . '><a id="' . $subnav_item['css_id'] . '" href="' . $subnav_item['link'] . '">' . $subnav_item['name'] . '</a></li>', $subnav_item );
+			echo apply_filters( 'bp_get_options_nav_' . $subnav_item['css_id'], '<li id="' . $subnav_item['css_id'] . '-personal-li" ' . $selected . '><a id="' . $subnav_item['css_id'] . '" href="' . $subnav_item['link'] . '">' . $subnav_item['name'] . '</a></li>', $subnav_item );
 		}
 	} else {
 		/* If we're using the classic template structure, show the displayed user nav instead */

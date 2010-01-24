@@ -11,20 +11,20 @@ jQuery(document).ready( function() {
 
 	/* Members */
 	if ( j('div.members').length )
-		bp_filter_request( j.cookie('bp-members-type'), j.cookie('bp-members-filter'), 'members', 'div.members' );
+		bp_filter_request( 'members', j.cookie('bp-members-filter'), j.cookie('bp-members-scope'), 'div.members' );
 
 	/* Groups */
 	if ( j('div.groups').length )
-		bp_filter_request( j.cookie('bp-groups-type'), j.cookie('bp-groups-filter'), 'groups', 'div.groups' );
+		bp_filter_request( 'groups', j.cookie('bp-groups-filter'), j.cookie('bp-groups-scope'), 'div.groups' );
 
 	/* Blogs */
 	if ( j('div.blogs').length )
-		bp_filter_request( j.cookie('bp-blogs-type'), j.cookie('bp-blogs-filter'), 'blogs', 'div.blogs' );
+		bp_filter_request( 'blogs', j.cookie('bp-blogs-filter'), j.cookie('bp-blogs-scope'), 'div.blogs' );
 
 	/* Forums */
 	if ( j('div.forums').length ) {
 		j('div#new-topic-post').hide();
-		bp_filter_request( j.cookie('bp-forums-type'), j.cookie('bp-forums-filter'), 'forums', 'div.forums' );
+		bp_filter_request( 'forums', j.cookie('bp-forums-filter'), j.cookie('bp-forums-scope'), 'div.forums' );
 	}
 
 	/* @message Compose Scrolling */
@@ -534,7 +534,7 @@ jQuery(document).ready( function() {
 			var css_id = j('div.item-list-tabs li.selected').attr('id').split( '-' );
 			var object = css_id[0];
 
-			bp_filter_request( j.cookie('bp-' + object + '-type'), j.cookie('bp-' + object + '-filter'), object, 'div.' + object, 1, target.parent().children('label').children('input').val() );
+			bp_filter_request( object, j.cookie('bp-' + object + '-filter'), j.cookie('bp-' + object + '-scope') , 'div.' + object, target.parent().children('label').children('input').val(), 1 );
 		}
 
 		return false;
@@ -556,7 +556,7 @@ jQuery(document).ready( function() {
 			if ( 'activity' == object )
 				return false;
 
-			var type = css_id[1];
+			var scope = css_id[1];
 			var filter = j("#" + object + "-order-select select").val();
 			var search_terms = j("#" + object + "_search").val();
 
@@ -566,7 +566,7 @@ jQuery(document).ready( function() {
 			});
 			j('li#' + object + '-' + filter).addClass('selected');
 
-			bp_filter_request( type, filter, object, 'div.' + object, 1, search_terms );
+			bp_filter_request( object, filter, scope, 'div.' + object, search_terms, 1 );
 
 			return false;
 		}
@@ -581,22 +581,22 @@ jQuery(document).ready( function() {
 
 		var css_id = el.attr('id').split('-');
 		var object = css_id[0];
-		var type = css_id[1];
+		var scope = css_id[1];
 		var filter = j(this).val();
 		var search_terms = j("#" + object + "_search").val();
 
-		bp_filter_request( type, filter, object, 'div.' + object, 1, search_terms );
+		bp_filter_request( object, filter, scope, 'div.' + object, search_terms, 1 );
 
 		return false;
 	});
 
 	/* Filter the current content list (groups/members/blogs/topics) */
-	function bp_filter_request( type, filter, id, target, page, search_terms, extras ) {
-		if ( 'activity' == id )
+	function bp_filter_request( object, filter, scope, target, search_terms, page, extras ) {
+		if ( 'activity' == object )
 			return false;
 
-		if ( null == type )
-			var type = 'all';
+		if ( null == scope )
+			var scope = 'all';
 
 		if ( null == filter )
 			var filter = 'active';
@@ -614,30 +614,30 @@ jQuery(document).ready( function() {
 			search_terms = j.query.get('s');
 
 		/* Save the type and filter to a session cookie */
-		j.cookie( 'bp-' + id + '-type', type, null );
-		j.cookie( 'bp-' + id + '-filter', filter, null );
-		j.cookie( 'bp-' + id + '-page', page, null );
-		j.cookie( 'bp-' + id + '-search-terms', search_terms, null );
+		j.cookie( 'bp-' + object + '-scope', scope, null );
+		j.cookie( 'bp-' + object + '-filter', filter, null );
+		j.cookie( 'bp-' + object + '-page', page, null );
+		j.cookie( 'bp-' + object + '-search-terms', search_terms, null );
 
 		/* Set the correct selected nav and filter */
 		j('div.item-list-tabs li').each( function() {
 			j(this).removeClass('selected');
 		});
-		j('div.item-list-tabs li#' + id + '-' + type + ', div.item-list-tabs#object-nav li.current').addClass('selected');
+		j('div.item-list-tabs li#' + object + '-' + scope + ', div.item-list-tabs#object-nav li.current').addClass('selected');
 		j('div.item-list-tabs li.selected').addClass('loading');
 		j('div.item-list-tabs select option[value=' + filter + ']').attr( 'selected', 'selected' );
 
-		if ( 'friends' == id )
-			id = 'members';
+		if ( 'friends' == object )
+			object = 'members';
 
 		j.post( ajaxurl, {
-			action: id + '_filter',
+			action: object + '_filter',
 			'cookie': encodeURIComponent(document.cookie),
-			'type': type,
+			'object': object,
 			'filter': filter,
-			'page': page,
-			'content': id,
 			'search_terms': search_terms,
+			'scope': scope,
+			'page': page,
 			'extras': extras
 		},
 		function(response)
@@ -679,7 +679,7 @@ jQuery(document).ready( function() {
 			else
 				var page_number = Number( j(target).html() );
 
-			bp_filter_request( j.cookie('bp-' + object + '-type'), j.cookie('bp-' + object + '-filter'), object, 'div.' + object, page_number, j.cookie('bp-' + object + '-search-terms') );
+			bp_filter_request( object, j.cookie('bp-' + object + '-filter'), j.cookie('bp-' + object + '-scope'), 'div.' + object, j.cookie('bp-' + object + '-search-terms'), page_number );
 
 			return false;
 		}

@@ -9,14 +9,19 @@
  * your own _inc/ajax.php file and add/remove AJAX functionality as you see fit.
  */
 
-function bp_dtheme_content_filter() {
+function bp_dtheme_object_filter() {
 	global $bp;
 
-	$content = esc_attr( $_POST['content'] );
-	$type = esc_attr( $_POST['type'] );
+	$object = esc_attr( $_POST['object'] );
 	$filter = esc_attr( $_POST['filter'] );
 	$page = esc_attr( $_POST['page'] );
 	$search_terms = esc_attr( $_POST['search_terms'] );
+
+	/**
+	 * Scope is the scope of results to use, either all (everything) or personal (just mine).
+	 * For example if the object is groups, it would be all groups, or just groups I belong to.
+	 */
+	$scope = esc_attr( $_POST['scope'] );
 
 	/* Plugins can pass extra parameters and use the bp_dtheme_ajax_querystring_content_filter filter to parse them */
 	$extras = esc_attr( $_POST['extras'] );
@@ -28,27 +33,24 @@ function bp_dtheme_content_filter() {
 	if ( empty( $filter ) )
 		$filter = 'active';
 
-	if ( empty( $type ) )
-		$type = 'all';
-
 	$bp->ajax_querystring = 'type=' . $filter . '&page=' . $page;
 
 	if ( !empty( $search_terms ) )
 		$bp->ajax_querystring .= '&search_terms=' . $search_terms;
 
-	if ( $type != 'all' || $bp->displayed_user->id ) {
+	if ( $scope != 'all' || $bp->displayed_user->id ) {
 		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 		$bp->ajax_querystring .= '&user_id=' . $user_id;
 	}
 
 	$bp->ajax_querystring = apply_filters( 'bp_dtheme_ajax_querystring_content_filter', $bp->ajax_querystring, $extras );
 
-	locate_template( array( "$content/$content-loop.php" ), true );
+	locate_template( array( "$object/$object-loop.php" ), true );
 }
-add_action( 'wp_ajax_members_filter', 'bp_dtheme_content_filter' );
-add_action( 'wp_ajax_groups_filter', 'bp_dtheme_content_filter' );
-add_action( 'wp_ajax_blogs_filter', 'bp_dtheme_content_filter' );
-add_action( 'wp_ajax_forums_filter', 'bp_dtheme_content_filter' );
+add_action( 'wp_ajax_members_filter', 'bp_dtheme_object_filter' );
+add_action( 'wp_ajax_groups_filter', 'bp_dtheme_object_filter' );
+add_action( 'wp_ajax_blogs_filter', 'bp_dtheme_object_filter' );
+add_action( 'wp_ajax_forums_filter', 'bp_dtheme_object_filter' );
 
 function bp_dtheme_post_update() {
 	global $bp;
