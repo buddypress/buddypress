@@ -349,7 +349,7 @@ function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt ) {
 	else
 		$id = $authordata->ID;
 
-	if ( empty( $user ) )
+	if ( empty( $id ) )
 		return $avatar;
 
 	$bp_avatar = bp_core_fetch_avatar( array( 'item_id' => $id, 'width' => $size, 'height' => $size, 'alt' => $alt ) );
