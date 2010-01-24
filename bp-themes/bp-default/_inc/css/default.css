@@ -40,6 +40,14 @@ a:hover, a:active { color: #888; }
 p {	margin-bottom: 15px; }
 p:last-child { margin-bottom: 0; }
 
+hr {
+	background-color:#E7E7E7;
+	border:0 none;
+	clear:both;
+	height:1px;
+	margin: 25px 0;
+}
+
 img.avatar {
 	float: left;
 	border: 2px solid #eee;
@@ -1488,7 +1496,8 @@ div.post {
 	overflow: hidden;
 }
 	div.post h2.pagetitle, div.post h2.posttitle {
-		margin: 5px 0 0;
+		margin: 0;
+		line-height: 120%;
 	}
 		div.post h2.pagetitle a, div.post h2.posttitle a {
 			color: #666;
@@ -1497,24 +1506,19 @@ div.post {
 
 	.navigation {
 		overflow: hidden;
+		font-family: georgia, times, serif;
+		font-style: italic;
+		font-size: 14px;
+		padding: 5px 0;
+		margin: 5px 0 25px 0;
 	}
-		div.post .alignright {
+		div.navigation .alignright {
 			float: right;
-			margin: 0 0 10px 15px;
 		}
 
-		div.post .alignleft {
+		div.navigation .alignleft {
 			float: left;
-			margin: 0 15px 10px 0;
 		}
-
-	div.post hr {
-		background-color:#E7E7E7;
-		border:0 none;
-		clear:both;
-		height:1px;
-		margin: 25px 0;
-	}
 
 	div.post p { margin: 0 0 20px 0; }
 	div.post ul, div.post ol, div.post dl { margin: 0 0 18px 1.5em; }
@@ -1645,7 +1649,6 @@ div.post {
 		padding: 0 4px 5px 0;
 		margin: 0;
 	}
-
 
 /* > WordPress Blog Comment Styles
 -------------------------------------------------------------- */

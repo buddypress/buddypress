@@ -7,7 +7,7 @@
 
 		<div class="page" id="blog-archives">
 
-			<h2 class="pagetitle"><?php printf( __( 'You are browsing the archive for %1$s.', 'buddypress' ), wp_title( false, false ) ); ?></h2>
+			<h3 class="pagetitle"><?php printf( __( 'You are browsing the archive for %1$s.', 'buddypress' ), wp_title( false, false ) ); ?></h3>
 
 			<?php if ( have_posts() ) : ?>
 
