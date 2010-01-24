@@ -1739,7 +1739,7 @@ function bp_the_body_class() {
 		if ( bp_is_blog_page() && is_front_page() && $bp->current_component != BP_HOME_BLOG_SLUG )
 			$bp_classes[] = 'home-page';
 
-		if ( bp_is_blog_page() || bp_is_register_page() || bp_is_activation_page() )
+		if ( ( bp_is_blog_page() || bp_is_register_page() || bp_is_activation_page() ) && !is_page() )
 			$bp_classes[] = 'blog-page';
 
 		if ( !bp_is_blog_page() && !bp_is_register_page() && !bp_is_activation_page() )

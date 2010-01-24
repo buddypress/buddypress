@@ -44,7 +44,7 @@
 			<h1 id="logo"><a href="<?php echo site_url() ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php bp_site_name() ?></a></h1>
 
 			<ul id="nav">
-				<li<?php if ( bp_is_page( 'home' ) ) : ?> class="selected"<?php endif; ?>>
+				<li<?php if ( bp_is_page( 'home' ) && !is_page() ) : ?> class="selected"<?php endif; ?>>
 					<a href="<?php echo site_url() ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a>
 				</li>
 
@@ -53,7 +53,7 @@
 						<a href="<?php echo site_url() ?>/<?php echo BP_ACTIVITY_SLUG ?>/" title="<?php _e( 'Activity', 'buddypress' ) ?>"><?php _e( 'Activity', 'buddypress' ) ?></a>
 					</li>
 				<?php else : ?>
-					<li<?php if ( bp_is_page( BP_HOME_BLOG_SLUG ) || bp_is_blog_page() && !is_front_page() ) : ?> class="selected"<?php endif; ?>>
+					<li<?php if ( bp_is_page( BP_HOME_BLOG_SLUG ) || bp_is_blog_page() && !is_front_page() && !is_page() ) : ?> class="selected"<?php endif; ?>>
 						<a href="<?php echo site_url() ?>/<?php echo BP_HOME_BLOG_SLUG ?>/" title="<?php _e( 'Blog', 'buddypress' ) ?>"><?php _e( 'Blog', 'buddypress' ) ?></a>
 					</li>
 				<?php endif; ?>
