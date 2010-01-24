@@ -17,14 +17,14 @@
 		<?php endif; ?>
 
 		<?php if ( is_user_logged_in() && !bp_is_my_profile() && function_exists( 'bp_send_public_message_link' ) ) : ?>
-			<div class="generic-button" id="send-public-message">
-				<a href="<?php bp_send_public_message_link() ?>" title="<?php _e( 'Send a public message to this user', 'buddypress' ) ?>"><?php _e( 'Send Public Message', 'buddypress' ) ?></a>
+			<div class="generic-button" id="post-mention">
+				<a href="<?php bp_send_public_message_link() ?>" title="<?php _e( 'Mention this user in a new public message, this will send the user a notification to get their attention.', 'buddypress' ) ?>"><?php _e( 'Mention this User', 'buddypress' ) ?></a>
 			</div>
 		<?php endif; ?>
 
 		<?php if ( is_user_logged_in() && !bp_is_my_profile() && function_exists( 'bp_send_private_message_link' ) ) : ?>
 			<div class="generic-button" id="send-private-message">
-				<a href="<?php bp_send_private_message_link() ?>" title="<?php _e( 'Send a private message to this user', 'buddypress' ) ?>"><?php _e( 'Send Private Message', 'buddypress' ) ?></a>
+				<a href="<?php bp_send_private_message_link() ?>" title="<?php _e( 'Send a private message to this user.', 'buddypress' ) ?>"><?php _e( 'Send Private Message', 'buddypress' ) ?></a>
 			</div>
 		<?php endif; ?>
 	</div>

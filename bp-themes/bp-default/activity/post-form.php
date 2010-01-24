@@ -2,6 +2,12 @@
 
 	<?php do_action( 'bp_before_activity_post_form' ) ?>
 
+	<?php if ( isset( $_GET['r'] ) ) : ?>
+		<div id="message" class="info">
+			<p><?php _e( 'You are mentioning a user in a new update, this user will be sent a notification of your message.', 'buddypress' ) ?></p>
+		</div>
+	<?php endif; ?>
+
 	<div id="whats-new-avatar">
 		<?php bp_loggedin_user_avatar( 'width=60&height=60' ) ?>
 	</div>
