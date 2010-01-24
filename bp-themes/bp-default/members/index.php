@@ -5,7 +5,7 @@
 
 		<form action="" method="post" id="members-directory-form" class="dir-form">
 
-			<h2><?php _e( 'Members Directory', 'buddypress' ) ?></h2>
+			<h3><?php _e( 'Members Directory', 'buddypress' ) ?></h3>
 
 			<?php do_action( 'bp_before_directory_members_content' ) ?>
 

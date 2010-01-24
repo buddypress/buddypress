@@ -6,7 +6,7 @@
 		<div class="padder">
 
 		<form action="" method="post" class="dir-form">
-			<h2><?php _e( 'Group Forums Directory', 'buddypress' ) ?><?php if ( is_user_logged_in() ) : ?> &nbsp;<a class="button" href="#new-topic" id="new-topic-button"><?php _e( 'New Topic', 'buddypress' ) ?></a><?php endif; ?></h2>
+			<h3><?php _e( 'Group Forums Directory', 'buddypress' ) ?><?php if ( is_user_logged_in() ) : ?> &nbsp;<a class="button" href="#new-topic" id="new-topic-button"><?php _e( 'New Topic', 'buddypress' ) ?></a><?php endif; ?></h3>
 
 			<div id="forums-dir-search" class="dir-search">
 				<?php bp_directory_forums_search_form() ?>
