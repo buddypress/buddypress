@@ -4,7 +4,7 @@
 		<div class="padder">
 
 			<?php if ( !is_user_logged_in() ) : ?>
-				<h2><?php _e( 'Site Activity', 'buddypress' ) ?></h2>
+				<h3><?php _e( 'Site Activity', 'buddypress' ) ?></h3>
 			<?php endif; ?>
 
 			<?php do_action( 'bp_before_directory_activity_content' ) ?>
