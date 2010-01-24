@@ -7,7 +7,7 @@ body {
 	background: #eaeaea url( ../images/background.gif ) top left repeat-x;
 	font-size: 12px;
 	font-family: Arial, Tahoma, Verdana, sans-serif;
-	line-height: 160%;
+	line-height: 170%;
 	color: #555;
 	width: 90%;
 	min-width: 960px;
@@ -20,28 +20,21 @@ body {
 		max-width: 760px;
 	}
 
-h2 {
-	margin: 10px 0;
-	font-size: 22px;
-	font-weight: normal;
+h1, h2, h3, h4, h5, h6 {
+	margin: 15px 0 15px 0;
 }
 
-h3 {
-	font-size: 18px;
-	margin: 15px 0;
-	color: #888;
-	font-weight: normal;
-}
-
-h4 {
-	font-size: 14px;
-	margin: 10px 0;
-	color: #888;
-}
+h1 { font-size: 28px; margin-bottom: 35px; }
+h2 { font-size: 24px; margin-bottom: 30px; }
+h3 { font-size: 20px; }
+h4 { font-size: 16px; margin-bottom: 0; }
+h5 { font-size: 14px; margin-bottom: 0; }
+h6 { font-size: 12px; margin-bottom: 0; }
 
 a { color: #1fb3dd; }
+a:hover, a:active { color: #888; }
 
-.padder { padding: 15px; }
+.padder { padding: 20px; }
 .clear { clear: left; }
 
 p {	margin-bottom: 15px; }
@@ -74,11 +67,10 @@ img.avatar {
 	height: 100px;
 	padding-top: 25px;
 }
-
 	#header #search-bar {
 		position: absolute;
 		top: 25px;
-		left: 0;
+		right: 0;
 		width: 100%;
 		text-align: right;
 	}
@@ -89,7 +81,7 @@ img.avatar {
 		}
 
 		#header #search-bar .padder {
-			padding: 10px 18px;
+			padding: 10px 20px;
 		}
 
 		#header #search-bar input[type=text] {
@@ -109,9 +101,10 @@ img.avatar {
 
 	#header h1 {
 		position: absolute;
-		bottom: 12px;
-		left: 15px;
+		bottom: 0;
+		left: 20px;
 		width: 44%;
+		margin: 0;
 	}
 		#header h1 a {
 			color: #fff;
@@ -129,6 +122,7 @@ ul#nav {
 	right: 15px;
 	list-style: none;
 	bottom: 0;
+	max-width: 65%;
 }
 	ul#nav li {
 		float: left;
@@ -145,7 +139,7 @@ ul#nav {
 			-moz-border-radius-topright: 3px;
 			-webkit-border-top-right-radius: 3px;
 		}
-			ul#nav li.selected a {
+			ul#nav li.selected a, ul#nav li.current_page_item a {
 				background: #f5f5f5;
 				color: #555;
 			}
@@ -183,17 +177,15 @@ div#sidebar {
 }
 	div#sidebar div#sidebar-me img.avatar {
 		float: left;
-		margin: 0 15px 15px 0;
+		margin: 0 10px 15px 0;
 	}
 
-	div#sidebar div#sidebar-me h3 {
-		padding: 5px 0 0 0;
+	div#sidebar div#sidebar-me h4 {
+		font-size: 16px;
 		margin: 0 0 8px 0;
+		font-weight: normal;
 	}
-		div#sidebar div#sidebar-me h3 a {
-			color: #999;
-			text-decoration: none;
-		}
+
 
 	div#sidebar ul#bp-nav {
 		clear: left;
@@ -204,7 +196,7 @@ div#sidebar {
 		}
 
 	div#sidebar h3.widgettitle {
-		margin: 25px -15px 10px -14px;
+		margin: 25px -20px 10px -19px;
 		background: #eaeaea;
 		padding: 5px 15px;
 		font-size: 12px;
@@ -241,7 +233,7 @@ div#sidebar {
 	}
 
 	div#sidebar div.item-options {
-		margin: -10px -16px 0 -15px;
+		margin: -10px -16px 0 -20px;
 		background: #f8f8f8;
 		padding: 5px 15px;
 		font-size: 11px;
@@ -287,21 +279,19 @@ div#content .padder {
 div#item-header {
 	overflow: hidden;
 }
-	div#item-header img.avatar {
-		float: left;
-		margin: 0 15px 15px 0;
-	}
-
 	div#item-header h2 {
-		font-size: 32px;
-		margin: 0 0 10px 0;
-		padding-top: 5px;
-		line-height: 100%;
+		font-size: 28px;
+		margin: 5px 0 15px 0;
 	}
 		div#item-header h2 a {
-			color: #888;
 			text-decoration: none;
+			color: #777;
 		}
+
+	div#item-header img.avatar {
+		float: left;
+		margin: 0 15px 25px 0;
+	}
 
 	div#item-header span.activity {
 		margin: 0 0 -2px 4px;
@@ -415,8 +405,8 @@ ul.item-list {
 
 div.item-list-tabs {
 	clear: left;
-	overflow: auto;
-	margin: 25px -15px 5px -15px;
+	overflow: hidden;
+	margin: 25px -20px 5px -20px;
 	background: #eaeaea;
 }
 	div.item-list-tabs ul li a {
@@ -431,12 +421,12 @@ div.item-list-tabs {
 			margin: 5px 0 0 5px;
 		}
 			div.item-list-tabs ul li:first-child {
-				margin-left: 15px;
+				margin-left: 25px;
 			}
 
 			div.item-list-tabs ul li.last {
 				float: right;
-				margin: 7px 15px 0 0;
+				margin: 7px 25px 0 0;
 			}
 				div.item-list-tabs ul li.last select {
 					max-width: 175px;
@@ -484,7 +474,7 @@ div.item-list-tabs {
 
 	div.item-list-tabs#subnav {
 		background: #fff;
-		margin: 0 -15px 15px -15px;
+		margin: 0 -20px 15px -20px;
 		border-bottom: 1px solid #eaeaea;
 		min-height: 35px;
 		overflow: hidden;
@@ -534,7 +524,7 @@ div.dir-search {
 -------------------------------------------------------------- */
 
 div.pagination {
-	margin: 0 -15px 9px -15px;
+	margin: 0 -20px 9px -20px;
 	border-bottom: 1px solid #eaeaea;
 	padding: 10px 15px 10px 15px;
 	color: #888;
@@ -548,7 +538,7 @@ div.pagination {
 		padding: 8px 15px;
 	}
 		div#item-body div.item-list-tabs + div div.pagination {
-			margin-top: -15px;
+			margin-top: -20px;
 		}
 
 	div.pagination .pag-count {
@@ -778,7 +768,7 @@ form#send-invite-form {
 }
 	div#invite-list {
 		height: 400px;
-		overflow: auto;
+		overflow: hidden;
 		-moz-border-radius: 3px;
 		-webkit-border-radius: 3px;
 		border-radius: 3px;
@@ -797,7 +787,7 @@ table {
 	width: 100%;
 }
 	table#message-threads {
-		margin: 0 -15px;
+		margin: 0 -20px;
 		width: auto;
 	}
 
@@ -847,7 +837,7 @@ table.notification-settings {
 	}
 
 table.forum {
-	margin: -9px -15px 20px -15px;
+	margin: -9px -20px 20px -20px;
 	width: auto;
 }
 	table.forum tr:first-child {
@@ -975,7 +965,7 @@ form#whats-new-form {
 
 ul.activity-list li {
 	padding: 20px 0 0 0;
-	overflow: auto;
+	overflow: hidden;
 }
 	ul.activity-list li.has-comments {
 		padding-bottom: 20px;
@@ -1058,7 +1048,7 @@ ul.activity-list li {
 		display: inline;
 		padding: 0;
 		margin: 0;
-		overflow: auto;
+		overflow: hidden;
 	}
 
 .activity-list .activity-avatar img {
@@ -1141,7 +1131,7 @@ ul.activity-list li {
 	.activity-list .activity-content .activity-inner,
 	.activity-list .activity-content blockquote {
 		margin: 15px 0 15px 5px;
-		overflow: auto;
+		overflow: hidden;
 	}
 		body.activity-permalink .activity-content .activity-inner,
 		body.activity-permalink .activity-content blockquote {
@@ -1387,12 +1377,12 @@ table#message-threads tr.unread td {
 		font-size: 11px;
 		background: #eee;
 		text-align: right;
-		margin: 0 -15px;
+		margin: 0 -20px;
 		padding: 5px 15px;
 	}
 
 div#message-thread div.message-box {
-	margin: 0 -15px;
+	margin: 0 -20px;
 	padding: 15px;
 }
 	div#message-thread div.alt {
@@ -1440,7 +1430,7 @@ div#message-thread div.message-box {
 -------------------------------------------------------------- */
 
 ul#topic-post-list {
-	margin: 15px -15px;
+	margin: 15px -20px;
 	width: auto;
 }
 	ul#topic-post-list li {
@@ -1464,7 +1454,7 @@ ul#topic-post-list {
 div.admin-links {
 	position: absolute;
 	top: 15px;
-	right: 15px;
+	right: 25px;
 	color: #888;
 	font-size: 11px;
 }
@@ -1490,44 +1480,103 @@ div#new-topic-post {
 -------------------------------------------------------------- */
 
 div.post {
-	margin: 0 0 60px 0;
-	overflow: auto;
+	margin: 0 0 40px 0;
+	overflow: hidden;
 }
+	div.post h2.pagetitle, div.post h2.posttitle {
+		margin: 5px 0 0;
+	}
+		div.post h2.pagetitle a, div.post h2.posttitle a {
+			color: #555;
+			text-decoration: none;
+		}
+
+	.navigation {
+		overflow: hidden;
+	}
+		div.post .alignright {
+			float: right;
+			margin: 0 0 10px 15px;
+		}
+
+		div.post .alignleft {
+			float: left;
+			margin: 0 15px 10px 0;
+		}
+
+	div.post hr {
+		background-color:#E7E7E7;
+		border:0 none;
+		clear:both;
+		height:1px;
+		margin: 25px 0;
+	}
+
+	div.post p { margin: 0 0 20px 0; }
+	div.post ul, div.post ol, div.post dl { margin: 0 0 18px 1.5em; }
+	div.post ul { list-style: square; }
+	div.post ol { list-style: decimal; }
+	div.post ol ol { list-style: upper-alpha; }
+	div.post dl { margin-left: 0; }
+	div.post dt { font-size: 14px; font-weight: bold; }
+	div.post dd { margin: 0 0 15px 0;}
+
+	div.post pre, div.post code p {
+		padding: 15px;
+		background: #f4f4f4;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+	}
+
+	div.post code { font-family: "Monaco", courier, sans-serif; }
+	div.post blockquote {
+		quotes: none;
+		font-style:italic;
+		padding:0 3em;
+		font-family: georgia, times, serif;
+		font-size: 16px;
+		line-height: 150%;
+	}
+
+	div.post table {
+		border-collapse:collapse;
+		border-spacing:0;
+		border: 1px solid #eee;
+	}
+		div.post table th { border-top: 1px solid #eee; text-align: left; }
+		div.post table td { border-top: 1px solid #eee; }
+
 	div.post div.author-box, div.comment-avatar-box {
 		background: #f0f0f0;
 		padding: 10px;
 		float: left;
 		margin: 0 15px 15px 0;
+		font-family: georgia, times, serif;
+		font-style: italic;
 		text-align: center;
 		width: 70px;
 		-moz-border-radius: 3px;
 		-webkit-border-radius: 3px;
 		border-radius: 3px;
 	}
+		div.author-box p, div.comment-avatar-box p { margin: 5px 0 0; }
+		div.author-box a, div.comment-avatar-box a { text-decoration: none; }
+
 		div.post div.author-box img, div.comment-avatar-box img {
 			float: none;
 			border: 4px solid #fff;
+			margin: 0;
 		}
 
 	div.post div.post-content, div.comment-content {
 		margin-left: 105px;
 	}
 
-	div.post h3 {
-		font-size: 26px;
-		margin-bottom: 5px;
-		margin-top: 0;
-		line-height: 120%;
-	}
-		div.post h3 a {
-			text-decoration: none;
-			color: #666;
-			font-weight: normal;
-		}
-
 	div.post p.date, div.post p.postmetadata, div.comment-meta, div.comment-options {
 		color: #888;
-		font-size: 11px;
+		font-size: 12px;
+		font-family: Georgia, times, serif;
 		padding: 3px 0;
 		margin: 10px 0;
 		border-bottom: 1px solid #e4e4e4;
@@ -1543,6 +1592,7 @@ div.post {
 	div.post .tags { float: left; }
 	div.post .comments { float: right; }
 
+	div.post img { margin-bottom: 15px; }
 	div.post img.wp-smiley { padding: 0 !important; margin: 0 !important; border: none !important; float: none !important; clear: none !important; }
 
 	div.post img.centered, img.aligncenter {
@@ -1563,17 +1613,6 @@ div.post {
 		display: inline;
 	}
 
-	.navigation {
-		overflow: hidden;
-	}
-		.alignright {
-			float: right;
-		}
-
-		.alignleft {
-			float: left;
-		}
-
 	div.post .aligncenter, div.post div.aligncenter {
 		display: block;
 		margin-left: auto;
@@ -1585,7 +1624,6 @@ div.post {
 		text-align: center;
 		background-color: #f3f3f3;
 		padding-top: 4px;
-		margin: 10px 0;
 		-moz-border-radius: 3px;
 		-webkit-border-radius: 3px;
 		border-radius: 3px;
@@ -1604,15 +1642,6 @@ div.post {
 		margin: 0;
 	}
 
-	h2.pagetitle {
-		color: #888;
-		font-size: 18px;
-		padding: 10px 0;
-		margin: 10px 0;
-		border-bottom: 1px solid #e4e4e4;
-		border-top: 1px solid #e4e4e4;
-		font-weight: normal;
-	}
 
 /* > WordPress Blog Comment Styles
 -------------------------------------------------------------- */

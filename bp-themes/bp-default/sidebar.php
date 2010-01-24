@@ -9,7 +9,7 @@
 
 		<div id="sidebar-me">
 			<?php bp_loggedin_user_avatar( 'type=thumb&width=40&height=40' ) ?>
-			<h3><?php bp_loggedinuser_link() ?></h3>
+			<h4><?php bp_loggedinuser_link() ?></h4>
 			<a class="button" href="<?php echo wp_logout_url(wp_get_referer()) ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>
 
 		</div>
