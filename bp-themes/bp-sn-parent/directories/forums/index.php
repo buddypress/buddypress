@@ -23,7 +23,7 @@
 								</div>
 
 								<div class="item">
-									<div class="item-title"><a href="<?php bp_group_link() ?>/forum/"><?php bp_group_name() ?></a> (<?php bp_group_forum_topic_count( 'showtext=true' ) ?>, <?php bp_group_forum_post_count( 'showtext=true' ) ?>)</div>
+									<div class="item-title"><a href="<?php bp_group_permalink() ?>/forum/"><?php bp_group_name() ?></a> (<?php bp_group_forum_topic_count( 'showtext=true' ) ?>, <?php bp_group_forum_post_count( 'showtext=true' ) ?>)</div>
 									<div class="item-meta desc"><?php bp_group_description_excerpt() ?></div>
 
 									<?php do_action( 'bp_directory_popular_group_forums_item' ) ?>

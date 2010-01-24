@@ -40,19 +40,6 @@
 
 					<?php endif; ?>
 
-					<?php if ( bp_group_is_visible() && bp_group_has_news() ) : ?>
-
-						<?php do_action( 'bp_before_group_news' ) ?>
-
-						<div class="bp-widget">
-							<h4><?php _e( 'News', 'buddypress' ); ?></h4>
-							<p><?php bp_group_news() ?></p>
-						</div>
-
-						<?php do_action( 'bp_after_group_news' ) ?>
-
-					<?php endif; ?>
-
 					<?php if ( function_exists( 'bp_has_activities' ) && bp_group_is_visible() ) : ?>
 
 						<div class="bp-widget">

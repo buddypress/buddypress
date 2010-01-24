@@ -36,6 +36,9 @@ body { padding-top: 28px; }
 #wp-admin-bar li:hover, #wp-admin-bar li.hover {
 	position: static;
 }
+	#wp-admin-bar ul li ul li a span {
+		display: none;
+	}
 
 #admin-bar-logo {
 	float: left;
@@ -135,4 +138,4 @@ body { padding-top: 28px; }
 #wp-admin-bar ul li#bp-adminbar-notifications-menu a span {
 	padding: 0 6px;
 	margin-left: 2px;
-} 
+}

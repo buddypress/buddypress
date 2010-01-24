@@ -64,6 +64,16 @@
 
 		<?php do_action( 'bp_before_directory_groups_search' ) ?>
 
+		<?php if ( is_user_logged_in() ) : ?>
+			<div class="directory-widget">
+				<h3><?php _e( 'Create a Group', 'buddypress' ) ?></h3>
+
+				<div class="generic-button">
+					<a href="<?php echo bp_get_root_domain() . '/' . BP_GROUPS_SLUG . '/create/' ?>">Create a Group</a>
+				</div>
+			</div>
+		<?php endif; ?>
+
 		<div id="groups-directory-search" class="directory-widget">
 
 			<h3><?php _e( 'Find Groups', 'buddypress' ) ?></h3>

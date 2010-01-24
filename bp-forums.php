@@ -413,6 +413,15 @@ function bp_forums_insert_post( $args = '' ) {
 	return $post;
 }
 
+function bp_forums_get_forum_topicpost_count( $forum_id ) {
+	global $wpdb, $bbdb;
+
+	do_action( 'bbpress_init' );
+
+	/* Need to find a bbPress function that does this */
+	return $wpdb->get_results( $wpdb->prepare( "SELECT topics, posts from {$bbdb->forums} WHERE forum_id = %d", $forum_id ) );
+}
+
 // List actions to clear super cached pages on, if super cache is installed
 add_action( 'bp_forums_new_forum', 'bp_core_clear_cache' );
 add_action( 'bp_forums_new_topic', 'bp_core_clear_cache' );

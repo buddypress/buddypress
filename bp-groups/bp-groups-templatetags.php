@@ -195,11 +195,13 @@ function bp_has_groups( $args = '' ) {
 				$type = 'recently-joined';
 			else if ( 'most-popular' == $order )
 				$type = 'popular';
-			else if ( 'admin-of' == $order )
+			else if ( 'admin-of' == $order ) {
 				$type = 'admin-of';
-			else if ( 'mod-of' == $order )
+				$user_id = $bp->displayed_user->id;
+			} else if ( 'mod-of' == $order ) {
 				$type = 'mod-of';
-			else if ( 'alphabetically' == $order )
+				$user_id = $bp->displayed_user->id;
+			} else if ( 'alphabetically' == $order )
 				$type = 'alphabetical';
 		} else if ( 'invites' == $bp->current_action ) {
 			$type = 'invites';
@@ -686,6 +688,74 @@ function bp_group_forum_permalink( $deprecated = false ) {
 			$group =& $groups_template->group;
 
 		return apply_filters( 'bp_get_group_forum_permalink', bp_get_group_permalink( $group ) . 'forum' );
+	}
+
+function bp_group_forum_topic_count( $args = '' ) {
+	echo bp_get_group_forum_topic_count( $args );
+}
+	function bp_get_group_forum_topic_count( $args = '' ) {
+		global $groups_template;
+
+		$defaults = array(
+			'showtext' => false
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		if ( !$forum_id = groups_get_groupmeta( $groups_template->group->id, 'forum_id' ) )
+			return false;
+
+		if ( !function_exists( 'bp_forums_get_forum_topicpost_count' ) )
+			return false;
+
+		if ( !$groups_template->group->forum_counts )
+			$groups_template->group->forum_counts = bp_forums_get_forum_topicpost_count( (int)$forum_id );
+
+		if ( (bool) $showtext ) {
+			if ( 1 == (int) $groups_template->group->forum_counts[0]->topics )
+				$total_topics = sprintf( __( '%d topic', 'buddypress' ), (int) $groups_template->group->forum_counts[0]->topics );
+			else
+				$total_topics = sprintf( __( '%d topics', 'buddypress' ), (int) $groups_template->group->forum_counts[0]->topics );
+		} else {
+			$total_topics = (int) $groups_template->group->forum_counts[0]->topics;
+		}
+
+		return apply_filters( 'bp_get_group_forum_topic_count', $total_topics, (bool)$showtext );
+	}
+
+function bp_group_forum_post_count( $args = '' ) {
+	echo bp_get_group_forum_post_count( $args );
+}
+	function bp_get_group_forum_post_count( $args = '' ) {
+		global $groups_template;
+
+		$defaults = array(
+			'showtext' => false
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		if ( !$forum_id = groups_get_groupmeta( $groups_template->group->id, 'forum_id' ) )
+			return false;
+
+		if ( !function_exists( 'bp_forums_get_forum_topicpost_count' ) )
+			return false;
+
+		if ( !$groups_template->group->forum_counts )
+			$groups_template->group->forum_counts = bp_forums_get_forum_topicpost_count( (int)$forum_id );
+
+		if ( (bool) $showtext ) {
+			if ( 1 == (int) $groups_template->group->forum_counts[0]->posts )
+				$total_posts = sprintf( __( '%d post', 'buddypress' ), (int) $groups_template->group->forum_counts[0]->posts );
+			else
+				$total_posts = sprintf( __( '%d posts', 'buddypress' ), (int) $groups_template->group->forum_counts[0]->posts );
+		} else {
+			$total_posts = (int) $groups_template->group->forum_counts[0]->posts;
+		}
+
+		return apply_filters( 'bp_get_group_forum_post_count', $total_posts, (bool)$showtext );
 	}
 
 function bp_group_is_forum_enabled( $group = false ) {
