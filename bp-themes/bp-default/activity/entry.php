@@ -4,10 +4,13 @@
 
 <li class="<?php bp_activity_css_class() ?>" id="activity-<?php bp_activity_id() ?>">
 	<div class="activity-avatar">
-		<?php bp_activity_avatar( 'type=full&width=100&height=100' ) ?>
+		<a href="<?php bp_activity_user_link() ?>">
+			<?php bp_activity_avatar( 'type=full&width=100&height=100' ) ?>
+		</a>
 	</div>
 
 	<div class="activity-content">
+		<?php /* You can also split this into bp_activity_action() and bp_activity_content_body() */ ?>
 		<?php bp_activity_content() ?>
 
 		<?php do_action( 'bp_activity_entry_content' ) ?>

@@ -9,7 +9,9 @@
 	<?php endif; ?>
 
 	<div id="whats-new-avatar">
-		<?php bp_loggedin_user_avatar( 'width=60&height=60' ) ?>
+		<a href="<?php echo bp_loggedin_user_domain() ?>">
+			<?php bp_loggedin_user_avatar( 'width=60&height=60' ) ?>
+		</a>
 	</div>
 
 	<h5>

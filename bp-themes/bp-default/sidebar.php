@@ -8,10 +8,12 @@
 	<?php if ( is_user_logged_in() ) : ?>
 
 		<div id="sidebar-me">
-			<?php bp_loggedin_user_avatar( 'type=thumb&width=40&height=40' ) ?>
+			<a href="<?php echo bp_loggedin_user_domain() ?>" title="<?php _e( 'My Profile', 'buddypress' ) ?>">
+				<?php bp_loggedin_user_avatar( 'type=thumb&width=40&height=40' ) ?>
+			</a>
+
 			<h4><?php bp_loggedinuser_link() ?></h4>
 			<a class="button" href="<?php echo wp_logout_url(wp_get_referer()) ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>
-
 		</div>
 
 		<?php if ( function_exists( 'bp_message_get_notices' ) ) : ?>
