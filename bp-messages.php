@@ -452,7 +452,11 @@ function messages_new_message( $args = '' ) {
 		if ( empty( $recipient_ids ) )
 			return false;
 
-		$message->recipients = $recipient_ids;
+		/* Format this to match existing recipients */
+		foreach( $recipient_ids as $i => $recipient_id ) {
+			$message->recipients[$i] = new stdClass;
+			$message->recipients[$i]->user_id = $recipient_id;
+		}
 	}
 
 	if ( $message->send() ) {
@@ -463,7 +467,7 @@ function messages_new_message( $args = '' ) {
 			bp_core_add_notification( $message->id, $recipient->user_id, 'messages', 'new_message' );
 
 		// Send email notifications to the recipients
-		messages_notification_new_message( array( 'item_id' => $message->id, 'recipient_ids' => $message->recipients, 'thread_id' => $message->thread_id, 'component_name' => $bp->messages->slug, 'component_action' => 'message_sent', 'is_private' => 1 ) );
+		messages_notification_new_message( array( 'message_id' => $message->id, 'sender_id' => $message->sender_id, 'subject' => $message->subject, 'content' => $message->message, 'recipients' => $message->recipients, 'thread_id' => $message->thread_id) );
 
 		do_action( 'messages_message_sent', &$message );
 

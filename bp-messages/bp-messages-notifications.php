@@ -4,22 +4,20 @@ function messages_notification_new_message( $args ) {
 	global $bp;
 	extract($args);
 
-	$message = new BP_Messages_Message( $item_id );
-
-	$sender_name = bp_core_get_user_displayname( $message->sender_id );
+	$sender_name = bp_core_get_user_displayname( $sender_id );
 
 	for ( $i = 0; $i < count($recipients); $i++ ) {
-		if ( $message->sender_id == $recipients[$i]->user_id || 'no' == get_usermeta( $recipients[$i]->user_id, 'notification_messages_new_message' ) ) continue;
+		if ( $sender_id == $recipients[$i]->user_id || 'no' == get_usermeta( $recipients[$i]->user_id, 'notification_messages_new_message' ) ) continue;
 
 		$ud = get_userdata( $recipients[$i]->user_id );
-		$message_link = bp_core_get_user_domain( $recipients[$i]->user_id ) . 'messages/view/' . $message->id;
+		$message_link = bp_core_get_user_domain( $recipients[$i]->user_id ) . 'messages/view/' . $message_id;
 		$settings_link = bp_core_get_user_domain( $recipients[$i]->user_id ) . 'settings/notifications';
 
 		// Set up and send the message
 		$to = $ud->user_email;
-		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'New message from %s', 'buddypress' ), stripslashes( $sender_name ) );
+		$email_subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'New message from %s', 'buddypress' ), stripslashes( $sender_name ) );
 
-		$content = sprintf( __(
+		$email_content = sprintf( __(
 '%s sent you a new message:
 
 Subject: %s
@@ -29,15 +27,14 @@ Subject: %s
 To view the message: %s
 
 ---------------------
-', 'buddypress' ), $sender_name, stripslashes( wp_filter_kses( $message->subject ) ), stripslashes( wp_filter_kses( $message->message ) ), $message_link );
+', 'buddypress' ), $sender_name, stripslashes( wp_filter_kses( $subject ) ), stripslashes( wp_filter_kses( $content ) ), $message_link );
 
 		$content .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
 		// Send it
-		wp_mail( $to, $subject, $content );
+		wp_mail( $to, $email_subject, $email_content );
 	}
 }
-
 
 /* This is too expensive to send on normal servers uncomment action at your own risk. */
 function messages_notification_new_notice( $message_subject, $message ) {

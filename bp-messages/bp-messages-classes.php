@@ -294,7 +294,7 @@ Class BP_Messages_Message {
 		if ( $new_thread ) {
 			/* Add an recipient entry for all recipients */
 			foreach ( (array)$this->recipients as $recipient )
-				$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_recipients} ( user_id, thread_id, unread_count ) VALUES ( %d, %d, 1 )", $recipient, $this->thread_id ) );
+				$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_recipients} ( user_id, thread_id, unread_count ) VALUES ( %d, %d, 1 )", $recipient->user_id, $this->thread_id ) );
 
 			/* Add a sender recipient entry if the sender is not in the list of recipients */
 			if ( !in_array( $this->sender_id, $this->recipients ) )

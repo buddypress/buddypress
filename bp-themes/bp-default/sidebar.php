@@ -8,7 +8,7 @@
 	<?php if ( is_user_logged_in() ) : ?>
 
 		<div id="sidebar-me">
-			<a href="<?php echo bp_loggedin_user_domain() ?>" title="<?php _e( 'My Profile', 'buddypress' ) ?>">
+			<a href="<?php echo bp_loggedin_user_domain() ?>">
 				<?php bp_loggedin_user_avatar( 'type=thumb&width=40&height=40' ) ?>
 			</a>
 
