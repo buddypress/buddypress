@@ -787,22 +787,22 @@ Class BP_XProfile_ProfileData {
 		return $profile_data;
 	}
 
-	function get_value_byid( $field_id, $user_id = null ) {
+	function get_value_byid( $field_id, $user_ids = null ) {
 		global $wpdb, $bp;
 
-		if ( !$user_id )
-			$user_id = $bp->displayed_user->id;
+		if ( !$user_ids )
+			$user_ids = $bp->displayed_user->id;
 
 		if ( !$bp->profile )
 			xprofile_setup_globals();
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_id );
+		if ( is_array( $user_ids ) ) {
+			$user_ids = implode( ',', (array)$user_ids );
+			$data = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, value FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id IN ({$user_ids})", $field_id ) );
+		} else
+			$data = $wpdb->get_var( $wpdb->prepare( "SELECT value FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_ids ) );
 
-		if ( $profile_data = $wpdb->get_row($sql) ) {
-			return $profile_data->value;
-		} else {
-			return false;
-		}
+		return $data;
 	}
 
 	function get_value_byfieldname( $fields, $user_id = null ) {

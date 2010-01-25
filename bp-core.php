@@ -2000,6 +2000,46 @@ function bp_core_activation_notice() {
 add_action( 'admin_notices', 'bp_core_activation_notice' );
 
 /**
+ * bp_core_filter_comments()
+ *
+ * Filter the blog post comments array and insert BuddyPress URLs for users.
+ *
+ * @package BuddyPress Core
+ */
+function bp_core_filter_comments( $comments, $post_id ) {
+	global $wpdb;
+
+	if ( !is_site_admin() )
+		return $comments;
+
+	foreach( $comments as $comment ) {
+		if ( $comment->user_id )
+			$user_ids[] = $comment->user_id;
+	}
+
+	if ( empty( $user_ids ) )
+		return $comments;
+
+	$user_ids = implode( ',', $user_ids );
+
+	if ( !$userdata = $wpdb->get_results( $wpdb->prepare( "SELECT ID as user_id, user_login, user_nicename FROM {$wpdb->users} WHERE ID IN ({$user_ids})" ) ) )
+		return $comments;
+
+	foreach( $userdata as $user )
+		$users[$user->user_id] = bp_core_get_user_domain( $user->user_id, $user->user_nicename, $user->user_login );
+
+	foreach( $comments as $i => $comment ) {
+		if ( !empty( $comment->user_id ) ) {
+			if ( !empty( $users[$comment->user_id] ) )
+				$comments[$i]->comment_author_url = $users[$comment->user_id];
+		}
+	}
+
+	return $comments;
+}
+add_filter( 'comments_array', 'bp_core_filter_comments', 10, 2 );
+
+/**
  * bp_core_clear_user_object_cache()
  *
  * Clears all cached objects for a user, or a user is part of.

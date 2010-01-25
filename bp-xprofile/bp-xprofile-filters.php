@@ -84,5 +84,30 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 	return $values;
 }
 
+function xprofile_filter_comments( $comments, $post_id ) {
+	foreach( $comments as $comment ) {
+		if ( $comment->user_id )
+			$user_ids[] = $comment->user_id;
+	}
+
+	if ( empty( $user_ids ) )
+		return $comments;
+
+	if ( $fullnames = BP_XProfile_ProfileData::get_value_byid( 1, $user_ids ) ) {
+		foreach( $fullnames as $user ) {
+			$users[$user->user_id] = trim($user->value);
+		}
+	}
+
+	foreach( $comments as $i => $comment ) {
+		if ( !empty( $comment->user_id ) ) {
+			if ( !empty( $users[$comment->user_id] ) )
+				$comments[$i]->comment_author = $users[$comment->user_id];
+		}
+	}
+
+	return $comments;
+}
+add_filter( 'comments_array', 'xprofile_filter_comments', 10, 2 );
 
 ?>

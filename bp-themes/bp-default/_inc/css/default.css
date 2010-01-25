@@ -1504,7 +1504,7 @@ div.post {
 			text-decoration: none;
 		}
 
-	.navigation {
+	.navigation, .paged-navigation, .comment-navigation {
 		overflow: hidden;
 		font-family: georgia, times, serif;
 		font-style: italic;
