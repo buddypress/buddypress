@@ -62,7 +62,7 @@ function bp_friends_random_members( $total_members = 5 ) {
 	global $bp;
 
 	if ( !$user_ids = wp_cache_get( 'friends_random_users', 'bp' ) ) {
-		$user_ids = BP_Core_User::get_random_users( $total_members );
+		$user_ids = BP_Core_User::get_users( 'random', $total_members );
 		wp_cache_set( 'friends_random_users', $user_ids, 'bp' );
 	}
 ?>
@@ -71,7 +71,7 @@ function bp_friends_random_members( $total_members = 5 ) {
 		<?php for ( $i = 0; $i < count( $user_ids['users'] ); $i++ ) { ?>
 			<li>
 				<a href="<?php echo bp_core_get_user_domain( $user_ids['users'][$i]->user_id ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $user_ids['users'][$i]->user_id, 'type' => 'thumb' ) ) ?></a>
-				<h5><?php echo bp_core_get_userlink($user_ids['users'][$i]->user_id) ?></h5>
+				<h5><?php echo bp_core_get_userlink( $user_ids['users'][$i]->user_id ) ?></h5>
 				<?php if ( function_exists( 'xprofile_get_random_profile_data' ) ) { ?>
 					<?php $random_data = xprofile_get_random_profile_data( $user_ids['users'][$i]->user_id, true ); ?>
 					<div class="profile-data">
