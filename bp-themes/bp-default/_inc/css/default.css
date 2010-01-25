@@ -27,7 +27,7 @@ h1, h2, h3, h4, h5, h6 {
 h1 { font-size: 28px; margin-bottom: 35px; }
 h2 { font-size: 24px; margin-bottom: 30px; }
 h3 { font-size: 20px; }
-h4 { font-size: 16px; margin-bottom: 0; }
+h4 { font-size: 16px; margin-bottom: 15px; }
 h5 { font-size: 14px; margin-bottom: 0; }
 h6 { font-size: 12px; margin-bottom: 0; }
 
@@ -45,7 +45,7 @@ hr {
 	border:0 none;
 	clear:both;
 	height:1px;
-	margin: 25px 0;
+	margin: 20px 0;
 }
 
 img.avatar {
@@ -1419,20 +1419,20 @@ div#message-thread div.message-box {
 		vertical-align: middle;
 	}
 
-	div#message-thread h3 {
+	div#message-thread strong {
 		margin: 0;
+		font-size: 16px;
 	}
-		div#message-thread h3 a {
+		div#message-thread strong a {
 			text-decoration: none;
 		}
 
-		div#message-thread h3 span.activity {
-			margin-left: 10px;
+		div#message-thread strong span.activity {
+			margin: 4px 0 0 10px;
 		}
 
 	div#message-thread div.message-metadata {
 		overflow: hidden;
-		margin-bottom: 5px;
 	}
 
 	div#message-thread div.message-content {

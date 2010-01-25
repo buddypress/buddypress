@@ -59,7 +59,9 @@
 
 	<?php endif; ?>
 
-	<h3><?php _e( 'Privacy Options', 'buddypress' ); ?></h3>
+	<hr />
+
+	<h4><?php _e( 'Privacy Options', 'buddypress' ); ?></h4>
 
 	<div class="radio">
 		<label>
@@ -155,7 +157,7 @@
 	<?php do_action( 'bp_before_group_manage_members_admin' ); ?>
 
 	<div class="bp-widget">
-		<h3><?php _e( 'Administrators', 'buddypress' ); ?></h3>
+		<h4><?php _e( 'Administrators', 'buddypress' ); ?></h4>
 		<?php bp_group_admin_memberlist( true ) ?>
 	</div>
 
@@ -169,7 +171,7 @@
 	<?php endif; ?>
 
 	<div class="bp-widget">
-		<h3><?php _e("Members", "buddypress"); ?></h3>
+		<h4><?php _e("Members", "buddypress"); ?></h4>
 
 		<?php if ( bp_group_has_members( 'per_page=15&exclude_banned=false' ) ) : ?>
 
