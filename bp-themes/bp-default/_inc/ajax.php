@@ -38,7 +38,7 @@ function bp_dtheme_object_filter() {
 	if ( !empty( $search_terms ) )
 		$bp->ajax_querystring .= '&search_terms=' . $search_terms;
 
-	if ( $scope != 'all' || $bp->displayed_user->id ) {
+	if ( $scope == 'personal' || $bp->displayed_user->id ) {
 		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 		$bp->ajax_querystring .= '&user_id=' . $user_id;
 	}

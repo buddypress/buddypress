@@ -23,6 +23,8 @@ class BP_Forums_Template_Forum {
 
 		$this->pag_page = isset( $_REQUEST['p'] ) ? intval( $_REQUEST['p'] ) : $page;
 		$this->pag_num = isset( $_REQUEST['n'] ) ? intval( $_REQUEST['n'] ) : $per_page;
+		$this->type = $type;
+		$this->search_terms = $search_terms;
 
 		/* Only show stickies if we are viewing a single group forum, otherwise we could end up with hundreds globally */
 		if ( $no_stickies )
@@ -176,8 +178,10 @@ function bp_has_forum_topics( $args = '' ) {
 	}
 
 	/* If we're viewing a tag in the directory, let's auto set the filter to the tag name */
-	if ( $bp->is_directory && 'tag' == $type && !empty( $bp->action_variables[0] ) )
+	if ( 'tag' == $bp->current_action && !empty( $bp->action_variables[0] ) ) {
 		$search_terms = $bp->action_variables[0];
+		$type = 'tags';
+	}
 
 	/* If $_GET['fs'] is set, let's auto populate the search_terms var */
 	if ( $bp->is_directory && !empty( $_GET['fs'] ) )
@@ -653,7 +657,11 @@ function bp_forum_pagination_count() {
 	$to_num = bp_core_number_format( ( $from_num + ( $forum_template->pag_num - 1  ) > $forum_template->total_topic_count ) ? $forum_template->total_topic_count : $from_num + ( $forum_template->pag_num - 1 ) );
 	$total = bp_core_number_format( $forum_template->total_topic_count );
 
-	echo apply_filters( 'bp_forum_pagination_count', sprintf( __( 'Viewing topic %s to %s (%s total topics)', 'buddypress' ), $from_num, $to_num, $total ) );
+	$pag_filter = false;
+	if ( 'tags' == $forum_template->type && !empty( $forum_template->search_terms ) )
+		$pag_filter = sprintf( __( ' matching tag "%s"', 'buddypress' ), $forum_template->search_terms );
+
+	echo apply_filters( 'bp_forum_pagination_count', sprintf( __( 'Viewing topic %s to %s (%s total topics%s)', 'buddypress' ), $from_num, $to_num, $total, $pag_filter ) );
 ?>
 <span class="ajax-loader"></span>
 <?php

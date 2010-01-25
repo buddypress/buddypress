@@ -252,6 +252,12 @@ div#sidebar {
 		font-size: 11px;
 	}
 
+	div#sidebar div.tags div#tag-text {
+		font-size: 1.4em;
+		line-height: 140%;
+		padding-top: 10px;
+	}
+
 /* > Content
 -------------------------------------------------------------- */
 
