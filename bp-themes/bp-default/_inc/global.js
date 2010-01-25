@@ -224,7 +224,7 @@ jQuery(document).ready( function() {
 
 		/* Load more updates at the end of the page */
 		if ( target.parent().attr('class') == 'load-more' ) {
-			j("li.load-more span.ajax-loader").show();
+			j("li.load-more").addClass('loading');
 
 			var oldest_page = ( j.cookie('bp-activity-oldestpage') * 1 ) + 1;
 
@@ -236,7 +236,7 @@ jQuery(document).ready( function() {
 			},
 			function(response)
 			{
-				j("li.load-more span.ajax-loader").hide();
+				j("li.load-more").removeClass('loading');
 
 				j.cookie( 'bp-activity-querystring', response.query_string );
 				j.cookie( 'bp-activity-oldestpage', oldest_page );
