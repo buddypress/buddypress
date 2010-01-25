@@ -241,7 +241,7 @@ div#sidebar {
 	}
 
 	div#sidebar div.item-options {
-		margin: -10px -16px 0 -20px;
+		margin: -10px -20px 0 -19px;
 		background: #f8f8f8;
 		padding: 5px 15px;
 		font-size: 11px;
@@ -428,6 +428,10 @@ div.item-list-tabs {
 			float: left;
 			margin: 5px 0 0 5px;
 		}
+			div.item-list-tabs#subnav ul li {
+				margin-top: 0;
+			}
+
 			div.item-list-tabs ul li:first-child {
 				margin-left: 20px;
 			}
@@ -436,6 +440,10 @@ div.item-list-tabs {
 				float: right;
 				margin: 7px 20px 0 0;
 			}
+				div.item-list-tabs#subnav ul li.last {
+					margin-top: 4px;
+				}
+
 				div.item-list-tabs ul li.last select {
 					max-width: 175px;
 				}
@@ -546,7 +554,7 @@ div.pagination {
 		padding: 8px 15px;
 	}
 		div#item-body div.item-list-tabs + div div.pagination {
-			margin-top: -20px;
+			margin-top: -15px;
 		}
 
 	div.pagination .pag-count {
@@ -975,7 +983,7 @@ ul.activity-list li {
 	padding: 20px 0 0 0;
 	overflow: hidden;
 }
-	ul.activity-list li:first-child {
+	ul.activity-list > li:first-child {
 		padding-top: 5px;
 	}
 

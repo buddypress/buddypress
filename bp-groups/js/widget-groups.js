@@ -1,9 +1,9 @@
 jQuery(document).ready( function() {
-	jQuery("div#groups-list-options a").livequery('click',
-		function() { 
+	jQuery(".widget div#groups-list-options a").live('click',
+		function() {
 			jQuery('#ajax-loader-groups').toggle();
 
-			jQuery("div#groups-list-options a").removeClass("selected");
+			jQuery(".widget div#groups-list-options a").removeClass("selected");
 			jQuery(this).addClass('selected');
 
 			jQuery.post( ajaxurl, {
@@ -14,11 +14,11 @@ jQuery(document).ready( function() {
 				'filter': jQuery(this).attr('id')
 			},
 			function(response)
-			{	
+			{
 				jQuery('#ajax-loader-groups').toggle();
 				groups_wiget_response(response);
 			});
-		
+
 			return false;
 		}
 	);
@@ -29,19 +29,19 @@ function groups_wiget_response(response) {
 	response = response.split('[[SPLIT]]');
 
 	if ( response[0] != "-1" ) {
-		jQuery("ul#groups-list").fadeOut(200, 
+		jQuery(".widget ul#groups-list").fadeOut(200,
 			function() {
-				jQuery("ul#groups-list").html(response[1]);
-				jQuery("ul#groups-list").fadeIn(200);
+				jQuery(".widget ul#groups-list").html(response[1]);
+				jQuery(".widget ul#groups-list").fadeIn(200);
 			}
 		);
 
-	} else {					
-		jQuery("ul#groups-list").fadeOut(200, 
+	} else {
+		jQuery(".widget ul#groups-list").fadeOut(200,
 			function() {
 				var message = '<p>' + response[1] + '</p>';
-				jQuery("ul#groups-list").html(message);
-				jQuery("ul#groups-list").fadeIn(200);
+				jQuery(".widget ul#groups-list").html(message);
+				jQuery(".widget ul#groups-list").fadeIn(200);
 			}
 		);
 	}

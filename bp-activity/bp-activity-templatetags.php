@@ -442,7 +442,7 @@ function bp_activity_parent_content( $args = '' ) {
 		$parent_activity->content = str_replace( '<span class="time-since">%s</span>', '', $parent_activity->content );
 
 		/* Remove images */
-		$parent_activity->content = preg_replace('/<img[^>]*>/Ui', '', $parent_activity->content );
+		$parent_activity->content = preg_replace( '/<img[^>]*>/Ui', '', $parent_activity->content );
 
 		return apply_filters( 'bp_get_activity_parent_content', $parent_activity->content );
 	}

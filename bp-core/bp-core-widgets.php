@@ -73,7 +73,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 		parent::WP_Widget( false, $name = __( 'Members', 'buddypress' ) );
 
 		if ( is_active_widget( false, false, $this->id_base ) )
-			wp_enqueue_script( 'bp_core_widget_members-js', BP_PLUGIN_URL . '/bp-core/js/widget-members.js', array('jquery', 'jquery-livequery-pack') );
+			wp_enqueue_script( 'bp_core_widget_members-js', BP_PLUGIN_URL . '/bp-core/js/widget-members.js', array('jquery') );
 	}
 
 	function widget($args, $instance) {
