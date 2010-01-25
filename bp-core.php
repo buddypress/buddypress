@@ -1364,12 +1364,16 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	array( 1, __( 'second', 'buddypress' ), __( 'seconds', 'buddypress' ) )
 	);
 
-	if ( !is_numeric( $older_date ) )
-		$older_date = strtotime( $older_date . ' GMT' );
+	if ( !is_numeric( $older_date ) ) {
+		$time_chunks = explode( ':', str_replace( ' ', ':', $older_date ) );
+		$date_chunks = explode( '-', str_replace( ' ', '-', $older_date ) );
+
+		$older_date = gmmktime( (int)$time_chunks[1], (int)$time_chunks[2], (int)$time_chunks[3], (int)$date_chunks[1], (int)$date_chunks[2], (int)$date_chunks[0] );
+	}
 
 	/* $newer_date will equal false if we want to know the time elapsed between a date and the current time */
 	/* $newer_date will have a value if we want to work out time elapsed between two known dates */
-	$newer_date = ( !$newer_date ) ? gmmktime() : $newer_date;
+	$newer_date = ( !$newer_date ) ? gmmktime( gmdate( 'H' ), gmdate( 'i' ), gmdate( 's' ), gmdate( 'n' ), gmdate( 'j' ), gmdate( 'Y' ) ) : $newer_date;
 
 	/* Difference in seconds */
 	$since = $newer_date - $older_date;
