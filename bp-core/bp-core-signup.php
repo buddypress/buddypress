@@ -216,12 +216,34 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 		}
 	}
 
+	/* Add a last active entry */
+	update_usermeta( $user_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
+
 	wp_new_user_notification( $user_id, $user_pass );
 
 	$bp->signup->username = $user_login;
 
 	return $user_id;
 }
+
+function bp_core_map_user_registration( $user_id ) {
+	/* Only map data when the site admin is adding users, not on registration. */
+	if ( !is_admin() )
+		return false;
+
+	/* Add a last active entry */
+	update_usermeta( $user_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
+
+	/* Add the user's fullname to Xprofile */
+	if ( function_exists( 'xprofile_set_field_data' ) ) {
+		$firstname = get_usermeta( $user_id, 'first_name' );
+		$lastname = ' ' . get_usermeta( $user_id, 'last_name' );
+
+		if ( !empty( $firstname ) || !empty( $lastname ) )
+			xprofile_set_field_data( 1, $user_id, $firstname . $lastname );
+	}
+}
+add_action( 'user_register', 'bp_core_map_user_registration' );
 
 function bp_core_signup_avatar_upload_dir() {
 	global $bp;
