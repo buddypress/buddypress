@@ -270,7 +270,7 @@ function bp_core_wpsignup_redirect() {
 		return false;
 
 	if ( locate_template( array( 'registration/register.php' ), false ) || locate_template( array( 'register.php' ), false ) )
-		wp_redirect( bp_get_root_domain() . '/' . BP_REGISTER_SLUG );
+		wp_redirect( bp_get_root_domain() . '/' . BP_REGISTER_SLUG . '/' );
 }
 if ( bp_core_is_multisite() )
 	add_action( 'wp', 'bp_core_wpsignup_redirect' );

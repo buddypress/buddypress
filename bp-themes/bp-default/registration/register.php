@@ -23,7 +23,7 @@
 
 					<?php /***** Basic Account Details ******/ ?>
 
-					<h3><?php _e( 'Account Details', 'buddypress' ) ?></h3>
+					<h4><?php _e( 'Account Details', 'buddypress' ) ?></h4>
 
 					<label for="signup_username"><?php _e( 'Username', 'buddypress' ) ?> <?php _e( '(required)', 'buddypress' ) ?></label>
 					<?php do_action( 'bp_signup_username_errors' ) ?>
@@ -52,7 +52,7 @@
 
 				<div class="register-section" id="profile-details-section">
 
-					<h3><?php _e( 'Profile Details', 'buddypress' ) ?></h3>
+					<h4><?php _e( 'Profile Details', 'buddypress' ) ?></h4>
 
 					<?php /* Use the profile field loop to render input fields for the 'base' profile field group */ ?>
 					<?php if ( function_exists( 'bp_has_profile' ) ) : if ( bp_has_profile( 'profile_group_id=1' ) ) : while ( bp_profile_groups() ) : bp_the_profile_group(); ?>
@@ -168,7 +168,7 @@
 
 					<div class="register-section" id="blog-details-section">
 
-						<h3><?php _e( 'Blog Details', 'buddypress' ) ?></h3>
+						<h4><?php _e( 'Blog Details', 'buddypress' ) ?></h4>
 
 						<p><input type="checkbox" name="signup_with_blog" id="signup_with_blog" value="1"<?php if ( (int) bp_get_signup_with_blog_value() ) : ?> checked="checked"<?php endif; ?> /> <?php _e( 'Yes, I\'d like to create a new blog', 'buddypress' ) ?></p>
 
@@ -229,7 +229,7 @@
 
 					<?php if ( 'upload-image' == bp_get_avatar_admin_step() ) : ?>
 
-						<h3><?php _e( 'Your Current Avatar', 'buddypress' ) ?></h3>
+						<h4><?php _e( 'Your Current Avatar', 'buddypress' ) ?></h4>
 						<p><?php _e( "We've fetched an avatar for your new account. If you'd like to change this, why not upload a new one?", 'buddypress' ) ?></p>
 
 						<div id="signup-avatar">

@@ -60,7 +60,9 @@
 						<?php endif; ?>
 					<?php endif; ?>
 
-					<h3><?php _e( 'Privacy Options', 'buddypress' ); ?></h3>
+					<hr />
+
+					<h4><?php _e( 'Privacy Options', 'buddypress' ); ?></h4>
 
 					<div class="radio">
 						<label><input type="radio" name="group-status" value="public"<?php if ( 'public' == bp_get_new_group_status() || !bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> />
