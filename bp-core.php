@@ -2009,9 +2009,6 @@ add_action( 'admin_notices', 'bp_core_activation_notice' );
 function bp_core_filter_comments( $comments, $post_id ) {
 	global $wpdb;
 
-	if ( !is_site_admin() )
-		return $comments;
-
 	foreach( $comments as $comment ) {
 		if ( $comment->user_id )
 			$user_ids[] = $comment->user_id;
