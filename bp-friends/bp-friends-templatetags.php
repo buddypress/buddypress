@@ -152,6 +152,11 @@ function bp_get_friend_ids( $user_id = false ) {
 	if ( !$user_id )
 		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 
+	$friend_ids = friends_get_friend_user_ids( $user_id );
+
+	if ( empty( $friend_ids ) )
+		return false;
+
 	return implode( ',', friends_get_friend_user_ids( $user_id ) );
 }
 function bp_get_friendship_requests() {

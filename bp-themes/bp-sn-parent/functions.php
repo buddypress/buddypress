@@ -180,7 +180,7 @@ class BP_Activity_Widget extends WP_Widget {
 			<?php wp_nonce_field( 'activity_filter', '_wpnonce_activity_filter' ) ?>
 			<input type="hidden" id="aw-querystring" name="aw-querystring" value="" />
 			<input type="hidden" id="aw-oldestpage" name="aw-oldestpage" value="1" />
-		</div>
+		</form>
 
 	<?php echo $after_widget; ?>
 	<?php
@@ -220,7 +220,12 @@ function bp_activity_widget_loop( $type = 'all', $filter = false, $query_string 
 
 		switch( $type ) {
 			case 'friends':
-				$friend_ids = implode( ',', friends_get_friend_user_ids( $bp->loggedin_user->id ) );
+				if ( !$friend_ids = friends_get_friend_user_ids( $bp->loggedin_user->id ) ) {
+					echo "-1<div id='message' class='info'><p>" . __( 'No activity found', 'buddypress' ) . '</p></div>';
+					return false;
+				}
+
+				$friend_ids = implode( ',', $friend_ids );
 				$query_string = 'user_id=' . $friend_ids;
 				break;
 			case 'groups':
