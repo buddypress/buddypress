@@ -7,9 +7,11 @@
 <?php do_action( 'bp_before_member_header_meta' ) ?>
 
 <div id="item-meta">
-	<div id="latest-update">
-		<?php bp_activity_latest_update( bp_displayed_user_id() ) ?>
-	</div>
+	<?php if ( function_exists( 'bp_activity_latest_update' ) ) : ?>
+		<div id="latest-update">
+			<?php bp_activity_latest_update( bp_displayed_user_id() ) ?>
+		</div>
+	<?php endif; ?>
 
 	<div id="item-buttons">
 		<?php if ( function_exists( 'bp_add_friend_button' ) ) : ?>
