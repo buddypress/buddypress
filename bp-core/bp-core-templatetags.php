@@ -252,7 +252,7 @@ function bp_member_last_active() {
 	function bp_get_member_last_active() {
 		global $members_template;
 
-		$last_activity = attribute_escape( bp_core_get_last_activity( $members_template->member->last_activity, __( 'active %s ago', 'buddypress' ) ) );
+		$last_activity = bp_core_get_last_activity( $members_template->member->last_activity, __( 'active %s ago', 'buddypress' ) );
 
 		return apply_filters( 'bp_member_last_active', $last_activity );
 	}

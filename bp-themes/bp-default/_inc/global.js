@@ -670,6 +670,8 @@ jQuery(document).ready( function() {
 			else
 				var el = j('li.filter select');
 
+			alert(el.attr('id'));
+
 			var page_number = 1;
 			var css_id = el.attr('id').split( '-' );
 

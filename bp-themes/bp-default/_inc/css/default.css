@@ -1529,12 +1529,14 @@ div.post {
 		padding: 5px 0;
 		margin: 5px 0 25px 0;
 	}
-		div.navigation .alignright {
+		.alignright {
 			float: right;
+			margin-left: 15px;
 		}
 
-		div.navigation .alignleft {
+		.alignleft {
 			float: left;
+			margin-right: 15px;
 		}
 
 	div.post p { margin: 0 0 20px 0; }

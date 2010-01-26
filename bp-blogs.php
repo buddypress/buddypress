@@ -252,6 +252,7 @@ function bp_blogs_record_activity( $args = '' ) {
 		'type' => false,
 		'item_id' => false,
 		'secondary_item_id' => false,
+		'recorded_time' => gmdate( "Y-m-d H:i:s" ),
 		'hide_sitewide' => false
 	);
 
@@ -277,7 +278,7 @@ function bp_blogs_record_activity( $args = '' ) {
 		'secondary_item_id' => $secondary_item_id
 	) );
 
-	return bp_activity_add( array( 'id' => $id, 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'hide_sitewide' => $hide_sitewide ) );
+	return bp_activity_add( array( 'id' => $id, 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
 }
 
 function bp_blogs_delete_activity( $args = true ) {

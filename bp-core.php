@@ -1462,13 +1462,7 @@ function bp_core_get_last_activity( $last_activity_date, $string ) {
 	if ( !$last_activity_date || empty( $last_activity_date ) ) {
 		$last_active = __( 'not recently active', 'buddypress' );
 	} else {
-		if ( strstr( $last_activity_date, '-' ) ) {
-			$last_active = bp_core_time_since( strtotime( $last_activity_date ) );
-		} else {
-			$last_active = bp_core_time_since( $last_activity_date );
-		}
-
-		$last_active = sprintf( $string, $last_active );
+		$last_active = sprintf( $string, bp_core_time_since( $last_activity_date ) );
 	}
 
 	return apply_filters( 'bp_core_get_last_activity', $last_active, $last_activity_date, $string );

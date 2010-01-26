@@ -737,6 +737,7 @@ class BP_Forums_Template_Topic {
 			'next_text' => '&rarr;',
 			'mid_size' => 1
 		));
+		$this->pag->total_pages = ceil($this->total_post_count / $this->pag_num);
 	}
 
 	function has_posts() {
@@ -913,8 +914,11 @@ function bp_the_topic_post_admin_links( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		$links  = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . $topic_template->post->id . 'edit/post/' . $topic_template->post->post_id, 'bp_forums_edit_post' ) . '">' . __( 'Edit Post', 'buddypress' ) . '</a> ' . $seperator . ' ';
-		$links .= '<a class="confirm" id="post-delete-link" href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'delete/post/' . $topic_template->post->post_id, 'bp_forums_delete_post' ) . '">' . __( 'Delete Post', 'buddypress' ) . '</a>';
+		if ( $_SERVER['QUERY_STRING'] )
+			$query_vars = '?' . $_SERVER['QUERY_STRING'];
+
+		$links  = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . $topic_template->post->id . 'edit/post/' . $topic_template->post->post_id . '/' . $query_vars, 'bp_forums_edit_post' ) . '">' . __( 'Edit', 'buddypress' ) . '</a> ' . $seperator . ' ';
+		$links .= '<a class="confirm" id="post-delete-link" href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'delete/post/' . $topic_template->post->post_id, 'bp_forums_delete_post' ) . '">' . __( 'Delete', 'buddypress' ) . '</a> | ';
 
 		return $links;
 	}
@@ -949,6 +953,15 @@ function bp_the_topic_pagination_count() {
 	<span class="ajax-loader"></span>
 <?php
 }
+
+function bp_the_topic_is_last_page() {
+	echo bp_get_the_topic_is_last_page();
+}
+	function bp_get_the_topic_is_last_page() {
+		global $topic_template;
+
+		return apply_filters( 'bp_get_the_topic_is_last_page', $topic_template->pag_page == $topic_template->pag->total_pages );
+	}
 
 function bp_directory_forums_search_form() {
 	global $bp;

@@ -374,7 +374,7 @@ function groups_screen_group_forum() {
 				if ( !is_site_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
 					groups_join_group( $bp->groups->current_group->id, $bp->loggedin_user->id );
 
-				if ( !groups_new_group_forum_post( $_POST['reply_text'], $topic_id ) )
+				if ( !$post_id = groups_new_group_forum_post( $_POST['reply_text'], $topic_id, $_GET['topic_page'] ) )
 					bp_core_add_message( __( 'There was an error when replying to that topic', 'buddypress'), 'error' );
 				else
 					bp_core_add_message( __( 'Your reply was posted successfully', 'buddypress') );
@@ -382,7 +382,7 @@ function groups_screen_group_forum() {
 				if ( $_SERVER['QUERY_STRING'] )
 					$query_vars = '?' . $_SERVER['QUERY_STRING'];
 
-				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic_slug . '/' . $query_vars );
+				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic_slug . '/' . $query_vars . '#post-' . $post_id );
 			}
 
 			/* Sticky a topic */
@@ -521,13 +521,16 @@ function groups_screen_group_forum() {
 					/* Check the nonce */
 					check_admin_referer( 'bp_forums_edit_post' );
 
-					if ( !groups_update_group_forum_post( $post_id, $_POST['post_text'], $topic_id ) )
+					if ( !$post_id = groups_update_group_forum_post( $post_id, $_POST['post_text'], $topic_id, $_GET['topic_page'] ) )
 						bp_core_add_message( __( 'There was an error when editing that post', 'buddypress'), 'error' );
 					else
 						bp_core_add_message( __( 'The post was edited successfully', 'buddypress') );
 
+					if ( $_SERVER['QUERY_STRING'] )
+						$query_vars = '?' . $_SERVER['QUERY_STRING'];
+
 					do_action( 'groups_edit_forum_post', $post_id );
-					bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic_slug . '/' );
+					bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic_slug . '/' . $query_vars . '#post-' . $post_id );
 				}
 
 				bp_core_load_template( apply_filters( 'groups_template_group_forum_topic_edit', 'groups/single/home' ) );
@@ -1317,6 +1320,7 @@ function groups_record_activity( $args = '' ) {
 		$hide_sitewide = true;
 
 	$defaults = array(
+		'id' => false,
 		'user_id' => $bp->loggedin_user->id,
 		'action' => '',
 		'content' => '',
@@ -1325,13 +1329,14 @@ function groups_record_activity( $args = '' ) {
 		'type' => false,
 		'item_id' => false,
 		'secondary_item_id' => false,
+		'recorded_time' => gmdate( "Y-m-d H:i:s" ),
 		'hide_sitewide' => $hide_sitewide
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	return bp_activity_add( array( 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'hide_sitewide' => $hide_sitewide ) );
+	return bp_activity_add( array( 'id' => $id, 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
 }
 
 function groups_update_last_activity( $group_id ) {
@@ -1928,7 +1933,7 @@ function groups_new_group_forum( $group_id = false, $group_name = false, $group_
 	do_action( 'groups_new_group_forum', $forum, $group_id );
 }
 
-function groups_new_group_forum_post( $post_text, $topic_id ) {
+function groups_new_group_forum_post( $post_text, $topic_id, $page = false ) {
 	global $bp;
 
 	if ( empty( $post_text ) )
@@ -1937,25 +1942,29 @@ function groups_new_group_forum_post( $post_text, $topic_id ) {
 	$post_text = apply_filters( 'group_forum_post_text_before_save', $post_text );
 	$topic_id = apply_filters( 'group_forum_post_topic_id_before_save', $topic_id );
 
-	if ( $forum_post = bp_forums_insert_post( array( 'post_text' => $post_text, 'topic_id' => $topic_id ) ) ) {
+	if ( $post_id = bp_forums_insert_post( array( 'post_text' => $post_text, 'topic_id' => $topic_id ) ) ) {
 		$topic = bp_forums_get_topic_details( $topic_id );
 
 		$activity_action = sprintf( __( '%s posted on the forum topic %s in the group %s:', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug .'/">' . attribute_escape( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
 		$activity_content = '<blockquote>' . bp_create_excerpt( $post_text ) . '</blockquote>';
+		$primary_link = bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug . '/';
+
+		if ( $page )
+			$primary_link .= "?topic_page=" . $page;
 
 		/* Record this in activity streams */
 		groups_record_activity( array(
-			'action' => apply_filters( 'groups_activity_new_forum_post_action', $activity_action, $post_text, &$topic, &$forum_post ),
-			'content' => apply_filters( 'groups_activity_new_forum_post_content', $activity_content, $post_text, &$topic, &$forum_post ),
-			'primary_link' => apply_filters( 'groups_activity_new_forum_post_primary_link', bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug . '/' ),
+			'action' => apply_filters( 'groups_activity_new_forum_post_action', $activity_action, $post_id, $post_text, &$topic ),
+			'content' => apply_filters( 'groups_activity_new_forum_post_content', $activity_content, $post_id, $post_text, &$topic ),
+			'primary_link' => apply_filters( 'groups_activity_new_forum_post_primary_link', "{$primary_link}#post-{$post_id}" ),
 			'type' => 'new_forum_post',
 			'item_id' => $bp->groups->current_group->id,
-			'secondary_item_id' => $forum_post
+			'secondary_item_id' => $post_id
 		) );
 
-		do_action( 'groups_new_forum_topic_post', $bp->groups->current_group->id, $forum_post );
+		do_action( 'groups_new_forum_topic_post', $bp->groups->current_group->id, $post_id );
 
-		return $forum_post;
+		return $post_id;
 	}
 
 	return false;
@@ -2019,18 +2028,18 @@ function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text )
 			'item_id' => (int)$bp->groups->current_group->id,
 			'user_id' => (int)$topic->topic_poster,
 			'secondary_item_id' => $topic->topic_id,
-			'recorded_time' => strtotime( $topic->topic_time )
+			'recorded_time' => $topic->topic_time
 		) );
 
 		do_action( 'groups_update_group_forum_topic', &$topic );
 
-		return true;
+		return $topic;
 	}
 
 	return false;
 }
 
-function groups_update_group_forum_post( $post_id, $post_text, $topic_id ) {
+function groups_update_group_forum_post( $post_id, $post_text, $topic_id, $page = false ) {
 	global $bp;
 
 	$post_text = apply_filters( 'group_forum_post_text_before_save', $post_text );
@@ -2041,28 +2050,33 @@ function groups_update_group_forum_post( $post_id, $post_text, $topic_id ) {
 	if ( $post_id = bp_forums_insert_post( array( 'post_id' => $post_id, 'post_text' => $post_text, 'post_time' => $post->post_time, 'topic_id' => $topic_id, 'poster_id' => $post->poster_id ) ) ) {
 		$topic = bp_forums_get_topic_details( $topic_id );
 
-		/* Update the activity stream item */
-		if ( function_exists( 'bp_activity_delete_by_item_id' ) )
-			bp_activity_delete_by_item_id( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $post_id, 'component' => $bp->groups->id, 'type' => 'new_forum_post' ) );
-
 		$activity_action = sprintf( __( '%s posted on the forum topic %s in the group %s:', 'buddypress'), bp_core_get_userlink( $post->poster_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug .'">' . attribute_escape( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
 		$activity_content = '<blockquote>' . bp_create_excerpt( $post_text ) . '</blockquote>';
+		$primary_link = bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug . '/';
 
-		/* Record this in activity streams */
+		if ( $page )
+			$primary_link .= "?topic_page=" . $page;
+
+		/* Fetch an existing entry and update if one exists. */
+		if ( function_exists( 'bp_activity_get_activity_id' ) )
+			$id = bp_activity_get_activity_id( array( 'user_id' => $post->poster_id, 'component' => $bp->groups->id, 'type' => 'new_forum_post', 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $post_id ) );
+
+		/* Update the entry in activity streams */
 		groups_record_activity( array(
+			'id' => $id,
 			'action' => apply_filters( 'groups_activity_new_forum_post_action', $activity_action, $post_text, &$topic, &$forum_post ),
 			'content' => apply_filters( 'groups_activity_new_forum_post_content', $activity_content, $post_text, &$topic, &$forum_post ),
-			'primary_link' => apply_filters( 'groups_activity_new_forum_post_primary_link', bp_get_group_permalink( $bp->groups->current_group ) ),
+			'primary_link' => apply_filters( 'groups_activity_new_forum_post_primary_link', $primary_link . "#post-" . $post_id ),
 			'type' => 'new_forum_post',
 			'item_id' => (int)$bp->groups->current_group->id,
 			'user_id' => (int)$post->poster_id,
 			'secondary_item_id' => $post_id,
-			'recorded_time' => strtotime( $post->post_time )
+			'recorded_time' => $post->post_time
 		) );
 
 		do_action( 'groups_update_group_forum_post', &$post, &$topic );
 
-		return true;
+		return $post_id;
 	}
 
 	return false;

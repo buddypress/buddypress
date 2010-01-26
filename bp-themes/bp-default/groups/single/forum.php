@@ -26,8 +26,8 @@
 					<p><?php _e( 'You will auto join this group when you start a new topic.', 'buddypress' ) ?></p>
 				<?php endif; ?>
 
-				<a name="post-new"></a>
-				<h3><?php _e( 'Post a New Topic:', 'buddypress' ) ?></h3>
+				<p id="post-new"></p>
+				<h4><?php _e( 'Post a New Topic:', 'buddypress' ) ?></h4>
 
 				<label><?php _e( 'Title:', 'buddypress' ) ?></label>
 				<input type="text" name="topic_title" id="topic_title" value="" />
