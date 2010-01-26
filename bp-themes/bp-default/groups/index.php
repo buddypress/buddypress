@@ -38,12 +38,8 @@
 			</div><!-- .item-list-tabs -->
 
 			<div id="groups-dir-list" class="groups dir-list">
-				<?php
-					// The loop will be loaded here via AJAX on page load to retain selected settings and not waste cycles.
-					// If you're concerned about no-script functionality, uncomment the following line.
-
-					// locate_template( array( 'groups/groups-loop.php' ), true );
-				?>
+				<?php // The loop will be loaded here via AJAX on page load to retain selected settings and not waste cycles. ?>
+				<noscript><?php locate_template( array( 'groups/groups-loop.php' ), true ) ?></noscript>
 			</div><!-- #groups-dir-list -->
 
 			<?php do_action( 'bp_directory_groups_content' ) ?>

@@ -67,12 +67,8 @@
 			</div><!-- .item-list-tabs -->
 
 			<div class="activity">
-				<?php
-					// The loop will be loaded here via AJAX on page load to retain selected settings and not waste cycles.
-					// If you're concerned about no-script functionality, uncomment the following line.
-
-					//locate_template( array( 'activity/activity-loop.php' ), true );
-				?>
+				<?php // The loop will be loaded here via AJAX on page load to retain selected settings and not waste cycles. ?>
+				<noscript><?php locate_template( array( 'activity/activity-loop.php' ), true ) ?></noscript>
 			</div><!-- .activity -->
 
 			<form action="" name="activity-widget-form" id="activity-widget-form" method="post">

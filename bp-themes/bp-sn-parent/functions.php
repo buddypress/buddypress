@@ -173,7 +173,7 @@ class BP_Activity_Widget extends WP_Widget {
 		</div>
 
 		<div class="activity">
-			<?php // The loop will be loaded here via AJAX on page load to retain settings. ?>
+			<?php // The loop will be loaded here via AJAX on page load to retain selected settings and not waste cycles. ?>
 		</div>
 
 		<form action="" name="activity-widget-form" id="activity-widget-form" method="post">

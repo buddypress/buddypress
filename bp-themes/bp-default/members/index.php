@@ -38,12 +38,8 @@
 			</div><!-- .item-list-tabs -->
 
 			<div id="members-dir-list" class="members dir-list">
-				<?php
-					// The loop will be loaded here via AJAX on page load to retain selected settings and not waste cycles.
-					// If you're concerned about no-script functionality, uncomment the following line.
-
-					// locate_template( array( 'members/members-loop.php' ), true );
-				?>
+				<?php // The loop will be loaded here via AJAX on page load to retain selected settings and not waste cycles. ?>
+				<noscript><?php locate_template( array( 'members/members-loop.php' ), true ) ?></noscript>
 			</div><!-- #members-dir-list -->
 
 			<?php do_action( 'bp_directory_members_content' ) ?>

@@ -29,7 +29,8 @@
 	<?php do_action( 'bp_before_member_groups_content' ) ?>
 
 	<div class="groups mygroups">
-		<?php // 'members/members-loop.php' loaded here via AJAX. ?>
+		<?php // The loop will be loaded here via AJAX on page load to retain selected settings and not waste cycles. ?>
+		<noscript><?php locate_template( array( 'groups/groups-loop.php' ), true ) ?></noscript>
 	</div>
 
 	<?php do_action( 'bp_after_member_groups_content' ) ?>
