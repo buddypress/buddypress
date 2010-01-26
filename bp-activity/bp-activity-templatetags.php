@@ -21,6 +21,12 @@ class BP_Activity_Template {
 		$this->pag_page = isset( $_REQUEST['acpage'] ) ? intval( $_REQUEST['acpage'] ) : $page;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
+		/* Check if blog/forum replies are disabled */
+		$this->disable_blogforum_replies = get_site_option( 'bp-disable-blogforum-comments' );
+
+		/* Get an array of the logged in user's favorite activities */
+		$this->my_favs = maybe_unserialize( get_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities' ) );
+
 		if ( !empty( $include ) ) {
 			/* Fetch specific activity items based on ID's */
 			$this->activities = bp_activity_get_specific( array( 'activity_ids' => explode( ',', $include ), 'max' => $max, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'sort' => $sort, 'display_comments' => $display_comments ) );
@@ -453,9 +459,7 @@ function bp_activity_is_favorite() {
 	function bp_get_activity_is_favorite() {
 		global $bp, $activities_template;
 
-		$my_favs = maybe_unserialize( get_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities' ) );
-
- 		return apply_filters( 'bp_get_activity_is_favorite', in_array( $activities_template->activity->id, (array)$my_favs ) );
+ 		return apply_filters( 'bp_get_activity_is_favorite', in_array( $activities_template->activity->id, (array)$activities_template->my_favs ) );
 	}
 
 function bp_activity_comments( $args = '' ) {
@@ -684,9 +688,9 @@ function bp_activity_filter_links( $args = false ) {
 	}
 
 function bp_activity_can_comment() {
-	global $bp;
+	global $activities_template, $bp;
 
-	if ( false === get_site_option( 'bp-disable-blogforum-comments' ) || (int)get_site_option( 'bp-disable-blogforum-comments' ) ) {
+	if ( false === $activities_template->disable_blogforum_replies || (int)$activities_template->disable_blogforum_replies ) {
 		if ( 'new_blog_post' == bp_get_activity_action_name() || 'new_blog_comment' == bp_get_activity_action_name() || 'new_forum_topic' == bp_get_activity_action_name() || 'new_forum_post' == bp_get_activity_action_name() )
 			return false;
 	}
