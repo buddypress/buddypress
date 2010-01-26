@@ -345,7 +345,7 @@ class BP_Core_User {
 			for ( $i = 0; $i < count( $paged_users ); $i++ ) {
 				foreach ( $user_activity as $activity ) {
 					if ( $activity->id == $paged_users[$i]->id )
-						$paged_users[$i]->last_activity = (int)$activity->last_activity;
+						$paged_users[$i]->last_activity = $activity->last_activity;
 				}
 			}
 		}
