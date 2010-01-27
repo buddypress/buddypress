@@ -86,7 +86,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 		   . $widget_name
 		   . $after_title; ?>
 
-		<?php if ( bp_has_members( 'type=newest&max=' . $instance['max_members'] ) ) : ?>
+		<?php if ( bp_has_members( 'user_id=0&type=newest&max=' . $instance['max_members'] ) ) : ?>
 			<div class="item-options" id="members-list-options">
 				<span class="ajax-loader" id="ajax-loader-members"></span>
 				<a href="<?php echo site_url() . '/' . BP_MEMBERS_SLUG ?>" id="newest-members" class="selected"><?php _e( 'Newest', 'buddypress' ) ?></a> |
@@ -158,7 +158,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 		   . $widget_name
 		   . $after_title; ?>
 
-		<?php if ( bp_has_members( 'type=online&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
+		<?php if ( bp_has_members( 'user_id=0&type=online&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
 			<div class="avatar-block">
 				<?php while ( bp_members() ) : bp_the_member(); ?>
 					<div class="item-avatar">
@@ -212,7 +212,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 		   . $widget_name
 		   . $after_title; ?>
 
-		<?php if ( bp_has_members( 'type=active&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
+		<?php if ( bp_has_members( 'user_id=0&type=active&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
 			<div class="avatar-block">
 				<?php while ( bp_members() ) : bp_the_member(); ?>
 					<div class="item-avatar">
@@ -267,7 +267,7 @@ function bp_core_ajax_widget_members() {
 			$type = 'popular';
 		break;
 	} ?>
-	<?php if ( bp_has_members( 'type=' . $type . '&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] ) ) : ?>
+	<?php if ( bp_has_members( 'user_id=0&type=' . $type . '&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] ) ) : ?>
 		<?php echo '0[[SPLIT]]'; // return valid result. TODO: remove this because it's dumb. ?>
 		<div class="avatar-block">
 			<?php while ( bp_members() ) : bp_the_member(); ?>

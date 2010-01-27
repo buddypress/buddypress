@@ -144,7 +144,7 @@ function bp_has_members( $args = '' ) {
 	if ( $_REQUEST['s'] )
 		$search_terms = $_REQUEST['s'];
 
-	if ( empty( $user_id ) && $bp->displayed_user->id )
+	if ( false === $user_id && $bp->displayed_user->id )
 		$user_id = $bp->displayed_user->id;
 
 	$members_template = new BP_Core_Members_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $include, (bool)$populate_extras );
