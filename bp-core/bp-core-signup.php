@@ -18,7 +18,7 @@ function bp_core_screen_signup() {
 		return false;
 
 	/* If signups are disabled, just re-direct */
-	if ( !bp_get_signup_allowed() || 'none' == bp_get_signup_allowed() || 'blog' == bp_get_signup_allowed() )
+	if ( !bp_get_signup_allowed() )
 		bp_core_redirect( $bp->root_domain );
 
 	$bp->signup->step = 'request-details';

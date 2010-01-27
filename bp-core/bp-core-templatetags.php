@@ -1239,12 +1239,30 @@ function bp_signup_allowed() {
 	echo bp_get_signup_allowed();
 }
 	function bp_get_signup_allowed() {
-		if ( bp_core_is_multisite() )
-			return get_site_option( 'registration' );
-		else {
+		if ( bp_core_is_multisite() ) {
+			$status = get_site_option( 'registration' );
+			if ( 'all' != $status && 'user' != $status )
+				return false;
+
+			return true;
+		} else {
 			if ( (int)get_option( 'users_can_register') )
 				return 'user';
 		}
+
+		return false;
+	}
+
+function bp_blog_signup_allowed() {
+	echo bp_get_blog_signup_allowed();
+}
+	function bp_get_blog_signup_allowed() {
+		if ( !bp_core_is_multisite() )
+			return false;
+
+		$status = get_site_option( 'registration' );
+		if ( 'none' != $status && 'user' != $status )
+			return true;
 
 		return false;
 	}

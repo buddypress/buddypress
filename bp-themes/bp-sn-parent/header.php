@@ -51,7 +51,7 @@
 
 					<input type="submit" name="wp-submit" id="wp-submit" value="<?php _e( 'Log In', 'buddypress' ) ?>"/>
 
-					<?php if ( 'none' != bp_get_signup_allowed() && 'blog' != bp_get_signup_allowed() ) : ?>
+					<?php if ( bp_get_signup_allowed() ) : ?>
 						<input type="button" name="signup-submit" id="signup-submit" value="<?php _e( 'Sign Up', 'buddypress' ) ?>" onclick="location.href='<?php echo bp_signup_page() ?>'" />
 					<?php endif; ?>
 

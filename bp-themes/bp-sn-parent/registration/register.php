@@ -159,7 +159,7 @@
 
 				<?php do_action( 'bp_after_signup_profile_fields' ) ?>
 
-				<?php if ( 'all' == bp_get_signup_allowed() || 'blog' == bp_get_signup_allowed() ) : ?>
+				<?php if ( bp_get_blog_signup_allowed() ) : ?>
 
 					<?php do_action( 'bp_before_blog_details_fields' ) ?>
 
