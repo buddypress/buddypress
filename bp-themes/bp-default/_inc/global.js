@@ -672,12 +672,7 @@ jQuery(document).ready( function() {
 
 			var page_number = 1;
 			var css_id = el.attr('id').split( '-' );
-
-			/* Sub nav li ID's are slightly different */
-			if ( 'object-nav' == j('div.item-list-tabs').attr('id') )
-				var object = css_id[2];
-			else
-				var object = css_id[0];
+			var object = css_id[0];
 
 			if ( j(target).hasClass('next') )
 				var page_number = Number( j('div.pagination span.current').html() ) + 1;
