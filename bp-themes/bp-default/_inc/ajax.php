@@ -202,7 +202,7 @@ function bp_dtheme_activity_loop( $scope = 'all', $filter = false, $query_string
 					$feed_url = $bp->loggedin_user->domain  . BP_ACTIVITY_SLUG . '/favorites/feed/';
 					break;
 				case 'atme':
-					$query_string = 'search_terms=@' . bp_core_get_username( $bp->loggedin_user->id, $bp->loggedin_user->userdata->user_nicename, $bp->loggedin_user->userdata->user_login );
+					$query_string = 'show_hidden=1&search_terms=@' . bp_core_get_username( $bp->loggedin_user->id, $bp->loggedin_user->userdata->user_nicename, $bp->loggedin_user->userdata->user_login );
 					$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/mentions/feed/';
 
 					/* Reset the number of new @ mentions for the user */
