@@ -9,7 +9,7 @@ function groups_notification_group_updated( $group_id ) {
 	foreach ( $group->user_dataset as $user ) {
 		if ( 'no' == get_usermeta( $user->user_id, 'notification_groups_group_updated' ) ) continue;
 
-		$ud = get_userdata( $user->user_id );
+		$ud = bp_core_get_core_userdata( $user->user_id );
 
 		// Set up and send the message
 		$to = $ud->user_email;
@@ -45,8 +45,8 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 	$requesting_user_name = bp_core_get_user_displayname( $requesting_user_id );
 	$group = new BP_Groups_Group( $group_id, false, false );
 
-	$ud = get_userdata($admin_id);
-	$requesting_ud = get_userdata($requesting_user_id);
+	$ud = bp_core_get_core_userdata($admin_id);
+	$requesting_ud = bp_core_get_core_userdata($requesting_user_id);
 
 	$group_requests = bp_get_group_permalink( $group ) . 'admin/membership-requests';
 	$profile_link = bp_core_get_user_domain( $requesting_user_id );
@@ -89,7 +89,7 @@ function groups_notification_membership_request_completed( $requesting_user_id, 
 
 	$group = new BP_Groups_Group( $group_id, false, false );
 
-	$ud = get_userdata($requesting_user_id);
+	$ud = bp_core_get_core_userdata($requesting_user_id);
 
 	$group_link = bp_get_group_permalink( $group );
 	$settings_link = bp_core_get_user_domain( $requesting_user_id ) . 'settings/notifications/';
@@ -142,7 +142,7 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 		return false;
 
 	$group = new BP_Groups_Group( $group_id, false, false );
-	$ud = get_userdata($user_id);
+	$ud = bp_core_get_core_userdata($user_id);
 
 	$group_link = bp_get_group_permalink( $group );
 	$settings_link = bp_core_get_user_domain( $user_id ) . 'settings/notifications/';
@@ -170,7 +170,7 @@ add_action( 'groups_promoted_member', 'groups_notification_promoted_member', 10,
 function groups_notification_group_invites( &$group, &$member, $inviter_user_id ) {
 	global $bp;
 
-	$inviter_ud = get_userdata( $inviter_user_id );
+	$inviter_ud = bp_core_get_core_userdata( $inviter_user_id );
 	$inviter_name = bp_core_get_userlink( $inviter_user_id, true, false, true );
 	$inviter_link = bp_core_get_user_domain( $inviter_user_id );
 
@@ -185,7 +185,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 		if ( 'no' == get_usermeta( $invited_user_id, 'notification_groups_invite' ) )
 			return false;
 
-		$invited_ud = get_userdata($invited_user_id);
+		$invited_ud = bp_core_get_core_userdata($invited_user_id);
 
 		$settings_link = bp_core_get_user_domain( $invited_user_id ) . 'settings/notifications/';
 		$invited_link = bp_core_get_user_domain( $invited_user_id );
@@ -214,5 +214,58 @@ To view %s\'s profile visit: %s
 		wp_mail( $to, $subject, $message );
 	}
 }
+
+function groups_at_message_notification( $content, $poster_user_id, $group_id, $activity_id ) {
+	global $bp;
+
+	/* Scan for @username strings in an activity update. Notify each user. */
+	$pattern = '/[@]+([A-Za-z0-9-_]+)/';
+	preg_match_all( $pattern, $content, $usernames );
+
+	/* Make sure there's only one instance of each username */
+	if ( !$usernames = array_unique( $usernames[1] ) )
+		return false;
+
+	$group = new BP_Groups_Group( $group_id, false, false );
+
+	foreach( (array)$usernames as $username ) {
+		if ( !$receiver_user_id = bp_core_get_userid($username) )
+			continue;
+
+		/* Check the user is a member of the group before sending the update. */
+		if ( !groups_is_user_member( $receiver_user_id, $group_id ) )
+			continue;
+
+		// Now email the user with the contents of the message (if they have enabled email notifications)
+		if ( !get_usermeta( $user_id, 'notification_activity_new_mention' ) || 'yes' == get_usermeta( $user_id, 'notification_activity_new_mention' ) ) {
+			$poster_name = bp_core_get_user_displayname( $poster_user_id );
+
+			$message_link = bp_activity_get_permalink( $activity_id );
+			$settings_link = bp_core_get_user_domain( $receiver_user_id ) . 'settings/notifications/';
+
+			// Set up and send the message
+			$ud = bp_core_get_core_userdata( $receiver_user_id );
+			$to = $ud->user_email;
+			$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s mentioned you in the group "%s"', 'buddypress' ), stripslashes( $poster_name ), wp_filter_kses( stripslashes( $group->name ) ) );
+
+$message = sprintf( __(
+'%s mentioned you in the group "%s":
+
+"%s"
+
+To view and respond to the message, log in and visit: %s
+
+---------------------
+', 'buddypress' ), $poster_name, wp_filter_kses( stripslashes( $group->name ) ), wp_filter_kses( stripslashes($content) ), $message_link );
+
+			$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+
+			// Send it
+			wp_mail( $to, $subject, $message );
+		}
+	}
+}
+add_action( 'bp_groups_posted_update', 'groups_at_message_notification', 10, 4 );
+
 
 ?>

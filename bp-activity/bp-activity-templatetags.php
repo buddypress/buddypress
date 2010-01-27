@@ -366,14 +366,15 @@ function bp_activity_content() {
 	function bp_get_activity_content() {
 		global $activities_template;
 
-		if ( empty( $activities_template->activity->action ) )
-			$content = bp_activity_content_filter( $activities_template->activity->content, $activities_template->activity->date_recorded );
-		else {
-			$content = bp_activity_content_filter( $activities_template->activity->action, $activities_template->activity->date_recorded );
-			$content .= $activities_template->activity->content;
-		}
+		/***
+		 * If you want to filter activity update content, please use
+		 * the filter 'bp_get_activity_content_body'
+		 *
+		 * This function is mainly for backwards comptibility.
+		 */
 
-		return apply_filters( 'bp_get_activity_content', $content, $activities_template->activity->component, $activities_template->activity->type );
+		$content = bp_get_activity_action() . bp_get_activity_content_body();
+		return apply_filters( 'bp_get_activity_content', $content );
 	}
 
 function bp_activity_content_filter( $content, $date_recorded ) {

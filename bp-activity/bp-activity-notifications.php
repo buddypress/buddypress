@@ -20,10 +20,10 @@ function bp_activity_at_message_notification( $content, $poster_user_id, $activi
 			$poster_name = bp_core_get_user_displayname( $poster_user_id );
 
 			$message_link = bp_activity_get_permalink( $activity_id );
-			$settings_link = bp_core_get_user_domain( $user_id ) . 'settings/notifications/';
+			$settings_link = bp_core_get_user_domain( $receiver_user_id ) . 'settings/notifications/';
 
 			// Set up and send the message
-			$ud = get_userdata( $receiver_user_id );
+			$ud = bp_core_get_core_userdata( $receiver_user_id );
 			$to = $ud->user_email;
 			$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s mentioned you in an update', 'buddypress' ), stripslashes($poster_name) );
 
@@ -62,7 +62,7 @@ function bp_activity_new_comment_notification( $comment_id, $params ) {
 		$settings_link = bp_core_get_user_domain( $original_activity->user_id ) . 'settings/notifications/';
 
 		// Set up and send the message
-		$ud = get_userdata( $original_activity->user_id );
+		$ud = bp_core_get_core_userdata( $original_activity->user_id );
 		$to = $ud->user_email;
 		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s replied to one of your updates', 'buddypress' ), stripslashes_deep( $poster_name ) );
 
