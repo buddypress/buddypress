@@ -64,6 +64,9 @@ body {
 #wp-admin-bar li.alt {
 	border: none;
 }
+	#wp-admin-bar ul li ul li a span {
+		display: none;
+	}
 
 #admin-bar-logo {
 	float: left;
@@ -154,7 +157,7 @@ body {
 			color: #fff;
 		}
 
-#wp-admin-bar ul li:hover ul, #wp-admin-bar ul li li:hover ul, #wp-admin-bar ul li.sfhover ul, #wp-admin-bar ul li ul li.sfhover ul { /* lists nested under hovered list items */
+#wp-admin-bar ul li:hover ul, #wp-admin-bar ul li ul li:hover ul, #wp-admin-bar ul li.sfhover ul, #wp-admin-bar ul li ul li.sfhover ul  { /* lists nested under hovered list items */
 	left: auto;
 }
 
