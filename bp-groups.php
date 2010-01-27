@@ -1131,7 +1131,7 @@ function groups_action_create_group() {
 		}
 
 		if ( 'group-invites' == $bp->groups->current_create_step ) {
-			groups_send_invites( $bp->groups->new_group_id, $bp->loggedin_user->id );
+			groups_send_invites( $bp->loggedin_user->id, $bp->groups->new_group_id );
 		}
 
 		do_action( 'groups_create_group_step_save_' . $bp->groups->current_create_step );
