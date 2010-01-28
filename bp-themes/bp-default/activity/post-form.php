@@ -15,7 +15,7 @@
 	</div>
 
 	<h5>
-		<?php if ( bp_is_group_home() ) : ?>
+		<?php if ( bp_is_group() ) : ?>
 			<?php printf( __( "What's new in %s, %s?", 'buddypress' ), bp_get_group_name(), bp_dtheme_firstname() ) ?>
 		<?php else : ?>
 			<?php printf( __( "What's new %s?", 'buddypress' ), bp_dtheme_firstname() ) ?>
@@ -33,7 +33,7 @@
 				<input type="submit" name="aw-whats-new-submit" id="aw-whats-new-submit" value="<?php _e( 'Post Update', 'buddypress' ) ?>" />
 			</div>
 
-			<?php if ( !bp_is_my_profile() && !bp_is_group_home() ) : ?>
+			<?php if ( !bp_is_my_profile() && !bp_is_group() ) : ?>
 				<div id="whats-new-post-in-box">
 					<?php _e( 'Post in', 'buddypress' ) ?>:
 

@@ -106,8 +106,6 @@ function groups_setup_root_component() {
 add_action( 'plugins_loaded', 'groups_setup_root_component', 2 );
 
 function groups_check_installed() {
-	global $wpdb, $bp;
-
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 	if ( get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION )
 		groups_install();
@@ -115,7 +113,7 @@ function groups_check_installed() {
 add_action( 'admin_menu', 'groups_check_installed' );
 
 function groups_setup_nav() {
-	global $bp, $current_blog, $group_obj;
+	global $bp;
 
 	if ( $group_id = BP_Groups_Group::group_exists($bp->current_action) ) {
 
@@ -138,9 +136,6 @@ function groups_setup_nav() {
 
 		/* Should this group be visible to the logged in user? */
 		$bp->groups->current_group->is_group_visible_to_member = ( 'public' == $bp->groups->current_group->status || $is_member ) ? true : false;
-
-		/* Pre 1.1 backwards compatibility - use $bp->groups->current_group instead */
-		$group_obj = &$bp->groups->current_group;
 	}
 
 	/* Add 'Groups' to the main navigation */
@@ -666,8 +661,10 @@ function groups_screen_group_request_membership() {
 function groups_screen_group_activity_permalink() {
 	global $bp;
 
-	if ( !$bp->is_single_item || $bp->current_component != $bp->groups->slug || $bp->current_action != $bp->activity->slug )
+	if ( $bp->current_component != $bp->groups->slug || $bp->current_action != $bp->activity->slug || empty( $bp->action_variables[0] ) )
 		return false;
+
+	$bp->is_single_item = true;
 
 	bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
 }
@@ -1243,8 +1240,12 @@ function groups_action_sort_creation_steps() {
 	if ( !is_array( $bp->groups->group_creation_steps ) )
 		return false;
 
-	foreach ( $bp->groups->group_creation_steps as $slug => $step )
+	foreach ( $bp->groups->group_creation_steps as $slug => $step ) {
+		while ( !empty( $temp[$step['position']] ) )
+			$step['position']++;
+
 		$temp[$step['position']] = array( 'name' => $step['name'], 'slug' => $slug );
+	}
 
 	/* Sort the steps by their position key */
 	ksort($temp);

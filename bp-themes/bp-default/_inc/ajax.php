@@ -155,8 +155,8 @@ function bp_dtheme_delete_activity() {
 		return false;
 	}
 
-	if ( empty( $_POST['id'] ) || !is_numeric( $_POST['id'] ) || !bp_activity_delete_by_activity_id( $_POST['id'] ) ) {
-		echo '-1<div class="error"><p>' . __( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>';
+	if ( empty( $_POST['id'] ) || !is_numeric( $_POST['id'] ) || !bp_activity_delete( array( 'id' => $_POST['id'] ) ) ) {
+		echo '-1<div id="message" class="error"><p>' . __( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>';
 		return false;
 	}
 

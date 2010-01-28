@@ -70,152 +70,16 @@ Class BP_Activity_Activity {
 
 	/* Static Functions */
 
-	function delete( $item_id, $component, $type, $user_id = false, $secondary_item_id = false ) {
-		global $wpdb, $bp;
-
-		if ( $secondary_item_id )
-			$secondary_sql = $wpdb->prepare( "AND secondary_item_id = %s", $secondary_item_id );
-
-		if ( $type )
-			$type_sql = $wpdb->prepare( "AND type = %s", $type );
-
-		if ( $user_id )
-			$user_sql = $wpdb->prepare( "AND user_id = %d", $user_id );
-
-		/* Fetch the activity IDs so we can delete any comments for this activity item */
-		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE item_id = %s {$secondary_sql} AND component = %s {$type_sql} {$user_sql}", $item_id, $component ) );
-
-		error_log( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE item_id = %s {$secondary_sql} AND component = %s {$type_sql} {$user_sql}", $item_id, $component ) );
-
-		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE item_id = %s {$secondary_sql} AND component = %s {$type_sql} {$user_sql}", $item_id, $component ) ) )
-			return false;
-
-		if ( $activity_ids ) {
-			BP_Activity_Activity::delete_activity_item_comments( $activity_ids );
-			BP_Activity_Activity::delete_activity_meta_entries( $activity_ids );
-
-			return $activity_ids;
-		}
-
-		return true;
-	}
-
-	function delete_by_item_id( $item_id, $component, $type, $user_id = false, $secondary_item_id = false ) {
-		return BP_Activity_Activity::delete( $item_id, $component, $type, $user_id, $secondary_item_id );
-	}
-
-	function delete_by_activity_id( $activity_id ) {
-		global $bp, $wpdb;
-
-		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE id = %d", $activity_id ) ) )
-			return false;
-
-		/* Delete the comments for this activity ID */
-		BP_Activity_Activity::delete_activity_item_comments( $activity_id );
-		BP_Activity_Activity::delete_activity_meta_entries( $activity_id );
-
-		return true;
-	}
-
-	function delete_by_content( $user_id, $content, $component, $type ) {
-		global $bp, $wpdb;
-
-		/* Fetch the activity ID so we can delete any comments for this activity item */
-		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE user_id = %d AND content = %s AND component = %s AND type = %s", $user_id, $content, $component, $type ) );
-
-		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE user_id = %d AND content = %s AND component = %s AND type = %s", $user_id, $content, $component, $type ) ) )
-			return false;
-
-		if ( $activity_ids ) {
-			BP_Activity_Activity::delete_activity_item_comments( $activity_ids );
-			BP_Activity_Activity::delete_activity_meta_entries( $activity_ids );
-
-			return $activity_ids;
-		}
-
-		return true;
-	}
-
-	function delete_for_user_by_component( $user_id, $component ) {
-		global $bp, $wpdb;
-
-		/* Fetch the activity IDs so we can delete any comments for this activity item */
-		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE user_id = %d AND component = %s", $user_id, $component ) );
-
-		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE user_id = %d AND component = %s", $user_id, $component ) ) )
-			return false;
-
-		if ( $activity_ids ) {
-			BP_Activity_Activity::delete_activity_item_comments( $activity_ids );
-			BP_Activity_Activity::delete_activity_meta_entries( $activity_ids );
-
-			return $activity_ids;
-		}
-
-		return true;
-	}
-
-	function delete_for_user( $user_id ) {
-		global $wpdb, $bp;
-
-		/* Fetch the activity IDs so we can delete any comments for this activity item */
-		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE user_id = %d", $user_id ) );
-
-		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE user_id = %d", $user_id ) ) )
-			return false;
-
-		if ( $activity_ids ) {
-			BP_Activity_Activity::delete_activity_item_comments( $activity_ids );
-			BP_Activity_Activity::delete_activity_meta_entries( $activity_ids );
-
-			return $activity_ids;
-		}
-	}
-
-	function delete_activity_item_comments( $activity_ids ) {
-		global $bp, $wpdb;
-
-		if ( is_array($activity_ids) )
-			$activity_ids = implode( ',', $activity_ids );
-
-		$activity_ids = $wpdb->escape( $activity_ids );
-
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE type = 'activity_comment' AND item_id IN ({$activity_ids})" ) );
-	}
-
-	function delete_activity_meta_entries( $activity_ids ) {
-		global $bp, $wpdb;
-
-		if ( is_array($activity_ids) )
-			$activity_ids = implode( ',', $activity_ids );
-
-		$activity_ids = $wpdb->escape( $activity_ids );
-
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id IN ({$activity_ids})" ) );
-	}
-
 	function get( $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false, $show_hidden = false ) {
 		global $wpdb, $bp;
 
 		/* Select conditions */
 		$select_sql = "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name";
 
-		if ( function_exists( 'xprofile_install' ) )
-			$select_sql .= ", pd.value as user_fullname";
-
-		$from_sql = " FROM {$bp->activity->table_name} a, {$wpdb->users} u";
-
-		if ( function_exists( 'xprofile_install' ) )
-			$from_sql .= ", {$bp->profile->table_name_data} pd";
+		$from_sql = " FROM {$bp->activity->table_name} a LEFT JOIN {$wpdb->users} u ON a.user_id = u.ID";
 
 		/* Where conditions */
 		$where_conditions = array();
-		$where_conditions['user_join'] = "a.user_id = u.ID";
-
-		if ( function_exists( 'xprofile_install' ) ) {
-			$where_conditions['xprofile_join'] = "a.user_id = pd.user_id";
-			$where_conditions['xprofile_filter'] = "pd.field_id = 1";
-		}
 
 		if ( $per_page && $page )
 			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
@@ -251,6 +115,30 @@ Class BP_Activity_Activity {
 			$activities = $wpdb->get_results( $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}" ) );
 
 		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(a.id) {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort}" ) );
+
+		/* Get the fullnames of users so we don't have to query in the loop */
+		if ( function_exists( 'xprofile_install' ) && $activities ) {
+			foreach ( (array)$activities as $activity ) {
+				if ( (int)$activity->user_id )
+					$activity_user_ids[] = $activity->user_id;
+			}
+
+			$activity_user_ids = implode( ',', (array)$activity_user_ids );
+			if ( !empty( $activity_user_ids ) ) {
+				if ( $names = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, value AS user_fullname FROM {$bp->profile->table_name_data} WHERE field_id = 1 AND user_id IN ({$activity_user_ids})" ) ) ) {
+					foreach ( (array)$names as $name )
+						$tmp_names[$name->user_id] = $name->user_fullname;
+
+					foreach ( (array)$activities as $i => $activity ) {
+						if ( !empty( $tmp_names[$activity->user_id] ) )
+							$activities[$i]->user_fullname = $tmp_names[$activity->user_id];
+					}
+
+					unset( $names );
+					unset( $tmp_names );
+				}
+			}
+		}
 
 		if ( $activities && $display_comments )
 			$activities = BP_Activity_Activity::append_comments( &$activities );
@@ -294,7 +182,7 @@ Class BP_Activity_Activity {
 		return array( 'activities' => $activities, 'total' => (int)$total_activities );
 	}
 
-	function get_id( $user_id, $component, $type, $item_id, $secondary_item_id ) {
+	function get_id( $user_id, $component, $type, $item_id, $secondary_item_id, $action, $content ) {
 		global $bp, $wpdb;
 
 		$where_args = false;
@@ -314,12 +202,115 @@ Class BP_Activity_Activity {
 		if ( !empty( $secondary_item_id ) )
 			$where_args[] = $wpdb->prepare( "secondary_item_id = %s", $secondary_item_id );
 
+		if ( !empty( $action ) )
+			$where_args[] = $wpdb->prepare( "action = %s", bp_activity_add_timesince_placeholder( $action ) );
+
+		if ( !empty( $content ) )
+			$where_args[] = $wpdb->prepare( "content = %s", $content );
+
 		if ( !empty( $where_args ) )
 			$where_sql = 'WHERE ' . join( ' AND ', $where_args );
 		else
 			return false;
 
 		return $wpdb->get_var( "SELECT id FROM {$bp->activity->table_name} {$where_sql}" );
+	}
+
+	function delete( $args ) {
+		global $wpdb, $bp;
+
+		extract( $args );
+
+		$defaults = array(
+			'id' => false,
+			'action' => false,
+			'content' => false,
+			'component' => false,
+			'type' => false,
+			'primary_link' => false,
+			'user_id' => false,
+			'item_id' => false,
+			'secondary_item_id' => false,
+			'recorded_time' => false,
+			'hide_sitewide' => false
+		);
+
+		$where_args = false;
+
+		if ( !empty( $id ) )
+			$where_args[] = $wpdb->prepare( "id = %d", $id );
+
+		if ( !empty( $user_id ) )
+			$where_args[] = $wpdb->prepare( "user_id = %d", $user_id );
+
+		if ( !empty( $action ) )
+			$where_args[] = $wpdb->prepare( "action = %s", bp_activity_add_timesince_placeholder( $action ) );
+
+		if ( !empty( $content ) )
+			$where_args[] = $wpdb->prepare( "content = %s", $content );
+
+		if ( !empty( $component ) )
+			$where_args[] = $wpdb->prepare( "component = %s", $component );
+
+		if ( !empty( $type ) )
+			$where_args[] = $wpdb->prepare( "type = %s", $type );
+
+		if ( !empty( $primary_link ) )
+			$where_args[] = $wpdb->prepare( "primary_link = %s", $primary_link );
+
+		if ( !empty( $item_id ) )
+			$where_args[] = $wpdb->prepare( "item_id = %s", $item_id );
+
+		if ( !empty( $secondary_item_id ) )
+			$where_args[] = $wpdb->prepare( "secondary_item_id = %s", $secondary_item_id );
+
+		if ( !empty( $recorded_time ) )
+			$where_args[] = $wpdb->prepare( "recorded_time = %s", $recorded_time );
+
+		if ( !empty( $hide_sitewide ) )
+			$where_args[] = $wpdb->prepare( "recorded_time = %d", $hide_sitewide );
+
+		if ( !empty( $where_args ) )
+			$where_sql = 'WHERE ' . join( ' AND ', $where_args );
+		else
+			return false;
+
+		/* Fetch the activity IDs so we can delete any comments for this activity item */
+		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} {$where_sql}" ) );
+
+		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} {$where_sql}" ) ) )
+			return false;
+
+		if ( $activity_ids ) {
+			BP_Activity_Activity::delete_activity_item_comments( $activity_ids );
+			BP_Activity_Activity::delete_activity_meta_entries( $activity_ids );
+
+			return $activity_ids;
+		}
+
+		return $activity_ids;
+	}
+
+	function delete_activity_item_comments( $activity_ids ) {
+		global $bp, $wpdb;
+
+		if ( is_array($activity_ids) )
+			$activity_ids = implode( ',', $activity_ids );
+
+		$activity_ids = $wpdb->escape( $activity_ids );
+
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE type = 'activity_comment' AND item_id IN ({$activity_ids})" ) );
+	}
+
+	function delete_activity_meta_entries( $activity_ids ) {
+		global $bp, $wpdb;
+
+		if ( is_array($activity_ids) )
+			$activity_ids = implode( ',', $activity_ids );
+
+		$activity_ids = $wpdb->escape( $activity_ids );
+
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id IN ({$activity_ids})" ) );
 	}
 
 	function append_comments( $activities ) {

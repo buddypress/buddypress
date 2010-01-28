@@ -297,7 +297,13 @@ function bp_activity_user_link() {
 }
 	function bp_get_activity_user_link() {
 		global $activities_template;
-		return apply_filters( 'bp_get_activity_user_link', bp_core_get_user_domain( $activities_template->activity->user_id, $activities_template->activity->user_nicename, $activities_template->activity->user_login ) );
+
+		if ( empty( $activities_template->activity->user_id ) )
+			$link = $activities_template->activity->primary_link;
+		else
+			$link = bp_core_get_user_domain( $activities_template->activity->user_id, $activities_template->activity->user_nicename, $activities_template->activity->user_login );
+
+		return apply_filters( 'bp_get_activity_user_link', $link );
 	}
 
 function bp_activity_avatar( $args = '' ) {
@@ -445,13 +451,18 @@ function bp_activity_parent_content( $args = '' ) {
 		if ( !$parent_activity )
 			return false;
 
+		if ( empty( $parent_activity->content ) )
+			$content = $parent_activity->action;
+		else
+			$content = $parent_activity->action . $parent_activity->content;
+
 		/* Remove the time since content */
-		$parent_activity->content = str_replace( '<span class="time-since">%s</span>', '', $parent_activity->content );
+		$content = str_replace( '<span class="time-since">%s</span>', '', $content );
 
 		/* Remove images */
-		$parent_activity->content = preg_replace( '/<img[^>]*>/Ui', '', $parent_activity->content );
+		$content = preg_replace( '/<img[^>]*>/Ui', '', $content );
 
-		return apply_filters( 'bp_get_activity_parent_content', $parent_activity->content );
+		return apply_filters( 'bp_get_activity_parent_content', $content );
 	}
 
 function bp_activity_is_favorite() {

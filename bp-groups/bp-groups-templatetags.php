@@ -1499,6 +1499,7 @@ function bp_group_creation_tabs() {
 		$bp->groups->current_create_step = array_shift( array_keys( $bp->groups->group_creation_steps ) );
 
 	$counter = 1;
+
 	foreach ( $bp->groups->group_creation_steps as $slug => $step ) {
 		$is_enabled = bp_are_previous_group_creation_steps_complete( $slug ); ?>
 

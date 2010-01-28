@@ -610,20 +610,19 @@ function bp_activity_get_activity_id( $args = '' ) {
 		'component' => false,
 		'type' => false,
 		'item_id' => false,
-		'secondary_item_id' => false
+		'secondary_item_id' => false,
+		'action' => false,
+		'content' => false
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
- 	return apply_filters( 'bp_activity_get_activity_id', BP_Activity_Activity::get_id( $user_id, $component, $type, $item_id, $secondary_item_id ) );
+ 	return apply_filters( 'bp_activity_get_activity_id', BP_Activity_Activity::get_id( $user_id, $component, $type, $item_id, $secondary_item_id, $action, $content ) );
 }
 
 /***
  * Deleting Activity
- *
- * There are multiple ways to delete activity items, depending on
- * the information you have at the time.
  *
  * If you're looking to hook into one action that provides the ID(s) of
  * the activity/activities deleted, then use:
@@ -634,61 +633,57 @@ function bp_activity_get_activity_id( $args = '' ) {
  * array of activity IDs depending on the number deleted.
 */
 
-function bp_activity_delete_by_item_id( $args = '' ) {
+function bp_activity_delete( $args = '' ) {
 	global $bp;
 
+	/* Pass one or more the of following variables to delete by those variables */
 	$defaults = array(
-		'item_id' => false,
+		'id' => false,
+		'action' => false,
+		'content' => false,
 		'component' => false,
-		'type' => false, // optional
-		'user_id' => false, // optional
-		'secondary_item_id' => false // optional
+		'type' => false,
+		'primary_link' => false,
+		'user_id' => false,
+		'item_id' => false,
+		'secondary_item_id' => false,
+		'recorded_time' => false,
+		'hide_sitewide' => false
 	);
 
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
+	$args = wp_parse_args( $args, $defaults );
 
-	if ( !$activity_ids_deleted = BP_Activity_Activity::delete_by_item_id( $item_id, $component, $type, $user_id, $secondary_item_id ) )
+	if ( !$activity_ids_deleted = BP_Activity_Activity::delete( $args ) )
 		return false;
 
-	do_action( 'bp_activity_delete_by_item_id', $item_id, $component, $type, $user_id, $secondary_item_id );
+	do_action( 'bp_activity_delete', $args );
 	do_action( 'bp_activity_deleted_activities', $activity_ids_deleted );
 
 	return true;
 }
+	/* The following functions have been deprecated in place of bp_activity_delete() */
+	function bp_activity_delete_by_item_id( $args = '' ) {
+		global $bp;
 
-function bp_activity_delete_by_activity_id( $activity_id ) {
-	if ( !BP_Activity_Activity::delete_by_activity_id( $activity_id ) )
-		return false;
+		$defaults = array( 'item_id' => false, 'component' => false, 'type' => false, 'user_id' => false, 'secondary_item_id' => false );
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
 
-	do_action( 'bp_activity_delete_by_activity_id', $activity_id );
-	do_action( 'bp_activity_deleted_activities', $activity_id );
+		return bp_activity_delete( array( 'item_id' => $item_id, 'component' => $component, 'type' => $type, 'user_id' => $user_id, 'secondary_item_id' => $secondary_item_id ) );
+	}
 
-	return true;
-}
+	function bp_activity_delete_by_activity_id( $activity_id ) {
+		return bp_activity_delete( array( 'id' => $activity_id ) );
+	}
 
-function bp_activity_delete_by_content( $user_id, $content, $component, $type ) {
-	/* Insert the "time-since" placeholder to match the existing content in the DB */
-	$content = bp_activity_add_timesince_placeholder( $content );
+	function bp_activity_delete_by_content( $user_id, $content, $component, $type ) {
+		return bp_activity_delete( array( 'user_id' => $user_id, 'content' => $content, 'component' => $component, 'type' => $type ) );
+	}
 
-	if ( !$activity_ids_deleted = BP_Activity_Activity::delete_by_content( $user_id, $content, $component, $type ) )
-		return false;
-
-	do_action( 'bp_activity_delete_by_content', $user_id, $content, $component, $type );
-	do_action( 'bp_activity_deleted_activities', $activity_ids_deleted );
-
-	return true;
-}
-
-function bp_activity_delete_for_user_by_component( $user_id, $component ) {
-	if ( !$activity_ids_deleted = BP_Activity_Activity::delete_for_user_by_component( $user_id, $component ) )
-		return false;
-
-	do_action( 'bp_activity_delete_for_user_by_component', $user_id, $component );
-	do_action( 'bp_activity_deleted_activities', $activity_ids_deleted );
-
-	return true;
-}
+	function bp_activity_delete_for_user_by_component( $user_id, $component ) {
+		return bp_activity_delete( array( 'user_id' => $user_id, 'component' => $component ) );
+	}
+	/* End deprecation */
 
 function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
 	global $bp;
@@ -996,7 +991,7 @@ add_action( 'widgets_init', 'bp_activity_filter_template_paths' );
 
 function bp_activity_remove_data( $user_id ) {
 	// Clear the user's activity from the sitewide stream and clear their activity tables
-	BP_Activity_Activity::delete_for_user( $user_id );
+	bp_activity_delete( array( 'user_id' => $user_id ) );
 
 	// Remove any usermeta
 	delete_usermeta( $user_id, 'bp_latest_update' );
