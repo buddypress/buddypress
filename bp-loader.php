@@ -49,7 +49,11 @@ if ( !isset( $bp_deactivated['bp-messages.php'] ) && file_exists( BP_PLUGIN_DIR 
 if ( !isset( $bp_deactivated['bp-xprofile.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-xprofile.php') )
 	include( BP_PLUGIN_DIR . '/bp-xprofile.php' );
 
-do_action( 'bp_init' );
+/* Allow dependent plugins to hook into BuddyPress in a safe way */
+function bp_loaded() {
+	do_action( 'bp_init' );
+}
+add_action( 'plugins_loaded', 'bp_loaded' );
 
 /* Activation Function */
 function bp_loader_activate() {
