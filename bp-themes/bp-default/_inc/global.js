@@ -970,6 +970,13 @@ j(document).ready( function() {
 	j("#wp-admin-bar ul.main-nav li").mouseout( function() {
 		j(this).removeClass('sfhover');
 	});
+
+	/* Clear specificcookies on logout */
+	j('a.logout').click( function() {
+		j.cookie('bp-activity-scope', null);
+		j.cookie('bp-activity-filter', null);
+		j.cookie('bp-activity-querystring', null);
+	});
 });
 
 /* Filter the current content list (groups/members/blogs/topics) */
