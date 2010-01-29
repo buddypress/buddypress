@@ -308,14 +308,32 @@ div#item-header {
 		margin: 0 15px 25px 0;
 	}
 
-	div#item-header span.activity {
-		margin: 0 0 5px 4px;
-		vertical-align: bottom;
+	div#item-header h2 { margin-bottom: 5px; }
+
+	div#item-header span.activity, div#item-header h2 span.highlight {
+		vertical-align: middle;
 		font-size: 11px;
 		font-weight: normal;
 		line-height: 170%;
 	}
-		.groups div#item-header span.activity { margin-bottom: -2px; }
+
+	div#item-header h2 span.highlight { font-size: 16px; }
+	div#item-header h2 span.highlight span {
+		position: relative;
+		top: -2px;
+		right: -2px;
+		font-weight: bold;
+		font-size: 11px;
+		background: #a1dcfa;
+		color: #fff;
+		padding: 1px 4px;
+		margin-bottom: 2px;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		vertical-align: middle;
+		cursor: pointer;
+		display: none;
+	}
 
 	div#item-header div#item-meta {
 		font-size: 14px;
@@ -358,6 +376,11 @@ div#item-header {
 	div#item-header div.generic-button, div#item-header a.button {
 		float: left;
 		margin: 10px 10px 0 0;
+	}
+
+	div#item-header div#message.info {
+		margin-left: 170px;
+		line-height: 80%;
 	}
 
 
@@ -524,8 +547,8 @@ span.activity, div#message p {
 	border-bottom: 1px solid #FFE8C4;
 	border-right: 1px solid #FFE8C4;
 	color: #ffa200;
-	padding: 2px 8px;
-	margin-top: 8px;
+	padding: 1px 8px;
+	margin-top: 6px;
 	text-decoration: none;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;

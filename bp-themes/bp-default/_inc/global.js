@@ -33,13 +33,17 @@ j(document).ready( function() {
 		bp_filter_request( 'forums', j.cookie('bp-forums-filter'), j.cookie('bp-forums-scope'), 'div.forums' );
 	}
 
-	/* @message Compose Scrolling */
+	/* @mention Compose Scrolling */
 	if ( j.query.get('r') ) {
 		if ( j('textarea#whats-new').length ) {
 			j.scrollTo( j('textarea#whats-new'), 500, { offset:-125, easing:'easeout' } );
 			j('textarea#whats-new').focus();
 		}
 	}
+
+	/* @mention username help button display */
+	if ( j( 'span.highlight span' ).length )
+		j( 'span.highlight span' ).toggle();
 
 	/**** Activity Posting ********************************************************/
 
@@ -444,6 +448,14 @@ j(document).ready( function() {
 			}
 		}
 	});
+
+	/**** @mention username help tooltip **************************************/
+
+	j('span.highlight span').click( function() {
+		j('div.help').remove();
+		j(this).parent().after( '<div id="message" class="info help"><p>' + bp_mention_explain + '</p></div>' );
+		j('div.help').hide().slideDown(200);
+	})
 
 	/**** Directory Search ****************************************************/
 
