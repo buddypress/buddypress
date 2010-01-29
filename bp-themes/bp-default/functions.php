@@ -209,7 +209,8 @@ function bp_dtheme_js_terms() { ?>
 	var bp_terms_show_all_comments = '<?php _e( "Show all comments for this thread", "buddypress" ) ?>';
 	var bp_terms_show_all = '<?php _e( "Show all", "buddypress" ) ?>';
 	var bp_terms_comments = '<?php _e( "comments", "buddypress" ) ?>';
-	var bp_mention_explain = '<?php printf( __( "%s is a unique identifier for %s that you can type into any message on this site. %s will be sent a notification and a link to your message any time you use it.", "buddypress" ), '@' . bp_get_displayed_user_username(), bp_dtheme_firstname(bp_get_displayed_user_fullname()), bp_dtheme_firstname(bp_get_displayed_user_fullname()) ); ?>';
+	var bp_terms_close = '<?php _e( "Close", "buddypress" ) ?>';
+	var bp_terms_mention_explain = '<?php printf( __( "%s is a unique identifier for %s that you can type into any message on this site. %s will be sent a notification and a link to your message any time you use it.", "buddypress" ), '@' . bp_get_displayed_user_username(), bp_dtheme_firstname(bp_get_displayed_user_fullname()), bp_dtheme_firstname(bp_get_displayed_user_fullname()) ); ?>';
 	</script>
 <?php
 }

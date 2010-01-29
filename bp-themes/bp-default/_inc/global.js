@@ -17,20 +17,20 @@ j(document).ready( function() {
 
 	/* Members */
 	if ( j('div.members').length )
-		bp_filter_request( 'members', j.cookie('bp-members-filter'), j.cookie('bp-members-scope'), 'div.members' );
+		bp_filter_request( 'members', j.cookie('bp-members-filter'), j.cookie('bp-members-scope'), 'div.members', false, 1, j.cookie('bp-members-extras') );
 
 	/* Groups */
 	if ( j('div.groups').length )
-		bp_filter_request( 'groups', j.cookie('bp-groups-filter'), j.cookie('bp-groups-scope'), 'div.groups' );
+		bp_filter_request( 'groups', j.cookie('bp-groups-filter'), j.cookie('bp-groups-scope'), 'div.groups', false, 1, j.cookie('bp-groups-extras') );
 
 	/* Blogs */
 	if ( j('div.blogs').length )
-		bp_filter_request( 'blogs', j.cookie('bp-blogs-filter'), j.cookie('bp-blogs-scope'), 'div.blogs' );
+		bp_filter_request( 'blogs', j.cookie('bp-blogs-filter'), j.cookie('bp-blogs-scope'), 'div.blogs', false, 1, j.cookie('bp-blogs-extras') );
 
 	/* Forums */
 	if ( j('div.forums').length ) {
 		j('div#new-topic-post').hide();
-		bp_filter_request( 'forums', j.cookie('bp-forums-filter'), j.cookie('bp-forums-scope'), 'div.forums' );
+		bp_filter_request( 'forums', j.cookie('bp-forums-filter'), j.cookie('bp-forums-scope'), 'div.forums', false, 1, j.cookie('bp-forums-extras') );
 	}
 
 	/* @mention Compose Scrolling */
@@ -452,22 +452,28 @@ j(document).ready( function() {
 	/**** @mention username help tooltip **************************************/
 
 	j('span.highlight span').click( function() {
-		j('div.help').remove();
-		j(this).parent().after( '<div id="message" class="info help"><p>' + bp_mention_explain + '</p></div>' );
-		j('div.help').hide().slideDown(200);
+		if ( !j('div.help').length ) {
+			j(this).parent().after( '<div id="message" class="info help"><p>' + bp_terms_mention_explain + '</p></div>' );
+			j('div.help').hide().slideDown(200);
+		} else {
+			j('div.help').hide().remove();
+		}
 	})
 
 	/**** Directory Search ****************************************************/
 
 	/* The search form on all directory pages */
 	j('div.dir-search').click( function(event) {
+		if ( j(this).hasClass('no-ajax') )
+			return false;
+
 		var target = j(event.target);
 
 		if ( target.attr('type') == 'submit' ) {
 			var css_id = j('div.item-list-tabs li.selected').attr('id').split( '-' );
 			var object = css_id[0];
 
-			bp_filter_request( object, j.cookie('bp-' + object + '-filter'), j.cookie('bp-' + object + '-scope') , 'div.' + object, target.parent().children('label').children('input').val(), 1 );
+			bp_filter_request( object, j.cookie('bp-' + object + '-filter'), j.cookie('bp-' + object + '-scope') , 'div.' + object, target.parent().children('label').children('input').val(), 1, j.cookie('bp-' + object + '-extras') );
 		}
 
 		return false;
@@ -499,7 +505,7 @@ j(document).ready( function() {
 			});
 			j('li#' + object + '-' + filter).addClass('selected');
 
-			bp_filter_request( object, filter, scope, 'div.' + object, search_terms, 1 );
+			bp_filter_request( object, filter, scope, 'div.' + object, search_terms, 1, j.cookie('bp-' + object + '-extras') );
 
 			return false;
 		}
@@ -518,7 +524,7 @@ j(document).ready( function() {
 		var filter = j(this).val();
 		var search_terms = j("#" + object + "_search").val();
 
-		bp_filter_request( object, filter, scope, 'div.' + object, search_terms, 1 );
+		bp_filter_request( object, filter, scope, 'div.' + object, search_terms, 1, j.cookie('bp-' + object + '-extras') );
 
 		return false;
 	});
@@ -547,7 +553,7 @@ j(document).ready( function() {
 			else
 				var page_number = Number( j(target).html() );
 
-			bp_filter_request( object, j.cookie('bp-' + object + '-filter'), j.cookie('bp-' + object + '-scope'), 'div.' + object, j.cookie('bp-' + object + '-search-terms'), page_number );
+			bp_filter_request( object, j.cookie('bp-' + object + '-filter'), j.cookie('bp-' + object + '-scope'), 'div.' + object, j.cookie('bp-' + object + '-search-terms'), page_number, j.cookie('bp-' + object + '-extras') );
 
 			return false;
 		}
@@ -580,7 +586,7 @@ j(document).ready( function() {
 
 	/* Clicking a forum tag */
 	j('div#forum-directory-tags a').click( function() {
-		bp_filter_request( 'forums', 'tags', j.cookie('bp-forums-scope'), 'div.forums', j(this).html(), 1 );
+		bp_filter_request( 'forums', 'tags', j.cookie('bp-forums-scope'), 'div.forums', j(this).html(), 1, j.cookie('bp-forums-extras') );
 		return false;
 	});
 
@@ -994,6 +1000,7 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 	j.cookie( 'bp-' + object + '-filter', filter, null );
 	j.cookie( 'bp-' + object + '-page', page, null );
 	j.cookie( 'bp-' + object + '-search-terms', search_terms, null );
+	j.cookie( 'bp-' + object + '-extras', extras, null );
 
 	/* Set the correct selected nav and filter */
 	j('div.item-list-tabs li').each( function() {
