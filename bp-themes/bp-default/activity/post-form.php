@@ -33,7 +33,7 @@
 				<input type="submit" name="aw-whats-new-submit" id="aw-whats-new-submit" value="<?php _e( 'Post Update', 'buddypress' ) ?>" />
 			</div>
 
-			<?php if ( !bp_is_my_profile() && !bp_is_group() ) : ?>
+			<?php if ( function_exists('bp_has_groups') && !bp_is_my_profile() && !bp_is_group() ) : ?>
 				<div id="whats-new-post-in-box">
 					<?php _e( 'Post in', 'buddypress' ) ?>:
 

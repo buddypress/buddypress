@@ -1388,6 +1388,15 @@ function bp_ajax_querystring() {
 
 /* Template is_() functions to determine the current page */
 
+function bp_is_deactivated( $plugin_file ) {
+	global $bp_deactivated;
+
+	if ( isset( $bp_deactivated[$plugin_file] ) )
+		return true;
+
+	return false;
+}
+
 function bp_is_profile_component() {
 	global $bp;
 
@@ -1490,7 +1499,7 @@ function bp_is_activity_permalink() {
 function bp_is_user_profile() {
 	global $bp;
 
-	if ( BP_XPROFILE_SLUG == $bp->current_component )
+	if ( BP_XPROFILE_SLUG == $bp->current_component || $bp->core->profile->slug == $bp->current_component )
 		return true;
 
 	return false;

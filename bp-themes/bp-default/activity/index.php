@@ -21,12 +21,16 @@
 
 					<?php if ( is_user_logged_in() ) : ?>
 
-						<?php if ( bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
-							<li id="activity-friends"><a href="<?php echo site_url( BP_ACTIVITY_SLUG . '/#friends/' ) ?>" title="<?php _e( 'The activity of my friends only.', 'buddypress' ) ?>"><?php printf( __( 'My Friends (%s)', 'buddypress' ), bp_get_total_friend_count( bp_loggedin_user_id() ) ) ?></a></li>
+						<?php if ( function_exists( 'bp_get_total_friend_count' ) ) : ?>
+							<?php if ( bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
+								<li id="activity-friends"><a href="<?php echo site_url( BP_ACTIVITY_SLUG . '/#friends/' ) ?>" title="<?php _e( 'The activity of my friends only.', 'buddypress' ) ?>"><?php printf( __( 'My Friends (%s)', 'buddypress' ), bp_get_total_friend_count( bp_loggedin_user_id() ) ) ?></a></li>
+							<?php endif; ?>
 						<?php endif; ?>
 
-						<?php if ( bp_get_total_group_count_for_user( bp_loggedin_user_id() ) ) : ?>
-							<li id="activity-groups"><a href="<?php echo site_url( BP_ACTIVITY_SLUG . '/#groups/' ) ?>" title="<?php _e( 'The activity of groups I am a member of.', 'buddypress' ) ?>"><?php printf( __( 'My Groups (%s)', 'buddypress' ), bp_get_total_group_count_for_user( bp_loggedin_user_id() ) ) ?></a></li>
+						<?php if ( function_exists( 'bp_get_total_group_count_for_user' ) ) : ?>
+							<?php if ( bp_get_total_group_count_for_user( bp_loggedin_user_id() ) ) : ?>
+								<li id="activity-groups"><a href="<?php echo site_url( BP_ACTIVITY_SLUG . '/#groups/' ) ?>" title="<?php _e( 'The activity of groups I am a member of.', 'buddypress' ) ?>"><?php printf( __( 'My Groups (%s)', 'buddypress' ), bp_get_total_group_count_for_user( bp_loggedin_user_id() ) ) ?></a></li>
+							<?php endif; ?>
 						<?php endif; ?>
 
 						<?php if ( bp_get_total_favorite_count_for_user( bp_loggedin_user_id() ) ) : ?>

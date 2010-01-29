@@ -34,7 +34,9 @@ class BP_Dtheme_Options_Page {
 							<th scope="row"><?php _e( 'On front page show:', 'buddypress' ) ?></th>
 							<td>
 								<label><input id="bpdtheme_frontpage_blog" type="radio" name="show_on_frontpage" <?php if ( $bp_dtheme_options['show_on_frontpage'] == 'blog' || empty($bp_dtheme_options['show_on_frontpage']) ) echo 'checked="checked"'; ?> value="blog" /> <?php _e( 'Blog Posts', 'buddypress' ) ?></label><br />
-								<label><input id="bpdtheme_frontpage_activity" type="radio" name="show_on_frontpage" <?php if ( $bp_dtheme_options['show_on_frontpage'] == 'activity' ) echo 'checked="checked"'; ?> value="activity" /> <?php _e( 'Activity Stream', 'buddypress' ) ?></label>
+								<?php if ( !bp_is_deactivated('bp-activity.php') ) : ?>
+									<label><input id="bpdtheme_frontpage_activity" type="radio" name="show_on_frontpage" <?php if ( $bp_dtheme_options['show_on_frontpage'] == 'activity' ) echo 'checked="checked"'; ?> value="activity" /> <?php _e( 'Activity Stream', 'buddypress' ) ?></label>
+								<?php endif; ?>
 							</td>
 						</tr>
 					</tbody>

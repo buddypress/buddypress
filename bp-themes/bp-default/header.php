@@ -48,14 +48,16 @@
 					<a href="<?php echo site_url() ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a>
 				</li>
 
-				<?php if ( 'blog' == bp_dtheme_show_on_frontpage() ) : ?>
-					<li<?php if ( bp_is_page( BP_ACTIVITY_SLUG ) ) : ?> class="selected"<?php endif; ?>>
-						<a href="<?php echo site_url() ?>/<?php echo BP_ACTIVITY_SLUG ?>/" title="<?php _e( 'Activity', 'buddypress' ) ?>"><?php _e( 'Activity', 'buddypress' ) ?></a>
-					</li>
-				<?php else : ?>
-					<li<?php if ( bp_is_page( BP_HOME_BLOG_SLUG ) || bp_is_blog_page() && !is_front_page() && !is_page() ) : ?> class="selected"<?php endif; ?>>
-						<a href="<?php echo site_url() ?>/<?php echo BP_HOME_BLOG_SLUG ?>/" title="<?php _e( 'Blog', 'buddypress' ) ?>"><?php _e( 'Blog', 'buddypress' ) ?></a>
-					</li>
+				<?php if ( !bp_is_deactivated('bp-activity.php') ) : ?>
+					<?php if ( 'blog' == bp_dtheme_show_on_frontpage() ) : ?>
+						<li<?php if ( bp_is_page( BP_ACTIVITY_SLUG ) ) : ?> class="selected"<?php endif; ?>>
+							<a href="<?php echo site_url() ?>/<?php echo BP_ACTIVITY_SLUG ?>/" title="<?php _e( 'Activity', 'buddypress' ) ?>"><?php _e( 'Activity', 'buddypress' ) ?></a>
+						</li>
+					<?php else : ?>
+						<li<?php if ( bp_is_page( BP_HOME_BLOG_SLUG ) || bp_is_blog_page() && !is_front_page() && !is_page() ) : ?> class="selected"<?php endif; ?>>
+							<a href="<?php echo site_url() ?>/<?php echo BP_HOME_BLOG_SLUG ?>/" title="<?php _e( 'Blog', 'buddypress' ) ?>"><?php _e( 'Blog', 'buddypress' ) ?></a>
+						</li>
+					<?php endif; ?>
 				<?php endif; ?>
 
 				<li<?php if (  bp_is_page( BP_MEMBERS_SLUG ) || bp_is_member() ) : ?> class="selected"<?php endif; ?>>

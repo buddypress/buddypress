@@ -278,7 +278,7 @@ function bp_core_catch_profile_uri() {
 	global $bp;
 
 	if ( !function_exists('xprofile_install') )
-		bp_core_load_template( apply_filters( 'bp_core_template_display_profile', 'profile/index' ) );
+		bp_core_load_template( apply_filters( 'bp_core_template_display_profile', 'members/single/home' ) );
 }
 
 ?>
