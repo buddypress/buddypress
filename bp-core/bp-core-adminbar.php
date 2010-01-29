@@ -85,7 +85,7 @@ function bp_adminbar_account_menu() {
 
 	$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
 
-	echo '<li' . $alt . '><a id="bp-admin-logout" href="' . wp_logout_url(site_url()) . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';
+	echo '<li' . $alt . '><a id="bp-admin-logout" class="logout" href="' . wp_logout_url(site_url()) . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';
 	echo '</ul>';
 	echo '</li>';
 }

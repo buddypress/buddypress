@@ -15,7 +15,7 @@
 			</a>
 
 			<h4><?php bp_loggedinuser_link() ?></h4>
-			<a class="button" href="<?php echo wp_logout_url(wp_get_referer()) ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>
+			<a class="button logout" href="<?php echo wp_logout_url(wp_get_referer()) ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>
 
 			<?php do_action( 'bp_sidebar_me' ) ?>
 		</div>
