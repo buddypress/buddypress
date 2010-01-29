@@ -1,8 +1,7 @@
 // AJAX Functions
+var j = jQuery;
 
-jQuery(document).ready( function() {
-	var j = jQuery;
-
+j(document).ready( function() {
 	/**** Page Load Actions *******************************************************/
 
 	/* Activity */
@@ -250,59 +249,6 @@ jQuery(document).ready( function() {
 		}
 	});
 
-	/* Activity Loop Requesting */
-	function bp_activity_request(scope, filter) {
-		if ( null == scope )
-			var scope = 'all';
-
-		if ( null == filter )
-			var filter = '-1';
-
-		/* Save the type and filter to a session cookie */
-		j.cookie( 'bp-activity-scope', scope, null );
-		j.cookie( 'bp-activity-filter', filter, null );
-		j.cookie( 'bp-activity-oldestpage', 1 );
-
-		/* Set the correct selected nav and filter */
-		j('div.item-list-tabs li').each( function() {
-			j(this).removeClass('selected');
-		});
-		j('li#activity-' + scope + ', div.item-list-tabs li.current').addClass('selected');
-		j('div.item-list-tabs li.selected').addClass('loading');
-		j('#activity-filter-select select option[value=' + filter + ']').attr( 'selected', 'selected' );
-
-		/* Reload the activity stream based on the selection */
-		j('.widget_bp_activity_widget h2 span.ajax-loader').show();
-
-		j.post( ajaxurl, {
-			action: 'activity_widget_filter',
-			'cookie': encodeURIComponent(document.cookie),
-			'_wpnonce_activity_filter': j("input#_wpnonce_activity_filter").val(),
-			'scope': scope,
-			'filter': filter
-		},
-		function(response)
-		{
-			j('.widget_bp_activity_widget h2 span.ajax-loader').hide();
-			j.cookie( 'bp-activity-querystring', response.query_string );
-
-			j('div.activity').fadeOut( 100, function() {
-				j(this).html(response.contents);
-				j(this).fadeIn(100);
-			});
-
-			/* Update the feed link */
-			if ( null != response.feed_url )
-				j('.directory div#subnav li.feed a, .home-page div#subnav li.feed a').attr('href', response.feed_url);
-
-			j('div.item-list-tabs li.selected').removeClass('loading');
-
-			/* Selectively hide comments */
-			bp_dtheme_hide_comments();
-
-		}, 'json' );
-	}
-
 	/**** Activity Comments *******************************************************/
 
 	/* Hide all activity comment forms */
@@ -499,38 +445,6 @@ jQuery(document).ready( function() {
 		}
 	});
 
-	/* Hide long lists of activity comments, only show the latest five root comments. */
-	function bp_dtheme_hide_comments() {
-		var comments_divs = j('div.activity-comments');
-
-		if ( !comments_divs.length )
-			return false;
-
-		comments_divs.each( function() {
-			if ( j(this).children('ul').children('li').length < 5 ) return;
-
-			var comments_div = j(this);
-			var parent_li = comments_div.parents('ul#activity-stream > li');
-			var comment_lis = j(this).children('ul').children('li');
-			var comment_count = ' ';
-
-			if ( j('li#' + parent_li.attr('id') + ' a.acomment-reply span').length )
-				var comment_count = j('li#' + parent_li.attr('id') + ' a.acomment-reply span').html();
-
-			comment_lis.each( function(i) {
-				/* Show the latest 5 root comments */
-				if ( i < comment_lis.length - 5 ) {
-					j(this).addClass('hidden');
-					j(this).toggle();
-
-					if ( !i )
-						j(this).before( '<li class="show-all"><a href="#' + parent_li.attr('id') + '/show-all/" title="' + bp_terms_show_all_comments + '">' + bp_terms_show_all + ' ' + comment_count + ' ' + bp_terms_comments + '</a></li>' );
-				}
-			});
-
-		});
-	}
-
 	/**** Directory Search ****************************************************/
 
 	/* The search form on all directory pages */
@@ -596,66 +510,6 @@ jQuery(document).ready( function() {
 
 		return false;
 	});
-
-	/* Filter the current content list (groups/members/blogs/topics) */
-	function bp_filter_request( object, filter, scope, target, search_terms, page, extras ) {
-		if ( 'activity' == object )
-			return false;
-
-		if ( null == scope )
-			var scope = 'all';
-
-		if ( null == filter )
-			var filter = 'active';
-
-		if ( null == page )
-			var page = 1;
-
-		if ( null == search_terms )
-			var search_terms = false;
-
-		if ( null == extras )
-			var extras = false;
-
-		if ( j.query.get('s') )
-			search_terms = j.query.get('s');
-
-		/* Save the type and filter to a session cookie */
-		j.cookie( 'bp-' + object + '-scope', scope, null );
-		j.cookie( 'bp-' + object + '-filter', filter, null );
-		j.cookie( 'bp-' + object + '-page', page, null );
-		j.cookie( 'bp-' + object + '-search-terms', search_terms, null );
-
-		/* Set the correct selected nav and filter */
-		j('div.item-list-tabs li').each( function() {
-			j(this).removeClass('selected');
-		});
-		j('div.item-list-tabs li#' + object + '-' + scope + ', div.item-list-tabs#object-nav li.current').addClass('selected');
-		j('div.item-list-tabs li.selected').addClass('loading');
-		j('div.item-list-tabs select option[value=' + filter + ']').attr( 'selected', 'selected' );
-
-		if ( 'friends' == object )
-			object = 'members';
-
-		j.post( ajaxurl, {
-			action: object + '_filter',
-			'cookie': encodeURIComponent(document.cookie),
-			'object': object,
-			'filter': filter,
-			'search_terms': search_terms,
-			'scope': scope,
-			'page': page,
-			'extras': extras
-		},
-		function(response)
-		{
-			j(target).fadeOut( 100, function() {
-				j(this).html(response);
-				j(this).fadeIn(100);
-		 	});
-			j('div.item-list-tabs li.selected').removeClass('loading');
-		});
-	}
 
 	/* All pagination links run through this function */
 	j('div#content').click( function(event) {
@@ -1100,7 +954,152 @@ jQuery(document).ready( function() {
 	});
 });
 
-// Helper JS Functions
+/* Filter the current content list (groups/members/blogs/topics) */
+function bp_filter_request( object, filter, scope, target, search_terms, page, extras ) {
+	if ( 'activity' == object )
+		return false;
+
+	if ( null == scope )
+		var scope = 'all';
+
+	if ( null == filter )
+		var filter = 'active';
+
+	if ( null == page )
+		var page = 1;
+
+	if ( null == search_terms )
+		var search_terms = false;
+
+	if ( null == extras )
+		var extras = false;
+
+	if ( j.query.get('s') )
+		search_terms = j.query.get('s');
+
+	/* Save the type and filter to a session cookie */
+	j.cookie( 'bp-' + object + '-scope', scope, null );
+	j.cookie( 'bp-' + object + '-filter', filter, null );
+	j.cookie( 'bp-' + object + '-page', page, null );
+	j.cookie( 'bp-' + object + '-search-terms', search_terms, null );
+
+	/* Set the correct selected nav and filter */
+	j('div.item-list-tabs li').each( function() {
+		j(this).removeClass('selected');
+	});
+	j('div.item-list-tabs li#' + object + '-' + scope + ', div.item-list-tabs#object-nav li.current').addClass('selected');
+	j('div.item-list-tabs li.selected').addClass('loading');
+	j('div.item-list-tabs select option[value=' + filter + ']').attr( 'selected', 'selected' );
+
+	if ( 'friends' == object )
+		object = 'members';
+
+	j.post( ajaxurl, {
+		action: object + '_filter',
+		'cookie': encodeURIComponent(document.cookie),
+		'object': object,
+		'filter': filter,
+		'search_terms': search_terms,
+		'scope': scope,
+		'page': page,
+		'extras': extras
+	},
+	function(response)
+	{
+		j(target).fadeOut( 100, function() {
+			j(this).html(response);
+			j(this).fadeIn(100);
+	 	});
+		j('div.item-list-tabs li.selected').removeClass('loading');
+	});
+}
+
+/* Activity Loop Requesting */
+function bp_activity_request(scope, filter) {
+	if ( null == scope )
+		var scope = 'all';
+
+	if ( null == filter )
+		var filter = '-1';
+
+	/* Save the type and filter to a session cookie */
+	j.cookie( 'bp-activity-scope', scope, null );
+	j.cookie( 'bp-activity-filter', filter, null );
+	j.cookie( 'bp-activity-oldestpage', 1 );
+
+	/* Set the correct selected nav and filter */
+	j('div.item-list-tabs li').each( function() {
+		j(this).removeClass('selected');
+	});
+	j('li#activity-' + scope + ', div.item-list-tabs li.current').addClass('selected');
+	j('div.item-list-tabs li.selected').addClass('loading');
+	j('#activity-filter-select select option[value=' + filter + ']').attr( 'selected', 'selected' );
+
+	/* Reload the activity stream based on the selection */
+	j('.widget_bp_activity_widget h2 span.ajax-loader').show();
+
+	j.post( ajaxurl, {
+		action: 'activity_widget_filter',
+		'cookie': encodeURIComponent(document.cookie),
+		'_wpnonce_activity_filter': j("input#_wpnonce_activity_filter").val(),
+		'scope': scope,
+		'filter': filter
+	},
+	function(response)
+	{
+		j('.widget_bp_activity_widget h2 span.ajax-loader').hide();
+		j.cookie( 'bp-activity-querystring', response.query_string );
+
+		j('div.activity').fadeOut( 100, function() {
+			j(this).html(response.contents);
+			j(this).fadeIn(100);
+		});
+
+		/* Update the feed link */
+		if ( null != response.feed_url )
+			j('.directory div#subnav li.feed a, .home-page div#subnav li.feed a').attr('href', response.feed_url);
+
+		j('div.item-list-tabs li.selected').removeClass('loading');
+
+		/* Selectively hide comments */
+		bp_dtheme_hide_comments();
+
+	}, 'json' );
+}
+
+/* Hide long lists of activity comments, only show the latest five root comments. */
+function bp_dtheme_hide_comments() {
+	var comments_divs = j('div.activity-comments');
+
+	if ( !comments_divs.length )
+		return false;
+
+	comments_divs.each( function() {
+		if ( j(this).children('ul').children('li').length < 5 ) return;
+
+		var comments_div = j(this);
+		var parent_li = comments_div.parents('ul#activity-stream > li');
+		var comment_lis = j(this).children('ul').children('li');
+		var comment_count = ' ';
+
+		if ( j('li#' + parent_li.attr('id') + ' a.acomment-reply span').length )
+			var comment_count = j('li#' + parent_li.attr('id') + ' a.acomment-reply span').html();
+
+		comment_lis.each( function(i) {
+			/* Show the latest 5 root comments */
+			if ( i < comment_lis.length - 5 ) {
+				j(this).addClass('hidden');
+				j(this).toggle();
+
+				if ( !i )
+					j(this).before( '<li class="show-all"><a href="#' + parent_li.attr('id') + '/show-all/" title="' + bp_terms_show_all_comments + '">' + bp_terms_show_all + ' ' + comment_count + ' ' + bp_terms_comments + '</a></li>' );
+			}
+		});
+
+	});
+}
+
+/* Helper Functions */
 
 function checkAll() {
 	var checkboxes = document.getElementsByTagName("input");
