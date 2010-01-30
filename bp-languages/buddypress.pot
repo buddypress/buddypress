@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-01-29 14:11+0000\n"
+"POT-Creation-Date: 2010-01-30 14:11+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -150,22 +150,22 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:184
+#: bp-activity/bp-activity-templatetags.php:187
 #, php-format
 msgid "Viewing item %s to %s (of %s items)"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:320 bp-groups.php:91
+#: bp-activity/bp-activity-templatetags.php:322 bp-groups.php:91
 msgid "Avatar"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:402
+#: bp-activity/bp-activity-templatetags.php:404
 #: bp-themes/bp-default/activity/entry.php:38
 msgid "View Thread / Permalink"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:402
-#: bp-activity/bp-activity-templatetags.php:629
+#: bp-activity/bp-activity-templatetags.php:404
+#: bp-activity/bp-activity-templatetags.php:631
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:415
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:884
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1104
@@ -173,7 +173,7 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:504
+#: bp-activity/bp-activity-templatetags.php:506
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:433
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1138
 #: bp-forums/bbpress/bb-admin/topics.php:144
@@ -184,7 +184,7 @@ msgstr ""
 msgid "%s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:508
+#: bp-activity/bp-activity-templatetags.php:510
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:274
 #: bp-themes/bp-default/_inc/ajax.php:136
 #: bp-themes/bp-default/activity/entry.php:20
@@ -192,8 +192,8 @@ msgstr ""
 msgid "Reply"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:512
-#: bp-activity/bp-activity-templatetags.php:613
+#: bp-activity/bp-activity-templatetags.php:514
+#: bp-activity/bp-activity-templatetags.php:615
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:888
 #: bp-forums/bbpress/bb-admin/topics.php:128
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:1983
@@ -205,32 +205,32 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:559
+#: bp-activity/bp-activity-templatetags.php:561
 #, php-format
 msgid "&nbsp; %s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:689
+#: bp-activity/bp-activity-templatetags.php:691
 msgid "profile"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:689
+#: bp-activity/bp-activity-templatetags.php:691
 msgid "friends"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:689 bp-core/bp-core-classes.php:98
+#: bp-activity/bp-activity-templatetags.php:691 bp-core/bp-core-classes.php:98
 msgid "groups"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:689
+#: bp-activity/bp-activity-templatetags.php:691
 msgid "status"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:689
+#: bp-activity/bp-activity-templatetags.php:691
 msgid "blogs"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:697
+#: bp-activity/bp-activity-templatetags.php:699
 msgid "Clear Filter"
 msgstr ""
 
@@ -4057,6 +4057,7 @@ msgstr ""
 
 #: bp-forums/bbpress/bb-admin/topics.php:127
 #: bp-messages/bp-messages-templatetags.php:470
+#: bp-themes/bp-default/functions.php:212
 msgid "Close"
 msgstr ""
 
@@ -8490,6 +8491,14 @@ msgstr ""
 msgid "comments"
 msgstr ""
 
+#: bp-themes/bp-default/functions.php:213
+#, php-format
+msgid ""
+"%s is a unique identifier for %s that you can type into any message on this "
+"site. %s will be sent a notification and a link to your message any time you "
+"use it."
+msgstr ""
+
 #: bp-themes/bp-default/groups/create.php:7
 #: bp-themes/bp-default/groups/index.php:7
 #: bp-themes/bp-sn-parent/directories/groups/index.php:69
@@ -9052,21 +9061,21 @@ msgstr ""
 msgid "You have no outstanding group invites."
 msgstr ""
 
-#: bp-themes/bp-default/members/single/member-header.php:23
+#: bp-themes/bp-default/members/single/member-header.php:24
 msgid ""
 "Mention this user in a new public message, this will send the user a "
 "notification to get their attention."
 msgstr ""
 
-#: bp-themes/bp-default/members/single/member-header.php:23
+#: bp-themes/bp-default/members/single/member-header.php:24
 msgid "Mention this User"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/member-header.php:29
+#: bp-themes/bp-default/members/single/member-header.php:30
 msgid "Send a private message to this user."
 msgstr ""
 
-#: bp-themes/bp-default/members/single/member-header.php:29
+#: bp-themes/bp-default/members/single/member-header.php:30
 msgid "Send Private Message"
 msgstr ""
 
