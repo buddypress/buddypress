@@ -238,9 +238,12 @@ function bp_core_map_user_registration( $user_id ) {
 	if ( function_exists( 'xprofile_set_field_data' ) ) {
 		$firstname = get_usermeta( $user_id, 'first_name' );
 		$lastname = ' ' . get_usermeta( $user_id, 'last_name' );
+		$name = $firstname . $lastname;
 
-		if ( !empty( $firstname ) || !empty( $lastname ) )
-			xprofile_set_field_data( 1, $user_id, $firstname . $lastname );
+		if ( empty( $name ) || ' ' == $name )
+			$name = get_usermeta( $user_id, 'nickname' );
+
+		xprofile_set_field_data( 1, $user_id, $name );
 	}
 }
 add_action( 'user_register', 'bp_core_map_user_registration' );
