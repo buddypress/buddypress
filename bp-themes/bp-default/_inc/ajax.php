@@ -165,7 +165,7 @@ function bp_dtheme_delete_activity() {
 add_action( 'wp_ajax_delete_activity_comment', 'bp_dtheme_delete_activity' );
 add_action( 'wp_ajax_delete_activity', 'bp_dtheme_delete_activity' );
 
-function bp_dtheme_activity_loop( $scope = 'all', $filter = false, $query_string = false, $per_page = 20, $page = 1 ) {
+function bp_dtheme_activity_loop( $scope = false, $filter = false, $query_string = false, $per_page = 20, $page = 1 ) {
 	global $bp;
 
 	if ( !$query_string ) {
@@ -173,9 +173,8 @@ function bp_dtheme_activity_loop( $scope = 'all', $filter = false, $query_string
 		if ( $bp->displayed_user->id ) {
 			$query_string = 'user_id=' . $bp->displayed_user->id;
 		} else {
-			/* Make sure a scope is set. */
-			if ( empty($scope) )
-				$type = 'all';
+			if ( !empty( $bp->groups->current_group ) )
+				$scope = 'all';
 
 			$feed_url = site_url( BP_ACTIVITY_SLUG . '/feed/' );
 
@@ -216,7 +215,7 @@ function bp_dtheme_activity_loop( $scope = 'all', $filter = false, $query_string
 			$query_string .= '&action=' . $filter;
 
 		/* If we are viewing a group then filter the activity just for this group */
-		if ( $bp->groups->current_group ) {
+		if ( !empty( $bp->groups->current_group ) ) {
 			$query_string .= '&object=' . $bp->groups->id . '&primary_id=' . $bp->groups->current_group->id;
 
 			/* If we're viewing a non-private group and the user is a member, show the hidden activity for the group */
