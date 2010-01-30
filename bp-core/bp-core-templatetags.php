@@ -1009,7 +1009,7 @@ function bp_search_form_type_select() {
 		$selection_box .= '<option value="forums">' . __( 'Forums', 'buddypress' ) . '</option>';
 	}
 
-	if ( function_exists( 'bp_blogs_install' ) ) {
+	if ( function_exists( 'bp_blogs_install' ) && bp_core_is_multisite() ) {
 		$selection_box .= '<option value="blogs">' . __( 'Blogs', 'buddypress' ) . '</option>';
 	}
 

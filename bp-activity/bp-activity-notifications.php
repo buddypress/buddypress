@@ -35,7 +35,7 @@ $message = sprintf( __(
 To view and respond to the message, log in and visit: %s
 
 ---------------------
-', 'buddypress' ), $poster_name, wp_filter_kses( stripslashes($content) ), $message_link );
+', 'buddypress' ), $poster_name, wp_filter_kses( stripslashes_deep($content) ), $message_link );
 
 			$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 

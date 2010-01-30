@@ -178,7 +178,7 @@ function bp_core_admin_component_setup() {
 					</td>
 				</tr>
 				<?php endif; ?>
-				<?php if ( file_exists( BP_PLUGIN_DIR . '/bp-blogs.php') ) : ?>
+				<?php if ( file_exists( BP_PLUGIN_DIR . '/bp-blogs.php') && bp_core_is_multisite() ) : ?>
 				<tr>
 					<td><h3><?php _e( 'Blog Tracking', 'buddypress' ) ?></h3><p><?php _e( 'Tracks blogs, blog posts and blogs comments for a user across a WPMU installation.', 'buddypress' ) ?></p></td>
 					<td>
