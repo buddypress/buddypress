@@ -25,10 +25,19 @@
 					<span class="unread-count"><?php bp_message_thread_unread_count() ?></span>
 				</td>
 				<td width="1%" class="thread-avatar"><?php bp_message_thread_avatar() ?></td>
-				<td width="30%" class="thread-from">
-					<?php _e( 'From:', 'buddypress' ); ?> <?php bp_message_thread_from() ?><br />
-					<span class="activity"><?php bp_message_thread_last_post_date() ?></span>
-				</td>
+
+				<?php if ( 'sentbox' != bp_current_action() ) : ?>
+					<td width="30%" class="thread-from">
+						<?php _e( 'From:', 'buddypress' ); ?> <?php bp_message_thread_from() ?><br />
+						<span class="activity"><?php bp_message_thread_last_post_date() ?></span>
+					</td>
+				<?php else: ?>
+					<td width="30%" class="thread-from">
+						<?php _e( 'To:', 'buddypress' ); ?> <?php bp_message_thread_to() ?><br />
+						<span class="activity"><?php bp_message_thread_last_post_date() ?></span>
+					</td>
+				<?php endif; ?>
+
 				<td width="50%" class="thread-info">
 					<p><a href="<?php bp_message_thread_view_link() ?>" title="<?php _e( "View Message", "buddypress" ); ?>"><?php bp_message_thread_subject() ?></a></p>
 					<p class="thread-excerpt"><?php bp_message_thread_excerpt() ?></p>

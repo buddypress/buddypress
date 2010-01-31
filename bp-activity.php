@@ -628,7 +628,7 @@ function bp_activity_new_comment( $args = '' ) {
 
 	/* Send an email notification if settings allow */
 	require_once( BP_PLUGIN_DIR . '/bp-activity/bp-activity-notifications.php' );
-	bp_activity_new_comment_notification( $comment_id, $params );
+	bp_activity_new_comment_notification( $comment_id, $user_id, $params );
 
 	do_action( 'bp_activity_comment_posted', $comment_id, $params );
 

@@ -26,8 +26,7 @@ Class BP_Activity_Activity {
 		global $wpdb, $bp;
 
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE id = %d", $this->id ) );
-
-		if ( $activity ) {
+		if ( $row ) {
 			$this->id = $row->id;
 			$this->item_id = $row->item_id;
 			$this->secondary_item_id = $row->secondary_item_id;

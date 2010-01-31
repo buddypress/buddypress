@@ -237,7 +237,7 @@ function groups_at_message_notification( $content, $poster_user_id, $group_id, $
 			continue;
 
 		// Now email the user with the contents of the message (if they have enabled email notifications)
-		if ( !get_usermeta( $user_id, 'notification_activity_new_mention' ) || 'yes' == get_usermeta( $user_id, 'notification_activity_new_mention' ) ) {
+		if ( 'no' != get_usermeta( $user_id, 'notification_activity_new_mention' ) ) {
 			$poster_name = bp_core_get_user_displayname( $poster_user_id );
 
 			$message_link = bp_activity_get_permalink( $activity_id );
