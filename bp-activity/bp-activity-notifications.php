@@ -16,7 +16,7 @@ function bp_activity_at_message_notification( $content, $poster_user_id, $activi
 			continue;
 
 		// Now email the user with the contents of the message (if they have enabled email notifications)
-		if ( !get_usermeta( $user_id, 'notification_activity_new_mention' ) || 'yes' == get_usermeta( $user_id, 'notification_activity_new_mention' ) ) {
+		if ( 'no' != get_usermeta( $user_id, 'notification_activity_new_mention' ) ) {
 			$poster_name = bp_core_get_user_displayname( $poster_user_id );
 
 			$message_link = bp_activity_get_permalink( $activity_id );
@@ -46,18 +46,19 @@ To view and respond to the message, log in and visit: %s
 }
 add_action( 'bp_activity_posted_update', 'bp_activity_at_message_notification', 10, 3 );
 
-function bp_activity_new_comment_notification( $comment_id, $params ) {
+function bp_activity_new_comment_notification( $comment_id, $commenter_id, $params ) {
 	global $bp;
 
 	extract( $params );
+
 	$original_activity = new BP_Activity_Activity( $activity_id );
 
 	/* Don't email comments on a member's own activity */
-	if ( $original_activity->user_id == $user_id )
+	if ( $original_activity->user_id == $commenter_id )
 		return false;
 
-	if ( !get_usermeta( $user_id, 'notification_activity_new_reply' ) || 'yes' == get_usermeta( $user_id, 'notification_activity_new_reply' ) ) {
-		$poster_name = bp_core_get_user_displayname( $user_id );
+	if ( 'no' != get_usermeta( $original_activity->user_id, 'notification_activity_new_reply' ) ) {
+		$poster_name = bp_core_get_user_displayname( $commenter_id );
 		$thread_link = bp_activity_get_permalink( $activity_id );
 		$settings_link = bp_core_get_user_domain( $original_activity->user_id ) . 'settings/notifications/';
 
