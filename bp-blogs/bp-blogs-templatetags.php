@@ -126,13 +126,33 @@ function bp_rewind_blogs() {
 function bp_has_blogs( $args = '' ) {
 	global $blogs_template;
 
+	/***
+	 * Set the defaults based on the current page. Any of these will be overridden
+	 * if arguments are directly passed into the loop. Custom plugins should always
+	 * pass their parameters directly to the loop.
+	 */
+	$type = 'active';
+	$user_id = false;
+	$page = 1;
+
+	/* User filtering */
+	if ( !empty( $bp->displayed_user->id ) || 'personal' == $_COOKIE['bp-blogs-scope'] )
+		$user_id = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+
+	/* Action filtering */
+	if ( !empty( $_COOKIE['bp-blogs-filter'] ) && '-1' != $_COOKIE['bp-blogs-filter'] )
+		$type = $_COOKIE['bp-blogs-filter'];
+
+	if ( !empty( $_COOKIE['bp-blogs-page'] ) && '-1' != $_COOKIE['bp-blogs-page'] )
+		$page = $_COOKIE['bp-blogs-page'];
+
 	$defaults = array(
-		'type' => 'active',
-		'page' => 1,
+		'type' => $type,
+		'page' => $page,
 		'per_page' => 20,
 		'max' => false,
 
-		'user_id' => false, // Pass a user_id to limit to only blogs this user has higher than subscriber access to
+		'user_id' => $user_id, // Pass a user_id to limit to only blogs this user has higher than subscriber access to
 		'search_terms' => false // Pass search terms to filter on the blog title or description.
 	);
 

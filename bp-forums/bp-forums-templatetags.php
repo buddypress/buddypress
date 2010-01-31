@@ -152,19 +152,39 @@ class BP_Forums_Template_Forum {
 function bp_has_forum_topics( $args = '' ) {
 	global $forum_template, $bp;
 
+	/***
+	 * Set the defaults based on the current page. Any of these will be overridden
+	 * if arguments are directly passed into the loop. Custom plugins should always
+	 * pass their parameters directly to the loop.
+	 */
+	$type = 'newest';
+	$user_id = false;
+	$page = 1;
+
+	/* User filtering */
+	if ( !empty( $bp->displayed_user->id ) || 'personal' == $_COOKIE['bp-forums-scope'] )
+		$user_id = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+
+	/* Action filtering */
+	if ( !empty( $_COOKIE['bp-forums-filter'] ) && '-1' != $_COOKIE['bp-forums-filter'] )
+		$type = $_COOKIE['bp-forums-filter'];
+
+	if ( !empty( $_COOKIE['bp-forums-page'] ) && '-1' != $_COOKIE['bp-forums-page'] )
+		$page = $_COOKIE['bp-forums-page'];
+
 	$defaults = array(
-		'type' => 'newest',
+		'type' => $type,
 		'forum_id' => false,
-		'user_id' => false,
-		'page' => 1,
-		'per_page' => 15,
+		'user_id' => $user_id,
+		'page' => $page,
+		'per_page' => 20,
 		'max' => false,
 		'no_stickies' => false,
 		'search_terms' => false
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
+	extract( $r );
 
 	/* If we're in a single group, set this group's forum_id */
 	if ( !$forum_id && $bp->groups->current_group ) {

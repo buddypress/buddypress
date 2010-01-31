@@ -200,7 +200,7 @@ function bp_dtheme_activity_loop( $scope = false, $filter = false, $query_string
 					$query_string = 'include=' . $favorite_ids;
 					$feed_url = $bp->loggedin_user->domain  . BP_ACTIVITY_SLUG . '/favorites/feed/';
 					break;
-				case 'atme':
+				case 'mentions':
 					$query_string = 'show_hidden=1&search_terms=@' . bp_core_get_username( $bp->loggedin_user->id, $bp->loggedin_user->userdata->user_nicename, $bp->loggedin_user->userdata->user_login );
 					$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/mentions/feed/';
 
@@ -227,7 +227,7 @@ function bp_dtheme_activity_loop( $scope = false, $filter = false, $query_string
 		$query_string .= '&per_page=' . $per_page;
 
 		/* Add the comments param */
-		if ( $bp->displayed_user->id || 'atme' == $scope )
+		if ( $bp->displayed_user->id || 'mentions' == $scope )
 			$query_string .= '&display_comments=stream';
 		else
 			$query_string .= '&display_comments=threaded';

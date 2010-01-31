@@ -117,23 +117,43 @@ function bp_rewind_members() {
 function bp_has_members( $args = '' ) {
 	global $bp, $members_template;
 
+	/***
+	 * Set the defaults based on the current page. Any of these will be overridden
+	 * if arguments are directly passed into the loop. Custom plugins should always
+	 * pass their parameters directly to the loop.
+	 */
+	$type = 'active';
+	$user_id = false;
+	$page = 1;
+
+	/* User filtering */
+	if ( !empty( $bp->displayed_user->id ) || 'personal' == $_COOKIE['bp-members-scope'] )
+		$user_id = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+
+	/* Action filtering */
+	if ( !empty( $_COOKIE['bp-members-filter'] ) && '-1' != $_COOKIE['bp-members-filter'] )
+		$type = $_COOKIE['bp-members-filter'];
+
+	if ( !empty( $_COOKIE['bp-members-page'] ) && '-1' != $_COOKIE['bp-members-page'] )
+		$page = $_COOKIE['bp-members-page'];
+
 	// type: active ( default ) | random | newest | popular | online | alphabetical
 	$defaults = array(
-		'type' => 'active',
-		'page' => 1,
-		'per_page' => 10,
+		'type' => $type,
+		'page' => $page,
+		'per_page' => 20,
 		'max' => false,
 
 		'include' => false, // Pass a user_id or comma separated list of user_ids to only show these users
 
-		'user_id' => false, // Pass a user_id to only show friends of this user
+		'user_id' => $user_id, // Pass a user_id to only show friends of this user
 		'search_terms' => false, // Pass search_terms to filter users by their profile data
 
 		'populate_extras' => true // Fetch usermeta? Friend count, last active etc.
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
+	extract( $r );
 
 	if ( $max ) {
 		if ( $per_page > $max )

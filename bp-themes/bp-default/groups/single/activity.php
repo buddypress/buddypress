@@ -28,8 +28,7 @@
 <?php do_action( 'bp_before_group_activity_content' ) ?>
 
 <div class="activity single-group">
-	<?php // The loop will be loaded here via AJAX on page load to retain selected settings and not waste cycles. ?>
-	<noscript><?php locate_template( array( 'activity/activity-loop.php' ), true ) ?></noscript>
+	<?php locate_template( array( 'activity/activity-loop.php' ), true ) ?>
 </div><!-- .activity -->
 
 <?php do_action( 'bp_after_group_activity_content' ) ?>

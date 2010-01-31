@@ -26,8 +26,7 @@
 	<?php do_action( 'bp_before_member_friends_content' ) ?>
 
 	<div class="members friends">
-		<?php // The loop will be loaded here via AJAX on page load to retain selected settings and not waste cycles. ?>
-		<noscript><?php locate_template( array( 'members/members-loop.php' ), true ) ?></noscript>
+		<?php locate_template( array( 'members/members-loop.php' ), true ) ?>
 	</div>
 
 	<?php do_action( 'bp_after_member_friends_content' ) ?>

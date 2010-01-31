@@ -4,34 +4,35 @@ var j = jQuery;
 j(document).ready( function() {
 	/**** Page Load Actions *******************************************************/
 
-	/* Activity */
-	if ( j('div.activity').length && !j('div.activity').hasClass('no-ajax') ) {
-		/* If there's a hash URL, try and use it. */
-		if ( location.hash.length )
-			var scope = location.hash.substr( 1, location.hash.length - 2 );
-		else
-			var scope = j.cookie('bp-activity-scope');
+	/* Activity Filter Select Set */
+	if ( null != j.cookie('bp-activity-filter') && j('#activity-filter-select').length )
+		j('#activity-filter-select select option[value=' + j.cookie('bp-activity-filter') + ']').attr( 'selected', 'selected' );
 
-		bp_activity_request( scope, j.cookie('bp-activity-filter') );
+	/* Activity Tab Set */
+	if ( null != j.cookie('bp-activity-scope') && j('div.item-list-tabs').length ) {
+		j('div.item-list-tabs li').each( function() {
+			j(this).removeClass('selected');
+		});
+		j('li#activity-' + j.cookie('bp-activity-scope') + ', div.item-list-tabs li.current').addClass('selected');
 	}
 
-	/* Members */
-	if ( j('div.members').length )
-		bp_filter_request( 'members', j.cookie('bp-members-filter'), j.cookie('bp-members-scope'), 'div.members', false, 1, j.cookie('bp-members-extras') );
-
-	/* Groups */
-	if ( j('div.groups').length )
-		bp_filter_request( 'groups', j.cookie('bp-groups-filter'), j.cookie('bp-groups-scope'), 'div.groups', false, 1, j.cookie('bp-groups-extras') );
-
-	/* Blogs */
-	if ( j('div.blogs').length )
-		bp_filter_request( 'blogs', j.cookie('bp-blogs-filter'), j.cookie('bp-blogs-scope'), 'div.blogs', false, 1, j.cookie('bp-blogs-extras') );
-
-	/* Forums */
-	if ( j('div.forums').length ) {
+	/* Hide Forums Post Form */
+	if ( j('div.forums').length )
 		j('div#new-topic-post').hide();
-		bp_filter_request( 'forums', j.cookie('bp-forums-filter'), j.cookie('bp-forums-scope'), 'div.forums', false, 1, j.cookie('bp-forums-extras') );
-	}
+
+	/* Object filter and scope set. */
+	var objects = [ 'members', 'groups', 'blogs', 'forums' ];
+	j(objects).each( function(i) {
+		if ( null != j.cookie('bp-' + objects[i] + '-filter') && j('div.' + objects[i]).length )
+			j('li#' + objects[i] + '-order-select select option[value=' + j.cookie('bp-' + objects[i] + '-filter') + ']').attr( 'selected', 'selected' );
+
+		if ( null != j.cookie('bp-' + objects[i] + '-scope') && j('div.' + objects[i]).length ) {
+			j('div.item-list-tabs li').each( function() {
+				j(this).removeClass('selected');
+			});
+			j('div.item-list-tabs li#' + objects[i] + '-' + j.cookie('bp-' + objects[i] + '-scope') + ', div.item-list-tabs#object-nav li.current').addClass('selected');
+		}
+	});
 
 	/* @mention Compose Scrolling */
 	if ( j.query.get('r') ) {
@@ -116,7 +117,7 @@ j(document).ready( function() {
 		var scope = target.attr('id').substr( 9, target.attr('id').length );
 		var filter = j("#activity-filter-select select").val();
 
-		if ( scope == 'atme' )
+		if ( scope == 'mentions' )
 			j( 'li#' + target.attr('id') + ' a strong' ).remove();
 
 		bp_activity_request(scope, filter, target);
@@ -167,7 +168,7 @@ j(document).ready( function() {
 
 				if ( 'fav' == type ) {
 					if ( !j('div.item-list-tabs li#activity-favorites').length )
-						j('div.item-list-tabs ul li#activity-atme').before( '<li id="activity-favorites"><a href="#">' + bp_terms_my_favs + ' (<span>0</span>)</a></li>');
+						j('div.item-list-tabs ul li#activity-mentions').before( '<li id="activity-favorites"><a href="#">' + bp_terms_my_favs + ' (<span>0</span>)</a></li>');
 
 					target.removeClass('fav');
 					target.addClass('unfav');
@@ -971,11 +972,20 @@ j(document).ready( function() {
 		j(this).removeClass('sfhover');
 	});
 
-	/* Clear specificcookies on logout */
+	/* Clear BP cookies on logout */
 	j('a.logout').click( function() {
 		j.cookie('bp-activity-scope', null);
 		j.cookie('bp-activity-filter', null);
 		j.cookie('bp-activity-querystring', null);
+
+		var objects = [ 'members', 'groups', 'blogs', 'forums' ];
+		j(objects).each( function(i) {
+			j.cookie('bp-' + objects[i] + '-scope', null );
+			j.cookie('bp-' + objects[i] + '-filter', null );
+			j.cookie('bp-' + objects[i] + '-search-terms', null );
+			j.cookie('bp-' + objects[i] + '-page', null );
+			j.cookie('bp-' + objects[i] + '-extras', null );
+		});
 	});
 });
 

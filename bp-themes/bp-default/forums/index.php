@@ -92,8 +92,7 @@
 			</div>
 
 			<div id="forums-dir-list" class="forums dir-list">
-				<?php // The loop will be loaded here via AJAX on page load to retain selected settings and not waste cycles. ?>
-				<noscript><?php locate_template( array( 'forums/forums-loop.php' ), true ) ?></noscript>
+				<?php locate_template( array( 'forums/forums-loop.php' ), true ) ?>
 			</div>
 
 			<?php do_action( 'bp_directory_groups_content' ) ?>

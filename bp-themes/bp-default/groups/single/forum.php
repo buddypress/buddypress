@@ -9,8 +9,7 @@
 <?php else : ?>
 
 	<div class="forums single-forum">
-		<?php // The loop will be loaded here via AJAX on page load to retain selected settings and not waste cycles. ?>
-		<noscript><?php locate_template( array( 'forums/forums-loop.php' ), true ) ?></noscript>
+		<?php locate_template( array( 'forums/forums-loop.php' ), true ) ?>
 	</div><!-- .forums -->
 
 	<?php do_action( 'bp_after_group_forum_content' ) ?>

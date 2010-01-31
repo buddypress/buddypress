@@ -170,19 +170,39 @@ class BP_Groups_Template {
 function bp_has_groups( $args = '' ) {
 	global $groups_template, $bp;
 
+	/***
+	 * Set the defaults based on the current page. Any of these will be overridden
+	 * if arguments are directly passed into the loop. Custom plugins should always
+	 * pass their parameters directly to the loop.
+	 */
+	$type = 'active';
+	$user_id = false;
+	$page = 1;
+
+	/* User filtering */
+	if ( !empty( $bp->displayed_user->id ) || 'personal' == $_COOKIE['bp-groups-scope'] )
+		$user_id = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+
+	/* Action filtering */
+	if ( !empty( $_COOKIE['bp-groups-filter'] ) && '-1' != $_COOKIE['bp-groups-filter'] )
+		$type = $_COOKIE['bp-groups-filter'];
+
+	if ( !empty( $_COOKIE['bp-groups-page'] ) && '-1' != $_COOKIE['bp-groups-page'] )
+		$page = $_COOKIE['bp-groups-page'];
+
 	$defaults = array(
-		'type' => 'active',
-		'page' => 1,
+		'type' => $type,
+		'page' => $page,
 		'per_page' => 20,
 		'max' => false,
 
-		'user_id' => false, // Pass a user ID to limit to groups this user has joined
+		'user_id' => $user_id, // Pass a user ID to limit to groups this user has joined
 		'slug' => false, // Pass a group slug to only return that group
 		'search_terms' => false // Pass search terms to return only matching groups
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
+	extract( $r );
 
 	if ( '' == $args ) {
 		/* The following code will auto set parameters based on the page being viewed.

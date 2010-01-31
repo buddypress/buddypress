@@ -37,7 +37,7 @@
 							<li id="activity-favorites"><a href="<?php echo bp_loggedin_user_domain() . BP_ACTIVITY_SLUG . '/favorites/' ?>" title="<?php _e( "The activity I've marked as a favorite.", 'buddypress' ) ?>"><?php printf( __( 'My Favorites (<span>%s</span>)', 'buddypress' ), bp_get_total_favorite_count_for_user( bp_loggedin_user_id() ) ) ?></a></li>
 						<?php endif; ?>
 
-						<li id="activity-atme"><a href="<?php echo bp_loggedin_user_domain() . BP_ACTIVITY_SLUG . '/mentions/' ?>" title="<?php _e( 'Activity that I have been mentioned in.', 'buddypress' ) ?>"><?php printf( __( '@%s Mentions', 'buddypress' ), bp_get_loggedin_user_username() ) ?><?php if ( bp_get_total_mention_count_for_user( bp_loggedin_user_id() ) ) : ?> <strong><?php printf( __( '(%s new)', 'buddypress' ), bp_get_total_mention_count_for_user( bp_loggedin_user_id() ) ) ?></strong><?php endif; ?></a></li>
+						<li id="activity-mentions"><a href="<?php echo bp_loggedin_user_domain() . BP_ACTIVITY_SLUG . '/mentions/' ?>" title="<?php _e( 'Activity that I have been mentioned in.', 'buddypress' ) ?>"><?php printf( __( '@%s Mentions', 'buddypress' ), bp_get_loggedin_user_username() ) ?><?php if ( bp_get_total_mention_count_for_user( bp_loggedin_user_id() ) ) : ?> <strong><?php printf( __( '(%s new)', 'buddypress' ), bp_get_total_mention_count_for_user( bp_loggedin_user_id() ) ) ?></strong><?php endif; ?></a></li>
 
 					<?php endif; ?>
 
@@ -71,8 +71,7 @@
 			</div><!-- .item-list-tabs -->
 
 			<div class="activity">
-				<?php // The loop will be loaded here via AJAX on page load to retain selected settings and not waste cycles. ?>
-				<noscript><?php locate_template( array( 'activity/activity-loop.php' ), true ) ?></noscript>
+				<?php locate_template( array( 'activity/activity-loop.php' ), true ) ?>
 			</div><!-- .activity -->
 
 			<form action="" name="activity-widget-form" id="activity-widget-form" method="post">

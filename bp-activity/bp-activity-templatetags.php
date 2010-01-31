@@ -126,6 +126,7 @@ function bp_has_activities( $args = '' ) {
 	$show_hidden = false;
 	$search_terms = false;
 	$object = false;
+	$action = false;
 	$primary_id = false;
 	$display_comments = 'threaded';
 
@@ -133,35 +134,44 @@ function bp_has_activities( $args = '' ) {
 	if ( !empty( $bp->displayed_user->id ) )
 		$user_id = $bp->displayed_user->id;
 
+	/* Action filtering */
+	if ( !empty( $_COOKIE['bp-activity-filter'] ) && '-1' != $_COOKIE['bp-activity-filter'] )
+		$action = $_COOKIE['bp-activity-filter'];
+
 	/* User activity scope filtering */
-	if ( !empty( $user_id ) ) {
-		if ( empty( $bp->current_action ) || 'just-me' ==  $bp->current_action )
+	if ( !empty( $user_id ) || !empty( $_COOKIE['bp-activity-scope'] ) ) {
+		$scope = ( !empty( $bp->current_action ) ) ? $bp->current_action : $_COOKIE['bp-activity-scope'];
+		$current_user_id = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+
+		if ( empty( $scope ) || 'just-me' == $scope )
 			$display_comments = 'stream';
 
-		switch ( $bp->current_action ) {
+		switch ( $scope ) {
 			case 'friends':
 				if ( function_exists( 'friends_get_friend_user_ids' ) )
-					$user_id = implode( ',', (array)friends_get_friend_user_ids( $bp->displayed_user->id ) );
+					$user_id = implode( ',', (array)friends_get_friend_user_ids( $current_user_id ) );
 				break;
 			case 'groups':
 				if ( function_exists( 'groups_get_user_groups' ) ) {
-					$groups = groups_get_user_groups( $bp->displayed_user->id );
+					$groups = groups_get_user_groups( $current_user_id );
 					$object = $bp->groups->id;
 					$primary_id = implode( ',', (array)$groups['groups'] );
-					$show_hidden = ( bp_is_my_profile() ) ? 1 : 0;
+					$show_hidden = ( $current_user_id == $bp->loggedin_user->id ) ? 1 : 0;
 					$user_id = false;
 				}
 				break;
 			case 'favorites':
-				$favs = bp_activity_get_user_favorites( $bp->displayed_user->id );
+				$favs = bp_activity_get_user_favorites( $current_user_id );
 				$include = implode( ',', (array)$favs );
-				$show_hidden = ( bp_is_my_profile() ) ? 1 : 0;
+				$show_hidden = ( $current_user_id == $bp->loggedin_user->id ) ? 1 : 0;
 				break;
 			case 'mentions':
-				$user_id = false;
-				$search_terms = '@' . bp_core_get_username( $bp->displayed_user->id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login );
-				$show_hidden = ( bp_is_my_profile() ) ? 1 : 0;
+				$user_nicename = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->userdata->user_nicename : $bp->loggedin_user->userdata->user_nicename;
+				$user_login = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
+				$search_terms = '@' . bp_core_get_username( $current_user_id, $user_nicename, $user_login );
+				$show_hidden = ( $current_user_id == $bp->loggedin_user->id ) ? 1 : 0;
 				$display_comments = 'stream';
+				$user_id = false;
 				break;
 		}
 	}
@@ -189,7 +199,7 @@ function bp_has_activities( $args = '' ) {
 		/* Filtering */
 		'user_id' => $user_id, // user_id to filter on
 		'object' => $object, // object to filter on e.g. groups, profile, status, friends
-		'action' => false, // action to filter on e.g. activity_update, new_forum_post, profile_updated
+		'action' => $action, // action to filter on e.g. activity_update, new_forum_post, profile_updated
 		'primary_id' => $primary_id, // object ID to filter on e.g. a group_id or forum_id or blog_id etc.
 		'secondary_id' => false, // secondary object ID to filter on e.g. a post_id
 
