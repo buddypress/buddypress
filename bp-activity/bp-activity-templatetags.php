@@ -127,6 +127,7 @@ function bp_has_activities( $args = '' ) {
 	$search_terms = false;
 	$object = false;
 	$primary_id = false;
+	$display_comments = 'threaded';
 
 	/* User filtering */
 	if ( !empty( $bp->displayed_user->id ) )
@@ -134,6 +135,9 @@ function bp_has_activities( $args = '' ) {
 
 	/* User activity scope filtering */
 	if ( !empty( $user_id ) ) {
+		if ( empty( $bp->current_action ) || 'just-me' ==  $bp->current_action )
+			$display_comments = 'stream';
+
 		switch ( $bp->current_action ) {
 			case 'friends':
 				if ( function_exists( 'friends_get_friend_user_ids' ) )
@@ -157,6 +161,7 @@ function bp_has_activities( $args = '' ) {
 				$user_id = false;
 				$search_terms = '@' . bp_core_get_username( $bp->displayed_user->id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login );
 				$show_hidden = ( bp_is_my_profile() ) ? 1 : 0;
+				$display_comments = 'stream';
 				break;
 		}
 	}
@@ -171,15 +176,9 @@ function bp_has_activities( $args = '' ) {
 	if ( $bp->current_action == $bp->activity->slug )
 		$include = $bp->action_variables[0];
 
-	/* Support for basic filters in earlier BP versions. */
-	if ( isset( $_GET['afilter'] ) )
-		$filter = array( 'object' => $_GET['afilter'] );
-	else
-		$filter = array( 'user_id' => $user_id, 'object' => $object, 'action' => $action, 'primary_id' => $primary_id, 'secondary_id' => $secondary_id );
-
 	/* Note: any params used for filtering can be a single value, or multiple values comma separated. */
 	$defaults = array(
-		'display_comments' => 'threaded', // false for none, stream/threaded - show comments in the stream or threaded under items
+		'display_comments' => $display_comments, // false for none, stream/threaded - show comments in the stream or threaded under items
 		'include' => $include, // pass an activity_id or string of ID's comma separated
 		'sort' => 'DESC', // sort DESC or ASC
 		'page' => 1, // which page to load
@@ -199,12 +198,18 @@ function bp_has_activities( $args = '' ) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
+	extract( $r );
 
 	if ( $max ) {
 		if ( $per_page > $max )
 			$per_page = $max;
 	}
+
+	/* Support for basic filters in earlier BP versions. */
+	if ( isset( $_GET['afilter'] ) )
+		$filter = array( 'object' => $_GET['afilter'] );
+	else
+		$filter = array( 'user_id' => $user_id, 'object' => $object, 'action' => $action, 'primary_id' => $primary_id, 'secondary_id' => $secondary_id );
 
 	$activities_template = new BP_Activity_Template( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden );
 
