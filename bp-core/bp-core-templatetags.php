@@ -290,7 +290,9 @@ function bp_member_latest_update( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		$update = maybe_unserialize( $members_template->member->latest_update );
+		if ( !$update = maybe_unserialize( $members_template->member->latest_update ) )
+			return false;
+
 		$update_content = apply_filters( 'bp_get_activity_latest_update', strip_tags( bp_create_excerpt( $update['content'], $length ) ) );
 
 		if ( !empty( $update['id'] ) )
