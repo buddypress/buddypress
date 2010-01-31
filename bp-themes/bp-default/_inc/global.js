@@ -1058,7 +1058,7 @@ function bp_activity_request(scope, filter) {
 		j(this).removeClass('selected');
 	});
 	j('li#activity-' + scope + ', div.item-list-tabs li.current').addClass('selected');
-	j('div.item-list-tabs li.selected').addClass('loading');
+	j('div#object-nav.item-list-tabs li.selected, div.activity-type-tabs li.selected').addClass('loading');
 	j('#activity-filter-select select option[value=' + filter + ']').attr( 'selected', 'selected' );
 
 	/* Reload the activity stream based on the selection */

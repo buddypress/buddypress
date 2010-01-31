@@ -116,37 +116,53 @@ class BP_Activity_Template {
 function bp_has_activities( $args = '' ) {
 	global $bp, $activities_template;
 
-	/* Note: any params used for filtering can be a single value, or multiple values comma separated. */
+	/***
+	 * Set the defaults based on the current page. Any of these will be overridden
+	 * if arguments are directly passed into the loop. Custom plugins should always
+	 * pass their parameters directly to the loop.
+	 */
+	$user_id = false;
+	$include = false;
+	$show_hidden = false;
+	$search_terms = false;
+	$object = false;
+	$primary_id = false;
 
-	$defaults = array(
-		'display_comments' => false, // false for none, stream/threaded - show comments in the stream or threaded under items
-		'include' => false, // pass an activity_id or string of ID's comma separated
-		'sort' => 'DESC', // sort DESC or ASC
-		'page' => 1, // which page to load
-		'per_page' => 25, // number of items per page
-		'max' => false, // max number to return
-		'show_hidden' => false, // Show activity items that are hidden site-wide?
+	/* User filtering */
+	if ( !empty( $bp->displayed_user->id ) )
+		$user_id = $bp->displayed_user->id;
 
-		/* Filtering */
-		'user_id' => false, // user_id to filter on
-		'object' => false, // object to filter on e.g. groups, profile, status, friends
-		'action' => false, // action to filter on e.g. activity_update, new_forum_post, profile_updated
-		'primary_id' => false, // object ID to filter on e.g. a group_id or forum_id or blog_id etc.
-		'secondary_id' => false, // secondary object ID to filter on e.g. a post_id
+	/* User activity scope filtering */
+	if ( !empty( $user_id ) ) {
+		switch ( $bp->current_action ) {
+			case 'friends':
+				if ( function_exists( 'friends_get_friend_user_ids' ) )
+					$user_id = implode( ',', (array)friends_get_friend_user_ids( $bp->displayed_user->id ) );
+				break;
+			case 'groups':
+				if ( function_exists( 'groups_get_user_groups' ) ) {
+					$groups = groups_get_user_groups( $bp->displayed_user->id );
+					$object = $bp->groups->id;
+					$primary_id = implode( ',', (array)$groups['groups'] );
+					$show_hidden = ( bp_is_my_profile() ) ? 1 : 0;
+				}
+				break;
+			case 'favorites':
+				$favs = bp_activity_get_user_favorites( $bp->displayed_user->id );
+				$include = implode( ',', (array)$favs );
+				$show_hidden = ( bp_is_my_profile() ) ? 1 : 0;
+				break;
+			case 'mentions':
+				$search_terms = '@' . bp_core_get_username( $bp->displayed_user->id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login );
+				$show_hidden = ( bp_is_my_profile() ) ? 1 : 0;
+				break;
+		}
+	}
 
-		/* Searching */
-		'search_terms' => false // specify terms to search on
-	);
-
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	if ( ( 'personal' == $type || 'friends' == $type ) && !$user_id )
-		$user_id = (int)$bp->displayed_user->id;
-
-	if ( $max ) {
-		if ( $per_page > $max )
-			$per_page = $max;
+	/* Group filtering */
+	if ( !empty( $bp->groups->current_group ) ) {
+		$object = $bp->groups->id;
+		$primary_id = $bp->groups->current_group->id;
 	}
 
 	/* Support for permalinks on single item pages: /groups/my-group/activity/124/ */
@@ -158,6 +174,35 @@ function bp_has_activities( $args = '' ) {
 		$filter = array( 'object' => $_GET['afilter'] );
 	else
 		$filter = array( 'user_id' => $user_id, 'object' => $object, 'action' => $action, 'primary_id' => $primary_id, 'secondary_id' => $secondary_id );
+
+	/* Note: any params used for filtering can be a single value, or multiple values comma separated. */
+	$defaults = array(
+		'display_comments' => 'threaded', // false for none, stream/threaded - show comments in the stream or threaded under items
+		'include' => $include, // pass an activity_id or string of ID's comma separated
+		'sort' => 'DESC', // sort DESC or ASC
+		'page' => 1, // which page to load
+		'per_page' => 25, // number of items per page
+		'max' => false, // max number to return
+		'show_hidden' => $show_hidden, // Show activity items that are hidden site-wide?
+
+		/* Filtering */
+		'user_id' => $user_id, // user_id to filter on
+		'object' => $object, // object to filter on e.g. groups, profile, status, friends
+		'action' => false, // action to filter on e.g. activity_update, new_forum_post, profile_updated
+		'primary_id' => $primary_id, // object ID to filter on e.g. a group_id or forum_id or blog_id etc.
+		'secondary_id' => false, // secondary object ID to filter on e.g. a post_id
+
+		/* Searching */
+		'search_terms' => $search_terms // specify terms to search on
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	if ( $max ) {
+		if ( $per_page > $max )
+			$per_page = $max;
+	}
 
 	$activities_template = new BP_Activity_Template( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden );
 
@@ -758,10 +803,18 @@ function bp_activities_member_rss_link() { echo bp_get_member_activity_feed_link
 	function bp_get_member_activity_feed_link() {
 		global $bp;
 
-		if ( ( $bp->current_component == $bp->profile->slug ) || 'just-me' == $bp->current_action )
-			return apply_filters( 'bp_get_activities_member_rss_link', $bp->displayed_user->domain . $bp->activity->slug . '/feed/' );
-		else
-			return apply_filters( 'bp_get_activities_member_rss_link', $bp->displayed_user->domain . $bp->activity->slug . '/my-friends/feed/' );
+		if ( $bp->current_component == $bp->profile->slug || 'just-me' == $bp->current_action )
+			$link = $bp->displayed_user->domain . $bp->activity->slug . '/feed/';
+		else if ( 'friends' == $bp->current_action )
+			$link = $bp->displayed_user->domain . $bp->activity->slug . '/friends/feed/';
+		else if ( 'groups' == $bp->current_action )
+			$link = $bp->displayed_user->domain . $bp->activity->slug . '/groups/feed/';
+		else if ( 'favorites' == $bp->current_action )
+			$link = $bp->displayed_user->domain . $bp->activity->slug . '/favorites/feed/';
+		else if ( 'mentions' == $bp->current_action )
+			$link = $bp->displayed_user->domain . $bp->activity->slug . '/mentions/feed/';
+
+		return apply_filters( 'bp_get_activities_member_rss_link', $link );
 	}
 	function bp_get_activities_member_rss_link() { return bp_get_member_activity_feed_link(); }
 

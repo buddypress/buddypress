@@ -2,10 +2,6 @@
 	<ul>
 		<?php bp_get_options_nav() ?>
 
-		<li class="feed"><a href="<?php bp_activities_member_rss_link() ?>" title="RSS Feed"><?php _e( 'RSS', 'buddypress' ) ?></a></li>
-
-		<?php do_action( 'bp_member_activity_syndication_options' ) ?>
-
 		<li id="activity-filter-select" class="last">
 			<select>
 				<option value="-1"><?php _e( 'No Filter', 'buddypress' ) ?></option>

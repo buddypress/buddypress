@@ -513,33 +513,23 @@ function bp_get_displayed_user_nav() {
 function bp_get_options_nav() {
 	global $bp;
 
-	/***
-	 * Only render this navigation when the logged in user is looking at one of their own pages, or we are using it to display nav
-	 * menus for something like a group, or event.
-	 */
-	if ( bp_is_my_profile() || $bp->is_single_item ) {
-		if ( count( $bp->bp_options_nav[$bp->current_component] ) < 1 )
-			return false;
+	if ( count( $bp->bp_options_nav[$bp->current_component] ) < 1 )
+		return false;
 
-		/* Loop through each navigation item */
-		foreach ( $bp->bp_options_nav[$bp->current_component] as $subnav_item ) {
-			if ( !$subnav_item['user_has_access'] )
-				continue;
+	/* Loop through each navigation item */
+	foreach ( $bp->bp_options_nav[$bp->current_component] as $subnav_item ) {
+		if ( !$subnav_item['user_has_access'] )
+			continue;
 
-			/* If the current action or an action variable matches the nav item id, then add a highlight CSS class. */
-			if ( $subnav_item['slug'] == $bp->current_action ) {
-				$selected = ' class="current selected"';
-			} else {
-				$selected = '';
-			}
-
-			/* echo out the final list item */
-			echo apply_filters( 'bp_get_options_nav_' . $subnav_item['css_id'], '<li id="' . $subnav_item['css_id'] . '-personal-li" ' . $selected . '><a id="' . $subnav_item['css_id'] . '" href="' . $subnav_item['link'] . '">' . $subnav_item['name'] . '</a></li>', $subnav_item );
+		/* If the current action or an action variable matches the nav item id, then add a highlight CSS class. */
+		if ( $subnav_item['slug'] == $bp->current_action ) {
+			$selected = ' class="current selected"';
+		} else {
+			$selected = '';
 		}
-	} else {
-		/* If we're using the classic template structure, show the displayed user nav instead */
-		if ( 'bp-sn-parent' == basename( TEMPLATEPATH ) || defined( 'BP_CLASSIC_TEMPLATE_STRUCTURE' ) )
-			bp_get_displayed_user_nav();
+
+		/* echo out the final list item */
+		echo apply_filters( 'bp_get_options_nav_' . $subnav_item['css_id'], '<li id="' . $subnav_item['css_id'] . '-personal-li" ' . $selected . '><a id="' . $subnav_item['css_id'] . '" href="' . $subnav_item['link'] . '">' . $subnav_item['name'] . '</a></li>', $subnav_item );
 	}
 }
 

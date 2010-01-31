@@ -144,8 +144,10 @@ Class BP_Activity_Activity {
 			$activities = BP_Activity_Activity::append_comments( &$activities );
 
 		/* If $max is set, only return up to the max results */
-		if ( (int)$total_activities > (int)$max )
-			$total_activities = $max;
+		if ( !empty( $max ) ) {
+			if ( (int)$total_activities > (int)$max )
+				$total_activities = $max;
+		}
 
 		return array( 'activities' => $activities, 'total' => (int)$total_activities );
 	}

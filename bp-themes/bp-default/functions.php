@@ -186,8 +186,6 @@ function bp_dtheme_remove_redundant() {
 	bp_core_remove_subnav_item( $bp->blogs->slug, 'my-blogs' );
 	bp_core_remove_subnav_item( $bp->blogs->slug, 'recent-posts' );
 	bp_core_remove_subnav_item( $bp->blogs->slug, 'recent-comments' );
-	bp_core_remove_subnav_item( $bp->activity->slug, 'just-me' );
-	bp_core_remove_subnav_item( $bp->activity->slug, 'my-friends' );
 }
 add_action( 'init', 'bp_dtheme_remove_redundant' );
 
@@ -215,6 +213,7 @@ function bp_dtheme_js_terms() { ?>
 <?php
 }
 add_action( 'wp_footer', 'bp_dtheme_js_terms' );
+
 
 /* Show a notice when the theme is activated - workaround by Ozh (http://old.nabble.com/Activation-hook-exist-for-themes--td25211004.html) */
 if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" ) {

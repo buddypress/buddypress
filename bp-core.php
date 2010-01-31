@@ -1476,7 +1476,6 @@ function bp_core_number_format( $number, $decimals = false ) {
 	return apply_filters( 'bp_core_bp_core_number_format', number_format( $number, $decimals ), $number, $decimals );
 }
 
-
 /**
  * bp_core_get_all_posts_for_user()
  *
@@ -1495,7 +1494,6 @@ function bp_core_get_all_posts_for_user( $user_id = null ) {
 
 	return apply_filters( 'bp_core_get_all_posts_for_user', $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM $wpdb->posts WHERE post_author = %d AND post_status = 'publish' AND post_type = 'post'", $user_id ) ) );
 }
-
 
 /**
  * bp_core_get_site_path()

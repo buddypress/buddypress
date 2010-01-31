@@ -111,7 +111,7 @@ Class BP_Messages_Box_Template {
 		$this->thread = $this->next_thread();
 
 		$last_message_index = count($this->thread->messages) - 1;
-		$this->thread->messages = array_reverse( $this->thread->messages );
+		$this->thread->messages = array_reverse( (array)$this->thread->messages );
 
 		/* Set up the last message data */
 		if ( count($this->thread->messages) > 1 ) {

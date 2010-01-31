@@ -579,7 +579,7 @@ div.pagination {
 	height: 16px;
 }
 	div.pagination#user-pag, .friends div.pagination,
-	.mygroups div.pagination, .myblogs div.pagination {
+	.mygroups div.pagination, .myblogs div.pagination, noscript div.pagination {
 		background: #f8f8f8;
 		border: none;
 		padding: 8px 15px;
@@ -953,6 +953,7 @@ form#whats-new-form {
 }
 	#item-body form#whats-new-form {
 		margin-top: 20px;
+		border: none;
 	}
 
 	.home-page form#whats-new-form {

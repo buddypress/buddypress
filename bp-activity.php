@@ -106,11 +106,14 @@ function bp_activity_setup_nav() {
 	/* Add 'Activity' to the main navigation */
 	bp_core_new_nav_item( array( 'name' => __( 'Activity', 'buddypress' ), 'slug' => $bp->activity->slug, 'position' => 10, 'screen_function' => 'bp_activity_screen_my_activity', 'default_subnav_slug' => 'just-me', 'item_css_id' => $bp->activity->id ) );
 
-	$activity_link = $bp->loggedin_user->domain . $bp->activity->slug . '/';
+	$activity_link = $bp->displayed_user->domain . $bp->activity->slug . '/';
 
 	/* Add the subnav items to the activity nav item if we are using a theme that supports this */
-	bp_core_new_subnav_item( array( 'name' => __( 'Just Me', 'buddypress' ), 'slug' => 'just-me', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_my_activity', 'position' => 10 ) );
-	bp_core_new_subnav_item( array( 'name' => __( 'My Friends', 'buddypress' ), 'slug' => 'my-friends', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_friends_activity', 'position' => 20, 'item_css_id' => 'activity-my-friends' ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Personal', 'buddypress' ), 'slug' => 'just-me', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_my_activity', 'position' => 10 ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Friends', 'buddypress' ), 'slug' => 'friends', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_friends', 'position' => 20, 'item_css_id' => 'activity-friends' ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Groups', 'buddypress' ), 'slug' => 'groups', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_groups', 'position' => 30, 'item_css_id' => 'activity-groups' ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Favorites', 'buddypress' ), 'slug' => 'favorites', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_favorites', 'position' => 40, 'item_css_id' => 'activity-favs' ) );
+	bp_core_new_subnav_item( array( 'name' => sprintf( __( '@%s Mentions', 'buddypress' ), $bp->displayed_user->userdata->user_login ), 'slug' => 'mentions', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_mentions', 'position' => 50, 'item_css_id' => 'activity-mentions' ) );
 
 	if ( $bp->current_component == $bp->activity->slug ) {
 		if ( bp_is_my_profile() ) {
@@ -152,15 +155,50 @@ function bp_activity_screen_my_activity() {
 	bp_core_load_template( apply_filters( 'bp_activity_template_my_activity', 'members/single/home' ) );
 }
 
-function bp_activity_screen_friends_activity() {
+function bp_activity_screen_friends() {
 	global $bp;
 
-	/* Make sure delete links do not show for friends activity items */
+	if ( bp_is_deactivated( 'bp-friends.php' ) )
+		return false;
+
 	if ( !is_site_admin() )
 		$bp->is_item_admin = false;
 
-	do_action( 'bp_activity_screen_friends_activity' );
-	bp_core_load_template( apply_filters( 'bp_activity_template_friends_activity', 'activity/my-friends' ) );
+	do_action( 'bp_activity_screen_friends' );
+	bp_core_load_template( apply_filters( 'bp_activity_template_friends_activity', 'members/single/home' ) );
+}
+
+function bp_activity_screen_groups() {
+	global $bp;
+
+	if ( bp_is_deactivated( 'bp-groups.php' ) )
+		return false;
+
+	if ( !is_site_admin() )
+		$bp->is_item_admin = false;
+
+	do_action( 'bp_activity_screen_groups' );
+	bp_core_load_template( apply_filters( 'bp_activity_template_groups_activity', 'members/single/home' ) );
+}
+
+function bp_activity_screen_favorites() {
+	global $bp;
+
+	if ( !is_site_admin() )
+		$bp->is_item_admin = false;
+
+	do_action( 'bp_activity_screen_favorites' );
+	bp_core_load_template( apply_filters( 'bp_activity_template_favorite_activity', 'members/single/home' ) );
+}
+
+function bp_activity_screen_mentions() {
+	global $bp;
+
+	if ( !is_site_admin() )
+		$bp->is_item_admin = false;
+
+	do_action( 'bp_activity_screen_mentions' );
+	bp_core_load_template( apply_filters( 'bp_activity_template_mention_activity', 'members/single/home' ) );
 }
 
 function bp_activity_screen_single_activity_permalink() {
@@ -344,7 +382,7 @@ add_action( 'wp', 'bp_activity_action_personal_feed', 3 );
 function bp_activity_action_friends_feed() {
 	global $bp, $wp_query;
 
-	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != 'my-friends' || $bp->action_variables[0] != 'feed' )
+	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != 'friends' || $bp->action_variables[0] != 'feed' )
 		return false;
 
 	$wp_query->is_404 = false;
@@ -358,7 +396,7 @@ add_action( 'wp', 'bp_activity_action_friends_feed', 3 );
 function bp_activity_action_my_groups_feed() {
 	global $bp, $wp_query;
 
-	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != 'my-groups' || $bp->action_variables[0] != 'feed' )
+	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != 'groups' || $bp->action_variables[0] != 'feed' )
 		return false;
 
 	$wp_query->is_404 = false;
