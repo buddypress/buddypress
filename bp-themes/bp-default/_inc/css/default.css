@@ -853,9 +853,8 @@ table {
 			width: 25%;
 		}
 
-		table tr td.thread-info p {
-			margin: 0;
-		}
+		table tr td.thread-info p { margin: 0; }
+
 			table tr td.thread-info p.thread-excerpt {
 				color: #888;
 				font-size: 11px;
@@ -870,18 +869,11 @@ table {
 
 table.notification-settings {
 	margin-bottom: 20px;
+	text-align: left;
 }
-	table.notification-settings th.icon {
-		width: 35px;
-	}
-
-	table.notification-settings th.title {
-		width: 80%;
-	}
-
-	table.notification-settings .yes, table.notification-settings .no {
-		width: 40px;
-	}
+	table.notification-settings th.icon, table.notification-settings td:first-child { display: none; }
+	table.notification-settings th.title { width: 80%; }
+	table.notification-settings .yes, table.notification-settings .no { width: 40px; text-align: center; }
 
 table.forum {
 	margin: -9px -20px 20px -20px;
