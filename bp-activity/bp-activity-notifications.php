@@ -53,11 +53,7 @@ function bp_activity_new_comment_notification( $comment_id, $commenter_id, $para
 
 	$original_activity = new BP_Activity_Activity( $activity_id );
 
-	/* Don't email comments on a member's own activity */
-	if ( $original_activity->user_id == $commenter_id )
-		return false;
-
-	if ( 'no' != get_usermeta( $original_activity->user_id, 'notification_activity_new_reply' ) ) {
+	if ( $original_activity->user_id != $commenter_id && 'no' != get_usermeta( $original_activity->user_id, 'notification_activity_new_reply' ) ) {
 		$poster_name = bp_core_get_user_displayname( $commenter_id );
 		$thread_link = bp_activity_get_permalink( $activity_id );
 		$settings_link = bp_core_get_user_domain( $original_activity->user_id ) . 'settings/notifications/';
@@ -73,6 +69,41 @@ $message = sprintf( __(
 "%s"
 
 To view your original update and all comments, log in and visit: %s
+
+---------------------
+', 'buddypress' ), $poster_name, wp_filter_kses( stripslashes_deep( $content ) ), $thread_link );
+
+		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+
+		// Send it
+		wp_mail( $to, $subject, $message );
+	}
+
+	/***
+	 * If this is a reply to another comment, send an email notification to the
+	 * author of the immediate parent comment.
+	 */
+	if ( $activity_id == $parent_id )
+		return false;
+
+	$parent_comment = new BP_Activity_Activity( $parent_id );
+
+	if ( $parent_comment->user_id != $commenter_id && 'no' != get_usermeta( $parent_comment->user_id, 'notification_activity_new_reply' ) ) {
+		$poster_name = bp_core_get_user_displayname( $commenter_id );
+		$thread_link = bp_activity_get_permalink( $activity_id );
+		$settings_link = bp_core_get_user_domain( $parent_comment->user_id ) . 'settings/notifications/';
+
+		// Set up and send the message
+		$ud = bp_core_get_core_userdata( $parent_comment->user_id );
+		$to = $ud->user_email;
+		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s replied to one of your comments', 'buddypress' ), stripslashes_deep( $poster_name ) );
+
+$message = sprintf( __(
+'%s replied to one of your comments:
+
+"%s"
+
+To view the original activity, your comment and all replies, log in and visit: %s
 
 ---------------------
 ', 'buddypress' ), $poster_name, wp_filter_kses( stripslashes_deep( $content ) ), $thread_link );
