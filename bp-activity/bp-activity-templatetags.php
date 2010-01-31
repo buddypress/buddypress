@@ -145,6 +145,7 @@ function bp_has_activities( $args = '' ) {
 					$object = $bp->groups->id;
 					$primary_id = implode( ',', (array)$groups['groups'] );
 					$show_hidden = ( bp_is_my_profile() ) ? 1 : 0;
+					$user_id = false;
 				}
 				break;
 			case 'favorites':
@@ -153,6 +154,7 @@ function bp_has_activities( $args = '' ) {
 				$show_hidden = ( bp_is_my_profile() ) ? 1 : 0;
 				break;
 			case 'mentions':
+				$user_id = false;
 				$search_terms = '@' . bp_core_get_username( $bp->displayed_user->id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login );
 				$show_hidden = ( bp_is_my_profile() ) ? 1 : 0;
 				break;
