@@ -573,7 +573,7 @@ function bp_activity_comments( $args = '' ) {
 
 				/* Delete link */
 				if ( is_site_admin() || $bp->loggedin_user->id == $comment->user_id )
-					$content .= ' &middot; <a href="' . wp_nonce_url( $bp->activity->id . '/delete/?cid=' . $comment->id, 'bp_activity_delete_link' ) . '" class="delete acomment-delete">' . __( 'Delete', 'buddypress' ) . '</a>';
+					$content .= ' &middot; <a href="' . wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/?cid=' . $comment->id, 'bp_activity_delete_link' ) . '" class="delete acomment-delete">' . __( 'Delete', 'buddypress' ) . '</a>';
 
 				$content .= '</div>';
 				$content .= '<div class="acomment-content">' . apply_filters( 'bp_get_activity_content', $comment->content ) . '</div>';
