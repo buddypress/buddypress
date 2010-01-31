@@ -268,7 +268,10 @@ j(document).ready( function() {
 		var target = j(event.target);
 
 		/* Comment / comment reply links */
-		if ( target.attr('class') == 'acomment-reply' ) {
+		if ( target.attr('class') == 'acomment-reply' || target.parent().attr('class') == 'acomment-reply' ) {
+			if ( target.parent().attr('class') == 'acomment-reply' )
+				target = target.parent();
+
 			var id = target.attr('id');
 			ids = id.split('-');
 
