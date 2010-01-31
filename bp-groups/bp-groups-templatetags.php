@@ -1669,13 +1669,14 @@ function bp_new_group_avatar( $args = '' ) {
 			'height' => false,
 			'class' => 'avatar',
 			'id' => 'avatar-crop-preview',
-			'alt' => __( 'Group avatar', 'buddypress' )
+			'alt' => __( 'Group avatar', 'buddypress' ),
+			'no_grav' => false
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		return apply_filters( 'bp_get_new_group_avatar', bp_core_fetch_avatar( array( 'item_id' => $bp->groups->current_group->id, 'object' => 'group', 'type' => $type, 'avatar_dir' => 'group-avatars', 'alt' => $alt, 'width' => $width, 'height' => $height, 'class' => $class ) ) );
+		return apply_filters( 'bp_get_new_group_avatar', bp_core_fetch_avatar( array( 'item_id' => $bp->groups->current_group->id, 'object' => 'group', 'type' => $type, 'avatar_dir' => 'group-avatars', 'alt' => $alt, 'width' => $width, 'height' => $height, 'class' => $class, 'no_grav' => $no_grav ) ) );
 	}
 
 function bp_group_creation_previous_link() {
