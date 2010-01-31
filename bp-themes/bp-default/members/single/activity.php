@@ -6,13 +6,17 @@
 			<select>
 				<option value="-1"><?php _e( 'No Filter', 'buddypress' ) ?></option>
 				<option value="activity_update"><?php _e( 'Show Updates', 'buddypress' ) ?></option>
-				<option value="new_blog_post"><?php _e( 'Show Blog Posts', 'buddypress' ) ?></option>
-				<option value="new_blog_comment"><?php _e( 'Show Blog Comments', 'buddypress' ) ?></option>
+
+				<?php if ( 'groups' != bp_current_action() ) : ?>
+					<option value="new_blog_post"><?php _e( 'Show Blog Posts', 'buddypress' ) ?></option>
+					<option value="new_blog_comment"><?php _e( 'Show Blog Comments', 'buddypress' ) ?></option>
+					<option value="friendship_accepted,friendship_created"><?php _e( 'Show Friendship Connections', 'buddypress' ) ?></option>
+				<?php endif; ?>
+
 				<option value="new_forum_topic"><?php _e( 'Show New Forum Topics', 'buddypress' ) ?></option>
 				<option value="new_forum_post"><?php _e( 'Show Forum Replies', 'buddypress' ) ?></option>
 				<option value="created_group"><?php _e( 'Show New Groups', 'buddypress' ) ?></option>
 				<option value="joined_group"><?php _e( 'Show New Group Memberships', 'buddypress' ) ?></option>
-				<option value="friendship_accepted,friendship_created"><?php _e( 'Show Friendship Connections', 'buddypress' ) ?></option>
 
 				<?php do_action( 'bp_member_activity_filter_options' ) ?>
 			</select>
