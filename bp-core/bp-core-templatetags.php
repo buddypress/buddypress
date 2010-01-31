@@ -1250,16 +1250,12 @@ function bp_signup_allowed() {
 }
 	function bp_get_signup_allowed() {
 		if ( bp_core_is_multisite() ) {
-			$status = get_site_option( 'registration' );
-			if ( 'all' != $status && 'user' != $status )
-				return false;
-
-			return true;
+			if ( in_array( get_site_option( 'registration' ), array( 'all', 'user' ) ) )
+				return true;
 		} else {
 			if ( (int)get_option( 'users_can_register') )
-				return 'user';
+				return true;
 		}
-
 		return false;
 	}
 
