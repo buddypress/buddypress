@@ -284,7 +284,7 @@ function bp_member_latest_update( $args = '' ) {
 		global $members_template, $bp;
 
 		$defaults = array(
-			'length' => 140
+			'length' => 15
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -296,7 +296,7 @@ function bp_member_latest_update( $args = '' ) {
 		$update_content = apply_filters( 'bp_get_activity_latest_update', strip_tags( bp_create_excerpt( $update['content'], $length ) ) );
 
 		if ( !empty( $update['id'] ) )
-			$update_content .= ' <a href="' . $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $update['id'] . '">#</a>';
+			$update_content .= ' &middot; <a href="' . $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $update['id'] . '">' . __( 'View', 'buddypress' ) . '</a>';
 
 		return apply_filters( 'bp_get_member_latest_update', $update_content );
 	}
