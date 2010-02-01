@@ -746,6 +746,7 @@ function bp_core_sort_nav_items() {
 	$bp->bp_nav = &$temp;
 }
 add_action( 'wp_head', 'bp_core_sort_nav_items' );
+add_action( 'admin_head', 'bp_core_sort_nav_items' );
 
 /**
  * bp_core_new_subnav_item()
@@ -829,6 +830,7 @@ function bp_core_sort_subnav_items() {
 	}
 }
 add_action( 'wp_head', 'bp_core_sort_subnav_items' );
+add_action( 'admin_head', 'bp_core_sort_subnav_items' );
 
 /**
  * bp_core_remove_nav_item()
@@ -1255,7 +1257,6 @@ function bp_core_format_time( $time, $just_date = false ) {
 
 	return $date;
 }
-
 
 /**
  * bp_core_add_message()

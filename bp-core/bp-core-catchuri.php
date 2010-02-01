@@ -254,7 +254,7 @@ function bp_core_catch_no_access() {
 		bp_core_redirect( $bp->root_domain );
 
 	// If the template file doesn't exist, redirect to the root domain.
-	if ( !bp_is_blog_page() && !file_exists( apply_filters( 'bp_located_template', locate_template( array( $bp_path . '.php' ), false ), $bp_path ) ) )
+	if ( !bp_is_blog_page() && !file_exists( apply_filters( 'bp_located_template', locate_template( array( $bp_path . '.php' ), false ), array( $bp_path . '.php' ) ) ) )
 		bp_core_redirect( $bp->root_domain );
 
 	if ( !$bp_path && !bp_is_blog_page() ) {
