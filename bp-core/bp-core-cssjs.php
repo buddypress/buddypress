@@ -74,10 +74,7 @@ function bp_core_add_cropper_inline_js() {
 	global $bp;
 
 	$image = apply_filters( 'bp_inline_cropper_image', getimagesize( $bp->avatar_admin->image->dir ) );
-
 	$aspect_ratio = 1;
-
-	var_dump( $image );
 
 	/* Calculate Aspect Ratio */
 	if ( (int) constant( 'BP_AVATAR_FULL_HEIGHT' ) && ( (int) constant( 'BP_AVATAR_FULL_WIDTH' ) != (int) constant( 'BP_AVATAR_FULL_HEIGHT' ) ) )
