@@ -60,44 +60,37 @@ function bp_dtheme_add_blog_comments_js() {
 add_action( 'template_redirect', 'bp_dtheme_add_blog_comments_js' );
 
 function bp_dtheme_blog_comments( $comment, $args, $depth ) {
-    $GLOBALS['comment'] = $comment;
-	$comment_type = get_comment_type();
+    $GLOBALS['comment'] = $comment; ?>
 
-	if ( $comment->user_id )
-		$userlink = bp_core_get_user_domain( $comment->user_id );
+	<li <?php comment_class(); ?> id="comment-<?php comment_ID(); ?>">
+		<div class="comment-avatar-box">
+			<div class="avb">
+				<a href="<?php echo get_comment_author_url() ?>">
+					<?php echo get_avatar( $comment, 50 ); ?>
+				</a>
+			</div>
+		</div>
 
-	if ( $comment_type == 'comment' ) { ?>
-        <li <?php comment_class(); ?> id="comment-<?php comment_ID(); ?>">
+		<div class="comment-content">
 
-			<div class="comment-avatar-box<?php if ( $comment->user_id ) : ?> extra<?php endif; ?>">
-				<div class="avb">
-					<a href="<?php if ( $userlink ) : echo $userlink; else : echo get_comment_author_url(); endif;?>">
-						<?php echo get_avatar( $comment, 50 ); ?>
-					</a>
-				</div>
+			<div class="comment-meta">
+				<a href="<?php echo get_comment_author_url() ?>"><?php echo get_comment_author(); ?></a> <?php _e( 'said:', 'buddypress' ) ?>
+				<em><?php _e( 'On', 'buddypress' ) ?> <a href="#comment-<?php comment_ID() ?>" title=""><?php comment_date() ?></a></em>
 			</div>
 
-			<div class="comment-content">
+			<?php if ($comment->comment_approved == '0') : ?>
+			 	<em class="moderate"><?php _e('Your comment is awaiting moderation.'); ?></em><br />
+			<?php endif; ?>
 
-				<div class="comment-meta">
-					<a href="<?php if ( $userlink ) : echo $userlink; else : echo get_comment_author_url(); endif;?>"><?php echo get_comment_author(); ?></a> <?php _e( 'said:', 'buddypress' ) ?>
-					<em><?php _e( 'On', 'buddypress' ) ?> <a href="#comment-<?php comment_ID() ?>" title=""><?php comment_date() ?></a></em>
-	            </div>
+			<?php comment_text() ?>
 
-				<?php if ($comment->comment_approved == '0') : ?>
-	            	<em class="moderate"><?php _e('Your comment is awaiting moderation.'); ?></em><br />
-	            <?php endif; ?>
-
-				<?php comment_text() ?>
-
-				<div class="comment-options">
-					<?php echo comment_reply_link( array('depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ?>
-					<?php edit_comment_link( __( 'Edit' ),'','' ); ?>
-				</div>
-
+			<div class="comment-options">
+				<?php echo comment_reply_link( array('depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ?>
+				<?php edit_comment_link( __( 'Edit' ),'','' ); ?>
 			</div>
-        </li>
-	<?php } ?>
+
+		</div>
+	</li>
 <?php
 }
 
