@@ -478,9 +478,9 @@ j(document).ready( function() {
 			var object = css_id[0];
 
 			bp_filter_request( object, j.cookie('bp-' + object + '-filter'), j.cookie('bp-' + object + '-scope') , 'div.' + object, target.parent().children('label').children('input').val(), 1, j.cookie('bp-' + object + '-extras') );
-		}
 
-		return false;
+			return false;
+		}
 	});
 
 	/**** Tabs and Filters ****************************************************/
