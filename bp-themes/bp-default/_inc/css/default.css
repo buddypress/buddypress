@@ -33,7 +33,7 @@ h6 { font-size: 12px; margin-bottom: 0; }
 
 a { color: #1fb3dd; }
 a:hover, a:active { color: #888; }
-a:focus { outline: 1px dotted #888; }
+a:focus { outline: 1px dotted #ccc; }
 
 .padder { padding: 20px; }
 .clear { clear: left; }
@@ -660,11 +660,12 @@ ul.button-nav li a, div.generic-button a {
 	vertical-align: bottom;
 	cursor: pointer;
 }
-	a.button:hover, input[type=submit]:hover, input[type=button]:hover,
+	a.button:hover, a.button:focus, input[type=submit]:hover, input[type=button]:hover,
 	ul.button-nav li a:hover, ul.button-nav li.current a,
 	div.generic-button a:hover {
 		border-color: #aaa;
 		color: #555;
+		outline: none;
 	}
 
 	/* Buttons that are disabled */
@@ -1160,6 +1161,7 @@ ul.activity-list li {
 			background: #059AE7 !important;
 			color: #fff !important;
 		}
+		.activity-list .activity-content p > a:first-child:focus { outline: none; }
 
 		.activity-list .activity-content span.time-since {
 			color: #bbb;
@@ -1239,6 +1241,7 @@ div.activity-meta {
 		color: #ffa200;
 	}
 
+	div.activity-meta a:focus { outline: none; }
 	div.activity-meta a:hover {
 		background: #aaa;
 		color: #fff;
