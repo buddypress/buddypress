@@ -1157,11 +1157,12 @@ ul.activity-list li {
 		border-radius: 4px;
 		margin-right: 3px;
 	}
-		.activity-list .activity-content p > a:first-child:hover {
+		.activity-list .activity-content > p > a:first-child:hover,
+		.activity-list .activity-content >.comment-header > a:first-child:hover {
 			background: #059AE7 !important;
 			color: #fff !important;
 		}
-		.activity-list .activity-content p > a:first-child:focus { outline: none; }
+		.activity-list .activity-content a:first-child:focus { outline: none; }
 
 		.activity-list .activity-content span.time-since {
 			color: #bbb;
