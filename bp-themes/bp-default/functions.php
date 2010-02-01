@@ -104,9 +104,9 @@ function bp_dtheme_show_on_frontpage() {
 	$settings = get_option( 'bp_dtheme_options' );
 
 	if ( empty( $settings['show_on_frontpage'] ) || 'blog' == $settings['show_on_frontpage'] )
-		return 'blog';
+		return apply_filters( 'bp_dtheme_show_on_frontpage', 'blog' );
 
-	return 'activity';
+	return apply_filters( 'bp_dtheme_show_on_frontpage', 'activity' );
 }
 
 /* Set the defaults for the custom header image (http://ryan.boren.me/2007/01/07/custom-image-header-api/) */
