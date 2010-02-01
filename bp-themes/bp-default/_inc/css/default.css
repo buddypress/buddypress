@@ -1259,7 +1259,7 @@ div.activity-comments {
 	background: #f5f5f5;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
-	width: 75%;
+	width: auto;
 }
 	body.internal-page div.activity-comments {
 		width: auto;
