@@ -88,7 +88,7 @@ To view your original update and all comments, log in and visit: %s
 
 	$parent_comment = new BP_Activity_Activity( $parent_id );
 
-	if ( $parent_comment->user_id != $commenter_id && 'no' != get_usermeta( $parent_comment->user_id, 'notification_activity_new_reply' ) ) {
+	if ( $parent_comment->user_id != $commenter_id && $original_activity->user_id != $parent_comment->user_id && 'no' != get_usermeta( $parent_comment->user_id, 'notification_activity_new_reply' ) ) {
 		$poster_name = bp_core_get_user_displayname( $commenter_id );
 		$thread_link = bp_activity_get_permalink( $activity_id );
 		$settings_link = bp_core_get_user_domain( $parent_comment->user_id ) . 'settings/notifications/';
