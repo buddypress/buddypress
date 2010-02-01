@@ -62,11 +62,17 @@ add_action( 'template_redirect', 'bp_dtheme_add_blog_comments_js' );
 function bp_dtheme_blog_comments( $comment, $args, $depth ) {
     $GLOBALS['comment'] = $comment; ?>
 
+	<?php if ( 'pingback' == $comment->comment_type ) return false; ?>
+
 	<li id="comment-<?php comment_ID(); ?>">
 		<div class="comment-avatar-box">
 			<div class="avb">
 				<a href="<?php echo get_comment_author_url() ?>">
-					<?php echo bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'width' => 50, 'height' => 50, 'email' => $comment->comment_author_email ) ); ?>
+					<?php if ( $comment->user_id ) : ?>
+						<?php echo bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'width' => 50, 'height' => 50, 'email' => $comment->comment_author_email ) ); ?>
+					<?php else : ?>
+						<?php echo get_avatar( $comment, 50 ) ?>
+					<?php endif; ?>
 				</a>
 			</div>
 		</div>
