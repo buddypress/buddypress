@@ -124,7 +124,7 @@ function bp_rewind_blogs() {
 }
 
 function bp_has_blogs( $args = '' ) {
-	global $blogs_template;
+	global $bp, $blogs_template;
 
 	/***
 	 * Set the defaults based on the current page. Any of these will be overridden
