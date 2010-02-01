@@ -62,11 +62,11 @@ add_action( 'template_redirect', 'bp_dtheme_add_blog_comments_js' );
 function bp_dtheme_blog_comments( $comment, $args, $depth ) {
     $GLOBALS['comment'] = $comment; ?>
 
-	<li <?php comment_class(); ?> id="comment-<?php comment_ID(); ?>">
+	<li id="comment-<?php comment_ID(); ?>">
 		<div class="comment-avatar-box">
 			<div class="avb">
 				<a href="<?php echo get_comment_author_url() ?>">
-					<?php echo get_avatar( $comment, 50 ); ?>
+					<?php echo bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'width' => 50, 'height' => 50, 'email' => $comment->comment_author_email ) ); ?>
 				</a>
 			</div>
 		</div>
@@ -78,7 +78,7 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 				<em><?php _e( 'On', 'buddypress' ) ?> <a href="#comment-<?php comment_ID() ?>" title=""><?php comment_date() ?></a></em>
 			</div>
 
-			<?php if ($comment->comment_approved == '0') : ?>
+			<?php if ( $comment->comment_approved == '0' ) : ?>
 			 	<em class="moderate"><?php _e('Your comment is awaiting moderation.'); ?></em><br />
 			<?php endif; ?>
 
