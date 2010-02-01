@@ -23,7 +23,7 @@ function groups_notification_group_updated( $group_id ) {
 To view the group: %s
 
 ---------------------
-', 'buddypress' ), stripslashes( attribute_escape( $group->name ) ), $group_link );
+', 'buddypress' ), stripslashes( $group->name ), $group_link );
 
 		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
@@ -54,7 +54,7 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 
 	// Set up and send the message
 	$to = $ud->user_email;
-	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'Membership request for group: %s', 'buddypress' ), stripslashes( attribute_escape( $group->name ) ) );
+	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'Membership request for group: %s', 'buddypress' ), stripslashes( $group->name ) );
 
 $message = sprintf( __(
 '%s wants to join the group "%s".
@@ -67,7 +67,7 @@ To view all pending membership requests for this group, please visit:
 To view %s\'s profile: %s
 
 ---------------------
-', 'buddypress' ), $requesting_user_name, stripslashes( attribute_escape( $group->name ) ), $group_requests, $requesting_user_name, $profile_link );
+', 'buddypress' ), $requesting_user_name, stripslashes( $group->name ), $group_requests, $requesting_user_name, $profile_link );
 
 	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
@@ -98,24 +98,24 @@ function groups_notification_membership_request_completed( $requesting_user_id, 
 	$to = $ud->user_email;
 
 	if ( $accepted ) {
-		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'Membership request for group "%s" accepted', 'buddypress' ), stripslashes( attribute_escape( $group->name ) ) );
+		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'Membership request for group "%s" accepted', 'buddypress' ), stripslashes( $group->name ) );
 		$message = sprintf( __(
 'Your membership request for the group "%s" has been accepted.
 
 To view the group please login and visit: %s
 
 ---------------------
-', 'buddypress' ), stripslashes( attribute_escape( $group->name ) ), $group_link );
+', 'buddypress' ), stripslashes( $group->name ), $group_link );
 
 	} else {
-		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'Membership request for group "%s" rejected', 'buddypress' ), stripslashes( attribute_escape( $group->name ) ) );
+		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'Membership request for group "%s" rejected', 'buddypress' ), stripslashes( $group->name ) );
 		$message = sprintf( __(
 'Your membership request for the group "%s" has been rejected.
 
 To submit another request please log in and visit: %s
 
 ---------------------
-', 'buddypress' ), stripslashes( attribute_escape( $group->name ) ), $group_link );
+', 'buddypress' ), stripslashes( $group->name ), $group_link );
 	}
 
 	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
@@ -150,7 +150,7 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 	// Set up and send the message
 	$to = $ud->user_email;
 
-	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'You have been promoted in the group: "%s"', 'buddypress' ), stripslashes( attribute_escape( $group->name ) ) );
+	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'You have been promoted in the group: "%s"', 'buddypress' ), stripslashes( $group->name ) );
 
 	$message = sprintf( __(
 'You have been promoted to %s for the group: "%s".
@@ -158,7 +158,7 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 To view the group please visit: %s
 
 ---------------------
-', 'buddypress' ), $promoted_to, stripslashes( attribute_escape( $group->name ) ), $group_link );
+', 'buddypress' ), $promoted_to, stripslashes( $group->name ), $group_link );
 
 	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
@@ -194,7 +194,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 		// Set up and send the message
 		$to = $invited_ud->user_email;
 
-		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'You have an invitation to the group: "%s"', 'buddypress' ), stripslashes( attribute_escape( $group->name ) ) );
+		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'You have an invitation to the group: "%s"', 'buddypress' ), stripslashes( $group->name ) );
 
 		$message = sprintf( __(
 'One of your friends %s has invited you to the group: "%s".
@@ -206,11 +206,12 @@ To view the group visit: %s
 To view %s\'s profile visit: %s
 
 ---------------------
-', 'buddypress' ), $inviter_name, stripslashes( attribute_escape( $group->name ) ), $invites_link, $group_link, $inviter_name, $inviter_link );
+', 'buddypress' ), $inviter_name, stripslashes( $group->name ), $invites_link, $group_link, $inviter_name, $inviter_link );
 
 		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
 		// Send it
+		var_dump( $to, $subject, $message ); die;
 		wp_mail( $to, $subject, $message );
 	}
 }
