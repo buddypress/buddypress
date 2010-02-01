@@ -16,8 +16,8 @@ body {
 	padding-top: 0 !important; /* Remove the top padding space for the admin bar in this theme */
 }
 	body.activity-permalink {
-		min-width: 600px;
-		max-width: 760px;
+		min-width: 960px;
+		max-width: 960px;
 	}
 
 h1, h2, h3, h4, h5, h6 {
@@ -83,7 +83,6 @@ img.avatar {
 		width: 100%;
 		text-align: right;
 	}
-		body.activity-permalink #header #search-bar { display: none; }
 
 		#header h1 {
 			line-height: 230%;
@@ -1284,7 +1283,8 @@ div.activity-comments ul, div.activity-comments ul li {
 		margin-left: 15px;
 	}
 		body.activity-permalink div.activity-comments ul li {
-			padding: 15px 15px 15px 0;
+			border-width: 1px;
+			padding: 15px 0 15px 0;
 		}
 
 		div.activity-comments ul li p:last-child {
@@ -1323,7 +1323,7 @@ div.activity-comments ul, div.activity-comments ul li {
 		div.acomment-content .comment-header { display: none; }
 
 		body.activity-permalink div.activity-comments div.acomment-content {
-			font-size: 12px;
+			font-size: 14px;
 		}
 
 	div.activity-comments div.acomment-meta {
