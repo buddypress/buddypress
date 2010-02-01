@@ -5,7 +5,7 @@
 	<div id="content">
 		<div class="padder">
 
-		<form action="" method="post" class="dir-form">
+		<form action="" method="post" id="forums-search-form" class="dir-form">
 			<h3><?php _e( 'Group Forums Directory', 'buddypress' ) ?><?php if ( is_user_logged_in() ) : ?> &nbsp;<a class="button" href="#new-topic" id="new-topic-button"><?php _e( 'New Topic', 'buddypress' ) ?></a><?php endif; ?></h3>
 
 			<div id="forums-dir-search" class="dir-search">
@@ -65,7 +65,7 @@
 				<?php endif; ?>
 			</div>
 
-		<form action="" method="post" class="dir-form">
+		<form action="" method="post" id="forums-directory-form" class="dir-form">
 
 			<div class="item-list-tabs">
 				<ul>
