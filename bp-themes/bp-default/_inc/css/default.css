@@ -1025,7 +1025,7 @@ ul.activity-list li {
 
 .activity-list li.mini {
 	font-size: 11px;
-	min-height: 35px;
+	height: 35px;
 	padding: 12px 0 0 0;
 }
 	.activity-list li.mini div.activity-meta {
