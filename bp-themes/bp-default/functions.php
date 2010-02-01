@@ -9,9 +9,9 @@ register_sidebars( 1,
 	array(
 		'name' => 'Sidebar',
 		'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
+		'after_widget' => '</div>',
+		'before_title' => '<h3 class="widgettitle">',
+		'after_title' => '</h3>'
 	)
 );
 
@@ -60,7 +60,7 @@ function bp_dtheme_add_blog_comments_js() {
 add_action( 'template_redirect', 'bp_dtheme_add_blog_comments_js' );
 
 function bp_dtheme_blog_comments( $comment, $args, $depth ) {
-    $GLOBALS['comment'] = $comment; ?>
+	$GLOBALS['comment'] = $comment; ?>
 
 	<?php if ( 'pingback' == $comment->comment_type ) return false; ?>
 
@@ -222,5 +222,23 @@ if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" ) {
 /* Load the options page */
 if ( is_admin() )
 	require( TEMPLATEPATH . '/_inc/options.php' );
+
+/* Adjust home page body class if activity stream is home */
+function bp_dtheme_body_class_home( $classes, $bp_classes, $wp_classes, $custom_classes ) {
+	if ( !is_home() )
+		return apply_filters( 'bp_dtheme_body_class_home', $classes, $bp_classes, $wp_classes, $custom_classes );
+
+	if ( !bp_is_deactivated('bp-activity.php') ) {
+		if ( 'activity' == bp_dtheme_show_on_frontpage() ) {
+			$blog = array_keys( $classes, 'blog-page' );
+			$classes[$blog[0]] = 'activity';
+			$classes[] = 'directory';
+			$classes[] = 'internal-page';
+			$classes[] = 'my-activity';
+		}
+	}
+	return apply_filters( 'bp_dtheme_body_class_home', $classes, $bp_classes, $wp_classes, $custom_classes );
+}
+add_filter( 'bp_get_the_body_class', 'bp_dtheme_body_class_home', 10, 4 );
 
 ?>
