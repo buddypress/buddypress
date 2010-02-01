@@ -54,7 +54,7 @@
 <?php else: ?>
 
 	<div id="message" class="info">
-		<p><?php _e( 'No blogs found. Blogs must fill in at least one piece of profile data to show in blog lists.', 'buddypress' ) ?></p>
+		<p><?php _e( 'No blogs found. Blogs must be publicly visible to be appear in blog lists.', 'buddypress' ) ?></p>
 	</div>
 
 <?php endif; ?>
