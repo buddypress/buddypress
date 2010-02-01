@@ -16,26 +16,13 @@ j(document).ready( function() {
 		j('li#activity-' + j.cookie('bp-activity-scope') + ', div.item-list-tabs li.current').addClass('selected');
 	}
 
+	/* Object filter and scope set. */
+	var objects = [ 'members', 'groups', 'blogs', 'forums' ];
+	bp_init_objects( objects );
+
 	/* Hide Forums Post Form */
 	if ( j('div.forums').length )
 		j('div#new-topic-post').hide();
-
-	/* Object filter and scope set. */
-	var objects = [ 'members', 'groups', 'blogs', 'forums' ];
-	j(objects).each( function(i) {
-		if ( null != j.cookie('bp-' + objects[i] + '-filter') && j('div.' + objects[i]).length )
-			j('li#' + objects[i] + '-order-select select option[value=' + j.cookie('bp-' + objects[i] + '-filter') + ']').attr( 'selected', 'selected' );
-
-		if ( null != j.cookie('bp-' + objects[i] + '-scope') && j('div.' + objects[i]).length ) {
-			j('div.item-list-tabs li').each( function() {
-				j(this).removeClass('selected');
-			});
-			j('div.item-list-tabs li#' + objects[i] + '-' + j.cookie('bp-' + objects[i] + '-scope') + ', div.item-list-tabs#object-nav li.current').addClass('selected');
-		}
-
-		/* Reset the page cookie on reload */
-		j.cookie('bp-' + objects[i] + '-page', null);
-	});
 
 	/* @mention Compose Scrolling */
 	if ( j.query.get('r') ) {
@@ -994,6 +981,24 @@ j(document).ready( function() {
 		});
 	});
 });
+
+/* Setup object scope and filter based on the current cookie settings for the object. */
+function bp_init_objects(objects) {
+	j(objects).each( function(i) {
+		if ( null != j.cookie('bp-' + objects[i] + '-filter') && j('div.' + objects[i]).length )
+			j('li#' + objects[i] + '-order-select select option[value=' + j.cookie('bp-' + objects[i] + '-filter') + ']').attr( 'selected', 'selected' );
+
+		if ( null != j.cookie('bp-' + objects[i] + '-scope') && j('div.' + objects[i]).length ) {
+			j('div.item-list-tabs li').each( function() {
+				j(this).removeClass('selected');
+			});
+			j('div.item-list-tabs li#' + objects[i] + '-' + j.cookie('bp-' + objects[i] + '-scope') + ', div.item-list-tabs#object-nav li.current').addClass('selected');
+		}
+
+		/* Reset the page cookie on reload */
+		j.cookie('bp-' + objects[i] + '-page', null);
+	});
+}
 
 /* Filter the current content list (groups/members/blogs/topics) */
 function bp_filter_request( object, filter, scope, target, search_terms, page, extras ) {
