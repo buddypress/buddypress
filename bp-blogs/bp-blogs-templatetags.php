@@ -157,7 +157,7 @@ function bp_has_blogs( $args = '' ) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
+	extract( $r );
 
 	// type: active ( default ) | random | newest | alphabetical
 
