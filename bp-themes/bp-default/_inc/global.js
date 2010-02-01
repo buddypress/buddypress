@@ -32,6 +32,9 @@ j(document).ready( function() {
 			});
 			j('div.item-list-tabs li#' + objects[i] + '-' + j.cookie('bp-' + objects[i] + '-scope') + ', div.item-list-tabs#object-nav li.current').addClass('selected');
 		}
+
+		/* Reset the page cookie on reload */
+		j.cookie('bp-' + objects[i] + '-page', null);
 	});
 
 	/* @mention Compose Scrolling */
