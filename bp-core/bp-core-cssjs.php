@@ -77,6 +77,8 @@ function bp_core_add_cropper_inline_js() {
 
 	$aspect_ratio = 1;
 
+	var_dump( $image );
+
 	/* Calculate Aspect Ratio */
 	if ( (int) constant( 'BP_AVATAR_FULL_HEIGHT' ) && ( (int) constant( 'BP_AVATAR_FULL_WIDTH' ) != (int) constant( 'BP_AVATAR_FULL_HEIGHT' ) ) )
 	     $aspect_ratio = (int) constant( 'BP_AVATAR_FULL_WIDTH' ) / (int) constant( 'BP_AVATAR_FULL_HEIGHT' );
@@ -88,7 +90,7 @@ function bp_core_add_cropper_inline_js() {
 				onSelect: showPreview,
 				onSelect: updateCoords,
 				aspectRatio: <?php echo $aspect_ratio ?>,
-				setSelect: [ 50, 50, 200, 200 ]
+				setSelect: [ 50, 50, <?php echo $image[0] / 2 ?>, <?php echo $image[1] / 2 ?> ]
 			});
 		});
 
