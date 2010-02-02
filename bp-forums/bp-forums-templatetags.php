@@ -92,6 +92,9 @@ class BP_Forums_Template_Forum {
 			$this->topics = array_merge( (array)$stickies, (array)$standard );
 		}
 
+		/* Fetch extra information for topics, so we don't have to query inside the loop */
+		$this->topics = bp_forums_get_topic_extras( &$this->topics );
+
 		$this->pag_links = paginate_links( array(
 			'base' => add_query_arg( array( 'p' => '%#%', 'n' => $this->pag_num ) ),
 			'format' => '',
@@ -347,10 +350,10 @@ function bp_the_topic_last_poster_name() {
 	function bp_get_the_topic_last_poster_name() {
 		global $forum_template;
 
-		if ( !$name = bp_core_get_userlink( $forum_template->topic->topic_last_poster ) )
+		if ( !$domain = bp_core_get_user_domain( $forum_template->topic->topic_last_poster, $forum_template->topic->topic_last_poster_nicename, $forum_template->topic->topic_last_poster_login ) )
 			return __( 'Deleted User', 'buddypress' );
 
-		return apply_filters( 'bp_get_the_topic_last_poster_name', $name );
+		return apply_filters( 'bp_get_the_topic_last_poster_name', '<a href="' . $domain . '">' . $forum_template->topic->topic_last_poster_displayname . '</a>' );
 	}
 
 function bp_the_topic_object_avatar( $args = '' ) {
@@ -386,7 +389,7 @@ function bp_the_topic_last_poster_avatar( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		return apply_filters( 'bp_get_the_topic_last_poster_avatar', bp_core_fetch_avatar( array( 'item_id' => $forum_template->topic->topic_last_poster, 'type' => $type, 'width' => $width, 'height' => $height ) ) );
+		return apply_filters( 'bp_get_the_topic_last_poster_avatar', bp_core_fetch_avatar( array( 'email' => $forum_template->topic->topic_last_poster_email, 'item_id' => $forum_template->topic->topic_last_poster, 'type' => $type, 'width' => $width, 'height' => $height ) ) );
 	}
 
 function bp_the_topic_start_time() {

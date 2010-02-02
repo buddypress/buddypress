@@ -339,6 +339,27 @@ class BP_Core_User {
 			}
 		}
 
+		/* Fetch whether or not the user is a friend */
+		if ( function_exists( 'friends_install' ) ) {
+			$friend_status = $wpdb->get_results( $wpdb->prepare( "SELECT initiator_user_id, friend_user_id, is_confirmed FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d AND friend_user_id IN ( {$user_ids} ) ) OR (initiator_user_id IN ( {$user_ids} ) AND friend_user_id = %d )", $bp->loggedin_user->id, $bp->loggedin_user->id ) );
+			for ( $i = 0; $i < count( $paged_users ); $i++ ) {
+				foreach ( $friend_status as $status ) {
+					if ( $status->initiator_user_id == $paged_users[$i]->id || $status->friend_user_id == $paged_users[$i]->id )
+						$paged_users[$i]->is_friend = $status->is_confirmed;
+				}
+			}
+		}
+
+		if ( 'active' != $type ) {
+			$user_activity = $wpdb->get_results( "SELECT user_id as id, meta_value as last_activity FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = 'last_activity' AND user_id IN ( {$user_ids} )" );
+			for ( $i = 0; $i < count( $paged_users ); $i++ ) {
+				foreach ( $user_activity as $activity ) {
+					if ( $activity->id == $paged_users[$i]->id )
+						$paged_users[$i]->last_activity = $activity->last_activity;
+				}
+			}
+		}
+
 		/* Fetch the user's last_activity */
 		if ( 'active' != $type ) {
 			$user_activity = $wpdb->get_results( "SELECT user_id as id, meta_value as last_activity FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = 'last_activity' AND user_id IN ( {$user_ids} )" );

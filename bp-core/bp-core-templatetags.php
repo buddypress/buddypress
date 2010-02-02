@@ -341,7 +341,12 @@ function bp_member_add_friend_button() {
 	global $members_template;
 
 	if ( function_exists( 'bp_add_friend_button' ) ) {
-		echo bp_add_friend_button( $members_template->member->id );
+		if ( null === $members_template->member->is_friend )
+			$friend_status = 'not_friends';
+		else
+			$friend_status = ( 0 == $members_template->member->is_friend ) ? 'pending' : 'is_friend';
+
+		echo bp_add_friend_button( $members_template->member->id, $friend_status );
 	}
 }
 

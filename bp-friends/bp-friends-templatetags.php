@@ -114,10 +114,10 @@ function bp_friend_search_form() {
 	<?php
 }
 
-function bp_add_friend_button( $potential_friend_id = false ) {
-	echo bp_get_add_friend_button( $potential_friend_id );
+function bp_add_friend_button( $potential_friend_id = false, $friend_status = false ) {
+	echo bp_get_add_friend_button( $potential_friend_id, $friend_status );
 }
-	function bp_get_add_friend_button( $potential_friend_id = false ) {
+	function bp_get_add_friend_button( $potential_friend_id = false, $friend_status = false ) {
 		global $bp, $friends_template;
 
 		if ( !is_user_logged_in() )
@@ -131,7 +131,8 @@ function bp_add_friend_button( $potential_friend_id = false ) {
 		if ( $bp->loggedin_user->id == $potential_friend_id )
 			return false;
 
-		$friend_status = friends_check_friendship_status( $bp->loggedin_user->id, $potential_friend_id );
+		if ( empty( $friend_status ) )
+			$friend_status = friends_check_friendship_status( $bp->loggedin_user->id, $potential_friend_id );
 
 		$button = '<div class="generic-button friendship-button ' . $friend_status . '" id="friendship-button-' . $potential_friend_id . '">';
 		if ( 'pending' == $friend_status ) {

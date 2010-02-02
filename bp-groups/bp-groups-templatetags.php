@@ -1079,10 +1079,10 @@ function bp_group_is_member( $group = false ) {
 	if ( !$group )
 		$group =& $groups_template->group;
 
-	if ( groups_is_user_member( $bp->loggedin_user->id, $group->id ) )
-		return true;
+	if ( null == $group->is_member )
+		return false;
 
-	return false;
+	return true;
 }
 
 function bp_group_accept_invite_link( $deprecated = false ) {
@@ -1167,7 +1167,7 @@ function bp_group_join_button( $group = false ) {
 		$group =& $groups_template->group;
 
 	// If they're not logged in or are banned from the group, no join button.
-	if ( !is_user_logged_in() || groups_is_user_banned( $bp->loggedin_user->id, $group->id ) )
+	if ( !is_user_logged_in() || $group->is_banned )
 		return false;
 
 	if ( !$group->status )
@@ -1177,14 +1177,14 @@ function bp_group_join_button( $group = false ) {
 
 	switch ( $group->status ) {
 		case 'public':
-			if ( BP_Groups_Member::check_is_member( $bp->loggedin_user->id, $group->id ) )
+			if ( $group->is_member )
 				echo '<a class="leave-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
 			else
 				echo '<a class="join-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'join', 'groups_join_group' ) . '">' . __( 'Join Group', 'buddypress' ) . '</a>';
 		break;
 
 		case 'private':
-			if ( BP_Groups_Member::check_is_member( $bp->loggedin_user->id, $group->id ) ) {
+			if ( $group->is_member ) {
 				echo '<a class="leave-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
 			} else {
 				if ( !bp_group_has_requested_membership( $group ) )

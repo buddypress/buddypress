@@ -796,12 +796,7 @@ j(document).ready( function() {
 
 	/** Alternate Highlighting ******************************************/
 
-	j('table tr').each( function(i) {
-		if ( i % 2 == 1 )
-			j(this).addClass('alt');
-	});
-
-	j('div.message-box, ul#topic-post-list li').each( function(i) {
+	j('table tr, div.message-box, ul#topic-post-list li').each( function(i) {
 		if ( i % 2 != 1 )
 			j(this).addClass('alt');
 	});
