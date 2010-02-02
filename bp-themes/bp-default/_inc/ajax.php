@@ -155,7 +155,13 @@ function bp_dtheme_delete_activity() {
 		return false;
 	}
 
-	if ( empty( $_POST['id'] ) || !is_numeric( $_POST['id'] ) || !bp_activity_delete( array( 'id' => $_POST['id'] ) ) ) {
+	$activity = new BP_Activity_Activity( $_POST['id'] );
+
+	/* Check access */
+	if ( !is_site_admin() && $activity->user_id != $bp->loggedin_user->id )
+		return false;
+
+	if ( empty( $_POST['id'] ) || !is_numeric( $_POST['id'] ) || !bp_activity_delete( array( 'id' => $_POST['id'], 'user_id' => $activity->user_id ) ) ) {
 		echo '-1<div id="message" class="error"><p>' . __( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>';
 		return false;
 	}

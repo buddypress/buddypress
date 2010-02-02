@@ -332,24 +332,21 @@ function bp_activity_action_delete_activity() {
 	check_admin_referer( 'bp_activity_delete_link' );
 
 	$activity_id = $bp->action_variables[0];
+	$activity = new BP_Activity_Activity( $activity_id );
 
 	/* Check access */
-	if ( !is_site_admin() ) {
-		$activity = new BP_Activity_Activity( $activity_id );
-
-		if ( $activity->user_id != $bp->loggedin_user->id )
-			return false;
-	}
+	if ( !is_site_admin() && $activity->user_id != $bp->loggedin_user->id )
+		return false;
 
 	/* Now delete the activity item */
-	if ( bp_activity_delete_by_activity_id( $activity_id ) )
+	if ( bp_activity_delete( array( 'id' => $activity_id, 'user_id' => $activity->user_id  ) ) )
 		bp_core_add_message( __( 'Activity deleted', 'buddypress' ) );
 	else
 		bp_core_add_message( __( 'There was an error when deleting that activity', 'buddypress' ), 'error' );
 
 	do_action( 'bp_activity_action_delete_activity', $activity_id );
 
-	bp_core_redirect( $_SERVER['HTTP_REFERER'] );
+	bp_core_redirect( wp_get_referer() );
 }
 add_action( 'wp', 'bp_activity_action_delete_activity', 3 );
 
@@ -695,6 +692,18 @@ function bp_activity_delete( $args = '' ) {
 
 	if ( !$activity_ids_deleted = BP_Activity_Activity::delete( $args ) )
 		return false;
+
+	/* Check if the user's latest update has been deleted */
+	if ( empty( $args['user_id'] ) )
+		$user_id = $bp->loggedin_user->id;
+	else
+		$user_id = $args['user_id'];
+
+	$latest_update = get_usermeta( $user_id, 'bp_latest_update' );
+	if ( !empty( $latest_update ) ) {
+		if ( in_array( (int)$latest_update['id'], (array)$activity_ids_deleted ) )
+			delete_usermeta( $user_id, 'bp_latest_update' );
+	}
 
 	do_action( 'bp_activity_delete', $args );
 	do_action( 'bp_activity_deleted_activities', $activity_ids_deleted );
