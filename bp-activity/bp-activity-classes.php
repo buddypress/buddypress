@@ -113,7 +113,7 @@ Class BP_Activity_Activity {
 		else
 			$activities = $wpdb->get_results( $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}" ) );
 
-		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(a.id) {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort}" ) );
+		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(a.id) FROM {$bp->activity->table_name} a {$where_sql} ORDER BY a.date_recorded {$sort}" ) );
 
 		/* Get the fullnames of users so we don't have to query in the loop */
 		if ( function_exists( 'xprofile_install' ) && $activities ) {
