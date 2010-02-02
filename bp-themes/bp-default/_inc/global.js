@@ -721,8 +721,6 @@ j(document).ready( function() {
 		},
 		function(response)
 		{
-			response = response.substr(0, response.length-1);
-
 			var action = thelink.attr('rel');
 			var parentdiv = thelink.parent();
 
@@ -772,7 +770,6 @@ j(document).ready( function() {
 		},
 		function(response)
 		{
-			response = response.substr(0, response.length-1);
 			var parentdiv = thelink.parent();
 
 			if ( !j('body.directory').length )

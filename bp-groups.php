@@ -210,8 +210,6 @@ function groups_setup_nav() {
 			if ( is_user_logged_in() && groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
 				if ( function_exists('friends_install') )
 					bp_core_new_subnav_item( array( 'name' => __( 'Send Invites', 'buddypress' ), 'slug' => 'send-invites', 'parent_url' => $group_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_invite', 'item_css_id' => 'invite', 'position' => 70, 'user_has_access' => $bp->groups->current_group->user_has_access ) );
-
-				//bp_core_new_subnav_item( array( 'name' => __( 'Leave Group', 'buddypress' ), 'slug' => 'leave-group', 'parent_url' => $group_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_leave', 'item_css_id' => 'eave', 'position' => 110, 'user_has_access' => $bp->groups->current_group->user_has_access ) );
 			}
 		}
 	}
@@ -591,42 +589,6 @@ function groups_screen_group_invite() {
 		} else {
 			// Show send invite page
 			bp_core_load_template( apply_filters( 'groups_template_group_invite', 'groups/single/home' ) );
-		}
-	}
-}
-
-function groups_screen_group_leave() {
-	global $bp;
-
-	if ( $bp->is_single_item ) {
-		if ( isset($bp->action_variables) && 'yes' == $bp->action_variables[0] ) {
-			// Check if the user is the group admin first.
-			if ( count( groups_get_group_admins( $bp->groups->current_group->id ) ) < 2 ) {
-				if ( groups_is_user_admin( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
-					bp_core_add_message(  __('As the only group administrator, you cannot leave this group.', 'buddypress'), 'error' );
-					bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
-				}
-			}
-
-			// remove the user from the group.
-			if ( !groups_leave_group( $bp->groups->current_group->id ) ) {
-				bp_core_add_message(  __('There was an error leaving the group. Please try again.', 'buddypress'), 'error' );
-				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
-			} else {
-				bp_core_add_message( __('You left the group successfully.', 'buddypress') );
-				bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug );
-			}
-
-		} else if ( isset($bp->action_variables) && 'no' == $bp->action_variables[0] ) {
-
-			bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
-
-		} else {
-
-			do_action( 'groups_screen_group_leave', $bp->groups->current_group->id );
-
-			// Show leave group page
-			bp_core_load_template( apply_filters( 'groups_template_group_leave', 'groups/single/home' ) );
 		}
 	}
 }
@@ -1658,6 +1620,12 @@ function groups_leave_group( $group_id, $user_id = false ) {
 
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
+
+	/* Don't let single admins leave the group. */
+	if ( count( groups_get_group_admins( $group_id ) ) < 2 ) {
+		if ( groups_is_user_admin( $user_id, $group_id ) )
+			return false;
+	}
 
 	// This is exactly the same as deleting and invite, just is_confirmed = 1 NOT 0.
 	if ( !groups_uninvite_user( $user_id, $group_id, true ) )
