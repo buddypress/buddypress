@@ -1323,7 +1323,7 @@ function bp_group_has_members( $args = '' ) {
 
 	$defaults = array(
 		'group_id' => $bp->groups->current_group->id,
-		'per_page' => 10,
+		'per_page' => 20,
 		'max' => false,
 		'exclude_admins_mods' => 1,
 		'exclude_banned' => 1
@@ -1400,6 +1400,20 @@ function bp_group_member_link() {
 		global $members_template;
 
 		return apply_filters( 'bp_get_group_member_link', '<a href="' . bp_core_get_user_domain( $members_template->member->user_id, $members_template->member->user_nicename, $members_template->member->user_login ) . '">' . $members_template->member->display_name . '</a>' );
+	}
+
+function bp_group_member_is_friend() {
+	echo bp_get_group_member_is_friend();
+}
+	function bp_get_group_member_is_friend() {
+		global $members_template;
+
+		if ( null === $members_template->member->is_friend )
+			$friend_status = 'not_friends';
+		else
+			$friend_status = ( 0 == $members_template->member->is_friend ) ? 'pending' : 'is_friend';
+
+		return apply_filters( 'bp_get_group_member_is_friend', $friend_status );
 	}
 
 function bp_group_member_is_banned() {

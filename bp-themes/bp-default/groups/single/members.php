@@ -2,7 +2,7 @@
 
 	<?php do_action( 'bp_before_group_members_content' ) ?>
 
-	<div class="pagination">
+	<div class="pagination no-ajax">
 
 		<div id="member-count" class="pag-count">
 			<?php bp_group_member_pagination_count() ?>

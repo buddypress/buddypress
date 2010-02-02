@@ -177,7 +177,7 @@
 
 			<?php if ( bp_group_member_needs_pagination() ) : ?>
 
-				<div class="pagination">
+				<div class="pagination no-ajax">
 
 					<div id="member-count" class="pag-count">
 						<?php bp_group_member_pagination_count() ?>
