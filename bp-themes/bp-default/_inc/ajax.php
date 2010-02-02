@@ -147,6 +147,8 @@ function bp_dtheme_new_activity_comment() {
 add_action( 'wp_ajax_new_activity_comment', 'bp_dtheme_new_activity_comment' );
 
 function bp_dtheme_delete_activity() {
+	global $bp;
+
 	/* Check the nonce */
 	check_admin_referer( 'bp_activity_delete_link' );
 
