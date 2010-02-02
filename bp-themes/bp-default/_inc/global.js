@@ -931,13 +931,19 @@ j(document).ready( function() {
 		checkboxes_tosend = '';
 		checkboxes = j("#message-threads tr td input[type='checkbox']");
 
-		if ( !checkboxes.length ) return false;
+		j('div#message').remove();
+		j(this).addClass('loading');
+
 		j(checkboxes).each( function(i) {
 			if( j(this).is(':checked') )
 				checkboxes_tosend += j(this).attr('value') + ',';
 		});
 
-		if ( '' == checkboxes_tosend ) return false;
+		if ( '' == checkboxes_tosend ) {
+			j(this).removeClass('loading');
+			return false;
+		}
+
 		j.post( ajaxurl, {
 			action: 'messages_delete',
 			'thread_ids': checkboxes_tosend
@@ -954,6 +960,7 @@ j(document).ready( function() {
 			}
 
 			j('div#message').hide().slideDown(150);
+			j("a#delete_inbox_messages").removeClass('loading');
 		});
 		return false;
 	});
