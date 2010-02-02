@@ -1354,7 +1354,7 @@ function bp_group_member_avatar() {
 	function bp_get_group_member_avatar() {
 		global $members_template;
 
-		return apply_filters( 'bp_get_group_member_avatar', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'full' ) ) );
+		return apply_filters( 'bp_get_group_member_avatar', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'full', 'email' => $members_template->member->user_email ) ) );
 	}
 
 function bp_group_member_avatar_thumb() {
@@ -1363,7 +1363,7 @@ function bp_group_member_avatar_thumb() {
 	function bp_get_group_member_avatar_thumb() {
 		global $members_template;
 
-		return apply_filters( 'bp_get_group_member_avatar_thumb', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'thumb' ) ) );
+		return apply_filters( 'bp_get_group_member_avatar_thumb', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'thumb', 'email' => $members_template->member->user_email ) ) );
 	}
 
 function bp_group_member_avatar_mini( $width = 30, $height = 30 ) {
@@ -1372,7 +1372,7 @@ function bp_group_member_avatar_mini( $width = 30, $height = 30 ) {
 	function bp_get_group_member_avatar_mini( $width = 30, $height = 30 ) {
 		global $members_template;
 
-		return apply_filters( 'bp_get_group_member_avatar_mini', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'thumb', 'width' => $width, 'height' => $height ) ) );
+		return apply_filters( 'bp_get_group_member_avatar_mini', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'thumb', 'width' => $width, 'height' => $height, 'email' => $members_template->member->user_email ) ) );
 	}
 
 function bp_group_member_name() {
@@ -1381,7 +1381,7 @@ function bp_group_member_name() {
 	function bp_get_group_member_name() {
 		global $members_template;
 
-		return apply_filters( 'bp_get_group_member_name', bp_core_get_user_displayname( $members_template->member->user_id ) );
+		return apply_filters( 'bp_get_group_member_name', $members_template->member->display_name );
 	}
 
 function bp_group_member_url() {
@@ -1390,7 +1390,7 @@ function bp_group_member_url() {
 	function bp_get_group_member_url() {
 		global $members_template;
 
-		return apply_filters( 'bp_get_group_member_url', bp_core_get_userlink( $members_template->member->user_id, false, true ) );
+		return apply_filters( 'bp_get_group_member_url', bp_core_get_user_domain( $members_template->member->user_id, $members_template->member->user_nicename, $members_template->member->user_login ) );
 	}
 
 function bp_group_member_link() {
@@ -1399,7 +1399,7 @@ function bp_group_member_link() {
 	function bp_get_group_member_link() {
 		global $members_template;
 
-		return apply_filters( 'bp_get_group_member_link', bp_core_get_userlink( $members_template->member->user_id ) );
+		return apply_filters( 'bp_get_group_member_link', '<a href="' . bp_core_get_user_domain( $members_template->member->user_id, $members_template->member->user_nicename, $members_template->member->user_login ) . '">' . $members_template->member->display_name . '</a>' );
 	}
 
 function bp_group_member_is_banned() {
@@ -1408,7 +1408,7 @@ function bp_group_member_is_banned() {
 	function bp_get_group_member_is_banned() {
 		global $members_template, $groups_template;
 
-		return apply_filters( 'bp_get_group_member_is_banned', groups_is_user_banned( $members_template->member->user_id, $groups_template->group->id ) );
+		return apply_filters( 'bp_get_group_member_is_banned', $members_template->member->is_banned );
 	}
 
 function bp_group_member_joined_since() {
@@ -1417,7 +1417,7 @@ function bp_group_member_joined_since() {
 	function bp_get_group_member_joined_since() {
 		global $members_template;
 
-		return apply_filters( 'bp_get_group_member_joined_since', bp_core_get_last_activity( strtotime( $members_template->member->date_modified ), __( 'joined %s ago', 'buddypress') ) );
+		return apply_filters( 'bp_get_group_member_joined_since', bp_core_get_last_activity( $members_template->member->date_modified, __( 'joined %s ago', 'buddypress') ) );
 	}
 
 function bp_group_member_id() {
