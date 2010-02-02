@@ -48,7 +48,7 @@
 					<a href="<?php echo site_url() ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a>
 				</li>
 
-				<?php if ( !bp_is_deactivated('bp-activity.php') ) : ?>
+				<?php if ( bp_is_active( 'activity' ) ) : ?>
 					<?php if ( 'blog' == bp_dtheme_show_on_frontpage() ) : ?>
 						<li<?php if ( bp_is_page( BP_ACTIVITY_SLUG ) ) : ?> class="selected"<?php endif; ?>>
 							<a href="<?php echo site_url() ?>/<?php echo BP_ACTIVITY_SLUG ?>/" title="<?php _e( 'Activity', 'buddypress' ) ?>"><?php _e( 'Activity', 'buddypress' ) ?></a>
@@ -64,19 +64,19 @@
 					<a href="<?php echo site_url() ?>/<?php echo BP_MEMBERS_SLUG ?>/" title="<?php _e( 'Members', 'buddypress' ) ?>"><?php _e( 'Members', 'buddypress' ) ?></a>
 				</li>
 
-				<?php if ( function_exists( 'groups_install' ) ) : ?>
+				<?php if ( bp_is_active( 'groups' ) ) : ?>
 					<li<?php if ( bp_is_page( BP_GROUPS_SLUG ) || bp_is_group() ) : ?> class="selected"<?php endif; ?>>
 						<a href="<?php echo site_url() ?>/<?php echo BP_GROUPS_SLUG ?>/" title="<?php _e( 'Groups', 'buddypress' ) ?>"><?php _e( 'Groups', 'buddypress' ) ?></a>
 					</li>
 				<?php endif; ?>
 
-				<?php if ( function_exists( 'groups_install' ) && ( function_exists( 'bp_forums_is_installed_correctly' ) && !(int) get_site_option( 'bp-disable-forum-directory' ) ) && bp_forums_is_installed_correctly() ) : ?>
+				<?php if ( bp_is_active( 'forums' ) && ( function_exists( 'bp_forums_is_installed_correctly' ) && !(int) get_site_option( 'bp-disable-forum-directory' ) ) && bp_forums_is_installed_correctly() ) : ?>
 					<li<?php if ( bp_is_page( BP_FORUMS_SLUG ) ) : ?> class="selected"<?php endif; ?>>
 						<a href="<?php echo site_url() ?>/<?php echo BP_FORUMS_SLUG ?>/" title="<?php _e( 'Forums', 'buddypress' ) ?>"><?php _e( 'Forums', 'buddypress' ) ?></a>
 					</li>
 				<?php endif; ?>
 
-				<?php if ( function_exists( 'bp_blogs_install' ) && bp_core_is_multisite() ) : ?>
+				<?php if ( bp_is_active( 'blogs' ) && bp_core_is_multisite() ) : ?>
 					<li<?php if ( bp_is_page( BP_BLOGS_SLUG ) ) : ?> class="selected"<?php endif; ?>>
 						<a href="<?php echo site_url() ?>/<?php echo BP_BLOGS_SLUG ?>/" title="<?php _e( 'Blogs', 'buddypress' ) ?>"><?php _e( 'Blogs', 'buddypress' ) ?></a>
 					</li>

@@ -47,7 +47,7 @@
 
 	<?php endif; ?>
 
-	<?php if ( function_exists('bp_forums_setup') ) : ?>
+	<?php if ( function_exists('bp_forums_is_installed_correctly') ) : ?>
 
 		<?php if ( bp_forums_is_installed_correctly() ) : ?>
 

@@ -228,7 +228,7 @@ function bp_dtheme_body_class_home( $classes, $bp_classes, $wp_classes, $custom_
 	if ( !is_home() )
 		return apply_filters( 'bp_dtheme_body_class_home', $classes, $bp_classes, $wp_classes, $custom_classes );
 
-	if ( !bp_is_deactivated('bp-activity.php') ) {
+	if ( bp_is_active( 'activity' ) ) {
 		if ( 'activity' == bp_dtheme_show_on_frontpage() ) {
 			$blog = array_keys( $classes, 'blog-page' );
 			$classes[$blog[0]] = 'activity';

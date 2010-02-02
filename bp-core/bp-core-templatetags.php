@@ -1401,10 +1401,10 @@ function bp_ajax_querystring() {
 
 /* Template is_() functions to determine the current page */
 
-function bp_is_deactivated( $plugin_file ) {
+function bp_is_active( $component ) {
 	global $bp_deactivated;
 
-	if ( isset( $bp_deactivated[$plugin_file] ) )
+	if ( !isset( $bp_deactivated[ 'bp-' . $component . '.php' ] ) )
 		return true;
 
 	return false;

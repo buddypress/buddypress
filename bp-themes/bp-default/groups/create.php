@@ -46,7 +46,7 @@
 					</div>
 					<?php endif; ?>
 
-					<?php if ( function_exists('bp_forums_setup') ) : ?>
+					<?php if ( function_exists('bp_forums_is_installed_correctly') ) : ?>
 						<?php if ( bp_forums_is_installed_correctly() ) : ?>
 							<div class="checkbox">
 								<label><input type="checkbox" name="group-show-forum" id="group-show-forum" value="1"<?php if ( bp_get_new_group_enable_forum() ) { ?> checked="checked"<?php } ?> /> <?php _e('Enable discussion forum', 'buddypress') ?></label>

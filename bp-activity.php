@@ -160,7 +160,7 @@ function bp_activity_screen_my_activity() {
 function bp_activity_screen_friends() {
 	global $bp;
 
-	if ( bp_is_deactivated( 'bp-friends.php' ) )
+	if ( !bp_is_active( 'friends' ) )
 		return false;
 
 	if ( !is_site_admin() )
@@ -173,7 +173,7 @@ function bp_activity_screen_friends() {
 function bp_activity_screen_groups() {
 	global $bp;
 
-	if ( bp_is_deactivated( 'bp-groups.php' ) )
+	if ( !bp_is_active( 'groups' ) )
 		return false;
 
 	if ( !is_site_admin() )
