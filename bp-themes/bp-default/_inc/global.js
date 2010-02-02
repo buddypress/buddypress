@@ -926,6 +926,38 @@ j(document).ready( function() {
 		}
 	);
 
+	/* Bulk delete messages */
+	j("a#delete_inbox_messages").click( function() {
+		checkboxes_tosend = '';
+		checkboxes = j("#message-threads tr td input[type='checkbox']");
+
+		if ( !checkboxes.length ) return false;
+		j(checkboxes).each( function(i) {
+			if( j(this).is(':checked') )
+				checkboxes_tosend += j(this).attr('value') + ',';
+		});
+
+		if ( '' == checkboxes_tosend ) return false;
+		j.post( ajaxurl, {
+			action: 'messages_delete',
+			'thread_ids': checkboxes_tosend
+		}, function(response) {
+			if ( response[0] + response[1] == "-1" ) {
+				j('#message-threads').prepend( response.substr( 2, response.length ) );
+			} else {
+				j('#message-threads').before( '<div id="message" class="updated"><p>' + response + '</p></div>' );
+
+				j(checkboxes).each( function(i) {
+					if( j(this).is(':checked') )
+						j(this).parent().parent().fadeOut(150);
+				});
+			}
+
+			j('div#message').hide().slideDown(150);
+		});
+		return false;
+	});
+
 	/* Close site wide notices in the sidebar */
 	j("a#close-notice").click( function() {
 		j(this).addClass('loading');

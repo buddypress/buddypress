@@ -1479,9 +1479,6 @@ div#message-thread div.message-box {
 	div#message-thread div.message-options {
 		text-align: right;
 	}
-		a#delete_inbox_messages {
-			display: none;
-		}
 
 /* > Group Forum Topics
 -------------------------------------------------------------- */

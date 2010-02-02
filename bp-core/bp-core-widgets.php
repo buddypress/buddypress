@@ -296,5 +296,4 @@ function bp_core_ajax_widget_members() {
 }
 add_action( 'wp_ajax_widget_members', 'bp_core_ajax_widget_members' );
 
-
 ?>

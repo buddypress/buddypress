@@ -517,13 +517,12 @@ function bp_dtheme_ajax_messages_delete() {
 	global $bp;
 
 	if ( !isset($_POST['thread_ids']) ) {
-		echo "-1[[split]]" . __( 'There was a problem deleting messages.', 'buddypress' );
+		echo "-1<div id='message' class='error'><p>" . __( 'There was a problem deleting messages.', 'buddypress' ) . '</p></div>';
 	} else {
 		$thread_ids = explode( ',', $_POST['thread_ids'] );
 
-		for ( $i = 0; $i < count($thread_ids); $i++ ) {
+		for ( $i = 0; $i < count($thread_ids); $i++ )
 			BP_Messages_Thread::delete($thread_ids[$i]);
-		}
 
 		_e('Messages deleted.', 'buddypress');
 	}
