@@ -29,7 +29,7 @@
 				<?php if ( function_exists( 'friends_install' ) ) : ?>
 
 					<div class="action">
-						<?php bp_add_friend_button( bp_get_group_member_id() ) ?>
+						<?php bp_add_friend_button( bp_get_group_member_id(), bp_get_group_member_is_friend() ) ?>
 
 						<?php do_action( 'bp_group_members_list_item_action' ) ?>
 					</div>
