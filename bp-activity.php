@@ -561,7 +561,7 @@ function bp_activity_post_update( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	if ( empty( $content ) )
+	if ( empty( $content ) || !strlen( trim( $content ) ) )
 		return false;
 
 	/* Record this on the user's profile */

@@ -442,7 +442,7 @@ function bp_forums_insert_post( $args = '' ) {
 	if ( !isset( $post_position ) )
 		$post_position = $post->post_position;
 
-	$post = bb_insert_post( array( 'post_id' => $post_id, 'topic_id' => $topic_id, 'post_text' => stripslashes( $post_text ), 'post_time' => $post_time, 'poster_id' => $poster_id, 'poster_ip' => $poster_ip, 'post_status' => $post_status, 'post_position' => $post_position ) );
+	$post = bb_insert_post( array( 'post_id' => $post_id, 'topic_id' => $topic_id, 'post_text' => stripslashes( trim( $post_text ) ), 'post_time' => $post_time, 'poster_id' => $poster_id, 'poster_ip' => $poster_ip, 'post_status' => $post_status, 'post_position' => $post_position ) );
 
 	if ( $post )
 		do_action( 'bp_forums_new_post', $post_id );

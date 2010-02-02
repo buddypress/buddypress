@@ -727,7 +727,7 @@ Class BP_XProfile_ProfileData {
 		do_action( 'xprofile_data_before_save', $this );
 
 		if ( $this->is_valid_field() ) {
-			if ( $this->exists() && $this->value != '' ) {
+			if ( $this->exists() && !empty( $this->value ) && strlen( trim( $this->value ) ) ) {
 				$result = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_data} SET value = %s, last_updated = %s WHERE user_id = %d AND field_id = %d", $this->value, $this->last_updated, $this->user_id, $this->field_id ) );
 			} else if ( $this->exists() && empty( $this->value ) ) {
 				// Data removed, delete the entry.

@@ -1051,7 +1051,7 @@ function groups_action_create_group() {
 		check_admin_referer( 'groups_create_save_' . $bp->groups->current_create_step );
 
 		if ( 'group-details' == $bp->groups->current_create_step ) {
-			if ( empty( $_POST['group-name'] ) || empty( $_POST['group-desc'] ) ) {
+			if ( empty( $_POST['group-name'] ) || empty( $_POST['group-desc'] ) || !strlen( trim( $_POST['group-name'] ) ) || !strlen( trim( $_POST['group-desc'] ) ) ) {
 				bp_core_add_message( __( 'Please fill in all of the required fields', 'buddypress' ), 'error' );
 				bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step . '/' );
 			}
@@ -1855,7 +1855,7 @@ function groups_post_update( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	if ( empty($content) || empty($user_id) || empty($group_id) )
+	if ( empty($content) || !strlen( trim( $content ) ) || empty($user_id) || empty($group_id) )
 		return false;
 
 	$bp->groups->current_group = new BP_Groups_Group( $group_id );

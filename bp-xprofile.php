@@ -718,6 +718,9 @@ function xprofile_set_field_data( $field, $user_id, $value ) {
 	if ( !$field_id )
 		return false;
 
+	if ( empty( $value ) || !strlen( trim( $value ) ) )
+		return false;
+
 	$field = new BP_XProfile_ProfileData();
 	$field->field_id = $field_id;
 	$field->user_id = $user_id;
