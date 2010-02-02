@@ -297,7 +297,7 @@ function groups_screen_group_invites() {
 			bp_core_add_message( __('Group invite accepted', 'buddypress') );
 
 			/* Record this in activity streams */
-			$group = new BP_Groups_Group( $group_id, false, false );
+			$group = new BP_Groups_Group( $group_id );
 
 			groups_record_activity( array(
 				'action' => apply_filters( 'groups_activity_accepted_invite_action', sprintf( __( '%s joined the group %s', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . attribute_escape( $group->name ) . '</a>' ), $bp->loggedin_user->id, &$group ),
@@ -1079,7 +1079,7 @@ function groups_action_create_group() {
 	/* Set the ID of the new group, if it has already been created in a previous step */
 	if ( isset( $_COOKIE['bp_new_group_id'] ) ) {
 		$bp->groups->new_group_id = $_COOKIE['bp_new_group_id'];
-		$bp->groups->current_group = new BP_Groups_Group( $bp->groups->new_group_id, false, false );
+		$bp->groups->current_group = new BP_Groups_Group( $bp->groups->new_group_id );
 	}
 
 	/* If the save, upload or skip button is hit, lets calculate what we need to save */
@@ -1357,7 +1357,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_id = $secondary_item_id;
 			$requesting_user_id = $item_id;
 
-			$group = new BP_Groups_Group( $group_id, false, false );
+			$group = new BP_Groups_Group( $group_id );
 
 			$group_link = bp_get_group_permalink( $group );
 
@@ -1372,7 +1372,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'membership_request_accepted':
 			$group_id = $item_id;
 
-			$group = new BP_Groups_Group( $group_id, false, false );
+			$group = new BP_Groups_Group( $group_id );
 			$group_link = bp_get_group_permalink( $group );
 
 			if ( (int)$total_items > 1 ) {
@@ -1385,7 +1385,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'membership_request_rejected':
 			$group_id = $item_id;
 
-			$group = new BP_Groups_Group( $group_id, false, false );
+			$group = new BP_Groups_Group( $group_id );
 			$group_link = bp_get_group_permalink( $group );
 
 			if ( (int)$total_items > 1 ) {
@@ -1399,7 +1399,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'member_promoted_to_admin':
 			$group_id = $item_id;
 
-			$group = new BP_Groups_Group( $group_id, false, false );
+			$group = new BP_Groups_Group( $group_id );
 			$group_link = bp_get_group_permalink( $group );
 
 			if ( (int)$total_items > 1 ) {
@@ -1412,7 +1412,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'member_promoted_to_mod':
 			$group_id = $item_id;
 
-			$group = new BP_Groups_Group( $group_id, false, false );
+			$group = new BP_Groups_Group( $group_id );
 			$group_link = bp_get_group_permalink( $group );
 
 			if ( (int)$total_items > 1 ) {
@@ -1425,7 +1425,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'group_invite':
 			$group_id = $item_id;
 
-			$group = new BP_Groups_Group( $group_id, false, false );
+			$group = new BP_Groups_Group( $group_id );
 			$user_url = bp_core_get_user_domain( $user_id );
 
 			if ( (int)$total_items > 1 ) {
@@ -1541,7 +1541,7 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $n
 	if ( empty( $group_name ) || empty( $group_desc ) )
 		return false;
 
-	$group = new BP_Groups_Group( $group_id, false, false );
+	$group = new BP_Groups_Group( $group_id );
 	$group->name = $group_name;
 	$group->description = $group_desc;
 
@@ -1561,7 +1561,7 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $n
 function groups_edit_group_settings( $group_id, $enable_forum, $enable_photos, $photos_admin_only, $status ) {
 	global $bp;
 
-	$group = new BP_Groups_Group( $group_id, false, false );
+	$group = new BP_Groups_Group( $group_id );
 	$group->enable_forum = $enable_forum;
 	$group->enable_photos = $enable_photos;
 	$group->photos_admin_only = $photos_admin_only;
@@ -1647,7 +1647,7 @@ function groups_check_slug( $slug ) {
 }
 
 function groups_get_slug( $group_id ) {
-	$group = new BP_Groups_Group( $group_id, false, false );
+	$group = new BP_Groups_Group( $group_id );
 	return $group->slug;
 }
 
@@ -1690,7 +1690,7 @@ function groups_join_group( $group_id, $user_id = false ) {
 		return true;
 
 	if ( !$bp->groups->current_group )
-		$bp->groups->current_group = new BP_Groups_Group( $group_id, false, false );
+		$bp->groups->current_group = new BP_Groups_Group( $group_id );
 
 	$new_member = new BP_Groups_Member;
 	$new_member->group_id = $group_id;
@@ -2226,7 +2226,7 @@ function groups_send_invites( $user_id, $group_id ) {
 
 	// Send friend invites.
 	$invited_users = groups_get_invites_for_group( $user_id, $group_id );
-	$group = new BP_Groups_Group( $group_id, false, false );
+	$group = new BP_Groups_Group( $group_id );
 
 	for ( $i = 0; $i < count( $invited_users ); $i++ ) {
 		$member = new BP_Groups_Member( $invited_users[$i], $group_id );
@@ -2362,7 +2362,7 @@ function groups_accept_membership_request( $membership_id, $user_id = false, $gr
 	groups_update_groupmeta( $membership->group_id, 'total_member_count', (int) groups_get_groupmeta( $membership->group_id, 'total_member_count') + 1 );
 
 	/* Record this in activity streams */
-	$group = new BP_Groups_Group( $group_id, false, false );
+	$group = new BP_Groups_Group( $group_id );
 
 	groups_record_activity( array(
 		'action' => apply_filters( 'groups_activity_membership_accepted_action', sprintf( __( '%s joined the group %s', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . attribute_escape( $group->name ) . '</a>' ), $user_id, &$group ),

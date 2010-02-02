@@ -10,30 +10,20 @@ Class BP_Groups_Group {
 	var $enable_forum;
 	var $date_created;
 
-	var $user_dataset;
-
 	var $admins;
 	var $total_member_count;
-	var $random_members;
 
-	function bp_groups_group( $id = null, $single = false, $get_user_dataset = true ) {
+	function bp_groups_group( $id = null ) {
 		if ( $id ) {
 			$this->id = $id;
-			$this->populate( $get_user_dataset );
-		}
-
-		if ( $single ) {
-			$this->populate_meta();
+			$this->populate();
 		}
 	}
 
-	function populate( $get_user_dataset ) {
+	function populate() {
 		global $wpdb, $bp;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$bp->groups->table_name} WHERE id = %d", $this->id );
-		$group = $wpdb->get_row($sql);
-
-		if ( $group ) {
+		if ( $group = $wpdb->get_row( $wpdb->prepare( "SELECT g.*, gm.meta_value as last_activity, gm2.meta_value as total_member_count FROM {$bp->groups->table_name} g, {$bp->groups->table_name_groupmeta} gm, {$bp->groups->table_name_groupmeta} gm2 WHERE g.id = gm.group_id AND g.id = gm2.group_id AND gm.meta_key = 'last_activity' AND gm2.meta_key = 'total_member_count' AND g.id = %d", $this->id ) ) ) {
 			$this->id = $group->id;
 			$this->creator_id = $group->creator_id;
 			$this->name = stripslashes($group->name);
@@ -42,24 +32,18 @@ Class BP_Groups_Group {
 			$this->status = $group->status;
 			$this->enable_forum = $group->enable_forum;
 			$this->date_created = $group->date_created;
-			$this->total_member_count = groups_get_groupmeta( $this->id, 'total_member_count' );
-
-			if ( $get_user_dataset ) {
-				$this->user_dataset = $this->get_user_dataset();
-
-				$this->total_member_count = count( $this->user_dataset );
-				groups_update_groupmeta( $this->id, 'total_member_count', $this->total_member_count );
-			}
-
-			/* Get group extras */
+			$this->last_activity = $group->last_activity;
+			$this->total_member_count = $group->total_member_count;
 			$this->is_member = BP_Groups_Member::check_is_member( $bp->loggedin_user->id, $this->id );
-		}
-	}
 
-	function populate_meta() {
-		if ( $this->id ) {
-			$this->admins = $this->get_administrators();
-			$this->random_members = $this->get_random_members();
+			/* Get group admins and mods */
+			$admin_mods = $wpdb->get_results( $wpdb->prepare( "SELECT u.ID as user_id, u.user_login, u.user_email, u.user_nicename, m.is_admin, m.is_mod FROM {$wpdb->users} u, {$bp->groups->table_name_members} m WHERE u.ID = m.user_id AND m.group_id = %d AND ( m.is_admin = 1 OR m.is_mod = 1 )", $this->id ) );
+			foreach( (array)$admin_mods as $user ) {
+				if ( (int)$user->is_admin )
+					$this->admins[] = $user;
+				else
+					$this->mods[] = $user;
+			}
 		}
 	}
 
@@ -131,43 +115,6 @@ Class BP_Groups_Group {
 		do_action( 'groups_group_after_save', $this );
 
 		return true;
-	}
-
-	function get_user_dataset() {
-		global $wpdb, $bp;
-
-		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id, is_admin, inviter_id, user_title, is_mod FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 1 AND is_banned = 0 ORDER BY rand()", $this->id ) );
-	}
-
-	function get_administrators() {
-		for ( $i = 0; $i < count($this->user_dataset); $i++ ) {
-			if ( $this->user_dataset[$i]->is_admin )
-				$admins[] = new BP_Groups_Member( $this->user_dataset[$i]->user_id, $this->id );
-		}
-
-		return $admins;
-	}
-
-	function get_random_members() {
-		$total_randoms = ( $this->total_member_count > 5 ) ? 5 : $this->total_member_count;
-
-		for ( $i = 0; $i < $total_randoms; $i++ ) {
-			if ( !(int)$this->user_dataset[$i]->is_banned )
-				$users[] = new BP_Groups_Member( $this->user_dataset[$i]->user_id, $this->id );
-		}
-		return $users;
-	}
-
-	function is_member() {
-		global $bp;
-
-		for ( $i = 0; $i < count($this->user_dataset); $i++ ) {
-			if ( $this->user_dataset[$i]->user_id == $bp->loggedin_user->id ) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	function delete() {

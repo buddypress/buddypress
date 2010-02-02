@@ -156,7 +156,7 @@ class BP_Groups_Template {
 		$this->group = $this->next_group();
 
 		if ( $this->single_group )
-			$this->group = new BP_Groups_Group( $this->group->group_id, true, true );
+			$this->group = new BP_Groups_Group( $this->group->group_id, true );
 		else {
 			if ( $this->group )
 				wp_cache_set( 'groups_group_nouserdata_' . $group->group_id, $this->group, 'bp' );
@@ -531,68 +531,43 @@ function bp_group_is_mod() {
 	return $bp->is_item_mod;
 }
 
-function bp_group_list_admins( $full_list = true, $group = false ) {
+function bp_group_list_admins( $deprecated = true, $group = false ) {
 	global $groups_template;
 
 	if ( !$group )
 		$group =& $groups_template->group;
 
-	if ( !$admins = &$group->admins )
-		$admins = $group->get_administrators();
-
-	if ( $admins ) {
-		if ( $full_list ) { ?>
-			<ul id="group-admins">
-			<?php for ( $i = 0; $i < count($admins); $i++ ) { ?>
+	if ( $group->admins ) { ?>
+		<ul id="group-admins">
+			<?php foreach( (array)$group->admins as $admin ) { ?>
 				<li>
-					<a href="<?php echo $admins[$i]->user->user_url ?>" title="<?php echo $admins[$i]->user->fullname ?>"><?php echo $admins[$i]->user->avatar_mini ?></a>
-					<h5><?php echo $admins[$i]->user->user_link ?></h5>
-					<span class="activity"><?php echo $admins[$i]->user_title ?></span>
-					<hr />
+					<a href="<?php echo bp_core_get_user_domain( $admin->user_id, $admin->user_nicename, $admin->user_login ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $admin->user_id, 'email' => $admin->user_email ) ) ?></a>
 				</li>
 			<?php } ?>
-			</ul>
-		<?php } else { ?>
-			<?php for ( $i = 0; $i < count($admins); $i++ ) { ?>
-				<?php echo $admins[$i]->user->user_link ?>
-			<?php } ?>
-		<?php } ?>
+		</ul>
 	<?php } else { ?>
 		<span class="activity"><?php _e( 'No Admins', 'buddypress' ) ?></span>
 	<?php } ?>
-
 <?php
 }
 
-function bp_group_list_mods( $full_list = true, $group = false ) {
+function bp_group_list_mods( $deprecated = true, $group = false ) {
 	global $groups_template;
 
 	if ( !$group )
 		$group =& $groups_template->group;
 
-	$group_mods = groups_get_group_mods( $group->id );
-
-	if ( $group_mods ) {
-		if ( $full_list ) { ?>
-			<ul id="group-mods" class="mods-list">
-			<?php for ( $i = 0; $i < count($group_mods); $i++ ) { ?>
+	if ( $group->mods ) { ?>
+		<ul id="group-mods">
+			<?php foreach( (array)$group->mods as $mod ) { ?>
 				<li>
-					<a href="<?php echo bp_core_get_userlink( $group_mods[$i]->user_id, false, true ) ?>" title="<?php echo bp_core_get_user_displayname( $group_mods[$i]->user->user_id ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $group_mods[$i]->user_id, 'type' => 'thumb', 'width' => 30, 'height' => 30 ) ) ?></a>
-					<h5><?php echo bp_core_get_userlink( $group_mods[$i]->user_id ) ?></h5>
-					<span class="activity"><?php _e( 'Group Mod', 'buddypress' ) ?></span>
-					<div class="clear"></div>
+					<a href="<?php echo bp_core_get_user_domain( $mod->user_id, $mod->user_nicename, $mod->user_login ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $mod->user_id, 'email' => $mod->user_email ) ) ?></a>
 				</li>
 			<?php } ?>
-			</ul>
-		<?php } else { ?>
-			<?php for ( $i = 0; $i < count($group_mods); $i++ ) { ?>
-				<?php echo bp_core_get_userlink( $group_mods[$i]->user_id ) . ' ' ?>
-			<?php } ?>
-		<?php } ?>
+		</ul>
 	<?php } else { ?>
 		<span class="activity"><?php _e( 'No Mods', 'buddypress' ) ?></span>
 	<?php } ?>
-
 <?php
 }
 

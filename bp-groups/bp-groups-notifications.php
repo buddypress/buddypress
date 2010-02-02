@@ -3,7 +3,7 @@
 function groups_notification_group_updated( $group_id ) {
 	global $bp;
 
-	$group = new BP_Groups_Group( $group_id, false, true );
+	$group = new BP_Groups_Group( $group_id );
 	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . __( 'Group Details Updated', 'buddypress' );
 
 	foreach ( $group->user_dataset as $user ) {
@@ -43,7 +43,7 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 		return false;
 
 	$requesting_user_name = bp_core_get_user_displayname( $requesting_user_id );
-	$group = new BP_Groups_Group( $group_id, false, false );
+	$group = new BP_Groups_Group( $group_id );
 
 	$ud = bp_core_get_core_userdata($admin_id);
 	$requesting_ud = bp_core_get_core_userdata($requesting_user_id);
@@ -87,7 +87,7 @@ function groups_notification_membership_request_completed( $requesting_user_id, 
 	if ( 'no' == get_usermeta( $requesting_user_id, 'notification_membership_request_completed' ) )
 		return false;
 
-	$group = new BP_Groups_Group( $group_id, false, false );
+	$group = new BP_Groups_Group( $group_id );
 
 	$ud = bp_core_get_core_userdata($requesting_user_id);
 
@@ -141,7 +141,7 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 	if ( 'no' == get_usermeta( $user_id, 'notification_groups_admin_promotion' ) )
 		return false;
 
-	$group = new BP_Groups_Group( $group_id, false, false );
+	$group = new BP_Groups_Group( $group_id );
 	$ud = bp_core_get_core_userdata($user_id);
 
 	$group_link = bp_get_group_permalink( $group );
@@ -226,7 +226,7 @@ function groups_at_message_notification( $content, $poster_user_id, $group_id, $
 	if ( !$usernames = array_unique( $usernames[1] ) )
 		return false;
 
-	$group = new BP_Groups_Group( $group_id, false, false );
+	$group = new BP_Groups_Group( $group_id );
 
 	foreach( (array)$usernames as $username ) {
 		if ( !$receiver_user_id = bp_core_get_userid($username) )
