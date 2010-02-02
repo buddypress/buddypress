@@ -842,60 +842,60 @@ j(document).ready( function() {
 	);
 
 	/* Marking private messages as read and unread */
-	j("a#mark_as_read, a#mark_as_unread").click(
-		function() {
-			var checkboxes_tosend = '';
-			var checkboxes = j("#message-threads tr td input[type='checkbox']");
+	j("a#mark_as_read, a#mark_as_unread").click(function() {
+		var checkboxes_tosend = '';
+		var checkboxes = j("#message-threads tr td input[type='checkbox']");
 
-			if ( 'mark_as_unread' == j(this).attr('id') ) {
-				var currentClass = 'read'
-				var newClass = 'unread'
-				var unreadCount = 1;
-				var inboxCount = 0;
-				var unreadCountDisplay = 'inline';
-				var action = 'messages_markunread';
-			} else {
-				var currentClass = 'unread'
-				var newClass = 'read'
-				var unreadCount = 0;
-				var inboxCount = 1;
-				var unreadCountDisplay = 'none';
-				var action = 'messages_markread';
-			}
+		if ( 'mark_as_unread' == j(this).attr('id') ) {
+			var currentClass = 'read'
+			var newClass = 'unread'
+			var unreadCount = 1;
+			var inboxCount = 0;
+			var unreadCountDisplay = 'inline';
+			var action = 'messages_markunread';
+		} else {
+			var currentClass = 'unread'
+			var newClass = 'read'
+			var unreadCount = 0;
+			var inboxCount = 1;
+			var unreadCountDisplay = 'none';
+			var action = 'messages_markread';
+		}
 
-			checkboxes.each( function(i) {
-				if(checkboxes[i].checked) {
-					if ( j('tr#m-' + checkboxes[i].value).hasClass(currentClass) ) {
-						checkboxes_tosend += checkboxes[i].value;
-						j('tr#m-' + checkboxes[i].value).removeClass(currentClass);
-						j('tr#m-' + checkboxes[i].value).addClass(newClass);
-						j('tr#m-' + checkboxes[i].value + ' td span.unread-count').html(unreadCount);
-						j('tr#m-' + checkboxes[i].value + ' td span.unread-count').css('display', unreadCountDisplay);
-						var inboxcount = j('.inbox-count').html();
+		checkboxes.each( function(i) {
+			if(j(this).is(':checked')) {
+				if ( j('tr#m-' + j(this).attr('value')).hasClass(currentClass) ) {
+					checkboxes_tosend += j(this).attr('value');
+					j('tr#m-' + j(this).attr('value')).removeClass(currentClass);
+					j('tr#m-' + j(this).attr('value')).addClass(newClass);
+					var thread_count = j('tr#m-' + j(this).attr('value') + ' td span.unread-count').html();
 
-						if ( parseInt(inboxcount) == inboxCount ) {
-							j('.inbox-count').css('display', unreadCountDisplay);
-							j('.inbox-count').html(unreadCount);
-						} else {
-							if ( 'read' == currentClass )
-								j('.inbox-count').html(parseInt(inboxcount) + 1);
-							else
-								j('.inbox-count').html(parseInt(inboxcount) - 1);
-						}
+					j('tr#m-' + j(this).attr('value') + ' td span.unread-count').html(unreadCount);
+					j('tr#m-' + j(this).attr('value') + ' td span.unread-count').css('display', unreadCountDisplay);
+					var inboxcount = j('.inbox-count').html();
 
-						if ( i != checkboxes.length - 1 ) {
-							checkboxes_tosend += ','
-						}
+					if ( parseInt(inboxcount) == inboxCount ) {
+						j('.inbox-count').css('display', unreadCountDisplay);
+						j('.inbox-count').html(unreadCount);
+					} else {
+						if ( 'read' == currentClass )
+							j('.inbox-count').html(parseInt(inboxcount) + 1);
+						else
+							j('.inbox-count').html(parseInt(inboxcount) - thread_count);
+					}
+
+					if ( i != checkboxes.length - 1 ) {
+						checkboxes_tosend += ','
 					}
 				}
-			});
-			j.post( ajaxurl, {
-				action: action,
-				'thread_ids': checkboxes_tosend
-			});
-			return false;
-		}
-	);
+			}
+		});
+		j.post( ajaxurl, {
+			action: action,
+			'thread_ids': checkboxes_tosend
+		});
+		return false;
+	});
 
 	/* Selecting unread and read messages in inbox */
 	j("select#message-type-select").change(
