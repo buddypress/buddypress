@@ -211,7 +211,6 @@ To view %s\'s profile visit: %s
 		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
 		// Send it
-		var_dump( $to, $subject, $message ); die;
 		wp_mail( $to, $subject, $message );
 	}
 }
