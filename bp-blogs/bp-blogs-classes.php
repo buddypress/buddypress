@@ -69,6 +69,52 @@ Class BP_Blogs_Blog {
 
 	/* Static Functions */
 
+	function get( $type, $limit = false, $page = false, $user_id = false, $search_terms = false ) {
+		global $bp, $wpdb;
+
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
+
+		if ( !is_user_logged_in() || ( !is_site_admin() && ( $user_id != $bp->loggedin_user->id ) ) )
+			$hidden_sql = "AND wb.public = 1";
+
+		if ( $limit && $page )
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+
+		if ( $user_id )
+			$user_sql = $wpdb->prepare( " AND b.user_id = %d", $user_id );
+
+		switch ( $type ) {
+			case 'active': default:
+				$order_sql = "ORDER BY CONVERT(bm.meta_value, SIGNED) DESC";
+				break;
+			case 'alphabetical':
+				$order_sql = "ORDER BY bm2.meta_value ASC";
+				break;
+			case 'newest':
+				$order_sql = "ORDER BY wb.registered DESC";
+				break;
+			case 'random':
+				$order_sql = "ORDER BY RAND()";
+				break;
+		}
+
+		if ( !empty( $search_terms ) ) {
+			$filter = like_escape( $wpdb->escape( $search_terms ) );
+			$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT b.blog_id, b.user_id as admin_user_id, u.user_email as admin_user_email, wb.domain, wb.path, bm.meta_value as last_activity, bm2.meta_value as name, bm3.meta_value as description FROM {$bp->blogs->table_name} b, {$bp->blogs->table_name_blogmeta} bm, {$bp->blogs->table_name_blogmeta} bm2, {$bp->blogs->table_name_blogmeta} bm3, {$wpdb->base_prefix}blogs wb, {$wpdb->users} u WHERE b.blog_id = wb.blog_id AND b.user_id = u.ID AND b.blog_id = bm.blog_id AND b.blog_id = bm2.blog_id AND b.blog_id = bm3.blog_id AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$hidden_sql} AND bm.meta_key = 'last_activity' AND bm2.meta_key = 'name' AND bm3.meta_key = 'description' AND ( bm2.meta_value LIKE '%%$filter%%' || bm3.meta_value LIKE '%%$filter%%' ) {$user_sql} {$order_sql} {$pag_sql}" ) );
+			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT b.blog_id) FROM {$bp->blogs->table_name} b, {$wpdb->base_prefix}blogs wb, {$bp->blogs->table_name_blogmeta} bm, {$bp->blogs->table_name_blogmeta} bm2 WHERE b.blog_id = wb.blog_id AND bm.blog_id = b.blog_id AND bm2.blog_id = b.blog_id AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$hidden_sql} AND bm.meta_key = 'name' AND bm2.meta_key = 'description' AND ( bm.meta_value LIKE '%%$filter%%' || bm2.meta_value LIKE '%%$filter%%' ) {$user_sql}" ) );
+		} else {
+			$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT b.blog_id, b.user_id as admin_user_id, u.user_email as admin_user_email, wb.domain, wb.path, bm.meta_value as last_activity, bm2.meta_value as name, bm3.meta_value as description FROM {$bp->blogs->table_name} b, {$bp->blogs->table_name_blogmeta} bm, {$bp->blogs->table_name_blogmeta} bm2, {$bp->blogs->table_name_blogmeta} bm3, {$wpdb->base_prefix}blogs wb, {$wpdb->users} u WHERE b.blog_id = wb.blog_id AND b.user_id = u.ID AND b.blog_id = bm.blog_id AND b.blog_id = bm2.blog_id AND b.blog_id = bm3.blog_id {$user_sql} AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$hidden_sql} AND bm.meta_key = 'last_activity' AND bm2.meta_key = 'name' AND bm3.meta_key = 'description' {$order_sql} {$pag_sql}" ) );
+			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT b.blog_id) FROM {$bp->blogs->table_name} b, {$wpdb->base_prefix}blogs wb WHERE b.blog_id = wb.blog_id {$user_sql} AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$hidden_sql}" ) );
+		}
+
+		foreach ( $paged_blogs as $blog ) $blog_ids[] = $blog->blog_id;
+		$blog_ids = $wpdb->escape( join( ',', (array)$blog_ids ) );
+		$paged_blogs = BP_Blogs_Blog::get_blog_extras( &$paged_blogs, $blog_ids, $type );
+
+		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
+	}
+
 	function delete_blog_for_all( $blog_id ) {
 		global $wpdb, $bp;
 
@@ -169,6 +215,26 @@ Class BP_Blogs_Blog {
 			return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT b.blog_id) FROM {$bp->blogs->table_name} b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND user_id = %d", $user_id) );
 	}
 
+	function search_blogs( $filter, $limit = null, $page = null ) {
+		global $wpdb, $bp;
+
+		if ( !$bp->blogs )
+			bp_blogs_setup_globals();
+
+		$filter = like_escape( $wpdb->escape( $filter ) );
+
+		if ( !is_site_admin() )
+			$hidden_sql = "AND wb.public = 1";
+
+		if ( $limit && $page )
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+
+		$paged_blogs = $wpdb->get_results( "SELECT DISTINCT bm.blog_id FROM {$bp->blogs->table_name_blogmeta} bm LEFT JOIN {$wpdb->base_prefix}blogs wb ON bm.blog_id = wb.blog_id WHERE ( ( bm.meta_key = 'name' OR bm.meta_key = 'description' ) AND bm.meta_value LIKE '%%$filter%%' ) {$hidden_sql} AND wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 ORDER BY meta_value ASC{$pag_sql}" );
+		$total_blogs = $wpdb->get_var( "SELECT COUNT(DISTINCT bm.blog_id) FROM {$bp->blogs->table_name_blogmeta} bm LEFT JOIN {$wpdb->base_prefix}blogs wb ON bm.blog_id = wb.blog_id WHERE ( ( bm.meta_key = 'name' OR bm.meta_key = 'description' ) AND bm.meta_value LIKE '%%$filter%%' ) {$hidden_sql} AND wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 ORDER BY meta_value ASC" );
+
+		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
+	}
+
 	function get_all( $limit = null, $page = null ) {
 		global $bp, $wpdb;
 
@@ -207,146 +273,24 @@ Class BP_Blogs_Blog {
 		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
 	}
 
-	function search_blogs( $filter, $limit = null, $page = null ) {
-		global $wpdb, $bp;
-
-		if ( !$bp->blogs )
-			bp_blogs_setup_globals();
-
-		$filter = like_escape( $wpdb->escape( $filter ) );
-
-		if ( !is_site_admin() )
-			$hidden_sql = "AND wb.public = 1";
-
-		if ( $limit && $page )
-			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
-
-		$paged_blogs = $wpdb->get_results( "SELECT DISTINCT bm.blog_id FROM {$bp->blogs->table_name_blogmeta} bm LEFT JOIN {$wpdb->base_prefix}blogs wb ON bm.blog_id = wb.blog_id WHERE ( ( bm.meta_key = 'name' OR bm.meta_key = 'description' ) AND bm.meta_value LIKE '%%$filter%%' ) {$hidden_sql} AND wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 ORDER BY meta_value ASC{$pag_sql}" );
-		$total_blogs = $wpdb->get_var( "SELECT COUNT(DISTINCT bm.blog_id) FROM {$bp->blogs->table_name_blogmeta} bm LEFT JOIN {$wpdb->base_prefix}blogs wb ON bm.blog_id = wb.blog_id WHERE ( ( bm.meta_key = 'name' OR bm.meta_key = 'description' ) AND bm.meta_value LIKE '%%$filter%%' ) {$hidden_sql} AND wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 ORDER BY meta_value ASC" );
-
-		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
-	}
-
-	function get_random( $limit = null, $page = null, $user_id = false, $search_terms = false ) {
+	function get_blog_extras( $paged_blogs, $blog_ids, $type = false ) {
 		global $bp, $wpdb;
 
-		if ( !$bp->blogs )
-			bp_blogs_setup_globals();
+		if ( empty( $blog_ids ) )
+			return $paged_blogs;
 
-		if ( !is_user_logged_in() || ( !is_site_admin() && ( $user_id != $bp->loggedin_user->id ) ) )
-			$hidden_sql = "AND wb.public = 1";
+		/* Fetch lastest post for each blog. */
+		$post_ids = $wpdb->get_results( $wpdb->prepare( "SELECT p.post_id, p.blog_id FROM {$bp->blogs->table_name_blog_posts} p LEFT JOIN {$wpdb->base_prefix}blogs b ON p.blog_id = b.blog_id WHERE b.deleted = 0 AND b.archived = '0' AND b.spam = 0 AND b.mature = 0 AND p.blog_id IN ( {$blog_ids} ) GROUP BY p.blog_id ORDER BY p.date_created DESC" ) );
 
-		if ( $limit && $page )
-			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
-
-		if ( $user_id ) {
-			$blog_ids = $wpdb->escape( implode( ',', (array)BP_Blogs_Blog::get_blog_ids_for_user( $user_id) ) );
-			$user_sql = $wpdb->prepare( " AND b.blog_id IN ( {$blog_ids} ) ");
+		for ( $i = 0; $i < count( $paged_blogs ); $i++ ) {
+			foreach ( $post_ids as $post ) {
+				if ( $post->blog_id == $paged_blogs[$i]->blog_id ) {
+					$paged_blogs[$i]->latest_post = $wpdb->get_row( "SELECT post_title, guid FROM {$wpdb->base_prefix}" . $post->blog_id . "_posts WHERE post_status = 'publish' AND post_type = 'post' ORDER BY id DESC LIMIT 1" );
+				}
+			}
 		}
 
-		$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT b.blog_id FROM {$bp->blogs->table_name} b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.public = 1 AND wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 {$user_sql} ORDER BY rand() {$pag_sql}" ) );
-		$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT b.blog_id) FROM {$bp->blogs->table_name} b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.public = 1 AND wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 {$user_sql} ORDER BY rand()" ) );
-
-		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
-	}
-
-	function get_active( $limit = null, $page = null, $user_id = false, $search_terms = false ) {
-		global $bp, $wpdb;
-
-		if ( !$bp->blogs )
-			bp_blogs_setup_globals();
-
-		if ( !is_user_logged_in() || ( !is_site_admin() && ( $user_id != $bp->loggedin_user->id ) ) )
-			$hidden_sql = "AND wb.public = 1";
-
-		if ( $limit && $page )
-			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
-
-		if ( $user_id ) {
-			$blog_ids = $wpdb->escape( implode( ',', (array)BP_Blogs_Blog::get_blog_ids_for_user( $user_id ) ) );
-
-			if ( empty( $blog_ids ) )
-				return false;
-			else
-				$user_sql = $wpdb->prepare( " AND b.blog_id IN ( {$blog_ids} ) " );
-		}
-
-		if ( !empty( $search_terms ) ) {
-			$filter = like_escape( $wpdb->escape( $search_terms ) );
-			$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT b.blog_id FROM {$bp->blogs->table_name} b, {$bp->blogs->table_name_blogmeta} bm, {$bp->blogs->table_name_blogmeta} bm2, {$wpdb->base_prefix}blogs wb WHERE b.blog_id = wb.blog_id AND b.blog_id = bm.blog_id AND b.blog_id = bm2.blog_id AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$hidden_sql} AND bm.meta_key = 'last_activity' AND ( ( bm2.meta_key = 'name' OR bm2.meta_key = 'description' ) AND bm2.meta_value LIKE '%%$filter%%' ) {$user_sql} ORDER BY CONVERT(bm.meta_value, SIGNED) DESC {$pag_sql}" ) );
-			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT bm.blog_id) FROM {$bp->blogs->table_name} b, {$bp->blogs->table_name_blogmeta} bm, {$bp->blogs->table_name_blogmeta} bm2, {$wpdb->base_prefix}blogs wb WHERE b.blog_id = wb.blog_id AND b.blog_id = bm.blog_id AND b.blog_id = bm2.blog_id AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$hidden_sql} AND bm.meta_key = 'last_activity' AND ( ( bm2.meta_key = 'name' OR bm2.meta_key = 'description' ) AND bm2.meta_value LIKE '%%$filter%%' ) {$user_sql} ORDER BY CONVERT(bm.meta_value, SIGNED) DESC" ) );
-		} else {
-			$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT b.blog_id FROM {$bp->blogs->table_name} b, {$bp->blogs->table_name_blogmeta} bm, {$wpdb->base_prefix}blogs wb WHERE b.blog_id = wb.blog_id AND b.blog_id = bm.blog_id AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$hidden_sql} AND bm.meta_key = 'last_activity' {$user_sql} ORDER BY CONVERT(bm.meta_value, SIGNED) DESC {$pag_sql}" ) );
-			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT bm.blog_id) FROM {$bp->blogs->table_name} b, {$bp->blogs->table_name_blogmeta} bm, {$wpdb->base_prefix}blogs wb WHERE b.blog_id = wb.blog_id AND b.blog_id = bm.blog_id AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$hidden_sql} AND bm.meta_key = 'last_activity' {$user_sql} ORDER BY CONVERT(bm.meta_value, SIGNED) DESC" ) );
-		}
-
-		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
-	}
-
-	function get_alphabetical( $limit = null, $page = null, $user_id = false, $search_terms = false ) {
-		global $bp, $wpdb;
-
-		if ( !$bp->blogs )
-			bp_blogs_setup_globals();
-
-		if ( !is_user_logged_in() || ( !is_site_admin() && ( $user_id != $bp->loggedin_user->id ) ) )
-			$hidden_sql = "AND wb.public = 1";
-
-		if ( $limit && $page )
-			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
-
-		if ( $user_id ) {
-			$blog_ids = $wpdb->escape( implode( ',', (array)BP_Blogs_Blog::get_blog_ids_for_user( $user_id ) ) );
-
-			if ( empty( $blog_ids ) )
-				return false;
-			else
-				$user_sql = $wpdb->prepare( " AND b.blog_id IN ( {$blog_ids} ) " );
-		}
-
-		if ( !empty( $search_terms ) ) {
-			$filter = like_escape( $wpdb->escape( $search_terms ) );
-			$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT b.blog_id FROM {$bp->blogs->table_name} b, {$bp->blogs->table_name_blogmeta} bm, {$bp->blogs->table_name_blogmeta} bm2, {$bp->blogs->table_name_blogmeta} bm3, {$wpdb->base_prefix}blogs wb WHERE b.blog_id = wb.blog_id AND b.blog_id = bm.blog_id AND b.blog_id = bm2.blog_id AND b.blog_id = bm3.blog_id {$hidden_sql} AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 AND bm.meta_key = 'last_activity' AND bm2.meta_key = 'name' AND ( ( bm3.meta_key = 'name' OR bm3.meta_key = 'description' ) AND bm3.meta_value LIKE '%%$filter%%' ) {$user_sql} ORDER BY bm2.meta_value ASC {$pag_sql}" ) );
-			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT b.blog_id) FROM {$bp->blogs->table_name} b, {$bp->blogs->table_name_blogmeta} bm, {$bp->blogs->table_name_blogmeta} bm2, {$bp->blogs->table_name_blogmeta} bm3, {$wpdb->base_prefix}blogs wb WHERE b.blog_id = wb.blog_id AND b.blog_id = bm.blog_id AND b.blog_id = bm2.blog_id AND b.blog_id = bm3.blog_id {$hidden_sql} AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 AND bm.meta_key = 'last_activity' AND bm2.meta_key = 'name' AND ( ( bm3.meta_key = 'name' OR bm3.meta_key = 'description' ) AND bm3.meta_value LIKE '%%$filter%%' ) {$user_sql}" ) );
-		} else {
-			$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT b.blog_id FROM {$bp->blogs->table_name} b, {$bp->blogs->table_name_blogmeta} bm, {$bp->blogs->table_name_blogmeta} bm2, {$wpdb->base_prefix}blogs wb WHERE b.blog_id = wb.blog_id AND b.blog_id = bm.blog_id AND b.blog_id = bm2.blog_id {$hidden_sql} AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 AND bm.meta_key = 'last_activity' AND bm2.meta_key = 'name' {$user_sql} ORDER BY bm2.meta_value ASC {$pag_sql}" ) );
-			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT b.blog_id) FROM {$bp->blogs->table_name} b, {$bp->blogs->table_name_blogmeta} bm, {$bp->blogs->table_name_blogmeta} bm2, {$wpdb->base_prefix}blogs wb WHERE b.blog_id = wb.blog_id AND b.blog_id = bm.blog_id AND b.blog_id = bm2.blog_id {$hidden_sql} AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 AND bm.meta_key = 'last_activity' AND bm2.meta_key = 'name' {$user_sql}" ) );
-		}
-
-		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
-	}
-
-	function get_newest( $limit = null, $page = null, $user_id = false, $search_terms = false ) {
-		global $bp, $wpdb;
-
-		if ( !$bp->blogs )
-			bp_blogs_setup_globals();
-
-		if ( !is_user_logged_in() || ( !is_site_admin() && ( $user_id != $bp->loggedin_user->id ) ) )
-			$hidden_sql = "AND wb.public = 1";
-
-		if ( $limit && $page )
-			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
-
-		if ( $user_id ) {
-			$blog_ids = $wpdb->escape( implode( ',', (array)BP_Blogs_Blog::get_blog_ids_for_user( $bp->loggedin_user->id ) ) );
-
-			if ( empty( $blog_ids ) )
-				return false;
-			else
-				$user_sql = $wpdb->prepare( " AND b.blog_id IN ( {$blog_ids} ) " );
-		}
-
-		if ( !empty( $search_terms ) ) {
-			$filter = like_escape( $wpdb->escape( $search_terms ) );
-			$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT b.blog_id FROM {$wpdb->base_prefix}blogs wb, {$bp->blogs->table_name} b, {$bp->blogs->table_name_blogmeta} bm WHERE b.blog_id = wb.blog_id AND b.blog_id = bm.blog_id {$hidden_sql} AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 AND ( ( bm.meta_key = 'name' OR bm.meta_key = 'description' ) AND bm.meta_value LIKE '%%$filter%%' ) {$user_sql} ORDER BY wb.registered DESC {$pag_sql}" ) );
-			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT b.blog_id) FROM {$wpdb->base_prefix}blogs wb, {$bp->blogs->table_name} b, {$bp->blogs->table_name_blogmeta} bm WHERE b.blog_id = wb.blog_id AND b.blog_id = bm.blog_id {$hidden_sql} AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 AND ( ( bm.meta_key = 'name' OR bm.meta_key = 'description' ) AND bm.meta_value LIKE '%%$filter%%' ) {$user_sql} ORDER BY wb.registered DESC" ) );
-		} else {
-			$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT wb.blog_id FROM {$wpdb->base_prefix}blogs wb, {$bp->blogs->table_name} b WHERE wb.blog_id = b.blog_id {$hidden_sql} AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$user_sql} ORDER BY wb.registered DESC {$pag_sql}" ) );
-			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT wb.blog_id) FROM {$wpdb->base_prefix}blogs wb, {$bp->blogs->table_name} b WHERE wb.blog_id = b.blog_id {$hidden_sql} AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$user_sql} ORDER BY wb.registered DESC" ) );
-		}
-
-		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
+		return $paged_blogs;
 	}
 
 	function is_hidden( $blog_id ) {

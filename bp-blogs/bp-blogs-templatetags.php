@@ -23,27 +23,10 @@ class BP_Blogs_Template {
 		$this->pag_page = isset( $_REQUEST['bpage'] ) ? intval( $_REQUEST['bpage'] ) : $page;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
-		if ( isset( $_REQUEST['letter'] ) && '' != $_REQUEST['letter'] ) {
+		if ( isset( $_REQUEST['letter'] ) && '' != $_REQUEST['letter'] )
 			$this->blogs = BP_Blogs_Blog::get_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page );
-		} else {
-			switch ( $type ) {
-				case 'random':
-					$this->blogs = BP_Blogs_Blog::get_random( $this->pag_num, $this->pag_page, $user_id, $search_terms );
-					break;
-
-				case 'alphabetical':
-					$this->blogs = BP_Blogs_Blog::get_alphabetical( $this->pag_num, $this->pag_page, $user_id, $search_terms );
-					break;
-
-				case 'newest':
-					$this->blogs = BP_Blogs_Blog::get_newest( $this->pag_num, $this->pag_page, $user_id, $search_terms );
-					break;
-
-				case 'active': default:
-					$this->blogs = BP_Blogs_Blog::get_active( $this->pag_num, $this->pag_page, $user_id, $search_terms );
-					break;
-			}
-		}
+		else
+			$this->blogs = BP_Blogs_Blog::get( $type, $this->pag_num, $this->pag_page, $user_id, $search_terms );
 
 		if ( !$max || $max >= (int)$this->blogs['total'] )
 			$this->total_blog_count = (int)$this->blogs['total'];
@@ -218,7 +201,8 @@ function bp_blog_avatar( $args = '' ) {
 			'height' => false,
 			'class' => 'avatar',
 			'id' => false,
-			'alt' => __( 'Blog avatar', 'buddypress' )
+			'alt' => __( 'Blog avatar', 'buddypress' ),
+			'no_grav' => true
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -227,8 +211,9 @@ function bp_blog_avatar( $args = '' ) {
 		/***
 		 * In future BuddyPress versions you will be able to set the avatar for a blog.
 		 * Right now you can use a filter with the ID of the blog to change it if you wish.
+		 * By default it will return the avatar for the primary blog admin.
 		 */
-		return apply_filters( 'bp_get_blog_avatar_' . $blogs_template->blog->blog_id, bp_core_fetch_avatar( array( 'item_id' => $blogs_template->blog->blog_id, 'object' => 'blog', 'type' => $type, 'avatar_dir' => 'blog-avatars', 'alt' => $alt, 'width' => $width, 'height' => $height, 'class' => $class, 'email' => get_blog_option( $blogs_template->blog->blog_id, 'admin_email' ) ) ) );
+		return apply_filters( 'bp_get_blog_avatar_' . $blogs_template->blog->blog_id, bp_core_fetch_avatar( array( 'item_id' => $blogs_template->blog->admin_user_id, 'type' => $type, 'alt' => $alt, 'width' => $width, 'height' => $height, 'class' => $class, 'email' => $blogs_template->blog->admin_user_email ) ) );
 	}
 		/* DEPRECATED */
 		function bp_blog_avatar_thumb() { echo bp_get_blog_avatar('type=thumb'); }
@@ -240,7 +225,17 @@ function bp_blog_permalink() {
 	function bp_get_blog_permalink() {
 		global $blogs_template;
 
-		return apply_filters( 'bp_get_blog_permalink', get_blog_option( $blogs_template->blog->blog_id, 'siteurl' ) );
+		if ( empty( $blogs_template->blog->domain ) )
+			$permalink = $bp->root_domain . $blogs_template->blog->path;
+		else {
+			$protocol = 'http://';
+			if ( is_ssl() )
+				$protocol = 'https://';
+
+			$permalink = $protocol . $blogs_template->blog->domain . $blogs_template->blog->path;
+		}
+
+		return apply_filters( 'bp_get_blog_permalink', $permalink );
 	}
 
 function bp_blog_name() {
@@ -249,7 +244,7 @@ function bp_blog_name() {
 	function bp_get_blog_name() {
 		global $blogs_template;
 
-		return apply_filters( 'bp_get_blog_name', get_blog_option( $blogs_template->blog->blog_id, 'blogname' ) );
+		return apply_filters( 'bp_get_blog_name', $blogs_template->blog->name );
 	}
 
 function bp_blog_description() {
@@ -258,7 +253,7 @@ function bp_blog_description() {
 	function bp_get_blog_description() {
 		global $blogs_template;
 
-		return apply_filters( 'bp_get_blog_description', get_blog_option( $blogs_template->blog->blog_id, 'blogdescription' ) );
+		return apply_filters( 'bp_get_blog_description', $blogs_template->blog->description );
 	}
 
 function bp_blog_last_active() {
@@ -267,7 +262,7 @@ function bp_blog_last_active() {
 	function bp_get_blog_last_active() {
 		global $blogs_template;
 
-		return apply_filters( 'bp_blog_last_active', bp_core_get_last_activity( bp_blogs_get_blogmeta( $blogs_template->blog->blog_id, 'last_activity' ), __( 'active %s ago', 'buddypress' ) ) );
+		return apply_filters( 'bp_blog_last_active', bp_core_get_last_activity( $blogs_template->blog->last_activity, __( 'active %s ago', 'buddypress' ) ) );
 	}
 
 function bp_blog_latest_post() {
@@ -276,9 +271,10 @@ function bp_blog_latest_post() {
 	function bp_get_blog_latest_post() {
 		global $blogs_template;
 
-		if ( $post = bp_blogs_get_latest_posts( $blogs_template->blog->blog_id, 1 ) ) {
-			return apply_filters( 'bp_get_blog_latest_post', sprintf( __( 'Latest Post: %s', 'buddypress' ), '<a href="' . bp_post_get_permalink( $post[0], $blogs_template->blog->blog_id ) . '">' . apply_filters( 'the_title', $post[0]->post_title ) . '</a>' ) );
-		}
+		if ( null == $blogs_template->blog->latest_post )
+			return false;
+
+		return apply_filters( 'bp_get_blog_latest_post', sprintf( __( 'Latest Post: %s', 'buddypress' ), '<a href="' . $blogs_template->blog->latest_post->guid . '">' . apply_filters( 'the_title', $blogs_template->blog->latest_post->post_title ) . '</a>' ) );
 	}
 
 function bp_blog_hidden_fields() {
