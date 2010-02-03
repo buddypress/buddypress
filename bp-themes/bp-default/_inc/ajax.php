@@ -190,16 +190,16 @@ function bp_dtheme_activity_loop( $scope = false, $filter = false, $per_page = 2
 		$feed_url = site_url( BP_ACTIVITY_SLUG . '/feed/' );
 
 		switch ( $scope ) {
-			case 'friends':
+			case BP_FRIENDS_SLUG:
 				$friend_ids = implode( ',', friends_get_friend_user_ids( $bp->loggedin_user->id ) );
 				$query_string = 'user_id=' . $friend_ids;
-				$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/friends/feed/';
+				$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/' . BP_FRIENDS_SLUG . '/feed/';
 				break;
-			case 'groups':
+			case BP_GROUPS_SLUG:
 				$groups = groups_get_user_groups( $bp->loggedin_user->id );
 				$group_ids = implode( ',', $groups['groups'] );
 				$query_string = 'object=groups&primary_id=' . $group_ids . '&show_hidden=1';
-				$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/groups/feed/';
+				$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/' . BP_GROUPS_SLUG . '/feed/';
 				break;
 			case 'favorites':
 				$favs = bp_activity_get_user_favorites( $bp->loggedin_user->id );

@@ -112,8 +112,8 @@ function bp_activity_setup_nav() {
 
 	/* Add the subnav items to the activity nav item if we are using a theme that supports this */
 	bp_core_new_subnav_item( array( 'name' => __( 'Personal', 'buddypress' ), 'slug' => 'just-me', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_my_activity', 'position' => 10 ) );
-	bp_core_new_subnav_item( array( 'name' => __( 'Friends', 'buddypress' ), 'slug' => 'friends', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_friends', 'position' => 20, 'item_css_id' => 'activity-friends' ) );
-	bp_core_new_subnav_item( array( 'name' => __( 'Groups', 'buddypress' ), 'slug' => 'groups', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_groups', 'position' => 30, 'item_css_id' => 'activity-groups' ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Friends', 'buddypress' ), 'slug' => BP_FRIENDS_SLUG, 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_friends', 'position' => 20, 'item_css_id' => 'activity-friends' ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Groups', 'buddypress' ), 'slug' => BP_GROUPS_SLUG, 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_groups', 'position' => 30, 'item_css_id' => 'activity-groups' ) );
 	bp_core_new_subnav_item( array( 'name' => __( 'Favorites', 'buddypress' ), 'slug' => 'favorites', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_favorites', 'position' => 40, 'item_css_id' => 'activity-favs' ) );
 	bp_core_new_subnav_item( array( 'name' => sprintf( __( '@%s Mentions', 'buddypress' ), $user_login ), 'slug' => 'mentions', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_mentions', 'position' => 50, 'item_css_id' => 'activity-mentions' ) );
 
