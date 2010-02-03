@@ -824,7 +824,7 @@ form#send-invite-form {
 }
 	div#invite-list {
 		height: 400px;
-		overflow: hidden;
+		overflow: scroll;
 		-moz-border-radius: 3px;
 		-webkit-border-radius: 3px;
 		border-radius: 3px;
