@@ -535,6 +535,9 @@ j(document).ready( function() {
 			return true;
 
 		if ( target.parent().parent().hasClass('pagination') && !target.parent().parent().hasClass('no-ajax') ) {
+			if ( target.hasClass('dots') || target.hasClass('current') )
+				return false;
+
 			if ( j('div.item-list-tabs li.selected').length )
 				var el = j('div.item-list-tabs li.selected');
 			else

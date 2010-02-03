@@ -23,7 +23,7 @@
 							<?php do_action( 'groups_forum_new_topic_before' ) ?>
 
 							<a name="post-new"></a>
-							<h3><?php _e( 'Post a New Topic:', 'buddypress' ) ?></h3>
+							<h5><?php _e( 'Post a New Topic:', 'buddypress' ) ?></h5>
 
 							<label><?php _e( 'Title:', 'buddypress' ) ?></label>
 							<input type="text" name="topic_title" id="topic_title" value="" />
