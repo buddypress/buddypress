@@ -61,7 +61,8 @@ Class BP_Activity_Activity {
 		if ( !$wpdb->query( $q ) )
 			return false;
 
-		$this->id = $wpdb->insert_id;
+		if ( empty( $this->id ) )
+			$this->id = $wpdb->insert_id;
 
 		do_action( 'bp_activity_after_save', $this );
 		return true;
