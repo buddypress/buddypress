@@ -1129,10 +1129,15 @@ function bp_activity_request(scope, filter) {
 	j.cookie( 'bp-activity-filter', filter, null, {path: '/'} );
 	j.cookie( 'bp-activity-oldestpage', 1, {path: '/'} );
 
-	/* Set the correct selected nav and filter */
+	/* Remove selected and loading classes from tabs */
 	j('div.item-list-tabs li').each( function() {
-		j(this).removeClass('selected');
+		j(this).removeClass('selected loading');
 	});
+
+	/* Stop previous ajax request from completing */
+	stop();
+
+	/* Set the correct selected nav and filter */
 	j('li#activity-' + scope + ', div.item-list-tabs li.current').addClass('selected');
 	j('div#object-nav.item-list-tabs li.selected, div.activity-type-tabs li.selected').addClass('loading');
 	j('#activity-filter-select select option[value=' + filter + ']').attr( 'selected', 'selected' );
