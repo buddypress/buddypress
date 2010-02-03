@@ -6,16 +6,17 @@ function groups_notification_group_updated( $group_id ) {
 	$group = new BP_Groups_Group( $group_id );
 	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . __( 'Group Details Updated', 'buddypress' );
 
-	foreach ( $group->user_dataset as $user ) {
-		if ( 'no' == get_usermeta( $user->user_id, 'notification_groups_group_updated' ) ) continue;
+	$user_ids = BP_Groups_Member::get_group_member_ids( $this->id );
+	foreach ( $user_ids as $user_id ) {
+		if ( 'no' == get_usermeta( $user_id, 'notification_groups_group_updated' ) ) continue;
 
-		$ud = bp_core_get_core_userdata( $user->user_id );
+		$ud = bp_core_get_core_userdata( $user_id );
 
 		// Set up and send the message
 		$to = $ud->user_email;
 
 		$group_link = site_url( $bp->groups->slug . '/' . $group->slug );
-		$settings_link = bp_core_get_user_domain( $user->user_id ) . 'settings/notifications/';
+		$settings_link = bp_core_get_user_domain( $user_id ) . 'settings/notifications/';
 
 		$message = sprintf( __(
 'Group details for the group "%s" were updated:

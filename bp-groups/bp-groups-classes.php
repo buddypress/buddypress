@@ -120,22 +120,18 @@ Class BP_Groups_Group {
 	function delete() {
 		global $wpdb, $bp;
 
-		// Delete groupmeta for the group
+		/* Delete groupmeta for the group */
 		groups_delete_groupmeta( $this->id );
 
-		// Modify group count usermeta for members
-		for ( $i = 0; $i < count($this->user_dataset); $i++ ) {
-			$user = $this->user_dataset[$i];
+		/* Fetch the user IDs of all the members of the group */
+		$user_ids = BP_Groups_Member::get_group_member_ids( $this->id );
+		$user_ids = implode( ',', (array)$user_ids );
 
-			$total_count = get_usermeta( $user->user_id, 'total_group_count' );
+		/* Modify group count usermeta for members */
+		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->groups->table_name_groupmeta} SET meta_value = meta_value - 1 WHERE meta_key = 'total_group_count' AND user_id IN ( {$user_ids} )" ) );
 
-			if ( $total_count != '' ) {
-				update_usermeta( $user->user_id, 'total_group_count', (int)$total_count - 1 );
-			}
-
-			// Now delete the group member record
-			BP_Groups_Member::delete( $user->user_id, $this->id, false );
-		}
+		/* Now delete all group member entries */
+		BP_Groups_Member::delete_all( $this->id );
 
 		do_action( 'bp_groups_delete_group', $this );
 
@@ -723,6 +719,10 @@ Class BP_Groups_Member {
 
 		groups_update_groupmeta( $this->group_id, 'total_member_count', ( (int) groups_get_groupmeta( $this->group_id, 'total_member_count' ) - 1 ) );
 
+		$group_count = get_usermeta( $this->user_id, 'total_group_count' );
+		if ( !empty( $group_count ) )
+			update_usermeta( $this->user_id, 'total_group_count', (int)$group_count - 1 );
+
 		return $this->save();
 	}
 
@@ -733,6 +733,7 @@ Class BP_Groups_Member {
 		$this->is_banned = 0;
 
 		groups_update_groupmeta( $this->group_id, 'total_member_count', ( (int) groups_get_groupmeta( $this->group_id, 'total_member_count' ) + 1 ) );
+		update_usermeta( $this->user_id, 'total_group_count', (int)get_usermeta( $this->user_id, 'total_group_count' ) + 1 );
 
 		return $this->save();
 	}
@@ -937,6 +938,12 @@ Class BP_Groups_Member {
 		}
 	}
 
+	function get_group_member_ids( $group_id ) {
+		global $bp, $wpdb;
+
+		return $wpdb->get_col( $wpdb->prepare( "SELECT user_id FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 1 AND is_banned = 0", $group_id ) );
+	}
+
 	function get_group_administrator_ids( $group_id ) {
 		global $bp, $wpdb;
 
@@ -995,6 +1002,12 @@ Class BP_Groups_Member {
 		}
 
 		return array( 'members' => $members, 'count' => $total_member_count );
+	}
+
+	function delete_all( $group_id ) {
+		global $wpdb, $bp;
+
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE group_id = %d", $group_id ) );
 	}
 
 	function delete_all_for_user( $user_id ) {
