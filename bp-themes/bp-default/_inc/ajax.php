@@ -245,7 +245,7 @@ function bp_dtheme_activity_loop( $scope = false, $filter = false, $per_page = 2
 
 	/* Add the new page param */
 	$args = explode( '&', trim( $query_string ) );
-	foreach( $args as $arg ) {
+	foreach( (array)$args as $arg ) {
 		if ( false === strpos( $arg, 'page' ) )
 			$new_args[] = $arg;
 	}
@@ -543,7 +543,7 @@ function bp_dtheme_ajax_messages_autocomplete_results() {
 	$friends = apply_filters( 'bp_friends_autocomplete_list', $friends, $_GET['q'], $_GET['limit'] );
 
 	if ( $friends['friends'] ) {
-		foreach ( $friends['friends'] as $user_id ) {
+		foreach ( (array)$friends['friends'] as $user_id ) {
 			$ud = get_userdata($user_id);
 			$username = $ud->user_login;
 			echo bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'thumb', 'width' => 15, 'height' => 15 ) ) . ' &nbsp;' . bp_core_get_user_displayname( $user_id ) . ' (' . $username . ')

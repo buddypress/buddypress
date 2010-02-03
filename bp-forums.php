@@ -340,13 +340,13 @@ function bp_forums_get_topic_extras( $topics ) {
 		return $topics;
 
 	/* Get the topic ids */
-	foreach ( $topics as $topic ) $topic_ids[] = $topic->topic_id;
+	foreach ( (array)$topics as $topic ) $topic_ids[] = $topic->topic_id;
 	$topic_ids = $wpdb->escape( join( ',', (array)$topic_ids ) );
 
 	/* Fetch the topic's last poster details */
 	$poster_details = $wpdb->get_results( $wpdb->prepare( "SELECT t.topic_id, t.topic_last_poster, u.user_login, u.user_nicename, u.user_email, u.display_name FROM {$wpdb->users} u, {$bbdb->topics} t WHERE u.ID = t.topic_last_poster AND t.topic_id IN ( {$topic_ids} )" ) );
 	for ( $i = 0; $i < count( $topics ); $i++ ) {
-		foreach ( $poster_details as $poster ) {
+		foreach ( (array)$poster_details as $poster ) {
 			if ( $poster->topic_id == $topics[$i]->topic_id ) {
 				$topics[$i]->topic_last_poster_email = $poster->user_email;
 				$topics[$i]->topic_last_poster_nicename = $poster->user_nicename;
@@ -360,7 +360,7 @@ function bp_forums_get_topic_extras( $topics ) {
 	if ( function_exists( 'xprofile_install' ) ) {
 		$poster_names = $wpdb->get_results( $wpdb->prepare( "SELECT t.topic_id, pd.value FROM {$bp->profile->table_name_data} pd, {$bbdb->topics} t WHERE pd.user_id = t.topic_last_poster AND pd.field_id = 1 AND t.topic_id IN ( {$topic_ids} )" ) );
 		for ( $i = 0; $i < count( $topics ); $i++ ) {
-			foreach ( $poster_names as $name ) {
+			foreach ( (array)$poster_names as $name ) {
 				if ( $name->topic_id == $topics[$i]->topic_id )
 					$topics[$i]->topic_last_poster_displayname = $name->value;
 			}

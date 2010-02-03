@@ -15,7 +15,7 @@
 
 			<?php
 			$numTrackBacks = 0; $numComments = 0;
-			foreach ( $comments as $comment ) if ( get_comment_type() != "comment") $numTrackBacks++; else $numComments++;
+			foreach ( (array)$comments as $comment ) if ( get_comment_type() != "comment") $numTrackBacks++; else $numComments++;
 			?>
 
 			<span class="title"><?php the_title() ?></span>
@@ -163,7 +163,7 @@
 				<?php endif; ?>
 
 				<ul id="trackbacklist">
-					<?php foreach ( $comments as $comment ) : ?>
+					<?php foreach ( (array)$comments as $comment ) : ?>
 
 						<?php if ( get_comment_type() != 'comment' ) : ?>
 							<li><h5><?php comment_author_link() ?></h5><em>on <?php comment_date() ?></em></li>

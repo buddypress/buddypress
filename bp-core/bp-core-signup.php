@@ -86,7 +86,7 @@ function bp_core_screen_signup() {
 
 		/* Add any errors to the action for the field in the template for display. */
 		if ( !empty( $bp->signup->errors ) ) {
-			foreach ( $bp->signup->errors as $fieldname => $error_message )
+			foreach ( (array)$bp->signup->errors as $fieldname => $error_message )
 				add_action( 'bp_' . $fieldname . '_errors', create_function( '', 'echo "<div class=\"error\">' . $error_message . '</div>";' ) );
 		} else {
 			$bp->signup->step = 'save-details';
@@ -207,7 +207,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 		if ( !empty( $usermeta['profile_field_ids'] ) ) {
 			$profile_field_ids = explode( ',', $usermeta['profile_field_ids'] );
 
-			foreach( $profile_field_ids as $field_id ) {
+			foreach( (array)$profile_field_ids as $field_id ) {
 				$current_field = $usermeta["field_{$field_id}"];
 
 				if ( !empty( $current_field ) )

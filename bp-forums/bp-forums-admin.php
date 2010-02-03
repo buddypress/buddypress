@@ -205,7 +205,7 @@ function bp_forums_bbpress_write( $file_source, $file_target, $alterations ) {
 	$modified_lines = array();
 
 	// Loop through the lines and modify them
-	foreach ( $lines as $line ) {
+	foreach ( (array)$lines as $line ) {
 		if ( isset( $alterations[substr( $line, 0, 20 )] ) ) {
 			$alteration = $alterations[substr( $line, 0, 20 )];
 			$modified_lines[] = str_replace( $alteration[0], $alteration[1], $line );
@@ -238,7 +238,7 @@ function bp_forums_bbpress_write( $file_source, $file_target, $alterations ) {
 	$file_handle = fopen( $file_target, 'w' );
 
 	// Write lines one by one to avoid OS specific newline hassles
-	foreach ( $modified_lines as $modified_line ) {
+	foreach ( (array)$modified_lines as $modified_line ) {
 		if ( false !== strpos( $modified_line, '?>' ) ) {
 			$modified_line = '?>';
 		}

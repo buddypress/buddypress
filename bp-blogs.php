@@ -321,11 +321,11 @@ function bp_blogs_record_existing_blogs() {
 	$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->base_prefix}blogs WHERE public = 1 AND mature = 0 AND spam = 0 AND deleted = 0" ) );
 
 	if ( $blog_ids ) {
-		foreach( $blog_ids as $blog_id ) {
+		foreach( (array)$blog_ids as $blog_id ) {
 			$users = get_users_of_blog( $blog_id );
 
 			if ( $users ) {
-				foreach ( $users as $user ) {
+				foreach ( (array)$users as $user ) {
 					$role = unserialize( $user->meta_value );
 
 					if ( !isset( $role['subscriber'] ) )

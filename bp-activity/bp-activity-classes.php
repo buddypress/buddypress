@@ -318,13 +318,13 @@ Class BP_Activity_Activity {
 		global $bp, $wpdb;
 
 		/* Now fetch the activity comments and parse them into the correct position in the activities array. */
-		foreach( $activities as $activity ) {
+		foreach( (array)$activities as $activity ) {
 			if ( 'activity_comment' != $activity->type && $activity->mptt_left && $activity->mptt_right )
 				$activity_comments[$activity->id] = BP_Activity_Activity::get_activity_comments( $activity->id, $activity->mptt_left, $activity->mptt_right );
 		}
 
 		/* Merge the comments with the activity items */
-		foreach( $activities as $key => $activity )
+		foreach( (array)$activities as $key => $activity )
 			$activities[$key]->children = $activity_comments[$activity->id];
 
 		return $activities;
@@ -344,7 +344,7 @@ Class BP_Activity_Activity {
 		$descendants = $wpdb->get_results( $wpdb->prepare( "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name{$fullname_select} FROM {$bp->activity->table_name} a, {$wpdb->users} u{$fullname_from} WHERE u.ID = a.user_id {$fullname_where} AND a.type = 'activity_comment' AND a.item_id = %d AND a.mptt_left BETWEEN %d AND %d ORDER BY a.date_recorded ASC", $activity_id, $left, $right ) );
 
 		/* Loop descendants and build an assoc array */
-		foreach ( $descendants as $d ) {
+		foreach ( (array)$descendants as $d ) {
 		    $d->children = array();
 
 			/* If we have a reference on the parent */
@@ -372,7 +372,7 @@ Class BP_Activity_Activity {
 		$descendants = $wpdb->get_results( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE type = 'activity_comment' AND secondary_item_id = %d", $parent_id ) );
 
 		/* Loop the descendants and recalculate the left and right values */
-		foreach ( $descendants as $descendant )
+		foreach ( (array)$descendants as $descendant )
 			$right = BP_Activity_Activity::rebuild_activity_comment_tree( $descendant->id, $right );
 
 		/* We've got the left value, and now that we've processed the children of this node we also know the right value */

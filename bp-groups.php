@@ -1128,7 +1128,7 @@ function groups_action_create_group() {
 			 * Since we don't know what the next step is going to be (any plugin can insert steps)
 			 * we need to loop the step array and fetch the next step that way.
 			 */
-			foreach ( $bp->groups->group_creation_steps as $key => $value ) {
+			foreach ( (array)$bp->groups->group_creation_steps as $key => $value ) {
 				if ( $key == $bp->groups->current_create_step ) {
 					$next = 1;
 					continue;
@@ -1202,7 +1202,7 @@ function groups_action_sort_creation_steps() {
 	if ( !is_array( $bp->groups->group_creation_steps ) )
 		return false;
 
-	foreach ( $bp->groups->group_creation_steps as $slug => $step ) {
+	foreach ( (array)$bp->groups->group_creation_steps as $slug => $step ) {
 		while ( !empty( $temp[$step['position']] ) )
 			$step['position']++;
 
@@ -1213,7 +1213,7 @@ function groups_action_sort_creation_steps() {
 	ksort($temp);
 	unset($bp->groups->group_creation_steps);
 
-	foreach( $temp as $position => $step )
+	foreach( (array)$temp as $position => $step )
 		$bp->groups->group_creation_steps[$step['slug']] = array( 'name' => $step['name'], 'position' => $position );
 }
 

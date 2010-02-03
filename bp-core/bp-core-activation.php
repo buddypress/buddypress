@@ -30,7 +30,7 @@ function bp_core_screen_activation() {
 			if ( !empty( $signup['meta']['profile_field_ids'] ) ) {
 				$profile_field_ids = explode( ',', $signup['meta']['profile_field_ids'] );
 
-				foreach( $profile_field_ids as $field_id ) {
+				foreach( (array)$profile_field_ids as $field_id ) {
 					$current_field = $signup['meta']["field_{$field_id}"];
 
 					if ( !empty( $current_field ) )

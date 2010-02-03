@@ -501,7 +501,7 @@ function bp_activity_parent_content( $args = '' ) {
 		/* Get the content of the parent by first checking to see if we already have it */
 		$parent_activity = false;
 
-		foreach( $activities_template->activities as $activity ) {
+		foreach( (array)$activities_template->activities as $activity ) {
 			if ( $parent_id == $activity->id ) {
 				/* Need a copy not a reference, this was the only PHP4 compat way I could find. */
 				$parent_activity = (array)$activity;
@@ -562,7 +562,7 @@ function bp_activity_comments( $args = '' ) {
 				return false;
 
 			$content .= '<ul>';
-			foreach ( $comment->children as $comment ) {
+			foreach ( (array)$comment->children as $comment ) {
 				if ( !$comment->user_fullname )
 					$comment->user_fullname = $comment->display_name;
 
@@ -608,7 +608,7 @@ function bp_activity_comment_count() {
 			if ( !$comment->children )
 				return $count;
 
-			foreach ( $comment->children as $comment ) {
+			foreach ( (array)$comment->children as $comment ) {
 				$count++;
 				$count = bp_activity_recurse_comment_count( $comment, $count );
 			}

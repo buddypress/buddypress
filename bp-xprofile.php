@@ -299,7 +299,7 @@ function xprofile_screen_edit_profile() {
 		$posted_field_ids = explode( ',', $_POST['field_ids'] );
 
 		/* Loop through the posted fields formatting any datebox values then validate the field */
-		foreach ( $posted_field_ids as $field_id ) {
+		foreach ( (array)$posted_field_ids as $field_id ) {
 			if ( !isset( $_POST['field_' . $field_id] ) ) {
 
 				if ( is_numeric( $_POST['field_' . $field_id . '_day'] ) ) {
@@ -325,7 +325,7 @@ function xprofile_screen_edit_profile() {
 			$errors = false;
 
 			/* Now we've checked for required fields, lets save the values. */
-			foreach ( $posted_field_ids as $field_id ) {
+			foreach ( (array)$posted_field_ids as $field_id ) {
 				if ( !xprofile_set_field_data( $field_id, $bp->displayed_user->id, $_POST['field_' . $field_id] ) )
 					$errors = true;
 				else

@@ -113,7 +113,7 @@ function bp_core_screen_notification_settings() {
 		check_admin_referer('bp_settings_notifications');
 
 		if ( $_POST['notifications'] ) {
-			foreach ( $_POST['notifications'] as $key => $value ) {
+			foreach ( (array)$_POST['notifications'] as $key => $value ) {
 				update_usermeta( (int)$current_user->id, $key, $value );
 			}
 		}

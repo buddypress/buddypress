@@ -45,7 +45,7 @@ Class BP_Messages_Thread {
 
 		$results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d", $this->thread_id ) );
 
-		foreach ( $results as $recipient )
+		foreach ( (array)$results as $recipient )
 			$recipients[$recipient->user_id] = $recipient;
 
 		return $recipients;
@@ -96,13 +96,13 @@ Class BP_Messages_Thread {
 			return false;
 
 		/* Sort threads by date_sent */
-		foreach( $thread_ids as $thread ) {
+		foreach( (array)$thread_ids as $thread ) {
 			$sorted_threads[$thread->thread_id] = strtotime($thread->date_sent);
 		}
 		arsort($sorted_threads);
 
 		$threads = false;
-		foreach ( $sorted_threads as $thread_id => $date_sent )
+		foreach ( (array)$sorted_threads as $thread_id => $date_sent )
 			$threads[] = new BP_Messages_Thread( $thread_id );
 
 		return array( 'threads' => &$threads, 'total' => (int)$total_threads );
@@ -192,7 +192,7 @@ Class BP_Messages_Thread {
 		if ( count($recipients) >= 5 )
 			return count( $recipients ) . __(' Recipients', 'buddypress');
 
-		foreach ( $recipients as $recipient ) {
+		foreach ( (array)$recipients as $recipient ) {
 			$recipient_links[] = bp_core_get_userlink( $recipient->user_id );
 		}
 

@@ -292,7 +292,7 @@ function bp_dtheme_ajax_autocomplete_results() {
 	$friends = apply_filters( 'bp_friends_autocomplete_list', $friends, $_GET['q'], $_GET['limit'] );
 
 	if ( $friends['friends'] ) {
-		foreach ( $friends['friends'] as $user_id ) {
+		foreach ( (array)$friends['friends'] as $user_id ) {
 			$ud = get_userdata($user_id);
 			$username = $ud->user_login;
 			echo bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'thumb', 'width' => 15, 'height' => 15 ) ) . ' ' . bp_core_get_user_displayname( $user_id ) . ' (' . $username . ')

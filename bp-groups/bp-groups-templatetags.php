@@ -803,7 +803,7 @@ function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
 ?>
 	<?php if ( $admins ) { ?>
 		<ul id="admins-list" class="item-list<?php if ( $admin_list ) { ?> single-line<?php } ?>">
-		<?php foreach ( $admins as $admin ) { ?>
+		<?php foreach ( (array)$admins as $admin ) { ?>
 			<?php if ( $admin_list ) { ?>
 			<li>
 				<?php echo bp_core_fetch_avatar( array( 'item_id' => $admin->user_id, 'type' => 'thumb', 'width' => 30, 'height' => 30 ) ) ?>
@@ -841,7 +841,7 @@ function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 	?>
 		<?php if ( $group_mods ) { ?>
 			<ul id="mods-list" class="item-list<?php if ( $admin_list ) { ?> single-line<?php } ?>">
-			<?php foreach ( $group_mods as $mod ) { ?>
+			<?php foreach ( (array)$group_mods as $mod ) { ?>
 				<?php if ( $admin_list ) { ?>
 				<li>
 					<?php echo bp_core_fetch_avatar( array( 'item_id' => $mod->user_id, 'type' => 'thumb', 'width' => 30, 'height' => 30 ) ) ?>
@@ -1509,7 +1509,7 @@ function bp_group_creation_tabs() {
 
 	$counter = 1;
 
-	foreach ( $bp->groups->group_creation_steps as $slug => $step ) {
+	foreach ( (array)$bp->groups->group_creation_steps as $slug => $step ) {
 		$is_enabled = bp_are_previous_group_creation_steps_complete( $slug ); ?>
 
 		<li<?php if ( $bp->groups->current_create_step == $slug ) : ?> class="current"<?php endif; ?>><?php if ( $is_enabled ) : ?><a href="<?php echo $bp->root_domain . '/' . $bp->groups->slug ?>/create/step/<?php echo $slug ?>/"><?php else: ?><span><?php endif; ?><?php echo $counter ?>. <?php echo $step['name'] ?><?php if ( $is_enabled ) : ?></a><?php else: ?></span><?php endif ?></li><?php
@@ -1572,7 +1572,7 @@ function bp_is_group_creation_step_complete( $step_slugs ) {
 	if ( is_array( $step_slugs ) ) {
 		$found = true;
 
-		foreach ( $step_slugs as $step_slug ) {
+		foreach ( (array)$step_slugs as $step_slug ) {
 			if ( !in_array( $step_slug, $bp->groups->completed_create_steps ) )
 				$found = false;
 		}
@@ -1596,7 +1596,7 @@ function bp_are_previous_group_creation_steps_complete( $step_slug ) {
 	unset( $previous_steps );
 
 	/* Get previous steps */
-	foreach ( $bp->groups->group_creation_steps as $slug => $name ) {
+	foreach ( (array)$bp->groups->group_creation_steps as $slug => $name ) {
 		if ( $slug == $step_slug )
 			break;
 
@@ -1674,7 +1674,7 @@ function bp_group_creation_previous_link() {
 	function bp_get_group_creation_previous_link() {
 		global $bp;
 
-		foreach ( $bp->groups->group_creation_steps as $slug => $name ) {
+		foreach ( (array)$bp->groups->group_creation_steps as $slug => $name ) {
 			if ( $slug == $bp->action_variables[1] )
 				break;
 

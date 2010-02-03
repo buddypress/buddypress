@@ -33,7 +33,7 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 				<?php _e("Site Wide", 'buddypress') ?>
 			</div>
 			<ul id="recent-posts" class="item-list">
-				<?php foreach ( $posts as $post ) : ?>
+				<?php foreach ( (array)$posts as $post ) : ?>
 					<li>
 						<div class="item-avatar">
 							<a href="<?php echo bp_post_get_permalink( $post, $post->blog_id ) ?>" title="<?php echo apply_filters( 'the_title', $post->post_title ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $post->post_author, 'type' => 'thumb' ) ) ?></a>

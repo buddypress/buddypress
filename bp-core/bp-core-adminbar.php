@@ -60,7 +60,7 @@ function bp_adminbar_account_menu() {
 
 	/* Loop through each navigation item */
 	$counter = 0;
-	foreach( $bp->bp_nav as $nav_item ) {
+	foreach( (array)$bp->bp_nav as $nav_item ) {
 		$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
 
 		echo '<li' . $alt . '>';
@@ -70,7 +70,7 @@ function bp_adminbar_account_menu() {
 			echo '<ul>';
 			$sub_counter = 0;
 
-			foreach( $bp->bp_options_nav[$nav_item['slug']] as $subnav_item ) {
+			foreach( (array)$bp->bp_options_nav[$nav_item['slug']] as $subnav_item ) {
 				$alt = ( 0 == $sub_counter % 2 ) ? ' class="alt"' : '';
 				echo '<li' . $alt . '><a id="bp-admin-' . $subnav_item['css_id'] . '" href="' . $subnav_item['link'] . '">' . $subnav_item['name'] . '</a></li>';
 				$sub_counter++;
@@ -111,7 +111,7 @@ function bp_adminbar_blogs_menu() {
 
 	if ( is_array( $blogs['blogs'] ) && (int)$blogs['count'] ) {
 		$counter = 0;
-		foreach ( $blogs['blogs'] as $blog ) {
+		foreach ( (array)$blogs['blogs'] as $blog ) {
 			$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
 
 			echo '<li' . $alt . '>';
@@ -191,7 +191,7 @@ function bp_adminbar_authors_menu() {
 		echo '</a>';
 
 		echo '<ul class="author-list">';
-		foreach( $authors as $author ) {
+		foreach( (array)$authors as $author ) {
 			$author = new BP_Core_User( $author->user_id );
 			echo '<li>';
 

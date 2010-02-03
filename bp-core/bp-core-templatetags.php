@@ -500,7 +500,7 @@ function bp_get_loggedin_user_nav() {
 function bp_get_displayed_user_nav() {
 	global $bp;
 
-	foreach ( $bp->bp_nav as $user_nav_item ) {
+	foreach ( (array)$bp->bp_nav as $user_nav_item ) {
 		if ( !$user_nav_item['show_for_displayed_user'] && !bp_is_my_profile() )
 			continue;
 
@@ -544,7 +544,7 @@ function bp_get_options_nav() {
 		return false;
 
 	/* Loop through each navigation item */
-	foreach ( $bp->bp_options_nav[$bp->current_component] as $subnav_item ) {
+	foreach ( (array)$bp->bp_options_nav[$bp->current_component] as $subnav_item ) {
 		if ( !$subnav_item['user_has_access'] )
 			continue;
 

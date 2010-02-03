@@ -50,11 +50,11 @@ function bp_core_get_notifications_for_user( $user_id ) {
 		return false;
 
 	/* Calculated a renderable outcome for each notification type */
-	foreach ( $grouped_notifications as $component_name => $action_arrays ) {
+	foreach ( (array)$grouped_notifications as $component_name => $action_arrays ) {
 		if ( !$action_arrays )
 			continue;
 
-		foreach ( $action_arrays as $component_action_name => $component_action_items ) {
+		foreach ( (array)$action_arrays as $component_action_name => $component_action_items ) {
 			$action_item_count = count($component_action_items);
 
 			if ( $action_item_count < 1 )

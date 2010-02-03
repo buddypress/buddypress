@@ -452,7 +452,7 @@ function messages_new_message( $args = '' ) {
 			return false;
 
 		/* Format this to match existing recipients */
-		foreach( $recipient_ids as $i => $recipient_id ) {
+		foreach( (array)$recipient_ids as $i => $recipient_id ) {
 			$message->recipients[$i] = new stdClass;
 			$message->recipients[$i]->user_id = $recipient_id;
 		}

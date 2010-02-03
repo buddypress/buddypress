@@ -729,7 +729,7 @@ function bp_core_sort_nav_items() {
 	if ( empty( $bp->bp_nav ) || !is_array( $bp->bp_nav ) )
 		return false;
 
-	foreach ( $bp->bp_nav as $slug => $nav_item ) {
+	foreach ( (array)$bp->bp_nav as $slug => $nav_item ) {
 		if ( empty( $temp[$nav_item['position']]) )
 			$temp[$nav_item['position']] = $nav_item;
 		else {
@@ -808,11 +808,11 @@ function bp_core_sort_subnav_items() {
 	if ( empty( $bp->bp_options_nav ) || !is_array( $bp->bp_options_nav ) )
 		return false;
 
-	foreach ( $bp->bp_options_nav as $parent_slug => $subnav_items ) {
+	foreach ( (array)$bp->bp_options_nav as $parent_slug => $subnav_items ) {
 		if ( !is_array( $subnav_items ) )
 			continue;
 
-		foreach ( $subnav_items as $subnav_item ) {
+		foreach ( (array)$subnav_items as $subnav_item ) {
 			if ( empty( $temp[$subnav_item['position']]) )
 				$temp[$subnav_item['position']] = $subnav_item;
 			else {
@@ -846,7 +846,7 @@ function bp_core_remove_nav_item( $parent_id ) {
 
 	/* Unset subnav items for this nav item */
 	if ( is_array( $bp->bp_options_nav[$parent_id] ) ) {
-		foreach( $bp->bp_options_nav[$parent_id] as $subnav_item ) {
+		foreach( (array)$bp->bp_options_nav[$parent_id] as $subnav_item ) {
 			bp_core_remove_subnav_item( $parent_id, $subnav_item['slug'] );
 		}
 	}
@@ -1581,7 +1581,7 @@ function bp_core_add_illegal_names() {
 	$bp_illegal_names = $bp->root_components;
 
 	if ( is_array( $current ) ) {
-		foreach( $bp_illegal_names as $bp_illegal_name ) {
+		foreach( (array)$bp_illegal_names as $bp_illegal_name ) {
 			if ( !in_array( $bp_illegal_name, $current ) )
 				$current[] = $bp_illegal_name;
 		}
@@ -2006,7 +2006,7 @@ add_action( 'admin_notices', 'bp_core_activation_notice' );
 function bp_core_filter_comments( $comments, $post_id ) {
 	global $wpdb;
 
-	foreach( $comments as $comment ) {
+	foreach( (array)$comments as $comment ) {
 		if ( $comment->user_id )
 			$user_ids[] = $comment->user_id;
 	}
@@ -2019,10 +2019,10 @@ function bp_core_filter_comments( $comments, $post_id ) {
 	if ( !$userdata = $wpdb->get_results( $wpdb->prepare( "SELECT ID as user_id, user_login, user_nicename FROM {$wpdb->users} WHERE ID IN ({$user_ids})" ) ) )
 		return $comments;
 
-	foreach( $userdata as $user )
+	foreach( (array)$userdata as $user )
 		$users[$user->user_id] = bp_core_get_user_domain( $user->user_id, $user->user_nicename, $user->user_login );
 
-	foreach( $comments as $i => $comment ) {
+	foreach( (array)$comments as $i => $comment ) {
 		if ( !empty( $comment->user_id ) ) {
 			if ( !empty( $users[$comment->user_id] ) )
 				$comments[$i]->comment_author_url = $users[$comment->user_id];

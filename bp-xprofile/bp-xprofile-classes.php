@@ -354,7 +354,7 @@ Class BP_XProfile_Field {
 
 				$counter = 1;
 				if ( $options ) {
-					foreach ( $options as $option_key => $option_value ) {
+					foreach ( (array)$options as $option_key => $option_value ) {
 						$is_default = 0;
 
 						if ( is_array($defaults) ) {

@@ -745,7 +745,7 @@ function bp_post_get_term_list( $before = '', $sep = '', $after = '' ) {
 	if ( empty( $terms ) )
 		return false;
 
-	foreach ( $terms as $term ) {
+	foreach ( (array)$terms as $term ) {
 		$link = get_blog_option( BP_ROOT_BLOG, 'siteurl') . '/tag/' . $term->slug;
 		$link = apply_filters('term_link', $link);
 

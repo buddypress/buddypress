@@ -10,7 +10,7 @@ function bp_core_admin_settings() {
 			return false;
 
 		// Settings form submitted, now save the settings.
-		foreach ( $_POST['bp-admin'] as $key => $value ) {
+		foreach ( (array)$_POST['bp-admin'] as $key => $value ) {
 
 			if ( function_exists( 'xprofile_install' ) ) {
 				if ( 'bp-xprofile-base-group-name' == $key ) {
@@ -143,7 +143,7 @@ function bp_core_admin_component_setup() {
 			return false;
 
 		// Settings form submitted, now save the settings.
-		foreach ( $_POST['bp_components'] as $key => $value ) {
+		foreach ( (array)$_POST['bp_components'] as $key => $value ) {
 			if ( !(int) $value )
 				$disabled[$key] = 1;
 		}

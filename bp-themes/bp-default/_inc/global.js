@@ -103,7 +103,7 @@ j(document).ready( function() {
 
 	/* List tabs event delegation */
 	j('div.activity-type-tabs').click( function(event) {
-		var target = j(event.target).parent();
+		var target = j(event.target).parent().parent();
 
 		if ( event.target.nodeName != 'A' )
 			return false;
