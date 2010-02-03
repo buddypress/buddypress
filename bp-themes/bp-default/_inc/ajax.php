@@ -177,73 +177,71 @@ function bp_dtheme_delete_activity() {
 add_action( 'wp_ajax_delete_activity_comment', 'bp_dtheme_delete_activity' );
 add_action( 'wp_ajax_delete_activity', 'bp_dtheme_delete_activity' );
 
-function bp_dtheme_activity_loop( $scope = false, $filter = false, $query_string = false, $per_page = 20, $page = 1 ) {
+function bp_dtheme_activity_loop( $scope = false, $filter = false, $per_page = 20, $page = 1 ) {
 	global $bp;
 
-	if ( !$query_string ) {
-		/* If we are on a profile page we only want to show that users activity */
-		if ( $bp->displayed_user->id ) {
-			$query_string = 'user_id=' . $bp->displayed_user->id;
-		} else {
-			if ( !empty( $bp->groups->current_group ) )
-				$scope = 'all';
+	/* If we are on a profile page we only want to show that users activity */
+	if ( $bp->displayed_user->id ) {
+		$query_string = 'user_id=' . $bp->displayed_user->id;
+	} else {
+		if ( !empty( $bp->groups->current_group ) )
+			$scope = 'all';
 
-			$feed_url = site_url( BP_ACTIVITY_SLUG . '/feed/' );
+		$feed_url = site_url( BP_ACTIVITY_SLUG . '/feed/' );
 
-			switch ( $scope ) {
-				case 'friends':
-					$friend_ids = implode( ',', friends_get_friend_user_ids( $bp->loggedin_user->id ) );
-					$query_string = 'user_id=' . $friend_ids;
-					$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/friends/feed/';
-					break;
-				case 'groups':
-					$groups = groups_get_user_groups( $bp->loggedin_user->id );
-					$group_ids = implode( ',', $groups['groups'] );
-					$query_string = 'object=groups&primary_id=' . $group_ids . '&show_hidden=1';
-					$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/groups/feed/';
-					break;
-				case 'favorites':
-					$favs = bp_activity_get_user_favorites( $bp->loggedin_user->id );
+		switch ( $scope ) {
+			case 'friends':
+				$friend_ids = implode( ',', friends_get_friend_user_ids( $bp->loggedin_user->id ) );
+				$query_string = 'user_id=' . $friend_ids;
+				$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/friends/feed/';
+				break;
+			case 'groups':
+				$groups = groups_get_user_groups( $bp->loggedin_user->id );
+				$group_ids = implode( ',', $groups['groups'] );
+				$query_string = 'object=groups&primary_id=' . $group_ids . '&show_hidden=1';
+				$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/groups/feed/';
+				break;
+			case 'favorites':
+				$favs = bp_activity_get_user_favorites( $bp->loggedin_user->id );
 
-					if ( empty( $favs ) )
-						$favorite_ids = false;
+				if ( empty( $favs ) )
+					$favorite_ids = false;
 
-					$favorite_ids = implode( ',', (array)$favs );
-					$query_string = 'include=' . $favorite_ids;
-					$feed_url = $bp->loggedin_user->domain  . BP_ACTIVITY_SLUG . '/favorites/feed/';
-					break;
-				case 'mentions':
-					$query_string = 'show_hidden=1&search_terms=@' . bp_core_get_username( $bp->loggedin_user->id, $bp->loggedin_user->userdata->user_nicename, $bp->loggedin_user->userdata->user_login );
-					$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/mentions/feed/';
+				$favorite_ids = implode( ',', (array)$favs );
+				$query_string = 'include=' . $favorite_ids;
+				$feed_url = $bp->loggedin_user->domain  . BP_ACTIVITY_SLUG . '/favorites/feed/';
+				break;
+			case 'mentions':
+				$query_string = 'show_hidden=1&search_terms=@' . bp_core_get_username( $bp->loggedin_user->id, $bp->loggedin_user->userdata->user_nicename, $bp->loggedin_user->userdata->user_login );
+				$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/mentions/feed/';
 
-					/* Reset the number of new @ mentions for the user */
-					delete_usermeta( $bp->loggedin_user->id, 'bp_new_mention_count' );
-					break;
-			}
+				/* Reset the number of new @ mentions for the user */
+				delete_usermeta( $bp->loggedin_user->id, 'bp_new_mention_count' );
+				break;
 		}
-
-		/* Build the filter */
-		if ( $filter && $filter != '-1' )
-			$query_string .= '&action=' . $filter;
-
-		/* If we are viewing a group then filter the activity just for this group */
-		if ( !empty( $bp->groups->current_group ) ) {
-			$query_string .= '&object=' . $bp->groups->id . '&primary_id=' . $bp->groups->current_group->id;
-
-			/* If we're viewing a non-private group and the user is a member, show the hidden activity for the group */
-			if ( 'public' != $bp->groups->current_group->status && groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
-				$query_string .= '&show_hidden=1';
-		}
-
-		/* Add the per_page param */
-		$query_string .= '&per_page=' . $per_page;
-
-		/* Add the comments param */
-		if ( $bp->displayed_user->id || 'mentions' == $scope )
-			$query_string .= '&display_comments=stream';
-		else
-			$query_string .= '&display_comments=threaded';
 	}
+
+	/* Build the filter */
+	if ( $filter && $filter != '-1' )
+		$query_string .= '&action=' . $filter;
+
+	/* If we are viewing a group then filter the activity just for this group */
+	if ( !empty( $bp->groups->current_group ) ) {
+		$query_string .= '&object=' . $bp->groups->id . '&primary_id=' . $bp->groups->current_group->id;
+
+		/* If we're viewing a non-private group and the user is a member, show the hidden activity for the group */
+		if ( 'public' != $bp->groups->current_group->status && groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
+			$query_string .= '&show_hidden=1';
+	}
+
+	/* Add the per_page param */
+	$query_string .= '&per_page=' . $per_page;
+
+	/* Add the comments param */
+	if ( $bp->displayed_user->id || 'mentions' == $scope )
+		$query_string .= '&display_comments=stream';
+	else
+		$query_string .= '&display_comments=threaded';
 
 	/* Add the new page param */
 	$args = explode( '&', trim( $query_string ) );
@@ -272,7 +270,7 @@ function bp_dtheme_ajax_widget_filter() {
 add_action( 'wp_ajax_activity_widget_filter', 'bp_dtheme_ajax_widget_filter' );
 
 function bp_dtheme_ajax_load_older_updates() {
-	bp_dtheme_activity_loop( false, false, $_POST['query_string'], 20, $_POST['page'] );
+	bp_dtheme_activity_loop( false, false, 20, $_POST['page'] );
 }
 add_action( 'wp_ajax_activity_get_older_updates', 'bp_dtheme_ajax_load_older_updates' );
 

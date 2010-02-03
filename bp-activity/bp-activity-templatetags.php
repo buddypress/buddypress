@@ -180,6 +180,9 @@ function bp_has_activities( $args = '' ) {
 	if ( !empty( $bp->groups->current_group ) ) {
 		$object = $bp->groups->id;
 		$primary_id = $bp->groups->current_group->id;
+
+		if ( 'public' != $bp->groups->current_group->status && groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
+			$show_hidden = true;
 	}
 
 	/* Support for permalinks on single item pages: /groups/my-group/activity/124/ */

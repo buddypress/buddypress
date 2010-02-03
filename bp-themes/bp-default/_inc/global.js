@@ -107,7 +107,6 @@ j(document).ready( function() {
 
 		/* Reset the page */
 		j.cookie( 'bp-activity-oldestpage', 1, {path: '/'} );
-		j.cookie( 'bp-activity-querystring', null, {path: '/'} );
 
 		/* Activity Stream Tabs */
 		var scope = target.attr('id').substr( 9, target.attr('id').length );
@@ -231,16 +230,12 @@ j(document).ready( function() {
 			j.post( ajaxurl, {
 				action: 'activity_get_older_updates',
 				'cookie': encodeURIComponent(document.cookie),
-				'query_string': j.cookie('bp-activity-querystring'),
 				'page': oldest_page
 			},
 			function(response)
 			{
 				j("li.load-more").removeClass('loading');
-
-				j.cookie( 'bp-activity-querystring', response.query_string, {path: '/'} );
 				j.cookie( 'bp-activity-oldestpage', oldest_page, {path: '/'} );
-
 				j("ul.activity-list").append(response.contents);
 
 				target.parent().hide();
@@ -1009,7 +1004,7 @@ j(document).ready( function() {
 	j('a.logout').click( function() {
 		j.cookie('bp-activity-scope', null, {path: '/'});
 		j.cookie('bp-activity-filter', null, {path: '/'});
-		j.cookie('bp-activity-querystring', null, {path: '/'});
+		j.cookie('bp-activity-oldestpage', null, {path: '/'});
 
 		var objects = [ 'members', 'groups', 'blogs', 'forums' ];
 		j(objects).each( function(i) {
@@ -1026,7 +1021,6 @@ j(document).ready( function() {
 function bp_init_activity() {
 	/* Reset the page */
 	j.cookie( 'bp-activity-oldestpage', 1, {path: '/'} );
-	j.cookie( 'bp-activity-querystring', null, {path: '/'} );
 
 	if ( null != j.cookie('bp-activity-filter') && j('#activity-filter-select').length )
 		j('#activity-filter-select select option[value=' + j.cookie('bp-activity-filter') + ']').attr( 'selected', 'selected' );
@@ -1153,7 +1147,6 @@ function bp_activity_request(scope, filter) {
 	function(response)
 	{
 		j('.widget_bp_activity_widget h2 span.ajax-loader').hide();
-		j.cookie( 'bp-activity-querystring', response.query_string, {path: '/'} );
 
 		j('div.activity').fadeOut( 100, function() {
 			j(this).html(response.contents);
