@@ -2522,6 +2522,10 @@ input.settings-input {
 		background-image: url(../images/profile_bullet.gif);
 	}
 
+	table#activity-notification-settings th.icon {
+		background-image: url(../images/activity_bullet.gif);
+	}
+
 	table#messages-notification-settings th.icon {
 		background-image: url(../images/messages_bullet.gif);
 	}
