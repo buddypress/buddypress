@@ -96,7 +96,7 @@
 
 							<label>
 								<input type="radio" name="group-status" value="hidden"<?php bp_group_show_status_setting('hidden') ?> />
-								<?php _e( 'This is a hidden group', 'buddypress' ) ?></strong>
+								<strong><?php _e( 'This is a hidden group', 'buddypress' ) ?></strong>
 								<ul>
 									<li><?php _e( 'Only users who are invited can join the group.', 'buddypress' ) ?></li>
 									<li><?php _e( 'This group will not be listed in the groups directory or search results.', 'buddypress' ) ?></li>
