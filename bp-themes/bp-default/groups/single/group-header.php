@@ -18,22 +18,26 @@
 		<?php endif; ?>
 
 	<?php endif; ?>
-</div>
+</div><!-- #item-actions -->
 
-<?php bp_group_avatar() ?>
+<div id="item-header-avatar">
+	<?php bp_group_avatar() ?>
+</div><!-- #item-header-avatar -->
 
-<h2><a href="<?php bp_group_permalink() ?>" title="<?php bp_group_name() ?>"><?php bp_group_name() ?></a></h2>
-<span class="highlight"><?php bp_group_type() ?></span> <span class="activity"><?php printf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active() ) ?></span>
+<div id="item-header-content">
+	<h2><a href="<?php bp_group_permalink() ?>" title="<?php bp_group_name() ?>"><?php bp_group_name() ?></a></h2>
+	<span class="highlight"><?php bp_group_type() ?></span> <span class="activity"><?php printf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active() ) ?></span>
 
-<?php do_action( 'bp_before_group_header_meta' ) ?>
+	<?php do_action( 'bp_before_group_header_meta' ) ?>
 
-<div id="item-meta">
-	<?php bp_group_description() ?>
+	<div id="item-meta">
+		<?php bp_group_description() ?>
 
-	<?php bp_group_join_button() ?>
+		<?php bp_group_join_button() ?>
 
-	<?php do_action( 'bp_group_header_meta' ) ?>
-</div>
+		<?php do_action( 'bp_group_header_meta' ) ?>
+	</div>
+</div><!-- #item-header-content -->
 
 <?php do_action( 'bp_after_group_header' ) ?>
 

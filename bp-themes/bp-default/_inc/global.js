@@ -226,7 +226,7 @@ j(document).ready( function() {
 			j("li.load-more").addClass('loading');
 
 			if ( null == j.cookie('bp-activity-oldestpage') )
-				j.cookie('bp-activity-oldestpage', 1 );
+				j.cookie('bp-activity-oldestpage', 1, {path: '/'} );
 
 			var oldest_page = ( j.cookie('bp-activity-oldestpage') * 1 ) + 1;
 

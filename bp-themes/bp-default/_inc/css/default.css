@@ -294,6 +294,8 @@ div#content .padder {
 div#item-header {
 	overflow: hidden;
 }
+	div#item-header div#item-header-content { margin-left: 170px; }
+
 	div#item-header h2 {
 		font-size: 28px;
 		margin: 0 0 15px 0;
@@ -381,7 +383,6 @@ div#item-header {
 	}
 
 	div#item-header div#message.info {
-		margin-left: 170px;
 		line-height: 80%;
 	}
 
