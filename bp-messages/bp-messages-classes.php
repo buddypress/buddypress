@@ -160,7 +160,7 @@ Class BP_Messages_Thread {
 	function get_inbox_count() {
 		global $wpdb, $bp;
 
-		$sql = $wpdb->prepare( "SELECT unread_count FROM {$bp->messages->table_name_recipients} WHERE user_id = %d AND is_deleted = 0", $bp->loggedin_user->id );
+		$sql = $wpdb->prepare( "SELECT unread_count FROM {$bp->messages->table_name_recipients} WHERE user_id = %d AND is_deleted = 0 AND sender_only = 0", $bp->loggedin_user->id );
 
 		if ( !$unread_counts = $wpdb->get_results($sql) )
 			return false;

@@ -100,14 +100,13 @@ add_action( 'admin_menu', 'messages_check_installed' );
 function messages_setup_nav() {
 	global $bp;
 
-	if ( $bp->current_component == $bp->messages->slug ) {
-		$inbox_count = messages_get_unread_count();
-		$inbox_display = ( $inbox_count ) ? ' style="display:inline;"' : ' style="display:none;"';
-		$count_indicator = '&nbsp; <span' . $inbox_display . ' class="unread-count inbox-count">' . $inbox_count . '</span>';
-	}
+	if ( $count = messages_get_unread_count() )
+		$name = sprintf( __('Messages <strong>(%s)</strong>', 'buddypress'), $count );
+	else
+		$name = __('Messages <strong></strong>', 'buddypress');
 
 	/* Add 'Messages' to the main navigation */
-	bp_core_new_nav_item( array( 'name' => __('Messages', 'buddypress'), 'slug' => $bp->messages->slug, 'position' => 50, 'show_for_displayed_user' => false, 'screen_function' => 'messages_screen_inbox', 'default_subnav_slug' => 'inbox', 'item_css_id' => $bp->messages->id ) );
+	bp_core_new_nav_item( array( 'name' => $name, 'slug' => $bp->messages->slug, 'position' => 50, 'show_for_displayed_user' => false, 'screen_function' => 'messages_screen_inbox', 'default_subnav_slug' => 'inbox', 'item_css_id' => $bp->messages->id ) );
 
 	$messages_link = $bp->loggedin_user->domain . $bp->messages->slug . '/';
 

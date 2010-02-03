@@ -6,7 +6,7 @@
 
 	<?php do_action( 'bp_before_profile_field_content' ) ?>
 
-		<h3><?php printf( __( "Editing '%s' Profile Group", "buddypress" ), bp_get_the_profile_group_name() ); ?></h3>
+		<h4><?php printf( __( "Editing '%s' Profile Group", "buddypress" ), bp_get_the_profile_group_name() ); ?></h4>
 
 		<ul class="button-nav">
 			<?php bp_profile_group_tabs(); ?>

@@ -1,4 +1,4 @@
-<h3><?php _e( 'Change Avatar', 'buddypress' ) ?></h3>
+<h4><?php _e( 'Change Avatar', 'buddypress' ) ?></h4>
 
 <?php do_action( 'bp_before_profile_avatar_upload_content' ) ?>
 
@@ -29,7 +29,7 @@
 
 		<?php if ( 'crop-image' == bp_get_avatar_admin_step() ) : ?>
 
-			<h3><?php _e( 'Crop Your New Avatar', 'buddypress' ) ?></h3>
+			<h5><?php _e( 'Crop Your New Avatar', 'buddypress' ) ?></h5>
 
 			<img src="<?php bp_avatar_to_crop() ?>" id="avatar-to-crop" class="avatar" alt="<?php _e( 'Avatar to crop', 'buddypress' ) ?>" />
 

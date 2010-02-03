@@ -11,7 +11,7 @@
 				<?php do_action( 'bp_before_profile_field_content' ) ?>
 
 				<div class="bp-widget <?php bp_the_profile_group_slug() ?>">
-					<h3><?php bp_the_profile_group_name() ?></h3>
+					<h4><?php bp_the_profile_group_name() ?></h4>
 
 					<table class="profile-fields">
 						<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>

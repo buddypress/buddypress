@@ -878,16 +878,19 @@ j(document).ready( function() {
 
 					j('tr#m-' + j(this).attr('value') + ' td span.unread-count').html(unreadCount);
 					j('tr#m-' + j(this).attr('value') + ' td span.unread-count').css('display', unreadCountDisplay);
-					var inboxcount = j('.inbox-count').html();
+					var inboxcount = j('a#user-messages strong').html().substr( 1, j('a#user-messages strong').html().length );
+					var inboxcount = inboxcount.substr( 0, inboxcount.length - 1 );
 
+					if ( !inboxcount.length )
+						inboxcount = 0;
 					if ( parseInt(inboxcount) == inboxCount ) {
-						j('.inbox-count').css('display', unreadCountDisplay);
-						j('.inbox-count').html(unreadCount);
+						j('a#user-messages strong').css('display', unreadCountDisplay);
+						j('a#user-messages strong').html( '(' + unreadCount + ')' );
 					} else {
 						if ( 'read' == currentClass )
-							j('.inbox-count').html(parseInt(inboxcount) + 1);
+							j('a#user-messages strong').html('(' + ( parseInt(inboxcount) + 1 ) + ')');
 						else
-							j('.inbox-count').html(parseInt(inboxcount) - thread_count);
+							j('a#user-messages strong').html('(' + ( parseInt(inboxcount) - thread_count ) + ')');
 					}
 
 					if ( i != checkboxes.length - 1 ) {

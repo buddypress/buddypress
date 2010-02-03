@@ -846,6 +846,8 @@ table {
 		width: auto;
 	}
 
+	table.profile-fields { margin-bottom: 20px;}
+
 	div#sidebar table {
 		margin: 0 -16px;
 		width: 117%;
