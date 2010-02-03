@@ -106,7 +106,7 @@ j(document).ready( function() {
 			return false;
 
 		/* Reset the page */
-		j.cookie( 'bp-activity-oldestpage', 1, {path: '/'} );
+		j.cookie( 'bp-activity-oldestpage', 1 );
 
 		/* Activity Stream Tabs */
 		var scope = target.attr('id').substr( 9, target.attr('id').length );
@@ -226,7 +226,7 @@ j(document).ready( function() {
 			j("li.load-more").addClass('loading');
 
 			if ( null == j.cookie('bp-activity-oldestpage') )
-				j.cookie('bp-activity-oldestpage', 1, {path: '/'} );
+				j.cookie('bp-activity-oldestpage', 1 );
 
 			var oldest_page = ( j.cookie('bp-activity-oldestpage') * 1 ) + 1;
 
@@ -238,7 +238,7 @@ j(document).ready( function() {
 			function(response)
 			{
 				j("li.load-more").removeClass('loading');
-				j.cookie( 'bp-activity-oldestpage', oldest_page, {path: '/'} );
+				j.cookie( 'bp-activity-oldestpage', oldest_page );
 				j("ul.activity-list").append(response.contents);
 
 				target.parent().hide();
@@ -1008,17 +1008,17 @@ j(document).ready( function() {
 
 	/* Clear BP cookies on logout */
 	j('a.logout').click( function() {
-		j.cookie('bp-activity-scope', null, {path: '/'});
-		j.cookie('bp-activity-filter', null, {path: '/'});
-		j.cookie('bp-activity-oldestpage', null, {path: '/'});
+		j.cookie('bp-activity-scope', null);
+		j.cookie('bp-activity-filter', null);
+		j.cookie('bp-activity-oldestpage', null);
 
 		var objects = [ 'members', 'groups', 'blogs', 'forums' ];
 		j(objects).each( function(i) {
-			j.cookie('bp-' + objects[i] + '-scope', null, {path: '/'} );
-			j.cookie('bp-' + objects[i] + '-filter', null, {path: '/'} );
-			j.cookie('bp-' + objects[i] + '-search-terms', null, {path: '/'} );
-			j.cookie('bp-' + objects[i] + '-page', null, {path: '/'} );
-			j.cookie('bp-' + objects[i] + '-extras', null, {path: '/'} );
+			j.cookie('bp-' + objects[i] + '-scope', null );
+			j.cookie('bp-' + objects[i] + '-filter', null );
+			j.cookie('bp-' + objects[i] + '-search-terms', null );
+			j.cookie('bp-' + objects[i] + '-page', null );
+			j.cookie('bp-' + objects[i] + '-extras', null );
 		});
 	});
 });
@@ -1026,7 +1026,7 @@ j(document).ready( function() {
 /* Setup activity scope and filter based on the current cookie settings. */
 function bp_init_activity() {
 	/* Reset the page */
-	j.cookie( 'bp-activity-oldestpage', 1, {path: '/'} );
+	j.cookie( 'bp-activity-oldestpage', 1 );
 
 	if ( null != j.cookie('bp-activity-filter') && j('#activity-filter-select').length )
 		j('#activity-filter-select select option[value=' + j.cookie('bp-activity-filter') + ']').attr( 'selected', 'selected' );
@@ -1053,8 +1053,10 @@ function bp_init_objects(objects) {
 			j('div.item-list-tabs li#' + objects[i] + '-' + j.cookie('bp-' + objects[i] + '-scope') + ', div.item-list-tabs#object-nav li.current').addClass('selected');
 		}
 
-		/* Reset the page cookie on reload */
-		j.cookie('bp-' + objects[i] + '-page', null, {path: '/'});
+		/* Reset specfic cookies on reload */
+		j.cookie('bp-' + objects[i] + '-search-terms', null );
+		j.cookie('bp-' + objects[i] + '-page', null );
+		j.cookie('bp-' + objects[i] + '-extras', null );
 	});
 }
 
@@ -1082,11 +1084,11 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 		search_terms = j.query.get('s');
 
 	/* Save the type and filter to a session cookie */
-	j.cookie( 'bp-' + object + '-scope', scope, null, {path: '/'} );
-	j.cookie( 'bp-' + object + '-filter', filter, null, {path: '/'} );
-	j.cookie( 'bp-' + object + '-page', page, null, {path: '/'} );
-	j.cookie( 'bp-' + object + '-search-terms', search_terms, null, {path: '/'} );
-	j.cookie( 'bp-' + object + '-extras', extras, null, {path: '/'} );
+	j.cookie( 'bp-' + object + '-scope', scope, null );
+	j.cookie( 'bp-' + object + '-filter', filter, null );
+	j.cookie( 'bp-' + object + '-page', page, null );
+	j.cookie( 'bp-' + object + '-search-terms', search_terms, null );
+	j.cookie( 'bp-' + object + '-extras', extras, null );
 
 	/* Set the correct selected nav and filter */
 	j('div.item-list-tabs li').each( function() {
@@ -1128,9 +1130,9 @@ function bp_activity_request(scope, filter) {
 		var filter = '-1';
 
 	/* Save the type and filter to a session cookie */
-	j.cookie( 'bp-activity-scope', scope, null, {path: '/'} );
-	j.cookie( 'bp-activity-filter', filter, null, {path: '/'} );
-	j.cookie( 'bp-activity-oldestpage', 1, {path: '/'} );
+	j.cookie( 'bp-activity-scope', scope, null );
+	j.cookie( 'bp-activity-filter', filter, null );
+	j.cookie( 'bp-activity-oldestpage', 1 );
 
 	/* Remove selected and loading classes from tabs */
 	j('div.item-list-tabs li').each( function() {
