@@ -5,16 +5,7 @@ j(document).ready( function() {
 	/**** Page Load Actions *******************************************************/
 
 	/* Activity Filter Select Set */
-	if ( null != j.cookie('bp-activity-filter') && j('#activity-filter-select').length )
-		j('#activity-filter-select select option[value=' + j.cookie('bp-activity-filter') + ']').attr( 'selected', 'selected' );
-
-	/* Activity Tab Set */
-	if ( null != j.cookie('bp-activity-scope') && j('div.item-list-tabs').length ) {
-		j('div.item-list-tabs li').each( function() {
-			j(this).removeClass('selected');
-		});
-		j('li#activity-' + j.cookie('bp-activity-scope') + ', div.item-list-tabs li.current').addClass('selected');
-	}
+	bp_init_activity();
 
 	/* Object filter and scope set. */
 	var objects = [ 'members', 'groups', 'blogs', 'forums' ];
@@ -113,6 +104,10 @@ j(document).ready( function() {
 
 		if ( event.target.nodeName != 'A' )
 			return false;
+
+		/* Reset the page */
+		j.cookie( 'bp-activity-oldestpage', 1, {path: '/'} );
+		j.cookie( 'bp-activity-querystring', null, {path: '/'} );
 
 		/* Activity Stream Tabs */
 		var scope = target.attr('id').substr( 9, target.attr('id').length );
@@ -243,8 +238,8 @@ j(document).ready( function() {
 			{
 				j("li.load-more").removeClass('loading');
 
-				j.cookie( 'bp-activity-querystring', response.query_string );
-				j.cookie( 'bp-activity-oldestpage', oldest_page );
+				j.cookie( 'bp-activity-querystring', response.query_string, {path: '/'} );
+				j.cookie( 'bp-activity-oldestpage', oldest_page, {path: '/'} );
 
 				j("ul.activity-list").append(response.contents);
 
@@ -1009,20 +1004,38 @@ j(document).ready( function() {
 
 	/* Clear BP cookies on logout */
 	j('a.logout').click( function() {
-		j.cookie('bp-activity-scope', null);
-		j.cookie('bp-activity-filter', null);
-		j.cookie('bp-activity-querystring', null);
+		j.cookie('bp-activity-scope', null, {path: '/'});
+		j.cookie('bp-activity-filter', null, {path: '/'});
+		j.cookie('bp-activity-querystring', null, {path: '/'});
 
 		var objects = [ 'members', 'groups', 'blogs', 'forums' ];
 		j(objects).each( function(i) {
-			j.cookie('bp-' + objects[i] + '-scope', null );
-			j.cookie('bp-' + objects[i] + '-filter', null );
-			j.cookie('bp-' + objects[i] + '-search-terms', null );
-			j.cookie('bp-' + objects[i] + '-page', null );
-			j.cookie('bp-' + objects[i] + '-extras', null );
+			j.cookie('bp-' + objects[i] + '-scope', null, {path: '/'} );
+			j.cookie('bp-' + objects[i] + '-filter', null, {path: '/'} );
+			j.cookie('bp-' + objects[i] + '-search-terms', null, {path: '/'} );
+			j.cookie('bp-' + objects[i] + '-page', null, {path: '/'} );
+			j.cookie('bp-' + objects[i] + '-extras', null, {path: '/'} );
 		});
 	});
 });
+
+/* Setup activity scope and filter based on the current cookie settings. */
+function bp_init_activity() {
+	/* Reset the page */
+	j.cookie( 'bp-activity-oldestpage', 1, {path: '/'} );
+	j.cookie( 'bp-activity-querystring', null, {path: '/'} );
+
+	if ( null != j.cookie('bp-activity-filter') && j('#activity-filter-select').length )
+		j('#activity-filter-select select option[value=' + j.cookie('bp-activity-filter') + ']').attr( 'selected', 'selected' );
+
+	/* Activity Tab Set */
+	if ( null != j.cookie('bp-activity-scope') && j('div.item-list-tabs').length ) {
+		j('div.item-list-tabs li').each( function() {
+			j(this).removeClass('selected');
+		});
+		j('li#activity-' + j.cookie('bp-activity-scope') + ', div.item-list-tabs li.current').addClass('selected');
+	}
+}
 
 /* Setup object scope and filter based on the current cookie settings for the object. */
 function bp_init_objects(objects) {
@@ -1038,7 +1051,7 @@ function bp_init_objects(objects) {
 		}
 
 		/* Reset the page cookie on reload */
-		j.cookie('bp-' + objects[i] + '-page', null);
+		j.cookie('bp-' + objects[i] + '-page', null, {path: '/'});
 	});
 }
 
@@ -1066,11 +1079,11 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 		search_terms = j.query.get('s');
 
 	/* Save the type and filter to a session cookie */
-	j.cookie( 'bp-' + object + '-scope', scope, null );
-	j.cookie( 'bp-' + object + '-filter', filter, null );
-	j.cookie( 'bp-' + object + '-page', page, null );
-	j.cookie( 'bp-' + object + '-search-terms', search_terms, null );
-	j.cookie( 'bp-' + object + '-extras', extras, null );
+	j.cookie( 'bp-' + object + '-scope', scope, null, {path: '/'} );
+	j.cookie( 'bp-' + object + '-filter', filter, null, {path: '/'} );
+	j.cookie( 'bp-' + object + '-page', page, null, {path: '/'} );
+	j.cookie( 'bp-' + object + '-search-terms', search_terms, null, {path: '/'} );
+	j.cookie( 'bp-' + object + '-extras', extras, null, {path: '/'} );
 
 	/* Set the correct selected nav and filter */
 	j('div.item-list-tabs li').each( function() {
@@ -1112,9 +1125,9 @@ function bp_activity_request(scope, filter) {
 		var filter = '-1';
 
 	/* Save the type and filter to a session cookie */
-	j.cookie( 'bp-activity-scope', scope, null );
-	j.cookie( 'bp-activity-filter', filter, null );
-	j.cookie( 'bp-activity-oldestpage', 1 );
+	j.cookie( 'bp-activity-scope', scope, null, {path: '/'} );
+	j.cookie( 'bp-activity-filter', filter, null, {path: '/'} );
+	j.cookie( 'bp-activity-oldestpage', 1, {path: '/'} );
 
 	/* Set the correct selected nav and filter */
 	j('div.item-list-tabs li').each( function() {
@@ -1137,7 +1150,7 @@ function bp_activity_request(scope, filter) {
 	function(response)
 	{
 		j('.widget_bp_activity_widget h2 span.ajax-loader').hide();
-		j.cookie( 'bp-activity-querystring', response.query_string );
+		j.cookie( 'bp-activity-querystring', response.query_string, {path: '/'} );
 
 		j('div.activity').fadeOut( 100, function() {
 			j(this).html(response.contents);
