@@ -83,7 +83,7 @@ function groups_setup_globals() {
 	/* Register this in the active components array */
 	$bp->active_components[$bp->groups->slug] = $bp->groups->id;
 
-	$bp->groups->forbidden_names = apply_filters( 'groups_forbidden_names', array( 'my-groups', 'group-finder', 'create', 'invites', 'delete', 'add', 'admin', 'request-membership' ) );
+	$bp->groups->forbidden_names = apply_filters( 'groups_forbidden_names', array( 'my-groups', 'create', 'invites', 'send-invites', 'forum', 'delete', 'add', 'admin', 'request-membership', 'members', 'settings', 'avatar', BP_GROUPS_SLUG ) );
 
 	$bp->groups->group_creation_steps = apply_filters( 'groups_create_group_steps', array(
 		'group-details' => array( 'name' => __( 'Details', 'buddypress' ), 'position' => 0 ),
