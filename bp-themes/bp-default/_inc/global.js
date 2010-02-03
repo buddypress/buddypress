@@ -1137,9 +1137,6 @@ function bp_activity_request(scope, filter) {
 		j(this).removeClass('selected loading');
 	});
 
-	/* Stop previous ajax request from completing */
-	stop();
-
 	/* Set the correct selected nav and filter */
 	j('li#activity-' + scope + ', div.item-list-tabs li.current').addClass('selected');
 	j('div#object-nav.item-list-tabs li.selected, div.activity-type-tabs li.selected').addClass('loading');
@@ -1148,7 +1145,7 @@ function bp_activity_request(scope, filter) {
 	/* Reload the activity stream based on the selection */
 	j('.widget_bp_activity_widget h2 span.ajax-loader').show();
 
-	j.post( ajaxurl, {
+	var activity_request = j.post( ajaxurl, {
 		action: 'activity_widget_filter',
 		'cookie': encodeURIComponent(document.cookie),
 		'_wpnonce_activity_filter': j("input#_wpnonce_activity_filter").val(),
