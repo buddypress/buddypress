@@ -86,7 +86,7 @@ Class BP_Blogs_Blog {
 
 		switch ( $type ) {
 			case 'active': default:
-				$order_sql = "ORDER BY CONVERT(bm.meta_value, SIGNED) DESC";
+				$order_sql = "ORDER BY bm.meta_value DESC";
 				break;
 			case 'alphabetical':
 				$order_sql = "ORDER BY bm2.meta_value ASC";
