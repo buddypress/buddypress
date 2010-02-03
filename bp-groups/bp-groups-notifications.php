@@ -6,7 +6,7 @@ function groups_notification_group_updated( $group_id ) {
 	$group = new BP_Groups_Group( $group_id );
 	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . __( 'Group Details Updated', 'buddypress' );
 
-	$user_ids = BP_Groups_Member::get_group_member_ids( $this->id );
+	$user_ids = BP_Groups_Member::get_group_member_ids( $group->id );
 	foreach ( $user_ids as $user_id ) {
 		if ( 'no' == get_usermeta( $user_id, 'notification_groups_group_updated' ) ) continue;
 
