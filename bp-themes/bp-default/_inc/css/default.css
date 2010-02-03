@@ -1261,10 +1261,8 @@ div.activity-meta {
 div.activity-comments {
 	position: relative;
 	margin: 0 0 0 75px;
-	background: #f5f5f5;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
 	width: auto;
+	overflow: hidden; /* IE fix */
 }
 	body.internal-page div.activity-comments {
 		width: auto;
@@ -1276,6 +1274,11 @@ div.activity-comments {
 		background: none;
 	}
 
+div.activity-comments > ul {
+	background: #f5f5f5;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
 div.activity-comments ul, div.activity-comments ul li {
 	border: none;
 	list-style: none;
