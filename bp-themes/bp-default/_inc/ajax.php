@@ -68,15 +68,19 @@ function bp_dtheme_post_update() {
 		return false;
 	}
 
-	if ( (int)$_POST['group'] ) {
-		$activity_id = groups_post_update( array(
-			'content' => $_POST['content'],
-			'group_id' => $_POST['group']
-		));
-	} else {
+	if ( empty( $_POST['object'] ) ) {
 		$activity_id = bp_activity_post_update( array(
 			'content' => $_POST['content']
 		));
+	} elseif ( $_POST['object'] == 'groups' ) {
+		if ( !empty( $_POST['item_id'] ) ) {
+		$activity_id = groups_post_update( array(
+			'content' => $_POST['content'],
+				'group_id' => $_POST['item_id']
+		));
+		}
+	} else {
+		$activity_id = apply_filters( 'bp_activity_custom_update', $_POST['object'], $_POST['item_id'], $_POST['content'] );
 	}
 
 	if ( !$activity_id ) {

@@ -54,12 +54,23 @@ j(document).ready( function() {
 		j('div.error').remove();
 		button.attr('disabled','disabled');
 
+		/* Default POST values */
+		var object = '';
+		var item_id = j("#whats-new-post-in").val();
+		var content = j("textarea#whats-new").val();
+
+		/* Set object for non-profile posts */
+		if ( item_id > 0 ) {
+			object = j("#whats-new-post-object").val();
+		}
+
 		j.post( ajaxurl, {
 			action: 'post_update',
 			'cookie': encodeURIComponent(document.cookie),
 			'_wpnonce_post_update': j("input#_wpnonce_post_update").val(),
-			'content': j("textarea#whats-new").val(),
-			'group': j("#whats-new-post-in").val()
+			'content': content,
+			'object': object,
+			'item_id': item_id
 		},
 		function(response)
 		{
