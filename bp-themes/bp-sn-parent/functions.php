@@ -310,4 +310,13 @@ function bp_activity_ajax_load_older_updates() {
 }
 add_action( 'wp_ajax_aw_get_older_updates', 'bp_activity_ajax_load_older_updates' );
 
+function bp_classic_remove_redundant() {
+	global $bp;
+
+	/* Remove the navigation options that the theme does no support. */
+	bp_core_remove_subnav_item( $bp->activity->slug, 'groups' );
+	bp_core_remove_subnav_item( $bp->activity->slug, 'favorites' );
+	bp_core_remove_subnav_item( $bp->activity->slug, 'mentions' );
+}
+add_action( 'init', 'bp_classic_remove_redundant' );
 ?>
