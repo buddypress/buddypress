@@ -2085,6 +2085,7 @@ ul#group-list li, ul#member-list li, ul#blog-list li, ul#comment-list li, ul.ite
 #group-admins img.avatar, #group-mods img.avatar {
 	border-width: 3px;
 	width: 30px;
+	height: 30px;
 	float: left;
 	margin-right: 8px;
 }

@@ -25,6 +25,8 @@
 <div class="bp-widget">
 	<h4><?php _e( 'Admins', 'buddypress' ) ?></h4>
 	<?php bp_group_list_admins() ?>
+
+	<div class="clear"></div>
 </div>
 
 <?php do_action( 'bp_after_group_menu_admins' ) ?>
@@ -34,6 +36,8 @@
 	<div class="bp-widget">
 		<h4><?php _e( 'Mods' , 'buddypress' ) ?></h4>
 		<?php bp_group_list_mods() ?>
+
+		<div class="clear"></div>
 	</div>
 <?php endif; ?>
 
@@ -57,6 +61,7 @@
 
 		<?php endif; ?>
 
+		<div class="clear"></div>
 	</div>
 
 	<?php do_action( 'bp_after_group_member_widget' ) ?>
