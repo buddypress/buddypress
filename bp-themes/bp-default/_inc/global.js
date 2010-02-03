@@ -103,9 +103,11 @@ j(document).ready( function() {
 
 	/* List tabs event delegation */
 	j('div.activity-type-tabs').click( function(event) {
-		var target = j(event.target).parent().parent();
+		var target = j(event.target).parent();
 
-		if ( event.target.nodeName != 'A' )
+		if ( event.target.nodeName == 'STRONG' || event.target.nodeName == 'SPAN' )
+			target = target.parent();
+		else if ( event.target.nodeName != 'A' )
 			return false;
 
 		/* Reset the page */
