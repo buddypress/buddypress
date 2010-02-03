@@ -1,6 +1,9 @@
 // AJAX Functions
 var j = jQuery;
 
+// Global variable to prevent multiple AJAX requests
+var activity_request = null;
+
 j(document).ready( function() {
 	/**** Page Load Actions *******************************************************/
 
@@ -1147,7 +1150,10 @@ function bp_activity_request(scope, filter) {
 	/* Reload the activity stream based on the selection */
 	j('.widget_bp_activity_widget h2 span.ajax-loader').show();
 
-	var activity_request = j.post( ajaxurl, {
+	if ( activity_request )
+		activity_request.abort();
+
+	activity_request = j.post( ajaxurl, {
 		action: 'activity_widget_filter',
 		'cookie': encodeURIComponent(document.cookie),
 		'_wpnonce_activity_filter': j("input#_wpnonce_activity_filter").val(),
