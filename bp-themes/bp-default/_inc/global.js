@@ -519,7 +519,13 @@ j(document).ready( function() {
 		var object = css_id[0];
 		var scope = css_id[1];
 		var filter = j(this).val();
-		var search_terms = j("#" + object + "_search").val();
+		var search_terms = false;
+
+		if ( j('div.dir-search input').length )
+			search_terms = j('div.dir-search input').val();
+
+		if ( 'friends' == object )
+			object = 'members';
 
 		bp_filter_request( object, filter, scope, 'div.' + object, search_terms, 1, j.cookie('bp-' + object + '-extras') );
 
@@ -1044,7 +1050,7 @@ function bp_init_activity() {
 /* Setup object scope and filter based on the current cookie settings for the object. */
 function bp_init_objects(objects) {
 	j(objects).each( function(i) {
-		if ( null != j.cookie('bp-' + objects[i] + '-filter') && j('div.' + objects[i]).length )
+		if ( null != j.cookie('bp-' + objects[i] + '-filter') && j('li#' + objects[i] + '-order-select select').length )
 			j('li#' + objects[i] + '-order-select select option[value=' + j.cookie('bp-' + objects[i] + '-filter') + ']').attr( 'selected', 'selected' );
 
 		if ( null != j.cookie('bp-' + objects[i] + '-scope') && j('div.' + objects[i]).length ) {

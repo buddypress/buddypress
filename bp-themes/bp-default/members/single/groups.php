@@ -5,7 +5,7 @@
 		<?php endif; ?>
 
 		<?php if ( 'invites' != bp_current_action() ) : ?>
-		<li id="members-order-select" class="last filter">
+		<li id="groups-order-select" class="last filter">
 
 			<?php _e( 'Order By:', 'buddypress' ) ?>
 			<select id="groups-all">

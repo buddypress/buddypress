@@ -2,7 +2,7 @@
 	<ul>
 		<?php bp_get_options_nav() ?>
 
-		<li id="blogs-filter-select" class="last filter">
+		<li id="blogs-order-select" class="last filter">
 			<?php _e( 'Order By:', 'buddypress' ) ?>
 			<select id="blogs-all">
 				<option value="active"><?php _e( 'Last Active', 'buddypress' ) ?></option>
