@@ -28,7 +28,7 @@ class BP_Forums_Template_Forum {
 
 		/* Only show stickies if we are viewing a single group forum, otherwise we could end up with hundreds globally */
 		if ( $no_stickies )
-			$show_stickies = 'no'; // bbPress needs str 'no'
+			$show_stickies = 'all'; // bbPress needs str 'no'
 
 		switch ( $type ) {
 			case 'newest': default:
@@ -164,6 +164,7 @@ function bp_has_forum_topics( $args = '' ) {
 	$user_id = false;
 	$forum_id = false;
 	$search_terms = false;
+	$no_stickies = false;
 
 	/* User filtering */
 	if ( !empty( $bp->displayed_user->id ) )
@@ -190,6 +191,10 @@ function bp_has_forum_topics( $args = '' ) {
 	if ( $bp->is_directory && !empty( $_GET['fs'] ) )
 		$search_terms = $_GET['fs'];
 
+	/* Don't show stickies on the directory page, otherwise we might end up with 100's */
+	if ( $bp->is_directory )
+		$no_stickies = true;
+
 	$defaults = array(
 		'type' => $type,
 		'forum_id' => $forum_id,
@@ -197,7 +202,7 @@ function bp_has_forum_topics( $args = '' ) {
 		'page' => 1,
 		'per_page' => 20,
 		'max' => false,
-		'no_stickies' => false,
+		'no_stickies' => $no_stickies,
 		'search_terms' => $search_terms
 	);
 
