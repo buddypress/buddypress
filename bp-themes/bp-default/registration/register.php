@@ -41,7 +41,7 @@
 					<?php do_action( 'bp_signup_password_confirm_errors' ) ?>
 					<input type="password" name="signup_password_confirm" id="signup_password_confirm" value="" />
 
-				</div>
+				</div><!-- #basic-details-section -->
 
 				<?php do_action( 'bp_after_account_details_fields' ) ?>
 
@@ -50,6 +50,7 @@
 
 				<?php /***** Extra Profile Details ******/ ?>
 
+				<?php if ( bp_is_active( 'xprofile' ) ) : ?>
 				<div class="register-section" id="profile-details-section">
 
 					<h4><?php _e( 'Profile Details', 'buddypress' ) ?></h4>
@@ -154,9 +155,10 @@
 
 					<input type="hidden" name="signup_profile_field_ids" id="signup_profile_field_ids" value="<?php bp_the_profile_group_field_ids() ?>" />
 
-				</div>
+					<?php endwhile; endif; endif; ?>
 
-				<?php endwhile; endif; endif; ?>
+				</div><!-- #profile-details-section -->
+				<?php endif; ?>
 
 				<?php do_action( 'bp_after_signup_profile_fields' ) ?>
 
@@ -195,7 +197,7 @@
 
 						</div>
 
-					</div>
+					</div><!-- #blog-details-section -->
 
 					<?php do_action( 'bp_after_blog_details_fields' ) ?>
 
@@ -204,7 +206,7 @@
 				<?php do_action( 'bp_before_registration_submit_buttons' ) ?>
 
 				<div class="submit">
-					<input type="submit" name="signup_submit" id="signup_submit" value="<?php _e( 'Complete Sign Up', 'buddypress' ) ?> &rarr;" />
+					<input type="submit"name="signup_submit" id="signup_submit" value="<?php _e( 'Complete Sign Up', 'buddypress' ) ?> &rarr;" />
 				</div>
 
 				<?php do_action( 'bp_after_registration_submit_buttons' ) ?>
@@ -225,7 +227,7 @@
 					<p><?php _e( 'You have successfully created your account! Please log in using the username and password you have just created.', 'buddypress' ) ?></p>
 				<?php endif; ?>
 
-				<?php if ( !(int)get_site_option( 'bp-disable-avatar-uploads' ) ) : ?>
+				<?php if ( bp_is_active( 'xprofile' ) && !(int)get_site_option( 'bp-disable-avatar-uploads' ) ) : ?>
 
 					<?php if ( 'upload-image' == bp_get_avatar_admin_step() ) : ?>
 

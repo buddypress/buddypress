@@ -52,18 +52,20 @@ function bp_core_screen_signup() {
 		$bp->signup->username = $_POST['signup_username'];
 		$bp->signup->email = $_POST['signup_email'];
 
-		/* Now we've checked account details, we can check profile information */
-		$profile_field_ids = explode( ',', $_POST['signup_profile_field_ids'] );
+		if ( !empty( $_POST['signup_profile_field_ids'] ) && function_exists( 'xprofile_check_is_required_field' ) ) {
+			/* Now we've checked account details, we can check profile information */
+			$profile_field_ids = explode( ',', $_POST['signup_profile_field_ids'] );
 
-		/* Loop through the posted fields formatting any datebox values then validate the field */
-		foreach ( (array) $profile_field_ids as $field_id ) {
-			if ( !isset( $_POST['field_' . $field_id] ) ) {
-				if ( isset( $_POST['field_' . $field_id . '_day'] ) )
-					$_POST['field_' . $field_id] = strtotime( $_POST['field_' . $field_id . '_day'] . $_POST['field_' . $field_id . '_month'] . $_POST['field_' . $field_id . '_year'] );
+			/* Loop through the posted fields formatting any datebox values then validate the field */
+			foreach ( (array) $profile_field_ids as $field_id ) {
+				if ( !isset( $_POST['field_' . $field_id] ) ) {
+					if ( isset( $_POST['field_' . $field_id . '_day'] ) )
+						$_POST['field_' . $field_id] = strtotime( $_POST['field_' . $field_id . '_day'] . $_POST['field_' . $field_id . '_month'] . $_POST['field_' . $field_id . '_year'] );
+				}
+
+				if ( xprofile_check_is_required_field( $field_id ) && empty( $_POST['field_' . $field_id] ) )
+					$bp->signup->errors['field_' . $field_id] = __( 'This is a required field', 'buddypress' );
 			}
-
-			if ( xprofile_check_is_required_field( $field_id ) && empty( $_POST['field_' . $field_id] ) )
-				$bp->signup->errors['field_' . $field_id] = __( 'This is a required field', 'buddypress' );
 		}
 
 		/* Finally, let's check the blog details, if the user wants a blog and blog creation is enabled */

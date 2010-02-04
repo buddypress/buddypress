@@ -29,7 +29,10 @@
 						<select>
 							<option value="active"><?php _e( 'Last Active', 'buddypress' ) ?></option>
 							<option value="newest"><?php _e( 'Newest Registered', 'buddypress' ) ?></option>
-							<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ) ?></option>
+
+							<?php if ( bp_is_active( 'xprofile' ) ) : ?>
+								<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ) ?></option>
+							<?php endif; ?>
 
 							<?php do_action( 'bp_members_directory_order_options' ) ?>
 						</select>
