@@ -177,62 +177,48 @@ function bp_has_groups( $args = '' ) {
 	 */
 	$type = 'active';
 	$user_id = false;
-	$page = 1;
+	$search_terms = false;
+	$slug = false;
 
 	/* User filtering */
-	if ( !empty( $bp->displayed_user->id ) || 'personal' == $_COOKIE['bp-groups-scope'] )
-		$user_id = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+	if ( !empty( $bp->displayed_user->id ) )
+		$user_id = $bp->displayed_user->id;
 
-	/* Action filtering */
-	if ( !empty( $_COOKIE['bp-groups-filter'] ) && '-1' != $_COOKIE['bp-groups-filter'] )
-		$type = $_COOKIE['bp-groups-filter'];
-
-	if ( !empty( $_COOKIE['bp-groups-page'] ) && '-1' != $_COOKIE['bp-groups-page'] )
-		$page = $_COOKIE['bp-groups-page'];
-
-	$defaults = array(
-		'type' => $type,
-		'page' => $page,
-		'per_page' => 20,
-		'max' => false,
-
-		'user_id' => $user_id, // Pass a user ID to limit to groups this user has joined
-		'slug' => false, // Pass a group slug to only return that group
-		'search_terms' => false // Pass search terms to return only matching groups
-	);
-
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r );
-
-	if ( '' == $args ) {
-		/* The following code will auto set parameters based on the page being viewed.
-		 * for example on example.com/members/andy/groups/my-groups/most-popular/
-		 * $type = 'most-popular'
-		 */
-		if ( 'my-groups' == $bp->current_action ) {
-			$order = $bp->action_variables[0];
-			if ( 'recently-joined' == $order )
-				$type = 'recently-joined';
-			else if ( 'most-popular' == $order )
-				$type = 'popular';
-			else if ( 'admin-of' == $order ) {
-				$type = 'admin-of';
-				$user_id = $bp->displayed_user->id;
-			} else if ( 'mod-of' == $order ) {
-				$type = 'mod-of';
-				$user_id = $bp->displayed_user->id;
-			} else if ( 'alphabetically' == $order )
-				$type = 'alphabetical';
-		} else if ( 'invites' == $bp->current_action ) {
-			$type = 'invites';
-		} else if ( $bp->groups->current_group->slug ) {
-			$type = 'single-group';
-			$slug = $bp->groups->current_group->slug;
-		}
+	/* Type */
+	if ( 'my-groups' == $bp->current_action ) {
+		if ( 'recently-joined' == $order )
+			$type = 'recently-joined';
+		else if ( 'most-popular' == $order )
+			$type = 'popular';
+		else if ( 'admin-of' == $order ) {
+			$type = 'admin-of';
+		} else if ( 'mod-of' == $order ) {
+			$type = 'mod-of';
+		} else if ( 'alphabetically' == $order )
+			$type = 'alphabetical';
+	} else if ( 'invites' == $bp->current_action ) {
+		$type = 'invites';
+	} else if ( $bp->groups->current_group->slug ) {
+		$type = 'single-group';
+		$slug = $bp->groups->current_group->slug;
 	}
 
 	if ( isset( $_REQUEST['group-filter-box'] ) || isset( $_REQUEST['s'] ) )
 		$search_terms = ( isset( $_REQUEST['group-filter-box'] ) ) ? $_REQUEST['group-filter-box'] : $_REQUEST['s'];
+
+	$defaults = array(
+		'type' => $type,
+		'page' => 1,
+		'per_page' => 20,
+		'max' => false,
+
+		'user_id' => $user_id, // Pass a user ID to limit to groups this user has joined
+		'slug' => $slug, // Pass a group slug to only return that group
+		'search_terms' => $search_terms // Pass search terms to return only matching groups
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r );
 
 	$groups_template = new BP_Groups_Template( $user_id, $type, $page, $per_page, $max, $slug, $search_terms );
 	return apply_filters( 'bp_has_groups', $groups_template->has_groups(), &$groups_template );

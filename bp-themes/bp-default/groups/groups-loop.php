@@ -2,7 +2,7 @@
 
 <?php do_action( 'bp_before_groups_loop' ) ?>
 
-<?php if ( bp_has_groups( bp_ajax_querystring() ) ) : ?>
+<?php if ( bp_has_groups( bp_dtheme_ajax_querystring( 'groups' ) ) ) : ?>
 
 	<div class="pagination">
 

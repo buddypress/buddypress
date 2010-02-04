@@ -9,48 +9,76 @@
  * your own _inc/ajax.php file and add/remove AJAX functionality as you see fit.
  */
 
-function bp_dtheme_object_filter() {
+/***
+ * Each object loop (activity/members/groups/blogs/forums) contains parameters to
+ * show specific information based on the page we are currently looking at.
+ * The following function will take into account any cookies set in the JS and allow us
+ * to override the parameters sent. That way we can change the results returned without reloading the page.
+ */
+function bp_dtheme_ajax_querystring( $object = false ) {
 	global $bp;
 
-	$object = esc_attr( $_POST['object'] );
-	$filter = esc_attr( $_POST['filter'] );
-	$page = esc_attr( $_POST['page'] );
-	$search_terms = esc_attr( $_POST['search_terms'] );
+	if ( empty( $object ) )
+		return false;
 
-	/**
-	 * Scope is the scope of results to use, either all (everything) or personal (just mine).
-	 * For example if the object is groups, it would be all groups, or just groups I belong to.
+	/* Set up the cookies passed on this AJAX request. Store a local var to avoid conflicts */
+	if ( !empty( $_POST['cookie'] ) )
+		$_BP_COOKIE = wp_parse_args( str_replace( '; ', '&', urldecode( $_POST['cookie'] ) ) );
+	else
+		$_BP_COOKIE = &$_COOKIE;
+
+	$qs = false;
+
+	/***
+	 * Check if any cookie values are set. If there are then override the default params passed to the
+	 * template loop
 	 */
-	$scope = esc_attr( $_POST['scope'] );
-
-	/* Plugins can pass extra parameters and use the bp_dtheme_ajax_querystring_content_filter filter to parse them */
-	$extras = esc_attr( $_POST['extras'] );
-
-	if ( __( 'Search anything...', 'buddypress' ) == $search_terms || 'false' == $search_terms )
-		$search_terms = false;
-
-	/* Build the querystring */
-	if ( empty( $filter ) )
-		$filter = 'active';
-
-	$bp->ajax_querystring = 'type=' . $filter . '&page=' . $page;
-
-	if ( !empty( $search_terms ) )
-		$bp->ajax_querystring .= '&search_terms=' . $search_terms;
-
-	if ( $scope == 'personal' || $bp->displayed_user->id ) {
-		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
-		$bp->ajax_querystring .= '&user_id=' . $user_id;
+	if ( !empty( $_BP_COOKIE['bp-' . $object . '-filter'] ) && '-1' != $_BP_COOKIE['bp-' . $object . '-filter'] ) {
+		$qs[] = 'type=' . $_BP_COOKIE['bp-' . $object . '-filter'];
+		$qs[] = 'action=' . $_BP_COOKIE['bp-' . $object . '-filter']; // Activity stream filtering on action
 	}
 
-	$bp->ajax_querystring = apply_filters( 'bp_dtheme_ajax_querystring_content_filter', $bp->ajax_querystring, $extras );
+	if ( !empty( $_BP_COOKIE['bp-' . $object . '-scope'] ) ) {
+		if ( 'personal' == $_BP_COOKIE['bp-' . $object . '-scope'] ) {
+			$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+			$qs[] = 'user_id=' . $user_id;
+		}
+		$qs[] = 'scope=' . $_BP_COOKIE['bp-' . $object . '-scope']; // Activity stream scope
+	}
 
+	if ( !empty( $_BP_COOKIE['bp-' . $object . '-page'] ) && '-1' != $_BP_COOKIE['bp-' . $object . '-page'] )
+		$qs[] = 'page=' . $_BP_COOKIE['bp-' . $object . '-page'];
+
+	if ( !empty( $_BP_COOKIE['bp-' . $object . '-search-terms'] ) && __( 'Search anything...', 'buddypress' ) != $_BP_COOKIE['bp-' . $object . '-search-terms'] && 'false' != $_BP_COOKIE['bp-' . $object . '-search-terms'] )
+		$qs[] = 'search_terms=' . $_BP_COOKIE['bp-' . $object . '-search-terms'];
+
+	/* Now pass the querystring to override default values. */
+	if ( !empty( $qs ) )
+		return apply_filters( 'bp_dtheme_ajax_querystring', join( '&', (array)$qs ), $object, $_BP_COOKIE['bp-' . $object . '-filter'], $_BP_COOKIE['bp-' . $object . '-scope'], $_BP_COOKIE['bp-' . $object . '-page'], $_BP_COOKIE['bp-' . $object . '-search-terms'], $_BP_COOKIE['bp-' . $object . '-extras'] );
+}
+
+function bp_dtheme_object_template_loader() {
+	$object = esc_attr( $_POST['object'] );
 	locate_template( array( "$object/$object-loop.php" ), true );
 }
-add_action( 'wp_ajax_members_filter', 'bp_dtheme_object_filter' );
-add_action( 'wp_ajax_groups_filter', 'bp_dtheme_object_filter' );
-add_action( 'wp_ajax_blogs_filter', 'bp_dtheme_object_filter' );
-add_action( 'wp_ajax_forums_filter', 'bp_dtheme_object_filter' );
+add_action( 'wp_ajax_members_filter', 'bp_dtheme_object_template_loader' );
+add_action( 'wp_ajax_groups_filter', 'bp_dtheme_object_template_loader' );
+add_action( 'wp_ajax_blogs_filter', 'bp_dtheme_object_template_loader' );
+add_action( 'wp_ajax_forums_filter', 'bp_dtheme_object_template_loader' );
+
+function bp_dtheme_activity_template_loader() {
+	global $bp;
+
+	/* Buffer the loop in the template to a var for JS to spit out. */
+	ob_start();
+	locate_template( array( 'activity/activity-loop.php' ), true );
+	$result['contents'] = ob_get_contents();
+	ob_end_clean();
+
+	echo json_encode( $result );
+}
+add_action( 'wp_ajax_activity_widget_filter', 'bp_dtheme_activity_template_loader' );
+add_action( 'wp_ajax_activity_get_older_updates', 'bp_dtheme_activity_template_loader' );
 
 function bp_dtheme_post_update() {
 	global $bp;
@@ -176,103 +204,6 @@ function bp_dtheme_delete_activity() {
 }
 add_action( 'wp_ajax_delete_activity_comment', 'bp_dtheme_delete_activity' );
 add_action( 'wp_ajax_delete_activity', 'bp_dtheme_delete_activity' );
-
-function bp_dtheme_activity_loop( $scope = false, $filter = false, $per_page = 20, $page = 1 ) {
-	global $bp;
-
-	/* If we are on a profile page we only want to show that users activity */
-	if ( $bp->displayed_user->id ) {
-		$query_string = 'user_id=' . $bp->displayed_user->id;
-	} else {
-		if ( !empty( $bp->groups->current_group ) )
-			$scope = 'all';
-
-		$feed_url = site_url( BP_ACTIVITY_SLUG . '/feed/' );
-
-		switch ( $scope ) {
-			case BP_FRIENDS_SLUG:
-				$friend_ids = implode( ',', friends_get_friend_user_ids( $bp->loggedin_user->id ) );
-				$query_string = 'user_id=' . $friend_ids;
-				$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/' . BP_FRIENDS_SLUG . '/feed/';
-				break;
-			case BP_GROUPS_SLUG:
-				$groups = groups_get_user_groups( $bp->loggedin_user->id );
-				$group_ids = implode( ',', $groups['groups'] );
-				$query_string = 'object=groups&primary_id=' . $group_ids . '&show_hidden=1';
-				$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/' . BP_GROUPS_SLUG . '/feed/';
-				break;
-			case 'favorites':
-				$favs = bp_activity_get_user_favorites( $bp->loggedin_user->id );
-
-				if ( empty( $favs ) )
-					$favorite_ids = false;
-
-				$favorite_ids = implode( ',', (array)$favs );
-				$query_string = 'include=' . $favorite_ids;
-				$feed_url = $bp->loggedin_user->domain  . BP_ACTIVITY_SLUG . '/favorites/feed/';
-				break;
-			case 'mentions':
-				$query_string = 'show_hidden=1&search_terms=@' . bp_core_get_username( $bp->loggedin_user->id, $bp->loggedin_user->userdata->user_nicename, $bp->loggedin_user->userdata->user_login );
-				$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/mentions/feed/';
-
-				/* Reset the number of new @ mentions for the user */
-				delete_usermeta( $bp->loggedin_user->id, 'bp_new_mention_count' );
-				break;
-		}
-	}
-
-	/* Build the filter */
-	if ( $filter && $filter != '-1' )
-		$query_string .= '&action=' . $filter;
-
-	/* If we are viewing a group then filter the activity just for this group */
-	if ( !empty( $bp->groups->current_group ) ) {
-		$query_string .= '&object=' . $bp->groups->id . '&primary_id=' . $bp->groups->current_group->id;
-
-		/* If we're viewing a non-private group and the user is a member, show the hidden activity for the group */
-		if ( 'public' != $bp->groups->current_group->status && groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
-			$query_string .= '&show_hidden=1';
-	}
-
-	/* Add the per_page param */
-	$query_string .= '&per_page=' . $per_page;
-
-	/* Add the comments param */
-	if ( $bp->displayed_user->id || 'mentions' == $scope )
-		$query_string .= '&display_comments=stream';
-	else
-		$query_string .= '&display_comments=threaded';
-
-	/* Add the new page param */
-	$args = explode( '&', trim( $query_string ) );
-	foreach( (array)$args as $arg ) {
-		if ( false === strpos( $arg, 'page' ) )
-			$new_args[] = $arg;
-	}
-	$query_string = implode( '&', $new_args ) . '&page=' . $page;
-
-	$bp->ajax_querystring = apply_filters( 'bp_dtheme_ajax_querystring_activity_filter', $query_string, $scope );
-	$result['query_string'] = $bp->ajax_querystring;
-	$result['feed_url'] = apply_filters( 'bp_dtheme_ajax_feed_url', $feed_url );
-
-	/* Buffer the loop in the template to a var for JS to spit out. */
-	ob_start();
-	locate_template( array( 'activity/activity-loop.php' ), true );
-	$result['contents'] = ob_get_contents();
-	ob_end_clean();
-
-	echo json_encode( $result );
-}
-
-function bp_dtheme_ajax_widget_filter() {
-	bp_dtheme_activity_loop( $_POST['scope'], $_POST['filter'] );
-}
-add_action( 'wp_ajax_activity_widget_filter', 'bp_dtheme_ajax_widget_filter' );
-
-function bp_dtheme_ajax_load_older_updates() {
-	bp_dtheme_activity_loop( false, false, 20, $_POST['page'] );
-}
-add_action( 'wp_ajax_activity_get_older_updates', 'bp_dtheme_ajax_load_older_updates' );
 
 function bp_dtheme_mark_activity_favorite() {
 	global $bp;

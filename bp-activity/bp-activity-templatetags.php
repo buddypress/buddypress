@@ -124,57 +124,12 @@ function bp_has_activities( $args = '' ) {
 	$user_id = false;
 	$include = false;
 	$show_hidden = false;
-	$search_terms = false;
 	$object = false;
-	$action = false;
 	$primary_id = false;
-	$display_comments = 'threaded';
 
 	/* User filtering */
 	if ( !empty( $bp->displayed_user->id ) )
 		$user_id = $bp->displayed_user->id;
-
-	/* Action filtering */
-	if ( !empty( $_COOKIE['bp-activity-filter'] ) && '-1' != $_COOKIE['bp-activity-filter'] )
-		$action = $_COOKIE['bp-activity-filter'];
-
-	/* User activity scope filtering */
-	if ( !empty( $user_id ) || !empty( $_COOKIE['bp-activity-scope'] ) ) {
-		$scope = ( !empty( $bp->current_action ) ) ? $bp->current_action : $_COOKIE['bp-activity-scope'];
-		$current_user_id = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
-
-		if ( empty( $scope ) || 'just-me' == $scope )
-			$display_comments = 'stream';
-
-		switch ( $scope ) {
-			case 'friends':
-				if ( function_exists( 'friends_get_friend_user_ids' ) )
-					$user_id = implode( ',', (array)friends_get_friend_user_ids( $current_user_id ) );
-				break;
-			case 'groups':
-				if ( function_exists( 'groups_get_user_groups' ) ) {
-					$groups = groups_get_user_groups( $current_user_id );
-					$object = $bp->groups->id;
-					$primary_id = implode( ',', (array)$groups['groups'] );
-					$show_hidden = ( $current_user_id == $bp->loggedin_user->id ) ? 1 : 0;
-					$user_id = false;
-				}
-				break;
-			case 'favorites':
-				$favs = bp_activity_get_user_favorites( $current_user_id );
-				$include = implode( ',', (array)$favs );
-				$show_hidden = ( $current_user_id == $bp->loggedin_user->id ) ? 1 : 0;
-				break;
-			case 'mentions':
-				$user_nicename = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->userdata->user_nicename : $bp->loggedin_user->userdata->user_nicename;
-				$user_login = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
-				$search_terms = '@' . bp_core_get_username( $current_user_id, $user_nicename, $user_login );
-				$show_hidden = ( $current_user_id == $bp->loggedin_user->id ) ? 1 : 0;
-				$display_comments = 'stream';
-				$user_id = false;
-				break;
-		}
-	}
 
 	/* Group filtering */
 	if ( !empty( $bp->groups->current_group ) ) {
@@ -191,7 +146,7 @@ function bp_has_activities( $args = '' ) {
 
 	/* Note: any params used for filtering can be a single value, or multiple values comma separated. */
 	$defaults = array(
-		'display_comments' => $display_comments, // false for none, stream/threaded - show comments in the stream or threaded under items
+		'display_comments' => 'threaded', // false for none, stream/threaded - show comments in the stream or threaded under items
 		'include' => $include, // pass an activity_id or string of ID's comma separated
 		'sort' => 'DESC', // sort DESC or ASC
 		'page' => 1, // which page to load
@@ -199,19 +154,62 @@ function bp_has_activities( $args = '' ) {
 		'max' => false, // max number to return
 		'show_hidden' => $show_hidden, // Show activity items that are hidden site-wide?
 
+		/* Scope - pre-built activity filters for a user (friends/groups/favorites/mentions) */
+		'scope' => $bp->current_action,
+
 		/* Filtering */
 		'user_id' => $user_id, // user_id to filter on
 		'object' => $object, // object to filter on e.g. groups, profile, status, friends
-		'action' => $action, // action to filter on e.g. activity_update, new_forum_post, profile_updated
+		'action' => false, // action to filter on e.g. activity_update, new_forum_post, profile_updated
 		'primary_id' => $primary_id, // object ID to filter on e.g. a group_id or forum_id or blog_id etc.
 		'secondary_id' => false, // secondary object ID to filter on e.g. a post_id
 
 		/* Searching */
-		'search_terms' => $search_terms // specify terms to search on
+		'search_terms' => false // specify terms to search on
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
+
+	/* If you have passed a "scope" then this will override any filters you have passed. */
+	if ( !empty( $scope ) ) {
+		if ( 'just-me' == $scope )
+			$display_comments = 'stream';
+
+		if ( $user_id = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->id : $bp->loggedin_user->id ) {
+			switch ( $scope ) {
+				case 'friends':
+					if ( function_exists( 'friends_get_friend_user_ids' ) )
+						$user_id = implode( ',', (array)friends_get_friend_user_ids( $user_id ) );
+					break;
+				case 'groups':
+					if ( function_exists( 'groups_get_user_groups' ) ) {
+						$groups = groups_get_user_groups( $user_id );
+						$object = $bp->groups->id;
+						$primary_id = implode( ',', (array)$groups['groups'] );
+						$show_hidden = ( $user_id == $bp->loggedin_user->id ) ? 1 : 0;
+						$user_id = false;
+					}
+					break;
+				case 'favorites':
+					$favs = bp_activity_get_user_favorites( $user_id );
+					if ( empty( $favs ) )
+						return false;
+
+					$include = implode( ',', (array)$favs );
+					$show_hidden = ( $user_id == $bp->loggedin_user->id ) ? 1 : 0;
+					break;
+				case 'mentions':
+					$user_nicename = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->userdata->user_nicename : $bp->loggedin_user->userdata->user_nicename;
+					$user_login = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
+					$search_terms = '@' . bp_core_get_username( $user_id, $user_nicename, $user_login );
+					$show_hidden = ( $user_id == $bp->loggedin_user->id ) ? 1 : 0;
+					$display_comments = 'stream';
+					$user_id = false;
+					break;
+			}
+		}
+	}
 
 	if ( $max ) {
 		if ( $per_page > $max )

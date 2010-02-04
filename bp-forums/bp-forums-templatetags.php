@@ -162,32 +162,12 @@ function bp_has_forum_topics( $args = '' ) {
 	 */
 	$type = 'newest';
 	$user_id = false;
-	$page = 1;
+	$forum_id = false;
+	$search_terms = false;
 
 	/* User filtering */
-	if ( !empty( $bp->displayed_user->id ) || 'personal' == $_COOKIE['bp-forums-scope'] )
-		$user_id = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
-
-	/* Action filtering */
-	if ( !empty( $_COOKIE['bp-forums-filter'] ) && '-1' != $_COOKIE['bp-forums-filter'] )
-		$type = $_COOKIE['bp-forums-filter'];
-
-	if ( !empty( $_COOKIE['bp-forums-page'] ) && '-1' != $_COOKIE['bp-forums-page'] )
-		$page = $_COOKIE['bp-forums-page'];
-
-	$defaults = array(
-		'type' => $type,
-		'forum_id' => false,
-		'user_id' => $user_id,
-		'page' => $page,
-		'per_page' => 20,
-		'max' => false,
-		'no_stickies' => false,
-		'search_terms' => false
-	);
-
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r );
+	if ( !empty( $bp->displayed_user->id ) )
+		$user_id = $bp->displayed_user->id;
 
 	/* If we're in a single group, set this group's forum_id */
 	if ( !$forum_id && $bp->groups->current_group ) {
@@ -210,8 +190,21 @@ function bp_has_forum_topics( $args = '' ) {
 	if ( $bp->is_directory && !empty( $_GET['fs'] ) )
 		$search_terms = $_GET['fs'];
 
-	$forum_template = new BP_Forums_Template_Forum( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms );
+	$defaults = array(
+		'type' => $type,
+		'forum_id' => $forum_id,
+		'user_id' => $user_id,
+		'page' => 1,
+		'per_page' => 20,
+		'max' => false,
+		'no_stickies' => false,
+		'search_terms' => $search_terms
+	);
 
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r );
+
+	$forum_template = new BP_Forums_Template_Forum( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms );
 	return apply_filters( 'bp_has_topics', $forum_template->has_topics(), &$forum_template );
 }
 	/* DEPRECATED use bp_has_forum_topics() */

@@ -125,17 +125,15 @@ function bp_has_members( $args = '' ) {
 	$type = 'active';
 	$user_id = false;
 	$page = 1;
+	$search_terms = false;
 
 	/* User filtering */
-	if ( !empty( $bp->displayed_user->id ) || 'personal' == $_COOKIE['bp-members-scope'] )
-		$user_id = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+	if ( !empty( $bp->displayed_user->id ) )
+		$user_id = $bp->displayed_user->id;
 
-	/* Action filtering */
-	if ( !empty( $_COOKIE['bp-members-filter'] ) && '-1' != $_COOKIE['bp-members-filter'] )
-		$type = $_COOKIE['bp-members-filter'];
-
-	if ( !empty( $_COOKIE['bp-members-page'] ) && '-1' != $_COOKIE['bp-members-page'] )
-		$page = $_COOKIE['bp-members-page'];
+	/* Pass a filter if ?s= is set. */
+	if ( $_REQUEST['s'] )
+		$search_terms = $_REQUEST['s'];
 
 	// type: active ( default ) | random | newest | popular | online | alphabetical
 	$defaults = array(
@@ -147,7 +145,7 @@ function bp_has_members( $args = '' ) {
 		'include' => false, // Pass a user_id or comma separated list of user_ids to only show these users
 
 		'user_id' => $user_id, // Pass a user_id to only show friends of this user
-		'search_terms' => false, // Pass search_terms to filter users by their profile data
+		'search_terms' => $search_terms, // Pass search_terms to filter users by their profile data
 
 		'populate_extras' => true // Fetch usermeta? Friend count, last active etc.
 	);
@@ -159,13 +157,6 @@ function bp_has_members( $args = '' ) {
 		if ( $per_page > $max )
 			$per_page = $max;
 	}
-
-	/* Pass a filter if ?s= is set. */
-	if ( $_REQUEST['s'] )
-		$search_terms = $_REQUEST['s'];
-
-	if ( false === $user_id && $bp->displayed_user->id )
-		$user_id = $bp->displayed_user->id;
 
 	$members_template = new BP_Core_Members_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $include, (bool)$populate_extras );
 
@@ -1391,13 +1382,6 @@ function bp_root_domain() {
 
 		return $bp->root_domain;
 	}
-
-/* This function will pass a AJAX built querystring to a loop in the template */
-function bp_ajax_querystring() {
-	global $bp;
-
-	return apply_filters( 'bp_ajax_querystring', $bp->ajax_querystring );
-}
 
 /* Template is_() functions to determine the current page */
 

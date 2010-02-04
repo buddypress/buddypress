@@ -2,7 +2,7 @@
 
 <?php do_action( 'bp_before_blogs_loop' ) ?>
 
-<?php if ( bp_has_blogs( bp_ajax_querystring() ) ) : ?>
+<?php if ( bp_has_blogs( bp_dtheme_ajax_querystring( 'blogs' ) ) ) : ?>
 
 	<div class="pagination">
 

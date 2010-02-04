@@ -2,7 +2,7 @@
 var j = jQuery;
 
 // Global variable to prevent multiple AJAX requests
-var activity_request = null;
+var bp_ajax_request = null;
 
 j(document).ready( function() {
 	/**** Page Load Actions *******************************************************/
@@ -111,7 +111,7 @@ j(document).ready( function() {
 			return false;
 
 		/* Reset the page */
-		j.cookie( 'bp-activity-oldestpage', 1 );
+		j.cookie( 'bp-activity-oldestpage', 1, {path: '/'} );
 
 		/* Activity Stream Tabs */
 		var scope = target.attr('id').substr( 9, target.attr('id').length );
@@ -130,7 +130,7 @@ j(document).ready( function() {
 		var selected_tab = j( 'div.activity-type-tabs li.selected' );
 
 		if ( !selected_tab.length )
-			var scope = 'all';
+			var scope = null;
 		else
 			var scope = selected_tab.attr('id').substr( 9, selected_tab.attr('id').length );
 
@@ -231,7 +231,7 @@ j(document).ready( function() {
 			j("li.load-more").addClass('loading');
 
 			if ( null == j.cookie('bp-activity-oldestpage') )
-				j.cookie('bp-activity-oldestpage', 1 );
+				j.cookie('bp-activity-oldestpage', 1, {path: '/'} );
 
 			var oldest_page = ( j.cookie('bp-activity-oldestpage') * 1 ) + 1;
 
@@ -243,7 +243,7 @@ j(document).ready( function() {
 			function(response)
 			{
 				j("li.load-more").removeClass('loading');
-				j.cookie( 'bp-activity-oldestpage', oldest_page );
+				j.cookie( 'bp-activity-oldestpage', oldest_page, {path: '/'} );
 				j("ul.activity-list").append(response.contents);
 
 				target.parent().hide();
@@ -1031,7 +1031,7 @@ j(document).ready( function() {
 /* Setup activity scope and filter based on the current cookie settings. */
 function bp_init_activity() {
 	/* Reset the page */
-	j.cookie( 'bp-activity-oldestpage', 1 );
+	j.cookie( 'bp-activity-oldestpage', 1, {path: '/'} );
 
 	if ( null != j.cookie('bp-activity-filter') && j('#activity-filter-select').length )
 		j('#activity-filter-select select option[value=' + j.cookie('bp-activity-filter') + ']').attr( 'selected', 'selected' );
@@ -1070,43 +1070,33 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 	if ( 'activity' == object )
 		return false;
 
-	if ( null == scope )
-		var scope = 'all';
-
-	if ( null == filter )
-		var filter = 'active';
-
-	if ( null == page )
-		var page = 1;
-
-	if ( null == search_terms )
-		var search_terms = false;
-
-	if ( null == extras )
-		var extras = false;
-
 	if ( j.query.get('s') )
 		search_terms = j.query.get('s');
 
 	/* Save the type and filter to a session cookie */
-	j.cookie( 'bp-' + object + '-scope', scope, null );
-	j.cookie( 'bp-' + object + '-filter', filter, null );
-	j.cookie( 'bp-' + object + '-page', page, null );
-	j.cookie( 'bp-' + object + '-search-terms', search_terms, null );
-	j.cookie( 'bp-' + object + '-extras', extras, null );
+	j.cookie( 'bp-' + object + '-scope', scope, {path: '/'}  );
+	j.cookie( 'bp-' + object + '-filter', filter, {path: '/'}  );
+	j.cookie( 'bp-' + object + '-page', page, {path: '/'}  );
+	j.cookie( 'bp-' + object + '-search-terms', search_terms, {path: '/'}  );
+	j.cookie( 'bp-' + object + '-extras', extras, {path: '/'}  );
 
 	/* Set the correct selected nav and filter */
-	j('div.item-list-tabs li').each( function() {
-		j(this).removeClass('selected');
-	});
-	j('div.item-list-tabs li#' + object + '-' + scope + ', div.item-list-tabs#object-nav li.current').addClass('selected');
+	if ( null != scope ) {
+		j('div.item-list-tabs li').each( function() {
+			j(this).removeClass('selected');
+		});
+		j('div.item-list-tabs li#' + object + '-' + scope + ', div.item-list-tabs#object-nav li.current').addClass('selected');
+	}
 	j('div.item-list-tabs li.selected').addClass('loading');
 	j('div.item-list-tabs select option[value=' + filter + ']').attr( 'selected', 'selected' );
 
 	if ( 'friends' == object )
 		object = 'members';
 
-	j.post( ajaxurl, {
+	if ( bp_ajax_request )
+		bp_ajax_request.abort();
+
+	bp_ajax_request = j.post( ajaxurl, {
 		action: object + '_filter',
 		'cookie': encodeURIComponent(document.cookie),
 		'object': object,
@@ -1128,34 +1118,29 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 
 /* Activity Loop Requesting */
 function bp_activity_request(scope, filter) {
-	if ( null == scope )
-		var scope = 'all';
-
-	if ( null == filter )
-		var filter = '-1';
-
 	/* Save the type and filter to a session cookie */
-	j.cookie( 'bp-activity-scope', scope, null );
-	j.cookie( 'bp-activity-filter', filter, null );
-	j.cookie( 'bp-activity-oldestpage', 1 );
+	j.cookie( 'bp-activity-scope', scope, {path: '/'}  );
+	j.cookie( 'bp-activity-filter', filter, {path: '/'} );
+	j.cookie( 'bp-activity-oldestpage', 1, {path: '/'} );
 
 	/* Remove selected and loading classes from tabs */
-	j('div.item-list-tabs li').each( function() {
-		j(this).removeClass('selected loading');
-	});
-
-	/* Set the correct selected nav and filter */
-	j('li#activity-' + scope + ', div.item-list-tabs li.current').addClass('selected');
+	if ( null != scope ) {
+		j('div.item-list-tabs li').each( function() {
+			j(this).removeClass('selected loading');
+		});
+		/* Set the correct selected nav and filter */
+		j('li#activity-' + scope + ', div.item-list-tabs li.current').addClass('selected');
+	}
 	j('div#object-nav.item-list-tabs li.selected, div.activity-type-tabs li.selected').addClass('loading');
 	j('#activity-filter-select select option[value=' + filter + ']').attr( 'selected', 'selected' );
 
 	/* Reload the activity stream based on the selection */
 	j('.widget_bp_activity_widget h2 span.ajax-loader').show();
 
-	if ( activity_request )
-		activity_request.abort();
+	if ( bp_ajax_request )
+		bp_ajax_request.abort();
 
-	activity_request = j.post( ajaxurl, {
+	bp_ajax_request = j.post( ajaxurl, {
 		action: 'activity_widget_filter',
 		'cookie': encodeURIComponent(document.cookie),
 		'_wpnonce_activity_filter': j("input#_wpnonce_activity_filter").val(),
@@ -1250,7 +1235,7 @@ function clear(container) {
 jQuery.extend({easing:{easein:function(x,t,b,c,d){return c*(t/=d)*t+b},easeinout:function(x,t,b,c,d){if(t<d/2)return 2*c*t*t/(d*d)+b;var ts=t-d/2;return-2*c*ts*ts/(d*d)+2*c*ts/d+c/2+b},easeout:function(x,t,b,c,d){return-c*t*t/(d*d)+2*c*t/d+b},expoin:function(x,t,b,c,d){var flip=1;if(c<0){flip*=-1;c*=-1}return flip*(Math.exp(Math.log(c)/d*t))+b},expoout:function(x,t,b,c,d){var flip=1;if(c<0){flip*=-1;c*=-1}return flip*(-Math.exp(-Math.log(c)/d*(t-d))+c+1)+b},expoinout:function(x,t,b,c,d){var flip=1;if(c<0){flip*=-1;c*=-1}if(t<d/2)return flip*(Math.exp(Math.log(c/2)/(d/2)*t))+b;return flip*(-Math.exp(-2*Math.log(c/2)/d*(t-d))+c+1)+b},bouncein:function(x,t,b,c,d){return c-jQuery.easing['bounceout'](x,d-t,0,c,d)+b},bounceout:function(x,t,b,c,d){if((t/=d)<(1/2.75)){return c*(7.5625*t*t)+b}else if(t<(2/2.75)){return c*(7.5625*(t-=(1.5/2.75))*t+.75)+b}else if(t<(2.5/2.75)){return c*(7.5625*(t-=(2.25/2.75))*t+.9375)+b}else{return c*(7.5625*(t-=(2.625/2.75))*t+.984375)+b}},bounceinout:function(x,t,b,c,d){if(t<d/2)return jQuery.easing['bouncein'](x,t*2,0,c,d)*.5+b;return jQuery.easing['bounceout'](x,t*2-d,0,c,d)*.5+c*.5+b},elasin:function(x,t,b,c,d){var s=1.70158;var p=0;var a=c;if(t==0)return b;if((t/=d)==1)return b+c;if(!p)p=d*.3;if(a<Math.abs(c)){a=c;var s=p/4}else var s=p/(2*Math.PI)*Math.asin(c/a);return-(a*Math.pow(2,10*(t-=1))*Math.sin((t*d-s)*(2*Math.PI)/p))+b},elasout:function(x,t,b,c,d){var s=1.70158;var p=0;var a=c;if(t==0)return b;if((t/=d)==1)return b+c;if(!p)p=d*.3;if(a<Math.abs(c)){a=c;var s=p/4}else var s=p/(2*Math.PI)*Math.asin(c/a);return a*Math.pow(2,-10*t)*Math.sin((t*d-s)*(2*Math.PI)/p)+c+b},elasinout:function(x,t,b,c,d){var s=1.70158;var p=0;var a=c;if(t==0)return b;if((t/=d/2)==2)return b+c;if(!p)p=d*(.3*1.5);if(a<Math.abs(c)){a=c;var s=p/4}else var s=p/(2*Math.PI)*Math.asin(c/a);if(t<1)return-.5*(a*Math.pow(2,10*(t-=1))*Math.sin((t*d-s)*(2*Math.PI)/p))+b;return a*Math.pow(2,-10*(t-=1))*Math.sin((t*d-s)*(2*Math.PI)/p)*.5+c+b},backin:function(x,t,b,c,d){var s=1.70158;return c*(t/=d)*t*((s+1)*t-s)+b},backout:function(x,t,b,c,d){var s=1.70158;return c*((t=t/d-1)*t*((s+1)*t+s)+1)+b},backinout:function(x,t,b,c,d){var s=1.70158;if((t/=d/2)<1)return c/2*(t*t*(((s*=(1.525))+1)*t-s))+b;return c/2*((t-=2)*t*(((s*=(1.525))+1)*t+s)+2)+b},linear:function(x,t,b,c,d){return c*t/d+b}}});
 
 /* jQuery Cookie plugin */
-eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('o.5=B(9,b,2){6(h b!=\'E\'){2=2||{};6(b===n){b=\'\';2.3=-1}4 3=\'\';6(2.3&&(h 2.3==\'j\'||2.3.k)){4 7;6(h 2.3==\'j\'){7=w u();7.t(7.q()+(2.3*r*l*l*x))}m{7=2.3}3=\'; 3=\'+7.k()}4 8=2.8?\'; 8=\'+(2.8):\'\';4 a=2.a?\'; a=\'+(2.a):\'\';4 c=2.c?\'; c\':\'\';d.5=[9,\'=\',C(b),3,8,a,c].y(\'\')}m{4 e=n;6(d.5&&d.5!=\'\'){4 g=d.5.A(\';\');s(4 i=0;i<g.f;i++){4 5=o.z(g[i]);6(5.p(0,9.f+1)==(9+\'=\')){e=D(5.p(9.f+1));v}}}F e}};',42,42,'||options|expires|var|cookie|if|date|path|name|domain|value|secure|document|cookieValue|length|cookies|typeof||number|toUTCString|60|else|null|jQuery|substring|getTime|24|for|setTime|Date|break|new|1000|join|trim|split|function|encodeURIComponent|decodeURIComponent|undefined|return'.split('|'),0,{}))
+jQuery.cookie=function(name,value,options){if(typeof value!='undefined'){options=options||{};if(value===null){value='';options.expires=-1;}var expires='';if(options.expires&&(typeof options.expires=='number'||options.expires.toUTCString)){var date;if(typeof options.expires=='number'){date=new Date();date.setTime(date.getTime()+(options.expires*24*60*60*1000));}else{date=options.expires;}expires='; expires='+date.toUTCString();}var path=options.path?'; path='+(options.path):'';var domain=options.domain?'; domain='+(options.domain):'';var secure=options.secure?'; secure':'';document.cookie=[name,'=',encodeURIComponent(value),expires,path,domain,secure].join('');}else{var cookieValue=null;if(document.cookie&&document.cookie!=''){var cookies=document.cookie.split(';');for(var i=0;i<cookies.length;i++){var cookie=jQuery.trim(cookies[i]);if(cookie.substring(0,name.length+1)==(name+'=')){cookieValue=decodeURIComponent(cookie.substring(name.length+1));break;}}}return cookieValue;}};
 
 /* jQuery querystring plugin */
 eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('M 6(A){4 $11=A.11||\'&\';4 $V=A.V===r?r:j;4 $1p=A.1p===r?\'\':\'[]\';4 $13=A.13===r?r:j;4 $D=$13?A.D===j?"#":"?":"";4 $15=A.15===r?r:j;v.1o=M 6(){4 f=6(o,t){8 o!=1v&&o!==x&&(!!t?o.1t==t:j)};4 14=6(1m){4 m,1l=/\\[([^[]*)\\]/g,T=/^([^[]+)(\\[.*\\])?$/.1r(1m),k=T[1],e=[];19(m=1l.1r(T[2]))e.u(m[1]);8[k,e]};4 w=6(3,e,7){4 o,y=e.1b();b(I 3!=\'X\')3=x;b(y===""){b(!3)3=[];b(f(3,L)){3.u(e.h==0?7:w(x,e.z(0),7))}n b(f(3,1a)){4 i=0;19(3[i++]!=x);3[--i]=e.h==0?7:w(3[i],e.z(0),7)}n{3=[];3.u(e.h==0?7:w(x,e.z(0),7))}}n b(y&&y.T(/^\\s*[0-9]+\\s*$/)){4 H=1c(y,10);b(!3)3=[];3[H]=e.h==0?7:w(3[H],e.z(0),7)}n b(y){4 H=y.B(/^\\s*|\\s*$/g,"");b(!3)3={};b(f(3,L)){4 18={};1w(4 i=0;i<3.h;++i){18[i]=3[i]}3=18}3[H]=e.h==0?7:w(3[H],e.z(0),7)}n{8 7}8 3};4 C=6(a){4 p=d;p.l={};b(a.C){v.J(a.Z(),6(5,c){p.O(5,c)})}n{v.J(1u,6(){4 q=""+d;q=q.B(/^[?#]/,\'\');q=q.B(/[;&]$/,\'\');b($V)q=q.B(/[+]/g,\' \');v.J(q.Y(/[&;]/),6(){4 5=1e(d.Y(\'=\')[0]||"");4 c=1e(d.Y(\'=\')[1]||"");b(!5)8;b($15){b(/^[+-]?[0-9]+\\.[0-9]*$/.1d(c))c=1A(c);n b(/^[+-]?[0-9]+$/.1d(c))c=1c(c,10)}c=(!c&&c!==0)?j:c;b(c!==r&&c!==j&&I c!=\'1g\')c=c;p.O(5,c)})})}8 p};C.1H={C:j,1G:6(5,1f){4 7=d.Z(5);8 f(7,1f)},1h:6(5){b(!f(5))8 d.l;4 K=14(5),k=K[0],e=K[1];4 3=d.l[k];19(3!=x&&e.h!=0){3=3[e.1b()]}8 I 3==\'1g\'?3:3||""},Z:6(5){4 3=d.1h(5);b(f(3,1a))8 v.1E(j,{},3);n b(f(3,L))8 3.z(0);8 3},O:6(5,c){4 7=!f(c)?x:c;4 K=14(5),k=K[0],e=K[1];4 3=d.l[k];d.l[k]=w(3,e.z(0),7);8 d},w:6(5,c){8 d.N().O(5,c)},1s:6(5){8 d.O(5,x).17()},1z:6(5){8 d.N().1s(5)},1j:6(){4 p=d;v.J(p.l,6(5,7){1y p.l[5]});8 p},1F:6(Q){4 D=Q.B(/^.*?[#](.+?)(?:\\?.+)?$/,"$1");4 S=Q.B(/^.*?[?](.+?)(?:#.+)?$/,"$1");8 M C(Q.h==S.h?\'\':S,Q.h==D.h?\'\':D)},1x:6(){8 d.N().1j()},N:6(){8 M C(d)},17:6(){6 F(G){4 R=I G=="X"?f(G,L)?[]:{}:G;b(I G==\'X\'){6 1k(o,5,7){b(f(o,L))o.u(7);n o[5]=7}v.J(G,6(5,7){b(!f(7))8 j;1k(R,5,F(7))})}8 R}d.l=F(d.l);8 d},1B:6(){8 d.N().17()},1D:6(){4 i=0,U=[],W=[],p=d;4 16=6(E){E=E+"";b($V)E=E.B(/ /g,"+");8 1C(E)};4 1n=6(1i,5,7){b(!f(7)||7===r)8;4 o=[16(5)];b(7!==j){o.u("=");o.u(16(7))}1i.u(o.P(""))};4 F=6(R,k){4 12=6(5){8!k||k==""?[5].P(""):[k,"[",5,"]"].P("")};v.J(R,6(5,7){b(I 7==\'X\')F(7,12(5));n 1n(W,12(5),7)})};F(d.l);b(W.h>0)U.u($D);U.u(W.P($11));8 U.P("")}};8 M C(1q.S,1q.D)}}(v.1o||{});',62,106,'|||target|var|key|function|value|return|||if|val|this|tokens|is||length||true|base|keys||else||self||false|||push|jQuery|set|null|token|slice|settings|replace|queryObject|hash|str|build|orig|index|typeof|each|parsed|Array|new|copy|SET|join|url|obj|search|match|queryString|spaces|chunks|object|split|get||separator|newKey|prefix|parse|numbers|encode|COMPACT|temp|while|Object|shift|parseInt|test|decodeURIComponent|type|number|GET|arr|EMPTY|add|rx|path|addFields|query|suffix|location|exec|REMOVE|constructor|arguments|undefined|for|empty|delete|remove|parseFloat|compact|encodeURIComponent|toString|extend|load|has|prototype'.split('|'),0,{}))

@@ -116,36 +116,27 @@ function bp_has_blogs( $args = '' ) {
 	 */
 	$type = 'active';
 	$user_id = false;
-	$page = 1;
+	$search_terms = false;
 
 	/* User filtering */
-	if ( !empty( $bp->displayed_user->id ) || 'personal' == $_COOKIE['bp-blogs-scope'] )
-		$user_id = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+	if ( !empty( $bp->displayed_user->id ) )
+		$user_id = $bp->displayed_user->id;
 
-	/* Action filtering */
-	if ( !empty( $_COOKIE['bp-blogs-filter'] ) && '-1' != $_COOKIE['bp-blogs-filter'] )
-		$type = $_COOKIE['bp-blogs-filter'];
-
-	if ( !empty( $_COOKIE['bp-blogs-page'] ) && '-1' != $_COOKIE['bp-blogs-page'] )
-		$page = $_COOKIE['bp-blogs-page'];
+	if ( !empty( $_REQUEST['s'] ) )
+		$search_terms = $_REQUEST['s'];
 
 	$defaults = array(
 		'type' => $type,
-		'page' => $page,
+		'page' => 1,
 		'per_page' => 20,
 		'max' => false,
 
 		'user_id' => $user_id, // Pass a user_id to limit to only blogs this user has higher than subscriber access to
-		'search_terms' => false // Pass search terms to filter on the blog title or description.
+		'search_terms' => $search_terms // Pass search terms to filter on the blog title or description.
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
-
-	// type: active ( default ) | random | newest | alphabetical
-
-	if ( !empty( $_REQUEST['s'] ) )
-		$search_terms = $_REQUEST['s'];
 
 	if ( $max ) {
 		if ( $per_page > $max )
@@ -153,7 +144,6 @@ function bp_has_blogs( $args = '' ) {
 	}
 
 	$blogs_template = new BP_Blogs_Template( $type, $page, $per_page, $max, $user_id, $search_terms );
-
 	return $blogs_template->has_blogs();
 }
 

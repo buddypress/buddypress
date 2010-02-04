@@ -1,4 +1,4 @@
-<?php if ( bp_has_forum_topics( bp_ajax_querystring() ) ) : ?>
+<?php if ( bp_has_forum_topics( bp_dtheme_ajax_querystring( 'forums' ) ) ) : ?>
 
 	<div class="pagination">
 
