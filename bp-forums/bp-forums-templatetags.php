@@ -26,25 +26,21 @@ class BP_Forums_Template_Forum {
 		$this->type = $type;
 		$this->search_terms = $search_terms;
 
-		/* Only show stickies if we are viewing a single group forum, otherwise we could end up with hundreds globally */
-		if ( $no_stickies )
-			$show_stickies = 'all'; // bbPress needs str 'no'
-
 		switch ( $type ) {
 			case 'newest': default:
-				$this->topics = bp_forums_get_forum_topics( array( 'user_id' => $user_id, 'forum_id' => $forum_id, 'filter' => $search_terms, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $show_stickies ) );
+				$this->topics = bp_forums_get_forum_topics( array( 'user_id' => $user_id, 'forum_id' => $forum_id, 'filter' => $search_terms, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $no_stickies ) );
 				break;
 
 			case 'popular':
-				$this->topics = bp_forums_get_forum_topics( array( 'user_id' => $user_id, 'type' => 'popular', 'filter' => $search_terms, 'forum_id' => $forum_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $show_stickies ) );
+				$this->topics = bp_forums_get_forum_topics( array( 'user_id' => $user_id, 'type' => 'popular', 'filter' => $search_terms, 'forum_id' => $forum_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $no_stickies ) );
 				break;
 
 			case 'unreplied':
-				$this->topics = bp_forums_get_forum_topics( array( 'user_id' => $user_id, 'type' => 'unreplied', 'filter' => $search_terms, 'forum_id' => $forum_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $show_stickies ) );
+				$this->topics = bp_forums_get_forum_topics( array( 'user_id' => $user_id, 'type' => 'unreplied', 'filter' => $search_terms, 'forum_id' => $forum_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $no_stickies ) );
 				break;
 
 			case 'tag':
-				$this->topics = bp_forums_get_forum_topics( array( 'user_id' => $user_id, 'type' => 'tag', 'filter' => $search_terms, 'forum_id' => $forum_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $show_stickies ) );
+				$this->topics = bp_forums_get_forum_topics( array( 'user_id' => $user_id, 'type' => 'tag', 'filter' => $search_terms, 'forum_id' => $forum_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $no_stickies ) );
 				break;
 		}
 
@@ -164,7 +160,7 @@ function bp_has_forum_topics( $args = '' ) {
 	$user_id = false;
 	$forum_id = false;
 	$search_terms = false;
-	$no_stickies = false;
+	$no_stickies = 'all';
 
 	/* User filtering */
 	if ( !empty( $bp->displayed_user->id ) )
@@ -191,9 +187,9 @@ function bp_has_forum_topics( $args = '' ) {
 	if ( $bp->is_directory && !empty( $_GET['fs'] ) )
 		$search_terms = $_GET['fs'];
 
-	/* Don't show stickies on the directory page, otherwise we might end up with 100's */
-	if ( $bp->is_directory )
-		$no_stickies = true;
+	/* Show stickies on a group forum */
+	if ( $bp->groups->current_group )
+		$no_stickies = null;
 
 	$defaults = array(
 		'type' => $type,
