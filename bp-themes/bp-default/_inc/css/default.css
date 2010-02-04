@@ -448,7 +448,7 @@ ul.item-list {
 div.item-list-tabs {
 	clear: left;
 	overflow: hidden;
-	margin: 25px -20px 5px -20px;
+	margin: 25px -20px 20px -20px;
 	background: #eaeaea;
 }
 	div.item-list-tabs ul li a {
@@ -524,7 +524,7 @@ div.item-list-tabs {
 
 	div.item-list-tabs#subnav {
 		background: #fff;
-		margin: 0 -20px 15px -20px;
+		margin: -15px -20px 15px -20px;
 		border-bottom: 1px solid #eaeaea;
 		min-height: 35px;
 		overflow: hidden;
@@ -574,7 +574,7 @@ div.dir-search {
 -------------------------------------------------------------- */
 
 div.pagination {
-	margin: 0 -20px 9px -20px;
+	margin: -15px -20px 9px -20px;
 	border-bottom: 1px solid #eaeaea;
 	padding: 10px 20px 10px 20px;
 	color: #888;
@@ -587,9 +587,6 @@ div.pagination {
 		border: none;
 		padding: 8px 15px;
 	}
-		div#item-body div.item-list-tabs + div div.pagination {
-			margin-top: -15px;
-		}
 
 	div.pagination .pag-count {
 		float: left;
@@ -847,7 +844,7 @@ table {
 		width: auto;
 	}
 
-	table.profile-fields { margin-bottom: 20px;}
+	table.profile-fields { margin-bottom: 20px; }
 
 	div#sidebar table {
 		margin: 0 -16px;
