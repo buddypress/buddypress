@@ -9,15 +9,12 @@
  * @uses get_option() Selects a site setting from the DB.
  */
 function bp_core_add_admin_bar_css() {
-	global $bp;
+	global $bp, $current_blog;
 
 	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) )
 		return false;
 
-	if ( !bp_core_is_multisite() )
-		return false;
-
-	if ( $bp->current_blog != BP_ROOT_BLOG ) {
+	if ( ( bp_core_is_multisite() && $current_blog->blog_id != BP_ROOT_BLOG ) || is_admin() ) {
 		$stylesheet = get_blog_option( BP_ROOT_BLOG, 'stylesheet' );
 
 		if ( file_exists( WP_CONTENT_DIR . '/themes/' . $stylesheet . '/_inc/css/adminbar.css' ) )
