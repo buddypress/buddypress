@@ -180,11 +180,18 @@ function bp_has_activities( $args = '' ) {
 			switch ( $scope ) {
 				case 'friends':
 					if ( function_exists( 'friends_get_friend_user_ids' ) )
-						$user_id = implode( ',', (array)friends_get_friend_user_ids( $user_id ) );
+						$friends = friends_get_friend_user_ids( $user_id );
+						if ( empty( $friends ) )
+							return false;
+
+						$user_id = implode( ',', (array)$friends );
 					break;
 				case 'groups':
 					if ( function_exists( 'groups_get_user_groups' ) ) {
 						$groups = groups_get_user_groups( $user_id );
+						if ( empty( $groups['groups'] ) )
+							return false;
+
 						$object = $bp->groups->id;
 						$primary_id = implode( ',', (array)$groups['groups'] );
 						$show_hidden = ( $user_id == $bp->loggedin_user->id ) ? 1 : 0;

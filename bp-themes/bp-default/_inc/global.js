@@ -7,7 +7,7 @@ var bp_ajax_request = null;
 j(document).ready( function() {
 	/**** Page Load Actions *******************************************************/
 
-	/* Activity Filter Select Set */
+	/* Activity filter and scope set */
 	bp_init_activity();
 
 	/* Object filter and scope set. */
@@ -502,12 +502,6 @@ j(document).ready( function() {
 			var filter = j("#" + object + "-order-select select").val();
 			var search_terms = j("#" + object + "_search").val();
 
-			/* Set the correct selected nav */
-			j('div.item-list-tabs li').each( function() {
-				j(this).removeClass('selected');
-			});
-			j('li#' + object + '-' + filter).addClass('selected');
-
 			bp_filter_request( object, filter, scope, 'div.' + object, search_terms, 1, j.cookie('bp-' + object + '-extras') );
 
 			return false;
@@ -551,6 +545,10 @@ j(document).ready( function() {
 			var page_number = 1;
 			var css_id = el.attr('id').split( '-' );
 			var object = css_id[0];
+			var search_terms = false;
+
+			if ( j('div.dir-search input').length )
+				search_terms = j('div.dir-search input').val();
 
 			if ( j(target).hasClass('next') )
 				var page_number = Number( j('div.pagination span.current').html() ) + 1;
@@ -559,7 +557,7 @@ j(document).ready( function() {
 			else
 				var page_number = Number( j(target).html() );
 
-			bp_filter_request( object, j.cookie('bp-' + object + '-filter'), j.cookie('bp-' + object + '-scope'), 'div.' + object, j.cookie('bp-' + object + '-search-terms'), page_number, j.cookie('bp-' + object + '-extras') );
+			bp_filter_request( object, j.cookie('bp-' + object + '-filter'), j.cookie('bp-' + object + '-scope'), 'div.' + object, search_terms, page_number, j.cookie('bp-' + object + '-extras') );
 
 			return false;
 		}
@@ -1015,15 +1013,13 @@ j(document).ready( function() {
 	j('a.logout').click( function() {
 		j.cookie('bp-activity-scope', null);
 		j.cookie('bp-activity-filter', null);
-		j.cookie('bp-activity-oldestpage', null);
+		j.cookie('bp-activity-oldestpage', null, {path: '/'});
 
 		var objects = [ 'members', 'groups', 'blogs', 'forums' ];
 		j(objects).each( function(i) {
-			j.cookie('bp-' + objects[i] + '-scope', null );
-			j.cookie('bp-' + objects[i] + '-filter', null );
-			j.cookie('bp-' + objects[i] + '-search-terms', null );
-			j.cookie('bp-' + objects[i] + '-page', null );
-			j.cookie('bp-' + objects[i] + '-extras', null );
+			j.cookie('bp-' + objects[i] + '-scope', null, {path: '/'} );
+			j.cookie('bp-' + objects[i] + '-filter', null, {path: '/'} );
+			j.cookie('bp-' + objects[i] + '-extras', null, {path: '/'} );
 		});
 	});
 });
@@ -1037,8 +1033,8 @@ function bp_init_activity() {
 		j('#activity-filter-select select option[value=' + j.cookie('bp-activity-filter') + ']').attr( 'selected', 'selected' );
 
 	/* Activity Tab Set */
-	if ( null != j.cookie('bp-activity-scope') && j('div.item-list-tabs').length ) {
-		j('div.item-list-tabs li').each( function() {
+	if ( null != j.cookie('bp-activity-scope') && j('div.activity-type-tabs').length ) {
+		j('div.activity-type-tabs li').each( function() {
 			j(this).removeClass('selected');
 		});
 		j('li#activity-' + j.cookie('bp-activity-scope') + ', div.item-list-tabs li.current').addClass('selected');
@@ -1057,11 +1053,6 @@ function bp_init_objects(objects) {
 			});
 			j('div.item-list-tabs li#' + objects[i] + '-' + j.cookie('bp-' + objects[i] + '-scope') + ', div.item-list-tabs#object-nav li.current').addClass('selected');
 		}
-
-		/* Reset specfic cookies on reload */
-		j.cookie('bp-' + objects[i] + '-search-terms', null );
-		j.cookie('bp-' + objects[i] + '-page', null );
-		j.cookie('bp-' + objects[i] + '-extras', null );
 	});
 }
 
@@ -1073,20 +1064,19 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 	if ( j.query.get('s') )
 		search_terms = j.query.get('s');
 
-	/* Save the type and filter to a session cookie */
-	j.cookie( 'bp-' + object + '-scope', scope, {path: '/'}  );
-	j.cookie( 'bp-' + object + '-filter', filter, {path: '/'}  );
-	j.cookie( 'bp-' + object + '-page', page, {path: '/'}  );
-	j.cookie( 'bp-' + object + '-search-terms', search_terms, {path: '/'}  );
-	j.cookie( 'bp-' + object + '-extras', extras, {path: '/'}  );
+	if ( null == scope )
+		scope = 'all';
+
+	/* Save the settings we want to remain persistent to a cookie */
+	j.cookie( 'bp-' + object + '-scope', scope, {path: '/'} );
+	j.cookie( 'bp-' + object + '-filter', filter, {path: '/'} );
+	j.cookie( 'bp-' + object + '-extras', extras, {path: '/'} );
 
 	/* Set the correct selected nav and filter */
-	if ( null != scope ) {
-		j('div.item-list-tabs li').each( function() {
-			j(this).removeClass('selected');
-		});
-		j('div.item-list-tabs li#' + object + '-' + scope + ', div.item-list-tabs#object-nav li.current').addClass('selected');
-	}
+	j('div.item-list-tabs li').each( function() {
+		j(this).removeClass('selected');
+	});
+	j('div.item-list-tabs li#' + object + '-' + scope + ', div.item-list-tabs#object-nav li.current').addClass('selected');
 	j('div.item-list-tabs li.selected').addClass('loading');
 	j('div.item-list-tabs select option[value=' + filter + ']').attr( 'selected', 'selected' );
 
@@ -1119,18 +1109,16 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 /* Activity Loop Requesting */
 function bp_activity_request(scope, filter) {
 	/* Save the type and filter to a session cookie */
-	j.cookie( 'bp-activity-scope', scope, {path: '/'}  );
-	j.cookie( 'bp-activity-filter', filter, {path: '/'} );
-	j.cookie( 'bp-activity-oldestpage', 1, {path: '/'} );
+	j.cookie( 'bp-activity-scope', scope );
+	j.cookie( 'bp-activity-filter', filter );
+	j.cookie( 'bp-activity-oldestpage', 1 );
 
 	/* Remove selected and loading classes from tabs */
-	if ( null != scope ) {
-		j('div.item-list-tabs li').each( function() {
-			j(this).removeClass('selected loading');
-		});
-		/* Set the correct selected nav and filter */
-		j('li#activity-' + scope + ', div.item-list-tabs li.current').addClass('selected');
-	}
+	j('div.item-list-tabs li').each( function() {
+		j(this).removeClass('selected loading');
+	});
+	/* Set the correct selected nav and filter */
+	j('li#activity-' + scope + ', div.item-list-tabs li.current').addClass('selected');
 	j('div#object-nav.item-list-tabs li.selected, div.activity-type-tabs li.selected').addClass('loading');
 	j('#activity-filter-select select option[value=' + filter + ']').attr( 'selected', 'selected' );
 

@@ -46,11 +46,12 @@ function bp_dtheme_ajax_querystring( $object = false ) {
 		$qs[] = 'scope=' . $_BP_COOKIE['bp-' . $object . '-scope']; // Activity stream scope
 	}
 
-	if ( !empty( $_BP_COOKIE['bp-' . $object . '-page'] ) && '-1' != $_BP_COOKIE['bp-' . $object . '-page'] )
-		$qs[] = 'page=' . $_BP_COOKIE['bp-' . $object . '-page'];
+	/* If page and search_terms have been passed via the AJAX post request, use those */
+	if ( !empty( $_POST['page'] ) && '-1' != $_POST['page'] )
+		$qs[] = 'page=' . $_POST['page'];
 
-	if ( !empty( $_BP_COOKIE['bp-' . $object . '-search-terms'] ) && __( 'Search anything...', 'buddypress' ) != $_BP_COOKIE['bp-' . $object . '-search-terms'] && 'false' != $_BP_COOKIE['bp-' . $object . '-search-terms'] )
-		$qs[] = 'search_terms=' . $_BP_COOKIE['bp-' . $object . '-search-terms'];
+	if ( !empty( $_POST['search_terms'] ) && __( 'Search anything...', 'buddypress' ) != $_POST['search_terms'] && 'false' != $_POST['search_terms'] )
+		$qs[] = 'search_terms=' . $_POST['search_terms'];
 
 	/* Now pass the querystring to override default values. */
 	if ( !empty( $qs ) )
