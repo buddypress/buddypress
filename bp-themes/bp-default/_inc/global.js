@@ -1017,8 +1017,8 @@ j(document).ready( function() {
 
 	/* Clear BP cookies on logout */
 	j('a.logout').click( function() {
-		j.cookie('bp-activity-scope', null);
-		j.cookie('bp-activity-filter', null);
+		j.cookie('bp-activity-scope', null, {path: '/'});
+		j.cookie('bp-activity-filter', null, {path: '/'});
 		j.cookie('bp-activity-oldestpage', null, {path: '/'});
 
 		var objects = [ 'members', 'groups', 'blogs', 'forums' ];
@@ -1027,6 +1027,11 @@ j(document).ready( function() {
 			j.cookie('bp-' + objects[i] + '-filter', null, {path: '/'} );
 			j.cookie('bp-' + objects[i] + '-extras', null, {path: '/'} );
 		});
+	});
+
+	/* On page unload, clear the activity scope. */
+	j(window).unload( function() {
+		j.cookie('bp-activity-scope', null, {path: '/'});
 	});
 });
 
@@ -1115,8 +1120,8 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 /* Activity Loop Requesting */
 function bp_activity_request(scope, filter) {
 	/* Save the type and filter to a session cookie */
-	j.cookie( 'bp-activity-scope', scope );
-	j.cookie( 'bp-activity-filter', filter );
+	j.cookie( 'bp-activity-scope', scope, {path: '/'} );
+	j.cookie( 'bp-activity-filter', filter, {path: '/'} );
 	j.cookie( 'bp-activity-oldestpage', 1 );
 
 	/* Remove selected and loading classes from tabs */
