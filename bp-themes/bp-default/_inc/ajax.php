@@ -43,7 +43,9 @@ function bp_dtheme_ajax_querystring( $object = false ) {
 			$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 			$qs[] = 'user_id=' . $user_id;
 		}
-		$qs[] = 'scope=' . $_BP_COOKIE['bp-' . $object . '-scope']; // Activity stream scope
+		if ( 'all' != $_BP_COOKIE['bp-' . $object . '-scope'] )
+			$qs[] = 'scope=' . $_BP_COOKIE['bp-' . $object . '-scope']; // Activity stream scope
+
 	}
 
 	/* If page and search_terms have been passed via the AJAX post request, use those */
