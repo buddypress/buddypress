@@ -14,12 +14,16 @@ function bp_core_add_admin_bar_css() {
 	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) )
 		return false;
 
-	/* Check there is admin bar css in the currently active theme. If not fallback to the css in the plugin. */
-	if ( !locate_template( array( '_inc/css/adminbar.css' ), false ) )
-		wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', BP_PLUGIN_URL . '/bp-core/css/admin-bar-fallback.css' ) );
-	else {
-		if ( is_admin() )
-			wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', str_replace( ABSPATH, $bp->root_domain . '/', locate_template( array( '_inc/css/adminbar.css' ), false ) ) ) );
+	if ( !bp_core_is_multisite() )
+		return false;
+
+	if ( $bp->current_blog != BP_ROOT_BLOG ) {
+		$stylesheet = get_blog_option( BP_ROOT_BLOG, 'stylesheet' );
+
+		if ( file_exists( WP_CONTENT_DIR . '/themes/' . $stylesheet . '/_inc/css/adminbar.css' ) )
+			wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', WP_CONTENT_URL . '/themes/' . $stylesheet . '/_inc/css/adminbar.css' ) );
+		else
+			wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', BP_PLUGIN_URL . '/bp-themes/bp-default/_inc/css/adminbar.css' ) );
 	}
 }
 add_action( 'init', 'bp_core_add_admin_bar_css' );
@@ -44,6 +48,10 @@ function bp_core_admin_menu_icon_css() {
 add_action( 'admin_head', 'bp_core_admin_menu_icon_css' );
 
 function bp_core_confirmation_js() {
+	global $current_blog;
+
+	if ( $current_blog->blog_id != BP_ROOT_BLOG )
+		return false;
 ?>
 	<script type="text/javascript"> jQuery(document).ready( function() { jQuery("a.confirm").click( function() { if ( confirm( '<?php _e( 'Are you sure?', 'buddypress' ) ?>' ) ) return true; else return false; }); });</script>
 <?php

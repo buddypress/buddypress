@@ -177,14 +177,15 @@ function bp_adminbar_notifications_menu() {
 
 // **** "Blog Authors" Menu (visible when not logged in) ********
 function bp_adminbar_authors_menu() {
-	global $bp, $current_blog;
+	global $bp, $current_blog, $wpdb;
 
-	if ( $current_blog->id == $bp->root_blog || !function_exists( 'bp_blogs_install' ) )
+	if ( $current_blog->blog_id == BP_ROOT_BLOG || !function_exists( 'bp_blogs_install' ) )
 		return false;
 
-	$authors = get_users_of_blog();
+	$blog_prefix = $wpdb->get_blog_prefix( $current_blog->id );
+	$authors = $wpdb->get_results( "SELECT user_id, user_login, user_nicename, display_name, user_email, meta_value as caps FROM $wpdb->users u, $wpdb->usermeta um WHERE u.ID = um.user_id AND meta_key = '{$blog_prefix}capabilities' ORDER BY um.user_id" );
 
-	if ( is_array( $authors ) ) {
+	if ( !empty( $authors ) ) {
 		/* This is a blog, render a menu with links to all authors */
 		echo '<li id="bp-adminbar-authors-menu"><a href="/">';
 		_e('Blog Authors', 'buddypress');
@@ -192,13 +193,12 @@ function bp_adminbar_authors_menu() {
 
 		echo '<ul class="author-list">';
 		foreach( (array)$authors as $author ) {
-			$author = new BP_Core_User( $author->user_id );
-			echo '<li>';
+			$caps = maybe_unserialize( $author->caps );
+			if ( isset( $caps['subscriber'] ) || isset( $caps['contributor'] ) ) continue;
 
-			echo '<a href="' . $author->user_url . '">';
-			echo $author->avatar_mini;
-			echo ' ' . $author->fullname;
-			echo '<span class="activity">' . $author->last_active . '</span>';
+			echo '<li>';
+			echo bp_core_fetch_avatar( array( 'item_id' => $author->user_id, 'email' => $author->user_email, 'width' => 25, 'height' => 25 ) ) ;
+			echo '<a href="' . bp_core_get_user_domain( $author->user_id, $author->user_nicename, $author->user_login ) . '">' . $author->display_name . '</a>';
 			echo '</a>';
 			echo '<div class="admin-bar-clear"></div>';
 			echo '</li>';

@@ -184,7 +184,8 @@ body {
 }
 
 #wp-admin-bar ul.author-list li {
-	height: 55px;
+	padding: 10px;
+	height: 30px;
 }
 
 #wp-admin-bar ul li#bp-adminbar-notifications-menu a span {
