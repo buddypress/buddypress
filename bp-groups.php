@@ -1623,18 +1623,25 @@ function groups_leave_group( $group_id, $user_id = false ) {
 
 	/* Don't let single admins leave the group. */
 	if ( count( groups_get_group_admins( $group_id ) ) < 2 ) {
-		if ( groups_is_user_admin( $user_id, $group_id ) )
+		if ( groups_is_user_admin( $user_id, $group_id ) ) {
+			bp_core_add_message( __( 'As the only Admin, you cannot leave the group.', 'buddypress' ), 'error' );
 			return false;
+		}
 	}
 
-	// This is exactly the same as deleting and invite, just is_confirmed = 1 NOT 0.
-	if ( !groups_uninvite_user( $user_id, $group_id, true ) )
+	// This is exactly the same as deleting an invite, just is_confirmed = 1 NOT 0.
+	if ( !groups_uninvite_user( $user_id, $group_id ) )
 		return false;
 
 	do_action( 'groups_leave_group', $group_id, $user_id );
 
 	/* Modify group member count */
 	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') - 1 );
+
+	/* Modify user's group memberhip count */
+	update_usermeta( $user_id, 'total_group_count', (int) get_usermeta( $user_id, 'total_group_count') - 1 );
+
+	bp_core_add_message( __( 'You successfully left the group.', 'buddypress' ) );
 
 	return true;
 }

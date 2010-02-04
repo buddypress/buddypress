@@ -758,12 +758,10 @@ Class BP_Groups_Member {
 
 	/* Static Functions */
 
-	function delete( $user_id, $group_id, $check_empty = true ) {
+	function delete( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
-		$delete_result = $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );
-
-		return $delete_result;
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );
 	}
 
 	function get_group_ids( $user_id, $limit = false, $page = false ) {
