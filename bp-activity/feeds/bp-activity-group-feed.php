@@ -18,7 +18,7 @@ header('Status: 200 OK');
 >
 
 <channel>
-	<title><?php echo $bp->groups->current_group->name ?> - <?php _e( 'Group Activity', 'buddypress' ) ?></title>
+	<title><?php echo bp_site_name() ?> | <?php echo $bp->groups->current_group->name ?> | <?php _e( 'Group Activity', 'buddypress' ) ?></title>
 	<atom:link href="<?php self_link(); ?>" rel="self" type="application/rss+xml" />
 	<link><?php echo bp_get_group_permalink( $bp->groups->current_group ) . $bp->activity->slug . '/feed' ?></link>
 	<description><?php printf( __( '%s - Group Activity Feed', 'buddypress' ), $bp->groups->current_group->name  ) ?></description>

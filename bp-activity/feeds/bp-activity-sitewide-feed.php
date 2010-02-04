@@ -19,7 +19,7 @@ header('Status: 200 OK');
 >
 
 <channel>
-	<title><?php echo get_site_option( 'site_name' ); ?> - <?php _e( 'Site Wide Activity', 'buddypress' ) ?></title>
+	<title><?php echo bp_site_name() ?> | <?php _e( 'Site Wide Activity', 'buddypress' ) ?></title>
 	<atom:link href="<?php self_link(); ?>" rel="self" type="application/rss+xml" />
 	<link><?php echo site_url() . '/' . $bp->activity->slug . '/feed' ?></link>
 	<description><?php _e( 'Site Wide Activity Feed', 'buddypress' ) ?></description>

@@ -18,7 +18,7 @@ header('Status: 200 OK');
 >
 
 <channel>
-	<title><?php echo $bp->displayed_user->fullname; ?> - <?php _e( 'My Groups - Public Activity', 'buddypress' ) ?></title>
+	<title><?php echo bp_site_name() ?> | <?php echo $bp->displayed_user->fullname; ?> | <?php _e( 'My Groups - Public Activity', 'buddypress' ) ?></title>
 	<atom:link href="<?php self_link(); ?>" rel="self" type="application/rss+xml" />
 	<link><?php echo site_url( BP_ACTIVITY_SLUG . '/#my-groups/' ) ?></link>
 	<description><?php echo $bp->displayed_user->fullname; ?> - <?php _e( 'My Groups - Public Activity', 'buddypress' ) ?></description>
