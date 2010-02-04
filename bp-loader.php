@@ -60,6 +60,10 @@ function bp_loader_activate() {
 	/* Force refresh theme roots. */
 	delete_site_transient( 'theme_roots' );
 
+	/* Switch the user to the new bp-default if they are using the old bp-default on activation. */
+	if ( 'bp-sn-parent' == get_blog_option( BP_ROOT_BLOG, 'template' ) && 'bp-default' == get_blog_option( BP_ROOT_BLOG, 'stylesheet' ) )
+		switch_theme( 'bp-default', 'bp-default' );
+
 	do_action( 'bp_loader_activate' );
 }
 register_activation_hook( 'buddypress/bp-loader.php', 'bp_loader_activate' );
