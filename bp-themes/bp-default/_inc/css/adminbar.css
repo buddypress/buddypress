@@ -15,19 +15,18 @@ body {
 		position: relative;
 		padding: 0;
 		width: 100%;
-		min-width: 960px;
-		max-width: 1250px;
 		margin: 0 auto;
 		background: url( ../images/60pc_black.png );
 		height: 25px;
 	}
+		body#bp-default #wp-admin-bar .padder {
+			min-width: 960px;
+			max-width: 1250px;
+		}
+
 		body.activity-permalink #wp-admin-bar .padder {
 			min-width: 960px;
 			max-width: 960px;
-		}
-
-		body.wp-admin #wp-admin-bar .padder {
-			max-width: none;
 		}
 
 #wp-admin-bar * { z-index: 999; }
@@ -52,11 +51,12 @@ body {
 
 #wp-admin-bar li a {
 	padding: 7px 15px 7px 15px;
-	color: #fff;
+	color: #eee;
 	text-decoration: none;
-	color: #f0f0f0;
 	font-size: 11px;
 }
+	#wp-admin-bar li.alt { border: none; }
+
 	#wp-admin-bar li.no-arrow a {
 		padding-right: 15px;
 	}
@@ -76,7 +76,7 @@ body {
 	padding: 3px 8px;
 	margin: 0;
 	text-decoration: none;
-	color: #f0f0f0;
+	color: #fff;
 }
 
 /*******************/
@@ -116,7 +116,7 @@ body {
 }
 
 #wp-admin-bar ul.main-nav li:hover, #wp-admin-bar ul.main-nav li.sfhover, #wp-admin-bar ul.main-nav li ul li.sfhover {
-	background-color: #555;
+	background-color: #333;
 }
 
 /* second-level lists */
@@ -126,11 +126,23 @@ body {
 	width: 185px;
 	left: -999em;
 	margin-left: 0;
-	background: #fff;
-	border: 1px solid #eee;
+	background: #333;
+	border: 1px solid #222;
+	-moz-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow:0 4px 8px rgba(0, 0, 0, 0.1);
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius-topleft: 0;
+	-webkit-border-top-left-radius: 0;
+	-moz-border-radius-topright: 0;
+	-webkit-border-top-right-radius: 0;
 }
+	#wp-admin-bar ul li > ul {
+		border-top: none;
+	}
+
 	#wp-admin-bar ul li ul a {
-		color: #888;
+		color: #eee;
 	}
 
 #wp-admin-bar ul li ul li {
@@ -146,19 +158,25 @@ body {
 	clear: both;
 }
 
+#wp-admin-bar ul.main-nav li ul li:hover, #wp-admin-bar ul.main-nav li ul li.sfhover, #wp-admin-bar ul.main-nav li ul li.sfhover {
+	background-color: #222;
+}
+
 /* third-and-above-level lists */
 
 #wp-admin-bar ul li ul ul {
 	margin: -25px 0 0 184px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
 }
 	#wp-admin-bar ul li ul li:hover ul li a {
-		color: #555;
+		color: #eee;
 	}
 		#wp-admin-bar ul li ul li ul li:hover a {
 			color: #fff;
 		}
 
-#wp-admin-bar ul li:hover ul, #wp-admin-bar ul li li:hover ul, #wp-admin-bar ul li.sfhover ul, #wp-admin-bar ul li ul li.sfhover ul { /* lists nested under hovered list items */
+#wp-admin-bar ul li:hover ul, #wp-admin-bar ul li ul li:hover ul, #wp-admin-bar ul li.sfhover ul, #wp-admin-bar ul li ul li.sfhover ul  {
 	left: auto;
 }
 

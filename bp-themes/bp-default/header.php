@@ -35,7 +35,7 @@
 
 	</head>
 
-	<body <?php body_class() ?>>
+	<body <?php body_class() ?> id="bp-default">
 
 		<?php do_action( 'bp_before_header' ) ?>
 
