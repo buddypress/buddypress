@@ -1,6 +1,6 @@
 <?php get_header() ?>
 
-	<?php do_action( 'bp_before_directory_groups_content' ) ?>
+	<?php do_action( 'bp_before_directory_forums_content' ) ?>
 
 	<div id="content">
 		<div class="padder">
@@ -75,7 +75,7 @@
 						<li id="forums-personal"><a href="<?php echo bp_loggedin_user_domain() . BP_GROUPS_SLUG . '/' ?>"><?php printf( __( 'My Topics (%s)', 'buddypress' ), bp_get_forum_topic_count_for_user( bp_loggedin_user_id() ) ) ?></a></li>
 					<?php endif; ?>
 
-					<?php do_action( 'bp_members_directory_group_types' ) ?>
+					<?php do_action( 'bp_forums_directory_group_types' ) ?>
 
 					<li id="forums-order-select" class="last filter">
 
@@ -85,7 +85,7 @@
 							<option value="popular"><?php _e( 'Most Posts', 'buddypress' ) ?></option>
 							<option value="unreplied"><?php _e( 'Unreplied', 'buddypress' ) ?></option>
 
-							<?php do_action( 'bp_groups_directory_order_options' ) ?>
+							<?php do_action( 'bp_forums_directory_order_options' ) ?>
 						</select>
 					</li>
 				</ul>
@@ -95,9 +95,11 @@
 				<?php locate_template( array( 'forums/forums-loop.php' ), true ) ?>
 			</div>
 
-			<?php do_action( 'bp_directory_groups_content' ) ?>
+			<?php do_action( 'bp_directory_forums_content' ) ?>
 
-			<?php wp_nonce_field( 'directory_members', '_wpnonce-member-filter' ) ?>
+			<?php wp_nonce_field( 'directory_forums', '_wpnonce-forums-filter' ) ?>
+
+			<?php do_action( 'bp_after_directory_forums_content' ) ?>
 
 		</form>
 
@@ -105,7 +107,5 @@
 	</div><!-- #content -->
 
 	<?php locate_template( array( 'sidebar.php' ), true ) ?>
-
-	<?php do_action( 'bp_after_directory_groups_content' ) ?>
 
 <?php get_footer() ?>
