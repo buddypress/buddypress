@@ -55,8 +55,9 @@ function bp_dtheme_ajax_querystring( $object = false ) {
 		$qs[] = 'search_terms=' . $_POST['search_terms'];
 
 	/* Now pass the querystring to override default values. */
-	if ( !empty( $qs ) )
-		return apply_filters( 'bp_dtheme_ajax_querystring', join( '&', (array)$qs ), $object, $_BP_COOKIE['bp-' . $object . '-filter'], $_BP_COOKIE['bp-' . $object . '-scope'], $_BP_COOKIE['bp-' . $object . '-page'], $_BP_COOKIE['bp-' . $object . '-search-terms'], $_BP_COOKIE['bp-' . $object . '-extras'] );
+	$query_string = empty( $qs ) ? '' : join( '&', (array)$qs );
+
+	return apply_filters( 'bp_dtheme_ajax_querystring', $query_string, $object, $_BP_COOKIE['bp-' . $object . '-filter'], $_BP_COOKIE['bp-' . $object . '-scope'], $_BP_COOKIE['bp-' . $object . '-page'], $_BP_COOKIE['bp-' . $object . '-search-terms'], $_BP_COOKIE['bp-' . $object . '-extras'] );
 }
 
 function bp_dtheme_object_template_loader() {
