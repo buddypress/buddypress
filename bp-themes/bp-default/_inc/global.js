@@ -1028,11 +1028,6 @@ j(document).ready( function() {
 			j.cookie('bp-' + objects[i] + '-extras', null, {path: '/'} );
 		});
 	});
-
-	/* On page unload, clear the activity scope. */
-	j(window).unload( function() {
-		j.cookie('bp-activity-scope', null, {path: '/'});
-	});
 });
 
 /* Setup activity scope and filter based on the current cookie settings. */

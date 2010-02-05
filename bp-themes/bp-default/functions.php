@@ -109,6 +109,18 @@ function bp_dtheme_show_on_frontpage() {
 	return apply_filters( 'bp_dtheme_show_on_frontpage', 'activity' );
 }
 
+function bp_dtheme_is_activity_directory() {
+	global $bp;
+
+	if ( BP_ACTIVITY_SLUG == $bp->current_component && empty( $bp->displayed_user->id ) && !$bp->is_single_item )
+		return true;
+
+	if ( 'activity' == bp_dtheme_show_on_frontpage() && is_front_page() )
+		return true;
+
+	return false;
+}
+
 /* Set the defaults for the custom header image (http://ryan.boren.me/2007/01/07/custom-image-header-api/) */
 define( 'HEADER_TEXTCOLOR', 'FFFFFF' );
 define( 'HEADER_IMAGE', '%s/_inc/images/default_header.jpg' ); // %s is theme dir uri

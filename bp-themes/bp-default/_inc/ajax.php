@@ -43,7 +43,7 @@ function bp_dtheme_ajax_querystring( $object = false ) {
 			$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 			$qs[] = 'user_id=' . $user_id;
 		}
-		if ( 'all' != $_BP_COOKIE['bp-' . $object . '-scope'] && empty( $bp->displayed_user->id ) )
+		if ( 'all' != $_BP_COOKIE['bp-' . $object . '-scope'] && bp_dtheme_is_activity_directory() )
 			$qs[] = 'scope=' . $_BP_COOKIE['bp-' . $object . '-scope']; // Activity stream scope on activity directory.
 	}
 
