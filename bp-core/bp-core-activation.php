@@ -44,8 +44,8 @@ function bp_core_screen_activation() {
 		$hashed_key = wp_hash( $_GET['key'] );
 
 		/* Check if the avatar folder exists. If it does, move rename it, move it and delete the signup avatar dir */
-		if ( file_exists( WP_CONTENT_DIR . '/blogs.dir/' . BP_ROOT_BLOG . '/files/avatars/signups/' . $hashed_key ) ) {
-			@rename( WP_CONTENT_DIR . '/blogs.dir/' . BP_ROOT_BLOG . '/files/avatars/signups/' . $hashed_key, WP_CONTENT_DIR . '/blogs.dir/' . BP_ROOT_BLOG . '/files/avatars/' . $signup['user_id'] );
+		if ( file_exists( BP_AVATAR_UPLOAD_PATH . '/avatars/signups/' . $hashed_key ) ) {
+			@rename( BP_AVATAR_UPLOAD_PATH . '/avatars/signups/' . $hashed_key, BP_AVATAR_UPLOAD_PATH . '/avatars/' . $signup['user_id'] );
 		}
 
 		/* Record the new user in the activity streams */

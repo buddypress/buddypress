@@ -185,6 +185,14 @@ function bp_core_screen_signup() {
 		else
 			bp_core_add_message( __( 'Your new avatar was uploaded successfully', 'buddypress' ) );
 
+		/* If this is a single WP install, move the avatar to the user's folder since there is no activation process to move it. */
+		if ( !bp_core_is_multisite() ) {
+			$user_id = bp_core_get_userid( $_POST['signup_username'] );
+
+			if ( !empty( $user_id ) && file_exists( BP_AVATAR_UPLOAD_PATH . '/avatars/signups/' . $_POST['signup_avatar_dir'] ) ) {
+				@rename( BP_AVATAR_UPLOAD_PATH . '/avatars/signups/' . $_POST['signup_avatar_dir'], BP_AVATAR_UPLOAD_PATH . '/avatars/' . $user_id );
+			}
+		}
 	}
 	bp_core_load_template( 'registration/register' );
 }
