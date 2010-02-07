@@ -21,25 +21,6 @@ require_once( TEMPLATEPATH . '/_inc/ajax.php' );
 /* Load the javascript for the theme */
 wp_enqueue_script( 'dtheme-ajax-js', get_template_directory_uri() . '/_inc/global.js', array( 'jquery' ) );
 
-/* Make sure the blog index page shows under /[HOME_BLOG_SLUG] if enabled */
-function bp_dtheme_show_home_blog() {
-	global $bp, $query_string, $paged;
-
-	if ( $bp->current_component == BP_HOME_BLOG_SLUG && ( !$bp->current_action || 'page' == $bp->current_action ) ) {
-		unset( $query_string );
-
-		if ( ( 'page' == $bp->current_action && $bp->action_variables[0] ) && false === strpos( $query_string, 'paged' ) ) {
-			$query_string .= '&paged=' . $bp->action_variables[0];
-			$paged = $bp->action_variables[0];
-		}
-
-		query_posts($query_string);
-
-		bp_core_load_template( 'index', true );
-	}
-}
-add_action( 'wp', 'bp_dtheme_show_home_blog', 2 );
-
 function bp_dtheme_firstname( $name = false, $echo = false ) {
 	global $bp;
 
@@ -100,13 +81,45 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 <?php
 }
 
-function bp_dtheme_show_on_frontpage() {
-	$settings = get_option( 'bp_dtheme_options' );
+function bp_dtheme_wp_pages_filter( $page_html ) {
+	if ( 'page_on_front' != substr( $page_html, 14, 13 ) )
+		return $page_html;
 
-	if ( empty( $settings['show_on_frontpage'] ) || 'blog' == $settings['show_on_frontpage'] )
-		return apply_filters( 'bp_dtheme_show_on_frontpage', 'blog' );
+	$selected = false;
+	$page_html = str_replace( '</select>', '', $page_html );
 
-	return apply_filters( 'bp_dtheme_show_on_frontpage', 'activity' );
+	if ( bp_dtheme_page_on_front() == 'activity' )
+		$selected = ' selected="selected"';
+
+	$page_html .= '<option class="level-0" value="activity"' . $selected . '>' . __( 'Activity Stream', 'buddypress' ) . '</option></select>';
+	return $page_html;
+}
+add_filter( 'wp_dropdown_pages', 'bp_dtheme_wp_pages_filter' );
+
+function bp_dtheme_page_on_front_update( $oldvalue, $newvalue ) {
+	if ( !is_admin() || !is_site_admin() )
+		return false;
+
+	if ( 'activity' == $_POST['page_on_front'] )
+		return 'activity';
+	else
+		return $oldvalue;
+}
+add_action( 'pre_update_option_page_on_front', 'bp_dtheme_page_on_front_update', 10, 2 );
+
+function bp_dtheme_page_on_front_template( $template ) {
+	global $wp_query;
+
+	if ( empty( $wp_query->post->ID ) )
+		return locate_template( array( 'activity/index.php' ), false );
+	else
+		return $template;
+}
+add_filter( 'page_template', 'bp_dtheme_page_on_front_template' );
+
+/* Return the ID of a page set as the home page. */
+function bp_dtheme_page_on_front() {
+	return apply_filters( 'bp_dtheme_page_on_front', get_option( 'page_on_front' ) );
 }
 
 /* Set the defaults for the custom header image (http://ryan.boren.me/2007/01/07/custom-image-header-api/) */
@@ -219,17 +232,13 @@ if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" ) {
 	add_action( 'admin_notices', 'bp_dtheme_show_notice' );
 }
 
-/* Load the options page */
-if ( is_admin() )
-	require( TEMPLATEPATH . '/_inc/options.php' );
-
 /* Adjust home page body class if activity stream is home */
 function bp_dtheme_body_class_home( $classes, $bp_classes, $wp_classes, $custom_classes ) {
 	if ( !is_home() )
 		return apply_filters( 'bp_dtheme_body_class_home', $classes, $bp_classes, $wp_classes, $custom_classes );
 
 	if ( bp_is_active( 'activity' ) ) {
-		if ( 'activity' == bp_dtheme_show_on_frontpage() ) {
+		if ( 'activity' == bp_dtheme_page_on_front() ) {
 			$blog = array_keys( $classes, 'blog-page' );
 			$classes[$blog[0]] = 'activity';
 			$classes[] = 'directory';
