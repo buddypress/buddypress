@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-02-06 14:11+0000\n"
+"POT-Creation-Date: 2010-02-07 14:11+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: bp-activity.php:107 bp-activity.php:255
 #: bp-activity/feeds/bp-activity-personal-feed.php:21
-#: bp-themes/bp-default/header.php:54
+#: bp-themes/bp-default/header.php:53
 msgid "Activity"
 msgstr ""
 
@@ -35,7 +35,7 @@ msgstr ""
 #: bp-core/bp-core-templatetags.php:1013 bp-core/bp-core-templatetags.php:1062
 #: bp-groups.php:959 bp-groups.php:1339 bp-groups.php:1352 bp-groups.php:1366
 #: bp-groups.php:1379 bp-groups/bp-groups-widgets.php:13
-#: bp-themes/bp-default/header.php:69
+#: bp-themes/bp-default/header.php:63
 msgid "Groups"
 msgstr ""
 
@@ -527,7 +527,7 @@ msgstr ""
 #: bp-forums/bbpress/bb-templates/kakumei/search.php:3
 #: bp-forums/bp-forums-templatetags.php:993
 #: bp-groups/bp-groups-templatetags.php:1746
-#: bp-themes/bp-default/header.php:97 bp-themes/bp-default/searchform.php:5
+#: bp-themes/bp-default/header.php:91 bp-themes/bp-default/searchform.php:5
 msgid "Search"
 msgstr ""
 
@@ -1241,8 +1241,7 @@ msgid "Blog &#124; Tags &#124; "
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:909 bp-core/bp-core-templatetags.php:1058
-#: bp-themes/bp-default/attachment.php:9 bp-themes/bp-default/header.php:58
-#: bp-themes/bp-default/search.php:10
+#: bp-themes/bp-default/attachment.php:9 bp-themes/bp-default/search.php:10
 msgid "Blog"
 msgstr ""
 
@@ -1264,7 +1263,7 @@ msgstr ""
 #: bp-core/bp-core-templatetags.php:1009 bp-core/bp-core-templatetags.php:1059
 #: bp-core/bp-core-widgets.php:73
 #: bp-themes/bp-default/groups/single/admin.php:174
-#: bp-themes/bp-default/header.php:64
+#: bp-themes/bp-default/header.php:58
 msgid "Members"
 msgstr ""
 
@@ -1273,12 +1272,12 @@ msgstr ""
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:65
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:66
 #: bp-forums/bbpress/bb-templates/kakumei/front-page.php:48
-#: bp-forums/bp-forums-admin.php:159 bp-themes/bp-default/header.php:75
+#: bp-forums/bp-forums-admin.php:159 bp-themes/bp-default/header.php:69
 msgid "Forums"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:1021 bp-core/bp-core-templatetags.php:1066
-#: bp-themes/bp-default/header.php:81
+#: bp-themes/bp-default/header.php:75
 msgid "Blogs"
 msgstr ""
 
@@ -2786,7 +2785,7 @@ msgstr ""
 #: bp-forums/bbpress/bb-includes/functions.bb-core.php:846
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:1926
 #: bp-forums/bp-forums-templatetags.php:937
-#: bp-themes/bp-default/functions.php:95 bp-xprofile/bp-xprofile-admin.php:67
+#: bp-themes/bp-default/functions.php:76 bp-xprofile/bp-xprofile-admin.php:67
 #: bp-xprofile/bp-xprofile-admin.php:94
 msgid "Edit"
 msgstr ""
@@ -4022,7 +4021,7 @@ msgstr ""
 
 #: bp-forums/bbpress/bb-admin/topics.php:127
 #: bp-messages/bp-messages-templatetags.php:470
-#: bp-themes/bp-default/functions.php:209
+#: bp-themes/bp-default/functions.php:225
 msgid "Close"
 msgstr ""
 
@@ -7860,6 +7859,7 @@ msgid "Blog Posts"
 msgstr ""
 
 #: bp-themes/bp-default/_inc/options.php:38
+#: bp-themes/bp-default/functions.php:94
 msgid "Activity Stream"
 msgstr ""
 
@@ -8308,19 +8308,19 @@ msgstr ""
 msgid "Unreplied"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:83
+#: bp-themes/bp-default/functions.php:64
 msgid "said:"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:84
+#: bp-themes/bp-default/functions.php:65
 msgid "On"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:88
+#: bp-themes/bp-default/functions.php:69
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:193
+#: bp-themes/bp-default/functions.php:209
 #, php-format
 msgid ""
 "Theme activated! This theme contains <a href=\"%s\">customization options</"
@@ -8328,31 +8328,31 @@ msgid ""
 "\">Sidebar widgets</a> are also supported."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:203
+#: bp-themes/bp-default/functions.php:219
 msgid "My Favorites"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:204
+#: bp-themes/bp-default/functions.php:220
 msgid "Accepted"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:205
+#: bp-themes/bp-default/functions.php:221
 msgid "Rejected"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:206
+#: bp-themes/bp-default/functions.php:222
 msgid "Show all comments for this thread"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:207
+#: bp-themes/bp-default/functions.php:223
 msgid "Show all"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:208
+#: bp-themes/bp-default/functions.php:224
 msgid "comments"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:210
+#: bp-themes/bp-default/functions.php:226
 #, php-format
 msgid ""
 "%s is a unique identifier for %s that you can type into any message on this "
