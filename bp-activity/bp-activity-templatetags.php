@@ -52,6 +52,20 @@ class BP_Activity_Template {
 
 		$this->full_name = $bp->displayed_user->fullname;
 
+		/* Fetch parent content for activity comments so we do not have to query in the loop */
+		foreach ( (array)$this->activities as $activity ) {
+			if ( 'activity_comment' != $activity->type ) continue;
+			$parent_ids[] = $activity->item_id;
+		}
+
+		if ( !empty( $parent_ids ) )
+			$activity_parents = bp_activity_get_specific( array( 'activity_ids' => $parent_ids ) );
+
+		if ( !empty( $activity_parents['activities'] ) ) {
+			foreach( $activity_parents['activities'] as $parent ) $this->activity_parents[$parent->id] = $parent;
+			unset( $activity_parents );
+		}
+
 		if ( (int) $this->total_activity_count && (int) $this->pag_num ) {
 			$this->pag_links = paginate_links( array(
 				'base' => add_query_arg( 'acpage', '%#%' ),
@@ -224,9 +238,10 @@ function bp_has_activities( $args = '' ) {
 	}
 
 	/* Support for basic filters in earlier BP versions. */
+	$filter = false;
 	if ( isset( $_GET['afilter'] ) )
 		$filter = array( 'object' => $_GET['afilter'] );
-	else
+	else if ( !empty( $user_id ) || !empty( $object ) || !empty( $action ) || !empty( $primary_id ) || !empty( $secondary_id ) )
 		$filter = array( 'user_id' => $user_id, 'object' => $object, 'action' => $action, 'primary_id' => $primary_id, 'secondary_id' => $secondary_id );
 
 	$activities_template = new BP_Activity_Template( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden );
@@ -503,30 +518,14 @@ function bp_activity_parent_content( $args = '' ) {
 		if ( !$parent_id = $activities_template->activity->item_id )
 			return false;
 
-		/* Get the content of the parent by first checking to see if we already have it */
-		$parent_activity = false;
-
-		foreach( (array)$activities_template->activities as $activity ) {
-			if ( $parent_id == $activity->id ) {
-				/* Need a copy not a reference, this was the only PHP4 compat way I could find. */
-				$parent_activity = (array)$activity;
-				$parent_activity = (object)$parent_activity;
-			}
-		}
-
-		/* We didn't find it, so let's get it from the DB */
-		if ( !$parent_activity ) {
-			$parent_activity = bp_activity_get_specific( array( 'activity_ids' => $parent_id ) );
-			$parent_activity = $parent_activity['activities'][0];
-		}
-
-		if ( !$parent_activity )
+		/* Get the content of the parent */
+		if ( empty( $activities_template->activity_parents[$parent_id] ) )
 			return false;
 
-		if ( empty( $parent_activity->content ) )
-			$content = $parent_activity->action;
+		if ( empty( $activities_template->activity_parents[$parent_id]->content ) )
+			$content = $activities_template->activity_parents[$parent_id]->action;
 		else
-			$content = $parent_activity->action . $parent_activity->content;
+			$content = $activities_template->activity_parents[$parent_id]->action . $activities_template->activity_parents[$parent_id]->content;
 
 		/* Remove the time since content */
 		$content = str_replace( '<span class="time-since">%s</span>', '', $content );

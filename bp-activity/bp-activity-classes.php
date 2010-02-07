@@ -123,7 +123,7 @@ Class BP_Activity_Activity {
 					$activity_user_ids[] = $activity->user_id;
 			}
 
-			$activity_user_ids = implode( ',', (array)$activity_user_ids );
+			$activity_user_ids = implode( ',', array_unique( (array)$activity_user_ids ) );
 			if ( !empty( $activity_user_ids ) ) {
 				if ( $names = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, value AS user_fullname FROM {$bp->profile->table_name_data} WHERE field_id = 1 AND user_id IN ({$activity_user_ids})" ) ) ) {
 					foreach ( (array)$names as $name )
