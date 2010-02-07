@@ -1629,8 +1629,6 @@ function groups_leave_group( $group_id, $user_id = false ) {
 	if ( !groups_uninvite_user( $user_id, $group_id ) )
 		return false;
 
-	do_action( 'groups_leave_group', $group_id, $user_id );
-
 	/* Modify group member count */
 	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') - 1 );
 
@@ -1638,6 +1636,8 @@ function groups_leave_group( $group_id, $user_id = false ) {
 	update_usermeta( $user_id, 'total_group_count', (int) get_usermeta( $user_id, 'total_group_count') - 1 );
 
 	bp_core_add_message( __( 'You successfully left the group.', 'buddypress' ) );
+
+	do_action( 'groups_leave_group', $group_id, $user_id );
 
 	return true;
 }
@@ -1749,7 +1749,10 @@ function groups_get_by_most_forum_posts( $limit = null, $page = 1, $user_id = fa
 }
 
 function groups_get_total_group_count() {
-	return BP_Groups_Group::get_total_group_count();
+	if ( !$count = wp_cache_get( 'bp_total_group_count', 'bp' ) )
+		$count = BP_Groups_Group::get_total_group_count();
+
+	return $count;
 }
 
 function groups_get_user_groups( $user_id = false, $pag_num = false, $pag_page = false ) {
@@ -1794,7 +1797,10 @@ function groups_total_groups_for_user( $user_id = false ) {
 	if ( !$user_id )
 		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 
-	return BP_Groups_Member::total_group_count( $user_id );
+	if ( !$count = wp_cache_get( 'bp_total_groups_for_user_' . $user_id, 'bp' ) )
+		$count = BP_Groups_Member::total_group_count( $user_id );
+
+	return $count;
 }
 
 function groups_search_groups( $search_terms, $pag_num_per_page = 5, $pag_page = 1, $sort_by = false, $order = false ) {
@@ -2234,7 +2240,7 @@ function groups_promote_member( $user_id, $group_id, $status ) {
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
 
-	do_action( 'groups_premote_member', $user_id, $group_id, $status );
+	do_action( 'groups_premote_member', $group_id, $user_id, $status );
 
 	return $member->promote( $status );
 }
@@ -2244,7 +2250,7 @@ function groups_demote_member( $user_id, $group_id ) {
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
 
-	do_action( 'groups_demote_member', $user_id, $group_id );
+	do_action( 'groups_demote_member', $group_id, $user_id );
 
 	return $member->demote();
 }
@@ -2257,7 +2263,7 @@ function groups_ban_member( $user_id, $group_id ) {
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
 
-	do_action( 'groups_ban_member', $user_id, $group_id );
+	do_action( 'groups_ban_member', $group_id, $user_id );
 
 	if ( !$member->ban() )
 		return false;
@@ -2273,7 +2279,7 @@ function groups_unban_member( $user_id, $group_id ) {
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
 
-	do_action( 'groups_unban_member', $user_id, $group_id );
+	do_action( 'groups_unban_member', $group_id, $user_id );
 
 	return $member->unban();
 }
@@ -2421,8 +2427,8 @@ function groups_delete_groupmeta( $group_id, $meta_key = false, $meta_value = fa
 		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d AND meta_key = %s", $group_id, $meta_key ) );
 	}
 
-	// TODO need to look into using this.
-	// wp_cache_delete($group_id, 'groups');
+	/* Delete the cached object */
+	wp_cache_delete( 'bp_groups_groupmeta_' . $group_id . '_' . $meta_key, 'bp' );
 
 	return true;
 }
@@ -2438,14 +2444,10 @@ function groups_get_groupmeta( $group_id, $meta_key = '') {
 	if ( !empty($meta_key) ) {
 		$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
 
-		// TODO need to look into using this.
-		//$user = wp_cache_get($user_id, 'users');
-
-		// Check the cached user object
-		//if ( false !== $user && isset($user->$meta_key) )
-		//	$metas = array($user->$meta_key);
-		//else
-		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d AND meta_key = %s", $group_id, $meta_key) );
+		if ( !$metas = wp_cache_get( 'bp_groups_groupmeta_' . $group_id . '_' . $meta_key, 'bp' ) ) {
+			$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d AND meta_key = %s", $group_id, $meta_key) );
+			wp_cache_set( 'bp_groups_groupmeta_' . $group_id . '_' . $meta_key, $metas, 'bp' );
+		}
 	} else {
 		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d", $group_id) );
 	}
@@ -2492,8 +2494,8 @@ function groups_update_groupmeta( $group_id, $meta_key, $meta_value ) {
 		return false;
 	}
 
-	// TODO need to look into using this.
-	// wp_cache_delete($user_id, 'users');
+	/* Update the cached object and recache */
+	wp_cache_set( 'bp_groups_groupmeta_' . $group_id . '_' . $meta_key, $meta_value, 'bp' );
 
 	return true;
 }
@@ -2547,15 +2549,23 @@ function groups_clear_group_object_cache( $group_id ) {
 	wp_cache_delete( 'active_groups', 'bp' );
 	wp_cache_delete( 'popular_groups', 'bp' );
 	wp_cache_delete( 'groups_random_groups', 'bp' );
+	wp_cache_delete( 'bp_total_group_count', 'bp' );
 }
-
-// List actions to clear object caches on
 add_action( 'groups_group_deleted', 'groups_clear_group_object_cache' );
 add_action( 'groups_settings_updated', 'groups_clear_group_object_cache' );
 add_action( 'groups_details_updated', 'groups_clear_group_object_cache' );
 add_action( 'groups_group_avatar_updated', 'groups_clear_group_object_cache' );
+add_action( 'groups_create_group_step_complete', 'groups_clear_group_object_cache' );
 
-// List actions to clear super cached pages on, if super cache is installed
+function groups_clear_group_user_object_cache( $group_id, $user_id ) {
+	wp_cache_delete( 'bp_total_groups_for_user_' . $user_id );
+}
+add_action( 'groups_join_group', 'groups_clear_group_user_object_cache', 10, 2 );
+add_action( 'groups_leave_group', 'groups_clear_group_user_object_cache', 10, 2 );
+add_action( 'groups_ban_member', 'groups_clear_group_user_object_cache', 10, 2 );
+add_action( 'groups_unban_member', 'groups_clear_group_user_object_cache', 10, 2 );
+
+/* List actions to clear super cached pages on, if super cache is installed */
 add_action( 'groups_join_group', 'bp_core_clear_cache' );
 add_action( 'groups_leave_group', 'bp_core_clear_cache' );
 add_action( 'groups_accept_invite', 'bp_core_clear_cache' );

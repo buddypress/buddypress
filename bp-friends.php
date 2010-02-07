@@ -441,7 +441,6 @@ function friends_accept_friendship( $friendship_id ) {
 		friends_notification_accepted_request( $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
 
 		do_action( 'friends_friendship_accepted', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
-
 		return true;
 	}
 
@@ -482,10 +481,10 @@ function friends_get_total_friend_count( $user_id = false ) {
 	if ( !$user_id )
 		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 
-	$count = get_usermeta( $user_id, 'total_friend_count' );
-
-	if ( empty( $count ) )
-		$count = 0;
+	if ( !$count = wp_cache_get( 'bp_total_friend_count_' . $user_id, 'bp' ) ) {
+		$count = get_usermeta( $user_id, 'total_friend_count' );
+		if ( empty( $count ) ) $count = 0;
+	}
 
 	return apply_filters( 'friends_get_total_friend_count', $count );
 }
@@ -631,6 +630,8 @@ function friends_clear_friend_object_cache( $friendship_id ) {
 
 	wp_cache_delete( 'friends_friend_ids_' . $friendship->initiator_user_id, 'bp' );
 	wp_cache_delete( 'friends_friend_ids_' . $friendship->friend_user_id, 'bp' );
+	wp_cache_delete( 'bp_total_friend_count_' . $friendship->initiator_user_id, 'bp' );
+	wp_cache_delete( 'bp_total_friend_count_' . $friendship->friend_user_id, 'bp' );
 	wp_cache_delete( 'popular_users', 'bp' );
 
 	/* Clear the sitewide activity cache */

@@ -604,8 +604,11 @@ function bp_blogs_remove_comment( $comment_id ) {
 add_action( 'delete_comment', 'bp_blogs_remove_comment' );
 
 function bp_blogs_total_blogs() {
-	$blogs = BP_Blogs_Blog::get_all();
-	return $blogs['total'];
+	if ( !$count = wp_cache_get( 'bp_total_blogs', 'bp' ) ) {
+		$blogs = BP_Blogs_Blog::get_all();
+		$count = $blogs['total'];
+	}
+	return $count;
 }
 
 function bp_blogs_total_blogs_for_user( $user_id = false ) {
@@ -614,7 +617,10 @@ function bp_blogs_total_blogs_for_user( $user_id = false ) {
 	if ( !$user_id )
 		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 
-	return BP_Blogs_Blog::total_blog_count_for_user( $user_id );
+	if ( !$count = wp_cache_get( 'bp_total_blogs_for_user_' . $user_id, 'bp' ) )
+		$count = BP_Blogs_Blog::total_blog_count_for_user( $user_id );
+
+	return $count;
 }
 
 function bp_blogs_remove_data_for_blog( $blog_id ) {
@@ -717,8 +723,7 @@ function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = fa
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name_blogmeta} WHERE blog_id = %d AND meta_key = %s", $blog_id, $meta_key ) );
 	}
 
-	// TODO need to look into using this.
-	// wp_cache_delete($group_id, 'groups');
+	wp_cache_delete( 'bp_blogs_blogmeta_' . $blog_id . '_' . $meta_key, 'bp' );
 
 	return true;
 }
@@ -734,14 +739,10 @@ function bp_blogs_get_blogmeta( $blog_id, $meta_key = '') {
 	if ( !empty($meta_key) ) {
 		$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
 
-		// TODO need to look into using this.
-		//$user = wp_cache_get($user_id, 'users');
-
-		// Check the cached user object
-		//if ( false !== $user && isset($user->$meta_key) )
-		//	$metas = array($user->$meta_key);
-		//else
-		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM {$bp->blogs->table_name_blogmeta} WHERE blog_id = %d AND meta_key = %s", $blog_id, $meta_key) );
+		if ( !$metas = wp_cache_get( 'bp_blogs_blogmeta_' . $blog_id . '_' . $meta_key, 'bp' ) ) {
+			$metas = $wpdb->get_col( $wpdb->prepare( "SELECT meta_value FROM {$bp->blogs->table_name_blogmeta} WHERE blog_id = %d AND meta_key = %s", $blog_id, $meta_key ) );
+			wp_cache_set( 'bp_blogs_blogmeta_' . $blog_id . '_' . $meta_key, $metas, 'bp' );
+		}
 	} else {
 		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM {$bp->blogs->table_name_blogmeta} WHERE blog_id = %d", $blog_id) );
 	}
@@ -788,8 +789,7 @@ function bp_blogs_update_blogmeta( $blog_id, $meta_key, $meta_value ) {
 		return false;
 	}
 
-	// TODO need to look into using this.
-	// wp_cache_delete($user_id, 'users');
+	wp_cache_set( 'bp_blogs_blogmeta_' . $blog_id . '_' . $meta_key, $metas, 'bp' );
 
 	return true;
 }
@@ -828,6 +828,7 @@ add_action( 'delete_user', 'bp_blogs_remove_data', 1 );
 function bp_blogs_clear_blog_object_cache( $blog_id, $user_id ) {
 	wp_cache_delete( 'bp_blogs_of_user_' . $user_id, 'bp' );
 	wp_cache_delete( 'bp_blogs_for_user_' . $user_id, 'bp' );
+	wp_cache_delete( 'bp_total_blogs_for_user_' . $user_id, 'bp' );
 
 	/* Clear the sitewide activity cache */
 	wp_cache_delete( 'sitewide_activity', 'bp' );
@@ -838,6 +839,7 @@ function bp_blogs_format_clear_blog_cache( $recorded_blog_obj ) {
 
 	/* Clear the sitewide activity cache */
 	wp_cache_delete( 'sitewide_activity', 'bp' );
+	wp_cache_delete( 'bp_total_blogs', 'bp' );
 }
 
 function bp_blogs_clear_post_object_cache( $blog_id, $post_id, $user_id ) {

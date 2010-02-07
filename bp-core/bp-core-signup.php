@@ -230,6 +230,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 	update_usermeta( $user_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
 
 	wp_new_user_notification( $user_id, $user_pass );
+	wp_cache_delete( 'bp_total_member_count', 'bp' );
 
 	$bp->signup->username = $user_login;
 

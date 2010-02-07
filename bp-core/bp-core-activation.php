@@ -61,6 +61,8 @@ function bp_core_screen_activation() {
 		}
 
 		do_action( 'bp_core_account_activated', &$signup, $_GET['key'] );
+		wp_cache_delete( 'bp_total_member_count', 'bp' );
+
 		bp_core_add_message( __( 'Your account is now active!', 'buddypress' ) );
 
 		$bp->activation_complete = true;
