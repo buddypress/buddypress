@@ -893,7 +893,7 @@ function bp_page_title() {
 function bp_get_page_title() {
 	global $bp, $post, $wp_query, $current_blog;
 
-	if ( is_home() && bp_is_page( 'home' ) ) {
+	if ( is_front_page() || !bp_current_component() || ( is_home() && bp_is_page( 'home' ) ) ) {
 		$title = __( 'Home', 'buddypress' );
 
 	} else if ( bp_is_blog_page() ) {
