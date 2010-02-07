@@ -119,6 +119,9 @@ add_filter( 'page_template', 'bp_dtheme_page_on_front_template' );
 
 /* Return the ID of a page set as the home page. */
 function bp_dtheme_page_on_front() {
+	if ( 'page' != get_option( 'show_on_front' ) )
+		return false;
+
 	return apply_filters( 'bp_dtheme_page_on_front', get_option( 'page_on_front' ) );
 }
 
