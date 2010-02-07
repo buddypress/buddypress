@@ -470,7 +470,16 @@ function bp_activity_get( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	return apply_filters( 'bp_activity_get', BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden ), &$r );
+	/* Attempt to return a cached copy of the first page of sitewide activity. */
+	if ( 1 == (int)$page && empty( $max ) && empty( $search_terms ) && empty( $filter ) && 'DESC' == $sort ) {
+		if ( !$activity = wp_cache_get( 'bp_activity_sitewide_front', 'bp' ) ) {
+			$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden );
+			wp_cache_set( 'bp_activity_sitewide_front', BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden ), 'bp' );
+		}
+	} else
+		$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden );
+
+	return apply_filters( 'bp_activity_get', $activity, &$r );
 }
 
 function bp_activity_get_specific( $args = '' ) {
@@ -545,6 +554,7 @@ function bp_activity_add( $args = '' ) {
 	if ( 'activity_comment' == $activity->type )
 		BP_Activity_Activity::rebuild_activity_comment_tree( $activity->item_id );
 
+	wp_cache_delete( 'bp_activity_sitewide_front', 'bp' );
 	do_action( 'bp_activity_add', $params );
 
 	return $activity->id;
@@ -628,6 +638,9 @@ function bp_activity_new_comment( $args = '' ) {
 	/* Send an email notification if settings allow */
 	require_once( BP_PLUGIN_DIR . '/bp-activity/bp-activity-notifications.php' );
 	bp_activity_new_comment_notification( $comment_id, $user_id, $params );
+
+	/* Clear the comment cache for this activity */
+	wp_cache_delete( 'bp_activity_comments_' . $parent_id );
 
 	do_action( 'bp_activity_comment_posted', $comment_id, $params );
 
@@ -1014,11 +1027,10 @@ function bp_activity_update_meta( $activity_id, $meta_key, $meta_value ) {
 		return false;
 	}
 
-	wp_cache_replace( 'bp_activity_meta_' . $meta_key . '_' . $activity_id, $meta_value, 'bp' );
+	wp_cache_set( 'bp_activity_meta_' . $meta_key . '_' . $activity_id, $meta_value, 'bp' );
 
 	return true;
 }
-
 
 /**
  * bp_activity_filter_template_paths()

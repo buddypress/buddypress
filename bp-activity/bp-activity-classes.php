@@ -334,33 +334,36 @@ Class BP_Activity_Activity {
 	function get_activity_comments( $activity_id, $left, $right ) {
 		global $wpdb, $bp;
 
-		/* Select the user's fullname with the query so we don't have to fetch it for each comment */
-		if ( function_exists( 'xprofile_install' ) ) {
-			$fullname_select = ", pd.value as user_fullname";
-			$fullname_from = ", {$bp->profile->table_name_data} pd ";
-			$fullname_where = "AND pd.user_id = a.user_id AND pd.field_id = 1";
+		if ( !$comments = wp_cache_get( 'bp_activity_comments_' . $activity_id ) ) {
+			/* Select the user's fullname with the query so we don't have to fetch it for each comment */
+			if ( function_exists( 'xprofile_install' ) ) {
+				$fullname_select = ", pd.value as user_fullname";
+				$fullname_from = ", {$bp->profile->table_name_data} pd ";
+				$fullname_where = "AND pd.user_id = a.user_id AND pd.field_id = 1";
+			}
+
+			/* Retrieve all descendants of the $root node */
+			$descendants = $wpdb->get_results( $wpdb->prepare( "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name{$fullname_select} FROM {$bp->activity->table_name} a, {$wpdb->users} u{$fullname_from} WHERE u.ID = a.user_id {$fullname_where} AND a.type = 'activity_comment' AND a.item_id = %d AND a.mptt_left BETWEEN %d AND %d ORDER BY a.date_recorded ASC", $activity_id, $left, $right ) );
+
+			/* Loop descendants and build an assoc array */
+			foreach ( (array)$descendants as $d ) {
+			    $d->children = array();
+
+				/* If we have a reference on the parent */
+			    if ( isset( $ref[ $d->secondary_item_id ] ) ) {
+			        $ref[ $d->secondary_item_id ]->children[ $d->id ] = $d;
+			        $ref[ $d->id ] =& $ref[ $d->secondary_item_id ]->children[ $d->id ];
+
+				/* If we don't have a reference on the parent, put in the root level */
+			    } else {
+			        $comments[ $d->id ] = $d;
+			        $ref[ $d->id ] =& $comments[ $d->id ];
+			    }
+			}
+			wp_cache_set( 'bp_activity_comments_' . $activity_id, $comments, 'bp' );
 		}
 
-		/* Retrieve all descendants of the $root node */
-		$descendants = $wpdb->get_results( $wpdb->prepare( "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name{$fullname_select} FROM {$bp->activity->table_name} a, {$wpdb->users} u{$fullname_from} WHERE u.ID = a.user_id {$fullname_where} AND a.type = 'activity_comment' AND a.item_id = %d AND a.mptt_left BETWEEN %d AND %d ORDER BY a.date_recorded ASC", $activity_id, $left, $right ) );
-
-		/* Loop descendants and build an assoc array */
-		foreach ( (array)$descendants as $d ) {
-		    $d->children = array();
-
-			/* If we have a reference on the parent */
-		    if ( isset( $ref[ $d->secondary_item_id ] ) ) {
-		        $ref[ $d->secondary_item_id ]->children[ $d->id ] = $d;
-		        $ref[ $d->id ] =& $ref[ $d->secondary_item_id ]->children[ $d->id ];
-
-			/* If we don't have a reference on the parent, put in the root level */
-		    } else {
-		        $menu[ $d->id ] = $d;
-		        $ref[ $d->id ] =& $menu[ $d->id ];
-		    }
-		}
-
-		return $menu;
+		return $comments;
 	}
 
 	function rebuild_activity_comment_tree( $parent_id, $left = 1 ) {

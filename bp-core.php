@@ -573,7 +573,11 @@ function bp_core_get_core_userdata( $user_id ) {
 	if ( empty( $user_id ) )
 		return false;
 
-	return apply_filters( 'bp_core_get_core_userdata', BP_Core_User::get_core_userdata( $user_id ) );
+	if ( !$userdata = wp_cache_get( 'bp_core_userdata_' . $user_id, 'bp' ) ) {
+		$userdata = BP_Core_User::get_core_userdata( $user_id );
+		wp_cache_set( 'bp_core_userdata_' . $user_id, $userdata, 'bp' );
+	}
+	return apply_filters( 'bp_core_get_core_userdata', $userdata );
 }
 
 /**
