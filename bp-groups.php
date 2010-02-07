@@ -1749,8 +1749,10 @@ function groups_get_by_most_forum_posts( $limit = null, $page = 1, $user_id = fa
 }
 
 function groups_get_total_group_count() {
-	if ( !$count = wp_cache_get( 'bp_total_group_count', 'bp' ) )
+	if ( !$count = wp_cache_get( 'bp_total_group_count', 'bp' ) ) {
 		$count = BP_Groups_Group::get_total_group_count();
+		wp_cache_set( 'bp_total_group_count', $count, 'bp' );
+	}
 
 	return $count;
 }
@@ -1797,8 +1799,10 @@ function groups_total_groups_for_user( $user_id = false ) {
 	if ( !$user_id )
 		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 
-	if ( !$count = wp_cache_get( 'bp_total_groups_for_user_' . $user_id, 'bp' ) )
+	if ( !$count = wp_cache_get( 'bp_total_groups_for_user_' . $user_id, 'bp' ) ) {
 		$count = BP_Groups_Member::total_group_count( $user_id );
+		wp_cache_set( 'bp_total_groups_for_user_' . $user_id, $count, 'bp' );
+	}
 
 	return $count;
 }

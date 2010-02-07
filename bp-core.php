@@ -1044,9 +1044,8 @@ function bp_core_get_user_email( $uid ) {
 	if ( !$email = wp_cache_get( 'bp_user_email_' . $uid, 'bp' ) ) {
 		$ud = bp_core_get_core_userdata($uid);
 		$email = $ud->user_email;
+		wp_cache_set( 'bp_user_email_' . $uid, $email, 'bp' );
 	}
-
-	wp_cache_set( 'bp_user_email_' . $uid, $email, 'bp' );
 
 	return apply_filters( 'bp_core_get_user_email', $email );
 }
@@ -1204,6 +1203,7 @@ function bp_core_get_total_member_count() {
 	if ( !$count = wp_cache_get( 'bp_total_member_count', 'bp' ) ) {
 		$status_sql = bp_core_get_status_sql();
 		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM " . CUSTOM_USER_TABLE . " WHERE {$status_sql}" ) );
+		wp_cache_set( 'bp_total_member_count', $count, 'bp' );
 	}
 
 	return apply_filters( 'bp_core_get_total_member_count', $count );

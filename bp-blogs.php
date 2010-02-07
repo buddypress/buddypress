@@ -607,6 +607,7 @@ function bp_blogs_total_blogs() {
 	if ( !$count = wp_cache_get( 'bp_total_blogs', 'bp' ) ) {
 		$blogs = BP_Blogs_Blog::get_all();
 		$count = $blogs['total'];
+		wp_cache_set( 'bp_total_blogs', $count, 'bp' );
 	}
 	return $count;
 }
@@ -617,8 +618,10 @@ function bp_blogs_total_blogs_for_user( $user_id = false ) {
 	if ( !$user_id )
 		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 
-	if ( !$count = wp_cache_get( 'bp_total_blogs_for_user_' . $user_id, 'bp' ) )
+	if ( !$count = wp_cache_get( 'bp_total_blogs_for_user_' . $user_id, 'bp' ) ) {
 		$count = BP_Blogs_Blog::total_blog_count_for_user( $user_id );
+		wp_cache_set( 'bp_total_blogs_for_user_' . $user_id, $count, 'bp' );
+	}
 
 	return $count;
 }

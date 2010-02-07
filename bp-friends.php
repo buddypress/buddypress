@@ -484,6 +484,7 @@ function friends_get_total_friend_count( $user_id = false ) {
 	if ( !$count = wp_cache_get( 'bp_total_friend_count_' . $user_id, 'bp' ) ) {
 		$count = get_usermeta( $user_id, 'total_friend_count' );
 		if ( empty( $count ) ) $count = 0;
+		wp_cache_set( 'bp_total_friend_count_' . $user_id, $count, 'bp' );
 	}
 
 	return apply_filters( 'friends_get_total_friend_count', $count );
