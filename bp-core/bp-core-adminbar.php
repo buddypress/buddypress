@@ -9,6 +9,8 @@ function bp_core_admin_bar() {
 	if ( (int)get_site_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() )
 		return false;
 
+	$bp->doing_admin_bar = true;
+
 	echo '<div id="wp-admin-bar"><div class="padder">';
 
 	// **** Do bp-adminbar-logo Actions ********
@@ -21,6 +23,8 @@ function bp_core_admin_bar() {
 
 	echo '</ul>';
 	echo "</div></div><!-- #wp-admin-bar -->\n\n";
+
+	$bp->doing_admin_bar = false;
 }
 
 // **** Default BuddyPress admin bar logo ********
@@ -71,8 +75,10 @@ function bp_adminbar_account_menu() {
 			$sub_counter = 0;
 
 			foreach( (array)$bp->bp_options_nav[$nav_item['slug']] as $subnav_item ) {
+				$link = str_replace( $bp->displayed_user->domain, $bp->loggedin_user->domain, $subnav_item['link'] );
+				$name = str_replace( $bp->displayed_user->userdata->user_login, $bp->loggedin_user->userdata->user_login, $subnav_item['name'] );
 				$alt = ( 0 == $sub_counter % 2 ) ? ' class="alt"' : '';
-				echo '<li' . $alt . '><a id="bp-admin-' . $subnav_item['css_id'] . '" href="' . $subnav_item['link'] . '">' . $subnav_item['name'] . '</a></li>';
+				echo '<li' . $alt . '><a id="bp-admin-' . $subnav_item['css_id'] . '" href="' . $link . '">' . $name . '</a></li>';
 				$sub_counter++;
 			}
 			echo '</ul>';
