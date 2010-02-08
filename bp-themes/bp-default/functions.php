@@ -28,11 +28,12 @@ function bp_dtheme_firstname( $name = false, $echo = false ) {
 		$name = $bp->loggedin_user->fullname;
 
 	$fullname = (array)explode( ' ', $name );
+	$firstname = apply_filters( 'bp_dtheme_firstname', $firstname, $fullname );
 
 	if ( $echo )
-		echo $fullname[0];
+		echo $firstname;
 	else
-		return $fullname[0];
+		return $firstname;
 }
 
 function bp_dtheme_add_blog_comments_js() {
