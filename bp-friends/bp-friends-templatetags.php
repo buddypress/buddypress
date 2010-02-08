@@ -215,4 +215,16 @@ function bp_total_friend_count( $user_id = false ) {
 		return apply_filters( 'bp_get_total_friend_count', friends_get_total_friend_count( $user_id ) );
 	}
 	add_filter( 'bp_get_total_friend_count', 'bp_core_number_format' );
+
+function bp_friend_total_requests_count( $user_id = false ) {
+	echo bp_friend_get_total_requests_count( $user_id );
+}
+	function bp_friend_get_total_requests_count( $user_id = false ) {
+		global $bp;
+
+		if ( !$user_id )
+			$user_id = $bp->loggedin_user->id;
+
+		return apply_filters( 'bp_friend_get_total_requests_count', (int) BP_Friends_Friendship::get_friend_user_ids( $user_id, true ) );
+	}
 ?>
