@@ -726,6 +726,8 @@ function bp_activity_delete( $args = '' ) {
 	do_action( 'bp_activity_delete', $args );
 	do_action( 'bp_activity_deleted_activities', $activity_ids_deleted );
 
+	wp_cache_delete( 'bp_activity_sitewide_front', 'bp' );
+
 	return true;
 }
 	/* The following functions have been deprecated in place of bp_activity_delete() */
