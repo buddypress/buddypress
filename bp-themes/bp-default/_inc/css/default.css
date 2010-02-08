@@ -743,15 +743,15 @@ form.standard-form {
 			color: #888;
 		}
 
-		form.standard-form#login-form label {
+		form.standard-form#sidebar-login-form label {
 			margin-top: 5px;
 		}
 
 	form.standard-form input[type=text] {
 		width: 75%;
 	}
-		form.standard-form#login-form input[type=text],
-		form.standard-form#login-form input[type=password] {
+		form.standard-form#sidebar-login-form input[type=text],
+		form.standard-form#sidebar-login-form input[type=password] {
 			padding: 4px;
 			width: 95%;
 		}
