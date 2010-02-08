@@ -264,7 +264,7 @@ function bp_activity_screen_notification_settings() {
 
 		<tr>
 			<td></td>
-			<td><?php printf( __( 'A member mentions you in an update using "@%s"', 'buddypress' ), bp_core_get_username( $bp->displayed_user->user_id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) ) ?></td>
+			<td><?php printf( __( 'A member mentions you in an update using "@%s"', 'buddypress' ), bp_core_get_username( $bp->loggedin_user->id, $bp->loggedin_user->userdata->user_nicename, $bp->loggedin_user->userdata->user_login ) ) ?></td>
 			<td class="yes"><input type="radio" name="notifications[notification_activity_new_mention]" value="yes" <?php if ( !get_usermeta( $bp->loggedin_user->id, 'notification_activity_new_mention' ) || 'yes' == get_usermeta( $bp->loggedin_user->id, 'notification_activity_new_mention' ) ) { ?>checked="checked" <?php } ?>/></td>
 			<td class="no"><input type="radio" name="notifications[notification_activity_new_mention]" value="no" <?php if ( 'no' == get_usermeta( $bp->loggedin_user->id, 'notification_activity_new_mention' ) ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
