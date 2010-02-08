@@ -22,7 +22,7 @@ class BP_Groups_Template {
 	var $sort_by;
 	var $order;
 
-	function bp_groups_template( $user_id, $type, $page, $per_page, $max, $slug, $search_terms ) {
+	function bp_groups_template( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $populate_extras ) {
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['grpage'] ) ? intval( $_REQUEST['grpage'] ) : $page;
@@ -30,41 +30,31 @@ class BP_Groups_Template {
 
 		switch ( $type ) {
 			case 'active': default:
-				$this->groups = groups_get_active( $this->pag_num, $this->pag_page, $user_id, $search_terms );
+				$this->groups = groups_get_active( $this->pag_num, $this->pag_page, $user_id, $search_terms, $populate_extras );
 				break;
 
 			case 'alphabetical': default:
-				$this->groups = groups_get_alphabetically( $this->pag_num, $this->pag_page, $user_id, $search_terms );
+				$this->groups = groups_get_alphabetically( $this->pag_num, $this->pag_page, $user_id, $search_terms, $populate_extras );
 				break;
 
 			case 'random':
-				$this->groups = groups_get_random_groups( $this->pag_num, $this->pag_page, $user_id, $search_terms );
+				$this->groups = groups_get_random_groups( $this->pag_num, $this->pag_page, $user_id, $search_terms, $populate_extras );
 				break;
 
 			case 'newest':
-				$this->groups = groups_get_newest( $this->pag_num, $this->pag_page, $user_id, $search_terms );
+				$this->groups = groups_get_newest( $this->pag_num, $this->pag_page, $user_id, $search_terms, $populate_extras );
 				break;
 
 			case 'popular':
-				$this->groups = groups_get_popular( $this->pag_num, $this->pag_page, $user_id, $search_terms );
+				$this->groups = groups_get_popular( $this->pag_num, $this->pag_page, $user_id, $search_terms, $populate_extras );
 				break;
 
 			case 'most-forum-topics':
-				$this->groups = groups_get_by_most_forum_topics( $this->pag_num, $this->pag_page, $user_id, $search_terms );
+				$this->groups = groups_get_by_most_forum_topics( $this->pag_num, $this->pag_page, $user_id, $search_terms, $populate_extras );
 				break;
 
 			case 'most-forum-posts':
-				$this->groups = groups_get_by_most_forum_posts( $this->pag_num, $this->pag_page, $user_id, $search_terms );
-				break;
-
-			case 'admin-of':
-				if ( $user_id )
-					$this->groups = groups_get_user_is_admin_of( $user_id, $this->pag_num, $this->pag_page, $search_terms );
-				break;
-
-			case 'mod-of':
-				if ( $user_id )
-					$this->groups = groups_get_user_is_mod_of( $user_id, $this->pag_num, $this->pag_page, $filter );
+				$this->groups = groups_get_by_most_forum_posts( $this->pag_num, $this->pag_page, $user_id, $search_terms, $populate_extras );
 				break;
 
 			case 'invites':
@@ -75,6 +65,17 @@ class BP_Groups_Template {
 				$group = new stdClass;
 				$group->group_id = BP_Groups_Group::get_id_from_slug($slug);
 				$this->groups = array( $group );
+				break;
+
+
+			case 'admin-of':
+				if ( $user_id )
+					$this->groups = groups_get_user_is_admin_of( $user_id, $this->pag_num, $this->pag_page, $search_terms );
+				break;
+
+			case 'mod-of':
+				if ( $user_id )
+					$this->groups = groups_get_user_is_mod_of( $user_id, $this->pag_num, $this->pag_page, $filter );
 				break;
 		}
 
@@ -214,13 +215,15 @@ function bp_has_groups( $args = '' ) {
 
 		'user_id' => $user_id, // Pass a user ID to limit to groups this user has joined
 		'slug' => $slug, // Pass a group slug to only return that group
-		'search_terms' => $search_terms // Pass search terms to return only matching groups
+		'search_terms' => $search_terms, // Pass search terms to return only matching groups
+
+		'populate_extras' => true // Get extra meta - is_member, is_banned
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
 
-	$groups_template = new BP_Groups_Template( $user_id, $type, $page, $per_page, $max, $slug, $search_terms );
+	$groups_template = new BP_Groups_Template( (int)$user_id, $type, (int)$page, (int)$per_page, (int)$max, $slug, $search_terms, (int)$populate_extras );
 	return apply_filters( 'bp_has_groups', $groups_template->has_groups(), &$groups_template );
 }
 
@@ -1134,6 +1137,9 @@ function bp_group_join_button( $group = false ) {
 	if ( !$group->status )
 		return false;
 
+	if ( 'hidden' == $group->status && !$group->is_member )
+		return false;
+
 	echo '<div class="generic-button group-button ' . $group->status . '" id="groupbutton-' . $group->id . '">';
 
 	switch ( $group->status ) {
@@ -1153,6 +1159,11 @@ function bp_group_join_button( $group = false ) {
 				else
 					echo '<a class="membership-requested" href="' . bp_get_group_permalink( $group ) . '">' . __( 'Request Sent', 'buddypress' ) . '</a>';
 			}
+		break;
+
+		case 'hidden':
+			if ( $group->is_member )
+				echo '<a class="leave-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
 		break;
 	}
 

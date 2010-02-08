@@ -2173,6 +2173,10 @@ function groups_accept_invite( $user_id, $group_id ) {
 	if ( !$member->save() )
 		return false;
 
+	/* Modify group meta */
+	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') + 1 );
+	groups_update_groupmeta( $group_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
+
 	do_action( 'groups_accept_invite', $user_id, $group_id );
 	return true;
 }

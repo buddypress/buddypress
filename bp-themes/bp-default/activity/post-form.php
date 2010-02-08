@@ -40,7 +40,7 @@
 					<select id="whats-new-post-in" name="whats-new-post-in">
 						<option selected="selected" value="0"><?php _e( 'My Profile', 'buddypress' ) ?></option>
 
-						<?php if ( bp_has_groups( 'user_id=' . bp_loggedin_user_id() . '&type=alphabetical&max=100&per_page=100' ) ) : while ( bp_groups() ) : bp_the_group(); ?>
+						<?php if ( bp_has_groups( 'user_id=' . bp_loggedin_user_id() . '&type=alphabetical&max=100&per_page=100&populate_extras=0' ) ) : while ( bp_groups() ) : bp_the_group(); ?>
 							<option value="<?php bp_group_id() ?>"><?php bp_group_name() ?></option>
 						<?php endwhile; endif; ?>
 					</select>

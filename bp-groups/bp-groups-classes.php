@@ -257,7 +257,7 @@ Class BP_Groups_Group {
 
 	/* TODO: Merge all these get_() functions into one. */
 
-	function get_newest( $limit = null, $page = null, $user_id = false, $search_terms = false ) {
+	function get_newest( $limit = null, $page = null, $user_id = false, $search_terms = false, $populate_extras = true ) {
 		global $wpdb, $bp;
 
 		if ( $limit && $page )
@@ -280,7 +280,7 @@ Class BP_Groups_Group {
 			$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name_groupmeta} gm INNER JOIN {$bp->groups->table_name} g ON gm.group_id = g.id WHERE gm.meta_key = 'last_activity'{$hidden_sql} {$search_sql}" );
 		}
 
-		if ( empty( $user_id ) ) {
+		if ( !empty( $populate_extras ) ) {
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( &$paged_groups, $group_ids, 'newest' );
@@ -289,7 +289,7 @@ Class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	function get_active( $limit = null, $page = null, $user_id = false, $search_terms = false ) {
+	function get_active( $limit = null, $page = null, $user_id = false, $search_terms = false, $populate_extras = true ) {
 		global $wpdb, $bp;
 
 		if ( $limit && $page )
@@ -312,7 +312,7 @@ Class BP_Groups_Group {
 			$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name_groupmeta} gm INNER JOIN {$bp->groups->table_name} g ON gm.group_id = g.id WHERE gm.meta_key = 'last_activity'{$hidden_sql} {$search_sql}" );
 		}
 
-		if ( empty( $user_id ) ) {
+		if ( !empty( $populate_extras ) ) {
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( &$paged_groups, $group_ids, 'newest' );
@@ -321,7 +321,7 @@ Class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	function get_popular( $limit = null, $page = null, $user_id = false, $search_terms = false ) {
+	function get_popular( $limit = null, $page = null, $user_id = false, $search_terms = false, $populate_extras = true ) {
 		global $wpdb, $bp;
 
 		if ( $limit && $page ) {
@@ -345,7 +345,7 @@ Class BP_Groups_Group {
 			$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' {$hidden_sql} {$search_sql}" );
 		}
 
-		if ( empty( $user_id ) ) {
+		if ( !empty( $populate_extras ) ) {
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( &$paged_groups, $group_ids, 'newest' );
@@ -354,7 +354,7 @@ Class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	function get_alphabetically( $limit = null, $page = null, $user_id = false, $search_terms = false ) {
+	function get_alphabetically( $limit = null, $page = null, $user_id = false, $search_terms = false, $populate_extras = true ) {
 		global $wpdb, $bp;
 
 		if ( $limit && $page )
@@ -377,7 +377,7 @@ Class BP_Groups_Group {
 			$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' {$hidden_sql} {$search_sql}" );
 		}
 
-		if ( empty( $user_id ) ) {
+		if ( !empty( $populate_extras ) ) {
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( &$paged_groups, $group_ids, 'newest' );
@@ -386,7 +386,7 @@ Class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	function get_by_most_forum_topics( $limit = null, $page = null, $user_id = false, $search_terms = false ) {
+	function get_by_most_forum_topics( $limit = null, $page = null, $user_id = false, $search_terms = false, $populate_extras = true ) {
 		global $wpdb, $bp, $bbdb;
 
 		if ( !$bbdb )
@@ -413,7 +413,7 @@ Class BP_Groups_Group {
 			$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_groupmeta} gm3, {$bbdb->forums} f, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND g.id = gm3.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND (gm3.meta_key = 'forum_id' AND gm3.meta_value = f.forum_id) AND f.topics > 0 {$hidden_sql} {$search_sql}" );
 		}
 
-		if ( empty( $user_id ) ) {
+		if ( !empty( $populate_extras ) ) {
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( &$paged_groups, $group_ids, 'newest' );
@@ -422,7 +422,7 @@ Class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	function get_by_most_forum_posts( $limit = null, $page = null, $search_terms = false ) {
+	function get_by_most_forum_posts( $limit = null, $page = null, $search_terms = false, $populate_extras = true ) {
 		global $wpdb, $bp, $bbdb;
 
 		if ( !$bbdb )
@@ -449,7 +449,7 @@ Class BP_Groups_Group {
 			$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_groupmeta} gm3, {$bbdb->forums} f, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND g.id = gm3.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND (gm3.meta_key = 'forum_id' AND gm3.meta_value = f.forum_id) {$hidden_sql} {$search_sql}" );
 		}
 
-		if ( empty( $user_id ) ) {
+		if ( !empty( $populate_extras ) ) {
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( &$paged_groups, $group_ids, 'newest' );
@@ -502,7 +502,7 @@ Class BP_Groups_Group {
 		return $wpdb->get_results($sql);
 	}
 
-	function get_by_letter( $letter, $limit = null, $page = null ) {
+	function get_by_letter( $letter, $limit = null, $page = null, $populate_extras = true ) {
 		global $wpdb, $bp;
 
 		if ( strlen($letter) > 1 || is_numeric($letter) || !$letter )
@@ -520,7 +520,7 @@ Class BP_Groups_Group {
 
 		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND g.name LIKE '$letter%%' {$hidden_sql} {$search_sql} ORDER BY g.name ASC {$pag_sql}"  ) );
 
-		if ( empty( $user_id ) ) {
+		if ( !empty( $populate_extras ) ) {
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( &$paged_groups, $group_ids, 'newest' );
@@ -529,7 +529,7 @@ Class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	function get_random( $limit = null, $page = null, $user_id = false, $search_terms = false ) {
+	function get_random( $limit = null, $page = null, $user_id = false, $search_terms = false, $populate_extras = true ) {
 		global $wpdb, $bp;
 
 		if ( $limit && $page )
@@ -552,7 +552,7 @@ Class BP_Groups_Group {
 			$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name_groupmeta} gm INNER JOIN {$bp->groups->table_name} g ON gm.group_id = g.id WHERE gm.meta_key = 'last_activity'{$hidden_sql} {$search_sql}" );
 		}
 
-		if ( empty( $user_id ) ) {
+		if ( !empty( $populate_extras ) ) {
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( &$paged_groups, $group_ids, 'newest' );
@@ -764,12 +764,12 @@ Class BP_Groups_Member {
 	function accept_invite() {
 		$this->inviter_id = 0;
 		$this->is_confirmed = 1;
-		$this->date_modified = time();
+		$this->date_modified = gmdate( "Y-m-d H:i:s" );
 	}
 
 	function accept_request() {
 		$this->is_confirmed = 1;
-		$this->date_modified = time();
+		$this->date_modified = gmdate( "Y-m-d H:i:s" );
 	}
 
 	/* Static Functions */
