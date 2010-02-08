@@ -17,8 +17,11 @@
 
 				<?php do_action( 'bp_before_activate_content' ) ?>
 
-				<p><?php _e( 'Your account was activated successfully! You can now log in with the username and password you provided when you signed up.', 'buddypress' ) ?></p>
-
+				<?php if ( isset( $_GET['e'] ) ) : ?>
+					<p><?php _e( 'Your account was activated successfully! Your account details have been sent to you in a separate email.', 'buddypress' ) ?></p>
+				<?php else : ?>
+					<p><?php _e( 'Your account was activated successfully! You can now log in with the username and password you provided when you signed up.', 'buddypress' ) ?></p>
+				<?php endif; ?>
 
 			<?php else : ?>
 
