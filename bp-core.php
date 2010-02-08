@@ -908,7 +908,7 @@ function bp_core_reset_subnav_items($parent_slug) {
  * Example:
  *   bp_core_load_template( 'profile/edit-profile' );
  * Loads:
- *   wp-content/member-themes/[activated_theme]/profile/edit-profile.php
+ *   wp-content/themes/[activated_theme]/profile/edit-profile.php
  *
  * @package BuddyPress Core
  * @param $username str Username to check.
@@ -1952,6 +1952,9 @@ add_filter( 'admin_menu', 'bp_core_filter_parent_theme' );
  */
 function bp_core_allow_default_theme( $themes ) {
 	global $bp, $current_blog;
+
+	if ( !is_site_admin() )
+		return $themes;
 
 	if ( $current_blog->ID == $bp->root_blog ) {
 		$themes['bp-default'] = 1;
