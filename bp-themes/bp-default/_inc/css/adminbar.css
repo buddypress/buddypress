@@ -73,11 +73,12 @@ body {
 	float: left;
 	font-weight: bold;
 	font-size: 11px;
-	padding: 3px 8px;
+	padding: 5px 8px;
 	margin: 0;
 	text-decoration: none;
 	color: #fff;
 }
+	body#bp-default #admin-bar-logo { padding: 2px 8px; }
 
 /*******************/
 
@@ -201,10 +202,7 @@ body {
 	padding: 0;
 }
 
-#wp-admin-bar ul.author-list li {
-	padding: 10px;
-	height: 30px;
-}
+#wp-admin-bar ul.author-list li a { height: 17px; }
 
 #wp-admin-bar ul li#bp-adminbar-notifications-menu a span {
 	padding: 0 6px;

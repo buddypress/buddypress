@@ -197,9 +197,9 @@ function bp_adminbar_authors_menu() {
 			if ( isset( $caps['subscriber'] ) || isset( $caps['contributor'] ) ) continue;
 
 			echo '<li>';
-			echo bp_core_fetch_avatar( array( 'item_id' => $author->user_id, 'email' => $author->user_email, 'width' => 25, 'height' => 25 ) ) ;
-			echo '<a href="' . bp_core_get_user_domain( $author->user_id, $author->user_nicename, $author->user_login ) . '">' . $author->display_name . '</a>';
-			echo '</a>';
+			echo '<a href="' . bp_core_get_user_domain( $author->user_id, $author->user_nicename, $author->user_login ) . '">';
+			echo bp_core_fetch_avatar( array( 'item_id' => $author->user_id, 'email' => $author->user_email, 'width' => 15, 'height' => 15 ) ) ;
+ 			echo ' ' . $author->display_name . '</a>';
 			echo '<div class="admin-bar-clear"></div>';
 			echo '</li>';
 		}
