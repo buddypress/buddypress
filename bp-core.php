@@ -2052,7 +2052,7 @@ add_filter( 'comments_array', 'bp_core_filter_comments', 10, 2 );
 function bp_core_login_redirect() {
 	global $bp;
 
-	if ( false === strpos( wp_get_referer(), 'wp-login.php' ) && empty( $_GET['nr'] ) )
+	if ( false === strpos( wp_get_referer(), 'wp-login.php' ) && empty( $_REQUEST['nr'] ) )
 		return wp_get_referer();
 
 	return $bp->root_domain;

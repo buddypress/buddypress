@@ -15,7 +15,7 @@
 			</a>
 
 			<h4><?php bp_loggedinuser_link() ?></h4>
-			<a class="button logout" href="<?php echo wp_logout_url(wp_get_referer()) ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>
+			<a class="button logout" href="<?php echo wp_logout_url( bp_get_root_domain() ) ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>
 
 			<?php do_action( 'bp_sidebar_me' ) ?>
 		</div>
@@ -37,19 +37,17 @@
 			<?php endif; ?>
 		</p>
 
-		<form name="login-form" id="login-form" class="standard-form" action="<?php echo site_url( 'wp-login.php', 'login' ) ?>" method="post">
+		<form name="login-form" id="sidebar-login-form" class="standard-form" action="<?php echo site_url( 'wp-login.php', 'login' ) ?>" method="post">
 			<label><?php _e( 'Username', 'buddypress' ) ?><br />
-			<input type="text" name="log" id="userbar_user_login" class="input" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" /></label>
+			<input type="text" name="log" id="sidebar-user-login" class="input" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" /></label>
 
 			<label><?php _e( 'Password', 'buddypress' ) ?><br />
-			<input type="password" name="pwd" id="userbar_user_pass" class="input" value="" /></label>
+			<input type="password" name="pwd" id="sidebar-user-pass" class="input" value="" /></label>
 
-			<p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="userbar_rememberme" value="forever" /> <?php _e( 'Remember Me', 'buddypress' ) ?></label></p>
+			<p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="sidebar-rememberme" value="forever" /> <?php _e( 'Remember Me', 'buddypress' ) ?></label></p>
 
 			<?php do_action( 'bp_sidebar_login_form' ) ?>
-
-			<input type="submit" name="wp-submit" id="userbar_wp-submit" value="<?php _e('Log In'); ?>" tabindex="100" />
-			<input type="hidden" name="redirect_to" value="<?php bp_root_domain() ?>" />
+			<input type="submit" name="wp-submit" id="sidebar-wp-submit" value="<?php _e('Log In'); ?>" tabindex="100" />
 			<input type="hidden" name="testcookie" value="1" />
 		</form>
 
