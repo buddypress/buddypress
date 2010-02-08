@@ -2043,6 +2043,23 @@ function bp_core_filter_comments( $comments, $post_id ) {
 add_filter( 'comments_array', 'bp_core_filter_comments', 10, 2 );
 
 /**
+ * bp_core_login_redirect()
+ *
+ * When a user logs in, always redirect them back to the previous page. NOT the admin area.
+ *
+ * @package BuddyPress Core
+ */
+function bp_core_login_redirect() {
+	global $bp;
+
+	if ( false === strpos( wp_get_referer(), 'wp-login.php' ) && empty( $_GET['nr'] ) )
+		return wp_get_referer();
+
+	return $bp->root_domain;
+}
+add_filter( 'login_redirect', 'bp_core_login_redirect' );
+
+/**
  * bp_core_clear_user_object_cache()
  *
  * Clears all cached objects for a user, or a user is part of.
