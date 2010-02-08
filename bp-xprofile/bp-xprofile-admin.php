@@ -61,7 +61,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 					<table id="group_<?php echo $groups[$i]->id;?>" class="widefat field-group">
 						<thead>
 						    <tr>
-								<th scope="col">&nbsp;</th>
+								<th scope="col" width="10">&nbsp;</th>
 						    	<th scope="col" colspan="<?php if ( $groups[$i]->can_delete ) { ?>3<?php } else { ?>5<?php } ?>"><?php echo attribute_escape( $groups[$i]->name ); ?></th>
 								<?php if ( $groups[$i]->can_delete ) { ?>
 									<th scope="col"><a class="edit" href="admin.php?page=bp-profile-setup&amp;mode=edit_group&amp;group_id=<?php echo attribute_escape( $groups[$i]->id ); ?>"><?php _e( 'Edit', 'buddypress' ) ?></a></th>
