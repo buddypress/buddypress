@@ -21,7 +21,9 @@
 </div><!-- #item-actions -->
 
 <div id="item-header-avatar">
-	<?php bp_group_avatar() ?>
+	<a href="<?php bp_group_permalink() ?>" title="<?php bp_group_name() ?>">
+		<?php bp_group_avatar() ?>
+	</a>
 </div><!-- #item-header-avatar -->
 
 <div id="item-header-content">

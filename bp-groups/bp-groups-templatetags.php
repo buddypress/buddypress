@@ -1399,6 +1399,15 @@ function bp_group_member_link() {
 		return apply_filters( 'bp_get_group_member_link', '<a href="' . bp_core_get_user_domain( $members_template->member->user_id, $members_template->member->user_nicename, $members_template->member->user_login ) . '">' . $members_template->member->display_name . '</a>' );
 	}
 
+function bp_group_member_domain() {
+	echo bp_get_group_member_domain();
+}
+	function bp_get_group_member_domain() {
+		global $members_template;
+
+		return apply_filters( 'bp_get_group_member_domain', bp_core_get_user_domain( $members_template->member->user_id, $members_template->member->user_nicename, $members_template->member->user_login ) );
+	}
+
 function bp_group_member_is_friend() {
 	echo bp_get_group_member_is_friend();
 }

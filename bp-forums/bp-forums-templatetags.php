@@ -522,13 +522,10 @@ function bp_the_topic_latest_post_excerpt( $args = '' ) {
 		return apply_filters( 'bp_get_the_topic_latest_post_excerpt', $post );
 	}
 
-function bp_the_topic_time_since_last_post( $deprecated = true ) {
+function bp_the_topic_time_since_last_post() {
 	global $forum_template;
 
-	if ( !$deprecated )
-		return bp_get_the_topic_time_since_last_post();
-	else
-		echo bp_get_the_topic_time_since_last_post();
+	echo bp_get_the_topic_time_since_last_post();
 }
 	function bp_get_the_topic_time_since_last_post() {
 		global $forum_template;
@@ -878,26 +875,29 @@ function bp_the_topic_post_poster_avatar( $args = '' ) {
 		return apply_filters( 'bp_get_the_topic_post_poster_avatar', bp_core_fetch_avatar( array( 'item_id' => $topic_template->post->poster_id, 'type' => $type, 'width' => $width, 'height' => $height ) ) );
 	}
 
-function bp_the_topic_post_poster_name( $deprecated = true ) {
-	if ( !$deprecated )
-		return bp_get_the_topic_post_poster_name();
-	else
-		echo bp_get_the_topic_post_poster_name();
+function bp_the_topic_post_poster_name() {
+	echo bp_get_the_topic_post_poster_name();
 }
 	function bp_get_the_topic_post_poster_name() {
 		global $topic_template;
 
-		if ( !$name = bp_core_get_userlink( $topic_template->post->poster_id ) )
+		if ( !$link = bp_core_get_user_domain( $topic_template->post->poster_id, $topic_template->post->poster_nicename, $topic_template->post->poster_login ) )
 			return __( 'Deleted User', 'buddypress' );
 
-		return apply_filters( 'bp_get_the_topic_post_poster_name', bp_core_get_userlink( $topic_template->post->poster_id ) );
+		return apply_filters( 'bp_get_the_topic_post_poster_name', '<a href="' . $link . '" title="' . $topic_template->post->poster_name . '">' . $topic_template->post->poster_name . '</a>' );
 	}
 
-function bp_the_topic_post_time_since( $deprecated = true ) {
-	if ( !$deprecated )
-		return bp_get_the_topic_post_time_since();
-	else
-		echo bp_get_the_topic_post_time_since();
+function bp_the_topic_post_poster_link() {
+	echo bp_get_the_topic_post_poster_link();
+}
+	function bp_get_the_topic_post_poster_link() {
+		global $topic_template;
+
+		return apply_filters( 'bp_get_the_topic_post_poster_name', bp_core_get_user_domain( $topic_template->post->poster_id, $topic_template->post->poster_nicename, $topic_template->post->poster_login ) );
+	}
+
+function bp_the_topic_post_time_since() {
+	echo bp_get_the_topic_post_time_since();
 }
 	function bp_get_the_topic_post_time_since() {
 		global $topic_template;

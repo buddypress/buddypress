@@ -385,7 +385,7 @@ function bp_forums_get_topic_posts( $args = '' ) {
 	$args = wp_parse_args( $args, $defaults );
 
 	$query = new BB_Query( 'post', $args, 'get_thread' );
-	return $query->results;
+	return bp_forums_get_post_extras( $query->results );
 }
 
 function bp_forums_get_post( $post_id ) {
@@ -449,6 +449,45 @@ function bp_forums_insert_post( $args = '' ) {
 
 	return $post;
 }
+
+function bp_forums_get_post_extras( $posts ) {
+	global $bp, $wpdb;
+
+	if ( empty( $posts ) )
+		return $posts;
+
+	/* Get the user ids */
+	foreach ( (array)$posts as $post ) $user_ids[] = $post->poster_id;
+	$user_ids = $wpdb->escape( join( ',', (array)$user_ids ) );
+
+	/* Fetch the poster's user_email, user_nicename and user_login */
+	$poster_details = $wpdb->get_results( $wpdb->prepare( "SELECT u.ID as user_id, u.user_login, u.user_nicename, u.user_email, u.display_name FROM {$wpdb->users} u WHERE u.ID IN ( {$user_ids} )" ) );
+
+	for ( $i = 0; $i < count( $posts ); $i++ ) {
+		foreach ( (array)$poster_details as $poster ) {
+			if ( $poster->user_id == $posts[$i]->poster_id ) {
+				$posts[$i]->poster_email = $poster->user_email;
+				$posts[$i]->poster_login = $poster->user_nicename;
+				$posts[$i]->poster_nicename = $poster->user_login;
+				$posts[$i]->poster_name = $poster->display_name;
+			}
+		}
+	}
+
+	/* Fetch fullname for each poster. */
+	if ( function_exists( 'xprofile_install' ) ) {
+		$poster_names = $wpdb->get_results( $wpdb->prepare( "SELECT pd.user_id, pd.value FROM {$bp->profile->table_name_data} pd WHERE pd.user_id IN ( {$user_ids} )" ) );
+		for ( $i = 0; $i < count( $posts ); $i++ ) {
+			foreach ( (array)$poster_names as $name ) {
+				if ( $name->user_id == $topics[$i]->user_id )
+				$posts[$i]->poster_name = $poster->value;
+			}
+		}
+	}
+
+	return $posts;
+}
+
 
 function bp_forums_get_forum_topicpost_count( $forum_id ) {
 	global $wpdb, $bbdb;

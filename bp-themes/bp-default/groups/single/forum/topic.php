@@ -28,8 +28,10 @@
 
 				<li id="post-<?php bp_the_topic_post_id() ?>">
 					<div class="poster-meta">
-						<?php bp_the_topic_post_poster_avatar( 'width=40&height=40') ?>
-						<?php echo sprintf( __( '%s said %s ago:', 'buddypress' ), bp_the_topic_post_poster_name( false ), bp_the_topic_post_time_since( false ) ) ?>
+						<a href="<?php bp_the_topic_post_poster_link() ?>">
+							<?php bp_the_topic_post_poster_avatar( 'width=40&height=40' ) ?>
+						</a>
+						<?php echo sprintf( __( '%s said %s ago:', 'buddypress' ), bp_get_the_topic_post_poster_name(), bp_get_the_topic_post_time_since() ) ?>
 					</div>
 
 					<div class="post-content">
