@@ -621,6 +621,7 @@ div#message p {
 		background: #e41717;
 		color: #fff;
 		border-color: #a71a1a;
+		clear: left;
 	}
 
 	div#message.updated p {
