@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-02-08 14:11+0000\n"
+"POT-Creation-Date: 2010-02-09 14:11+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,7 +105,7 @@ msgstr ""
 msgid "%s posted a new activity comment:"
 msgstr ""
 
-#: bp-activity.php:837
+#: bp-activity.php:839
 msgid "Thumbnail"
 msgstr ""
 
@@ -330,7 +330,7 @@ msgstr ""
 msgid "Blogs <span>(%d)</span>"
 msgstr ""
 
-#: bp-blogs.php:135 bp-blogs.php:143 bp-core/bp-core-adminbar.php:107
+#: bp-blogs.php:135 bp-blogs.php:143 bp-core/bp-core-adminbar.php:113
 msgid "My Blogs"
 msgstr ""
 
@@ -715,7 +715,7 @@ msgstr ""
 msgid "Your account is now active!"
 msgstr ""
 
-#: bp-core/bp-core-activation.php:110
+#: bp-core/bp-core-activation.php:113
 #, php-format
 msgid ""
 "Thanks for registering! To complete the activation of your account and blog, "
@@ -730,12 +730,12 @@ msgid ""
 "%s"
 msgstr ""
 
-#: bp-core/bp-core-activation.php:111
+#: bp-core/bp-core-activation.php:114
 #, php-format
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-activation.php:132
+#: bp-core/bp-core-activation.php:140
 #, php-format
 msgid ""
 "Thanks for registering! To complete the activation of your account please "
@@ -745,7 +745,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-activation.php:133
+#: bp-core/bp-core-activation.php:141
 msgid "Activate Your Account"
 msgstr ""
 
@@ -904,19 +904,19 @@ msgstr ""
 msgid "Activates customizable profiles and avatars for site users."
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:40 bp-themes/bp-default/sidebar.php:51
+#: bp-core/bp-core-adminbar.php:44 bp-themes/bp-default/sidebar.php:50
 msgid "Log In"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:44
+#: bp-core/bp-core-adminbar.php:48
 msgid "Sign Up"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:58
+#: bp-core/bp-core-adminbar.php:62
 msgid "My Account"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:88 bp-core/bp-core-templatetags.php:471
+#: bp-core/bp-core-adminbar.php:94 bp-core/bp-core-templatetags.php:471
 #: bp-core/bp-core-templatetags.php:473 bp-core/bp-core-templatetags.php:1046
 #: bp-core/bp-core-templatetags.php:1048
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:2729
@@ -924,54 +924,54 @@ msgstr ""
 msgid "Log Out"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:121
+#: bp-core/bp-core-adminbar.php:127
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:55
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:56
 #: bp-forums/bbpress/bb-admin/index.php:46
 msgid "Dashboard"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:122
+#: bp-core/bp-core-adminbar.php:128
 msgid "New Post"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:123
+#: bp-core/bp-core-adminbar.php:129
 msgid "Manage Posts"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:124
+#: bp-core/bp-core-adminbar.php:130
 msgid "Manage Comments"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:136
+#: bp-core/bp-core-adminbar.php:142
 msgid "Create a Blog!"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:152 bp-core/bp-core-settings.php:22
+#: bp-core/bp-core-adminbar.php:158 bp-core/bp-core-settings.php:22
 msgid "Notifications"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:170
+#: bp-core/bp-core-adminbar.php:176
 msgid "No new notifications."
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:191
+#: bp-core/bp-core-adminbar.php:197
 msgid "Blog Authors"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:215
+#: bp-core/bp-core-adminbar.php:221
 msgid "Visit"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:217
+#: bp-core/bp-core-adminbar.php:223
 msgid "Random Member"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:220
+#: bp-core/bp-core-adminbar.php:226
 msgid "Random Group"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:224
+#: bp-core/bp-core-adminbar.php:230
 msgid "Random Blog"
 msgstr ""
 
@@ -1256,7 +1256,7 @@ msgid "Create an Account"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:927
-#: bp-themes/bp-default/registration/activate.php:25
+#: bp-themes/bp-default/registration/activate.php:28
 msgid "Activate your Account"
 msgstr ""
 
@@ -2785,7 +2785,7 @@ msgstr ""
 #: bp-forums/bbpress/bb-includes/functions.bb-core.php:846
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:1926
 #: bp-forums/bp-forums-templatetags.php:937
-#: bp-themes/bp-default/functions.php:76 bp-xprofile/bp-xprofile-admin.php:67
+#: bp-themes/bp-default/functions.php:77 bp-xprofile/bp-xprofile-admin.php:67
 #: bp-xprofile/bp-xprofile-admin.php:94
 msgid "Edit"
 msgstr ""
@@ -3734,7 +3734,7 @@ msgstr ""
 #: bp-forums/bbpress/bb-admin/plugins.php:202
 #: bp-forums/bbpress/bb-admin/themes.php:96
 #: bp-messages/bp-messages-templatetags.php:445
-#: bp-themes/bp-default/registration/activate.php:37
+#: bp-themes/bp-default/registration/activate.php:40
 msgid "Activate"
 msgstr ""
 
@@ -4021,7 +4021,7 @@ msgstr ""
 
 #: bp-forums/bbpress/bb-admin/topics.php:127
 #: bp-messages/bp-messages-templatetags.php:470
-#: bp-themes/bp-default/functions.php:225
+#: bp-themes/bp-default/functions.php:226
 msgid "Close"
 msgstr ""
 
@@ -7860,7 +7860,7 @@ msgid "Blog Posts"
 msgstr ""
 
 #: bp-themes/bp-default/_inc/options.php:38
-#: bp-themes/bp-default/functions.php:94
+#: bp-themes/bp-default/functions.php:95
 msgid "Activity Stream"
 msgstr ""
 
@@ -8309,51 +8309,50 @@ msgstr ""
 msgid "Unreplied"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:64
+#: bp-themes/bp-default/functions.php:65
 msgid "said:"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:65
+#: bp-themes/bp-default/functions.php:66
 msgid "On"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:69
+#: bp-themes/bp-default/functions.php:70
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:209
+#: bp-themes/bp-default/functions.php:210
 #, php-format
 msgid ""
-"Theme activated! This theme contains <a href=\"%s\">customization options</"
-"a> and <a href=\"%s\">custom header image</a> support. <a href=\"%s"
-"\">Sidebar widgets</a> are also supported."
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:219
-msgid "My Favorites"
+"Theme activated! This theme contains <a href=\"%s\">custom header image</a> "
+"support and <a href=\"%s\">sidebar widgets</a>."
 msgstr ""
 
 #: bp-themes/bp-default/functions.php:220
-msgid "Accepted"
+msgid "My Favorites"
 msgstr ""
 
 #: bp-themes/bp-default/functions.php:221
-msgid "Rejected"
+msgid "Accepted"
 msgstr ""
 
 #: bp-themes/bp-default/functions.php:222
-msgid "Show all comments for this thread"
+msgid "Rejected"
 msgstr ""
 
 #: bp-themes/bp-default/functions.php:223
-msgid "Show all"
+msgid "Show all comments for this thread"
 msgstr ""
 
 #: bp-themes/bp-default/functions.php:224
+msgid "Show all"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:225
 msgid "comments"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:226
+#: bp-themes/bp-default/functions.php:227
 #, php-format
 msgid ""
 "%s is a unique identifier for %s that you can type into any message on this "
@@ -8926,17 +8925,23 @@ msgstr ""
 msgid "Account Activated"
 msgstr ""
 
-#: bp-themes/bp-default/registration/activate.php:20
+#: bp-themes/bp-default/registration/activate.php:21
+msgid ""
+"Your account was activated successfully! Your account details have been sent "
+"to you in a separate email."
+msgstr ""
+
+#: bp-themes/bp-default/registration/activate.php:23
 msgid ""
 "Your account was activated successfully! You can now log in with the "
 "username and password you provided when you signed up."
 msgstr ""
 
-#: bp-themes/bp-default/registration/activate.php:29
+#: bp-themes/bp-default/registration/activate.php:32
 msgid "Please provide a valid activation key."
 msgstr ""
 
-#: bp-themes/bp-default/registration/activate.php:33
+#: bp-themes/bp-default/registration/activate.php:36
 msgid "Activation Key:"
 msgstr ""
 
@@ -9042,7 +9047,7 @@ msgstr ""
 msgid "Remember Me"
 msgstr ""
 
-#: bp-themes/bp-default/sidebar.php:64
+#: bp-themes/bp-default/sidebar.php:62
 msgid "Forum Topic Tags"
 msgstr ""
 
