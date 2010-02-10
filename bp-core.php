@@ -238,7 +238,7 @@ function bp_core_install() {
 				KEY is_new (is_new),
 				KEY component_name (component_name),
 		 	   	KEY component_action (component_action),
-				KEY useritem (user_id, is_new)
+				KEY useritem (user_id,is_new)
 			   ) {$charset_collate};";
 
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
