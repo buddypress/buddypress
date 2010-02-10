@@ -2088,6 +2088,12 @@ function bp_setup_nav() {
 }
 add_action( 'plugins_loaded', 'bp_setup_nav' );
 
+/* Allow core components and dependent plugins to register widgets */
+function bp_setup_widgets() {
+	do_action( 'bp_register_widgets' );
+}
+add_action( 'plugins_loaded', 'bp_setup_widgets' );
+
 
 /********************************************************************************
  * Caching
