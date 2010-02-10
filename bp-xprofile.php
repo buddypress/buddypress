@@ -124,7 +124,7 @@ function xprofile_setup_globals() {
 
 	do_action( 'xprofile_setup_globals' );
 }
-add_action( 'plugins_loaded', 'xprofile_setup_globals', 5 );
+add_action( 'bp_setup_globals', 'xprofile_setup_globals' );
 add_action( 'admin_menu', 'xprofile_setup_globals', 2 );
 
 /**
@@ -194,7 +194,7 @@ function xprofile_setup_nav() {
 
 	do_action( 'xprofile_setup_nav' );
 }
-add_action( 'plugins_loaded', 'xprofile_setup_nav' );
+add_action( 'bp_setup_nav', 'xprofile_setup_nav' );
 add_action( 'admin_menu', 'xprofile_setup_nav' );
 
 
@@ -464,7 +464,7 @@ function xprofile_register_activity_actions() {
 
 	do_action( 'xprofile_register_activity_actions' );
 }
-add_action( 'plugins_loaded', 'xprofile_register_activity_actions' );
+add_action( 'bp_register_activity_actions', 'xprofile_register_activity_actions' );
 
 /**
  * xprofile_record_activity()
@@ -950,6 +950,14 @@ function xprofile_remove_data( $user_id ) {
 }
 add_action( 'wpmu_delete_user', 'xprofile_remove_data', 1 );
 add_action( 'delete_user', 'xprofile_remove_data', 1 );
+
+
+/********************************************************************************
+ * Caching
+ *
+ * Caching functions handle the clearing of cached objects and pages on specific
+ * actions throughout BuddyPress.
+ */
 
 function xprofile_clear_profile_groups_object_cache( $group_obj ) {
 	wp_cache_delete( 'xprofile_groups', 'bp' );

@@ -82,7 +82,7 @@ function messages_setup_globals() {
 
 	do_action( 'messages_setup_globals' );
 }
-add_action( 'plugins_loaded', 'messages_setup_globals', 5 );
+add_action( 'bp_setup_globals', 'messages_setup_globals' );
 add_action( 'admin_menu', 'messages_setup_globals', 2 );
 
 function messages_check_installed() {
@@ -129,7 +129,7 @@ function messages_setup_nav() {
 
 	do_action( 'messages_setup_nav' );
 }
-add_action( 'plugins_loaded', 'messages_setup_nav' );
+add_action( 'bp_setup_nav', 'messages_setup_nav' );
 add_action( 'admin_menu', 'messages_setup_nav' );
 
 
@@ -590,6 +590,13 @@ function messages_filter_template_paths() {
 }
 add_action( 'init', 'messages_filter_template_paths' );
 
+
+/********************************************************************************
+ * Caching
+ *
+ * Caching functions handle the clearing of cached objects and pages on specific
+ * actions throughout BuddyPress.
+ */
 
 // List actions to clear super cached pages on, if super cache is installed
 add_action( 'messages_delete_thread', 'bp_core_clear_cache' );

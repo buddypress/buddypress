@@ -83,7 +83,7 @@ function bp_activity_setup_globals() {
 
 	do_action( 'bp_activity_setup_globals' );
 }
-add_action( 'plugins_loaded', 'bp_activity_setup_globals', 5 );
+add_action( 'bp_setup_globals', 'bp_activity_setup_globals' );
 add_action( 'admin_menu', 'bp_activity_setup_globals', 2 );
 
 function bp_activity_check_installed() {
@@ -98,7 +98,7 @@ function bp_activity_setup_root_component() {
 	/* Register 'activity' as a root component (for RSS feed use) */
 	bp_core_add_root_component( BP_ACTIVITY_SLUG );
 }
-add_action( 'plugins_loaded', 'bp_activity_setup_root_component', 2 );
+add_action( 'bp_setup_root_components', 'bp_activity_setup_root_component' );
 
 function bp_activity_setup_nav() {
 	global $bp;
@@ -133,7 +133,7 @@ function bp_activity_setup_nav() {
 
 	do_action( 'bp_activity_setup_nav' );
 }
-add_action( 'plugins_loaded', 'bp_activity_setup_nav' );
+add_action( 'bp_setup_nav', 'bp_activity_setup_nav' );
 add_action( 'admin_menu', 'bp_activity_setup_nav' );
 
 function bp_activity_directory_activity_setup() {
@@ -1090,5 +1090,20 @@ function bp_activity_remove_data( $user_id ) {
 add_action( 'wpmu_delete_user', 'bp_activity_remove_data' );
 add_action( 'delete_user', 'bp_activity_remove_data' );
 add_action( 'make_spam_user', 'bp_activity_remove_data' );
+
+
+/********************************************************************************
+ * Custom Actions
+ *
+ * Functions to set up custom BuddyPress actions that all other components can
+ * hook in to.
+ */
+
+/* Allow core components and dependent plugins to register activity actions */
+function bp_register_activity_actions() {
+	do_action( 'bp_register_activity_actions' );
+}
+add_action( 'plugins_loaded', 'bp_register_activity_actions' );
+
 
 ?>

@@ -96,14 +96,14 @@ function groups_setup_globals() {
 
 	do_action( 'groups_setup_globals' );
 }
-add_action( 'plugins_loaded', 'groups_setup_globals', 5 );
+add_action( 'bp_setup_globals', 'groups_setup_globals' );
 add_action( 'admin_menu', 'groups_setup_globals', 2 );
 
 function groups_setup_root_component() {
 	/* Register 'groups' as a root component */
 	bp_core_add_root_component( BP_GROUPS_SLUG );
 }
-add_action( 'plugins_loaded', 'groups_setup_root_component', 2 );
+add_action( 'bp_setup_root_components', 'groups_setup_root_component' );
 
 function groups_check_installed() {
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
@@ -216,7 +216,7 @@ function groups_setup_nav() {
 
 	do_action( 'groups_setup_nav', $bp->groups->current_group->user_has_access );
 }
-add_action( 'plugins_loaded', 'groups_setup_nav' );
+add_action( 'bp_setup_nav', 'groups_setup_nav' );
 add_action( 'admin_menu', 'groups_setup_nav' );
 
 function groups_directory_groups_setup() {
@@ -1266,7 +1266,7 @@ function groups_register_activity_actions() {
 
 	do_action( 'groups_register_activity_actions' );
 }
-add_action( 'plugins_loaded', 'groups_register_activity_actions' );
+add_action( 'bp_register_activity_actions', 'groups_register_activity_actions' );
 
 function groups_record_activity( $args = '' ) {
 	global $bp;
@@ -2554,6 +2554,14 @@ function groups_remove_data_for_user( $user_id ) {
 add_action( 'wpmu_delete_user', 'groups_remove_data_for_user', 1 );
 add_action( 'delete_user', 'groups_remove_data_for_user', 1 );
 add_action( 'make_spam_user', 'groups_remove_data_for_user', 1 );
+
+
+/********************************************************************************
+ * Caching
+ *
+ * Caching functions handle the clearing of cached objects and pages on specific
+ * actions throughout BuddyPress.
+ */
 
 function groups_clear_group_object_cache( $group_id ) {
 	wp_cache_delete( 'groups_group_nouserdata_' . $group_id, 'bp' );

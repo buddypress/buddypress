@@ -28,7 +28,7 @@ function bp_forums_setup() {
 
 	do_action( 'bp_forums_setup' );
 }
-add_action( 'plugins_loaded', 'bp_forums_setup', 5 );
+add_action( 'bp_setup_globals', 'bp_forums_setup' );
 add_action( 'admin_head', 'bp_forums_setup', 2 );
 
 function bp_forums_is_installed_correctly() {
@@ -44,7 +44,7 @@ function bp_forums_setup_root_component() {
 	/* Register 'forums' as a root component */
 	bp_core_add_root_component( BP_FORUMS_SLUG );
 }
-add_action( 'plugins_loaded', 'bp_forums_setup_root_component', 2 );
+add_action( 'bp_setup_root_components', 'bp_forums_setup_root_component' );
 
 function bp_forums_directory_forums_setup() {
 	global $bp;
@@ -498,10 +498,6 @@ function bp_forums_get_forum_topicpost_count( $forum_id ) {
 	return $wpdb->get_results( $wpdb->prepare( "SELECT topics, posts from {$bbdb->forums} WHERE forum_id = %d", $forum_id ) );
 }
 
-// List actions to clear super cached pages on, if super cache is installed
-add_action( 'bp_forums_new_forum', 'bp_core_clear_cache' );
-add_action( 'bp_forums_new_topic', 'bp_core_clear_cache' );
-add_action( 'bp_forums_new_post', 'bp_core_clear_cache' );
 
 function bp_forums_filter_caps( $allcaps ) {
 	global $bp, $wp_roles, $bb_table_prefix;
@@ -534,5 +530,18 @@ function bp_forums_filter_template_paths() {
 	add_filter( 'bp_forums_template_directory_forums_setup', create_function( '', 'return "directories/forums/index";' ) );
 }
 add_action( 'init', 'bp_forums_filter_template_paths' );
+
+
+/********************************************************************************
+ * Caching
+ *
+ * Caching functions handle the clearing of cached objects and pages on specific
+ * actions throughout BuddyPress.
+ */
+
+// List actions to clear super cached pages on, if super cache is installed
+add_action( 'bp_forums_new_forum', 'bp_core_clear_cache' );
+add_action( 'bp_forums_new_topic', 'bp_core_clear_cache' );
+add_action( 'bp_forums_new_post', 'bp_core_clear_cache' );
 
 ?>

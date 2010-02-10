@@ -47,7 +47,7 @@ function friends_setup_globals() {
 
 	do_action( 'friends_setup_globals' );
 }
-add_action( 'plugins_loaded', 'friends_setup_globals', 5 );
+add_action( 'bp_setup_globals', 'friends_setup_globals' );
 add_action( 'admin_menu', 'friends_setup_globals', 2 );
 
 function friends_check_installed() {
@@ -302,7 +302,7 @@ function friends_register_activity_actions() {
 
 	do_action( 'friends_register_activity_actions' );
 }
-add_action( 'plugins_loaded', 'friends_register_activity_actions' );
+add_action( 'bp_register_activity_actions', 'friends_register_activity_actions' );
 
 function friends_format_notifications( $action, $item_id, $secondary_item_id, $total_items ) {
 	global $bp;
@@ -624,6 +624,14 @@ function friends_remove_data( $user_id ) {
 add_action( 'wpmu_delete_user', 'friends_remove_data', 1 );
 add_action( 'delete_user', 'friends_remove_data', 1 );
 add_action( 'make_spam_user', 'friends_remove_data', 1 );
+
+
+/********************************************************************************
+ * Caching
+ *
+ * Caching functions handle the clearing of cached objects and pages on specific
+ * actions throughout BuddyPress.
+ */
 
 function friends_clear_friend_object_cache( $friendship_id ) {
 	if ( !$friendship = new BP_Friends_Friendship( $friendship_id ) )

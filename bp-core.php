@@ -181,7 +181,7 @@ function bp_core_setup_globals() {
 
 	do_action( 'bp_core_setup_globals' );
 }
-add_action( 'plugins_loaded', 'bp_core_setup_globals', 5 );
+add_action( 'bp_setup_globals', 'bp_core_setup_globals' );
 add_action( '_admin_menu', 'bp_core_setup_globals', 2 ); // must be _admin_menu hook.
 
 
@@ -377,7 +377,7 @@ function bp_core_setup_nav() {
 		}
 	}
 }
-add_action( 'plugins_loaded', 'bp_core_setup_nav' );
+add_action( 'bp_setup_nav', 'bp_core_setup_nav' );
 add_action( 'admin_menu', 'bp_core_setup_nav' );
 
 
@@ -2061,6 +2061,40 @@ function bp_core_login_redirect( $redirect_to ) {
 	return $bp->root_domain;
 }
 add_filter( 'login_redirect', 'bp_core_login_redirect' );
+
+
+/********************************************************************************
+ * Custom Actions
+ *
+ * Functions to set up custom BuddyPress actions that all other components can
+ * hook in to.
+ */
+
+/* Allow core components and dependent plugins to set globals */
+function bp_setup_globals() {
+	do_action( 'bp_setup_globals' );
+}
+add_action( 'plugins_loaded', 'bp_setup_globals', 5 );
+
+/* Allow core components and dependent plugins to set root components */
+function bp_setup_root_components() {
+	do_action( 'bp_setup_root_components' );
+}
+add_action( 'plugins_loaded', 'bp_setup_root_components', 2 );
+
+/* Allow core components and dependent plugins to set their nav */
+function bp_setup_nav() {
+	do_action( 'bp_setup_nav' );
+}
+add_action( 'plugins_loaded', 'bp_setup_nav' );
+
+
+/********************************************************************************
+ * Caching
+ *
+ * Caching functions handle the clearing of cached objects and pages on specific
+ * actions throughout BuddyPress.
+ */
 
 /**
  * bp_core_clear_user_object_cache()

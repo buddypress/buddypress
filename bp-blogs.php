@@ -100,14 +100,14 @@ function bp_blogs_setup_globals() {
 
 	do_action( 'bp_blogs_setup_globals' );
 }
-add_action( 'plugins_loaded', 'bp_blogs_setup_globals', 5 );
+add_action( 'bp_setup_globals', 'bp_blogs_setup_globals' );
 add_action( 'admin_menu', 'bp_blogs_setup_globals', 2 );
 
 function bp_blogs_setup_root_component() {
 	/* Register 'blogs' as a root component */
 	bp_core_add_root_component( BP_BLOGS_SLUG );
 }
-add_action( 'plugins_loaded', 'bp_blogs_setup_root_component', 2 );
+add_action( 'bp_setup_root_components', 'bp_blogs_setup_root_component' );
 
 /**
  * bp_blogs_setup_nav()
@@ -151,7 +151,7 @@ function bp_blogs_setup_nav() {
 
 	do_action( 'bp_blogs_setup_nav' );
 }
-add_action( 'plugins_loaded', 'bp_blogs_setup_nav' );
+add_action( 'bp_setup_nav', 'bp_blogs_setup_nav' );
 add_action( 'admin_menu', 'bp_blogs_setup_nav' );
 
 function bp_blogs_directory_blogs_setup() {
@@ -230,7 +230,7 @@ function bp_blogs_register_activity_actions() {
 
 	do_action( 'bp_blogs_register_activity_actions' );
 }
-add_action( 'plugins_loaded', 'bp_blogs_register_activity_actions' );
+add_action( 'bp_register_activity_actions', 'bp_blogs_register_activity_actions' );
 
 function bp_blogs_record_activity( $args = '' ) {
 	global $bp;
@@ -827,6 +827,14 @@ function bp_blogs_remove_data( $user_id ) {
 }
 add_action( 'wpmu_delete_user', 'bp_blogs_remove_data', 1 );
 add_action( 'delete_user', 'bp_blogs_remove_data', 1 );
+
+
+/********************************************************************************
+ * Caching
+ *
+ * Caching functions handle the clearing of cached objects and pages on specific
+ * actions throughout BuddyPress.
+ */
 
 function bp_blogs_clear_blog_object_cache( $blog_id, $user_id ) {
 	wp_cache_delete( 'bp_blogs_of_user_' . $user_id, 'bp' );

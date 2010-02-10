@@ -4,7 +4,7 @@
 function groups_register_widgets() {
 	add_action('widgets_init', create_function('', 'return register_widget("BP_Groups_Widget");') );
 }
-add_action( 'plugins_loaded', 'groups_register_widgets' );
+add_action( 'bp_register_widgets', 'groups_register_widgets' );
 
 /*** GROUPS WIDGET *****************/
 

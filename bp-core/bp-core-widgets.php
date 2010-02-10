@@ -7,7 +7,7 @@ function bp_core_register_widgets() {
 	add_action('widgets_init', create_function('', 'return register_widget("BP_Core_Whos_Online_Widget");') );
 	add_action('widgets_init', create_function('', 'return register_widget("BP_Core_Recently_Active_Widget");') );
 }
-add_action( 'plugins_loaded', 'bp_core_register_widgets' );
+add_action( 'bp_register_widgets', 'bp_core_register_widgets' );
 
 /*** WELCOME WIDGET *****************/
 
