@@ -1527,7 +1527,7 @@ function bp_core_get_site_path() {
 			unset( $site_path[1] );
 			unset( $site_path[2] );
 
-			$site_path = implode( '/', $site_path );
+			$site_path = '/' . implode( '/', $site_path ) . '/';
 		}
 	}
 
