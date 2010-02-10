@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-02-09 14:11+0000\n"
+"POT-Creation-Date: 2010-02-10 14:11+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1272,7 +1272,7 @@ msgstr ""
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:65
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:66
 #: bp-forums/bbpress/bb-templates/kakumei/front-page.php:48
-#: bp-forums/bp-forums-admin.php:159 bp-themes/bp-default/header.php:69
+#: bp-forums/bp-forums-admin.php:159 bp-themes/bp-default/header.php:68
 msgid "Forums"
 msgstr ""
 
@@ -6869,7 +6869,7 @@ msgstr ""
 msgid "Group invite accepted"
 msgstr ""
 
-#: bp-groups.php:301 bp-groups.php:1680 bp-groups.php:2356
+#: bp-groups.php:301 bp-groups.php:1680 bp-groups.php:2360
 #, php-format
 msgid "%s joined the group %s"
 msgstr ""
