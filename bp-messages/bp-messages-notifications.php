@@ -6,12 +6,12 @@ function messages_notification_new_message( $args ) {
 
 	$sender_name = bp_core_get_user_displayname( $sender_id );
 
-	for ( $i = 0; $i < count($recipients); $i++ ) {
-		if ( $sender_id == $recipients[$i]->user_id || 'no' == get_usermeta( $recipients[$i]->user_id, 'notification_messages_new_message' ) ) continue;
+	foreach( $recipients as $recipient ) {
+		if ( $sender_id == $recipient->user_id || 'no' == get_usermeta( $recipient->user_id, 'notification_messages_new_message' ) ) continue;
 
-		$ud = get_userdata( $recipients[$i]->user_id );
-		$message_link = bp_core_get_user_domain( $recipients[$i]->user_id ) . 'messages/view/' . $message_id;
-		$settings_link = bp_core_get_user_domain( $recipients[$i]->user_id ) . 'settings/notifications';
+		$ud = get_userdata( $recipient->user_id );
+		$message_link = bp_core_get_user_domain( $recipient->user_id ) . BP_MESSAGES_SLUG .'/';
+		$settings_link = bp_core_get_user_domain( $recipient->user_id ) . 'settings/notifications/';
 
 		// Set up and send the message
 		$to = $ud->user_email;
@@ -24,7 +24,7 @@ Subject: %s
 
 "%s"
 
-To view the message: %s
+To view and read your messages please log in and visit: %s
 
 ---------------------
 ', 'buddypress' ), $sender_name, stripslashes( wp_filter_kses( $subject ) ), stripslashes( wp_filter_kses( $content ) ), $message_link );
