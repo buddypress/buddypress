@@ -44,7 +44,7 @@
 			<h1 id="logo"><a href="<?php echo site_url() ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php bp_site_name() ?></a></h1>
 
 			<ul id="nav">
-				<li<?php if ( is_front_page() || !bp_current_component() ) : ?> class="selected"<?php endif; ?>>
+				<li<?php if ( bp_is_front_page() ) : ?> class="selected"<?php endif; ?>>
 					<a href="<?php echo site_url() ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a>
 				</li>
 

@@ -941,18 +941,6 @@ function bp_styles() {
 	wp_print_styles();
 }
 
-function bp_is_page($page) {
-	global $bp;
-
-	if ( !$bp->displayed_user->id && $bp->current_component == $page )
-		return true;
-
-	if ( 'home' == $page && !$bp->current_component )
-		return true;
-
-	return false;
-}
-
 function bp_has_custom_signup_page() {
 	if ( locate_template( array( 'register.php' ), false ) || locate_template( array( '/registration/register.php' ), false ) )
 		return true;
@@ -1390,6 +1378,31 @@ function bp_root_domain() {
 
 /* Template is_() functions to determine the current page */
 
+function bp_is_front_page() {
+	if ( 'posts' == get_option('show_on_front') && is_home() )
+		return true;
+	else if ( bp_is_activity_front_page() )
+		return true;
+	else
+		return is_front_page();
+}
+
+function bp_is_activity_front_page() {
+	return ( 'page' == get_option('show_on_front') && 'activity' == get_option('page_on_front') && $_SERVER['REQUEST_URI'] == bp_core_get_site_path() );
+}
+
+function bp_is_page($page) {
+	global $bp;
+
+	if ( !$bp->displayed_user->id && $bp->current_component == $page )
+		return true;
+
+	if ( 'home' == $page )
+		return bp_is_front_page();
+
+	return false;
+}
+
 function bp_is_active( $component ) {
 	global $bp_deactivated;
 
@@ -1779,14 +1792,8 @@ function bp_the_body_class() {
 	function bp_get_the_body_class( $wp_classes, $custom_classes = false ) {
 		global $bp;
 
-		if ( is_front_page() && $bp->current_component != BP_HOME_BLOG_SLUG )
+		if ( bp_is_front_page() )
 			$bp_classes[] = 'home-page';
-
-		if ( ( bp_is_blog_page() || bp_is_register_page() || bp_is_activation_page() ) && !is_page() )
-			$bp_classes[] = 'blog-page';
-
-		if ( !bp_is_blog_page() && !bp_is_register_page() && !bp_is_activation_page() )
-			$bp_classes[] = 'internal-page';
 
 		if ( bp_is_directory() )
 			$bp_classes[] = 'directory';
@@ -1794,7 +1801,7 @@ function bp_the_body_class() {
 		if ( bp_is_user_profile() && !bp_is_blog_page() )
 			$bp_classes[] = 'profile';
 
-		if ( bp_is_activity_component() && !bp_is_blog_page()  )
+		if ( bp_is_activity_component() && !bp_is_blog_page() || ( bp_is_activity_front_page() && bp_is_front_page() ) )
 			$bp_classes[] = 'activity';
 
 		if ( bp_is_blogs_component() && !bp_is_blog_page()  )
@@ -1884,7 +1891,7 @@ function bp_the_body_class() {
 		if ( bp_is_user_friends_activity() )
 			$bp_classes[] = 'friends-activity';
 
-		if ( bp_is_user_activity() )
+		if ( bp_is_user_activity() && !bp_is_directory() )
 			$bp_classes[] = 'my-activity';
 
 		if ( bp_is_activity_permalink() )

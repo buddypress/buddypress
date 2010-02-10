@@ -1262,9 +1262,6 @@ div.activity-comments {
 	width: auto;
 	overflow: hidden; /* IE fix */
 }
-	body.internal-page div.activity-comments {
-		width: auto;
-	}
 
 	body.activity-permalink div.activity-comments {
 		width: auto;

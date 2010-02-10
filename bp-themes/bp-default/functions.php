@@ -236,22 +236,4 @@ if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" ) {
 	add_action( 'admin_notices', 'bp_dtheme_show_notice' );
 }
 
-/* Adjust home page body class if activity stream is home */
-function bp_dtheme_body_class_home( $classes, $bp_classes, $wp_classes, $custom_classes ) {
-	if ( !is_home() )
-		return apply_filters( 'bp_dtheme_body_class_home', $classes, $bp_classes, $wp_classes, $custom_classes );
-
-	if ( bp_is_active( 'activity' ) ) {
-		if ( 'activity' == bp_dtheme_page_on_front() ) {
-			$blog = array_keys( $classes, 'blog-page' );
-			$classes[$blog[0]] = 'activity';
-			$classes[] = 'directory';
-			$classes[] = 'internal-page';
-			$classes[] = 'my-activity';
-		}
-	}
-	return apply_filters( 'bp_dtheme_body_class_home', $classes, $bp_classes, $wp_classes, $custom_classes );
-}
-add_filter( 'bp_get_the_body_class', 'bp_dtheme_body_class_home', 10, 4 );
-
 ?>
