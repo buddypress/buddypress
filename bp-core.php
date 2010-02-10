@@ -2052,7 +2052,7 @@ add_filter( 'comments_array', 'bp_core_filter_comments', 10, 2 );
 function bp_core_login_redirect( $redirect_to ) {
 	global $bp;
 
-	if ( strpos( $redirect_to, 'wp-admin' ) )
+	if ( !empty( $_REQUEST['redirect_to'] ) && strpos( $_REQUEST['redirect_to'], 'wp-admin' ) )
 		return $redirect_to;
 
 	if ( false === strpos( wp_get_referer(), 'wp-login.php' ) && false === strpos( wp_get_referer(), 'activate' ) && empty( $_REQUEST['nr'] ) )
