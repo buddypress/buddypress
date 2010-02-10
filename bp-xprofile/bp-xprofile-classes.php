@@ -114,7 +114,7 @@ Class BP_XProfile_Group {
 			return $groups;
 
 		/* Fetch the fields */
-		$fields = $wpdb->get_results( $wpdb->prepare( "SELECT id, name, type, group_id, is_required FROM {$bp->profile->table_name_fields} WHERE group_id IN ( {$group_ids} ) AND parent_id = 0 ORDER BY field_order" ) );
+		$fields = $wpdb->get_results( $wpdb->prepare( "SELECT id, name, description, type, group_id, is_required FROM {$bp->profile->table_name_fields} WHERE group_id IN ( {$group_ids} ) AND parent_id = 0 ORDER BY field_order" ) );
 
 		if ( empty( $fields ) )
 			return $groups;
