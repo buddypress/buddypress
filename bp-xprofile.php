@@ -298,6 +298,8 @@ function xprofile_screen_edit_profile() {
 		/* Explode the posted field IDs into an array so we know which fields have been submitted */
 		$posted_field_ids = explode( ',', $_POST['field_ids'] );
 
+		$is_required = array();
+
 		/* Loop through the posted fields formatting any datebox values then validate the field */
 		foreach ( (array)$posted_field_ids as $field_id ) {
 			if ( !isset( $_POST['field_' . $field_id] ) ) {
@@ -314,7 +316,8 @@ function xprofile_screen_edit_profile() {
 
 			}
 
-			if ( xprofile_check_is_required_field( $field_id ) && empty( $_POST['field_' . $field_id] ) )
+			$is_required[$field_id] = xprofile_check_is_required_field( $field_id );
+			if ( $is_required[$field_id] && empty( $_POST['field_' . $field_id] ) )
 				$errors = true;
 		}
 
@@ -326,7 +329,7 @@ function xprofile_screen_edit_profile() {
 
 			/* Now we've checked for required fields, lets save the values. */
 			foreach ( (array)$posted_field_ids as $field_id ) {
-				if ( !xprofile_set_field_data( $field_id, $bp->displayed_user->id, $_POST['field_' . $field_id] ) )
+				if ( !xprofile_set_field_data( $field_id, $bp->displayed_user->id, $_POST['field_' . $field_id], $is_required[$field_id] ) )
 					$errors = true;
 				else
 					do_action( 'xprofile_profile_field_data_updated', $field_id, $_POST['field_' . $field_id] );
@@ -709,7 +712,7 @@ function xprofile_get_field_data( $field, $user_id = null ) {
  * @uses xprofile_get_field_id_from_name() Gets the ID for the field based on the name.
  * @return true on success, false on failure.
  */
-function xprofile_set_field_data( $field, $user_id, $value ) {
+function xprofile_set_field_data( $field, $user_id, $value, $is_required = false ) {
 	if ( is_numeric( $field ) )
 		$field_id = $field;
 	else
@@ -718,7 +721,7 @@ function xprofile_set_field_data( $field, $user_id, $value ) {
 	if ( !$field_id )
 		return false;
 
-	if ( empty( $value ) || !strlen( trim( $value ) ) )
+	if ( $is_required && ( empty( $value ) || !strlen( trim( $value ) ) ) )
 		return false;
 
 	$field = new BP_XProfile_ProfileData();
