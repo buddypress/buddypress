@@ -28,7 +28,7 @@ function bp_dtheme_firstname( $name = false, $echo = false ) {
 		$name = $bp->loggedin_user->fullname;
 
 	$fullname = (array)explode( ' ', $name );
-	$firstname = apply_filters( 'bp_dtheme_firstname', $firstname, $fullname );
+	$firstname = apply_filters( 'bp_dtheme_firstname', $fullname[0], $fullname );
 
 	if ( $echo )
 		echo $firstname;
