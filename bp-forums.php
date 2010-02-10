@@ -164,7 +164,7 @@ function bp_forums_get_forum_topics( $args = '' ) {
 			$topics =& $query->results;
 		break;
 
-		case 'tag':
+		case 'tags':
 			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'tag' => $filter, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_time', 'sticky' => $show_stickies ) );
 			$topics =& $query->results;
 		break;

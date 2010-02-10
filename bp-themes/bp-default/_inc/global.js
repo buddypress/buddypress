@@ -596,7 +596,7 @@ j(document).ready( function() {
 
 	/* Clicking a forum tag */
 	j('div#forum-directory-tags a').click( function() {
-		bp_filter_request( 'forums', 'tags', j.cookie('bp-forums-scope'), 'div.forums', j(this).html(), 1, j.cookie('bp-forums-extras') );
+		bp_filter_request( 'forums', 'tags', j.cookie('bp-forums-scope'), 'div.forums', j(this).html().replace( /&nbsp;/g, '-' ), 1, j.cookie('bp-forums-extras') );
 		return false;
 	});
 

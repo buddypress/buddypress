@@ -49,7 +49,7 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 	<li id="comment-<?php comment_ID(); ?>">
 		<div class="comment-avatar-box">
 			<div class="avb">
-				<a href="<?php echo get_comment_author_url() ?>">
+				<a href="<?php echo get_comment_author_url() ?>" rel="nofollow">
 					<?php if ( $comment->user_id ) : ?>
 						<?php echo bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'width' => 50, 'height' => 50, 'email' => $comment->comment_author_email ) ); ?>
 					<?php else : ?>
@@ -62,7 +62,7 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 		<div class="comment-content">
 
 			<div class="comment-meta">
-				<a href="<?php echo get_comment_author_url() ?>"><?php echo get_comment_author(); ?></a> <?php _e( 'said:', 'buddypress' ) ?>
+				<a href="<?php echo get_comment_author_url() ?>" rel="nofollow"><?php echo get_comment_author(); ?></a> <?php _e( 'said:', 'buddypress' ) ?>
 				<em><?php _e( 'On', 'buddypress' ) ?> <a href="#comment-<?php comment_ID() ?>" title=""><?php comment_date() ?></a></em>
 			</div>
 

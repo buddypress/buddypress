@@ -39,8 +39,8 @@ class BP_Forums_Template_Forum {
 				$this->topics = bp_forums_get_forum_topics( array( 'user_id' => $user_id, 'type' => 'unreplied', 'filter' => $search_terms, 'forum_id' => $forum_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $no_stickies ) );
 				break;
 
-			case 'tag':
-				$this->topics = bp_forums_get_forum_topics( array( 'user_id' => $user_id, 'type' => 'tag', 'filter' => $search_terms, 'forum_id' => $forum_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $no_stickies ) );
+			case 'tags':
+				$this->topics = bp_forums_get_forum_topics( array( 'user_id' => $user_id, 'type' => 'tags', 'filter' => $search_terms, 'forum_id' => $forum_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $no_stickies ) );
 				break;
 		}
 
@@ -177,12 +177,6 @@ function bp_has_forum_topics( $args = '' ) {
 		$forum_id = $bp->groups->current_group->forum_id;
 	}
 
-	/* If we're viewing a tag in the directory, let's auto set the filter to the tag name */
-	if ( 'tag' == $bp->current_action && !empty( $bp->action_variables[0] ) ) {
-		$search_terms = $bp->action_variables[0];
-		$type = 'tags';
-	}
-
 	/* If $_GET['fs'] is set, let's auto populate the search_terms var */
 	if ( $bp->is_directory && !empty( $_GET['fs'] ) )
 		$search_terms = $_GET['fs'];
@@ -204,6 +198,12 @@ function bp_has_forum_topics( $args = '' ) {
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
+
+	/* If we're viewing a tag URL in the directory, let's override the type and set it to tags and the filter to the tag name */
+	if ( 'tag' == $bp->current_action && !empty( $bp->action_variables[0] ) ) {
+		$search_terms = $bp->action_variables[0];
+		$type = 'tags';
+	}
 
 	$forum_template = new BP_Forums_Template_Forum( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms );
 	return apply_filters( 'bp_has_topics', $forum_template->has_topics(), &$forum_template );
