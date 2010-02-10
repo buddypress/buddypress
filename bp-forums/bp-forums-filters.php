@@ -4,7 +4,7 @@
 add_filter( 'bp_forums_bbconfig_location', 'wp_filter_kses', 1 );
 add_filter( 'bp_forums_bbconfig_location', 'attribute_escape', 1 );
 
-add_filter( 'bp_get_the_topic_title', 'bp_forums_filter_kses', 1 );
+add_filter( 'bp_get_the_topic_title', 'wp_filter_kses', 1 );
 add_filter( 'bp_get_the_topic_latest_post_excerpt', 'bp_forums_filter_kses', 1 );
 add_filter( 'bp_get_the_topic_post_content', 'bp_forums_filter_kses', 1 );
 
@@ -34,7 +34,6 @@ add_filter( 'bp_get_the_topic_post_content', 'make_clickable' );
 add_filter( 'bp_get_forum_topic_count_for_user', 'bp_core_number_format' );
 add_filter( 'bp_get_forum_topic_count', 'bp_core_number_format' );
 
-add_filter( 'bp_get_the_topic_title', 'strip_tags' );
 
 function bp_forums_filter_kses( $content ) {
 	global $allowedtags;
