@@ -372,6 +372,7 @@ j(document).ready( function() {
 		if ( target.hasClass('acomment-delete') ) {
 			var link_href = target.attr('href');
 			var comment_li = target.parent().parent();
+			var form = comment_li.parents('div.activity-comments').children('form');
 
 			var nonce = link_href.split('_wpnonce=');
 				nonce = nonce[1];
@@ -385,8 +386,11 @@ j(document).ready( function() {
 			/* Remove any error messages */
 			j('div.activity-comments ul div.error').remove();
 
+			/* Reset the form position */
+			comment_li.parents('div.activity-comments').append(form);
+
 			j.post( ajaxurl, {
-				action: 'delete_activity',
+				action: 'delete_activity_comment',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': nonce,
 				'id': comment_id
@@ -397,17 +401,12 @@ j(document).ready( function() {
 				if ( response[0] + response[1] == '-1' ) {
 					comment_li.prepend( response.substr( 2, response.length ) ).hide().fadeIn( 200 );
 				} else {
-					comment_li.fadeOut( 200, function() {
-						var children = j( 'li#' + comment_li.attr('id') + ' ul:first' );
-
-						/* Fade in sub comments if any were found. */
-						if ( children.length )
-							comment_li.parent().append( children.html() ).hide().fadeIn( 200 );
-				 	});
+					var children = j( 'li#' + comment_li.attr('id') + ' ul' ).children('li');
+					comment_li.fadeOut(200);
 
 					/* Decrease the "Reply (X)" button count */
 					var parent_li = comment_li.parents('ul#activity-stream > li');
-					j('li#' + parent_li.attr('id') + ' a.acomment-reply span').html( j('li#' + parent_li.attr('id') + ' a.acomment-reply span').html() - 1 );
+					j('li#' + parent_li.attr('id') + ' a.acomment-reply span').html( j('li#' + parent_li.attr('id') + ' a.acomment-reply span').html() - ( 1 + children.length ) );
 				}
 			});
 

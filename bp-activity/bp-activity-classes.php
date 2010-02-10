@@ -38,6 +38,8 @@ Class BP_Activity_Activity {
 			$this->content = $row->content;
 			$this->date_recorded = $row->date_recorded;
 			$this->hide_sitewide = $row->hide_sitewide;
+			$this->mptt_left = $row->mptt_left;
+			$this->mptt_right = $row->mptt_right;
 		}
 	}
 
@@ -373,7 +375,7 @@ Class BP_Activity_Activity {
 		$right = $left + 1;
 
 		/* Get all descendants of this node */
-		$descendants = $wpdb->get_results( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE type = 'activity_comment' AND secondary_item_id = %d", $parent_id ) );
+		$descendants = BP_Activity_Activity::get_child_comments( $parent_id );
 
 		/* Loop the descendants and recalculate the left and right values */
 		foreach ( (array)$descendants as $descendant )
@@ -387,6 +389,12 @@ Class BP_Activity_Activity {
 
 		/* Return the right value of this node + 1 */
 		return $right + 1;
+	}
+
+	function get_child_comments( $parent_id ) {
+		global $bp, $wpdb;
+
+		return $wpdb->get_results( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE type = 'activity_comment' AND secondary_item_id = %d", $parent_id ) );
 	}
 
 	function get_recorded_components() {

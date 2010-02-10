@@ -225,8 +225,33 @@ function bp_dtheme_delete_activity() {
 
 	return true;
 }
-add_action( 'wp_ajax_delete_activity_comment', 'bp_dtheme_delete_activity' );
 add_action( 'wp_ajax_delete_activity', 'bp_dtheme_delete_activity' );
+
+function bp_dtheme_delete_activity_comment() {
+	global $bp;
+
+	/* Check the nonce */
+	check_admin_referer( 'bp_activity_delete_link' );
+
+	if ( !is_user_logged_in() ) {
+		echo '-1';
+		return false;
+	}
+
+	$comment = new BP_Activity_Activity( $_POST['id'] );
+
+	/* Check access */
+	if ( !is_site_admin() && $comment->user_id != $bp->loggedin_user->id )
+		return false;
+
+	if ( empty( $_POST['id'] ) || !is_numeric( $_POST['id'] ) || !bp_activity_delete_comment( $comment->item_id, $comment->id ) ) {
+		echo '-1<div id="message" class="error"><p>' . __( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>';
+		return false;
+	}
+
+	return true;
+}
+add_action( 'wp_ajax_delete_activity_comment', 'bp_dtheme_delete_activity_comment' );
 
 function bp_dtheme_mark_activity_favorite() {
 	global $bp;

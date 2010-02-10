@@ -686,6 +686,8 @@ function bp_activity_get_activity_id( $args = '' ) {
  *
  * The action passes one parameter that is a single activity ID or an
  * array of activity IDs depending on the number deleted.
+ *
+ * If you are deleting an activity comment please use bp_activity_delete_comment();
 */
 
 function bp_activity_delete( $args = '' ) {
@@ -753,6 +755,24 @@ function bp_activity_delete( $args = '' ) {
 		return bp_activity_delete( array( 'user_id' => $user_id, 'component' => $component ) );
 	}
 	/* End deprecation */
+
+function bp_activity_delete_comment( $activity_id, $comment_id ) {
+	/* Recursively delete all children of this comment. */
+	if ( $children = BP_Activity_Activity::get_child_comments( $comment_id ) ) {
+		foreach( (array)$children as $child )
+			bp_activity_delete_comment( $activity_id, $child->id );
+	}
+	bp_activity_delete( array( 'secondary_item_id' => $comment_id, 'type' => 'activity_comment', 'item_id' => $activity_id ) );
+
+	/* Delete the actual comment */
+	if ( !bp_activity_delete( array( 'id' => $comment_id, 'type' => 'activity_comment' ) ) )
+		return false;
+
+	/* Recalculate the comment tree */
+	BP_Activity_Activity::rebuild_activity_comment_tree( $activity_id );
+
+	return true;
+}
 
 function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
 	global $bp;
