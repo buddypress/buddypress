@@ -2164,6 +2164,8 @@ function groups_uninvite_user( $user_id, $group_id ) {
 }
 
 function groups_accept_invite( $user_id, $group_id ) {
+	global $bp;
+
 	if ( groups_is_user_member( $user_id, $group_id ) )
 		return false;
 
@@ -2176,6 +2178,8 @@ function groups_accept_invite( $user_id, $group_id ) {
 	/* Modify group meta */
 	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') + 1 );
 	groups_update_groupmeta( $group_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
+
+	bp_core_delete_notifications_for_user_by_item_id( $user_id, $group_id, $bp->groups->slug, 'group_invite' );
 
 	do_action( 'groups_accept_invite', $user_id, $group_id );
 	return true;
