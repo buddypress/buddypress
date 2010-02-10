@@ -1892,6 +1892,7 @@ function groups_post_update( $args = '' ) {
  	/* Require the notifications code so email notifications can be set on the 'bp_activity_posted_update' action. */
 	require_once( BP_PLUGIN_DIR . '/bp-groups/bp-groups-notifications.php' );
 
+	groups_update_groupmeta( $group_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
 	do_action( 'bp_groups_posted_update', $content, $user_id, $group_id, $activity_id );
 
 	return $activity_id;
