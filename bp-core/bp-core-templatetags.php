@@ -390,7 +390,6 @@ function bp_directory_members_search_form() {
 	<form action="" method="get" id="search-members-form">
 		<label><input type="text" name="s" id="members_search" value="<?php echo attribute_escape( $search_value ) ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
 		<input type="submit" id="members_search_submit" name="members_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
-		<?php wp_nonce_field( 'directory_members', '_wpnonce-member-filter' ) ?>
 	</form>
 <?php
 }
