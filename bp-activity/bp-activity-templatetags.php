@@ -438,7 +438,12 @@ function bp_activity_action() {
 	function bp_get_activity_action() {
 		global $activities_template;
 
-		return apply_filters( 'bp_get_activity_action', bp_activity_content_filter( $activities_template->activity->action, $activities_template->activity->date_recorded ), $activities_template->activity->component, $activities_template->activity->type );
+		$action = $activities_template->activity->action;
+
+		if ( !empty( $action ) )
+			$action = bp_insert_activity_meta( $action );
+
+		return apply_filters( 'bp_get_activity_action', $action, &$activities_template->activity );
 	}
 
 function bp_activity_content_body() {
@@ -447,10 +452,11 @@ function bp_activity_content_body() {
 	function bp_get_activity_content_body() {
 		global $activities_template;
 
-		if ( empty( $activities_template->activity->action ) )
-			$activities_template->activity->content = bp_activity_content_filter( $activities_template->activity->content, $activities_template->activity->date_recorded );
+		/* Backwards compatibility if action is not being used */
+		if ( empty( $activities_template->activity->action ) && !empty( $activities_template->activity->content ) )
+			$activities_template->activity->content = bp_insert_activity_meta( $activities_template->activity->content );
 
-		return apply_filters( 'bp_get_activity_content_body', $activities_template->activity->content );
+		return apply_filters( 'bp_get_activity_content_body', $activities_template->activity->content, &$activities_template->activity );
 	}
 
 function bp_activity_content() {
@@ -470,36 +476,24 @@ function bp_activity_content() {
 		return apply_filters( 'bp_get_activity_content', $content );
 	}
 
-function bp_activity_content_filter( $content, $date_recorded ) {
-	global $activities_template, $bp;
+	function bp_insert_activity_meta( $content ) {
+		global $activities_template;
 
-	if ( !$content )
-		return false;
+		/* Strip any legacy time since placeholders -- TODO: Remove this in 1.3 */
+		$content = str_replace( '<span class="time-since">%s</span>', '', $content );
 
-	/* Split the content so we don't evaluate and replace text on content we don't want to */
-	$content = explode( '%s', $content );
+		/* Insert the time since. */
+		$content .= ' ' . apply_filters( 'bp_activity_time_since', '<span class="time-since">' . sprintf( __( '&nbsp; %s ago', 'buddypress' ), bp_core_time_since( $activities_template->activity->date_recorded ) ) . '</span>', &$activities_template->activity );
 
-	/* Re-add the exploded %s */
-	$content[0] .= '%s';
+		/* Insert the permalink */
+		$content .= apply_filters( 'bp_activity_permalink', ' &middot; <a href="' . bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ) . '" class="view" title="' . __( 'View Thread / Permalink', 'buddypress' ) . '">' . __( 'View', 'buddypress' ) . '</a>', &$activities_template->activity );
 
-	/* Insert the time since */
-	$content[0] = bp_activity_insert_time_since( $content[0], $date_recorded );
+		/* Add the delete link if the user has permission on this item */
+		if ( ( $activities_template->activity->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin || is_site_admin() )
+			 $content .= apply_filters( 'bp_activity_delete_link', ' &middot; ' . bp_get_activity_delete_link(), &$activities_template->activity );
 
-	/* Add the permalink */
-	$meta = ' &middot; <a href="' . bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ) . '" class="view" title="' . __( 'View Thread / Permalink', 'buddypress' ) . '">' . __( 'View', 'buddypress' ) . '</a>';
-
-	/* Add the delete link if the user has permission on this item */
-	if ( ( $activities_template->activity->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin || is_site_admin() )
-		 $meta .= ' &middot; ' . bp_get_activity_delete_link();
-
-	$content[1] = $meta . '</span>' . $content[1];
-	$content_new = '';
-
-	for ( $i = 0; $i < count($content); $i++ )
-		$content_new .= $content[$i];
-
-	return apply_filters( 'bp_activity_content_filter', $content_new );
-}
+		return apply_filters( 'bp_insert_activity_meta', $content );
+	}
 
 function bp_activity_parent_content( $args = '' ) {
 	echo bp_get_activity_parent_content($args);
@@ -527,7 +521,7 @@ function bp_activity_parent_content( $args = '' ) {
 		else
 			$content = $activities_template->activity_parents[$parent_id]->action . $activities_template->activity_parents[$parent_id]->content;
 
-		/* Remove the time since content */
+		/* Remove the time since content for backwards compatibility */
 		$content = str_replace( '<span class="time-since">%s</span>', '', $content );
 
 		/* Remove images */
@@ -619,16 +613,6 @@ function bp_activity_comment_count() {
 
 			return $count;
 		}
-
-function bp_activity_insert_time_since( $content, $date ) {
-	if ( !$content || !$date )
-		return false;
-
-	// Make sure we don't have any URL encoding in links when trying to insert the time.
-	$content = urldecode($content);
-
-	return apply_filters( 'bp_activity_insert_time_since', @sprintf( $content, @sprintf( __( '&nbsp; %s ago', 'buddypress' ), bp_core_time_since( $date ) ) ) );
-}
 
 function bp_activity_permalink_id() {
 	echo bp_get_activity_permalink_id();
@@ -871,10 +855,8 @@ function bp_activity_feed_item_title() {
 		if ( ':' == substr( $title, -1 ) )
 			$title = substr( $title, 0, -1 );
 
-		if ( 'activity_update' == $activities_template->activity->type ) {
-			$content = explode( '<div class="activity-inner">', $activities_template->activity->content );
-			$title .= ': ' . strip_tags( bp_create_excerpt( $content[1], 15 ));
-		}
+		if ( 'activity_update' == $activities_template->activity->type )
+			$title .= ': ' . strip_tags( bp_create_excerpt( $activities_template->activity->content, 15 ) );
 
 		return apply_filters( 'bp_get_activity_feed_item_title', $title );
 	}

@@ -10,8 +10,14 @@
 	</div>
 
 	<div class="activity-content">
-		<?php /* You can also split this into bp_activity_action() and bp_activity_content_body() */ ?>
-		<?php bp_activity_content() ?>
+
+		<div class="activity-header">
+			<?php bp_activity_action() ?>
+		</div>
+
+		<div class="activity-inner">
+			<?php bp_activity_content_body() ?>
+		</div>
 
 		<?php do_action( 'bp_activity_entry_content' ) ?>
 

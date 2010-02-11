@@ -1889,7 +1889,7 @@ function groups_post_update( $args = '' ) {
 
 	/* Record this in activity streams */
 	$activity_action = sprintf( __( '%s posted an update in the group %s:', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
-	$activity_content = '<div class="activity-inner">' . $content . '</div>';
+	$activity_content = $content;
 
 	$activity_id = groups_record_activity( array(
 		'user_id' => $user_id,

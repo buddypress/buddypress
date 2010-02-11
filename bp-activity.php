@@ -537,12 +537,6 @@ function bp_activity_add( $args = '' ) {
 	if ( empty( $type ) && !empty( $component_action ) )
 		$type = $component_action;
 
-	/* Insert the "time-since" placeholder (use content if action empty for backwards compat) */
-	if ( !empty( $action ) )
-		$action = bp_activity_add_timesince_placeholder( $action );
-	else if ( empty( $action ) && !empty( $content ) )
-		$content = bp_activity_add_timesince_placeholder( $content );
-
 	$activity = new BP_Activity_Activity( $id );
 
 	$activity->user_id = $user_id;
@@ -586,7 +580,7 @@ function bp_activity_post_update( $args = '' ) {
 	/* Record this on the user's profile */
 	$from_user_link = bp_core_get_userlink( $user_id );
 	$activity_action = sprintf( __( '%s posted an update:', 'buddypress' ), $from_user_link );
-	$activity_content = '<div class="activity-inner">' . $content . '</div>';
+	$activity_content = $content;
 
 	$primary_link = bp_core_get_userlink( $user_id, false, true );
 
@@ -637,7 +631,7 @@ function bp_activity_new_comment( $args = '' ) {
 	/* Insert the activity comment */
 	$comment_id = bp_activity_add( array(
 		'action' => apply_filters( 'bp_activity_comment_action', sprintf( __( '%s posted a new activity comment:', 'buddypress' ), bp_core_get_userlink( $user_id ) ) ),
-		'content' => apply_filters( 'bp_activity_comment_content', '<div class="activity-inner">' . $content . '</div>' ),
+		'content' => apply_filters( 'bp_activity_comment_content', $content ),
 		'component' => $bp->activity->id,
 		'type' => 'activity_comment',
 		'user_id' => $user_id,
@@ -811,31 +805,6 @@ function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
 	return apply_filters( 'bp_activity_get_permalink', $link );
 }
 
-function bp_activity_add_timesince_placeholder( $content ) {
-	/* Check a time-since span doesn't already exist */
-	if ( false === strpos( $content, '<span class="time-since">' ) ) {
-		if ( !$pos = strpos( $content, '<blockquote' ) ) {
-			if ( !$pos = strpos( $content, '<div' ) ) {
-				if ( !$pos = strpos( $content, '<ul' ) ) {
-					$content .= ' <span class="time-since">%s</span>';
-				}
-			}
-		}
-	}
-
-	if ( (int) $pos ) {
-		$before = substr( $content, 0, (int) $pos );
-		$after = substr( $content, (int) $pos, strlen( $content ) );
-
-		/* Escape any existing % signs */
-		$before = str_replace( '%', '%%', $before );
-
-		$content = $before . ' <span class="time-since">%s</span>' . $after;
-	}
-
-	return apply_filters( 'bp_activity_add_timesince_placeholder', $content );
-}
-
 function bp_activity_hide_user_activity( $user_id ) {
 	return BP_Activity_Activity::hide_all_for_user( $user_id );
 }
@@ -966,9 +935,6 @@ function bp_activity_remove_user_favorite( $activity_id, $user_id = false ) {
 }
 
 function bp_activity_check_exists_by_content( $content ) {
-	/* Insert the "time-since" placeholder to match the existing content in the DB */
-	$content = bp_activity_add_timesince_placeholder( $content );
-
 	return apply_filters( 'bp_activity_check_exists_by_content', BP_Activity_Activity::check_exists_by_content( $content ) );
 }
 

@@ -1139,15 +1139,14 @@ ul.activity-list li {
 			margin-bottom: 0;
 		}
 
-	.activity-list .activity-content > p:first-child,
+	.activity-list .activity-content .activity-header,
 	.activity-list .activity-content .comment-header {
 		font-size: 11px;
 		color: #888;
 		line-height: 220%;
 	}
 
-	.activity-list .activity-content > p > a:first-child, span.highlight,
-	.activity-list .activity-content > .comment-header > a:first-child {
+	.activity-list .activity-header a:first-child, span.highlight {
 		background: #EBF7FF;
 		border-bottom: 1px solid #a1dcfa;
 		border-right: 1px solid #a1dcfa;
@@ -1159,8 +1158,7 @@ ul.activity-list li {
 		border-radius: 4px;
 		margin-right: 3px;
 	}
-		.activity-list .activity-content > p > a:first-child:hover,
-		.activity-list .activity-content >.comment-header > a:first-child:hover {
+		.activity-list .activity-header a:first-child:hover {
 			background: #059AE7 !important;
 			color: #fff !important;
 		}
@@ -1193,6 +1191,9 @@ ul.activity-list li {
 		body.activity-permalink .activity-content blockquote {
 			margin-top: 5px;
 		}
+
+		/* Backwards compatibility. */
+		.activity-inner > .activity-inner { margin: 0 !important; }
 
 	.activity-list .activity-content img.thumbnail {
 		float: left;

@@ -221,7 +221,7 @@ Class BP_Activity_Activity {
 			$where_args[] = $wpdb->prepare( "secondary_item_id = %s", $secondary_item_id );
 
 		if ( !empty( $action ) )
-			$where_args[] = $wpdb->prepare( "action = %s", bp_activity_add_timesince_placeholder( $action ) );
+			$where_args[] = $wpdb->prepare( "action = %s", $action );
 
 		if ( !empty( $content ) )
 			$where_args[] = $wpdb->prepare( "content = %s", $content );
@@ -262,7 +262,7 @@ Class BP_Activity_Activity {
 			$where_args[] = $wpdb->prepare( "user_id = %d", $user_id );
 
 		if ( !empty( $action ) )
-			$where_args[] = $wpdb->prepare( "action = %s", bp_activity_add_timesince_placeholder( $action ) );
+			$where_args[] = $wpdb->prepare( "action = %s", $action );
 
 		if ( !empty( $content ) )
 			$where_args[] = $wpdb->prepare( "content = %s", $content );
