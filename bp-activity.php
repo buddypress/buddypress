@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_ACTIVITY_DB_VERSION', '2050' );
+define ( 'BP_ACTIVITY_DB_VERSION', '2060' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_ACTIVITY_SLUG' ) )
@@ -49,6 +49,7 @@ function bp_activity_install() {
 				KEY date_recorded (date_recorded),
 				KEY user_id (user_id),
 				KEY item_id (item_id),
+				KEY secondary_item_id (secondary_item_id),
 				KEY component (component),
 				KEY type (type),
 				KEY mptt_left (mptt_left),
@@ -704,7 +705,7 @@ function bp_activity_delete( $args = '' ) {
 		'user_id' => false,
 		'item_id' => false,
 		'secondary_item_id' => false,
-		'recorded_time' => false,
+		'date_recorded' => false,
 		'hide_sitewide' => false
 	);
 
