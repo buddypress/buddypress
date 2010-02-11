@@ -97,9 +97,6 @@ Class BP_Activity_Activity {
 		/* Where conditions */
 		$where_conditions = array();
 
-		if ( $per_page && $page )
-			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
-
 		/* Searching */
 		if ( $search_terms ) {
 			$search_terms = $wpdb->escape( $search_terms );
@@ -125,9 +122,10 @@ Class BP_Activity_Activity {
 
 		$where_sql = 'WHERE ' . join( ' AND ', $where_conditions );
 
-		if ( $per_page && $page )
+		if ( $per_page && $page ) {
+			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
 			$activities = $wpdb->get_results( $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}" ) );
-		else
+		} else
 			$activities = $wpdb->get_results( $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}" ) );
 
 		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(a.id) FROM {$bp->activity->table_name} a {$where_sql} ORDER BY a.date_recorded {$sort}" ) );
@@ -439,19 +437,7 @@ Class BP_Activity_Activity {
 
 		if ( !empty( $filter_array['user_id'] ) ) {
 			$user_filter = explode( ',', $filter_array['user_id'] );
-			$user_sql = ' ( ';
-
-			$counter = 1;
-			foreach( (array) $user_filter as $user ) {
-				$user_sql .= $wpdb->prepare( "a.user_id = %d", trim( $user ) );
-
-				if ( $counter != count( $user_filter ) )
-					$user_sql .= ' || ';
-
-				$counter++;
-			}
-
-			$user_sql .= ' )';
+			$user_sql = ' ( a.user_id IN ( ' . $filter_array['user_id'] . ' ) )';
 			$filter_sql[] = $user_sql;
 		}
 
