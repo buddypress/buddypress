@@ -126,6 +126,15 @@ function bp_dtheme_page_on_front() {
 	return apply_filters( 'bp_dtheme_page_on_front', get_option( 'page_on_front' ) );
 }
 
+/* Force the page ID as a string to stop the get_posts query from kicking up a fuss. */
+function bp_dtheme_fix_get_posts_on_activity_front() {
+	global $wp_query;
+
+	if ( !empty($wp_query->query_vars['page_id']) && 'activity' == $wp_query->query_vars['page_id'] )
+		$wp_query->query_vars['page_id'] = '"activity"';
+}
+add_action( 'pre_get_posts', 'bp_dtheme_fix_get_posts_on_activity_front' );
+
 /* Set the defaults for the custom header image (http://ryan.boren.me/2007/01/07/custom-image-header-api/) */
 define( 'HEADER_TEXTCOLOR', 'FFFFFF' );
 define( 'HEADER_IMAGE', '%s/_inc/images/default_header.jpg' ); // %s is theme dir uri
