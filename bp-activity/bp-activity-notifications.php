@@ -35,7 +35,7 @@ $message = sprintf( __(
 To view and respond to the message, log in and visit: %s
 
 ---------------------
-', 'buddypress' ), $poster_name, wp_filter_kses( stripslashes_deep($content) ), $message_link );
+', 'buddypress' ), $poster_name, bp_activity_filter_kses( stripslashes($content) ), $message_link );
 
 			$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
@@ -71,7 +71,7 @@ $message = sprintf( __(
 To view your original update and all comments, log in and visit: %s
 
 ---------------------
-', 'buddypress' ), $poster_name, wp_filter_kses( stripslashes_deep( $content ) ), $thread_link );
+', 'buddypress' ), $poster_name, bp_activity_filter_kses( stripslashes( $content ) ), $thread_link );
 
 		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
@@ -106,7 +106,7 @@ $message = sprintf( __(
 To view the original activity, your comment and all replies, log in and visit: %s
 
 ---------------------
-', 'buddypress' ), $poster_name, wp_filter_kses( stripslashes_deep( $content ) ), $thread_link );
+', 'buddypress' ), $poster_name, bp_activity_filter_kses( stripslashes( $content ) ), $thread_link );
 
 		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
