@@ -24,7 +24,7 @@ body {
 			max-width: 1250px;
 		}
 
-		body.activity-permalink #wp-admin-bar .padder {
+		body#bp-default.activity-permalink #wp-admin-bar .padder {
 			min-width: 960px;
 			max-width: 960px;
 		}
