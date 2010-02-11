@@ -94,12 +94,6 @@
 				<?php locate_template( array( 'activity/activity-loop.php' ), true ) ?>
 			</div><!-- .activity -->
 
-			<form action="" name="activity-widget-form" id="activity-widget-form" method="post">
-				<?php wp_nonce_field( 'activity_filter', '_wpnonce_activity_filter' ) ?>
-				<input type="hidden" id="aw-querystring" name="aw-querystring" value="" />
-				<input type="hidden" id="aw-oldestpage" name="aw-oldestpage" value="1" />
-			</form>
-
 			<?php do_action( 'bp_after_directory_activity_content' ) ?>
 
 		</div><!-- .padder -->
