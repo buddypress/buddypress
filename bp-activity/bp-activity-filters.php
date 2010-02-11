@@ -58,6 +58,7 @@ function bp_activity_filter_kses( $content ) {
 	$activity_allowedtags['img']['height'] = array();
 	$activity_allowedtags['img']['class'] = array();
 	$activity_allowedtags['img']['id'] = array();
+	$activity_allowedtags['img']['title'] = array();
 	$activity_allowedtags['code'] = array();
 
 	$activity_allowedtags = apply_filters( 'bp_activity_allowed_tags', $activity_allowedtags );
