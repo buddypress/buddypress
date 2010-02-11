@@ -156,7 +156,7 @@
 
 					<?php do_action( 'bp_before_group_invites_creation_step' ); ?>
 
-					<?php if ( bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
+					<?php if ( function_exists( 'bp_get_total_friend_count' ) && bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
 						<div class="left-menu">
 
 							<div id="invite-list">

@@ -89,8 +89,10 @@ function groups_setup_globals() {
 		'group-details' => array( 'name' => __( 'Details', 'buddypress' ), 'position' => 0 ),
 		'group-settings' => array( 'name' => __( 'Settings', 'buddypress' ), 'position' => 10 ),
 		'group-avatar' => array( 'name' => __( 'Avatar', 'buddypress' ), 'position' => 20 ),
-		'group-invites' => array( 'name' => __( 'Invites', 'buddypress' ), 'position' => 30 )
 	) );
+
+	if ( bp_is_active( 'friends' ) )
+		$bp->groups->group_creation_steps['group-invites'] = array( 'name' => __( 'Invites', 'buddypress' ), 'position' => 30 );
 
 	$bp->groups->valid_status = apply_filters( 'groups_valid_status', array( 'public', 'private', 'hidden' ) );
 
