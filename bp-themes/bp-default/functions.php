@@ -135,74 +135,81 @@ function bp_dtheme_fix_get_posts_on_activity_front() {
 }
 add_action( 'pre_get_posts', 'bp_dtheme_fix_get_posts_on_activity_front' );
 
-/* Set the defaults for the custom header image (http://ryan.boren.me/2007/01/07/custom-image-header-api/) */
-define( 'HEADER_TEXTCOLOR', 'FFFFFF' );
-define( 'HEADER_IMAGE', '%s/_inc/images/default_header.jpg' ); // %s is theme dir uri
-define( 'HEADER_IMAGE_WIDTH', 1250 );
-define( 'HEADER_IMAGE_HEIGHT', 125 );
+/****
+ * Custom header image support. You can remove this entirely in a child theme by adding this line
+ * to your functions.php: remove_action( 'template_redirect', 'bp_dtheme_add_custom_header_support' );
+ */
+function bp_dtheme_add_custom_header_support() {
+	/* Set the defaults for the custom header image (http://ryan.boren.me/2007/01/07/custom-image-header-api/) */
+	define( 'HEADER_TEXTCOLOR', 'FFFFFF' );
+	define( 'HEADER_IMAGE', '%s/_inc/images/default_header.jpg' ); // %s is theme dir uri
+	define( 'HEADER_IMAGE_WIDTH', 1250 );
+	define( 'HEADER_IMAGE_HEIGHT', 125 );
 
-function bp_dtheme_header_style() { ?>
-	<style type="text/css">
-		#header { background-image: url(<?php header_image() ?>); }
-		<?php if ( 'blank' == get_header_textcolor() ) { ?>
-		#header h1, #header #desc { display: none; }
-		<?php } else { ?>
-		#header h1 a, #desc { color:#<?php header_textcolor() ?>; }
-		<?php } ?>
-	</style>
-<?php
+	function bp_dtheme_header_style() { ?>
+		<style type="text/css">
+			#header { background-image: url(<?php header_image() ?>); }
+			<?php if ( 'blank' == get_header_textcolor() ) { ?>
+			#header h1, #header #desc { display: none; }
+			<?php } else { ?>
+			#header h1 a, #desc { color:#<?php header_textcolor() ?>; }
+			<?php } ?>
+		</style>
+	<?php
+	}
+
+	function bp_dtheme_admin_header_style() { ?>
+		<style type="text/css">
+			#headimg {
+				position: relative;
+				color: #fff;
+				background: url(<?php header_image() ?>);
+				-moz-border-radius-bottomleft: 6px;
+				-webkit-border-bottom-left-radius: 6px;
+				-moz-border-radius-bottomright: 6px;
+				-webkit-border-bottom-right-radius: 6px;
+				margin-bottom: 20px;
+				height: 100px;
+				padding-top: 25px;
+			}
+
+			#headimg h1{
+				position: absolute;
+				bottom: 15px;
+				left: 15px;
+				width: 44%;
+				margin: 0;
+				font-family: Arial, Tahoma, sans-serif;
+			}
+			#headimg h1 a{
+				color:#<?php header_textcolor() ?>;
+				text-decoration: none;
+				border-bottom: none;
+			}
+			#headimg #desc{
+				color:#<?php header_textcolor() ?>;
+				font-size:1em;
+				margin-top:-0.5em;
+			}
+
+			#desc {
+				display: none;
+			}
+
+			<?php if ( 'blank' == get_header_textcolor() ) { ?>
+			#headimg h1, #headimg #desc {
+				display: none;
+			}
+			#headimg h1 a, #headimg #desc {
+				color:#<?php echo HEADER_TEXTCOLOR ?>;
+			}
+			<?php } ?>
+		</style>
+	<?php
+	}
+	add_custom_image_header( 'bp_dtheme_header_style', 'bp_dtheme_admin_header_style' );
 }
-
-function bp_dtheme_admin_header_style() { ?>
-	<style type="text/css">
-		#headimg {
-			position: relative;
-			color: #fff;
-			background: url(<?php header_image() ?>);
-			-moz-border-radius-bottomleft: 6px;
-			-webkit-border-bottom-left-radius: 6px;
-			-moz-border-radius-bottomright: 6px;
-			-webkit-border-bottom-right-radius: 6px;
-			margin-bottom: 20px;
-			height: 100px;
-			padding-top: 25px;
-		}
-
-		#headimg h1{
-			position: absolute;
-			bottom: 15px;
-			left: 15px;
-			width: 44%;
-			margin: 0;
-			font-family: Arial, Tahoma, sans-serif;
-		}
-		#headimg h1 a{
-			color:#<?php header_textcolor() ?>;
-			text-decoration: none;
-			border-bottom: none;
-		}
-		#headimg #desc{
-			color:#<?php header_textcolor() ?>;
-			font-size:1em;
-			margin-top:-0.5em;
-		}
-
-		#desc {
-			display: none;
-		}
-
-		<?php if ( 'blank' == get_header_textcolor() ) { ?>
-		#headimg h1, #headimg #desc {
-			display: none;
-		}
-		#headimg h1 a, #headimg #desc {
-			color:#<?php echo HEADER_TEXTCOLOR ?>;
-		}
-		<?php } ?>
-	</style>
-<?php
-}
-add_custom_image_header( 'bp_dtheme_header_style', 'bp_dtheme_admin_header_style' );
+add_action( 'template_redirect', 'bp_dtheme_add_custom_header_support' );
 
 function bp_dtheme_remove_redundant() {
 	global $bp;
@@ -244,5 +251,6 @@ add_action( 'wp_footer', 'bp_dtheme_js_terms' );
 if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" ) {
 	add_action( 'admin_notices', 'bp_dtheme_show_notice' );
 }
+
 
 ?>
