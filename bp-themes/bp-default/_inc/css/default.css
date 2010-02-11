@@ -1194,6 +1194,7 @@ ul.activity-list li {
 
 		/* Backwards compatibility. */
 		.activity-inner > .activity-inner { margin: 0 !important; }
+		.activity-inner > blockquote { margin: 0 !important; }
 
 	.activity-list .activity-content img.thumbnail {
 		float: left;

@@ -1942,7 +1942,7 @@ function groups_new_group_forum_post( $post_text, $topic_id, $page = false ) {
 		$topic = bp_forums_get_topic_details( $topic_id );
 
 		$activity_action = sprintf( __( '%s posted on the forum topic %s in the group %s:', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug .'/">' . attribute_escape( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
-		$activity_content = '<blockquote>' . bp_create_excerpt( $post_text ) . '</blockquote>';
+		$activity_content = bp_create_excerpt( $post_text );
 		$primary_link = bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug . '/';
 
 		if ( $page )
@@ -1981,7 +1981,7 @@ function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $
 		$topic = bp_forums_get_topic_details( $topic_id );
 
 		$activity_action = sprintf( __( '%s started the forum topic %s in the group %s:', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug .'/">' . attribute_escape( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
-		$activity_content = '<blockquote>' . bp_create_excerpt( $topic_text ) . '</blockquote>';
+		$activity_content = bp_create_excerpt( $topic_text );
 
 		/* Record this in activity streams */
 		groups_record_activity( array(
@@ -2013,7 +2013,7 @@ function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text )
 			bp_activity_delete_by_item_id( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $topic_id, 'component' => $bp->groups->id, 'type' => 'new_forum_topic' ) );
 
 		$activity_action = sprintf( __( '%s started the forum topic %s in the group %s:', 'buddypress'), bp_core_get_userlink( $topic->topic_poster ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug .'/">' . attribute_escape( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
-		$activity_content = '<blockquote>' . bp_create_excerpt( $topic_text ) . '</blockquote>';
+		$activity_content = bp_create_excerpt( $topic_text );
 
 		/* Record this in activity streams */
 		groups_record_activity( array(
@@ -2047,7 +2047,7 @@ function groups_update_group_forum_post( $post_id, $post_text, $topic_id, $page 
 		$topic = bp_forums_get_topic_details( $topic_id );
 
 		$activity_action = sprintf( __( '%s posted on the forum topic %s in the group %s:', 'buddypress'), bp_core_get_userlink( $post->poster_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug .'">' . attribute_escape( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
-		$activity_content = '<blockquote>' . bp_create_excerpt( $post_text ) . '</blockquote>';
+		$activity_content = bp_create_excerpt( $post_text );
 		$primary_link = bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug . '/';
 
 		if ( $page )
