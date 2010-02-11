@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_ACTIVITY_DB_VERSION', '2040' );
+define ( 'BP_ACTIVITY_DB_VERSION', '2050' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_ACTIVITY_SLUG' ) )
@@ -50,8 +50,10 @@ function bp_activity_install() {
 				KEY user_id (user_id),
 				KEY item_id (item_id),
 				KEY component (component),
+				KEY type (type),
 				KEY mptt_left (mptt_left),
-				KEY mptt_right (mptt_right)
+				KEY mptt_right (mptt_right),
+				KEY hide_sitewide (hide_sitewide)
 		 	   ) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE {$bp->activity->table_name_meta} (
@@ -761,12 +763,15 @@ function bp_activity_delete( $args = '' ) {
 	/* End deprecation */
 
 function bp_activity_delete_comment( $activity_id, $comment_id ) {
-	/* Recursively delete all children of this comment. */
-	if ( $children = BP_Activity_Activity::get_child_comments( $comment_id ) ) {
-		foreach( (array)$children as $child )
-			bp_activity_delete_comment( $activity_id, $child->id );
-	}
-	bp_activity_delete( array( 'secondary_item_id' => $comment_id, 'type' => 'activity_comment', 'item_id' => $activity_id ) );
+	/***
+	 * You may want to hook into this filter if you want to override this function and
+	 * handle the deletion of child comments differently. Make sure you return false.
+	 */
+	if ( !apply_filters( 'bp_activity_delete_comment_pre', true, $activity_id, $comment_id ) )
+		return false;
+
+	/* Delete any children of this comment. */
+	bp_activity_delete_children( $activity_id, $comment_id );
 
 	/* Delete the actual comment */
 	if ( !bp_activity_delete( array( 'id' => $comment_id, 'type' => 'activity_comment' ) ) )
@@ -775,8 +780,18 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
 	/* Recalculate the comment tree */
 	BP_Activity_Activity::rebuild_activity_comment_tree( $activity_id );
 
+	do_action( 'bp_activity_delete_comment', $activity_id, $comment_id );
+
 	return true;
 }
+	function bp_activity_delete_children( $activity_id, $comment_id) {
+		/* Recursively delete all children of this comment. */
+		if ( $children = BP_Activity_Activity::get_child_comments( $comment_id ) ) {
+			foreach( (array)$children as $child )
+				bp_activity_delete_children( $activity_id, $child->id );
+		}
+		bp_activity_delete( array( 'secondary_item_id' => $comment_id, 'type' => 'activity_comment', 'item_id' => $activity_id ) );
+	}
 
 function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
 	global $bp;
