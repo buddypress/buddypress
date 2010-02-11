@@ -76,13 +76,16 @@ function xprofile_install() {
 	) {$charset_collate};";
 
 	if ( '' == get_site_option( 'bp-xprofile-db-version' ) ) {
-		$sql[] = "INSERT INTO {$bp->profile->table_name_groups} VALUES ( 1, '" . get_site_option( 'bp-xprofile-base-group-name' ) . "', '', 0 );";
+		if ( !$wpdb->get_var( "SELECT id FROM {$bp->profile->table_name_groups} WHERE id = 1" ) )
+			$sql[] = "INSERT INTO {$bp->profile->table_name_groups} VALUES ( 1, '" . get_site_option( 'bp-xprofile-base-group-name' ) . "', '', 0 );";
 
-		$sql[] = "INSERT INTO {$bp->profile->table_name_fields} (
-					id, group_id, parent_id, type, name, is_required, can_delete
-				  ) VALUES (
-					1, 1, 0, 'textbox', '" . get_site_option( 'bp-xprofile-fullname-field-name' ) . "', 1, 0
-				  );";
+		if ( !$wpdb->get_var( "SELECT id FROM {$bp->profile->table_name_fields} WHERE id = 1" ) ) {
+			$sql[] = "INSERT INTO {$bp->profile->table_name_fields} (
+						id, group_id, parent_id, type, name, is_required, can_delete
+					  ) VALUES (
+						1, 1, 0, 'textbox', '" . get_site_option( 'bp-xprofile-fullname-field-name' ) . "', 1, 0
+					  );";
+		}
 	}
 
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
