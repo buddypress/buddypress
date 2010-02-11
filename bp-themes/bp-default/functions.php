@@ -137,7 +137,7 @@ add_action( 'pre_get_posts', 'bp_dtheme_fix_get_posts_on_activity_front' );
 
 /****
  * Custom header image support. You can remove this entirely in a child theme by adding this line
- * to your functions.php: remove_action( 'template_redirect', 'bp_dtheme_add_custom_header_support' );
+ * to your functions.php: remove_action( 'init', 'bp_dtheme_add_custom_header_support' );
  */
 function bp_dtheme_add_custom_header_support() {
 	/* Set the defaults for the custom header image (http://ryan.boren.me/2007/01/07/custom-image-header-api/) */
@@ -209,7 +209,7 @@ function bp_dtheme_add_custom_header_support() {
 	}
 	add_custom_image_header( 'bp_dtheme_header_style', 'bp_dtheme_admin_header_style' );
 }
-add_action( 'template_redirect', 'bp_dtheme_add_custom_header_support' );
+add_action( 'init', 'bp_dtheme_add_custom_header_support' );
 
 function bp_dtheme_remove_redundant() {
 	global $bp;
