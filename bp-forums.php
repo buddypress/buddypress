@@ -209,6 +209,11 @@ function bp_forums_new_topic( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
+	$topic_title = strip_tags( $topic_title );
+
+	if ( empty( $topic_title ) || !strlen( trim( $topic_title ) ) )
+		return false;
+
 	if ( empty( $topic_slug ) )
 		$topic_slug = sanitize_title( $topic_title );
 
