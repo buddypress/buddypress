@@ -626,18 +626,20 @@ function bp_activity_new_comment( $args = '' ) {
 	if ( empty($parent_id) )
 		$parent_id = $activity_id;
 
-	/* Insert the "user posted a new activity comment header text" */
-	$comment_header = '<div class="comment-header">' . sprintf( __( '%s posted a new activity comment:', 'buddypress' ), bp_core_get_userlink( $user_id ) ) . ' <span class="time-since">%s</span></div> ';
+	/* Check to see if the parent activity is hidden, and if so, hide this comment publically. */
+	$activity = new BP_Activity_Activity( $activity_id );
+	$is_hidden = ( (int)$activity->hide_sitewide ) ? 1 : 0;
 
 	/* Insert the activity comment */
 	$comment_id = bp_activity_add( array(
-		'content' => apply_filters( 'bp_activity_comment_content', $comment_header . '<div class="activity-inner">' . $content . '</div>' ),
-		'primary_link' => '',
+		'action' => apply_filters( 'bp_activity_comment_action', sprintf( __( '%s posted a new activity comment:', 'buddypress' ), bp_core_get_userlink( $user_id ) ) ),
+		'content' => apply_filters( 'bp_activity_comment_content', '<div class="activity-inner">' . $content . '</div>' ),
 		'component' => $bp->activity->id,
 		'type' => 'activity_comment',
 		'user_id' => $user_id,
 		'item_id' => $activity_id,
-		'secondary_item_id' => $parent_id
+		'secondary_item_id' => $parent_id,
+		'hide_sitewide' => $is_hidden
 	) );
 
 	/* Send an email notification if settings allow */

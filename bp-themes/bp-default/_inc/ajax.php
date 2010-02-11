@@ -193,7 +193,7 @@ function bp_dtheme_new_activity_comment() {
 				</div>
 
 				<div class="acomment-content">
-					<?php bp_activity_content() ?>
+					<?php bp_activity_content_body() ?>
 				</div>
 			</li>
 		<?php endwhile; ?>

@@ -190,6 +190,8 @@ function bp_has_activities( $args = '' ) {
 		if ( 'just-me' == $scope )
 			$display_comments = 'stream';
 
+		$show_hidden = ( $user_id == $bp->loggedin_user->id ) ? 1 : 0;
+
 		if ( $user_id = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->id : $bp->loggedin_user->id ) {
 			switch ( $scope ) {
 				case 'friends':
@@ -208,7 +210,7 @@ function bp_has_activities( $args = '' ) {
 
 						$object = $bp->groups->id;
 						$primary_id = implode( ',', (array)$groups['groups'] );
-						$show_hidden = ( $user_id == $bp->loggedin_user->id ) ? 1 : 0;
+
 						$user_id = false;
 					}
 					break;
@@ -218,13 +220,11 @@ function bp_has_activities( $args = '' ) {
 						return false;
 
 					$include = implode( ',', (array)$favs );
-					$show_hidden = ( $user_id == $bp->loggedin_user->id ) ? 1 : 0;
 					break;
 				case 'mentions':
 					$user_nicename = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->userdata->user_nicename : $bp->loggedin_user->userdata->user_nicename;
 					$user_login = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
 					$search_terms = '@' . bp_core_get_username( $user_id, $user_nicename, $user_login );
-					$show_hidden = ( $user_id == $bp->loggedin_user->id ) ? 1 : 0;
 					$display_comments = 'stream';
 					$user_id = false;
 					break;
@@ -569,6 +569,8 @@ function bp_activity_comments( $args = '' ) {
 			foreach ( (array)$comment->children as $comment ) {
 				if ( !$comment->user_fullname )
 					$comment->user_fullname = $comment->display_name;
+
+				var_dump($comment->content);
 
 				$content .= '<li id="acomment-' . $comment->id . '">';
 				$content .= '<div class="acomment-avatar"><a href="' . bp_core_get_user_domain( $comment->user_id, $comment->user_nicename, $comment->user_login ) . '">' . bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'width' => 25, 'height' => 25, 'email' => $comment->user_email ) ) . '</a></div>';
