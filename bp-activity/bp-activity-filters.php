@@ -53,6 +53,12 @@ add_filter( 'bp_get_activity_parent_content', 'stripslashes_deep' );
 add_filter( 'bp_get_activity_latest_update', 'stripslashes_deep' );
 add_filter( 'bp_get_activity_feed_item_description', 'stripslashes_deep' );
 
+add_filter( 'bp_get_activity_content', 'bp_activity_make_nofollow_filter' );
+add_filter( 'bp_get_activity_content_body', 'bp_activity_make_nofollow_filter' );
+add_filter( 'bp_get_activity_parent_content', 'bp_activity_make_nofollow_filter' );
+add_filter( 'bp_get_activity_latest_update', 'bp_activity_make_nofollow_filter' );
+add_filter( 'bp_get_activity_feed_item_description', 'bp_activity_make_nofollow_filter' );
+
 add_filter( 'bp_get_activity_parent_content', 'bp_create_excerpt' );
 
 /* Allow shortcodes in activity posts */
@@ -112,5 +118,14 @@ add_filter( 'pre_comment_content', 'bp_activity_at_name_filter' );
 add_filter( 'group_forum_topic_text_before_save', 'bp_activity_at_name_filter' );
 add_filter( 'group_forum_post_text_before_save', 'bp_activity_at_name_filter' );
 add_filter( 'bp_activity_comment_content', 'bp_activity_at_name_filter' );
+
+function bp_activity_make_nofollow_filter( $text ) {
+	return preg_replace_callback( '|<a (.+?)>|i', 'bp_activity_make_nofollow_filter_callback', $text );
+}
+	function bp_activity_make_nofollow_filter_callback( $matches ) {
+		$text = $matches[1];
+		$text = str_replace( array( ' rel="nofollow"', " rel='nofollow'"), '', $text );
+		return "<a $text rel=\"nofollow\">";
+	}
 
 ?>
