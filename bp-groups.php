@@ -1627,6 +1627,8 @@ function groups_leave_group( $group_id, $user_id = false ) {
 		}
 	}
 
+	$membership = new BP_Groups_Member( $user_id, $group_id );
+
 	// This is exactly the same as deleting an invite, just is_confirmed = 1 NOT 0.
 	if ( !groups_uninvite_user( $user_id, $group_id ) )
 		return false;
@@ -1636,6 +1638,12 @@ function groups_leave_group( $group_id, $user_id = false ) {
 
 	/* Modify user's group memberhip count */
 	update_usermeta( $user_id, 'total_group_count', (int) get_usermeta( $user_id, 'total_group_count') - 1 );
+
+	/* If the user joined this group less than five minutes ago, remove the joined_group activity so
+	 * users cannot flood the activity stream by joining/leaving the group in quick succession.
+	 */
+	if ( function_exists( 'bp_activity_delete' ) && gmmktime() <= strtotime( '+5 minutes', (int)strtotime( $membership->date_modified ) ) )
+		bp_activity_delete( array( 'component' => $bp->groups->id, 'type' => 'joined_group', 'user_id' => $user_id, 'item_id' => $group_id ) );
 
 	bp_core_add_message( __( 'You successfully left the group.', 'buddypress' ) );
 

@@ -1,36 +1,54 @@
 <?php
 
 /* Apply WordPress defined filters */
+add_filter( 'bp_get_activity_action', 'bp_activity_filter_kses', 1 );
+add_filter( 'bp_get_activity_content_body', 'bp_activity_filter_kses', 1 );
 add_filter( 'bp_get_activity_content', 'bp_activity_filter_kses', 1 );
 add_filter( 'bp_get_activity_parent_content', 'bp_activity_filter_kses', 1 );
 add_filter( 'bp_get_activity_latest_update', 'bp_activity_filter_kses', 1 );
 add_filter( 'bp_get_activity_feed_item_description', 'bp_activity_filter_kses', 1 );
+add_filter( 'bp_activity_content_before_save', 'bp_activity_filter_kses', 1 );
+add_filter( 'bp_activity_action_before_save', 'bp_activity_filter_kses', 1 );
 
+add_filter( 'bp_get_activity_action', 'force_balance_tags' );
+add_filter( 'bp_get_activity_content_body', 'force_balance_tags' );
 add_filter( 'bp_get_activity_content', 'force_balance_tags' );
 add_filter( 'bp_get_activity_latest_update', 'force_balance_tags' );
 add_filter( 'bp_get_activity_feed_item_description', 'force_balance_tags' );
 
+add_filter( 'bp_get_activity_action', 'wptexturize' );
+add_filter( 'bp_get_activity_content_body', 'wptexturize' );
 add_filter( 'bp_get_activity_content', 'wptexturize' );
 add_filter( 'bp_get_activity_parent_content', 'wptexturize' );
 add_filter( 'bp_get_activity_latest_update', 'wptexturize' );
 
+add_filter( 'bp_get_activity_action', 'convert_smilies' );
+add_filter( 'bp_get_activity_content_body', 'convert_smilies' );
 add_filter( 'bp_get_activity_content', 'convert_smilies' );
 add_filter( 'bp_get_activity_parent_content', 'convert_smilies' );
 add_filter( 'bp_get_activity_latest_update', 'convert_smilies' );
 
+add_filter( 'bp_get_activity_action', 'convert_chars' );
+add_filter( 'bp_get_activity_content_body', 'convert_chars' );
 add_filter( 'bp_get_activity_content', 'convert_chars' );
 add_filter( 'bp_get_activity_parent_content', 'convert_chars' );
 add_filter( 'bp_get_activity_latest_update', 'convert_chars' );
 
+add_filter( 'bp_get_activity_action', 'wpautop' );
+add_filter( 'bp_get_activity_content_body', 'wpautop' );
 add_filter( 'bp_get_activity_content', 'wpautop' );
 add_filter( 'bp_get_activity_feed_item_description', 'wpautop' );
 
+add_filter( 'bp_get_activity_action', 'make_clickable' );
+add_filter( 'bp_get_activity_content_body', 'make_clickable' );
 add_filter( 'bp_get_activity_content', 'make_clickable' );
 add_filter( 'bp_get_activity_parent_content', 'make_clickable' );
 add_filter( 'bp_get_activity_latest_update', 'make_clickable' );
 add_filter( 'bp_get_activity_feed_item_description', 'make_clickable' );
 
+add_filter( 'bp_get_activity_action', 'stripslashes_deep' );
 add_filter( 'bp_get_activity_content', 'stripslashes_deep' );
+add_filter( 'bp_get_activity_content_body', 'stripslashes_deep' );
 add_filter( 'bp_get_activity_parent_content', 'stripslashes_deep' );
 add_filter( 'bp_get_activity_latest_update', 'stripslashes_deep' );
 add_filter( 'bp_get_activity_feed_item_description', 'stripslashes_deep' );
