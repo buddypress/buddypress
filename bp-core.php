@@ -1907,23 +1907,6 @@ function bp_core_update_message() {
 add_action( 'in_plugin_update_message-buddypress/bp-loader.php', 'bp_core_update_message' );
 
 /**
- * bp_core_filter_template_paths()
- *
- * Add fallback for the bp-sn-parent theme template locations used in BuddyPress versions
- * older than 1.2.
- *
- * @package BuddyPress Core
- */
-function bp_core_filter_template_paths() {
-	if ( 'bp-sn-parent' != basename( TEMPLATEPATH ) && !defined( 'BP_CLASSIC_TEMPLATE_STRUCTURE' ) )
-		return false;
-
-	add_filter( 'bp_core_template_directory_members', create_function( '', 'return "directories/members/index";' ) );
-	add_filter( 'bp_core_template_plugin', create_function( '', 'return "plugin-template";' ) );
-}
-add_action( 'init', 'bp_core_filter_template_paths' );
-
-/**
  * bp_core_filter_parent_theme()
  *
  * Remove social network parent theme from the theme list.

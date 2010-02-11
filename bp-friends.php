@@ -593,23 +593,6 @@ function friends_update_friend_totals( $initiator_user_id, $friend_user_id, $sta
 	}
 }
 
-/**
- * friends_filter_template_paths()
- *
- * Add fallback for the bp-sn-parent theme template locations used in BuddyPress versions
- * older than 1.2.
- *
- * @package BuddyPress Core
- */
-function friends_filter_template_paths() {
-	if ( 'bp-sn-parent' != basename( TEMPLATEPATH ) && !defined( 'BP_CLASSIC_TEMPLATE_STRUCTURE' ) )
-		return false;
-
-	add_filter( 'friends_template_my_friends', create_function( '', 'return "friends/index";' ) );
-	add_filter( 'friends_template_requests', create_function( '', 'return "friends/requests";' ) );
-}
-add_action( 'init', 'friends_filter_template_paths' );
-
 function friends_remove_data( $user_id ) {
 	BP_Friends_Friendship::delete_all_for_user($user_id);
 

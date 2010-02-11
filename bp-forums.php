@@ -520,22 +520,6 @@ function bp_forums_filter_caps( $allcaps ) {
 }
 add_filter( 'user_has_cap', 'bp_forums_filter_caps' );
 
-/**
- * bp_forums_filter_template_paths()
- *
- * Add fallback for the bp-sn-parent theme template locations used in BuddyPress versions
- * older than 1.2.
- *
- * @package BuddyPress Core
- */
-function bp_forums_filter_template_paths() {
-	if ( 'bp-sn-parent' != basename( TEMPLATEPATH ) && !defined( 'BP_CLASSIC_TEMPLATE_STRUCTURE' ) )
-		return false;
-
-	add_filter( 'bp_forums_template_directory_forums_setup', create_function( '', 'return "directories/forums/index";' ) );
-}
-add_action( 'init', 'bp_forums_filter_template_paths' );
-
 
 /********************************************************************************
  * Caching

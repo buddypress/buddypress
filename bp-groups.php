@@ -2525,37 +2525,6 @@ function groups_update_groupmeta( $group_id, $meta_key, $meta_value ) {
 
 /*** Group Cleanup Functions ****************************************************/
 
-/**
- * groups_filter_template_paths()
- *
- * Add fallback for the bp-sn-parent theme template locations used in BuddyPress versions
- * older than 1.2.
- *
- * @package BuddyPress Core
- */
-function groups_filter_template_paths() {
-	if ( 'bp-sn-parent' != basename( TEMPLATEPATH ) && !defined( 'BP_CLASSIC_TEMPLATE_STRUCTURE' ) )
-		return false;
-
-	add_filter( 'groups_template_directory_groups', create_function( '', 'return "directories/groups/index";' ) );
-	add_filter( 'groups_template_my_groups', create_function( '', 'return "groups/index";' ) );
-	add_filter( 'groups_template_group_invites', create_function( '', 'return "groups/invites";' ) );
-	add_filter( 'groups_template_group_admin', create_function( '', 'return "groups/single/admin";' ) );
-	add_filter( 'groups_template_group_forum_topic_edit', create_function( '', 'return "groups/single/forum/edit";' ) );
-	add_filter( 'groups_template_group_forum_topic', create_function( '', 'return "groups/single/forum/topic";' ) );
-	add_filter( 'groups_template_group_forum', create_function( '', 'return "groups/single/forum/index";' ) );
-	add_filter( 'groups_template_group_leave', create_function( '', 'return "groups/single/leave-confirm";' ) );
-	add_filter( 'groups_template_group_request_membership', create_function( '', 'return "groups/single/request-membership";' ) );
-	add_filter( 'groups_template_group_invite', create_function( '', 'return "groups/single/send-invite";' ) );
-	add_filter( 'groups_template_group_members', create_function( '', 'return "groups/single/members";' ) );
-	add_filter( 'groups_template_group_admin_settings', create_function( '', 'return "groups/single/admin";' ) );
-	add_filter( 'groups_template_group_admin_avatar', create_function( '', 'return "groups/single/admin";' ) );
-	add_filter( 'groups_template_group_admin_manage_members', create_function( '', 'return "groups/single/admin";' ) );
-	add_filter( 'groups_template_group_admin_requests', create_function( '', 'return "groups/single/admin";' ) );
-	add_filter( 'groups_template_group_admin_delete_group', create_function( '', 'return "groups/single/admin";' ) );
-}
-add_action( 'init', 'groups_filter_template_paths' );
-
 function groups_remove_data_for_user( $user_id ) {
 	BP_Groups_Member::delete_all_for_user($user_id);
 

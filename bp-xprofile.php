@@ -907,23 +907,6 @@ function xprofile_remove_screen_notifications() {
 add_action( 'bp_activity_screen_my_activity', 'xprofile_remove_screen_notifications' );
 add_action( 'bp_activity_screen_single_activity_permalink', 'xprofile_remove_screen_notifications' );
 
-/**
- * xprofile_filter_template_paths()
- *
- * Add fallback for the bp-sn-parent theme template locations used in BuddyPress versions
- * older than 1.2.
- *
- * @package BuddyPress Core
- */
-function xprofile_filter_template_paths() {
-	if ( 'bp-sn-parent' != basename( TEMPLATEPATH ) && !defined( 'BP_CLASSIC_TEMPLATE_STRUCTURE' ) )
-		return false;
-
-	add_filter( 'xprofile_template_display_profile', create_function( '', 'return "profile/index";' ) );
-	add_filter( 'xprofile_template_edit_profile', create_function( '', 'return "profile/edit";' ) );
-	add_filter( 'xprofile_template_change_avatar', create_function( '', 'return "profile/change-avatar";' ) );
-}
-add_action( 'init', 'xprofile_filter_template_paths' );
 
 /**
  * xprofile_remove_data_on_user_deletion()

@@ -74,6 +74,7 @@ function bp_blogs_install() {
 function bp_blogs_check_installed() {
 	global $wpdb, $bp, $userdata;
 
+	/* Only create the bp-blogs tables if this is a multisite install */
 	if ( is_site_admin() && bp_core_is_multisite() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 		if ( get_site_option('bp-blogs-db-version') < BP_BLOGS_DB_VERSION )
@@ -796,26 +797,6 @@ function bp_blogs_update_blogmeta( $blog_id, $meta_key, $meta_value ) {
 
 	return true;
 }
-
-/**
- * bp_blogs_filter_template_paths()
- *
- * Add fallback for the bp-sn-parent theme template locations used in BuddyPress versions
- * older than 1.2.
- *
- * @package BuddyPress Core
- */
-function bp_blogs_filter_template_paths() {
-	if ( 'bp-sn-parent' != basename( TEMPLATEPATH ) && !defined( 'BP_CLASSIC_TEMPLATE_STRUCTURE' ) )
-		return false;
-
-	add_filter( 'bp_blogs_template_directory_blogs_setup', create_function( '', 'return "directories/blogs/index";' ) );
-	add_filter( 'bp_blogs_template_my_blogs', create_function( '', 'return "blogs/my-blogs";' ) );
-	add_filter( 'bp_blogs_template_recent_posts', create_function( '', 'return "blogs/recent-posts";' ) );
-	add_filter( 'bp_blogs_template_recent_comments', create_function( '', 'return "blogs/recent-comments";' ) );
-	add_filter( 'bp_blogs_template_create_a_blog', create_function( '', 'return "blogs/create";' ) );
-}
-add_action( 'init', 'bp_blogs_filter_template_paths' );
 
 function bp_blogs_remove_data( $user_id ) {
 	/* If this is regular blog, delete all data for that blog. */

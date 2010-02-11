@@ -1063,24 +1063,6 @@ function bp_activity_update_meta( $activity_id, $meta_key, $meta_value ) {
 	return true;
 }
 
-/**
- * bp_activity_filter_template_paths()
- *
- * Add fallback for the bp-sn-parent theme template locations used in BuddyPress versions
- * older than 1.2.
- *
- * @package BuddyPress Core
- */
-function bp_activity_filter_template_paths() {
-	if ( 'bp-sn-parent' != basename( TEMPLATEPATH ) && !defined( 'BP_CLASSIC_TEMPLATE_STRUCTURE' ) )
-		return false;
-
-	add_filter( 'bp_activity_template_my_activity', create_function( '', 'return "activity/just-me";' ) );
-	add_filter( 'bp_activity_template_friends_activity', create_function( '', 'return "activity/my-friends";' ) );
-	add_filter( 'bp_activity_template_profile_activity_permalink', create_function( '', 'return "activity/single";' ) );
-}
-add_action( 'widgets_init', 'bp_activity_filter_template_paths' );
-
 function bp_activity_remove_data( $user_id ) {
 	// Clear the user's activity from the sitewide stream and clear their activity tables
 	bp_activity_delete( array( 'user_id' => $user_id ) );

@@ -766,7 +766,7 @@ form.standard-form {
 			width: 90%;
 		}
 			form.standard-form#signup_form div.submit { float: right; }
-			form.standard-form#signup_form div.signup-avatar { margin-right: 15px; }
+			div#signup-avatar img { margin: 0 15px 10px 0; }
 
 	form.standard-form textarea {
 		width: 75%;
