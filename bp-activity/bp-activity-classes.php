@@ -293,8 +293,6 @@ Class BP_Activity_Activity {
 		else
 			return false;
 
-		error_log( $where_sql );
-
 		/* Fetch the activity IDs so we can delete any comments for this activity item */
 		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} {$where_sql}" ) );
 
