@@ -15,7 +15,7 @@
 			<?php bp_activity_action() ?>
 		</div>
 
-		<?php if ( bp_activity_content_body() ) : ?>
+		<?php if ( bp_get_activity_content_body() ) : ?>
 			<div class="activity-inner">
 				<?php bp_activity_content_body() ?>
 			</div>
