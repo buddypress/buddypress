@@ -267,7 +267,7 @@ function bp_core_ajax_widget_members() {
 			$type = 'popular';
 		break;
 	} ?>
-	<?php if ( bp_has_members( 'user_id=0&type=' . $type . '&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] ) ) : ?>
+	<?php if ( bp_has_members( 'user_id=0&type=' . $type . '&per_page=' . $_POST['max-members'] . '&max=' . $_POST['max-members'] ) ) : ?>
 		<?php echo '0[[SPLIT]]'; // return valid result. TODO: remove this because it's dumb. ?>
 		<div class="avatar-block">
 			<?php while ( bp_members() ) : bp_the_member(); ?>
@@ -288,6 +288,7 @@ function bp_core_ajax_widget_members() {
 
 			<?php endwhile; ?>
 		</div>
+
 	<?php else: ?>
 		<?php echo "-1[[SPLIT]]<li>"; ?>
 		<?php _e( 'There were no members found, please try another filter.', 'buddypress' ) ?>
