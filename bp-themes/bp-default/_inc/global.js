@@ -402,11 +402,16 @@ j(document).ready( function() {
 					comment_li.prepend( response.substr( 2, response.length ) ).hide().fadeIn( 200 );
 				} else {
 					var children = j( 'li#' + comment_li.attr('id') + ' ul' ).children('li');
+					var child_count = 0;
+					j(children).each( function() {
+						if ( !j(this).is(':hidden') )
+							child_count++;
+					});
 					comment_li.fadeOut(200);
 
 					/* Decrease the "Reply (X)" button count */
 					var parent_li = comment_li.parents('ul#activity-stream > li');
-					j('li#' + parent_li.attr('id') + ' a.acomment-reply span').html( j('li#' + parent_li.attr('id') + ' a.acomment-reply span').html() - ( 1 + children.length ) );
+					j('li#' + parent_li.attr('id') + ' a.acomment-reply span').html( j('li#' + parent_li.attr('id') + ' a.acomment-reply span').html() - ( 1 + child_count ) );
 				}
 			});
 
