@@ -340,14 +340,14 @@ function bp_messages_subject_value() {
 	echo bp_get_messages_subject_value();
 }
 	function bp_get_messages_subject_value() {
-		return apply_filters( 'bp_get_messages_subject_value', $_COOKIE['bp_messages_subject'] );
+		return apply_filters( 'bp_get_messages_subject_value', $_POST['subject'] );
 	}
 
 function bp_messages_content_value() {
 	echo bp_get_messages_content_value();
 }
 	function bp_get_messages_content_value() {
-		return apply_filters( 'bp_get_messages_content_value', $_COOKIE['bp_messages_content'] );
+		return apply_filters( 'bp_get_messages_content_value', $_POST['content'] );
 	}
 
 function bp_messages_options() {
