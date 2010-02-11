@@ -1,16 +1,17 @@
 === Plugin Name ===
 Contributors: apeatling
-Tags: buddypress, wpmu, social networking, activity, profiles, messaging, friends, groups, forums, microblogging
-Requires at least: WordPress 2.9
-Tested up to: WordPress 2.9
-Stable tag: 1.1.3
+Tags: buddypress, social networking, activity, profiles, messaging, friends, groups, forums, microblogging, twitter, facebook, mingle, social, community, networks, networking, cms
+Requires at least: WordPress 2.9.1
+Tested up to: WordPress 2.9.1
+Stable tag: 1.2
 
 == Description ==
 
-BuddyPress is designed to extend WordPress and bring along a whole host of new social features. BuddyPress
-will let users register on your site and start creating profiles, posting messages, making connections,
-creating and interacting in groups and much more. If you're looking to use WordPress to build a niche community
-or communication tool then BuddyPress will enable that with a click of a button.
+Social networking in a box. Build a social network for your company, school, sports team or niche community all
+based on the power and flexibility of WordPress.
+
+BuddyPress will let users register on your site and start creating profiles, posting messages, making connections,
+creating and interacting in groups and much more.
 
 <h4>Try the Demo</h4>
 
