@@ -845,7 +845,6 @@ j(document).ready( function() {
 					j('form#send-reply').before( response );
 
 					j("div.new-message").hide().slideDown( 200, function() {
-						j('form#send-reply span.ajax-loader').toggle();
 						j('div.new-message').removeClass('new-message');
 					});
 
@@ -855,6 +854,7 @@ j(document).ready( function() {
 							j(this).addClass('alt');
 					});
 				}
+				j('form#send-reply span.ajax-loader').toggle();
 			});
 
 			return false;
