@@ -1,4 +1,4 @@
-<?php if ( bp_has_topic_posts() ) : ?>
+<?php if ( bp_has_forum_topic_posts() ) : ?>
 
 	<form action="<?php bp_forum_topic_action() ?>" method="post" id="forum-topic-form" class="standard-form">
 
