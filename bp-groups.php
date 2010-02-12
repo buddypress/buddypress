@@ -2053,9 +2053,8 @@ function groups_delete_group_forum_topic( $topic_id ) {
 
 	if ( bp_forums_delete_topic( array( 'topic_id' => $topic_id ) ) ) {
 		/* Delete the activity stream item */
-		if ( function_exists( 'bp_activity_delete_by_item_id' ) ) {
-			bp_activity_delete_by_item_id( array( 'item_id' => $topic_id, 'component' => $bp->groups->id, 'type' => 'new_forum_topic' ) );
-			bp_activity_delete_by_item_id( array( 'item_id' => $topic_id, 'component' => $bp->groups->id, 'type' => 'new_forum_post' ) );
+		if ( function_exists( 'bp_activity_delete' ) ) {
+			bp_activity_delete( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $topic_id, 'component' => $bp->groups->id, 'type' => 'new_forum_topic' ) );
 		}
 
 		do_action( 'groups_delete_group_forum_topic', $topic_id );
@@ -2071,8 +2070,8 @@ function groups_delete_group_forum_post( $post_id, $topic_id ) {
 
 	if ( bp_forums_delete_post( array( 'post_id' => $post_id ) ) ) {
 		/* Delete the activity stream item */
-		if ( function_exists( 'bp_activity_delete_by_item_id' ) ) {
-			bp_activity_delete_by_item_id( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $post_id, 'component' => $bp->groups->id, 'type' => 'new_forum_post' ) );
+		if ( function_exists( 'bp_activity_delete' ) ) {
+			bp_activity_delete( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $post_id, 'component' => $bp->groups->id, 'type' => 'new_forum_post' ) );
 		}
 
 		do_action( 'groups_delete_group_forum_post', $post_id, $topic_id );
