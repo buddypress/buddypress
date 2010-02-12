@@ -201,17 +201,7 @@ function bp_dtheme_add_custom_header_support() {
 }
 add_action( 'init', 'bp_dtheme_add_custom_header_support' );
 
-/* Remove r */
-function bp_dtheme_remove_redundant() {
-	global $bp;
-
-	/* Remove the navigation options we do not need in this theme. */
-	bp_core_remove_subnav_item( $bp->blogs->slug, 'my-blogs' );
-	bp_core_remove_subnav_item( $bp->blogs->slug, 'recent-posts' );
-	bp_core_remove_subnav_item( $bp->blogs->slug, 'recent-comments' );
-}
-add_action( 'init', 'bp_dtheme_remove_redundant' );
-
+/* Show a notice when the theme is activated - workaround by Ozh (http://old.nabble.com/Activation-hook-exist-for-themes--td25211004.html) */
 function bp_dtheme_show_notice() { ?>
 	<div id="message" class="updated fade">
 		<p><?php printf( __( 'Theme activated! This theme contains <a href="%s">custom header image</a> support and <a href="%s">sidebar widgets</a>.', 'buddypress' ), admin_url( 'themes.php?page=custom-header' ), admin_url( 'widgets.php' ) ) ?></p>
@@ -220,6 +210,8 @@ function bp_dtheme_show_notice() { ?>
 	<style type="text/css">#message2, #message0 { display: none; }</style>
 	<?php
 }
+if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" )
+	add_action( 'admin_notices', 'bp_dtheme_show_notice' );
 
 /* Add words that we need to use in JS to the end of the page so they can be translated and still used. */
 function bp_dtheme_js_terms() { ?>
@@ -236,12 +228,5 @@ function bp_dtheme_js_terms() { ?>
 <?php
 }
 add_action( 'wp_footer', 'bp_dtheme_js_terms' );
-
-
-/* Show a notice when the theme is activated - workaround by Ozh (http://old.nabble.com/Activation-hook-exist-for-themes--td25211004.html) */
-if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" ) {
-	add_action( 'admin_notices', 'bp_dtheme_show_notice' );
-}
-
 
 ?>
