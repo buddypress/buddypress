@@ -1738,25 +1738,25 @@ function groups_get_groups( $args = '' ) {
 
 	switch ( $type ) {
 		case 'active': default:
-			$groups = BP_Groups_Group::get_active( $limit, $page, $user_id, $search_terms, $populate_extras );
+			$groups = BP_Groups_Group::get_active( $per_page, $page, $user_id, $search_terms, $populate_extras );
 			break;
 		case 'newest':
-			$groups = BP_Groups_Group::get_newest( $limit, $page, $user_id, $search_terms, $populate_extras );
+			$groups = BP_Groups_Group::get_newest( $per_page, $page, $user_id, $search_terms, $populate_extras );
 			break;
 		case 'popular':
-			$groups = BP_Groups_Group::get_popular( $limit, $page, $user_id, $search_terms, $populate_extras );
+			$groups = BP_Groups_Group::get_popular( $per_page, $page, $user_id, $search_terms, $populate_extras );
 			break;
 		case 'alphabetical':
-			$groups = BP_Groups_Group::get_alphabetically( $limit, $page, $user_id, $search_terms, $populate_extras );
+			$groups = BP_Groups_Group::get_alphabetically( $per_page, $page, $user_id, $search_terms, $populate_extras );
 			break;
 		case 'random':
-			$groups = BP_Groups_Group::get_random( $limit, $page, $user_id, $search_terms, $populate_extras );
+			$groups = BP_Groups_Group::get_random( $per_page, $page, $user_id, $search_terms, $populate_extras );
 			break;
 		case 'most-forum-topics':
-			$groups = BP_Groups_Group::get_by_most_forum_topics( $limit, $page, $user_id, $search_terms, $populate_extras );
+			$groups = BP_Groups_Group::get_by_most_forum_topics( $per_page, $page, $user_id, $search_terms, $populate_extras );
 			break;
 		case 'most-forum-posts':
-			$groups = BP_Groups_Group::get_by_most_forum_posts( $limit, $page, $user_id, $search_terms, $populate_extras );
+			$groups = BP_Groups_Group::get_by_most_forum_posts( $per_page, $page, $user_id, $search_terms, $populate_extras );
 			break;
 	}
 
