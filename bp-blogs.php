@@ -8,7 +8,10 @@ if ( !defined( 'BP_BLOGS_SLUG' ) )
 
 require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-classes.php' );
 require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-templatetags.php' );
-require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-widgets.php' );
+
+/* Include the sitewide blog posts widget if this is a multisite installation */
+if ( bp_core_is_multisite() )
+	require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-widgets.php' );
 
 function bp_blogs_install() {
 	global $wpdb, $bp;
@@ -436,7 +439,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 
 		if ( (int)get_blog_option( $blog_id, 'blog_public' ) || !bp_core_is_multisite() ) {
 			/* Now re-record the post in the activity streams */
-			$post_permalink = bp_post_get_permalink( $post, $blog_id );
+			$post_permalink = get_permalink( $post_id );
 
 			$activity_action = sprintf( __( '%s wrote a new blog post: %s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' );
 			$activity_content = $post->post_content;
@@ -494,7 +497,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved ) {
 
 	if ( (int)get_blog_option( $recorded_comment->blog_id, 'blog_public' ) || !bp_core_is_multisite() ) {
 		/* Record in activity streams */
-		$comment_link = bp_post_get_permalink( $comment->post, $wpdb->blogid ) . '#comment-' . $comment_id;
+		$comment_link = get_permalink( $comment->comment_post_ID ) . '#comment-' . $comment_id;
 		$activity_action = sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $comment_link . '#comment-' . $comment->comment_ID . '">' . $comment->post->post_title . '</a>' );
 		$activity_content = $comment->comment_content;
 

@@ -1,10 +1,17 @@
 <?php
 
-/* Register widgets for blogs component */
+/***
+ * The recent blogs widget is actually just the activity feed filtered on "new_blog_post".
+ * Why not make some of your own widgets using a filtered activity stream?
+ */
+
 function bp_blogs_register_widgets() {
-	add_action('widgets_init', create_function('', 'return register_widget("BP_Blogs_Recent_Posts_Widget");') );
+	global $current_blog, $bp;
+
+	if ( bp_is_active( 'activity' ) && (int)$current_blog->blog_id == BP_ROOT_BLOG )
+		add_action('widgets_init', create_function('', 'return register_widget("BP_Blogs_Recent_Posts_Widget");') );
 }
-add_action( 'template_redirect', 'bp_blogs_register_widgets' );
+add_action( 'bp_register_widgets', 'bp_blogs_register_widgets' );
 
 class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 	function bp_blogs_recent_posts_widget() {
@@ -25,34 +32,35 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 		if ( empty( $instance['max_posts'] ) || !$instance['max_posts'] )
 			$instance['max_posts'] = 10; ?>
 
-		<?php $posts = bp_blogs_get_latest_posts( null, $instance['max_posts'] ) ?>
-		<?php $counter = 0; ?>
+		<?php if ( bp_has_activities( 'action=new_blog_post&max=' . $instance['max_posts'] . '&per_page=' . $instance['max_posts'] ) ) : ?>
 
-		<?php if ( $posts ) : ?>
-			<div class="item-options" id="recent-posts-options">
-				<?php _e("Site Wide", 'buddypress') ?>
-			</div>
-			<ul id="recent-posts" class="item-list">
-				<?php foreach ( (array)$posts as $post ) : ?>
+			<ul id="blog-post-list" class="activity-list item-list">
+
+				<?php while ( bp_activities() ) : bp_the_activity(); ?>
+
 					<li>
-						<div class="item-avatar">
-							<a href="<?php echo bp_post_get_permalink( $post, $post->blog_id ) ?>" title="<?php echo apply_filters( 'the_title', $post->post_title ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $post->post_author, 'type' => 'thumb' ) ) ?></a>
-						</div>
+						<div class="activity-content" style="margin: 0">
 
-						<div class="item">
-							<h4 class="item-title"><a href="<?php echo bp_post_get_permalink( $post, $post->blog_id ) ?>" title="<?php echo apply_filters( 'the_title', $post->post_title ) ?>"><?php echo apply_filters( 'the_title', $post->post_title ) ?></a></h4>
-							<?php if ( !$counter ) : ?>
-								<div class="item-content"><?php echo bp_create_excerpt($post->post_content) ?></div>
+							<div class="activity-header">
+								<?php bp_activity_action() ?>
+							</div>
+
+							<?php if ( bp_get_activity_content_body() ) : ?>
+								<div class="activity-inner">
+									<?php bp_activity_content_body() ?>
+								</div>
 							<?php endif; ?>
-							<div class="item-meta"><em><?php printf( __( 'by %s from the blog <a href="%s">%s</a>', 'buddypress' ), bp_core_get_userlink( $post->post_author ), get_blog_option( $post->blog_id, 'siteurl' ), get_blog_option( $post->blog_id, 'blogname' ) ) ?></em></div>
+
 						</div>
 					</li>
-					<?php $counter++; ?>
-				<?php endforeach; ?>
+
+				<?php endwhile; ?>
+
 			</ul>
-		<?php else: ?>
-			<div class="widget-error">
-				<?php _e('There are no recent blog posts, why not write one?', 'buddypress') ?>
+
+		<?php else : ?>
+			<div id="message" class="info">
+				<p><?php _e( 'Sorry, there were no blog posts found. Why not write one?', 'buddypress' ) ?></p>
 			</div>
 		<?php endif; ?>
 
