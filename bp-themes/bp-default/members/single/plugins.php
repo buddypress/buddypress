@@ -12,7 +12,7 @@
 			<div id="item-nav">
 				<div class="item-list-tabs no-ajax" id="object-nav">
 					<ul>
-						<?php bp_get_user_nav() ?>
+						<?php bp_get_displayed_user_nav() ?>
 
 						<?php do_action( 'bp_members_directory_member_types' ) ?>
 					</ul>

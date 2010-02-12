@@ -208,22 +208,16 @@ function bp_has_forum_topics( $args = '' ) {
 	$forum_template = new BP_Forums_Template_Forum( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms );
 	return apply_filters( 'bp_has_topics', $forum_template->has_topics(), &$forum_template );
 }
-	/* DEPRECATED use bp_has_forum_topics() */
-	function bp_has_topics( $args = '' ) { return bp_has_forum_topics( $args ); }
 
 function bp_forum_topics() {
 	global $forum_template;
 	return $forum_template->user_topics();
 }
-	/* DEPRECATED use bp_has_forum_topics() */
-	function bp_topics() { return bp_forum_topics(); }
 
 function bp_the_forum_topic() {
 	global $forum_template;
 	return $forum_template->the_topic();
 }
-	/* DEPRECATED use bp_the_forum_topic() */
-	function bp_the_topic() { return bp_the_forum_topic(); }
 
 function bp_the_topic_id() {
 	echo bp_get_the_topic_id();
@@ -822,22 +816,16 @@ function bp_has_forum_topic_posts( $args = '' ) {
 
 	return apply_filters( 'bp_has_topic_posts', $topic_template->has_posts(), &$topic_template );
 }
-	/* DEPRECATED use bp_has_forum_topic_posts() */
-	function bp_has_topic_posts() { return bp_has_forum_topic_posts( $args ); }
 
 function bp_forum_topic_posts() {
 	global $topic_template;
 	return $topic_template->user_posts();
 }
-	/* DEPRECATED use bp_forum_topic_posts() */
-	function bp_topic_posts() { return bp_forum_topic_posts(); }
 
 function bp_the_forum_topic_post() {
 	global $topic_template;
 	return $topic_template->the_post();
 }
-	/* DEPRECATED use bp_the_forum_topic_post() */
-	function bp_the_topic_post() { return bp_the_forum_topic_post(); }
 
 function bp_the_topic_post_id() {
 	echo bp_get_the_topic_post_id();

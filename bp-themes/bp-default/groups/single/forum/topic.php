@@ -1,4 +1,4 @@
-<?php if ( bp_has_topic_posts() ) : ?>
+<?php if ( bp_has_forum_topic_posts() ) : ?>
 
 	<form action="<?php bp_forum_topic_action() ?>" method="post" id="forum-topic-form" class="standard-form">
 
@@ -24,7 +24,7 @@
 		</div>
 
 		<ul id="topic-post-list" class="item-list">
-			<?php while ( bp_topic_posts() ) : bp_the_topic_post(); ?>
+			<?php while ( bp_forum_topic_posts() ) : bp_the_forum_topic_post(); ?>
 
 				<li id="post-<?php bp_the_topic_post_id() ?>">
 					<div class="poster-meta">

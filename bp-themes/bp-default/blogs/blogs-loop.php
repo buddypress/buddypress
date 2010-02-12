@@ -21,7 +21,7 @@
 
 		<li>
 			<div class="item-avatar">
-				<a href="<?php bp_blog_permalink() ?>"><?php bp_blog_avatar_thumb() ?></a>
+				<a href="<?php bp_blog_permalink() ?>"><?php bp_blog_avatar('type=thumb') ?></a>
 			</div>
 
 			<div class="item">

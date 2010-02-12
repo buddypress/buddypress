@@ -83,7 +83,6 @@ function messages_setup_globals() {
 	do_action( 'messages_setup_globals' );
 }
 add_action( 'bp_setup_globals', 'messages_setup_globals' );
-add_action( 'admin_menu', 'messages_setup_globals', 2 );
 
 function messages_check_installed() {
 	global $wpdb, $bp;
@@ -92,7 +91,7 @@ function messages_check_installed() {
 		return false;
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( get_site_option('bp-messages-db-version') < BP_MESSAGES_DB_VERSION )
+	if ( $bp->site_options['bp-messages-db-version'] < BP_MESSAGES_DB_VERSION )
 		messages_install();
 }
 add_action( 'admin_menu', 'messages_check_installed' );

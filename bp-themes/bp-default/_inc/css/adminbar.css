@@ -10,6 +10,7 @@ body {
 	height: 25px;
 	font-size: 11px;
 	width: 100%;
+	z-index: 1000;
 }
 	#wp-admin-bar .padder {
 		position: relative;

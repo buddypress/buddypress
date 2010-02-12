@@ -169,11 +169,6 @@ function bp_profile_group_has_fields() {
 	global $profile_template;
 	return $profile_template->has_fields();
 }
-	/* Deprecated: Don't use this as it it too easily confused with site groups */
-	function bp_group_has_fields() {
-		return bp_profile_group_has_fields();
-	}
-
 
 function bp_field_css_class( $class = false ) {
 	echo bp_get_field_css_class( $class );
@@ -624,7 +619,7 @@ function bp_profile_group_name( $deprecated = true ) {
 function bp_avatar_upload_form() {
 	global $bp;
 
-	if ( !(int)get_site_option( 'bp-disable-avatar-uploads' ) )
+	if ( !(int)$bp->site_options['bp-disable-avatar-uploads'] )
 		bp_core_avatar_admin( null, $bp->loggedin_user->domain . $bp->profile->slug . '/change-avatar/', $bp->loggedin_user->domain . $bp->profile->slug . '/delete-avatar/' );
 	else
 		_e( 'Avatar uploads are currently disabled. Why not use a <a href="http://gravatar.com" target="_blank">gravatar</a> instead?', 'buddypress' );

@@ -394,21 +394,6 @@ function bp_directory_members_search_form() {
 <?php
 }
 
-function bp_home_blog_url() {
-	global $bp, $current_blog;
-
-	if ( defined( 'BP_ENABLE_MULTIBLOG' ) ) {
-		$blog_id = $current_blog->blog_id;
-	} else {
-		$blog_id = BP_ROOT_BLOG;
-	}
-
-	if ( 'bphome' == get_blog_option( $blog_id, 'template' ) )
-		echo $bp->root_domain . '/' . BP_HOME_BLOG_SLUG;
-	else
-		echo $bp->root_domain;
-}
-
 function bp_total_site_member_count() {
 	echo bp_get_total_site_member_count();
 }
@@ -474,8 +459,6 @@ function bp_get_loggedin_user_nav() {
 
 	echo apply_filters( 'bp_logout_nav_link', $logout_link );
 }
-	/* DEPRECATED - use bp_get_loggedin_user_nav() */
-	function bp_get_nav() { bp_get_loggedin_user_nav(); }
 
 /**
  * bp_get_displayed_user_nav()
@@ -507,8 +490,6 @@ function bp_get_displayed_user_nav() {
 		echo apply_filters( 'bp_get_displayed_user_nav_' . $user_nav_item['css_id'], '<li id="' . $user_nav_item['css_id'] . '-personal-li" ' . $selected . '><a id="user-' . $user_nav_item['css_id'] . '" href="' . $link . '">' . $user_nav_item['name'] . '</a></li>', &$user_nav_item );
 	}
 }
-	/* DEPRECATED - use bp_get_displayed_user_nav() */
-	function bp_get_user_nav() { bp_get_displayed_user_nav(); }
 
 /**
  * bp_get_options_nav()
@@ -873,9 +854,6 @@ function bp_get_plugin_sidebar() {
 function bp_is_blog_page() {
 	global $bp, $is_member_page, $wp_query;
 
-	if ( $bp->current_component == BP_HOME_BLOG_SLUG )
-		return true;
-
 	if ( $wp_query->is_home && !$bp->is_directory )
 		return true;
 
@@ -1000,7 +978,7 @@ function bp_search_form_type_select() {
 		$selection_box .= '<option value="groups">' . __( 'Groups', 'buddypress' ) . '</option>';
 	}
 
-	if ( function_exists( 'bp_forums_setup' ) && !(int) get_site_option( 'bp-disable-forum-directory' ) ) {
+	if ( function_exists( 'bp_forums_setup' ) && !(int) $bp->site_options['bp-disable-forum-directory'] ) {
 		$selection_box .= '<option value="forums">' . __( 'Forums', 'buddypress' ) . '</option>';
 	}
 
@@ -1035,25 +1013,6 @@ function bp_log_out_link() {
 		$logout_link = '<a href="' . $bp->root_domain . '/wp-login.php?action=logout&amp;redirect_to=' . $bp->root_domain . '">' . __( 'Log Out', 'buddypress' ) . '</a>';
 
 	echo apply_filters( 'bp_logout_link', $logout_link );
-}
-
-function bp_nav_items() {
-	global $bp;
-	// This is deprecated, you should put these navigation items in your template header.php for easy editing.
-?>
-	<li<?php if ( bp_is_page( 'home' ) ) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a></li>
-	<li<?php if ( bp_is_page( BP_HOME_BLOG_SLUG ) ) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/<?php echo BP_HOME_BLOG_SLUG ?>" title="<?php _e( 'Blog', 'buddypress' ) ?>"><?php _e( 'Blog', 'buddypress' ) ?></a></li>
-	<li<?php if ( bp_is_page( BP_MEMBERS_SLUG ) ) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/<?php echo BP_MEMBERS_SLUG ?>" title="<?php _e( 'Members', 'buddypress' ) ?>"><?php _e( 'Members', 'buddypress' ) ?></a></li>
-
-	<?php if ( function_exists( 'groups_install' ) ) { ?>
-		<li<?php if ( bp_is_page( $bp->groups->slug ) ) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/<?php echo $bp->groups->slug ?>" title="<?php _e( 'Groups', 'buddypress' ) ?>"><?php _e( 'Groups', 'buddypress' ) ?></a></li>
-	<?php } ?>
-
-	<?php if ( function_exists( 'bp_blogs_install' ) ) { ?>
-		<li<?php if ( bp_is_page( $bp->blogs->slug ) ) {?> class="selected"<?php } ?>><a href="<?php echo get_option('home') ?>/<?php echo $bp->blogs->slug ?>" title="<?php _e( 'Blogs', 'buddypress' ) ?>"><?php _e( 'Blogs', 'buddypress' ) ?></a></li>
-	<?php } ?>
-<?php
-	do_action( 'bp_nav_items' );
 }
 
 function bp_custom_profile_boxes() {
@@ -1239,8 +1198,10 @@ function bp_signup_allowed() {
 	echo bp_get_signup_allowed();
 }
 	function bp_get_signup_allowed() {
+		global $bp;
+
 		if ( bp_core_is_multisite() ) {
-			if ( in_array( get_site_option( 'registration' ), array( 'all', 'user' ) ) )
+			if ( in_array( $bp->site_options['registration'], array( 'all', 'user' ) ) )
 				return true;
 		} else {
 			if ( (int)get_option( 'users_can_register') )
@@ -1253,10 +1214,12 @@ function bp_blog_signup_allowed() {
 	echo bp_get_blog_signup_allowed();
 }
 	function bp_get_blog_signup_allowed() {
+		global $bp;
+
 		if ( !bp_core_is_multisite() )
 			return false;
 
-		$status = get_site_option( 'registration' );
+		$status = $bp->site_options['registration'];
 		if ( 'none' != $status && 'user' != $status )
 			return true;
 
@@ -1283,6 +1246,11 @@ function bp_mentioned_user_display_name( $user_id_or_username ) {
 		return apply_filters( 'bp_get_mentioned_user_display_name', $name, $user_id_or_username );
 	}
 
+function bp_get_option( $option_name ) {
+	global $bp;
+
+	return apply_filters( 'bp_get_option', $bp->site_options[$option_name] );
+}
 
 /*** CUSTOM LOOP TEMPLATE CLASSES *******************/
 

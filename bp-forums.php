@@ -20,7 +20,7 @@ function bp_forums_setup() {
 	$bp->forums->id = 'forums';
 
 	$bp->forums->image_base = BP_PLUGIN_URL . '/bp-forums/images';
-	$bp->forums->bbconfig = get_site_option( 'bb-config-location' );
+	$bp->forums->bbconfig = $bp->site_options['bb-config-location'];
 	$bp->forums->slug = BP_FORUMS_SLUG;
 
 	/* Register this in the active components array */
@@ -29,7 +29,6 @@ function bp_forums_setup() {
 	do_action( 'bp_forums_setup' );
 }
 add_action( 'bp_setup_globals', 'bp_forums_setup' );
-add_action( 'admin_head', 'bp_forums_setup', 2 );
 
 function bp_forums_is_installed_correctly() {
 	global $bp;
@@ -50,7 +49,7 @@ function bp_forums_directory_forums_setup() {
 	global $bp;
 
 	if ( $bp->current_component == $bp->forums->slug ) {
-		if ( (int) get_site_option( 'bp-disable-forum-directory' ) || !function_exists( 'groups_install' ) )
+		if ( (int) $bp->site_options['bp-disable-forum-directory'] || !function_exists( 'groups_install' ) )
 			return false;
 
 		if ( !bp_forums_is_installed_correctly() ) {

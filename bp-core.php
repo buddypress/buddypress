@@ -22,7 +22,7 @@ if ( file_exists( WP_PLUGIN_DIR . '/bp-custom.php' ) )
 if ( !defined( 'BP_ROOT_BLOG' ) )
 	define( 'BP_ROOT_BLOG', 1 );
 
-/* Define the user and usermeta table names, useful if you are using custom or shared tables */
+/* Define the user and usermeta table names, useful if you are using custom or shared tables. */
 if ( !defined( 'CUSTOM_USER_TABLE' ) )
 	define( 'CUSTOM_USER_TABLE', $wpdb->base_prefix . 'users' );
 
@@ -39,9 +39,12 @@ require ( BP_PLUGIN_DIR . '/bp-core/bp-core-settings.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-widgets.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-notifications.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-signup.php' );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-activation.php' );
 
-/* If BP_DISABLE_ADMIN_BAR is defined, do not load the global admin bar */
+/* Multisite includes built in account activation support. */
+if ( bp_core_is_multisite() )
+	require ( BP_PLUGIN_DIR . '/bp-core/bp-core-activation.php' );
+
+/* If BP_DISABLE_ADMIN_BAR is defined, do not load the global admin bar. */
 if ( !defined( 'BP_DISABLE_ADMIN_BAR' ) )
 	require ( BP_PLUGIN_DIR . '/bp-core/bp-core-adminbar.php' );
 
@@ -60,10 +63,6 @@ if ( !defined( 'BP_ACTIVATION_SLUG' ) )
 /* Define the slug for the search page */
 if ( !defined( 'BP_SEARCH_SLUG' ) )
 	define( 'BP_SEARCH_SLUG', 'search' );
-
-/* Define the slug for the search page */
-if ( !defined( 'BP_HOME_BLOG_SLUG' ) )
-	define( 'BP_HOME_BLOG_SLUG', 'blog' );
 
 /* Register BuddyPress themes contained within the bp-theme folder */
 if ( function_exists( 'register_theme_directory') )
@@ -141,23 +140,20 @@ function bp_core_setup_globals() {
 		$bp->default_component = BP_DEFAULT_COMPONENT;
 	}
 
+	/* Fetches all of the core database based BuddyPress settings in one foul swoop */
+	$bp->site_options = bp_core_get_site_options();
+
 	/* Sets up the array container for the component navigation rendered by bp_get_nav() */
 	$bp->bp_nav = array();
 
 	/* Sets up the array container for the component options navigation rendered by bp_get_options_nav() */
 	$bp->bp_options_nav = array();
 
-	/* Sets up container used for the title of the current component option and rendered by bp_get_options_title() */
-	$bp->bp_options_title = '';
-
-	/* Sets up container used for the avatar of the current component being viewed. Rendered by bp_get_options_avatar() */
-	$bp->bp_options_avatar = '';
-
 	/* Contains an array of all the active components. The key is the slug, value the internal ID of the component */
 	$bp->active_components = array();
 
 	/* Fetches the default Gravatar image to use if the user/group/blog has no avatar or gravatar */
-	$bp->grav_default->user = apply_filters( 'bp_user_gravatar_default', get_site_option( 'user-avatar-default' ) );
+	$bp->grav_default->user = apply_filters( 'bp_user_gravatar_default', $bp->site_options['user-avatar-default'] );
 	$bp->grav_default->group = apply_filters( 'bp_group_gravatar_default', 'identicon' );
 	$bp->grav_default->blog = apply_filters( 'bp_blog_gravatar_default', 'identicon' );
 
@@ -182,8 +178,6 @@ function bp_core_setup_globals() {
 	do_action( 'bp_core_setup_globals' );
 }
 add_action( 'bp_setup_globals', 'bp_core_setup_globals' );
-add_action( '_admin_menu', 'bp_core_setup_globals', 2 ); // must be _admin_menu hook.
-
 
 /**
  * bp_core_setup_root_uris()
@@ -201,7 +195,6 @@ function bp_core_setup_root_uris() {
 	bp_core_add_root_component( BP_REGISTER_SLUG );
 	bp_core_add_root_component( BP_ACTIVATION_SLUG );
 	bp_core_add_root_component( BP_SEARCH_SLUG );
-	bp_core_add_root_component( BP_HOME_BLOG_SLUG );
 }
 add_action( 'plugins_loaded', 'bp_core_setup_root_uris', 2 );
 
@@ -273,7 +266,7 @@ function bp_core_check_installed() {
 	require ( BP_PLUGIN_DIR . '/bp-core/bp-core-admin.php' );
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( get_site_option('bp-core-db-version') < BP_CORE_DB_VERSION )
+	if ( $bp->site_options['bp-core-db-version'] < BP_CORE_DB_VERSION )
 		bp_core_install();
 }
 add_action( 'admin_menu', 'bp_core_check_installed' );
@@ -557,8 +550,6 @@ function bp_core_get_user_domain( $user_id, $user_nicename = false, $user_login 
 
 	return apply_filters( 'bp_core_get_user_domain', $domain );
 }
-/* DEPRECATED */
-function bp_core_get_userurl( $uid ) { return bp_core_get_user_domain( $uid ); }
 
 /**
  * bp_core_get_core_userdata()
@@ -1076,14 +1067,11 @@ function bp_core_get_user_email( $uid ) {
  * @return false on no match
  * @return str The link text based on passed parameters.
  */
-function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false, $deprecated = false, $with_s = false ) {
+function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false ) {
 	$display_name = bp_core_get_user_displayname( $user_id );
 
 	if ( empty( $display_name ) )
 		return false;
-
-	if ( $with_s )
-		$display_name = sprintf( __( "%s's", 'buddypress' ), $display_name );
 
 	if ( $no_anchor )
 		return $display_name;
@@ -1094,7 +1082,7 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false,
 	if ( $just_link )
 		return $url;
 
-	return apply_filters( 'bp_core_get_userlink', '<a href="' . $url . '">' . $display_name . '</a>', $user_id );
+	return apply_filters( 'bp_core_get_userlink', '<a href="' . $url . '" title="' . $display_name . '">' . $display_name . '</a>', $user_id );
 }
 
 
@@ -1532,6 +1520,62 @@ function bp_core_get_site_path() {
 	}
 
 	return apply_filters( 'bp_core_get_site_path', $site_path );
+}
+
+/**
+ * bp_core_get_site_options()
+ *
+ * BuddyPress uses site options to store configuration settings. Many of these settings are needed
+ * at run time. Instead of fetching them all and adding many initial queries to each page load, let's fetch
+ * them all in one go.
+ *
+ * @package BuddyPress Core
+ */
+function bp_core_get_site_options() {
+	global $bp, $wpdb;
+
+	$options = apply_filters( 'bp_core_site_options', array(
+		'bp-core-db-version',
+		'bp-activity-db-version',
+		'bp-blogs-db-version',
+		'bp-friends-db-version',
+		'bp-groups-db-version',
+		'bp-messages-db-version',
+		'bp-xprofile-db-version',
+		'bp-deactivated-components',
+		'bp-blogs-first-install',
+		'bp-disable-blog-forum-comments',
+		'bp-xprofile-base-group-name',
+		'bp-xprofile-fullname-field-name',
+		'bp-hide-loggedout-adminbar',
+		'bp-disable-profile-sync',
+		'bp-disable-avatar-uploads',
+		'bp-disable-account-deletion',
+		'bp-disable-forum-directory',
+		'bp-disable-blogforum-comments',
+		'bb-config-location',
+
+		/* Useful WordPress settings used often */
+		'user-avatar-default',
+		'tags_blog_id',
+		'registration',
+		'fileupload_maxk'
+	) );
+
+	$meta_keys = "'" . implode( "','", (array)$options ) ."'";
+
+	if ( bp_core_is_multisite() )
+		$meta = $wpdb->get_results( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ({$meta_keys})" );
+	else
+		$meta = $wpdb->get_results( "SELECT option_name AS name, option_value AS value FROM {$wpdb->options} WHERE option_name IN ({$meta_keys})" );
+
+	$site_options = array();
+	if ( !empty( $meta ) ) {
+		foreach( (array)$meta as $meta_item )
+			$site_options[$meta_item->name] = $meta_item->value;
+	}
+
+	return apply_filters( 'bp_core_get_site_options', $site_options );
 }
 
 /**

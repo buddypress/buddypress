@@ -205,9 +205,6 @@ function bp_blog_avatar( $args = '' ) {
 		 */
 		return apply_filters( 'bp_get_blog_avatar_' . $blogs_template->blog->blog_id, bp_core_fetch_avatar( array( 'item_id' => $blogs_template->blog->admin_user_id, 'type' => $type, 'alt' => $alt, 'width' => $width, 'height' => $height, 'class' => $class, 'email' => $blogs_template->blog->admin_user_email ) ) );
 	}
-		/* DEPRECATED */
-		function bp_blog_avatar_thumb() { echo bp_get_blog_avatar('type=thumb'); }
-		function bp_blog_avatar_mini() { echo bp_get_blog_avatar_mini('type=thumb&width=30&height=30'); }
 
 function bp_blog_permalink() {
 	echo bp_get_blog_permalink();
@@ -301,7 +298,9 @@ function bp_total_blog_count_for_user( $user_id = false ) {
 /* Blog registration template tags */
 
 function bp_blog_signup_enabled() {
-	$active_signup = get_site_option( 'registration' );
+	global $bp;
+
+	$active_signup = $bp->site_options['registration'];
 
 	if ( !$active_signup )
 		$active_signup = 'all';

@@ -11,10 +11,6 @@ require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-filters.php' );
 require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-cssjs.php' );
 
-/* Assign the base group and fullname field names to constants to use in SQL statements */
-define ( 'BP_XPROFILE_BASE_GROUP_NAME', get_site_option( 'bp-xprofile-base-group-name' ) );
-define ( 'BP_XPROFILE_FULLNAME_FIELD_NAME', get_site_option( 'bp-xprofile-fullname-field-name' ) );
-
 /**
  * xprofile_install()
  *
@@ -31,10 +27,10 @@ function xprofile_install() {
 	if ( !empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 
-	if ( '' == get_site_option( 'bp-xprofile-base-group-name' ) )
+	if ( empty( $bp->option['bp-xprofile-base-group-name'] ) )
 		update_site_option( 'bp-xprofile-base-group-name', 'Base' );
 
-	if ( '' == get_site_option( 'bp-xprofile-fullname-field-name' ) )
+	if ( empty( $bp->option['bp-xprofile-fullname-field-name'] ) )
 		update_site_option( 'bp-xprofile-fullname-field-name', 'Name' );
 
 	$sql[] = "CREATE TABLE {$bp->profile->table_name_groups} (
@@ -75,15 +71,15 @@ function xprofile_install() {
 			  KEY user_id (user_id)
 	) {$charset_collate};";
 
-	if ( '' == get_site_option( 'bp-xprofile-db-version' ) ) {
+	if ( empty( $bp->option['bp-xprofile-db-version'] ) ) {
 		if ( !$wpdb->get_var( "SELECT id FROM {$bp->profile->table_name_groups} WHERE id = 1" ) )
-			$sql[] = "INSERT INTO {$bp->profile->table_name_groups} VALUES ( 1, '" . get_site_option( 'bp-xprofile-base-group-name' ) . "', '', 0 );";
+			$sql[] = "INSERT INTO {$bp->profile->table_name_groups} VALUES ( 1, '" . $bp->option['bp-xprofile-base-group-name'] . "', '', 0 );";
 
 		if ( !$wpdb->get_var( "SELECT id FROM {$bp->profile->table_name_fields} WHERE id = 1" ) ) {
 			$sql[] = "INSERT INTO {$bp->profile->table_name_fields} (
 						id, group_id, parent_id, type, name, is_required, can_delete
 					  ) VALUES (
-						1, 1, 0, 'textbox', '" . get_site_option( 'bp-xprofile-fullname-field-name' ) . "', 1, 0
+						1, 1, 0, 'textbox', '" . $bp->option['bp-xprofile-fullname-field-name'] . "', 1, 0
 					  );";
 		}
 	}
@@ -109,6 +105,10 @@ function xprofile_install() {
 function xprofile_setup_globals() {
 	global $bp, $wpdb;
 
+	/* Assign the base group and fullname field names to constants to use in SQL statements */
+	define ( 'BP_XPROFILE_BASE_GROUP_NAME', $bp->site_options['bp-xprofile-base-group-name'] );
+	define ( 'BP_XPROFILE_FULLNAME_FIELD_NAME', $bp->site_options['bp-xprofile-fullname-field-name'] );
+
 	/* For internal identification */
 	$bp->profile->id = 'profile';
 
@@ -128,7 +128,6 @@ function xprofile_setup_globals() {
 	do_action( 'xprofile_setup_globals' );
 }
 add_action( 'bp_setup_globals', 'xprofile_setup_globals' );
-add_action( 'admin_menu', 'xprofile_setup_globals', 2 );
 
 /**
  * xprofile_add_admin_menu()
@@ -156,7 +155,7 @@ function xprofile_add_admin_menu() {
 	add_submenu_page( 'bp-general-settings', __("Profile Field Setup", 'buddypress'), __("Profile Field Setup", 'buddypress'), 'manage_options', 'bp-profile-setup', "xprofile_admin" );
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( get_site_option('bp-xprofile-db-version') < BP_XPROFILE_DB_VERSION )
+	if ( $bp->option['bp-xprofile-db-version'] < BP_XPROFILE_DB_VERSION )
 		xprofile_install();
 }
 add_action( 'admin_menu', 'xprofile_add_admin_menu' );
@@ -867,7 +866,7 @@ function xprofile_avatar_upload_dir( $directory = false, $user_id = false ) {
 function xprofile_sync_wp_profile() {
 	global $bp, $wpdb;
 
-	if ( (int)get_site_option( 'bp-disable-profile-sync' ) )
+	if ( (int)$bp->option['bp-disable-profile-sync'] )
 		return true;
 
 	$fullname = xprofile_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $bp->loggedin_user->id );

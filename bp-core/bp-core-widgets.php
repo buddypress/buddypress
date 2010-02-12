@@ -86,7 +86,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 		   . $widget_name
 		   . $after_title; ?>
 
-		<?php if ( bp_has_members( 'user_id=0&type=newest&max=' . $instance['max_members'] ) ) : ?>
+		<?php if ( bp_has_members( 'user_id=0&type=newest&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
 			<div class="item-options" id="members-list-options">
 				<span class="ajax-loader" id="ajax-loader-members"></span>
 				<a href="<?php echo site_url() . '/' . BP_MEMBERS_SLUG ?>" id="newest-members" class="selected"><?php _e( 'Newest', 'buddypress' ) ?></a> |
@@ -254,7 +254,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 function bp_core_ajax_widget_members() {
 	global $bp;
 
-	check_ajax_referer('bp_core_widget_members');
+	check_ajax_referer( 'bp_core_widget_members' );
 
 	switch ( $_POST['filter'] ) {
 		case 'newest-members':
@@ -266,9 +266,10 @@ function bp_core_ajax_widget_members() {
 		case 'popular-members':
 			$type = 'popular';
 		break;
-	} ?>
-	<?php if ( bp_has_members( 'user_id=0&type=' . $type . '&per_page=' . $_POST['max-members'] . '&max=' . $_POST['max-members'] ) ) : ?>
-		<?php echo '0[[SPLIT]]'; // return valid result. TODO: remove this because it's dumb. ?>
+	}
+
+	if ( bp_has_members( 'user_id=0&type=' . $type . '&per_page=' . $_POST['max-members'] . '&max=' . $_POST['max-members'] . '&populate_extras=0' ) ) : ?>
+		<?php echo '0[[SPLIT]]'; // return valid result. TODO: remove this. ?>
 		<div class="avatar-block">
 			<?php while ( bp_members() ) : bp_the_member(); ?>
 				<li class="vcard">
@@ -278,7 +279,7 @@ function bp_core_ajax_widget_members() {
 
 					<div class="item">
 						<div class="item-title fn"><a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name() ?>"><?php bp_member_name() ?></a></div>
-						<?php if ( 'active' == $type ) : ?>
+						<?php if ( 'active' == $type || 'newest' == $type ) : ?>
 							<div class="item-meta"><span class="activity"><?php bp_member_last_active() ?></span></div>
 						<?php else : ?>
 							<div class="item-meta"><span class="activity"><?php bp_member_total_friend_count() ?></span></div>

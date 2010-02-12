@@ -99,7 +99,6 @@ function groups_setup_globals() {
 	do_action( 'groups_setup_globals' );
 }
 add_action( 'bp_setup_globals', 'groups_setup_globals' );
-add_action( 'admin_menu', 'groups_setup_globals', 2 );
 
 function groups_setup_root_component() {
 	/* Register 'groups' as a root component */
@@ -109,7 +108,7 @@ add_action( 'bp_setup_root_components', 'groups_setup_root_component' );
 
 function groups_check_installed() {
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( get_site_option('bp-groups-db-version') < BP_GROUPS_DB_VERSION )
+	if ( $bp->site_options['bp-groups-db-version'] < BP_GROUPS_DB_VERSION )
 		groups_install();
 }
 add_action( 'admin_menu', 'groups_check_installed' );

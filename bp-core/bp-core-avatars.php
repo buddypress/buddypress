@@ -7,40 +7,44 @@
 /***
  * Set up the constants we need for avatar support
  */
+function bp_core_set_avatar_constants() {
+	global $bp;
 
-if ( !defined( 'BP_AVATAR_UPLOAD_PATH' ) )
-	define( 'BP_AVATAR_UPLOAD_PATH', bp_core_avatar_upload_path() );
+	if ( !defined( 'BP_AVATAR_UPLOAD_PATH' ) )
+		define( 'BP_AVATAR_UPLOAD_PATH', bp_core_avatar_upload_path() );
 
-if ( !defined( 'BP_AVATAR_URL' ) )
-	define( 'BP_AVATAR_URL', bp_core_avatar_url() );
+	if ( !defined( 'BP_AVATAR_URL' ) )
+		define( 'BP_AVATAR_URL', bp_core_avatar_url() );
 
-if ( !defined( 'BP_AVATAR_THUMB_WIDTH' ) )
-	define( 'BP_AVATAR_THUMB_WIDTH', 50 );
+	if ( !defined( 'BP_AVATAR_THUMB_WIDTH' ) )
+		define( 'BP_AVATAR_THUMB_WIDTH', 50 );
 
-if ( !defined( 'BP_AVATAR_THUMB_HEIGHT' ) )
-	define( 'BP_AVATAR_THUMB_HEIGHT', 50 );
+	if ( !defined( 'BP_AVATAR_THUMB_HEIGHT' ) )
+		define( 'BP_AVATAR_THUMB_HEIGHT', 50 );
 
-if ( !defined( 'BP_AVATAR_FULL_WIDTH' ) )
-	define( 'BP_AVATAR_FULL_WIDTH', 150 );
+	if ( !defined( 'BP_AVATAR_FULL_WIDTH' ) )
+		define( 'BP_AVATAR_FULL_WIDTH', 150 );
 
-if ( !defined( 'BP_AVATAR_FULL_HEIGHT' ) )
-	define( 'BP_AVATAR_FULL_HEIGHT', 150 );
+	if ( !defined( 'BP_AVATAR_FULL_HEIGHT' ) )
+		define( 'BP_AVATAR_FULL_HEIGHT', 150 );
 
-if ( !defined( 'BP_AVATAR_ORIGINAL_MAX_WIDTH' ) )
-	define( 'BP_AVATAR_ORIGINAL_MAX_WIDTH', 450 );
+	if ( !defined( 'BP_AVATAR_ORIGINAL_MAX_WIDTH' ) )
+		define( 'BP_AVATAR_ORIGINAL_MAX_WIDTH', 450 );
 
-if ( !defined( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE' ) ) {
-	if ( !get_site_option( 'fileupload_maxk' ) )
-		define( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE', 5120000 ); /* 5mb */
-	else
-		define( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE', get_site_option( 'fileupload_maxk' ) * 1024 );
+	if ( !defined( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE' ) ) {
+		if ( !$bp->site_options['fileupload_maxk'] )
+			define( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE', 5120000 ); /* 5mb */
+		else
+			define( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE', $bp->site_options['fileupload_maxk'] * 1024 );
+	}
+
+	if ( !defined( 'BP_AVATAR_DEFAULT' ) )
+		define( 'BP_AVATAR_DEFAULT', BP_PLUGIN_URL . '/bp-xprofile/images/none.gif' );
+
+	if ( !defined( 'BP_AVATAR_DEFAULT_THUMB' ) )
+		define( 'BP_AVATAR_DEFAULT_THUMB', BP_PLUGIN_URL . '/bp-xprofile/images/none-thumbnail.gif' );
 }
-
-if ( !defined( 'BP_AVATAR_DEFAULT' ) )
-	define( 'BP_AVATAR_DEFAULT', BP_PLUGIN_URL . '/bp-xprofile/images/none.gif' );
-
-if ( !defined( 'BP_AVATAR_DEFAULT_THUMB' ) )
-	define( 'BP_AVATAR_DEFAULT_THUMB', BP_PLUGIN_URL . '/bp-xprofile/images/none-thumbnail.gif' );
+add_action( 'bp_init', 'bp_core_set_avatar_constants' );
 
 function bp_core_fetch_avatar( $args = '' ) {
 	global $bp, $current_blog;

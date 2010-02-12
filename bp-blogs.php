@@ -63,7 +63,7 @@ function bp_blogs_install() {
 	dbDelta($sql);
 
 	// On first installation - record all existing blogs in the system.
-	if ( !(int)get_site_option( 'bp-blogs-first-install') && bp_core_is_multisite() ) {
+	if ( !(int)$bp->site_options['bp-blogs-first-install'] && bp_core_is_multisite() ) {
 		bp_blogs_record_existing_blogs();
 		add_site_option( 'bp-blogs-first-install', 1 );
 	}
@@ -77,7 +77,7 @@ function bp_blogs_check_installed() {
 	/* Only create the bp-blogs tables if this is a multisite install */
 	if ( is_site_admin() && bp_core_is_multisite() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( get_site_option('bp-blogs-db-version') < BP_BLOGS_DB_VERSION )
+		if ( $bp->site_options['bp-blogs-db-version'] < BP_BLOGS_DB_VERSION )
 			bp_blogs_install();
 	}
 }
@@ -102,7 +102,6 @@ function bp_blogs_setup_globals() {
 	do_action( 'bp_blogs_setup_globals' );
 }
 add_action( 'bp_setup_globals', 'bp_blogs_setup_globals' );
-add_action( 'admin_menu', 'bp_blogs_setup_globals', 2 );
 
 function bp_blogs_setup_root_component() {
 	/* Register 'blogs' as a root component */
@@ -382,7 +381,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 		$user_id = (int)$post->post_author;
 
 	/* This is to stop infinate loops with Donncha's sitewide tags plugin */
-	if ( (int)get_site_option( 'tags_blog_id' ) == (int)$blog_id )
+	if ( (int)$bp->site_options['tags_blog_id'] == (int)$blog_id )
 		return false;
 
 	/* Don't record this if it's not a post */
@@ -407,7 +406,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 
 			if ( (int)get_blog_option( $blog_id, 'blog_public' ) || !bp_core_is_multisite() ) {
 				/* Record this in activity streams */
-				$post_permalink = bp_post_get_permalink( $post, $blog_id );
+				$post_permalink = get_permalink( $post_id );
 
 				$activity_action = sprintf( __( '%s wrote a new blog post: %s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' );
 				$activity_content = $post->post_content;

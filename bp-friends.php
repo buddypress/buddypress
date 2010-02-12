@@ -48,7 +48,6 @@ function friends_setup_globals() {
 	do_action( 'friends_setup_globals' );
 }
 add_action( 'bp_setup_globals', 'friends_setup_globals' );
-add_action( 'admin_menu', 'friends_setup_globals', 2 );
 
 function friends_check_installed() {
 	global $wpdb, $bp;
@@ -57,7 +56,7 @@ function friends_check_installed() {
 		return false;
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( get_site_option('bp-friends-db-version') < BP_FRIENDS_DB_VERSION )
+	if ( $bp->site_options['bp-friends-db-version'] < BP_FRIENDS_DB_VERSION )
 		friends_install();
 }
 add_action( 'admin_menu', 'friends_check_installed' );

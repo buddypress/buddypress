@@ -227,7 +227,7 @@
 					<p><?php _e( 'You have successfully created your account! Please log in using the username and password you have just created.', 'buddypress' ) ?></p>
 				<?php endif; ?>
 
-				<?php if ( bp_is_active( 'xprofile' ) && !(int)get_site_option( 'bp-disable-avatar-uploads' ) ) : ?>
+				<?php if ( bp_is_active( 'xprofile' ) && !(int)bp_get_option( 'bp-disable-avatar-uploads' ) ) : ?>
 
 					<?php if ( 'upload-image' == bp_get_avatar_admin_step() ) : ?>
 

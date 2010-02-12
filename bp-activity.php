@@ -89,12 +89,11 @@ function bp_activity_setup_globals() {
 	do_action( 'bp_activity_setup_globals' );
 }
 add_action( 'bp_setup_globals', 'bp_activity_setup_globals' );
-add_action( 'admin_menu', 'bp_activity_setup_globals', 2 );
 
 function bp_activity_check_installed() {
 	global $wpdb, $bp;
 
-	if ( get_site_option('bp-activity-db-version') < BP_ACTIVITY_DB_VERSION )
+	if ( $bp->site_options['bp-activity-db-version'] < BP_ACTIVITY_DB_VERSION )
 		bp_activity_install();
 }
 add_action( 'admin_menu', 'bp_activity_check_installed' );

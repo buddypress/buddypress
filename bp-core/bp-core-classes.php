@@ -206,14 +206,15 @@ class BP_Core_User {
 		 * Lets fetch some other useful data in a separate queries, this will be faster than querying the data for every user in a list.
 		 * We can't add these to the main query above since only users who have this information will be returned (since the much of the data is in usermeta and won't support any type of directional join)
 		 */
-		foreach ( (array)$paged_users as $user )
-			$user_ids[] = $user->id;
+		if ( $populate_extras ) {
+			foreach ( (array)$paged_users as $user )
+				$user_ids[] = $user->id;
 
-		$user_ids = $wpdb->escape( join( ',', (array)$user_ids ) );
+			$user_ids = $wpdb->escape( join( ',', (array)$user_ids ) );
 
-		/* Add additional data to the returned results */
-		if ( $populate_extras )
+			/* Add additional data to the returned results */
 			$paged_users = BP_Core_User::get_user_extras( &$paged_users, $user_ids, $type );
+		}
 
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}

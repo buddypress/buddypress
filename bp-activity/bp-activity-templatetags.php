@@ -22,7 +22,7 @@ class BP_Activity_Template {
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
 		/* Check if blog/forum replies are disabled */
-		$this->disable_blogforum_replies = get_site_option( 'bp-disable-blogforum-comments' );
+		$this->disable_blogforum_replies = $bp->site_options['bp-disable-blogforum-comments'];
 
 		/* Get an array of the logged in user's favorite activities */
 		$this->my_favs = maybe_unserialize( get_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities' ) );
@@ -164,7 +164,7 @@ function bp_has_activities( $args = '' ) {
 		'include' => $include, // pass an activity_id or string of ID's comma separated
 		'sort' => 'DESC', // sort DESC or ASC
 		'page' => 1, // which page to load
-		'per_page' => 25, // number of items per page
+		'per_page' => 20, // number of items per page
 		'max' => false, // max number to return
 		'show_hidden' => $show_hidden, // Show activity items that are hidden site-wide?
 

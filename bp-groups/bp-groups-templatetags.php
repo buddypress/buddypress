@@ -254,14 +254,8 @@ function bp_group_is_visible( $group = false ) {
 	return false;
 }
 
-
-function bp_group_id( $deprecated = true, $deprecated2 = false ) {
-	global $groups_template;
-
-	if ( !$deprecated )
-		return bp_get_group_id();
-	else
-		echo bp_get_group_id();
+function bp_group_id() {
+	echo bp_get_group_id();
 }
 	function bp_get_group_id( $group = false ) {
 		global $groups_template;
@@ -272,13 +266,8 @@ function bp_group_id( $deprecated = true, $deprecated2 = false ) {
 		return apply_filters( 'bp_get_group_id', $group->id );
 	}
 
-function bp_group_name( $deprecated = true, $deprecated2 = false ) {
-	global $groups_template;
-
-	if ( !$deprecated )
-		return bp_get_group_name();
-	else
-		echo bp_get_group_name();
+function bp_group_name() {
+	echo bp_get_group_name();
 }
 	function bp_get_group_name( $group = false ) {
 		global $groups_template;
@@ -362,11 +351,8 @@ function bp_group_avatar_mini() {
 		return bp_get_group_avatar( 'type=thumb&width=30&height=30' );
 	}
 
-function bp_group_last_active( $deprecated = true, $deprecated2 = false ) {
-	if ( !$deprecated )
-		return bp_get_group_last_active();
-	else
-		echo bp_get_group_last_active();
+function bp_group_last_active() {
+	echo bp_get_group_last_active();
 }
 	function bp_get_group_last_active( $group = false ) {
 		global $groups_template;
@@ -386,11 +372,8 @@ function bp_group_last_active( $deprecated = true, $deprecated2 = false ) {
 		}
 	}
 
-function bp_group_permalink( $deprecated = false, $deprecated2 = true ) {
-	if ( !$deprecated2 )
-		return bp_get_group_permalink();
-	else
-		echo bp_get_group_permalink();
+function bp_group_permalink() {
+	echo bp_get_group_permalink();
 }
 	function bp_get_group_permalink( $group = false ) {
 		global $groups_template, $bp;
@@ -401,11 +384,8 @@ function bp_group_permalink( $deprecated = false, $deprecated2 = true ) {
 		return apply_filters( 'bp_get_group_permalink', $bp->root_domain . '/' . $bp->groups->slug . '/' . $group->slug . '/' );
 	}
 
-function bp_group_admin_permalink( $deprecated = true, $deprecated2 = false ) {
-	if ( !$deprecated )
-		return bp_get_group_admin_permalink();
-	else
-		echo bp_get_group_admin_permalink();
+function bp_group_admin_permalink() {
+	echo bp_get_group_admin_permalink();
 }
 	function bp_get_group_admin_permalink( $group = false ) {
 		global $groups_template, $bp;
@@ -428,11 +408,8 @@ function bp_group_slug() {
 		return apply_filters( 'bp_get_group_slug', $group->slug );
 	}
 
-function bp_group_description( $deprecated = false, $deprecated2 = true ) {
-	if ( !$deprecated2 )
-		return bp_get_group_description();
-	else
-		echo bp_get_group_description();
+function bp_group_description() {
+	echo bp_get_group_description();
 }
 	function bp_get_group_description( $group = false ) {
 		global $groups_template;
@@ -443,7 +420,7 @@ function bp_group_description( $deprecated = false, $deprecated2 = true ) {
 		return apply_filters( 'bp_get_group_description', stripslashes($group->description) );
 	}
 
-function bp_group_description_editable( $deprecated = false ) {
+function bp_group_description_editable() {
 	echo bp_get_group_description_editable();
 }
 	function bp_get_group_description_editable( $group = false ) {
@@ -455,7 +432,7 @@ function bp_group_description_editable( $deprecated = false ) {
 		return apply_filters( 'bp_get_group_description_editable', $group->description );
 	}
 
-function bp_group_description_excerpt( $deprecated = false ) {
+function bp_group_description_excerpt() {
 	echo bp_get_group_description_excerpt();
 }
 	function bp_get_group_description_excerpt( $group = false ) {
@@ -468,7 +445,7 @@ function bp_group_description_excerpt( $deprecated = false ) {
 	}
 
 
-function bp_group_public_status( $deprecated = false ) {
+function bp_group_public_status() {
 	echo bp_get_group_public_status();
 }
 	function bp_get_group_public_status( $group = false ) {
@@ -484,7 +461,7 @@ function bp_group_public_status( $deprecated = false ) {
 		}
 	}
 
-function bp_group_is_public( $deprecated = false ) {
+function bp_group_is_public() {
 	echo bp_get_group_is_public();
 }
 	function bp_get_group_is_public( $group = false ) {
@@ -496,7 +473,7 @@ function bp_group_is_public( $deprecated = false ) {
 		return apply_filters( 'bp_get_group_is_public', $group->is_public );
 	}
 
-function bp_group_date_created( $deprecated = false ) {
+function bp_group_date_created() {
 	echo bp_get_group_date_created();
 }
 	function bp_get_group_date_created( $group = false ) {
@@ -520,7 +497,7 @@ function bp_group_is_mod() {
 	return $bp->is_item_mod;
 }
 
-function bp_group_list_admins( $deprecated = true, $group = false ) {
+function bp_group_list_admins( $group = false ) {
 	global $groups_template;
 
 	if ( !$group )
@@ -540,7 +517,7 @@ function bp_group_list_admins( $deprecated = true, $group = false ) {
 <?php
 }
 
-function bp_group_list_mods( $deprecated = true, $group = false ) {
+function bp_group_list_mods( $group = false ) {
 	global $groups_template;
 
 	if ( !$group )
@@ -560,16 +537,8 @@ function bp_group_list_mods( $deprecated = true, $group = false ) {
 <?php
 }
 
-function bp_group_all_members_permalink( $deprecated = true, $deprecated2 = false ) {
-	global $groups_template, $bp;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-
-	if ( !$deprecated )
-		return bp_get_group_all_members_permalink();
-	else
-		echo bp_get_group_all_members_permalink();
+function bp_group_all_members_permalink() {
+	echo bp_get_group_all_members_permalink();
 }
 	function bp_get_group_all_members_permalink( $group = false ) {
 		global $groups_template, $bp;
@@ -635,13 +604,10 @@ function bp_groups_pagination_count() {
 	<span class="ajax-loader"></span><?php
 }
 
-function bp_group_total_members( $deprecated = true, $deprecated2 = false ) {
-	if ( !$deprecated )
-		return bp_get_group_total_members();
-	else
-		echo bp_get_group_total_members();
+function bp_group_total_members() {
+	echo bp_get_group_total_members();
 }
-	function bp_get_group_total_members( $echo = true, $group = false ) {
+	function bp_get_group_total_members( $group = false ) {
 		global $groups_template;
 
 		if ( !$group )
@@ -662,7 +628,7 @@ function bp_group_member_count() {
 			return apply_filters( 'bp_get_group_member_count', sprintf( __( '%s members', 'buddypress' ), bp_core_number_format( $groups_template->group->total_member_count ) ) );
 	}
 
-function bp_group_forum_permalink( $deprecated = false ) {
+function bp_group_forum_permalink() {
 	echo bp_get_group_forum_permalink();
 }
 	function bp_get_group_forum_permalink( $group = false ) {
@@ -901,7 +867,7 @@ function bp_group_member_promote_admin_link( $args = '' ) {
 		return apply_filters( 'bp_get_group_member_promote_admin_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/promote/admin/' . $user_id, 'groups_promote_member' ) );
 	}
 
-function bp_group_member_demote_link( $user_id = false, $deprecated = false ) {
+function bp_group_member_demote_link( $user_id = false ) {
 	global $members_template;
 
 	if ( !$user_id )
@@ -921,7 +887,7 @@ function bp_group_member_demote_link( $user_id = false, $deprecated = false ) {
 		return apply_filters( 'bp_get_group_member_demote_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/demote/' . $user_id, 'groups_demote_member' ) );
 	}
 
-function bp_group_member_ban_link( $user_id = false, $deprecated = false ) {
+function bp_group_member_ban_link( $user_id = false ) {
 	global $members_template;
 
 	if ( !$user_id )
@@ -938,7 +904,7 @@ function bp_group_member_ban_link( $user_id = false, $deprecated = false ) {
 		return apply_filters( 'bp_get_group_member_ban_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/ban/' . $user_id, 'groups_ban_member' ) );
 	}
 
-function bp_group_member_unban_link( $user_id = false, $deprecated = false ) {
+function bp_group_member_unban_link( $user_id = false ) {
 	global $members_template;
 
 	if ( !$user_id )
@@ -995,7 +961,7 @@ function bp_group_total_for_member() {
 		return apply_filters( 'bp_get_group_total_for_member', BP_Groups_Member::total_group_count() );
 	}
 
-function bp_group_form_action( $page, $deprecated = false ) {
+function bp_group_form_action( $page ) {
 	echo bp_get_group_form_action( $page );
 }
 	function bp_get_group_form_action( $page, $group = false ) {
@@ -1007,7 +973,7 @@ function bp_group_form_action( $page, $deprecated = false ) {
 		return apply_filters( 'bp_group_form_action', bp_get_group_permalink( $group ) . $page );
 	}
 
-function bp_group_admin_form_action( $page = false, $deprecated = false ) {
+function bp_group_admin_form_action( $page = false ) {
 	echo bp_get_group_admin_form_action( $page );
 }
 	function bp_get_group_admin_form_action( $page = false, $group = false ) {
@@ -1049,7 +1015,7 @@ function bp_group_is_member( $group = false ) {
 	return true;
 }
 
-function bp_group_accept_invite_link( $deprecated = false ) {
+function bp_group_accept_invite_link() {
 	echo bp_get_group_accept_invite_link();
 }
 	function bp_get_group_accept_invite_link( $group = false ) {
@@ -1061,7 +1027,7 @@ function bp_group_accept_invite_link( $deprecated = false ) {
 		return apply_filters( 'bp_get_group_accept_invite_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->groups->slug . '/invites/accept/' . $group->id, 'groups_accept_invite' ) );
 	}
 
-function bp_group_reject_invite_link( $deprecated = false ) {
+function bp_group_reject_invite_link() {
 	echo bp_get_group_reject_invite_link();
 }
 	function bp_get_group_reject_invite_link( $group = false ) {
@@ -1073,7 +1039,7 @@ function bp_group_reject_invite_link( $deprecated = false ) {
 		return apply_filters( 'bp_get_group_reject_invite_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->groups->slug . '/invites/reject/' . $group->id, 'groups_reject_invite' ) );
 	}
 
-function bp_group_leave_confirm_link( $deprecated = false ) {
+function bp_group_leave_confirm_link() {
 	echo bp_get_group_leave_confirm_link();
 }
 	function bp_get_group_leave_confirm_link( $group = false ) {
@@ -1085,7 +1051,7 @@ function bp_group_leave_confirm_link( $deprecated = false ) {
 		return apply_filters( 'bp_group_leave_confirm_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group/yes', 'groups_leave_group' ) );
 	}
 
-function bp_group_leave_reject_link( $deprecated = false ) {
+function bp_group_leave_reject_link() {
 	echo bp_get_group_leave_reject_link();
 }
 	function bp_get_group_leave_reject_link( $group = false ) {
@@ -1097,7 +1063,7 @@ function bp_group_leave_reject_link( $deprecated = false ) {
 		return apply_filters( 'bp_get_group_leave_reject_link', bp_get_group_permalink( $group ) );
 	}
 
-function bp_group_send_invite_form_action( $deprecated = false ) {
+function bp_group_send_invite_form_action() {
 	echo bp_get_group_send_invite_form_action();
 }
 	function bp_get_group_send_invite_form_action( $group = false ) {
