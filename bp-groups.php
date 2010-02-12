@@ -1220,9 +1220,9 @@ function groups_action_redirect_to_random_group() {
 	global $bp, $wpdb;
 
 	if ( $bp->current_component == $bp->groups->slug && isset( $_GET['random-group'] ) ) {
-		$group = groups_get_random_groups( 1, 1 );
+		$group = groups_get_groups( array( 'type' => 'random', 'per_page' => 1 ) );
 
-		bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/' . $group['groups'][0]->slug );
+		bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/' . $group['groups'][0]->slug . '/' );
 	}
 }
 add_action( 'wp', 'groups_action_redirect_to_random_group', 6 );
