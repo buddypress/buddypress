@@ -1295,6 +1295,8 @@ div.activity-comments ul, div.activity-comments ul li {
 			padding: 15px 0 15px 0;
 		}
 
+		div.activity-comments span.acomment-replylink { display: none; }
+
 		div.activity-comments ul li p:last-child {
 			margin-bottom: 0;
 		}

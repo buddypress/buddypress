@@ -247,7 +247,7 @@ Class BP_Activity_Activity {
 			'user_id' => false,
 			'item_id' => false,
 			'secondary_item_id' => false,
-			'recorded_time' => false,
+			'date_recorded' => false,
 			'hide_sitewide' => false
 		);
 
@@ -280,11 +280,11 @@ Class BP_Activity_Activity {
 		if ( !empty( $secondary_item_id ) )
 			$where_args[] = $wpdb->prepare( "secondary_item_id = %s", $secondary_item_id );
 
-		if ( !empty( $recorded_time ) )
-			$where_args[] = $wpdb->prepare( "recorded_time = %s", $recorded_time );
+		if ( !empty( $date_recorded ) )
+			$where_args[] = $wpdb->prepare( "date_recorded = %s", $date_recorded );
 
 		if ( !empty( $hide_sitewide ) )
-			$where_args[] = $wpdb->prepare( "recorded_time = %d", $hide_sitewide );
+			$where_args[] = $wpdb->prepare( "hide_sitewide = %d", $hide_sitewide );
 
 		if ( !empty( $where_args ) )
 			$where_sql = 'WHERE ' . join( ' AND ', $where_args );

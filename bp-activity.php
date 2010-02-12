@@ -360,6 +360,111 @@ function bp_activity_action_delete_activity() {
 }
 add_action( 'wp', 'bp_activity_action_delete_activity', 3 );
 
+function bp_activity_action_post_update() {
+	global $bp;
+
+	if ( !is_user_logged_in() || $bp->current_component != $bp->activity->slug || $bp->current_action != 'post' )
+		return false;
+
+	/* Check the nonce */
+	check_admin_referer( 'post_update', '_wpnonce_post_update' );
+
+	$content = apply_filters( 'bp_activity_post_update_content', $_POST['whats-new'] );
+	$object = apply_filters( 'bp_activity_post_update_object', $_POST['whats-new-post-object'] );
+	$item_id = apply_filters( 'bp_activity_post_update_item_id', $_POST['whats-new-post-in'] );
+
+	if ( empty( $content ) ) {
+		bp_core_add_message( __( 'Please enter some content to post.', 'buddypress' ), 'error' );
+		bp_core_redirect( wp_get_referer() );
+	}
+
+	if ( !(int)$item_id ) {
+		$activity_id = bp_activity_post_update( array( 'content' => $content ) );
+
+	} else if ( 'groups' == $object && function_exists( 'groups_post_update' ) ) {
+		if ( (int)$item_id ) {
+			$activity_id = groups_post_update( array( 'content' => $content, 'group_id' => $item_id ) );
+		}
+	} else
+		$activity_id = apply_filters( 'bp_activity_custom_update', $object, $item_id, $content );
+
+	if ( !empty( $activity_id ) )
+		bp_core_add_message( __( 'Update Posted!', 'buddypress' ) );
+	else
+		bp_core_add_message( __( 'There was an error when posting your update, please try again.', 'buddypress' ), 'error' );
+
+	bp_core_redirect( wp_get_referer() );
+}
+add_action( 'wp', 'bp_activity_action_post_update', 3 );
+
+function bp_activity_action_post_comment() {
+	global $bp;
+
+	if ( !is_user_logged_in() || $bp->current_component != $bp->activity->slug || $bp->current_action != 'reply' )
+		return false;
+
+	/* Check the nonce */
+	check_admin_referer( 'new_activity_comment', '_wpnonce_new_activity_comment' );
+
+	$activity_id = apply_filters( 'bp_activity_post_comment_activity_id', $_POST['comment_form_id'] );
+	$content = apply_filters( 'bp_activity_post_comment_content', $_POST['ac_input_' . $activity_id] );
+
+	if ( empty( $content ) ) {
+		bp_core_add_message( __( 'Please do not leave the comment area blank.', 'buddypress' ), 'error' );
+		bp_core_redirect( wp_get_referer() . '#ac-form-' . $activity_id );
+	}
+
+	$comment_id = bp_activity_new_comment( array(
+		'content' => $content,
+		'activity_id' => $activity_id,
+		'parent_id' => $parent_id
+	));
+
+	if ( !empty( $comment_id ) )
+		bp_core_add_message( __( 'Reply Posted!', 'buddypress' ) );
+	else
+		bp_core_add_message( __( 'There was an error posting that reply, please try again.', 'buddypress' ), 'error' );
+
+	bp_core_redirect( wp_get_referer() . '#ac-form-' . $activity_id );
+}
+add_action( 'wp', 'bp_activity_action_post_comment', 3 );
+
+function bp_activity_action_mark_favorite() {
+	global $bp;
+
+	if ( !is_user_logged_in() || $bp->current_component != $bp->activity->slug || $bp->current_action != 'favorite' )
+		return false;
+
+	/* Check the nonce */
+	check_admin_referer( 'mark_favorite' );
+
+	if ( bp_activity_add_user_favorite( $bp->action_variables[0] ) )
+		bp_core_add_message( __( 'Activity marked as favorite.', 'buddypress' ) );
+	else
+		bp_core_add_message( __( 'There was an error marking that activity as a favorite, please try again.', 'buddypress' ), 'error' );
+
+	bp_core_redirect( wp_get_referer() . '#activity-' . $bp->action_variables[0] );
+}
+add_action( 'wp', 'bp_activity_action_mark_favorite', 3 );
+
+function bp_activity_action_remove_favorite() {
+	global $bp;
+
+	if ( !is_user_logged_in() || $bp->current_component != $bp->activity->slug || $bp->current_action != 'unfavorite' )
+		return false;
+
+	/* Check the nonce */
+	check_admin_referer( 'unmark_favorite' );
+
+	if ( bp_activity_remove_user_favorite( $bp->action_variables[0] ) )
+		bp_core_add_message( __( 'Activity removed as favorite.', 'buddypress' ) );
+	else
+		bp_core_add_message( __( 'There was an error removing that activity as a favorite, please try again.', 'buddypress' ), 'error' );
+
+	bp_core_redirect( wp_get_referer() . '#activity-' . $bp->action_variables[0] );
+}
+add_action( 'wp', 'bp_activity_action_remove_favorite', 3 );
+
 function bp_activity_action_sitewide_feed() {
 	global $bp, $wp_query;
 
@@ -894,10 +999,10 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = false ) {
 
 	/* Update the user's personal favorites */
 	$my_favs = maybe_unserialize( get_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities' ) );
-	$my_favs[] = $_POST['id'];
+	$my_favs[] = $activity_id;
 
 	/* Update the total number of users who have favorited this activity */
-	$fav_count = bp_activity_get_meta( $_POST['id'], 'favorite_count' );
+	$fav_count = bp_activity_get_meta( $activity_id, 'favorite_count' );
 
 	if ( !empty( $fav_count ) )
 		$fav_count = (int)$fav_count + 1;
@@ -905,7 +1010,7 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = false ) {
 		$fav_count = 1;
 
 	update_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities', $my_favs );
-	bp_activity_update_meta( $_POST['id'], 'favorite_count', $fav_count );
+	bp_activity_update_meta( $activity_id, 'favorite_count', $fav_count );
 
 	return true;
 }
@@ -919,15 +1024,15 @@ function bp_activity_remove_user_favorite( $activity_id, $user_id = false ) {
 	/* Remove the fav from the user's favs */
 	$my_favs = maybe_unserialize( get_usermeta( $user_id, 'bp_favorite_activities' ) );
 	$my_favs = array_flip( (array) $my_favs );
-	unset( $my_favs[$_POST['id']] );
+	unset( $my_favs[$activity_id] );
 	$my_favs = array_unique( array_flip( $my_favs ) );
 
 	/* Update the total number of users who have favorited this activity */
-	$fav_count = bp_activity_get_meta( $_POST['id'], 'favorite_count' );
+	$fav_count = bp_activity_get_meta( $activity_id, 'favorite_count' );
 
 	if ( !empty( $fav_count ) ) {
 		$fav_count = (int)$fav_count - 1;
-		bp_activity_update_meta( $_POST['id'], 'favorite_count', $fav_count );
+		bp_activity_update_meta( $activity_id, 'favorite_count', $fav_count );
 	}
 
 	update_usermeta( $user_id, 'bp_favorite_activities', $my_favs );

@@ -10,10 +10,12 @@
  */
 
 /***
- * Each object loop (activity/members/groups/blogs/forums) contains parameters to
+ * This function looks scarier than it actually is. :)
+ * Each object loop (activity/members/groups/blogs/forums) contains default parameters to
  * show specific information based on the page we are currently looking at.
  * The following function will take into account any cookies set in the JS and allow us
  * to override the parameters sent. That way we can change the results returned without reloading the page.
+ * By using cookies we can also make sure that user settings are retained across page loads.
  */
 function bp_dtheme_ajax_querystring( $object = false ) {
 	global $bp;
@@ -60,6 +62,7 @@ function bp_dtheme_ajax_querystring( $object = false ) {
 	return apply_filters( 'bp_dtheme_ajax_querystring', $query_string, $object, $_BP_COOKIE['bp-' . $object . '-filter'], $_BP_COOKIE['bp-' . $object . '-scope'], $_BP_COOKIE['bp-' . $object . '-page'], $_BP_COOKIE['bp-' . $object . '-search-terms'], $_BP_COOKIE['bp-' . $object . '-extras'] );
 }
 
+/* This function will simply load the template loop for the current object. On an AJAX request */
 function bp_dtheme_object_template_loader() {
 	$object = esc_attr( $_POST['object'] );
 	locate_template( array( "$object/$object-loop.php" ), true );
@@ -69,6 +72,7 @@ add_action( 'wp_ajax_groups_filter', 'bp_dtheme_object_template_loader' );
 add_action( 'wp_ajax_blogs_filter', 'bp_dtheme_object_template_loader' );
 add_action( 'wp_ajax_forums_filter', 'bp_dtheme_object_template_loader' );
 
+/* This function will load the activity loop template when activity is requested via AJAX */
 function bp_dtheme_activity_template_loader() {
 	global $bp;
 
@@ -103,6 +107,7 @@ function bp_dtheme_activity_template_loader() {
 add_action( 'wp_ajax_activity_widget_filter', 'bp_dtheme_activity_template_loader' );
 add_action( 'wp_ajax_activity_get_older_updates', 'bp_dtheme_activity_template_loader' );
 
+/* AJAX update posting */
 function bp_dtheme_post_update() {
 	global $bp;
 
@@ -119,20 +124,13 @@ function bp_dtheme_post_update() {
 		return false;
 	}
 
-	if ( empty( $_POST['object'] ) ) {
-		$activity_id = bp_activity_post_update( array(
-			'content' => $_POST['content']
-		));
+	if ( empty( $_POST['object'] ) && function_exists( 'bp_activity_post_update' ) ) {
+		$activity_id = bp_activity_post_update( array( 'content' => $_POST['content'] ) );
 	} elseif ( $_POST['object'] == 'groups' ) {
-		if ( !empty( $_POST['item_id'] ) ) {
-		$activity_id = groups_post_update( array(
-			'content' => $_POST['content'],
-				'group_id' => $_POST['item_id']
-		));
-		}
-	} else {
+		if ( !empty( $_POST['item_id'] ) && function_exists( 'groups_post_update' ) )
+			$activity_id = groups_post_update( array( 'content' => $_POST['content'], 'group_id' => $_POST['item_id'] ) );
+	} else
 		$activity_id = apply_filters( 'bp_activity_custom_update', $_POST['object'], $_POST['item_id'], $_POST['content'] );
-	}
 
 	if ( !$activity_id ) {
 		echo '-1<div id="message" class="error"><p>' . __( 'There was a problem posting your update, please try again.', 'buddypress' ) . '</p></div>';
@@ -147,6 +145,7 @@ function bp_dtheme_post_update() {
 }
 add_action( 'wp_ajax_post_update', 'bp_dtheme_post_update' );
 
+/* AJAX activity comment posting */
 function bp_dtheme_new_activity_comment() {
 	global $bp;
 
@@ -201,6 +200,7 @@ function bp_dtheme_new_activity_comment() {
 }
 add_action( 'wp_ajax_new_activity_comment', 'bp_dtheme_new_activity_comment' );
 
+/* AJAX delete an activity */
 function bp_dtheme_delete_activity() {
 	global $bp;
 
@@ -227,6 +227,7 @@ function bp_dtheme_delete_activity() {
 }
 add_action( 'wp_ajax_delete_activity', 'bp_dtheme_delete_activity' );
 
+/* AJAX delete an activity comment */
 function bp_dtheme_delete_activity_comment() {
 	global $bp;
 
@@ -253,6 +254,7 @@ function bp_dtheme_delete_activity_comment() {
 }
 add_action( 'wp_ajax_delete_activity_comment', 'bp_dtheme_delete_activity_comment' );
 
+/* AJAX mark an activity as a favorite */
 function bp_dtheme_mark_activity_favorite() {
 	global $bp;
 
@@ -261,6 +263,7 @@ function bp_dtheme_mark_activity_favorite() {
 }
 add_action( 'wp_ajax_activity_mark_fav', 'bp_dtheme_mark_activity_favorite' );
 
+/* AJAX mark an activity as not a favorite */
 function bp_dtheme_unmark_activity_favorite() {
 	global $bp;
 
@@ -269,6 +272,7 @@ function bp_dtheme_unmark_activity_favorite() {
 }
 add_action( 'wp_ajax_activity_mark_unfav', 'bp_dtheme_unmark_activity_favorite' );
 
+/* AJAX invite a friend to a group functionality */
 function bp_dtheme_ajax_invite_user() {
 	global $bp;
 
@@ -312,6 +316,7 @@ function bp_dtheme_ajax_invite_user() {
 }
 add_action( 'wp_ajax_groups_invite_user', 'bp_dtheme_ajax_invite_user' );
 
+/* AJAX add/remove a user as a friend when clicking the button */
 function bp_dtheme_ajax_addremove_friend() {
 	global $bp;
 
@@ -342,6 +347,7 @@ function bp_dtheme_ajax_addremove_friend() {
 }
 add_action( 'wp_ajax_addremove_friend', 'bp_dtheme_ajax_addremove_friend' );
 
+/* AJAX accept a user as a friend when clicking the "accept" button */
 function bp_dtheme_ajax_accept_friendship() {
 	check_admin_referer( 'friends_accept_friendship' );
 
@@ -352,6 +358,7 @@ function bp_dtheme_ajax_accept_friendship() {
 }
 add_action( 'wp_ajax_accept_friendship', 'bp_dtheme_ajax_accept_friendship' );
 
+/* AJAX reject a user as a friend when clicking the "reject" button */
 function bp_dtheme_ajax_reject_friendship() {
 	check_admin_referer( 'friends_reject_friendship' );
 
@@ -362,6 +369,7 @@ function bp_dtheme_ajax_reject_friendship() {
 }
 add_action( 'wp_ajax_reject_friendship', 'bp_dtheme_ajax_reject_friendship' );
 
+/* AJAX join or leave a group when clicking the "join/leave" button */
 function bp_dtheme_ajax_joinleave_group() {
 	global $bp;
 
@@ -414,6 +422,7 @@ function bp_dtheme_ajax_joinleave_group() {
 }
 add_action( 'wp_ajax_joinleave_group', 'bp_dtheme_ajax_joinleave_group' );
 
+/* AJAX close and keep closed site wide notices from an admin in the sidebar */
 function bp_dtheme_ajax_close_notice() {
 	global $userdata;
 
@@ -429,6 +438,7 @@ function bp_dtheme_ajax_close_notice() {
 }
 add_action( 'wp_ajax_messages_close_notice', 'bp_dtheme_ajax_close_notice' );
 
+/* AJAX send a private message reply to a thread */
 function bp_dtheme_ajax_messages_send_reply() {
 	global $bp;
 
@@ -464,6 +474,7 @@ function bp_dtheme_ajax_messages_send_reply() {
 }
 add_action( 'wp_ajax_messages_send_reply', 'bp_dtheme_ajax_messages_send_reply' );
 
+/* AJAX mark a private message as unread in your inbox */
 function bp_dtheme_ajax_message_markunread() {
 	global $bp;
 
@@ -479,6 +490,7 @@ function bp_dtheme_ajax_message_markunread() {
 }
 add_action( 'wp_ajax_messages_markunread', 'bp_dtheme_ajax_message_markunread' );
 
+/* AJAX mark a private message as read in your inbox */
 function bp_dtheme_ajax_message_markread() {
 	global $bp;
 
@@ -494,6 +506,7 @@ function bp_dtheme_ajax_message_markread() {
 }
 add_action( 'wp_ajax_messages_markread', 'bp_dtheme_ajax_message_markread' );
 
+/* AJAX delete a private message or array of messages in your inbox */
 function bp_dtheme_ajax_messages_delete() {
 	global $bp;
 
@@ -510,6 +523,7 @@ function bp_dtheme_ajax_messages_delete() {
 }
 add_action( 'wp_ajax_messages_delete', 'bp_dtheme_ajax_messages_delete' );
 
+/* AJAX autocomplete your friends names on the compose screen */
 function bp_dtheme_ajax_messages_autocomplete_results() {
 	global $bp;
 

@@ -7,16 +7,20 @@ var bp_ajax_request = null;
 j(document).ready( function() {
 	/**** Page Load Actions *******************************************************/
 
+	/* Hide Forums Post Form */
+	if ( j('div.forums').length )
+		j('div#new-topic-post').hide();
+
+	/* Show threaded reply links */
+	if ( j('span.acomment-replylink').length )
+		j('span.acomment-replylink').show();
+
 	/* Activity filter and scope set */
 	bp_init_activity();
 
 	/* Object filter and scope set. */
 	var objects = [ 'members', 'groups', 'blogs', 'forums' ];
 	bp_init_objects( objects );
-
-	/* Hide Forums Post Form */
-	if ( j('div.forums').length )
-		j('div#new-topic-post').hide();
 
 	/* @mention Compose Scrolling */
 	if ( j.query.get('r') ) {
@@ -307,7 +311,7 @@ j(document).ready( function() {
 		}
 
 		/* Activity comment posting */
-		if ( target.attr('name') == 'ac-form-submit' ) {
+		if ( target.attr('name') == 'ac_form_submit' ) {
 			var form = target.parent().parent();
 			var form_parent = form.parent();
 			var form_id = form.attr('id').split('-');

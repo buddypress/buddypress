@@ -568,9 +568,9 @@ function bp_activity_comments( $args = '' ) {
 				$content .= '<div class="acomment-avatar"><a href="' . bp_core_get_user_domain( $comment->user_id, $comment->user_nicename, $comment->user_login ) . '">' . bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'width' => 25, 'height' => 25, 'email' => $comment->user_email ) ) . '</a></div>';
 				$content .= '<div class="acomment-meta"><a href="' . bp_core_get_user_domain( $comment->user_id, $comment->user_nicename, $comment->user_login ) . '">' . apply_filters( 'bp_get_member_name', $comment->user_fullname ) . '</a> &middot; ' . sprintf( __( '%s ago', 'buddypress' ), bp_core_time_since( strtotime( $comment->date_recorded ) ) );
 
-				/* Reply link */
+				/* Reply link - the span is so that threaded reply links can be hidden when JS is off. */
 				if ( is_user_logged_in() )
-					$content .= ' &middot; <a href="#acomment-' . $comment->id . '" class="acomment-reply" id="acomment-reply-' . $activities_template->activity->id . '">' . __( 'Reply', 'buddypress' ) . '</a>';
+					$content .= '<span class="acomment-replylink"> &middot; <a href="#acomment-' . $comment->id . '" class="acomment-reply" id="acomment-reply-' . $activities_template->activity->id . '">' . __( 'Reply', 'buddypress' ) . '</a></span>';
 
 				/* Delete link */
 				if ( is_site_admin() || $bp->loggedin_user->id == $comment->user_id )
@@ -614,6 +614,32 @@ function bp_activity_comment_count() {
 			return $count;
 		}
 
+function bp_activity_comment_link() {
+	echo bp_get_activity_comment_link();
+}
+	function bp_get_activity_comment_link() {
+		global $activities_template;
+		return apply_filters( 'bp_get_activity_comment_link', '?ac=' . $activities_template->activity->id . '/#ac-form-' . $activities_template->activity->id );
+	}
+
+function bp_activity_comment_form_nojs_display() {
+	echo bp_get_activity_comment_form_nojs_display();
+}
+	function bp_get_activity_comment_form_nojs_display() {
+		global $activities_template;
+		if ( $_GET['ac'] == $activities_template->activity->id . '/' )
+			return 'style="display: block"';
+
+		return false;
+	}
+
+function bp_activity_comment_form_action() {
+	echo bp_get_activity_comment_form_action();
+}
+	function bp_get_activity_comment_form_action() {
+		return apply_filters( 'bp_get_activity_comment_form_action', site_url( BP_ACTIVITY_SLUG . '/reply/' ) );
+	}
+
 function bp_activity_permalink_id() {
 	echo bp_get_activity_permalink_id();
 }
@@ -632,6 +658,22 @@ function bp_activity_thread_permalink() {
 		$link = bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity );
 
 	 	return apply_filters( 'bp_get_activity_thread_permalink', $link );
+	}
+
+function bp_activity_favorite_link() {
+	echo bp_get_activity_favorite_link();
+}
+	function bp_get_activity_favorite_link() {
+		global $activities_template;
+		return apply_filters( 'bp_get_activity_favorite_link', wp_nonce_url( site_url( BP_ACTIVITY_SLUG . '/favorite/' . $activities_template->activity->id . '/' ), 'mark_favorite' ) );
+	}
+
+function bp_activity_unfavorite_link() {
+	echo bp_get_activity_unfavorite_link();
+}
+	function bp_get_activity_unfavorite_link() {
+		global $activities_template;
+		return apply_filters( 'bp_get_activity_unfavorite_link', wp_nonce_url( site_url( BP_ACTIVITY_SLUG . '/unfavorite/' . $activities_template->activity->id . '/' ), 'unmark_favorite' ) );
 	}
 
 function bp_activity_css_class() {
@@ -791,6 +833,12 @@ function bp_send_public_message_link() {
 		return apply_filters( 'bp_get_send_public_message_link', $bp->loggedin_user->domain . $bp->activity->slug . '/?r=' . bp_core_get_username( $bp->displayed_user->user_id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) );
 	}
 
+function bp_activity_post_form_action() {
+	echo bp_get_activity_post_form_action();
+}
+	function bp_get_activity_post_form_action() {
+		return apply_filters( 'bp_get_activity_post_form_action', site_url( BP_ACTIVITY_SLUG . '/post/' ) );
+	}
 
 /* RSS Feed Template Tags ***************************/
 
