@@ -17,7 +17,7 @@
  * to override the parameters sent. That way we can change the results returned without reloading the page.
  * By using cookies we can also make sure that user settings are retained across page loads.
  */
-function bp_dtheme_ajax_querystring( $object = false ) {
+function bp_dtheme_ajax_querystring( $query_string, $object ) {
 	global $bp;
 
 	if ( empty( $object ) )
@@ -61,6 +61,7 @@ function bp_dtheme_ajax_querystring( $object = false ) {
 
 	return apply_filters( 'bp_dtheme_ajax_querystring', $query_string, $object, $_BP_COOKIE['bp-' . $object . '-filter'], $_BP_COOKIE['bp-' . $object . '-scope'], $_BP_COOKIE['bp-' . $object . '-page'], $_BP_COOKIE['bp-' . $object . '-search-terms'], $_BP_COOKIE['bp-' . $object . '-extras'] );
 }
+add_filter( 'bp_ajax_querystring', 'bp_dtheme_ajax_querystring', 10, 2 );
 
 /* This function will simply load the template loop for the current object. On an AJAX request */
 function bp_dtheme_object_template_loader() {

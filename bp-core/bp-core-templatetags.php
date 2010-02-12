@@ -1266,6 +1266,24 @@ function bp_get_option( $option_name ) {
 	return apply_filters( 'bp_get_option', $bp->site_options[$option_name] );
 }
 
+/**
+ * Allow templates to pass parameters directly into the template loops via AJAX
+ *
+ * For the most part this will be filtered in a theme's functions.php for example
+ * in the default theme it is filtered via bp_dtheme_ajax_querystring()
+ *
+ * By using this template tag in the templates it will stop them from showing errors
+ * if someone copies the templates from the default theme into another WordPress theme
+ * without coping the functions from functions.php.
+ */
+function bp_ajax_querystring( $object = false ) {
+	global $bp;
+
+	$bp->ajax_querystring = apply_filters( 'bp_ajax_querystring', $query_string, $object );
+	return $bp->ajax_querystring;
+}
+
+
 /*** CUSTOM LOOP TEMPLATE CLASSES *******************/
 
 
