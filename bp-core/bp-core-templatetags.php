@@ -685,6 +685,20 @@ function bp_last_activity( $user_id = false, $echo = true ) {
 		return apply_filters( 'bp_last_activity', $last_activity );
 }
 
+function bp_user_firstname() {
+	echo bp_get_user_firstname();
+}
+	function bp_get_user_firstname( $name = false ) {
+		global $bp;
+
+		if ( !$name )
+			$name = $bp->loggedin_user->fullname;
+
+		$fullname = (array)explode( ' ', $name );
+
+		return apply_filters( 'bp_get_user_firstname', $fullname[0], $fullname );
+	}
+
 function bp_user_link() {
 	global $bp;
 

@@ -21,26 +21,13 @@ require_once( TEMPLATEPATH . '/_inc/ajax.php' );
 /* Load the javascript for the theme */
 wp_enqueue_script( 'dtheme-ajax-js', get_template_directory_uri() . '/_inc/global.js', array( 'jquery' ) );
 
-function bp_dtheme_firstname( $name = false, $echo = false ) {
-	global $bp;
-
-	if ( !$name )
-		$name = $bp->loggedin_user->fullname;
-
-	$fullname = (array)explode( ' ', $name );
-	$firstname = apply_filters( 'bp_dtheme_firstname', $fullname[0], $fullname );
-
-	if ( $echo )
-		echo $firstname;
-	else
-		return $firstname;
-}
-
+/* Add the JS needed for blog comment replies */
 function bp_dtheme_add_blog_comments_js() {
 	if ( is_singular() ) wp_enqueue_script( 'comment-reply' );
 }
 add_action( 'template_redirect', 'bp_dtheme_add_blog_comments_js' );
 
+/* HTML for outputting blog comments as defined by the WP comment API */
 function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 	$GLOBALS['comment'] = $comment; ?>
 
@@ -82,6 +69,7 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 <?php
 }
 
+/* Filter the dropdown for selecting the page to show on front to include "Activity Stream" */
 function bp_dtheme_wp_pages_filter( $page_html ) {
 	if ( 'page_on_front' != substr( $page_html, 14, 13 ) )
 		return $page_html;
@@ -97,6 +85,7 @@ function bp_dtheme_wp_pages_filter( $page_html ) {
 }
 add_filter( 'wp_dropdown_pages', 'bp_dtheme_wp_pages_filter' );
 
+/* Hijack the saving of page on front setting to save the activity stream setting */
 function bp_dtheme_page_on_front_update( $oldvalue, $newvalue ) {
 	if ( !is_admin() || !is_site_admin() )
 		return false;
@@ -108,6 +97,7 @@ function bp_dtheme_page_on_front_update( $oldvalue, $newvalue ) {
 }
 add_action( 'pre_update_option_page_on_front', 'bp_dtheme_page_on_front_update', 10, 2 );
 
+/* Load the activity stream template if settings allow */
 function bp_dtheme_page_on_front_template( $template ) {
 	global $wp_query;
 
@@ -211,16 +201,7 @@ function bp_dtheme_add_custom_header_support() {
 }
 add_action( 'init', 'bp_dtheme_add_custom_header_support' );
 
-function bp_dtheme_remove_redundant() {
-	global $bp;
-
-	/* Remove the navigation options we do not need in this theme. */
-	bp_core_remove_subnav_item( $bp->blogs->slug, 'my-blogs' );
-	bp_core_remove_subnav_item( $bp->blogs->slug, 'recent-posts' );
-	bp_core_remove_subnav_item( $bp->blogs->slug, 'recent-comments' );
-}
-add_action( 'init', 'bp_dtheme_remove_redundant' );
-
+/* Show a notice to the user in wp-admin when the theme is activated */
 function bp_dtheme_show_notice() { ?>
 	<div id="message" class="updated fade">
 		<p><?php printf( __( 'Theme activated! This theme contains <a href="%s">custom header image</a> support and <a href="%s">sidebar widgets</a>.', 'buddypress' ), admin_url( 'themes.php?page=custom-header' ), admin_url( 'widgets.php' ) ) ?></p>
@@ -229,6 +210,8 @@ function bp_dtheme_show_notice() { ?>
 	<style type="text/css">#message2, #message0 { display: none; }</style>
 	<?php
 }
+if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" )
+	add_action( 'admin_notices', 'bp_dtheme_show_notice' );
 
 /* Add words that we need to use in JS to the end of the page so they can be translated and still used. */
 function bp_dtheme_js_terms() { ?>
@@ -240,17 +223,10 @@ function bp_dtheme_js_terms() { ?>
 	var bp_terms_show_all = '<?php _e( "Show all", "buddypress" ) ?>';
 	var bp_terms_comments = '<?php _e( "comments", "buddypress" ) ?>';
 	var bp_terms_close = '<?php _e( "Close", "buddypress" ) ?>';
-	var bp_terms_mention_explain = '<?php printf( __( "%s is a unique identifier for %s that you can type into any message on this site. %s will be sent a notification and a link to your message any time you use it.", "buddypress" ), '@' . bp_get_displayed_user_username(), bp_dtheme_firstname(bp_get_displayed_user_fullname()), bp_dtheme_firstname(bp_get_displayed_user_fullname()) ); ?>';
+	var bp_terms_mention_explain = '<?php printf( __( "%s is a unique identifier for %s that you can type into any message on this site. %s will be sent a notification and a link to your message any time you use it.", "buddypress" ), '@' . bp_get_displayed_user_username(), bp_get_user_firstname(bp_get_displayed_user_fullname()), bp_get_user_firstname(bp_get_displayed_user_fullname()) ); ?>';
 	</script>
 <?php
 }
 add_action( 'wp_footer', 'bp_dtheme_js_terms' );
-
-
-/* Show a notice when the theme is activated - workaround by Ozh (http://old.nabble.com/Activation-hook-exist-for-themes--td25211004.html) */
-if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" ) {
-	add_action( 'admin_notices', 'bp_dtheme_show_notice' );
-}
-
 
 ?>

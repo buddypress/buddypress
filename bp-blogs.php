@@ -131,11 +131,6 @@ function bp_blogs_setup_nav() {
 
 	$blogs_link = $bp->loggedin_user->domain . $bp->blogs->slug . '/';
 
-	/* Add the subnav items to the blogs nav item */
-	bp_core_new_subnav_item( array( 'name' => __( 'My Blogs', 'buddypress' ), 'slug' => 'my-blogs', 'parent_url' => $blogs_link, 'parent_slug' => $bp->blogs->slug, 'screen_function' => 'bp_blogs_screen_my_blogs', 'position' => 10, 'item_css_id' => 'my-blogs-list' ) );
-	bp_core_new_subnav_item( array( 'name' => __( 'Recent Posts', 'buddypress' ), 'slug' => 'recent-posts', 'parent_url' => $blogs_link, 'parent_slug' => $bp->blogs->slug, 'screen_function' => 'bp_blogs_screen_recent_posts', 'position' => 20 ) );
-	bp_core_new_subnav_item( array( 'name' => __( 'Recent Comments', 'buddypress' ), 'slug' => 'recent-comments', 'parent_url' => $blogs_link, 'parent_slug' => $bp->blogs->slug, 'screen_function' => 'bp_blogs_screen_recent_comments', 'position' => 30 ) );
-
 	/* Set up the component options navigation for Blog */
 	if ( 'blogs' == $bp->current_component ) {
 		if ( bp_is_my_profile() ) {
