@@ -223,7 +223,7 @@ function bp_has_groups( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
 
-	$groups_template = new BP_Groups_Template( (int)$user_id, $type, (int)$page, (int)$per_page, (int)$max, $slug, $search_terms, (int)$populate_extras );
+	$groups_template = new BP_Groups_Template( (int)$user_id, $type, (int)$page, (int)$per_page, (int)$max, $slug, $search_terms, (bool)$populate_extras );
 	return apply_filters( 'bp_has_groups', $groups_template->has_groups(), &$groups_template );
 }
 

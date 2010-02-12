@@ -1729,32 +1729,32 @@ function groups_get_all( $limit = null, $page = 1, $only_public = false, $sort_b
  * If you pass a $user_id then the groups will be restricted to only those that the
  * user has joined.
  */
-function groups_get_newest( $limit = null, $page = 1, $user_id = false, $search_terms = false ) {
-	return BP_Groups_Group::get_newest( $limit, $page, $user_id, $search_terms );
+function groups_get_newest( $limit = null, $page = 1, $user_id = false, $search_terms = false, $populate_extras = true ) {
+	return BP_Groups_Group::get_newest( $limit, $page, $user_id, $search_terms, $populate_extras );
 }
 
-function groups_get_active( $limit = null, $page = 1, $user_id = false, $search_terms = false ) {
-	return BP_Groups_Group::get_active( $limit, $page, $user_id, $search_terms );
+function groups_get_active( $limit = null, $page = 1, $user_id = false, $search_terms = false, $populate_extras = true ) {
+	return BP_Groups_Group::get_active( $limit, $page, $user_id, $search_terms, $populate_extras );
 }
 
-function groups_get_popular( $limit = null, $page = 1, $user_id = false, $search_terms = false ) {
-	return BP_Groups_Group::get_popular( $limit, $page, $user_id, $search_terms );
+function groups_get_popular( $limit = null, $page = 1, $user_id = false, $search_terms = false, $populate_extras = true ) {
+	return BP_Groups_Group::get_popular( $limit, $page, $user_id, $search_terms, $populate_extras );
 }
 
-function groups_get_random_groups( $limit = null, $page = 1, $user_id = false, $search_terms = false ) {
-	return BP_Groups_Group::get_random( $limit, $page, $user_id, $search_terms );
+function groups_get_random_groups( $limit = null, $page = 1, $user_id = false, $search_terms = false, $populate_extras = true ) {
+	return BP_Groups_Group::get_random( $limit, $page, $user_id, $search_terms, $populate_extras );
 }
 
-function groups_get_alphabetically( $limit = null, $page = 1, $user_id = false, $search_terms = false ) {
-	return BP_Groups_Group::get_alphabetically( $limit, $page, $user_id, $search_terms );
+function groups_get_alphabetically( $limit = null, $page = 1, $user_id = false, $search_terms = false, $populate_extras = true ) {
+	return BP_Groups_Group::get_alphabetically( $limit, $page, $user_id, $search_terms, $populate_extras );
 }
 
-function groups_get_by_most_forum_topics( $limit = null, $page = 1, $user_id = false, $search_terms = false ) {
-	return BP_Groups_Group::get_by_most_forum_topics( $limit, $page, $user_id, $search_terms );
+function groups_get_by_most_forum_topics( $limit = null, $page = 1, $user_id = false, $search_terms = false, $populate_extras = true ) {
+	return BP_Groups_Group::get_by_most_forum_topics( $limit, $page, $user_id, $search_terms, $populate_extras );
 }
 
-function groups_get_by_most_forum_posts( $limit = null, $page = 1, $user_id = false, $search_terms = false ) {
-	return BP_Groups_Group::get_by_most_forum_posts( $limit, $page, $user_id, $search_terms );
+function groups_get_by_most_forum_posts( $limit = null, $page = 1, $user_id = false, $search_terms = false, $populate_extras = true ) {
+	return BP_Groups_Group::get_by_most_forum_posts( $limit, $page, $user_id, $search_terms, $populate_extras );
 }
 
 function groups_get_total_group_count() {
