@@ -32,10 +32,13 @@ To view %s's profile: %s
 
 	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
-	// Send it
+	/* Send the message */
+	$to = apply_filters( 'friends_notification_new_request_to', $to );
+	$subject = apply_filters( 'friends_notification_new_request_subject', $subject );
+	$message = apply_filters( 'friends_notification_new_request_message', $message );
+
 	wp_mail( $to, $subject, $message );
 }
-
 
 function friends_notification_accepted_request( $friendship_id, $initiator_id, $friend_id ) {
 	global $bp;
@@ -66,9 +69,12 @@ To view %s\'s profile: %s
 
 	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
-	// Send it
+	/* Send the message */
+	$to = apply_filters( 'friends_notification_accepted_request_to', $to );
+	$subject = apply_filters( 'friends_notification_accepted_request_subject', $subject );
+	$message = apply_filters( 'friends_notification_accepted_request_message', $message );
+
 	wp_mail( $to, $subject, $message );
 }
-
 
 ?>

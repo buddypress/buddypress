@@ -28,7 +28,11 @@ To view the group: %s
 
 		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
-		// Send it
+		/* Send the message */
+		$to = apply_filters( 'groups_notification_group_updated_to', $to );
+		$subject = apply_filters( 'groups_notification_group_updated_subject', $subject );
+		$message = apply_filters( 'groups_notification_group_updated_message', $message );
+
 		wp_mail( $to, $subject, $message );
 
 		unset( $message, $to );
@@ -72,7 +76,11 @@ To view %s\'s profile: %s
 
 	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
-	// Send it
+	/* Send the message */
+	$to = apply_filters( 'groups_notification_new_membership_request_to', $to );
+	$subject = apply_filters( 'groups_notification_new_membership_request_subject', $subject );
+	$message = apply_filters( 'groups_notification_new_membership_request_message', $message );
+
 	wp_mail( $to, $subject, $message );
 }
 
@@ -121,7 +129,11 @@ To submit another request please log in and visit: %s
 
 	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
-	// Send it
+	/* Send the message */
+	$to = apply_filters( 'groups_notification_membership_request_completed_to', $to );
+	$subject = apply_filters( 'groups_notification_membership_request_completed_subject', $subject );
+	$message = apply_filters( 'groups_notification_membership_request_completed_message', $message );
+
 	wp_mail( $to, $subject, $message );
 }
 
@@ -163,7 +175,11 @@ To view the group please visit: %s
 
 	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
-	// Send it
+	/* Send the message */
+	$to = apply_filters( 'groups_notification_promoted_member_to', $to );
+	$subject = apply_filters( 'groups_notification_promoted_member_subject', $subject );
+	$message = apply_filters( 'groups_notification_promoted_member_message', $message );
+
 	wp_mail( $to, $subject, $message );
 }
 add_action( 'groups_promoted_member', 'groups_notification_promoted_member', 10, 2 );
@@ -211,7 +227,11 @@ To view %s\'s profile visit: %s
 
 		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
-		// Send it
+		/* Send the message */
+		$to = apply_filters( 'groups_notification_group_invites_to', $to );
+		$subject = apply_filters( 'groups_notification_group_invites_subject', $subject );
+		$message = apply_filters( 'groups_notification_group_invites_message', $message );
+
 		wp_mail( $to, $subject, $message );
 	}
 }
@@ -261,7 +281,11 @@ To view and respond to the message, log in and visit: %s
 
 			$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
-			// Send it
+			/* Send the message */
+			$to = apply_filters( 'groups_at_message_notification_to', $to );
+			$subject = apply_filters( 'groups_at_message_notification_subject', $subject );
+			$message = apply_filters( 'groups_at_message_notification_message', $message );
+
 			wp_mail( $to, $subject, $message );
 		}
 	}

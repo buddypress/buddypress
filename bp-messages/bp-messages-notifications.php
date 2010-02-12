@@ -14,7 +14,7 @@ function messages_notification_new_message( $args ) {
 		$settings_link = bp_core_get_user_domain( $recipient->user_id ) . 'settings/notifications/';
 
 		// Set up and send the message
-		$to = $ud->user_email;
+		$email_to = $ud->user_email;
 		$email_subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'New message from %s', 'buddypress' ), stripslashes( $sender_name ) );
 
 		$email_content = sprintf( __(
@@ -31,48 +31,13 @@ To view and read your messages please log in and visit: %s
 
 		$content .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
-		// Send it
-		wp_mail( $to, $email_subject, $email_content );
+		/* Send the message */
+		$email_to = apply_filters( 'messages_notification_new_message_to', $email_to );
+		$email_subject = apply_filters( 'messages_notification_new_message_subject', $email_subject );
+		$email_content = apply_filters( 'messages_notification_new_message_message', $email_content );
+
+		wp_mail( $email_to, $email_subject, $email_content );
 	}
 }
-
-/* This is too expensive to send on normal servers uncomment action at your own risk. */
-function messages_notification_new_notice( $message_subject, $message ) {
-	global $bp, $wpdb;
-
-	$status_sql = bp_core_get_status_sql( 'u.' );
-	$users = $wpdb->get_results( $wpdb->prepare( "SELECT ID as user_id, user_email, user_login FROM {$wpdb->base_prefix}users WHERE {$status_sql}" ) );
-
-	for ( $i = 0; $i < count($users); $i++ ) {
-		if ( get_usermeta( $users[$i]->user_id, 'notification_messages_new_notice' ) == 'no' ) continue;
-
-		$message_link = bp_core_get_user_domain( $users[$i]->user_id ) . 'messages';
-		$settings_link = bp_core_get_user_domain( $users[$i]->user_id ) . 'settings/notifications';
-
-		// Set up and send the message
-		$to = $users[$i]->user_email;
-		$subject = __( 'New Site Notice', 'buddypress' );
-
-		$message = sprintf( __(
-'A new site notice has been posted on %s:
-
-"%s: %s"
-
-To view the notice: %s
-
----------------------
-', 'buddypress' ), get_blog_option( BP_ROOT_BLOG, 'blogname' ), stripslashes( wp_filter_kses( $message_subject ) ), stripslashes( wp_filter_kses( $message ) ), $message_link );
-
-		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
-
-		// Send it
-		wp_mail( $to, $subject, $message );
-
-		unset($message);
-		unset($subject);
-		unset($to);
-	}
-}
-// add_action( 'bp_messages_notice_sent', 'messages_notification_new_notice', 10, 2 );
 
 ?>

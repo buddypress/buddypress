@@ -39,7 +39,11 @@ To view and respond to the message, log in and visit: %s
 
 			$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
-			// Send it
+			/* Send the message */
+			$to = apply_filters( 'bp_activity_at_message_notification_to', $to );
+			$subject = apply_filters( 'bp_activity_at_message_notification_subject', $subject );
+			$message = apply_filters( 'bp_activity_at_message_notification_message', $message );
+
 			wp_mail( $to, $subject, $message );
 		}
 	}
@@ -75,7 +79,11 @@ To view your original update and all comments, log in and visit: %s
 
 		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
-		// Send it
+		/* Send the message */
+		$to = apply_filters( 'bp_activity_new_comment_notification_to', $to );
+		$subject = apply_filters( 'bp_activity_new_comment_notification_subject', $subject );
+		$message = apply_filters( 'bp_activity_new_comment_notification_message', $message );
+
 		wp_mail( $to, $subject, $message );
 	}
 
@@ -110,7 +118,11 @@ To view the original activity, your comment and all replies, log in and visit: %
 
 		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
-		// Send it
+		/* Send the message */
+		$to = apply_filters( 'bp_activity_new_comment_notification_comment_author_to', $to );
+		$subject = apply_filters( 'bp_activity_new_comment_notification_comment_author_subject', $subject );
+		$message = apply_filters( 'bp_activity_new_comment_notification_comment_author_message', $message );
+
 		wp_mail( $to, $subject, $message );
 	}
 }
