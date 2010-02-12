@@ -688,6 +688,9 @@ j(document).ready( function() {
 		var nonce = link_href.split('_wpnonce=');
 			nonce = nonce[1];
 
+		if ( j(this).hasClass('accepted') || j(this).hasClass('rejected') )
+			return false;
+
 		if ( j(this).hasClass('accept') ) {
 			var action = 'accept_friendship';
 			action_div.children('a.reject').css( 'visibility', 'hidden' );
@@ -712,10 +715,13 @@ j(document).ready( function() {
 				li.children('div#message').hide().fadeIn(200);
 			} else {
 				button.fadeOut( 100, function() {
-					if ( j(this).hasClass('accept') )
+					if ( j(this).hasClass('accept') ) {
 						j(this).html( bp_terms_accepted ).fadeIn(50);
-					else
+						j(this).addClass('accepted');
+					} else {
 						j(this).html( bp_terms_rejected ).fadeIn(50);
+						j(this).addClass('rejected');
+					}
 				});
 			}
 		});
