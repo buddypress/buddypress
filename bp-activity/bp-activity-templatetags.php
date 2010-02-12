@@ -477,7 +477,7 @@ function bp_activity_content() {
 	}
 
 	function bp_insert_activity_meta( $content ) {
-		global $activities_template;
+		global $activities_template, $bp;
 
 		/* Strip any legacy time since placeholders -- TODO: Remove this in 1.3 */
 		$content = str_replace( '<span class="time-since">%s</span>', '', $content );
