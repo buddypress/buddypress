@@ -26,7 +26,7 @@ class BP_Blogs_Template {
 		if ( isset( $_REQUEST['letter'] ) && '' != $_REQUEST['letter'] )
 			$this->blogs = BP_Blogs_Blog::get_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page );
 		else
-			$this->blogs = BP_Blogs_Blog::get( $type, $this->pag_num, $this->pag_page, $user_id, $search_terms );
+			$this->blogs = bp_blogs_get_blogs( array( 'type' => $type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'search_terms' => $search_terms ) );
 
 		if ( !$max || $max >= (int)$this->blogs['total'] )
 			$this->total_blog_count = (int)$this->blogs['total'];

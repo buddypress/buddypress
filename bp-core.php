@@ -519,6 +519,32 @@ add_action( 'wp', 'bp_core_action_delete_user', 3 );
  */
 
 /**
+ * bp_core_get_users()
+ *
+ * Return an array of users IDs based on the parameters passed.
+ *
+ * @package BuddyPress Core
+ */
+function bp_core_get_users( $args = '' ) {
+	global $bp;
+
+	$defaults = array(
+		'type' => 'active', // active, newest, alphabetical, random or popular
+		'user_id' => false, // Pass a user_id to limit to only friend connections for this user
+		'search_terms' => false, // Limit to users that match these search terms
+
+		'per_page' => 20, // The number of results to return per page
+		'page' => 1, // The page to return if limiting per page
+		'populate_extras' => true, // Fetch the last active, where the user is a friend, total friend count, latest update
+	);
+
+	$params = wp_parse_args( $args, $defaults );
+	extract( $params, EXTR_SKIP );
+
+	return apply_filters( 'bp_core_get_users', BP_Core_User::get_users( $type, $per_page, $page, $user_id, $search_terms, $populate_extras ), &$params );
+}
+
+/**
  * bp_core_get_user_domain()
  *
  * Returns the domain for the passed user:
@@ -953,7 +979,7 @@ function bp_core_get_random_member() {
 	global $bp, $wpdb;
 
 	if ( isset( $_GET['random-member'] ) ) {
-		$user = BP_Core_User::get_users( 'random', 1 );
+		$user = bp_core_get_users( array( 'type' => 'random', 'per_page' => 1 ) );
 		bp_core_redirect( bp_core_get_user_domain( $user['users'][0]->id ) );
 	}
 }

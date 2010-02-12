@@ -313,6 +313,25 @@ function bp_blogs_delete_activity( $args = true ) {
  * true or false on success or failure.
  */
 
+function bp_blogs_get_blogs( $args = '' ) {
+	global $bp;
+
+	$defaults = array(
+		'type' => 'active', // active, alphabetical, newest, or random.
+		'user_id' => false, // Pass a user_id to limit to only blogs that this user has privilages higher than subscriber on.
+		'search_terms' => false, // Limit to blogs that match these search terms
+
+		'per_page' => 20, // The number of results to return per page
+		'page' => 1, // The page to return if limiting per page
+	);
+
+	$params = wp_parse_args( $args, $defaults );
+	extract( $params, EXTR_SKIP );
+
+	return apply_filters( 'bp_blogs_get_blogs', BP_Blogs_Blog::get( $type, $per_page, $page, $user_id, $search_terms ), &$params );
+}
+
+
 function bp_blogs_record_existing_blogs() {
 	global $wpdb;
 

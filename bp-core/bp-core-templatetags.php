@@ -31,7 +31,7 @@ class BP_Core_Members_Template {
 			$this->members = BP_Core_User::get_specific_users( $include, $this->pag_num, $this->pag_page, $populate_extras );
 		}
 		else {
-			$this->members = BP_Core_User::get_users( $this->type, $this->pag_num, $this->pag_page, $user_id, $search_terms, $populate_extras );
+			$this->members = bp_core_get_users( array( 'type' => $this->type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'search_terms' => $search_terms, 'populate_extras' => $populate_extras ) );
 		}
 
 		if ( !$max || $max >= (int)$this->members['total'] )

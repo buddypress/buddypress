@@ -28,56 +28,14 @@ class BP_Groups_Template {
 		$this->pag_page = isset( $_REQUEST['grpage'] ) ? intval( $_REQUEST['grpage'] ) : $page;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
-		switch ( $type ) {
-			case 'active': default:
-				$this->groups = groups_get_active( $this->pag_num, $this->pag_page, $user_id, $search_terms, $populate_extras );
-				break;
-
-			case 'alphabetical': default:
-				$this->groups = groups_get_alphabetically( $this->pag_num, $this->pag_page, $user_id, $search_terms, $populate_extras );
-				break;
-
-			case 'random':
-				$this->groups = groups_get_random_groups( $this->pag_num, $this->pag_page, $user_id, $search_terms, $populate_extras );
-				break;
-
-			case 'newest':
-				$this->groups = groups_get_newest( $this->pag_num, $this->pag_page, $user_id, $search_terms, $populate_extras );
-				break;
-
-			case 'popular':
-				$this->groups = groups_get_popular( $this->pag_num, $this->pag_page, $user_id, $search_terms, $populate_extras );
-				break;
-
-			case 'most-forum-topics':
-				$this->groups = groups_get_by_most_forum_topics( $this->pag_num, $this->pag_page, $user_id, $search_terms, $populate_extras );
-				break;
-
-			case 'most-forum-posts':
-				$this->groups = groups_get_by_most_forum_posts( $this->pag_num, $this->pag_page, $user_id, $search_terms, $populate_extras );
-				break;
-
-			case 'invites':
-				$this->groups = groups_get_invites_for_user( $user_id, $this->pag_num, $this->pag_page );
-				break;
-
-			case 'single-group':
-				$group = new stdClass;
-				$group->group_id = BP_Groups_Group::get_id_from_slug($slug);
-				$this->groups = array( $group );
-				break;
-
-
-			case 'admin-of':
-				if ( $user_id )
-					$this->groups = groups_get_user_is_admin_of( $user_id, $this->pag_num, $this->pag_page, $search_terms );
-				break;
-
-			case 'mod-of':
-				if ( $user_id )
-					$this->groups = groups_get_user_is_mod_of( $user_id, $this->pag_num, $this->pag_page, $filter );
-				break;
-		}
+		if ( 'invites' == $type )
+			$this->groups = groups_get_invites_for_user( $user_id, $this->pag_num, $this->pag_page );
+		else if ( 'single-group' == $type ) {
+			$group = new stdClass;
+			$group->group_id = BP_Groups_Group::get_id_from_slug($slug);
+			$this->groups = array( $group );
+		} else
+			$this->groups = groups_get_groups( array( 'type' => $type, 'per_page' => $this->pag_num, 'page' =>$this->pag_page, 'user_id' => $user_id, 'search_terms' => $search_terms, 'populate_extras' => $populate_extras ) );
 
 		if ( 'invites' == $type ) {
 			$this->total_group_count = (int)$this->groups['total'];
@@ -187,15 +145,9 @@ function bp_has_groups( $args = '' ) {
 
 	/* Type */
 	if ( 'my-groups' == $bp->current_action ) {
-		if ( 'recently-joined' == $order )
-			$type = 'recently-joined';
-		else if ( 'most-popular' == $order )
+		if ( 'most-popular' == $order )
 			$type = 'popular';
-		else if ( 'admin-of' == $order ) {
-			$type = 'admin-of';
-		} else if ( 'mod-of' == $order ) {
-			$type = 'mod-of';
-		} else if ( 'alphabetically' == $order )
+		else if ( 'alphabetically' == $order )
 			$type = 'alphabetical';
 	} else if ( 'invites' == $bp->current_action ) {
 		$type = 'invites';
