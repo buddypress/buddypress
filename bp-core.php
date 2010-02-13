@@ -1573,13 +1573,13 @@ function bp_core_get_site_options() {
 		'bp-disable-blog-forum-comments',
 		'bp-xprofile-base-group-name',
 		'bp-xprofile-fullname-field-name',
-		'bp-hide-loggedout-adminbar',
 		'bp-disable-profile-sync',
 		'bp-disable-avatar-uploads',
 		'bp-disable-account-deletion',
 		'bp-disable-forum-directory',
 		'bp-disable-blogforum-comments',
 		'bb-config-location',
+		'hide-loggedout-adminbar',
 
 		/* Useful WordPress settings used often */
 		'user-avatar-default',
