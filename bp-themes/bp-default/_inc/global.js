@@ -11,10 +11,6 @@ j(document).ready( function() {
 	if ( j('div.forums').length )
 		j('div#new-topic-post').hide();
 
-	/* Show threaded reply links */
-	if ( j('span.acomment-replylink').length )
-		j('span.acomment-replylink').show();
-
 	/* Activity filter and scope set */
 	bp_init_activity();
 
