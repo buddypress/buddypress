@@ -14,11 +14,11 @@ function bp_core_admin_settings() {
 
 			if ( function_exists( 'xprofile_install' ) ) {
 				if ( 'bp-xprofile-base-group-name' == $key ) {
-					$wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_groups} SET name = %s WHERE name = %s AND id = 1", $value, stripslashes( get_site_option('bp-xprofile-base-group-name') ) ) );
+					$wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_groups} SET name = %s WHERE id = 1", $value ) );
 				}
 
 				if ( 'bp-xprofile-fullname-field-name' == $key ) {
-					$wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_fields} SET name = %s WHERE name = %s AND group_id = 1", $value, stripslashes( get_site_option('bp-xprofile-fullname-field-name') ) ) );
+					$wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_fields} SET name = %s WHERE group_id = 1 AND id = 1", $value ) );
 				}
 			}
 
