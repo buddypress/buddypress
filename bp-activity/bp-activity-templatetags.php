@@ -938,7 +938,7 @@ function bp_activity_feed_item_description() {
 		else
 			$content = $activities_template->activity->action . $activities_template->activity->content;
 
-		return apply_filters( 'bp_get_activity_feed_item_description', html_entity_decode( utf8_encode( str_replace( '%s', '', $content ) ) ) );
+		return apply_filters( 'bp_get_activity_feed_item_description', html_entity_decode( str_replace( '%s', '', $content ) ) );
 	}
 
 ?>

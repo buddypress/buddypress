@@ -30,8 +30,8 @@ To view the group: %s
 
 		/* Send the message */
 		$to = apply_filters( 'groups_notification_group_updated_to', $to );
-		$subject = apply_filters( 'groups_notification_group_updated_subject', $subject );
-		$message = apply_filters( 'groups_notification_group_updated_message', $message );
+		$subject = apply_filters( 'groups_notification_group_updated_subject', $subject, &$group );
+		$message = apply_filters( 'groups_notification_group_updated_message', $message, &$group, $group_link );
 
 		wp_mail( $to, $subject, $message );
 
@@ -78,8 +78,8 @@ To view %s\'s profile: %s
 
 	/* Send the message */
 	$to = apply_filters( 'groups_notification_new_membership_request_to', $to );
-	$subject = apply_filters( 'groups_notification_new_membership_request_subject', $subject );
-	$message = apply_filters( 'groups_notification_new_membership_request_message', $message );
+	$subject = apply_filters( 'groups_notification_new_membership_request_subject', $subject, &$group );
+	$message = apply_filters( 'groups_notification_new_membership_request_message', $message, &$group, $requesting_user_name, $profile_link, $group_requests );
 
 	wp_mail( $to, $subject, $message );
 }
@@ -131,8 +131,8 @@ To submit another request please log in and visit: %s
 
 	/* Send the message */
 	$to = apply_filters( 'groups_notification_membership_request_completed_to', $to );
-	$subject = apply_filters( 'groups_notification_membership_request_completed_subject', $subject );
-	$message = apply_filters( 'groups_notification_membership_request_completed_message', $message );
+	$subject = apply_filters( 'groups_notification_membership_request_completed_subject', $subject, &$group );
+	$message = apply_filters( 'groups_notification_membership_request_completed_message', $message, &$group, $group_link  );
 
 	wp_mail( $to, $subject, $message );
 }
@@ -177,8 +177,8 @@ To view the group please visit: %s
 
 	/* Send the message */
 	$to = apply_filters( 'groups_notification_promoted_member_to', $to );
-	$subject = apply_filters( 'groups_notification_promoted_member_subject', $subject );
-	$message = apply_filters( 'groups_notification_promoted_member_message', $message );
+	$subject = apply_filters( 'groups_notification_promoted_member_subject', $subject, &$group );
+	$message = apply_filters( 'groups_notification_promoted_member_message', $message, &$group, $promoted_to, $group_link );
 
 	wp_mail( $to, $subject, $message );
 }
@@ -229,8 +229,8 @@ To view %s\'s profile visit: %s
 
 		/* Send the message */
 		$to = apply_filters( 'groups_notification_group_invites_to', $to );
-		$subject = apply_filters( 'groups_notification_group_invites_subject', $subject );
-		$message = apply_filters( 'groups_notification_group_invites_message', $message );
+		$subject = apply_filters( 'groups_notification_group_invites_subject', $subject, &$group );
+		$message = apply_filters( 'groups_notification_group_invites_message', $message, &$group, $inviter_name, $inviter_link, $invites_link, $group_link );
 
 		wp_mail( $to, $subject, $message );
 	}
@@ -264,10 +264,13 @@ function groups_at_message_notification( $content, $poster_user_id, $group_id, $
 			$message_link = bp_activity_get_permalink( $activity_id );
 			$settings_link = bp_core_get_user_domain( $receiver_user_id ) .  BP_SETTINGS_SLUG . '/notifications/';
 
+			$poster_name = stripslashes( $poster_name );
+			$content = bp_groups_filter_kses( stripslashes( $content ) );
+
 			// Set up and send the message
 			$ud = bp_core_get_core_userdata( $receiver_user_id );
 			$to = $ud->user_email;
-			$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s mentioned you in the group "%s"', 'buddypress' ), stripslashes( $poster_name ), $group->name );
+			$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s mentioned you in the group "%s"', 'buddypress' ), $poster_name, $group->name );
 
 $message = sprintf( __(
 '%s mentioned you in the group "%s":
@@ -277,14 +280,14 @@ $message = sprintf( __(
 To view and respond to the message, log in and visit: %s
 
 ---------------------
-', 'buddypress' ), $poster_name, $group->name, bp_groups_filter_kses( stripslashes( $content ) ), $message_link );
+', 'buddypress' ), $poster_name, $group->name, $content, $message_link );
 
 			$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
 			/* Send the message */
 			$to = apply_filters( 'groups_at_message_notification_to', $to );
-			$subject = apply_filters( 'groups_at_message_notification_subject', $subject );
-			$message = apply_filters( 'groups_at_message_notification_message', $message );
+			$subject = apply_filters( 'groups_at_message_notification_subject', $subject, &$group, $poster_name );
+			$message = apply_filters( 'groups_at_message_notification_message', $message, &$group, $poster_name, $content, $message_link );
 
 			wp_mail( $to, $subject, $message );
 		}

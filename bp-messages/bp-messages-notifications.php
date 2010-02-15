@@ -13,9 +13,13 @@ function messages_notification_new_message( $args ) {
 		$message_link = bp_core_get_user_domain( $recipient->user_id ) . BP_MESSAGES_SLUG .'/';
 		$settings_link = bp_core_get_user_domain( $recipient->user_id ) .  BP_SETTINGS_SLUG . '/notifications/';
 
+		$sender_name = stripslashes( $sender_name );
+		$subject = stripslashes( wp_filter_kses( $subject ) );
+		$content = stripslashes( wp_filter_kses( $content ) );
+
 		// Set up and send the message
 		$email_to = $ud->user_email;
-		$email_subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'New message from %s', 'buddypress' ), stripslashes( $sender_name ) );
+		$email_subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'New message from %s', 'buddypress' ), $sender_name );
 
 		$email_content = sprintf( __(
 '%s sent you a new message:
@@ -27,14 +31,14 @@ Subject: %s
 To view and read your messages please log in and visit: %s
 
 ---------------------
-', 'buddypress' ), $sender_name, stripslashes( wp_filter_kses( $subject ) ), stripslashes( wp_filter_kses( $content ) ), $message_link );
+', 'buddypress' ), $sender_name, $subject, $content, $message_link );
 
 		$content .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
 		/* Send the message */
 		$email_to = apply_filters( 'messages_notification_new_message_to', $email_to );
-		$email_subject = apply_filters( 'messages_notification_new_message_subject', $email_subject );
-		$email_content = apply_filters( 'messages_notification_new_message_message', $email_content );
+		$email_subject = apply_filters( 'messages_notification_new_message_subject', $email_subject, $sender_name );
+		$email_content = apply_filters( 'messages_notification_new_message_message', $email_content, $sender_name, $subject, $content, $message_link );
 
 		wp_mail( $email_to, $email_subject, $email_content );
 	}

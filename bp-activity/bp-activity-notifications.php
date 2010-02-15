@@ -22,10 +22,13 @@ function bp_activity_at_message_notification( $content, $poster_user_id, $activi
 			$message_link = bp_activity_get_permalink( $activity_id );
 			$settings_link = bp_core_get_user_domain( $receiver_user_id ) .  BP_SETTINGS_SLUG . '/notifications/';
 
+			$poster_name = stripslashes( $poster_name );
+			$content = bp_activity_filter_kses( stripslashes($content) );
+
 			// Set up and send the message
 			$ud = bp_core_get_core_userdata( $receiver_user_id );
 			$to = $ud->user_email;
-			$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s mentioned you in an update', 'buddypress' ), stripslashes($poster_name) );
+			$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s mentioned you in an update', 'buddypress' ), $poster_name );
 
 $message = sprintf( __(
 '%s mentioned you in an update:
@@ -35,14 +38,14 @@ $message = sprintf( __(
 To view and respond to the message, log in and visit: %s
 
 ---------------------
-', 'buddypress' ), $poster_name, bp_activity_filter_kses( stripslashes($content) ), $message_link );
+', 'buddypress' ), $poster_name, $content, $message_link );
 
 			$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
 			/* Send the message */
 			$to = apply_filters( 'bp_activity_at_message_notification_to', $to );
-			$subject = apply_filters( 'bp_activity_at_message_notification_subject', $subject );
-			$message = apply_filters( 'bp_activity_at_message_notification_message', $message );
+			$subject = apply_filters( 'bp_activity_at_message_notification_subject', $subject, $poster_name );
+			$message = apply_filters( 'bp_activity_at_message_notification_message', $message, $poster_name, $content, $message_link );
 
 			wp_mail( $to, $subject, $message );
 		}
@@ -62,10 +65,13 @@ function bp_activity_new_comment_notification( $comment_id, $commenter_id, $para
 		$thread_link = bp_activity_get_permalink( $activity_id );
 		$settings_link = bp_core_get_user_domain( $original_activity->user_id ) .  BP_SETTINGS_SLUG . '/notifications/';
 
+		$poster_name = stripslashes( $poster_name );
+		$content = bp_activity_filter_kses( stripslashes($content) );
+
 		// Set up and send the message
 		$ud = bp_core_get_core_userdata( $original_activity->user_id );
 		$to = $ud->user_email;
-		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s replied to one of your updates', 'buddypress' ), stripslashes_deep( $poster_name ) );
+		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s replied to one of your updates', 'buddypress' ), $poster_name );
 
 $message = sprintf( __(
 '%s replied to one of your updates:
@@ -75,14 +81,14 @@ $message = sprintf( __(
 To view your original update and all comments, log in and visit: %s
 
 ---------------------
-', 'buddypress' ), $poster_name, bp_activity_filter_kses( stripslashes( $content ) ), $thread_link );
+', 'buddypress' ), $poster_name, $content, $thread_link );
 
 		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
 		/* Send the message */
 		$to = apply_filters( 'bp_activity_new_comment_notification_to', $to );
-		$subject = apply_filters( 'bp_activity_new_comment_notification_subject', $subject );
-		$message = apply_filters( 'bp_activity_new_comment_notification_message', $message );
+		$subject = apply_filters( 'bp_activity_new_comment_notification_subject', $subject, $poster_name );
+		$message = apply_filters( 'bp_activity_new_comment_notification_message', $message, $poster_name, $content, $thread_link );
 
 		wp_mail( $to, $subject, $message );
 	}
@@ -104,7 +110,10 @@ To view your original update and all comments, log in and visit: %s
 		// Set up and send the message
 		$ud = bp_core_get_core_userdata( $parent_comment->user_id );
 		$to = $ud->user_email;
-		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s replied to one of your comments', 'buddypress' ), stripslashes_deep( $poster_name ) );
+		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s replied to one of your comments', 'buddypress' ), $poster_name );
+
+		$poster_name = stripslashes( $poster_name );
+		$content = bp_activity_filter_kses( stripslashes( $content ) );
 
 $message = sprintf( __(
 '%s replied to one of your comments:
@@ -114,14 +123,14 @@ $message = sprintf( __(
 To view the original activity, your comment and all replies, log in and visit: %s
 
 ---------------------
-', 'buddypress' ), $poster_name, bp_activity_filter_kses( stripslashes( $content ) ), $thread_link );
+', 'buddypress' ), $poster_name, $content, $thread_link );
 
 		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
 		/* Send the message */
 		$to = apply_filters( 'bp_activity_new_comment_notification_comment_author_to', $to );
-		$subject = apply_filters( 'bp_activity_new_comment_notification_comment_author_subject', $subject );
-		$message = apply_filters( 'bp_activity_new_comment_notification_comment_author_message', $message );
+		$subject = apply_filters( 'bp_activity_new_comment_notification_comment_author_subject', $subject, $poster_name );
+		$message = apply_filters( 'bp_activity_new_comment_notification_comment_author_message', $message, $poster_name, $content );
 
 		wp_mail( $to, $subject, $message );
 	}
