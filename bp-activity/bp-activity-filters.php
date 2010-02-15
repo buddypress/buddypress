@@ -63,6 +63,7 @@ add_filter( 'bp_get_activity_parent_content', 'bp_create_excerpt' );
 
 /* Allow shortcodes in activity posts */
 add_filter( 'bp_get_activity_content', 'do_shortcode' );
+add_filter( 'bp_get_activity_content_body', 'do_shortcode' );
 
 function bp_activity_filter_kses( $content ) {
 	global $allowedtags;
