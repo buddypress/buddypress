@@ -229,4 +229,11 @@ function bp_dtheme_js_terms() { ?>
 }
 add_action( 'wp_footer', 'bp_dtheme_js_terms' );
 
+//Google Maps Shortcode
+function fn_googleMaps($atts, $content = null) {
+	extract( shortcode_atts( array( "width" => '640', "height" => '480', "src" => '' ), $atts ) );
+	return '<iframe width="'.$width.'" height="'.$height.'" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'.$src.'"></iframe>';
+}
+add_shortcode( "googlemap", "fn_googleMaps" );
+
 ?>

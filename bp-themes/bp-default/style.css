@@ -19,3 +19,8 @@ http://codex.buddypress.org/how-to-guides/building-a-buddypress-child-theme/
  * The default theme styles.
  */
 @import url( _inc/css/default.css );
+
+/***
+ * The admin bar default styles
+ */
+@import url( _inc/css/adminbar.css );

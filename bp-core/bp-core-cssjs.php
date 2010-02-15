@@ -3,22 +3,25 @@
 /**
  * bp_core_add_admin_bar_css()
  *
- * Add the CSS needed for the admin bar, regardless of the current theme.
+ * Add the CSS needed for the admin bar on blogs (other than the root) and in the admin area.
  *
  * @package BuddyPress Core
+ * @uses get_option() Selects a site setting from the DB.
  */
 function bp_core_add_admin_bar_css() {
-	global $bp;
+	global $bp, $current_blog;
 
 	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) )
 		return false;
 
-	$stylesheet = get_blog_option( BP_ROOT_BLOG, 'stylesheet' );
+	if ( ( bp_core_is_multisite() && $current_blog->blog_id != BP_ROOT_BLOG ) || is_admin() ) {
+		$stylesheet = get_blog_option( BP_ROOT_BLOG, 'stylesheet' );
 
-	if ( file_exists( apply_filters( 'bp_core_add_admin_bar_css_location', WP_CONTENT_DIR . '/themes/' . $stylesheet . '/_inc/css/adminbar.css' ) ) )
-		wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css_location', WP_CONTENT_URL . '/themes/' . $stylesheet . '/_inc/css/adminbar.css' ) );
-	else
-		wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_default_admin_bar_css_location', BP_PLUGIN_URL . '/bp-themes/bp-default/_inc/css/adminbar.css' ) );
+		if ( file_exists( WP_CONTENT_DIR . '/themes/' . $stylesheet . '/_inc/css/adminbar.css' ) )
+			wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', WP_CONTENT_URL . '/themes/' . $stylesheet . '/_inc/css/adminbar.css' ) );
+		else
+			wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', BP_PLUGIN_URL . '/bp-themes/bp-default/_inc/css/adminbar.css' ) );
+	}
 }
 add_action( 'init', 'bp_core_add_admin_bar_css' );
 
