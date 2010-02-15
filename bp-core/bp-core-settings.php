@@ -16,7 +16,7 @@ function bp_core_add_settings_nav() {
 	/* Add the settings navigation item */
 	bp_core_new_nav_item( array( 'name' => __('Settings', 'buddypress'), 'slug' => $bp->settings->slug, 'position' => 100, 'show_for_displayed_user' => false, 'screen_function' => 'bp_core_screen_general_settings', 'default_subnav_slug' => 'general' ) );
 
-	$settings_link = $bp->loggedin_user->domain . 'settings/';
+	$settings_link = $bp->loggedin_user->domain . $bp->settings->slug . '/';
 
 	bp_core_new_subnav_item( array( 'name' => __( 'General', 'buddypress' ), 'slug' => 'general', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_general_settings', 'position' => 10, 'user_has_access' => bp_is_my_profile() ) );
 	bp_core_new_subnav_item( array( 'name' => __( 'Notifications', 'buddypress' ), 'slug' => 'notifications', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_notification_settings', 'position' => 20, 'user_has_access' => bp_is_my_profile() ) );
@@ -85,7 +85,7 @@ function bp_core_screen_general_settings_content() {
 		</div>
 	<?php } ?>
 
-	<form action="<?php echo $bp->loggedin_user->domain . 'settings/general' ?>" method="post" class="standard-form" id="settings-form">
+	<form action="<?php echo $bp->loggedin_user->domain . BP_SETTINGS_SLUG . '/general' ?>" method="post" class="standard-form" id="settings-form">
 		<label for="email"><?php _e( 'Account Email', 'buddypress' ) ?></label>
 		<input type="text" name="email" id="email" value="<?php echo attribute_escape( $current_user->user_email ); ?>" class="settings-input" />
 
@@ -140,7 +140,7 @@ function bp_core_screen_notification_settings_content() {
 		</div>
 	<?php } ?>
 
-	<form action="<?php echo $bp->loggedin_user->domain . 'settings/notifications' ?>" method="post" id="settings-form">
+	<form action="<?php echo $bp->loggedin_user->domain . BP_SETTINGS_SLUG . '/notifications' ?>" method="post" id="settings-form">
 		<h3><?php _e( 'Email Notifications', 'buddypress' ) ?></h3>
 		<p><?php _e( 'Send a notification by email when:', 'buddypress' ) ?></p>
 
@@ -180,7 +180,7 @@ function bp_core_screen_delete_account_title() {
 function bp_core_screen_delete_account_content() {
 	global $bp, $current_user, $bp_settings_updated, $pass_error; 	?>
 
-	<form action="<?php echo $bp->loggedin_user->domain . 'settings/delete-account'; ?>" name="account-delete-form" id="account-delete-form" class="standard-form" method="post">
+	<form action="<?php echo $bp->loggedin_user->domain .  BP_SETTINGS_SLUG . '/delete-account'; ?>" name="account-delete-form" id="account-delete-form" class="standard-form" method="post">
 
 		<div id="message" class="info">
 			<p><?php _e( 'WARNING: Deleting your account will completely remove ALL content associated with it. There is no way back, please be careful with this option.', 'buddypress' ); ?></p>

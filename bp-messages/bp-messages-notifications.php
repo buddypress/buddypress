@@ -11,7 +11,7 @@ function messages_notification_new_message( $args ) {
 
 		$ud = get_userdata( $recipient->user_id );
 		$message_link = bp_core_get_user_domain( $recipient->user_id ) . BP_MESSAGES_SLUG .'/';
-		$settings_link = bp_core_get_user_domain( $recipient->user_id ) . 'settings/notifications/';
+		$settings_link = bp_core_get_user_domain( $recipient->user_id ) .  BP_SETTINGS_SLUG . '/notifications/';
 
 		// Set up and send the message
 		$email_to = $ud->user_email;

@@ -16,7 +16,7 @@ function groups_notification_group_updated( $group_id ) {
 		$to = $ud->user_email;
 
 		$group_link = site_url( $bp->groups->slug . '/' . $group->slug );
-		$settings_link = bp_core_get_user_domain( $user_id ) . 'settings/notifications/';
+		$settings_link = bp_core_get_user_domain( $user_id ) .  BP_SETTINGS_SLUG . '/notifications/';
 
 		$message = sprintf( __(
 'Group details for the group "%s" were updated:
@@ -55,7 +55,7 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 
 	$group_requests = bp_get_group_permalink( $group ) . 'admin/membership-requests';
 	$profile_link = bp_core_get_user_domain( $requesting_user_id );
-	$settings_link = bp_core_get_user_domain( $requesting_user_id ) . 'settings/notifications/';
+	$settings_link = bp_core_get_user_domain( $requesting_user_id ) .  BP_SETTINGS_SLUG . '/notifications/';
 
 	// Set up and send the message
 	$to = $ud->user_email;
@@ -101,7 +101,7 @@ function groups_notification_membership_request_completed( $requesting_user_id, 
 	$ud = bp_core_get_core_userdata($requesting_user_id);
 
 	$group_link = bp_get_group_permalink( $group );
-	$settings_link = bp_core_get_user_domain( $requesting_user_id ) . 'settings/notifications/';
+	$settings_link = bp_core_get_user_domain( $requesting_user_id ) .  BP_SETTINGS_SLUG . '/notifications/';
 
 	// Set up and send the message
 	$to = $ud->user_email;
@@ -158,7 +158,7 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 	$ud = bp_core_get_core_userdata($user_id);
 
 	$group_link = bp_get_group_permalink( $group );
-	$settings_link = bp_core_get_user_domain( $user_id ) . 'settings/notifications/';
+	$settings_link = bp_core_get_user_domain( $user_id ) .  BP_SETTINGS_SLUG . '/notifications/';
 
 	// Set up and send the message
 	$to = $ud->user_email;
@@ -204,7 +204,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 
 		$invited_ud = bp_core_get_core_userdata($invited_user_id);
 
-		$settings_link = bp_core_get_user_domain( $invited_user_id ) . 'settings/notifications/';
+		$settings_link = bp_core_get_user_domain( $invited_user_id ) .  BP_SETTINGS_SLUG . '/notifications/';
 		$invited_link = bp_core_get_user_domain( $invited_user_id );
 		$invites_link = $invited_link . $bp->groups->slug . '/invites';
 
@@ -262,7 +262,7 @@ function groups_at_message_notification( $content, $poster_user_id, $group_id, $
 			$poster_name = bp_core_get_user_displayname( $poster_user_id );
 
 			$message_link = bp_activity_get_permalink( $activity_id );
-			$settings_link = bp_core_get_user_domain( $receiver_user_id ) . 'settings/notifications/';
+			$settings_link = bp_core_get_user_domain( $receiver_user_id ) .  BP_SETTINGS_SLUG . '/notifications/';
 
 			// Set up and send the message
 			$ud = bp_core_get_core_userdata( $receiver_user_id );

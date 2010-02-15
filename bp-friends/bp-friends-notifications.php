@@ -12,7 +12,7 @@ function friends_notification_new_request( $friendship_id, $initiator_id, $frien
 	$initiator_ud = get_userdata( $initiator_id );
 
 	$all_requests_link = bp_core_get_user_domain( $friend_id ) . BP_FRIENDS_SLUG . '/requests/';
-	$settings_link = bp_core_get_user_domain( $friend_id ) . 'settings/notifications';
+	$settings_link = bp_core_get_user_domain( $friend_id ) .  BP_SETTINGS_SLUG . '/notifications';
 
 	$initiator_link = bp_core_get_user_domain( $initiator_id );
 
@@ -53,7 +53,7 @@ function friends_notification_accepted_request( $friendship_id, $initiator_id, $
 	$ud = get_userdata( $initiator_id );
 
 	$friend_link = bp_core_get_user_domain( $friend_id );
-	$settings_link = bp_core_get_user_domain( $initiator_id ) . 'settings/notifications';
+	$settings_link = bp_core_get_user_domain( $initiator_id ) .  BP_SETTINGS_SLUG . '/notifications';
 
 	// Set up and send the message
 	$to = $ud->user_email;
