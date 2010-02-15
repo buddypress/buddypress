@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-02-13 14:11+0000\n"
+"POT-Creation-Date: 2010-02-15 14:11+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -151,12 +151,12 @@ msgstr ""
 msgid "Thumbnail"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:28
+#: bp-activity/bp-activity-notifications.php:31
 #, php-format
 msgid "%s mentioned you in an update"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:31
+#: bp-activity/bp-activity-notifications.php:34
 #, php-format
 msgid ""
 "%s mentioned you in an update:\n"
@@ -168,9 +168,9 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:40
-#: bp-activity/bp-activity-notifications.php:80
-#: bp-activity/bp-activity-notifications.php:119
+#: bp-activity/bp-activity-notifications.php:43
+#: bp-activity/bp-activity-notifications.php:86
+#: bp-activity/bp-activity-notifications.php:128
 #: bp-friends/bp-friends-notifications.php:33
 #: bp-friends/bp-friends-notifications.php:70
 #: bp-groups/bp-groups-notifications.php:29
@@ -178,18 +178,18 @@ msgstr ""
 #: bp-groups/bp-groups-notifications.php:130
 #: bp-groups/bp-groups-notifications.php:176
 #: bp-groups/bp-groups-notifications.php:228
-#: bp-groups/bp-groups-notifications.php:282
-#: bp-messages/bp-messages-notifications.php:32
+#: bp-groups/bp-groups-notifications.php:285
+#: bp-messages/bp-messages-notifications.php:36
 #, php-format
 msgid "To disable these notifications please log in and go to: %s"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:68
+#: bp-activity/bp-activity-notifications.php:74
 #, php-format
 msgid "%s replied to one of your updates"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:71
+#: bp-activity/bp-activity-notifications.php:77
 #, php-format
 msgid ""
 "%s replied to one of your updates:\n"
@@ -201,12 +201,12 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:107
+#: bp-activity/bp-activity-notifications.php:113
 #, php-format
 msgid "%s replied to one of your comments"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:110
+#: bp-activity/bp-activity-notifications.php:119
 #, php-format
 msgid ""
 "%s replied to one of your comments:\n"
@@ -1023,7 +1023,7 @@ msgstr ""
 msgid "group"
 msgstr ""
 
-#: bp-core/bp-core-cssjs.php:50
+#: bp-core/bp-core-cssjs.php:53
 msgid "Are you sure?"
 msgstr ""
 
@@ -7309,12 +7309,12 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:270
+#: bp-groups/bp-groups-notifications.php:273
 #, php-format
 msgid "%s mentioned you in the group \"%s\""
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:273
+#: bp-groups/bp-groups-notifications.php:276
 #, php-format
 msgid ""
 "%s mentioned you in the group \"%s\":\n"
@@ -7646,12 +7646,12 @@ msgstr ""
 msgid " Recipients"
 msgstr ""
 
-#: bp-messages/bp-messages-notifications.php:18
+#: bp-messages/bp-messages-notifications.php:22
 #, php-format
 msgid "New message from %s"
 msgstr ""
 
-#: bp-messages/bp-messages-notifications.php:21
+#: bp-messages/bp-messages-notifications.php:25
 #, php-format
 msgid ""
 "%s sent you a new message:\n"
