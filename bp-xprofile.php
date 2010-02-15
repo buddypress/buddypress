@@ -27,10 +27,10 @@ function xprofile_install() {
 	if ( !empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 
-	if ( empty( $bp->option['bp-xprofile-base-group-name'] ) )
+	if ( empty( $bp->site_options['bp-xprofile-base-group-name'] ) )
 		update_site_option( 'bp-xprofile-base-group-name', 'Base' );
 
-	if ( empty( $bp->option['bp-xprofile-fullname-field-name'] ) )
+	if ( empty( $bp->site_options['bp-xprofile-fullname-field-name'] ) )
 		update_site_option( 'bp-xprofile-fullname-field-name', 'Name' );
 
 	$sql[] = "CREATE TABLE {$bp->profile->table_name_groups} (
@@ -71,7 +71,7 @@ function xprofile_install() {
 			  KEY user_id (user_id)
 	) {$charset_collate};";
 
-	if ( empty( $bp->option['bp-xprofile-db-version'] ) ) {
+	if ( empty( $bp->site_options['bp-xprofile-db-version'] ) ) {
 		if ( !$wpdb->get_var( "SELECT id FROM {$bp->profile->table_name_groups} WHERE id = 1" ) )
 			$sql[] = "INSERT INTO {$bp->profile->table_name_groups} VALUES ( 1, '" . get_site_option( 'bp-xprofile-base-group-name' ) . "', '', 0 );";
 
@@ -155,7 +155,7 @@ function xprofile_add_admin_menu() {
 	add_submenu_page( 'bp-general-settings', __("Profile Field Setup", 'buddypress'), __("Profile Field Setup", 'buddypress'), 'manage_options', 'bp-profile-setup', "xprofile_admin" );
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( $bp->option['bp-xprofile-db-version'] < BP_XPROFILE_DB_VERSION )
+	if ( $bp->site_options['bp-xprofile-db-version'] < BP_XPROFILE_DB_VERSION )
 		xprofile_install();
 }
 add_action( 'admin_menu', 'xprofile_add_admin_menu' );
@@ -866,7 +866,7 @@ function xprofile_avatar_upload_dir( $directory = false, $user_id = false ) {
 function xprofile_sync_wp_profile() {
 	global $bp, $wpdb;
 
-	if ( (int)$bp->option['bp-disable-profile-sync'] )
+	if ( (int)$bp->site_options['bp-disable-profile-sync'] )
 		return true;
 
 	$fullname = xprofile_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $bp->loggedin_user->id );
