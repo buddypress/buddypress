@@ -472,7 +472,7 @@ j(document).ready( function() {
 	/* The search form on all directory pages */
 	j('div.dir-search').click( function(event) {
 		if ( j(this).hasClass('no-ajax') )
-			return false;
+			return;
 
 		var target = j(event.target);
 
