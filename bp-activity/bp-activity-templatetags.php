@@ -584,7 +584,7 @@ function bp_activity_comments( $args = '' ) {
 			}
 			$content .= '</ul>';
 
-			return $content;
+			return apply_filters( 'bp_activity_recurse_comments', $content );
 		}
 
 function bp_activity_comment_count() {
