@@ -219,7 +219,13 @@ function bp_dtheme_delete_activity() {
 	if ( !is_site_admin() && $activity->user_id != $bp->loggedin_user->id )
 		return false;
 
-	if ( empty( $_POST['id'] ) || !is_numeric( $_POST['id'] ) || !bp_activity_delete( array( 'id' => $_POST['id'], 'user_id' => $activity->user_id ) ) ) {
+	if ( empty( $_POST['id'] ) || !is_numeric( $_POST['id'] ) )
+		return false;
+
+	/* Call the action before the delete so plugins can still fetch information about it */
+	do_action( 'bp_activity_action_delete_activity', $_POST['id'], $activity->user_id );
+
+	if ( !bp_activity_delete( array( 'id' => $_POST['id'], 'user_id' => $activity->user_id ) ) ) {
 		echo '-1<div id="message" class="error"><p>' . __( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>';
 		return false;
 	}
@@ -246,7 +252,13 @@ function bp_dtheme_delete_activity_comment() {
 	if ( !is_site_admin() && $comment->user_id != $bp->loggedin_user->id )
 		return false;
 
-	if ( empty( $_POST['id'] ) || !is_numeric( $_POST['id'] ) || !bp_activity_delete_comment( $comment->item_id, $comment->id ) ) {
+	if ( empty( $_POST['id'] ) || !is_numeric( $_POST['id'] ) )
+		return false;
+
+	/* Call the action before the delete so plugins can still fetch information about it */
+	do_action( 'bp_activity_action_delete_activity', $_POST['id'], $comment->user_id );
+
+	if ( !bp_activity_delete_comment( $comment->item_id, $comment->id ) ) {
 		echo '-1<div id="message" class="error"><p>' . __( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>';
 		return false;
 	}

@@ -347,13 +347,14 @@ function bp_activity_action_delete_activity() {
 	if ( !is_site_admin() && $activity->user_id != $bp->loggedin_user->id )
 		return false;
 
+	/* Call the action before the delete so plugins can still fetch information about it */
+	do_action( 'bp_activity_action_delete_activity', $activity_id, $activity->user_id );
+
 	/* Now delete the activity item */
-	if ( bp_activity_delete( array( 'id' => $activity_id, 'user_id' => $activity->user_id  ) ) )
+	if ( bp_activity_delete( array( 'id' => $activity_id, 'user_id' => $activity->user_id ) ) )
 		bp_core_add_message( __( 'Activity deleted', 'buddypress' ) );
 	else
 		bp_core_add_message( __( 'There was an error when deleting that activity', 'buddypress' ), 'error' );
-
-	do_action( 'bp_activity_action_delete_activity', $activity_id );
 
 	bp_core_redirect( wp_get_referer() );
 }
