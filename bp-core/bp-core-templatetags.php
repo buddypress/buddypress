@@ -1089,15 +1089,13 @@ add_filter( 'bp_create_excerpt', 'force_balance_tags' );
  * @return bool true if the data is serialized
  */
 function bp_is_serialized( $data ) {
-   if ( '' == trim($data) ) {
-      return false;
-   }
+	if ( '' == trim($data) )
+		return false;
 
-   if ( preg_match( "/^(i|s|a|o|d)(.*);/si", $data ) ) {
-      return true;
-   }
+	if ( preg_match( "/^(i|s|a|o|d)(.*);/si", $data ) )
+		return true;
 
-   return false;
+	return false;
 }
 
 function bp_total_member_count() {
