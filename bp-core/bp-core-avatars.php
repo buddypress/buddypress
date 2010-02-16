@@ -208,12 +208,12 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 		return false;
 
 	if ( $av_dir = opendir( $avatar_folder_dir ) ) {
-	    while ( false !== ( $avatar_file = readdir($av_dir) ) ) {
+		while ( false !== ( $avatar_file = readdir($av_dir) ) ) {
 			if ( ( preg_match( "/-bpfull/", $avatar_file ) || preg_match( "/-bpthumb/", $avatar_file ) ) && '.' != $avatar_file && '..' != $avatar_file )
 				@unlink( $avatar_folder_dir . '/' . $avatar_file );
 		}
 	}
-    closedir($av_dir);
+	closedir($av_dir);
 
 	@rmdir( $avatar_folder_dir );
 
@@ -229,12 +229,12 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	require_once( ABSPATH . '/wp-admin/includes/file.php' );
 
 	$uploadErrors = array(
-        0 => __("There is no error, the file uploaded with success", 'buddypress'),
-        1 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format(BP_AVATAR_ORIGINAL_MAX_FILESIZE),
-        2 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format(BP_AVATAR_ORIGINAL_MAX_FILESIZE),
-        3 => __("The uploaded file was only partially uploaded", 'buddypress'),
-        4 => __("No file was uploaded", 'buddypress'),
-        6 => __("Missing a temporary folder", 'buddypress')
+		0 => __("There is no error, the file uploaded with success", 'buddypress'),
+		1 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format(BP_AVATAR_ORIGINAL_MAX_FILESIZE),
+		2 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format(BP_AVATAR_ORIGINAL_MAX_FILESIZE),
+		3 => __("The uploaded file was only partially uploaded", 'buddypress'),
+		4 => __("No file was uploaded", 'buddypress'),
+		6 => __("Missing a temporary folder", 'buddypress')
 	);
 
 	if ( !bp_core_check_avatar_upload( $file ) ) {
@@ -252,25 +252,24 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 		return false;
 	}
 
-	// Filter the upload location
+	/* Filter the upload location */
 	add_filter( 'upload_dir', $upload_dir_filter, 10, 0 );
 
 	$bp->avatar_admin->original = wp_handle_upload( $file['file'], array( 'action'=> 'bp_avatar_upload' ) );
 
-	// Move the file to the correct upload location.
+	/* Move the file to the correct upload location. */
 	if ( !empty( $bp->avatar_admin->original['error'] ) ) {
 		bp_core_add_message( sprintf( __( 'Upload Failed! Error was: %s', 'buddypress' ), $bp->avatar_admin->original['error'] ), 'error' );
 		return false;
 	}
 
-	// Resize the image down to something manageable and then delete the original
-	if ( getimagesize( $bp->avatar_admin->original['file'] ) > BP_AVATAR_ORIGINAL_MAX_WIDTH ) {
+	/* Resize the image down to something manageable and then delete the original */
+	if ( getimagesize( $bp->avatar_admin->original['file'] ) > BP_AVATAR_ORIGINAL_MAX_WIDTH )
 		$bp->avatar_admin->resized = wp_create_thumbnail( $bp->avatar_admin->original['file'], BP_AVATAR_ORIGINAL_MAX_WIDTH );
-	}
 
 	$bp->avatar_admin->image = new stdClass;
 
-	// We only want to handle one image after resize.
+	/* We only want to handle one image after resize. */
 	if ( empty( $bp->avatar_admin->resized ) )
 		$bp->avatar_admin->image->dir = $bp->avatar_admin->original['file'];
 	else {
