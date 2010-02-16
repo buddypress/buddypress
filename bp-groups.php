@@ -1055,7 +1055,7 @@ function groups_action_create_group() {
 				bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step . '/' );
 			}
 
-			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'name' => $_POST['group-name'], 'description' => $_POST['group-desc'], 'slug' => groups_check_slug( sanitize_title($_POST['group-name']) ), 'date_created' => gmdate( "Y-m-d H:i:s" ) ) ) ) {
+			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'name' => $_POST['group-name'], 'description' => $_POST['group-desc'], 'slug' => groups_check_slug( sanitize_title($_POST['group-name']) ), 'date_created' => gmdate( "Y-m-d H:i:s" ), 'status' => 'public' ) ) ) {
 				bp_core_add_message( __( 'There was an error saving group details, please try again.', 'buddypress' ), 'error' );
 				bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step . '/' );
 			}
