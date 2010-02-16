@@ -2,14 +2,14 @@
 /*
 Plugin Name: BuddyPress
 Plugin URI: http://buddypress.org/download/
-Description: BuddyPress will add social networking features to a new or existing WordPress MU installation.
+Description: Social networking in a box. Build a social network for your company, school, sports team or niche community all based on the power and flexibility of WordPress.
 Author: The BuddyPress Community
-Version: 1.2-rc3
+Version: 1.2
 Author URI: http://buddypress.org/developers/
 Site Wide Only: true
 */
 
-define( 'BP_VERSION', '1.2-rc3' );
+define( 'BP_VERSION', '1.2' );
 
 /***
  * This file will load in each BuddyPress component based on which

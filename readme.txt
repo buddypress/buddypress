@@ -23,7 +23,8 @@ drive! This site is a community of BuddyPress users looking to try out and discu
 <h4>Who's Using BuddyPress?</h4>
 
 More and more WordPress with BuddyPress powered sites are popping up. You can take a look at some of the best
-sites on the <a href="http://wordpress.org/showcase/flavor/buddypress/">BuddyPress section of the WordPress showcase</a>.
+sites on the <a href="http://buddypress.org/demo/">BuddyPress demo page</a> or the
+<a href="http://wordpress.org/showcase/flavor/buddypress/">BuddyPress section of the WordPress showcase</a>.
 
 == Installation ==
 
