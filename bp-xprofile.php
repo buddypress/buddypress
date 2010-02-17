@@ -197,8 +197,6 @@ function xprofile_setup_nav() {
 	do_action( 'xprofile_setup_nav' );
 }
 add_action( 'bp_setup_nav', 'xprofile_setup_nav' );
-add_action( 'admin_menu', 'xprofile_setup_nav' );
-
 
 /**
  * xprofile_setup_adminbar_menu()

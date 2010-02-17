@@ -84,9 +84,7 @@ function friends_setup_nav() {
 
 	do_action( 'friends_setup_nav' );
 }
-add_action( 'wp', 'friends_setup_nav', 2 );
-add_action( 'admin_menu', 'friends_setup_nav', 2 );
-
+add_action( 'bp_setup_nav', 'friends_setup_nav' );
 
 /********************************************************************************
  * Screen Functions
