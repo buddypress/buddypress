@@ -218,7 +218,6 @@ function groups_setup_nav() {
 	do_action( 'groups_setup_nav', $bp->groups->current_group->user_has_access );
 }
 add_action( 'bp_setup_nav', 'groups_setup_nav' );
-add_action( 'admin_menu', 'groups_setup_nav' );
 
 function groups_directory_groups_setup() {
 	global $bp;

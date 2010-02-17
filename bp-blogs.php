@@ -150,7 +150,6 @@ function bp_blogs_setup_nav() {
 	do_action( 'bp_blogs_setup_nav' );
 }
 add_action( 'bp_setup_nav', 'bp_blogs_setup_nav' );
-add_action( 'admin_menu', 'bp_blogs_setup_nav' );
 
 function bp_blogs_directory_blogs_setup() {
 	global $bp;

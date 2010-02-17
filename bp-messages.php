@@ -129,8 +129,6 @@ function messages_setup_nav() {
 	do_action( 'messages_setup_nav' );
 }
 add_action( 'bp_setup_nav', 'messages_setup_nav' );
-add_action( 'admin_menu', 'messages_setup_nav' );
-
 
 /********************************************************************************
  * Screen Functions

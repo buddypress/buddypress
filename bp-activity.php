@@ -138,7 +138,6 @@ function bp_activity_setup_nav() {
 	do_action( 'bp_activity_setup_nav' );
 }
 add_action( 'bp_setup_nav', 'bp_activity_setup_nav' );
-add_action( 'admin_menu', 'bp_activity_setup_nav' );
 
 function bp_activity_directory_activity_setup() {
 	global $bp;
