@@ -21,21 +21,21 @@ $bp_deactivated = apply_filters( 'bp_deactivated_components', get_site_option( '
 
 do_action( 'bp_core_loaded' );
 
-// /* Activity Streams */
-// if ( !isset( $bp_deactivated['bp-activity.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-activity.php') )
-// 	include( BP_PLUGIN_DIR . '/bp-activity.php' );
+/* Activity Streams */
+if ( !isset( $bp_deactivated['bp-activity.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-activity.php') )
+	include( BP_PLUGIN_DIR . '/bp-activity.php' );
 
-// /* Blog Tracking */
-// if ( !isset( $bp_deactivated['bp-blogs.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-blogs.php') )
-// 	include( BP_PLUGIN_DIR . '/bp-blogs.php' );
+/* Blog Tracking */
+if ( !isset( $bp_deactivated['bp-blogs.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-blogs.php') )
+	include( BP_PLUGIN_DIR . '/bp-blogs.php' );
 
-// /* bbPress Forum Integration */
-// if ( !isset( $bp_deactivated['bp-forums.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-forums.php') )
-// 	include( BP_PLUGIN_DIR . '/bp-forums.php' );
+/* bbPress Forum Integration */
+if ( !isset( $bp_deactivated['bp-forums.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-forums.php') )
+	include( BP_PLUGIN_DIR . '/bp-forums.php' );
 
-// /* Friend Connections */
-// if ( !isset( $bp_deactivated['bp-friends.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-friends.php') )
-// 	include( BP_PLUGIN_DIR . '/bp-friends.php' );
+/* Friend Connections */
+if ( !isset( $bp_deactivated['bp-friends.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-friends.php') )
+	include( BP_PLUGIN_DIR . '/bp-friends.php' );
 
 /* Groups Support */
 if ( !isset( $bp_deactivated['bp-groups.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-groups.php') )
