@@ -155,7 +155,7 @@ function xprofile_add_admin_menu() {
 	add_submenu_page( 'bp-general-settings', __("Profile Field Setup", 'buddypress'), __("Profile Field Setup", 'buddypress'), 'manage_options', 'bp-profile-setup', "xprofile_admin" );
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( $bp->site_options['bp-xprofile-db-version'] < BP_XPROFILE_DB_VERSION )
+	if ( get_site_option( 'bp-xprofile-db-version' ) < BP_XPROFILE_DB_VERSION )
 		xprofile_install();
 }
 add_action( 'admin_menu', 'xprofile_add_admin_menu' );

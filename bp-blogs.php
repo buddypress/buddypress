@@ -80,7 +80,7 @@ function bp_blogs_check_installed() {
 	/* Only create the bp-blogs tables if this is a multisite install */
 	if ( is_site_admin() && bp_core_is_multisite() ) {
 		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( $bp->site_options['bp-blogs-db-version'] < BP_BLOGS_DB_VERSION )
+		if ( get_site_option( 'bp-blogs-db-version' ) < BP_BLOGS_DB_VERSION )
 			bp_blogs_install();
 	}
 }

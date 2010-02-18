@@ -266,7 +266,7 @@ function bp_core_check_installed() {
 	require ( BP_PLUGIN_DIR . '/bp-core/bp-core-admin.php' );
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( $bp->site_options['bp-core-db-version'] < BP_CORE_DB_VERSION )
+	if ( get_site_option( 'bp-core-db-version' ) < BP_CORE_DB_VERSION )
 		bp_core_install();
 }
 add_action( 'admin_menu', 'bp_core_check_installed' );
@@ -1559,13 +1559,6 @@ function bp_core_get_site_options() {
 	global $bp, $wpdb;
 
 	$options = apply_filters( 'bp_core_site_options', array(
-		'bp-core-db-version',
-		'bp-activity-db-version',
-		'bp-blogs-db-version',
-		'bp-friends-db-version',
-		'bp-groups-db-version',
-		'bp-messages-db-version',
-		'bp-xprofile-db-version',
 		'bp-deactivated-components',
 		'bp-blogs-first-install',
 		'bp-disable-blog-forum-comments',
