@@ -38,10 +38,10 @@
 				<?php elseif ( bp_is_group_membership_request() ) : ?>
 					<?php locate_template( array( 'groups/single/request-membership.php' ), true ) ?>
 
-				<?php elseif ( bp_group_is_visible() ) : ?>
+				<?php elseif ( bp_group_is_visible() && bp_is_active( 'activity' ) ) : ?>
 					<?php locate_template( array( 'groups/single/activity.php' ), true ) ?>
 
-				<?php else : ?>
+				<?php elseif ( !bp_group_is_visible() ) : ?>
 					<?php /* The group is not visible, show the status message */ ?>
 
 					<?php do_action( 'bp_before_group_status_message' ) ?>
@@ -51,6 +51,12 @@
 					</div>
 
 					<?php do_action( 'bp_after_group_status_message' ) ?>
+
+				<?php else : ?>
+					<?php
+						/* If nothing sticks, just load a group front template if one exists. */
+						locate_template( array( 'groups/single/front.php' ), true );
+					?>
 				<?php endif; ?>
 
 				<?php do_action( 'bp_after_group_body' ) ?>
