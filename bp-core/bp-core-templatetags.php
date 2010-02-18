@@ -1590,6 +1590,15 @@ function bp_is_group_forum() {
 	return false;
 }
 
+function bp_is_group_activity() {
+	global $bp;
+
+	if ( BP_GROUPS_SLUG == $bp->current_component && $bp->is_single_item && 'activity' == $bp->current_action )
+		return true;
+
+	return false;
+}
+
 function bp_is_group_forum_topic() {
 	global $bp;
 
