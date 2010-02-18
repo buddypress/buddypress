@@ -2134,7 +2134,6 @@ function bp_setup_nav() {
 	do_action( 'bp_setup_nav' );
 }
 add_action( 'plugins_loaded', 'bp_setup_nav' );
-add_action( 'admin_menu', 'bp_setup_nav' );
 
 /* Allow core components and dependent plugins to register widgets */
 function bp_setup_widgets() {
