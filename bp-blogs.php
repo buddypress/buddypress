@@ -773,7 +773,7 @@ function bp_blogs_get_blogmeta( $blog_id, $meta_key = '') {
 			return '';
 	}
 
-	$metas = array_map('maybe_unserialize', $metas);
+	$metas = array_map('maybe_unserialize', (array)$metas);
 
 	if ( 1 == count($metas) )
 		return $metas[0];

@@ -1109,7 +1109,7 @@ function bp_activity_get_meta( $activity_id, $meta_key = '' ) {
 	if ( empty($metas) )
 		return false;
 
-	$metas = array_map( 'maybe_unserialize', $metas );
+	$metas = array_map( 'maybe_unserialize', (array)$metas );
 
 	if ( 1 == count($metas) )
 		return $metas[0];
