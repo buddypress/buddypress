@@ -190,9 +190,9 @@ function bp_has_activities( $args = '' ) {
 		if ( 'just-me' == $scope )
 			$display_comments = 'stream';
 
-		$show_hidden = ( $user_id == $bp->loggedin_user->id ) ? 1 : 0;
-
 		if ( $user_id = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->id : $bp->loggedin_user->id ) {
+			$show_hidden = ( $user_id == $bp->loggedin_user->id ) ? 1 : 0;
+
 			switch ( $scope ) {
 				case 'friends':
 					if ( function_exists( 'friends_get_friend_user_ids' ) )
