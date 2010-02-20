@@ -106,6 +106,9 @@ function bp_core_setup_globals() {
 	/* The core userdata of the user who is currently logged in. */
 	$bp->loggedin_user->userdata = bp_core_get_core_userdata( $bp->loggedin_user->id );
 
+	/* is_site_admin() hits the DB on single WP installs, so we need to get this separately so we can call it in a loop. */
+	$bp->loggedin_user->is_site_admin = is_site_admin();
+
 	/* The user id of the user currently being viewed, set in /bp-core/bp-core-catchuri.php */
 	$bp->displayed_user->id = $displayed_user_id;
 

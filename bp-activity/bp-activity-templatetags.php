@@ -459,6 +459,15 @@ function bp_activity_content_body() {
 		return apply_filters( 'bp_get_activity_content_body', $activities_template->activity->content, &$activities_template->activity );
 	}
 
+	function bp_activity_has_content() {
+		global $activities_template;
+
+		if ( !empty( $activities_template->activity->content ) )
+			return true;
+
+		return false;
+	}
+
 function bp_activity_content() {
 	echo bp_get_activity_content();
 }
@@ -573,7 +582,7 @@ function bp_activity_comments( $args = '' ) {
 					$content .= '<span class="acomment-replylink"> &middot; <a href="#acomment-' . $comment->id . '" class="acomment-reply" id="acomment-reply-' . $activities_template->activity->id . '">' . __( 'Reply', 'buddypress' ) . '</a></span>';
 
 				/* Delete link */
-				if ( is_site_admin() || $bp->loggedin_user->id == $comment->user_id )
+				if ( $bp->loggedin_user->is_site_admin || $bp->loggedin_user->id == $comment->user_id )
 					$content .= ' &middot; <a href="' . wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/?cid=' . $comment->id, 'bp_activity_delete_link' ) . '" class="delete acomment-delete">' . __( 'Delete', 'buddypress' ) . '</a>';
 
 				$content .= '</div>';
