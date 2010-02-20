@@ -224,7 +224,7 @@ function bp_has_activities( $args = '' ) {
 				case 'mentions':
 					$user_nicename = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->userdata->user_nicename : $bp->loggedin_user->userdata->user_nicename;
 					$user_login = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
-					$search_terms = '@' . bp_core_get_username( $user_id, $user_nicename, $user_login );
+					$search_terms = '@' . bp_core_get_username( $user_id, $user_nicename, $user_login ) . '<'; // Start search at @ symbol and stop search at closing tag delimiter.
 					$display_comments = 'stream';
 					$user_id = false;
 					break;
