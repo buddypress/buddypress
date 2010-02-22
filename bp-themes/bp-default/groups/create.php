@@ -23,10 +23,10 @@
 
 					<?php do_action( 'bp_before_group_details_creation_step' ); ?>
 
-					<label for="group-name"><?php _e('* Group Name', 'buddypress') ?> <? _e( '(required)', 'buddypress' )?></label>
+					<label for="group-name"><?php _e('* Group Name', 'buddypress') ?> <?php _e( '(required)', 'buddypress' )?></label>
 					<input type="text" name="group-name" id="group-name" value="<?php bp_new_group_name() ?>" />
 
-					<label for="group-desc"><?php _e('* Group Description', 'buddypress') ?> <? _e( '(required)', 'buddypress' )?></label>
+					<label for="group-desc"><?php _e('* Group Description', 'buddypress') ?> <?php _e( '(required)', 'buddypress' )?></label>
 					<textarea name="group-desc" id="group-desc"><?php bp_new_group_description() ?></textarea>
 
 					<?php do_action( 'bp_after_group_details_creation_step' ); /* Deprecated -> */ do_action( 'groups_custom_group_fields_editable' ); ?>

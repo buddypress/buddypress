@@ -192,6 +192,9 @@ function bp_the_group() {
 function bp_group_is_visible( $group = false ) {
 	global $bp, $groups_template;
 
+	if ( $bp->loggedin_user->is_site_admin )
+		return true;
+
 	if ( !$group )
 		$group =& $groups_template->group;
 

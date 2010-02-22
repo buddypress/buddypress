@@ -28,12 +28,17 @@ add_filter( 'bp_get_the_topic_latest_post_excerpt', 'wpautop' );
 add_filter( 'bp_get_the_topic_post_content', 'stripslashes_deep' );
 add_filter( 'bp_get_the_topic_title', 'stripslashes_deep' );
 add_filter( 'bp_get_the_topic_latest_post_excerpt', 'stripslashes_deep' );
+add_filter( 'bp_get_the_topic_poster_name', 'stripslashes_deep' );
+add_filter( 'bp_get_the_topic_last_poster_name', 'stripslashes_deep' );
 
 add_filter( 'bp_get_the_topic_post_content', 'make_clickable' );
 
 add_filter( 'bp_get_forum_topic_count_for_user', 'bp_core_number_format' );
 add_filter( 'bp_get_forum_topic_count', 'bp_core_number_format' );
 
+add_filter( 'bp_get_the_topic_title', 'bp_forums_make_nofollow_filter' );
+add_filter( 'bp_get_the_topic_latest_post_excerpt', 'bp_forums_make_nofollow_filter' );
+add_filter( 'bp_get_the_topic_post_content', 'bp_forums_make_nofollow_filter' );
 
 function bp_forums_filter_kses( $content ) {
 	global $allowedtags;
@@ -68,5 +73,14 @@ function bp_forums_filter_tag_link( $link, $tag, $page, $context ) {
 	return apply_filters( 'bp_forums_filter_tag_link', $bp->root_domain . '/' . $bp->forums->slug . '/tag/' . $tag . '/' );
 }
 add_filter( 'bb_get_tag_link', 'bp_forums_filter_tag_link', 10, 4);
+
+function bp_forums_make_nofollow_filter( $text ) {
+	return preg_replace_callback( '|<a (.+?)>|i', 'bp_forums_make_nofollow_filter_callback', $text );
+}
+	function bp_forums_make_nofollow_filter_callback( $matches ) {
+		$text = $matches[1];
+		$text = str_replace( array( ' rel="nofollow"', " rel='nofollow'"), '', $text );
+		return "<a $text rel=\"nofollow\">";
+	}
 
 ?>

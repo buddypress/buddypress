@@ -676,10 +676,12 @@ function bp_blogs_get_blogs_for_user( $user_id, $show_hidden = false ) {
 	return BP_Blogs_Blog::get_blogs_for_user( $user_id, $show_hidden );
 }
 
+/* DEPRECATED - scheduled for removal. Please use the activity stream with a 'new_blog_post' filter. */
 function bp_blogs_get_posts_for_user( $user_id ) {
 	return BP_Blogs_Post::get_posts_for_user( $user_id );
 }
 
+/* DEPRECATED - scheduled for removal. Please use the activity stream with a 'new_blog_comment' filter. */
 function bp_blogs_get_comments_for_user( $user_id ) {
 	return BP_Blogs_Comment::get_comments_for_user( $user_id );
 }
