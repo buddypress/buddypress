@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-02-18 14:11+0000\n"
+"POT-Creation-Date: 2010-02-22 14:11+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -228,18 +228,18 @@ msgstr ""
 msgid "Avatar"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:486
+#: bp-activity/bp-activity-templatetags.php:495
 #, php-format
 msgid "&nbsp; %s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:489
+#: bp-activity/bp-activity-templatetags.php:498
 #: bp-themes/bp-default/activity/entry.php:46
 msgid "View Thread / Permalink"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:489
-#: bp-activity/bp-activity-templatetags.php:726
+#: bp-activity/bp-activity-templatetags.php:498
+#: bp-activity/bp-activity-templatetags.php:735
 #: bp-core/bp-core-templatetags.php:290
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:415
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:884
@@ -249,7 +249,7 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:569
+#: bp-activity/bp-activity-templatetags.php:578
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:433
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:1138
 #: bp-forums/bbpress/bb-admin/topics.php:144
@@ -259,15 +259,15 @@ msgstr ""
 msgid "%s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:573
+#: bp-activity/bp-activity-templatetags.php:582
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:274
 #: bp-themes/bp-default/_inc/ajax.php:191
 #: bp-themes/bp-default/activity/entry.php:28
 msgid "Reply"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:577
-#: bp-activity/bp-activity-templatetags.php:710
+#: bp-activity/bp-activity-templatetags.php:586
+#: bp-activity/bp-activity-templatetags.php:719
 #: bp-forums/bbpress/bb-admin/includes/functions.bb-admin.php:888
 #: bp-forums/bbpress/bb-admin/topics.php:128
 #: bp-forums/bbpress/bb-includes/functions.bb-template.php:1983
@@ -277,27 +277,27 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:786
+#: bp-activity/bp-activity-templatetags.php:795
 msgid "profile"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:786
+#: bp-activity/bp-activity-templatetags.php:795
 msgid "friends"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:786 bp-core/bp-core-classes.php:98
+#: bp-activity/bp-activity-templatetags.php:795 bp-core/bp-core-classes.php:98
 msgid "groups"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:786
+#: bp-activity/bp-activity-templatetags.php:795
 msgid "status"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:786
+#: bp-activity/bp-activity-templatetags.php:795
 msgid "blogs"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:794
+#: bp-activity/bp-activity-templatetags.php:803
 msgid "Clear Filter"
 msgstr ""
 
@@ -387,17 +387,17 @@ msgstr ""
 msgid "New blog post comment posted"
 msgstr ""
 
-#: bp-blogs.php:379
+#: bp-blogs.php:385
 #, php-format
 msgid "%s created the blog %s"
 msgstr ""
 
-#: bp-blogs.php:427 bp-blogs.php:462
+#: bp-blogs.php:433 bp-blogs.php:468
 #, php-format
 msgid "%s wrote a new blog post: %s"
 msgstr ""
 
-#: bp-blogs.php:519
+#: bp-blogs.php:525
 #, php-format
 msgid "%s commented on the blog post %s"
 msgstr ""
@@ -552,135 +552,135 @@ msgstr ""
 msgid "Max posts to show:"
 msgstr ""
 
-#: bp-core.php:291 bp-core.php:292
+#: bp-core.php:294 bp-core.php:295
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core.php:298 bp-core/bp-core-settings.php:70
+#: bp-core.php:301 bp-core/bp-core-settings.php:70
 #: bp-forums/bbpress/bb-admin/options-general.php:219
 msgid "General Settings"
 msgstr ""
 
-#: bp-core.php:299
+#: bp-core.php:302
 msgid "Component Setup"
 msgstr ""
 
-#: bp-core.php:344 bp-forums/bbpress/bb-includes/functions.bb-template.php:222
+#: bp-core.php:347 bp-forums/bbpress/bb-includes/functions.bb-template.php:222
 #: bp-forums/bbpress/bb-templates/kakumei/profile.php:3 bp-xprofile.php:179
 msgid "Profile"
 msgstr ""
 
-#: bp-core.php:355 bp-groups/bp-groups-templatetags.php:410
+#: bp-core.php:358 bp-groups/bp-groups-templatetags.php:410
 #: bp-xprofile.php:184
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:365 bp-core/bp-core-templatetags.php:727
+#: bp-core.php:368 bp-core/bp-core-templatetags.php:727
 #: bp-themes/bp-default/activity/post-form.php:41 bp-xprofile.php:190
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:457
+#: bp-core.php:460
 msgid "User marked as spammer. Spam users are visible only to site admins."
 msgstr ""
 
-#: bp-core.php:459
+#: bp-core.php:462
 msgid "User removed as spammer."
 msgstr ""
 
-#: bp-core.php:493
+#: bp-core.php:496
 #, php-format
 msgid "%s has been deleted from the system."
 msgstr ""
 
-#: bp-core.php:495
+#: bp-core.php:498
 #, php-format
 msgid "There was an error deleting %s from the system. Please try again."
 msgstr ""
 
-#: bp-core.php:1273 bp-core/bp-core-templatetags.php:810
+#: bp-core.php:1276 bp-core/bp-core-templatetags.php:810
 msgid "at"
 msgstr ""
 
-#: bp-core.php:1377
+#: bp-core.php:1380
 msgid "year"
 msgstr ""
 
-#: bp-core.php:1377
+#: bp-core.php:1380
 msgid "years"
 msgstr ""
 
-#: bp-core.php:1378
+#: bp-core.php:1381
 msgid "month"
 msgstr ""
 
-#: bp-core.php:1378
+#: bp-core.php:1381
 msgid "months"
 msgstr ""
 
-#: bp-core.php:1379
+#: bp-core.php:1382
 msgid "week"
 msgstr ""
 
-#: bp-core.php:1379
+#: bp-core.php:1382
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:1380
+#: bp-core.php:1383
 msgid "day"
 msgstr ""
 
-#: bp-core.php:1380
+#: bp-core.php:1383
 msgid "days"
 msgstr ""
 
-#: bp-core.php:1381
+#: bp-core.php:1384
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:1381 bp-forums/bbpress/bb-admin/options-general.php:116
+#: bp-core.php:1384 bp-forums/bbpress/bb-admin/options-general.php:116
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:1382
+#: bp-core.php:1385
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:1382 bp-forums/bbpress/bb-admin/options-writing.php:40
+#: bp-core.php:1385 bp-forums/bbpress/bb-admin/options-writing.php:40
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:1383
+#: bp-core.php:1386
 msgid "second"
 msgstr ""
 
-#: bp-core.php:1383 bp-core.php:1435
+#: bp-core.php:1386 bp-core.php:1438
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1402
+#: bp-core.php:1405
 msgid "sometime"
 msgstr ""
 
-#: bp-core.php:1430
+#: bp-core.php:1433
 msgid ",|Separator in time since"
 msgstr ""
 
-#: bp-core.php:1482
+#: bp-core.php:1485
 msgid "not recently active"
 msgstr ""
 
-#: bp-core.php:1698
+#: bp-core.php:1694
 msgid "noreply"
 msgstr ""
 
-#: bp-core.php:1973
+#: bp-core.php:1969
 msgid ""
 "IMPORTANT: <a href=\"http://codex.buddypress.org/getting-started/upgrading-"
 "from-10x/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core.php:2044
+#: bp-core.php:2040
 #, php-format
 msgid ""
 "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update "
@@ -688,13 +688,14 @@ msgid ""
 "work."
 msgstr ""
 
-#: bp-core.php:2052
+#: bp-core.php:2049
 #, php-format
 msgid ""
 "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a "
 "BuddyPress compatible theme</a> to take advantage of all of the features. "
 "We've bundled a default theme, but you can always <a href='%s'>install some "
-"other compatible themes</a>."
+"other compatible themes</a> or <a href='%s'>upgrade your existing WordPress "
+"theme</a>."
 msgstr ""
 
 #: bp-core/bp-core-activation.php:19
@@ -1325,43 +1326,39 @@ msgstr ""
 msgid "There were no members found, please try another filter."
 msgstr ""
 
-#: bp-core/bp-core-wpabstraction.php:103
+#: bp-core/bp-core-wpabstraction.php:102
 msgid "Please enter a username"
 msgstr ""
 
-#: bp-core/bp-core-wpabstraction.php:109
+#: bp-core/bp-core-wpabstraction.php:114
 msgid "Only lowercase letters and numbers allowed"
 msgstr ""
 
 #: bp-core/bp-core-wpabstraction.php:118
-msgid "That username is not allowed"
-msgstr ""
-
-#: bp-core/bp-core-wpabstraction.php:122
 msgid "Username must be at least 4 characters"
 msgstr ""
 
-#: bp-core/bp-core-wpabstraction.php:126
+#: bp-core/bp-core-wpabstraction.php:122
 msgid "Sorry, usernames may not contain the character '_'!"
 msgstr ""
 
-#: bp-core/bp-core-wpabstraction.php:132
+#: bp-core/bp-core-wpabstraction.php:128
 msgid "Sorry, usernames must have letters too!"
 msgstr ""
 
-#: bp-core/bp-core-wpabstraction.php:135
+#: bp-core/bp-core-wpabstraction.php:131
 msgid "Please check your email address."
 msgstr ""
 
-#: bp-core/bp-core-wpabstraction.php:141
+#: bp-core/bp-core-wpabstraction.php:137
 msgid "Sorry, that email address is not allowed!"
 msgstr ""
 
-#: bp-core/bp-core-wpabstraction.php:147
+#: bp-core/bp-core-wpabstraction.php:143
 msgid "Sorry, that username already exists!"
 msgstr ""
 
-#: bp-core/bp-core-wpabstraction.php:151
+#: bp-core/bp-core-wpabstraction.php:147
 msgid "Sorry, that email address is already used!"
 msgstr ""
 
@@ -3998,7 +3995,7 @@ msgstr ""
 
 #: bp-forums/bbpress/bb-admin/topics.php:127
 #: bp-messages/bp-messages-templatetags.php:470
-#: bp-themes/bp-default/functions.php:225
+#: bp-themes/bp-default/functions.php:226
 msgid "Close"
 msgstr ""
 
@@ -8280,38 +8277,38 @@ msgstr ""
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:207
+#: bp-themes/bp-default/functions.php:208
 #, php-format
 msgid ""
 "Theme activated! This theme contains <a href=\"%s\">custom header image</a> "
 "support and <a href=\"%s\">sidebar widgets</a>."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:219
+#: bp-themes/bp-default/functions.php:220
 msgid "My Favorites"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:220
+#: bp-themes/bp-default/functions.php:221
 msgid "Accepted"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:221
+#: bp-themes/bp-default/functions.php:222
 msgid "Rejected"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:222
+#: bp-themes/bp-default/functions.php:223
 msgid "Show all comments for this thread"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:223
+#: bp-themes/bp-default/functions.php:224
 msgid "Show all"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:224
+#: bp-themes/bp-default/functions.php:225
 msgid "comments"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:226
+#: bp-themes/bp-default/functions.php:227
 #, php-format
 msgid ""
 "%s is a unique identifier for %s that you can type into any message on this "
