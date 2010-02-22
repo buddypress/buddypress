@@ -91,7 +91,7 @@ function bp_adminbar_account_menu() {
 
 	$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
 
-	echo '<li' . $alt . '><a id="bp-admin-logout" class="logout" href="' . wp_logout_url(site_url()) . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';
+	echo '<li' . $alt . '><a id="bp-admin-logout" class="logout" href="' . wp_logout_url( site_url() ) . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';
 	echo '</ul>';
 	echo '</li>';
 }
@@ -119,15 +119,16 @@ function bp_adminbar_blogs_menu() {
 		$counter = 0;
 		foreach ( (array)$blogs['blogs'] as $blog ) {
 			$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
+			$site_url = esc_attr( $blog->siteurl );
 
 			echo '<li' . $alt . '>';
-			echo '<a href="' . esc_attr( $blog->siteurl ) . '">' . esc_html( $blog->name ) . '</a>';
+			echo '<a href="' . $site_url . '">' . esc_html( $blog->name ) . '</a>';
 
 			echo '<ul>';
-			echo '<li class="alt"><a href="' . esc_attr( $blog->siteurl ) . 'wp-admin/">' . __( 'Dashboard', 'buddypress' ) . '</a></li>';
-			echo '<li><a href="' . esc_attr( $blog->siteurl ) . 'wp-admin/post-new.php">' . __( 'New Post', 'buddypress' ) . '</a></li>';
-			echo '<li class="alt"><a href="' . esc_attr( $blog->siteurl ) . 'wp-admin/edit.php">' . __( 'Manage Posts', 'buddypress' ) . '</a></li>';
-			echo '<li><a href="' . esc_attr( $blog->siteurl ) . 'wp-admin/edit-comments.php">' . __( 'Manage Comments', 'buddypress' ) . '</a></li>';
+			echo '<li class="alt"><a href="' . $site_url . 'wp-admin/">' . __( 'Dashboard', 'buddypress' ) . '</a></li>';
+			echo '<li><a href="' . $site_url . 'wp-admin/post-new.php">' . __( 'New Post', 'buddypress' ) . '</a></li>';
+			echo '<li class="alt"><a href="' . $site_url . 'wp-admin/edit.php">' . __( 'Manage Posts', 'buddypress' ) . '</a></li>';
+			echo '<li><a href="' . $site_url . 'wp-admin/edit-comments.php">' . __( 'Manage Comments', 'buddypress' ) . '</a></li>';
 			echo '</ul>';
 
 			echo '</li>';
