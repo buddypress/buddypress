@@ -550,14 +550,23 @@ function bp_blogs_manage_comment( $comment_id, $comment_status ) {
 }
 add_action( 'wp_set_comment_status', 'bp_blogs_manage_comment', 10, 2 );
 
-function bp_blogs_add_user_to_blog( $user_id, $role, $blog_id ) {
-	if ( $role != 'subscriber' ) {
+function bp_blogs_add_user_to_blog( $user_id, $role, $blog_id = false ) {
+	global $current_blog;
+
+	if ( empty( $blog_id ) )
+		$blog_id = $current_blog->blog_id;
+
+	if ( $role != 'subscriber' )
 		bp_blogs_record_blog( $blog_id, $user_id, true );
-	}
 }
 add_action( 'add_user_to_blog', 'bp_blogs_add_user_to_blog', 10, 3 );
 
-function bp_blogs_remove_user_from_blog( $user_id, $blog_id ) {
+function bp_blogs_remove_user_from_blog( $user_id, $blog_id = false ) {
+	global $current_blog;
+
+	if ( empty( $blog_id ) )
+		$blog_id = $current_blog->blog_id;
+
 	bp_blogs_remove_blog_for_user( $user_id, $blog_id );
 }
 add_action( 'remove_user_from_blog', 'bp_blogs_remove_user_from_blog', 10, 2 );
