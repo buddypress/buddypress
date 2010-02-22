@@ -1011,6 +1011,8 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = false ) {
 	update_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities', $my_favs );
 	bp_activity_update_meta( $activity_id, 'favorite_count', $fav_count );
 
+	do_action( 'bp_activity_add_user_favorite', $activity_id, $user_id );
+
 	return true;
 }
 
@@ -1035,6 +1037,8 @@ function bp_activity_remove_user_favorite( $activity_id, $user_id = false ) {
 	}
 
 	update_usermeta( $user_id, 'bp_favorite_activities', $my_favs );
+
+	do_action( 'bp_activity_remove_user_favorite', $activity_id, $user_id );
 
 	return true;
 }
