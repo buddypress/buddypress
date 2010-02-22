@@ -881,7 +881,7 @@ function bp_the_topic_post_poster_link() {
 	function bp_get_the_topic_post_poster_link() {
 		global $topic_template;
 
-		return apply_filters( 'bp_get_the_topic_post_poster_name', bp_core_get_user_domain( $topic_template->post->poster_id, $topic_template->post->poster_nicename, $topic_template->post->poster_login ) );
+		return apply_filters( 'bp_the_topic_post_poster_link', bp_core_get_user_domain( $topic_template->post->poster_id, $topic_template->post->poster_nicename, $topic_template->post->poster_login ) );
 	}
 
 function bp_the_topic_post_time_since() {

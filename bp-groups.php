@@ -108,7 +108,7 @@ add_action( 'bp_setup_root_components', 'groups_setup_root_component' );
 
 function groups_check_installed() {
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( $bp->site_options['bp-groups-db-version'] < BP_GROUPS_DB_VERSION )
+	if ( get_site_option( 'bp-groups-db-version' ) < BP_GROUPS_DB_VERSION )
 		groups_install();
 }
 add_action( 'admin_menu', 'groups_check_installed' );
@@ -1295,7 +1295,7 @@ function groups_record_activity( $args = '' ) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
+	extract( $r );
 
 	return bp_activity_add( array( 'id' => $id, 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
 }
@@ -2450,7 +2450,7 @@ function groups_get_groupmeta( $group_id, $meta_key = '') {
 			return '';
 	}
 
-	$metas = array_map('maybe_unserialize', $metas);
+	$metas = array_map('maybe_unserialize', (array)$metas);
 
 	if ( 1 == count($metas) )
 		return $metas[0];

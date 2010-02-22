@@ -96,7 +96,6 @@ if ( !function_exists( 'wpmu_validate_user_signup' ) ) {
 
 		$errors = new WP_Error();
 
-		$user_name = preg_replace( "/\s+/", '', sanitize_user( $user_name, true ) );
 		$user_email = sanitize_email( $user_email );
 
 		if ( empty( $user_name ) )
@@ -105,17 +104,14 @@ if ( !function_exists( 'wpmu_validate_user_signup' ) ) {
 		$maybe = array();
 		preg_match( "/[a-z0-9]+/", $user_name, $maybe );
 
-		if( $user_name != $maybe[0] ) {
-		    $errors->add('user_name', __("Only lowercase letters and numbers allowed"));
-		}
-
 		$illegal_names = get_site_option( "illegal_names" );
 		if( is_array( $illegal_names ) == false ) {
 			$illegal_names = array(  "www", "web", "root", "admin", "main", "invite", "administrator" );
 			add_site_option( "illegal_names", $illegal_names );
 		}
-		if( in_array( $user_name, $illegal_names ) == true ) {
-		    $errors->add('user_name',  __("That username is not allowed"));
+
+		if ( !validate_username( $user_name ) || in_array( $user_name, $illegal_names ) == true || $user_name != $maybe[0] ) {
+		    $errors->add('user_name', __("Only lowercase letters and numbers allowed"));
 		}
 
 		if( strlen( $user_name ) < 4 ) {

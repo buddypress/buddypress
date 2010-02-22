@@ -93,7 +93,7 @@ add_action( 'bp_setup_globals', 'bp_activity_setup_globals' );
 function bp_activity_check_installed() {
 	global $wpdb, $bp;
 
-	if ( $bp->site_options['bp-activity-db-version'] < BP_ACTIVITY_DB_VERSION )
+	if ( get_site_option( 'bp-activity-db-version' ) < BP_ACTIVITY_DB_VERSION )
 		bp_activity_install();
 }
 add_action( 'admin_menu', 'bp_activity_check_installed' );
@@ -588,7 +588,7 @@ function bp_activity_get( $args = '' ) {
 	if ( 1 == (int)$page && empty( $max ) && empty( $search_terms ) && empty( $filter ) && 'DESC' == $sort ) {
 		if ( !$activity = wp_cache_get( 'bp_activity_sitewide_front', 'bp' ) ) {
 			$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden );
-			wp_cache_set( 'bp_activity_sitewide_front', BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden ), 'bp' );
+			wp_cache_set( 'bp_activity_sitewide_front', $activity, 'bp' );
 		}
 	} else
 		$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden );
@@ -1011,6 +1011,8 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = false ) {
 	update_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities', $my_favs );
 	bp_activity_update_meta( $activity_id, 'favorite_count', $fav_count );
 
+	do_action( 'bp_activity_add_user_favorite', $activity_id, $user_id );
+
 	return true;
 }
 
@@ -1035,6 +1037,8 @@ function bp_activity_remove_user_favorite( $activity_id, $user_id = false ) {
 	}
 
 	update_usermeta( $user_id, 'bp_favorite_activities', $my_favs );
+
+	do_action( 'bp_activity_remove_user_favorite', $activity_id, $user_id );
 
 	return true;
 }
@@ -1109,7 +1113,7 @@ function bp_activity_get_meta( $activity_id, $meta_key = '' ) {
 	if ( empty($metas) )
 		return false;
 
-	$metas = array_map( 'maybe_unserialize', $metas );
+	$metas = array_map( 'maybe_unserialize', (array)$metas );
 
 	if ( 1 == count($metas) )
 		return $metas[0];

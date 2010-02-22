@@ -106,6 +106,9 @@ function bp_core_setup_globals() {
 	/* The core userdata of the user who is currently logged in. */
 	$bp->loggedin_user->userdata = bp_core_get_core_userdata( $bp->loggedin_user->id );
 
+	/* is_site_admin() hits the DB on single WP installs, so we need to get this separately so we can call it in a loop. */
+	$bp->loggedin_user->is_site_admin = is_site_admin();
+
 	/* The user id of the user currently being viewed, set in /bp-core/bp-core-catchuri.php */
 	$bp->displayed_user->id = $displayed_user_id;
 
@@ -266,7 +269,7 @@ function bp_core_check_installed() {
 	require ( BP_PLUGIN_DIR . '/bp-core/bp-core-admin.php' );
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( $bp->site_options['bp-core-db-version'] < BP_CORE_DB_VERSION )
+	if ( get_site_option( 'bp-core-db-version' ) < BP_CORE_DB_VERSION )
 		bp_core_install();
 }
 add_action( 'admin_menu', 'bp_core_check_installed' );
@@ -1559,13 +1562,6 @@ function bp_core_get_site_options() {
 	global $bp, $wpdb;
 
 	$options = apply_filters( 'bp_core_site_options', array(
-		'bp-core-db-version',
-		'bp-activity-db-version',
-		'bp-blogs-db-version',
-		'bp-friends-db-version',
-		'bp-groups-db-version',
-		'bp-messages-db-version',
-		'bp-xprofile-db-version',
 		'bp-deactivated-components',
 		'bp-blogs-first-install',
 		'bp-disable-blog-forum-comments',
@@ -2047,9 +2043,10 @@ function bp_core_activation_notice() {
 		/* Get current theme info */
 		$ct = current_theme_info();
 
-		if ( !in_array( 'buddypress', (array)$ct->tags ) ) { ?>
+		/* The best way to remove this notice is to add a "buddypress" tag to your active theme's CSS header. */
+		if ( !defined( 'BP_SILENCE_THEME_NOTICE' ) && !in_array( 'buddypress', (array)$ct->tags ) ) { ?>
 			<div id="message" class="updated fade">
-				<p style="line-height: 150%"><?php printf( __( "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a BuddyPress compatible theme</a> to take advantage of all of the features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a>.", 'buddypress' ), admin_url( 'themes.php' ), admin_url( 'theme-install.php?type=tag&s=buddypress&tab=search' ) ) ?></p>
+				<p style="line-height: 150%"><?php printf( __( "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a BuddyPress compatible theme</a> to take advantage of all of the features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a> or <a href='%s'>upgrade your existing WordPress theme</a>.", 'buddypress' ), admin_url( 'themes.php' ), admin_url( 'theme-install.php?type=tag&s=buddypress&tab=search' ), admin_url( 'plugin-install.php?type=term&tab=search&s=bp-template-pack' ) ) ?></p>
 			</div><?php
 		}
 	}

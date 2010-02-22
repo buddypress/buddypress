@@ -127,7 +127,7 @@ add_action( 'pre_get_posts', 'bp_dtheme_fix_get_posts_on_activity_front' );
 
 /****
  * Custom header image support. You can remove this entirely in a child theme by adding this line
- * to your functions.php: remove_action( 'init', 'bp_dtheme_add_custom_header_support' );
+ * to your functions.php: define( 'BP_DTHEME_DISABLE_CUSTOM_HEADER', true );
  */
 function bp_dtheme_add_custom_header_support() {
 	/* Set the defaults for the custom header image (http://ryan.boren.me/2007/01/07/custom-image-header-api/) */
@@ -199,7 +199,8 @@ function bp_dtheme_add_custom_header_support() {
 	}
 	add_custom_image_header( 'bp_dtheme_header_style', 'bp_dtheme_admin_header_style' );
 }
-add_action( 'init', 'bp_dtheme_add_custom_header_support' );
+if ( !defined( 'BP_DTHEME_DISABLE_CUSTOM_HEADER' ) )
+	add_action( 'init', 'bp_dtheme_add_custom_header_support' );
 
 /* Show a notice when the theme is activated - workaround by Ozh (http://old.nabble.com/Activation-hook-exist-for-themes--td25211004.html) */
 function bp_dtheme_show_notice() { ?>
@@ -228,12 +229,5 @@ function bp_dtheme_js_terms() { ?>
 <?php
 }
 add_action( 'wp_footer', 'bp_dtheme_js_terms' );
-
-//Google Maps Shortcode
-function fn_googleMaps($atts, $content = null) {
-	extract( shortcode_atts( array( "width" => '640', "height" => '480', "src" => '' ), $atts ) );
-	return '<iframe width="'.$width.'" height="'.$height.'" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'.$src.'"></iframe>';
-}
-add_shortcode( "googlemap", "fn_googleMaps" );
 
 ?>
