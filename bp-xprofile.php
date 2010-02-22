@@ -71,7 +71,7 @@ function xprofile_install() {
 			  KEY user_id (user_id)
 	) {$charset_collate};";
 
-	if ( empty( $bp->site_options['bp-xprofile-db-version'] ) ) {
+	if ( '' == get_site_option( 'bp-xprofile-db-version' ) ) {
 		if ( !$wpdb->get_var( "SELECT id FROM {$bp->profile->table_name_groups} WHERE id = 1" ) )
 			$sql[] = "INSERT INTO {$bp->profile->table_name_groups} VALUES ( 1, '" . get_site_option( 'bp-xprofile-base-group-name' ) . "', '', 0 );";
 
