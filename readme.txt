@@ -41,9 +41,9 @@ BuddyPress also includes support for discussion forums. Each group created on yo
 
 == Frequently Asked Questions ==
 
-= Can I use my existing WordPres theme? =
+= Can I use my existing WordPress theme? =
 
-Yes you can. First install and activate BuddyPress, then download and activate the <a href="http://wordpress.org/extend/plugins/bp-template-pack/">template extension pack</a> that will run you through the process step-by-step.
+Yes you can. First install and activate BuddyPress, then download and activate the <a href="http://wordpress.org/extend/plugins/bp-template-pack/">template extension pack</a>. This plugin will run you through the process step-by-step.
 
 = Will this work on standard WordPress and WordPress MU? =
 
