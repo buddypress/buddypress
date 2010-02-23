@@ -75,25 +75,37 @@ function bp_core_screen_activation() {
 }
 add_action( 'wp', 'bp_core_screen_activation', 3 );
 
-
 /***
- * bp_core_disable_welcome_email()
+ * bp_core_filter_user_welcome_email()
  *
- * Since the user now chooses their password, sending it over clear-text to an
- * email address is no longer necessary. It's also a terrible idea security wise.
- *
- * The only exception to this is when an admin has generated an account for a user.
- *
- * This will only disable the email if a custom registration template is being used.
+ * Replace the generated password in the welcome email.
+ * This will not filter when the site admin registers a user.
  */
-function bp_core_disable_welcome_email() {
+function bp_core_filter_user_welcome_email( $welcome_email ) {
+	/* Don't touch the email if we don't have a custom registration template */
 	if ( '' == locate_template( array( 'registration/register.php' ), false ) && '' == locate_template( array( 'register.php' ), false ) )
-		return true;
+		return $welcome_email;
 
-	return false;
+	return str_replace( 'PASSWORD', __( '[User Set]', 'buddypress' ), $welcome_email );
 }
 if ( !is_admin() && empty( $_GET['e'] ) )
-	add_filter( 'wpmu_welcome_user_notification', 'bp_core_disable_welcome_email' );
+	add_filter( 'update_welcome_user_email', 'bp_core_filter_user_welcome_email' );
+
+/***
+ * bp_core_filter_blog_welcome_email()
+ *
+ * Replace the generated password in the welcome email.
+ * This will not filter when the site admin registers a user.
+ */
+function bp_core_filter_blog_welcome_email( $welcome_email, $blog_id, $user_id, $password ) {
+	/* Don't touch the email if we don't have a custom registration template */
+	if ( '' == locate_template( array( 'registration/register.php' ), false ) && '' == locate_template( array( 'register.php' ), false ) )
+		return $welcome_email;
+
+	return str_replace( $password, __( '[User Set]', 'buddypress' ), $welcome_email );
+}
+if ( !is_admin() && empty( $_GET['e'] ) )
+	add_filter( 'update_welcome_email', 'bp_core_filter_blog_welcome_email', 10, 4 );
 
 // Notify user of signup success.
 function bp_core_activation_signup_blog_notification( $domain, $path, $title, $user, $user_email, $key, $meta ) {
