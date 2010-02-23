@@ -481,7 +481,7 @@ function bp_activity_content() {
 		 * This function is mainly for backwards comptibility.
 		 */
 
-		$content = bp_get_activity_action() . bp_get_activity_content_body();
+		$content = bp_get_activity_action() . ' ' . bp_get_activity_content_body();
 		return apply_filters( 'bp_get_activity_content', $content );
 	}
 
@@ -528,7 +528,7 @@ function bp_activity_parent_content( $args = '' ) {
 		if ( empty( $activities_template->activity_parents[$parent_id]->content ) )
 			$content = $activities_template->activity_parents[$parent_id]->action;
 		else
-			$content = $activities_template->activity_parents[$parent_id]->action . $activities_template->activity_parents[$parent_id]->content;
+			$content = $activities_template->activity_parents[$parent_id]->action . ' ' . $activities_template->activity_parents[$parent_id]->content;
 
 		/* Remove the time since content for backwards compatibility */
 		$content = str_replace( '<span class="time-since">%s</span>', '', $content );
@@ -945,7 +945,7 @@ function bp_activity_feed_item_description() {
 		if ( empty( $activities_template->activity->action ) )
 			$content = $activities_template->activity->content;
 		else
-			$content = $activities_template->activity->action . $activities_template->activity->content;
+			$content = $activities_template->activity->action . ' ' . $activities_template->activity->content;
 
 		return apply_filters( 'bp_get_activity_feed_item_description', html_entity_decode( str_replace( '%s', '', $content ) ) );
 	}
