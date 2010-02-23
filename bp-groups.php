@@ -1229,7 +1229,7 @@ add_action( 'wp', 'groups_action_redirect_to_random_group', 6 );
 function groups_action_group_feed() {
 	global $bp, $wp_query;
 
-	if ( $bp->current_component != $bp->groups->slug || !$bp->groups->current_group || $bp->current_action != 'feed' )
+	if ( !bp_is_active( 'activity' ) || $bp->current_component != $bp->groups->slug || !$bp->groups->current_group || $bp->current_action != 'feed' )
 		return false;
 
 	$wp_query->is_404 = false;
