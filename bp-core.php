@@ -779,7 +779,7 @@ add_action( 'admin_head', 'bp_core_sort_nav_items' );
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
 function bp_core_new_subnav_item( $args = '' ) {
-	global $bp, $wp_query;
+	global $bp;
 
 	$defaults = array(
 		'name' => false, // Display name for the nav item
