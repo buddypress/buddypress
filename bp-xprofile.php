@@ -724,6 +724,32 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 	if ( $is_required && ( empty( $value ) || !strlen( trim( $value ) ) ) )
 		return false;
 
+	$field = new BP_XProfile_Field( $field_id );
+
+	/* Check the value is an acceptable value */
+	if ( 'checkbox' == $field->type || 'radio' == $field->type || 'selectbox' == $field->type || 'multiselectbox' == $field->type ) {
+		$options = $field->get_children();
+
+		foreach( $options as $option )
+			$possible_values[] = $option->name;
+
+		if ( is_array( $value ) ) {
+			foreach( $value as $i => $single ) {
+				if ( !in_array( $single, (array)$possible_values ) )
+					unset( $value[$i] );
+			}
+
+			if ( empty( $value ) )
+				return false;
+
+			/* Reset the keys by merging with an empty array */
+			$value = array_merge( array(), $value );
+		} else {
+			if ( !in_array( $value, (array)$possible_values ) )
+				return false;
+		}
+	}
+
 	$field = new BP_XProfile_ProfileData();
 	$field->field_id = $field_id;
 	$field->user_id = $user_id;

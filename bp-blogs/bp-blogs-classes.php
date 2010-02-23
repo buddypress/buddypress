@@ -290,7 +290,7 @@ Class BP_Blogs_Blog {
 		}
 
 		/* Fetch the blog description for each blog (as it may be empty we can't fetch it in the main query). */
-		$blog_descs = $wpdb->get_results( $wpdb->prepare( "SELECT blog_id, meta_value as description FROM {$bp->blogs->table_name_blogmeta} WHERE meta_key = 'description' blog_id IN ( {$blog_ids} )" ) );
+		$blog_descs = $wpdb->get_results( $wpdb->prepare( "SELECT blog_id, meta_value as description FROM {$bp->blogs->table_name_blogmeta} WHERE meta_key = 'description' AND blog_id IN ( {$blog_ids} )" ) );
 
 		for ( $i = 0; $i < count( $paged_blogs ); $i++ ) {
 			foreach ( (array)$blog_descs as $desc ) {

@@ -174,7 +174,7 @@
 
 						<p><input type="checkbox" name="signup_with_blog" id="signup_with_blog" value="1"<?php if ( (int) bp_get_signup_with_blog_value() ) : ?> checked="checked"<?php endif; ?> /> <?php _e( 'Yes, I\'d like to create a new blog', 'buddypress' ) ?></p>
 
-						<div id="blog-details">
+						<div id="blog-details"<?php if ( (int) bp_get_signup_with_blog_value() ) : ?>class="show"<?php endif; ?>>
 
 							<label for="signup_blog_url"><?php _e( 'Blog URL', 'buddypress' ) ?> <?php _e( '(required)', 'buddypress' ) ?></label>
 							<?php do_action( 'bp_signup_blog_url_errors' ) ?>
@@ -297,7 +297,7 @@
 
 	<script type="text/javascript">
 		jQuery(document).ready( function() {
-			if ( jQuery('div#blog-details').length )
+			if ( jQuery('div#blog-details').length && !jQuery('div#blog-details').hasClass('show') )
 				jQuery('div#blog-details').toggle();
 
 			jQuery( 'input#signup_with_blog' ).click( function() {

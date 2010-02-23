@@ -481,7 +481,7 @@ function bp_activity_content() {
 		 * This function is mainly for backwards comptibility.
 		 */
 
-		$content = bp_get_activity_action() . bp_get_activity_content_body();
+		$content = bp_get_activity_action() . ' ' . bp_get_activity_content_body();
 		return apply_filters( 'bp_get_activity_content', $content );
 	}
 
@@ -498,7 +498,7 @@ function bp_activity_content() {
 		$content .= apply_filters( 'bp_activity_permalink', ' &middot; <a href="' . bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ) . '" class="view" title="' . __( 'View Thread / Permalink', 'buddypress' ) . '">' . __( 'View', 'buddypress' ) . '</a>', &$activities_template->activity );
 
 		/* Add the delete link if the user has permission on this item */
-		if ( ( is_user_logged_in() && $activities_template->activity->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin || is_site_admin() )
+		if ( ( is_user_logged_in() && $activities_template->activity->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin || $bp->loggedin_user->is_site_admin )
 			 $content .= apply_filters( 'bp_activity_delete_link', ' &middot; ' . bp_get_activity_delete_link(), &$activities_template->activity );
 
 		return apply_filters( 'bp_insert_activity_meta', $content );
@@ -528,7 +528,7 @@ function bp_activity_parent_content( $args = '' ) {
 		if ( empty( $activities_template->activity_parents[$parent_id]->content ) )
 			$content = $activities_template->activity_parents[$parent_id]->action;
 		else
-			$content = $activities_template->activity_parents[$parent_id]->action . $activities_template->activity_parents[$parent_id]->content;
+			$content = $activities_template->activity_parents[$parent_id]->action . ' ' . $activities_template->activity_parents[$parent_id]->content;
 
 		/* Remove the time since content for backwards compatibility */
 		$content = str_replace( '<span class="time-since">%s</span>', '', $content );
@@ -945,7 +945,7 @@ function bp_activity_feed_item_description() {
 		if ( empty( $activities_template->activity->action ) )
 			$content = $activities_template->activity->content;
 		else
-			$content = $activities_template->activity->action . $activities_template->activity->content;
+			$content = $activities_template->activity->action . ' ' . $activities_template->activity->content;
 
 		return apply_filters( 'bp_get_activity_feed_item_description', html_entity_decode( str_replace( '%s', '', $content ) ) );
 	}
