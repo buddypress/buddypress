@@ -6,7 +6,7 @@ function bp_core_register_widgets() {
 	add_action('widgets_init', create_function('', 'return register_widget("BP_Core_Whos_Online_Widget");') );
 	add_action('widgets_init', create_function('', 'return register_widget("BP_Core_Recently_Active_Widget");') );
 }
-add_action( 'bp_register_widgets', 'bp_core_register_widgets' );
+add_action( 'bp_register_widgets', 'bp_core_register_widgets', 9 );
 
 /*** MEMBERS WIDGET *****************/
 
@@ -21,12 +21,12 @@ class BP_Core_Members_Widget extends WP_Widget {
 	function widget($args, $instance) {
 		global $bp;
 
-	    extract( $args );
+		extract( $args );
 
 		echo $before_widget;
 		echo $before_title
-		   . $widget_name
-		   . $after_title; ?>
+			. $widget_name
+			. $after_title; ?>
 
 		<?php if ( bp_has_members( 'user_id=0&type=newest&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
 			<div class="item-options" id="members-list-options">
@@ -93,12 +93,12 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	function widget($args, $instance) {
 		global $bp;
 
-	    extract( $args );
+		extract( $args );
 
 		echo $before_widget;
 		echo $before_title
-		   . $widget_name
-		   . $after_title; ?>
+			. $widget_name
+			. $after_title; ?>
 
 		<?php if ( bp_has_members( 'user_id=0&type=online&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
 			<div class="avatar-block">
@@ -147,12 +147,12 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	function widget($args, $instance) {
 		global $bp;
 
-	    extract( $args );
+		extract( $args );
 
 		echo $before_widget;
 		echo $before_title
-		   . $widget_name
-		   . $after_title; ?>
+			. $widget_name
+			. $after_title; ?>
 
 		<?php if ( bp_has_members( 'user_id=0&type=active&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
 			<div class="avatar-block">

@@ -1163,7 +1163,7 @@ function bp_register_group_extension( $group_extension_class ) {
 	if ( !class_exists( $group_extension_class ) )
 		return false;
 
-	/* Register the group extension on the plugins_loaded action so we have access to all plugins */
+	/* Register the group extension on the bp_init action so we have access to all plugins */
 	add_action( 'bp_init', create_function( '', '$extension = new ' . $group_extension_class . '; add_action( "wp", array( &$extension, "_register" ), 2 );' ), 11 );
 }
 

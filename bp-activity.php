@@ -88,7 +88,7 @@ function bp_activity_setup_globals() {
 
 	do_action( 'bp_activity_setup_globals' );
 }
-add_action( 'bp_setup_globals', 'bp_activity_setup_globals' );
+add_action( 'bp_setup_globals', 'bp_activity_setup_globals', 9 );
 
 function bp_activity_check_installed() {
 	global $wpdb, $bp;
@@ -102,7 +102,7 @@ function bp_activity_setup_root_component() {
 	/* Register 'activity' as a root component (for RSS feed use) */
 	bp_core_add_root_component( BP_ACTIVITY_SLUG );
 }
-add_action( 'bp_setup_root_components', 'bp_activity_setup_root_component' );
+add_action( 'bp_setup_root_components', 'bp_activity_setup_root_component', 9 );
 
 function bp_activity_setup_nav() {
 	global $bp;
@@ -137,7 +137,7 @@ function bp_activity_setup_nav() {
 
 	do_action( 'bp_activity_setup_nav' );
 }
-add_action( 'bp_setup_nav', 'bp_activity_setup_nav' );
+add_action( 'bp_setup_nav', 'bp_activity_setup_nav', 9 );
 
 function bp_activity_directory_activity_setup() {
 	global $bp;

@@ -98,13 +98,13 @@ function groups_setup_globals() {
 
 	do_action( 'groups_setup_globals' );
 }
-add_action( 'bp_setup_globals', 'groups_setup_globals' );
+add_action( 'bp_setup_globals', 'groups_setup_globals', 9 );
 
 function groups_setup_root_component() {
 	/* Register 'groups' as a root component */
 	bp_core_add_root_component( BP_GROUPS_SLUG );
 }
-add_action( 'bp_setup_root_components', 'groups_setup_root_component' );
+add_action( 'bp_setup_root_components', 'groups_setup_root_component', 9 );
 
 function groups_check_installed() {
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
@@ -217,7 +217,7 @@ function groups_setup_nav() {
 
 	do_action( 'groups_setup_nav', $bp->groups->current_group->user_has_access );
 }
-add_action( 'bp_setup_nav', 'groups_setup_nav' );
+add_action( 'bp_setup_nav', 'groups_setup_nav', 9 );
 
 function groups_directory_groups_setup() {
 	global $bp;
