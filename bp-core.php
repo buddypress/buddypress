@@ -2125,25 +2125,25 @@ add_filter( 'login_redirect', 'bp_core_login_redirect' );
 function bp_setup_globals() {
 	do_action( 'bp_setup_globals' );
 }
-add_action( 'bp_init', 'bp_setup_globals', 5 );
+add_action( 'bp_init', 'bp_setup_globals', 50 );
 
 /* Allow core components and dependent plugins to set root components */
 function bp_setup_root_components() {
 	do_action( 'bp_setup_root_components' );
 }
-add_action( 'bp_init', 'bp_setup_root_components', 2 );
+add_action( 'bp_init', 'bp_setup_root_components', 20 );
 
 /* Allow core components and dependent plugins to set their nav */
 function bp_setup_nav() {
 	do_action( 'bp_setup_nav' );
 }
-add_action( 'bp_init', 'bp_setup_nav', 6 );
+add_action( 'bp_init', 'bp_setup_nav', 60 );
 
 /* Allow core components and dependent plugins to register widgets */
 function bp_setup_widgets() {
 	do_action( 'bp_register_widgets' );
 }
-add_action( 'bp_init', 'bp_setup_widgets', 7 );
+add_action( 'bp_init', 'bp_setup_widgets', 70 );
 
 
 /********************************************************************************
