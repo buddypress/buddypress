@@ -531,7 +531,7 @@ function bp_activity_parent_content( $args = '' ) {
 	}
 
 function bp_activity_is_favorite() {
-	echo bp_get_is_activity_favorite();
+	echo bp_get_activity_is_favorite();
 }
 	function bp_get_activity_is_favorite() {
 		global $bp, $activities_template;
