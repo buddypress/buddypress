@@ -180,7 +180,7 @@ function bp_core_setup_globals() {
 
 	do_action( 'bp_core_setup_globals' );
 }
-add_action( 'bp_setup_globals', 'bp_core_setup_globals', 9 );
+add_action( 'bp_setup_globals', 'bp_core_setup_globals' );
 
 /**
  * bp_core_setup_root_uris()
@@ -373,7 +373,7 @@ function bp_core_setup_nav() {
 		}
 	}
 }
-add_action( 'bp_setup_nav', 'bp_core_setup_nav', 9 );
+add_action( 'bp_setup_nav', 'bp_core_setup_nav' );
 
 /********************************************************************************
  * Action Functions
@@ -2125,25 +2125,25 @@ add_filter( 'login_redirect', 'bp_core_login_redirect' );
 function bp_setup_globals() {
 	do_action( 'bp_setup_globals' );
 }
-add_action( 'bp_init', 'bp_setup_globals', 50 );
+add_action( 'plugins_loaded', 'bp_setup_globals', 5 );
 
 /* Allow core components and dependent plugins to set root components */
 function bp_setup_root_components() {
 	do_action( 'bp_setup_root_components' );
 }
-add_action( 'bp_init', 'bp_setup_root_components', 20 );
+add_action( 'plugins_loaded', 'bp_setup_root_components', 2 );
 
 /* Allow core components and dependent plugins to set their nav */
 function bp_setup_nav() {
 	do_action( 'bp_setup_nav' );
 }
-add_action( 'bp_init', 'bp_setup_nav', 60 );
+add_action( 'plugins_loaded', 'bp_setup_nav' );
 
 /* Allow core components and dependent plugins to register widgets */
 function bp_setup_widgets() {
 	do_action( 'bp_register_widgets' );
 }
-add_action( 'bp_init', 'bp_setup_widgets', 70 );
+add_action( 'plugins_loaded', 'bp_setup_widgets' );
 
 
 /********************************************************************************

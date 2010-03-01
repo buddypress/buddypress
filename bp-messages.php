@@ -82,7 +82,7 @@ function messages_setup_globals() {
 
 	do_action( 'messages_setup_globals' );
 }
-add_action( 'bp_setup_globals', 'messages_setup_globals', 9 );
+add_action( 'bp_setup_globals', 'messages_setup_globals' );
 
 function messages_check_installed() {
 	global $wpdb, $bp;
@@ -128,7 +128,7 @@ function messages_setup_nav() {
 
 	do_action( 'messages_setup_nav' );
 }
-add_action( 'bp_setup_nav', 'messages_setup_nav', 9 );
+add_action( 'bp_setup_nav', 'messages_setup_nav' );
 
 /********************************************************************************
  * Screen Functions

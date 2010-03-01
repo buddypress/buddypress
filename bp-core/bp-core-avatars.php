@@ -44,7 +44,7 @@ function bp_core_set_avatar_constants() {
 	if ( !defined( 'BP_AVATAR_DEFAULT_THUMB' ) )
 		define( 'BP_AVATAR_DEFAULT_THUMB', BP_PLUGIN_URL . '/bp-xprofile/images/none-thumbnail.gif' );
 }
-add_action( 'bp_init', 'bp_core_set_avatar_constants', 9 );
+add_action( 'bp_init', 'bp_core_set_avatar_constants' );
 
 function bp_core_fetch_avatar( $args = '' ) {
 	global $bp, $current_blog;

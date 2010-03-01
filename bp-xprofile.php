@@ -127,7 +127,7 @@ function xprofile_setup_globals() {
 
 	do_action( 'xprofile_setup_globals' );
 }
-add_action( 'bp_setup_globals', 'xprofile_setup_globals', 9 );
+add_action( 'bp_setup_globals', 'xprofile_setup_globals' );
 
 /**
  * xprofile_add_admin_menu()
@@ -196,7 +196,7 @@ function xprofile_setup_nav() {
 
 	do_action( 'xprofile_setup_nav' );
 }
-add_action( 'bp_setup_nav', 'xprofile_setup_nav', 9 );
+add_action( 'bp_setup_nav', 'xprofile_setup_nav' );
 
 /**
  * xprofile_setup_adminbar_menu()

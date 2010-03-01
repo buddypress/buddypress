@@ -28,7 +28,7 @@ function bp_forums_setup() {
 
 	do_action( 'bp_forums_setup' );
 }
-add_action( 'bp_setup_globals', 'bp_forums_setup', 9 );
+add_action( 'bp_setup_globals', 'bp_forums_setup' );
 
 function bp_forums_is_installed_correctly() {
 	global $bp;
@@ -43,7 +43,7 @@ function bp_forums_setup_root_component() {
 	/* Register 'forums' as a root component */
 	bp_core_add_root_component( BP_FORUMS_SLUG );
 }
-add_action( 'bp_setup_root_components', 'bp_forums_setup_root_component', 9 );
+add_action( 'bp_setup_root_components', 'bp_forums_setup_root_component' );
 
 function bp_forums_directory_forums_setup() {
 	global $bp;

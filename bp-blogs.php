@@ -104,13 +104,13 @@ function bp_blogs_setup_globals() {
 
 	do_action( 'bp_blogs_setup_globals' );
 }
-add_action( 'bp_setup_globals', 'bp_blogs_setup_globals', 9 );
+add_action( 'bp_setup_globals', 'bp_blogs_setup_globals' );
 
 function bp_blogs_setup_root_component() {
 	/* Register 'blogs' as a root component */
 	bp_core_add_root_component( BP_BLOGS_SLUG );
 }
-add_action( 'bp_setup_root_components', 'bp_blogs_setup_root_component', 9 );
+add_action( 'bp_setup_root_components', 'bp_blogs_setup_root_component' );
 
 /**
  * bp_blogs_setup_nav()
@@ -149,7 +149,7 @@ function bp_blogs_setup_nav() {
 
 	do_action( 'bp_blogs_setup_nav' );
 }
-add_action( 'bp_setup_nav', 'bp_blogs_setup_nav', 9 );
+add_action( 'bp_setup_nav', 'bp_blogs_setup_nav' );
 
 function bp_blogs_directory_blogs_setup() {
 	global $bp;

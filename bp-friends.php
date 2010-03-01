@@ -47,7 +47,7 @@ function friends_setup_globals() {
 
 	do_action( 'friends_setup_globals' );
 }
-add_action( 'bp_setup_globals', 'friends_setup_globals', 9 );
+add_action( 'bp_setup_globals', 'friends_setup_globals' );
 
 function friends_check_installed() {
 	global $wpdb, $bp;
@@ -84,7 +84,7 @@ function friends_setup_nav() {
 
 	do_action( 'friends_setup_nav' );
 }
-add_action( 'bp_setup_nav', 'friends_setup_nav', 9 );
+add_action( 'bp_setup_nav', 'friends_setup_nav' );
 
 /********************************************************************************
  * Screen Functions
