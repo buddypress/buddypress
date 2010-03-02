@@ -198,7 +198,7 @@ Class BP_Activity_Activity {
 		return array( 'activities' => $activities, 'total' => (int)$total_activities );
 	}
 
-	function get_id( $user_id, $component, $type, $item_id, $secondary_item_id, $action, $content ) {
+	function get_id( $user_id, $component, $type, $item_id, $secondary_item_id, $action, $content, $date_recorded ) {
 		global $bp, $wpdb;
 
 		$where_args = false;
@@ -223,6 +223,9 @@ Class BP_Activity_Activity {
 
 		if ( !empty( $content ) )
 			$where_args[] = $wpdb->prepare( "content = %s", $content );
+
+		if ( !empty( $date_recorded ) )
+			$where_args[] = $wpdb->prepare( "date_recorded = %s", $date_recorded );
 
 		if ( !empty( $where_args ) )
 			$where_sql = 'WHERE ' . join( ' AND ', $where_args );
