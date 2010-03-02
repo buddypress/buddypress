@@ -726,9 +726,13 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 
 	$field = new BP_XProfile_Field( $field_id );
 
-	/* Check the value is an acceptable value */
+	/* Check that value is acceptable */
 	if ( 'checkbox' == $field->type || 'radio' == $field->type || 'selectbox' == $field->type || 'multiselectbox' == $field->type ) {
 		$options = $field->get_children();
+
+		/* Not required fields can have empty value */
+		if ( !$is_required )
+			$possible_values[] = '';
 
 		foreach( $options as $option )
 			$possible_values[] = $option->name;
@@ -739,7 +743,8 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 					unset( $value[$i] );
 			}
 
-			if ( empty( $value ) )
+			/* Field must be required to trigger error */
+			if ( $is_required && empty( $value ) )
 				return false;
 
 			/* Reset the keys by merging with an empty array */
