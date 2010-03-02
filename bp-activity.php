@@ -714,6 +714,7 @@ function bp_activity_new_comment( $args = '' ) {
 	global $bp;
 
 	$defaults = array(
+		'id' => false,
 		'content' => false,
 		'user_id' => $bp->loggedin_user->id,
 		'activity_id' => false, // ID of the root activity item
@@ -735,6 +736,7 @@ function bp_activity_new_comment( $args = '' ) {
 
 	/* Insert the activity comment */
 	$comment_id = bp_activity_add( array(
+		'id' => $id,
 		'action' => apply_filters( 'bp_activity_comment_action', sprintf( __( '%s posted a new activity comment:', 'buddypress' ), bp_core_get_userlink( $user_id ) ) ),
 		'content' => apply_filters( 'bp_activity_comment_content', $content ),
 		'component' => $bp->activity->id,
