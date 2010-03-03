@@ -471,13 +471,13 @@ Class BP_XProfile_Field {
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE name = %s", $field_name ) );
 	}
 
-	function update_position( $field_id, $position ) {
+	function update_position( $field_id, $position, $field_group_id ) {
 		global $wpdb, $bp;
 
-		if ( !is_numeric( $position ) )
+		if ( !is_numeric( $position ) || !is_numeric( $field_group_id ) )
 			return false;
 
-		return $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_fields} SET field_order = %d WHERE id = %d", $position, $field_id ) );
+		return $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_fields} SET field_order = %d, group_id = %d WHERE id = %d", $position, $field_group_id, $field_id ) );
 	}
 
 	/* ADMIN AREA HTML. TODO: Get this out of here. */

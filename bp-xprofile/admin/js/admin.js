@@ -131,13 +131,15 @@ jQuery(document).ready( function() {
 		opacity: 0.6,
 		items: 'tr',
 		cancel: 'tr.nodrag',
+		connectWith: 'table.field-group tbody',
 		tolerance: 'pointer',
 		update: function() { 
 			jQuery.post( ajaxurl, {
 				action: 'xprofile_reorder_fields',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce_reorder_fields': jQuery("input#_wpnonce_reorder_fields").val(),
-				'field_order': jQuery(this).sortable('serialize')
+				'field_order': jQuery(this).sortable('serialize'),
+				'field_group_id': jQuery(this).parents('table[id]').attr('id')
 			},
 			function(response){});
 		}

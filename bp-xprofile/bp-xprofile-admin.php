@@ -63,7 +63,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 			if ( $groups ) :
 				foreach ( $groups as $group ) { ?>
 
-						<table id="group_<?php echo $group->id;?>" class="widefat field-group sortable">
+						<table id="<?php echo $group->id;?>" class="widefat field-group sortable">
 							<thead>
 								<tr class="grabber">
 									<th scope="col" width="10"><img src="<?php echo BP_PLUGIN_URL ?>/bp-xprofile/admin/images/move.gif" alt="<?php _e( 'Drag', 'buddypress' ) ?>" /></th>
@@ -308,9 +308,10 @@ function xprofile_ajax_reorder_fields() {
 		return false;
 
 	parse_str( $_POST['field_order'], $order );
+	$field_group_id = $_POST['field_group_id'];
 
 	foreach ( (array) $order['field'] as $position => $field_id )
-		xprofile_update_field_position( (int) $field_id, (int) $position );
+		xprofile_update_field_position( (int) $field_id, (int) $position, (int) $field_group_id );
 
 }
 add_action( 'wp_ajax_xprofile_reorder_fields', 'xprofile_ajax_reorder_fields' );
