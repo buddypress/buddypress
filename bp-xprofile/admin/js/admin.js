@@ -122,8 +122,7 @@ jQuery(document).ready( function() {
 			},
 			function(response){});
 		}
-	});
-	jQuery("form#profile-field-form div#field-groups").disableSelection();
+	}).disableSelection();
 
 	jQuery("table.field-group tbody").sortable( {
 		cursor: 'move',
@@ -132,7 +131,6 @@ jQuery(document).ready( function() {
 		opacity: 0.6,
 		items: 'tr',
 		cancel: 'tr.nodrag',
-		connectWith: 'table.field-group tbody',
 		tolerance: 'pointer',
 		update: function() { 
 			jQuery.post( ajaxurl, {
@@ -143,6 +141,5 @@ jQuery(document).ready( function() {
 			},
 			function(response){});
 		}
-	});
-	jQuery("table.field-group tbody").disableSelection();
-} );
+	}).disableSelection();
+});
