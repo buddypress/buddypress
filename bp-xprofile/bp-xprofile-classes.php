@@ -477,7 +477,15 @@ Class BP_XProfile_Field {
 		if ( !is_numeric( $position ) || !is_numeric( $field_group_id ) )
 			return false;
 
-		return $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_fields} SET field_order = %d, group_id = %d WHERE id = %d", $position, $field_group_id, $field_id ) );
+		/* Update $field_id with new $position and $field_group_id */
+		if ( $parent = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_fields} SET field_order = %d, group_id = %d WHERE id = %d", $position, $field_group_id, $field_id ) ) ) {;
+			/* Update any children of this $field_id */
+			$children = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_fields} SET group_id = %d WHERE parent_id = %d", $field_group_id, $field_id ) );
+
+			return $parent;
+		}
+
+		return false;
 	}
 
 	/* ADMIN AREA HTML. TODO: Get this out of here. */
