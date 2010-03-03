@@ -855,8 +855,8 @@ function xprofile_format_profile_field( $field_type, $field_value ) {
 	return stripslashes_deep( $field_value );
 }
 
-function xprofile_update_field_position( $field_id, $position ) {
-	return BP_XProfile_Field::update_position( $field_id, $position );
+function xprofile_update_field_position( $field_id, $position, $field_group_id ) {
+	return BP_XProfile_Field::update_position( $field_id, $position, $field_group_id );
 }
 
 /**
