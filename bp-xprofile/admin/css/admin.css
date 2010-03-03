@@ -30,11 +30,18 @@ table.field-group {
 	}
 	
 tr.header td {
-	border-bottom: 2px solid #eee;
+	border-bottom: 1px solid #eee;
+	background-color: #fafafa;
 	font-weight: bold;
+	padding: 5px 6px;
 }
 
-tr.core td { color: #999; }
+tr.core td { 
+	color: #999;
+}
+tr td.center, tr th.center { 
+	text-align: center; 
+}
 
 thead tr th {
 	font-size: 16px;
