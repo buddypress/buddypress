@@ -67,13 +67,18 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 							<thead>
 								<tr class="grabber">
 									<th scope="col" width="10"><img src="<?php echo BP_PLUGIN_URL ?>/bp-xprofile/admin/images/move.gif" alt="<?php _e( 'Drag', 'buddypress' ) ?>" /></th>
-									<th scope="col" colspan="<?php if ( $group->can_delete ) { ?>3<?php } else { ?>5<?php } ?>"><?php echo attribute_escape( $group->name ); ?></th>
+									<th scope="col" colspan="3"><?php echo attribute_escape( $group->name ); ?></th>
 <?php
 									if ( $group->can_delete ) :
 ?>
 										<th scope="col"><a class="edit" href="admin.php?page=bp-profile-setup&amp;mode=edit_group&amp;group_id=<?php echo attribute_escape( $group->id ); ?>"><?php _e( 'Edit', 'buddypress' ) ?></a></th>
 							    		<th scope="col"><a class="delete" href="admin.php?page=bp-profile-setup&amp;mode=delete_group&amp;group_id=<?php echo attribute_escape( $group->id ); ?>"><?php _e( 'Delete', 'buddypress' ) ?></a></th>
-<?php 
+<?php
+									else :
+?>
+										<th scope="col"><a class="edit" href="admin.php?page=bp-general-settings"><?php _e( 'Edit', 'buddypress' ) ?></a></th>
+										<th scope="col">&nbsp;</th>
+<?php
 									endif;
 ?>
 
@@ -112,8 +117,8 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 											<td><span title="<?php echo $field->description; ?>"><?php echo attribute_escape( $field->name ); ?> <?php if(!$field->can_delete) { ?> <?php _e( '(Core Field)', 'buddypress' ) ?><?php } ?></span></td>
 											<td><?php echo attribute_escape( $field->type ); ?></td>
 											<td style="text-align:center;"><?php if ( $field->is_required ) { echo '<img src="' . BP_PLUGIN_URL . '/bp-xprofile/admin/images/tick.gif" alt="' . __( 'Yes', 'buddypress' ) . '" />'; } else { ?>--<?php } ?></td>
-											<td style="text-align:center;"><?php if ( !$field->can_delete ) { ?><strike><?php _e( 'Edit', 'buddypress' ) ?></strike><?php } else { ?><a class="edit" href="admin.php?page=bp-profile-setup&amp;group_id=<?php echo attribute_escape( $group->id ); ?>&amp;field_id=<?php echo attribute_escape( $field->id ); ?>&amp;mode=edit_field"><?php _e( 'Edit', 'buddypress' ) ?></a><?php } ?></td>
-											<td style="text-align:center;"><?php if ( !$field->can_delete ) { ?><strike><?php _e( 'Delete', 'buddypress' ) ?></strike><?php } else { ?><a class="delete" href="admin.php?page=bp-profile-setup&amp;field_id=<?php echo attribute_escape( $field->id ); ?>&amp;mode=delete_field"><?php _e( 'Delete', 'buddypress' ) ?></a><?php } ?></td>
+											<td style="text-align:center;"><a class="edit" href="<?php if ( !$field->can_delete ) { ?>admin.php?page=bp-general-settings<?php } else { ?>admin.php?page=bp-profile-setup&amp;group_id=<?php echo attribute_escape( $group->id ); ?>&amp;field_id=<?php echo attribute_escape( $field->id ); ?>&amp;mode=edit_field<?php } ?>"><?php _e( 'Edit', 'buddypress' ) ?></a></td>
+											<td style="text-align:center;"><?php if ( !$field->can_delete ) { ?>&nbsp;<?php } else { ?><a class="delete" href="admin.php?page=bp-profile-setup&amp;field_id=<?php echo attribute_escape( $field->id ); ?>&amp;mode=delete_field"><?php _e( 'Delete', 'buddypress' ) ?></a><?php } ?></td>
 										</tr>
 <?php
 									} /* end for */
