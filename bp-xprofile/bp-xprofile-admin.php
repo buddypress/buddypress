@@ -63,7 +63,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 			if ( $groups ) :
 				foreach ( $groups as $group ) { ?>
 
-						<table id="<?php echo $group->id;?>" class="widefat field-group sortable">
+						<table id="group_<?php echo $group->id;?>" class="widefat field-group sortable">
 							<thead>
 								<tr class="grabber">
 									<th scope="col" width="10"><img src="<?php echo BP_PLUGIN_URL ?>/bp-xprofile/admin/images/move.gif" alt="<?php _e( 'Drag', 'buddypress' ) ?>" /></th>
@@ -93,7 +93,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 								</tr>
 							</tfoot>
 
-							<tbody id="the-list">
+							<tbody id="<?php echo $group->id;?>">
  <?php 
 								if ( $group->fields ) :
 									foreach ( $group->fields as $field ) {

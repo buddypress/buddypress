@@ -139,7 +139,7 @@ jQuery(document).ready( function() {
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce_reorder_fields': jQuery("input#_wpnonce_reorder_fields").val(),
 				'field_order': jQuery(this).sortable('serialize'),
-				'field_group_id': jQuery(this).parents('table[id]').attr('id')
+				'field_group_id': jQuery(this).attr('id')
 			},
 			function(response){});
 		}
