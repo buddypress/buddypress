@@ -60,17 +60,16 @@ Class BP_XProfile_Group {
 		if ( !$this->can_delete )
 			return false;
 
-		$sql = $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_groups} WHERE id = %d", $this->id );
-
-		if ( !$wpdb->query($sql) ) {
+		/* Delete field group */
+		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_groups} WHERE id = %d", $this->id ) ) ) {
 			return false;
 		} else {
-			// Now the group is deleted, remove the group's fields.
-			if ( BP_XProfile_Field::delete_for_group($this->id) ) {
-				// Now delete all the profile data for the groups fields
-				for ( $i = 0; $i < count($this->fields); $i++ ) {
-					BP_XProfile_ProfileData::delete_for_field($this->fields[$i]->id);
-				}
+			/* Remove the group's fields. */
+			if ( BP_XProfile_Field::delete_for_group( $this->id ) ) {
+				/* Remove profile data for the groups fields */
+				foreach ( $this->fields as $field )
+					BP_XProfile_ProfileData::delete_for_field( $field->id );
+
 			}
 
 			return true;
@@ -97,9 +96,9 @@ Class BP_XProfile_Group {
 			$group_id_sql = $wpdb->prepare( 'WHERE g.id = %d', $profile_group_id );
 
 		if ( $hide_empty_groups )
-			$groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id {$group_id_sql} ORDER BY g.id ASC" ) );
+			$groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id {$group_id_sql} ORDER BY g.group_order ASC" ) );
 		else
-			$groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g {$group_id_sql} ORDER BY g.id ASC" ) );
+			$groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g {$group_id_sql} ORDER BY g.group_order ASC" ) );
 
 		if ( !$fetch_fields )
 			return $groups;
@@ -153,7 +152,7 @@ Class BP_XProfile_Group {
 	function admin_validate() {
 		global $message;
 
-		// Validate Form
+		/* Validate Form */
 		if ( empty( $_POST['group_name'] ) ) {
 			$message = __('Please make sure you give the group a name.', 'buddypress');
 			return false;
@@ -162,7 +161,16 @@ Class BP_XProfile_Group {
 		}
 	}
 
-	// ADMIN AREA HTML. TODO: Get this out of here.
+	function update_position( $field_group_id, $position ) {
+		global $wpdb, $bp;
+
+		if ( !is_numeric( $position ) )
+			return false;
+
+		return $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_groups} SET group_order = %d WHERE id = %d", $position, $field_group_id ) );
+	}
+
+	/* ADMIN AREA HTML. TODO: Get this out of here. */
 
 	function render_admin_form() {
 		global $message;
@@ -174,7 +182,7 @@ Class BP_XProfile_Group {
 			$title = __('Edit Field Group', 'buddypress');
 			$action = "admin.php?page=bp-profile-setup&amp;mode=edit_group&amp;group_id=" . $this->id;
 		}
-	?>
+?>
 		<div class="wrap">
 
 			<h2><?php echo $title; ?></h2>
@@ -205,7 +213,7 @@ Class BP_XProfile_Group {
 			</form>
 		</div>
 
-		<?php
+<?php
 	}
 }
 
@@ -229,21 +237,19 @@ Class BP_XProfile_Field {
 	var $message_type = 'err';
 
 	function bp_xprofile_field( $id = null, $user_id = null, $get_data = true ) {
-		if ( $id ) {
+		if ( $id )
 			$this->populate( $id, $user_id, $get_data );
-		}
 	}
 
 	function populate( $id, $user_id, $get_data ) {
 		global $wpdb, $userdata, $bp;
 
-		if ( is_null($user_id) ) {
+		if ( is_null( $user_id ) )
 			$user_id = $userdata->ID;
-		}
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_fields} WHERE id = %d", $id );
 
-		if ( $field = $wpdb->get_row($sql) ) {
+		if ( $field = $wpdb->get_row( $sql ) ) {
 			$this->id = $field->id;
 			$this->group_id = $field->group_id;
 			$this->parent_id = $field->parent_id;
@@ -257,9 +263,9 @@ Class BP_XProfile_Field {
 			$this->order_by = $field->order_by;
 			$this->is_default_option = $field->is_default_option;
 
-			if ( $get_data ) {
+			if ( $get_data )
 				$this->data = $this->get_field_data($user_id);
-			}
+
 		}
 	}
 
@@ -267,17 +273,17 @@ Class BP_XProfile_Field {
 		global $wpdb, $bp;
 
 		if ( !$this->id ||
-			// Prevent deletion by url when can_delete is false.
+			/* Prevent deletion by url when can_delete is false. */
 			!$this->can_delete ||
-			// Prevent deletion of option 1 since this invalidates fields with options.
+			/* Prevent deletion of option 1 since this invalidates fields with options. */
 			( $this->parent_id && $this->option_order == 1 ) )
 			return false;
 
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_fields} WHERE id = %d OR parent_id = %d", $this->id, $this->id ) ) )
 			return false;
 
-		// delete the data in the DB for this field
-		BP_XProfile_ProfileData::delete_for_field($this->id);
+		/* delete the data in the DB for this field */
+		BP_XProfile_ProfileData::delete_for_field( $this->id );
 
 		return true;
 	}
@@ -299,54 +305,55 @@ Class BP_XProfile_Field {
 		do_action( 'xprofile_field_before_save', $this );
 
 		if ( $this->id != null )
-			$sql = $wpdb->prepare("UPDATE {$bp->profile->table_name_fields} SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d, order_by = %s, field_order = %d WHERE id = %d", $this->group_id, $this->type, $this->name, $this->description, $this->is_required, $this->order_by, $this->field_order, $this->id);
+			$sql = $wpdb->prepare( "UPDATE {$bp->profile->table_name_fields} SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d, order_by = %s, field_order = %d WHERE id = %d", $this->group_id, $this->type, $this->name, $this->description, $this->is_required, $this->order_by, $this->field_order, $this->id);
 		else
-			$sql = $wpdb->prepare("INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, order_by, field_order ) VALUES (%d, 0, %s, %s, %s, %d, %s, %d )", $this->group_id, $this->type, $this->name, $this->description, $this->is_required, $this->order_by, $this->field_order );
+			$sql = $wpdb->prepare( "INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, order_by, field_order ) VALUES (%d, 0, %s, %s, %s, %d, %s, %d )", $this->group_id, $this->type, $this->name, $this->description, $this->is_required, $this->order_by, $this->field_order );
 
-		// Check for null so field options can be changed without changing any other part of the field.
-		// The described situation will return 0 here.
-		if ( $wpdb->query($sql) !== null ) {
+		/*
+		 * Check for null so field options can be changed without changing any other part of the field.
+		 * The described situation will return 0 here.
+		 */
+		if ( $wpdb->query( $sql ) !== null ) {
 
 			if ( $this->id )
 				$field_id = $this->id;
 			else
 				$field_id = $wpdb->insert_id;
 
-			// Only do this if we are editing an existing field
+			/* Only do this if we are editing an existing field */
 			if ( $this->id != null ) {
-				// Remove any radio or dropdown options for this
-				// field. They will be re-added if needed.
-				// This stops orphan options if the user changes a
-				// field from a radio button field to a text box.
+				/*
+				 * Remove any radio or dropdown options for this
+				 * field. They will be re-added if needed.
+				 * This stops orphan options if the user changes a
+				 * field from a radio button field to a text box.
+				 */
 				$this->delete_children();
 			}
 
-			// Check to see if this is a field with child options.
-			// We need to add the options to the db, if it is.
+			/*
+			 * Check to see if this is a field with child options.
+			 * We need to add the options to the db, if it is.
+			 */
 			if ( 'radio' == $this->type || 'selectbox' == $this->type || 'checkbox' == $this->type || 'multiselectbox' == $this->type ) {
-				if ( $this->id ) {
+				if ( $this->id )
 					$parent_id = $this->id;
-				} else {
+				else
 					$parent_id = $wpdb->insert_id;
-				}
 
 				if ( 'radio' == $this->type ) {
-
 					$options = $_POST['radio_option'];
 					$defaults = $_POST['isDefault_radio_option'];
 
 				} else if ( 'selectbox' == $this->type ) {
-
 					$options = $_POST['selectbox_option'];
 					$defaults = $_POST['isDefault_selectbox_option'];
 
 				} else if ( 'multiselectbox' == $this->type ) {
-
 					$options = $_POST['multiselectbox_option'];
 					$defaults = $_POST['isDefault_multiselectbox_option'];
 
 				} else if ( 'checkbox' == $this->type ) {
-
 					$options = $_POST['checkbox_option'];
 					$defaults = $_POST['isDefault_checkbox_option'];
 
@@ -357,8 +364,8 @@ Class BP_XProfile_Field {
 					foreach ( (array)$options as $option_key => $option_value ) {
 						$is_default = 0;
 
-						if ( is_array($defaults) ) {
-							if ( isset($defaults[$option_key]) )
+						if ( is_array( $defaults ) ) {
+							if ( isset( $defaults[$option_key] ) )
 								$is_default = 1;
 						} else {
 							if ( (int) $defaults == $option_key )
@@ -366,7 +373,7 @@ Class BP_XProfile_Field {
 						}
 
 						if ( '' != $option_value ) {
-							if ( !$wpdb->query( $wpdb->prepare("INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, option_order, is_default_option) VALUES (%d, %d, 'option', %s, '', 0, %d, %d)", $this->group_id, $parent_id, $option_value, $counter, $is_default ) ) )
+							if ( !$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, option_order, is_default_option) VALUES (%d, %d, 'option', %s, '', 0, %d, %d)", $this->group_id, $parent_id, $option_value, $counter, $is_default ) ) )
 								return false;
 						}
 
@@ -386,28 +393,26 @@ Class BP_XProfile_Field {
 		}
 	}
 
-	function get_field_data($user_id) {
-		return new BP_XProfile_ProfileData($this->id, $user_id);
+	function get_field_data( $user_id ) {
+		return new BP_XProfile_ProfileData( $this->id, $user_id );
 	}
 
-	 function get_children($for_editing = false) {
+	function get_children( $for_editing = false ) {
 		global $wpdb, $bp;
 
-		// This is done here so we don't have problems with sql injection
-		if ( 'asc' == $this->order_by && !$for_editing ) {
+		/* This is done here so we don't have problems with sql injection */
+		if ( 'asc' == $this->order_by && !$for_editing )
 			$sort_sql = 'ORDER BY name ASC';
-		} else if ( 'desc' == $this->order_by && !$for_editing ) {
+		else if ( 'desc' == $this->order_by && !$for_editing )
 			$sort_sql = 'ORDER BY name DESC';
-		} else {
+		else
 			$sort_sql = 'ORDER BY option_order ASC';
-		}
 
-		//This eliminates a problem with getting all fields when there is no id for the object
-		if ( !$this->id ) {
+		/* This eliminates a problem with getting all fields when there is no id for the object */
+		if ( !$this->id )
 			$parent_id = -1;
-		} else {
+		else
 			$parent_id = $this->id;
-		}
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_fields} WHERE parent_id = %d AND group_id = %d $sort_sql", $parent_id, $this->group_id );
 
@@ -425,7 +430,7 @@ Class BP_XProfile_Field {
 		$wpdb->query($sql);
 	}
 
-	// Static Functions
+	/* Static Functions */
 
 	function get_type( $field_id ) {
 		global $wpdb, $bp;
@@ -433,7 +438,7 @@ Class BP_XProfile_Field {
 		if ( $field_id ) {
 			$sql = $wpdb->prepare( "SELECT type FROM {$bp->profile->table_name_fields} WHERE id = %d", $field_id );
 
-			if ( !$field_type = $wpdb->get_var($sql) )
+			if ( !$field_type = $wpdb->get_var( $sql ) )
 				return false;
 
 			return $field_type;
@@ -448,9 +453,8 @@ Class BP_XProfile_Field {
 		if ( $group_id ) {
 			$sql = $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_fields} WHERE group_id = %d", $group_id );
 
-			if ( $wpdb->get_var($sql) === false ) {
+			if ( $wpdb->get_var($sql) === false )
 				return false;
-			}
 
 			return true;
 		}
@@ -476,32 +480,29 @@ Class BP_XProfile_Field {
 		return $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_fields} SET field_order = %d WHERE id = %d", $position, $field_id ) );
 	}
 
-	// ADMIN AREA HTML. TODO: Get this out of here.
+	/* ADMIN AREA HTML. TODO: Get this out of here. */
 
+	/* This function populates the items for radio buttons checkboxes and drop down boxes */
 	function render_admin_form_children() {
-		//This function populates the items for radio buttons checkboxes and drop down boxes
 		$input_types = array( 'checkbox', 'selectbox', 'multiselectbox', 'radio' );
 
 		foreach ($input_types as $type) {
 			$default_name = '';
 
-			if ( 'multiselectbox' == $type || 'checkbox' == $type ) {
+			if ( 'multiselectbox' == $type || 'checkbox' == $type )
 				$default_input = 'checkbox';
-			} else {
+			else
 				$default_input = 'radio';
-			}
-		?>
+?>
 			<div id="<?php echo $type ?>" class="options-box" style="<?php if ( $this->type != $type ) { ?>display: none;<?php } ?> margin-left: 15px;">
 				<h4><?php _e('Please enter options for this Field:', 'buddypress') ?></h4>
 				<p><?php _e( 'Order By:', 'buddypress' ) ?>
-
 					<select name="sort_order_<?php echo $type ?>" id="sort_order_<?php echo $type ?>" >
 						<option value="default" <?php if ( 'default' == $this->order_by ) {?> selected="selected"<?php } ?> ><?php _e( 'Order Entered', 'buddypress' ) ?></option>
 						<option value="asc" <?php if ( 'asc' == $this->order_by ) {?> selected="selected"<?php } ?>><?php _e( 'Name - Ascending', 'buddypress' ) ?></option>
 						<option value="desc" <?php if ( 'desc' == $this->order_by ) {?> selected="selected"<?php } ?>><?php _e( 'Name - Descending', 'buddypress' ) ?></option>
 					</select>
-
-				<?php
+<?php
 				if ( !$options = $this->get_children(true) ) {
 					$i = 1;
 					while ( isset( $_POST[$type . '_option'][$i] ) ) {
@@ -519,20 +520,20 @@ Class BP_XProfile_Field {
 					}
 				}
 
-				if ( !empty($options) ) {
+				if ( !empty( $options ) ) {
 					for ( $i = 0; $i < count($options); $i++ ) {
 						$j = $i + 1;
 
 						if ( 'multiselectbox' == $type || 'checkbox' == $type )
 							$default_name = '[' . $j . ']';
-					?>
+						?>
 						<p><?php _e('Option', 'buddypress') ?> <?php echo $j ?>:
 						   <input type="text" name="<?php echo $type ?>_option[<?php echo $j ?>]" id="<?php echo $type ?>_option<?php echo $j ?>" value="<?php echo attribute_escape( $options[$i]->name ) ?>" />
 						   <input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name ?>" <?php if ( (int) $options[$i]->is_default_option ) {?> checked="checked"<?php } ?> " value="<?php echo $j ?>" /> <?php _e( 'Default Value', 'buddypress' ) ?>
 							<?php if ( $j != 1 &&
 								$options[$i]->id != -1 ) : ?><a href="admin.php?page=bp-profile-setup&amp;mode=delete_option&amp;option_id=<?php echo $options[$i]->id ?>" class="ajax-option-delete" id="delete-<?php echo $options[$i]->id ?>">[x]</a><?php endif ?></p>
 						</p>
-					<?php } // end for ?>
+					<?php } /* end for */ ?>
 					<input type="hidden" name="<?php echo $type ?>_option_number" id="<?php echo $type ?>_option_number" value="<?php echo $j + 1 ?>" />
 
 				<?php
@@ -545,7 +546,7 @@ Class BP_XProfile_Field {
 					<input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" id="isDefault_<?php echo $type ?>_option" value="1" /> <?php _e( 'Default Value', 'buddypress' ) ?>
 					<input type="hidden" name="<?php echo $type ?>_option_number" id="<?php echo $type ?>_option_number" value="2" />
 
-				<?php } // end if ?>
+				<?php } /* end if */ ?>
 				<div id="<?php echo $type ?>_more"></div>
 				<p><a href="javascript:add_option('<?php echo $type ?>')"><?php _e('Add Another Option', 'buddypress') ?></a></p>
 			</div>
@@ -555,8 +556,8 @@ Class BP_XProfile_Field {
 
 	function render_admin_form( $message = '' ) {
 		if ( !$this->id ) {
-			$title = __('Add Field', 'buddypress');
-			$action = "admin.php?page=bp-profile-setup&amp;group_id=" . $this->group_id . "&amp;mode=add_field";
+			$title				= __('Add Field', 'buddypress');
+			$action				= "admin.php?page=bp-profile-setup&amp;group_id=" . $this->group_id . "&amp;mode=add_field";
 
 			$this->name			= $_POST['title'];
 			$this->description	= $_POST['description'];
@@ -564,8 +565,8 @@ Class BP_XProfile_Field {
 			$this->type			= $_POST['fieldtype'];
 			$this->order_by		= $_POST["sort_order_{$this->type}"];
 		} else {
-			$title = __('Edit Field', 'buddypress');
-			$action = "admin.php?page=bp-profile-setup&amp;mode=edit_field&amp;group_id=" . $this->group_id . "&amp;field_id=" . $this->id;
+			$title				= __('Edit Field', 'buddypress');
+			$action				= "admin.php?page=bp-profile-setup&amp;mode=edit_field&amp;group_id=" . $this->group_id . "&amp;field_id=" . $this->id;
 		}
 	?>
 
@@ -622,40 +623,40 @@ Class BP_XProfile_Field {
 				<?php $this->render_admin_form_children() ?>
 
 				<p class="submit">
-						&nbsp;<input type="submit" value="<?php _e("Save", 'buddypress') ?> &rarr;" name="saveField" id="saveField" style="font-weight: bold" />
-						 <?php _e('or', 'buddypress') ?> <a href="admin.php?page=bp-profile-setup" style="color: red"><?php _e( 'Cancel', 'buddypress' ) ?></a>
+					&nbsp;<input type="submit" value="<?php _e("Save", 'buddypress') ?> &rarr;" name="saveField" id="saveField" style="font-weight: bold" />
+					 <?php _e('or', 'buddypress') ?> <a href="admin.php?page=bp-profile-setup" style="color: red"><?php _e( 'Cancel', 'buddypress' ) ?></a>
 				</p>
+
+			</div>
 
 			<div class="clear"></div>
 
-			<?php if ( function_exists('wp_nonce_field') )
-				wp_nonce_field('xprofile_delete_option');
-			?>
+			<?php if ( function_exists( 'wp_nonce_field' ) ) wp_nonce_field( 'xprofile_delete_option' ); ?>
 
 		</form>
 	</div>
 
-	<?php
+<?php
 	}
 
 	function admin_validate() {
 		global $message;
 
-		// Validate Form
+		/* Validate Form */
 		if ( '' == $_POST['title'] || '' == $_POST['required'] || '' == $_POST['fieldtype'] ) {
-			$message = __('Please make sure you fill out all required fields.', 'buddypress');
+			$message = __( 'Please make sure you fill out all required fields.', 'buddypress' );
 			return false;
 		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'radio' && empty($_POST['radio_option'][1]) ) {
-			$message = __('Radio button field types require at least one option. Please add options below.', 'buddypress');
+			$message = __( 'Radio button field types require at least one option. Please add options below.', 'buddypress' );
 			return false;
 		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'selectbox' && empty($_POST['selectbox_option'][1]) ) {
-			$message = __('Select box field types require at least one option. Please add options below.', 'buddypress');
+			$message = __( 'Select box field types require at least one option. Please add options below.', 'buddypress' );
 			return false;
 		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'multiselectbox' && empty($_POST['multiselectbox_option'][1]) ) {
-			$message = __('Select box field types require at least one option. Please add options below.', 'buddypress');
+			$message = __( 'Select box field types require at least one option. Please add options below.', 'buddypress' );
 			return false;
 		} else if ( empty($_POST['field_file']) && $_POST['fieldtype'] == 'checkbox' && empty($_POST['checkbox_option'][1]) ) {
-			$message = __('Checkbox field types require at least one option. Please add options below.', 'buddypress');
+			$message = __( 'Checkbox field types require at least one option. Please add options below.', 'buddypress' );
 			return false;
 		} else {
 			return true;
@@ -672,9 +673,8 @@ Class BP_XProfile_ProfileData {
 	var $last_updated;
 
 	function bp_xprofile_profiledata( $field_id = null, $user_id = null ) {
-		if ( $field_id ) {
+		if ( $field_id )
 			$this->populate( $field_id, $user_id );
-		}
 	}
 
 	function populate( $field_id, $user_id )  {
@@ -682,8 +682,7 @@ Class BP_XProfile_ProfileData {
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_id );
 
-		if ( $profiledata = $wpdb->get_row($sql) ) {
-
+		if ( $profiledata = $wpdb->get_row( $sql ) ) {
 			$this->id = $profiledata->id;
 			$this->user_id = $profiledata->user_id;
 			$this->field_id = $profiledata->field_id;
@@ -695,10 +694,10 @@ Class BP_XProfile_ProfileData {
 	function exists() {
 		global $wpdb, $bp;
 
-		// check to see if there is data already for the user.
+		/* Check to see if there is data already for the user. */
 		$sql = $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = %d", $this->user_id, $this->field_id );
 
-		if ( !$wpdb->get_row($sql) )
+		if ( !$wpdb->get_row( $sql ) )
 			return false;
 
 		return true;
@@ -707,10 +706,10 @@ Class BP_XProfile_ProfileData {
 	function is_valid_field() {
 		global $wpdb, $bp;
 
-		// check to see if this data is actually for a valid field.
-		$sql = $wpdb->prepare("SELECT id FROM {$bp->profile->table_name_fields} WHERE id = %d", $this->field_id );
+		/* check to see if this data is actually for a valid field. */
+		$sql = $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE id = %d", $this->field_id );
 
-		if ( !$wpdb->get_row($sql) )
+		if ( !$wpdb->get_row( $sql ) )
 			return false;
 
 		return true;
@@ -727,14 +726,15 @@ Class BP_XProfile_ProfileData {
 		do_action( 'xprofile_data_before_save', $this );
 
 		if ( $this->is_valid_field() ) {
-			if ( $this->exists() && !empty( $this->value ) && strlen( trim( $this->value ) ) ) {
+			if ( $this->exists() && !empty( $this->value ) && strlen( trim( $this->value ) ) )
 				$result = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_data} SET value = %s, last_updated = %s WHERE user_id = %d AND field_id = %d", $this->value, $this->last_updated, $this->user_id, $this->field_id ) );
-			} else if ( $this->exists() && empty( $this->value ) ) {
-				// Data removed, delete the entry.
+
+			/* Data removed, delete the entry. */
+			else if ( $this->exists() && empty( $this->value ) )
 				$result = $this->delete();
-			} else {
+
+			else
 				$result = $wpdb->query( $wpdb->prepare("INSERT INTO {$bp->profile->table_name_data} (user_id, field_id, value, last_updated) VALUES (%d, %d, %s, %s)", $this->user_id, $this->field_id, $this->value, $this->last_updated ) );
-			}
 
 			if ( !$result )
 				return false;
@@ -799,8 +799,9 @@ Class BP_XProfile_ProfileData {
 		if ( is_array( $user_ids ) ) {
 			$user_ids = implode( ',', (array)$user_ids );
 			$data = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, value FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id IN ({$user_ids})", $field_id ) );
-		} else
+		} else {
 			$data = $wpdb->get_var( $wpdb->prepare( "SELECT value FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_ids ) );
+		}
 
 		return $data;
 	}
@@ -834,14 +835,14 @@ Class BP_XProfile_ProfileData {
 
 		$sql = $wpdb->prepare( "SELECT d.value, f.name FROM {$bp->profile->table_name_data} d, {$bp->profile->table_name_fields} f WHERE d.field_id = f.id AND d.user_id = %d AND f.parent_id = 0 $field_sql", $user_id );
 
-		if ( !$values = $wpdb->get_results($sql) )
+		if ( !$values = $wpdb->get_results( $sql ) )
 			return false;
 
 		$new_values = array();
 
-		if ( is_array($fields) ) {
-			for ( $i = 0; $i < count($values); $i++ ) {
-				for ( $j = 0; $j < count($fields); $j++ ) {
+		if ( is_array( $fields ) ) {
+			for ( $i = 0; $i < count( $values ); $i++ ) {
+				for ( $j = 0; $j < count( $fields ); $j++ ) {
 					if ( $values[$i]->name == $fields[$j] ) {
 						$new_values[$fields[$j]] = $values[$i]->value;
 					} else if ( !array_key_exists( $fields[$j], $new_values ) ) {
@@ -899,4 +900,5 @@ Class BP_XProfile_ProfileData {
 		return $data[BP_XPROFILE_FULLNAME_FIELD_NAME];
 	}
 }
+
 ?>

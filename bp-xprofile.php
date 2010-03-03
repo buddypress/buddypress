@@ -1,5 +1,5 @@
 <?php
-define ( 'BP_XPROFILE_DB_VERSION', '1850' );
+define ( 'BP_XPROFILE_DB_VERSION', '1950' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_XPROFILE_SLUG' ) )
@@ -37,6 +37,7 @@ function xprofile_install() {
 			  id bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			  name varchar(150) NOT NULL,
 			  description mediumtext NOT NULL,
+			  group_order bigint(20) NOT NULL DEFAULT '0',
 			  can_delete tinyint(1) NOT NULL,
 			  KEY can_delete (can_delete)
 	) {$charset_collate};";
@@ -85,7 +86,7 @@ function xprofile_install() {
 	}
 
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
-	dbDelta($sql);
+	dbDelta( $sql );
 
 	do_action( 'xprofile_install' );
 
@@ -152,7 +153,7 @@ function xprofile_add_admin_menu() {
 		return false;
 
 	/* Add the administration tab under the "Site Admin" tab for site administrators */
-	add_submenu_page( 'bp-general-settings', __("Profile Field Setup", 'buddypress'), __("Profile Field Setup", 'buddypress'), 'manage_options', 'bp-profile-setup', "xprofile_admin" );
+	add_submenu_page( 'bp-general-settings', __( 'Profile Field Setup', 'buddypress' ), __( 'Profile Field Setup', 'buddypress' ), 'manage_options', 'bp-profile-setup', 'xprofile_admin' );
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
 	if ( get_site_option( 'bp-xprofile-db-version' ) < BP_XPROFILE_DB_VERSION )
@@ -214,27 +215,28 @@ function xprofile_setup_adminbar_menu() {
 
 	/* Don't show this menu to non site admins or if you're viewing your own profile */
 	if ( !is_site_admin() || bp_is_my_profile() )
-		return false;
-	?>
+		return false; ?>
+
 	<li id="bp-adminbar-adminoptions-menu">
 		<a href=""><?php _e( 'Admin Options', 'buddypress' ) ?></a>
 
 		<ul>
 			<li><a href="<?php echo $bp->displayed_user->domain . $bp->profile->slug ?>/edit/"><?php printf( __( "Edit %s's Profile", 'buddypress' ), attribute_escape( $bp->displayed_user->fullname ) ) ?></a></li>
 			<li><a href="<?php echo $bp->displayed_user->domain . $bp->profile->slug ?>/change-avatar/"><?php printf( __( "Edit %s's Avatar", 'buddypress' ), attribute_escape( $bp->displayed_user->fullname ) ) ?></a></li>
+<?php if ( !bp_core_is_user_spammer( $bp->displayed_user->id ) ) : ?>
 
-			<?php if ( !bp_core_is_user_spammer( $bp->displayed_user->id ) ) : ?>
-				<li><a href="<?php echo wp_nonce_url( $bp->displayed_user->domain . 'admin/mark-spammer/', 'mark-unmark-spammer' ) ?>" class="confirm"><?php _e( "Mark as Spammer", 'buddypress' ) ?></a></li>
-			<?php else : ?>
-				<li><a href="<?php echo wp_nonce_url( $bp->displayed_user->domain . 'admin/unmark-spammer/', 'mark-unmark-spammer' ) ?>" class="confirm"><?php _e( "Not a Spammer", 'buddypress' ) ?></a></li>
-			<?php endif; ?>
+			<li><a href="<?php echo wp_nonce_url( $bp->displayed_user->domain . 'admin/mark-spammer/', 'mark-unmark-spammer' ) ?>" class="confirm"><?php _e( "Mark as Spammer", 'buddypress' ) ?></a></li>
+<?php else : ?>
+
+			<li><a href="<?php echo wp_nonce_url( $bp->displayed_user->domain . 'admin/unmark-spammer/', 'mark-unmark-spammer' ) ?>" class="confirm"><?php _e( "Not a Spammer", 'buddypress' ) ?></a></li>
+<?php endif; ?>
 
 			<li><a href="<?php echo wp_nonce_url( $bp->displayed_user->domain . 'admin/delete-user/', 'delete-user' ) ?>" class="confirm"><?php printf( __( "Delete %s", 'buddypress' ), attribute_escape( $bp->displayed_user->fullname ) ) ?></a></li>
+<?php do_action( 'xprofile_adminbar_menu_items' ) ?>
 
-			<?php do_action( 'xprofile_adminbar_menu_items' ) ?>
 		</ul>
 	</li>
-	<?php
+<?php
 }
 add_action( 'bp_adminbar_menus', 'xprofile_setup_adminbar_menu', 20 );
 
@@ -579,6 +581,10 @@ function xprofile_delete_field_group( $field_group_id ) {
 	return $field_group->delete();
 }
 
+function xprofile_update_field_group_position( $field_group_id, $position ) {
+	return BP_XProfile_Group::update_position( $field_group_id, $position );
+}
+
 
 /*** Field Management *********************************************************/
 
@@ -850,7 +856,7 @@ function xprofile_format_profile_field( $field_type, $field_value ) {
 }
 
 function xprofile_update_field_position( $field_id, $position ) {
-	return BP_XProfile_Field::update_position( $field_id, $position);
+	return BP_XProfile_Field::update_position( $field_id, $position );
 }
 
 /**
@@ -952,11 +958,11 @@ add_action( 'bp_activity_screen_single_activity_permalink', 'xprofile_remove_scr
 function xprofile_remove_data( $user_id ) {
 	BP_XProfile_ProfileData::delete_data_for_user( $user_id );
 
-	// delete any avatar files.
+	/* delete any avatar files. */
 	@unlink( get_usermeta( $user_id, 'bp_core_avatar_v1_path' ) );
 	@unlink( get_usermeta( $user_id, 'bp_core_avatar_v2_path' ) );
 
-	// unset the usermeta for avatars from the usermeta table.
+	/* unset the usermeta for avatars from the usermeta table. */
 	delete_usermeta( $user_id, 'bp_core_avatar_v1' );
 	delete_usermeta( $user_id, 'bp_core_avatar_v1_path' );
 	delete_usermeta( $user_id, 'bp_core_avatar_v2' );
@@ -994,12 +1000,12 @@ function xprofile_clear_profile_data_object_cache( $group_id ) {
 	wp_cache_delete( 'sitewide_activity', 'bp' );
 }
 
-// List actions to clear object caches on
+/* List actions to clear object caches on */
 add_action( 'xprofile_groups_deleted_group', 'xprofile_clear_profile_groups_object_cache' );
 add_action( 'xprofile_groups_saved_group', 'xprofile_clear_profile_groups_object_cache' );
 add_action( 'xprofile_updated_profile', 'xprofile_clear_profile_data_object_cache' );
 
-// List actions to clear super cached pages on, if super cache is installed
+/* List actions to clear super cached pages on, if super cache is installed */
 add_action( 'xprofile_updated_profile', 'bp_core_clear_cache' );
 
 ?>

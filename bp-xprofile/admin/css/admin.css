@@ -1,3 +1,26 @@
+
+div.sortable {
+	margin-bottom: 20px;
+}
+
+table.field-group {
+	margin-bottom: 20px;
+}
+table.field-group.ui-sortable-helper {
+	filter: alpha(opacity=50);
+	opacity: 0.5;
+}
+table.field-group.ui-sortable-placeholder {
+	border: 2px dashed #ddd;
+	visibility: visible !important;
+	margin-bottom: 22px;
+	background-color: transparent;
+}
+
+table.field-group thead tr.grabber {
+	cursor: move;
+}
+
 table.field-group tbody {
 	cursor: move;
 }

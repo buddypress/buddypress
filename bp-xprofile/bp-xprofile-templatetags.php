@@ -60,7 +60,7 @@ Class BP_XProfile_Data_Template {
 			return true;
 		} elseif ( $this->current_group + 1 == $this->group_count ) {
 			do_action('xprofile_template_loop_end');
-			// Do some cleaning up after the loop
+			/* Do some cleaning up after the loop */
 			$this->rewind_groups();
 		}
 
@@ -74,7 +74,7 @@ Class BP_XProfile_Data_Template {
 		$this->in_the_loop = true;
 		$group = $this->next_group();
 
-		if ( 0 == $this->current_group ) // loop has just started
+		if ( 0 == $this->current_group ) /* loop has just started */
 			do_action('xprofile_template_loop_start');
 	}
 
@@ -115,7 +115,7 @@ Class BP_XProfile_Data_Template {
 		if ( $this->current_field + 1 < $this->field_count ) {
 			return true;
 		} elseif ( $this->current_field + 1 == $this->field_count ) {
-			// Do some cleaning up after the loop
+			/* Do some cleaning up after the loop */
 			$this->rewind_fields();
 		}
 
@@ -546,9 +546,9 @@ function bp_profile_field_data( $args = '' ) {
 }
 	function bp_get_profile_field_data( $args = '' ) {
 		$defaults = array(
-			'field' => false, // Field name or ID.
+			'field' => false, /* Field name or ID. */
 			'user_id' => $bp->displayed_user->id
-			);
+		);
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
@@ -656,7 +656,8 @@ function bp_current_profile_group_id() {
 		if ( !$profile_group_id = $bp->action_variables[1] )
 			$profile_group_id = 1;
 
-		return apply_filters( 'bp_get_current_profile_group_id', $profile_group_id ); // admin/profile/edit/[group-id]
+		/* admin/profile/edit/[group-id] */
+		return apply_filters( 'bp_get_current_profile_group_id', $profile_group_id ); 
 	}
 
 function bp_avatar_delete_link() {

@@ -36,10 +36,9 @@ function add_option(forWhat) {
 	toDelete = document.createElement('a');
 	
 	toDeleteText = document.createTextNode('[x]');
-	toDelete.setAttribute('href',"javascript:hide('" + forWhat + '_div' + theId + "')");
-	
-	toDelete.setAttribute('class','delete');
 
+	toDelete.setAttribute('href',"javascript:hide('" + forWhat + '_div' + theId + "')");
+	toDelete.setAttribute('class','delete');
 	toDelete.appendChild(toDeleteText);
 
 	newDiv.appendChild(label);
@@ -49,7 +48,6 @@ function add_option(forWhat) {
 	newDiv.appendChild(label1);	
 	newDiv.appendChild(toDelete);	
 	holder.appendChild(newDiv);
-	
 	
 	theId++
 	document.getElementById(forWhat + "_option_number").value = theId;
@@ -61,33 +59,28 @@ function show_options(forWhat) {
 	document.getElementById("multiselectbox").style.display = "none";
 	document.getElementById("checkbox").style.display = "none";
 	
-	if(forWhat == "radio") {
+	if(forWhat == "radio")
 		document.getElementById("radio").style.display = "";
-	}
 	
-	if(forWhat == "selectbox") {
+	if(forWhat == "selectbox")
 		document.getElementById("selectbox").style.display = "";						
-	}
 	
-	if(forWhat == "multiselectbox") {
+	if(forWhat == "multiselectbox")
 		document.getElementById("multiselectbox").style.display = "";						
-	}
 	
-	if(forWhat == "checkbox") {
+	if(forWhat == "checkbox")
 		document.getElementById("checkbox").style.display = "";						
-	}
 }
 
 function hide(id) {
-	if ( !document.getElementById(id) ) return false;
+	if ( !document.getElementById(id) ) return;
 	
 	document.getElementById(id).style.display = "none";
 	document.getElementById(id).value = '';
 }
 
-// Set up deleting options ajax
+/* Set up deleting options ajax */
 jQuery(document).ready( function() {
-	
 	jQuery("a.ajax-option-delete").click( 
 		function() {
 			var theId = this.id.split('-');
@@ -97,13 +90,11 @@ jQuery(document).ready( function() {
 				action: 'xprofile_delete_option',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce").val(),
-				
 				'option_id': theId
 			},
-			function(response)
-			{});
+			function(response){});
 		}
-	);				
+	);
 });
 
 var fixHelper = function(e, ui) {
@@ -114,6 +105,23 @@ var fixHelper = function(e, ui) {
 };
 
 jQuery(document).ready( function() {
+	jQuery("form#profile-field-form div#field-groups").sortable( {
+		cursor: 'move',
+		axis: 'y',
+		helper: fixHelper,
+		distance: 1,
+		cancel: 'table.nodrag',
+		update: function() {
+			jQuery.post( ajaxurl, {
+				action: 'xprofile_reorder_groups',
+				'cookie': encodeURIComponent(document.cookie),
+				'_wpnonce_reorder_groups': jQuery("input#_wpnonce_reorder_groups").val(),
+				'group_order': jQuery(this).sortable('serialize')
+			},
+			function(response){});
+		}
+	});
+
 	jQuery("table.field-group tbody").sortable( {
 		cursor: 'move',
 		axis: 'y',
@@ -125,12 +133,9 @@ jQuery(document).ready( function() {
 				action: 'xprofile_reorder_fields',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce_reorder_fields': jQuery("input#_wpnonce_reorder_fields").val(),
-				
 				'field_order': jQuery(this).sortable('serialize')
 			},
-			function(response)
-			{});
-
+			function(response){});
 		}
 	});
 } );
