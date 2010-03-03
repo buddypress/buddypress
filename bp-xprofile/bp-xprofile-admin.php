@@ -66,7 +66,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 						<table id="group_<?php echo $group->id;?>" class="widefat field-group sortable">
 							<thead>
 								<tr class="grabber">
-									<th scope="col" width="10">&nbsp;</th>
+									<th scope="col" width="10"><img src="<?php echo BP_PLUGIN_URL ?>/bp-xprofile/admin/images/move.gif" alt="<?php _e( 'Drag', 'buddypress' ) ?>" /></th>
 									<th scope="col" colspan="<?php if ( $group->can_delete ) { ?>3<?php } else { ?>5<?php } ?>"><?php echo attribute_escape( $group->name ); ?></th>
 <?php
 									if ( $group->can_delete ) :

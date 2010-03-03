@@ -109,8 +109,10 @@ jQuery(document).ready( function() {
 		cursor: 'move',
 		axis: 'y',
 		helper: fixHelper,
-		distance: 1,
-		cancel: 'table.nodrag',
+		opacity: 0.6,
+		items: 'table',
+		cancel: 'tbody,tfoot',
+		tolerance: 'pointer',
 		update: function() {
 			jQuery.post( ajaxurl, {
 				action: 'xprofile_reorder_groups',
@@ -121,13 +123,17 @@ jQuery(document).ready( function() {
 			function(response){});
 		}
 	});
+	jQuery("form#profile-field-form div#field-groups").disableSelection();
 
 	jQuery("table.field-group tbody").sortable( {
 		cursor: 'move',
 		axis: 'y',
 		helper: fixHelper,
-		distance: 1,
+		opacity: 0.6,
+		items: 'tr',
 		cancel: 'tr.nodrag',
+		connectWith: 'table.field-group tbody',
+		tolerance: 'pointer',
 		update: function() { 
 			jQuery.post( ajaxurl, {
 				action: 'xprofile_reorder_fields',
@@ -138,4 +144,5 @@ jQuery(document).ready( function() {
 			function(response){});
 		}
 	});
+	jQuery("table.field-group tbody").disableSelection();
 } );

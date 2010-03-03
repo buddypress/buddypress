@@ -1,36 +1,33 @@
-
-div.sortable {
-	margin-bottom: 20px;
-}
-
+/* Profile field group main admin page */
 table.field-group {
 	margin-bottom: 20px;
-}
-table.field-group.ui-sortable-helper {
-	filter: alpha(opacity=50);
-	opacity: 0.5;
-}
-table.field-group.ui-sortable-placeholder {
-	border: 2px dashed #ddd;
-	visibility: visible !important;
-	margin-bottom: 22px;
-	background-color: transparent;
-}
-
-table.field-group thead tr.grabber {
-	cursor: move;
-}
-
-table.field-group tbody {
-	cursor: move;
-}
+	background-color: #fafafa;
+	}
+	table.field-group.ui-sortable-placeholder {
+		border: 2px dashed #ddd;
+		visibility: visible !important;
+		background-color: transparent;
+		width: 100%;
+		margin-bottom: 20px;
+	}
+	table.field-group thead tr.grabber,
+	table.field-group tbody {
+		cursor: move;
+	}
 	table.field-group tbody tr.nodrag {
 		cursor: default !important;
 	}
-
-table.field-group tbody tr:hover {
-	background-color: #fffee9;
-}
+	table.field-group tbody tr.ui-sortable-placeholder {
+		visibility: visible !important;
+		display: block !important;
+		background-color: #fafafa;
+	}
+	table.field-group td {
+		background-color: #fff;
+	}
+	table.field-group tbody tr:hover td {
+		background-color: #fffee9;
+	}
 	
 tr.header td {
 	border-bottom: 2px solid #eee;
@@ -42,7 +39,7 @@ tr.core td { color: #999; }
 thead tr th {
 	font-size: 16px;
 }
-	
+
 	ul.forTab {
 		list-style: none;
 		padding: 0;
@@ -54,7 +51,6 @@ thead tr th {
 	
 			ul.forTab li label {
 				display: block;
-				
 			}
 	
 			ul.forTab li input {
@@ -77,23 +73,23 @@ thead tr th {
 	}
 
 	select.multi-select{
-	    width:90%;
-    	height:10em !important;
+		width:90%;
+		height:10em !important;
 	}
 
 ul.multi-checkbox {
-    margin: 0 5px 0 0px;
-    padding: .5em .9em;
-    height: 10em;
-    overflow: auto;
-    list-style: none;
-    border: solid 1px #ccc;
-    width:90%;           
+	margin: 0 5px 0 0px;
+	padding: .5em .9em;
+	height: 10em;
+	overflow: auto;
+	list-style: none;
+	border: solid 1px #ccc;
+	width: 90%;
 }
 
 ul.multi-checkbox li{
-    padding: 0;
-    margin: 0;
+	padding: 0;
+	margin: 0;
 }
 
 div.options-box {
