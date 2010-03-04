@@ -67,8 +67,8 @@ Class BP_XProfile_Group {
 			/* Remove the group's fields. */
 			if ( BP_XProfile_Field::delete_for_group( $this->id ) ) {
 				/* Remove profile data for the groups fields */
-				foreach ( $this->fields as $field )
-					BP_XProfile_ProfileData::delete_for_field( $field->id );
+				for ( $i = 0; $i < count( $this->fields ); $i++ )
+					BP_XProfile_ProfileData::delete_for_field( $this->fields[$i]->id );
 
 			}
 
