@@ -109,7 +109,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 
 										$field = new BP_XProfile_Field( $field->id );
 										if ( !$field->can_delete )
-											$class .= ' core';
+											$class .= ' core nodrag';
 ?>
 
 										<tr id="field_<?php echo attribute_escape( $field->id ); ?>" class="sortable<?php if ( $class ) { echo ' ' . $class; } ?>">

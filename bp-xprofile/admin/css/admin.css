@@ -28,6 +28,9 @@ table.field-group {
 	table.field-group tbody tr:hover td {
 		background-color: #fffee9;
 	}
+	table.field-group tbody tr.nodrag:hover td {
+		background-color: #fff;
+	}
 	
 tr.header td {
 	border-bottom: 1px solid #eee;

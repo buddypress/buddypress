@@ -130,7 +130,7 @@ jQuery(document).ready( function() {
 		helper: fixHelper,
 		opacity: 0.6,
 		items: 'tr',
-		cancel: 'tr.nodrag',
+		cancel: 'tr.nodrag,tr.core',
 		connectWith: 'table.field-group tbody',
 		tolerance: 'pointer',
 		update: function() { 
@@ -144,4 +144,5 @@ jQuery(document).ready( function() {
 			function(response){});
 		}
 	}).disableSelection();
+
 });
