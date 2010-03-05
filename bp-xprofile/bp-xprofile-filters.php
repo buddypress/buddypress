@@ -42,14 +42,13 @@ add_filter( 'bp_get_the_site_member_profile_data', 'stripslashes' );
 /* Custom BuddyPress filters */
 
 function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
-	if ( !isset($field_value) || empty( $field_value ) )
+	if ( !isset( $field_value ) || empty( $field_value ) )
 		return false;
 
-	if ( 'datebox' == $field_type ) {
+	if ( 'datebox' == $field_type )
 		$field_value = bp_format_time( $field_value, true );
-	} else {
+	else
 		$field_value = str_replace(']]>', ']]&gt;', $field_value );
-	}
 
 	return stripslashes( stripslashes( $field_value ) );
 }
@@ -64,7 +63,7 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 	$values = explode( ',', $field_value );
 
 	if ( $values ) {
-		foreach ( (array)$values as $value ) {
+		foreach ( (array) $values as $value ) {
 			$value = trim( $value );
 
 			/* If the value is a URL, skip it and just make it clickable. */
@@ -95,7 +94,7 @@ function xprofile_filter_comments( $comments, $post_id ) {
 
 	if ( $fullnames = BP_XProfile_ProfileData::get_value_byid( 1, $user_ids ) ) {
 		foreach( (array)$fullnames as $user ) {
-			$users[$user->user_id] = trim($user->value);
+			$users[$user->user_id] = trim( $user->value );
 		}
 	}
 

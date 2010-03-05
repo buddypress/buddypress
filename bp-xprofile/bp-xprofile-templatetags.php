@@ -20,14 +20,14 @@ Class BP_XProfile_Data_Template {
 
 	function bp_xprofile_data_template( $user_id, $profile_group_id ) {
 		$this->groups = BP_XProfile_Group::get( array(
-			'profile_group_id' => $profile_group_id,
-			'user_id' => $user_id,
-			'hide_empty_groups' => true,
-			'fetch_fields' => true,
-			'fetch_field_data' => true
+			'profile_group_id'	=> $profile_group_id,
+			'user_id'			=> $user_id,
+			'hide_empty_groups'	=> true,
+			'fetch_fields'		=> true,
+			'fetch_field_data'	=> true
 		) );
 
-		$this->group_count = count($this->groups);
+		$this->group_count = count( $this->groups );
 		$this->user_id = $user_id;
 	}
 
@@ -50,16 +50,16 @@ Class BP_XProfile_Data_Template {
 
 	function rewind_groups() {
 		$this->current_group = -1;
-		if ( $this->group_count > 0 ) {
+
+		if ( $this->group_count > 0 )
 			$this->group = $this->groups[0];
-		}
 	}
 
 	function profile_groups() {
 		if ( $this->current_group + 1 < $this->group_count ) {
 			return true;
 		} elseif ( $this->current_group + 1 == $this->group_count ) {
-			do_action('xprofile_template_loop_end');
+			do_action( 'xprofile_template_loop_end' );
 			/* Do some cleaning up after the loop */
 			$this->rewind_groups();
 		}
@@ -75,7 +75,7 @@ Class BP_XProfile_Data_Template {
 		$group = $this->next_group();
 
 		if ( 0 == $this->current_group ) /* loop has just started */
-			do_action('xprofile_template_loop_start');
+			do_action( 'xprofile_template_loop_start' );
 	}
 
 	/**** FIELDS ****/
@@ -89,9 +89,9 @@ Class BP_XProfile_Data_Template {
 
 	function rewind_fields() {
 		$this->current_field = -1;
-		if ( $this->field_count > 0 ) {
+
+		if ( $this->field_count > 0 )
 			$this->field = $this->group->fields[0];
-		}
 	}
 
 	function has_fields() {
@@ -100,9 +100,8 @@ Class BP_XProfile_Data_Template {
 		for ( $i = 0; $i < count( $this->group->fields ); $i++ ) {
 			$field = &$this->group->fields[$i];
 
-			if ( $field->data->value != null ) {
+			if ( $field->data->value != null )
 				$has_data = true;
-			}
 		}
 
 		if ( $has_data )
@@ -112,12 +111,12 @@ Class BP_XProfile_Data_Template {
 	}
 
 	function profile_fields() {
-		if ( $this->current_field + 1 < $this->field_count ) {
+		if ( $this->current_field + 1 < $this->field_count )
 			return true;
-		} elseif ( $this->current_field + 1 == $this->field_count ) {
-			/* Do some cleaning up after the loop */
+
+		/* Do some cleaning up after the loop */
+		elseif ( $this->current_field + 1 == $this->field_count )
 			$this->rewind_fields();
-		}
 
 		return false;
 	}
@@ -127,12 +126,10 @@ Class BP_XProfile_Data_Template {
 
 		$field = $this->next_field();
 
-		if ( !empty( $field->data->value ) ) {
+		if ( !empty( $field->data->value ) )
 			$this->field_has_data = true;
-		}
-		else {
+		else
 			$this->field_has_data = false;
-		}
 	}
 }
 
@@ -256,8 +253,9 @@ function bp_the_profile_group_field_ids() {
 	function bp_get_the_profile_group_field_ids() {
 		global $group;
 
-		foreach ( (array) $group->fields as $field )
+		foreach ( (array) $group->fields as $field ) {
 			$field_ids .= $field->id . ',';
+		}
 
 		return substr( $field_ids, 0, -1 );
 	}
@@ -371,8 +369,8 @@ function bp_the_profile_field_options( $args = '' ) {
 				if ( 'multiselectbox' != $field->type )
 					$html .= '<option value="">--------</option>';
 
-				for ( $k = 0; $k < count($options); $k++ ) {
-					$option_value = BP_XProfile_ProfileData::get_value_byid($options[$k]->parent_id);
+				for ( $k = 0; $k < count( $options ); $k++ ) {
+					$option_value = BP_XProfile_ProfileData::get_value_byid( $options[$k]->parent_id );
 
 					/* Check for updated posted values, but errors preventing them from being saved first time */
 					if ( isset( $_POST['field_' . $field->id] ) && $option_value != $_POST['field_' . $field->id] ) {
@@ -380,11 +378,10 @@ function bp_the_profile_field_options( $args = '' ) {
 							$option_value = $_POST['field_' . $field->id];
 					}
 
-					if ( $option_value == $options[$k]->name || $options[$k]->is_default_option ) {
+					if ( $option_value == $options[$k]->name || $options[$k]->is_default_option )
 						$selected = ' selected="selected"';
-					} else {
+					else
 						$selected = '';
-					}
 
 					$html .= apply_filters( 'bp_get_the_profile_field_options_select', '<option' . $selected . ' value="' . attribute_escape( $options[$k]->name ) . '">' . attribute_escape( $options[$k]->name ) . '</option>', $options[$k] );
 				}
@@ -393,8 +390,8 @@ function bp_the_profile_field_options( $args = '' ) {
 			case 'radio':
 				$html = '<div id="field_' . $field->id . '">';
 
-				for ( $k = 0; $k < count($options); $k++ ) {
-					$option_value = BP_XProfile_ProfileData::get_value_byid($options[$k]->parent_id);
+				for ( $k = 0; $k < count( $options ); $k++ ) {
+					$option_value = BP_XProfile_ProfileData::get_value_byid( $options[$k]->parent_id );
 
 					/* Check for updated posted values, but errors preventing them from being saved first time */
 					if ( isset( $_POST['field_' . $field->id] ) && $option_value != $_POST['field_' . $field->id] ) {
@@ -402,11 +399,10 @@ function bp_the_profile_field_options( $args = '' ) {
 							$option_value = $_POST['field_' . $field->id];
 					}
 
-					if ( $option_value == $options[$k]->name || $value == $options[$k]->name || $options[$k]->is_default_option ) {
+					if ( $option_value == $options[$k]->name || $value == $options[$k]->name || $options[$k]->is_default_option )
 						$selected = ' checked="checked"';
-					} else {
+					else
 						$selected = '';
-					}
 
 					$html .= apply_filters( 'bp_get_the_profile_field_options_radio', '<label><input' . $selected . ' type="radio" name="field_' . $field->id . '" id="option_' . $options[$k]->id . '" value="' . attribute_escape( $options[$k]->name ) . '"> ' . attribute_escape( $options[$k]->name ) . '</label>', $options[$k] );
 				}
@@ -415,7 +411,7 @@ function bp_the_profile_field_options( $args = '' ) {
 				break;
 
 			case 'checkbox':
-				$option_values = BP_XProfile_ProfileData::get_value_byid($options[0]->parent_id);
+				$option_values = BP_XProfile_ProfileData::get_value_byid( $options[0]->parent_id );
 
 				/* Check for updated posted values, but errors preventing them from being saved first time */
 				if ( isset( $_POST['field_' . $field->id] ) && $option_values != maybe_serialize( $_POST['field_' . $field->id] ) ) {
@@ -423,10 +419,10 @@ function bp_the_profile_field_options( $args = '' ) {
 						$option_values = $_POST['field_' . $field->id];
 				}
 
-				$option_values = maybe_unserialize($option_values);
+				$option_values = maybe_unserialize( $option_values );
 
-				for ( $k = 0; $k < count($options); $k++ ) {
-					for ( $j = 0; $j < count($option_values); $j++ ) {
+				for ( $k = 0; $k < count( $options ); $k++ ) {
+					for ( $j = 0; $j < count( $option_values ); $j++ ) {
 						if ( $option_values[$j] == $options[$k]->name || @in_array( $options[$k]->name, $value ) || $options[$k]->is_default_option ) {
 							$selected = ' checked="checked"';
 							break;
@@ -441,10 +437,10 @@ function bp_the_profile_field_options( $args = '' ) {
 			case 'datebox':
 
 				if ( !empty( $field->data->value ) ) {
-					$day = date("j", $field->data->value);
-					$month = date("F", $field->data->value);
-					$year = date("Y", $field->data->value);
-					$default_select = ' selected="selected"';
+					$day			= date("j", $field->data->value);
+					$month			= date("F", $field->data->value);
+					$year			= date("Y", $field->data->value);
+					$default_select	= ' selected="selected"';
 				}
 
 				/* Check for updated posted values, but errors preventing them from being saved first time */
@@ -468,11 +464,11 @@ function bp_the_profile_field_options( $args = '' ) {
 						$html .= '<option value=""' . attribute_escape( $default_select ) . '>--</option>';
 
 						for ( $i = 1; $i < 32; $i++ ) {
-							if ( $day == $i ) {
+							if ( $day == $i )
 								$selected = ' selected = "selected"';
-							} else {
+							else
 								$selected = '';
-							}
+
 							$html .= '<option value="' . $i .'"' . $selected . '>' . $i . '</option>';
 						}
 						break;
@@ -489,11 +485,10 @@ function bp_the_profile_field_options( $args = '' ) {
 						$html .= '<option value=""' . attribute_escape( $default_select ) . '>------</option>';
 
 						for ( $i = 0; $i < 12; $i++ ) {
-							if ( $month == $eng_months[$i] ) {
+							if ( $month == $eng_months[$i] )
 								$selected = ' selected = "selected"';
-							} else {
+							else
 								$selected = '';
-							}
 
 							$html .= '<option value="' . $eng_months[$i] . '"' . $selected . '>' . $months[$i] . '</option>';
 						}
@@ -503,11 +498,10 @@ function bp_the_profile_field_options( $args = '' ) {
 						$html .= '<option value=""' . attribute_escape( $default_select ) . '>----</option>';
 
 						for ( $i = date( 'Y', time() ); $i > 1899; $i-- ) {
-							if ( $year == $i ) {
+							if ( $year == $i )
 								$selected = ' selected = "selected"';
-							} else {
+							else
 								$selected = '';
-							}
 
 							$html .= '<option value="' . $i .'"' . $selected . '>' . $i . '</option>';
 						}
@@ -528,12 +522,12 @@ function bp_the_profile_field_is_required() {
 	function bp_get_the_profile_field_is_required() {
 		global $field;
 
-		return apply_filters( 'bp_get_the_profile_field_is_required', (int)$field->is_required );
+		return apply_filters( 'bp_get_the_profile_field_is_required', (int) $field->is_required );
 	}
 
 function bp_unserialize_profile_field( $value ) {
-	if ( is_serialized($value) ) {
-		$field_value = maybe_unserialize($value);
+	if ( is_serialized( $value ) ) {
+		$field_value = maybe_unserialize( $value );
 		$field_value = implode( ', ', $field_value );
 		return $field_value;
 	}
@@ -546,8 +540,8 @@ function bp_profile_field_data( $args = '' ) {
 }
 	function bp_get_profile_field_data( $args = '' ) {
 		$defaults = array(
-			'field' => false, /* Field name or ID. */
-			'user_id' => $bp->displayed_user->id
+			'field'		=> false, /* Field name or ID. */
+			'user_id'	=> $bp->displayed_user->id
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -567,12 +561,11 @@ function bp_profile_group_tabs() {
 	if ( empty( $group_name ) )
 		$group_name = bp_profile_group_name(false);
 
-	for ( $i = 0; $i < count($groups); $i++ ) {
-		if ( $group_name == $groups[$i]->name ) {
+	for ( $i = 0; $i < count( $groups ); $i++ ) {
+		if ( $group_name == $groups[$i]->name )
 			$selected = ' class="current"';
-		} else {
+		else
 			$selected = '';
-		}
 
 		if ( $groups[$i]->fields )
 			echo '<li' . $selected . '><a href="' . $bp->displayed_user->domain . $bp->profile->slug . '/edit/group/' . $groups[$i]->id . '">' . attribute_escape( $groups[$i]->name ) . '</a></li>';
@@ -590,15 +583,14 @@ function bp_profile_group_name( $deprecated = true ) {
 		$group_id = 1;
 
 	if ( !$group = wp_cache_get( 'xprofile_group_' . $group_id, 'bp' ) ) {
-		$group = new BP_XProfile_Group($group_id);
+		$group = new BP_XProfile_Group( $group_id );
 		wp_cache_set( 'xprofile_group_' . $group_id, $group, 'bp' );
 	}
 
-	if ( !$deprecated ) {
+	if ( !$deprecated )
 		return bp_get_profile_group_name();
-	} else {
+	else
 		echo bp_get_profile_group_name();
-	}
 }
 	function bp_get_profile_group_name() {
 		global $bp;
@@ -609,7 +601,7 @@ function bp_profile_group_name( $deprecated = true ) {
 			$group_id = 1;
 
 		if ( !$group = wp_cache_get( 'xprofile_group_' . $group_id, 'bp' ) ) {
-			$group = new BP_XProfile_Group($group_id);
+			$group = new BP_XProfile_Group( $group_id );
 			wp_cache_set( 'xprofile_group_' . $group_id, $group, 'bp' );
 		}
 
@@ -630,11 +622,10 @@ function bp_profile_last_updated() {
 
 	$last_updated = bp_get_profile_last_updated();
 
-	if ( !$last_updated ) {
+	if ( !$last_updated )
 		_e( 'Profile not recently updated', 'buddypress' ) . '.';
-	} else {
+	else
 		echo $last_updated;
-	}
 }
 	function bp_get_profile_last_updated() {
 		global $bp;
@@ -679,12 +670,12 @@ function bp_get_user_has_avatar() {
 function bp_edit_profile_button() {
 	global $bp;
 
-	?>
-	<div class="generic-button">
-		<a class="edit" title="<?php _e( 'Edit Profile', 'buddypress' ) ?>" href="<?php echo $bp->displayed_user->domain . $bp->profile->slug ?>/edit"><?php _e( 'Edit Profile', 'buddypress' ) ?></a>
-	</div>
-	<?php
-}
+?>
 
+	<div class="generic-button">
+		<a class="edit" title="<?php _e( 'Edit Profile', 'buddypress' ); ?>" href="<?php echo $bp->displayed_user->domain . $bp->profile->slug ?>/edit"><?php _e( 'Edit Profile', 'buddypress' ); ?></a>
+	</div>
+<?php
+}
 
 ?>
