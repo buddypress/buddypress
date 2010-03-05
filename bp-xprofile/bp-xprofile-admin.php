@@ -112,13 +112,13 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 											$class .= ' core nodrag';
 ?>
 
-										<tr id="field_<?php echo attribute_escape( $field->id ); ?>" class="sortable<?php if ( $class ) { echo ' ' . $class; } ?>">
-											<td width="10"><img src="<?php echo BP_PLUGIN_URL; ?>/bp-xprofile/admin/images/move.gif" alt="<?php _e( 'Drag', 'buddypress' ); ?>" /></td>
-											<td><span title="<?php echo $field->description; ?>"><?php echo attribute_escape( $field->name ); ?> <?php if(!$field->can_delete) { ?> <?php _e( '(Core Field)', 'buddypress' ); } ?></span></td>
+										<tr id="field_<?php echo attribute_escape( $field->id ); ?>" class="sortable<?php if ( $class ) echo ' ' . $class;  ?>">
+											<td width="10"><?php if ( $field->can_delete ) : ?><img src="<?php echo BP_PLUGIN_URL; ?>/bp-xprofile/admin/images/move.gif" alt="<?php _e( 'Drag', 'buddypress' ); ?>" /><?php endif; ?></td>
+											<td><span title="<?php echo $field->description; ?>"><?php echo attribute_escape( $field->name ); ?> <?php if(!$field->can_delete) : ?> <?php _e( '(Core Field)', 'buddypress' ); endif; ?></span></td>
 											<td><?php echo attribute_escape( $field->type ); ?></td>
-											<td class="center"><?php if ( $field->is_required ) { echo '<img src="' . BP_PLUGIN_URL . '/bp-xprofile/admin/images/tick.gif" alt="' . __( 'Yes', 'buddypress' ) . '" />'; } else { ?>-<?php } ?></td>
+											<td class="center"><?php if ( $field->is_required ) : echo '<img src="' . BP_PLUGIN_URL . '/bp-xprofile/admin/images/tick.gif" alt="' . __( 'Yes', 'buddypress' ) . '" />'; else : ?>-<?php endif; ?></td>
 											<td class="center"><a class="edit" href="<?php if ( !$field->can_delete ) { ?>admin.php?page=bp-general-settings<?php } else { ?>admin.php?page=bp-profile-setup&amp;group_id=<?php echo attribute_escape( $group->id ); ?>&amp;field_id=<?php echo attribute_escape( $field->id ); ?>&amp;mode=edit_field<?php } ?>"><?php _e( 'Edit', 'buddypress' ); ?></a></td>
-											<td class="center"><?php if ( !$field->can_delete ) { ?>&nbsp;<?php } else { ?><a class="delete" href="admin.php?page=bp-profile-setup&amp;field_id=<?php echo attribute_escape( $field->id ); ?>&amp;mode=delete_field"><?php _e( 'Delete', 'buddypress' ); ?></a><?php } ?></td>
+											<td class="center"><?php if ( !$field->can_delete ) : ?>&nbsp;<?php else : ?><a class="delete" href="admin.php?page=bp-profile-setup&amp;field_id=<?php echo attribute_escape( $field->id ); ?>&amp;mode=delete_field"><?php _e( 'Delete', 'buddypress' ); ?></a><?php endif; ?></td>
 										</tr>
 <?php
 									} /* end for */
