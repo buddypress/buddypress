@@ -247,7 +247,11 @@ function bp_activity_screen_single_activity_permalink() {
 
 	if ( !$has_access ) {
 		bp_core_add_message( __( 'You do not have access to this activity.', 'buddypress' ), 'error' );
-		bp_core_redirect( $bp->loggedin_user->domain );
+
+		if ( is_user_logged_in() )
+			bp_core_redirect( $bp->loggedin_user->domain );
+		else
+			bp_core_redirect( $bp->root_domain );
 	}
 
 	bp_core_load_template( apply_filters( 'bp_activity_template_profile_activity_permalink', 'members/single/activity/permalink' ) );
@@ -311,19 +315,21 @@ function bp_activity_action_permalink_router() {
 	/* Redirect based on the type of activity */
 	if ( $activity->component == $bp->groups->id ) {
 		if ( $activity->user_id )
-			$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . $bp->activity->slug . '/' . $activity->id;
+			$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . $bp->activity->slug . '/' . $activity->id . '/';
 		else {
 			if ( $group = groups_get_group( array( 'group_id' => $activity->item_id ) ) )
-				$redirect = bp_get_group_permalink( $group ) . $bp->activity->slug . '/' . $activity->id;
+				$redirect = bp_get_group_permalink( $group ) . $bp->activity->slug . '/' . $activity->id . '/';
 		}
 	} else
 		$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . $bp->activity->slug . '/' . $activity->id;
+
+	$redirect = apply_filters( 'bp_activity_permalink_redirect_url', $redirect, &$activity );
 
 	if ( !$redirect )
 		bp_core_redirect( $bp->root_domain );
 
 	/* Redirect to the actual activity permalink page */
-	bp_core_redirect( apply_filters( 'bp_activity_action_permalink_url', $redirect . '/', &$activity ) );
+	bp_core_redirect( $redirect );
 }
 add_action( 'wp', 'bp_activity_action_permalink_router', 3 );
 
