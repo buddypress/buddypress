@@ -65,8 +65,11 @@
 						<select>
 							<option value="-1"><?php _e( 'No Filter', 'buddypress' ) ?></option>
 							<option value="activity_update"><?php _e( 'Show Updates', 'buddypress' ) ?></option>
-							<option value="new_blog_post"><?php _e( 'Show Blog Posts', 'buddypress' ) ?></option>
-							<option value="new_blog_comment"><?php _e( 'Show Blog Comments', 'buddypress' ) ?></option>
+
+							<?php if ( bp_is_active( 'blogs' ) ) : ?>
+								<option value="new_blog_post"><?php _e( 'Show Blog Posts', 'buddypress' ) ?></option>
+								<option value="new_blog_comment"><?php _e( 'Show Blog Comments', 'buddypress' ) ?></option>
+							<?php endif; ?>
 
 							<?php if ( bp_is_active( 'forums' ) ) : ?>
 								<option value="new_forum_topic"><?php _e( 'Show New Forum Topics', 'buddypress' ) ?></option>

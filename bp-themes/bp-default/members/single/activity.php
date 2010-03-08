@@ -8,8 +8,10 @@
 				<option value="activity_update"><?php _e( 'Show Updates', 'buddypress' ) ?></option>
 
 				<?php if ( 'groups' != bp_current_action() ) : ?>
-					<option value="new_blog_post"><?php _e( 'Show Blog Posts', 'buddypress' ) ?></option>
-					<option value="new_blog_comment"><?php _e( 'Show Blog Comments', 'buddypress' ) ?></option>
+					<?php if ( bp_is_active( 'blogs' ) ) : ?>
+						<option value="new_blog_post"><?php _e( 'Show Blog Posts', 'buddypress' ) ?></option>
+						<option value="new_blog_comment"><?php _e( 'Show Blog Comments', 'buddypress' ) ?></option>
+					<?php endif; ?>
 
 					<?php if ( bp_is_active( 'friends' ) ) : ?>
 						<option value="friendship_accepted,friendship_created"><?php _e( 'Show Friendship Connections', 'buddypress' ) ?></option>
