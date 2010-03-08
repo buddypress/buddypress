@@ -1544,6 +1544,7 @@ function groups_edit_group_settings( $group_id, $enable_forum, $status ) {
 		}
 	}
 
+	groups_update_groupmeta( $group->id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
 	do_action( 'groups_settings_updated', $group->id );
 
 	return true;

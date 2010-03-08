@@ -234,6 +234,8 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 
 	$bp->signup->username = $user_login;
 
+	do_action( 'bp_core_signup_user', $user_id, $user_login, $user_password, $user_email, $usermeta );
+
 	return $user_id;
 }
 
