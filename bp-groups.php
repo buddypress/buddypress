@@ -1841,7 +1841,7 @@ function groups_post_update( $args = '' ) {
 	$defaults = array(
 		'content' => false,
 		'user_id' => $bp->loggedin_user->id,
-		'group_id' => false
+		'group_id' => $bp->groups->current_group->id
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -1865,7 +1865,7 @@ function groups_post_update( $args = '' ) {
 		'action' => apply_filters( 'groups_activity_new_update_action', $activity_action ),
 		'content' => apply_filters( 'groups_activity_new_update_content', $activity_content ),
 		'type' => 'activity_update',
-		'item_id' => $bp->groups->current_group->id
+		'item_id' => $group_id
 	) );
 
  	/* Require the notifications code so email notifications can be set on the 'bp_activity_posted_update' action. */
