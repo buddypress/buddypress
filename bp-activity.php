@@ -247,7 +247,11 @@ function bp_activity_screen_single_activity_permalink() {
 
 	if ( !$has_access ) {
 		bp_core_add_message( __( 'You do not have access to this activity.', 'buddypress' ), 'error' );
-		bp_core_redirect( $bp->loggedin_user->domain );
+
+		if ( is_user_logged_in() )
+			bp_core_redirect( $bp->loggedin_user->domain );
+		else
+			bp_core_redirect( site_url( 'wp-login.php?redirect_to=' . clean_url( $bp->root_domain . '/' . $bp->activity->slug . '/p/' . $bp->current_action ) ) );
 	}
 
 	bp_core_load_template( apply_filters( 'bp_activity_template_profile_activity_permalink', 'members/single/activity/permalink' ) );
@@ -311,19 +315,21 @@ function bp_activity_action_permalink_router() {
 	/* Redirect based on the type of activity */
 	if ( $activity->component == $bp->groups->id ) {
 		if ( $activity->user_id )
-			$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . $bp->activity->slug . '/' . $activity->id;
+			$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . $bp->activity->slug . '/' . $activity->id . '/';
 		else {
 			if ( $group = groups_get_group( array( 'group_id' => $activity->item_id ) ) )
-				$redirect = bp_get_group_permalink( $group ) . $bp->activity->slug . '/' . $activity->id;
+				$redirect = bp_get_group_permalink( $group ) . $bp->activity->slug . '/' . $activity->id . '/';
 		}
 	} else
 		$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . $bp->activity->slug . '/' . $activity->id;
+
+	$redirect = apply_filters( 'bp_activity_permalink_redirect_url', $redirect, &$activity );
 
 	if ( !$redirect )
 		bp_core_redirect( $bp->root_domain );
 
 	/* Redirect to the actual activity permalink page */
-	bp_core_redirect( apply_filters( 'bp_activity_action_permalink_url', $redirect . '/', &$activity ) );
+	bp_core_redirect( $redirect );
 }
 add_action( 'wp', 'bp_activity_action_permalink_router', 3 );
 
@@ -714,6 +720,7 @@ function bp_activity_new_comment( $args = '' ) {
 	global $bp;
 
 	$defaults = array(
+		'id' => false,
 		'content' => false,
 		'user_id' => $bp->loggedin_user->id,
 		'activity_id' => false, // ID of the root activity item
@@ -735,6 +742,7 @@ function bp_activity_new_comment( $args = '' ) {
 
 	/* Insert the activity comment */
 	$comment_id = bp_activity_add( array(
+		'id' => $id,
 		'action' => apply_filters( 'bp_activity_comment_action', sprintf( __( '%s posted a new activity comment:', 'buddypress' ), bp_core_get_userlink( $user_id ) ) ),
 		'content' => apply_filters( 'bp_activity_comment_content', $content ),
 		'component' => $bp->activity->id,
@@ -772,13 +780,14 @@ function bp_activity_get_activity_id( $args = '' ) {
 		'item_id' => false,
 		'secondary_item_id' => false,
 		'action' => false,
-		'content' => false
+		'content' => false,
+		'date_recorded' => false,
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
- 	return apply_filters( 'bp_activity_get_activity_id', BP_Activity_Activity::get_id( $user_id, $component, $type, $item_id, $secondary_item_id, $action, $content ) );
+ 	return apply_filters( 'bp_activity_get_activity_id', BP_Activity_Activity::get_id( $user_id, $component, $type, $item_id, $secondary_item_id, $action, $content, $date_recorded ) );
 }
 
 /***

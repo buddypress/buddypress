@@ -898,13 +898,19 @@ function xprofile_avatar_upload_dir( $directory = false, $user_id = false ) {
  *
  * @package BuddyPress Core
  */
-function xprofile_sync_wp_profile() {
+function xprofile_sync_wp_profile( $user_id = false ) {
 	global $bp, $wpdb;
 
 	if ( (int)$bp->site_options['bp-disable-profile-sync'] )
 		return true;
 
-	$fullname = xprofile_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $bp->loggedin_user->id );
+	if ( empty( $user_id ) )
+		$user_id = $bp->loggedin_user->id;
+
+	if ( empty( $user_id ) )
+		return false;
+
+	$fullname = xprofile_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id );
 	$space = strpos( $fullname, ' ' );
 
 	if ( false === $space ) {
@@ -915,15 +921,15 @@ function xprofile_sync_wp_profile() {
 		$lastname = trim( substr( $fullname, $space, strlen($fullname) ) );
 	}
 
-	update_usermeta( $bp->loggedin_user->id, 'nickname', $fullname );
-	update_usermeta( $bp->loggedin_user->id, 'first_name', $firstname );
-	update_usermeta( $bp->loggedin_user->id, 'last_name', $lastname );
+	update_usermeta( $user_id, 'nickname', $fullname );
+	update_usermeta( $user_id, 'first_name', $firstname );
+	update_usermeta( $user_id, 'last_name', $lastname );
 
-	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET display_name = %s WHERE ID = %d", $fullname, $bp->loggedin_user->id ) );
-	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET user_url = %s WHERE ID = %d", bp_core_get_user_domain( $bp->loggedin_user->id ), $bp->loggedin_user->id ) );
+	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET display_name = %s WHERE ID = %d", $fullname, $user_id ) );
+	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET user_url = %s WHERE ID = %d", bp_core_get_user_domain( $user_id ), $user_id ) );
 }
 add_action( 'xprofile_updated_profile', 'xprofile_sync_wp_profile' );
-
+add_action( 'bp_core_signup_user', 'xprofile_sync_wp_profile' );
 
 /**
  * xprofile_remove_screen_notifications()
