@@ -1692,7 +1692,7 @@ function bp_is_user_recent_commments() {
 function bp_is_create_blog() {
 	global $bp;
 
-	if ( BP_BLOGS_SLUG == $bp->current_component && 'create-a-blog' == $bp->current_action )
+	if ( BP_BLOGS_SLUG == $bp->current_component && 'create' == $bp->current_action )
 		return true;
 
 	return false;
