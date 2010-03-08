@@ -2103,7 +2103,7 @@ function bp_core_login_redirect( $redirect_to ) {
 	if ( bp_core_is_multisite() && $current_blog->blog_id != BP_ROOT_BLOG )
 		return $redirect_to;
 
-	if ( !empty( $_REQUEST['redirect_to'] ) && strpos( $_REQUEST['redirect_to'], 'wp-admin' ) )
+	if ( !empty( $_REQUEST['redirect_to'] ) || strpos( $_REQUEST['redirect_to'], 'wp-admin' ) )
 		return $redirect_to;
 
 	if ( false === strpos( wp_get_referer(), 'wp-login.php' ) && false === strpos( wp_get_referer(), 'activate' ) && empty( $_REQUEST['nr'] ) )
