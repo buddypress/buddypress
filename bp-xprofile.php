@@ -321,7 +321,7 @@ function xprofile_screen_edit_profile() {
 				$errors = true;
 		}
 
-		if ( $errors )
+		if ( !empty( $errors ) )
 			bp_core_add_message( __( 'Please make sure you fill in all required fields in this profile field group before saving.', 'buddypress' ), 'error' );
 		else {
 			/* Reset the errors var */
@@ -724,6 +724,12 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 	if ( $is_required && ( empty( $value ) || !strlen( trim( $value ) ) ) )
 		return false;
 
+	/* If the value is empty, then delete any field data that exists */
+	if ( empty( $value ) ) {
+		xprofile_delete_field_data( $field_id, $user_id );
+		return true;
+	}
+
 	$field = new BP_XProfile_Field( $field_id );
 
 	/* Check the value is an acceptable value */
@@ -764,10 +770,10 @@ function xprofile_delete_field_data( $field, $user_id ) {
 	else
 		$field_id = xprofile_get_field_id_from_name( $field );
 
-	if ( !$field_id )
+	if ( empty( $field_id ) || empty( $user_id ) )
 		return false;
 
-	$field = new BP_XProfile_ProfileData( $field_id );
+	$field = new BP_XProfile_ProfileData( $field_id, $user_id );
 	return $field->delete();
 }
 
