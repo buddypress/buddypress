@@ -206,11 +206,20 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 
 	$errors = new WP_Error();
 
-	$user_id = wp_create_user( $user_login, $user_password, $user_email );
+	$user_id = wp_insert_user( array(
+		'user_login' => $user_login,
+		'user_pass' => $user_password,
+		'display_name' => sanitize_title( $user_login ),
+		'user_email' => $user_email
+	) );
+
 	if ( !$user_id ) {
 		$errors->add('registerfail', sprintf(__('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !'), get_option('admin_email')));
 		return $errors;
 	}
+
+	/* Update the user_url */
+	wp_update_user( array( 'ID' => $user_id, 'user_url' => bp_core_get_user_domain( $user_id, sanitize_title( $user_login ), $user_login ) ) );
 
 	/* Set any profile data */
 	if ( function_exists( 'xprofile_set_field_data' ) ) {
