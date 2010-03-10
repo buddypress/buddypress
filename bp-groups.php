@@ -1896,7 +1896,7 @@ function groups_new_group_forum( $group_id = false, $group_name = false, $group_
 
 	groups_update_groupmeta( $group_id, 'forum_id', $forum_id );
 
-	do_action( 'groups_new_group_forum', $forum, $group_id );
+	do_action( 'groups_new_group_forum', $forum_id, $group_id );
 }
 
 function groups_new_group_forum_post( $post_text, $topic_id, $page = false ) {
