@@ -689,6 +689,9 @@ function bp_blogs_update_blogmeta( $blog_id, $meta_key, $meta_value ) {
 }
 
 function bp_blogs_remove_data( $user_id ) {
+	if ( !bp_core_is_multisite() )
+		return false;
+
 	/* If this is regular blog, delete all data for that blog. */
 	BP_Blogs_Blog::delete_blogs_for_user( $user_id );
 
