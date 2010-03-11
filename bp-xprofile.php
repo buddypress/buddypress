@@ -335,7 +335,7 @@ function xprofile_screen_edit_profile() {
 					do_action( 'xprofile_profile_field_data_updated', $field_id, $_POST['field_' . $field_id] );
 			}
 
-			do_action( 'xprofile_updated_profile', $posted_field_ids, $errors );
+			do_action( 'xprofile_updated_profile', $bp->displayed_user->id, $posted_field_ids, $errors );
 
 			/* Set the feedback messages */
 			if ( $errors )
