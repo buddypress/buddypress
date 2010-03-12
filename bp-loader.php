@@ -12,60 +12,48 @@ Site Wide Only: true
 define( 'BP_VERSION', '1.2.2' );
 
 /***
- * Check if this is the first time BuddyPress has been loaded, or the first time
- * since an upgrade. If so, load the install/upgrade routine only.
+ * This file will load in each BuddyPress component based on which
+ * of the components have been activated on the "BuddyPress" admin menu.
  */
-if ( get_site_option( 'bp-db-version' ) < 1210 ) {
-	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-upgrade.php' );
 
-/***
- * If the install or upgrade routine is completed and everything is up to date
- * continue loading BuddyPress as normal.
- */
-} else {
-	/***
-	 * This file will load in each BuddyPress component based on which
-	 * of the components have been activated on the "BuddyPress" admin menu.
-	 */
-	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core.php' );
-	$bp_deactivated = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) );
+require_once( WP_PLUGIN_DIR . '/buddypress/bp-core.php' );
+$bp_deactivated = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) );
 
-	do_action( 'bp_core_loaded' );
+do_action( 'bp_core_loaded' );
 
-	/* Activity Streams */
-	if ( !isset( $bp_deactivated['bp-activity.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-activity.php') )
-		include( BP_PLUGIN_DIR . '/bp-activity.php' );
+/* Activity Streams */
+if ( !isset( $bp_deactivated['bp-activity.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-activity.php') )
+	include( BP_PLUGIN_DIR . '/bp-activity.php' );
 
-	/* Blog Tracking */
-	if ( !isset( $bp_deactivated['bp-blogs.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-blogs.php') )
-		include( BP_PLUGIN_DIR . '/bp-blogs.php' );
+/* Blog Tracking */
+if ( !isset( $bp_deactivated['bp-blogs.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-blogs.php') )
+	include( BP_PLUGIN_DIR . '/bp-blogs.php' );
 
-	/* bbPress Forum Integration */
-	if ( !isset( $bp_deactivated['bp-forums.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-forums.php') )
-		include( BP_PLUGIN_DIR . '/bp-forums.php' );
+/* bbPress Forum Integration */
+if ( !isset( $bp_deactivated['bp-forums.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-forums.php') )
+	include( BP_PLUGIN_DIR . '/bp-forums.php' );
 
-	/* Friend Connections */
-	if ( !isset( $bp_deactivated['bp-friends.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-friends.php') )
-		include( BP_PLUGIN_DIR . '/bp-friends.php' );
+/* Friend Connections */
+if ( !isset( $bp_deactivated['bp-friends.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-friends.php') )
+	include( BP_PLUGIN_DIR . '/bp-friends.php' );
 
-	/* Groups Support */
-	if ( !isset( $bp_deactivated['bp-groups.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-groups.php') )
-		include( BP_PLUGIN_DIR . '/bp-groups.php' );
+/* Groups Support */
+if ( !isset( $bp_deactivated['bp-groups.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-groups.php') )
+	include( BP_PLUGIN_DIR . '/bp-groups.php' );
 
-	/* Private Messaging */
-	if ( !isset( $bp_deactivated['bp-messages.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-messages.php') )
-		include( BP_PLUGIN_DIR . '/bp-messages.php' );
+/* Private Messaging */
+if ( !isset( $bp_deactivated['bp-messages.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-messages.php') )
+	include( BP_PLUGIN_DIR . '/bp-messages.php' );
 
-	/* Extended Profiles */
-	if ( !isset( $bp_deactivated['bp-xprofile.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-xprofile.php') )
-		include( BP_PLUGIN_DIR . '/bp-xprofile.php' );
+/* Extended Profiles */
+if ( !isset( $bp_deactivated['bp-xprofile.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-xprofile.php') )
+	include( BP_PLUGIN_DIR . '/bp-xprofile.php' );
 
-	/* Allow dependent plugins to hook into BuddyPress in a safe way */
-	function bp_loaded() {
-		do_action( 'bp_init' );
-	}
-	add_action( 'plugins_loaded', 'bp_loaded' );
+/* Allow dependent plugins to hook into BuddyPress in a safe way */
+function bp_loaded() {
+	do_action( 'bp_init' );
 }
+add_action( 'plugins_loaded', 'bp_loaded' );
 
 /* Activation Function */
 function bp_loader_activate() {
