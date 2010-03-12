@@ -48,6 +48,10 @@
 						<?php bp_the_profile_field_options() ?>
 					</select>
 
+					<?php if ( !bp_get_the_profile_field_is_required() ) : ?>
+						<a class="clear-value" href="javascript:clear( '<?php bp_the_profile_field_input_name() ?>' );"><?php _e( 'Clear', 'buddypress' ) ?></a>
+					<?php endif; ?>
+
 				<?php endif; ?>
 
 				<?php if ( 'radio' == bp_get_the_profile_field_type() ) : ?>

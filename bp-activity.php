@@ -1,6 +1,6 @@
 <?php
 
-define ( 'BP_ACTIVITY_DB_VERSION', '2060' );
+define ( 'BP_ACTIVITY_DB_VERSION', '2100' );
 
 /* Define the slug for the component */
 if ( !defined( 'BP_ACTIVITY_SLUG' ) )
@@ -44,8 +44,8 @@ function bp_activity_install() {
 				secondary_item_id varchar(75) DEFAULT NULL,
 				date_recorded datetime NOT NULL,
 				hide_sitewide bool DEFAULT 0,
-				mptt_left int(11) NOT NULL,
-				mptt_right int(11) NOT NULL,
+				mptt_left int(11) NOT NULL DEFAULT 0,
+				mptt_right int(11) NOT NULL DEFAULT 0,
 				KEY date_recorded (date_recorded),
 				KEY user_id (user_id),
 				KEY item_id (item_id),

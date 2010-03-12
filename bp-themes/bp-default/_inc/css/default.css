@@ -802,6 +802,12 @@ form.standard-form {
 			margin-bottom: 5px;
 		}
 
+	form.standard-form a.clear-value {
+		display: block;
+		margin-top: 5px;
+		outline: none;
+	}
+
 form.standard-form #basic-details-section, form.standard-form #blog-details-section,
 form.standard-form #profile-details-section {
 	float: left;

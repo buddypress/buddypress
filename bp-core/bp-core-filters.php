@@ -1,79 +1,118 @@
 <?php
 
-function bp_core_screen_activation() {
-	global $bp, $wpdb;
+/**
+ * bp_core_email_from_name_filter()
+ *
+ * Sets the "From" name in emails sent to the name of the site and not "WordPress"
+ *
+ * @package BuddyPress Core
+ * @uses get_blog_option() fetches the value for a meta_key in the wp_X_options table
+ * @return The blog name for the root blog
+ */
+function bp_core_email_from_name_filter() {
+ 	return apply_filters( 'bp_core_email_from_name_filter', get_blog_option( BP_ROOT_BLOG, 'blogname' ) );
+}
+add_filter( 'wp_mail_from_name', 'bp_core_email_from_name_filter' );
 
-	if ( !bp_core_is_multisite() || BP_ACTIVATION_SLUG != $bp->current_component )
-		return false;
+/**
+ * bp_core_email_from_name_filter()
+ *
+ * Sets the "From" address in emails sent
+ *
+ * @package BuddyPress Core
+ * @global $current_site Object containing current site metadata
+ * @return noreply@sitedomain email address
+ */
+function bp_core_email_from_address_filter() {
+	$domain = (array) explode( '/', site_url() );
 
-	/* Check if an activation key has been passed */
-	if ( isset( $_GET['key'] ) ) {
+	return apply_filters( 'bp_core_email_from_address_filter', __( 'noreply', 'buddypress' ) . '@' . $domain[2] );
+}
+add_filter( 'wp_mail_from', 'bp_core_email_from_address_filter' );
 
-		require_once( ABSPATH . WPINC . '/registration.php' );
+/**
+ * bp_core_allow_default_theme()
+ *
+ * On multiblog installations you must first allow themes to be activated and show
+ * up on the theme selection screen. This function will let the BuddyPress bundled
+ * themes show up on the root blog selection screen and bypass this step. It also
+ * means that the themes won't show for selection on other blogs.
+ *
+ * @package BuddyPress Core
+ */
+function bp_core_allow_default_theme( $themes ) {
+	global $bp, $current_blog;
 
-		/* Activate the signup */
-		$signup = apply_filters( 'bp_core_activate_account', wpmu_activate_signup( $_GET['key'] ) );
+	if ( !is_site_admin() )
+		return $themes;
 
-		/* If there was errors, add a message and redirect */
-		if ( $signup->errors ) {
-			bp_core_add_message( __( 'There was an error activating your account, please try again.', 'buddypress' ), 'error' );
-			bp_core_redirect( $bp->root_domain . '/' . BP_ACTIVATION_SLUG );
-		}
-
-		/* Set the password */
-		if ( !empty( $signup['meta']['password'] ) )
-			$wpdb->update( $wpdb->users, array( 'user_pass' => $signup['meta']['password'] ), array( 'ID' => $signup['user_id'] ), array( '%s' ), array( '%d' ) );
-
-		/* Set any profile data */
-		if ( function_exists( 'xprofile_set_field_data' ) ) {
-
-			if ( !empty( $signup['meta']['profile_field_ids'] ) ) {
-				$profile_field_ids = explode( ',', $signup['meta']['profile_field_ids'] );
-
-				foreach( (array)$profile_field_ids as $field_id ) {
-					$current_field = $signup['meta']["field_{$field_id}"];
-
-					if ( !empty( $current_field ) )
-						xprofile_set_field_data( $field_id, $signup['user_id'], $current_field );
-				}
-			}
-
-		}
-
-		/* Check for an uploaded avatar and move that to the correct user folder */
-		$hashed_key = wp_hash( $_GET['key'] );
-
-		/* Check if the avatar folder exists. If it does, move rename it, move it and delete the signup avatar dir */
-		if ( file_exists( BP_AVATAR_UPLOAD_PATH . '/avatars/signups/' . $hashed_key ) ) {
-			@rename( BP_AVATAR_UPLOAD_PATH . '/avatars/signups/' . $hashed_key, BP_AVATAR_UPLOAD_PATH . '/avatars/' . $signup['user_id'] );
-		}
-
-		/* Record the new user in the activity streams */
-		if ( function_exists( 'bp_activity_add' ) ) {
-			$userlink = bp_core_get_userlink( $signup['user_id'] );
-
-			bp_activity_add( array(
-				'user_id' => $signup['user_id'],
-				'action' => apply_filters( 'bp_core_activity_registered_member_action', sprintf( __( '%s became a registered member', 'buddypress' ), $userlink ), $signup['user_id'] ),
-				'component' => 'profile',
-				'type' => 'new_member'
-			) );
-		}
-
-		do_action( 'bp_core_account_activated', &$signup, $_GET['key'] );
-		wp_cache_delete( 'bp_total_member_count', 'bp' );
-
-		bp_core_add_message( __( 'Your account is now active!', 'buddypress' ) );
-
-		$bp->activation_complete = true;
+	if ( $current_blog->ID == $bp->root_blog ) {
+		$themes['bp-default'] = 1;
 	}
 
-	if ( '' != locate_template( array( 'registration/activate' ), false ) )
-		bp_core_load_template( apply_filters( 'bp_core_template_activate', 'activate' ) );
-	else
-		bp_core_load_template( apply_filters( 'bp_core_template_activate', 'registration/activate' ) );
+	return $themes;
 }
-add_action( 'wp', 'bp_core_screen_activation', 3 );
+add_filter( 'allowed_themes', 'bp_core_allow_default_theme' );
+
+/**
+ * bp_core_filter_comments()
+ *
+ * Filter the blog post comments array and insert BuddyPress URLs for users.
+ *
+ * @package BuddyPress Core
+ */
+function bp_core_filter_comments( $comments, $post_id ) {
+	global $wpdb;
+
+	foreach( (array)$comments as $comment ) {
+		if ( $comment->user_id )
+			$user_ids[] = $comment->user_id;
+	}
+
+	if ( empty( $user_ids ) )
+		return $comments;
+
+	$user_ids = implode( ',', $user_ids );
+
+	if ( !$userdata = $wpdb->get_results( $wpdb->prepare( "SELECT ID as user_id, user_login, user_nicename FROM {$wpdb->users} WHERE ID IN ({$user_ids})" ) ) )
+		return $comments;
+
+	foreach( (array)$userdata as $user )
+		$users[$user->user_id] = bp_core_get_user_domain( $user->user_id, $user->user_nicename, $user->user_login );
+
+	foreach( (array)$comments as $i => $comment ) {
+		if ( !empty( $comment->user_id ) ) {
+			if ( !empty( $users[$comment->user_id] ) )
+				$comments[$i]->comment_author_url = $users[$comment->user_id];
+		}
+	}
+
+	return $comments;
+}
+add_filter( 'comments_array', 'bp_core_filter_comments', 10, 2 );
+
+/**
+ * bp_core_login_redirect()
+ *
+ * When a user logs in, always redirect them back to the previous page. NOT the admin area.
+ *
+ * @package BuddyPress Core
+ */
+function bp_core_login_redirect( $redirect_to ) {
+	global $bp, $current_blog;
+
+	if ( bp_core_is_multisite() && $current_blog->blog_id != BP_ROOT_BLOG )
+		return $redirect_to;
+
+	if ( !empty( $_REQUEST['redirect_to'] ) || strpos( $_REQUEST['redirect_to'], 'wp-admin' ) )
+		return $redirect_to;
+
+	if ( false === strpos( wp_get_referer(), 'wp-login.php' ) && false === strpos( wp_get_referer(), 'activate' ) && empty( $_REQUEST['nr'] ) )
+		return wp_get_referer();
+
+	return $bp->root_domain;
+}
+add_filter( 'login_redirect', 'bp_core_login_redirect' );
 
 /***
  * bp_core_filter_user_welcome_email()

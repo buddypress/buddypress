@@ -47,7 +47,7 @@ add_action( 'admin_head', 'bp_core_admin_menu_icon_css' );
 function bp_core_confirmation_js() {
 	global $current_blog;
 
-	if ( $current_blog->blog_id != BP_ROOT_BLOG )
+	if ( bp_core_is_multisite() && $current_blog->blog_id != BP_ROOT_BLOG )
 		return false;
 ?>
 	<script type="text/javascript"> jQuery(document).ready( function() { jQuery("a.confirm").click( function() { if ( confirm( '<?php _e( 'Are you sure?', 'buddypress' ) ?>' ) ) return true; else return false; }); });</script>

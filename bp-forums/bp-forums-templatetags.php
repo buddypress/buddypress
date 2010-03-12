@@ -289,7 +289,9 @@ function bp_the_topic_poster_name() {
 	function bp_get_the_topic_poster_name() {
 		global $forum_template;
 
-		if ( !$name = bp_core_get_userlink( $forum_template->topic->poster_id ) )
+		$poster_id = ( empty( $forum_template->topic->poster_id ) ) ? $forum_template->topic->topic_poster : $forum_template->topic->poster_id;
+
+		if ( !$name = bp_core_get_userlink( $poster_id ) )
 			return __( 'Deleted User', 'buddypress' );
 
 		return apply_filters( 'bp_get_the_topic_poster_name', $name );

@@ -1225,10 +1225,16 @@ function clear(container) {
 
 	var container = document.getElementById(container);
 
-	radioButtons = container.getElementsByTagName('INPUT');
+	if ( radioButtons = container.getElementsByTagName('INPUT') ) {
+		for(var i=0; i<radioButtons.length; i++) {
+			radioButtons[i].checked = '';
+		}
+	}
 
-	for(var i=0; i<radioButtons.length; i++) {
-		radioButtons[i].checked = '';
+	if ( options = container.getElementsByTagName('OPTION') ) {
+		for(var i=0; i<options.length; i++) {
+			options[i].selected = false;
+		}
 	}
 
 	return;
