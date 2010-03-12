@@ -868,6 +868,10 @@ function groups_screen_group_admin_requests() {
 
 	if ( $bp->current_component == $bp->groups->slug && 'membership-requests' == $bp->action_variables[0] ) {
 
+		/* Ask for a login if the user is coming here via an email notification */
+		if ( !is_user_logged_in() )
+			bp_core_redirect( site_url( 'wp-login.php?redirect_to=' . $bp->root_domain . '/' . $bp->current_component . '/' . $bp->current_item . '/admin/membership-requests/' ) );
+
 		if ( !$bp->is_item_admin || 'public' == $bp->groups->current_group->status )
 			return false;
 
