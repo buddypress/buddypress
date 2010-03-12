@@ -916,6 +916,12 @@ function bp_get_page_title() {
 
 	} else if ( bp_is_activation_page() ) {
 		$title = __( 'Activate your Account', 'buddypress' );
+
+	} else if ( bp_is_group_create() ) {
+		$title = __( 'Create a Group', 'buddypress' );
+
+	} else if ( bp_is_create_blog() ) {
+		$title = __( 'Create a Blog', 'buddypress' );
 	}
 
 	if ( defined( 'BP_ENABLE_MULTIBLOG' ) ) {
