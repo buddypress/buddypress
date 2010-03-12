@@ -309,7 +309,7 @@ function bp_member_profile_data( $args = '' ) {
 		extract( $r, EXTR_SKIP );
 
 		// Populate the user if it hasn't been already.
-		if ( empty( $members_template->member->profile_data ) )
+		if ( empty( $members_template->member->profile_data ) && class_exists( 'BP_XProfile_ProfileData' ) && method_exists( 'get_all_for_user' ) )
 			$members_template->member->profile_data = BP_XProfile_ProfileData::get_all_for_user( $members_template->member->id );
 
 		$data = xprofile_format_profile_field( $members_template->member->profile_data[$field]['field_type'], $members_template->member->profile_data[$field]['field_data'] );
