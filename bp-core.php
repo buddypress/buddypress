@@ -1803,7 +1803,7 @@ function bp_core_print_generation_time() {
 	global $wpdb;
 	?>
 
-<!-- Generated in <?php timer_stop(1); ?> seconds. (<?php echo get_num_queries(); ?> q) -->
+<!-- Generated in <?php timer_stop(1); ?> seconds. -->
 
 	<?php
 }
@@ -1874,7 +1874,7 @@ function bp_core_boot_spammer( $auth_obj, $username ) {
 
 	$user = get_userdatabylogin( $username );
 
-	if ( (int)$user->spam )
+	if ( ( bp_core_is_multisite() && (int)$user->spam ) || (int)$user->user_status )
 		bp_core_redirect( $bp->root_domain );
 	else
 		return $auth_obj;
