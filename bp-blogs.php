@@ -405,6 +405,10 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 	global $wpdb, $bp;
 
 	$comment = get_comment($comment_id);
+
+	if ( !$is_approved )
+		return false;
+
 	$comment->post = get_post( $comment->comment_post_ID );
 
 	/* Get the user_id from the author email. */
