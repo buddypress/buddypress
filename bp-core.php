@@ -1874,7 +1874,7 @@ function bp_core_boot_spammer( $auth_obj, $username ) {
 
 	$user = get_userdatabylogin( $username );
 
-	if ( ( bp_core_is_multisite() && (int)$user->spam ) || (int)$user->user_status )
+	if ( ( bp_core_is_multisite() && (int)$user->spam ) || 1 == (int)$user->user_status )
 		bp_core_redirect( $bp->root_domain );
 	else
 		return $auth_obj;
