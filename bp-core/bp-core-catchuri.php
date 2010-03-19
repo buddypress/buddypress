@@ -103,7 +103,10 @@ function bp_core_set_uri_globals() {
 	if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) ) {
 		if ( ( $bp_uri[0] == BP_MEMBERS_SLUG && !empty( $bp_uri[1] ) ) || in_array( 'wp-load.php', $bp_uri ) ) {
 			// We are within a member page, set up user id globals
-			$displayed_user_id = bp_core_get_displayed_userid( $bp_uri[1] );
+			if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
+				$displayed_user_id = bp_core_get_userid( $bp_uri[1] );
+			else
+				$displayed_user_id = bp_core_get_userid_from_nicename( $bp_uri[1] );
 
 			unset($bp_uri[0]);
 			unset($bp_uri[1]);
@@ -117,7 +120,10 @@ function bp_core_set_uri_globals() {
 			$is_root_component = true;
 
 			// We are within a member page, set up user id globals
-			$displayed_user_id = bp_core_get_displayed_userid( $bp_uri[0] );
+			if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
+				$displayed_user_id = bp_core_get_userid( $bp_uri[1] );
+			else
+				$displayed_user_id = bp_core_get_userid_from_nicename( $bp_uri[1] );
 
 			unset($bp_uri[0]);
 

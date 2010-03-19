@@ -997,8 +997,30 @@ add_action( 'wp', 'bp_core_get_random_member' );
 function bp_core_get_userid( $username ) {
 	global $wpdb;
 
-	if ( !empty( $username ) )
-		return apply_filters( 'bp_core_get_userid', $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $username ) ) );
+	if ( empty( $username ) )
+		return false;
+
+	return apply_filters( 'bp_core_get_userid', $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $username ) ) );
+}
+
+/**
+ * bp_core_get_userid_from_nicename()
+ *
+ * Returns the user_id for a user based on their user_nicename.
+ *
+ * @package BuddyPress Core
+ * @param $username str Username to check.
+ * @global $wpdb WordPress DB access object.
+ * @return false on no match
+ * @return int the user ID of the matched user.
+ */
+function bp_core_get_userid_from_nicename( $user_nicename ) {
+	global $wpdb;
+
+	if ( empty( $user_nicename ) )
+		return false;
+
+	return apply_filters( 'bp_core_get_userid_from_nicename', $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_nicename = %s", $user_nicename ) ) );
 }
 
 /**
