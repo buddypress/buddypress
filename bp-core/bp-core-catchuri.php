@@ -146,9 +146,8 @@ function bp_core_set_uri_globals() {
 			$uri_offset = $uri_offset + 2;
 
 			/* Remove everything from the URI up to the offset and take it from there. */
-			for ( $i = 0; $i < $uri_offset; $i++ ) {
+			for ( $i = 0; $i < $uri_offset; $i++ )
 				unset( $bp_uri[$i] );
-			}
 
 			$current_component = $bp_uri[$uri_offset];
 		}
@@ -208,9 +207,9 @@ add_action( 'plugins_loaded', 'bp_core_set_uri_globals', 3 );
  * @return int the user ID of the matched user.
  */
 function bp_core_load_template( $templates ) {
-	global $bp, $wpdb, $wp_query, $bp_unfiltered_uri, $bp_unfiltered_uri_offset;
+	global $post, $bp, $wpdb, $wp_query, $bp_unfiltered_uri, $bp_unfiltered_uri_offset;
 
-	/* Determine if the root object WP page exists for this request (is there an API function for this?)*/
+	/* Determine if the root object WP page exists for this request (TODO: is there an API function for this?) */
 	if ( !$page_exists = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_name = %s", $bp_unfiltered_uri[$bp_unfiltered_uri_offset] ) ) )
 		return false;
 
@@ -220,8 +219,13 @@ function bp_core_load_template( $templates ) {
 			$object_id = $page->id;
 	}
 
-	$wp_query->queried_object = &get_post( $object_id );
-	$wp_query->queried_object_id = $object_id;
+	/* Make the queried/post object an actual valid page */
+	if ( !empty( $object_id ) ) {
+		$wp_query->queried_object = &get_post( $object_id );
+		$wp_query->queried_object_id = $object_id;
+
+		$post = $wp_query->queried_object;
+	}
 
 	/* Fetch each template and add the php suffix */
 	foreach ( (array)$templates as $template )
