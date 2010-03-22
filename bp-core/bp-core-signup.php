@@ -169,7 +169,7 @@ function bp_core_screen_signup() {
 			$bp->avatar_admin->step = 'crop-image';
 
 			/* Make sure we include the jQuery jCrop file for image cropping */
-			add_action( 'wp', 'bp_core_add_jquery_cropper' );
+			add_action( 'wp_print_scripts', 'bp_core_add_jquery_cropper' );
 		}
 	}
 
