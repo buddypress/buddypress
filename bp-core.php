@@ -2017,8 +2017,6 @@ function bp_core_create_root_component_page() {
 
 	$new_page_ids = array();
 
-	var_dump( $bp->add_root );
-
 	foreach ( (array)$bp->add_root as $slug )
 		$new_page_ids[$slug] = wp_insert_post( array( 'post_title' => ucwords( $slug ), 'post_status' => 'publish', 'post_type' => 'page' ) );
 
