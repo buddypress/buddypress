@@ -1,84 +1,24 @@
 <?php
-
-define ( 'BP_GROUPS_DB_VERSION', '1900' );
-
-/* Define the slug for the component */
-if ( !defined( 'BP_GROUPS_SLUG' ) )
-	define ( 'BP_GROUPS_SLUG', 'groups' );
-
 require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-classes.php' );
 require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-widgets.php' );
 require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-filters.php' );
 
-function groups_install() {
-	global $wpdb, $bp;
-
-	if ( !empty($wpdb->charset) )
-		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-
-	$sql[] = "CREATE TABLE {$bp->groups->table_name} (
-	  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			creator_id bigint(20) NOT NULL,
-	  		name varchar(100) NOT NULL,
-	  		slug varchar(100) NOT NULL,
-	  		description longtext NOT NULL,
-			status varchar(10) NOT NULL DEFAULT 'public',
-			enable_forum tinyint(1) NOT NULL DEFAULT '1',
-			date_created datetime NOT NULL,
-		    KEY creator_id (creator_id),
-		    KEY status (status)
-	 	   ) {$charset_collate};";
-
-	$sql[] = "CREATE TABLE {$bp->groups->table_name_members} (
-	  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			group_id bigint(20) NOT NULL,
-			user_id bigint(20) NOT NULL,
-			inviter_id bigint(20) NOT NULL,
-			is_admin tinyint(1) NOT NULL DEFAULT '0',
-			is_mod tinyint(1) NOT NULL DEFAULT '0',
-			user_title varchar(100) NOT NULL,
-			date_modified datetime NOT NULL,
-			comments longtext NOT NULL,
-			is_confirmed tinyint(1) NOT NULL DEFAULT '0',
-			is_banned tinyint(1) NOT NULL DEFAULT '0',
-			invite_sent tinyint(1) NOT NULL DEFAULT '0',
-			KEY group_id (group_id),
-			KEY is_admin (is_admin),
-			KEY is_mod (is_mod),
-		 	KEY user_id (user_id),
-			KEY inviter_id (inviter_id),
-			KEY is_confirmed (is_confirmed)
-	 	   ) {$charset_collate};";
-
-	$sql[] = "CREATE TABLE {$bp->groups->table_name_groupmeta} (
-			id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			group_id bigint(20) NOT NULL,
-			meta_key varchar(255) DEFAULT NULL,
-			meta_value longtext DEFAULT NULL,
-			KEY group_id (group_id),
-			KEY meta_key (meta_key)
-		   ) {$charset_collate};";
-
-	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
-	dbDelta($sql);
-
-	do_action( 'groups_install' );
-
-	update_site_option( 'bp-groups-db-version', BP_GROUPS_DB_VERSION );
-}
-
 function groups_setup_globals() {
 	global $bp, $wpdb;
 
+	if ( !defined( 'BP_GROUPS_SLUG' ) )
+		define ( 'BP_GROUPS_SLUG', $bp->pages->groups->slug );
+
 	/* For internal identification */
 	$bp->groups->id = 'groups';
+	$bp->groups->name = $bp->pages->groups->name;
+	$bp->groups->slug = BP_GROUPS_SLUG;
 
 	$bp->groups->table_name = $wpdb->base_prefix . 'bp_groups';
 	$bp->groups->table_name_members = $wpdb->base_prefix . 'bp_groups_members';
 	$bp->groups->table_name_groupmeta = $wpdb->base_prefix . 'bp_groups_groupmeta';
 	$bp->groups->format_notification_function = 'groups_format_notifications';
-	$bp->groups->slug = BP_GROUPS_SLUG;
 
 	/* Register this in the active components array */
 	$bp->active_components[$bp->groups->slug] = $bp->groups->id;
@@ -99,19 +39,6 @@ function groups_setup_globals() {
 	do_action( 'groups_setup_globals' );
 }
 add_action( 'bp_setup_globals', 'groups_setup_globals' );
-
-function groups_setup_root_component() {
-	/* Register 'groups' as a root component */
-	bp_core_add_root_component( BP_GROUPS_SLUG );
-}
-add_action( 'bp_setup_root_components', 'groups_setup_root_component' );
-
-function groups_check_installed() {
-	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( get_site_option( 'bp-groups-db-version' ) < BP_GROUPS_DB_VERSION )
-		groups_install();
-}
-add_action( 'admin_menu', 'groups_check_installed' );
 
 function groups_setup_nav() {
 	global $bp;
@@ -140,13 +67,13 @@ function groups_setup_nav() {
 	}
 
 	/* Add 'Groups' to the main navigation */
-	bp_core_new_nav_item( array( 'name' => sprintf( __( 'Groups <span>(%d)</span>', 'buddypress' ), groups_total_groups_for_user() ), 'slug' => $bp->groups->slug, 'position' => 70, 'screen_function' => 'groups_screen_my_groups', 'default_subnav_slug' => 'my-groups', 'item_css_id' => $bp->groups->id ) );
+	bp_core_new_nav_item( array( 'name' => sprintf( __( 'Groups <span>(%d)</span>', 'buddypress' ), groups_total_groups_for_user() ), 'slug' => $bp->groups->name, 'position' => 70, 'screen_function' => 'groups_screen_my_groups', 'default_subnav_slug' => 'my-groups', 'item_css_id' => $bp->groups->id ) );
 
-	$groups_link = $bp->loggedin_user->domain . $bp->groups->slug . '/';
+	$groups_link = $bp->loggedin_user->domain . $bp->groups->name . '/';
 
 	/* Add the subnav items to the groups nav item */
-	bp_core_new_subnav_item( array( 'name' => __( 'My Groups', 'buddypress' ), 'slug' => 'my-groups', 'parent_url' => $groups_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_my_groups', 'position' => 10, 'item_css_id' => 'groups-my-groups' ) );
-	bp_core_new_subnav_item( array( 'name' => __( 'Invites', 'buddypress' ), 'slug' => 'invites', 'parent_url' => $groups_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_invites', 'position' => 30, 'user_has_access' => bp_is_my_profile() ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'My Groups', 'buddypress' ), 'slug' => 'my-groups', 'parent_url' => $groups_link, 'parent_slug' => $bp->groups->name, 'screen_function' => 'groups_screen_my_groups', 'position' => 10, 'item_css_id' => 'groups-my-groups' ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Invites', 'buddypress' ), 'slug' => 'invites', 'parent_url' => $groups_link, 'parent_slug' => $bp->groups->name, 'screen_function' => 'groups_screen_group_invites', 'position' => 30, 'user_has_access' => bp_is_my_profile() ) );
 
 	if ( $bp->current_component == $bp->groups->slug ) {
 
@@ -1353,7 +1280,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_link = bp_get_group_permalink( $group );
 
 			if ( (int)$total_items > 1 ) {
-				return apply_filters( 'bp_groups_multiple_membership_request_rejected_notification', '<a href="' . site_url() . '/' . BP_MEMBERS_SLUG . '/' . $bp->groups->slug . '/?n=1" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('%d rejected group membership requests', 'buddypress' ), (int)$total_items, $group->name ) . '</a>', $total_items, $group->name );
+				return apply_filters( 'bp_groups_multiple_membership_request_rejected_notification', '<a href="' . site_url() . '/' . $bp->members->slug . '/' . $bp->groups->slug . '/?n=1" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __('%d rejected group membership requests', 'buddypress' ), (int)$total_items, $group->name ) . '</a>', $total_items, $group->name );
 			} else {
 				return apply_filters( 'bp_groups_single_membership_request_rejected_notification', '<a href="' . $group_link . '?n=1">' . sprintf( __('Membership for group "%s" rejected'), $group->name ) . '</a>', $group_link, $group->name );
 			}

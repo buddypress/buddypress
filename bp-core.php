@@ -1,8 +1,5 @@
 <?php
 
-/* Define the current version number for checking if DB tables are up to date. */
-define( 'BP_CORE_DB_VERSION', '1800' );
-
 /***
  * Define the path and url of the BuddyPress plugins directory.
  * It is important to use plugins_url() core function to obtain
@@ -45,22 +42,6 @@ require ( BP_PLUGIN_DIR . '/bp-core/bp-core-signup.php' );
 if ( !defined( 'BP_DISABLE_ADMIN_BAR' ) )
 	require ( BP_PLUGIN_DIR . '/bp-core/bp-core-adminbar.php' );
 
-/* Define the slug for member pages and the members directory (e.g. domain.com/[members] ) */
-if ( !defined( 'BP_MEMBERS_SLUG' ) )
-	define( 'BP_MEMBERS_SLUG', 'members' );
-
-/* Define the slug for the register/signup page */
-if ( !defined( 'BP_REGISTER_SLUG' ) )
-	define( 'BP_REGISTER_SLUG', 'register' );
-
-/* Define the slug for the activation page */
-if ( !defined( 'BP_ACTIVATION_SLUG' ) )
-	define( 'BP_ACTIVATION_SLUG', 'activate' );
-
-/* Define the slug for the search page */
-if ( !defined( 'BP_SEARCH_SLUG' ) )
-	define( 'BP_SEARCH_SLUG', 'search' );
-
 /* Register BuddyPress themes contained within the bp-theme folder */
 if ( function_exists( 'register_theme_directory') )
 	register_theme_directory( WP_PLUGIN_DIR . '/buddypress/bp-themes' );
@@ -86,13 +67,24 @@ if ( function_exists( 'register_theme_directory') )
 function bp_core_setup_globals() {
 	global $bp, $wpdb;
 	global $current_user, $current_component, $current_action, $current_blog;
-	global $displayed_user_id;
+	global $displayed_user_id, $bp_pages;
 	global $action_variables;
 
 	$current_user = wp_get_current_user();
 
 	/* The domain for the root of the site where the main blog resides */
 	$bp->root_domain = bp_core_get_root_domain();
+
+	/* Contains an array of all the active components. The key is the slug, value the internal ID of the component */
+	$bp->active_components = array();
+
+	/* The names of the core WordPress pages used to display BuddyPress content */
+	$bp->pages = $bp_pages;
+
+	/* Set up the members id and active components entry */
+	$bp->members->id = 'members';
+	$bp->members->slug = $bp->pages->members->slug;
+	$bp->active_components[$bp->members->slug] = $bp->members->id;
 
 	/* The user ID of the user who is currently logged in. */
 	$bp->loggedin_user->id = $current_user->ID;
@@ -132,10 +124,10 @@ function bp_core_setup_globals() {
 
 	/* The default component to use if none are set and someone visits: http://domain.com/members/andy */
 	if ( !defined( 'BP_DEFAULT_COMPONENT' ) ) {
-		if ( defined( 'BP_ACTIVITY_SLUG' ) )
-			$bp->default_component = BP_ACTIVITY_SLUG;
+		if ( isset( $bp->pages->activity ) )
+			$bp->default_component = $bp->pages->activity->name;
 		else
-			$bp->default_component = 'profile';
+			$bp->default_component = $bp->pages->profile->name;
 	} else {
 		$bp->default_component = BP_DEFAULT_COMPONENT;
 	}
@@ -148,9 +140,6 @@ function bp_core_setup_globals() {
 
 	/* Sets up the array container for the component options navigation rendered by bp_get_options_nav() */
 	$bp->bp_options_nav = array();
-
-	/* Contains an array of all the active components. The key is the slug, value the internal ID of the component */
-	$bp->active_components = array();
 
 	/* Fetches the default Gravatar image to use if the user/group/blog has no avatar or gravatar */
 	$bp->grav_default->user = apply_filters( 'bp_user_gravatar_default', $bp->site_options['user-avatar-default'] );
@@ -180,96 +169,81 @@ function bp_core_setup_globals() {
 add_action( 'bp_setup_globals', 'bp_core_setup_globals' );
 
 /**
- * bp_core_setup_root_uris()
+ * bp_core_define_slugs()
  *
- * Adds the core URIs that should run in the root of the installation.
+ * Define the slugs used for BuddyPress pages, based on the slugs of the WP pages used.
+ * These can be overridden manually by defining these slugs in wp-config.php.
  *
- * For example: http://example.org/search/ or http://example.org/members/
- *
- * @package BuddyPress Core
- * @uses bp_core_add_root_component() Adds a slug to the root components global variable.
- */
-function bp_core_setup_root_uris() {
-	/* Add core root components */
-	bp_core_add_root_component( BP_MEMBERS_SLUG );
-	bp_core_add_root_component( BP_REGISTER_SLUG );
-	bp_core_add_root_component( BP_ACTIVATION_SLUG );
-	bp_core_add_root_component( BP_SEARCH_SLUG );
-}
-add_action( 'plugins_loaded', 'bp_core_setup_root_uris', 2 );
-
-
-/**
- * bp_core_install()
- *
- * Installs the core DB tables for BuddyPress.
- *
- * @package BuddyPress Core
+ * @package BuddyPress Core Core
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @global $wpdb WordPress DB access object.
- * @uses dbDelta() Performs a table creation, or upgrade based on what already exists in the DB.
- * @uses bp_core_add_illegal_names() Adds illegal blog names to the WP settings
  */
-function bp_core_install() {
-	global $wpdb, $bp;
+function bp_core_define_slugs() {
+	global $bp;
 
-	if ( !empty($wpdb->charset) )
-		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+	if ( !defined( 'BP_MEMBERS_SLUG' ) )
+		define( 'BP_MEMBERS_SLUG', $bp->pages->members->slug );
 
-	$sql[] = "CREATE TABLE {$bp->core->table_name_notifications} (
-		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				user_id bigint(20) NOT NULL,
-				item_id bigint(20) NOT NULL,
-				secondary_item_id bigint(20),
-		  		component_name varchar(75) NOT NULL,
-				component_action varchar(75) NOT NULL,
-		  		date_notified datetime NOT NULL,
-				is_new bool NOT NULL DEFAULT 0,
-			    KEY item_id (item_id),
-				KEY secondary_item_id (secondary_item_id),
-				KEY user_id (user_id),
-				KEY is_new (is_new),
-				KEY component_name (component_name),
-		 	   	KEY component_action (component_action),
-				KEY useritem (user_id,is_new)
-			   ) {$charset_collate};";
+	if ( !defined( 'BP_REGISTER_SLUG' ) )
+		define( 'BP_REGISTER_SLUG', $bp->pages->register->slug );
 
-	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
-	dbDelta( $sql );
+	if ( !defined( 'BP_ACTIVATION_SLUG' ) )
+		define( 'BP_ACTIVATION_SLUG', $bp->pages->activate->slug );
+}
+add_action( 'bp_setup_globals', 'bp_core_define_slugs' );
 
-	/* Add names of root components to the banned blog list to avoid conflicts */
-	if ( bp_core_is_multisite() )
-		bp_core_add_illegal_names();
+function bp_core_get_page_names() {
+	global $wpdb;
 
-	update_site_option( 'bp-core-db-version', BP_CORE_DB_VERSION );
+	$page_ids = get_site_option( 'bp-pages' );
+
+	if ( empty( $page_ids ) )
+		return false;
+
+	$page_ids_sql = implode( ',', (array)$page_ids );
+	$page_names = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM {$wpdb->posts} WHERE ID IN ({$page_ids_sql}) " ) );
+	$pages = new stdClass;
+
+	foreach ( (array)$page_ids as $key => $page_id ) {
+		foreach ( (array)$page_names as $page_name ) {
+			if ( $page_name->ID == $page_id ) {
+				$pages->{$key}->name = $page_name->post_name;
+				$pages->{$key}->id = $page_name->ID;
+
+				$slug[] = $page_name->post_name;
+
+				/* Get the slug */
+				while ( $page_name->post_parent != 0 ) {
+					$parent = $wpdb->get_results( $wpdb->prepare( "SELECT post_name, post_parent FROM {$wpdb->posts} WHERE ID = %d", $page_name->post_parent ) );
+					$slug[] = $parent[0]->post_name;
+					$page_name->post_parent = $parent[0]->post_parent;
+				}
+
+				$pages->{$key}->slug = implode( '/', array_reverse( (array)$slug ) );
+			}
+
+			unset( $slug );
+		}
+	}
+
+
+	return apply_filters( 'bp_core_get_page_names', $pages );
 }
 
 /**
- * bp_core_check_installed()
+ * bp_core_admin_menu_init()
  *
- * Checks to make sure the database tables are set up for the core component.
+ * Initializes the wp-admin area "BuddyPress" menus and sub menus.
  *
  * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @global $wpdb WordPress DB access object.
- * @global $current_user WordPress global variable containing current logged in user information
  * @uses is_site_admin() returns true if the current user is a site admin, false if not
- * @uses get_site_option() fetches the value for a meta_key in the wp_sitemeta table
- * @uses bp_core_install() runs the installation of DB tables for the core component
  */
-function bp_core_check_installed() {
-	global $wpdb, $bp;
-
+function bp_core_admin_menu_init() {
 	if ( !is_site_admin() )
 		return false;
 
-	require ( BP_PLUGIN_DIR . '/bp-core/bp-core-admin.php' );
-
-	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( get_site_option( 'bp-core-db-version' ) < BP_CORE_DB_VERSION )
-		bp_core_install();
+	require ( BP_PLUGIN_DIR . '/bp-core/admin/bp-core-admin.php' );
 }
-add_action( 'admin_menu', 'bp_core_check_installed' );
+add_action( 'admin_menu', 'bp_core_admin_menu_init' );
 
 /**
  * bp_core_add_admin_menu()
@@ -287,33 +261,22 @@ function bp_core_add_admin_menu() {
 		return false;
 
 	/* Add the administration tab under the "Site Admin" tab for site administrators */
-	bp_core_add_admin_menu_page( array(
+	$hook = bp_core_add_admin_menu_page( array(
 		'menu_title' => __( 'BuddyPress', 'buddypress' ),
 		'page_title' => __( 'BuddyPress', 'buddypress' ),
 		'access_level' => 10, 'file' => 'bp-general-settings',
-		'function' => 'bp_core_admin_settings',
+		'function' => 'bp_core_admin_dashboard',
 		'position' => 2
 	) );
 
-	add_submenu_page( 'bp-general-settings', __( 'General Settings', 'buddypress'), __( 'General Settings', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_settings' );
-	add_submenu_page( 'bp-general-settings', __( 'Component Setup', 'buddypress'), __( 'Component Setup', 'buddypress' ), 'manage_options', 'bp-component-setup', 'bp_core_admin_component_setup' );
+	add_submenu_page( 'bp-general-settings', __( 'BuddyPress Dashboard', 'buddypress' ), __( 'Dashboard', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_dashboard' );
+	add_submenu_page( 'bp-general-settings', __( 'Settings', 'buddypress' ), __( 'Settings', 'buddypress' ), 'manage_options', 'bp-settings', 'bp_core_admin_settings' );
+
+	/* Add a hook for css/js */
+	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
 }
 add_action( 'admin_menu', 'bp_core_add_admin_menu' );
 
-/**
- * bp_core_is_root_component()
- *
- * Checks to see if a component's URL should be in the root, not under a member page:
- * eg: http://domain.com/groups/the-group NOT http://domain.com/members/andy/groups/the-group
- *
- * @package BuddyPress Core
- * @return true if root component, else false.
- */
-function bp_core_is_root_component( $component_name ) {
-	global $bp;
-
-	return in_array( $component_name, $bp->root_components );
-}
 
 /**
  * bp_core_setup_nav()
@@ -394,7 +357,7 @@ add_action( 'bp_setup_nav', 'bp_core_setup_nav' );
 function bp_core_action_directory_members() {
 	global $bp;
 
-	if ( is_null( $bp->displayed_user->id ) && $bp->current_component == BP_MEMBERS_SLUG ) {
+	if ( is_null( $bp->displayed_user->id ) && $bp->current_component == $bp->members->slug ) {
 		$bp->is_directory = true;
 
 		do_action( 'bp_core_action_directory_members' );
@@ -506,7 +469,6 @@ function bp_core_action_delete_user() {
 }
 add_action( 'wp', 'bp_core_action_delete_user', 3 );
 
-
 /********************************************************************************
  * Business Functions
  *
@@ -563,7 +525,7 @@ function bp_core_get_user_domain( $user_id, $user_nicename = false, $user_login 
 
 		/* If we are using a members slug, include it. */
 		if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) )
-			$domain = $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/' . $username . '/';
+			$domain = $bp->root_domain . '/' . $bp->members->slug . '/' . $username . '/';
 		else
 			$domain = $bp->root_domain . '/' . $username . '/';
 
@@ -688,7 +650,7 @@ function bp_core_new_nav_item( $args = '' ) {
  	 * If we are not viewing a user, and this is a root component, don't attach the
  	 * default subnav function so we can display a directory or something else.
  	 */
-	if ( bp_core_is_root_component( $slug ) && !$bp->displayed_user->id )
+	if ( !$bp->displayed_user->id )
 		return;
 
 	if ( $bp->current_component == $slug && !$bp->current_action ) {
@@ -915,52 +877,6 @@ function bp_core_reset_subnav_items($parent_slug) {
 	unset($bp->bp_options_nav[$parent_slug]);
 }
 
-/**
- * bp_core_load_template()
- *
- * Uses the bp_catch_uri function to load a specific template file with fallback support.
- *
- * Example:
- *   bp_core_load_template( 'profile/edit-profile' );
- * Loads:
- *   wp-content/themes/[activated_theme]/profile/edit-profile.php
- *
- * @package BuddyPress Core
- * @param $username str Username to check.
- * @global $wpdb WordPress DB access object.
- * @return false on no match
- * @return int the user ID of the matched user.
- */
-function bp_core_load_template( $template, $skip_blog_check = false ) {
-	return bp_catch_uri( $template, $skip_blog_check );
-}
-
-/**
- * bp_core_add_root_component()
- *
- * Adds a component to the $bp->root_components global.
- * Any component that runs in the "root" of an install should be added.
- * The "root" as in, it can or always runs outside of the /members/username/ path.
- *
- * Example of a root component:
- *  Groups: http://domain.com/groups/group-name
- *          http://community.domain.com/groups/group-name
- *          http://domain.com/wpmu/groups/group-name
- *
- * Example of a component that is NOT a root component:
- *  Friends: http://domain.com/members/andy/friends
- *           http://community.domain.com/members/andy/friends
- *           http://domain.com/wpmu/members/andy/friends
- *
- * @package BuddyPress Core
- * @param $slug str The slug of the component
- * @global $bp BuddyPress global settings
- */
-function bp_core_add_root_component( $slug ) {
-	global $bp;
-
-	$bp->root_components[] = $slug;
-}
 
 /**
  * bp_core_get_random_member()
@@ -1000,6 +916,27 @@ function bp_core_get_userid( $username ) {
 	if ( !empty( $username ) )
 		return apply_filters( 'bp_core_get_userid', $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $username ) ) );
 }
+
+/**
+ * bp_core_get_userid_from_nicename()
+ *
+ * Returns the user_id for a user based on their user_nicename.
+ *
+ * @package BuddyPress Core
+ * @param $username str Username to check.
+ * @global $wpdb WordPress DB access object.
+ * @return false on no match
+ * @return int the user ID of the matched user.
+ */
+function bp_core_get_userid_from_nicename( $user_nicename ) {
+	global $wpdb;
+
+	if ( empty( $user_nicename ) )
+		return false;
+
+	return apply_filters( 'bp_core_get_userid_from_nicename', $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_nicename = %s", $user_nicename ) ) );
+}
+
 
 /**
  * bp_core_get_username()
@@ -1717,7 +1654,7 @@ function bp_core_action_search_site( $slug = false ) {
 		if ( !$slug || empty( $slug ) ) {
 			switch ( $search_which ) {
 				case 'members': default:
-					$slug = BP_MEMBERS_SLUG;
+					$slug = $bp->members->slug;
 					$var = '/?s=';
 					break;
 				case 'groups':
@@ -2038,5 +1975,68 @@ add_action( 'bp_core_render_notice', 'bp_core_clear_cache' );
 
 // Remove the catch non existent blogs hook so WPMU doesn't think BuddyPress pages are non existing blogs
 remove_action( 'plugins_loaded', 'catch_nonexistant_blogs' );
+
+
+/* DEPRECATED FUNCTIONS ****/
+
+/**
+ * bp_core_add_root_component()
+ *
+ * This function originally let plugins add support for pages in the root of the install.
+ * These pages are now handled by actual WordPress pages so this function is deprecated.
+ * It now simply facilitates backwards compatibility by adding a WP page if the plugin has not been
+ * updated to do so.
+ *
+ * @package BuddyPress Core
+ * @param $slug str The slug of the component
+ * @global $bp BuddyPress global settings
+ */
+function bp_core_add_root_component( $slug ) {
+	global $bp, $bp_pages;
+
+	if ( empty( $bp_pages ) )
+		$bp_pages = bp_core_get_page_names();
+
+	$match = false;
+
+	/* Check if the slug is registered in the $bp->pages global */
+	foreach ( (array)$bp_pages as $key => $page ) {
+		if ( $key == $slug || $page->slug == $slug )
+			$match = true;
+	}
+
+	/* If there was no match, add a page for this root component */
+	if ( empty( $match ) ) {
+		$bp->add_root[] = $slug;
+		add_action( 'init', 'bp_core_create_root_component_page' );
+	}
+}
+
+function bp_core_create_root_component_page() {
+	global $bp;
+
+	$new_page_ids = array();
+
+	var_dump( $bp->add_root );
+
+	foreach ( (array)$bp->add_root as $slug )
+		$new_page_ids[$slug] = wp_insert_post( array( 'post_title' => ucwords( $slug ), 'post_status' => 'publish', 'post_type' => 'page' ) );
+
+	$page_ids = get_site_option( 'bp-pages' );
+	$page_ids = (array) $page_ids;
+	$page_ids = array_merge( (array) $new_page_ids, (array) $page_ids );
+	update_site_option( 'bp-pages', $page_ids );
+}
+
+function bp_core_is_root_component( $component_name ) {
+	global $bp;
+
+	foreach ( (array) $bp->pages as $key => $page ) {
+		if ( $key == $component_name || $page->slug == $component_name )
+			return true;
+	}
+
+	return false;
+}
 
 ?>

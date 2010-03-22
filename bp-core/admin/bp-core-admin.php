@@ -1,5 +1,25 @@
 <?php
 
+function bp_core_admin_dashboard() { ?>
+	<div class="wrap" id="bp-admin">
+
+		<div id="bp-admin-header">
+			<h3><?php _e( 'BuddyPress', 'buddypress' ) ?></h3>
+			<h4><?php _e( 'Dashboard', 'buddypress' ) ?></h4>
+		</div>
+
+		<?php do_action( 'bp_admin_notices' ) ?>
+
+		<form action="<?php echo site_url( '/wp-admin/admin.php?page=bp-general-settings' ) ?>" method="post" id="bp-admin-form">
+			<div id="bp-admin-content">
+				<p>[TODO: All sorts of awesome things will go here. Latest plugins and themes, stats, version check, support topics, news, tips]</p>
+			</div>
+		</form>
+
+	</div>
+<?php
+}
+
 function bp_core_admin_settings() {
 	global $wpdb, $bp, $current_blog;
 ?>
@@ -246,6 +266,12 @@ function bp_core_admin_component_setup() {
 	</div>
 
 <?php
+}
+
+function bp_core_add_admin_menu_styles() {
+	wp_enqueue_style( 'bp-admin-css', apply_filters( 'bp_core_admin_css', BP_PLUGIN_URL . '/bp-core/css/admin.css' ) );
+	wp_enqueue_script( 'thickbox' );
+	wp_enqueue_style( 'thickbox' );
 }
 
 ?>

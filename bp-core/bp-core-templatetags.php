@@ -906,12 +906,10 @@ function bp_get_page_title() {
 		$title = ucwords( $bp->current_component ) . ' &#124; ' . $bp->bp_options_title . ' &#124; ' . $bp->bp_options_nav[$bp->current_component][$bp->current_action]['name'];
 
 	} else if ( $bp->is_directory ) {
-		if ( !$bp->current_component )
-			$title = sprintf( __( '%s Directory', 'buddypress' ), ucwords( BP_MEMBERS_SLUG ) );
-		else
-			$title = sprintf( __( '%s Directory', 'buddypress' ), ucwords( $bp->current_component ) );
+		$title = get_the_title();
 
 	} else if ( bp_is_register_page() ) {
+
 		$title = __( 'Create an Account', 'buddypress' );
 
 	} else if ( bp_is_activation_page() ) {
@@ -1485,7 +1483,7 @@ function bp_is_member() {
 function bp_is_user_activity() {
 	global $bp;
 
-	if ( BP_ACTIVITY_SLUG == $bp->current_component )
+	if ( $bp->activity->name == $bp->current_component )
 		return true;
 
 	return false;
@@ -1494,7 +1492,7 @@ function bp_is_user_activity() {
 function bp_is_user_friends_activity() {
 	global $bp;
 
-	if ( BP_ACTIVITY_SLUG == $bp->current_component && 'my-friends' == $bp->current_action )
+	if ( $bp->activity->name == $bp->current_component && 'my-friends' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1539,7 +1537,7 @@ function bp_is_change_avatar() {
 function bp_is_user_groups() {
 	global $bp;
 
-	if ( BP_GROUPS_SLUG == $bp->current_component )
+	if ( $bp->groups->name == $bp->current_component )
 		return true;
 
 	return false;
@@ -1666,7 +1664,7 @@ function bp_is_group_single() {
 function bp_is_user_blogs() {
 	global $bp;
 
-	if ( BP_BLOGS_SLUG == $bp->current_component )
+	if ( $bp->blogs->name == $bp->current_component )
 		return true;
 
 	return false;
@@ -1675,7 +1673,7 @@ function bp_is_user_blogs() {
 function bp_is_user_recent_posts() {
 	global $bp;
 
-	if ( BP_BLOGS_SLUG == $bp->current_component && 'recent-posts' == $bp->current_action )
+	if ( $bp->blogs->name == $bp->current_component && 'recent-posts' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1684,7 +1682,7 @@ function bp_is_user_recent_posts() {
 function bp_is_user_recent_commments() {
 	global $bp;
 
-	if ( BP_BLOGS_SLUG == $bp->current_component && 'recent-comments' == $bp->current_action )
+	if ( $bp->blogs->name == $bp->current_component && 'recent-comments' == $bp->current_action )
 		return true;
 
 	return false;

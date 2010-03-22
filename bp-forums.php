@@ -1,11 +1,7 @@
 <?php
-
 /* Define the parent forum ID */
 if ( !defined( 'BP_FORUMS_PARENT_FORUM_ID' ) )
 	define( 'BP_FORUMS_PARENT_FORUM_ID', 1 );
-
-if ( !defined( 'BP_FORUMS_SLUG' ) )
-	define( 'BP_FORUMS_SLUG', 'forums' );
 
 if ( !defined( 'BB_PATH' ) )
 	require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-bbpress.php' );
@@ -16,12 +12,16 @@ require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-filters.php' );
 function bp_forums_setup() {
 	global $bp;
 
+	if ( !defined( 'BP_FORUMS_SLUG' ) )
+		define ( 'BP_FORUMS_SLUG', $bp->pages->forums->slug );
+
 	/* For internal identification */
 	$bp->forums->id = 'forums';
+	$bp->forums->name = $bp->pages->forums->name;
+	$bp->forums->slug = BP_FORUMS_SLUG;
 
 	$bp->forums->image_base = BP_PLUGIN_URL . '/bp-forums/images';
 	$bp->forums->bbconfig = $bp->site_options['bb-config-location'];
-	$bp->forums->slug = BP_FORUMS_SLUG;
 
 	/* Register this in the active components array */
 	$bp->active_components[$bp->forums->slug] = $bp->forums->id;
@@ -39,17 +39,11 @@ function bp_forums_is_installed_correctly() {
 	return false;
 }
 
-function bp_forums_setup_root_component() {
-	/* Register 'forums' as a root component */
-	bp_core_add_root_component( BP_FORUMS_SLUG );
-}
-add_action( 'bp_setup_root_components', 'bp_forums_setup_root_component' );
-
 function bp_forums_directory_forums_setup() {
 	global $bp;
 
 	if ( $bp->current_component == $bp->forums->slug ) {
-		if ( (int) $bp->site_options['bp-disable-forum-directory'] || !function_exists( 'groups_install' ) )
+		if ( (int) $bp->site_options['bp-disable-forum-directory'] || !bp_is_active( 'groups' ) )
 			return false;
 
 		if ( !bp_forums_is_installed_correctly() ) {

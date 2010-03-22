@@ -1,6 +1,29 @@
 <?php
 
 /**
+ * bp_core_exclude_pages()
+ *
+ * Excludes specific pages from showing on page listings, for example the "Activation" page.
+ *
+ * @package BuddyPress Core
+ * @uses bp_is_active() checks if a BuddyPress component is active.
+ * @return array The list of page ID's to exclude
+ */
+function bp_core_exclude_pages( $pages ) {
+	global $bp;
+
+	$pages = explode( ',', $pages );
+	$pages[] = $bp->pages->activate->id;
+	$pages[] = $bp->pages->register->id;
+
+	if ( !bp_is_active( 'forums' ) || ( function_exists( 'bp_forums_is_installed_correctly' ) && !bp_forums_is_installed_correctly() ) )
+		$pages[] = $bp->pages->forums->id;
+
+	return apply_filters( 'bp_core_exclude_pages', $pages );
+}
+add_filter( 'wp_list_pages_excludes', 'bp_core_exclude_pages' );
+
+/**
  * bp_core_email_from_name_filter()
  *
  * Sets the "From" name in emails sent to the name of the site and not "WordPress"

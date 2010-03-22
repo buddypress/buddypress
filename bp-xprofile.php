@@ -1,97 +1,9 @@
 <?php
-define ( 'BP_XPROFILE_DB_VERSION', '1950' );
-
-/* Define the slug for the component */
-if ( !defined( 'BP_XPROFILE_SLUG' ) )
-	define ( 'BP_XPROFILE_SLUG', 'profile' );
-
 require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-admin.php' );
 require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-classes.php' );
 require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-filters.php' );
 require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-cssjs.php' );
-
-/**
- * xprofile_install()
- *
- * Set up the database tables needed for the xprofile component.
- *
- * @package BuddyPress XProfile
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @uses dbDelta() Takes SQL statements and compares them to any existing tables and creates/updates them.
- * @uses add_site_option() adds a value for a meta_key into the wp_sitemeta table
- */
-function xprofile_install() {
-	global $bp, $wpdb;
-
-	if ( !empty($wpdb->charset) )
-		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-
-	if ( empty( $bp->site_options['bp-xprofile-base-group-name'] ) )
-		update_site_option( 'bp-xprofile-base-group-name', 'Base' );
-
-	if ( empty( $bp->site_options['bp-xprofile-fullname-field-name'] ) )
-		update_site_option( 'bp-xprofile-fullname-field-name', 'Name' );
-
-	$sql[] = "CREATE TABLE {$bp->profile->table_name_groups} (
-			  id bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			  name varchar(150) NOT NULL,
-			  description mediumtext NOT NULL,
-			  group_order bigint(20) NOT NULL DEFAULT '0',
-			  can_delete tinyint(1) NOT NULL,
-			  KEY can_delete (can_delete)
-	) {$charset_collate};";
-
-	$sql[] = "CREATE TABLE {$bp->profile->table_name_fields} (
-			  id bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			  group_id bigint(20) unsigned NOT NULL,
-			  parent_id bigint(20) unsigned NOT NULL,
-			  type varchar(150) NOT NULL,
-			  name varchar(150) NOT NULL,
-			  description longtext NOT NULL,
-			  is_required tinyint(1) NOT NULL DEFAULT '0',
-			  is_default_option tinyint(1) NOT NULL DEFAULT '0',
-			  field_order bigint(20) NOT NULL DEFAULT '0',
-			  option_order bigint(20) NOT NULL DEFAULT '0',
-			  order_by varchar(15) NOT NULL,
-			  can_delete tinyint(1) NOT NULL DEFAULT '1',
-			  KEY group_id (group_id),
-			  KEY parent_id (parent_id),
-			  KEY field_order (field_order),
-			  KEY can_delete (can_delete),
-			  KEY is_required (is_required)
-	) {$charset_collate};";
-
-	$sql[] = "CREATE TABLE {$bp->profile->table_name_data} (
-			  id bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			  field_id bigint(20) unsigned NOT NULL,
-			  user_id bigint(20) unsigned NOT NULL,
-			  value longtext NOT NULL,
-			  last_updated datetime NOT NULL,
-			  KEY field_id (field_id),
-			  KEY user_id (user_id)
-	) {$charset_collate};";
-
-	if ( '' == get_site_option( 'bp-xprofile-db-version' ) ) {
-		if ( !$wpdb->get_var( "SELECT id FROM {$bp->profile->table_name_groups} WHERE id = 1" ) )
-			$sql[] = "INSERT INTO {$bp->profile->table_name_groups} VALUES ( 1, '" . get_site_option( 'bp-xprofile-base-group-name' ) . "', '', 0 );";
-
-		if ( !$wpdb->get_var( "SELECT id FROM {$bp->profile->table_name_fields} WHERE id = 1" ) ) {
-			$sql[] = "INSERT INTO {$bp->profile->table_name_fields} (
-						id, group_id, parent_id, type, name, is_required, can_delete
-					  ) VALUES (
-						1, 1, 0, 'textbox', '" . get_site_option( 'bp-xprofile-fullname-field-name' ) . "', 1, 0
-					  );";
-		}
-	}
-
-	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
-	dbDelta( $sql );
-
-	do_action( 'xprofile_install' );
-
-	update_site_option( 'bp-xprofile-db-version', BP_XPROFILE_DB_VERSION );
-}
 
 /**
  * xprofile_setup_globals()
@@ -105,6 +17,9 @@ function xprofile_install() {
  */
 function xprofile_setup_globals() {
 	global $bp, $wpdb;
+
+	if ( !defined( 'BP_XPROFILE_SLUG' ) )
+		define ( 'BP_XPROFILE_SLUG', 'profile' );
 
 	/* Assign the base group and fullname field names to constants to use in SQL statements */
 	define ( 'BP_XPROFILE_BASE_GROUP_NAME', $bp->site_options['bp-xprofile-base-group-name'] );
@@ -154,10 +69,6 @@ function xprofile_add_admin_menu() {
 
 	/* Add the administration tab under the "Site Admin" tab for site administrators */
 	add_submenu_page( 'bp-general-settings', __( 'Profile Field Setup', 'buddypress' ), __( 'Profile Field Setup', 'buddypress' ), 'manage_options', 'bp-profile-setup', 'xprofile_admin' );
-
-	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( get_site_option( 'bp-xprofile-db-version' ) < BP_XPROFILE_DB_VERSION )
-		xprofile_install();
 }
 add_action( 'admin_menu', 'xprofile_add_admin_menu' );
 

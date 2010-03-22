@@ -1,86 +1,21 @@
 <?php
-
-define ( 'BP_ACTIVITY_DB_VERSION', '2100' );
-
-/* Define the slug for the component */
-if ( !defined( 'BP_ACTIVITY_SLUG' ) )
-	define ( 'BP_ACTIVITY_SLUG', 'activity' );
-
 require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-classes.php' );
 require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-filters.php' );
 
-function bp_activity_install() {
-	global $wpdb, $bp;
-
-	if ( !empty($wpdb->charset) )
-		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-
-	/* Rename the old user activity cached table if needed. */
-	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$wpdb->base_prefix}bp_activity_user_activity_cached%'" ) )
-		$wpdb->query( "RENAME TABLE {$wpdb->base_prefix}bp_activity_user_activity_cached TO {$bp->activity->table_name}" );
-
-	/* Rename fields from pre BP 1.2 */
-	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->activity->table_name}%'" ) ) {
-		if ( $wpdb->get_var( "SHOW COLUMNS FROM {$bp->activity->table_name} LIKE 'component_action'" ) )
-			$wpdb->query( "ALTER TABLE {$bp->activity->table_name} CHANGE component_action type varchar(75) NOT NULL" );
-
-		if ( $wpdb->get_var( "SHOW COLUMNS FROM {$bp->activity->table_name} LIKE 'component_name'" ) )
-			$wpdb->query( "ALTER TABLE {$bp->activity->table_name} CHANGE component_name component varchar(75) NOT NULL" );
-	}
-
-	/**
-	 * Build the tables
-	 */
-	$sql[] = "CREATE TABLE {$bp->activity->table_name} (
-		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				user_id bigint(20) NOT NULL,
-				component varchar(75) NOT NULL,
-				type varchar(75) NOT NULL,
-				action text NOT NULL,
-				content longtext NOT NULL,
-				primary_link varchar(150) NOT NULL,
-				item_id varchar(75) NOT NULL,
-				secondary_item_id varchar(75) DEFAULT NULL,
-				date_recorded datetime NOT NULL,
-				hide_sitewide bool DEFAULT 0,
-				mptt_left int(11) NOT NULL DEFAULT 0,
-				mptt_right int(11) NOT NULL DEFAULT 0,
-				KEY date_recorded (date_recorded),
-				KEY user_id (user_id),
-				KEY item_id (item_id),
-				KEY secondary_item_id (secondary_item_id),
-				KEY component (component),
-				KEY type (type),
-				KEY mptt_left (mptt_left),
-				KEY mptt_right (mptt_right),
-				KEY hide_sitewide (hide_sitewide)
-		 	   ) {$charset_collate};";
-
-	$sql[] = "CREATE TABLE {$bp->activity->table_name_meta} (
-				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				activity_id bigint(20) NOT NULL,
-				meta_key varchar(255) DEFAULT NULL,
-				meta_value longtext DEFAULT NULL,
-				KEY activity_id (activity_id),
-				KEY meta_key (meta_key)
-		   	   ) {$charset_collate};";
-
-	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
-	dbDelta($sql);
-
-	update_site_option( 'bp-activity-db-version', BP_ACTIVITY_DB_VERSION );
-}
-
 function bp_activity_setup_globals() {
 	global $bp, $wpdb, $current_blog;
 
-	/* Internal identifier */
+	if ( !defined( 'BP_ACTIVITY_SLUG' ) )
+		define ( 'BP_ACTIVITY_SLUG', $bp->pages->activity->slug );
+
+	/* For internal identification */
 	$bp->activity->id = 'activity';
+	$bp->activity->name = $bp->pages->activity->name;
+	$bp->activity->slug = BP_ACTIVITY_SLUG;
 
 	$bp->activity->table_name = $wpdb->base_prefix . 'bp_activity';
 	$bp->activity->table_name_meta = $wpdb->base_prefix . 'bp_activity_meta';
-	$bp->activity->slug = BP_ACTIVITY_SLUG;
 	$bp->activity->format_notification_function = 'bp_activity_format_notifications';
 
 	/* Register this in the active components array */
@@ -90,41 +25,27 @@ function bp_activity_setup_globals() {
 }
 add_action( 'bp_setup_globals', 'bp_activity_setup_globals' );
 
-function bp_activity_check_installed() {
-	global $wpdb, $bp;
-
-	if ( get_site_option( 'bp-activity-db-version' ) < BP_ACTIVITY_DB_VERSION )
-		bp_activity_install();
-}
-add_action( 'admin_menu', 'bp_activity_check_installed' );
-
-function bp_activity_setup_root_component() {
-	/* Register 'activity' as a root component (for RSS feed use) */
-	bp_core_add_root_component( BP_ACTIVITY_SLUG );
-}
-add_action( 'bp_setup_root_components', 'bp_activity_setup_root_component' );
-
 function bp_activity_setup_nav() {
 	global $bp;
 
 	/* Add 'Activity' to the main navigation */
-	bp_core_new_nav_item( array( 'name' => __( 'Activity', 'buddypress' ), 'slug' => $bp->activity->slug, 'position' => 10, 'screen_function' => 'bp_activity_screen_my_activity', 'default_subnav_slug' => 'just-me', 'item_css_id' => $bp->activity->id ) );
+	bp_core_new_nav_item( array( 'name' => __( 'Activity', 'buddypress' ), 'slug' => $bp->activity->name, 'position' => 10, 'screen_function' => 'bp_activity_screen_my_activity', 'default_subnav_slug' => 'just-me', 'item_css_id' => $bp->activity->id ) );
 
 	$user_domain = ( !empty( $bp->displayed_user->domain ) ) ? $bp->displayed_user->domain : $bp->loggedin_user->domain;
 	$user_login = ( !empty( $bp->displayed_user->userdata->user_login ) ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
-	$activity_link = $user_domain . $bp->activity->slug . '/';
+	$activity_link = $user_domain . $bp->activity->name . '/';
 
 	/* Add the subnav items to the activity nav item if we are using a theme that supports this */
-	bp_core_new_subnav_item( array( 'name' => __( 'Personal', 'buddypress' ), 'slug' => 'just-me', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_my_activity', 'position' => 10 ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Personal', 'buddypress' ), 'slug' => 'just-me', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->name, 'screen_function' => 'bp_activity_screen_my_activity', 'position' => 10 ) );
 
 	if ( bp_is_active( 'friends' ) )
-		bp_core_new_subnav_item( array( 'name' => __( 'Friends', 'buddypress' ), 'slug' => BP_FRIENDS_SLUG, 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_friends', 'position' => 20, 'item_css_id' => 'activity-friends' ) );
+		bp_core_new_subnav_item( array( 'name' => __( 'Friends', 'buddypress' ), 'slug' => BP_FRIENDS_SLUG, 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->name, 'screen_function' => 'bp_activity_screen_friends', 'position' => 20, 'item_css_id' => 'activity-friends' ) );
 
 	if ( bp_is_active( 'groups' ) )
-		bp_core_new_subnav_item( array( 'name' => __( 'Groups', 'buddypress' ), 'slug' => BP_GROUPS_SLUG, 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_groups', 'position' => 30, 'item_css_id' => 'activity-groups' ) );
+		bp_core_new_subnav_item( array( 'name' => __( 'Groups', 'buddypress' ), 'slug' => $bp->groups->name, 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->name, 'screen_function' => 'bp_activity_screen_groups', 'position' => 30, 'item_css_id' => 'activity-groups' ) );
 
-	bp_core_new_subnav_item( array( 'name' => __( 'Favorites', 'buddypress' ), 'slug' => 'favorites', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_favorites', 'position' => 40, 'item_css_id' => 'activity-favs' ) );
-	bp_core_new_subnav_item( array( 'name' => sprintf( __( '@%s Mentions', 'buddypress' ), $user_login ), 'slug' => 'mentions', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_mentions', 'position' => 50, 'item_css_id' => 'activity-mentions' ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Favorites', 'buddypress' ), 'slug' => 'favorites', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->name, 'screen_function' => 'bp_activity_screen_favorites', 'position' => 40, 'item_css_id' => 'activity-favs' ) );
+	bp_core_new_subnav_item( array( 'name' => sprintf( __( '@%s Mentions', 'buddypress' ), $user_login ), 'slug' => 'mentions', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->name, 'screen_function' => 'bp_activity_screen_mentions', 'position' => 50, 'item_css_id' => 'activity-mentions' ) );
 
 	if ( $bp->current_component == $bp->activity->slug ) {
 		if ( bp_is_my_profile() ) {
@@ -214,7 +135,7 @@ function bp_activity_screen_mentions() {
 function bp_activity_screen_single_activity_permalink() {
 	global $bp;
 
-	if ( !$bp->displayed_user->id || $bp->current_component != $bp->activity->slug )
+	if ( !$bp->displayed_user->id || $bp->current_component != $bp->activity->name )
 		return false;
 
 	if ( empty( $bp->current_action ) || !is_numeric( $bp->current_action ) )

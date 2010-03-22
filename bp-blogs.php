@@ -1,11 +1,4 @@
 <?php
-
-define ( 'BP_BLOGS_DB_VERSION', '2015' );
-
-/* Define the slug for the component */
-if ( !defined( 'BP_BLOGS_SLUG' ) )
-	define ( 'BP_BLOGS_SLUG', 'blogs' );
-
 require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-classes.php' );
 require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-templatetags.php' );
 
@@ -13,65 +6,20 @@ require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-templatetags.php' );
 if ( bp_core_is_multisite() )
 	require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-widgets.php' );
 
-function bp_blogs_install() {
-	global $wpdb, $bp;
-
-	if ( !empty($wpdb->charset) )
-		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-
-	$sql[] = "CREATE TABLE {$bp->blogs->table_name} (
-		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				user_id bigint(20) NOT NULL,
-				blog_id bigint(20) NOT NULL,
-				KEY user_id (user_id),
-				KEY blog_id (blog_id)
-			 ) {$charset_collate};";
-
-	$sql[] = "CREATE TABLE {$bp->blogs->table_name_blogmeta} (
-				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				blog_id bigint(20) NOT NULL,
-				meta_key varchar(255) DEFAULT NULL,
-				meta_value longtext DEFAULT NULL,
-				KEY blog_id (blog_id),
-				KEY meta_key (meta_key)
-		     ) {$charset_collate};";
-
-
-	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
-
-	dbDelta($sql);
-
-	// On first installation - record all existing blogs in the system.
-	if ( !(int)$bp->site_options['bp-blogs-first-install'] && bp_core_is_multisite() ) {
-		bp_blogs_record_existing_blogs();
-		add_site_option( 'bp-blogs-first-install', 1 );
-	}
-
-	update_site_option( 'bp-blogs-db-version', BP_BLOGS_DB_VERSION );
-}
-
-function bp_blogs_check_installed() {
-	global $wpdb, $bp, $userdata;
-
-	/* Only create the bp-blogs tables if this is a multisite install */
-	if ( is_site_admin() && bp_core_is_multisite() ) {
-		/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-		if ( get_site_option( 'bp-blogs-db-version' ) < BP_BLOGS_DB_VERSION )
-			bp_blogs_install();
-	}
-}
-add_action( 'admin_menu', 'bp_blogs_check_installed' );
-
 function bp_blogs_setup_globals() {
 	global $bp, $wpdb;
 
+	if ( !defined( 'BP_BLOGS_SLUG' ) )
+		define ( 'BP_BLOGS_SLUG', $bp->pages->blogs->slug );
+
 	/* For internal identification */
 	$bp->blogs->id = 'blogs';
+	$bp->blogs->name = $bp->pages->blogs->name;
+	$bp->blogs->slug = BP_BLOGS_SLUG;
 
 	$bp->blogs->table_name = $wpdb->base_prefix . 'bp_user_blogs';
 	$bp->blogs->table_name_blogmeta = $wpdb->base_prefix . 'bp_user_blogs_blogmeta';
 	$bp->blogs->format_notification_function = 'bp_blogs_format_notifications';
-	$bp->blogs->slug = BP_BLOGS_SLUG;
 
 	/* Register this in the active components array */
 	$bp->active_components[$bp->blogs->slug] = $bp->blogs->id;
@@ -79,12 +27,6 @@ function bp_blogs_setup_globals() {
 	do_action( 'bp_blogs_setup_globals' );
 }
 add_action( 'bp_setup_globals', 'bp_blogs_setup_globals' );
-
-function bp_blogs_setup_root_component() {
-	/* Register 'blogs' as a root component */
-	bp_core_add_root_component( BP_BLOGS_SLUG );
-}
-add_action( 'bp_setup_root_components', 'bp_blogs_setup_root_component' );
 
 /**
  * bp_blogs_setup_nav()
@@ -104,9 +46,9 @@ function bp_blogs_setup_nav() {
 		return false;
 
 	/* Add 'Blogs' to the main navigation */
-	bp_core_new_nav_item( array( 'name' => sprintf( __( 'Blogs <span>(%d)</span>', 'buddypress' ), bp_blogs_total_blogs_for_user() ), 'slug' => $bp->blogs->slug, 'position' => 30, 'screen_function' => 'bp_blogs_screen_my_blogs', 'default_subnav_slug' => 'my-blogs', 'item_css_id' => $bp->blogs->id ) );
+	bp_core_new_nav_item( array( 'name' => sprintf( __( 'Blogs <span>(%d)</span>', 'buddypress' ), bp_blogs_total_blogs_for_user() ), 'slug' => $bp->blogs->name, 'position' => 30, 'screen_function' => 'bp_blogs_screen_my_blogs', 'default_subnav_slug' => 'my-blogs', 'item_css_id' => $bp->blogs->id ) );
 
-	$blogs_link = $bp->loggedin_user->domain . $bp->blogs->slug . '/';
+	$blogs_link = $bp->loggedin_user->domain . $bp->blogs->name . '/';
 
 	/* Set up the component options navigation for Blog */
 	if ( 'blogs' == $bp->current_component ) {

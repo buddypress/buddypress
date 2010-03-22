@@ -54,6 +54,8 @@ function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
 }
 
 function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox' ) {
+	global $bp;
+
 	if ( 'datebox' == $field_type )
 		return $field_value;
 
@@ -73,7 +75,7 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 				if ( count( explode( ' ', $value ) ) > 5 )
 					$new_values[] = $value;
 				else
-					$new_values[] = '<a href="' . site_url( BP_MEMBERS_SLUG ) . '/?s=' . strip_tags( $value ) . '">' . $value . '</a>';
+					$new_values[] = '<a href="' . site_url( $bp->members->slug ) . '/?s=' . strip_tags( $value ) . '">' . $value . '</a>';
 			}
 		}
 

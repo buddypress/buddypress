@@ -1,72 +1,14 @@
 <?php
-
-define ( 'BP_MESSAGES_DB_VERSION', '2000' );
-
-/* Define the slug for the component */
-if ( !defined( 'BP_MESSAGES_SLUG' ) )
-	define ( 'BP_MESSAGES_SLUG', 'messages' );
-
 require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-classes.php' );
 require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-cssjs.php' );
 require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-filters.php' );
 
-function messages_install() {
-	global $wpdb, $bp;
-
-	if ( !empty($wpdb->charset) )
-		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-
-	$sql[] = "CREATE TABLE {$bp->messages->table_name_recipients} (
-		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-		  		user_id bigint(20) NOT NULL,
-		  		thread_id bigint(20) NOT NULL,
-		  		unread_count int(10) NOT NULL DEFAULT '0',
-				sender_only tinyint(1) NOT NULL DEFAULT '0',
-				is_deleted tinyint(1) NOT NULL DEFAULT '0',
-			    KEY user_id (user_id),
-			    KEY thread_id (thread_id),
-				KEY is_deleted (is_deleted),
-				KEY sender_only (sender_only),
-			    KEY unread_count (unread_count)
-		 	   ) {$charset_collate};";
-
-	$sql[] = "CREATE TABLE {$bp->messages->table_name_messages} (
-		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-		  		thread_id bigint(20) NOT NULL,
-		  		sender_id bigint(20) NOT NULL,
-		  		subject varchar(200) NOT NULL,
-		  		message longtext NOT NULL,
-		  		date_sent datetime NOT NULL,
-			    KEY sender_id (sender_id),
-			    KEY thread_id (thread_id)
-		 	   ) {$charset_collate};";
-
-	$sql[] = "CREATE TABLE {$bp->messages->table_name_notices} (
-		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-		  		subject varchar(200) NOT NULL,
-		  		message longtext NOT NULL,
-		  		date_sent datetime NOT NULL,
-				is_active tinyint(1) NOT NULL DEFAULT '0',
-			    KEY is_active (is_active)
-		 	   ) {$charset_collate};";
-
-	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
-	dbDelta($sql);
-
-	/* Upgrade and remove the message threads table if it exists */
-	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$wpdb->base_prefix}bp_messages_threads%'" ) ) {
-		$upgrade = BP_Messages_Thread::upgrade_tables();
-
-		if ( $upgrade )
-			$wpdb->query( "DROP TABLE {$wpdb->base_prefix}bp_messages_threads" );
-	}
-
-	add_site_option( 'bp-messages-db-version', BP_MESSAGES_DB_VERSION );
-}
-
 function messages_setup_globals() {
 	global $bp, $wpdb;
+
+	if ( !defined( 'BP_MESSAGES_SLUG' ) )
+		define ( 'BP_MESSAGES_SLUG', 'messages' );
 
 	/* For internal identification */
 	$bp->messages->id = 'messages';
@@ -83,18 +25,6 @@ function messages_setup_globals() {
 	do_action( 'messages_setup_globals' );
 }
 add_action( 'bp_setup_globals', 'messages_setup_globals' );
-
-function messages_check_installed() {
-	global $wpdb, $bp;
-
-	if ( !is_site_admin() )
-		return false;
-
-	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( get_site_option( 'bp-messages-db-version' ) < BP_MESSAGES_DB_VERSION )
-		messages_install();
-}
-add_action( 'admin_menu', 'messages_check_installed' );
 
 function messages_setup_nav() {
 	global $bp;

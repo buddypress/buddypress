@@ -245,7 +245,7 @@ add_action( 'wp', 'bp_core_screen_activation', 3 );
  */
 
 function bp_core_validate_user_signup( $user_name, $user_email ) {
-	global $wpdb;
+	global $wpdb, $bp;
 
 	$errors = new WP_Error();
 	$user_email = sanitize_email( $user_email );
@@ -257,7 +257,7 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 	preg_match( "/[a-z0-9]+/", $user_name, $maybe );
 
 	$db_illegal_names = get_site_option( 'illegal_names' );
-	$filtered_illegal_names = apply_filters( 'bp_core_illegal_usernames', array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', BP_GROUPS_SLUG, BP_MEMBERS_SLUG, BP_FORUMS_SLUG, BP_BLOGS_SLUG, BP_REGISTER_SLUG, BP_ACTIVATION_SLUG ) );
+	$filtered_illegal_names = apply_filters( 'bp_core_illegal_usernames', array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', BP_GROUPS_SLUG, $bp->members->slug, BP_FORUMS_SLUG, BP_BLOGS_SLUG, BP_REGISTER_SLUG, BP_ACTIVATION_SLUG ) );
 
 	$illegal_names = array_merge( (array)$db_illegal_names, (array)$filtered_illegal_names );
 	update_site_option( 'illegal_names', $illegal_names );
@@ -361,7 +361,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 	if ( !bp_core_is_multisite() ) {
 		$activation_key = wp_hash( $user_id );
 		update_usermeta( $user_id, 'activation_key', $activation_key );
-		bp_core_signup_send_validation_email( $user_id, $activation_key );
+		bp_core_signup_send_validation_email( $user_id, $user_email, $activation_key );
 	}
 
 	do_action( 'bp_core_signup_user', $user_id, $user_login, $user_password, $user_email, $usermeta );
@@ -507,7 +507,7 @@ function bp_core_signup_avatar_upload_dir() {
 	return apply_filters( 'bp_core_signup_avatar_upload_dir', array( 'path' => $path, 'url' => $newurl, 'subdir' => $newsubdir, 'basedir' => $newbdir, 'baseurl' => $newburl, 'error' => false ) );
 }
 
-function bp_core_signup_send_validation_email( $user_id, $key ) {
+function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
 	$activate_url = bp_get_activation_page() ."?key=$key";
 	$activate_url = clean_url( $activate_url );
 	$admin_email = get_site_option( "admin_email" );

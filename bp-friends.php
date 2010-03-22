@@ -1,39 +1,12 @@
 <?php
-
-define ( 'BP_FRIENDS_DB_VERSION', '1800' );
-
-/* Define the slug for the component */
-if ( !defined( 'BP_FRIENDS_SLUG' ) )
-	define ( 'BP_FRIENDS_SLUG', 'friends' );
-
 require ( BP_PLUGIN_DIR . '/bp-friends/bp-friends-classes.php' );
 require ( BP_PLUGIN_DIR . '/bp-friends/bp-friends-templatetags.php' );
 
-function friends_install() {
-	global $wpdb, $bp;
-
-	if ( !empty($wpdb->charset) )
-		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-
-	$sql[] = "CREATE TABLE {$bp->friends->table_name} (
-		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-		  		initiator_user_id bigint(20) NOT NULL,
-		  		friend_user_id bigint(20) NOT NULL,
-		  		is_confirmed bool DEFAULT 0,
-				is_limited bool DEFAULT 0,
-		  		date_created datetime NOT NULL,
-			    KEY initiator_user_id (initiator_user_id),
-			    KEY friend_user_id (friend_user_id)
-		 	   ) {$charset_collate};";
-
-	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
-	dbDelta($sql);
-
-	update_site_option( 'bp-friends-db-version', BP_FRIENDS_DB_VERSION );
-}
-
 function friends_setup_globals() {
 	global $bp, $wpdb;
+
+	if ( !defined( 'BP_FRIENDS_SLUG' ) )
+		define( 'BP_FRIENDS_SLUG', 'friends' );
 
 	/* For internal identification */
 	$bp->friends->id = 'friends';
@@ -48,18 +21,6 @@ function friends_setup_globals() {
 	do_action( 'friends_setup_globals' );
 }
 add_action( 'bp_setup_globals', 'friends_setup_globals' );
-
-function friends_check_installed() {
-	global $wpdb, $bp;
-
-	if ( !is_site_admin() )
-		return false;
-
-	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
-	if ( get_site_option( 'bp-friends-db-version' ) < BP_FRIENDS_DB_VERSION )
-		friends_install();
-}
-add_action( 'admin_menu', 'friends_check_installed' );
 
 function friends_setup_nav() {
 	global $bp;

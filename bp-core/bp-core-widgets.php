@@ -31,9 +31,9 @@ class BP_Core_Members_Widget extends WP_Widget {
 		<?php if ( bp_has_members( 'user_id=0&type=newest&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
 			<div class="item-options" id="members-list-options">
 				<span class="ajax-loader" id="ajax-loader-members"></span>
-				<a href="<?php echo site_url() . '/' . BP_MEMBERS_SLUG ?>" id="newest-members" class="selected"><?php _e( 'Newest', 'buddypress' ) ?></a> |
-				<a href="<?php echo site_url() . '/' . BP_MEMBERS_SLUG ?>" id="recently-active-members"><?php _e( 'Active', 'buddypress' ) ?></a> |
-				<a href="<?php echo site_url() . '/' . BP_MEMBERS_SLUG ?>" id="popular-members"><?php _e( 'Popular', 'buddypress' ) ?></a>
+				<a href="<?php echo site_url() . '/' . $bp->members->slug ?>" id="newest-members" class="selected"><?php _e( 'Newest', 'buddypress' ) ?></a> |
+				<a href="<?php echo site_url() . '/' . $bp->members->slug ?>" id="recently-active-members"><?php _e( 'Active', 'buddypress' ) ?></a> |
+				<a href="<?php echo site_url() . '/' . $bp->members->slug ?>" id="popular-members"><?php _e( 'Popular', 'buddypress' ) ?></a>
 			</div>
 
 			<ul id="members-list" class="item-list">
