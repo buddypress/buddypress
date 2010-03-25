@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-03-19 14:11+0000\n"
+"POT-Creation-Date: 2010-03-25 14:11+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -382,7 +382,7 @@ msgstr ""
 msgid "%s wrote a new blog post: %s"
 msgstr ""
 
-#: bp-blogs.php:428
+#: bp-blogs.php:430
 #, php-format
 msgid "%s commented on the blog post %s"
 msgstr ""
@@ -646,13 +646,13 @@ msgstr ""
 msgid "not recently active"
 msgstr ""
 
-#: bp-core.php:1957
+#: bp-core.php:1959
 msgid ""
 "IMPORTANT: <a href=\"http://codex.buddypress.org/getting-started/upgrading-"
 "from-10x/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core.php:1986
+#: bp-core.php:1988
 #, php-format
 msgid ""
 "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update "
@@ -660,7 +660,7 @@ msgid ""
 "work."
 msgstr ""
 
-#: bp-core.php:1995
+#: bp-core.php:1997
 #, php-format
 msgid ""
 "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a "
