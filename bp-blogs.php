@@ -397,6 +397,8 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 	} else
 		bp_blogs_remove_post( $post_id, $blog_id );
 
+	bp_blogs_update_blogmeta( $blog_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
+
 	do_action( 'bp_blogs_new_blog_post', $post_id, $post, $user_id );
 }
 add_action( 'save_post', 'bp_blogs_record_post', 10, 2 );
@@ -440,6 +442,8 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 			'recorded_time' => $comment->comment_date_gmt
 		) );
 	}
+
+	bp_blogs_update_blogmeta( $blog_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
 
 	return $recorded_comment;
 }
