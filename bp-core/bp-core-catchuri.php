@@ -121,9 +121,9 @@ function bp_core_set_uri_globals() {
 
 			// We are within a member page, set up user id globals
 			if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
-				$displayed_user_id = bp_core_get_userid( $bp_uri[1] );
+				$displayed_user_id = bp_core_get_userid( $bp_uri[0] );
 			else
-				$displayed_user_id = bp_core_get_userid_from_nicename( $bp_uri[1] );
+				$displayed_user_id = bp_core_get_userid_from_nicename( $bp_uri[0] );
 
 			unset($bp_uri[0]);
 
