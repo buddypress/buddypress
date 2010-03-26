@@ -393,6 +393,8 @@ function bp_core_avatar_upload_path() {
 	else {
 		if ( !$path = get_option( 'upload_path' ) )
 			$path = WP_CONTENT_DIR . '/uploads';
+		else
+			$path = ABSPATH . $path;
 	}
 
 	return apply_filters( 'bp_core_avatar_upload_path', $path );
