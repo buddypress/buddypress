@@ -737,7 +737,7 @@ class BP_Core_Setup_Wizard {
 
 				if ( !empty($permalink_structure) )
 					$permalink_structure = preg_replace( '#/+#', '/', '/' . $_POST['permalink_structure'] );
-				if ( constant( 'VHOST' ) == 'no' && $permalink_structure != '' && $current_site->domain.$current_site->path == $current_blog->domain.$current_blog->path )
+				if ( ( defined( 'VHOST' ) && constant( 'VHOST' ) == 'no' ) && $permalink_structure != '' && $current_site->domain.$current_site->path == $current_blog->domain.$current_blog->path )
 					$permalink_structure = '/blog' . $permalink_structure;
 
 				$wp_rewrite->set_permalink_structure( $permalink_structure );
