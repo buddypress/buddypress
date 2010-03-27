@@ -904,7 +904,7 @@ function bp_core_install( $disabled = false ) {
 		bp_core_install_private_messaging();
 
 	/* Extended Profiles */
-	if ( empty( $disabled['bp-messages.php'] ) )
+	if ( empty( $disabled['bp-xprofile.php'] ) )
 		bp_core_install_extended_profiles();
 
 	/* Only install blog tables if this is a multisite installation */
