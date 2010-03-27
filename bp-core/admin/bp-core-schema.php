@@ -219,7 +219,7 @@ function bp_core_install_extended_profiles() {
 			    is_default_option tinyint(1) NOT NULL DEFAULT '0',
 			    field_order bigint(20) NOT NULL DEFAULT '0',
 			    option_order bigint(20) NOT NULL DEFAULT '0',
-			    order_by varchar(15) NOT NULL,
+			    order_by varchar(15) NOT NULL DEFAULT '',
 			    can_delete tinyint(1) NOT NULL DEFAULT '1',
 			    KEY group_id (group_id),
 			    KEY parent_id (parent_id),
@@ -247,7 +247,7 @@ function bp_core_install_extended_profiles() {
 		$insert_sql[] = "INSERT INTO {$wpdb->base_prefix}bp_xprofile_groups ( name, description, can_delete ) VALUES ( '" . get_site_option( 'bp-xprofile-base-group-name' ) . "', '', 0 );";
 
 	if ( !$wpdb->get_var( "SELECT id FROM {$wpdb->base_prefix}bp_xprofile_fields WHERE id = 1" ) )
-		$insert_sql[] = "INSERT INTO {$wpdb->base_prefix}bp_xprofile_fields ( group_id, parent_id, type, name, is_required, can_delete ) VALUES ( 1, 0, 'textbox', '" . get_site_option( 'bp-xprofile-fullname-field-name' ) . "', 1, 0 );";
+		$insert_sql[] = "INSERT INTO {$wpdb->base_prefix}bp_xprofile_fields ( group_id, parent_id, type, name, description, is_required, can_delete ) VALUES ( 1, 0, 'textbox', '" . get_site_option( 'bp-xprofile-fullname-field-name' ) . "', '', 1, 0 );";
 
 	dbDelta( $insert_sql );
 }
