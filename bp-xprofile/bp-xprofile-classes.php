@@ -5,14 +5,15 @@ Class BP_XProfile_Group {
 	var $name;
 	var $description;
 	var $can_delete;
+	var $group_order;
 	var $fields;
 
 	function bp_xprofile_group( $id = null ) {
 		global $bp, $wpdb;
 
-		if ( $id ) {
+		if ( $id )
 			$this->populate( $id );
-		}
+
 	}
 
 	function populate( $id ) {
@@ -23,17 +24,18 @@ Class BP_XProfile_Group {
 		if ( !$group = $wpdb->get_row( $sql ) )
 			return false;
 
-		$this->id = $group->id;
-		$this->name = $group->name;
-		$this->description = $group->description;
-		$this->can_delete = $group->can_delete;
+		$this->id			= $group->id;
+		$this->name			= $group->name;
+		$this->description	= $group->description;
+		$this->can_delete	= $group->can_delete;
+		$this->group_order	= $group->group_order;
 	}
 
 	function save() {
 		global $wpdb, $bp;
 
-		$this->name = apply_filters( 'xprofile_group_name_before_save', $this->name, $this->id );
-		$this->description = apply_filters( 'xprofile_group_description_before_save', $this->description, $this->id );
+		$this->name			= apply_filters( 'xprofile_group_name_before_save', $this->name, $this->id );
+		$this->description	= apply_filters( 'xprofile_group_description_before_save', $this->description, $this->id );
 
 		do_action( 'xprofile_group_before_save', $this );
 
@@ -42,7 +44,7 @@ Class BP_XProfile_Group {
 		else
 			$sql = $wpdb->prepare( "INSERT INTO {$bp->profile->table_name_groups} (name, description, can_delete) VALUES (%s, %s, 1)", $this->name, $this->description );
 
-		if ( !$wpdb->query($sql) )
+		if ( !$wpdb->query( $sql ) )
 			return false;
 
 		do_action( 'xprofile_group_after_save', $this );
@@ -120,9 +122,8 @@ Class BP_XProfile_Group {
 
 		if ( $fetch_field_data ) {
 			/* Fetch the field data for the user. */
-			foreach( (array)$fields as $field ) {
+			foreach( (array)$fields as $field )
 				$field_ids[] = $field->id;
-			}
 
 			$field_ids = implode( ',', (array) $field_ids );
 
@@ -171,44 +172,59 @@ Class BP_XProfile_Group {
 		return $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_groups} SET group_order = %d WHERE id = %d", $position, $field_group_id ) );
 	}
 
-	/* ADMIN AREA HTML. TODO: Get this out of here. */
+	/* ADMIN AREA HTML.
+	* TODO: Get this out of here and replace with standard loops
+	*/
 
 	function render_admin_form() {
 		global $message;
 
 		if ( !$this->id ) {
-			$title = __('Add New Field Group', 'buddypress');
-			$action = "admin.php?page=bp-profile-setup&amp;mode=add_group";
+			$title	= __( 'Add New Field Group', 'buddypress' );
+			$action	= "admin.php?page=bp-profile-setup&amp;mode=add_group";
+			$button	= __( 'Create Field Group', 'buddypress' );
 		} else {
-			$title = __('Edit Field Group', 'buddypress');
+			$title = __( 'Edit Field Group', 'buddypress' );
 			$action = "admin.php?page=bp-profile-setup&amp;mode=edit_group&amp;group_id=" . $this->id;
+			$button	= __( 'Save Changes', 'buddypress' );
 		}
 ?>
 		<div class="wrap">
-
+			<div class="icon32" id="icon-tools"><br></div>
 			<h2><?php echo $title; ?></h2>
-<?php
-				if ( $message != '' ) {
-					$type = ( 'error' == $type ) ? 'error' : 'updated';
-?>
+			<p><?php _e( 'Fields marked * are required', 'buddypress' ) ?></p>
 
+<?php if ( $message != '' ) :
+		$type = ( 'error' == $type ) ? 'error' : 'updated'; ?>
 				<div id="message" class="<?php echo $type; ?> fade">
 					<p><?php echo $message; ?></p>
 				</div>
-<?php } ?>
-
-			<form action="<?php echo attribute_escape( $action ); ?>" method="post">
-				<div id="titlediv">
-					<label for="group_name"><?php _e( "Field Group Name", 'buddypress') ?></label>
-					<div>
-						<input type="text" name="group_name" id="group_name" value="<?php echo attribute_escape( $this->name ); ?>" style="width:50%" />
+<?php endif; ?>
+			<div id="poststuff">
+				<form action="<?php echo attribute_escape( $action ); ?>" method="post">
+					<div id="titlediv">
+						<h3><label for="group_name"><?php _e( "Field Group Title", 'buddypress') ?> *</label></h3>
+						<div id="titlewrap">
+							<input type="text" name="group_name" id="title" value="<?php echo attribute_escape( $this->name ); ?>" style="width:50%" />
+						</div>
 					</div>
-				</div>
 
-				<p class="submit" style="text-align: left">
-					<input type="submit" name="saveGroup" value="<?php echo attribute_escape( $title ); ?> &rarr;" />
-				</p>
-			</form>
+<?php if ( '0' != $this->can_delete ) : ?>
+					<div id="titlediv">
+						<h3><label for="description"><?php _e( "Group Description", 'buddypress' ); ?></label></h3>
+						<div id="titlewrap">
+							<textarea name="group_description" id="group_description" rows="8" cols="60"><?php echo htmlspecialchars( $this->description ); ?></textarea>
+						</div>
+					</div>
+<?php endif; ?>
+
+					<p class="submit">
+						<input type="hidden" name="group_order" id="group_order" value="<?php echo attribute_escape( $this->group_order ); ?>" />
+						<input type="submit" name="save_group" value="<?php echo attribute_escape( $button ); ?>" class="button-primary"/>
+						<?php _e( 'or', 'buddypress' ); ?> <a href="admin.php?page=bp-profile-setup" class="deletion"><?php _e( 'Cancel', 'buddypress' ); ?></a>
+					</p>
+				</form>
+			</div>
 		</div>
 <?php
 	}
@@ -247,21 +263,21 @@ Class BP_XProfile_Field {
 		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_fields} WHERE id = %d", $id );
 
 		if ( $field = $wpdb->get_row( $sql ) ) {
-			$this->id = $field->id;
-			$this->group_id = $field->group_id;
-			$this->parent_id = $field->parent_id;
-			$this->type = $field->type;
-			$this->name = stripslashes($field->name);
-			$this->description = stripslashes($field->description);
-			$this->is_required = $field->is_required;
-			$this->can_delete = $field->can_delete;
-			$this->field_order = $field->field_order;
-			$this->option_order = $field->option_order;
-			$this->order_by = $field->order_by;
-			$this->is_default_option = $field->is_default_option;
+			$this->id					= $field->id;
+			$this->group_id				= $field->group_id;
+			$this->parent_id			= $field->parent_id;
+			$this->type					= $field->type;
+			$this->name					= stripslashes($field->name);
+			$this->description			= stripslashes($field->description);
+			$this->is_required			= $field->is_required;
+			$this->can_delete			= $field->can_delete;
+			$this->field_order			= $field->field_order;
+			$this->option_order			= $field->option_order;
+			$this->order_by				= $field->order_by;
+			$this->is_default_option	= $field->is_default_option;
 
 			if ( $get_data )
-				$this->data = $this->get_field_data( $user_id );
+				$this->data				= $this->get_field_data( $user_id );
 
 		}
 	}
@@ -290,14 +306,14 @@ Class BP_XProfile_Field {
 
 		$error = false;
 
-		$this->group_id = apply_filters( 'xprofile_field_group_id_before_save', $this->group_id, $this->id );
-		$this->parent_id = apply_filters( 'xprofile_field_parent_id_before_save', $this->parent_id, $this->id );
-		$this->type = apply_filters( 'xprofile_field_type_before_save', $this->type, $this->id );
-		$this->name = apply_filters( 'xprofile_field_name_before_save', $this->name, $this->id );
-		$this->description = apply_filters( 'xprofile_field_description_before_save', $this->description, $this->id );
-		$this->is_required = apply_filters( 'xprofile_field_is_required_before_save', $this->is_required, $this->id );
-		$this->order_by = apply_filters( 'xprofile_field_order_by_before_save', $this->order_by, $this->id );
-		$this->field_order = apply_filters( 'xprofile_field_field_order_before_save', $this->field_order, $this->id );
+		$this->group_id		= apply_filters( 'xprofile_field_group_id_before_save', $this->group_id, $this->id );
+		$this->parent_id	= apply_filters( 'xprofile_field_parent_id_before_save', $this->parent_id, $this->id );
+		$this->type			= apply_filters( 'xprofile_field_type_before_save', $this->type, $this->id );
+		$this->name			= apply_filters( 'xprofile_field_name_before_save', $this->name, $this->id );
+		$this->description	= apply_filters( 'xprofile_field_description_before_save', $this->description, $this->id );
+		$this->is_required	= apply_filters( 'xprofile_field_is_required_before_save', $this->is_required, $this->id );
+		$this->order_by		= apply_filters( 'xprofile_field_order_by_before_save', $this->order_by, $this->id );
+		$this->field_order	= apply_filters( 'xprofile_field_field_order_before_save', $this->field_order, $this->id );
 
 		do_action( 'xprofile_field_before_save', $this );
 
@@ -311,7 +327,6 @@ Class BP_XProfile_Field {
 		 * The described situation will return 0 here.
 		 */
 		if ( $wpdb->query( $sql ) !== null ) {
-
 			if ( $this->id )
 				$field_id = $this->id;
 			else
@@ -339,21 +354,20 @@ Class BP_XProfile_Field {
 					$parent_id = $wpdb->insert_id;
 
 				if ( 'radio' == $this->type ) {
-					$options = $_POST['radio_option'];
-					$defaults = $_POST['isDefault_radio_option'];
+					$options	= $_POST['radio_option'];
+					$defaults	= $_POST['isDefault_radio_option'];
 
 				} else if ( 'selectbox' == $this->type ) {
-					$options = $_POST['selectbox_option'];
-					$defaults = $_POST['isDefault_selectbox_option'];
+					$options	= $_POST['selectbox_option'];
+					$defaults	= $_POST['isDefault_selectbox_option'];
 
 				} else if ( 'multiselectbox' == $this->type ) {
-					$options = $_POST['multiselectbox_option'];
-					$defaults = $_POST['isDefault_multiselectbox_option'];
+					$options	= $_POST['multiselectbox_option'];
+					$defaults	= $_POST['isDefault_multiselectbox_option'];
 
 				} else if ( 'checkbox' == $this->type ) {
-					$options = $_POST['checkbox_option'];
-					$defaults = $_POST['isDefault_checkbox_option'];
-
+					$options	= $_POST['checkbox_option'];
+					$defaults	= $_POST['isDefault_checkbox_option'];
 				}
 
 				$counter = 1;
@@ -378,12 +392,9 @@ Class BP_XProfile_Field {
 					}
 				}
 			}
-		} else {
-			$error = true;
-		}
 
-		if ( !$error ) {
 			do_action( 'xprofile_field_after_save', $this );
+
 			return $field_id;
 		} else {
 			return false;
@@ -485,7 +496,9 @@ Class BP_XProfile_Field {
 		return false;
 	}
 
-	/* ADMIN AREA HTML. TODO: Get this out of here. */
+	/* ADMIN AREA HTML.
+	* TODO: Get this out of here and replace with standard template loops
+	*/
 
 	/* This function populates the items for radio buttons checkboxes and drop down boxes */
 	function render_admin_form_children() {
@@ -500,7 +513,7 @@ Class BP_XProfile_Field {
 				$default_input = 'radio';
 ?>
 			<div id="<?php echo $type; ?>" class="options-box" style="<?php if ( $this->type != $type ) { ?>display: none;<?php } ?> margin-left: 15px;">
-				<h4><?php _e('Please enter options for this Field:', 'buddypress'); ?></h4>
+				<h4><?php _e( 'Please enter options for this Field:', 'buddypress' ); ?></h4>
 				<p><?php _e( 'Order By:', 'buddypress' ); ?>
 					<select name="sort_order_<?php echo $type; ?>" id="sort_order_<?php echo $type; ?>" >
 						<option value="default" <?php if ( 'default' == $this->order_by ) {?> selected="selected"<?php } ?> ><?php _e( 'Order Entered', 'buddypress' ); ?></option>
@@ -535,8 +548,10 @@ Class BP_XProfile_Field {
 						<p><?php _e('Option', 'buddypress'); ?> <?php echo $j; ?>:
 						   <input type="text" name="<?php echo $type; ?>_option[<?php echo $j; ?>]" id="<?php echo $type; ?>_option<?php echo $j; ?>" value="<?php echo attribute_escape( $options[$i]->name ); ?>" />
 						   <input type="<?php echo $default_input; ?>" name="isDefault_<?php echo $type; ?>_option<?php echo $default_name; ?>" <?php if ( (int) $options[$i]->is_default_option ) {?> checked="checked"<?php } ?> " value="<?php echo $j; ?>" /> <?php _e( 'Default Value', 'buddypress' ); ?>
-							<?php if ( $j != 1 &&
-								$options[$i]->id != -1 ) : ?><a href="admin.php?page=bp-profile-setup&amp;mode=delete_option&amp;option_id=<?php echo $options[$i]->id ?>" class="ajax-option-delete" id="delete-<?php echo $options[$i]->id; ?>">[x]</a><?php endif; ?></p>
+<?php 
+					if ( $j != 1 && $options[$i]->id != -1 ) : ?>
+							<a href="admin.php?page=bp-profile-setup&amp;mode=delete_option&amp;option_id=<?php echo $options[$i]->id ?>" class="ajax-option-delete" id="delete-<?php echo $options[$i]->id; ?>">[x]</a>
+<?php				endif; ?>
 						</p>
 <?php				} /* end for */ ?>
 
@@ -563,29 +578,31 @@ Class BP_XProfile_Field {
 	function render_admin_form( $message = '' ) {
 		if ( !$this->id ) {
 			$title				= __( 'Add Field', 'buddypress' );
-			$action				= "admin.php?page=bp-profile-setup&amp;group_id=" . $this->group_id . "&amp;mode=add_field";
+			$action				= "admin.php?page=bp-profile-setup&amp;group_id=" . $this->group_id . "&amp;mode=add_field#tabs-" . $this->group_id;
 
 			$this->name			= $_POST['title'];
 			$this->description	= $_POST['description'];
 			$this->is_required	= $_POST['required'];
 			$this->type			= $_POST['fieldtype'];
 			$this->order_by		= $_POST["sort_order_{$this->type}"];
+			$this->field_order	= $_POST['field_order'];
 		} else {
 			$title				= __( 'Edit Field', 'buddypress' );
-			$action				= "admin.php?page=bp-profile-setup&amp;mode=edit_field&amp;group_id=" . $this->group_id . "&amp;field_id=" . $this->id;
+			$action				= "admin.php?page=bp-profile-setup&amp;mode=edit_field&amp;group_id=" . $this->group_id . "&amp;field_id=" . $this->id . "#tabs-" . $this->group_id;
 		}
-	?>
-
-	<div class="wrap">
-		<h2><?php echo $title; ?></h2>
-<?php
-			if ( $message != '' ) {
 ?>
+	<div class="wrap">
+		<div id="icon-users" class="icon32"><br /></div>
+		<h2><?php echo $title; ?></h2>
+		<p><?php _e( 'Fields marked * are required', 'buddypress' ) ?></p>
 
+<?php
+		if ( $message != '' ) {
+?>
 			<div id="message" class="error fade">
 				<p><?php echo $message; ?></p>
 			</div>
-<?php } ?>
+<?php	} ?>
 
 		<form action="<?php echo $action; ?>" method="post">
 			<div id="poststuff">
@@ -595,8 +612,10 @@ Class BP_XProfile_Field {
 						<input type="text" name="title" id="title" value="<?php echo attribute_escape( $this->name ); ?>" style="width:50%" />
 					</div>
 				</div>
-
-				<div id="titlediv" class="inside">
+<?php
+		if ( '0' != $this->can_delete ) {
+?>
+				<div id="titlediv">
 					<h3><label for="description"><?php _e("Field Description", 'buddypress'); ?></label></h3>
 					<div id="titlewrap">
 						<textarea name="description" id="description" rows="8" cols="60"><?php echo htmlspecialchars( $this->description ); ?></textarea>
@@ -625,15 +644,17 @@ Class BP_XProfile_Field {
 				</div>
 
 				<?php $this->render_admin_form_children(); ?>
-
+<?php	} else { ?>
+				<input type="hidden" name="required" id="required" value="1" />
+				<input type="hidden" name="fieldtype" id="fieldtype" value="textbox" />
+<?php	} ?>
 				<p class="submit">
-					&nbsp;<input type="submit" value="<?php _e( 'Save', 'buddypress' ); ?> &rarr;" name="saveField" id="saveField" style="font-weight: bold" />
-					 <?php _e( 'or', 'buddypress' ); ?> <a href="admin.php?page=bp-profile-setup" style="color: red"><?php _e( 'Cancel', 'buddypress' ); ?></a>
+					<input type="hidden" name="field_order" id="field_order" value="<?php echo attribute_escape( $this->field_order ); ?>" />
+					<input type="submit" value="<?php _e( 'Save', 'buddypress' ); ?>" name="saveField" id="saveField" style="font-weight: bold" class="button-primary" />
+					<?php _e( 'or', 'buddypress' ); ?> <a href="admin.php?page=bp-profile-setup" class="deletion"><?php _e( 'Cancel', 'buddypress' ); ?></a>
 				</p>
 
 			</div>
-
-			<div class="clear"></div>
 
 			<?php if ( function_exists( 'wp_nonce_field' ) ) wp_nonce_field( 'xprofile_delete_option' ); ?>
 

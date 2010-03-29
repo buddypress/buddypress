@@ -97,52 +97,101 @@ jQuery(document).ready( function() {
 	);
 });
 
-var fixHelper = function(e, ui) {
-	ui.children().each(function() {
-		jQuery(this).width( jQuery(this).width() );
-	});
-	return ui;
-};
-
+/* Main XProfile behavior layer */
 jQuery(document).ready( function() {
-	jQuery("form#profile-field-form div#field-groups").sortable( {
+
+	/* Allow reordering of field group tabs */
+	jQuery( "ul#field-group-tabs" ).sortable( {
 		cursor: 'move',
-		axis: 'y',
-		helper: fixHelper,
+		axis: 'x',
 		opacity: 0.6,
-		items: 'table',
-		cancel: 'tbody,tfoot',
+		items: 'li',
 		tolerance: 'pointer',
+
 		update: function() {
 			jQuery.post( ajaxurl, {
 				action: 'xprofile_reorder_groups',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce_reorder_groups': jQuery("input#_wpnonce_reorder_groups").val(),
-				'group_order': jQuery(this).sortable('serialize')
+				'_wpnonce_reorder_groups': jQuery( "input#_wpnonce_reorder_groups" ).val(),
+				'group_order': jQuery(this).sortable( 'serialize' )
 			},
 			function(response){});
 		}
 	}).disableSelection();
 
-	jQuery("table.field-group tbody").sortable( {
+	/* Allow reordering of fields within groups */
+	jQuery( "fieldset.field-group" ).sortable({
 		cursor: 'move',
-		axis: 'y',
-		helper: fixHelper,
-		opacity: 0.6,
-		items: 'tr',
-		cancel: 'tr.nodrag,tr.core',
-		connectWith: 'table.field-group tbody',
+		opacity: 0.3,
+		items: 'fieldset',
 		tolerance: 'pointer',
-		update: function() { 
+
+		update: function() {
 			jQuery.post( ajaxurl, {
 				action: 'xprofile_reorder_fields',
 				'cookie': encodeURIComponent(document.cookie),
-				'_wpnonce_reorder_fields': jQuery("input#_wpnonce_reorder_fields").val(),
-				'field_order': jQuery(this).sortable('serialize'),
-				'field_group_id': jQuery(this).attr('id')
+				'_wpnonce_reorder_fields': jQuery( "input#_wpnonce_reorder_fields" ).val(),
+				'field_order': jQuery(this).sortable( 'serialize' ),
+				'field_group_id': jQuery(this).attr( 'id' )
 			},
 			function(response){});
 		}
 	}).disableSelection();
 
+	var $tab_items;
+	
+	/* tabs init with a custom tab template and an "add" callback filling in the content */
+	var $tabs = jQuery( "#tabs" ).tabs();
+	set_tab_items( $tabs );
+
+	function set_tab_items( $tabs ) {
+		$tab_items = jQuery( "ul:first li", $tabs ).droppable({
+			accept: ".connectedSortable fieldset",
+			hoverClass: "ui-state-hover",
+			activeClass: "ui-state-acceptable",
+			touch: "pointer",
+			tolerance: "pointer",
+
+			/* When field is dropped on tab */
+			drop: function( ev, ui ) {
+				/* The tab */
+				var $item = jQuery(this);
+
+				/* The tab body */
+				var $list = jQuery( $item.find( 'a' ).attr( 'href' ) ).find( '.connectedSortable' );
+
+				/* Remove helper class */
+				jQuery($item).removeClass( 'drop-candidate' );
+
+				/* Hide field, change selected tab, and show new placement */
+				ui.draggable.hide( 'slow', function() {
+
+					/* Select new tab as current */
+					$tabs.tabs( 'select', $tab_items.index( $item ) );
+
+					/* Show new placement */
+					jQuery(this).appendTo($list).show( 'slow' ).animate( {opacity: "1"}, 500 );
+
+					/* Refresh $list variable */
+					$list = jQuery( $item.find( 'a' ).attr( 'href' ) ).find( '.connectedSortable' );
+					jQuery($list).find( 'p.nofields' ).hide( 'slow' );
+				});
+
+				jQuery.post( ajaxurl, {
+					action: 'xprofile_reorder_fields',
+					'cookie': encodeURIComponent(document.cookie),
+					'_wpnonce_reorder_fields': jQuery( "input#_wpnonce_reorder_fields" ).val(),
+					'field_order': jQuery( $list ).sortable( 'serialize' ),
+					'field_group_id': jQuery( $list ).attr( 'id' )
+				},
+				function(response){});
+			},
+			over: function( event, ui ) {
+				jQuery(this).addClass( 'drop-candidate' );
+			},
+			out: function( event, ui ) {
+				jQuery(this).removeClass( 'drop-candidate' );
+			}
+		});
+	}
 });

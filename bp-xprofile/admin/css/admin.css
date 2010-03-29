@@ -1,54 +1,136 @@
 /* Profile field group main admin page */
-table.field-group {
-	margin-bottom: 20px;
-	background-color: #fafafa;
+#tabs {
+	position: relative;
 	}
-	table.field-group.ui-sortable-placeholder {
-		border: 2px dashed #ddd;
-		visibility: visible !important;
-		background-color: transparent;
-		width: 100%;
-		margin-bottom: 20px;
+	p.nofields {
+		margin-top: 20px;
 	}
-	table.field-group thead tr.grabber,
-	table.field-group tbody {
+
+	/* Field group tabs */
+	ul#field-group-tabs {
+		float: left;
+		padding: 0 0 0 15px;
+		display: block;
+	}
+		ul#field-group-tabs li {
+			float: left;
+			margin-bottom: -1px;
+			background-color: #F7F6F1;
+			margin-right: 8px;
+		}
+		ul#field-group-tabs li.ui-state-hover {
+			background-color: #fafafa;
+		}
+		ul#field-group-tabs li.ui-state-hover a.ui-tab {
+			border-color: #bbb #bbb #ccc #bbb;
+			color: #888;
+		}
+		ul#field-group-tabs li.ui-state-acceptable a.ui-tab {
+			border-color: #5a5 #5a5 #ccc #5a5;
+			color: #8a8;
+			background-image: url(../images/plus.gif);
+			background-color: #efe;
+		}
+			ul#field-group-tabs li.ui-tabs-selected.ui-state-acceptable a.ui-tab {
+				background-color: #fff;
+				background-image: url(../images/cross.gif);
+			}
+		ul#field-group-tabs li.drop-candidate a.ui-tab {
+			background-color: #ffc;
+			border-color: #aa5 #aa5 #ccc #aa5;
+			color: #aa8;
+		}
+		ul#field-group-tabs li a.ui-tab {
+			display: block;
+			margin-top: 3px;
+			padding: 8px 10px 8px 28px;
+			border: 1px solid #ccc;
+			border-bottom: none;
+			-moz-border-radius: 5px 5px 0 0;
+			-khtml-border-radius: 5px 5px 0 0;
+			-webkit-border-radius: 5px 5px 0 0;
+			border-radius: 5px 5px 0 0;
+			text-decoration: none;
+			background: url(../images/move-x.gif) 7px 55% no-repeat;
+			color: #888;
+		}
+
+		/* Selected tab */
+		ul#field-group-tabs li.ui-tabs-selected {
+			background-color: #fff;
+		}
+		ul#field-group-tabs li.ui-tabs-selected a.ui-tab {
+			margin-top: -1px;
+			padding: 10px 10px 10px 28px;
+			border: 1px solid #bbb;
+			border-bottom: 1px solid transparent;
+			color: #000;
+			font-weight: bold;
+		}
+
+	/* Toolbar */
+	.tab-toolbar {
+		margin-top: 1px;
+		clear: left;
+		background-color: #fff;
+		padding: 10px;
+		border: 1px solid #bbb;
+	}
+
+	div.tab-wrapper {
+		clear: left;
+	}
+
+	.tab-wrapper fieldset {
+		border: 1px solid #ddd;
+		-moz-border-radius: 5px;
+		-khtml-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		border-radius: 5px;
+		padding: 0 10px 10px;
+		margin: 10px 0 0 0;
+		position: relative;
+		background-color: #fff;
+	}
+	.tab-wrapper fieldset fieldset {
 		cursor: move;
+		padding: 10px 10px 20px 10px;
+		background-color: #fcfcfc;
 	}
-	table.field-group tbody tr.nodrag {
-		cursor: default !important;
+		.field-group fieldset:hover {
+			background-color: #fafafa;
+			border-color: #ccc;
+		}
+		fieldset div.field-wrapper {
+			padding-left: 30px;
+			background: url(../images/move.gif) 0px 3px no-repeat transparent;
+		}
+	fieldset.radio div div,
+	fieldset.checkbox div div {
+		float: left;
 	}
-	table.field-group tbody tr.ui-sortable-placeholder {
+	fieldset.radio div div label,
+	fieldset.checkbox div div label {
+		margin-right: 20px;
+	}
+
+	fieldset.clear-value {
+		margin-left: 10px;
+	}
+	.field-group div.actions {
+		display: none;
+		position: absolute;
+		right: 20px;
+		top: 0;
+	}
+	.field-group fieldset:hover div.actions {
+		display: block;
+	}
+	.field-group fieldset.ui-sortable-placeholder {
+		border: 1px dashed #999;
+		background-color: #eee;
 		visibility: visible !important;
-		display: block !important;
-		background-color: #fafafa;
 	}
-	table.field-group td {
-		background-color: #fff;
-	}
-	table.field-group tbody tr:hover td {
-		background-color: #fffee9;
-	}
-	table.field-group tbody tr.nodrag:hover td {
-		background-color: #fff;
-	}
-	
-tr.header td {
-	border-bottom: 1px solid #eee;
-	background-color: #fafafa;
-	font-weight: bold;
-	padding: 5px 6px;
-}
-
-tr.core td { 
-	color: #999;
-}
-tr td.center, tr th.center { 
-	text-align: center; 
-}
-
-thead tr th {
-	font-size: 16px;
-}
 
 	ul.forTab {
 		list-style: none;

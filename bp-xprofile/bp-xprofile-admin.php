@@ -39,10 +39,15 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 
 	else {
 ?>
+
 	<div class="wrap">
-		<h2><?php _e( 'Profile Field Setup', 'buddypress'); ?></h2>
+		<div class="icon32" id="icon-tools"><br></div>
+		<h2>
+			<?php _e( 'Profile Field Setup', 'buddypress'); ?>
+			<a id="add_group" class="button add-new-h2" href="admin.php?page=bp-profile-setup&amp;mode=add_group"><?php _e( 'Add New Group', 'buddypress' ); ?></a>
+		</h2>
 		<p><?php _e( 'Your users will distinguish themselves through their profile page. You must give them profile fields that allow them to describe themselves in a way that is relevant to the theme of your social network.', 'buddypress'); ?></p>
-		<p><?php _e('NOTE: Any fields in the first group will appear on the signup page.', 'buddypress'); ?></p>
+		<p><?php echo sprintf( __( 'NOTE: Any fields in the "%s" group will appear on the signup page.', 'buddypress' ), get_site_option( 'bp-xprofile-base-group-name' ) ); ?></p>
 
 		<form action="" id="profile-field-form" method="post">
 			<?php wp_nonce_field( 'bp_reorder_fields', '_wpnonce_reorder_fields' ); ?>
@@ -50,109 +55,79 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 			<?php wp_nonce_field( 'bp_reorder_groups', '_wpnonce_reorder_groups', false );
 
 			if ( $message != '' ) :
-				$type = ( $type == 'error' ) ? 'error' : 'updated';
-?>
+				$type = ( $type == 'error' ) ? 'error' : 'updated'; ?>
 
 				<div id="message" class="<?php echo $type; ?> fade">
 					<p><?php echo wp_specialchars( attribute_escape( $message ) ); ?></p>
 				</div>
 <?php		endif; ?>
 
-			<div id="field-groups">
+			<div id="tabs">
+				<ul id="field-group-tabs">
 <?php
 			if ( $groups ) :
 				foreach ( $groups as $group ) { ?>
+					<li id="group_<?php echo $group->id; ?>"><a href="#tabs-<?php echo $group->id; ?>" class="ui-tab"><?php echo attribute_escape( $group->name ); ?><?php if ( !$group->can_delete ) : ?> <?php _e( '(Core)', 'buddypress'); endif; ?></a></li>
+<?php			}
+			endif; ?>
+				</ul>
 
-						<table id="group_<?php echo $group->id; ?>" class="widefat field-group sortable">
-							<thead>
-								<tr class="grabber">
-									<th scope="col" width="10"><img src="<?php echo BP_PLUGIN_URL; ?>/bp-xprofile/admin/images/move.gif" alt="<?php _e( 'Drag', 'buddypress' ); ?>" /></th>
-									<th scope="col" colspan="3"><?php echo attribute_escape( $group->name ); ?></th>
-<?php
-									if ( $group->can_delete ) :
-?>
-										<th scope="col" class="center"><a class="edit" href="admin.php?page=bp-profile-setup&amp;mode=edit_group&amp;group_id=<?php echo attribute_escape( $group->id ); ?>"><?php _e( 'Edit', 'buddypress' ); ?></a></th>
-							    		<th scope="col" class="center"><a class="delete" href="admin.php?page=bp-profile-setup&amp;mode=delete_group&amp;group_id=<?php echo attribute_escape( $group->id ); ?>"><?php _e( 'Delete', 'buddypress' ); ?></a></th>
-<?php
-									else :
-?>
-										<th scope="col" class="center"><a class="edit" href="admin.php?page=bp-general-settings"><?php _e( 'Edit', 'buddypress' ); ?></a></th>
-										<th scope="col" class="center">&nbsp;</th>
-<?php
-									endif;
-?>
+<?php		if ( $groups ) :
+				foreach ( $groups as $group ) { ?>
 
-								</tr>
-								<tr class="header">
-									<td>&nbsp;</td>
-									<td><?php _e( 'Field Name', 'buddypress' ); ?></td>
-									<td width="14%"><?php _e( 'Field Type', 'buddypress' ); ?></td>
-									<td width="6%" class="center"><?php _e( 'Required?', 'buddypress' ); ?></td>
-									<td colspan="2" width="10%" class="center"><?php _e( 'Actions', 'buddypress' ); ?></td>
-								</tr>
-							</thead>
+					<div id="tabs-<?php echo $group->id; ?>" class="tab-wrapper">
+						<div class="tab-toolbar">
+							<div class="tab-toolbar-left">
+								<a class="button" href="admin.php?page=bp-profile-setup&amp;group_id=<?php echo attribute_escape( $group->id ); ?>&amp;mode=add_field"><?php _e( 'Add New Field', 'buddypress' ); ?></a>
+								<a class="button edit" href="admin.php?page=bp-profile-setup&amp;mode=edit_group&amp;group_id=<?php echo attribute_escape( $group->id ); ?>"><?php _e( 'Edit Group', 'buddypress' ); ?></a>
+<?php				if ( $group->can_delete ) : ?>
+								<a class="button delete" href="admin.php?page=bp-profile-setup&amp;mode=delete_group&amp;group_id=<?php echo attribute_escape( $group->id ); ?>"><?php _e( 'Delete Group', 'buddypress' ); ?></a>
+<?php				endif; ?>
+							</div>
+						</div>
 
-							<tfoot>
-								<tr class="nodrag">
-									<td colspan="6"><a href="admin.php?page=bp-profile-setup&amp;group_id=<?php echo attribute_escape( $group->id ); ?>&amp;mode=add_field"><?php _e( 'Add New Field', 'buddypress' ); ?></a></td>
-								</tr>
-							</tfoot>
+						<fieldset id="<?php echo $group->id; ?>" class="connectedSortable field-group">
+<?php				if( $group->description ) : ?>
+							<legend><?php echo attribute_escape( $group->description ) ?></legend>
+<?php				endif;
 
-							<tbody id="<?php echo $group->id ?>">
- <?php 
-								if ( $group->fields ) :
-									foreach ( $group->fields as $field ) {
-										if ( 0 == $j % 2 )
-											$class = '';
-										else
-											$class = 'alternate';
+					if ( $group->fields ) :
+						foreach ( $group->fields as $field ) {
 
-										$field = new BP_XProfile_Field( $field->id );
-										if ( !$field->can_delete )
-											$class .= ' core nodrag';
+							/* Load the field */
+							$field = new BP_XProfile_Field( $field->id );
+							if ( !$field->can_delete )
+								$class .= ' core nodrag';
+
+							/* This function handles the WYSIWYG profile field
+							 * display for the xprofile admin setup screen
+							 */
+							xprofile_admin_field( $field, $group );
+
+						} /* end for */
+
+					else : /* !$group->fields */
 ?>
 
-										<tr id="field_<?php echo attribute_escape( $field->id ); ?>" class="sortable<?php if ( $class ) echo ' ' . $class;  ?>">
-											<td width="10"><?php if ( $field->can_delete ) : ?><img src="<?php echo BP_PLUGIN_URL; ?>/bp-xprofile/admin/images/move.gif" alt="<?php _e( 'Drag', 'buddypress' ); ?>" /><?php endif; ?></td>
-											<td><span title="<?php echo $field->description; ?>"><?php echo attribute_escape( $field->name ); ?> <?php if(!$field->can_delete) : ?> <?php _e( '(Core Field)', 'buddypress' ); endif; ?></span></td>
-											<td><?php echo attribute_escape( $field->type ); ?></td>
-											<td class="center"><?php if ( $field->is_required ) : echo '<img src="' . BP_PLUGIN_URL . '/bp-xprofile/admin/images/tick.gif" alt="' . __( 'Yes', 'buddypress' ) . '" />'; else : ?>-<?php endif; ?></td>
-											<td class="center"><a class="edit" href="<?php if ( !$field->can_delete ) { ?>admin.php?page=bp-general-settings<?php } else { ?>admin.php?page=bp-profile-setup&amp;group_id=<?php echo attribute_escape( $group->id ); ?>&amp;field_id=<?php echo attribute_escape( $field->id ); ?>&amp;mode=edit_field<?php } ?>"><?php _e( 'Edit', 'buddypress' ); ?></a></td>
-											<td class="center"><?php if ( !$field->can_delete ) : ?>&nbsp;<?php else : ?><a class="delete" href="admin.php?page=bp-profile-setup&amp;field_id=<?php echo attribute_escape( $field->id ); ?>&amp;mode=delete_field"><?php _e( 'Delete', 'buddypress' ); ?></a><?php endif; ?></td>
-										</tr>
-<?php
-									} /* end for */
-
-								else : /* !$group->fields */
-?>
-
-									<tr class="nodrag">
-										<td colspan="6"><?php _e( 'There are no fields in this group.', 'buddypress' ); ?></td>
-									</tr>
+							<p class="nodrag nofields"><?php _e( 'There are no fields in this group.', 'buddypress' ); ?></p>
 <?php
 								endif; /* end $group->fields */
 ?>
-
-							</tbody>
-						</table>
-<?php
-				} /* End For */ ?>
+						</fieldset>
 					</div>
-					<p>
-						<a class="button" href="admin.php?page=bp-profile-setup&amp;mode=add_group"><?php _e( 'Add New Field Group', 'buddypress' ); ?></a>
-					</p>
+<?php
+					} /* End For */ ?>
+				</div>
 <?php 
 				else :
 ?>
-
-				<div id="message" class="error"><p><?php _e('You have no groups.', 'buddypress' ); ?></p></div>
+				<div id="message" class="error"><p><?php _e( 'You have no groups.', 'buddypress' ); ?></p></div>
 				<p><a href="admin.php?page=bp-profile-setup&amp;mode=add_group"><?php _e( 'Add New Group', 'buddypress' ); ?></a></p>
 <?php
 				endif;
 ?>
-
-		</form>
-	</div>
+			</form>
+		</div>
 <?php
 	}
 }
@@ -168,10 +143,10 @@ function xprofile_admin_manage_group( $group_id = null ) {
 
 	$group = new BP_XProfile_Group( $group_id );
 
-	if ( isset( $_POST['saveGroup'] ) ) {
+	if ( isset( $_POST['save_group'] ) ) {
 		if ( BP_XProfile_Group::admin_validate( $_POST ) ) {
-			$group->name = wp_filter_kses( $_POST['group_name'] );
-			$group->description = wp_filter_kses( $_POST['group_desc'] );
+			$group->name		= wp_filter_kses( $_POST['group_name'] );
+			$group->description	= wp_filter_kses( $_POST['group_description'] );
 
 			if ( !$group->save() ) {
 				$message = __( 'There was an error saving the group. Please try again', 'buddypress' );
@@ -215,7 +190,7 @@ function xprofile_admin_delete_group( $group_id ) {
 		do_action( 'xprofile_groups_deleted_group', $group );
 	}
 
-	unset( $_GET['mode'] ); /* TODO: wtf? */
+	unset( $_GET['mode'] );
 	xprofile_admin( $message, $type );
 }
 
@@ -241,7 +216,6 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 			$field->order_by = wp_filter_kses( $_POST["sort_order_{$field->type}"] );
 
 			$field->field_order = $wpdb->get_var( $wpdb->prepare( "SELECT field_order FROM {$bp->profile->table_name_fields} WHERE id = %d", $field_id ) );
-
 			if ( !$field->field_order ) {
 				$field->field_order = (int) $wpdb->get_var( $wpdb->prepare( "SELECT max(field_order) FROM {$bp->profile->table_name_fields} WHERE group_id = %d", $group_id ) );
 				$field->field_order++;
@@ -277,7 +251,6 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 
  Handles the deletion of a profile field [or option].
 **************************************************************************/
-
 function xprofile_admin_delete_field( $field_id, $type = 'field' ) {
 	global $message, $type;
 
@@ -302,6 +275,11 @@ function xprofile_admin_delete_field( $field_id, $type = 'field' ) {
 	xprofile_admin( $message, $type );
 }
 
+/**************************************************************************
+ xprofile_ajax_reorder_fields()
+
+ Handles the ajax reordering of fields within a group
+**************************************************************************/
 function xprofile_ajax_reorder_fields() {
 	global $bp;
 
@@ -320,6 +298,11 @@ function xprofile_ajax_reorder_fields() {
 }
 add_action( 'wp_ajax_xprofile_reorder_fields', 'xprofile_ajax_reorder_fields' );
 
+/**************************************************************************
+ xprofile_ajax_reorder_field_groups()
+
+ Handles the reordering of field groups
+**************************************************************************/
 function xprofile_ajax_reorder_field_groups() {
 	global $bp;
 
@@ -336,3 +319,86 @@ function xprofile_ajax_reorder_field_groups() {
 
 }
 add_action( 'wp_ajax_xprofile_reorder_groups', 'xprofile_ajax_reorder_field_groups' );
+
+/**************************************************************************
+ xprofile_admin_field()
+
+ Handles the WYSIWYG display of each profile field on the edit screen
+**************************************************************************/
+function xprofile_admin_field( $admin_field, $admin_group ) {
+	global $field;
+	
+	$field = $admin_field;
+?>
+						<fieldset id="field_<?php echo attribute_escape( $field->id ); ?>" class="sortable<?php echo ' ' . $field->type; if ( $class ) echo ' ' . $class; ?>">
+							<legend><?php bp_the_profile_field_name(); ?> <?php if( !$field->can_delete ) : ?> <?php _e( '(Core)', 'buddypress' ); endif; ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ) ?><?php endif; ?></legend>
+							<div class="field-wrapper">
+<?php
+	switch ( $field->type ) {
+		case 'textbox' : ?>
+
+								<input type="text" name="<?php bp_the_profile_field_input_name() ?>" id="<?php bp_the_profile_field_input_name() ?>" value="" />
+<?php		break; case 'textarea' : ?>
+
+								<textarea rows="5" cols="40" name="<?php bp_the_profile_field_input_name() ?>" id="<?php bp_the_profile_field_input_name() ?>"></textarea>
+<?php		break; case 'selectbox' : ?>
+
+								<select name="<?php bp_the_profile_field_input_name() ?>" id="<?php bp_the_profile_field_input_name() ?>">
+									<?php bp_the_profile_field_options() ?>
+
+								</select>
+
+<?php		break; case 'multiselectbox' : ?>
+
+								<select name="<?php bp_the_profile_field_input_name() ?>" id="<?php bp_the_profile_field_input_name() ?>" multiple="multiple">
+									<?php bp_the_profile_field_options() ?>
+
+								</select>
+
+<?php		break; case 'radio' : ?>
+
+								<?php bp_the_profile_field_options() ?>
+
+<?php			if ( !bp_get_the_profile_field_is_required() ) : ?>
+
+								<a class="clear-value" href="javascript:clear( '<?php bp_the_profile_field_input_name() ?>' );"><?php _e( 'Clear', 'buddypress' ) ?></a>
+<?php			endif; ?>
+
+<?php		break; case 'checkbox' : ?>
+
+<?php bp_the_profile_field_options(); ?>
+
+<?php		break; case 'datebox' : ?>
+
+								<select name="<?php bp_the_profile_field_input_name(); ?>_day" id="<?php bp_the_profile_field_input_name(); ?>_day">
+									<?php bp_the_profile_field_options( 'type=day' ); ?>
+
+								</select>
+
+								<select name="<?php bp_the_profile_field_input_name(); ?>_month" id="<?php bp_the_profile_field_input_name(); ?>_month">
+									<?php bp_the_profile_field_options( 'type=month' ); ?>
+
+								</select>
+
+								<select name="<?php bp_the_profile_field_input_name(); ?>_year" id="<?php bp_the_profile_field_input_name(); ?>_year">
+									<?php bp_the_profile_field_options( 'type=year' ); ?>
+
+								</select>
+
+<?php		break; default : ?>
+
+<?php	do_action( 'xprofile_admin_field', $field, 1 ); ?>
+
+<?php } ?>
+								<div class="actions">
+									<a class="button edit" href="admin.php?page=bp-profile-setup&amp;group_id=<?php echo attribute_escape( $admin_group->id ); ?>&amp;field_id=<?php echo attribute_escape( $field->id ); ?>&amp;mode=edit_field"><?php _e( 'Edit', 'buddypress' ); ?></a>
+									<?php if ( !$field->can_delete ) : ?>&nbsp;<?php else : ?><a class="button delete" href="admin.php?page=bp-profile-setup&amp;field_id=<?php echo attribute_escape( $field->id ); ?>&amp;mode=delete_field"><?php _e( 'Delete', 'buddypress' ); ?></a><?php endif; ?>
+
+								</div>
+<?php if ( $field->description ) : ?>
+								<p class="description"><?php echo attribute_escape( $field->description ); ?></p>
+<?php endif; ?>
+							</div>
+						</fieldset>
+<?php
+}
