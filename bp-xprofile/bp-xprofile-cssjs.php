@@ -14,7 +14,6 @@ function xprofile_add_admin_js() {
 		wp_enqueue_script( 'jquery-ui-droppable' );
 		wp_enqueue_script( 'jquery-ui-sortable' );
 		wp_enqueue_script( 'xprofile-admin-js', BP_PLUGIN_URL . '/bp-xprofile/admin/js/admin.js', array( 'jquery', 'jquery-ui-sortable' ) );
-		//wp_enqueue_script( 'xprofile-button-js', BP_PLUGIN_URL . '/bp-xprofile/admin/js/button.js', array( 'xprofile-admin-js' ) );
 	}
 }
 add_action( 'admin_menu', 'xprofile_add_admin_js', 1 );
