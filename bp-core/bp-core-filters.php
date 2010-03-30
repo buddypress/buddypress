@@ -12,7 +12,9 @@
 function bp_core_exclude_pages( $pages ) {
 	global $bp;
 
-	$pages = explode( ',', $pages );
+	if ( !is_array( $pages ) )
+		$pages = explode( ',', $pages );
+
 	$pages[] = $bp->pages->activate->id;
 	$pages[] = $bp->pages->register->id;
 
