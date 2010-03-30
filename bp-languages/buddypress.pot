@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-03-29 14:11+0000\n"
+"POT-Creation-Date: 2010-03-30 14:11+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -256,7 +256,7 @@ msgstr ""
 #: bp-activity/bp-activity-templatetags.php:586
 #: bp-activity/bp-activity-templatetags.php:719
 #: bp-themes/bp-default/_inc/ajax.php:192
-#: bp-xprofile/bp-xprofile-admin.php:395
+#: bp-xprofile/bp-xprofile-admin.php:397
 msgid "Delete"
 msgstr ""
 
@@ -1377,15 +1377,15 @@ msgstr ""
 msgid "Are you sure?"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:52
+#: bp-core/bp-core-filters.php:54
 msgid "noreply"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:151 bp-core/bp-core-filters.php:167
+#: bp-core/bp-core-filters.php:153 bp-core/bp-core-filters.php:169
 msgid "[User Set]"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:187
+#: bp-core/bp-core-filters.php:189
 #, php-format
 msgid ""
 "Thanks for registering! To complete the activation of your account and blog, "
@@ -1400,12 +1400,12 @@ msgid ""
 "%s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:188
+#: bp-core/bp-core-filters.php:190
 #, php-format
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:219 bp-core/bp-core-signup.php:520
+#: bp-core/bp-core-filters.php:221 bp-core/bp-core-signup.php:520
 #, php-format
 msgid ""
 "Thanks for registering! To complete the activation of your account please "
@@ -1415,7 +1415,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:220 bp-core/bp-core-signup.php:521
+#: bp-core/bp-core-filters.php:222 bp-core/bp-core-signup.php:521
 msgid "Activate Your Account"
 msgstr ""
 
@@ -1983,7 +1983,7 @@ msgstr ""
 
 #: bp-groups.php:175 bp-groups/bp-groups-templatetags.php:908
 #: bp-themes/bp-default/groups/single/admin.php:297
-#: bp-xprofile/bp-xprofile-admin.php:84
+#: bp-xprofile/bp-xprofile-admin.php:86
 msgid "Delete Group"
 msgstr ""
 
@@ -3484,7 +3484,7 @@ msgstr ""
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:64 bp-xprofile/bp-xprofile-admin.php:394
+#: bp-themes/bp-default/functions.php:64 bp-xprofile/bp-xprofile-admin.php:396
 msgid "Edit"
 msgstr ""
 
@@ -3558,7 +3558,7 @@ msgstr ""
 #: bp-themes/bp-default/registration/register.php:130
 #: bp-themes/bp-default/registration/register.php:179
 #: bp-themes/bp-default/registration/register.php:188
-#: bp-xprofile/bp-xprofile-admin.php:334
+#: bp-xprofile/bp-xprofile-admin.php:336
 msgid "(required)"
 msgstr ""
 
@@ -4071,7 +4071,7 @@ msgstr ""
 #: bp-themes/bp-default/members/single/profile/edit.php:52
 #: bp-themes/bp-default/members/single/profile/edit.php:65
 #: bp-themes/bp-default/registration/register.php:110
-#: bp-xprofile/bp-xprofile-admin.php:364
+#: bp-xprofile/bp-xprofile-admin.php:366
 msgid "Clear"
 msgstr ""
 
@@ -4285,7 +4285,7 @@ msgstr ""
 msgid "Updated Profile"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:47 bp-xprofile/bp-xprofile-admin.php:125
+#: bp-xprofile/bp-xprofile-admin.php:47 bp-xprofile/bp-xprofile-admin.php:127
 msgid "Add New Group"
 msgstr ""
 
@@ -4301,64 +4301,64 @@ msgstr ""
 msgid "NOTE: Any fields in the \"%s\" group will appear on the signup page."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:70 bp-xprofile/bp-xprofile-admin.php:334
+#: bp-xprofile/bp-xprofile-admin.php:70 bp-xprofile/bp-xprofile-admin.php:336
 msgid "(Core)"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:81
+#: bp-xprofile/bp-xprofile-admin.php:83
 msgid "Add New Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:82
+#: bp-xprofile/bp-xprofile-admin.php:84
 msgid "Edit Group"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:112
+#: bp-xprofile/bp-xprofile-admin.php:114
 msgid "There are no fields in this group."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:124
+#: bp-xprofile/bp-xprofile-admin.php:126
 msgid "You have no groups."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:152
+#: bp-xprofile/bp-xprofile-admin.php:154
 msgid "There was an error saving the group. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:155
+#: bp-xprofile/bp-xprofile-admin.php:157
 msgid "The group was saved successfully."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:184
+#: bp-xprofile/bp-xprofile-admin.php:186
 msgid "There was an error deleting the group. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:187
+#: bp-xprofile/bp-xprofile-admin.php:189
 msgid "The group was deleted successfully."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:225
+#: bp-xprofile/bp-xprofile-admin.php:227
 msgid "There was an error saving the field. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:231
+#: bp-xprofile/bp-xprofile-admin.php:233
 msgid "The field was saved successfully."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:258
+#: bp-xprofile/bp-xprofile-admin.php:260
 msgid "field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:260
+#: bp-xprofile/bp-xprofile-admin.php:262
 msgid "option"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:265
+#: bp-xprofile/bp-xprofile-admin.php:267
 #, php-format
 msgid "There was an error deleting the %s. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:268
+#: bp-xprofile/bp-xprofile-admin.php:270
 #, php-format
 msgid "The %s was deleted successfully!"
 msgstr ""
