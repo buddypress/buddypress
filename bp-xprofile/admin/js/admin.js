@@ -175,16 +175,17 @@ jQuery(document).ready( function() {
 					/* Refresh $list variable */
 					$list = jQuery( $item.find( 'a' ).attr( 'href' ) ).find( '.connectedSortable' );
 					jQuery($list).find( 'p.nofields' ).hide( 'slow' );
-				});
 
-				jQuery.post( ajaxurl, {
-					action: 'xprofile_reorder_fields',
-					'cookie': encodeURIComponent(document.cookie),
-					'_wpnonce_reorder_fields': jQuery( "input#_wpnonce_reorder_fields" ).val(),
-					'field_order': jQuery( $list ).sortable( 'serialize' ),
-					'field_group_id': jQuery( $list ).attr( 'id' )
-				},
-				function(response){});
+					/* Ajax update field locations and orders */
+					jQuery.post( ajaxurl, {
+						action: 'xprofile_reorder_fields',
+						'cookie': encodeURIComponent(document.cookie),
+						'_wpnonce_reorder_fields': jQuery( "input#_wpnonce_reorder_fields" ).val(),
+						'field_order': jQuery( $list ).sortable( 'serialize' ),
+						'field_group_id': jQuery( $list ).attr( 'id' )
+					},
+					function(response){});
+				});
 			},
 			over: function( event, ui ) {
 				jQuery(this).addClass( 'drop-candidate' );
