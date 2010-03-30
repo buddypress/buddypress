@@ -74,7 +74,9 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 
 <?php		if ( $groups ) :
 				foreach ( $groups as $group ) { ?>
-
+					<noscript>
+						<h3><?php echo attribute_escape( $group->name ) ?></h3>
+					</noscript>
 					<div id="tabs-<?php echo $group->id; ?>" class="tab-wrapper">
 						<div class="tab-toolbar">
 							<div class="tab-toolbar-left">

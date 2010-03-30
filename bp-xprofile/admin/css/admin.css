@@ -10,7 +10,7 @@
 	ul#field-group-tabs {
 		float: left;
 		padding: 0 0 0 15px;
-		display: block;
+		display: none;
 	}
 		ul#field-group-tabs li {
 			float: left;
@@ -79,6 +79,7 @@
 
 	div.tab-wrapper {
 		clear: left;
+		margin-bottom: 20px;
 	}
 
 	.tab-wrapper fieldset {
@@ -93,7 +94,6 @@
 		background-color: #fff;
 	}
 	.tab-wrapper fieldset fieldset {
-		cursor: move;
 		padding: 10px 10px 20px 10px;
 		background-color: #fcfcfc;
 	}

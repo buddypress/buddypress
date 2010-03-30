@@ -99,6 +99,8 @@ jQuery(document).ready( function() {
 
 /* Main XProfile behavior layer */
 jQuery(document).ready( function() {
+	/* Show object if JS is enabled */
+	jQuery( "ul#field-group-tabs" ).show();
 
 	/* Allow reordering of field group tabs */
 	jQuery( "ul#field-group-tabs" ).sortable( {
@@ -136,11 +138,16 @@ jQuery(document).ready( function() {
 			},
 			function(response){});
 		}
-	}).disableSelection();
+	})
 
-	var $tab_items;
-	
+	/* Disallow text selection */
+	.disableSelection()
+
+	/* Change cursor to move if JS is enabled */
+	.css( 'cursor', 'move' );
+
 	/* tabs init with a custom tab template and an "add" callback filling in the content */
+	var $tab_items;	
 	var $tabs = jQuery( "#tabs" ).tabs();
 	set_tab_items( $tabs );
 
