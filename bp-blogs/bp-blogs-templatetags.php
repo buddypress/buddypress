@@ -472,7 +472,7 @@ function bp_create_blog_link() {
 }
 
 function bp_blogs_blog_tabs() {
-	global $bp, $groups_template;
+	global $bp;
 
 	// Don't show these tabs on a user's own profile
 	if ( bp_is_my_profile() )
