@@ -496,7 +496,7 @@ function bp_core_action_delete_user() {
 			$errors = true;
 		}
 
-		do_action( 'bp_core_action_set_spammer_status', $errors );
+		do_action( 'bp_core_action_delete_user', $errors );
 
 		if ( $errors )
 			bp_core_redirect( $bp->displayed_user->domain );
