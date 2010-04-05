@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-03-26 14:11+0000\n"
+"POT-Creation-Date: 2010-04-05 13:12+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -931,7 +931,7 @@ msgstr ""
 msgid "Upload Failed! Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-catchuri.php:253
+#: bp-core/bp-core-catchuri.php:251
 msgid ""
 "This user has been marked as a spammer. Only site admins can view this "
 "profile."
@@ -2850,7 +2850,7 @@ msgid "My Blogs (%s)"
 msgstr ""
 
 #: bp-themes/bp-default/blogs/index.php:28
-#: bp-themes/bp-default/forums/index.php:82
+#: bp-themes/bp-default/forums/index.php:83
 #: bp-themes/bp-default/groups/index.php:27
 #: bp-themes/bp-default/members/index.php:28
 #: bp-themes/bp-default/members/single/blogs.php:6
@@ -2861,7 +2861,7 @@ msgid "Order By:"
 msgstr ""
 
 #: bp-themes/bp-default/blogs/index.php:30
-#: bp-themes/bp-default/forums/index.php:84
+#: bp-themes/bp-default/forums/index.php:85
 #: bp-themes/bp-default/groups/index.php:29
 #: bp-themes/bp-default/members/index.php:30
 #: bp-themes/bp-default/members/single/blogs.php:8
@@ -2965,7 +2965,7 @@ msgid ""
 msgstr ""
 
 #: bp-themes/bp-default/forums/forums-loop.php:7
-#: bp-themes/bp-default/forums/index.php:9
+#: bp-themes/bp-default/forums/index.php:8
 msgid "New Topic"
 msgstr ""
 
@@ -2989,55 +2989,55 @@ msgstr ""
 msgid "Freshness"
 msgstr ""
 
-#: bp-themes/bp-default/forums/forums-loop.php:39
+#: bp-themes/bp-default/forums/forums-loop.php:42
 msgid "Permalink"
 msgstr ""
 
-#: bp-themes/bp-default/forums/forums-loop.php:76
+#: bp-themes/bp-default/forums/forums-loop.php:79
 msgid "Sorry, there were no forum topics found."
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:9
+#: bp-themes/bp-default/forums/index.php:8
 msgid "Group Forums Directory"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:26
+#: bp-themes/bp-default/forums/index.php:27
 #: bp-themes/bp-default/groups/single/forum.php:29
 msgid "Post a New Topic:"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:28
+#: bp-themes/bp-default/forums/index.php:29
 #: bp-themes/bp-default/groups/single/forum.php:31
 #: bp-themes/bp-default/groups/single/forum/edit.php:24
 msgid "Title:"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:31
+#: bp-themes/bp-default/forums/index.php:32
 #: bp-themes/bp-default/groups/single/forum.php:34
 #: bp-themes/bp-default/groups/single/forum/edit.php:27
 msgid "Content:"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:34
+#: bp-themes/bp-default/forums/index.php:35
 #: bp-themes/bp-default/groups/single/forum.php:37
 msgid "Tags (comma separated):"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:37
+#: bp-themes/bp-default/forums/index.php:38
 msgid "Post In Group Forum:"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:49
+#: bp-themes/bp-default/forums/index.php:50
 #: bp-themes/bp-default/groups/single/forum.php:43
 msgid "Post Topic"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:50
+#: bp-themes/bp-default/forums/index.php:51
 #: bp-xprofile/bp-xprofile-classes.php:626
 msgid "Cancel"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:60
+#: bp-themes/bp-default/forums/index.php:61
 #, php-format
 msgid ""
 "You are not a member of any groups so you don't have any group forums you "
@@ -3047,21 +3047,21 @@ msgid ""
 "post your topic in that group's forum."
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:72
+#: bp-themes/bp-default/forums/index.php:73
 #, php-format
 msgid "All Topics (%s)"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:75
+#: bp-themes/bp-default/forums/index.php:76
 #, php-format
 msgid "My Topics (%s)"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:85
+#: bp-themes/bp-default/forums/index.php:86
 msgid "Most Posts"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:86
+#: bp-themes/bp-default/forums/index.php:87
 msgid "Unreplied"
 msgstr ""
 
