@@ -1,6 +1,6 @@
 <?php get_header() ?>
 
-	<?php do_action( 'bp_before_directory_groups_content' ) ?>
+	<?php do_action( 'bp_before_directory_blogs_content' ) ?>
 
 	<div id="content">
 		<div class="padder">
@@ -30,7 +30,7 @@
 
 	<?php locate_template( array( 'sidebar.php' ), true ) ?>
 
-	<?php do_action( 'bp_after_directory_groups_content' ) ?>
+	<?php do_action( 'bp_after_directory_blogs_content' ) ?>
 
 <?php get_footer() ?>
 
