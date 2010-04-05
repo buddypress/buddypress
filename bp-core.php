@@ -1514,7 +1514,7 @@ function bp_core_number_format( $number, $decimals = false ) {
 	if ( empty( $number ) )
 		return $number;
 
-	return apply_filters( 'bp_core_bp_core_number_format', number_format( $number, $decimals ), $number, $decimals );
+	return apply_filters( 'bp_core_number_format', number_format( $number, $decimals ), $number, $decimals );
 }
 
 /**
