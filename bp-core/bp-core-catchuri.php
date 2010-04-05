@@ -159,8 +159,6 @@ function bp_core_set_uri_globals() {
 
 	/* Reset the keys by merging with an empty array */
 	$action_variables = array_merge( array(), $action_variables );
-
-	//var_dump($current_component, $current_action, $action_variables); die;
 }
 add_action( 'plugins_loaded', 'bp_core_set_uri_globals', 3 );
 
