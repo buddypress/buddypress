@@ -1692,9 +1692,10 @@ function bp_core_add_illegal_names() {
  *
  * @package BuddyPress Core
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @uses check_admin_referer() Checks for a valid security nonce.
  * @uses is_site_admin() Checks to see if the user is a site administrator.
- * @uses wpmu_delete_user() Deletes a user from the system.
+ * @uses wpmu_delete_user() Deletes a user from the system on multisite installs.
+ * @uses wp_delete_user() Deletes a user from the system on singlesite installs.
+ * @uses get_site_option Checks if account deletion is allowed
  */
 function bp_core_delete_account( $user_id = false ) {
 	global $bp, $wpdb;
@@ -1706,17 +1707,19 @@ function bp_core_delete_account( $user_id = false ) {
 	if ( (int)get_site_option( 'bp-disable-account-deletion' ) )
 		return false;
 
-	/* Site admins should not be allowed to be deleted */
-	if ( bp_core_is_multisite() && is_site_admin( bp_core_get_username( $user_id ) ) )
-		return false;
+	/* Specifically handle multi-site environment */
+	if ( bp_core_is_multisite() ) {
+		/* Site admins cannot be deleted */
+		if ( is_site_admin( bp_core_get_username( $user_id ) ) )
+			return false;
 
-	if ( bp_core_is_multisite() && function_exists('wpmu_delete_user') ) {
 		require_once( ABSPATH . '/wp-admin/includes/mu.php' );
 		require_once( ABSPATH . '/wp-admin/includes/user.php' );
 
 		return wpmu_delete_user( $user_id );
 	}
 
+	/* Single site user deletion */
 	require_once( ABSPATH . '/wp-admin/includes/user.php' );
 	return wp_delete_user( $user_id );
 }
