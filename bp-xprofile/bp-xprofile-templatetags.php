@@ -390,7 +390,7 @@ function bp_the_profile_field_options( $args = '' ) {
 					else
 						$selected = '';
 
-					$html .= apply_filters( 'bp_get_the_profile_field_options_select', '<option' . $selected . ' value="' . attribute_escape( $options[$k]->name ) . '">' . attribute_escape( $options[$k]->name ) . '</option>', $options[$k] );
+					$html .= apply_filters( 'bp_get_the_profile_field_options_select', '<option' . $selected . ' value="' . attribute_escape( stripslashes( $options[$k]->name ) ) . '">' . attribute_escape( stripslashes( $options[$k]->name ) ) . '</option>', $options[$k] );
 				}
 				break;
 
