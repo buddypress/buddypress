@@ -190,7 +190,12 @@ function bp_has_activities( $args = '' ) {
 		if ( 'just-me' == $scope )
 			$display_comments = 'stream';
 
-		if ( $user_id = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->id : $bp->loggedin_user->id ) {
+		// determine which user_id applies
+		if ( empty( $user_id ) )
+			$user_id = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+
+		// are we displaying user specific activity?
+		if ( is_numeric( $user_id ) ) {
 			$show_hidden = ( $user_id == $bp->loggedin_user->id ) ? 1 : 0;
 
 			switch ( $scope ) {
