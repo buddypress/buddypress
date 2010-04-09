@@ -985,22 +985,24 @@ function bp_search_form_action() {
 }
 
 function bp_search_form_type_select() {
+	global $bp;
+	
 	// Eventually this won't be needed and a page will be built to integrate all search results.
 	$selection_box = '<select name="search-which" id="search-which" style="width: auto">';
 
-	if ( function_exists( 'xprofile_install' ) ) {
+	if ( bp_is_active( 'xprofile' ) ) {
 		$selection_box .= '<option value="members">' . __( 'Members', 'buddypress' ) . '</option>';
 	}
 
-	if ( function_exists( 'groups_install' ) ) {
+	if ( bp_is_active( 'groups' ) ) {
 		$selection_box .= '<option value="groups">' . __( 'Groups', 'buddypress' ) . '</option>';
 	}
 
-	if ( function_exists( 'bp_forums_setup' ) && !(int) $bp->site_options['bp-disable-forum-directory'] ) {
+	if ( function_exists( 'bp_forums_is_installed_correctly' ) && bp_forums_is_installed_correctly() && !(int) $bp->site_options['bp-disable-forum-directory'] ) {
 		$selection_box .= '<option value="forums">' . __( 'Forums', 'buddypress' ) . '</option>';
 	}
 
-	if ( function_exists( 'bp_blogs_install' ) && bp_core_is_multisite() ) {
+	if ( bp_is_active( 'blogs' ) && bp_core_is_multisite() ) {
 		$selection_box .= '<option value="blogs">' . __( 'Blogs', 'buddypress' ) . '</option>';
 	}
 
