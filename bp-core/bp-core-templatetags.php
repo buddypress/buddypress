@@ -298,7 +298,7 @@ function bp_member_profile_data( $args = '' ) {
 	function bp_get_member_profile_data( $args = '' ) {
 		global $members_template;
 
-		if ( !function_exists( 'xprofile_install' ) )
+		if ( !bp_is_active( 'xprofile' ) )
 			return false;
 
 		$defaults = array(
