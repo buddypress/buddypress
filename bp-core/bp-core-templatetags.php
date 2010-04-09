@@ -418,6 +418,8 @@ function bp_total_site_member_count() {
  * or not to highlight a particular nav item.
  *
  * @package BuddyPress Core
+ * @todo Move to a back-compat file?
+ * @deprecated Does not seem to be called anywhere in the core
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
 function bp_get_loggedin_user_nav() {
@@ -438,7 +440,7 @@ function bp_get_loggedin_user_nav() {
 		if ( !bp_is_my_profile() && $bp->displayed_user->id ) {
 			$selected = '';
 
-			if ( function_exists('friends_install') ) {
+			if ( bp_is_active( 'friends' ) ) {
 				if ( $nav_item['css_id'] == $bp->friends->id ) {
 					if ( friends_check_friendship( $bp->loggedin_user->id, $bp->displayed_user->id ) )
 						$selected = ' class="current selected"';
