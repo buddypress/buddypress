@@ -37,13 +37,17 @@
 				</ul>
 			</div><!-- .item-list-tabs -->
 
+			<?php do_action( 'bp_before_directory_blogs_list' ) ?>
+
 			<div id="blogs-dir-list" class="blogs dir-list">
 				<?php locate_template( array( 'blogs/blogs-loop.php' ), true ) ?>
 			</div><!-- #blogs-dir-list -->
 
-			<?php do_action( 'bp_after_directory_blogs_content' ) ?>
+			<?php do_action( 'bp_directory_blogs_content' ) ?>
 
 			<?php wp_nonce_field( 'directory_blogs', '_wpnonce-blogs-filter' ) ?>
+
+			<?php do_action( 'bp_after_directory_blogs_content' ) ?>
 
 		</form><!-- #blogs-directory-form -->
 

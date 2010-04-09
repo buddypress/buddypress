@@ -91,6 +91,8 @@
 				</ul>
 			</div>
 
+			<?php do_action( 'bp_before_directory_forums_list' ) ?>
+
 			<div id="forums-dir-list" class="forums dir-list">
 				<?php locate_template( array( 'forums/forums-loop.php' ), true ) ?>
 			</div>

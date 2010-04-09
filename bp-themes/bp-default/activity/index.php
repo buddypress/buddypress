@@ -93,9 +93,13 @@
 				</ul>
 			</div><!-- .item-list-tabs -->
 
+			<?php do_action( 'bp_before_directory_activity_list' ) ?>
+
 			<div class="activity">
 				<?php locate_template( array( 'activity/activity-loop.php' ), true ) ?>
 			</div><!-- .activity -->
+
+			<?php do_action( 'bp_directory_activity_content' ) ?>
 
 			<?php do_action( 'bp_after_directory_activity_content' ) ?>
 
