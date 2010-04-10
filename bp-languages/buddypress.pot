@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-03-30 14:11+0000\n"
+"POT-Creation-Date: 2010-04-10 13:12+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgid "Friends"
 msgstr ""
 
 #: bp-activity.php:45 bp-core/admin/bp-core-admin.php:230
-#: bp-core/admin/bp-core-upgrade.php:388 bp-core/bp-core-templatetags.php:996
+#: bp-core/admin/bp-core-upgrade.php:388 bp-core/bp-core-templatetags.php:1000
 #: bp-groups.php:890 bp-groups.php:1270 bp-groups.php:1283 bp-groups.php:1297
 #: bp-groups.php:1310 bp-groups/bp-groups-widgets.php:13
 msgid "Groups"
@@ -215,74 +215,74 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:272
+#: bp-activity/bp-activity-templatetags.php:277
 #, php-format
 msgid "Viewing item %s to %s (of %s items)"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:407 bp-groups.php:31
+#: bp-activity/bp-activity-templatetags.php:412 bp-groups.php:31
 msgid "Avatar"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:495
+#: bp-activity/bp-activity-templatetags.php:500
 #, php-format
 msgid "&nbsp; %s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:498
+#: bp-activity/bp-activity-templatetags.php:503
 #: bp-themes/bp-default/activity/entry.php:46
 msgid "View Thread / Permalink"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:498
-#: bp-activity/bp-activity-templatetags.php:735
+#: bp-activity/bp-activity-templatetags.php:503
+#: bp-activity/bp-activity-templatetags.php:740
 #: bp-core/bp-core-templatetags.php:290
 #: bp-themes/bp-default/activity/entry.php:46
 msgid "View"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:578
+#: bp-activity/bp-activity-templatetags.php:583
 #: bp-themes/bp-default/_inc/ajax.php:190
 #, php-format
 msgid "%s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:582
+#: bp-activity/bp-activity-templatetags.php:587
 #: bp-themes/bp-default/_inc/ajax.php:191
 #: bp-themes/bp-default/activity/entry.php:28
 msgid "Reply"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:586
-#: bp-activity/bp-activity-templatetags.php:719
+#: bp-activity/bp-activity-templatetags.php:591
+#: bp-activity/bp-activity-templatetags.php:724
 #: bp-themes/bp-default/_inc/ajax.php:192
 #: bp-xprofile/bp-xprofile-admin.php:397
 msgid "Delete"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:795
+#: bp-activity/bp-activity-templatetags.php:800
 msgid "profile"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:795
+#: bp-activity/bp-activity-templatetags.php:800
 msgid "friends"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:795
+#: bp-activity/bp-activity-templatetags.php:800
 #: bp-core/admin/bp-core-upgrade.php:317 bp-core/bp-core-classes.php:98
 msgid "groups"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:795
+#: bp-activity/bp-activity-templatetags.php:800
 msgid "status"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:795
+#: bp-activity/bp-activity-templatetags.php:800
 #: bp-core/admin/bp-core-upgrade.php:332
 msgid "blogs"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:803
+#: bp-activity/bp-activity-templatetags.php:808
 msgid "Clear Filter"
 msgstr ""
 
@@ -397,7 +397,7 @@ msgid "Blog avatar"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:252 bp-core/bp-core-classes.php:82
-#: bp-core/bp-core-templatetags.php:266 bp-core/bp-core-templatetags.php:680
+#: bp-core/bp-core-templatetags.php:266 bp-core/bp-core-templatetags.php:682
 #: bp-groups/bp-groups-widgets.php:119
 #: bp-themes/bp-default/groups/groups-loop.php:29
 #: bp-themes/bp-default/groups/single/group-header.php:31
@@ -482,7 +482,7 @@ msgid ""
 "\">Login</a> as \"%4$s\" using your existing password."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:470 bp-core/bp-core-templatetags.php:922
+#: bp-blogs/bp-blogs-templatetags.php:470 bp-core/bp-core-templatetags.php:924
 #: bp-themes/bp-default/blogs/create.php:10
 #: bp-themes/bp-default/blogs/index.php:8
 msgid "Create a Blog"
@@ -512,7 +512,7 @@ msgid "Search anything..."
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:496 bp-core/bp-core-templatetags.php:392
-#: bp-core/bp-core-templatetags.php:1018
+#: bp-core/bp-core-templatetags.php:1022
 #: bp-groups/bp-groups-templatetags.php:1687
 #: bp-themes/bp-default/header.php:63 bp-themes/bp-default/searchform.php:5
 msgid "Search"
@@ -558,7 +558,7 @@ msgstr ""
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:328 bp-core/bp-core-templatetags.php:727
+#: bp-core.php:328 bp-core/bp-core-templatetags.php:729
 #: bp-themes/bp-default/activity/post-form.php:41 bp-xprofile.php:102
 msgid "My Profile"
 msgstr ""
@@ -581,7 +581,7 @@ msgstr ""
 msgid "There was an error deleting %s from the system. Please try again."
 msgstr ""
 
-#: bp-core.php:1210 bp-core/bp-core-templatetags.php:810
+#: bp-core.php:1210 bp-core/bp-core-templatetags.php:812
 msgid "at"
 msgstr ""
 
@@ -1003,7 +1003,7 @@ msgid ""
 "need to remove these from your header.php to avoid duplicate links."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:363 bp-core/bp-core-templatetags.php:992
+#: bp-core/admin/bp-core-upgrade.php:363 bp-core/bp-core-templatetags.php:996
 #: bp-core/bp-core-widgets.php:15
 #: bp-themes/bp-default/groups/single/admin.php:174
 msgid "Members"
@@ -1050,11 +1050,11 @@ msgstr ""
 msgid "Displays individual groups as well as a directory of groups."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:401 bp-core/bp-core-templatetags.php:1000
+#: bp-core/admin/bp-core-upgrade.php:401 bp-core/bp-core-templatetags.php:1004
 msgid "Forums"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:414 bp-core/bp-core-templatetags.php:1004
+#: bp-core/admin/bp-core-upgrade.php:414 bp-core/bp-core-templatetags.php:1008
 msgid "Blogs"
 msgstr ""
 
@@ -1276,9 +1276,9 @@ msgstr ""
 msgid "My Account"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:94 bp-core/bp-core-templatetags.php:455
-#: bp-core/bp-core-templatetags.php:457 bp-core/bp-core-templatetags.php:1029
-#: bp-core/bp-core-templatetags.php:1031 bp-themes/bp-default/sidebar.php:18
+#: bp-core/bp-core-adminbar.php:94 bp-core/bp-core-templatetags.php:457
+#: bp-core/bp-core-templatetags.php:459 bp-core/bp-core-templatetags.php:1033
+#: bp-core/bp-core-templatetags.php:1035 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
 msgstr ""
 
@@ -1405,7 +1405,7 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:221 bp-core/bp-core-signup.php:520
+#: bp-core/bp-core-filters.php:221 bp-core/bp-core-signup.php:523
 #, php-format
 msgid ""
 "Thanks for registering! To complete the activation of your account please "
@@ -1415,7 +1415,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:222 bp-core/bp-core-signup.php:521
+#: bp-core/bp-core-filters.php:222 bp-core/bp-core-signup.php:524
 msgid "Activate Your Account"
 msgstr ""
 
@@ -1516,7 +1516,7 @@ msgstr ""
 msgid "Your new avatar was uploaded successfully"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:211 bp-core/bp-core-signup.php:390
+#: bp-core/bp-core-signup.php:211 bp-core/bp-core-signup.php:393
 msgid "There was an error activating your account, please try again."
 msgstr ""
 
@@ -1529,49 +1529,53 @@ msgid "Please enter a username"
 msgstr ""
 
 #: bp-core/bp-core-signup.php:266
-msgid "Only lowercase letters and numbers allowed"
+msgid "Sorry, that username is not allowed"
 msgstr ""
 
 #: bp-core/bp-core-signup.php:269
-msgid "Username must be at least 4 characters"
+msgid "Only lowercase letters and numbers allowed"
 msgstr ""
 
 #: bp-core/bp-core-signup.php:272
+msgid "Username must be at least 4 characters"
+msgstr ""
+
+#: bp-core/bp-core-signup.php:275
 msgid "Sorry, usernames may not contain the character \"_\"!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:279
+#: bp-core/bp-core-signup.php:282
 msgid "Sorry, usernames must have letters too!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:282
+#: bp-core/bp-core-signup.php:285
 msgid "Please check your email address."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:290
+#: bp-core/bp-core-signup.php:293
 msgid "Sorry, that email address is not allowed!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:295
+#: bp-core/bp-core-signup.php:298
 msgid "Sorry, that username already exists!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:299
+#: bp-core/bp-core-signup.php:302
 msgid "Sorry, that email address is already used!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:334
+#: bp-core/bp-core-signup.php:337
 #, php-format
 msgid ""
 "<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a "
 "href=\"mailto:%s\">webmaster</a> !"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:415 bp-core/bp-core-signup.php:419
+#: bp-core/bp-core-signup.php:418 bp-core/bp-core-signup.php:422
 msgid "Invalid activation key"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:462
+#: bp-core/bp-core-signup.php:465
 #, php-format
 msgid "%s became a registered member"
 msgstr ""
@@ -1615,77 +1619,77 @@ msgstr ""
 msgid "%d friends"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:538
+#: bp-core/bp-core-templatetags.php:540
 msgid "Options"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:733 bp-themes/bp-default/comments.php:111
+#: bp-core/bp-core-templatetags.php:735 bp-themes/bp-default/comments.php:111
 msgid "Name"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:743
+#: bp-core/bp-core-templatetags.php:745
 msgid "About Me"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:753 bp-themes/bp-default/comments.php:121
+#: bp-core/bp-core-templatetags.php:755 bp-themes/bp-default/comments.php:121
 msgid "Website"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:763
+#: bp-core/bp-core-templatetags.php:765
 msgid "Jabber"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:773
+#: bp-core/bp-core-templatetags.php:775
 msgid "AOL Messenger"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:783
+#: bp-core/bp-core-templatetags.php:785
 msgid "Yahoo Messenger"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:888 bp-groups.php:123
+#: bp-core/bp-core-templatetags.php:890 bp-groups.php:123
 #: bp-themes/bp-default/header.php:44 bp-themes/bp-default/header.php:48
 msgid "Home"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:892
+#: bp-core/bp-core-templatetags.php:894
 msgid "Blog &#124; "
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:894
+#: bp-core/bp-core-templatetags.php:896
 msgid "Blog &#124; Categories &#124; "
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:896
+#: bp-core/bp-core-templatetags.php:898
 msgid "Blog &#124; Tags &#124; "
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:900 bp-themes/bp-default/attachment.php:9
+#: bp-core/bp-core-templatetags.php:902 bp-themes/bp-default/attachment.php:9
 #: bp-themes/bp-default/search.php:10
 msgid "Blog"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:913
+#: bp-core/bp-core-templatetags.php:915
 #: bp-themes/bp-default/registration/register.php:14
 msgid "Create an Account"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:916
+#: bp-core/bp-core-templatetags.php:918
 #: bp-themes/bp-default/registration/activate.php:28
 msgid "Activate your Account"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:919
+#: bp-core/bp-core-templatetags.php:921
 #: bp-themes/bp-default/groups/create.php:7
 #: bp-themes/bp-default/groups/index.php:7
 msgid "Create a Group"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1184
+#: bp-core/bp-core-templatetags.php:1188
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1255
+#: bp-core/bp-core-templatetags.php:1259
 msgid "a user"
 msgstr ""
 
