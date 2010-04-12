@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-04-10 13:12+0000\n"
+"POT-Creation-Date: 2010-04-12 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1377,15 +1377,15 @@ msgstr ""
 msgid "Are you sure?"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:54
+#: bp-core/bp-core-filters.php:51
 msgid "noreply"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:153 bp-core/bp-core-filters.php:169
+#: bp-core/bp-core-filters.php:150 bp-core/bp-core-filters.php:166
 msgid "[User Set]"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:189
+#: bp-core/bp-core-filters.php:186
 #, php-format
 msgid ""
 "Thanks for registering! To complete the activation of your account and blog, "
@@ -1400,12 +1400,12 @@ msgid ""
 "%s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:190
+#: bp-core/bp-core-filters.php:187
 #, php-format
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:221 bp-core/bp-core-signup.php:523
+#: bp-core/bp-core-filters.php:218 bp-core/bp-core-signup.php:523
 #, php-format
 msgid ""
 "Thanks for registering! To complete the activation of your account please "
@@ -1415,7 +1415,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:222 bp-core/bp-core-signup.php:524
+#: bp-core/bp-core-filters.php:219 bp-core/bp-core-signup.php:524
 msgid "Activate Your Account"
 msgstr ""
 
