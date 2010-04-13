@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-04-12 13:13+0000\n"
+"POT-Creation-Date: 2010-04-13 08:43+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -255,6 +255,7 @@ msgstr ""
 
 #: bp-activity/bp-activity-templatetags.php:591
 #: bp-activity/bp-activity-templatetags.php:724
+#: bp-forums/bp-forums-templatetags.php:928
 #: bp-themes/bp-default/_inc/ajax.php:192
 #: bp-xprofile/bp-xprofile-admin.php:397
 msgid "Delete"
@@ -505,6 +506,8 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:495 bp-core/bp-core-templatetags.php:385
 #: bp-core/bp-core-templatetags.php:391
+#: bp-forums/bp-forums-templatetags.php:976
+#: bp-forums/bp-forums-templatetags.php:982
 #: bp-groups/bp-groups-templatetags.php:1680
 #: bp-groups/bp-groups-templatetags.php:1686
 #: bp-themes/bp-default/_inc/ajax.php:56
@@ -513,6 +516,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:496 bp-core/bp-core-templatetags.php:392
 #: bp-core/bp-core-templatetags.php:1022
+#: bp-forums/bp-forums-templatetags.php:983
 #: bp-groups/bp-groups-templatetags.php:1687
 #: bp-themes/bp-default/header.php:63 bp-themes/bp-default/searchform.php:5
 msgid "Search"
@@ -1051,6 +1055,7 @@ msgid "Displays individual groups as well as a directory of groups."
 msgstr ""
 
 #: bp-core/admin/bp-core-upgrade.php:401 bp-core/bp-core-templatetags.php:1004
+#: bp-forums/bp-forums-admin.php:159
 msgid "Forums"
 msgstr ""
 
@@ -1749,8 +1754,167 @@ msgstr ""
 msgid "The topic was created successfully"
 msgstr ""
 
-#: bp-forums.php:95
+#: bp-forums.php:95 bp-forums/bp-forums-admin.php:8
 msgid "Forums Setup"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:12
+msgid "Settings Saved."
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:22
+#, php-format
+msgid ""
+"bbPress forum integration in BuddyPress has been set up correctly. If you "
+"are having problems you can <a href=\"%s\" title=\"Reinstall bbPress\">re-"
+"install</a>"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:23
+msgid ""
+"NOTE: The forums directory will only work if your bbPress tables are in the "
+"same database as your WordPress tables. If you are not using an existing "
+"bbPress install you can ignore this message."
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:38
+msgid ""
+"The bb-config.php file was not found at that location, please try again."
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:41
+msgid "Forums were set up correctly using your existing bbPress install!"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:42
+msgid ""
+"BuddyPress will now use its internal copy of bbPress to run the forums on "
+"your site. If you wish, you can remove your old bbPress installation files, "
+"as long as you keep the bb-config.php file in the same location."
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:47
+msgid "Existing bbPress Installation"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:48
+msgid ""
+"BuddyPress can make use of your existing bbPress install. Just provide the "
+"location of your <code>bb-config.php</code> file, and BuddyPress will do the "
+"rest."
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:50 bp-forums/bp-forums-admin.php:78
+msgid "Complete Installation"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:65
+msgid ""
+"All done! Configuration settings have been saved to the file <code>bb-config."
+"php</code> in the root of your WordPress install."
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:69
+msgid ""
+"A configuration file could not be created. No problem, but you will need to "
+"save the text shown below into a file named <code>bb-config.php</code> in "
+"the root directory of your WordPress installation before you can start using "
+"the forum functionality."
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:75
+msgid "New bbPress Installation"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:76
+msgid ""
+"You've decided to set up a new installation of bbPress for forum management "
+"in BuddyPress. This is very simple and is usually just a one click\n"
+"\t\t\t\tprocess. When you're ready, hit the link below."
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:86
+#, php-format
+msgid ""
+"bbPress files were not found. To install the forums component you must "
+"download a copy of bbPress and make sure it is in the folder: \"%s\""
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:90
+msgid ""
+"Forums in BuddyPress make use of a bbPress installation to function. You can "
+"choose to either let BuddyPress set up a new bbPress install, or use an "
+"already existing bbPress install. Please choose one of the options below."
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:92
+msgid "Set up a new bbPress installation"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:93
+msgid "Use an existing bbPress installation"
+msgstr ""
+
+#: bp-forums/bp-forums-templatetags.php:295
+#: bp-forums/bp-forums-templatetags.php:344
+#: bp-forums/bp-forums-templatetags.php:875
+msgid "Deleted User"
+msgstr ""
+
+#: bp-forums/bp-forums-templatetags.php:455
+#: bp-groups/bp-groups-templatetags.php:656
+#, php-format
+msgid "%d post"
+msgstr ""
+
+#: bp-forums/bp-forums-templatetags.php:457
+#: bp-groups/bp-groups-templatetags.php:658
+#, php-format
+msgid "%d posts"
+msgstr ""
+
+#: bp-forums/bp-forums-templatetags.php:554
+msgid "Edit Topic"
+msgstr ""
+
+#: bp-forums/bp-forums-templatetags.php:558
+msgid "Sticky Topic"
+msgstr ""
+
+#: bp-forums/bp-forums-templatetags.php:560
+msgid "Un-stick Topic"
+msgstr ""
+
+#: bp-forums/bp-forums-templatetags.php:563
+msgid "Open Topic"
+msgstr ""
+
+#: bp-forums/bp-forums-templatetags.php:565
+msgid "Close Topic"
+msgstr ""
+
+#: bp-forums/bp-forums-templatetags.php:567
+msgid "Delete Topic"
+msgstr ""
+
+#: bp-forums/bp-forums-templatetags.php:672
+#, php-format
+msgid " matching tag \"%s\""
+msgstr ""
+
+#: bp-forums/bp-forums-templatetags.php:674
+#, php-format
+msgid "Viewing topic %s to %s (%s total topics%s)"
+msgstr ""
+
+#: bp-forums/bp-forums-templatetags.php:927
+#: bp-themes/bp-default/functions.php:64 bp-xprofile/bp-xprofile-admin.php:396
+msgid "Edit"
+msgstr ""
+
+#: bp-forums/bp-forums-templatetags.php:958
+#, php-format
+msgid "Viewing post %d to %d (%d total posts)"
 msgstr ""
 
 #: bp-friends.php:29
@@ -2540,16 +2704,6 @@ msgstr ""
 #: bp-groups/bp-groups-templatetags.php:624
 #, php-format
 msgid "%d topics"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:656
-#, php-format
-msgid "%d post"
-msgstr ""
-
-#: bp-groups/bp-groups-templatetags.php:658
-#, php-format
-msgid "%d posts"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:720
@@ -3486,10 +3640,6 @@ msgstr ""
 
 #: bp-themes/bp-default/functions.php:57
 msgid "Your comment is awaiting moderation."
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:64 bp-xprofile/bp-xprofile-admin.php:396
-msgid "Edit"
 msgstr ""
 
 #: bp-themes/bp-default/functions.php:211
