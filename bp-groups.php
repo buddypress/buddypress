@@ -1657,6 +1657,7 @@ function groups_get_groups( $args = '' ) {
 	$defaults = array(
 		'type' => 'active', // active, newest, alphabetical, random, popular, most-forum-topics or most-forum-posts
 		'user_id' => false, // Pass a user_id to limit to only groups that this user is a member of
+		'include' => false, // Only include these specific groups (group_ids)
 		'search_terms' => false, // Limit to groups that match these search terms
 
 		'per_page' => 20, // The number of results to return per page
@@ -1667,29 +1668,7 @@ function groups_get_groups( $args = '' ) {
 	$params = wp_parse_args( $args, $defaults );
 	extract( $params, EXTR_SKIP );
 
-	switch ( $type ) {
-		case 'active': default:
-			$groups = BP_Groups_Group::get_active( $per_page, $page, $user_id, $search_terms, $populate_extras );
-			break;
-		case 'newest':
-			$groups = BP_Groups_Group::get_newest( $per_page, $page, $user_id, $search_terms, $populate_extras );
-			break;
-		case 'popular':
-			$groups = BP_Groups_Group::get_popular( $per_page, $page, $user_id, $search_terms, $populate_extras );
-			break;
-		case 'alphabetical':
-			$groups = BP_Groups_Group::get_alphabetically( $per_page, $page, $user_id, $search_terms, $populate_extras );
-			break;
-		case 'random':
-			$groups = BP_Groups_Group::get_random( $per_page, $page, $user_id, $search_terms, $populate_extras );
-			break;
-		case 'most-forum-topics':
-			$groups = BP_Groups_Group::get_by_most_forum_topics( $per_page, $page, $user_id, $search_terms, $populate_extras );
-			break;
-		case 'most-forum-posts':
-			$groups = BP_Groups_Group::get_by_most_forum_posts( $per_page, $page, $user_id, $search_terms, $populate_extras );
-			break;
-	}
+	$groups = BP_Groups_Group::get( $type, $per_page, $page, $user_id, $search_terms, $include, $populate_extras );
 
 	return apply_filters( 'groups_get_groups', $groups, &$params );
 }

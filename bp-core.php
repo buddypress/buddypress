@@ -297,7 +297,7 @@ function bp_core_setup_nav() {
 	 * If the extended profiles component is disabled, we need to revert to using the
 	 * built in WordPress profile information
 	 */
-	if ( !function_exists( 'xprofile_install' ) ) {
+	if ( !bp_is_active( 'xprofile' ) ) {
 		/* Fallback values if xprofile is disabled */
 		$bp->core->profile->slug = 'profile';
 		$bp->active_components[$bp->core->profile->slug] = $bp->core->profile->slug;
@@ -1076,7 +1076,7 @@ function bp_core_get_user_displayname( $user_id_or_username ) {
 		return false;
 
 	if ( !$fullname = wp_cache_get( 'bp_user_fullname_' . $user_id, 'bp' ) ) {
-		if ( function_exists('xprofile_install') ) {
+		if ( bp_is_active( 'xprofile' ) ) {
 			$fullname = xprofile_get_field_data( 1, $user_id );
 
 			if ( empty($fullname) ) {
@@ -1266,7 +1266,7 @@ function bp_core_setup_message() {
 	@setcookie( 'bp-message', false, time() - 1000, COOKIEPATH );
 	@setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH );
 }
-add_action( 'wp', 'bp_core_setup_message' );
+add_action( 'bp_init', 'bp_core_setup_message' );
 
 /**
  * bp_core_render_message()

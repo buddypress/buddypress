@@ -223,11 +223,11 @@ function bp_adminbar_random_menu() {
 		<ul class="random-list">
 			<li><a href="<?php echo $bp->root_domain . '/' . $bp->members->slug . '/?random-member' ?>"><?php _e( 'Random Member', 'buddypress' ) ?></a></li>
 
-			<?php if ( function_exists('groups_install') ) : ?>
+			<?php if ( bp_is_active( 'groups' ) ) : ?>
 			<li class="alt"><a href="<?php echo $bp->root_domain . '/' . $bp->groups->slug . '/?random-group' ?>"><?php _e( 'Random Group', 'buddypress' ) ?></a></li>
 			<?php endif; ?>
 
-			<?php if ( function_exists('bp_blogs_install') && bp_core_is_multisite() ) : ?>
+			<?php if ( bp_is_active( 'blogs' ) && bp_core_is_multisite() ) : ?>
 			<li><a href="<?php echo $bp->root_domain . '/' . $bp->blogs->slug . '/?random-blog' ?>"><?php _e( 'Random Blog', 'buddypress' ) ?></a></li>
 
 			<?php endif; ?>

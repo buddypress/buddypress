@@ -255,7 +255,7 @@ function bp_core_load_template( $templates ) {
 function bp_core_catch_profile_uri() {
 	global $bp;
 
-	if ( !function_exists('xprofile_install') )
+	if ( !bp_is_active( 'xprofile' ) )
 		bp_core_load_template( apply_filters( 'bp_core_template_display_profile', 'members/single/home' ) );
 }
 

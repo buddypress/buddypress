@@ -131,7 +131,7 @@ Class BP_Activity_Activity {
 		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(a.id) FROM {$bp->activity->table_name} a {$where_sql} ORDER BY a.date_recorded {$sort}" ) );
 
 		/* Get the fullnames of users so we don't have to query in the loop */
-		if ( function_exists( 'xprofile_install' ) && $activities ) {
+		if ( bp_is_active( 'xprofile' ) && $activities ) {
 			foreach ( (array)$activities as $activity ) {
 				if ( (int)$activity->user_id )
 					$activity_user_ids[] = $activity->user_id;
@@ -353,7 +353,7 @@ Class BP_Activity_Activity {
 
 		if ( !$comments = wp_cache_get( 'bp_activity_comments_' . $activity_id ) ) {
 			/* Select the user's fullname with the query so we don't have to fetch it for each comment */
-			if ( function_exists( 'xprofile_install' ) ) {
+			if ( bp_is_active( 'xprofile' ) ) {
 				$fullname_select = ", pd.value as user_fullname";
 				$fullname_from = ", {$bp->profile->table_name_data} pd ";
 				$fullname_where = "AND pd.user_id = a.user_id AND pd.field_id = 1";

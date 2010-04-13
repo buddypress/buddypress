@@ -355,7 +355,7 @@ function bp_forums_get_topic_extras( $topics ) {
 	}
 
 	/* Fetch fullname for the topic's last poster */
-	if ( function_exists( 'xprofile_install' ) ) {
+	if ( bp_is_active( 'xprofile' ) ) {
 		$poster_names = $wpdb->get_results( $wpdb->prepare( "SELECT t.topic_id, pd.value FROM {$bp->profile->table_name_data} pd, {$bbdb->topics} t WHERE pd.user_id = t.topic_last_poster AND pd.field_id = 1 AND t.topic_id IN ( {$topic_ids} )" ) );
 		for ( $i = 0; $i < count( $topics ); $i++ ) {
 			foreach ( (array)$poster_names as $name ) {
@@ -473,7 +473,7 @@ function bp_forums_get_post_extras( $posts ) {
 	}
 
 	/* Fetch fullname for each poster. */
-	if ( function_exists( 'xprofile_install' ) ) {
+	if ( bp_is_active( 'xprofile' ) ) {
 		$poster_names = $wpdb->get_results( $wpdb->prepare( "SELECT pd.user_id, pd.value FROM {$bp->profile->table_name_data} pd WHERE pd.user_id IN ( {$user_ids} )" ) );
 		for ( $i = 0; $i < count( $posts ); $i++ ) {
 			foreach ( (array)$poster_names as $name ) {

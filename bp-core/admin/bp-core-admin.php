@@ -32,7 +32,7 @@ function bp_core_admin_settings() {
 		// Settings form submitted, now save the settings.
 		foreach ( (array)$_POST['bp-admin'] as $key => $value ) {
 
-			if ( function_exists( 'xprofile_install' ) ) {
+			if ( bp_is_active( 'xprofile' ) ) {
 				if ( 'bp-xprofile-base-group-name' == $key ) {
 					$wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_groups} SET name = %s WHERE id = 1", $value ) );
 				}
@@ -61,7 +61,7 @@ function bp_core_admin_settings() {
 
 			<table class="form-table">
 			<tbody>
-				<?php if ( function_exists( 'xprofile_install' ) ) :?>
+				<?php if ( is_active( 'xprofile' ) ) :?>
 				<tr>
 					<th scope="row"><?php _e( 'Base profile group name', 'buddypress' ) ?>:</th>
 					<td>
@@ -112,7 +112,7 @@ function bp_core_admin_settings() {
 					</td>
 				</tr>
 				<?php endif; ?>
-				<?php if ( function_exists( 'bp_activity_install') ) : ?>
+				<?php if ( bp_is_active( 'activity' ) ) : ?>
 				<tr>
 					<th scope="row"><?php _e( 'Disable activity stream commenting on blog and forum posts?', 'buddypress' ) ?>:</th>
 					<td>

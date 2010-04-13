@@ -248,6 +248,8 @@ function bp_member_name() {
 	function bp_get_member_name() {
 		global $members_template;
 
+		var_dump( $members_template );
+
 		if ( empty($members_template->member->fullname) )
 			$members_template->member->fullname = $members_template->member->display_name;
 
@@ -687,8 +689,8 @@ function bp_last_activity( $user_id = false, $echo = true ) {
 		return apply_filters( 'bp_last_activity', $last_activity );
 }
 
-function bp_user_firstname() {
-	echo bp_get_user_firstname();
+function bp_user_firstname( $name = false ) {
+	echo bp_get_user_firstname( $name );
 }
 	function bp_get_user_firstname( $name = false ) {
 		global $bp;
@@ -988,7 +990,7 @@ function bp_search_form_action() {
 
 function bp_search_form_type_select() {
 	global $bp;
-	
+
 	// Eventually this won't be needed and a page will be built to integrate all search results.
 	$selection_box = '<select name="search-which" id="search-which" style="width: auto">';
 

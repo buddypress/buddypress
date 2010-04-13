@@ -55,7 +55,7 @@ class BP_Core_User {
 	 * @uses bp_profile_last_updated_date() Returns the last updated date for a user.
 	 */
 	function populate() {
-		if ( function_exists( 'xprofile_install' ) )
+		if ( bp_is_active( 'xprofile' ) )
 			$this->profile_data = $this->get_profile_data();
 
 		if ( $this->profile_data ) {
@@ -85,10 +85,10 @@ class BP_Core_User {
 	function populate_extras() {
 		global $bp;
 
-		if ( function_exists('friends_install') )
+		if ( bp_is_active( 'friends' ) )
 			$this->total_friends = BP_Friends_Friendship::total_friend_count( $this->id );
 
-		if ( function_exists('groups_install') ) {
+		if ( bp_is_active( 'groups' ) ) {
 			$this->total_groups = BP_Groups_Member::total_group_count( $this->id );
 
 			if ( $this->total_groups ) {
@@ -124,7 +124,7 @@ class BP_Core_User {
 
 		$sql['from'] = "FROM " . CUSTOM_USER_TABLE . " u LEFT JOIN " . CUSTOM_USER_META_TABLE . " um ON um.user_id = u.ID";
 
-		if ( $search_terms && function_exists( 'xprofile_install' ) || 'alphabetical' == $type )
+		if ( $search_terms && bp_is_active( 'xprofile' ) || 'alphabetical' == $type )
 			$sql['join_profiledata'] = "LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id";
 
 		$sql['where'] = 'WHERE ' . bp_core_get_status_sql( 'u.' );
@@ -141,7 +141,7 @@ class BP_Core_User {
 		if ( 'alphabetical' == $type )
 			$sql['where_alpha'] = "AND pd.field_id = 1";
 
-		if ( $user_id && function_exists( 'friends_install' ) ) {
+		if ( $user_id && bp_is_active( 'friends' ) ) {
 			$friend_ids = friends_get_friend_user_ids( $user_id );
 			$friend_ids = $wpdb->escape( implode( ',', (array)$friend_ids ) );
 
@@ -153,7 +153,7 @@ class BP_Core_User {
 			}
 		}
 
-		if ( $search_terms && function_exists( 'xprofile_install' ) ) {
+		if ( $search_terms && bp_is_active( 'xprofile' ) ) {
 			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
 			$sql['where_searchterms'] = "AND pd.value LIKE '%%$search_terms%%'";
 		}
@@ -319,7 +319,7 @@ class BP_Core_User {
 			return $paged_users;
 
 		/* Fetch the user's full name */
-		if ( function_exists( 'xprofile_install' ) && 'alphabetical' != $type ) {
+		if ( bp_is_active( 'xprofile' ) && 'alphabetical' != $type ) {
 			$names = $wpdb->get_results( $wpdb->prepare( "SELECT pd.user_id as id, pd.value as fullname FROM {$bp->profile->table_name_fields} pf, {$bp->profile->table_name_data} pd WHERE pf.id = pd.field_id AND pf.name = %s AND pd.user_id IN ( {$user_ids} )", BP_XPROFILE_FULLNAME_FIELD_NAME ) );
 			for ( $i = 0; $i < count( $paged_users ); $i++ ) {
 				foreach ( (array)$names as $name ) {
@@ -341,7 +341,7 @@ class BP_Core_User {
 		}
 
 		/* Fetch whether or not the user is a friend */
-		if ( function_exists( 'friends_install' ) ) {
+		if ( bp_is_active( 'friends' ) ) {
 			$friend_status = $wpdb->get_results( $wpdb->prepare( "SELECT initiator_user_id, friend_user_id, is_confirmed FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d AND friend_user_id IN ( {$user_ids} ) ) OR (initiator_user_id IN ( {$user_ids} ) AND friend_user_id = %d )", $bp->loggedin_user->id, $bp->loggedin_user->id ) );
 			for ( $i = 0; $i < count( $paged_users ); $i++ ) {
 				foreach ( (array)$friend_status as $status ) {
@@ -380,6 +380,8 @@ class BP_Core_User {
 					$paged_users[$i]->latest_update = $update->latest_update;
 			}
 		}
+
+		var_dump( $paged_users );
 
 		return $paged_users;
 	}

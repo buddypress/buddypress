@@ -156,7 +156,7 @@ class BP_Friends_Friendship {
 			return false;
 
 		// filter the user_ids based on the search criteria.
-		if ( function_exists('xprofile_install') ) {
+		if ( bp_is_active( 'xprofile' ) ) {
 			$sql = "SELECT DISTINCT user_id FROM {$bp->profile->table_name_data} WHERE user_id IN ($fids) AND value LIKE '$filter%%' {$pag_sql}";
 			$total_sql = "SELECT COUNT(DISTINCT user_id) FROM {$bp->profile->table_name_data} WHERE user_id IN ($fids) AND value LIKE '$filter%%'";
 		} else {
@@ -222,7 +222,7 @@ class BP_Friends_Friendship {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		// filter the user_ids based on the search criteria.
-		if ( function_exists('xprofile_install') ) {
+		if ( bp_is_active( 'xprofile' ) ) {
 			$sql = $wpdb->prepare( "SELECT DISTINCT d.user_id as id FROM {$bp->profile->table_name_data} d, $users_table u WHERE d.user_id = u.id AND d.value LIKE '$filter%%' ORDER BY d.value DESC $pag_sql" );
 		} else {
 			$sql = $wpdb->prepare( "SELECT DISTINCT user_id as id FROM $usermeta_table WHERE meta_value LIKE '$filter%%' ORDER BY d.value DESC $pag_sql" );
@@ -245,7 +245,7 @@ class BP_Friends_Friendship {
 		$users_table = $wpdb->base_prefix . 'users';
 
 		// filter the user_ids based on the search criteria.
-		if ( function_exists('xprofile_install') ) {
+		if ( bp_is_active( 'xprofile' ) ) {
 			$sql = $wpdb->prepare( "SELECT COUNT(DISTINCT d.user_id) FROM {$bp->profile->table_name_data} d, $users_table u WHERE d.user_id = u.id AND d.value LIKE '$filter%%'" );
 		} else {
 			$sql = $wpdb->prepare( "SELECT COUNT(DISTINCT user_id) FROM $usermeta_table WHERE meta_value LIKE '$filter%%'" );
@@ -262,7 +262,7 @@ class BP_Friends_Friendship {
 	function sort_by_name( $user_ids ) {
 		global $wpdb, $bp;
 
-		if ( !function_exists( 'xprofile_install') )
+		if ( !bp_is_active( 'xprofile' ) )
 			return false;
 
 		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$bp->profile->table_name_data} pd, {$bp->profile->table_name_fields} pf WHERE pf.id = pd.field_id AND pf.name = %s AND pd.user_id IN ( {$user_ids} ) ORDER BY pd.value ASC", BP_XPROFILE_FULLNAME_FIELD_NAME ) );

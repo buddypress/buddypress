@@ -22,7 +22,7 @@ class BP_Groups_Template {
 	var $sort_by;
 	var $order;
 
-	function bp_groups_template( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $populate_extras ) {
+	function bp_groups_template( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $include, $populate_extras ) {
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['grpage'] ) ? intval( $_REQUEST['grpage'] ) : $page;
@@ -35,7 +35,7 @@ class BP_Groups_Template {
 			$group->group_id = BP_Groups_Group::get_id_from_slug($slug);
 			$this->groups = array( $group );
 		} else
-			$this->groups = groups_get_groups( array( 'type' => $type, 'per_page' => $this->pag_num, 'page' =>$this->pag_page, 'user_id' => $user_id, 'search_terms' => $search_terms, 'populate_extras' => $populate_extras ) );
+			$this->groups = groups_get_groups( array( 'type' => $type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'search_terms' => $search_terms, 'include' => $include, 'populate_extras' => $populate_extras ) );
 
 		if ( 'invites' == $type ) {
 			$this->total_group_count = (int)$this->groups['total'];
@@ -168,6 +168,7 @@ function bp_has_groups( $args = '' ) {
 		'user_id' => $user_id, // Pass a user ID to limit to groups this user has joined
 		'slug' => $slug, // Pass a group slug to only return that group
 		'search_terms' => $search_terms, // Pass search terms to return only matching groups
+		'include' => false, // Pass comma separated list of group ID's to return only these groups
 
 		'populate_extras' => true // Get extra meta - is_member, is_banned
 	);
@@ -175,7 +176,7 @@ function bp_has_groups( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
 
-	$groups_template = new BP_Groups_Template( (int)$user_id, $type, (int)$page, (int)$per_page, (int)$max, $slug, $search_terms, (bool)$populate_extras );
+	$groups_template = new BP_Groups_Template( (int)$user_id, $type, (int)$page, (int)$per_page, (int)$max, $slug, $search_terms, $include, (bool)$populate_extras );
 	return apply_filters( 'bp_has_groups', $groups_template->has_groups(), &$groups_template );
 }
 
@@ -725,7 +726,7 @@ function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
 				<h5><?php echo bp_core_get_userlink( $admin->user_id ) ?></h5>
 				<span class="activity"><?php echo bp_core_get_last_activity( strtotime( $admin->date_modified ), __( 'joined %s ago', 'buddypress') ); ?></span>
 
-				<?php if ( function_exists( 'friends_install' ) ) : ?>
+				<?php if ( bp_is_active( 'friends' ) ) : ?>
 					<div class="action">
 						<?php bp_add_friend_button( $admin->user_id ) ?>
 					</div>
@@ -763,7 +764,7 @@ function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 					<h5><?php echo bp_core_get_userlink( $mod->user_id ) ?></h5>
 					<span class="activity"><?php echo bp_core_get_last_activity( strtotime( $mod->date_modified ), __( 'joined %s ago', 'buddypress') ); ?></span>
 
-					<?php if ( function_exists( 'friends_install' ) ) : ?>
+					<?php if ( bp_is_active( 'friends' ) ) : ?>
 						<div class="action">
 							<?php bp_add_friend_button( $mod->user_id ) ?>
 						</div>
@@ -1033,7 +1034,7 @@ function bp_group_send_invite_form_action() {
 function bp_has_friends_to_invite( $group = false ) {
 	global $groups_template, $bp;
 
-	if ( !function_exists('friends_install') )
+	if ( !bp_is_active( 'friends' ) )
 		return false;
 
 	if ( !$group )
@@ -1046,50 +1047,55 @@ function bp_has_friends_to_invite( $group = false ) {
 }
 
 function bp_group_join_button( $group = false ) {
-	global $bp, $groups_template;
-
-	if ( !$group )
-		$group =& $groups_template->group;
-
-	// If they're not logged in or are banned from the group, no join button.
-	if ( !is_user_logged_in() || $group->is_banned )
-		return false;
-
-	if ( !$group->status )
-		return false;
-
-	if ( 'hidden' == $group->status && !$group->is_member )
-		return false;
-
-	echo '<div class="generic-button group-button ' . $group->status . '" id="groupbutton-' . $group->id . '">';
-
-	switch ( $group->status ) {
-		case 'public':
-			if ( $group->is_member )
-				echo '<a class="leave-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
-			else
-				echo '<a class="join-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'join', 'groups_join_group' ) . '">' . __( 'Join Group', 'buddypress' ) . '</a>';
-		break;
-
-		case 'private':
-			if ( $group->is_member ) {
-				echo '<a class="leave-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
-			} else {
-				if ( !bp_group_has_requested_membership( $group ) )
-					echo '<a class="request-membership" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'request-membership', 'groups_request_membership' ) . '">' . __('Request Membership', 'buddypress') . '</a>';
-				else
-					echo '<a class="membership-requested" href="' . bp_get_group_permalink( $group ) . '">' . __( 'Request Sent', 'buddypress' ) . '</a>';
-			}
-		break;
-
-		case 'hidden':
-			if ( $group->is_member )
-				echo '<a class="leave-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
-		break;
-	}
-
-	echo '</div>';
+	echo bp_get_group_join_button( $group );
 }
+	function bp_get_group_join_button( $group = false ) {
+		global $bp, $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		// If they're not logged in or are banned from the group, no join button.
+		if ( !is_user_logged_in() || $group->is_banned )
+			return false;
+
+		if ( !$group->status )
+			return false;
+
+		if ( 'hidden' == $group->status && !$group->is_member )
+			return false;
+
+		$button = '<div class="generic-button group-button ' . $group->status . '" id="groupbutton-' . $group->id . '">';
+
+		switch ( $group->status ) {
+			case 'public':
+				if ( $group->is_member )
+					$button .= '<a class="leave-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
+				else
+					$button .= '<a class="join-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'join', 'groups_join_group' ) . '">' . __( 'Join Group', 'buddypress' ) . '</a>';
+			break;
+
+			case 'private':
+				if ( $group->is_member ) {
+					$button .= '<a class="leave-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
+				} else {
+					if ( !bp_group_has_requested_membership( $group ) )
+						$button .= '<a class="request-membership" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'request-membership', 'groups_request_membership' ) . '">' . __('Request Membership', 'buddypress') . '</a>';
+					else
+						$button .= '<a class="membership-requested" href="' . bp_get_group_permalink( $group ) . '">' . __( 'Request Sent', 'buddypress' ) . '</a>';
+				}
+			break;
+
+			case 'hidden':
+				if ( $group->is_member )
+					$button .= '<a class="leave-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
+			break;
+		}
+
+		$button .= '</div>';
+
+		return apply_filters( 'bp_get_group_join_button', $button );
+	}
 
 function bp_group_status_message( $group = false ) {
 	global $groups_template;
@@ -1639,7 +1645,7 @@ function bp_new_group_invite_friend_list() {
 	function bp_get_new_group_invite_friend_list( $args = '' ) {
 		global $bp;
 
-		if ( !function_exists('friends_install') )
+		if ( !bp_is_active( 'friends' ) )
 			return false;
 
 		$defaults = array(
