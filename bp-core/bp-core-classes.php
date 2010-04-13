@@ -381,8 +381,6 @@ class BP_Core_User {
 			}
 		}
 
-		var_dump( $paged_users );
-
 		return $paged_users;
 	}
 

@@ -248,8 +248,6 @@ function bp_member_name() {
 	function bp_get_member_name() {
 		global $members_template;
 
-		var_dump( $members_template );
-
 		if ( empty($members_template->member->fullname) )
 			$members_template->member->fullname = $members_template->member->display_name;
 
