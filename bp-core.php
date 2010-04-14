@@ -531,6 +531,7 @@ function bp_core_get_users( $args = '' ) {
 		'user_id' => false, // Pass a user_id to limit to only friend connections for this user
 		'search_terms' => false, // Limit to users that match these search terms
 
+		'include' => false, // Pass comma separated list of user_ids to limit to only these users
 		'per_page' => 20, // The number of results to return per page
 		'page' => 1, // The page to return if limiting per page
 		'populate_extras' => true, // Fetch the last active, where the user is a friend, total friend count, latest update
@@ -539,7 +540,7 @@ function bp_core_get_users( $args = '' ) {
 	$params = wp_parse_args( $args, $defaults );
 	extract( $params, EXTR_SKIP );
 
-	return apply_filters( 'bp_core_get_users', BP_Core_User::get_users( $type, $per_page, $page, $user_id, $search_terms, $populate_extras ), &$params );
+	return apply_filters( 'bp_core_get_users', BP_Core_User::get_users( $type, $per_page, $page, $user_id, $include, $search_terms, $populate_extras ), &$params );
 }
 
 /**

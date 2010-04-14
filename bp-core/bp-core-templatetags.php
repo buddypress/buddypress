@@ -26,12 +26,8 @@ class BP_Core_Members_Template {
 
 		if ( isset( $_REQUEST['letter'] ) && '' != $_REQUEST['letter'] ) {
 			$this->members = BP_Core_User::get_users_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page, $populate_extras );
-		}
-		else if ( false !== $include ) {
-			$this->members = BP_Core_User::get_specific_users( $include, $this->pag_num, $this->pag_page, $populate_extras );
-		}
-		else {
-			$this->members = bp_core_get_users( array( 'type' => $this->type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'search_terms' => $search_terms, 'populate_extras' => $populate_extras ) );
+		} else {
+			$this->members = bp_core_get_users( array( 'type' => $this->type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'include' => $include, 'search_terms' => $search_terms, 'populate_extras' => $populate_extras ) );
 		}
 
 		if ( !$max || $max >= (int)$this->members['total'] )
@@ -159,8 +155,7 @@ function bp_has_members( $args = '' ) {
 	}
 
 	$members_template = new BP_Core_Members_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $include, (bool)$populate_extras );
-
-	return $members_template->has_members();
+	return apply_filters( 'bp_has_members', $members_template->has_members(), &$members_template );
 }
 
 function bp_the_member() {
