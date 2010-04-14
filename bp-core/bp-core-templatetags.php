@@ -154,6 +154,10 @@ function bp_has_members( $args = '' ) {
 			$per_page = $max;
 	}
 
+	/* Make sure we return no members if we looking at friendship requests and there are none. */
+	if ( empty( $include ) && $bp->friends->slug == $bp->current_component && 'requests' == $bp->current_action )
+		return false;
+
 	$members_template = new BP_Core_Members_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $include, (bool)$populate_extras );
 	return apply_filters( 'bp_has_members', $members_template->has_members(), &$members_template );
 }

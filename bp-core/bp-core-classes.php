@@ -141,7 +141,17 @@ class BP_Core_User {
 		if ( 'alphabetical' == $type )
 			$sql['where_alpha'] = "AND pd.field_id = 1";
 
-		if ( $user_id && function_exists( 'friends_install' ) ) {
+		if ( $include ) {
+			if ( is_array( $include ) )
+				$uids = $wpdb->escape( implode( ',', (array)$include ) );
+			else
+				$uids = $wpdb->escape( $include );
+
+			if ( !empty( $uids ) )
+				$sql['where_users'] = "AND u.ID IN ({$uids})";
+		}
+
+		else if ( $user_id && function_exists( 'friends_install' ) ) {
 			$friend_ids = friends_get_friend_user_ids( $user_id );
 			$friend_ids = $wpdb->escape( implode( ',', (array)$friend_ids ) );
 
@@ -151,19 +161,6 @@ class BP_Core_User {
 				/* User has no friends, return false since there will be no users to fetch. */
 				return false;
 			}
-		}
-
-		if ( $include ) {
-			/* Unset previous user restriction SQL */
-			unset( $sql['where_friends'] );
-
-			if ( is_array( $include ) )
-				$uids = $wpdb->escape( implode( ',', (array)$include ) );
-			else
-				$uids = $wpdb->escape( $include );
-
-			if ( !empty( $uids ) )
-				$sql['where_users'] = "AND u.ID IN ({$uids})";
 		}
 
 		if ( $search_terms && function_exists( 'xprofile_install' ) ) {
