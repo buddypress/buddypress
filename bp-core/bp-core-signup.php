@@ -251,7 +251,7 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 	$user_email = sanitize_email( $user_email );
 
 	if ( empty( $user_name ) )
-	   	$errors->add( 'user_name', __( 'Please enter a username', 'buddypress' ) );
+		$errors->add( 'user_name', __( 'Please enter a username', 'buddypress' ) );
 
 	$maybe = array();
 	preg_match( "/[a-z0-9]+/", $user_name, $maybe );
@@ -259,14 +259,18 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 	$db_illegal_names = get_site_option( 'illegal_names' );
 	$filtered_illegal_names = apply_filters( 'bp_core_illegal_usernames', array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', BP_GROUPS_SLUG, BP_MEMBERS_SLUG, BP_FORUMS_SLUG, BP_BLOGS_SLUG, BP_REGISTER_SLUG, BP_ACTIVATION_SLUG ) );
 
-	$illegal_names = array_merge( (array)$db_illegal_names, (array)$filtered_illegal_names );
+	/* Safely merge our illegal names into existing site_option */
+	$common_names			= array_intersect( (array)$db_illegal_names, (array)$filtered_illegal_names );
+	$diff_names				= array_diff( (array)$db_illegal_names, (array)$filtered_illegal_names );
+	$illegal_names			= array_merge( (array)$diff_names, (array)$common_names );
+
 	update_site_option( 'illegal_names', $illegal_names );
 
 	if ( !validate_username( $user_name ) || in_array( $user_name, (array)$illegal_names ) || $user_name != $maybe[0] )
-	    $errors->add( 'user_name', __( 'Only lowercase letters and numbers allowed', 'buddypress' ) );
+		$errors->add( 'user_name', __( 'Only lowercase letters and numbers allowed', 'buddypress' ) );
 
 	if( strlen( $user_name ) < 4 )
-	    $errors->add( 'user_name',  __( 'Username must be at least 4 characters', 'buddypress' ) );
+		$errors->add( 'user_name',  __( 'Username must be at least 4 characters', 'buddypress' ) );
 
 	if ( strpos( ' ' . $user_name, '_' ) != false )
 		$errors->add( 'user_name', __( 'Sorry, usernames may not contain the character "_"!', 'buddypress' ) );
