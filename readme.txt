@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: apeatling
 Tags: buddypress, social networking, activity, profiles, messaging, friends, groups, forums, microblogging, twitter, facebook, mingle, social, community, networks, networking, cms
-Requires at least: WordPress 2.9.1
-Tested up to: WordPress 2.9.2
-Stable tag: 1.2.2
+Requires at least: 2.9.1
+Tested up to: 2.9.2
+Stable tag: 1.2.3
 
 == Description ==
 
@@ -20,6 +20,24 @@ If you're interested in seeing what a default installation of BuddyPress has to 
 <h4>Who's Using BuddyPress?</h4>
 
 More and more WordPress with BuddyPress powered sites are popping up. You can take a look at some of the best sites on the <a href="http://buddypress.org/demo/">BuddyPress demo page</a> or the <a href="http://wordpress.org/showcase/flavor/buddypress/">BuddyPress section of the WordPress showcase</a>.
+
+<h4>Plugins: Adding So Much More</h4>
+
+BuddyPress boasts an ever growing array of new features developed by the awesome plugin development community. Some of most popular BuddyPress plugins currently available are:
+
+*	<a href="http://wordpress.org/extend/plugins/wp-fb-autoconnect">WP-FB-AutoConnect</a> - allow your users to instantly log in to your site using their Facebook credentials.
+*	<a href="http://wordpress.org/extend/plugins/buddypress-like">BuddyPress Like</a> - add a "like" button to site activity.
+*	<a href="http://wordpress.org/extend/plugins/buddypress-links">BuddyPress Links</a> - rich media embedding for your BuddyPress powered site.
+*	<a href="http://wordpress.org/extend/plugins/tweetstream">BuddyPress Tweetstream</a> - allow your users to sync and post to their Twitter stream.
+*	<a href="http://wordpress.org/extend/plugins/facestream">BuddyPress Facestream</a> - allow your users to sync and post to their Facebook stream.
+*	<a href="http://wordpress.org/extend/plugins/bp-album">BuddyPress Album+</a> - allow your users to upload photos and create albums.
+*	<a href="http://wordpress.org/extend/plugins/buddypress-group-documents">BuddyPress Group Documents</a> - add file upload and document repositories to your groups.
+*	<a href="http://wordpress.org/extend/plugins/bp-profile-privacy">BuddyPress Profile Privacy</a> - allow your users to set privacy options on their profile data.
+*	<a href="http://wordpress.org/extend/plugins/welcome-pack">BuddyPress Welcome Pack</a> - set defaults for new users, auto join them to groups or send welcome messages.
+*	<a href="http://wordpress.org/extend/plugins/bp-groupblog">BuddyPress Group Blog</a> (WordPress MU only) - allow your groups to include a fully functional WordPress blog.
+*	<a href="http://wordpress.org/extend/plugins/buddypress-group-wiki/">BuddyPress Group Wiki</a> - add wiki functionality to your groups so all members can contribute to pages.
+
+There are already more than 125 BuddyPress plugins available, the list is growing every day. For a full list of plugins, please visit the <a href="http://buddypress.org/extend/plugins/">BuddyPress.org plugins page</a>. You can also install any of these plugins automatically through the plugin installer menu inside of your WordPress installation.
 
 <h4>More Information</h4>
 
@@ -43,7 +61,9 @@ BuddyPress also includes support for discussion forums. Each group created on yo
 
 = Can I use my existing WordPress theme? =
 
-Yes you can. First install and activate BuddyPress, then download and activate the <a href="http://wordpress.org/extend/plugins/bp-template-pack/">template extension pack</a>. This plugin will run you through the process step-by-step.
+Of course! First install and activate BuddyPress, then download and activate the <a href="http://wordpress.org/extend/plugins/bp-template-pack/">template extension pack</a>. This plugin will run you through the process step-by-step.
+
+Be sure to also try out the default theme bundled with BuddyPress. It provides all the awesome features of a standard WordPress blog, but also integrates the BuddyPress features both seamlessly and beautfully. It's also really easy to modify with custom header support, widget support and via a <a href="http://codex.buddypress.org/how-to-guides/building-a-buddypress-child-theme/">child theme</a>.
 
 = Will this work on standard WordPress and WordPress MU? =
 
@@ -64,6 +84,47 @@ Bugs can be reported here: http://trac.buddypress.org/newticket/
 = Where can checkout the latest bleeding edge? =
 
 BuddyPress subversion trunk can be found at: http://svn.buddypress.org/trunk/
+
+== Screenshots ==
+
+1. **Activity Streams** - Global, personal and group activity streams with threaded commenting, direct posting, favoriting and @mentions. All with full RSS feed and email notification support.
+2. **Extended Profiles** - Fully editable profile fields allow you to define the fields users can fill in to describe themselves. Tailor profile fields to suit your audience.
+3. **Extensible Groups** - Powerful public, private or hidden groups allow your users to break the discussion down into specific topics. Extend groups with your own custom features using the group extension API.
+4. **Friend Connections** - Let your users make connections so they can track the activity of others, or filter on only those users they care about the most.
+5. **Private Messaging** - Private messaging will allow your users to talk to each other directly, and in private. Not just limited to one on one discussions, your users can send messages to multiple recipients.
+6. **Discussion Forums** - Full powered discussion forums built directly into groups allow for more conventional in-depth conversations.
+7. **WordPress Blogging** - Start a blog built on the best blogging software in the world. Even allow each of your users to start their own full powered WordPress blog (with WordPress MU). Track new posts and comments across your site.
+
+== Languages ==
+
+BuddyPress is available in more than 20 languages. For more information about BuddyPress in your language please select a langauge site from the list below. Is your language missing? Please send a message to the <a href="http://lists.automattic.com/mailman/listinfo/wp-polyglots">WP-Polygots</a> mailing list and request for your language to be set up.
+
+*	<a href="http://br.buddypress.org/">Brasil</a>
+*	<a href="http://ca.buddypress.org/">Català</a>
+*	<a href="http://de.buddypress.org/">Deutsch</a>
+*	<a href="http://es.buddypress.org/">Español</a>
+*	<a href="http://fr.buddypress.org/">Français</a>
+*	<a href="http://id.buddypress.org/">Indonesia</a>
+*	<a href="http://it.buddypress.org/">Italia</a>
+*	<a href="http://lv.buddypress.org/">Latviešu valodā</a>
+*	<a href="http://nl.buddypress.org/">Nederland</a>
+*	<a href="http://pl.buddypress.org/">Polska</a>
+*	<a href="http://pt.buddypress.org/">Portugal</a>
+*	<a href="http://ru.buddypress.org/">Русский</a>
+*	<a href="http://fi.buddypress.org/">Suomi</a>
+*	<a href="http://th.buddypress.org/">Thai</a>
+*	<a href="http://uk.buddypress.org/">Україна</a>
+*	<a href="http://ja.buddypress.org/">日本語</a>
+*	<a href="http://cn.buddypress.org/">简体中文</a>
+*	<a href="http://ko.buddypress.org/">한국어</a>
+*	<a href="http://tw.buddypress.org/">正體中文</a>
+
+The <a href="http://i18n.svn.buddypress.org/">BuddyPress langauge file repository</a> includes some language that have not yet set up a localization site.
+
+== Upgrade Notice ==
+
+= 1.2.2.1 =
+Fixes a bug where new account activation emails would not be sent correctly. Important upgrade.
 
 == Changelog ==
 

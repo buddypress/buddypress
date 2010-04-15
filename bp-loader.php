@@ -6,7 +6,7 @@ Description: Social networking in a box. Build a social network for your company
 Author: The BuddyPress Community
 Version: 1.3-bleeding
 Author URI: http://buddypress.org/developers/
-Site Wide Only: true
+Network: true
 */
 
 define( 'BP_VERSION', '1.3-bleeding' );

@@ -459,7 +459,7 @@ function bp_core_action_delete_user() {
 			$errors = true;
 		}
 
-		do_action( 'bp_core_action_set_spammer_status', $errors );
+		do_action( 'bp_core_action_delete_user', $errors );
 
 		if ( $errors )
 			bp_core_redirect( $bp->displayed_user->domain );
@@ -493,6 +493,7 @@ function bp_core_get_users( $args = '' ) {
 		'user_id' => false, // Pass a user_id to limit to only friend connections for this user
 		'search_terms' => false, // Limit to users that match these search terms
 
+		'include' => false, // Pass comma separated list of user_ids to limit to only these users
 		'per_page' => 20, // The number of results to return per page
 		'page' => 1, // The page to return if limiting per page
 		'populate_extras' => true, // Fetch the last active, where the user is a friend, total friend count, latest update
@@ -501,7 +502,7 @@ function bp_core_get_users( $args = '' ) {
 	$params = wp_parse_args( $args, $defaults );
 	extract( $params, EXTR_SKIP );
 
-	return apply_filters( 'bp_core_get_users', BP_Core_User::get_users( $type, $per_page, $page, $user_id, $search_terms, $populate_extras ), &$params );
+	return apply_filters( 'bp_core_get_users', BP_Core_User::get_users( $type, $per_page, $page, $user_id, $include, $search_terms, $populate_extras ), &$params );
 }
 
 /**
@@ -913,8 +914,10 @@ add_action( 'wp', 'bp_core_get_random_member' );
 function bp_core_get_userid( $username ) {
 	global $wpdb;
 
-	if ( !empty( $username ) )
-		return apply_filters( 'bp_core_get_userid', $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $username ) ) );
+	if ( empty( $username ) )
+		return false;
+
+	return apply_filters( 'bp_core_get_userid', $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $username ) ) );
 }
 
 /**
@@ -936,7 +939,6 @@ function bp_core_get_userid_from_nicename( $user_nicename ) {
 
 	return apply_filters( 'bp_core_get_userid_from_nicename', $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_nicename = %s", $user_nicename ) ) );
 }
-
 
 /**
  * bp_core_get_username()
@@ -1429,7 +1431,7 @@ function bp_core_number_format( $number, $decimals = false ) {
 	if ( empty( $number ) )
 		return $number;
 
-	return apply_filters( 'bp_core_bp_core_number_format', number_format( $number, $decimals ), $number, $decimals );
+	return apply_filters( 'bp_core_number_format', number_format( $number, $decimals ), $number, $decimals );
 }
 
 /**
@@ -1476,13 +1478,15 @@ function bp_core_get_site_path() {
 			unset( $site_path[1] );
 			unset( $site_path[2] );
 
-			$site_path = '/' . implode( '/', $site_path ) . '/';
+			if ( !count( $site_path ) )
+				$site_path = '/';
+			else
+				$site_path = '/' . implode( '/', $site_path ) . '/';
 		}
 	}
 
 	return apply_filters( 'bp_core_get_site_path', $site_path );
 }
-
 /**
  * bp_core_get_site_options()
  *
@@ -1605,9 +1609,10 @@ function bp_core_add_illegal_names() {
  *
  * @package BuddyPress Core
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @uses check_admin_referer() Checks for a valid security nonce.
  * @uses is_site_admin() Checks to see if the user is a site administrator.
- * @uses wpmu_delete_user() Deletes a user from the system.
+ * @uses wpmu_delete_user() Deletes a user from the system on multisite installs.
+ * @uses wp_delete_user() Deletes a user from the system on singlesite installs.
+ * @uses get_site_option Checks if account deletion is allowed
  */
 function bp_core_delete_account( $user_id = false ) {
 	global $bp, $wpdb;
@@ -1619,17 +1624,19 @@ function bp_core_delete_account( $user_id = false ) {
 	if ( (int)get_site_option( 'bp-disable-account-deletion' ) )
 		return false;
 
-	/* Site admins should not be allowed to be deleted */
-	if ( bp_core_is_multisite() && is_site_admin( bp_core_get_username( $user_id ) ) )
-		return false;
+	/* Specifically handle multi-site environment */
+	if ( bp_core_is_multisite() ) {
+		/* Site admins cannot be deleted */
+		if ( is_site_admin( bp_core_get_username( $user_id ) ) )
+			return false;
 
-	if ( bp_core_is_multisite() && function_exists('wpmu_delete_user') ) {
 		require_once( ABSPATH . '/wp-admin/includes/mu.php' );
 		require_once( ABSPATH . '/wp-admin/includes/user.php' );
 
 		return wpmu_delete_user( $user_id );
 	}
 
+	/* Single site user deletion */
 	require_once( ABSPATH . '/wp-admin/includes/user.php' );
 	return wp_delete_user( $user_id );
 }
@@ -1740,7 +1747,7 @@ function bp_core_print_generation_time() {
 	global $wpdb;
 	?>
 
-<!-- Generated in <?php timer_stop(1); ?> seconds. (<?php echo get_num_queries(); ?> q) -->
+<!-- Generated in <?php timer_stop(1); ?> seconds. -->
 
 	<?php
 }
@@ -1811,7 +1818,7 @@ function bp_core_boot_spammer( $auth_obj, $username ) {
 
 	$user = get_userdatabylogin( $username );
 
-	if ( (int)$user->spam )
+	if ( ( bp_core_is_multisite() && (int)$user->spam ) || 1 == (int)$user->user_status )
 		bp_core_redirect( $bp->root_domain );
 	else
 		return $auth_obj;

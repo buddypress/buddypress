@@ -154,8 +154,13 @@ function bp_core_fetch_avatar( $args = '' ) {
 			}
 		}
 
+		if ( is_ssl() )
+			$host = 'https://secure.gravatar.com/avatar/';
+		else
+			$host = 'http://www.gravatar.com/avatar/';
+
 		$email = apply_filters( 'bp_core_gravatar_email', $email, $item_id, $object );
-		$gravatar = apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' ) . md5( $email ) . '?d=' . $default_grav . '&amp;s=' . $grav_size;
+		$gravatar = apply_filters( 'bp_gravatar_url', $host ) . md5( $email ) . '?d=' . $default_grav . '&amp;s=' . $grav_size;
 
 		return apply_filters( 'bp_core_fetch_avatar', "<img src='{$gravatar}' alt='{$alt}' class='{$class}'{$css_id}{$html_width}{$html_height} />", $params );
 
@@ -388,6 +393,8 @@ function bp_core_avatar_upload_path() {
 	else {
 		if ( !$path = get_option( 'upload_path' ) )
 			$path = WP_CONTENT_DIR . '/uploads';
+		else
+			$path = ABSPATH . $path;
 	}
 
 	return apply_filters( 'bp_core_avatar_upload_path', $path );

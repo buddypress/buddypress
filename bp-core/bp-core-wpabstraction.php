@@ -68,7 +68,7 @@ if ( !function_exists( 'get_blogs_of_user' ) ) {
 }
 
 if ( !function_exists( 'is_site_admin' ) ) {
-	function is_site_admin() {
+	function is_site_admin( $user_id = false ) {
 		if ( current_user_can( 'manage_options' ) )
 			return true;
 

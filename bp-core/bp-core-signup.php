@@ -360,11 +360,15 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 	/***
 	 * Now generate an activation key and send an email to the user so they can activate their account
 	 * and validate their email address. Multisite installs send their own email, so this is only for single blog installs.
+	 *
+	 * To disable sending activation emails you can user the filter 'bp_core_signup_send_activation_key' and return false.
 	 */
-	if ( !bp_core_is_multisite() ) {
-		$activation_key = wp_hash( $user_id );
-		update_usermeta( $user_id, 'activation_key', $activation_key );
-		bp_core_signup_send_validation_email( $user_id, $user_email, $activation_key );
+	if ( apply_filters( 'bp_core_signup_send_activation_key', true ) ) {
+		if ( !bp_core_is_multisite() ) {
+			$activation_key = wp_hash( $user_id );
+			update_usermeta( $user_id, 'activation_key', $activation_key );
+			bp_core_signup_send_validation_email( $user_id, $user_email, $activation_key );
+		}
 	}
 
 	do_action( 'bp_core_signup_user', $user_id, $user_login, $user_password, $user_email, $usermeta );

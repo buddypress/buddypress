@@ -33,7 +33,7 @@ To view and read your messages please log in and visit: %s
 ---------------------
 ', 'buddypress' ), $sender_name, $subject, $content, $message_link );
 
-		$content .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+		$email_content .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
 		/* Send the message */
 		$email_to = apply_filters( 'messages_notification_new_message_to', $email_to );

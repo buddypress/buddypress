@@ -30,6 +30,9 @@
 
 			<th id="th-postcount"><?php _e( 'Posts', 'buddypress' ) ?></th>
 			<th id="th-freshness"><?php _e( 'Freshness', 'buddypress' ) ?></th>
+
+			<?php do_action( 'bp_directory_forums_extra_cell_head' ) ?>
+
 		</tr>
 
 		<?php while ( bp_forum_topics() ) : bp_the_forum_topic(); ?>
