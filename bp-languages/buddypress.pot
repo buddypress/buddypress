@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-04-16 13:13+0000\n"
+"POT-Creation-Date: 2010-04-19 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -977,7 +977,7 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:196 bp-core/bp-core-signup.php:528
+#: bp-core/bp-core-filters.php:196 bp-core/bp-core-signup.php:539
 #, php-format
 msgid ""
 "Thanks for registering! To complete the activation of your account please "
@@ -987,7 +987,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:197 bp-core/bp-core-signup.php:529
+#: bp-core/bp-core-filters.php:197 bp-core/bp-core-signup.php:540
 msgid "Activate Your Account"
 msgstr ""
 
@@ -1070,79 +1070,79 @@ msgstr ""
 msgid "The passwords you entered do not match."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:68
+#: bp-core/bp-core-signup.php:74
 msgid "This is a required field"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:157
+#: bp-core/bp-core-signup.php:168
 msgid ""
 "There was a problem uploading your avatar, please try uploading it again"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:187 bp-xprofile.php:393
+#: bp-core/bp-core-signup.php:198 bp-xprofile.php:393
 msgid "There was a problem cropping your avatar, please try uploading it again"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:189
+#: bp-core/bp-core-signup.php:200
 msgid "Your new avatar was uploaded successfully"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:211 bp-core/bp-core-signup.php:398
+#: bp-core/bp-core-signup.php:222 bp-core/bp-core-signup.php:409
 msgid "There was an error activating your account, please try again."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:225
+#: bp-core/bp-core-signup.php:236
 msgid "Your account is now active!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:254
+#: bp-core/bp-core-signup.php:265
 msgid "Please enter a username"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:270
+#: bp-core/bp-core-signup.php:281
 msgid "Only lowercase letters and numbers allowed"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:273
+#: bp-core/bp-core-signup.php:284
 msgid "Username must be at least 4 characters"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:276
+#: bp-core/bp-core-signup.php:287
 msgid "Sorry, usernames may not contain the character \"_\"!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:283
+#: bp-core/bp-core-signup.php:294
 msgid "Sorry, usernames must have letters too!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:286
+#: bp-core/bp-core-signup.php:297
 msgid "Please check your email address."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:294
+#: bp-core/bp-core-signup.php:305
 msgid "Sorry, that email address is not allowed!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:299
+#: bp-core/bp-core-signup.php:310
 msgid "Sorry, that username already exists!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:303
+#: bp-core/bp-core-signup.php:314
 msgid "Sorry, that email address is already used!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:338
+#: bp-core/bp-core-signup.php:349
 #, php-format
 msgid ""
 "<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a "
 "href=\"mailto:%s\">webmaster</a> !"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:423 bp-core/bp-core-signup.php:427
+#: bp-core/bp-core-signup.php:434 bp-core/bp-core-signup.php:438
 msgid "Invalid activation key"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:470
+#: bp-core/bp-core-signup.php:481
 #, php-format
 msgid "%s became a registered member"
 msgstr ""
