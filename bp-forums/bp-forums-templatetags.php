@@ -253,7 +253,7 @@ function bp_the_topic_text() {
 		global $forum_template;
 
 		$post = bb_get_first_post( (int)$forum_template->topic->topic_id, false );
-		return apply_filters( 'bp_get_the_topic_text', $post->post_text );
+		return apply_filters( 'bp_get_the_topic_text', attribute_escape( $post->post_text ) );
 	}
 
 function bp_the_topic_poster_id() {
@@ -463,7 +463,7 @@ function bp_the_topic_total_posts() {
 	function bp_get_the_topic_total_posts() {
 		global $forum_template;
 
-		return $forum_template->topic->topic_posts;
+		return apply_filters( 'bp_get_the_topic_total_posts', $forum_template->topic->topic_posts );
 	}
 
 function bp_the_topic_tag_count() {
@@ -937,7 +937,7 @@ function bp_the_topic_post_edit_text() {
 		global $bp;
 
 		$post = bp_forums_get_post( $bp->action_variables[4] );
-		return attribute_escape( $post->post_text );
+		return apply_filters( 'bp_get_the_topic_post_edit_text', attribute_escape( $post->post_text ) );
 	}
 
 function bp_the_topic_pagination() {
