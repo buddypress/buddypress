@@ -64,7 +64,7 @@ class BP_Groups_Template {
 		}
 
 		$this->pag_links = paginate_links( array(
-			'base' => add_query_arg( array( 'grpage' => '%#%', 'num' => $this->pag_num, 's' => $_REQUEST['s'], 'sortby' => $this->sort_by, 'order' => $this->order ) ),
+			'base' => add_query_arg( array( 'grpage' => '%#%', 'num' => $this->pag_num, 's' => $search_terms, 'sortby' => $this->sort_by, 'order' => $this->order ) ),
 			'format' => '',
 			'total' => ceil($this->total_group_count / $this->pag_num),
 			'current' => $this->pag_page,
