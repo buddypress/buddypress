@@ -34,7 +34,7 @@ Class BP_Activity_Activity {
 			$this->primary_link = $row->primary_link;
 			$this->component = $row->component;
 			$this->type = $row->type;
-			$this->action = $row->type;
+			$this->action = $row->action;
 			$this->content = $row->content;
 			$this->date_recorded = $row->date_recorded;
 			$this->hide_sitewide = $row->hide_sitewide;
