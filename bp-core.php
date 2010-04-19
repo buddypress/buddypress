@@ -1352,7 +1352,7 @@ function bp_core_setup_message() {
 	@setcookie( 'bp-message', false, time() - 1000, COOKIEPATH );
 	@setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH );
 }
-add_action( 'wp', 'bp_core_setup_message' );
+add_action( 'wp', 'bp_core_setup_message', 2 );
 
 /**
  * bp_core_render_message()
