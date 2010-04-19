@@ -396,7 +396,7 @@ function bp_core_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name,
 }
 
 function bp_core_activate_signup( $key ) {
-	global $wpdb;
+	global $bp, $wpdb;
 
 	$user = false;
 
