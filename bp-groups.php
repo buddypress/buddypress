@@ -225,7 +225,7 @@ function groups_screen_group_invites() {
 			$group = new BP_Groups_Group( $group_id );
 
 			groups_record_activity( array(
-				'action' => apply_filters( 'groups_activity_accepted_invite_action', sprintf( __( '%s joined the group %s', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . attribute_escape( $group->name ) . '</a>' ), $bp->loggedin_user->id, &$group ),
+				'action' => apply_filters( 'groups_activity_accepted_invite_action', sprintf( __( '%1$s joined the group %2$s', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . attribute_escape( $group->name ) . '</a>' ), $bp->loggedin_user->id, &$group ),
 				'type' => 'joined_group',
 				'item_id' => $group->id
 			) );
@@ -1047,7 +1047,7 @@ function groups_action_create_group() {
 
 			/* Once we compelete all steps, record the group creation in the activity stream. */
 			groups_record_activity( array(
-				'action' => apply_filters( 'groups_activity_created_group_action', sprintf( __( '%s created the group %s', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' ) ),
+				'action' => apply_filters( 'groups_activity_created_group_action', sprintf( __( '%1$s created the group %2$s', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' ) ),
 				'type' => 'created_group',
 				'item_id' => $bp->groups->new_group_id
 			) );
@@ -1256,10 +1256,10 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_link = bp_get_group_permalink( $group );
 
 			if ( (int)$total_items > 1 ) {
-				return apply_filters( 'bp_groups_multiple_new_membership_requests_notification', '<a href="' . $group_link . '/admin/membership-requests/?n=1" title="' . __( 'Group Membership Requests', 'buddypress' ) . '">' . sprintf( __('%d new membership requests for the group "%s"', 'buddypress' ), (int)$total_items, $group->name ) . '</a>', $group_link, $total_items, $group->name );
+				return apply_filters( 'bp_groups_multiple_new_membership_requests_notification', '<a href="' . $group_link . '/admin/membership-requests/?n=1" title="' . __( 'Group Membership Requests', 'buddypress' ) . '">' . sprintf( __('%1$d new membership requests for the group "%2$s"', 'buddypress' ), (int)$total_items, $group->name ) . '</a>', $group_link, $total_items, $group->name );
 			} else {
 				$user_fullname = bp_core_get_user_displayname( $requesting_user_id );
-				return apply_filters( 'bp_groups_single_new_membership_request_notification', '<a href="' . $group_link . 'admin/membership-requests/?n=1" title="' . $user_fullname .' requests group membership">' . sprintf( __('%s requests membership for the group "%s"', 'buddypress' ), $user_fullname, $group->name ) . '</a>', $group_link, $user_fullname, $group->name );
+				return apply_filters( 'bp_groups_single_new_membership_request_notification', '<a href="' . $group_link . 'admin/membership-requests/?n=1" title="' . $user_fullname .' requests group membership">' . sprintf( __('%1$s requests membership for the group "%2$s"', 'buddypress' ), $user_fullname, $group->name ) . '</a>', $group_link, $user_fullname, $group->name );
 			}
 		break;
 
@@ -1620,7 +1620,7 @@ function groups_join_group( $group_id, $user_id = false ) {
 
 	/* Record this in activity streams */
 	groups_record_activity( array(
-		'action' => apply_filters( 'groups_activity_joined_group', sprintf( __( '%s joined the group %s', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' ) ),
+		'action' => apply_filters( 'groups_activity_joined_group', sprintf( __( '%1$s joined the group %2$s', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' ) ),
 		'type' => 'joined_group',
 		'item_id' => $group_id
 	) );
@@ -1775,7 +1775,7 @@ function groups_post_update( $args = '' ) {
 		return false;
 
 	/* Record this in activity streams */
-	$activity_action = sprintf( __( '%s posted an update in the group %s:', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
+	$activity_action = sprintf( __( '%1$s posted an update in the group %2$s:', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
 	$activity_content = $content;
 
 	$activity_id = groups_record_activity( array(
@@ -1828,7 +1828,7 @@ function groups_new_group_forum_post( $post_text, $topic_id, $page = false ) {
 	if ( $post_id = bp_forums_insert_post( array( 'post_text' => $post_text, 'topic_id' => $topic_id ) ) ) {
 		$topic = bp_forums_get_topic_details( $topic_id );
 
-		$activity_action = sprintf( __( '%s posted on the forum topic %s in the group %s:', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug .'/">' . attribute_escape( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
+		$activity_action = sprintf( __( '%1$s posted on the forum topic %2$s in the group %3$s:', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug .'/">' . attribute_escape( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
 		$activity_content = bp_create_excerpt( $post_text );
 		$primary_link = bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug . '/';
 
@@ -1867,7 +1867,7 @@ function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $
 	if ( $topic_id = bp_forums_new_topic( array( 'topic_title' => $topic_title, 'topic_text' => $topic_text, 'topic_tags' => $topic_tags, 'forum_id' => $forum_id ) ) ) {
 		$topic = bp_forums_get_topic_details( $topic_id );
 
-		$activity_action = sprintf( __( '%s started the forum topic %s in the group %s:', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug .'/">' . attribute_escape( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
+		$activity_action = sprintf( __( '%1$s started the forum topic %2$s in the group %3$s:', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug .'/">' . attribute_escape( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
 		$activity_content = bp_create_excerpt( $topic_text );
 
 		/* Record this in activity streams */
@@ -1899,7 +1899,7 @@ function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text )
 		if ( function_exists( 'bp_activity_delete_by_item_id' ) )
 			bp_activity_delete_by_item_id( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $topic_id, 'component' => $bp->groups->id, 'type' => 'new_forum_topic' ) );
 
-		$activity_action = sprintf( __( '%s started the forum topic %s in the group %s:', 'buddypress'), bp_core_get_userlink( $topic->topic_poster ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug .'/">' . attribute_escape( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
+		$activity_action = sprintf( __( '%1$s started the forum topic %2$s in the group %3$s:', 'buddypress'), bp_core_get_userlink( $topic->topic_poster ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug .'/">' . attribute_escape( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
 		$activity_content = bp_create_excerpt( $topic_text );
 
 		/* Record this in activity streams */
@@ -1933,7 +1933,7 @@ function groups_update_group_forum_post( $post_id, $post_text, $topic_id, $page 
 	if ( $post_id = bp_forums_insert_post( array( 'post_id' => $post_id, 'post_text' => $post_text, 'post_time' => $post->post_time, 'topic_id' => $topic_id, 'poster_id' => $post->poster_id ) ) ) {
 		$topic = bp_forums_get_topic_details( $topic_id );
 
-		$activity_action = sprintf( __( '%s posted on the forum topic %s in the group %s:', 'buddypress'), bp_core_get_userlink( $post->poster_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug .'">' . attribute_escape( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
+		$activity_action = sprintf( __( '%1$s posted on the forum topic %2$s in the group %3$s:', 'buddypress'), bp_core_get_userlink( $post->poster_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug .'">' . attribute_escape( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . attribute_escape( $bp->groups->current_group->name ) . '</a>' );
 		$activity_content = bp_create_excerpt( $post_text );
 		$primary_link = bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug . '/';
 
@@ -2254,7 +2254,7 @@ function groups_accept_membership_request( $membership_id, $user_id = false, $gr
 	$group = new BP_Groups_Group( $group_id );
 
 	groups_record_activity( array(
-		'action' => apply_filters( 'groups_activity_membership_accepted_action', sprintf( __( '%s joined the group %s', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . attribute_escape( $group->name ) . '</a>' ), $user_id, &$group ),
+		'action' => apply_filters( 'groups_activity_membership_accepted_action', sprintf( __( '%1$s joined the group %2$s', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . attribute_escape( $group->name ) . '</a>' ), $user_id, &$group ),
 		'type' => 'joined_group',
 		'item_id' => $group->id,
 		'user_id' => $user_id

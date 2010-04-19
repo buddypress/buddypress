@@ -22,13 +22,13 @@ function messages_notification_new_message( $args ) {
 		$email_subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'New message from %s', 'buddypress' ), $sender_name );
 
 		$email_content = sprintf( __(
-'%s sent you a new message:
+'%1$s sent you a new message:
 
-Subject: %s
+Subject: %2$s
 
-"%s"
+"%3$s"
 
-To view and read your messages please log in and visit: %s
+To view and read your messages please log in and visit: %4$s
 
 ---------------------
 ', 'buddypress' ), $sender_name, $subject, $content, $message_link );

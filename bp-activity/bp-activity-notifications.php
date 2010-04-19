@@ -31,11 +31,11 @@ function bp_activity_at_message_notification( $content, $poster_user_id, $activi
 			$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s mentioned you in an update', 'buddypress' ), $poster_name );
 
 $message = sprintf( __(
-'%s mentioned you in an update:
+'%1$s mentioned you in an update:
 
-"%s"
+"%2$s"
 
-To view and respond to the message, log in and visit: %s
+To view and respond to the message, log in and visit: %3$s
 
 ---------------------
 ', 'buddypress' ), $poster_name, $content, $message_link );
@@ -74,11 +74,11 @@ function bp_activity_new_comment_notification( $comment_id, $commenter_id, $para
 		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s replied to one of your updates', 'buddypress' ), $poster_name );
 
 $message = sprintf( __(
-'%s replied to one of your updates:
+'%1$s replied to one of your updates:
 
-"%s"
+"%2$s"
 
-To view your original update and all comments, log in and visit: %s
+To view your original update and all comments, log in and visit: %3$s
 
 ---------------------
 ', 'buddypress' ), $poster_name, $content, $thread_link );
@@ -116,11 +116,11 @@ To view your original update and all comments, log in and visit: %s
 		$content = bp_activity_filter_kses( stripslashes( $content ) );
 
 $message = sprintf( __(
-'%s replied to one of your comments:
+'%1$s replied to one of your comments:
 
-"%s"
+"%2$s"
 
-To view the original activity, your comment and all replies, log in and visit: %s
+To view the original activity, your comment and all replies, log in and visit: %3$s
 
 ---------------------
 ', 'buddypress' ), $poster_name, $content, $thread_link );

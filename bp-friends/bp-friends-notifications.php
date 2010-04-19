@@ -21,11 +21,11 @@ function friends_notification_new_request( $friendship_id, $initiator_id, $frien
 	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'New friendship request from %s', 'buddypress' ), $initiator_name );
 
 	$message = sprintf( __(
-"%s wants to add you as a friend.
+"%1$s wants to add you as a friend.
 
-To view all of your pending friendship requests: %s
+To view all of your pending friendship requests: %2$s
 
-To view %s's profile: %s
+To view %3$s's profile: %4$s
 
 ---------------------
 ", 'buddypress' ), $initiator_name, $all_requests_link, $initiator_name, $initiator_link );
@@ -60,9 +60,9 @@ function friends_notification_accepted_request( $friendship_id, $initiator_id, $
 	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s accepted your friendship request', 'buddypress' ), $friend_name );
 
 	$message = sprintf( __(
-'%s accepted your friend request.
+'%1$s accepted your friend request.
 
-To view %s\'s profile: %s
+To view %2$s\'s profile: %3$s
 
 ---------------------
 ', 'buddypress' ), $friend_name, $friend_name, $friend_link );

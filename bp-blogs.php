@@ -287,7 +287,7 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 		/* Record this in activity streams */
 		bp_blogs_record_activity( array(
 			'user_id' => $recorded_blog->user_id,
-			'action' => apply_filters( 'bp_blogs_activity_created_blog_action', sprintf( __( '%s created the blog %s', 'buddypress'), bp_core_get_userlink( $recorded_blog->user_id ), '<a href="' . get_blog_option( $recorded_blog->blog_id, 'siteurl' ) . '">' . attribute_escape( $name ) . '</a>' ), &$recorded_blog, $name, $description ),
+			'action' => apply_filters( 'bp_blogs_activity_created_blog_action', sprintf( __( '%1$s created the blog %2$s', 'buddypress'), bp_core_get_userlink( $recorded_blog->user_id ), '<a href="' . get_blog_option( $recorded_blog->blog_id, 'siteurl' ) . '">' . attribute_escape( $name ) . '</a>' ), &$recorded_blog, $name, $description ),
 			'primary_link' => apply_filters( 'bp_blogs_activity_created_blog_primary_link', get_blog_option( $recorded_blog->blog_id, 'siteurl' ), $recorded_blog->blog_id ),
 			'type' => 'new_blog',
 			'item_id' => $recorded_blog->blog_id
@@ -322,7 +322,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 			/* Record this in activity streams */
 			$post_permalink = get_permalink( $post_id );
 
-			$activity_action = sprintf( __( '%s wrote a new blog post: %s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' );
+			$activity_action = sprintf( __( '%1$s wrote a new blog post: %2$s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' );
 			$activity_content = $post->post_content;
 
 			bp_blogs_record_activity( array(
@@ -369,7 +369,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 	if ( (int)get_blog_option( $recorded_comment->blog_id, 'blog_public' ) || !bp_core_is_multisite() ) {
 		/* Record in activity streams */
 		$comment_link = get_permalink( $comment->comment_post_ID ) . '#comment-' . $comment_id;
-		$activity_action = sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $comment_link . '#comment-' . $comment->comment_ID . '">' . $comment->post->post_title . '</a>' );
+		$activity_action = sprintf( __( '%1$s commented on the blog post %2$s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $comment_link . '#comment-' . $comment->comment_ID . '">' . $comment->post->post_title . '</a>' );
 		$activity_content = $comment->comment_content;
 
 		/* Record this in activity streams */

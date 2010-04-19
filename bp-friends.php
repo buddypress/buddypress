@@ -384,7 +384,7 @@ function friends_accept_friendship( $friendship_id ) {
 		friends_record_activity( array(
 			'user_id' => $friendship->initiator_user_id,
 			'type' => 'friendship_created',
-			'action' => apply_filters( 'friends_activity_friendship_accepted_action', sprintf( __( '%s and %s are now friends', 'buddypress' ), $initiator_link, $friend_link ), &$friendship ),
+			'action' => apply_filters( 'friends_activity_friendship_accepted_action', sprintf( __( '%1$s and %2$s are now friends', 'buddypress' ), $initiator_link, $friend_link ), &$friendship ),
 			'item_id' => $friendship_id
 		) );
 
@@ -392,7 +392,7 @@ function friends_accept_friendship( $friendship_id ) {
 		friends_record_activity( array(
 			'user_id' => $friendship->friend_user_id,
 			'type' => 'friendship_created',
-			'action' => apply_filters( 'friends_activity_friendship_accepted_action', sprintf( __( '%s and %s are now friends', 'buddypress' ), $friend_link, $initiator_link ), &$friendship ),
+			'action' => apply_filters( 'friends_activity_friendship_accepted_action', sprintf( __( '%1$s and %2$s are now friends', 'buddypress' ), $friend_link, $initiator_link ), &$friendship ),
 			'item_id' => $friendship_id,
 			'hide_sitewide' => true /* We've already got the first entry site wide */
 		) );

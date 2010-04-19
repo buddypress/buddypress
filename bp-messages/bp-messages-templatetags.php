@@ -312,7 +312,7 @@ function bp_messages_pagination_count() {
 	$to_num = bp_core_number_format( ( $from_num + ( $messages_template->pag_num - 1 ) > $messages_template->total_thread_count ) ? $messages_template->total_thread_count : $from_num + ( $messages_template->pag_num - 1 ) );
 	$total = bp_core_number_format( $messages_template->total_thread_count );
 
-	echo sprintf( __( 'Viewing message %s to %s (of %s messages)', 'buddypress' ), $from_num, $to_num, $total ); ?> &nbsp;
+	echo sprintf( __( 'Viewing message %1$d to %2$d (of %3$d messages)', 'buddypress' ), $from_num, $to_num, $total ); ?> &nbsp;
 	<span class="ajax-loader"></span><?php
 }
 
