@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-04-15 13:13+0000\n"
+"POT-Creation-Date: 2010-04-20 13:12+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -155,11 +155,11 @@ msgstr ""
 #: bp-activity/bp-activity-notifications.php:34
 #, php-format
 msgid ""
-"%s mentioned you in an update:\n"
+"%1$s mentioned you in an update:\n"
 "\n"
-"\"%s\"\n"
+"\"%2$s\"\n"
 "\n"
-"To view and respond to the message, log in and visit: %s\n"
+"To view and respond to the message, log in and visit: %3$s\n"
 "\n"
 "---------------------\n"
 msgstr ""
@@ -188,11 +188,11 @@ msgstr ""
 #: bp-activity/bp-activity-notifications.php:77
 #, php-format
 msgid ""
-"%s replied to one of your updates:\n"
+"%1$s replied to one of your updates:\n"
 "\n"
-"\"%s\"\n"
+"\"%2$s\"\n"
 "\n"
-"To view your original update and all comments, log in and visit: %s\n"
+"To view your original update and all comments, log in and visit: %3$s\n"
 "\n"
 "---------------------\n"
 msgstr ""
@@ -205,19 +205,19 @@ msgstr ""
 #: bp-activity/bp-activity-notifications.php:119
 #, php-format
 msgid ""
-"%s replied to one of your comments:\n"
+"%1$s replied to one of your comments:\n"
 "\n"
-"\"%s\"\n"
+"\"%2$s\"\n"
 "\n"
 "To view the original activity, your comment and all replies, log in and "
-"visit: %s\n"
+"visit: %3$s\n"
 "\n"
 "---------------------\n"
 msgstr ""
 
 #: bp-activity/bp-activity-templatetags.php:277
 #, php-format
-msgid "Viewing item %s to %s (of %s items)"
+msgid "Viewing item %1$d to %2$d (of %3$d items)"
 msgstr ""
 
 #: bp-activity/bp-activity-templatetags.php:412 bp-groups.php:31
@@ -375,17 +375,17 @@ msgstr ""
 
 #: bp-blogs.php:290
 #, php-format
-msgid "%s created the blog %s"
+msgid "%1$s created the blog %2$s"
 msgstr ""
 
 #: bp-blogs.php:325
 #, php-format
-msgid "%s wrote a new blog post: %s"
+msgid "%1$s wrote a new blog post: %2$s"
 msgstr ""
 
 #: bp-blogs.php:372
 #, php-format
-msgid "%s commented on the blog post %s"
+msgid "%1$s commented on the blog post %2$s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:169
@@ -669,16 +669,6 @@ msgid ""
 "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update "
 "your permalink structure</a> to something other than the default for it to "
 "work."
-msgstr ""
-
-#: bp-core.php:1917
-#, php-format
-msgid ""
-"<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a "
-"BuddyPress compatible theme</a> to take advantage of all of the features. "
-"We've bundled a default theme, but you can always <a href='%s'>install some "
-"other compatible themes</a> or <a href='%s'>upgrade your existing WordPress "
-"theme</a>."
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:52
@@ -1390,21 +1380,6 @@ msgstr ""
 msgid "[User Set]"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:186
-#, php-format
-msgid ""
-"Thanks for registering! To complete the activation of your account and blog, "
-"please click the following link:\n"
-"\n"
-"%s\n"
-"\n"
-"\n"
-"\n"
-"After you activate, you can visit your blog here:\n"
-"\n"
-"%s"
-msgstr ""
-
 #: bp-core/bp-core-filters.php:187
 #, php-format
 msgid "Activate %s"
@@ -1587,22 +1562,22 @@ msgstr ""
 
 #: bp-core/bp-core-templatetags.php:183
 #, php-format
-msgid "Viewing member %s to %s (of %s active members)"
+msgid "Viewing member %1$d to %2$d (of %3$d active members)"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:185
 #, php-format
-msgid "Viewing member %s to %s (of %s members with friends)"
+msgid "Viewing member %1$d to %2$d (of %3$d members with friends)"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:187
 #, php-format
-msgid "Viewing member %s to %s (of %s members online)"
+msgid "Viewing member %1$d to %2$d (of %3$d members online)"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:189
 #, php-format
-msgid "Viewing member %s to %s (of %s members)"
+msgid "Viewing member %1$d to %2$d (of %3$d members)"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:224
@@ -2017,7 +1992,7 @@ msgstr ""
 
 #: bp-friends.php:387 bp-friends.php:395
 #, php-format
-msgid "%s and %s are now friends"
+msgid "%1$s and %2$s are now friends"
 msgstr ""
 
 #: bp-friends/bp-friends-notifications.php:21
@@ -2025,24 +2000,12 @@ msgstr ""
 msgid "New friendship request from %s"
 msgstr ""
 
-#: bp-friends/bp-friends-notifications.php:24
-#, php-format
-msgid ""
-"%s wants to add you as a friend.\n"
-"\n"
-"To view all of your pending friendship requests: %s\n"
-"\n"
-"To view %s's profile: %s\n"
-"\n"
-"---------------------\n"
-msgstr ""
-
 #: bp-friends/bp-friends-notifications.php:63
 #, php-format
 msgid ""
-"%s accepted your friend request.\n"
+"%1$s accepted your friend request.\n"
 "\n"
-"To view %s's profile: %s\n"
+"To view %2$s's profile: %3$s\n"
 "\n"
 "---------------------\n"
 msgstr ""
@@ -2165,7 +2128,7 @@ msgstr ""
 
 #: bp-groups.php:228 bp-groups.php:1623 bp-groups.php:2257
 #, php-format
-msgid "%s joined the group %s"
+msgid "%1$s joined the group %2$s"
 msgstr ""
 
 #: bp-groups.php:242
@@ -2381,7 +2344,7 @@ msgstr ""
 
 #: bp-groups.php:1050
 #, php-format
-msgid "%s created the group %s"
+msgid "%1$s created the group %2$s"
 msgstr ""
 
 #: bp-groups.php:1098
@@ -2422,12 +2385,12 @@ msgstr ""
 
 #: bp-groups.php:1259
 #, php-format
-msgid "%d new membership requests for the group \"%s\""
+msgid "%1$d new membership requests for the group \"%2$s\""
 msgstr ""
 
 #: bp-groups.php:1262
 #, php-format
-msgid "%s requests membership for the group \"%s\""
+msgid "%1$s requests membership for the group \"%2$s\""
 msgstr ""
 
 #: bp-groups.php:1273
@@ -2498,17 +2461,17 @@ msgstr ""
 
 #: bp-groups.php:1778
 #, php-format
-msgid "%s posted an update in the group %s:"
+msgid "%1$s posted an update in the group %2$s:"
 msgstr ""
 
 #: bp-groups.php:1831 bp-groups.php:1936
 #, php-format
-msgid "%s posted on the forum topic %s in the group %s:"
+msgid "%1$s posted on the forum topic %2$s in the group %3$s:"
 msgstr ""
 
 #: bp-groups.php:1870 bp-groups.php:1902
 #, php-format
-msgid "%s started the forum topic %s in the group %s:"
+msgid "%1$s started the forum topic %2$s in the group %3$s:"
 msgstr ""
 
 #: bp-groups/bp-groups-classes.php:607
@@ -2522,9 +2485,9 @@ msgstr ""
 #: bp-groups/bp-groups-notifications.php:22
 #, php-format
 msgid ""
-"Group details for the group \"%s\" were updated:\n"
+"Group details for the group \"%1$s\" were updated:\n"
 "\n"
-"To view the group: %s\n"
+"To view the group: %2$s\n"
 "\n"
 "---------------------\n"
 msgstr ""
@@ -2537,15 +2500,15 @@ msgstr ""
 #: bp-groups/bp-groups-notifications.php:65
 #, php-format
 msgid ""
-"%s wants to join the group \"%s\".\n"
+"%1$s wants to join the group \"%2$s\".\n"
 "\n"
 "Because you are the administrator of this group, you must either accept or "
 "reject the membership request.\n"
 "\n"
 "To view all pending membership requests for this group, please visit:\n"
-"%s\n"
+"%3$s\n"
 "\n"
-"To view %s's profile: %s\n"
+"To view %4$s's profile: %5$s\n"
 "\n"
 "---------------------\n"
 msgstr ""
@@ -2558,9 +2521,9 @@ msgstr ""
 #: bp-groups/bp-groups-notifications.php:112
 #, php-format
 msgid ""
-"Your membership request for the group \"%s\" has been accepted.\n"
+"Your membership request for the group \"%1$s\" has been accepted.\n"
 "\n"
-"To view the group please login and visit: %s\n"
+"To view the group please login and visit: %2$s\n"
 "\n"
 "---------------------\n"
 msgstr ""
@@ -2573,9 +2536,9 @@ msgstr ""
 #: bp-groups/bp-groups-notifications.php:122
 #, php-format
 msgid ""
-"Your membership request for the group \"%s\" has been rejected.\n"
+"Your membership request for the group \"%1$s\" has been rejected.\n"
 "\n"
-"To submit another request please log in and visit: %s\n"
+"To submit another request please log in and visit: %2$s\n"
 "\n"
 "---------------------\n"
 msgstr ""
@@ -2596,9 +2559,9 @@ msgstr ""
 #: bp-groups/bp-groups-notifications.php:169
 #, php-format
 msgid ""
-"You have been promoted to %s for the group: \"%s\".\n"
+"You have been promoted to %1$s for the group: \"%2$s\".\n"
 "\n"
-"To view the group please visit: %s\n"
+"To view the group please visit: %3$s\n"
 "\n"
 "---------------------\n"
 msgstr ""
@@ -2611,30 +2574,30 @@ msgstr ""
 #: bp-groups/bp-groups-notifications.php:217
 #, php-format
 msgid ""
-"One of your friends %s has invited you to the group: \"%s\".\n"
+"One of your friends %1$s has invited you to the group: \"%2$s\".\n"
 "\n"
-"To view your group invites visit: %s\n"
+"To view your group invites visit: %3$s\n"
 "\n"
-"To view the group visit: %s\n"
+"To view the group visit: %4$s\n"
 "\n"
-"To view %s's profile visit: %s\n"
+"To view %5$s's profile visit: %6$s\n"
 "\n"
 "---------------------\n"
 msgstr ""
 
 #: bp-groups/bp-groups-notifications.php:273
 #, php-format
-msgid "%s mentioned you in the group \"%s\""
+msgid "%1$s mentioned you in the group \"%2$s\""
 msgstr ""
 
 #: bp-groups/bp-groups-notifications.php:276
 #, php-format
 msgid ""
-"%s mentioned you in the group \"%s\":\n"
+"%1$s mentioned you in the group \"%2$s\":\n"
 "\n"
-"\"%s\"\n"
+"\"%3$s\"\n"
 "\n"
-"To view and respond to the message, log in and visit: %s\n"
+"To view and respond to the message, log in and visit: %4$s\n"
 "\n"
 "---------------------\n"
 msgstr ""
@@ -2682,7 +2645,7 @@ msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:559
 #, php-format
-msgid "Viewing group %s to %s (of %s groups)"
+msgid "Viewing group %1$d to %2$d (of %3$d groups)"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:582
@@ -2787,7 +2750,7 @@ msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1416
 #, php-format
-msgid "Viewing members %s to %s (of %s members)"
+msgid "Viewing members %1$d to %2$d (of %3$d members)"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1702
@@ -2845,7 +2808,7 @@ msgstr ""
 msgid "Messages <strong></strong>"
 msgstr ""
 
-#: bp-messages.php:43
+#: bp-messages.php:43 bp-messages.php:301 bp-messages.php:303
 msgid "Inbox"
 msgstr ""
 
@@ -2977,20 +2940,20 @@ msgstr ""
 #: bp-messages/bp-messages-notifications.php:25
 #, php-format
 msgid ""
-"%s sent you a new message:\n"
+"%1$s sent you a new message:\n"
 "\n"
-"Subject: %s\n"
+"Subject: %2$s\n"
 "\n"
-"\"%s\"\n"
+"\"%3$s\"\n"
 "\n"
-"To view and read your messages please log in and visit: %s\n"
+"To view and read your messages please log in and visit: %4$s\n"
 "\n"
 "---------------------\n"
 msgstr ""
 
 #: bp-messages/bp-messages-templatetags.php:315
 #, php-format
-msgid "Viewing message %s to %s (of %s messages)"
+msgid "Viewing message %1$d to %2$d (of %3$d messages)"
 msgstr ""
 
 #: bp-messages/bp-messages-templatetags.php:356
