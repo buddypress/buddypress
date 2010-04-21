@@ -61,7 +61,7 @@ function bp_core_admin_settings() {
 
 			<table class="form-table">
 			<tbody>
-				<?php if ( is_active( 'xprofile' ) ) :?>
+				<?php if ( bp_is_active( 'xprofile' ) ) : ?>
 				<tr>
 					<th scope="row"><?php _e( 'Base profile group name', 'buddypress' ) ?>:</th>
 					<td>
