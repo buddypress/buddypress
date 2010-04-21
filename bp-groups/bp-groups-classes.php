@@ -128,7 +128,7 @@ Class BP_Groups_Group {
 		$user_ids = implode( ',', (array)$user_ids );
 
 		/* Modify group count usermeta for members */
-		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->groups->table_name_groupmeta} SET meta_value = meta_value - 1 WHERE meta_key = 'total_group_count' AND user_id IN ( {$user_ids} )" ) );
+		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->usermeta} SET meta_value = meta_value - 1 WHERE meta_key = 'total_group_count' AND user_id IN ( {$user_ids} )" ) );
 
 		/* Now delete all group member entries */
 		BP_Groups_Member::delete_all( $this->id );
