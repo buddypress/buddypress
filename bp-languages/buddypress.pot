@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-04-19 13:13+0000\n"
+"POT-Creation-Date: 2010-04-21 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -896,41 +896,41 @@ msgstr ""
 msgid "Avatar Image"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:237
+#: bp-core/bp-core-avatars.php:243
 msgid "There is no error, the file uploaded with success"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:238 bp-core/bp-core-avatars.php:239
+#: bp-core/bp-core-avatars.php:244 bp-core/bp-core-avatars.php:245
 msgid "Your image was bigger than the maximum allowed file size of: "
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:240
+#: bp-core/bp-core-avatars.php:246
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:241
+#: bp-core/bp-core-avatars.php:247
 msgid "No file was uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:242
+#: bp-core/bp-core-avatars.php:248
 msgid "Missing a temporary folder"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:246
+#: bp-core/bp-core-avatars.php:252
 #, php-format
 msgid "Your upload failed, please try again. Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:251
+#: bp-core/bp-core-avatars.php:257
 #, php-format
 msgid "The file you uploaded is too big. Please upload a file under %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:256
+#: bp-core/bp-core-avatars.php:262
 msgid "Please upload only JPG, GIF or PNG photos."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:267
+#: bp-core/bp-core-avatars.php:273
 #, php-format
 msgid "Upload Failed! Error was: %s"
 msgstr ""
