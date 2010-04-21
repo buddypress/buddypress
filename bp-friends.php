@@ -565,9 +565,9 @@ function friends_remove_data( $user_id ) {
 
 	do_action( 'friends_remove_data', $user_id );
 }
-add_action( 'wpmu_delete_user', 'friends_remove_data', 1 );
-add_action( 'delete_user', 'friends_remove_data', 1 );
-add_action( 'make_spam_user', 'friends_remove_data', 1 );
+add_action( 'wpmu_delete_user', 'friends_remove_data' );
+add_action( 'delete_user', 'friends_remove_data' );
+add_action( 'make_spam_user', 'friends_remove_data' );
 
 
 /********************************************************************************

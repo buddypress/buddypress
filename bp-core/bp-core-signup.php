@@ -53,19 +53,30 @@ function bp_core_screen_signup() {
 		$bp->signup->username = $_POST['signup_username'];
 		$bp->signup->email = $_POST['signup_email'];
 
-		if ( !empty( $_POST['signup_profile_field_ids'] ) && function_exists( 'xprofile_check_is_required_field' ) ) {
-			/* Now we've checked account details, we can check profile information */
-			$profile_field_ids = explode( ',', $_POST['signup_profile_field_ids'] );
+		/* Now we've checked account details, we can check profile information */
+		if ( function_exists( 'xprofile_check_is_required_field' ) ) {
 
-			/* Loop through the posted fields formatting any datebox values then validate the field */
-			foreach ( (array) $profile_field_ids as $field_id ) {
-				if ( !isset( $_POST['field_' . $field_id] ) ) {
-					if ( isset( $_POST['field_' . $field_id . '_day'] ) )
-						$_POST['field_' . $field_id] = strtotime( $_POST['field_' . $field_id . '_day'] . $_POST['field_' . $field_id . '_month'] . $_POST['field_' . $field_id . '_year'] );
+			/* Make sure hidden field is passed and populated */
+			if ( isset( $_POST['signup_profile_field_ids'] ) && !empty( $_POST['signup_profile_field_ids'] ) ) {
+
+				/* Let's compact any profile field info into an array */
+				$profile_field_ids = explode( ',', $_POST['signup_profile_field_ids'] );
+
+				/* Loop through the posted fields formatting any datebox values then validate the field */
+				foreach ( (array) $profile_field_ids as $field_id ) {
+					if ( !isset( $_POST['field_' . $field_id] ) ) {
+						if ( isset( $_POST['field_' . $field_id . '_day'] ) )
+							$_POST['field_' . $field_id] = strtotime( $_POST['field_' . $field_id . '_day'] . $_POST['field_' . $field_id . '_month'] . $_POST['field_' . $field_id . '_year'] );
+					}
+
+					/* Create errors for required fields without values */
+					if ( xprofile_check_is_required_field( $field_id ) && empty( $_POST['field_' . $field_id] ) )
+						$bp->signup->errors['field_' . $field_id] = __( 'This is a required field', 'buddypress' );
 				}
 
-				if ( xprofile_check_is_required_field( $field_id ) && empty( $_POST['field_' . $field_id] ) )
-					$bp->signup->errors['field_' . $field_id] = __( 'This is a required field', 'buddypress' );
+			/* This situation doesn't naturally occur so bounce to website root */
+			} else {
+				bp_core_redirect( $bp->root_domain );
 			}
 		}
 
@@ -251,7 +262,7 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 	$user_email = sanitize_email( $user_email );
 
 	if ( empty( $user_name ) )
-	   	$errors->add( 'user_name', __( 'Please enter a username', 'buddypress' ) );
+		$errors->add( 'user_name', __( 'Please enter a username', 'buddypress' ) );
 
 	$maybe = array();
 	preg_match( "/[a-z0-9]+/", $user_name, $maybe );
@@ -259,17 +270,21 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 	$db_illegal_names = get_site_option( 'illegal_names' );
 	$filtered_illegal_names = apply_filters( 'bp_core_illegal_usernames', array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', BP_GROUPS_SLUG, $bp->members->slug, BP_FORUMS_SLUG, BP_BLOGS_SLUG, BP_REGISTER_SLUG, BP_ACTIVATION_SLUG ) );
 
-	$illegal_names = array_merge( (array)$db_illegal_names, (array)$filtered_illegal_names );
+	/* Safely merge our illegal names into existing site_option */
+	$common_names			= array_intersect( (array)$db_illegal_names, (array)$filtered_illegal_names );
+	$diff_names				= array_diff( (array)$db_illegal_names, (array)$filtered_illegal_names );
+	$illegal_names			= array_merge( (array)$diff_names, (array)$common_names );
+
 	update_site_option( 'illegal_names', $illegal_names );
 
 	if ( in_array( $user_name, (array)$illegal_names ) )
 		$errors->add( 'user_name', __( 'Sorry, that username is not allowed', 'buddypress' ) );
 
 	if ( !validate_username( $user_name ) || $user_name != $maybe[0] )
-	    $errors->add( 'user_name', __( 'Only lowercase letters and numbers allowed', 'buddypress' ) );
+		$errors->add( 'user_name', __( 'Only lowercase letters and numbers allowed', 'buddypress' ) );
 
 	if( strlen( $user_name ) < 4 )
-	    $errors->add( 'user_name',  __( 'Username must be at least 4 characters', 'buddypress' ) );
+		$errors->add( 'user_name',  __( 'Username must be at least 4 characters', 'buddypress' ) );
 
 	if ( strpos( ' ' . $user_name, '_' ) != false )
 		$errors->add( 'user_name', __( 'Sorry, usernames may not contain the character "_"!', 'buddypress' ) );
@@ -384,7 +399,7 @@ function bp_core_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name,
 }
 
 function bp_core_activate_signup( $key ) {
-	global $wpdb;
+	global $bp, $wpdb;
 
 	$user = false;
 
@@ -557,7 +572,7 @@ function bp_core_wpsignup_redirect() {
 		return false;
 
 	if ( locate_template( array( 'registration/register.php' ), false ) || locate_template( array( 'register.php' ), false ) )
-		wp_redirect( bp_get_root_domain() . '/' . BP_REGISTER_SLUG . '/' );
+		bp_core_redirect( bp_get_root_domain() . '/' . BP_REGISTER_SLUG . '/' );
 }
 if ( bp_core_is_multisite() )
 	add_action( 'wp', 'bp_core_wpsignup_redirect' );

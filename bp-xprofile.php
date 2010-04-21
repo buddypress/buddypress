@@ -891,8 +891,9 @@ function xprofile_remove_data( $user_id ) {
 	delete_usermeta( $user_id, 'bp_core_avatar_v2' );
 	delete_usermeta( $user_id, 'bp_core_avatar_v2_path' );
 }
-add_action( 'wpmu_delete_user', 'xprofile_remove_data', 1 );
-add_action( 'delete_user', 'xprofile_remove_data', 1 );
+add_action( 'wpmu_delete_user', 'xprofile_remove_data' );
+add_action( 'delete_user', 'xprofile_remove_data' );
+add_action( 'make_spam_user', 'xprofile_remove_data' );
 
 
 /********************************************************************************

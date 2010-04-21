@@ -130,7 +130,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		closedir($av_dir);
 
 		if ( $avatar_url )
-			return apply_filters( 'bp_core_fetch_avatar', "<img src='{$avatar_url}' alt='{$alt}' class='{$class}'{$css_id}{$html_width}{$html_height} />", $params );
+			return apply_filters( 'bp_core_fetch_avatar', "<img src='{$avatar_url}' alt='{$alt}' class='{$class}'{$css_id}{$html_width}{$html_height} />", $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
 	}
 
 	/* If no avatars have been uploaded for this item, display a gravatar */
@@ -162,10 +162,9 @@ function bp_core_fetch_avatar( $args = '' ) {
 		$email = apply_filters( 'bp_core_gravatar_email', $email, $item_id, $object );
 		$gravatar = apply_filters( 'bp_gravatar_url', $host ) . md5( $email ) . '?d=' . $default_grav . '&amp;s=' . $grav_size;
 
-		return apply_filters( 'bp_core_fetch_avatar', "<img src='{$gravatar}' alt='{$alt}' class='{$class}'{$css_id}{$html_width}{$html_height} />", $params );
-
+		return apply_filters( 'bp_core_fetch_avatar', "<img src='{$gravatar}' alt='{$alt}' class='{$class}'{$css_id}{$html_width}{$html_height} />", $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
 	} else {
-		return false;
+		return apply_filters( 'bp_core_fetch_avatar', false, $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
 	}
 }
 
@@ -229,6 +228,13 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 
 function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	global $bp;
+
+	/***
+	 * You may want to hook into this filter if you want to override this function.
+	 * Make sure you return false.
+	 */
+	if ( !apply_filters( 'bp_core_pre_avatar_handle_upload', true, $file, $upload_dir_filter ) )
+		return true;
 
 	require_once( ABSPATH . '/wp-admin/includes/image.php' );
 	require_once( ABSPATH . '/wp-admin/includes/file.php' );
@@ -303,6 +309,14 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
+
+	/***
+	 * You may want to hook into this filter if you want to override this function.
+	 * Make sure you return false.
+	 */
+	if ( !apply_filters( 'bp_core_pre_avatar_handle_crop', true, $r ) )
+		return true;
+
 	extract( $r, EXTR_SKIP );
 
 	if ( !$original_file )

@@ -2416,9 +2416,9 @@ function groups_remove_data_for_user( $user_id ) {
 
 	do_action( 'groups_remove_data_for_user', $user_id );
 }
-add_action( 'wpmu_delete_user', 'groups_remove_data_for_user', 1 );
-add_action( 'delete_user', 'groups_remove_data_for_user', 1 );
-add_action( 'make_spam_user', 'groups_remove_data_for_user', 1 );
+add_action( 'wpmu_delete_user', 'groups_remove_data_for_user' );
+add_action( 'delete_user', 'groups_remove_data_for_user' );
+add_action( 'make_spam_user', 'groups_remove_data_for_user' );
 
 
 /********************************************************************************

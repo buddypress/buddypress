@@ -19,7 +19,7 @@
 			?>
 
 			<span class="title"><?php the_title() ?></span>
-			<h3 id="comments"><?php comments_number( 'No Comments', 'One Comment', $numComments . ' Comments' );?></h3>
+			<h3 id="comments"><?php comments_number( '', '', $numComments );?></h3>
 
 			<?php do_action( 'bp_before_blog_comment_list' ) ?>
 

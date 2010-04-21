@@ -636,7 +636,8 @@ function bp_core_new_nav_item( $args = '' ) {
 		'link' => $bp->loggedin_user->domain . $slug . '/',
 		'css_id' => $item_css_id,
 		'show_for_displayed_user' => $show_for_displayed_user,
-		'position' => $position
+		'position' => $position,
+		'screen_function' => &$screen_function
 	);
 
  	/***
@@ -684,6 +685,15 @@ function bp_core_new_nav_default( $args = '' ) {
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
+
+	if ( $function = $bp->bp_nav[$parent_slug]['screen_function'] ) {
+		if ( !is_object( $function[0] ) )
+			remove_action( 'wp', $function, 3 );
+		else
+			remove_action( 'wp', array( &$function[0], $function[1] ), 3 );
+	}
+
+	$bp->bp_nav[$parent_slug]['screen_function'] = &$screen_function;
 
 	if ( $bp->current_component == $parent_slug && !$bp->current_action ) {
 		if ( !is_object( $screen_function[0] ) )
@@ -773,7 +783,8 @@ function bp_core_new_subnav_item( $args = '' ) {
 		'slug' => $slug,
 		'css_id' => $item_css_id,
 		'position' => $position,
-		'user_has_access' => $user_has_access
+		'user_has_access' => $user_has_access,
+		'screen_function' => &$screen_function
 	);
 
 	if ( ( $bp->current_action == $slug && $bp->current_component == $parent_slug ) && $user_has_access ) {
@@ -833,6 +844,13 @@ function bp_core_remove_nav_item( $parent_id ) {
 		}
 	}
 
+	if ( $function = $bp->bp_nav[$parent_id]['screen_function'] ) {
+		if ( !is_object( $function[0] ) )
+			remove_action( 'wp', $function, 3 );
+		else
+			remove_action( 'wp', array( &$function[0], $function[1] ), 3 );
+	}
+
 	unset( $bp->bp_nav[$parent_id] );
 }
 
@@ -848,13 +866,11 @@ function bp_core_remove_nav_item( $parent_id ) {
 function bp_core_remove_subnav_item( $parent_id, $slug ) {
 	global $bp;
 
-	$function = $bp->bp_options_nav[$parent_id][$slug]['screen_function'];
-
-	if ( $function ) {
-		if ( !is_object( $screen_function[0] ) )
-			remove_action( 'wp', $screen_function, 3 );
+	if ( $function = $bp->bp_options_nav[$parent_id][$slug]['screen_function'] ) {
+		if ( !is_object( $function[0] ) )
+			remove_action( 'wp', $function, 3 );
 		else
-			remove_action( 'wp', array( &$screen_function[0], $screen_function[1] ), 3 );
+			remove_action( 'wp', array( &$function[0], $function[1] ), 3 );
 	}
 
 	unset( $bp->bp_options_nav[$parent_id][$slug] );
@@ -1841,9 +1857,9 @@ function bp_core_remove_data( $user_id ) {
 	/* Flush the cache to remove the user from all cached objects */
 	wp_cache_flush();
 }
-add_action( 'wpmu_delete_user', 'bp_core_remove_data', 1 );
-add_action( 'delete_user', 'bp_core_remove_data', 1 );
-add_action( 'make_spam_user', 'bp_core_remove_data', 1 );
+add_action( 'wpmu_delete_user', 'bp_core_remove_data' );
+add_action( 'delete_user', 'bp_core_remove_data' );
+add_action( 'make_spam_user', 'bp_core_remove_data' );
 
 /**
  * bp_load_buddypress_textdomain()

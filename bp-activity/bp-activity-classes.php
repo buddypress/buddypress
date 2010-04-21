@@ -34,7 +34,7 @@ Class BP_Activity_Activity {
 			$this->primary_link = $row->primary_link;
 			$this->component = $row->component;
 			$this->type = $row->type;
-			$this->action = $row->type;
+			$this->action = $row->action;
 			$this->content = $row->content;
 			$this->date_recorded = $row->date_recorded;
 			$this->hide_sitewide = $row->hide_sitewide;
@@ -97,12 +97,6 @@ Class BP_Activity_Activity {
 		/* Where conditions */
 		$where_conditions = array();
 
-		/* Searching */
-		if ( $search_terms ) {
-			$search_terms = $wpdb->escape( $search_terms );
-			$where_conditions['search_sql'] = "a.content LIKE '%%" . like_escape( $search_terms ) . "%%'";
-		}
-
 		/* Filtering */
 		if ( $filter && $filter_sql = BP_Activity_Activity::get_filter_sql( $filter ) )
 			$where_conditions['filter_sql'] = $filter_sql;
@@ -121,6 +115,18 @@ Class BP_Activity_Activity {
 		}
 
 		$where_sql = 'WHERE ' . join( ' AND ', $where_conditions );
+
+		/* Searching */
+		if ( $search_terms ) {
+			$search_terms = $wpdb->escape( $search_terms );
+
+			if ( !empty( $filter['user_id'] ) )
+				$where_sql .= ' OR ';
+			else if ( !empty( $where_conditions ) )
+				$where_sql .= ' AND ';
+
+			$where_sql .= "a.content LIKE '%%" . like_escape( $search_terms ) . "%%'";
+		}
 
 		if ( $per_page && $page ) {
 			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
