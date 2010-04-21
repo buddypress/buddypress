@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-04-20 13:12+0000\n"
+"POT-Creation-Date: 2010-04-21 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -217,7 +217,7 @@ msgstr ""
 
 #: bp-activity/bp-activity-templatetags.php:277
 #, php-format
-msgid "Viewing item %1$d to %2$d (of %3$d items)"
+msgid "Viewing item %1$s to %2$s (of %3$s items)"
 msgstr ""
 
 #: bp-activity/bp-activity-templatetags.php:412 bp-groups.php:31
@@ -390,7 +390,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:169
 #, php-format
-msgid "Viewing blog %s to %s (of %s blogs)"
+msgid "Viewing blog %1$s to %2$s (of %3$s blogs)"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:194
@@ -585,85 +585,85 @@ msgstr ""
 msgid "There was an error deleting %s from the system. Please try again."
 msgstr ""
 
-#: bp-core.php:1212 bp-core/bp-core-templatetags.php:811
+#: bp-core.php:1228 bp-core/bp-core-templatetags.php:811
 msgid "at"
 msgstr ""
 
-#: bp-core.php:1316
+#: bp-core.php:1332
 msgid "year"
 msgstr ""
 
-#: bp-core.php:1316
+#: bp-core.php:1332
 msgid "years"
 msgstr ""
 
-#: bp-core.php:1317
+#: bp-core.php:1333
 msgid "month"
 msgstr ""
 
-#: bp-core.php:1317
+#: bp-core.php:1333
 msgid "months"
 msgstr ""
 
-#: bp-core.php:1318
+#: bp-core.php:1334
 msgid "week"
 msgstr ""
 
-#: bp-core.php:1318
+#: bp-core.php:1334
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:1319
+#: bp-core.php:1335
 msgid "day"
 msgstr ""
 
-#: bp-core.php:1319
+#: bp-core.php:1335
 msgid "days"
 msgstr ""
 
-#: bp-core.php:1320
+#: bp-core.php:1336
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:1320
+#: bp-core.php:1336
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:1321
+#: bp-core.php:1337
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:1321
+#: bp-core.php:1337
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:1322
+#: bp-core.php:1338
 msgid "second"
 msgstr ""
 
-#: bp-core.php:1322 bp-core.php:1374
+#: bp-core.php:1338 bp-core.php:1390
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1341
+#: bp-core.php:1357
 msgid "sometime"
 msgstr ""
 
-#: bp-core.php:1369
+#: bp-core.php:1385
 msgid ",|Separator in time since"
 msgstr ""
 
-#: bp-core.php:1421
+#: bp-core.php:1437
 msgid "not recently active"
 msgstr ""
 
-#: bp-core.php:1879
+#: bp-core.php:1895
 msgid ""
 "IMPORTANT: <a href=\"http://codex.buddypress.org/getting-started/upgrading-"
 "from-10x/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core.php:1908
+#: bp-core.php:1924
 #, php-format
 msgid ""
 "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update "
@@ -1325,41 +1325,41 @@ msgstr ""
 msgid "Avatar Image"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:237
+#: bp-core/bp-core-avatars.php:243
 msgid "There is no error, the file uploaded with success"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:238 bp-core/bp-core-avatars.php:239
+#: bp-core/bp-core-avatars.php:244 bp-core/bp-core-avatars.php:245
 msgid "Your image was bigger than the maximum allowed file size of: "
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:240
+#: bp-core/bp-core-avatars.php:246
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:241
+#: bp-core/bp-core-avatars.php:247
 msgid "No file was uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:242
+#: bp-core/bp-core-avatars.php:248
 msgid "Missing a temporary folder"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:246
+#: bp-core/bp-core-avatars.php:252
 #, php-format
 msgid "Your upload failed, please try again. Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:251
+#: bp-core/bp-core-avatars.php:257
 #, php-format
 msgid "The file you uploaded is too big. Please upload a file under %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:256
+#: bp-core/bp-core-avatars.php:262
 msgid "Please upload only JPG, GIF or PNG photos."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:267
+#: bp-core/bp-core-avatars.php:273
 #, php-format
 msgid "Upload Failed! Error was: %s"
 msgstr ""
@@ -1385,7 +1385,7 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:218 bp-core/bp-core-signup.php:527
+#: bp-core/bp-core-filters.php:218 bp-core/bp-core-signup.php:542
 #, php-format
 msgid ""
 "Thanks for registering! To complete the activation of your account please "
@@ -1395,7 +1395,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:219 bp-core/bp-core-signup.php:528
+#: bp-core/bp-core-filters.php:219 bp-core/bp-core-signup.php:543
 msgid "Activate Your Account"
 msgstr ""
 
@@ -1479,105 +1479,105 @@ msgstr ""
 msgid "The passwords you entered do not match."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:68
+#: bp-core/bp-core-signup.php:74
 msgid "This is a required field"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:157
+#: bp-core/bp-core-signup.php:168
 msgid ""
 "There was a problem uploading your avatar, please try uploading it again"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:187 bp-xprofile.php:306
+#: bp-core/bp-core-signup.php:198 bp-xprofile.php:306
 msgid "There was a problem cropping your avatar, please try uploading it again"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:189
+#: bp-core/bp-core-signup.php:200
 msgid "Your new avatar was uploaded successfully"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:211 bp-core/bp-core-signup.php:397
+#: bp-core/bp-core-signup.php:222 bp-core/bp-core-signup.php:412
 msgid "There was an error activating your account, please try again."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:225
+#: bp-core/bp-core-signup.php:236
 msgid "Your account is now active!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:254
+#: bp-core/bp-core-signup.php:265
 msgid "Please enter a username"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:266
+#: bp-core/bp-core-signup.php:281
 msgid "Sorry, that username is not allowed"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:269
+#: bp-core/bp-core-signup.php:284
 msgid "Only lowercase letters and numbers allowed"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:272
+#: bp-core/bp-core-signup.php:287
 msgid "Username must be at least 4 characters"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:275
+#: bp-core/bp-core-signup.php:290
 msgid "Sorry, usernames may not contain the character \"_\"!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:282
+#: bp-core/bp-core-signup.php:297
 msgid "Sorry, usernames must have letters too!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:285
+#: bp-core/bp-core-signup.php:300
 msgid "Please check your email address."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:293
+#: bp-core/bp-core-signup.php:308
 msgid "Sorry, that email address is not allowed!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:298
+#: bp-core/bp-core-signup.php:313
 msgid "Sorry, that username already exists!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:302
+#: bp-core/bp-core-signup.php:317
 msgid "Sorry, that email address is already used!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:337
+#: bp-core/bp-core-signup.php:352
 #, php-format
 msgid ""
 "<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a "
 "href=\"mailto:%s\">webmaster</a> !"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:422 bp-core/bp-core-signup.php:426
+#: bp-core/bp-core-signup.php:437 bp-core/bp-core-signup.php:441
 msgid "Invalid activation key"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:469
+#: bp-core/bp-core-signup.php:484
 #, php-format
 msgid "%s became a registered member"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:183
 #, php-format
-msgid "Viewing member %1$d to %2$d (of %3$d active members)"
+msgid "Viewing member %1$s to %2$s (of %3$s active members)"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:185
 #, php-format
-msgid "Viewing member %1$d to %2$d (of %3$d members with friends)"
+msgid "Viewing member %1$s to %2$s (of %3$s members with friends)"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:187
 #, php-format
-msgid "Viewing member %1$d to %2$d (of %3$d members online)"
+msgid "Viewing member %1$s to %2$s (of %3$s members online)"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:189
 #, php-format
-msgid "Viewing member %1$d to %2$d (of %3$d members)"
+msgid "Viewing member %1$s to %2$s (of %3$s members)"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:224
@@ -2645,7 +2645,7 @@ msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:559
 #, php-format
-msgid "Viewing group %1$d to %2$d (of %3$d groups)"
+msgid "Viewing group %1$s to %2$s (of %3$s groups)"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:582
@@ -2750,7 +2750,7 @@ msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1416
 #, php-format
-msgid "Viewing members %1$d to %2$d (of %3$d members)"
+msgid "Viewing members %1$s to %2$s (of %3$s members)"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1702
@@ -2953,7 +2953,7 @@ msgstr ""
 
 #: bp-messages/bp-messages-templatetags.php:315
 #, php-format
-msgid "Viewing message %1$d to %2$d (of %3$d messages)"
+msgid "Viewing message %1$s to %2$s (of %3$s messages)"
 msgstr ""
 
 #: bp-messages/bp-messages-templatetags.php:356
