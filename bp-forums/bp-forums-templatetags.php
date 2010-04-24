@@ -661,21 +661,21 @@ function bp_forum_pagination() {
 	}
 
 function bp_forum_pagination_count() {
-	global $bp, $forum_template;
-
-	$from_num = bp_core_number_format( intval( ( $forum_template->pag_page - 1 ) * $forum_template->pag_num ) + 1 );
-	$to_num = bp_core_number_format( ( $from_num + ( $forum_template->pag_num - 1  ) > $forum_template->total_topic_count ) ? $forum_template->total_topic_count : $from_num + ( $forum_template->pag_num - 1 ) );
-	$total = bp_core_number_format( $forum_template->total_topic_count );
-
-	$pag_filter = false;
-	if ( 'tags' == $forum_template->type && !empty( $forum_template->search_terms ) )
-		$pag_filter = sprintf( __( ' matching tag "%s"', 'buddypress' ), $forum_template->search_terms );
-
-	echo apply_filters( 'bp_forum_pagination_count', sprintf( __( 'Viewing topic %s to %s (%s total topics%s)', 'buddypress' ), $from_num, $to_num, $total, $pag_filter ) );
-?>
-<span class="ajax-loader"></span>
-<?php
+	echo bp_get_forum_pagination_count();
 }
+	function bp_get_forum_pagination_count() {
+		global $bp, $forum_template;
+
+		$from_num = bp_core_number_format( intval( ( $forum_template->pag_page - 1 ) * $forum_template->pag_num ) + 1 );
+		$to_num = bp_core_number_format( ( $from_num + ( $forum_template->pag_num - 1  ) > $forum_template->total_topic_count ) ? $forum_template->total_topic_count : $from_num + ( $forum_template->pag_num - 1 ) );
+		$total = bp_core_number_format( $forum_template->total_topic_count );
+
+		$pag_filter = false;
+		if ( 'tags' == $forum_template->type && !empty( $forum_template->search_terms ) )
+			$pag_filter = sprintf( __( ' matching tag "%s"', 'buddypress' ), $forum_template->search_terms );
+
+		return apply_filters( 'bp_get_forum_pagination_count', sprintf( __( 'Viewing topic %s to %s (of %s total topics%s)', 'buddypress' ), $from_num, $to_num, $total, $pag_filter ) );
+	}
 
 function bp_is_edit_topic() {
 	global $bp;

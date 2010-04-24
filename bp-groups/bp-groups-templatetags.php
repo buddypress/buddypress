@@ -19,9 +19,6 @@ class BP_Groups_Template {
 
 	var $single_group = false;
 
-	var $sort_by;
-	var $order;
-
 	function bp_groups_template( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $include, $populate_extras ) {
 		global $bp;
 
@@ -64,7 +61,7 @@ class BP_Groups_Template {
 		}
 
 		$this->pag_links = paginate_links( array(
-			'base' => add_query_arg( array( 'grpage' => '%#%', 'num' => $this->pag_num, 's' => $search_terms, 'sortby' => $this->sort_by, 'order' => $this->order ) ),
+			'base' => add_query_arg( array( 'grpage' => '%#%' ) ),
 			'format' => '',
 			'total' => ceil($this->total_group_count / $this->pag_num),
 			'current' => $this->pag_page,
@@ -550,15 +547,17 @@ function bp_groups_pagination_links() {
 	}
 
 function bp_groups_pagination_count() {
-	global $bp, $groups_template;
-
-	$from_num = bp_core_number_format( intval( ( $groups_template->pag_page - 1 ) * $groups_template->pag_num ) + 1 );
-	$to_num = bp_core_number_format( ( $from_num + ( $groups_template->pag_num - 1 ) > $groups_template->total_group_count ) ? $groups_template->total_group_count : $from_num + ( $groups_template->pag_num - 1 ) );
-	$total = bp_core_number_format( $groups_template->total_group_count );
-
-	echo sprintf( __( 'Viewing group %1$s to %2$s (of %3$s groups)', 'buddypress' ), $from_num, $to_num, $total ); ?> &nbsp;
-	<span class="ajax-loader"></span><?php
+	echo bp_get_groups_pagination_count();
 }
+	function bp_get_groups_pagination_count() {
+		global $bp, $groups_template;
+
+		$from_num = bp_core_number_format( intval( ( $groups_template->pag_page - 1 ) * $groups_template->pag_num ) + 1 );
+		$to_num = bp_core_number_format( ( $from_num + ( $groups_template->pag_num - 1 ) > $groups_template->total_group_count ) ? $groups_template->total_group_count : $from_num + ( $groups_template->pag_num - 1 ) );
+		$total = bp_core_number_format( $groups_template->total_group_count );
+
+		return apply_filters( 'bp_get_groups_pagination_count', sprintf( __( 'Viewing group %1$s to %2$s (of %3$s groups)', 'buddypress' ), $from_num, $to_num, $total ) );
+	}
 
 function bp_group_total_members() {
 	echo bp_get_group_total_members();

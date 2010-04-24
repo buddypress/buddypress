@@ -173,23 +173,26 @@ function bp_members() {
 }
 
 function bp_members_pagination_count() {
-	global $bp, $members_template;
-
-	$from_num = bp_core_number_format( intval( ( $members_template->pag_page - 1 ) * $members_template->pag_num ) + 1 );
-	$to_num = bp_core_number_format( ( $from_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $from_num + ( $members_template->pag_num - 1) );
-	$total = bp_core_number_format( $members_template->total_member_count );
-
-	if ( 'active' == $members_template->type )
-		echo sprintf( __( 'Viewing member %1$s to %2$s (of %3$s active members)', 'buddypress' ), $from_num, $to_num, $total );
-	else if ( 'popular' == $members_template->type )
-		echo sprintf( __( 'Viewing member %1$s to %2$s (of %3$s members with friends)', 'buddypress' ), $from_num, $to_num, $total );
-	else if ( 'online' == $members_template->type )
-		echo sprintf( __( 'Viewing member %1$s to %2$s (of %3$s members online)', 'buddypress' ), $from_num, $to_num, $total );
-	else
-		echo sprintf( __( 'Viewing member %1$s to %2$s (of %3$s members)', 'buddypress' ), $from_num, $to_num, $total );
-
-	?><span class="ajax-loader"></span><?php
+	echo bp_get_members_pagination_count();
 }
+	function bp_get_members_pagination_count() {
+		global $bp, $members_template;
+
+		$from_num = bp_core_number_format( intval( ( $members_template->pag_page - 1 ) * $members_template->pag_num ) + 1 );
+		$to_num = bp_core_number_format( ( $from_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $from_num + ( $members_template->pag_num - 1) );
+		$total = bp_core_number_format( $members_template->total_member_count );
+
+		if ( 'active' == $members_template->type )
+			$pag = sprintf( __( 'Viewing member %1$s to %2$s (of %3$s active members)', 'buddypress' ), $from_num, $to_num, $total );
+		else if ( 'popular' == $members_template->type )
+			$pag = sprintf( __( 'Viewing member %1$s to %2$s (of %3$s members with friends)', 'buddypress' ), $from_num, $to_num, $total );
+		else if ( 'online' == $members_template->type )
+			$pag = sprintf( __( 'Viewing member %1$s to %2$s (of %3$s members online)', 'buddypress' ), $from_num, $to_num, $total );
+		else
+			$pag = sprintf( __( 'Viewing member %1$s to %2$s (of %3$s members)', 'buddypress' ), $from_num, $to_num, $total );
+
+		return apply_filters( 'bp_members_pagination_count', $pag );
+	}
 
 function bp_members_pagination_links() {
 	echo bp_get_members_pagination_links();
