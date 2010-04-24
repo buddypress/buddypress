@@ -37,7 +37,7 @@ Class BP_Groups_Group {
 			$this->is_member = BP_Groups_Member::check_is_member( $bp->loggedin_user->id, $this->id );
 
 			/* Get group admins and mods */
-			$admin_mods = $wpdb->get_results( $wpdb->prepare( "SELECT u.ID as user_id, u.user_login, u.user_email, u.user_nicename, m.is_admin, m.is_mod FROM {$wpdb->users} u, {$bp->groups->table_name_members} m WHERE u.ID = m.user_id AND m.group_id = %d AND ( m.is_admin = 1 OR m.is_mod = 1 )", $this->id ) );
+			$admin_mods = $wpdb->get_results( apply_filters( 'bp_group_admin_mods_user_join_filter', $wpdb->prepare( "SELECT u.ID as user_id, u.user_login, u.user_email, u.user_nicename, m.is_admin, m.is_mod FROM {$wpdb->users} u, {$bp->groups->table_name_members} m WHERE u.ID = m.user_id AND m.group_id = %d AND ( m.is_admin = 1 OR m.is_mod = 1 )", $this->id ), $this->id ) );
 			foreach( (array)$admin_mods as $user ) {
 				if ( (int)$user->is_admin )
 					$this->admins[] = $user;

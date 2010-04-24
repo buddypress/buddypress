@@ -124,9 +124,6 @@ class BP_Core_User {
 
 		$sql['from'] = "FROM " . CUSTOM_USER_TABLE . " u LEFT JOIN " . CUSTOM_USER_META_TABLE . " um ON um.user_id = u.ID";
 
-		if ( $search_terms && bp_is_active( 'xprofile' ) || 'alphabetical' == $type )
-			$sql['join_profiledata'] = "LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id";
-
 		$sql['where'] = 'WHERE ' . bp_core_get_status_sql( 'u.' );
 
 		if ( 'active' == $type || 'online' == $type )
@@ -163,9 +160,9 @@ class BP_Core_User {
 			}
 		}
 
-		if ( $search_terms && bp_is_active( 'xprofile' ) ) {
+		if ( $search_terms ) {
 			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
-			$sql['where_searchterms'] = "AND pd.value LIKE '%%$search_terms%%'";
+			$sql['where_searchterms'] = "AND u.display_name LIKE '%%$search_terms%%'";
 		}
 
 		switch ( $type ) {
@@ -176,7 +173,7 @@ class BP_Core_User {
 				$sql[] = "ORDER BY u.user_registered DESC";
 				break;
 			case 'alphabetical':
-				$sql[] = "ORDER BY pd.value ASC";
+				$sql[] = "ORDER BY u.display_name ASC";
 				break;
 			case 'random':
 				$sql[] = "ORDER BY rand()";
