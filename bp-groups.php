@@ -1184,6 +1184,10 @@ function groups_action_join_group() {
 	if ( !$bp->is_single_item || $bp->current_component != $bp->groups->slug || $bp->current_action != 'join' )
 		return false;
 
+	// Nonce check
+	if ( !check_admin_referer( 'groups_join_group' ) )
+		return false;
+
 	// Skip if banned or already a member
 	if ( !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) && !groups_is_user_banned( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
 
@@ -1207,6 +1211,32 @@ function groups_action_join_group() {
 	bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
 }
 add_action( 'wp', 'groups_action_join_group', 3 );
+
+
+function groups_action_leave_group() {
+	global $bp;
+
+	if ( !$bp->is_single_item || $bp->current_component != $bp->groups->slug || $bp->current_action != 'leave-group' )
+		return false;
+
+	// Nonce check
+	if ( !check_admin_referer( 'groups_leave_group' ) )
+		return false;
+
+	// User wants to leave any group
+	if ( groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
+		if ( !groups_leave_group( $bp->groups->current_group->id ) ) {
+			bp_core_add_message( __( 'There was an error leaving the group.', 'buddypress' ), 'error' );
+		} else {
+			bp_core_add_message( __( 'You successfully left the group.', 'buddypress' ) );
+		}
+		bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
+	}
+
+	bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
+}
+add_action( 'wp', 'groups_action_leave_group', 3 );
+
 
 function groups_action_sort_creation_steps() {
 	global $bp;
