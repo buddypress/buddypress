@@ -1184,13 +1184,23 @@ function groups_action_join_group() {
 	if ( !$bp->is_single_item || $bp->current_component != $bp->groups->slug || $bp->current_action != 'join' )
 		return false;
 
-	// user wants to join a group
+	// Skip if banned or already a member
 	if ( !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) && !groups_is_user_banned( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
-		if ( !groups_join_group($bp->groups->current_group->id) ) {
-			bp_core_add_message( __('There was an error joining the group.', 'buddypress'), 'error' );
-		} else {
-			bp_core_add_message( __('You joined the group!', 'buddypress') );
+
+		// User wants to join a group that is not public
+		if ( $bp->groups->current_group->status != 'public' ) {
+			if ( !groups_check_user_has_invite( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
+				bp_core_add_message( __( 'There was an error joining the group.', 'buddypress' ), 'error' );
+				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
+			}
 		}
+
+		// User wants to join any group
+		if ( !groups_join_group( $bp->groups->current_group->id ) )
+			bp_core_add_message( __( 'There was an error joining the group.', 'buddypress' ), 'error' );
+		else
+			bp_core_add_message( __( 'You joined the group!', 'buddypress' ) );
+
 		bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
 	}
 
