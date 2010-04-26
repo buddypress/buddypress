@@ -6,6 +6,8 @@ class BP_Forums_Template_Forum {
 	var $topics;
 	var $topic;
 
+	var $forum_id;
+
 	var $in_the_loop;
 
 	var $pag_page;
@@ -25,6 +27,7 @@ class BP_Forums_Template_Forum {
 		$this->pag_num = isset( $_REQUEST['n'] ) ? intval( $_REQUEST['n'] ) : $per_page;
 		$this->type = $type;
 		$this->search_terms = $search_terms;
+		$this->forum_id = $forum_id;
 
 		switch ( $type ) {
 			case 'newest': default:
@@ -693,6 +696,7 @@ class BP_Forums_Template_Topic {
 	var $posts;
 	var $post;
 
+	var $forum_id;
 	var $topic_id;
 	var $topic;
 
@@ -716,6 +720,7 @@ class BP_Forums_Template_Topic {
 
 		$this->topic_id = $topic_id;
 		$forum_template->topic = (object) bp_forums_get_topic_details( $this->topic_id );
+		$this->forum_id = $forum_template->topic->forum_id;
 
 		$this->posts = bp_forums_get_topic_posts( array( 'topic_id' => $this->topic_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num ) );
 
@@ -811,10 +816,16 @@ function bp_has_forum_topic_posts( $args = '' ) {
 	if ( !$topic_id && $bp->current_component == $bp->groups->slug && 'forum' == $bp->current_action && 'topic' == $bp->action_variables[0] )
 		$topic_id = bp_forums_get_topic_id_from_slug( $bp->action_variables[1] );
 
-	if ( is_numeric( $topic_id ) )
+	if ( is_numeric( $topic_id ) ) {
 		$topic_template = new BP_Forums_Template_Topic( $topic_id, $per_page, $max );
-	else
+
+		// Current topic forum_id needs to match current_group forum_id
+		if ( $bp->current_component == $bp->groups->slug && $topic_template->forum_id != groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' ) )
+			return false;
+
+	} else {
 		return false;
+	}
 
 	return apply_filters( 'bp_has_topic_posts', $topic_template->has_posts(), &$topic_template );
 }
