@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-04-27 13:13+0000\n"
+"POT-Creation-Date: 2010-04-28 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -930,7 +930,7 @@ msgstr ""
 msgid "Please upload only JPG, GIF or PNG photos."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:273
+#: bp-core/bp-core-avatars.php:273 bp-core/bp-core-avatars.php:286
 #, php-format
 msgid "Upload Failed! Error was: %s"
 msgstr ""
@@ -1745,7 +1745,7 @@ msgstr ""
 msgid "Group invite accepted"
 msgstr ""
 
-#: bp-groups.php:301 bp-groups.php:1736 bp-groups.php:2391
+#: bp-groups.php:301 bp-groups.php:1736 bp-groups.php:2399
 #, php-format
 msgid "%s joined the group %s"
 msgstr ""
