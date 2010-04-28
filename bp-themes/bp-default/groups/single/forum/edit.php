@@ -1,10 +1,12 @@
+<?php do_action( 'bp_before_group_forum_edit_form' ) ?>
+
 <?php if ( bp_has_forum_topic_posts() ) : ?>
 
 	<form action="<?php bp_forum_topic_action() ?>" method="post" id="forum-topic-form" class="standard-form">
 
 		<div id="topic-meta">
 			<h3><?php bp_the_topic_title() ?> (<?php bp_the_topic_total_post_count() ?>)</h3>
-			<a class="button" href="<?php bp_forum_permalink() ?>/">&larr; <?php _e( 'Group Forum', 'buddypress' ) ?></a> &nbsp; <a class="button" href="<?php bp_forum_directory_permalink() ?>/"><?php _e( 'Group Forum Directory', 'buddypress') ?></a></span>
+			<a class="button" href="<?php bp_forum_permalink() ?>/">&larr; <?php _e( 'Group Forum', 'buddypress' ) ?></a> &nbsp; <a class="button" href="<?php bp_forum_directory_permalink() ?>/"><?php _e( 'Group Forum Directory', 'buddypress') ?></a>
 
 			<?php if ( bp_group_is_admin() || bp_group_is_mod() || bp_get_the_topic_is_mine() ) : ?>
 				<div class="admin-links"><?php bp_the_topic_admin_links() ?></div>
@@ -57,7 +59,7 @@
 
 		<?php endif; ?>
 
-	</form>
+	</form><!-- #forum-topic-form -->
 
 <?php else: ?>
 
@@ -66,3 +68,5 @@
 	</div>
 
 <?php endif;?>
+
+<?php do_action( 'bp_after_group_forum_edit_form' ) ?>
