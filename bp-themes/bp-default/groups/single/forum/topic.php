@@ -1,3 +1,5 @@
+<?php do_action( 'bp_before_group_forum_topic' ) ?>
+
 <?php if ( bp_has_forum_topic_posts() ) : ?>
 
 	<form action="<?php bp_forum_topic_action() ?>" method="post" id="forum-topic-form" class="standard-form">
@@ -23,6 +25,8 @@
 			<?php endif; ?>
 		</div>
 
+		<?php do_action( 'bp_before_group_forum_topic_posts' ) ?>
+
 		<ul id="topic-post-list" class="item-list">
 			<?php while ( bp_forum_topic_posts() ) : bp_the_forum_topic_post(); ?>
 
@@ -47,7 +51,9 @@
 				</li>
 
 			<?php endwhile; ?>
-		</ul>
+		</ul><!-- #topic-post-list -->
+
+		<?php do_action( 'bp_after_group_forum_topic_posts' ) ?>
 
 		<div class="pagination no-ajax">
 
@@ -101,7 +107,7 @@
 
 		<?php endif; ?>
 
-	</form>
+	</form><!-- #forum-topic-form -->
 <?php else: ?>
 
 	<div id="message" class="info">
@@ -109,3 +115,5 @@
 	</div>
 
 <?php endif;?>
+
+<?php do_action( 'bp_after_group_forum_topic' ) ?>
