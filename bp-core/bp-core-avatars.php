@@ -274,11 +274,22 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 		return false;
 	}
 
-	/* Resize the image down to something manageable and then delete the original */
-	if ( getimagesize( $bp->avatar_admin->original['file'] ) > BP_AVATAR_ORIGINAL_MAX_WIDTH )
-		$bp->avatar_admin->resized = wp_create_thumbnail( $bp->avatar_admin->original['file'], BP_AVATAR_ORIGINAL_MAX_WIDTH );
+	/* Get image size */
+	$size = @getimagesize( $bp->avatar_admin->original['file'] );
 
-	$bp->avatar_admin->image = new stdClass;
+	/* Check image size and shrink if too large */
+	if ( $size[0] > BP_AVATAR_ORIGINAL_MAX_WIDTH ) {
+		$thumb = wp_create_thumbnail( $bp->avatar_admin->original['file'], BP_AVATAR_ORIGINAL_MAX_WIDTH );
+
+		/* Check for thumbnail creation errors */
+		if ( is_wp_error( $thumb ) ) {
+			bp_core_add_message( sprintf( __( 'Upload Failed! Error was: %s', 'buddypress' ), $thumb->get_error_message() ), 'error' );
+			return false;
+		}
+
+		/* Thumbnail is good so proceed */
+		$bp->avatar_admin->resized = $thumb;
+	}
 
 	/* We only want to handle one image after resize. */
 	if ( empty( $bp->avatar_admin->resized ) )
