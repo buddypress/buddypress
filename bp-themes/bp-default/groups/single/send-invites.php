@@ -14,7 +14,7 @@
 				<?php wp_nonce_field( 'groups_invite_uninvite_user', '_wpnonce_invite_uninvite_user' ) ?>
 			</div>
 
-		</div>
+		</div><!-- .left-menu -->
 
 		<div class="main-column">
 
@@ -48,11 +48,11 @@
 				<?php endwhile; ?>
 
 			<?php endif; ?>
-			</ul>
+			</ul><!-- #friend-list -->
 
 			<?php do_action( 'bp_after_group_send_invites_list' ) ?>
 
-		</div>
+		</div><!-- .main-column -->
 
 		<div class="clear"></div>
 
@@ -62,9 +62,10 @@
 
 		<?php wp_nonce_field( 'groups_send_invites', '_wpnonce_send_invites') ?>
 
-		<!-- Don't leave out this hidden field -->
+		<?php /* This is important, don't forget it */ ?>
 		<input type="hidden" name="group_id" id="group_id" value="<?php bp_group_id() ?>" />
-	</form>
+
+	</form><!-- #send-invite-form -->
 
 <?php else : ?>
 

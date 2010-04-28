@@ -304,9 +304,9 @@
 <?php endif; ?>
 
 <?php /* This is important, don't forget it */ ?>
-<input type="hidden" name="group-id" id="group-id" value="<?php bp_group_id() ?>" />
+	<input type="hidden" name="group-id" id="group-id" value="<?php bp_group_id() ?>" />
 
 <?php do_action( 'bp_after_group_admin_content' ) ?>
 
-</form>
+</form><!-- #group-settings-form -->
 
