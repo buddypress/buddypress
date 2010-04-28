@@ -591,7 +591,7 @@ function bp_the_topic_css_class() {
 		if ( 0 == (int)$forum_template->topic->topic_open )
 			$class .= ' closed';
 
-		return trim( $class );
+		return apply_filters( 'bp_get_the_topic_css_class', trim( $class ) );
 	}
 
 function bp_my_forum_topics_link() {
@@ -856,6 +856,27 @@ function bp_the_topic_post_content() {
 		global $topic_template;
 
 		return apply_filters( 'bp_get_the_topic_post_content', stripslashes( $topic_template->post->post_text ) );
+	}
+
+function bp_the_topic_post_css_class() {
+	echo bp_get_the_topic_post_css_class();
+}
+
+	function bp_get_the_topic_post_css_class() {
+		global $topic_template;
+
+		$class = false;
+
+		if ( $topic_template->current_post % 2 == 1 )
+			$class .= 'alt';
+
+		if ( 1 == (int)$topic_template->post->post_status )
+			$class .= ' deleted';
+
+		if ( 0 == (int)$topic_template->post->post_status )
+			$class .= ' open';
+
+		return apply_filters( 'bp_get_the_topic_post_css_class', trim( $class ) );
 	}
 
 function bp_the_topic_post_poster_avatar( $args = '' ) {

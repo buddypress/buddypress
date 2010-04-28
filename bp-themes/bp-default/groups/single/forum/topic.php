@@ -30,7 +30,7 @@
 		<ul id="topic-post-list" class="item-list">
 			<?php while ( bp_forum_topic_posts() ) : bp_the_forum_topic_post(); ?>
 
-				<li id="post-<?php bp_the_topic_post_id() ?>">
+				<li id="post-<?php bp_the_topic_post_id() ?>" class="<?php bp_the_topic_post_css_class() ?>">
 					<div class="poster-meta">
 						<a href="<?php bp_the_topic_post_poster_link() ?>">
 							<?php bp_the_topic_post_poster_avatar( 'width=40&height=40' ) ?>
