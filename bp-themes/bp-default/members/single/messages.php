@@ -2,7 +2,7 @@
 	<ul>
 		<?php bp_get_options_nav() ?>
 	</ul>
-</div>
+</div><!-- .item-list-tabs -->
 
 <?php if ( 'compose' == bp_current_action() ) : ?>
 	<?php locate_template( array( 'members/single/messages/compose.php' ), true ) ?>
@@ -22,7 +22,7 @@
 			<?php locate_template( array( 'members/single/messages/messages-loop.php' ), true ) ?>
 
 		<?php endif; ?>
-	</div>
+	</div><!-- .messages -->
 
 	<?php do_action( 'bp_after_member_messages_content' ) ?>
 

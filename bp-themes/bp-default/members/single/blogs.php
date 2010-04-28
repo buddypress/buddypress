@@ -19,6 +19,6 @@
 
 <div class="blogs myblogs">
 	<?php locate_template( array( 'blogs/blogs-loop.php' ), true ) ?>
-</div><!-- .blogs -->
+</div><!-- .blogs.myblogs -->
 
 <?php do_action( 'bp_after_member_blogs_content' ) ?>

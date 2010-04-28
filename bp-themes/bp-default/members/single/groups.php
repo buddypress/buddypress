@@ -19,7 +19,7 @@
 		</li>
 		<?php endif; ?>
 	</ul>
-</div>
+</div><!-- .item-list-tabs -->
 
 <?php if ( 'invites' == bp_current_action() ) : ?>
 	<?php locate_template( array( 'members/single/groups/invites.php' ), true ) ?>

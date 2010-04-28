@@ -27,7 +27,7 @@
 
 	<div class="members friends">
 		<?php locate_template( array( 'members/members-loop.php' ), true ) ?>
-	</div>
+	</div><!-- .members.friends -->
 
 	<?php do_action( 'bp_after_member_friends_content' ) ?>
 
