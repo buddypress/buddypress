@@ -1077,7 +1077,7 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 	if ( 'activity' == object )
 		return false;
 
-	if ( jq.query.get('s') )
+	if ( jq.query.get('s') && !search_terms )
 		search_terms = jq.query.get('s');
 
 	if ( null == scope )
