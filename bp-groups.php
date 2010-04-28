@@ -2393,7 +2393,7 @@ function groups_accept_membership_request( $membership_id, $user_id = false, $gr
 	groups_update_groupmeta( $membership->group_id, 'total_member_count', (int) groups_get_groupmeta( $membership->group_id, 'total_member_count') + 1 );
 
 	/* Record this in activity streams */
-	$group = new BP_Groups_Group( $group_id );
+	$group = new BP_Groups_Group( $membership->group_id );
 
 	groups_record_activity( array(
 		'action' => apply_filters( 'groups_activity_membership_accepted_action', sprintf( __( '%s joined the group %s', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . attribute_escape( $group->name ) . '</a>' ), $user_id, &$group ),
