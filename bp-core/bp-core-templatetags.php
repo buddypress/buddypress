@@ -1174,7 +1174,7 @@ function bp_current_signup_step() {
 	}
 
 function bp_signup_avatar( $args = '' ) {
-	echo bp_get_signup_avatar( $args = '' );
+	echo bp_get_signup_avatar( $args );
 }
 	function bp_get_signup_avatar( $args = '' ) {
 		global $bp;
