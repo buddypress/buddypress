@@ -2206,6 +2206,10 @@ function groups_accept_invite( $user_id, $group_id ) {
 	if ( !$member->save() )
 		return false;
 
+	/* Remove request to join */
+	if ( $member->check_for_membership_request( $user_id, $group_id ) )
+		$member->delete_request( $user_id, $group_id );
+
 	/* Modify group meta */
 	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') + 1 );
 	groups_update_groupmeta( $group_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
@@ -2380,6 +2384,10 @@ function groups_accept_membership_request( $membership_id, $user_id = false, $gr
 
 	if ( !$membership->save() )
 		return false;
+
+	/* Check if the user has an outstanding invite, if so delete it. */
+	if ( groups_check_user_has_invite( $membership->user_id, $membership->group_id ) )
+		groups_delete_invite( $membership->user_id, $membership->group_id );
 
 	/* Modify group member count */
 	groups_update_groupmeta( $membership->group_id, 'total_member_count', (int) groups_get_groupmeta( $membership->group_id, 'total_member_count') + 1 );
