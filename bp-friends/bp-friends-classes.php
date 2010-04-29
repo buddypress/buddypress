@@ -126,11 +126,12 @@ class BP_Friends_Friendship {
 
 		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d OR friend_user_id = %d) AND is_confirmed = 1", $user_id, $user_id ) );
 
-		if ( !$count )
+		// Do not update meta if user has never had friends
+		if ( !$count && !get_usermeta( $user_id, 'total_friend_count' ) )
 			return 0;
 
-		update_usermeta( $user_id, 'total_friend_count', $count );
-		return $count;
+		update_usermeta( $user_id, 'total_friend_count', (int)$count );
+		return (int)$count;
 	}
 
 	function search_friends( $filter, $user_id, $limit = null, $page = null ) {
@@ -314,10 +315,17 @@ class BP_Friends_Friendship {
 	function delete_all_for_user( $user_id ) {
 		global $wpdb, $bp;
 
+		// Delete all friendships related to $user_id
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->friends->table_name} WHERE friend_user_id = %d OR initiator_user_id = %d", $user_id, $user_id ) );
 
 		// Delete friend request notifications for members who have a notification from this user.
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE component_name = 'friends' AND ( component_action = 'friendship_request' OR component_action = 'friendship_accepted' ) AND item_id = %d", $user_id ) );
+
+		// Get friends of $user_id and update their respective friend counts
+		$friend_ids = BP_Friends_Friendship::get_friend_user_ids( $user_id );
+		foreach ( (array)$friend_ids as $friend_id )
+			BP_Friends_Friendship::total_friend_count( $friend_id );
+
 	}
 }
 
