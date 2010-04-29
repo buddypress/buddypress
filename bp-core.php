@@ -192,9 +192,12 @@ function bp_core_define_slugs() {
 add_action( 'bp_setup_globals', 'bp_core_define_slugs' );
 
 function bp_core_get_page_names() {
-	global $wpdb;
+	global $wpdb, $current_blog;
 
-	$page_ids = get_site_option( 'bp-pages' );
+	if ( defined( 'BP_ENABLE_MULTIBLOG' ) )
+		$page_ids = get_blog_option( $current_blog->blog_id, 'bp-pages' );
+	else
+		$page_ids = get_blog_option( BP_ROOT_BLOG, 'bp-pages' );
 
 	if ( empty( $page_ids ) )
 		return false;
