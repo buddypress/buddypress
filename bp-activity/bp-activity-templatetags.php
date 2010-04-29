@@ -265,11 +265,12 @@ function bp_activity_pagination_count() {
 	function bp_get_activity_pagination_count() {
 		global $bp, $activities_template;
 
-		$from_num = bp_core_number_format( intval( ( $activities_template->pag_page - 1 ) * $activities_template->pag_num ) + 1 );
-		$to_num = bp_core_number_format( ( $from_num + ( $activities_template->pag_num - 1 ) > $activities_template->total_activity_count ) ? $activities_template->total_activity_count : $from_num + ( $activities_template->pag_num - 1 ) );
+		$start_num = intval( ( $activities_template->pag_page - 1 ) * $activities_template->pag_num ) + 1;
+		$from_num = bp_core_number_format( $start_num );
+		$to_num = bp_core_number_format( ( $start_num + ( $activities_template->pag_num - 1 ) > $activities_template->total_activity_count ) ? $activities_template->total_activity_count : $start_num + ( $activities_template->pag_num - 1 ) );
 		$total = bp_core_number_format( $activities_template->total_activity_count );
 
-		return sprintf( __( 'Viewing item %s to %s (of %s items)', 'buddypress' ), $from_num, $to_num, $total ) . ' &nbsp; <span class="ajax-loader"></span>';
+		return sprintf( __( 'Viewing item %1$s to %2$s (of %3$s items)', 'buddypress' ), $from_num, $to_num, $total ) . ' &nbsp; <span class="ajax-loader"></span>';
 	}
 
 function bp_activity_pagination_links() {

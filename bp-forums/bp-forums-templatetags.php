@@ -666,15 +666,16 @@ function bp_forum_pagination() {
 function bp_forum_pagination_count() {
 	global $bp, $forum_template;
 
-	$from_num = bp_core_number_format( intval( ( $forum_template->pag_page - 1 ) * $forum_template->pag_num ) + 1 );
-	$to_num = bp_core_number_format( ( $from_num + ( $forum_template->pag_num - 1  ) > $forum_template->total_topic_count ) ? $forum_template->total_topic_count : $from_num + ( $forum_template->pag_num - 1 ) );
+	$start_num = intval( ( $forum_template->pag_page - 1 ) * $forum_template->pag_num ) + 1;
+	$from_num = bp_core_number_format( $start_num );
+	$to_num = bp_core_number_format( ( $start_num + ( $forum_template->pag_num - 1  ) > $forum_template->total_topic_count ) ? $forum_template->total_topic_count : $start_num + ( $forum_template->pag_num - 1 ) );
 	$total = bp_core_number_format( $forum_template->total_topic_count );
 
 	$pag_filter = false;
 	if ( 'tags' == $forum_template->type && !empty( $forum_template->search_terms ) )
 		$pag_filter = sprintf( __( ' matching tag "%s"', 'buddypress' ), $forum_template->search_terms );
 
-	echo apply_filters( 'bp_forum_pagination_count', sprintf( __( 'Viewing topic %s to %s (%s total topics%s)', 'buddypress' ), $from_num, $to_num, $total, $pag_filter ) );
+	echo apply_filters( 'bp_forum_pagination_count', sprintf( __( 'Viewing topic %1$s to %2$s (%3$s total topics%4$s)', 'buddypress' ), $from_num, $to_num, $total, $pag_filter ) );
 ?>
 <span class="ajax-loader"></span>
 <?php
@@ -984,10 +985,12 @@ function bp_the_topic_pagination() {
 function bp_the_topic_pagination_count() {
 	global $bp, $topic_template;
 
-	$from_num = intval( ( $topic_template->pag_page - 1 ) * $topic_template->pag_num ) + 1;
-	$to_num = ( $from_num + ( $topic_template->pag_num - 1  ) > $topic_template->total_post_count ) ? $topic_template->total_post_count : $from_num + ( $topic_template->pag_num - 1 );
+	$start_num = intval( ( $topic_template->pag_page - 1 ) * $topic_template->pag_num ) + 1;
+	$from_num = bp_core_number_format( $start_num );
+	$to_num = bp_core_number_format( ( $start_num + ( $topic_template->pag_num - 1  ) > $topic_template->total_post_count ) ? $topic_template->total_post_count : $start_num + ( $topic_template->pag_num - 1 ) );
+	$total = bp_core_number_format( $topic_template->total_post_count );
 
-	echo apply_filters( 'bp_the_topic_pagination_count', sprintf( __( 'Viewing post %d to %d (%d total posts)', 'buddypress' ), $from_num, $to_num, $topic_template->total_post_count ) );
+	echo apply_filters( 'bp_the_topic_pagination_count', sprintf( __( 'Viewing post %1$s to %2$s (%3$s total posts)', 'buddypress' ), $from_num, $to_num, $total ) );
 ?>
 	<span class="ajax-loader"></span>
 <?php

@@ -162,11 +162,12 @@ function bp_the_blog() {
 function bp_blogs_pagination_count() {
 	global $bp, $blogs_template;
 
-	$from_num = bp_core_number_format( intval( ( $blogs_template->pag_page - 1 ) * $blogs_template->pag_num ) + 1 );
-	$to_num = bp_core_number_format( ( $from_num + ( $blogs_template->pag_num - 1 ) > $blogs_template->total_blog_count ) ? $blogs_template->total_blog_count : $from_num + ( $blogs_template->pag_num - 1 ) );
+	$start_num = intval( ( $blogs_template->pag_page - 1 ) * $blogs_template->pag_num ) + 1;
+	$from_num = bp_core_number_format( $start_num );
+	$to_num = bp_core_number_format( ( $start_num + ( $blogs_template->pag_num - 1 ) > $blogs_template->total_blog_count ) ? $blogs_template->total_blog_count : $start_num + ( $blogs_template->pag_num - 1 ) );
 	$total = bp_core_number_format( $blogs_template->total_blog_count );
 
-	echo sprintf( __( 'Viewing blog %s to %s (of %s blogs)', 'buddypress' ), $from_num, $to_num, $total ); ?> &nbsp;
+	echo sprintf( __( 'Viewing blog %1$s to %2$s (of %3$s blogs)', 'buddypress' ), $from_num, $to_num, $total ); ?> &nbsp;
 	<span class="ajax-loader"></span><?php
 }
 
