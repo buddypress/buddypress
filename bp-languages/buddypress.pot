@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-04-25 13:13+0000\n"
+"POT-Creation-Date: 2010-04-30 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -534,136 +534,136 @@ msgstr ""
 msgid "Max posts to show:"
 msgstr ""
 
-#: bp-core.php:265 bp-core.php:266 bp-core/admin/bp-core-admin.php:7
+#: bp-core.php:268 bp-core.php:269 bp-core/admin/bp-core-admin.php:7
 #: bp-core/admin/bp-core-upgrade.php:110
 #: bp-core/admin/bp-core-upgrade.php:1057
 #: bp-core/admin/bp-core-upgrade.php:1058
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core.php:272
+#: bp-core.php:275
 msgid "BuddyPress Dashboard"
 msgstr ""
 
-#: bp-core.php:272 bp-core/admin/bp-core-admin.php:8
+#: bp-core.php:275 bp-core/admin/bp-core-admin.php:8
 #: bp-core/bp-core-adminbar.php:128
 msgid "Dashboard"
 msgstr ""
 
-#: bp-core.php:273 bp-core/bp-core-settings.php:17 bp-groups.php:30
+#: bp-core.php:276 bp-core/bp-core-settings.php:17 bp-groups.php:30
 msgid "Settings"
 msgstr ""
 
-#: bp-core.php:307 bp-xprofile.php:91
+#: bp-core.php:310 bp-xprofile.php:91
 msgid "Profile"
 msgstr ""
 
-#: bp-core.php:318 bp-groups/bp-groups-templatetags.php:411 bp-xprofile.php:96
+#: bp-core.php:321 bp-groups/bp-groups-templatetags.php:411 bp-xprofile.php:96
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:328 bp-core/bp-core-templatetags.php:731
+#: bp-core.php:331 bp-core/bp-core-templatetags.php:731
 #: bp-themes/bp-default/activity/post-form.php:41 bp-xprofile.php:102
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:420
+#: bp-core.php:423
 msgid "User marked as spammer. Spam users are visible only to site admins."
 msgstr ""
 
-#: bp-core.php:422
+#: bp-core.php:425
 msgid "User removed as spammer."
 msgstr ""
 
-#: bp-core.php:456
+#: bp-core.php:459
 #, php-format
 msgid "%s has been deleted from the system."
 msgstr ""
 
-#: bp-core.php:458
+#: bp-core.php:461
 #, php-format
 msgid "There was an error deleting %s from the system. Please try again."
 msgstr ""
 
-#: bp-core.php:1228 bp-core/bp-core-templatetags.php:814
+#: bp-core.php:1231 bp-core/bp-core-templatetags.php:814
 msgid "at"
 msgstr ""
 
-#: bp-core.php:1332
+#: bp-core.php:1335
 msgid "year"
 msgstr ""
 
-#: bp-core.php:1332
+#: bp-core.php:1335
 msgid "years"
 msgstr ""
 
-#: bp-core.php:1333
+#: bp-core.php:1336
 msgid "month"
 msgstr ""
 
-#: bp-core.php:1333
+#: bp-core.php:1336
 msgid "months"
 msgstr ""
 
-#: bp-core.php:1334
+#: bp-core.php:1337
 msgid "week"
 msgstr ""
 
-#: bp-core.php:1334
+#: bp-core.php:1337
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:1335
+#: bp-core.php:1338
 msgid "day"
 msgstr ""
 
-#: bp-core.php:1335
+#: bp-core.php:1338
 msgid "days"
 msgstr ""
 
-#: bp-core.php:1336
+#: bp-core.php:1339
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:1336
+#: bp-core.php:1339
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:1337
+#: bp-core.php:1340
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:1337
+#: bp-core.php:1340
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:1338
+#: bp-core.php:1341
 msgid "second"
 msgstr ""
 
-#: bp-core.php:1338 bp-core.php:1390
+#: bp-core.php:1341 bp-core.php:1393
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1357
+#: bp-core.php:1360
 msgid "sometime"
 msgstr ""
 
-#: bp-core.php:1385
+#: bp-core.php:1388
 msgid ",|Separator in time since"
 msgstr ""
 
-#: bp-core.php:1437
+#: bp-core.php:1440
 msgid "not recently active"
 msgstr ""
 
-#: bp-core.php:1895
+#: bp-core.php:1898
 msgid ""
 "IMPORTANT: <a href=\"http://codex.buddypress.org/getting-started/upgrading-"
 "from-10x/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core.php:1924
+#: bp-core.php:1927
 #, php-format
 msgid ""
 "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update "
