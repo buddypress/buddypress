@@ -8,6 +8,10 @@ add_filter( 'bp_get_the_topic_title', 'wp_filter_kses', 1 );
 add_filter( 'bp_get_the_topic_latest_post_excerpt', 'bp_forums_filter_kses', 1 );
 add_filter( 'bp_get_the_topic_post_content', 'bp_forums_filter_kses', 1 );
 
+add_filter( 'bp_get_the_topic_title', 'force_balance_tags' ); 
+add_filter( 'bp_get_the_topic_latest_post_excerpt', 'force_balance_tags' );
+add_filter( 'bp_get_the_topic_post_content', 'force_balance_tags' );
+
 add_filter( 'bp_get_the_topic_title', 'wptexturize' );
 add_filter( 'bp_get_the_topic_poster_name', 'wptexturize' );
 add_filter( 'bp_get_the_topic_last_poster_name', 'wptexturize' );
