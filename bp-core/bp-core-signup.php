@@ -519,7 +519,7 @@ function bp_core_signup_avatar_upload_dir() {
 	if ( !file_exists( $path ) )
 		@wp_mkdir_p( $path );
 
-	$newurl = str_replace( BP_AVATAR_UPLOAD_PATH, BP_AVATAR_URL, $path );
+	$newurl = BP_AVATAR_URL . '/avatars/signups/' . $bp->signup->avatar_dir;
 	$newburl = $newurl;
 	$newsubdir = '/avatars/signups/' . $bp->signup->avatar_dir;
 

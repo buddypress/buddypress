@@ -875,7 +875,7 @@ function xprofile_avatar_upload_dir( $directory = false, $user_id = false ) {
 	if ( !file_exists( $path ) )
 		@wp_mkdir_p( $path );
 
-	$newurl = str_replace( BP_AVATAR_UPLOAD_PATH, BP_AVATAR_URL, $path );
+	$newurl  = BP_AVATAR_URL . '/avatars/' . $user_id;
 	$newburl = $newurl;
 	$newsubdir = '/avatars/' . $user_id;
 

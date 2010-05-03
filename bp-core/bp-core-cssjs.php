@@ -78,7 +78,7 @@ function bp_core_add_jquery_cropper() {
 function bp_core_add_cropper_inline_js() {
 	global $bp;
 
-	$image = apply_filters( 'bp_inline_cropper_image', getimagesize( $bp->avatar_admin->image->dir ) );
+	$image = apply_filters( 'bp_inline_cropper_image', getimagesize( BP_AVATAR_UPLOAD_PATH . $bp->avatar_admin->image->dir ) );
 	$aspect_ratio = 1;
 
 	/* Calculate Aspect Ratio */
