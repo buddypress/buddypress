@@ -64,6 +64,9 @@ function bp_loader_activate() {
 	if ( 'bp-sn-parent' == get_blog_option( BP_ROOT_BLOG, 'template' ) && 'bp-default' == get_blog_option( BP_ROOT_BLOG, 'stylesheet' ) )
 		switch_theme( 'bp-default', 'bp-default' );
 
+	/* Install site options on activation */
+	bp_core_activate_site_options( array( 'bp-disable-account-deletion' => 0, 'bp-disable-avatar-uploads' => 0, 'bp-disable-blogforum-comments' => 0,  'bp-disable-forum-directory' => 0,  'bp-disable-profile-sync' => 0 ) );
+
 	do_action( 'bp_loader_activate' );
 }
 register_activation_hook( 'buddypress/bp-loader.php', 'bp_loader_activate' );

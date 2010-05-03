@@ -2005,6 +2005,36 @@ function bp_core_activation_notice() {
 }
 add_action( 'admin_notices', 'bp_core_activation_notice' );
 
+/**
+ * bp_core_activate_site_options()
+ *
+ * When switching from single to multisite we need to copy blog options to
+ * site options.
+ *
+ * @package BuddyPress Core
+ */
+function bp_core_activate_site_options( $keys = array() ) {
+	global $bp;
+
+	if ( !empty( $keys ) && is_array( $keys ) ) {
+		$errors = false;
+
+		foreach ( $keys as $key => $default ) {
+			if ( empty( $bp->site_options[ $key ] ) ) {
+				$bp->site_options[ $key ] = get_blog_option( BP_ROOT_BLOG, $key, $default );
+
+				if ( !update_site_option( $key, $bp->site_options[ $key ] ) )
+					$errors = true;
+			}
+		}
+
+		if ( empty( $errors ) )
+			return true;
+	}
+
+	return false;
+}
+
 /********************************************************************************
  * Custom Actions
  *

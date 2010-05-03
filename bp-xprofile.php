@@ -27,11 +27,7 @@ function xprofile_install() {
 	if ( !empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 
-	if ( empty( $bp->site_options['bp-xprofile-base-group-name'] ) )
-		update_site_option( 'bp-xprofile-base-group-name', 'Base' );
-
-	if ( empty( $bp->site_options['bp-xprofile-fullname-field-name'] ) )
-		update_site_option( 'bp-xprofile-fullname-field-name', 'Name' );
+	bp_core_activate_site_options( array( 'bp-xprofile-base-group-name' => 'Base', 'bp-xprofile-fullname-field-name' => 'Name' ) );
 
 	$sql[] = "CREATE TABLE {$bp->profile->table_name_groups} (
 			  id bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
