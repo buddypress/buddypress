@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-04-29 13:13+0000\n"
+"POT-Creation-Date: 2010-05-04 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -378,7 +378,7 @@ msgstr ""
 msgid "%s created the blog %s"
 msgstr ""
 
-#: bp-blogs.php:383
+#: bp-blogs.php:381
 #, php-format
 msgid "%s wrote a new blog post: %s"
 msgstr ""
@@ -546,17 +546,17 @@ msgstr ""
 msgid "Component Setup"
 msgstr ""
 
-#: bp-core.php:344 bp-xprofile.php:179
+#: bp-core.php:344 bp-xprofile.php:175
 msgid "Profile"
 msgstr ""
 
 #: bp-core.php:355 bp-groups/bp-groups-templatetags.php:413
-#: bp-xprofile.php:184
+#: bp-xprofile.php:180
 msgid "Public"
 msgstr ""
 
 #: bp-core.php:365 bp-core/bp-core-templatetags.php:726
-#: bp-themes/bp-default/activity/post-form.php:41 bp-xprofile.php:190
+#: bp-themes/bp-default/activity/post-form.php:41 bp-xprofile.php:186
 msgid "My Profile"
 msgstr ""
 
@@ -1079,7 +1079,7 @@ msgid ""
 "There was a problem uploading your avatar, please try uploading it again"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:198 bp-xprofile.php:393
+#: bp-core/bp-core-signup.php:198 bp-xprofile.php:389
 msgid "There was a problem cropping your avatar, please try uploading it again"
 msgstr ""
 
@@ -1728,7 +1728,7 @@ msgstr ""
 msgid "Send Invites"
 msgstr ""
 
-#: bp-groups.php:245 bp-xprofile.php:220
+#: bp-groups.php:245 bp-xprofile.php:216
 msgid "Admin Options"
 msgstr ""
 
@@ -1861,11 +1861,11 @@ msgstr ""
 msgid "Group settings were successfully updated."
 msgstr ""
 
-#: bp-groups.php:734 bp-xprofile.php:440
+#: bp-groups.php:734 bp-xprofile.php:436
 msgid "Your avatar was deleted successfully!"
 msgstr ""
 
-#: bp-groups.php:736 bp-xprofile.php:442
+#: bp-groups.php:736 bp-xprofile.php:438
 msgid "There was a problem deleting that avatar, please try again."
 msgstr ""
 
@@ -3772,7 +3772,7 @@ msgid "Send Reply"
 msgstr ""
 
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:1
-#: bp-xprofile.php:186
+#: bp-xprofile.php:182
 msgid "Change Avatar"
 msgstr ""
 
@@ -3975,62 +3975,62 @@ msgstr ""
 msgid "Sorry, no posts matched your criteria."
 msgstr ""
 
-#: bp-xprofile.php:155 bp-xprofile/bp-xprofile-admin.php:38
+#: bp-xprofile.php:151 bp-xprofile/bp-xprofile-admin.php:38
 msgid "Profile Field Setup"
 msgstr ""
 
-#: bp-xprofile.php:185 bp-xprofile/bp-xprofile-templatetags.php:690
+#: bp-xprofile.php:181 bp-xprofile/bp-xprofile-templatetags.php:690
 msgid "Edit Profile"
 msgstr ""
 
-#: bp-xprofile.php:223
+#: bp-xprofile.php:219
 #, php-format
 msgid "Edit %s's Profile"
 msgstr ""
 
-#: bp-xprofile.php:224
+#: bp-xprofile.php:220
 #, php-format
 msgid "Edit %s's Avatar"
 msgstr ""
 
-#: bp-xprofile.php:227
+#: bp-xprofile.php:223
 msgid "Mark as Spammer"
 msgstr ""
 
-#: bp-xprofile.php:229
+#: bp-xprofile.php:225
 msgid "Not a Spammer"
 msgstr ""
 
-#: bp-xprofile.php:232
+#: bp-xprofile.php:228
 #, php-format
 msgid "Delete %s"
 msgstr ""
 
-#: bp-xprofile.php:325
+#: bp-xprofile.php:321
 msgid ""
 "Please make sure you fill in all required fields in this profile field group "
 "before saving."
 msgstr ""
 
-#: bp-xprofile.php:342
+#: bp-xprofile.php:338
 msgid ""
 "There was a problem updating some of your profile information, please try "
 "again."
 msgstr ""
 
-#: bp-xprofile.php:344
+#: bp-xprofile.php:340
 msgid "Changes saved."
 msgstr ""
 
-#: bp-xprofile.php:395
+#: bp-xprofile.php:391
 msgid "Your new avatar was uploaded successfully!"
 msgstr ""
 
-#: bp-xprofile.php:462
+#: bp-xprofile.php:458
 msgid "New member registered"
 msgstr ""
 
-#: bp-xprofile.php:463
+#: bp-xprofile.php:459
 msgid "Updated Profile"
 msgstr ""
 
