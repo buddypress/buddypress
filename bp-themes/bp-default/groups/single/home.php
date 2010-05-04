@@ -18,7 +18,7 @@
 						<?php do_action( 'bp_group_options_nav' ) ?>
 					</ul>
 				</div>
-			</div<!-- #item-nav -->
+			</div><!-- #item-nav -->
 
 			<div id="item-body">
 				<?php do_action( 'bp_before_group_body' ) ?>
