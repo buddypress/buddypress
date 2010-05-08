@@ -295,12 +295,12 @@ function bp_blogs_get_blogs( $args = '' ) {
 }
 
 function bp_blogs_record_existing_blogs() {
-	global $bp, $wpdb;
+	global $bp, $wpdb, $current_site;
 
 	/* Truncate user blogs table and re-record. */
 	$wpdb->query( "TRUNCATE TABLE {$bp->blogs->table_name}" );
 
-	$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->base_prefix}blogs WHERE mature = 0 AND spam = 0 AND deleted = 0" ) );
+	$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->base_prefix}blogs WHERE mature = 0 AND spam = 0 AND deleted = 0 AND site_id = %d" ), $current_site->id );
 
 	if ( $blog_ids ) {
 		foreach( (array)$blog_ids as $blog_id ) {
