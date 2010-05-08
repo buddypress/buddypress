@@ -19,7 +19,7 @@
 						<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
 
 							<?php if ( bp_field_has_data() ) : ?>
-								<tr>
+								<tr<?php bp_field_css_class() ?>>
 
 									<td class="label">
 										<?php bp_the_profile_field_name() ?>
