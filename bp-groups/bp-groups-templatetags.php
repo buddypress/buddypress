@@ -956,19 +956,38 @@ function bp_group_has_requested_membership( $group = false ) {
 	return false;
 }
 
+/**
+ * bp_group_is_member()
+ *
+ * Checks if current user is member of a group.
+ *
+ * @uses is_site_admin Check if current user is super admin
+ * @uses apply_filters Creates bp_group_is_member filter and passes $is_member
+ * @usedby groups/activity.php, groups/single/forum/edit.php, groups/single/forum/topic.php to determine template part visibility
+ * @global array $bp BuddyPress Master global
+ * @global object $groups_template Current Group (usually in template loop)
+ * @param object $group Group to check is_member
+ * @return bool If user is member of group or not
+ */
 function bp_group_is_member( $group = false ) {
 	global $bp, $groups_template;
 
+	// Site admins always have access
 	if ( is_site_admin() )
 		return true;
 
+	// Load group if none passed
 	if ( !$group )
 		$group =& $groups_template->group;
 
+	// Check membership
 	if ( null == $group->is_member )
-		return false;
+		$is_member = false;
+	else
+		$is_member = true;
 
-	return true;
+	// Return
+	return apply_filters( 'bp_group_is_member', $is_member );
 }
 
 function bp_group_accept_invite_link() {
