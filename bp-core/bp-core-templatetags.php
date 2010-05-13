@@ -243,7 +243,7 @@ function bp_member_permalink() {
 	function bp_get_member_link() { return bp_get_member_permalink(); }
 
 function bp_member_name() {
-	echo apply_filters( 'bp_member_name', bp_get_member_name() );
+	echo bp_get_member_name();
 }
 	function bp_get_member_name() {
 		global $members_template;
