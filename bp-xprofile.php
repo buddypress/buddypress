@@ -922,6 +922,24 @@ function xprofile_sync_wp_profile( $user_id = false ) {
 add_action( 'xprofile_updated_profile', 'xprofile_sync_wp_profile' );
 add_action( 'bp_core_signup_user', 'xprofile_sync_wp_profile' );
 
+
+/* xprofile_sync_bp_profile()
+ *
+ * Syncs the standard built in WordPress profile data to XProfile.
+ *
+ * @since 1.2.4
+ * @package BuddyPress Core
+ */
+function xprofile_sync_bp_profile( &$errors, $update, &$user ) {
+	global $bp;
+
+	if ( (int)$bp->site_options['bp-disable-profile-sync'] || !$update || $errors->get_error_codes() )
+		return;
+
+	xprofile_set_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user->ID, $user->display_name );
+}
+add_action( 'user_profile_update_errors', 'xprofile_sync_bp_profile', 10, 3 );
+
 /**
  * xprofile_remove_screen_notifications()
  *
