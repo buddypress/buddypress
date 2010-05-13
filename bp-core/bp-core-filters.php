@@ -119,12 +119,17 @@ add_filter( 'login_redirect', 'bp_core_login_redirect' );
  *
  * Replace the generated password in the welcome email.
  * This will not filter when the site admin registers a user.
+ *
+ * @uses locate_template To see if custom registration files exist
+ * @param string $welcome_email Complete email passed through WordPress
+ * @return string Filtered $welcome_email with 'PASSWORD' replaced by [User Set]
  */
 function bp_core_filter_user_welcome_email( $welcome_email ) {
 	/* Don't touch the email if we don't have a custom registration template */
 	if ( '' == locate_template( array( 'registration/register.php' ), false ) && '' == locate_template( array( 'register.php' ), false ) )
 		return $welcome_email;
 
+	// [User Set] Replaces 'PASSWORD' in welcome email; Represents value set by user
 	return str_replace( 'PASSWORD', __( '[User Set]', 'buddypress' ), $welcome_email );
 }
 if ( !is_admin() && empty( $_GET['e'] ) )
@@ -135,12 +140,20 @@ if ( !is_admin() && empty( $_GET['e'] ) )
  *
  * Replace the generated password in the welcome email.
  * This will not filter when the site admin registers a user.
+ *
+ * @uses locate_template To see if custom registration files exist
+ * @param string $welcome_email Complete email passed through WordPress
+ * @param integer $blog_id ID of the blog user is joining
+ * @param integer $user_id ID of the user joining
+ * @param string $password Password of user
+ * @return string Filtered $welcome_email with $password replaced by [User Set]
  */
 function bp_core_filter_blog_welcome_email( $welcome_email, $blog_id, $user_id, $password ) {
 	/* Don't touch the email if we don't have a custom registration template */
 	if ( '' == locate_template( array( 'registration/register.php' ), false ) && '' == locate_template( array( 'register.php' ), false ) )
 		return $welcome_email;
 
+	// [User Set] Replaces $password in welcome email; Represents value set by user
 	return str_replace( $password, __( '[User Set]', 'buddypress' ), $welcome_email );
 }
 if ( !is_admin() && empty( $_GET['e'] ) )
