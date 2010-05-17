@@ -165,7 +165,7 @@ function bp_core_setup_globals() {
 	   their own profile and wants to delete something, is_item_admin is used. This is a
 	   generic variable so it can be used by other components. It can also be modified, so when viewing a group
 	   'is_item_admin' would be 1 if they are a group admin, 0 if they are not. */
-	$bp->is_item_admin = bp_is_my_profile();
+	$bp->is_item_admin = bp_user_has_access();
 
 	/* Used to determine if the logged in user is a moderator for the current content. */
 	$bp->is_item_mod = false;
@@ -682,7 +682,7 @@ function bp_core_new_nav_item( $args = '' ) {
 	 * the logged in user is not the displayed user
 	 * looking at their own profile, don't create the nav item.
 	 */
-	if ( !$show_for_displayed_user && !bp_is_my_profile() )
+	if ( !$show_for_displayed_user && !bp_user_has_access() )
 		return false;
 
 	/***
