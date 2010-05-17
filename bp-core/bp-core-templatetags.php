@@ -664,13 +664,24 @@ function bp_is_my_profile() {
 	global $bp;
 
 	if ( is_user_logged_in() && $bp->loggedin_user->id == $bp->displayed_user->id )
+		$my_profile = true;
+	else
+		$my_profile = false;
+
+	return apply_filters( 'bp_is_my_profile', $my_profile );
+}
+function bp_is_home() { return bp_is_my_profile(); }
+
+function bp_user_has_access() {
+	global $bp;
+
+	if ( is_site_admin() || is_user_logged_in() && $bp->loggedin_user->id == $bp->displayed_user->id )
 		$has_access = true;
 	else
 		$has_access = false;
 
-	return apply_filters( 'bp_is_my_profile', $has_access );
+	return apply_filters( 'bp_user_has_access', $has_access );
 }
-function bp_is_home() { return bp_is_my_profile(); }
 
 function bp_last_activity( $user_id = false, $echo = true ) {
 	global $bp;
