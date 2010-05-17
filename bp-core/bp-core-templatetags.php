@@ -1247,8 +1247,8 @@ function bp_user_firstname() {
 		return apply_filters( 'bp_get_user_firstname', $fullname[0], $fullname );
 	}
 
-function bp_user_link() {
-	echo apply_filters( 'bp_user_link', bp_get_loggedin_user_link() );
+function bp_loggedin_user_link() {
+	echo bp_get_loggedin_user_link();
 }
 	function bp_get_loggedin_user_link() {
 		global $bp;
@@ -1256,20 +1256,23 @@ function bp_user_link() {
 		return apply_filters( 'bp_get_loggedin_user_link', $bp->loggedin_user->domain );
 	}
 
-function bp_loggedin_user_link() {
+/* @todo Deprecate incorrectly named function? */
+function bp_loggedinuser_link() {
 	global $bp;
 
 	if ( $link = bp_core_get_userlink( $bp->loggedin_user->id ) )
 		echo apply_filters( 'bp_loggedin_user_link', $link );
 }
-/* @todo Deprecate incorrectly named function? */
-function bp_loggedinuser_link() { bp_loggedin_user_link(); }
 
-function bp_get_displayed_user_link() {
-	global $bp;
-
-	return apply_filters( 'bp_get_displayed_user_link', $bp->displayed_user->domain );
+function bp_displayed_user_link() {
+	echo bp_get_loggedin_user_link();
 }
+function bp_user_link() { bp_displayed_user_link(); }
+	function bp_get_displayed_user_link() {
+		global $bp;
+
+		return apply_filters( 'bp_get_displayed_user_link', $bp->displayed_user->domain );
+	}
 
 function bp_displayed_user_id() {
 	global $bp;
