@@ -656,77 +656,10 @@ function bp_avatar_cropper() {
 	echo '<img id="avatar-to-crop" class="avatar" src="' . $bp->avatar_admin->image . '" />';
 }
 
+/** OTHER TEMPLATE TAGS *******************************************************/
+
 function bp_site_name() {
 	echo apply_filters( 'bp_site_name', get_blog_option( BP_ROOT_BLOG, 'blogname' ) );
-}
-
-function bp_is_my_profile() {
-	global $bp;
-
-	if ( is_user_logged_in() && $bp->loggedin_user->id == $bp->displayed_user->id )
-		$my_profile = true;
-	else
-		$my_profile = false;
-
-	return apply_filters( 'bp_is_my_profile', $my_profile );
-}
-function bp_is_home() { return bp_is_my_profile(); }
-
-function bp_user_has_access() {
-	global $bp;
-
-	if ( is_site_admin() || is_user_logged_in() && $bp->loggedin_user->id == $bp->displayed_user->id )
-		$has_access = true;
-	else
-		$has_access = false;
-
-	return apply_filters( 'bp_user_has_access', $has_access );
-}
-
-function bp_last_activity( $user_id = false, $echo = true ) {
-	global $bp;
-
-	if ( !$user_id )
-		$user_id = $bp->displayed_user->id;
-
-	$last_activity = bp_core_get_last_activity( get_usermeta( $user_id, 'last_activity' ), __('active %s ago', 'buddypress') );
-
-	if ( $echo )
-		echo apply_filters( 'bp_last_activity', $last_activity );
-	else
-		return apply_filters( 'bp_last_activity', $last_activity );
-}
-
-function bp_user_firstname() {
-	echo bp_get_user_firstname();
-}
-	function bp_get_user_firstname( $name = false ) {
-		global $bp;
-
-		if ( !$name )
-			$name = $bp->loggedin_user->fullname;
-
-		$fullname = (array)explode( ' ', $name );
-
-		return apply_filters( 'bp_get_user_firstname', $fullname[0], $fullname );
-	}
-
-function bp_user_link() {
-	global $bp;
-
-	echo apply_filters( 'bp_user_link', $bp->displayed_user->domain );
-}
-
-function bp_get_loggedin_user_link() {
-	global $bp;
-
-	return $bp->loggedin_user->domain;
-}
-
-function bp_get_displayed_user_link() {
-	global $bp;
-
-	return $bp->displayed_user->domain;
 }
 
 function bp_core_get_wp_profile() {
@@ -865,28 +798,8 @@ function bp_your_or_their( $capitalize = true, $echo = true ) {
 	}
 }
 
-function bp_loggedinuser_link() {
-	global $bp;
-
-	if ( $link = bp_core_get_userlink( $bp->loggedin_user->id ) ) {
-		echo apply_filters( 'bp_loggedinuser_link', $link );
-	}
-}
-
 function bp_get_plugin_sidebar() {
 	locate_template( array( 'plugin-sidebar.php' ), true );
-}
-
-function bp_is_blog_page() {
-	global $bp, $is_member_page, $wp_query;
-
-	if ( $wp_query->is_home && !$bp->is_directory )
-		return true;
-
-	if ( !$bp->displayed_user->id && !$bp->is_single_item && !$bp->is_directory && !bp_core_is_root_component( $bp->current_component ) )
-		return true;
-
-	return false;
 }
 
 function bp_page_title() {
@@ -1053,12 +966,6 @@ function bp_custom_profile_boxes() {
 
 function bp_custom_profile_sidebar_boxes() {
 	do_action( 'bp_custom_profile_sidebar_boxes' );
-}
-
-function bp_is_directory() {
-	global $bp;
-
-	return $bp->is_directory;
 }
 
 /**
@@ -1301,6 +1208,69 @@ function bp_ajax_querystring( $object = false ) {
 /* Template functions for fetching globals, without querying the DB again
    also means we dont have to use the $bp variable in the template (looks messy) */
 
+function bp_last_activity( $user_id = false, $echo = true ) {
+	global $bp;
+
+	if ( !$user_id )
+		$user_id = $bp->displayed_user->id;
+
+	$last_activity = bp_core_get_last_activity( get_usermeta( $user_id, 'last_activity' ), __('active %s ago', 'buddypress') );
+
+	if ( $echo )
+		echo apply_filters( 'bp_last_activity', $last_activity );
+	else
+		return apply_filters( 'bp_last_activity', $last_activity );
+}
+
+function bp_user_has_access() {
+	global $bp;
+
+	if ( is_site_admin() || is_user_logged_in() && $bp->loggedin_user->id == $bp->displayed_user->id )
+		$has_access = true;
+	else
+		$has_access = false;
+
+	return apply_filters( 'bp_user_has_access', $has_access );
+}
+
+function bp_user_firstname() {
+	echo bp_get_user_firstname();
+}
+	function bp_get_user_firstname( $name = false ) {
+		global $bp;
+
+		if ( !$name )
+			$name = $bp->loggedin_user->fullname;
+
+		$fullname = (array)explode( ' ', $name );
+
+		return apply_filters( 'bp_get_user_firstname', $fullname[0], $fullname );
+	}
+
+function bp_user_link() {
+	echo apply_filters( 'bp_user_link', bp_get_loggedin_user_link() );
+}
+	function bp_get_loggedin_user_link() {
+		global $bp;
+
+		return apply_filters( 'bp_get_loggedin_user_link', $bp->loggedin_user->domain );
+	}
+
+function bp_loggedin_user_link() {
+	global $bp;
+
+	if ( $link = bp_core_get_userlink( $bp->loggedin_user->id ) )
+		echo apply_filters( 'bp_loggedin_user_link', $link );
+}
+/* @todo Deprecate incorrectly named function? */
+function bp_loggedinuser_link() { bp_loggedin_user_link(); }
+
+function bp_get_displayed_user_link() {
+	global $bp;
+
+	return apply_filters( 'bp_get_displayed_user_link', $bp->displayed_user->domain );
+}
+
 function bp_displayed_user_id() {
 	global $bp;
 	return apply_filters( 'bp_displayed_user_id', $bp->displayed_user->id );
@@ -1388,6 +1358,30 @@ function bp_root_domain() {
 
 /* Template is_() functions to determine the current page */
 
+function bp_is_blog_page() {
+	global $bp, $is_member_page, $wp_query;
+
+	if ( $wp_query->is_home && !$bp->is_directory )
+		return true;
+
+	if ( !$bp->displayed_user->id && !$bp->is_single_item && !$bp->is_directory && !bp_core_is_root_component( $bp->current_component ) )
+		return true;
+
+	return false;
+}
+
+function bp_is_my_profile() {
+	global $bp;
+
+	if ( is_user_logged_in() && $bp->loggedin_user->id == $bp->displayed_user->id )
+		$my_profile = true;
+	else
+		$my_profile = false;
+
+	return apply_filters( 'bp_is_my_profile', $my_profile );
+}
+function bp_is_home() { return bp_is_my_profile(); }
+
 function bp_is_front_page() {
 	if ( 'posts' == get_option('show_on_front') && is_home() )
 		return true;
@@ -1399,6 +1393,12 @@ function bp_is_front_page() {
 
 function bp_is_activity_front_page() {
 	return ( 'page' == get_option('show_on_front') && 'activity' == get_option('page_on_front') && $_SERVER['REQUEST_URI'] == bp_core_get_site_path() );
+}
+
+function bp_is_directory() {
+	global $bp;
+
+	return $bp->is_directory;
 }
 
 function bp_is_page($page) {
