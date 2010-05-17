@@ -664,9 +664,11 @@ function bp_is_my_profile() {
 	global $bp;
 
 	if ( is_user_logged_in() && $bp->loggedin_user->id == $bp->displayed_user->id )
-		return true;
+		$has_access = true;
+	else
+		$has_access = false;
 
-	return false;
+	return apply_filters( 'bp_is_my_profile', $has_access );
 }
 function bp_is_home() { return bp_is_my_profile(); }
 
