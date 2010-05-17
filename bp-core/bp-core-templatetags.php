@@ -1356,7 +1356,7 @@ function bp_root_domain() {
 	function bp_get_root_domain() {
 		global $bp;
 
-		return $bp->root_domain;
+		return apply_filters( 'bp_get_root_domain', $bp->root_domain );
 	}
 
 /* Template is_() functions to determine the current page */
