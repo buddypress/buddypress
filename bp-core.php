@@ -414,7 +414,7 @@ add_action( 'wp', 'bp_core_action_directory_members', 2 );
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
 function bp_core_action_set_spammer_status() {
-	global $bp, $wpdb;
+	global $bp, $wpdb, $wp_version;
 
 	if ( !is_site_admin() || bp_is_my_profile() || !$bp->displayed_user->id )
 		return false;
@@ -424,8 +424,12 @@ function bp_core_action_set_spammer_status() {
 		check_admin_referer( 'mark-unmark-spammer' );
 
 		/* Get the functions file */
-		if ( file_exists( ABSPATH . 'wp-admin/includes/mu.php' ) && bp_core_is_multisite() )
-			require( ABSPATH . 'wp-admin/includes/mu.php' );
+		if ( bp_core_is_multisite() ) {
+			if ( $wp_version >= '3.0' )
+				require_once( ABSPATH . '/wp-admin/includes/ms.php' );
+			else
+				require_once( ABSPATH . '/wp-admin/includes/mu.php' );
+		}
 
 		if ( 'mark-spammer' == $bp->current_action )
 			$is_spam = 1;
@@ -1699,7 +1703,7 @@ function bp_core_add_illegal_names() {
  * @uses get_site_option Checks if account deletion is allowed
  */
 function bp_core_delete_account( $user_id = false ) {
-	global $bp, $wpdb;
+	global $bp, $wpdb, $wp_version;
 
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
@@ -1714,7 +1718,11 @@ function bp_core_delete_account( $user_id = false ) {
 		if ( is_site_admin( bp_core_get_username( $user_id ) ) )
 			return false;
 
-		require_once( ABSPATH . '/wp-admin/includes/mu.php' );
+		if ( $wp_version >= '3.0' )
+			require_once( ABSPATH . '/wp-admin/includes/ms.php' );
+		else
+			require_once( ABSPATH . '/wp-admin/includes/mu.php' );
+
 		require_once( ABSPATH . '/wp-admin/includes/user.php' );
 
 		return wpmu_delete_user( $user_id );
