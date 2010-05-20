@@ -424,7 +424,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 
 	if ( (int)get_blog_option( $recorded_comment->blog_id, 'blog_public' ) || !bp_core_is_multisite() ) {
 		/* Record in activity streams */
-		$comment_link = get_permalink( $comment->comment_post_ID ) . '#comment-' . $comment_id;
+		$comment_link = htmlspecialchars( get_comment_link( $comment->comment_ID ) );
 		$activity_action = sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $comment_link . '">' . $comment->post->post_title . '</a>' );
 		$activity_content = $comment->comment_content;
 
