@@ -42,7 +42,7 @@ function bp_blogs_install() {
 	dbDelta($sql);
 
 	// On first installation - record all existing blogs in the system.
-	if ( !(int)$bp->site_options['bp-blogs-first-install'] && bp_core_is_multisite() ) {
+	if ( !(int)get_site_option('bp-blogs-first-install') && bp_core_is_multisite() ) {
 		bp_blogs_record_existing_blogs();
 		add_site_option( 'bp-blogs-first-install', 1 );
 	}
@@ -295,12 +295,12 @@ function bp_blogs_get_blogs( $args = '' ) {
 }
 
 function bp_blogs_record_existing_blogs() {
-	global $bp, $wpdb, $current_site;
+	global $bp, $wpdb;
 
 	/* Truncate user blogs table and re-record. */
 	$wpdb->query( "TRUNCATE TABLE {$bp->blogs->table_name}" );
 
-	$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->base_prefix}blogs WHERE mature = 0 AND spam = 0 AND deleted = 0 AND site_id = %d" ), $current_site->id );
+	$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->base_prefix}blogs WHERE mature = 0 AND spam = 0 AND deleted = 0" ) );
 
 	if ( $blog_ids ) {
 		foreach( (array)$blog_ids as $blog_id ) {
