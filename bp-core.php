@@ -1611,7 +1611,7 @@ function bp_core_get_site_options() {
 	$meta_keys = "'" . implode( "','", (array)$options ) ."'";
 
 	if ( bp_core_is_multisite() )
-		$meta = $wpdb->get_results( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ({$meta_keys})" );
+		$meta = $wpdb->get_results( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ({$meta_keys}) AND site_id = {$wpdb->siteid}" );
 	else
 		$meta = $wpdb->get_results( "SELECT option_name AS name, option_value AS value FROM {$wpdb->options} WHERE option_name IN ({$meta_keys})" );
 
