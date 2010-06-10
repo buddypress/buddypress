@@ -201,14 +201,103 @@ function bp_members_pagination_links() {
 		return apply_filters( 'bp_get_members_pagination_links', $members_template->pag_links );
 	}
 
+/**
+ * bp_member_user_id()
+ *
+ * Echo id from bp_get_member_user_id()
+ *
+ * @uses bp_get_member_user_id()
+ */
 function bp_member_user_id() {
 	echo bp_get_member_user_id();
 }
+	/**
+	 * bp_get_member_user_id()
+	 *
+	 * Get the id of the user in a members loop
+	 *
+	 * @global object $members_template
+	 * @return string Members id
+	 */
 	function bp_get_member_user_id() {
 		global $members_template;
 
 		return apply_filters( 'bp_get_member_user_id', $members_template->member->id );
 	}
+
+/**
+ * bp_member_user_nicename()
+ *
+ * Echo nicename from bp_get_member_user_nicename()
+ *
+ * @uses bp_get_member_user_nicename()
+ */
+function bp_member_user_nicename() {
+	echo bp_get_member_user_nicename();
+}
+	/**
+	 * bp_get_member_user_nicename()
+	 *
+	 * Get the nicename of the user in a members loop
+	 *
+	 * @global object $members_template
+	 * @return string Members nicename
+	 */
+	function bp_get_member_user_nicename() {
+		global $members_template;
+		return apply_filters( 'bp_get_member_user_nicename', $members_template->member->user_nicename );
+	}
+
+/**
+ * bp_member_user_login()
+ *
+ * Echo login from bp_get_member_user_login()
+ *
+ * @uses bp_get_member_user_login()
+ */
+function bp_member_user_login() {
+	echo bp_get_member_user_login();
+}
+	/**
+	 * bp_get_member_user_login()
+	 *
+	 * Get the login of the user in a members loop
+	 *
+	 * @global object $members_template
+	 * @return string Members login
+	 */
+	function bp_get_member_user_login() {
+		global $members_template;
+		return apply_filters( 'bp_get_member_user_login', $members_template->member->user_login );
+	}
+
+/**
+ * bp_member_user_email()
+ *
+ * Echo email address from bp_get_member_user_email()
+ *
+ * @uses bp_get_member_user_email()
+ */
+function bp_member_user_email() {
+	echo bp_get_member_user_email();
+}
+	/**
+	 * bp_get_member_user_email()
+	 *
+	 * Get the email address of the user in a members loop
+	 *
+	 * @global object $members_template
+	 * @return string Members email address
+	 */
+	function bp_get_member_user_email() {
+		global $members_template;
+		return apply_filters( 'bp_get_member_user_email', $members_template->member->user_email );
+	}
+
+function bp_member_is_loggedin_user() {
+	global $bp, $members_template;
+	return apply_filters( 'bp_member_is_loggedin_user', $bp->loggedin_user->id == $members_template->member->id ? true : false );
+}
 
 function bp_member_avatar( $args = '' ) {
 	echo apply_filters( 'bp_member_avatar', bp_get_member_avatar( $args ) );
