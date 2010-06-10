@@ -410,22 +410,42 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 	return true;
 }
 
-// Override internal "get_avatar()" function to use our own where possible
+/**
+ * bp_core_fetch_avatar_filter()
+ *
+ * Attempts to filter get_avatar function and let BuddyPress have a go
+ * at finding an avatar that may have been uploaded locally.
+ *
+ * @global array $authordata
+ * @param string $avatar The result of get_avatar from before-filter
+ * @param int|string|object $user A user ID, email address, or comment object
+ * @param int $size Size of the avatar image (thumb/full)
+ * @param string $default URL to a default image to use if no avatar is available
+ * @param string $alt Alternate text to use in image tag. Defaults to blank
+ * @return <type>
+ */
 function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt ) {
-	global $authordata;
 
+	// If passed an object, assume $user->user_id
 	if ( is_object( $user ) )
 		$id = $user->user_id;
+
+	// If passed a number, assume it was a $user_id
 	else if ( is_numeric( $user ) )
 		$id = $user;
-	else
-		$id = $authordata->ID;
 
+	// If passed a string and that string returns a user, get the $id
+	else if ( is_string( $user ) && ( $user_by_email = get_user_by_email( $user ) ) )
+		$id = $user_by_email->ID;
+
+	// If somehow $id hasn't been assigned, return the result of get_avatar
 	if ( empty( $id ) )
-		return $avatar;
+		return !empty( $avatar ) ? $avatar : $default;
 
+	// Let BuddyPress handle the fetching of the avatar
 	$bp_avatar = bp_core_fetch_avatar( array( 'item_id' => $id, 'width' => $size, 'height' => $size, 'alt' => $alt ) );
 
+	// If BuddyPress found an avatar, use it. If not, use the result of get_avatar
 	return ( !$bp_avatar ) ? $avatar : $bp_avatar;
 }
 add_filter( 'get_avatar', 'bp_core_fetch_avatar_filter', 10, 5 );
