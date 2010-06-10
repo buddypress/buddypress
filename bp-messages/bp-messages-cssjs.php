@@ -27,6 +27,7 @@ function messages_add_autocomplete_css() {
 add_action( 'wp_head', 'messages_add_autocomplete_css' );
 
 function messages_autocomplete_init_jsblock() {
+	global $bp;
 ?>
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
