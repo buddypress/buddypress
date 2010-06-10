@@ -414,7 +414,7 @@ Class BP_XProfile_Field {
 		if ( !$children = $wpdb->get_results($sql) )
 			return false;
 
-		return $children;
+		return apply_filters( 'bp_xprofile_field_get_children', $children );
 	}
 
 	function delete_children() {
