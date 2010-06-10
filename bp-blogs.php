@@ -379,7 +379,7 @@ function bp_blogs_updated_option( $option, $oldvalue, $_newvalue ) {
 			break;
 	}
 }
-add_action( 'updated_option', 'bp_blogs_update_option_blogname', 10, 3 );
+add_action( 'updated_option', 'bp_blogs_updated_option', 10, 3 );
 
 function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 	global $bp, $wpdb;
