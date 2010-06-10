@@ -161,17 +161,18 @@ Class BP_Blogs_Blog {
 
 		// Show logged in users their hidden blogs.
 		if ( !bp_is_my_profile() && !$show_hidden )
-			$blogs = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT b.id, bm1.meta_value as name, wb.domain, wb.path FROM {$bp->blogs->table_name} b, {$wpdb->base_prefix}blogs wb, {$bp->blogs->table_name_blogmeta} bm1 WHERE b.blog_id = wb.blog_id AND b.blog_id = bm1.blog_id AND bm1.meta_key = 'name' AND wb.public = 1 AND wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND b.user_id = %d ORDER BY b.id", $user_id ) );
+			$blogs = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT b.blog_id, b.id, bm1.meta_value as name, wb.domain, wb.path FROM {$bp->blogs->table_name} b, {$wpdb->base_prefix}blogs wb, {$bp->blogs->table_name_blogmeta} bm1 WHERE b.blog_id = wb.blog_id AND b.blog_id = bm1.blog_id AND bm1.meta_key = 'name' AND wb.public = 1 AND wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND b.user_id = %d ORDER BY b.blog_id", $user_id ) );
 		else
-			$blogs = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT b.id, bm1.meta_value as name, wb.domain, wb.path FROM {$bp->blogs->table_name} b, {$wpdb->base_prefix}blogs wb, {$bp->blogs->table_name_blogmeta} bm1 WHERE b.blog_id = wb.blog_id AND b.blog_id = bm1.blog_id AND bm1.meta_key = 'name' AND wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND b.user_id = %d ORDER BY b.id", $user_id ) );
+			$blogs = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT b.blog_id, b.id, bm1.meta_value as name, wb.domain, wb.path FROM {$bp->blogs->table_name} b, {$wpdb->base_prefix}blogs wb, {$bp->blogs->table_name_blogmeta} bm1 WHERE b.blog_id = wb.blog_id AND b.blog_id = bm1.blog_id AND bm1.meta_key = 'name' AND wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND b.user_id = %d ORDER BY b.blog_id", $user_id ) );
 
 		$total_blog_count = BP_Blogs_Blog::total_blog_count_for_user( $user_id );
 
 		foreach ( (array)$blogs as $blog ) {
-			$user_blogs[$blog->id] = new stdClass;
-			$user_blogs[$blog->id]->id = $blog->id;
-			$user_blogs[$blog->id]->siteurl = ( is_ssl() ) ? 'https://' . $blog->domain . $blog->path : 'http://' . $blog->domain . $blog->path;
-			$user_blogs[$blog->id]->name = $blog->name;
+			$user_blogs[$blog->blog_id] = new stdClass;
+			$user_blogs[$blog->blog_id]->id = $blog->id;
+			$user_blogs[$blog->blog_id]->blog_id = $blog->blog_id;
+			$user_blogs[$blog->blog_id]->siteurl = ( is_ssl() ) ? 'https://' . $blog->domain . $blog->path : 'http://' . $blog->domain . $blog->path;
+			$user_blogs[$blog->blog_id]->name = $blog->name;
 		}
 
 		return array( 'blogs' => $user_blogs, 'count' => $total_blog_count );
