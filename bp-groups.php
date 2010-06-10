@@ -116,7 +116,7 @@ add_action( 'admin_menu', 'groups_check_installed' );
 function groups_setup_nav() {
 	global $bp;
 
-	if ( $group_id = BP_Groups_Group::group_exists($bp->current_action) ) {
+	if ( $bp->current_component == $bp->groups->slug && $group_id = BP_Groups_Group::group_exists($bp->current_action) ) {
 
 		/* This is a single group page. */
 		$bp->is_single_item = true;
