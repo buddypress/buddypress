@@ -116,21 +116,58 @@ function bp_core_fetch_avatar( $args = '' ) {
 	 * Set the file names to search for, to select the full size
 	 * or thumbnail image.
 	 */
-	$avatar_name = ( 'full' == $type ) ? '-bpfull' : '-bpthumb';
+	$avatar_size = ( 'full' == $type ) ? '-bpfull' : '-bpthumb';
 	$legacy_user_avatar_name = ( 'full' == $type ) ? '-avatar2' : '-avatar1';
 	$legacy_group_avatar_name = ( 'full' == $type ) ? '-groupavatar-full' : '-groupavatar-thumb';
 
+	// Check for directory
 	if ( file_exists( $avatar_folder_dir ) ) {
+
+		// Open directory
 		if ( $av_dir = opendir( $avatar_folder_dir ) ) {
+
+			// Stash files in an array once to check for one that matches
+			$avatar_files = array();
 			while ( false !== ( $avatar_file = readdir($av_dir) ) ) {
-				if ( preg_match( "/{$avatar_name}/", $avatar_file ) || preg_match( "/{$legacy_user_avatar_name}/", $avatar_file ) || preg_match( "/{$legacy_group_avatar_name}/", $avatar_file ) )
-					$avatar_url = $avatar_folder_url . '/' . $avatar_file;
+				// Only add files to the array (skip directories)
+				if ( 2 < strlen( $avatar_file ) )
+					$avatar_files[] = $avatar_file;
+			}
+
+			// Check for array
+			if ( 0 < count( $avatar_files ) ) {
+
+				// Check for current avatar
+				foreach( $avatar_files as $key => $value ) {
+					if ( strpos ( $value, $avatar_size )!== false )
+						$avatar_url = $avatar_folder_url . '/' . $avatar_files[$key];
+				}
+
+				// Legacy avatar check
+				if ( !isset( $avatar_url ) ) {
+					foreach( $avatar_files as $key => $value ) {
+						if ( strpos ( $value, $legacy_user_avatar_name )!== false )
+							$avatar_url = $avatar_folder_url . '/' . $avatar_files[$key];
+					}
+
+					// Legacy group avatar check
+					if ( !isset( $avatar_url ) ) {
+						foreach( $avatar_files as $key => $value ) {
+							if ( strpos ( $value, $legacy_group_avatar_name )!== false )
+								$avatar_url = $avatar_folder_url . '/' . $avatar_files[$key];
+						}
+					}
+				}
 			}
 		}
-		closedir($av_dir);
 
+		// Close the avatar directory
+		closedir( $av_dir );
+
+		// If we found an avatar, return it wrapped in an img element
 		if ( $avatar_url )
 			return apply_filters( 'bp_core_fetch_avatar', "<img src='{$avatar_url}' alt='{$alt}' class='{$class}'{$css_id}{$html_width}{$html_height} />", $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
+
 	}
 
 	/* If no avatars have been uploaded for this item, display a gravatar */
