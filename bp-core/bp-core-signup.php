@@ -268,7 +268,7 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 	preg_match( "/[a-z0-9]+/", $user_name, $maybe );
 
 	$db_illegal_names = get_site_option( 'illegal_names' );
-	$filtered_illegal_names = apply_filters( 'bp_core_illegal_usernames', array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', BP_GROUPS_SLUG, BP_MEMBERS_SLUG, BP_FORUMS_SLUG, BP_BLOGS_SLUG, BP_REGISTER_SLUG, BP_ACTIVATION_SLUG ) );
+	$filtered_illegal_names = apply_filters( 'bp_core_illegal_usernames', array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', BP_GROUPS_SLUG, BP_MEMBERS_SLUG, BP_FORUMS_SLUG, BP_BLOGS_SLUG, BP_ACTIVITY_SLUG, BP_XPROFILE_SLUG, BP_FRIENDS_SLUG, BP_SEARCH_SLUG, BP_SETTINGS_SLUG, BP_REGISTER_SLUG, BP_ACTIVATION_SLUG ) );
 
 	/* Safely merge our illegal names into existing site_option */
 	$common_names			= array_intersect( (array)$db_illegal_names, (array)$filtered_illegal_names );
