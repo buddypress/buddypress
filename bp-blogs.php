@@ -357,29 +357,34 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 add_action( 'wpmu_new_blog', 'bp_blogs_record_blog', 10, 2 );
 
 /**
- * bp_blogs_updated_option()
- * 
- * Handles the syncing of updated options that we store in blogmeta
- * 
- * @global object $wpdb Database object
- * @param string $option Name of option that's
- * @param string $oldvalue The previous option (not used here)
- * @param string $_newvalue The new value
+ * bp_blogs_update_option_blogname()
+ *
+ * Updates blogname in BuddyPress blogmeta table
+ *
+ * @global object $wpdb DB Layer
+ * @param string $oldvalue Value before save (not used)
+ * @param string $newvalue Value to change meta to
  */
-function bp_blogs_updated_option( $option, $oldvalue, $_newvalue ) {
+function bp_blogs_update_option_blogname( $oldvalue, $newvalue ) {
 	global $wpdb;
-
-	// Use switch so this can be extended later if needed
-	switch ( $option ) {
-		case 'name' :
-		case 'description' :
-			bp_blogs_update_blogmeta( $wpdb->blogid, $option, $_newvalue );
-			break;
-		default :
-			break;
-	}
+	bp_blogs_update_blogmeta( $wpdb->blogid, 'name', $newvalue );
 }
-add_action( 'updated_option', 'bp_blogs_updated_option', 10, 3 );
+add_action( 'update_option_blogname', 'bp_blogs_update_option_blogname', 10, 2 );
+
+/**
+ * bp_blogs_update_option_blogdescription()
+ *
+ * Updates blogdescription in BuddyPress blogmeta table
+ *
+ * @global object $wpdb DB Layer
+ * @param string $oldvalue Value before save (not used)
+ * @param string $newvalue Value to change meta to
+ */
+function bp_blogs_update_option_blogdescription( $oldvalue, $newvalue ) {
+	global $wpdb;
+	bp_blogs_update_blogmeta( $wpdb->blogid, 'description', $newvalue );
+}
+add_action( 'update_option_blogdescription', 'bp_blogs_update_option_blogdescription', 10, 2 );
 
 function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 	global $bp, $wpdb;
