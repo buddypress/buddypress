@@ -255,6 +255,59 @@ add_action( 'wp', 'bp_core_screen_activation', 3 );
  * true or false on success or failure.
  */
 
+/**
+ * bp_core_refresh_illegal_names()
+ *
+ * Force refresh of illegal names by
+ */
+function bp_core_flush_illegal_names() {
+	$illegal_names = get_site_option( 'illegal_names' );
+	update_site_option( 'illegal_names', $illegal_names );
+}
+
+/**
+ * bp_core_illegal_names()
+ *
+ * Filter the illegal_names site option and make sure it includes a few
+ * specific BuddyPress and Multi-site slugs
+ *
+ * @param array|string $value Illegal names from field
+ * @param array|string $oldvalue The value as it is currently
+ * @return array Merged and unique array of illegal names
+ */
+function bp_core_illegal_names( $value = '', $oldvalue = '' ) {
+
+	// Make sure $value is array
+	if ( empty( $value ) )
+		$db_illegal_names = array();
+	if ( is_array( $value ) )
+		$db_illegal_names = $value;
+	elseif ( is_string( $value ) )
+		$db_illegal_names = implode( ' ', $names );
+
+	// Add our slugs to the array and allow them to be filtered
+	$filtered_illegal_names = apply_filters( 'bp_core_illegal_usernames', array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', BP_GROUPS_SLUG, BP_MEMBERS_SLUG, BP_FORUMS_SLUG, BP_BLOGS_SLUG, BP_ACTIVITY_SLUG, BP_XPROFILE_SLUG, BP_FRIENDS_SLUG, BP_SEARCH_SLUG, BP_SETTINGS_SLUG, BP_REGISTER_SLUG, BP_ACTIVATION_SLUG ) );
+
+	// Merge the arrays together
+	$merged_names =	array_merge( (array)$filtered_illegal_names, (array)$db_illegal_names );
+
+	// Remove duplicates
+	$illegal_names = array_unique( (array)$merged_names );
+
+	return apply_filters( 'bp_core_illegal_names', $illegal_names );
+}
+add_filter( 'pre_update_site_option_illegal_names', 'bp_core_illegal_names', 10, 2 );
+
+/**
+ * bp_core_validate_user_signup()
+ *
+ * Validate a user name and email address when creating a new user.
+ *
+ * @global object $wpdb DB Layer
+ * @param string $user_name Username to validate
+ * @param string $user_email Email address to validate
+ * @return array Results of user validation including errors, if any
+ */
 function bp_core_validate_user_signup( $user_name, $user_email ) {
 	global $wpdb;
 
@@ -267,15 +320,8 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 	$maybe = array();
 	preg_match( "/[a-z0-9]+/", $user_name, $maybe );
 
-	$db_illegal_names = get_site_option( 'illegal_names' );
-	$filtered_illegal_names = apply_filters( 'bp_core_illegal_usernames', array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', BP_GROUPS_SLUG, BP_MEMBERS_SLUG, BP_FORUMS_SLUG, BP_BLOGS_SLUG, BP_ACTIVITY_SLUG, BP_XPROFILE_SLUG, BP_FRIENDS_SLUG, BP_SEARCH_SLUG, BP_SETTINGS_SLUG, BP_REGISTER_SLUG, BP_ACTIVATION_SLUG ) );
-
-	/* Safely merge our illegal names into existing site_option */
-	$common_names			= array_intersect( (array)$db_illegal_names, (array)$filtered_illegal_names );
-	$diff_names				= array_diff( (array)$db_illegal_names, (array)$filtered_illegal_names );
-	$illegal_names			= array_merge( (array)$diff_names, (array)$common_names );
-
-	update_site_option( 'illegal_names', $illegal_names );
+	// Make sure illegal names include BuddyPress slugs and values
+	bp_core_flush_illegal_names();
 
 	if ( !validate_username( $user_name ) || in_array( $user_name, (array)$illegal_names ) || $user_name != $maybe[0] )
 		$errors->add( 'user_name', __( 'Only lowercase letters and numbers allowed', 'buddypress' ) );
