@@ -14,7 +14,7 @@ header('Status: 200 OK');
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
 	xmlns:atom="http://www.w3.org/2005/Atom"
-	<?php do_action('bp_activity_mentions_feed'); ?>
+	<?php do_action('bp_activity_favorites_feed'); ?>
 >
 
 <channel>
