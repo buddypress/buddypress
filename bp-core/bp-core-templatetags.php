@@ -1207,10 +1207,12 @@ function bp_signup_avatar( $args = '' ) {
 			}
 
 			$gravatar_url = apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' );
-			return apply_filters( 'bp_get_signup_avatar', '<img src="' . $gravatar_url . md5( strtolower( $_POST['signup_email'] ) ) . '?d=' . $default_grav . '&amp;s=' . $size ) . '" width="' . $size . '" height="' . $size . '" alt="' . $alt . '" class="' . $class . '" />';
+			$gravatar_img = '<img src="' . $gravatar_url . md5( strtolower( $_POST['signup_email'] ) ) . '?d=' . $default_grav . '&amp;s=' . $size . '" width="' . $size . '" height="' . $size . '" alt="' . $alt . '" class="' . $class . '" />';
 		} else {
-			return apply_filters( 'bp_get_signup_avatar', bp_core_fetch_avatar( array( 'item_id' => $signup_avatar_dir, 'object' => 'signup', 'avatar_dir' => 'avatars/signups', 'type' => 'full', 'width' => $size, 'height' => $size, 'alt' => $alt, 'class' => $class ) ) );
+			$gravatar_img = bp_core_fetch_avatar( array( 'item_id' => $signup_avatar_dir, 'object' => 'signup', 'avatar_dir' => 'avatars/signups', 'type' => 'full', 'width' => $size, 'height' => $size, 'alt' => $alt, 'class' => $class ) );
 		}
+
+		return apply_filters( 'bp_get_signup_avatar', $gravatar_img );
 	}
 
 function bp_signup_allowed() {
