@@ -644,7 +644,7 @@ form.standard-form#signup_form div div.error {
 /* > Buttons
 -------------------------------------------------------------- */
 
-a.button, input[type=submit], input[type=button],input[type=reset]
+a.button, input[type=submit], input[type=button], input[type=reset],
 ul.button-nav li a, div.generic-button a {
 	background: url( ../images/white-grad.png ) top left repeat-x;
 	border: 1px solid #ddd;
@@ -659,7 +659,7 @@ ul.button-nav li a, div.generic-button a {
 	vertical-align: bottom;
 	cursor: pointer;
 }
-	a.button:hover, a.button:focus, input[type=submit]:hover, input[type=button]:hover,input[type=reset]:hover,
+	a.button:hover, a.button:focus, input[type=submit]:hover, input[type=button]:hover, input[type=reset]:hover,
 	ul.button-nav li a:hover, ul.button-nav li.current a,
 	div.generic-button a:hover {
 		border-color: #aaa;
