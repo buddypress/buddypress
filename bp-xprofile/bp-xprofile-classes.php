@@ -301,7 +301,7 @@ Class BP_XProfile_Field {
 		if ( $this->id != null )
 			$sql = $wpdb->prepare("UPDATE {$bp->profile->table_name_fields} SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d, order_by = %s, field_order = %d WHERE id = %d", $this->group_id, $this->type, $this->name, $this->description, $this->is_required, $this->order_by, $this->field_order, $this->id);
 		else
-			$sql = $wpdb->prepare("INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, order_by, field_order ) VALUES (%d, 0, %s, %s, %s, %d, %s, %d )", $this->group_id, $this->type, $this->name, $this->description, $this->is_required, $this->order_by, $this->field_order );
+			$sql = $wpdb->prepare("INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, order_by, field_order ) VALUES (%d, %d, %s, %s, %s, %d, %s, %d )", $this->group_id, $this->parent_id, $this->type, $this->name, $this->description, $this->is_required, $this->order_by, $this->field_order );
 
 		// Check for null so field options can be changed without changing any other part of the field.
 		// The described situation will return 0 here.
