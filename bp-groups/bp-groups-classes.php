@@ -1050,8 +1050,8 @@ Class BP_Groups_Member {
 		global $wpdb, $bp;
 
 		// Get all the group ids for the current user's groups and update counts
-		$gids = $this->get_group_ids( $user_id );
-		foreach ( $gids as $group_id ) {
+		$group_ids = $this->get_group_ids( $user_id );
+		foreach ( $group_ids->groups as $group_id ) {
 			groups_update_groupmeta( $group_id, 'total_member_count', groups_get_total_member_count( $group_id ) - 1 );
 		}
 
