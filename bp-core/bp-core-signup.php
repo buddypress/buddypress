@@ -256,9 +256,9 @@ add_action( 'wp', 'bp_core_screen_activation', 3 );
  */
 
 /**
- * bp_core_refresh_illegal_names()
+ * bp_core_flush_illegal_names()
  *
- * Force refresh of illegal names by
+ * Flush illegal names by getting and setting 'illegal_names' site option
  */
 function bp_core_flush_illegal_names() {
 	$illegal_names = get_site_option( 'illegal_names' );
