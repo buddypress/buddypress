@@ -431,45 +431,65 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 }
 add_action( 'save_post', 'bp_blogs_record_post', 10, 2 );
 
+/**
+ * bp_blogs_record_comment()
+ *
+ * Record blog comment activity. Checks if blog is public and post is not
+ * password protected.
+ *
+ * @global object $wpdb
+ * @global $bp $bp
+ * @param <type> $comment_id
+ * @param <type> $is_approved
+ * @return <type>
+ */
 function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 	global $wpdb, $bp;
 
-	$comment = get_comment($comment_id);
+	// Get the users comment
+	$recorded_comment = get_comment( $comment_id );
 
-	if ( !$is_approved )
+	// Don't record activity if the comment hasn't been approved
+	if ( !$is_approved || true != $recorded_comment->comment_approved )
 		return false;
 
-	$comment->post = get_post( $comment->comment_post_ID );
+	// Get blog and post data
+	$blog_id = (int)$wpdb->blogid;
+	$recorded_comment->post = get_post( $recorded_comment->comment_post_ID );
 
-	/* Get the user_id from the author email. */
-	$user = get_user_by_email( $comment->comment_author_email );
+	// Get the user_id from the comment author email.
+	$user = get_user_by_email( $recorded_comment->comment_author_email );
 	$user_id = (int)$user->ID;
 
+	// If there's no registered user id, don't record activity
 	if ( !$user_id )
 		return false;
 
-	/* If this is a password protected post, don't record the comment */
-	if ( !empty( $post->post_password ) )
+	// If this is a password protected post, don't record the comment
+	if ( !empty( $recorded_comment->post->post_password ) )
 		return false;
 
-	if ( (int)get_blog_option( $recorded_comment->blog_id, 'blog_public' ) || !bp_core_is_multisite() ) {
-		/* Record in activity streams */
-		$comment_link = htmlspecialchars( get_comment_link( $comment->comment_ID ) );
-		$activity_action = sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $comment_link . '">' . $comment->post->post_title . '</a>' );
-		$activity_content = $comment->comment_content;
+	// If blog is public allow activity to be posted
+	if ( get_blog_option( $blog_id, 'blog_public' ) ) {
 
-		/* Record this in activity streams */
+		// Prepare to record in activity streams
+		$comment_link = htmlspecialchars( get_comment_link( $recorded_comment->comment_ID ) );
+		$activity_action = sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $comment_link . '">' . $recorded_comment->post->post_title . '</a>' );
+		$activity_content = $recorded_comment->comment_content;
+
+		// Record in activity streams
 		bp_blogs_record_activity( array(
 			'user_id' => $user_id,
-			'action' => apply_filters( 'bp_blogs_activity_new_comment_action', $activity_action, &$comment, &$recorded_comment, $comment_link ),
-			'content' => apply_filters( 'bp_blogs_activity_new_comment_content', $activity_content, &$comment, &$recorded_comment, $comment_link ),
-			'primary_link' => apply_filters( 'bp_blogs_activity_new_comment_primary_link', $comment_link, &$comment, &$recorded_comment ),
+			'action' => apply_filters( 'bp_blogs_activity_new_comment_action', $activity_action, &$recorded_comment, $comment_link ),
+			'content' => apply_filters( 'bp_blogs_activity_new_comment_content', $activity_content, &$recorded_comment, $comment_link ),
+			'primary_link' => apply_filters( 'bp_blogs_activity_new_comment_primary_link', $comment_link, &$recorded_comment ),
 			'type' => 'new_blog_comment',
-			'item_id' => $wpdb->blogid,
+			'item_id' => $blog_id,
 			'secondary_item_id' => $comment_id,
-			'recorded_time' => $comment->comment_date_gmt
+			'recorded_time' => $recorded_comment->comment_date_gmt
 		) );
 
+		// Update the blogs last active date
 		bp_blogs_update_blogmeta( $blog_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
 	}
 
