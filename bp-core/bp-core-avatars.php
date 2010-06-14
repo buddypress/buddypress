@@ -471,13 +471,47 @@ function bp_core_check_avatar_type($file) {
 	return true;
 }
 
+/**
+ * bp_core_avatar_upload_path()
+ *
+ * Returns the absolute upload path for the WP installation
+ *
+ * @global object $current_blog Current blog information
+ * @uses wp_upload_dir To get upload directory info
+ * @return string Absolute path to WP upload directory
+ */
 function bp_core_avatar_upload_path() {
+	global $current_blog;
+
+	// Get upload directory information from current site
 	$upload_dir = wp_upload_dir();
+
+	// If multisite, and current blog does not match root blog, make adjustments
+	if ( is_multisite() && BP_ROOT_BLOG != $current_blog->blog_id )
+		$upload_dir['basedir'] = str_replace( $current_blog->blog_id, BP_ROOT_BLOG, BLOGUPLOADDIR );
+
 	return apply_filters( 'bp_core_avatar_upload_path', $upload_dir['basedir'] );
 }
 
+/**
+ * bp_core_avatar_url()
+ *
+ * Returns the raw base URL for root site upload location
+ *
+ * @global object $current_blog Current blog information
+ * @uses wp_upload_dir To get upload directory info
+ * @return string Full URL to current upload location
+ */
 function bp_core_avatar_url() {
+	global $current_blog;
+
+	// Get upload directory information from current site
 	$upload_dir = wp_upload_dir();
+
+	// If multisite, and current blog does not match root blog, make adjustments
+	if ( is_multisite() && BP_ROOT_BLOG != $current_blog->blog_id )
+		$upload_dir['baseurl'] = str_replace( get_blog_option( $current_blog->blog_id, 'home' ) , get_blog_option( BP_ROOT_BLOG, 'home' ), $upload_dir['baseurl'] );
+
 	return apply_filters( 'bp_core_avatar_url', $upload_dir['baseurl'] );
 }
 
