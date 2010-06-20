@@ -1713,12 +1713,12 @@ function bp_core_delete_account( $user_id = false ) {
 	if ( (int)get_site_option( 'bp-disable-account-deletion' ) )
 		return false;
 
+	/* Site admins cannot be deleted */
+	if ( is_site_admin( bp_core_get_username( $user_id ) ) )
+		return false;
+
 	/* Specifically handle multi-site environment */
 	if ( bp_core_is_multisite() ) {
-		/* Site admins cannot be deleted */
-		if ( is_site_admin( bp_core_get_username( $user_id ) ) )
-			return false;
-
 		if ( $wp_version >= '3.0' )
 			require_once( ABSPATH . '/wp-admin/includes/ms.php' );
 		else
@@ -1727,11 +1727,12 @@ function bp_core_delete_account( $user_id = false ) {
 		require_once( ABSPATH . '/wp-admin/includes/user.php' );
 
 		return wpmu_delete_user( $user_id );
-	}
 
 	/* Single site user deletion */
-	require_once( ABSPATH . '/wp-admin/includes/user.php' );
-	return wp_delete_user( $user_id );
+	} else {
+		require_once( ABSPATH . '/wp-admin/includes/user.php' );
+		return wp_delete_user( $user_id );
+	}
 }
 
 
