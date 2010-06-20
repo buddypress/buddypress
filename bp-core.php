@@ -815,7 +815,8 @@ function bp_core_new_subnav_item( $args = '' ) {
 		'slug' => $slug,
 		'css_id' => $item_css_id,
 		'position' => $position,
-		'user_has_access' => $user_has_access
+		'user_has_access' => $user_has_access,
+		'screen_function' => $screen_function
 	);
 
 	if ( ( $bp->current_action == $slug && $bp->current_component == $parent_slug ) && $user_has_access ) {
@@ -890,9 +891,9 @@ function bp_core_remove_nav_item( $parent_id ) {
 function bp_core_remove_subnav_item( $parent_id, $slug ) {
 	global $bp;
 
-	$function = $bp->bp_options_nav[$parent_id][$slug]['screen_function'];
+	$screen_function = $bp->bp_options_nav[$parent_id][$slug]['screen_function'];
 
-	if ( $function ) {
+	if ( $screen_function ) {
 		if ( !is_object( $screen_function[0] ) )
 			remove_action( 'wp', $screen_function, 3 );
 		else
