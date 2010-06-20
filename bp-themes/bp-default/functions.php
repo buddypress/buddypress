@@ -104,12 +104,12 @@ add_action( 'pre_update_option_page_on_front', 'bp_dtheme_page_on_front_update',
 function bp_dtheme_page_on_front_template( $template ) {
 	global $wp_query;
 
-	if ( empty( $wp_query->post->ID ) )
+	if ( '"activity"' === $wp_query->query_vars['page_id'] )
 		return locate_template( array( 'activity/index.php' ), false );
 	else
 		return $template;
 }
-add_filter( 'page_template', 'bp_dtheme_page_on_front_template' );
+add_filter( '404_template', 'bp_dtheme_page_on_front_template' );
 
 /* Return the ID of a page set as the home page. */
 function bp_dtheme_page_on_front() {
