@@ -2395,10 +2395,10 @@ function groups_accept_membership_request( $membership_id, $user_id = false, $gr
 	$group = new BP_Groups_Group( $membership->group_id );
 
 	groups_record_activity( array(
-		'action' => apply_filters( 'groups_activity_membership_accepted_action', sprintf( __( '%s joined the group %s', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . attribute_escape( $group->name ) . '</a>' ), $user_id, &$group ),
-		'type' => 'joined_group',
-		'item_id' => $group->id,
-		'user_id' => $user_id
+		'action'	=> apply_filters( 'groups_activity_membership_accepted_action', sprintf( __( '%s joined the group %s', 'buddypress'), bp_core_get_userlink( $membership->user_id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . attribute_escape( $group->name ) . '</a>' ), $membership->user_id, &$group ),
+		'type'		=> 'joined_group',
+		'item_id'	=> $membership->group_id,
+		'user_id'	=> $membership->user_id
 	) );
 
 	/* Send a notification to the user. */
