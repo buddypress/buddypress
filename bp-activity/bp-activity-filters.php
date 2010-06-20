@@ -46,6 +46,7 @@ add_filter( 'bp_get_activity_parent_content', 'make_clickable' );
 add_filter( 'bp_get_activity_latest_update', 'make_clickable' );
 add_filter( 'bp_get_activity_feed_item_description', 'make_clickable' );
 
+add_filter( 'bp_acomment_name', 'stripslashes_deep' );
 add_filter( 'bp_get_activity_action', 'stripslashes_deep' );
 add_filter( 'bp_get_activity_content', 'stripslashes_deep' );
 add_filter( 'bp_get_activity_content_body', 'stripslashes_deep' );
