@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-06-14 13:13+0000\n"
+"POT-Creation-Date: 2010-06-20 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -546,17 +546,17 @@ msgstr ""
 msgid "Component Setup"
 msgstr ""
 
-#: bp-core.php:344 bp-xprofile.php:175
+#: bp-core.php:344 bp-xprofile.php:171
 msgid "Profile"
 msgstr ""
 
 #: bp-core.php:355 bp-groups/bp-groups-templatetags.php:413
-#: bp-xprofile.php:180
+#: bp-xprofile.php:176
 msgid "Public"
 msgstr ""
 
 #: bp-core.php:365 bp-core/bp-core-templatetags.php:761
-#: bp-themes/bp-default/activity/post-form.php:41 bp-xprofile.php:186
+#: bp-themes/bp-default/activity/post-form.php:41 bp-xprofile.php:182
 msgid "My Profile"
 msgstr ""
 
@@ -578,85 +578,85 @@ msgstr ""
 msgid "There was an error deleting %s from the system. Please try again."
 msgstr ""
 
-#: bp-core.php:1300 bp-core/bp-core-templatetags.php:844
+#: bp-core.php:1301 bp-core/bp-core-templatetags.php:844
 msgid "at"
 msgstr ""
 
-#: bp-core.php:1404
+#: bp-core.php:1405
 msgid "year"
 msgstr ""
 
-#: bp-core.php:1404
+#: bp-core.php:1405
 msgid "years"
 msgstr ""
 
-#: bp-core.php:1405
+#: bp-core.php:1406
 msgid "month"
 msgstr ""
 
-#: bp-core.php:1405
+#: bp-core.php:1406
 msgid "months"
 msgstr ""
 
-#: bp-core.php:1406
+#: bp-core.php:1407
 msgid "week"
 msgstr ""
 
-#: bp-core.php:1406
+#: bp-core.php:1407
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:1407
+#: bp-core.php:1408
 msgid "day"
 msgstr ""
 
-#: bp-core.php:1407
+#: bp-core.php:1408
 msgid "days"
 msgstr ""
 
-#: bp-core.php:1408
+#: bp-core.php:1409
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:1408
+#: bp-core.php:1409
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:1409
+#: bp-core.php:1410
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:1409
+#: bp-core.php:1410
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:1410
+#: bp-core.php:1411
 msgid "second"
 msgstr ""
 
-#: bp-core.php:1410 bp-core.php:1462
+#: bp-core.php:1411 bp-core.php:1463
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1429
+#: bp-core.php:1430
 msgid "sometime"
 msgstr ""
 
-#: bp-core.php:1457
+#: bp-core.php:1458
 msgid ",|Separator in time since"
 msgstr ""
 
-#: bp-core.php:1509
+#: bp-core.php:1510
 msgid "not recently active"
 msgstr ""
 
-#: bp-core.php:1971
+#: bp-core.php:1973
 msgid ""
 "IMPORTANT: <a href=\"http://codex.buddypress.org/getting-started/upgrading-"
 "from-10x/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core.php:2000
+#: bp-core.php:2002
 #, php-format
 msgid ""
 "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update "
@@ -664,7 +664,7 @@ msgid ""
 "work."
 msgstr ""
 
-#: bp-core.php:2009
+#: bp-core.php:2011
 #, php-format
 msgid ""
 "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a "
@@ -1079,7 +1079,7 @@ msgid ""
 "There was a problem uploading your avatar, please try uploading it again"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:198 bp-xprofile.php:389
+#: bp-core/bp-core-signup.php:198 bp-xprofile.php:385
 msgid "There was a problem cropping your avatar, please try uploading it again"
 msgstr ""
 
@@ -1728,7 +1728,7 @@ msgstr ""
 msgid "Send Invites"
 msgstr ""
 
-#: bp-groups.php:245 bp-xprofile.php:216
+#: bp-groups.php:245 bp-xprofile.php:212
 msgid "Admin Options"
 msgstr ""
 
@@ -1861,11 +1861,11 @@ msgstr ""
 msgid "Group settings were successfully updated."
 msgstr ""
 
-#: bp-groups.php:734 bp-xprofile.php:436
+#: bp-groups.php:734 bp-xprofile.php:432
 msgid "Your avatar was deleted successfully!"
 msgstr ""
 
-#: bp-groups.php:736 bp-xprofile.php:438
+#: bp-groups.php:736 bp-xprofile.php:434
 msgid "There was a problem deleting that avatar, please try again."
 msgstr ""
 
@@ -3772,7 +3772,7 @@ msgid "Send Reply"
 msgstr ""
 
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:1
-#: bp-xprofile.php:182
+#: bp-xprofile.php:178
 msgid "Change Avatar"
 msgstr ""
 
@@ -3975,62 +3975,62 @@ msgstr ""
 msgid "Sorry, no posts matched your criteria."
 msgstr ""
 
-#: bp-xprofile.php:151 bp-xprofile/bp-xprofile-admin.php:38
+#: bp-xprofile.php:147 bp-xprofile/bp-xprofile-admin.php:38
 msgid "Profile Field Setup"
 msgstr ""
 
-#: bp-xprofile.php:181 bp-xprofile/bp-xprofile-templatetags.php:690
+#: bp-xprofile.php:177 bp-xprofile/bp-xprofile-templatetags.php:690
 msgid "Edit Profile"
 msgstr ""
 
-#: bp-xprofile.php:219
+#: bp-xprofile.php:215
 #, php-format
 msgid "Edit %s's Profile"
 msgstr ""
 
-#: bp-xprofile.php:220
+#: bp-xprofile.php:216
 #, php-format
 msgid "Edit %s's Avatar"
 msgstr ""
 
-#: bp-xprofile.php:223
+#: bp-xprofile.php:219
 msgid "Mark as Spammer"
 msgstr ""
 
-#: bp-xprofile.php:225
+#: bp-xprofile.php:221
 msgid "Not a Spammer"
 msgstr ""
 
-#: bp-xprofile.php:228
+#: bp-xprofile.php:224
 #, php-format
 msgid "Delete %s"
 msgstr ""
 
-#: bp-xprofile.php:321
+#: bp-xprofile.php:317
 msgid ""
 "Please make sure you fill in all required fields in this profile field group "
 "before saving."
 msgstr ""
 
-#: bp-xprofile.php:338
+#: bp-xprofile.php:334
 msgid ""
 "There was a problem updating some of your profile information, please try "
 "again."
 msgstr ""
 
-#: bp-xprofile.php:340
+#: bp-xprofile.php:336
 msgid "Changes saved."
 msgstr ""
 
-#: bp-xprofile.php:391
+#: bp-xprofile.php:387
 msgid "Your new avatar was uploaded successfully!"
 msgstr ""
 
-#: bp-xprofile.php:458
+#: bp-xprofile.php:454
 msgid "New member registered"
 msgstr ""
 
-#: bp-xprofile.php:459
+#: bp-xprofile.php:455
 msgid "Updated Profile"
 msgstr ""
 
