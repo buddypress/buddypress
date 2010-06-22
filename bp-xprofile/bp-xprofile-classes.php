@@ -366,7 +366,7 @@ Class BP_XProfile_Field {
 						}
 
 						if ( '' != $option_value ) {
-							if ( !$wpdb->query( $wpdb->prepare("INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, option_order, is_default_option) VALUES (%d, %d, 'option', %s, '', 0, %d, %d)", $this->group_id, $parent_id, $option_value, $counter, $is_default ) ) )
+							if ( !$wpdb->query( $wpdb->prepare("INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, is_default_option, field_order, option_order, order_by, can_delete) VALUES (%d, %d, 'option', %s, '', 0, %d, 0, %d, '', 1)", (int)$this->group_id, (int)$parent_id, $option_value, (int)$is_default, (int)$counter ) ) )
 								return false;
 						}
 
