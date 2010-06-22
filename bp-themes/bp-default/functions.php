@@ -128,6 +128,18 @@ function bp_dtheme_fix_get_posts_on_activity_front() {
 }
 add_action( 'pre_get_posts', 'bp_dtheme_fix_get_posts_on_activity_front' );
 
+/* WP 3.0 requires there to be a non-null post in the posts array */
+function bp_dtheme_fix_the_posts_on_activity_front( $posts ) {
+	global $wp_query;
+
+	// NOTE: the double quotes around '"activity"' are thanks to our previous function bp_dtheme_fix_get_posts_on_activity_front()
+	if ( empty( $posts ) && !empty( $wp_query->query_vars['page_id'] ) && '"activity"' == $wp_query->query_vars['page_id'] )
+		$posts = array( (object) array( 'ID' => 'activity' ) );
+
+	return $posts;
+}
+add_filter( 'the_posts', 'bp_dtheme_fix_the_posts_on_activity_front' );
+
 /****
  * Custom header image support. You can remove this entirely in a child theme by adding this line
  * to your functions.php: define( 'BP_DTHEME_DISABLE_CUSTOM_HEADER', true );
