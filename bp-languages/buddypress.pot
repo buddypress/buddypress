@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-06-20 13:13+0000\n"
+"POT-Creation-Date: 2010-06-22 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2621,7 +2621,7 @@ msgid "Activate"
 msgstr ""
 
 #: bp-messages/bp-messages-templatetags.php:471
-#: bp-themes/bp-default/functions.php:229
+#: bp-themes/bp-default/functions.php:241
 msgid "Close"
 msgstr ""
 
@@ -3236,38 +3236,38 @@ msgstr ""
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:211
+#: bp-themes/bp-default/functions.php:223
 #, php-format
 msgid ""
 "Theme activated! This theme contains <a href=\"%s\">custom header image</a> "
 "support and <a href=\"%s\">sidebar widgets</a>."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:223
+#: bp-themes/bp-default/functions.php:235
 msgid "My Favorites"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:224
+#: bp-themes/bp-default/functions.php:236
 msgid "Accepted"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:225
+#: bp-themes/bp-default/functions.php:237
 msgid "Rejected"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:226
+#: bp-themes/bp-default/functions.php:238
 msgid "Show all comments for this thread"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:227
+#: bp-themes/bp-default/functions.php:239
 msgid "Show all"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:228
+#: bp-themes/bp-default/functions.php:240
 msgid "comments"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:230
+#: bp-themes/bp-default/functions.php:242
 #, php-format
 msgid ""
 "%s is a unique identifier for %s that you can type into any message on this "
