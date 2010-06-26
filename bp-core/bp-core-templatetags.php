@@ -994,6 +994,32 @@ function bp_activation_page() {
 		return apply_filters( 'bp_get_activation_page', $page );
 	}
 
+/**
+ * bp_search_form_available()
+ *
+ * Only show the search form if there are available objects to search for.
+ *
+ * @global array $bp
+ * @uses function_exists
+ * @uses bp_core_is_multisite()
+ * @return bool Filterable result
+ */
+function bp_search_form_enabled() {
+	global $bp;
+
+	if ( function_exists( 'xprofile_install' )
+		 || function_exists( 'groups_install' )
+		 || ( function_exists( 'bp_blogs_install' ) && bp_core_is_multisite() )
+		 || ( function_exists( 'bp_forums_setup' ) && !(int)$bp->site_options['bp-disable-forum-directory'] )
+		) {
+		$search_enabled = true;
+	} else {
+		$search_enabled = false;
+	}
+
+	return apply_filters( 'bp_search_form_enabled', $search_enabled );
+}
+
 function bp_search_form_action() {
 	global $bp;
 
