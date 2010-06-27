@@ -34,6 +34,7 @@ add_filter( 'bp_get_the_topic_title', 'stripslashes_deep' );
 add_filter( 'bp_get_the_topic_latest_post_excerpt', 'stripslashes_deep' );
 add_filter( 'bp_get_the_topic_poster_name', 'stripslashes_deep' );
 add_filter( 'bp_get_the_topic_last_poster_name', 'stripslashes_deep' );
+add_filter( 'bp_get_the_topic_object_name', 'stripslashes_deep' );
 
 add_filter( 'bp_get_the_topic_post_content', 'make_clickable' );
 
