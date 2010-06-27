@@ -1192,7 +1192,7 @@ add_action( 'make_spam_user', 'bp_activity_remove_data' );
 function bp_register_activity_actions() {
 	do_action( 'bp_register_activity_actions' );
 }
-add_action( 'plugins_loaded', 'bp_register_activity_actions' );
+add_action( 'bp_init', 'bp_register_activity_actions' );
 
 
 ?>

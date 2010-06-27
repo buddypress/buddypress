@@ -160,7 +160,7 @@ function bp_core_set_uri_globals() {
 	/* Reset the keys by merging with an empty array */
 	$action_variables = array_merge( array(), $action_variables );
 }
-add_action( 'plugins_loaded', 'bp_core_set_uri_globals', 3 );
+add_action( 'bp_init', 'bp_core_set_uri_globals' );
 
 /**
  * bp_catch_uri()

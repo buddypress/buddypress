@@ -190,13 +190,13 @@ add_action( 'bp_setup_globals', 'bp_core_setup_globals' );
  * @uses bp_core_add_root_component() Adds a slug to the root components global variable.
  */
 function bp_core_setup_root_uris() {
-	/* Add core root components */
+	// Add core root components
 	bp_core_add_root_component( BP_MEMBERS_SLUG );
 	bp_core_add_root_component( BP_REGISTER_SLUG );
 	bp_core_add_root_component( BP_ACTIVATION_SLUG );
 	bp_core_add_root_component( BP_SEARCH_SLUG );
 }
-add_action( 'plugins_loaded', 'bp_core_setup_root_uris', 2 );
+add_action( 'bp_init', 'bp_core_setup_root_uris', 2 );
 
 
 /**
@@ -1953,7 +1953,7 @@ function bp_core_load_buddypress_textdomain() {
 	if ( file_exists( $mofile ) )
 		load_textdomain( 'buddypress', $mofile );
 }
-add_action ( 'plugins_loaded', 'bp_core_load_buddypress_textdomain', 5 );
+add_action ( 'bp_init', 'bp_core_load_buddypress_textdomain', 2 );
 
 function bp_core_add_ajax_hook() {
 	/* Theme only, we already have the wp_ajax_ hook firing in wp-admin */
