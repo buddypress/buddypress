@@ -228,7 +228,7 @@ jq(document).ready( function() {
 
 		/* Load more updates at the end of the page */
 		if ( target.parent().attr('class') == 'load-more' ) {
-			jq("li.load-more").addClass('loading');
+			jq("#content li.load-more").addClass('loading');
 
 			if ( null == jq.cookie('bp-activity-oldestpage') )
 				jq.cookie('bp-activity-oldestpage', 1, {path: '/'} );
@@ -242,9 +242,9 @@ jq(document).ready( function() {
 			},
 			function(response)
 			{
-				jq("li.load-more").removeClass('loading');
+				jq("#content li.load-more").removeClass('loading');
 				jq.cookie( 'bp-activity-oldestpage', oldest_page, {path: '/'} );
-				jq("ul.activity-list").append(response.contents);
+				jq("#content ul.activity-list").append(response.contents);
 
 				target.parent().hide();
 			}, 'json' );
