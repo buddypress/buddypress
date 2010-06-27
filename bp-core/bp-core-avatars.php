@@ -46,26 +46,47 @@ function bp_core_set_avatar_constants() {
 }
 add_action( 'bp_init', 'bp_core_set_avatar_constants' );
 
+/**
+ * bp_core_fetch_avatar()
+ *
+ * Fetches an avatar from a BuddyPress object. Supports user/group/blog as
+ * default, but can be extended to include your own custom components too.
+ *
+ * @global object $bp
+ * @global object $current_blog
+ * @param array $args Determine the output of this function
+ * @return string Formatted HTML <img> element, or raw avatar URL based on $html arg
+ */
 function bp_core_fetch_avatar( $args = '' ) {
 	global $bp, $current_blog;
 
+	// Set a few default variables
+	$object		= 'user';
+	$type		= 'thumb';
+	$class		= 'avatar';
+	$alt		= __( 'Avatar Image', 'buddypress' );
+
+	// Set the default variables array
 	$defaults = array(
-		'item_id' => false,
-		'object' => 'user', // user OR group OR blog OR custom type (if you use filters)
-		'type' => 'thumb',
-		'avatar_dir' => false,
-		'width' => false,
-		'height' => false,
-		'class' => 'avatar',
-		'css_id' => false,
-		'alt' => __( 'Avatar Image', 'buddypress' ),
-		'email' => false, // Pass the user email (for gravatar) to prevent querying the DB for it
-		'no_grav' => false // If there is no avatar found, return false instead of a grav?
+		'item_id'		=> false,
+		'object'		=> $object,	// user/group/blog/custom type (if you use filters)
+		'type'			=> $type,	// thumb or full
+		'avatar_dir'	=> false,	// Specify a custom avatar directory for your object
+		'width'			=> false,	// Custom width (int)
+		'height'		=> false,	// Custom height (int)
+		'class'			=> $class,	// Custom <img> class (string)
+		'css_id'		=> false,	// Custom <img> ID (string)
+		'alt'			=> $alt,	// Custom <img> alt (string)
+		'email'			=> false,	// Pass the user email (for gravatar) to prevent querying the DB for it
+		'no_grav'		=> false,	// If there is no avatar found, return false instead of a grav?
+		'html'			=> true		// Wrap the return img URL in <img />
 	);
 
+	// Compare defaults to passed and extract
 	$params = wp_parse_args( $args, $defaults );
 	extract( $params, EXTR_SKIP );
 
+	// Set item_id if not passed
 	if ( !$item_id ) {
 		if ( 'user' == $object )
 			$item_id = $bp->displayed_user->id;
@@ -79,6 +100,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		if ( !$item_id ) return false;
 	}
 
+	// Set avatar_dir if not passed (uses $object)
 	if ( !$avatar_dir ) {
 		if ( 'user' == $object )
 			$avatar_dir = 'avatars';
@@ -92,22 +114,26 @@ function bp_core_fetch_avatar( $args = '' ) {
 		if ( !$avatar_dir ) return false;
 	}
 
-	/* Add an identifying class to each item */
+	// Add an identifying class to each item
 	$class .= ' ' . $object . '-' . $item_id . '-avatar';
 
-	if ( !empty($css_id) )
+	// Set CSS ID if passed
+	if ( !empty( $css_id ) )
 		$css_id = " id='{$css_id}'";
 
+	// Set avatar width
 	if ( $width )
 		$html_width = " width='{$width}'";
 	else
 		$html_width = ( 'thumb' == $type ) ? ' width="' . BP_AVATAR_THUMB_WIDTH . '"' : ' width="' . BP_AVATAR_FULL_WIDTH . '"';
 
+	// Set avatar height
 	if ( $height )
 		$html_height = " height='{$height}'";
 	else
 		$html_height = ( 'thumb' == $type ) ? ' height="' . BP_AVATAR_THUMB_HEIGHT . '"' : ' height="' . BP_AVATAR_FULL_HEIGHT . '"';
 
+	// Set avatar URL and DIR based on prepopulated constants
 	$avatar_folder_url = apply_filters( 'bp_core_avatar_folder_url', BP_AVATAR_URL . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
 	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', BP_AVATAR_UPLOAD_PATH . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
 
@@ -164,10 +190,18 @@ function bp_core_fetch_avatar( $args = '' ) {
 		// Close the avatar directory
 		closedir( $av_dir );
 
-		// If we found an avatar, return it wrapped in an img element
-		if ( $avatar_url )
-			return apply_filters( 'bp_core_fetch_avatar', '<img src="' . $avatar_url . '" alt="' . $alt . '" class="' . $class . '"' . $css_id . $html_width . $html_height . ' />', $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
+		// If we found a locally uploaded avatar
+		if ( $avatar_url ) {
 
+			// Return it wrapped in an <img> element
+			if ( true === $html ) {
+				return apply_filters( 'bp_core_fetch_avatar', '<img src="' . $avatar_url . '" alt="' . $alt . '" class="' . $class . '"' . $css_id . $html_width . $html_height . ' />', $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
+
+			// ...or only the URL
+			} else {
+				return apply_filters( 'bp_core_fetch_avatar_url', $avatar_url );
+			}
+		}
 	}
 
 	// If no avatars could be found, try to display a gravatar
@@ -210,7 +244,14 @@ function bp_core_fetch_avatar( $args = '' ) {
 		$email		= apply_filters( 'bp_core_gravatar_email', $email, $item_id, $object );
 		$gravatar	= apply_filters( 'bp_gravatar_url', $host ) . md5( strtolower( $email ) ) . '?d=' . $default_grav . '&amp;s=' . $grav_size;
 
-		return apply_filters( 'bp_core_fetch_avatar', '<img src="' . $gravatar . '" alt="' . $alt . '" class="' . $class . '"' . $css_id . $html_width . $html_height . ' />', $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
+		// Return gravatar wrapped in <img />
+		if ( true === $html )
+			return apply_filters( 'bp_core_fetch_avatar', '<img src="' . $gravatar . '" alt="' . $alt . '" class="' . $class . '"' . $css_id . $html_width . $html_height . ' />', $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
+
+		// ...or only return the gravatar URL
+		else
+			return apply_filters( 'bp_core_fetch_avatar_url', $gravatar );
+
 	} else {
 		return apply_filters( 'bp_core_fetch_avatar', false, $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
 	}
