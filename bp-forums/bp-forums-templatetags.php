@@ -957,7 +957,7 @@ function bp_the_topic_post_admin_links( $args = '' ) {
 		if ( $_SERVER['QUERY_STRING'] )
 			$query_vars = '?' . $_SERVER['QUERY_STRING'];
 
-		$links  = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . $topic_template->post->id . 'edit/post/' . $topic_template->post->post_id . '/' . $query_vars, 'bp_forums_edit_post' ) . '">' . __( 'Edit', 'buddypress' ) . '</a> ' . $seperator . ' ';
+		$links  = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'edit/post/' . $topic_template->post->post_id . '/' . $query_vars, 'bp_forums_edit_post' ) . '">' . __( 'Edit', 'buddypress' ) . '</a> ' . $seperator . ' ';
 		$links .= '<a class="confirm" id="post-delete-link" href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'delete/post/' . $topic_template->post->post_id, 'bp_forums_delete_post' ) . '">' . __( 'Delete', 'buddypress' ) . '</a> | ';
 
 		return $links;
