@@ -1954,6 +1954,24 @@ function groups_new_group_forum( $group_id = false, $group_name = false, $group_
 	do_action( 'groups_new_group_forum', $forum_id, $group_id );
 }
 
+function groups_update_group_forum( $group_id ) {
+
+	$group = new BP_Groups_Group( $group_id );
+
+	if ( !$group->enable_forum )
+		return false;
+
+	$args = array(
+		'forum_id'		=> groups_get_groupmeta( $group, 'forum_id' ),
+		'forum_name'	=> $group->name,
+		'forum_desc'	=> $group->desc,
+		'forum_slug'	=> $group->slug
+	);
+
+	bp_forums_update_forum( apply_filters( 'groups_update_group_forum', $args ) );
+}
+add_action( 'groups_details_updated', 'groups_update_group_forum' );
+
 function groups_new_group_forum_post( $post_text, $topic_id, $page = false ) {
 	global $bp;
 

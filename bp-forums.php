@@ -126,6 +126,25 @@ function bp_forums_new_forum( $args = '' ) {
 	return bb_new_forum( array( 'forum_name' => stripslashes( $forum_name ), 'forum_desc' => stripslashes( $forum_desc ), 'forum_parent' => $forum_parent_id, 'forum_order' => $forum_order, 'forum_is_category' => $forum_is_category ) );
 }
 
+function bp_forums_update_forum( $args = '' ) {
+	do_action( 'bbpress_init' );
+
+	$defaults = array(
+		'forum_id'			=> '',
+		'forum_name'		=> '',
+		'forum_desc'		=> '',
+		'forum_slug'		=> '',
+		'forum_parent_id'	=> BP_FORUMS_PARENT_FORUM_ID,
+		'forum_order'		=> false,
+		'forum_is_category'	=> 0
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	return bb_update_forum( array( 'forum_id' => (int)$forum_id, 'forum_name' => stripslashes( $forum_name ), 'forum_desc' => stripslashes( $forum_desc ), 'forum_slug' => stripslashes( $forum_slug ), 'forum_parent' => $forum_parent_id, 'forum_order' => $forum_order, 'forum_is_category' => $forum_is_category ) );
+}
+
 /* Topic Functions */
 
 function bp_forums_get_forum_topics( $args = '' ) {
