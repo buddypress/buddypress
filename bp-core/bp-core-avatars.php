@@ -170,19 +170,28 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 	}
 
-	/* If no avatars have been uploaded for this item, display a gravatar */
+	// If no avatars could be found, try to display a gravatar
+
+	// Skips gravatar check if $no_grav is passed
 	if ( !$no_grav ) {
+
+		// Set gravatar size
+		if ( $width )
+			$grav_size = $width;
+		else if ( 'full' == $type )
+			$grav_size = BP_AVATAR_FULL_WIDTH;
+		else if ( 'thumb' == $type )
+			$grav_size = BP_AVATAR_THUMB_WIDTH;
+
+		// Set gravatar type
 		if ( empty( $bp->grav_default->{$object} ) )
 			$default_grav = 'wavatar';
 		else if ( 'mystery' == $bp->grav_default->{$object} )
-			$default_grav = apply_filters( 'bp_core_mysteryman_src', BP_PLUGIN_URL . '/bp-core/images/mystery-man.jpg' );
+			$default_grav = apply_filters( 'bp_core_mysteryman_src', BP_AVATAR_DEFAULT, $grav_size );
 		else
 			$default_grav = $bp->grav_default->{$object};
 
-		if ( $width ) $grav_size = $width;
-		else if ( 'full' == $type ) $grav_size = BP_AVATAR_FULL_WIDTH;
-		else if ( 'thumb' == $type ) $grav_size = BP_AVATAR_THUMB_WIDTH;
-
+		// Set gravatar object
 		if ( empty( $email ) ) {
 			if ( 'user' == $object ) {
 				$email = bp_core_get_user_email( $item_id );
@@ -191,13 +200,15 @@ function bp_core_fetch_avatar( $args = '' ) {
 			}
 		}
 
+		// Set host based on if using ssl
 		if ( is_ssl() )
 			$host = 'https://secure.gravatar.com/avatar/';
 		else
 			$host = 'http://www.gravatar.com/avatar/';
 
-		$email = apply_filters( 'bp_core_gravatar_email', $email, $item_id, $object );
-		$gravatar = apply_filters( 'bp_gravatar_url', $host ) . md5( strtolower( $email ) ) . '?d=' . $default_grav . '&amp;s=' . $grav_size;
+		// Filter gravatar vars
+		$email		= apply_filters( 'bp_core_gravatar_email', $email, $item_id, $object );
+		$gravatar	= apply_filters( 'bp_gravatar_url', $host ) . md5( strtolower( $email ) ) . '?d=' . $default_grav . '&amp;s=' . $grav_size;
 
 		return apply_filters( 'bp_core_fetch_avatar', '<img src="' . $gravatar . '" alt="' . $alt . '" class="' . $class . '"' . $css_id . $html_width . $html_height . ' />', $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
 	} else {
