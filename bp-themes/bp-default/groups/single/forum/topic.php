@@ -20,9 +20,13 @@
 			<h3><?php bp_the_topic_title() ?> (<?php bp_the_topic_total_post_count() ?>)</h3>
 			<a class="button" href="<?php bp_forum_permalink() ?>/">&larr; <?php _e( 'Group Forum', 'buddypress' ) ?></a> &nbsp; <a class="button" href="<?php bp_forum_directory_permalink() ?>/"><?php _e( 'Group Forum Directory', 'buddypress') ?></a>
 
-			<?php if ( bp_group_is_admin() || bp_group_is_mod() || bp_get_the_topic_is_mine() ) : ?>
-				<div class="admin-links"><?php bp_the_topic_admin_links() ?></div>
-			<?php endif; ?>
+			<div class="admin-links">
+				<?php if ( bp_group_is_admin() || bp_group_is_mod() || bp_get_the_topic_is_mine() ) : ?>
+					<?php bp_the_topic_admin_links() ?>
+				<?php endif; ?>
+
+				<?php do_action( 'bp_group_forum_topic_meta' ); ?>
+			</div>
 		</div>
 
 		<?php do_action( 'bp_before_group_forum_topic_posts' ) ?>
@@ -46,6 +50,9 @@
 						<?php if ( bp_group_is_admin() || bp_group_is_mod() || bp_get_the_topic_post_is_mine() ) : ?>
 							<?php bp_the_topic_post_admin_links() ?>
 						<?php endif; ?>
+
+						<?php do_action( 'bp_group_forum_post_meta' ); ?>
+
 						<a href="#post-<?php bp_the_topic_post_id() ?>" title="<?php _e( 'Permanent link to this post', 'buddypress' ) ?>">#</a>
 					</div>
 				</li>
