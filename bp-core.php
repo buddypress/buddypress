@@ -2052,29 +2052,55 @@ function bp_core_activate_site_options( $keys = array() ) {
  * hook in to.
  */
 
-/* Allow core components and dependent plugins to set globals */
+/**
+ * bp_init()
+ *
+ * Allow components to initialize themselves cleanly
+ */
+function bp_init() {
+	do_action( 'bp_init' );
+}
+add_action( 'bp_loaded', 'bp_init', 2 );
+
+/**
+ * bp_setup_globals()
+ *
+ * Allow core components and dependent plugins to set globals
+ */
 function bp_setup_globals() {
 	do_action( 'bp_setup_globals' );
 }
-add_action( 'plugins_loaded', 'bp_setup_globals', 5 );
+add_action( 'bp_loaded', 'bp_setup_globals', 4 );
 
-/* Allow core components and dependent plugins to set root components */
+/**
+ * bp_setup_root_components()
+ *
+ * Allow core components and dependent plugins to set root components
+ */
 function bp_setup_root_components() {
 	do_action( 'bp_setup_root_components' );
 }
-add_action( 'plugins_loaded', 'bp_setup_root_components', 2 );
+add_action( 'bp_loaded', 'bp_setup_root_components', 6 );
 
-/* Allow core components and dependent plugins to set their nav */
+/**
+ * bp_setup_nav()
+ *
+ * Allow core components and dependent plugins to set their nav
+ */
 function bp_setup_nav() {
 	do_action( 'bp_setup_nav' );
 }
-add_action( 'plugins_loaded', 'bp_setup_nav' );
+add_action( 'bp_loaded', 'bp_setup_nav', 8 );
 
-/* Allow core components and dependent plugins to register widgets */
+/**
+ * bp_setup_widgets()
+ *
+ * Allow core components and dependent plugins to register widgets
+ */
 function bp_setup_widgets() {
 	do_action( 'bp_register_widgets' );
 }
-add_action( 'plugins_loaded', 'bp_setup_widgets' );
+add_action( 'bp_loaded', 'bp_setup_widgets', 10 );
 
 
 /********************************************************************************
