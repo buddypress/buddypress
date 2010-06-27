@@ -35,7 +35,7 @@ a { color: #1fb3dd; }
 a:hover, a:active { color: #888; }
 a:focus { outline: 1px dotted #ccc; }
 
-.padder { padding: 20px; }
+.padder { padding: 19px; }
 .clear { clear: left; }
 
 p {	margin-bottom: 15px; }
