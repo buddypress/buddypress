@@ -153,22 +153,22 @@ function bp_forums_bbpress_install() {
 	}
 
 	$file = substr( $file, 0, -2 );
-	$file .= "\n" .   '$bb->custom_user_table = "' . $wpdb->users . '";';
-	$file .= "\n" .   '$bb->custom_user_meta_table = "' . $wpdb->usermeta . '";';
-	$file .= "\n\n" . '$bb->uri = "' . BP_PLUGIN_URL . '/bp-forums/bbpress/";';
-	$file .= "\n" .   '$bb->name = "' . get_blog_option( BP_ROOT_BLOG, 'name' ) . ' ' . __( 'Forums', 'buddypress' ) . '";';
+	$file .= "\n" .   '$bb->custom_user_table = \'' . $wpdb->users . '\';';
+	$file .= "\n" .   '$bb->custom_user_meta_table = \'' . $wpdb->usermeta . '\';';
+	$file .= "\n\n" . '$bb->uri = \'' . BP_PLUGIN_URL . '/bp-forums/bbpress/\';';
+	$file .= "\n" .   '$bb->name = \'' . get_blog_option( BP_ROOT_BLOG, 'name' ) . ' ' . __( 'Forums', 'buddypress' ) . '\';';
 
 	if ( bp_core_is_multisite() )
 		$file .= "\n" .   '$bb->wordpress_mu_primary_blog_id = ' . BP_ROOT_BLOG . ';';
 
 	if ( defined( 'AUTH_SALT' ) )
-		$file .= "\n\n" . 'define(\'BB_AUTH_SALT\', "' . addslashes( AUTH_SALT ) . '");';
+		$file .= "\n\n" . 'define(\'BB_AUTH_SALT\', \'' . addslashes( AUTH_SALT ) . '\');';
 
 	if ( defined( 'LOGGED_IN_SALT' ) )
-		$file .= "\n" .   'define(\'BB_LOGGED_IN_SALT\', "' . addslashes( LOGGED_IN_SALT ) . '");';
+		$file .= "\n" .   'define(\'BB_LOGGED_IN_SALT\', \'' . addslashes( LOGGED_IN_SALT ) . '\');';
 
 	if ( defined( 'SECURE_AUTH_SALT' ) )
-		$file .= "\n" .   'define(\'BB_SECURE_AUTH_SALT\', "' . addslashes( SECURE_AUTH_SALT ) . '");';
+		$file .= "\n" .   'define(\'BB_SECURE_AUTH_SALT\', \'' . addslashes( SECURE_AUTH_SALT ) . '\');';
 
 	$file .= "\n\n" . 'define(\'WP_AUTH_COOKIE_VERSION\', 2);';
 	$file .= "\n\n" . '?>';
