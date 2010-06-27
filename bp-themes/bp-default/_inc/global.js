@@ -956,7 +956,7 @@ jq(document).ready( function() {
 	);
 
 	/* Bulk delete messages */
-	jq("a#delete_inbox_messages").click( function() {
+	jq("a#delete_inbox_messages, a#delete_sentbox_messages").click( function() {
 		checkboxes_tosend = '';
 		checkboxes = jq("#message-threads tr td input[type='checkbox']");
 
@@ -989,7 +989,7 @@ jq(document).ready( function() {
 			}
 
 			jq('div#message').hide().slideDown(150);
-			jq("a#delete_inbox_messages").removeClass('loading');
+			jq("a#delete_inbox_messages, a#delete_sentbox_messages").removeClass('loading');
 		});
 		return false;
 	});
