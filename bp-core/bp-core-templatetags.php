@@ -123,12 +123,12 @@ function bp_has_members( $args = '' ) {
 	$page = 1;
 	$search_terms = false;
 
-	/* User filtering */
+	// User filtering
 	if ( !empty( $bp->displayed_user->id ) )
 		$user_id = $bp->displayed_user->id;
 
-	/* Pass a filter if ?s= is set. */
-	if ( $_REQUEST['s'] )
+	// Pass a filter if ?s= is set.
+	if ( isset( $_REQUEST['s'] ) && !empty( $_REQUEST['s'] ) )
 		$search_terms = $_REQUEST['s'];
 
 	// type: active ( default ) | random | newest | popular | online | alphabetical
@@ -154,7 +154,7 @@ function bp_has_members( $args = '' ) {
 			$per_page = $max;
 	}
 
-	/* Make sure we return no members if we looking at friendship requests and there are none. */
+	// Make sure we return no members if we looking at friendship requests and there are none.
 	if ( empty( $include ) && $bp->friends->slug == $bp->current_component && 'requests' == $bp->current_action )
 		return false;
 
