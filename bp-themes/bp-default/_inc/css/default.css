@@ -846,6 +846,10 @@ form#send-invite-form {
 table {
 	width: 100%;
 }
+	table thead tr {
+		background: #eaeaea;
+	}
+
 	table#message-threads {
 		margin: 0 -20px;
 		width: auto;
@@ -894,10 +898,6 @@ table.forum {
 	margin: -9px -20px 20px -20px;
 	width: auto;
 }
-	table.forum tr:first-child {
-		background: #fafafa;
-	}
-
 	table.forum tr.sticky td {
 		background: #FFF9DB;
 		border-top: 1px solid #FFE8C4;
