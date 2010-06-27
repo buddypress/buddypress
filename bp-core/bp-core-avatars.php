@@ -39,10 +39,10 @@ function bp_core_set_avatar_constants() {
 	}
 
 	if ( !defined( 'BP_AVATAR_DEFAULT' ) )
-		define( 'BP_AVATAR_DEFAULT', BP_PLUGIN_URL . '/bp-xprofile/images/none.gif' );
+		define( 'BP_AVATAR_DEFAULT', BP_PLUGIN_URL . '/bp-core/images/mystery-man.jpg' );
 
 	if ( !defined( 'BP_AVATAR_DEFAULT_THUMB' ) )
-		define( 'BP_AVATAR_DEFAULT_THUMB', BP_PLUGIN_URL . '/bp-xprofile/images/none-thumbnail.gif' );
+		define( 'BP_AVATAR_DEFAULT_THUMB', BP_PLUGIN_URL . '/bp-core/images/mystery-man-50.jpg' );
 }
 add_action( 'bp_init', 'bp_core_set_avatar_constants' );
 
