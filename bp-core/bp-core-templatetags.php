@@ -1356,7 +1356,12 @@ function bp_user_firstname() {
 	function bp_get_user_firstname( $name = false ) {
 		global $bp;
 
-		if ( !$name )
+		// Try to get displayed user
+		if ( empty( $name ) )
+			$name = $bp->displayed_user->fullname;
+
+		// Fall back on logged in user
+		if ( empty( $name ) )
 			$name = $bp->loggedin_user->fullname;
 
 		$fullname = (array)explode( ' ', $name );
