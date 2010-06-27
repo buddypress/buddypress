@@ -3,10 +3,6 @@
 	<div class="pagination">
 
 		<div id="post-count" class="pag-count">
-			<?php if ( bp_is_group_forum() && is_user_logged_in() ) : ?>
-				<a href="#post-new" class="button"><?php _e( 'New Topic', 'buddypress' ) ?></a> &nbsp;
-			<?php endif; ?>
-
 			<?php bp_forum_pagination_count() ?>
 		</div>
 
