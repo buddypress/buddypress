@@ -53,7 +53,10 @@ if ( !isset( $bp_deactivated['bp-xprofile.php'] ) && file_exists( BP_PLUGIN_DIR 
 /**
  * bp_loaded()
  * 
- * Allow dependent plugins to hook into BuddyPress in a safe way
+ * Allow dependent plugins and core actions to attach themselves in a safe way.
+ *
+ * See bp-core.php for the following core actions:
+ *	- bp_init|bp_setup_globals|bp_setup_root_components|bp_setup_nav|bp_register_widgets
  */
 function bp_loaded() {
 	do_action( 'bp_loaded' );
