@@ -448,7 +448,7 @@ ul.item-list {
 div.item-list-tabs {
 	clear: left;
 	overflow: hidden;
-	margin: 25px -20px 20px -20px;
+	margin: 25px -19px 20px -19px;
 	background: #eaeaea;
 }
 	div.item-list-tabs ul li a {
@@ -524,7 +524,7 @@ div.item-list-tabs {
 
 	div.item-list-tabs#subnav {
 		background: #fff;
-		margin: -15px -20px 15px -20px;
+		margin: -15px -19px 15px -19px;
 		border-bottom: 1px solid #eaeaea;
 		min-height: 35px;
 		overflow: hidden;
