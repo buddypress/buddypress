@@ -142,26 +142,31 @@ function friends_screen_requests() {
 function friends_screen_notification_settings() {
 	global $current_user; ?>
 	<table class="notification-settings" id="friends-notification-settings">
-		<tr>
-			<th class="icon"></th>
-			<th class="title"><?php _e( 'Friends', 'buddypress' ) ?></th>
-			<th class="yes"><?php _e( 'Yes', 'buddypress' ) ?></th>
-			<th class="no"><?php _e( 'No', 'buddypress' )?></th>
-		</tr>
-		<tr>
-			<td></td>
-			<td><?php _e( 'A member sends you a friendship request', 'buddypress' ) ?></td>
-			<td class="yes"><input type="radio" name="notifications[notification_friends_friendship_request]" value="yes" <?php if ( !get_usermeta( $current_user->id,'notification_friends_friendship_request') || 'yes' == get_usermeta( $current_user->id,'notification_friends_friendship_request') ) { ?>checked="checked" <?php } ?>/></td>
-			<td class="no"><input type="radio" name="notifications[notification_friends_friendship_request]" value="no" <?php if ( get_usermeta( $current_user->id,'notification_friends_friendship_request') == 'no' ) { ?>checked="checked" <?php } ?>/></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td><?php _e( 'A member accepts your friendship request', 'buddypress' ) ?></td>
-			<td class="yes"><input type="radio" name="notifications[notification_friends_friendship_accepted]" value="yes" <?php if ( !get_usermeta( $current_user->id,'notification_friends_friendship_accepted') || 'yes' == get_usermeta( $current_user->id,'notification_friends_friendship_accepted') ) { ?>checked="checked" <?php } ?>/></td>
-			<td class="no"><input type="radio" name="notifications[notification_friends_friendship_accepted]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id,'notification_friends_friendship_accepted') ) { ?>checked="checked" <?php } ?>/></td>
-		</tr>
+		<thead>
+			<tr>
+				<th class="icon"></th>
+				<th class="title"><?php _e( 'Friends', 'buddypress' ) ?></th>
+				<th class="yes"><?php _e( 'Yes', 'buddypress' ) ?></th>
+				<th class="no"><?php _e( 'No', 'buddypress' )?></th>
+			</tr>
+		</thead>
 
-		<?php do_action( 'friends_screen_notification_settings' ); ?>
+		<tbody>
+			<tr>
+				<td></td>
+				<td><?php _e( 'A member sends you a friendship request', 'buddypress' ) ?></td>
+				<td class="yes"><input type="radio" name="notifications[notification_friends_friendship_request]" value="yes" <?php if ( !get_usermeta( $current_user->id,'notification_friends_friendship_request') || 'yes' == get_usermeta( $current_user->id,'notification_friends_friendship_request') ) { ?>checked="checked" <?php } ?>/></td>
+				<td class="no"><input type="radio" name="notifications[notification_friends_friendship_request]" value="no" <?php if ( get_usermeta( $current_user->id,'notification_friends_friendship_request') == 'no' ) { ?>checked="checked" <?php } ?>/></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><?php _e( 'A member accepts your friendship request', 'buddypress' ) ?></td>
+				<td class="yes"><input type="radio" name="notifications[notification_friends_friendship_accepted]" value="yes" <?php if ( !get_usermeta( $current_user->id,'notification_friends_friendship_accepted') || 'yes' == get_usermeta( $current_user->id,'notification_friends_friendship_accepted') ) { ?>checked="checked" <?php } ?>/></td>
+				<td class="no"><input type="radio" name="notifications[notification_friends_friendship_accepted]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id,'notification_friends_friendship_accepted') ) { ?>checked="checked" <?php } ?>/></td>
+			</tr>
+
+			<?php do_action( 'friends_screen_notification_settings' ); ?>
+		</tbody>
 	</table>
 <?php
 }

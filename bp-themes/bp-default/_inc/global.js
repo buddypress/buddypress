@@ -819,7 +819,7 @@ jq(document).ready( function() {
 
 	/** Alternate Highlighting ******************************************/
 
-	jq('table tr, div.message-box').each( function(i) {
+	jq('body#bp-default table tbody tr, div.message-box').each( function(i) {
 		if ( i % 2 != 1 )
 			jq(this).addClass('alt');
 	});
