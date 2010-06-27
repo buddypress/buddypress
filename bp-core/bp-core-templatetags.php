@@ -683,15 +683,16 @@ function bp_loggedin_user_avatar( $args = '' ) {
 		global $bp;
 
 		$defaults = array(
-			'type' => 'thumb',
-			'width' => false,
-			'height' => false
+			'type'		=> 'thumb',
+			'width'		=> false,
+			'height'	=> false,
+			'html'		=> true
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		return apply_filters( 'bp_get_loggedin_user_avatar', bp_core_fetch_avatar( array( 'item_id' => $bp->loggedin_user->id, 'type' => $type, 'width' => $width, 'height' => $height ) ) );
+		return apply_filters( 'bp_get_loggedin_user_avatar', bp_core_fetch_avatar( array( 'item_id' => $bp->loggedin_user->id, 'type' => $type, 'width' => $width, 'height' => $height, 'html' => $html ) ) );
 	}
 
 function bp_displayed_user_avatar( $args = '' ) {
@@ -701,15 +702,16 @@ function bp_displayed_user_avatar( $args = '' ) {
 		global $bp;
 
 		$defaults = array(
-			'type' => 'thumb',
-			'width' => false,
-			'height' => false
+			'type'		=> 'thumb',
+			'width'		=> false,
+			'height'	=> false,
+			'html'		=> true
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		return apply_filters( 'bp_get_displayed_user_avatar', bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => $type, 'width' => $width, 'height' => $height ) ) );
+		return apply_filters( 'bp_get_displayed_user_avatar', bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => $type, 'width' => $width, 'height' => $height, 'html' => $html ) ) );
 	}
 
 function bp_avatar_admin_step() {
