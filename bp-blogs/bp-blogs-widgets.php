@@ -21,14 +21,11 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 	function widget($args, $instance) {
 		global $bp;
 
-	    extract( $args );
+		extract( $args );
 
 		echo $before_widget;
-		echo $before_title
-		   . $widget_name
-		   . $after_title; ?>
+		echo $before_title . $widget_name . $after_title;
 
-		<?php
 		if ( empty( $instance['max_posts'] ) || !$instance['max_posts'] )
 			$instance['max_posts'] = 10; ?>
 
