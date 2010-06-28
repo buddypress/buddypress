@@ -819,10 +819,12 @@ jq(document).ready( function() {
 
 	/** Alternate Highlighting ******************************************/
 
-	jq('body#bp-default table tbody tr, div.message-box').each( function(i) {
-		if ( i % 2 != 1 )
+	jq('div.message-box').each( function(i) {
+		if ( i % 2 == 1 )
 			jq(this).addClass('alt');
 	});
+
+	jq('body#bp-default table tbody tr:nth-child(even)').addClass('alt');
 
 	/** Private Messaging ******************************************/
 

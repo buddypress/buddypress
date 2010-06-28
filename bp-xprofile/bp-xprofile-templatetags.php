@@ -187,7 +187,7 @@ function bp_field_css_class( $class = false ) {
 		/* Set a class with the field name (sanitized) */
 		$css_classes[] = 'field_' . sanitize_title( $profile_template->field->name );
 
-		if ( $profile_template->current_field % 2 )
+		if ( $profile_template->current_field % 2 == 1 )
 			$css_classes[] = 'alt';
 
 		$css_classes = apply_filters( 'bp_field_css_classes', &$css_classes );

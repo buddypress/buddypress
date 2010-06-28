@@ -582,7 +582,7 @@ function bp_the_topic_css_class() {
 
 		$class = false;
 
-		if ( $forum_template->current_topic % 2 != 1 )
+		if ( $forum_template->current_topic % 2 == 1 )
 			$class .= 'alt';
 
 		if ( 1 == (int)$forum_template->topic->topic_sticky )
@@ -868,7 +868,7 @@ function bp_the_topic_post_css_class() {
 
 		$class = false;
 
-		if ( $topic_template->current_post % 2 != 1 )
+		if ( $topic_template->current_post % 2 == 1 )
 			$class .= 'alt';
 
 		if ( 1 == (int)$topic_template->post->post_status )
