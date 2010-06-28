@@ -1953,7 +1953,7 @@ function bp_core_load_buddypress_textdomain() {
 	if ( file_exists( $mofile ) )
 		load_textdomain( 'buddypress', $mofile );
 }
-add_action ( 'bp_init', 'bp_core_load_buddypress_textdomain', 2 );
+add_action ( 'bp_loaded', 'bp_core_load_buddypress_textdomain', 2 );
 
 function bp_core_add_ajax_hook() {
 	/* Theme only, we already have the wp_ajax_ hook firing in wp-admin */
@@ -2051,16 +2051,16 @@ function bp_core_activate_site_options( $keys = array() ) {
  * Functions to set up custom BuddyPress actions that all other components can
  * hook in to.
  */
-
+ 
 /**
- * bp_init()
+ * bp_include()
  *
- * Allow components to initialize themselves cleanly
+ * Allow plugins to include their files ahead of core filters
  */
-function bp_init() {
-	do_action( 'bp_init' );
+function bp_include() {
+	do_action( 'bp_include' );
 }
-add_action( 'bp_loaded', 'bp_init', 1 );
+add_action( 'bp_loaded', 'bp_include', 2 );
 
 /**
  * bp_setup_root_components()
@@ -2090,7 +2090,7 @@ add_action( 'bp_loaded', 'bp_setup_globals', 6 );
 function bp_setup_nav() {
 	do_action( 'bp_setup_nav' );
 }
-add_action( 'bp_loaded', 'bp_setup_nav', 10 );
+add_action( 'bp_loaded', 'bp_setup_nav', 8 );
 
 /**
  * bp_setup_widgets()
@@ -2100,8 +2100,17 @@ add_action( 'bp_loaded', 'bp_setup_nav', 10 );
 function bp_setup_widgets() {
 	do_action( 'bp_register_widgets' );
 }
-add_action( 'bp_loaded', 'bp_setup_widgets', 10 );
+add_action( 'bp_loaded', 'bp_setup_widgets', 8 );
 
+/**
+ * bp_init()
+ *
+ * Allow components to initialize themselves cleanly
+ */
+function bp_init() {
+	do_action( 'bp_init' );
+}
+add_action( 'bp_loaded', 'bp_init' );
 
 /********************************************************************************
  * Caching

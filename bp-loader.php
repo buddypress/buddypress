@@ -61,7 +61,7 @@ if ( !isset( $bp_deactivated['bp-xprofile.php'] ) && file_exists( BP_PLUGIN_DIR 
 function bp_loaded() {
 	do_action( 'bp_loaded' );
 }
-add_action( 'plugins_loaded', 'bp_loaded' );
+add_action( 'plugins_loaded', 'bp_loaded', 20 );
 
 /* Activation Function */
 function bp_loader_activate() {
