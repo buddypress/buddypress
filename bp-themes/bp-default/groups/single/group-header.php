@@ -35,7 +35,7 @@
 	<div id="item-meta">
 		<?php bp_group_description() ?>
 
-		<?php if ( bp_is_group_forum() && is_user_logged_in() ) : ?>
+		<?php if ( bp_is_group_forum() && is_user_logged_in() && bp_is_group_forum_topic() ) : ?>
 			<div class="generic-button group-button">
 				<a href="#post-new" class=""><?php _e( 'New Topic', 'buddypress' ) ?></a>
 			</div>
