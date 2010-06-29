@@ -960,7 +960,7 @@ add_action( 'wp', 'groups_screen_group_admin_delete_group', 4 );
 
 function groups_screen_notification_settings() {
 	global $current_user; ?>
-	<table class="notification-settings" id="groups-notification-settings">
+	<table class="notification-settings zebra" id="groups-notification-settings">
 		<thead>
 			<tr>
 				<th class="icon"></th>

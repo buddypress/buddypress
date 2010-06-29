@@ -261,7 +261,7 @@ add_action( 'wp', 'bp_activity_screen_single_activity_permalink', 3 );
 
 function bp_activity_screen_notification_settings() {
 	global $bp; ?>
-	<table class="notification-settings" id="activity-notification-settings">
+	<table class="notification-settings zebra" id="activity-notification-settings">
 		<thead>
 			<tr>
 				<th class="icon"></th>

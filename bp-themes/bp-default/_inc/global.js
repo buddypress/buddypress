@@ -819,12 +819,18 @@ jq(document).ready( function() {
 
 	/** Alternate Highlighting ******************************************/
 
+	jq('body#bp-default table.zebra tbody tr').mouseover( function() {
+		jq(this).addClass('over');
+	}).mouseout( function() {
+		jq(this).removeClass('over');
+	});
+		
+	jq('body#bp-default table.zebra tbody tr:odd').addClass('alt');
+
 	jq('div.message-box').each( function(i) {
 		if ( i % 2 == 1 )
 			jq(this).addClass('alt');
 	});
-
-	jq('body#bp-default table tbody tr:nth-child(even)').addClass('alt');
 
 	/** Private Messaging ******************************************/
 

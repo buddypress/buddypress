@@ -762,7 +762,7 @@ function bp_core_get_wp_profile() {
 <div class="bp-widget wp-profile">
 	<h4><?php _e( 'My Profile' ) ?></h4>
 
-	<table class="wp-profile-fields">
+	<table class="wp-profile-fields zebra">
 		<?php if ( $ud->display_name ) { ?>
 		<tr id="wp_displayname">
 			<td class="label">

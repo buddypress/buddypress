@@ -141,7 +141,7 @@ function friends_screen_requests() {
 
 function friends_screen_notification_settings() {
 	global $current_user; ?>
-	<table class="notification-settings" id="friends-notification-settings">
+	<table class="notification-settings zebra" id="friends-notification-settings">
 		<thead>
 			<tr>
 				<th class="icon"></th>
