@@ -255,8 +255,12 @@ function bp_core_catch_no_access() {
 	if ( !$bp->displayed_user->id && $bp_unfiltered_uri[0] == BP_MEMBERS_SLUG && isset($bp_unfiltered_uri[1]) )
 		bp_core_redirect( $bp->root_domain );
 
+	// Add .php to all options in $bp_path
+	foreach( (array) $bp_path as $template )
+		$filtered_templates[] = "$template.php";
+
 	// If the template file doesn't exist, redirect to the root domain.
-	if ( !bp_is_blog_page() && !file_exists( apply_filters( 'bp_located_template', locate_template( array( $bp_path . '.php' ), false ), array( $bp_path . '.php' ) ) ) )
+	if ( !bp_is_blog_page() && !file_exists( apply_filters( 'bp_located_template', locate_template( $filtered_templates, false ), $filtered_templates ) ) ) 
 		bp_core_redirect( $bp->root_domain );
 
 	if ( !$bp_path && !bp_is_blog_page() ) {
