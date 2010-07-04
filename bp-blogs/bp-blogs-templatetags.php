@@ -361,7 +361,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 	global $current_site;
 
 	// Blog name
-	if( 'no' == constant( "VHOST" ) )
+	if( !is_subdomain_install() )
 		echo '<label for="blogname">' . __('Blog Name:', 'buddypress') . '</label>';
 	else
 		echo '<label for="blogname">' . __('Blog Domain:', 'buddypress') . '</label>';
@@ -370,18 +370,20 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 		<p class="error"><?php echo $errmsg ?></p>
 	<?php }
 
-	if( 'no' == constant( "VHOST" ) ) {
+	if ( !is_subdomain_install() )
 		echo '<span class="prefix_address">' . $current_site->domain . $current_site->path . '</span> <input name="blogname" type="text" id="blogname" value="'.$blogname.'" maxlength="50" /><br />';
-	} else {
+	else
 		echo '<input name="blogname" type="text" id="blogname" value="'.$blogname.'" maxlength="50" /> <span class="suffix_address">.' . $current_site->domain . $current_site->path . '</span><br />';
-	}
+
 	if ( !is_user_logged_in() ) {
 		print '(<strong>' . __( 'Your address will be ' , 'buddypress');
-		if( 'no' == constant( "VHOST" ) ) {
+
+		if ( !is_subdomain_install() ) {
 			print $current_site->domain . $current_site->path . __( 'blogname' , 'buddypress');
 		} else {
 			print __( 'domain.' , 'buddypress') . $current_site->domain . $current_site->path;
 		}
+
 		echo '.</strong> ' . __( 'Must be at least 4 characters, letters and numbers only. It cannot be changed so choose carefully!)' , 'buddypress') . '</p>';
 	}
 

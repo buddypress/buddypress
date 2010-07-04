@@ -89,3 +89,12 @@ if ( !function_exists( 'update_blog_status' ) ) {
 		return true;
 	}
 }
+
+if ( !function_exists( 'is_subdomain_install' ) ) {
+	function is_subdomain_install() {
+		if ( ( defined( 'VHOST' ) && 'yes' == VHOST ) || ( defined( 'SUBDOMAIN_INSTALL' ) && SUBDOMAIN_INSTALL ) )
+			return true;
+
+		return false;
+	}
+}

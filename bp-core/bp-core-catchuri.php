@@ -135,7 +135,7 @@ function bp_core_set_uri_globals() {
 	if ( !isset($is_root_component) )
 		$is_root_component = in_array( $bp_uri[0], $bp->root_components );
 
-	if ( 'no' == VHOST && !$is_root_component ) {
+	if ( !is_subdomain_install() && !$is_root_component ) {
 		$component_index++;
 		$action_index++;
 	}
@@ -154,7 +154,7 @@ function bp_core_set_uri_globals() {
 	unset($action_variables[$action_index]);
 
 	/* Remove the username from action variables if this is not a VHOST install */
-	if ( 'no' == VHOST && !$is_root_component )
+	if ( !is_subdomain_install() && !$is_root_component )
 		array_shift($action_variables);
 
 	/* Reset the keys by merging with an empty array */

@@ -180,7 +180,7 @@
 							<label for="signup_blog_url"><?php _e( 'Blog URL', 'buddypress' ) ?> <?php _e( '(required)', 'buddypress' ) ?></label>
 							<?php do_action( 'bp_signup_blog_url_errors' ) ?>
 
-							<?php if ( 'yes' == VHOST ) : ?>
+							<?php if ( is_subdomain_install() ) : ?>
 								http:// <input type="text" name="signup_blog_url" id="signup_blog_url" value="<?php bp_signup_blog_url_value() ?>" /> .<?php echo str_replace( 'http://', '', site_url() ) ?>
 							<?php else : ?>
 								<?php echo site_url() ?>/ <input type="text" name="signup_blog_url" id="signup_blog_url" value="<?php bp_signup_blog_url_value() ?>" />
