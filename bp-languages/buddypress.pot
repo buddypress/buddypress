@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-06-27 13:13+0000\n"
+"POT-Creation-Date: 2010-07-04 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,7 +54,7 @@ msgstr ""
 msgid "You do not have access to this activity."
 msgstr ""
 
-#: bp-activity.php:269 bp-blogs/bp-blogs-templatetags.php:404
+#: bp-activity.php:269 bp-blogs/bp-blogs-templatetags.php:406
 #: bp-core/bp-core-admin.php:60 bp-core/bp-core-admin.php:68
 #: bp-core/bp-core-admin.php:75 bp-core/bp-core-admin.php:82
 #: bp-core/bp-core-admin.php:90 bp-core/bp-core-admin.php:99
@@ -65,7 +65,7 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: bp-activity.php:270 bp-blogs/bp-blogs-templatetags.php:408
+#: bp-activity.php:270 bp-blogs/bp-blogs-templatetags.php:410
 #: bp-core/bp-core-admin.php:61 bp-core/bp-core-admin.php:69
 #: bp-core/bp-core-admin.php:76 bp-core/bp-core-admin.php:83
 #: bp-core/bp-core-admin.php:91 bp-core/bp-core-admin.php:100
@@ -383,7 +383,7 @@ msgstr ""
 msgid "%s wrote a new blog post: %s"
 msgstr ""
 
-#: bp-blogs.php:477
+#: bp-blogs.php:480
 #, php-format
 msgid "%s commented on the blog post %s"
 msgstr ""
@@ -444,67 +444,67 @@ msgstr ""
 msgid "Your address will be "
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:381
+#: bp-blogs/bp-blogs-templatetags.php:382
 msgid "blogname"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:383
+#: bp-blogs/bp-blogs-templatetags.php:384
 msgid "domain."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:385
+#: bp-blogs/bp-blogs-templatetags.php:387
 msgid ""
 "Must be at least 4 characters, letters and numbers only. It cannot be "
 "changed so choose carefully!)"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:390
+#: bp-blogs/bp-blogs-templatetags.php:392
 msgid "Blog Title:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:398
+#: bp-blogs/bp-blogs-templatetags.php:400
 msgid "Privacy:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:399
+#: bp-blogs/bp-blogs-templatetags.php:401
 msgid ""
 "I would like my blog to appear in search engines like Google and Technorati, "
 "and in public listings around this site."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:459
+#: bp-blogs/bp-blogs-templatetags.php:461
 msgid "Congratulations! You have successfully registered a new blog."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:461
+#: bp-blogs/bp-blogs-templatetags.php:463
 #, php-format
 msgid ""
 "<a href=\"http://%1$s\">http://%2$s</a> is your new blog.  <a href=\"%3$s"
 "\">Login</a> as \"%4$s\" using your existing password."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:471 bp-core/bp-core-templatetags.php:940
+#: bp-blogs/bp-blogs-templatetags.php:473 bp-core/bp-core-templatetags.php:940
 #: bp-themes/bp-default/blogs/create.php:10
 #: bp-themes/bp-default/blogs/index.php:8
 msgid "Create a Blog"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:485
+#: bp-blogs/bp-blogs-templatetags.php:487
 #, php-format
 msgid "%s's Blogs"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:486
+#: bp-blogs/bp-blogs-templatetags.php:488
 #, php-format
 msgid "%s's Recent Posts"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:487
+#: bp-blogs/bp-blogs-templatetags.php:489
 #, php-format
 msgid "%s's Recent Comments"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:496 bp-core/bp-core-templatetags.php:474
+#: bp-blogs/bp-blogs-templatetags.php:498 bp-core/bp-core-templatetags.php:474
 #: bp-core/bp-core-templatetags.php:480
 #: bp-forums/bp-forums-templatetags.php:1011
 #: bp-forums/bp-forums-templatetags.php:1017
@@ -514,7 +514,7 @@ msgstr ""
 msgid "Search anything..."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:497 bp-core/bp-core-templatetags.php:481
+#: bp-blogs/bp-blogs-templatetags.php:499 bp-core/bp-core-templatetags.php:481
 #: bp-core/bp-core-templatetags.php:1060
 #: bp-forums/bp-forums-templatetags.php:1018
 #: bp-groups/bp-groups-templatetags.php:1708
@@ -1336,7 +1336,11 @@ msgstr ""
 msgid "The topic was created successfully"
 msgstr ""
 
-#: bp-forums.php:101 bp-forums/bp-forums-admin.php:8
+#: bp-forums.php:82
+msgid "Please pick the group forum where you would like to post this topic."
+msgstr ""
+
+#: bp-forums.php:103 bp-forums/bp-forums-admin.php:8
 msgid "Forums Setup"
 msgstr ""
 
@@ -3009,7 +3013,7 @@ msgid "My Blogs (%s)"
 msgstr ""
 
 #: bp-themes/bp-default/blogs/index.php:28
-#: bp-themes/bp-default/forums/index.php:89
+#: bp-themes/bp-default/forums/index.php:91
 #: bp-themes/bp-default/groups/index.php:27
 #: bp-themes/bp-default/members/index.php:28
 #: bp-themes/bp-default/members/single/blogs.php:6
@@ -3020,7 +3024,7 @@ msgid "Order By:"
 msgstr ""
 
 #: bp-themes/bp-default/blogs/index.php:30
-#: bp-themes/bp-default/forums/index.php:91
+#: bp-themes/bp-default/forums/index.php:93
 #: bp-themes/bp-default/groups/index.php:29
 #: bp-themes/bp-default/members/index.php:30
 #: bp-themes/bp-default/members/single/blogs.php:8
@@ -3186,17 +3190,17 @@ msgstr ""
 msgid "Post In Group Forum:"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:56
+#: bp-themes/bp-default/forums/index.php:58
 #: bp-themes/bp-default/groups/single/forum.php:47
 msgid "Post Topic"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:57
+#: bp-themes/bp-default/forums/index.php:59
 #: bp-xprofile/bp-xprofile-classes.php:626
 msgid "Cancel"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:67
+#: bp-themes/bp-default/forums/index.php:69
 #, php-format
 msgid ""
 "You are not a member of any groups so you don't have any group forums you "
@@ -3206,21 +3210,21 @@ msgid ""
 "post your topic in that group's forum."
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:79
+#: bp-themes/bp-default/forums/index.php:81
 #, php-format
 msgid "All Topics (%s)"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:82
+#: bp-themes/bp-default/forums/index.php:84
 #, php-format
 msgid "My Topics (%s)"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:92
+#: bp-themes/bp-default/forums/index.php:94
 msgid "Most Posts"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:93
+#: bp-themes/bp-default/forums/index.php:95
 msgid "Unreplied"
 msgstr ""
 
