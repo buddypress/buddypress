@@ -78,6 +78,8 @@ function bp_forums_directory_forums_setup() {
 						bp_core_add_message( __( 'The topic was created successfully', 'buddypress') );
 
 					bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/forum/topic/' . $topic->topic_slug . '/' );
+				} else {
+					bp_core_add_message( __( 'Please pick the group forum where you would like to post this topic.', 'buddypress' ), 'error' );
 				}
 			}
 		}

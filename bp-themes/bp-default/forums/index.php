@@ -38,6 +38,8 @@
 						<label><?php _e( 'Post In Group Forum:', 'buddypress' ) ?></label>
 						<select id="topic_group_id" name="topic_group_id">
 
+							<option value="">----</option>
+
 							<?php while ( bp_groups() ) : bp_the_group(); ?>
 
 								<?php if ( bp_group_is_forum_enabled() && 'public' == bp_get_group_status() ) : ?>
