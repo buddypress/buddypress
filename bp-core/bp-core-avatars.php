@@ -540,7 +540,7 @@ function bp_core_avatar_upload_path() {
 
 	// If multisite, and current blog does not match root blog, make adjustments
 	if ( bp_core_is_multisite() && BP_ROOT_BLOG != $current_blog->blog_id )
-		$upload_dir['basedir'] = str_replace( $current_blog->blog_id, BP_ROOT_BLOG, BLOGUPLOADDIR );
+		$upload_dir['basedir'] = WP_CONTENT_DIR . '/blogs.dir/' . BP_ROOT_BLOG . '/files/';
 
 	return apply_filters( 'bp_core_avatar_upload_path', $upload_dir['basedir'] );
 }
