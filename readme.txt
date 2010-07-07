@@ -3,7 +3,7 @@ Contributors: apeatling, johnjamesjacoby, mrmaz
 Tags: buddypress, social networking, activity, profiles, messaging, friends, groups, forums, microblogging, twitter, facebook, mingle, social, community, networks, networking, cms
 Requires at least: 3.0
 Tested up to: 3.0
-Stable tag: 1.2.5.1
+Stable tag: 1.2.5.2
 
 == Description ==
 
