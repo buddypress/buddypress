@@ -1166,6 +1166,9 @@ function bp_activity_request(scope, filter) {
 		jq('div.activity').fadeOut( 100, function() {
 			jq(this).html(response.contents);
 			jq(this).fadeIn(100);
+
+			/* Selectively hide comments */
+			bp_dtheme_hide_comments();
 		});
 
 		/* Update the feed link */
@@ -1173,9 +1176,6 @@ function bp_activity_request(scope, filter) {
 			jq('.directory div#subnav li.feed a, .home-page div#subnav li.feed a').attr('href', response.feed_url);
 
 		jq('div.item-list-tabs li.selected').removeClass('loading');
-
-		/* Selectively hide comments */
-		bp_dtheme_hide_comments();
 
 	}, 'json' );
 }
