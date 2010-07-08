@@ -1958,7 +1958,7 @@ function groups_update_group_forum( $group_id ) {
 
 	$group = new BP_Groups_Group( $group_id );
 
-	if ( !$group->enable_forum )
+	if ( !$group->enable_forum || !function_exists( 'bp_forums_setup' ) )
 		return false;
 
 	$args = array(
