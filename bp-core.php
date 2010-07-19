@@ -2120,6 +2120,21 @@ add_action( 'bp_loaded', 'bp_init' );
  */
 
 /**
+ * bp_core_add_global_group()
+ *
+ * Add's 'bp' to global group of network wide cachable objects
+ *
+ * @package BuddyPress Core
+ */
+function bp_core_add_global_group() {
+	wp_cache_init();
+
+	if ( function_exists( 'wp_cache_add_global_groups' ) )
+		wp_cache_add_global_groups( array( 'bp' ) );
+}
+add_action( 'init', 'bp_core_add_global_group' );
+
+/**
  * bp_core_clear_user_object_cache()
  *
  * Clears all cached objects for a user, or a user is part of.
