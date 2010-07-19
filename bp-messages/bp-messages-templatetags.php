@@ -323,7 +323,7 @@ function bp_messages_form_action() {
 	function bp_get_messages_form_action() {
 		global $bp;
 
-		return apply_filters( 'bp_get_messages_form_action', $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action . '/' . $bp->action_variables[0] . '/' );
+		return apply_filters( 'bp_get_messages_form_action', trailingslashit( $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action . '/' . $bp->action_variables[0] . '/' ) );
 	}
 
 function bp_messages_username_value() {
