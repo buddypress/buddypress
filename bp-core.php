@@ -1289,19 +1289,18 @@ function bp_core_is_user_deleted( $user_id ) {
 }
 
 /**
- * bp_core_format_time()
+ * bp_core_current_time()
+ *
+ * Get the current GMT time to save into the DB
+ *
+ * @package BuddyPress Core
+ * @since 1.2.6
  */
-function bp_core_format_time( $time, $just_date = false ) {
-	if ( !$time )
-		return false;
+function bp_core_current_time() {
+	// Get current time in MYSQL format
+	$current_time = current_time( 'mysql', true );
 
-	$date = date( "F j, Y ", $time );
-
-	if ( !$just_date ) {
-		$date .= __('at', 'buddypress') . date( ' g:iA', $time );
-	}
-
-	return $date;
+	return apply_filters( 'bp_core_current_time', $current_time );
 }
 
 /**
@@ -1399,16 +1398,16 @@ function bp_core_render_message() {
  * @return str The time since.
  */
 function bp_core_time_since( $older_date, $newer_date = false ) {
-	// array of time period chunks
 
+	// array of time period chunks
 	$chunks = array(
-	array( 60 * 60 * 24 * 365 , __( 'year', 'buddypress' ), __( 'years', 'buddypress' ) ),
-	array( 60 * 60 * 24 * 30 , __( 'month', 'buddypress' ), __( 'months', 'buddypress' ) ),
-	array( 60 * 60 * 24 * 7, __( 'week', 'buddypress' ), __( 'weeks', 'buddypress' ) ),
-	array( 60 * 60 * 24 , __( 'day', 'buddypress' ), __( 'days', 'buddypress' ) ),
-	array( 60 * 60 , __( 'hour', 'buddypress' ), __( 'hours', 'buddypress' ) ),
-	array( 60 , __( 'minute', 'buddypress' ), __( 'minutes', 'buddypress' ) ),
-	array( 1, __( 'second', 'buddypress' ), __( 'seconds', 'buddypress' ) )
+		array( 60 * 60 * 24 * 365 , __( 'year', 'buddypress' ), __( 'years', 'buddypress' ) ),
+		array( 60 * 60 * 24 * 30 , __( 'month', 'buddypress' ), __( 'months', 'buddypress' ) ),
+		array( 60 * 60 * 24 * 7, __( 'week', 'buddypress' ), __( 'weeks', 'buddypress' ) ),
+		array( 60 * 60 * 24 , __( 'day', 'buddypress' ), __( 'days', 'buddypress' ) ),
+		array( 60 * 60 , __( 'hour', 'buddypress' ), __( 'hours', 'buddypress' ) ),
+		array( 60 , __( 'minute', 'buddypress' ), __( 'minutes', 'buddypress' ) ),
+		array( 1, __( 'second', 'buddypress' ), __( 'seconds', 'buddypress' ) )
 	);
 
 	if ( !is_numeric( $older_date ) ) {
@@ -1420,7 +1419,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 
 	/* $newer_date will equal false if we want to know the time elapsed between a date and the current time */
 	/* $newer_date will have a value if we want to work out time elapsed between two known dates */
-	$newer_date = ( !$newer_date ) ? gmmktime( gmdate( 'H' ), gmdate( 'i' ), gmdate( 's' ), gmdate( 'n' ), gmdate( 'j' ), gmdate( 'Y' ) ) : $newer_date;
+	$newer_date = ( !$newer_date ) ? strtotime( bp_core_current_time() ) : $newer_date;
 
 	/* Difference in seconds */
 	$since = $newer_date - $older_date;
@@ -1488,8 +1487,11 @@ function bp_core_record_activity() {
 	if ( !is_numeric( $activity ) )
 		$activity = strtotime( $activity );
 
-	if ( '' == $activity || strtotime( gmdate( "Y-m-d H:i:s" ) ) >= strtotime( '+5 minutes', $activity ) )
-		update_usermeta( $bp->loggedin_user->id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
+	// Get current time
+	$current_time = bp_core_current_time();
+
+	if ( '' == $activity || strtotime( $current_time ) >= strtotime( '+5 minutes', $activity ) )
+		update_usermeta( $bp->loggedin_user->id, 'last_activity', $current_time );
 }
 add_action( 'wp_head', 'bp_core_record_activity' );
 

@@ -213,7 +213,7 @@ function bp_blogs_record_activity( $args = '' ) {
 		'type' => false,
 		'item_id' => false,
 		'secondary_item_id' => false,
-		'recorded_time' => gmdate( "Y-m-d H:i:s" ),
+		'recorded_time' => bp_core_current_time(),
 		'hide_sitewide' => false
 	);
 
@@ -338,7 +338,7 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'name', $name );
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'description', $description );
-	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
+	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'last_activity', bp_core_current_time() );
 
 	/* Only record this activity if the blog is public */
 	if ( (int)$_POST['blog_public'] && !$no_activity ) {
@@ -425,7 +425,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 	} else
 		bp_blogs_remove_post( $post_id, $blog_id );
 
-	bp_blogs_update_blogmeta( $blog_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
+	bp_blogs_update_blogmeta( $blog_id, 'last_activity', bp_core_current_time() );
 
 	do_action( 'bp_blogs_new_blog_post', $post_id, $post, $user_id );
 }
@@ -493,7 +493,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 		) );
 
 		// Update the blogs last active date
-		bp_blogs_update_blogmeta( $blog_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
+		bp_blogs_update_blogmeta( $blog_id, 'last_activity', bp_core_current_time() );
 	}
 
 	return $recorded_comment;

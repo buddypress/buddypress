@@ -494,7 +494,7 @@ function bp_core_activate_signup( $key ) {
 	wp_update_user( array( 'ID' => $user_id, 'user_url' => bp_core_get_user_domain( $user_id, sanitize_title( $user_login ), $user_login ), 'display_name' => bp_core_get_user_displayname( $user_id ) ) );
 
 	/* Add a last active entry */
-	update_usermeta( $user_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
+	update_usermeta( $user_id, 'last_activity', bp_core_current_time() );
 
 	/* Set the password on multisite installs */
 	if ( bp_core_is_multisite() && !empty( $user['meta']['password'] ) )
@@ -537,7 +537,7 @@ function bp_core_map_user_registration( $user_id ) {
 		return false;
 
 	/* Add a last active entry */
-	update_usermeta( $user_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
+	update_usermeta( $user_id, 'last_activity', bp_core_current_time() );
 
 	/* Add the user's fullname to Xprofile */
 	if ( function_exists( 'xprofile_set_field_data' ) ) {

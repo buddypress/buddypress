@@ -626,20 +626,20 @@ function bp_activity_add( $args = '' ) {
 	global $bp, $wpdb;
 
 	$defaults = array(
-		'id' => false, // Pass an existing activity ID to update an existing entry.
+		'id'                => false, // Pass an existing activity ID to update an existing entry.
 
-		'action' => '', // The activity action - e.g. "Jon Doe posted an update"
-		'content' => '', // Optional: The content of the activity item e.g. "BuddyPress is awesome guys!"
+		'action'            => '', // The activity action - e.g. "Jon Doe posted an update"
+		'content'           => '', // Optional: The content of the activity item e.g. "BuddyPress is awesome guys!"
 
-		'component' => false, // The name/ID of the component e.g. groups, profile, mycomponent
-		'type' => false, // The activity type e.g. activity_update, profile_updated
-		'primary_link' => '', // Optional: The primary URL for this item in RSS feeds (defaults to activity permalink)
+		'component'         => false, // The name/ID of the component e.g. groups, profile, mycomponent
+		'type'              => false, // The activity type e.g. activity_update, profile_updated
+		'primary_link'      => '', // Optional: The primary URL for this item in RSS feeds (defaults to activity permalink)
 
-		'user_id' => $bp->loggedin_user->id, // Optional: The user to record the activity for, can be false if this activity is not for a user.
-		'item_id' => false, // Optional: The ID of the specific item being recorded, e.g. a blog_id
+		'user_id'           => $bp->loggedin_user->id, // Optional: The user to record the activity for, can be false if this activity is not for a user.
+		'item_id'           => false, // Optional: The ID of the specific item being recorded, e.g. a blog_id
 		'secondary_item_id' => false, // Optional: A second ID used to further filter e.g. a comment_id
-		'recorded_time' => gmdate( "Y-m-d H:i:s" ), // The GMT time that this activity was recorded
-		'hide_sitewide' => false // Should this be hidden on the sitewide activity stream?
+		'recorded_time'     => bp_core_current_time(), // The GMT time that this activity was recorded
+		'hide_sitewide'     => false // Should this be hidden on the sitewide activity stream?
 	);
 
 	$params = wp_parse_args( $args, $defaults );

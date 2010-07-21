@@ -840,11 +840,24 @@ function bp_exists( $component_name ) {
 }
 
 function bp_format_time( $time, $just_date = false ) {
-	$date = date( get_option('date_format'), $time );
+	if ( !$time )
+		return false;
 
-	if ( !$just_date ) {
-		$date .= ' ' . __( 'at', 'buddypress' ) . date( ' ' . get_option('time_format'), $time );
-	}
+	// Get GMT offset from root blog
+	$root_blog_offset = get_blog_option( BP_ROOT_BLOG, 'gmt_offset' );
+
+	// Calculate offset time
+	$time_offest = $time + ( $root_blog_offset * 3600 );
+
+	// Current date (January 1, 2010)
+	$date = date( 'F j, Y ', $time_offest );
+
+	// Current time (9:50pm)
+	$time = date( ' g:ia', $time_offest );
+
+	// Should we show the time also?
+	if ( !$just_date )
+		$date .= __( 'at', 'buddypress' ) . date( ' g:iA', $time_offest );
 
 	return apply_filters( 'bp_format_time', $date );
 }

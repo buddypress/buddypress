@@ -280,7 +280,7 @@ function friends_record_activity( $args = '' ) {
 		'type' => false,
 		'item_id' => false,
 		'secondary_item_id' => false,
-		'recorded_time' => gmdate( "Y-m-d H:i:s" ),
+		'recorded_time' => bp_core_current_time(),
 		'hide_sitewide' => false
 	);
 
@@ -361,7 +361,7 @@ function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = 
 	$friendship->friend_user_id = $friend_userid;
 	$friendship->is_confirmed = 0;
 	$friendship->is_limited = 0;
-	$friendship->date_created = time();
+	$friendship->date_created = bp_core_current_time();
 
 	if ( $force_accept )
 		$friendship->is_confirmed = 1;

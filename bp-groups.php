@@ -1342,7 +1342,7 @@ function groups_record_activity( $args = '' ) {
 		'type' => false,
 		'item_id' => false,
 		'secondary_item_id' => false,
-		'recorded_time' => gmdate( "Y-m-d H:i:s" ),
+		'recorded_time' => bp_core_current_time(),
 		'hide_sitewide' => $hide_sitewide
 	);
 

@@ -187,7 +187,7 @@ function bp_dtheme_new_activity_comment() {
 				</div>
 
 				<div class="acomment-meta">
-					<?php echo bp_core_get_userlink( bp_get_activity_user_id() ) ?> &middot; <?php printf( __( '%s ago', 'buddypress' ), bp_core_time_since( gmdate( "Y-m-d H:i:s" ) ) ) ?> &middot;
+					<?php echo bp_core_get_userlink( bp_get_activity_user_id() ) ?> &middot; <?php printf( __( '%s ago', 'buddypress' ), bp_core_time_since( bp_core_current_time() ) ) ?> &middot;
 					<a class="acomment-reply" href="#acomment-<?php bp_activity_id() ?>" id="acomment-reply-<?php echo attribute_escape( $_POST['form_id'] ) ?>"><?php _e( 'Reply', 'buddypress' ) ?></a>
 					 &middot; <a href="<?php echo wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/' . bp_get_activity_id() . '?cid=' . $comment_id, 'bp_activity_delete_link' ) ?>" class="delete acomment-delete confirm"><?php _e( 'Delete', 'buddypress' ) ?></a>
 				</div>
@@ -465,7 +465,7 @@ function bp_dtheme_ajax_messages_send_reply() {
 				<?php do_action( 'bp_before_message_meta' ) ?>
 				<?php echo bp_loggedin_user_avatar( 'type=thumb&width=30&height=30' ); ?>
 
-				<strong><a href="<?php echo $bp->loggedin_user->domain ?>"><?php echo $bp->loggedin_user->fullname ?></a> <span class="activity"><?php printf( __( 'Sent %s ago', 'buddypress' ), bp_core_time_since( time() ) ) ?></span></strong>
+				<strong><a href="<?php echo $bp->loggedin_user->domain ?>"><?php echo $bp->loggedin_user->fullname ?></a> <span class="activity"><?php printf( __( 'Sent %s ago', 'buddypress' ), bp_core_time_since( bp_core_current_time() ) ) ?></span></strong>
 
 				<?php do_action( 'bp_after_message_meta' ) ?>
 			</div>

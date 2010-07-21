@@ -770,12 +770,12 @@ Class BP_Groups_Member {
 	function accept_invite() {
 		$this->inviter_id = 0;
 		$this->is_confirmed = 1;
-		$this->date_modified = gmdate( "Y-m-d H:i:s" );
+		$this->date_modified = bp_core_current_time();
 	}
 
 	function accept_request() {
 		$this->is_confirmed = 1;
-		$this->date_modified = gmdate( "Y-m-d H:i:s" );
+		$this->date_modified = bp_core_current_time();
 	}
 
 	/* Static Functions */

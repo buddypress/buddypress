@@ -402,7 +402,7 @@ function messages_new_message( $args = '' ) {
 		'recipients' => false, // Can be an array of usernames, user_ids or mixed.
 		'subject' => false,
 		'content' => false,
-		'date_sent' => time()
+		'date_sent' => bp_core_current_time()
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -492,7 +492,7 @@ function messages_send_notice( $subject, $message ) {
 		$notice = new BP_Messages_Notice;
 		$notice->subject = $subject;
 		$notice->message = $message;
-		$notice->date_sent = time();
+		$notice->date_sent = bp_core_current_time();
 		$notice->is_active = 1;
 		$notice->save(); // send it.
 
