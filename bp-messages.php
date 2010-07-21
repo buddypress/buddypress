@@ -419,14 +419,19 @@ function messages_new_message( $args = '' ) {
 	$message->message = $content;
 	$message->date_sent = $date_sent;
 
-	/* If we have a thread ID, use the existing recipients, otherwise use the recipients passed */
+	// If we have a thread ID, use the existing recipients, otherwise use the recipients passed
 	if ( $thread_id ) {
 		$thread = new BP_Messages_Thread( $thread_id );
 		$message->recipients = $thread->get_recipients();
 
+		// Strip the sender from the recipient list if they exist
+		if ( $key = array_search( $sender_id, $message->recipients ) )
+			unset( $message->recipients[$key] );
+
 		if ( empty( $message->subject ) )
 			$message->subject = sprintf( __( 'Re: %s', 'buddypress' ), $thread->messages[0]->subject );
 
+	// No thread ID, so make some adjustments
 	} else {
 		if ( empty( $recipients ) )
 			return false;
