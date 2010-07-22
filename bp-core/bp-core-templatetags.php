@@ -852,12 +852,14 @@ function bp_format_time( $time, $just_date = false ) {
 	// Current date (January 1, 2010)
 	$date = date( 'F j, Y ', $time_offest );
 
-	// Current time (9:50pm)
-	$time = date( ' g:ia', $time_offest );
-
 	// Should we show the time also?
-	if ( !$just_date )
-		$date .= __( 'at', 'buddypress' ) . date( ' g:iA', $time_offest );
+	if ( !$just_date ) {
+		// Current time (9:50pm)
+		$time = date( ' g:ia', $time_offest );
+
+		// Return string formatted with date and time
+		$date = sprintf( __( '%1$s at %2$s', 'buddypress' ), $date, $time );
+	}
 
 	return apply_filters( 'bp_format_time', $date );
 }
