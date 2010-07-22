@@ -41,7 +41,7 @@ function bp_core_set_uri_globals() {
 	if ( strpos( $_SERVER['REQUEST_URI'], 'wp-load.php' ) )
 		$path = bp_core_referrer();
 	else
-		$path = clean_url( $_SERVER['REQUEST_URI'] );
+		$path = esc_url( $_SERVER['REQUEST_URI'] );
 
 	$path = apply_filters( 'bp_uri', $path );
 

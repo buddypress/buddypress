@@ -574,7 +574,7 @@ function bp_core_signup_avatar_upload_dir() {
 
 function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
 	$activate_url = bp_get_activation_page() ."?key=$key";
-	$activate_url = clean_url( $activate_url );
+	$activate_url = esc_url( $activate_url );
 	$admin_email = get_site_option( "admin_email" );
 
 	if ( empty( $admin_email ) )
