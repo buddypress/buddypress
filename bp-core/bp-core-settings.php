@@ -114,7 +114,7 @@ function bp_core_screen_notification_settings() {
 
 		if ( $_POST['notifications'] ) {
 			foreach ( (array)$_POST['notifications'] as $key => $value ) {
-				update_usermeta( (int)$current_user->id, $key, $value );
+				update_user_meta( (int)$current_user->id, $key, $value );
 			}
 		}
 

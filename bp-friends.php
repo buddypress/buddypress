@@ -155,14 +155,14 @@ function friends_screen_notification_settings() {
 			<tr>
 				<td></td>
 				<td><?php _e( 'A member sends you a friendship request', 'buddypress' ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_friends_friendship_request]" value="yes" <?php if ( !get_usermeta( $current_user->id,'notification_friends_friendship_request') || 'yes' == get_usermeta( $current_user->id,'notification_friends_friendship_request') ) { ?>checked="checked" <?php } ?>/></td>
-				<td class="no"><input type="radio" name="notifications[notification_friends_friendship_request]" value="no" <?php if ( get_usermeta( $current_user->id,'notification_friends_friendship_request') == 'no' ) { ?>checked="checked" <?php } ?>/></td>
+				<td class="yes"><input type="radio" name="notifications[notification_friends_friendship_request]" value="yes" <?php if ( !get_user_meta( $current_user->id, 'notification_friends_friendship_request', true ) || 'yes' == get_user_meta( $current_user->id, 'notification_friends_friendship_request', true ) ) { ?>checked="checked" <?php } ?>/></td>
+				<td class="no"><input type="radio" name="notifications[notification_friends_friendship_request]" value="no" <?php if ( get_user_meta( $current_user->id, 'notification_friends_friendship_request', true ) == 'no' ) { ?>checked="checked" <?php } ?>/></td>
 			</tr>
 			<tr>
 				<td></td>
 				<td><?php _e( 'A member accepts your friendship request', 'buddypress' ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_friends_friendship_accepted]" value="yes" <?php if ( !get_usermeta( $current_user->id,'notification_friends_friendship_accepted') || 'yes' == get_usermeta( $current_user->id,'notification_friends_friendship_accepted') ) { ?>checked="checked" <?php } ?>/></td>
-				<td class="no"><input type="radio" name="notifications[notification_friends_friendship_accepted]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id,'notification_friends_friendship_accepted') ) { ?>checked="checked" <?php } ?>/></td>
+				<td class="yes"><input type="radio" name="notifications[notification_friends_friendship_accepted]" value="yes" <?php if ( !get_user_meta( $current_user->id, 'notification_friends_friendship_accepted', true ) || 'yes' == get_user_meta( $current_user->id, 'notification_friends_friendship_accepted', true ) ) { ?>checked="checked" <?php } ?>/></td>
+				<td class="no"><input type="radio" name="notifications[notification_friends_friendship_accepted]" value="no" <?php if ( 'no' == get_user_meta( $current_user->id, 'notification_friends_friendship_accepted', true ) ) { ?>checked="checked" <?php } ?>/></td>
 			</tr>
 
 			<?php do_action( 'friends_screen_notification_settings' ); ?>
@@ -487,7 +487,7 @@ function friends_get_total_friend_count( $user_id = false ) {
 		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 
 	if ( !$count = wp_cache_get( 'bp_total_friend_count_' . $user_id, 'bp' ) ) {
-		$count = get_usermeta( $user_id, 'total_friend_count' );
+		$count = get_user_meta( $user_id, 'total_friend_count', true );
 		if ( empty( $count ) ) $count = 0;
 		wp_cache_set( 'bp_total_friend_count_' . $user_id, $count, 'bp' );
 	}
@@ -590,11 +590,11 @@ function friends_is_friendship_confirmed( $friendship_id ) {
 
 function friends_update_friend_totals( $initiator_user_id, $friend_user_id, $status = 'add' ) {
 	if ( 'add' == $status ) {
-		update_usermeta( $initiator_user_id, 'total_friend_count', (int)get_usermeta( $initiator_user_id, 'total_friend_count' ) + 1 );
-		update_usermeta( $friend_user_id, 'total_friend_count', (int)get_usermeta( $friend_user_id, 'total_friend_count' ) + 1 );
+		update_user_meta( $initiator_user_id, 'total_friend_count', (int)get_user_meta( $initiator_user_id, 'total_friend_count', true ) + 1 );
+		update_user_meta( $friend_user_id, 'total_friend_count', (int)get_user_meta( $friend_user_id, 'total_friend_count', true ) + 1 );
 	} else {
-		update_usermeta( $initiator_user_id, 'total_friend_count', (int)get_usermeta( $initiator_user_id, 'total_friend_count' ) - 1 );
-		update_usermeta( $friend_user_id, 'total_friend_count', (int)get_usermeta( $friend_user_id, 'total_friend_count' ) - 1 );
+		update_user_meta( $initiator_user_id, 'total_friend_count', (int)get_user_meta( $initiator_user_id, 'total_friend_count', true ) - 1 );
+		update_user_meta( $friend_user_id, 'total_friend_count', (int)get_user_meta( $friend_user_id, 'total_friend_count', true ) - 1 );
 	}
 }
 
@@ -602,7 +602,7 @@ function friends_remove_data( $user_id ) {
 	BP_Friends_Friendship::delete_all_for_user($user_id);
 
 	/* Remove usermeta */
-	delete_usermeta( $user_id, 'total_friend_count' );
+	delete_user_meta( $user_id, 'total_friend_count' );
 
 	/* Remove friendship requests FROM user */
 	bp_core_delete_notifications_from_user( $user_id, $bp->friends->id, 'friendship_request' );

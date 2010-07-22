@@ -531,7 +531,7 @@ Class BP_Activity_Activity {
 	function total_favorite_count( $user_id ) {
 		global $bp;
 
-		if ( !$favorite_activity_entries = get_usermeta( $user_id, 'bp_favorite_activities' ) )
+		if ( !$favorite_activity_entries = get_user_meta( $user_id, 'bp_favorite_activities', true ) )
 			return 0;
 
 		return count( maybe_unserialize( $favorite_activity_entries ) );

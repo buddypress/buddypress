@@ -25,7 +25,7 @@ class BP_Activity_Template {
 		$this->disable_blogforum_replies = $bp->site_options['bp-disable-blogforum-comments'];
 
 		/* Get an array of the logged in user's favorite activities */
-		$this->my_favs = maybe_unserialize( get_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities' ) );
+		$this->my_favs = maybe_unserialize( get_user_meta( $bp->loggedin_user->id, 'bp_favorite_activities', true ) );
 
 		if ( !empty( $include ) ) {
 			/* Fetch specific activity items based on ID's */
@@ -729,7 +729,7 @@ function bp_activity_latest_update( $user_id = false ) {
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
 
-		if ( !$update = get_usermeta( $user_id, 'bp_latest_update' ) )
+		if ( !$update = get_user_meta( $user_id, 'bp_latest_update', true ) )
 			return false;
 
 		$latest_update = '&quot;' . apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], 40 ) ) ) ) . '&quot;';
@@ -831,7 +831,7 @@ function bp_total_mention_count_for_user( $user_id = false ) {
 	echo bp_get_total_favorite_count_for_user( $user_id );
 }
 	function bp_get_total_mention_count_for_user( $user_id = false ) {
-		return apply_filters( 'bp_get_total_mention_count_for_user', get_usermeta( $user_id, 'bp_new_mention_count' ) );
+		return apply_filters( 'bp_get_total_mention_count_for_user', get_user_meta( $user_id, 'bp_new_mention_count', true ) );
 	}
 
 function bp_send_public_message_link() {

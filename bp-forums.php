@@ -527,7 +527,7 @@ function bp_forums_get_forum_topicpost_count( $forum_id ) {
 function bp_forums_filter_caps( $allcaps ) {
 	global $bp, $wp_roles, $bb_table_prefix;
 
-	$bb_cap = get_usermeta( $bp->loggedin_user->id, $bb_table_prefix . 'capabilities' );
+	$bb_cap = get_user_meta( $bp->loggedin_user->id, $bb_table_prefix . 'capabilities', true );
 
 	if ( empty( $bb_cap ) )
 		return $allcaps;

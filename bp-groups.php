@@ -974,26 +974,26 @@ function groups_screen_notification_settings() {
 			<tr>
 				<td></td>
 				<td><?php _e( 'A member invites you to join a group', 'buddypress' ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_groups_invite]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_groups_invite') || 'yes' == get_usermeta( $current_user->id, 'notification_groups_invite') ) { ?>checked="checked" <?php } ?>/></td>
-				<td class="no"><input type="radio" name="notifications[notification_groups_invite]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_groups_invite') ) { ?>checked="checked" <?php } ?>/></td>
+				<td class="yes"><input type="radio" name="notifications[notification_groups_invite]" value="yes" <?php if ( !get_user_meta( $current_user->id, 'notification_groups_invite', true ) || 'yes' == get_user_meta( $current_user->id, 'notification_groups_invite', true ) ) { ?>checked="checked" <?php } ?>/></td>
+				<td class="no"><input type="radio" name="notifications[notification_groups_invite]" value="no" <?php if ( 'no' == get_user_meta( $current_user->id, 'notification_groups_invite', true ) ) { ?>checked="checked" <?php } ?>/></td>
 			</tr>
 			<tr>
 				<td></td>
 				<td><?php _e( 'Group information is updated', 'buddypress' ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_groups_group_updated]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_groups_group_updated') || 'yes' == get_usermeta( $current_user->id, 'notification_groups_group_updated') ) { ?>checked="checked" <?php } ?>/></td>
-				<td class="no"><input type="radio" name="notifications[notification_groups_group_updated]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_groups_group_updated') ) { ?>checked="checked" <?php } ?>/></td>
+				<td class="yes"><input type="radio" name="notifications[notification_groups_group_updated]" value="yes" <?php if ( !get_user_meta( $current_user->id, 'notification_groups_group_updated', true ) || 'yes' == get_user_meta( $current_user->id, 'notification_groups_group_updated', true ) ) { ?>checked="checked" <?php } ?>/></td>
+				<td class="no"><input type="radio" name="notifications[notification_groups_group_updated]" value="no" <?php if ( 'no' == get_user_meta( $current_user->id, 'notification_groups_group_updated', true ) ) { ?>checked="checked" <?php } ?>/></td>
 			</tr>
 			<tr>
 				<td></td>
 				<td><?php _e( 'You are promoted to a group administrator or moderator', 'buddypress' ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_groups_admin_promotion]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_groups_admin_promotion') || 'yes' == get_usermeta( $current_user->id, 'notification_groups_admin_promotion') ) { ?>checked="checked" <?php } ?>/></td>
-				<td class="no"><input type="radio" name="notifications[notification_groups_admin_promotion]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_groups_admin_promotion') ) { ?>checked="checked" <?php } ?>/></td>
+				<td class="yes"><input type="radio" name="notifications[notification_groups_admin_promotion]" value="yes" <?php if ( !get_user_meta( $current_user->id, 'notification_groups_admin_promotion', true ) || 'yes' == get_user_meta( $current_user->id, 'notification_groups_admin_promotion', true ) ) { ?>checked="checked" <?php } ?>/></td>
+				<td class="no"><input type="radio" name="notifications[notification_groups_admin_promotion]" value="no" <?php if ( 'no' == get_user_meta( $current_user->id, 'notification_groups_admin_promotion', true ) ) { ?>checked="checked" <?php } ?>/></td>
 			</tr>
 			<tr>
 				<td></td>
 				<td><?php _e( 'A member requests to join a private group for which you are an admin', 'buddypress' ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_groups_membership_request]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_groups_membership_request') || 'yes' == get_usermeta( $current_user->id, 'notification_groups_membership_request') ) { ?>checked="checked" <?php } ?>/></td>
-				<td class="no"><input type="radio" name="notifications[notification_groups_membership_request]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_groups_membership_request') ) { ?>checked="checked" <?php } ?>/></td>
+				<td class="yes"><input type="radio" name="notifications[notification_groups_membership_request]" value="yes" <?php if ( !get_user_meta( $current_user->id, 'notification_groups_membership_request', true ) || 'yes' == get_user_meta( $current_user->id, 'notification_groups_membership_request', true ) ) { ?>checked="checked" <?php } ?>/></td>
+				<td class="no"><input type="radio" name="notifications[notification_groups_membership_request]" value="no" <?php if ( 'no' == get_user_meta( $current_user->id, 'notification_groups_membership_request', true ) ) { ?>checked="checked" <?php } ?>/></td>
 			</tr>
 
 			<?php do_action( 'groups_screen_notification_settings' ); ?>
@@ -1687,7 +1687,7 @@ function groups_leave_group( $group_id, $user_id = false ) {
 	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') - 1 );
 
 	/* Modify user's group memberhip count */
-	update_usermeta( $user_id, 'total_group_count', (int) get_usermeta( $user_id, 'total_group_count') - 1 );
+	update_user_meta( $user_id, 'total_group_count', (int) get_user_meta( $user_id, 'total_group_count', true ) - 1 );
 
 	/* If the user joined this group less than five minutes ago, remove the joined_group activity so
 	 * users cannot flood the activity stream by joining/leaving the group in quick succession.
@@ -2337,7 +2337,7 @@ function groups_ban_member( $user_id, $group_id ) {
 	if ( !$member->ban() )
 		return false;
 
-	update_usermeta( $user_id, 'total_group_count', (int)$total_count - 1 );
+	update_user_meta( $user_id, 'total_group_count', (int)$total_count - 1 );
 }
 
 function groups_unban_member( $user_id, $group_id ) {

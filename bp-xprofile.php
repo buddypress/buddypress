@@ -908,9 +908,9 @@ function xprofile_sync_wp_profile( $user_id = false ) {
 		$lastname = trim( substr( $fullname, $space, strlen($fullname) ) );
 	}
 
-	update_usermeta( $user_id, 'nickname', $fullname );
-	update_usermeta( $user_id, 'first_name', $firstname );
-	update_usermeta( $user_id, 'last_name', $lastname );
+	update_user_meta( $user_id, 'nickname', $fullname );
+	update_user_meta( $user_id, 'first_name', $firstname );
+	update_user_meta( $user_id, 'last_name', $lastname );
 
 	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET display_name = %s WHERE ID = %d", $fullname, $user_id ) );
 	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET user_url = %s WHERE ID = %d", bp_core_get_user_domain( $user_id ), $user_id ) );
@@ -962,22 +962,22 @@ add_action( 'bp_activity_screen_single_activity_permalink', 'xprofile_remove_scr
  *
  * @package BuddyPress XProfile
  * @param $user_id The ID of the deleted user
- * @uses get_usermeta() Get a user meta value based on meta key from wp_usermeta
- * @uses delete_usermeta() Delete user meta value based on meta key from wp_usermeta
+ * @uses get_user_meta() Get a user meta value based on meta key from wp_usermeta
+ * @uses delete_user_meta() Delete user meta value based on meta key from wp_usermeta
  * @uses delete_data_for_user() Removes all profile data from the xprofile tables for the user
  */
 function xprofile_remove_data( $user_id ) {
 	BP_XProfile_ProfileData::delete_data_for_user( $user_id );
 
 	// delete any avatar files.
-	@unlink( get_usermeta( $user_id, 'bp_core_avatar_v1_path' ) );
-	@unlink( get_usermeta( $user_id, 'bp_core_avatar_v2_path' ) );
+	@unlink( get_user_meta( $user_id, 'bp_core_avatar_v1_path', true ) );
+	@unlink( get_user_meta( $user_id, 'bp_core_avatar_v2_path', true ) );
 
 	// unset the usermeta for avatars from the usermeta table.
-	delete_usermeta( $user_id, 'bp_core_avatar_v1' );
-	delete_usermeta( $user_id, 'bp_core_avatar_v1_path' );
-	delete_usermeta( $user_id, 'bp_core_avatar_v2' );
-	delete_usermeta( $user_id, 'bp_core_avatar_v2_path' );
+	delete_user_meta( $user_id, 'bp_core_avatar_v1' );
+	delete_user_meta( $user_id, 'bp_core_avatar_v1_path' );
+	delete_user_meta( $user_id, 'bp_core_avatar_v2' );
+	delete_user_meta( $user_id, 'bp_core_avatar_v2_path' );
 }
 add_action( 'wpmu_delete_user', 'xprofile_remove_data' );
 add_action( 'delete_user', 'xprofile_remove_data' );

@@ -748,9 +748,9 @@ Class BP_Groups_Member {
 
 		groups_update_groupmeta( $this->group_id, 'total_member_count', ( (int) groups_get_groupmeta( $this->group_id, 'total_member_count' ) - 1 ) );
 
-		$group_count = get_usermeta( $this->user_id, 'total_group_count' );
+		$group_count = get_user_meta( $this->user_id, 'total_group_count', true );
 		if ( !empty( $group_count ) )
-			update_usermeta( $this->user_id, 'total_group_count', (int)$group_count - 1 );
+			update_user_meta( $this->user_id, 'total_group_count', (int)$group_count - 1 );
 
 		return $this->save();
 	}
@@ -762,7 +762,7 @@ Class BP_Groups_Member {
 		$this->is_banned = 0;
 
 		groups_update_groupmeta( $this->group_id, 'total_member_count', ( (int) groups_get_groupmeta( $this->group_id, 'total_member_count' ) + 1 ) );
-		update_usermeta( $this->user_id, 'total_group_count', (int)get_usermeta( $this->user_id, 'total_group_count' ) + 1 );
+		update_user_meta( $this->user_id, 'total_group_count', (int)get_user_meta( $this->user_id, 'total_group_count', true ) + 1 );
 
 		return $this->save();
 	}

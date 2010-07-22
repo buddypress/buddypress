@@ -272,7 +272,7 @@ function bp_message_thread_last_post_date() {
 	function bp_get_message_thread_last_post_date() {
 		global $messages_template;
 
-		return apply_filters( 'bp_get_message_thread_last_post_date', bp_format_time( strtotime( $messages_template->thread->last_message_date ) ) );
+		return apply_filters( 'bp_get_message_thread_last_post_date', bp_format_time( get_date_from_gmt( $messages_template->thread->last_message_date, 'U' ) ) );
 	}
 
 function bp_message_thread_avatar() {
@@ -456,7 +456,7 @@ function bp_message_get_notices() {
 	if ( empty( $notice ) )
 		return false;
 
-	$closed_notices = get_usermeta( $userdata->ID, 'closed_notices' );
+	$closed_notices = get_user_meta( $userdata->ID, 'closed_notices', true );
 
 	if ( !$closed_notices )
 		$closed_notices = array();

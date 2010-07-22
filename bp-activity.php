@@ -275,14 +275,14 @@ function bp_activity_screen_notification_settings() {
 			<tr>
 				<td></td>
 				<td><?php printf( __( 'A member mentions you in an update using "@%s"', 'buddypress' ), bp_core_get_username( $bp->loggedin_user->id, $bp->loggedin_user->userdata->user_nicename, $bp->loggedin_user->userdata->user_login ) ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_activity_new_mention]" value="yes" <?php if ( !get_usermeta( $bp->loggedin_user->id, 'notification_activity_new_mention' ) || 'yes' == get_usermeta( $bp->loggedin_user->id, 'notification_activity_new_mention' ) ) { ?>checked="checked" <?php } ?>/></td>
-				<td class="no"><input type="radio" name="notifications[notification_activity_new_mention]" value="no" <?php if ( 'no' == get_usermeta( $bp->loggedin_user->id, 'notification_activity_new_mention' ) ) { ?>checked="checked" <?php } ?>/></td>
+				<td class="yes"><input type="radio" name="notifications[notification_activity_new_mention]" value="yes" <?php if ( !get_user_meta( $bp->loggedin_user->id, 'notification_activity_new_mention', true ) || 'yes' == get_user_meta( $bp->loggedin_user->id, 'notification_activity_new_mention', true ) ) { ?>checked="checked" <?php } ?>/></td>
+				<td class="no"><input type="radio" name="notifications[notification_activity_new_mention]" value="no" <?php if ( 'no' == get_user_meta( $bp->loggedin_user->id, 'notification_activity_new_mention', true ) ) { ?>checked="checked" <?php } ?>/></td>
 			</tr>
 			<tr>
 				<td></td>
 				<td><?php printf( __( "A member replies to an update or comment you've posted", 'buddypress' ), $current_user->user_login ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_activity_new_reply]" value="yes" <?php if ( !get_usermeta( $bp->loggedin_user->id, 'notification_activity_new_reply' ) || 'yes' == get_usermeta( $bp->loggedin_user->id, 'notification_activity_new_reply' ) ) { ?>checked="checked" <?php } ?>/></td>
-				<td class="no"><input type="radio" name="notifications[notification_activity_new_reply]" value="no" <?php if ( 'no' == get_usermeta( $bp->loggedin_user->id, 'notification_activity_new_reply' ) ) { ?>checked="checked" <?php } ?>/></td>
+				<td class="yes"><input type="radio" name="notifications[notification_activity_new_reply]" value="yes" <?php if ( !get_user_meta( $bp->loggedin_user->id, 'notification_activity_new_reply', true ) || 'yes' == get_user_meta( $bp->loggedin_user->id, 'notification_activity_new_reply', true ) ) { ?>checked="checked" <?php } ?>/></td>
+				<td class="no"><input type="radio" name="notifications[notification_activity_new_reply]" value="no" <?php if ( 'no' == get_user_meta( $bp->loggedin_user->id, 'notification_activity_new_reply', true ) ) { ?>checked="checked" <?php } ?>/></td>
 			</tr>
 
 			<?php do_action( 'bp_activity_screen_notification_settings' ) ?>
@@ -710,7 +710,7 @@ function bp_activity_post_update( $args = '' ) {
 	) );
 
 	/* Add this update to the "latest update" usermeta so it can be fetched anywhere. */
-	update_usermeta( $bp->loggedin_user->id, 'bp_latest_update', array( 'id' => $activity_id, 'content' => wp_filter_kses( $content ) ) );
+	update_user_meta( $bp->loggedin_user->id, 'bp_latest_update', array( 'id' => $activity_id, 'content' => wp_filter_kses( $content ) ) );
 
  	/* Require the notifications code so email notifications can be set on the 'bp_activity_posted_update' action. */
 	require_once( BP_PLUGIN_DIR . '/bp-activity/bp-activity-notifications.php' );
@@ -837,10 +837,10 @@ function bp_activity_delete( $args = '' ) {
 	else
 		$user_id = $args['user_id'];
 
-	$latest_update = get_usermeta( $user_id, 'bp_latest_update' );
+	$latest_update = get_user_meta( $user_id, 'bp_latest_update', true );
 	if ( !empty( $latest_update ) ) {
 		if ( in_array( (int)$latest_update['id'], (array)$activity_ids_deleted ) )
-			delete_usermeta( $user_id, 'bp_latest_update' );
+			delete_user_meta( $user_id, 'bp_latest_update' );
 	}
 
 	do_action( 'bp_activity_delete', $args );
@@ -991,14 +991,14 @@ function bp_activity_get_action( $component_id, $key ) {
 }
 
 function bp_activity_get_user_favorites( $user_id ) {
-	$my_favs = maybe_unserialize( get_usermeta( $user_id, 'bp_favorite_activities' ) );
+	$my_favs = maybe_unserialize( get_user_meta( $user_id, 'bp_favorite_activities', true ) );
 	$existing_favs = bp_activity_get_specific( array( 'activity_ids' => $my_favs ) );
 
 	foreach( (array)$existing_favs['activities'] as $fav )
 		$new_favs[] = $fav->id;
 
 	$new_favs = array_unique( (array)$new_favs );
-	update_usermeta( $user_id, 'bp_favorite_activities', $new_favs );
+	update_user_meta( $user_id, 'bp_favorite_activities', $new_favs );
 
 	return apply_filters( 'bp_activity_get_user_favorites', $new_favs );
 }
@@ -1010,7 +1010,7 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = false ) {
 		$user_id = $bp->loggedin_user->id;
 
 	/* Update the user's personal favorites */
-	$my_favs = maybe_unserialize( get_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities' ) );
+	$my_favs = maybe_unserialize( get_user_meta( $bp->loggedin_user->id, 'bp_favorite_activities', true ) );
 	$my_favs[] = $activity_id;
 
 	/* Update the total number of users who have favorited this activity */
@@ -1021,7 +1021,7 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = false ) {
 	else
 		$fav_count = 1;
 
-	update_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities', $my_favs );
+	update_user_meta( $bp->loggedin_user->id, 'bp_favorite_activities', $my_favs );
 	bp_activity_update_meta( $activity_id, 'favorite_count', $fav_count );
 
 	do_action( 'bp_activity_add_user_favorite', $activity_id, $user_id );
@@ -1036,7 +1036,7 @@ function bp_activity_remove_user_favorite( $activity_id, $user_id = false ) {
 		$user_id = $bp->loggedin_user->id;
 
 	/* Remove the fav from the user's favs */
-	$my_favs = maybe_unserialize( get_usermeta( $user_id, 'bp_favorite_activities' ) );
+	$my_favs = maybe_unserialize( get_user_meta( $user_id, 'bp_favorite_activities', true ) );
 	$my_favs = array_flip( (array) $my_favs );
 	unset( $my_favs[$activity_id] );
 	$my_favs = array_unique( array_flip( $my_favs ) );
@@ -1049,7 +1049,7 @@ function bp_activity_remove_user_favorite( $activity_id, $user_id = false ) {
 		bp_activity_update_meta( $activity_id, 'favorite_count', $fav_count );
 	}
 
-	update_usermeta( $user_id, 'bp_favorite_activities', $my_favs );
+	update_user_meta( $user_id, 'bp_favorite_activities', $my_favs );
 
 	do_action( 'bp_activity_remove_user_favorite', $activity_id, $user_id );
 
@@ -1171,8 +1171,8 @@ function bp_activity_remove_data( $user_id ) {
 	bp_activity_delete( array( 'user_id' => $user_id ) );
 
 	// Remove any usermeta
-	delete_usermeta( $user_id, 'bp_latest_update' );
-	delete_usermeta( $user_id, 'bp_favorite_activities' );
+	delete_user_meta( $user_id, 'bp_latest_update' );
+	delete_user_meta( $user_id, 'bp_favorite_activities' );
 
 	do_action( 'bp_activity_remove_data', $user_id );
 }

@@ -4,11 +4,11 @@ function groups_notification_group_updated( $group_id ) {
 	global $bp;
 
 	$group = new BP_Groups_Group( $group_id );
-	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . __( 'Group Details Updated', 'buddypress' );
+	$subject = '[' . wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ) ) . '] ' . __( 'Group Details Updated', 'buddypress' );
 
 	$user_ids = BP_Groups_Member::get_group_member_ids( $group->id );
 	foreach ( (array)$user_ids as $user_id ) {
-		if ( 'no' == get_usermeta( $user_id, 'notification_groups_group_updated' ) ) continue;
+		if ( 'no' == get_user_meta( $user_id, 'notification_groups_group_updated', true ) ) continue;
 
 		$ud = bp_core_get_core_userdata( $user_id );
 
@@ -44,7 +44,7 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 
 	bp_core_add_notification( $requesting_user_id, $admin_id, 'groups', 'new_membership_request', $group_id );
 
-	if ( 'no' == get_usermeta( $admin_id, 'notification_groups_membership_request' ) )
+	if ( 'no' == get_user_meta( $admin_id, 'notification_groups_membership_request', true ) )
 		return false;
 
 	$requesting_user_name = bp_core_get_user_displayname( $requesting_user_id );
@@ -59,7 +59,7 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 
 	// Set up and send the message
 	$to = $ud->user_email;
-	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'Membership request for group: %s', 'buddypress' ), $group->name );
+	$subject = '[' . wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ) ) . '] ' . sprintf( __( 'Membership request for group: %s', 'buddypress' ), $group->name );
 
 $message = sprintf( __(
 '%s wants to join the group "%s".
@@ -93,7 +93,7 @@ function groups_notification_membership_request_completed( $requesting_user_id, 
 	else
 		bp_core_add_notification( $group_id, $requesting_user_id, 'groups', 'membership_request_rejected' );
 
-	if ( 'no' == get_usermeta( $requesting_user_id, 'notification_membership_request_completed' ) )
+	if ( 'no' == get_user_meta( $requesting_user_id, 'notification_membership_request_completed', true ) )
 		return false;
 
 	$group = new BP_Groups_Group( $group_id );
@@ -107,7 +107,7 @@ function groups_notification_membership_request_completed( $requesting_user_id, 
 	$to = $ud->user_email;
 
 	if ( $accepted ) {
-		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'Membership request for group "%s" accepted', 'buddypress' ), $group->name );
+		$subject = '[' . wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ) ) . '] ' . sprintf( __( 'Membership request for group "%s" accepted', 'buddypress' ), $group->name );
 		$message = sprintf( __(
 'Your membership request for the group "%s" has been accepted.
 
@@ -117,7 +117,7 @@ To view the group please login and visit: %s
 ', 'buddypress' ), $group->name, $group_link );
 
 	} else {
-		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'Membership request for group "%s" rejected', 'buddypress' ), $group->name );
+		$subject = '[' . wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ) ) . '] ' . sprintf( __( 'Membership request for group "%s" rejected', 'buddypress' ), $group->name );
 		$message = sprintf( __(
 'Your membership request for the group "%s" has been rejected.
 
@@ -151,7 +151,7 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 	// Post a screen notification first.
 	bp_core_add_notification( $group_id, $user_id, 'groups', $type );
 
-	if ( 'no' == get_usermeta( $user_id, 'notification_groups_admin_promotion' ) )
+	if ( 'no' == get_user_meta( $user_id, 'notification_groups_admin_promotion', true ) )
 		return false;
 
 	$group = new BP_Groups_Group( $group_id );
@@ -163,7 +163,7 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 	// Set up and send the message
 	$to = $ud->user_email;
 
-	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'You have been promoted in the group: "%s"', 'buddypress' ), $group->name );
+	$subject = '[' . wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ) ) . '] ' . sprintf( __( 'You have been promoted in the group: "%s"', 'buddypress' ), $group->name );
 
 	$message = sprintf( __(
 'You have been promoted to %s for the group: "%s".
@@ -199,7 +199,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 		// Post a screen notification first.
 		bp_core_add_notification( $group->id, $invited_user_id, 'groups', 'group_invite' );
 
-		if ( 'no' == get_usermeta( $invited_user_id, 'notification_groups_invite' ) )
+		if ( 'no' == get_user_meta( $invited_user_id, 'notification_groups_invite', true ) )
 			return false;
 
 		$invited_ud = bp_core_get_core_userdata($invited_user_id);
@@ -211,7 +211,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 		// Set up and send the message
 		$to = $invited_ud->user_email;
 
-		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'You have an invitation to the group: "%s"', 'buddypress' ), $group->name );
+		$subject = '[' . wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ) ) . '] ' . sprintf( __( 'You have an invitation to the group: "%s"', 'buddypress' ), $group->name );
 
 		$message = sprintf( __(
 'One of your friends %s has invited you to the group: "%s".
@@ -258,7 +258,7 @@ function groups_at_message_notification( $content, $poster_user_id, $group_id, $
 			continue;
 
 		// Now email the user with the contents of the message (if they have enabled email notifications)
-		if ( 'no' != get_usermeta( $user_id, 'notification_activity_new_mention' ) ) {
+		if ( 'no' != get_user_meta( $user_id, 'notification_activity_new_mention', true ) ) {
 			$poster_name = bp_core_get_user_displayname( $poster_user_id );
 
 			$message_link = bp_activity_get_permalink( $activity_id );
@@ -270,7 +270,7 @@ function groups_at_message_notification( $content, $poster_user_id, $group_id, $
 			// Set up and send the message
 			$ud = bp_core_get_core_userdata( $receiver_user_id );
 			$to = $ud->user_email;
-			$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s mentioned you in the group "%s"', 'buddypress' ), $poster_name, $group->name );
+			$subject = '[' . wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ) ) . '] ' . sprintf( __( '%s mentioned you in the group "%s"', 'buddypress' ), $poster_name, $group->name );
 
 $message = sprintf( __(
 '%s mentioned you in the group "%s":

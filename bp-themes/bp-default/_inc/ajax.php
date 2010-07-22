@@ -442,11 +442,11 @@ function bp_dtheme_ajax_close_notice() {
 	if ( !isset( $_POST['notice_id'] ) ) {
 		echo "-1<div id='message' class='error'><p>" . __('There was a problem closing the notice.', 'buddypress') . '</p></div>';
 	} else {
-		$notice_ids = get_usermeta( $userdata->ID, 'closed_notices' );
+		$notice_ids = get_user_meta( $userdata->ID, 'closed_notices', true );
 
 		$notice_ids[] = (int) $_POST['notice_id'];
 
-		update_usermeta( $userdata->ID, 'closed_notices', $notice_ids );
+		update_user_meta( $userdata->ID, 'closed_notices', $notice_ids );
 	}
 }
 add_action( 'wp_ajax_messages_close_notice', 'bp_dtheme_ajax_close_notice' );

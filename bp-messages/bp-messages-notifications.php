@@ -7,7 +7,7 @@ function messages_notification_new_message( $args ) {
 	$sender_name = bp_core_get_user_displayname( $sender_id );
 
 	foreach( $recipients as $recipient ) {
-		if ( $sender_id == $recipient->user_id || 'no' == get_usermeta( $recipient->user_id, 'notification_messages_new_message' ) ) continue;
+		if ( $sender_id == $recipient->user_id || 'no' == get_user_meta( $recipient->user_id, 'notification_messages_new_message', true ) ) continue;
 
 		$ud = get_userdata( $recipient->user_id );
 		$message_link = bp_core_get_user_domain( $recipient->user_id ) . BP_MESSAGES_SLUG .'/';
@@ -19,7 +19,7 @@ function messages_notification_new_message( $args ) {
 
 		// Set up and send the message
 		$email_to = $ud->user_email;
-		$email_subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'New message from %s', 'buddypress' ), $sender_name );
+		$email_subject = '[' . wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ) ) . '] ' . sprintf( __( 'New message from %s', 'buddypress' ), $sender_name );
 
 		$email_content = sprintf( __(
 '%s sent you a new message:

@@ -556,7 +556,7 @@ function bp_core_get_users( $args = '' ) {
  * @package BuddyPress Core
  * @global $current_user WordPress global variable containing current logged in user information
  * @param user_id The ID of the user.
- * @uses get_usermeta() WordPress function to get the usermeta for a user.
+ * @uses get_user_meta() WordPress function to get the usermeta for a user.
  */
 function bp_core_get_user_domain( $user_id, $user_nicename = false, $user_login = false ) {
 	global $bp;
@@ -1474,7 +1474,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
  *
  * @package BuddyPress Core
  * @global $userdata WordPress user data for the current logged in user.
- * @uses update_usermeta() WordPress function to update user metadata in the usermeta table.
+ * @uses update_user_meta() WordPress function to update user metadata in the usermeta table.
  */
 function bp_core_record_activity() {
 	global $bp;
@@ -1482,7 +1482,7 @@ function bp_core_record_activity() {
 	if ( !is_user_logged_in() )
 		return false;
 
-	$activity = get_usermeta( $bp->loggedin_user->id, 'last_activity' );
+	$activity = get_user_meta( $bp->loggedin_user->id, 'last_activity', true );
 
 	if ( !is_numeric( $activity ) )
 		$activity = strtotime( $activity );
@@ -1491,7 +1491,7 @@ function bp_core_record_activity() {
 	$current_time = bp_core_current_time();
 
 	if ( '' == $activity || strtotime( $current_time ) >= strtotime( '+5 minutes', $activity ) )
-		update_usermeta( $bp->loggedin_user->id, 'last_activity', $current_time );
+		update_user_meta( $bp->loggedin_user->id, 'last_activity', $current_time );
 }
 add_action( 'wp_head', 'bp_core_record_activity' );
 
@@ -1928,11 +1928,11 @@ add_filter( 'authenticate', 'bp_core_boot_spammer', 11, 2 );
  *
  * @package BuddyPress Core
  * @param $user_id The user id for the user to delete usermeta for
- * @uses delete_usermeta() deletes a row from the wp_usermeta table based on meta_key
+ * @uses delete_user_meta() deletes a row from the wp_usermeta table based on meta_key
  */
 function bp_core_remove_data( $user_id ) {
 	/* Remove usermeta */
-	delete_usermeta( $user_id, 'last_activity' );
+	delete_user_meta( $user_id, 'last_activity' );
 
 	/* Flush the cache to remove the user from all cached objects */
 	wp_cache_flush();
