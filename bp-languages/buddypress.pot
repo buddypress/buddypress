@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-07-19 13:13+0000\n"
+"POT-Creation-Date: 2010-07-22 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgid "Friends"
 msgstr ""
 
 #: bp-activity.php:124 bp-core/bp-core-admin.php:210
-#: bp-core/bp-core-templatetags.php:1041 bp-groups.php:967 bp-groups.php:1391
+#: bp-core/bp-core-templatetags.php:1056 bp-groups.php:967 bp-groups.php:1391
 #: bp-groups.php:1404 bp-groups.php:1417 bp-groups.php:1430
 #: bp-groups/bp-groups-widgets.php:13 bp-themes/bp-default/header.php:63
 msgid "Groups"
@@ -398,7 +398,7 @@ msgid "Blog avatar"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:253 bp-core/bp-core-classes.php:82
-#: bp-core/bp-core-templatetags.php:355 bp-core/bp-core-templatetags.php:1334
+#: bp-core/bp-core-templatetags.php:355 bp-core/bp-core-templatetags.php:1349
 #: bp-groups/bp-groups-widgets.php:119
 #: bp-themes/bp-default/groups/groups-loop.php:29
 #: bp-themes/bp-default/groups/single/group-header.php:31
@@ -483,7 +483,7 @@ msgid ""
 "\">Login</a> as \"%4$s\" using your existing password."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:473 bp-core/bp-core-templatetags.php:940
+#: bp-blogs/bp-blogs-templatetags.php:473 bp-core/bp-core-templatetags.php:955
 #: bp-themes/bp-default/blogs/create.php:10
 #: bp-themes/bp-default/blogs/index.php:8
 msgid "Create a Blog"
@@ -515,7 +515,7 @@ msgid "Search anything..."
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:499 bp-core/bp-core-templatetags.php:481
-#: bp-core/bp-core-templatetags.php:1060
+#: bp-core/bp-core-templatetags.php:1075
 #: bp-forums/bp-forums-templatetags.php:1018
 #: bp-groups/bp-groups-templatetags.php:1708
 #: bp-themes/bp-default/header.php:93 bp-themes/bp-default/searchform.php:5
@@ -538,7 +538,7 @@ msgstr ""
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core.php:298 bp-core/bp-core-settings.php:70
+#: bp-core.php:298 bp-core/bp-core-settings.php:69
 msgid "General Settings"
 msgstr ""
 
@@ -578,85 +578,81 @@ msgstr ""
 msgid "There was an error deleting %s from the system. Please try again."
 msgstr ""
 
-#: bp-core.php:1301 bp-core/bp-core-templatetags.php:846
-msgid "at"
-msgstr ""
-
-#: bp-core.php:1405
+#: bp-core.php:1404
 msgid "year"
 msgstr ""
 
-#: bp-core.php:1405
+#: bp-core.php:1404
 msgid "years"
 msgstr ""
 
-#: bp-core.php:1406
+#: bp-core.php:1405
 msgid "month"
 msgstr ""
 
-#: bp-core.php:1406
+#: bp-core.php:1405
 msgid "months"
 msgstr ""
 
-#: bp-core.php:1407
+#: bp-core.php:1406
 msgid "week"
 msgstr ""
 
-#: bp-core.php:1407
+#: bp-core.php:1406
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:1408
+#: bp-core.php:1407
 msgid "day"
 msgstr ""
 
-#: bp-core.php:1408
+#: bp-core.php:1407
 msgid "days"
 msgstr ""
 
-#: bp-core.php:1409
+#: bp-core.php:1408
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:1409
+#: bp-core.php:1408
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:1410
+#: bp-core.php:1409
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:1410
+#: bp-core.php:1409
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:1411
+#: bp-core.php:1410
 msgid "second"
 msgstr ""
 
-#: bp-core.php:1411 bp-core.php:1463
+#: bp-core.php:1410 bp-core.php:1462
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1430
+#: bp-core.php:1429
 msgid "sometime"
 msgstr ""
 
-#: bp-core.php:1458
+#: bp-core.php:1457
 msgid ",|Separator in time since"
 msgstr ""
 
-#: bp-core.php:1510
+#: bp-core.php:1512
 msgid "not recently active"
 msgstr ""
 
-#: bp-core.php:1973
+#: bp-core.php:1975
 msgid ""
 "IMPORTANT: <a href=\"http://codex.buddypress.org/getting-started/upgrading-"
 "from-10x/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core.php:2002
+#: bp-core.php:2004
 #, php-format
 msgid ""
 "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update "
@@ -664,7 +660,7 @@ msgid ""
 "work."
 msgstr ""
 
-#: bp-core.php:2011
+#: bp-core.php:2013
 #, php-format
 msgid ""
 "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a "
@@ -839,8 +835,8 @@ msgid "My Account"
 msgstr ""
 
 #: bp-core/bp-core-adminbar.php:94 bp-core/bp-core-templatetags.php:543
-#: bp-core/bp-core-templatetags.php:545 bp-core/bp-core-templatetags.php:1071
-#: bp-core/bp-core-templatetags.php:1073 bp-themes/bp-default/sidebar.php:18
+#: bp-core/bp-core-templatetags.php:545 bp-core/bp-core-templatetags.php:1086
+#: bp-core/bp-core-templatetags.php:1088 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
 msgstr ""
 
@@ -999,35 +995,35 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:25 bp-core/bp-core-settings.php:177
+#: bp-core/bp-core-settings.php:25 bp-core/bp-core-settings.php:176
 msgid "Delete Account"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:78 bp-core/bp-core-settings.php:139
+#: bp-core/bp-core-settings.php:77 bp-core/bp-core-settings.php:138
 msgid "Changes Saved."
 msgstr ""
 
-#: bp-core/bp-core-settings.php:84
+#: bp-core/bp-core-settings.php:83
 msgid "Your passwords did not match"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:89
+#: bp-core/bp-core-settings.php:88
 msgid "Account Email"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:92
+#: bp-core/bp-core-settings.php:91
 msgid "Change Password <span>(leave blank for no change)</span>"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:93
+#: bp-core/bp-core-settings.php:92
 msgid "New Password"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:94
+#: bp-core/bp-core-settings.php:93
 msgid "Repeat New Password"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:97 bp-core/bp-core-settings.php:150
+#: bp-core/bp-core-settings.php:96 bp-core/bp-core-settings.php:149
 #: bp-themes/bp-default/groups/single/admin.php:32
 #: bp-themes/bp-default/groups/single/admin.php:100
 #: bp-themes/bp-default/groups/single/forum/edit.php:34
@@ -1036,29 +1032,29 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:131
+#: bp-core/bp-core-settings.php:130
 msgid "Notification Settings"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:144
+#: bp-core/bp-core-settings.php:143
 msgid "Email Notifications"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:145
+#: bp-core/bp-core-settings.php:144
 msgid "Send a notification by email when:"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:186
+#: bp-core/bp-core-settings.php:185
 msgid ""
 "WARNING: Deleting your account will completely remove ALL content associated "
 "with it. There is no way back, please be careful with this option."
 msgstr ""
 
-#: bp-core/bp-core-settings.php:189
+#: bp-core/bp-core-settings.php:188
 msgid "I understand the consequences of deleting my account."
 msgstr ""
 
-#: bp-core/bp-core-settings.php:192
+#: bp-core/bp-core-settings.php:191
 msgid "Delete My Account"
 msgstr ""
 
@@ -1214,69 +1210,74 @@ msgstr ""
 msgid "Yahoo Messenger"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:904 bp-groups.php:196
+#: bp-core/bp-core-templatetags.php:861
+#, php-format
+msgid "%1$s at %2$s"
+msgstr ""
+
+#: bp-core/bp-core-templatetags.php:919 bp-groups.php:196
 #: bp-themes/bp-default/header.php:44 bp-themes/bp-default/header.php:48
 msgid "Home"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:908
+#: bp-core/bp-core-templatetags.php:923
 msgid "Blog &#124; "
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:910
+#: bp-core/bp-core-templatetags.php:925
 msgid "Blog &#124; Categories &#124; "
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:912
+#: bp-core/bp-core-templatetags.php:927
 msgid "Blog &#124; Tags &#124; "
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:916 bp-themes/bp-default/attachment.php:9
+#: bp-core/bp-core-templatetags.php:931 bp-themes/bp-default/attachment.php:9
 #: bp-themes/bp-default/search.php:10
 msgid "Blog"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:926 bp-core/bp-core-templatetags.php:928
+#: bp-core/bp-core-templatetags.php:941 bp-core/bp-core-templatetags.php:943
 #, php-format
 msgid "%s Directory"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:931
+#: bp-core/bp-core-templatetags.php:946
 #: bp-themes/bp-default/registration/register.php:14
 msgid "Create an Account"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:934
+#: bp-core/bp-core-templatetags.php:949
 #: bp-themes/bp-default/registration/activate.php:28
 msgid "Activate your Account"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:937
+#: bp-core/bp-core-templatetags.php:952
 #: bp-themes/bp-default/groups/create.php:7
 #: bp-themes/bp-default/groups/index.php:7
 msgid "Create a Group"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1038 bp-core/bp-core-widgets.php:15
+#: bp-core/bp-core-templatetags.php:1053 bp-core/bp-core-widgets.php:15
 #: bp-themes/bp-default/groups/single/admin.php:174
 #: bp-themes/bp-default/header.php:58
 msgid "Members"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1044 bp-forums/bp-forums-admin.php:159
+#: bp-core/bp-core-templatetags.php:1059 bp-forums/bp-forums-admin.php:159
 #: bp-themes/bp-default/header.php:68
 msgid "Forums"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1047 bp-themes/bp-default/header.php:75
+#: bp-core/bp-core-templatetags.php:1062 bp-themes/bp-default/header.php:75
 msgid "Blogs"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1220
+#: bp-core/bp-core-templatetags.php:1235
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1293
+#: bp-core/bp-core-templatetags.php:1308
 msgid "a user"
 msgstr ""
 
@@ -2546,12 +2547,12 @@ msgstr ""
 msgid "You have %d new message"
 msgstr ""
 
-#: bp-messages.php:428
+#: bp-messages.php:432
 #, php-format
 msgid "Re: %s"
 msgstr ""
 
-#: bp-messages.php:435
+#: bp-messages.php:440
 msgid "No Subject"
 msgstr ""
 
