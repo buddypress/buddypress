@@ -287,7 +287,7 @@ function bp_group_avatar( $args = '' ) {
 
 		/* Fetch the avatar from the folder, if not provide backwards compat. */
 		if ( !$avatar = bp_core_fetch_avatar( array( 'item_id' => $groups_template->group->id, 'object' => 'group', 'type' => $type, 'avatar_dir' => 'group-avatars', 'alt' => $alt, 'css_id' => $id, 'class' => $class, 'width' => $width, 'height' => $height ) ) )
-			$avatar = '<img src="' . attribute_escape( $groups_template->group->avatar_thumb ) . '" class="avatar" alt="' . attribute_escape( $groups_template->group->name ) . '" />';
+			$avatar = '<img src="' . esc_attr( $groups_template->group->avatar_thumb ) . '" class="avatar" alt="' . esc_attr( $groups_template->group->name ) . '" />';
 
 		return apply_filters( 'bp_get_group_avatar', $avatar );
 	}
@@ -1132,15 +1132,15 @@ function bp_group_status_message( $group = false ) {
 
 function bp_group_hidden_fields() {
 	if ( isset( $_REQUEST['s'] ) ) {
-		echo '<input type="hidden" id="search_terms" value="' . attribute_escape( $_REQUEST['s'] ) . '" name="search_terms" />';
+		echo '<input type="hidden" id="search_terms" value="' . esc_attr( $_REQUEST['s'] ) . '" name="search_terms" />';
 	}
 
 	if ( isset( $_REQUEST['letter'] ) ) {
-		echo '<input type="hidden" id="selected_letter" value="' . attribute_escape( $_REQUEST['letter'] ) . '" name="selected_letter" />';
+		echo '<input type="hidden" id="selected_letter" value="' . esc_attr( $_REQUEST['letter'] ) . '" name="selected_letter" />';
 	}
 
 	if ( isset( $_REQUEST['groups_search'] ) ) {
-		echo '<input type="hidden" id="search_terms" value="' . attribute_escape( $_REQUEST['groups_search'] ) . '" name="search_terms" />';
+		echo '<input type="hidden" id="search_terms" value="' . esc_attr( $_REQUEST['groups_search'] ) . '" name="search_terms" />';
 	}
 }
 
@@ -1688,7 +1688,7 @@ function bp_new_group_invite_friend_list() {
 					}
 				}
 
-				$items[] = '<' . $separator . '><input' . $checked . ' type="checkbox" name="friends[]" id="f-' . $friends[$i]['id'] . '" value="' . attribute_escape( $friends[$i]['id'] ) . '" /> ' . $friends[$i]['full_name'] . '</' . $separator . '>';
+				$items[] = '<' . $separator . '><input' . $checked . ' type="checkbox" name="friends[]" id="f-' . $friends[$i]['id'] . '" value="' . esc_attr( $friends[$i]['id'] ) . '" /> ' . $friends[$i]['full_name'] . '</' . $separator . '>';
 			}
 		}
 
@@ -1704,7 +1704,7 @@ function bp_directory_groups_search_form() {
 
 ?>
 	<form action="" method="get" id="search-groups-form">
-		<label><input type="text" name="s" id="groups_search" value="<?php echo attribute_escape($search_value) ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
+		<label><input type="text" name="s" id="groups_search" value="<?php echo esc_attr($search_value) ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
 		<input type="submit" id="groups_search_submit" name="groups_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
 	</form>
 <?php
@@ -1771,7 +1771,7 @@ function bp_group_current_avatar() {
 	global $bp;
 
 	if ( $bp->groups->current_group->avatar_full ) { ?>
-		<img src="<?php echo attribute_escape( $bp->groups->current_group->avatar_full ) ?>" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" class="avatar" />
+		<img src="<?php echo esc_attr( $bp->groups->current_group->avatar_full ) ?>" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" class="avatar" />
 	<?php } else { ?>
 		<img src="<?php echo $bp->groups->image_base . '/none.gif' ?>" alt="<?php _e( 'No Group Avatar', 'buddypress' ) ?>" class="avatar" />
 	<?php }

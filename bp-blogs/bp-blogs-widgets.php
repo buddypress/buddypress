@@ -77,7 +77,7 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 		$max_posts = strip_tags( $instance['max_posts'] );
 		?>
 
-		<p><label for="bp-blogs-widget-posts-max"><?php _e('Max posts to show:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_posts' ); ?>" name="<?php echo $this->get_field_name( 'max_posts' ); ?>" type="text" value="<?php echo attribute_escape( $max_posts ); ?>" style="width: 30%" /></label></p>
+		<p><label for="bp-blogs-widget-posts-max"><?php _e('Max posts to show:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_posts' ); ?>" name="<?php echo $this->get_field_name( 'max_posts' ); ?>" type="text" value="<?php echo esc_attr( $max_posts ); ?>" style="width: 30%" /></label></p>
 	<?php
 	}
 }

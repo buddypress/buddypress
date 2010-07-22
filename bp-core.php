@@ -1374,7 +1374,7 @@ function bp_core_render_message() {
 		$type = ( 'success' == $bp->template_message_type ) ? 'updated' : 'error';
 	?>
 		<div id="message" class="<?php echo $type; ?>">
-			<p><?php echo stripslashes( attribute_escape( $bp->template_message ) ); ?></p>
+			<p><?php echo stripslashes( esc_attr( $bp->template_message ) ); ?></p>
 		</div>
 	<?php
 		do_action( 'bp_core_render_message' );

@@ -1136,7 +1136,7 @@ class BP_Group_Extension {
 
 		/* Construct the admin edit tab for the new group extension */
 		if ( $this->enable_edit_item ) {
-			add_action( 'groups_admin_tabs', create_function( '$current, $group_slug', 'if ( "' . attribute_escape( $this->slug ) . '" == $current ) $selected = " class=\"current\""; echo "<li{$selected}><a href=\"' . $bp->root_domain . '/' . $bp->groups->slug . '/{$group_slug}/admin/' . attribute_escape( $this->slug ) . '\">' . attribute_escape( $this->name ) . '</a></li>";' ), 10, 2 );
+			add_action( 'groups_admin_tabs', create_function( '$current, $group_slug', 'if ( "' . esc_attr( $this->slug ) . '" == $current ) $selected = " class=\"current\""; echo "<li{$selected}><a href=\"' . $bp->root_domain . '/' . $bp->groups->slug . '/{$group_slug}/admin/' . esc_attr( $this->slug ) . '\">' . esc_attr( $this->name ) . '</a></li>";' ), 10, 2 );
 
 			/* Catch the edit screen and forward it to the plugin template */
 			if ( $bp->current_component == $bp->groups->slug && 'admin' == $bp->current_action && $this->slug == $bp->action_variables[0] ) {
@@ -1161,8 +1161,8 @@ class BP_Group_Extension {
 
 				/* When we are viewing the extension display page, set the title and options title */
 				if ( $bp->current_component == $bp->groups->slug && $bp->is_single_item && $bp->current_action == $this->slug ) {
-					add_action( 'bp_template_content_header', create_function( '', 'echo "' . attribute_escape( $this->name ) . '";' ) );
-			 		add_action( 'bp_template_title', create_function( '', 'echo "' . attribute_escape( $this->name ) . '";' ) );
+					add_action( 'bp_template_content_header', create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
+			 		add_action( 'bp_template_title', create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
 				}
 			}
 

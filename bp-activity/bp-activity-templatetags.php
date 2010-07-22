@@ -767,7 +767,7 @@ function bp_activity_filter_links( $args = false ) {
 			else
 				unset($selected);
 
-			$component = attribute_escape( $component );
+			$component = esc_attr( $component );
 
 			switch ( $style ) {
 				case 'list':
@@ -795,13 +795,13 @@ function bp_activity_filter_links( $args = false ) {
 			/* Make sure all core internal component names are translatable */
 			$translatable_components = array( __( 'profile', 'buddypress'), __( 'friends', 'buddypress' ), __( 'groups', 'buddypress' ), __( 'status', 'buddypress' ), __( 'blogs', 'buddypress' ) );
 
-			$component_links[] = $before . '<a href="' . attribute_escape( $link ) . '">' . ucwords( __( $component, 'buddypress' ) ) . '</a>' . $after;
+			$component_links[] = $before . '<a href="' . esc_attr( $link ) . '">' . ucwords( __( $component, 'buddypress' ) ) . '</a>' . $after;
 		}
 
 		$link = remove_query_arg( 'afilter' , $link );
 
 		if ( isset( $_GET['afilter'] ) )
-			$component_links[] = '<' . $tag . ' id="afilter-clear"><a href="' . attribute_escape( $link ) . '"">' . __( 'Clear Filter', 'buddypress' ) . '</a></' . $tag . '>';
+			$component_links[] = '<' . $tag . ' id="afilter-clear"><a href="' . esc_attr( $link ) . '"">' . __( 'Clear Filter', 'buddypress' ) . '</a></' . $tag . '>';
 
  		return apply_filters( 'bp_get_activity_filter_links', implode( "\n", $component_links ) );
 	}

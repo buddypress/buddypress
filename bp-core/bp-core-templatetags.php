@@ -412,7 +412,7 @@ function bp_member_registered() {
 	function bp_get_member_registered() {
 		global $members_template;
 
-		$registered = attribute_escape( bp_core_get_last_activity( $members_template->member->user_registered, __( 'registered %s ago', 'buddypress' ) ) );
+		$registered = esc_attr( bp_core_get_last_activity( $members_template->member->user_registered, __( 'registered %s ago', 'buddypress' ) ) );
 
 		return apply_filters( 'bp_member_last_active', $registered );
 	}
@@ -456,15 +456,15 @@ function bp_member_random_profile_data() {
 
 function bp_member_hidden_fields() {
 	if ( isset( $_REQUEST['s'] ) ) {
-		echo '<input type="hidden" id="search_terms" value="' . attribute_escape( $_REQUEST['s'] ) . '" name="search_terms" />';
+		echo '<input type="hidden" id="search_terms" value="' . esc_attr( $_REQUEST['s'] ) . '" name="search_terms" />';
 	}
 
 	if ( isset( $_REQUEST['letter'] ) ) {
-		echo '<input type="hidden" id="selected_letter" value="' . attribute_escape( $_REQUEST['letter'] ) . '" name="selected_letter" />';
+		echo '<input type="hidden" id="selected_letter" value="' . esc_attr( $_REQUEST['letter'] ) . '" name="selected_letter" />';
 	}
 
 	if ( isset( $_REQUEST['members_search'] ) ) {
-		echo '<input type="hidden" id="search_terms" value="' . attribute_escape( $_REQUEST['members_search'] ) . '" name="search_terms" />';
+		echo '<input type="hidden" id="search_terms" value="' . esc_attr( $_REQUEST['members_search'] ) . '" name="search_terms" />';
 	}
 }
 
@@ -477,7 +477,7 @@ function bp_directory_members_search_form() {
 
 	?>
 	<form action="" method="get" id="search-members-form">
-		<label><input type="text" name="s" id="members_search" value="<?php echo attribute_escape( $search_value ) ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
+		<label><input type="text" name="s" id="members_search" value="<?php echo esc_attr( $search_value ) ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
 		<input type="submit" id="members_search_submit" name="members_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
 	</form>
 <?php
@@ -625,7 +625,7 @@ function bp_get_options_title() {
 	if ( empty( $bp->bp_options_title ) )
 		$bp->bp_options_title = __( 'Options', 'buddypress' );
 
-	echo apply_filters( 'bp_get_options_title', attribute_escape( $bp->bp_options_title ) );
+	echo apply_filters( 'bp_get_options_title', esc_attr( $bp->bp_options_title ) );
 }
 
 

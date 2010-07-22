@@ -2,7 +2,7 @@
 
 /* Apply WordPress defined filters */
 add_filter( 'bp_forums_bbconfig_location', 'wp_filter_kses', 1 );
-add_filter( 'bp_forums_bbconfig_location', 'attribute_escape', 1 );
+add_filter( 'bp_forums_bbconfig_location', 'esc_attr', 1 );
 
 add_filter( 'bp_get_the_topic_title', 'wp_filter_kses', 1 );
 add_filter( 'bp_get_the_topic_latest_post_excerpt', 'bp_forums_filter_kses', 1 );

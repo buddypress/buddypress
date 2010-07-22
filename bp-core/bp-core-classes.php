@@ -60,14 +60,14 @@ class BP_Core_User {
 
 		if ( $this->profile_data ) {
 			$this->user_url = bp_core_get_user_domain( $this->id, $this->profile_data['user_nicename'], $this->profile_data['user_login'] );
-			$this->fullname = attribute_escape( $this->profile_data[BP_XPROFILE_FULLNAME_FIELD_NAME]['field_data'] );
+			$this->fullname = esc_attr( $this->profile_data[BP_XPROFILE_FULLNAME_FIELD_NAME]['field_data'] );
 			$this->user_link = "<a href='{$this->user_url}' title='{$this->fullname}'>{$this->fullname}</a>";
-			$this->email = attribute_escape( $this->profile_data['user_email'] );
+			$this->email = esc_attr( $this->profile_data['user_email'] );
 		} else {
 			$this->user_url = bp_core_get_user_domain( $this->id );
 			$this->user_link = bp_core_get_userlink( $this->id );
-			$this->fullname = attribute_escape( bp_core_get_user_displayname( $this->id ) );
-			$this->email = attribute_escape( bp_core_get_user_email( $this->id ) );
+			$this->fullname = esc_attr( bp_core_get_user_displayname( $this->id ) );
+			$this->email = esc_attr( bp_core_get_user_email( $this->id ) );
 		}
 
 		/* Cache a few things that are fetched often */

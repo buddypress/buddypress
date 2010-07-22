@@ -267,15 +267,15 @@ function bp_blog_latest_post() {
 
 function bp_blog_hidden_fields() {
 	if ( isset( $_REQUEST['s'] ) ) {
-		echo '<input type="hidden" id="search_terms" value="' . attribute_escape( $_REQUEST['s'] ). '" name="search_terms" />';
+		echo '<input type="hidden" id="search_terms" value="' . esc_attr( $_REQUEST['s'] ). '" name="search_terms" />';
 	}
 
 	if ( isset( $_REQUEST['letter'] ) ) {
-		echo '<input type="hidden" id="selected_letter" value="' . attribute_escape( $_REQUEST['letter'] ) . '" name="selected_letter" />';
+		echo '<input type="hidden" id="selected_letter" value="' . esc_attr( $_REQUEST['letter'] ) . '" name="selected_letter" />';
 	}
 
 	if ( isset( $_REQUEST['blogs_search'] ) ) {
-		echo '<input type="hidden" id="search_terms" value="' . attribute_escape( $_REQUEST['blogs_search'] ) . '" name="search_terms" />';
+		echo '<input type="hidden" id="search_terms" value="' . esc_attr( $_REQUEST['blogs_search'] ) . '" name="search_terms" />';
 	}
 }
 

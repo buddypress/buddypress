@@ -345,7 +345,7 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 		/* Record this in activity streams */
 		bp_blogs_record_activity( array(
 			'user_id' => $recorded_blog->user_id,
-			'action' => apply_filters( 'bp_blogs_activity_created_blog_action', sprintf( __( '%s created the blog %s', 'buddypress'), bp_core_get_userlink( $recorded_blog->user_id ), '<a href="' . get_blog_option( $recorded_blog->blog_id, 'siteurl' ) . '">' . attribute_escape( $name ) . '</a>' ), &$recorded_blog, $name, $description ),
+			'action' => apply_filters( 'bp_blogs_activity_created_blog_action', sprintf( __( '%s created the blog %s', 'buddypress'), bp_core_get_userlink( $recorded_blog->user_id ), '<a href="' . get_blog_option( $recorded_blog->blog_id, 'siteurl' ) . '">' . esc_attr( $name ) . '</a>' ), &$recorded_blog, $name, $description ),
 			'primary_link' => apply_filters( 'bp_blogs_activity_created_blog_primary_link', get_blog_option( $recorded_blog->blog_id, 'siteurl' ), $recorded_blog->blog_id ),
 			'type' => 'new_blog',
 			'item_id' => $recorded_blog->blog_id

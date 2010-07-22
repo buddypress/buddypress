@@ -189,17 +189,17 @@ Class BP_XProfile_Group {
 				</div>
 			<?php } ?>
 
-			<form action="<?php echo attribute_escape( $action ); ?>" method="post">
+			<form action="<?php echo esc_attr( $action ); ?>" method="post">
 
 				<div id="titlediv">
 					<label for="group_name"><?php _e( "Field Group Name", 'buddypress') ?></label>
 					<div>
-						<input type="text" name="group_name" id="group_name" value="<?php echo attribute_escape( $this->name ) ?>" style="width:50%" />
+						<input type="text" name="group_name" id="group_name" value="<?php echo esc_attr( $this->name ) ?>" style="width:50%" />
 					</div>
 				</div>
 
 				<p class="submit" style="text-align: left">
-					<input type="submit" name="saveGroup" value="<?php echo attribute_escape( $title ); ?> &rarr;" />
+					<input type="submit" name="saveGroup" value="<?php echo esc_attr( $title ); ?> &rarr;" />
 				</p>
 
 			</form>
@@ -527,7 +527,7 @@ Class BP_XProfile_Field {
 							$default_name = '[' . $j . ']';
 					?>
 						<p><?php _e('Option', 'buddypress') ?> <?php echo $j ?>:
-						   <input type="text" name="<?php echo $type ?>_option[<?php echo $j ?>]" id="<?php echo $type ?>_option<?php echo $j ?>" value="<?php echo attribute_escape( $options[$i]->name ) ?>" />
+						   <input type="text" name="<?php echo $type ?>_option[<?php echo $j ?>]" id="<?php echo $type ?>_option<?php echo $j ?>" value="<?php echo esc_attr( $options[$i]->name ) ?>" />
 						   <input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name ?>" <?php if ( (int) $options[$i]->is_default_option ) {?> checked="checked"<?php } ?> " value="<?php echo $j ?>" /> <?php _e( 'Default Value', 'buddypress' ) ?>
 							<?php if ( $j != 1 &&
 								$options[$i]->id != -1 ) : ?><a href="admin.php?page=bp-profile-setup&amp;mode=delete_option&amp;option_id=<?php echo $options[$i]->id ?>" class="ajax-option-delete" id="delete-<?php echo $options[$i]->id ?>">[x]</a><?php endif ?></p>
@@ -587,7 +587,7 @@ Class BP_XProfile_Field {
 				<div id="titlediv">
 					<h3><label for="title"><?php _e("Field Title", 'buddypress') ?> *</label></h3>
 					<div id="titlewrap">
-						<input type="text" name="title" id="title" value="<?php echo attribute_escape( $this->name ) ?>" style="width:50%" />
+						<input type="text" name="title" id="title" value="<?php echo esc_attr( $this->name ) ?>" style="width:50%" />
 					</div>
 				</div>
 
