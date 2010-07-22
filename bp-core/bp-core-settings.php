@@ -24,8 +24,7 @@ function bp_core_add_settings_nav() {
 	if ( !is_site_admin() && !(int) $bp->site_options['bp-disable-account-deletion'] )
 		bp_core_new_subnav_item( array( 'name' => __( 'Delete Account', 'buddypress' ), 'slug' => 'delete-account', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_delete_account', 'position' => 90, 'user_has_access' => bp_is_my_profile() ) );
 }
-add_action( 'wp', 'bp_core_add_settings_nav', 2 );
-add_action( 'admin_menu', 'bp_core_add_settings_nav', 2 );
+add_action( 'bp_setup_nav', 'bp_core_add_settings_nav' );
 
 /**** GENERAL SETTINGS ****/
 
