@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-07-22 13:13+0000\n"
+"POT-Creation-Date: 2010-08-01 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -383,7 +383,7 @@ msgstr ""
 msgid "%s wrote a new blog post: %s"
 msgstr ""
 
-#: bp-blogs.php:480
+#: bp-blogs.php:481
 #, php-format
 msgid "%s commented on the blog post %s"
 msgstr ""
@@ -639,20 +639,21 @@ msgid "sometime"
 msgstr ""
 
 #: bp-core.php:1457
-msgid ",|Separator in time since"
+msgctxt "Separator in time since"
+msgid ","
 msgstr ""
 
 #: bp-core.php:1512
 msgid "not recently active"
 msgstr ""
 
-#: bp-core.php:1975
+#: bp-core.php:1977
 msgid ""
 "IMPORTANT: <a href=\"http://codex.buddypress.org/getting-started/upgrading-"
 "from-10x/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core.php:2004
+#: bp-core.php:2006
 #, php-format
 msgid ""
 "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update "
@@ -660,7 +661,7 @@ msgid ""
 "work."
 msgstr ""
 
-#: bp-core.php:2013
+#: bp-core.php:2015
 #, php-format
 msgid ""
 "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a "
