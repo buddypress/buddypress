@@ -1550,8 +1550,10 @@ function bp_core_get_all_posts_for_user( $user_id = null ) {
  * Get the path of of the current site.
  *
  * @package BuddyPress Core
- * @global $comment WordPress comment global for the current comment.
- * @uses bp_core_get_userlink_by_email() Fetches a userlink via email address.
+ *
+ * @global $bp $bp
+ * @global object $current_site
+ * @return string
  */
 function bp_core_get_site_path() {
 	global $bp, $current_site;
