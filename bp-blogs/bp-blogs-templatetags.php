@@ -344,7 +344,7 @@ function bp_show_blog_signup_form($blogname = '', $blog_title = '', $errors = ''
 		<form class="standard-form" id="setupform" method="post" action="">
 
 			<input type="hidden" name="stage" value="gimmeanotherblog" />
-			<?php do_action( "signup_hidden_fields" ); ?>
+			<?php do_action( 'signup_hidden_fields' ); ?>
 
 			<?php bp_blogs_signup_blog($blogname, $blog_title, $errors); ?>
 			<p>
