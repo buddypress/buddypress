@@ -439,10 +439,11 @@ add_action( 'save_post', 'bp_blogs_record_post', 10, 2 );
  *
  * @global object $wpdb
  * @global $bp $bp
- * @param <type> $comment_id
- * @param <type> $is_approved
- * @return <type>
+ * @param int $comment_id
+ * @param bool $is_approved
+ * @return mixed
  */
+
 function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 	global $wpdb, $bp;
 
@@ -450,7 +451,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 	$recorded_comment = get_comment( $comment_id );
 
 	// Don't record activity if the comment hasn't been approved
-	if ( !$is_approved || true != $recorded_comment->comment_approved )
+	if ( !$is_approved || !$recorded_comment->comment_approved )
 		return false;
 
 	// Get blog and post data
@@ -462,7 +463,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 	$user_id = (int)$user->ID;
 
 	// If there's no registered user id, don't record activity
-	if ( !$user_id )
+	if ( empty( $user_id ) )
 		return false;
 
 	// If this is a password protected post, don't record the comment
@@ -473,23 +474,23 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 	if ( get_blog_option( $blog_id, 'blog_public' ) ) {
 
 		// Get activity related links
-		$post_permalink		= get_permalink( $recorded_comment->comment_post_ID );
-		$comment_link		= htmlspecialchars( get_comment_link( $recorded_comment->comment_ID ) );
+		$post_permalink = get_permalink( $recorded_comment->comment_post_ID );
+		$comment_link   = htmlspecialchars( get_comment_link( $recorded_comment->comment_ID ) );
 
 		// Prepare to record in activity streams
-		$activity_action	= sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $post_permalink . '">' . $recorded_comment->post->post_title . '</a>' );
+		$activity_action	= sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $post_permalink . '">' . apply_filters( 'the_title', $recorded_comment->post->post_title ) . '</a>' );
 		$activity_content	= $recorded_comment->comment_content;
 
 		// Record in activity streams
 		bp_blogs_record_activity( array(
-			'user_id'			=> $user_id,
-			'action'			=> apply_filters( 'bp_blogs_activity_new_comment_action', $activity_action, &$recorded_comment, $comment_link ),
-			'content'			=> apply_filters( 'bp_blogs_activity_new_comment_content', $activity_content, &$recorded_comment, $comment_link ),
-			'primary_link'		=> apply_filters( 'bp_blogs_activity_new_comment_primary_link', $comment_link, &$recorded_comment ),
-			'type'				=> 'new_blog_comment',
-			'item_id'			=> $blog_id,
-			'secondary_item_id'	=> $comment_id,
-			'recorded_time'		=> $recorded_comment->comment_date_gmt
+			'user_id'           => $user_id,
+			'action'            => apply_filters( 'bp_blogs_activity_new_comment_action', $activity_action, &$recorded_comment, $comment_link ),
+			'content'           => apply_filters( 'bp_blogs_activity_new_comment_content', $activity_content, &$recorded_comment, $comment_link ),
+			'primary_link'      => apply_filters( 'bp_blogs_activity_new_comment_primary_link', $comment_link, &$recorded_comment ),
+			'type'              => 'new_blog_comment',
+			'item_id'           => $blog_id,
+			'secondary_item_id' => $comment_id,
+			'recorded_time'     => $recorded_comment->comment_date_gmt
 		) );
 
 		// Update the blogs last active date
