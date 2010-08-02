@@ -1296,9 +1296,9 @@ function bp_core_is_user_deleted( $user_id ) {
  * @package BuddyPress Core
  * @since 1.2.6
  */
-function bp_core_current_time() {
+function bp_core_current_time( $gmt = true ) {
 	// Get current time in MYSQL format
-	$current_time = current_time( 'mysql', true );
+	$current_time = current_time( 'mysql', $gmt );
 
 	return apply_filters( 'bp_core_current_time', $current_time );
 }
