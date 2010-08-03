@@ -425,8 +425,8 @@ function messages_new_message( $args = '' ) {
 		$message->recipients = $thread->get_recipients();
 
 		// Strip the sender from the recipient list if they exist
-		if ( $key = array_search( $sender_id, $message->recipients ) )
-			unset( $message->recipients[$key] );
+		if ( isset( $message->recipients[$sender_id] ) )
+			unset( $message->recipients[$sender_id] );
 
 		if ( empty( $message->subject ) )
 			$message->subject = sprintf( __( 'Re: %s', 'buddypress' ), $thread->messages[0]->subject );
