@@ -245,6 +245,21 @@ function bp_message_thread_delete_link() {
 		return apply_filters( 'bp_get_message_thread_delete_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action . '/delete/' . $messages_template->thread->thread_id, 'messages_delete_thread' ) );
 	}
 
+function bp_message_css_class() {
+	echo bp_get_message_css_class();
+}
+
+	function bp_get_message_css_class() {
+		global $messages_template;
+
+		$class = false;
+
+		if ( $messages_template->current_thread % 2 == 1 )
+			$class .= 'alt';
+
+		return apply_filters( 'bp_get_message_css_class', trim( $class ) );
+	}
+
 function bp_message_thread_has_unread() {
 	global $messages_template;
 
