@@ -29,7 +29,7 @@ function bp_core_is_multisite() {
  *
  * Checks if current blog is root blog of site
  *
- * @since 1,2,6
+ * @since 1.2.6
  * @package BuddyPress
  *
  * @param int $blog_id optional blog id to test (default current blog)
