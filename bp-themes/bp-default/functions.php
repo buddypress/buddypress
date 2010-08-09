@@ -65,7 +65,6 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 			</div>
 
 		</div>
-	</li>
 <?php
 }
 
