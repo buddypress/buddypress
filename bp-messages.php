@@ -154,17 +154,17 @@ function messages_screen_compose() {
 	// Remove any saved message data from a previous session.
 	messages_remove_callback_values();
 
-	/* Check if the message form has been submitted */
+	// Check if the message form has been submitted
 	if ( isset( $_POST['send'] ) ) {
 
-		/* Check the nonce */
+		// Check the nonce
 		check_admin_referer( 'messages_send_message' );
 
-		/* Check we have what we need */
+		// Check we have what we need
 		if ( empty( $_POST['subject'] ) || empty( $_POST['content'] ) ) {
 			bp_core_add_message( __( 'There was an error sending that message, please try again', 'buddypress' ), 'error' );
 		} else {
-			/* If this is a notice, send it */
+			// If this is a notice, send it
 			if ( isset( $_POST['send-notice'] ) ) {
 				if ( messages_send_notice( $_POST['subject'], $_POST['content'] ) ) {
 					bp_core_add_message( __( 'Notice sent successfully!', 'buddypress' ) );
@@ -173,12 +173,13 @@ function messages_screen_compose() {
 					bp_core_add_message( __( 'There was an error sending that notice, please try again', 'buddypress' ), 'error' );
 				}
 			} else {
-				/* Filter recipients into the format we need - array( 'username/userid', 'username/userid' ) */
+				// Filter recipients into the format we need - array( 'username/userid', 'username/userid' )
 				$autocomplete_recipients = explode( ',', $_POST['send-to-input'] );
-				$typed_recipients = explode( ' ', $_POST['send_to_usernames'] );
-				$recipients = array_merge( (array) $autocomplete_recipients, (array) $typed_recipients );
+				$typed_recipients        = explode( ' ', $_POST['send_to_usernames'] );
+				$recipients              = array_merge( (array) $autocomplete_recipients, (array) $typed_recipients );
+				$recipients              = apply_filters( 'bp_messages_recipients', $recipients );
 
-				/* Send the message */
+				// Send the message
 				if ( $thread_id = messages_new_message( array( 'recipients' => $recipients, 'subject' => $_POST['subject'], 'content' => $_POST['content'] ) ) ) {
 					bp_core_add_message( __( 'Message sent successfully!', 'buddypress' ) );
 					bp_core_redirect( $bp->loggedin_user->domain . $bp->messages->slug . '/view/' . $thread_id . '/' );
@@ -187,7 +188,6 @@ function messages_screen_compose() {
 				}
 			}
 		}
-
 	}
 
 	do_action( 'messages_screen_compose' );
