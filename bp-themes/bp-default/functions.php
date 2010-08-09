@@ -139,6 +139,23 @@ function bp_dtheme_fix_the_posts_on_activity_front( $posts ) {
 }
 add_filter( 'the_posts', 'bp_dtheme_fix_the_posts_on_activity_front' );
 
+function bp_dtheme_activity_secondary_avatars( $action, $activity ) {
+	global $bp;
+
+	switch ( $activity->component ) {
+		case $bp->groups->id :
+		case $bp->blogs->id :
+		case $bp->friends->id :
+			$reverse_content = strrev( $action );
+			$position        = strpos( $reverse_content, 'a<' );
+			$action          = substr_replace( $action, bp_get_activity_secondary_avatar(), -$position - 2, 0 );
+			break;
+	}
+
+	return $action;
+}
+add_filter( 'bp_get_activity_action_pre_meta', 'bp_dtheme_activity_secondary_avatars', 10, 2 );
+
 /****
  * Custom header image support. You can remove this entirely in a child theme by adding this line
  * to your functions.php: define( 'BP_DTHEME_DISABLE_CUSTOM_HEADER', true );
