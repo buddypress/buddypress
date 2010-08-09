@@ -1180,6 +1180,21 @@ add_action( 'wpmu_delete_user', 'bp_activity_remove_data' );
 add_action( 'delete_user', 'bp_activity_remove_data' );
 add_action( 'make_spam_user', 'bp_activity_remove_data' );
 
+/**
+ * updates_register_activity_actions()
+ * 
+ * Register the activity stream actions for updates
+ * 
+ * @global array $bp
+ */
+function updates_register_activity_actions() {
+	global $bp;
+
+	bp_activity_set_action( $bp->activity->id, 'activity_update', __( 'Posted an update', 'buddypress' ) );
+
+	do_action( 'updates_register_activity_actions' );
+}
+add_action( 'bp_register_activity_actions', 'updates_register_activity_actions' );
 
 /********************************************************************************
  * Custom Actions
