@@ -135,16 +135,17 @@ function bp_add_friend_button( $potential_friend_id = false, $friend_status = fa
 			$friend_status = friends_check_friendship_status( $bp->loggedin_user->id, $potential_friend_id );
 
 		$button = '<div class="generic-button friendship-button ' . $friend_status . '" id="friendship-button-' . $potential_friend_id . '">';
-		if ( 'pending' == $friend_status ) {
+
+		if ( 'pending' == $friend_status )
 			$button .= '<a class="requested" href="' . $bp->loggedin_user->domain . $bp->friends->slug . '/">' . __( 'Friendship Requested', 'buddypress' ) . '</a>';
-		} else if ( 'is_friend' == $friend_status ) {
+		else if ( 'is_friend' == $friend_status )
 			$button .= '<a href="' . wp_nonce_url( $bp->loggedin_user->domain . $bp->friends->slug . '/remove-friend/' . $potential_friend_id . '/', 'friends_remove_friend' ) . '" title="' . __('Cancel Friendship', 'buddypress') . '" id="friend-' . $potential_friend_id . '" rel="remove" class="remove">' . __('Cancel Friendship', 'buddypress') . '</a>';
-		} else {
+		else
 			$button .= '<a href="' . wp_nonce_url( $bp->loggedin_user->domain . $bp->friends->slug . '/add-friend/' . $potential_friend_id . '/', 'friends_add_friend' ) . '" title="' . __('Add Friend', 'buddypress') . '" id="friend-' . $potential_friend_id . '" rel="add" class="add">' . __('Add Friend', 'buddypress') . '</a>';
-		}
+
 		$button .= '</div>';
 
-		return apply_filters( 'bp_get_add_friend_button', $button );
+		return apply_filters( 'bp_get_add_friend_button', $button, $potential_friend_id, $friend_status );
 	}
 
 function bp_get_friend_ids( $user_id = false ) {
