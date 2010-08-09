@@ -394,43 +394,112 @@ function bp_activity_user_link() {
 		return apply_filters( 'bp_get_activity_user_link', $link );
 	}
 
+/**
+ * bp_activity_avatar( $args )
+ *
+ * Output the avatar of the user that performed the action
+ *
+ * @param array $args
+ */
 function bp_activity_avatar( $args = '' ) {
 	echo bp_get_activity_avatar( $args );
 }
+	/**
+	 * bp_get_activity_avatar( $args )
+	 *
+	 * Return the avatar of the user that performed the action
+	 *
+	 * @global array $bp
+	 * @global object $activities_template
+	 * @param array $args optional
+	 * @return string
+	 */
 	function bp_get_activity_avatar( $args = '' ) {
 		global $bp, $activities_template;
 
 		$defaults = array(
-			'type' => 'thumb',
-			'width' => 20,
+			'type'   => 'thumb',
+			'width'  => 20,
 			'height' => 20,
-			'class' => 'avatar',
-			'alt' => __( 'Avatar', 'buddypress' ),
-			'email' => false
+			'class'  => 'avatar',
+			'alt'    => __( 'Avatar', 'buddypress' ),
+			'email'  => false
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		$item_id = false;
-		if ( (int)$activities_template->activity->user_id )
-			$item_id = $activities_template->activity->user_id;
-		else if ( $activities_template->activity->item_id )
-			$item_id = $activities_template->activity->item_id;
+		// Primary activity avatar is always a user, but can be modified via a filter
+		$object  = apply_filters( 'bp_get_activity_avatar_object_' . $activities_template->activity->component, 'user' );
+		$item_id = apply_filters( 'bp_get_activity_avatar_item_id', $activities_template->activity->user_id );
 
-		$object = 'user';
-		if ( $bp->groups->id == $activities_template->activity->component && !(int) $activities_template->activity->user_id )
-			$object = 'group';
-		if ( $bp->blogs->id == $activities_template->activity->component && !(int) $activities_template->activity->user_id )
-			$object = 'blog';
-
-		$object = apply_filters( 'bp_get_activity_avatar_object_' . $activities_template->activity->component, $object );
-
-		/* If this is a user object pass the users' email address for Gravatar so we don't have to refetch it. */
-		if ( 'user' == $object && empty($email) )
+		// If this is a user object pass the users' email address for Gravatar so we don't have to refetch it.
+		if ( 'user' == $object && empty( $email ) )
 			$email = $activities_template->activity->user_email;
 
 		return apply_filters( 'bp_get_activity_avatar', bp_core_fetch_avatar( array( 'item_id' => $item_id, 'object' => $object, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height, 'email' => $email ) ) );
+	}
+
+/**
+ * bp_activity_secondary_avatar( $args )
+ *
+ * Output the avatar of the object that action was performed on
+ *
+ * @param array $args optional
+ */
+function bp_activity_secondary_avatar( $args = '' ) {
+	echo bp_get_activity_secondary_avatar( $args );
+}
+	/**
+	 * bp_get_activity_secondary_avatar( $args )
+	 *
+	 * Return the avatar of the object that action was performed on
+	 *
+	 * @global array $bp
+	 * @global object $activities_template
+	 * @param array $args optional
+	 * @return string
+	 */
+	function bp_get_activity_secondary_avatar( $args = '' ) {
+		global $bp, $activities_template;
+
+		$defaults = array(
+			'type'   => 'thumb',
+			'width'  => 20,
+			'height' => 20,
+			'class'  => 'avatar',
+			'alt'    => __( 'Avatar', 'buddypress' ),
+			'email'  => false
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		// Set item_id and object (default to user)
+		switch ( $activities_template->activity->component ) {
+			case $bp->groups->id :
+				$object = 'group';
+				$item_id = $activities_template->activity->item_id;
+				break;
+			case $bp->blogs->id :
+				$object = 'blog';
+				$item_id = $activities_template->activity->item_id;
+				break;
+			default :
+				$object  = 'user';
+				$item_id = $activities_template->activity->user_id;
+				break;
+		}
+
+		// Allow object and item_id to be filtered
+		$object  = apply_filters( 'bp_get_activity_secondary_avatar_object_' . $activities_template->activity->component, $object );
+		$item_id = apply_filters( 'bp_get_activity_secondary_avatar_item_id', $item_id );
+
+		// Used for any user to user activity
+		if ( 'user' == $object && empty( $email ) )
+			$email = $activities_template->activity->user_email;
+
+		return apply_filters( 'bp_get_activity_secondary_avatar', bp_core_fetch_avatar( array( 'item_id' => $item_id, 'object' => $object, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height, 'email' => $email ) ) );
 	}
 
 function bp_activity_action() {
