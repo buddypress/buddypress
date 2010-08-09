@@ -510,6 +510,8 @@ function bp_activity_action() {
 
 		$action = $activities_template->activity->action;
 
+		$action = apply_filters( 'bp_get_activity_action_pre_meta', $action, &$activities_template->activity );
+
 		if ( !empty( $action ) )
 			$action = bp_insert_activity_meta( $action );
 
