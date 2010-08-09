@@ -24,6 +24,29 @@ function bp_core_is_multisite() {
 	return true;
 }
 
+/**
+ * bp_core_is_main_site
+ *
+ * Checks if current blog is root blog of site
+ *
+ * @since 1,2,6
+ * @package BuddyPress
+ *
+ * @param int $blog_id optional blog id to test (default current blog)
+ * @return bool True if not multisite or $blog_id is main site
+ */
+function bp_core_is_main_site( $blog_id = '' ) {
+	global $current_site, $current_blog;
+
+	if ( !bp_core_is_multisite() )
+		return true;
+
+	if ( empty( $blog_id ) )
+		$blog_id = $current_blog->blog_id;
+
+	return $blog_id == $current_site->blog_id;
+}
+
 function bp_core_get_status_sql( $prefix = false ) {
 	if ( !bp_core_is_multisite() )
 		return "{$prefix}user_status = 0";

@@ -1532,7 +1532,14 @@ function bp_is_front_page() {
 }
 
 function bp_is_activity_front_page() {
-	return ( 'page' == get_option('show_on_front') && 'activity' == get_option('page_on_front') && $_SERVER['REQUEST_URI'] == bp_core_get_site_path() );
+	global $current_blog;
+
+	if ( bp_core_is_main_site() )
+		$path = bp_core_get_site_path();
+	else
+		$path = $current_blog->path;
+
+	return ( 'page' == get_option('show_on_front') && 'activity' == get_option('page_on_front') && $_SERVER['REQUEST_URI'] == $path );
 }
 
 function bp_is_directory() {
