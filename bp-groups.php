@@ -1962,10 +1962,10 @@ function groups_update_group_forum( $group_id ) {
 		return false;
 
 	$args = array(
-		'forum_id'		=> groups_get_groupmeta( $group, 'forum_id' ),
-		'forum_name'	=> $group->name,
-		'forum_desc'	=> $group->desc,
-		'forum_slug'	=> $group->slug
+		'forum_id'      => groups_get_groupmeta( $group_id, 'forum_id' ),
+		'forum_name'    => $group->name,
+		'forum_desc'    => $group->desc,
+		'forum_slug'    => $group->slug
 	);
 
 	bp_forums_update_forum( apply_filters( 'groups_update_group_forum', $args ) );
