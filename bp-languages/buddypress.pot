@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-08-03 13:13+0000\n"
+"POT-Creation-Date: 2010-08-10 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -149,6 +149,10 @@ msgstr ""
 msgid "Thumbnail"
 msgstr ""
 
+#: bp-activity.php:1193
+msgid "Posted an update"
+msgstr ""
+
 #: bp-activity/bp-activity-notifications.php:31
 #, php-format
 msgid "%s mentioned you in an update"
@@ -222,68 +226,69 @@ msgstr ""
 msgid "Viewing item %1$s to %2$s (of %3$s items)"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:408 bp-groups.php:91
+#: bp-activity/bp-activity-templatetags.php:425
+#: bp-activity/bp-activity-templatetags.php:471 bp-groups.php:91
 msgid "Avatar"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:496
+#: bp-activity/bp-activity-templatetags.php:572
 #, php-format
 msgid "&nbsp; %s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:499
+#: bp-activity/bp-activity-templatetags.php:575
 #: bp-themes/bp-default/activity/entry.php:46
 msgid "View Thread / Permalink"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:499
-#: bp-activity/bp-activity-templatetags.php:736
+#: bp-activity/bp-activity-templatetags.php:575
+#: bp-activity/bp-activity-templatetags.php:812
 #: bp-core/bp-core-templatetags.php:379
 #: bp-themes/bp-default/activity/entry.php:46
 msgid "View"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:579
+#: bp-activity/bp-activity-templatetags.php:655
 #: bp-themes/bp-default/_inc/ajax.php:190
 #, php-format
 msgid "%s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:583
+#: bp-activity/bp-activity-templatetags.php:659
 #: bp-themes/bp-default/_inc/ajax.php:191
 #: bp-themes/bp-default/activity/entry.php:28
 msgid "Reply"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:587
-#: bp-activity/bp-activity-templatetags.php:720
+#: bp-activity/bp-activity-templatetags.php:663
+#: bp-activity/bp-activity-templatetags.php:796
 #: bp-forums/bp-forums-templatetags.php:961
 #: bp-themes/bp-default/_inc/ajax.php:192 bp-xprofile/bp-xprofile-admin.php:68
 #: bp-xprofile/bp-xprofile-admin.php:95
 msgid "Delete"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:796
+#: bp-activity/bp-activity-templatetags.php:872
 msgid "profile"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:796
+#: bp-activity/bp-activity-templatetags.php:872
 msgid "friends"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:796 bp-core/bp-core-classes.php:98
+#: bp-activity/bp-activity-templatetags.php:872 bp-core/bp-core-classes.php:98
 msgid "groups"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:796
+#: bp-activity/bp-activity-templatetags.php:872
 msgid "status"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:796
+#: bp-activity/bp-activity-templatetags.php:872
 msgid "blogs"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:804
+#: bp-activity/bp-activity-templatetags.php:880
 msgid "Clear Filter"
 msgstr ""
 
@@ -1604,7 +1609,7 @@ msgstr ""
 msgid "You have a friendship request from %s"
 msgstr ""
 
-#: bp-friends.php:431 bp-friends.php:439
+#: bp-friends.php:431 bp-friends.php:440
 #, php-format
 msgid "%s and %s are now friends"
 msgstr ""
@@ -1676,16 +1681,16 @@ msgstr ""
 msgid "Filter Friends"
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:139
+#: bp-friends/bp-friends-templatetags.php:140
 #: bp-themes/bp-default/_inc/ajax.php:353
 msgid "Friendship Requested"
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:141
+#: bp-friends/bp-friends-templatetags.php:142
 msgid "Cancel Friendship"
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:143
+#: bp-friends/bp-friends-templatetags.php:144
 #: bp-themes/bp-default/_inc/ajax.php:343
 msgid "Add Friend"
 msgstr ""
@@ -2457,7 +2462,7 @@ msgstr ""
 msgid "My Messages"
 msgstr ""
 
-#: bp-messages.php:165 bp-messages.php:186
+#: bp-messages.php:165 bp-messages.php:187
 msgid "There was an error sending that message, please try again"
 msgstr ""
 
@@ -2469,7 +2474,7 @@ msgstr ""
 msgid "There was an error sending that notice, please try again"
 msgstr ""
 
-#: bp-messages.php:183
+#: bp-messages.php:184
 msgid "Message sent successfully!"
 msgstr ""
 
@@ -2627,7 +2632,7 @@ msgid "Activate"
 msgstr ""
 
 #: bp-messages/bp-messages-templatetags.php:486
-#: bp-themes/bp-default/functions.php:241
+#: bp-themes/bp-default/functions.php:259
 msgid "Close"
 msgstr ""
 
@@ -2746,7 +2751,7 @@ msgid "Blog Posts"
 msgstr ""
 
 #: bp-themes/bp-default/_inc/options.php:38
-#: bp-themes/bp-default/functions.php:86
+#: bp-themes/bp-default/functions.php:85
 msgid "Activity Stream"
 msgstr ""
 
@@ -3242,38 +3247,38 @@ msgstr ""
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:223
+#: bp-themes/bp-default/functions.php:241
 #, php-format
 msgid ""
 "Theme activated! This theme contains <a href=\"%s\">custom header image</a> "
 "support and <a href=\"%s\">sidebar widgets</a>."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:235
+#: bp-themes/bp-default/functions.php:253
 msgid "My Favorites"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:236
+#: bp-themes/bp-default/functions.php:254
 msgid "Accepted"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:237
+#: bp-themes/bp-default/functions.php:255
 msgid "Rejected"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:238
+#: bp-themes/bp-default/functions.php:256
 msgid "Show all comments for this thread"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:239
+#: bp-themes/bp-default/functions.php:257
 msgid "Show all"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:240
+#: bp-themes/bp-default/functions.php:258
 msgid "comments"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:242
+#: bp-themes/bp-default/functions.php:260
 #, php-format
 msgid ""
 "%s is a unique identifier for %s that you can type into any message on this "
