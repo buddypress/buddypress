@@ -415,33 +415,35 @@ function friends_accept_friendship( $friendship_id ) {
 	if ( !$friendship->is_confirmed && BP_Friends_Friendship::accept( $friendship_id ) ) {
 		friends_update_friend_totals( $friendship->initiator_user_id, $friendship->friend_user_id );
 
-		/* Remove the friend request notice */
+		// Remove the friend request notice
 		bp_core_delete_notifications_for_user_by_item_id( $friendship->friend_user_id, $friendship->initiator_user_id, $bp->friends->id, 'friendship_request' );
 
-		/* Add a friend accepted notice for the initiating user */
+		// Add a friend accepted notice for the initiating user
 		bp_core_add_notification( $friendship->friend_user_id, $friendship->initiator_user_id, $bp->friends->id, 'friendship_accepted' );
 
 		$initiator_link = bp_core_get_userlink( $friendship->initiator_user_id );
 		$friend_link = bp_core_get_userlink( $friendship->friend_user_id );
 
-		/* Record in activity streams for the initiator */
+		// Record in activity streams for the initiator
 		friends_record_activity( array(
-			'user_id' => $friendship->initiator_user_id,
-			'type' => 'friendship_created',
-			'action' => apply_filters( 'friends_activity_friendship_accepted_action', sprintf( __( '%s and %s are now friends', 'buddypress' ), $initiator_link, $friend_link ), &$friendship ),
-			'item_id' => $friendship_id
+			'user_id'           => $friendship->initiator_user_id,
+			'type'              => 'friendship_created',
+			'action'            => apply_filters( 'friends_activity_friendship_accepted_action', sprintf( __( '%s and %s are now friends', 'buddypress' ), $initiator_link, $friend_link ), &$friendship ),
+			'item_id'           => $friendship_id,
+			'secondary_item_id' => $friendship->friend_user_id
 		) );
 
-		/* Record in activity streams for the friend */
+		// Record in activity streams for the friend
 		friends_record_activity( array(
-			'user_id' => $friendship->friend_user_id,
-			'type' => 'friendship_created',
-			'action' => apply_filters( 'friends_activity_friendship_accepted_action', sprintf( __( '%s and %s are now friends', 'buddypress' ), $friend_link, $initiator_link ), &$friendship ),
-			'item_id' => $friendship_id,
-			'hide_sitewide' => true /* We've already got the first entry site wide */
+			'user_id'           => $friendship->friend_user_id,
+			'type'              => 'friendship_created',
+			'action'            => apply_filters( 'friends_activity_friendship_accepted_action', sprintf( __( '%s and %s are now friends', 'buddypress' ), $friend_link, $initiator_link ), &$friendship ),
+			'item_id'           => $friendship_id,
+			'secondary_item_id' => $friendship->initiator_user_id,
+			'hide_sitewide'     => true // We've already got the first entry site wide
 		) );
 
-		/* Send the email notification */
+		// Send the email notification
 		require_once( BP_PLUGIN_DIR . '/bp-friends/bp-friends-notifications.php' );
 		friends_notification_accepted_request( $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
 
