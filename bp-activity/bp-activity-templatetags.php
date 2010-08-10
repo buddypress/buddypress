@@ -477,7 +477,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 
 		// Set item_id and object (default to user)
 		switch ( $activities_template->activity->component ) {
-			case 'blogs' :
+			case 'groups' :
 				$object = 'group';
 				$item_id = $activities_template->activity->item_id;
 				break;
