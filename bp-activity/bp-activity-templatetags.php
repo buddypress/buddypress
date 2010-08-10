@@ -477,17 +477,22 @@ function bp_activity_secondary_avatar( $args = '' ) {
 
 		// Set item_id and object (default to user)
 		switch ( $activities_template->activity->component ) {
-			case $bp->groups->id :
+			case 'blogs' :
 				$object = 'group';
 				$item_id = $activities_template->activity->item_id;
 				break;
-			case $bp->blogs->id :
+			case 'blogs' :
 				$object = 'blog';
 				$item_id = $activities_template->activity->item_id;
+				break;
+			case 'friends' :
+				$object  = 'user';
+				$item_id = $activities_template->activity->secondary_item_id;
 				break;
 			default :
 				$object  = 'user';
 				$item_id = $activities_template->activity->user_id;
+				$email = $activities_template->activity->user_email;
 				break;
 		}
 
@@ -495,9 +500,9 @@ function bp_activity_secondary_avatar( $args = '' ) {
 		$object  = apply_filters( 'bp_get_activity_secondary_avatar_object_' . $activities_template->activity->component, $object );
 		$item_id = apply_filters( 'bp_get_activity_secondary_avatar_item_id', $item_id );
 
-		// Used for any user to user activity
-		if ( 'user' == $object && empty( $email ) )
-			$email = $activities_template->activity->user_email;
+		// If we have no item_id or object, there is no avatar to display
+		if ( empty( $item_id ) || empty( $object ) )
+			return false;
 
 		return apply_filters( 'bp_get_activity_secondary_avatar', bp_core_fetch_avatar( array( 'item_id' => $item_id, 'object' => $object, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height, 'email' => $email ) ) );
 	}
