@@ -563,7 +563,7 @@ function bp_groups_pagination_count() {
 function bp_groups_auto_join() {
 	global $bp;
 
-	return (bool)$bp->groups->auto_join;
+	return apply_filters( 'bp_groups_auto_join', (bool)$bp->groups->auto_join );
 }
 
 function bp_group_total_members() {
