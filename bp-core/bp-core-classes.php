@@ -235,8 +235,16 @@ class BP_Core_User {
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
-		if ( strlen($letter) > 1 || is_numeric($letter) || !$letter )
-			return false;
+		// Multibyte compliance
+		if ( function_exists( 'mb_strlen' ) ) {
+			if ( mb_strlen( $letter, 'UTF-8' ) > 1 || is_numeric( $letter ) || !$letter ) {
+				return false;
+			}
+		} else {
+			if ( strlen( $letter ) > 1 || is_numeric( $letter ) || !$letter ) {
+				return false;
+			}
+		}
 
 		$letter = like_escape( $wpdb->escape( $letter ) );
 		$status_sql = bp_core_get_status_sql( 'u.' );
