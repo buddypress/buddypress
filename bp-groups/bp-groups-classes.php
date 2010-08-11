@@ -505,8 +505,16 @@ Class BP_Groups_Group {
 	function get_by_letter( $letter, $limit = null, $page = null, $populate_extras = true ) {
 		global $wpdb, $bp;
 
-		if ( strlen($letter) > 1 || is_numeric($letter) || !$letter )
-			return false;
+		// Multibyte compliance
+		if ( function_exists( 'mb_strlen' ) ) {
+			if ( mb_strlen( $letter, 'UTF-8' ) > 1 || is_numeric( $letter ) || !$letter ) {
+				return false;
+			}
+		} else {
+			if ( strlen( $letter ) > 1 || is_numeric( $letter ) || !$letter ) {
+				return false;
+			}
+		}
 
 		if ( !is_site_admin() )
 			$hidden_sql = $wpdb->prepare( " AND status != 'hidden'");
