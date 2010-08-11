@@ -96,6 +96,9 @@ function groups_setup_globals() {
 
 	$bp->groups->valid_status = apply_filters( 'groups_valid_status', array( 'public', 'private', 'hidden' ) );
 
+	// Auto join group when non group member performs group activity
+	$bp->groups->auto_join = defined( 'BP_DISABLE_AUTO_GROUP_JOIN' ) ? false : true;
+
 	do_action( 'groups_setup_globals' );
 }
 add_action( 'bp_setup_globals', 'groups_setup_globals' );
@@ -364,7 +367,7 @@ function groups_screen_group_forum() {
 				check_admin_referer( 'bp_forums_new_reply' );
 
 				/* Auto join this user if they are not yet a member of this group */
-				if ( !is_site_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
+				if ( $bp->groups->auto_join && !is_site_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
 					groups_join_group( $bp->groups->current_group->id, $bp->loggedin_user->id );
 
 				if ( !$post_id = groups_new_group_forum_post( $_POST['reply_text'], $topic_id, $_GET['topic_page'] ) )
@@ -542,7 +545,7 @@ function groups_screen_group_forum() {
 				check_admin_referer( 'bp_forums_new_topic' );
 
 				/* Auto join this user if they are not yet a member of this group */
-				if ( !is_site_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
+				if ( $bp->groups->auto_join && !is_site_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
 					groups_join_group( $bp->groups->current_group->id, $bp->loggedin_user->id );
 
 				if ( !$topic = groups_new_group_forum_topic( $_POST['topic_title'], $_POST['topic_text'], $_POST['topic_tags'], $forum_id ) )

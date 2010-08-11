@@ -83,7 +83,7 @@
 					<div id="post-topic-reply">
 						<p id="post-reply"></p>
 
-						<?php if ( !bp_group_is_member() ) : ?>
+						<?php if ( bp_groups_auto_join() && !bp_group_is_member() ) : ?>
 							<p><?php _e( 'You will auto join this group when you reply to this topic.', 'buddypress' ) ?></p>
 						<?php endif; ?>
 

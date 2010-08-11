@@ -560,6 +560,12 @@ function bp_groups_pagination_count() {
 	<span class="ajax-loader"></span><?php
 }
 
+function bp_groups_auto_join() {
+	global $bp;
+
+	return (bool)$bp->groups->auto_join;
+}
+
 function bp_group_total_members() {
 	echo bp_get_group_total_members();
 }
