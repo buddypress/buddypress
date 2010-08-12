@@ -1286,7 +1286,7 @@ div.activity-comments > ul {
 	background: #f5f5f5;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
-	padding: 0 10px 10px;
+	padding: 0 10px 0;
 }
 div.activity-comments ul, div.activity-comments ul li {
 	border: none;
@@ -1307,7 +1307,7 @@ div.activity-comments ul, div.activity-comments ul li {
 		}
 
 		div.activity-comments ul li p:last-child {
-			margin-bottom: 0;
+			margin-bottom: 10px;
 		}
 
 		div.activity-comments > ul > li:first-child {
@@ -1319,7 +1319,7 @@ div.activity-comments ul, div.activity-comments ul li {
 		}
 
 	div.activity-comments ul li > ul {
-		margin-top: 5px;
+		margin-top: 0;
 		margin-left: 20px;
 	}
 		body.activity-permalink div.activity-comments ul li > ul {
