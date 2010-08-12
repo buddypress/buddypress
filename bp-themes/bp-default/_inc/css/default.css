@@ -1302,7 +1302,7 @@ div.activity-comments ul, div.activity-comments ul li {
 	}
 		body.activity-permalink div.activity-comments ul li {
 			border-width: 1px;
-			padding: 0;
+			padding: 10px 0 0;
 		}
 
 		div.activity-comments ul li p:last-child {
