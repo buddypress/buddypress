@@ -104,12 +104,13 @@ function xprofile_setup_globals() {
 	/* For internal identification */
 	$bp->profile->id = 'profile';
 
-	$bp->profile->table_name_groups = $wpdb->base_prefix . 'bp_xprofile_groups';
-	$bp->profile->table_name_fields = $wpdb->base_prefix . 'bp_xprofile_fields';
-	$bp->profile->table_name_data = $wpdb->base_prefix . 'bp_xprofile_data';
+	$bp->profile->slug = BP_XPROFILE_SLUG;
+
+	$bp->profile->table_name_data   = $bp->table_prefix . 'bp_xprofile_data';
+	$bp->profile->table_name_groups = $bp->table_prefix . 'bp_xprofile_groups';
+	$bp->profile->table_name_fields = $bp->table_prefix . 'bp_xprofile_fields';
 
 	$bp->profile->format_notification_function = 'xprofile_format_notifications';
-	$bp->profile->slug = BP_XPROFILE_SLUG;
 
 	/* Register this in the active components array */
 	$bp->active_components[$bp->profile->slug] = $bp->profile->id;

@@ -84,12 +84,15 @@ if ( function_exists( 'register_theme_directory') )
  * @uses bp_core_get_user_domain() Returns the domain for a user
  */
 function bp_core_setup_globals() {
-	global $bp, $wpdb;
+	global $bp;
 	global $current_user, $current_component, $current_action, $current_blog;
 	global $displayed_user_id;
 	global $action_variables;
 
 	$current_user = wp_get_current_user();
+
+	/* Get the base database prefix */
+	$bp->table_prefix = bp_core_get_table_prefix();
 
 	/* The domain for the root of the site where the main blog resides */
 	$bp->root_domain = bp_core_get_root_domain();
@@ -153,12 +156,12 @@ function bp_core_setup_globals() {
 	$bp->active_components = array();
 
 	/* Fetches the default Gravatar image to use if the user/group/blog has no avatar or gravatar */
-	$bp->grav_default->user = apply_filters( 'bp_user_gravatar_default', $bp->site_options['user-avatar-default'] );
+	$bp->grav_default->user  = apply_filters( 'bp_user_gravatar_default', $bp->site_options['user-avatar-default'] );
 	$bp->grav_default->group = apply_filters( 'bp_group_gravatar_default', 'identicon' );
-	$bp->grav_default->blog = apply_filters( 'bp_blog_gravatar_default', 'identicon' );
+	$bp->grav_default->blog  = apply_filters( 'bp_blog_gravatar_default', 'identicon' );
 
 	/* Fetch the full name for the logged in and current user */
-	$bp->loggedin_user->fullname = bp_core_get_user_displayname( $bp->loggedin_user->id );
+	$bp->loggedin_user->fullname  = bp_core_get_user_displayname( $bp->loggedin_user->id );
 	$bp->displayed_user->fullname = bp_core_get_user_displayname( $bp->displayed_user->id );
 
 	/* Used to determine if user has admin rights on current content. If the logged in user is viewing
@@ -170,7 +173,7 @@ function bp_core_setup_globals() {
 	/* Used to determine if the logged in user is a moderator for the current content. */
 	$bp->is_item_mod = false;
 
-	$bp->core->table_name_notifications = $wpdb->base_prefix . 'bp_notifications';
+	$bp->core->table_name_notifications = $bp->table_prefix . 'bp_notifications';
 
 	if ( !$bp->current_component && $bp->displayed_user->id )
 		$bp->current_component = $bp->default_component;
@@ -198,6 +201,19 @@ function bp_core_setup_root_uris() {
 }
 add_action( 'bp_setup_root_components', 'bp_core_setup_root_uris' );
 
+/**
+ * bp_core_get_table_prefix()
+ *
+ * Allow filtering of database prefix. Intended for use in multinetwork installations.
+ *
+ * @global object $wpdb WordPress database object
+ * @return string Filtered database prefix
+ */
+function bp_core_get_table_prefix() {
+	global $wpdb;
+
+	return apply_filters( 'bp_core_get_table_prefix', $wpdb->base_prefix );
+}
 
 /**
  * bp_core_install()
@@ -251,14 +267,13 @@ function bp_core_install() {
  *
  * @package BuddyPress Core
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @global $wpdb WordPress DB access object.
  * @global $current_user WordPress global variable containing current logged in user information
  * @uses is_site_admin() returns true if the current user is a site admin, false if not
  * @uses get_site_option() fetches the value for a meta_key in the wp_sitemeta table
  * @uses bp_core_install() runs the installation of DB tables for the core component
  */
 function bp_core_check_installed() {
-	global $wpdb, $bp;
+	global $bp;
 
 	if ( !is_site_admin() )
 		return false;
@@ -278,7 +293,6 @@ add_action( 'admin_menu', 'bp_core_check_installed' );
  *
  * @package BuddyPress Core
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @global $wpdb WordPress DB access object.
  * @uses is_site_admin() returns true if the current user is a site admin, false if not
  * @uses add_submenu_page() WP function to add a submenu item
  */
@@ -933,7 +947,6 @@ function bp_core_reset_subnav_items($parent_slug) {
  *
  * @package BuddyPress Core
  * @param $username str Username to check.
- * @global $wpdb WordPress DB access object.
  * @return false on no match
  * @return int the user ID of the matched user.
  */
@@ -975,12 +988,11 @@ function bp_core_add_root_component( $slug ) {
  *
  * @package BuddyPress Core
  * @param $username str Username to check.
- * @global $wpdb WordPress DB access object.
  * @return false on no match
  * @return int the user ID of the matched user.
  */
 function bp_core_get_random_member() {
-	global $bp, $wpdb;
+	global $bp;
 
 	if ( isset( $_GET['random-member'] ) ) {
 		$user = bp_core_get_users( array( 'type' => 'random', 'per_page' => 1 ) );
@@ -1708,7 +1720,7 @@ function bp_core_add_illegal_names() {
  * @uses get_site_option Checks if account deletion is allowed
  */
 function bp_core_delete_account( $user_id = false ) {
-	global $bp, $wpdb, $wp_version;
+	global $bp, $wp_version;
 
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
@@ -1842,8 +1854,7 @@ function bp_core_clear_cache() {
  * @package BuddyPress Core
  */
 function bp_core_print_generation_time() {
-	global $wpdb;
-	?>
+?>
 
 <!-- Generated in <?php timer_stop(1); ?> seconds. -->
 

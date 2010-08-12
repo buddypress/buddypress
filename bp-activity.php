@@ -73,14 +73,16 @@ function bp_activity_install() {
 }
 
 function bp_activity_setup_globals() {
-	global $bp, $wpdb, $current_blog;
+	global $bp, $current_blog;
 
 	/* Internal identifier */
 	$bp->activity->id = 'activity';
 
-	$bp->activity->table_name = $wpdb->base_prefix . 'bp_activity';
-	$bp->activity->table_name_meta = $wpdb->base_prefix . 'bp_activity_meta';
 	$bp->activity->slug = BP_ACTIVITY_SLUG;
+
+	$bp->activity->table_name      = $bp->table_prefix . 'bp_activity';
+	$bp->activity->table_name_meta = $bp->table_prefix . 'bp_activity_meta';
+
 	$bp->activity->format_notification_function = 'bp_activity_format_notifications';
 
 	/* Register this in the active components array */
@@ -91,7 +93,7 @@ function bp_activity_setup_globals() {
 add_action( 'bp_setup_globals', 'bp_activity_setup_globals' );
 
 function bp_activity_check_installed() {
-	global $wpdb, $bp;
+	global $bp;
 
 	if ( get_site_option( 'bp-activity-db-version' ) < BP_ACTIVITY_DB_VERSION )
 		bp_activity_install();
@@ -623,7 +625,7 @@ function bp_activity_get_specific( $args = '' ) {
 }
 
 function bp_activity_add( $args = '' ) {
-	global $bp, $wpdb;
+	global $bp;
 
 	$defaults = array(
 		'id'                => false, // Pass an existing activity ID to update an existing entry.

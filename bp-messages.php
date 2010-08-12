@@ -66,16 +66,18 @@ function messages_install() {
 }
 
 function messages_setup_globals() {
-	global $bp, $wpdb;
+	global $bp;
 
 	/* For internal identification */
 	$bp->messages->id = 'messages';
 
-	$bp->messages->table_name_messages = $wpdb->base_prefix . 'bp_messages_messages';
-	$bp->messages->table_name_recipients = $wpdb->base_prefix . 'bp_messages_recipients';
-	$bp->messages->table_name_notices = $wpdb->base_prefix . 'bp_messages_notices';
-	$bp->messages->format_notification_function = 'messages_format_notifications';
 	$bp->messages->slug = BP_MESSAGES_SLUG;
+
+	$bp->messages->table_name_notices    = $bp->table_prefix . 'bp_messages_notices';
+	$bp->messages->table_name_messages   = $bp->table_prefix . 'bp_messages_messages';
+	$bp->messages->table_name_recipients = $bp->table_prefix . 'bp_messages_recipients';
+
+	$bp->messages->format_notification_function = 'messages_format_notifications';
 
 	/* Register this in the active components array */
 	$bp->active_components[$bp->messages->slug] = $bp->messages->id;
@@ -85,7 +87,7 @@ function messages_setup_globals() {
 add_action( 'bp_setup_globals', 'messages_setup_globals' );
 
 function messages_check_installed() {
-	global $wpdb, $bp;
+	global $bp;
 
 	if ( !is_site_admin() )
 		return false;

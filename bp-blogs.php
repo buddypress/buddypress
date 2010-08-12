@@ -68,10 +68,12 @@ function bp_blogs_setup_globals() {
 	/* For internal identification */
 	$bp->blogs->id = 'blogs';
 
-	$bp->blogs->table_name = $wpdb->base_prefix . 'bp_user_blogs';
-	$bp->blogs->table_name_blogmeta = $wpdb->base_prefix . 'bp_user_blogs_blogmeta';
-	$bp->blogs->format_notification_function = 'bp_blogs_format_notifications';
 	$bp->blogs->slug = BP_BLOGS_SLUG;
+
+	$bp->blogs->table_name          = $bp->table_prefix . 'bp_user_blogs';
+	$bp->blogs->table_name_blogmeta = $bp->table_prefix . 'bp_user_blogs_blogmeta';
+
+	$bp->blogs->format_notification_function = 'bp_blogs_format_notifications';
 
 	/* Register this in the active components array */
 	$bp->active_components[$bp->blogs->slug] = $bp->blogs->id;

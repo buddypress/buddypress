@@ -33,14 +33,16 @@ function friends_install() {
 }
 
 function friends_setup_globals() {
-	global $bp, $wpdb;
+	global $bp;
 
 	/* For internal identification */
 	$bp->friends->id = 'friends';
 
-	$bp->friends->table_name = $wpdb->base_prefix . 'bp_friends';
-	$bp->friends->format_notification_function = 'friends_format_notifications';
 	$bp->friends->slug = BP_FRIENDS_SLUG;
+
+	$bp->friends->table_name = $bp->table_prefix . 'bp_friends';
+
+	$bp->friends->format_notification_function = 'friends_format_notifications';
 
 	/* Register this in the active components array */
 	$bp->active_components[$bp->friends->slug] = $bp->friends->id;
@@ -50,7 +52,7 @@ function friends_setup_globals() {
 add_action( 'bp_setup_globals', 'friends_setup_globals' );
 
 function friends_check_installed() {
-	global $wpdb, $bp;
+	global $bp;
 
 	if ( !is_site_admin() )
 		return false;

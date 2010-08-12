@@ -121,7 +121,7 @@ function bp_forums_configure_existing_install() {
 }
 
 function bp_forums_bbpress_install() {
-	global $wpdb, $bbdb;
+	global $wpdb, $bbdb, $bp;
 
 	check_admin_referer( 'bp_forums_new_install_init' );
 
@@ -140,7 +140,7 @@ function bp_forums_bbpress_install() {
 			"define( 'BB_SECURE_A"  		=> array( "'put your unique phrase here'",  "'" . addslashes( SECURE_AUTH_KEY ) . "'" ),
 			"define( 'BB_LOGGED_I"  		=> array( "'put your unique phrase here'",  "'" . addslashes( LOGGED_IN_KEY ) . "'" ),
 			"define( 'BB_NONCE_KE"  		=> array( "'put your unique phrase here'",  "'" . addslashes( NONCE_KEY ) . "'" ),
-			"\$bb_table_prefix = '" 		=> array( "'bb_'",                          "'" . $wpdb->base_prefix . "bb_'" ),
+			"\$bb_table_prefix = '" 		=> array( "'bb_'",                          "'" . $bp->table_prefix . "bb_'" ),
 			"define( 'BB_LANG', '" 			=> array( "''",                          	"'" . WPLANG . "'" )
 		)
 	);

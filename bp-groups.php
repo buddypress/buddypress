@@ -74,11 +74,13 @@ function groups_setup_globals() {
 	/* For internal identification */
 	$bp->groups->id = 'groups';
 
-	$bp->groups->table_name = $wpdb->base_prefix . 'bp_groups';
-	$bp->groups->table_name_members = $wpdb->base_prefix . 'bp_groups_members';
-	$bp->groups->table_name_groupmeta = $wpdb->base_prefix . 'bp_groups_groupmeta';
-	$bp->groups->format_notification_function = 'groups_format_notifications';
 	$bp->groups->slug = BP_GROUPS_SLUG;
+
+	$bp->groups->table_name           = $bp->table_prefix . 'bp_groups';
+	$bp->groups->table_name_members   = $bp->table_prefix . 'bp_groups_members';
+	$bp->groups->table_name_groupmeta = $bp->table_prefix . 'bp_groups_groupmeta';
+
+	$bp->groups->format_notification_function = 'groups_format_notifications';
 
 	/* Register this in the active components array */
 	$bp->active_components[$bp->groups->slug] = $bp->groups->id;
