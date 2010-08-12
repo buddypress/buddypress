@@ -1643,7 +1643,7 @@ function bp_core_redirect( $location, $status = 302 ) {
 	global $bp_no_status_set;
 
 	// Make sure we don't call status_header() in bp_core_do_catch_uri()
-    // as this conflicts with wp_redirect()
+	// as this conflicts with wp_redirect()
 	$bp_no_status_set = true;
 
 	wp_redirect( $location, $status );
@@ -1794,8 +1794,8 @@ add_action( 'init', 'bp_core_action_search_site', 5 );
  */
 function bp_core_ucfirst( $str ) {
 	if ( function_exists( 'mb_strtoupper' ) && function_exists( 'mb_substr' ) ) {
-	    $fc = mb_strtoupper( mb_substr( $str, 0, 1 ) );
-	    return $fc.mb_substr( $str, 1 );
+		$fc = mb_strtoupper( mb_substr( $str, 0, 1 ) );
+		return $fc.mb_substr( $str, 1 );
 	} else {
 		return ucfirst( $str );
 	}
