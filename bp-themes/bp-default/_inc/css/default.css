@@ -399,7 +399,6 @@ ul.item-list {
 		border-bottom: 1px solid #eaeaea;
 	}
 		ul.single-line li { border: none; }
-		body.activity-permalink ul.item-list li { padding-top: 0; }
 
 		ul.item-list li img.avatar {
 			float: left;
@@ -1303,7 +1302,7 @@ div.activity-comments ul, div.activity-comments ul li {
 	}
 		body.activity-permalink div.activity-comments ul li {
 			border-width: 1px;
-			padding: 15px 0 15px 0;
+			padding: 0;
 		}
 
 		div.activity-comments ul li p:last-child {
