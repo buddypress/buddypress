@@ -1357,7 +1357,7 @@ function bp_last_activity( $user_id = false, $echo = true ) {
 function bp_user_has_access() {
 	global $bp;
 
-	if ( is_site_admin() || is_user_logged_in() && $bp->loggedin_user->id == $bp->displayed_user->id )
+	if ( is_super_admin() || is_user_logged_in() && $bp->loggedin_user->id == $bp->displayed_user->id )
 		$has_access = true;
 	else
 		$has_access = false;

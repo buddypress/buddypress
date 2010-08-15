@@ -106,8 +106,8 @@ function bp_core_setup_globals() {
 	/* The core userdata of the user who is currently logged in. */
 	$bp->loggedin_user->userdata = bp_core_get_core_userdata( $bp->loggedin_user->id );
 
-	/* is_site_admin() hits the DB on single WP installs, so we need to get this separately so we can call it in a loop. */
-	$bp->loggedin_user->is_site_admin = is_site_admin();
+	/* is_super_admin() hits the DB on single WP installs, so we need to get this separately so we can call it in a loop. */
+	$bp->loggedin_user->is_super_admin = is_super_admin();
 
 	/* The user id of the user currently being viewed, set in /bp-core/bp-core-catchuri.php */
 	$bp->displayed_user->id = $displayed_user_id;
@@ -268,14 +268,14 @@ function bp_core_install() {
  * @package BuddyPress Core
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  * @global $current_user WordPress global variable containing current logged in user information
- * @uses is_site_admin() returns true if the current user is a site admin, false if not
+ * @uses is_super_admin() returns true if the current user is a site admin, false if not
  * @uses get_site_option() fetches the value for a meta_key in the wp_sitemeta table
  * @uses bp_core_install() runs the installation of DB tables for the core component
  */
 function bp_core_check_installed() {
 	global $bp;
 
-	if ( !is_site_admin() )
+	if ( !is_super_admin() )
 		return false;
 
 	require ( BP_PLUGIN_DIR . '/bp-core/bp-core-admin.php' );
@@ -293,11 +293,11 @@ add_action( 'admin_menu', 'bp_core_check_installed' );
  *
  * @package BuddyPress Core
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @uses is_site_admin() returns true if the current user is a site admin, false if not
+ * @uses is_super_admin() returns true if the current user is a site admin, false if not
  * @uses add_submenu_page() WP function to add a submenu item
  */
 function bp_core_add_admin_menu() {
-	if ( !is_site_admin() )
+	if ( !is_super_admin() )
 		return false;
 
 	/* Add the administration tab under the "Site Admin" tab for site administrators */
@@ -430,7 +430,7 @@ add_action( 'wp', 'bp_core_action_directory_members', 2 );
 function bp_core_action_set_spammer_status() {
 	global $bp, $wpdb, $wp_version;
 
-	if ( !is_site_admin() || bp_is_my_profile() || !$bp->displayed_user->id )
+	if ( !is_super_admin() || bp_is_my_profile() || !$bp->displayed_user->id )
 		return false;
 
 	if ( 'admin' == $bp->current_component && ( 'mark-spammer' == $bp->current_action || 'unmark-spammer' == $bp->current_action ) ) {
@@ -498,7 +498,7 @@ add_action( 'wp', 'bp_core_action_set_spammer_status', 3 );
 function bp_core_action_delete_user() {
 	global $bp;
 
-	if ( !is_site_admin() || bp_is_my_profile() || !$bp->displayed_user->id )
+	if ( !is_super_admin() || bp_is_my_profile() || !$bp->displayed_user->id )
 		return false;
 
 	if ( 'admin' == $bp->current_component && 'delete-user' == $bp->current_action ) {
@@ -680,7 +680,7 @@ function bp_core_new_nav_item( $args = '' ) {
 		return false;
 
 	/* If this is for site admins only and the user is not one, don't create the subnav item */
-	if ( $site_admin_only && !is_site_admin() )
+	if ( $site_admin_only && !is_super_admin() )
 		return false;
 
 	if ( empty( $item_css_id ) )
@@ -817,7 +817,7 @@ function bp_core_new_subnav_item( $args = '' ) {
 		return false;
 
 	/* If this is for site admins only and the user is not one, don't create the subnav item */
-	if ( $site_admin_only && !is_site_admin() )
+	if ( $site_admin_only && !is_super_admin() )
 		return false;
 
 	if ( empty( $item_css_id ) )
@@ -1714,7 +1714,7 @@ function bp_core_add_illegal_names() {
  *
  * @package BuddyPress Core
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @uses is_site_admin() Checks to see if the user is a site administrator.
+ * @uses is_super_admin() Checks to see if the user is a site administrator.
  * @uses wpmu_delete_user() Deletes a user from the system on multisite installs.
  * @uses wp_delete_user() Deletes a user from the system on singlesite installs.
  * @uses get_site_option Checks if account deletion is allowed
@@ -1730,7 +1730,7 @@ function bp_core_delete_account( $user_id = false ) {
 		return false;
 
 	/* Site admins cannot be deleted */
-	if ( is_site_admin( bp_core_get_username( $user_id ) ) )
+	if ( is_super_admin( bp_core_get_username( $user_id ) ) )
 		return false;
 
 	/* Specifically handle multi-site environment */
@@ -2004,7 +2004,7 @@ function bp_core_activation_notice() {
 	if ( isset( $_POST['permalink_structure'] ) )
 		return false;
 
-	if ( !is_site_admin() )
+	if ( !is_super_admin() )
 		return false;
 
 	if ( !empty( $current_blog ) ) {

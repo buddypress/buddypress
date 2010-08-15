@@ -192,7 +192,7 @@ function bp_the_group() {
 function bp_group_is_visible( $group = false ) {
 	global $bp, $groups_template;
 
-	if ( $bp->loggedin_user->is_site_admin )
+	if ( $bp->loggedin_user->is_super_admin )
 		return true;
 
 	if ( !$group )
@@ -967,7 +967,7 @@ function bp_group_has_requested_membership( $group = false ) {
  *
  * Checks if current user is member of a group.
  *
- * @uses is_site_admin Check if current user is super admin
+ * @uses is_super_admin Check if current user is super admin
  * @uses apply_filters Creates bp_group_is_member filter and passes $is_member
  * @usedby groups/activity.php, groups/single/forum/edit.php, groups/single/forum/topic.php to determine template part visibility
  * @global array $bp BuddyPress Master global
@@ -979,7 +979,7 @@ function bp_group_is_member( $group = false ) {
 	global $bp, $groups_template;
 
 	// Site admins always have access
-	if ( is_site_admin() )
+	if ( is_super_admin() )
 		return true;
 
 	// Load group if none passed

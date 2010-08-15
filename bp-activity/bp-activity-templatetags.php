@@ -575,7 +575,7 @@ function bp_activity_content() {
 		$content .= apply_filters( 'bp_activity_permalink', ' &middot; <a href="' . bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ) . '" class="view" title="' . __( 'View Thread / Permalink', 'buddypress' ) . '">' . __( 'View', 'buddypress' ) . '</a>', &$activities_template->activity );
 
 		/* Add the delete link if the user has permission on this item */
-		if ( ( is_user_logged_in() && $activities_template->activity->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin || $bp->loggedin_user->is_site_admin )
+		if ( ( is_user_logged_in() && $activities_template->activity->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin || $bp->loggedin_user->is_super_admin )
 			 $content .= apply_filters( 'bp_activity_delete_link', ' &middot; ' . bp_get_activity_delete_link(), &$activities_template->activity );
 
 		return apply_filters( 'bp_insert_activity_meta', $content );
@@ -659,7 +659,7 @@ function bp_activity_comments( $args = '' ) {
 					$content .= '<span class="acomment-replylink"> &middot; <a href="#acomment-' . $comment->id . '" class="acomment-reply" id="acomment-reply-' . $activities_template->activity->id . '">' . __( 'Reply', 'buddypress' ) . '</a></span>';
 
 				/* Delete link */
-				if ( $bp->loggedin_user->is_site_admin || $bp->loggedin_user->id == $comment->user_id )
+				if ( $bp->loggedin_user->is_super_admin || $bp->loggedin_user->id == $comment->user_id )
 					$content .= ' &middot; <a href="' . wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/?cid=' . $comment->id, 'bp_activity_delete_link' ) . '" class="delete acomment-delete">' . __( 'Delete', 'buddypress' ) . '</a>';
 
 				$content .= '</div>';

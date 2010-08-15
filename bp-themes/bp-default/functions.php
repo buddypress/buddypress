@@ -89,7 +89,7 @@ add_filter( 'wp_dropdown_pages', 'bp_dtheme_wp_pages_filter' );
 
 /* Hijack the saving of page on front setting to save the activity stream setting */
 function bp_dtheme_page_on_front_update( $oldvalue, $newvalue ) {
-	if ( !is_admin() || !is_site_admin() )
+	if ( !is_admin() || !is_super_admin() )
 		return false;
 
 	if ( 'activity' == $_POST['page_on_front'] )

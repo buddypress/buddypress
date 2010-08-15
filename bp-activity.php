@@ -173,7 +173,7 @@ function bp_activity_screen_friends() {
 	if ( !bp_is_active( 'friends' ) )
 		return false;
 
-	if ( !is_site_admin() )
+	if ( !is_super_admin() )
 		$bp->is_item_admin = false;
 
 	do_action( 'bp_activity_screen_friends' );
@@ -186,7 +186,7 @@ function bp_activity_screen_groups() {
 	if ( !bp_is_active( 'groups' ) )
 		return false;
 
-	if ( !is_site_admin() )
+	if ( !is_super_admin() )
 		$bp->is_item_admin = false;
 
 	do_action( 'bp_activity_screen_groups' );
@@ -196,7 +196,7 @@ function bp_activity_screen_groups() {
 function bp_activity_screen_favorites() {
 	global $bp;
 
-	if ( !is_site_admin() )
+	if ( !is_super_admin() )
 		$bp->is_item_admin = false;
 
 	do_action( 'bp_activity_screen_favorites' );
@@ -206,7 +206,7 @@ function bp_activity_screen_favorites() {
 function bp_activity_screen_mentions() {
 	global $bp;
 
-	if ( !is_site_admin() )
+	if ( !is_super_admin() )
 		$bp->is_item_admin = false;
 
 	do_action( 'bp_activity_screen_mentions' );
@@ -355,7 +355,7 @@ function bp_activity_action_delete_activity() {
 	$activity = new BP_Activity_Activity( $activity_id );
 
 	/* Check access */
-	if ( !is_site_admin() && $activity->user_id != $bp->loggedin_user->id )
+	if ( !is_super_admin() && $activity->user_id != $bp->loggedin_user->id )
 		return false;
 
 	/* Call the action before the delete so plugins can still fetch information about it */

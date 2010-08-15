@@ -10,7 +10,7 @@
 		</li>
 	</ul>
 
-	<?php if ( is_site_admin() ) : ?>
+	<?php if ( is_super_admin() ) : ?>
 		<input type="checkbox" id="send-notice" name="send-notice" value="1" /> <?php _e( "This is a notice to all users.", "buddypress" ) ?>
 	<?php endif; ?>
 

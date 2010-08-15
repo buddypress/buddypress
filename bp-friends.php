@@ -54,7 +54,7 @@ add_action( 'bp_setup_globals', 'friends_setup_globals' );
 function friends_check_installed() {
 	global $bp;
 
-	if ( !is_site_admin() )
+	if ( !is_super_admin() )
 		return false;
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */

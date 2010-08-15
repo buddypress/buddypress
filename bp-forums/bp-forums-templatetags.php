@@ -556,7 +556,7 @@ function bp_the_topic_admin_links( $args = '' ) {
 
 		$links[] = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'edit', 'bp_forums_edit_topic' ) . '">' . __( 'Edit Topic', 'buddypress' ) . '</a>';
 
-		if ( $bp->is_item_admin || $bp->is_item_mod || is_site_admin() ) {
+		if ( $bp->is_item_admin || $bp->is_item_mod || is_super_admin() ) {
 			if ( 0 == (int)$forum_template->topic->topic_sticky )
 				$links[] = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'stick', 'bp_forums_stick_topic' ) . '">' . __( 'Sticky Topic', 'buddypress' ) . '</a>';
 			else

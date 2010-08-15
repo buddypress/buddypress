@@ -43,7 +43,7 @@ add_filter( 'wp_mail_from', 'bp_core_email_from_address_filter' );
 function bp_core_allow_default_theme( $themes ) {
 	global $bp, $current_blog;
 
-	if ( !is_site_admin() )
+	if ( !is_super_admin() )
 		return $themes;
 
 	if ( $current_blog->ID == $bp->root_blog ) {

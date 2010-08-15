@@ -131,7 +131,7 @@ add_action( 'bp_setup_globals', 'xprofile_setup_globals' );
  * @package BuddyPress XProfile
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  * @global $wpdb WordPress DB access object.
- * @uses is_site_admin() returns true if the current user is a site admin, false if not
+ * @uses is_super_admin() returns true if the current user is a site admin, false if not
  * @uses bp_xprofile_install() runs the installation of DB tables for the xprofile component
  * @uses wp_enqueue_script() Adds a JS file to the JS queue ready for output
  * @uses add_submenu_page() Adds a submenu tab to a top level tab in the admin area
@@ -141,7 +141,7 @@ add_action( 'bp_setup_globals', 'xprofile_setup_globals' );
 function xprofile_add_admin_menu() {
 	global $wpdb, $bp;
 
-	if ( !is_site_admin() )
+	if ( !is_super_admin() )
 		return false;
 
 	/* Add the administration tab under the "Site Admin" tab for site administrators */
@@ -206,7 +206,7 @@ function xprofile_setup_adminbar_menu() {
 		return false;
 
 	/* Don't show this menu to non site admins or if you're viewing your own profile */
-	if ( !is_site_admin() || bp_is_my_profile() )
+	if ( !is_super_admin() || bp_is_my_profile() )
 		return false;
 	?>
 	<li id="bp-adminbar-adminoptions-menu">
@@ -267,7 +267,7 @@ function xprofile_screen_display_profile() {
 function xprofile_screen_edit_profile() {
 	global $bp;
 
-	if ( !bp_is_my_profile() && !is_site_admin() )
+	if ( !bp_is_my_profile() && !is_super_admin() )
 		return false;
 
 	/* Make sure a group is set. */
@@ -357,7 +357,7 @@ function xprofile_screen_edit_profile() {
 function xprofile_screen_change_avatar() {
 	global $bp;
 
-	if ( !bp_is_my_profile() && !is_site_admin() )
+	if ( !bp_is_my_profile() && !is_super_admin() )
 		return false;
 
 	$bp->avatar_admin->step = 'upload-image';
@@ -426,7 +426,7 @@ function xprofile_action_delete_avatar() {
 	/* Check the nonce */
 	check_admin_referer( 'bp_delete_avatar_link' );
 
-	if ( !bp_is_my_profile() && !is_site_admin() )
+	if ( !bp_is_my_profile() && !is_super_admin() )
 		return false;
 
 	if ( bp_core_delete_existing_avatar( array( 'item_id' => $bp->displayed_user->id ) ) )

@@ -216,7 +216,7 @@ function bp_dtheme_delete_activity() {
 	$activity = new BP_Activity_Activity( $_POST['id'] );
 
 	/* Check access */
-	if ( !is_site_admin() && $activity->user_id != $bp->loggedin_user->id )
+	if ( !is_super_admin() && $activity->user_id != $bp->loggedin_user->id )
 		return false;
 
 	if ( empty( $_POST['id'] ) || !is_numeric( $_POST['id'] ) )
@@ -249,7 +249,7 @@ function bp_dtheme_delete_activity_comment() {
 	$comment = new BP_Activity_Activity( $_POST['id'] );
 
 	/* Check access */
-	if ( !is_site_admin() && $comment->user_id != $bp->loggedin_user->id )
+	if ( !is_super_admin() && $comment->user_id != $bp->loggedin_user->id )
 		return false;
 
 	if ( empty( $_POST['id'] ) || !is_numeric( $_POST['id'] ) )

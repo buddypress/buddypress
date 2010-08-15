@@ -68,7 +68,7 @@ function bp_forums_directory_forums_setup() {
 
 			if ( $bp->groups->current_group = groups_get_group( array( 'group_id' => $_POST['topic_group_id'] ) ) ) {
 				/* Auto join this user if they are not yet a member of this group */
-				if ( !is_site_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
+				if ( !is_super_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
 					groups_join_group( $bp->groups->current_group->id, $bp->groups->current_group->id );
 
 				if ( $forum_id = groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' ) ) {
@@ -94,7 +94,7 @@ add_action( 'wp', 'bp_forums_directory_forums_setup', 2 );
 function bp_forums_add_admin_menu() {
 	global $bp;
 
-	if ( !is_site_admin() )
+	if ( !is_super_admin() )
 		return false;
 
 	require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-admin.php' );

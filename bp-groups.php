@@ -128,7 +128,7 @@ function groups_setup_nav() {
 		$bp->groups->current_group = new BP_Groups_Group( $group_id );
 
 		/* Using "item" not "group" for generic support in other components. */
-		if ( is_site_admin() )
+		if ( is_super_admin() )
 			$bp->is_item_admin = 1;
 		else
 			$bp->is_item_admin = groups_is_user_admin( $bp->loggedin_user->id, $bp->groups->current_group->id );
@@ -183,7 +183,7 @@ function groups_setup_nav() {
 
 			// If this is a private or hidden group, does the user have access?
 			if ( 'private' == $bp->groups->current_group->status || 'hidden' == $bp->groups->current_group->status ) {
-				if ( $bp->groups->current_group->is_user_member && is_user_logged_in() || is_site_admin() )
+				if ( $bp->groups->current_group->is_user_member && is_user_logged_in() || is_super_admin() )
 					$bp->groups->current_group->user_has_access = true;
 				else
 					$bp->groups->current_group->user_has_access = false;
@@ -205,7 +205,7 @@ function groups_setup_nav() {
 				bp_core_new_subnav_item( array( 'name' => __( 'Admin', 'buddypress' ), 'slug' => 'admin', 'parent_url' => $group_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_admin', 'position' => 20, 'user_has_access' => ( $bp->is_item_admin + (int)$bp->is_item_mod ), 'item_css_id' => 'admin' ) );
 
 			// If this is a private group, and the user is not a member, show a "Request Membership" nav item.
-			if ( !is_site_admin() && is_user_logged_in() && !$bp->groups->current_group->is_user_member && !groups_check_for_membership_request( $bp->loggedin_user->id, $bp->groups->current_group->id ) && $bp->groups->current_group->status == 'private' )
+			if ( !is_super_admin() && is_user_logged_in() && !$bp->groups->current_group->is_user_member && !groups_check_for_membership_request( $bp->loggedin_user->id, $bp->groups->current_group->id ) && $bp->groups->current_group->status == 'private' )
 				bp_core_new_subnav_item( array( 'name' => __( 'Request Membership', 'buddypress' ), 'slug' => 'request-membership', 'parent_url' => $group_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_request_membership', 'position' => 30 ) );
 
 			if ( $bp->groups->current_group->enable_forum && function_exists('bp_forums_setup') )
@@ -243,7 +243,7 @@ function groups_setup_adminbar_menu() {
 		return false;
 
 	/* Don't show this menu to non site admins or if you're viewing your own profile */
-	if ( !is_site_admin() )
+	if ( !is_super_admin() )
 		return false;
 	?>
 	<li id="bp-adminbar-adminoptions-menu">
@@ -369,7 +369,7 @@ function groups_screen_group_forum() {
 				check_admin_referer( 'bp_forums_new_reply' );
 
 				/* Auto join this user if they are not yet a member of this group */
-				if ( $bp->groups->auto_join && !is_site_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
+				if ( $bp->groups->auto_join && !is_super_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
 					groups_join_group( $bp->groups->current_group->id, $bp->loggedin_user->id );
 
 				if ( !$post_id = groups_new_group_forum_post( $_POST['reply_text'], $topic_id, $_GET['topic_page'] ) )
@@ -547,7 +547,7 @@ function groups_screen_group_forum() {
 				check_admin_referer( 'bp_forums_new_topic' );
 
 				/* Auto join this user if they are not yet a member of this group */
-				if ( $bp->groups->auto_join && !is_site_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
+				if ( $bp->groups->auto_join && !is_super_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
 					groups_join_group( $bp->groups->current_group->id, $bp->loggedin_user->id );
 
 				if ( !$topic = groups_new_group_forum_topic( $_POST['topic_title'], $_POST['topic_text'], $_POST['topic_tags'], $forum_id ) )
@@ -934,7 +934,7 @@ function groups_screen_group_admin_delete_group() {
 
 	if ( $bp->current_component == $bp->groups->slug && 'delete-group' == $bp->action_variables[0] ) {
 
-		if ( !$bp->is_item_admin && !is_site_admin() )
+		if ( !$bp->is_item_admin && !is_super_admin() )
 			return false;
 
 		if ( isset( $_REQUEST['delete-group-button'] ) && isset( $_REQUEST['delete-group-understand'] ) ) {
@@ -1914,7 +1914,7 @@ function groups_post_update( $args = '' ) {
 	$bp->groups->current_group = new BP_Groups_Group( $group_id );
 
 	/* Be sure the user is a member of the group before posting. */
-	if ( !is_site_admin() && !groups_is_user_member( $user_id, $group_id ) )
+	if ( !is_super_admin() && !groups_is_user_member( $user_id, $group_id ) )
 		return false;
 
 	/* Record this in activity streams */

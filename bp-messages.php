@@ -89,7 +89,7 @@ add_action( 'bp_setup_globals', 'messages_setup_globals' );
 function messages_check_installed() {
 	global $bp;
 
-	if ( !is_site_admin() )
+	if ( !is_super_admin() )
 		return false;
 
 	/* Need to check db tables exist, activate hook no-worky in mu-plugins folder. */
@@ -116,8 +116,8 @@ function messages_setup_nav() {
 	bp_core_new_subnav_item( array( 'name' => __( 'Sent Messages', 'buddypress' ), 'slug' => 'sentbox', 'parent_url' => $messages_link, 'parent_slug' => $bp->messages->slug, 'screen_function' => 'messages_screen_sentbox', 'position' => 20, 'user_has_access' => bp_is_my_profile() ) );
 	bp_core_new_subnav_item( array( 'name' => __( 'Compose', 'buddypress' ), 'slug' => 'compose', 'parent_url' => $messages_link, 'parent_slug' => $bp->messages->slug, 'screen_function' => 'messages_screen_compose', 'position' => 30, 'user_has_access' => bp_is_my_profile() ) );
 
-	if ( is_site_admin() )
-		bp_core_new_subnav_item( array( 'name' => __( 'Notices', 'buddypress' ), 'slug' => 'notices', 'parent_url' => $messages_link, 'parent_slug' => $bp->messages->slug, 'screen_function' => 'messages_screen_notices', 'position' => 90, 'user_has_access' => is_site_admin() ) );
+	if ( is_super_admin() )
+		bp_core_new_subnav_item( array( 'name' => __( 'Notices', 'buddypress' ), 'slug' => 'notices', 'parent_url' => $messages_link, 'parent_slug' => $bp->messages->slug, 'screen_function' => 'messages_screen_notices', 'position' => 90, 'user_has_access' => is_super_admin() ) );
 
 	if ( $bp->current_component == $bp->messages->slug ) {
 		if ( bp_is_my_profile() ) {
@@ -200,7 +200,7 @@ function messages_screen_compose() {
 function messages_screen_notices() {
 	global $bp, $notice_id;
 
-	if ( !is_site_admin() )
+	if ( !is_super_admin() )
 		return false;
 
 	$notice_id = $bp->action_variables[1];
@@ -285,7 +285,7 @@ function messages_action_view_message() {
 
 	$thread_id = $bp->action_variables[0];
 
-	if ( !$thread_id || !messages_is_valid_thread( $thread_id ) || ( !messages_check_thread_access($thread_id) && !is_site_admin() ) )
+	if ( !$thread_id || !messages_is_valid_thread( $thread_id ) || ( !messages_check_thread_access($thread_id) && !is_super_admin() ) )
 		bp_core_redirect( $bp->displayed_user->domain . $bp->current_component );
 
 	/* Check if a new reply has been submitted */
@@ -487,7 +487,7 @@ function messages_new_message( $args = '' ) {
 
 
 function messages_send_notice( $subject, $message ) {
-	if ( !is_site_admin() || empty( $subject ) || empty( $message ) ) {
+	if ( !is_super_admin() || empty( $subject ) || empty( $message ) ) {
 		return false;
 	} else {
 		// Has access to send notices, lets do it.
