@@ -108,6 +108,7 @@ function bp_core_setup_globals() {
 
 	/* is_super_admin() hits the DB on single WP installs, so we need to get this separately so we can call it in a loop. */
 	$bp->loggedin_user->is_super_admin = is_super_admin();
+	$bp->loggedin_user->is_site_admin  = $bp->loggedin_user->is_super_admin; // deprecated 1.2.6
 
 	/* The user id of the user currently being viewed, set in /bp-core/bp-core-catchuri.php */
 	$bp->displayed_user->id = $displayed_user_id;
