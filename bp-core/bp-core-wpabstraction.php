@@ -121,3 +121,12 @@ if ( !function_exists( 'is_subdomain_install' ) ) {
 		return false;
 	}
 }
+
+// Deprecated - 1.2.6
+if ( !function_exists( 'is_site_admin' ) ) {
+	function is_site_admin( $user_id = false ) {
+		return is_super_admin( $user_id );
+	}
+}
+
+?>
