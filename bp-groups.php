@@ -2341,8 +2341,6 @@ function groups_ban_member( $user_id, $group_id ) {
 
 	if ( !$member->ban() )
 		return false;
-
-	update_user_meta( $user_id, 'total_group_count', (int)$total_count - 1 );
 }
 
 function groups_unban_member( $user_id, $group_id ) {
