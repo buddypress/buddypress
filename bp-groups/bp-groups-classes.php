@@ -786,6 +786,23 @@ Class BP_Groups_Member {
 		$this->date_modified = bp_core_current_time();
 	}
 
+	function remove( $user_id, $group_id ) {
+		global $wpdb, $bp;
+
+		$sql = $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d", $user_id, $group_id );
+
+		if ( !$result = $wpdb->query( $sql ) )
+			return false;
+
+		groups_update_groupmeta( $this->group_id, 'total_member_count', ( (int) groups_get_groupmeta( $this->group_id, 'total_member_count' ) - 1 ) );
+
+		$group_count = get_user_meta( $this->user_id, 'total_group_count', true );
+		if ( !empty( $group_count ) )
+			update_user_meta( $this->user_id, 'total_group_count', (int)$group_count - 1 );
+
+		return $result;
+	}
+
 	/* Static Functions */
 
 	function delete( $user_id, $group_id ) {
