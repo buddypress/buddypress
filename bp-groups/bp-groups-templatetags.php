@@ -875,7 +875,7 @@ function bp_group_member_unban_link( $user_id = false ) {
 	echo bp_get_group_member_unban_link( $user_id );
 }
 	function bp_get_group_member_unban_link( $user_id = false, $group = false ) {
-		global $members_template;
+		global $members_template, $groups_template;
 
 		if ( !$user_id )
 			$user_id = $members_template->member->user_id;
