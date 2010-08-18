@@ -791,16 +791,15 @@ function groups_screen_group_admin_manage_members() {
 			$user_id = $bp->action_variables[3];
 			$status = $bp->action_variables[2];
 
-			/* Check the nonce first. */
+			// Check the nonce first.
 			if ( !check_admin_referer( 'groups_promote_member' ) )
 				return false;
 
 			// Promote a user.
-			if ( !groups_promote_member( $user_id, $bp->groups->current_group->id, $status ) ) {
+			if ( !groups_promote_member( $user_id, $bp->groups->current_group->id, $status ) )
 				bp_core_add_message( __( 'There was an error when promoting that user, please try again', 'buddypress' ), 'error' );
-			} else {
+			else
 				bp_core_add_message( __( 'User promoted successfully', 'buddypress' ) );
-			}
 
 			do_action( 'groups_promoted_member', $user_id, $bp->groups->current_group->id );
 
@@ -810,16 +809,15 @@ function groups_screen_group_admin_manage_members() {
 		if ( 'demote' == $bp->action_variables[1] && is_numeric( $bp->action_variables[2] ) ) {
 			$user_id = $bp->action_variables[2];
 
-			/* Check the nonce first. */
+			// Check the nonce first.
 			if ( !check_admin_referer( 'groups_demote_member' ) )
 				return false;
 
 			// Demote a user.
-			if ( !groups_demote_member( $user_id, $bp->groups->current_group->id ) ) {
+			if ( !groups_demote_member( $user_id, $bp->groups->current_group->id ) )
 				bp_core_add_message( __( 'There was an error when demoting that user, please try again', 'buddypress' ), 'error' );
-			} else {
+			else
 				bp_core_add_message( __( 'User demoted successfully', 'buddypress' ) );
-			}
 
 			do_action( 'groups_demoted_member', $user_id, $bp->groups->current_group->id );
 
@@ -829,16 +827,15 @@ function groups_screen_group_admin_manage_members() {
 		if ( 'ban' == $bp->action_variables[1] && is_numeric( $bp->action_variables[2] ) ) {
 			$user_id = $bp->action_variables[2];
 
-			/* Check the nonce first. */
+			// Check the nonce first.
 			if ( !check_admin_referer( 'groups_ban_member' ) )
 				return false;
 
 			// Ban a user.
-			if ( !groups_ban_member( $user_id, $bp->groups->current_group->id ) ) {
+			if ( !groups_ban_member( $user_id, $bp->groups->current_group->id ) )
 				bp_core_add_message( __( 'There was an error when banning that user, please try again', 'buddypress' ), 'error' );
-			} else {
+			else
 				bp_core_add_message( __( 'User banned successfully', 'buddypress' ) );
-			}
 
 			do_action( 'groups_banned_member', $user_id, $bp->groups->current_group->id );
 
@@ -848,18 +845,35 @@ function groups_screen_group_admin_manage_members() {
 		if ( 'unban' == $bp->action_variables[1] && is_numeric( $bp->action_variables[2] ) ) {
 			$user_id = $bp->action_variables[2];
 
-			/* Check the nonce first. */
+			// Check the nonce first.
 			if ( !check_admin_referer( 'groups_unban_member' ) )
 				return false;
 
 			// Remove a ban for user.
-			if ( !groups_unban_member( $user_id, $bp->groups->current_group->id ) ) {
+			if ( !groups_unban_member( $user_id, $bp->groups->current_group->id ) )
 				bp_core_add_message( __( 'There was an error when unbanning that user, please try again', 'buddypress' ), 'error' );
-			} else {
+			else
 				bp_core_add_message( __( 'User ban removed successfully', 'buddypress' ) );
-			}
 
 			do_action( 'groups_unbanned_member', $user_id, $bp->groups->current_group->id );
+
+			bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . 'admin/manage-members/' );
+		}
+
+		if ( 'remove' == $bp->action_variables[1] && is_numeric( $bp->action_variables[2] ) ) {
+			$user_id = $bp->action_variables[2];
+
+			// Check the nonce first.
+			if ( !check_admin_referer( 'groups_remove_member' ) )
+				return false;
+
+			// Remove a user.
+			if ( !groups_leave_group( $bp->groups->current_group->id, $user_id ) )
+				bp_core_add_message( __( 'There was an error removing that user from the group, please try again', 'buddypress' ), 'error' );
+			else
+				bp_core_add_message( __( 'User removed successfully', 'buddypress' ) );
+
+			do_action( 'groups_removed_member', $user_id, $bp->groups->current_group->id );
 
 			bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . 'admin/manage-members/' );
 		}
