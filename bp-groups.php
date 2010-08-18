@@ -2356,6 +2356,22 @@ function groups_unban_member( $user_id, $group_id ) {
 	return $member->unban();
 }
 
+/*** Group Removal *******************************************************/
+
+function groups_remove_member( $user_id, $group_id ) {
+	global $bp;
+
+	if ( !$bp->is_item_admin )
+		return false;
+
+	$member = new BP_Groups_Member( $user_id, $group_id );
+
+	do_action( 'groups_remove_member', $group_id, $user_id );
+
+	if ( !$member->remove( $user_id, $group_id ) )
+		return false;
+}
+
 /*** Group Membership ****************************************************/
 
 function groups_send_membership_request( $requesting_user_id, $group_id ) {
