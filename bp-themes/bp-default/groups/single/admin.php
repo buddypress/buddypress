@@ -194,7 +194,7 @@
 			<ul id="members-list" class="item-list single-line">
 				<?php while ( bp_group_members() ) : bp_group_the_member(); ?>
 
-					<li class="<?php bp_groups_member_css_class(); ?>">
+					<li class="<?php bp_group_member_css_class(); ?>">
 						<?php bp_group_member_avatar_mini() ?>
 
 						<h5>
