@@ -886,6 +886,24 @@ function bp_group_member_unban_link( $user_id = false ) {
 		return apply_filters( 'bp_get_group_member_unban_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/unban/' . $user_id, 'groups_unban_member' ) );
 	}
 
+
+function bp_group_member_remove_link( $user_id = false ) {
+	global $members_template;
+
+	if ( !$user_id )
+		$user_id = $members_template->member->user_id;
+
+	echo bp_get_group_member_remove_link( $user_id );
+}
+	function bp_get_group_member_remove_link( $user_id = false, $group = false ) {
+		global $members_template, $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_member_remove_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/remove/' . $user_id, 'groups_remove_member' ) );
+	}
+
 function bp_group_admin_tabs( $group = false ) {
 	global $bp, $groups_template;
 
@@ -1377,6 +1395,13 @@ function bp_group_member_is_banned() {
 
 		return apply_filters( 'bp_get_group_member_is_banned', $members_template->member->is_banned );
 	}
+
+function bp_group_member_css_class() {
+	global $members_template;
+
+	if ( $members_template->member->is_banned )
+		echo apply_filters( 'bp_group_member_css_class', 'banned-user' );
+}
 
 function bp_group_member_joined_since() {
 	echo bp_get_group_member_joined_since();
