@@ -1149,21 +1149,25 @@ class BP_Group_Extension {
 		global $bp;
 
 		if ( $this->enable_create_step ) {
-			/* Insert the group creation step for the new group extension */
+			// Insert the group creation step for the new group extension
 			$bp->groups->group_creation_steps[$this->slug] = array( 'name' => $this->name, 'slug' => $this->slug, 'position' => $this->create_step_position );
 
-			/* Attach the group creation step display content action */
+			// Attach the group creation step display content action
 			add_action( 'groups_custom_create_steps', array( &$this, 'create_screen' ) );
 
-			/* Attach the group creation step save content action */
+			// Attach the group creation step save content action
 			add_action( 'groups_create_group_step_save_' . $this->slug, array( &$this, 'create_screen_save' ) );
 		}
 
-		/* Construct the admin edit tab for the new group extension */
+		// Construct the admin edit tab for the new group extension
 		if ( $this->enable_edit_item ) {
 			add_action( 'groups_admin_tabs', create_function( '$current, $group_slug', 'if ( "' . esc_attr( $this->slug ) . '" == $current ) $selected = " class=\"current\""; echo "<li{$selected}><a href=\"' . $bp->root_domain . '/' . $bp->groups->slug . '/{$group_slug}/admin/' . esc_attr( $this->slug ) . '\">' . esc_attr( $this->name ) . '</a></li>";' ), 10, 2 );
 
-			/* Catch the edit screen and forward it to the plugin template */
+			// Make sure user has access
+			if ( !$bp->is_item_admin )
+				return false;
+
+			// Catch the edit screen and forward it to the plugin template
 			if ( $bp->current_component == $bp->groups->slug && 'admin' == $bp->current_action && $this->slug == $bp->action_variables[0] ) {
 				add_action( 'wp', array( &$this, 'edit_screen_save' ) );
 				add_action( 'groups_custom_edit_steps', array( &$this, 'edit_screen' ) );
@@ -1178,20 +1182,20 @@ class BP_Group_Extension {
 			}
 		}
 
-		/* When we are viewing a single group, add the group extension nav item */
+		// When we are viewing a single group, add the group extension nav item
 		if ( $this->visibility == 'public' || ( $this->visibility != 'public' && $bp->groups->current_group->user_has_access ) ) {
 			if ( $this->enable_nav_item ) {
 				if ( $bp->current_component == $bp->groups->slug && $bp->is_single_item )
 					bp_core_new_subnav_item( array( 'name' => ( !$this->nav_item_name ) ? $this->name : $this->nav_item_name, 'slug' => $this->slug, 'parent_slug' => BP_GROUPS_SLUG, 'parent_url' => bp_get_group_permalink( $bp->groups->current_group ), 'position' => $this->nav_item_position, 'item_css_id' => 'nav-' . $this->slug, 'screen_function' => array( &$this, '_display_hook' ), 'user_has_access' => $this->enable_nav_item ) );
 
-				/* When we are viewing the extension display page, set the title and options title */
+				// When we are viewing the extension display page, set the title and options title
 				if ( $bp->current_component == $bp->groups->slug && $bp->is_single_item && $bp->current_action == $this->slug ) {
 					add_action( 'bp_template_content_header', create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
 			 		add_action( 'bp_template_title', create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
 				}
 			}
 
-			/* Hook the group home widget */
+			// Hook the group home widget
 			if ( $bp->current_component == $bp->groups->slug && $bp->is_single_item && ( !$bp->current_action || 'home' == $bp->current_action ) )
 				add_action( $this->display_hook, array( &$this, 'widget_display' ) );
 		}
