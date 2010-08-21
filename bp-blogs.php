@@ -456,10 +456,10 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 	if ( !$is_approved || !$recorded_comment->comment_approved )
 		return false;
 
-	// Get blog and post data
-	$blog_id = (int)$wpdb->blogid;
-	$recorded_comment->post = get_post( $recorded_comment->comment_post_ID );
-
+	// Don't record activity if no email address has been included
+	if ( empty( $recorded_comment->comment_author_email ) )
+		return false;
+	
 	// Get the user_id from the comment author email.
 	$user = get_user_by_email( $recorded_comment->comment_author_email );
 	$user_id = (int)$user->ID;
@@ -467,6 +467,10 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 	// If there's no registered user id, don't record activity
 	if ( empty( $user_id ) )
 		return false;
+
+	// Get blog and post data
+	$blog_id = (int)$wpdb->blogid;
+	$recorded_comment->post = get_post( $recorded_comment->comment_post_ID );
 
 	// If this is a password protected post, don't record the comment
 	if ( !empty( $recorded_comment->post->post_password ) )
