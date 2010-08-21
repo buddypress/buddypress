@@ -868,7 +868,7 @@ function groups_screen_group_admin_manage_members() {
 				return false;
 
 			// Remove a user.
-			if ( !groups_leave_group( $bp->groups->current_group->id, $user_id ) )
+			if ( !groups_remove_member( $bp->groups->current_group->id, $user_id ) )
 				bp_core_add_message( __( 'There was an error removing that user from the group, please try again', 'buddypress' ), 'error' );
 			else
 				bp_core_add_message( __( 'User removed successfully', 'buddypress' ) );
