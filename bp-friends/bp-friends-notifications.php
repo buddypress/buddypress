@@ -17,8 +17,9 @@ function friends_notification_new_request( $friendship_id, $initiator_id, $frien
 	$initiator_link = bp_core_get_user_domain( $initiator_id );
 
 	// Set up and send the message
-	$to = $ud->user_email;
-	$subject = '[' . wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ) ) . '] ' . sprintf( __( 'New friendship request from %s', 'buddypress' ), $initiator_name );
+	$to       = $ud->user_email;
+	$sitename = wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ), ENT_QUOTES );
+	$subject  = '[' . $sitename . '] ' . sprintf( __( 'New friendship request from %s', 'buddypress' ), $initiator_name );
 
 	$message = sprintf( __(
 "%s wants to add you as a friend.
@@ -56,8 +57,9 @@ function friends_notification_accepted_request( $friendship_id, $initiator_id, $
 	$settings_link = bp_core_get_user_domain( $initiator_id ) .  BP_SETTINGS_SLUG . '/notifications';
 
 	// Set up and send the message
-	$to = $ud->user_email;
-	$subject = '[' . wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ) ) . '] ' . sprintf( __( '%s accepted your friendship request', 'buddypress' ), $friend_name );
+	$to       = $ud->user_email;
+	$sitename = wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ), ENT_QUOTES );
+	$subject  = '[' . $sitename . '] ' . sprintf( __( '%s accepted your friendship request', 'buddypress' ), $friend_name );
 
 	$message = sprintf( __(
 '%s accepted your friend request.

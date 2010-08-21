@@ -18,8 +18,9 @@ function messages_notification_new_message( $args ) {
 		$content = stripslashes( wp_filter_kses( $content ) );
 
 		// Set up and send the message
-		$email_to = $ud->user_email;
-		$email_subject = '[' . wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ) ) . '] ' . sprintf( __( 'New message from %s', 'buddypress' ), $sender_name );
+		$email_to      = $ud->user_email;
+		$sitename      = wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ), ENT_QUOTES );
+		$email_subject = '[' . $sitename . '] ' . sprintf( __( 'New message from %s', 'buddypress' ), $sender_name );
 
 		$email_content = sprintf( __(
 '%s sent you a new message:
