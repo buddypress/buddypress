@@ -497,7 +497,7 @@ function bp_send_private_message_link() {
 	function bp_get_send_private_message_link() {
 		global $bp;
 
-		return apply_filters( 'bp_get_send_public_message_link', $bp->loggedin_user->domain . $bp->messages->slug . '/compose/?r=' . bp_core_get_username( $bp->displayed_user->user_id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) );
+		return apply_filters( 'bp_get_send_private_message_link', $bp->loggedin_user->domain . $bp->messages->slug . '/compose/?r=' . bp_core_get_username( $bp->displayed_user->user_id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) );
 	}
 
 function bp_send_message_button() {
