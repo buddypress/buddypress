@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-08-19 13:13+0000\n"
+"POT-Creation-Date: 2010-08-21 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -153,12 +153,12 @@ msgstr ""
 msgid "Posted an update"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:31
+#: bp-activity/bp-activity-notifications.php:32
 #, php-format
 msgid "%s mentioned you in an update"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:34
+#: bp-activity/bp-activity-notifications.php:35
 #, php-format
 msgid ""
 "%s mentioned you in an update:\n"
@@ -170,28 +170,28 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:43
-#: bp-activity/bp-activity-notifications.php:86
-#: bp-activity/bp-activity-notifications.php:128
-#: bp-friends/bp-friends-notifications.php:33
-#: bp-friends/bp-friends-notifications.php:70
-#: bp-groups/bp-groups-notifications.php:29
-#: bp-groups/bp-groups-notifications.php:77
-#: bp-groups/bp-groups-notifications.php:130
-#: bp-groups/bp-groups-notifications.php:176
-#: bp-groups/bp-groups-notifications.php:228
-#: bp-groups/bp-groups-notifications.php:285
-#: bp-messages/bp-messages-notifications.php:36
+#: bp-activity/bp-activity-notifications.php:44
+#: bp-activity/bp-activity-notifications.php:88
+#: bp-activity/bp-activity-notifications.php:131
+#: bp-friends/bp-friends-notifications.php:34
+#: bp-friends/bp-friends-notifications.php:72
+#: bp-groups/bp-groups-notifications.php:30
+#: bp-groups/bp-groups-notifications.php:79
+#: bp-groups/bp-groups-notifications.php:133
+#: bp-groups/bp-groups-notifications.php:179
+#: bp-groups/bp-groups-notifications.php:231
+#: bp-groups/bp-groups-notifications.php:289
+#: bp-messages/bp-messages-notifications.php:37
 #, php-format
 msgid "To disable these notifications please log in and go to: %s"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:74
+#: bp-activity/bp-activity-notifications.php:76
 #, php-format
 msgid "%s replied to one of your updates"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:77
+#: bp-activity/bp-activity-notifications.php:79
 #, php-format
 msgid ""
 "%s replied to one of your updates:\n"
@@ -203,12 +203,12 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:113
+#: bp-activity/bp-activity-notifications.php:116
 #, php-format
 msgid "%s replied to one of your comments"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:119
+#: bp-activity/bp-activity-notifications.php:122
 #, php-format
 msgid ""
 "%s replied to one of your comments:\n"
@@ -388,7 +388,7 @@ msgstr ""
 msgid "%s wrote a new blog post: %s"
 msgstr ""
 
-#: bp-blogs.php:483
+#: bp-blogs.php:487
 #, php-format
 msgid "%s commented on the blog post %s"
 msgstr ""
@@ -1590,7 +1590,7 @@ msgstr ""
 msgid "%d friends accepted your friendship requests"
 msgstr ""
 
-#: bp-friends.php:324 bp-friends/bp-friends-notifications.php:60
+#: bp-friends.php:324 bp-friends/bp-friends-notifications.php:62
 #, php-format
 msgid "%s accepted your friendship request"
 msgstr ""
@@ -1614,12 +1614,12 @@ msgstr ""
 msgid "%s and %s are now friends"
 msgstr ""
 
-#: bp-friends/bp-friends-notifications.php:21
+#: bp-friends/bp-friends-notifications.php:22
 #, php-format
 msgid "New friendship request from %s"
 msgstr ""
 
-#: bp-friends/bp-friends-notifications.php:24
+#: bp-friends/bp-friends-notifications.php:25
 #, php-format
 msgid ""
 "%s wants to add you as a friend.\n"
@@ -1631,7 +1631,7 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-friends/bp-friends-notifications.php:63
+#: bp-friends/bp-friends-notifications.php:65
 #, php-format
 msgid ""
 "%s accepted your friend request.\n"
@@ -1756,7 +1756,7 @@ msgstr ""
 msgid "Group invite accepted"
 msgstr ""
 
-#: bp-groups.php:306 bp-groups.php:1759 bp-groups.php:2454
+#: bp-groups.php:306 bp-groups.php:1759 bp-groups.php:2453
 #, php-format
 msgid "%s joined the group %s"
 msgstr ""
@@ -2120,11 +2120,11 @@ msgstr ""
 msgid "Group Mod"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:7
+#: bp-groups/bp-groups-notifications.php:8
 msgid "Group Details Updated"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:22
+#: bp-groups/bp-groups-notifications.php:23
 #, php-format
 msgid ""
 "Group details for the group \"%s\" were updated:\n"
@@ -2134,12 +2134,12 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:62
+#: bp-groups/bp-groups-notifications.php:64
 #, php-format
 msgid "Membership request for group: %s"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:65
+#: bp-groups/bp-groups-notifications.php:67
 #, php-format
 msgid ""
 "%s wants to join the group \"%s\".\n"
@@ -2155,12 +2155,12 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:110
+#: bp-groups/bp-groups-notifications.php:113
 #, php-format
 msgid "Membership request for group \"%s\" accepted"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:112
+#: bp-groups/bp-groups-notifications.php:115
 #, php-format
 msgid ""
 "Your membership request for the group \"%s\" has been accepted.\n"
@@ -2170,12 +2170,12 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:120
+#: bp-groups/bp-groups-notifications.php:123
 #, php-format
 msgid "Membership request for group \"%s\" rejected"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:122
+#: bp-groups/bp-groups-notifications.php:125
 #, php-format
 msgid ""
 "Your membership request for the group \"%s\" has been rejected.\n"
@@ -2185,20 +2185,20 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:144
+#: bp-groups/bp-groups-notifications.php:147
 msgid "an administrator"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:147
+#: bp-groups/bp-groups-notifications.php:150
 msgid "a moderator"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:166
+#: bp-groups/bp-groups-notifications.php:169
 #, php-format
 msgid "You have been promoted in the group: \"%s\""
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:169
+#: bp-groups/bp-groups-notifications.php:172
 #, php-format
 msgid ""
 "You have been promoted to %s for the group: \"%s\".\n"
@@ -2208,12 +2208,12 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:214
+#: bp-groups/bp-groups-notifications.php:217
 #, php-format
 msgid "You have an invitation to the group: \"%s\""
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:217
+#: bp-groups/bp-groups-notifications.php:220
 #, php-format
 msgid ""
 "One of your friends %s has invited you to the group: \"%s\".\n"
@@ -2227,12 +2227,12 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:273
+#: bp-groups/bp-groups-notifications.php:277
 #, php-format
 msgid "%s mentioned you in the group \"%s\""
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:276
+#: bp-groups/bp-groups-notifications.php:280
 #, php-format
 msgid ""
 "%s mentioned you in the group \"%s\":\n"
@@ -2574,12 +2574,12 @@ msgstr ""
 msgid " Recipients"
 msgstr ""
 
-#: bp-messages/bp-messages-notifications.php:22
+#: bp-messages/bp-messages-notifications.php:23
 #, php-format
 msgid "New message from %s"
 msgstr ""
 
-#: bp-messages/bp-messages-notifications.php:25
+#: bp-messages/bp-messages-notifications.php:26
 #, php-format
 msgid ""
 "%s sent you a new message:\n"
