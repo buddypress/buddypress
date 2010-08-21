@@ -2353,8 +2353,7 @@ function groups_ban_member( $user_id, $group_id ) {
 
 	do_action( 'groups_ban_member', $group_id, $user_id );
 
-	if ( !$member->ban() )
-		return false;
+	return $member->ban();
 }
 
 function groups_unban_member( $user_id, $group_id ) {
