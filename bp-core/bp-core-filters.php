@@ -10,7 +10,7 @@
  * @return The blog name for the root blog
  */
 function bp_core_email_from_name_filter() {
- 	return apply_filters( 'bp_core_email_from_name_filter', get_blog_option( BP_ROOT_BLOG, 'blogname' ) );
+ 	return apply_filters( 'bp_core_email_from_name_filter', wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ), ENT_QUOTES ) );
 }
 add_filter( 'wp_mail_from_name', 'bp_core_email_from_name_filter' );
 
