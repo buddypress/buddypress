@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-08-21 13:13+0000\n"
+"POT-Creation-Date: 2010-08-25 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -262,7 +262,7 @@ msgstr ""
 
 #: bp-activity/bp-activity-templatetags.php:663
 #: bp-activity/bp-activity-templatetags.php:796
-#: bp-forums/bp-forums-templatetags.php:961
+#: bp-forums/bp-forums-templatetags.php:963
 #: bp-themes/bp-default/_inc/ajax.php:192 bp-xprofile/bp-xprofile-admin.php:68
 #: bp-xprofile/bp-xprofile-admin.php:95
 msgid "Delete"
@@ -511,8 +511,8 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:498 bp-core/bp-core-templatetags.php:474
 #: bp-core/bp-core-templatetags.php:480
-#: bp-forums/bp-forums-templatetags.php:1011
-#: bp-forums/bp-forums-templatetags.php:1017
+#: bp-forums/bp-forums-templatetags.php:1013
+#: bp-forums/bp-forums-templatetags.php:1019
 #: bp-groups/bp-groups-templatetags.php:1732
 #: bp-groups/bp-groups-templatetags.php:1738
 #: bp-themes/bp-default/_inc/ajax.php:56
@@ -521,7 +521,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:499 bp-core/bp-core-templatetags.php:481
 #: bp-core/bp-core-templatetags.php:1075
-#: bp-forums/bp-forums-templatetags.php:1018
+#: bp-forums/bp-forums-templatetags.php:1020
 #: bp-groups/bp-groups-templatetags.php:1739
 #: bp-themes/bp-default/header.php:93 bp-themes/bp-default/searchform.php:5
 msgid "Search"
@@ -1450,7 +1450,7 @@ msgstr ""
 
 #: bp-forums/bp-forums-templatetags.php:298
 #: bp-forums/bp-forums-templatetags.php:347
-#: bp-forums/bp-forums-templatetags.php:908
+#: bp-forums/bp-forums-templatetags.php:910
 msgid "Deleted User"
 msgstr ""
 
@@ -1500,13 +1500,13 @@ msgstr ""
 msgid "Viewing topic %1$s to %2$s (%3$s total topics%4$s)"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:960
+#: bp-forums/bp-forums-templatetags.php:962
 #: bp-themes/bp-default/functions.php:64 bp-xprofile/bp-xprofile-admin.php:67
 #: bp-xprofile/bp-xprofile-admin.php:94
 msgid "Edit"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:993
+#: bp-forums/bp-forums-templatetags.php:995
 #, php-format
 msgid "Viewing post %1$s to %2$s (%3$s total posts)"
 msgstr ""
@@ -2837,6 +2837,11 @@ msgstr ""
 #: bp-themes/bp-default/activity/index.php:50
 #, php-format
 msgid "(%s new)"
+msgstr ""
+
+#: bp-themes/bp-default/activity/index.php:60
+#: bp-themes/bp-default/groups/single/activity.php:3
+msgid "RSS Feed"
 msgstr ""
 
 #: bp-themes/bp-default/activity/index.php:60
