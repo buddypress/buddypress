@@ -150,7 +150,7 @@ function bp_has_activities( $args = '' ) {
 		$object = $bp->groups->id;
 		$primary_id = $bp->groups->current_group->id;
 
-		if ( 'public' != $bp->groups->current_group->status && groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
+		if ( 'public' != $bp->groups->current_group->status && ( groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) || $bp->loggedin_user->is_super_admin ) )
 			$show_hidden = true;
 	}
 
