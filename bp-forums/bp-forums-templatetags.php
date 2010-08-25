@@ -713,17 +713,18 @@ class BP_Forums_Template_Topic {
 	var $sort_by;
 	var $order;
 
-	function BP_Forums_Template_Topic( $topic_id, $per_page, $max ) {
+	function BP_Forums_Template_Topic( $topic_id, $per_page, $max, $order ) {
 		global $bp, $current_user, $forum_template;
 
-		$this->pag_page = isset( $_REQUEST['topic_page'] ) ? intval( $_REQUEST['topic_page'] ) : 1;
-		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
+		$this->pag_page        = isset( $_REQUEST['topic_page'] ) ? intval( $_REQUEST['topic_page'] ) : 1;
+		$this->pag_num         = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
-		$this->topic_id = $topic_id;
+		$this->order           = $order;
+		$this->topic_id        = $topic_id;
 		$forum_template->topic = (object) bp_forums_get_topic_details( $this->topic_id );
-		$this->forum_id = $forum_template->topic->forum_id;
+		$this->forum_id        = $forum_template->topic->forum_id;
 
-		$this->posts = bp_forums_get_topic_posts( array( 'topic_id' => $this->topic_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num ) );
+		$this->posts = bp_forums_get_topic_posts( array( 'topic_id' => $this->topic_id, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'order' => $this->order ) );
 
 		if ( !$this->posts ) {
 			$this->post_count = 0;
@@ -808,7 +809,8 @@ function bp_has_forum_topic_posts( $args = '' ) {
 	$defaults = array(
 		'topic_id' => false,
 		'per_page' => 15,
-		'max' => false
+		'max'      => false,
+		'order'    => 'ASC'
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -818,7 +820,7 @@ function bp_has_forum_topic_posts( $args = '' ) {
 		$topic_id = bp_forums_get_topic_id_from_slug( $bp->action_variables[1] );
 
 	if ( is_numeric( $topic_id ) ) {
-		$topic_template = new BP_Forums_Template_Topic( $topic_id, $per_page, $max );
+		$topic_template = new BP_Forums_Template_Topic( $topic_id, $per_page, $max, $order );
 
 		// Current topic forum_id needs to match current_group forum_id
 		if ( $bp->current_component == $bp->groups->slug && $topic_template->forum_id != groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' ) )
