@@ -60,7 +60,7 @@ function groups_install() {
 			KEY meta_key (meta_key)
 		   ) {$charset_collate};";
 
-	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
+	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 	dbDelta($sql);
 
 	do_action( 'groups_install' );

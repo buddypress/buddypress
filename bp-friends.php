@@ -26,7 +26,7 @@ function friends_install() {
 			    KEY friend_user_id (friend_user_id)
 		 	   ) {$charset_collate};";
 
-	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
+	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 	dbDelta($sql);
 
 	update_site_option( 'bp-friends-db-version', BP_FRIENDS_DB_VERSION );

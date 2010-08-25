@@ -76,7 +76,7 @@ function xprofile_install() {
 
 	}
 
-	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 	dbDelta($sql);
 
 	do_action( 'xprofile_install' );

@@ -66,7 +66,7 @@ function bp_activity_install() {
 				KEY meta_key (meta_key)
 		   	   ) {$charset_collate};";
 
-	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 	dbDelta($sql);
 
 	update_site_option( 'bp-activity-db-version', BP_ACTIVITY_DB_VERSION );

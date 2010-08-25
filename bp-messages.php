@@ -51,7 +51,7 @@ function messages_install() {
 			    KEY is_active (is_active)
 		 	   ) {$charset_collate};";
 
-	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 	dbDelta($sql);
 
 	/* Upgrade and remove the message threads table if it exists */

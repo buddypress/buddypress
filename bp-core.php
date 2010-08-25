@@ -251,7 +251,7 @@ function bp_core_install() {
 				KEY useritem (user_id,is_new)
 			   ) {$charset_collate};";
 
-	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 	dbDelta( $sql );
 
 	/* Add names of root components to the banned blog list to avoid conflicts */

@@ -65,7 +65,7 @@ function bp_forums_load_bbpress() {
 
 	/* This must be loaded before functionss.bb-admin.php otherwise we get a function conflict. */
 	if ( !$tables_installed = (boolean) $bbdb->get_results( 'DESCRIBE `' . $bbdb->forums . '`;', ARRAY_A ) )
-		require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 	require_once( BB_PATH . 'bb-admin/includes/functions.bb-admin.php' );
 
