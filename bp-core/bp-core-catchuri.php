@@ -32,12 +32,12 @@ function bp_core_set_uri_globals() {
 	global $bp_unfiltered_uri;
 	global $bp, $current_blog;
 
-	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && bp_core_is_multisite() ) {
-		/* Only catch URI's on the root blog if we are not running BP on multiple blogs */
+	// Only catch URI's on the root blog if we are not running BP on multiple blogs
+	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && bp_core_is_multisite() )
 		if ( BP_ROOT_BLOG != (int) $current_blog->blog_id )
 			return false;
-	}
 
+	// Ajax or not?
 	if ( strpos( $_SERVER['REQUEST_URI'], 'wp-load.php' ) )
 		$path = bp_core_referrer();
 	else
@@ -45,61 +45,72 @@ function bp_core_set_uri_globals() {
 
 	$path = apply_filters( 'bp_uri', $path );
 
-	// Firstly, take GET variables off the URL to avoid problems,
-	// they are still registered in the global $_GET variable */
+	// Take GET variables off the URL to avoid problems,
+	// they are still registered in the global $_GET variable
 	$noget = substr( $path, 0, strpos( $path, '?' ) );
-	if ( $noget != '' ) $path = $noget;
+	if ( $noget != '' )
+		$path = $noget;
 
-	/* Fetch the current URI and explode each part separated by '/' into an array */
-	$bp_uri = explode( "/", $path );
+	// Fetch the current URI and explode each part separated by '/' into an array
+	$bp_uri = explode( '/', $path );
 
-	/* Loop and remove empties */
+	// Loop and remove empties
 	foreach ( (array)$bp_uri as $key => $uri_chunk )
 		if ( empty( $bp_uri[$key] ) ) unset( $bp_uri[$key] );
 
+	// Running off blog other than root
 	if ( defined( 'BP_ENABLE_MULTIBLOG' ) || 1 != BP_ROOT_BLOG ) {
-		/* If we are running BuddyPress on any blog, not just a root blog, we need to first
-		   shift off the blog name if we are running a subdirectory install of WPMU. */
-		if ( $current_blog->path != '/' )
-			array_shift( $bp_uri );
+
+		// Any subdirectory names must be removed from $bp_uri.
+		// This includes two cases: (1) when WP is installed in a subdirectory,
+		// and (2) when BP is running on secondary blog of a subdirectory
+		// multisite installation. Phew!
+		if ( $chunks = explode( '/', $current_blog->path ) ) {
+			foreach( $chunks as $key => $chunk ) {
+				$bkey = array_search( $chunk, $bp_uri );
+
+				if ( $bkey !== false )
+					unset( $bp_uri[$bkey] );
+
+				$bp_uri = array_values( $bp_uri );
+			}
+		}
 	}
 
-	/* Set the indexes, these are incresed by one if we are not on a VHOST install */
+	// Set the indexes, these are incresed by one if we are not on a VHOST install
 	$component_index = 0;
-	$action_index = $component_index + 1;
+	$action_index    = $component_index + 1;
 
 	// If this is a WordPress page, return from the function.
 	if ( is_page( $bp_uri[$component_index] ) )
 		return false;
 
-	/* Get site path items */
+	// Get site path items
 	$paths = explode( '/', bp_core_get_site_path() );
 
-	/* Take empties off the end of path */
+	// Take empties off the end of path
 	if ( empty( $paths[count($paths) - 1] ) )
 		array_pop( $paths );
 
-	/* Take empties off the start of path */
+	// Take empties off the start of path
 	if ( empty( $paths[0] ) )
 		array_shift( $paths );
 
-	foreach ( (array)$bp_uri as $key => $uri_chunk ) {
-		if ( in_array( $uri_chunk, $paths )) {
+	foreach ( (array)$bp_uri as $key => $uri_chunk )
+		if ( in_array( $uri_chunk, $paths ))
 			unset( $bp_uri[$key] );
-		}
-	}
 
-	/* Reset the keys by merging with an empty array */
-	$bp_uri = array_merge( array(), $bp_uri );
+	// Reset the keys by merging with an empty array
+	$bp_uri            = array_merge( array(), $bp_uri );
 	$bp_unfiltered_uri = $bp_uri;
 
-	/* If we are under anything with a members slug, set the correct globals */
+	// If we are under anything with a members slug, set the correct globals
 	if ( $bp_uri[0] == BP_MEMBERS_SLUG ) {
-		$is_member_page = true;
+		$is_member_page    = true;
 		$is_root_component = true;
 	}
 
-	/* Catch a member page and set the current member ID */
+	// Catch a member page and set the current member ID
 	if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) ) {
 		if ( ( $bp_uri[0] == BP_MEMBERS_SLUG && !empty( $bp_uri[1] ) ) || in_array( 'wp-load.php', $bp_uri ) ) {
 			// We are within a member page, set up user id globals
@@ -111,12 +122,12 @@ function bp_core_set_uri_globals() {
 			unset($bp_uri[0]);
 			unset($bp_uri[1]);
 
-			/* Reset the keys by merging with an empty array */
+			// Reset the keys by merging with an empty array
 			$bp_uri = array_merge( array(), $bp_uri );
 		}
 	} else {
 		if ( get_userdatabylogin( $bp_uri[0] ) || in_array( 'wp-load.php', $bp_uri ) ) {
-			$is_member_page = true;
+			$is_member_page    = true;
 			$is_root_component = true;
 
 			// We are within a member page, set up user id globals
@@ -127,12 +138,12 @@ function bp_core_set_uri_globals() {
 
 			unset($bp_uri[0]);
 
-			/* Reset the keys by merging with an empty array */
+			// Reset the keys by merging with an empty array
 			$bp_uri = array_merge( array(), $bp_uri );
 		}
 	}
 
-	if ( !isset($is_root_component) )
+	if ( !isset( $is_root_component ) )
 		$is_root_component = in_array( $bp_uri[0], $bp->root_components );
 
 	if ( !is_subdomain_install() && !$is_root_component ) {
@@ -140,24 +151,24 @@ function bp_core_set_uri_globals() {
 		$action_index++;
 	}
 
-	/* Set the current component */
+	// Set the current component
 	$current_component = $bp_uri[$component_index];
 
-	/* Set the current action */
-	$current_action = $bp_uri[$action_index];
+	// Set the current action
+	$current_action    = $bp_uri[$action_index];
 
-	/* Set the entire URI as the action variables, we will unset the current_component and action in a second */
-	$action_variables = $bp_uri;
+	// Set the entire URI as the action variables, we will unset the current_component and action in a second
+	$action_variables  = $bp_uri;
 
-	/* Unset the current_component and action from action_variables */
-	unset($action_variables[$component_index]);
-	unset($action_variables[$action_index]);
+	// Unset the current_component and action from action_variables
+	unset( $action_variables[$component_index] );
+	unset( $action_variables[$action_index] );
 
-	/* Remove the username from action variables if this is not a VHOST install */
+	// Remove the username from action variables if this is not a VHOST install
 	if ( !is_subdomain_install() && !$is_root_component )
-		array_shift($action_variables);
+		array_shift( $action_variables );
 
-	/* Reset the keys by merging with an empty array */
+	// Reset the keys by merging with an empty array
 	$action_variables = array_merge( array(), $action_variables );
 }
 add_action( 'bp_loaded', 'bp_core_set_uri_globals', 4 );
