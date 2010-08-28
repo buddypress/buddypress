@@ -88,4 +88,26 @@ function bp_forums_make_nofollow_filter( $text ) {
 		return "<a $text rel=\"nofollow\">";
 	}
 
+/**
+ * bp_forums_add_forum_topic_to_page_title( $title )
+ *
+ * Append forum topic to page title
+ *
+ * @global object $bp
+ * @param string $title
+ * @return string
+ */
+function bp_forums_add_forum_topic_to_page_title( $title ) {
+	global $bp;
+
+	if ( $bp->current_action == 'forum' && $bp->action_variables[0] == 'topic' ) {
+		if ( bp_has_forum_topic_posts() ) {
+			$title .= ' &#124; ' . bp_get_the_topic_title();
+		}
+	}
+
+	return $title;
+}
+add_filter( 'bp_page_title', 'bp_forums_add_forum_topic_to_page_title' );
+
 ?>
