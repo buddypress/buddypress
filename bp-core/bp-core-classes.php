@@ -190,7 +190,8 @@ class BP_Core_User {
 			$sql['pagination'] = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		/* Get paginated results */
-		$paged_users = $wpdb->get_results( join( ' ', (array)$sql ) );
+		$paged_users_sql = apply_filters( 'bp_core_get_paged_users_sql', join( ' ', (array)$sql ), $sql );
+		$paged_users     = $wpdb->get_results( $paged_users_sql );
 
 		/* Re-jig the SQL so we can get the total user count */
 		unset( $sql['select_main'] );
@@ -210,7 +211,8 @@ class BP_Core_User {
 		array_unshift( $sql, "SELECT COUNT(DISTINCT u.ID)" );
 
 		/* Get total user results */
-		$total_users = $wpdb->get_var( join( ' ', (array)$sql ) );
+		$total_users_sql = apply_filters( 'bp_core_get_total_users_sql', join( ' ', (array)$sql ), $sql );
+		$total_users     = $wpdb->get_var( $total_users_sql );
 
 		/***
 		 * Lets fetch some other useful data in a separate queries, this will be faster than querying the data for every user in a list.
