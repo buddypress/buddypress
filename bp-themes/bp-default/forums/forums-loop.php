@@ -1,12 +1,16 @@
+<?php /* Querystring is set via AJAX in _inc/ajax.php - bp_dtheme_object_filter() */ ?>
+
+<?php do_action( 'bp_before_forums_loop' ) ?>
+
 <?php if ( bp_has_forum_topics( bp_ajax_querystring( 'forums' ) ) ) : ?>
 
-	<div class="pagination">
+	<div id="pag-top" class="pagination">
 
-		<div id="post-count" class="pag-count">
+		<div class="pag-count" id="topic-count-top">
 			<?php bp_forum_pagination_count() ?>
 		</div>
 
-		<div class="pagination-links" id="topic-pag">
+		<div class="pagination-links" id="topic-pag-top">
 			<?php bp_forum_pagination() ?>
 		</div>
 
@@ -73,6 +77,18 @@
 
 	<?php do_action( 'bp_after_directory_forums_list' ) ?>
 
+	<div id="pag-bottom" class="pagination">
+
+		<div class="pag-count" id="topic-count-bottom">
+			<?php bp_forum_pagination_count() ?>
+		</div>
+
+		<div class="pagination-links" id="topic-pag-bottom">
+			<?php bp_forum_pagination() ?>
+		</div>
+
+	</div>
+
 <?php else: ?>
 
 	<div id="message" class="info">
@@ -80,3 +96,5 @@
 	</div>
 
 <?php endif;?>
+
+<?php do_action( 'bp_after_forums_loop' ) ?>

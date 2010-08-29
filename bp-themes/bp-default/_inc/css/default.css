@@ -603,6 +603,10 @@ div.pagination {
 				font-weight: bold;
 			}
 
+div#pag-bottom {
+	margin-top: 5px;
+}
+
 /* > Error / Success Messages
 -------------------------------------------------------------- */
 
