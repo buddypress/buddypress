@@ -102,7 +102,7 @@ function bp_activity_filter_kses( $content ) {
 function bp_activity_at_name_filter( $content ) {
 	include_once( ABSPATH . WPINC . '/registration.php' );
 
-	$pattern = '/[@]+([A-Za-z0-9-_]+)/';
+	$pattern = '/[@]+([A-Za-z0-9-_\.]+)/';
 	preg_match_all( $pattern, $content, $usernames );
 
 	/* Make sure there's only one instance of each username */
