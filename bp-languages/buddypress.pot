@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-08-27 13:13+0000\n"
+"POT-Creation-Date: 2010-08-29 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -405,7 +405,7 @@ msgstr ""
 #: bp-blogs/bp-blogs-templatetags.php:253 bp-core/bp-core-classes.php:82
 #: bp-core/bp-core-templatetags.php:355 bp-core/bp-core-templatetags.php:1349
 #: bp-groups/bp-groups-widgets.php:119
-#: bp-themes/bp-default/groups/groups-loop.php:29
+#: bp-themes/bp-default/groups/groups-loop.php:31
 #: bp-themes/bp-default/groups/single/group-header.php:31
 #, php-format
 msgid "active %s ago"
@@ -3005,11 +3005,11 @@ msgstr ""
 msgid "Sorry, no attachments matched your criteria."
 msgstr ""
 
-#: bp-themes/bp-default/blogs/blogs-loop.php:36
+#: bp-themes/bp-default/blogs/blogs-loop.php:38
 msgid "Visit Blog"
 msgstr ""
 
-#: bp-themes/bp-default/blogs/blogs-loop.php:59
+#: bp-themes/bp-default/blogs/blogs-loop.php:73
 msgid "Sorry, there were no blogs found."
 msgstr ""
 
@@ -3147,31 +3147,31 @@ msgid ""
 "<a href=\"http://buddypress.org\">BuddyPress</a>"
 msgstr ""
 
-#: bp-themes/bp-default/forums/forums-loop.php:20
+#: bp-themes/bp-default/forums/forums-loop.php:24
 msgid "Topic Title"
 msgstr ""
 
-#: bp-themes/bp-default/forums/forums-loop.php:21
+#: bp-themes/bp-default/forums/forums-loop.php:25
 msgid "Latest Poster"
 msgstr ""
 
-#: bp-themes/bp-default/forums/forums-loop.php:24
+#: bp-themes/bp-default/forums/forums-loop.php:28
 msgid "Posted In Group"
 msgstr ""
 
-#: bp-themes/bp-default/forums/forums-loop.php:27
+#: bp-themes/bp-default/forums/forums-loop.php:31
 msgid "Posts"
 msgstr ""
 
-#: bp-themes/bp-default/forums/forums-loop.php:28
+#: bp-themes/bp-default/forums/forums-loop.php:32
 msgid "Freshness"
 msgstr ""
 
-#: bp-themes/bp-default/forums/forums-loop.php:41
+#: bp-themes/bp-default/forums/forums-loop.php:45
 msgid "Permalink"
 msgstr ""
 
-#: bp-themes/bp-default/forums/forums-loop.php:79
+#: bp-themes/bp-default/forums/forums-loop.php:95
 msgid "Sorry, there were no forum topics found."
 msgstr ""
 
@@ -3488,7 +3488,7 @@ msgstr ""
 msgid "Finish"
 msgstr ""
 
-#: bp-themes/bp-default/groups/groups-loop.php:57
+#: bp-themes/bp-default/groups/groups-loop.php:71
 msgid "There were no groups found."
 msgstr ""
 
@@ -3718,7 +3718,7 @@ msgstr ""
 msgid "Newest Registered"
 msgstr ""
 
-#: bp-themes/bp-default/members/members-loop.php:70
+#: bp-themes/bp-default/members/members-loop.php:82
 msgid "Sorry, no members were found."
 msgstr ""
 
