@@ -573,7 +573,7 @@ div.dir-search {
 -------------------------------------------------------------- */
 
 div.pagination {
-	margin: -15px -20px 9px -20px;
+	margin: -20px -20px 9px -20px;
 	border-bottom: 1px solid #eaeaea;
 	padding: 10px 20px 10px 20px;
 	color: #888;
@@ -604,7 +604,7 @@ div.pagination {
 			}
 
 div#pag-bottom {
-	margin-top: 5px;
+	margin-top: 0;
 }
 
 /* > Error / Success Messages
