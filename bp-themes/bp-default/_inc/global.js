@@ -168,7 +168,7 @@ jq(document).ready( function() {
 
 				if ( 'fav' == type ) {
 					if ( !jq('div.item-list-tabs li#activity-favorites').length )
-						jq('div.item-list-tabs ul li#activity-mentions').before( '<li id="activity-favorites"><a href="#">' + bp_terms_my_favs + ' (<span>0</span>)</a></li>');
+						jq('div.item-list-tabs ul li#activity-mentions').before( '<li id="activity-favorites"><a href="#">' + BP_DTheme.my_favs + ' (<span>0</span>)</a></li>');
 
 					target.removeClass('fav');
 					target.addClass('unfav');
@@ -460,7 +460,7 @@ jq(document).ready( function() {
 
 	jq('span.highlight span').click( function() {
 		if ( !jq('div.help').length ) {
-			jq(this).parent().after( '<div id="message" class="info help"><p>' + bp_terms_mention_explain + '</p></div>' );
+			jq(this).parent().after( '<div id="message" class="info help"><p>' + BP_DTheme.mention_explain + '</p></div>' );
 			jq('div.help').hide().slideDown(200);
 		} else {
 			jq('div.help').hide().remove();
@@ -712,10 +712,10 @@ jq(document).ready( function() {
 			} else {
 				button.fadeOut( 100, function() {
 					if ( jq(this).hasClass('accept') ) {
-						jq(this).html( bp_terms_accepted ).fadeIn(50);
+						jq(this).html( BP_DTheme.accepted ).fadeIn(50);
 						jq(this).addClass('accepted');
 					} else {
-						jq(this).html( bp_terms_rejected ).fadeIn(50);
+						jq(this).html( BP_DTheme.rejected ).fadeIn(50);
 						jq(this).addClass('rejected');
 					}
 				});
@@ -1205,7 +1205,7 @@ function bp_dtheme_hide_comments() {
 				jq(this).toggle();
 
 				if ( !i )
-					jq(this).before( '<li class="show-all"><a href="#' + parent_li.attr('id') + '/show-all/" title="' + bp_terms_show_all_comments + '">' + bp_terms_show_all + ' ' + comment_count + ' ' + bp_terms_comments + '</a></li>' );
+					jq(this).before( '<li class="show-all"><a href="#' + parent_li.attr('id') + '/show-all/" title="' + BP_DTheme.show_all_comments + '">' + BP_DTheme.show_all + ' ' + comment_count + ' ' + BP_DTheme.comments + '</a></li>' );
 			}
 		});
 
