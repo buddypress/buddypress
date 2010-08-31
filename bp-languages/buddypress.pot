@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-08-29 13:13+0000\n"
+"POT-Creation-Date: 2010-08-31 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1501,7 +1501,7 @@ msgid "Viewing topic %1$s to %2$s (%3$s total topics%4$s)"
 msgstr ""
 
 #: bp-forums/bp-forums-templatetags.php:962
-#: bp-themes/bp-default/functions.php:64 bp-xprofile/bp-xprofile-admin.php:67
+#: bp-themes/bp-default/functions.php:91 bp-xprofile/bp-xprofile-admin.php:67
 #: bp-xprofile/bp-xprofile-admin.php:94
 msgid "Edit"
 msgstr ""
@@ -2640,7 +2640,7 @@ msgid "Activate"
 msgstr ""
 
 #: bp-messages/bp-messages-templatetags.php:486
-#: bp-themes/bp-default/functions.php:259
+#: bp-themes/bp-default/functions.php:32
 msgid "Close"
 msgstr ""
 
@@ -2759,7 +2759,7 @@ msgid "Blog Posts"
 msgstr ""
 
 #: bp-themes/bp-default/_inc/options.php:38
-#: bp-themes/bp-default/functions.php:85
+#: bp-themes/bp-default/functions.php:120
 msgid "Activity Stream"
 msgstr ""
 
@@ -3248,55 +3248,55 @@ msgstr ""
 msgid "Unreplied"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:52
-msgid "said:"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:53
-msgid "On"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:57
-msgid "Your comment is awaiting moderation."
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:241
-#, php-format
-msgid ""
-"Theme activated! This theme contains <a href=\"%s\">custom header image</a> "
-"support and <a href=\"%s\">sidebar widgets</a>."
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:253
+#: bp-themes/bp-default/functions.php:26
 msgid "My Favorites"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:254
+#: bp-themes/bp-default/functions.php:27
 msgid "Accepted"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:255
+#: bp-themes/bp-default/functions.php:28
 msgid "Rejected"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:256
+#: bp-themes/bp-default/functions.php:29
 msgid "Show all comments for this thread"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:257
+#: bp-themes/bp-default/functions.php:30
 msgid "Show all"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:258
+#: bp-themes/bp-default/functions.php:31
 msgid "comments"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:260
+#: bp-themes/bp-default/functions.php:33
 #, php-format
 msgid ""
 "%s is a unique identifier for %s that you can type into any message on this "
 "site. %s will be sent a notification and a link to your message any time you "
 "use it."
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:79
+msgid "said:"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:80
+msgid "On"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:84
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:328
+#, php-format
+msgid ""
+"Theme activated! This theme contains <a href=\"%s\">custom header image</a> "
+"support and <a href=\"%s\">sidebar widgets</a>."
 msgstr ""
 
 #: bp-themes/bp-default/groups/create.php:7
