@@ -1620,6 +1620,13 @@ function groups_edit_group_settings( $group_id, $enable_forum, $status ) {
 	return true;
 }
 
+/**
+ * Delete a group and all of its associated meta
+ *
+ * @global object $bp BuddyPress global settings
+ * @param int $group_id
+ * @since 1.0
+ */
 function groups_delete_group( $group_id ) {
 	global $bp;
 
@@ -1629,14 +1636,12 @@ function groups_delete_group( $group_id ) {
 
 	// Get the group object
 	$group = new BP_Groups_Group( $group_id );
-
 	if ( !$group->delete() )
 		return false;
 
-	/* Delete all group activity from activity streams */
-	if ( function_exists( 'bp_activity_delete_by_item_id' ) ) {
+	// Delete all group activity from activity streams
+	if ( bp_is_active( 'activity' ) )
 		bp_activity_delete_by_item_id( array( 'item_id' => $group_id, 'component' => $bp->groups->id ) );
-	}
 
 	// Remove all outstanding invites for this group
 	groups_delete_all_group_invites( $group_id );
@@ -1644,7 +1649,13 @@ function groups_delete_group( $group_id ) {
 	// Remove all notifications for any user belonging to this group
 	bp_core_delete_all_notifications_by_type( $group_id, $bp->groups->slug );
 
-	do_action( 'groups_delete_group', $group_id );
+	// Remove forum if component is active and current group has one
+	if ( function_exists( 'bp_forums_setup' ) && $group->enable_forum ) {
+		do_action( 'bbpress_init' );
+		bb_delete_forum( groups_get_groupmeta( $group_id, 'forum_id' ) );
+	}
+
+	do_action( 'groups_delete_group', $group_id);
 
 	return true;
 }
