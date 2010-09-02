@@ -1908,6 +1908,18 @@ function groups_is_user_banned( $user_id, $group_id ) {
 	return BP_Groups_Member::check_is_banned( $user_id, $group_id );
 }
 
+/**
+ * Is the specified user the creator of the group?
+ *
+ * @param int $user_id
+ * @param int $group_id
+ * @since 1.2.6
+ * @uses BP_Groups_Member
+ */
+function groups_is_user_creator( $user_id, $group_id ) {
+	return BP_Groups_Member::check_is_creator( $user_id, $group_id );
+}
+
 /*** Group Activity Posting **************************************************/
 
 function groups_post_update( $args = '' ) {

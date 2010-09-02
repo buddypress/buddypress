@@ -979,6 +979,24 @@ Class BP_Groups_Member {
 		return $wpdb->get_var( $wpdb->prepare( "SELECT is_banned FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );
 	}
 
+	/**
+	 * Is the specified user the creator of the group?
+	 *
+	 * @global object $bp BuddyPress global settings
+	 * @global wpdb $wpdb WordPress database object
+	 * @param int $user_id
+	 * @param int $group_id
+	 * @since 1.2.6
+	 */
+	function check_is_creator( $user_id, $group_id ) {
+		global $bp, $wpdb;
+
+		if ( !$user_id )
+			return false;
+
+		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name} WHERE creator_id = %d AND id = %d", $user_id, $group_id ) );
+	}
+
 	function check_for_membership_request( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
@@ -1071,13 +1089,26 @@ Class BP_Groups_Member {
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE group_id = %d", $group_id ) );
 	}
 
+	/**
+	 * Delete all group membership information for the specified user
+	 *
+	 * @global object $bp BuddyPress global settings
+	 * @global wpdb $wpdb WordPress database object
+	 * @param int $user_id
+	 * @since 1.0
+	 * @uses BP_Groups_Member
+	 */
 	function delete_all_for_user( $user_id ) {
-		global $wpdb, $bp;
+		global $bp, $wpdb;
 
 		// Get all the group ids for the current user's groups and update counts
 		$group_ids = BP_Groups_Member::get_group_ids( $user_id );
 		foreach ( $group_ids['groups'] as $group_id ) {
 			groups_update_groupmeta( $group_id, 'total_member_count', groups_get_total_member_count( $group_id ) - 1 );
+
+			// If current user is the creator of a group and is the sole admin, delete that group to avoid counts going out-of-sync
+			if ( groups_is_user_admin( $user_id, $group_id ) && count( groups_get_group_admins( $group_id ) ) < 2 && groups_is_user_creator( $user_id, $group_id ) )
+				groups_delete_group( $group_id );
 		}
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d", $user_id ) );
