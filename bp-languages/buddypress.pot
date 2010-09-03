@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-08-31 13:13+0000\n"
+"POT-Creation-Date: 2010-09-03 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1756,7 +1756,7 @@ msgstr ""
 msgid "Group invite accepted"
 msgstr ""
 
-#: bp-groups.php:306 bp-groups.php:1759 bp-groups.php:2453
+#: bp-groups.php:306 bp-groups.php:1770 bp-groups.php:2476
 #, php-format
 msgid "%s joined the group %s"
 msgstr ""
@@ -2005,7 +2005,7 @@ msgstr ""
 msgid "There was an error leaving the group."
 msgstr ""
 
-#: bp-groups.php:1255 bp-groups.php:1717
+#: bp-groups.php:1255 bp-groups.php:1728
 msgid "You successfully left the group."
 msgstr ""
 
@@ -2097,21 +2097,21 @@ msgstr ""
 msgid "Group Admin"
 msgstr ""
 
-#: bp-groups.php:1694
+#: bp-groups.php:1705
 msgid "As the only Admin, you cannot leave the group."
 msgstr ""
 
-#: bp-groups.php:1935
+#: bp-groups.php:1958
 #, php-format
 msgid "%s posted an update in the group %s:"
 msgstr ""
 
-#: bp-groups.php:2006 bp-groups.php:2111
+#: bp-groups.php:2029 bp-groups.php:2134
 #, php-format
 msgid "%s posted on the forum topic %s in the group %s:"
 msgstr ""
 
-#: bp-groups.php:2045 bp-groups.php:2077
+#: bp-groups.php:2068 bp-groups.php:2100
 #, php-format
 msgid "%s started the forum topic %s in the group %s:"
 msgstr ""
