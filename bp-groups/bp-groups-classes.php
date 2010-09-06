@@ -633,9 +633,9 @@ Class BP_Groups_Member {
 
 		groups_update_groupmeta( $this->group_id, 'total_member_count', ( (int) groups_get_groupmeta( $this->group_id, 'total_member_count' ) - 1 ) );
 
-		$group_count = get_usermeta( $this->user_id, 'total_group_count' );
+		$group_count = get_user_meta( $this->user_id, 'total_group_count', true );
 		if ( !empty( $group_count ) )
-			update_usermeta( $this->user_id, 'total_group_count', (int)$group_count - 1 );
+			update_user_meta( $this->user_id, 'total_group_count', (int)$group_count - 1 );
 
 		return $this->save();
 	}
@@ -647,7 +647,7 @@ Class BP_Groups_Member {
 		$this->is_banned = 0;
 
 		groups_update_groupmeta( $this->group_id, 'total_member_count', ( (int) groups_get_groupmeta( $this->group_id, 'total_member_count' ) + 1 ) );
-		update_usermeta( $this->user_id, 'total_group_count', (int)get_usermeta( $this->user_id, 'total_group_count' ) + 1 );
+		update_user_meta( $this->user_id, 'total_group_count', (int)get_user_meta( $this->user_id, 'total_group_count', true ) + 1 );
 
 		return $this->save();
 	}
@@ -655,12 +655,29 @@ Class BP_Groups_Member {
 	function accept_invite() {
 		$this->inviter_id = 0;
 		$this->is_confirmed = 1;
-		$this->date_modified = gmdate( "Y-m-d H:i:s" );
+		$this->date_modified = bp_core_current_time();
 	}
 
 	function accept_request() {
 		$this->is_confirmed = 1;
-		$this->date_modified = gmdate( "Y-m-d H:i:s" );
+		$this->date_modified = bp_core_current_time();
+	}
+
+	function remove( $user_id, $group_id ) {
+		global $wpdb, $bp;
+
+		$sql = $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d", $user_id, $group_id );
+
+		if ( !$result = $wpdb->query( $sql ) )
+			return false;
+
+		groups_update_groupmeta( $this->group_id, 'total_member_count', ( (int) groups_get_groupmeta( $this->group_id, 'total_member_count' ) - 1 ) );
+
+		$group_count = get_user_meta( $this->user_id, 'total_group_count', true );
+		if ( !empty( $group_count ) )
+			update_user_meta( $this->user_id, 'total_group_count', (int)$group_count - 1 );
+
+		return $result;
 	}
 
 	/* Static Functions */
@@ -757,7 +774,7 @@ Class BP_Groups_Member {
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
 
-		if ( $user_id != $bp->loggedin_user->id && !is_site_admin() ) {
+		if ( $user_id != $bp->loggedin_user->id && !is_super_admin() ) {
 			return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $user_id ) );
 		} else {
 			return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $user_id ) );
@@ -794,6 +811,15 @@ Class BP_Groups_Member {
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND inviter_id != 0 AND invite_sent = 1", $user_id, $group_id ) );
 	}
 
+	function delete_request( $user_id, $group_id ) {
+		global $wpdb, $bp;
+
+		if ( !$user_id )
+			return false;
+
+ 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND inviter_id = 0 AND invite_sent = 0", $user_id, $group_id ) );
+	}
+
 	function check_is_admin( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
@@ -828,6 +854,24 @@ Class BP_Groups_Member {
 			return false;
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT is_banned FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );
+	}
+
+	/**
+	 * Is the specified user the creator of the group?
+	 *
+	 * @global object $bp BuddyPress global settings
+	 * @global wpdb $wpdb WordPress database object
+	 * @param int $user_id
+	 * @param int $group_id
+	 * @since 1.2.6
+	 */
+	function check_is_creator( $user_id, $group_id ) {
+		global $bp, $wpdb;
+
+		if ( !$user_id )
+			return false;
+
+		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name} WHERE creator_id = %d AND id = %d", $user_id, $group_id ) );
 	}
 
 	function check_for_membership_request( $user_id, $group_id ) {
@@ -887,9 +931,9 @@ Class BP_Groups_Member {
 			$banned_sql = $wpdb->prepare( " AND is_banned = 0" );
 
 		if ( bp_is_active( 'xprofile' ) )
-			$members = $wpdb->get_results( apply_filters( 'bp_group_members_user_join_filter', $wpdb->prepare( "SELECT m.user_id, m.date_modified, m.is_banned, u.user_login, u.user_nicename, u.user_email, pd.value as display_name FROM {$bp->groups->table_name_members} m, {$wpdb->users} u, {$bp->profile->table_name_data} pd WHERE u.ID = m.user_id AND u.ID = pd.user_id AND pd.field_id = 1 AND group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_sql} ORDER BY m.date_modified DESC {$pag_sql}", $group_id ) ) );
+			$members = $wpdb->get_results( $wpdb->prepare( "SELECT m.user_id, m.date_modified, m.is_banned, u.user_login, u.user_nicename, u.user_email, pd.value as display_name FROM {$bp->groups->table_name_members} m, {$wpdb->users} u, {$bp->profile->table_name_data} pd WHERE u.ID = m.user_id AND u.ID = pd.user_id AND pd.field_id = 1 AND group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_sql} ORDER BY m.date_modified DESC {$pag_sql}", $group_id ) );
 		else
-			$members = $wpdb->get_results( apply_filters( 'bp_group_members_user_join_filter', $wpdb->prepare( "SELECT m.user_id, m.date_modified, m.is_banned, u.user_login, u.user_nicename, u.user_email, u.display_name FROM {$bp->groups->table_name_members} m, {$wpdb->users} u WHERE u.ID = m.user_id AND group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_sql} ORDER BY m.date_modified DESC {$pag_sql}", $group_id ) ) );
+			$members = $wpdb->get_results( $wpdb->prepare( "SELECT m.user_id, m.date_modified, m.is_banned, u.user_login, u.user_nicename, u.user_email, u.display_name FROM {$bp->groups->table_name_members} m, {$wpdb->users} u WHERE u.ID = m.user_id AND group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_sql} ORDER BY m.date_modified DESC {$pag_sql}", $group_id ) );
 
 		if ( !$members )
 			return false;
@@ -897,13 +941,13 @@ Class BP_Groups_Member {
 		if ( !isset($pag_sql) )
 			$total_member_count = count($members);
 		else
-			$total_member_count = $wpdb->get_var( apply_filters( 'bp_group_members_count_user_join_filter', $wpdb->prepare( "SELECT COUNT(user_id) FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_sql}", $group_id ) ) );
+			$total_member_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(user_id) FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_sql}", $group_id ) );
 
 		/* Fetch whether or not the user is a friend */
 		foreach ( (array)$members as $user ) $user_ids[] = $user->user_id;
 		$user_ids = $wpdb->escape( join( ',', (array)$user_ids ) );
 
-		if ( bp_is_active( 'friends' ) ) {
+		if ( function_exists( 'friends_install' ) ) {
 			$friend_status = $wpdb->get_results( $wpdb->prepare( "SELECT initiator_user_id, friend_user_id, is_confirmed FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d AND friend_user_id IN ( {$user_ids} ) ) OR (initiator_user_id IN ( {$user_ids} ) AND friend_user_id = %d )", $bp->loggedin_user->id, $bp->loggedin_user->id ) );
 			for ( $i = 0; $i < count( $members ); $i++ ) {
 				foreach ( (array)$friend_status as $status ) {
@@ -922,8 +966,27 @@ Class BP_Groups_Member {
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE group_id = %d", $group_id ) );
 	}
 
+	/**
+	 * Delete all group membership information for the specified user
+	 *
+	 * @global object $bp BuddyPress global settings
+	 * @global wpdb $wpdb WordPress database object
+	 * @param int $user_id
+	 * @since 1.0
+	 * @uses BP_Groups_Member
+	 */
 	function delete_all_for_user( $user_id ) {
-		global $wpdb, $bp;
+		global $bp, $wpdb;
+
+		// Get all the group ids for the current user's groups and update counts
+		$group_ids = BP_Groups_Member::get_group_ids( $user_id );
+		foreach ( $group_ids['groups'] as $group_id ) {
+			groups_update_groupmeta( $group_id, 'total_member_count', groups_get_total_member_count( $group_id ) - 1 );
+
+			// If current user is the creator of a group and is the sole admin, delete that group to avoid counts going out-of-sync
+			if ( groups_is_user_admin( $user_id, $group_id ) && count( groups_get_group_admins( $group_id ) ) < 2 && groups_is_user_creator( $user_id, $group_id ) )
+				groups_delete_group( $group_id );
+		}
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d", $user_id ) );
 	}
@@ -993,42 +1056,28 @@ class BP_Group_Extension {
 	function _register() {
 		global $bp;
 
-		/* When we are viewing a single group, add the group extension nav item */
-		if ( $this->visbility == 'public' || ( $this->visbility != 'public' && $bp->groups->current_group->user_has_access ) ) {
-			if ( $this->enable_nav_item ) {
-				if ( $bp->current_component == $bp->groups->slug && $bp->is_single_item )
-					bp_core_new_subnav_item( array( 'name' => ( !$this->nav_item_name ) ? $this->name : $this->nav_item_name, 'slug' => $this->slug, 'parent_slug' => BP_GROUPS_SLUG, 'parent_url' => bp_get_group_permalink( $bp->groups->current_group ), 'position' => $this->nav_item_position, 'item_css_id' => 'nav-' . $this->slug, 'screen_function' => array( &$this, '_display_hook' ), 'user_has_access' => $this->enable_nav_item ) );
-
-				/* When we are viewing the extension display page, set the title and options title */
-				if ( $bp->current_component == $bp->groups->slug && $bp->is_single_item && $bp->current_action == $this->slug ) {
-					add_action( 'bp_template_content_header', create_function( '', 'echo "' . attribute_escape( $this->name ) . '";' ) );
-			 		add_action( 'bp_template_title', create_function( '', 'echo "' . attribute_escape( $this->name ) . '";' ) );
-				}
-			}
-
-			/* Hook the group home widget */
-			if ( $bp->current_component == $bp->groups->slug && $bp->is_single_item && ( !$bp->current_action || 'home' == $bp->current_action ) )
-				add_action( $this->display_hook, array( &$this, 'widget_display' ) );
-		}
-
 		if ( $this->enable_create_step ) {
-			/* Insert the group creation step for the new group extension */
+			// Insert the group creation step for the new group extension
 			$bp->groups->group_creation_steps[$this->slug] = array( 'name' => $this->name, 'slug' => $this->slug, 'position' => $this->create_step_position );
 
-			/* Attach the group creation step display content action */
+			// Attach the group creation step display content action
 			add_action( 'groups_custom_create_steps', array( &$this, 'create_screen' ) );
 
-			/* Attach the group creation step save content action */
+			// Attach the group creation step save content action
 			add_action( 'groups_create_group_step_save_' . $this->slug, array( &$this, 'create_screen_save' ) );
 		}
 
-		/* Construct the admin edit tab for the new group extension */
+		// Construct the admin edit tab for the new group extension
 		if ( $this->enable_edit_item ) {
-			add_action( 'groups_admin_tabs', create_function( '$current, $group_slug', 'if ( "' . attribute_escape( $this->slug ) . '" == $current ) $selected = " class=\"current\""; echo "<li{$selected}><a href=\"' . $bp->root_domain . '/' . $bp->groups->slug . '/{$group_slug}/admin/' . attribute_escape( $this->slug ) . '\">' . attribute_escape( $this->name ) . '</a></li>";' ), 10, 2 );
+			add_action( 'groups_admin_tabs', create_function( '$current, $group_slug', 'if ( "' . esc_attr( $this->slug ) . '" == $current ) $selected = " class=\"current\""; echo "<li{$selected}><a href=\"' . $bp->root_domain . '/' . $bp->groups->slug . '/{$group_slug}/admin/' . esc_attr( $this->slug ) . '\">' . esc_attr( $this->name ) . '</a></li>";' ), 10, 2 );
 
-			/* Catch the edit screen and forward it to the plugin template */
+			// Make sure user has access
+			if ( !$bp->is_item_admin )
+				return false;
+
+			// Catch the edit screen and forward it to the plugin template
 			if ( $bp->current_component == $bp->groups->slug && 'admin' == $bp->current_action && $this->slug == $bp->action_variables[0] ) {
-				$this->edit_screen_save();
+				add_action( 'wp', array( &$this, 'edit_screen_save' ) );
 				add_action( 'groups_custom_edit_steps', array( &$this, 'edit_screen' ) );
 
 				if ( '' != locate_template( array( 'groups/single/home.php' ), false ) ) {
@@ -1039,6 +1088,24 @@ class BP_Group_Extension {
 					bp_core_load_template( apply_filters( 'bp_core_template_plugin', '/groups/single/plugins' ) );
 				}
 			}
+		}
+
+		// When we are viewing a single group, add the group extension nav item
+		if ( $this->visibility == 'public' || ( $this->visibility != 'public' && $bp->groups->current_group->user_has_access ) ) {
+			if ( $this->enable_nav_item ) {
+				if ( $bp->current_component == $bp->groups->slug && $bp->is_single_item )
+					bp_core_new_subnav_item( array( 'name' => ( !$this->nav_item_name ) ? $this->name : $this->nav_item_name, 'slug' => $this->slug, 'parent_slug' => BP_GROUPS_SLUG, 'parent_url' => bp_get_group_permalink( $bp->groups->current_group ), 'position' => $this->nav_item_position, 'item_css_id' => 'nav-' . $this->slug, 'screen_function' => array( &$this, '_display_hook' ), 'user_has_access' => $this->enable_nav_item ) );
+
+				// When we are viewing the extension display page, set the title and options title
+				if ( $bp->current_component == $bp->groups->slug && $bp->is_single_item && $bp->current_action == $this->slug ) {
+					add_action( 'bp_template_content_header', create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
+			 		add_action( 'bp_template_title', create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
+				}
+			}
+
+			// Hook the group home widget
+			if ( $bp->current_component == $bp->groups->slug && $bp->is_single_item && ( !$bp->current_action || 'home' == $bp->current_action ) )
+				add_action( $this->display_hook, array( &$this, 'widget_display' ) );
 		}
 	}
 
@@ -1054,8 +1121,8 @@ function bp_register_group_extension( $group_extension_class ) {
 	if ( !class_exists( $group_extension_class ) )
 		return false;
 
-	/* Register the group extension on the plugins_loaded action so we have access to all plugins */
-	add_action( 'init', create_function( '', '$extension = new ' . $group_extension_class . '; add_action( "pre_get_posts", array( &$extension, "_register" ) );' ) );
+	/* Register the group extension on the bp_init action so we have access to all plugins */
+	add_action( 'bp_init', create_function( '', '$extension = new ' . $group_extension_class . '; add_action( "wp", array( &$extension, "_register" ), 2 );' ), 11 );
 }
 
 

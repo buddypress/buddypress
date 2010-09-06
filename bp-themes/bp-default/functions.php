@@ -71,9 +71,6 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 
 /* Filter the dropdown for selecting the page to show on front to include "Activity Stream" */
 function bp_dtheme_wp_pages_filter( $page_html ) {
-	if ( !bp_is_active( 'activity' ) )
-		return $page_html;
-
 	if ( 'page_on_front' != substr( $page_html, 14, 13 ) )
 		return $page_html;
 

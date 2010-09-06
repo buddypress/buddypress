@@ -15,6 +15,7 @@ require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-cssjs.php' );
  * @global $wpdb WordPress DB access object.
  * @uses site_url() Returns the site URL
  */
+
 function xprofile_setup_globals() {
 	global $bp, $wpdb;
 
@@ -135,7 +136,6 @@ function xprofile_setup_adminbar_menu() {
 			<li><a href="<?php echo $bp->displayed_user->domain . $bp->profile->slug ?>/edit/"><?php printf( __( "Edit %s's Profile", 'buddypress' ), attribute_escape( $bp->displayed_user->fullname ) ) ?></a></li>
 			<li><a href="<?php echo $bp->displayed_user->domain . $bp->profile->slug ?>/change-avatar/"><?php printf( __( "Edit %s's Avatar", 'buddypress' ), attribute_escape( $bp->displayed_user->fullname ) ) ?></a></li>
 <?php if ( !bp_core_is_user_spammer( $bp->displayed_user->id ) ) : ?>
-
 			<li><a href="<?php echo wp_nonce_url( $bp->displayed_user->domain . 'admin/mark-spammer/', 'mark-unmark-spammer' ) ?>" class="confirm"><?php _e( "Mark as Spammer", 'buddypress' ) ?></a></li>
 <?php else : ?>
 
@@ -234,7 +234,7 @@ function xprofile_screen_edit_profile() {
 				$errors = true;
 		}
 
-		if ( !empty( $errors ) )
+		if ( $errors )
 			bp_core_add_message( __( 'Please make sure you fill in all required fields in this profile field group before saving.', 'buddypress' ), 'error' );
 		else {
 			/* Reset the errors var */
@@ -248,7 +248,7 @@ function xprofile_screen_edit_profile() {
 					do_action( 'xprofile_profile_field_data_updated', $field_id, $_POST['field_' . $field_id] );
 			}
 
-			do_action( 'xprofile_updated_profile', $bp->displayed_user->id, $posted_field_ids, $errors );
+			do_action( 'xprofile_updated_profile', $posted_field_ids, $errors );
 
 			/* Set the feedback messages */
 			if ( $errors )
@@ -641,12 +641,6 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 	if ( $is_required && ( empty( $value ) || !strlen( trim( $value ) ) ) )
 		return false;
 
-	/* If the value is empty, then delete any field data that exists */
-	if ( empty( $value ) ) {
-		xprofile_delete_field_data( $field_id, $user_id );
-		return true;
-	}
-
 	$field = new BP_XProfile_Field( $field_id );
 
 	/* Check that value is acceptable */
@@ -692,10 +686,10 @@ function xprofile_delete_field_data( $field, $user_id ) {
 	else
 		$field_id = xprofile_get_field_id_from_name( $field );
 
-	if ( empty( $field_id ) || empty( $user_id ) )
+	if ( !$field_id )
 		return false;
 
-	$field = new BP_XProfile_ProfileData( $field_id, $user_id );
+	$field = new BP_XProfile_ProfileData( $field_id );
 	return $field->delete();
 }
 
@@ -881,15 +875,15 @@ add_action( 'bp_activity_screen_single_activity_permalink', 'xprofile_remove_scr
 function xprofile_remove_data( $user_id ) {
 	BP_XProfile_ProfileData::delete_data_for_user( $user_id );
 
-	/* delete any avatar files. */
-	@unlink( get_usermeta( $user_id, 'bp_core_avatar_v1_path' ) );
-	@unlink( get_usermeta( $user_id, 'bp_core_avatar_v2_path' ) );
+	// delete any avatar files.
+	@unlink( get_user_meta( $user_id, 'bp_core_avatar_v1_path', true ) );
+	@unlink( get_user_meta( $user_id, 'bp_core_avatar_v2_path', true ) );
 
-	/* unset the usermeta for avatars from the usermeta table. */
-	delete_usermeta( $user_id, 'bp_core_avatar_v1' );
-	delete_usermeta( $user_id, 'bp_core_avatar_v1_path' );
-	delete_usermeta( $user_id, 'bp_core_avatar_v2' );
-	delete_usermeta( $user_id, 'bp_core_avatar_v2_path' );
+	// unset the usermeta for avatars from the usermeta table.
+	delete_user_meta( $user_id, 'bp_core_avatar_v1' );
+	delete_user_meta( $user_id, 'bp_core_avatar_v1_path' );
+	delete_user_meta( $user_id, 'bp_core_avatar_v2' );
+	delete_user_meta( $user_id, 'bp_core_avatar_v2_path' );
 }
 add_action( 'wpmu_delete_user', 'xprofile_remove_data' );
 add_action( 'delete_user', 'xprofile_remove_data' );

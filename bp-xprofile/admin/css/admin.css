@@ -140,24 +140,24 @@
 		ul.forTab li {
 			margin: 0 0 1em 0;
 		}
-	
+
 			ul.forTab li label {
 				display: block;
 			}
-	
+
 			ul.forTab li input {
 				font-size: 1.4em;
 			}
-	
+
 	p.success { background: green;}
-	p.err { 
+	p.err {
 		border-top: 2px solid red;
 		border-bottom: 2px solid red;
 		color: red;
 		padding: 5px 0;
 		width: 40%;
 	}
-	
+
 	span.desc, span.signup-description {
 		display: block;
 		font-size: 11px;

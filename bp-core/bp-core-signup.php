@@ -180,7 +180,7 @@ function bp_core_screen_signup() {
 			$bp->avatar_admin->step = 'crop-image';
 
 			/* Make sure we include the jQuery jCrop file for image cropping */
-			add_action( 'wp_print_scripts', 'bp_core_add_jquery_cropper' );
+			add_action( 'wp', 'bp_core_add_jquery_cropper' );
 		}
 	}
 
@@ -255,8 +255,61 @@ add_action( 'wp', 'bp_core_screen_activation', 3 );
  * true or false on success or failure.
  */
 
+/**
+ * bp_core_flush_illegal_names()
+ *
+ * Flush illegal names by getting and setting 'illegal_names' site option
+ */
+function bp_core_flush_illegal_names() {
+	$illegal_names = get_site_option( 'illegal_names' );
+	update_site_option( 'illegal_names', $illegal_names );
+}
+
+/**
+ * bp_core_illegal_names()
+ *
+ * Filter the illegal_names site option and make sure it includes a few
+ * specific BuddyPress and Multi-site slugs
+ *
+ * @param array|string $value Illegal names from field
+ * @param array|string $oldvalue The value as it is currently
+ * @return array Merged and unique array of illegal names
+ */
+function bp_core_illegal_names( $value = '', $oldvalue = '' ) {
+
+	// Make sure $value is array
+	if ( empty( $value ) )
+		$db_illegal_names = array();
+	if ( is_array( $value ) )
+		$db_illegal_names = $value;
+	elseif ( is_string( $value ) )
+		$db_illegal_names = implode( ' ', $names );
+
+	// Add our slugs to the array and allow them to be filtered
+	$filtered_illegal_names = apply_filters( 'bp_core_illegal_usernames', array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', BP_GROUPS_SLUG, BP_MEMBERS_SLUG, BP_FORUMS_SLUG, BP_BLOGS_SLUG, BP_ACTIVITY_SLUG, BP_XPROFILE_SLUG, BP_FRIENDS_SLUG, BP_SEARCH_SLUG, BP_SETTINGS_SLUG, BP_REGISTER_SLUG, BP_ACTIVATION_SLUG ) );
+
+	// Merge the arrays together
+	$merged_names =	array_merge( (array)$filtered_illegal_names, (array)$db_illegal_names );
+
+	// Remove duplicates
+	$illegal_names = array_unique( (array)$merged_names );
+
+	return apply_filters( 'bp_core_illegal_names', $illegal_names );
+}
+add_filter( 'pre_update_site_option_illegal_names', 'bp_core_illegal_names', 10, 2 );
+
+/**
+ * bp_core_validate_user_signup()
+ *
+ * Validate a user name and email address when creating a new user.
+ *
+ * @global object $wpdb DB Layer
+ * @param string $user_name Username to validate
+ * @param string $user_email Email address to validate
+ * @return array Results of user validation including errors, if any
+ */
 function bp_core_validate_user_signup( $user_name, $user_email ) {
-	global $wpdb, $bp;
+	global $wpdb;
 
 	$errors = new WP_Error();
 	$user_email = sanitize_email( $user_email );
@@ -267,20 +320,10 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 	$maybe = array();
 	preg_match( "/[a-z0-9]+/", $user_name, $maybe );
 
-	$db_illegal_names = get_site_option( 'illegal_names' );
-	$filtered_illegal_names = apply_filters( 'bp_core_illegal_usernames', array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', BP_GROUPS_SLUG, $bp->members->slug, BP_FORUMS_SLUG, BP_BLOGS_SLUG, BP_REGISTER_SLUG, BP_ACTIVATION_SLUG ) );
+	// Make sure illegal names include BuddyPress slugs and values
+	bp_core_flush_illegal_names();
 
-	/* Safely merge our illegal names into existing site_option */
-	$common_names			= array_intersect( (array)$db_illegal_names, (array)$filtered_illegal_names );
-	$diff_names				= array_diff( (array)$db_illegal_names, (array)$filtered_illegal_names );
-	$illegal_names			= array_merge( (array)$diff_names, (array)$common_names );
-
-	update_site_option( 'illegal_names', $illegal_names );
-
-	if ( in_array( $user_name, (array)$illegal_names ) )
-		$errors->add( 'user_name', __( 'Sorry, that username is not allowed', 'buddypress' ) );
-
-	if ( !validate_username( $user_name ) || $user_name != $maybe[0] )
+	if ( !validate_username( $user_name ) || in_array( $user_name, (array)$illegal_names ) || $user_name != $maybe[0] )
 		$errors->add( 'user_name', __( 'Only lowercase letters and numbers allowed', 'buddypress' ) );
 
 	if( strlen( $user_name ) < 4 )
@@ -381,7 +424,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 	if ( apply_filters( 'bp_core_signup_send_activation_key', true ) ) {
 		if ( !bp_core_is_multisite() ) {
 			$activation_key = wp_hash( $user_id );
-			update_usermeta( $user_id, 'activation_key', $activation_key );
+			update_user_meta( $user_id, 'activation_key', $activation_key );
 			bp_core_signup_send_validation_email( $user_id, $user_email, $activation_key );
 		}
 	}
@@ -444,14 +487,14 @@ function bp_core_activate_signup( $key ) {
 		wp_new_user_notification( $user_id );
 
 		/* Remove the activation key meta */
-		delete_usermeta( $user_id, 'activation_key' );
+		delete_user_meta( $user_id, 'activation_key' );
 	}
 
 	/* Update the user_url and display_name */
 	wp_update_user( array( 'ID' => $user_id, 'user_url' => bp_core_get_user_domain( $user_id, sanitize_title( $user_login ), $user_login ), 'display_name' => bp_core_get_user_displayname( $user_id ) ) );
 
 	/* Add a last active entry */
-	update_usermeta( $user_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
+	update_user_meta( $user_id, 'last_activity', bp_core_current_time() );
 
 	/* Set the password on multisite installs */
 	if ( bp_core_is_multisite() && !empty( $user['meta']['password'] ) )
@@ -494,16 +537,16 @@ function bp_core_map_user_registration( $user_id ) {
 		return false;
 
 	/* Add a last active entry */
-	update_usermeta( $user_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
+	update_user_meta( $user_id, 'last_activity', bp_core_current_time() );
 
 	/* Add the user's fullname to Xprofile */
 	if ( function_exists( 'xprofile_set_field_data' ) ) {
-		$firstname = get_usermeta( $user_id, 'first_name' );
-		$lastname = ' ' . get_usermeta( $user_id, 'last_name' );
+		$firstname = get_user_meta( $user_id, 'first_name', true );
+		$lastname = ' ' . get_user_meta( $user_id, 'last_name', true );
 		$name = $firstname . $lastname;
 
 		if ( empty( $name ) || ' ' == $name )
-			$name = get_usermeta( $user_id, 'nickname' );
+			$name = get_user_meta( $user_id, 'nickname', true );
 
 		xprofile_set_field_data( 1, $user_id, $name );
 	}
@@ -522,7 +565,7 @@ function bp_core_signup_avatar_upload_dir() {
 	if ( !file_exists( $path ) )
 		@wp_mkdir_p( $path );
 
-	$newurl = str_replace( BP_AVATAR_UPLOAD_PATH, BP_AVATAR_URL, $path );
+	$newurl = BP_AVATAR_URL . '/avatars/signups/' . $bp->signup->avatar_dir;
 	$newburl = $newurl;
 	$newsubdir = '/avatars/signups/' . $bp->signup->avatar_dir;
 
@@ -531,7 +574,7 @@ function bp_core_signup_avatar_upload_dir() {
 
 function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
 	$activate_url = bp_get_activation_page() ."?key=$key";
-	$activate_url = clean_url( $activate_url );
+	$activate_url = esc_url( $activate_url );
 	$admin_email = get_site_option( "admin_email" );
 
 	if ( empty( $admin_email ) )

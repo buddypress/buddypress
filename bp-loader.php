@@ -6,7 +6,6 @@ Description: Social networking in a box. Build a social network for your company
 Author: The BuddyPress Community
 Version: 1.3-bleeding
 Author URI: http://buddypress.org/developers/
-Network: true
 */
 
 define( 'BP_VERSION', '1.3-bleeding' );
@@ -61,11 +60,18 @@ if ( get_site_option( 'bp-db-version' ) < constant( 'BP_DB_VERSION' ) ) {
 	if ( !isset( $bp_deactivated['bp-xprofile.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-xprofile.php') )
 		include( BP_PLUGIN_DIR . '/bp-xprofile.php' );
 
-	/* Allow dependent plugins to hook into BuddyPress in a safe way */
+	/**
+	* bp_loaded()
+	*
+	* Allow dependent plugins and core actions to attach themselves in a safe way.
+	*
+	* See bp-core.php for the following core actions:
+	*      - bp_init|bp_setup_globals|bp_setup_root_components|bp_setup_nav|bp_register_widgets
+	*/
 	function bp_loaded() {
-		do_action( 'bp_init' );
+		do_action( 'bp_loaded' );
 	}
-	add_action( 'plugins_loaded', 'bp_loaded' );
+	add_action( 'plugins_loaded', 'bp_loaded', 20 );
 }
 
 /* Activation Function */

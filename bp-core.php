@@ -29,7 +29,6 @@ if ( !defined( 'CUSTOM_USER_META_TABLE' ) )
 /* Load the files containing functions that we globally will need. */
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-catchuri.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-classes.php' );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-filters.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-cssjs.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-avatars.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-templatetags.php' );
@@ -37,6 +36,10 @@ require ( BP_PLUGIN_DIR . '/bp-core/bp-core-settings.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-widgets.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-notifications.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-signup.php' );
+
+/* Multisite includes built in account activation support. */
+if ( bp_core_is_multisite() )
+	require ( BP_PLUGIN_DIR . '/bp-core/bp-core-activation.php' );
 
 /* If BP_DISABLE_ADMIN_BAR is defined, do not load the global admin bar. */
 if ( !defined( 'BP_DISABLE_ADMIN_BAR' ) )
@@ -228,9 +231,9 @@ function bp_core_get_page_names() {
 		}
 	}
 
-
 	return apply_filters( 'bp_core_get_page_names', $pages );
 }
+
 
 /**
  * bp_core_admin_menu_init()
@@ -462,7 +465,7 @@ function bp_core_action_delete_user() {
 			$errors = true;
 		}
 
-		do_action( 'bp_core_action_delete_user', $errors );
+		do_action( 'bp_core_action_set_spammer_status', $errors );
 
 		if ( $errors )
 			bp_core_redirect( $bp->displayed_user->domain );
@@ -496,7 +499,6 @@ function bp_core_get_users( $args = '' ) {
 		'user_id' => false, // Pass a user_id to limit to only friend connections for this user
 		'search_terms' => false, // Limit to users that match these search terms
 
-		'include' => false, // Pass comma separated list of user_ids to limit to only these users
 		'per_page' => 20, // The number of results to return per page
 		'page' => 1, // The page to return if limiting per page
 		'populate_extras' => true, // Fetch the last active, where the user is a friend, total friend count, latest update
@@ -505,7 +507,7 @@ function bp_core_get_users( $args = '' ) {
 	$params = wp_parse_args( $args, $defaults );
 	extract( $params, EXTR_SKIP );
 
-	return apply_filters( 'bp_core_get_users', BP_Core_User::get_users( $type, $per_page, $page, $user_id, $include, $search_terms, $populate_extras ), &$params );
+	return apply_filters( 'bp_core_get_users', BP_Core_User::get_users( $type, $per_page, $page, $user_id, $search_terms, $populate_extras ), &$params );
 }
 
 /**
@@ -897,7 +899,6 @@ function bp_core_reset_subnav_items($parent_slug) {
 	unset($bp->bp_options_nav[$parent_slug]);
 }
 
-
 /**
  * bp_core_get_random_member()
  *
@@ -933,10 +934,8 @@ add_action( 'wp', 'bp_core_get_random_member' );
 function bp_core_get_userid( $username ) {
 	global $wpdb;
 
-	if ( empty( $username ) )
-		return false;
-
-	return apply_filters( 'bp_core_get_userid', $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $username ) ) );
+	if ( !empty( $username ) )
+		return apply_filters( 'bp_core_get_userid', $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $username ) ) );
 }
 
 /**
@@ -1289,6 +1288,7 @@ function bp_core_setup_message() {
 }
 add_action( 'bp_init', 'bp_core_setup_message' );
 
+
 /**
  * bp_core_render_message()
  *
@@ -1330,7 +1330,6 @@ function bp_core_render_message() {
  */
 function bp_core_time_since( $older_date, $newer_date = false ) {
 	// array of time period chunks
-
 	$chunks = array(
 	array( 60 * 60 * 24 * 365 , __( 'year', 'buddypress' ), __( 'years', 'buddypress' ) ),
 	array( 60 * 60 * 24 * 30 , __( 'month', 'buddypress' ), __( 'months', 'buddypress' ) ),
@@ -1450,7 +1449,7 @@ function bp_core_number_format( $number, $decimals = false ) {
 	if ( empty( $number ) )
 		return $number;
 
-	return apply_filters( 'bp_core_number_format', number_format( $number, $decimals ), $number, $decimals );
+	return apply_filters( 'bp_core_bp_core_number_format', number_format( $number, $decimals ), $number, $decimals );
 }
 
 /**
@@ -1497,15 +1496,13 @@ function bp_core_get_site_path() {
 			unset( $site_path[1] );
 			unset( $site_path[2] );
 
-			if ( !count( $site_path ) )
-				$site_path = '/';
-			else
-				$site_path = '/' . implode( '/', $site_path ) . '/';
+			$site_path = '/' . implode( '/', $site_path ) . '/';
 		}
 	}
 
 	return apply_filters( 'bp_core_get_site_path', $site_path );
 }
+
 /**
  * bp_core_get_site_options()
  *
@@ -1622,6 +1619,37 @@ function bp_core_add_illegal_names() {
 }
 
 /**
+ * bp_core_email_from_name_filter()
+ *
+ * Sets the "From" name in emails sent to the name of the site and not "WordPress"
+ *
+ * @package BuddyPress Core
+ * @uses get_blog_option() fetches the value for a meta_key in the wp_X_options table
+ * @return The blog name for the root blog
+ */
+function bp_core_email_from_name_filter() {
+ 	return apply_filters( 'bp_core_email_from_name_filter', get_blog_option( BP_ROOT_BLOG, 'blogname' ) );
+}
+add_filter( 'wp_mail_from_name', 'bp_core_email_from_name_filter' );
+
+
+/**
+ * bp_core_email_from_name_filter()
+ *
+ * Sets the "From" address in emails sent
+ *
+ * @package BuddyPress Core
+ * @global $current_site Object containing current site metadata
+ * @return noreply@sitedomain email address
+ */
+function bp_core_email_from_address_filter() {
+	$domain = (array) explode( '/', site_url() );
+
+	return apply_filters( 'bp_core_email_from_address_filter', __( 'noreply', 'buddypress' ) . '@' . $domain[2] );
+}
+add_filter( 'wp_mail_from', 'bp_core_email_from_address_filter' );
+
+/**
  * bp_core_delete_account()
  *
  * Allows a user to completely remove their account from the system
@@ -1634,7 +1662,7 @@ function bp_core_add_illegal_names() {
  * @uses get_site_option Checks if account deletion is allowed
  */
 function bp_core_delete_account( $user_id = false ) {
-	global $bp, $wpdb;
+	global $bp, $wp_version;
 
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
@@ -1643,23 +1671,27 @@ function bp_core_delete_account( $user_id = false ) {
 	if ( (int)get_site_option( 'bp-disable-account-deletion' ) )
 		return false;
 
+	/* Site admins cannot be deleted */
+	if ( is_super_admin( bp_core_get_username( $user_id ) ) )
+		return false;
+
 	/* Specifically handle multi-site environment */
 	if ( bp_core_is_multisite() ) {
-		/* Site admins cannot be deleted */
-		if ( is_site_admin( bp_core_get_username( $user_id ) ) )
-			return false;
+		if ( $wp_version >= '3.0' )
+			require_once( ABSPATH . '/wp-admin/includes/ms.php' );
+		else
+			require_once( ABSPATH . '/wp-admin/includes/mu.php' );
 
-		require_once( ABSPATH . '/wp-admin/includes/mu.php' );
 		require_once( ABSPATH . '/wp-admin/includes/user.php' );
 
 		return wpmu_delete_user( $user_id );
-	}
 
 	/* Single site user deletion */
-	require_once( ABSPATH . '/wp-admin/includes/user.php' );
-	return wp_delete_user( $user_id );
+	} else {
+		require_once( ABSPATH . '/wp-admin/includes/user.php' );
+		return wp_delete_user( $user_id );
+	}
 }
-
 
 /**
  * bp_core_search_site()
@@ -1766,7 +1798,7 @@ function bp_core_print_generation_time() {
 	global $wpdb;
 	?>
 
-<!-- Generated in <?php timer_stop(1); ?> seconds. -->
+<!-- Generated in <?php timer_stop(1); ?> seconds. (<?php echo get_num_queries(); ?> q) -->
 
 	<?php
 }
@@ -1837,7 +1869,7 @@ function bp_core_boot_spammer( $auth_obj, $username ) {
 
 	$user = get_userdatabylogin( $username );
 
-	if ( ( bp_core_is_multisite() && (int)$user->spam ) || 1 == (int)$user->user_status )
+	if ( (int)$user->spam )
 		bp_core_redirect( $bp->root_domain );
 	else
 		return $auth_obj;
@@ -1860,9 +1892,9 @@ function bp_core_remove_data( $user_id ) {
 	/* Flush the cache to remove the user from all cached objects */
 	wp_cache_flush();
 }
-add_action( 'wpmu_delete_user', 'bp_core_remove_data' );
-add_action( 'delete_user', 'bp_core_remove_data' );
-add_action( 'make_spam_user', 'bp_core_remove_data' );
+add_action( 'wpmu_delete_user', 'bp_core_remove_data', 1 );
+add_action( 'delete_user', 'bp_core_remove_data', 1 );
+add_action( 'make_spam_user', 'bp_core_remove_data', 1 );
 
 /**
  * bp_load_buddypress_textdomain()
@@ -1898,6 +1930,48 @@ function bp_core_update_message() {
 	echo '<p style="color: red; margin: 3px 0 0 0; border-top: 1px solid #ddd; padding-top: 3px">' . __( 'IMPORTANT: <a href="http://codex.buddypress.org/getting-started/upgrading-from-10x/">Read this before attempting to update BuddyPress</a>', 'buddypress' ) . '</p>';
 }
 add_action( 'in_plugin_update_message-buddypress/bp-loader.php', 'bp_core_update_message' );
+
+/**
+ * bp_core_filter_parent_theme()
+ *
+ * Remove social network parent theme from the theme list.
+ *
+ * @package BuddyPress Core
+ */
+function bp_core_filter_parent_theme() {
+	global $wp_themes, $pagenow;
+
+	if ( is_admin() && 'themes.php' == $pagenow )
+		$wp_themes = get_themes();
+
+	unset( $wp_themes['BuddyPress Classic Parent'] );
+}
+add_filter( 'admin_menu', 'bp_core_filter_parent_theme' );
+
+/**
+ * bp_core_allow_default_theme()
+ *
+ * On multiblog installations you must first allow themes to be activated and show
+ * up on the theme selection screen. This function will let the BuddyPress bundled
+ * themes show up on the root blog selection screen and bypass this step. It also
+ * means that the themes won't show for selection on other blogs.
+ *
+ * @package BuddyPress Core
+ */
+function bp_core_allow_default_theme( $themes ) {
+	global $bp, $current_blog;
+
+	if ( !is_site_admin() )
+		return $themes;
+
+	if ( $current_blog->ID == $bp->root_blog ) {
+		$themes['bp-default'] = 1;
+		$themes['bp-classic'] = 1;
+	}
+
+	return $themes;
+}
+add_filter( 'allowed_themes', 'bp_core_allow_default_theme' );
 
 /**
  * bp_core_activation_notice()
@@ -1940,6 +2014,69 @@ function bp_core_activation_notice() {
 }
 add_action( 'admin_notices', 'bp_core_activation_notice' );
 
+
+/**
+ * bp_core_filter_comments()
+ *
+ * Filter the blog post comments array and insert BuddyPress URLs for users.
+ *
+ * @package BuddyPress Core
+ */
+function bp_core_filter_comments( $comments, $post_id ) {
+	global $wpdb;
+
+	foreach( (array)$comments as $comment ) {
+		if ( $comment->user_id )
+			$user_ids[] = $comment->user_id;
+	}
+
+	if ( empty( $user_ids ) )
+		return $comments;
+
+	$user_ids = implode( ',', $user_ids );
+
+	if ( !$userdata = $wpdb->get_results( $wpdb->prepare( "SELECT ID as user_id, user_login, user_nicename FROM {$wpdb->users} WHERE ID IN ({$user_ids})" ) ) )
+		return $comments;
+
+	foreach( (array)$userdata as $user )
+		$users[$user->user_id] = bp_core_get_user_domain( $user->user_id, $user->user_nicename, $user->user_login );
+
+	foreach( (array)$comments as $i => $comment ) {
+		if ( !empty( $comment->user_id ) ) {
+			if ( !empty( $users[$comment->user_id] ) )
+				$comments[$i]->comment_author_url = $users[$comment->user_id];
+		}
+	}
+
+	return $comments;
+}
+add_filter( 'comments_array', 'bp_core_filter_comments', 10, 2 );
+
+
+/**
+ * bp_core_login_redirect()
+ *
+ * When a user logs in, always redirect them back to the previous page. NOT the admin area.
+ *
+ * @package BuddyPress Core
+ */
+function bp_core_login_redirect( $redirect_to ) {
+	global $bp, $current_blog;
+
+	if ( bp_core_is_multisite() && $current_blog->blog_id != BP_ROOT_BLOG )
+		return $redirect_to;
+
+	if ( !empty( $_REQUEST['redirect_to'] ) || strpos( $_REQUEST['redirect_to'], 'wp-admin' ) )
+		return $redirect_to;
+
+	if ( false === strpos( wp_get_referer(), 'wp-login.php' ) && false === strpos( wp_get_referer(), 'activate' ) && empty( $_REQUEST['nr'] ) )
+		return wp_get_referer();
+
+	return $bp->root_domain;
+}
+add_filter( 'login_redirect', 'bp_core_login_redirect' );
+
+
 /********************************************************************************
  * Custom Actions
  *
@@ -1963,8 +2100,7 @@ add_action( 'plugins_loaded', 'bp_setup_root_components', 2 );
 function bp_setup_nav() {
 	do_action( 'bp_setup_nav' );
 }
-add_action( 'plugins_loaded', 'bp_setup_nav' );
-add_action( 'admin_menu', 'bp_setup_nav' );
+add_action( 'bp_loaded', 'bp_setup_nav', 8 );
 
 /* Allow core components and dependent plugins to register widgets */
 function bp_setup_widgets() {

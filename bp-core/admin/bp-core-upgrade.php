@@ -235,6 +235,8 @@ class BP_Core_Setup_Wizard {
 				<p><?php _e( "Private messaging will allow your users to talk to each other directly, and in private. Not just limited to one on one discussions, your users can send messages to multiple recipients.", 'buddypress' ) ?></p>
 			</div>
 
+
+			<?php if ( bp_core_is_multisite() ) : ?>
 			<div class="component">
 				<h5><?php _e( "Blog Tracking", 'buddypress' ) ?></h5>
 
@@ -244,8 +246,9 @@ class BP_Core_Setup_Wizard {
 				</div>
 
 				<img src="<?php echo plugins_url( 'buddypress/screenshot-7.gif' ) ?>" alt="Activity Streams" />
-				<p><?php _e( "Track new blogs, new posts and new comments across your entire blog network.", 'buddypress' ) ?></p>
+					<p><?php _e( "Track new blogs, new posts and new comments across your entire blog network.", 'buddypress' ) ?></p>
 			</div>
+			<?php endif; ?>
 		</div>
 
 		<div class="right-col">

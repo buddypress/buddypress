@@ -565,9 +565,9 @@ function friends_remove_data( $user_id ) {
 
 	do_action( 'friends_remove_data', $user_id );
 }
-add_action( 'wpmu_delete_user', 'friends_remove_data' );
-add_action( 'delete_user', 'friends_remove_data' );
-add_action( 'make_spam_user', 'friends_remove_data' );
+add_action( 'wpmu_delete_user', 'friends_remove_data', 1 );
+add_action( 'delete_user', 'friends_remove_data', 1 );
+add_action( 'make_spam_user', 'friends_remove_data', 1 );
 
 
 /********************************************************************************
@@ -594,8 +594,8 @@ function friends_clear_friend_object_cache( $friendship_id ) {
 function friends_clear_friend_notifications() {
 	global $bp;
 
-	if ( isset( $_GET['new'] ) )
-		bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, $bp->friends->id, 'friendship_accepted' );
+	if ( isset($_GET['new']) )
+		bp_core_delete_notifications_for_user_by_type( $bp->displayed_user->id, $bp->friends->id, 'friendship_accepted' );
 }
 add_action( 'bp_activity_screen_my_activity', 'friends_clear_friend_notifications' );
 

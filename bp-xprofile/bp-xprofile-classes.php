@@ -548,7 +548,7 @@ Class BP_XProfile_Field {
 						<p><?php _e('Option', 'buddypress'); ?> <?php echo $j; ?>:
 						   <input type="text" name="<?php echo $type; ?>_option[<?php echo $j; ?>]" id="<?php echo $type; ?>_option<?php echo $j; ?>" value="<?php echo attribute_escape( $options[$i]->name ); ?>" />
 						   <input type="<?php echo $default_input; ?>" name="isDefault_<?php echo $type; ?>_option<?php echo $default_name; ?>" <?php if ( (int) $options[$i]->is_default_option ) {?> checked="checked"<?php } ?> " value="<?php echo $j; ?>" /> <?php _e( 'Default Value', 'buddypress' ); ?>
-<?php 
+<?php
 					if ( $j != 1 && $options[$i]->id != -1 ) : ?>
 							<a href="admin.php?page=bp-profile-setup&amp;mode=delete_option&amp;option_id=<?php echo $options[$i]->id ?>" class="ajax-option-delete" id="delete-<?php echo $options[$i]->id; ?>">[x]</a>
 <?php				endif; ?>

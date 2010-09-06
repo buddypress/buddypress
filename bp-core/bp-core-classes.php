@@ -106,7 +106,7 @@ class BP_Core_User {
 
 	/* Static Functions */
 
-	function get_users( $type, $limit = null, $page = 1, $user_id = false, $include = false, $search_terms = false, $populate_extras = true ) {
+	function get_users( $type, $limit = null, $page = 1, $user_id = false, $search_terms = false, $populate_extras = true ) {
 		global $wpdb, $bp;
 
 		$sql = array();
@@ -133,22 +133,12 @@ class BP_Core_User {
 			$sql['where_popular'] = "AND um.meta_key = 'total_friend_count'";
 
 		if ( 'online' == $type )
-			$sql['where_online'] = "AND DATE_ADD( um.meta_value, INTERVAL 5 MINUTE ) >= UTC_TIMESTAMP()";
+			$sql['where_online'] = "AND DATE_ADD( um.meta_value, INTERVAL 5 MINUTE ) >= NOW()";
 
 		if ( 'alphabetical' == $type )
 			$sql['where_alpha'] = "AND pd.field_id = 1";
 
-		if ( $include ) {
-			if ( is_array( $include ) )
-				$uids = $wpdb->escape( implode( ',', (array)$include ) );
-			else
-				$uids = $wpdb->escape( $include );
-
-			if ( !empty( $uids ) )
-				$sql['where_users'] = "AND u.ID IN ({$uids})";
-		}
-
-		else if ( $user_id && function_exists( 'friends_install' ) ) {
+		if ( $user_id && function_exists( 'friends_install' ) ) {
 			$friend_ids = friends_get_friend_user_ids( $user_id );
 			$friend_ids = $wpdb->escape( implode( ',', (array)$friend_ids ) );
 
@@ -260,6 +250,34 @@ class BP_Core_User {
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
 
+	function get_specific_users( $user_ids, $limit = null, $page = 1, $populate_extras = true ) {
+		global $wpdb, $bp;
+
+		if ( $limit && $page )
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+
+		$user_sql = " AND user_id IN ( " . $wpdb->escape( $user_ids ) . " ) ";
+		$status_sql = bp_core_get_status_sql();
+
+		$total_users_sql = apply_filters( 'bp_core_get_specific_users_count_sql', $wpdb->prepare( "SELECT COUNT(DISTINCT ID) FROM " . CUSTOM_USER_TABLE . " WHERE {$status_sql} AND ID IN ( " . $wpdb->escape( $user_ids ) . " ) " ), $wpdb->escape( $user_ids ) );
+		$paged_users_sql = apply_filters( 'bp_core_get_specific_users_count_sql', $wpdb->prepare( "SELECT DISTINCT ID as id, user_registered, user_nicename, user_login, user_email FROM " . CUSTOM_USER_TABLE . " WHERE {$status_sql} AND ID IN ( " . $wpdb->escape( $user_ids ) . " ) {$pag_sql}" ), $wpdb->escape( $user_ids ) );
+
+		$total_users = $wpdb->get_var( $total_users_sql );
+		$paged_users = $wpdb->get_results( $paged_users_sql );
+
+		/***
+		 * Lets fetch some other useful data in a separate queries, this will be faster than querying the data for every user in a list.
+		 * We can't add these to the main query above since only users who have this information will be returned (since the much of the data is in usermeta and won't support any type of directional join)
+		 */
+
+		/* Add additional data to the returned results */
+		if ( $populate_extras )
+			$paged_users = BP_Core_User::get_user_extras( &$paged_users, &$user_ids );
+
+
+		return array( 'users' => $paged_users, 'total' => $total_users );
+	}
+
 	function search_users( $search_terms, $limit = null, $page = 1, $populate_extras = true ) {
 		global $wpdb, $bp;
 
@@ -299,10 +317,6 @@ class BP_Core_User {
 
 		/* Fetch the user's full name */
 		if ( bp_is_active( 'xprofile' ) && 'alphabetical' != $type ) {
-			/* Ensure xprofile globals are set */
-			if ( !defined( 'BP_XPROFILE_FULLNAME_FIELD_NAME' ) )
-				xprofile_setup_globals();
-
 			$names = $wpdb->get_results( $wpdb->prepare( "SELECT pd.user_id as id, pd.value as fullname FROM {$bp->profile->table_name_fields} pf, {$bp->profile->table_name_data} pd WHERE pf.id = pd.field_id AND pf.name = %s AND pd.user_id IN ( {$user_ids} )", BP_XPROFILE_FULLNAME_FIELD_NAME ) );
 			for ( $i = 0; $i < count( $paged_users ); $i++ ) {
 				foreach ( (array)$names as $name ) {

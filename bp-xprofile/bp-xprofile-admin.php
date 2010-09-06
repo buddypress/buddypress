@@ -120,7 +120,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 <?php
 					} /* End For */ ?>
 				</div>
-<?php 
+<?php
 				else :
 ?>
 				<div id="message" class="error"><p><?php _e( 'You have no groups.', 'buddypress' ); ?></p></div>
@@ -329,7 +329,7 @@ add_action( 'wp_ajax_xprofile_reorder_groups', 'xprofile_ajax_reorder_field_grou
 **************************************************************************/
 function xprofile_admin_field( $admin_field, $admin_group ) {
 	global $field;
-	
+
 	$field = $admin_field;
 ?>
 						<fieldset id="field_<?php echo attribute_escape( $field->id ); ?>" class="sortable<?php echo ' ' . $field->type; if ( $class ) echo ' ' . $class; ?>">

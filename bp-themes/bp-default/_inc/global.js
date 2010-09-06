@@ -168,7 +168,7 @@ jq(document).ready( function() {
 
 				if ( 'fav' == type ) {
 					if ( !jq('div.item-list-tabs li#activity-favorites').length )
-						jq('div.item-list-tabs ul li#activity-mentions').before( '<li id="activity-favorites"><a href="#">' + bp_terms_my_favs + ' (<span>0</span>)</a></li>');
+						jq('div.item-list-tabs ul li#activity-mentions').before( '<li id="activity-favorites"><a href="#">' + BP_DTheme.my_favs + ' (<span>0</span>)</a></li>');
 
 					target.removeClass('fav');
 					target.addClass('unfav');
@@ -228,7 +228,7 @@ jq(document).ready( function() {
 
 		/* Load more updates at the end of the page */
 		if ( target.parent().attr('class') == 'load-more' ) {
-			jq("li.load-more").addClass('loading');
+			jq("#content li.load-more").addClass('loading');
 
 			if ( null == jq.cookie('bp-activity-oldestpage') )
 				jq.cookie('bp-activity-oldestpage', 1, {path: '/'} );
@@ -242,9 +242,9 @@ jq(document).ready( function() {
 			},
 			function(response)
 			{
-				jq("li.load-more").removeClass('loading');
+				jq("#content li.load-more").removeClass('loading');
 				jq.cookie( 'bp-activity-oldestpage', oldest_page, {path: '/'} );
-				jq("ul.activity-list").append(response.contents);
+				jq("#content ul.activity-list").append(response.contents);
 
 				target.parent().hide();
 			}, 'json' );
@@ -460,7 +460,7 @@ jq(document).ready( function() {
 
 	jq('span.highlight span').click( function() {
 		if ( !jq('div.help').length ) {
-			jq(this).parent().after( '<div id="message" class="info help"><p>' + bp_terms_mention_explain + '</p></div>' );
+			jq(this).parent().after( '<div id="message" class="info help"><p>' + BP_DTheme.mention_explain + '</p></div>' );
 			jq('div.help').hide().slideDown(200);
 		} else {
 			jq('div.help').hide().remove();
@@ -712,10 +712,10 @@ jq(document).ready( function() {
 			} else {
 				button.fadeOut( 100, function() {
 					if ( jq(this).hasClass('accept') ) {
-						jq(this).html( bp_terms_accepted ).fadeIn(50);
+						jq(this).html( BP_DTheme.accepted ).fadeIn(50);
 						jq(this).addClass('accepted');
 					} else {
-						jq(this).html( bp_terms_rejected ).fadeIn(50);
+						jq(this).html( BP_DTheme.rejected ).fadeIn(50);
 						jq(this).addClass('rejected');
 					}
 				});
@@ -819,8 +819,16 @@ jq(document).ready( function() {
 
 	/** Alternate Highlighting ******************************************/
 
-	jq('table tr, div.message-box, ul#topic-post-list li').each( function(i) {
-		if ( i % 2 != 1 )
+	jq('body#bp-default table.zebra tbody tr').mouseover( function() {
+		jq(this).addClass('over');
+	}).mouseout( function() {
+		jq(this).removeClass('over');
+	});
+
+	jq('body#bp-default table.zebra tbody tr:odd').addClass('alt');
+
+	jq('div.message-box').each( function(i) {
+		if ( i % 2 == 1 )
 			jq(this).addClass('alt');
 	});
 
@@ -956,7 +964,7 @@ jq(document).ready( function() {
 	);
 
 	/* Bulk delete messages */
-	jq("a#delete_inbox_messages").click( function() {
+	jq("a#delete_inbox_messages, a#delete_sentbox_messages").click( function() {
 		checkboxes_tosend = '';
 		checkboxes = jq("#message-threads tr td input[type='checkbox']");
 
@@ -989,7 +997,7 @@ jq(document).ready( function() {
 			}
 
 			jq('div#message').hide().slideDown(150);
-			jq("a#delete_inbox_messages").removeClass('loading');
+			jq("a#delete_inbox_messages, a#delete_sentbox_messages").removeClass('loading');
 		});
 		return false;
 	});
@@ -1077,7 +1085,7 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 	if ( 'activity' == object )
 		return false;
 
-	if ( jq.query.get('s') )
+	if ( jq.query.get('s') && !search_terms )
 		search_terms = jq.query.get('s');
 
 	if ( null == scope )
@@ -1158,6 +1166,9 @@ function bp_activity_request(scope, filter) {
 		jq('div.activity').fadeOut( 100, function() {
 			jq(this).html(response.contents);
 			jq(this).fadeIn(100);
+
+			/* Selectively hide comments */
+			bp_dtheme_hide_comments();
 		});
 
 		/* Update the feed link */
@@ -1165,9 +1176,6 @@ function bp_activity_request(scope, filter) {
 			jq('.directory div#subnav li.feed a, .home-page div#subnav li.feed a').attr('href', response.feed_url);
 
 		jq('div.item-list-tabs li.selected').removeClass('loading');
-
-		/* Selectively hide comments */
-		bp_dtheme_hide_comments();
 
 	}, 'json' );
 }
@@ -1197,7 +1205,7 @@ function bp_dtheme_hide_comments() {
 				jq(this).toggle();
 
 				if ( !i )
-					jq(this).before( '<li class="show-all"><a href="#' + parent_li.attr('id') + '/show-all/" title="' + bp_terms_show_all_comments + '">' + bp_terms_show_all + ' ' + comment_count + ' ' + bp_terms_comments + '</a></li>' );
+					jq(this).before( '<li class="show-all"><a href="#' + parent_li.attr('id') + '/show-all/" title="' + BP_DTheme.show_all_comments + '">' + BP_DTheme.show_all + ' ' + comment_count + ' ' + BP_DTheme.comments + '</a></li>' );
 			}
 		});
 

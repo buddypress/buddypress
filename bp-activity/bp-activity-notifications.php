@@ -12,7 +12,7 @@ function bp_activity_at_message_notification( $content, $poster_user_id, $activi
 		return false;
 
 	foreach( (array)$usernames as $username ) {
-		if ( !$receiver_user_id = bp_core_get_userid( $username ) )
+		if ( !$receiver_user_id = bp_core_get_userid($username) )
 			continue;
 
 		// Now email the user with the contents of the message (if they have enabled email notifications)

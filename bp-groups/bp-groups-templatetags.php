@@ -1412,7 +1412,7 @@ function bp_group_member_pagination_count() {
 		$to_num = bp_core_number_format( ( $from_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $from_num + ( $members_template->pag_num - 1 ) );
 		$total = bp_core_number_format( $members_template->total_member_count );
 
-		return apply_filters( 'bp_get_group_member_pagination_count', sprintf( __( 'Viewing members %1$s to %2$s (of %3$s members)', 'buddypress' ), $from_num, $to_num, $total ) );
+		return apply_filters( 'bp_get_group_member_pagination_count', sprintf( __( 'Viewing members %s to %s (of %s members)', 'buddypress' ), $from_num, $to_num, $total ) );
 	}
 
 function bp_group_member_admin_pagination() {

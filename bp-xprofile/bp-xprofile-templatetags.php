@@ -342,11 +342,7 @@ function bp_the_profile_field_input_name() {
 	function bp_get_the_profile_field_input_name() {
 		global $field;
 
-		$array_box = false;
-		if ( 'multiselectbox' == $field->type )
-			$array_box = '[]';
-
-		return apply_filters( 'bp_get_the_profile_field_input_name', 'field_' . $field->id . $array_box );
+		return apply_filters( 'bp_get_the_profile_field_input_name', 'field_' . $field->id );
 	}
 
 function bp_the_profile_field_options( $args = '' ) {
@@ -374,15 +370,12 @@ function bp_the_profile_field_options( $args = '' ) {
 					$html .= '<option value="">--------</option>';
 
 				for ( $k = 0; $k < count($options); $k++ ) {
-					$option_values = maybe_unserialize( BP_XProfile_ProfileData::get_value_byid( $options[$k]->parent_id ) );
-					$option_values = (array)$option_values;
+					$option_value = BP_XProfile_ProfileData::get_value_byid($options[$k]->parent_id);
 
 					/* Check for updated posted values, but errors preventing them from being saved first time */
-					foreach( (array)$option_values as $i => $option_value ) {
-						if ( isset( $_POST['field_' . $field->id] ) && $_POST['field_' . $field->id] != $option_value ) {
-							if ( !empty( $_POST['field_' . $field->id] ) )
-								$option_values[$i] = $_POST['field_' . $field->id];
-						}
+					if ( isset( $_POST['field_' . $field->id] ) && $option_value != $_POST['field_' . $field->id] ) {
+						if ( !empty( $_POST['field_' . $field->id] ) )
+							$option_value = $_POST['field_' . $field->id];
 					}
 
 					if ( in_array( $options[$k]->name, (array)$option_values ) || $options[$k]->is_default_option )

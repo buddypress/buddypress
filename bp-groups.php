@@ -491,9 +491,6 @@ function groups_screen_group_members() {
 	global $bp;
 
 	if ( $bp->is_single_item ) {
-		/* Refresh the group member count meta */
-		groups_update_groupmeta( $bp->groups->current_group->id, 'total_member_count', groups_get_total_member_count( $bp->groups->current_group->id ) );
-
 		do_action( 'groups_screen_group_members', $bp->groups->current_group->id );
 		bp_core_load_template( apply_filters( 'groups_template_group_members', 'groups/single/home' ) );
 	}
@@ -797,10 +794,6 @@ function groups_screen_group_admin_requests() {
 	global $bp;
 
 	if ( $bp->current_component == $bp->groups->slug && 'membership-requests' == $bp->action_variables[0] ) {
-
-		/* Ask for a login if the user is coming here via an email notification */
-		if ( !is_user_logged_in() )
-			bp_core_redirect( site_url( 'wp-login.php?redirect_to=' . $bp->root_domain . '/' . $bp->current_component . '/' . $bp->current_item . '/admin/membership-requests/' ) );
 
 		if ( !$bp->is_item_admin || 'public' == $bp->groups->current_group->status )
 			return false;
@@ -1652,10 +1645,6 @@ function groups_get_group_members( $group_id, $limit = false, $page = false ) {
 	return BP_Groups_Member::get_all_for_group( $group_id, $limit, $page );
 }
 
-function groups_get_total_member_count( $group_id ) {
-	return BP_Groups_Group::get_total_member_count( $group_id );
-}
-
 /*** Group Fetching, Filtering & Searching  *************************************/
 
 function groups_get_groups( $args = '' ) {
@@ -1813,7 +1802,7 @@ function groups_new_group_forum( $group_id = false, $group_name = false, $group_
 
 	groups_update_groupmeta( $group_id, 'forum_id', $forum_id );
 
-	do_action( 'groups_new_group_forum', $forum_id, $group_id );
+	do_action( 'groups_new_group_forum', $forum, $group_id );
 }
 
 function groups_new_group_forum_post( $post_text, $topic_id, $page = false ) {
@@ -2416,9 +2405,9 @@ function groups_remove_data_for_user( $user_id ) {
 
 	do_action( 'groups_remove_data_for_user', $user_id );
 }
-add_action( 'wpmu_delete_user', 'groups_remove_data_for_user' );
-add_action( 'delete_user', 'groups_remove_data_for_user' );
-add_action( 'make_spam_user', 'groups_remove_data_for_user' );
+add_action( 'wpmu_delete_user', 'groups_remove_data_for_user', 1 );
+add_action( 'delete_user', 'groups_remove_data_for_user', 1 );
+add_action( 'make_spam_user', 'groups_remove_data_for_user', 1 );
 
 
 /********************************************************************************

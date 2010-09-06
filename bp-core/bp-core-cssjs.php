@@ -47,7 +47,7 @@ add_action( 'admin_head', 'bp_core_admin_menu_icon_css' );
 function bp_core_confirmation_js() {
 	global $current_blog;
 
-	if ( bp_core_is_multisite() && $current_blog->blog_id != BP_ROOT_BLOG )
+	if ( $current_blog->blog_id != BP_ROOT_BLOG )
 		return false;
 ?>
 	<script type="text/javascript"> jQuery(document).ready( function() { jQuery("a.confirm").click( function() { if ( confirm( '<?php _e( 'Are you sure?', 'buddypress' ) ?>' ) ) return true; else return false; }); });</script>
@@ -174,7 +174,7 @@ add_action( 'wp_head', 'bp_core_add_ajax_url_js' );
 function bp_core_override_adminbar_css() {
 	global $bp;
 
-	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) || ( (int)get_site_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() ) ) {
+	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) || ( $bp->site_options['hide-loggedout-adminbar'] && !is_user_logged_in() ) ) {
 	?>
 <style type="text/css">body { padding-top: 0 !important; } #wp-admin-bar { display: none; }</style>
 	<?php }

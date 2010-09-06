@@ -1,9 +1,9 @@
 === Plugin Name ===
-Contributors: apeatling
+Contributors: apeatling, johnjamesjacoby, mrmaz
 Tags: buddypress, social networking, activity, profiles, messaging, friends, groups, forums, microblogging, twitter, facebook, mingle, social, community, networks, networking, cms
-Requires at least: 2.9.1
-Tested up to: 2.9.2
-Stable tag: 1.2.3
+Requires at least: 3.0
+Tested up to: 3.0.1
+Stable tag: 1.2.5.2
 
 == Description ==
 
@@ -123,8 +123,8 @@ The <a href="http://i18n.svn.buddypress.org/">BuddyPress langauge file repositor
 
 == Upgrade Notice ==
 
-= 1.2.2.1 =
-Fixes a bug where new account activation emails would not be sent correctly. Important upgrade.
+= 1.2.5.1 =
+Fixes 'Mark user as spam' and 'Delete user' issues. Important upgrade.
 
 == Changelog ==
 

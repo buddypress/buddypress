@@ -6,7 +6,7 @@ function bp_core_admin_bar() {
 	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) )
 		return false;
 
-	if ( (int)get_site_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() )
+	if ( (int)$bp->site_options['hide-loggedout-adminbar'] && !is_user_logged_in() )
 		return false;
 
 	$bp->doing_admin_bar = true;
