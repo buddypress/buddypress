@@ -435,11 +435,10 @@ function bp_get_loggedin_user_nav() {
 	/* Loop through each navigation item */
 	foreach( (array) $bp->bp_nav as $nav_item ) {
 		/* If the current component matches the nav item id, then add a highlight CSS class. */
-		if ( $bp->active_components[$bp->current_component] == $nav_item['css_id'] ) {
+		if ( !bp_is_directory() && $bp->active_components[$bp->current_component] == $nav_item['css_id'] )
 			$selected = ' class="current selected"';
-		} else {
+		else
 			$selected = '';
-		}
 
 		/* If we are viewing another person (current_userid does not equal loggedin_user->id)
 		   then check to see if the two users are friends. if they are, add a highlight CSS class
