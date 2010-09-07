@@ -115,12 +115,12 @@ function bp_core_set_uri_globals() {
 		if ( ( $bp_uri[0] == BP_MEMBERS_SLUG && !empty( $bp_uri[1] ) ) || in_array( 'wp-load.php', $bp_uri ) ) {
 			// We are within a member page, set up user id globals
 			if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
-				$displayed_user_id = bp_core_get_userid( $bp_uri[1] );
+				$displayed_user_id = bp_core_get_userid( urldecode( $bp_uri[1] ) );
 			else
-				$displayed_user_id = bp_core_get_userid_from_nicename( $bp_uri[1] );
+				$displayed_user_id = bp_core_get_userid_from_nicename( urldecode( $bp_uri[1] ) );
 
-			unset($bp_uri[0]);
-			unset($bp_uri[1]);
+			unset( $bp_uri[0] );
+			unset( $bp_uri[1] );
 
 			// Reset the keys by merging with an empty array
 			$bp_uri = array_merge( array(), $bp_uri );
@@ -132,11 +132,11 @@ function bp_core_set_uri_globals() {
 
 			// We are within a member page, set up user id globals
 			if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
-				$displayed_user_id = bp_core_get_userid( $bp_uri[0] );
+				$displayed_user_id = bp_core_get_userid( urldecode( $bp_uri[0] ) );
 			else
-				$displayed_user_id = bp_core_get_userid_from_nicename( $bp_uri[0] );
+				$displayed_user_id = bp_core_get_userid_from_nicename( urldecode( $bp_uri[0] ) );
 
-			unset($bp_uri[0]);
+			unset( $bp_uri[0] );
 
 			// Reset the keys by merging with an empty array
 			$bp_uri = array_merge( array(), $bp_uri );
