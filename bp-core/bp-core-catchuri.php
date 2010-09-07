@@ -139,9 +139,9 @@ function bp_core_set_uri_globals() {
 	if ( 'members' == $match->key ) {
 		if ( !empty( $bp_uri[$uri_offset + 1] ) ) {
 			if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
-				$displayed_user_id = (int) bp_core_get_userid( $bp_uri[$uri_offset + 1] );
+				$displayed_user_id = (int) bp_core_get_userid( urldecode( $bp_uri[$uri_offset + 1] ) );
 			else
-				$displayed_user_id = (int) bp_core_get_userid_from_nicename( $bp_uri[$uri_offset + 1] );
+				$displayed_user_id = (int) bp_core_get_userid_from_nicename( urldecode( $bp_uri[$uri_offset + 1] ) );
 
 			$uri_offset = $uri_offset + 2;
 
