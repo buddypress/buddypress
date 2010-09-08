@@ -95,7 +95,7 @@
 
 					<?php do_action( 'bp_before_blog_comment_form' ) ?>
 
-					<form action="<?php echo get_option( 'siteurl' ); ?>/wp-comments-post.php" method="post" id="commentform" class="standard-form">
+					<form action="<?php echo site_url( 'wp-comments-post.php' ) ?>" method="post" id="commentform" class="standard-form">
 
 						<?php if ( $user_ID ) : ?>
 

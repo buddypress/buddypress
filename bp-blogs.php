@@ -320,6 +320,16 @@ function bp_blogs_record_existing_blogs() {
 	}
 }
 
+/**
+ * Makes BuddyPress aware of a new site so that it can track its activity.
+ *
+ * @global object $bp BuddyPress global settings
+ * @param int $blog_id
+ * @param int $user_id
+ * @param $bool $no_activity ; optional.
+ * @since 1.0
+ * @uses BP_Blogs_Blog
+ */
 function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	global $bp;
 
@@ -342,15 +352,15 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'description', $description );
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'last_activity', bp_core_current_time() );
 
-	/* Only record this activity if the blog is public */
+	// Only record this activity if the blog is public
 	if ( (int)$_POST['blog_public'] && !$no_activity ) {
-		/* Record this in activity streams */
+		// Record this in activity streams
 		bp_blogs_record_activity( array(
-			'user_id' => $recorded_blog->user_id,
-			'action' => apply_filters( 'bp_blogs_activity_created_blog_action', sprintf( __( '%s created the blog %s', 'buddypress'), bp_core_get_userlink( $recorded_blog->user_id ), '<a href="' . get_blog_option( $recorded_blog->blog_id, 'siteurl' ) . '">' . esc_attr( $name ) . '</a>' ), &$recorded_blog, $name, $description ),
-			'primary_link' => apply_filters( 'bp_blogs_activity_created_blog_primary_link', get_blog_option( $recorded_blog->blog_id, 'siteurl' ), $recorded_blog->blog_id ),
-			'type' => 'new_blog',
-			'item_id' => $recorded_blog->blog_id
+			'user_id'      => $recorded_blog->user_id,
+			'action'       => apply_filters( 'bp_blogs_activity_created_blog_action', sprintf( __( '%s created the blog %s', 'buddypress'), bp_core_get_userlink( $recorded_blog->user_id ), '<a href="' . get_site_url( $recorded_blog->blog_id ) . '">' . esc_attr( $name ) . '</a>' ), &$recorded_blog, $name, $description ),
+			'primary_link' => apply_filters( 'bp_blogs_activity_created_blog_primary_link', get_site_url( $recorded_blog->blog_id ), $recorded_blog->blog_id ),
+			'type'         => 'new_blog',
+			'item_id'      => $recorded_blog->blog_id
 		) );
 	}
 
@@ -649,7 +659,7 @@ function bp_blogs_redirect_to_random_blog() {
 	if ( $bp->current_component == $bp->blogs->slug && isset( $_GET['random-blog'] ) ) {
 		$blog = bp_blogs_get_random_blogs( 1, 1 );
 
-		bp_core_redirect( get_blog_option( $blog['blogs'][0]->blog_id, 'siteurl') );
+		bp_core_redirect( get_site_url( $blog['blogs'][0]->blog_id ) );
 	}
 }
 add_action( 'wp', 'bp_blogs_redirect_to_random_blog', 6 );
