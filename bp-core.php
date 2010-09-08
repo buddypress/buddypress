@@ -37,10 +37,6 @@ require ( BP_PLUGIN_DIR . '/bp-core/bp-core-widgets.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-notifications.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-signup.php' );
 
-/* Multisite includes built in account activation support. */
-if ( bp_core_is_multisite() )
-	require ( BP_PLUGIN_DIR . '/bp-core/bp-core-activation.php' );
-
 /* If BP_DISABLE_ADMIN_BAR is defined, do not load the global admin bar. */
 if ( !defined( 'BP_DISABLE_ADMIN_BAR' ) )
 	require ( BP_PLUGIN_DIR . '/bp-core/bp-core-adminbar.php' );
