@@ -19,20 +19,19 @@ class BP_Activity_Template {
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['acpage'] ) ? intval( $_REQUEST['acpage'] ) : $page;
-		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
+		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
-		/* Check if blog/forum replies are disabled */
+		// Check if blog/forum replies are disabled
 		$this->disable_blogforum_replies = $bp->site_options['bp-disable-blogforum-comments'];
 
-		/* Get an array of the logged in user's favorite activities */
+		// Get an array of the logged in user's favorite activities
 		$this->my_favs = maybe_unserialize( get_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities' ) );
 
-		if ( !empty( $include ) ) {
-			/* Fetch specific activity items based on ID's */
+		// Fetch specific activity items based on ID's
+		if ( !empty( $include ) )
 			$this->activities = bp_activity_get_specific( array( 'activity_ids' => explode( ',', $include ), 'max' => $max, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'sort' => $sort, 'display_comments' => $display_comments ) );
-		} else {
+		else
 			$this->activities = bp_activity_get( array( 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'filter' => $filter, 'show_hidden' => $show_hidden ) );
-		}
 
 		if ( !$max || $max >= (int)$this->activities['total'] )
 			$this->total_activity_count = (int)$this->activities['total'];
@@ -42,19 +41,22 @@ class BP_Activity_Template {
 		$this->activities = $this->activities['activities'];
 
 		if ( $max ) {
-			if ( $max >= count($this->activities) )
-				$this->activity_count = count($this->activities);
-			else
+			if ( $max >= count($this->activities) ) {
+				$this->activity_count = count( $this->activities );
+			} else {
 				$this->activity_count = (int)$max;
+			}
 		} else {
-			$this->activity_count = count($this->activities);
+			$this->activity_count = count( $this->activities );
 		}
 
 		$this->full_name = $bp->displayed_user->fullname;
 
-		/* Fetch parent content for activity comments so we do not have to query in the loop */
+		// Fetch parent content for activity comments so we do not have to query in the loop
 		foreach ( (array)$this->activities as $activity ) {
-			if ( 'activity_comment' != $activity->type ) continue;
+			if ( 'activity_comment' != $activity->type )
+				continue;
+
 			$parent_ids[] = $activity->item_id;
 		}
 
@@ -62,20 +64,22 @@ class BP_Activity_Template {
 			$activity_parents = bp_activity_get_specific( array( 'activity_ids' => $parent_ids ) );
 
 		if ( !empty( $activity_parents['activities'] ) ) {
-			foreach( $activity_parents['activities'] as $parent ) $this->activity_parents[$parent->id] = $parent;
+			foreach( $activity_parents['activities'] as $parent )
+				$this->activity_parents[$parent->id] = $parent;
+
 			unset( $activity_parents );
 		}
 
-		if ( (int) $this->total_activity_count && (int) $this->pag_num ) {
+		if ( (int)$this->total_activity_count && (int)$this->pag_num ) {
 			$this->pag_links = paginate_links( array(
-				'base' => add_query_arg( 'acpage', '%#%' ),
-				'format' => '',
-				'total' => ceil( (int)$this->total_activity_count / (int)$this->pag_num ),
-				'current' => (int)$this->pag_page,
+				'base'      => add_query_arg( 'acpage', '%#%' ),
+				'format'    => '',
+				'total'     => ceil( (int)$this->total_activity_count / (int)$this->pag_num ),
+				'current'   => (int)$this->pag_page,
 				'prev_text' => '&larr;',
 				'next_text' => '&rarr;',
-				'mid_size' => 1
-			));
+				'mid_size'  => 1
+			) );
 		}
 	}
 

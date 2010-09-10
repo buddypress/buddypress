@@ -21,53 +21,57 @@ Class BP_Messages_Box_Template {
 
 	function bp_messages_box_template( $user_id, $box, $per_page, $max, $type ) {
 		$this->pag_page = isset( $_GET['mpage'] ) ? intval( $_GET['mpage'] ) : 1;
-		$this->pag_num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : $per_page;
+		$this->pag_num  = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : $per_page;
 
-		$this->user_id = $user_id;
-		$this->box = $box;
-		$this->type = $type;
+		$this->user_id  = $user_id;
+		$this->box      = $box;
+		$this->type     = $type;
 
 		if ( 'notices' == $this->box )
 			$this->threads = BP_Messages_Notice::get_notices();
 		else {
 			$threads = BP_Messages_Thread::get_current_threads_for_user( $this->user_id, $this->box, $this->type, $this->pag_num, $this->pag_page );
 
-			$this->threads = $threads['threads'];
+			$this->threads            = $threads['threads'];
 			$this->total_thread_count = $threads['total'];
 		}
 
 		if ( !$this->threads ) {
-			$this->thread_count = 0;
+			$this->thread_count       = 0;
 			$this->total_thread_count = 0;
 		} else {
 			$total_notice_count = BP_Messages_Notice::get_total_notice_count();
 
 			if ( !$max || $max >= (int)$total_notice_count ) {
-				if ( 'notices' == $this->box )
+				if ( 'notices' == $this->box ) {
 					$this->total_thread_count = (int)$total_notice_count;
+				}
 			} else {
 				$this->total_thread_count = (int)$max;
 			}
 
 			if ( $max ) {
-				if ( $max >= count($this->threads) )
-					$this->thread_count = count($this->threads);
-				else
+				if ( $max >= count( $this->threads ) ) {
+					$this->thread_count = count( $this->threads );
+				} else {
 					$this->thread_count = (int)$max;
+				}
 			} else {
-				$this->thread_count = count($this->threads);
+				$this->thread_count = count( $this->threads );
 			}
 		}
 
-		$this->pag_links = paginate_links( array(
-			'base' => add_query_arg( 'mpage', '%#%' ),
-			'format' => '',
-			'total' => ceil($this->total_thread_count / $this->pag_num),
-			'current' => $this->pag_page,
-			'prev_text' => '&larr;',
-			'next_text' => '&rarr;',
-			'mid_size' => 1
-		));
+		if ( (int)$this->total_thread_count && (int)$this->pag_num ) {
+			$this->pag_links = paginate_links( array(
+				'base'      => add_query_arg( 'mpage', '%#%' ),
+				'format'    => '',
+				'total'     => ceil( (int)$this->total_thread_count / (int)$this->pag_num ),
+				'current'   => $this->pag_page,
+				'prev_text' => '&larr;',
+				'next_text' => '&rarr;',
+				'mid_size'  => 1
+			) );
+		}
 	}
 
 	function has_threads() {

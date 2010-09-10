@@ -23,52 +23,58 @@ class BP_Groups_Template {
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['grpage'] ) ? intval( $_REQUEST['grpage'] ) : $page;
-		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
+		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
-		if ( 'invites' == $type )
+		if ( 'invites' == $type ) {
 			$this->groups = groups_get_invites_for_user( $user_id, $this->pag_num, $this->pag_page );
-		else if ( 'single-group' == $type ) {
+		} else if ( 'single-group' == $type ) {
 			$group = new stdClass;
 			$group->group_id = BP_Groups_Group::get_id_from_slug($slug);
-			$this->groups = array( $group );
-		} else
+			$this->groups    = array( $group );
+		} else {
 			$this->groups = groups_get_groups( array( 'type' => $type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'search_terms' => $search_terms, 'include' => $include, 'populate_extras' => $populate_extras ) );
+		}
 
 		if ( 'invites' == $type ) {
 			$this->total_group_count = (int)$this->groups['total'];
-			$this->group_count = (int)$this->groups['total'];
-			$this->groups = $this->groups['groups'];
+			$this->group_count       = (int)$this->groups['total'];
+			$this->groups            = $this->groups['groups'];
 		} else if ( 'single-group' == $type ) {
-			$this->single_group = true;
+			$this->single_group      = true;
 			$this->total_group_count = 1;
-			$this->group_count = 1;
+			$this->group_count       = 1;
 		} else {
-			if ( !$max || $max >= (int)$this->groups['total'] )
+			if ( !$max || $max >= (int)$this->groups['total'] ) {
 				$this->total_group_count = (int)$this->groups['total'];
-			else
+			} else {
 				$this->total_group_count = (int)$max;
+			}
 
 			$this->groups = $this->groups['groups'];
 
 			if ( $max ) {
-				if ( $max >= count($this->groups) )
-					$this->group_count = count($this->groups);
-				else
+				if ( $max >= count( $this->groups ) ) {
+					$this->group_count = count( $this->groups );
+				} else {
 					$this->group_count = (int)$max;
+				}
 			} else {
-				$this->group_count = count($this->groups);
+				$this->group_count = count( $this->groups );
 			}
 		}
 
-		$this->pag_links = paginate_links( array(
-			'base' => add_query_arg( array( 'grpage' => '%#%' ) ),
-			'format' => '',
-			'total' => ceil($this->total_group_count / $this->pag_num),
-			'current' => $this->pag_page,
-			'prev_text' => '&larr;',
-			'next_text' => '&rarr;',
-			'mid_size' => 1
-		));
+		// Build pagination links
+		if ( (int)$this->total_group_count && (int)$this->pag_num ) {
+			$this->pag_links = paginate_links( array(
+				'base'      => add_query_arg( array( 'grpage' => '%#%' ) ),
+				'format'    => '',
+				'total'     => ceil( (int)$this->total_group_count / (int)$this->pag_num ),
+				'current'   => $this->pag_page,
+				'prev_text' => '&larr;',
+				'next_text' => '&rarr;',
+				'mid_size'  => 1
+			) );
+		}
 	}
 
 	function has_groups() {
