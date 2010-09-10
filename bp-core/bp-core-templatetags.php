@@ -21,14 +21,13 @@ class BP_Core_Members_Template {
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['upage'] ) ? intval( $_REQUEST['upage'] ) : $page_number;
-		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
-		$this->type = $type;
+		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
+		$this->type     = $type;
 
-		if ( isset( $_REQUEST['letter'] ) && '' != $_REQUEST['letter'] ) {
+		if ( isset( $_REQUEST['letter'] ) && '' != $_REQUEST['letter'] )
 			$this->members = BP_Core_User::get_users_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page, $populate_extras );
-		} else {
+		else
 			$this->members = bp_core_get_users( array( 'type' => $this->type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'include' => $include, 'search_terms' => $search_terms, 'populate_extras' => $populate_extras ) );
-		}
 
 		if ( !$max || $max >= (int)$this->members['total'] )
 			$this->total_member_count = (int)$this->members['total'];
@@ -38,24 +37,25 @@ class BP_Core_Members_Template {
 		$this->members = $this->members['users'];
 
 		if ( $max ) {
-			if ( $max >= count($this->members) )
-				$this->member_count = count($this->members);
-			else
+			if ( $max >= count($this->members) ) {
+				$this->member_count = count( $this->members );
+			} else {
 				$this->member_count = (int)$max;
+			}
 		} else {
-			$this->member_count = count($this->members);
+			$this->member_count = count( $this->members );
 		}
 
-		if ( (int) $this->total_member_count && (int) $this->pag_num ) {
+		if ( (int)$this->total_member_count && (int)$this->pag_num ) {
 			$this->pag_links = paginate_links( array(
-				'base' => add_query_arg( 'upage', '%#%' ),
-				'format' => '',
-				'total' => ceil( (int) $this->total_member_count / (int) $this->pag_num ),
-				'current' => (int) $this->pag_page,
+				'base'      => add_query_arg( 'upage', '%#%' ),
+				'format'    => '',
+				'total'     => ceil( (int)$this->total_member_count / (int)$this->pag_num ),
+				'current'   => (int)$this->pag_page,
 				'prev_text' => '&larr;',
 				'next_text' => '&rarr;',
-				'mid_size' => 1
-			));
+				'mid_size'  => 1
+			) );
 		}
 	}
 
