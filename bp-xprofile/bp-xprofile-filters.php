@@ -24,12 +24,10 @@ add_filter( 'bp_get_the_site_member_profile_data',    'stripslashes' );
 add_filter( 'xprofile_get_field_data',                'wp_filter_kses', 1 );
 add_filter( 'xprofile_field_name_before_save',        'wp_filter_kses', 1 );
 add_filter( 'xprofile_field_description_before_save', 'wp_filter_kses', 1 );
-add_filter( 'xprofile_data_value_before_save',        'wp_filter_kses', 1 );
 
 add_filter( 'xprofile_get_field_data',                'force_balance_tags' );
 add_filter( 'xprofile_field_name_before_save',        'force_balance_tags' );
 add_filter( 'xprofile_field_description_before_save', 'force_balance_tags' );
-add_filter( 'xprofile_data_value_before_save',        'force_balance_tags' );
 
 add_filter( 'xprofile_get_field_data',                'stripslashes' );
 
@@ -38,6 +36,39 @@ add_filter( 'xprofile_get_field_data',                'stripslashes' );
 add_filter( 'bp_get_the_profile_field_value',         'xprofile_filter_format_field_value', 1, 2 );
 add_filter( 'bp_get_the_site_member_profile_data',    'xprofile_filter_format_field_value', 1, 2 );
 add_filter( 'bp_get_the_profile_field_value',         'xprofile_filter_link_profile_data', 50, 2 );
+
+add_filter( 'xprofile_data_value_before_save',        'xprofile_sanitize_data_value_before_save', 1, 2 );
+
+/**
+ * xprofile_sanitize_data_value_before_save ( $field_value, $field_id )
+ *
+ * Safely runs profile field data through kses and force_balance_tags.
+ *
+ * @param string $field_value
+ * @param int $field_id
+ * @return string
+ */
+function xprofile_sanitize_data_value_before_save ( $field_value, $field_id ) {
+
+	// Return if empty
+	if ( empty( $field_value ) )
+		return;;
+
+	// Filter single value
+	if ( !is_array( $field_value ) ) {
+		$kses_field_value     = wp_filter_kses( $field_value );
+		$filtered_field_value = force_balance_tags( $kses_field_value );
+
+	// Filter each array item independently
+	} else {
+		foreach ( (array)$field_value as $value ) {
+			$kses_field_value       = wp_filter_kses( $value );
+			$filtered_field_value[] = force_balance_tags( $kses_field_value );
+		}
+	}
+
+	return $filtered_field_value;
+}
 
 function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
 	if ( !isset( $field_value ) || empty( $field_value ) )
