@@ -61,7 +61,7 @@ Class BP_Messages_Box_Template {
 			}
 		}
 
-		if ( (int)$this->total_topic_count && (int)$this->pag_num ) {
+		if ( (int)$this->total_thread_count && (int)$this->pag_num ) {
 			$this->pag_links = paginate_links( array(
 				'base'      => add_query_arg( 'mpage', '%#%' ),
 				'format'    => '',
