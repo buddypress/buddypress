@@ -50,7 +50,7 @@ function xprofile_sanitize_data_value_before_save ( $field_value, $field_id ) {
 
 	// Return if empty
 	if ( empty( $field_value ) )
-		return;;
+		return;
 
 	// Filter single value
 	if ( !is_array( $field_value ) ) {
