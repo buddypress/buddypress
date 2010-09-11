@@ -52,6 +52,9 @@ function xprofile_sanitize_data_value_before_save ( $field_value, $field_id ) {
 	if ( empty( $field_value ) )
 		return;
 
+	// Value might be serialized
+	$field_value = maybe_unserialize( $field_value );
+
 	// Filter single value
 	if ( !is_array( $field_value ) ) {
 		$kses_field_value     = wp_filter_kses( $field_value );
@@ -61,8 +64,10 @@ function xprofile_sanitize_data_value_before_save ( $field_value, $field_id ) {
 	} else {
 		foreach ( (array)$field_value as $value ) {
 			$kses_field_value       = wp_filter_kses( $value );
-			$filtered_field_value[] = force_balance_tags( $kses_field_value );
+			$filtered_values[] = force_balance_tags( $kses_field_value );
 		}
+
+		$filtered_field_value = serialize( $filtered_values );
 	}
 
 	return $filtered_field_value;
