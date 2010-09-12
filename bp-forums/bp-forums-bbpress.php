@@ -70,7 +70,7 @@ function bp_forums_load_bbpress() {
 	require_once( BB_PATH . 'bb-admin/includes/functions.bb-admin.php' );
 
 	if ( is_object( $wp_roles ) ) {
-		$bb_roles =& $wp_roles;
+		$bb_roles = $wp_roles;
 		bb_init_roles( $bb_roles );
 	}
 
