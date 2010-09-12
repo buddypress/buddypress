@@ -868,7 +868,7 @@ function groups_screen_group_admin_manage_members() {
 				return false;
 
 			// Remove a user.
-			if ( !groups_remove_member( $bp->groups->current_group->id, $user_id ) )
+			if ( !groups_remove_member( $user_id, $bp->groups->current_group->id ) )
 				bp_core_add_message( __( 'There was an error removing that user from the group, please try again', 'buddypress' ), 'error' );
 			else
 				bp_core_add_message( __( 'User removed successfully', 'buddypress' ) );
@@ -2404,8 +2404,7 @@ function groups_remove_member( $user_id, $group_id ) {
 
 	do_action( 'groups_remove_member', $group_id, $user_id );
 
-	if ( !$member->remove( $user_id, $group_id ) )
-		return false;
+	return $member->remove();
 }
 
 /*** Group Membership ****************************************************/

@@ -776,20 +776,24 @@ Class BP_Groups_Member {
 	}
 
 	function accept_invite() {
-		$this->inviter_id = 0;
-		$this->is_confirmed = 1;
+		$this->inviter_id    = 0;
+		$this->is_confirmed  = 1;
 		$this->date_modified = bp_core_current_time();
+
+		update_user_meta( $this->user_id, 'total_group_count', (int)get_user_meta( $this->user_id, 'total_group_count', true ) + 1 );
 	}
 
 	function accept_request() {
 		$this->is_confirmed = 1;
 		$this->date_modified = bp_core_current_time();
+
+		update_user_meta( $this->user_id, 'total_group_count', (int)get_user_meta( $this->user_id, 'total_group_count', true ) + 1 );
 	}
 
-	function remove( $user_id, $group_id ) {
+	function remove() {
 		global $wpdb, $bp;
 
-		$sql = $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d", $user_id, $group_id );
+		$sql = $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d", $this->user_id, $this->group_id );
 
 		if ( !$result = $wpdb->query( $sql ) )
 			return false;
