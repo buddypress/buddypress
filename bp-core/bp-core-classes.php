@@ -584,7 +584,7 @@ class BP_Button {
 			return false;
 
 		// No button for guests if must be logged in
-		if ( true == $this->must_be_logged_in && !is_user_logged_in )
+		if ( true == $this->must_be_logged_in && !is_user_logged_in() )
 			return false;
 
 		// No button if viewing your own profile
