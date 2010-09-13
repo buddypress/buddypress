@@ -501,4 +501,41 @@ function bp_directory_blogs_search_form() {
 <?php
 }
 
+/**
+ * bp_blogs_visit_blog_button()
+ *
+ * Output button for visiting a blog in a loop
+ *
+ * @param array $args Custom button properties
+ */
+function bp_blogs_visit_blog_button( $args = '' ) {
+	echo bp_get_blogs_visit_blog_button( $args );
+}
+	/**
+	 * bp_get_blogs_visit_blog_button()
+	 *
+	 * Return button for visiting a blog in a loop
+	 *
+	 * @param array $args Custom button properties
+	 * @return string
+	 */
+	function bp_get_blogs_visit_blog_button( $args = '' ) {
+		$defaults = array(
+			'id'                => 'visit_blog',
+			'component'         => 'blogs',
+			'must_be_logged_in' => false,
+			'block_self'        => false,
+			'wrapper_class'     => 'blog-button visit',
+			'link_href'         => bp_get_blog_permalink(),
+			'link_class'        => 'visit',
+			'link_text'         => __( 'Visit Blog', 'buddypress' ),
+			'link_title'        => __( 'Visit Blog', 'buddypress' ),
+		);
+
+		$button = wp_parse_args( $args, $defaults );
+
+		// Filter and return the HTML button
+		return bp_get_button( apply_filters( 'bp_get_blogs_visit_blog_button', $button ) );
+	}
+
 ?>

@@ -849,7 +849,46 @@ function bp_send_public_message_link() {
 	function bp_get_send_public_message_link() {
 		global $bp;
 
-		return apply_filters( 'bp_get_send_public_message_link', $bp->loggedin_user->domain . $bp->activity->slug . '/?r=' . bp_core_get_username( $bp->displayed_user->user_id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) );
+		if ( bp_is_my_profile() || !is_user_logged_in() )
+			return false;
+
+		return apply_filters( 'bp_get_send_public_message_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->activity->slug . '/?r=' . bp_core_get_username( $bp->displayed_user->user_id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) ) );
+	}
+
+/**
+ * bp_send_public_message_button( $args )
+ *
+ * Output button for sending a public message
+ *
+ * @param array $args
+ */
+function bp_send_public_message_button( $args = '' ) {
+	echo bp_get_send_public_message_button( $args );
+}
+	/**
+	 * bp_get_send_public_message_button( $args )
+	 *
+	 * Return button for sending a public message
+	 *
+	 * @param array $args
+	 * @return string
+	 */
+	function bp_get_send_public_message_button( $args = '' ) {
+		$defaults = array(
+			'id'                => 'public_message',
+			'component'         => 'activity',
+			'must_be_logged_in' => true,
+			'block_self'        => true,
+			'wrapper_id'        => 'post-mention',
+			'link_href'         => bp_get_send_public_message_link(),
+			'link_title'        => __( 'Mention this user in a new public message, this will send the user a notification to get their attention.', 'buddypress' ),
+			'link_text'         => __( 'Mention this User', 'buddypress' )
+		);
+
+		$button = wp_parse_args( $args, $defaults );
+
+		// Filter and return the HTML button
+		return bp_get_button( apply_filters( 'bp_get_send_public_message_button', $button ) );
 	}
 
 function bp_activity_post_form_action() {

@@ -31,16 +31,19 @@
 				<div class="item-desc"><?php bp_group_description_excerpt() ?></div>
 
 				<?php do_action( 'bp_directory_groups_item' ) ?>
+
 			</div>
 
 			<div class="action">
-				<?php bp_group_join_button() ?>
-
-				<div class="meta">
-					<?php bp_group_type() ?> / <?php bp_group_member_count() ?>
-				</div>
 
 				<?php do_action( 'bp_directory_groups_actions' ) ?>
+
+				<div class="meta">
+
+					<?php bp_group_type() ?> / <?php bp_group_member_count() ?>
+
+				</div>
+
 			</div>
 
 			<div class="clear"></div>

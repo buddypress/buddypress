@@ -32,15 +32,13 @@
 			</div>
 
 			<div class="action">
-				<div class="generic-button blog-button visit">
-					<a href="<?php bp_blog_permalink() ?>" class="visit" title="<?php _e( 'Visit Blog', 'buddypress' ) ?>"><?php _e( 'Visit Blog', 'buddypress' ) ?></a>
-				</div>
+
+				<?php do_action( 'bp_directory_blogs_actions' ) ?>
 
 				<div class="meta">
 					<?php bp_blog_latest_post() ?>
 				</div>
 
-				<?php do_action( 'bp_directory_blogs_actions' ) ?>
 			</div>
 
 			<div class="clear"></div>

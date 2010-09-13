@@ -116,11 +116,11 @@
 			</p>
 
 			<?php if ( bp_get_group_has_avatar() ) : ?>
+
 				<p><?php _e( "If you'd like to remove the existing avatar but not upload a new one, please use the delete avatar button.", 'buddypress' ) ?></p>
 
-				<div class="generic-button" id="delete-group-avatar-button">
-					<a class="edit" href="<?php bp_group_avatar_delete_link() ?>" title="<?php _e( 'Delete Avatar', 'buddypress' ) ?>"><?php _e( 'Delete Avatar', 'buddypress' ) ?></a>
-				</div>
+				<?php bp_button( array( 'id' => 'delete_group_avatar', 'component' => 'groups', 'wrapper_id' => 'delete-group-avatar-button', 'link_class' => 'edit', 'link_href' => bp_get_group_avatar_delete_link(), 'link_title' => __( 'Delete Avatar', 'buddypress' ), 'link_text' => __( 'Delete Avatar', 'buddypress' ) ) ); ?>
+
 			<?php endif; ?>
 
 			<?php wp_nonce_field( 'bp_avatar_upload' ) ?>
@@ -248,15 +248,9 @@
 
 					<div class="action">
 
-						<div class="generic-button accept">
-							<a href="<?php bp_group_request_accept_link() ?>"><?php _e( 'Accept', 'buddypress' ); ?></a>
-						</div>
+						<?php bp_button( array( 'id' => 'group_membership_accept', 'component' => 'groups', 'wrapper_class' => 'accept', 'link_href' => bp_get_group_request_accept_link(), 'link_title' => __( 'Accept', 'buddypress' ), 'link_text' => __( 'Accept', 'buddypress' ) ) ); ?>
 
-					 &nbsp;
-
-						<div class="generic-button reject">
-							<a href="<?php bp_group_request_reject_link() ?>"><?php _e( 'Reject', 'buddypress' ); ?></a>
-						</div>
+						<?php bp_button( array( 'id' => 'group_membership_reject', 'component' => 'groups', 'wrapper_class' => 'reject', 'link_href' => bp_get_group_request_reject_link(), 'link_title' => __( 'Reject', 'buddypress' ), 'link_text' => __( 'Reject', 'buddypress' ) ) ); ?>
 
 						<?php do_action( 'bp_group_membership_requests_admin_item_action' ); ?>
 

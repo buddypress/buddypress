@@ -1050,9 +1050,24 @@ function bp_has_friends_to_invite( $group = false ) {
 
 	return true;
 }
+function bp_group_new_topic_button() {
+	if ( bp_is_group_forum() && is_user_logged_in() && !bp_is_group_forum_topic() ) {
+		bp_button( array (
+			'id'                => 'new_topic',
+			'component'         => 'groups',
+			'must_be_logged_in' => true,
+			'block_self'        => true,
+			'wrapper_class'     => 'group-button',
+			'link_href'         => '#post-new',
+			'link_class'        => '',
+			'link_text'         => __( 'New Topic', 'buddypress' ),
+			'link_title'        => __( 'New Topic', 'buddypress' ),
+		) );
+	}
+}
 
 function bp_group_join_button( $group = false ) {
-	echo bp_get_group_join_button( $group );
+	echo bp_get_group_join_button();
 }
 	function bp_get_group_join_button( $group = false ) {
 		global $bp, $groups_template;
@@ -1064,42 +1079,93 @@ function bp_group_join_button( $group = false ) {
 		if ( !is_user_logged_in() || $group->is_banned )
 			return false;
 
+		// Group creation was not completed or status is unknown
 		if ( !$group->status )
 			return false;
 
-		if ( 'hidden' == $group->status && !$group->is_member )
-			return false;
+		// Already a member
+		if ( $group->is_member ) {
 
-		$button = '<div class="generic-button group-button ' . $group->status . '" id="groupbutton-' . $group->id . '">';
+			// Stop sole admins from abandoning their group
+			if ( $bp->is_item_admin && count( groups_get_group_admins( $group->id ) ) < 2 )
+				return false;
 
-		switch ( $group->status ) {
-			case 'public':
-				if ( $group->is_member )
-					$button .= '<a class="leave-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
-				else
-					$button .= '<a class="join-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'join', 'groups_join_group' ) . '">' . __( 'Join Group', 'buddypress' ) . '</a>';
-			break;
+			$button = array(
+				'id'                => 'leave_group',
+				'component'         => 'groups',
+				'must_be_logged_in' => true,
+				'block_self'        => false,
+				'wrapper_class'     => 'group-button ' . $group->status,
+				'wrapper_id'        => 'groupbutton-' . $group->id,
+				'link_class'        => 'leave-group',
+				'link_href'         => wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group', 'groups_leave_group' ),
+				'link_text'         => __( 'Leave Group', 'buddypress' ),
+				'link_title'        => __( 'Leave Group', 'buddypress' )
+			);
 
-			case 'private':
-				if ( $group->is_member ) {
-					$button .= '<a class="leave-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
-				} else {
-					if ( !bp_group_has_requested_membership( $group ) )
-						$button .= '<a class="request-membership" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'request-membership', 'groups_request_membership' ) . '">' . __('Request Membership', 'buddypress') . '</a>';
-					else
-						$button .= '<a class="membership-requested" href="' . bp_get_group_permalink( $group ) . '">' . __( 'Request Sent', 'buddypress' ) . '</a>';
-				}
-			break;
+		// Not a member
+		} else {
 
-			case 'hidden':
-				if ( $group->is_member )
-					$button .= '<a class="leave-group" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
-			break;
+			// Show different buttons based on group status
+			switch ( $group->status ) {
+				case 'hidden' :
+					return false;
+					break;
+
+				case 'public':
+					$button = array(
+						'id'                => 'join_group',
+						'component'         => 'groups',
+						'must_be_logged_in' => true,
+						'block_self'        => false,
+						'wrapper_class'     => 'group-button ' . $group->status,
+						'wrapper_id'        => 'groupbutton-' . $group->id,
+						'link_class'        => 'join-group',
+						'link_href'         => wp_nonce_url( bp_get_group_permalink( $group ) . 'join', 'groups_join_group' ),
+						'link_text'         => __( 'Join Group', 'buddypress' ),
+						'link_title'        => __( 'Join Group', 'buddypress' )
+					);
+					break;
+
+				case 'private' :
+
+					// Member has not requested membership yet
+					if ( !bp_group_has_requested_membership( $group ) ) {
+						$button = array(
+							'id'                => 'request_membership',
+							'component'         => 'groups',
+							'must_be_logged_in' => true,
+							'block_self'        => false,
+							'wrapper_class'     => 'group-button ' . $group->status,
+							'wrapper_id'        => 'groupbutton-' . $group->id,
+							'link_class'        => 'request-membership',
+							'link_href'         => wp_nonce_url( bp_get_group_permalink( $group ) . 'request-membership', 'groups_request_membership' ),
+							'link_text'         => __( 'Request Membership', 'buddypress' ),
+							'link_title'        => __( 'Request Membership', 'buddypress' ),
+						);
+
+					// Member has requested membership already
+					} else {
+						$button = array(
+							'id'                => 'membership_requested',
+							'component'         => 'groups',
+							'must_be_logged_in' => true,
+							'block_self'        => false,
+							'wrapper_class'     => 'group-button pending ' . $group->status,
+							'wrapper_id'        => 'groupbutton-' . $group->id,
+							'link_class'        => 'membership-requested',
+							'link_href'         => bp_get_group_permalink( $group ),
+							'link_text'         => __( 'Request Sent', 'buddypress' ),
+							'link_title'        => __( 'Request Sent', 'buddypress' ),
+						);
+					}
+
+					break;
+			}
 		}
 
-		$button .= '</div>';
-
-		return apply_filters( 'bp_get_group_join_button', $button );
+		// Filter and return the HTML button
+		return bp_get_button( apply_filters( 'bp_get_group_join_button', $button ) );
 	}
 
 function bp_group_status_message( $group = false ) {
@@ -1938,16 +2004,31 @@ function bp_group_request_user_avatar_thumb() {
 }
 
 function bp_group_request_reject_link() {
-	global $requests_template, $groups_template;
-
-	echo apply_filters( 'bp_group_request_reject_link', wp_nonce_url( bp_get_group_permalink( $groups_template->group ) . '/admin/membership-requests/reject/' . $requests_template->request->id, 'groups_reject_membership_request' ) );
+	echo bp_get_group_request_reject_link();
 }
+	function bp_get_group_request_reject_link() {
+		global $requests_template, $groups_template;
+
+		return apply_filters( 'bp_get_group_request_reject_link', wp_nonce_url( bp_get_group_permalink( $groups_template->group ) . '/admin/membership-requests/reject/' . $requests_template->request->id, 'groups_reject_membership_request' ) );
+	}
 
 function bp_group_request_accept_link() {
-	global $requests_template, $groups_template;
-
-	echo apply_filters( 'bp_group_request_accept_link', wp_nonce_url( bp_get_group_permalink( $groups_template->group ) . '/admin/membership-requests/accept/' . $requests_template->request->id, 'groups_accept_membership_request' ) );
+	echo bp_get_group_request_accept_link();
 }
+	function bp_get_group_request_accept_link() {
+		global $requests_template, $groups_template;
+
+		return apply_filters( 'bp_get_group_request_accept_link', wp_nonce_url( bp_get_group_permalink( $groups_template->group ) . '/admin/membership-requests/accept/' . $requests_template->request->id, 'groups_accept_membership_request' ) );
+	}
+
+function bp_group_request_user_link() {
+	echo bp_get_group_request_user_link();
+}
+	function bp_get_group_request_user_link() {
+		global $requests_template;
+
+		return apply_filters( 'bp_get_group_request_user_link', bp_core_get_userlink( $requests_template->request->user_id ) );
+	}
 
 function bp_group_request_time_since_requested() {
 	global $requests_template;
@@ -1960,13 +2041,6 @@ function bp_group_request_comment() {
 
 	echo apply_filters( 'bp_group_request_comment', strip_tags( stripslashes( $requests_template->request->comments ) ) );
 }
-
-function bp_group_request_user_link() {
-	global $requests_template;
-
-	echo apply_filters( 'bp_group_request_user_link', bp_core_get_userlink( $requests_template->request->user_id ) );
-}
-
 
 /************************************************************************************
  * Invite Friends Template Tags

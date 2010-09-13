@@ -333,33 +333,6 @@ function bp_member_registered() {
 		return apply_filters( 'bp_member_last_active', $registered );
 	}
 
-function bp_member_add_friend_button() {
-	global $members_template;
-
-	if ( function_exists( 'bp_add_friend_button' ) ) {
-		if ( null === $members_template->member->is_friend )
-			$friend_status = 'not_friends';
-		else
-			$friend_status = ( 0 == $members_template->member->is_friend ) ? 'pending' : 'is_friend';
-
-		echo bp_add_friend_button( $members_template->member->id, $friend_status );
-	}
-}
-
-function bp_member_total_friend_count() {
-	global $members_template;
-
-	echo bp_get_member_total_friend_count();
-}
-	function bp_get_member_total_friend_count() {
-		global $members_template;
-
-		if ( 1 == (int) $members_template->member->total_friend_count )
-			return apply_filters( 'bp_get_member_total_friend_count', sprintf( __( '%d friend', 'buddypress' ), (int) $members_template->member->total_friend_count ) );
-		else
-			return apply_filters( 'bp_get_member_total_friend_count', sprintf( __( '%d friends', 'buddypress' ), (int) $members_template->member->total_friend_count ) );
-	}
-
 function bp_member_random_profile_data() {
 	global $members_template;
 
@@ -1046,6 +1019,31 @@ function bp_is_directory() {
 
 	return $bp->is_directory;
 }
+
+/**
+ * bp_button( $button )
+ *
+ * Creates and outputs a button.
+ * Args: div_id | div_class | a_href | a_title | a_id | a_class | a_rel | a_text
+ *
+ * @param array $button
+ */
+function bp_button( $button = '' ) {
+	echo bp_get_button( $button );
+}
+	/**
+	 * bp_get_button( $button )
+	 *
+	 * Creates and returns a button.
+	 * Args: div_id | div_class | a_href | a_title | a_id | a_class | a_rel | a_text
+	 *
+	 * @param array $button
+	 * @return string
+	 */
+	function bp_get_button( $button = '' ) {
+		$btn = new BP_Button( $button );
+		return apply_filters( 'bp_get_button', $btn->contents, $button );
+	}
 
 /**
  * bp_create_excerpt()
