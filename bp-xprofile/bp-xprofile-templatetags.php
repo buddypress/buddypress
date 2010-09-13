@@ -685,12 +685,16 @@ function bp_get_user_has_avatar() {
 function bp_edit_profile_button() {
 	global $bp;
 
-	?>
-	<div class="generic-button">
-		<a class="edit" title="<?php _e( 'Edit Profile', 'buddypress' ) ?>" href="<?php echo $bp->displayed_user->domain . $bp->profile->slug ?>/edit"><?php _e( 'Edit Profile', 'buddypress' ) ?></a>
-	</div>
-	<?php
+	bp_button( array (
+		'id'                => 'edit_profile',
+		'component'         => 'xprofile',
+		'must_be_logged_in' => true,
+		'block_self'        => true,
+		'link_href'         => trailingslashit( $bp->displayed_user->domain . $bp->profile->slug . '/edit' ),
+		'link_class'        => 'edit',
+		'link_text'         => __( 'Edit Profile', 'buddypress' ),
+		'link_title'        => __( 'Edit Profile', 'buddypress' ),
+	) );
 }
-
 
 ?>

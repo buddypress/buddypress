@@ -35,13 +35,11 @@
 	<div id="item-meta">
 		<?php bp_group_description() ?>
 
-		<?php if ( bp_is_group_forum() && is_user_logged_in() && !bp_is_group_forum_topic() ) : ?>
-			<div class="generic-button group-button">
-				<a href="#post-new" class=""><?php _e( 'New Topic', 'buddypress' ) ?></a>
-			</div>
-		<?php endif; ?>
+		<div id="item-buttons">
 
-		<?php bp_group_join_button() ?>
+			<?php do_action( 'bp_group_header_actions' ); ?>
+
+		</div><!-- #item-buttons -->
 
 		<?php do_action( 'bp_group_header_meta' ) ?>
 	</div>
