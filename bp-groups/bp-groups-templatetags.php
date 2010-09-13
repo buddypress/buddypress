@@ -1124,14 +1124,14 @@ function bp_group_join_button( $group = false ) {
 		if ( !is_user_logged_in() || $group->is_banned )
 			return false;
 
+		// Group creation was not completed or status is unknown
 		if ( !$group->status )
-			return false;
-
-		if ( 'hidden' == $group->status && !$group->is_member )
 			return false;
 
 		// Already a member
 		if ( $group->is_member ) {
+
+			// Stop sole admins from abandoning their group
 			if ( $bp->is_item_admin && count( groups_get_group_admins( $group->id ) ) < 2 )
 				return false;
 
@@ -1153,6 +1153,10 @@ function bp_group_join_button( $group = false ) {
 
 			// Show different buttons based on group status
 			switch ( $group->status ) {
+				case 'hidden' :
+					return false;
+					break;
+
 				case 'public':
 					$button = array(
 						'id'                => 'join_group',
