@@ -1132,6 +1132,9 @@ function bp_group_join_button( $group = false ) {
 
 		// Already a member
 		if ( $group->is_member ) {
+			if ( $bp->is_item_admin && count( groups_get_group_admins( $group->id ) ) < 2 )
+				return false;
+
 			$button = array(
 				'id'                => 'leave_group',
 				'component'         => 'groups',
