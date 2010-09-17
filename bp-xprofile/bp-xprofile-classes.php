@@ -482,15 +482,14 @@ Class BP_XProfile_Field {
 		//This function populates the items for radio buttons checkboxes and drop down boxes
 		$input_types = array( 'checkbox', 'selectbox', 'multiselectbox', 'radio' );
 
-		foreach ($input_types as $type) {
+		foreach ( $input_types as $type ) {
 			$default_name = '';
 
-			if ( 'multiselectbox' == $type || 'checkbox' == $type ) {
+			if ( 'multiselectbox' == $type || 'checkbox' == $type )
 				$default_input = 'checkbox';
-			} else {
-				$default_input = 'radio';
-			}
-		?>
+			else
+				$default_input = 'radio'; ?>
+
 			<div id="<?php echo $type ?>" class="options-box" style="<?php if ( $this->type != $type ) { ?>display: none;<?php } ?> margin-left: 15px;">
 				<h4><?php _e('Please enter options for this Field:', 'buddypress') ?></h4>
 				<p><?php _e( 'Order By:', 'buddypress' ) ?>
@@ -519,33 +518,41 @@ Class BP_XProfile_Field {
 					}
 				}
 
-				if ( !empty($options) ) {
-					for ( $i = 0; $i < count($options); $i++ ) {
+				if ( !empty( $options ) ) {
+					for ( $i = 0; $i < count( $options ); $i++ ) {
 						$j = $i + 1;
 
 						if ( 'multiselectbox' == $type || 'checkbox' == $type )
-							$default_name = '[' . $j . ']';
-					?>
-						<p><?php _e('Option', 'buddypress') ?> <?php echo $j ?>:
-						   <input type="text" name="<?php echo $type ?>_option[<?php echo $j ?>]" id="<?php echo $type ?>_option<?php echo $j ?>" value="<?php echo esc_attr( $options[$i]->name ) ?>" />
-						   <input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name ?>" <?php if ( (int) $options[$i]->is_default_option ) {?> checked="checked"<?php } ?> " value="<?php echo $j ?>" /> <?php _e( 'Default Value', 'buddypress' ) ?>
-							<?php if ( $j != 1 &&
-								$options[$i]->id != -1 ) : ?><a href="admin.php?page=bp-profile-setup&amp;mode=delete_option&amp;option_id=<?php echo $options[$i]->id ?>" class="ajax-option-delete" id="delete-<?php echo $options[$i]->id ?>">[x]</a><?php endif ?></p>
+							$default_name = '[' . $j . ']'; ?>
+
+						<p>
+							<?php _e('Option', 'buddypress') ?> <?php echo $j ?>:
+							<input type="text" name="<?php echo $type ?>_option[<?php echo $j ?>]" id="<?php echo $type ?>_option<?php echo $j ?>" value="<?php echo esc_attr( $options[$i]->name ) ?>" />
+							<input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name ?>" <?php if ( (int) $options[$i]->is_default_option ) {?> checked="checked"<?php } ?> value="<?php echo $j ?>" /> <?php _e( 'Default Value', 'buddypress' ) ?>
+
+							<?php if ( $j != 1 && $options[$i]->id != -1 ) : ?>
+
+								   <a href="admin.php?page=bp-profile-setup&amp;mode=delete_option&amp;option_id=<?php echo $options[$i]->id ?>" class="ajax-option-delete" id="delete-<?php echo $options[$i]->id ?>">[x]</a>
+
+							<?php endif ?>
+
 						</p>
+
 					<?php } // end for ?>
+
 					<input type="hidden" name="<?php echo $type ?>_option_number" id="<?php echo $type ?>_option_number" value="<?php echo $j + 1 ?>" />
 
 				<?php
 				} else {
 					if ( 'multiselectbox' == $type || 'checkbox' == $type )
-						$default_name = '[1]';
-				?>
+						$default_name = '[1]'; ?>
 
 					<p><?php _e('Option', 'buddypress') ?> 1: <input type="text" name="<?php echo $type ?>_option[1]" id="<?php echo $type ?>_option1" />
 					<input type="<?php echo $default_input ?>" name="isDefault_<?php echo $type ?>_option<?php echo $default_name; ?>" id="isDefault_<?php echo $type ?>_option" value="1" /> <?php _e( 'Default Value', 'buddypress' ) ?>
 					<input type="hidden" name="<?php echo $type ?>_option_number" id="<?php echo $type ?>_option_number" value="2" />
 
 				<?php } // end if ?>
+
 				<div id="<?php echo $type ?>_more"></div>
 				<p><a href="javascript:add_option('<?php echo $type ?>')"><?php _e('Add Another Option', 'buddypress') ?></a></p>
 			</div>
@@ -625,6 +632,8 @@ Class BP_XProfile_Field {
 						&nbsp;<input type="submit" value="<?php _e("Save", 'buddypress') ?> &rarr;" name="saveField" id="saveField" style="font-weight: bold" />
 						 <?php _e('or', 'buddypress') ?> <a href="admin.php?page=bp-profile-setup" style="color: red"><?php _e( 'Cancel', 'buddypress' ) ?></a>
 				</p>
+
+			</div>
 
 			<div class="clear"></div>
 
@@ -799,10 +808,11 @@ Class BP_XProfile_ProfileData {
 		if ( is_array( $user_ids ) ) {
 			$user_ids = implode( ',', (array)$user_ids );
 			$data = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, value FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id IN ({$user_ids})", $field_id ) );
-		} else
+		} else {
 			$data = $wpdb->get_var( $wpdb->prepare( "SELECT value FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_ids ) );
+		}
 
-		return $data;
+		return maybe_unserialize( $data );
 	}
 
 	function get_value_byfieldname( $fields, $user_id = null ) {
