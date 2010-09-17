@@ -1405,7 +1405,7 @@ function groups_create_group( $args = '' ) {
 		return false;
 
 	if ( !$group_id ) {
-		/* If this is a new group, set up the creator as the first member and admin */
+		// If this is a new group, set up the creator as the first member and admin
 		$member = new BP_Groups_Member;
 		$member->group_id = $group->id;
 		$member->user_id = $group->creator_id;
@@ -1415,6 +1415,8 @@ function groups_create_group( $args = '' ) {
 		$member->date_modified = gmdate( "Y-m-d H:i:s" );
 
 		$member->save();
+	} else {
+		do_action( 'groups_update_group', $group->id, $group );
 	}
 
 	do_action( 'groups_created_group', $group->id );
