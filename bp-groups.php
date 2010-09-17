@@ -1415,6 +1415,7 @@ function groups_create_group( $args = '' ) {
 		$member->date_modified = gmdate( "Y-m-d H:i:s" );
 
 		$member->save();
+		do_action( 'groups_create_group', $group->id, $member, $group );
 	} else {
 		do_action( 'groups_update_group', $group->id, $group );
 	}
