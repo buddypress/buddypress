@@ -336,16 +336,24 @@ if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" )
 
 
 // Member Buttons
-add_action( 'bp_member_header_actions',    'bp_add_friend_button' );
-add_action( 'bp_member_header_actions',    'bp_send_public_message_button' );
-add_action( 'bp_member_header_actions',    'bp_send_private_message_button' );
+if ( bp_is_active( 'friends' ) )
+	add_action( 'bp_member_header_actions',    'bp_add_friend_button' );
+
+if ( bp_is_active( 'activity' ) )
+	add_action( 'bp_member_header_actions',    'bp_send_public_message_button' );
+
+if ( bp_is_active( 'messages' ) )
+	add_action( 'bp_member_header_actions',    'bp_send_private_message_button' );
 
 // Group Buttons
-add_action( 'bp_group_header_actions',     'bp_group_join_button' );
-add_action( 'bp_group_header_actions',     'bp_group_new_topic_button' );
-add_action( 'bp_directory_groups_actions', 'bp_group_join_button' );
+if ( bp_is_active( 'groups' ) ) {
+	add_action( 'bp_group_header_actions',     'bp_group_join_button' );
+	add_action( 'bp_group_header_actions',     'bp_group_new_topic_button' );
+	add_action( 'bp_directory_groups_actions', 'bp_group_join_button' );
+}
 
 // Blog Buttons
-add_action( 'bp_directory_blogs_actions',  'bp_blogs_visit_blog_button' );
+if ( bp_is_active( 'blogs' ) )
+	add_action( 'bp_directory_blogs_actions',  'bp_blogs_visit_blog_button' );
 
 ?>
