@@ -1080,26 +1080,6 @@ add_filter( 'bp_create_excerpt', 'wp_trim_excerpt' );
 add_filter( 'bp_create_excerpt', 'stripslashes_deep' );
 add_filter( 'bp_create_excerpt', 'force_balance_tags' );
 
-/**
- * bp_is_serialized()
- *
- * Checks to see if the data passed has been serialized.
- *
- * @package BuddyPress Core
- * @param $data str The data that will be checked
- * @return bool false if the data is not serialized
- * @return bool true if the data is serialized
- */
-function bp_is_serialized( $data ) {
-	if ( '' == trim($data) )
-		return false;
-
-	if ( preg_match( "/^(i|s|a|o|d)(.*);/si", $data ) )
-		return true;
-
-	return false;
-}
-
 function bp_total_member_count() {
 	echo bp_get_total_member_count();
 }
