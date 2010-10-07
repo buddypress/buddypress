@@ -17,13 +17,18 @@
 				// Only include comments
 				$numTrackBacks = 0; $numComments = 0;
 				foreach ( (array)$comments as $comment )
-					if ( get_comment_type() != "comment")
+					if ( 'comment' != get_comment_type() )
 						$numTrackBacks++; 
 					else
 						$numComments++;
 			?>
 
-			<h3 id="comments"><?php the_title(); ?></h3>
+			<h3 id="comments">
+				<?php
+					printf( _n( 'One Response to %2$s', '%1$s Responses to %2$s', $numComments, 'buddypress' ),
+					number_format_i18n( $numComments ), '<em>' . get_the_title() . '</em>' );
+				?>
+			</h3>
 
 			<?php do_action( 'bp_before_blog_comment_list' ) ?>
 
