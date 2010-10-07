@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: BuddyPress
-Plugin URI: http://buddypress.org/download/
+Plugin URI: http://buddypress.org
 Description: Social networking in a box. Build a social network for your company, school, sports team or niche community all based on the power and flexibility of WordPress.
 Author: The BuddyPress Community
 Version: 1.3-bleeding
-Author URI: http://buddypress.org/developers/
+Author URI: http://buddypress.org/community/members/
 */
 
 define( 'BP_VERSION', '1.3-bleeding' );
