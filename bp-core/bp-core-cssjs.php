@@ -35,11 +35,13 @@ add_action( 'init', 'bp_core_add_admin_bar_css' );
 function bp_core_admin_menu_icon_css() {
 	global $bp;
 ?>
+
 	<style type="text/css">
 		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a { background-image: url( <?php echo BP_PLUGIN_URL . '/bp-core/images/admin_menu_icon.png' ?> ) !important; background-position: -1px -32px; }
 		ul#adminmenu li.toplevel_page_bp-general-settings:hover .wp-menu-image a { background-position: -1px 0; }
 		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a img { display: none; }
 	</style>
+
 <?php
 }
 add_action( 'admin_head', 'bp_core_admin_menu_icon_css' );
@@ -50,7 +52,9 @@ function bp_core_confirmation_js() {
 	if ( $current_blog->blog_id != BP_ROOT_BLOG )
 		return false;
 ?>
+
 	<script type="text/javascript"> jQuery(document).ready( function() { jQuery("a.confirm").click( function() { if ( confirm( '<?php _e( 'Are you sure?', 'buddypress' ) ?>' ) ) return true; else return false; }); });</script>
+
 <?php
 }
 add_action( 'wp_head', 'bp_core_confirmation_js', 100 );
@@ -83,8 +87,9 @@ function bp_core_add_cropper_inline_js() {
 
 	/* Calculate Aspect Ratio */
 	if ( (int) constant( 'BP_AVATAR_FULL_HEIGHT' ) && ( (int) constant( 'BP_AVATAR_FULL_WIDTH' ) != (int) constant( 'BP_AVATAR_FULL_HEIGHT' ) ) )
-	     $aspect_ratio = (int) constant( 'BP_AVATAR_FULL_WIDTH' ) / (int) constant( 'BP_AVATAR_FULL_HEIGHT' );
+		$aspect_ratio = (int) constant( 'BP_AVATAR_FULL_WIDTH' ) / (int) constant( 'BP_AVATAR_FULL_HEIGHT' );
 ?>
+
 	<script type="text/javascript">
 		jQuery(window).load( function(){
 			jQuery('#avatar-to-crop').Jcrop({
@@ -119,6 +124,7 @@ function bp_core_add_cropper_inline_js() {
 			}
 		}
 	</script>
+
 <?php
 }
 
@@ -132,6 +138,7 @@ function bp_core_add_cropper_inline_js() {
 function bp_core_add_cropper_inline_css() {
 	global $bp;
 ?>
+
 	<style type="text/css">
 		.jcrop-holder { float: left; margin: 0 20px 20px 0; text-align: left; }
 		.jcrop-vline, .jcrop-hline { font-size: 0; position: absolute; background: white top left repeat url( <?php echo BP_PLUGIN_URL ?>/bp-core/images/Jcrop.gif ); }
@@ -145,6 +152,7 @@ function bp_core_add_cropper_inline_css() {
 		#avatar-crop-submit { margin: 20px 0; }
 		#avatar-upload-form img, #create-group-form img, #group-settings-form img { border: none !important; }
 	</style>
+
 <?php
 }
 
@@ -157,27 +165,12 @@ function bp_core_add_cropper_inline_css() {
  */
 function bp_core_add_ajax_url_js() {
 	global $bp;
+?>
 
-	echo
-'<script type="text/javascript">var ajaxurl = "' . site_url( 'wp-load.php' ) . '";</script>
-';
+	<script type="text/javascript">var ajaxurl = "<?php echo site_url( 'wp-load.php' ); ?>";</script>
+
+<?php
 }
 add_action( 'wp_head', 'bp_core_add_ajax_url_js' );
 
-/**
- * bp_core_override_adminbar_css()
- *
- * Overrides the theme's admin bar CSS to hide the adminbar if disabled.
- *
- * @package BuddyPress Core
- */
-function bp_core_override_adminbar_css() {
-	global $bp;
-
-	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) || ( $bp->site_options['hide-loggedout-adminbar'] && !is_user_logged_in() ) ) {
-	?>
-<style type="text/css">body { padding-top: 0 !important; } #wp-admin-bar { display: none; }</style>
-	<?php }
-}
-add_action( 'wp_footer', 'bp_core_override_adminbar_css' );
 ?>
