@@ -14,12 +14,16 @@
 		<div id="comments">
 
 			<?php
-			$numTrackBacks = 0; $numComments = 0;
-			foreach ( (array)$comments as $comment ) if ( get_comment_type() != "comment") $numTrackBacks++; else $numComments++;
+				// Only include comments
+				$numTrackBacks = 0; $numComments = 0;
+				foreach ( (array)$comments as $comment )
+					if ( get_comment_type() != "comment")
+						$numTrackBacks++; 
+					else
+						$numComments++;
 			?>
 
-			<span class="title"><?php the_title() ?></span>
-			<h3 id="comments"><?php comments_number( '', '', $numComments );?></h3>
+			<h3 id="comments"><?php the_title(); ?></h3>
 
 			<?php do_action( 'bp_before_blog_comment_list' ) ?>
 
