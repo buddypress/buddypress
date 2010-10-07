@@ -474,7 +474,7 @@ function bp_core_activate_signup( $key ) {
 
 	} else {
 		/* Get the user_id based on the $key */
-		$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT user_id FROM $wpdb->usermeta WHERE meta_value = %s", $key ) );
+		$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT user_id FROM $wpdb->usermeta WHERE meta_key = 'activation_key' AND meta_value = %s", $key ) );
 
 		if ( empty( $user_id ) )
 			return new WP_Error( 'invalid_key', __( 'Invalid activation key', 'buddypress' ) );
