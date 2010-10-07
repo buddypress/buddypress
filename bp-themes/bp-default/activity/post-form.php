@@ -10,7 +10,7 @@
 
 	<div id="whats-new-avatar">
 		<a href="<?php echo bp_loggedin_user_domain() ?>">
-			<?php bp_loggedin_user_avatar( 'width=60&height=60' ) ?>
+			<?php bp_loggedin_user_avatar( 'width=' . BP_AVATAR_THUMB_WIDTH . '&height=' . BP_AVATAR_THUMB_HEIGHT ) ?>
 		</a>
 	</div>
 
