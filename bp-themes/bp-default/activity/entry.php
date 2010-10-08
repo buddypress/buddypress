@@ -5,7 +5,7 @@
 <li class="<?php bp_activity_css_class() ?>" id="activity-<?php bp_activity_id() ?>">
 	<div class="activity-avatar">
 		<a href="<?php bp_activity_user_link() ?>">
-			<?php bp_activity_avatar( 'type=thumb&width=' . BP_AVATAR_THUMB_WIDTH . '&height=' . BP_AVATAR_THUMB_HEIGHT ) ?>
+			<?php bp_activity_avatar( 'type=full&width=' . BP_AVATAR_THUMB_WIDTH . '&height=' . BP_AVATAR_THUMB_HEIGHT ) ?>
 		</a>
 	</div>
 
