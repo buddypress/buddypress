@@ -8,13 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-09-18 13:13+0000\n"
+"POT-Creation-Date: 2010-10-13 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: bp-activity.php:113 bp-activity.php:270
 #: bp-activity/feeds/bp-activity-personal-feed.php:21
@@ -413,7 +414,7 @@ msgid "Blog avatar"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:256 bp-core/bp-core-classes.php:82
-#: bp-core/bp-core-templatetags.php:355 bp-core/bp-core-templatetags.php:1347
+#: bp-core/bp-core-templatetags.php:355 bp-core/bp-core-templatetags.php:1327
 #: bp-groups/bp-groups-widgets.php:119
 #: bp-themes/bp-default/groups/groups-loop.php:31
 #: bp-themes/bp-default/groups/single/group-header.php:31
@@ -962,7 +963,7 @@ msgstr ""
 msgid "group"
 msgstr ""
 
-#: bp-core/bp-core-cssjs.php:53
+#: bp-core/bp-core-cssjs.php:56
 msgid "Are you sure?"
 msgstr ""
 
@@ -1197,7 +1198,7 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:742 bp-themes/bp-default/comments.php:111
+#: bp-core/bp-core-templatetags.php:742 bp-themes/bp-default/comments.php:120
 msgid "Name"
 msgstr ""
 
@@ -1205,7 +1206,7 @@ msgstr ""
 msgid "About Me"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:762 bp-themes/bp-default/comments.php:121
+#: bp-core/bp-core-templatetags.php:762 bp-themes/bp-default/comments.php:130
 msgid "Website"
 msgstr ""
 
@@ -1284,11 +1285,11 @@ msgstr ""
 msgid "Blogs"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1233
+#: bp-core/bp-core-templatetags.php:1213
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1306
+#: bp-core/bp-core-templatetags.php:1286
 msgid "a user"
 msgstr ""
 
@@ -3095,72 +3096,79 @@ msgstr ""
 msgid "Enter the password to view comments."
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:49
+#: bp-themes/bp-default/comments.php:28
+#, php-format
+msgid "One Response to %2$s"
+msgid_plural "%1$s Responses to %2$s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: bp-themes/bp-default/comments.php:58
 #, php-format
 msgid ""
 "Comments are closed, but <a href=\"%1$s\" title=\"Trackback URL for this post"
 "\">trackbacks</a> and pingbacks are open."
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:55
+#: bp-themes/bp-default/comments.php:64
 msgid "Comments are closed."
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:81
+#: bp-themes/bp-default/comments.php:90
 msgid "Leave a Reply"
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:81
+#: bp-themes/bp-default/comments.php:90
 #, php-format
 msgid "Leave a Reply to %s"
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:85
+#: bp-themes/bp-default/comments.php:94
 msgid "Click here to cancel reply."
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:91
+#: bp-themes/bp-default/comments.php:100
 #, php-format
 msgid ""
 "You must be <a href=\"%1$s\" title=\"Log in\">logged in</a> to post a "
 "comment."
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:103
+#: bp-themes/bp-default/comments.php:112
 #, php-format
 msgid "Logged in as <a href=\"%1$s\" title=\"%2$s\">%2$s</a>."
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:103
+#: bp-themes/bp-default/comments.php:112
 msgid "Log out of this account"
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:103
+#: bp-themes/bp-default/comments.php:112
 msgid "Log out &rarr;"
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:111 bp-themes/bp-default/comments.php:116
+#: bp-themes/bp-default/comments.php:120 bp-themes/bp-default/comments.php:125
 msgid "*"
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:116
+#: bp-themes/bp-default/comments.php:125
 msgid "Email"
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:128
+#: bp-themes/bp-default/comments.php:137
 msgid "Comment"
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:135
+#: bp-themes/bp-default/comments.php:144
 msgid "Submit"
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:160
+#: bp-themes/bp-default/comments.php:169
 #, php-format
 msgid "%d Trackback"
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:162
+#: bp-themes/bp-default/comments.php:171
 #, php-format
 msgid "%d Trackbacks"
 msgstr ""
