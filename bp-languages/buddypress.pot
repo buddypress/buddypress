@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-09-18 13:13+0000\n"
+"POT-Creation-Date: 2010-10-13 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1392,7 +1392,7 @@ msgstr ""
 msgid "group"
 msgstr ""
 
-#: bp-core/bp-core-cssjs.php:53
+#: bp-core/bp-core-cssjs.php:56
 msgid "Are you sure?"
 msgstr ""
 
@@ -1524,15 +1524,15 @@ msgstr ""
 msgid "Your account is now active!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:318 bp-core/bp-core-wpabstraction.php:102
+#: bp-core/bp-core-signup.php:318 bp-core/bp-core-wpabstraction.php:85
 msgid "Please enter a username"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:327 bp-core/bp-core-wpabstraction.php:114
+#: bp-core/bp-core-signup.php:327 bp-core/bp-core-wpabstraction.php:97
 msgid "Only lowercase letters and numbers allowed"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:330 bp-core/bp-core-wpabstraction.php:118
+#: bp-core/bp-core-signup.php:330 bp-core/bp-core-wpabstraction.php:101
 msgid "Username must be at least 4 characters"
 msgstr ""
 
@@ -1540,23 +1540,23 @@ msgstr ""
 msgid "Sorry, usernames may not contain the character \"_\"!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:340 bp-core/bp-core-wpabstraction.php:128
+#: bp-core/bp-core-signup.php:340 bp-core/bp-core-wpabstraction.php:111
 msgid "Sorry, usernames must have letters too!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:343 bp-core/bp-core-wpabstraction.php:131
+#: bp-core/bp-core-signup.php:343 bp-core/bp-core-wpabstraction.php:114
 msgid "Please check your email address."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:351 bp-core/bp-core-wpabstraction.php:137
+#: bp-core/bp-core-signup.php:351 bp-core/bp-core-wpabstraction.php:120
 msgid "Sorry, that email address is not allowed!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:356 bp-core/bp-core-wpabstraction.php:143
+#: bp-core/bp-core-signup.php:356 bp-core/bp-core-wpabstraction.php:126
 msgid "Sorry, that username already exists!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:360 bp-core/bp-core-wpabstraction.php:147
+#: bp-core/bp-core-signup.php:360 bp-core/bp-core-wpabstraction.php:130
 msgid "Sorry, that email address is already used!"
 msgstr ""
 
@@ -1665,11 +1665,11 @@ msgstr ""
 msgid "Activate your Account"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1182
+#: bp-core/bp-core-templatetags.php:1162
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1255
+#: bp-core/bp-core-templatetags.php:1235
 msgid "a user"
 msgstr ""
 
@@ -1717,7 +1717,7 @@ msgstr ""
 msgid "There were no members found, please try another filter."
 msgstr ""
 
-#: bp-core/bp-core-wpabstraction.php:122
+#: bp-core/bp-core-wpabstraction.php:105
 msgid "Sorry, usernames may not contain the character '_'!"
 msgstr ""
 
