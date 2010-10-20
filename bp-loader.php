@@ -4,13 +4,13 @@ Plugin Name: BuddyPress
 Plugin URI: http://buddypress.org
 Description: Social networking in a box. Build a social network for your company, school, sports team or niche community all based on the power and flexibility of WordPress.
 Author: The BuddyPress Community
-Version: 1.2.6-bleeding
+Version: 1.2.6
 Author URI: http://buddypress.org/community/members/
 Site Wide Only: true
 Network: true
 */
 
-define( 'BP_VERSION', '1.2.6-bleeding' );
+define( 'BP_VERSION', '1.2.6' );
 
 /***
  * This file will load in each BuddyPress component based on which
