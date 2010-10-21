@@ -1,0 +1,26 @@
+/*
+Theme Name: BuddyPress Default
+Theme URI: http://buddypress.org/extend/themes/
+Description: The default theme for BuddyPress.
+Version: 1.2.6
+Author: BuddyPress.org
+Author URI: http://buddypress.org
+Tags: buddypress, two-columns, custom-header, white, blue
+
+** IMPORTANT - DO NOT COPY THIS THEME **
+If you want to make a custom theme based on this theme, DO NOT copy and edit it. By
+doing this you will make upgrades and maintainence much harder for yourself.
+Instead, please read this codex page on how to build a BuddyPress child theme:
+
+http://codex.buddypress.org/how-to-guides/building-a-buddypress-child-theme/
+*/
+
+/***
+ * The default theme styles.
+ */
+@import url( _inc/css/default.css );
+
+/***
+ * The admin bar default styles
+ */
+@import url( _inc/css/adminbar.css );
