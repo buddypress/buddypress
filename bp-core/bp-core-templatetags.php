@@ -820,15 +820,15 @@ function bp_format_time( $time, $just_date = false ) {
 	$root_blog_offset = get_blog_option( BP_ROOT_BLOG, 'gmt_offset' );
 
 	// Calculate offset time
-	$time_offest = $time + ( $root_blog_offset * 3600 );
+	$time_offset = $time + ( $root_blog_offset * 3600 );
 
 	// Current date (January 1, 2010)
-	$date = date( 'F j, Y ', $time_offest );
+	$date = date( 'F j, Y ', $time_offset );
 
 	// Should we show the time also?
 	if ( !$just_date ) {
 		// Current time (9:50pm)
-		$time = date( ' g:ia', $time_offest );
+		$time = date( ' g:ia', $time_offset );
 
 		// Return string formatted with date and time
 		$date = sprintf( __( '%1$s at %2$s', 'buddypress' ), $date, $time );

@@ -291,7 +291,7 @@ function bp_message_thread_last_post_date() {
 	function bp_get_message_thread_last_post_date() {
 		global $messages_template;
 
-		return apply_filters( 'bp_get_message_thread_last_post_date', bp_format_time( get_date_from_gmt( $messages_template->thread->last_message_date, 'U' ) ) );
+		return apply_filters( 'bp_get_message_thread_last_post_date', bp_format_time( strtotime( $messages_template->thread->last_message_date ) ) );
 	}
 
 function bp_message_thread_avatar() {
