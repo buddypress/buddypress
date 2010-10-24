@@ -14,7 +14,7 @@ function messages_add_autocomplete_js() {
 	}
 
 }
-add_action( 'template_redirect', 'messages_add_autocomplete_js', 1 );
+add_action( 'wp', 'messages_add_autocomplete_js', 2 );
 
 function messages_add_autocomplete_css() {
 	global $bp;
@@ -27,6 +27,7 @@ function messages_add_autocomplete_css() {
 add_action( 'wp_head', 'messages_add_autocomplete_css' );
 
 function messages_autocomplete_init_jsblock() {
+	global $bp;
 ?>
 	<script type="text/javascript">
 		jQuery(document).ready(function() {

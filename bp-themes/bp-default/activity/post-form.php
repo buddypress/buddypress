@@ -10,7 +10,7 @@
 
 	<div id="whats-new-avatar">
 		<a href="<?php echo bp_loggedin_user_domain() ?>">
-			<?php bp_loggedin_user_avatar( 'width=60&height=60' ) ?>
+			<?php bp_loggedin_user_avatar( 'width=' . BP_AVATAR_THUMB_WIDTH . '&height=' . BP_AVATAR_THUMB_HEIGHT ) ?>
 		</a>
 	</div>
 
@@ -24,7 +24,7 @@
 
 	<div id="whats-new-content">
 		<div id="whats-new-textarea">
-			<textarea name="whats-new" id="whats-new" value="" /><?php if ( isset( $_GET['r'] ) ) : ?>@<?php echo esc_attr( $_GET['r'] ) ?> <?php endif; ?></textarea>
+			<textarea name="whats-new" id="whats-new" cols="50" rows="10"><?php if ( isset( $_GET['r'] ) ) : ?>@<?php echo esc_attr( $_GET['r'] ) ?> <?php endif; ?></textarea>
 		</div>
 
 		<div id="whats-new-options">

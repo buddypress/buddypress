@@ -4,7 +4,7 @@ function bp_core_add_notification( $item_id, $user_id, $component_name, $compone
 	global $bp;
 
 	if ( !$date_notified )
-		$date_notified = time();
+		$date_notified = bp_core_current_time();
 
 	$notification = new BP_Core_Notification;
 	$notification->item_id = $item_id;

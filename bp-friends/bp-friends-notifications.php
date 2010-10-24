@@ -5,7 +5,7 @@ function friends_notification_new_request( $friendship_id, $initiator_id, $frien
 
 	$initiator_name = bp_core_get_user_displayname( $initiator_id );
 
-	if ( 'no' == get_usermeta( (int)$friend_id, 'notification_friends_friendship_request' ) )
+	if ( 'no' == get_user_meta( (int)$friend_id, 'notification_friends_friendship_request', true ) )
 		return false;
 
 	$ud = get_userdata( $friend_id );
@@ -17,8 +17,9 @@ function friends_notification_new_request( $friendship_id, $initiator_id, $frien
 	$initiator_link = bp_core_get_user_domain( $initiator_id );
 
 	// Set up and send the message
-	$to = $ud->user_email;
-	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'New friendship request from %s', 'buddypress' ), $initiator_name );
+	$to       = $ud->user_email;
+	$sitename = wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ), ENT_QUOTES );
+	$subject  = '[' . $sitename . '] ' . sprintf( __( 'New friendship request from %s', 'buddypress' ), $initiator_name );
 
 	$message = sprintf( __(
 "%1$s wants to add you as a friend.
@@ -47,7 +48,7 @@ function friends_notification_accepted_request( $friendship_id, $initiator_id, $
 
 	$friend_name = bp_core_get_user_displayname( $friend_id );
 
-	if ( 'no' == get_usermeta( (int)$initiator_id, 'notification_friends_friendship_accepted' ) )
+	if ( 'no' == get_user_meta( (int)$initiator_id, 'notification_friends_friendship_accepted', true ) )
 		return false;
 
 	$ud = get_userdata( $initiator_id );
@@ -56,8 +57,9 @@ function friends_notification_accepted_request( $friendship_id, $initiator_id, $
 	$settings_link = bp_core_get_user_domain( $initiator_id ) .  BP_SETTINGS_SLUG . '/notifications';
 
 	// Set up and send the message
-	$to = $ud->user_email;
-	$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s accepted your friendship request', 'buddypress' ), $friend_name );
+	$to       = $ud->user_email;
+	$sitename = wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ), ENT_QUOTES );
+	$subject  = '[' . $sitename . '] ' . sprintf( __( '%s accepted your friendship request', 'buddypress' ), $friend_name );
 
 	$message = sprintf( __(
 '%1$s accepted your friend request.

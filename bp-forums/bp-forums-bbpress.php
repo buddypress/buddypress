@@ -65,12 +65,12 @@ function bp_forums_load_bbpress() {
 
 	/* This must be loaded before functionss.bb-admin.php otherwise we get a function conflict. */
 	if ( !$tables_installed = (boolean) $bbdb->get_results( 'DESCRIBE `' . $bbdb->forums . '`;', ARRAY_A ) )
-		require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 	require_once( BB_PATH . 'bb-admin/includes/functions.bb-admin.php' );
 
 	if ( is_object( $wp_roles ) ) {
-		$bb_roles =& $wp_roles;
+		$bb_roles = $wp_roles;
 		bb_init_roles( $bb_roles );
 	}
 
@@ -103,7 +103,7 @@ function bp_forums_load_bbpress() {
 		/* Set the site admins as the keymasters */
 		$site_admins = get_site_option( 'site_admins', array('admin') );
 		foreach ( (array)$site_admins as $site_admin )
-			update_usermeta( bp_core_get_userid( $site_admin ), $bb_table_prefix . 'capabilities', array( 'keymaster' => true ) );
+			update_user_meta( bp_core_get_userid( $site_admin ), $bb_table_prefix . 'capabilities', array( 'keymaster' => true ) );
 
 		// Create the first forum.
 		bb_new_forum( array( 'forum_name' => 'Default Forum' ) );
@@ -130,7 +130,7 @@ class BP_Forums_BB_Auth {
 		$args = wp_parse_args( $args, $defaults );
 		extract( $args, EXTR_SKIP );
 
-		return update_usermeta( $id, $meta_key, $meta_value );
+		return update_user_meta( $id, $meta_key, $meta_value );
 	}
 }
 

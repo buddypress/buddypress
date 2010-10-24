@@ -35,7 +35,7 @@ a { color: #1fb3dd; }
 a:hover, a:active { color: #888; }
 a:focus { outline: 1px dotted #ccc; }
 
-.padder { padding: 20px; }
+.padder { padding: 19px; }
 .clear { clear: left; }
 
 p {	margin-bottom: 15px; }
@@ -179,7 +179,7 @@ div#sidebar {
 	width: 224px;
 	margin-left: -226px;
 	margin-top: 1px;
-	border-left: 1px solid #e4e4e4;
+	border-left: 1px solid #ddd;
 	-moz-border-radius-topright: 3px;
 	-webkit-border-top-right-radius: 3px;
 	background: url( ../images/sidebar_back.gif ) top left repeat-x;
@@ -225,8 +225,8 @@ div#sidebar {
 	}
 
 	div#sidebar ul.item-list img.avatar {
-		width: 25px;
-		height: 25px;
+		width: 20px;
+		height: 20px;
 		margin-right: 10px;
 	}
 		div#sidebar div.item-avatar img {
@@ -273,7 +273,7 @@ div#content {
 
 div#content .padder {
 	margin-right: 225px;
-	border-right: 1px solid #e4e4e4;
+	border-right: 1px solid #ddd;
 	-moz-border-radius-topleft: 6px;
 	-webkit-border-top-left-radius: 6px;
 	-moz-border-radius-bottomleft: 6px;
@@ -399,7 +399,6 @@ ul.item-list {
 		border-bottom: 1px solid #eaeaea;
 	}
 		ul.single-line li { border: none; }
-		body.activity-permalink ul.item-list li { padding-top: 0; }
 
 		ul.item-list li img.avatar {
 			float: left;
@@ -448,7 +447,7 @@ ul.item-list {
 div.item-list-tabs {
 	clear: left;
 	overflow: hidden;
-	margin: 25px -20px 20px -20px;
+	margin: 25px -19px 20px -19px;
 	background: #eaeaea;
 }
 	div.item-list-tabs ul li a {
@@ -524,7 +523,7 @@ div.item-list-tabs {
 
 	div.item-list-tabs#subnav {
 		background: #fff;
-		margin: -15px -20px 15px -20px;
+		margin: -15px -19px 15px -19px;
 		border-bottom: 1px solid #eaeaea;
 		min-height: 35px;
 		overflow: hidden;
@@ -574,7 +573,7 @@ div.dir-search {
 -------------------------------------------------------------- */
 
 div.pagination {
-	margin: -15px -20px 9px -20px;
+	margin: -20px -20px 9px -20px;
 	border-bottom: 1px solid #eaeaea;
 	padding: 10px 20px 10px 20px;
 	color: #888;
@@ -603,6 +602,10 @@ div.pagination {
 			div.pagination .pagination-links a:hover {
 				font-weight: bold;
 			}
+
+div#pag-bottom {
+	margin-top: 0;
+}
 
 /* > Error / Success Messages
 -------------------------------------------------------------- */
@@ -644,7 +647,7 @@ form.standard-form#signup_form div div.error {
 /* > Buttons
 -------------------------------------------------------------- */
 
-a.button, input[type=submit], input[type=button],
+a.button, input[type=submit], input[type=button], input[type=reset],
 ul.button-nav li a, div.generic-button a {
 	background: url( ../images/white-grad.png ) top left repeat-x;
 	border: 1px solid #ddd;
@@ -659,7 +662,7 @@ ul.button-nav li a, div.generic-button a {
 	vertical-align: bottom;
 	cursor: pointer;
 }
-	a.button:hover, a.button:focus, input[type=submit]:hover, input[type=button]:hover,
+	a.button:hover, a.button:focus, input[type=submit]:hover, input[type=button]:hover, input[type=reset]:hover,
 	ul.button-nav li a:hover, ul.button-nav li.current a,
 	div.generic-button a:hover {
 		border-color: #aaa;
@@ -802,6 +805,12 @@ form.standard-form {
 			margin-bottom: 5px;
 		}
 
+	form.standard-form a.clear-value {
+		display: block;
+		margin-top: 5px;
+		outline: none;
+	}
+
 form.standard-form #basic-details-section, form.standard-form #blog-details-section,
 form.standard-form #profile-details-section {
 	float: left;
@@ -840,6 +849,10 @@ form#send-invite-form {
 table {
 	width: 100%;
 }
+	table thead tr {
+		background: #eaeaea;
+	}
+
 	table#message-threads {
 		margin: 0 -20px;
 		width: auto;
@@ -888,10 +901,6 @@ table.forum {
 	margin: -9px -20px 20px -20px;
 	width: auto;
 }
-	table.forum tr:first-child {
-		background: #fafafa;
-	}
-
 	table.forum tr.sticky td {
 		background: #FFF9DB;
 		border-top: 1px solid #FFE8C4;
@@ -991,7 +1000,7 @@ form#whats-new-form {
 	}
 	form#whats-new-form textarea {
 		width: 100%;
-		height: 60px;
+		height: 50px;
 		font-size: 14px;
 		font-family: inherit;
 		color: #555;
@@ -1106,8 +1115,8 @@ ul.activity-list li {
 	}
 
 .activity-list .activity-avatar img {
-	width: 60px;
-	height: 60px;
+	width: 50px;
+	height: 50px;
 }
 		body.activity-permalink .activity-list .activity-avatar img {
 			width: 100px;
@@ -1144,6 +1153,11 @@ ul.activity-list li {
 		font-size: 11px;
 		color: #888;
 		line-height: 220%;
+	}
+	
+	.activity-list .activity-content .activity-header img.avatar {
+		float: none !important;
+		margin: 0 5px -8px 0 !important;
 	}
 
 	.activity-list .activity-header a:first-child, span.highlight {
@@ -1275,6 +1289,7 @@ div.activity-comments > ul {
 	background: #f5f5f5;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
+	padding: 0 10px 0;
 }
 div.activity-comments ul, div.activity-comments ul li {
 	border: none;
@@ -1287,16 +1302,15 @@ div.activity-comments ul, div.activity-comments ul li {
 
 	div.activity-comments ul li {
 		border-top: 2px solid #fff;
-		padding: 10px 15px 10px 0;
-		margin-left: 15px;
+		padding: 10px 0 0;
 	}
 		body.activity-permalink div.activity-comments ul li {
 			border-width: 1px;
-			padding: 15px 0 15px 0;
+			padding: 10px 0 0;
 		}
 
 		div.activity-comments ul li p:last-child {
-			margin-bottom: 0;
+			margin-bottom: 10px;
 		}
 
 		div.activity-comments > ul > li:first-child {
@@ -1308,8 +1322,8 @@ div.activity-comments ul, div.activity-comments ul li {
 		}
 
 	div.activity-comments ul li > ul {
-		margin-top: 5px;
-		margin-left: 25px;
+		margin-top: 0;
+		margin-left: 20px;
 	}
 		body.activity-permalink div.activity-comments ul li > ul {
 			margin-top: 15px;
@@ -1342,9 +1356,8 @@ div.activity-comments ul, div.activity-comments ul li {
 	div.activity-comments form.ac-form {
 		display: none;
 		margin: 10px 0 10px 33px;
-		background: #eee;
-		border-bottom: 1px solid #ddd;
-		border-right: 1px solid #ddd;
+		background: #fafafa;
+		border: 1px solid #ddd;
 		-moz-border-radius: 4px;
 		-webkit-border-radius: 4px;
 		border-radius: 4px;
@@ -1399,7 +1412,7 @@ div.activity-comments ul, div.activity-comments ul li {
 			}
 
 		div.activity-comments form div.ac-reply-content {
-			margin-left: 25px;
+			margin-left: 50px;
 			padding-left: 15px;
 			color: #888;
 			font-size: 11px;

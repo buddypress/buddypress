@@ -58,7 +58,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 				$type = ( $type == 'error' ) ? 'error' : 'updated'; ?>
 
 				<div id="message" class="<?php echo $type; ?> fade">
-					<p><?php echo wp_specialchars( attribute_escape( $message ) ); ?></p>
+					<p><?php echo wp_specialchars( esc_attr( $message ) ); ?></p>
 				</div>
 <?php		endif; ?>
 

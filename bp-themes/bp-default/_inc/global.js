@@ -824,7 +824,7 @@ jq(document).ready( function() {
 	}).mouseout( function() {
 		jq(this).removeClass('over');
 	});
-
+		
 	jq('body#bp-default table.zebra tbody tr:odd').addClass('alt');
 
 	jq('div.message-box').each( function(i) {

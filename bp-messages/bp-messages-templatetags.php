@@ -27,9 +27,9 @@ Class BP_Messages_Box_Template {
 		$this->box      = $box;
 		$this->type     = $type;
 
-		if ( 'notices' == $this->box )
+		if ( 'notices' == $this->box ) {
 			$this->threads = BP_Messages_Notice::get_notices();
-		else {
+		} else {
 			$threads = BP_Messages_Thread::get_current_threads_for_user( $this->user_id, $this->box, $this->type, $this->pag_num, $this->pag_page );
 
 			$this->threads            = $threads['threads'];
@@ -161,7 +161,7 @@ function bp_has_message_threads( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	if ( 'notices' == $bp->current_action && !is_site_admin() ) {
+	if ( 'notices' == $bp->current_action && !is_super_admin() ) {
 		wp_redirect( $bp->displayed_user->id );
 	} else {
 		if ( 'inbox' == $bp->current_action )
@@ -249,6 +249,21 @@ function bp_message_thread_delete_link() {
 		return apply_filters( 'bp_get_message_thread_delete_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action . '/delete/' . $messages_template->thread->thread_id, 'messages_delete_thread' ) );
 	}
 
+function bp_message_css_class() {
+	echo bp_get_message_css_class();
+}
+
+	function bp_get_message_css_class() {
+		global $messages_template;
+
+		$class = false;
+
+		if ( $messages_template->current_thread % 2 == 1 )
+			$class .= 'alt';
+
+		return apply_filters( 'bp_get_message_css_class', trim( $class ) );
+	}
+
 function bp_message_thread_has_unread() {
 	global $messages_template;
 
@@ -312,11 +327,12 @@ function bp_messages_pagination() {
 function bp_messages_pagination_count() {
 	global $messages_template;
 
-	$from_num = bp_core_number_format( intval( ( $messages_template->pag_page - 1 ) * $messages_template->pag_num ) + 1 );
-	$to_num = bp_core_number_format( ( $from_num + ( $messages_template->pag_num - 1 ) > $messages_template->total_thread_count ) ? $messages_template->total_thread_count : $from_num + ( $messages_template->pag_num - 1 ) );
+	$start_num = intval( ( $messages_template->pag_page - 1 ) * $messages_template->pag_num ) + 1;
+	$from_num = bp_core_number_format( $start_num );
+	$to_num = bp_core_number_format( ( $start_num + ( $messages_template->pag_num - 1 ) > $messages_template->total_thread_count ) ? $messages_template->total_thread_count : $start_num + ( $messages_template->pag_num - 1 ) );
 	$total = bp_core_number_format( $messages_template->total_thread_count );
 
-	echo sprintf( __( 'Viewing message %s to %s (of %s messages)', 'buddypress' ), $from_num, $to_num, $total ); ?> &nbsp;
+	echo sprintf( __( 'Viewing message %1$s to %2$s (of %3$s messages)', 'buddypress' ), $from_num, $to_num, $total ); ?> &nbsp;
 	<span class="ajax-loader"></span><?php
 }
 
@@ -326,7 +342,7 @@ function bp_messages_form_action() {
 	function bp_get_messages_form_action() {
 		global $bp;
 
-		return apply_filters( 'bp_get_messages_form_action', $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action . '/' . $bp->action_variables[0] . '/' );
+		return apply_filters( 'bp_get_messages_form_action', trailingslashit( $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action . '/' . $bp->action_variables[0] . '/' ) );
 	}
 
 function bp_messages_username_value() {
@@ -459,7 +475,7 @@ function bp_message_get_notices() {
 	if ( empty( $notice ) )
 		return false;
 
-	$closed_notices = get_usermeta( $userdata->ID, 'closed_notices' );
+	$closed_notices = get_user_meta( $userdata->ID, 'closed_notices', true );
 
 	if ( !$closed_notices )
 		$closed_notices = array();

@@ -92,7 +92,7 @@ function groups_add_forum_where_sql( $sql ) {
 function groups_filter_bbpress_caps( $value, $cap, $args ) {
 	global $bp;
 
-	if ( is_site_admin() )
+	if ( is_super_admin() )
 		return true;
 
 	if ( 'add_tag_to' == $cap )

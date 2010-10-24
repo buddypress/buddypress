@@ -3,7 +3,7 @@
 		<ul>
 			<?php bp_get_options_nav() ?>
 		</ul>
-	</div>
+	</div><!-- .item-list-tabs -->
 <?php endif; ?>
 
 <?php do_action( 'bp_before_profile_content' ) ?>

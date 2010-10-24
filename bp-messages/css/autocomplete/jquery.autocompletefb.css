@@ -35,7 +35,7 @@
 		}
 
 .ac_loading {
-	background : url('../../images/ajax-loader.gif') right center no-repeat;
+	background : url('../../../bp-themes/bp-default/_inc/images/ajax-loader.gif') right center no-repeat;
 }
 
 .ac_odd {

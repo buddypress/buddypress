@@ -478,11 +478,11 @@ function bp_core_avatar_handle_crop( $args = '' ) {
  */
 function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt ) {
 	global $pagenow;
-
+	
 	// Do not filter if inside WordPress options page
 	if ( 'options-discussion.php' == $pagenow )
 		return $avatar;
-
+	
 	// If passed an object, assume $user->user_id
 	if ( is_object( $user ) )
 		$id = $user->user_id;

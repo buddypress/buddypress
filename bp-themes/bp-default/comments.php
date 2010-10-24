@@ -14,12 +14,21 @@
 		<div id="comments">
 
 			<?php
-			$numTrackBacks = 0; $numComments = 0;
-			foreach ( (array)$comments as $comment ) if ( get_comment_type() != "comment") $numTrackBacks++; else $numComments++;
+				// Only include comments
+				$numTrackBacks = 0; $numComments = 0;
+				foreach ( (array)$comments as $comment )
+					if ( 'comment' != get_comment_type() )
+						$numTrackBacks++; 
+					else
+						$numComments++;
 			?>
 
-			<span class="title"><?php the_title() ?></span>
-			<h3 id="comments"><?php comments_number( 'No Comments', 'One Comment', $numComments . ' Comments' );?></h3>
+			<h3 id="comments">
+				<?php
+					printf( _n( 'One Response to %2$s', '%1$s Responses to %2$s', $numComments, 'buddypress' ),
+					number_format_i18n( $numComments ), '<em>' . get_the_title() . '</em>' );
+				?>
+			</h3>
 
 			<?php do_action( 'bp_before_blog_comment_list' ) ?>
 
@@ -95,7 +104,7 @@
 
 					<?php do_action( 'bp_before_blog_comment_form' ) ?>
 
-					<form action="<?php echo get_option( 'siteurl' ); ?>/wp-comments-post.php" method="post" id="commentform" class="standard-form">
+					<form action="<?php echo site_url( 'wp-comments-post.php' ) ?>" method="post" id="commentform" class="standard-form">
 
 						<?php if ( $user_ID ) : ?>
 

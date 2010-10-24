@@ -8,7 +8,7 @@
 
 <div id="item-header-content">
 
-	<h2 class="fn"><a href="<?php bp_user_link() ?>"><?php bp_displayed_user_fullname() ?></a> <span class="highlight">@<?php bp_displayed_user_username() ?> <span>?</span></span></h2>
+	<h2 class="fn"><a href="<?php bp_displayed_user_link() ?>"><?php bp_displayed_user_fullname() ?></a> <span class="highlight">@<?php bp_displayed_user_username() ?> <span>?</span></span></h2>
 	<span class="activity"><?php bp_last_activity( bp_displayed_user_id() ) ?></span>
 
 	<?php do_action( 'bp_before_member_header_meta' ) ?>

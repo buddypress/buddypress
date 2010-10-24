@@ -8,7 +8,7 @@
 		<li id="groups-order-select" class="last filter">
 
 			<?php _e( 'Order By:', 'buddypress' ) ?>
-			<select id="groups-all">
+			<select id="groups-sort-by">
 				<option value="active"><?php _e( 'Last Active', 'buddypress' ) ?></option>
 				<option value="popular"><?php _e( 'Most Members', 'buddypress' ) ?></option>
 				<option value="newest"><?php _e( 'Newly Created', 'buddypress' ) ?></option>
@@ -19,7 +19,7 @@
 		</li>
 		<?php endif; ?>
 	</ul>
-</div>
+</div><!-- .item-list-tabs -->
 
 <?php if ( 'invites' == bp_current_action() ) : ?>
 	<?php locate_template( array( 'members/single/groups/invites.php' ), true ) ?>

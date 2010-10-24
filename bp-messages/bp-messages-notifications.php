@@ -7,7 +7,7 @@ function messages_notification_new_message( $args ) {
 	$sender_name = bp_core_get_user_displayname( $sender_id );
 
 	foreach( $recipients as $recipient ) {
-		if ( $sender_id == $recipient->user_id || 'no' == get_usermeta( $recipient->user_id, 'notification_messages_new_message' ) ) continue;
+		if ( $sender_id == $recipient->user_id || 'no' == get_user_meta( $recipient->user_id, 'notification_messages_new_message', true ) ) continue;
 
 		$ud = get_userdata( $recipient->user_id );
 		$message_link = bp_core_get_user_domain( $recipient->user_id ) . BP_MESSAGES_SLUG .'/';
@@ -18,22 +18,23 @@ function messages_notification_new_message( $args ) {
 		$content = stripslashes( wp_filter_kses( $content ) );
 
 		// Set up and send the message
-		$email_to = $ud->user_email;
-		$email_subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'New message from %s', 'buddypress' ), $sender_name );
+		$email_to      = $ud->user_email;
+		$sitename      = wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ), ENT_QUOTES );
+		$email_subject = '[' . $sitename . '] ' . sprintf( __( 'New message from %s', 'buddypress' ), $sender_name );
 
 		$email_content = sprintf( __(
-'%1$s sent you a new message:
+'%s sent you a new message:
 
-Subject: %2$s
+Subject: %s
 
-"%3$s"
+"%s"
 
-To view and read your messages please log in and visit: %4$s
+To view and read your messages please log in and visit: %s
 
 ---------------------
 ', 'buddypress' ), $sender_name, $subject, $content, $message_link );
 
-		$content .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+		$email_content .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
 		/* Send the message */
 		$email_to = apply_filters( 'messages_notification_new_message_to', $email_to );

@@ -24,6 +24,29 @@ function bp_core_is_multisite() {
 	return true;
 }
 
+/**
+ * bp_core_is_main_site
+ *
+ * Checks if current blog is root blog of site
+ *
+ * @since 1.2.6
+ * @package BuddyPress
+ *
+ * @param int $blog_id optional blog id to test (default current blog)
+ * @return bool True if not multisite or $blog_id is main site
+ */
+function bp_core_is_main_site( $blog_id = '' ) {
+	global $current_site, $current_blog;
+
+	if ( !bp_core_is_multisite() )
+		return true;
+
+	if ( empty( $blog_id ) )
+		$blog_id = $current_blog->blog_id;
+
+	return $blog_id == $current_site->blog_id;
+}
+
 function bp_core_get_status_sql( $prefix = false ) {
 	if ( !bp_core_is_multisite() )
 		return "{$prefix}user_status = 0";
@@ -73,65 +96,20 @@ if ( !function_exists( 'update_blog_status' ) ) {
 	}
 }
 
-if ( !function_exists( 'wpmu_validate_user_signup' ) ) {
-	function wpmu_validate_user_signup( $user_name, $user_email ) {
-		global $wpdb;
+if ( !function_exists( 'is_subdomain_install' ) ) {
+	function is_subdomain_install() {
+		if ( ( defined( 'VHOST' ) && 'yes' == VHOST ) || ( defined( 'SUBDOMAIN_INSTALL' ) && SUBDOMAIN_INSTALL ) )
+			return true;
 
-		$errors = new WP_Error();
-
-		$user_email = sanitize_email( $user_email );
-
-		if ( empty( $user_name ) )
-		   	$errors->add('user_name', __("Please enter a username"));
-
-		$maybe = array();
-		preg_match( "/[a-z0-9]+/", $user_name, $maybe );
-
-		$illegal_names = get_site_option( "illegal_names" );
-		if( is_array( $illegal_names ) == false ) {
-			$illegal_names = array(  "www", "web", "root", "admin", "main", "invite", "administrator" );
-			add_site_option( "illegal_names", $illegal_names );
-		}
-
-		if ( !validate_username( $user_name ) || in_array( $user_name, $illegal_names ) == true || $user_name != $maybe[0] ) {
-		    $errors->add('user_name', __("Only lowercase letters and numbers allowed"));
-		}
-
-		if( strlen( $user_name ) < 4 ) {
-		    $errors->add('user_name',  __("Username must be at least 4 characters"));
-		}
-
-		if ( strpos( " " . $user_name, "_" ) != false )
-			$errors->add('user_name', __("Sorry, usernames may not contain the character '_'!"));
-
-		// all numeric?
-		$match = array();
-		preg_match( '/[0-9]*/', $user_name, $match );
-		if ( $match[0] == $user_name )
-			$errors->add('user_name', __("Sorry, usernames must have letters too!"));
-
-		if ( !is_email( $user_email ) )
-			$errors->add('user_email', __("Please check your email address."));
-
-		$limited_email_domains = get_site_option( 'limited_email_domains' );
-		if ( is_array( $limited_email_domains ) && empty( $limited_email_domains ) == false ) {
-			$emaildomain = substr( $user_email, 1 + strpos( $user_email, '@' ) );
-			if( in_array( $emaildomain, $limited_email_domains ) == false ) {
-				$errors->add('user_email', __("Sorry, that email address is not allowed!"));
-			}
-		}
-
-		// Check if the username has been used already.
-		if ( username_exists($user_name) )
-			$errors->add('user_name', __("Sorry, that username already exists!"));
-
-		// Check if the email address has been used already.
-		if ( email_exists($user_email) )
-			$errors->add('user_email', __("Sorry, that email address is already used!"));
-
-		$result = array('user_name' => $user_name, 'user_email' => $user_email,	'errors' => $errors);
-
-		return apply_filters('wpmu_validate_user_signup', $result);
+		return false;
 	}
 }
+
+// Deprecated - 1.2.6
+if ( !function_exists( 'is_site_admin' ) ) {
+	function is_site_admin( $user_id = false ) {
+		return is_super_admin( $user_id );
+	}
+}
+
 ?>

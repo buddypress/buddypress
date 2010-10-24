@@ -97,6 +97,12 @@ Class BP_Activity_Activity {
 		/* Where conditions */
 		$where_conditions = array();
 
+		/* Searching */
+		if ( $search_terms ) {
+			$search_terms = $wpdb->escape( $search_terms );
+			$where_conditions['search_sql'] = "a.content LIKE '%%" . like_escape( $search_terms ) . "%%'";
+		}
+
 		/* Filtering */
 		if ( $filter && $filter_sql = BP_Activity_Activity::get_filter_sql( $filter ) )
 			$where_conditions['filter_sql'] = $filter_sql;
@@ -116,23 +122,12 @@ Class BP_Activity_Activity {
 
 		$where_sql = 'WHERE ' . join( ' AND ', $where_conditions );
 
-		/* Searching */
-		if ( $search_terms ) {
-			$search_terms = $wpdb->escape( $search_terms );
-
-			if ( !empty( $filter['user_id'] ) )
-				$where_sql .= ' OR ';
-			else if ( !empty( $where_conditions ) )
-				$where_sql .= ' AND ';
-
-			$where_sql .= "a.content LIKE '%%" . like_escape( $search_terms ) . "%%'";
-		}
-
 		if ( $per_page && $page ) {
 			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
 			$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql ) ) );
-		} else
+		} else {
 			$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort}", $select_sql, $from_sql, $where_sql, $sort ) ) );
+		}
 
 		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(a.id) FROM {$bp->activity->table_name} a {$where_sql} ORDER BY a.date_recorded {$sort}" ) );
 
@@ -531,13 +526,13 @@ Class BP_Activity_Activity {
 	function get_last_updated() {
 		global $bp, $wpdb;
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT date_recorded FROM {$bp->activity->table_name} ORDER BY date_recorded ASC LIMIT 1" ) );
+		return $wpdb->get_var( $wpdb->prepare( "SELECT date_recorded FROM {$bp->activity->table_name} ORDER BY date_recorded DESC LIMIT 1" ) );
 	}
 
 	function total_favorite_count( $user_id ) {
 		global $bp;
 
-		if ( !$favorite_activity_entries = get_usermeta( $user_id, 'bp_favorite_activities' ) )
+		if ( !$favorite_activity_entries = get_user_meta( $user_id, 'bp_favorite_activities', true ) )
 			return 0;
 
 		return count( maybe_unserialize( $favorite_activity_entries ) );

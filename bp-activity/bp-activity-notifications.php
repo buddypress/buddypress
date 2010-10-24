@@ -4,7 +4,7 @@ function bp_activity_at_message_notification( $content, $poster_user_id, $activi
 	global $bp;
 
 	/* Scan for @username strings in an activity update. Notify each user. */
-	$pattern = '/[@]+([A-Za-z0-9-_]+)/';
+	$pattern = '/[@]+([A-Za-z0-9-_\.]+)/';
 	preg_match_all( $pattern, $content, $usernames );
 
 	/* Make sure there's only one instance of each username */
@@ -12,11 +12,11 @@ function bp_activity_at_message_notification( $content, $poster_user_id, $activi
 		return false;
 
 	foreach( (array)$usernames as $username ) {
-		if ( !$receiver_user_id = bp_core_get_userid($username) )
+		if ( !$receiver_user_id = bp_core_get_userid( $username ) )
 			continue;
 
 		// Now email the user with the contents of the message (if they have enabled email notifications)
-		if ( 'no' != get_usermeta( $receiver_user_id, 'notification_activity_new_mention' ) ) {
+		if ( 'no' != get_user_meta( $receiver_user_id, 'notification_activity_new_mention', true ) ) {
 			$poster_name = bp_core_get_user_displayname( $poster_user_id );
 
 			$message_link = bp_activity_get_permalink( $activity_id );
@@ -26,9 +26,10 @@ function bp_activity_at_message_notification( $content, $poster_user_id, $activi
 			$content = bp_activity_filter_kses( stripslashes($content) );
 
 			// Set up and send the message
-			$ud = bp_core_get_core_userdata( $receiver_user_id );
-			$to = $ud->user_email;
-			$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s mentioned you in an update', 'buddypress' ), $poster_name );
+			$ud       = bp_core_get_core_userdata( $receiver_user_id );
+			$to       = $ud->user_email;
+			$sitename = wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ), ENT_QUOTES );
+			$subject  = '[' . $sitename . '] ' . sprintf( __( '%s mentioned you in an update', 'buddypress' ), $poster_name );
 
 $message = sprintf( __(
 '%1$s mentioned you in an update:
@@ -60,7 +61,7 @@ function bp_activity_new_comment_notification( $comment_id, $commenter_id, $para
 
 	$original_activity = new BP_Activity_Activity( $activity_id );
 
-	if ( $original_activity->user_id != $commenter_id && 'no' != get_usermeta( $original_activity->user_id, 'notification_activity_new_reply' ) ) {
+	if ( $original_activity->user_id != $commenter_id && 'no' != get_user_meta( $original_activity->user_id, 'notification_activity_new_reply', true ) ) {
 		$poster_name = bp_core_get_user_displayname( $commenter_id );
 		$thread_link = bp_activity_get_permalink( $activity_id );
 		$settings_link = bp_core_get_user_domain( $original_activity->user_id ) .  BP_SETTINGS_SLUG . '/notifications/';
@@ -69,9 +70,10 @@ function bp_activity_new_comment_notification( $comment_id, $commenter_id, $para
 		$content = bp_activity_filter_kses( stripslashes($content) );
 
 		// Set up and send the message
-		$ud = bp_core_get_core_userdata( $original_activity->user_id );
-		$to = $ud->user_email;
-		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s replied to one of your updates', 'buddypress' ), $poster_name );
+		$ud       = bp_core_get_core_userdata( $original_activity->user_id );
+		$to       = $ud->user_email;
+		$sitename = wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ), ENT_QUOTES );
+		$subject = '[' . $sitename . '] ' . sprintf( __( '%s replied to one of your updates', 'buddypress' ), $poster_name );
 
 $message = sprintf( __(
 '%1$s replied to one of your updates:
@@ -102,15 +104,16 @@ To view your original update and all comments, log in and visit: %3$s
 
 	$parent_comment = new BP_Activity_Activity( $parent_id );
 
-	if ( $parent_comment->user_id != $commenter_id && $original_activity->user_id != $parent_comment->user_id && 'no' != get_usermeta( $parent_comment->user_id, 'notification_activity_new_reply' ) ) {
+	if ( $parent_comment->user_id != $commenter_id && $original_activity->user_id != $parent_comment->user_id && 'no' != get_user_meta( $parent_comment->user_id, 'notification_activity_new_reply', true ) ) {
 		$poster_name = bp_core_get_user_displayname( $commenter_id );
 		$thread_link = bp_activity_get_permalink( $activity_id );
 		$settings_link = bp_core_get_user_domain( $parent_comment->user_id ) .  BP_SETTINGS_SLUG . '/notifications/';
 
 		// Set up and send the message
-		$ud = bp_core_get_core_userdata( $parent_comment->user_id );
-		$to = $ud->user_email;
-		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( '%s replied to one of your comments', 'buddypress' ), $poster_name );
+		$ud       = bp_core_get_core_userdata( $parent_comment->user_id );
+		$to       = $ud->user_email;
+		$sitename = wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ), ENT_QUOTES );
+		$subject = '[' . $sitename . '] ' . sprintf( __( '%s replied to one of your comments', 'buddypress' ), $poster_name );
 
 		$poster_name = stripslashes( $poster_name );
 		$content = bp_activity_filter_kses( stripslashes( $content ) );

@@ -36,9 +36,10 @@ function add_option(forWhat) {
 	toDelete = document.createElement('a');
 	
 	toDeleteText = document.createTextNode('[x]');
-
 	toDelete.setAttribute('href',"javascript:hide('" + forWhat + '_div' + theId + "')");
+	
 	toDelete.setAttribute('class','delete');
+
 	toDelete.appendChild(toDeleteText);
 
 	newDiv.appendChild(label);
@@ -48,6 +49,7 @@ function add_option(forWhat) {
 	newDiv.appendChild(label1);	
 	newDiv.appendChild(toDelete);	
 	holder.appendChild(newDiv);
+	
 	
 	theId++
 	document.getElementById(forWhat + "_option_number").value = theId;
@@ -73,14 +75,15 @@ function show_options(forWhat) {
 }
 
 function hide(id) {
-	if ( !document.getElementById(id) ) return;
+	if ( !document.getElementById(id) ) return false;
 	
 	document.getElementById(id).style.display = "none";
 	document.getElementById(id).value = '';
 }
 
-/* Set up deleting options ajax */
+// Set up deleting options ajax
 jQuery(document).ready( function() {
+	
 	jQuery("a.ajax-option-delete").click( 
 		function() {
 			var theId = this.id.split('-');
@@ -90,14 +93,23 @@ jQuery(document).ready( function() {
 				action: 'xprofile_delete_option',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce': jQuery("input#_wpnonce").val(),
+				
 				'option_id': theId
 			},
-			function(response){});
+			function(response)
+			{});
 		}
-	);
+	);				
 });
 
-/* Main XProfile behavior layer */
+var fixHelper = function(e, ui) {
+	ui.children().each(function() {
+		jQuery(this).width( jQuery(this).width() );
+	});
+	return ui;
+};
+
+// Main XProfile behavior layer
 jQuery(document).ready( function() {
 	/* Show object if JS is enabled */
 	jQuery( "ul#field-group-tabs" ).show();
@@ -136,7 +148,8 @@ jQuery(document).ready( function() {
 				'field_order': jQuery(this).sortable( 'serialize' ),
 				'field_group_id': jQuery(this).attr( 'id' )
 			},
-			function(response){});
+			function(response)
+			{});
 		}
 	})
 

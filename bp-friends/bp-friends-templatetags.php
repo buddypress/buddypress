@@ -104,11 +104,11 @@ function bp_friend_search_form() {
 	?>
 		<form action="<?php echo $action ?>" id="friend-search-form" method="post">
 
-		<label for="friend-search-box" id="friend-search-label"><?php echo $label ?></label>
-		<input type="search" name="friend-search-box" id="friend-search-box" value="<?php echo $value ?>"<?php echo $disabled ?> />
+			<label for="friend-search-box" id="friend-search-label"><?php echo $label ?></label>
+			<input type="search" name="friend-search-box" id="friend-search-box" value="<?php echo $value ?>"<?php echo $disabled ?> />
 
-		<?php wp_nonce_field( 'friends_search', '_wpnonce_friend_search' ) ?>
-		<input type="hidden" name="initiator" id="initiator" value="<?php echo attribute_escape( $bp->displayed_user->id ) ?>" />
+			<?php wp_nonce_field( 'friends_search', '_wpnonce_friend_search' ) ?>
+			<input type="hidden" name="initiator" id="initiator" value="<?php echo esc_attr( $bp->displayed_user->id ) ?>" />
 
 		</form>
 	<?php

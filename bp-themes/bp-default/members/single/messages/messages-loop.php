@@ -17,7 +17,7 @@
 	<?php do_action( 'bp_after_member_messages_pagination' ) ?>
 	<?php do_action( 'bp_before_member_messages_threads' ) ?>
 
-	<table id="message-threads">
+	<table id="message-threads" class="zebra">
 		<?php while ( bp_message_threads() ) : bp_message_thread(); ?>
 
 			<tr id="m-<?php bp_message_thread_id() ?>"<?php if ( bp_message_thread_has_unread() ) : ?> class="unread"<?php else: ?> class="read"<?php endif; ?>>

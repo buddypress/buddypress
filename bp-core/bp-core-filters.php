@@ -32,7 +32,7 @@ add_filter( 'wp_list_pages_excludes', 'bp_core_exclude_pages' );
  * @return The blog name for the root blog
  */
 function bp_core_email_from_name_filter() {
- 	return apply_filters( 'bp_core_email_from_name_filter', get_blog_option( BP_ROOT_BLOG, 'blogname' ) );
+ 	return apply_filters( 'bp_core_email_from_name_filter', wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ), ENT_QUOTES ) );
 }
 add_filter( 'wp_mail_from_name', 'bp_core_email_from_name_filter' );
 
@@ -65,7 +65,7 @@ add_filter( 'wp_mail_from', 'bp_core_email_from_address_filter' );
 function bp_core_allow_default_theme( $themes ) {
 	global $bp, $current_blog;
 
-	if ( !is_site_admin() )
+	if ( !is_super_admin() )
 		return $themes;
 
 	if ( $current_blog->ID == $bp->root_blog ) {
@@ -141,12 +141,17 @@ add_filter( 'login_redirect', 'bp_core_login_redirect' );
  *
  * Replace the generated password in the welcome email.
  * This will not filter when the site admin registers a user.
+ *
+ * @uses locate_template To see if custom registration files exist
+ * @param string $welcome_email Complete email passed through WordPress
+ * @return string Filtered $welcome_email with 'PASSWORD' replaced by [User Set]
  */
 function bp_core_filter_user_welcome_email( $welcome_email ) {
 	/* Don't touch the email if we don't have a custom registration template */
 	if ( '' == locate_template( array( 'registration/register.php' ), false ) && '' == locate_template( array( 'register.php' ), false ) )
 		return $welcome_email;
 
+	// [User Set] Replaces 'PASSWORD' in welcome email; Represents value set by user
 	return str_replace( 'PASSWORD', __( '[User Set]', 'buddypress' ), $welcome_email );
 }
 if ( !is_admin() && empty( $_GET['e'] ) )
@@ -157,12 +162,20 @@ if ( !is_admin() && empty( $_GET['e'] ) )
  *
  * Replace the generated password in the welcome email.
  * This will not filter when the site admin registers a user.
+ *
+ * @uses locate_template To see if custom registration files exist
+ * @param string $welcome_email Complete email passed through WordPress
+ * @param integer $blog_id ID of the blog user is joining
+ * @param integer $user_id ID of the user joining
+ * @param string $password Password of user
+ * @return string Filtered $welcome_email with $password replaced by [User Set]
  */
 function bp_core_filter_blog_welcome_email( $welcome_email, $blog_id, $user_id, $password ) {
 	/* Don't touch the email if we don't have a custom registration template */
 	if ( '' == locate_template( array( 'registration/register.php' ), false ) && '' == locate_template( array( 'register.php' ), false ) )
 		return $welcome_email;
 
+	// [User Set] Replaces $password in welcome email; Represents value set by user
 	return str_replace( $password, __( '[User Set]', 'buddypress' ), $welcome_email );
 }
 if ( !is_admin() && empty( $_GET['e'] ) )
@@ -174,7 +187,7 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 
 	// Send email with activation link.
 	$activate_url = bp_get_activation_page() ."?key=$key";
-	$activate_url = clean_url($activate_url);
+	$activate_url = esc_url($activate_url);
 
 	$admin_email = get_site_option( "admin_email" );
 
@@ -183,8 +196,8 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 
 	$from_name = ( '' == get_site_option( "site_name" ) ) ? 'WordPress' : wp_specialchars( get_site_option( "site_name" ) );
 	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
-	$message = sprintf(__("Thanks for registering! To complete the activation of your account and blog, please click the following link:\n\n%1$s\n\n\n\nAfter you activate, you can visit your blog here:\n\n%2$s", 'buddypress' ), $activate_url, clean_url("http://{$domain}{$path}" ) );
-	$subject = '[' . $from_name . '] ' . sprintf(__('Activate %s', 'buddypress' ), clean_url('http://' . $domain . $path));
+	$message = sprintf(__("Thanks for registering! To complete the activation of your account and blog, please click the following link:\n\n%1$s\n\n\n\nAfter you activate, you can visit your blog here:\n\n%2$s", 'buddypress' ), $activate_url, esc_url("http://{$domain}{$path}" ) );
+	$subject = '[' . $from_name . '] ' . sprintf(__('Activate %s', 'buddypress' ), esc_url('http://' . $domain . $path));
 
 	/* Send the message */
 	$to = apply_filters( 'bp_core_activation_signup_blog_notification_to', $user_email );
@@ -203,7 +216,7 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 	global $current_site;
 
 	$activate_url = bp_get_activation_page() ."?key=$key";
-	$activate_url = clean_url($activate_url);
+	$activate_url = esc_url($activate_url);
 	$admin_email = get_site_option( "admin_email" );
 
 	if ( empty( $admin_email ) )
@@ -215,7 +228,7 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 
 	$from_name = ( '' == get_site_option( "site_name" ) ) ? 'WordPress' : wp_specialchars( get_site_option( "site_name" ) );
 	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
-	$message = sprintf( __( "Thanks for registering! To complete the activation of your account please click the following link:\n\n%s\n\n", 'buddypress' ), $activate_url . $email, clean_url("http://{$domain}{$path}" ) );
+	$message = sprintf( __( "Thanks for registering! To complete the activation of your account please click the following link:\n\n%s\n\n", 'buddypress' ), $activate_url . $email, esc_url( "http://{$domain}{$path}" ) );
 	$subject = '[' . $from_name . '] ' . __( 'Activate Your Account', 'buddypress' );
 
 	/* Send the message */

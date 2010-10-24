@@ -6,6 +6,7 @@ Description: Social networking in a box. Build a social network for your company
 Author: The BuddyPress Community
 Version: 1.3-bleeding
 Author URI: http://buddypress.org/community/members/
+Network: true
 */
 
 define( 'BP_VERSION', '1.3-bleeding' );
@@ -60,18 +61,19 @@ if ( get_site_option( 'bp-db-version' ) < constant( 'BP_DB_VERSION' ) ) {
 	if ( !isset( $bp_deactivated['bp-xprofile.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-xprofile.php') )
 		include( BP_PLUGIN_DIR . '/bp-xprofile.php' );
 
-	/**
-	* bp_loaded()
-	*
-	* Allow dependent plugins and core actions to attach themselves in a safe way.
-	*
-	* See bp-core.php for the following core actions:
-	*      - bp_init|bp_setup_globals|bp_setup_root_components|bp_setup_nav|bp_register_widgets
-	*/
-	function bp_loaded() {
-		do_action( 'bp_loaded' );
-	}
 	add_action( 'plugins_loaded', 'bp_loaded', 20 );
+}
+
+/**
+* bp_loaded()
+*
+* Allow dependent plugins and core actions to attach themselves in a safe way.
+*
+* See bp-core.php for the following core actions:
+*      - bp_init|bp_setup_globals|bp_setup_root_components|bp_setup_nav|bp_register_widgets
+*/
+function bp_loaded() {
+	do_action( 'bp_loaded' );
 }
 
 /* Activation Function */
@@ -83,6 +85,10 @@ function bp_loader_activate() {
 	if ( 'bp-sn-parent' == get_blog_option( BP_ROOT_BLOG, 'template' ) && 'bp-default' == get_blog_option( BP_ROOT_BLOG, 'stylesheet' ) )
 		switch_theme( 'bp-default', 'bp-default' );
 
+	/* Install site options on activation */
+	//TODO: Find where to put this back. Here is no good because bp-core.php isn't loaded on new installation.
+	//bp_core_activate_site_options( array( 'bp-disable-account-deletion' => 0, 'bp-disable-avatar-uploads' => 0, 'bp-disable-blogforum-comments' => 0,  'bp-disable-forum-directory' => 0,  'bp-disable-profile-sync' => 0 ) );
+
 	do_action( 'bp_loader_activate' );
 }
 register_activation_hook( 'buddypress/bp-loader.php', 'bp_loader_activate' );
@@ -92,6 +98,13 @@ function bp_loader_deactivate() {
 	if ( !function_exists( 'delete_site_option') )
 		return false;
 
+	delete_site_option( 'bp-core-db-version' );
+	delete_site_option( 'bp-activity-db-version' );
+	delete_site_option( 'bp-blogs-db-version' );
+	delete_site_option( 'bp-friends-db-version' );
+	delete_site_option( 'bp-groups-db-version' );
+	delete_site_option( 'bp-messages-db-version' );
+	delete_site_option( 'bp-xprofile-db-version' );
 	delete_site_option( 'bp-deactivated-components' );
 	delete_site_option( 'bp-blogs-first-install' );
 	delete_site_option( 'bp-pages' );

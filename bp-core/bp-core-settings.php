@@ -21,11 +21,10 @@ function bp_core_add_settings_nav() {
 	bp_core_new_subnav_item( array( 'name' => __( 'General', 'buddypress' ), 'slug' => 'general', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_general_settings', 'position' => 10, 'user_has_access' => bp_is_my_profile() ) );
 	bp_core_new_subnav_item( array( 'name' => __( 'Notifications', 'buddypress' ), 'slug' => 'notifications', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_notification_settings', 'position' => 20, 'user_has_access' => bp_is_my_profile() ) );
 
-	if ( !is_site_admin() && !(int) $bp->site_options['bp-disable-account-deletion'] )
+	if ( !is_super_admin() && !(int) $bp->site_options['bp-disable-account-deletion'] )
 		bp_core_new_subnav_item( array( 'name' => __( 'Delete Account', 'buddypress' ), 'slug' => 'delete-account', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_delete_account', 'position' => 90, 'user_has_access' => bp_is_my_profile() ) );
 }
-add_action( 'wp', 'bp_core_add_settings_nav', 2 );
-add_action( 'admin_menu', 'bp_core_add_settings_nav', 2 );
+add_action( 'bp_setup_nav', 'bp_core_add_settings_nav' );
 
 /**** GENERAL SETTINGS ****/
 
@@ -87,14 +86,14 @@ function bp_core_screen_general_settings_content() {
 
 	<form action="<?php echo $bp->loggedin_user->domain . BP_SETTINGS_SLUG . '/general' ?>" method="post" class="standard-form" id="settings-form">
 		<label for="email"><?php _e( 'Account Email', 'buddypress' ) ?></label>
-		<input type="text" name="email" id="email" value="<?php echo attribute_escape( $current_user->user_email ); ?>" class="settings-input" />
+		<input type="text" name="email" id="email" value="<?php echo esc_attr( $current_user->user_email ); ?>" class="settings-input" />
 
 		<label for="pass1"><?php _e( 'Change Password <span>(leave blank for no change)</span>', 'buddypress' ) ?></label>
 		<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small" /> &nbsp;<?php _e( 'New Password', 'buddypress' ) ?><br />
 		<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small" /> &nbsp;<?php _e( 'Repeat New Password', 'buddypress' ) ?>
 
 		<div class="submit">
-			<input type="submit" name="submit" value="<?php _e( 'Save Changes', 'buddypress' ) ?>" id="submit" class="auto"/></p>
+			<input type="submit" name="submit" value="<?php _e( 'Save Changes', 'buddypress' ) ?>" id="submit" class="auto" />
 		</div>
 
 		<?php wp_nonce_field('bp_settings_general') ?>
@@ -114,7 +113,7 @@ function bp_core_screen_notification_settings() {
 
 		if ( $_POST['notifications'] ) {
 			foreach ( (array)$_POST['notifications'] as $key => $value ) {
-				update_usermeta( (int)$current_user->id, $key, $value );
+				update_user_meta( (int)$current_user->id, $key, $value );
 			}
 		}
 
@@ -147,7 +146,7 @@ function bp_core_screen_notification_settings_content() {
 		<?php do_action( 'bp_notification_settings' ) ?>
 
 		<div class="submit">
-			<input type="submit" name="submit" value="<?php _e( 'Save Changes', 'buddypress' ) ?>" id="submit" class="auto"/></p>
+			<input type="submit" name="submit" value="<?php _e( 'Save Changes', 'buddypress' ) ?>" id="submit" class="auto" />
 		</div>
 
 		<?php wp_nonce_field('bp_settings_notifications') ?>
@@ -189,7 +188,7 @@ function bp_core_screen_delete_account_content() {
 		<input type="checkbox" name="delete-account-understand" id="delete-account-understand" value="1" onclick="if(this.checked) { document.getElementById('delete-account-button').disabled = ''; } else { document.getElementById('delete-account-button').disabled = 'disabled'; }" /> <?php _e( 'I understand the consequences of deleting my account.', 'buddypress' ); ?>
 
 		<div class="submit">
-			<input type="submit" disabled="disabled" value="<?php _e( 'Delete My Account', 'buddypress' ) ?> &rarr;" id="delete-account-button" name="delete-account-button" /></p>
+			<input type="submit" disabled="disabled" value="<?php _e( 'Delete My Account', 'buddypress' ) ?> &rarr;" id="delete-account-button" name="delete-account-button" />
 		</div>
 
 		<?php wp_nonce_field('delete-account') ?>

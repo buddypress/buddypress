@@ -38,7 +38,7 @@ function bp_core_admin_menu_icon_css() {
 
 	<style type="text/css">
 		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a { background-image: url( <?php echo BP_PLUGIN_URL . '/bp-core/images/admin_menu_icon.png' ?> ) !important; background-position: -1px -32px; }
-		ul#adminmenu li.toplevel_page_bp-general-settings:hover .wp-menu-image a { background-position: -1px 0; }
+		ul#adminmenu li.toplevel_page_bp-general-settings:hover .wp-menu-image a, ul#adminmenu li.toplevel_page_bp-general-settings.wp-has-current-submenu .wp-menu-image a { background-position: -1px 0; }
 		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a img { display: none; }
 	</style>
 
@@ -49,7 +49,7 @@ add_action( 'admin_head', 'bp_core_admin_menu_icon_css' );
 function bp_core_confirmation_js() {
 	global $current_blog;
 
-	if ( $current_blog->blog_id != BP_ROOT_BLOG )
+	if ( bp_core_is_multisite() && $current_blog->blog_id != BP_ROOT_BLOG )
 		return false;
 ?>
 
@@ -82,10 +82,10 @@ function bp_core_add_jquery_cropper() {
 function bp_core_add_cropper_inline_js() {
 	global $bp;
 
-	$image = apply_filters( 'bp_inline_cropper_image', getimagesize( $bp->avatar_admin->image->dir ) );
+	$image = apply_filters( 'bp_inline_cropper_image', getimagesize( BP_AVATAR_UPLOAD_PATH . $bp->avatar_admin->image->dir ) );
 	$aspect_ratio = 1;
 
-	/* Calculate Aspect Ratio */
+	// Calculate Aspect Ratio
 	if ( (int) constant( 'BP_AVATAR_FULL_HEIGHT' ) && ( (int) constant( 'BP_AVATAR_FULL_WIDTH' ) != (int) constant( 'BP_AVATAR_FULL_HEIGHT' ) ) )
 		$aspect_ratio = (int) constant( 'BP_AVATAR_FULL_WIDTH' ) / (int) constant( 'BP_AVATAR_FULL_HEIGHT' );
 ?>

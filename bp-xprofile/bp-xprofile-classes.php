@@ -201,11 +201,11 @@ Class BP_XProfile_Group {
 				</div>
 <?php endif; ?>
 			<div id="poststuff">
-				<form action="<?php echo attribute_escape( $action ); ?>" method="post">
+				<form action="<?php echo esc_attr( $action ); ?>" method="post">
 					<div id="titlediv">
 						<h3><label for="group_name"><?php _e( "Field Group Title", 'buddypress') ?> *</label></h3>
 						<div id="titlewrap">
-							<input type="text" name="group_name" id="title" value="<?php echo attribute_escape( $this->name ); ?>" style="width:50%" />
+							<input type="text" name="group_name" id="title" value="<?php echo esc_attr( $this->name ); ?>" style="width:50%" />
 						</div>
 					</div>
 
@@ -219,8 +219,8 @@ Class BP_XProfile_Group {
 <?php endif; ?>
 
 					<p class="submit">
-						<input type="hidden" name="group_order" id="group_order" value="<?php echo attribute_escape( $this->group_order ); ?>" />
-						<input type="submit" name="save_group" value="<?php echo attribute_escape( $button ); ?>" class="button-primary"/>
+						<input type="hidden" name="group_order" id="group_order" value="<?php echo esc_attr( $this->group_order ); ?>" />
+						<input type="submit" name="save_group" value="<?php echo esc_attr( $button ); ?>" class="button-primary"/>
 						<?php _e( 'or', 'buddypress' ); ?> <a href="admin.php?page=bp-profile-setup" class="deletion"><?php _e( 'Cancel', 'buddypress' ); ?></a>
 					</p>
 				</form>
@@ -320,7 +320,7 @@ Class BP_XProfile_Field {
 		if ( $this->id != null )
 			$sql = $wpdb->prepare( "UPDATE {$bp->profile->table_name_fields} SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d, order_by = %s, field_order = %d WHERE id = %d", $this->group_id, $this->type, $this->name, $this->description, $this->is_required, $this->order_by, $this->field_order, $this->id );
 		else
-			$sql = $wpdb->prepare( "INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, order_by, field_order ) VALUES (%d, 0, %s, %s, %s, %d, %s, %d )", $this->group_id, $this->type, $this->name, $this->description, $this->is_required, $this->order_by, $this->field_order );
+			$sql = $wpdb->prepare( "INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, order_by, field_order ) VALUES (%d, %d, %s, %s, %s, %d, %s, %d )", $this->group_id, $this->parent_id, $this->type, $this->name, $this->description, $this->is_required, $this->order_by, $this->field_order );
 
 		/*
 		 * Check for null so field options can be changed without changing any other part of the field.
@@ -546,7 +546,7 @@ Class BP_XProfile_Field {
 							$default_name = '[' . $j . ']';
 ?>
 						<p><?php _e('Option', 'buddypress'); ?> <?php echo $j; ?>:
-						   <input type="text" name="<?php echo $type; ?>_option[<?php echo $j; ?>]" id="<?php echo $type; ?>_option<?php echo $j; ?>" value="<?php echo attribute_escape( $options[$i]->name ); ?>" />
+						   <input type="text" name="<?php echo $type; ?>_option[<?php echo $j; ?>]" id="<?php echo $type; ?>_option<?php echo $j; ?>" value="<?php echo esc_attr( $options[$i]->name ); ?>" />
 						   <input type="<?php echo $default_input; ?>" name="isDefault_<?php echo $type; ?>_option<?php echo $default_name; ?>" <?php if ( (int) $options[$i]->is_default_option ) {?> checked="checked"<?php } ?> " value="<?php echo $j; ?>" /> <?php _e( 'Default Value', 'buddypress' ); ?>
 <?php
 					if ( $j != 1 && $options[$i]->id != -1 ) : ?>
@@ -609,7 +609,7 @@ Class BP_XProfile_Field {
 				<div id="titlediv">
 					<h3><label for="title"><?php _e( 'Field Title', 'buddypress' ); ?> *</label></h3>
 					<div id="titlewrap">
-						<input type="text" name="title" id="title" value="<?php echo attribute_escape( $this->name ); ?>" style="width:50%" />
+						<input type="text" name="title" id="title" value="<?php echo esc_attr( $this->name ); ?>" style="width:50%" />
 					</div>
 				</div>
 <?php
@@ -649,7 +649,7 @@ Class BP_XProfile_Field {
 				<input type="hidden" name="fieldtype" id="fieldtype" value="textbox" />
 <?php	} ?>
 				<p class="submit">
-					<input type="hidden" name="field_order" id="field_order" value="<?php echo attribute_escape( $this->field_order ); ?>" />
+					<input type="hidden" name="field_order" id="field_order" value="<?php echo esc_attr( $this->field_order ); ?>" />
 					<input type="submit" value="<?php _e( 'Save', 'buddypress' ); ?>" name="saveField" id="saveField" style="font-weight: bold" class="button-primary" />
 					<?php _e( 'or', 'buddypress' ); ?> <a href="admin.php?page=bp-profile-setup" class="deletion"><?php _e( 'Cancel', 'buddypress' ); ?></a>
 				</p>

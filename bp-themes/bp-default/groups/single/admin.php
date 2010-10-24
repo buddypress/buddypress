@@ -194,23 +194,35 @@
 			<ul id="members-list" class="item-list single-line">
 				<?php while ( bp_group_members() ) : bp_group_the_member(); ?>
 
-					<?php if ( bp_get_group_member_is_banned() ) : ?>
+					<li class="<?php bp_group_member_css_class(); ?>">
+						<?php bp_group_member_avatar_mini() ?>
 
-						<li class="banned-user">
-							<?php bp_group_member_avatar_mini() ?>
+						<h5>
+							<?php bp_group_member_link() ?>
+							
+							<?php if ( bp_get_group_member_is_banned() ) _e( '(banned)', 'buddypress'); ?>
 
-							<h5><?php bp_group_member_link() ?> <?php _e( '(banned)', 'buddypress') ?> <span class="small"> - <a href="<?php bp_group_member_unban_link() ?>" class="confirm" title="<?php _e( 'Kick and ban this member', 'buddypress' ) ?>"><?php _e( 'Remove Ban', 'buddypress' ); ?></a> </h5>
+							<span class="small"> - 
+							
+							<?php if ( bp_get_group_member_is_banned() ) : ?>
+								
+								<a href="<?php bp_group_member_unban_link() ?>" class="confirm" title="<?php _e( 'Unban this member', 'buddypress' ) ?>"><?php _e( 'Remove Ban', 'buddypress' ); ?></a>
 
-					<?php else : ?>
+							<?php else : ?>
 
-						<li>
-							<?php bp_group_member_avatar_mini() ?>
-							<h5><?php bp_group_member_link() ?>  <span class="small"> - <a href="<?php bp_group_member_ban_link() ?>" class="confirm" title="<?php _e( 'Kick and ban this member', 'buddypress' ); ?>"><?php _e( 'Kick &amp; Ban', 'buddypress' ); ?></a> | <a href="<?php bp_group_member_promote_mod_link() ?>" class="confirm" title="<?php _e( 'Promote to Mod', 'buddypress' ); ?>"><?php _e( 'Promote to Mod', 'buddypress' ); ?></a> | <a href="<?php bp_group_member_promote_admin_link() ?>" class="confirm" title="<?php _e( 'Promote to Admin', 'buddypress' ); ?>"><?php _e( 'Promote to Admin', 'buddypress' ); ?></a></span></h5>
+								<a href="<?php bp_group_member_ban_link() ?>" class="confirm" title="<?php _e( 'Kick and ban this member', 'buddypress' ); ?>"><?php _e( 'Kick &amp; Ban', 'buddypress' ); ?></a>
+								| <a href="<?php bp_group_member_promote_mod_link() ?>" class="confirm" title="<?php _e( 'Promote to Mod', 'buddypress' ); ?>"><?php _e( 'Promote to Mod', 'buddypress' ); ?></a>
+								| <a href="<?php bp_group_member_promote_admin_link() ?>" class="confirm" title="<?php _e( 'Promote to Admin', 'buddypress' ); ?>"><?php _e( 'Promote to Admin', 'buddypress' ); ?></a>
 
-					<?php endif; ?>
+							<?php endif; ?>
 
-							<?php do_action( 'bp_group_manage_members_admin_item' ); ?>
-						</li>
+								| <a href="<?php bp_group_member_remove_link() ?>" class="confirm" title="<?php _e( 'Remove this member', 'buddypress' ); ?>"><?php _e( 'Remove from group', 'buddypress' ); ?></a>
+
+								<?php do_action( 'bp_group_manage_members_admin_item' ); ?>
+
+							</span>
+						</h5>
+					</li>
 
 				<?php endwhile; ?>
 			</ul>
@@ -298,9 +310,9 @@
 <?php endif; ?>
 
 <?php /* This is important, don't forget it */ ?>
-<input type="hidden" name="group-id" id="group-id" value="<?php bp_group_id() ?>" />
+	<input type="hidden" name="group-id" id="group-id" value="<?php bp_group_id() ?>" />
 
 <?php do_action( 'bp_after_group_admin_content' ) ?>
 
-</form>
+</form><!-- #group-settings-form -->
 

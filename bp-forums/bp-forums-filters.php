@@ -2,11 +2,15 @@
 
 /* Apply WordPress defined filters */
 add_filter( 'bp_forums_bbconfig_location', 'wp_filter_kses', 1 );
-add_filter( 'bp_forums_bbconfig_location', 'attribute_escape', 1 );
+add_filter( 'bp_forums_bbconfig_location', 'esc_attr', 1 );
 
 add_filter( 'bp_get_the_topic_title', 'wp_filter_kses', 1 );
 add_filter( 'bp_get_the_topic_latest_post_excerpt', 'bp_forums_filter_kses', 1 );
 add_filter( 'bp_get_the_topic_post_content', 'bp_forums_filter_kses', 1 );
+
+add_filter( 'bp_get_the_topic_title', 'force_balance_tags' ); 
+add_filter( 'bp_get_the_topic_latest_post_excerpt', 'force_balance_tags' );
+add_filter( 'bp_get_the_topic_post_content', 'force_balance_tags' );
 
 add_filter( 'bp_get_the_topic_title', 'wptexturize' );
 add_filter( 'bp_get_the_topic_poster_name', 'wptexturize' );
@@ -30,6 +34,7 @@ add_filter( 'bp_get_the_topic_title', 'stripslashes_deep' );
 add_filter( 'bp_get_the_topic_latest_post_excerpt', 'stripslashes_deep' );
 add_filter( 'bp_get_the_topic_poster_name', 'stripslashes_deep' );
 add_filter( 'bp_get_the_topic_last_poster_name', 'stripslashes_deep' );
+add_filter( 'bp_get_the_topic_object_name', 'stripslashes_deep' );
 
 add_filter( 'bp_get_the_topic_post_content', 'make_clickable' );
 
@@ -82,5 +87,27 @@ function bp_forums_make_nofollow_filter( $text ) {
 		$text = str_replace( array( ' rel="nofollow"', " rel='nofollow'"), '', $text );
 		return "<a $text rel=\"nofollow\">";
 	}
+
+/**
+ * bp_forums_add_forum_topic_to_page_title( $title )
+ *
+ * Append forum topic to page title
+ *
+ * @global object $bp
+ * @param string $title
+ * @return string
+ */
+function bp_forums_add_forum_topic_to_page_title( $title ) {
+	global $bp;
+
+	if ( $bp->current_action == 'forum' && $bp->action_variables[0] == 'topic' ) {
+		if ( bp_has_forum_topic_posts() ) {
+			$title .= ' &#124; ' . bp_get_the_topic_title();
+		}
+	}
+
+	return $title;
+}
+add_filter( 'bp_page_title', 'bp_forums_add_forum_topic_to_page_title' );
 
 ?>

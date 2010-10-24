@@ -21,7 +21,7 @@ class BP_Blogs_Template {
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['bpage'] ) ? intval( $_REQUEST['bpage'] ) : $page;
-		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
+		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
 		if ( isset( $_REQUEST['letter'] ) && '' != $_REQUEST['letter'] )
 			$this->blogs = BP_Blogs_Blog::get_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page );
@@ -36,7 +36,7 @@ class BP_Blogs_Template {
 		$this->blogs = $this->blogs['blogs'];
 
 		if ( $max ) {
-			if ( $max >= count( $this->blogs ) ) {
+			if ( $max >= count($this->blogs) ) {
 				$this->blog_count = count( $this->blogs );
 			} else {
 				$this->blog_count = (int)$max;
@@ -147,7 +147,7 @@ function bp_has_blogs( $args = '' ) {
 	}
 
 	$blogs_template = new BP_Blogs_Template( $type, $page, $per_page, $max, $user_id, $search_terms );
-	return $blogs_template->has_blogs();
+	return apply_filters( 'bp_has_blogs', $blogs_template->has_blogs(), &$blogs_template );
 }
 
 function bp_blogs() {
@@ -165,11 +165,12 @@ function bp_the_blog() {
 function bp_blogs_pagination_count() {
 	global $bp, $blogs_template;
 
-	$from_num = bp_core_number_format( intval( ( $blogs_template->pag_page - 1 ) * $blogs_template->pag_num ) + 1 );
-	$to_num = bp_core_number_format( ( $from_num + ( $blogs_template->pag_num - 1 ) > $blogs_template->total_blog_count ) ? $blogs_template->total_blog_count : $from_num + ( $blogs_template->pag_num - 1 ) );
+	$start_num = intval( ( $blogs_template->pag_page - 1 ) * $blogs_template->pag_num ) + 1;
+	$from_num = bp_core_number_format( $start_num );
+	$to_num = bp_core_number_format( ( $start_num + ( $blogs_template->pag_num - 1 ) > $blogs_template->total_blog_count ) ? $blogs_template->total_blog_count : $start_num + ( $blogs_template->pag_num - 1 ) );
 	$total = bp_core_number_format( $blogs_template->total_blog_count );
 
-	echo sprintf( __( 'Viewing blog %s to %s (of %s blogs)', 'buddypress' ), $from_num, $to_num, $total ); ?> &nbsp;
+	echo sprintf( __( 'Viewing blog %1$s to %2$s (of %3$s blogs)', 'buddypress' ), $from_num, $to_num, $total ); ?> &nbsp;
 	<span class="ajax-loader"></span><?php
 }
 
@@ -269,15 +270,15 @@ function bp_blog_latest_post() {
 
 function bp_blog_hidden_fields() {
 	if ( isset( $_REQUEST['s'] ) ) {
-		echo '<input type="hidden" id="search_terms" value="' . attribute_escape( $_REQUEST['s'] ). '" name="search_terms" />';
+		echo '<input type="hidden" id="search_terms" value="' . esc_attr( $_REQUEST['s'] ). '" name="search_terms" />';
 	}
 
 	if ( isset( $_REQUEST['letter'] ) ) {
-		echo '<input type="hidden" id="selected_letter" value="' . attribute_escape( $_REQUEST['letter'] ) . '" name="selected_letter" />';
+		echo '<input type="hidden" id="selected_letter" value="' . esc_attr( $_REQUEST['letter'] ) . '" name="selected_letter" />';
 	}
 
 	if ( isset( $_REQUEST['blogs_search'] ) ) {
-		echo '<input type="hidden" id="search_terms" value="' . attribute_escape( $_REQUEST['blogs_search'] ) . '" name="search_terms" />';
+		echo '<input type="hidden" id="search_terms" value="' . esc_attr( $_REQUEST['blogs_search'] ) . '" name="search_terms" />';
 	}
 }
 
@@ -346,7 +347,7 @@ function bp_show_blog_signup_form($blogname = '', $blog_title = '', $errors = ''
 		<form class="standard-form" id="setupform" method="post" action="">
 
 			<input type="hidden" name="stage" value="gimmeanotherblog" />
-			<?php do_action( "signup_hidden_fields" ); ?>
+			<?php do_action( 'signup_hidden_fields' ); ?>
 
 			<?php bp_blogs_signup_blog($blogname, $blog_title, $errors); ?>
 			<p>
@@ -363,7 +364,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 	global $current_site;
 
 	// Blog name
-	if( 'no' == constant( "VHOST" ) )
+	if( !is_subdomain_install() )
 		echo '<label for="blogname">' . __('Blog Name:', 'buddypress') . '</label>';
 	else
 		echo '<label for="blogname">' . __('Blog Domain:', 'buddypress') . '</label>';
@@ -372,18 +373,20 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 		<p class="error"><?php echo $errmsg ?></p>
 	<?php }
 
-	if( 'no' == constant( "VHOST" ) ) {
+	if ( !is_subdomain_install() )
 		echo '<span class="prefix_address">' . $current_site->domain . $current_site->path . '</span> <input name="blogname" type="text" id="blogname" value="'.$blogname.'" maxlength="50" /><br />';
-	} else {
+	else
 		echo '<input name="blogname" type="text" id="blogname" value="'.$blogname.'" maxlength="50" /> <span class="suffix_address">.' . $current_site->domain . $current_site->path . '</span><br />';
-	}
+
 	if ( !is_user_logged_in() ) {
 		print '(<strong>' . __( 'Your address will be ' , 'buddypress');
-		if( 'no' == constant( "VHOST" ) ) {
+
+		if ( !is_subdomain_install() ) {
 			print $current_site->domain . $current_site->path . __( 'blogname' , 'buddypress');
 		} else {
 			print __( 'domain.' , 'buddypress') . $current_site->domain . $current_site->path;
 		}
+
 		echo '.</strong> ' . __( 'Must be at least 4 characters, letters and numbers only. It cannot be changed so choose carefully!)' , 'buddypress') . '</p>';
 	}
 
@@ -475,7 +478,7 @@ function bp_create_blog_link() {
 }
 
 function bp_blogs_blog_tabs() {
-	global $bp;
+	global $bp, $groups_template;
 
 	// Don't show these tabs on a user's own profile
 	if ( bp_is_my_profile() )

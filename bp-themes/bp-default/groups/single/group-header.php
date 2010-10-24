@@ -35,7 +35,11 @@
 	<div id="item-meta">
 		<?php bp_group_description() ?>
 
-		<?php bp_group_join_button() ?>
+		<div id="item-buttons">
+
+			<?php do_action( 'bp_group_header_actions' ); ?>
+
+		</div><!-- #item-buttons -->
 
 		<?php do_action( 'bp_group_header_meta' ) ?>
 	</div>

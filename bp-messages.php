@@ -5,7 +5,7 @@ require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-messages/bp-messages-filters.php' );
 
 function messages_setup_globals() {
-	global $bp, $wpdb;
+	global $bp;
 
 	if ( !defined( 'BP_MESSAGES_SLUG' ) )
 		define ( 'BP_MESSAGES_SLUG', 'messages' );
@@ -13,11 +13,11 @@ function messages_setup_globals() {
 	/* For internal identification */
 	$bp->messages->id = 'messages';
 
-	$bp->messages->table_name_messages = $wpdb->base_prefix . 'bp_messages_messages';
-	$bp->messages->table_name_recipients = $wpdb->base_prefix . 'bp_messages_recipients';
-	$bp->messages->table_name_notices = $wpdb->base_prefix . 'bp_messages_notices';
-	$bp->messages->format_notification_function = 'messages_format_notifications';
 	$bp->messages->slug = BP_MESSAGES_SLUG;
+	$bp->messages->table_name_notices 		= $bp->table_prefix . 'bp_messages_notices';
+	$bp->messages->table_name_messages 		= $bp->table_prefix . 'bp_messages_messages';
+	$bp->messages->table_name_recipients 	= $bp->table_prefix . 'bp_messages_recipients';
+	$bp->messages->format_notification_function = 'messages_format_notifications';
 
 	/* Register this in the active components array */
 	$bp->active_components[$bp->messages->slug] = $bp->messages->id;
@@ -44,8 +44,8 @@ function messages_setup_nav() {
 	bp_core_new_subnav_item( array( 'name' => __( 'Sent Messages', 'buddypress' ), 'slug' => 'sentbox', 'parent_url' => $messages_link, 'parent_slug' => $bp->messages->slug, 'screen_function' => 'messages_screen_sentbox', 'position' => 20, 'user_has_access' => bp_is_my_profile() ) );
 	bp_core_new_subnav_item( array( 'name' => __( 'Compose', 'buddypress' ), 'slug' => 'compose', 'parent_url' => $messages_link, 'parent_slug' => $bp->messages->slug, 'screen_function' => 'messages_screen_compose', 'position' => 30, 'user_has_access' => bp_is_my_profile() ) );
 
-	if ( is_site_admin() )
-		bp_core_new_subnav_item( array( 'name' => __( 'Notices', 'buddypress' ), 'slug' => 'notices', 'parent_url' => $messages_link, 'parent_slug' => $bp->messages->slug, 'screen_function' => 'messages_screen_notices', 'position' => 90, 'user_has_access' => is_site_admin() ) );
+	if ( is_super_admin() )
+		bp_core_new_subnav_item( array( 'name' => __( 'Notices', 'buddypress' ), 'slug' => 'notices', 'parent_url' => $messages_link, 'parent_slug' => $bp->messages->slug, 'screen_function' => 'messages_screen_notices', 'position' => 90, 'user_has_access' => is_super_admin() ) );
 
 	if ( $bp->current_component == $bp->messages->slug ) {
 		if ( bp_is_my_profile() ) {
@@ -84,17 +84,17 @@ function messages_screen_compose() {
 	// Remove any saved message data from a previous session.
 	messages_remove_callback_values();
 
-	/* Check if the message form has been submitted */
+	// Check if the message form has been submitted
 	if ( isset( $_POST['send'] ) ) {
 
-		/* Check the nonce */
+		// Check the nonce
 		check_admin_referer( 'messages_send_message' );
 
-		/* Check we have what we need */
+		// Check we have what we need
 		if ( empty( $_POST['subject'] ) || empty( $_POST['content'] ) ) {
 			bp_core_add_message( __( 'There was an error sending that message, please try again', 'buddypress' ), 'error' );
 		} else {
-			/* If this is a notice, send it */
+			// If this is a notice, send it
 			if ( isset( $_POST['send-notice'] ) ) {
 				if ( messages_send_notice( $_POST['subject'], $_POST['content'] ) ) {
 					bp_core_add_message( __( 'Notice sent successfully!', 'buddypress' ) );
@@ -103,12 +103,13 @@ function messages_screen_compose() {
 					bp_core_add_message( __( 'There was an error sending that notice, please try again', 'buddypress' ), 'error' );
 				}
 			} else {
-				/* Filter recipients into the format we need - array( 'username/userid', 'username/userid' ) */
+				// Filter recipients into the format we need - array( 'username/userid', 'username/userid' )
 				$autocomplete_recipients = explode( ',', $_POST['send-to-input'] );
-				$typed_recipients = explode( ' ', $_POST['send_to_usernames'] );
-				$recipients = array_merge( (array) $autocomplete_recipients, (array) $typed_recipients );
+				$typed_recipients        = explode( ' ', $_POST['send_to_usernames'] );
+				$recipients              = array_merge( (array) $autocomplete_recipients, (array) $typed_recipients );
+				$recipients              = apply_filters( 'bp_messages_recipients', $recipients );
 
-				/* Send the message */
+				// Send the message
 				if ( $thread_id = messages_new_message( array( 'recipients' => $recipients, 'subject' => $_POST['subject'], 'content' => $_POST['content'] ) ) ) {
 					bp_core_add_message( __( 'Message sent successfully!', 'buddypress' ) );
 					bp_core_redirect( $bp->loggedin_user->domain . $bp->messages->slug . '/view/' . $thread_id . '/' );
@@ -117,7 +118,6 @@ function messages_screen_compose() {
 				}
 			}
 		}
-
 	}
 
 	do_action( 'messages_screen_compose' );
@@ -128,7 +128,7 @@ function messages_screen_compose() {
 function messages_screen_notices() {
 	global $bp, $notice_id;
 
-	if ( !is_site_admin() )
+	if ( !is_super_admin() )
 		return false;
 
 	$notice_id = $bp->action_variables[1];
@@ -165,27 +165,32 @@ function messages_screen_notices() {
 
 function messages_screen_notification_settings() {
 	global $current_user; ?>
-	<table class="notification-settings" id="messages-notification-settings">
-		<tr>
-			<th class="icon"></th>
-			<th class="title"><?php _e( 'Messages', 'buddypress' ) ?></th>
-			<th class="yes"><?php _e( 'Yes', 'buddypress' ) ?></th>
-			<th class="no"><?php _e( 'No', 'buddypress' )?></th>
-		</tr>
-		<tr>
-			<td></td>
-			<td><?php _e( 'A member sends you a new message', 'buddypress' ) ?></td>
-			<td class="yes"><input type="radio" name="notifications[notification_messages_new_message]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_messages_new_message' ) || 'yes' == get_usermeta( $current_user->id, 'notification_messages_new_message' ) ) { ?>checked="checked" <?php } ?>/></td>
-			<td class="no"><input type="radio" name="notifications[notification_messages_new_message]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_messages_new_message' ) ) { ?>checked="checked" <?php } ?>/></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td><?php _e( 'A new site notice is posted', 'buddypress' ) ?></td>
-			<td class="yes"><input type="radio" name="notifications[notification_messages_new_notice]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_messages_new_notice' ) || 'yes' == get_usermeta( $current_user->id, 'notification_messages_new_notice' ) ) { ?>checked="checked" <?php } ?>/></td>
-			<td class="no"><input type="radio" name="notifications[notification_messages_new_notice]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_messages_new_notice' ) ) { ?>checked="checked" <?php } ?>/></td>
-		</tr>
+	<table class="notification-settings zebra" id="messages-notification-settings">
+		<thead>
+			<tr>
+				<th class="icon"></th>
+				<th class="title"><?php _e( 'Messages', 'buddypress' ) ?></th>
+				<th class="yes"><?php _e( 'Yes', 'buddypress' ) ?></th>
+				<th class="no"><?php _e( 'No', 'buddypress' )?></th>
+			</tr>
+		</thead>
 
-		<?php do_action( 'messages_screen_notification_settings' ) ?>
+		<tbody>
+			<tr>
+				<td></td>
+				<td><?php _e( 'A member sends you a new message', 'buddypress' ) ?></td>
+				<td class="yes"><input type="radio" name="notifications[notification_messages_new_message]" value="yes" <?php if ( !get_user_meta( $current_user->id, 'notification_messages_new_message', true ) || 'yes' == get_user_meta( $current_user->id, 'notification_messages_new_message', true ) ) { ?>checked="checked" <?php } ?>/></td>
+				<td class="no"><input type="radio" name="notifications[notification_messages_new_message]" value="no" <?php if ( 'no' == get_user_meta( $current_user->id, 'notification_messages_new_message', true ) ) { ?>checked="checked" <?php } ?>/></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><?php _e( 'A new site notice is posted', 'buddypress' ) ?></td>
+				<td class="yes"><input type="radio" name="notifications[notification_messages_new_notice]" value="yes" <?php if ( !get_user_meta( $current_user->id, 'notification_messages_new_notice', true ) || 'yes' == get_user_meta( $current_user->id, 'notification_messages_new_notice', true ) ) { ?>checked="checked" <?php } ?>/></td>
+				<td class="no"><input type="radio" name="notifications[notification_messages_new_notice]" value="no" <?php if ( 'no' == get_user_meta( $current_user->id, 'notification_messages_new_notice', true ) ) { ?>checked="checked" <?php } ?>/></td>
+			</tr>
+
+			<?php do_action( 'messages_screen_notification_settings' ) ?>
+		</tbody>
 	</table>
 <?php
 }
@@ -208,7 +213,7 @@ function messages_action_view_message() {
 
 	$thread_id = $bp->action_variables[0];
 
-	if ( !$thread_id || !messages_is_valid_thread( $thread_id ) || ( !messages_check_thread_access($thread_id) && !is_site_admin() ) )
+	if ( !$thread_id || !messages_is_valid_thread( $thread_id ) || ( !messages_check_thread_access($thread_id) && !is_super_admin() ) )
 		bp_core_redirect( $bp->displayed_user->domain . $bp->current_component );
 
 	/* Check if a new reply has been submitted */
@@ -327,7 +332,7 @@ function messages_new_message( $args = '' ) {
 		'recipients' => false, // Can be an array of usernames, user_ids or mixed.
 		'subject' => false,
 		'content' => false,
-		'date_sent' => time()
+		'date_sent' => bp_core_current_time()
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -344,14 +349,19 @@ function messages_new_message( $args = '' ) {
 	$message->message = $content;
 	$message->date_sent = $date_sent;
 
-	/* If we have a thread ID, use the existing recipients, otherwise use the recipients passed */
+	// If we have a thread ID, use the existing recipients, otherwise use the recipients passed
 	if ( $thread_id ) {
 		$thread = new BP_Messages_Thread( $thread_id );
 		$message->recipients = $thread->get_recipients();
 
+		// Strip the sender from the recipient list if they exist
+		if ( isset( $message->recipients[$sender_id] ) )
+			unset( $message->recipients[$sender_id] );
+
 		if ( empty( $message->subject ) )
 			$message->subject = sprintf( __( 'Re: %s', 'buddypress' ), $thread->messages[0]->subject );
 
+	// No thread ID, so make some adjustments
 	} else {
 		if ( empty( $recipients ) )
 			return false;
@@ -405,14 +415,14 @@ function messages_new_message( $args = '' ) {
 
 
 function messages_send_notice( $subject, $message ) {
-	if ( !is_site_admin() || empty( $subject ) || empty( $message ) ) {
+	if ( !is_super_admin() || empty( $subject ) || empty( $message ) ) {
 		return false;
 	} else {
 		// Has access to send notices, lets do it.
 		$notice = new BP_Messages_Notice;
 		$notice->subject = $subject;
 		$notice->message = $message;
-		$notice->date_sent = time();
+		$notice->date_sent = bp_core_current_time();
 		$notice->is_active = 1;
 		$notice->save(); // send it.
 

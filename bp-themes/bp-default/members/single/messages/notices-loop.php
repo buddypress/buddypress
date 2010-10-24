@@ -17,7 +17,7 @@
 	<?php do_action( 'bp_after_notices_pagination' ) ?>
 	<?php do_action( 'bp_before_notices' ) ?>
 
-	<table id="message-threads">
+	<table id="message-threads" class="zebra">
 		<?php while ( bp_message_threads() ) : bp_message_thread(); ?>
 			<tr>
 				<td width="1%">

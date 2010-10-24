@@ -128,7 +128,7 @@ function xprofile_filter_comments( $comments, $post_id ) {
 
 	if ( $fullnames = BP_XProfile_ProfileData::get_value_byid( 1, $user_ids ) ) {
 		foreach( (array)$fullnames as $user ) {
-			$users[$user->user_id] = trim( $user->value );
+			$users[$user->user_id] = trim($user->value);
 		}
 	}
 

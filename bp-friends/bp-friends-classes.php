@@ -60,10 +60,10 @@ class BP_Friends_Friendship {
 
 		if ( $this->id ) {
 			// Update
-			$result = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->friends->table_name} SET initiator_user_id = %d, friend_user_id = %d, is_confirmed = %d, is_limited = %d, date_created = FROM_UNIXTIME(%d) ) WHERE id = %d", $this->initiator_user_id, $this->friend_user_id, $this->is_confirmed, $this->is_limited, $this->date_created, $this->id ) );
+			$result = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->friends->table_name} SET initiator_user_id = %d, friend_user_id = %d, is_confirmed = %d, is_limited = %d, date_created = %s ) WHERE id = %d", $this->initiator_user_id, $this->friend_user_id, $this->is_confirmed, $this->is_limited, $this->date_created, $this->id ) );
 		} else {
 			// Save
-			$result = $wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->friends->table_name} ( initiator_user_id, friend_user_id, is_confirmed, is_limited, date_created ) VALUES ( %d, %d, %d, %d, FROM_UNIXTIME(%d) )", $this->initiator_user_id, $this->friend_user_id, $this->is_confirmed, $this->is_limited, $this->date_created ) );
+			$result = $wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->friends->table_name} ( initiator_user_id, friend_user_id, is_confirmed, is_limited, date_created ) VALUES ( %d, %d, %d, %d, %s )", $this->initiator_user_id, $this->friend_user_id, $this->is_confirmed, $this->is_limited, $this->date_created ) );
 			$this->id = $wpdb->insert_id;
 		}
 
@@ -126,11 +126,12 @@ class BP_Friends_Friendship {
 
 		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d OR friend_user_id = %d) AND is_confirmed = 1", $user_id, $user_id ) );
 
-		if ( !$count )
+		// Do not update meta if user has never had friends
+		if ( !$count && !get_user_meta( $user_id, 'total_friend_count', true ) )
 			return 0;
 
-		update_usermeta( $user_id, 'total_friend_count', $count );
-		return $count;
+		update_user_meta( $user_id, 'total_friend_count', (int)$count );
+		return (int)$count;
 	}
 
 	function search_friends( $filter, $user_id, $limit = null, $page = null ) {
@@ -201,7 +202,7 @@ class BP_Friends_Friendship {
 	function accept($friendship_id) {
 		global $wpdb, $bp;
 
-	 	return $wpdb->query( $wpdb->prepare( "UPDATE {$bp->friends->table_name} SET is_confirmed = 1, date_created = FROM_UNIXTIME(%d) WHERE id = %d AND friend_user_id = %d", time(), $friendship_id, $bp->loggedin_user->id ) );
+	 	return $wpdb->query( $wpdb->prepare( "UPDATE {$bp->friends->table_name} SET is_confirmed = 1, date_created = %s WHERE id = %d AND friend_user_id = %d", bp_core_current_time(), $friendship_id, $bp->loggedin_user->id ) );
 	}
 
 	function reject($friendship_id) {
@@ -314,10 +315,19 @@ class BP_Friends_Friendship {
 	function delete_all_for_user( $user_id ) {
 		global $wpdb, $bp;
 
+		// Get friends of $user_id
+		$friend_ids = BP_Friends_Friendship::get_friend_user_ids( $user_id );
+
+		// Delete all friendships related to $user_id
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->friends->table_name} WHERE friend_user_id = %d OR initiator_user_id = %d", $user_id, $user_id ) );
 
 		// Delete friend request notifications for members who have a notification from this user.
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE component_name = 'friends' AND ( component_action = 'friendship_request' OR component_action = 'friendship_accepted' ) AND item_id = %d", $user_id ) );
+
+		// Loop through friend_ids and update their counts
+		foreach ( (array)$friend_ids as $friend_id ) {
+			BP_Friends_Friendship::total_friend_count( $friend_id );
+		}
 	}
 }
 

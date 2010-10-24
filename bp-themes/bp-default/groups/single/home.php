@@ -8,7 +8,7 @@
 
 			<div id="item-header">
 				<?php locate_template( array( 'groups/single/group-header.php' ), true ) ?>
-			</div>
+			</div><!-- #item-header -->
 
 			<div id="item-nav">
 				<div class="item-list-tabs no-ajax" id="object-nav">
@@ -18,7 +18,7 @@
 						<?php do_action( 'bp_group_options_nav' ) ?>
 					</ul>
 				</div>
-			</div>
+			</div><!-- #item-nav -->
 
 			<div id="item-body">
 				<?php do_action( 'bp_before_group_body' ) ?>
@@ -60,7 +60,7 @@
 				<?php endif; ?>
 
 				<?php do_action( 'bp_after_group_body' ) ?>
-			</div>
+			</div><!-- #item-body -->
 
 			<?php do_action( 'bp_after_group_home_content' ) ?>
 

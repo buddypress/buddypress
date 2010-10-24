@@ -164,7 +164,7 @@
 		color: #555;
 	}
 
-	select.multi-select{
+	select.multi-select {
 		width:90%;
 		height:10em !important;
 	}
@@ -179,7 +179,7 @@ ul.multi-checkbox {
 	width: 90%;
 }
 
-ul.multi-checkbox li{
+ul.multi-checkbox li {
 	padding: 0;
 	margin: 0;
 }

@@ -25,11 +25,12 @@ class BP_Activity_Template {
 		$this->disable_blogforum_replies = $bp->site_options['bp-disable-blogforum-comments'];
 
 		// Get an array of the logged in user's favorite activities
-		$this->my_favs = maybe_unserialize( get_usermeta( $bp->loggedin_user->id, 'bp_favorite_activities' ) );
+		$this->my_favs = maybe_unserialize( get_user_meta( $bp->loggedin_user->id, 'bp_favorite_activities', true ) );
 
 		// Fetch specific activity items based on ID's
 		if ( !empty( $include ) )
 			$this->activities = bp_activity_get_specific( array( 'activity_ids' => explode( ',', $include ), 'max' => $max, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'sort' => $sort, 'display_comments' => $display_comments ) );
+		// Fetch all activity items
 		else
 			$this->activities = bp_activity_get( array( 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'filter' => $filter, 'show_hidden' => $show_hidden ) );
 
@@ -154,7 +155,7 @@ function bp_has_activities( $args = '' ) {
 		$object = $bp->groups->id;
 		$primary_id = $bp->groups->current_group->id;
 
-		if ( 'public' != $bp->groups->current_group->status && groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
+		if ( 'public' != $bp->groups->current_group->status && ( groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) || $bp->loggedin_user->is_super_admin ) )
 			$show_hidden = true;
 	}
 
@@ -200,7 +201,7 @@ function bp_has_activities( $args = '' ) {
 
 		// are we displaying user specific activity?
 		if ( is_numeric( $user_id ) ) {
-			$show_hidden = ( $user_id == $bp->loggedin_user->id ) ? 1 : 0;
+			$show_hidden = ( $user_id == $bp->loggedin_user->id && $scope != 'friends' ) ? 1 : 0;
 
 			switch ( $scope ) {
 				case 'friends':
@@ -274,11 +275,12 @@ function bp_activity_pagination_count() {
 	function bp_get_activity_pagination_count() {
 		global $bp, $activities_template;
 
-		$from_num = bp_core_number_format( intval( ( $activities_template->pag_page - 1 ) * $activities_template->pag_num ) + 1 );
-		$to_num = bp_core_number_format( ( $from_num + ( $activities_template->pag_num - 1 ) > $activities_template->total_activity_count ) ? $activities_template->total_activity_count : $from_num + ( $activities_template->pag_num - 1 ) );
+		$start_num = intval( ( $activities_template->pag_page - 1 ) * $activities_template->pag_num ) + 1;
+		$from_num = bp_core_number_format( $start_num );
+		$to_num = bp_core_number_format( ( $start_num + ( $activities_template->pag_num - 1 ) > $activities_template->total_activity_count ) ? $activities_template->total_activity_count : $start_num + ( $activities_template->pag_num - 1 ) );
 		$total = bp_core_number_format( $activities_template->total_activity_count );
 
-		return sprintf( __( 'Viewing item %s to %s (of %s items)', 'buddypress' ), $from_num, $to_num, $total ) . ' &nbsp; <span class="ajax-loader"></span>';
+		return sprintf( __( 'Viewing item %1$s to %2$s (of %3$s items)', 'buddypress' ), $from_num, $to_num, $total ) . ' &nbsp; <span class="ajax-loader"></span>';
 	}
 
 function bp_activity_pagination_links() {
@@ -402,43 +404,117 @@ function bp_activity_user_link() {
 		return apply_filters( 'bp_get_activity_user_link', $link );
 	}
 
+/**
+ * bp_activity_avatar( $args )
+ *
+ * Output the avatar of the user that performed the action
+ *
+ * @param array $args
+ */
 function bp_activity_avatar( $args = '' ) {
 	echo bp_get_activity_avatar( $args );
 }
+	/**
+	 * bp_get_activity_avatar( $args )
+	 *
+	 * Return the avatar of the user that performed the action
+	 *
+	 * @global array $bp
+	 * @global object $activities_template
+	 * @param array $args optional
+	 * @return string
+	 */
 	function bp_get_activity_avatar( $args = '' ) {
 		global $bp, $activities_template;
 
 		$defaults = array(
-			'type' => 'thumb',
-			'width' => 20,
+			'type'   => 'thumb',
+			'width'  => 20,
 			'height' => 20,
-			'class' => 'avatar',
-			'alt' => __( 'Avatar', 'buddypress' ),
-			'email' => false
+			'class'  => 'avatar',
+			'alt'    => __( 'Avatar', 'buddypress' ),
+			'email'  => false
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		$item_id = false;
-		if ( (int)$activities_template->activity->user_id )
-			$item_id = $activities_template->activity->user_id;
-		else if ( $activities_template->activity->item_id )
-			$item_id = $activities_template->activity->item_id;
+		// Primary activity avatar is always a user, but can be modified via a filter
+		$object  = apply_filters( 'bp_get_activity_avatar_object_' . $activities_template->activity->component, 'user' );
+		$item_id = apply_filters( 'bp_get_activity_avatar_item_id', $activities_template->activity->user_id );
 
-		$object = 'user';
-		if ( $bp->groups->id == $activities_template->activity->component && !(int) $activities_template->activity->user_id )
-			$object = 'group';
-		if ( $bp->blogs->id == $activities_template->activity->component && !(int) $activities_template->activity->user_id )
-			$object = 'blog';
-
-		$object = apply_filters( 'bp_get_activity_avatar_object_' . $activities_template->activity->component, $object );
-
-		/* If this is a user object pass the users' email address for Gravatar so we don't have to refetch it. */
-		if ( 'user' == $object && empty($email) )
+		// If this is a user object pass the users' email address for Gravatar so we don't have to refetch it.
+		if ( 'user' == $object && empty( $email ) )
 			$email = $activities_template->activity->user_email;
 
 		return apply_filters( 'bp_get_activity_avatar', bp_core_fetch_avatar( array( 'item_id' => $item_id, 'object' => $object, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height, 'email' => $email ) ) );
+	}
+
+/**
+ * bp_activity_secondary_avatar( $args )
+ *
+ * Output the avatar of the object that action was performed on
+ *
+ * @param array $args optional
+ */
+function bp_activity_secondary_avatar( $args = '' ) {
+	echo bp_get_activity_secondary_avatar( $args );
+}
+	/**
+	 * bp_get_activity_secondary_avatar( $args )
+	 *
+	 * Return the avatar of the object that action was performed on
+	 *
+	 * @global array $bp
+	 * @global object $activities_template
+	 * @param array $args optional
+	 * @return string
+	 */
+	function bp_get_activity_secondary_avatar( $args = '' ) {
+		global $bp, $activities_template;
+
+		$defaults = array(
+			'type'   => 'thumb',
+			'width'  => 20,
+			'height' => 20,
+			'class'  => 'avatar',
+			'alt'    => __( 'Avatar', 'buddypress' ),
+			'email'  => false
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		// Set item_id and object (default to user)
+		switch ( $activities_template->activity->component ) {
+			case 'groups' :
+				$object = 'group';
+				$item_id = $activities_template->activity->item_id;
+				break;
+			case 'blogs' :
+				$object = 'blog';
+				$item_id = $activities_template->activity->item_id;
+				break;
+			case 'friends' :
+				$object  = 'user';
+				$item_id = $activities_template->activity->secondary_item_id;
+				break;
+			default :
+				$object  = 'user';
+				$item_id = $activities_template->activity->user_id;
+				$email = $activities_template->activity->user_email;
+				break;
+		}
+
+		// Allow object and item_id to be filtered
+		$object  = apply_filters( 'bp_get_activity_secondary_avatar_object_' . $activities_template->activity->component, $object );
+		$item_id = apply_filters( 'bp_get_activity_secondary_avatar_item_id', $item_id );
+
+		// If we have no item_id or object, there is no avatar to display
+		if ( empty( $item_id ) || empty( $object ) )
+			return false;
+
+		return apply_filters( 'bp_get_activity_secondary_avatar', bp_core_fetch_avatar( array( 'item_id' => $item_id, 'object' => $object, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height, 'email' => $email ) ) );
 	}
 
 function bp_activity_action() {
@@ -448,6 +524,8 @@ function bp_activity_action() {
 		global $activities_template;
 
 		$action = $activities_template->activity->action;
+
+		$action = apply_filters( 'bp_get_activity_action_pre_meta', $action, &$activities_template->activity );
 
 		if ( !empty( $action ) )
 			$action = bp_insert_activity_meta( $action );
@@ -497,21 +575,20 @@ function bp_activity_content() {
 	function bp_insert_activity_meta( $content ) {
 		global $activities_template, $bp;
 
-		$meta = '<span class="activity-actions">';
+		/* Strip any legacy time since placeholders -- TODO: Remove this in 1.3 */
+		$content = str_replace( '<span class="time-since">%s</span>', '', $content );
 
 		/* Insert the time since. */
-		$meta .= apply_filters( 'bp_activity_time_since', '<span class="time-since">' . sprintf( __( '&nbsp; %s ago', 'buddypress' ), bp_core_time_since( $activities_template->activity->date_recorded ) ) . '</span>', &$activities_template->activity );
+		$content .= ' ' . apply_filters( 'bp_activity_time_since', '<span class="time-since">' . sprintf( __( '&nbsp; %s ago', 'buddypress' ), bp_core_time_since( $activities_template->activity->date_recorded ) ) . '</span>', &$activities_template->activity );
 
 		/* Insert the permalink */
-		$meta .= apply_filters( 'bp_activity_permalink', ' &middot; <a href="' . bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ) . '" class="view" title="' . __( 'View Thread / Permalink', 'buddypress' ) . '">' . __( 'View', 'buddypress' ) . '</a>', &$activities_template->activity );
+		$content .= apply_filters( 'bp_activity_permalink', ' &middot; <a href="' . bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ) . '" class="view" title="' . __( 'View Thread / Permalink', 'buddypress' ) . '">' . __( 'View', 'buddypress' ) . '</a>', &$activities_template->activity );
 
 		/* Add the delete link if the user has permission on this item */
-		if ( ( is_user_logged_in() && $activities_template->activity->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin || $bp->loggedin_user->is_site_admin )
-			 $meta .= apply_filters( 'bp_activity_delete_link', ' &middot; ' . bp_get_activity_delete_link(), &$activities_template->activity );
+		if ( ( is_user_logged_in() && $activities_template->activity->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin || $bp->loggedin_user->is_super_admin )
+			 $content .= apply_filters( 'bp_activity_delete_link', ' &middot; ' . bp_get_activity_delete_link(), &$activities_template->activity );
 
-		$meta .= '</span>';
-
-		return apply_filters( 'bp_insert_activity_meta', $content . ' ' . $meta, $content, $meta );
+		return apply_filters( 'bp_insert_activity_meta', $content );
 	}
 
 function bp_activity_parent_content( $args = '' ) {
@@ -584,15 +661,15 @@ function bp_activity_comments( $args = '' ) {
 					$comment->user_fullname = $comment->display_name;
 
 				$content .= '<li id="acomment-' . $comment->id . '">';
-				$content .= '<div class="acomment-avatar"><a href="' . bp_core_get_user_domain( $comment->user_id, $comment->user_nicename, $comment->user_login ) . '">' . bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'width' => 25, 'height' => 25, 'email' => $comment->user_email ) ) . '</a></div>';
-				$content .= '<div class="acomment-meta"><a href="' . bp_core_get_user_domain( $comment->user_id, $comment->user_nicename, $comment->user_login ) . '">' . apply_filters( 'bp_get_member_name', $comment->user_fullname ) . '</a> &middot; ' . sprintf( __( '%s ago', 'buddypress' ), bp_core_time_since( strtotime( $comment->date_recorded ) ) );
+				$content .= '<div class="acomment-avatar"><a href="' . bp_core_get_user_domain( $comment->user_id, $comment->user_nicename, $comment->user_login ) . '">' . bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'width' => 20, 'height' => 20, 'email' => $comment->user_email ) ) . '</a></div>';
+				$content .= '<div class="acomment-meta"><a href="' . bp_core_get_user_domain( $comment->user_id, $comment->user_nicename, $comment->user_login ) . '">' . apply_filters( 'bp_acomment_name', $comment->user_fullname, $comment ) . '</a> &middot; ' . sprintf( __( '%s ago', 'buddypress' ), bp_core_time_since( $comment->date_recorded ) );
 
 				/* Reply link - the span is so that threaded reply links can be hidden when JS is off. */
 				if ( is_user_logged_in() )
 					$content .= '<span class="acomment-replylink"> &middot; <a href="#acomment-' . $comment->id . '" class="acomment-reply" id="acomment-reply-' . $activities_template->activity->id . '">' . __( 'Reply', 'buddypress' ) . '</a></span>';
 
 				/* Delete link */
-				if ( $bp->loggedin_user->is_site_admin || $bp->loggedin_user->id == $comment->user_id )
+				if ( $bp->loggedin_user->is_super_admin || $bp->loggedin_user->id == $comment->user_id )
 					$content .= ' &middot; <a href="' . wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/?cid=' . $comment->id, 'bp_activity_delete_link' ) . '" class="delete acomment-delete">' . __( 'Delete', 'buddypress' ) . '</a>';
 
 				$content .= '</div>';
@@ -738,10 +815,10 @@ function bp_activity_latest_update( $user_id = false ) {
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
 
-		if ( !$update = get_usermeta( $user_id, 'bp_latest_update' ) )
+		if ( !$update = get_user_meta( $user_id, 'bp_latest_update', true ) )
 			return false;
 
-		$latest_update = '&quot;' . trim( strip_tags( bp_create_excerpt( $update['content'], 40 ) ) ) . '&quot;';
+		$latest_update = '&quot;' . apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], 40 ) ) ) ) . '&quot;';
 		$latest_update .= ' &middot; <a href="' . $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $update['id'] . '/"> ' . __( 'View', 'buddypress' ) . '</a>';
 
 		return apply_filters( 'bp_get_activity_latest_update', $latest_update  );
@@ -776,7 +853,7 @@ function bp_activity_filter_links( $args = false ) {
 			else
 				unset($selected);
 
-			$component = attribute_escape( $component );
+			$component = esc_attr( $component );
 
 			switch ( $style ) {
 				case 'list':
@@ -804,13 +881,13 @@ function bp_activity_filter_links( $args = false ) {
 			/* Make sure all core internal component names are translatable */
 			$translatable_components = array( __( 'profile', 'buddypress'), __( 'friends', 'buddypress' ), __( 'groups', 'buddypress' ), __( 'status', 'buddypress' ), __( 'blogs', 'buddypress' ) );
 
-			$component_links[] = $before . '<a href="' . attribute_escape( $link ) . '">' . ucwords( __( $component, 'buddypress' ) ) . '</a>' . $after;
+			$component_links[] = $before . '<a href="' . esc_attr( $link ) . '">' . ucwords( __( $component, 'buddypress' ) ) . '</a>' . $after;
 		}
 
 		$link = remove_query_arg( 'afilter' , $link );
 
 		if ( isset( $_GET['afilter'] ) )
-			$component_links[] = '<' . $tag . ' id="afilter-clear"><a href="' . attribute_escape( $link ) . '"">' . __( 'Clear Filter', 'buddypress' ) . '</a></' . $tag . '>';
+			$component_links[] = '<' . $tag . ' id="afilter-clear"><a href="' . esc_attr( $link ) . '"">' . __( 'Clear Filter', 'buddypress' ) . '</a></' . $tag . '>';
 
  		return apply_filters( 'bp_get_activity_filter_links', implode( "\n", $component_links ) );
 	}
@@ -840,7 +917,7 @@ function bp_total_mention_count_for_user( $user_id = false ) {
 	echo bp_get_total_favorite_count_for_user( $user_id );
 }
 	function bp_get_total_mention_count_for_user( $user_id = false ) {
-		return apply_filters( 'bp_get_total_mention_count_for_user', get_usermeta( $user_id, 'bp_new_mention_count' ) );
+		return apply_filters( 'bp_get_total_mention_count_for_user', get_user_meta( $user_id, 'bp_new_mention_count', true ) );
 	}
 
 function bp_send_public_message_link() {

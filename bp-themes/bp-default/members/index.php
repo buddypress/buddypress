@@ -40,8 +40,6 @@
 				</ul>
 			</div><!-- .item-list-tabs -->
 
-			<?php do_action( 'bp_before_directory_members_list' ) ?>
-
 			<div id="members-dir-list" class="members dir-list">
 				<?php locate_template( array( 'members/members-loop.php' ), true ) ?>
 			</div><!-- #members-dir-list -->

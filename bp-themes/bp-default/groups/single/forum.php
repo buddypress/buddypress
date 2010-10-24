@@ -10,9 +10,13 @@
 
 	<div class="forums single-forum">
 		<?php locate_template( array( 'forums/forums-loop.php' ), true ) ?>
-	</div><!-- .forums -->
+	</div><!-- .forums.single-forum -->
 
-	<?php do_action( 'bp_after_group_forum_content' ) ?>
+<?php endif; ?>
+
+<?php do_action( 'bp_after_group_forum_content' ) ?>
+
+<?php if ( !bp_is_group_forum_topic_edit() && !bp_is_group_forum_topic() ) : ?>
 
 	<?php if ( ( is_user_logged_in() && 'public' == bp_get_group_status() ) || bp_group_is_member() ) : ?>
 
@@ -21,7 +25,7 @@
 
 				<?php do_action( 'bp_before_group_forum_post_new' ) ?>
 
-				<?php if ( !bp_group_is_member() ) : ?>
+				<?php if ( bp_groups_auto_join() && !bp_group_is_member() ) : ?>
 					<p><?php _e( 'You will auto join this group when you start a new topic.', 'buddypress' ) ?></p>
 				<?php endif; ?>
 
@@ -45,7 +49,7 @@
 
 				<?php wp_nonce_field( 'bp_forums_new_topic' ) ?>
 			</div><!-- #post-new-topic -->
-		</form>
+		</form><!-- #forum-topic-form -->
 
 	<?php endif; ?>
 

@@ -243,7 +243,7 @@ Class BP_Messages_Message {
 	function bp_messages_message( $id = null ) {
 		global $bp;
 
-		$this->date_sent = time();
+		$this->date_sent = bp_core_current_time();
 		$this->sender_id = $bp->loggedin_user->id;
 
 		if ( $id ) {
@@ -288,7 +288,7 @@ Class BP_Messages_Message {
 		}
 
 		// First insert the message into the messages table
-		if ( !$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_messages} ( thread_id, sender_id, subject, message, date_sent ) VALUES ( %d, %d, %s, %s, FROM_UNIXTIME(%d) )", $this->thread_id, $this->sender_id, $this->subject, $this->message, $this->date_sent ) ) )
+		if ( !$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_messages} ( thread_id, sender_id, subject, message, date_sent ) VALUES ( %d, %d, %s, %s, %s )", $this->thread_id, $this->sender_id, $this->subject, $this->message, $this->date_sent ) ) )
 			return false;
 
 		if ( $new_thread ) {
@@ -387,7 +387,7 @@ Class BP_Messages_Notice {
 		do_action( 'messages_notice_before_save', $this );
 
 		if ( !$this->id ) {
-			$sql = $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_notices} (subject, message, date_sent, is_active) VALUES (%s, %s, FROM_UNIXTIME(%d), %d)", $this->subject, $this->message, $this->date_sent, $this->is_active );
+			$sql = $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_notices} (subject, message, date_sent, is_active) VALUES (%s, %s, %s, %d)", $this->subject, $this->message, $this->date_sent, $this->is_active );
 		} else {
 			$sql = $wpdb->prepare( "UPDATE {$bp->messages->table_name_notices} SET subject = %s, message = %s, is_active = %d WHERE id = %d", $this->subject, $this->message, $this->is_active, $this->id );
 		}
@@ -401,7 +401,7 @@ Class BP_Messages_Notice {
 		// Now deactivate all notices apart from the new one.
 		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_notices} SET is_active = 0 WHERE id != %d", $id ) );
 
-		update_usermeta( $bp->loggedin_user->id, 'last_activity', date( 'Y-m-d H:i:s' ) );
+		update_user_meta( $bp->loggedin_user->id, 'last_activity', date( 'Y-m-d H:i:s' ) );
 
 		do_action( 'messages_notice_after_save', $this );
 

@@ -50,7 +50,7 @@ class BP_Groups_Widget extends WP_Widget {
 				<?php endwhile; ?>
 			</ul>
 			<?php wp_nonce_field( 'groups_widget_groups_list', '_wpnonce-groups' ); ?>
-			<input type="hidden" name="groups_widget_max" id="groups_widget_max" value="<?php echo attribute_escape( $instance['max_groups'] ); ?>" />
+			<input type="hidden" name="groups_widget_max" id="groups_widget_max" value="<?php echo esc_attr( $instance['max_groups'] ); ?>" />
 
 		<?php else: ?>
 
@@ -76,7 +76,7 @@ class BP_Groups_Widget extends WP_Widget {
 		$max_groups = strip_tags( $instance['max_groups'] );
 		?>
 
-		<p><label for="bp-groups-widget-groups-max"><?php _e('Max groups to show:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_groups' ); ?>" name="<?php echo $this->get_field_name( 'max_groups' ); ?>" type="text" value="<?php echo attribute_escape( $max_groups ); ?>" style="width: 30%" /></label></p>
+		<p><label for="bp-groups-widget-groups-max"><?php _e('Max groups to show:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_groups' ); ?>" name="<?php echo $this->get_field_name( 'max_groups' ); ?>" type="text" value="<?php echo esc_attr( $max_groups ); ?>" style="width: 30%" /></label></p>
 	<?php
 	}
 }
@@ -129,7 +129,7 @@ function groups_ajax_widget_groups_list() {
 			<?php endwhile; ?>
 		</ul>
 		<?php wp_nonce_field( 'groups_widget_groups_list', '_wpnonce-groups' ); ?>
-		<input type="hidden" name="groups_widget_max" id="groups_widget_max" value="<?php echo attribute_escape( $_POST['max_groups'] ); ?>" />
+		<input type="hidden" name="groups_widget_max" id="groups_widget_max" value="<?php echo esc_attr( $_POST['max_groups'] ); ?>" />
 
 	<?php else: ?>
 

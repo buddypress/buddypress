@@ -14,7 +14,7 @@
 					<ul>
 						<?php bp_get_displayed_user_nav() ?>
 
-						<?php do_action( 'bp_members_directory_member_types' ) ?>
+						<?php do_action( 'bp_member_options_nav' ) ?>
 					</ul>
 				</div>
 			</div><!-- #item-nav -->
@@ -40,6 +40,11 @@
 				<?php elseif ( bp_is_user_profile() ) : ?>
 					<?php locate_template( array( 'members/single/profile.php' ), true ) ?>
 
+				<?php else : ?>
+					<?php
+						/* If nothing sticks, just load a member front template if one exists. */
+						locate_template( array( 'members/single/front.php' ), true );
+					?>
 				<?php endif; ?>
 
 				<?php do_action( 'bp_after_member_body' ) ?>

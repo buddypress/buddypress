@@ -121,7 +121,7 @@ function bp_forums_configure_existing_install() {
 }
 
 function bp_forums_bbpress_install() {
-	global $wpdb, $bbdb;
+	global $wpdb, $bbdb, $bp;
 
 	check_admin_referer( 'bp_forums_new_install_init' );
 
@@ -140,7 +140,7 @@ function bp_forums_bbpress_install() {
 			"define( 'BB_SECURE_A"  		=> array( "'put your unique phrase here'",  "'" . addslashes( SECURE_AUTH_KEY ) . "'" ),
 			"define( 'BB_LOGGED_I"  		=> array( "'put your unique phrase here'",  "'" . addslashes( LOGGED_IN_KEY ) . "'" ),
 			"define( 'BB_NONCE_KE"  		=> array( "'put your unique phrase here'",  "'" . addslashes( NONCE_KEY ) . "'" ),
-			"\$bb_table_prefix = '" 		=> array( "'bb_'",                          "'" . $wpdb->base_prefix . "bb_'" ),
+			"\$bb_table_prefix = '" 		=> array( "'bb_'",                          "'" . $bp->table_prefix . "bb_'" ),
 			"define( 'BB_LANG', '" 			=> array( "''",                          	"'" . WPLANG . "'" )
 		)
 	);
@@ -153,22 +153,22 @@ function bp_forums_bbpress_install() {
 	}
 
 	$file = substr( $file, 0, -2 );
-	$file .= "\n" .   '$bb->custom_user_table = "' . $wpdb->users . '";';
-	$file .= "\n" .   '$bb->custom_user_meta_table = "' . $wpdb->usermeta . '";';
-	$file .= "\n\n" . '$bb->uri = "' . BP_PLUGIN_URL . '/bp-forums/bbpress/";';
-	$file .= "\n" .   '$bb->name = "' . get_blog_option( BP_ROOT_BLOG, 'name' ) . ' ' . __( 'Forums', 'buddypress' ) . '";';
+	$file .= "\n" .   '$bb->custom_user_table = \'' . $wpdb->users . '\';';
+	$file .= "\n" .   '$bb->custom_user_meta_table = \'' . $wpdb->usermeta . '\';';
+	$file .= "\n\n" . '$bb->uri = \'' . BP_PLUGIN_URL . '/bp-forums/bbpress/\';';
+	$file .= "\n" .   '$bb->name = \'' . get_blog_option( BP_ROOT_BLOG, 'name' ) . ' ' . __( 'Forums', 'buddypress' ) . '\';';
 
 	if ( bp_core_is_multisite() )
 		$file .= "\n" .   '$bb->wordpress_mu_primary_blog_id = ' . BP_ROOT_BLOG . ';';
 
 	if ( defined( 'AUTH_SALT' ) )
-		$file .= "\n\n" . 'define(\'BB_AUTH_SALT\', "' . addslashes( AUTH_SALT ) . '");';
+		$file .= "\n\n" . 'define(\'BB_AUTH_SALT\', \'' . addslashes( AUTH_SALT ) . '\');';
 
 	if ( defined( 'LOGGED_IN_SALT' ) )
-		$file .= "\n" .   'define(\'BB_LOGGED_IN_SALT\', "' . addslashes( LOGGED_IN_SALT ) . '");';
+		$file .= "\n" .   'define(\'BB_LOGGED_IN_SALT\', \'' . addslashes( LOGGED_IN_SALT ) . '\');';
 
 	if ( defined( 'SECURE_AUTH_SALT' ) )
-		$file .= "\n" .   'define(\'BB_SECURE_AUTH_SALT\', "' . addslashes( SECURE_AUTH_SALT ) . '");';
+		$file .= "\n" .   'define(\'BB_SECURE_AUTH_SALT\', \'' . addslashes( SECURE_AUTH_SALT ) . '\');';
 
 	$file .= "\n\n" . 'define(\'WP_AUTH_COOKIE_VERSION\', 2);';
 	$file .= "\n\n" . '?>';

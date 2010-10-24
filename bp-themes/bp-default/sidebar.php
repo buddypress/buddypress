@@ -14,7 +14,7 @@
 				<?php bp_loggedin_user_avatar( 'type=thumb&width=40&height=40' ) ?>
 			</a>
 
-			<h4><?php bp_loggedinuser_link() ?></h4>
+			<h4><?php echo bp_core_get_userlink( bp_loggedin_user_id() ); ?></h4>
 			<a class="button logout" href="<?php echo wp_logout_url( bp_get_root_domain() ) ?>"><?php _e( 'Log Out', 'buddypress' ) ?></a>
 
 			<?php do_action( 'bp_sidebar_me' ) ?>
@@ -37,9 +37,9 @@
 			<?php endif; ?>
 		</p>
 
-		<form name="login-form" id="sidebar-login-form" class="standard-form" action="<?php echo site_url( 'wp-login.php', 'login' ) ?>" method="post">
+		<form name="login-form" id="sidebar-login-form" class="standard-form" action="<?php echo site_url( 'wp-login.php', 'login_post' ) ?>" method="post">
 			<label><?php _e( 'Username', 'buddypress' ) ?><br />
-			<input type="text" name="log" id="sidebar-user-login" class="input" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" /></label>
+			<input type="text" name="log" id="sidebar-user-login" class="input" value="<?php echo esc_attr(stripslashes($user_login)); ?>" /></label>
 
 			<label><?php _e( 'Password', 'buddypress' ) ?><br />
 			<input type="password" name="pwd" id="sidebar-user-pass" class="input" value="" /></label>
