@@ -1137,7 +1137,7 @@ function bp_core_get_user_displayname( $user_id_or_username ) {
 
 	if ( !$fullname = wp_cache_get( 'bp_user_fullname_' . $user_id, 'bp' ) ) {
 		if ( bp_is_active( 'xprofile' ) ) {
-			$fullname = xprofile_get_field_data( 1, $user_id );
+			$fullname = xprofile_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id );
 
 			if ( empty($fullname) ) {
 				$ud = bp_core_get_core_userdata( $user_id );
