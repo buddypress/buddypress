@@ -982,9 +982,9 @@ function bp_activation_page() {
 		global $bp;
 
 		if ( bp_has_custom_activation_page() )
-			$page = $bp->root_domain . '/' . BP_ACTIVATION_SLUG;
+			$page = trailingslashit( $bp->root_domain ) . BP_ACTIVATION_SLUG;
 		else
-			$page = $bp->root_domain . '/wp-activate.php';
+			$page = trailingslashit( $bp->root_domain ) . 'wp-activate.php';
 
 		return apply_filters( 'bp_get_activation_page', $page );
 	}
