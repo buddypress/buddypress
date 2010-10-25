@@ -50,7 +50,7 @@
 				<h2 class="center"><?php _e( 'Not Found', 'buddypress' ) ?></h2>
 				<p class="center"><?php _e( 'Sorry, but you are looking for something that isn\'t here.', 'buddypress' ) ?></p>
 
-				<?php locate_template( array( 'searchform.php' ), true ) ?>
+				<?php get_search_form() ?>
 
 			<?php endif; ?>
 		</div>
@@ -60,6 +60,6 @@
 		</div><!-- .padder -->
 	</div><!-- #content -->
 
-	<?php locate_template( array( 'sidebar.php' ), true ) ?>
+	<?php get_sidebar() ?>
 
 <?php get_footer() ?>

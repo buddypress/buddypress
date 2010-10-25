@@ -55,7 +55,7 @@
 			<?php else : ?>
 
 				<h2 class="center"><?php _e( 'No posts found. Try a different search?', 'buddypress' ) ?></h2>
-				<?php locate_template( array( '/searchform.php'), true ) ?>
+				<?php get_search_form() ?>
 
 			<?php endif; ?>
 
@@ -66,6 +66,6 @@
 		</div><!-- .padder -->
 	</div><!-- #content -->
 
-	<?php locate_template( array( 'sidebar.php' ), true ) ?>
+	<?php get_sidebar() ?>
 
 <?php get_footer() ?>

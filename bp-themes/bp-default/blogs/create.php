@@ -28,7 +28,7 @@
 		</div><!-- .padder -->
 	</div><!-- #content -->
 
-	<?php locate_template( array( 'sidebar.php' ), true ) ?>
+	<?php get_sidebar() ?>
 
 	<?php do_action( 'bp_after_directory_blogs_content' ) ?>
 
