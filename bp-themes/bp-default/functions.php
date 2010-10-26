@@ -41,7 +41,8 @@ wp_localize_script( 'dtheme-ajax-js', 'BP_DTheme', $params );
  * @since 1.2
  */
 function bp_dtheme_add_blog_comments_js() {
-	if ( is_singular() ) wp_enqueue_script( 'comment-reply' );
+	if ( is_singular() && get_option( 'thread_comments' ) )
+		wp_enqueue_script( 'comment-reply' );
 }
 add_action( 'template_redirect', 'bp_dtheme_add_blog_comments_js' );
 
