@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-10-25 13:13+0000\n"
+"POT-Creation-Date: 2010-10-26 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -261,7 +261,7 @@ msgstr ""
 
 #: bp-activity/bp-activity-templatetags.php:673
 #: bp-activity/bp-activity-templatetags.php:806
-#: bp-forums/bp-forums-templatetags.php:976
+#: bp-forums/bp-forums-templatetags.php:978
 #: bp-themes/bp-default/_inc/ajax.php:192
 #: bp-xprofile/bp-xprofile-admin.php:397
 msgid "Delete"
@@ -522,8 +522,8 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:501 bp-core/bp-core-templatetags.php:452
 #: bp-core/bp-core-templatetags.php:458
-#: bp-forums/bp-forums-templatetags.php:1026
-#: bp-forums/bp-forums-templatetags.php:1032
+#: bp-forums/bp-forums-templatetags.php:1028
+#: bp-forums/bp-forums-templatetags.php:1034
 #: bp-groups/bp-groups-templatetags.php:1813
 #: bp-groups/bp-groups-templatetags.php:1819
 #: bp-themes/bp-default/_inc/ajax.php:56
@@ -532,7 +532,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:502 bp-core/bp-core-templatetags.php:459
 #: bp-core/bp-core-templatetags.php:1057
-#: bp-forums/bp-forums-templatetags.php:1033
+#: bp-forums/bp-forums-templatetags.php:1035
 #: bp-groups/bp-groups-templatetags.php:1820
 #: bp-themes/bp-default/header.php:65 bp-themes/bp-default/searchform.php:5
 msgid "Search"
@@ -1900,12 +1900,12 @@ msgstr ""
 msgid "Viewing topic %s to %s (of %s total topics%s)"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:975
+#: bp-forums/bp-forums-templatetags.php:977
 #: bp-themes/bp-default/functions.php:91 bp-xprofile/bp-xprofile-admin.php:396
 msgid "Edit"
 msgstr ""
 
-#: bp-forums/bp-forums-templatetags.php:1008
+#: bp-forums/bp-forums-templatetags.php:1010
 #, php-format
 msgid "Viewing post %1$s to %2$s (%3$s total posts)"
 msgstr ""
