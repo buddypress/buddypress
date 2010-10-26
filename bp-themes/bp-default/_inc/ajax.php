@@ -92,7 +92,7 @@ function bp_dtheme_activity_template_loader() {
 			break;
 		case 'mentions':
 			$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/mentions/feed/';
-			delete_usermeta( $bp->loggedin_user->id, 'bp_new_mention_count' );
+			delete_user_meta( $bp->loggedin_user->id, 'bp_new_mention_count' );
 			break;
 	}
 
