@@ -2140,6 +2140,8 @@ remove_action( 'plugins_loaded', 'catch_nonexistant_blogs' );
  * It now simply facilitates backwards compatibility by adding a WP page if the plugin has not been
  * updated to do so.
  *
+ * @deprecated 1.3
+ * @deprecated Use wp_insert_post() to create a page
  * @package BuddyPress Core
  * @param $slug str The slug of the component
  * @global $bp BuddyPress global settings
@@ -2147,6 +2149,7 @@ remove_action( 'plugins_loaded', 'catch_nonexistant_blogs' );
 function bp_core_add_root_component( $slug ) {
 	global $bp, $bp_pages;
 
+	_deprecated_function( __FUNCTION__, '1.3', 'wp_insert_post()' );
 	if ( empty( $bp_pages ) )
 		$bp_pages = bp_core_get_page_names();
 
