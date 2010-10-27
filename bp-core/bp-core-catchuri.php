@@ -134,7 +134,7 @@ function bp_core_set_uri_globals() {
 	}
 
 	// This is not a BuddyPress page, so just return.
-	if ( in_array( 0, (array) $matches ) )
+	if ( !isset( $matches ) )
 		return false;
 
 	// Find the offset
