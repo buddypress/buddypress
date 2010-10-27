@@ -1297,7 +1297,15 @@ function groups_record_activity( $args = '' ) {
 	return bp_activity_add( array( 'id' => $id, 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
 }
 
-function groups_update_last_activity( $group_id ) {
+function groups_update_last_activity( $group_id = false ) {
+	global $bp;
+	
+	if ( !$group_id )
+		$group_id = $bp->groups->current_group->id;
+		
+	if ( !$group_id )
+		return false;
+	
 	groups_update_groupmeta( $group_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
 }
 add_action( 'groups_joined_group', 'groups_update_last_activity' );
