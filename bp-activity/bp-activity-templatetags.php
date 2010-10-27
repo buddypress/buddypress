@@ -895,15 +895,17 @@ function bp_activity_filter_links( $args = false ) {
 function bp_activity_can_comment() {
 	global $activities_template, $bp;
 
+	$can_comment = true;
+
 	if ( false === $activities_template->disable_blogforum_replies || (int)$activities_template->disable_blogforum_replies ) {
 		if ( 'new_blog_post' == bp_get_activity_action_name() || 'new_blog_comment' == bp_get_activity_action_name() || 'new_forum_topic' == bp_get_activity_action_name() || 'new_forum_post' == bp_get_activity_action_name() )
-			return false;
+			$can_comment = false;
 	}
 
 	if ( 'activity_comment' == bp_get_activity_action_name() )
-		return false;
+		$can_comment = false;
 
-	return true;
+	return apply_filters( 'bp_activity_can_comment', $can_comment );
 }
 
 function bp_total_favorite_count_for_user( $user_id = false ) {
