@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-10-26 13:13+0000\n"
+"POT-Creation-Date: 2010-10-27 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1901,7 +1901,7 @@ msgid "Viewing topic %s to %s (of %s total topics%s)"
 msgstr ""
 
 #: bp-forums/bp-forums-templatetags.php:977
-#: bp-themes/bp-default/functions.php:91 bp-xprofile/bp-xprofile-admin.php:396
+#: bp-themes/bp-default/functions.php:92 bp-xprofile/bp-xprofile-admin.php:396
 msgid "Edit"
 msgstr ""
 
@@ -3171,7 +3171,7 @@ msgid "Blog Posts"
 msgstr ""
 
 #: bp-themes/bp-default/_inc/options.php:38
-#: bp-themes/bp-default/functions.php:120
+#: bp-themes/bp-default/functions.php:121
 msgid "Activity Stream"
 msgstr ""
 
@@ -3687,19 +3687,19 @@ msgid ""
 "use it."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:79
+#: bp-themes/bp-default/functions.php:80
 msgid "said:"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:80
+#: bp-themes/bp-default/functions.php:81
 msgid "On"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:84
+#: bp-themes/bp-default/functions.php:85
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:328
+#: bp-themes/bp-default/functions.php:329
 #, php-format
 msgid ""
 "Theme activated! This theme contains <a href=\"%s\">custom header image</a> "
