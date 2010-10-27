@@ -39,17 +39,11 @@ function bp_forums_is_installed_correctly() {
 	return false;
 }
 
-function bp_forums_setup_root_component() {
-	/* Register 'forums' as a root component */
-	bp_core_add_root_component( BP_FORUMS_SLUG );
-}
-add_action( 'bp_setup_root_components', 'bp_forums_setup_root_component' );
-
 function bp_forums_directory_forums_setup() {
 	global $bp;
 
 	if ( $bp->current_component == $bp->forums->slug ) {
-		if ( (int) $bp->site_options['bp-disable-forum-directory'] || !function_exists( 'groups_install' ) )
+		if ( (int) $bp->site_options['bp-disable-forum-directory'] || !bp_is_active( 'groups' ) )
 			return false;
 
 		if ( !bp_forums_is_installed_correctly() ) {
