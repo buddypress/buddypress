@@ -221,17 +221,17 @@ add_action( 'bp_loaded', 'bp_core_set_uri_globals', 4 );
 function bp_core_load_template( $templates ) {
 	global $post, $bp, $wpdb, $wp_query, $bp_unfiltered_uri, $bp_unfiltered_uri_offset;
 
-	/* Determine if the root object WP page exists for this request (TODO: is there an API function for this?) */
+	// Determine if the root object WP page exists for this request (TODO: is there an API function for this?
 	if ( !$page_exists = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_name = %s", $bp_unfiltered_uri[$bp_unfiltered_uri_offset] ) ) )
 		return false;
 
-	/* Set the root object as the current wp_query-ied item */
-	foreach ( $bp->pages as $page ) {
+	// Set the root object as the current wp_query-ied item
+	foreach ( (array)$bp->pages as $page ) {
 		if ( $page->name == $bp_unfiltered_uri[$bp_unfiltered_uri_offset] )
 			$object_id = $page->id;
 	}
 
-	/* Make the queried/post object an actual valid page */
+	// Make the queried/post object an actual valid page
 	if ( !empty( $object_id ) ) {
 		$wp_query->queried_object = &get_post( $object_id );
 		$wp_query->queried_object_id = $object_id;
@@ -239,13 +239,13 @@ function bp_core_load_template( $templates ) {
 		$post = $wp_query->queried_object;
 	}
 
-	/* Fetch each template and add the php suffix */
+	// Fetch each template and add the php suffix
 	foreach ( (array)$templates as $template )
 		$filtered_templates[] = $template . '.php';
 
-	/* Filter the template locations so that plugins can alter where they are located */
+	// Filter the template locations so that plugins can alter where they are located
 	if ( $located_template = apply_filters( 'bp_located_template', locate_template( (array) $filtered_templates, false ), $filtered_templates ) ) {
-		/* Template was located, lets set this as a valid page and not a 404. */
+		// Template was located, lets set this as a valid page and not a 404.
  		status_header( 200 );
 		$wp_query->is_page = true;
 		$wp_query->is_404 = false;
@@ -253,7 +253,7 @@ function bp_core_load_template( $templates ) {
 		load_template( apply_filters( 'bp_load_template', $located_template ) );
 	}
 
-	/* Kill any other output after this. */
+	// Kill any other output after this.
 	die;
 }
 
