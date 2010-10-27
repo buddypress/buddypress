@@ -1,5 +1,4 @@
 <?php
-
 // Stop the theme from killing WordPress if BuddyPress is not enabled.
 if ( !class_exists( 'BP_Core_User' ) )
 	return false;
@@ -14,6 +13,11 @@ register_sidebars( 1,
 		'after_title'   => '</h3>'
 	)
 );
+
+// Register navigation menu
+register_nav_menus( array(
+	'primary' => __( 'Primary Navigation', 'buddypress' ),
+) );
 
 // Load the AJAX functions for the theme
 require_once( TEMPLATEPATH . '/_inc/ajax.php' );
@@ -335,6 +339,28 @@ function bp_dtheme_show_notice() { ?>
 if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" )
 	add_action( 'admin_notices', 'bp_dtheme_show_notice' );
 
+/**
+ * wp_nav_menu() callback from the main navigation in header.php
+ *
+ * Used when the custom menus haven't been configured.
+ *
+ * @param array Menu arguments from wp_nav_menu()
+ * @package BuddyPress Theme
+ * @see wp_nav_menu()
+ * @since 1.3
+ */
+function bp_dtheme_main_nav( $args ) {
+?>
+	<ul id="nav">
+		<li<?php if ( bp_is_front_page() ) : ?> class="selected"<?php endif; ?>>
+			<a href="<?php echo site_url() ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a>
+		</li>
+
+		<?php wp_list_pages( 'title_li=&depth=1&exclude=' . bp_dtheme_page_on_front() ); ?>
+		<?php do_action( 'bp_nav_items' ); ?>
+	</ul><!-- #nav -->
+<?php
+}
 
 // Member Buttons
 if ( bp_is_active( 'friends' ) )
@@ -356,5 +382,4 @@ if ( bp_is_active( 'groups' ) ) {
 // Blog Buttons
 if ( bp_is_active( 'blogs' ) )
 	add_action( 'bp_directory_blogs_actions',  'bp_blogs_visit_blog_button' );
-
 ?>

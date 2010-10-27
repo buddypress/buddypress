@@ -1761,3 +1761,21 @@ ol.commentlist li {
 	#footer a {
 		color: #bbb;
 	}
+
+/* Menu
+-------------------------------------------------------------- */
+
+#nav ul {
+	display: none;
+	position: absolute;
+	z-index: 99999;
+	right: 0;
+}
+	#nav li:hover > ul {
+		display: block;
+	}
+
+	#nav ul li {
+		margin-right: 0;
+		min-width: 186px;
+	}

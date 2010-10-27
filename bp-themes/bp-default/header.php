@@ -43,15 +43,7 @@
 
 			<h1 id="logo"><a href="<?php echo site_url() ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php bp_site_name() ?></a></h1>
 
-			<ul id="nav">
-				<li<?php if ( bp_is_front_page() ) : ?> class="selected"<?php endif; ?>>
-					<a href="<?php echo site_url() ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a>
-				</li>
-
-				<?php wp_list_pages( 'title_li=&depth=1&exclude=' . bp_dtheme_page_on_front() ); ?>
-
-				<?php do_action( 'bp_nav_items' ); ?>
-			</ul><!-- #nav -->
+			<?php wp_nav_menu( array( 'container' => false, 'menu_id' => 'nav', 'theme_location' => 'primary', 'fallback_cb' => 'bp_dtheme_main_nav' ) ); ?>
 
 			<div id="search-bar">
 				<div class="padder">
