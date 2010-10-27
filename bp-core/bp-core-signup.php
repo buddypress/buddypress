@@ -391,7 +391,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 			'user_email' => $user_email
 		) );
 
-		if ( !$user_id ) {
+		if ( is_wp_error( $user_id ) || !$user_id ) {
 			$errors->add( 'registerfail', sprintf( __('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !', 'buddypress' ), get_option( 'admin_email' ) ) );
 			return $errors;
 		}
