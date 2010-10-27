@@ -18,25 +18,28 @@ class BP_Core_Members_Widget extends WP_Widget {
 			wp_enqueue_script( 'bp_core_widget_members-js', BP_PLUGIN_URL . '/bp-core/js/widget-members.js', array('jquery') );
 	}
 
-	function widget($args, $instance) {
+	function widget( $args, $instance ) {
 		global $bp;
 
 		extract( $args );
+
+		if ( !$instance['member_default'] )
+			$instance['member_default'] = 'active';
 
 		echo $before_widget;
 		echo $before_title
 		   . $widget_name
 		   . $after_title; ?>
 
-		<?php if ( bp_has_members( 'user_id=0&type=newest&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
+		<?php if ( bp_has_members( 'user_id=0&type=' . $instance['member_default'] . '&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
 			<div class="item-options" id="members-list-options">
 				<span class="ajax-loader" id="ajax-loader-members"></span>
-				<a href="<?php echo site_url() . '/' . BP_MEMBERS_SLUG ?>" id="newest-members" class="selected"><?php _e( 'Newest', 'buddypress' ) ?></a>
-				|  <a href="<?php echo site_url() . '/' . BP_MEMBERS_SLUG ?>" id="recently-active-members"><?php _e( 'Active', 'buddypress' ) ?></a>
+				<a href="<?php echo site_url() . '/' . $bp->members->slug ?>" id="newest-members" <?php if ( $instance['member_default'] == 'newest' ) : ?>class="selected"<?php endif; ?>><?php _e( 'Newest', 'buddypress' ) ?></a>
+				|  <a href="<?php echo site_url() . '/' . $bp->members->slug ?>" id="recently-active-members" <?php if ( $instance['member_default'] == 'active' ) : ?>class="selected"<?php endif; ?>><?php _e( 'Active', 'buddypress' ) ?></a>
 
 				<?php if ( bp_is_active( 'friends' ) ) : ?>
 
-					| <a href="<?php echo site_url() . '/' . BP_MEMBERS_SLUG ?>" id="popular-members"><?php _e( 'Popular', 'buddypress' ) ?></a>
+					| <a href="<?php echo site_url() . '/' . $bp->members->slug ?>" id="popular-members" <?php if ( $instance['member_default'] == 'popular' ) : ?>class="selected"<?php endif; ?>><?php _e( 'Popular', 'buddypress' ) ?></a>
 
 				<?php endif; ?>
 
@@ -51,7 +54,18 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 						<div class="item">
 							<div class="item-title fn"><a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name() ?>"><?php bp_member_name() ?></a></div>
-							<div class="item-meta"><span class="activity"><?php bp_member_registered() ?></span></div>
+							<div class="item-meta">
+								<span class="activity">
+								<?php
+									if ( 'newest' == $instance['member_default'] )
+										bp_member_registered();								
+									if ( 'active' == $instance['member_default'] )
+										bp_member_last_active();
+									if ( 'popular' == $instance['member_default'] )
+										bp_member_total_friend_count();
+								?>
+								</span>
+							</div>
 						</div>
 					</li>
 
@@ -75,16 +89,29 @@ class BP_Core_Members_Widget extends WP_Widget {
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['max_members'] = strip_tags( $new_instance['max_members'] );
+		$instance['member_default'] = strip_tags( $new_instance['member_default'] );
 
 		return $instance;
 	}
 
 	function form( $instance ) {
-		$instance = wp_parse_args( (array) $instance, array( 'max_members' => 5 ) );
+		$instance = wp_parse_args( (array) $instance, array( 'max_members' => 5, 'member_default' => 'active' ) );
 		$max_members = strip_tags( $instance['max_members'] );
+		$member_default = strip_tags( $instance['member_default'] );
 		?>
 
-		<p><label for="bp-core-widget-members-max"><?php _e('Max Members to show:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_members' ); ?>" name="<?php echo $this->get_field_name( 'max_members' ); ?>" type="text" value="<?php echo esc_attr( $max_members ); ?>" style="width: 30%" /></label></p>
+		<p><label for="bp-core-widget-members-max"><?php _e('Max members to show:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_members' ); ?>" name="<?php echo $this->get_field_name( 'max_members' ); ?>" type="text" value="<?php echo esc_attr( $max_members ); ?>" style="width: 30%" /></label></p>
+				
+		<p>
+			<label for="bp-core-widget-groups-default"><?php _e('Default members to show:', 'buddypress'); ?> 
+			<select name="<?php echo $this->get_field_name( 'member_default' ) ?>">
+				<option value="newest" <?php if ( $member_default == 'newest' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Newest', 'buddypress' ) ?></option>
+				<option value="active" <?php if ( $member_default == 'active' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Active', 'buddypress' ) ?></option>
+				<option value="popular"  <?php if ( $member_default == 'popular' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Popular', 'buddypress' ) ?></option>
+			</select>			
+			</label>
+		</p>
+	
 	<?php
 	}
 }

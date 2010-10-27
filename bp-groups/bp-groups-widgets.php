@@ -16,22 +16,25 @@ class BP_Groups_Widget extends WP_Widget {
 			wp_enqueue_script( 'groups_widget_groups_list-js', BP_PLUGIN_URL . '/bp-groups/js/widget-groups.js', array('jquery') );
 	}
 
-	function widget($args, $instance) {
+	function widget( $args, $instance ) {
 		global $bp;
 
 	    extract( $args );
+
+		if ( !$instance['group_default'] )
+			$instance['group_default'] = 'popular';
 
 		echo $before_widget;
 		echo $before_title
 		   . $widget_name
 		   . $after_title; ?>
 
-		<?php if ( bp_has_groups( 'type=popular&per_page=' . $instance['max_groups'] . '&max=' . $instance['max_groups'] ) ) : ?>
+		<?php if ( bp_has_groups( 'type=' . $instance['group_default'] . '&max=' . $instance['max_groups'] ) ) : ?>
 			<div class="item-options" id="groups-list-options">
 				<span class="ajax-loader" id="ajax-loader-groups"></span>
-				<a href="<?php echo site_url() . '/' . $bp->groups->slug ?>" id="newest-groups"><?php _e("Newest", 'buddypress') ?></a> |
-				<a href="<?php echo site_url() . '/' . $bp->groups->slug ?>" id="recently-active-groups"><?php _e("Active", 'buddypress') ?></a> |
-				<a href="<?php echo site_url() . '/' . $bp->groups->slug ?>" id="popular-groups" class="selected"><?php _e("Popular", 'buddypress') ?></a>
+				<a href="<?php echo site_url() . '/' . $bp->groups->slug ?>" id="newest-groups"<?php if ( $instance['group_default'] == 'newest' ) : ?> class="selected"<?php endif; ?>><?php _e("Newest", 'buddypress') ?></a> |
+				<a href="<?php echo site_url() . '/' . $bp->groups->slug ?>" id="recently-active-groups"<?php if ( $instance['group_default'] == 'active' ) : ?> class="selected"<?php endif; ?>><?php _e("Active", 'buddypress') ?></a> |
+				<a href="<?php echo site_url() . '/' . $bp->groups->slug ?>" id="popular-groups" <?php if ( $instance['group_default'] == 'popular' ) : ?> class="selected"<?php endif; ?>><?php _e("Popular", 'buddypress') ?></a>
 			</div>
 
 			<ul id="groups-list" class="item-list">
@@ -43,7 +46,18 @@ class BP_Groups_Widget extends WP_Widget {
 
 						<div class="item">
 							<div class="item-title"><a href="<?php bp_group_permalink() ?>" title="<?php bp_group_name() ?>"><?php bp_group_name() ?></a></div>
-							<div class="item-meta"><span class="activity"><?php bp_group_member_count() ?></span></div>
+							<div class="item-meta">
+								<span class="activity">
+								<?php
+									if ( 'newest' == $instance['group_default'] )
+										printf( __( 'created %s ago', 'buddypress' ), bp_get_group_date_created() );
+									if ( 'active' == $instance['group_default'] )
+										printf( __( 'active %s ago', 'buddypress' ), bp_get_group_last_active() );
+									else if ( 'popular' == $instance['group_default'] )
+										bp_group_member_count();
+								?>
+								</span>
+							</div>
 						</div>
 					</li>
 
@@ -67,16 +81,28 @@ class BP_Groups_Widget extends WP_Widget {
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['max_groups'] = strip_tags( $new_instance['max_groups'] );
+		$instance['group_default'] = strip_tags( $new_instance['group_default'] );
 
 		return $instance;
 	}
 
 	function form( $instance ) {
-		$instance = wp_parse_args( (array) $instance, array( 'max_groups' => 5 ) );
+		$instance = wp_parse_args( (array) $instance, array( 'max_groups' => 5, 'group_default' => 'active' ) );
 		$max_groups = strip_tags( $instance['max_groups'] );
+		$group_default = strip_tags( $instance['group_default'] );
 		?>
 
 		<p><label for="bp-groups-widget-groups-max"><?php _e('Max groups to show:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_groups' ); ?>" name="<?php echo $this->get_field_name( 'max_groups' ); ?>" type="text" value="<?php echo esc_attr( $max_groups ); ?>" style="width: 30%" /></label></p>
+		
+		<p>
+			<label for="bp-groups-widget-groups-default"><?php _e('Default groups to show:', 'buddypress'); ?> 
+			<select name="<?php echo $this->get_field_name( 'group_default' ); ?>">
+				<option value="newest" <?php if ( $group_default == 'newest' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Newest', 'buddypress' ) ?></option>
+				<option value="active" <?php if ( $group_default == 'active' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Active', 'buddypress' ) ?></option>
+				<option value="popular"  <?php if ( $group_default == 'popular' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Popular', 'buddypress' ) ?></option>
+			</select>			
+			</label>
+		</p>
 	<?php
 	}
 }
