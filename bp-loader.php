@@ -61,7 +61,7 @@ if ( get_site_option( 'bp-db-version' ) < constant( 'BP_DB_VERSION' ) ) {
 	if ( !isset( $bp_deactivated['bp-xprofile.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-xprofile.php') )
 		include( BP_PLUGIN_DIR . '/bp-xprofile.php' );
 
-	add_action( 'plugins_loaded', 'bp_loaded', 20 );
+	add_action( 'init', 'bp_loaded', 20 );
 }
 
 /**
