@@ -863,24 +863,6 @@ function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true 
 	}
 }
 
-function bp_your_or_their( $capitalize = true, $echo = true ) {
-	global $bp;
-
-	if ( $capitalize )
-		$yourtext = bp_core_ucfirst($yourtext);
-
-	if ( $bp->displayed_user->id == $bp->loggedin_user->id ) {
-		if ( $echo )
-			echo apply_filters( 'bp_your_or_their', $yourtext );
-		else
-			return apply_filters( 'bp_your_or_their', $yourtext );
-	} else {
-		if ( $echo )
-			echo apply_filters( 'bp_your_or_their', $theirtext );
-		else
-			return apply_filters( 'bp_your_or_their', $theirtext );
-	}
-}
 
 function bp_get_plugin_sidebar() {
 	locate_template( array( 'plugin-sidebar.php' ), true );
