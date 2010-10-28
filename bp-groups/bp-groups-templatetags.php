@@ -122,10 +122,6 @@ class BP_Groups_Template {
 
 		if ( $this->single_group )
 			$this->group = new BP_Groups_Group( $this->group->group_id, true );
-		else {
-			if ( $this->group )
-				wp_cache_set( 'groups_group_nouserdata_' . $group->group_id, $this->group, 'bp' );
-		}
 
 		if ( 0 == $this->current_group ) // loop has just started
 			do_action('loop_start');

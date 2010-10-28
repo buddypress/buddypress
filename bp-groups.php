@@ -2585,7 +2585,6 @@ add_action( 'make_spam_user', 'groups_remove_data_for_user' );
  */
 
 function groups_clear_group_object_cache( $group_id ) {
-	wp_cache_delete( 'groups_group_nouserdata_' . $group_id, 'bp' );
 	wp_cache_delete( 'groups_group_' . $group_id, 'bp' );
 	wp_cache_delete( 'newest_groups', 'bp' );
 	wp_cache_delete( 'active_groups', 'bp' );
