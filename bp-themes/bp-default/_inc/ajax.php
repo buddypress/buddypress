@@ -205,7 +205,7 @@ add_action( 'wp_ajax_new_activity_comment', 'bp_dtheme_new_activity_comment' );
 function bp_dtheme_delete_activity() {
 	global $bp;
 
-	/* Check the nonce */
+	// Check the nonce
 	check_admin_referer( 'bp_activity_delete_link' );
 
 	if ( !is_user_logged_in() ) {
@@ -213,16 +213,16 @@ function bp_dtheme_delete_activity() {
 		return false;
 	}
 
-	$activity = new BP_Activity_Activity( $_POST['id'] );
-
-	/* Check access */
-	if ( !is_super_admin() && $activity->user_id != $bp->loggedin_user->id )
-		return false;
-
 	if ( empty( $_POST['id'] ) || !is_numeric( $_POST['id'] ) )
 		return false;
 
-	/* Call the action before the delete so plugins can still fetch information about it */
+	$activity = new BP_Activity_Activity( $_POST['id'] );
+
+	// Check access
+	if ( !is_super_admin() && $activity->user_id != $bp->loggedin_user->id )
+		return false;
+
+	// Call the action before the delete so plugins can still fetch information about it
 	do_action( 'bp_activity_action_delete_activity', $_POST['id'], $activity->user_id );
 
 	if ( !bp_activity_delete( array( 'id' => $_POST['id'], 'user_id' => $activity->user_id ) ) ) {
