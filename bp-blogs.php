@@ -727,18 +727,11 @@ add_action( 'make_spam_user', 'bp_blogs_remove_data' );
 
 function bp_blogs_clear_blog_object_cache( $blog_id, $user_id ) {
 	wp_cache_delete( 'bp_blogs_of_user_' . $user_id, 'bp' );
-	wp_cache_delete( 'bp_blogs_for_user_' . $user_id, 'bp' );
 	wp_cache_delete( 'bp_total_blogs_for_user_' . $user_id, 'bp' );
-
-	/* Clear the sitewide activity cache */
-	wp_cache_delete( 'sitewide_activity', 'bp' );
 }
 
 function bp_blogs_format_clear_blog_cache( $recorded_blog_obj ) {
 	bp_blogs_clear_blog_object_cache( false, $recorded_blog_obj->user_id );
-
-	/* Clear the sitewide activity cache */
-	wp_cache_delete( 'sitewide_activity', 'bp' );
 	wp_cache_delete( 'bp_total_blogs', 'bp' );
 }
 

@@ -2585,11 +2585,6 @@ add_action( 'make_spam_user', 'groups_remove_data_for_user' );
  */
 
 function groups_clear_group_object_cache( $group_id ) {
-	wp_cache_delete( 'groups_group_' . $group_id, 'bp' );
-	wp_cache_delete( 'newest_groups', 'bp' );
-	wp_cache_delete( 'active_groups', 'bp' );
-	wp_cache_delete( 'popular_groups', 'bp' );
-	wp_cache_delete( 'groups_random_groups', 'bp' );
 	wp_cache_delete( 'bp_total_group_count', 'bp' );
 }
 add_action( 'groups_group_deleted', 'groups_clear_group_object_cache' );

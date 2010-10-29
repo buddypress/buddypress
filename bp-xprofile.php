@@ -917,24 +917,13 @@ add_action( 'make_spam_user', 'xprofile_remove_data' );
  */
 
 function xprofile_clear_profile_groups_object_cache( $group_obj ) {
-	wp_cache_delete( 'xprofile_groups', 'bp' );
 	wp_cache_delete( 'xprofile_groups_inc_empty', 'bp' );
 	wp_cache_delete( 'xprofile_group_' . $group_obj->id );
-
-	/* Clear the sitewide activity cache */
-	wp_cache_delete( 'sitewide_activity', 'bp' );
 }
 
 function xprofile_clear_profile_data_object_cache( $group_id ) {
 	global $bp;
-	wp_cache_delete( 'xprofile_fields_' . $group_id . '_' . $bp->loggedin_user->id, 'bp' );
 	wp_cache_delete( 'bp_user_fullname_' . $bp->loggedin_user->id, 'bp' );
-	wp_cache_delete( 'online_users', 'bp' );
-	wp_cache_delete( 'newest_users', 'bp' );
-	wp_cache_delete( 'popular_users', 'bp' );
-
-	/* Clear the sitewide activity cache */
-	wp_cache_delete( 'sitewide_activity', 'bp' );
 }
 
 // List actions to clear object caches on
