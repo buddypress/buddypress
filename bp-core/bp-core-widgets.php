@@ -33,7 +33,6 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 		<?php if ( bp_has_members( 'user_id=0&type=' . $instance['member_default'] . '&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
 			<div class="item-options" id="members-list-options">
-				<span class="ajax-loader" id="ajax-loader-members"></span>
 				<a href="<?php echo site_url() . '/' . $bp->members->slug ?>" id="newest-members" <?php if ( $instance['member_default'] == 'newest' ) : ?>class="selected"<?php endif; ?>><?php _e( 'Newest', 'buddypress' ) ?></a>
 				|  <a href="<?php echo site_url() . '/' . $bp->members->slug ?>" id="recently-active-members" <?php if ( $instance['member_default'] == 'active' ) : ?>class="selected"<?php endif; ?>><?php _e( 'Active', 'buddypress' ) ?></a>
 
@@ -43,6 +42,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 				<?php endif; ?>
 
+				<span class="ajax-loader" id="ajax-loader-members"></span>
 			</div>
 
 			<ul id="members-list" class="item-list">
@@ -260,8 +260,10 @@ function bp_core_ajax_widget_members() {
 
 					<div class="item">
 						<div class="item-title fn"><a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name() ?>"><?php bp_member_name() ?></a></div>
-						<?php if ( 'active' == $type || 'newest' == $type ) : ?>
+						<?php if ( 'active' == $type ) : ?>
 							<div class="item-meta"><span class="activity"><?php bp_member_last_active() ?></span></div>
+						<?php elseif ( 'newest' == $type ) : ?>
+							<div class="item-meta"><span class="activity"><?php bp_member_registered() ?></span></div> 
 						<?php elseif ( bp_is_active( 'friends' ) ) : ?>
 							<div class="item-meta"><span class="activity"><?php bp_member_total_friend_count() ?></span></div>
 						<?php endif; ?>
