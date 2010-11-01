@@ -21,7 +21,7 @@
 	<?php if ( ( is_user_logged_in() && 'public' == bp_get_group_status() ) || bp_group_is_member() ) : ?>
 
 		<form action="" method="post" id="forum-topic-form" class="standard-form">
-			<div id="post-new-topic">
+			<div id="new-topic-post">
 
 				<?php do_action( 'bp_before_group_forum_post_new' ) ?>
 
@@ -48,7 +48,7 @@
 				</div>
 
 				<?php wp_nonce_field( 'bp_forums_new_topic' ) ?>
-			</div><!-- #post-new-topic -->
+			</div><!-- #new-topic-post -->
 		</form><!-- #forum-topic-form -->
 
 	<?php endif; ?>

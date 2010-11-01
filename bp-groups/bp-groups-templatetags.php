@@ -1104,6 +1104,7 @@ function bp_group_new_topic_button() {
 			'wrapper_class'     => 'group-button',
 			'link_href'         => '#post-new',
 			'link_class'        => '',
+			'link_id'           => 'new-topic-button',
 			'link_text'         => __( 'New Topic', 'buddypress' ),
 			'link_title'        => __( 'New Topic', 'buddypress' ),
 		) );
