@@ -120,7 +120,7 @@ function bp_activity_at_name_filter( $content ) {
 		$new_mention_count = (int)get_user_meta( $user_id, 'bp_new_mention_count', true );
 		update_user_meta( $user_id, 'bp_new_mention_count', $new_mention_count + 1 );
 
-		$content = str_replace( "@$username", "<a href='" . bp_core_get_user_domain( bp_core_get_userid( $username ) ) . "' rel='nofollow'>@$username</a>", $content );
+		$content = preg_replace( '/(@' . $username . '\b)/', "<a href='" . bp_core_get_user_domain( bp_core_get_userid( $username ) ) . "' rel='nofollow'>@$username</a>", $content );
 	}
 
 	return $content;
