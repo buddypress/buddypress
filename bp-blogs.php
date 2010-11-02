@@ -52,7 +52,7 @@ function bp_blogs_setup_nav() {
 	$blogs_link = $bp->loggedin_user->domain . $bp->blogs->slug . '/';
 
 	/* Set up the component options navigation for Blog */
-	if ( 'blogs' == $bp->current_component ) {
+	if ( $bp->blogs->slug == $bp->current_component ) {
 		if ( bp_is_my_profile() ) {
 			if ( function_exists('xprofile_setup_nav') ) {
 				$bp->bp_options_title = __('My Blogs', 'buddypress');

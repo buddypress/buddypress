@@ -991,17 +991,19 @@ function bp_sitewide_activity_feed_link() {
 function bp_member_activity_feed_link() {
 	echo bp_get_member_activity_feed_link();
 }
-function bp_activities_member_rss_link() { echo bp_get_member_activity_feed_link(); }
+function bp_activities_member_rss_link() { 
+	echo bp_get_member_activity_feed_link(); 
+}
 
 	function bp_get_member_activity_feed_link() {
 		global $bp;
 
 		if ( $bp->current_component == $bp->profile->slug || 'just-me' == $bp->current_action )
 			$link = $bp->displayed_user->domain . $bp->activity->slug . '/feed/';
-		else if ( 'friends' == $bp->current_action )
-			$link = $bp->displayed_user->domain . $bp->activity->slug . '/friends/feed/';
-		else if ( 'groups' == $bp->current_action )
-			$link = $bp->displayed_user->domain . $bp->activity->slug . '/groups/feed/';
+		else if ( $bp->friends->slug == $bp->current_action )
+			$link = $bp->displayed_user->domain . $bp->activity->slug . '/' . $bp->friends->slug . '/feed/';
+		else if ( $bp->groups->slug == $bp->current_action )
+			$link = $bp->displayed_user->domain . $bp->activity->slug . '/' . $bp->groups->slug . '/feed/';
 		else if ( 'favorites' == $bp->current_action )
 			$link = $bp->displayed_user->domain . $bp->activity->slug . '/favorites/feed/';
 		else if ( 'mentions' == $bp->current_action )

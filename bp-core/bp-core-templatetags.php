@@ -1613,7 +1613,7 @@ function bp_is_member() {
 function bp_is_user_activity() {
 	global $bp;
 
-	if ( $bp->activity->name == $bp->current_component )
+	if ( $bp->activity->slug == $bp->current_component )
 		return true;
 
 	return false;
@@ -1622,7 +1622,7 @@ function bp_is_user_activity() {
 function bp_is_user_friends_activity() {
 	global $bp;
 
-	if ( $bp->activity->name == $bp->current_component && 'my-friends' == $bp->current_action )
+	if ( $bp->activity->slug == $bp->current_component && 'my-friends' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1667,7 +1667,7 @@ function bp_is_change_avatar() {
 function bp_is_user_groups() {
 	global $bp;
 
-	if ( $bp->groups->name == $bp->current_component )
+	if ( $bp->groups->slug == $bp->current_component )
 		return true;
 
 	return false;
@@ -1794,7 +1794,7 @@ function bp_is_group_single() {
 function bp_is_user_blogs() {
 	global $bp;
 
-	if ( $bp->blogs->name == $bp->current_component )
+	if ( $bp->blogs->slug == $bp->current_component )
 		return true;
 
 	return false;
@@ -1803,7 +1803,7 @@ function bp_is_user_blogs() {
 function bp_is_user_recent_posts() {
 	global $bp;
 
-	if ( $bp->blogs->name == $bp->current_component && 'recent-posts' == $bp->current_action )
+	if ( $bp->blogs->slug == $bp->current_component && 'recent-posts' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1812,7 +1812,7 @@ function bp_is_user_recent_posts() {
 function bp_is_user_recent_commments() {
 	global $bp;
 
-	if ( $bp->blogs->name == $bp->current_component && 'recent-comments' == $bp->current_action )
+	if ( $bp->blogs->slug == $bp->current_component && 'recent-comments' == $bp->current_action )
 		return true;
 
 	return false;
