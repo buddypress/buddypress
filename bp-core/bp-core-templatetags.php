@@ -1003,27 +1003,36 @@ function bp_search_form_action() {
 	return apply_filters( 'bp_search_form_action', $bp->root_domain . '/' . BP_SEARCH_SLUG );
 }
 
+/**
+ * Generates the basic search form as used in BP-Default's header.
+ *
+ * @global object $bp BuddyPress global settings
+ * @return string HTML <select> element
+ * @since 1.0
+ */
 function bp_search_form_type_select() {
 	global $bp;
+
+	$options = array();
+	
+	if ( bp_is_active( 'xprofile' ) )
+		$options['members'] = __( 'Members', 'buddypress' );
+
+	if ( bp_is_active( 'groups' ) )
+		$options['groups'] = __( 'Groups', 'buddypress' );
+
+	if ( function_exists( 'bp_forums_is_installed_correctly' ) && bp_forums_is_installed_correctly() && !(int) $bp->site_options['bp-disable-forum-directory'] )
+		$options['forums'] = __( 'Forums', 'buddypress' );
+
+	if ( bp_is_active( 'blogs' ) && bp_core_is_multisite() )
+		$options['blogs'] = __( 'Blogs', 'buddypress' );
 
 	// Eventually this won't be needed and a page will be built to integrate all search results.
 	$selection_box = '<select name="search-which" id="search-which" style="width: auto">';
 
-	if ( bp_is_active( 'xprofile' ) ) {
-		$selection_box .= '<option value="members">' . __( 'Members', 'buddypress' ) . '</option>';
-	}
-
-	if ( bp_is_active( 'groups' ) ) {
-		$selection_box .= '<option value="groups">' . __( 'Groups', 'buddypress' ) . '</option>';
-	}
-
-	if ( function_exists( 'bp_forums_is_installed_correctly' ) && bp_forums_is_installed_correctly() && !(int) $bp->site_options['bp-disable-forum-directory'] ) {
-		$selection_box .= '<option value="forums">' . __( 'Forums', 'buddypress' ) . '</option>';
-	}
-
-	if ( bp_is_active( 'blogs' ) && bp_core_is_multisite() ) {
-		$selection_box .= '<option value="blogs">' . __( 'Blogs', 'buddypress' ) . '</option>';
-	}
+	$options = apply_filters( 'bp_search_form_type_select_options', $options );
+	foreach( (array)$options as $option_value => $option_title )
+		$selection_box .= sprintf( '<option value="%s">%s</option>', $option_value, $option_title );
 
 	$selection_box .= '</select>';
 
