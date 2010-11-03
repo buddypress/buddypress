@@ -484,15 +484,15 @@ class BP_Core_Setup_Wizard {
 		<table class="form-table">
 			<tr>
 				<th><label><input name="permalink_structure" type="radio"<?php if ( empty( $permalink_structure ) || false != strpos( $permalink_structure, $structures[1] ) ) : ?> checked="checked" <?php endif; ?>value="<?php echo esc_attr( $structures[1] ); ?>" class="tog" <?php checked($structures[1], $permalink_structure); ?> />&nbsp;<?php _e('Day and name'); ?></label></th>
-				<td><code><?php echo get_option('home') . $prefix . '/' . date('Y') . '/' . date('m') . '/' . date('d') . '/sample-post/'; ?></code></td>
+				<td><code><?php echo get_home_url() . $prefix . '/' . date('Y') . '/' . date('m') . '/' . date('d') . '/sample-post/'; ?></code></td>
 			</tr>
 			<tr>
 				<th><label><input name="permalink_structure" type="radio"<?php if ( empty( $permalink_structure ) || false != strpos( $permalink_structure, $structures[2] ) ) : ?> checked="checked" <?php endif; ?> value="<?php echo esc_attr( $structures[2] ); ?>" class="tog" <?php checked($structures[2], $permalink_structure); ?> />&nbsp;<?php _e('Month and name'); ?></label></th>
-				<td><code><?php echo get_option('home') . $prefix . '/' . date('Y') . '/' . date('m') . '/sample-post/'; ?></code></td>
+				<td><code><?php echo get_home_url() . $prefix . '/' . date('Y') . '/' . date('m') . '/sample-post/'; ?></code></td>
 			</tr>
 			<tr>
 				<th><label><input name="permalink_structure" type="radio"<?php if ( empty( $permalink_structure ) || false != strpos( $permalink_structure, $structures[3] ) ) : ?> checked="checked" <?php endif; ?> value="<?php echo esc_attr( $structures[3] ); ?>" class="tog" <?php checked($structures[3], $permalink_structure); ?> />&nbsp;<?php _e('Numeric'); ?></label></th>
-				<td><code><?php echo get_option('home') . $prefix ?>/archives/123</code></td>
+				<td><code><?php echo get_home_url() . $prefix ?>/archives/123</code></td>
 			</tr>
 		</table>
 

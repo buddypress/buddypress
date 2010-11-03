@@ -614,9 +614,9 @@ function bp_core_get_root_domain() {
 	global $current_blog;
 
 	if ( defined( 'BP_ENABLE_MULTIBLOG' ) )
-		$domain = get_blog_option( $current_blog->blog_id, 'home' );
+		$domain = get_home_url( $current_blog->blog_id );
 	else
-		$domain = get_blog_option( BP_ROOT_BLOG, 'home' );
+		$domain = get_home_url( BP_ROOT_BLOG );
 
 	return apply_filters( 'bp_core_get_root_domain', $domain );
 }
