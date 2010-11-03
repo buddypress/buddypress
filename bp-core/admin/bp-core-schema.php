@@ -227,7 +227,7 @@ function bp_core_install_extended_profiles() {
 			    KEY can_delete (can_delete),
 			    KEY is_required (is_required)
 			   ) {$charset_collate};";
-
+		
 	$sql[] = "CREATE TABLE {$wpdb->base_prefix}bp_xprofile_data (
 			    id bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			    field_id bigint(20) unsigned NOT NULL,
@@ -237,6 +237,16 @@ function bp_core_install_extended_profiles() {
 			    KEY field_id (field_id),
 			    KEY user_id (user_id)
 			   ) {$charset_collate};";
+
+	$sql[] = "CREATE TABLE {$wpdb->base_prefix}bp_xprofile_meta (
+				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				object_id bigint(20) NOT NULL,
+				object_type varchar(150) NOT NULL,
+				meta_key varchar(255) DEFAULT NULL,
+				meta_value longtext DEFAULT NULL,
+				KEY object_id (object_id),
+				KEY meta_key (meta_key)
+		   	   ) {$charset_collate};";
 
 	dbDelta( $sql );
 

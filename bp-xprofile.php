@@ -33,6 +33,7 @@ function xprofile_setup_globals() {
 	$bp->profile->table_name_data   = $bp->table_prefix . 'bp_xprofile_data';
 	$bp->profile->table_name_groups = $bp->table_prefix . 'bp_xprofile_groups';
 	$bp->profile->table_name_fields = $bp->table_prefix . 'bp_xprofile_fields';
+	$bp->profile->table_name_meta	= $bp->table_prefix . 'bp_xprofile_meta';
 
 	$bp->profile->format_notification_function = 'xprofile_format_notifications';
 
@@ -908,6 +909,135 @@ add_action( 'wpmu_delete_user', 'xprofile_remove_data' );
 add_action( 'delete_user', 'xprofile_remove_data' );
 add_action( 'make_spam_user', 'xprofile_remove_data' );
 
+/*** XProfile Meta ****************************************************/
+
+function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $meta_value = false ) {
+	global $wpdb, $bp;
+
+	$object_id = (int) $object_id;
+
+	if ( !$object_id )
+		return false;
+	
+	if ( !isset( $object_type ) )
+		return false;
+	
+	if ( !in_array( $object_type, array( 'group', 'field', 'data' ) ) )
+		return false;
+
+	$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
+
+	if ( is_array($meta_value) || is_object($meta_value) )
+		$meta_value = serialize($meta_value);
+
+	$meta_value = trim( $meta_value );
+
+	if ( !$meta_key ) {
+		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->profile->table_name_meta . " WHERE object_id = %d AND object_type = %s", $object_id, $object_type ) );
+	} else if ( $meta_value ) {
+		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->profile->table_name_meta . " WHERE object_id = %d AND object_type = %s AND meta_key = %s AND meta_value = %s", $object_id, $object_type, $meta_key, $meta_value ) );
+	} else {
+		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->profile->table_name_meta . " WHERE object_id = %d AND object_type = %s AND meta_key = %s", $object_id, $object_type, $meta_key ) );
+	}
+
+	/* Delete the cached object */
+	wp_cache_delete( 'bp_xprofile_meta_' . $object_type . '_' . $object_id . '_' . $meta_key, 'bp' );
+
+	return true;
+}
+
+function bp_xprofile_get_meta( $object_id, $object_type, $meta_key = '') {
+	global $wpdb, $bp;
+
+	$object_id = (int) $object_id;
+
+	if ( !$object_id )
+		return false;
+	
+	if ( !isset( $object_type ) )
+		return false;
+	
+	if ( !in_array( $object_type, array( 'group', 'field', 'data' ) ) )
+		return false;
+
+	if ( !empty($meta_key) ) {
+		$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
+
+		if ( !$metas = wp_cache_get( 'bp_xprofile_meta_' . $object_type . '_' . $object_id . '_' . $meta_key, 'bp' ) ) {
+			$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM " . $bp->profile->table_name_meta . " WHERE object_id = %d AND object_type = %s AND meta_key = %s", $object_id, $object_type, $meta_key) );
+			wp_cache_set( 'bp_xprofile_meta_' . $object_type . '_' . $object_id . '_' . $meta_key, $metas, 'bp' );
+		}
+	} else {
+		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM " . $bp->profile->table_name_meta . " WHERE object_id = %d AND object_type = %s", $object_id, $object_type ) );
+	}
+
+	if ( empty($metas) ) {
+		if ( empty($meta_key) )
+			return array();
+		else
+			return '';
+	}
+
+	$metas = array_map('maybe_unserialize', (array)$metas);
+
+	if ( 1 == count($metas) )
+		return $metas[0];
+	else
+		return $metas;
+}
+
+function bp_xprofile_update_meta( $object_id, $object_type, $meta_key, $meta_value ) {
+	global $wpdb, $bp;
+
+	$object_id = (int) $object_id;
+
+	if ( !$object_id )
+		return false;
+	
+	if ( !isset( $object_type ) )
+		return false;
+	
+	if ( !in_array( $object_type, array( 'group', 'field', 'data' ) ) )
+		return false;
+		
+	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
+
+	if ( is_string($meta_value) )
+		$meta_value = stripslashes($wpdb->escape($meta_value));
+
+	$meta_value = maybe_serialize($meta_value);
+
+	if (empty($meta_value)) {
+		return bp_xprofile_delete_meta( $object_id, $object_type, $meta_key );
+	}
+	
+	$cur = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp->profile->table_name_meta . " WHERE object_id = %d AND object_type = %s AND meta_key = %s", $object_id, $object_type, $meta_key ) );
+
+	if ( !$cur ) {
+		$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp->profile->table_name_meta . " ( object_id, object_type, meta_key, meta_value ) VALUES ( %d, %s, %s, %s )", $object_id, $object_type,  $meta_key, $meta_value ) );
+	} else if ( $cur->meta_value != $meta_value ) {
+		$wpdb->query( $wpdb->prepare( "UPDATE " . $bp->profile->table_name_meta . " SET meta_value = %s WHERE object_id = %d AND object_type = %s AND meta_key = %s", $meta_value, $object_id, $object_type, $meta_key ) );
+	} else {
+		return false;
+	}
+
+	/* Update the cached object and recache */
+	wp_cache_set( 'bp_xprofile_meta_' . $object_type . '_' . $object_id . '_' . $meta_key, $meta_value, 'bp' );
+
+	return true;
+}
+
+function bp_xprofile_update_fieldgroup_meta( $field_group_id, $meta_key, $meta_value ) {
+	return bp_xprofile_update_meta( $field_group_id, 'group', $meta_key, $meta_value );	
+}
+
+function bp_xprofile_update_field_meta( $field_id, $meta_key, $meta_value ) {
+	return bp_xprofile_update_meta( $field_id, 'field', $meta_key, $meta_value );	
+}
+
+function bp_xprofile_update_fielddata_meta( $field_data_id, $meta_key, $meta_value ) {
+	return bp_xprofile_update_meta( $field_data_id, 'data', $meta_key, $meta_value );	
+}
 
 /********************************************************************************
  * Caching
