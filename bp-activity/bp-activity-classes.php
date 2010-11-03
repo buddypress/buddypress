@@ -436,85 +436,61 @@ Class BP_Activity_Activity {
 		return $activity_feed;
 	}
 
+	function get_in_operator_sql( $field, $items ) {
+		global $wpdb;
+
+		// split items at the comma
+		$items_dirty = explode( ',', $items );
+
+		// array of prepared integers or quoted strings
+		$items_prepared = array();
+		
+		// clean up and format each item
+		foreach ( $items_dirty as $item ) {
+			// clean up the string
+			$item = trim( $item );
+			// pass everything through prepare for security and to safely quote strings
+			$items_prepared[] = ( is_numeric( $item ) ) ? $wpdb->prepare( '%d', $item ) : $wpdb->prepare( '%s', $item );
+		}
+
+		// build IN operator sql syntax
+		if ( count( $items_prepared ) )
+			return sprintf( '%s IN ( %s )', trim( $field ), implode( ',', $items_prepared ) );
+		else
+			return false;
+	}
+
 	function get_filter_sql( $filter_array ) {
 		global $wpdb;
 
 		if ( !empty( $filter_array['user_id'] ) ) {
-			$user_filter = explode( ',', $filter_array['user_id'] );
-			$user_sql = ' ( a.user_id IN ( ' . $filter_array['user_id'] . ' ) )';
-			$filter_sql[] = $user_sql;
+			$user_sql = BP_Activity_Activity::get_in_operator_sql( 'a.user_id', $filter_array['user_id'] );
+			if ( !empty( $user_sql ) )
+				$filter_sql[] = $user_sql;
 		}
 
 		if ( !empty( $filter_array['object'] ) ) {
-			$object_filter = explode( ',', $filter_array['object'] );
-			$object_sql = ' ( ';
-
-			$counter = 1;
-			foreach( (array) $object_filter as $object ) {
-				$object_sql .= $wpdb->prepare( "a.component = %s", trim( $object ) );
-
-				if ( $counter != count( $object_filter ) )
-					$object_sql .= ' || ';
-
-				$counter++;
-			}
-
-			$object_sql .= ' )';
-			$filter_sql[] = $object_sql;
+			$object_sql = BP_Activity_Activity::get_in_operator_sql( 'a.component', $filter_array['object'] );
+			if ( !empty( $object_sql ) )
+				$filter_sql[] = $object_sql;
 		}
 
 		if ( !empty( $filter_array['action'] ) ) {
-			$action_filter = explode( ',', $filter_array['action'] );
-			$action_sql = ' ( ';
-
-			$counter = 1;
-			foreach( (array) $action_filter as $action ) {
-				$action_sql .= $wpdb->prepare( "a.type = %s", trim( $action ) );
-
-				if ( $counter != count( $action_filter ) )
-					$action_sql .= ' || ';
-
-				$counter++;
-			}
-
-			$action_sql .= ' )';
-			$filter_sql[] = $action_sql;
+			$action_sql = BP_Activity_Activity::get_in_operator_sql( 'a.type', $filter_array['action'] );
+			if ( !empty( $action_sql ) )
+				$filter_sql[] = $action_sql;
 		}
 
 		if ( !empty( $filter_array['primary_id'] ) ) {
-			$pid_filter = explode( ',', $filter_array['primary_id'] );
-			$pid_sql = ' ( ';
-
-			$counter = 1;
-			foreach( (array) $pid_filter as $pid ) {
-				$pid_sql .= $wpdb->prepare( "a.item_id = %s", trim( $pid ) );
-
-				if ( $counter != count( $pid_filter ) )
-					$pid_sql .= ' || ';
-
-				$counter++;
-			}
-
-			$pid_sql .= ' )';
-			$filter_sql[] = $pid_sql;
+			$pid_sql = BP_Activity_Activity::get_in_operator_sql( 'a.item_id', $filter_array['primary_id'] );
+			if ( !empty( $pid_sql ) )
+				$filter_sql[] = $pid_sql;
 		}
 
 		if ( !empty( $filter_array['secondary_id'] ) ) {
-			$sid_filter = explode( ',', $filter_array['secondary_id'] );
-			$sid_sql = ' ( ';
-
-			$counter = 1;
-			foreach( (array) $sid_filter as $sid ) {
-				$sid_sql .= $wpdb->prepare( "a.secondary_item_id = %s", trim( $sid ) );
-
-				if ( $counter != count( $sid_filter ) )
-					$sid_sql .= ' || ';
-
-				$counter++;
-			}
-
-			$sid_sql .= ' )';
-			$filter_sql[] = $sid_sql;
+			$sid_sql = BP_Activity_Activity::get_in_operator_sql( 'a.secondary_item_id', $filter_array['secondary_id'] );
+			if ( !empty( $sid_sql ) )
+				$filter_sql[] = $sid_sql;
 		}
 
 		if ( empty($filter_sql) )
