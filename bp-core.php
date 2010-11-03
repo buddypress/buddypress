@@ -1920,10 +1920,16 @@ add_action( 'make_spam_user', 'bp_core_remove_data' );
  */
 function bp_core_load_buddypress_textdomain() {
 	$locale = apply_filters( 'buddypress_locale', get_locale() );
-	$mofile = BP_PLUGIN_DIR . "/bp-languages/buddypress-$locale.mo";
+	$mofile = sprintf('buddypress-%s.mo', $locale);
+	$mofile_global = WP_LANG_DIR . '/' . $mofile;
+	$mofile_local = BP_PLUGIN_DIR . '/bp-languages/' . $mofile;
 
-	if ( file_exists( $mofile ) )
-		load_textdomain( 'buddypress', $mofile );
+	if ( file_exists( $mofile_global ) )
+		return load_textdomain( 'buddypress', $mofile_global );
+	elseif ( file_exists( $mofile_local ) )
+		return load_textdomain( 'buddypress', $mofile_local );
+	else
+		return false;
 }
 add_action ( 'bp_loaded', 'bp_core_load_buddypress_textdomain', 2 );
 
