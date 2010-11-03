@@ -66,12 +66,26 @@ function bp_forums_directory_forums_setup() {
 					groups_join_group( $bp->groups->current_group->id, $bp->groups->current_group->id );
 
 				if ( $forum_id = groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' ) ) {
-					if ( !$topic = groups_new_group_forum_topic( $_POST['topic_title'], $_POST['topic_text'], $_POST['topic_tags'], $forum_id ) )
-						bp_core_add_message( __( 'There was an error when creating the topic', 'buddypress'), 'error' );
-					else
-						bp_core_add_message( __( 'The topic was created successfully', 'buddypress') );
-
-					bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . '/forum/topic/' . $topic->topic_slug . '/' );
+					if ( empty( $_POST['topic_title'] ) )
+						$error_message = __( 'Please provide a title for your forum topic.', 'buddypress' );
+					else if ( empty( $_POST['topic_text'] ) )
+						$error_message = __( 'Forum posts cannot be empty. Please enter some text.', 'buddypress' );
+					
+					if ( $error_message ) {
+						bp_core_add_message( $error_message, 'error' );
+						$redirect = bp_get_group_permalink( $bp->groups->current_group ) . 'forum';
+					} else {
+						if ( !$topic = groups_new_group_forum_topic( $_POST['topic_title'], $_POST['topic_text'], $_POST['topic_tags'], $forum_id ) ) {
+							bp_core_add_message( __( 'There was an error when creating the topic', 'buddypress'), 'error' );
+							$redirect = bp_get_group_permalink( $bp->groups->current_group ) . 'forum';
+						} else {
+							bp_core_add_message( __( 'The topic was created successfully', 'buddypress') );
+							$redirect = bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug . '/';
+						}
+					}
+					
+					bp_core_redirect( $redirect );
+				
 				} else {
 					bp_core_add_message( __( 'Please pick the group forum where you would like to post this topic.', 'buddypress' ), 'error' );
 				}
