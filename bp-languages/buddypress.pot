@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-11-02 13:13+0000\n"
+"POT-Creation-Date: 2010-11-03 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgid "Friends"
 msgstr ""
 
 #: bp-activity.php:46 bp-core/admin/bp-core-admin.php:230
-#: bp-core/admin/bp-core-upgrade.php:391 bp-core/bp-core-templatetags.php:1017
+#: bp-core/admin/bp-core-upgrade.php:391 bp-core/bp-core-templatetags.php:1022
 #: bp-groups.php:912 bp-groups.php:1344 bp-groups.php:1357 bp-groups.php:1370
 #: bp-groups.php:1383 bp-groups/bp-groups-widgets.php:13
 msgid "Groups"
@@ -414,7 +414,7 @@ msgid "Blog avatar"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:256 bp-core/bp-core-classes.php:82
-#: bp-core/bp-core-templatetags.php:360 bp-core/bp-core-templatetags.php:1318
+#: bp-core/bp-core-templatetags.php:360 bp-core/bp-core-templatetags.php:1327
 #: bp-groups/bp-groups-widgets.php:55 bp-groups/bp-groups-widgets.php:145
 #: bp-themes/bp-default/groups/groups-loop.php:31
 #: bp-themes/bp-default/groups/single/group-header.php:31
@@ -531,7 +531,7 @@ msgid "Search anything..."
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:502 bp-core/bp-core-templatetags.php:459
-#: bp-core/bp-core-templatetags.php:1039
+#: bp-core/bp-core-templatetags.php:1048
 #: bp-forums/bp-forums-templatetags.php:1035
 #: bp-groups/bp-groups-templatetags.php:1817
 #: bp-themes/bp-default/header.php:57 bp-themes/bp-default/searchform.php:5
@@ -1015,7 +1015,7 @@ msgid ""
 "need to remove these from your header.php to avoid duplicate links."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:366 bp-core/bp-core-templatetags.php:1013
+#: bp-core/admin/bp-core-upgrade.php:366 bp-core/bp-core-templatetags.php:1019
 #: bp-core/bp-core-widgets.php:15
 #: bp-themes/bp-default/groups/single/admin.php:174
 msgid "Members"
@@ -1062,12 +1062,12 @@ msgstr ""
 msgid "Displays individual groups as well as a directory of groups."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:404 bp-core/bp-core-templatetags.php:1021
+#: bp-core/admin/bp-core-upgrade.php:404 bp-core/bp-core-templatetags.php:1025
 #: bp-forums/bp-forums-admin.php:159
 msgid "Forums"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:417 bp-core/bp-core-templatetags.php:1025
+#: bp-core/admin/bp-core-upgrade.php:417 bp-core/bp-core-templatetags.php:1028
 msgid "Blogs"
 msgstr ""
 
@@ -1290,8 +1290,8 @@ msgid "My Account"
 msgstr ""
 
 #: bp-core/bp-core-adminbar.php:94 bp-core/bp-core-templatetags.php:523
-#: bp-core/bp-core-templatetags.php:525 bp-core/bp-core-templatetags.php:1050
-#: bp-core/bp-core-templatetags.php:1052 bp-themes/bp-default/sidebar.php:18
+#: bp-core/bp-core-templatetags.php:525 bp-core/bp-core-templatetags.php:1059
+#: bp-core/bp-core-templatetags.php:1061 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
 msgstr ""
 
@@ -1679,11 +1679,11 @@ msgstr ""
 msgid "Create a Group"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1204
+#: bp-core/bp-core-templatetags.php:1213
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1277
+#: bp-core/bp-core-templatetags.php:1286
 msgid "a user"
 msgstr ""
 
