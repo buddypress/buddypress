@@ -1,5 +1,4 @@
 <?php
-
 function bp_forums_load_bbpress() {
 	global $bp, $wpdb, $wp_roles, $current_user, $wp_users_object;
 	global $bb, $bbdb, $bb_table_prefix, $bb_current_user;
@@ -139,6 +138,62 @@ class BP_Forums_BB_Auth {
  * extend it and use this.
  */
 class BPDB extends WPDB {
+	var $db_servers = array();
+
+	function BPDB( $dbuser, $dbpassword, $dbname, $dbhost ) {
+		parent::WPDB( $dbuser, $dbpassword, $dbname, $dbhost );
+
+		$args = func_get_args();
+		$args = call_user_func_array( array( &$this, '_init' ), $args );
+
+		if ( $args['host'] )
+			$this->db_servers['dbh_global'] = $args;
+	}
+
+	/**
+	 * Determine if a database supports a particular feature.
+	 *
+	 * Overriden here to work around differences between bbPress', and WordPress', implementation differences.
+	 * In particular, when BuddyPress tries to run bbPress' SQL installation script, the collation check always
+	 * failed. The capability is long supported by WordPress' minimum required MySQL version, so this is safe.
+	 */
+	function has_cap( $db_cap, $_table_name='' ) {
+		if ( 'collation' == $db_cap )
+			return true;
+
+		return parent::has_cap( $db_cap );
+	}
+
+	/**
+	 * Initialises the class variables based on provided arguments.
+	 * Based on, and taken from, the BackPress class in turn taken from the 1.0 branch of bbPress.
+	 */
+	function _init( $args )
+	{
+		if ( 4 == func_num_args() ) {
+			$args = array(
+				'user'     => $args,
+				'password' => func_get_arg( 1 ),
+				'name'     => func_get_arg( 2 ),
+				'host'     => func_get_arg( 3 ),
+				'charset'  => defined( 'BBDB_CHARSET' ) ? BBDB_CHARSET : false,
+				'collate'  => defined( 'BBDB_COLLATE' ) ? BBDB_COLLATE : false,
+			);
+		}
+
+		$defaults = array(
+			'user'     => false,
+			'password' => false,
+			'name'     => false,
+			'host'     => 'localhost',
+			'charset'  => false,
+			'collate'  => false,
+			'errors'   => false
+		);
+
+		return wp_parse_args( $args, $defaults );
+	}
+
 	function escape_deep( $data ) {
 		if ( is_array( $data ) ) {
 			foreach ( (array) $data as $k => $v ) {
@@ -169,7 +224,4 @@ function backpress_convert_object( &$object, $output ) {
 		}
 	}
 }
-
-
-
 ?>
