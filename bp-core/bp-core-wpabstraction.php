@@ -25,36 +25,24 @@ if ( !is_multisite() ) {
  */
 function bp_core_is_multisite() {
 	_deprecated_function( __FUNCTION__, '1.3', 'is_multisite()' );
-	if ( function_exists( 'is_multisite' ) )
-		return is_multisite();
-
-	if ( !function_exists( 'wpmu_signup_blog' ) )
-		return false;
-
-	return true;
+	return is_multisite();
 }
 
 /**
  * bp_core_is_main_site
  *
- * Checks if current blog is root blog of site
+ * Checks if current blog is root blog of site. Deprecated in 1.3.
  *
- * @since 1.2.6
+ * @deprecated 1.3
+ * @deprecated Use is_multisite()
  * @package BuddyPress
- *
  * @param int $blog_id optional blog id to test (default current blog)
  * @return bool True if not multisite or $blog_id is main site
+ * @since 1.2.6
  */
 function bp_core_is_main_site( $blog_id = '' ) {
-	global $current_site, $current_blog;
-
-	if ( !is_multisite() )
-		return true;
-
-	if ( empty( $blog_id ) )
-		$blog_id = $current_blog->blog_id;
-
-	return $blog_id == $current_site->blog_id;
+	_deprecated_function( __FUNCTION__, '1.3', 'is_main_site()' );
+	return is_main_site( $blog_id );
 }
 
 function bp_core_get_status_sql( $prefix = false ) {
@@ -115,11 +103,10 @@ if ( !function_exists( 'is_subdomain_install' ) ) {
 	}
 }
 
-// Deprecated - 1.2.6
 if ( !function_exists( 'is_site_admin' ) ) {
 	function is_site_admin( $user_id = false ) {
+		_deprecated_function( __FUNCTION__, '1.2.6', 'is_super_admin()' );
 		return is_super_admin( $user_id );
 	}
 }
-
 ?>

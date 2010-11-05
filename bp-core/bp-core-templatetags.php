@@ -1512,7 +1512,7 @@ function bp_is_front_page() {
 function bp_is_activity_front_page() {
 	global $current_blog;
 
-	if ( bp_core_is_main_site() )
+	if ( is_main_site() )
 		$path = bp_core_get_site_path();
 	else
 		$path = $current_blog->path;
