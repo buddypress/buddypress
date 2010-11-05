@@ -101,7 +101,7 @@ function bp_core_screen_signup() {
 		/* Add any errors to the action for the field in the template for display. */
 		if ( !empty( $bp->signup->errors ) ) {
 			foreach ( (array)$bp->signup->errors as $fieldname => $error_message )
-				add_action( 'bp_' . $fieldname . '_errors', create_function( '', 'echo "<div class=\"error\">' . $error_message . '</div>";' ) );
+				add_action( 'bp_' . $fieldname . '_errors', create_function( '', 'echo apply_filters(\'bp_core_signup_error_message\', "<div class=\"error\">' . $error_message . '</div>" );' ) );
 		} else {
 			$bp->signup->step = 'save-details';
 
