@@ -20,8 +20,10 @@ function bp_forums_setup() {
 	$bp->forums->id = 'forums';
 
 	$bp->forums->image_base = BP_PLUGIN_URL . '/bp-forums/images';
-	$bp->forums->bbconfig = $bp->site_options['bb-config-location'];
 	$bp->forums->slug = BP_FORUMS_SLUG;
+
+	if ( isset( $bp->site_options['bb-config-location'] ) )
+		$bp->forums->bbconfig = $bp->site_options['bb-config-location'];
 
 	/* Register this in the active components array */
 	$bp->active_components[$bp->forums->slug] = $bp->forums->id;
@@ -534,6 +536,9 @@ function bp_forums_get_forum_topicpost_count( $forum_id ) {
 
 function bp_forums_filter_caps( $allcaps ) {
 	global $bp, $wp_roles, $bb_table_prefix;
+
+	if ( !isset( $bp->loggedin_user->id ) )
+		return $allcaps;
 
 	$bb_cap = get_user_meta( $bp->loggedin_user->id, $bb_table_prefix . 'capabilities', true );
 

@@ -146,7 +146,8 @@ function bp_core_setup_globals() {
 	$bp->active_components = array();
 
 	/* Fetches the default Gravatar image to use if the user/group/blog has no avatar or gravatar */
-	$bp->grav_default->user  = apply_filters( 'bp_user_gravatar_default', $bp->site_options['user-avatar-default'] );
+	$default_grav = isset( $bp->site_options['user-avatar-default'] ) ? $bp->site_options['user-avatar-default'] : 'wavatar';
+	$bp->grav_default->user  = apply_filters( 'bp_user_gravatar_default', $default_grav );
 	$bp->grav_default->group = apply_filters( 'bp_group_gravatar_default', 'identicon' );
 	$bp->grav_default->blog  = apply_filters( 'bp_blog_gravatar_default', 'identicon' );
 
@@ -1017,10 +1018,10 @@ function bp_core_get_username( $user_id, $user_nicename = false, $user_login = f
 		if ( empty( $user_nicename ) && empty( $user_login ) ) {
 			$ud = false;
 
-			if ( $bp->loggedin_user->id == $user_id )
+			if ( isset( $bp->loggedin_user->id ) && $bp->loggedin_user->id == $user_id )
 				$ud = &$bp->loggedin_user->userdata;
 
-			if ( $bp->displayed_user->id == $user_id )
+			if ( isset( $bp->displayed_user->id ) && $bp->displayed_user->id == $user_id )
 				$ud = &$bp->displayed_user->userdata;
 
 			if ( empty( $ud ) ) {
@@ -1137,7 +1138,7 @@ function bp_core_get_user_displayname( $user_id_or_username ) {
 
 	if ( !$fullname = wp_cache_get( 'bp_user_fullname_' . $user_id, 'bp' ) ) {
 		if ( bp_is_active( 'xprofile' ) ) {
-			$fullname = xprofile_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id );
+			$fullname = xprofile_get_field_data( $bp->site_options['bp-xprofile-fullname-field-name'], $user_id );
 
 			if ( empty($fullname) ) {
 				$ud = bp_core_get_core_userdata( $user_id );
@@ -1314,10 +1315,10 @@ function bp_core_add_message( $message, $type = false ) {
 function bp_core_setup_message() {
 	global $bp;
 
-	if ( empty( $bp->template_message ) )
+	if ( empty( $bp->template_message ) && isset( $_COOKIE['bp-message'] ) )
 		$bp->template_message = $_COOKIE['bp-message'];
 
-	if ( empty( $bp->template_message_type ) )
+	if ( empty( $bp->template_message_type ) && isset( $_COOKIE['bp-message-type'] ) )
 		$bp->template_message_type = $_COOKIE['bp-message-type'];
 
 	add_action( 'template_notices', 'bp_core_render_message' );

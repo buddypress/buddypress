@@ -165,7 +165,7 @@ add_action( 'wp', 'groups_directory_groups_setup', 2 );
 function groups_setup_adminbar_menu() {
 	global $bp;
 
-	if ( !$bp->groups->current_group )
+	if ( empty( $bp->groups->current_group ) )
 		return false;
 
 	/* Don't show this menu to non site admins or if you're viewing your own profile */

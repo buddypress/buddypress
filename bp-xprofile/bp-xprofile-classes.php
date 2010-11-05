@@ -473,7 +473,7 @@ Class BP_XProfile_Field {
 	function get_id_from_name( $field_name ) {
 		global $wpdb, $bp;
 
-		if ( !$bp->profile->table_name_fields || !$field_name )
+		if ( empty( $bp->profile->table_name_fields ) || !isset( $field_name ) )
 			return false;
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE name = %s", $field_name ) );

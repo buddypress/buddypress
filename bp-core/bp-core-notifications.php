@@ -42,11 +42,10 @@ function bp_core_get_notifications_for_user( $user_id ) {
 	/* Group notifications by component and component_action and provide totals */
 	for ( $i = 0; $i < count($notifications); $i++ ) {
 		$notification = $notifications[$i];
-
 		$grouped_notifications[$notification->component_name][$notification->component_action][] = $notification;
 	}
 
-	if ( !$grouped_notifications )
+	if ( empty( $grouped_notifications ) )
 		return false;
 
 	/* Calculated a renderable outcome for each notification type */

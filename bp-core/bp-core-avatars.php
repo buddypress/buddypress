@@ -32,7 +32,7 @@ function bp_core_set_avatar_constants() {
 		define( 'BP_AVATAR_ORIGINAL_MAX_WIDTH', 450 );
 
 	if ( !defined( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE' ) ) {
-		if ( !$bp->site_options['fileupload_maxk'] )
+		if ( !isset( $bp->site_options['fileupload_maxk'] ) )
 			define( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE', 5120000 ); /* 5mb */
 		else
 			define( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE', $bp->site_options['fileupload_maxk'] * 1024 );

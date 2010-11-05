@@ -163,7 +163,7 @@ function bp_core_set_uri_globals() {
 			for ( $i = 0; $i < $uri_offset; $i++ )
 				unset( $bp_uri[$i] );
 
-			$current_component = $bp_uri[$uri_offset];
+			$current_component = isset( $bp_uri[$uri_offset] ) ? $bp_uri[$uri_offset] : '';
 		}
 	}
 
@@ -184,7 +184,7 @@ function bp_core_set_uri_globals() {
 		$i = 1;
 
 	// Set the current action
-	$current_action = $bp_uri[$i];
+	$current_action = isset( $bp_uri[$i] ) ? $bp_uri[$i] : '';
 
 	// Unset the current_component and action from action_variables
 	for ( $j = 0; $j <= $i; $j++ )
@@ -194,7 +194,7 @@ function bp_core_set_uri_globals() {
 	$action_variables = $bp_uri;
 
 	// Remove the username from action variables if this is not a VHOST install
-	if ( 'no' == VHOST && !$is_root_component )
+	if ( defined( 'VHOST' ) && 'no' == VHOST && !$is_root_component )
 		array_shift($bp_uri);
 
 	// Reset the keys by merging with an empty array

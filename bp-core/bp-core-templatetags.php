@@ -1568,7 +1568,7 @@ function bp_is_activity_component() {
 function bp_is_blogs_component() {
 	global $bp;
 
-	if ( BP_BLOGS_SLUG == $bp->current_component )
+	if ( is_multisite() && BP_BLOGS_SLUG == $bp->current_component )
 		return true;
 
 	return false;
