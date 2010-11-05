@@ -248,6 +248,8 @@ class BP_Core_Setup_Wizard {
 				<img src="<?php echo plugins_url( 'buddypress/screenshot-7.gif' ) ?>" alt="Activity Streams" />
 					<p><?php _e( "Track new blogs, new posts and new comments across your entire blog network.", 'buddypress' ) ?></p>
 			</div>
+			<?php else: ?>
+				<input type="hidden" name="bp_components[bp-blogs.php]" value="0" />
 			<?php endif; ?>
 		</div>
 

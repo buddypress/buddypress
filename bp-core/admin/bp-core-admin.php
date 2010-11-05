@@ -206,6 +206,8 @@ function bp_core_admin_component_setup() {
 						<input type="radio" name="bp_components[bp-blogs.php]" value="0"<?php if ( isset( $disabled_components['bp-blogs.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
 					</td>
 				</tr>
+				<?php else: ?>
+					<input type="hidden" name="bp_components[bp-blogs.php]" value="0" />
 				<?php endif; ?>
 				<?php if ( file_exists( BP_PLUGIN_DIR . '/bp-forums.php') ) : ?>
 				<tr>
