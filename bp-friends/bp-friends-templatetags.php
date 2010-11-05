@@ -220,7 +220,7 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 					'wrapper_class'     => 'friendship-button pending',
 					'wrapper_id'        => 'friendship-button-' . $potential_friend_id,
 					'link_class'        => 'requested',
-					'link_href'         => trailingslashit( $bp->loggedin_user->domain . $bp->friends->slug ),
+					'link_href'         => trailingslashit( $bp->loggedin_user->domain . $bp->friends->slug . '/requests' ),
 					'link_text'         => __( 'Friendship Requested', 'buddypress' ),
 					'link_title'        => __( 'Friendship Requested', 'buddypress' )
 				);

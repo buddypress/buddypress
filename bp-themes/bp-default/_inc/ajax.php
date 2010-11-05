@@ -350,7 +350,7 @@ function bp_dtheme_ajax_addremove_friend() {
 		if ( !friends_add_friend( $bp->loggedin_user->id, $_POST['fid'] ) ) {
 			echo __("Friendship could not be requested.", 'buddypress');
 		} else {
-			echo '<a href="' . $bp->loggedin_user->domain . $bp->friends->slug . '" class="requested">' . __( 'Friendship Requested', 'buddypress' ) . '</a>';
+			echo '<a href="' . $bp->loggedin_user->domain . $bp->friends->slug . '/requests" class="requested">' . __( 'Friendship Requested', 'buddypress' ) . '</a>';
 		}
 	} else {
 		echo __( 'Request Pending', 'buddypress' );
