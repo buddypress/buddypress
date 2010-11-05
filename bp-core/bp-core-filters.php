@@ -123,7 +123,7 @@ add_filter( 'comments_array', 'bp_core_filter_comments', 10, 2 );
 function bp_core_login_redirect( $redirect_to ) {
 	global $bp, $current_blog;
 
-	if ( bp_core_is_multisite() && $current_blog->blog_id != BP_ROOT_BLOG )
+	if ( is_multisite() && $current_blog->blog_id != BP_ROOT_BLOG )
 		return $redirect_to;
 
 	if ( !empty( $_REQUEST['redirect_to'] ) || strpos( $_REQUEST['redirect_to'], 'wp-admin' ) )

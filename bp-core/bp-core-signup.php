@@ -138,7 +138,7 @@ function bp_core_screen_signup() {
 				$usermeta = apply_filters( 'bp_signup_usermeta', $usermeta );
 
 				/* Finally, sign up the user and/or blog */
-				if ( isset( $_POST['signup_with_blog'] ) && bp_core_is_multisite() )
+				if ( isset( $_POST['signup_with_blog'] ) && is_multisite() )
 					bp_core_signup_blog( $blog_details['domain'], $blog_details['path'], $blog_details['blog_title'], $_POST['signup_username'], $_POST['signup_email'], $usermeta );
 				else {
 					bp_core_signup_user( $_POST['signup_username'], $_POST['signup_password'], $_POST['signup_email'], $usermeta );
@@ -162,7 +162,7 @@ function bp_core_screen_signup() {
 
 		$bp->signup->step = 'completed-confirmation';
 
-		if ( bp_core_is_multisite() ) {
+		if ( is_multisite() ) {
 			/* Get the activation key */
 			if ( !$bp->signup->key = $wpdb->get_var( $wpdb->prepare( "SELECT activation_key FROM {$wpdb->signups} WHERE user_login = %s AND user_email = %s", $_POST[ 'signup_username' ], $_POST[ 'signup_email' ] ) ) ) {
 				bp_core_add_message( __( 'There was a problem uploading your avatar, please try uploading it again', 'buddypress' ) );
@@ -224,7 +224,7 @@ function bp_core_screen_activation() {
 		}
 
 		/* Check for an uploaded avatar and move that to the correct user folder */
-		if ( bp_core_is_multisite() )
+		if ( is_multisite() )
 			$hashed_key = wp_hash( $_GET['key'] );
 		else
 			$hashed_key = wp_hash( $user );
@@ -368,7 +368,7 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 }
 
 function bp_core_validate_blog_signup( $blog_url, $blog_title ) {
-	if ( !bp_core_is_multisite() || !function_exists( 'wpmu_validate_blog_signup' ) )
+	if ( !is_multisite() || !function_exists( 'wpmu_validate_blog_signup' ) )
 		return false;
 
 	return apply_filters( 'bp_core_validate_blog_signup', wpmu_validate_blog_signup( $blog_url, $blog_title ) );
@@ -378,7 +378,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 	global $bp, $wpdb;
 
 	/* Multisite installs have their own install procedure */
-	if ( bp_core_is_multisite() ) {
+	if ( is_multisite() ) {
 		wpmu_signup_user( $user_login, $user_email, $usermeta );
 
 	} else {
@@ -422,7 +422,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 	 * To disable sending activation emails you can user the filter 'bp_core_signup_send_activation_key' and return false.
 	 */
 	if ( apply_filters( 'bp_core_signup_send_activation_key', true ) ) {
-		if ( !bp_core_is_multisite() ) {
+		if ( !is_multisite() ) {
 			$activation_key = wp_hash( $user_id );
 			update_user_meta( $user_id, 'activation_key', $activation_key );
 			bp_core_signup_send_validation_email( $user_id, $user_email, $activation_key );
@@ -435,7 +435,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 }
 
 function bp_core_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name, $user_email, $usermeta ) {
-	if ( !bp_core_is_multisite() || !function_exists( 'wpmu_signup_blog' ) )
+	if ( !is_multisite() || !function_exists( 'wpmu_signup_blog' ) )
 		return false;
 
 	return apply_filters( 'bp_core_signup_blog', wpmu_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name, $user_email, $usermeta ) );
@@ -447,7 +447,7 @@ function bp_core_activate_signup( $key ) {
 	$user = false;
 
 	/* Multisite installs have their own activation routine */
-	if ( bp_core_is_multisite() ) {
+	if ( is_multisite() ) {
 		$user = wpmu_activate_signup( $key );
 
 		/* If there was errors, add a message and redirect */
@@ -497,7 +497,7 @@ function bp_core_activate_signup( $key ) {
 	update_user_meta( $user_id, 'last_activity', bp_core_current_time() );
 
 	/* Set the password on multisite installs */
-	if ( bp_core_is_multisite() && !empty( $user['meta']['password'] ) )
+	if ( is_multisite() && !empty( $user['meta']['password'] ) )
 		$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->users SET user_pass = %s WHERE ID = %d", $user['meta']['password'], $user_id ) );
 
 	/* Delete the total member cache */
@@ -617,7 +617,7 @@ function bp_core_wpsignup_redirect() {
 	if ( locate_template( array( 'registration/register.php' ), false ) || locate_template( array( 'register.php' ), false ) )
 		bp_core_redirect( bp_get_root_domain() . '/' . BP_REGISTER_SLUG . '/' );
 }
-if ( bp_core_is_multisite() )
+if ( is_multisite() )
 	add_action( 'wp', 'bp_core_wpsignup_redirect' );
 else
 	add_action( 'init', 'bp_core_wpsignup_redirect' );

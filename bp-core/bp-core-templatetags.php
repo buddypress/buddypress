@@ -978,7 +978,7 @@ function bp_activation_page() {
  *
  * @global array $bp
  * @uses function_exists
- * @uses bp_core_is_multisite()
+ * @uses is_multisite()
  * @return bool Filterable result
  */
 function bp_search_form_enabled() {
@@ -986,7 +986,7 @@ function bp_search_form_enabled() {
 
 	if ( function_exists( 'xprofile_install' )
 		 || function_exists( 'groups_install' )
-		 || ( function_exists( 'bp_blogs_install' ) && bp_core_is_multisite() )
+		 || ( function_exists( 'bp_blogs_install' ) && is_multisite() )
 		 || ( function_exists( 'bp_forums_setup' ) && !(int)$bp->site_options['bp-disable-forum-directory'] )
 		) {
 		$search_enabled = true;
@@ -1024,7 +1024,7 @@ function bp_search_form_type_select() {
 	if ( function_exists( 'bp_forums_is_installed_correctly' ) && bp_forums_is_installed_correctly() && !(int) $bp->site_options['bp-disable-forum-directory'] )
 		$options['forums'] = __( 'Forums', 'buddypress' );
 
-	if ( bp_is_active( 'blogs' ) && bp_core_is_multisite() )
+	if ( bp_is_active( 'blogs' ) && is_multisite() )
 		$options['blogs'] = __( 'Blogs', 'buddypress' );
 
 	// Eventually this won't be needed and a page will be built to integrate all search results.
@@ -1242,7 +1242,7 @@ function bp_signup_allowed() {
 	function bp_get_signup_allowed() {
 		global $bp;
 
-		if ( bp_core_is_multisite() ) {
+		if ( is_multisite() ) {
 			if ( in_array( $bp->site_options['registration'], array( 'all', 'user' ) ) )
 				return true;
 		} else {
@@ -1258,7 +1258,7 @@ function bp_blog_signup_allowed() {
 	function bp_get_blog_signup_allowed() {
 		global $bp;
 
-		if ( !bp_core_is_multisite() )
+		if ( !is_multisite() )
 			return false;
 
 		$status = $bp->site_options['registration'];

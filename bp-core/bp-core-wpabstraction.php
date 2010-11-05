@@ -9,12 +9,22 @@
  * the 3.0 WordPress version merge takes place.
  */
 
-if ( !bp_core_is_multisite() ) {
+if ( !is_multisite() ) {
 	$wpdb->base_prefix = $wpdb->prefix;
 	$wpdb->blogid = 1;
 }
 
+/**
+ * bp_core_is_multisite()
+ *
+ * This function originally served as a wrapper when WordPress and WordPress MU were separate entities.
+ * Use is_multisite() instead.
+ *
+ * @deprecated 1.3
+ * @deprecated Use is_multisite()
+ */
 function bp_core_is_multisite() {
+	_deprecated_function( __FUNCTION__, '1.3', 'is_multisite()' );
 	if ( function_exists( 'is_multisite' ) )
 		return is_multisite();
 
@@ -38,7 +48,7 @@ function bp_core_is_multisite() {
 function bp_core_is_main_site( $blog_id = '' ) {
 	global $current_site, $current_blog;
 
-	if ( !bp_core_is_multisite() )
+	if ( !is_multisite() )
 		return true;
 
 	if ( empty( $blog_id ) )
@@ -48,7 +58,7 @@ function bp_core_is_main_site( $blog_id = '' ) {
 }
 
 function bp_core_get_status_sql( $prefix = false ) {
-	if ( !bp_core_is_multisite() )
+	if ( !is_multisite() )
 		return "{$prefix}user_status = 0";
 	else
 		return "{$prefix}spam = 0 AND {$prefix}deleted = 0 AND {$prefix}user_status = 0";

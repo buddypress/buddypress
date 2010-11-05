@@ -3,7 +3,7 @@ require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-classes.php' );
 require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-templatetags.php' );
 
 /* Include the sitewide blog posts widget if this is a multisite installation */
-if ( bp_core_is_multisite() )
+if ( is_multisite() )
 	require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-widgets.php' );
 
 function bp_blogs_setup_globals() {
@@ -43,7 +43,7 @@ function bp_blogs_setup_nav() {
 
 	/* Blog/post/comment menus should not appear on single WordPress setups. Although comments
 	   and posts made by users will still show on their activity stream .*/
-	if ( !bp_core_is_multisite() )
+	if ( !is_multisite() )
 		return false;
 
 	/* Add 'Blogs' to the main navigation */
@@ -71,7 +71,7 @@ add_action( 'bp_setup_nav', 'bp_blogs_setup_nav' );
 function bp_blogs_directory_blogs_setup() {
 	global $bp;
 
-	if ( bp_core_is_multisite() && $bp->current_component == $bp->blogs->slug && empty( $bp->current_action ) ) {
+	if ( is_multisite() && $bp->current_component == $bp->blogs->slug && empty( $bp->current_action ) ) {
 		$bp->is_directory = true;
 
 		do_action( 'bp_blogs_directory_blogs_setup' );
@@ -92,7 +92,7 @@ add_action( 'wp', 'bp_blogs_directory_blogs_setup', 2 );
 function bp_blogs_screen_my_blogs() {
 	global $bp;
 
-	if ( !bp_core_is_multisite() )
+	if ( !is_multisite() )
 		return false;
 
 	do_action( 'bp_blogs_screen_my_blogs' );
@@ -102,7 +102,7 @@ function bp_blogs_screen_my_blogs() {
 function bp_blogs_screen_create_a_blog() {
 	global $bp;
 
-	if ( !bp_core_is_multisite() || $bp->current_component != $bp->blogs->slug || 'create' != $bp->current_action )
+	if ( !is_multisite() || $bp->current_component != $bp->blogs->slug || 'create' != $bp->current_action )
 		return false;
 
 	if ( !is_user_logged_in() || !bp_blog_signup_enabled() )
@@ -357,7 +357,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 		return false;
 
 	if ( 'publish' == $post->post_status && '' == $post->post_password ) {
-		if ( (int)get_blog_option( $blog_id, 'blog_public' ) || !bp_core_is_multisite() ) {
+		if ( (int)get_blog_option( $blog_id, 'blog_public' ) || !is_multisite() ) {
 			/* Record this in activity streams */
 			$post_permalink = get_permalink( $post_id );
 
@@ -615,7 +615,7 @@ add_action( 'wp', 'bp_blogs_redirect_to_random_blog', 6 );
 function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = false ) {
 	global $wpdb, $bp;
 
-	if ( !is_numeric( $blog_id ) || !bp_core_is_multisite() )
+	if ( !is_numeric( $blog_id ) || !is_multisite() )
 		return false;
 
 	$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
@@ -643,7 +643,7 @@ function bp_blogs_get_blogmeta( $blog_id, $meta_key = '') {
 
 	$blog_id = (int) $blog_id;
 
-	if ( !$blog_id || !bp_core_is_multisite() )
+	if ( !$blog_id || !is_multisite() )
 		return false;
 
 	if ( !empty($meta_key) ) {
@@ -675,7 +675,7 @@ function bp_blogs_get_blogmeta( $blog_id, $meta_key = '') {
 function bp_blogs_update_blogmeta( $blog_id, $meta_key, $meta_value ) {
 	global $wpdb, $bp;
 
-	if ( !is_numeric( $blog_id ) || !bp_core_is_multisite() )
+	if ( !is_numeric( $blog_id ) || !is_multisite() )
 		return false;
 
 	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
@@ -705,7 +705,7 @@ function bp_blogs_update_blogmeta( $blog_id, $meta_key, $meta_value ) {
 }
 
 function bp_blogs_remove_data( $user_id ) {
-	if ( !bp_core_is_multisite() )
+	if ( !is_multisite() )
 		return false;
 
 	/* If this is regular blog, delete all data for that blog. */

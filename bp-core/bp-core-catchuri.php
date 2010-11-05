@@ -36,7 +36,7 @@ function bp_core_set_uri_globals() {
 	if ( empty( $bp_pages ) )
 		$bp_pages = bp_core_get_page_names();
 
-	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && bp_core_is_multisite() ) {
+	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() ) {
 		/* Only catch URI's on the root blog if we are not running BP on multiple blogs */
 		if ( BP_ROOT_BLOG != (int) $current_blog->blog_id )
 			return false;

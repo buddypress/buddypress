@@ -429,7 +429,7 @@ function bp_core_action_set_spammer_status() {
 		check_admin_referer( 'mark-unmark-spammer' );
 
 		/* Get the functions file */
-		if ( bp_core_is_multisite() )
+		if ( is_multisite() )
 			require_once( ABSPATH . 'wp-admin/includes/ms.php' );
 
 		if ( 'mark-spammer' == $bp->current_action )
@@ -453,7 +453,7 @@ function bp_core_action_set_spammer_status() {
 		}
 
 		/* Finally, mark this user as a spammer */
-		if ( bp_core_is_multisite() )
+		if ( is_multisite() )
 			$wpdb->update( $wpdb->users, array( 'spam' => $is_spam ), array( 'ID' => $bp->displayed_user->id ) );
 
 		$wpdb->update( $wpdb->users, array( 'user_status' => $is_spam ), array( 'ID' => $bp->displayed_user->id ) );
@@ -1235,7 +1235,7 @@ function bp_core_get_total_member_count() {
 function bp_core_is_user_spammer( $user_id ) {
 	global $wpdb;
 
-	if ( bp_core_is_multisite() )
+	if ( is_multisite() )
 		$is_spammer = (int) $wpdb->get_var( $wpdb->prepare( "SELECT spam FROM " . CUSTOM_USER_TABLE . " WHERE ID = %d", $user_id ) );
 	else
 		$is_spammer = (int) $wpdb->get_var( $wpdb->prepare( "SELECT user_status FROM " . CUSTOM_USER_TABLE . " WHERE ID = %d", $user_id ) );
@@ -1528,7 +1528,7 @@ function bp_core_get_all_posts_for_user( $user_id = null ) {
 function bp_core_get_site_path() {
 	global $bp, $current_site;
 
-	if ( bp_core_is_multisite() )
+	if ( is_multisite() )
 		$site_path = $current_site->path;
 	else {
 		$site_path = (array) explode( '/', site_url() );
@@ -1586,7 +1586,7 @@ function bp_core_get_site_options() {
 
 	$meta_keys = "'" . implode( "','", (array)$options ) ."'";
 
-	if ( bp_core_is_multisite() )
+	if ( is_multisite() )
 		$meta = $wpdb->get_results( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ({$meta_keys}) AND site_id = {$wpdb->siteid}" );
 	else
 		$meta = $wpdb->get_results( "SELECT option_name AS name, option_value AS value FROM {$wpdb->options} WHERE option_name IN ({$meta_keys})" );
@@ -1693,7 +1693,7 @@ function bp_core_delete_account( $user_id = false ) {
 		return false;
 
 	/* Specifically handle multi-site environment */
-	if ( bp_core_is_multisite() ) {
+	if ( is_multisite() ) {
 		if ( $wp_version >= '3.0' )
 			require_once( ABSPATH . '/wp-admin/includes/ms.php' );
 		else
@@ -1885,7 +1885,7 @@ function bp_core_boot_spammer( $auth_obj, $username ) {
 
 	$user = get_userdatabylogin( $username );
 
-	if ( ( bp_core_is_multisite() && (int)$user->spam ) || 1 == (int)$user->user_status )
+	if ( ( is_multisite() && (int)$user->spam ) || 1 == (int)$user->user_status )
 		bp_core_redirect( $bp->root_domain );
 	else
 		return $auth_obj;

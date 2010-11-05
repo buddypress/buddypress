@@ -158,7 +158,7 @@ function bp_forums_bbpress_install() {
 	$file .= "\n\n" . '$bb->uri = \'' . BP_PLUGIN_URL . '/bp-forums/bbpress/\';';
 	$file .= "\n" .   '$bb->name = \'' . get_blog_option( BP_ROOT_BLOG, 'name' ) . ' ' . __( 'Forums', 'buddypress' ) . '\';';
 
-	if ( bp_core_is_multisite() )
+	if ( is_multisite() )
 		$file .= "\n" .   '$bb->wordpress_mu_primary_blog_id = ' . BP_ROOT_BLOG . ';';
 
 	if ( defined( 'AUTH_SALT' ) )

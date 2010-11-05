@@ -236,7 +236,7 @@ class BP_Core_Setup_Wizard {
 			</div>
 
 
-			<?php if ( bp_core_is_multisite() ) : ?>
+			<?php if ( is_multisite() ) : ?>
 			<div class="component">
 				<h5><?php _e( "Blog Tracking", 'buddypress' ) ?></h5>
 
@@ -413,7 +413,7 @@ class BP_Core_Setup_Wizard {
 			</tr>
 			<?php endif; ?>
 
-			<?php if ( bp_core_is_multisite() && !isset( $disabled_components['bp-blogs.php'] ) ) : ?>
+			<?php if ( is_multisite() && !isset( $disabled_components['bp-blogs.php'] ) ) : ?>
 			<tr valign="top">
 				<th scope="row">
 					<h5><?php _e( 'Blogs', 'buddypress' ) ?></h5>
@@ -913,7 +913,7 @@ function bp_core_install( $disabled = false ) {
 		bp_core_install_extended_profiles();
 
 	/* Only install blog tables if this is a multisite installation */
-	if ( bp_core_is_multisite() && empty( $disabled['bp-blogs.php'] ) )
+	if ( is_multisite() && empty( $disabled['bp-blogs.php'] ) )
 		bp_core_install_blog_tracking();
 }
 
@@ -938,12 +938,12 @@ function bp_upgrade_db_stuff() {
 	}
 
 	// On first installation - record all existing blogs in the system.
-	if ( !(int)$bp->site_options['bp-blogs-first-install'] && bp_core_is_multisite() ) {
+	if ( !(int)$bp->site_options['bp-blogs-first-install'] && is_multisite() ) {
 		bp_blogs_record_existing_blogs();
 		add_site_option( 'bp-blogs-first-install', 1 );
 	}
 
-	if ( bp_core_is_multisite() )
+	if ( is_multisite() )
 		bp_core_add_illegal_names();
 
 	/* Upgrade and remove the message threads table if it exists */
