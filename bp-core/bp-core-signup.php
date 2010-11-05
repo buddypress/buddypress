@@ -199,7 +199,7 @@ function bp_core_screen_signup() {
 		else
 			bp_core_add_message( __( 'Your new avatar was uploaded successfully', 'buddypress' ) );
 	}
-	bp_core_load_template( 'registration/register' );
+	bp_core_load_template( apply_filters( 'bp_core_template_register', 'registration/register' ) );
 }
 add_action( 'wp', 'bp_core_screen_signup', 3 );
 
