@@ -17,7 +17,7 @@ class BP_Core_Members_Template {
 	var $pag_links;
 	var $total_member_count;
 
-	function bp_core_members_template( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras ) {
+	function bp_core_members_template( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude ) {
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['upage'] ) ? intval( $_REQUEST['upage'] ) : $page_number;
@@ -25,11 +25,11 @@ class BP_Core_Members_Template {
 		$this->type     = $type;
 
 		if ( isset( $_REQUEST['letter'] ) && '' != $_REQUEST['letter'] )
-			$this->members = BP_Core_User::get_users_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page, $populate_extras );
+			$this->members = BP_Core_User::get_users_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page, $populate_extras, $exclude );
 		else if ( false !== $include )
 			$this->members = BP_Core_User::get_specific_users( $include, $this->pag_num, $this->pag_page, $populate_extras );
 		else
-			$this->members = bp_core_get_users( array( 'type' => $this->type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'include' => $include, 'search_terms' => $search_terms, 'populate_extras' => $populate_extras ) );
+			$this->members = bp_core_get_users( array( 'type' => $this->type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'include' => $include, 'search_terms' => $search_terms, 'populate_extras' => $populate_extras, 'exclude' => $exclude ) );
 
 		if ( !$max || $max >= (int)$this->members['total'] )
 			$this->total_member_count = (int)$this->members['total'];
@@ -140,7 +140,8 @@ function bp_has_members( $args = '' ) {
 		'per_page' => 20,
 		'max' => false,
 
-		'include' => false, // Pass a user_id or comma separated list of user_ids to only show these users
+		'include' => false, // Pass a user_id or a list (comma-separated or array) of user_ids to only show these users
+		'exclude' => false, // Pass a user_id or a list (comma-separated or array) of user_ids to exclude these users
 
 		'user_id' => $user_id, // Pass a user_id to only show friends of this user
 		'search_terms' => $search_terms, // Pass search_terms to filter users by their profile data
@@ -160,7 +161,7 @@ function bp_has_members( $args = '' ) {
 	if ( empty( $include ) && $bp->friends->slug == $bp->current_component && 'requests' == $bp->current_action )
 		return false;
 
-	$members_template = new BP_Core_Members_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $include, (bool)$populate_extras );
+	$members_template = new BP_Core_Members_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $include, (bool)$populate_extras, $exclude );
 	return apply_filters( 'bp_has_members', $members_template->has_members(), &$members_template );
 }
 
