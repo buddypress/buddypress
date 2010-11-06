@@ -154,7 +154,7 @@ function bp_core_install_private_messaging() {
 
 	$charset_collate = bp_core_set_charset();
 
-	$sql[] = "CREATE TABLE {$wpdb->base_prefix}bp_messages (
+	$sql[] = "CREATE TABLE {$wpdb->base_prefix}bp_messages_messages (
 		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  		thread_id bigint(20) NOT NULL,
 		  		sender_id bigint(20) NOT NULL,
