@@ -39,6 +39,8 @@ To view %3$s's profile: %4$s
 	$message = apply_filters( 'friends_notification_new_request_message', $message, $initiator_name, $initiator_link, $all_requests_link );
 
 	wp_mail( $to, $subject, $message );
+	
+	do_action( 'bp_friends_sent_request_email', $friend_id, $subject, $message, $friendship_id, $initiator_id );
 }
 
 function friends_notification_accepted_request( $friendship_id, $initiator_id, $friend_id ) {
@@ -77,6 +79,8 @@ To view %2$s\'s profile: %3$s
 	$message = apply_filters( 'friends_notification_accepted_request_message', $message, $friend_name, $friend_link );
 
 	wp_mail( $to, $subject, $message );
+	
+	do_action( 'bp_friends_sent_accepted_email', $initator_id, $subject, $message, $friendship_id, $friend_id );
 }
 
 ?>

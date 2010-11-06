@@ -591,6 +591,8 @@ function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
 	$message = apply_filters( 'bp_core_activation_signup_user_notification_message', $message );
 
 	wp_mail( $to, $subject, $message, $message_headers );
+	
+	do_action( 'bp_core_sent_user_validation_email', $admin_email, $subject, $message, $user_id, $user_email, $key );
 }
 
 /* Stop user accounts logging in that have not been activated (user_status = 2) */

@@ -38,6 +38,8 @@ To view the group: %2$s
 
 		unset( $message, $to );
 	}
+	
+	do_action( 'bp_groups_sent_updated_email', $user_ids, $subject, $message, $group_id );
 }
 
 function groups_notification_new_membership_request( $requesting_user_id, $admin_id, $group_id, $membership_id ) {
@@ -84,6 +86,8 @@ To view %4$s\'s profile: %5$s
 	$message = apply_filters( 'groups_notification_new_membership_request_message', $message, &$group, $requesting_user_name, $profile_link, $group_requests );
 
 	wp_mail( $to, $subject, $message );
+	
+	do_action( 'bp_groups_sent_membership_request_email', $admin_id, $subject, $message, $requesting_user_id, $group_id, $membership_id );
 }
 
 function groups_notification_membership_request_completed( $requesting_user_id, $group_id, $accepted = true ) {
@@ -138,6 +142,8 @@ To submit another request please log in and visit: %2$s
 	$message = apply_filters( 'groups_notification_membership_request_completed_message', $message, &$group, $group_link  );
 
 	wp_mail( $to, $subject, $message );
+	
+	do_action( 'bp_groups_sent_membership_approved_email', $requesting_user_id, $subject, $message, $group_id );
 }
 
 function groups_notification_promoted_member( $user_id, $group_id ) {
@@ -184,6 +190,8 @@ To view the group please visit: %3$s
 	$message = apply_filters( 'groups_notification_promoted_member_message', $message, &$group, $promoted_to, $group_link );
 
 	wp_mail( $to, $subject, $message );
+	
+	do_action( 'bp_groups_sent_promoted_email', $user_id, $subject, $message, $group_id );
 }
 add_action( 'groups_promoted_member', 'groups_notification_promoted_member', 10, 2 );
 
@@ -237,6 +245,8 @@ To view %5$s\'s profile visit: %6$s
 
 		wp_mail( $to, $subject, $message );
 	}
+	
+	do_action( 'bp_groups_sent_invited_email', $invited_user_id, $subject, $message, $group );
 }
 
 function groups_at_message_notification( $content, $poster_user_id, $group_id, $activity_id ) {
@@ -296,6 +306,8 @@ To view and respond to the message, log in and visit: %4$s
 			wp_mail( $to, $subject, $message );
 		}
 	}
+	
+	do_action( 'bp_groups_sent_mention_email', $usernames, $subject, $message, $content, $poster_user_id, $group_id, $activity_id );
 }
 add_action( 'bp_groups_posted_update', 'groups_at_message_notification', 10, 4 );
 

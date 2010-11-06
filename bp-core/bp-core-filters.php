@@ -205,6 +205,8 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 	$message = apply_filters( 'bp_core_activation_signup_blog_notification_message', $message );
 
 	wp_mail( $to, $subject, $message, $message_headers );
+	
+	do_action( 'bp_core_sent_blog_signup_email', $admin_email, $subject, $message, $domain, $path, $title, $user, $user_email, $key, $meta );
 
 	// Return false to stop the original WPMU function from continuing
 	return false;
@@ -237,6 +239,8 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 	$message = apply_filters( 'bp_core_activation_signup_user_notification_message', $message );
 
 	wp_mail( $to, $subject, $message, $message_headers );
+
+	do_action( 'bp_core_sent_user_signup_email', $admin_email, $subject, $message, $user, $user_email, $key, $meta );
 
 	// Return false to stop the original WPMU function from continuing
 	return false;
