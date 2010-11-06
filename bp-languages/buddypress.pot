@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-11-04 13:13+0000\n"
+"POT-Creation-Date: 2010-11-06 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,14 +26,14 @@ msgstr ""
 msgid "Personal"
 msgstr ""
 
-#: bp-activity.php:43 bp-core/admin/bp-core-admin.php:221 bp-friends.php:115
+#: bp-activity.php:43 bp-core/admin/bp-core-admin.php:223 bp-friends.php:115
 msgid "Friends"
 msgstr ""
 
-#: bp-activity.php:46 bp-core/admin/bp-core-admin.php:230
-#: bp-core/admin/bp-core-upgrade.php:391 bp-core/bp-core-templatetags.php:1022
-#: bp-groups.php:926 bp-groups.php:1358 bp-groups.php:1371 bp-groups.php:1384
-#: bp-groups.php:1397 bp-groups/bp-groups-widgets.php:13
+#: bp-activity.php:46 bp-core/admin/bp-core-admin.php:232
+#: bp-core/admin/bp-core-upgrade.php:393 bp-core/bp-core-templatetags.php:1022
+#: bp-groups.php:929 bp-groups.php:1361 bp-groups.php:1374 bp-groups.php:1387
+#: bp-groups.php:1400 bp-groups/bp-groups-widgets.php:13
 msgid "Groups"
 msgstr ""
 
@@ -58,7 +58,7 @@ msgstr ""
 #: bp-core/admin/bp-core-admin.php:80 bp-core/admin/bp-core-admin.php:88
 #: bp-core/admin/bp-core-admin.php:95 bp-core/admin/bp-core-admin.php:102
 #: bp-core/admin/bp-core-admin.php:110 bp-core/admin/bp-core-admin.php:119
-#: bp-friends.php:116 bp-groups.php:927 bp-messages.php:173
+#: bp-friends.php:116 bp-groups.php:930 bp-messages.php:173
 #: bp-themes/bp-default/groups/single/admin.php:26
 #: bp-themes/bp-default/registration/register.php:196
 msgid "Yes"
@@ -68,7 +68,7 @@ msgstr ""
 #: bp-core/admin/bp-core-admin.php:81 bp-core/admin/bp-core-admin.php:89
 #: bp-core/admin/bp-core-admin.php:96 bp-core/admin/bp-core-admin.php:103
 #: bp-core/admin/bp-core-admin.php:111 bp-core/admin/bp-core-admin.php:120
-#: bp-friends.php:117 bp-groups.php:928 bp-messages.php:174
+#: bp-friends.php:117 bp-groups.php:931 bp-messages.php:174
 #: bp-themes/bp-default/groups/single/admin.php:27
 #: bp-themes/bp-default/registration/register.php:197
 msgid "No"
@@ -276,7 +276,7 @@ msgid "friends"
 msgstr ""
 
 #: bp-activity/bp-activity-templatetags.php:882
-#: bp-core/admin/bp-core-upgrade.php:320 bp-core/bp-core-classes.php:98
+#: bp-core/admin/bp-core-upgrade.php:322 bp-core/bp-core-classes.php:98
 msgid "groups"
 msgstr ""
 
@@ -285,7 +285,7 @@ msgid "status"
 msgstr ""
 
 #: bp-activity/bp-activity-templatetags.php:882
-#: bp-core/admin/bp-core-upgrade.php:335
+#: bp-core/admin/bp-core-upgrade.php:337
 msgid "blogs"
 msgstr ""
 
@@ -555,138 +555,148 @@ msgstr ""
 msgid "Max posts to show:"
 msgstr ""
 
-#: bp-core.php:287 bp-core.php:288 bp-core/admin/bp-core-admin.php:7
+#: bp-core.php:288 bp-core.php:289 bp-core/admin/bp-core-admin.php:7
 #: bp-core/admin/bp-core-upgrade.php:110
-#: bp-core/admin/bp-core-upgrade.php:1060
-#: bp-core/admin/bp-core-upgrade.php:1061
+#: bp-core/admin/bp-core-upgrade.php:1062
+#: bp-core/admin/bp-core-upgrade.php:1063
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core.php:294
+#: bp-core.php:295
 msgid "BuddyPress Dashboard"
 msgstr ""
 
-#: bp-core.php:294 bp-core/admin/bp-core-admin.php:8
+#: bp-core.php:295 bp-core/admin/bp-core-admin.php:8
 #: bp-core/bp-core-adminbar.php:128
 msgid "Dashboard"
 msgstr ""
 
-#: bp-core.php:295 bp-core/bp-core-settings.php:17 bp-groups.php:31
+#: bp-core.php:296 bp-core/bp-core-settings.php:17 bp-groups.php:31
 msgid "Settings"
 msgstr ""
 
-#: bp-core.php:348 bp-xprofile.php:93
+#: bp-core.php:349 bp-xprofile.php:93
 msgid "Profile"
 msgstr ""
 
-#: bp-core.php:359 bp-groups/bp-groups-templatetags.php:416 bp-xprofile.php:98
+#: bp-core.php:360 bp-groups/bp-groups-templatetags.php:416 bp-xprofile.php:98
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:369 bp-core/bp-core-templatetags.php:741
+#: bp-core.php:370 bp-core/bp-core-templatetags.php:741
 #: bp-themes/bp-default/activity/post-form.php:41 bp-xprofile.php:104
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:461
+#: bp-core.php:462
 msgid "User marked as spammer. Spam users are visible only to site admins."
 msgstr ""
 
-#: bp-core.php:463
+#: bp-core.php:464
 msgid "User removed as spammer."
 msgstr ""
 
-#: bp-core.php:497
+#: bp-core.php:498
 #, php-format
 msgid "%s has been deleted from the system."
 msgstr ""
 
-#: bp-core.php:499
+#: bp-core.php:500
 #, php-format
 msgid "There was an error deleting %s from the system. Please try again."
 msgstr ""
 
-#: bp-core.php:1373
+#: bp-core.php:1374
 msgid "year"
 msgstr ""
 
-#: bp-core.php:1373
+#: bp-core.php:1374
 msgid "years"
 msgstr ""
 
-#: bp-core.php:1374
+#: bp-core.php:1375
 msgid "month"
 msgstr ""
 
-#: bp-core.php:1374
+#: bp-core.php:1375
 msgid "months"
 msgstr ""
 
-#: bp-core.php:1375
+#: bp-core.php:1376
 msgid "week"
 msgstr ""
 
-#: bp-core.php:1375
+#: bp-core.php:1376
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:1376
+#: bp-core.php:1377
 msgid "day"
 msgstr ""
 
-#: bp-core.php:1376
+#: bp-core.php:1377
 msgid "days"
 msgstr ""
 
-#: bp-core.php:1377
+#: bp-core.php:1378
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:1377
+#: bp-core.php:1378
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:1378
+#: bp-core.php:1379
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:1378
+#: bp-core.php:1379
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:1379
+#: bp-core.php:1380
 msgid "second"
 msgstr ""
 
-#: bp-core.php:1379 bp-core.php:1431
+#: bp-core.php:1380 bp-core.php:1432
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1398
+#: bp-core.php:1399
 msgid "sometime"
 msgstr ""
 
-#: bp-core.php:1426
+#: bp-core.php:1427
 msgctxt "Separator in time since"
 msgid ","
 msgstr ""
 
-#: bp-core.php:1481
+#: bp-core.php:1482
 msgid "not recently active"
 msgstr ""
 
-#: bp-core.php:1951
+#: bp-core.php:1952
 msgid ""
 "IMPORTANT: <a href=\"http://codex.buddypress.org/getting-started/upgrading-"
 "from-10x/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core.php:1980
+#: bp-core.php:1981
 #, php-format
 msgid ""
 "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update "
 "your permalink structure</a> to something other than the default for it to "
 "work."
+msgstr ""
+
+#: bp-core.php:1990
+#, php-format
+msgid ""
+"<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a "
+"BuddyPress compatible theme</a> to take advantage of all of the features. "
+"We've bundled a default theme, but you can always <a href='%s'>install some "
+"other compatible themes</a> or <a href='%s'>upgrade your existing WordPress "
+"theme</a>."
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:52
@@ -755,7 +765,7 @@ msgstr ""
 msgid "MonsterID (Generated)"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:144 bp-core/admin/bp-core-admin.php:259
+#: bp-core/admin/bp-core-admin.php:144 bp-core/admin/bp-core-admin.php:261
 msgid "Save Settings"
 msgstr ""
 
@@ -782,22 +792,22 @@ msgid ""
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:196 bp-core/admin/bp-core-admin.php:205
-#: bp-core/admin/bp-core-admin.php:214 bp-core/admin/bp-core-admin.php:223
-#: bp-core/admin/bp-core-admin.php:232 bp-core/admin/bp-core-admin.php:241
-#: bp-core/admin/bp-core-admin.php:250 bp-core/admin/bp-core-upgrade.php:206
+#: bp-core/admin/bp-core-admin.php:216 bp-core/admin/bp-core-admin.php:225
+#: bp-core/admin/bp-core-admin.php:234 bp-core/admin/bp-core-admin.php:243
+#: bp-core/admin/bp-core-admin.php:252 bp-core/admin/bp-core-upgrade.php:206
 #: bp-core/admin/bp-core-upgrade.php:218 bp-core/admin/bp-core-upgrade.php:230
-#: bp-core/admin/bp-core-upgrade.php:244 bp-core/admin/bp-core-upgrade.php:260
-#: bp-core/admin/bp-core-upgrade.php:272 bp-core/admin/bp-core-upgrade.php:284
+#: bp-core/admin/bp-core-upgrade.php:244 bp-core/admin/bp-core-upgrade.php:262
+#: bp-core/admin/bp-core-upgrade.php:274 bp-core/admin/bp-core-upgrade.php:286
 msgid "Enabled"
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:197 bp-core/admin/bp-core-admin.php:206
-#: bp-core/admin/bp-core-admin.php:215 bp-core/admin/bp-core-admin.php:224
-#: bp-core/admin/bp-core-admin.php:233 bp-core/admin/bp-core-admin.php:242
-#: bp-core/admin/bp-core-admin.php:251 bp-core/admin/bp-core-upgrade.php:207
+#: bp-core/admin/bp-core-admin.php:217 bp-core/admin/bp-core-admin.php:226
+#: bp-core/admin/bp-core-admin.php:235 bp-core/admin/bp-core-admin.php:244
+#: bp-core/admin/bp-core-admin.php:253 bp-core/admin/bp-core-upgrade.php:207
 #: bp-core/admin/bp-core-upgrade.php:219 bp-core/admin/bp-core-upgrade.php:231
-#: bp-core/admin/bp-core-upgrade.php:245 bp-core/admin/bp-core-upgrade.php:261
-#: bp-core/admin/bp-core-upgrade.php:273 bp-core/admin/bp-core-upgrade.php:285
+#: bp-core/admin/bp-core-upgrade.php:245 bp-core/admin/bp-core-upgrade.php:263
+#: bp-core/admin/bp-core-upgrade.php:275 bp-core/admin/bp-core-upgrade.php:287
 msgid "Disabled"
 msgstr ""
 
@@ -811,39 +821,39 @@ msgid ""
 "installation."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:212
+#: bp-core/admin/bp-core-admin.php:214
 msgid "bbPress Forums"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:212
+#: bp-core/admin/bp-core-admin.php:214
 msgid ""
 "Activates bbPress forum support within BuddyPress groups or any other custom "
 "component."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:221
+#: bp-core/admin/bp-core-admin.php:223
 msgid "Allows the creation of friend connections between users."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:230
+#: bp-core/admin/bp-core-admin.php:232
 msgid "Let users create, join and participate in groups."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:239 bp-core/admin/bp-core-upgrade.php:227
+#: bp-core/admin/bp-core-admin.php:241 bp-core/admin/bp-core-upgrade.php:227
 msgid "Private Messaging"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:239
+#: bp-core/admin/bp-core-admin.php:241
 msgid ""
 "Let users send private messages to one another. Site admins can also send "
 "site-wide notices."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:248 bp-core/admin/bp-core-upgrade.php:257
+#: bp-core/admin/bp-core-admin.php:250 bp-core/admin/bp-core-upgrade.php:259
 msgid "Extended Profiles"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:248
+#: bp-core/admin/bp-core-admin.php:250
 msgid "Activates customizable profiles and avatars for site users."
 msgstr ""
 
@@ -866,7 +876,7 @@ msgstr ""
 
 #: bp-core/admin/bp-core-upgrade.php:53 bp-core/admin/bp-core-upgrade.php:70
 #: bp-core/admin/bp-core-upgrade.php:155
-#: bp-core/admin/bp-core-upgrade.php:1030
+#: bp-core/admin/bp-core-upgrade.php:1032
 #: bp-themes/bp-default/groups/create.php:239
 msgid "Finish"
 msgstr ""
@@ -876,12 +886,12 @@ msgid "Database Upgrade"
 msgstr ""
 
 #: bp-core/admin/bp-core-upgrade.php:113
-#: bp-core/admin/bp-core-upgrade.php:1056
+#: bp-core/admin/bp-core-upgrade.php:1058
 msgid "Upgrade"
 msgstr ""
 
 #: bp-core/admin/bp-core-upgrade.php:115
-#: bp-core/admin/bp-core-upgrade.php:1054
+#: bp-core/admin/bp-core-upgrade.php:1056
 msgid "Setup"
 msgstr ""
 
@@ -895,10 +905,10 @@ msgid ""
 "have to upgrade your database to the newest version."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:195 bp-core/admin/bp-core-upgrade.php:295
-#: bp-core/admin/bp-core-upgrade.php:349 bp-core/admin/bp-core-upgrade.php:451
-#: bp-core/admin/bp-core-upgrade.php:478 bp-core/admin/bp-core-upgrade.php:500
-#: bp-core/admin/bp-core-upgrade.php:536 bp-core/admin/bp-core-upgrade.php:613
+#: bp-core/admin/bp-core-upgrade.php:195 bp-core/admin/bp-core-upgrade.php:297
+#: bp-core/admin/bp-core-upgrade.php:351 bp-core/admin/bp-core-upgrade.php:453
+#: bp-core/admin/bp-core-upgrade.php:480 bp-core/admin/bp-core-upgrade.php:502
+#: bp-core/admin/bp-core-upgrade.php:538 bp-core/admin/bp-core-upgrade.php:615
 msgid "Save &amp; Next &rarr;"
 msgstr ""
 
@@ -940,64 +950,64 @@ msgid ""
 "Track new blogs, new posts and new comments across your entire blog network."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:265
+#: bp-core/admin/bp-core-upgrade.php:267
 msgid ""
 "Fully editable profile fields allow you to define the fields users can fill "
 "in to describe themselves. Tailor profile fields to suit your audience."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:269
+#: bp-core/admin/bp-core-upgrade.php:271
 msgid "Friend Connections"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:277
+#: bp-core/admin/bp-core-upgrade.php:279
 msgid ""
 "Let your users make connections so they can track the activity of others, or "
 "filter on only those users they care about the most."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:281
+#: bp-core/admin/bp-core-upgrade.php:283
 msgid "Discussion Forums"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:289
+#: bp-core/admin/bp-core-upgrade.php:291
 msgid ""
 "Full powered discussion forums built directly into groups allow for more "
 "conventional in-depth conversations. <strong>NOTE: This will require an "
 "extra (but easy) setup step.</strong>"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:315
+#: bp-core/admin/bp-core-upgrade.php:317
 msgid "members"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:325
+#: bp-core/admin/bp-core-upgrade.php:327
 msgid "activity"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:330
+#: bp-core/admin/bp-core-upgrade.php:332
 msgid "forums"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:340
+#: bp-core/admin/bp-core-upgrade.php:342
 msgid "register"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:345
+#: bp-core/admin/bp-core-upgrade.php:347
 msgid "activate"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:353
+#: bp-core/admin/bp-core-upgrade.php:355
 msgid "BuddyPress needs to use pages to display content and directories."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:355
+#: bp-core/admin/bp-core-upgrade.php:357
 msgid ""
 "New versions of BuddyPress use WordPress pages to display content. This "
 "allows you to easily change the names of pages or move them to a sub page."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:358
+#: bp-core/admin/bp-core-upgrade.php:360
 msgid ""
 "Please select the WordPress pages you would like to use to display these. "
 "You can either choose an existing page or let BuddyPress auto-create pages "
@@ -1005,99 +1015,99 @@ msgid ""
 "now, you can come back to this step once you are finished."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:360
+#: bp-core/admin/bp-core-upgrade.php:362
 msgid "Please Note:"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:360
+#: bp-core/admin/bp-core-upgrade.php:362
 msgid ""
 "If you have manually added BuddyPress navigation links in your theme you may "
 "need to remove these from your header.php to avoid duplicate links."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:366 bp-core/bp-core-templatetags.php:1019
+#: bp-core/admin/bp-core-upgrade.php:368 bp-core/bp-core-templatetags.php:1019
 #: bp-core/bp-core-widgets.php:15
 #: bp-themes/bp-default/groups/single/admin.php:174
 msgid "Members"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:367
+#: bp-core/admin/bp-core-upgrade.php:369
 msgid "Displays member profiles, and a directory of all site members."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:370 bp-core/admin/bp-core-upgrade.php:382
-#: bp-core/admin/bp-core-upgrade.php:395 bp-core/admin/bp-core-upgrade.php:408
-#: bp-core/admin/bp-core-upgrade.php:421 bp-core/admin/bp-core-upgrade.php:433
-#: bp-core/admin/bp-core-upgrade.php:444
+#: bp-core/admin/bp-core-upgrade.php:372 bp-core/admin/bp-core-upgrade.php:384
+#: bp-core/admin/bp-core-upgrade.php:397 bp-core/admin/bp-core-upgrade.php:410
+#: bp-core/admin/bp-core-upgrade.php:423 bp-core/admin/bp-core-upgrade.php:435
+#: bp-core/admin/bp-core-upgrade.php:446
 msgid "Use an existing page:"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:370 bp-core/admin/bp-core-upgrade.php:382
-#: bp-core/admin/bp-core-upgrade.php:395 bp-core/admin/bp-core-upgrade.php:408
-#: bp-core/admin/bp-core-upgrade.php:421 bp-core/admin/bp-core-upgrade.php:433
-#: bp-core/admin/bp-core-upgrade.php:444
+#: bp-core/admin/bp-core-upgrade.php:372 bp-core/admin/bp-core-upgrade.php:384
+#: bp-core/admin/bp-core-upgrade.php:397 bp-core/admin/bp-core-upgrade.php:410
+#: bp-core/admin/bp-core-upgrade.php:423 bp-core/admin/bp-core-upgrade.php:435
+#: bp-core/admin/bp-core-upgrade.php:446
 msgid "- Select -"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:371 bp-core/admin/bp-core-upgrade.php:383
-#: bp-core/admin/bp-core-upgrade.php:396 bp-core/admin/bp-core-upgrade.php:409
-#: bp-core/admin/bp-core-upgrade.php:422 bp-core/admin/bp-core-upgrade.php:434
-#: bp-core/admin/bp-core-upgrade.php:445
+#: bp-core/admin/bp-core-upgrade.php:373 bp-core/admin/bp-core-upgrade.php:385
+#: bp-core/admin/bp-core-upgrade.php:398 bp-core/admin/bp-core-upgrade.php:411
+#: bp-core/admin/bp-core-upgrade.php:424 bp-core/admin/bp-core-upgrade.php:436
+#: bp-core/admin/bp-core-upgrade.php:447
 msgid "Automatically create a page at:"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:378
+#: bp-core/admin/bp-core-upgrade.php:380
 #: bp-themes/bp-default/activity/index.php:7
 msgid "Site Activity"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:379
+#: bp-core/admin/bp-core-upgrade.php:381
 msgid ""
 "Displays the activity for the entire site, a member's friends, groups and "
 "@mentions."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:392 bp-core/admin/bp-core-upgrade.php:405
-#: bp-core/admin/bp-core-upgrade.php:418
+#: bp-core/admin/bp-core-upgrade.php:394 bp-core/admin/bp-core-upgrade.php:407
+#: bp-core/admin/bp-core-upgrade.php:420
 msgid "Displays individual groups as well as a directory of groups."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:404 bp-core/bp-core-templatetags.php:1025
+#: bp-core/admin/bp-core-upgrade.php:406 bp-core/bp-core-templatetags.php:1025
 #: bp-forums/bp-forums-admin.php:159
 msgid "Forums"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:417 bp-core/bp-core-templatetags.php:1028
+#: bp-core/admin/bp-core-upgrade.php:419 bp-core/bp-core-templatetags.php:1028
 msgid "Blogs"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:429
+#: bp-core/admin/bp-core-upgrade.php:431
 msgid "Register"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:430
+#: bp-core/admin/bp-core-upgrade.php:432
 msgid "Displays a site registration page where users can create new accounts."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:440
+#: bp-core/admin/bp-core-upgrade.php:442
 #: bp-messages/bp-messages-templatetags.php:465
 #: bp-themes/bp-default/registration/activate.php:40
 msgid "Activate"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:441
+#: bp-core/admin/bp-core-upgrade.php:443
 msgid ""
 "The page users will visit to activate their account once they have "
 "registered."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:481
+#: bp-core/admin/bp-core-upgrade.php:483
 msgid ""
 "To make sure the pages we created in the previous step work correctly, you "
 "will need to enable permalink support on your site."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:482
+#: bp-core/admin/bp-core-upgrade.php:484
 #, php-format
 msgid ""
 "Below are the basic permalink options, please select which permalink setting "
@@ -1106,19 +1116,19 @@ msgid ""
 "setup wizard."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:486
+#: bp-core/admin/bp-core-upgrade.php:488
 msgid "Day and name"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:490
+#: bp-core/admin/bp-core-upgrade.php:492
 msgid "Month and name"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:494
+#: bp-core/admin/bp-core-upgrade.php:496
 msgid "Numeric"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:539
+#: bp-core/admin/bp-core-upgrade.php:541
 msgid ""
 "BuddyPress introduces a whole range of new screens to display content. To "
 "display these screens you will need to decide how you want to handle them in "
@@ -1126,31 +1136,31 @@ msgid ""
 "option that best suits your demands and needs."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:544
+#: bp-core/admin/bp-core-upgrade.php:546
 msgid "Use the Default Theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:548
+#: bp-core/admin/bp-core-upgrade.php:550
 msgid ""
 "The default theme contains everything you need to get up and running out of "
 "the box. It supports all features and is highly customizable."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:549
+#: bp-core/admin/bp-core-upgrade.php:551
 msgid ""
 "This is the best choice if you do not have an existing WordPress theme or "
 "want to create a child theme from a solid starting point."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:550
+#: bp-core/admin/bp-core-upgrade.php:552
 msgid "Choose this option"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:569
+#: bp-core/admin/bp-core-upgrade.php:571
 msgid "Manually Upgrade My WordPress Theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:573
+#: bp-core/admin/bp-core-upgrade.php:575
 msgid ""
 "The BuddyPress template pack plugin will run you through the process of "
 "manually upgrading your existing WordPress theme. This usually involves "
@@ -1158,76 +1168,76 @@ msgid ""
 "files into your theme then tweaking the HTML to match."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:574
+#: bp-core/admin/bp-core-upgrade.php:576
 msgid ""
 "This is the best choice if you have an existing WordPress theme and want "
 "complete control over template layout and design."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:577
+#: bp-core/admin/bp-core-upgrade.php:579
 msgid ""
 "You must first install the BuddyPress template pack before choosing this "
 "option"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:578
+#: bp-core/admin/bp-core-upgrade.php:580
 msgid "Install Now"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:580
+#: bp-core/admin/bp-core-upgrade.php:582
 msgid ""
 "Choose this option (go to Appearance &rarr; BP Compatibility after setup is "
 "complete)"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:581
+#: bp-core/admin/bp-core-upgrade.php:583
 msgid "Plugin Installed"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:587
+#: bp-core/admin/bp-core-upgrade.php:589
 msgid "Find a BuddyPress Theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:591
+#: bp-core/admin/bp-core-upgrade.php:593
 msgid ""
 "There's growing number of BuddyPress themes available for you to download "
 "and use. Browse through the list of available themes to see if there is one "
 "that matches your needs."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:592
+#: bp-core/admin/bp-core-upgrade.php:594
 msgid ""
 "This is the best choice if want to use a theme other than the default and "
 "get started straight out of the box."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:595
+#: bp-core/admin/bp-core-upgrade.php:597
 msgid ""
 "You must first install at least one BuddyPress theme before choosing this "
 "option"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:596
+#: bp-core/admin/bp-core-upgrade.php:598
 msgid "Add Themes"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:599
+#: bp-core/admin/bp-core-upgrade.php:601
 msgid "Choose this option and use the theme:"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:633 bp-core/admin/bp-core-upgrade.php:651
+#: bp-core/admin/bp-core-upgrade.php:635 bp-core/admin/bp-core-upgrade.php:653
 msgid "Finish &amp; Activate &rarr;"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:637
+#: bp-core/admin/bp-core-upgrade.php:639
 msgid "setup"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:641
+#: bp-core/admin/bp-core-upgrade.php:643
 msgid "upgrade"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:647
+#: bp-core/admin/bp-core-upgrade.php:649
 #, php-format
 msgid ""
 "You've now completed all of the %s steps and BuddyPress is ready to be "
@@ -1235,11 +1245,11 @@ msgid ""
 "procedure."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:770
+#: bp-core/admin/bp-core-upgrade.php:772
 msgid "Oops, there was a problem creating a configuration file. "
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:774
+#: bp-core/admin/bp-core-upgrade.php:776
 msgid ""
 "If your <code>web.config</code> file were <a href=\"http://codex.wordpress."
 "org/Changing_File_Permissions\">writable</a>, we could do this "
@@ -1250,12 +1260,12 @@ msgid ""
 "rules&gt;</code> element in <code>web.config</code> file."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:777
+#: bp-core/admin/bp-core-upgrade.php:779
 msgid ""
 "Permalink structure updated. Remove write access on web.config file now!"
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:779
+#: bp-core/admin/bp-core-upgrade.php:781
 msgid ""
 "If your <code>.htaccess</code> file were <a href=\"http://codex.wordpress."
 "org/Changing_File_Permissions\">writable</a>, we could do this "
@@ -1264,14 +1274,14 @@ msgid ""
 "press <kbd>CTRL + a</kbd> to select all."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:786
+#: bp-core/admin/bp-core-upgrade.php:788
 msgid ""
 "Paste all these rules into a new <code>.htaccess</code> file in the root of "
 "your WordPress installation and save the file. Once you're done, please hit "
 "the \"Save and Next\" button to continue."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:1006
+#: bp-core/admin/bp-core-upgrade.php:1008
 msgid ""
 "Installation was successful. The available options have now been updated, "
 "please continue with your selection."
@@ -1421,39 +1431,39 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:25 bp-core/bp-core-settings.php:176
+#: bp-core/bp-core-settings.php:25 bp-core/bp-core-settings.php:186
 msgid "Delete Account"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:69
+#: bp-core/bp-core-settings.php:71
 msgid "General Settings"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:77 bp-core/bp-core-settings.php:138
+#: bp-core/bp-core-settings.php:79 bp-core/bp-core-settings.php:146
 msgid "Changes Saved."
 msgstr ""
 
-#: bp-core/bp-core-settings.php:83
+#: bp-core/bp-core-settings.php:85
 msgid "Your passwords did not match"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:88
+#: bp-core/bp-core-settings.php:90
 msgid "Account Email"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:91
+#: bp-core/bp-core-settings.php:93
 msgid "Change Password <span>(leave blank for no change)</span>"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:92
+#: bp-core/bp-core-settings.php:94
 msgid "New Password"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:93
+#: bp-core/bp-core-settings.php:95
 msgid "Repeat New Password"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:96 bp-core/bp-core-settings.php:149
+#: bp-core/bp-core-settings.php:100 bp-core/bp-core-settings.php:157
 #: bp-themes/bp-default/groups/single/admin.php:32
 #: bp-themes/bp-default/groups/single/admin.php:100
 #: bp-themes/bp-default/groups/single/forum/edit.php:34
@@ -1463,29 +1473,29 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:130
+#: bp-core/bp-core-settings.php:138
 msgid "Notification Settings"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:143
+#: bp-core/bp-core-settings.php:151
 msgid "Email Notifications"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:144
+#: bp-core/bp-core-settings.php:152
 msgid "Send a notification by email when:"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:185
+#: bp-core/bp-core-settings.php:195
 msgid ""
 "WARNING: Deleting your account will completely remove ALL content associated "
 "with it. There is no way back, please be careful with this option."
 msgstr ""
 
-#: bp-core/bp-core-settings.php:188
+#: bp-core/bp-core-settings.php:198
 msgid "I understand the consequences of deleting my account."
 msgstr ""
 
-#: bp-core/bp-core-settings.php:191
+#: bp-core/bp-core-settings.php:203
 msgid "Delete My Account"
 msgstr ""
 
@@ -1742,31 +1752,31 @@ msgstr ""
 msgid "There were no members found, please try another filter."
 msgstr ""
 
-#: bp-forums.php:50
+#: bp-forums.php:52
 msgid "The forums component has not been set up yet."
 msgstr ""
 
-#: bp-forums.php:70 bp-groups.php:480
+#: bp-forums.php:72 bp-groups.php:483
 msgid "Please provide a title for your forum topic."
 msgstr ""
 
-#: bp-forums.php:72 bp-groups.php:482
+#: bp-forums.php:74 bp-groups.php:485
 msgid "Forum posts cannot be empty. Please enter some text."
 msgstr ""
 
-#: bp-forums.php:79 bp-groups.php:489
+#: bp-forums.php:81 bp-groups.php:492
 msgid "There was an error when creating the topic"
 msgstr ""
 
-#: bp-forums.php:82 bp-groups.php:492
+#: bp-forums.php:84 bp-groups.php:495
 msgid "The topic was created successfully"
 msgstr ""
 
-#: bp-forums.php:90
+#: bp-forums.php:92
 msgid "Please pick the group forum where you would like to post this topic."
 msgstr ""
 
-#: bp-forums.php:111 bp-forums/bp-forums-admin.php:8
+#: bp-forums.php:113 bp-forums/bp-forums-admin.php:8
 msgid "Forums Setup"
 msgstr ""
 
@@ -2159,385 +2169,385 @@ msgstr ""
 msgid "Send Invites"
 msgstr ""
 
-#: bp-groups.php:176 bp-xprofile.php:134
+#: bp-groups.php:179 bp-xprofile.php:134
 msgid "Admin Options"
 msgstr ""
 
-#: bp-groups.php:179 bp-groups/bp-groups-templatetags.php:938
+#: bp-groups.php:182 bp-groups/bp-groups-templatetags.php:938
 #: bp-themes/bp-default/groups/single/admin.php:303
 #: bp-xprofile/bp-xprofile-admin.php:86
 msgid "Delete Group"
 msgstr ""
 
-#: bp-groups.php:224
+#: bp-groups.php:227
 msgid "Group invite could not be accepted"
 msgstr ""
 
-#: bp-groups.php:226
+#: bp-groups.php:229
 msgid "Group invite accepted"
 msgstr ""
 
-#: bp-groups.php:232 bp-groups.php:1722 bp-groups.php:2427
+#: bp-groups.php:235 bp-groups.php:1725 bp-groups.php:2430
 #, php-format
 msgid "%1$s joined the group %2$s"
 msgstr ""
 
-#: bp-groups.php:246
+#: bp-groups.php:249
 msgid "Group invite could not be rejected"
 msgstr ""
 
-#: bp-groups.php:248
+#: bp-groups.php:251
 msgid "Group invite rejected"
 msgstr ""
 
-#: bp-groups.php:302
+#: bp-groups.php:305
 msgid "There was an error when replying to that topic"
 msgstr ""
 
-#: bp-groups.php:304
+#: bp-groups.php:307
 msgid "Your reply was posted successfully"
 msgstr ""
 
-#: bp-groups.php:318
+#: bp-groups.php:321
 msgid "There was an error when making that topic a sticky"
 msgstr ""
 
-#: bp-groups.php:320
+#: bp-groups.php:323
 msgid "The topic was made sticky successfully"
 msgstr ""
 
-#: bp-groups.php:332
+#: bp-groups.php:335
 msgid "There was an error when unsticking that topic"
 msgstr ""
 
-#: bp-groups.php:334
+#: bp-groups.php:337
 msgid "The topic was unstuck successfully"
 msgstr ""
 
-#: bp-groups.php:346
+#: bp-groups.php:349
 msgid "There was an error when closing that topic"
 msgstr ""
 
-#: bp-groups.php:348
+#: bp-groups.php:351
 msgid "The topic was closed successfully"
 msgstr ""
 
-#: bp-groups.php:360
+#: bp-groups.php:363
 msgid "There was an error when opening that topic"
 msgstr ""
 
-#: bp-groups.php:362
+#: bp-groups.php:365
 msgid "The topic was opened successfully"
 msgstr ""
 
-#: bp-groups.php:381
+#: bp-groups.php:384
 msgid "There was an error deleting the topic"
 msgstr ""
 
-#: bp-groups.php:383
+#: bp-groups.php:386
 msgid "The topic was deleted successfully"
 msgstr ""
 
-#: bp-groups.php:403
+#: bp-groups.php:406
 msgid "There was an error when editing that topic"
 msgstr ""
 
-#: bp-groups.php:405
+#: bp-groups.php:408
 msgid "The topic was edited successfully"
 msgstr ""
 
-#: bp-groups.php:427
+#: bp-groups.php:430
 msgid "There was an error deleting that post"
 msgstr ""
 
-#: bp-groups.php:429
+#: bp-groups.php:432
 msgid "The post was deleted successfully"
 msgstr ""
 
-#: bp-groups.php:449
+#: bp-groups.php:452
 msgid "There was an error when editing that post"
 msgstr ""
 
-#: bp-groups.php:451
+#: bp-groups.php:454
 msgid "The post was edited successfully"
 msgstr ""
 
-#: bp-groups.php:532
+#: bp-groups.php:535
 msgid "Group invites sent."
 msgstr ""
 
-#: bp-groups.php:558
+#: bp-groups.php:561
 msgid ""
 "There was an error sending your group membership request, please try again."
 msgstr ""
 
-#: bp-groups.php:560
+#: bp-groups.php:563
 msgid ""
 "Your membership request was sent to the group administrator successfully. "
 "You will be notified when the group administrator responds to your request."
 msgstr ""
 
-#: bp-groups.php:609
+#: bp-groups.php:612
 msgid "There was an error updating group details, please try again."
 msgstr ""
 
-#: bp-groups.php:611
+#: bp-groups.php:614
 msgid "Group details were successfully updated."
 msgstr ""
 
-#: bp-groups.php:647
+#: bp-groups.php:650
 msgid "There was an error updating group settings, please try again."
 msgstr ""
 
-#: bp-groups.php:649
+#: bp-groups.php:652
 msgid "Group settings were successfully updated."
 msgstr ""
 
-#: bp-groups.php:679 bp-xprofile.php:354
+#: bp-groups.php:682 bp-xprofile.php:354
 msgid "Your avatar was deleted successfully!"
 msgstr ""
 
-#: bp-groups.php:681 bp-xprofile.php:356
+#: bp-groups.php:684 bp-xprofile.php:356
 msgid "There was a problem deleting that avatar, please try again."
 msgstr ""
 
-#: bp-groups.php:709
+#: bp-groups.php:712
 msgid "There was a problem cropping the avatar, please try uploading it again"
 msgstr ""
 
-#: bp-groups.php:711
+#: bp-groups.php:714
 msgid "The new group avatar was uploaded successfully!"
 msgstr ""
 
-#: bp-groups.php:740
+#: bp-groups.php:743
 msgid "There was an error when promoting that user, please try again"
 msgstr ""
 
-#: bp-groups.php:742
+#: bp-groups.php:745
 msgid "User promoted successfully"
 msgstr ""
 
-#: bp-groups.php:758
+#: bp-groups.php:761
 msgid "There was an error when demoting that user, please try again"
 msgstr ""
 
-#: bp-groups.php:760
+#: bp-groups.php:763
 msgid "User demoted successfully"
 msgstr ""
 
-#: bp-groups.php:776
+#: bp-groups.php:779
 msgid "There was an error when banning that user, please try again"
 msgstr ""
 
-#: bp-groups.php:778
+#: bp-groups.php:781
 msgid "User banned successfully"
 msgstr ""
 
-#: bp-groups.php:794
+#: bp-groups.php:797
 msgid "There was an error when unbanning that user, please try again"
 msgstr ""
 
-#: bp-groups.php:796
+#: bp-groups.php:799
 msgid "User ban removed successfully"
 msgstr ""
 
-#: bp-groups.php:812
+#: bp-groups.php:815
 msgid "There was an error removing that user from the group, please try again"
 msgstr ""
 
-#: bp-groups.php:814
+#: bp-groups.php:817
 msgid "User removed successfully"
 msgstr ""
 
-#: bp-groups.php:855
+#: bp-groups.php:858
 msgid "There was an error accepting the membership request, please try again."
 msgstr ""
 
-#: bp-groups.php:857
+#: bp-groups.php:860
 msgid "Group membership request accepted"
 msgstr ""
 
-#: bp-groups.php:867
+#: bp-groups.php:870
 msgid "There was an error rejecting the membership request, please try again."
 msgstr ""
 
-#: bp-groups.php:869
+#: bp-groups.php:872
 msgid "Group membership request rejected"
 msgstr ""
 
-#: bp-groups.php:901
+#: bp-groups.php:904
 msgid "There was an error deleting the group, please try again."
 msgstr ""
 
-#: bp-groups.php:903
+#: bp-groups.php:906
 msgid "The group was deleted successfully"
 msgstr ""
 
-#: bp-groups.php:935
+#: bp-groups.php:938
 msgid "A member invites you to join a group"
 msgstr ""
 
-#: bp-groups.php:941
+#: bp-groups.php:944
 msgid "Group information is updated"
 msgstr ""
 
-#: bp-groups.php:947
+#: bp-groups.php:950
 msgid "You are promoted to a group administrator or moderator"
 msgstr ""
 
-#: bp-groups.php:953
+#: bp-groups.php:956
 msgid "A member requests to join a private group for which you are an admin"
 msgstr ""
 
-#: bp-groups.php:1002
+#: bp-groups.php:1005
 msgid "There was an error saving group details. Please try again."
 msgstr ""
 
-#: bp-groups.php:1024
+#: bp-groups.php:1027
 msgid "Please fill in all of the required fields"
 msgstr ""
 
-#: bp-groups.php:1029 bp-groups.php:1056
+#: bp-groups.php:1032 bp-groups.php:1059
 msgid "There was an error saving group details, please try again."
 msgstr ""
 
-#: bp-groups.php:1087
+#: bp-groups.php:1090
 #, php-format
 msgid "%1$s created the group %2$s"
 msgstr ""
 
-#: bp-groups.php:1135
+#: bp-groups.php:1138
 msgid "There was an error saving the group avatar, please try uploading again."
 msgstr ""
 
-#: bp-groups.php:1137
+#: bp-groups.php:1140
 msgid "The group avatar was uploaded successfully!"
 msgstr ""
 
-#: bp-groups.php:1161 bp-groups.php:1168
+#: bp-groups.php:1164 bp-groups.php:1171
 msgid "There was an error joining the group."
 msgstr ""
 
-#: bp-groups.php:1170
+#: bp-groups.php:1173
 msgid "You joined the group!"
 msgstr ""
 
-#: bp-groups.php:1193
+#: bp-groups.php:1196
 msgid "There was an error leaving the group."
 msgstr ""
 
-#: bp-groups.php:1195 bp-groups.php:1680
+#: bp-groups.php:1198 bp-groups.php:1683
 msgid "You successfully left the group."
 msgstr ""
 
-#: bp-groups.php:1273
+#: bp-groups.php:1276
 msgid "Created a group"
 msgstr ""
 
-#: bp-groups.php:1274
+#: bp-groups.php:1277
 msgid "Joined a group"
 msgstr ""
 
-#: bp-groups.php:1275
+#: bp-groups.php:1278
 msgid "New group forum topic"
 msgstr ""
 
-#: bp-groups.php:1276
+#: bp-groups.php:1279
 msgid "New group forum post"
 msgstr ""
 
-#: bp-groups.php:1344
+#: bp-groups.php:1347
 msgid "Group Membership Requests"
 msgstr ""
 
-#: bp-groups.php:1344
+#: bp-groups.php:1347
 #, php-format
 msgid "%1$d new membership requests for the group \"%2$s\""
 msgstr ""
 
-#: bp-groups.php:1347
+#: bp-groups.php:1350
 #, php-format
 msgid "%s requests group membership"
 msgstr ""
 
-#: bp-groups.php:1347
+#: bp-groups.php:1350
 #, php-format
 msgid "%1$s requests membership for the group \"%2$s\""
 msgstr ""
 
-#: bp-groups.php:1358
+#: bp-groups.php:1361
 #, php-format
 msgid "%d accepted group membership requests"
 msgstr ""
 
-#: bp-groups.php:1360
+#: bp-groups.php:1363
 #, php-format
 msgid "Membership for group \"%s\" accepted"
 msgstr ""
 
-#: bp-groups.php:1371
+#: bp-groups.php:1374
 #, php-format
 msgid "%d rejected group membership requests"
 msgstr ""
 
-#: bp-groups.php:1373
+#: bp-groups.php:1376
 #, php-format
 msgid "Membership for group \"%s\" rejected"
 msgstr ""
 
-#: bp-groups.php:1384
+#: bp-groups.php:1387
 #, php-format
 msgid "You were promoted to an admin in %d groups"
 msgstr ""
 
-#: bp-groups.php:1386
+#: bp-groups.php:1389
 #, php-format
 msgid "You were promoted to an admin in the group %s"
 msgstr ""
 
-#: bp-groups.php:1397
+#: bp-groups.php:1400
 #, php-format
 msgid "You were promoted to a mod in %d groups"
 msgstr ""
 
-#: bp-groups.php:1399
+#: bp-groups.php:1402
 #, php-format
 msgid "You were promoted to a mod in the group %s"
 msgstr ""
 
-#: bp-groups.php:1410 bp-groups.php:1412
+#: bp-groups.php:1413 bp-groups.php:1415
 msgid "Group Invites"
 msgstr ""
 
-#: bp-groups.php:1410
+#: bp-groups.php:1413
 #, php-format
 msgid "You have %d new group invitations"
 msgstr ""
 
-#: bp-groups.php:1412
+#: bp-groups.php:1415
 #, php-format
 msgid "You have an invitation to the group: %s"
 msgstr ""
 
-#: bp-groups.php:1504 bp-groups/bp-groups-classes.php:736
+#: bp-groups.php:1507 bp-groups/bp-groups-classes.php:736
 msgid "Group Admin"
 msgstr ""
 
-#: bp-groups.php:1657
+#: bp-groups.php:1660
 msgid "As the only Admin, you cannot leave the group."
 msgstr ""
 
-#: bp-groups.php:1910
+#: bp-groups.php:1913
 #, php-format
 msgid "%1$s posted an update in the group %2$s:"
 msgstr ""
 
-#: bp-groups.php:1981 bp-groups.php:2086
+#: bp-groups.php:1984 bp-groups.php:2089
 #, php-format
 msgid "%1$s posted on the forum topic %2$s in the group %3$s:"
 msgstr ""
 
-#: bp-groups.php:2020 bp-groups.php:2052
+#: bp-groups.php:2023 bp-groups.php:2055
 #, php-format
 msgid "%1$s started the forum topic %2$s in the group %3$s:"
 msgstr ""
