@@ -59,7 +59,27 @@ function bp_dtheme_ajax_querystring( $query_string, $object ) {
 	/* Now pass the querystring to override default values. */
 	$query_string = empty( $qs ) ? '' : join( '&', (array)$qs );
 
-	return apply_filters( 'bp_dtheme_ajax_querystring', $query_string, $object, $_BP_COOKIE['bp-' . $object . '-filter'], $_BP_COOKIE['bp-' . $object . '-scope'], $_BP_COOKIE['bp-' . $object . '-page'], $_BP_COOKIE['bp-' . $object . '-search-terms'], $_BP_COOKIE['bp-' . $object . '-extras'] );
+	$object_filter = '';
+	if ( isset( $_BP_COOKIE['bp-' . $object . '-filter'] ) )
+		$object_filter = $_BP_COOKIE['bp-' . $object . '-filter'];
+
+	$object_scope = '';
+	if ( isset( $_BP_COOKIE['bp-' . $object . '-scope'] ) )
+		$object_scope = $_BP_COOKIE['bp-' . $object . '-scope'];
+
+	$object_page = '';
+	if ( isset( $_BP_COOKIE['bp-' . $object . '-page'] ) )
+		$object_page = $_BP_COOKIE['bp-' . $object . '-page'];
+
+	$object_search_terms = '';
+	if ( isset( $_BP_COOKIE['bp-' . $object . '-search-terms'] ) )
+		$object_search_terms = $_BP_COOKIE['bp-' . $object . '-search-terms'];
+
+	$object_extras = '';
+	if ( isset( $_BP_COOKIE['bp-' . $object . '-extras'] ) )
+		$object_extras = $_BP_COOKIE['bp-' . $object . '-extras'];
+
+	return apply_filters( 'bp_dtheme_ajax_querystring', $query_string, $object, $object_filter, $object_scope, $object_page, $object_search_terms, $object_extras );
 }
 add_filter( 'bp_ajax_querystring', 'bp_dtheme_ajax_querystring', 10, 2 );
 

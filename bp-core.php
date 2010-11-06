@@ -1340,7 +1340,7 @@ add_action( 'wp', 'bp_core_setup_message', 2 );
 function bp_core_render_message() {
 	global $bp;
 
-	if ( $bp->template_message ) {
+	if ( isset( $bp->template_message ) && $bp->template_message ) {
 		$type = ( 'success' == $bp->template_message_type ) ? 'updated' : 'error';
 	?>
 		<div id="message" class="<?php echo $type; ?>">
@@ -1936,7 +1936,7 @@ add_action ( 'bp_loaded', 'bp_core_load_buddypress_textdomain', 2 );
 
 function bp_core_add_ajax_hook() {
 	/* Theme only, we already have the wp_ajax_ hook firing in wp-admin */
-	if ( !defined( 'WP_ADMIN' ) )
+	if ( !defined( 'WP_ADMIN' ) && isset( $_REQUEST['action'] ) )
 		do_action( 'wp_ajax_' . $_REQUEST['action'] );
 }
 add_action( 'init', 'bp_core_add_ajax_hook' );

@@ -33,9 +33,12 @@ $params = array(
 	'show_all_comments' => __( 'Show all comments for this thread', 'buddypress' ),
 	'show_all'          => __( 'Show all', 'buddypress' ),
 	'comments'          => __( 'comments', 'buddypress' ),
-	'close'             => __( 'Close', 'buddypress' ),
-	'mention_explain'   => sprintf( __( "%s is a unique identifier for %s that you can type into any message on this site. %s will be sent a notification and a link to your message any time you use it.", 'buddypress' ), '@' . bp_get_displayed_user_username(), bp_get_user_firstname( bp_get_displayed_user_fullname() ), bp_get_user_firstname( bp_get_displayed_user_fullname() ) )
+	'close'             => __( 'Close', 'buddypress' )
 );
+
+if ( bp_is_profile_component() && !bp_is_directory() )
+	$params['mention_explain'] = sprintf( __( "%s is a unique identifier for %s that you can type into any message on this site. %s will be sent a notification and a link to your message any time you use it.", 'buddypress' ), '@' . bp_get_displayed_user_username(), bp_get_user_firstname( bp_get_displayed_user_fullname() ), bp_get_user_firstname( bp_get_displayed_user_fullname() ) );
+
 wp_localize_script( 'dtheme-ajax-js', 'BP_DTheme', $params );
 
 /**

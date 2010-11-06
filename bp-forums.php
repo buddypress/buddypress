@@ -35,7 +35,7 @@ add_action( 'bp_setup_globals', 'bp_forums_setup' );
 function bp_forums_is_installed_correctly() {
 	global $bp;
 
-	if ( file_exists( $bp->forums->bbconfig ) )
+	if ( isset( $bp->forums->bbconfig ) && file_exists( $bp->forums->bbconfig ) )
 		return true;
 
 	return false;

@@ -641,7 +641,7 @@ function bp_activity_comments( $args = '' ) {
 	function bp_activity_get_comments( $args = '' ) {
 		global $activities_template, $bp;
 
-		if ( !$activities_template->activity->children )
+		if ( !isset( $activities_template->activity->children ) || !$activities_template->activity->children )
 			return false;
 
 		$comments_html = bp_activity_recurse_comments( $activities_template->activity );
@@ -689,7 +689,7 @@ function bp_activity_comment_count() {
 	function bp_activity_get_comment_count( $args = '' ) {
 		global $activities_template, $bp;
 
-		if ( !$activities_template->activity->children )
+		if ( !isset( $activities_template->activity->children ) || !$activities_template->activity->children )
 			return 0;
 
 		$count = bp_activity_recurse_comment_count( $activities_template->activity );
@@ -723,7 +723,7 @@ function bp_activity_comment_form_nojs_display() {
 }
 	function bp_get_activity_comment_form_nojs_display() {
 		global $activities_template;
-		if ( $_GET['ac'] == $activities_template->activity->id . '/' )
+		if ( isset( $_GET['ac'] ) && $_GET['ac'] == $activities_template->activity->id . '/' )
 			return 'style="display: block"';
 
 		return false;
@@ -931,7 +931,7 @@ function bp_send_public_message_link() {
 		if ( bp_is_my_profile() || !is_user_logged_in() )
 			return false;
 
-		return apply_filters( 'bp_get_send_public_message_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->activity->slug . '/?r=' . bp_core_get_username( $bp->displayed_user->user_id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) ) );
+		return apply_filters( 'bp_get_send_public_message_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->activity->slug . '/?r=' . bp_core_get_username( $bp->displayed_user->id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) ) );
 	}
 
 /**

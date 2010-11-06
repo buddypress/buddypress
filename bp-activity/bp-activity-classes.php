@@ -178,6 +178,7 @@ Class BP_Activity_Activity {
 		if ( empty( $activity_ids ) )
 			return false;
 
+		$pag_sql = '';
 		if ( $per_page && $page )
 			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
 
@@ -336,6 +337,8 @@ Class BP_Activity_Activity {
 	function append_comments( $activities ) {
 		global $bp, $wpdb;
 
+		$activity_comments = array();
+
 		/* Now fetch the activity comments and parse them into the correct position in the activities array. */
 		foreach( (array)$activities as $activity ) {
 			if ( 'activity_comment' != $activity->type && $activity->mptt_left && $activity->mptt_right )
@@ -344,7 +347,8 @@ Class BP_Activity_Activity {
 
 		/* Merge the comments with the activity items */
 		foreach( (array)$activities as $key => $activity )
-			$activities[$key]->children = $activity_comments[$activity->id];
+			if ( isset( $activity_comments[$activity->id] ) )
+				$activities[$key]->children = $activity_comments[$activity->id];
 
 		return $activities;
 	}

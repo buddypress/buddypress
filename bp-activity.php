@@ -246,8 +246,9 @@ function bp_activity_action_permalink_router() {
 			if ( $group = groups_get_group( array( 'group_id' => $activity->item_id ) ) )
 				$redirect = bp_get_group_permalink( $group ) . $bp->activity->slug . '/' . $activity->id . '/';
 		}
-	} else
+	} else {
 		$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . $bp->activity->slug . '/' . $activity->id;
+	}
 
 	$redirect = apply_filters( 'bp_activity_permalink_redirect_url', $redirect, &$activity );
 

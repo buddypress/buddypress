@@ -147,13 +147,14 @@ function bp_has_groups( $args = '' ) {
 
 	/* Type */
 	if ( 'my-groups' == $bp->current_action ) {
-		if ( 'most-popular' == $order )
+		if ( 'most-popular' == $order ) {
 			$type = 'popular';
-		else if ( 'alphabetically' == $order )
+		} elseif ( 'alphabetically' == $order ) {
 			$type = 'alphabetical';
-	} else if ( 'invites' == $bp->current_action ) {
+		}
+	} elseif ( 'invites' == $bp->current_action ) {
 		$type = 'invites';
-	} else if ( $bp->groups->current_group->slug ) {
+	} elseif ( isset( $bp->groups->current_group->slug ) && $bp->groups->current_group->slug ) {
 		$type = 'single-group';
 		$slug = $bp->groups->current_group->slug;
 	}

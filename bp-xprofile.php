@@ -18,6 +18,9 @@ require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-cssjs.php' );
 function xprofile_setup_globals() {
 	global $bp, $wpdb;
 
+	if ( isset( $bp->profile->id ) )
+		return;
+
 	if ( !defined( 'BP_XPROFILE_SLUG' ) )
 		define ( 'BP_XPROFILE_SLUG', 'profile' );
 
@@ -599,6 +602,10 @@ function xprofile_delete_field( $field_id ) {
  */
 function xprofile_get_field_data( $field, $user_id = null ) {
 	global $bp;
+
+	// This is required because of a call to bp_core_get_user_displayname() in bp_core_setup_globals()
+	if ( !isset( $bp->profile->id ) )
+		xprofile_setup_globals();
 
 	if ( !$user_id )
 		$user_id = $bp->displayed_user->id;

@@ -1307,8 +1307,10 @@ function bp_get_option( $option_name ) {
 function bp_ajax_querystring( $object = false ) {
 	global $bp;
 
-	$bp->ajax_querystring = apply_filters( 'bp_ajax_querystring', $query_string, $object );
-	return $bp->ajax_querystring;
+	if ( !isset( $bp->ajax_querystring ) )
+		$bp->ajax_querystring = '';
+
+	return apply_filters( 'bp_ajax_querystring', $bp->ajax_querystring, $object );
 }
 
 
@@ -1649,7 +1651,7 @@ function bp_is_activity_permalink() {
 function bp_is_user_profile() {
 	global $bp;
 
-	if ( BP_XPROFILE_SLUG == $bp->current_component || $bp->core->profile->slug == $bp->current_component )
+	if ( defined( 'BP_XPROFILE_SLUG' ) && BP_XPROFILE_SLUG == $bp->current_component || isset( $bp->core->profile->slug ) && $bp->core->profile->slug == $bp->current_component )
 		return true;
 
 	return false;
@@ -1685,7 +1687,7 @@ function bp_is_user_groups() {
 function bp_is_group() {
 	global $bp;
 
-	if ( BP_GROUPS_SLUG == $bp->current_component && $bp->groups->current_group )
+	if ( BP_GROUPS_SLUG == $bp->current_component && isset( $bp->groups->current_group ) && $bp->groups->current_group )
 		return true;
 
 	return false;

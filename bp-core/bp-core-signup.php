@@ -613,7 +613,11 @@ add_filter( 'authenticate', 'bp_core_signup_disable_inactive', 11, 2 );
 
 /* Kill the wp-signup.php if custom registration signup templates are present */
 function bp_core_wpsignup_redirect() {
-	if ( false === strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php') && $_GET['action'] != 'register' )
+	$action = '';
+	if ( isset( $_GET['action'] ) )
+		$action = $_GET['action'];
+
+	if ( false === strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php' ) && $action != 'register' )
 		return false;
 
 	if ( locate_template( array( 'registration/register.php' ), false ) || locate_template( array( 'register.php' ), false ) )
