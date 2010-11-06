@@ -10,7 +10,7 @@ function messages_setup_globals() {
 	if ( !defined( 'BP_MESSAGES_SLUG' ) )
 		define ( 'BP_MESSAGES_SLUG', 'messages' );
 
-	/* For internal identification */
+	// For internal identification
 	$bp->messages->id = 'messages';
 
 	$bp->messages->slug = BP_MESSAGES_SLUG;
@@ -19,8 +19,11 @@ function messages_setup_globals() {
 	$bp->messages->table_name_recipients 	= $bp->table_prefix . 'bp_messages_recipients';
 	$bp->messages->format_notification_function = 'messages_format_notifications';
 
-	/* Register this in the active components array */
+	// Register this in the active components array
 	$bp->active_components[$bp->messages->slug] = $bp->messages->id;
+
+	// Include all members in the To: autocomplete?
+	$bp->messages->autocomplete_all = defined( 'BP_MESSAGES_AUTOCOMPLETE_ALL' ) ? true : false;
 
 	do_action( 'messages_setup_globals' );
 }
