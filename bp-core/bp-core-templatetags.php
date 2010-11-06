@@ -1479,10 +1479,10 @@ function bp_root_domain() {
 function bp_is_blog_page() {
 	global $bp, $is_member_page, $wp_query;
 
-	if ( $wp_query->is_home && !$bp->is_directory )
+	if ( $wp_query->is_home && ( !isset( $bp->is_directory ) || !$bp->is_directory ) )
 		return true;
 
-	if ( !$bp->displayed_user->id && !$bp->is_single_item && !$bp->is_directory && !bp_core_is_root_component( $bp->current_component ) )
+	if ( !$bp->displayed_user->id && !$bp->is_single_item && ( !isset( $bp->is_directory ) || !$bp->is_directory ) && !bp_core_is_root_component( $bp->current_component ) )
 		return true;
 
 	return false;
@@ -1523,7 +1523,7 @@ function bp_is_activity_front_page() {
 function bp_is_directory() {
 	global $bp;
 
-	return $bp->is_directory;
+	return ( isset( $bp->is_directory ) && $bp->is_directory );
 }
 
 function bp_is_page($page) {
@@ -1803,7 +1803,7 @@ function bp_is_group_single() {
 function bp_is_user_blogs() {
 	global $bp;
 
-	if ( $bp->blogs->slug == $bp->current_component )
+	if ( is_multisite() && BP_BLOGS_SLUG == $bp->current_component )
 		return true;
 
 	return false;
@@ -1812,7 +1812,7 @@ function bp_is_user_blogs() {
 function bp_is_user_recent_posts() {
 	global $bp;
 
-	if ( $bp->blogs->slug == $bp->current_component && 'recent-posts' == $bp->current_action )
+	if ( is_multisite() && BP_BLOGS_SLUG == $bp->current_component && 'recent-posts' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1821,7 +1821,7 @@ function bp_is_user_recent_posts() {
 function bp_is_user_recent_commments() {
 	global $bp;
 
-	if ( $bp->blogs->slug == $bp->current_component && 'recent-comments' == $bp->current_action )
+	if ( is_multisite() && BP_BLOGS_SLUG == $bp->current_component && 'recent-comments' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1830,7 +1830,7 @@ function bp_is_user_recent_commments() {
 function bp_is_create_blog() {
 	global $bp;
 
-	if ( BP_BLOGS_SLUG == $bp->current_component && 'create' == $bp->current_action )
+	if ( is_multisite() && BP_BLOGS_SLUG == $bp->current_component && 'create' == $bp->current_action )
 		return true;
 
 	return false;

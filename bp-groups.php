@@ -146,7 +146,10 @@ function groups_setup_nav() {
 		}
 	}
 
-	do_action( 'groups_setup_nav', $bp->groups->current_group->user_has_access );
+	if ( isset( $bp->groups->current_group->user_has_access ) )
+		do_action( 'groups_setup_nav', $bp->groups->current_group->user_has_access );
+	else
+		do_action( 'groups_setup_nav');
 }
 add_action( 'bp_setup_nav', 'groups_setup_nav' );
 
