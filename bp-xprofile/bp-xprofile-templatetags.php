@@ -410,7 +410,7 @@ function bp_the_profile_field_options( $args = '' ) {
 							$option_value = $_POST['field_' . $field->id];
 					}
 
-					if ( $option_value == $options[$k]->name || $value == $options[$k]->name || $options[$k]->is_default_option ) {
+					if ( $option_value == $options[$k]->name || $value == $options[$k]->name || ( empty( $option_value ) && $options[$k]->is_default_option ) ) {
 						$selected = ' checked="checked"';
 					} else {
 						$selected = '';
