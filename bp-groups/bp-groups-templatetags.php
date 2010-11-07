@@ -1280,13 +1280,13 @@ class BP_Groups_Group_Members_Template {
 	var $pag_links;
 	var $total_group_count;
 
-	function bp_groups_group_members_template( $group_id, $per_page, $max, $exclude_admins_mods, $exclude_banned ) {
+	function bp_groups_group_members_template( $group_id, $per_page, $max, $exclude_admins_mods, $exclude_banned, $exclude ) {
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['mlpage'] ) ? intval( $_REQUEST['mlpage'] ) : 1;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
-		$this->members = BP_Groups_Member::get_all_for_group( $group_id, $this->pag_num, $this->pag_page, $exclude_admins_mods, $exclude_banned );
+		$this->members = BP_Groups_Member::get_all_for_group( $group_id, $this->pag_num, $this->pag_page, $exclude_admins_mods, $exclude_banned, $exclude );
 
 		if ( !$max || $max >= (int)$this->members['count'] )
 			$this->total_member_count = (int)$this->members['count'];
@@ -1367,6 +1367,7 @@ function bp_group_has_members( $args = '' ) {
 		'group_id' => $bp->groups->current_group->id,
 		'per_page' => 20,
 		'max' => false,
+		'exclude' => false,
 		'exclude_admins_mods' => 1,
 		'exclude_banned' => 1
 	);
@@ -1374,7 +1375,7 @@ function bp_group_has_members( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	$members_template = new BP_Groups_Group_Members_Template( $group_id, $per_page, $max, (int)$exclude_admins_mods, (int)$exclude_banned );
+	$members_template = new BP_Groups_Group_Members_Template( $group_id, $per_page, $max, (int)$exclude_admins_mods, (int)$exclude_banned, $exclude );
 	return apply_filters( 'bp_group_has_members', $members_template->has_members(), &$members_template );
 }
 

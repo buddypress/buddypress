@@ -997,22 +997,25 @@ Class BP_Groups_Member {
 		return $wpdb->get_col( $wpdb->prepare( "SELECT user_id FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 0 AND inviter_id = 0", $group_id ) );
 	}
 
-	function get_all_for_group( $group_id, $limit = false, $page = false, $exclude_admins_mods = true, $exclude_banned = true ) {
+	function get_all_for_group( $group_id, $limit = false, $page = false, $exclude_admins_mods = true, $exclude_banned = true, $exclude = false ) {
 		global $bp, $wpdb;
 
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		if ( $exclude_admins_mods )
-			$exclude_sql = $wpdb->prepare( "AND is_admin = 0 AND is_mod = 0" );
+			$exclude_admins_sql = $wpdb->prepare( "AND is_admin = 0 AND is_mod = 0" );
 
 		if ( $exclude_banned )
 			$banned_sql = $wpdb->prepare( " AND is_banned = 0" );
 
+		if ( $exclude )
+			$exclude_sql = $wpdb->prepare( " AND m.user_id NOT IN ({$exclude})" );
+
 		if ( bp_is_active( 'xprofile' ) )
-			$members = $wpdb->get_results( $wpdb->prepare( "SELECT m.user_id, m.date_modified, m.is_banned, u.user_login, u.user_nicename, u.user_email, pd.value as display_name FROM {$bp->groups->table_name_members} m, {$wpdb->users} u, {$bp->profile->table_name_data} pd WHERE u.ID = m.user_id AND u.ID = pd.user_id AND pd.field_id = 1 AND group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_sql} ORDER BY m.date_modified DESC {$pag_sql}", $group_id ) );
+			$members = $wpdb->get_results( $wpdb->prepare( "SELECT m.user_id, m.date_modified, m.is_banned, u.user_login, u.user_nicename, u.user_email, pd.value as display_name FROM {$bp->groups->table_name_members} m, {$wpdb->users} u, {$bp->profile->table_name_data} pd WHERE u.ID = m.user_id AND u.ID = pd.user_id AND pd.field_id = 1 AND group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_admins_sql} {$exclude_sql} ORDER BY m.date_modified DESC {$pag_sql}", $group_id ) );
 		else
-			$members = $wpdb->get_results( $wpdb->prepare( "SELECT m.user_id, m.date_modified, m.is_banned, u.user_login, u.user_nicename, u.user_email, u.display_name FROM {$bp->groups->table_name_members} m, {$wpdb->users} u WHERE u.ID = m.user_id AND group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_sql} ORDER BY m.date_modified DESC {$pag_sql}", $group_id ) );
+			$members = $wpdb->get_results( $wpdb->prepare( "SELECT m.user_id, m.date_modified, m.is_banned, u.user_login, u.user_nicename, u.user_email, u.display_name FROM {$bp->groups->table_name_members} m, {$wpdb->users} u WHERE u.ID = m.user_id AND group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_admins_sql} {$exclude_sql} ORDER BY m.date_modified DESC {$pag_sql}", $group_id ) );
 
 		if ( !$members )
 			return false;
@@ -1020,7 +1023,7 @@ Class BP_Groups_Member {
 		if ( !isset($pag_sql) )
 			$total_member_count = count($members);
 		else
-			$total_member_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(user_id) FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_sql}", $group_id ) );
+			$total_member_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(user_id) FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_admins_sql} {$exclude_sql}", $group_id ) );
 
 		/* Fetch whether or not the user is a friend */
 		foreach ( (array)$members as $user ) $user_ids[] = $user->user_id;
