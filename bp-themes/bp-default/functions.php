@@ -360,7 +360,7 @@ function bp_dtheme_main_nav( $args ) {
 			<a href="<?php echo site_url() ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a>
 		</li>
 
-		<?php wp_list_pages( 'title_li=&depth=1&exclude=' . bp_dtheme_page_on_front() ); ?>
+		<?php wp_list_pages( 'title_li=&depth=0&exclude=' . bp_dtheme_page_on_front() ); ?>
 		<?php do_action( 'bp_nav_items' ); ?>
 	</ul><!-- #nav -->
 <?php

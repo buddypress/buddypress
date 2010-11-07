@@ -1024,12 +1024,12 @@ jq(document).ready( function() {
 		return false;
 	});
 
-	/* Admin Bar Javascript */
-	jq("#wp-admin-bar ul.main-nav li").mouseover( function() {
+	/* Admin Bar & wp_list_pages Javascript IE6 hover class */
+	jq("#wp-admin-bar ul.main-nav li, #nav li.page_item ").mouseover( function() {
 		jq(this).addClass('sfhover');
 	});
 
-	jq("#wp-admin-bar ul.main-nav li").mouseout( function() {
+	jq("#wp-admin-bar ul.main-nav li, #nav li.page_item ").mouseout( function() {
 		jq(this).removeClass('sfhover');
 	});
 
