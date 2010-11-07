@@ -14,6 +14,8 @@ function bp_core_screen_signup() {
 	if ( $bp->current_component != BP_REGISTER_SLUG )
 		return false;
 
+	$bp->is_directory = false;
+
 	/* If the user is logged in, redirect away from here */
 	if ( is_user_logged_in() )
 		bp_core_redirect( $bp->root_domain );
@@ -286,7 +288,32 @@ function bp_core_illegal_names( $value = '', $oldvalue = '' ) {
 		$db_illegal_names = implode( ' ', $names );
 
 	// Add our slugs to the array and allow them to be filtered
-	$filtered_illegal_names = apply_filters( 'bp_core_illegal_usernames', array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', BP_GROUPS_SLUG, BP_MEMBERS_SLUG, BP_FORUMS_SLUG, BP_BLOGS_SLUG, BP_ACTIVITY_SLUG, BP_XPROFILE_SLUG, BP_FRIENDS_SLUG, BP_SEARCH_SLUG, BP_SETTINGS_SLUG, BP_REGISTER_SLUG, BP_ACTIVATION_SLUG ) );
+	$filtered_illegal_names = array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator' );
+
+	if ( bp_is_active( 'activity' ) )
+		$filtered_illegal_names[] = BP_ACTIVITY_SLUG;
+
+	if ( is_multisite() && bp_is_active( 'blogs' ) )
+		$filtered_illegal_names[] = BP_BLOGS_SLUG;
+
+	if ( bp_is_active( 'forums' ) )
+		$filtered_illegal_names[] = BP_FORUMS_SLUG;
+
+	if ( bp_is_active( 'friends' ) )
+		$filtered_illegal_names[] = BP_FRIENDS_SLUG;
+
+	if ( bp_is_active( 'groups' ) )
+		$filtered_illegal_names[] = BP_GROUPS_SLUG;
+
+	if ( bp_is_active( 'xprofile' ) )
+		$filtered_illegal_names[] = BP_XPROFILE_SLUG;
+
+	$filtered_illegal_names[] = BP_ACTIVATION_SLUG;
+	$filtered_illegal_names[] = BP_MEMBERS_SLUG;
+	$filtered_illegal_names[] = BP_REGISTER_SLUG;
+	$filtered_illegal_names[] = BP_SEARCH_SLUG;
+	$filtered_illegal_names[] = BP_SETTINGS_SLUG;
+	$filtered_illegal_names = apply_filters( 'bp_core_illegal_usernames', $filtered_illegal_names );
 
 	// Merge the arrays together
 	$merged_names =	array_merge( (array)$filtered_illegal_names, (array)$db_illegal_names );
@@ -322,6 +349,8 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 
 	// Make sure illegal names include BuddyPress slugs and values
 	bp_core_flush_illegal_names();
+
+	$illegal_names = get_site_option( 'illegal_names' );
 
 	if ( !validate_username( $user_name ) || in_array( $user_name, (array)$illegal_names ) || $user_name != $maybe[0] )
 		$errors->add( 'user_name', __( 'Only lowercase letters and numbers allowed', 'buddypress' ) );

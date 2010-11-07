@@ -444,7 +444,7 @@ function bp_activity_avatar( $args = '' ) {
 		$item_id = apply_filters( 'bp_get_activity_avatar_item_id', $activities_template->activity->user_id );
 
 		// If this is a user object pass the users' email address for Gravatar so we don't have to refetch it.
-		if ( 'user' == $object && empty( $email ) )
+		if ( 'user' == $object && empty( $email ) && isset( $activities_template->activity->user_email ) )
 			$email = $activities_template->activity->user_email;
 
 		return apply_filters( 'bp_get_activity_avatar', bp_core_fetch_avatar( array( 'item_id' => $item_id, 'object' => $object, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height, 'email' => $email ) ) );
@@ -655,7 +655,7 @@ function bp_activity_comments( $args = '' ) {
 			if ( !$comment->children )
 				return false;
 
-			$content .= '<ul>';
+			$content = '<ul>';
 			foreach ( (array)$comment->children as $comment ) {
 				if ( !$comment->user_fullname )
 					$comment->user_fullname = $comment->display_name;
@@ -998,15 +998,17 @@ function bp_activities_member_rss_link() {
 	function bp_get_member_activity_feed_link() {
 		global $bp;
 
+		$link = '';
+
 		if ( $bp->current_component == $bp->profile->slug || 'just-me' == $bp->current_action )
 			$link = $bp->displayed_user->domain . $bp->activity->slug . '/feed/';
-		else if ( $bp->friends->slug == $bp->current_action )
+		elseif ( $bp->friends->slug == $bp->current_action )
 			$link = $bp->displayed_user->domain . $bp->activity->slug . '/' . $bp->friends->slug . '/feed/';
-		else if ( $bp->groups->slug == $bp->current_action )
+		elseif ( $bp->groups->slug == $bp->current_action )
 			$link = $bp->displayed_user->domain . $bp->activity->slug . '/' . $bp->groups->slug . '/feed/';
-		else if ( 'favorites' == $bp->current_action )
+		elseif ( 'favorites' == $bp->current_action )
 			$link = $bp->displayed_user->domain . $bp->activity->slug . '/favorites/feed/';
-		else if ( 'mentions' == $bp->current_action )
+		elseif ( 'mentions' == $bp->current_action )
 			$link = $bp->displayed_user->domain . $bp->activity->slug . '/mentions/feed/';
 
 		return apply_filters( 'bp_get_activities_member_rss_link', $link );

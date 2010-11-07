@@ -92,6 +92,7 @@ class BP_Friends_Friendship {
 		}
 
 		$friends = $wpdb->get_results( $wpdb->prepare( "SELECT friend_user_id, initiator_user_id FROM {$bp->friends->table_name} $friend_sql $oc_sql ORDER BY date_created DESC" ) );
+		$fids = array();
 
 		for ( $i = 0; $i < count($friends); $i++ ) {
 			if ( $assoc_arr )

@@ -32,8 +32,11 @@ function bp_activity_setup_nav() {
 	/* Add 'Activity' to the main navigation */
 	bp_core_new_nav_item( array( 'name' => __( 'Activity', 'buddypress' ), 'slug' => $bp->activity->name, 'position' => 10, 'screen_function' => 'bp_activity_screen_my_activity', 'default_subnav_slug' => 'just-me', 'item_css_id' => $bp->activity->id ) );
 
-	$user_domain = ( !empty( $bp->displayed_user->domain ) ) ? $bp->displayed_user->domain : $bp->loggedin_user->domain;
-	$user_login = ( !empty( $bp->displayed_user->userdata->user_login ) ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
+	if ( !is_user_logged_in() && !isset( $bp->displayed_user->id ) )
+		return;
+
+	$user_domain = ( isset( $bp->displayed_user->domain ) ) ? $bp->displayed_user->domain : $bp->loggedin_user->domain;
+	$user_login = ( isset( $bp->displayed_user->userdata->user_login ) ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
 	$activity_link = $user_domain . $bp->activity->name . '/';
 
 	/* Add the subnav items to the activity nav item if we are using a theme that supports this */
@@ -202,7 +205,7 @@ function bp_activity_screen_notification_settings() {
 			</tr>
 			<tr>
 				<td></td>
-				<td><?php printf( __( "A member replies to an update or comment you've posted", 'buddypress' ), $current_user->user_login ) ?></td>
+				<td><?php _e( "A member replies to an update or comment you've posted", 'buddypress' ) ?></td>
 				<td class="yes"><input type="radio" name="notifications[notification_activity_new_reply]" value="yes" <?php if ( !get_user_meta( $bp->loggedin_user->id, 'notification_activity_new_reply', true ) || 'yes' == get_user_meta( $bp->loggedin_user->id, 'notification_activity_new_reply', true ) ) { ?>checked="checked" <?php } ?>/></td>
 				<td class="no"><input type="radio" name="notifications[notification_activity_new_reply]" value="no" <?php if ( 'no' == get_user_meta( $bp->loggedin_user->id, 'notification_activity_new_reply', true ) ) { ?>checked="checked" <?php } ?>/></td>
 			</tr>
@@ -400,7 +403,7 @@ add_action( 'wp', 'bp_activity_action_remove_favorite', 3 );
 function bp_activity_action_sitewide_feed() {
 	global $bp, $wp_query;
 
-	if ( $bp->current_component != $bp->activity->slug || $bp->current_action != 'feed' || $bp->displayed_user->id || $bp->groups->current_group )
+	if ( $bp->current_component != $bp->activity->slug || $bp->current_action != 'feed' || ( isset( $bp->displayed_user->id ) && $bp->displayed_user->id ) || isset( $bp->groups->current_group ) )
 		return false;
 
 	$wp_query->is_404 = false;
@@ -428,7 +431,7 @@ add_action( 'wp', 'bp_activity_action_personal_feed', 3 );
 function bp_activity_action_friends_feed() {
 	global $bp, $wp_query;
 
-	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != $bp->friends->slug || $bp->action_variables[0] != 'feed' )
+	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != $bp->friends->slug || !isset( $bp->action_variables[0] ) || $bp->action_variables[0] != 'feed' )
 		return false;
 
 	$wp_query->is_404 = false;
@@ -442,7 +445,7 @@ add_action( 'wp', 'bp_activity_action_friends_feed', 3 );
 function bp_activity_action_my_groups_feed() {
 	global $bp, $wp_query;
 
-	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != $bp->groups->slug || $bp->action_variables[0] != 'feed' )
+	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != $bp->groups->slug || !isset( $bp->action_variables[0] ) || $bp->action_variables[0] != 'feed' )
 		return false;
 
 	$wp_query->is_404 = false;
@@ -456,7 +459,7 @@ add_action( 'wp', 'bp_activity_action_my_groups_feed', 3 );
 function bp_activity_action_mentions_feed() {
 	global $bp, $wp_query;
 
-	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != 'mentions' || $bp->action_variables[0] != 'feed' )
+	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != 'mentions' || !isset( $bp->action_variables[0] ) || $bp->action_variables[0] != 'feed' )
 		return false;
 
 	$wp_query->is_404 = false;
@@ -470,7 +473,7 @@ add_action( 'wp', 'bp_activity_action_mentions_feed', 3 );
 function bp_activity_action_favorites_feed() {
 	global $bp, $wp_query;
 
-	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != 'favorites' || $bp->action_variables[0] != 'feed' )
+	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != 'favorites' || !isset( $bp->action_variables[0] ) || $bp->action_variables[0] != 'feed' )
 		return false;
 
 	$wp_query->is_404 = false;

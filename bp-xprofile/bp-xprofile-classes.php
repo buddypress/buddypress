@@ -93,6 +93,7 @@ Class BP_XProfile_Group {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
+		$group_id_sql = '';
 		if ( $profile_group_id )
 			$group_id_sql = $wpdb->prepare( 'WHERE g.id = %d', $profile_group_id );
 
@@ -257,28 +258,28 @@ Class BP_XProfile_Field {
 	function populate( $id, $user_id, $get_data ) {
 		global $wpdb, $userdata, $bp;
 
+		$user_id = 0;
 		if ( is_null( $user_id ) )
 			$user_id = $userdata->ID;
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_fields} WHERE id = %d", $id );
 
 		if ( $field = $wpdb->get_row( $sql ) ) {
-			$this->id					= $field->id;
-			$this->group_id				= $field->group_id;
-			$this->parent_id			= $field->parent_id;
-			$this->type					= $field->type;
-			$this->name					= stripslashes($field->name);
-			$this->description			= stripslashes($field->description);
-			$this->is_required			= $field->is_required;
-			$this->can_delete			= $field->can_delete;
-			$this->field_order			= $field->field_order;
-			$this->option_order			= $field->option_order;
-			$this->order_by				= $field->order_by;
-			$this->is_default_option	= $field->is_default_option;
+			$this->id               = $field->id;
+			$this->group_id          = $field->group_id;
+			$this->parent_id         = $field->parent_id;
+			$this->type              = $field->type;
+			$this->name              = stripslashes( $field->name );
+			$this->description       = stripslashes( $field->description );
+			$this->is_required       = $field->is_required;
+			$this->can_delete        = $field->can_delete;
+			$this->field_order       = $field->field_order;
+			$this->option_order      = $field->option_order;
+			$this->order_by          = $field->order_by;
+			$this->is_default_option = $field->is_default_option;
 
-			if ( $get_data )
-				$this->data				= $this->get_field_data( $user_id );
-
+			if ( $get_data && $user_id )
+				$this->data            = $this->get_field_data( $user_id );
 		}
 	}
 

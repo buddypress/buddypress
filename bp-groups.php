@@ -216,9 +216,11 @@ function groups_screen_my_groups() {
 function groups_screen_group_invites() {
 	global $bp;
 
-	$group_id = $bp->action_variables[1];
+	$group_id = 0;
+	if ( isset( $bp->action_variables[1] ) )
+		$group_id = $bp->action_variables[1];
 
-	if ( isset($bp->action_variables) && in_array( 'accept', (array)$bp->action_variables ) && is_numeric($group_id) ) {
+	if ( isset( $bp->action_variables ) && in_array( 'accept', (array)$bp->action_variables ) && is_numeric( $group_id ) ) {
 		/* Check the nonce */
 		if ( !check_admin_referer( 'groups_accept_invite' ) )
 			return false;
@@ -240,16 +242,15 @@ function groups_screen_group_invites() {
 
 		bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/' . $bp->current_action );
 
-	} else if ( isset($bp->action_variables) && in_array( 'reject', (array)$bp->action_variables ) && is_numeric($group_id) ) {
+	} elseif ( isset( $bp->action_variables ) && in_array( 'reject', (array)$bp->action_variables ) && is_numeric( $group_id ) ) {
 		/* Check the nonce */
 		if ( !check_admin_referer( 'groups_reject_invite' ) )
 			return false;
 
-		if ( !groups_reject_invite( $bp->loggedin_user->id, $group_id ) ) {
+		if ( !groups_reject_invite( $bp->loggedin_user->id, $group_id ) )
 			bp_core_add_message( __('Group invite could not be rejected', 'buddypress'), 'error' );
-		} else {
+		else
 			bp_core_add_message( __('Group invite rejected', 'buddypress') );
-		}
 
 		bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/' . $bp->current_action );
 	}
@@ -1243,7 +1244,7 @@ add_action( 'wp', 'groups_action_redirect_to_random_group', 6 );
 function groups_action_group_feed() {
 	global $bp, $wp_query;
 
-	if ( !bp_is_active( 'activity' ) || $bp->current_component != $bp->groups->slug || !$bp->groups->current_group || $bp->current_action != 'feed' )
+	if ( !bp_is_active( 'activity' ) || $bp->current_component != $bp->groups->slug || !isset( $bp->groups->current_group ) || $bp->current_action != 'feed' )
 		return false;
 
 	$wp_query->is_404 = false;

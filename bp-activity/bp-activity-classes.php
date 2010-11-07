@@ -12,6 +12,8 @@ Class BP_Activity_Activity {
 	var $content;
 	var $date_recorded;
 	var $hide_sitewide = false;
+	var $mptt_left;
+	var $mptt_right;
 
 	function bp_activity_activity( $id = false ) {
 		global $bp;

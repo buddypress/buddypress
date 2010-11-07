@@ -174,7 +174,11 @@ add_action( 'bp_adminbar_menus', 'xprofile_setup_adminbar_menu', 20 );
 function xprofile_screen_display_profile() {
 	global $bp;
 
-	do_action( 'xprofile_screen_display_profile', $_GET['new'] );
+	$new = '';
+	if ( isset( $_GET['new'] ) )
+		$new = $_GET['new'];
+
+	do_action( 'xprofile_screen_display_profile', $new );
 	bp_core_load_template( apply_filters( 'xprofile_template_display_profile', 'members/single/home' ) );
 }
 
@@ -344,7 +348,7 @@ function xprofile_screen_change_avatar() {
 function xprofile_action_delete_avatar() {
 	global $bp;
 
-	if ( $bp->profile->slug != $bp->current_component || 'change-avatar' != $bp->current_action || 'delete-avatar' != $bp->action_variables[0] )
+	if ( $bp->profile->slug != $bp->current_component || 'change-avatar' != $bp->current_action || !isset( $bp->action_variables[0] ) || 'delete-avatar' != $bp->action_variables[0] )
 		return false;
 
 	/* Check the nonce */

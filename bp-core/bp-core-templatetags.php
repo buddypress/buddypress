@@ -376,7 +376,7 @@ function bp_member_latest_update( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		if ( !$update = maybe_unserialize( $members_template->member->latest_update ) )
+		if ( !isset( $members_template->member->latest_update ) || !$update = maybe_unserialize( $members_template->member->latest_update ) )
 			return false;
 
 		$update_content = apply_filters( 'bp_get_activity_latest_update', strip_tags( bp_create_excerpt( $update['content'], $length ) ) );
@@ -1146,42 +1146,66 @@ function bp_signup_username_value() {
 	echo bp_get_signup_username_value();
 }
 	function bp_get_signup_username_value() {
-		return apply_filters( 'bp_get_signup_username_value', $_POST['signup_username'] );
+		$value = '';
+		if ( isset( $_POST['signup_username'] ) )
+			$value = $_POST['signup_username'];
+
+		return apply_filters( 'bp_get_signup_username_value', $value );
 	}
 
 function bp_signup_email_value() {
 	echo bp_get_signup_email_value();
 }
 	function bp_get_signup_email_value() {
-		return apply_filters( 'bp_get_signup_email_value', $_POST['signup_email'] );
+		$value = '';
+		if ( isset( $_POST['signup_email'] ) )
+			$value = $_POST['signup_email'];
+
+		return apply_filters( 'bp_get_signup_email_value', $value );
 	}
 
 function bp_signup_with_blog_value() {
 	echo bp_get_signup_with_blog_value();
 }
 	function bp_get_signup_with_blog_value() {
-		return apply_filters( 'bp_get_signup_with_blog_value', $_POST['signup_with_blog'] );
+		$value = '';
+		if ( isset( $_POST['signup_with_blog'] ) )
+			$value = $_POST['signup_with_blog'];
+
+		return apply_filters( 'bp_get_signup_with_blog_value', $value );
 	}
 
 function bp_signup_blog_url_value() {
 	echo bp_get_signup_blog_url_value();
 }
 	function bp_get_signup_blog_url_value() {
-		return apply_filters( 'bp_get_signup_blog_url_value', $_POST['signup_blog_url'] );
+		$value = '';
+		if ( isset( $_POST['signup_blog_url'] ) )
+			$value = $_POST['signup_blog_url'];
+
+		return apply_filters( 'bp_get_signup_blog_url_value', $value );
 	}
 
 function bp_signup_blog_title_value() {
 	echo bp_get_signup_blog_title_value();
 }
 	function bp_get_signup_blog_title_value() {
-		return apply_filters( 'bp_get_signup_blog_title_value', $_POST['signup_blog_title'] );
+		$value = '';
+		if ( isset( $_POST['signup_blog_title'] ) )
+			$value = $_POST['signup_blog_title'];
+
+		return apply_filters( 'bp_get_signup_blog_title_value', $value );
 	}
 
 function bp_signup_blog_privacy_value() {
 	echo bp_get_signup_blog_privacy_value();
 }
 	function bp_get_signup_blog_privacy_value() {
-		return apply_filters( 'bp_get_signup_blog_privacy_value', $_POST['signup_blog_privacy'] );
+		$value = '';
+		if ( isset( $_POST['signup_blog_privacy'] ) )
+			$value = $_POST['signup_blog_privacy'];
+
+		return apply_filters( 'bp_get_signup_blog_privacy_value', $value );
 	}
 
 function bp_signup_avatar_dir_value() {
@@ -1938,6 +1962,8 @@ function bp_the_body_class() {
 }
 	function bp_get_the_body_class( $wp_classes, $custom_classes = false ) {
 		global $bp;
+
+		$bp_classes = array();
 
 		if ( bp_is_front_page() )
 			$bp_classes[] = 'home-page';

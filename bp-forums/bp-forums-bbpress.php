@@ -5,7 +5,7 @@ function bp_forums_load_bbpress() {
 	global $bb_roles, $wp_taxonomy_object;
 
 	/* Return if we've already run this function. */
-	if ( is_object( $bbdb ) && is_object( $bb_roles ) )
+	if ( is_object( $bbdb ) )
 		return;
 
 	if ( !bp_forums_is_installed_correctly() )

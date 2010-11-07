@@ -39,10 +39,10 @@
 
 		<form name="login-form" id="sidebar-login-form" class="standard-form" action="<?php echo site_url( 'wp-login.php', 'login_post' ) ?>" method="post">
 			<label><?php _e( 'Username', 'buddypress' ) ?><br />
-			<input type="text" name="log" id="sidebar-user-login" class="input" value="<?php echo esc_attr(stripslashes($user_login)); ?>" /></label>
+			<input type="text" name="log" id="sidebar-user-login" class="input" /></label>
 
 			<label><?php _e( 'Password', 'buddypress' ) ?><br />
-			<input type="password" name="pwd" id="sidebar-user-pass" class="input" value="" /></label>
+			<input type="password" name="pwd" id="sidebar-user-pass" class="input" /></label>
 
 			<p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="sidebar-rememberme" value="forever" /> <?php _e( 'Remember Me', 'buddypress' ) ?></label></p>
 

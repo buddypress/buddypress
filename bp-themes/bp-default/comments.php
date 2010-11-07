@@ -160,7 +160,7 @@
 
 		<?php endif; ?>
 
-		<?php if ( $numTrackBacks ) : ?>
+		<?php if ( isset( $numTrackBacks ) && $numTrackBacks ) : ?>
 			<div id="trackbacks">
 
 				<span class="title"><?php the_title() ?></span>

@@ -117,7 +117,7 @@ function bp_friend_search_form() {
 function bp_member_add_friend_button() {
 	global $members_template;
 
-	if ( null === $members_template->member->is_friend )
+	if ( !isset( $members_template->member->is_friend ) || null === $members_template->member->is_friend )
 		$friend_status = 'not_friends';
 	else
 		$friend_status = ( 0 == $members_template->member->is_friend ) ? 'pending' : 'is_friend';

@@ -237,6 +237,7 @@ class BP_Core_User {
 	function get_users_by_letter( $letter, $limit = null, $page = 1, $populate_extras = true, $exclude = false ) {
 		global $wpdb, $bp;
 
+		$pag_sql = '';
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
@@ -266,6 +267,7 @@ class BP_Core_User {
 		 * Lets fetch some other useful data in a separate queries, this will be faster than querying the data for every user in a list.
 		 * We can't add these to the main query above since only users who have this information will be returned (since the much of the data is in usermeta and won't support any type of directional join)
 		 */
+		$user_ids = array();
 		foreach ( (array)$paged_users as $user )
 			$user_ids[] = $user->id;
 

@@ -1,5 +1,4 @@
 <?php
-
 /***************************************************************************
  * XProfile Data Display Template Tags
  **/
@@ -256,6 +255,7 @@ function bp_the_profile_group_field_ids() {
 	function bp_get_the_profile_group_field_ids() {
 		global $group;
 
+		$field_ids = '';
 		foreach ( (array) $group->fields as $field )
 			$field_ids .= $field->id . ',';
 
@@ -310,14 +310,15 @@ function bp_the_profile_field_edit_value() {
 		 * Check to see if the posted value is different, if it is re-display this
 		 * value as long as it's not empty and a required field.
 		 */
-		if ( isset( $_POST['field_' . $field->id] ) && ( $field->data->value != $_POST['field_' . $field->id] ) ) {
+		if ( isset( $_POST['field_' . $field->id] ) && isset( $field->data->value ) && $field->data->value != $_POST['field_' . $field->id] ) {
 			if ( !empty( $_POST['field_' . $field->id] ) )
 				$field->data->value = $_POST['field_' . $field->id];
 		}
 
-		$field->data->value = bp_unserialize_profile_field( $field->data->value );
-
-		return apply_filters( 'bp_get_the_profile_field_edit_value', esc_html( $field->data->value ) );
+		if ( isset( $field->data->value ) )
+			return apply_filters( 'bp_get_the_profile_field_edit_value', esc_html( bp_unserialize_profile_field( $field->data->value ) ) );
+		else
+			return apply_filters( 'bp_get_the_profile_field_edit_value', '' );
 	}
 
 function bp_the_profile_field_type() {
@@ -676,6 +677,8 @@ function bp_avatar_delete_link() {
 	}
 
 function bp_get_user_has_avatar() {
+	global $bp;
+
 	if ( !bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'no_grav' => true ) ) )
 		return false;
 
@@ -696,5 +699,4 @@ function bp_edit_profile_button() {
 		'link_title'        => __( 'Edit Profile', 'buddypress' ),
 	) );
 }
-
 ?>

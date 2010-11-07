@@ -260,12 +260,15 @@ Class BP_Groups_Group {
 	function get_newest( $limit = null, $page = null, $user_id = false, $search_terms = false, $populate_extras = true ) {
 		global $wpdb, $bp;
 
+		$pag_sql = '';
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
+		$hidden_sql = '';
 		if ( !is_user_logged_in() || ( !is_super_admin() && ( $user_id != $bp->loggedin_user->id ) ) )
 			$hidden_sql = "AND g.status != 'hidden'";
 
+		$search_sql = '';
 		if ( $search_terms ) {
 			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
 			$search_sql = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
@@ -281,6 +284,7 @@ Class BP_Groups_Group {
 		}
 
 		if ( !empty( $populate_extras ) ) {
+			$group_ids = array();
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( &$paged_groups, $group_ids, 'newest' );
@@ -315,8 +319,8 @@ Class BP_Groups_Group {
 			$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name_groupmeta} gm INNER JOIN {$bp->groups->table_name} g ON gm.group_id = g.id WHERE gm.meta_key = 'last_activity'{$hidden_sql} {$search_sql}" );
 		}
 
-		$group_ids = array();
 		if ( !empty( $populate_extras ) ) {
+			$group_ids = array();
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( &$paged_groups, $group_ids, 'newest' );
@@ -328,13 +332,16 @@ Class BP_Groups_Group {
 	function get_popular( $limit = null, $page = null, $user_id = false, $search_terms = false, $populate_extras = true ) {
 		global $wpdb, $bp;
 
+		$pag_sql = '';
 		if ( $limit && $page ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		}
 
+		$hidden_sql = '';
 		if ( !is_user_logged_in() || ( !is_super_admin() && ( $user_id != $bp->loggedin_user->id ) ) )
 			$hidden_sql = "AND g.status != 'hidden'";
 
+		$search_sql = '';
 		if ( $search_terms ) {
 			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
 			$search_sql = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
@@ -350,6 +357,7 @@ Class BP_Groups_Group {
 		}
 
 		if ( !empty( $populate_extras ) ) {
+			$group_ids = array();
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( &$paged_groups, $group_ids, 'newest' );
@@ -361,12 +369,15 @@ Class BP_Groups_Group {
 	function get_alphabetically( $limit = null, $page = null, $user_id = false, $search_terms = false, $populate_extras = true ) {
 		global $wpdb, $bp;
 
+		$pag_sql = '';
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
+		$hidden_sql = '';
 		if ( !is_user_logged_in() || ( !is_super_admin() && ( $user_id != $bp->loggedin_user->id ) ) )
 			$hidden_sql = " AND g.status != 'hidden'";
 
+		$search_sql = '';
 		if ( $search_terms ) {
 			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
 			$search_sql = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
@@ -382,6 +393,7 @@ Class BP_Groups_Group {
 		}
 
 		if ( !empty( $populate_extras ) ) {
+			$group_ids = array();
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( &$paged_groups, $group_ids, 'newest' );
@@ -823,6 +835,7 @@ Class BP_Groups_Member {
 	function get_group_ids( $user_id, $limit = false, $page = false ) {
 		global $wpdb, $bp;
 
+		$pag_sql = '';
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 

@@ -22,6 +22,8 @@ function bp_core_admin_dashboard() { ?>
 
 function bp_core_admin_settings() {
 	global $wpdb, $bp, $current_blog;
+
+	$ud = get_userdata( $bp->loggedin_user->id );
 ?>
 
 	<?php
