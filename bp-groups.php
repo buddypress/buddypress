@@ -140,7 +140,7 @@ function groups_setup_nav() {
 			bp_core_new_subnav_item( array( 'name' => sprintf( __( 'Members (%s)', 'buddypress' ), number_format( $bp->groups->current_group->total_member_count ) ), 'slug' => 'members', 'parent_url' => $group_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_members', 'position' => 60, 'user_has_access' => $bp->groups->current_group->user_has_access, 'item_css_id' => 'members'  ) );
 
 			if ( is_user_logged_in() && groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
-				if ( function_exists('friends_install') )
+				if ( bp_is_active('friends') )
 					bp_core_new_subnav_item( array( 'name' => __( 'Send Invites', 'buddypress' ), 'slug' => 'send-invites', 'parent_url' => $group_link, 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_invite', 'item_css_id' => 'invite', 'position' => 70, 'user_has_access' => $bp->groups->current_group->user_has_access ) );
 			}
 		}
@@ -1767,6 +1767,8 @@ function groups_get_groups( $args = '' ) {
 	$defaults = array(
 		'type' => 'active', // active, newest, alphabetical, random, popular, most-forum-topics or most-forum-posts
 		'user_id' => false, // Pass a user_id to limit to only groups that this user is a member of
+		'include' => false, // Only include these specific groups (group_ids)
+		'exclude' => false, // Do not include these specific groups (group_ids)
 		'search_terms' => false, // Limit to groups that match these search terms
 
 		'per_page' => 20, // The number of results to return per page
@@ -1777,29 +1779,7 @@ function groups_get_groups( $args = '' ) {
 	$params = wp_parse_args( $args, $defaults );
 	extract( $params, EXTR_SKIP );
 
-	switch ( $type ) {
-		case 'active': default:
-			$groups = BP_Groups_Group::get_active( $per_page, $page, $user_id, $search_terms, $populate_extras );
-			break;
-		case 'newest':
-			$groups = BP_Groups_Group::get_newest( $per_page, $page, $user_id, $search_terms, $populate_extras );
-			break;
-		case 'popular':
-			$groups = BP_Groups_Group::get_popular( $per_page, $page, $user_id, $search_terms, $populate_extras );
-			break;
-		case 'alphabetical':
-			$groups = BP_Groups_Group::get_alphabetically( $per_page, $page, $user_id, $search_terms, $populate_extras );
-			break;
-		case 'random':
-			$groups = BP_Groups_Group::get_random( $per_page, $page, $user_id, $search_terms, $populate_extras );
-			break;
-		case 'most-forum-topics':
-			$groups = BP_Groups_Group::get_by_most_forum_topics( $per_page, $page, $user_id, $search_terms, $populate_extras );
-			break;
-		case 'most-forum-posts':
-			$groups = BP_Groups_Group::get_by_most_forum_posts( $per_page, $page, $user_id, $search_terms, $populate_extras );
-			break;
-	}
+	$groups = BP_Groups_Group::get( $type, $per_page, $page, $user_id, $search_terms, $include, $populate_extras, $exclude );
 
 	return apply_filters( 'groups_get_groups', $groups, &$params );
 }
@@ -2160,13 +2140,13 @@ function groups_total_public_forum_topic_count( $type = 'newest' ) {
 
 /*** Group Invitations *********************************************************/
 
-function groups_get_invites_for_user( $user_id = false, $limit = false, $page = false ) {
+function groups_get_invites_for_user( $user_id = false, $limit = false, $page = false, $exclude = false ) {
 	global $bp;
 
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
 
-	return BP_Groups_Member::get_invites( $user_id, $limit, $page );
+	return BP_Groups_Member::get_invites( $user_id, $limit, $page, $exclude );
 }
 
 function groups_invite_user( $args = '' ) {

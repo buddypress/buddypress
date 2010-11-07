@@ -22,20 +22,20 @@ class BP_Groups_Template {
 	var $sort_by;
 	var $order;
 
-	function bp_groups_template( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $include, $populate_extras ) {
+	function bp_groups_template( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $include, $populate_extras, $exclude ) {
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['grpage'] ) ? intval( $_REQUEST['grpage'] ) : $page;
 		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
 		if ( 'invites' == $type ) {
-			$this->groups = groups_get_invites_for_user( $user_id, $this->pag_num, $this->pag_page );
+			$this->groups = groups_get_invites_for_user( $user_id, $this->pag_num, $this->pag_page, $exclude );
 		} else if ( 'single-group' == $type ) {
 			$group = new stdClass;
 			$group->group_id = BP_Groups_Group::get_id_from_slug($slug);
 			$this->groups    = array( $group );
 		} else {
-			$this->groups = groups_get_groups( array( 'type' => $type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'search_terms' => $search_terms, 'include' => $include, 'populate_extras' => $populate_extras ) );
+			$this->groups = groups_get_groups( array( 'type' => $type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'search_terms' => $search_terms, 'include' => $include, 'exclude' => $exclude, 'populate_extras' => $populate_extras ) );
 		}
 
 		if ( 'invites' == $type ) {
@@ -172,6 +172,7 @@ function bp_has_groups( $args = '' ) {
 		'slug' => $slug, // Pass a group slug to only return that group
 		'search_terms' => $search_terms, // Pass search terms to return only matching groups
 		'include' => false, // Pass comma separated list of group ID's to return only these groups
+		'exclude' => false, // Pass comma separated list of group ID's to exclude these groups
 
 		'populate_extras' => true // Get extra meta - is_member, is_banned
 	);
@@ -179,7 +180,7 @@ function bp_has_groups( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
 
-	$groups_template = new BP_Groups_Template( (int)$user_id, $type, (int)$page, (int)$per_page, (int)$max, $slug, $search_terms, $include, (bool)$populate_extras );
+	$groups_template = new BP_Groups_Template( (int)$user_id, $type, (int)$page, (int)$per_page, (int)$max, $slug, $search_terms, $include, (bool)$populate_extras, $exclude );
 	return apply_filters( 'bp_has_groups', $groups_template->has_groups(), &$groups_template );
 }
 
