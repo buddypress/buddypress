@@ -503,6 +503,7 @@ function bp_activity_get( $args = '' ) {
 
 		'search_terms' => false, // Pass search terms as a string
 		'show_hidden' => false, // Show activity items that are hidden site-wide?
+		'exclude' => false, // Comma-separated list of activity IDs to exclude
 
 		/**
 		 * Pass filters as an array -- all filter items can be multiple values comma separated:
@@ -521,13 +522,13 @@ function bp_activity_get( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	/* Attempt to return a cached copy of the first page of sitewide activity. */
-	if ( 1 == (int)$page && empty( $max ) && empty( $search_terms ) && empty( $filter ) && 'DESC' == $sort ) {
+	if ( 1 == (int)$page && empty( $max ) && empty( $search_terms ) && empty( $filter ) && 'DESC' == $sort && empty( $exclude ) ) {
 		if ( !$activity = wp_cache_get( 'bp_activity_sitewide_front', 'bp' ) ) {
 			$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden );
 			wp_cache_set( 'bp_activity_sitewide_front', $activity, 'bp' );
 		}
 	} else
-		$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden );
+		$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden, $exclude );
 
 	return apply_filters( 'bp_activity_get', $activity, &$r );
 }

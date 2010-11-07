@@ -15,7 +15,7 @@ class BP_Activity_Template {
 
 	var $full_name;
 
-	function bp_activity_template( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden ) {
+	function bp_activity_template( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden, $exclude ) {
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['acpage'] ) ? intval( $_REQUEST['acpage'] ) : $page;
@@ -32,7 +32,7 @@ class BP_Activity_Template {
 			$this->activities = bp_activity_get_specific( array( 'activity_ids' => explode( ',', $include ), 'max' => $max, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'sort' => $sort, 'display_comments' => $display_comments ) );
 		// Fetch all activity items
 		else
-			$this->activities = bp_activity_get( array( 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'filter' => $filter, 'show_hidden' => $show_hidden ) );
+			$this->activities = bp_activity_get( array( 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'filter' => $filter, 'show_hidden' => $show_hidden, 'exclude' => $exclude ) );
 
 		if ( !$max || $max >= (int)$this->activities['total'] )
 			$this->total_activity_count = (int)$this->activities['total'];
@@ -142,6 +142,7 @@ function bp_has_activities( $args = '' ) {
 	 */
 	$user_id = false;
 	$include = false;
+	$exclude = false;
 	$show_hidden = false;
 	$object = false;
 	$primary_id = false;
@@ -166,7 +167,8 @@ function bp_has_activities( $args = '' ) {
 	/* Note: any params used for filtering can be a single value, or multiple values comma separated. */
 	$defaults = array(
 		'display_comments' => 'threaded', // false for none, stream/threaded - show comments in the stream or threaded under items
-		'include' => $include, // pass an activity_id or string of ID's comma separated
+		'include' => $include, // pass an activity_id or string of IDs comma-separated
+		'exclude' => $exclude, // pass an activity_id or string of IDs comma-separated
 		'sort' => 'DESC', // sort DESC or ASC
 		'page' => 1, // which page to load
 		'per_page' => 20, // number of items per page
@@ -254,7 +256,7 @@ function bp_has_activities( $args = '' ) {
 	else if ( !empty( $user_id ) || !empty( $object ) || !empty( $action ) || !empty( $primary_id ) || !empty( $secondary_id ) )
 		$filter = array( 'user_id' => $user_id, 'object' => $object, 'action' => $action, 'primary_id' => $primary_id, 'secondary_id' => $secondary_id );
 
-	$activities_template = new BP_Activity_Template( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden );
+	$activities_template = new BP_Activity_Template( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden, $exclude );
 
 	return apply_filters( 'bp_has_activities', $activities_template->has_activities(), &$activities_template );
 }

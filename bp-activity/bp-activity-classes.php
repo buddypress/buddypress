@@ -70,7 +70,7 @@ Class BP_Activity_Activity {
 		if ( !$this->primary_link )
 			$this->primary_link = $bp->loggedin_user->domain;
 
-		/* If we have an existing ID, update the activity item, otherwise insert it. */
+		// If we have an existing ID, update the activity item, otherwise insert it.
 		if ( $this->id )
 			$q = $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET user_id = %d, component = %s, type = %s, action = %s, content = %s, primary_link = %s, date_recorded = %s, item_id = %s, secondary_item_id = %s, hide_sitewide = %d WHERE id = %d", $this->user_id, $this->component, $this->type, $this->action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide, $this->id );
 		else
@@ -86,38 +86,42 @@ Class BP_Activity_Activity {
 		return true;
 	}
 
-	/* Static Functions */
+	// Static Functions
 
-	function get( $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false, $show_hidden = false ) {
+	function get( $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false, $show_hidden = false, $exclude = false ) {
 		global $wpdb, $bp;
 
-		/* Select conditions */
+		// Select conditions
 		$select_sql = "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name";
 
 		$from_sql = " FROM {$bp->activity->table_name} a LEFT JOIN {$wpdb->users} u ON a.user_id = u.ID";
 
-		/* Where conditions */
+		// Where conditions
 		$where_conditions = array();
 
-		/* Searching */
+		// Searching
 		if ( $search_terms ) {
 			$search_terms = $wpdb->escape( $search_terms );
 			$where_conditions['search_sql'] = "a.content LIKE '%%" . like_escape( $search_terms ) . "%%'";
 		}
 
-		/* Filtering */
+		// Filtering
 		if ( $filter && $filter_sql = BP_Activity_Activity::get_filter_sql( $filter ) )
 			$where_conditions['filter_sql'] = $filter_sql;
 
-		/* Sorting */
+		// Sorting
 		if ( $sort != 'ASC' && $sort != 'DESC' )
 			$sort = 'DESC';
 
-		/* Hide Hidden Items? */
+		// Hide Hidden Items?
 		if ( !$show_hidden )
 			$where_conditions['hidden_sql'] = "a.hide_sitewide = 0";
 
-		/* Alter the query based on whether we want to show activity item comments in the stream like normal comments or threaded below the activity */
+		// Exclude specified items
+		if ( $exclude )
+			$where_conditions['exclude'] = "a.id NOT IN ({$exclude})";
+
+		// Alter the query based on whether we want to show activity item comments in the stream like normal comments or threaded below the activity
 		if ( !$display_comments || 'threaded' == $display_comments ) {
 			$where_conditions[] = "a.type != 'activity_comment'";
 		}
@@ -133,7 +137,7 @@ Class BP_Activity_Activity {
 
 		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(a.id) FROM {$bp->activity->table_name} a {$where_sql} ORDER BY a.date_recorded {$sort}" ) );
 
-		/* Get the fullnames of users so we don't have to query in the loop */
+		// Get the fullnames of users so we don't have to query in the loop
 		if ( bp_is_active( 'xprofile' ) && $activities ) {
 			foreach ( (array)$activities as $activity ) {
 				if ( (int)$activity->user_id )
@@ -160,7 +164,7 @@ Class BP_Activity_Activity {
 		if ( $activities && $display_comments )
 			$activities = BP_Activity_Activity::append_comments( &$activities );
 
-		/* If $max is set, only return up to the max results */
+		// If $max is set, only return up to the max results
 		if ( !empty( $max ) ) {
 			if ( (int)$total_activities > (int)$max )
 				$total_activities = $max;
@@ -193,7 +197,7 @@ Class BP_Activity_Activity {
 		if ( $display_comments )
 			$activities = BP_Activity_Activity::append_comments( $activities );
 
-		/* If $max is set, only return up to the max results */
+		// If $max is set, only return up to the max results
 		if ( !empty( $max ) ) {
 			if ( (int)$total_activities > (int)$max )
 				$total_activities = $max;
