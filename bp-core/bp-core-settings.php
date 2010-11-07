@@ -42,7 +42,7 @@ function bp_core_screen_general_settings() {
 		// Form has been submitted and nonce checks out, lets do it.
 
 		if ( $_POST['email'] != '' )
-			$current_user->user_email = wp_specialchars( trim( $_POST['email'] ) );
+			$current_user->user_email = esc_html( trim( $_POST['email'] ) );
 
 		if ( $_POST['pass1'] != '' && $_POST['pass2'] != '' ) {
 			if ( $_POST['pass1'] == $_POST['pass2'] && !strpos( " " . $_POST['pass1'], "\\" ) )
