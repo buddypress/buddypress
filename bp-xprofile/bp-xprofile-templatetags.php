@@ -17,13 +17,15 @@ Class BP_XProfile_Data_Template {
 	var $in_the_loop;
 	var $user_id;
 
-	function bp_xprofile_data_template( $user_id, $profile_group_id ) {
+	function bp_xprofile_data_template( $user_id, $profile_group_id, $hide_empty_groups = false, $fetch_fields = false, $fetch_field_data = false, $exclude_groups = false, $exclude_fields = false ) {
 		$this->groups = BP_XProfile_Group::get( array(
-			'profile_group_id' => $profile_group_id,
-			'user_id' => $user_id,
-			'hide_empty_groups' => true,
-			'fetch_fields' => true,
-			'fetch_field_data' => true
+			'profile_group_id' 	=> $profile_group_id,
+			'user_id' 			=> $user_id,
+			'hide_empty_groups' => $hide_empty_groups,
+			'fetch_fields' 		=> $fetch_fields,
+			'fetch_field_data' 	=> $fetch_field_data,
+			'exclude_groups'	=> $exclude_groups,
+			'exclude_fields'	=> $exclude_fields
 		) );
 
 		$this->group_count = count($this->groups);
@@ -144,13 +146,18 @@ function bp_has_profile( $args = '' ) {
 
 	$defaults = array(
 		'user_id' => $bp->displayed_user->id,
-		'profile_group_id' => false
+		'profile_group_id' => false,
+		'hide_empty_groups'	=> true,
+		'fetch_fields'		=> true,
+		'fetch_field_data'	=> true,
+		'exclude_groups' => false, // Comma-separated list of profile field group IDs to exclude
+		'exclude_fields' => false // Comma-separated list of profile field IDs to exclude
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	$profile_template = new BP_XProfile_Data_Template( $user_id, $profile_group_id );
+	$profile_template = new BP_XProfile_Data_Template( $user_id, $profile_group_id, $hide_empty_groups, $fetch_fields, $fetch_field_data, $exclude_groups, $exclude_fields );
 	return apply_filters( 'bp_has_profile', $profile_template->has_groups(), &$profile_template );
 }
 

@@ -79,15 +79,38 @@ Class BP_XProfile_Group {
 
 	/** Static Functions **/
 
+	/**
+	 * get()
+	 *
+	 * Populates the BP_XProfile_Group object with profile field groups, fields, and field data
+	 *
+	 * @package BuddyPress XProfile
+	 *
+	 * @global $wpdb WordPress DB access object.
+	 * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+	 *
+	 * @param array $args Takes an array of parameters:
+	 *		'profile_group_id' - Limit results to a single profile group
+	 *		'user_id' - Required if you want to load a specific user's data
+	 *		'hide_empty_groups' - Hide groups without any fields
+	 *		'fetch_fields' - Load each group's fields
+	 *		'fetch_field_data' - Load each field's data. Requires a user_id
+	 *		'exclude_groups' - Comma-separated list of groups to exclude
+	 *		'exclude_fields' - Comma-separated list of fields to exclude
+	 *
+	 * @return array $groups
+	 */
 	function get( $args = '' ) {
 		global $wpdb, $bp;
 
 		$defaults = array(
-			'profile_group_id' => false,
-			'user_id' => $bp->displayed_user->id,
+			'profile_group_id' 	=> false,
+			'user_id' 			=> $bp->displayed_user->id,
 			'hide_empty_groups' => false,
-			'fetch_fields' => false,
-			'fetch_field_data' => false
+			'fetch_fields' 		=> false,
+			'fetch_field_data' 	=> false,
+			'exclude_groups' 	=> false,
+			'exclude_fields' 	=> false
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -95,17 +118,19 @@ Class BP_XProfile_Group {
 
 		$group_id_sql = '';
 		if ( $profile_group_id )
-			$group_id_sql = $wpdb->prepare( 'WHERE g.id = %d', $profile_group_id );
+			$where_sql = $wpdb->prepare( 'WHERE g.id = %d', $profile_group_id );
+		else if ( $exclude_groups )
+			$where_sql = $wpdb->prepare( "WHERE g.id NOT IN ({$exclude_groups})");
 
 		if ( $hide_empty_groups )
-			$groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id {$group_id_sql} ORDER BY g.group_order ASC" ) );
+			$groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id {$where_sql} ORDER BY g.group_order ASC" ) );
 		else
-			$groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g {$group_id_sql} ORDER BY g.group_order ASC" ) );
+			$groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g {$where_sql} ORDER BY g.group_order ASC" ) );
 
 		if ( !$fetch_fields )
 			return $groups;
 
-		/* Get the group ids */
+		// Get the group ids
 		foreach( (array)$groups as $group ) {
 			$group_ids[] = $group->id;
 		}
@@ -115,14 +140,17 @@ Class BP_XProfile_Group {
 		if ( empty( $group_ids ) )
 			return $groups;
 
-		/* Fetch the fields */
-		$fields = $wpdb->get_results( $wpdb->prepare( "SELECT id, name, description, type, group_id, is_required FROM {$bp->profile->table_name_fields} WHERE group_id IN ( {$group_ids} ) AND parent_id = 0 ORDER BY field_order" ) );
+		if ( $exclude_fields )
+			$exclude_fields_sql = $wpdb->prepare( "AND id NOT IN ({$exclude_fields})" );
+
+		// Fetch the fields
+		$fields = $wpdb->get_results( $wpdb->prepare( "SELECT id, name, description, type, group_id, is_required FROM {$bp->profile->table_name_fields} WHERE group_id IN ( {$group_ids} ) AND parent_id = 0 {$exclude_fields_sql} ORDER BY field_order" ) );
 
 		if ( empty( $fields ) )
 			return $groups;
 
 		if ( $fetch_field_data ) {
-			/* Fetch the field data for the user. */
+			// Fetch the field data for the user.
 			foreach( (array)$fields as $field )
 				$field_ids[] = $field->id;
 
@@ -141,7 +169,7 @@ Class BP_XProfile_Group {
 			}
 		}
 
-		/* Merge the field array back in with the group array */
+		// Merge the field array back in with the group array
 		foreach( (array)$groups as $group_key => $group ) {
 			foreach( (array)$fields as $field ) {
 				if ( $group->id == $field->group_id )
