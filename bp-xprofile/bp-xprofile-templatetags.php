@@ -19,13 +19,13 @@ Class BP_XProfile_Data_Template {
 
 	function bp_xprofile_data_template( $user_id, $profile_group_id, $hide_empty_groups = false, $fetch_fields = false, $fetch_field_data = false, $exclude_groups = false, $exclude_fields = false ) {
 		$this->groups = BP_XProfile_Group::get( array(
-			'profile_group_id' 	=> $profile_group_id,
-			'user_id' 			=> $user_id,
+			'profile_group_id'  => $profile_group_id,
+			'user_id'           => $user_id,
 			'hide_empty_groups' => $hide_empty_groups,
-			'fetch_fields' 		=> $fetch_fields,
-			'fetch_field_data' 	=> $fetch_field_data,
-			'exclude_groups'	=> $exclude_groups,
-			'exclude_fields'	=> $exclude_fields
+			'fetch_fields'      => $fetch_fields,
+			'fetch_field_data'  => $fetch_field_data,
+			'exclude_groups'    => $exclude_groups,
+			'exclude_fields'    => $exclude_fields
 		) );
 
 		$this->group_count = count($this->groups);

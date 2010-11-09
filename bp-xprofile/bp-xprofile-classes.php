@@ -104,13 +104,13 @@ Class BP_XProfile_Group {
 		global $wpdb, $bp;
 
 		$defaults = array(
-			'profile_group_id' 	=> false,
-			'user_id' 			=> $bp->displayed_user->id,
+			'profile_group_id'  => false,
+			'user_id'           => $bp->displayed_user->id,
 			'hide_empty_groups' => false,
-			'fetch_fields' 		=> false,
-			'fetch_field_data' 	=> false,
-			'exclude_groups' 	=> false,
-			'exclude_fields' 	=> false
+			'fetch_fields'      => false,
+			'fetch_field_data'  => false,
+			'exclude_groups'    => false,
+			'exclude_fields'    => false
 		);
 
 		$r = wp_parse_args( $args, $defaults );
