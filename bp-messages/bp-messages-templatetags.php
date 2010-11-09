@@ -594,7 +594,7 @@ class BP_Messages_Thread_Template {
 	function bp_messages_thread_template( $thread_id, $order ) {
 		global $bp;
 
-		$this->thread = new BP_Messages_Thread( $thread_id, true );
+		$this->thread = new BP_Messages_Thread( $thread_id, $order );
 		$this->message_count = count( $this->thread->messages );
 
 		$last_message_index = $this->message_count - 1;
@@ -652,7 +652,7 @@ class BP_Messages_Thread_Template {
 
 function bp_thread_has_messages( $args = '' ) {
 	global $bp, $thread_template, $group_id;
-
+	
 	$defaults = array(
 		'thread_id' => false,
 		'order' => 'ASC'
@@ -667,6 +667,15 @@ function bp_thread_has_messages( $args = '' ) {
 	$thread_template = new BP_Messages_Thread_Template( $thread_id, $order );
 	return $thread_template->has_messages();
 }
+
+function bp_thread_messages_order() {
+	echo bp_get_thread_messages_order();
+}
+
+	function bp_get_thread_messages_order() {
+		global $thread_template;
+		return $thread_template->thread->messages_order;
+	}
 
 function bp_thread_messages() {
 	global $thread_template;

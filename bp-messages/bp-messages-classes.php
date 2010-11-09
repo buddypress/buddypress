@@ -8,17 +8,21 @@ Class BP_Messages_Thread {
 
 	var $unread_count;
 
-	function bp_messages_thread ( $thread_id = false ) {
+	function bp_messages_thread ( $thread_id = false, $order = 'ASC' ) {
 		if ( $thread_id )
-			$this->populate( $thread_id );
+			$this->populate( $thread_id, $order );
 	}
 
-	function populate( $thread_id ) {
+	function populate( $thread_id, $order ) {
 		global $wpdb, $bp;
 
+		if( 'ASC' != $order && 'DESC' != $order )
+			$order= 'ASC';
+
+		$this->messages_order = $order;
 		$this->thread_id = $thread_id;
 
-		if ( !$this->messages = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_messages} WHERE thread_id = %d ORDER BY date_sent ASC", $this->thread_id ) ) )
+		if ( !$this->messages = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_messages} WHERE thread_id = %d ORDER BY date_sent " . $order, $this->thread_id ) ) )
 			return false;
 
 		foreach ( (array)$this->messages as $key => $message )

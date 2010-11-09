@@ -81,6 +81,7 @@
 					</div>
 
 					<input type="hidden" id="thread_id" name="thread_id" value="<?php bp_the_thread_id(); ?>" />
+					<input type="hidden" id="messages_order" name="messages_order" value="<?php bp_thread_messages_order(); ?>" />
 					<?php wp_nonce_field( 'messages_send_message', 'send_message_nonce' ) ?>
 
 				</div><!-- .message-content -->

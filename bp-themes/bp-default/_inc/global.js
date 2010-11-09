@@ -837,6 +837,9 @@ jq(document).ready( function() {
 	/* AJAX send reply functionality */
 	jq("input#send_reply_button").click(
 		function() {
+			var order = jq('#messages_order').val() || 'ASC',
+				offset = jq('#message-recipients').offset();
+
 			jq('form#send-reply span.ajax-loader').toggle();
 
 			jq.post( ajaxurl, {
@@ -856,7 +859,13 @@ jq(document).ready( function() {
 				} else {
 					jq('form#send-reply div#message').remove();
 					jq("#message_content").val('');
-					jq('form#send-reply').before( response );
+
+					if ( 'ASC' == order ) {
+						jq('form#send-reply').before( response );
+					} else {
+						jq('#message-recipients').after( response );
+						jq(window).scrollTop(offset.top);
+					}
 
 					jq("div.new-message").hide().slideDown( 200, function() {
 						jq('div.new-message').removeClass('new-message');
