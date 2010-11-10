@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-11-09 13:13+0000\n"
+"POT-Creation-Date: 2010-11-10 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3019,7 +3019,7 @@ msgstr ""
 msgid "No Subject"
 msgstr ""
 
-#: bp-messages/bp-messages-classes.php:193
+#: bp-messages/bp-messages-classes.php:197
 msgid " Recipients"
 msgstr ""
 
@@ -3096,12 +3096,12 @@ msgstr ""
 msgid "Send Private Message"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:708
+#: bp-messages/bp-messages-templatetags.php:717
 #, php-format
 msgid "%d Recipients"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:774
+#: bp-messages/bp-messages-templatetags.php:783
 #: bp-themes/bp-default/_inc/ajax.php:488
 #, php-format
 msgid "Sent %s ago"
