@@ -22,10 +22,10 @@
 
 					<?php do_action( 'bp_before_blog_post' ) ?>
 
-					<div class="post" id="post-<?php the_ID(); ?>">
+					<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 						<div class="author-box">
-							<?php echo get_avatar( get_the_author_email(), '50' ); ?>
+							<?php echo get_avatar( get_the_author_meta( 'email' ), '50' ); ?>
 							<p><?php printf( __( 'by %s', 'buddypress' ), bp_core_get_userlink( $post->post_author ) ) ?></p>
 						</div>
 

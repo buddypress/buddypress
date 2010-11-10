@@ -16,7 +16,7 @@
 
 				</div>
 
-				<div class="post" id="post-<?php the_ID(); ?>">
+				<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 					<div class="author-box">
 						<?php echo get_avatar( get_the_author_meta( 'user_email' ), '50' ); ?>

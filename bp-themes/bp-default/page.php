@@ -11,7 +11,7 @@
 
 				<h2 class="pagetitle"><?php the_title(); ?></h2>
 
-				<div class="post" id="post-<?php the_ID(); ?>">
+				<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 					<div class="entry">
 

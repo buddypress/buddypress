@@ -3,6 +3,8 @@
 if ( !class_exists( 'BP_Core_User' ) )
 	return false;
 
+add_theme_support( 'automatic-feed-links' );
+
 // Register the widget columns
 register_sidebars( 1,
 	array(
