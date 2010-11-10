@@ -18,7 +18,7 @@
 		<?php if ( bp_is_group() ) : ?>
 			<?php printf( __( "What's new in %s, %s?", 'buddypress' ), bp_get_group_name(), bp_get_user_firstname() ) ?>
 		<?php else : ?>
-			<?php printf( __( "What's new %s?", 'buddypress' ), bp_get_user_firstname() ) ?>
+			<?php printf( __( "What's new, %s?", 'buddypress' ), bp_get_user_firstname() ) ?>
 		<?php endif; ?>
 	</h5>
 
