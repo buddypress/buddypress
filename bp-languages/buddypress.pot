@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-11-10 13:13+0000\n"
+"POT-Creation-Date: 2010-11-11 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -534,7 +534,7 @@ msgstr ""
 #: bp-core/bp-core-templatetags.php:1049
 #: bp-forums/bp-forums-templatetags.php:1035
 #: bp-groups/bp-groups-templatetags.php:1820
-#: bp-themes/bp-default/header.php:57 bp-themes/bp-default/searchform.php:5
+#: bp-themes/bp-default/header.php:54 bp-themes/bp-default/searchform.php:5
 msgid "Search"
 msgstr ""
 
@@ -1648,7 +1648,7 @@ msgid "%1$s at %2$s"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:880 bp-groups.php:127
-#: bp-themes/bp-default/functions.php:360 bp-themes/bp-default/header.php:44
+#: bp-themes/bp-default/functions.php:362 bp-themes/bp-default/header.php:41
 msgid "Home"
 msgstr ""
 
@@ -1931,7 +1931,7 @@ msgid "Viewing topic %s to %s (of %s total topics%s)"
 msgstr ""
 
 #: bp-forums/bp-forums-templatetags.php:977
-#: bp-themes/bp-default/functions.php:100
+#: bp-themes/bp-default/functions.php:102
 #: bp-xprofile/bp-xprofile-admin.php:398
 msgid "Edit"
 msgstr ""
@@ -3084,7 +3084,7 @@ msgid "Deactivate"
 msgstr ""
 
 #: bp-messages/bp-messages-templatetags.php:490
-#: bp-themes/bp-default/functions.php:36
+#: bp-themes/bp-default/functions.php:38
 msgid "Close"
 msgstr ""
 
@@ -3206,7 +3206,7 @@ msgid "Blog Posts"
 msgstr ""
 
 #: bp-themes/bp-default/_inc/options.php:38
-#: bp-themes/bp-default/functions.php:129
+#: bp-themes/bp-default/functions.php:131
 msgid "Activity Stream"
 msgstr ""
 
@@ -3360,7 +3360,7 @@ msgstr ""
 
 #: bp-themes/bp-default/activity/post-form.php:21
 #, php-format
-msgid "What's new %s?"
+msgid "What's new, %s?"
 msgstr ""
 
 #: bp-themes/bp-default/activity/post-form.php:33
@@ -3690,35 +3690,35 @@ msgstr ""
 msgid "Unreplied"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:19
+#: bp-themes/bp-default/functions.php:21
 msgid "Primary Navigation"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:30
+#: bp-themes/bp-default/functions.php:32
 msgid "My Favorites"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:31
+#: bp-themes/bp-default/functions.php:33
 msgid "Accepted"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:32
+#: bp-themes/bp-default/functions.php:34
 msgid "Rejected"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:33
+#: bp-themes/bp-default/functions.php:35
 msgid "Show all comments for this thread"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:34
+#: bp-themes/bp-default/functions.php:36
 msgid "Show all"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:35
+#: bp-themes/bp-default/functions.php:37
 msgid "comments"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:41
+#: bp-themes/bp-default/functions.php:43
 #, php-format
 msgid ""
 "%s is a unique identifier for %s that you can type into any message on this "
@@ -3726,19 +3726,19 @@ msgid ""
 "use it."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:88
+#: bp-themes/bp-default/functions.php:90
 msgid "said:"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:89
+#: bp-themes/bp-default/functions.php:91
 msgid "On"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:93
+#: bp-themes/bp-default/functions.php:95
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:337
+#: bp-themes/bp-default/functions.php:339
 #, php-format
 msgid ""
 "Theme activated! This theme contains <a href=\"%s\">custom header image</a> "
@@ -4137,14 +4137,6 @@ msgstr ""
 msgid "Group Activity RSS Feed"
 msgstr ""
 
-#: bp-themes/bp-default/header.php:29
-msgid "Blog Posts RSS Feed"
-msgstr ""
-
-#: bp-themes/bp-default/header.php:30
-msgid "Blog Posts Atom Feed"
-msgstr ""
-
 #: bp-themes/bp-default/index.php:51
 msgid "Sorry, but you are looking for something that isn't here."
 msgstr ""
@@ -4449,8 +4441,8 @@ msgstr ""
 msgid "Profile Field Setup"
 msgstr ""
 
-#: bp-xprofile.php:102 bp-xprofile/bp-xprofile-templatetags.php:705
-#: bp-xprofile/bp-xprofile-templatetags.php:706
+#: bp-xprofile.php:102 bp-xprofile/bp-xprofile-templatetags.php:707
+#: bp-xprofile/bp-xprofile-templatetags.php:708
 msgid "Edit Profile"
 msgstr ""
 
@@ -4776,17 +4768,17 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:640
+#: bp-xprofile/bp-xprofile-templatetags.php:642
 msgid ""
 "Avatar uploads are currently disabled. Why not use a <a href=\"http://"
 "gravatar.com\" target=\"_blank\">gravatar</a> instead?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:649
+#: bp-xprofile/bp-xprofile-templatetags.php:651
 msgid "Profile not recently updated"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:660
+#: bp-xprofile/bp-xprofile-templatetags.php:662
 #, php-format
 msgid "Profile updated %s ago"
 msgstr ""
