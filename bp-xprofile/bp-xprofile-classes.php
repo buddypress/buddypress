@@ -693,57 +693,69 @@ Class BP_XProfile_ProfileData {
 
 		if ( $profiledata = $wpdb->get_row($sql) ) {
 
-			$this->id = $profiledata->id;
-			$this->user_id = $profiledata->user_id;
-			$this->field_id = $profiledata->field_id;
-			$this->value = stripslashes($profiledata->value);
+			$this->id           = $profiledata->id;
+			$this->user_id      = $profiledata->user_id;
+			$this->field_id     = $profiledata->field_id;
+			$this->value        = stripslashes($profiledata->value);
 			$this->last_updated = $profiledata->last_updated;
 		}
 	}
 
+	/**
+	 * exists ()
+	 *
+	 * Check if there is data already for the user.
+	 *
+	 * @global object $wpdb
+	 * @global array $bp
+	 * @return bool
+	 */
 	function exists() {
 		global $wpdb, $bp;
 
-		// check to see if there is data already for the user.
-		$sql = $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = %d", $this->user_id, $this->field_id );
 
-		if ( !$wpdb->get_row($sql) )
-			return false;
+		$retval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = %d", $this->user_id, $this->field_id ) );
 
-		return true;
+		return apply_filters( 'xprofile_data_exists', (bool)$retval, $this );
 	}
 
+	/**
+	 * is_valid_field()
+	 *
+	 * Check if this data is for a valid field.
+	 *
+	 * @global object $wpdb
+	 * @global array $bp
+	 * @return bool
+	 */
 	function is_valid_field() {
 		global $wpdb, $bp;
 
-		// check to see if this data is actually for a valid field.
-		$sql = $wpdb->prepare("SELECT id FROM {$bp->profile->table_name_fields} WHERE id = %d", $this->field_id );
+		$retval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE id = %d", $this->field_id ) );
 
-		if ( !$wpdb->get_row($sql) )
-			return false;
-
-		return true;
+		return apply_filters( 'xprofile_data_is_valid_field', (bool)$retval, $this );
 	}
 
 	function save() {
 		global $wpdb, $bp;
 
-		$this->user_id = apply_filters( 'xprofile_data_user_id_before_save', $this->user_id, $this->id );
-		$this->field_id = apply_filters( 'xprofile_data_field_id_before_save', $this->field_id, $this->id );
-		$this->value = apply_filters( 'xprofile_data_value_before_save', $this->value, $this->id );
+		$this->user_id      = apply_filters( 'xprofile_data_user_id_before_save', $this->user_id, $this->id );
+		$this->field_id     = apply_filters( 'xprofile_data_field_id_before_save', $this->field_id, $this->id );
+		$this->value        = apply_filters( 'xprofile_data_value_before_save', $this->value, $this->id );
 		$this->last_updated = apply_filters( 'xprofile_data_last_updated_before_save', date( 'Y-m-d H:i:s' ), $this->id );
 
 		do_action( 'xprofile_data_before_save', $this );
 
 		if ( $this->is_valid_field() ) {
-			if ( $this->exists() && !empty( $this->value ) && strlen( trim( $this->value ) ) ) {
+			if ( $this->exists() && !empty( $this->value ) && strlen( trim( $this->value ) ) )
 				$result = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_data} SET value = %s, last_updated = %s WHERE user_id = %d AND field_id = %d", $this->value, $this->last_updated, $this->user_id, $this->field_id ) );
-			} else if ( $this->exists() && empty( $this->value ) ) {
-				// Data removed, delete the entry.
+
+			// Data removed, delete the entry.
+			elseif ( $this->exists() && empty( $this->value ) )				
 				$result = $this->delete();
-			} else {
+
+			else
 				$result = $wpdb->query( $wpdb->prepare("INSERT INTO {$bp->profile->table_name_data} (user_id, field_id, value, last_updated) VALUES (%d, %d, %s, %s)", $this->user_id, $this->field_id, $this->value, $this->last_updated ) );
-			}
 
 			if ( !$result )
 				return false;
