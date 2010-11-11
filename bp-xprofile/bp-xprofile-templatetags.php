@@ -384,7 +384,7 @@ function bp_the_profile_field_options( $args = '' ) {
 					$html .= '<option value="">--------</option>';
 
 				for ( $k = 0; $k < count($options); $k++ ) {
-					$option_values = BP_XProfile_ProfileData::get_value_byid( $options[$k]->parent_id );
+					$option_values = maybe_unserialize( BP_XProfile_ProfileData::get_value_byid( $options[$k]->parent_id ) );
 					$option_values = (array)$option_values;
 
 					/* Check for updated posted values, but errors preventing them from being saved first time */
