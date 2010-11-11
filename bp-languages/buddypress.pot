@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-10-26 13:14+0000\n"
+"POT-Creation-Date: 2010-11-11 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -668,13 +668,13 @@ msgstr ""
 msgid "not recently active"
 msgstr ""
 
-#: bp-core.php:1989
+#: bp-core.php:1995
 msgid ""
 "IMPORTANT: <a href=\"http://codex.buddypress.org/getting-started/upgrading-"
 "from-10x/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core.php:2018
+#: bp-core.php:2024
 #, php-format
 msgid ""
 "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update "
@@ -682,7 +682,7 @@ msgid ""
 "work."
 msgstr ""
 
-#: bp-core.php:2027
+#: bp-core.php:2033
 #, php-format
 msgid ""
 "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a "
@@ -4032,8 +4032,8 @@ msgstr ""
 msgid "Profile Field Setup"
 msgstr ""
 
-#: bp-xprofile.php:178 bp-xprofile/bp-xprofile-templatetags.php:695
-#: bp-xprofile/bp-xprofile-templatetags.php:696
+#: bp-xprofile.php:178 bp-xprofile/bp-xprofile-templatetags.php:697
+#: bp-xprofile/bp-xprofile-templatetags.php:698
 msgid "Edit Profile"
 msgstr ""
 
@@ -4362,17 +4362,17 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:632
+#: bp-xprofile/bp-xprofile-templatetags.php:634
 msgid ""
 "Avatar uploads are currently disabled. Why not use a <a href=\"http://"
 "gravatar.com\" target=\"_blank\">gravatar</a> instead?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:641
+#: bp-xprofile/bp-xprofile-templatetags.php:643
 msgid "Profile not recently updated"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:652
+#: bp-xprofile/bp-xprofile-templatetags.php:654
 #, php-format
 msgid "Profile updated %s ago"
 msgstr ""
