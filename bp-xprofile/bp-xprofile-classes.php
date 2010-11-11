@@ -812,7 +812,7 @@ Class BP_XProfile_ProfileData {
 			$data = $wpdb->get_var( $wpdb->prepare( "SELECT value FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_ids ) );
 		}
 
-		return maybe_unserialize( $data );
+		return $data;
 	}
 
 	function get_value_byfieldname( $fields, $user_id = null ) {
