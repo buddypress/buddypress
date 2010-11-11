@@ -560,10 +560,12 @@ function bp_profile_field_data( $args = '' ) {
 	echo bp_get_profile_field_data( $args );
 }
 	function bp_get_profile_field_data( $args = '' ) {
+		global $bp;
+
 		$defaults = array(
-			'field' => false, // Field name or ID.
+			'field'   => false, // Field name or ID.
 			'user_id' => $bp->displayed_user->id
-			);
+		);
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
