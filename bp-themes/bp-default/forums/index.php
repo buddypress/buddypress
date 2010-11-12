@@ -3,6 +3,8 @@
 	<div id="content">
 		<div class="padder">
 
+		<?php do_action( 'bp_before_directory_forums' ) ?>
+
 		<form action="" method="post" id="forums-search-form" class="dir-form">
 
 			<h3><?php _e( 'Group Forums Directory', 'buddypress' ) ?><?php if ( is_user_logged_in() ) : ?> &nbsp;<a class="button" href="#new-topic" id="new-topic-button"><?php _e( 'New Topic', 'buddypress' ) ?></a><?php endif; ?></h3>
@@ -113,6 +115,8 @@
 			<?php do_action( 'bp_after_directory_forums_content' ) ?>
 
 		</form>
+		
+		<?php do_action( 'bp_after_directory_forums' ) ?>
 
 		</div><!-- .padder -->
 	</div><!-- #content -->
