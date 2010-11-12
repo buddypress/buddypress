@@ -910,6 +910,12 @@ function bp_activity_can_comment() {
 	return apply_filters( 'bp_activity_can_comment', $can_comment );
 }
 
+function bp_activity_can_favorite() {	
+	$can_favorite = true;
+	
+	return apply_filters( 'bp_activity_can_favorite', $can_favorite );
+}
+
 function bp_total_favorite_count_for_user( $user_id = false ) {
 	echo bp_get_total_favorite_count_for_user( $user_id );
 }
