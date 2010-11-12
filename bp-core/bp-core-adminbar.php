@@ -157,6 +157,26 @@ function bp_adminbar_blogs_menu() {
 	echo '</li>';
 }
 
+function bp_adminbar_thisblog_menu() {
+	if ( current_user_can( 'edit_posts' ) ) {
+		echo '<li id="bp-adminbar-thisblog-menu"><a href="' . admin_url() . '">';
+		
+		_e( 'Dashboard', 'buddypress' );
+	
+		echo '</a>';
+		echo '<ul>';
+		
+		echo '<li class="alt"><a href="' . admin_url() . 'post-new.php">' . __( 'New Post', 'buddypress' ) . '</a></li>';
+		echo '<li class="alt"><a href="' . admin_url() . 'edit.php">' . __( 'Manage Posts', 'buddypress' ) . '</a></li>';
+		echo '<li class="alt"><a href="' . admin_url() . 'edit-comments.php">' . __( 'Manage Comments', 'buddypress' ) . '</a></li>';
+		
+		do_action( 'bp_adminbar_thisblog_items' );
+		
+		echo '</ul>';
+		echo '</li>';
+	}
+}
+
 // **** "Notifications" Menu *********
 function bp_adminbar_notifications_menu() {
 	global $bp;
@@ -253,6 +273,8 @@ add_action( 'bp_adminbar_menus', 'bp_adminbar_account_menu', 4 );
 
 if ( is_multisite() )
 	add_action( 'bp_adminbar_menus', 'bp_adminbar_blogs_menu', 6 );
+else
+	add_action( 'bp_adminbar_menus', 'bp_adminbar_thisblog_menu', 6 );
 
 add_action( 'bp_adminbar_menus', 'bp_adminbar_notifications_menu', 8 );
 
