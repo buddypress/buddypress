@@ -138,6 +138,8 @@ function bp_adminbar_blogs_menu() {
 			echo '<li><a href="' . $site_url . 'wp-admin/edit-comments.php">' . __( 'Manage Comments', 'buddypress' ) . '</a></li>';
 			echo '</ul>';
 
+			do_action( 'bp_adminbar_blog_items', $blog );
+
 			echo '</li>';
 			$counter++;
 		}
