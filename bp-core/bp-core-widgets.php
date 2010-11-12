@@ -12,7 +12,8 @@ add_action( 'bp_register_widgets', 'bp_core_register_widgets' );
 
 class BP_Core_Members_Widget extends WP_Widget {
 	function bp_core_members_widget() {
-		parent::WP_Widget( false, $name = __( 'Members', 'buddypress' ) );
+		$widget_ops = array( 'description' => __( 'A dynamic list of recently active, popular, and newest members', 'buddypress' ) );
+		parent::WP_Widget( false, $name = __( 'Members', 'buddypress' ), $widget_ops );
 
 		if ( is_active_widget( false, false, $this->id_base ) )
 			wp_enqueue_script( 'bp_core_widget_members-js', BP_PLUGIN_URL . '/bp-core/js/widget-members.js', array('jquery') );
@@ -28,7 +29,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 		echo $before_widget;
 		echo $before_title
-		   . $widget_name
+		   . $instance['title']
 		   . $after_title; ?>
 
 		<?php if ( bp_has_members( 'user_id=0&type=' . $instance['member_default'] . '&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
@@ -88,6 +89,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
+		$instance['title'] = strip_tags( $new_instance['title'] );
 		$instance['max_members'] = strip_tags( $new_instance['max_members'] );
 		$instance['member_default'] = strip_tags( $new_instance['member_default'] );
 
@@ -95,10 +97,19 @@ class BP_Core_Members_Widget extends WP_Widget {
 	}
 
 	function form( $instance ) {
-		$instance = wp_parse_args( (array) $instance, array( 'max_members' => 5, 'member_default' => 'active' ) );
+		$defaults = array(
+			'title' => __( 'Members', 'buddypress' ),
+			'max_members' => 5,
+			'member_default' => 'active'
+		);
+		$instance = wp_parse_args( (array) $instance, $defaults );
+		
+		$title = strip_tags( $instance['title'] );
 		$max_members = strip_tags( $instance['max_members'] );
 		$member_default = strip_tags( $instance['member_default'] );
 		?>
+
+		<p><label for="bp-core-widget-title"><?php _e('Title:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" style="width: 100%" /></label></p>
 
 		<p><label for="bp-core-widget-members-max"><?php _e('Max members to show:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_members' ); ?>" name="<?php echo $this->get_field_name( 'max_members' ); ?>" type="text" value="<?php echo esc_attr( $max_members ); ?>" style="width: 30%" /></label></p>
 				
@@ -120,7 +131,8 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 class BP_Core_Whos_Online_Widget extends WP_Widget {
 	function bp_core_whos_online_widget() {
-		parent::WP_Widget( false, $name = __( "Who's Online Avatars", 'buddypress' ) );
+		$widget_ops = array( 'description' => __( 'Avatars of users who are currently online', 'buddypress' ) );
+		parent::WP_Widget( false, $name = __( "Who's Online Avatars", 'buddypress' ), $widget_ops );
 	}
 
 	function widget($args, $instance) {
@@ -130,7 +142,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 
 		echo $before_widget;
 		echo $before_title
-		   . $widget_name
+		   . $instance['title']
 		   . $after_title; ?>
 
 		<?php if ( bp_has_members( 'user_id=0&type=online&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
@@ -155,15 +167,24 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
+		$instance['title'] = strip_tags( $new_instance['title'] );
 		$instance['max_members'] = strip_tags( $new_instance['max_members'] );
 
 		return $instance;
 	}
 
 	function form( $instance ) {
-		$instance = wp_parse_args( (array) $instance, array( 'max_members' => 15 ) );
+		$defaults = array(
+			'title' => __( "Who's Online", 'buddypress' ),
+			'max_members' => 15
+		);
+		$instance = wp_parse_args( (array) $instance, $defaults );
+		
+		$title = strip_tags( $instance['title'] );
 		$max_members = strip_tags( $instance['max_members'] );
 		?>
+
+		<p><label for="bp-core-widget-title"><?php _e('Title:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" style="width: 100%" /></label></p>
 
 		<p><label for="bp-core-widget-members-max"><?php _e('Max Members to show:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_members' ); ?>" name="<?php echo $this->get_field_name( 'max_members' ); ?>" type="text" value="<?php echo esc_attr( $max_members ); ?>" style="width: 30%" /></label></p>
 	<?php
@@ -174,7 +195,8 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 
 class BP_Core_Recently_Active_Widget extends WP_Widget {
 	function bp_core_recently_active_widget() {
-		parent::WP_Widget( false, $name = __( 'Recently Active Member Avatars', 'buddypress' ) );
+		$widget_ops = array( 'description' => __( 'Avatars of recently active members', 'buddypress' ) );
+		parent::WP_Widget( false, $name = __( 'Recently Active Member Avatars', 'buddypress' ), $widget_ops );
 	}
 
 	function widget($args, $instance) {
@@ -184,7 +206,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 
 		echo $before_widget;
 		echo $before_title
-		   . $widget_name
+		   . $instance['title']
 		   . $after_title; ?>
 
 		<?php if ( bp_has_members( 'user_id=0&type=active&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
@@ -209,15 +231,24 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
+		$instance['title'] = strip_tags( $new_instance['title'] );
 		$instance['max_members'] = strip_tags( $new_instance['max_members'] );
 
 		return $instance;
 	}
 
 	function form( $instance ) {
-		$instance = wp_parse_args( (array) $instance, array( 'max_members' => 15 ) );
+		$defaults = array(
+			'title' => 'Recently Active Members',
+			'max_members' => 15
+		);
+		$instance = wp_parse_args( (array) $instance, $defaults );
+		
+		$title = strip_tags( $instance['title'] );
 		$max_members = strip_tags( $instance['max_members'] );
 		?>
+
+		<p><label for="bp-core-widget-members-title"><?php _e('Title:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" style="width: 100%" /></label></p>
 
 		<p><label for="bp-core-widget-members-max"><?php _e('Max Members to show:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_members' ); ?>" name="<?php echo $this->get_field_name( 'max_members' ); ?>" type="text" value="<?php echo esc_attr( $max_members ); ?>" style="width: 30%" /></label></p>
 	<?php
