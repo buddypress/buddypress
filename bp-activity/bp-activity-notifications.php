@@ -14,6 +14,8 @@ function bp_activity_at_message_notification( $content, $poster_user_id, $activi
 	foreach( (array)$usernames as $username ) {
 		if ( !$receiver_user_id = bp_core_get_userid( $username ) )
 			continue;
+			
+		bp_core_add_notification( $activity_id, $receiver_user_id, 'activity', 'new_at_mention', $poster_user_id ); 
 
 		// Now email the user with the contents of the message (if they have enabled email notifications)
 		if ( 'no' != get_user_meta( $receiver_user_id, 'notification_activity_new_mention', true ) ) {

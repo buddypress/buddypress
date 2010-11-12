@@ -873,22 +873,6 @@ function xprofile_sync_bp_profile( &$errors, $update, &$user ) {
 }
 add_action( 'user_profile_update_errors', 'xprofile_sync_bp_profile', 10, 3 );
 
-/**
- * xprofile_remove_screen_notifications()
- *
- * Removes notifications from the notification menu when a user clicks on them and
- * is taken to a specific screen.
- *
- * @package BuddyPress Core
- */
-function xprofile_remove_screen_notifications() {
-	global $bp;
-
-	bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, $bp->profile->id, 'new_at_mention' );
-}
-add_action( 'bp_activity_screen_my_activity', 'xprofile_remove_screen_notifications' );
-add_action( 'bp_activity_screen_single_activity_permalink', 'xprofile_remove_screen_notifications' );
-
 
 /**
  * xprofile_remove_data_on_user_deletion()

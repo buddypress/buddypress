@@ -136,6 +136,23 @@ function bp_activity_screen_mentions() {
 	bp_core_load_template( apply_filters( 'bp_activity_template_mention_activity', 'members/single/home' ) );
 }
 
+/**
+ * bp_activity_remove_screen_notifications()
+ *
+ * Removes activity notifications from the notification menu when a user clicks on them and
+ * is taken to a specific screen.
+ *
+ * @package BuddyPress Activity
+ */
+function bp_activity_remove_screen_notifications() {
+	global $bp;
+
+	bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, $bp->activity->id, 'new_at_mention' );
+}
+add_action( 'bp_activity_screen_my_activity', 'bp_activity_remove_screen_notifications' );
+add_action( 'bp_activity_screen_single_activity_permalink', 'bp_activity_remove_screen_notifications' );
+add_action( 'bp_activity_screen_mentions', 'bp_activity_remove_screen_notifications' );
+
 function bp_activity_screen_single_activity_permalink() {
 	global $bp;
 
@@ -483,6 +500,43 @@ function bp_activity_action_favorites_feed() {
 	die;
 }
 add_action( 'wp', 'bp_activity_action_favorites_feed', 3 );
+
+/**
+ * bp_activity_format_notifications()
+ *
+ * Formats notifications related to activity
+ *
+ * @package BuddyPress Activity
+ * @param $action The type of activity item. Just 'new_at_mention' for now
+ * @param $item_id The activity id
+ * @param $secondary_item_id In the case of at-mentions, this is the mentioner's id
+ * @param $total_items The total number of notifications to format
+ */
+function bp_activity_format_notifications( $action, $item_id, $secondary_item_id, $total_items ) {
+	global $bp;
+
+	switch ( $action ) {
+		case 'new_at_mention':
+			$activity_id = $item_id;
+			$poster_user_id = $secondary_item_id;
+
+			$at_mention_link = $bp->loggedin_user->domain . $bp->activity->slug . '/mentions/';
+			$at_mention_title = sprintf( __( '@%s Mentions', 'buddypress' ), $bp->loggedin_user->userdata->user_nicename );
+
+			if ( (int)$total_items > 1 ) {
+				return apply_filters( 'bp_activity_multiple_at_mentions_notification', '<a href="' . $at_mention_link . '" title="' . $at_mention_title . '">' . sprintf( __( 'You have %1$d new activity mentions', 'buddypress' ), (int)$total_items ) . '</a>', $at_mention_link, $total_items, $activity_id, $poster_user_id );
+			} else {
+				$user_fullname = bp_core_get_user_displayname( $poster_user_id );
+				
+				return apply_filters( 'bp_activity_single_at_mentions_notification', '<a href="' . $at_mention_link . '" title="' . $at_mention_title . '">' . sprintf( __( '%1$s mentioned you in an activity update', 'buddypress' ), $user_fullname ) . '</a>', $at_mention_link, $total_items, $activity_id, $poster_user_id );
+			}
+		break;
+	}
+
+	do_action( 'activity_format_notifications', $action, $item_id, $secondary_item_id, $total_items );
+
+	return false;
+}
 
 /********************************************************************************
  * Business Functions
