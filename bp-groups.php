@@ -1694,20 +1694,17 @@ function groups_join_group( $group_id, $user_id = false ) {
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
 
-	/* Check if the user has an outstanding invite, is so delete it. */
+	// Check if the user has an outstanding invite, is so delete it.
 	if ( groups_check_user_has_invite( $user_id, $group_id ) )
 		groups_delete_invite( $user_id, $group_id );
 
-	/* Check if the user has an outstanding request, is so delete it. */
+	// Check if the user has an outstanding request, is so delete it.
 	if ( groups_check_for_membership_request( $user_id, $group_id ) )
 		groups_delete_membership_request( $user_id, $group_id );
 
-	/* User is already a member, just return true */
+	// User is already a member, just return true
 	if ( groups_is_user_member( $user_id, $group_id ) )
 		return true;
-
-	if ( !$bp->groups->current_group )
-		$bp->groups->current_group = new BP_Groups_Group( $group_id );
 
 	$new_member = new BP_Groups_Member;
 	$new_member->group_id = $group_id;
@@ -1721,14 +1718,20 @@ function groups_join_group( $group_id, $user_id = false ) {
 	if ( !$new_member->save() )
 		return false;
 
-	/* Record this in activity streams */
+	if ( !isset( $bp->groups->current_group ) || !$bp->groups->current_group || $group_id != $bp->groups->current_group->id )
+		$group = new BP_Groups_Group( $group_id );
+	else
+		$group = $bp->groups->current_group;
+
+	// Record this in activity streams
 	groups_record_activity( array(
-		'action' => apply_filters( 'groups_activity_joined_group', sprintf( __( '%1$s joined the group %2$s', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . esc_attr( $bp->groups->current_group->name ) . '</a>' ) ),
+		'action' => apply_filters( 'groups_activity_joined_group', sprintf( __( '%1$s joined the group %2$s', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . esc_attr( bp_get_group_name( $group ) ) . '</a>' ) ),
 		'type' => 'joined_group',
-		'item_id' => $group_id
+		'item_id' => $group_id,
+		'user_id' => $user_id
 	) );
 
-	/* Modify group meta */
+	// Modify group meta
 	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') + 1 );
 	groups_update_groupmeta( $group_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
 
