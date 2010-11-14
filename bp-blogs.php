@@ -404,7 +404,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 	$recorded_comment = get_comment( $comment_id );
 
 	// Don't record activity if the comment hasn't been approved
-	if ( empty( $is_approved ) || 1 != $recorded_comment->comment_approved )
+	if ( empty( $is_approved ) )
 		return false;
 
 	// Don't record activity if no email address has been included
