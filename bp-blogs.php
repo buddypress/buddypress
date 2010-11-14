@@ -348,37 +348,38 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 	if ( !$user_id )
 		$user_id = (int)$post->post_author;
 
-	/* This is to stop infinite loops with Donncha's sitewide tags plugin */
-	if ( (int)$bp->site_options['tags_blog_id'] == (int)$blog_id )
+	// This is to stop infinite loops with Donncha's sitewide tags plugin
+	if ( (int)$blog_id == (int)$bp->site_options['tags_blog_id'] )
 		return false;
 
-	/* Don't record this if it's not a post */
-	if ( $post->post_type != 'post' )
+	// Don't record this if it's not a post
+	if ( 'post' != $post->post_type )
 		return false;
 
-	if ( 'publish' == $post->post_status && '' == $post->post_password ) {
-		if ( (int)get_blog_option( $blog_id, 'blog_public' ) || !is_multisite() ) {
-			/* Record this in activity streams */
-			$post_permalink = get_permalink( $post_id );
-
-			$activity_action = sprintf( __( '%s wrote a new blog post: %s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' );
+	if ( 'publish' == $post->post_status && empty( $post->post_password ) ) {
+		if ( (int)get_blog_option( $blog_id, 'blog_public' ) || !bp_core_is_multisite() ) {
+			// Record this in activity streams
+			$post_permalink   = get_permalink( $post_id );
+			$activity_action  = sprintf( __( '%s wrote a new blog post: %s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' );
 			$activity_content = $post->post_content;
 
 			bp_blogs_record_activity( array(
-				'user_id' => (int)$post->post_author,
-				'action' => apply_filters( 'bp_blogs_activity_new_post_action', $activity_action, &$post, $post_permalink ),
-				'content' => apply_filters( 'bp_blogs_activity_new_post_content', $activity_content, &$post, $post_permalink ),
-				'primary_link' => apply_filters( 'bp_blogs_activity_new_post_primary_link', $post_permalink, $post_id ),
-				'type' => 'new_blog_post',
-				'item_id' => $blog_id,
+				'user_id'            => (int)$post->post_author,
+				'action'            => apply_filters( 'bp_blogs_activity_new_post_action', $activity_action, &$post, $post_permalink ),
+				'content'           => apply_filters( 'bp_blogs_activity_new_post_content', $activity_content, &$post, $post_permalink ),
+				'primary_link'      => apply_filters( 'bp_blogs_activity_new_post_primary_link', $post_permalink, $post_id ),
+				'type'              => 'new_blog_post',
+				'item_id'           => $blog_id,
 				'secondary_item_id' => $post_id,
-				'recorded_time' => $post->post_date_gmt
+				'recorded_time'     => $post->post_date_gmt
 			));
 		}
-	} else
-		bp_blogs_remove_post( $post_id, $blog_id );
 
-	bp_blogs_update_blogmeta( $blog_id, 'last_activity', bp_core_current_time() );
+		// Update the blogs last activity
+		bp_blogs_update_blogmeta( $blog_id, 'last_activity', bp_core_current_time() );
+	} else {
+		bp_blogs_remove_post( $post_id, $blog_id );
+	}
 
 	do_action( 'bp_blogs_new_blog_post', $post_id, $post, $user_id );
 }
