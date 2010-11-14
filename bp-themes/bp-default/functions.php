@@ -211,6 +211,8 @@ function bp_dtheme_fix_the_posts_on_activity_front( $posts ) {
 add_filter( 'the_posts', 'bp_dtheme_fix_the_posts_on_activity_front' );
 
 /**
+ * bp_dtheme_activity_secondary_avatars()
+ *
  * Add secondary avatar image to this activity stream's record, if supported
  *
  * @param string $action The text of this activity
@@ -222,7 +224,6 @@ add_filter( 'the_posts', 'bp_dtheme_fix_the_posts_on_activity_front' );
 function bp_dtheme_activity_secondary_avatars( $action, $activity ) {
 	switch ( $activity->component ) {
 		case 'groups' :
-		case 'blogs' :
 		case 'friends' :
 			// Only insert avatar if one exists
 			if ( $secondary_avatar = bp_get_activity_secondary_avatar() ) {
