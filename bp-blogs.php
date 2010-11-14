@@ -464,7 +464,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 	$recorded_comment = get_comment( $comment_id );
 
 	// Don't record activity if the comment hasn't been approved
-	if ( empty( $is_approved ) || 1 != $recorded_comment->comment_approved )
+	if ( empty( $is_approved ) )
 		return false;
 
 	// Don't record activity if no email address has been included
@@ -517,7 +517,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 	return $recorded_comment;
 }
 add_action( 'comment_post', 'bp_blogs_record_comment', 10, 2 );
-add_action( 'edit_comment', 'bp_blogs_record_comment', 10 );
+//add_action( 'edit_comment', 'bp_blogs_record_comment', 10 );
 
 function bp_blogs_manage_comment( $comment_id, $comment_status ) {
 	if ( 'spam' == $comment_status || 'hold' == $comment_status || 'delete' == $comment_status || 'trash' == $comment_status )
