@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-11-11 13:13+0000\n"
+"POT-Creation-Date: 2010-11-14 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -373,7 +373,7 @@ msgstr ""
 msgid "Blogs <span>(%d)</span>"
 msgstr ""
 
-#: bp-blogs.php:117 bp-core/bp-core-adminbar.php:113
+#: bp-blogs.php:117 bp-core/bp-core-adminbar.php:115
 msgid "My Blogs"
 msgstr ""
 
@@ -394,12 +394,12 @@ msgstr ""
 msgid "%s created the blog %s"
 msgstr ""
 
-#: bp-blogs.php:423
+#: bp-blogs.php:422
 #, php-format
 msgid "%s wrote a new blog post: %s"
 msgstr ""
 
-#: bp-blogs.php:497
+#: bp-blogs.php:498
 #, php-format
 msgid "%s commented on the blog post %s"
 msgstr ""
@@ -852,29 +852,29 @@ msgstr ""
 msgid "Sign Up"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:62
+#: bp-core/bp-core-adminbar.php:61
 msgid "My Account"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:94 bp-core/bp-core-templatetags.php:516
+#: bp-core/bp-core-adminbar.php:93 bp-core/bp-core-templatetags.php:516
 #: bp-core/bp-core-templatetags.php:518 bp-core/bp-core-templatetags.php:1059
 #: bp-core/bp-core-templatetags.php:1061 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:128
+#: bp-core/bp-core-adminbar.php:129 bp-core/bp-core-adminbar.php:155
 msgid "Dashboard"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:129
+#: bp-core/bp-core-adminbar.php:130 bp-core/bp-core-adminbar.php:160
 msgid "New Post"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:130
+#: bp-core/bp-core-adminbar.php:131 bp-core/bp-core-adminbar.php:161
 msgid "Manage Posts"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:131
+#: bp-core/bp-core-adminbar.php:132 bp-core/bp-core-adminbar.php:162
 msgid "Manage Comments"
 msgstr ""
 
@@ -882,31 +882,31 @@ msgstr ""
 msgid "Create a Blog!"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:159 bp-core/bp-core-settings.php:22
+#: bp-core/bp-core-adminbar.php:179 bp-core/bp-core-settings.php:22
 msgid "Notifications"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:177
+#: bp-core/bp-core-adminbar.php:200
 msgid "No new notifications."
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:198
+#: bp-core/bp-core-adminbar.php:227
 msgid "Blog Authors"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:222
+#: bp-core/bp-core-adminbar.php:252
 msgid "Visit"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:224
+#: bp-core/bp-core-adminbar.php:254
 msgid "Random Member"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:227
+#: bp-core/bp-core-adminbar.php:258
 msgid "Random Group"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:231
+#: bp-core/bp-core-adminbar.php:264
 msgid "Random Blog"
 msgstr ""
 
@@ -3320,7 +3320,7 @@ msgstr ""
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:328
+#: bp-themes/bp-default/functions.php:329
 #, php-format
 msgid ""
 "Theme activated! This theme contains <a href=\"%s\">custom header image</a> "
