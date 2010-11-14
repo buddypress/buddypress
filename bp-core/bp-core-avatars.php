@@ -388,6 +388,12 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 		@unlink( $bp->avatar_admin->original['file'] );
 	}
 
+	// Check for WP_Error on what should be an image
+	if ( is_wp_error( $bp->avatar_admin->image->dir ) ) {
+		bp_core_add_message( sprintf( __( 'Upload failed! Error was: %s', 'buddypress' ), $bp->avatar_admin->image->dir->get_error_message() ), 'error' );
+		return false;
+	}
+
 	/* Set the url value for the image */
 	$bp->avatar_admin->image->url = BP_AVATAR_URL . $bp->avatar_admin->image->dir;
 
