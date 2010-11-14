@@ -50,7 +50,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 				<?php while ( bp_members() ) : bp_the_member(); ?>
 					<li class="vcard">
 						<div class="item-avatar">
-							<a href="<?php bp_member_permalink() ?>"><?php bp_member_avatar() ?></a>
+							<a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name() ?>"><?php bp_member_avatar() ?></a>
 						</div>
 
 						<div class="item">
@@ -149,7 +149,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 			<div class="avatar-block">
 				<?php while ( bp_members() ) : bp_the_member(); ?>
 					<div class="item-avatar">
-						<a href="<?php bp_member_permalink() ?>"><?php bp_member_avatar() ?></a>
+						<a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name() ?>"><?php bp_member_avatar() ?></a>
 					</div>
 				<?php endwhile; ?>
 			</div>
@@ -213,7 +213,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 			<div class="avatar-block">
 				<?php while ( bp_members() ) : bp_the_member(); ?>
 					<div class="item-avatar">
-						<a href="<?php bp_member_permalink() ?>"><?php bp_member_avatar() ?></a>
+						<a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name() ?>"><?php bp_member_avatar() ?></a>
 					</div>
 				<?php endwhile; ?>
 			</div>
