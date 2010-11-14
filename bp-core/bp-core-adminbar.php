@@ -99,66 +99,70 @@ function bp_adminbar_account_menu() {
 function bp_adminbar_blogs_menu() {
 	global $bp;
 
-	if ( !is_user_logged_in() || !function_exists('bp_blogs_install') )
+	if ( !is_user_logged_in() || !bp_is_active( 'blogs' ) )
 		return false;
 
-	if ( bp_core_is_multisite() ) {
+	if ( !is_multisite() )
+		return false;
 
-		if ( !$blogs = wp_cache_get( 'bp_blogs_of_user_' . $bp->loggedin_user->id . '_inc_hidden', 'bp' ) ) {
-			$blogs = bp_blogs_get_blogs_for_user( $bp->loggedin_user->id, true );
-			wp_cache_set( 'bp_blogs_of_user_' . $bp->loggedin_user->id . '_inc_hidden', $blogs, 'bp' );
-		}
+	if ( !$blogs = wp_cache_get( 'bp_blogs_of_user_' . $bp->loggedin_user->id . '_inc_hidden', 'bp' ) ) {
+		$blogs = bp_blogs_get_blogs_for_user( $bp->loggedin_user->id, true );
+		wp_cache_set( 'bp_blogs_of_user_' . $bp->loggedin_user->id . '_inc_hidden', $blogs, 'bp' );
+	}
 
-		echo '<li id="bp-adminbar-blogs-menu"><a href="' . $bp->loggedin_user->domain . $bp->blogs->slug . '/">';
+	echo '<li id="bp-adminbar-blogs-menu"><a href="' . $bp->loggedin_user->domain . $bp->blogs->slug . '/">';
 
-		_e( 'My Blogs', 'buddypress' );
+	_e( 'My Blogs', 'buddypress' );
 
-		echo '</a>';
-		echo '<ul>';
+	echo '</a>';
+	echo '<ul>';
 
-		if ( is_array( $blogs['blogs'] ) && (int)$blogs['count'] ) {
-			$counter = 0;
-			foreach ( (array)$blogs['blogs'] as $blog ) {
-				$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
-				$site_url = esc_attr( $blog->siteurl );
+	if ( is_array( $blogs['blogs'] ) && (int)$blogs['count'] ) {
+		$counter = 0;
+		foreach ( (array)$blogs['blogs'] as $blog ) {
+			$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
+			$site_url = esc_attr( $blog->siteurl );
 
-				echo '<li' . $alt . '>';
-				echo '<a href="' . $site_url . '">' . esc_html( $blog->name ) . '</a>';
-				echo '<ul>';
-				echo '<li class="alt"><a href="' . $site_url . 'wp-admin/">' . __( 'Dashboard', 'buddypress' ) . '</a></li>';
-				echo '<li><a href="' . $site_url . 'wp-admin/post-new.php">' . __( 'New Post', 'buddypress' ) . '</a></li>';
-				echo '<li class="alt"><a href="' . $site_url . 'wp-admin/edit.php">' . __( 'Manage Posts', 'buddypress' ) . '</a></li>';
-				echo '<li><a href="' . $site_url . 'wp-admin/edit-comments.php">' . __( 'Manage Comments', 'buddypress' ) . '</a></li>';
-				echo '</ul>';
-				echo '</li>';
-				$counter++;
-			}
-		}
-
-		$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
-
-		if ( bp_blog_signup_enabled() ) {
 			echo '<li' . $alt . '>';
-			echo '<a href="' . $bp->root_domain . '/' . $bp->blogs->slug . '/create/">' . __( 'Create a Blog!', 'buddypress' ) . '</a>';
+			echo '<a href="' . $site_url . '">' . esc_html( $blog->name ) . '</a>';
+			echo '<ul>';
+			echo '<li class="alt"><a href="' . $site_url . 'wp-admin/">' . __( 'Dashboard', 'buddypress' ) . '</a></li>';
+			echo '<li><a href="' . $site_url . 'wp-admin/post-new.php">' . __( 'New Post', 'buddypress' ) . '</a></li>';
+			echo '<li class="alt"><a href="' . $site_url . 'wp-admin/edit.php">' . __( 'Manage Posts', 'buddypress' ) . '</a></li>';
+			echo '<li><a href="' . $site_url . 'wp-admin/edit-comments.php">' . __( 'Manage Comments', 'buddypress' ) . '</a></li>';
+			echo '</ul>';
 			echo '</li>';
+			$counter++;
 		}
+	}
 
-		echo '</ul>';
+	$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
+
+	if ( bp_blog_signup_enabled() ) {
+		echo '<li' . $alt . '>';
+		echo '<a href="' . $bp->root_domain . '/' . $bp->blogs->slug . '/create/">' . __( 'Create a Blog!', 'buddypress' ) . '</a>';
 		echo '</li>';
-	} elseif ( current_user_can( 'administrator' ) ) {
-		$site_url = site_url();
+	}
 
-		echo '<li id="bp-adminbar-admin-menu"><a href="' . admin_url() . '/">';
+	echo '</ul>';
+	echo '</li>';
+}
 
-		_e( 'Site Admin', 'buddypress' );
+function bp_adminbar_thisblog_menu() {
+	if ( current_user_can( 'edit_posts' ) ) {
+		echo '<li id="bp-adminbar-thisblog-menu"><a href="' . admin_url() . '">';
+
+		_e( 'Dashboard', 'buddypress' );
 
 		echo '</a>';
 		echo '<ul>';
 
-		echo '<li class="alt"><a href="' . admin_url() . '">' . __( 'Dashboard', 'buddypress' ) . '</a></li>';
-		echo '<li><a href="' . admin_url( 'post-new.php' ) . '">' . __( 'New Post', 'buddypress' ) . '</a></li>';
-		echo '<li class="alt"><a href="' . admin_url( 'edit.php' ) . '">' . __( 'Manage Posts', 'buddypress' ) . '</a></li>';
-		echo '<li><a href="' . admin_url( 'edit-comments.php' ) . '">' . __( 'Manage Comments', 'buddypress' ) . '</a></li>';
+		echo '<li class="alt"><a href="' . admin_url() . 'post-new.php">' . __( 'New Post', 'buddypress' ) . '</a></li>';
+		echo '<li><a href="' . admin_url() . 'edit.php">' . __( 'Manage Posts', 'buddypress' ) . '</a></li>';
+		echo '<li class="alt"><a href="' . admin_url() . 'edit-comments.php">' . __( 'Manage Comments', 'buddypress' ) . '</a></li>';
+
+		do_action( 'bp_adminbar_thisblog_items' );
+
 		echo '</ul>';
 		echo '</li>';
 	}
@@ -207,11 +211,11 @@ function bp_adminbar_authors_menu() {
 	global $bp, $current_blog, $wpdb;
 
 	// Only for multisite
-	if ( !bp_core_is_multisite() )
+	if ( !is_multisite() )
 		return false;
 
 	// Hide on root blog
-	if ( $current_blog->blog_id == BP_ROOT_BLOG || !function_exists( 'bp_blogs_install' ) )
+	if ( $current_blog->blog_id == BP_ROOT_BLOG || !bp_is_active( 'blogs' ) )
 		return false;
 
 	$blog_prefix = $wpdb->get_blog_prefix( $current_blog->id );
@@ -249,13 +253,13 @@ function bp_adminbar_random_menu() {
 		<ul class="random-list">
 			<li><a href="<?php echo $bp->root_domain . '/' . BP_MEMBERS_SLUG . '/?random-member' ?>"><?php _e( 'Random Member', 'buddypress' ) ?></a></li>
 
-			<?php if ( function_exists('groups_install') ) : ?>
+			<?php if ( bp_is_active( 'groups' ) ) : ?>
 
 				<li class="alt"><a href="<?php echo $bp->root_domain . '/' . $bp->groups->slug . '/?random-group' ?>"><?php _e( 'Random Group', 'buddypress' ) ?></a></li>
 
 			<?php endif; ?>
 
-			<?php if ( function_exists('bp_blogs_install') && bp_core_is_multisite() ) : ?>
+			<?php if ( bp_is_active( 'blogs' ) && is_multisite() ) : ?>
 
 				<li><a href="<?php echo $bp->root_domain . '/' . $bp->blogs->slug . '/?random-blog' ?>"><?php _e( 'Random Blog', 'buddypress' ) ?></a></li>
 
@@ -274,6 +278,7 @@ add_action( 'bp_adminbar_logo',  'bp_adminbar_logo' );
 add_action( 'bp_adminbar_menus', 'bp_adminbar_login_menu',         2   );
 add_action( 'bp_adminbar_menus', 'bp_adminbar_account_menu',       4   );
 add_action( 'bp_adminbar_menus', 'bp_adminbar_blogs_menu',         6   );
+add_action( 'bp_adminbar_menus', 'bp_adminbar_thisblog_menu',      6   );
 add_action( 'bp_adminbar_menus', 'bp_adminbar_notifications_menu', 8   );
 add_action( 'bp_adminbar_menus', 'bp_adminbar_authors_menu',       12  );
 add_action( 'bp_adminbar_menus', 'bp_adminbar_random_menu',        100 );
