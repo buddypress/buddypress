@@ -52,7 +52,9 @@ jQuery.fn.autoCompletefb = function(options)
 		var f = settings.foundClass.replace(/\./,'');
 		var d = String(d).split(' (');
 		var un = d[1].substr(0, d[1].length-1);
-		var v = '<li class="'+f+'" id="un-'+un+'"><span>'+d[0]+'</span> <span class="p">X</span></li>';
+		var ln = '#link-' + un;
+		var l = jQuery(ln).attr('value');
+		var v = '<li class="'+f+'" id="un-'+un+'"><span><a href="'+l+'">'+d[0]+'</a></span> <span class="p">X</span></li>';
 		var x = jQuery(settings.inputClass,tmp).before(v);
 		
 		jQuery('#send-to-usernames').addClass(un);

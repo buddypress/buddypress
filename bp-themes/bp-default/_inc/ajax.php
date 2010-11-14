@@ -606,7 +606,7 @@ function bp_dtheme_ajax_messages_autocomplete_results() {
 		foreach ( $user_ids as $user_id ) {
 			$ud = get_userdata($user_id);
 			$username = $ud->user_login;
-			echo bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'thumb', 'width' => 15, 'height' => 15 ) ) . ' &nbsp;' . bp_core_get_user_displayname( $user_id ) . ' (' . $username . ')
+			echo '<span id="link-' . $username . '" value="' . bp_core_get_user_domain( $user_id ) . '"></span>' . bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'thumb', 'width' => 15, 'height' => 15 ) ) . ' &nbsp;' . bp_core_get_user_displayname( $user_id ) . ' (' . $username . ')
 			';
 		}
 	}
