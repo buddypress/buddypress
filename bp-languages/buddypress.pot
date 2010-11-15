@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-11-14 13:13+0000\n"
+"POT-Creation-Date: 2010-11-15 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1403,6 +1403,11 @@ msgstr ""
 #: bp-core/bp-core-avatars.php:362 bp-core/bp-core-avatars.php:375
 #, php-format
 msgid "Upload Failed! Error was: %s"
+msgstr ""
+
+#: bp-core/bp-core-avatars.php:393
+#, php-format
+msgid "Upload failed! Error was: %s"
 msgstr ""
 
 #: bp-core/bp-core-classes.php:96
@@ -3479,7 +3484,8 @@ msgstr ""
 msgid "<p class=\"serif\">Read the rest of this entry &rarr;</p>"
 msgstr ""
 
-#: bp-themes/bp-default/attachment.php:27 bp-themes/bp-default/page.php:20
+#: bp-themes/bp-default/attachment.php:27
+#: bp-themes/bp-default/onecolumn-page.php:31 bp-themes/bp-default/page.php:20
 #: bp-themes/bp-default/single.php:34
 msgid "<p><strong>Pages:</strong> "
 msgstr ""
@@ -4316,11 +4322,11 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: bp-themes/bp-default/page.php:18
+#: bp-themes/bp-default/onecolumn-page.php:29 bp-themes/bp-default/page.php:18
 msgid "<p class=\"serif\">Read the rest of this page &rarr;</p>"
 msgstr ""
 
-#: bp-themes/bp-default/page.php:21
+#: bp-themes/bp-default/onecolumn-page.php:32 bp-themes/bp-default/page.php:21
 msgid "Edit this entry."
 msgstr ""
 
