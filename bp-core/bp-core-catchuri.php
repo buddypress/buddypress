@@ -221,6 +221,9 @@ add_action( 'bp_loaded', 'bp_core_set_uri_globals', 4 );
 function bp_core_load_template( $templates ) {
 	global $post, $bp, $wpdb, $wp_query, $bp_unfiltered_uri, $bp_unfiltered_uri_offset;
 
+	if ( !isset( $bp_unfiltered_uri[$bp_unfiltered_uri_offset] ) )
+		return false;
+
 	// Determine if the root object WP page exists for this request (TODO: is there an API function for this?
 	if ( !$page_exists = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_name = %s", $bp_unfiltered_uri[$bp_unfiltered_uri_offset] ) ) )
 		return false;

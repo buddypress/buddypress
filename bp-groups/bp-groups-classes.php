@@ -347,6 +347,7 @@ Class BP_Groups_Group {
 
 		/* Populate some extra information instead of querying each time in the loop */
 		if ( !empty( $populate_extras ) ) {
+			$group_ids = array();
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( &$paged_groups, $group_ids, $type );
