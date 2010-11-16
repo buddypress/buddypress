@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-11-15 13:13+0000\n"
+"POT-Creation-Date: 2010-11-16 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3233,32 +3233,6 @@ msgstr ""
 msgid "There was a problem deleting messages."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/options.php:9
-#: bp-themes/bp-default/_inc/options.php:27
-msgid "Theme Options"
-msgstr ""
-
-#: bp-themes/bp-default/_inc/options.php:22
-msgid "Settings saved."
-msgstr ""
-
-#: bp-themes/bp-default/_inc/options.php:34
-msgid "On front page show:"
-msgstr ""
-
-#: bp-themes/bp-default/_inc/options.php:36
-msgid "Blog Posts"
-msgstr ""
-
-#: bp-themes/bp-default/_inc/options.php:38
-#: bp-themes/bp-default/functions.php:131
-msgid "Activity Stream"
-msgstr ""
-
-#: bp-themes/bp-default/_inc/options.php:46
-msgid "Update Settings"
-msgstr ""
-
 #: bp-themes/bp-default/activity/activity-loop.php:27
 msgid "Load More"
 msgstr ""
@@ -3776,6 +3750,10 @@ msgstr ""
 
 #: bp-themes/bp-default/functions.php:95
 msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:131
+msgid "Activity Stream"
 msgstr ""
 
 #: bp-themes/bp-default/functions.php:339
