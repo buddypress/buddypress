@@ -74,8 +74,15 @@ function bp_adminbar_account_menu() {
 			$sub_counter = 0;
 
 			foreach( (array)$bp->bp_options_nav[$nav_item['slug']] as $subnav_item ) {
-				$link = str_replace( $bp->displayed_user->domain, $bp->loggedin_user->domain, $subnav_item['link'] );
-				$name = str_replace( $bp->displayed_user->userdata->user_login, $bp->loggedin_user->userdata->user_login, $subnav_item['name'] );
+				$link = $subnav_item['link'];
+				$name = $subnav_item['name'];
+
+				if ( isset( $bp->displayed_user->domain ) )
+					$link = str_replace( $bp->displayed_user->domain, $bp->loggedin_user->domain, $subnav_item['link'] );
+
+				if ( isset( $bp->displayed_user->userdata->user_login ) )
+					$name = str_replace( $bp->displayed_user->userdata->user_login, $bp->loggedin_user->userdata->user_login, $subnav_item['name'] );
+
 				$alt = ( 0 == $sub_counter % 2 ) ? ' class="alt"' : '';
 				echo '<li' . $alt . '><a id="bp-admin-' . $subnav_item['css_id'] . '" href="' . $link . '">' . $name . '</a></li>';
 				$sub_counter++;
