@@ -650,7 +650,7 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 	if ( !$field_id )
 		return false;
 
-	if ( $is_required && ( empty( $value ) || !strlen( trim( $value ) ) ) )
+	if ( $is_required && ( empty( $value ) || !is_array( $value ) && !strlen( trim( $value ) ) ) )
 		return false;
 
 	/* If the value is empty, then delete any field data that exists */
