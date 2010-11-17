@@ -1159,7 +1159,7 @@ function bp_activity_remove_data( $user_id ) {
 }
 add_action( 'wpmu_delete_user', 'bp_activity_remove_data' );
 add_action( 'delete_user', 'bp_activity_remove_data' );
-add_action( 'make_spam_user', 'bp_activity_remove_data' );
+add_action( 'bp_make_spam_user', 'bp_activity_remove_data' );
 
 /**
  * updates_register_activity_actions()

@@ -457,7 +457,7 @@ function bp_core_action_set_spammer_status() {
 			$wpdb->update( $wpdb->users, array( 'spam' => $is_spam ), array( 'ID' => $bp->displayed_user->id ) );
 
 		$wpdb->update( $wpdb->users, array( 'user_status' => $is_spam ), array( 'ID' => $bp->displayed_user->id ) );
-
+		
 		if ( $is_spam )
 			bp_core_add_message( __( 'User marked as spammer. Spam users are visible only to site admins.', 'buddypress' ) );
 		else
@@ -466,6 +466,10 @@ function bp_core_action_set_spammer_status() {
 		/* Hide this user's activity */
 		if ( $is_spam && function_exists( 'bp_activity_hide_user_activity' ) )
 			bp_activity_hide_user_activity( $bp->displayed_user->id );
+		
+		// We need a special hook for is_spam so that components can delete data at spam time
+		if ( $is_spam )
+		        do_action( 'bp_make_spam_user', $bp->displayed_user->id );
 
 		do_action( 'bp_core_action_set_spammer_status', $bp->displayed_user->id, $is_spam );
 
@@ -1911,7 +1915,7 @@ function bp_core_remove_data( $user_id ) {
 }
 add_action( 'wpmu_delete_user', 'bp_core_remove_data' );
 add_action( 'delete_user', 'bp_core_remove_data' );
-add_action( 'make_spam_user', 'bp_core_remove_data' );
+add_action( 'bp_make_spam_user', 'bp_core_remove_data' );
 
 /**
  * bp_load_buddypress_textdomain()
