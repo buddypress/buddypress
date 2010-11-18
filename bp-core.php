@@ -72,58 +72,58 @@ function bp_core_setup_globals() {
 
 	$current_user = wp_get_current_user();
 
-	/* Get the base database prefix */
+	// Get the base database prefix
 	$bp->table_prefix = bp_core_get_table_prefix();
 
-	/* The domain for the root of the site where the main blog resides */
+	// The domain for the root of the site where the main blog resides
 	$bp->root_domain = bp_core_get_root_domain();
 
-	/* The names of the core WordPress pages used to display BuddyPress content */
+	// The names of the core WordPress pages used to display BuddyPress content
 	$bp->pages = $bp_pages;
 
-	/* Set up the members id and active components entry */
+	// Set up the members id and active components entry
 	$bp->members->id = 'members';
 	$bp->members->slug = $bp->pages->members->slug;
 	$bp->active_components[$bp->members->slug] = $bp->members->id;
 
-	/* The user ID of the user who is currently logged in. */
+	// The user ID of the user who is currently logged in.
 	$bp->loggedin_user->id = $current_user->ID;
 
-	/* The domain for the user currently logged in. eg: http://domain.com/members/andy */
+	// The domain for the user currently logged in. eg: http://domain.com/members/andy
 	$bp->loggedin_user->domain = bp_core_get_user_domain( $bp->loggedin_user->id );
 
-	/* The core userdata of the user who is currently logged in. */
+	// The core userdata of the user who is currently logged in.
 	$bp->loggedin_user->userdata = bp_core_get_core_userdata( $bp->loggedin_user->id );
 
-	/* is_super_admin() hits the DB on single WP installs, so we need to get this separately so we can call it in a loop. */
+	// is_super_admin() hits the DB on single WP installs, so we need to get this separately so we can call it in a loop.
 	$bp->loggedin_user->is_super_admin = is_super_admin();
 	$bp->loggedin_user->is_site_admin  = $bp->loggedin_user->is_super_admin; // deprecated 1.2.6
 
-	/* The user id of the user currently being viewed, set in /bp-core/bp-core-catchuri.php */
+	// The user id of the user currently being viewed, set in /bp-core/bp-core-catchuri.php
 	$bp->displayed_user->id = $displayed_user_id;
 
-	/* The domain for the user currently being displayed */
+	// The domain for the user currently being displayed
 	$bp->displayed_user->domain = bp_core_get_user_domain( $bp->displayed_user->id );
 
-	/* The core userdata of the user who is currently being displayed */
+	// The core userdata of the user who is currently being displayed
 	$bp->displayed_user->userdata = bp_core_get_core_userdata( $bp->displayed_user->id );
 
-	/* The component being used eg: http://domain.com/members/andy/ [profile] */
+	// The component being used eg: http://domain.com/members/andy/ [profile]
 	$bp->current_component = $current_component; // type: string
 
-	/* The current action for the component eg: http://domain.com/members/andy/profile/ [edit] */
+	// The current action for the component eg: http://domain.com/members/andy/profile/ [edit]
 	$bp->current_action = $current_action; // type: string
 
-	/* The action variables for the current action eg: http://domain.com/members/andy/profile/edit/ [group] / [6] */
+	// The action variables for the current action eg: http://domain.com/members/andy/profile/edit/ [group] / [6]
 	$bp->action_variables = $action_variables; // type: array
 
-	/* Only used where a component has a sub item, e.g. groups: http://domain.com/members/andy/groups/ [my-group] / home - manipulated in the actual component not in catch uri code.*/
+	// Only used where a component has a sub item, e.g. groups: http://domain.com/members/andy/groups/ [my-group] / home - manipulated in the actual component not in catch uri code.
 	$bp->current_item = ''; // type: string
 
-	/* Used for overriding the 2nd level navigation menu so it can be used to display custom navigation for an item (for example a group) */
+	// Used for overriding the 2nd level navigation menu so it can be used to display custom navigation for an item (for example a group)
 	$bp->is_single_item = false;
 
-	/* The default component to use if none are set and someone visits: http://domain.com/members/andy */
+	// The default component to use if none are set and someone visits: http://domain.com/members/andy
 	if ( !defined( 'BP_DEFAULT_COMPONENT' ) ) {
 		if ( isset( $bp->pages->activity ) )
 			$bp->default_component = $bp->pages->activity->name;
@@ -133,25 +133,24 @@ function bp_core_setup_globals() {
 		$bp->default_component = BP_DEFAULT_COMPONENT;
 	}
 
-	/* Fetches all of the core database based BuddyPress settings in one foul swoop */
+	// Fetches all of the core database based BuddyPress settings in one foul swoop
 	$bp->site_options = bp_core_get_site_options();
 
-	/* Sets up the array container for the component navigation rendered by bp_get_nav() */
+	// Sets up the array container for the component navigation rendered by bp_get_nav()
 	$bp->bp_nav = array();
 
-	/* Sets up the array container for the component options navigation rendered by bp_get_options_nav() */
+	// Sets up the array container for the component options navigation rendered by bp_get_options_nav()
 	$bp->bp_options_nav = array();
 
-	/* Contains an array of all the active components. The key is the slug, value the internal ID of the component */
+	// Contains an array of all the active components. The key is the slug, value the internal ID of the component
 	$bp->active_components = array();
 
-	/* Fetches the default Gravatar image to use if the user/group/blog has no avatar or gravatar */
-	$default_grav = isset( $bp->site_options['user-avatar-default'] ) ? $bp->site_options['user-avatar-default'] : 'wavatar';
-	$bp->grav_default->user  = apply_filters( 'bp_user_gravatar_default', $default_grav );
-	$bp->grav_default->group = apply_filters( 'bp_group_gravatar_default', 'identicon' );
-	$bp->grav_default->blog  = apply_filters( 'bp_blog_gravatar_default', 'identicon' );
+	// Fetches the default Gravatar image to use if the user/group/blog has no avatar or gravatar
+	$bp->grav_default->user  = apply_filters( 'bp_user_gravatar_default',  $bp->site_options['avatar_default'] );
+	$bp->grav_default->group = apply_filters( 'bp_group_gravatar_default', $bp->grav_default->user );
+	$bp->grav_default->blog  = apply_filters( 'bp_blog_gravatar_default',  $bp->grav_default->user );
 
-	/* Fetch the full name for the logged in and current user */
+	// Fetch the full name for the logged in and current user
 	$bp->loggedin_user->fullname  = bp_core_get_user_displayname( $bp->loggedin_user->id );
 	$bp->displayed_user->fullname = bp_core_get_user_displayname( $bp->displayed_user->id );
 
@@ -161,7 +160,7 @@ function bp_core_setup_globals() {
 	   'is_item_admin' would be 1 if they are a group admin, 0 if they are not. */
 	$bp->is_item_admin = bp_user_has_access();
 
-	/* Used to determine if the logged in user is a moderator for the current content. */
+	// Used to determine if the logged in user is a moderator for the current content.
 	$bp->is_item_mod = false;
 
 	$bp->core->table_name_notifications = $bp->table_prefix . 'bp_notifications';
@@ -1582,8 +1581,8 @@ function bp_core_get_site_options() {
 		'bb-config-location',
 		'hide-loggedout-adminbar',
 
-		/* Useful WordPress settings used often */
-		'user-avatar-default',
+		// Useful WordPress settings used often
+		'avatar_default',
 		'tags_blog_id',
 		'registration',
 		'fileupload_maxk'
