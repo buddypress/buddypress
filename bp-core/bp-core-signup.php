@@ -287,33 +287,44 @@ function bp_core_illegal_names( $value = '', $oldvalue = '' ) {
 	elseif ( is_string( $value ) )
 		$db_illegal_names = implode( ' ', $names );
 
+	// Add the core components' slugs to the banned list even if their components aren't active.
+	$bp_component_slugs = array( 'groups', 'members', 'forums', 'blogs', 'activity', 'profile', 'friends', 'search', 'settings', 'register', 'activate' );
+
+	if ( defined( 'BP_GROUPS_SLUG' ) )
+		$bp_component_slugs[] = BP_GROUPS_SLUG;
+
+	if ( defined( 'BP_MEMBERS_SLUG' ) )
+		$bp_component_slugs[] = BP_MEMBERS_SLUG;
+
+	if ( defined( 'BP_FORUMS_SLUG' ) )
+		$bp_component_slugs[] = BP_FORUMS_SLUG;
+
+	if ( defined( 'BP_BLOGS_SLUG' ) )
+		$bp_component_slugs[] = BP_BLOGS_SLUG;
+
+	if ( defined( 'BP_ACTIVITY_SLUG' ) )
+		$bp_component_slugs[] = BP_ACTIVITY_SLUG;
+
+	if ( defined( 'BP_XPROFILE_SLUG' ) )
+		$bp_component_slugs[] = BP_XPROFILE_SLUG;
+
+	if ( defined( 'BP_FRIENDS_SLUG' ) )
+		$bp_component_slugs[] = BP_FRIENDS_SLUG;
+
+	if ( defined( 'BP_SEARCH_SLUG' ) )
+		$bp_component_slugs[] = BP_SEARCH_SLUG;
+
+	if ( defined( 'BP_SETTINGS_SLUG' ) )
+		$bp_component_slugs[] = BP_SETTINGS_SLUG;
+
+	if ( defined( 'BP_REGISTER_SLUG' ) )
+		$bp_component_slugs[] = BP_REGISTER_SLUG;
+
+	if ( defined( 'BP_ACTIVATION_SLUG' ) )
+		$bp_component_slugs[] = BP_ACTIVATION_SLUG;
+	
 	// Add our slugs to the array and allow them to be filtered
-	$filtered_illegal_names = array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator' );
-
-	if ( bp_is_active( 'activity' ) )
-		$filtered_illegal_names[] = BP_ACTIVITY_SLUG;
-
-	if ( is_multisite() && bp_is_active( 'blogs' ) )
-		$filtered_illegal_names[] = BP_BLOGS_SLUG;
-
-	if ( bp_is_active( 'forums' ) )
-		$filtered_illegal_names[] = BP_FORUMS_SLUG;
-
-	if ( bp_is_active( 'friends' ) )
-		$filtered_illegal_names[] = BP_FRIENDS_SLUG;
-
-	if ( bp_is_active( 'groups' ) )
-		$filtered_illegal_names[] = BP_GROUPS_SLUG;
-
-	if ( bp_is_active( 'xprofile' ) )
-		$filtered_illegal_names[] = BP_XPROFILE_SLUG;
-
-	$filtered_illegal_names[] = BP_ACTIVATION_SLUG;
-	$filtered_illegal_names[] = BP_MEMBERS_SLUG;
-	$filtered_illegal_names[] = BP_REGISTER_SLUG;
-	$filtered_illegal_names[] = BP_SEARCH_SLUG;
-	$filtered_illegal_names[] = BP_SETTINGS_SLUG;
-	$filtered_illegal_names = apply_filters( 'bp_core_illegal_usernames', $filtered_illegal_names );
+	$filtered_illegal_names = apply_filters( 'bp_core_illegal_usernames', array_merge( array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator' ), $bp_component_slugs ) );
 
 	// Merge the arrays together
 	$merged_names =	array_merge( (array)$filtered_illegal_names, (array)$db_illegal_names );

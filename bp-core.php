@@ -1647,28 +1647,9 @@ function bp_core_referrer() {
  * blog names on a subdirectory installation.
  *
  * For example, it would stop someone creating a blog with the slug "groups".
- *
- * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
 function bp_core_add_illegal_names() {
-	global $bp;
-
-	$current = maybe_unserialize( get_site_option( 'illegal_names' ) );
-	$bp_illegal_names = $bp->root_components;
-
-	if ( is_array( $current ) ) {
-		foreach( (array)$bp_illegal_names as $bp_illegal_name ) {
-			if ( !in_array( $bp_illegal_name, $current ) )
-				$current[] = $bp_illegal_name;
-		}
-		$new = $current;
-	} else {
-		$bp_illegal_names[] = $current;
-		$new = $bp_illegal_names;
-	}
-
-	update_site_option( 'illegal_names', $new );
+	update_site_option( 'illegal_names', get_site_option( 'illegal_names' ), array() );
 }
 
 /**
