@@ -119,14 +119,11 @@ function bp_has_blogs( $args = '' ) {
 	 */
 	$type = 'active';
 	$user_id = false;
-	$search_terms = false;
+	$search_terms = null;
 
 	/* User filtering */
 	if ( !empty( $bp->displayed_user->id ) )
 		$user_id = $bp->displayed_user->id;
-
-	if ( !empty( $_REQUEST['s'] ) )
-		$search_terms = $_REQUEST['s'];
 
 	$defaults = array(
 		'type' => $type,
@@ -140,6 +137,13 @@ function bp_has_blogs( $args = '' ) {
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
+
+	if ( is_null( $search_terms ) ) {
+		if ( isset( $_REQUEST['s'] ) && !empty( $_REQUEST['s'] ) )
+			$search_terms = $_REQUEST['s'];
+		else
+			$search_terms = false;
+	}
 
 	if ( $max ) {
 		if ( $per_page > $max )
