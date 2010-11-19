@@ -138,7 +138,7 @@ function bp_has_groups( $args = '' ) {
 	 */
 	$type = 'active';
 	$user_id = false;
-	$search_terms = false;
+	$search_terms = null;
 	$slug = false;
 
 	/* User filtering */
@@ -159,9 +159,6 @@ function bp_has_groups( $args = '' ) {
 		$slug = $bp->groups->current_group->slug;
 	}
 
-	if ( isset( $_REQUEST['group-filter-box'] ) || isset( $_REQUEST['s'] ) )
-		$search_terms = ( isset( $_REQUEST['group-filter-box'] ) ) ? $_REQUEST['group-filter-box'] : $_REQUEST['s'];
-
 	$defaults = array(
 		'type' => $type,
 		'page' => 1,
@@ -179,6 +176,15 @@ function bp_has_groups( $args = '' ) {
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
+
+	if ( is_null( $search_terms ) ) {
+		if ( isset( $_REQUEST['group-filter-box'] ) && !empty( $_REQUEST['group-filter-box'] ) )
+			$search_terms = $_REQUEST['group-filter-box'];
+		elseif ( isset( $_REQUEST['s'] ) && !empty( $_REQUEST['s'] ) )
+			$search_terms = $_REQUEST['s'];
+		else
+			$search_terms = false;
+	}
 
 	$groups_template = new BP_Groups_Template( (int)$user_id, $type, (int)$page, (int)$per_page, (int)$max, $slug, $search_terms, $include, (bool)$populate_extras, $exclude );
 	return apply_filters( 'bp_has_groups', $groups_template->has_groups(), &$groups_template );
@@ -1811,7 +1817,7 @@ function bp_directory_groups_search_form() {
 	global $bp;
 
 	$search_value = __( 'Search anything...', 'buddypress' );
-	if ( !empty( $_REQUEST['s'] ) )
+	if ( isset( $_REQUEST['s'] ) && !empty( $_REQUEST['s'] ) )
 	 	$search_value = $_REQUEST['s'];
 
 ?>
