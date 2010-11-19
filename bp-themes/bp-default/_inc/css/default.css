@@ -1754,6 +1754,8 @@ ol.commentlist li {
 		border-bottom: none;
 	}
 
+	ol.commentlist ul.children { margin-left: 105px; }
+
 /* > Footer
 -------------------------------------------------------------- */
 
