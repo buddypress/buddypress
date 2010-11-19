@@ -2,8 +2,7 @@
 
 require_once( dirname( dirname( __FILE__ ) ) . '/bp-core-wpabstraction.php' );
 
-if ( function_exists( 'register_theme_directory') )
-	register_theme_directory( WP_PLUGIN_DIR . '/buddypress/bp-themes' );
+register_theme_directory( WP_PLUGIN_DIR . '/buddypress/bp-themes' );
 
 class BP_Core_Setup_Wizard {
 	var $current_step;

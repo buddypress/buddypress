@@ -43,8 +43,7 @@ if ( !defined( 'BP_DISABLE_ADMIN_BAR' ) )
 	require ( BP_PLUGIN_DIR . '/bp-core/bp-core-adminbar.php' );
 
 /* Register BuddyPress themes contained within the bp-theme folder */
-if ( function_exists( 'register_theme_directory') )
-	register_theme_directory( WP_PLUGIN_DIR . '/buddypress/bp-themes' );
+register_theme_directory( WP_PLUGIN_DIR . '/buddypress/bp-themes' );
 
 
 /* "And now for something completely different" .... */
