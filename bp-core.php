@@ -254,9 +254,8 @@ function bp_core_install() {
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 	dbDelta( $sql );
 
-	/* Add names of root components to the banned blog list to avoid conflicts */
-	if ( bp_core_is_multisite() )
-		bp_core_add_illegal_names();
+	// Add names of root components to the banned name list to avoid conflicts
+	bp_core_flush_illegal_names();
 
 	update_site_option( 'bp-core-db-version', BP_CORE_DB_VERSION );
 }
@@ -1678,15 +1677,74 @@ function bp_core_referrer() {
 }
 
 /**
- * bp_core_add_illegal_names()
+ * bp_core_get_illegal_names()
  *
  * Adds illegal names to WP so that root components will not conflict with
  * blog names on a subdirectory installation.
  *
  * For example, it would stop someone creating a blog with the slug "groups".
  */
-function bp_core_add_illegal_names() {
-	update_site_option( 'illegal_names', get_site_option( 'illegal_names' ), array() );
+function bp_core_get_illegal_names() {
+
+	// BuddyPress core illegal names
+	$bp_illegal_names[] = defined( 'BP_GROUPS_SLUG'     ) ? BP_GROUPS_SLUG     : 'groups';
+	$bp_illegal_names[] = defined( 'BP_MEMBERS_SLUG'    ) ? BP_MEMBERS_SLUG    : 'members';
+	$bp_illegal_names[] = defined( 'BP_FORUMS_SLUG'     ) ? BP_FORUMS_SLUG     : 'forums';
+	$bp_illegal_names[] = defined( 'BP_BLOGS_SLUG'      ) ? BP_BLOGS_SLUG      : 'blogs';
+	$bp_illegal_names[] = defined( 'BP_ACTIVITY_SLUG'   ) ? BP_ACTIVITY_SLUG   : 'activity';
+	$bp_illegal_names[] = defined( 'BP_XPROFILE_SLUG'   ) ? BP_XPROFILE_SLUG   : 'profile';
+	$bp_illegal_names[] = defined( 'BP_FRIENDS_SLUG'    ) ? BP_FRIENDS_SLUG    : 'friends';
+	$bp_illegal_names[] = defined( 'BP_SEARCH_SLUG'     ) ? BP_SEARCH_SLUG     : 'search';
+	$bp_illegal_names[] = defined( 'BP_SETTINGS_SLUG'   ) ? BP_SETTINGS_SLUG   : 'settings';
+	$bp_illegal_names[] = defined( 'BP_REGISTER_SLUG'   ) ? BP_REGISTER_SLUG   : 'register';
+	$bp_illegal_names[] = defined( 'BP_ACTIVATION_SLUG' ) ? BP_ACTIVATION_SLUG : 'activation';
+
+	// WordPress core illegal names
+	$wp_illegal_names   = array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', 'files' );
+
+	// Merge illegal names together and filter them
+	return apply_filters( 'bp_core_illegal_names', array_merge( $bp_illegal_names, $wp_illegal_names ) );
+}
+
+/**
+ * bp_core_update_illegal_names()
+ *
+ * Filter the illegal_names site option and make sure it includes a few
+ * specific BuddyPress and Multi-site slugs
+ *
+ * @param array|string $value Illegal names from field
+ * @param array|string $oldvalue The value as it is currently
+ * @return array Merged and unique array of illegal names
+ */
+function bp_core_update_illegal_names( $value = '', $oldvalue = '' ) {
+	if ( !bp_core_is_multisite() )
+		return false;
+
+	// Make sure $value is array
+	if ( is_array( $value ) )
+		$db_illegal_names = $value;
+	elseif ( is_string( $value ) )
+		$db_illegal_names = implode( ' ', $value );
+	elseif ( empty( $value ) )
+		$db_illegal_names = array();
+
+	// Get illegal names, merge with ones in DB, and remove duplicates
+	$bp_illegal_names = bp_core_get_illegal_names();
+	$merged_names     = array_merge( (array)$bp_illegal_names, (array)$db_illegal_names );
+	$illegal_names    = array_unique( (array)$merged_names );
+
+	return apply_filters( 'bp_core_update_illegal_names', $illegal_names );
+}
+add_filter( 'pre_update_site_option_illegal_names', 'bp_core_update_illegal_names', 10, 2 );
+
+/**
+ * bp_core_flush_illegal_names()
+ *
+ * Flush illegal names by getting and setting 'illegal_names' site option
+ */
+function bp_core_flush_illegal_names() {
+	$illegal_names = get_site_option( 'illegal_names' );
+	update_site_option( 'illegal_names', $illegal_names );
 }
 
 /**
