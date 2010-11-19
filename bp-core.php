@@ -1679,8 +1679,8 @@ function bp_core_referrer() {
 /**
  * bp_core_get_illegal_names()
  *
- * Adds illegal names to WP so that root components will not conflict with
- * blog names on a subdirectory installation.
+ * Return a friendly and filtered list of all illegal names to prevent crafty
+ * individuals from hi-jacking your network's components and/or administration
  *
  * For example, it would stop someone creating a blog with the slug "groups".
  */
@@ -1710,7 +1710,7 @@ function bp_core_get_illegal_names() {
  * bp_core_update_illegal_names()
  *
  * Filter the illegal_names site option and make sure it includes a few
- * specific BuddyPress and Multi-site slugs
+ * specific BuddyPress and multi-site slugs
  *
  * @param array|string $value Illegal names from field
  * @param array|string $oldvalue The value as it is currently
