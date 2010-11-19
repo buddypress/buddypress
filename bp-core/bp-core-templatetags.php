@@ -989,9 +989,9 @@ function bp_activation_page() {
 function bp_search_form_enabled() {
 	global $bp;
 
-	if ( function_exists( 'xprofile_install' )
-		 || function_exists( 'groups_install' )
-		 || ( function_exists( 'bp_blogs_install' ) && is_multisite() )
+	if ( bp_is_active( 'xprofile' )
+		 || bp_is_active( 'groups' )
+		 || ( bp_is_active( 'blogs' ) && is_multisite() )
 		 || ( function_exists( 'bp_forums_setup' ) && !(int)$bp->site_options['bp-disable-forum-directory'] )
 		) {
 		$search_enabled = true;

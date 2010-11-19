@@ -166,7 +166,7 @@ class BP_Core_User {
 			}
 		}
 
-		if ( $search_terms && function_exists( 'xprofile_install' ) ) {
+		if ( $search_terms && bp_is_active( 'xprofile' ) ) {
 			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
 			$sql['where_searchterms'] = "AND pd.value LIKE '%%$search_terms%%'";
 		}
