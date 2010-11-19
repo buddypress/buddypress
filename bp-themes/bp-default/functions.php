@@ -71,7 +71,7 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 
 	<?php if ( 'pingback' == $comment->comment_type ) return false; ?>
 
-	<li id="comment-<?php comment_ID(); ?>">
+	<li <?php comment_class(); ?> id="comment-<?php comment_ID(); ?>">
 		<div class="comment-avatar-box">
 			<div class="avb">
 				<a href="<?php echo get_comment_author_url() ?>" rel="nofollow">
