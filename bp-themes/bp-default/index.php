@@ -5,7 +5,7 @@
 
 		<?php do_action( 'bp_before_blog_home' ) ?>
 
-		<div class="page" id="blog-latest">
+		<div class="page" id="blog-latest" role="main">
 
 			<?php if ( have_posts() ) : ?>
 

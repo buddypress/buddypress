@@ -5,7 +5,7 @@
 
 		<?php do_action( 'bp_before_blog_search' ) ?>
 
-		<div class="page" id="blog-search">
+		<div class="page" id="blog-search" role="main">
 
 			<h2 class="pagetitle"><?php _e( 'Blog', 'buddypress' ) ?></h2>
 

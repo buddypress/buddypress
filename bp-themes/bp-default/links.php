@@ -11,7 +11,7 @@ Template Name: Links
 
 		<?php do_action( 'bp_before_blog_links' ) ?>
 
-		<div class="page" id="blog-latest">
+		<div class="page" id="blog-latest" role="main">
 
 			<h2 class="pagetitle"><?php _e( 'Links', 'buddypress' ) ?></h2>
 

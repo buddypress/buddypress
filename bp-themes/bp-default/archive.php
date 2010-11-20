@@ -5,7 +5,7 @@
 
 		<?php do_action( 'bp_before_archive' ) ?>
 
-		<div class="page" id="blog-archives">
+		<div class="page" id="blog-archives" role="main">
 
 			<h3 class="pagetitle"><?php printf( __( 'You are browsing the archive for %1$s.', 'buddypress' ), wp_title( false, false ) ); ?></h3>
 

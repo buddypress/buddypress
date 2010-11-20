@@ -5,7 +5,7 @@
 
 		<?php do_action( 'bp_before_blog_page' ) ?>
 
-		<div class="page" id="blog-page">
+		<div class="page" id="blog-page" role="main">
 
 			<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
