@@ -1029,13 +1029,13 @@ function groups_action_create_group() {
 				bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step . '/' );
 			}
 
-			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'name' => $_POST['group-name'], 'description' => $_POST['group-desc'], 'slug' => groups_check_slug( sanitize_title( esc_attr( $_POST['group-name'] ) ) ), 'date_created' => gmdate( "Y-m-d H:i:s" ), 'status' => 'public' ) ) ) {
+			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'name' => $_POST['group-name'], 'description' => $_POST['group-desc'], 'slug' => groups_check_slug( sanitize_title( esc_attr( $_POST['group-name'] ) ) ), 'date_created' => bp_core_current_time(), 'status' => 'public' ) ) ) {
 				bp_core_add_message( __( 'There was an error saving group details, please try again.', 'buddypress' ), 'error' );
 				bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step . '/' );
 			}
 
 			groups_update_groupmeta( $bp->groups->new_group_id, 'total_member_count', 1 );
-			groups_update_groupmeta( $bp->groups->new_group_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
+			groups_update_groupmeta( $bp->groups->new_group_id, 'last_activity', bp_core_current_time() );
 		}
 
 		if ( 'group-settings' == $bp->groups->current_create_step ) {
@@ -1324,7 +1324,7 @@ function groups_update_last_activity( $group_id = false ) {
 	if ( !$group_id )
 		return false;
 	
-	groups_update_groupmeta( $group_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
+	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 }
 add_action( 'groups_joined_group', 'groups_update_last_activity' );
 add_action( 'groups_leave_group', 'groups_update_last_activity' );
@@ -1570,7 +1570,7 @@ function groups_edit_group_settings( $group_id, $enable_forum, $status ) {
 		}
 	}
 
-	groups_update_groupmeta( $group->id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
+	groups_update_groupmeta( $group->id, 'last_activity', bp_core_current_time() );
 	do_action( 'groups_settings_updated', $group->id );
 
 	return true;
@@ -1712,7 +1712,7 @@ function groups_join_group( $group_id, $user_id = false ) {
 	$new_member->inviter_id = 0;
 	$new_member->is_admin = 0;
 	$new_member->user_title = '';
-	$new_member->date_modified = gmdate( "Y-m-d H:i:s" );
+	$new_member->date_modified = bp_core_current_time();
 	$new_member->is_confirmed = 1;
 
 	if ( !$new_member->save() )
@@ -1733,7 +1733,7 @@ function groups_join_group( $group_id, $user_id = false ) {
 
 	// Modify group meta
 	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') + 1 );
-	groups_update_groupmeta( $group_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
+	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 
 	do_action( 'groups_join_group', $group_id, $user_id );
 
@@ -1908,7 +1908,7 @@ function groups_post_update( $args = '' ) {
  	/* Require the notifications code so email notifications can be set on the 'bp_activity_posted_update' action. */
 	require_once( BP_PLUGIN_DIR . '/bp-groups/bp-groups-notifications.php' );
 
-	groups_update_groupmeta( $group_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
+	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 	do_action( 'bp_groups_posted_update', $content, $user_id, $group_id, $activity_id );
 
 	return $activity_id;
@@ -2159,7 +2159,7 @@ function groups_invite_user( $args = '' ) {
 		'user_id' => false,
 		'group_id' => false,
 		'inviter_id' => $bp->loggedin_user->id,
-		'date_modified' => gmdate( "Y-m-d H:i:s" ),
+		'date_modified' => bp_core_current_time(),
 		'is_confirmed' => 0
 	);
 
@@ -2215,7 +2215,7 @@ function groups_accept_invite( $user_id, $group_id ) {
 
 	/* Modify group meta */
 	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') + 1 );
-	groups_update_groupmeta( $group_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
+	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 
 	bp_core_delete_notifications_for_user_by_item_id( $user_id, $group_id, $bp->groups->id, 'group_invite' );
 
@@ -2365,7 +2365,7 @@ function groups_send_membership_request( $requesting_user_id, $group_id ) {
 	$requesting_user->inviter_id = 0;
 	$requesting_user->is_admin = 0;
 	$requesting_user->user_title = '';
-	$requesting_user->date_modified = gmdate( "Y-m-d H:i:s" );
+	$requesting_user->date_modified = bp_core_current_time();
 	$requesting_user->is_confirmed = 0;
 	$requesting_user->comments = $_POST['group-request-membership-comments'];
 
