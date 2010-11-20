@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-11-19 13:13+0000\n"
+"POT-Creation-Date: 2010-11-20 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -555,126 +555,126 @@ msgstr ""
 msgid "Max posts to show:"
 msgstr ""
 
-#: bp-core.php:306 bp-core.php:307
+#: bp-core.php:305 bp-core.php:306
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core.php:313 bp-core/bp-core-settings.php:69
+#: bp-core.php:312 bp-core/bp-core-settings.php:69
 msgid "General Settings"
 msgstr ""
 
-#: bp-core.php:314
+#: bp-core.php:313
 msgid "Component Setup"
 msgstr ""
 
-#: bp-core.php:359 bp-xprofile.php:172
+#: bp-core.php:358 bp-xprofile.php:172
 msgid "Profile"
 msgstr ""
 
-#: bp-core.php:370 bp-groups/bp-groups-templatetags.php:419
+#: bp-core.php:369 bp-groups/bp-groups-templatetags.php:419
 #: bp-xprofile.php:177
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:380 bp-core/bp-core-templatetags.php:736
+#: bp-core.php:379 bp-core/bp-core-templatetags.php:736
 #: bp-themes/bp-default/activity/post-form.php:41 bp-xprofile.php:183
 msgid "My Profile"
 msgstr ""
 
-#: bp-core.php:476
+#: bp-core.php:475
 msgid "User marked as spammer. Spam users are visible only to site admins."
 msgstr ""
 
-#: bp-core.php:478
+#: bp-core.php:477
 msgid "User removed as spammer."
 msgstr ""
 
-#: bp-core.php:512
+#: bp-core.php:511
 #, php-format
 msgid "%s has been deleted from the system."
 msgstr ""
 
-#: bp-core.php:514
+#: bp-core.php:513
 #, php-format
 msgid "There was an error deleting %s from the system. Please try again."
 msgstr ""
 
-#: bp-core.php:1417
+#: bp-core.php:1416
 msgid "year"
 msgstr ""
 
-#: bp-core.php:1417
+#: bp-core.php:1416
 msgid "years"
 msgstr ""
 
-#: bp-core.php:1418
+#: bp-core.php:1417
 msgid "month"
 msgstr ""
 
-#: bp-core.php:1418
+#: bp-core.php:1417
 msgid "months"
 msgstr ""
 
-#: bp-core.php:1419
+#: bp-core.php:1418
 msgid "week"
 msgstr ""
 
-#: bp-core.php:1419
+#: bp-core.php:1418
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:1420
+#: bp-core.php:1419
 msgid "day"
 msgstr ""
 
-#: bp-core.php:1420
+#: bp-core.php:1419
 msgid "days"
 msgstr ""
 
-#: bp-core.php:1421
+#: bp-core.php:1420
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:1421
+#: bp-core.php:1420
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:1422
+#: bp-core.php:1421
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:1422
+#: bp-core.php:1421
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:1423
+#: bp-core.php:1422
 msgid "second"
 msgstr ""
 
-#: bp-core.php:1423 bp-core.php:1475
+#: bp-core.php:1422 bp-core.php:1474
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1442
+#: bp-core.php:1441
 msgid "sometime"
 msgstr ""
 
-#: bp-core.php:1470
+#: bp-core.php:1469
 msgctxt "Separator in time since"
 msgid ","
 msgstr ""
 
-#: bp-core.php:1525
+#: bp-core.php:1524
 msgid "not recently active"
 msgstr ""
 
-#: bp-core.php:1976
+#: bp-core.php:2034
 msgid ""
 "IMPORTANT: <a href=\"http://codex.buddypress.org/getting-started/upgrading-"
 "from-10x/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core.php:2005
+#: bp-core.php:2063
 #, php-format
 msgid ""
 "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update "
@@ -682,7 +682,7 @@ msgid ""
 "work."
 msgstr ""
 
-#: bp-core.php:2014
+#: bp-core.php:2072
 #, php-format
 msgid ""
 "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a "
@@ -995,7 +995,7 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:209 bp-core/bp-core-signup.php:621
+#: bp-core/bp-core-filters.php:209 bp-core/bp-core-signup.php:542
 #, php-format
 msgid ""
 "Thanks for registering! To complete the activation of your account please "
@@ -1005,7 +1005,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:210 bp-core/bp-core-signup.php:622
+#: bp-core/bp-core-filters.php:210 bp-core/bp-core-signup.php:543
 msgid "Activate Your Account"
 msgstr ""
 
@@ -1105,7 +1105,7 @@ msgstr ""
 msgid "Your new avatar was uploaded successfully"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:222 bp-core/bp-core-signup.php:491
+#: bp-core/bp-core-signup.php:222 bp-core/bp-core-signup.php:412
 msgid "There was an error activating your account, please try again."
 msgstr ""
 
@@ -1113,54 +1113,54 @@ msgstr ""
 msgid "Your account is now active!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:354
+#: bp-core/bp-core-signup.php:275
 msgid "Please enter a username"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:363
+#: bp-core/bp-core-signup.php:284
 msgid "Only lowercase letters and numbers allowed"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:366
+#: bp-core/bp-core-signup.php:287
 msgid "Username must be at least 4 characters"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:369
+#: bp-core/bp-core-signup.php:290
 msgid "Sorry, usernames may not contain the character \"_\"!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:376
+#: bp-core/bp-core-signup.php:297
 msgid "Sorry, usernames must have letters too!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:379
+#: bp-core/bp-core-signup.php:300
 msgid "Please check your email address."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:387
+#: bp-core/bp-core-signup.php:308
 msgid "Sorry, that email address is not allowed!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:392
+#: bp-core/bp-core-signup.php:313
 msgid "Sorry, that username already exists!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:396
+#: bp-core/bp-core-signup.php:317
 msgid "Sorry, that email address is already used!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:431
+#: bp-core/bp-core-signup.php:352
 #, php-format
 msgid ""
 "<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a "
 "href=\"mailto:%s\">webmaster</a> !"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:516 bp-core/bp-core-signup.php:520
+#: bp-core/bp-core-signup.php:437 bp-core/bp-core-signup.php:441
 msgid "Invalid activation key"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:563
+#: bp-core/bp-core-signup.php:484
 #, php-format
 msgid "%s became a registered member"
 msgstr ""
