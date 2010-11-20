@@ -4,7 +4,10 @@
 -------------------------------------------------------------- */
 
 body {
-	background: #eaeaea url( ../images/background.gif ) top left repeat-x;
+	background-color: #eaeaea;
+	background-image: url( ../images/background.gif );
+	background-repeat: repeat-x;
+	background-position: top left;
 	font-size: 12px;
 	font-family: Arial, Tahoma, Verdana, sans-serif;
 	line-height: 170%;
@@ -165,6 +168,7 @@ div#container {
 	border-bottom: 1px solid #e0e0e0;
 	background: #fff;
 	overflow: hidden;
+	margin-bottom: 20px;
 }
 	body.activity-permalink div#container {
 		background: none;
@@ -204,6 +208,7 @@ div#sidebar {
 			padding: 10px 15px;
 		}
 
+	#footer-widget-area h3.widgettitle,
 	div#sidebar h3.widgettitle {
 		margin: 25px -20px 10px -19px;
 		background: #eaeaea;
@@ -212,35 +217,43 @@ div#sidebar {
 		clear: left;
 	}
 
+	#footer-widget-area .widget_search,
 	div#sidebar .widget_search {
 		margin-top: 20px;
 	}
+		#footer-widget-area .widget_search input[type=text],
 		div#sidebar .widget_search input[type=text] {
 			width: 110px;
 			padding: 2px;
 		}
 
+	#footer-widget-area ul#recentcomments li, #footer-widget-area .widget_recent_entries ul li,
 	div#sidebar ul#recentcomments li, div#sidebar .widget_recent_entries ul li {
 		margin-bottom: 15px;
 	}
 
+	#footer-widget-area ul.item-list img.avatar,
 	div#sidebar ul.item-list img.avatar {
 		width: 20px;
 		height: 20px;
 		margin-right: 10px;
 	}
+		#footer-widget-area div.item-avatar img,
 		div#sidebar div.item-avatar img {
 			width: 40px;
 			height: 40px;
 			margin: 1px;
 		}
 
+		#footer-widget-area .avatar-block,
 		div#sidebar .avatar-block { overflow: hidden; }
 
+	#footer-widget-area ul.item-list div.item-title,
 	div#sidebar ul.item-list div.item-title {
 		font-size: 12px;
 	}
 
+	#footer-widget-area div.item-options,
 	div#sidebar div.item-options {
 		margin: -10px -20px 0 -19px;
 		background: #f8f8f8;
@@ -248,11 +261,13 @@ div#sidebar {
 		font-size: 11px;
 	}
 
+	#footer-widget-area div.item-meta, #footer-widget-area div.item-content,
 	div#sidebar div.item-meta, div#sidebar div.item-content {
 		margin-left: 38px;
 		font-size: 11px;
 	}
 
+	#footer-widget-area div.tags div#tag-text,
 	div#sidebar div.tags div#tag-text {
 		font-size: 1.4em;
 		line-height: 140%;
@@ -1760,14 +1775,45 @@ ol.commentlist li {
 -------------------------------------------------------------- */
 
 #footer {
-	padding: 25px;
-	text-align: center;
-	color: #bbb;
-	text-shadow: #fafafa 1px 1px 0;
+	margin-bottom: 25px;
+	padding: 0 19px 19px 19px;
+	border-radius: 6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-right: 1px solid #e0e0e0;
+	border-bottom: 1px solid #e0e0e0;
+	background: #fff;
 }
-	#footer a {
+	#site-generator {
+		text-align: center;
 		color: #bbb;
+		text-shadow: #fafafa 1px 1px 0;
 	}
+
+	#footer-widget-area {
+		margin-bottom: 20px;
+		overflow: hidden;
+	}
+		#footer-widget-area div.widget-area > ul {
+			float: left;
+			margin-right: 19px;
+			width: 23%;
+		}
+
+		#footer-widget-area h3.widgettitle {
+			margin-top: 19px;
+			margin-left: 0;
+			margin-right: 0;
+		}
+
+		#footer-widget-area div div.item-options {
+			margin-left: 0;
+			margin-right: 0;
+		}
+
+		#footer-widget-area ul.item-list li img.avatar {
+			margin-left: 15px;  /* border is 4px */
+		}
 
 /* Menu
 -------------------------------------------------------------- */

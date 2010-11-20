@@ -94,20 +94,24 @@ div#sidebar {
 		clear: right;
 	}
 
+	#footer-widget-area h3.widgettitle,
 	div#sidebar h3.widgettitle {
 		margin: 25px -19px 10px -20px;
 		clear: right;
 	}
 
+	#footer-widget-area ul.item-list img.avatar,
 	div#sidebar ul.item-list img.avatar {
 		margin-left: 10px;
 		margin-right: 0;
 	}
 
+	#footer-widget-area div.item-options,
 	div#sidebar div.item-options {
 		margin: -10px -19px 0 -20px;
 	}
 
+	#footer-widget-area div.item-meta, #footer-widget-area div.item-content,
 	div#sidebar div.item-meta, div#sidebar div.item-content {
 		margin-right: 38px;
 		margin-left: 0;
@@ -644,6 +648,19 @@ div.admin-links {
 	div.comment-meta em {
 		float: left;
 	}
+
+/* > Footer
+-------------------------------------------------------------- */
+#footer-widget-area div.widget-area > ul {
+	float: right;
+	margin-left: 19px;
+	margin-right: 0;
+}
+
+#footer-widget-area ul.item-list li img.avatar {
+	margin-right: 15px;  /* border is 4px */
+	margin-left: 0;
+}
 
 /***
  * The admin bar styles.
