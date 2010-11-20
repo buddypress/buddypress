@@ -833,7 +833,7 @@ function bp_format_time( $time, $just_date = false ) {
 	$time_offset = $time + ( $root_blog_offset * 3600 );
 
 	// Current date (January 1, 2010)
-	$date = date_i18n( 'F j, Y ', $time_offset );
+	$date = date_i18n( get_option( 'date_format' ), $time_offset );
 
 	// Should we show the time also?
 	if ( !$just_date ) {
