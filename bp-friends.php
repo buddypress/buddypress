@@ -568,6 +568,8 @@ function friends_update_friend_totals( $initiator_user_id, $friend_user_id, $sta
 }
 
 function friends_remove_data( $user_id ) {
+	global $bp;
+	
 	BP_Friends_Friendship::delete_all_for_user($user_id);
 
 	/* Remove usermeta */

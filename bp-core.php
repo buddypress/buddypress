@@ -1843,7 +1843,8 @@ function bp_core_add_admin_menu_page( $args = '' ) {
 function bp_core_boot_spammer( $auth_obj, $username ) {
 	global $bp;
 
-	$user = get_userdatabylogin( $username );
+	if ( !$user = get_userdatabylogin( $username ) )
+	        return false;
 
 	if ( ( is_multisite() && (int)$user->spam ) || 1 == (int)$user->user_status )
 		bp_core_redirect( $bp->root_domain );
