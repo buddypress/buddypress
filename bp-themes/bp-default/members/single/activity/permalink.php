@@ -1,6 +1,6 @@
 <?php get_header() ?>
 
-<div class="activity no-ajax">
+<div class="activity no-ajax" role="main">
 	<?php if ( bp_has_activities( 'display_comments=threaded&include=' . bp_current_action() ) ) : ?>
 
 		<ul id="activity-stream" class="activity-list item-list">

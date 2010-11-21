@@ -6,12 +6,12 @@
 
 			<?php do_action( 'bp_before_group_home_content' ) ?>
 
-			<div id="item-header">
+			<div id="item-header" role="complementary">
 				<?php locate_template( array( 'groups/single/group-header.php' ), true ) ?>
 			</div><!-- #item-header -->
 
 			<div id="item-nav">
-				<div class="item-list-tabs no-ajax" id="object-nav">
+				<div class="item-list-tabs no-ajax" id="object-nav" role="navigation">
 					<ul>
 						<?php bp_get_options_nav() ?>
 

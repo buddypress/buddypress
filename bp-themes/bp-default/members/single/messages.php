@@ -1,4 +1,4 @@
-<div class="item-list-tabs no-ajax" id="subnav">
+<div class="item-list-tabs no-ajax" id="subnav" role="navigation">
 	<ul>
 		<?php bp_get_options_nav() ?>
 	</ul>
@@ -14,7 +14,7 @@
 
 	<?php do_action( 'bp_before_member_messages_content' ) ?>
 
-	<div class="messages">
+	<div class="messages" role="main">
 		<?php if ( 'notices' == bp_current_action() ) : ?>
 			<?php locate_template( array( 'members/single/messages/notices-loop.php' ), true ) ?>
 

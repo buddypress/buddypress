@@ -1,4 +1,4 @@
-<div class="item-list-tabs no-ajax" id="subnav">
+<div class="item-list-tabs no-ajax" id="subnav" role="navigation">
 	<ul>
 		<?php if ( bp_is_my_profile() ) : ?>
 			<?php bp_get_options_nav() ?>

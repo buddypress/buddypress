@@ -1,4 +1,4 @@
-<div class="item-list-tabs no-ajax" id="subnav">
+<div class="item-list-tabs no-ajax" id="subnav" role="navigation">
 	<ul>
 		<?php bp_get_options_nav() ?>
 
@@ -43,7 +43,7 @@
 <?php do_action( 'bp_after_member_activity_post_form' ) ?>
 <?php do_action( 'bp_before_member_activity_content' ) ?>
 
-<div class="activity">
+<div class="activity" role="main">
 	<?php locate_template( array( 'activity/activity-loop.php' ), true ) ?>
 </div><!-- .activity -->
 

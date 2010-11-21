@@ -8,11 +8,11 @@
 
 			<?php do_action( 'bp_before_directory_groups_content' ) ?>
 
-			<div id="group-dir-search" class="dir-search">
+			<div id="group-dir-search" class="dir-search" role="search">
 				<?php bp_directory_groups_search_form() ?>
 			</div><!-- #group-dir-search -->
 
-			<div class="item-list-tabs">
+			<div class="item-list-tabs" role="navigation">
 				<ul>
 					<li class="selected" id="groups-all"><a href="<?php echo bp_get_root_domain() . '/' . BP_GROUPS_SLUG ?>"><?php printf( __( 'All Groups (%s)', 'buddypress' ), bp_get_total_group_count() ) ?></a></li>
 

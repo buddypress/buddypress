@@ -1,4 +1,4 @@
-<div class="item-list-tabs" id="subnav">
+<div class="item-list-tabs" id="subnav" role="navigation">
 	<ul>
 		<?php bp_get_options_nav() ?>
 
@@ -17,7 +17,7 @@
 
 <?php do_action( 'bp_before_member_blogs_content' ) ?>
 
-<div class="blogs myblogs">
+<div class="blogs myblogs" role="main">
 	<?php locate_template( array( 'blogs/blogs-loop.php' ), true ) ?>
 </div><!-- .blogs.myblogs -->
 

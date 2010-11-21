@@ -16,7 +16,7 @@
 
 	<?php do_action( 'bp_before_group_members_list' ) ?>
 
-	<ul id="member-list" class="item-list">
+	<ul id="member-list" class="item-list" role="main">
 		<?php while ( bp_group_members() ) : bp_group_the_member(); ?>
 
 			<li>

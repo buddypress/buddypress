@@ -18,7 +18,7 @@
 
 	<?php do_action( 'bp_before_directory_groups_list' ) ?>
 
-	<ul id="groups-list" class="item-list">
+	<ul id="groups-list" class="item-list" role="main">
 	<?php while ( bp_groups() ) : bp_the_group(); ?>
 
 		<li>

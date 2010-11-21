@@ -8,7 +8,7 @@
 
 <?php else : ?>
 
-	<div class="forums single-forum">
+	<div class="forums single-forum" role="main">
 		<?php locate_template( array( 'forums/forums-loop.php' ), true ) ?>
 	</div><!-- .forums.single-forum -->
 

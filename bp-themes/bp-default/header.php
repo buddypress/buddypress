@@ -36,9 +36,9 @@
 
 		<?php do_action( 'bp_before_header' ) ?>
 
-		<div id="header" role="banner">
+		<div id="header">
 
-			<h1 id="logo"><a href="<?php echo site_url() ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php bp_site_name() ?></a></h1>
+			<h1 id="logo" role="banner"><a href="<?php echo site_url() ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php bp_site_name() ?></a></h1>
 
 			<div id="navigation" role="navigation">
 				<?php wp_nav_menu( array( 'container' => false, 'menu_id' => 'nav', 'theme_location' => 'primary', 'fallback_cb' => 'bp_dtheme_main_nav' ) ); ?>

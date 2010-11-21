@@ -2,7 +2,7 @@
 
 <?php if ( bp_has_members( 'include=' . bp_get_friendship_requests() . '&per_page=0' ) ) : ?>
 
-	<ul id="friend-list" class="item-list">
+	<ul id="friend-list" class="item-list" role="main">
 		<?php while ( bp_members() ) : bp_the_member(); ?>
 
 			<li id="friendship-<?php bp_friend_friendship_id() ?>">

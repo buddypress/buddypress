@@ -8,7 +8,7 @@
 
 			<?php do_action( 'bp_before_create_group' ) ?>
 
-			<div class="item-list-tabs no-ajax" id="group-create-tabs">
+			<div class="item-list-tabs no-ajax" id="group-create-tabs" role="navigation">
 				<ul>
 					<?php bp_group_creation_tabs(); ?>
 				</ul>
@@ -176,7 +176,7 @@
 							</div>
 
 							<?php /* The ID 'friend-list' is important for AJAX support. */ ?>
-							<ul id="friend-list" class="item-list">
+							<ul id="friend-list" class="item-list" role="main">
 							<?php if ( bp_group_has_invites() ) : ?>
 
 								<?php while ( bp_group_invites() ) : bp_group_the_invite(); ?>

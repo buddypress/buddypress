@@ -11,7 +11,7 @@
 
 			<?php do_action( 'bp_before_directory_forums_content' ) ?>
 
-			<div id="forums-dir-search" class="dir-search">
+			<div id="forums-dir-search" class="dir-search" role="search">
 				<?php bp_directory_forums_search_form() ?>
 			</div>
 		</form>
@@ -78,7 +78,7 @@
 
 		<form action="" method="post" id="forums-directory-form" class="dir-form">
 
-			<div class="item-list-tabs">
+			<div class="item-list-tabs" role="navigation">
 				<ul>
 					<li class="selected" id="forums-all"><a href="<?php bp_root_domain() ?>"><?php printf( __( 'All Topics (%s)', 'buddypress' ), bp_get_forum_topic_count() ) ?></a></li>
 
@@ -104,7 +104,7 @@
 
 			<?php do_action( 'bp_before_directory_forums_list' ) ?>
 
-			<div id="forums-dir-list" class="forums dir-list">
+			<div id="forums-dir-list" class="forums dir-list" role="main">
 				<?php locate_template( array( 'forums/forums-loop.php' ), true ) ?>
 			</div>
 

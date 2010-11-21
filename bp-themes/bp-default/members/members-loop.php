@@ -18,7 +18,7 @@
 
 	<?php do_action( 'bp_before_directory_members_list' ) ?>
 
-	<ul id="members-list" class="item-list">
+	<ul id="members-list" class="item-list" role="main">
 	<?php while ( bp_members() ) : bp_the_member(); ?>
 
 		<li>

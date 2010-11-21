@@ -1,4 +1,4 @@
-<div id="message-thread">
+<div id="message-thread" role="main">
 
 	<?php do_action( 'bp_before_message_thread_content' ) ?>
 

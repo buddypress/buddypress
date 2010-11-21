@@ -9,11 +9,11 @@
 
 			<?php do_action( 'bp_before_directory_blogs_content' ) ?>
 
-			<div id="blog-dir-search" class="dir-search">
+			<div id="blog-dir-search" class="dir-search" role="search">
 				<?php bp_directory_blogs_search_form() ?>
 			</div><!-- #blog-dir-search -->
 
-			<div class="item-list-tabs">
+			<div class="item-list-tabs" role="navigation">
 				<ul>
 					<li class="selected" id="blogs-all"><a href="<?php bp_root_domain() ?>"><?php printf( __( 'All Blogs (%s)', 'buddypress' ), bp_get_total_blog_count() ) ?></a></li>
 
