@@ -12,6 +12,10 @@ Network: true
 define( 'BP_VERSION', '1.3-bleeding' );
 define( 'BP_DB_VERSION', 1225 );
 
+// Define on which blog ID BuddyPress should run
+if ( !defined( 'BP_ROOT_BLOG' ) )
+	define( 'BP_ROOT_BLOG', 1 );
+
 /***
  * Check if this is the first time BuddyPress has been loaded, or the first time
  * since an upgrade. If so, load the install/upgrade routine only.
@@ -88,7 +92,8 @@ function bp_loaded() {
 function bp_core_get_site_options() {
 	global $bp, $wpdb;
 
-	$options = apply_filters( 'bp_core_site_options', array(
+	// These options come from the options table in WP single, and sitemeta in MS
+	$site_options = apply_filters( 'bp_core_site_options', array(
 		'bp-deactivated-components',
 		'bp-blogs-first-install',
 		'bp-disable-blog-forum-comments',
@@ -102,26 +107,36 @@ function bp_core_get_site_options() {
 		'bb-config-location',
 		'hide-loggedout-adminbar',
 
-		/* Useful WordPress settings used often */
-		'user-avatar-default',
+		// Useful WordPress settings used often
 		'tags_blog_id',
 		'registration',
 		'fileupload_maxk'
 	) );
+	
+	// These options always come from the options table of BP_ROOT_BLOG
+	$root_blog_options = apply_filters( 'bp_core_root_blog_options', array(
+		'avatar_default'
+	) );
 
-	$meta_keys = "'" . implode( "','", (array)$options ) ."'";
+	$meta_keys = "'" . implode( "','", (array)$site_options ) ."'";
 
 	if ( is_multisite() )
-		$meta = $wpdb->get_results( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ({$meta_keys}) AND site_id = {$wpdb->siteid}" );
+		$site_meta = $wpdb->get_results( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ({$meta_keys}) AND site_id = {$wpdb->siteid}" );
 	else
-		$meta = $wpdb->get_results( "SELECT option_name AS name, option_value AS value FROM {$wpdb->options} WHERE option_name IN ({$meta_keys})" );
+		$site_meta = $wpdb->get_results( "SELECT option_name AS name, option_value AS value FROM {$wpdb->options} WHERE option_name IN ({$meta_keys})" );
+		
+	$root_blog_meta_keys = "'" . implode( "','", (array)$root_blog_options ) ."'";
+	
+	$root_blog_meta_table = BP_ROOT_BLOG == 1 ? $wpdb->base_prefix . 'options' : $wpdb->base_prefix . BP_ROOT_BLOG . '_options';
+	$root_blog_meta = $wpdb->get_results( $wpdb->prepare( "SELECT option_name AS name, option_value AS value FROM {$root_blog_meta_table} WHERE option_name IN ({$root_blog_meta_keys})" ) );
 
 	$site_options = array();
-	if ( !empty( $meta ) ) {
-		foreach( (array)$meta as $meta_item )
-			$site_options[$meta_item->name] = $meta_item->value;
+	foreach( array( $site_meta, $root_blog_meta ) as $meta ) {
+		if ( !empty( $meta ) ) {
+			foreach( (array)$meta as $meta_item )
+				$site_options[$meta_item->name] = $meta_item->value;
+		}
 	}
-
 	return apply_filters( 'bp_core_get_site_options', $site_options );
 }
 

@@ -15,10 +15,6 @@ require ( BP_PLUGIN_DIR . '/bp-core/bp-core-wpabstraction.php' );
 if ( file_exists( WP_PLUGIN_DIR . '/bp-custom.php' ) )
 	require( WP_PLUGIN_DIR . '/bp-custom.php' );
 
-/* Define on which blog ID BuddyPress should run */
-if ( !defined( 'BP_ROOT_BLOG' ) )
-	define( 'BP_ROOT_BLOG', 1 );
-
 /* Define the user and usermeta table names, useful if you are using custom or shared tables. */
 if ( !defined( 'CUSTOM_USER_TABLE' ) )
 	define( 'CUSTOM_USER_TABLE', $wpdb->base_prefix . 'users' );

@@ -824,7 +824,8 @@ class BP_Core_Setup_Wizard {
 			// Transfer important settings from blog options to site options
 			$options = array(
 				'bp-db-version' => $this->current_version,
-				'bp-deactivated-components' => $disabled
+				'bp-deactivated-components' => $disabled,
+				'avatar-default' => get_option( 'avatar-default' )
 			);
 			bp_core_activate_site_options( $options );
 
