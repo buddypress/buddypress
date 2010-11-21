@@ -287,14 +287,14 @@ function groups_screen_group_forum() {
 	if ( $bp->is_single_item && $bp->groups->current_group->user_has_access ) {
 
 		/* Fetch the details we need */
-		$topic_slug = $bp->action_variables[1];
+		$topic_slug = isset( $bp->action_variables[1] ) ? $bp->action_variables[1] : false;
 		$topic_id = bp_forums_get_topic_id_from_slug( $topic_slug );
 		$forum_id = groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' );
 
 		if ( $topic_slug && $topic_id ) {
 
 			/* Posting a reply */
-			if ( !$bp->action_variables[2] && isset( $_POST['submit_reply'] ) ) {
+			if ( !isset( $bp->action_variables[2] ) && isset( $_POST['submit_reply'] ) ) {
 				/* Check the nonce */
 				check_admin_referer( 'bp_forums_new_reply' );
 
@@ -302,19 +302,21 @@ function groups_screen_group_forum() {
 				if ( $bp->groups->auto_join && !is_super_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
 					groups_join_group( $bp->groups->current_group->id, $bp->loggedin_user->id );
 
-				if ( !$post_id = groups_new_group_forum_post( $_POST['reply_text'], $topic_id, $_GET['topic_page'] ) )
+                                $topic_page = isset( $_GET['topic_page'] ) ? $_GET['topic_page'] : false;
+
+				if ( !$post_id = groups_new_group_forum_post( $_POST['reply_text'], $topic_id, $topic_page ) )
 					bp_core_add_message( __( 'There was an error when replying to that topic', 'buddypress'), 'error' );
 				else
 					bp_core_add_message( __( 'Your reply was posted successfully', 'buddypress') );
 
-				if ( $_SERVER['QUERY_STRING'] )
+				if ( isset( $_SERVER['QUERY_STRING'] ) )
 					$query_vars = '?' . $_SERVER['QUERY_STRING'];
 
 				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic_slug . '/' . $query_vars . '#post-' . $post_id );
 			}
 
 			/* Sticky a topic */
-			else if ( 'stick' == $bp->action_variables[2] && ( $bp->is_item_admin || $bp->is_item_mod ) ) {
+			else if ( isset( $bp->action_variables[2] ) && 'stick' == $bp->action_variables[2] && ( isset( $bp->is_item_admin ) || isset( $bp->is_item_mod ) ) ) {
 				/* Check the nonce */
 				check_admin_referer( 'bp_forums_stick_topic' );
 
@@ -328,7 +330,7 @@ function groups_screen_group_forum() {
 			}
 
 			/* Un-Sticky a topic */
-			else if ( 'unstick' == $bp->action_variables[2] && ( $bp->is_item_admin || $bp->is_item_mod ) ) {
+			else if ( isset( $bp->action_variables[2] ) && 'unstick' == $bp->action_variables[2] && ( isset( $bp->is_item_admin ) || isset( $bp->is_item_mod ) ) ) {
 				/* Check the nonce */
 				check_admin_referer( 'bp_forums_unstick_topic' );
 
@@ -342,7 +344,7 @@ function groups_screen_group_forum() {
 			}
 
 			/* Close a topic */
-			else if ( 'close' == $bp->action_variables[2] && ( $bp->is_item_admin || $bp->is_item_mod ) ) {
+			else if ( isset( $bp->action_variables[2] ) && 'close' == $bp->action_variables[2] && ( isset( $bp->is_item_admin ) || isset( $bp->is_item_mod ) ) ) {
 				/* Check the nonce */
 				check_admin_referer( 'bp_forums_close_topic' );
 
@@ -356,7 +358,7 @@ function groups_screen_group_forum() {
 			}
 
 			/* Open a topic */
-			else if ( 'open' == $bp->action_variables[2] && ( $bp->is_item_admin || $bp->is_item_mod ) ) {
+			else if ( isset( $bp->action_variables[2] ) && 'open' == $bp->action_variables[2] && ( isset( $bp->is_item_admin ) || isset( $bp->is_item_mod ) ) ) {
 				/* Check the nonce */
 				check_admin_referer( 'bp_forums_open_topic' );
 
@@ -370,7 +372,7 @@ function groups_screen_group_forum() {
 			}
 
 			/* Delete a topic */
-			else if ( 'delete' == $bp->action_variables[2] && empty( $bp->action_variables[3] ) ) {
+			else if ( isset( $bp->action_variables[2] ) && 'delete' == $bp->action_variables[2] && empty( $bp->action_variables[3] ) ) {
 				/* Fetch the topic */
 				$topic = bp_forums_get_topic_details( $topic_id );
 
@@ -391,7 +393,7 @@ function groups_screen_group_forum() {
 			}
 
 			/* Editing a topic */
-			else if ( 'edit' == $bp->action_variables[2] && empty( $bp->action_variables[3] ) ) {
+			else if ( isset( $bp->action_variables[2] ) && 'edit' == $bp->action_variables[2] && empty( $bp->action_variables[3] ) ) {
 				/* Fetch the topic */
 				$topic = bp_forums_get_topic_details( $topic_id );
 
@@ -416,7 +418,7 @@ function groups_screen_group_forum() {
 			}
 
 			/* Delete a post */
-			else if ( 'delete' == $bp->action_variables[2] && $post_id = $bp->action_variables[4] ) {
+			else if ( isset( $bp->action_variables[2] ) && 'delete' == $bp->action_variables[2] && isset( $bp->action_variables[4] ) && $post_id = $bp->action_variables[4] ) {
 				/* Fetch the post */
 				$post = bp_forums_get_post( $post_id );
 
@@ -437,7 +439,7 @@ function groups_screen_group_forum() {
 			}
 
 			/* Editing a post */
-			else if ( 'edit' == $bp->action_variables[2] && $post_id = $bp->action_variables[4] ) {
+			else if ( isset( $bp->action_variables[2] ) && 'edit' == $bp->action_variables[2] && isset( $bp->action_variables[4] ) && $post_id = $bp->action_variables[4] ) {
 				/* Fetch the post */
 				$post = bp_forums_get_post( $bp->action_variables[4] );
 
@@ -485,7 +487,7 @@ function groups_screen_group_forum() {
 				else if ( empty( $_POST['topic_text'] ) )
 					$error_message = __( 'Forum posts cannot be empty. Please enter some text.', 'buddypress' );
 				
-				if ( $error_message ) {
+				if ( isset( $error_message ) ) {
 					bp_core_add_message( $error_message, 'error' );
 					$redirect = bp_get_group_permalink( $bp->groups->current_group ) . 'forum';
 				} else {
@@ -513,7 +515,7 @@ function groups_screen_group_members() {
 	global $bp;
 
 	if ( $bp->is_single_item ) {
-		/* Refresh the group member count meta */
+		// Refresh the group member count meta
 		groups_update_groupmeta( $bp->groups->current_group->id, 'total_member_count', groups_get_total_member_count( $bp->groups->current_group->id ) );
 
 		do_action( 'groups_screen_group_members', $bp->groups->current_group->id );

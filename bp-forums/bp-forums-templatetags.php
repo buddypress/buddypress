@@ -83,6 +83,9 @@ class BP_Forums_Template_Forum {
 		$this->total_topic_count = apply_filters( 'bp_forums_template_total_topic_count', $this->total_topic_count, $this->topic_count, &$topics, $type, $forum_id, $per_page, $max, $no_stickies );
 
 		if ( !$no_stickies ) {
+			$stickies = array();
+			$standard = array();
+
 			// Place stickies at the top - not sure why bbPress doesn't do this?
 			foreach( (array)$this->topics as $topic ) {
 				if ( 1 == (int)$topic->topic_sticky ) {
@@ -187,7 +190,7 @@ function bp_has_forum_topics( $args = '' ) {
 	}
 
 	/* If $_GET['fs'] is set, let's auto populate the search_terms var */
-	if ( $bp->is_directory && !empty( $_GET['fs'] ) )
+	if ( isset( $bp->is_directory ) && !empty( $_GET['fs'] ) )
 		$search_terms = $_GET['fs'];
 
 	/* Show stickies on a group forum */

@@ -514,7 +514,7 @@ function bp_forums_get_post_extras( $posts ) {
 		$poster_names = $wpdb->get_results( $wpdb->prepare( "SELECT pd.user_id, pd.value FROM {$bp->profile->table_name_data} pd WHERE pd.user_id IN ( {$user_ids} )" ) );
 		for ( $i = 0; $i < count( $posts ); $i++ ) {
 			foreach ( (array)$poster_names as $name ) {
-				if ( $name->user_id == $topics[$i]->user_id )
+				if ( isset( $topics[$i] ) && $name->user_id == $topics[$i]->user_id )
 				$posts[$i]->poster_name = $poster->value;
 			}
 		}
