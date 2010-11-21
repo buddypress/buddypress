@@ -502,6 +502,56 @@ function bp_activity_action_favorites_feed() {
 add_action( 'wp', 'bp_activity_action_favorites_feed', 3 );
 
 /**
+ * bp_activity_find_mentions()
+ *
+ * Searches through the content of an activity item to locate usernames, designated by an @ sign
+ *
+ * @package BuddyPress Activity
+ * @since 1.3
+ * 
+ * @param $content The content of the activity, usually found in $activity->content
+ * @return array $usernames Array of the found usernames that match existing users
+ */
+function bp_activity_find_mentions( $content ) {
+	$pattern = '/[@]+([A-Za-z0-9-_\.]+)/';
+	preg_match_all( $pattern, $content, $usernames );
+	
+	// Make sure there's only one instance of each username
+	if ( !$usernames = array_unique( $usernames[1] ) )
+		return false;
+		
+	return $usernames;
+}
+
+/**
+ * bp_activity_reduce_mention_count()
+ *
+ * Reduces new mention count for mentioned users when activity items are deleted
+ *
+ * @package BuddyPress Activity
+ * @since 1.3
+ * 
+ * @param $activity_id The unique id for the activity item
+ */
+function bp_activity_reduce_mention_count( $activity_id ) {
+	$activity = new BP_Activity_Activity( $activity_id );
+	
+	if ( $usernames = bp_activity_find_mentions( strip_tags( $activity->content ) ) ) {	
+		include_once( ABSPATH . WPINC . '/registration.php' );
+		
+		foreach( (array)$usernames as $username ) { 
+			if ( !$user_id = username_exists( $username ) )
+				continue;
+	
+			// Decrease the number of new @ mentions for the user
+			$new_mention_count = (int)get_user_meta( $user_id, 'bp_new_mention_count', true );
+			update_user_meta( $user_id, 'bp_new_mention_count', $new_mention_count - 1 );
+		}
+	}
+}
+add_action( 'bp_activity_action_delete_activity', 'bp_activity_reduce_mention_count' );
+
+/**
  * bp_activity_format_notifications()
  *
  * Formats notifications related to activity

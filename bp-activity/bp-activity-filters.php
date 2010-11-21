@@ -102,15 +102,19 @@ function bp_activity_filter_kses( $content ) {
 	return wp_kses( $content, $activity_allowedtags );
 }
 
+/**
+ * bp_activity_at_name_filter()
+ *
+ * Finds and links @-mentioned users in activity updates
+ *
+ * @package BuddyPress Activity
+ * 
+ * @param string $content The activity content
+ */
 function bp_activity_at_name_filter( $content ) {
 	include_once( ABSPATH . WPINC . '/registration.php' );
 
-	$pattern = '/[@]+([A-Za-z0-9-_\.]+)/';
-	preg_match_all( $pattern, $content, $usernames );
-
-	// Make sure there's only one instance of each username
-	if ( !$usernames = array_unique( $usernames[1] ) )
-		return $content;
+	$usernames = bp_activity_find_mentions( $content );
 
 	foreach( (array)$usernames as $username ) {
 		if ( !$user_id = username_exists( $username ) )
