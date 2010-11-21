@@ -31,7 +31,9 @@ function bp_forums_bbpress_admin() {
 function bp_forums_bbpress_install_wizard() {
 	$post_url = site_url( 'wp-admin/admin.php?page=bb-forums-setup' );
 
-	switch( $_REQUEST['step'] ) {
+	$step = isset( $_REQUEST['step'] ) ? $_REQUEST['step'] : '';
+
+	switch( $step ) {
 		case 'existing':
 			if ( 1 == (int)$_REQUEST['doinstall'] ) {
 				if ( !bp_forums_configure_existing_install() ) {
