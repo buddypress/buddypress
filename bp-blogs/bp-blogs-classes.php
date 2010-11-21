@@ -167,6 +167,7 @@ Class BP_Blogs_Blog {
 
 		$total_blog_count = BP_Blogs_Blog::total_blog_count_for_user( $user_id );
 
+		$user_blogs = array();
 		foreach ( (array)$blogs as $blog ) {
 			$user_blogs[$blog->blog_id] = new stdClass;
 			$user_blogs[$blog->blog_id]->id = $blog->id;

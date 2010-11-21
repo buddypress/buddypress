@@ -191,7 +191,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		closedir( $av_dir );
 
 		// If we found a locally uploaded avatar
-		if ( $avatar_url ) {
+		if ( isset( $avatar_url ) ) {
 
 			// Return it wrapped in an <img> element
 			if ( true === $html ) {

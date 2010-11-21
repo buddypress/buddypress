@@ -22,7 +22,7 @@ class BP_Activity_Template {
 		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
 		// Check if blog/forum replies are disabled
-		$this->disable_blogforum_replies = $bp->site_options['bp-disable-blogforum-comments'];
+		$this->disable_blogforum_replies = isset( $bp->site_options['bp-disable-blogforum-comments'] ) ? $bp->site_options['bp-disable-blogforum-comments'] : false;
 
 		// Get an array of the logged in user's favorite activities
 		$this->my_favs = maybe_unserialize( get_user_meta( $bp->loggedin_user->id, 'bp_favorite_activities', true ) );
