@@ -59,7 +59,7 @@ function bp_forums_bbpress_install_wizard() {
 		break;
 
 		case 'new':
-			if ( 1 == (int)$_REQUEST['doinstall'] ) {
+			if ( isset( $_REQUEST['doinstall'] ) && 1 == (int)$_REQUEST['doinstall'] ) {
 				$result = bp_forums_bbpress_install();
 
 				switch ( $result ) {
