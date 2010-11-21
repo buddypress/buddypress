@@ -69,7 +69,7 @@ function bp_adminbar_account_menu() {
 		echo '<li' . $alt . '>';
 		echo '<a id="bp-admin-' . $nav_item['css_id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a>';
 
-		if ( is_array( $bp->bp_options_nav[$nav_item['slug']] ) ) {
+		if ( isset( $bp->bp_options_nav[$nav_item['slug']] ) && is_array( $bp->bp_options_nav[$nav_item['slug']] ) ) {
 			echo '<ul>';
 			$sub_counter = 0;
 
@@ -124,8 +124,8 @@ function bp_adminbar_blogs_menu() {
 	echo '</a>';
 	echo '<ul>';
 
+	$counter = 0;
 	if ( is_array( $blogs['blogs'] ) && (int)$blogs['count'] ) {
-		$counter = 0;
 		foreach ( (array)$blogs['blogs'] as $blog ) {
 			$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
 			$site_url = esc_attr( $blog->siteurl );
